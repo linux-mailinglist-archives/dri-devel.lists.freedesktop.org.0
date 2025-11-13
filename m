@@ -2,97 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD04C5A8FB
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 00:30:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08176C5A909
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 00:30:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE9EB10E966;
-	Thu, 13 Nov 2025 23:30:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5675010E968;
+	Thu, 13 Nov 2025 23:30:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YmM4a/PC";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="PYVuPe3w";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WFZjgxxl";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Eo42+c4b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A15E10E966
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 23:30:19 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D424D10E968
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 23:30:24 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5ADMb0X11689971
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 23:30:18 GMT
+ 5ADMaeft1629387
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 23:30:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 1R8nfY6V5GV8tiqWGT/OdoAsKAZCP1AEd9LYyTc+98Y=; b=YmM4a/PCtMFlj754
- mWObB/MXRbcWNeqaULasSl4MP9xVoL6wQSfsbc33qUGYGim0IyyrnjbfPJUZohVN
- TcSY/IX+HsNOVCDC61+Y3BHSTWZ400dfj/1Lz9VHaCNRBPpRiCE6yv3NG/ZCbx5T
- g2U0+hg5aC8KGzBcJBdh49lVFAa6WdZRhmEOMCA2jZp9vVQ3cTa5mMAbl8af+4Jx
- FFLAHdrJwHFsVTzwqnYfJhQqx3jJ+imv6l5qiu1Jj0fc6zCmWr+sKK7tEsCXbB2I
- qN5wny7mTQbm/o4bANfjdUH8VRDW6t4FsZyD12PVu8EUfzlvH0sdei/yiSY9QawT
- StAp3g==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4adr9g0475-1
+ s0/SUawhWtFQ1nVOih0dds5gvk9a699PIz28sJsNMdQ=; b=WFZjgxxltLePD7Uj
+ fnRVPTqYdg9iy1XBEHCdo4ktt9c5kQ5LBsnyJHO+xbuaJJkWcNoymgYTevmPYg/f
+ KYbjU8Tx+Kq4mv9cGzQJXVYZByNMcnGrXCelHyotqAcYUDecBmgZPGXJZQB20XPP
+ BKTbaldxlEwQOjvsRG06T1CBTfbqPhJqjxrvnr2WYGTLc1mexEZbsnvaVoMvA+0/
+ eNZGh+4zZtbAAbNbYhrO8jFUvD0GsLjtEnJJP3k30+EyRIk3u5TTbaJICxyrvFe7
+ eU42zUjkX23haNfY8TkcbiKw7CgWETSi48yO/Cwbb/zna7nPfCpkYVvHRPuo7k4F
+ yxJi0Q==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4adr9d83xc-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 23:30:18 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id
- d2e1a72fcca58-7b82c2c2ca2so1543249b3a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 15:30:17 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 23:30:24 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id
+ 98e67ed59e1d1-34377900dbcso1990585a91.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 15:30:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763076617; x=1763681417;
+ d=oss.qualcomm.com; s=google; t=1763076624; x=1763681424;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=1R8nfY6V5GV8tiqWGT/OdoAsKAZCP1AEd9LYyTc+98Y=;
- b=PYVuPe3wrtdU9+1OppMpCYm02pEsdpU2NLGECOY6uKcUt8BaWPI6ve4qY/FI0Nuhx4
- klGaOxIdYlGSaSduDp6IOHUjQ72m5HYJwj8p7TtmEK4Q/ulaAFuBS5vnruhzSS96yGsJ
- Rhp5HCe05AKxwKJ9qX7HTQWdGV6Czt5NGiDwiTv35LGWHbndHYY2cdjh8J/KPTZAUlX2
- qMzJt/ApZFsySuO6cngR59u2Zg9j35Ew1h9YuK1oGH3eYARc9qv7Br8r6dLC7L1Tij2J
- CvqvlSSAiXyvLKEj0QcrZJN7lEKleajckoYWQdvfo01Zrb1Pc/byIgBmJ8wUrDRMQl0q
- DkAg==
+ :reply-to; bh=s0/SUawhWtFQ1nVOih0dds5gvk9a699PIz28sJsNMdQ=;
+ b=Eo42+c4bkm4g2bez/VDr2UgbMVYvJFTAczsxBs3n8is/1L62AuJvxGo43nm5o+IGqr
+ dXnn+25pPZSazwHdbqvOe3xbR2wzjlLXsfRLScVrkJur2ftvqSFYh8QOZIn7/HC8X2mX
+ Cnt/Mxp0lTBpuK4nn7roV4ss2o0FqGW44rGyfLLdYujIXvjOGYiuHM//L3+FYx7pLeUE
+ XOAN3s9hcMaGmMM6KNoYxC97J1okQM6qnjfavyR0m4MzWdAXwfoGuev2JSkMph/bIk0N
+ r1fKkQuVbFd4LP7wTedgksyxrmUFWZyrPZLVlFiMLolmul9Vwaou+GbCIgKAU2AXytoG
+ P/1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763076617; x=1763681417;
+ d=1e100.net; s=20230601; t=1763076624; x=1763681424;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=1R8nfY6V5GV8tiqWGT/OdoAsKAZCP1AEd9LYyTc+98Y=;
- b=Ss9IdtRJ1t5wiMZ4FjgssZ1PRk9VGr4wuHVHWSQB+jwRqDqUPREN0nbF/aZPvvAc7E
- jqjP1SpT+Yf5SlGza1Ang2R+6End59rK2rjv+ArNPrVDJ1Y/F8Il0bJOyCVbjbamlt+y
- VamYLkxM6710/3A28BKDeGW6NeWPyD2RzA90iLTSOeIa/K5SMFmPO3TW/aedn2gVrtLb
- /hqgCbCggJrK4fY1THd+8k9L5MW0LRmhZuMNQ9+wVQo1s9SfESBBGtI3P/SzQseK8g+X
- o0XxYbLByb8fPVtzrJmWSj/lUajQmqwHJlpyKE4+BRs5J0TUkPzscI67qg4PRVeQibEc
- IxEg==
+ bh=s0/SUawhWtFQ1nVOih0dds5gvk9a699PIz28sJsNMdQ=;
+ b=FyNB9Zv9Y29m6ZM7oPu+HXE1dMYecIks7TspTiGWqAOB5Wnv0V1unpqiPQSNRh27VX
+ mNj0GczHxtk6PznnvIbhm4TPR6Ec8NzF+ifU4oqngz5Nk/sbwaXVMF3t5EPSDEegUMkK
+ 58wDzmV3rWcI5jkWnPpQ6eoAcdUZlJSOlpqjj5hXPuJUAgYQPGboct6GFnX8hyBV8iMO
+ ZKUg1m86nMX1187b+SVStnWeReCASp+Vv/Bwo3bayE8ZP1LOIfcacj/3SyGCw58jO55D
+ tzPD7labfLuBwZo72NGd+V+ddvQT6dCFXGIqhgA23i5e4dXDu+7/Nl8hZoX1y7o17iiK
+ 3TqQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXwuxh2Nw9pKj5Qr+Y9A/KVRVZr0Pp5Ij/CHlMiwqcNhySGaUallqLOMl5fGCRov8UE7P4CKrSl9Yo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxCQSIdKfmSfpPjxVKoMNck/TmxNfDYE2mFRwgVg8fyhcYq8Wwp
- H/zs9hsJCq1f40mwfN+2ycMpjoAVRmVlRTr2+fmmHE+jiRSx+tZH8PBDUKciyqpi5L9xNyXQ8B8
- Sw5zJiht8gdkTp4OIe+8cvMayr3HHuhsg19pCP29ksm/ps2Y1zABIvvP5+1VwiP+6yb3D94M=
-X-Gm-Gg: ASbGnctuDB1OWk8+FMz1gWJkZQdthL1aXJz4xzikO1ALS16jsLsSFdASVoegCPFhXNg
- ajfNF2ptQaaxUiAm8MI/4qs6Onao4NK4Cbxzn+X0uWVRghbw7Ty1m75NoWL1b+9S3ICVjtF+KC2
- kxZomaXTN79HlLW83guBnAo0rXEs+0e9ubVFHSL+lx1U1gwPvuN/wcLYD8ehcVdeiykjcyEO342
- nevbTNc2cu9RhdFTwOUs03cWvt1vP7a3IkXmLP+7USg2Ox2jxiaBDQTBzbemBSshnIqXr0iaZ0a
- CeeiKqjwtfmrLLcripV97XiiZczbP1LB6rfg9OCzbX2833E/syXXN1+7mYQkzrpDEHjbaVHUrPB
- 6B1p+BghbZQCQ7E/hyHajBxs=
-X-Received: by 2002:a05:6a20:a10a:b0:344:97a7:8c5c with SMTP id
- adf61e73a8af0-35ba2692141mr1451704637.48.1763076615485; 
- Thu, 13 Nov 2025 15:30:15 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGb6BYpu/JJTkjfO25MYo4mRNxrm20s4yipfwYeNmJ9biiX5PRn+D1SP1vbIWYD5KgarFT2aQ==
-X-Received: by 2002:a05:6a20:a10a:b0:344:97a7:8c5c with SMTP id
- adf61e73a8af0-35ba2692141mr1451607637.48.1763076614217; 
- Thu, 13 Nov 2025 15:30:14 -0800 (PST)
+ AJvYcCUmRZcbKyj1SBQ123G3F01VPX/eRW5DbDwVA9OFhpu9UZzsXMDnPLNpao4fbo6oUIPK/1iRV1+qsfg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzsq2YP7Haa7gOmewo/0fjWvrABChiTIGD5OjhxhtZoJd5PGFdW
+ f368pUUleGvnbEMIpw3S2Bt2L7ayeCD2J1i+0S4oVCApQzno77Jy/9Rqj3c48HxMhUaUQwMt/8e
+ sFHgo+YwPZzm8wSogUcUef685PrTAJowsx4ms3NPWT4qjnLdRBuNmguGG0fz39biTY96ejyM=
+X-Gm-Gg: ASbGncsGk1rs3jIVz+Xg9a/HnoC7UfEljkVvTAd3Er/enqYowcEzi3X5HgDSpZ6/ODc
+ oVzZQUvvzdVl3o6q5tmBTb6Q6h4NOJxDSK3D3x9xU0Fzq5njNpJ4k7t0ukyIf+z0ZSS1kB1kdso
+ 43K1VhhSL4/ItvF7ijZUZDrIAqcWQP8lPW1czPlN/plJEsEn2Uz/qz2bu3O2MhWgaiMXtptd3mk
+ Vu5GJlyFB6B+L8g6DoJuGIOVWXQm9w7d2IUcFr1rh7u6xN92bmCmjCg9++pcRlzdBpuZupKEdbI
+ Pqq5gYVPxep1gDcvoYNI/xeGMwqqqherKNW/Rm4tvJmfLeQ1zCcTygNgUXDg3fKs5pb7bW/KWz0
+ lZhe2X1XE0RAH5pheFwAPd3k=
+X-Received: by 2002:a17:90b:5684:b0:340:c261:f9f3 with SMTP id
+ 98e67ed59e1d1-343fa0ded74mr954142a91.14.1763076622867; 
+ Thu, 13 Nov 2025 15:30:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF0hMRocQ7yBIQN7+okwdsB4P2HQf2hghDV2oPMvlwRJt8NtVRhxCQdOR3XmSpS2gqhkfw84Q==
+X-Received: by 2002:a17:90b:5684:b0:340:c261:f9f3 with SMTP id
+ 98e67ed59e1d1-343fa0ded74mr954079a91.14.1763076622167; 
+ Thu, 13 Nov 2025 15:30:22 -0800 (PST)
 Received: from hu-akhilpo-hyd.qualcomm.com ([202.46.23.25])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-bc36ed72cd1sm3049486a12.11.2025.11.13.15.30.06
+ 41be03b00d2f7-bc36ed72cd1sm3049486a12.11.2025.11.13.15.30.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Nov 2025 15:30:13 -0800 (PST)
+ Thu, 13 Nov 2025 15:30:21 -0800 (PST)
 From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Date: Fri, 14 Nov 2025 04:59:01 +0530
-Subject: [PATCH v3 04/20] drm/msm/adreno: Common-ize PIPE definitions
+Date: Fri, 14 Nov 2025 04:59:02 +0530
+Subject: [PATCH v3 05/20] drm/msm/adreno: Move adreno_gpu_func to catalogue
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251114-kaana-gpu-support-v3-4-92300c7ec8ff@oss.qualcomm.com>
+Message-Id: <20251114-kaana-gpu-support-v3-5-92300c7ec8ff@oss.qualcomm.com>
 References: <20251114-kaana-gpu-support-v3-0-92300c7ec8ff@oss.qualcomm.com>
 In-Reply-To: <20251114-kaana-gpu-support-v3-0-92300c7ec8ff@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -116,37 +116,35 @@ To: Rob Clark <robin.clark@oss.qualcomm.com>,
 Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
- devicetree@vger.kernel.org, Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+ devicetree@vger.kernel.org, Akhil P Oommen <akhilpo@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763076574; l=131443;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1763076574; l=39388;
  i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
- bh=5IaguxYaqbD6PYA1KDlVNdHxKZhKutZ0CMhjYb3En5o=;
- b=aEHtIfBXASd/hHQf5o3lsrm3RyIZA6iGm51YdPDfE6gRvHS/WG7FB0y1xd/mUpmX33AdWeCPT
- HVxbxkJegM0ArSdAIuHZIAcTf0CWyUZIM1L5lt11jg+vdIKJMtjwNBz
+ bh=f9UwdlxaJOvuqQXSOKd85498qqDA86VRMl/2w8HqR50=;
+ b=CaGcwKg10Q6PIDDcCJ2mNOZj926oy2cxxvrENuR2HJK1BV/XAo1iE3WGGcgqyBuOIlgnkLH7a
+ MpEAifQZpQqDU4Y2lz6DhCK/Ky+qXqj+IAByFO9h5cLkrA8wCszMihB
 X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
  pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
-X-Proofpoint-GUID: okGxMAG2Ix5IdjUHSM3lHRBxgP7eF2oE
-X-Proofpoint-ORIG-GUID: okGxMAG2Ix5IdjUHSM3lHRBxgP7eF2oE
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEzMDE4NSBTYWx0ZWRfX+2k3Pi8gTgWP
- PdXCEfgzCohUwAq/fk/4X8jaiNLapxUolNFMv3YoUAAFQd4mFn6bBzoGQUr/LtiElyOqHUGhSsf
- FxLc6av7a9oC4LWOOBeo56bd474d/ZzseejqMxlI9iFgmKpL8/g+wsceetokcEvsew8d1tvEF61
- F2EiGcnzrblwrqDX3u4M/EgeX9AI1C1CmzMxDfL4Fs1A0Y0OOdQrBOxstNh8LO2urHmiLHWmOcF
- TG9My2ZHEy5dlj8CNQm7ZBK3T64pczCr8heMuRV4BI2u6CluWaRmjy4oGdhWGHsGMkJShEpBEVE
- 1RJMp5IQfWH9iTvNusTn/U2M6ye5fcPrRMOPk2sTPbQvewFNDKbwSKZYyea5PkfEwL1F4bXjcAX
- eF94qNB+El+76bg0fy4WjuKAhptQLg==
-X-Authority-Analysis: v=2.4 cv=IM8PywvG c=1 sm=1 tr=0 ts=69166a0a cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-GUID: mQMLgyWMMsXJ-Le2I0SP9MHpzJYadf8s
+X-Authority-Analysis: v=2.4 cv=Rdidyltv c=1 sm=1 tr=0 ts=69166a10 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8
- a=Ver-QhWlg-VMwr2Uht0A:9 a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
- a=Vxmtnl_E_bksehYqCbjh:22
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=ZW5s_5jsAU3U6Z_Cp8gA:9
+ a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-ORIG-GUID: mQMLgyWMMsXJ-Le2I0SP9MHpzJYadf8s
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTEzMDE4NSBTYWx0ZWRfX7Yt3cUi4ts5r
+ UBl5pQAinFDuhJiRnICA7mcWJ8d/88Aq834TWud1F8dLkipXxzM5+cEnO2v+IXqO6LtdkfhzZDm
+ 7Etp5eLBxvqVbsFLlEEZp/sfSubwi0rvn3j6fPiZi8j4UXfPueotRVLTtogn9VVs1dTuTjI0SrY
+ FN2a682C36IDogkC9UAzb3DZnoFKlQVdnZcn768/Mps+hWTiMMEpir/Y1p9r4xwdwkNEUx6DQFG
+ 2C3n01Tr86dETzPGe7GHpTwXOoaL0dks4JDKWO3yKriPkECmm+7j2Kw6lemRze/6UTnw7YEyEOq
+ zCHfOvLUXumxnWk/gaOTmCU/js9zwCPrlMcD12ehsrmeuu6VNJYWR+CNvzWBO8Y8Q45Wfy0n3e3
+ 2Yl7Jd9u6lltFS3nrRsoNR3UkuXgWw==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-13_06,2025-11-13_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 malwarescore=0 suspectscore=0 lowpriorityscore=0
- adultscore=0 impostorscore=0 phishscore=0 priorityscore=1501 spamscore=0
+ malwarescore=0 clxscore=1015 adultscore=0 impostorscore=0 bulkscore=0
+ spamscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511130185
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -164,2289 +162,1155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Newer gen's introduce pipe enums which do not exist on older gens, but
-the numeric values do not conflict. IOW, they are backward compatible.
-So move its definition to adreno_common.xml.
+In A6x family (which is a pretty big one), there are separate
+adreno_func definitions for each sub-generations. To streamline the
+identification of the correct struct for a gpu, move it to the
+catalogue and move the gpu_init routine to struct adreno_gpu_funcs.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        |  10 +-
- .../gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h  | 412 +++++++++---------
- .../gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h  | 324 +++++++--------
- .../gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h  | 462 ++++++++++-----------
- drivers/gpu/drm/msm/registers/adreno/a6xx.xml      |   4 +-
- .../gpu/drm/msm/registers/adreno/a7xx_enums.xml    |   7 -
- .../gpu/drm/msm/registers/adreno/adreno_common.xml |  11 +
- 7 files changed, 617 insertions(+), 613 deletions(-)
+ drivers/gpu/drm/msm/adreno/a2xx_catalog.c  |   7 +-
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c      |  50 +++----
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.h      |   2 +
+ drivers/gpu/drm/msm/adreno/a3xx_catalog.c  |  13 +-
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c      |  52 ++++----
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.h      |   2 +
+ drivers/gpu/drm/msm/adreno/a4xx_catalog.c  |   7 +-
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c      |  54 ++++----
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.h      |   2 +
+ drivers/gpu/drm/msm/adreno/a5xx_catalog.c  |  17 +--
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c      |  61 ++++-----
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.h      |   1 +
+ drivers/gpu/drm/msm/adreno/a6xx_catalog.c  |  46 +++----
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c      | 201 ++++++++++++++---------------
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.h      |   4 +
+ drivers/gpu/drm/msm/adreno/adreno_device.c |   2 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h    |  11 +-
+ 17 files changed, 274 insertions(+), 258 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
-index 1c18499b60bb..4c5fe627d368 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h
-@@ -575,7 +575,7 @@ struct gen7_sptp_cluster_registers {
- 	/* statetype: SP block state type for the cluster */
- 	enum a7xx_statetype_id statetype;
- 	/* pipe_id: Pipe identifier */
--	enum a7xx_pipe pipe_id;
-+	enum adreno_pipe pipe_id;
- 	/* context_id: Context identifier */
- 	int context_id;
- 	/* location_id: Location identifier */
-@@ -801,10 +801,10 @@ static const char *a7xx_statetype_names[] = {
- };
- 
- static const char *a7xx_pipe_names[] = {
--	A7XX_NAME(A7XX_PIPE_NONE),
--	A7XX_NAME(A7XX_PIPE_BR),
--	A7XX_NAME(A7XX_PIPE_BV),
--	A7XX_NAME(A7XX_PIPE_LPAC),
-+	A7XX_NAME(PIPE_NONE),
-+	A7XX_NAME(PIPE_BR),
-+	A7XX_NAME(PIPE_BV),
-+	A7XX_NAME(PIPE_LPAC),
- };
- 
- static const char *a7xx_cluster_names[] = {
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h b/drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h
-index 04b49d385f9d..087473679893 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h
-@@ -82,85 +82,85 @@ static const u32 gen7_0_0_debugbus_blocks[] = {
- };
- 
- static const struct gen7_shader_block gen7_0_0_shader_blocks[] = {
--	{A7XX_TP0_TMO_DATA,                 0x200, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_TP0_SMO_DATA,                  0x80, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_TP0_MIPMAP_BASE_DATA,         0x3c0, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_INST_DATA,                 0x800, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_INST_DATA_1,               0x800, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_0_DATA,                 0x800, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_1_DATA,                 0x800, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_2_DATA,                 0x800, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_3_DATA,                 0x800, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_4_DATA,                 0x800, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_5_DATA,                 0x800, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_6_DATA,                 0x800, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_7_DATA,                 0x800, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_CB_RAM,                    0x390, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_INST_TAG,                   0x90, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_INST_DATA_2,               0x200, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_TMO_TAG,                    0x80, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_SMO_TAG,                    0x80, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_STATE_DATA,                 0x40, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_HWAVE_RAM,                 0x100, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_L0_INST_BUF,                0x50, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_8_DATA,                 0x800, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_9_DATA,                 0x800, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_10_DATA,                0x800, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_11_DATA,                0x800, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_12_DATA,                0x200, 4, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_HLSQ_CVS_BE_CTXT_BUF_RAM_TAG,  0x10, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CVS_BE_CTXT_BUF_RAM_TAG,  0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CPS_BE_CTXT_BUF_RAM_TAG,  0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CVS_BE_CTXT_BUF_RAM, 0x300, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CVS_BE_CTXT_BUF_RAM, 0x300, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CPS_BE_CTXT_BUF_RAM, 0x300, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CVS_RAM,           0x1c0, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CVS_RAM,           0x1c0, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CPS_RAM,           0x300, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CPS_RAM,           0x300, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CVS_RAM_TAG,        0x40, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CVS_RAM_TAG,        0x40, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CPS_RAM_TAG,        0x40, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CPS_RAM_TAG,        0x40, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_ICB_CVS_CB_BASE_TAG,      0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_ICB_CVS_CB_BASE_TAG,      0x10, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_ICB_CPS_CB_BASE_TAG,      0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_ICB_CPS_CB_BASE_TAG,      0x10, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CVS_MISC_RAM,            0x280, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CVS_MISC_RAM,            0x280, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CPS_MISC_RAM,            0x800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CPS_MISC_RAM,            0x800, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CPS_MISC_RAM_1,          0x200, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INST_RAM,                0x800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INST_RAM,                0x800, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INST_RAM,                0x800, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CVS_CONST_RAM,       0x800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CVS_CONST_RAM,       0x800, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CPS_CONST_RAM,       0x800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CPS_CONST_RAM,       0x800, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CVS_MISC_RAM_TAG,         0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CVS_MISC_RAM_TAG,         0x10, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CPS_MISC_RAM_TAG,         0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CPS_MISC_RAM_TAG,         0x10, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INST_RAM_TAG,             0x80, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INST_RAM_TAG,             0x80, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INST_RAM_TAG,             0x80, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CVS_CONST_RAM_TAG,    0x64, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CVS_CONST_RAM_TAG,    0x64, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CPS_CONST_RAM_TAG,    0x64, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CPS_CONST_RAM_TAG,    0x64, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INST_RAM_1,              0x800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_STPROC_META,              0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_BV_BE_META,               0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_BV_BE_META,               0x10, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_DATAPATH_META,            0x20, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_FRONTEND_META,            0x40, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_FRONTEND_META,            0x40, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_FRONTEND_META,            0x40, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INDIRECT_META,            0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_BACKEND_META,             0x40, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_BACKEND_META,             0x40, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_BACKEND_META,             0x40, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_TP0_TMO_DATA,                 0x200, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_TP0_SMO_DATA,                  0x80, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_TP0_MIPMAP_BASE_DATA,         0x3c0, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_INST_DATA,                 0x800, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_INST_DATA_1,               0x800, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_0_DATA,                 0x800, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_1_DATA,                 0x800, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_2_DATA,                 0x800, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_3_DATA,                 0x800, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_4_DATA,                 0x800, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_5_DATA,                 0x800, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_6_DATA,                 0x800, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_7_DATA,                 0x800, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_CB_RAM,                    0x390, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_INST_TAG,                   0x90, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_INST_DATA_2,               0x200, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_TMO_TAG,                    0x80, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_SMO_TAG,                    0x80, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_STATE_DATA,                 0x40, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_HWAVE_RAM,                 0x100, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_L0_INST_BUF,                0x50, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_8_DATA,                 0x800, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_9_DATA,                 0x800, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_10_DATA,                0x800, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_11_DATA,                0x800, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_12_DATA,                0x200, 4, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_HLSQ_CVS_BE_CTXT_BUF_RAM_TAG,  0x10, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CVS_BE_CTXT_BUF_RAM_TAG,  0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CPS_BE_CTXT_BUF_RAM_TAG,  0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CVS_BE_CTXT_BUF_RAM, 0x300, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CVS_BE_CTXT_BUF_RAM, 0x300, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CPS_BE_CTXT_BUF_RAM, 0x300, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CVS_RAM,           0x1c0, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CVS_RAM,           0x1c0, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CPS_RAM,           0x300, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CPS_RAM,           0x300, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CVS_RAM_TAG,        0x40, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CVS_RAM_TAG,        0x40, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CPS_RAM_TAG,        0x40, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CPS_RAM_TAG,        0x40, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_ICB_CVS_CB_BASE_TAG,      0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_ICB_CVS_CB_BASE_TAG,      0x10, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_ICB_CPS_CB_BASE_TAG,      0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_ICB_CPS_CB_BASE_TAG,      0x10, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CVS_MISC_RAM,            0x280, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CVS_MISC_RAM,            0x280, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CPS_MISC_RAM,            0x800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CPS_MISC_RAM,            0x800, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CPS_MISC_RAM_1,          0x200, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INST_RAM,                0x800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INST_RAM,                0x800, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INST_RAM,                0x800, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CVS_CONST_RAM,       0x800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CVS_CONST_RAM,       0x800, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CPS_CONST_RAM,       0x800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CPS_CONST_RAM,       0x800, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CVS_MISC_RAM_TAG,         0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CVS_MISC_RAM_TAG,         0x10, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CPS_MISC_RAM_TAG,         0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CPS_MISC_RAM_TAG,         0x10, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INST_RAM_TAG,             0x80, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INST_RAM_TAG,             0x80, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INST_RAM_TAG,             0x80, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CVS_CONST_RAM_TAG,    0x64, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CVS_CONST_RAM_TAG,    0x64, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CPS_CONST_RAM_TAG,    0x64, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CPS_CONST_RAM_TAG,    0x64, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INST_RAM_1,              0x800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_STPROC_META,              0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_BV_BE_META,               0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_BV_BE_META,               0x10, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_DATAPATH_META,            0x20, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_FRONTEND_META,            0x40, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_FRONTEND_META,            0x40, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_FRONTEND_META,            0x40, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INDIRECT_META,            0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_BACKEND_META,             0x40, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_BACKEND_META,             0x40, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_BACKEND_META,             0x40, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
- };
- 
- static const u32 gen7_0_0_pre_crashdumper_gpu_registers[] = {
-@@ -303,7 +303,7 @@ static const u32 gen7_0_0_noncontext_rb_rbp_pipe_br_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_noncontext_rb_rbp_pipe_br_registers), 8));
- 
--/* Block: GRAS Cluster: A7XX_CLUSTER_GRAS Pipeline: A7XX_PIPE_BR */
-+/* Block: GRAS Cluster: A7XX_CLUSTER_GRAS Pipeline: PIPE_BR */
- static const u32 gen7_0_0_gras_cluster_gras_pipe_br_registers[] = {
- 	0x08000, 0x08008, 0x08010, 0x08092, 0x08094, 0x08099, 0x0809b, 0x0809d,
- 	0x080a0, 0x080a7, 0x080af, 0x080f1, 0x080f4, 0x080f6, 0x080f8, 0x080fa,
-@@ -313,7 +313,7 @@ static const u32 gen7_0_0_gras_cluster_gras_pipe_br_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_gras_cluster_gras_pipe_br_registers), 8));
- 
--/* Block: GRAS Cluster: A7XX_CLUSTER_GRAS Pipeline: A7XX_PIPE_BV */
-+/* Block: GRAS Cluster: A7XX_CLUSTER_GRAS Pipeline: PIPE_BV */
- static const u32 gen7_0_0_gras_cluster_gras_pipe_bv_registers[] = {
- 	0x08000, 0x08008, 0x08010, 0x08092, 0x08094, 0x08099, 0x0809b, 0x0809d,
- 	0x080a0, 0x080a7, 0x080af, 0x080f1, 0x080f4, 0x080f6, 0x080f8, 0x080fa,
-@@ -323,7 +323,7 @@ static const u32 gen7_0_0_gras_cluster_gras_pipe_bv_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_gras_cluster_gras_pipe_bv_registers), 8));
- 
--/* Block: PC Cluster: A7XX_CLUSTER_FE Pipeline: A7XX_PIPE_BR */
-+/* Block: PC Cluster: A7XX_CLUSTER_FE Pipeline: PIPE_BR */
- static const u32 gen7_0_0_pc_cluster_fe_pipe_br_registers[] = {
- 	0x09800, 0x09804, 0x09806, 0x0980a, 0x09810, 0x09811, 0x09884, 0x09886,
- 	0x09b00, 0x09b08,
-@@ -331,7 +331,7 @@ static const u32 gen7_0_0_pc_cluster_fe_pipe_br_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_pc_cluster_fe_pipe_br_registers), 8));
- 
--/* Block: PC Cluster: A7XX_CLUSTER_FE Pipeline: A7XX_PIPE_BV */
-+/* Block: PC Cluster: A7XX_CLUSTER_FE Pipeline: PIPE_BV */
- static const u32 gen7_0_0_pc_cluster_fe_pipe_bv_registers[] = {
- 	0x09800, 0x09804, 0x09806, 0x0980a, 0x09810, 0x09811, 0x09884, 0x09886,
- 	0x09b00, 0x09b08,
-@@ -339,7 +339,7 @@ static const u32 gen7_0_0_pc_cluster_fe_pipe_bv_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_pc_cluster_fe_pipe_bv_registers), 8));
- 
--/* Block: RB_RAC Cluster: A7XX_CLUSTER_PS Pipeline: A7XX_PIPE_BR */
-+/* Block: RB_RAC Cluster: A7XX_CLUSTER_PS Pipeline: PIPE_BR */
- static const u32 gen7_0_0_rb_rac_cluster_ps_pipe_br_registers[] = {
- 	0x08802, 0x08802, 0x08804, 0x08806, 0x08809, 0x0880a, 0x0880e, 0x08811,
- 	0x08818, 0x0881e, 0x08821, 0x08821, 0x08823, 0x08826, 0x08829, 0x08829,
-@@ -355,7 +355,7 @@ static const u32 gen7_0_0_rb_rac_cluster_ps_pipe_br_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_rb_rac_cluster_ps_pipe_br_registers), 8));
- 
--/* Block: RB_RBP Cluster: A7XX_CLUSTER_PS Pipeline: A7XX_PIPE_BR */
-+/* Block: RB_RBP Cluster: A7XX_CLUSTER_PS Pipeline: PIPE_BR */
- static const u32 gen7_0_0_rb_rbp_cluster_ps_pipe_br_registers[] = {
- 	0x08800, 0x08801, 0x08803, 0x08803, 0x0880b, 0x0880d, 0x08812, 0x08812,
- 	0x08820, 0x08820, 0x08822, 0x08822, 0x08827, 0x08828, 0x0882a, 0x0882a,
-@@ -370,7 +370,7 @@ static const u32 gen7_0_0_rb_rbp_cluster_ps_pipe_br_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_rb_rbp_cluster_ps_pipe_br_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: A7XX_PIPE_BR Location: HLSQ_STATE */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: PIPE_BR Location: HLSQ_STATE */
- static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_state_registers[] = {
- 	0x0a980, 0x0a980, 0x0a982, 0x0a984, 0x0a99e, 0x0a99e, 0x0a9a7, 0x0a9a7,
- 	0x0a9aa, 0x0a9aa, 0x0a9ae, 0x0a9b0, 0x0a9b3, 0x0a9b5, 0x0a9ba, 0x0a9ba,
-@@ -381,7 +381,7 @@ static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_state_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_state_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: A7XX_PIPE_LPAC Location: HLSQ_STATE */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: PIPE_LPAC Location: HLSQ_STATE */
- static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_lpac_hlsq_state_registers[] = {
- 	0x0a9b0, 0x0a9b0, 0x0a9b3, 0x0a9b5, 0x0a9ba, 0x0a9ba, 0x0a9bc, 0x0a9bc,
- 	0x0a9c4, 0x0a9c4, 0x0a9cd, 0x0a9cd, 0x0a9e2, 0x0a9e3, 0x0a9e6, 0x0a9fc,
-@@ -390,21 +390,21 @@ static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_lpac_hlsq_state_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_ps_pipe_lpac_hlsq_state_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: A7XX_PIPE_BR Location: HLSQ_DP */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: PIPE_BR Location: HLSQ_DP */
- static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_dp_registers[] = {
- 	0x0a9b1, 0x0a9b1, 0x0a9c6, 0x0a9cb, 0x0a9d4, 0x0a9df,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_dp_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: A7XX_PIPE_LPAC Location: HLSQ_DP */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: PIPE_LPAC Location: HLSQ_DP */
- static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_lpac_hlsq_dp_registers[] = {
- 	0x0a9b1, 0x0a9b1, 0x0a9d4, 0x0a9df,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_ps_pipe_lpac_hlsq_dp_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: A7XX_PIPE_BR Location: SP_TOP */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: PIPE_BR Location: SP_TOP */
- static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_br_sp_top_registers[] = {
- 	0x0a980, 0x0a980, 0x0a982, 0x0a984, 0x0a99e, 0x0a9a2, 0x0a9a7, 0x0a9a8,
- 	0x0a9aa, 0x0a9aa, 0x0a9ae, 0x0a9ae, 0x0a9b0, 0x0a9b1, 0x0a9b3, 0x0a9b5,
-@@ -414,7 +414,7 @@ static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_br_sp_top_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_ps_pipe_br_sp_top_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: A7XX_PIPE_LPAC Location: SP_TOP */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: PIPE_LPAC Location: SP_TOP */
- static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_lpac_sp_top_registers[] = {
- 	0x0a9b0, 0x0a9b1, 0x0a9b3, 0x0a9b5, 0x0a9ba, 0x0a9bc, 0x0a9e2, 0x0a9e3,
- 	0x0a9e6, 0x0a9f9, 0x0aa00, 0x0aa00, 0x0ab00, 0x0ab00,
-@@ -422,7 +422,7 @@ static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_lpac_sp_top_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_ps_pipe_lpac_sp_top_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: A7XX_PIPE_BR Location: uSPTP */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: PIPE_BR Location: uSPTP */
- static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_br_usptp_registers[] = {
- 	0x0a980, 0x0a982, 0x0a985, 0x0a9a6, 0x0a9a8, 0x0a9a9, 0x0a9ab, 0x0a9ae,
- 	0x0a9b0, 0x0a9b3, 0x0a9b6, 0x0a9b9, 0x0a9bb, 0x0a9bf, 0x0a9c2, 0x0a9c3,
-@@ -432,7 +432,7 @@ static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_br_usptp_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_ps_pipe_br_usptp_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: A7XX_PIPE_LPAC Location: uSPTP */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: PIPE_LPAC Location: uSPTP */
- static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_lpac_usptp_registers[] = {
- 	0x0a9b0, 0x0a9b3, 0x0a9b6, 0x0a9b9, 0x0a9bb, 0x0a9be, 0x0a9c2, 0x0a9c3,
- 	0x0a9cd, 0x0a9cd, 0x0a9d0, 0x0a9d3, 0x0aa31, 0x0aa31, 0x0ab00, 0x0ab01,
-@@ -440,7 +440,7 @@ static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_lpac_usptp_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_ps_pipe_lpac_usptp_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_VS Pipeline: A7XX_PIPE_BR Location: HLSQ_STATE */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_VS Pipeline: PIPE_BR Location: HLSQ_STATE */
- static const u32 gen7_0_0_sp_cluster_sp_vs_pipe_br_hlsq_state_registers[] = {
- 	0x0a800, 0x0a800, 0x0a81b, 0x0a81d, 0x0a822, 0x0a822, 0x0a824, 0x0a824,
- 	0x0a827, 0x0a82a, 0x0a830, 0x0a830, 0x0a833, 0x0a835, 0x0a83a, 0x0a83a,
-@@ -453,7 +453,7 @@ static const u32 gen7_0_0_sp_cluster_sp_vs_pipe_br_hlsq_state_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_vs_pipe_br_hlsq_state_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_VS Pipeline: A7XX_PIPE_BV Location: HLSQ_STATE */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_VS Pipeline: PIPE_BV Location: HLSQ_STATE */
- static const u32 gen7_0_0_sp_cluster_sp_vs_pipe_bv_hlsq_state_registers[] = {
- 	0x0a800, 0x0a800, 0x0a81b, 0x0a81d, 0x0a822, 0x0a822, 0x0a824, 0x0a824,
- 	0x0a827, 0x0a82a, 0x0a830, 0x0a830, 0x0a833, 0x0a835, 0x0a83a, 0x0a83a,
-@@ -466,7 +466,7 @@ static const u32 gen7_0_0_sp_cluster_sp_vs_pipe_bv_hlsq_state_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_vs_pipe_bv_hlsq_state_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_VS Pipeline: A7XX_PIPE_BR Location: SP_TOP */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_VS Pipeline: PIPE_BR Location: SP_TOP */
- static const u32 gen7_0_0_sp_cluster_sp_vs_pipe_br_sp_top_registers[] = {
- 	0x0a800, 0x0a800, 0x0a81c, 0x0a81d, 0x0a822, 0x0a824, 0x0a830, 0x0a831,
- 	0x0a834, 0x0a835, 0x0a83a, 0x0a83c, 0x0a840, 0x0a840, 0x0a85c, 0x0a85d,
-@@ -477,7 +477,7 @@ static const u32 gen7_0_0_sp_cluster_sp_vs_pipe_br_sp_top_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_vs_pipe_br_sp_top_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_VS Pipeline: A7XX_PIPE_BV Location: SP_TOP */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_VS Pipeline: PIPE_BV Location: SP_TOP */
- static const u32 gen7_0_0_sp_cluster_sp_vs_pipe_bv_sp_top_registers[] = {
- 	0x0a800, 0x0a800, 0x0a81c, 0x0a81d, 0x0a822, 0x0a824, 0x0a830, 0x0a831,
- 	0x0a834, 0x0a835, 0x0a83a, 0x0a83c, 0x0a840, 0x0a840, 0x0a85c, 0x0a85d,
-@@ -488,7 +488,7 @@ static const u32 gen7_0_0_sp_cluster_sp_vs_pipe_bv_sp_top_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_vs_pipe_bv_sp_top_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_VS Pipeline: A7XX_PIPE_BR Location: uSPTP */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_VS Pipeline: PIPE_BR Location: uSPTP */
- static const u32 gen7_0_0_sp_cluster_sp_vs_pipe_br_usptp_registers[] = {
- 	0x0a800, 0x0a81b, 0x0a81e, 0x0a821, 0x0a823, 0x0a827, 0x0a830, 0x0a833,
- 	0x0a836, 0x0a839, 0x0a83b, 0x0a85b, 0x0a85e, 0x0a861, 0x0a863, 0x0a867,
-@@ -498,7 +498,7 @@ static const u32 gen7_0_0_sp_cluster_sp_vs_pipe_br_usptp_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_vs_pipe_br_usptp_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_VS Pipeline: A7XX_PIPE_BV Location: uSPTP */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_VS Pipeline: PIPE_BV Location: uSPTP */
- static const u32 gen7_0_0_sp_cluster_sp_vs_pipe_bv_usptp_registers[] = {
- 	0x0a800, 0x0a81b, 0x0a81e, 0x0a821, 0x0a823, 0x0a827, 0x0a830, 0x0a833,
- 	0x0a836, 0x0a839, 0x0a83b, 0x0a85b, 0x0a85e, 0x0a861, 0x0a863, 0x0a867,
-@@ -508,7 +508,7 @@ static const u32 gen7_0_0_sp_cluster_sp_vs_pipe_bv_usptp_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_vs_pipe_bv_usptp_registers), 8));
- 
--/* Block: TPL1 Cluster: A7XX_CLUSTER_SP_PS Pipeline: A7XX_PIPE_BR */
-+/* Block: TPL1 Cluster: A7XX_CLUSTER_SP_PS Pipeline: PIPE_BR */
- static const u32 gen7_0_0_tpl1_cluster_sp_ps_pipe_br_registers[] = {
- 	0x0b180, 0x0b183, 0x0b190, 0x0b195, 0x0b2c0, 0x0b2d5, 0x0b300, 0x0b307,
- 	0x0b309, 0x0b309, 0x0b310, 0x0b310,
-@@ -516,35 +516,35 @@ static const u32 gen7_0_0_tpl1_cluster_sp_ps_pipe_br_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_tpl1_cluster_sp_ps_pipe_br_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: A7XX_PIPE_BV Location: HLSQ_STATE */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: PIPE_BV Location: HLSQ_STATE */
- static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_bv_hlsq_state_registers[] = {
- 	0x0ab00, 0x0ab02, 0x0ab0a, 0x0ab1b, 0x0ab20, 0x0ab20, 0x0ab40, 0x0abbf,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_ps_pipe_bv_hlsq_state_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: A7XX_PIPE_BV Location: SP_TOP */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: PIPE_BV Location: SP_TOP */
- static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_bv_sp_top_registers[] = {
- 	0x0ab00, 0x0ab00, 0x0ab02, 0x0ab02, 0x0ab0a, 0x0ab1b, 0x0ab20, 0x0ab20,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_ps_pipe_bv_sp_top_registers), 8));
- 
--/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: A7XX_PIPE_BV Location: uSPTP */
-+/* Block: SP Cluster: A7XX_CLUSTER_SP_PS Pipeline: PIPE_BV Location: uSPTP */
- static const u32 gen7_0_0_sp_cluster_sp_ps_pipe_bv_usptp_registers[] = {
- 	0x0ab00, 0x0ab02, 0x0ab21, 0x0ab22, 0x0ab40, 0x0abbf,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_cluster_sp_ps_pipe_bv_usptp_registers), 8));
- 
--/* Block: TPL1 Cluster: A7XX_CLUSTER_SP_PS Pipeline: A7XX_PIPE_BV */
-+/* Block: TPL1 Cluster: A7XX_CLUSTER_SP_PS Pipeline: PIPE_BV */
- static const u32 gen7_0_0_tpl1_cluster_sp_ps_pipe_bv_registers[] = {
- 	0x0b300, 0x0b307, 0x0b309, 0x0b309, 0x0b310, 0x0b310,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_tpl1_cluster_sp_ps_pipe_bv_registers), 8));
- 
--/* Block: TPL1 Cluster: A7XX_CLUSTER_SP_PS Pipeline: A7XX_PIPE_LPAC */
-+/* Block: TPL1 Cluster: A7XX_CLUSTER_SP_PS Pipeline: PIPE_LPAC */
- static const u32 gen7_0_0_tpl1_cluster_sp_ps_pipe_lpac_registers[] = {
- 	0x0b180, 0x0b181, 0x0b300, 0x0b301, 0x0b307, 0x0b307, 0x0b309, 0x0b309,
- 	0x0b310, 0x0b310,
-@@ -552,84 +552,84 @@ static const u32 gen7_0_0_tpl1_cluster_sp_ps_pipe_lpac_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_tpl1_cluster_sp_ps_pipe_lpac_registers), 8));
- 
--/* Block: TPL1 Cluster: A7XX_CLUSTER_SP_VS Pipeline: A7XX_PIPE_BR */
-+/* Block: TPL1 Cluster: A7XX_CLUSTER_SP_VS Pipeline: PIPE_BR */
- static const u32 gen7_0_0_tpl1_cluster_sp_vs_pipe_br_registers[] = {
- 	0x0b300, 0x0b307, 0x0b309, 0x0b309, 0x0b310, 0x0b310,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_tpl1_cluster_sp_vs_pipe_br_registers), 8));
- 
--/* Block: TPL1 Cluster: A7XX_CLUSTER_SP_VS Pipeline: A7XX_PIPE_BV */
-+/* Block: TPL1 Cluster: A7XX_CLUSTER_SP_VS Pipeline: PIPE_BV */
- static const u32 gen7_0_0_tpl1_cluster_sp_vs_pipe_bv_registers[] = {
- 	0x0b300, 0x0b307, 0x0b309, 0x0b309, 0x0b310, 0x0b310,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_tpl1_cluster_sp_vs_pipe_bv_registers), 8));
- 
--/* Block: VFD Cluster: A7XX_CLUSTER_FE Pipeline: A7XX_PIPE_BR */
-+/* Block: VFD Cluster: A7XX_CLUSTER_FE Pipeline: PIPE_BR */
- static const u32 gen7_0_0_vfd_cluster_fe_pipe_br_registers[] = {
- 	0x0a000, 0x0a009, 0x0a00e, 0x0a0ef,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_vfd_cluster_fe_pipe_br_registers), 8));
- 
--/* Block: VFD Cluster: A7XX_CLUSTER_FE Pipeline: A7XX_PIPE_BV */
-+/* Block: VFD Cluster: A7XX_CLUSTER_FE Pipeline: PIPE_BV */
- static const u32 gen7_0_0_vfd_cluster_fe_pipe_bv_registers[] = {
- 	0x0a000, 0x0a009, 0x0a00e, 0x0a0ef,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_vfd_cluster_fe_pipe_bv_registers), 8));
- 
--/* Block: VPC Cluster: A7XX_CLUSTER_FE Pipeline: A7XX_PIPE_BR */
-+/* Block: VPC Cluster: A7XX_CLUSTER_FE Pipeline: PIPE_BR */
- static const u32 gen7_0_0_vpc_cluster_fe_pipe_br_registers[] = {
- 	0x09300, 0x09307,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_vpc_cluster_fe_pipe_br_registers), 8));
- 
--/* Block: VPC Cluster: A7XX_CLUSTER_FE Pipeline: A7XX_PIPE_BV */
-+/* Block: VPC Cluster: A7XX_CLUSTER_FE Pipeline: PIPE_BV */
- static const u32 gen7_0_0_vpc_cluster_fe_pipe_bv_registers[] = {
- 	0x09300, 0x09307,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_vpc_cluster_fe_pipe_bv_registers), 8));
- 
--/* Block: VPC Cluster: A7XX_CLUSTER_PC_VS Pipeline: A7XX_PIPE_BR */
-+/* Block: VPC Cluster: A7XX_CLUSTER_PC_VS Pipeline: PIPE_BR */
- static const u32 gen7_0_0_vpc_cluster_pc_vs_pipe_br_registers[] = {
- 	0x09101, 0x0910c, 0x09300, 0x09307,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_vpc_cluster_pc_vs_pipe_br_registers), 8));
- 
--/* Block: VPC Cluster: A7XX_CLUSTER_PC_VS Pipeline: A7XX_PIPE_BV */
-+/* Block: VPC Cluster: A7XX_CLUSTER_PC_VS Pipeline: PIPE_BV */
- static const u32 gen7_0_0_vpc_cluster_pc_vs_pipe_bv_registers[] = {
- 	0x09101, 0x0910c, 0x09300, 0x09307,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_vpc_cluster_pc_vs_pipe_bv_registers), 8));
- 
--/* Block: VPC Cluster: A7XX_CLUSTER_VPC_PS Pipeline: A7XX_PIPE_BR */
-+/* Block: VPC Cluster: A7XX_CLUSTER_VPC_PS Pipeline: PIPE_BR */
- static const u32 gen7_0_0_vpc_cluster_vpc_ps_pipe_br_registers[] = {
- 	0x09200, 0x0920f, 0x09212, 0x09216, 0x09218, 0x09236, 0x09300, 0x09307,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_vpc_cluster_vpc_ps_pipe_br_registers), 8));
- 
--/* Block: VPC Cluster: A7XX_CLUSTER_VPC_PS Pipeline: A7XX_PIPE_BV */
-+/* Block: VPC Cluster: A7XX_CLUSTER_VPC_PS Pipeline: PIPE_BV */
- static const u32 gen7_0_0_vpc_cluster_vpc_ps_pipe_bv_registers[] = {
- 	0x09200, 0x0920f, 0x09212, 0x09216, 0x09218, 0x09236, 0x09300, 0x09307,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_vpc_cluster_vpc_ps_pipe_bv_registers), 8));
- 
--/* Block: SP Cluster: noncontext Pipeline: A7XX_PIPE_BR Location: HLSQ_STATE */
-+/* Block: SP Cluster: noncontext Pipeline: PIPE_BR Location: HLSQ_STATE */
- static const u32 gen7_0_0_sp_noncontext_pipe_br_hlsq_state_registers[] = {
- 	0x0ae52, 0x0ae52, 0x0ae60, 0x0ae67, 0x0ae69, 0x0ae73,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_noncontext_pipe_br_hlsq_state_registers), 8));
- 
--/* Block: SP Cluster: noncontext Pipeline: A7XX_PIPE_BR Location: SP_TOP */
-+/* Block: SP Cluster: noncontext Pipeline: PIPE_BR Location: SP_TOP */
- static const u32 gen7_0_0_sp_noncontext_pipe_br_sp_top_registers[] = {
- 	0x0ae00, 0x0ae00, 0x0ae02, 0x0ae04, 0x0ae06, 0x0ae09, 0x0ae0c, 0x0ae0c,
- 	0x0ae0f, 0x0ae0f, 0x0ae28, 0x0ae2b, 0x0ae35, 0x0ae35, 0x0ae3a, 0x0ae3f,
-@@ -638,7 +638,7 @@ static const u32 gen7_0_0_sp_noncontext_pipe_br_sp_top_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_noncontext_pipe_br_sp_top_registers), 8));
- 
--/* Block: SP Cluster: noncontext Pipeline: A7XX_PIPE_BR Location: uSPTP */
-+/* Block: SP Cluster: noncontext Pipeline: PIPE_BR Location: uSPTP */
- static const u32 gen7_0_0_sp_noncontext_pipe_br_usptp_registers[] = {
- 	0x0ae00, 0x0ae00, 0x0ae02, 0x0ae04, 0x0ae06, 0x0ae09, 0x0ae0c, 0x0ae0c,
- 	0x0ae0f, 0x0ae0f, 0x0ae30, 0x0ae32, 0x0ae35, 0x0ae35, 0x0ae3a, 0x0ae3b,
-@@ -647,28 +647,28 @@ static const u32 gen7_0_0_sp_noncontext_pipe_br_usptp_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_noncontext_pipe_br_usptp_registers), 8));
- 
--/* Block: SP Cluster: noncontext Pipeline: A7XX_PIPE_LPAC Location: HLSQ_STATE */
-+/* Block: SP Cluster: noncontext Pipeline: PIPE_LPAC Location: HLSQ_STATE */
- static const u32 gen7_0_0_sp_noncontext_pipe_lpac_hlsq_state_registers[] = {
- 	0x0af88, 0x0af8a,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_noncontext_pipe_lpac_hlsq_state_registers), 8));
- 
--/* Block: SP Cluster: noncontext Pipeline: A7XX_PIPE_LPAC Location: SP_TOP */
-+/* Block: SP Cluster: noncontext Pipeline: PIPE_LPAC Location: SP_TOP */
- static const u32 gen7_0_0_sp_noncontext_pipe_lpac_sp_top_registers[] = {
- 	0x0af80, 0x0af84,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_noncontext_pipe_lpac_sp_top_registers), 8));
- 
--/* Block: SP Cluster: noncontext Pipeline: A7XX_PIPE_LPAC Location: uSPTP */
-+/* Block: SP Cluster: noncontext Pipeline: PIPE_LPAC Location: uSPTP */
- static const u32 gen7_0_0_sp_noncontext_pipe_lpac_usptp_registers[] = {
- 	0x0af80, 0x0af84, 0x0af90, 0x0af92,
- 	UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_sp_noncontext_pipe_lpac_usptp_registers), 8));
- 
--/* Block: TPl1 Cluster: noncontext Pipeline: A7XX_PIPE_NONE */
-+/* Block: TPl1 Cluster: noncontext Pipeline: PIPE_NONE */
- static const u32 gen7_0_0_tpl1_noncontext_pipe_none_registers[] = {
- 	0x0b600, 0x0b600, 0x0b602, 0x0b602, 0x0b604, 0x0b604, 0x0b608, 0x0b60c,
- 	0x0b60f, 0x0b621, 0x0b630, 0x0b633,
-@@ -676,14 +676,14 @@ static const u32 gen7_0_0_tpl1_noncontext_pipe_none_registers[] = {
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_tpl1_noncontext_pipe_none_registers), 8));
- 
--/* Block: TPl1 Cluster: noncontext Pipeline: A7XX_PIPE_BR */
-+/* Block: TPl1 Cluster: noncontext Pipeline: PIPE_BR */
- static const u32 gen7_0_0_tpl1_noncontext_pipe_br_registers[] = {
- 	 0x0b600, 0x0b600,
- 	 UINT_MAX, UINT_MAX,
- };
- static_assert(IS_ALIGNED(sizeof(gen7_0_0_tpl1_noncontext_pipe_br_registers), 8));
- 
--/* Block: TPl1 Cluster: noncontext Pipeline: A7XX_PIPE_LPAC */
-+/* Block: TPl1 Cluster: noncontext Pipeline: PIPE_LPAC */
- static const u32 gen7_0_0_tpl1_noncontext_pipe_lpac_registers[] = {
- 	0x0b780, 0x0b780,
- 	UINT_MAX, UINT_MAX,
-@@ -703,172 +703,172 @@ static const struct gen7_sel_reg gen7_0_0_rb_rbp_sel = {
- };
- 
- static const struct gen7_cluster_registers gen7_0_0_clusters[] = {
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_BR, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_BR, STATE_NON_CONTEXT,
- 		gen7_0_0_noncontext_pipe_br_registers, },
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_BV, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_BV, STATE_NON_CONTEXT,
- 		gen7_0_0_noncontext_pipe_bv_registers, },
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_LPAC, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_LPAC, STATE_NON_CONTEXT,
- 		gen7_0_0_noncontext_pipe_lpac_registers, },
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_BR, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_BR, STATE_NON_CONTEXT,
- 		gen7_0_0_noncontext_rb_rac_pipe_br_registers, &gen7_0_0_rb_rac_sel, },
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_BR, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_BR, STATE_NON_CONTEXT,
- 		gen7_0_0_noncontext_rb_rbp_pipe_br_registers, &gen7_0_0_rb_rbp_sel, },
--	{ A7XX_CLUSTER_GRAS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_GRAS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_0_0_gras_cluster_gras_pipe_br_registers, },
--	{ A7XX_CLUSTER_GRAS, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_GRAS, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_0_0_gras_cluster_gras_pipe_bv_registers, },
--	{ A7XX_CLUSTER_GRAS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_GRAS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_0_0_gras_cluster_gras_pipe_br_registers, },
--	{ A7XX_CLUSTER_GRAS, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_GRAS, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_0_0_gras_cluster_gras_pipe_bv_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_0_0_pc_cluster_fe_pipe_br_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_0_0_pc_cluster_fe_pipe_bv_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_0_0_pc_cluster_fe_pipe_br_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_0_0_pc_cluster_fe_pipe_bv_registers, },
--	{ A7XX_CLUSTER_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_PS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_0_0_rb_rac_cluster_ps_pipe_br_registers, &gen7_0_0_rb_rac_sel, },
--	{ A7XX_CLUSTER_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_PS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_0_0_rb_rac_cluster_ps_pipe_br_registers, &gen7_0_0_rb_rac_sel, },
--	{ A7XX_CLUSTER_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_PS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_0_0_rb_rbp_cluster_ps_pipe_br_registers, &gen7_0_0_rb_rbp_sel, },
--	{ A7XX_CLUSTER_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_PS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_0_0_rb_rbp_cluster_ps_pipe_br_registers, &gen7_0_0_rb_rbp_sel, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vfd_cluster_fe_pipe_br_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vfd_cluster_fe_pipe_bv_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vfd_cluster_fe_pipe_br_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vfd_cluster_fe_pipe_bv_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vpc_cluster_fe_pipe_br_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vpc_cluster_fe_pipe_bv_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vpc_cluster_fe_pipe_br_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vpc_cluster_fe_pipe_bv_registers, },
--	{ A7XX_CLUSTER_PC_VS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_PC_VS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vpc_cluster_pc_vs_pipe_br_registers, },
--	{ A7XX_CLUSTER_PC_VS, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_PC_VS, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vpc_cluster_pc_vs_pipe_bv_registers, },
--	{ A7XX_CLUSTER_PC_VS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_PC_VS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vpc_cluster_pc_vs_pipe_br_registers, },
--	{ A7XX_CLUSTER_PC_VS, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_PC_VS, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vpc_cluster_pc_vs_pipe_bv_registers, },
--	{ A7XX_CLUSTER_VPC_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_VPC_PS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vpc_cluster_vpc_ps_pipe_br_registers, },
--	{ A7XX_CLUSTER_VPC_PS, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_VPC_PS, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vpc_cluster_vpc_ps_pipe_bv_registers, },
--	{ A7XX_CLUSTER_VPC_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_VPC_PS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vpc_cluster_vpc_ps_pipe_br_registers, },
--	{ A7XX_CLUSTER_VPC_PS, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_VPC_PS, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vpc_cluster_vpc_ps_pipe_bv_registers, },
- };
- 
- static const struct gen7_sptp_cluster_registers gen7_0_0_sptp_clusters[] = {
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_BR, 0, A7XX_HLSQ_STATE,
- 		gen7_0_0_sp_noncontext_pipe_br_hlsq_state_registers, 0xae00 },
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_BR, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_BR, 0, A7XX_SP_TOP,
- 		gen7_0_0_sp_noncontext_pipe_br_sp_top_registers, 0xae00 },
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_0_0_sp_noncontext_pipe_br_usptp_registers, 0xae00 },
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_LPAC, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_LPAC, 0, A7XX_HLSQ_STATE,
- 		gen7_0_0_sp_noncontext_pipe_lpac_hlsq_state_registers, 0xaf80 },
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_LPAC, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_LPAC, 0, A7XX_SP_TOP,
- 		gen7_0_0_sp_noncontext_pipe_lpac_sp_top_registers, 0xaf80 },
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_LPAC, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_LPAC, 0, A7XX_USPTP,
- 		gen7_0_0_sp_noncontext_pipe_lpac_usptp_registers, 0xaf80 },
--	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_0_0_tpl1_noncontext_pipe_br_registers, 0xb600 },
--	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, A7XX_PIPE_LPAC, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, PIPE_LPAC, 0, A7XX_USPTP,
- 		gen7_0_0_tpl1_noncontext_pipe_lpac_registers, 0xb780 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_HLSQ_STATE,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_HLSQ_DP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_dp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_SP_TOP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_HLSQ_STATE,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_HLSQ_DP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_dp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_SP_TOP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_USPTP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, A7XX_PIPE_BR, 2, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, PIPE_BR, 2, A7XX_HLSQ_STATE,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, A7XX_PIPE_BR, 2, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, PIPE_BR, 2, A7XX_HLSQ_DP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_dp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, A7XX_PIPE_BR, 2, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, PIPE_BR, 2, A7XX_SP_TOP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, A7XX_PIPE_BR, 2, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, PIPE_BR, 2, A7XX_USPTP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, A7XX_PIPE_BR, 3, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, PIPE_BR, 3, A7XX_HLSQ_STATE,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, A7XX_PIPE_BR, 3, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, PIPE_BR, 3, A7XX_HLSQ_DP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_dp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, A7XX_PIPE_BR, 3, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, PIPE_BR, 3, A7XX_SP_TOP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, A7XX_PIPE_BR, 3, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, PIPE_BR, 3, A7XX_USPTP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_HLSQ_STATE,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_lpac_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_HLSQ_DP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_lpac_hlsq_dp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_SP_TOP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_lpac_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_USPTP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_lpac_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BR, 0, A7XX_HLSQ_STATE,
- 		gen7_0_0_sp_cluster_sp_vs_pipe_br_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BV, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BV, 0, A7XX_HLSQ_STATE,
- 		gen7_0_0_sp_cluster_sp_vs_pipe_bv_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BR, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BR, 0, A7XX_SP_TOP,
- 		gen7_0_0_sp_cluster_sp_vs_pipe_br_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BV, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BV, 0, A7XX_SP_TOP,
- 		gen7_0_0_sp_cluster_sp_vs_pipe_bv_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_0_0_sp_cluster_sp_vs_pipe_br_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BV, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BV, 0, A7XX_USPTP,
- 		gen7_0_0_sp_cluster_sp_vs_pipe_bv_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BR, 1, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BR, 1, A7XX_HLSQ_STATE,
- 		gen7_0_0_sp_cluster_sp_vs_pipe_br_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BV, 1, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BV, 1, A7XX_HLSQ_STATE,
- 		gen7_0_0_sp_cluster_sp_vs_pipe_bv_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BR, 1, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BR, 1, A7XX_SP_TOP,
- 		gen7_0_0_sp_cluster_sp_vs_pipe_br_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BV, 1, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BV, 1, A7XX_SP_TOP,
- 		gen7_0_0_sp_cluster_sp_vs_pipe_bv_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BR, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BR, 1, A7XX_USPTP,
- 		gen7_0_0_sp_cluster_sp_vs_pipe_br_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BV, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BV, 1, A7XX_USPTP,
- 		gen7_0_0_sp_cluster_sp_vs_pipe_bv_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_ps_pipe_br_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_ps_pipe_br_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX2_3D_CPS_REG, A7XX_PIPE_BR, 2, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX2_3D_CPS_REG, PIPE_BR, 2, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_ps_pipe_br_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX3_3D_CPS_REG, A7XX_PIPE_BR, 3, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX3_3D_CPS_REG, PIPE_BR, 3, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_ps_pipe_br_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_ps_pipe_lpac_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX0_3D_CVS_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX0_3D_CVS_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_vs_pipe_br_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX0_3D_CVS_REG, A7XX_PIPE_BV, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX0_3D_CVS_REG, PIPE_BV, 0, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_vs_pipe_bv_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX1_3D_CVS_REG, A7XX_PIPE_BR, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX1_3D_CVS_REG, PIPE_BR, 1, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_vs_pipe_br_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX1_3D_CVS_REG, A7XX_PIPE_BV, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX1_3D_CVS_REG, PIPE_BV, 1, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_vs_pipe_bv_registers, 0xb000 },
- };
- 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h b/drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h
-index 772652eb61f3..9bec75e830a3 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h
-@@ -96,87 +96,87 @@ static const u32 gen7_2_0_debugbus_blocks[] = {
- };
- 
- static const struct gen7_shader_block gen7_2_0_shader_blocks[] = {
--	{A7XX_TP0_TMO_DATA,                 0x200, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_TP0_SMO_DATA,                  0x80, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_TP0_MIPMAP_BASE_DATA,         0x3c0, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_INST_DATA,                 0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_INST_DATA_1,               0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_0_DATA,                 0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_1_DATA,                 0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_2_DATA,                 0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_3_DATA,                 0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_4_DATA,                 0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_5_DATA,                 0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_6_DATA,                 0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_7_DATA,                 0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_CB_RAM,                    0x390, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_13_DATA,                0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_14_DATA,                0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_INST_TAG,                   0xc0, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_INST_DATA_2,               0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_TMO_TAG,                    0x80, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_SMO_TAG,                    0x80, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_STATE_DATA,                 0x40, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_HWAVE_RAM,                 0x100, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_L0_INST_BUF,                0x50, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_8_DATA,                 0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_9_DATA,                 0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_10_DATA,                0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_11_DATA,                0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_SP_LB_12_DATA,                0x800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP},
--	{A7XX_HLSQ_CVS_BE_CTXT_BUF_RAM_TAG,  0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CVS_BE_CTXT_BUF_RAM_TAG,  0x10, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CPS_BE_CTXT_BUF_RAM_TAG,  0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CVS_BE_CTXT_BUF_RAM, 0x300, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CVS_BE_CTXT_BUF_RAM, 0x300, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CPS_BE_CTXT_BUF_RAM, 0x300, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CVS_RAM,           0x1c0, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CVS_RAM,           0x1c0, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CPS_RAM,           0x300, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CPS_RAM,           0x180, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CVS_RAM_TAG,        0x40, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CVS_RAM_TAG,        0x40, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CPS_RAM_TAG,        0x40, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CHUNK_CPS_RAM_TAG,        0x40, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_ICB_CVS_CB_BASE_TAG,      0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_ICB_CVS_CB_BASE_TAG,      0x10, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_ICB_CPS_CB_BASE_TAG,      0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_ICB_CPS_CB_BASE_TAG,      0x10, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CVS_MISC_RAM,            0x280, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CVS_MISC_RAM,            0x280, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CPS_MISC_RAM,            0x800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CPS_MISC_RAM,            0x200, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CPS_MISC_RAM_1,          0x1c0, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INST_RAM,                0x800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INST_RAM,                0x800, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INST_RAM,                0x200, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CVS_MISC_RAM_TAG,         0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CVS_MISC_RAM_TAG,         0x10, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CPS_MISC_RAM_TAG,         0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_CPS_MISC_RAM_TAG,         0x10, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INST_RAM_TAG,             0x80, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INST_RAM_TAG,             0x80, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INST_RAM_TAG,             0x80, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CVS_CONST_RAM_TAG,    0x64, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CVS_CONST_RAM_TAG,    0x38, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CPS_CONST_RAM_TAG,    0x64, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CPS_CONST_RAM_TAG,    0x10, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CVS_CONST_RAM,       0x800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CVS_CONST_RAM,       0x800, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CPS_CONST_RAM,       0x800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_GFX_CPS_CONST_RAM,       0x800, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INST_RAM_1,              0x800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_STPROC_META,              0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_BV_BE_META,               0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_BV_BE_META,               0x10, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_DATAPATH_META,            0x20, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_FRONTEND_META,            0x80, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_FRONTEND_META,            0x80, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_FRONTEND_META,            0x80, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_INDIRECT_META,            0x10, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_BACKEND_META,             0x40, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_BACKEND_META,             0x40, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE},
--	{A7XX_HLSQ_BACKEND_META,             0x40, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_TP0_TMO_DATA,                 0x200, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_TP0_SMO_DATA,                  0x80, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_TP0_MIPMAP_BASE_DATA,         0x3c0, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_INST_DATA,                 0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_INST_DATA_1,               0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_0_DATA,                 0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_1_DATA,                 0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_2_DATA,                 0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_3_DATA,                 0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_4_DATA,                 0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_5_DATA,                 0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_6_DATA,                 0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_7_DATA,                 0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_CB_RAM,                    0x390, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_13_DATA,                0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_14_DATA,                0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_INST_TAG,                   0xc0, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_INST_DATA_2,               0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_TMO_TAG,                    0x80, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_SMO_TAG,                    0x80, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_STATE_DATA,                 0x40, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_HWAVE_RAM,                 0x100, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_L0_INST_BUF,                0x50, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_8_DATA,                 0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_9_DATA,                 0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_10_DATA,                0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_11_DATA,                0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_SP_LB_12_DATA,                0x800, 6, 2, PIPE_BR, A7XX_USPTP},
-+	{A7XX_HLSQ_CVS_BE_CTXT_BUF_RAM_TAG,  0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CVS_BE_CTXT_BUF_RAM_TAG,  0x10, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CPS_BE_CTXT_BUF_RAM_TAG,  0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CVS_BE_CTXT_BUF_RAM, 0x300, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CVS_BE_CTXT_BUF_RAM, 0x300, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CPS_BE_CTXT_BUF_RAM, 0x300, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CVS_RAM,           0x1c0, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CVS_RAM,           0x1c0, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CPS_RAM,           0x300, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CPS_RAM,           0x180, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CVS_RAM_TAG,        0x40, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CVS_RAM_TAG,        0x40, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CPS_RAM_TAG,        0x40, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CHUNK_CPS_RAM_TAG,        0x40, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_ICB_CVS_CB_BASE_TAG,      0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_ICB_CVS_CB_BASE_TAG,      0x10, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_ICB_CPS_CB_BASE_TAG,      0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_ICB_CPS_CB_BASE_TAG,      0x10, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CVS_MISC_RAM,            0x280, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CVS_MISC_RAM,            0x280, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CPS_MISC_RAM,            0x800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CPS_MISC_RAM,            0x200, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CPS_MISC_RAM_1,          0x1c0, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INST_RAM,                0x800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INST_RAM,                0x800, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INST_RAM,                0x200, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CVS_MISC_RAM_TAG,         0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CVS_MISC_RAM_TAG,         0x10, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CPS_MISC_RAM_TAG,         0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_CPS_MISC_RAM_TAG,         0x10, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INST_RAM_TAG,             0x80, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INST_RAM_TAG,             0x80, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INST_RAM_TAG,             0x80, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CVS_CONST_RAM_TAG,    0x64, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CVS_CONST_RAM_TAG,    0x38, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CPS_CONST_RAM_TAG,    0x64, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CPS_CONST_RAM_TAG,    0x10, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CVS_CONST_RAM,       0x800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CVS_CONST_RAM,       0x800, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CPS_CONST_RAM,       0x800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_GFX_CPS_CONST_RAM,       0x800, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INST_RAM_1,              0x800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_STPROC_META,              0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_BV_BE_META,               0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_BV_BE_META,               0x10, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_DATAPATH_META,            0x20, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_FRONTEND_META,            0x80, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_FRONTEND_META,            0x80, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_FRONTEND_META,            0x80, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_INDIRECT_META,            0x10, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_BACKEND_META,             0x40, 1, 1, PIPE_BR, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_BACKEND_META,             0x40, 1, 1, PIPE_BV, A7XX_HLSQ_STATE},
-+	{A7XX_HLSQ_BACKEND_META,             0x40, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE},
- };
- 
- static const u32 gen7_2_0_gpu_registers[] = {
-@@ -490,170 +490,170 @@ static const struct gen7_sel_reg gen7_2_0_rb_rbp_sel = {
- };
- 
- static const struct gen7_cluster_registers gen7_2_0_clusters[] = {
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_BR, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_BR, STATE_NON_CONTEXT,
- 		gen7_2_0_noncontext_pipe_br_registers, },
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_BV, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_BV, STATE_NON_CONTEXT,
- 		gen7_2_0_noncontext_pipe_bv_registers, },
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_LPAC, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_LPAC, STATE_NON_CONTEXT,
- 		gen7_0_0_noncontext_pipe_lpac_registers, },
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_BR, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_BR, STATE_NON_CONTEXT,
- 		gen7_2_0_noncontext_rb_rac_pipe_br_registers, &gen7_2_0_rb_rac_sel, },
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_BR, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_BR, STATE_NON_CONTEXT,
- 		gen7_2_0_noncontext_rb_rbp_pipe_br_registers, &gen7_2_0_rb_rbp_sel, },
--	{ A7XX_CLUSTER_GRAS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_GRAS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_2_0_gras_cluster_gras_pipe_br_registers, },
--	{ A7XX_CLUSTER_GRAS, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_GRAS, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_2_0_gras_cluster_gras_pipe_bv_registers, },
--	{ A7XX_CLUSTER_GRAS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_GRAS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_2_0_gras_cluster_gras_pipe_br_registers, },
--	{ A7XX_CLUSTER_GRAS, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_GRAS, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_2_0_gras_cluster_gras_pipe_bv_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_0_0_pc_cluster_fe_pipe_br_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_0_0_pc_cluster_fe_pipe_bv_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_0_0_pc_cluster_fe_pipe_br_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_0_0_pc_cluster_fe_pipe_bv_registers, },
--	{ A7XX_CLUSTER_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_PS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_2_0_rb_rac_cluster_ps_pipe_br_registers, &gen7_2_0_rb_rac_sel, },
--	{ A7XX_CLUSTER_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_PS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_2_0_rb_rac_cluster_ps_pipe_br_registers, &gen7_2_0_rb_rac_sel, },
--	{ A7XX_CLUSTER_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_PS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_0_0_rb_rbp_cluster_ps_pipe_br_registers, &gen7_2_0_rb_rbp_sel, },
--	{ A7XX_CLUSTER_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_PS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_0_0_rb_rbp_cluster_ps_pipe_br_registers, &gen7_2_0_rb_rbp_sel, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vfd_cluster_fe_pipe_br_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vfd_cluster_fe_pipe_bv_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vfd_cluster_fe_pipe_br_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vfd_cluster_fe_pipe_bv_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vpc_cluster_fe_pipe_br_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vpc_cluster_fe_pipe_bv_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vpc_cluster_fe_pipe_br_registers, },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vpc_cluster_fe_pipe_bv_registers, },
--	{ A7XX_CLUSTER_PC_VS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_PC_VS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vpc_cluster_pc_vs_pipe_br_registers, },
--	{ A7XX_CLUSTER_PC_VS, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_PC_VS, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vpc_cluster_pc_vs_pipe_bv_registers, },
--	{ A7XX_CLUSTER_PC_VS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_PC_VS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vpc_cluster_pc_vs_pipe_br_registers, },
--	{ A7XX_CLUSTER_PC_VS, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_PC_VS, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vpc_cluster_pc_vs_pipe_bv_registers, },
--	{ A7XX_CLUSTER_VPC_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_VPC_PS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vpc_cluster_vpc_ps_pipe_br_registers, },
--	{ A7XX_CLUSTER_VPC_PS, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_VPC_PS, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_0_0_vpc_cluster_vpc_ps_pipe_bv_registers, },
--	{ A7XX_CLUSTER_VPC_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_VPC_PS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vpc_cluster_vpc_ps_pipe_br_registers, },
--	{ A7XX_CLUSTER_VPC_PS, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_VPC_PS, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_0_0_vpc_cluster_vpc_ps_pipe_bv_registers, },
- };
- 
- static const struct gen7_sptp_cluster_registers gen7_2_0_sptp_clusters[] = {
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_BR, 0, A7XX_HLSQ_STATE,
- 		gen7_0_0_sp_noncontext_pipe_br_hlsq_state_registers, 0xae00 },
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_BR, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_BR, 0, A7XX_SP_TOP,
- 		gen7_0_0_sp_noncontext_pipe_br_sp_top_registers, 0xae00 },
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_0_0_sp_noncontext_pipe_br_usptp_registers, 0xae00 },
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_LPAC, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_LPAC, 0, A7XX_HLSQ_STATE,
- 		gen7_2_0_sp_noncontext_pipe_lpac_hlsq_state_registers, 0xaf80 },
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_LPAC, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_LPAC, 0, A7XX_SP_TOP,
- 		gen7_0_0_sp_noncontext_pipe_lpac_sp_top_registers, 0xaf80 },
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_LPAC, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_LPAC, 0, A7XX_USPTP,
- 		gen7_0_0_sp_noncontext_pipe_lpac_usptp_registers, 0xaf80 },
--	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_0_0_tpl1_noncontext_pipe_br_registers, 0xb600 },
--	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, A7XX_PIPE_NONE, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, PIPE_NONE, 0, A7XX_USPTP,
- 		gen7_0_0_tpl1_noncontext_pipe_none_registers, 0xb600 },
--	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, A7XX_PIPE_LPAC, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, PIPE_LPAC, 0, A7XX_USPTP,
- 		gen7_0_0_tpl1_noncontext_pipe_lpac_registers, 0xb780 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_HLSQ_STATE,
- 		gen7_2_0_sp_cluster_sp_ps_pipe_br_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_HLSQ_DP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_dp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_SP_TOP,
- 		gen7_2_0_sp_cluster_sp_ps_pipe_br_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_2_0_sp_cluster_sp_ps_pipe_br_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_HLSQ_STATE,
- 		gen7_2_0_sp_cluster_sp_ps_pipe_br_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_HLSQ_DP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_dp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_SP_TOP,
- 		gen7_2_0_sp_cluster_sp_ps_pipe_br_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_USPTP,
- 		gen7_2_0_sp_cluster_sp_ps_pipe_br_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, A7XX_PIPE_BR, 2, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, PIPE_BR, 2, A7XX_HLSQ_DP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_dp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, A7XX_PIPE_BR, 3, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, PIPE_BR, 3, A7XX_HLSQ_DP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_br_hlsq_dp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, A7XX_PIPE_BR, 2, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, PIPE_BR, 2, A7XX_SP_TOP,
- 		gen7_2_0_sp_cluster_sp_ps_pipe_br_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, A7XX_PIPE_BR, 2, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, PIPE_BR, 2, A7XX_USPTP,
- 		gen7_2_0_sp_cluster_sp_ps_pipe_br_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, A7XX_PIPE_BR, 3, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, PIPE_BR, 3, A7XX_SP_TOP,
- 		gen7_2_0_sp_cluster_sp_ps_pipe_br_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, A7XX_PIPE_BR, 3, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, PIPE_BR, 3, A7XX_USPTP,
- 		gen7_2_0_sp_cluster_sp_ps_pipe_br_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_HLSQ_STATE,
- 		gen7_2_0_sp_cluster_sp_ps_pipe_lpac_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_HLSQ_DP,
- 		gen7_0_0_sp_cluster_sp_ps_pipe_lpac_hlsq_dp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_SP_TOP,
- 		gen7_2_0_sp_cluster_sp_ps_pipe_lpac_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_USPTP,
- 		gen7_2_0_sp_cluster_sp_ps_pipe_lpac_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BR, 0, A7XX_HLSQ_STATE,
- 		gen7_2_0_sp_cluster_sp_vs_pipe_br_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BV, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BV, 0, A7XX_HLSQ_STATE,
- 		gen7_2_0_sp_cluster_sp_vs_pipe_bv_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BR, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BR, 0, A7XX_SP_TOP,
- 		gen7_2_0_sp_cluster_sp_vs_pipe_br_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BV, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BV, 0, A7XX_SP_TOP,
- 		gen7_2_0_sp_cluster_sp_vs_pipe_bv_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_2_0_sp_cluster_sp_vs_pipe_br_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BV, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BV, 0, A7XX_USPTP,
- 		gen7_2_0_sp_cluster_sp_vs_pipe_bv_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BR, 1, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BR, 1, A7XX_HLSQ_STATE,
- 		gen7_2_0_sp_cluster_sp_vs_pipe_br_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BV, 1, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BV, 1, A7XX_HLSQ_STATE,
- 		gen7_2_0_sp_cluster_sp_vs_pipe_bv_hlsq_state_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BR, 1, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BR, 1, A7XX_SP_TOP,
- 		gen7_2_0_sp_cluster_sp_vs_pipe_br_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BV, 1, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BV, 1, A7XX_SP_TOP,
- 		gen7_2_0_sp_cluster_sp_vs_pipe_bv_sp_top_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BR, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BR, 1, A7XX_USPTP,
- 		gen7_2_0_sp_cluster_sp_vs_pipe_br_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BV, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BV, 1, A7XX_USPTP,
- 		gen7_2_0_sp_cluster_sp_vs_pipe_bv_usptp_registers, 0xa800 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_ps_pipe_br_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_ps_pipe_br_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX2_3D_CPS_REG, A7XX_PIPE_BR, 2, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX2_3D_CPS_REG, PIPE_BR, 2, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_ps_pipe_br_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX3_3D_CPS_REG, A7XX_PIPE_BR, 3, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX3_3D_CPS_REG, PIPE_BR, 3, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_ps_pipe_br_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_TP0_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_ps_pipe_lpac_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX0_3D_CVS_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX0_3D_CVS_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_vs_pipe_br_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX0_3D_CVS_REG, A7XX_PIPE_BV, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX0_3D_CVS_REG, PIPE_BV, 0, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_vs_pipe_bv_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX1_3D_CVS_REG, A7XX_PIPE_BR, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX1_3D_CVS_REG, PIPE_BR, 1, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_vs_pipe_br_registers, 0xb000 },
--	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX1_3D_CVS_REG, A7XX_PIPE_BV, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_TP0_CTX1_3D_CVS_REG, PIPE_BV, 1, A7XX_USPTP,
- 		gen7_0_0_tpl1_cluster_sp_vs_pipe_bv_registers, 0xb000 },
- };
- 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h b/drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h
-index 0956dfca1f05..70805a5121be 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h
-@@ -118,97 +118,97 @@ static const u32 gen7_9_0_cx_debugbus_blocks[] = {
- };
- 
- static const struct gen7_shader_block gen7_9_0_shader_blocks[] = {
--	{ A7XX_TP0_TMO_DATA, 0x0200, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_TP0_SMO_DATA, 0x0080, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_TP0_MIPMAP_BASE_DATA, 0x03C0, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_INST_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_INST_DATA_1, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_0_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_1_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_2_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_3_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_4_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_5_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_6_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_7_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_CB_RAM, 0x0390, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_13_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_14_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_INST_TAG, 0x00C0, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_INST_DATA_2, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_TMO_TAG, 0x0080, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_SMO_TAG, 0x0080, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_STATE_DATA, 0x0040, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_HWAVE_RAM, 0x0100, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_L0_INST_BUF, 0x0050, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_8_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_9_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_10_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_11_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_SP_LB_12_DATA, 0x0800, 6, 2, A7XX_PIPE_BR, A7XX_USPTP },
--	{ A7XX_HLSQ_DATAPATH_DSTR_META, 0x0010, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_DATAPATH_DSTR_META, 0x0010, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_L2STC_TAG_RAM, 0x0200, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_L2STC_INFO_CMD, 0x0474, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CVS_BE_CTXT_BUF_RAM_TAG, 0x0080, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CVS_BE_CTXT_BUF_RAM_TAG, 0x0080, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CPS_BE_CTXT_BUF_RAM_TAG, 0x0080, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_CVS_BE_CTXT_BUF_RAM, 0x0400, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_CVS_BE_CTXT_BUF_RAM, 0x0400, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_CPS_BE_CTXT_BUF_RAM, 0x0400, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CHUNK_CVS_RAM, 0x01C0, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CHUNK_CVS_RAM, 0x01C0, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CHUNK_CPS_RAM, 0x0300, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CHUNK_CPS_RAM, 0x0180, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CHUNK_CVS_RAM_TAG, 0x0040, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CHUNK_CVS_RAM_TAG, 0x0040, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CHUNK_CPS_RAM_TAG, 0x0040, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CHUNK_CPS_RAM_TAG, 0x0040, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_ICB_CVS_CB_BASE_TAG, 0x0010, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_ICB_CVS_CB_BASE_TAG, 0x0010, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_ICB_CPS_CB_BASE_TAG, 0x0010, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_ICB_CPS_CB_BASE_TAG, 0x0010, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CVS_MISC_RAM, 0x0540, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CVS_MISC_RAM, 0x0540, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CPS_MISC_RAM, 0x0640, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CPS_MISC_RAM, 0x00B0, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CPS_MISC_RAM_1, 0x0800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_INST_RAM, 0x0800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_INST_RAM, 0x0800, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_INST_RAM, 0x0200, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_CVS_CONST_RAM, 0x0800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_CVS_CONST_RAM, 0x0800, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_CPS_CONST_RAM, 0x0800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_CPS_CONST_RAM, 0x0800, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CVS_MISC_RAM_TAG, 0x0050, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CVS_MISC_RAM_TAG, 0x0050, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CPS_MISC_RAM_TAG, 0x0050, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_CPS_MISC_RAM_TAG, 0x0008, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_INST_RAM_TAG, 0x0014, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_INST_RAM_TAG, 0x0010, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_INST_RAM_TAG, 0x0004, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_CVS_CONST_RAM_TAG, 0x0040, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_CVS_CONST_RAM_TAG, 0x0040, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_CPS_CONST_RAM_TAG, 0x0040, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_CPS_CONST_RAM_TAG, 0x0020, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_LOCAL_MISC_RAM, 0x03C0, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_LOCAL_MISC_RAM, 0x0280, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_LOCAL_MISC_RAM, 0x0050, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_LOCAL_MISC_RAM_TAG, 0x0010, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_GFX_LOCAL_MISC_RAM_TAG, 0x0008, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_INST_RAM_1, 0x0800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_STPROC_META, 0x0010, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_BV_BE_META, 0x0018, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_BV_BE_META, 0x0018, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_INST_RAM_2, 0x0800, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_DATAPATH_META, 0x0020, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_FRONTEND_META, 0x0080, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_FRONTEND_META, 0x0080, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_FRONTEND_META, 0x0080, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_INDIRECT_META, 0x0010, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_BACKEND_META, 0x0040, 1, 1, A7XX_PIPE_BR, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_BACKEND_META, 0x0040, 1, 1, A7XX_PIPE_BV, A7XX_HLSQ_STATE },
--	{ A7XX_HLSQ_BACKEND_META, 0x0040, 1, 1, A7XX_PIPE_LPAC, A7XX_HLSQ_STATE },
-+	{ A7XX_TP0_TMO_DATA, 0x0200, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_TP0_SMO_DATA, 0x0080, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_TP0_MIPMAP_BASE_DATA, 0x03C0, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_INST_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_INST_DATA_1, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_0_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_1_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_2_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_3_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_4_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_5_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_6_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_7_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_CB_RAM, 0x0390, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_13_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_14_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_INST_TAG, 0x00C0, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_INST_DATA_2, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_TMO_TAG, 0x0080, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_SMO_TAG, 0x0080, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_STATE_DATA, 0x0040, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_HWAVE_RAM, 0x0100, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_L0_INST_BUF, 0x0050, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_8_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_9_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_10_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_11_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_SP_LB_12_DATA, 0x0800, 6, 2, PIPE_BR, A7XX_USPTP },
-+	{ A7XX_HLSQ_DATAPATH_DSTR_META, 0x0010, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_DATAPATH_DSTR_META, 0x0010, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_L2STC_TAG_RAM, 0x0200, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_L2STC_INFO_CMD, 0x0474, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CVS_BE_CTXT_BUF_RAM_TAG, 0x0080, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CVS_BE_CTXT_BUF_RAM_TAG, 0x0080, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CPS_BE_CTXT_BUF_RAM_TAG, 0x0080, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_CVS_BE_CTXT_BUF_RAM, 0x0400, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_CVS_BE_CTXT_BUF_RAM, 0x0400, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_CPS_BE_CTXT_BUF_RAM, 0x0400, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CHUNK_CVS_RAM, 0x01C0, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CHUNK_CVS_RAM, 0x01C0, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CHUNK_CPS_RAM, 0x0300, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CHUNK_CPS_RAM, 0x0180, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CHUNK_CVS_RAM_TAG, 0x0040, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CHUNK_CVS_RAM_TAG, 0x0040, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CHUNK_CPS_RAM_TAG, 0x0040, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CHUNK_CPS_RAM_TAG, 0x0040, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_ICB_CVS_CB_BASE_TAG, 0x0010, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_ICB_CVS_CB_BASE_TAG, 0x0010, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_ICB_CPS_CB_BASE_TAG, 0x0010, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_ICB_CPS_CB_BASE_TAG, 0x0010, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CVS_MISC_RAM, 0x0540, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CVS_MISC_RAM, 0x0540, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CPS_MISC_RAM, 0x0640, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CPS_MISC_RAM, 0x00B0, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CPS_MISC_RAM_1, 0x0800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_INST_RAM, 0x0800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_INST_RAM, 0x0800, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_INST_RAM, 0x0200, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_CVS_CONST_RAM, 0x0800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_CVS_CONST_RAM, 0x0800, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_CPS_CONST_RAM, 0x0800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_CPS_CONST_RAM, 0x0800, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CVS_MISC_RAM_TAG, 0x0050, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CVS_MISC_RAM_TAG, 0x0050, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CPS_MISC_RAM_TAG, 0x0050, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_CPS_MISC_RAM_TAG, 0x0008, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_INST_RAM_TAG, 0x0014, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_INST_RAM_TAG, 0x0010, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_INST_RAM_TAG, 0x0004, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_CVS_CONST_RAM_TAG, 0x0040, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_CVS_CONST_RAM_TAG, 0x0040, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_CPS_CONST_RAM_TAG, 0x0040, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_CPS_CONST_RAM_TAG, 0x0020, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_LOCAL_MISC_RAM, 0x03C0, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_LOCAL_MISC_RAM, 0x0280, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_LOCAL_MISC_RAM, 0x0050, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_LOCAL_MISC_RAM_TAG, 0x0010, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_GFX_LOCAL_MISC_RAM_TAG, 0x0008, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_INST_RAM_1, 0x0800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_STPROC_META, 0x0010, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_BV_BE_META, 0x0018, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_BV_BE_META, 0x0018, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_INST_RAM_2, 0x0800, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_DATAPATH_META, 0x0020, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_FRONTEND_META, 0x0080, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_FRONTEND_META, 0x0080, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_FRONTEND_META, 0x0080, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_INDIRECT_META, 0x0010, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_BACKEND_META, 0x0040, 1, 1, PIPE_BR, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_BACKEND_META, 0x0040, 1, 1, PIPE_BV, A7XX_HLSQ_STATE },
-+	{ A7XX_HLSQ_BACKEND_META, 0x0040, 1, 1, PIPE_LPAC, A7XX_HLSQ_STATE },
- };
- 
- /*
-@@ -226,7 +226,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_pre_crashdumper_gpu_registers), 8));
-  * Block   : ['BROADCAST', 'CP', 'GRAS', 'GXCLKCTL']
-  * Block   : ['PC', 'RBBM', 'RDVM', 'UCHE']
-  * Block   : ['VFD', 'VPC', 'VSC']
-- * Pipeline: A7XX_PIPE_NONE
-+ * Pipeline: PIPE_NONE
-  * pairs   : 196 (Regs:1778)
+diff --git a/drivers/gpu/drm/msm/adreno/a2xx_catalog.c b/drivers/gpu/drm/msm/adreno/a2xx_catalog.c
+index 5ddd015f930d..e9dbf3ddf89e 100644
+--- a/drivers/gpu/drm/msm/adreno/a2xx_catalog.c
++++ b/drivers/gpu/drm/msm/adreno/a2xx_catalog.c
+@@ -7,6 +7,7 @@
   */
- static const u32 gen7_9_0_gpu_registers[] = {
-@@ -290,7 +290,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_gxclkctl_registers), 8));
  
- /*
-  * Block   : ['GMUAO', 'GMUCX', 'GMUCX_RAM']
-- * Pipeline: A7XX_PIPE_NONE
-+ * Pipeline: PIPE_NONE
-  * pairs   : 134 (Regs:429)
-  */
- static const u32 gen7_9_0_gmu_registers[] = {
-@@ -334,7 +334,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_gmu_registers), 8));
+ #include "adreno_gpu.h"
++#include "a2xx_gpu.h"
  
- /*
-  * Block   : ['GMUGX']
-- * Pipeline: A7XX_PIPE_NONE
-+ * Pipeline: PIPE_NONE
-  * pairs   : 44 (Regs:454)
-  */
- static const u32 gen7_9_0_gmugx_registers[] = {
-@@ -355,7 +355,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_gmugx_registers), 8));
- 
- /*
-  * Block   : ['CX_MISC']
-- * Pipeline: A7XX_PIPE_NONE
-+ * Pipeline: PIPE_NONE
-  * pairs   : 7 (Regs:56)
-  */
- static const u32 gen7_9_0_cx_misc_registers[] = {
-@@ -367,7 +367,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_cx_misc_registers), 8));
- 
- /*
-  * Block   : ['DBGC']
-- * Pipeline: A7XX_PIPE_NONE
-+ * Pipeline: PIPE_NONE
-  * pairs   : 19 (Regs:155)
-  */
- static const u32 gen7_9_0_dbgc_registers[] = {
-@@ -382,7 +382,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_dbgc_registers), 8));
- 
- /*
-  * Block   : ['CX_DBGC']
-- * Pipeline: A7XX_PIPE_NONE
-+ * Pipeline: PIPE_NONE
-  * pairs   : 7 (Regs:75)
-  */
- static const u32 gen7_9_0_cx_dbgc_registers[] = {
-@@ -396,7 +396,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_cx_dbgc_registers), 8));
-  * Block   : ['BROADCAST', 'CP', 'CX_DBGC', 'CX_MISC', 'DBGC', 'GBIF']
-  * Block   : ['GMUAO', 'GMUCX', 'GMUGX', 'GRAS', 'GXCLKCTL', 'PC']
-  * Block   : ['RBBM', 'RDVM', 'UCHE', 'VFD', 'VPC', 'VSC']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_NONE
-  * pairs   : 29 (Regs:573)
-  */
-@@ -417,7 +417,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_pipe_br_registers), 8));
-  * Block   : ['BROADCAST', 'CP', 'CX_DBGC', 'CX_MISC', 'DBGC', 'GBIF']
-  * Block   : ['GMUAO', 'GMUCX', 'GMUGX', 'GRAS', 'GXCLKCTL', 'PC']
-  * Block   : ['RBBM', 'RDVM', 'UCHE', 'VFD', 'VPC', 'VSC']
-- * Pipeline: A7XX_PIPE_BV
-+ * Pipeline: PIPE_BV
-  * Cluster : A7XX_CLUSTER_NONE
-  * pairs   : 29 (Regs:573)
-  */
-@@ -438,7 +438,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_pipe_bv_registers), 8));
-  * Block   : ['BROADCAST', 'CP', 'CX_DBGC', 'CX_MISC', 'DBGC', 'GBIF']
-  * Block   : ['GMUAO', 'GMUCX', 'GMUGX', 'GRAS', 'GXCLKCTL', 'PC']
-  * Block   : ['RBBM', 'RDVM', 'UCHE', 'VFD', 'VPC', 'VSC']
-- * Pipeline: A7XX_PIPE_LPAC
-+ * Pipeline: PIPE_LPAC
-  * Cluster : A7XX_CLUSTER_NONE
-  * pairs   : 2 (Regs:7)
-  */
-@@ -450,7 +450,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_pipe_lpac_registers), 8));
- 
- /*
-  * Block   : ['RB']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_NONE
-  * pairs   : 5 (Regs:37)
-  */
-@@ -463,7 +463,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_rb_pipe_br_rac_registers),
- 
- /*
-  * Block   : ['RB']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_NONE
-  * pairs   : 15 (Regs:66)
-  */
-@@ -478,7 +478,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_rb_pipe_br_rbp_registers),
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_NONE
-  * Location: A7XX_HLSQ_STATE
-  * pairs   : 4 (Regs:28)
-@@ -491,7 +491,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_sp_pipe_br_hlsq_state_regis
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_NONE
-  * Location: A7XX_SP_TOP
-  * pairs   : 10 (Regs:61)
-@@ -506,7 +506,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_sp_pipe_br_sp_top_registers
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_NONE
-  * Location: A7XX_USPTP
-  * pairs   : 12 (Regs:62)
-@@ -521,7 +521,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_sp_pipe_br_usptp_registers)
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_NONE
-  * Location: A7XX_HLSQ_DP_STR
-  * pairs   : 2 (Regs:5)
-@@ -534,7 +534,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_sp_pipe_br_hlsq_dp_str_regi
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_LPAC
-+ * Pipeline: PIPE_LPAC
-  * Cluster : A7XX_CLUSTER_NONE
-  * Location: A7XX_HLSQ_STATE
-  * pairs   : 1 (Regs:5)
-@@ -547,7 +547,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_sp_pipe_lpac_hlsq_state_reg
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_LPAC
-+ * Pipeline: PIPE_LPAC
-  * Cluster : A7XX_CLUSTER_NONE
-  * Location: A7XX_SP_TOP
-  * pairs   : 1 (Regs:6)
-@@ -560,7 +560,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_sp_pipe_lpac_sp_top_registe
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_LPAC
-+ * Pipeline: PIPE_LPAC
-  * Cluster : A7XX_CLUSTER_NONE
-  * Location: A7XX_USPTP
-  * pairs   : 2 (Regs:9)
-@@ -573,7 +573,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_sp_pipe_lpac_usptp_register
- 
- /*
-  * Block   : ['TPL1']
-- * Pipeline: A7XX_PIPE_NONE
-+ * Pipeline: PIPE_NONE
-  * Cluster : A7XX_CLUSTER_NONE
-  * Location: A7XX_USPTP
-  * pairs   : 5 (Regs:29)
-@@ -587,7 +587,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_tpl1_pipe_none_usptp_regist
- 
- /*
-  * Block   : ['TPL1']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_NONE
-  * Location: A7XX_USPTP
-  * pairs   : 1 (Regs:1)
-@@ -600,7 +600,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_tpl1_pipe_br_usptp_register
- 
- /*
-  * Block   : ['TPL1']
-- * Pipeline: A7XX_PIPE_LPAC
-+ * Pipeline: PIPE_LPAC
-  * Cluster : A7XX_CLUSTER_NONE
-  * Location: A7XX_USPTP
-  * pairs   : 1 (Regs:1)
-@@ -613,7 +613,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_non_context_tpl1_pipe_lpac_usptp_regist
- 
- /*
-  * Block   : ['GRAS']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_GRAS
-  * pairs   : 14 (Regs:293)
-  */
-@@ -628,7 +628,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_gras_pipe_br_cluster_gras_registers), 8
- 
- /*
-  * Block   : ['GRAS']
-- * Pipeline: A7XX_PIPE_BV
-+ * Pipeline: PIPE_BV
-  * Cluster : A7XX_CLUSTER_GRAS
-  * pairs   : 14 (Regs:293)
-  */
-@@ -643,7 +643,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_gras_pipe_bv_cluster_gras_registers), 8
- 
- /*
-  * Block   : ['PC']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_FE
-  * pairs   : 6 (Regs:31)
-  */
-@@ -656,7 +656,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_pc_pipe_br_cluster_fe_registers), 8));
- 
- /*
-  * Block   : ['PC']
-- * Pipeline: A7XX_PIPE_BV
-+ * Pipeline: PIPE_BV
-  * Cluster : A7XX_CLUSTER_FE
-  * pairs   : 6 (Regs:31)
-  */
-@@ -669,7 +669,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_pc_pipe_bv_cluster_fe_registers), 8));
- 
- /*
-  * Block   : ['VFD']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_FE
-  * pairs   : 2 (Regs:236)
-  */
-@@ -681,7 +681,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_vfd_pipe_br_cluster_fe_registers), 8));
- 
- /*
-  * Block   : ['VFD']
-- * Pipeline: A7XX_PIPE_BV
-+ * Pipeline: PIPE_BV
-  * Cluster : A7XX_CLUSTER_FE
-  * pairs   : 2 (Regs:236)
-  */
-@@ -693,7 +693,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_vfd_pipe_bv_cluster_fe_registers), 8));
- 
- /*
-  * Block   : ['VPC']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_FE
-  * pairs   : 2 (Regs:18)
-  */
-@@ -705,7 +705,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_vpc_pipe_br_cluster_fe_registers), 8));
- 
- /*
-  * Block   : ['VPC']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_PC_VS
-  * pairs   : 3 (Regs:30)
-  */
-@@ -717,7 +717,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_vpc_pipe_br_cluster_pc_vs_registers), 8
- 
- /*
-  * Block   : ['VPC']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_VPC_PS
-  * pairs   : 5 (Regs:76)
-  */
-@@ -730,7 +730,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_vpc_pipe_br_cluster_vpc_ps_registers),
- 
- /*
-  * Block   : ['VPC']
-- * Pipeline: A7XX_PIPE_BV
-+ * Pipeline: PIPE_BV
-  * Cluster : A7XX_CLUSTER_FE
-  * pairs   : 2 (Regs:18)
-  */
-@@ -742,7 +742,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_vpc_pipe_bv_cluster_fe_registers), 8));
- 
- /*
-  * Block   : ['VPC']
-- * Pipeline: A7XX_PIPE_BV
-+ * Pipeline: PIPE_BV
-  * Cluster : A7XX_CLUSTER_PC_VS
-  * pairs   : 3 (Regs:30)
-  */
-@@ -754,7 +754,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_vpc_pipe_bv_cluster_pc_vs_registers), 8
- 
- /*
-  * Block   : ['VPC']
-- * Pipeline: A7XX_PIPE_BV
-+ * Pipeline: PIPE_BV
-  * Cluster : A7XX_CLUSTER_VPC_PS
-  * pairs   : 5 (Regs:76)
-  */
-@@ -767,7 +767,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_vpc_pipe_bv_cluster_vpc_ps_registers),
- 
- /*
-  * Block   : ['RB']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_PS
-  * pairs   : 39 (Regs:133)
-  */
-@@ -788,7 +788,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_rb_pipe_br_cluster_ps_rac_registers), 8
- 
- /*
-  * Block   : ['RB']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_PS
-  * pairs   : 34 (Regs:100)
-  */
-@@ -808,7 +808,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_rb_pipe_br_cluster_ps_rbp_registers), 8
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_SP_VS
-  * Location: A7XX_HLSQ_STATE
-  * pairs   : 29 (Regs:215)
-@@ -828,7 +828,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_br_cluster_sp_vs_hlsq_state_reg
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_SP_VS
-  * Location: A7XX_SP_TOP
-  * pairs   : 22 (Regs:73)
-@@ -846,7 +846,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_br_cluster_sp_vs_sp_top_registe
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_SP_VS
-  * Location: A7XX_USPTP
-  * pairs   : 16 (Regs:269)
-@@ -862,7 +862,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_br_cluster_sp_vs_usptp_register
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_SP_PS
-  * Location: A7XX_HLSQ_STATE
-  * pairs   : 21 (Regs:334)
-@@ -880,7 +880,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_br_cluster_sp_ps_hlsq_state_reg
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_SP_PS
-  * Location: A7XX_HLSQ_DP
-  * pairs   : 3 (Regs:19)
-@@ -893,7 +893,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_br_cluster_sp_ps_hlsq_dp_regist
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_SP_PS
-  * Location: A7XX_SP_TOP
-  * pairs   : 18 (Regs:77)
-@@ -910,7 +910,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_br_cluster_sp_ps_sp_top_registe
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_SP_PS
-  * Location: A7XX_USPTP
-  * pairs   : 17 (Regs:333)
-@@ -927,7 +927,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_br_cluster_sp_ps_usptp_register
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_SP_PS
-  * Location: A7XX_HLSQ_DP_STR
-  * pairs   : 1 (Regs:6)
-@@ -940,7 +940,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_br_cluster_sp_ps_hlsq_dp_str_re
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BV
-+ * Pipeline: PIPE_BV
-  * Cluster : A7XX_CLUSTER_SP_VS
-  * Location: A7XX_HLSQ_STATE
-  * pairs   : 28 (Regs:213)
-@@ -959,7 +959,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_bv_cluster_sp_vs_hlsq_state_reg
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BV
-+ * Pipeline: PIPE_BV
-  * Cluster : A7XX_CLUSTER_SP_VS
-  * Location: A7XX_SP_TOP
-  * pairs   : 21 (Regs:71)
-@@ -977,7 +977,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_bv_cluster_sp_vs_sp_top_registe
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_BV
-+ * Pipeline: PIPE_BV
-  * Cluster : A7XX_CLUSTER_SP_VS
-  * Location: A7XX_USPTP
-  * pairs   : 16 (Regs:266)
-@@ -993,7 +993,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_bv_cluster_sp_vs_usptp_register
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_LPAC
-+ * Pipeline: PIPE_LPAC
-  * Cluster : A7XX_CLUSTER_SP_PS
-  * Location: A7XX_HLSQ_STATE
-  * pairs   : 14 (Regs:299)
-@@ -1009,7 +1009,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_lpac_cluster_sp_ps_hlsq_state_r
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_LPAC
-+ * Pipeline: PIPE_LPAC
-  * Cluster : A7XX_CLUSTER_SP_PS
-  * Location: A7XX_HLSQ_DP
-  * pairs   : 2 (Regs:13)
-@@ -1022,7 +1022,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_lpac_cluster_sp_ps_hlsq_dp_regi
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_LPAC
-+ * Pipeline: PIPE_LPAC
-  * Cluster : A7XX_CLUSTER_SP_PS
-  * Location: A7XX_SP_TOP
-  * pairs   : 9 (Regs:34)
-@@ -1037,7 +1037,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_lpac_cluster_sp_ps_sp_top_regis
- 
- /*
-  * Block   : ['SP']
-- * Pipeline: A7XX_PIPE_LPAC
-+ * Pipeline: PIPE_LPAC
-  * Cluster : A7XX_CLUSTER_SP_PS
-  * Location: A7XX_USPTP
-  * pairs   : 11 (Regs:279)
-@@ -1052,7 +1052,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_sp_pipe_lpac_cluster_sp_ps_usptp_regist
- 
- /*
-  * Block   : ['TPL1']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_SP_VS
-  * Location: A7XX_USPTP
-  * pairs   : 3 (Regs:10)
-@@ -1065,7 +1065,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_tpl1_pipe_br_cluster_sp_vs_usptp_regist
- 
- /*
-  * Block   : ['TPL1']
-- * Pipeline: A7XX_PIPE_BR
-+ * Pipeline: PIPE_BR
-  * Cluster : A7XX_CLUSTER_SP_PS
-  * Location: A7XX_USPTP
-  * pairs   : 6 (Regs:42)
-@@ -1079,7 +1079,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_tpl1_pipe_br_cluster_sp_ps_usptp_regist
- 
- /*
-  * Block   : ['TPL1']
-- * Pipeline: A7XX_PIPE_BV
-+ * Pipeline: PIPE_BV
-  * Cluster : A7XX_CLUSTER_SP_VS
-  * Location: A7XX_USPTP
-  * pairs   : 3 (Regs:10)
-@@ -1092,7 +1092,7 @@ static_assert(IS_ALIGNED(sizeof(gen7_9_0_tpl1_pipe_bv_cluster_sp_vs_usptp_regist
- 
- /*
-  * Block   : ['TPL1']
-- * Pipeline: A7XX_PIPE_LPAC
-+ * Pipeline: PIPE_LPAC
-  * Cluster : A7XX_CLUSTER_SP_PS
-  * Location: A7XX_USPTP
-  * pairs   : 5 (Regs:7)
-@@ -1117,180 +1117,180 @@ static const struct gen7_sel_reg gen7_9_0_rb_rbp_sel = {
+ static const struct adreno_info a2xx_gpus[] = {
+ 	{
+@@ -19,7 +20,7 @@ static const struct adreno_info a2xx_gpus[] = {
+ 		},
+ 		.gmem  = SZ_256K,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init  = a2xx_gpu_init,
++		.funcs = &a2xx_gpu_funcs,
+ 	}, { /* a200 on i.mx51 has only 128kib gmem */
+ 		.chip_ids = ADRENO_CHIP_IDS(0x02000001),
+ 		.family = ADRENO_2XX_GEN1,
+@@ -30,7 +31,7 @@ static const struct adreno_info a2xx_gpus[] = {
+ 		},
+ 		.gmem  = SZ_128K,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init  = a2xx_gpu_init,
++		.funcs = &a2xx_gpu_funcs,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x02020000),
+ 		.family = ADRENO_2XX_GEN2,
+@@ -41,7 +42,7 @@ static const struct adreno_info a2xx_gpus[] = {
+ 		},
+ 		.gmem  = SZ_512K,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init  = a2xx_gpu_init,
++		.funcs = &a2xx_gpu_funcs,
+ 	}
  };
+ DECLARE_ADRENO_GPULIST(a2xx);
+diff --git a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+index ec38db45d8a3..7082052f715e 100644
+--- a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+@@ -486,39 +486,18 @@ static u32 a2xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
+ 	return ring->memptrs->rptr;
+ }
  
- static const struct gen7_cluster_registers gen7_9_0_clusters[] = {
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_BR, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_BR, STATE_NON_CONTEXT,
- 		gen7_9_0_non_context_pipe_br_registers,  },
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_BV, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_BV, STATE_NON_CONTEXT,
- 		gen7_9_0_non_context_pipe_bv_registers,  },
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_LPAC, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_LPAC, STATE_NON_CONTEXT,
- 		gen7_9_0_non_context_pipe_lpac_registers,  },
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_BR, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_BR, STATE_NON_CONTEXT,
- 		gen7_9_0_non_context_rb_pipe_br_rac_registers, &gen7_9_0_rb_rac_sel, },
--	{ A7XX_CLUSTER_NONE, A7XX_PIPE_BR, STATE_NON_CONTEXT,
-+	{ A7XX_CLUSTER_NONE, PIPE_BR, STATE_NON_CONTEXT,
- 		gen7_9_0_non_context_rb_pipe_br_rbp_registers, &gen7_9_0_rb_rbp_sel, },
--	{ A7XX_CLUSTER_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_PS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_9_0_rb_pipe_br_cluster_ps_rac_registers, &gen7_9_0_rb_rac_sel, },
--	{ A7XX_CLUSTER_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_PS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_9_0_rb_pipe_br_cluster_ps_rac_registers, &gen7_9_0_rb_rac_sel, },
--	{ A7XX_CLUSTER_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_PS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_9_0_rb_pipe_br_cluster_ps_rbp_registers, &gen7_9_0_rb_rbp_sel, },
--	{ A7XX_CLUSTER_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_PS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_9_0_rb_pipe_br_cluster_ps_rbp_registers, &gen7_9_0_rb_rbp_sel, },
--	{ A7XX_CLUSTER_GRAS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_GRAS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_9_0_gras_pipe_br_cluster_gras_registers,  },
--	{ A7XX_CLUSTER_GRAS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_GRAS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_9_0_gras_pipe_br_cluster_gras_registers,  },
--	{ A7XX_CLUSTER_GRAS, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_GRAS, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_9_0_gras_pipe_bv_cluster_gras_registers,  },
--	{ A7XX_CLUSTER_GRAS, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_GRAS, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_9_0_gras_pipe_bv_cluster_gras_registers,  },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_9_0_pc_pipe_br_cluster_fe_registers,  },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_9_0_pc_pipe_br_cluster_fe_registers,  },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_9_0_pc_pipe_bv_cluster_fe_registers,  },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_9_0_pc_pipe_bv_cluster_fe_registers,  },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_9_0_vfd_pipe_br_cluster_fe_registers,  },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_9_0_vfd_pipe_br_cluster_fe_registers,  },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_9_0_vfd_pipe_bv_cluster_fe_registers,  },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_9_0_vfd_pipe_bv_cluster_fe_registers,  },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_9_0_vpc_pipe_br_cluster_fe_registers,  },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_9_0_vpc_pipe_br_cluster_fe_registers,  },
--	{ A7XX_CLUSTER_PC_VS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_PC_VS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_9_0_vpc_pipe_br_cluster_pc_vs_registers,  },
--	{ A7XX_CLUSTER_PC_VS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_PC_VS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_9_0_vpc_pipe_br_cluster_pc_vs_registers,  },
--	{ A7XX_CLUSTER_VPC_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_VPC_PS, PIPE_BR, STATE_FORCE_CTXT_0,
- 		gen7_9_0_vpc_pipe_br_cluster_vpc_ps_registers,  },
--	{ A7XX_CLUSTER_VPC_PS, A7XX_PIPE_BR, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_VPC_PS, PIPE_BR, STATE_FORCE_CTXT_1,
- 		gen7_9_0_vpc_pipe_br_cluster_vpc_ps_registers,  },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_9_0_vpc_pipe_bv_cluster_fe_registers,  },
--	{ A7XX_CLUSTER_FE, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_FE, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_9_0_vpc_pipe_bv_cluster_fe_registers,  },
--	{ A7XX_CLUSTER_PC_VS, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_PC_VS, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_9_0_vpc_pipe_bv_cluster_pc_vs_registers,  },
--	{ A7XX_CLUSTER_PC_VS, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_PC_VS, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_9_0_vpc_pipe_bv_cluster_pc_vs_registers,  },
--	{ A7XX_CLUSTER_VPC_PS, A7XX_PIPE_BV, STATE_FORCE_CTXT_0,
-+	{ A7XX_CLUSTER_VPC_PS, PIPE_BV, STATE_FORCE_CTXT_0,
- 		gen7_9_0_vpc_pipe_bv_cluster_vpc_ps_registers,  },
--	{ A7XX_CLUSTER_VPC_PS, A7XX_PIPE_BV, STATE_FORCE_CTXT_1,
-+	{ A7XX_CLUSTER_VPC_PS, PIPE_BV, STATE_FORCE_CTXT_1,
- 		gen7_9_0_vpc_pipe_bv_cluster_vpc_ps_registers,  },
- };
- 
- static const struct gen7_sptp_cluster_registers gen7_9_0_sptp_clusters[] = {
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_BR, 0, A7XX_HLSQ_STATE,
- 		gen7_9_0_non_context_sp_pipe_br_hlsq_state_registers, 0xae00},
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_BR, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_BR, 0, A7XX_SP_TOP,
- 		gen7_9_0_non_context_sp_pipe_br_sp_top_registers, 0xae00},
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_9_0_non_context_sp_pipe_br_usptp_registers, 0xae00},
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_DP_STR,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_BR, 0, A7XX_HLSQ_DP_STR,
- 		gen7_9_0_non_context_sp_pipe_br_hlsq_dp_str_registers, 0xae00},
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_LPAC, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_LPAC, 0, A7XX_HLSQ_STATE,
- 		gen7_9_0_non_context_sp_pipe_lpac_hlsq_state_registers, 0xaf80},
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_LPAC, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_LPAC, 0, A7XX_SP_TOP,
- 		gen7_9_0_non_context_sp_pipe_lpac_sp_top_registers, 0xaf80},
--	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, A7XX_PIPE_LPAC, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_NONE, A7XX_SP_NCTX_REG, PIPE_LPAC, 0, A7XX_USPTP,
- 		gen7_9_0_non_context_sp_pipe_lpac_usptp_registers, 0xaf80},
--	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, A7XX_PIPE_NONE, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, PIPE_NONE, 0, A7XX_USPTP,
- 		gen7_9_0_non_context_tpl1_pipe_none_usptp_registers, 0xb600},
--	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_9_0_non_context_tpl1_pipe_br_usptp_registers, 0xb600},
--	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, A7XX_PIPE_LPAC, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_NONE, A7XX_TP0_NCTX_REG, PIPE_LPAC, 0, A7XX_USPTP,
- 		gen7_9_0_non_context_tpl1_pipe_lpac_usptp_registers, 0xb780},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BR, 0, A7XX_HLSQ_STATE,
- 		gen7_9_0_sp_pipe_br_cluster_sp_vs_hlsq_state_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BR, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BR, 0, A7XX_SP_TOP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_vs_sp_top_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_vs_usptp_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BV, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BV, 0, A7XX_HLSQ_STATE,
- 		gen7_9_0_sp_pipe_bv_cluster_sp_vs_hlsq_state_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BV, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BV, 0, A7XX_SP_TOP,
- 		gen7_9_0_sp_pipe_bv_cluster_sp_vs_sp_top_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BV, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BV, 0, A7XX_USPTP,
- 		gen7_9_0_sp_pipe_bv_cluster_sp_vs_usptp_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BR, 1, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BR, 1, A7XX_HLSQ_STATE,
- 		gen7_9_0_sp_pipe_br_cluster_sp_vs_hlsq_state_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BR, 1, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BR, 1, A7XX_SP_TOP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_vs_sp_top_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BR, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BR, 1, A7XX_USPTP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_vs_usptp_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BV, 1, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BV, 1, A7XX_HLSQ_STATE,
- 		gen7_9_0_sp_pipe_bv_cluster_sp_vs_hlsq_state_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BV, 1, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BV, 1, A7XX_SP_TOP,
- 		gen7_9_0_sp_pipe_bv_cluster_sp_vs_sp_top_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BV, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BV, 1, A7XX_USPTP,
- 		gen7_9_0_sp_pipe_bv_cluster_sp_vs_usptp_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_HLSQ_STATE,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_hlsq_state_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_HLSQ_DP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_hlsq_dp_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_SP_TOP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_sp_top_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_usptp_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_HLSQ_DP_STR,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_HLSQ_DP_STR,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_hlsq_dp_str_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_HLSQ_STATE,
- 		gen7_9_0_sp_pipe_lpac_cluster_sp_ps_hlsq_state_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_HLSQ_DP,
- 		gen7_9_0_sp_pipe_lpac_cluster_sp_ps_hlsq_dp_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_SP_TOP,
- 		gen7_9_0_sp_pipe_lpac_cluster_sp_ps_sp_top_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_USPTP,
- 		gen7_9_0_sp_pipe_lpac_cluster_sp_ps_usptp_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_HLSQ_STATE,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_HLSQ_STATE,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_hlsq_state_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_HLSQ_DP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_hlsq_dp_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_SP_TOP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_sp_top_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_USPTP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_usptp_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_HLSQ_DP_STR,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_HLSQ_DP_STR,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_hlsq_dp_str_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, A7XX_PIPE_BR, 2, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, PIPE_BR, 2, A7XX_HLSQ_DP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_hlsq_dp_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, A7XX_PIPE_BR, 2, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, PIPE_BR, 2, A7XX_SP_TOP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_sp_top_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, A7XX_PIPE_BR, 2, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, PIPE_BR, 2, A7XX_USPTP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_usptp_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, A7XX_PIPE_BR, 2, A7XX_HLSQ_DP_STR,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, PIPE_BR, 2, A7XX_HLSQ_DP_STR,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_hlsq_dp_str_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, A7XX_PIPE_BR, 3, A7XX_HLSQ_DP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, PIPE_BR, 3, A7XX_HLSQ_DP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_hlsq_dp_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, A7XX_PIPE_BR, 3, A7XX_SP_TOP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, PIPE_BR, 3, A7XX_SP_TOP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_sp_top_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, A7XX_PIPE_BR, 3, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, PIPE_BR, 3, A7XX_USPTP,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_usptp_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, A7XX_PIPE_BR, 3, A7XX_HLSQ_DP_STR,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, PIPE_BR, 3, A7XX_HLSQ_DP_STR,
- 		gen7_9_0_sp_pipe_br_cluster_sp_ps_hlsq_dp_str_registers, 0xa800},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_9_0_tpl1_pipe_br_cluster_sp_vs_usptp_registers, 0xb000},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, A7XX_PIPE_BV, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX0_3D_CVS_REG, PIPE_BV, 0, A7XX_USPTP,
- 		gen7_9_0_tpl1_pipe_bv_cluster_sp_vs_usptp_registers, 0xb000},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BR, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BR, 1, A7XX_USPTP,
- 		gen7_9_0_tpl1_pipe_br_cluster_sp_vs_usptp_registers, 0xb000},
--	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, A7XX_PIPE_BV, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_VS, A7XX_SP_CTX1_3D_CVS_REG, PIPE_BV, 1, A7XX_USPTP,
- 		gen7_9_0_tpl1_pipe_bv_cluster_sp_vs_usptp_registers, 0xb000},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_BR, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_BR, 0, A7XX_USPTP,
- 		gen7_9_0_tpl1_pipe_br_cluster_sp_ps_usptp_registers, 0xb000},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, A7XX_PIPE_LPAC, 0, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX0_3D_CPS_REG, PIPE_LPAC, 0, A7XX_USPTP,
- 		gen7_9_0_tpl1_pipe_lpac_cluster_sp_ps_usptp_registers, 0xb000},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, A7XX_PIPE_BR, 1, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX1_3D_CPS_REG, PIPE_BR, 1, A7XX_USPTP,
- 		gen7_9_0_tpl1_pipe_br_cluster_sp_ps_usptp_registers, 0xb000},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, A7XX_PIPE_BR, 2, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX2_3D_CPS_REG, PIPE_BR, 2, A7XX_USPTP,
- 		gen7_9_0_tpl1_pipe_br_cluster_sp_ps_usptp_registers, 0xb000},
--	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, A7XX_PIPE_BR, 3, A7XX_USPTP,
-+	{ A7XX_CLUSTER_SP_PS, A7XX_SP_CTX3_3D_CPS_REG, PIPE_BR, 3, A7XX_USPTP,
- 		gen7_9_0_tpl1_pipe_br_cluster_sp_ps_usptp_registers, 0xb000},
- };
- 
-diff --git a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
-index 9459b6038217..369b96d7f7c9 100644
---- a/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
-+++ b/drivers/gpu/drm/msm/registers/adreno/a6xx.xml
-@@ -249,7 +249,7 @@ by a particular renderpass/blit.
- 	</reg32>
- 
- 	<bitset name="a7xx_aperture_cntl" inline="yes">
--		<bitfield name="PIPE" low="12" high="13" type="a7xx_pipe"/>
-+		<bitfield name="PIPE" low="12" high="13" type="adreno_pipe"/>
- 		<bitfield name="CLUSTER" low="8" high="10" type="a7xx_cluster"/>
- 		<bitfield name="CONTEXT" low="4" high="5"/>
- 	</bitset>
-@@ -3267,7 +3267,7 @@ by a particular renderpass/blit.
- 	<reg32 offset="0xae6c" name="SP_HLSQ_DBG_ECO_CNTL" variants="A7XX-" usage="cmd"/>
- 	<reg32 offset="0xae6d" name="SP_READ_SEL" variants="A7XX-">
- 		<bitfield name="LOCATION" low="18" high="20" type="a7xx_state_location"/>
--		<bitfield name="PIPE" low="16" high="17" type="a7xx_pipe"/>
-+		<bitfield name="PIPE" low="16" high="17" type="adreno_pipe"/>
- 		<bitfield name="STATETYPE" low="8" high="15" type="a7xx_statetype_id"/>
- 		<bitfield name="USPTP" low="4" high="7"/>
- 		<bitfield name="SPTP" low="0" high="3"/>
-diff --git a/drivers/gpu/drm/msm/registers/adreno/a7xx_enums.xml b/drivers/gpu/drm/msm/registers/adreno/a7xx_enums.xml
-index 661b0dd0f675..8d195ee5d284 100644
---- a/drivers/gpu/drm/msm/registers/adreno/a7xx_enums.xml
-+++ b/drivers/gpu/drm/msm/registers/adreno/a7xx_enums.xml
-@@ -93,13 +93,6 @@ xsi:schemaLocation="https://gitlab.freedesktop.org/freedreno/ rules-fd.xsd">
- 	<value value="4" name="A7XX_HLSQ_DP_STR"/>
- </enum>
- 
--<enum name="a7xx_pipe">
--	<value value="0" name="A7XX_PIPE_NONE"/>
--	<value value="1" name="A7XX_PIPE_BR"/>
--	<value value="2" name="A7XX_PIPE_BV"/>
--	<value value="3" name="A7XX_PIPE_LPAC"/>
--</enum>
+-static const struct adreno_gpu_funcs funcs = {
+-	.base = {
+-		.get_param = adreno_get_param,
+-		.set_param = adreno_set_param,
+-		.hw_init = a2xx_hw_init,
+-		.pm_suspend = msm_gpu_pm_suspend,
+-		.pm_resume = msm_gpu_pm_resume,
+-		.recover = a2xx_recover,
+-		.submit = a2xx_submit,
+-		.active_ring = adreno_active_ring,
+-		.irq = a2xx_irq,
+-		.destroy = a2xx_destroy,
+-#if defined(CONFIG_DEBUG_FS) || defined(CONFIG_DEV_COREDUMP)
+-		.show = adreno_show,
+-#endif
+-		.gpu_state_get = a2xx_gpu_state_get,
+-		.gpu_state_put = adreno_gpu_state_put,
+-		.create_vm = a2xx_create_vm,
+-		.get_rptr = a2xx_get_rptr,
+-	},
+-};
 -
- <enum name="a7xx_cluster">
- 	<value value="0" name="A7XX_CLUSTER_NONE"/>
- 	<value value="1" name="A7XX_CLUSTER_FE"/>
-diff --git a/drivers/gpu/drm/msm/registers/adreno/adreno_common.xml b/drivers/gpu/drm/msm/registers/adreno/adreno_common.xml
-index 218ec8bb966e..06020dc1df44 100644
---- a/drivers/gpu/drm/msm/registers/adreno/adreno_common.xml
-+++ b/drivers/gpu/drm/msm/registers/adreno/adreno_common.xml
-@@ -397,4 +397,15 @@ xsi:schemaLocation="https://gitlab.freedesktop.org/freedreno/ rules-fd.xsd">
- 	<value value="0x7" name="TEX_PREFETCH_UNK7"/>
- </enum>
+ static const struct msm_gpu_perfcntr perfcntrs[] = {
+ /* TODO */
+ };
  
-+<enum name="adreno_pipe">
-+	<value value="0" name="PIPE_NONE"/>
-+	<value value="1" name="PIPE_BR"/>
-+	<value value="2" name="PIPE_BV"/>
-+	<value value="3" name="PIPE_LPAC"/>
-+	<value value="4" name="PIPE_AQE0"/>
-+	<value value="5" name="PIPE_AQE1"/>
-+	<value value="6" name="PIPE_DDE_BR"/>
-+	<value value="7" name="PIPE_DDE_BV"/>
-+</enum>
+-struct msm_gpu *a2xx_gpu_init(struct drm_device *dev)
++static struct msm_gpu *a2xx_gpu_init(struct drm_device *dev)
+ {
+ 	struct a2xx_gpu *a2xx_gpu = NULL;
+ 	struct adreno_gpu *adreno_gpu;
+ 	struct msm_gpu *gpu;
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct platform_device *pdev = priv->gpu_pdev;
++	struct adreno_platform_config *config = pdev->dev.platform_data;
+ 	int ret;
+ 
+ 	if (!pdev) {
+@@ -539,7 +518,7 @@ struct msm_gpu *a2xx_gpu_init(struct drm_device *dev)
+ 	gpu->perfcntrs = perfcntrs;
+ 	gpu->num_perfcntrs = ARRAY_SIZE(perfcntrs);
+ 
+-	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
++	ret = adreno_gpu_init(dev, pdev, adreno_gpu, config->info->funcs, 1);
+ 	if (ret)
+ 		goto fail;
+ 
+@@ -558,3 +537,26 @@ struct msm_gpu *a2xx_gpu_init(struct drm_device *dev)
+ 
+ 	return ERR_PTR(ret);
+ }
 +
- </database>
++const struct adreno_gpu_funcs a2xx_gpu_funcs = {
++	.base = {
++		.get_param = adreno_get_param,
++		.set_param = adreno_set_param,
++		.hw_init = a2xx_hw_init,
++		.pm_suspend = msm_gpu_pm_suspend,
++		.pm_resume = msm_gpu_pm_resume,
++		.recover = a2xx_recover,
++		.submit = a2xx_submit,
++		.active_ring = adreno_active_ring,
++		.irq = a2xx_irq,
++		.destroy = a2xx_destroy,
++#if defined(CONFIG_DEBUG_FS) || defined(CONFIG_DEV_COREDUMP)
++		.show = adreno_show,
++#endif
++		.gpu_state_get = a2xx_gpu_state_get,
++		.gpu_state_put = adreno_gpu_state_put,
++		.create_vm = a2xx_create_vm,
++		.get_rptr = a2xx_get_rptr,
++	},
++	.init = a2xx_gpu_init,
++};
+diff --git a/drivers/gpu/drm/msm/adreno/a2xx_gpu.h b/drivers/gpu/drm/msm/adreno/a2xx_gpu.h
+index 53702f19990f..162ef98951f5 100644
+--- a/drivers/gpu/drm/msm/adreno/a2xx_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/a2xx_gpu.h
+@@ -19,6 +19,8 @@ struct a2xx_gpu {
+ };
+ #define to_a2xx_gpu(x) container_of(x, struct a2xx_gpu, base)
+ 
++extern const struct adreno_gpu_funcs a2xx_gpu_funcs;
++
+ struct msm_mmu *a2xx_gpummu_new(struct device *dev, struct msm_gpu *gpu);
+ void a2xx_gpummu_params(struct msm_mmu *mmu, dma_addr_t *pt_base,
+ 		dma_addr_t *tran_error);
+diff --git a/drivers/gpu/drm/msm/adreno/a3xx_catalog.c b/drivers/gpu/drm/msm/adreno/a3xx_catalog.c
+index 1498e6532f62..6ae8716fc08a 100644
+--- a/drivers/gpu/drm/msm/adreno/a3xx_catalog.c
++++ b/drivers/gpu/drm/msm/adreno/a3xx_catalog.c
+@@ -7,6 +7,7 @@
+  */
+ 
+ #include "adreno_gpu.h"
++#include "a3xx_gpu.h"
+ 
+ static const struct adreno_info a3xx_gpus[] = {
+ 	{
+@@ -18,7 +19,7 @@ static const struct adreno_info a3xx_gpus[] = {
+ 		},
+ 		.gmem  = SZ_128K,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init  = a3xx_gpu_init,
++		.funcs = &a3xx_gpu_funcs,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x03000520),
+ 		.family = ADRENO_3XX,
+@@ -29,7 +30,7 @@ static const struct adreno_info a3xx_gpus[] = {
+ 		},
+ 		.gmem  = SZ_256K,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init  = a3xx_gpu_init,
++		.funcs = &a3xx_gpu_funcs,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x03000600),
+ 		.family = ADRENO_3XX,
+@@ -40,7 +41,7 @@ static const struct adreno_info a3xx_gpus[] = {
+ 		},
+ 		.gmem  = SZ_128K,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init  = a3xx_gpu_init,
++		.funcs = &a3xx_gpu_funcs,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x03000620),
+ 		.family = ADRENO_3XX,
+@@ -51,7 +52,7 @@ static const struct adreno_info a3xx_gpus[] = {
+ 		},
+ 		.gmem = SZ_128K,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init = a3xx_gpu_init,
++		.funcs = &a3xx_gpu_funcs,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(
+ 			0x03020000,
+@@ -66,7 +67,7 @@ static const struct adreno_info a3xx_gpus[] = {
+ 		},
+ 		.gmem  = SZ_512K,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init  = a3xx_gpu_init,
++		.funcs = &a3xx_gpu_funcs,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(
+ 			0x03030000,
+@@ -81,7 +82,7 @@ static const struct adreno_info a3xx_gpus[] = {
+ 		},
+ 		.gmem  = SZ_1M,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init  = a3xx_gpu_init,
++		.funcs = &a3xx_gpu_funcs,
+ 	}
+ };
+ DECLARE_ADRENO_GPULIST(a3xx);
+diff --git a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+index a956cd79195e..f22d33e99e81 100644
+--- a/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a3xx_gpu.c
+@@ -508,29 +508,6 @@ static u32 a3xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
+ 	return ring->memptrs->rptr;
+ }
+ 
+-static const struct adreno_gpu_funcs funcs = {
+-	.base = {
+-		.get_param = adreno_get_param,
+-		.set_param = adreno_set_param,
+-		.hw_init = a3xx_hw_init,
+-		.pm_suspend = msm_gpu_pm_suspend,
+-		.pm_resume = msm_gpu_pm_resume,
+-		.recover = a3xx_recover,
+-		.submit = a3xx_submit,
+-		.active_ring = adreno_active_ring,
+-		.irq = a3xx_irq,
+-		.destroy = a3xx_destroy,
+-#if defined(CONFIG_DEBUG_FS) || defined(CONFIG_DEV_COREDUMP)
+-		.show = adreno_show,
+-#endif
+-		.gpu_busy = a3xx_gpu_busy,
+-		.gpu_state_get = a3xx_gpu_state_get,
+-		.gpu_state_put = adreno_gpu_state_put,
+-		.create_vm = adreno_create_vm,
+-		.get_rptr = a3xx_get_rptr,
+-	},
+-};
+-
+ static const struct msm_gpu_perfcntr perfcntrs[] = {
+ 	{ REG_A3XX_SP_PERFCOUNTER6_SELECT, REG_A3XX_RBBM_PERFCTR_SP_6_LO,
+ 			SP_ALU_ACTIVE_CYCLES, "ALUACTIVE" },
+@@ -538,13 +515,14 @@ static const struct msm_gpu_perfcntr perfcntrs[] = {
+ 			SP_FS_FULL_ALU_INSTRUCTIONS, "ALUFULL" },
+ };
+ 
+-struct msm_gpu *a3xx_gpu_init(struct drm_device *dev)
++static struct msm_gpu *a3xx_gpu_init(struct drm_device *dev)
+ {
+ 	struct a3xx_gpu *a3xx_gpu = NULL;
+ 	struct adreno_gpu *adreno_gpu;
+ 	struct msm_gpu *gpu;
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct platform_device *pdev = priv->gpu_pdev;
++	struct adreno_platform_config *config = pdev->dev.platform_data;
+ 	struct icc_path *ocmem_icc_path;
+ 	struct icc_path *icc_path;
+ 	int ret;
+@@ -569,7 +547,7 @@ struct msm_gpu *a3xx_gpu_init(struct drm_device *dev)
+ 
+ 	adreno_gpu->registers = a3xx_registers;
+ 
+-	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
++	ret = adreno_gpu_init(dev, pdev, adreno_gpu, config->info->funcs, 1);
+ 	if (ret)
+ 		goto fail;
+ 
+@@ -613,3 +591,27 @@ struct msm_gpu *a3xx_gpu_init(struct drm_device *dev)
+ 
+ 	return ERR_PTR(ret);
+ }
++
++const struct adreno_gpu_funcs a3xx_gpu_funcs = {
++	.base = {
++		.get_param = adreno_get_param,
++		.set_param = adreno_set_param,
++		.hw_init = a3xx_hw_init,
++		.pm_suspend = msm_gpu_pm_suspend,
++		.pm_resume = msm_gpu_pm_resume,
++		.recover = a3xx_recover,
++		.submit = a3xx_submit,
++		.active_ring = adreno_active_ring,
++		.irq = a3xx_irq,
++		.destroy = a3xx_destroy,
++#if defined(CONFIG_DEBUG_FS) || defined(CONFIG_DEV_COREDUMP)
++		.show = adreno_show,
++#endif
++		.gpu_busy = a3xx_gpu_busy,
++		.gpu_state_get = a3xx_gpu_state_get,
++		.gpu_state_put = adreno_gpu_state_put,
++		.create_vm = adreno_create_vm,
++		.get_rptr = a3xx_get_rptr,
++	},
++	.init = a3xx_gpu_init,
++};
+diff --git a/drivers/gpu/drm/msm/adreno/a3xx_gpu.h b/drivers/gpu/drm/msm/adreno/a3xx_gpu.h
+index c555fb13e0d7..3d4ec9dbd918 100644
+--- a/drivers/gpu/drm/msm/adreno/a3xx_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/a3xx_gpu.h
+@@ -23,4 +23,6 @@ struct a3xx_gpu {
+ };
+ #define to_a3xx_gpu(x) container_of(x, struct a3xx_gpu, base)
+ 
++extern const struct adreno_gpu_funcs a3xx_gpu_funcs;
++
+ #endif /* __A3XX_GPU_H__ */
+diff --git a/drivers/gpu/drm/msm/adreno/a4xx_catalog.c b/drivers/gpu/drm/msm/adreno/a4xx_catalog.c
+index 09f9f228b75e..9192586f7ef0 100644
+--- a/drivers/gpu/drm/msm/adreno/a4xx_catalog.c
++++ b/drivers/gpu/drm/msm/adreno/a4xx_catalog.c
+@@ -7,6 +7,7 @@
+  */
+ 
+ #include "adreno_gpu.h"
++#include "a4xx_gpu.h"
+ 
+ static const struct adreno_info a4xx_gpus[] = {
+ 	{
+@@ -19,7 +20,7 @@ static const struct adreno_info a4xx_gpus[] = {
+ 		},
+ 		.gmem  = SZ_256K,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init  = a4xx_gpu_init,
++		.funcs = &a4xx_gpu_funcs,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x04020000),
+ 		.family = ADRENO_4XX,
+@@ -30,7 +31,7 @@ static const struct adreno_info a4xx_gpus[] = {
+ 		},
+ 		.gmem  = (SZ_1M + SZ_512K),
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init  = a4xx_gpu_init,
++		.funcs = &a4xx_gpu_funcs,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x04030002),
+ 		.family = ADRENO_4XX,
+@@ -41,7 +42,7 @@ static const struct adreno_info a4xx_gpus[] = {
+ 		},
+ 		.gmem  = (SZ_1M + SZ_512K),
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init  = a4xx_gpu_init,
++		.funcs = &a4xx_gpu_funcs,
+ 	}
+ };
+ DECLARE_ADRENO_GPULIST(a4xx);
+diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+index 83f6329accba..db06c06067ae 100644
+--- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.c
+@@ -627,37 +627,14 @@ static u32 a4xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
+ 	return ring->memptrs->rptr;
+ }
+ 
+-static const struct adreno_gpu_funcs funcs = {
+-	.base = {
+-		.get_param = adreno_get_param,
+-		.set_param = adreno_set_param,
+-		.hw_init = a4xx_hw_init,
+-		.pm_suspend = a4xx_pm_suspend,
+-		.pm_resume = a4xx_pm_resume,
+-		.recover = a4xx_recover,
+-		.submit = a4xx_submit,
+-		.active_ring = adreno_active_ring,
+-		.irq = a4xx_irq,
+-		.destroy = a4xx_destroy,
+-#if defined(CONFIG_DEBUG_FS) || defined(CONFIG_DEV_COREDUMP)
+-		.show = adreno_show,
+-#endif
+-		.gpu_busy = a4xx_gpu_busy,
+-		.gpu_state_get = a4xx_gpu_state_get,
+-		.gpu_state_put = adreno_gpu_state_put,
+-		.create_vm = adreno_create_vm,
+-		.get_rptr = a4xx_get_rptr,
+-	},
+-	.get_timestamp = a4xx_get_timestamp,
+-};
+-
+-struct msm_gpu *a4xx_gpu_init(struct drm_device *dev)
++static struct msm_gpu *a4xx_gpu_init(struct drm_device *dev)
+ {
+ 	struct a4xx_gpu *a4xx_gpu = NULL;
+ 	struct adreno_gpu *adreno_gpu;
+ 	struct msm_gpu *gpu;
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct platform_device *pdev = priv->gpu_pdev;
++	struct adreno_platform_config *config = pdev->dev.platform_data;
+ 	struct icc_path *ocmem_icc_path;
+ 	struct icc_path *icc_path;
+ 	int ret;
+@@ -680,7 +657,7 @@ struct msm_gpu *a4xx_gpu_init(struct drm_device *dev)
+ 	gpu->perfcntrs = NULL;
+ 	gpu->num_perfcntrs = 0;
+ 
+-	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
++	ret = adreno_gpu_init(dev, pdev, adreno_gpu, config->info->funcs, 1);
+ 	if (ret)
+ 		goto fail;
+ 
+@@ -726,3 +703,28 @@ struct msm_gpu *a4xx_gpu_init(struct drm_device *dev)
+ 
+ 	return ERR_PTR(ret);
+ }
++
++const struct adreno_gpu_funcs a4xx_gpu_funcs = {
++	.base = {
++		.get_param = adreno_get_param,
++		.set_param = adreno_set_param,
++		.hw_init = a4xx_hw_init,
++		.pm_suspend = a4xx_pm_suspend,
++		.pm_resume = a4xx_pm_resume,
++		.recover = a4xx_recover,
++		.submit = a4xx_submit,
++		.active_ring = adreno_active_ring,
++		.irq = a4xx_irq,
++		.destroy = a4xx_destroy,
++#if defined(CONFIG_DEBUG_FS) || defined(CONFIG_DEV_COREDUMP)
++		.show = adreno_show,
++#endif
++		.gpu_busy = a4xx_gpu_busy,
++		.gpu_state_get = a4xx_gpu_state_get,
++		.gpu_state_put = adreno_gpu_state_put,
++		.create_vm = adreno_create_vm,
++		.get_rptr = a4xx_get_rptr,
++	},
++	.init = a4xx_gpu_init,
++	.get_timestamp = a4xx_get_timestamp,
++};
+diff --git a/drivers/gpu/drm/msm/adreno/a4xx_gpu.h b/drivers/gpu/drm/msm/adreno/a4xx_gpu.h
+index a01448cba2ea..71b164439f62 100644
+--- a/drivers/gpu/drm/msm/adreno/a4xx_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/a4xx_gpu.h
+@@ -20,4 +20,6 @@ struct a4xx_gpu {
+ };
+ #define to_a4xx_gpu(x) container_of(x, struct a4xx_gpu, base)
+ 
++extern const struct adreno_gpu_funcs a4xx_gpu_funcs;
++
+ #endif /* __A4XX_GPU_H__ */
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_catalog.c b/drivers/gpu/drm/msm/adreno/a5xx_catalog.c
+index b48a636d8237..babd320f3b73 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_catalog.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_catalog.c
+@@ -7,6 +7,7 @@
+  */
+ 
+ #include "adreno_gpu.h"
++#include "a5xx_gpu.h"
+ 
+ static const struct adreno_info a5xx_gpus[] = {
+ 	{
+@@ -21,7 +22,7 @@ static const struct adreno_info a5xx_gpus[] = {
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.quirks = ADRENO_QUIRK_TWO_PASS_USE_WFI |
+ 			  ADRENO_QUIRK_LMLOADKILL_DISABLE,
+-		.init = a5xx_gpu_init,
++		.funcs = &a5xx_gpu_funcs,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x05000600),
+ 		.family = ADRENO_5XX,
+@@ -38,7 +39,7 @@ static const struct adreno_info a5xx_gpus[] = {
+ 		.inactive_period = 250,
+ 		.quirks = ADRENO_QUIRK_TWO_PASS_USE_WFI |
+ 			  ADRENO_QUIRK_LMLOADKILL_DISABLE,
+-		.init = a5xx_gpu_init,
++		.funcs = &a5xx_gpu_funcs,
+ 		.zapfw = "a506_zap.mdt",
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x05000800),
+@@ -55,7 +56,7 @@ static const struct adreno_info a5xx_gpus[] = {
+ 		 */
+ 		.inactive_period = 250,
+ 		.quirks = ADRENO_QUIRK_LMLOADKILL_DISABLE,
+-		.init = a5xx_gpu_init,
++		.funcs = &a5xx_gpu_funcs,
+ 		.zapfw = "a508_zap.mdt",
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x05000900),
+@@ -72,7 +73,7 @@ static const struct adreno_info a5xx_gpus[] = {
+ 		 */
+ 		.inactive_period = 250,
+ 		.quirks = ADRENO_QUIRK_LMLOADKILL_DISABLE,
+-		.init = a5xx_gpu_init,
++		.funcs = &a5xx_gpu_funcs,
+ 		/* Adreno 509 uses the same ZAP as 512 */
+ 		.zapfw = "a512_zap.mdt",
+ 	}, {
+@@ -89,7 +90,7 @@ static const struct adreno_info a5xx_gpus[] = {
+ 		 * the GDSC which appears to make it grumpy
+ 		 */
+ 		.inactive_period = 250,
+-		.init = a5xx_gpu_init,
++		.funcs = &a5xx_gpu_funcs,
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x05010200),
+ 		.family = ADRENO_5XX,
+@@ -105,7 +106,7 @@ static const struct adreno_info a5xx_gpus[] = {
+ 		 */
+ 		.inactive_period = 250,
+ 		.quirks = ADRENO_QUIRK_LMLOADKILL_DISABLE,
+-		.init = a5xx_gpu_init,
++		.funcs = &a5xx_gpu_funcs,
+ 		.zapfw = "a512_zap.mdt",
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(
+@@ -127,7 +128,7 @@ static const struct adreno_info a5xx_gpus[] = {
+ 		.inactive_period = 250,
+ 		.quirks = ADRENO_QUIRK_TWO_PASS_USE_WFI |
+ 			ADRENO_QUIRK_FAULT_DETECT_MASK,
+-		.init = a5xx_gpu_init,
++		.funcs = &a5xx_gpu_funcs,
+ 		.zapfw = "a530_zap.mdt",
+ 	}, {
+ 		.chip_ids = ADRENO_CHIP_IDS(0x05040001),
+@@ -145,7 +146,7 @@ static const struct adreno_info a5xx_gpus[] = {
+ 		 */
+ 		.inactive_period = 250,
+ 		.quirks = ADRENO_QUIRK_LMLOADKILL_DISABLE,
+-		.init = a5xx_gpu_init,
++		.funcs = &a5xx_gpu_funcs,
+ 		.zapfw = "a540_zap.mdt",
+ 	}
+ };
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+index 4a04dc43a8e6..56eaff2ee4e4 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+@@ -1691,34 +1691,6 @@ static uint32_t a5xx_get_rptr(struct msm_gpu *gpu, struct msm_ringbuffer *ring)
+ 	return ring->memptrs->rptr = gpu_read(gpu, REG_A5XX_CP_RB_RPTR);
+ }
+ 
+-static const struct adreno_gpu_funcs funcs = {
+-	.base = {
+-		.get_param = adreno_get_param,
+-		.set_param = adreno_set_param,
+-		.hw_init = a5xx_hw_init,
+-		.ucode_load = a5xx_ucode_load,
+-		.pm_suspend = a5xx_pm_suspend,
+-		.pm_resume = a5xx_pm_resume,
+-		.recover = a5xx_recover,
+-		.submit = a5xx_submit,
+-		.active_ring = a5xx_active_ring,
+-		.irq = a5xx_irq,
+-		.destroy = a5xx_destroy,
+-#if defined(CONFIG_DEBUG_FS) || defined(CONFIG_DEV_COREDUMP)
+-		.show = a5xx_show,
+-#endif
+-#if defined(CONFIG_DEBUG_FS)
+-		.debugfs_init = a5xx_debugfs_init,
+-#endif
+-		.gpu_busy = a5xx_gpu_busy,
+-		.gpu_state_get = a5xx_gpu_state_get,
+-		.gpu_state_put = a5xx_gpu_state_put,
+-		.create_vm = adreno_create_vm,
+-		.get_rptr = a5xx_get_rptr,
+-	},
+-	.get_timestamp = a5xx_get_timestamp,
+-};
+-
+ static void check_speed_bin(struct device *dev)
+ {
+ 	struct nvmem_cell *cell;
+@@ -1751,7 +1723,7 @@ static void check_speed_bin(struct device *dev)
+ 	devm_pm_opp_set_supported_hw(dev, &val, 1);
+ }
+ 
+-struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
++static struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+ {
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct platform_device *pdev = priv->gpu_pdev;
+@@ -1781,7 +1753,7 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+ 	if (config->info->revn == 510)
+ 		nr_rings = 1;
+ 
+-	ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, nr_rings);
++	ret = adreno_gpu_init(dev, pdev, adreno_gpu, config->info->funcs, nr_rings);
+ 	if (ret) {
+ 		a5xx_destroy(&(a5xx_gpu->base.base));
+ 		return ERR_PTR(ret);
+@@ -1806,3 +1778,32 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+ 
+ 	return gpu;
+ }
++
++const struct adreno_gpu_funcs a5xx_gpu_funcs = {
++	.base = {
++		.get_param = adreno_get_param,
++		.set_param = adreno_set_param,
++		.hw_init = a5xx_hw_init,
++		.ucode_load = a5xx_ucode_load,
++		.pm_suspend = a5xx_pm_suspend,
++		.pm_resume = a5xx_pm_resume,
++		.recover = a5xx_recover,
++		.submit = a5xx_submit,
++		.active_ring = a5xx_active_ring,
++		.irq = a5xx_irq,
++		.destroy = a5xx_destroy,
++#if defined(CONFIG_DEBUG_FS) || defined(CONFIG_DEV_COREDUMP)
++		.show = a5xx_show,
++#endif
++#if defined(CONFIG_DEBUG_FS)
++		.debugfs_init = a5xx_debugfs_init,
++#endif
++		.gpu_busy = a5xx_gpu_busy,
++		.gpu_state_get = a5xx_gpu_state_get,
++		.gpu_state_put = a5xx_gpu_state_put,
++		.create_vm = adreno_create_vm,
++		.get_rptr = a5xx_get_rptr,
++	},
++	.init = a5xx_gpu_init,
++	.get_timestamp = a5xx_get_timestamp,
++};
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
+index 9c0d701fe4b8..407bb950d350 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.h
+@@ -133,6 +133,7 @@ struct a5xx_preempt_record {
+  */
+ #define A5XX_PREEMPT_COUNTER_SIZE (16 * 4)
+ 
++extern const struct adreno_gpu_funcs a5xx_gpu_funcs;
+ 
+ int a5xx_power_init(struct msm_gpu *gpu);
+ void a5xx_gpmu_ucode_init(struct msm_gpu *gpu);
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+index 44df6410bce1..9007a0e82a59 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+@@ -683,7 +683,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.gmem = (SZ_128K + SZ_4K),
+ 		.quirks = ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gmuwrapper_funcs,
+ 		.zapfw = "a610_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a612_hwcg,
+@@ -716,7 +716,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.gmem = SZ_512K,
+ 		.quirks = ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.zapfw = "a615_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a615_hwcg,
+@@ -747,7 +747,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			  ADRENO_QUIRK_4GB_VA,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.zapfw = "a615_zap.mbn",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a615_hwcg,
+@@ -774,7 +774,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			  ADRENO_QUIRK_4GB_VA,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.protect = &a630_protect,
+ 			.gmu_cgc_mode = 0x00000222,
+@@ -797,7 +797,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.gmem = SZ_512K,
+ 		.quirks = ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.zapfw = "a615_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a615_hwcg,
+@@ -822,7 +822,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.gmem = SZ_512K,
+ 		.quirks = ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.zapfw = "a615_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a615_hwcg,
+@@ -847,7 +847,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			  ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.zapfw = "a615_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a615_hwcg,
+@@ -873,7 +873,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			  ADRENO_QUIRK_HAS_HW_APRIV,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.zapfw = "a620_zap.mbn",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a620_hwcg,
+@@ -896,7 +896,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			ADRENO_QUIRK_HAS_HW_APRIV,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a690_hwcg,
+ 			.protect = &a650_protect,
+@@ -933,7 +933,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			  ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.zapfw = "a630_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a630_hwcg,
+@@ -953,7 +953,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			  ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.zapfw = "a640_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a640_hwcg,
+@@ -977,7 +977,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			ADRENO_QUIRK_HAS_HW_APRIV,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.zapfw = "a650_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a650_hwcg,
+@@ -1003,7 +1003,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			ADRENO_QUIRK_HAS_HW_APRIV,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.zapfw = "a660_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a660_hwcg,
+@@ -1022,7 +1022,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			ADRENO_QUIRK_HAS_HW_APRIV,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a690_hwcg,
+ 			.protect = &a660_protect,
+@@ -1045,7 +1045,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			ADRENO_QUIRK_HAS_HW_APRIV,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.zapfw = "a660_zap.mbn",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a660_hwcg,
+@@ -1072,7 +1072,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			  ADRENO_QUIRK_4GB_VA,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.zapfw = "a640_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a640_hwcg,
+@@ -1091,7 +1091,7 @@ static const struct adreno_info a6xx_gpus[] = {
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			ADRENO_QUIRK_HAS_HW_APRIV,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gpu_funcs,
+ 		.zapfw = "a690_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a690_hwcg,
+@@ -1426,7 +1426,7 @@ static const struct adreno_info a7xx_gpus[] = {
+ 		.gmem = SZ_128K,
+ 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
+ 		.quirks = ADRENO_QUIRK_HAS_HW_APRIV,
+-		.init = a6xx_gpu_init,
++		.funcs = &a6xx_gmuwrapper_funcs,
+ 		.zapfw = "a702_zap.mbn",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a702_hwcg,
+@@ -1452,7 +1452,7 @@ static const struct adreno_info a7xx_gpus[] = {
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			  ADRENO_QUIRK_HAS_HW_APRIV |
+ 			  ADRENO_QUIRK_PREEMPTION,
+-		.init = a6xx_gpu_init,
++		.funcs = &a7xx_gpu_funcs,
+ 		.zapfw = "a730_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a730_hwcg,
+@@ -1473,7 +1473,7 @@ static const struct adreno_info a7xx_gpus[] = {
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			  ADRENO_QUIRK_HAS_HW_APRIV |
+ 			  ADRENO_QUIRK_PREEMPTION,
+-		.init = a6xx_gpu_init,
++		.funcs = &a7xx_gpu_funcs,
+ 		.zapfw = "a740_zap.mdt",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a740_hwcg,
+@@ -1507,7 +1507,7 @@ static const struct adreno_info a7xx_gpus[] = {
+ 			  ADRENO_QUIRK_HAS_HW_APRIV |
+ 			  ADRENO_QUIRK_PREEMPTION |
+ 			  ADRENO_QUIRK_IFPC,
+-		.init = a6xx_gpu_init,
++		.funcs = &a7xx_gpu_funcs,
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a740_hwcg,
+ 			.protect = &a730_protect,
+@@ -1548,7 +1548,7 @@ static const struct adreno_info a7xx_gpus[] = {
+ 			  ADRENO_QUIRK_HAS_HW_APRIV |
+ 			  ADRENO_QUIRK_PREEMPTION |
+ 			  ADRENO_QUIRK_IFPC,
+-		.init = a6xx_gpu_init,
++		.funcs = &a7xx_gpu_funcs,
+ 		.zapfw = "gen70900_zap.mbn",
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.protect = &a730_protect,
+@@ -1581,7 +1581,7 @@ static const struct adreno_info a7xx_gpus[] = {
+ 		.quirks = ADRENO_QUIRK_HAS_CACHED_COHERENT |
+ 			  ADRENO_QUIRK_HAS_HW_APRIV |
+ 			  ADRENO_QUIRK_PREEMPTION,
+-		.init = a6xx_gpu_init,
++		.funcs = &a7xx_gpu_funcs,
+ 		.a6xx = &(const struct a6xx_info) {
+ 			.hwcg = a740_hwcg,
+ 			.protect = &a730_protect,
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 0995aa1f7286..e9a0ee1262cc 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -2529,100 +2529,7 @@ static int a6xx_set_supported_hw(struct device *dev, const struct adreno_info *i
+ 	return 0;
+ }
+ 
+-static const struct adreno_gpu_funcs funcs = {
+-	.base = {
+-		.get_param = adreno_get_param,
+-		.set_param = adreno_set_param,
+-		.hw_init = a6xx_hw_init,
+-		.ucode_load = a6xx_ucode_load,
+-		.pm_suspend = a6xx_gmu_pm_suspend,
+-		.pm_resume = a6xx_gmu_pm_resume,
+-		.recover = a6xx_recover,
+-		.submit = a6xx_submit,
+-		.active_ring = a6xx_active_ring,
+-		.irq = a6xx_irq,
+-		.destroy = a6xx_destroy,
+-#if defined(CONFIG_DRM_MSM_GPU_STATE)
+-		.show = a6xx_show,
+-#endif
+-		.gpu_busy = a6xx_gpu_busy,
+-		.gpu_get_freq = a6xx_gmu_get_freq,
+-		.gpu_set_freq = a6xx_gpu_set_freq,
+-#if defined(CONFIG_DRM_MSM_GPU_STATE)
+-		.gpu_state_get = a6xx_gpu_state_get,
+-		.gpu_state_put = a6xx_gpu_state_put,
+-#endif
+-		.create_vm = a6xx_create_vm,
+-		.create_private_vm = a6xx_create_private_vm,
+-		.get_rptr = a6xx_get_rptr,
+-		.progress = a6xx_progress,
+-		.sysprof_setup = a6xx_gmu_sysprof_setup,
+-	},
+-	.get_timestamp = a6xx_gmu_get_timestamp,
+-};
+-
+-static const struct adreno_gpu_funcs funcs_gmuwrapper = {
+-	.base = {
+-		.get_param = adreno_get_param,
+-		.set_param = adreno_set_param,
+-		.hw_init = a6xx_hw_init,
+-		.ucode_load = a6xx_ucode_load,
+-		.pm_suspend = a6xx_pm_suspend,
+-		.pm_resume = a6xx_pm_resume,
+-		.recover = a6xx_recover,
+-		.submit = a6xx_submit,
+-		.active_ring = a6xx_active_ring,
+-		.irq = a6xx_irq,
+-		.destroy = a6xx_destroy,
+-#if defined(CONFIG_DRM_MSM_GPU_STATE)
+-		.show = a6xx_show,
+-#endif
+-		.gpu_busy = a6xx_gpu_busy,
+-#if defined(CONFIG_DRM_MSM_GPU_STATE)
+-		.gpu_state_get = a6xx_gpu_state_get,
+-		.gpu_state_put = a6xx_gpu_state_put,
+-#endif
+-		.create_vm = a6xx_create_vm,
+-		.create_private_vm = a6xx_create_private_vm,
+-		.get_rptr = a6xx_get_rptr,
+-		.progress = a6xx_progress,
+-	},
+-	.get_timestamp = a6xx_get_timestamp,
+-};
+-
+-static const struct adreno_gpu_funcs funcs_a7xx = {
+-	.base = {
+-		.get_param = adreno_get_param,
+-		.set_param = adreno_set_param,
+-		.hw_init = a6xx_hw_init,
+-		.ucode_load = a6xx_ucode_load,
+-		.pm_suspend = a6xx_gmu_pm_suspend,
+-		.pm_resume = a6xx_gmu_pm_resume,
+-		.recover = a6xx_recover,
+-		.submit = a7xx_submit,
+-		.active_ring = a6xx_active_ring,
+-		.irq = a6xx_irq,
+-		.destroy = a6xx_destroy,
+-#if defined(CONFIG_DRM_MSM_GPU_STATE)
+-		.show = a6xx_show,
+-#endif
+-		.gpu_busy = a6xx_gpu_busy,
+-		.gpu_get_freq = a6xx_gmu_get_freq,
+-		.gpu_set_freq = a6xx_gpu_set_freq,
+-#if defined(CONFIG_DRM_MSM_GPU_STATE)
+-		.gpu_state_get = a6xx_gpu_state_get,
+-		.gpu_state_put = a6xx_gpu_state_put,
+-#endif
+-		.create_vm = a6xx_create_vm,
+-		.create_private_vm = a6xx_create_private_vm,
+-		.get_rptr = a6xx_get_rptr,
+-		.progress = a6xx_progress,
+-		.sysprof_setup = a6xx_gmu_sysprof_setup,
+-	},
+-	.get_timestamp = a6xx_gmu_get_timestamp,
+-};
+-
+-struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
++static struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ {
+ 	struct msm_drm_private *priv = dev->dev_private;
+ 	struct platform_device *pdev = priv->gpu_pdev;
+@@ -2633,7 +2540,7 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 	struct msm_gpu *gpu;
+ 	extern int enable_preemption;
+ 	bool is_a7xx;
+-	int ret;
++	int ret, nr_rings = 1;
+ 
+ 	a6xx_gpu = kzalloc(sizeof(*a6xx_gpu), GFP_KERNEL);
+ 	if (!a6xx_gpu)
+@@ -2672,13 +2579,9 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 
+ 	if ((enable_preemption == 1) || (enable_preemption == -1 &&
+ 	    (config->info->quirks & ADRENO_QUIRK_PREEMPTION)))
+-		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7xx, 4);
+-	else if (is_a7xx)
+-		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_a7xx, 1);
+-	else if (adreno_has_gmu_wrapper(adreno_gpu))
+-		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs_gmuwrapper, 1);
+-	else
+-		ret = adreno_gpu_init(dev, pdev, adreno_gpu, &funcs, 1);
++		nr_rings = 4;
++
++	ret = adreno_gpu_init(dev, pdev, adreno_gpu, config->info->funcs, nr_rings);
+ 	if (ret) {
+ 		a6xx_destroy(&(a6xx_gpu->base.base));
+ 		return ERR_PTR(ret);
+@@ -2725,3 +2628,97 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 
+ 	return gpu;
+ }
++
++const struct adreno_gpu_funcs a6xx_gpu_funcs = {
++	.base = {
++		.get_param = adreno_get_param,
++		.set_param = adreno_set_param,
++		.hw_init = a6xx_hw_init,
++		.ucode_load = a6xx_ucode_load,
++		.pm_suspend = a6xx_gmu_pm_suspend,
++		.pm_resume = a6xx_gmu_pm_resume,
++		.recover = a6xx_recover,
++		.submit = a6xx_submit,
++		.active_ring = a6xx_active_ring,
++		.irq = a6xx_irq,
++		.destroy = a6xx_destroy,
++#if defined(CONFIG_DRM_MSM_GPU_STATE)
++		.show = a6xx_show,
++#endif
++		.gpu_busy = a6xx_gpu_busy,
++		.gpu_get_freq = a6xx_gmu_get_freq,
++		.gpu_set_freq = a6xx_gpu_set_freq,
++#if defined(CONFIG_DRM_MSM_GPU_STATE)
++		.gpu_state_get = a6xx_gpu_state_get,
++		.gpu_state_put = a6xx_gpu_state_put,
++#endif
++		.create_vm = a6xx_create_vm,
++		.create_private_vm = a6xx_create_private_vm,
++		.get_rptr = a6xx_get_rptr,
++		.progress = a6xx_progress,
++	},
++	.init = a6xx_gpu_init,
++	.get_timestamp = a6xx_gmu_get_timestamp,
++};
++
++const struct adreno_gpu_funcs a6xx_gmuwrapper_funcs = {
++	.base = {
++		.get_param = adreno_get_param,
++		.set_param = adreno_set_param,
++		.hw_init = a6xx_hw_init,
++		.ucode_load = a6xx_ucode_load,
++		.pm_suspend = a6xx_pm_suspend,
++		.pm_resume = a6xx_pm_resume,
++		.recover = a6xx_recover,
++		.submit = a6xx_submit,
++		.active_ring = a6xx_active_ring,
++		.irq = a6xx_irq,
++		.destroy = a6xx_destroy,
++#if defined(CONFIG_DRM_MSM_GPU_STATE)
++		.show = a6xx_show,
++#endif
++		.gpu_busy = a6xx_gpu_busy,
++#if defined(CONFIG_DRM_MSM_GPU_STATE)
++		.gpu_state_get = a6xx_gpu_state_get,
++		.gpu_state_put = a6xx_gpu_state_put,
++#endif
++		.create_vm = a6xx_create_vm,
++		.create_private_vm = a6xx_create_private_vm,
++		.get_rptr = a6xx_get_rptr,
++		.progress = a6xx_progress,
++	},
++	.init = a6xx_gpu_init,
++	.get_timestamp = a6xx_get_timestamp,
++};
++
++const struct adreno_gpu_funcs a7xx_gpu_funcs = {
++	.base = {
++		.get_param = adreno_get_param,
++		.set_param = adreno_set_param,
++		.hw_init = a6xx_hw_init,
++		.ucode_load = a6xx_ucode_load,
++		.pm_suspend = a6xx_gmu_pm_suspend,
++		.pm_resume = a6xx_gmu_pm_resume,
++		.recover = a6xx_recover,
++		.submit = a7xx_submit,
++		.active_ring = a6xx_active_ring,
++		.irq = a6xx_irq,
++		.destroy = a6xx_destroy,
++#if defined(CONFIG_DRM_MSM_GPU_STATE)
++		.show = a6xx_show,
++#endif
++		.gpu_busy = a6xx_gpu_busy,
++		.gpu_get_freq = a6xx_gmu_get_freq,
++		.gpu_set_freq = a6xx_gpu_set_freq,
++#if defined(CONFIG_DRM_MSM_GPU_STATE)
++		.gpu_state_get = a6xx_gpu_state_get,
++		.gpu_state_put = a6xx_gpu_state_put,
++#endif
++		.create_vm = a6xx_create_vm,
++		.create_private_vm = a6xx_create_private_vm,
++		.get_rptr = a6xx_get_rptr,
++		.progress = a6xx_progress,
++	},
++	.init = a6xx_gpu_init,
++	.get_timestamp = a6xx_gmu_get_timestamp,
++};
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+index 0b17d36c36a9..ef66e1eb9152 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+@@ -216,6 +216,10 @@ struct a7xx_cp_smmu_info {
+ #define A6XX_PROTECT_RDONLY(_reg, _len) \
+ 	((((_len) & 0x3FFF) << 18) | ((_reg) & 0x3FFFF))
+ 
++extern const struct adreno_gpu_funcs a6xx_gpu_funcs;
++extern const struct adreno_gpu_funcs a6xx_gmuwrapper_funcs;
++extern const struct adreno_gpu_funcs a7xx_gpu_funcs;
++
+ static inline bool a6xx_has_gbif(struct adreno_gpu *gpu)
+ {
+ 	if(adreno_is_a630(gpu))
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_device.c b/drivers/gpu/drm/msm/adreno/adreno_device.c
+index 28f744f3caf7..cb4113612b82 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_device.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_device.c
+@@ -235,7 +235,7 @@ static int adreno_bind(struct device *dev, struct device *master, void *data)
+ 	priv->has_cached_coherent =
+ 		!!(info->quirks & ADRENO_QUIRK_HAS_CACHED_COHERENT);
+ 
+-	gpu = info->init(drm);
++	gpu = info->funcs->init(drm);
+ 	if (IS_ERR(gpu)) {
+ 		dev_warn(drm->dev, "failed to load adreno gpu\n");
+ 		return PTR_ERR(gpu);
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index 390fa6720d9b..2c8b38eae7b6 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -71,8 +71,11 @@ enum adreno_family {
+ 	(((_c) >> 8)  & 0xff), \
+ 	((_c) & 0xff)
+ 
++struct adreno_gpu;
++
+ struct adreno_gpu_funcs {
+ 	struct msm_gpu_funcs base;
++	struct msm_gpu *(*init)(struct drm_device *dev);
+ 	int (*get_timestamp)(struct msm_gpu *gpu, uint64_t *value);
+ };
+ 
+@@ -101,7 +104,7 @@ struct adreno_info {
+ 	const char *fw[ADRENO_FW_MAX];
+ 	uint32_t gmem;
+ 	u64 quirks;
+-	struct msm_gpu *(*init)(struct drm_device *dev);
++	const struct adreno_gpu_funcs *funcs;
+ 	const char *zapfw;
+ 	u32 inactive_period;
+ 	union {
+@@ -673,12 +676,6 @@ OUT_PKT7(struct msm_ringbuffer *ring, uint8_t opcode, uint16_t cnt)
+ 	OUT_RING(ring, PKT7(opcode, cnt));
+ }
+ 
+-struct msm_gpu *a2xx_gpu_init(struct drm_device *dev);
+-struct msm_gpu *a3xx_gpu_init(struct drm_device *dev);
+-struct msm_gpu *a4xx_gpu_init(struct drm_device *dev);
+-struct msm_gpu *a5xx_gpu_init(struct drm_device *dev);
+-struct msm_gpu *a6xx_gpu_init(struct drm_device *dev);
+-
+ static inline uint32_t get_wptr(struct msm_ringbuffer *ring)
+ {
+ 	return (ring->cur - ring->start) % (MSM_GPU_RINGBUFFER_SZ >> 2);
 
 -- 
 2.51.0
