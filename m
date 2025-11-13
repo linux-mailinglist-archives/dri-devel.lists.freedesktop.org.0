@@ -2,85 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39437C5504B
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 01:48:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90158C5506C
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 01:49:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8897A10E125;
-	Thu, 13 Nov 2025 00:48:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCFDD10E1AD;
+	Thu, 13 Nov 2025 00:49:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="e/XQGG6G";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="fH1EuR1i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
- [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD38C10E125
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 00:48:51 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1762994927; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=H6LzGbP5dJZM746g0tHRH07iUvv90mFC1ovHkOxCf70dTMiaabPLP6JE4HObK+VFAaIA8aX8VeNn9qhua0P4h6fcM7z/2ObxAYspfjy/0rVOKWFsMtr0krNQ2zUCRhmEkYWBGmNjV2jmcOJ5OkNSWISSpM3OhJOgoCGA6ftkhuY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1762994927;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=CaqYrXe8Ge+kPBFlhZjMdu1CeT964d9IlL/4u4InQzg=; 
- b=E/uPDJNh+zJVd0hkFHDmkNmRzFnMfMIX+VwdBSR0A57MWSIsiA5AJ+oftIrlyy1wBuKh3cP1sJKHCPjTFkbyD/29zM1YMfUxFpnHBUPegAvFsdLRCod2L0LJL2XpklThhtfxdHdWz3LMTMFktAjKmg3xDzRpeUURSNOVfz+FQAk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1762994927; 
- s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=CaqYrXe8Ge+kPBFlhZjMdu1CeT964d9IlL/4u4InQzg=;
- b=e/XQGG6GKNFqKSgfgsMobkmts6s5b2JIFfEeTnauhiARBxrzFOiqcu1y6m50CxBa
- UC0gn0804/nPbVDNvUgFXc/j59KJ0kBqP3mktrx5smdDG3DgMw9DC3fF280ly+cqXO1
- HgwRKOgZMZVEHhR08hjQ0v0ZLjAKhh7fu0UXNbRjU15MzSN03RQQZtrBiIb1Me+wVm6
- ERHC+BkxoP37ZC/xdNyugN4uSw597sCux35E8/jxI9sGdMshHSZa9NvjjoTU8hcDgzG
- t7fOu8ebnKcmH4OqbUe2M8+RWw5cQvKONtcdeNFm8HAkIwMyKBtQXf9CkIamYZ3dGTq
- fpfMqJ17Nw==
-Received: by mx.zohomail.com with SMTPS id 176299492610942.753891752546224;
- Wed, 12 Nov 2025 16:48:46 -0800 (PST)
-Message-ID: <1d54524d7ef939232b4512ca59c78794484103ca.camel@icenowy.me>
-Subject: Re: [PATCH RFC 01/13] dt-bindings: soc: starfive: Add
- vout-subsystem IP block
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Conor Dooley <conor@kernel.org>
-Cc: Michal Wilczynski <m.wilczynski@samsung.com>, Rob Herring
- <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Emil Renner
- Berthing <kernel@esmil.dk>, Hal Feng <hal.feng@starfivetech.com>, Michael
- Turquette <mturquette@baylibre.com>,  Stephen Boyd <sboyd@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Xingyu Wu <xingyu.wu@starfivetech.com>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>,  Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Lee Jones <lee@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Maud Spierings <maudspierings@gocontroll.com>, 
- Andy Yan <andyshrk@163.com>, Heiko Stuebner <heiko@sntech.de>,
- devicetree@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org,  linux-phy@lists.infradead.org,
- dri-devel@lists.freedesktop.org,  linux-riscv@lists.infradead.org
-Date: Thu, 13 Nov 2025 08:48:33 +0800
-In-Reply-To: <20251112-skating-robust-81be8dee0a8b@spud>
-References: <20251108-jh7110-clean-send-v1-0-06bf43bb76b1@samsung.com>
- <CGME20251108010453eucas1p2403ec0dd2c69ae7f3eabe19cf686f345@eucas1p2.samsung.com>
- <20251108-jh7110-clean-send-v1-1-06bf43bb76b1@samsung.com>
- <20251111-massager-twistable-1e88f03d82f8@spud>
- <20251111-unsaid-rockslide-67b88b2e34bd@spud>
- <0d8e3a626b037dd348378e5ebca8005c1e715871.camel@icenowy.me>
- <20251112-skating-robust-81be8dee0a8b@spud>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010057.outbound.protection.outlook.com
+ [40.93.198.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D0F910E1AD;
+ Thu, 13 Nov 2025 00:49:17 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=naUm1/1EMIYxo/bWrv7FZAZNazVaq3bB8j37GT6De5eZxDqVd3VIbj/wX0U/JzhEGTzE0/KSjNUXr4Hdy24P/eyX6DZuH9h63QzQKZ5T9n4VG97Oo9RNKkCwuKzbdtJaF+3ySEDcmaSZcpgFi7317EHooomaMTr8lHKi8ntb/YB+q7kEOhpI6schpeloWkjtxm6FABtnVKTLl9FoYlDRDp0KvDR05Eu2QA/9n5vpf+udr1J5E9AN3BnV+f49UDSkIOLzCZWfRU8hCEjzrB9RcBkYjxsTpqhIZ5JzaPLdN/HU9SAqEh1yR/F49qwJRVHzrEnZw6lAnC/VBu0DN5C5Yw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zbIK7QYhH5NTzRze6DVSCNxsuh1ls0p8hcss8D2+lGg=;
+ b=F+XI1OC9G1KTy0VYomD/G+qy8vxdMMH34e89sT3m3QNaa4rh3Wv+KTWBUnSeoN90OA5iHqGN6X5MYV9VM9Z6wZQT7sJ7xFO4Eu5PJKQNBcflExbnmb+VWm7yolYYTkY/++z96pVKIJYpfLiH501NHHWeam2LRL/zpqo+2CutP5Gw5nROhAquLmXgtZZ2oxcqQRQeAyaMm1Tt6E98s4xXpMwXtGbV6oIxrNG8KuC/wqCC++NFS9E75MZI6/QRoAPH9qmN6HnBgcSncaqgaQpFwlVH691CYm0dyGRu23ginnSrfVk8bq6tVjUQaZwHiKmBP3NSrAWhnWYUPMLZ/qgoPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zbIK7QYhH5NTzRze6DVSCNxsuh1ls0p8hcss8D2+lGg=;
+ b=fH1EuR1iaI+Ce83Ug3EkBtFDma+D5ny/zvjwUS4ECsac1tinyUD24MxbVkdHU5ykv6OZtH0zRcBsUxN68o2sthxuMqQFUo99yLhfMr5SbkI5nyqxR75RGN3BbZKNSkH/oJyl/3YhSE21nPeXi1dxJL5XcNlutaZXh+XV9cprIUAOZNPpstdXqB0n2RjuxyPW4HT1MgrMkthWr+6JSXlw5ViGDm3GDpOu97n6cz7byMXRIHRy77oRUlTpnuB0IotamYXyEjKtgwmxEstG0Tanam3LOI2KDLfB8f2jILw7rGwymbD+UL/x5Uk88QMzGrCqAoCuqPk6U3YFqv4/kqKp9w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by DS0PR12MB8218.namprd12.prod.outlook.com (2603:10b6:8:f2::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Thu, 13 Nov
+ 2025 00:49:13 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9298.015; Thu, 13 Nov 2025
+ 00:49:13 +0000
+Message-ID: <e909920d-904d-4527-bb7a-af1075b91bbf@nvidia.com>
+Date: Wed, 12 Nov 2025 19:49:10 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 10/14] gpu: nova-core: sequencer: Implement basic core
+ operations
+To: Lyude Paul <lyude@redhat.com>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ dakr@kernel.org, acourbot@nvidia.com
+Cc: Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ joel@joelfernandes.org, Daniel Almeida <daniel.almeida@collabora.com>,
+ nouveau@lists.freedesktop.org
+References: <3b0d776e50fc81797dec2e5d81c86390af78f848.camel@nvidia.com>
+ <20251106231153.2925637-1-joelagnelf@nvidia.com>
+ <20251106231153.2925637-11-joelagnelf@nvidia.com>
+ <0dc481db44675ebf7801f424d7e4c2cb44f25723.camel@redhat.com>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <0dc481db44675ebf7801f424d7e4c2cb44f25723.camel@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BLAPR03CA0146.namprd03.prod.outlook.com
+ (2603:10b6:208:32e::31) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 MIME-Version: 1.0
-X-ZohoMailClient: External
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|DS0PR12MB8218:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5dd25825-06da-40e3-db23-08de224e7723
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TUlvaW5lOHp1d3pYbHkxMk1UcnhIdXM1bjdMN3c0NDA3RFFqUk1TdC81RnVS?=
+ =?utf-8?B?cnNwVW5VVXRlT2V5dTJUSlRiemFBNk1oam93Yi9QTDRoaXBHeE1PbkZFUEM5?=
+ =?utf-8?B?NU5jV3Y2cUo4K2RkWnBXTWpXVTRoNHl1ajNESkhYT01XM3NSL0J0M2lBMGlW?=
+ =?utf-8?B?UlBUYnNhQnFYS2pRTFJ5YllUalNVRVFsNlBsb1BsMUJaeG9HeVgxeDVSRjEx?=
+ =?utf-8?B?cXQyS0F4U3ZjMXdBUmFVMFFlcFdNbWtrMXd0UHQzT21OUW1FKzBZanJXWXNt?=
+ =?utf-8?B?QTdVMUVKaGVHS0YzU3dzT0lEdVVlRW00bGlaYU9sTW82Mi9pSnNZWmQ1V0li?=
+ =?utf-8?B?ZHFrQkZEMlFJa0pSVjRScnZFY0lYYitnbEN2TGxTaTBJUXNISy9DWmdpYkxt?=
+ =?utf-8?B?SHNoMkdkRHBzVFp4QlJ4WWhESUcvQ0l2QzZJemM1Ly82T1duazVDNHMzam9E?=
+ =?utf-8?B?eU5ZNXRqMVBBa3prZ01sTmx2dGgxVkp4bzhZalo2cUp3OFlVa2o5MHFBRThH?=
+ =?utf-8?B?cGI3T2VMd2p4NC9UNWcxMnJPN1BRZWZhQVROd3VkclVWdjg0V0tDNXNUL2h5?=
+ =?utf-8?B?ZUJVNDRocWZ4WkNkd2JwMXJDeGhqU2syZ29NS0dRcVhtY0VIWittNU1idC8z?=
+ =?utf-8?B?akFscVNtL2RKMkpCd0k5RjMrVmNjTm5tdk4zUkEvczBmNVlXRmFFYWZJTXZo?=
+ =?utf-8?B?Y2tPRW1wdExwcGVYV0ptalJyV0plaXE0WVVYdERHT0wxWnEybnkxbmdocUNi?=
+ =?utf-8?B?WGJoWENNVjJSV2pxVTlZV3cxdjdWVlY3NDJjdmlqcmhPd1VOTjZ3MHJEdVdv?=
+ =?utf-8?B?WGUvMnFaZHVNc3oveXJ3dlpxdFJzQzZOWm9PaXUyN2J2UVNReVE0M2NiaGQr?=
+ =?utf-8?B?Y21pMDJpdXpJbFNFNGc0WEN1aDBYWXFlOUgzSHYxazBodWNPRHEyV1BmWFZI?=
+ =?utf-8?B?cm1HRm9RQVhROHM0alE2M0JGL0tqUE1zMllGZnZnamF1RGp0S1BsQUkwRy9N?=
+ =?utf-8?B?b3R1YitmYStyQ242Sk9zb3lHWUc3REIxS1cvM1R2Q0s1cW9PcVFQdGVRaS9X?=
+ =?utf-8?B?V3Y5dUpxTzBSaFpIaGw5a2xXanVGN1J0a2JMZk1iYnVTSGU2OXhFVFpmWUo1?=
+ =?utf-8?B?N3ZKVlRlRnZRVHNVQ2MxZkF0a0ZURThYU3UxS0VncGVrSzBmamhvOE5aN2Ft?=
+ =?utf-8?B?Q1RnZStrNUpDTm1WdzhBbHFPRnF0NGVqcHkvSWJFaGdFU2pVTmczM2FWNkdi?=
+ =?utf-8?B?VXJmcDFwN1Exekx5YmtCaTMzMDY5enlyYVBwNUJMM2huT1pNejlJNmxmcTA3?=
+ =?utf-8?B?K05hc0hhWHE2SnljMkE4bkJqRWloZjlxTHV3TWg0ZlJINUJ1M1Vpc21wRG1v?=
+ =?utf-8?B?b1pVM2Z2cUh4MzlxaFZZNGRwa3cvVEdmcGViMnZFRXVjeFp5QjhLSVBjcks4?=
+ =?utf-8?B?QU8yVks1bTlLMEhEM3pkdXVOWFliUGV0VFFacmxvbk1tT0hjdDV6NXIybW5j?=
+ =?utf-8?B?eWJLZzBjNFVLdkpTSUxyOVg3RDFwdHFjOGo1dkVhbzNZNjZxNG9qenZhazVO?=
+ =?utf-8?B?UURRNXJRVkxQbkJ2SFNQM1VwbWNERzU0eS9LcjVKMCszbVlnbHc1bmhQTHJx?=
+ =?utf-8?B?YXE2NUpiZlNCcXA3a1NoaXNMK01keXZydytRQnNBbDNRbFRXSWg2aVU5OEFY?=
+ =?utf-8?B?SEEzNWxES01uTWo0WDFIT1Z3VmppT29FaStQaHJjN2xSa2dxemI0K3lGRURN?=
+ =?utf-8?B?SVJ0MHVKOUxnMDBxT0JpcU53cjJOQ0tVejlFUlMzanlsZzJ3NXJMbEpJenJj?=
+ =?utf-8?B?bTVoTC9XMUdBZTNCQndjWDliZlRZV3c2S0xaaDJOMXhvM0tCcmt4bUluRmZB?=
+ =?utf-8?B?ek5HV1ltU0tBZFlTMTg3USswNXU2OVVMQXZacjJsKzNPV2NreXR2NHRVWS9N?=
+ =?utf-8?Q?kMhFjB/MYQNUklBxBPtfBty2YhWLQiS6?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(7416014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OHhDSno1dFZNUnpjVmd0SUZIUnZWWjUyMDVpbXI1VjV3TWxHZzNOTzdXMXB3?=
+ =?utf-8?B?SEFjeUd5Q0RMY21rT1RSOCtMWW5udXpyVVFTcHFXdnNwcHd0Nkhsb0ZQK3Z1?=
+ =?utf-8?B?eldHbTduUUdGcW05Mm1GTHFLSTdMeFFqeUNFc1Yva0c4a3NVK1dNOGFEUytY?=
+ =?utf-8?B?RHY1UnMzWGhsclc4WlhsVkIzM1ZkdDB3eXV6ZDl1dUh0Qzl4TURNSDV2UXZM?=
+ =?utf-8?B?Slo0MmNaYTExeVNrckhkRUVFNXlETTNsbFp2c0VkWlVieVo2YVRoajFtaWVW?=
+ =?utf-8?B?YVl0amhTd0pySGVmUmIrY3BPR3RNazJxdGxNUzZyaG1pSksxMytTZWMzaU1O?=
+ =?utf-8?B?dWh5bWtCaUpNSXpQbXZMYzQzM2lIR0ovV21SZU9QQ0R2NXFzaEtUS3RWUytx?=
+ =?utf-8?B?WG1QL1ZEa0hwVzJVYkRpVnhxWE5DM2ZrbVkwMXdzemJydVFuRmZ6b0RaSm5i?=
+ =?utf-8?B?OEVUV3NCYml1MHZObnhBWHF1eFBxUVlwRVNpN1NpemVxL0YrdDZrT255QWpC?=
+ =?utf-8?B?OFdTWTVkcDFjM1NmV0xBUEtXMDB1cUNYR2pvdHNiaW9SdzM4NnVFUENOQTFo?=
+ =?utf-8?B?MnkzQXh3UWtzMHlBcnV4dHl4dUF3ZWxZRFVvVC8zZjJSNEh5WEkzc0tjbmJT?=
+ =?utf-8?B?STlaZ2o3enZiNjhaMHpvekFGc2l4RzNjenZjS3pCbU5BOWpGUUN2L09US1VY?=
+ =?utf-8?B?dHhsbmM5ZFl4bmlFUzI2M01VWGRXdmN0TEI1K1ZqekU5dlhCZnlTYXhoYXpj?=
+ =?utf-8?B?VFFNcXVJeHNoa1dqZTduN3lMVVo3QVRpVWVSc2tTeldubTQrTHVNN1ZUSGdP?=
+ =?utf-8?B?ODBOVlRSeVdVQWYrUzd1UmxmakdNNHVIRDhPWXZpY3FKU1o0cVNIdDVaejhM?=
+ =?utf-8?B?bldMazVwMlllTjdhanMvc25GYXVROERmdDZJT2lLTXhTQ3JsbE1XcHF0aTlI?=
+ =?utf-8?B?U3prelFYYnFHN2R1bHpzakVhS1AwTWkrSU5xc041WHpMWlBUai9TT2MybE1n?=
+ =?utf-8?B?MjdNWStONTJ4ZmsvaU9iTWRnSktVNHVmcVhqajB0V2pNSTFPRHdKcGZoeGlB?=
+ =?utf-8?B?R1p4WkRVK0lEWk5KVTd2TTArdHBwNDkxYlc4WDJOaFdtNHV3UUVRbGltWHZi?=
+ =?utf-8?B?emJWU0F3OFZnU1FzOXkxTUNTekNQOFFqa1BZSXVZbkl3c0FnUWFIT1d2bWQ3?=
+ =?utf-8?B?MHRpZzl4alUzUGVXb1ltVjJlcEEzZC9USzM3RUFUaTlYRmJyWFp5emN0bkZP?=
+ =?utf-8?B?T2NUczRLNzVCQUcyakF3aWF2QnpHM2g3WXZ4aGV0WDdkdjBZdy9sajFvM1hH?=
+ =?utf-8?B?dW02UFVFT1Zka0FNSXRPOTBBV3c2cnljYW84dFpYRXNpOVVhcmRhNFFYMVNL?=
+ =?utf-8?B?Q205dDJWYzdtakVNc3pJa2ViWnFYUWVqeW5UTlF0cUhSeVFoakZGdlVJTGh5?=
+ =?utf-8?B?VnE1UkpkSjhUb01RdWJrTXB0TmVQTnFvN1hHQ2RIQW9KZWY2R1FZVVZ4bmh1?=
+ =?utf-8?B?SGt5V1I1MWhFM012OG9lT3pZTlEwUCtRK1RGK2djazRXdENSNFI3UWZSeGc4?=
+ =?utf-8?B?dzBycE5Pd052ZE5jWTlnZGF0dVFERVVxaUQyMjBVSURJYzBtT1NZT1hKUUhN?=
+ =?utf-8?B?ZVVZVjI5WjZlNGEyalFrMyt0bFlOK3JoRkZnSW05Z3NJMHkzc05VSXlRRWRD?=
+ =?utf-8?B?NnZNalJqSzdJbnp3RkM3TmU5SHd6WHpVcUxuUEZQUnR2dCtleE1kN3I1QWhx?=
+ =?utf-8?B?OEFVQWpNSzVuUXpQWlorVGtlWWVMUGpMRytxTWxMYWtZTUNtWlJqVzZwTDd4?=
+ =?utf-8?B?V21zUGNNNEhvZUZqTUxTaGR5V0Yxd2xMZk1xK3VJTkVyR2praWNwbDZyK0Js?=
+ =?utf-8?B?eEhTWW5OVFFNczRQNldXalUxREFDVEhiYmV2WTNVZTNZbGgycjFwTlhUc3Mw?=
+ =?utf-8?B?TkdicUFCMktyYnZDWVE0NFBKdTRtZklnQStBZmJWcWE4VkhUOHk0VEVmc2dz?=
+ =?utf-8?B?WnN0dXRMZFZiRHBZVzhLZjdZQjNqVXFMODVFaFUrYUN4dkVrWkxqQStjNTZP?=
+ =?utf-8?B?WDJsY3AwZHEyc05tRG1ncnI2NFlSUmdkWTlEMUtjVnQyR0VnNEpqbUNkY0o0?=
+ =?utf-8?Q?weKPwHu+X1ss/UkkqiApXbt9X?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5dd25825-06da-40e3-db23-08de224e7723
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2025 00:49:13.6505 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vupC+OWrEKdslL8kRmP3c/2mdPDN4b0Bhwhf67lPfH8zrDKOJ4ZXkUMeEn4cBgvIHfyLXlE0n/qRqiSOshRP3w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8218
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,63 +179,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E5=9C=A8 2025-11-12=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 18:36 +0000=EF=BC=
-=8CConor Dooley=E5=86=99=E9=81=93=EF=BC=9A
-> On Wed, Nov 12, 2025 at 02:34:39PM +0800, Icenowy Zheng wrote:
-> > =E5=9C=A8 2025-11-11=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 18:36 +0000=EF=
-=BC=8CConor Dooley=E5=86=99=E9=81=93=EF=BC=9A
-> > > On Tue, Nov 11, 2025 at 06:18:16PM +0000, Conor Dooley wrote:
-> > > > On Sat, Nov 08, 2025 at 02:04:35AM +0100, Michal Wilczynski
-> > > > wrote:
-> > > > > Add the dt-binding documentation for the StarFive JH7110
-> > > > > Video
->=20
-> > > > > +patternProperties:
-> > > > > +=C2=A0 "^display@[0-9a-f]+$":
-> > > >=20
-> > > > Personally I'd like to see these being regular properties,
-> > > > since
-> > > > there's
-> > > > exactly one possible setup for this.
-> > > >=20
-> > > > > +=C2=A0=C2=A0=C2=A0 type: object
-> > > > > +=C2=A0=C2=A0=C2=A0 description: Verisilicon DC8200 Display Contr=
-oller node.
-> > > >=20
-> > > > Can you add the relevant references here instead of allowing
-> > > > any
-> > > > object?
-> > >=20
-> > > I don't think that if you did, this would pass the binding
-> > > checks,
-> > > because there's no "verisilicon,dc" binding. I think I saw one in
-> > > progress, but without the soc-specific compatible that I am going
-> > > to
-> > > require here - if for no reason other than making sure that the
-> > > clocks
-> > > etc are provided correctly for this device.
-> >=20
-> > Well I didn't specify any soc-specific compatible because that IP
-> > has
-> > its own identification registers.
->=20
-> I still require one because I want to make sure that clocks etc are
-> handled correctly. You can ignore it in the driver if you wish, but
-> when
-> the next user comes along with one more or less clock, I want the
-> jh7110 one to be forced to use the correct configuration.
 
-I don't think for those generic IPs requiring a SoC-specific compatible
-is a good idea.
 
-In addition, `vivante,gc` requires no SoC-specific or even model-
-number-specific compatible strings too, and `verisilicon,dc` is from
-the same IP vendor [1] and features the same set of identification
-registers (see also all GC_ prefixed identification registers in [2]).
+On 11/11/2025 4:12 PM, Lyude Paul wrote:
+> On Thu, 2025-11-06 at 18:11 -0500, Joel Fernandes wrote:
+>> These opcodes implement various falcon-related boot operations: reset,
+>> start, wait-for-halt.
+>>
+>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+>> ---
+>>  drivers/gpu/nova-core/gsp/sequencer.rs | 27 ++++++++++++++++++++++++++
+>>  1 file changed, 27 insertions(+)
+>>
+>> diff --git a/drivers/gpu/nova-core/gsp/sequencer.rs b/drivers/gpu/nova-core/gsp/sequencer.rs
+>> index 17118967a8d4..0192ac61df4c 100644
+>> --- a/drivers/gpu/nova-core/gsp/sequencer.rs
+>> +++ b/drivers/gpu/nova-core/gsp/sequencer.rs
+>> @@ -49,6 +49,9 @@ pub(crate) enum GspSeqCmd {
+>>      RegPoll(fw::GSP_SEQ_BUF_PAYLOAD_REG_POLL),
+>>      DelayUs(fw::GSP_SEQ_BUF_PAYLOAD_DELAY_US),
+>>      RegStore(fw::GSP_SEQ_BUF_PAYLOAD_REG_STORE),
+>> +    CoreReset,
+>> +    CoreStart,
+>> +    CoreWaitForHalt,
+>>  }
+>>  
+>>  impl GspSeqCmd {
+>> @@ -75,6 +78,11 @@ pub(crate) fn from_fw_cmd(cmd: &fw::GSP_SEQUENCER_BUFFER_CMD) -> Result<Self> {
+>>                  // SAFETY: We're using the union field that corresponds to the opCode.
+>>                  Ok(GspSeqCmd::RegStore(unsafe { cmd.payload.regStore }))
+>>              }
+>> +            fw::GSP_SEQ_BUF_OPCODE_GSP_SEQ_BUF_OPCODE_CORE_RESET => Ok(GspSeqCmd::CoreReset),
+>> +            fw::GSP_SEQ_BUF_OPCODE_GSP_SEQ_BUF_OPCODE_CORE_START => Ok(GspSeqCmd::CoreStart),
+>> +            fw::GSP_SEQ_BUF_OPCODE_GSP_SEQ_BUF_OPCODE_CORE_WAIT_FOR_HALT => {
+>> +                Ok(GspSeqCmd::CoreWaitForHalt)
+>> +            }
+>>              _ => Err(EINVAL),
+>>          }
+>>      }
+>> @@ -96,6 +104,9 @@ pub(crate) fn new(data: &[u8], dev: &device::Device<device::Bound>) -> Result<Se
+>>      pub(crate) fn size_bytes(&self) -> usize {
+>>          let opcode_size = size_of::<fw::GSP_SEQ_BUF_OPCODE>();
+>>          match self {
+>> +            // Each simple command type just adds 4 bytes (opcode_size) for the header.
+>> +            GspSeqCmd::CoreReset | GspSeqCmd::CoreStart | GspSeqCmd::CoreWaitForHalt => opcode_size,
+>> +
+>>              // For commands with payloads, add the payload size in bytes.
+>>              GspSeqCmd::RegWrite(_) => opcode_size + size_of::<fw::GSP_SEQ_BUF_PAYLOAD_REG_WRITE>(),
+>>              GspSeqCmd::RegModify(_) => {
+>> @@ -200,6 +211,22 @@ fn run(&self, seq: &GspSequencer<'_>) -> Result {
+>>              GspSeqCmd::RegPoll(cmd) => cmd.run(seq),
+>>              GspSeqCmd::DelayUs(cmd) => cmd.run(seq),
+>>              GspSeqCmd::RegStore(cmd) => cmd.run(seq),
+>> +            GspSeqCmd::CoreReset => {
+>> +                dev_dbg!(seq.dev, "CoreReset\n");
+>> +                seq.gsp_falcon.reset(seq.bar)?;
+>> +                seq.gsp_falcon.dma_reset(seq.bar);
+>> +                Ok(())
+>> +            }
+>> +            GspSeqCmd::CoreStart => {
+>> +                dev_dbg!(seq.dev, "CoreStart\n");
+>> +                seq.gsp_falcon.start(seq.bar)?;
+>> +                Ok(())
+>> +            }
+>> +            GspSeqCmd::CoreWaitForHalt => {
+>> +                dev_dbg!(seq.dev, "CoreWaitForHalt\n");
+>> +                seq.gsp_falcon.wait_till_halted(seq.bar)?;
+>> +                Ok(())
+> 
+> Are we still planning on getting rid of these dev_dbg! calls?
+> 
+Yes, already done for v4 and posting soon.
 
-[1]
-https://www.design-reuse.com/news/202527446-verisilicon-completes-acquisiti=
-on-of-vivante/
-[2]
-https://github.com/milkv-megrez/rockos-u-boot/blob/c9221cf2fa77d39c0b241ab4=
-b030c708e7ebe279/drivers/video/eswin/eswin_dc_reg.h
+Thanks.
+
