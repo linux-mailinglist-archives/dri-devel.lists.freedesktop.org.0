@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25BACC58B27
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 17:26:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A69C58B36
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 17:27:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3111710E8AA;
-	Thu, 13 Nov 2025 16:26:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBF5110E8B0;
+	Thu, 13 Nov 2025 16:27:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FImPdnPQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IaFMDke3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B41C10E8AA;
- Thu, 13 Nov 2025 16:26:42 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05C8610E8AD;
+ Thu, 13 Nov 2025 16:27:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763051203; x=1794587203;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=q5Skt0OtlAqHnc+PsJMhZYM80doWwAu7rSkxepWYXmk=;
- b=FImPdnPQCn/ELYRVHVUDcamQVPH/pHB4WCSdZK7tsWCVF1KnS1JS8jhd
- S3+iRygCXnM5NyXbBaXBhf3MKLZU+K66qwL135EwIsH2nTXmqTB2p76lq
- EJfcZLNi4oboooI1rypVWvEoV2AgmKgDjQJXJRzFLYAK0FlSHtDnVBoN1
- 9MC3L8mJ9bWjtZaAA34H13FnPU6hvtg2ApS0N7nsFLgHX5/fFlz7mAVqf
- 9i/BpT9nwS1ZQ82BimpIBqtEi0M4cQFVu2H0qmOb6NE3Txxx3Jnwp9deH
- 8djTihoYXg+nVWBaG+ms+Oq5PzmsVtUqd3Lizfg9LM1skoovE37v7Ulev A==;
-X-CSE-ConnectionGUID: +0BII+L4R0iyn+jSCFuu3w==
-X-CSE-MsgGUID: BV4vFdoUTsCMrGg7kiQIgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65074077"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="65074077"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2025 08:26:42 -0800
-X-CSE-ConnectionGUID: Mp0m3lPLSZSKY1ATLvKgcw==
-X-CSE-MsgGUID: OVCixanWRwmVQCKrct9tjg==
+ t=1763051222; x=1794587222;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=pP2qdP4u+ICU1JJgrdkxbA70iheGpoJDi0HzNQQbOZg=;
+ b=IaFMDke3Oa5an5NYdLuBsEVdSph2ensXehKEBuGQl0TkTc6+QGYkMEmR
+ GZqRN6dmklg6keG+R6RJL9TjD1zsQdSmBmEPBnIcvOmmmgFxZI23zdn98
+ 0PaYL2Cr5/JMiiKRVA6EcAZvVNWaW1cZa7GHMzK5N1wJAMW7jWTVuJENy
+ iL8kv3KJDWyVwNihBX7jyjaUHQwJAzRQ7Bv46lyAJnVXlq5HHosMmNJtz
+ +oNSpf32aRamIqco84Ap3KKA+miy/jaRTh304Q5gJsNNYQX2V/1KAnMS8
+ UuzYQM7OWy7BC2eyHhjuPoLyU3t9AdptAXurQJ6UY4FCgl4hjQo/nYG/0 Q==;
+X-CSE-ConnectionGUID: hpR9/dunRa6X/Jo8IWPK+Q==
+X-CSE-MsgGUID: 2Qmfy55dSLWGG6sRi3U9JQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="68766583"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="68766583"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2025 08:26:54 -0800
+X-CSE-ConnectionGUID: Ut4d6JHtRUWL2VMj1wFksA==
+X-CSE-MsgGUID: qC0+uIqVRhWYCEbRTmVR9Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="226864796"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="189553797"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.245.164])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2025 08:26:35 -0800
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2025 08:26:47 -0800
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Simon Richter <Simon.Richter@hogyros.de>,
@@ -55,12 +55,16 @@ To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
+ =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
+ linux-kernel@vger.kernel.org
 Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v2 00/11] PCI: BAR resizing fix/rework
-Date: Thu, 13 Nov 2025 18:26:17 +0200
-Message-Id: <20251113162628.5946-1-ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH v2 01/11] PCI: Prevent resource tree corruption when BAR
+ resize fails
+Date: Thu, 13 Nov 2025 18:26:18 +0200
+Message-Id: <20251113162628.5946-2-ilpo.jarvinen@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20251113162628.5946-1-ilpo.jarvinen@linux.intel.com>
+References: <20251113162628.5946-1-ilpo.jarvinen@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -79,88 +83,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+pbus_reassign_bridge_resources() saves bridge windows into the saved
+list before attempting to adjust resource assignments to perform a BAR
+resize operation. If resource adjustments cannot be completed fully,
+rollback is attempted by restoring the resource from the saved list.
 
-Thanks to issue reports from Simon Richter and Alex Bennée, I
-discovered BAR resize rollback can corrupt the resource tree. As fixing
-corruption requires avoiding overlapping resource assignments, the
-correct fix can unfortunately results in worse user experience, what
-appeared to be "working" previously might no longer do so. Thus, I had
-to do a larger rework to pci_resize_resource() in order to properly
-restore resource states as it was prior to BAR resize.
+The rollback, however, does not check whether the resources it restores were
+assigned by the partial resize attempt. If restore changes addresses of the
+resource, it can result in corrupting the resource tree.
 
-This rework has been on my TODO list anyway but it wasn't the highest
-prio item until pci_resize_resource() started to cause regressions due
-to other resource assignment algorithm changes.
+An example of a corrupted resource tree with overlapping addresses:
 
-BAR resize rollback does not always restore BAR resources as they were
-before the resize operation was started. Currently, when
-pci_resize_resource() call is made by a driver, the driver must release
-device resource prior to the call. This is a design flaw in
-pci_resize_resource() API as PCI core cannot then save the state of
-those resources from what it was prior to release so it could restore
-them later if the BAR size change has to be rolled back.
+  6200000000000-6203fbfffffff : pciex@620c3c0000000
+    6200000000000-6203fbff0ffff : PCI Bus 0030:01
+      6200020000000-62000207fffff : 0030:01:00.0
+      6200000000000-6203fbff0ffff : PCI Bus 0030:02
 
-PCI core's BAR resize operation doesn't even attempt to restore the
-device resources currently when rolling back BAR resize operation. If
-the normal resource assignment algorithm assigned those resources, then
-device resources might be assigned after pci_resize_resource() call but
-that could also trigger the resource tree corruption issue so what
-appeared to an user as "working" might be a corrupted state.
+A resource that are assigned into the resource tree must remain
+unchanged. Thus, release such a resource before attempting to restore
+and claim it back.
 
-With the new pci_resize_resource() interface, the driver calling
-pci_resize_resource() should no longer release the device resources.
+For simplicity, always do the release and claim back for the resource
+even in the cases where it is restored to the same address range.
 
-I've added WARN_ON_ONCE() to pick up similar bugs that cause resource
-tree corruption. At least in my tests all looked clear on that front
-after this series.
+Note: this fix may "break" some cases where devices "worked" because
+the resource tree corruption allowed address space double counting to
+fit more resource than what can now be assigned without double
+counting. The upcoming changes to BAR resizing should address those
+scenarios (to the extent possible).
 
-It would still be nice if the reporters could test these changes
-resolve the claim conflicts (while I've tested the series to some extent,
-I don't have such conflicts here).
+Fixes: 8bb705e3e79d ("PCI: Add pci_resize_resource() for resizing BARs")
+Link: https://lore.kernel.org/linux-pci/67840a16-99b4-4d8c-9b5c-4721ab0970a2@hogyros.de/
+Link: https://lore.kernel.org/linux-pci/874irqop6b.fsf@draig.linaro.org/
+Reported-by: Simon Richter <Simon.Richter@hogyros.de>
+Reported-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+---
+ drivers/pci/setup-bus.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-This series will likely conflict with some drm changes from Lucas (will
-make them partially obsolete by removing the need to release dev's
-resources on the driver side).
-
-I'll soon submit refresh of pci/rebar series on top of this series as
-there are some conflicts with them.
-
-v2:
-- Add exclude_bars parameter to pci_resize_resource()
-- Add Link tags
-- Add kerneldoc patch
-- Add patch to release pci_bus_sem earlier.
-- Fix to uninitialized var warnings.
-- Don't use guard() as goto from before it triggers error with clang.
-
-Ilpo Järvinen (11):
-  PCI: Prevent resource tree corruption when BAR resize fails
-  PCI/IOV: Adjust ->barsz[] when changing BAR size
-  PCI: Change pci_dev variable from 'bridge' to 'dev'
-  PCI: Try BAR resize even when no window was released
-  PCI: Freeing saved list does not require holding pci_bus_sem
-  PCI: Fix restoring BARs on BAR resize rollback path
-  PCI: Add kerneldoc for pci_resize_resource()
-  drm/xe: Remove driver side BAR release before resize
-  drm/i915: Remove driver side BAR release before resize
-  drm/amdgpu: Remove driver side BAR release before resize
-  PCI: Prevent restoring assigned resources
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |  10 +-
- drivers/gpu/drm/i915/gt/intel_region_lmem.c |  14 +--
- drivers/gpu/drm/xe/xe_vram.c                |   5 +-
- drivers/pci/iov.c                           |  15 +--
- drivers/pci/pci-sysfs.c                     |  17 +--
- drivers/pci/pci.c                           |   4 +
- drivers/pci/pci.h                           |   9 +-
- drivers/pci/setup-bus.c                     | 126 ++++++++++++++------
- drivers/pci/setup-res.c                     |  52 ++++----
- include/linux/pci.h                         |   3 +-
- 10 files changed, 142 insertions(+), 113 deletions(-)
-
-
-base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+diff --git a/drivers/pci/setup-bus.c b/drivers/pci/setup-bus.c
+index 4a8735b275e4..e6984bb530ae 100644
+--- a/drivers/pci/setup-bus.c
++++ b/drivers/pci/setup-bus.c
+@@ -2504,6 +2504,11 @@ int pbus_reassign_bridge_resources(struct pci_bus *bus, struct resource *res)
+ 		bridge = dev_res->dev;
+ 		i = pci_resource_num(bridge, res);
+ 
++		if (res->parent) {
++			release_child_resources(res);
++			pci_release_resource(bridge, i);
++		}
++
+ 		restore_dev_resource(dev_res);
+ 
+ 		pci_claim_resource(bridge, i);
 -- 
 2.39.5
 
