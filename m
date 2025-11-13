@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A0FDC5768C
+	by mail.lfdr.de (Postfix) with ESMTPS id 554B0C5768D
 	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 13:29:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B2B310E80D;
-	Thu, 13 Nov 2025 12:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7123010E80E;
+	Thu, 13 Nov 2025 12:29:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ihSe+uXO";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dnSsorCY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 238ED10E80C;
- Thu, 13 Nov 2025 12:29:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0587510E7FA;
+ Thu, 13 Nov 2025 12:29:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763036947; x=1794572947;
+ t=1763036950; x=1794572950;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=FubivAmFeO/b5wU0GM6a8KRXIlwQ5H2/FGOHaVFVwOc=;
- b=ihSe+uXOchzdOAsYxfL3H7kOtbMdpyIEBhXCP8CUDSJR8Y90GhCK/5U+
- y+L+PKjZyVPiHu6BrRkmCUNZ4Wt+nldbyCHnMNymX21yJQTvp/rJZaMFw
- S3e9uQkFaeRf5jQFMDyFq1yXkloWKNUpBWqO1G7ZWfpMoHzEwVb5wOLlN
- Qb8BKBhjDq+itR5aPCWNTxlzfeBqV/Nm2TEpu6jTXix6aR9Vmgq9Ywcu1
- PHdfHp4fZI3O3BWlfs0F5D2+IvZoO37GIhW7QTr3AfqBkEWMG4sgvn3ip
- H/erNXTuF/lR83EWaSgetx4SbEt41DC5ChoK213frz0SdPSPwMEdq1qGY g==;
-X-CSE-ConnectionGUID: LTmn9MX+SIG/zRiDJRUvKw==
-X-CSE-MsgGUID: Jcd6SnulSJOGHpbEuCi65g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="52677916"
-X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; d="scan'208";a="52677916"
+ bh=9VQlFG16oF1hJCTqUHbW9Fd5MMJAZhTsvyrZTO4mNJ8=;
+ b=dnSsorCYPZJ0mjHDk3sy87+7McxniVmsXTEPilguQbyyhRQlOwtFKRG/
+ bd/coEnZIqIBJ1c1VMriHovF7Hh2/xqeKQ7V1uxMxFc0flt5LMCUk1ufU
+ VptfxvXTFxpZLa77Sef+ErF2iajxC0RBvZX/RFEypRrHcGZ6zg4i0zHPt
+ dxOwY0+e6hF6A+IgNZpSkOmPBTvj8TQ0ujx9Z/MLKJkfuouqTzoH9lpKh
+ lAhm/BDdeIxuGLSwOyRCekE+FolmYwDfqNNkBWW4aeyfOkYfOfQPN8bt1
+ rrnapX1/2RbM7EoICMqt4d15HhbJnEXG754itEcfj+evJ+dvkaNkxTGsP w==;
+X-CSE-ConnectionGUID: QP411mZkToixCFP8738KVQ==
+X-CSE-MsgGUID: KmtP0rNJRJW0ueLgf4fM9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="52677919"
+X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; d="scan'208";a="52677919"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2025 04:29:07 -0800
-X-CSE-ConnectionGUID: jMfypeyjQHumIJWejwco/Q==
-X-CSE-MsgGUID: p9sZrAvmRaCrSwaz1BbhSw==
+ 13 Nov 2025 04:29:09 -0800
+X-CSE-ConnectionGUID: /b2bKboaRHiZ6MKI2fIuvw==
+X-CSE-MsgGUID: Hyq+9NrFRk666ed5T5XS1w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; d="scan'208";a="188757743"
+X-IronPort-AV: E=Sophos;i="6.19,301,1754982000"; d="scan'208";a="188757760"
 Received: from srr4-3-linux-101-amanna.iind.intel.com ([10.223.74.76])
- by orviesa006.jf.intel.com with ESMTP; 13 Nov 2025 04:29:05 -0800
+ by orviesa006.jf.intel.com with ESMTP; 13 Nov 2025 04:29:08 -0800
 From: Animesh Manna <animesh.manna@intel.com>
 To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
 Cc: jani.nikula@intel.com, suraj.kandpal@intel.com,
  Animesh Manna <animesh.manna@intel.com>,
  =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>
-Subject: [PATCH v4 06/10] drm/i915/alpm: Half LFPS cycle calculation
-Date: Thu, 13 Nov 2025 17:31:15 +0530
-Message-Id: <20251113120119.1437955-7-animesh.manna@intel.com>
+Subject: [PATCH v4 07/10] drm/i915/alpm: Program LTTPR count for DP 2.1 ALPM
+Date: Thu, 13 Nov 2025 17:31:16 +0530
+Message-Id: <20251113120119.1437955-8-animesh.manna@intel.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20251113120119.1437955-1-animesh.manna@intel.com>
 References: <20251113120119.1437955-1-animesh.manna@intel.com>
@@ -70,49 +70,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for half LFPS cycle calculation for DP2.1 ALPM as dependent
-parameters got changed.
+Issue a AUX write transaction to DPCD DP_TOTAL_LTTPR_CNT (0xf000a)
+with total number of LTTPR before link training.
 
-v1: Initial version.
-v2: Avoid returning early. [Jani]
-v3: Use intel_crtc_has_type(). [Suraj]
+v2: Cosmetic changes. [Suraj]
 
 Cc: Jouni Högander <jouni.hogander@intel.com>
 Signed-off-by: Animesh Manna <animesh.manna@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_alpm.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ .../drm/i915/display/intel_dp_link_training.c    | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c b/drivers/gpu/drm/i915/display/intel_alpm.c
-index 81472254ab73..33620f95ecc5 100644
---- a/drivers/gpu/drm/i915/display/intel_alpm.c
-+++ b/drivers/gpu/drm/i915/display/intel_alpm.c
-@@ -73,12 +73,20 @@ static int get_silence_period_symbols(const struct intel_crtc_state *crtc_state)
- static void get_lfps_cycle_min_max_time(const struct intel_crtc_state *crtc_state,
- 					int *min, int *max)
- {
--	if (crtc_state->port_clock < 540000) {
--		*min = 65 * LFPS_CYCLE_COUNT;
--		*max = 75 * LFPS_CYCLE_COUNT;
-+	struct intel_display *display = to_intel_display(crtc_state);
-+
-+	if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_EDP)) {
-+		if (crtc_state->port_clock < 540000) {
-+			*min = DISPLAY_VER(display) < 35 ? 65 * LFPS_CYCLE_COUNT : 140;
-+			*max = DISPLAY_VER(display) < 35 ? 75 * LFPS_CYCLE_COUNT : 800;
-+		} else {
-+			*min = 140;
-+			*max = 800;
-+		}
- 	} else {
--		*min = 140;
--		*max = 800;
-+		*min = 320;
-+		*max = 1600;
-+		return;
- 	}
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+index aad5fe14962f..d694c2474159 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+@@ -1624,6 +1624,20 @@ intel_dp_128b132b_link_train(struct intel_dp *intel_dp,
+ 	return passed;
  }
  
++static void intel_dp_update_lttpr_count(struct intel_dp *intel_dp,
++					int lttpr_count)
++{
++	/*
++	 * Program only for DP2.1 and return if LTTPR revison is less than 0x20
++	 * where 0:3 represents minor rev and 4:7 represent major rev
++	 */
++	if (!intel_dp_is_edp(intel_dp) ||
++	    intel_dp->lttpr_common_caps[0] <= 0x20)
++		return;
++
++	drm_dp_dpcd_writeb(&intel_dp->aux, DP_TOTAL_LTTPR_CNT, lttpr_count);
++}
++
+ /**
+  * intel_dp_start_link_train - start link training
+  * @state: Atomic state
+@@ -1660,6 +1674,8 @@ void intel_dp_start_link_train(struct intel_atomic_state *state,
+ 
+ 	intel_dp_prepare_link_train(intel_dp, crtc_state);
+ 
++	intel_dp_update_lttpr_count(intel_dp, lttpr_count);
++
+ 	if (intel_dp_is_uhbr(crtc_state))
+ 		passed = intel_dp_128b132b_link_train(intel_dp, crtc_state, lttpr_count);
+ 	else
 -- 
 2.29.0
 
