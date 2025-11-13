@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5727AC58221
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 16:02:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 418B6C58280
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 16:03:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75CBF10E87D;
-	Thu, 13 Nov 2025 15:02:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70FA410E88A;
+	Thu, 13 Nov 2025 15:03:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XUqO52xJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hXG8xI6J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE08A10E86F;
- Thu, 13 Nov 2025 15:02:52 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB44A10E887;
+ Thu, 13 Nov 2025 15:03:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763046173; x=1794582173;
+ t=1763046185; x=1794582185;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=tDxqR7dAcbJglLrfzlBGLBNHFzQ2/Otni5OnaahsuNI=;
- b=XUqO52xJHv0fUI/UhhDhnqopUGWl6MJ+DnbatRDvDRNMrxVUXukMIzc4
- 6FGGWevipEka6UZLJOeoycLmQdfJHGMVfzzlXERFRpd+sqXYF1XopDyxE
- Fo895KnVcPaT84+ZoXh0PPx/rpbNfb9Qg0DiASdIknJ9AZ+sVv7+kmJVZ
- Nl/Q9DG5HSo0LR17RykqewNx6p/RjnZPzFSwuqxo8u3/Q3fgUdrlWc+t4
- Cl/u9WP9viaa2/WvLy6z5ypqSI8lUy6CDkTRtACLypdRhA8Ltel5cFIHU
- ySVOeA29Q6Rv+9MDGE8cyf/1NEBgXCACG47WI5q1o74g9nk/FI6reYE3K A==;
-X-CSE-ConnectionGUID: VtTbjypwT9qK9/q80c97aA==
-X-CSE-MsgGUID: Abd9s7w4S8e5fbpDIZ5cIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="68991645"
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="68991645"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2025 07:02:51 -0800
-X-CSE-ConnectionGUID: vNlzzxqlTtetYj5sIcG75w==
-X-CSE-MsgGUID: Eel//svlQKiDVtEupL6ang==
+ bh=+wzhaFxSnGOIgXfPGWXmMsmYdpSBfK5IjZcpII7NT9c=;
+ b=hXG8xI6JkDc1+24sKSmOsMUwB1ZXUXWd+Voyjo9IGO0+MbtqFxq1l2S3
+ BRc6HO/yTOwdYz3ckG8o1ZF2yOZuZ2AnGWVPAbBbNqu7CKt4gnAMLvEt5
+ izFN4qQGfBCZmAezvaVDvD6VT1HGnSySyqIC9JdMaX5OQLZIeLAQWb0YM
+ DjuuUZfM6Ao/TVCD6Bs9qy8CcHTLnSjDXB9EV4t72Gdwm1zdkMZeJpRNQ
+ FTp90YlFqv0bGTKxEBd+nO9Kn1dlnV/9+oBwbg42ZFO8JRmf0vV4TrcZ5
+ 6zZhZONpgClqdPSx6uNmjjEfGskCWqJR/1CcuVCs+glFx1uixjqSiNamf Q==;
+X-CSE-ConnectionGUID: Q1PV/kmoSRaZRAV6ZBgUIg==
+X-CSE-MsgGUID: /5OnaFe2TM6ZRUEDeB56qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65054429"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="65054429"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2025 07:02:55 -0800
+X-CSE-ConnectionGUID: 2CGxfRHHRFSF6KrA3ZFyKA==
+X-CSE-MsgGUID: NKL+10FBQ76Ij4qV5CJgZA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="188810299"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="220325069"
 Received: from black.igk.intel.com ([10.91.253.5])
- by orviesa010.jf.intel.com with ESMTP; 13 Nov 2025 07:02:42 -0800
+ by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2025 07:02:42 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
- id 47356A1; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
+ id 4DAEBA2; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -112,11 +112,10 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
  Masami Hiramatsu <mhiramat@kernel.org>,
  Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Corey Minyard <cminyard@mvista.com>
-Subject: [PATCH v3 11/21] ipmi: Switch to use %ptSp
-Date: Thu, 13 Nov 2025 15:32:25 +0100
-Message-ID: <20251113150217.3030010-12-andriy.shevchenko@linux.intel.com>
+ Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v3 12/21] media: av7110: Switch to use %ptSp
+Date: Thu, 13 Nov 2025 15:32:26 +0100
+Message-ID: <20251113150217.3030010-13-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
 References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
@@ -140,44 +139,25 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Use %ptSp instead of open coded variants to print content of
 struct timespec64 in human readable format.
 
-Acked-by: Corey Minyard <cminyard@mvista.com>
+Acked-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/char/ipmi/ipmi_si_intf.c | 3 +--
- drivers/char/ipmi/ipmi_ssif.c    | 6 ++----
- 2 files changed, 3 insertions(+), 6 deletions(-)
+ drivers/staging/media/av7110/av7110.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/char/ipmi/ipmi_si_intf.c b/drivers/char/ipmi/ipmi_si_intf.c
-index 70e55f5ff85e..5459ffdde8dc 100644
---- a/drivers/char/ipmi/ipmi_si_intf.c
-+++ b/drivers/char/ipmi/ipmi_si_intf.c
-@@ -275,8 +275,7 @@ void debug_timestamp(struct smi_info *smi_info, char *msg)
- 	struct timespec64 t;
+diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+index bc9a2a40afcb..602342d1174f 100644
+--- a/drivers/staging/media/av7110/av7110.c
++++ b/drivers/staging/media/av7110/av7110.c
+@@ -321,7 +321,7 @@ static inline void print_time(char *s)
+ 	struct timespec64 ts;
  
- 	ktime_get_ts64(&t);
--	dev_dbg(smi_info->io.dev, "**%s: %lld.%9.9ld\n",
--		msg, t.tv_sec, t.tv_nsec);
-+	dev_dbg(smi_info->io.dev, "**%s: %ptSp\n", msg, &t);
+ 	ktime_get_real_ts64(&ts);
+-	pr_info("%s(): %lld.%09ld\n", s, (s64)ts.tv_sec, ts.tv_nsec);
++	pr_info("%s(): %ptSp\n", s, &ts);
+ #endif
  }
- #else
- #define debug_timestamp(smi_info, x)
-diff --git a/drivers/char/ipmi/ipmi_ssif.c b/drivers/char/ipmi/ipmi_ssif.c
-index 1b63f7d2fcda..ef1582a029f4 100644
---- a/drivers/char/ipmi/ipmi_ssif.c
-+++ b/drivers/char/ipmi/ipmi_ssif.c
-@@ -1083,10 +1083,8 @@ static int sender(void *send_info, struct ipmi_smi_msg *msg)
- 		struct timespec64 t;
  
- 		ktime_get_real_ts64(&t);
--		dev_dbg(&ssif_info->client->dev,
--			"**Enqueue %02x %02x: %lld.%6.6ld\n",
--			msg->data[0], msg->data[1],
--			(long long)t.tv_sec, (long)t.tv_nsec / NSEC_PER_USEC);
-+		dev_dbg(&ssif_info->client->dev, "**Enqueue %02x %02x: %ptSp\n",
-+			msg->data[0], msg->data[1], &t);
- 	}
- 	return IPMI_CC_NO_ERROR;
- }
 -- 
 2.50.1
 
