@@ -2,142 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D926C5AA92
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 00:43:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D4D8C5AB27
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 00:59:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBF0B10E213;
-	Thu, 13 Nov 2025 23:43:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9AB310E215;
+	Thu, 13 Nov 2025 23:59:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="t+GES6PO";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="p5b+uFxY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11012020.outbound.protection.outlook.com [40.107.209.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D92710E213
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 23:43:31 +0000 (UTC)
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010011.outbound.protection.outlook.com
+ [40.93.198.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05D6110E215
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 23:59:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=B0A0dEeaXMzPT6z36FNCmS+uD0cLp2dYE0JASYE2f/wQY2sVe4vcKiW7ZvWxSuekkjKPng7mtU/H7vBRSsmyGUFnTKk/TEbms+2hm+UBw/GHHqAM1LTS03K7uMctcK51THsw2RD76sPmBg7yAzk6rMfiyPcFP06Oq07Sn9YSSaGy0j35Li36Izqwnj4M9jQYCIPp1/G+5df/2TPqoXtfX83cr0VbYWVzou8Tg0jSx0S0VZGCdvwoCTG0jL/oeu6OVaV4886aG3exTEoLXR7Tp/JFPqLhFGPIgRx7Y9nEirblPVoYg0wxiahvWub5nz7xBQU/SxniM7Mh5zq/G2AX0Q==
+ b=mS9N03rVQeSdr5YcBYuvjuQyR0tSY6UzQu7T9iLFALYpXzC34QssAU6V8kbg5QhFeMS5yEhzaVm+LEdNdV6T+nEdLwELnscwWrnqMF2jFF5PYj/gIzUp8hkmA17UYjoelDHUGrO4sQFnonxWPOwIz5cVmzPeovFO1khngX+uXvUx2rMfSCVdxMIdexM2M3+qSwGKdOfBWPl4vFhTuMz79Y7ogEpAH78qJSqt2mZ4PPMqnjUY9VpS9lXZA+vloIrn7Gfy+U7JnK6UhYw0XzltSee3AxHUIi7pQ1HqGjZumRuDVXn/LJmxjiiJ4XWxCpA8YrqEHYaEL1x7jtvU2erTcA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mlKyalEL0AHvzxr0hV3Mx7u3vZp3ZsPA3WIpw5nm59Y=;
- b=UGsOjWNX9YWFg+nExSdPEZxQvBg8rav5wZvkJzUrfC6MkggCq4SMVnbIq4tLUv53BG48/oaDH5W+79IyoXEqUM+9CUyZ4KdWeWG6zbt7d9LSKvXAdRTpU+uR+d6ootoE5NFyrfvqa40rVIOrDMeNrcz+3psu8BJ7Rt+WleK82M9cWUVffZSkYt0h5IeuqrW8O778FIlpVSYWWwG+sg2HTu2Q4Iprs2zx9M5B/R0RJ9KMEGCSlZtgzcoC/3Y50bmT7A9V2cMyy/bifxj7GiMMN7HK9ivD9zmmv38LxoZqK1IQllXZz4vTYMRg3eV9ojuhA5wDewZPGIbtThbL8Hgw7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=7eYfkpKYFt7uYtdW79BKvBtD+axsSdBTTAkr2X2B4wk=;
+ b=iDJm9wo9rLQn9cbGjkl7PJ7TrtyjEnQ1DuJ4Bm7aJ6rhT2CKQlNsgPVy/+9Qfnj0DelhXmJHdQNZmTKDSaerfCdpgv3M2ByG8G6BxgYFnlC84idtpNZvJxSViR4caQZOTNAXAUivcdL1Fwc3HlRemN6xMf0n49uUy87rrCiddKzRLXyk56UxP7MEsO76n2huaK7ST75iyIxshWn/0va9EsAHWsldsIOPXrObSL0LjfoH+v9ecg/5Uuls8YqeZummxowyQHVEteer2mkHZxw1BDLjVP6yr2zOAlDr32YtBYv1P9Gf8JXMl2BAQVfhYn33TIvah9oOG/5fFgFL9fGA5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mlKyalEL0AHvzxr0hV3Mx7u3vZp3ZsPA3WIpw5nm59Y=;
- b=t+GES6POBluGD0UkN/zBRFfYS+zdyIE26Ggj2KLjXAqJyhyA569n/TLO6O8d7TJIOnFkWyw1EbqlIg9juPzrddBtKqaFq+O72kdfdGug3nK6EOcfen4IckksqHvRtL3thzfcryMvduHU9dqTz03PiLNn/xjh8nYN1l3R96dNezuRRmzrNPkT1sh3ckE/nbCH9Rty4C7sSfOF2WpwZO32hk0+RSHux4h4azcOs1NXSJIKIPV4mqx++haaPuqR2gZx93hZ7InCr9ZggoTeJaRh42Ai7o788Wzwdf3eW1Ex070JyrdWhdncMTaoG0TzbW7HDjlOtb13oWE9cH1Wp50saA==
-Received: from CH5P220CA0024.NAMP220.PROD.OUTLOOK.COM (2603:10b6:610:1ef::23)
- by CYXPR12MB9318.namprd12.prod.outlook.com (2603:10b6:930:de::22)
+ bh=7eYfkpKYFt7uYtdW79BKvBtD+axsSdBTTAkr2X2B4wk=;
+ b=p5b+uFxYbqMe5GajFiXP0+8xZDiKQgRr42TMNyZmsVMVKIKphJtWFP+g4u6kLC01zdMiJRqxfbt7WvOsYJcAklx+ObAoSJSwNPMgsLcwnoJvSpX40NxSPBL2nT4bKwBUwa5P+nC/Uss1H0vhoDyoCqsDozPV3Jj4hm4V1JyN8+Q=
+Received: from MW4PR12MB7165.namprd12.prod.outlook.com (2603:10b6:303:21b::14)
+ by LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.17; Thu, 13 Nov
- 2025 23:43:27 +0000
-Received: from CH2PEPF00000146.namprd02.prod.outlook.com
- (2603:10b6:610:1ef:cafe::6) by CH5P220CA0024.outlook.office365.com
- (2603:10b6:610:1ef::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.17 via Frontend Transport; Thu,
- 13 Nov 2025 23:43:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CH2PEPF00000146.mail.protection.outlook.com (10.167.244.103) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9320.13 via Frontend Transport; Thu, 13 Nov 2025 23:43:27 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 13 Nov
- 2025 15:43:13 -0800
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 13 Nov
- 2025 15:43:13 -0800
-Received: from Asurada-Nvidia (10.127.8.11) by mail.nvidia.com (10.129.68.9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 13 Nov 2025 15:43:11 -0800
-Date: Thu, 13 Nov 2025 15:43:10 -0800
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Alex Williamson <alex@shazbot.org>, Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
- <iommu@lists.linux.dev>, Joerg Roedel <joro@8bytes.org>, Kevin Tian
- <kevin.tian@intel.com>, <kvm@vger.kernel.org>,
- <linaro-mm-sig@lists.linaro.org>, <linux-kselftest@vger.kernel.org>,
- <linux-media@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Shuah
- Khan" <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Will Deacon
- <will@kernel.org>, Krishnakant Jaju <kjaju@nvidia.com>, Leon Romanovsky
- <leon@kernel.org>, Matt Ochs <mochs@nvidia.com>, <patches@lists.linux.dev>,
- Simona Vetter <simona.vetter@ffwll.ch>, Vivek Kasireddy
- <vivek.kasireddy@intel.com>, Xu Yilun <yilun.xu@linux.intel.com>
-Subject: Re: [PATCH 7/9] iommufd: Have iopt_map_file_pages convert the fd to
- a file
-Message-ID: <aRZtDl5VI1YP0qAm@Asurada-Nvidia>
-References: <0-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
- <7-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <7-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF00000146:EE_|CYXPR12MB9318:EE_
-X-MS-Office365-Filtering-Correlation-Id: c45362b9-0d5d-45e7-3778-08de230e715c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|36860700013|1800799024|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?tuZc84Jsh8Ewk4CO4umSUlPlOPO0fWWK0DCUxrumS0nBVcD5WcO+RT8DrCyW?=
- =?us-ascii?Q?BV9fXOOIKt4ONZAPAiCdZX312E82RPc5rgnhW+/3E8z274RHUPZrwx1NB5PS?=
- =?us-ascii?Q?jzaRajwbWEj5kbJbM/pOJmYWGL2Una6sK2ovHXjzqwt8Oj+1DVU9rh/QL45g?=
- =?us-ascii?Q?G/SQZXI9YHvJC0Jqsvf5/41NP/rD2TAWSPLG56jiXr94QXh+iU9bOkG55SBd?=
- =?us-ascii?Q?0vukTPYKi3Id09iu0uXIZ0hyWfdDpsTEbBODw1ZUBv5m7Vb1mNDx+UAJya68?=
- =?us-ascii?Q?QlViKc6+mA730W2ikWxETIpO7irFKNVgSp/5B16FopOYnRHU3cEnvkXlQaGt?=
- =?us-ascii?Q?KtKWO4AUl+AIu7X0KqV3MxTWFtUt3CgkgQQejfpxtzhB5BwJyepEvIcd+arI?=
- =?us-ascii?Q?zi7H8BzSBcCJd7JVqARtYGSzgrcvGoBOfq82u7cTJ7orRT6OnGkwbqq70/0X?=
- =?us-ascii?Q?GPnzJHIowDYb5aYIInN1WGngf5qZl1ii2jXpmYdbz5etDNM7QbO9BFtPcobh?=
- =?us-ascii?Q?KvjguRpVw9keKkyLRqchWZVlqAue9vNBy86THm86SVC57z/Qlc0xCKBpCjKi?=
- =?us-ascii?Q?3kIKo8DHzA1C23xdxya6UKvEYPnQCWvKYJ8a20znVwzkdxol+msMhXNOYxD5?=
- =?us-ascii?Q?NRAa7eeq5vA081Nq3vv8MmbV/lVhdw/bJBnaiMtole1BpiGDBuFjVWWDsekY?=
- =?us-ascii?Q?BSrbczTTialrp1axNGy0cmC7G3EkrJB6fYHL7Dipclswoj786FbWaegKmZDw?=
- =?us-ascii?Q?xrkLz9SFcG3W1da+Rb3lVxxlud23uovREPpEAOIi93/QlHgyG3u/mpxGDejl?=
- =?us-ascii?Q?LdmlfxX3I7/JT5eoEC4jaS9g8PbzLsnFZP+auZdZhWdtXm+frvu4Dw8vCrOo?=
- =?us-ascii?Q?PUqdLc4N56ta4keUXmzrB6l7BwGWICWZamcz15zB/mgsHwsCXzEJxPBPiyPX?=
- =?us-ascii?Q?GSiKLFIcTUtoUzd7ZfC0IHDr2TwzawdDcomNmMxZZv2B01RNTVrMsLRm59LB?=
- =?us-ascii?Q?uhab0rlW2gpY2Z/BSiHgUDwf81p+BW4QaF8xDR5ODPmVARUBf1r20Oezv1SN?=
- =?us-ascii?Q?XEaTmZREl4RviR29zRJQn4guX8kOl6P98t/lTp4uQ7xKughhFixBJJFjh0GD?=
- =?us-ascii?Q?XNO8CZMrIznjpRAJ8gOOudAuCNL8NmCghEr1qPYBz3b5HsRXiaVOV+Lslj19?=
- =?us-ascii?Q?BSVayUD/w2cWq46MjO/39IdbacxMvsR0VPIvunBeVTha8f9bydYcNZ49fDO0?=
- =?us-ascii?Q?i2To2FKdzU/pjEMotk5GfEhqSqSfJWbn/x+o+WvDQTmFH9YbHdJqrKEBgVKg?=
- =?us-ascii?Q?pr/rt+PwdVPbl44tFkE+uwKldz7cIVcMSbgYcWvRYuisB0XfKSX/EfdLKFfX?=
- =?us-ascii?Q?bJtpl12dD3W5Wo8oSQxkQI3VyKgolsCx5tey4QLOF1J1ZoFliKXx3C/f8pBm?=
- =?us-ascii?Q?hqt21ivFEmZi34129TltPiQftth9OSBubtHssHF3LLFjqDpvemYrtdRj7ICh?=
- =?us-ascii?Q?z0tck+fxX0zxPNAxnHzxW2ao5fGSUGU3rdeHeV70jJFQXyvJIWCZipciwRX0?=
- =?us-ascii?Q?JubZTM+P7rZ+8jr+ZRg=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(36860700013)(1800799024)(82310400026); DIR:OUT;
+ 2025 23:59:41 +0000
+Received: from MW4PR12MB7165.namprd12.prod.outlook.com
+ ([fe80::a32f:9b78:fc2e:6076]) by MW4PR12MB7165.namprd12.prod.outlook.com
+ ([fe80::a32f:9b78:fc2e:6076%5]) with mapi id 15.20.9298.010; Thu, 13 Nov 2025
+ 23:59:41 +0000
+From: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>
+To: Sean Anderson <sean.anderson@linux.dev>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Mike
+ Looijmans <mike.looijmans@topic.nl>, David Airlie <airlied@gmail.com>, Thomas
+ Zimmermann <tzimmermann@suse.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, Simona Vetter <simona@ffwll.ch>,
+ "Simek, Michal" <michal.simek@amd.com>
+Subject: RE: [PATCH 3/3] drm: zynqmp: Add blend mode property to graphics plane
+Thread-Topic: [PATCH 3/3] drm: zynqmp: Add blend mode property to graphics
+ plane
+Thread-Index: AQHcVN1gVOfL1cVpIU6CqHq/hvIMtrTxNXCggAAJkiA=
+Date: Thu, 13 Nov 2025 23:59:41 +0000
+Message-ID: <MW4PR12MB71653FD94A2109A45BF4EDA1E6CDA@MW4PR12MB7165.namprd12.prod.outlook.com>
+References: <20251113203715.2768107-1-sean.anderson@linux.dev>
+ <20251113203715.2768107-4-sean.anderson@linux.dev>
+ <MW4PR12MB716514EB76EE4585605D0E5AE6CDA@MW4PR12MB7165.namprd12.prod.outlook.com>
+In-Reply-To: <MW4PR12MB716514EB76EE4585605D0E5AE6CDA@MW4PR12MB7165.namprd12.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Enabled=True;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2025-11-13T22:48:09.0000000Z;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Name=AMD
+ Internal Distribution
+ Only; MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ContentBits=3;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Method=Standard
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MW4PR12MB7165:EE_|LV8PR12MB9620:EE_
+x-ms-office365-filtering-correlation-id: e46054a2-8268-4b60-4bb9-08de2310b629
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|366016|376014|38070700021; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?vxMWDyv5SiAG5e6SVbBvg0X3Pwcc79B2EgVVR83tiNek8hm7R5q3aLyFRrn5?=
+ =?us-ascii?Q?b5B6YpVDMDSHh+Qr049QzUVY1kQ3UD11t3s3LcNjUPSLhnP0mRUVT4hM2Tvi?=
+ =?us-ascii?Q?6RVyvlZCFbOwwR9NDWcniXyLWZnIaKl9nr4nugribObnQhJS8eUSmLYVvrh4?=
+ =?us-ascii?Q?G6SFWd5DPbeaueSE0ewoAuhVae9GJMeQ6Z17SWW7jTRD90QPY4plhE4dz71v?=
+ =?us-ascii?Q?L3tG6jxO4Fb4GI4r/gtW+y5vc93u8a8NxZbXZgRSldQAScoEPd94qA3QJlYX?=
+ =?us-ascii?Q?/IW/ovAHkG0H2YdCn8KEd1n4aE6/VYbaiWnC7CcgjD+nfeDyaIQH5PYKfU7C?=
+ =?us-ascii?Q?mudEmYqszo3OR9a+IpVyF2z6afUkeUdFv4CV4UM2ZeNhuaqd61s6IuAv8KA2?=
+ =?us-ascii?Q?/LBbTIM6OhIqEC+77gAroEgjwBhCaiCKadOmXEr6eyFJ3wWYCl02MZfi1N4F?=
+ =?us-ascii?Q?22R06Yy00iOhtKsUSm6/BnUuZajhjhQuEwxsUbjeJo8T4iqFwncRp3ZqLdqI?=
+ =?us-ascii?Q?jf9zvRCu9b0wsNWPV96wDzWSrq92pELKGrFOo69/SDs9FDUFo+/iWInxGXEh?=
+ =?us-ascii?Q?93FztOTtFWOvoQPnud7W1VZ2jtfESFkoorxCBoRLTk/LbqvWwI1UD3LIfO/4?=
+ =?us-ascii?Q?bl9cEEaH+haKwCldhGt7HhyH6neSx4eXERVar5ZVHeBUw4rzpCcnNYkiCVHt?=
+ =?us-ascii?Q?Xl738LJ7DI+rcryHL131DUEZ2rniZpqlQVWIwwGVOHRyNFbD/p6yz1S79fzI?=
+ =?us-ascii?Q?3ZeJ/JB7pGwWMoqPGr06YoHiw+alCVTbUBlKjPqNYaJNalPPvM/3Ek1prgEf?=
+ =?us-ascii?Q?9jbRIe/T36cu61myoCll6NgIH9jkgGH2kcEzYF6YSXElxDteJXlTnrItk62F?=
+ =?us-ascii?Q?rngylUH3BKlCJCfqI9SSDc87WaLhSJmozZ8QxtnqjKdE6ml8PVUEqdn+TyVd?=
+ =?us-ascii?Q?COuMQQYYlnXVs3HtVXORBMcExFPPMbbZIQjBGgc9ZeAEncnhr/GlGnt4YN/K?=
+ =?us-ascii?Q?4ELvDvjfnT8JsOhABqx7rQw4s7v+Y0orBdUJp4arBJT9/yCUvWhDCxstndgB?=
+ =?us-ascii?Q?3hccsEvQfhJLqiXwlyQ86poS4OejG7zKKrGE1xWaVoNdq4QGallhdhRTV5AN?=
+ =?us-ascii?Q?44HygRidlWWn5oebDGpuNFfDXaEgO1lomJIbBEBZ24Hj717LoKwMzRiqw80z?=
+ =?us-ascii?Q?btO/OGzndTsqrC7EwkM+YIWRj6kkRg3aZbfnzOC6zBy2oFTjAdSVBMoOSIEM?=
+ =?us-ascii?Q?uRrxmDv+l1Q/LxN1ce79MeDLxhFGnSURPV6tFpGIrU4STJG8iwchpfX47QSO?=
+ =?us-ascii?Q?QYRJimwwqmxMwwwo8taXz8Va0f9IuXnxr2Gt03nCrd85xK/YQrTxU5cbonsF?=
+ =?us-ascii?Q?QpoV15xUhZuA0z6on98Euiqzh57WjWPGYjMcz8aQqQ1Kbeel+t9XKIqTNZCS?=
+ =?us-ascii?Q?iuwiH1iOkSP6EMHx7yKjLOEWj9vb0v0YkH4ZvPX6ywee76ef1XgkABJ61mDO?=
+ =?us-ascii?Q?puqygBaeqYzJS1Z8y+bvi+K3NZzEkMFvu3WK?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW4PR12MB7165.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(366016)(376014)(38070700021); DIR:OUT;
  SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2025 23:43:27.0023 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c45362b9-0d5d-45e7-3778-08de230e715c
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF00000146.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9318
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?GqZ3dzu/97MsQtdBCniAZRU/L4CKuVC8zWelgBpwhJ/jZGbOlLEF74LmfeeF?=
+ =?us-ascii?Q?mCjqxWk/JuwqYlKN1zkm1LzwyO5eEmt+xPaFpYTkFGkxuUSddeZRpqUhle1L?=
+ =?us-ascii?Q?hSQvSs6lTuGDaR4l3haXOLiAIEtVSJUW86lK1V/DhvdCHsJ/ev0E6ldXJ5zU?=
+ =?us-ascii?Q?CBGLXSS80eYe8nYsKB7r3SjhND8txfQ18rvAAU9z8K/UxzNyMmdQuRXe07k6?=
+ =?us-ascii?Q?5dJH0gdKCFj0eN3pYMTlG/7g65xEcEGwtwf8Wwj1vpszecBPk+tiIyhmc4f7?=
+ =?us-ascii?Q?dUVDRW7zTmKX1vbQtKUFVu7Ez2R1Bh8Nb72QPy418vEhLCZiK3o0l3psxoNf?=
+ =?us-ascii?Q?X3FYlhEX/DQuAhONUUqwlKIkM84orwIt8d3/91UgJz/RmdQ/d4Emt3tb0avZ?=
+ =?us-ascii?Q?c7qsFoZQOy9xLxMtyKxwNhIEL3DKKT6td2lyAtLhFa8GRukxwmDa+itn7mi4?=
+ =?us-ascii?Q?gBdtUYBJkQeGoml0qdH6RU3iXRZjZ1TdMcnkh8kOJ2Po4P3g8eX7kdILONzJ?=
+ =?us-ascii?Q?I7M/TTUqhDezzoDzAdipVQg9uRKp9Zbpjs0xTLPAP9cJZMIIdiaFjMHqC5A2?=
+ =?us-ascii?Q?6DPLKZlXZtBMHKx7eWPnIGhsWtGKPRFEvPbWFqX957eiarDRSuREejn54UyT?=
+ =?us-ascii?Q?Vy3j/3EAU3N9cWrNIHOKsY37Q0Lx6E4UjJ0wBFnaL1v7azJKFBdiXsf+cZlC?=
+ =?us-ascii?Q?sKvUhi1B01B8/Y/tTMmHXLlND+JfiiMxcrHhR/8jaEuGXJXqE5CDdoS1Ah5F?=
+ =?us-ascii?Q?x+kTeWYgt7uO4eRrirlZHR/sx3vu+J8DpTrQj6kYEkp+K89gdUHG8nwPB4D7?=
+ =?us-ascii?Q?rH46PKSab+eyS4dhP0pGHIyecdv+dBvvsyOtotbSrOFcsI+VYg/0yooG1OWu?=
+ =?us-ascii?Q?x17GzIWELQYq4v8yhrfxMAARzZRKT0Bnbqo63aIWA9z781MsiEokP7ODBQc8?=
+ =?us-ascii?Q?VNTeVihphb/hmx1M6AExKfDPxsVZeHlLmxOKFDMWAXEJEFeQNfN58ADBb2yB?=
+ =?us-ascii?Q?A4YAPKXqO9Di7+UPoCpGc2KYfXKw+cnY62jKjCv29sqNkHvxngwwW9yri6AH?=
+ =?us-ascii?Q?0WJ6NSDk1CjisRi6yeynHdvXOTRnV7gijN4ibXH2Xgv3KI12IHufUQpPzivU?=
+ =?us-ascii?Q?IDLzCglrqnG5J5WBVYY7QVAzoEBZrEKZi12/gV6t/49cmXGW0ZElJKqrxKjQ?=
+ =?us-ascii?Q?v+iV+chOL/I7zzr1ojbln9T72SOabH0ogWxmQ5vSDqjRpbM+1usjX+Qfjso4?=
+ =?us-ascii?Q?WuJXCFMfs+CkJitJuVpKfQ7FY0sxFbn2wQ0EfGYDNmWqjRyMlvB82zXRXPZI?=
+ =?us-ascii?Q?QPz1AKiubGLhDMgk85faepk9mjFQCMDfLTC4StUAMvMl4z2Yk5zZL5NvUo02?=
+ =?us-ascii?Q?LLdcNknokToYIsP2c7ye0pO/9MPGeBkectHY/Ao1y2WA36r8hD8Lz0IwMUfX?=
+ =?us-ascii?Q?WERrreK08iB6McX/4aJNzgQ45cV23dFZHVX+WHdnEOh63nGK7MiRr3Jvp5xD?=
+ =?us-ascii?Q?eH3mc3ogdzcob/vDUGzKqVqlyEfv2HrKkDtZvd8j0GGoK8pKucPedefsoukp?=
+ =?us-ascii?Q?7yTzYSJLB2d2oWwz8OI=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB7165.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e46054a2-8268-4b60-4bb9-08de2310b629
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Nov 2025 23:59:41.5576 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LEw8+CQ5f0U47tG14Tq03lm/rokox7FkZZpRNWYtXJugUfElzitB5pddaugIU24Zae5KTr1UkVktZhVczOjo9Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9620
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,14 +168,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 07, 2025 at 12:49:39PM -0400, Jason Gunthorpe wrote:
-> Since dmabuf only has APIs that work on a int fd and not a struct file *,
+[AMD Official Use Only - AMD Internal Distribution Only]
 
-"an int fd"
+> -----Original Message-----
+> From: Klymenko, Anatoliy
+> Sent: Thursday, November 13, 2025 3:04 PM
+> To: 'Sean Anderson' <sean.anderson@linux.dev>; Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com>; Tomi Valkeinen
+> <tomi.valkeinen@ideasonboard.com>; dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org; Mike Looijmans <mike.looijmans@topic.nl=
+>;
+> David Airlie <airlied@gmail.com>; Thomas Zimmermann
+> <tzimmermann@suse.de>; Maarten Lankhorst
+> <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
+> linux-arm-kernel@lists.infradead.org; Simona Vetter <simona@ffwll.ch>; Si=
+mek,
+> Michal <michal.simek@amd.com>
+> Subject: RE: [PATCH 3/3] drm: zynqmp: Add blend mode property to graphics
+> plane
+>
+> Hi Sean,
+>
+> Thank you for the patch.
+>
+> > -----Original Message-----
+> > From: Sean Anderson <sean.anderson@linux.dev>
+> > Sent: Thursday, November 13, 2025 12:37 PM
+> > To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>; Tomi Valkeine=
+n
+> > <tomi.valkeinen@ideasonboard.com>; dri-devel@lists.freedesktop.org
+> > Cc: linux-kernel@vger.kernel.org; Mike Looijmans <mike.looijmans@topic.=
+nl>;
+> > David Airlie <airlied@gmail.com>; Thomas Zimmermann
+> > <tzimmermann@suse.de>; Maarten Lankhorst
+> > <maarten.lankhorst@linux.intel.com>; Klymenko, Anatoliy
+> > <Anatoliy.Klymenko@amd.com>; Maxime Ripard <mripard@kernel.org>;
+> linux-
+> > arm-kernel@lists.infradead.org; Simona Vetter <simona@ffwll.ch>; Simek,
+> > Michal <michal.simek@amd.com>; Sean Anderson
+> > <sean.anderson@linux.dev>
+> > Subject: [PATCH 3/3] drm: zynqmp: Add blend mode property to graphics
+> plane
+> >
+> > Caution: This message originated from an External Source. Use proper
+> caution
+> > when opening attachments, clicking links, or responding.
+> >
+> >
+> > When global alpha is enabled, per-pixel alpha is ignored. Allow
+> > userspace to explicitly specify whether to use per-pixel alpha by
+> > exposing it through the blend mode property. I'm not sure whether the
+> > per-pixel alpha is pre-multiplied or not [1], but apparently it *must* =
+be
+> > pre-multiplied so I guess we have to advertise it.
+> >
+> > [1] All we get is "The alpha value available with the graphics stream
+> >     will define the transparency of the graphics."
+> >
+> > Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+> > ---
+> >
+> >  drivers/gpu/drm/xlnx/zynqmp_kms.c | 24 ++++++++++++++++++++++--
+> >  1 file changed, 22 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> > b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> > index 456ada9ac003..fa1cfc16db36 100644
+> > --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> > +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> > @@ -61,6 +61,13 @@ static int zynqmp_dpsub_plane_atomic_check(struct
+> > drm_plane *plane,
+> >         if (!new_plane_state->crtc)
+> >                 return 0;
+> >
+> > +       if (new_plane_state->pixel_blend_mode !=3D
+> > DRM_MODE_BLEND_PIXEL_NONE &&
+> > +           new_plane_state->alpha >> 8 !=3D 0xff) {
+> > +               drm_dbg_kms(plane->dev,
+> > +                           "Plane alpha must be 1.0 when using pixel a=
+lpha\n");
+> > +               return -EINVAL;
+> > +       }
+> > +
+> >         crtc_state =3D drm_atomic_get_crtc_state(state, new_plane_state=
+->crtc);
+> >         if (IS_ERR(crtc_state))
+> >                 return PTR_ERR(crtc_state);
+> > @@ -117,9 +124,13 @@ static void
+> > zynqmp_dpsub_plane_atomic_update(struct drm_plane *plane,
+> >
+> >         zynqmp_disp_layer_update(layer, new_state);
+> >
+> > -       if (plane->index =3D=3D ZYNQMP_DPSUB_LAYER_GFX)
+> > -               zynqmp_disp_blend_set_global_alpha(dpsub->disp, true,
+> > +       if (plane->index =3D=3D ZYNQMP_DPSUB_LAYER_GFX) {
+> > +               bool blend =3D plane->state->pixel_blend_mode =3D=3D
+> > +                            DRM_MODE_BLEND_PIXEL_NONE;
 
-> pass the fd deeper into the call chain so we can use the dmabuf APIs as
-> is.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+I would suggest adding
+|| !plane->state->fb->format->has_alpha;
+pixel_blend_mode doesn't make a lot of sense for non-alpha formats but may
+have a negative effect on Mike's fix
+https://lore.kernel.org/dri-devel/20250627145058.6880-1-mike.looijmans@topi=
+c.nl/
+if user isn't careful enough around this property.
 
-Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
+> > +
+> > +               zynqmp_disp_blend_set_global_alpha(dpsub->disp, blend,
+> >                                                    plane->state->alpha =
+>> 8);
+> > +       }
+> >
+> >         /*
+> >          * Unconditionally enable the layer, as it may have been disabl=
+ed
+> > @@ -179,9 +190,18 @@ static int zynqmp_dpsub_create_planes(struct
+> > zynqmp_dpsub *dpsub)
+> >                         return ret;
+> >
+> >                 if (i =3D=3D ZYNQMP_DPSUB_LAYER_GFX) {
+> > +                       unsigned int blend_modes =3D
+> > +                               BIT(DRM_MODE_BLEND_PIXEL_NONE) |
+> > +                               BIT(DRM_MODE_BLEND_PREMULTI);
+>
+> | BIT(DRM_MODE_BLEND_COVERAGE) - this is what implemented in the
+> hardware.
+>
+> > +
+> >                         ret =3D drm_plane_create_alpha_property(plane);
+> >                         if (ret)
+> >                                 return ret;
+> > +
+> > +                       ret =3D drm_plane_create_blend_mode_property(pl=
+ane,
+> > +                                                                  blen=
+d_modes);
+> > +                       if (ret)
+> > +                               return ret;
+> >                 }
+> >         }
+> >
+> > --
+> > 2.35.1.1320.gc452695387.dirty
+>
+> Thank you,
+> Anatoliy
+
+Thank you,
+Anatoliy
+
