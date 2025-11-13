@@ -2,50 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A47C56EA4
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 11:40:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E29D0C56E96
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 11:40:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C1DE10E5F7;
-	Thu, 13 Nov 2025 10:40:21 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="i+WlKwkW";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 287D310E5E6;
+	Thu, 13 Nov 2025 10:40:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E245A10E348
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 10:40:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1763030405;
- bh=d0BISNUkV7s4Q6xJJ8EHmMfz1I6X69ZYJfK2Ac2Oqbs=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=i+WlKwkWY9yYrniYB+7zvRV/UVwZ3+wnSpGrzkbfTtS+MP7ZzAeLgtZvXIq+FUPTO
- p7kqwzx+PHndp+ARZCF+wRIbeHAsx5L3QdhIEF0uDdcuQkTIxsP6Jh9FEUWw3AaJn6
- 3dLTVl7fqOw6mcHV4IttZvvd4fJ/9hMwVGce81lFlX0TAyKAvfAaklzx5p2Qm9Jh/Y
- JgQig2L1ktfC4EJFoCoBhxVi5sHt6zuvvmf1uEJ63VUMWqdrIjMQE/rRg4I6h4WEyu
- KyfCk2zaTnwiJEGM6Jg0qQXzftWOxgMPG+B+4aUUY6bxOYYN4kB/TeAJsJcGFKJNbi
- 0AouJHdZ3IgPQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4326017E0364;
- Thu, 13 Nov 2025 11:40:05 +0100 (CET)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>,
- Karunika Choo <karunika.choo@arm.com>, kernel@collabora.com
-Subject: [PATCH v2 6/6] drm/panthor: Relax a check in panthor_sched_pre_reset()
-Date: Thu, 13 Nov 2025 11:39:53 +0100
-Message-ID: <20251113103953.1519935-7-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251113103953.1519935-1-boris.brezillon@collabora.com>
-References: <20251113103953.1519935-1-boris.brezillon@collabora.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 8935F10E348
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 10:40:07 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A92012FC
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 02:39:59 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E26C73F5A1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 02:40:06 -0800 (PST)
+Date: Thu, 13 Nov 2025 10:39:58 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Abhishek Rajput <abhiraj21put@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/komeda: Convert logging in komeda_event.c to drm_*
+ with
+Message-ID: <aRW1fobS0XbAJPTF@e110455-lin.cambridge.arm.com>
+References: <20251113100623.162327-1-abhiraj21put@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251113100623.162327-1-abhiraj21put@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,35 +49,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Groups are only moved out of the runnable lists when
-panthor_group_stop() is called or when they run out of jobs.
-What should not happen though is having one group added to one of
-the runnable list after reset.in_progress has been set to true, but
-that's not something we can easily check, so let's just drop the
-WARN_ON() in panthor_sched_pre_reset().
-
-v2:
-- Adjust explanation in commit message
+On Thu, Nov 13, 2025 at 03:36:23PM +0530, Abhishek Rajput wrote:
+> Replace the DRM_ERROR() call in
+> drivers/gpu/drm/arm/display/komeda/komeda_event.c with the corresponding
+> drm_err() helper that uses the existing drm_device parameter.
+> 
+> Using drm_err() allows the DRM core to prefix log messages with the
+> specific DRM device name and instance, which helps distinguish logs when
+> multiple display controllers are present.
+> 
+> This change aligns komeda_event.c with the DRM TODO item:
+> "Convert logging to drm_* functions with drm_device parameter".
+> 
+> Signed-off-by: Abhishek Rajput <abhiraj21put@gmail.com>
 
 Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_sched.c | 2 --
- 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index e74ca071159d..d121b794bd79 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -2836,8 +2836,6 @@ void panthor_sched_pre_reset(struct panthor_device *ptdev)
- 	 * new jobs while we're resetting.
- 	 */
- 	for (i = 0; i < ARRAY_SIZE(sched->groups.runnable); i++) {
--		/* All groups should be in the idle lists. */
--		drm_WARN_ON(&ptdev->base, !list_empty(&sched->groups.runnable[i]));
- 		list_for_each_entry_safe(group, group_tmp, &sched->groups.runnable[i], run_node)
- 			panthor_group_stop(group);
- 	}
+Best regards,
+Liviu
+
+> ---
+>  drivers/gpu/drm/arm/display/komeda/komeda_event.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_event.c b/drivers/gpu/drm/arm/display/komeda/komeda_event.c
+> index 53f944e66dfc..78a4a78d1fab 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_event.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_event.c
+> @@ -148,7 +148,7 @@ void komeda_print_events(struct komeda_events *evts, struct drm_device *dev)
+>  		komeda_sprintf(&str, ", pipes[1]: ");
+>  		evt_str(&str, evts->pipes[1]);
+>  
+> -		DRM_ERROR("err detect: %s\n", msg);
+> +		drm_err(dev, "err detect: %s\n", msg);
+>  		if ((err_verbosity & KOMEDA_DEV_PRINT_DUMP_STATE_ON_EVENT) &&
+>  		    (evts_mask & (KOMEDA_ERR_EVENTS | KOMEDA_WARN_EVENTS)))
+>  			drm_state_dump(dev, &p);
+> -- 
+> 2.43.0
+> 
+
 -- 
-2.51.1
-
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
