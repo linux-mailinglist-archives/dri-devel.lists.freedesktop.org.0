@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130D6C582B5
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 16:03:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9427C582D2
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 16:03:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF4E10E888;
-	Thu, 13 Nov 2025 15:03:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0065910E896;
+	Thu, 13 Nov 2025 15:03:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PrPdozC6";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HpFlOjjJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0AEF10E866;
- Thu, 13 Nov 2025 15:03:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 256D210E866;
+ Thu, 13 Nov 2025 15:03:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763046203; x=1794582203;
+ t=1763046204; x=1794582204;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=mKCfGvyzNhw96Cnh7FIRHLBI440Q6rRaNHGoDV+QYYs=;
- b=PrPdozC609gDHHe33jnkM+omof/ThnLh3DLtLIwECVF6Yh7ygIVli5rw
- v3I6qu5xjja/1yzkmfYH0iSXCjcJXha6X8hXgqMXSnmnylpnLa0KD3TCi
- mcjEITFdvmJ2J8vMzcafz/1rYHj79U+dYTgSqh7lwqGG6bEiBU3G/nqD5
- kiGfo6Cv+uFJKaHtG/e2Tset5phAvmat36r+uit6ZXvnr7wjyyybk7Jsz
- pgeSXi3scTPeoD8ACASdznMStshcL/VS4o2xgs8cMdULs5j90qXs0JEG3
- SALZ6AnFyDvpkuA29YK9kRnTVmUY9jX9L0TB9RnHg5ykGnBebgYKYSzpp Q==;
-X-CSE-ConnectionGUID: 3N/mfCc8RZiM5RVJppGfAw==
-X-CSE-MsgGUID: RM+YA1dSSYGble9gtK13kA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65054734"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="65054734"
+ bh=OtFs4nYXEH1ThWKykhpKfwgYG7osOn2qi/Z49bIrWUw=;
+ b=HpFlOjjJwS/KP/kXhIYqxcryemDrFhfAw/lYJfFeoG7+ZzyNZKfb2a6N
+ wJS4C5X4QkND3eOZCXENN3UVQv4nl37zM9/opXGkIgIAaRLjPBZuzpsjP
+ D3GcBG2CXr/Px2SYR4M8tAZUfygAWDLgaYqP4r1Br002HHkUWEpiLZu7y
+ 104S3+SaGOx7Hr1A7FkfTD0wu3OAluMoNb34Ru4JoNnjQ1Jp+xB3AYdRR
+ 4rwwR9hx7ZtBActopR8sZuN4EAgI8mbXT4nzpm/XPscww9f7xlN5SGVpI
+ lfCKxk9Scxy/8LOySzH4votjz4TgruEXl+zBIMxNCCls0CrhskOfIG9NQ w==;
+X-CSE-ConnectionGUID: Oh+mGb5QRhivgwjbvoZ5ZQ==
+X-CSE-MsgGUID: 1BAQzRR8ROuEFZ+QqGycyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65054758"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="65054758"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  13 Nov 2025 07:03:03 -0800
-X-CSE-ConnectionGUID: yKzzlJzzQWapQitGWcT/+Q==
-X-CSE-MsgGUID: xLZAMTLNQZqO3A74MNxPAA==
+X-CSE-ConnectionGUID: wsJEWqiyRSOTWbBWxtwAyw==
+X-CSE-MsgGUID: TObbgzKmSz6dKnfJs+E4CA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="220325230"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="220325238"
 Received: from black.igk.intel.com ([10.91.253.5])
- by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2025 07:02:54 -0800
+ by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2025 07:02:55 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
- id 81C62AA; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
+ id 88811AB; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -113,9 +113,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  Masami Hiramatsu <mhiramat@kernel.org>,
  Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
  Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v3 20/21] scsi: snic: Switch to use %ptSp
-Date: Thu, 13 Nov 2025 15:32:34 +0100
-Message-ID: <20251113150217.3030010-21-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 21/21] tracing: Switch to use %ptSp
+Date: Thu, 13 Nov 2025 15:32:35 +0100
+Message-ID: <20251113150217.3030010-22-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
 References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
@@ -139,57 +139,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Use %ptSp instead of open coded variants to print content of
 struct timespec64 in human readable format.
 
-Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/scsi/snic/snic_debugfs.c | 10 ++++------
- drivers/scsi/snic/snic_trc.c     |  5 ++---
- 2 files changed, 6 insertions(+), 9 deletions(-)
+ kernel/trace/trace_output.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/scsi/snic/snic_debugfs.c b/drivers/scsi/snic/snic_debugfs.c
-index 9dd975b36b5b..edf3e5ef28a6 100644
---- a/drivers/scsi/snic/snic_debugfs.c
-+++ b/drivers/scsi/snic/snic_debugfs.c
-@@ -282,8 +282,8 @@ snic_stats_show(struct seq_file *sfp, void *data)
- 	jiffies_to_timespec64(stats->misc.last_ack_time, &last_ack_tms);
+diff --git a/kernel/trace/trace_output.c b/kernel/trace/trace_output.c
+index ebbab3e9622b..cc2d3306bb60 100644
+--- a/kernel/trace/trace_output.c
++++ b/kernel/trace/trace_output.c
+@@ -1490,12 +1490,12 @@ trace_hwlat_print(struct trace_iterator *iter, int flags,
  
- 	seq_printf(sfp,
--		   "Last ISR Time               : %llu (%8llu.%09lu)\n"
--		   "Last Ack Time               : %llu (%8llu.%09lu)\n"
-+		   "Last ISR Time               : %llu (%ptSp)\n"
-+		   "Last Ack Time               : %llu (%ptSp)\n"
- 		   "Ack ISRs                    : %llu\n"
- 		   "IO Cmpl ISRs                : %llu\n"
- 		   "Err Notify ISRs             : %llu\n"
-@@ -298,10 +298,8 @@ snic_stats_show(struct seq_file *sfp, void *data)
- 		   "Queue Ramp Down             : %lld\n"
- 		   "Queue Last Queue Depth      : %lld\n"
- 		   "Target Not Ready            : %lld\n",
--		   (u64) stats->misc.last_isr_time,
--		   last_isr_tms.tv_sec, last_isr_tms.tv_nsec,
--		   (u64)stats->misc.last_ack_time,
--		   last_ack_tms.tv_sec, last_ack_tms.tv_nsec,
-+		   (u64) stats->misc.last_isr_time, &last_isr_tms,
-+		   (u64) stats->misc.last_ack_time, &last_ack_tms,
- 		   (u64) atomic64_read(&stats->misc.ack_isr_cnt),
- 		   (u64) atomic64_read(&stats->misc.cmpl_isr_cnt),
- 		   (u64) atomic64_read(&stats->misc.errnotify_isr_cnt),
-diff --git a/drivers/scsi/snic/snic_trc.c b/drivers/scsi/snic/snic_trc.c
-index c2e5ab7e976c..6bad1ea9a6a7 100644
---- a/drivers/scsi/snic/snic_trc.c
-+++ b/drivers/scsi/snic/snic_trc.c
-@@ -56,9 +56,8 @@ snic_fmt_trc_data(struct snic_trc_data *td, char *buf, int buf_sz)
- 	jiffies_to_timespec64(td->ts, &tmspec);
+ 	trace_assign_type(field, entry);
  
- 	len += snprintf(buf, buf_sz,
--			"%llu.%09lu %-25s %3d %4x %16llx %16llx %16llx %16llx %16llx\n",
--			tmspec.tv_sec,
--			tmspec.tv_nsec,
-+			"%ptSp %-25s %3d %4x %16llx %16llx %16llx %16llx %16llx\n",
-+			&tmspec,
- 			td->fn,
- 			td->hno,
- 			td->tag,
+-	trace_seq_printf(s, "#%-5u inner/outer(us): %4llu/%-5llu ts:%lld.%09ld count:%d",
++	trace_seq_printf(s, "#%-5u inner/outer(us): %4llu/%-5llu ts:%ptSp count:%d",
+ 			 field->seqnum,
+ 			 field->duration,
+ 			 field->outer_duration,
+-			 (long long)field->timestamp.tv_sec,
+-			 field->timestamp.tv_nsec, field->count);
++			 &field->timestamp,
++			 field->count);
+ 
+ 	if (field->nmi_count) {
+ 		/*
 -- 
 2.50.1
 
