@@ -2,82 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199C4C594C4
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 18:57:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEE9CC59509
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 19:01:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4CD910E8F3;
-	Thu, 13 Nov 2025 17:57:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72E2410E903;
+	Thu, 13 Nov 2025 18:01:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="F6BbOrdq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bIMbvRtT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9166110E1E9
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 17:57:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 45C4B40923;
- Thu, 13 Nov 2025 17:57:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C65ADC2BCB4;
- Thu, 13 Nov 2025 17:57:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763056663;
- bh=sx3FdITHyUsho2TuXz9tyb+nFy6gs9cRfJfgUm1fuoE=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=F6BbOrdqfcx3UNwYBBT7zJ5VVW/geZS3gxKpVsJ4GPbamufhvf9/6hJwH+vAkDJxn
- G0xY7whTbF4Ev9510Ujil5bjtYtpLYjHtmhEvk6f9vENNmswrKVrENYbBPhs7zoClS
- hoCpX8gYqry+XDZcCWam5iGn4Xw4tB9r7vsoDhc4htkAC3kDTaRfHKx9RAnw8LnhEN
- xCuHEg2fPlZUVV2yH/2wmZ2AfDUB8TJ8weStmgBsekwFpK69IjAEMy5OtLrsWt0f7z
- fKGBi/i5mgDMoB5bGitXqFpkFmxv0qpmD6TeqbxEtJIrWvjukgqMh87dV6Yf4csgmI
- xDFVhQ1M8G5bA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id BF595CD98C4;
- Thu, 13 Nov 2025 17:57:43 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Thu, 13 Nov 2025 18:57:46 +0100
-Subject: [PATCH v2 12/12] drm/panel: sofef00: Non-continuous mode and video
- burst are supported
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D241B10E901;
+ Thu, 13 Nov 2025 18:01:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1763056868; x=1794592868;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=nA81Fk9n7LIA98JvH5Hk8Vg1CCfb82xA0OlHFv7E1lg=;
+ b=bIMbvRtTh16/JyATDWB+V0q9fdGUD9WJxEP4/xxURg4BndECdzJgmI4x
+ tR9cOov9VTBzEgoFokM/itcfoBO0lO301v/33FK4Oa3UyIyG4dD5PMrt5
+ rB5gnpE1ix5gm70BXEHYK3tGJMPsllERtG96rQpfZz5f47FMPXA3ZX8JX
+ Ldv0v5X6OMCElxN+mkKlOVLVy94ldhYliV6sCpzUYOumj5YW3EYOmkYIE
+ xvMAjFveBWvL5Gkdb00gu8wBVALXlkVY0uX+VBAh3lhx+uM/jCklvjyH4
+ AvfWAh3g62mWuWtML4LwsFZzZaY1jwkjd/Y24ryDXiTSyyNRUMaft6kV8 w==;
+X-CSE-ConnectionGUID: JIWez+mhQm6NzYHrcNcitw==
+X-CSE-MsgGUID: DDsrVXyfRyGBm4CNBf8XLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="75826823"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="75826823"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2025 10:01:08 -0800
+X-CSE-ConnectionGUID: amGgviHGTPilQnAo1TeNbw==
+X-CSE-MsgGUID: g0CH5JkHSjq0koaZP/hR0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="194713548"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.164])
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2025 10:01:01 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ "Michael J . Ruhl" <mjruhl@habana.ai>,
+ Andi Shyti <andi.shyti@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org,
+ =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH v4 00/11] PCI: Resizable BAR improvements
+Date: Thu, 13 Nov 2025 20:00:42 +0200
+Message-Id: <20251113180053.27944-1-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251113-sofef00-rebuild-v2-12-e175053061ec@ixit.cz>
-References: <20251113-sofef00-rebuild-v2-0-e175053061ec@ixit.cz>
-In-Reply-To: <20251113-sofef00-rebuild-v2-0-e175053061ec@ixit.cz>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Casey Connolly <casey.connolly@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=802; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=OE1UAGoiypb8yw70x3xMaGL61XZlHwmG/9vzbFRjYK8=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpFhwVlzxcTH43qFIgD1KeqqVc+hIM0YBZcnxct
- +/4Os9eYZuJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaRYcFQAKCRBgAj/E00kg
- cpu6EADNb3oMH/dyM3eFqfmZwlMVEwrACCIRZysVcIzs9Exj+pK1EtPklFvQtPe51Zy8cq6+BoV
- I/VWjBWU61WgHNTRk3u+pPMnJPM1iEBs6NbhH7XiGNHR5nZqQu7HTmMDDyU7q4PoNeXz74m5MaT
- j8GF8GhLkQodcCQ3VMKSzbNMQij8xJu8ZmxOMF3J9rbN1qQjlGnioxlKS5Qi7IJnhSJFxkYFdhC
- hVbnvErRCiap/Lf+r3AQ9JujZiYRhtE78vDaRcGkwVdFMCiQ1UJfApoh9r2pZ3//E4T5H9S0Wbk
- xIDN17ni2z58jGF00iFOOetDX2BhA0/9agxUUL3Yo6hQiizXX/lujDNf0FLDLEU6FTIiFPp4JZT
- VaVeWi4nzJkEfRC9awIxeKWdFtbdO7Yl5cIfnEh1TTlZ+yI9tzHEmeDxO/2fh4TZSSkMY8Lg3TV
- BKXBal4GfW/C/oniamNbZRmLp9P0bzOOjBFGGcqrUtS7uYXNlpsQfmBlmcU/Qq76etBkhkI1kI4
- aj6SjOCd4ncoaE131T8vGCmgyKGhRbPzTT0Sh7Mj/GjrzmKjZD9ZVsdYktAQpmixQMZKDHPtyLw
- K28YEkBQaNwODnumgKKmDl9YwYD0rmvJqE/y/Gs0DtdBbLk+ffzMOsH+yhmGZ8pPqWxcTdaHVUe
- qwQUmeS+ZPhuq6w==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,35 +78,82 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: david@ixit.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Heidelberg <david@ixit.cz>
+pci.c has been used as catch everything that doesn't fits elsewhere
+within PCI core and thus resizable BAR code has been placed there as
+well. Move Resizable BAR related code to a newly introduced rebar.c to
+reduce size of pci.c. After move, there are no pci_rebar_*() calls from
+pci.c indicating this is indeed well-defined subset of PCI core.
 
-The panel supports both modes.
+Endpoint drivers perform Resizable BAR related operations which could
+well be performed by PCI core to simplify driver-side code. This
+series adds a few new API functions to that effect and converts the
+drivers to use the new APIs (in separate patches).
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- drivers/gpu/drm/panel/panel-samsung-sofef00.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+While at it, also convert BAR sizes bitmask to u64 as PCIe spec already
+specifies more sizes than what will fit u32 to make the API typing more
+future-proof. The extra sizes beyond 128TB are not added at this point.
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-index 8286cad385738..b330c4a1ad19d 100644
---- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-@@ -236,7 +236,8 @@ static int sofef00_panel_probe(struct mipi_dsi_device *dsi)
- 
- 	dsi->lanes = 4;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
--	dsi->mode_flags = MIPI_DSI_MODE_LPM;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM;
- 
- 	ctx->panel.prepare_prev_first = true;
- 
+Some parts of this are to be used by the resizable BAR changes into the
+resource fitting/assingment logic but these seem to stand on their own
+so sending these out now to reduce the size of the other patch series.
 
+This v4 rebases what's currently in pci/rebar on top of the BAR resize
+changes in pci/resource as they'd have nasty conflicts otherwise so
+they can start to peacefully coexist in the pci/resource branch.
+
+v4:
+- Rebased on top of pci/resource changes to solve conflicts
+
+v3: https://lore.kernel.org/linux-pci/20251022133331.4357-1-ilpo.jarvinen@linux.intel.com/
+- Rebased to solve minor conflicts
+
+v2: https://lore.kernel.org/linux-pci/20250915091358.9203-1-ilpo.jarvinen@linux.intel.com/
+- Kerneldoc:
+  - Improve formatting of errno returns
+  - Open "ctrl" -> "control"
+  - Removed mislead "bit" words (when referring to BAR size)
+  - Rewrote pci_rebar_get_possible_sizes() kernel doc to not claim the
+    returned bitmask is defined in PCIe spec as the capability bits now
+    span across two registers in the spec and are not continuous (we
+    don't support the second block of bits yet, but this API is expected
+    to return the bits without the hole so it will not be matching with
+    the spec layout).
+- Dropped superfluous zero check from pci_rebar_size_supported()
+- Small improvement to changelog of patch 7
+
+Ilpo Järvinen (11):
+  PCI: Move Resizable BAR code to rebar.c
+  PCI: Clean up pci_rebar_bytes_to_size() and move to rebar.c
+  PCI: Move pci_rebar_size_to_bytes() and export it
+  PCI: Improve Resizable BAR functions kernel doc
+  PCI: Add pci_rebar_size_supported() helper
+  drm/i915/gt: Use pci_rebar_size_supported()
+  drm/xe/vram: Use PCI rebar helpers in resize_vram_bar()
+  PCI: Add pci_rebar_get_max_size()
+  drm/xe/vram: Use pci_rebar_get_max_size()
+  drm/amdgpu: Use pci_rebar_get_max_size()
+  PCI: Convert BAR sizes bitmasks to u64
+
+ Documentation/driver-api/pci/pci.rst        |   3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c  |   8 +-
+ drivers/gpu/drm/i915/gt/intel_region_lmem.c |  10 +-
+ drivers/gpu/drm/xe/xe_vram.c                |  32 +-
+ drivers/pci/Makefile                        |   2 +-
+ drivers/pci/iov.c                           |  10 +-
+ drivers/pci/pci-sysfs.c                     |   2 +-
+ drivers/pci/pci.c                           | 149 ---------
+ drivers/pci/pci.h                           |   5 +-
+ drivers/pci/rebar.c                         | 325 ++++++++++++++++++++
+ drivers/pci/setup-res.c                     |  85 -----
+ include/linux/pci.h                         |  15 +-
+ 12 files changed, 361 insertions(+), 285 deletions(-)
+ create mode 100644 drivers/pci/rebar.c
+
+
+base-commit: 5388d5c3a95dd4f28714a4689c2877ba8c990b6b
 -- 
-2.51.0
-
+2.39.5
 
