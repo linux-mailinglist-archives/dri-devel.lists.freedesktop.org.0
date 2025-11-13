@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E226CC580E1
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 15:53:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99820C580D5
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 15:53:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8B7A10E846;
-	Thu, 13 Nov 2025 14:53:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C919110E834;
+	Thu, 13 Nov 2025 14:53:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VSBSU6Tv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="SBjR81W0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
- [209.85.208.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E367810E83E
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 14:53:42 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id
- 4fb4d7f45d1cf-640a3317b89so1462021a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 06:53:42 -0800 (PST)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
+ [209.85.218.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8524610E83E
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 14:53:43 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id
+ a640c23a62f3a-b73301e6ab5so117987066b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 06:53:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763045621; x=1763650421; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1763045622; x=1763650422; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=PyPXU09MHf0sQOMw0xMzptL/19K/nBS/D4vJF5btR6A=;
- b=VSBSU6TvQNMPsCnoEz7/Wsjm1GjLiNINrVQNTs4Vx/gEKcwhxcWr4zv67rBxMQ7tps
- /UjuDw43APDk0TqcTihR3xBZn9KYdCSqXwrutiyLcs7C20duUFEAvudE/oZZJvCtCNDl
- ieDQIeFVOQohpPKBShsStz91v3bW74MVPJoQ3k7qX835PpeuLEKoxwE/Z3oUmNLoX/VC
- qf9lyxgP5/FFPocKc+aOiF7J+fHSSK3NWLqwsYk7vZpjyXQytECKuYfV8qIvod2MJTt7
- FxV4wbISX5oIYGiR6erFTSqsfPHGN25D1ov6g9nwo3Pf24Ja3eKTGNQcv1FS9IxzddD6
- o3tw==
+ :reply-to; bh=RL6rVAENXblPP/WtJ2kkdTszLuUIj+9DJtEA2dEhVX8=;
+ b=SBjR81W0Ba0J1OLbBHCBwkHko+hcFBaYL1IoUh6UlvcUBM1+fNl8bIk1BaSU/+hU7s
+ ho1uj2lgnRabICPVX8L6LF8+5A5Py4sOdnEFtPWuvuZduiiBA0MkxRej5cLrfhffCM+o
+ jRWqbM/eXIF6XJsPdJbvk4gwIKuMd0+w7TojYXO/PYmcI01/eIiCr1N2T7EWvNATHdaH
+ wH9AYN0QnqmARozuW8rL4eGkDdayoeFfeGdHf1oXgUVVcLh+VNO9bQ6PsDchO5d57zkL
+ YVqkTUfTKNicETeMC7s8YignHt8r3ZsX0lEHc7U+lYopRS2bM2LnZ1XINWdBqrzhRIJj
+ JB+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763045621; x=1763650421;
+ d=1e100.net; s=20230601; t=1763045622; x=1763650422;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=PyPXU09MHf0sQOMw0xMzptL/19K/nBS/D4vJF5btR6A=;
- b=KnACCnygUpXF0rrnrs2KrOfyE8uCTwJ94reU1/mqOO4bNBAdP0l4jU0H6ntAwfTA6g
- QTMsoiqx5Mklv6xFoQ5utmSGTU+diXvCH33xQMSQYxAu6TMeFZHLtqsmWJpcdSuydvAu
- FoxEloGyvcL56JXjj71/UnIrYivdB1BbS+6nxhsJz6pNL50xP6byzCn6lGKJUddCz9kK
- pz8w2ki1l9BSAWmNHQPp7VITizSyEhnvnHnHOkS1NTLr31D7af1ZqFUVoM9kC6Lcajjs
- tyjk1mNr6/FZMjoFPizQaYTyBwO0uYT2ZJ0vP1Xi3j+UpdrS+woPLEY5DYiGQOe9Myi/
- s00w==
+ bh=RL6rVAENXblPP/WtJ2kkdTszLuUIj+9DJtEA2dEhVX8=;
+ b=onBEJrRDJzH+e0z+86V54EJalXfHWs6pSN13V+NG4lezahJSX/VTDQAcINpogrtZDZ
+ mIpA5nTi5k5kdN5YNEejr48BhTbpSeZYIOhgKnAXW9EqSaWgMtdXpj91FpyqT8V9wDIS
+ Bps7Za9IdPDkoFeQjSVq1OqX7mLdxPii64ER7Hx83tq52mVkWYHYcTg69QJRFBL/Cwv0
+ +jMRLbbhP6qgb3ceNGXlcztxio5TCgAVhuGGP9+yKVx5dPKB7MczS9MROcNF6K0XCUJT
+ uaSSgRn1205hKfJqgXNw3PFdyyEvit7JH4qGYzM4/LhJLq3LlH7Cw7Gf3+XTcu4UfQU6
+ fHdw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVirZCEYw4D0LWpEJhCo5/oeKIYh0+2Wz1Cvsw8GDimQz1NXclmLd/5+RIZc4+rFIUch86aV+lO6fQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwVvKP3aK2HDttmfZ4FFIASCKigxYSUpG5afxZ3CBvhRtbxz4gf
- NDVfwq25rs6VMISNfrTvKabnb64/Eb6HaPxAO5IwVXICNQQKebpqysO3
-X-Gm-Gg: ASbGncvr9loiNaznNx7xd3ivt6UR8IHd595SGB+0JRdIsno+CXWDzuye9V/HiJmLCTi
- /a7ZIBk9wtinNTgABTXgBkuABy3ySCyXZJEiqcIcSgohszfDiwbojuycXcvUxO76TM4KYQ/jx+p
- KfvaXKeuxOsPnHeG9sZmNzFoHK2ho5TWi0Riiv4UQg2cW37FlbmSFlV8o2WTjMjnM+cEhl+6nfD
- d/+94kyJ88x/N1P7wWsZ8+nJDRBTXHxIY9hEcMVGBcF1pxL+KnVhwcdQNhK99FbH0x+tRk5G0q3
- Sbd2jf/LsB8U9OgJOyMKFMoY3hO8nVq+/HQm+Wq+788WzKrOtGW+KNZBGR3m93lS0bLYgo7uxBU
- gnaRqToVZmmsPSqVMparlV+SD8f+XrVYxCjePZ/aXCBE7K32p6B4Dp546MKGU87xC4h2TegEEUn
- zrwcT7hk0RO4MnR3SFnGZOdA==
-X-Google-Smtp-Source: AGHT+IGwF/OC+hr52+361MK7+mN4u8O29dW+FiL9JjV6JlzX+GGacshi6JqZmr/3Q1cXgUc/t7Hv0w==
-X-Received: by 2002:a17:907:94ca:b0:b70:fede:1b58 with SMTP id
- a640c23a62f3a-b733195fe6dmr706242866b.2.1763045621257; 
+ AJvYcCU+BlNzRhu9SHB+Hlo9MbUymhajYaKbi2DYJDpDiijpIuU4hyCPDVkFkwxWFBtoZYidVZ3jPlD6hEk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwiXeP3d4CjxsoDKD44aeFz9f5RDKBkMPLvbnBfizq2ja69c+41
+ VBABuoH9fAFxksspvCj/fU39qAyJN6lf7ZmF/xZHu48LdEIDT9ggB1GQ
+X-Gm-Gg: ASbGncuhdwcjtb6Hxd0arq6kBG++O6zpPWR4sfOIbzgSIaTZYF8il+dWR2xxU+oea8Q
+ d//e9e0aIccajOl0YrZcVJ94+0KRPNNh7yyrHo/ByewuKaUEKUQxuB04ZzDbYZ55yHcZNBc95t7
+ YqrgjdKJ6lSwE3EUmQrvseswxnw7t4SkE9opb8yWZ6phe9RYt6p8F39X3pdTGNyH0jJdPFsdNXw
+ 5F+AlCZVx1gKGUwlYQMLCdbxb1OgVqpDTvyqITBWugyYd8IuvLBLoljAmPQ2znPwXNurYWUEzOo
+ YMZdrriPlloouTMfdlLy3r/2gXEO4JJaJWlEyRiAQrUKZ1Xxo5hCxbOC8C7zzo27RZR/IeUAURU
+ varRqh7mF2AfhFPpluF1XBOS8dUkbxfAz0aC8kdKF2LFmSa6kPwtysvwrAkgb1uAPsHJKsVOtIY
+ VMkKOV31DBs0M=
+X-Google-Smtp-Source: AGHT+IGYQ0sKPnZptZ94g0b4Qw3M0eMfY5NZER2npxVtf37GPZpeeMZ5KtmaqoxHfAiQ/F3so5ZQuQ==
+X-Received: by 2002:a17:907:1c1b:b0:b37:4f78:55b2 with SMTP id
+ a640c23a62f3a-b7331b5f2b8mr710287666b.34.1763045621980; 
  Thu, 13 Nov 2025 06:53:41 -0800 (PST)
 Received: from able.fritz.box ([2a00:e180:15aa:c600:cef:d94:436c:abc5])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b73513b400fsm173747166b.1.2025.11.13.06.53.40
+ a640c23a62f3a-b73513b400fsm173747166b.1.2025.11.13.06.53.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 13 Nov 2025 06:53:40 -0800 (PST)
+ Thu, 13 Nov 2025 06:53:41 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -69,9 +69,9 @@ To: phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
  tursulin@ursulin.net, matthew.brost@intel.com,
  dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org
-Subject: [PATCH 08/18] drm/sched: use inline locks for the drm-sched-fence
-Date: Thu, 13 Nov 2025 15:51:45 +0100
-Message-ID: <20251113145332.16805-9-christian.koenig@amd.com>
+Subject: [PATCH 09/18] drm/amdgpu: fix KFD eviction fence enable_signaling path
+Date: Thu, 13 Nov 2025 15:51:46 +0100
+Message-ID: <20251113145332.16805-10-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251113145332.16805-1-christian.koenig@amd.com>
 References: <20251113145332.16805-1-christian.koenig@amd.com>
@@ -93,67 +93,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Using the inline lock is now the recommended way for dma_fence implementations.
-
-So use this approach for the scheduler fences as well just in case if
-anybody uses this as blueprint for its own implementation.
-
-Also saves about 4 bytes for the external spinlock.
+Calling dma_fence_is_signaled() here is illegal!
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/scheduler/sched_fence.c | 7 +++----
- include/drm/gpu_scheduler.h             | 4 ----
- 2 files changed, 3 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-index 08ccbde8b2f5..47471b9e43f9 100644
---- a/drivers/gpu/drm/scheduler/sched_fence.c
-+++ b/drivers/gpu/drm/scheduler/sched_fence.c
-@@ -161,7 +161,7 @@ static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
- 	/* If we already have an earlier deadline, keep it: */
- 	if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
- 	    ktime_before(fence->deadline, deadline)) {
--		spin_unlock_irqrestore(&fence->lock, flags);
-+		dma_fence_unlock_irqrestore(f, flags);
- 		return;
- 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+index 1ef758ac5076..09c919f72b6c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
+@@ -120,12 +120,6 @@ static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
+ {
+ 	struct amdgpu_amdkfd_fence *fence = to_amdgpu_amdkfd_fence(f);
  
-@@ -217,7 +217,6 @@ struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
- 
- 	fence->owner = owner;
- 	fence->drm_client_id = drm_client_id;
--	spin_lock_init(&fence->lock);
- 
- 	return fence;
- }
-@@ -230,9 +229,9 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
- 	fence->sched = entity->rq->sched;
- 	seq = atomic_inc_return(&entity->fence_seq);
- 	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
--		       &fence->lock, entity->fence_context, seq);
-+		       NULL, entity->fence_context, seq);
- 	dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
--		       &fence->lock, entity->fence_context + 1, seq);
-+		       NULL, entity->fence_context + 1, seq);
- }
- 
- module_init(drm_sched_fence_slab_init);
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index fb88301b3c45..b77f24a783e3 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -297,10 +297,6 @@ struct drm_sched_fence {
-          * belongs to.
-          */
- 	struct drm_gpu_scheduler	*sched;
--        /**
--         * @lock: the lock used by the scheduled and the finished fences.
--         */
--	spinlock_t			lock;
-         /**
-          * @owner: job owner for debugging
-          */
+-	if (!fence)
+-		return false;
+-
+-	if (dma_fence_is_signaled(f))
+-		return true;
+-
+ 	if (!fence->svm_bo) {
+ 		if (!kgd2kfd_schedule_evict_and_restore_process(fence->mm, f))
+ 			return true;
 -- 
 2.43.0
 
