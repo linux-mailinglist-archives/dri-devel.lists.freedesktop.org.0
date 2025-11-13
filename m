@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73BEC58B84
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 17:28:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C8A0C58B87
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 17:28:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEA3310E8CD;
-	Thu, 13 Nov 2025 16:28:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3BA310E8CC;
+	Thu, 13 Nov 2025 16:28:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Wm1FItS/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="d502RUC/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BA5510E8C4;
- Thu, 13 Nov 2025 16:28:36 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C369910E8C3;
+ Thu, 13 Nov 2025 16:28:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763051316; x=1794587316;
+ t=1763051328; x=1794587328;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=B26Ec9dWbSl4Gj6CIl71kjMp8WJ8/d82w0820A3xbuw=;
- b=Wm1FItS/cIgBC+13Y8gPsA+3seWP2PBd8oMaVdk8iaUVyIPDMjFFvdqX
- 4pfvYblEOydMcNWM5DFvqokp2sWVpVxy8bRFVD5UBflcvkKBkBBsBcDnO
- mfhulnulXBKZmsyzaLyaHoLAAAedWOSfSWVgy5mQ7N8GAx0u8EuFIBuZM
- 9qHUyyM79wvljoMDvQ4DQxgdIibkVvulGP6mVNAvTwEX0Q8UXOJn1ys5U
- /sF+TmeUFHLBOAAAJgm9FA/dU7W/P49jeyLevmaVwnpDYa+rE+kQEd+5O
- bZJJmRZQLXltoxdm5cz0aIgB5TuM0Hm70J+2TG9RNAg4fUMrWXaiPlCua g==;
-X-CSE-ConnectionGUID: uMBTSd6oSPeS5Og0eCjUAQ==
-X-CSE-MsgGUID: Su2VX6BLStWg5K9HIqN3Xg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="69002454"
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="69002454"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2025 08:28:36 -0800
-X-CSE-ConnectionGUID: 061ungIyS+iTUZqUn4XgzA==
-X-CSE-MsgGUID: Vz9zXO3SSmyNo9a5jYFbkg==
+ bh=00YqMn1xgNfaa8IyKneU1YTwVRsL/5ObnW9VBzHq/ws=;
+ b=d502RUC/EoG0ni9d5LYjvL0TLwWXkYQacJ7D1CwO+CWr+Y8uJa/0xn+F
+ CwrlliRfR4tnfnJndCjuy8BdlV2VO7wr/BdyuMlAe7t8oF/GG+AoBusYd
+ hzXcljP5sGsZfeLV9fFjx3TUNXQQddcwtnZ1+xTOZho1jm7q/xLFDChPT
+ 8PAyluVND05nKVhy8/a/9Ne7zDg+0rBYKX45JrjnA1MNT2hyWGqbRXC2w
+ 6IWm5OfHFmRt2Jew0fSJI4Edyw8/aJaJw79sBkX4VcTwDSx2FkVKMQox6
+ soNG09hPOI3GEqCfhabJ6Ql4s0qKkr/Co5Yfp11Y8Pz+UB0kv2Nu9HhRH w==;
+X-CSE-ConnectionGUID: xdDF8DgITJOPyos+HeF+iQ==
+X-CSE-MsgGUID: Z1dEJm5JR1iNb0S8qOhGew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="75817085"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="75817085"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2025 08:28:47 -0800
+X-CSE-ConnectionGUID: 3UTbcYBIT6uFhTCEDf9Vtw==
+X-CSE-MsgGUID: M1wNkJYUSeS9uzt+zjeutg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="194699545"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="189184706"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.245.164])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2025 08:28:29 -0800
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2025 08:28:41 -0800
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Simon Richter <Simon.Richter@hogyros.de>,
@@ -58,10 +58,9 @@ To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
  linux-kernel@vger.kernel.org
 Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v2 10/11] drm/amdgpu: Remove driver side BAR release before
- resize
-Date: Thu, 13 Nov 2025 18:26:27 +0200
-Message-Id: <20251113162628.5946-11-ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH v2 11/11] PCI: Prevent restoring assigned resources
+Date: Thu, 13 Nov 2025 18:26:28 +0200
+Message-Id: <20251113162628.5946-12-ilpo.jarvinen@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20251113162628.5946-1-ilpo.jarvinen@linux.intel.com>
 References: <20251113162628.5946-1-ilpo.jarvinen@linux.intel.com>
@@ -83,50 +82,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PCI core handles releasing device's resources and their rollback in
-case of failure of a BAR resizing operation. Releasing resource prior
-to calling pci_resize_resource() prevents PCI core from restoring the
-BARs as they were.
+restore_dev_resource() copies saved addresses and flags from the struct
+pci_dev_resource back to the struct resource, typically, during
+rollback from a failure or in preparation for a retry attempt.
 
-Remove driver-side release of BARs from the amdgpu driver.
+If the resource is within resource tree, the resource must not be
+modified as the resource tree could be corrupted. Thus, it's a bug to
+call restore_dev_resource() for assigned resources (which did happen
+due to logic flaws in the BAR resize rollback).
 
-Also remove the driver initiated assignment as pci_resize_resource()
-should try to assign as much as possible. If the driver side call
-manages to get more required resources assigned in some scenario, such
-a problem should be fixed inside pci_resize_resource() instead.
+Add WARN_ON_ONCE() into restore_dev_resource() to detect such bugs
+easily and return without altering the resource to prevent corruption.
 
 Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/pci/setup-bus.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 4e241836ae68..f11a255786d7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -1729,12 +1729,8 @@ int amdgpu_device_resize_fb_bar(struct amdgpu_device *adev)
- 	pci_write_config_word(adev->pdev, PCI_COMMAND,
- 			      cmd & ~PCI_COMMAND_MEMORY);
+diff --git a/drivers/pci/setup-bus.c b/drivers/pci/setup-bus.c
+index 7e268960954b..1d9fc078c7ad 100644
+--- a/drivers/pci/setup-bus.c
++++ b/drivers/pci/setup-bus.c
+@@ -15,6 +15,7 @@
+  */
  
--	/* Free the VRAM and doorbell BAR, we most likely need to move both. */
-+	/* Tear down doorbell as resizing will release BARs */
- 	amdgpu_doorbell_fini(adev);
--	if (adev->asic_type >= CHIP_BONAIRE)
--		pci_release_resource(adev->pdev, 2);
--
--	pci_release_resource(adev->pdev, 0);
+ #include <linux/bitops.h>
++#include <linux/bug.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+@@ -135,6 +136,9 @@ static void restore_dev_resource(struct pci_dev_resource *dev_res)
+ {
+ 	struct resource *res = dev_res->res;
  
- 	r = pci_resize_resource(adev->pdev, 0, rbar_size, 1 << 5);
- 	if (r == -ENOSPC)
-@@ -1743,8 +1739,6 @@ int amdgpu_device_resize_fb_bar(struct amdgpu_device *adev)
- 	else if (r && r != -ENOTSUPP)
- 		dev_err(adev->dev, "Problem resizing BAR0 (%d).", r);
- 
--	pci_assign_unassigned_bus_resources(adev->pdev->bus);
--
- 	/* When the doorbell or fb BAR isn't available we have no chance of
- 	 * using the device.
- 	 */
++	if (WARN_ON_ONCE(res->parent))
++		return;
++
+ 	res->start = dev_res->start;
+ 	res->end = dev_res->end;
+ 	res->flags = dev_res->flags;
 -- 
 2.39.5
 
