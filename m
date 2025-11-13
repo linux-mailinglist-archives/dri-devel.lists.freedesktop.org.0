@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B17C58298
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 16:03:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7756DC58289
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 16:03:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE43610E892;
-	Thu, 13 Nov 2025 15:03:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FB8D10E848;
+	Thu, 13 Nov 2025 15:03:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZWVUYrzm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LEDyz1Ac";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD00B10E88C;
- Thu, 13 Nov 2025 15:03:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FC6910E889;
+ Thu, 13 Nov 2025 15:03:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763046192; x=1794582192;
+ t=1763046189; x=1794582189;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=o4N7T+qVK77oOwqrK9kudMEIR18gnJzq4LSbPHl39rw=;
- b=ZWVUYrzmBEKIwX0usMyxOrfSYoP2UgwY0nrSn14TRTocAUycenIAgTRj
- l8izBXSkdqS2W+UCFV0Qx+Gzdw4rG/TE+809ZF6/ILywe6di7esYwyey3
- zRgBBHa7+hI0PBi9IA7VYApyXMqVLZwAY118IrGbIWBeNxP1wTMAjYjBt
- FuLd8QX5KnuXQQmJ43dy/FSLyB/dwoeS1iip1RVhpYNKkG+bUW16qE7O+
- Caxijdx2jef0d59Jaft004gMLVwUKLxPbL+Ypwvp4IUN61vMjatUgDq9A
- 6ifT5JJbVvPduH2KFBqN6+IjAqOXENgpXLtlAU2A75z9MepZIPBjbizON w==;
-X-CSE-ConnectionGUID: XXvHSWbNT1CEEFPWfG8MFw==
-X-CSE-MsgGUID: idm+yjm2RH6YvMw+4sKsXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65054609"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="65054609"
+ bh=9P5AC3KVHcn4TcLoSKblVZwstZQ28owfF1NSWgu0v6M=;
+ b=LEDyz1AcoJZN0tLlma6c3rh+TZZFhFnRb5Wworkfesyi82Cz19cRP+el
+ 64RVa38MOVQBoL3Yyz2UAa6J/xTS/kGXYfRSxGAkbYWKeYkQVjqCiUdl7
+ prttF3V3MPA/7WxS1N4yzBlH/dD2VGOt7qmx7BtvU1j5h4YKlqU8AJer/
+ BHQWy0izveX2Vvg8PU4Jsz5OqzwAwULMtjjvqrq+lczK3WJJCXEJwdfsI
+ 84Rv/tH2/nhtWSDeV/BfhX9NL+/dMi7TNf5EmYWaw6vTaoIXz+GDetxNz
+ wPbeo9NNrSr2nPjYk0MIMp/cA14AeOnPJK6XE5KGMi33Ky7FYJ0ho3ooL g==;
+X-CSE-ConnectionGUID: DgkyeFCvSPeaZMRZfX6ZFA==
+X-CSE-MsgGUID: dE3h2fZ4T8GB0KrHcYTsIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65054543"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; d="scan'208";a="65054543"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2025 07:02:58 -0800
-X-CSE-ConnectionGUID: cRt8JpLrQ+2Mar8fig0Szg==
-X-CSE-MsgGUID: 58dBm0YDQsaIwzqwvxDHqQ==
+ 13 Nov 2025 07:02:57 -0800
+X-CSE-ConnectionGUID: AydCmECNRpCLYzOsn/mxTw==
+X-CSE-MsgGUID: WE2PlCIlTNqCt+7aCVDUWA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="220325119"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="220325115"
 Received: from black.igk.intel.com ([10.91.253.5])
  by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2025 07:02:45 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
- id 60B69A5; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
+ id 67493A6; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -113,9 +113,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
  Masami Hiramatsu <mhiramat@kernel.org>,
  Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
  Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v3 15/21] PCI: epf-test: Switch to use %ptSp
-Date: Thu, 13 Nov 2025 15:32:29 +0100
-Message-ID: <20251113150217.3030010-16-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 16/21] pps: Switch to use %ptSp
+Date: Thu, 13 Nov 2025 15:32:30 +0100
+Message-ID: <20251113150217.3030010-17-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
 References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
@@ -139,28 +139,41 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Use %ptSp instead of open coded variants to print content of
 struct timespec64 in human readable format.
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Acked-by: Rodolfo Giometti <giometti@enneenne.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/pci/endpoint/functions/pci-epf-test.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/pps/generators/pps_gen_parport.c | 3 +--
+ drivers/pps/kapi.c                       | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
-index b05e8db575c3..debd235253c5 100644
---- a/drivers/pci/endpoint/functions/pci-epf-test.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-test.c
-@@ -331,9 +331,8 @@ static void pci_epf_test_print_rate(struct pci_epf_test *epf_test,
- 		rate = div64_u64(size * NSEC_PER_SEC, ns * 1000);
+diff --git a/drivers/pps/generators/pps_gen_parport.c b/drivers/pps/generators/pps_gen_parport.c
+index f5eeb4dd01ad..05bbf8d30ef1 100644
+--- a/drivers/pps/generators/pps_gen_parport.c
++++ b/drivers/pps/generators/pps_gen_parport.c
+@@ -80,8 +80,7 @@ static enum hrtimer_restart hrtimer_event(struct hrtimer *timer)
+ 	/* check if we are late */
+ 	if (expire_time.tv_sec != ts1.tv_sec || ts1.tv_nsec > lim) {
+ 		local_irq_restore(flags);
+-		pr_err("we are late this time %lld.%09ld\n",
+-				(s64)ts1.tv_sec, ts1.tv_nsec);
++		pr_err("we are late this time %ptSp\n", &ts1);
+ 		goto done;
+ 	}
  
- 	dev_info(&epf_test->epf->dev,
--		 "%s => Size: %llu B, DMA: %s, Time: %llu.%09u s, Rate: %llu KB/s\n",
--		 op, size, dma ? "YES" : "NO",
--		 (u64)ts.tv_sec, (u32)ts.tv_nsec, rate);
-+		 "%s => Size: %llu B, DMA: %s, Time: %ptSp s, Rate: %llu KB/s\n",
-+		 op, size, dma ? "YES" : "NO", &ts, rate);
- }
+diff --git a/drivers/pps/kapi.c b/drivers/pps/kapi.c
+index e9389876229e..6985c34de2ce 100644
+--- a/drivers/pps/kapi.c
++++ b/drivers/pps/kapi.c
+@@ -163,8 +163,7 @@ void pps_event(struct pps_device *pps, struct pps_event_time *ts, int event,
+ 	/* check event type */
+ 	BUG_ON((event & (PPS_CAPTUREASSERT | PPS_CAPTURECLEAR)) == 0);
  
- static void pci_epf_test_copy(struct pci_epf_test *epf_test,
+-	dev_dbg(&pps->dev, "PPS event at %lld.%09ld\n",
+-			(s64)ts->ts_real.tv_sec, ts->ts_real.tv_nsec);
++	dev_dbg(&pps->dev, "PPS event at %ptSp\n", &ts->ts_real);
+ 
+ 	timespec_to_pps_ktime(&ts_real, ts->ts_real);
+ 
 -- 
 2.50.1
 
