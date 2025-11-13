@@ -2,61 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BB5C5A782
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 00:08:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA4E7C5A8A9
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 00:26:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDDD910E959;
-	Thu, 13 Nov 2025 23:08:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1875C10E95E;
+	Thu, 13 Nov 2025 23:26:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="2V0F07x9";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Gbxz8mt5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 858BB10E959
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 23:08:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id BEF2E44138;
- Thu, 13 Nov 2025 23:08:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8BBCC4CEF7;
- Thu, 13 Nov 2025 23:08:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
- s=korg; t=1763075292;
- bh=2wvqa/HMit8pu0w6FTlokZJLz41y4povJ4/y0QBe68k=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=2V0F07x99YAiF85Sx7V1XWStJGYjslzh/mevzVy07rE/VuwVdP2ufpoJPqaCRs6Bk
- EN1xQs77scGH//E4rc4vilieGQQUwW44aylFuMIPg20ze2nBtAe21fLQKQpDoPL5Sh
- JXD/31O+MxpDt1neiBxsZiTtccuDP2TnCwhvKE60=
-Date: Thu, 13 Nov 2025 15:08:11 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: "David Hildenbrand (Red Hat)" <david@kernel.org>, Lorenzo Stoakes
- <lorenzo.stoakes@oracle.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, dri-devel@lists.freedesktop.org, Zi Yan
- <ziy@nvidia.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim
- <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, Gregory Price
- <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, Alistair
- Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>, Baolin
- Wang <baolin.wang@linux.alibaba.com>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>, Ryan Roberts
- <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
- <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>, Danilo Krummrich
- <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>, Mika
- =?ISO-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>, Matthew Brost
- <matthew.brost@intel.com>, Francois Dugast <francois.dugast@intel.com>
-Subject: Re: [PATCH] mm/huge_memory: fix override of entry in
- remove_migration_pmd
-Message-Id: <20251113150811.081a6dbdcca8b5c474d6e399@linux-foundation.org>
-In-Reply-To: <5092cfb0-ad25-40ff-9a07-3de86d37665f@nvidia.com>
-References: <20251113051352.1753714-1-balbirs@nvidia.com>
- <ed523668-92a3-4eaa-a999-4fb7a43e197d@lucifer.local>
- <dd1da795-d37a-47d2-87f5-50853ba43519@kernel.org>
- <5092cfb0-ad25-40ff-9a07-3de86d37665f@nvidia.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012023.outbound.protection.outlook.com [40.107.209.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A967010E95E
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 23:26:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=avY5lCGxd9Ag6iPSu7zP80R9zHI9L/FiAfgn0BNRaWF+fbZ13BHCBRLN2AGLu7Zd0FMQ562ngIi8YbR4lEvaYdFKomL56rqYp5VJj6h/rTxd9zOZJs3Mj38GUJ/NKcM/oMBQArDR4yA5w6zyr6ub/+hRKZrmE2KiS1HjwDzOxOy0pYC5SQXac8GAGPF9f/BVeQIAKvBzUDspMNOSsFRPLVH+aN5pKVqv4EB+pFDglbTUVx4e27O85MkPPkwfuTSXlXTLyAiW9PqqMghgbo5EU+ywCK+JS6ayMpyKx8LXtdgtmpvGy7RQ25KZ8p2uFeSxLE73gmOsKSTHf6VsZirvkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C5yD3B6CM6REeG59S7jRZj/+5X2tCoLL9EFQIFi/kWs=;
+ b=a0v8c2c6ZfRmZZm04NleY4QM3hptheb9SU+5nxn8LbeUPJe5z0CD1mGjT+GZC9iXYhuPQpalQ1o2oSNuAwTK2vOyYSJKe6H3NrsILROKCNerifUthz4q70NU2F7mx2DrcVpOujaj2i3Up5AfpHbzD/7v7vSlpZ17KfpL0pt18fS3p9idqcb6sFU+FsWJ8KgAepVH3s2dzoDLQJ4JEayZeeA8dMJsAYUTL5RXpVerJrZvaRtsgg+G/Ts08eCx4/JztLvD1UiGOsCQ15k+ZeggfAw9Vb97joj1xw00ye5Vb4TLOktbjiLnW7KNcvnU9eoeOu0BpM8dpi41SXaCehsjtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C5yD3B6CM6REeG59S7jRZj/+5X2tCoLL9EFQIFi/kWs=;
+ b=Gbxz8mt5p88j12DU6a9dzd6WLaknfLpBTJ9u6eIFmtGwYiFa0P0SgA1qdm5FtyqvBSU/FjF7/WfqfStv2kOwtxBTwwv0I3jc2rfPnk93AMVOSCCsh7h3FLRAN3YR7xEGUuJza4aum16ikiNLAxNZP2146Wem2VMXFVZXSX3RfEfFmLEFMnN2f5WJS7aq11nGAbLn/PYn7v/JyT4osRNmmna0xEiBRP8lZ7dLEMEPq73nTL9cLYzqIChvJdnS9WxTfIt2mHRYw/Hvx+K+tnNixaiJ+eIaNOFCcTm7Qw321YgcEwhbVnzmyJbEi5Aq2P+8iG/84huIRE4kFIUy2dwNqw==
+Received: from DS7PR03CA0186.namprd03.prod.outlook.com (2603:10b6:5:3b6::11)
+ by MN0PR12MB6104.namprd12.prod.outlook.com (2603:10b6:208:3c8::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.17; Thu, 13 Nov
+ 2025 23:26:26 +0000
+Received: from CY4PEPF0000E9DA.namprd05.prod.outlook.com
+ (2603:10b6:5:3b6:cafe::94) by DS7PR03CA0186.outlook.office365.com
+ (2603:10b6:5:3b6::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.16 via Frontend Transport; Thu,
+ 13 Nov 2025 23:26:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ CY4PEPF0000E9DA.mail.protection.outlook.com (10.167.241.73) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.13 via Frontend Transport; Thu, 13 Nov 2025 23:26:25 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 13 Nov
+ 2025 15:26:05 -0800
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail203.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 13 Nov
+ 2025 15:26:05 -0800
+Received: from Asurada-Nvidia (10.127.8.11) by mail.nvidia.com (10.129.68.9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Thu, 13 Nov 2025 15:26:03 -0800
+Date: Thu, 13 Nov 2025 15:26:02 -0800
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Alex Williamson <alex@shazbot.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+ <iommu@lists.linux.dev>, Joerg Roedel <joro@8bytes.org>, Kevin Tian
+ <kevin.tian@intel.com>, <kvm@vger.kernel.org>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Shuah
+ Khan" <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Will Deacon
+ <will@kernel.org>, Krishnakant Jaju <kjaju@nvidia.com>, Leon Romanovsky
+ <leon@kernel.org>, Matt Ochs <mochs@nvidia.com>, <patches@lists.linux.dev>,
+ Simona Vetter <simona.vetter@ffwll.ch>, Vivek Kasireddy
+ <vivek.kasireddy@intel.com>, Xu Yilun <yilun.xu@linux.intel.com>
+Subject: Re: [PATCH 4/9] iommufd: Allow a DMABUF to be revoked
+Message-ID: <aRZpCqQcSgqTWYvT@Asurada-Nvidia>
+References: <0-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
+ <4-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <4-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9DA:EE_|MN0PR12MB6104:EE_
+X-MS-Office365-Filtering-Correlation-Id: 73145002-edf2-409f-ebe0-08de230c1081
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|36860700013|7416014|376014|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?pPTHy2j+2qq1M0b0jC3lPucLtN+HcoQbwOqtFIHoOKuYGH5EenGSOaCz/rUp?=
+ =?us-ascii?Q?dOZ5p5XFIHhbcph+8m4iTwpjNrB3LPTq00XeLgDjDwXwraWwfVhrXEM2paWZ?=
+ =?us-ascii?Q?9BLPCH9V10s+u1K64LnAMNyEj9opIa0/tLjKmt3id6mqW8N6QMwtQJQcMZlB?=
+ =?us-ascii?Q?d62TmSvPTgXKZqAgI1gxekG6Cgh5ffbIxm5bgoLX8i/mWtuZ/rcR6Z+5SvvK?=
+ =?us-ascii?Q?ST8TKaODGwAkW2oX8KbQ0UL8p7UCsQ09YPrLlrFzx8BObheqKoSb4nOxrqj5?=
+ =?us-ascii?Q?YtdNoylVDEDpVvW5g8rd77GX3xEIhnTuk3hF3mhENMSn5AlO75X240QgrNSd?=
+ =?us-ascii?Q?sNi1ohfCQwjJXnH8ExF2T4SWcPw3/VlolXx5i4sGAIpwe7375mstBqnfnY/Q?=
+ =?us-ascii?Q?csRnd8e4LBQtkXPYY6HnFhG/pcsjDL31bdDsQzdsbHi1dNlLBSYR+IifTvYx?=
+ =?us-ascii?Q?/MJjX8kd919nVCVVUpWF9VhHqGuP5CeMu0t2HBEbyWuNCu6nnFRQVtXgp/1W?=
+ =?us-ascii?Q?6k3n+cGjjAPfs/rXy6KcoXweefogQZrNY7FieeAcRD1ISUaKhkCncifHKShy?=
+ =?us-ascii?Q?bzTZY82sjMl3SvXnbM8ij4AZP1JBaHjzykPWjWS/4/yHYl3mNG6mZXqYzKv7?=
+ =?us-ascii?Q?UgFLSx45lsNHVtpX9AzTpiBm3jLuts3T592377GZtzxHuwMxYz8pUPiuRSTh?=
+ =?us-ascii?Q?EwhuVwN2P3ZUdPA7NMLG63OWaBnyEFbaaJ+yo4Z50te5RQ+K99sFN2nO/cGW?=
+ =?us-ascii?Q?EtD6zEbi+xj4D8Juvk2VdoMN8wHiXbYtUWCTQ8PB+7VM3929C7eWE69d2vws?=
+ =?us-ascii?Q?2TQqc5ZQBVgbKSMwORsmDXU58AmvSg+2JmA76VhCKPnV3udDdCGEAIiK4r/b?=
+ =?us-ascii?Q?ymfBapu4TNvL9adLpwu6Q4J3Q8sULUGgYMMMqanXlCQvPZagGAVFzf/sKC6H?=
+ =?us-ascii?Q?1YlNcgU4jNyZ3s+XIudXalBT9luFxIsFmFWd4xXH02hhI3NG07g2BmOuNxHj?=
+ =?us-ascii?Q?lg0A8jHNd3ctJoJLSNPqRXeeJOC4kKJ2p9i7QSjIRWOT+2sVmY/PV2t/U1Vf?=
+ =?us-ascii?Q?iuFyK0DLGqASimQYfRwc7E4cAmcRpkSJMRCHmZi37PM72LnB+fIRTjl+4o9C?=
+ =?us-ascii?Q?jUYOXSXE7vREzwwldFVknnqhQAr37P33M82QahY0FwAAhNFnjNexeleU4zoM?=
+ =?us-ascii?Q?xfCskmdInNqmBdr+iVcHzAm4pHLAJPk0mSOc06euxmno1t4UFx9xMP2vSnmj?=
+ =?us-ascii?Q?2lVSDOgZcdfAzraDgzKpuPOUKGOzaF2K/TOJy4VcgqAghQSNq1j/63yqsciX?=
+ =?us-ascii?Q?g2q+4817GsCU2TxbQaEHKzWz8wf5FX984UtnSVYbCKauQurOcP+H7nhYQP9h?=
+ =?us-ascii?Q?EJFgOdRRjmWxBvkMgqfn31bPqLUF51Hvd/UvrzQaNwuVDN0+hCdb4dn8J86u?=
+ =?us-ascii?Q?FdzieiwEPUa8QtDMzvcFadp1AMTf39TpP1elk9xY4uexiz83SkzJfgasAddj?=
+ =?us-ascii?Q?yyWLIF5l+qM58dMew2nxwJSObrEjKzgWp40kLv/TcT6anx9zrv0i82cS7Omc?=
+ =?us-ascii?Q?MDiWJBOhlyJm5f0ELk4=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
+ SFS:(13230040)(1800799024)(36860700013)(7416014)(376014)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2025 23:26:25.5417 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73145002-edf2-409f-ebe0-08de230c1081
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000E9DA.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6104
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,23 +152,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 14 Nov 2025 07:55:29 +1100 Balbir Singh <balbirs@nvidia.com> wrote:
-
-> >> THe logic LGTM but we don't want to have a bisect hazard here by having the bug
-> >> introduced earlier then resolved here.
-> > 
-> > Exactly.
-> > 
+On Fri, Nov 07, 2025 at 12:49:36PM -0400, Jason Gunthorpe wrote:
+> When connected to VFIO, the only DMABUF exporter that is accepted, the
+> move_notify callback will be made when VFIO wants to remove access to the
+> MMIO. This is being called revoke.
 > 
-> The hazard is a VM_WARN_ON() that checks for is_migration_entry() in the
-> call to softleaf_is_migration_young(). I am happy to go down that path,
-> let me send out the fixups, it felt weird to break the rebase, but I
-> am sure Andrew has a better way of dealing with this stuff.
-
-Yes, please tell us which patch introduced the issue then send a fix
-for that patch.  We can figure out the softleaf changes later.  (Which
-this patch provides anyway).
-
-Also, confusing that the changelog says "The softleaf changes exposed a
-BUG in remove_rmap_pmd()" but it's remove_migration_pmd() that gets
-altered.  Please expand and clarify?
+> Wire up revoke to go through all the iommu_domain's that have mapped the
+> DMABUF and unmap them.
+> 
+> The locking here is unpleasant, since the existing locking scheme was
+> designed to come from the iopt through the area to the pages we cannot use
+> pages as starting point for the locking. There is no way to obtain the
+> domains_rwsem before obtaining the pages mutex to reliably use the
+> existing domains_itree.
+> 
+> Solve this problem by adding a new tracking structure just for DMABUF
+> revoke. Record a linked list of areas and domains inside the pages
+> mutex. Clean the entries on the list during revoke. The map/unmaps are now
+> all done under a pages mutex while updating the tracking linked list so
+> nothing can get out of sync. Only one lock is required for revoke
+> processing.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+ 
+Reviewed-by: Nicolin Chen <nicolinc@nvidia.com>
