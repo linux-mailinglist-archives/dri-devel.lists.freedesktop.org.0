@@ -2,66 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F8CC563C2
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 09:23:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A52B3C5611F
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 08:34:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83BE410E5EE;
-	Thu, 13 Nov 2025 08:22:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B5B9D10E13A;
+	Thu, 13 Nov 2025 07:34:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iUKrN/27";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="LbwEYlhQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1899910E13A
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 07:34:06 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-640aa1445c3so767427a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 12 Nov 2025 23:34:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763019244; x=1763624044; darn=lists.freedesktop.org;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=TriPsvX0S1fV8Cc8xg2lFr65U+SxMrFP8wRSHw14tJc=;
- b=iUKrN/27f1rZm1GdxaHr2kgi421beubcOXfrnho+zFwOfxK5ufZePQL8S6L/mfKEkM
- 3+ss/kbp8VMGcrspfmgv7qMzCIY5pUzJc3wlBbr2uMnKaWOplIEnIFoxUdiVNSlMqgY6
- gGO4xBS2S1YuWptCyjqtMKYc4CP6ARKPU2JQoBVBwmsimQH9jHOHg0+TNsH07G5lUq2r
- QDGsJA6dcdyjxAL4nL9cWWGXdJ+cVzZwD44UJ/O4jiiqMAcC9paFbC2WjRkbZNbfQf94
- 5wsukr1yLSPMnnRW1Ma2pGXZ5bzXOugcigrXT2pQWB3+udG0uvvN3fXjmL4spWHQKTmA
- VxYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763019244; x=1763624044;
- h=to:subject:message-id:date:from:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TriPsvX0S1fV8Cc8xg2lFr65U+SxMrFP8wRSHw14tJc=;
- b=kNoyLoEsHlV0FLd4UDIAcVrkavUkLoSxt19k1SE8knZ+dHutySKVR6Z/4xr5ywzLwE
- 7Q/4n0RFCkJUMmQwiaNzT8imR6R5+KOqDHXQNAnoXdIbsRlMfpZfrZR04axtCRkYQNeC
- wVjLX0JrGOvpl7gveeesbLwMLWRhNHCnkSI6isPANQgndgm4qTqEq/BnXiA9xD+62bKq
- wAZ+Q89hi0GaJMr1hpQGaV7geSVEekfHq242nMBIbyQqU8u7e0JGo3M4Ha26lHUQ48Oq
- AJBg+oSnGi97e5W5YmxrdQlTz6WSaqAdMUdMNTpOkyCKxuE0Jn10BFv03nCaIMhiE/O1
- FnFA==
-X-Gm-Message-State: AOJu0YzO0tv3ATmJeAsMoahoy1UGdhP2FP/WBp79I9n3qrQ7dm8oK5me
- nX58jiYEOL1l2G/6m+fRpfEGHEJM/XvBoqD6y5ps30RP38ihI4D875NxI/n0PrJZiCV2CWGslXf
- sW0eCjAVDuvOPhr3AU4ZKlMAjF/DKlzz63Q==
-X-Gm-Gg: ASbGncuJOLxAGYGeP8nuYyiDbp0OR+pqHV7xUg9asCA5/CJ6HOcftezNo1z+QbbzIjT
- tXTxUZnO+IJBwfqYYrIQL8XGDLx2MozN3JyYBzAS7UtGf8EeVZbORMjMuJ0qB8aLVbqYf2QWilt
- xiscTj6Jij5ALwW8jj/j86lz2LyE0w2AZTwuYCrDQF9io1CFgDlVDnFtc7WiKoZoeDw5sbqYq+r
- 1o0lZNg/kqznXfQebQxNDVFIKY4pTNS+8K9A653JGLuMQ0KgGWxZPkZZVbbQVPQQsSVmPLjoz+Z
- lLj4lrP8fcpHjopcg8Q=
-X-Google-Smtp-Source: AGHT+IFaiVXD7NBvpKys8YpmdXZH7sx8DW3/FOPvNoBaPUjnNtxTgk4BeViMojm/3o839dRJHQxJ9XEOpcM8WBGvkHo=
-X-Received: by 2002:a17:907:7249:b0:b70:b13c:3622 with SMTP id
- a640c23a62f3a-b733195f3a7mr648606066b.4.1763019244153; Wed, 12 Nov 2025
- 23:34:04 -0800 (PST)
+Received: from BL0PR03CU003.outbound.protection.outlook.com
+ (mail-eastusazon11012035.outbound.protection.outlook.com [52.101.53.35])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A00AD10E13A
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 07:34:49 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mndNhZJbwOjJrTZz7tRcq0FEhmq0BDXwS6vFz3WC1cweTc5L+FbBcJvnDmGaKnsaS9o45moI6OWQWyNZtVDGMHXvDWWkGDeJ4chgCNYdA+RKx0lOahakZgZLgKnjAZn3cxizLjGTNF/x8ffBa72xQ7Wv89FIAPfcV8nCpjhUWYj4G+HouP1nkhBN1E2DAQPF+TYxuiEREvct94GqNhr/l/PFZ8BwLFcM9v6wCeUjgjB2fWzDdKGxKaYodSVOwyTy8wvGJUteZXlHFsPv4RbpYmypiTgG0rjKCcEl5IMUPSYlAsgCOAHAzq4Ih+PpCkRQRzFlIjVxhcsf62GqoLm3ug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aCZ0XglH34C/Iul5rD9pykqKZznnRfeyxZ4h5peZcrw=;
+ b=cPLnnTlHj4VlwYPPq2dm35m5RjKFXjDWGSDTjptqnYxFQmLn9RCAx7xnOyU4AN9e1DHUcsJyGFTTAbaNM5VwHBS21CgqRPla9dkjJNJq390Z7A1Uu6MD3kdzSb5pq/hUCi8b87FBziyNFvch1i19EvOp/illQ3IzIwZUBYJ/aR7A9JbyxPGUPbpLbWU8am58B2yEMGhmvyhTfIhca8MzF7x7UNDx8a2qtaDJ66YXyyy9LxSsxuickma+Wp46cIVYOZVEod82BL/kFNOFZVA0sAHtL9Kww9S4HQ+J64jgkZ4AG9lr/BXyN1WGoaa+nokP2MEV93Cy5PNgUSTE7duo0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=linux.alibaba.com
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aCZ0XglH34C/Iul5rD9pykqKZznnRfeyxZ4h5peZcrw=;
+ b=LbwEYlhQRjcXXkXrMl6jCzBEZek8PaeTJJZk3Ofa0KXW1s0398gF6/Hlf/i55BOv4cXniHFCVN8NYfiGe4wuDgxtHd4o9CLkh1YvAh8vFp2SiBXhVCEizCFYNDLBKcjkxCZ2Z3gFxP03nqTMYMHe0muejVtWTGx4T9Ig4eNeyatW9Rv6juIbdelykPZm/UWh7IK/fPIh4mnGQ0zpdU8jFEXGWRDuK9ejCq6ziVYWSbTRteCPk34bTDoz3GEXQtS7/ZzE/3+P6LRfb4r99qovWWN4CGVK5BKskMu25IprQaEYPSWMFCb17OXxyGBy5NpsXj9w80dX9zs+b8bUrmaWzA==
+Received: from MN0P223CA0003.NAMP223.PROD.OUTLOOK.COM (2603:10b6:208:52b::30)
+ by CY8PR12MB7683.namprd12.prod.outlook.com (2603:10b6:930:86::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Thu, 13 Nov
+ 2025 07:34:45 +0000
+Received: from BL02EPF0001A0FF.namprd03.prod.outlook.com
+ (2603:10b6:208:52b:cafe::a0) by MN0P223CA0003.outlook.office365.com
+ (2603:10b6:208:52b::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.17 via Frontend Transport; Thu,
+ 13 Nov 2025 07:34:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com;
+ dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BL02EPF0001A0FF.mail.protection.outlook.com (10.167.242.106) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.13 via Frontend Transport; Thu, 13 Nov 2025 07:34:44 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 12 Nov
+ 2025 23:34:30 -0800
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 12 Nov
+ 2025 23:34:29 -0800
+Received: from Asurada-Nvidia (10.127.8.11) by mail.nvidia.com (10.129.68.9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 12 Nov 2025 23:34:28 -0800
+Date: Wed, 12 Nov 2025 23:34:27 -0800
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Shuai Xue <xueshuai@linux.alibaba.com>
+CC: Jason Gunthorpe <jgg@nvidia.com>, Alex Williamson <alex@shazbot.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ <dri-devel@lists.freedesktop.org>, <iommu@lists.linux.dev>, Joerg Roedel
+ <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>, <kvm@vger.kernel.org>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, Robin Murphy <robin.murphy@arm.com>, "Shuah
+ Khan" <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Will Deacon
+ <will@kernel.org>, Krishnakant Jaju <kjaju@nvidia.com>, Leon Romanovsky
+ <leon@kernel.org>, Matt Ochs <mochs@nvidia.com>, <patches@lists.linux.dev>,
+ Simona Vetter <simona.vetter@ffwll.ch>, Vivek Kasireddy
+ <vivek.kasireddy@intel.com>, Xu Yilun <yilun.xu@linux.intel.com>
+Subject: Re: [PATCH 0/9] Initial DMABUF support for iommufd
+Message-ID: <aRWKA4zBwi+JagaT@Asurada-Nvidia>
+References: <0-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
+ <aQ4x7UiMMCB0m0dH@Asurada-Nvidia>
+ <29f0cddc-3c23-4ab1-92d9-8c9918ddc187@linux.alibaba.com>
 MIME-Version: 1.0
-From: rat marrow <ratmarrow@gmail.com>
-Date: Thu, 13 Nov 2025 02:33:52 -0500
-X-Gm-Features: AWmQ_blKTIfewg8xFCYgRERK4BDqTTaK0mwVasVPLi6GBpBgvvNLrL4vfSx5Se0
-Message-ID: <CAP4Oc0n+CHTR+BNrDhLEjHd5+AK73W5qthaPu6d2jSiD1jC=Ug@mail.gmail.com>
-Subject: Plea for low-latency cursor rendering functionality.
-To: dri-devel@lists.freedesktop.org
-Content-Type: multipart/alternative; boundary="000000000000c7ae7c064374e7c2"
-X-Mailman-Approved-At: Thu, 13 Nov 2025 08:22:35 +0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <29f0cddc-3c23-4ab1-92d9-8c9918ddc187@linux.alibaba.com>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A0FF:EE_|CY8PR12MB7683:EE_
+X-MS-Office365-Filtering-Correlation-Id: 86ce6efc-9f1a-4dc8-444c-08de22871df5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|82310400026|36860700013|7416014|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?1zZhUM7ULSyU3f13CFdfioGK84MVCTv+Ki10q46C18JP00K4NFFqzl6VcRU9?=
+ =?us-ascii?Q?AQmL51ssyfDEOgYaPOCW9OI9wfcWN6j4utknwwEHoi+1oppZm3pDqT31VC+E?=
+ =?us-ascii?Q?NFKJ8gSBs8glV7S5FKBv0IMVi1EuJtKJaBVbCjKo84m/dIkB/pMuem0mHAHQ?=
+ =?us-ascii?Q?CPb40kIZt5/wLxNfmrCVM/8MiiGiTGC2DJj4DzMS8G3TtUElGRz+n/iYu6yJ?=
+ =?us-ascii?Q?58rLjf891Dg8KTdibjpx+M6kJ6momA9YyhT3GXQRy75CIfU05lVqbe2U6lVK?=
+ =?us-ascii?Q?WrWCJR2WmRCb21cQtEr1P5MVX+h/hm5sPs1ryUvImOEG5JlxE39t37TWQGsZ?=
+ =?us-ascii?Q?mezvU9plvy3BeweWeYV8hvibOmfmjS64zW4ZH0DvQ9FSftbCQF9orBS2Sun4?=
+ =?us-ascii?Q?ydx6A0cnzXd8dxS8mhfpDvienfLiFUjba2qpBNzA0XEOl3XJCq6XPjUyVVl/?=
+ =?us-ascii?Q?ZY3rWobUfjnB42slj+36s6EW4y1RE6hR8dlQ2C226A1ABCZLwml6zTTuR9X2?=
+ =?us-ascii?Q?TvDFwtkUUHTtjmnHPG1NFdYr+MMRw42dROaJeUxZHHMJz5NspI5XKdoi6u2T?=
+ =?us-ascii?Q?EJZ7D0T7yVmUELStMvRFJfaAOXixNXF6yM/uFFqQ5DEaDzQzj78fc3UHjYcb?=
+ =?us-ascii?Q?rMqbQdn5UVlM433fWVFqeSzifWz0uqoE8CfdhYf9/odrTvHDWVOViI+y6W3S?=
+ =?us-ascii?Q?NQUXYHGssxoEGLKQjQAgNwmDmZTxLWsukBpW2cKyKt+CTTIbHSddEgbi1Nv5?=
+ =?us-ascii?Q?MAqEtYL1ptny2ywLXKdfhigEIxgowQdqNmIgkZwaDN7QkUof/HcxRRWlun/T?=
+ =?us-ascii?Q?EpD79KMyndP6c4gaMTR/X71+SRnRWPstg3i+hI7n7E5oqt6awnNltvSOGTpS?=
+ =?us-ascii?Q?PIdVcHphy9upgWbNjOEvwtOayc2jxlEc+f67+3TlDL7NAznhbYC5pX84iNBS?=
+ =?us-ascii?Q?mXLWypu2Lx9Wt7RGDk5kDFDuMShZy5mWo5+UNBMx2pHvEK+HX1KeM/pl9ly4?=
+ =?us-ascii?Q?VLQuPSi474LkCuS2RfFOoWNCM5Q/fy0qfg0iYGQHoQt2Q9hHPRb6Qv9z7RAj?=
+ =?us-ascii?Q?qQl+vP27dQGc8WGICPQa61QiU8x6VrmNIhsZTi6VXmzHtJkzt/4xDDJszwUS?=
+ =?us-ascii?Q?8Ae1aTpKxGJO5+9epYT7e3ShHF2S84KHocnKlOJI8CMTBmIwD/cnyRF9c3Mf?=
+ =?us-ascii?Q?i50JtrF95aDLB9R6igjrTfNXfL3MiL80MKN7hpr1Ww7Hq7xuRWRfDdULGmlQ?=
+ =?us-ascii?Q?oD7YVKVzlcaHIjFBZoPdU0ST2y+LM0pIKgUUGjZ04vc3ZyG6sMELeVXTVNNL?=
+ =?us-ascii?Q?VPcM32/ezw3lWID2AOfamHoLUpQqu1+U3g0B3o4YOwmDQpwD9eYvgOBtyTFZ?=
+ =?us-ascii?Q?koctQNO4/+T1FHLpRTV4u2PBOMkF6PQWe3AIpZ1qHc/tb2kBpEE7pvYb93aW?=
+ =?us-ascii?Q?ggeMn1FGIyoGU8v9+2uGspCGa/G4uHkK0rWqZrpllj/vpuL0jR/kLdkGqTW3?=
+ =?us-ascii?Q?JoGxbwyWJPVJRi/NFPtBbbtOmUzH6DtbXWUyzGX5/alZZEQ/J2tgI2zwqM9X?=
+ =?us-ascii?Q?S0fBKKMM5dnR1LHJWbA=3D?=
+X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
+ SFS:(13230040)(376014)(82310400026)(36860700013)(7416014)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2025 07:34:44.9865 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86ce6efc-9f1a-4dc8-444c-08de22871df5
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
+ Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A0FF.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7683
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,77 +153,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000c7ae7c064374e7c2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, Nov 13, 2025 at 02:33:01PM +0800, Shuai Xue wrote:
+> Could you share more details for testing?, e.g. QEMU cmdline,
+> Guest kernel version.
 
-I came here from a discussion on the Hyprland repo a few months back:
-https://github.com/hyprwm/Hyprland/discussions/10823#discussioncomment-1360=
-1563
+My v6.8 and v6.14 kernels can boot cleanly in the VM.
 
-I was initially planning to just bide my time until maybe, just maybe,
-someone with more know-how would have the same issue I have and take action
-on it, but I figured maybe reaching out couldn=E2=80=99t hurt?
+vm_image=PATH-to-FILE
+e1000_rom=PATH-to-FILE
+qemu-system-aarch64 \
+	-object iommufd,id=iommufd0 \
+	-machine hmat=on -machine virt,accel=kvm,gic-version=3,ras=on,highmem-mmio-size=4T \
+	-cpu host -smp cpus=62 -m size=16G,slots=2,maxmem=256G -nographic \
+	-object memory-backend-ram,size=8G,id=m0 -object memory-backend-ram,size=8G,id=m1 \
+	-numa node,memdev=m0,cpus=0-61,nodeid=0 -numa node,memdev=m1,nodeid=1 \
+	-numa node,nodeid=2 -numa node,nodeid=3 -numa node,nodeid=4 -numa node,nodeid=5 \
+	-numa node,nodeid=6 -numa node,nodeid=7 -numa node,nodeid=8 -numa node,nodeid=9 \
+	-device pxb-pcie,id=pcie.1,bus_nr=1,bus=pcie.0 -device arm-smmuv3,primary-bus=pcie.1,id=smmuv3.1,accel=on,ats=on,ril=off,pasid=on,oas=48 \
+	-device pcie-root-port,id=pcie.port1,bus=pcie.1,chassis=1,io-reserve=0 \
+	-device vfio-pci-nohotplug,host=0009:01:00.0,bus=pcie.port1,rombar=0,id=dev0,iommufd=iommufd0 \
+	-object acpi-generic-initiator,id=gi0,pci-dev=dev0,node=2 \
+	-object acpi-generic-initiator,id=gi1,pci-dev=dev0,node=3 \
+	-object acpi-generic-initiator,id=gi2,pci-dev=dev0,node=4 \
+	-object acpi-generic-initiator,id=gi3,pci-dev=dev0,node=5 \
+	-object acpi-generic-initiator,id=gi4,pci-dev=dev0,node=6 \
+	-object acpi-generic-initiator,id=gi5,pci-dev=dev0,node=7 \
+	-object acpi-generic-initiator,id=gi6,pci-dev=dev0,node=8 \
+	-object acpi-generic-initiator,id=gi7,pci-dev=dev0,node=9 \
+	-bios /usr/share/AAVMF/AAVMF_CODE.fd \
+	-device nvme,drive=nvme0,serial=deadbeaf1,bus=pcie.0 \
+	-drive file=${vm_image},index=0,media=disk,format=qcow2,if=none,id=nvme0 \
+	-device e1000,romfile=${e1000_rom},netdev=net0,bus=pcie.0 \
+	-netdev user,id=net0,hostfwd=tcp::5558-:22,hostfwd=tcp::5586-:5586
 
-To preface, I do not have the technical knowledge to fully *understand* wha=
-t
-I am asking for, as in what would have to be done to support such a
-functionality.
-
-I also want to say that I am not coming from the perspective of gaming, as
-there have been many strides in conditional tearing control. This is about
-the desktop experience.
-
-As I=E2=80=99m sure you all know, in X11, assuming one hasn=E2=80=99t modif=
-ied the
-functionality in some way, the cursor is updated as soon as possible. This
-means minimal latency, at the cost of barely noticeable tearing on the
-cursor plane, and artifacts where, as an example, a window you are dragging
-will lag behind the cursor.
-
-Now, obviously for a lot of users, the latency trade-off is worth the more
-visually perfect frame, but there are some people (Hi!) who would be
-willing to sacrifice that perfection for a more responsive system.
-
-What I am asking for, put simply, is functionality that allows an end-user
-to enable this behaviour and accept the trade-offs that come with it.
-
-I really hope this can start a discussion, and maybe, hopefully, lead to
-this becoming a reality.
-
---000000000000c7ae7c064374e7c2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><div dir=3D"auto">I came here from a discussion on the Hyprland repo a=
- few months back:=C2=A0<a href=3D"https://github.com/hyprwm/Hyprland/discus=
-sions/10823#discussioncomment-13601563" target=3D"_blank">https://github.co=
-m/hyprwm/Hyprland/discussions/10823#discussioncomment-13601563</a>
-</div><div dir=3D"auto"><br></div><div dir=3D"auto">I was initially plannin=
-g to just bide my time until maybe, just maybe, someone with more know-how =
-would have the same issue I have and take action on it, but I figured maybe=
- reaching out couldn=E2=80=99t hurt?</div><div dir=3D"auto"><br></div><div =
-dir=3D"auto">To preface, I do not have the technical knowledge to fully <i>=
-understand</i><span>=C2=A0what I am asking for, as in what would have to be=
- done to support such a functionality.</span></div><div dir=3D"auto"><span>=
-<br></span></div><div dir=3D"auto"><span>I also want to say that I am not c=
-oming from the perspective of gaming, as there have been many strides in co=
-nditional tearing control. This is about the desktop experience.</span></di=
-v><div dir=3D"auto"><span><br></span></div><div dir=3D"auto"><span>As I=E2=
-=80=99m sure you all know, in X11, assuming one hasn=E2=80=99t modified the=
- functionality in some way, the cursor is updated as soon as possible. This=
- means minimal latency, at the cost of barely noticeable tearing on the cur=
-sor plane, and artifacts where, as an example, a window you are dragging wi=
-ll lag behind the cursor.</span></div><div dir=3D"auto"><span><br></span></=
-div><div dir=3D"auto"><span>Now, obviously for a lot of users, the latency =
-trade-off is worth the more visually perfect frame, but there are some peop=
-le (Hi!) who would be willing to sacrifice that perfection for a more respo=
-nsive system.</span></div><div dir=3D"auto"><span><br></span></div><div dir=
-=3D"auto"><span>What I am asking for, put simply, is functionality that all=
-ows an end-user to enable this behaviour and accept the trade-offs that com=
-e with it.</span></div><div dir=3D"auto"><br></div><div dir=3D"auto">I real=
-ly hope this can start a discussion, and maybe, hopefully, lead to this bec=
-oming a reality.</div><div dir=3D"auto"><br></div>
-</div>
-
---000000000000c7ae7c064374e7c2--
+Nicolin
