@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E789C589B9
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 17:10:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E13A7C589D3
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 17:10:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4AB810E88F;
-	Thu, 13 Nov 2025 16:10:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 453E810E89B;
+	Thu, 13 Nov 2025 16:10:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="wSPECJpE";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ShorlOGG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011055.outbound.protection.outlook.com [40.107.208.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBAEF10E893;
- Thu, 13 Nov 2025 16:10:32 +0000 (UTC)
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010021.outbound.protection.outlook.com [52.101.56.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43F3210E895;
+ Thu, 13 Nov 2025 16:10:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JJ7I6DItSdeuH0wARmNS2JFEub75TzW9ZuWzq3uk+aHMVnoXcrjYW2eB/HGU+kz0vX9rXvAR7coQpDTVFJwq24cBZR947LkKybuwW/Lu+GRet7msj8FhWFKTYWrEZSIv8N30s7QxXgU2ScsYqO7e8Qo2UPL83OiuCQ16BRh9xwr4qxWs37qDoHBzD4LDVV30SE/iZxwHdACx6a6jBnjfCn9A0i15rpJ7pdK2B97ZviOecCNuuwv8KbE9ZwF/Gns0Dv/MqXeMo5PvyROGPP/ucSQwHoEtlGVASfFIAkfs0f5b8ZEp9Yz0rYOU4AuF0lWzMktAII0J0CneEGjhNPRPYw==
+ b=I2HJbICTJOnjk1A9vGeOM4lAoT9si1gM6GJdc6xizB0LHPlSltXHsFOMw2LHE8FjMcQ4KaRj1dfiOqT7QixmP+Uq4F1Wnm0eRpX6JARo3Du0AXIE7ZLktOQDCaD+F5e6noixtl3nYWTWMTRHY+72gnNT2t92id8XQdV2+R5WsHj2DpDEKsEiVPxGJEMmqU14ba7TSh6f72RGbV5JRkBOl3wPPI8m4sJh9XkkB/sujAL5AOARamknqX4u1cXmHVlIsekts5q3zbqIDVLEX5LoegyBXdW5TfGOf/mD045/8Ui8Bu3nxTYksff9Q82IbL14uVHBYv+xvqmQqgQo7wTUDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WcCSBjhXx+F/WFOp5AaQlyGioCq9tq/pIwTPmy74awA=;
- b=idy3FF1OXqishKx9QRaFFmyUtRTya4uTjZplylzUVyOyx2iCBth0a0myW9DlSNHA/XUqc61gjoyp9+lu5eA/70dDkbL3n65QLihyUMDdAVNZcalA71RAkPmFemJ6yat+fgttXh3ij+icwFEaThUeSBtH4q1lzcB7TxZqRlPRPDcmFc19Fj/Ou6EC4E+wc3s/PT9owTBMGMvlWXsWjfNSfB0LV46Ftt7ZdqGcCqfAbAVeOlJKRRetqKt6Vf9A1qm63ZxS1jEkaDxzv9lfzU4HH4neSyeH+laVmJUoTUSYWFtlKJFqb9zQi/avIJJjaSQG88Um1MnSEOH3+qdpH9DgUA==
+ bh=00Mne1DShvZEWNCnfotiRsrtnQ+gqsxefSJtA7U1RRU=;
+ b=AFUKMUe+I23hAa94xE9x8c8fTUAFQPo5VXPW9/3aSHaDfQhQHROVuUteuDSrtEPr28Fb9aNMpT9Z2blPUn0fiY8CK4k0prQGzs57cAbtGeys/7lDknvNawvKQtMPD0D/8tOVU6lBUQFGZDgsqetJyqPS4BjO4Lr3mvid/xE12hqORofTQdg7B2g6T8DSNW7w6eHpl57Ja2BwA6T1HjRPJ94YuhdFmNov5bO0TWzKJmUd3N8vfArDkM+x0EnCvXtjGoeSC9yyfvSU7LXWq+du/AVyGj6M/MBbrJQCzxOM2F36+Cb50HxPl0QZd0xGqBrmXxZyRyE413nHusbYSebEQg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WcCSBjhXx+F/WFOp5AaQlyGioCq9tq/pIwTPmy74awA=;
- b=wSPECJpE0bL441A7izXH5M3vYOjrUL46Lq1KVTHsWhGX9odLspwb9JsBfZQGAcMImXj1/OPBA2A8jbhydfESJpegq1EL3tjFh07juYtvzfu8U8wkK/mZbKxwPtDhSpcU1HI1QZ2jwyKaR4RfEKTq/ies7hyhFBCsIUP4/PECyjw=
-Received: from MN2PR08CA0026.namprd08.prod.outlook.com (2603:10b6:208:239::31)
- by MN0PR12MB5836.namprd12.prod.outlook.com (2603:10b6:208:37b::14)
+ bh=00Mne1DShvZEWNCnfotiRsrtnQ+gqsxefSJtA7U1RRU=;
+ b=ShorlOGGOKRkgM6E/5J86wQ012sjz7FKf2rf71mEYmxUAHipRqEV7/yWpxm0wVdDDiNU+qmDnjlcJAbUiHkXMXT+Dhmg5aCnI90Crcm0bkm8hdoT9DprzrcTgzfIhaS+FWqn4Uu4gjU29ITmgQlTmWKEsmiemRkim2fvn8TT6+k=
+Received: from BN9PR03CA0588.namprd03.prod.outlook.com (2603:10b6:408:10d::23)
+ by PH7PR12MB8156.namprd12.prod.outlook.com (2603:10b6:510:2b5::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.17; Thu, 13 Nov
- 2025 16:10:27 +0000
-Received: from BL02EPF00029927.namprd02.prod.outlook.com
- (2603:10b6:208:239:cafe::5a) by MN2PR08CA0026.outlook.office365.com
- (2603:10b6:208:239::31) with Microsoft SMTP Server (version=TLS1_3,
+ 2025 16:10:38 +0000
+Received: from BL02EPF0002992C.namprd02.prod.outlook.com
+ (2603:10b6:408:10d:cafe::fc) by BN9PR03CA0588.outlook.office365.com
+ (2603:10b6:408:10d::23) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.17 via Frontend Transport; Thu,
- 13 Nov 2025 16:10:22 +0000
+ 13 Nov 2025 16:10:36 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,24 +48,26 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- BL02EPF00029927.mail.protection.outlook.com (10.167.249.52) with Microsoft
+ BL02EPF0002992C.mail.protection.outlook.com (10.167.249.57) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9320.13 via Frontend Transport; Thu, 13 Nov 2025 16:10:27 +0000
+ 15.20.9320.13 via Frontend Transport; Thu, 13 Nov 2025 16:10:38 +0000
 Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
  satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 13 Nov 2025 08:10:25 -0800
+ 15.2.2562.17; Thu, 13 Nov 2025 08:10:36 -0800
 From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Felix Kuehling
+ <Felix.Kuehling@amd.com>, Harry Wentland <harry.wentland@amd.com>, Leo Li
+ <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>
 CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
  <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 11/20] drm/amdgpu: round robin through clear_entities in
- amdgpu_fill_buffer
-Date: Thu, 13 Nov 2025 17:05:52 +0100
-Message-ID: <20251113160632.5889-12-pierre-eric.pelloux-prayer@amd.com>
+Subject: [PATCH v2 12/20] drm/amdgpu: use TTM_NUM_MOVE_FENCES when reserving
+ fences
+Date: Thu, 13 Nov 2025 17:05:53 +0100
+Message-ID: <20251113160632.5889-13-pierre-eric.pelloux-prayer@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251113160632.5889-1-pierre-eric.pelloux-prayer@amd.com>
 References: <20251113160632.5889-1-pierre-eric.pelloux-prayer@amd.com>
@@ -77,53 +79,53 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF00029927:EE_|MN0PR12MB5836:EE_
-X-MS-Office365-Filtering-Correlation-Id: 951616ea-c27c-4d44-b4d9-08de22cf28e3
+X-MS-TrafficTypeDiagnostic: BL02EPF0002992C:EE_|PH7PR12MB8156:EE_
+X-MS-Office365-Filtering-Correlation-Id: 63555095-06a4-4380-77b4-08de22cf2f6e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|82310400026|36860700013|376014; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?1kF93kxC6xqUZrRjVI4aAPl9t8W0UyTTk3X8uoV/8cZRqXq7oDGWtuMAZ13y?=
- =?us-ascii?Q?Y5Zj+X13apkf4t87nqj3Jw5d/F8Djxe9NxsVNpJovmmzL0EOtltnwqAncjZA?=
- =?us-ascii?Q?KZYuBDqywpt7j9v2bqmjRsavw6QziRXIOy080wWfO01Jn6GHUS6d5FpxZLXv?=
- =?us-ascii?Q?JM33qo3gjsW6GpNiw3Xl/Q+pRl+yTAHhN+zFZf148Ia35naw8ChCeQCJRqxc?=
- =?us-ascii?Q?CVxRCuCk/4czRpSlqxNxOBzf67O+yX9yA0rYMPxIDIsCn0RVinKrfUH3LnPj?=
- =?us-ascii?Q?0zfNddhFO6be6JYc99dzfdVi15t01mri/pKgDFZOGqWDM2Fuaacni78n24B2?=
- =?us-ascii?Q?5uc7I/dYcN5AfO9cWqrIogRwsa6Ij0vA6mFOt2QOaNjfr19MahKSXnWQfJ1p?=
- =?us-ascii?Q?vnhSgnT2aHsMtyWO9m+Ax8NjQIZcc/4htXHSO6Dgq61WtyxG+49eLOYtCyGV?=
- =?us-ascii?Q?TicPNe5PVltJIkvukH+vXiI1s9oT10yJeKR75pBkNObfD55kIXnNTcJkUN9Z?=
- =?us-ascii?Q?x9zHA///bNMFqKFRkzUHx1rLczi1DAis0dBs94r0eQJoWA7Ksw7aPKp/zrHs?=
- =?us-ascii?Q?vO/WkIkKDbEAKIbJbz9BXgCQvzJ11e5Hks3LPWqkbT6gFs0f7se87yKbdniP?=
- =?us-ascii?Q?pfnjB9u/fyElOXznBVTw2vujiujD/pjJm1rrEK51uwDL1UUdfgUfmU78DGAk?=
- =?us-ascii?Q?0m2ikZdri7icKvZMSlKJsPWT6kPX+obRvFBEBv+44HQevygHT+kgx0COSKVd?=
- =?us-ascii?Q?Ezj58ORor5ZZ5fcSIEPJe2ejJyKKXETXWBCIj7S2BQr1+PEdQww6ExouL7PD?=
- =?us-ascii?Q?v/LrapS72A1HL6yYzuXu72Ooj95IImYF659//I18Y4J39KgF0SvgqlxGaO2g?=
- =?us-ascii?Q?+CAzbbsM2S3SbqhMK1HoOGltc0af2ZsjOn9uXJyH+ZHISsFY0u4hVRAtyM85?=
- =?us-ascii?Q?8m6Ue5l7jWflFPcY+2lKlln7DclOcmVr0jIvts4/UWhJh4ntku2koHRX1YfV?=
- =?us-ascii?Q?lSa9AU+CzODq5EfE1dktEy4rlrY6wsC0TOssr2S6CwdoYQ8tb6OkMLf+hl1d?=
- =?us-ascii?Q?qlNS8ddUedMIDL+riC71eZhUhqN8+chc4/BqgIvz9ja2pxvrtRZCIhWIddmt?=
- =?us-ascii?Q?A7PWJDdjDQ0i1TKuhk/wEb6bTgLB8zGDyqEKdVYfeTAgym1QkAXnRKQSymDm?=
- =?us-ascii?Q?rbFI+72H5WoQFigoqjjVSNprKNFv7ffZK/aWCy0clyracFaaZsNMupYQ9flZ?=
- =?us-ascii?Q?NEEv0LHaMv17zBdWownT+o1Ku1J7AV9P9EOMcETdGRaxYsil9FhCFcxuhnoc?=
- =?us-ascii?Q?YqDkoEHNMVdPeDuYgVBc/5cj2eSuNc2OnfQG6ALvJ4jLvMBxG9scbmMw8DTJ?=
- =?us-ascii?Q?iDwYENaoUB6Cdgveua5lQ03YDi8vaA/8tKILAEYomNZ2I0cKuYvzvgnaCkJl?=
- =?us-ascii?Q?rj2+3f39xnHfsoXZymzNVpBLpfGQM4RQvYTVpx1M0CVq7iTF1QdzKVrOTXaA?=
- =?us-ascii?Q?AF9SVYE/Jiz/hXLNSGCol3JCl7WKRcOwkl5CTg2l0XuRSm3jDWcFd/TGp0aX?=
- =?us-ascii?Q?sJaHu0JNnMoz984UzzE=3D?=
+ ARA:13230040|82310400026|376014|1800799024|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?bFQKhEKhRaWo3+lElmNZkxp7+ljS4XsjIyQK5HxdfNrw7wgcFhIZBgFaPTZR?=
+ =?us-ascii?Q?BgPSiMSXx2r6eO7EE4YXXsWTT8PVPjpx+y7KgaQqA9URhAnPOhAvkFItZzNF?=
+ =?us-ascii?Q?o6w98WRH6RJQw1PR/G3ZpqtN2c2HQYNlG6BnyMEpaONAgsXa+WVCFvvzusPL?=
+ =?us-ascii?Q?GIq2A9RHHHEt25zLp4KSh7bKu83QnpxZi1UzKNsd9IQPM9lxLROh4KoVqpAa?=
+ =?us-ascii?Q?7e4Xe1/FJ0cuBsTTaA29vQq0hKGkWpZtIZsuxWYIpciYzHfENREV/JWfBYD2?=
+ =?us-ascii?Q?C9wa6zj5QK4C7GTT6xQiexU4Ni8+MAOaiNawxuuP8fowS5mwUaGiwLE9eNwz?=
+ =?us-ascii?Q?drrll+q4lzEJWfxJMENG+IXkCDzvyFJxjQN1kljmWW8kuUYa7BHGbBemfr7f?=
+ =?us-ascii?Q?bqVRWMSOVqy82hmWlv6qJg1stzg0TXv+Ina7MtcqFpNw+ZQnvsovzz2lQo9b?=
+ =?us-ascii?Q?ve8LFUb7f6IUI9zDIBX7lYD8zOaMg9dlJNRrVy3ZMsIjZtwNAEjNhdVCSFam?=
+ =?us-ascii?Q?MM06k+V4fL8xDXZ+oZFRqeiD276JTsYl8I3oZC5tk7dxowH+tay0yokkmMG2?=
+ =?us-ascii?Q?0LrldoVIstWOmTtonKAY0T4cotM/sC8HMn4xHb9KOUEEkb61jTUu8FmbgLWq?=
+ =?us-ascii?Q?5ZoRpz8cYzodaGU6G4k7EsHwpoeLivGDLlhp+Ql/lEQEyCgDRHACwrltb0E4?=
+ =?us-ascii?Q?BXfpJVLWZW5K7LvbKOvryJt4pjDsTNUHB2w2mYHo+U4Nnl4sKLJ0m7kP/BgI?=
+ =?us-ascii?Q?IOyRsw4Gz1Ay4TCVOvYs4HBBU7ZxDm8WuFuAANMmosbVEL6XOtuWVB2rZrWz?=
+ =?us-ascii?Q?UqUkXameHQsG9iDtL8csrF5duFEYFnurmVuw91W26xFLJAV7kwvt2ZGIKr4Q?=
+ =?us-ascii?Q?/19WZtDy0jPfn5EX6S/ig5TMqmE3O9cj3dv8dIv/k8FDaKIqoy6v4R9v+TIR?=
+ =?us-ascii?Q?m+P4mtiV1v/PNEu5UHoyoWFbPoCMOhFQgwm0Rwswo4OFczrw90zRnF94/J9c?=
+ =?us-ascii?Q?k3eHD8hZXs+ciTx6Q1PTNCBCDp8Nx+biK6RwQ+Vi3kKA8A+2P05HJlP5Bg93?=
+ =?us-ascii?Q?IUE/6RyuuP0+ezzfXkTnnqyElrrYMCPeDAtNV0vLFff4Dco7+42xrXVf/r15?=
+ =?us-ascii?Q?hjwof/SeHluB/ea9FRSdb7tXoUS7gaQ1p5jp2msx3mOSGJB20zkD1iMVm0y7?=
+ =?us-ascii?Q?C9IBHWOcaJU95HVlI7j7KGes9J/AkYRlHLxmnU8TmXmvZetlPTPcdRQDS445?=
+ =?us-ascii?Q?kJvOrQlit17mhq51q1DlONzmPLpvrABl8MCAszv92pimwV0DiHs6OUe7eU6R?=
+ =?us-ascii?Q?NwauXLDw+2+RjqHJDfz8OtsjKq2HeSsjGwUxaTjIitfRwBUANkC9ByGHBnjh?=
+ =?us-ascii?Q?QqkxVngfmRX+z8AJjwu+saznglKKAkUiMIXN7vTRzStaZDPfAj0Keatx9Lt3?=
+ =?us-ascii?Q?e/LISUrk/nElGr+adbG7t+DdUvhd7urOZ1sh84OsHckIiUcq4WEKXkmR2pqs?=
+ =?us-ascii?Q?S8H2gEz9g1AGsaY5J94gSAZiJzhoUAVMYFUp+Zv2U0yauniT75vGvgwDFmMJ?=
+ =?us-ascii?Q?qIdqBf/Vpg+/gFdxuJI=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014); DIR:OUT;
+ SFS:(13230040)(82310400026)(376014)(1800799024)(36860700013); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2025 16:10:27.2337 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 951616ea-c27c-4d44-b4d9-08de22cf28e3
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2025 16:10:38.2082 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63555095-06a4-4380-77b4-08de22cf2f6e
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF00029927.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0002992C.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5836
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8156
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,75 +141,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This makes clear of different BOs run in parallel. Partial jobs to
-clear a single BO still execute sequentially.
+Use TTM_NUM_MOVE_FENCES as an upperbound of how many fences
+ttm might need to deal with moves/evictions.
+
+---
+v2: removed drm_err calls
+---
 
 Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 9 ++++++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    | 1 +
- 3 files changed, 10 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c                  | 5 ++---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c                 | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c                | 6 ++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c                  | 3 ++-
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c                    | 3 +--
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 6 ++----
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c    | 6 ++----
+ 7 files changed, 12 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index be3532134e46..33b397107778 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -1321,7 +1321,7 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
- 	if (r)
- 		goto out;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+index ecdfe6cb36cc..0338522761bc 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+@@ -916,9 +916,8 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
+ 			goto out_free_user_pages;
  
--	r = amdgpu_fill_buffer(&adev->mman.clear_entities[0], abo, 0, &bo->base._resv,
-+	r = amdgpu_fill_buffer(NULL, abo, 0, &bo->base._resv,
- 			       &fence, NULL, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
- 	if (WARN_ON(r))
- 		goto out;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 411997db70eb..486c701d0d5b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -2224,6 +2224,7 @@ u32 amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
- 		adev->mman.clear_entities = kcalloc(num_clear_entities,
- 						    sizeof(struct amdgpu_ttm_buffer_entity),
- 						    GFP_KERNEL);
-+		atomic_set(&adev->mman.next_clear_entity, 0);
- 		if (!adev->mman.clear_entities)
- 			goto error_free_entity;
+ 		amdgpu_bo_list_for_each_entry(e, p->bo_list) {
+-			/* One fence for TTM and one for each CS job */
+ 			r = drm_exec_prepare_obj(&p->exec, &e->bo->tbo.base,
+-						 1 + p->gang_size);
++						 TTM_NUM_MOVE_FENCES + p->gang_size);
+ 			drm_exec_retry_on_contention(&p->exec);
+ 			if (unlikely(r))
+ 				goto out_free_user_pages;
+@@ -928,7 +927,7 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
  
-@@ -2489,7 +2490,7 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
- 	struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
- 	struct dma_fence *fence = NULL;
- 	struct amdgpu_res_cursor dst;
--	int r;
-+	int r, e;
+ 		if (p->uf_bo) {
+ 			r = drm_exec_prepare_obj(&p->exec, &p->uf_bo->tbo.base,
+-						 1 + p->gang_size);
++						 TTM_NUM_MOVE_FENCES + p->gang_size);
+ 			drm_exec_retry_on_contention(&p->exec);
+ 			if (unlikely(r))
+ 				goto out_free_user_pages;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+index ce073e894584..2fe6899f6344 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+@@ -353,7 +353,7 @@ static void amdgpu_gem_object_close(struct drm_gem_object *obj,
  
- 	if (!adev->mman.buffer_funcs_enabled) {
- 		dev_err(adev->dev,
-@@ -2497,6 +2498,12 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
- 		return -EINVAL;
+ 	drm_exec_init(&exec, DRM_EXEC_IGNORE_DUPLICATES, 0);
+ 	drm_exec_until_all_locked(&exec) {
+-		r = drm_exec_prepare_obj(&exec, &bo->tbo.base, 1);
++		r = drm_exec_prepare_obj(&exec, &bo->tbo.base, TTM_NUM_MOVE_FENCES);
+ 		drm_exec_retry_on_contention(&exec);
+ 		if (unlikely(r))
+ 			goto out_unlock;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+index 79bad9cbe2ab..b92561eea3da 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
+@@ -326,11 +326,9 @@ static int amdgpu_vkms_prepare_fb(struct drm_plane *plane,
+ 		return r;
  	}
  
-+	if (entity == NULL) {
-+		e = atomic_inc_return(&adev->mman.next_clear_entity) %
-+				      adev->mman.num_clear_entities;
-+		entity = &adev->mman.clear_entities[e];
-+	}
-+
- 	amdgpu_res_first(bo->tbo.resource, 0, amdgpu_bo_size(bo), &dst);
+-	r = dma_resv_reserve_fences(rbo->tbo.base.resv, 1);
+-	if (r) {
+-		dev_err(adev->dev, "allocating fence slot failed (%d)\n", r);
++	r = dma_resv_reserve_fences(rbo->tbo.base.resv, TTM_NUM_MOVE_FENCES);
++	if (r)
+ 		goto error_unlock;
+-	}
  
- 	mutex_lock(&entity->gart_window_lock);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-index e8f8165f5bcf..781b0bdca56c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-@@ -73,6 +73,7 @@ struct amdgpu_mman {
+ 	if (plane->type != DRM_PLANE_TYPE_CURSOR)
+ 		domain = amdgpu_display_supported_domains(adev, rbo->flags);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 2f8e83f840a8..aaa44199e9f4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -2630,7 +2630,8 @@ int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+ 	}
  
- 	struct amdgpu_ttm_buffer_entity default_entity; /* has no gart windows */
- 	struct amdgpu_ttm_buffer_entity *clear_entities;
-+	atomic_t next_clear_entity;
- 	u32 num_clear_entities;
- 	struct amdgpu_ttm_buffer_entity move_entities[TTM_NUM_MOVE_FENCES];
- 	u32 num_move_entities;
+ 	amdgpu_vm_bo_base_init(&vm->root, vm, root_bo);
+-	r = dma_resv_reserve_fences(root_bo->tbo.base.resv, 1);
++	r = dma_resv_reserve_fences(root_bo->tbo.base.resv,
++				    TTM_NUM_MOVE_FENCES);
+ 	if (r)
+ 		goto error_free_root;
+ 
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+index ffb7b36e577c..968cef1cbea6 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+@@ -627,9 +627,8 @@ svm_range_vram_node_new(struct kfd_node *node, struct svm_range *prange,
+ 		}
+ 	}
+ 
+-	r = dma_resv_reserve_fences(bo->tbo.base.resv, 1);
++	r = dma_resv_reserve_fences(bo->tbo.base.resv, TTM_NUM_MOVE_FENCES);
+ 	if (r) {
+-		pr_debug("failed %d to reserve bo\n", r);
+ 		amdgpu_bo_unreserve(bo);
+ 		goto reserve_bo_failed;
+ 	}
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+index 56cb866ac6f8..ceb55dd183ed 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+@@ -952,11 +952,9 @@ static int amdgpu_dm_plane_helper_prepare_fb(struct drm_plane *plane,
+ 		return r;
+ 	}
+ 
+-	r = dma_resv_reserve_fences(rbo->tbo.base.resv, 1);
+-	if (r) {
+-		drm_err(adev_to_drm(adev), "reserving fence slot failed (%d)\n", r);
++	r = dma_resv_reserve_fences(rbo->tbo.base.resv, TTM_NUM_MOVE_FENCES);
++	if (r)
+ 		goto error_unlock;
+-	}
+ 
+ 	if (plane->type != DRM_PLANE_TYPE_CURSOR)
+ 		domain = amdgpu_display_supported_domains(adev, rbo->flags);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
+index d9527c05fc87..110f0173eee6 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
+@@ -106,11 +106,9 @@ static int amdgpu_dm_wb_prepare_job(struct drm_writeback_connector *wb_connector
+ 		return r;
+ 	}
+ 
+-	r = dma_resv_reserve_fences(rbo->tbo.base.resv, 1);
+-	if (r) {
+-		drm_err(adev_to_drm(adev), "reserving fence slot failed (%d)\n", r);
++	r = dma_resv_reserve_fences(rbo->tbo.base.resv, TTM_NUM_MOVE_FENCES);
++	if (r)
+ 		goto error_unlock;
+-	}
+ 
+ 	domain = amdgpu_display_supported_domains(adev, rbo->flags);
+ 
 -- 
 2.43.0
 
