@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBCB1C58B45
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 17:27:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A10C58B51
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 17:27:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AACD10E8AD;
-	Thu, 13 Nov 2025 16:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC37D10E8B7;
+	Thu, 13 Nov 2025 16:27:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BupXEZi+";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e2oJrglS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BECE10E8AD;
- Thu, 13 Nov 2025 16:27:19 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61D5A10E8B5;
+ Thu, 13 Nov 2025 16:27:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763051239; x=1794587239;
+ t=1763051248; x=1794587248;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+9U8bLoG5vhDi4CT1cCak0qMkenNIeswIbFL4jpF094=;
- b=BupXEZi+dTOf99g4zj41AekIcXNFPzSTSNduEFpQPDao4kIB7o1fj59N
- 2DyFywNkKI1b8oPDo82CgTYaSBCI8dYTsCcSUaY6YKHUl7nUDFrVbeqIl
- Wspv3JREjbouN2O6qY/LdZAIcCoTuINqljgr+RipZWzpEIsVESWLFoSCh
- yarCjEmfaKKu/v49Qqeja5r5O02kWDJK1p3ibcGe+Iof7KBUTc3yieLby
- FoyXGdtMUJ0fisKcLBNL5+Iyx380w5LsrYr5AKHa9D3UirjmfdAd39+5S
- kLzW1eBoDSkWT+AvHY5xfZqrGCfKy5wO5ha9Wj+ozXwZkA5/GpiaU8pNP w==;
-X-CSE-ConnectionGUID: ir0g5CvcQgSItm9Xu2Aaiw==
-X-CSE-MsgGUID: AobRp3TqQ0SwaIHSA/Q2Pg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="68766646"
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="68766646"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2025 08:27:19 -0800
-X-CSE-ConnectionGUID: 5KkuisasTgW4lHbn5DQh+A==
-X-CSE-MsgGUID: ZS4+oLvyTb+mDc3Q1TU3wQ==
+ bh=tH8YgZlv9d0wlhPjzMO9fmgTNpl7ZjS2fL9m6nz41ok=;
+ b=e2oJrglSmG/5ZunfND/HzVK8AtYiXE/txTCa69YTUxIOkeIeKfgxJSq4
+ PbkmawG5EtdW7X5ZuPAtC2dX8lhXBQ6W7uvoh2exgnXl9f2bugYg+fXq2
+ 7Gl6vFqD1AXhkInHBdTHC9g+UvqYsa4w+xbPjnuGMO7nHBC3mLD51vwZ5
+ Vn8k8KOOqwbcUpHqGmXxVq0Um4FjHLx/V/NpzCAQbsAalpWuZq90P4Sv2
+ jMG4ns/P9Po7C6ib5QBU6sgFUCuXUiOf6kZ+9xDJi1hzK3uADeQWE2SVt
+ wh4ATzE4d/k9/GTwpOlk2i/TccDsdzv8FKveMuqvgnkSvt7pwSW/E7I9a Q==;
+X-CSE-ConnectionGUID: iWyJ88ibTdWHpy8Q3SFtnA==
+X-CSE-MsgGUID: +8UW8ddcRH2PU0DLlgNJBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="65176159"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="65176159"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2025 08:27:28 -0800
+X-CSE-ConnectionGUID: GC8T9ezKSTCEGGdX/L39MQ==
+X-CSE-MsgGUID: 0wxTKae0QuaHonn3ZhHtnA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="189553864"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; d="scan'208";a="189971869"
 Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost)
  ([10.245.245.164])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Nov 2025 08:27:12 -0800
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Nov 2025 08:27:23 -0800
 From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Simon Richter <Simon.Richter@hogyros.de>,
@@ -58,9 +58,9 @@ To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
  linux-kernel@vger.kernel.org
 Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v2 03/11] PCI: Change pci_dev variable from 'bridge' to 'dev'
-Date: Thu, 13 Nov 2025 18:26:20 +0200
-Message-Id: <20251113162628.5946-4-ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH v2 04/11] PCI: Try BAR resize even when no window was released
+Date: Thu, 13 Nov 2025 18:26:21 +0200
+Message-Id: <20251113162628.5946-5-ilpo.jarvinen@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20251113162628.5946-1-ilpo.jarvinen@linux.intel.com>
 References: <20251113162628.5946-1-ilpo.jarvinen@linux.intel.com>
@@ -82,71 +82,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Upcoming fix to BAR resize will store also device BAR resource in the
-saved list. Change the pci_dev variable in the loop from 'bridge' to
-'dev' as the former would be misleading with non-bridges in the list.
+Usually, resizing BARs requires releasing bridge windows in order to
+resize it to fit a larger BAR into the window. This is not always the
+case, however, FW could have made the window large enough to accomodate
+larger BAR as is, or the user might prefer to shrink a BAR to make more
+space for another Resizable BAR.
 
-This is in a separate change to reduce churn in the upcoming BAR resize
-fix.
-
-While it appears that the logic in the loop doing pci_setup_bridge() is
-altered as 'bridge' variable is no longer updated, a bridge should
-never appear more than once in the saved list so the if check can only
-match to the first entry. As such, the code with two distinct pci_dev
-variables better represents the intention of the check compared with the
-old code where bridge variable was reused for a different purpose.
+Thus, replace the check that requires that at least one bridge window
+was released with a check that simply ensures bridge is not NULL.
 
 Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 ---
- drivers/pci/setup-bus.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ drivers/pci/setup-bus.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/pci/setup-bus.c b/drivers/pci/setup-bus.c
-index e6984bb530ae..d58f025aeaff 100644
+index d58f025aeaff..1a3d54563854 100644
 --- a/drivers/pci/setup-bus.c
 +++ b/drivers/pci/setup-bus.c
-@@ -2479,12 +2479,13 @@ int pbus_reassign_bridge_resources(struct pci_bus *bus, struct resource *res)
+@@ -2424,7 +2424,7 @@ int pbus_reassign_bridge_resources(struct pci_bus *bus, struct resource *res)
+ {
+ 	unsigned long type = res->flags;
+ 	struct pci_dev_resource *dev_res;
+-	struct pci_dev *bridge;
++	struct pci_dev *bridge = NULL;
+ 	LIST_HEAD(saved);
+ 	LIST_HEAD(added);
+ 	LIST_HEAD(failed);
+@@ -2459,10 +2459,8 @@ int pbus_reassign_bridge_resources(struct pci_bus *bus, struct resource *res)
+ 		bus = bus->parent;
  	}
  
- 	list_for_each_entry(dev_res, &saved, list) {
-+		struct pci_dev *dev = dev_res->dev;
-+
- 		/* Skip the bridge we just assigned resources for */
--		if (bridge == dev_res->dev)
-+		if (bridge == dev)
- 			continue;
+-	if (list_empty(&saved)) {
+-		up_read(&pci_bus_sem);
++	if (!bridge)
+ 		return -ENOENT;
+-	}
  
--		bridge = dev_res->dev;
--		pci_setup_bridge(bridge->subordinate);
-+		pci_setup_bridge(dev->subordinate);
- 	}
- 
- 	free_list(&saved);
-@@ -2500,19 +2501,19 @@ int pbus_reassign_bridge_resources(struct pci_bus *bus, struct resource *res)
- 	/* Revert to the old configuration */
- 	list_for_each_entry(dev_res, &saved, list) {
- 		struct resource *res = dev_res->res;
-+		struct pci_dev *dev = dev_res->dev;
- 
--		bridge = dev_res->dev;
--		i = pci_resource_num(bridge, res);
-+		i = pci_resource_num(dev, res);
- 
- 		if (res->parent) {
- 			release_child_resources(res);
--			pci_release_resource(bridge, i);
-+			pci_release_resource(dev, i);
- 		}
- 
- 		restore_dev_resource(dev_res);
- 
--		pci_claim_resource(bridge, i);
--		pci_setup_bridge(bridge->subordinate);
-+		pci_claim_resource(dev, i);
-+		pci_setup_bridge(dev->subordinate);
- 	}
- 	free_list(&saved);
- 	up_read(&pci_bus_sem);
+ 	__pci_bus_size_bridges(bridge->subordinate, &added);
+ 	__pci_bridge_assign_resources(bridge, &added, &failed);
 -- 
 2.39.5
 
