@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82C9FC56E89
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 11:40:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1830EC56E83
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 11:40:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8016B10E52C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 154C710E351;
 	Thu, 13 Nov 2025 10:40:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="CsAQhrP2";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bcsqSTm5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B55610E348
- for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 10:40:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1450010E348
+ for <dri-devel@lists.freedesktop.org>; Thu, 13 Nov 2025 10:40:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1763030403;
- bh=nWJloTeoHX+ttrpnDlyyXGcBcXcC4cf51IrQQFhRcDM=;
+ bh=KZnt1/bsOSJPdXrpZBqTzSr/Cpo3ekM5kUimz+ScYO0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CsAQhrP27DTWX95yuB+wLqS/g/q8feLOzjwjLPiCvQDbjp3LsrQWMRc7UDcb3ndPi
- Ji0DCiskF4kQl2pfU54ikQpUcefXvJG4JSyk7arog7MLn+aBaP5hLa74hdNKDHpNAi
- lG5xRiwqkQuq6kqvLwFq/CbeJaZNUwn5ffISwFIGEVnfY2PR1ngusXkEdRj6dCrsv2
- dXsVGj65OnN6JiDhiy1majACbvDJbLkKFtFhQOTtsY1Jp/tBnl5aQcDWIlEikm6F9p
- vPRK0YH8HxbTlxV2wuVNAC37bpQR4SB1g2coHcMYl0avH6mVnPL1V2BdpVKAjY7kTz
- WjOhyvGdlfg1g==
+ b=bcsqSTm5u0wqNSlTqBbqZorAQrqZRCJ770FHA0x8BqyylbeC1LExsxVucvIFI313P
+ VyO+Fcp/okWLYftrGN6o9mxfesupMwgN9Sym9HF4wThFH4l+vHFT9Q9QVDHT07ICaW
+ 5TvEWtxySxfZRgFab4D/4vTRP9A33jC/jhzLsbWF7MxdQZ8uiBdfJqCW4+NC05geIU
+ AdZ0cervGoYm1S0G/oDMxwrksfDNHWqRGmje3MW6M9MEOfZdAHmqqTtBi0W6mlScuF
+ rmXE75M3SvvRDt8rE5ZrJ85xtPpb1bvnWsNdSGPK9dEMEhLp6ypcTb/0PMJC0yyORn
+ e+Efc9Q3qRfXg==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id D967F17E127F;
- Thu, 13 Nov 2025 11:40:02 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 58A4917E12D4;
+ Thu, 13 Nov 2025 11:40:03 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>,
  Karunika Choo <karunika.choo@arm.com>, kernel@collabora.com
-Subject: [PATCH v2 1/6] drm/panthor: Always wait after sending a command to an
- AS
-Date: Thu, 13 Nov 2025 11:39:48 +0100
-Message-ID: <20251113103953.1519935-2-boris.brezillon@collabora.com>
+Subject: [PATCH v2 2/6] drm/panthor: Kill lock_region()
+Date: Thu, 13 Nov 2025 11:39:49 +0100
+Message-ID: <20251113103953.1519935-3-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251113103953.1519935-1-boris.brezillon@collabora.com>
 References: <20251113103953.1519935-1-boris.brezillon@collabora.com>
@@ -62,109 +61,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's currently no situation where we want to issue a command to an
-AS and not wait for this command to complete. The wait is either
-explicitly done (LOCK, UNLOCK) or it's missing (UPDATE). So let's
-turn write_cmd() into as_send_cmd_and_wait() that has the wait after
-a command is sent.
+The meat in lock_region() is about packing a region range into a
+single u64. The rest is just a regular reg write plus a
+as_send_cmd_and_wait() call that can easily be inlined in
+mmu_hw_do_operation_locked().
 
 v2:
 - New patch
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_mmu.c | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/panthor/panthor_mmu.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index 6a41dfd7aaf3..186048fc2c25 100644
+index 186048fc2c25..f109c1588186 100644
 --- a/drivers/gpu/drm/panthor/panthor_mmu.c
 +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -524,27 +524,29 @@ static int wait_ready(struct panthor_device *ptdev, u32 as_nr)
- 	return ret;
- }
- 
--static int write_cmd(struct panthor_device *ptdev, u32 as_nr, u32 cmd)
-+static int as_send_cmd_and_wait(struct panthor_device *ptdev, u32 as_nr, u32 cmd)
- {
- 	int status;
- 
- 	/* write AS_COMMAND when MMU is ready to accept another command */
- 	status = wait_ready(ptdev, as_nr);
--	if (!status)
-+	if (!status) {
- 		gpu_write(ptdev, AS_COMMAND(as_nr), cmd);
-+		status = wait_ready(ptdev, as_nr);
-+	}
- 
+@@ -538,11 +538,9 @@ static int as_send_cmd_and_wait(struct panthor_device *ptdev, u32 as_nr, u32 cmd
  	return status;
  }
  
--static void lock_region(struct panthor_device *ptdev, u32 as_nr,
--			u64 region_start, u64 size)
-+static int lock_region(struct panthor_device *ptdev, u32 as_nr,
-+		       u64 region_start, u64 size)
+-static int lock_region(struct panthor_device *ptdev, u32 as_nr,
+-		       u64 region_start, u64 size)
++static u64 pack_region_range(u64 region_start, u64 size)
  {
  	u8 region_width;
- 	u64 region;
+-	u64 region;
  	u64 region_end = region_start + size;
  
  	if (!size)
--		return;
-+		return 0;
+@@ -565,11 +563,7 @@ static int lock_region(struct panthor_device *ptdev, u32 as_nr,
+ 	 */
+ 	region_start &= GENMASK_ULL(63, region_width);
  
- 	/*
- 	 * The locked region is a naturally aligned power of 2 block encoded as
-@@ -567,7 +569,7 @@ static void lock_region(struct panthor_device *ptdev, u32 as_nr,
- 
- 	/* Lock the region that needs to be updated */
- 	gpu_write64(ptdev, AS_LOCKADDR(as_nr), region);
--	write_cmd(ptdev, as_nr, AS_COMMAND_LOCK);
-+	return as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_LOCK);
+-	region = region_width | region_start;
+-
+-	/* Lock the region that needs to be updated */
+-	gpu_write64(ptdev, AS_LOCKADDR(as_nr), region);
+-	return as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_LOCK);
++	return region_width | region_start;
  }
  
  static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
-@@ -600,9 +602,7 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
+@@ -602,7 +596,9 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
  	 * power it up
  	 */
  
--	lock_region(ptdev, as_nr, iova, size);
--
--	ret = wait_ready(ptdev, as_nr);
-+	ret = lock_region(ptdev, as_nr, iova, size);
+-	ret = lock_region(ptdev, as_nr, iova, size);
++	/* Lock the region that needs to be updated */
++	gpu_write64(ptdev, AS_LOCKADDR(as_nr), pack_region_range(iova, size));
++	ret = as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_LOCK);
  	if (ret)
  		return ret;
  
-@@ -615,10 +615,7 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
- 	 * at the end of the GPU_CONTROL cache flush command, unlike
- 	 * AS_COMMAND_FLUSH_MEM or AS_COMMAND_FLUSH_PT.
- 	 */
--	write_cmd(ptdev, as_nr, AS_COMMAND_UNLOCK);
--
--	/* Wait for the unlock command to complete */
--	return wait_ready(ptdev, as_nr);
-+	return as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_UNLOCK);
- }
- 
- static int mmu_hw_do_operation(struct panthor_vm *vm,
-@@ -647,7 +644,7 @@ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
- 	gpu_write64(ptdev, AS_MEMATTR(as_nr), memattr);
- 	gpu_write64(ptdev, AS_TRANSCFG(as_nr), transcfg);
- 
--	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
-+	return as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_UPDATE);
- }
- 
- static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
-@@ -662,7 +659,7 @@ static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
- 	gpu_write64(ptdev, AS_MEMATTR(as_nr), 0);
- 	gpu_write64(ptdev, AS_TRANSCFG(as_nr), AS_TRANSCFG_ADRMODE_UNMAPPED);
- 
--	return write_cmd(ptdev, as_nr, AS_COMMAND_UPDATE);
-+	return as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_UPDATE);
- }
- 
- static u32 panthor_mmu_fault_mask(struct panthor_device *ptdev, u32 value)
 -- 
 2.51.1
 
