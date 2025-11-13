@@ -2,59 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5BACC58EB3
-	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 17:57:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59E4C58EFF
+	for <lists+dri-devel@lfdr.de>; Thu, 13 Nov 2025 18:00:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C488310E8D9;
-	Thu, 13 Nov 2025 16:57:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE2B210E8D5;
+	Thu, 13 Nov 2025 17:00:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e+qg4lkz";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="b5XUcaiU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19D7B10E8D5;
- Thu, 13 Nov 2025 16:57:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id CFCD941A7D;
- Thu, 13 Nov 2025 16:57:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85372C4CEFB;
- Thu, 13 Nov 2025 16:57:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763053062;
- bh=GYMl84uOyw1qOLVxM8g1QeRFBc0QP2rjuLETvSvGF+8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=e+qg4lkzb8JVZPmAq8f+RZNKCKx7PBOXzfdHxJ9AoAazhEv+USLriQCChCv3RE3s4
- r3mUFdHjD6xH5Rf3gK/6vPhvw0gdiRDUe5CfpKd5jFdCkIlNDcYnuDYVbSW4MTURa5
- oVMn9fmO1taFYFp9e9AGrE8jHBUS0hORyHyOOItLgIBFiecHbsPAT7CzCT81NNIDR1
- 5GnznoD7VSdmm/DBWDXyBaQHTzzx5kUTNK2Nj2EYc4E4LLe5zzg3iOIZv6ADwhYZh0
- EgzSZcipbUZtZbFM7etNYGxkiP0r0hwZybkvUEmj7b3CXEDuqeaLVSTGxy3Edd+gUl
- 8OiupaqeLTIBA==
-Date: Thu, 13 Nov 2025 10:57:41 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Simon Richter <Simon.Richter@hogyros.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- amd-gfx@lists.freedesktop.org, Bjorn Helgaas <bhelgaas@google.com>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6218010E8D5;
+ Thu, 13 Nov 2025 17:00:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1763053210;
+ bh=wAWxUKehyoOSa5G7CZaC6M8sHVmNdvpdgkHlsv1J4NY=;
+ h=From:To:Cc:Subject:Date:From;
+ b=b5XUcaiU6Ci5XccBPU968ve8pP6Zxzj6YhRYnx6GmARRnPdFX9fX++w7CvVxpJqi0
+ fLExxJ0l3Y6AON0qgSYTAdS3UAo6d1rni2UgZuiwmJbSNOc2Jx94UmIj+3sDJRuYDt
+ XzgeiiEYFqIH/hlKE26bDuOF5/tXVh7Ttm3xzuvDdqWTz7yzEr0TlEfzqJKsO4DyTl
+ eYaLbnMMh815MYGaiCCQhRboaiLwo5m2kqeCf55dxjhZmXTrKxS2QP5RulU85EgXqE
+ 4gBhYzYgEmPoK7Yu49ZqgfO2d8MMx6xIvxxKBswF8R2gvWTUk8Rt/zW9mm6un2Qj6p
+ qXBqUvvZ9R8QQ==
+Received: from debian-rockchip-rock5b-rk3588.. (unknown
+ [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: loicmolinari)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 04B8F17E00B0;
+ Thu, 13 Nov 2025 18:00:09 +0100 (CET)
+From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- linux-pci@vger.kernel.org, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin <tursulin@ursulin.net>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
- LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/9] PCI/IOV: Adjust ->barsz[] when changing BAR size
-Message-ID: <20251113165741.GA2288786@bhelgaas>
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
+ Al Viro <viro@zeniv.linux.org.uk>,
+ =?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>,
+ Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+Subject: [PATCH v8 00/11] drm: Reduce page tables overhead with THP
+Date: Thu, 13 Nov 2025 17:59:56 +0100
+Message-ID: <20251113170008.79587-1-loic.molinari@collabora.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <fe9bd3af-51f6-c1af-9cdc-c78aee7aaef9@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,15 +82,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 13, 2025 at 06:35:26PM +0200, Ilpo Järvinen wrote:
-> On Thu, 13 Nov 2025, Bjorn Helgaas wrote:
-> > On Tue, Oct 28, 2025 at 07:35:44PM +0200, Ilpo Järvinen wrote:
-> > > pci_rebar_set_size() adjusts BAR size for both normal and IOV BARs. The
-> > > struct pci_srvio keeps a cached copy of BAR size in unit of
-> > > resource_size_t in ->barsz[] ...
-> > 
-> > Nit: s/pci_srvio/pci/sriov/  (fixed locally, FYI in case you post a v2)
-> 
-> I just posted v2 without seeing this first. :-(
+This series aims to reduce the page tables overhead of DRM drivers for
+builds with CONFIG_TRANSPARENT_HUGEPAGE enabled and either the sysfs
+knob '/sys/kernel/mm/transparent_hugepage/shmem_enabled' appropriately
+set or drivers using a dedicated huge tmpfs mount point.
 
-Perfect, we crossed in the mail!  I'll tweak this locally.
+It starts by checking whether a faulty address in the page fault
+handler is part of a huge page in order to attempt a PMD sized PFN
+insertion into the VMA. It then introduces a dedicated
+get_unmapped_area file operation on the DRM file descriptor for GEM
+objects to get the best virtual address alignment for the underlying
+shmem buffers.
+
+The remaining commits propose shmem helpers to create and release huge
+tmpfs mount points and adapt the i915 and V3D drivers. The helpers are
+then used to optionally enable Transparent Hugepage for Panfrost and
+Panthor.
+
+For Panthor on a Rock 5B, this series makes the first memcpy() to an
+entire BO object mapped in userspace about twice as fast with
+Transparent Hugepage enabled.
+
+Implementing a fault-around handler using the arm64 contiguous page
+hint (contptes) could also greatly help reduce page tables overhead
+for small pages by mapping several contiguous pages around a faulty
+address at once. This will be proposed in another patch series.
+
+Loïc Molinari (11):
+  drm/shmem-helper: Simplify page offset calculation in fault handler
+  drm/shmem-helper: Map huge pages in fault handler
+  drm/gem: Introduce drm_gem_get_unmapped_area() fop
+  drm/gem: Add huge tmpfs mountpoint helpers
+  drm/i915: Use huge tmpfs mountpoint helpers
+  drm/v3d: Use huge tmpfs mountpoint helpers
+  drm/gem: Get rid of *_with_mnt helpers
+  drm/panthor: Introduce huge tmpfs mountpoint option
+  drm/panthor: Improve IOMMU map/unmap debugging logs
+  drm/panfrost: Introduce huge tmpfs mountpoint option
+  Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
+
+ Documentation/gpu/drm-mm.rst                  |  22 +-
+ drivers/gpu/drm/drm_gem.c                     | 203 +++++++++++++-----
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |  97 +++++----
+ drivers/gpu/drm/i915/Makefile                 |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  51 +++--
+ drivers/gpu/drm/i915/gem/i915_gemfs.c         |  71 ------
+ drivers/gpu/drm/i915/gem/i915_gemfs.h         |  14 --
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  17 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   5 -
+ drivers/gpu/drm/panfrost/panfrost_device.c    |   3 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   6 +
+ drivers/gpu/drm/panfrost/panfrost_drv.h       |   9 +
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  18 ++
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   2 +
+ drivers/gpu/drm/panthor/panthor_device.c      |   3 +
+ drivers/gpu/drm/panthor/panthor_drv.c         |   7 +
+ drivers/gpu/drm/panthor/panthor_drv.h         |   9 +
+ drivers/gpu/drm/panthor/panthor_gem.c         |  18 ++
+ drivers/gpu/drm/panthor/panthor_gem.h         |   2 +
+ drivers/gpu/drm/panthor/panthor_mmu.c         |  19 +-
+ drivers/gpu/drm/v3d/Makefile                  |   3 +-
+ drivers/gpu/drm/v3d/v3d_bo.c                  |   6 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |   2 +-
+ drivers/gpu/drm/v3d/v3d_drv.h                 |  11 +-
+ drivers/gpu/drm/v3d/v3d_gem.c                 |  27 ++-
+ drivers/gpu/drm/v3d/v3d_gemfs.c               |  62 ------
+ include/drm/drm_device.h                      |  15 ++
+ include/drm/drm_gem.h                         |  40 +++-
+ include/drm/drm_gem_shmem_helper.h            |   3 -
+ 29 files changed, 452 insertions(+), 296 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+ delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
+
+-- 
+2.47.3
+
