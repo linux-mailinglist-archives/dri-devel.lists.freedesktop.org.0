@@ -2,64 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B5DC5BD66
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 08:47:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84764C5BDE2
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 09:00:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DA3B10E9BF;
-	Fri, 14 Nov 2025 07:47:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98E8110E9C6;
+	Fri, 14 Nov 2025 08:00:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SrjLvpGY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="i9lkW645";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 313BA10E9BF;
- Fri, 14 Nov 2025 07:47:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A918610E9C6
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 08:00:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 37FAF60127;
- Fri, 14 Nov 2025 07:47:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A3B9C4CEF1;
- Fri, 14 Nov 2025 07:47:06 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id EE3036015E;
+ Fri, 14 Nov 2025 08:00:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 247E2C4CEF5;
+ Fri, 14 Nov 2025 08:00:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763106426;
- bh=KS+VcO/NTMZzXSDvNP23TtVP+SjCFQ9HliVU+Se9klE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SrjLvpGY9ZtMNfRbSPRpEaPKz4dzOPNPThw5cZ9xjU65B15xf2Jo5Aubz8cS0ERcE
- ncTWY/ZI5nAnG0H0eBfetkm0jwty0SCzjnSYrEL+QR8XCi789VW4IeSadplEOmLWUS
- +hhTVprQ1mUi6R017Y5xTvSqdTfHRGBWXjUaVyZlRy3A2PwTXGcwwxC5heiU/LpQQ2
- IXabMdeE2HRfZcjEAer4to1wQ+jRhCsql08OJ1RoAsTNIE+z9Y5RgOx38So4GiAuFC
- a3ndCVZZBEcJbUA5p6gzjpGJd4RfgBTtBzYHPg5fDJ6n/m14gn75xkt0+C/sind/jp
- dIijx0E9vUj2w==
-Date: Fri, 14 Nov 2025 08:47:04 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, 
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Sean Paul <sean@poorly.run>, Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jonathan Marek <jonathan@marek.ca>, 
- Jordan Crouse <jordan@cosmicpenguin.net>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Connor Abbott <cwabbott0@gmail.com>, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux.dev, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 18/20] dt-bindings: arm-smmu: Add Kaanapali and Glymur
- GPU SMMU
-Message-ID: <20251114-astonishing-marmoset-of-performance-33cdba@kuoka>
-References: <20251114-kaana-gpu-support-v3-0-92300c7ec8ff@oss.qualcomm.com>
- <20251114-kaana-gpu-support-v3-18-92300c7ec8ff@oss.qualcomm.com>
+ s=k20201202; t=1763107226;
+ bh=2rEmDzBPvVbBzaVsfHSeKCxSJRV3hxIlDk5T0Pey/9o=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=i9lkW645XNOm791Lb7QNFSwRub+ky9+FU9QGDU3xmd1KuKg1qd5rwXZipQDGxbgIe
+ SpPvGKgA/aA/rA9BHDyV9MlaT8ar3sEQ/zRN4nEJCvbb2Kw/QMC3k54BGpusFTuJXo
+ hAD5vSpW1sI8t4RSlsP8PlpLcYHXP5HZ13RkSvrJ09f5szELAVJKcS/V4Jd3o+zXHV
+ v18OJZYML5Nepf4fr2Vjxol6XBvxvzwkLflO6D23DBQM40VHVgl3TwtMswfdE7FgVi
+ kYrV03WEneGteHBsuPADJzUm3i1LUlJWgcYmYadwwvESBSd5Y0JSbBnq5SgLMyYBtY
+ VOPp7P+Ps19AA==
+Message-ID: <7f0c742a-3799-42cd-86cf-93ebbc9a3897@kernel.org>
+Date: Fri, 14 Nov 2025 09:00:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251114-kaana-gpu-support-v3-18-92300c7ec8ff@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fix gpu/drm/nouveau: fix return type in
+ nouveau_dmem_migrate_to_ram()
+To: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, dri-devel@lists.freedesktop.org
+Cc: kernel test robot <lkp@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>
+References: <20251113051322.1753532-1-balbirs@nvidia.com>
+ <5bdd8b10-171e-4171-a1f2-43c029dfd8e4@kernel.org>
+ <7d5ff6bf-9e44-41da-a9b9-c5424c569e98@nvidia.com>
+ <48265d08-df2b-48df-959b-d2ed1407ceca@kernel.org>
+ <e902daa9-d756-4523-9488-9ab7256c02f4@nvidia.com>
+From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Content-Language: en-US
+In-Reply-To: <e902daa9-d756-4523-9488-9ab7256c02f4@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,17 +79,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 14, 2025 at 04:59:15AM +0530, Akhil P Oommen wrote:
-> Update the devicetree bindings to document the GPU SMMUs present in
-> Kaanapali and Glymur chipsets.
+On 13.11.25 21:51, Balbir Singh wrote:
+> On 11/13/25 22:50, David Hildenbrand (Red Hat) wrote:
+>> On 13.11.25 11:31, Balbir Singh wrote:
+>>> On 11/13/25 20:09, David Hildenbrand (Red Hat) wrote:
+>>>> On 13.11.25 06:13, Balbir Singh wrote:
+>>>>> ret of type vm_fault_t is reused to capture the return value of
+>>>>> nouveau_dmem_copy_folio(), which returns an int. Use a new copy_ret
+>>>>> to fix the issue. The issue is not new, prior to this the function
+>>>>> called was called nouveau_dmem_copy_one() and ret was used to capture
+>>>>> it's value.
+>>>>>
+>>>>> Reported-by: kernel test robot <lkp@intel.com>
+>>>>> Closes: https://lore.kernel.org/oe-kbuild-all/202511121922.oP20Lzb8-lkp@intel.com/
+>>>>
+>>>> It's a sparse warning, is there any runtime effect?
+>>>>
+>>>
+>>> No impact really, it's just a sparse warning
+>>
+>> Okay, then please
+>>
+>> 1) Make that clear in the patch description
+>>
+>> 2) Make that clear in the patch subject.
+>>
+>> In particular, the current subject is weird. Should probably be
+>>
+>> "nouveau/dmem: fix sparse warning in nouveau_dmem_migrate_to_ram()"
+>>
 > 
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> ---
->  Documentation/devicetree/bindings/iommu/arm,smmu.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+> I did have "sparse warning" in the subject and checkpatch complained that
+> tools should not be mentioned in the subject, but I'll give it a shot with that.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+The important part is to be careful with the term "fix" when all we're 
+fixing is some output of a static code analysis tool that does otherwise 
+not result in any actual issues (build time, runtime).
 
-Best regards,
-Krzysztof
+-- 
+Cheers
 
+David
