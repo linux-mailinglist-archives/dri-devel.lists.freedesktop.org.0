@@ -2,44 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61835C5C005
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 09:33:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B275DC5C026
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 09:36:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC07C10EA14;
-	Fri, 14 Nov 2025 08:33:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A226C10E031;
+	Fri, 14 Nov 2025 08:36:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J1V0ndcd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="F2Owpah+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25BBC10EA16
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 08:33:16 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D0A8810E031
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 08:36:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E9B17436D4;
- Fri, 14 Nov 2025 08:33:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74B3CC19424;
- Fri, 14 Nov 2025 08:33:08 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id E834A60163;
+ Fri, 14 Nov 2025 08:36:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FD9EC4CEF8;
+ Fri, 14 Nov 2025 08:36:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763109195;
- bh=PFl33I0QJqg/12ihlGpsei/r6GgKWpKb7KCY1L2LsGY=;
+ s=k20201202; t=1763109378;
+ bh=eWGYBsLmz/5LRmgat5KjGwo91+k4m6JF84j9BzT5HWE=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=J1V0ndcdbmJYb817ivKEItL2rF4KI8nAuQGaxTw7ZVBI+LbR1RTSstti1Fm4IzhiY
- VzfYk8Q66tG3c7SGE97UTkwH3vaKsELxUkz/zws2peiK5UA1Hv1SiNOKxg5htGU06U
- +WQSI9qwkp1O5BH8tny+ZmVb4Hu/cX/kdOuu8d2T8Y7gSxxKOqXTZwpf4CmJqkrpw9
- 96Iyf55ubQo0ob2h9TBcjn1gA4caqz1BqSB8e+NmevZZQ1Hmp7qgtvs9tB0asx5Xv/
- 86hCNcS3CvgtobtHS3+6a8vx98BPwizKfvVDfnY+2JjVhcvMFQcSyMejS7BqAmPQK4
- w4/Cx+Y28i6Jg==
-Message-ID: <95e27bd3-6ce7-46a3-81d5-0fc830908b10@kernel.org>
-Date: Fri, 14 Nov 2025 09:33:06 +0100
+ b=F2Owpah+gT1P6oR4hero/YLaRllSRs7/IqzcWjr8T6aARmKxVkvyShYWYDdo42U09
+ I0tb8gvsHii5Z1jLRwgYMVs50vNUqptG5dKxPC9vcxPQg2pZG1p3TAjJ2/jhwYtuQ5
+ XbB6k3q6lLNhalnzHcv+m6fRwGqipdvwZ5RTzt9IoLYeQHATZNbll87iSb0q0sobVe
+ icktECJLCoQY8NUs9bpqyPXgrzo3agn715qYlWap3mK9KzQ0xfVmOdtqisTZ9L389N
+ KLCbRBEH3ZgdTT8voj9FzXxCxBT9xNVcd/CgNy4jFUL8qlhb/yv0gHAxBfaLbH7oZb
+ sQLWG/OrVaYyQ==
+Message-ID: <5b481d76-638d-46d4-ad98-5508fc8b715e@kernel.org>
+Date: Fri, 14 Nov 2025 09:36:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] gpu/drm/nouveau: fix return type in
- nouveau_dmem_migrate_to_ram()
+Subject: Re: [PATCH] mm/huge_memory.c: introduce folio_split_unmapped
 To: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
  linux-mm@kvack.org, dri-devel@lists.freedesktop.org
-Cc: kernel test robot <lkp@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+Cc: Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
  Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
  Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
  Ying Huang <ying.huang@linux.alibaba.com>,
@@ -54,10 +52,10 @@ Cc: kernel test robot <lkp@intel.com>,
  =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
  Matthew Brost <matthew.brost@intel.com>,
  Francois Dugast <francois.dugast@intel.com>
-References: <20251114012221.2634832-1-balbirs@nvidia.com>
+References: <20251114012228.2634882-1-balbirs@nvidia.com>
 From: "David Hildenbrand (Red Hat)" <david@kernel.org>
 Content-Language: en-US
-In-Reply-To: <20251114012221.2634832-1-balbirs@nvidia.com>
+In-Reply-To: <20251114012228.2634882-1-balbirs@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,28 +74,22 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 14.11.25 02:22, Balbir Singh wrote:
-> ret of type vm_fault_t is reused to capture the return value of
-> nouveau_dmem_copy_folio(), which returns an int. Use a new variable
-> err to fix the issue. The issue is not new, prior to this the function
-> called was called nouveau_dmem_copy_one() and ret was used to capture
-> it's value.
-> 
-> The bug does not cause a real issue at runtime, the value is used
-> as a boolean to check if nouveau_dmem_copy_folio() succeeded or failed.
-> The different types should not impact the execution of the code at
-> runtime.
-> 
+> Unmapped was added as a parameter to __folio_split() and related
+> call sites to support splitting of folios already in the midst
+> of a migration. This special case arose for device private folio
+> migration since during migration there could be a disconnect between
+> source and destination on the folio size.
 
-Also, as commented previously, the prefix in the subject does not match 
-existing norms. Take a look at
+Didn't I already comment that the subject should start with 
+"mm/huge_memory: introduce ..." ?
 
-	git log --oneline drivers/gpu/drm/nouveau/nouveau_dmem.c
+Yes I did: 
+https://lore.kernel.org/all/048134fd-6a3d-4a6c-a2eb-9a9911c3b35f@kernel.org/
 
-and note how it's commonly something along the lines of "drm/nouveau" or 
-better "drm/nouveau/dmem".
+You know, I'm a busy man, can you *please*
 
-The only patch that uses "gpu/drm/nouveau" is from you recently. In 
-fact, there is no other patch in the codebase that uses that prefix.
+* take better care of addressing all previous comments?
+* wait more than 12 h after asking a question before you resend?
 
 -- 
 Cheers
