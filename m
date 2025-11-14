@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1B00C5EDBC
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 19:27:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3FFDC5EE25
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 19:36:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B1AE10E257;
-	Fri, 14 Nov 2025 18:27:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9489E10E26A;
+	Fri, 14 Nov 2025 18:35:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hTdhkQKU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NUj8JeRA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A16210E257;
- Fri, 14 Nov 2025 18:27:41 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2C8D10E25C;
+ Fri, 14 Nov 2025 18:35:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id BE55560188;
- Fri, 14 Nov 2025 18:27:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50B82C4CEF1;
- Fri, 14 Nov 2025 18:27:40 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 54E3B4172C;
+ Fri, 14 Nov 2025 18:35:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14213C19425;
+ Fri, 14 Nov 2025 18:35:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763144860;
- bh=cYXp6vTHKD4+5HKyKDsS0LI6yssoViJnuOJ6XQWYNp4=;
+ s=k20201202; t=1763145358;
+ bh=oWD8GTV+Nt3ZDSChcU4v7mGij5MGJoOoxHwMCFXuXA8=;
  h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=hTdhkQKUi+PzhqiZrzsNxYV1ZF5i4s0dFL6ShBnirq9JvKqzo9WAtxlC9K4xNqREZ
- jMGFeVLCfm1GpAMgDDxYAhrOiDpRjmb0u2p8xMH3jLfpdHiGDgrjkPSTtOccX39msM
- QM0WIB+6+G1UIPFetlm0KsaA/yfiESW8bp2goJmd2NZ5COFKDrpjYKw4uvMvLEOPiT
- mjfAYyUCSTgc6Fqf4hyEBUlOChgPM8dgsfooBUkuXLZTBnJT9yFRS0GEX9IsPhlSUA
- lguFbUfMC0HYHxc/aswttWcArBbW3HbO2hNr+04smAX5GEmhFnLZUl8dAI8bL4J4X1
- fUo+3KX2gZjNA==
-Date: Fri, 14 Nov 2025 12:27:39 -0600
+ b=NUj8JeRAJvue2hVfQfL1xMquhbeBz8n0pg9EV+VKjv2aEJkcKPkdyJiHVQjZFgpLP
+ qbGqUddaPYUzwwjZ5wNCpe9+o98YW5GodaXsW/JhBz+8SZfkDS7tpcqaVy9XEtSmgV
+ jwiYPdmUgPuOR92HVdp9pYc/B/kW8cNSx5Sb+7OFU66kjWHNcEb37kZ2ybylyT6Xle
+ QbchwTEsD0Flp9RCXEPuscrMweq2nJrqVYlJ3bfKBr+s3HPuFjyS9NZl3LOlzmcrBx
+ Uj9FbktzRB+9LAdFIP4btjaFBfmbi5PB+YgKIKIooxYJxJozM8uUMEV/ha+VjF8D0I
+ 2vgnnISFAVVjA==
+Date: Fri, 14 Nov 2025 12:35:56 -0600
 From: Bjorn Helgaas <helgaas@kernel.org>
 To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Cc: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
@@ -48,12 +48,12 @@ Cc: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
  Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
 Subject: Re: [PATCH v2 00/11] PCI: BAR resizing fix/rework
-Message-ID: <20251114182739.GA2332823@bhelgaas>
+Message-ID: <20251114183556.GA2334513@bhelgaas>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87pl9lot9r.fsf@draig.linaro.org>
+In-Reply-To: <87jyzsq0nr.fsf@draig.linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,7 +69,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 14, 2025 at 09:30:56AM +0000, Alex Bennée wrote:
+On Fri, Nov 14, 2025 at 12:06:00PM +0000, Alex Bennée wrote:
 > Ilpo Järvinen <ilpo.jarvinen@linux.intel.com> writes:
 > 
 > > Hi all,
@@ -81,22 +81,19 @@ On Fri, Nov 14, 2025 at 09:30:56AM +0000, Alex Bennée wrote:
 > > appeared to be "working" previously might no longer do so. Thus, I had
 > > to do a larger rework to pci_resize_resource() in order to properly
 > > restore resource states as it was prior to BAR resize.
+> <snip>
 > >
-> > This rework has been on my TODO list anyway but it wasn't the highest
-> > prio item until pci_resize_resource() started to cause regressions due
-> > to other resource assignment algorithm changes.
+> > base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
 > 
-> Thanks I'll have a look.
+> Ahh I have applied to 6.18-rc5 with minor conflicts and can verify that
+> on my AVA the AMD GPU shows up again and I can run inference jobs
+> against it. So for that case:
 > 
-> Where does this apply? At least v6.17 doesn't seem to have
-> pbus_reassign_bridge_resources which 4/11 is trying to tweak.
+> Tested-by: Alex Bennée <alex.bennee@linaro.org>
 
-This is based on v6.18-rc1 and is applied here:
+Thanks, Alex!  I added your Tested-by to this series, except for these
+which I don't think are relevant for you:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/log/?h=resource
+  drm/xe: Remove driver side BAR release before resize
+  drm/i915: Remove driver side BAR release before resize
 
-I expect some conflicts with d30203739be7 ("drm/xe: Move rebar to be
-done earlier"), which appeared in v6.18-rc2, and possibly with other
-DRM changes planned for v6.19.
-
-Bjorn
