@@ -2,69 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1982C5C063
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 09:39:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 106A3C5C08C
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 09:42:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F14310EA03;
-	Fri, 14 Nov 2025 08:39:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A76D10EA08;
+	Fri, 14 Nov 2025 08:41:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mTUbUOdG";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kh60oeBR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0031810E9FA;
- Fri, 14 Nov 2025 08:39:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763109588; x=1794645588;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=F+CStbTIxHFcTW3z0z+Poj36ZgypQe63mye2MkcSfy4=;
- b=mTUbUOdGXI5Iguvpjsh2rDYNx82Je5pBHOskblrgkNK9OB76yEWt7YGE
- m8I6eP06jFcPE5PoJFtX01wZlB/ClS14ctfworrFof77892C4RJq4k0/V
- 3e6iVxnRjEKezeI12HBXjQ3BG8P/+wP/KvJosXeouicN4XoObj8NeDywA
- nSfxTlePtiNLEc2wkn+uWiLWQ33FKQU13c41fXmZuRJoaQryzyHvUJJFa
- nP3iR6V0zVZRAUYbDfo2U0pDnKk0/V7gkfNIYotkO8Arrw+Xwc7lkdbOe
- wDF4IWL+6sxBUNTN24LqSDTG4N2cpZ0VhemGCGug5Vju8xshtrGULLzmP w==;
-X-CSE-ConnectionGUID: TD1XW724QryRSx/eykU/dw==
-X-CSE-MsgGUID: zgKYt4UJQdyDFjiiyXhuKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="75882970"
-X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; d="scan'208";a="75882970"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2025 00:39:40 -0800
-X-CSE-ConnectionGUID: nZOAlWeHTgGIl0LRBYXVFQ==
-X-CSE-MsgGUID: DbNLt1YjRPa6kN9nLQAlTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; d="scan'208";a="189554951"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.202])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2025 00:39:35 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>, Simona Vetter
- <simona@ffwll.ch>
-Cc: Alex Deucher <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6n?=
- =?utf-8?Q?ig?=
- <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, "open
- list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>, "open
- list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, open list
- <linux-kernel@vger.kernel.org>, Mario Limonciello
- <mario.limonciello@amd.com>, Simona Vetter <simona.vetter@ffwll.ch>, Harry
- Wentland <Harry.Wentland@amd.com>, Dmitry Baryshkov
- <dmitry.baryshkov@oss.qualcomm.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH] drm/amd: Move adaptive backlight modulation property to
- drm core
-In-Reply-To: <83aa8a816cf301085a3e3638238f8fba11053dc2@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251112222646.495189-1-mario.limonciello@amd.com>
- <83aa8a816cf301085a3e3638238f8fba11053dc2@intel.com>
-Date: Fri, 14 Nov 2025 10:39:32 +0200
-Message-ID: <449ee5ba065e1ceee8f7a04038442cff24772df9@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2956210EA04
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 08:41:57 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AE8UlPU1620946; Fri, 14 Nov 2025 08:41:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=faRmBI6MvBat95N+ckKLUb
+ d37ZL964ezj74YdT6EbkU=; b=kh60oeBRZrObZT6/N/F2+wg7oTZd9k39+1qAho
+ 33g+bNgVrg+Krlqi2L8fnqYGdmXQExo3Y3yT5qH+njaNpSJdv/WZFfQyQllYdH+S
+ sq9UxviR+FdshEzMTV1NUuSZxY8Ejp1I7ad9Zqh2pQlEWE2RBuIUAgHETjLlMeGK
+ 4tZg6/W9I4a1X/srO7ilERjFhyazR9S+R2guK1cT4Sma03HLu7PjApmXZKpVqoLL
+ l0iLcIqqK1sFoXTnzhBuiClLpUf8dkxxHXLc4APOZXYNFqmsnwGj0X6sWrZRF2wU
+ +NnYYn0yx4ofFLUB74gm0USsJv9nVJc0x6KVqGlsSKwCK2uA==
+Received: from apblrppmta02.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4adr9h1edf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Nov 2025 08:41:50 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5AE8fkYV001437; 
+ Fri, 14 Nov 2025 08:41:46 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4a9xxn3dkq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Nov 2025 08:41:46 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5AE8fjpB001425;
+ Fri, 14 Nov 2025 08:41:45 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-kpallavi-hyd.qualcomm.com
+ [10.147.243.7])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 5AE8fjjb001421
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 14 Nov 2025 08:41:45 +0000
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4720299)
+ id 62212534; Fri, 14 Nov 2025 14:11:44 +0530 (+0530)
+From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+To: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
+ arnd@arndb.de, gregkh@linuxfoundation.org
+Cc: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>, quic_bkumar@quicinc.com, 
+ ekansh.gupta@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, jingyi.wang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, ktadakam@qti.qualcomm.com
+Subject: [PATCH v3 0/4] Add ADSP and CDSP support on Kaanapali SoC
+Date: Fri, 14 Nov 2025 14:11:38 +0530
+Message-Id: <20251114084142.3386682-1-kumari.pallavi@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: FKw1HgpbZxETQMnJsC1bIBWkj9hKWKiX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE0MDA2OCBTYWx0ZWRfX4DdbDm/+QN0b
+ yUxMfi9H7zipnrrIS6yy9i/pZVq9GbUbt8+PztXVXbnSdu4jONHkKX2o3K6tBB5fjIPt7x3npWM
+ z9UWRzihNcbnJ8G2Pxl/oD0UeoKCXpaVA7OOMBMgq0izMC686Lo88kAoNBFx9kczD4OlI8vAG26
+ +SsRkqZj2nqwIatu2wdKheSrlYQBu44g59ZOtGumyHNe02aee8RCR0AXHN1nyLTKm73IV8sQ7Fq
+ 13BeT2mrwBwga5rumGE0SVSF9ctgQsGIQb3K8hsq2AOKRahb2+wyZjiYImEaWKiLk8nCO39pewm
+ 00sLmEqvgx+VGsjpxXsWQBb+H1FxWRWwfozN5NGXxE4YV4kTBKIF5dBHnr9NsnXGZymdWBl3pAb
+ lgwsMqcZZ/pGpan5Bt9goVZqvf6q2g==
+X-Proofpoint-GUID: FKw1HgpbZxETQMnJsC1bIBWkj9hKWKiX
+X-Authority-Analysis: v=2.4 cv=V+1wEOni c=1 sm=1 tr=0 ts=6916eb4e cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=KXkd8hKGogo_UzYOO18A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-14_02,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 bulkscore=0 suspectscore=0 phishscore=0 clxscore=1015
+ spamscore=0 priorityscore=1501 impostorscore=0 adultscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511140068
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,278 +109,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 13 Nov 2025, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> On Wed, 12 Nov 2025, Mario Limonciello <mario.limonciello@amd.com> wrote:
->> The adaptive backlight modulation property is supported on AMD hardware but
->> compositors should be aware of it in standard DRM property documentation.
->
-> I think the reason for adding a property in drm core code should be to
-> share the ABI between drivers.
->
->> Move the helper to create the property and documentation into DRM.
->>
->
-> Link: to the userspace implementation according to
-> Documentation/gpu/drm-uapi.rst
->
->> Suggested-by: Simona Vetter <simona.vetter@ffwll.ch>
->> Reviewed-by: Harry Wentland <Harry.Wentland@amd.com>
->> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->> ---
->>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 69 +++------------------
->>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.h |  7 ---
->>  drivers/gpu/drm/drm_connector.c             | 63 +++++++++++++++++++
->>  include/drm/drm_connector.h                 |  8 +++
->>  4 files changed, 80 insertions(+), 67 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
->> index f8b35c487b6c..3d840bef77bf 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
->> @@ -1363,67 +1363,9 @@ static const struct drm_prop_enum_list amdgpu_dither_enum_list[] = {
->>  	{ AMDGPU_FMT_DITHER_ENABLE, "on" },
->>  };
->>  
->> -/**
->> - * DOC: property for adaptive backlight modulation
->> - *
->> - * The 'adaptive backlight modulation' property is used for the compositor to
->> - * directly control the adaptive backlight modulation power savings feature
->> - * that is part of DCN hardware.
->> - *
->> - * The property will be attached specifically to eDP panels that support it.
->> - *
->> - * The property is by default set to 'sysfs' to allow the sysfs file 'panel_power_savings'
->> - * to be able to control it.
->> - * If set to 'off' the compositor will ensure it stays off.
->> - * The other values 'min', 'bias min', 'bias max', and 'max' will control the
->> - * intensity of the power savings.
->> - *
->> - * Modifying this value can have implications on color accuracy, so tread
->> - * carefully.
->> - */
->> -static int amdgpu_display_setup_abm_prop(struct amdgpu_device *adev)
->> -{
->> -	const struct drm_prop_enum_list props[] = {
->> -		{ ABM_SYSFS_CONTROL, "sysfs" },
->> -		{ ABM_LEVEL_OFF, "off" },
->> -		{ ABM_LEVEL_MIN, "min" },
->> -		{ ABM_LEVEL_BIAS_MIN, "bias min" },
->> -		{ ABM_LEVEL_BIAS_MAX, "bias max" },
->> -		{ ABM_LEVEL_MAX, "max" },
->> -	};
->> -	struct drm_property *prop;
->> -	int i;
->> -
->> -	if (!adev->dc_enabled)
->> -		return 0;
->> -
->> -	prop = drm_property_create(adev_to_drm(adev), DRM_MODE_PROP_ENUM,
->> -				"adaptive backlight modulation",
->> -				6);
->> -	if (!prop)
->> -		return -ENOMEM;
->> -
->> -	for (i = 0; i < ARRAY_SIZE(props); i++) {
->> -		int ret;
->> -
->> -		ret = drm_property_add_enum(prop, props[i].type,
->> -						props[i].name);
->> -
->> -		if (ret) {
->> -			drm_property_destroy(adev_to_drm(adev), prop);
->> -
->> -			return ret;
->> -		}
->> -	}
->> -
->> -	adev->mode_info.abm_level_property = prop;
->> -
->> -	return 0;
->> -}
->> -
->>  int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
->>  {
->> -	int sz;
->> +	int ret, sz;
->>  
->>  	adev->mode_info.coherent_mode_property =
->>  		drm_property_create_range(adev_to_drm(adev), 0, "coherent", 0, 1);
->> @@ -1467,7 +1409,14 @@ int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
->>  					 "dither",
->>  					 amdgpu_dither_enum_list, sz);
->>  
->> -	return amdgpu_display_setup_abm_prop(adev);
->> +	adev->mode_info.abm_level_property = drm_create_abm_property(adev_to_drm(adev));
->> +	if (IS_ERR(adev->mode_info.abm_level_property)) {
->> +		ret = PTR_ERR(adev->mode_info.abm_level_property);
->> +		adev->mode_info.abm_level_property = NULL;
->> +		return ret;
->> +	}
->> +
->> +	return 0;
->>  }
->>  
->>  void amdgpu_display_update_priority(struct amdgpu_device *adev)
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
->> index 2b1536a16752..dfa0d642ac16 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
->> @@ -54,11 +54,4 @@ int amdgpu_display_resume_helper(struct amdgpu_device *adev);
->>  int amdgpu_display_get_scanout_buffer(struct drm_plane *plane,
->>  				      struct drm_scanout_buffer *sb);
->>  
->> -#define ABM_SYSFS_CONTROL	-1
->> -#define ABM_LEVEL_OFF		0
->> -#define ABM_LEVEL_MIN		1
->> -#define ABM_LEVEL_BIAS_MIN	2
->> -#define ABM_LEVEL_BIAS_MAX	3
->> -#define ABM_LEVEL_MAX		4
->> -
->>  #endif
->> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
->> index 272d6254ea47..376169dac247 100644
->> --- a/drivers/gpu/drm/drm_connector.c
->> +++ b/drivers/gpu/drm/drm_connector.c
->> @@ -2603,6 +2603,69 @@ static int drm_mode_create_colorspace_property(struct drm_connector *connector,
->>  	return 0;
->>  }
->>  
->> +/**
->> + * DOC: integrated panel properties
->> + *
->> + * adaptive backlight modulation:
->> + *	Adaptive backlight modulation (ABM) is a power savings feature that
->> + *	dynamically adjusts the backlight brightness based on the content
->> + *	displayed on the screen. By reducing the backlight brightness for
->> + *	darker images and increasing it for brighter images, ABM helps to
->> + *	conserve energy and extend battery life on devices with integrated
->> + *	displays.  This feature is part of AMD DCN hardware.
->
-> So this is basically Content Adaptive Brightness Control, but with the
-> technology ("backlight" and "modulation") unnecessarily encoded in the
-> ABI.
->
-> You could have the same knob for adjusting CABC implemented in an OLED
-> panel, controlled via DPCD.
->
->> + *
->> + *	sysfs
->> + *		The ABM property is exposed to userspace via sysfs interface
->> + *		located at 'amdgpu/panel_power_savings' under the DRM device.
->
-> Err what? Seriously suggesting that to the common ABI? We shouldn't have
-> sysfs involved at all, let alone vendor specific sysfs.
->
->> + *	off
->> + *		Adaptive backlight modulation is disabled.
->> + *	min
->> + *		Adaptive backlight modulation is enabled at minimum intensity.
->> + *	bias min
->> + *		Adaptive backlight modulation is enabled at a more intense
->> + *		level than 'min'.
->> + *	bias max
->> + *		Adaptive backlight modulation is enabled at a more intense
->> + *		level than 'bias min'.
->> + *	max
->> + *		Adaptive backlight modulation is enabled at maximum intensity.
->
-> So values 0-4 but with names. I don't know what "bias" means here, and I
-> probably shouldn't even have to know. It's an implementation detail
-> leaking to the ABI.
->
-> In the past I've encountered CABC with different modes based on the use
-> case, e.g. "video" or "game", but I don't know how those would map to
-> the intensities.
->
-> I'm concerned the ABI serves AMD hardware, no one else, and everyone
-> else coming after this is forced to shoehorn their implementation into
-> this.
+Introduces support for new DSP IOVA formatting and hardware-specific
+configuration required to enable ADSP and CDSP functionality on the
+Kaanapali SoC.
 
-Apparently Harry had the same concerns [1].
+Add support for a new IOVA formatting scheme by adding a sid_pos to the DSP
+driver. Sid_pos standardizes the placement of the stream ID (SID) within the
+physical address, which is required for DSPs to operate correctly on
+Kaanapali. DSP currently supports 32-bit IOVA (32-bit PA + 4-bit SID) for
+both Q6 and user DMA (uDMA) access.
+This is being upgraded to 34-bit PA + 4-bit SID due to a hardware revision
+in CDSP for Kaanapali SoC, which expands the DMA addressable range.
+To support CDSP operation, this series updates the DMA mask configuration
+to reflect the expanded DMA addressable range.
 
-BR,
-Jani.
+Patch [v2]:https://lore.kernel.org/all/20251015045702.3022060-1-kumari.pallavi@oss.qualcomm.com/
 
+Changes in v3:
+  - dt-bindings documentation update to support Kaanapali Soc
+  - update comments to ensure clarity
+  - Read SoC-specific data by matching the SoC’s .compatible field
+    in the driver’s of_device_id match table instead of root node
+  - Rename the dma_mask to the dma_bits for more clarity and set it's
+    value based on the dsp_default_dma_bits instead of hardcode to 32
 
-[1] https://lore.kernel.org/r/2d4cbf1e-f8f7-4f6e-9e7e-15fb05234248@amd.com
+Kumari Pallavi (4):
+  dt-bindings: misc: qcom,fastrpc: Add compatible for Kaanapali
+  misc: fastrpc: Rename phys to dma_addr for clarity
+  misc: fastrpc: Add support for new DSP IOVA formatting
+  misc: fastrpc: Update dma_bits for CDSP support on Kaanapali SoC
 
-
->
->> + */
->> +struct drm_property *drm_create_abm_property(struct drm_device *dev)
->> +{
->> +	const struct drm_prop_enum_list props[] = {
->> +		{ ABM_SYSFS_CONTROL, "sysfs" },
->> +		{ ABM_LEVEL_OFF, "off" },
->> +		{ ABM_LEVEL_MIN, "min" },
->> +		{ ABM_LEVEL_BIAS_MIN, "bias min" },
->> +		{ ABM_LEVEL_BIAS_MAX, "bias max" },
->> +		{ ABM_LEVEL_MAX, "max" },
->> +	};
->> +	struct drm_property *prop;
->> +	int i;
->> +
->> +	prop = drm_property_create(dev, DRM_MODE_PROP_ENUM,
->> +				"adaptive backlight modulation",
->> +				6);
->
-> Please use drm_property_create_enum(), see
-> e.g. drm_connector_attach_broadcast_rgb_property().
->
->> +	if (!prop)
->> +		return ERR_PTR(-ENOMEM);
->> +
->> +	for (i = 0; i < ARRAY_SIZE(props); i++) {
->> +		int ret;
->> +
->> +		ret = drm_property_add_enum(prop, props[i].type,
->> +						props[i].name);
->> +
->> +		if (ret) {
->> +			drm_property_destroy(dev, prop);
->> +
->> +			return ERR_PTR(ret);
->> +		}
->> +	}
->> +
->> +	return prop;
->> +}
->> +EXPORT_SYMBOL(drm_create_abm_property);
->> +
->>  /**
->>   * drm_mode_create_hdmi_colorspace_property - create hdmi colorspace property
->>   * @connector: connector to create the Colorspace property on.
->> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
->> index 8f34f4b8183d..644c0d49500f 100644
->> --- a/include/drm/drm_connector.h
->> +++ b/include/drm/drm_connector.h
->> @@ -2454,6 +2454,7 @@ int drm_connector_attach_hdr_output_metadata_property(struct drm_connector *conn
->>  bool drm_connector_atomic_hdr_metadata_equal(struct drm_connector_state *old_state,
->>  					     struct drm_connector_state *new_state);
->>  int drm_mode_create_aspect_ratio_property(struct drm_device *dev);
->> +struct drm_property *drm_create_abm_property(struct drm_device *dev);
->>  int drm_mode_create_hdmi_colorspace_property(struct drm_connector *connector,
->>  					     u32 supported_colorspaces);
->>  int drm_mode_create_dp_colorspace_property(struct drm_connector *connector,
->> @@ -2563,4 +2564,11 @@ const char *drm_get_colorspace_name(enum drm_colorspace colorspace);
->>  	drm_for_each_encoder_mask(encoder, (connector)->dev, \
->>  				  (connector)->possible_encoders)
->>  
->> +#define ABM_SYSFS_CONTROL	-1
->> +#define ABM_LEVEL_OFF		0
->> +#define ABM_LEVEL_MIN		1
->> +#define ABM_LEVEL_BIAS_MIN	2
->> +#define ABM_LEVEL_BIAS_MAX	3
->> +#define ABM_LEVEL_MAX		4
->
-> These need to be an enum, with documentation, name prefixes, the works.
->
-> BR,
-> Jani.
->
->> +
->>  #endif
+ .../bindings/misc/qcom,fastrpc.yaml           |   5 +-
+ drivers/misc/fastrpc.c                        | 127 ++++++++++++------
+ 2 files changed, 91 insertions(+), 41 deletions(-)
 
 -- 
-Jani Nikula, Intel
+2.34.1
+
