@@ -2,40 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32A2C5E40E
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 17:34:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4204C5E661
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 18:03:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20DC210E24B;
-	Fri, 14 Nov 2025 16:33:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E12710E24E;
+	Fri, 14 Nov 2025 17:03:10 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WpNvbsQu";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 1753210E24B
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 16:33:54 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0F0401063;
- Fri, 14 Nov 2025 08:33:46 -0800 (PST)
-Received: from [10.1.39.17] (e122027.cambridge.arm.com [10.1.39.17])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 756113F5A1;
- Fri, 14 Nov 2025 08:33:51 -0800 (PST)
-Message-ID: <b28a4dfd-035e-429d-848c-dd67adfb8fa7@arm.com>
-Date: Fri, 14 Nov 2025 16:33:49 +0000
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECBBA10E24E;
+ Fri, 14 Nov 2025 17:03:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1763139787;
+ bh=xmTuO99WLZNe6DADt1m20DsqMVzO7dXn0+8ex7jo2IQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=WpNvbsQus7eDIt7VMzy2MfISk+rMdVp7HDWVNyalUw9h5HHOd1LBs6RnLp3O9paRI
+ M3ZrWEw4pUNc2bhCaUoWLa5UO2ff6IjWVVLnfbqKyqgDIXwQJ3tmkz5TZv/mwCS9cB
+ lxD/E8VDmG3UNFoke/qw7eV16MzUx9R3wSLGPQEZXSdDrkxqSo76Z2mfWG4eHYKx6L
+ gyZtZMwSvKpSU0p13EUoZWeRYqrPB8EJN9bqVS/Dy1V6inwu3Ux5LzkdtOT1U0rX49
+ nLjA3dvcVA+pp4T8HMSDN7HqNeo9GWsxRVjt1tWqeG0v6mF18srxoXD2oESJuOMzDm
+ k2mpYkxq/Pjsw==
+Received: from debian-rockchip-rock5b-rk3588.. (unknown
+ [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: loicmolinari)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 77D1D17E0927;
+ Fri, 14 Nov 2025 18:03:06 +0100 (CET)
+From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Hugh Dickins <hughd@google.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
+ Al Viro <viro@zeniv.linux.org.uk>,
+ =?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
+ Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>,
+ Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+Subject: [PATCH v9 00/11] drm: Reduce page tables overhead with THP
+Date: Fri, 14 Nov 2025 18:02:51 +0100
+Message-ID: <20251114170303.2800-1-loic.molinari@collabora.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/8] drm/panthor: Add support for Mali-G1 GPUs
-To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
-Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-References: <20251107142440.1134528-1-karunika.choo@arm.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251107142440.1134528-1-karunika.choo@arm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,97 +82,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Karunika,
+This series aims to reduce the page tables overhead of DRM drivers for
+builds with CONFIG_TRANSPARENT_HUGEPAGE enabled and either the sysfs
+knob '/sys/kernel/mm/transparent_hugepage/shmem_enabled' appropriately
+set or drivers using a dedicated huge tmpfs mount point.
 
-This series doesn't seem to cleanly apply on drm-misc-next (and I can't
-figure out what base you used). Would you mind doing a rebase and resend?
+It starts by checking whether a faulty address in the page fault
+handler is part of a huge page in order to attempt a PMD sized PFN
+insertion into the VMA. It then introduces a dedicated
+get_unmapped_area file operation on the DRM file descriptor for GEM
+objects to get the best virtual address alignment for the underlying
+shmem buffers.
 
-Thanks,
-Steve
+The remaining commits propose shmem helpers to create and release huge
+tmpfs mount points and adapt the i915 and V3D drivers. The helpers are
+then used to optionally enable Transparent Hugepage for Panfrost and
+Panthor.
 
-On 07/11/2025 14:24, Karunika Choo wrote:
-> This patch series extends the Panthor driver with basic support for
-> Mali-G1 GPUs.
-> 
-> The v14 architecture introduces several hardware and register-level
-> changes compared to prior GPUs. This series adds the necessary
-> architecture-specific support infrastructure, power control and reset
-> handling for Mali-G1 GPUs.
-> 
-> Patch Breakdown:
-> [Patch 1-2]:  Refactor panthor_hw to introduce architecture-specific
->               hooks and abstractions to support the v14 architecture.
->               These patches introduce architecture-specific HW binding
->               for function pointers.
-> [Patch 3-5]:  Adds basic L2 power on/off and soft reset support for the
->               PWR_CONTROL block introduced in v14.
-> [Patch 6]:    Update MCU halt and warm boot operations to reflect the
->               GLB_REQ.STATE changes in v14. This ensures that the MCU is
->               properly halted and the correct operations are performed
->               on warm boot depending on the FW version.
-> [Patch 7]:    Align endpoint_req with changes introduced in v14, where
->               the register is widened to 64-bit and shifed down by
->               4-bytes. This patch adds the necessary infrastructure to
->               discern the correct endpoint_req register to use.
-> [Patch 8]:    Enables Mali-G1 support on Panthor by adding HW bindings
->               for v14 architecture, product names and path to FW binary.
-> 
-> v4:
->  * Fixed include and forward declaration issues.
->  * Addressed code format issues.
->  * Picked up R-bs from Steve.
->  * Link to v3: https://lore.kernel.org/all/20251027161334.854650-1-karunika.choo@arm.com/
-> v3:
->  * Updated include logic to enable static inline functions in
->    panthor_hw.h for function pointers and feature checks.
->  * Fixed missed replacement of CSF_IFACE_VERSION check with
->    panthor_fw_has_glb_state() check.
->  * Link to v2: https://lore.kernel.org/all/20251024202117.3241292-1-karunika.choo@arm.com/
-> v2:
->  * Merged GPU_ID refactoring patch with the arch-specific panthor_hw
->    binding patch (formerly PATCH 01/10 and PATCH 02/10).
->  * Dropped panthor_hw feature bitmap patch in favor of functions that
->    performs the relevant architecture version checks.
->  * Fixed kernel test bot warnings.
->  * Replaced function pointer accessor MACROs with static inline
->    functions.
->  * Refined power control logic, removed unnecessary checks and redundant
->    stubs.
->  * Replaced explicit CSG_IFACE_VERSION checks with functions describing
->    the feature being checked for.
->  * General readability improvements, more consistent error handling,
->    behaviour clarifications, and formatting fixes.
->  * Link to v1: https://lore.kernel.org/all/20251014094337.1009601-1-karunika.choo@arm.com/
-> 
-> 
-> Karunika Choo (8):
->   drm/panthor: Add arch-specific panthor_hw binding
->   drm/panthor: Add architecture-specific function operations
->   drm/panthor: Introduce panthor_pwr API and power control framework
->   drm/panthor: Implement L2 power on/off via PWR_CONTROL
->   drm/panthor: Implement soft reset via PWR_CONTROL
->   drm/panthor: Support GLB_REQ.STATE field for Mali-G1 GPUs
->   drm/panthor: Support 64-bit endpoint_req register for Mali-G1
->   drm/panthor: Add support for Mali-G1 GPUs
-> 
->  drivers/gpu/drm/panthor/Makefile         |   1 +
->  drivers/gpu/drm/panthor/panthor_device.c |  18 +-
->  drivers/gpu/drm/panthor/panthor_device.h |   8 +
->  drivers/gpu/drm/panthor/panthor_fw.c     | 131 +++++-
->  drivers/gpu/drm/panthor/panthor_fw.h     |  32 +-
->  drivers/gpu/drm/panthor/panthor_gpu.c    |  12 +-
->  drivers/gpu/drm/panthor/panthor_gpu.h    |   1 +
->  drivers/gpu/drm/panthor/panthor_hw.c     | 107 ++++-
->  drivers/gpu/drm/panthor/panthor_hw.h     |  47 +-
->  drivers/gpu/drm/panthor/panthor_pwr.c    | 549 +++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_pwr.h    |  23 +
->  drivers/gpu/drm/panthor/panthor_regs.h   |  79 ++++
->  drivers/gpu/drm/panthor/panthor_sched.c  |  21 +-
->  13 files changed, 989 insertions(+), 40 deletions(-)
->  create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.h
-> 
-> --
-> 2.49.0
-> 
+For Panthor on a Rock 5B, this series makes the first memcpy() to an
+entire BO object mapped in userspace about twice as fast with
+Transparent Hugepage enabled.
+
+Implementing a fault-around handler using the arm64 contiguous page
+hint (contptes) could also greatly help reduce page tables overhead
+for small pages by mapping several contiguous pages around a faulty
+address at once. This will be proposed in another patch series.
+
+Loïc Molinari (11):
+  drm/shmem-helper: Simplify page offset calculation in fault handler
+  drm/shmem-helper: Map huge pages in fault handler
+  drm/gem: Introduce drm_gem_get_unmapped_area() fop
+  drm/gem: Add huge tmpfs mountpoint helpers
+  drm/i915: Use huge tmpfs mountpoint helpers
+  drm/v3d: Use huge tmpfs mountpoint helpers
+  drm/gem: Get rid of *_with_mnt helpers
+  drm/panthor: Introduce huge tmpfs mountpoint option
+  drm/panthor: Improve IOMMU map/unmap debugging logs
+  drm/panfrost: Introduce huge tmpfs mountpoint option
+  Documentation/gpu/drm-mm: Add THP paragraph to GEM mapping section
+
+ Documentation/gpu/drm-mm.rst                  |  22 +-
+ drivers/gpu/drm/drm_gem.c                     | 202 +++++++++++++-----
+ drivers/gpu/drm/drm_gem_shmem_helper.c        |  97 +++++----
+ drivers/gpu/drm/i915/Makefile                 |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  48 +++--
+ drivers/gpu/drm/i915/gem/i915_gemfs.c         |  71 ------
+ drivers/gpu/drm/i915/gem/i915_gemfs.h         |  14 --
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |  16 +-
+ drivers/gpu/drm/i915/i915_drv.h               |   5 -
+ drivers/gpu/drm/panfrost/panfrost_device.c    |   3 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   6 +
+ drivers/gpu/drm/panfrost/panfrost_drv.h       |   9 +
+ drivers/gpu/drm/panfrost/panfrost_gem.c       |  18 ++
+ drivers/gpu/drm/panfrost/panfrost_gem.h       |   2 +
+ drivers/gpu/drm/panthor/panthor_device.c      |   3 +
+ drivers/gpu/drm/panthor/panthor_drv.c         |   7 +
+ drivers/gpu/drm/panthor/panthor_drv.h         |   9 +
+ drivers/gpu/drm/panthor/panthor_gem.c         |  18 ++
+ drivers/gpu/drm/panthor/panthor_gem.h         |   2 +
+ drivers/gpu/drm/panthor/panthor_mmu.c         |  19 +-
+ drivers/gpu/drm/v3d/Makefile                  |   3 +-
+ drivers/gpu/drm/v3d/v3d_bo.c                  |   6 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |   2 +-
+ drivers/gpu/drm/v3d/v3d_drv.h                 |  11 +-
+ drivers/gpu/drm/v3d/v3d_gem.c                 |  27 ++-
+ drivers/gpu/drm/v3d/v3d_gemfs.c               |  62 ------
+ include/drm/drm_device.h                      |  15 ++
+ include/drm/drm_gem.h                         |  40 +++-
+ include/drm/drm_gem_shmem_helper.h            |   3 -
+ 29 files changed, 446 insertions(+), 297 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
+ create mode 100644 drivers/gpu/drm/panfrost/panfrost_drv.h
+ create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+ delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
+
+-- 
+2.47.3
 
