@@ -2,51 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C264C5EE67
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 19:41:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DFB2C5EE76
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 19:43:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DBA810E263;
-	Fri, 14 Nov 2025 18:41:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C59110E26F;
+	Fri, 14 Nov 2025 18:43:46 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="arM0DeMj";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C40410E263
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 18:41:33 +0000 (UTC)
-Received: by mail-io1-f71.google.com with SMTP id
- ca18e2360f4ac-9486920a552so763825139f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 10:41:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763145692; x=1763750492;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=k+FIZbMG0mgujB1h0uLlatGIEeOxZDVndzUt7XUD4xQ=;
- b=YUqjwXrTTM2KYm/80TjY4Ih8afIIPGYDZ+joz8jCGhPL704eOqJYX5/gq+/Fum3IHw
- ZR8G2F7RJ71iEemtgpslyPfpAxDVR7InsTTxURWiaVh4zL7a5xlGlpB75Y1R/VdHRGqe
- petPrk/AbFFrl45O0joOPZDRE7XFEkEeQTQfBObiR759Mu7ovHNlmL6fKmg834Yn42PS
- eoPs++OiQqHwGt9vMDY0HMzeSPVIUjBgIrslPNWd0ISjESftmPvo+J7y3jCTQx1fTAUG
- Ney7B7whohdO/Fr0i0CYuDqwobUtq/XnzZ223Lg9qUxrVlnV+NnFxlbmYbIa7gMwGLUD
- +k7Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVBuqg1Xkvkmiqu720GVZADazCy7N+KRsGfSyZRjDqZg7/GRPCFSOE2GHKO7ZWPFS/JJqKv0keIimg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzXMaVVCIaN8pZ3MixTKy32fdeeOyJVtZevXTrrflmYvuwMBEnO
- k0x0MtYy3D7Xe+ZbYz+uZwnUcOKrd8blssxS8gTznX1tJnED0+YJYJ0afqT7qbf+rKHnTm4P8i1
- 0//ZQfwhnmVnlPj+BpVY46GrCA643R7af7bK+dB8ocm3nFZgz50tHh24avOI=
-X-Google-Smtp-Source: AGHT+IFv1nzbTUnd8nZWshSuE3Nk4sqAq9tgYb6oA/QYR61NM27NhIWm3/7dGhXZ0cquoO4MxeIfQk/1KuAgqhhuDK4WVKTsWfyB
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com
+ [157.90.84.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28F5810E26F;
+ Fri, 14 Nov 2025 18:43:44 +0000 (UTC)
+Received: from [192.168.42.116] (pd9e597c7.dip0.t-ipconnect.de
+ [217.229.151.199]) (Authenticated sender: wse@tuxedocomputers.com)
+ by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 983CA2FC0055;
+ Fri, 14 Nov 2025 19:43:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+ s=default; t=1763145822;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wIh2yxRQ6myZOupH3MgrEF6f57VtS9hajQqNYl8br/0=;
+ b=arM0DeMjR4Pa23wxqYQ/czrRnMyTd8G97pRqUlcd1nYHX7DaGbj5OxGL6nmKNQj9+ZmPTj
+ bFxTUip51zrk2hcLEoyd3ihwCHgeGobPvx2r3AdyaNs2v/LfMwC6Zsn0D2uHSReCTOtBwy
+ kw+EJ96EhoJzWvnrtFzOHMqXnzBcQ68=
+Authentication-Results: mail.tuxedocomputers.com;
+ auth=pass smtp.auth=wse@tuxedocomputers.com
+ smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <2531c69c-2b56-40db-8344-62a4613b2641@tuxedocomputers.com>
+Date: Fri, 14 Nov 2025 19:43:41 +0100
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:3fcd:b0:948:7359:b337 with SMTP id
- ca18e2360f4ac-948e0db6620mr610791539f.14.1763145692258; Fri, 14 Nov 2025
- 10:41:32 -0800 (PST)
-Date: Fri, 14 Nov 2025 10:41:32 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <691777dc.a70a0220.3124cb.0063.GAE@google.com>
-Subject: [syzbot] Monthly fbdev report (Nov 2025)
-From: syzbot <syzbot+listb84e6c36c8cf4349ff51@syzkaller.appspotmail.com>
-To: deller@gmx.de, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] drm/i915/display: Add quirk to force backlight type
+ on some TUXEDO devices
+To: jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
+ joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250411171756.142777-1-wse@tuxedocomputers.com>
+ <20250411171756.142777-2-wse@tuxedocomputers.com>
+Content-Language: en-US
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <20250411171756.142777-2-wse@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,34 +66,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello fbdev maintainers/developers,
+Am 11.04.25 um 17:55 schrieb Werner Sembach:
+> <snip>
+> -	switch (display->params.enable_dpcd_backlight) {
+> +	enable_dpcd_backlight = display->params.enable_dpcd_backlight;
+> +	if (enable_dpcd_backlight == INTEL_DP_AUX_BACKLIGHT_AUTO &&
+> +	    intel_has_quirk(display, QUIRK_AUO_12701_21229_ENABLE_DPCD_BACKLIGHT)) {
+> +		pnl_id = drm_edid_get_panel_id(panel->fixed_edid);
+> +		if (pnl_id == drm_edid_encode_panel_id('A', 'U', 'O', 0x319d) ||
+> +		    pnl_id == drm_edid_encode_panel_id('A', 'U', 'O', 0x52ed))
 
-This is a 31-day syzbot report for the fbdev subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/fbdev
+So I looked into this patch again to build a v2 and found "static const struct 
+intel_dpcd_quirk intel_dpcd_quirks[]" in 
+drivers/gpu/drm/i915/display/intel_quirks.c which sounds like it can select 
+quirks based on panels, making this pnl_id check obsolete.
 
-During the period, 1 new issues were detected and 1 were fixed.
-In total, 7 issues are still open and 29 have already been fixed.
+But I now wasted half a day trying to find out how I can get the SINK_OUI and 
+SINK_DEVICE_ID out of a device.
 
-Some of the still happening issues:
+Is there some way to read that from sysfs or debugfs?
 
-Ref Crashes Repro Title
-<1> 630     Yes   KASAN: slab-out-of-bounds Read in fbcon_prepare_logo
-                  https://syzkaller.appspot.com/bug?extid=0c815b25cdb3678e7083
-<2> 119     No    KASAN: vmalloc-out-of-bounds Write in fillrect
-                  https://syzkaller.appspot.com/bug?extid=7a63ce155648954e749b
-<3> 103     No    KASAN: vmalloc-out-of-bounds Write in imageblit (6)
-                  https://syzkaller.appspot.com/bug?extid=5a40432dfe8f86ee657a
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
+> <snip>
