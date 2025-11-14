@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965B8C5E6B8
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 18:03:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B231C5E6A9
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 18:03:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54F7110EAEF;
-	Fri, 14 Nov 2025 17:03:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF53B10EAE2;
+	Fri, 14 Nov 2025 17:03:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PFFELhgS";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="plt5tBhV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0359F10EAD9;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA79510EAD9;
  Fri, 14 Nov 2025 17:03:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1763139795;
- bh=lRwauJY45yghkHUPVD34PRex0BOyOxzNsCIif80qyHM=;
+ s=mail; t=1763139796;
+ bh=PYci18VlZZ5sru0Tx0m/q5hJzWG4Ytkv44neBev88QY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PFFELhgScQ+MUwIZxw8tYMpXWxtZtehauXYu1yBJcDLc14Gr2RWZw4voTBimlNsGL
- WFMijVo95mU7wXPeXQE0GBwIuUhBW9KfxjG1fv8GvEfHKrHsmlLXXyrN39kvC/5nFH
- 0cT+A4cZhlwUsjlD1fYRIkcgnvmwNaAjpcEeSXExpsd+BtBcqRaWTISGkCqcyIKh6+
- 39w7rPEFqYxxJp+QVfc/44iCjUyJcm3OJAqC7Xx+2AwoNnJqKcbjrMN+97bnxDawsx
- Eocxlli+KQAAlbJRUG1ntN6rXD3hrlGJhsADrMfNxkk9GDG57qPragg2PzPXtnxDgn
- ByITAzc7EnBMg==
+ b=plt5tBhVZiRemU+AUg6p17oPS/5IqLmJ84nGWfx22yDANiPoUKSL6a6BChsevEf/M
+ tj8hXCHa5Zcpw4aVu75+8hSzVF2+AGGsHKyXNtnJJExDSMKH8D236Je6v7EhzrEXRu
+ 5MOaU7vEO4tECMAeoypsafKxjWoxJEsSB+FnYVCJ2vpyOmqvpzkpXsR5gQOrm2mFWH
+ fqTwX8k2pqvLMPSRoscRY7QSNE/slkh7YYfWrPc7l+U4jVbwgKm4BD4FSV4Aua0KIO
+ 3GOmekLiyk6IqwBPDaysaohq1V3HTlaZnZ2rGyXvgcMJzO0KRPmPy4+VmIyzMfJjKM
+ 07SuyOOUVEQ5A==
 Received: from debian-rockchip-rock5b-rk3588.. (unknown
  [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: loicmolinari)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 93C2017E15DF;
- Fri, 14 Nov 2025 18:03:14 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9759517E35CB;
+ Fri, 14 Nov 2025 18:03:15 +0100 (CET)
 From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -60,9 +60,9 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
  linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH v9 08/11] drm/panthor: Introduce huge tmpfs mountpoint option
-Date: Fri, 14 Nov 2025 18:02:59 +0100
-Message-ID: <20251114170303.2800-9-loic.molinari@collabora.com>
+Subject: [PATCH v9 09/11] drm/panthor: Improve IOMMU map/unmap debugging logs
+Date: Fri, 14 Nov 2025 18:03:00 +0100
+Message-ID: <20251114170303.2800-10-loic.molinari@collabora.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251114170303.2800-1-loic.molinari@collabora.com>
 References: <20251114170303.2800-1-loic.molinari@collabora.com>
@@ -84,153 +84,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce the 'panthor.transparent_hugepage' boolean module parameter
-(false by default). When the parameter is set to true, a new tmpfs
-mountpoint is created and mounted using the 'huge=within_size'
-option. It's then used at GEM object creation instead of the default
-'shm_mnt' mountpoint in order to enable Transparent Hugepage (THP) for
-the object (without having to rely on a system wide parameter).
-
-v3:
-- use huge tmpfs mountpoint in drm_device
-
-v4:
-- fix builds with CONFIG_TRANSPARENT_HUGEPAGE=n
-- clean up mountpoint creation error handling
-- print negative error value
-
-v5:
-- use drm_gem_has_huge_tmp() helper
-- get rid of CONFIG_TRANSPARENT_HUGEPAGE ifdefs
-
-v9:
-- replace drm_gem_has_huge_tmp() by drm_gem_get_huge_tmp()
+Log the number of pages and their sizes actually mapped/unmapped by
+the IOMMU page table driver. Since a map/unmap op is often split in
+several ops depending on the underlying scatter/gather table, add the
+start address and the total size to the debugging logs in order to
+help understand which batch an op is part of.
 
 Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/panthor/panthor_device.c |  3 +++
- drivers/gpu/drm/panthor/panthor_drv.c    |  7 +++++++
- drivers/gpu/drm/panthor/panthor_drv.h    |  9 +++++++++
- drivers/gpu/drm/panthor/panthor_gem.c    | 18 ++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_gem.h    |  2 ++
- 5 files changed, 39 insertions(+)
- create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
+ drivers/gpu/drm/panthor/panthor_mmu.c | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index 31fb8ed68199..b6795d58fa03 100644
---- a/drivers/gpu/drm/panthor/panthor_device.c
-+++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -18,6 +18,7 @@
- #include "panthor_devfreq.h"
- #include "panthor_device.h"
- #include "panthor_fw.h"
-+#include "panthor_gem.h"
- #include "panthor_gpu.h"
- #include "panthor_hw.h"
- #include "panthor_mmu.h"
-@@ -288,6 +289,8 @@ int panthor_device_init(struct panthor_device *ptdev)
- 	if (ret)
- 		goto err_unplug_fw;
- 
-+	panthor_gem_init(ptdev);
-+
- 	/* ~3 frames */
- 	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
- 	pm_runtime_use_autosuspend(ptdev->base.dev);
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index d1d4c50da5bf..55dbda6dbf9c 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1559,6 +1559,7 @@ static const struct file_operations panthor_drm_driver_fops = {
- 	.read = drm_read,
- 	.llseek = noop_llseek,
- 	.mmap = panthor_mmap,
-+	.get_unmapped_area = drm_gem_get_unmapped_area,
- 	.show_fdinfo = drm_show_fdinfo,
- 	.fop_flags = FOP_UNSIGNED_OFFSET,
- };
-@@ -1626,6 +1627,12 @@ static const struct drm_driver panthor_drm_driver = {
- #endif
- };
- 
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+bool panthor_transparent_hugepage;
-+module_param_named(transparent_hugepage, panthor_transparent_hugepage, bool, 0400);
-+MODULE_PARM_DESC(transparent_hugepage, "Use a dedicated tmpfs mount point with Transparent Hugepage enabled (false = default)");
-+#endif
-+
- static int panthor_probe(struct platform_device *pdev)
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index 58fead90533a..32410713c61c 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -918,10 +918,9 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
  {
- 	struct panthor_device *ptdev;
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.h b/drivers/gpu/drm/panthor/panthor_drv.h
-new file mode 100644
-index 000000000000..79dccd289881
---- /dev/null
-+++ b/drivers/gpu/drm/panthor/panthor_drv.h
-@@ -0,0 +1,9 @@
-+// SPDX-License-Identifier: GPL-2.0 or MIT
-+/* Copyright 2025 Amazon.com, Inc. or its affiliates */
-+
-+#ifndef __PANTHOR_DRV_H__
-+#define __PANTHOR_DRV_H__
-+
-+extern bool panthor_transparent_hugepage;
-+
-+#endif
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index f369cc3e2a5f..11c01b24b116 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0 or MIT
- /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
- /* Copyright 2023 Collabora ltd. */
-+/* Copyright 2025 Amazon.com, Inc. or its affiliates */
+ 	struct panthor_device *ptdev = vm->ptdev;
+ 	struct io_pgtable_ops *ops = vm->pgtbl_ops;
++	u64 start_iova = iova;
+ 	u64 offset = 0;
  
- #include <linux/cleanup.h>
- #include <linux/dma-buf.h>
-@@ -12,10 +13,27 @@
- #include <drm/panthor_drm.h>
- 
- #include "panthor_device.h"
-+#include "panthor_drv.h"
- #include "panthor_fw.h"
- #include "panthor_gem.h"
- #include "panthor_mmu.h"
- 
-+void panthor_gem_init(struct panthor_device *ptdev)
-+{
-+	int err;
+-	drm_dbg(&ptdev->base, "unmap: as=%d, iova=%llx, len=%llx", vm->as.id, iova, size);
+-
+ 	while (offset < size) {
+ 		size_t unmapped_sz = 0, pgcount;
+ 		size_t pgsize = get_pgsize(iova + offset, size - offset, &pgcount);
+@@ -936,6 +935,12 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
+ 			panthor_vm_flush_range(vm, iova, offset + unmapped_sz);
+ 			return  -EINVAL;
+ 		}
 +
-+	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
-+	    !panthor_transparent_hugepage)
-+		return;
++		drm_dbg(&ptdev->base,
++			"unmap: as=%d, iova=0x%llx, sz=%llu, va=0x%llx, pgcnt=%zu, pgsz=%zu",
++			vm->as.id, start_iova, size, iova + offset,
++			unmapped_sz / pgsize, pgsize);
 +
-+	err = drm_gem_huge_mnt_create(&ptdev->base, "within_size");
-+	if (drm_gem_get_huge_mnt(&ptdev->base))
-+		drm_info(&ptdev->base, "Using Transparent Hugepage\n");
-+	else if (err)
-+		drm_warn(&ptdev->base, "Can't use Transparent Hugepage (%d)\n",
-+			 err);
-+}
-+
- #ifdef CONFIG_DEBUG_FS
- static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo)
- {
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-index 80c6e24112d0..2eefe9104e5e 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.h
-+++ b/drivers/gpu/drm/panthor/panthor_gem.h
-@@ -136,6 +136,8 @@ struct panthor_gem_object *to_panthor_bo(struct drm_gem_object *obj)
- 	return container_of(to_drm_gem_shmem_obj(obj), struct panthor_gem_object, base);
- }
+ 		offset += unmapped_sz;
+ 	}
  
-+void panthor_gem_init(struct panthor_device *ptdev);
-+
- struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size);
+@@ -951,6 +956,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+ 	struct scatterlist *sgl;
+ 	struct io_pgtable_ops *ops = vm->pgtbl_ops;
+ 	u64 start_iova = iova;
++	u64 start_size = size;
+ 	int ret;
  
- int
+ 	if (!size)
+@@ -970,15 +976,18 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+ 		len = min_t(size_t, len, size);
+ 		size -= len;
+ 
+-		drm_dbg(&ptdev->base, "map: as=%d, iova=%llx, paddr=%pad, len=%zx",
+-			vm->as.id, iova, &paddr, len);
+-
+ 		while (len) {
+ 			size_t pgcount, mapped = 0;
+ 			size_t pgsize = get_pgsize(iova | paddr, len, &pgcount);
+ 
+ 			ret = ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
+ 					     GFP_KERNEL, &mapped);
++
++			drm_dbg(&ptdev->base,
++				"map: as=%d, iova=0x%llx, sz=%llu, va=0x%llx, pa=%pad, pgcnt=%zu, pgsz=%zu",
++				vm->as.id, start_iova, start_size, iova, &paddr,
++				mapped / pgsize, pgsize);
++
+ 			iova += mapped;
+ 			paddr += mapped;
+ 			len -= mapped;
 -- 
 2.47.3
 
