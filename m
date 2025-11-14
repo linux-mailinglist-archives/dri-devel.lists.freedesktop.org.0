@@ -2,133 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0EEC5D8FE
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 15:26:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F342FC5D90B
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 15:26:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9066D10EA8C;
-	Fri, 14 Nov 2025 14:26:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05F8B10EA8F;
+	Fri, 14 Nov 2025 14:26:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="F1G6oICf";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eBqtei/d";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dS7q16wn";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="N/n+Izfa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 080C410E248
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 14:26:37 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4B2010EA8D
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 14:26:40 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AE8GQ6c1488582
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 14:26:37 GMT
+ 5AE8RvZs1427916
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 14:26:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- kpz0T1BtBZTq/unUhKaDeyfGkp7eC3qvwU10X/7O0C4=; b=F1G6oICf9R7etJDc
- qzB4xoNt6ifFDqcCuTHAYPnE2IehvNOrF8OGpNAFvkyZouQatra5WZ8GhnAiM2tR
- Rph1Nz1fGAIif9/PNR/eFPtrDoSQhp7FXvO8++w0S9MpHyk8efx7hVlDhZL1MmwB
- NcOP1Uqvl07rHt+dlxBAfXOZp35dSvcgd6d1F7oGh3ZIJhtYMbB7B9fuplELHGAd
- Kan41oCIfMcdwaTZS597Uokrcc4PVsrkn81+6MLYR63vURQAkJR8seQXw2FJUHwF
- qeDM/rHP26NxrszfQT6yKGoRPMDXnT7M9Zsq9s1b3ZGJBfw4whgsZXR1uz1WS/fT
- ZKaYnA==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4adr9hte8h-1
+ 4EsW+1nGdAeSSGtBuZuhNLO3vZUOsv37M1jtdJjYvwk=; b=dS7q16wnLd7iT/V3
+ FisIduZEwA3xpsrWi//qFrErgYdFsdjFbfIOY7cT2h01IH3s9XWx3wkJCrDHgbic
+ GMOy1KwH2nAfZ+KLvHJ+Zv05qsqIcexx1jIlUqEGLXhVzTfTpYIEh74cOPLNwm6V
+ lBwkNj5IHf0pqlCHPqNNUShpR44cG3ynfS9KwmfMLOpoXDx4ePfcNWE6GI2WdMve
+ x/R2E8X/KUhUKKew/ILD+K3tk4NBgy2FVIIsUcXb9A/zCCqlTFQ1txSpmJMEh3CJ
+ l/easeOiKau6/hmjlfxYz2LZj3FOweDVg3xZUx6kOdzbRzdJq58UiGHiK8/sPlla
+ z+KR2Q==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4adr9g2dhq-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 14:26:37 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4e88c912928so55882071cf.0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 06:26:37 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 14:26:39 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4e8b33c1d8eso61072411cf.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 06:26:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763130396; x=1763735196;
+ d=oss.qualcomm.com; s=google; t=1763130399; x=1763735199;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=kpz0T1BtBZTq/unUhKaDeyfGkp7eC3qvwU10X/7O0C4=;
- b=eBqtei/dirrhyfwr8gERVXVkQCYPyf8tnJeVNSRFxo9kdzS6VLH7GdRSfzJHZVz1Yv
- NEDPxzjSYCK2/zW3g6cOhX8ueHTsfGZExfaLP0tUkxwAD1Dpe0q/kSiEAHz4OzyMXyZ9
- 6X3Xex4vlll2InVQGJWzJloqkBem18PaG6ToDv+u4mOEin63LTJM71hKKbmUCOSMfx53
- vHALMQWmQYjB34oXELuIH6XnuxJ5I9NG/f8eVZZhTNFa8+HWl2rsRfr4c4s6HVk1Oq9n
- +Aj/UuLpp+XFtANV149qblQq1LnV2sPiJrGWLTACD2+Nc/1y8jutZssYNV86DhyNew9W
- 22rg==
+ bh=4EsW+1nGdAeSSGtBuZuhNLO3vZUOsv37M1jtdJjYvwk=;
+ b=N/n+Izfa6Fcz3g0TDYMIeW9pS6iLqHEEcmHR55Sgbx+zo2ehLVxel4rEo0Js4252dd
+ 3ioxZdwUvATLGsQLAF8O9HSPtezLxOJXpJrKpxp3ZAPznHv2YtvVrGluuwfRVylYy9kZ
+ XTdDhMI94nB3vwe36EvPLxglgHkQSpjKMd9E8KJszrNiq45GCzjptaN1liMT+ezw38cC
+ D4nMtFElURJD4rzR88UrmecEFZ/yW0HI3SX8BOSnIfDjJZ7b94kqMmaXqzZD2AiS9/e5
+ dqq/tDYTsxSh9WZDNM3Cw4+OURUXQIm/rwEjKvPmj/Bat4ak5S3Hiu9HfSzrxEi5eSvQ
+ UtCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763130396; x=1763735196;
+ d=1e100.net; s=20230601; t=1763130399; x=1763735199;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=kpz0T1BtBZTq/unUhKaDeyfGkp7eC3qvwU10X/7O0C4=;
- b=AFNrbP1EXKbsF2GYV5wq5uXAMmKeHOWtwtGjhNNjRlLVhnB3iQK4KifCXD8XF8obIh
- m5O8SmLkXBcK1JNycxYYmDSOJ44AT036RZgVXhzo6jbHNL7IyBW7McFi5k64Ix9uu0cU
- lBHrGXrtflNepwDn8I+PBo1KH2S+p83kCTfChYL/gbvFtsbV/VEImzzpuKQO+tl/z5n4
- 99Q01yCXcmoqI3eth+0IZic1jwOwxibhf6rYrByDK0wYS0RCR48q7d/DKTsKSumDuQo2
- dDG+W9+YlFHB8jeuVcNxbtXYxKvmh+n+iQZJe0bE4ivHwlRv6retTnR7ukfQukiyzsBG
- n7EQ==
+ bh=4EsW+1nGdAeSSGtBuZuhNLO3vZUOsv37M1jtdJjYvwk=;
+ b=F+JRC00lOZXInX+FL0SIrBQFN02TqqtwRfMgTqqdbvHdXe0FQjA2hHd40Se7peHYCz
+ jVc4S2NiyHz851OcHvjw4jAryzwQqITPizR/w0BimGmawrrc0OoWly7MIRRnetfapE0t
+ NPNXtECOe0sBiydBzvvtnH9hXmzUBAybE6GotdF3nwt+p7hkomE3XIMsg2SLzkglEcLq
+ Ict8pYORGDAj6FXau7UxWDG/ycyfKO8c/HW2cYgUviDCEncgc3JQ3jQHh978vg0Jtyg6
+ nCIgUCwsgx+4GTOIiuVXVbKyIjTkfliKYi+sVRV9FsNTIkXl5hx+B+89Sgt2ClARRUn5
+ wWyw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX6+Ct4pNNwiafEOj6PicYqDz76PLcV9ojuDrY8P9BWGYMlQU7DHU1ozRYw+BX7fuPLDv5NOBv1beA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz30wQ5xYX827U7zKVPA5V0om9irhqocAk0N182eUkLmfSNQZAb
- VS8CAXGoZMKJSxxc7qhTqyRllpMGJH0Iv75YdwVar08o4di5/0CblZ5iaFMzCU0RzMOR2WC6B6G
- H6MW5ucuskl7MOua4OPT+LK8uIuhNeCq3J4VfZrEDmbirtJQ9CbhbxTxOjPNYZnl6Q7KoJpo=
-X-Gm-Gg: ASbGnctXrtSPLl6lF+v/F/COpVc05E5a8nErKUjkiWFyvy0I8RGxQZkcLEzqBRFeeQU
- FVfdKx0yH5aWjCu5HZMg1eN6P/TiOodaGDMlPkJMT7DY/DXdZIe5fFX51LM1wYpO4nfoKwKIwh+
- pClu/ueXDHHq2JvLEF3f44yMK0cHbDvcMb+GbaQcs5SRfrzR4S79g2yBKBgc0M95rQFT9jviMN8
- aF744Oyr8+PYS1X1ZoJqdW2FeUWVYLOfP8iLeA7ET4w92mh79JG/m4HqaVDmuFEjJC0DWlRI+hm
- uApWDfcftlLoWOeEVFSOIBIhUAdMpbYSfkB0WgrGhoFJt1vC3kV/LEeYKs7DuMwpGAf+FfiF67e
- GxLIBwJ1NekuGGnVcp7dLHXlt0ILvyEpqeYYA5HI5VHuzdfEgZM0cmv3rctzIjYi6IHmcw8bpQc
- SU2BTi22CCyfHD
-X-Received: by 2002:ac8:5844:0:b0:4b5:ea1f:77ec with SMTP id
- d75a77b69052e-4edf1f4b087mr43272861cf.0.1763130396592; 
- Fri, 14 Nov 2025 06:26:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHc1fFvTd3StWO42NTuZKKYem/traozFFvdrNGkyOZ3EfhLQasWqywNOo+OH3TvkuUZYjw+3A==
-X-Received: by 2002:ac8:5844:0:b0:4b5:ea1f:77ec with SMTP id
- d75a77b69052e-4edf1f4b087mr43272321cf.0.1763130396056; 
- Fri, 14 Nov 2025 06:26:36 -0800 (PST)
+ AJvYcCVkVraKPNbpkqviTGZFVYPZIH/s4uyCseZ881z1AUjrnf2ciy/6ZnhIgIyt5eOWj2fX7O1cw0JfVXY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy82d9kM1hkfaHUzu43yNxtTnK5LpDrU+f0ZumKfkfddB7wjsXH
+ rycxA741UvLdNpY2ZwDGqBbrdsl3kmRoOtXihIb8B2NDc77EJVkH9NkEYR+Uh1tKf23KzEw672e
+ NWKeSNFJC6gJDNKDhyQv232pzlLLb7IQSolOZWMT01ip91ZRUApGc/2N9oVIdUrFG28fodvA=
+X-Gm-Gg: ASbGncvXdjrj90AFBZMYUnOTsgGjHOhVEqA5Alb2AujjjjCugBXKZSJW2oBJcOrY7P+
+ xndx0f51kXcvTIzucANeT0X3mWK3DpOMc6b6FxARy6EfdGxQLPOplHDVYdAzYj3NOCN/Q29uJTB
+ zdLoCaGvbewU190v1/43LhzX3uUAIo7hj9/zG4Puae3xrVRzWJz66Ojxvw2U4jU65Xo3XfKfo9x
+ 6C5DQGHRl6jJVggRzvBwjcOOv+AfiqIA77XtvFqhUXSYP6taVlIB3/uwMqFfShMKFgYbU9KdKql
+ Z3Lh8AKTHcwl3zqlIotPah0YmERZw3HbJ+Db7E9uPKqmU8lb7X++8g2ijC6iy76I9qkTZQV4rsJ
+ v84MyYCe4na3kT/cZEaTyDWnL0rR/Pb4xsbWsdhBGlhCxQzPj8sxar8LMZY+fGuWH2TjlFGoyKK
+ pHLY3xF+pBxzUj
+X-Received: by 2002:a05:622a:1455:b0:4eb:7574:65f6 with SMTP id
+ d75a77b69052e-4edf2064024mr47931771cf.7.1763130399341; 
+ Fri, 14 Nov 2025 06:26:39 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF1KBUfVirzD+NxHR8BcC6E12q6efxuXfJyY9Gp/GWoVvFTtMpU4YGPyfRbSGcbhMc1pkayfg==
+X-Received: by 2002:a05:622a:1455:b0:4eb:7574:65f6 with SMTP id
+ d75a77b69052e-4edf2064024mr47929971cf.7.1763130397390; 
+ Fri, 14 Nov 2025 06:26:37 -0800 (PST)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-37b9cee0cabsm10318821fa.40.2025.11.14.06.26.35
+ 38308e7fff4ca-37b9cee0cabsm10318821fa.40.2025.11.14.06.26.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Nov 2025 06:26:35 -0800 (PST)
+ Fri, 14 Nov 2025 06:26:36 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+To: Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Jun Nie <jun.nie@linaro.org>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/msm/dpu: drop dpu_hw_dsc_destroy() prototype
-Date: Fri, 14 Nov 2025 16:26:29 +0200
-Message-ID: <176312947284.1737000.13215688004444717499.b4-ty@oss.qualcomm.com>
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: Re: [PATCH v16 00/10] drm/msm/dpu: Support quad pipe with
+ dual-interface
+Date: Fri, 14 Nov 2025 16:26:30 +0200
+Message-ID: <176312947285.1737000.3658283659221081352.b4-ty@oss.qualcomm.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251027-dpu-drop-dsc-destroy-v1-1-968128de4bf6@oss.qualcomm.com>
-References: <20251027-dpu-drop-dsc-destroy-v1-1-968128de4bf6@oss.qualcomm.com>
+In-Reply-To: <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-0-ff6232e3472f@linaro.org>
+References: <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-0-ff6232e3472f@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: USjhdPikriFp6rBOLpiymJECumkUSC9r
-X-Proofpoint-ORIG-GUID: USjhdPikriFp6rBOLpiymJECumkUSC9r
-X-Authority-Analysis: v=2.4 cv=N+Qk1m9B c=1 sm=1 tr=0 ts=69173c1d cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Authority-Analysis: v=2.4 cv=L+AQguT8 c=1 sm=1 tr=0 ts=69173c20 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=e5mUnYsNAAAA:8 a=cUxZTqMetSfSej92E3UA:9 a=QEXdDO2ut3YA:10
- a=uxP6HrT_eTzRwkO_Te1X:22 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE0MDExNiBTYWx0ZWRfXwHVTA22t90Vj
- DYtIxu302PBXNuhtwwi/KoUsgUuHwDhfxYvZPWbjT+5CbltxzPvHfM7D4KxOvy7jUyKm9ZJHNQW
- 7xefI+TD9A71gE5wIzkzPKC7jYmBc2jmVTMnQvUiFJgsHGzrs5TeovTk+4PNCsx4yQ1eyYCGEMH
- z+EDFFIgE4URkVFYZYjexLd0duNeuQyediaavLCWCI9d4Pe+ffKyH/QY0oWpxGYaKpDzS9+66kh
- PR4ilfdtEhIde8+NfnhltXSMvqwEw6W+iVwsBz8Jd4tBOCY3asi30yPlLHvTPA84CQCuXsP5vHS
- vkTql1wTjtcgdD361G1X+DGOpXqmES3KTr+6XOK5OE3HasWua5g/sMXh1o3nMiCLLJSd38ywOoQ
- osdVzXcD0VU8qhdpId3IwGxsV15rlw==
+ a=e5mUnYsNAAAA:8 a=Gj-FGaxKOcyxjj5NLC0A:9 a=QEXdDO2ut3YA:10
+ a=kacYvNCVWA4VmyqE58fU:22 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE0MDExNiBTYWx0ZWRfX2O/Y1cJJQe15
+ pX6VVvSkbk9T060/wNtCRUAqhJ9g+PBV4FJudGIlIcCl8eH9xNKhfh7U0ZaUziap8djUblYLMUA
+ dszRhroBe7E8dFn+g41cxklMMs/Uy3YTyYCRM4TQCxzZvZn2e5DGdoGwtN/v8BeIdHo/QNAIMRL
+ Cht9MYQw7+J0uGgdIyaIQVFpNq9/SmnUnJBY6CZt8CQXENGQwC7ee/VjMX1Fgl44nL0XDVZaEaN
+ W53XggRWYN6t7DlweGvskJVLAaZ991banZgmcCChL8VGCZOshpWEOZFqOeq3FOmHbzSML2yZn6n
+ OLjmvaeouTVrIcRuPK7AnsTFXbqbXivJsvuukpkAGCb81mZ3sm1wzdO3QyuzO3opHt2NUUax/jH
+ Snge5RBvF1zMQtA3LmvEiYZcVpvjSg==
+X-Proofpoint-ORIG-GUID: w39S2_3ILiZOviX5djiUnL2faWPtN9S4
+X-Proofpoint-GUID: w39S2_3ILiZOviX5djiUnL2faWPtN9S4
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-14_04,2025-11-13_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 spamscore=0 suspectscore=0 impostorscore=0
- clxscore=1015 malwarescore=0 bulkscore=0 lowpriorityscore=0 phishscore=0
+ spamscore=0 phishscore=0 impostorscore=0 priorityscore=1501 adultscore=0
+ clxscore=1015 bulkscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511140116
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -146,18 +148,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Oct 2025 15:35:17 +0200, Dmitry Baryshkov wrote:
-> The commit a106ed98af68 ("drm/msm/dpu: use devres-managed allocation for
-> HW blocks") dropped all dpu_hw_foo_destroy() functions, but the
-> prototype for dpu_hw_dsc_destroy() was omitted. Drop it now to clean up
-> the header.
+On Thu, 18 Sep 2025 21:28:52 +0800, Jun Nie wrote:
+> 2 or more SSPPs and dual-DSI interface are need for super wide panel.
+> And 4 DSC are preferred for power optimal in this case due to width
+> limitation of SSPP and MDP clock rate constrain. This patch set
+> extends number of pipes to 4 and revise related mixer blending logic
+> to support quad pipe. All these changes depends on the virtual plane
+> feature to split a super wide drm plane horizontally into 2 or more sub
+> clip. Thus DMA of multiple SSPPs can share the effort of fetching the
+> whole drm plane.
 > 
-> 
+> [...]
 
 Applied to msm-next, thanks!
 
-[1/1] drm/msm/dpu: drop dpu_hw_dsc_destroy() prototype
-      https://gitlab.freedesktop.org/lumag/msm/-/commit/34ac2bdebf44
+[01/10] drm/msm/dpu: fix mixer number counter on allocation
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/74c4efe691e7
+[02/10] drm/msm/dpu: bind correct pingpong for quad pipe
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/e4f87fdd911e
+[03/10] drm/msm/dpu: Add pipe as trace argument
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/2c94547e0ced
+[04/10] drm/msm/dpu: handle pipes as array
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/fb4c972b638f
+[05/10] drm/msm/dpu: split PIPES_PER_STAGE definition per plane and mixer
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/5d45171e262e
+[06/10] drm/msm/dpu: Use dedicated WB number definition
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/aed75641425c
+[07/10] drm/msm/dpu: blend pipes per mixer pairs config
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/c11684cce9e5
+[08/10] drm/msm/dpu: support SSPP assignment for quad-pipe case
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/cf63d61337c3
+[09/10] drm/msm/dpu: support plane splitting in quad-pipe case
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/5978864e34b6
+[10/10] drm/msm/dpu: Enable quad-pipe for DSC and dual-DSI case
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/cd432dfed2ab
 
 Best regards,
 -- 
