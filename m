@@ -2,67 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05697C5F410
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 21:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C078C5F416
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 21:37:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25D9610EB15;
-	Fri, 14 Nov 2025 20:36:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9202510EB16;
+	Fri, 14 Nov 2025 20:37:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="G4vxkM7z";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="SffFV5kP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
- [209.85.222.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F04310EB15
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 20:36:30 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id
- af79cd13be357-8b1f2fbaed7so192430585a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 12:36:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763152589; x=1763757389; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=LYbYV2TQljnVpusnXB6weICqsXKpV5RMO7m8pDL28pk=;
- b=G4vxkM7zshbLuqUmJAKvLy96JkbRDjZHs09ya+M8iuGad7Q+MGMg3zcG2IDdCh1oaE
- 6FkPAl+bacn7e98vamPS3idDPp1JIRhWZPdaxIZbe5licJzCpO/s6ymOMqGksC7gQ9DT
- zX7ZfgCp1UUpI8TyOe9bOnbYCQhLcZg/vp7DVRH+ZfH0fvWE8xOww1B427CU1/T6zqtQ
- 59SVNUYjdZsRbex+GfFJYXExWMzR08bW8OGTw3wqtGN5XjKjfUphrhTtCdPciz3N07In
- mabH2SNiomM1H65P9mSfLdfNepDgIlp5RgEDms/Y28RXPJF11uF9PIJ8m+sBm6aoTqh5
- UPTA==
+Received: from mail-il1-f227.google.com (mail-il1-f227.google.com
+ [209.85.166.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB7210EB16
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 20:37:15 +0000 (UTC)
+Received: by mail-il1-f227.google.com with SMTP id
+ e9e14a558f8ab-43380a6fe8cso20079885ab.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 12:37:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763152589; x=1763757389;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LYbYV2TQljnVpusnXB6weICqsXKpV5RMO7m8pDL28pk=;
- b=i+HWfRoKm6FCDPpwO+r/DHDG/45hBL4rHMKU4s5aX33gq2drM6JgU6sL8aN+4jaxY9
- ZXVKX2MwcXHYB1i2Iq/Dj4+qLYvtzEVOxEc5TtyPhoY0BrOtPup+Fo3yZk22hQMu1tZT
- kKFTjNMSodaJoRJraec9ILlqhutiZobD0sirbKRNC3ceClrRgjsBB88lY536Ct67RZP/
- qtmazyyWdobRF1mo2xVdqVdKOoljcU8wNMj4/Z/oSpFeaFmHfImskB/pyI03LvMBjrhF
- 1W1Ix/CpXgO/5lyhcBtCmSHkj1rDNYRNmrbnZDXy/c5hWgu2x6oY85mI1ZKXxCSOlN9G
- wGeQ==
-X-Gm-Message-State: AOJu0YyN1/zJGuzkrZ6bitatJdWrqJwHKnWcQRtdtV+v/pf3BA1igI8o
- t293gBsXLE9egpyS1Klsk36JrFPPzkVvOy+XOS6ZdDhAi+1kQ/8JcJlObhTrK3p2XaHKrlzdGVv
- QwX1HHhjNubR2U7uIEpYsJryD1X5YY4U=
-X-Gm-Gg: ASbGncvbj1ITY6p1IjihJjsuQ0yFRWwELhzDbZIf6M7JfQr/5IxhzcFDXUwsCw2mYgV
- JAHVDrk6Z2mVFKzLZj6/G/5ur94zMIJb5DalLSCoRA1uqZSpSUQrZIM9HbaXMW1v4JLaPwIhHPa
- ScmfFHwAnf3SCKlYeIXsUikvMCvyXQ9lq0ajH9UD+oC+ygiSODWpLzIAO3uV60v+UMVfl/uR8kL
- +nCyu+O5CVjHLZSZPag0ckk6mzNFYNNAnqIrLit7DQCvICP6nmlGztnEFb4QI5IafpLZA==
-X-Google-Smtp-Source: AGHT+IGFE8xklf3LEerR3JAh7YwLaE9DEqq3/MwYyF+YBQzoLjKJHLeljQGyNTqCaqVRn2iOc0y/jXCzTJ6dWG7lnT0=
-X-Received: by 2002:a05:620a:4043:b0:8b2:57f8:4852 with SMTP id
- af79cd13be357-8b2c3183facmr617251885a.35.1763152589027; Fri, 14 Nov 2025
- 12:36:29 -0800 (PST)
+ d=1e100.net; s=20230601; t=1763152634; x=1763757434;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:dkim-signature:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QxWa764V1q0jSP3H3PqjwIYzJgusmRyNxi7Rpj+TUzs=;
+ b=ROtb9NDtTFBUqH6tYEc4/kerKdwOSOidLBX+VM9lVUEOSFbn6gQlKhPym/mIFYkQuf
+ s9cZ+YhqO6iki5E4ZsWokCE//0Lw7Z/F4BSYcjg7R9Vry/zT1f2ZG2ZYxF89x+UP+eX4
+ wJrsvNr730iO7JZsUOkyxU6MdFxVPfKGkSHmA8a1xtBn7pNmNniWd/h32Ln5HTY05mEG
+ xaUr2/nhty+gf93fgUtqTJwg4d5Qnb8VU9u/1GtZQrmzJbLDQ8j2yIIWIcFQf1BivCL7
+ MoZAz3hSfGfLIJvg/T4M+jANXlg3dNLzTmVib47mXwDAcyvqe8SakaFOeVt/aPJU7Yel
+ IcDg==
+X-Gm-Message-State: AOJu0Yw/NncRrbdbD3N98sEgxo+X1QVa4RzWKvSlc7Hr6hYrCzFrtCv/
+ FT43hGVKxcgAkceULDBmKsUHkjImdwhRhotCasSvNWWl4pGiyit8jn+glblGm7kt6g9jJ7gsUlf
+ VH1HAgP1smahHaJ7NkMhjyJyD+OKNx713HgPe8wRXGq5rrE0SXFRXGsBwuUmLGOO8ZJPYkQuxwL
+ IO4WJyeqdV0iZj5gFxZa0N+jHnr4qpsK9WVYNvBRqKaIhrZkY5CrmKU2JKrloILPO9MtYvA/I6w
+ 37K++LiMEU6rBxLuvPy
+X-Gm-Gg: ASbGncuXWjFV/2wsuN/SKnNhhlYqGg99HVPWdU4GzoOim3Uh3m+qOEVubRNLbh8IKvv
+ f3CFaCD16wgCYmdCwVsGWWXMpgV1yXud0pR73384a+Gq6NgcL0REC1h8PkbsIt2If4hEH35PfHT
+ yTNqNdViWrGAN53GqPjK17DZYOVixQME3xegAeaTHAoyqYyLGSh/bxJnn/SxD1357q4TFY5Q4/5
+ VYHWguQioYRkWg9sAWoBnB1rGA7mlsXO+eCYKq1Fmv6ChwKTu2TGVpb9L27CZ7IIsiGaD3ICieJ
+ G4ygzg8S3cGjrAf4q9Oq/DoxPK4HNnu5GpMV3gQ9jl2OUW0Byt7saA3yNAtg6p7wAFkGJEVLo1Q
+ OWpJkhBFnGsJ8PvStckQgx2IQwmnqVkSvrKu+5IeOFm7aNFIsDP1Yh2NCZ5Poe+1NUgZmDedEWt
+ nJmYzNsWE3HtKp8h2yCk/isn4e5qogrgFQ/g==
+X-Google-Smtp-Source: AGHT+IEerys7QlCO+KYcI+TtDkhgWL1IQ0GjHrLbkHCyIDoRT1BCzVaVSvkjXtR4OpWkms71gSPtpZGOOaiO
+X-Received: by 2002:a05:6e02:19c6:b0:433:31c:ec1b with SMTP id
+ e9e14a558f8ab-4348c88f88fmr62464945ab.5.1763152634467; 
+ Fri, 14 Nov 2025 12:37:14 -0800 (PST)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com
+ (address-144-49-247-118.dlp.protect.broadcom.com. [144.49.247.118])
+ by smtp-relay.gmail.com with ESMTPS id
+ e9e14a558f8ab-434839f98b6sm5599075ab.31.2025.11.14.12.37.14
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 14 Nov 2025 12:37:14 -0800 (PST)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-pj1-f72.google.com with SMTP id
+ 98e67ed59e1d1-343806688cbso3652127a91.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 12:37:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1763152633; x=1763757433;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QxWa764V1q0jSP3H3PqjwIYzJgusmRyNxi7Rpj+TUzs=;
+ b=SffFV5kPcRUjVp6Z1kUf01x/TNgyERJAV3bhdIN/gGDR5zm2168rgHUU6xAvMEOT8Y
+ HXWzDdvHJgnZxBG350ke9dAe9eShf/ypp31LSdnb+EJHhkBLkJiOPdXU1eu4cjMavW07
+ 9iPhIJJbuvMEk2M6iZLPlmakIuD1uw7osbKwg=
+X-Received: by 2002:a05:7022:e29:b0:119:e56b:9589 with SMTP id
+ a92af1059eb24-11b40f8fc18mr1988330c88.14.1763152632652; 
+ Fri, 14 Nov 2025 12:37:12 -0800 (PST)
+X-Received: by 2002:a05:7022:e29:b0:119:e56b:9589 with SMTP id
+ a92af1059eb24-11b40f8fc18mr1988318c88.14.1763152631965; 
+ Fri, 14 Nov 2025 12:37:11 -0800 (PST)
+Received: from plasma.dhcp.broadcom.net ([192.19.144.250])
+ by smtp.gmail.com with ESMTPSA id
+ a92af1059eb24-11b86afe12esm441505c88.6.2025.11.14.12.37.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Nov 2025 12:37:11 -0800 (PST)
+From: Ian Forbes <ian.forbes@broadcom.com>
+To: dri-devel@lists.freedesktop.org
+Cc: bcm-kernel-feedback-list@broadcom.com, zack.rusin@broadcom.com,
+ maaz.mombasawala@broadcom.com, Ian Forbes <ian.forbes@broadcom.com>
+Subject: [PATCH] drm/vmwgfx: Fix KMS with 3D on HW version 10
+Date: Fri, 14 Nov 2025 14:37:03 -0600
+Message-ID: <20251114203703.1946616-1-ian.forbes@broadcom.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Sat, 15 Nov 2025 06:36:17 +1000
-X-Gm-Features: AWmQ_blIhTxwGKKSKNdxSp1QcyPDK-m-B3zhzyyuZYtXWiPeZ5mrzRCwmYDmeBU
-Message-ID: <CAPM=9tz0CT3EWFjMPXffj2_kqExJe+3GNrUgkCQ3ZFuOf_-_rQ@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.18-rc6
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,167 +105,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+HW version 10 does not have GB Surfaces so there is no backing buffer for
+surface backed FBs. This would result in a nullptr dereference and crash
+the driver causing a black screen.
 
-Weekly fixes, amdgpu and vmwgfx making up the most of it, along with
-panthor and i915/xe.
-Seems about right for this time of development, nothing major outstanding.
+Fixes: 965544150d1c ("drm/vmwgfx: Refactor cursor handling")
+Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
+---
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-Dave.
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+index 87448e86d3b3..4446f25e526d 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+@@ -767,13 +767,15 @@ static struct drm_framebuffer *vmw_kms_fb_create(struct drm_device *dev,
+ 		return ERR_PTR(ret);
+ 	}
+ 
+-	ttm_bo_reserve(&bo->tbo, false, false, NULL);
+-	ret = vmw_bo_dirty_add(bo);
+-	if (!ret && surface && surface->res.func->dirty_alloc) {
+-		surface->res.coherent = true;
+-		ret = surface->res.func->dirty_alloc(&surface->res);
++	if (bo) {
++		ttm_bo_reserve(&bo->tbo, false, false, NULL);
++		ret = vmw_bo_dirty_add(bo);
++		if (!ret && surface && surface->res.func->dirty_alloc) {
++			surface->res.coherent = true;
++			ret = surface->res.func->dirty_alloc(&surface->res);
++		}
++		ttm_bo_unreserve(&bo->tbo);
+ 	}
+-	ttm_bo_unreserve(&bo->tbo);
+ 
+ 	return &vfb->base;
+ }
+-- 
+2.51.1
 
-drm-fixes-2025-11-15:
-drm fixes for 6.18-rc6
-
-client:
-- Fix description of module parameter
-
-panthor:
-- Flush writes before mapping buffers
-
-vmwgfx:
-- Improve command validation
-- Improve ref counting
-- Fix cursor-plane support
-
-amdgpu:
-- Disallow P2P DMA for GC 12 DCC surfaces
-- ctx error handling fix
-- UserQ fixes
-- VRR fix
-- ISP fix
-- JPEG 5.0.1 fix
-
-amdkfd:
-- Save area check fix
-- Fix GPU mappings for APU after prefetch
-
-i915:
-- Fix PSR's pipe to vblank conversion
-- Disable Panel Replay on MST links
-
-xe:
-- New HW workarounds affecting PTL and WCL platforms
-The following changes since commit e9a6fb0bcdd7609be6969112f3fbfcce3b1d4a7c:
-
-  Linux 6.18-rc5 (2025-11-09 15:10:19 -0800)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-11-15
-
-for you to fetch changes up to 362a7d4fd5c473d43c498e68e13ff7acf8ca4ccf:
-
-  Merge tag 'drm-xe-fixes-2025-11-13' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-(2025-11-14 17:51:17 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.18-rc6
-
-client:
-- Fix description of module parameter
-
-panthor:
-- Flush writes before mapping buffers
-
-vmwgfx:
-- Improve command validation
-- Improve ref counting
-- Fix cursor-plane support
-
-amdgpu:
-- Disallow P2P DMA for GC 12 DCC surfaces
-- ctx error handling fix
-- UserQ fixes
-- VRR fix
-- ISP fix
-- JPEG 5.0.1 fix
-
-amdkfd:
-- Save area check fix
-- Fix GPU mappings for APU after prefetch
-
-i915:
-- Fix PSR's pipe to vblank conversion
-- Disable Panel Replay on MST links
-
-xe:
-- New HW workarounds affecting PTL and WCL platforms
-
-----------------------------------------------------------------
-Boris Brezillon (1):
-      drm/panthor: Flush shmem writes before mapping buffers CPU-uncached
-
-Dave Airlie (4):
-      Merge tag 'amd-drm-fixes-6.18-2025-11-12' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'drm-misc-fixes-2025-11-13' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'drm-intel-fixes-2025-11-13' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-      Merge tag 'drm-xe-fixes-2025-11-13' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-
-Harish Kasiviswanathan (1):
-      drm/amdkfd: Fix GPU mappings for APU after prefetch
-
-Ian Forbes (3):
-      drm/vmwgfx: Validate command header size against SVGA_CMD_MAX_DATASIZE
-      drm/vmwgfx: Use kref in vmw_bo_dirty
-      drm/vmwgfx: Restore Guest-Backed only cursor plane support
-
-Imre Deak (1):
-      drm/i915/dp_mst: Disable Panel Replay
-
-Ivan Lipski (1):
-      drm/amd/display: Allow VRR params change if unsynced with the stream
-
-Jani Nikula (1):
-      drm/i915/psr: fix pipe to vblank conversion
-
-Jesse.Zhang (1):
-      drm/amdgpu: fix lock warning in amdgpu_userq_fence_driver_process
-
-Jonathan Kim (1):
-      drm/amdkfd: relax checks for over allocation of save area
-
-Nitin Gote (2):
-      drm/xe/xe3: Add WA_14024681466 for Xe3_LPG
-      drm/xe/xe3lpg: Extend Wa_15016589081 for xe3lpg
-
-Pierre-Eric Pelloux-Prayer (1):
-      drm/amdgpu: jump to the correct label on failure
-
-Randy Dunlap (1):
-      drm/client: fix MODULE_PARM_DESC string for "active"
-
-Sathishkumar S (1):
-      drm/amdgpu/jpeg: Add parse_cs for JPEG5_0_1
-
-Sultan Alsawaf (1):
-      drm/amd/amdgpu: Ensure isp_kernel_buffer_alloc() creates a new BO
-
-Tangudu Tilak Tirumalesh (1):
-      drm/xe/xe3: Extend wa_14023061436
-
-Vitaly Prosyak (1):
-      drm/amdgpu: disable peer-to-peer access for DCC-enabled GC12 VRAM surfaces
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c                |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c            | 12 ++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_isp.c                |  2 ++
- drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c        |  5 +++--
- drivers/gpu/drm/amd/amdgpu/jpeg_v5_0_1.c               |  1 +
- drivers/gpu/drm/amd/amdkfd/kfd_queue.c                 | 12 ++++++------
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c                   |  2 ++
- .../gpu/drm/amd/display/modules/freesync/freesync.c    | 11 +++++++++++
- drivers/gpu/drm/clients/drm_client_setup.c             |  4 ++--
- drivers/gpu/drm/i915/display/intel_psr.c               |  7 ++++++-
- drivers/gpu/drm/panthor/panthor_gem.c                  | 18 ++++++++++++++++++
- drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c           | 16 +++++++++++++++-
- drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.h           |  1 +
- drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c                |  5 +++++
- drivers/gpu/drm/vmwgfx/vmwgfx_page_dirty.c             | 12 +++++-------
- drivers/gpu/drm/xe/regs/xe_gt_regs.h                   |  1 +
- drivers/gpu/drm/xe/xe_wa.c                             | 11 +++++++++++
- 17 files changed, 102 insertions(+), 20 deletions(-)
