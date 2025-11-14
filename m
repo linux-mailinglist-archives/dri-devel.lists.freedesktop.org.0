@@ -2,157 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD03C5CC82
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 12:13:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282FAC5CDA6
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 12:27:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 836DE10EA3C;
-	Fri, 14 Nov 2025 11:13:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44ACA10EA3F;
+	Fri, 14 Nov 2025 11:26:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="X+fcgGzZ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YvmEGhHa";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="QJVFJnDb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11013012.outbound.protection.outlook.com
- [40.93.201.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 74D2710EA3C
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 11:13:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fs8V3FCMs1KGmhNdXtjLVAx1kwG8c/KolmMXX0xuDZUhZsYKufzExicr2ClnawSfDItcWwPsyLwRnwuMkH8NuL6QTND/FmZ4ICrn0gDCMUfp8wVPYfC1CV9/Ltm5nweUpsC1cjL40TEGbzVk8RF1Q2ESb27Fb/SF3a0EFgDM8uvDLjvH8avsUrz9J0WM2QDh+x49YA03SORafdI58V5zh6x4fnLoFCxMVRiQELpDDkGQBdu1mbDY3baMQ23E5FMw6ekoRUlWW8kTukaojveH4apJ9IJAhkwdMpIqK/NQDCa9mk4AaPVRDNzXPWMgrut3seuaKjqPxvWoH7XmRpVgwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mMzKjTcHJWDpvDIK0bqX2/DAOrIti20vcVW2pwyhm7s=;
- b=YEtJRvjpkQIWjz1LwdaW5+f68SrDTQfJ+OYYoqBvn0+hpG2f/B0N6VHNKqlRNc/FSmDJdYGsRqXAJf+k52+NXuyAv5i4smRIcxUhoF3s+avEtmuYcWePTTSLlVXXAA5IVZ2HA8jhHy9EsXUX/dguU+AtEFmQtELD3bUfgnjdUBYyABM/l7sWdZKjA0NI2/dVTdu53w4ZQNyu3m2yNFy/zC1i77P73U/jobAdRil3esTmrni27wEvX5K/0lgL8+LsSUoVJDiv9SaTNELbx6Hd0izYHe9Iw3K5QFZcy3uQ4VIFJLLhUo8WbraP1Y78E/WtjcJOUTGsYEpQg2ZzZyn0Ew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mMzKjTcHJWDpvDIK0bqX2/DAOrIti20vcVW2pwyhm7s=;
- b=X+fcgGzZWMpprUT6aP21UyGjmZ8Iql+mtEoCDHshFhHkXICu3akJOTb+lew0iuht26TmvtoeljgkpBLTSgb/l9hUtDy/rrt3UHVZoioVhGMiC5M5t2/a+YA6hX9Zs0luNvHP4m8HQjn6x6mNI+CUf3dtDA9FTM8XPKzaDoe/Kj8=
-Received: from BN9PR03CA0906.namprd03.prod.outlook.com (2603:10b6:408:107::11)
- by PH3PPF077CE0592.namprd10.prod.outlook.com (2603:10b6:518:1::785)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Fri, 14 Nov
- 2025 11:13:36 +0000
-Received: from BN1PEPF00006000.namprd05.prod.outlook.com
- (2603:10b6:408:107:cafe::e3) by BN9PR03CA0906.outlook.office365.com
- (2603:10b6:408:107::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.16 via Frontend Transport; Fri,
- 14 Nov 2025 11:13:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- BN1PEPF00006000.mail.protection.outlook.com (10.167.243.232) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9320.13 via Frontend Transport; Fri, 14 Nov 2025 11:13:33 +0000
-Received: from DFLE203.ent.ti.com (10.64.6.61) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 14 Nov
- 2025 05:13:29 -0600
-Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE203.ent.ti.com
- (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 14 Nov
- 2025 05:13:28 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE201.ent.ti.com
- (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 14 Nov 2025 05:13:28 -0600
-Received: from [10.24.69.13] (meghana-pc.dhcp.ti.com [10.24.69.13] (may be
- forged))
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AEBDLRH1893172;
- Fri, 14 Nov 2025 05:13:22 -0600
-Message-ID: <3737a9bf-e95b-4ea8-b16b-418b777f407c@ti.com>
-Date: Fri, 14 Nov 2025 16:43:21 +0530
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 247E610E23D
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 11:26:57 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AE8Mimi1699404
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 11:26:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ xj6btczQP9EttHmyg9oi/yzZG5tH5YacuDZXJnwTFdA=; b=YvmEGhHayMHB5uzm
+ enctitrc46sCoSYts4Pd9jZjRcyEUid2Ik/mbTzm8syTdh4h4lXKq37hSw8lTm8u
+ Yhy8xu/xdQxTek7UznfSUHnt7Unsi24CjmQHL3RP0QBVu7uPEq+iTY6nQGTFN45Q
+ GGAap7UTFISWYeA7ukX5CUosV266vxpbLt6zcavgnyczJO7ANnJaxrfLwRCxQq9R
+ u8ZYGBePYg0IyQ/Zzu1PDGTHB74DtlwOFi90Kv4Dh8PSZHso9CgSO+WOGtPeU+Rt
+ 3iD78ZHcicHcJHs4x6j/DiT6z8TlLjfXAuNPUfpaZR9anLgM/rs1mo1BsMjgydUc
+ JJgxmg==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4adr9e20kf-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 11:26:56 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id
+ 98e67ed59e1d1-3418ad76023so4569314a91.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 03:26:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1763119616; x=1763724416;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xj6btczQP9EttHmyg9oi/yzZG5tH5YacuDZXJnwTFdA=;
+ b=QJVFJnDbILmyvY2FZI2kp/bH4rOu/udr6/BZcVIm//AvzvngpvgON+JHdDyXF3FTIE
+ J5bKdK/9W8dbMQ5MPijILq0cReK+3ZfJwrdk7p7Frecj335KMYtr5F5TaA+r4NQoLF4i
+ UEdvFVsKQBrAcsWruBCGzhQ/+BulYxLbh0tHfXBcbXb+cQxMeiGQo0yaD6I0XJ9HtjBk
+ E46Yl6zi2d10/QGt8D8ibpwaOGcR9zeBvqu3Qpfa3FVS2kyjSDlqmiux2hMBFelcOj1w
+ Mkqf2Fh8zjlnrJthfetZ5u7IFt4RNVYWWEtfN3wLHio1zMBGUPJeJPW3TAwJqs2/IzQJ
+ 9+2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763119616; x=1763724416;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xj6btczQP9EttHmyg9oi/yzZG5tH5YacuDZXJnwTFdA=;
+ b=rr+EYUg92MB9hxDuZvC8Y1A2vj0r69AjImhESzuOmsGHhIfYBpY9uxOjIB7pDy6fBD
+ yVSs6sL+VpeRqZmjKhupqJyK2gN/PyN1m/Hm1VGnvcdarGXiXJqLQcO5Ne9/JGcJCChB
+ 35f8ierGF4CZEeCNc8oqAaGQqcNHm+xjzJAGjU8X0dT1pWvyHO+oWA1rZbUVJm+SQMrs
+ oKAKHWW5K77qmD+lSkFqLABPkWFUWNeAAzAvEEOb7AwAA4022V1s11mNfXdOrZfYyZ0v
+ aUhkNGqMmaUcoQMd97pvj9MwWMB38G2yiIutlJLnrfFp3NTJ9Um8nF8smLouvLw10D9O
+ byJw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXeD6F3PE1XZgClNBy3M+LP4uh/dtKWIf6q7TSdBq//IRY4B8B0D8fcJI+sLkKDlieVwcbU92te2ho=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwllWMRpFUyzSZCsSTrIH1JDB1grqjxxmcHQjD1soa3rF1qJU3y
+ lG2xL+y6wF9qUivu/twfSqNq7oZqot4sJvQ4dQusNLT1rnLWSvX03Dm0JHYg1kRvtCzUMYRNgti
+ 3h0n7kopA4V3fA9yaUewMwNNZXNJWjTk6AO+EzivlebHWta1S0ohDps1JeI67k7NtXnDuRlI=
+X-Gm-Gg: ASbGnctzJD+o/1gfxDzIJPCm1Sd1+KrbPOVFAbtlmOge+U17cYkEg80JQqTqyvjg8Im
+ ZEFbH8DoD0zzEdlcCWsvdJGPanpnOjB8GEOKUs7cxTfs+0lV0naMbGj3yyblbr792FWJHmmAgBC
+ is8V1mdbDKdu2grH3vdycxXUiEffsie99C6NtSt4d37+tEdu8pllEkLKmH7Dyd8mdT1Baa5dKAI
+ KrLr3DPtP8cSc1Z+j6y/2dbsgDM+BMc0nywmCVW87AdzWZU1mtmZ8AWWxFKPD9nL2fOcMHesFnu
+ 4N/x6BJ6vuhq2SgfRDgfdPjnfYICgQGq/LjjnMcW/mJlw/aM1xPvlJY7RU0pEKAv6XHcX6DccCY
+ 0vELlIfxxF2it0He4IYhA/kU=
+X-Received: by 2002:a17:90a:d408:b0:33b:b020:597a with SMTP id
+ 98e67ed59e1d1-343f99c1cc3mr3251195a91.0.1763119615953; 
+ Fri, 14 Nov 2025 03:26:55 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFgKCyHJGBBYPB4qZv+EAl4Tx88PJN32VSjZcg29sFOWP5dg9DS3lwkBEwjYg2dmQ/BXtGF2A==
+X-Received: by 2002:a17:90a:d408:b0:33b:b020:597a with SMTP id
+ 98e67ed59e1d1-343f99c1cc3mr3251153a91.0.1763119615473; 
+ Fri, 14 Nov 2025 03:26:55 -0800 (PST)
+Received: from [192.168.1.8] ([106.222.229.203])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-3456516c622sm167599a91.9.2025.11.14.03.26.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Nov 2025 03:26:55 -0800 (PST)
+Message-ID: <76523142-b337-4a31-90d2-c8477ef0b270@oss.qualcomm.com>
+Date: Fri, 14 Nov 2025 16:56:45 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 1/6] net: ti: icssg-prueth: Add functions to
- create and destroy Rx/Tx queues
-To: Simon Horman <horms@kernel.org>
-CC: <namcao@linutronix.de>, <vadim.fedorenko@linux.dev>,
- <jacob.e.keller@intel.com>, <christian.koenig@amd.com>,
- <sumit.semwal@linaro.org>, <sdf@fomichev.me>, <john.fastabend@gmail.com>,
- <hawk@kernel.org>, <daniel@iogearbox.net>, <ast@kernel.org>,
- <pabeni@redhat.com>, <kuba@kernel.org>, <edumazet@google.com>,
- <davem@davemloft.net>, <andrew+netdev@lunn.ch>,
- <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
- <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
- <vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
-References: <20251111101523.3160680-1-m-malladi@ti.com>
- <20251111101523.3160680-2-m-malladi@ti.com>
- <aRcGMTRzDFwe23NV@horms.kernel.org>
+Subject: Re: [PATCH v2 11/21] drm/msm/a6xx: Improve MX rail fallback in RPMH
+ vote init
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Marek <jonathan@marek.ca>, Jordan Crouse
+ <jordan@cosmicpenguin.net>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Connor Abbott <cwabbott0@gmail.com>, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ iommu@lists.linux.dev, devicetree@vger.kernel.org
+References: <20251110-kaana-gpu-support-v2-0-bef18acd5e94@oss.qualcomm.com>
+ <20251110-kaana-gpu-support-v2-11-bef18acd5e94@oss.qualcomm.com>
+ <dd32a5e0-1dd1-484d-8fb7-8f6c506c8c83@oss.qualcomm.com>
 Content-Language: en-US
-From: Meghana Malladi <m-malladi@ti.com>
-In-Reply-To: <aRcGMTRzDFwe23NV@horms.kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+In-Reply-To: <dd32a5e0-1dd1-484d-8fb7-8f6c506c8c83@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00006000:EE_|PH3PPF077CE0592:EE_
-X-MS-Office365-Filtering-Correlation-Id: 19158132-7084-4256-0eb1-08de236ed9b3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|36860700013|82310400026|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UFBkaWdIUzJTNno5Tzk3NTNrdG9OaGRDMElIcWI3ZHdsM1lxT0x6TG9OTWto?=
- =?utf-8?B?emY2VVpiVDFQS2dkV1lQa09yOC9JQmZHWVNocFVaMEdBWFFMNlFrZWFHL005?=
- =?utf-8?B?VXJTaTVSTjdPRTFTNG0wVkYwMEt2NEIxVG1leHNpdEwwdVRNMVBGSVVSNmJK?=
- =?utf-8?B?My9GQVY2bGlnTENoZllaNjUrRG13anJGSGtNTjNMUE8vM3YxQ2RoTmlvMlRo?=
- =?utf-8?B?UVFiQmRxaGdjeUxuVEF0Y0JBT09LbU52WHh2cEtIcW03L2h4ZUR3MWgxNHFj?=
- =?utf-8?B?UkxmQ29FRGp1VXp1bmRwMUNJM2FhbGo4WFVSSU1iTWhaTGVpY2tiUjVGbVh3?=
- =?utf-8?B?eXNXUUt6M3d1dHlQVk9pVktpZ0Z5ZzREVnVsUWZmRGRRbEdZZlNsUG5nczNV?=
- =?utf-8?B?VFJzQ3VoU2ZPMUl5ZHJ0QUh5WDV5ZEVDNzVFVDV2M3VrdXVMQkIvcGxrSEhE?=
- =?utf-8?B?L3o0aW5tK2hwNkNnamQwT1VYRTI4ZzFWeFo0anNvaWgrdmlDUncxckZzc1NK?=
- =?utf-8?B?K0dDeTJDVHVZQTJpNGJyQnBOVytWbDFvOVVrcW4wYXNTNytDbnhTQ1Q2TUEx?=
- =?utf-8?B?VU5sYTZSYW8xNWVUWHFCMHdmUlF4VGVBNnNBd3U1VEFGNWJJU1RRVVIxVzE1?=
- =?utf-8?B?YnQ5K3hnMDMwNnJKSFJhalNINmxILys2Y1BjZExJTjdvWTFhQk9ERk9sSTk5?=
- =?utf-8?B?eHdHZlEwNndqeGFUQS9yaFU5QWdWS1NKcEdHVDJmU2JzZXl5NUhWNm9PZndl?=
- =?utf-8?B?UGh2TU1DRUY4UVl1dXpQeGJoYlQyYlhPZnNETW9kdTNzNHVlczRsUGFtNjlK?=
- =?utf-8?B?RmxWRFVqSlN4WmlIWnYzRmxwcUJDbmt5MkMxL2JJNDRvWE9JMlE4dEhidXNy?=
- =?utf-8?B?VElqRS80eUpFdjJ6ZnRCMEFRMElsMmhGdFBFTEc3b05yWXFJb3lqQTFOMzVu?=
- =?utf-8?B?dXZwcU81N2lsbFZLUTF6Y2g5R1NJL251MkQvL3N3aGlPdlVmOGJOUFlvZHVa?=
- =?utf-8?B?OVB6djhOUDVYS2tUQW54M0xxWEh2Mkk1YUV2amdOclhlWm40bHNSOGYwaU1W?=
- =?utf-8?B?VDlRYUE5WERnOGJOWEcxYkJzQ2lYb0NlUHdOMGRneUxZNzArVnVpeFAwbkNk?=
- =?utf-8?B?SFJPSWpKZXgwcEFUeThCMVFLT09qWmZuY2dpM0Ntay9TV1ptdnNXTG9rR3B6?=
- =?utf-8?B?cy9sTytLTDJVODVUc05LbUtZNjJhRzJrVDRacWRFaTJjc1lqZS9qeS9Ea2JB?=
- =?utf-8?B?ak1VYVlqMXc5RXhqTWwyelRNblFNZVVvN0ZtSEs0YllOS2tqTWNZeWVGekVq?=
- =?utf-8?B?K2ZFNUFxcjRzSXo4TDhPdEIzdDFYZzIxUUdSMnhrNis2b3RBb1dNS2UwbS9z?=
- =?utf-8?B?UXUvTDJIN2dkRlNGNWpUQTlWWHRsVzA3TnQwdTN6RzB0UW9qYVNROVNIdStn?=
- =?utf-8?B?VlRyVko3TDJhYkpxKzhuZk4yZ1RTWCtROTNPQkZqbW1ZSWQwS0VTN0hCeVRO?=
- =?utf-8?B?THZPTkc0TEJDbDZIakdmbnFtTk9JZW5vcllqUEx0eExxQzRybWlHNmVjeUI1?=
- =?utf-8?B?c05LWTdmS0lUR0QwODBzN3ZCVGM1SkYwMXRWenN4aUNmREFMQnp0WHhMeXBr?=
- =?utf-8?B?bXk4N2ZJZXl0M3BhMEIyZmRIVkZzQ3IySTR4OER3R2ZWYnFJRnJucWtsbk1X?=
- =?utf-8?B?Z2d3eGhwVFJlQ29WczdEUnMwZFRsQjI4RGVFWktiNkFoYXc2OHhUQjhhQTZx?=
- =?utf-8?B?MEtWRGtkZTRJemhWbVpyZ3F2K2VpTnkyUEFEdmRrNnBQRXpIU0FwcmpYK21i?=
- =?utf-8?B?ZzBTaGxUWHF4QW1tODR5Q0EzeTlaSkgrY2J6clQ4SW9TT1luRkxIYVNYaGlk?=
- =?utf-8?B?RExMNDc5N1JvbHBwa1Y0dVowcDN5QWk2UXQxbHd1MWs1KzNkWndEWVd5YkFU?=
- =?utf-8?B?WWptbFBTKzBleUs2S0F2Y0xkbDhJY3JCQ2pEZlY4RXl4Q2p1L1A4NlQyRWZB?=
- =?utf-8?B?MDZpSDZLSGxwcU9PWmtpdGlySmptdWJINXJpWEc0UkRMMVR3NFlTK25aUFVp?=
- =?utf-8?B?VzlGMmRlL01KTzBya2gweEs3c2c0UE15MDVpTFg0Y253KzlKVDBxSUJ4QzYr?=
- =?utf-8?Q?TEsw=3D?=
-X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(36860700013)(82310400026)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2025 11:13:33.7891 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19158132-7084-4256-0eb1-08de236ed9b3
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
- Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF00006000.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF077CE0592
+X-Proofpoint-ORIG-GUID: 4_I5bZZ5x8L7e221Aqyc4NL0yx4LJ1zd
+X-Authority-Analysis: v=2.4 cv=SvidKfO0 c=1 sm=1 tr=0 ts=69171200 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=UUXEStRZTiKyGgBwSCQbmw==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=lZFDvItL9zSOf8gjBGIA:9 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-GUID: 4_I5bZZ5x8L7e221Aqyc4NL0yx4LJ1zd
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE0MDA5MSBTYWx0ZWRfX69xjEeUCct82
+ wYM9K+HkRC/qppuLAvVSzlBaistTxSYsPVZZkzyB0pift2l7Sp3jxayiQ9WwC3z89J1d2Ibj+Rn
+ eXNvVOrvn7cnG5hBhYnV8FdUirWj87+mEfQfzmZqsq2OSO8A1ubAYAp9rpeqmFskhtnVkJ09sxk
+ RBNFK6DS6d2Fp8gXywK1aXuvJID5PXtLdVAC9czahVut2GdY6vYHSxWFuiypSh7JeQH6ie0nJDE
+ uV6pSrKlycDTWPib9R2w98suJms8fuSVSD6ZNqnMGAxpeGNDOGBGySxtRg82ho1eTw08rTZTMVA
+ aBFYBDzZ914zAC4oaXpjqgxx70AezfQlECdFLO9C1tRxXr421qw8mjyq0u8mNKfm6lOCgwS5MGw
+ CwD+5eGk3PtsSHyg7eXqV/hU57tjeQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-14_03,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
+ phishscore=0 adultscore=0 malwarescore=0 impostorscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511140091
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,154 +160,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Simon,
+On 11/12/2025 4:29 PM, Konrad Dybcio wrote:
+> On 11/10/25 5:37 PM, Akhil P Oommen wrote:
+>> Current logic assumes that the voltage corners in both MxG and MxA are
+>> always same. This is not true for recent targets. So, rework the rpmh init
+>> sequence to probe and calculate the votes with the respective rails, ie,
+>> GX rails should use MxG as secondary rail and Cx rail should use MxA as
+>> the secondary rail.
+> 
+> Is GMU always on Mx*A* and never Mx*C*?
 
-On 11/14/25 16:06, Simon Horman wrote:
-> On Tue, Nov 11, 2025 at 03:45:18PM +0530, Meghana Malladi wrote:
-> 
-> ...
-> 
->> diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.c b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
->> index 57a7d1ceab08..b66ffbfb499c 100644
->> --- a/drivers/net/ethernet/ti/icssg/icssg_prueth.c
->> +++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
->> @@ -735,6 +735,114 @@ static int icssg_update_vlan_mcast(struct net_device *vdev, int vid,
->>   	return 0;
->>   }
->>   
->> +static void prueth_destroy_txq(struct prueth_emac *emac)
->> +{
->> +	int ret, i;
->> +
->> +	atomic_set(&emac->tdown_cnt, emac->tx_ch_num);
->> +	/* ensure new tdown_cnt value is visible */
->> +	smp_mb__after_atomic();
->> +	/* tear down and disable UDMA channels */
->> +	reinit_completion(&emac->tdown_complete);
->> +	for (i = 0; i < emac->tx_ch_num; i++)
->> +		k3_udma_glue_tdown_tx_chn(emac->tx_chns[i].tx_chn, false);
->> +
->> +	ret = wait_for_completion_timeout(&emac->tdown_complete,
->> +					  msecs_to_jiffies(1000));
->> +	if (!ret)
->> +		netdev_err(emac->ndev, "tx teardown timeout\n");
->> +
->> +	for (i = 0; i < emac->tx_ch_num; i++) {
->> +		napi_disable(&emac->tx_chns[i].napi_tx);
->> +		hrtimer_cancel(&emac->tx_chns[i].tx_hrtimer);
->> +		k3_udma_glue_reset_tx_chn(emac->tx_chns[i].tx_chn,
->> +					  &emac->tx_chns[i],
->> +					  prueth_tx_cleanup);
->> +		k3_udma_glue_disable_tx_chn(emac->tx_chns[i].tx_chn);
->> +	}
->> +}
->> +
->> +static void prueth_destroy_rxq(struct prueth_emac *emac)
->> +{
->> +	int i, ret;
->> +
->> +	/* tear down and disable UDMA channels */
->> +	reinit_completion(&emac->tdown_complete);
->> +	k3_udma_glue_tdown_rx_chn(emac->rx_chns.rx_chn, true);
->> +
->> +	/* When RX DMA Channel Teardown is initiated, it will result in an
->> +	 * interrupt and a Teardown Completion Marker (TDCM) is queued into
->> +	 * the RX Completion queue. Acknowledging the interrupt involves
->> +	 * popping the TDCM descriptor from the RX Completion queue via the
->> +	 * RX NAPI Handler. To avoid timing out when waiting for the TDCM to
->> +	 * be popped, schedule the RX NAPI handler to run immediately.
->> +	 */
->> +	if (!napi_if_scheduled_mark_missed(&emac->napi_rx)) {
->> +		if (napi_schedule_prep(&emac->napi_rx))
->> +			__napi_schedule(&emac->napi_rx);
->> +	}
->> +
->> +	ret = wait_for_completion_timeout(&emac->tdown_complete,
->> +					  msecs_to_jiffies(1000));
->> +	if (!ret)
->> +		netdev_err(emac->ndev, "rx teardown timeout\n");
->> +
->> +	for (i = 0; i < PRUETH_MAX_RX_FLOWS; i++) {
->> +		napi_disable(&emac->napi_rx);
->> +		hrtimer_cancel(&emac->rx_hrtimer);
-> 
-> Hi Meghana,
-> 
-> Is it intentional that the napi_disable() and hrtimer_cancel()
-> are made once for each (possible) flow, rather than just once
-> as was the case before this patch?
-> 
-> Maybe the tx code, which does the same, was used as a template here
-> in error?
-> 
+I believe the GMUs we have so far are always on MxA when it is available.
 
-Currently there is only one flow per Rx channel. But we can enable 
-support to add multiple flows to a given given channel. In that case 
-napi_disable() and hrtimer_cancel() will be invoked per flow. That being 
-said, though right now this for loop is redundant this is a intentional 
-change for multiple flows.
+-Akhil.
 
-> Flagged by Claude Code with https://github.com/masoncl/review-prompts/
 > 
->> +		k3_udma_glue_reset_rx_chn(emac->rx_chns.rx_chn, i,
->> +					  &emac->rx_chns,
->> +					  prueth_rx_cleanup);
->> +	}
->> +
->> +	prueth_destroy_xdp_rxqs(emac);
->> +	k3_udma_glue_disable_rx_chn(emac->rx_chns.rx_chn);
->> +}
-> 
-> ...
-> 
->> @@ -905,32 +988,8 @@ static int emac_ndo_stop(struct net_device *ndev)
->>   	else
->>   		__dev_mc_unsync(ndev, icssg_prueth_del_mcast);
->>   
->> -	atomic_set(&emac->tdown_cnt, emac->tx_ch_num);
->> -	/* ensure new tdown_cnt value is visible */
->> -	smp_mb__after_atomic();
->> -	/* tear down and disable UDMA channels */
->> -	reinit_completion(&emac->tdown_complete);
->> -	for (i = 0; i < emac->tx_ch_num; i++)
->> -		k3_udma_glue_tdown_tx_chn(emac->tx_chns[i].tx_chn, false);
->> -
->> -	ret = wait_for_completion_timeout(&emac->tdown_complete,
->> -					  msecs_to_jiffies(1000));
->> -	if (!ret)
->> -		netdev_err(ndev, "tx teardown timeout\n");
->> -
->> -	prueth_reset_tx_chan(emac, emac->tx_ch_num, true);
->> -	for (i = 0; i < emac->tx_ch_num; i++) {
->> -		napi_disable(&emac->tx_chns[i].napi_tx);
->> -		hrtimer_cancel(&emac->tx_chns[i].tx_hrtimer);
->> -	}
->> -
->> -	max_rx_flows = PRUETH_MAX_RX_FLOWS;
->> -	k3_udma_glue_tdown_rx_chn(emac->rx_chns.rx_chn, true);
->> -
->> -	prueth_reset_rx_chan(&emac->rx_chns, max_rx_flows, true);
->> -	prueth_destroy_xdp_rxqs(emac);
->> -	napi_disable(&emac->napi_rx);
->> -	hrtimer_cancel(&emac->rx_hrtimer);
->> +	prueth_destroy_txq(emac);
->> +	prueth_destroy_rxq(emac);
->>   
->>   	cancel_work_sync(&emac->rx_mode_work);
->>   
->> @@ -943,10 +1002,10 @@ static int emac_ndo_stop(struct net_device *ndev)
->>   
->>   	free_irq(emac->tx_ts_irq, emac);
->>   
->> -	free_irq(emac->rx_chns.irq[rx_flow], emac);
->> +	free_irq(emac->rx_chns.irq[PRUETH_RX_FLOW_DATA], emac);
->>   	prueth_ndev_del_tx_napi(emac, emac->tx_ch_num);
->>   
->> -	prueth_cleanup_rx_chns(emac, &emac->rx_chns, max_rx_flows);
->> +	prueth_cleanup_rx_chns(emac, &emac->rx_chns, PRUETH_MAX_RX_FLOWS);
->>   	prueth_cleanup_tx_chns(emac);
->>   
->>   	prueth->emacs_initialized--;
-> 
-> ...
+> Konrad
 
