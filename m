@@ -2,96 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76ED2C5D9B9
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 15:35:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C74BC5D9DA
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 15:36:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F120F10EA56;
-	Fri, 14 Nov 2025 14:35:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58FA610EA90;
+	Fri, 14 Nov 2025 14:36:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="QXt6OgYv";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="niMI2gGD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27A0610EA56
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 14:35:12 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-47112edf9f7so10453165e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 06:35:12 -0800 (PST)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B530D10EA84
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 14:36:48 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-2957850c63bso21731815ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 06:36:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763130911; x=1763735711; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:user-agent
- :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dWXLhPsJovH76m+UWdSFM19WXCf+smwi4mOSlHBAWM0=;
- b=QXt6OgYvB0GrccRY4O/EVcLjkMbn+DlDWyNkAUdiOnNwqvKk92sOwFWTezHXn58Q9S
- mw1siUfJL0+hkSKLuRo3si3NdEbU14tElEK/Y4WAxVUwSsHAt0dpNxiQLhr71+eh8Wgs
- 7Epk38xAJNLQwkeGlqvJZs+ZfPC3TTfugHMmiSeJAzD9S5CPadte7p/kZ3E1QjHhjjd1
- X6RQiGLmC+HFNJnemHOkeOkpaIZ3Umoj91TEf1AQgq1uernXrN9JmTuWSEOVWSMGMSop
- fVU9elwaWX7QI5HDzGTVOFQuajEfhrZyZ9MGcuYRAJG1bi1bwrLc1Vt+5+r02/7urLQl
- V8Vw==
+ d=gmail.com; s=20230601; t=1763131008; x=1763735808; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=nSIls/3M4TGLauUnBJ5m3zl3fUniDuatmjiolK/RIlA=;
+ b=niMI2gGDNAQFYGBauaYKpJbk8NCG60hk/P29vhD0ObSslJ9EsiBi0110szcqiyYkQu
+ TC3I9kc7W8JsT2T+6IiBsuLabC+k4+RohEsw4pHIzQxjQQA0EetEBRavXTXOMqm9G3C+
+ uauUGmCvP+Pv1cvvxNGosx/+AuYHimltudIFDDedqQ/4fR3WOD5iI96A0ccDXliSBwZr
+ QGSsmpmwRn1mR66dhWMXOdx1B1FnCO2qADweR72aTQXzeMq6gASATqFRypi1iCVkFbMx
+ tnO6XYWF9YSOLM45rjxvJCSLwVYrV8XiPmfyKHqjQt0kmGnV6q9Jv8glutOJ+eIsjlfP
+ 45lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763130911; x=1763735711;
- h=content-transfer-encoding:mime-version:message-id:date:user-agent
- :references:in-reply-to:subject:cc:to:from:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dWXLhPsJovH76m+UWdSFM19WXCf+smwi4mOSlHBAWM0=;
- b=M8qwIQaPpYxi/ZFnzvOtpU9PA0ukUVWeQVR0LYBH6HhRuXzPk58LUKa5YTTg85zfnG
- fa50lULVkEmsNeE5fTQHRVQNsRq7PFwet/ElAMkIiYIJqWRC7whUY9FjrW8NgzckMZsc
- zVZsbU7m1/urRMcE9V+n9OjH0ryR2kjoR86gPuT5BkloA82+whVFNgI0QmYl5+KZ/vnb
- 0p0PgySHkWv/v0IwWdWR354EZgNPsOfP5TZtBZR99R3AYlDxnW9uOtWLIgJrev7RZtsv
- zKYhUSRtrivv7reRHnZpWPQhkbgroxVcXFZJX8ZlwEOeBUcXUqR6hFm2l1eh7fSH4iKz
- 3dEw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVyh5fu9jRoRZO67gNT3A8wOqpQaNP0GYJly258KH7Tb3VcuFiBqNXJXWd/8M94vXvllieQXOLcN54=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyNRbFEBf/HjzIvLozxsMKIibFugtWxy9MGh3vCDHxKKhNXw/jC
- +UaCS+aMNNdOFuj8rJwk3x8N/3/P89oQBv4QwI6P28GzMMxIENy8ZC5OyuyJhVFfZm8=
-X-Gm-Gg: ASbGncu9Q3ed9Q2xjFWh0tygnwUSmdIB66g4r/r6VI1ZeTTkNvjmFsu1Qz49cVxwAc2
- eV1ypqZIt/09pb5bxbBPhGfv7Mqf+oECW864p4jaxV6h0ZihhGI+4+UKGYE11dj7Hyl7g1l2bnU
- 8qqevmVYQ8r8XpCoS2NHWq89idloqRhJdCGUyPe1V7lMjlqxalBd+XdJio+98n3J6/uwejt6Fhs
- E4/ltQsX+j6lN7dRG0z4Ycer+FeqIBPfBzGckTKe1udCPE51V798dIU3xWR2IR9PR2dG5hYuN6r
- kWii+cUFa8SETFD6Yaayc7pJwO7awp3tuLbM4fU29TzHOegGGw0HZsQ4Iu8paJzEzc8H8xq8QjY
- 0V2TkPTtOMm08pEpYsdc+LKKC9vjtSYXgGCC98VOtp3N4c1ZHJmK++8M6DOUjauWXseKd0ojjqv
- 1r
-X-Google-Smtp-Source: AGHT+IHw5DY+d3JMXj0ehkwCi00kh1fcOQgwNxL358oZwa3xTlItactqY9kSp562T/u4HnhssT9g/A==
-X-Received: by 2002:a05:6000:230b:b0:42b:40b5:e681 with SMTP id
- ffacd0b85a97d-42b593450f3mr3355692f8f.26.1763130910639; 
- Fri, 14 Nov 2025 06:35:10 -0800 (PST)
-Received: from draig.lan ([185.126.160.19]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42b53f0b8a0sm10330771f8f.25.2025.11.14.06.35.09
+ d=1e100.net; s=20230601; t=1763131008; x=1763735808;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nSIls/3M4TGLauUnBJ5m3zl3fUniDuatmjiolK/RIlA=;
+ b=bPxdXPYLNluniAUmP3btwCeoCa2BXWKluWo1iAuastQ96R3AQDQ5fURJEXhL3kGwN3
+ wvcsSY66a16mVKZd3uMa5B0hTyxBDi8UnxtKr+NiwCdYfMlWWr9/CzdXLnSYQZupiMyn
+ +vidWLL1yUpPcWnOyWs2100A2ccUZWmIf4bFePTnsa0uE1ZXaDIZmud4rHLIMqXcMbPw
+ DR/wALmp2HGgMlc5f0DY+kkxNz+874DotSFvwHbvHy7F5nf3Ne02AUWCgcxBUQznWZ1I
+ gz73DSezwy/tst7xnDinge7yGKL321Ph3ESfOClDGg7zBNb/ohddrT5RlySkQnkPYC/g
+ f+cQ==
+X-Gm-Message-State: AOJu0Yxb7hxjwRMf2znFkTg/Uw/C0YYSyvonH7dIfkgBK20ASnP5zorj
+ 5ZkiMfOo3A+3R35+pc42Eimc3Eq/qdB9sDdguc4G1QoFoUpmSPLCFJsJ
+X-Gm-Gg: ASbGncsTZwhdk5SHan1MsMiit8rVGQ3DMrqW7opPNEPAuN3oUaK73UbthTmP0O2116q
+ famKVWbRY5HJN2CB0NGEW0bQmwS/BqlLPNm2bHpZn+L6a1toWuntzG+07g1/XrpdZKTPbtQhBbA
+ OiXxrFRC4mmOlHT8Zvq29Eh+DO7uJVF0wQDdTAqE/Gzlv/nKmBvUWV9mvss23HYf6onHRWwxi7l
+ uQXMM25zmba2g7VACxAzkLLePluXWRnXrfxWRYdvsoKHW5KzBo42XcN8ctxiwSixUeICeCIgdDM
+ YMfT1cNPTrkotrmkj5lqyrZll6/jMFihwo2R5gWxDG6Oije/1ybLIR4x26gQI0RMGmuBv6ZlAER
+ uHxR88F8qo3+zuDnGszQ7+1GFibcv8kNheAfPX5aLiy6Wj6A0EbXeLfnjmXbSu34N9Y7BrnuC0u
+ 5HLDslUxEgr+bt0D7E7jdveag3
+X-Google-Smtp-Source: AGHT+IFUOGj7TJVl2OCdFbicu59hvK0bO9kwvvs9SY9g8DkfUCcDnSMPschk57hnTF261AwCNWmJ3Q==
+X-Received: by 2002:a17:902:e54c:b0:297:df84:bd18 with SMTP id
+ d9443c01a7336-298680346c1mr44257275ad.30.1763131007988; 
+ Fri, 14 Nov 2025 06:36:47 -0800 (PST)
+Received: from rahul-mintos.ban-spse ([165.204.156.251])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2985c2b106bsm57015555ad.58.2025.11.14.06.36.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Nov 2025 06:35:09 -0800 (PST)
-Received: from draig (localhost [IPv6:::1])
- by draig.lan (Postfix) with ESMTP id CCE895F820;
- Fri, 14 Nov 2025 14:35:08 +0000 (GMT)
-From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Ilpo =?utf-8?Q?J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Simon Richter <Simon.Richter@hogyros.de>,  Lucas De Marchi
- <lucas.demarchi@intel.com>,  Alex Deucher <alexander.deucher@amd.com>,
- amd-gfx@lists.freedesktop.org,  Bjorn Helgaas <bhelgaas@google.com>,
- David Airlie <airlied@gmail.com>,  dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org,  intel-xe@lists.freedesktop.org,  Jani
- Nikula <jani.nikula@linux.intel.com>,  Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>,  linux-pci@vger.kernel.org,  Rodrigo
- Vivi <rodrigo.vivi@intel.com>,  Simona Vetter <simona@ffwll.ch>,  Tvrtko
- Ursulin <tursulin@ursulin.net>,  Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,  Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>,  =?utf-8?Q?Micha=C5=82?= Winiarski
- <michal.winiarski@intel.com>,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 03/11] PCI: Change pci_dev variable from 'bridge' to
- 'dev'
-In-Reply-To: <20251113162628.5946-4-ilpo.jarvinen@linux.intel.com> ("Ilpo
- =?utf-8?Q?J=C3=A4rvinen=22's?= message of "Thu, 13 Nov 2025 18:26:20
- +0200")
-References: <20251113162628.5946-1-ilpo.jarvinen@linux.intel.com>
- <20251113162628.5946-4-ilpo.jarvinen@linux.intel.com>
-User-Agent: mu4e 1.12.14-dev2; emacs 30.1
-Date: Fri, 14 Nov 2025 14:35:08 +0000
-Message-ID: <87346gptr7.fsf@draig.linaro.org>
+ Fri, 14 Nov 2025 06:36:47 -0800 (PST)
+From: Rahul Kumar <rk0006818@gmail.com>
+To: liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ rk0006818@gmail.com
+Subject: [PATCH] drm/komeda: Convert logging in d71_dev.c to drm_* with
+ drm_device parameter
+Date: Fri, 14 Nov 2025 20:06:27 +0530
+Message-ID: <20251114143627.3981217-1-rk0006818@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,26 +87,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com> writes:
+Replace DRM_DEBUG() and DRM_ERROR() calls in
+drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c with the
+drm_dbg() and drm_err() helpers in functions where a drm_device
+parameter is available.
 
-> Upcoming fix to BAR resize will store also device BAR resource in the
-> saved list. Change the pci_dev variable in the loop from 'bridge' to
-> 'dev' as the former would be misleading with non-bridges in the list.
->
-> This is in a separate change to reduce churn in the upcoming BAR resize
-> fix.
->
-> While it appears that the logic in the loop doing pci_setup_bridge() is
-> altered as 'bridge' variable is no longer updated, a bridge should
-> never appear more than once in the saved list so the if check can only
-> match to the first entry. As such, the code with two distinct pci_dev
-> variables better represents the intention of the check compared with the
-> old code where bridge variable was reused for a different purpose.
->
-> Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+The drm_*() logging macros require a struct drm_device * parameter,
+which allows the DRM core to prefix log messages with the device
+instance. This improves debugging clarity when multiple Komeda or
+other DRM devices are present.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Logging in early hardware probing functions such as d71_identify()
+is intentionally left unchanged because they do not have access to
+a drm_device pointer at that stage of initialization.
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+This conversion follows the DRM TODO entry:
+"Convert logging to drm_* functions with drm_device parameter".
+
+Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
+---
+ .../gpu/drm/arm/display/komeda/d71/d71_dev.c  | 21 ++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+index 80973975bfdb..4305354badc8 100644
+--- a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
++++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+@@ -9,6 +9,7 @@
+ #include <drm/drm_print.h>
+ #include "d71_dev.h"
+ #include "malidp_io.h"
++#include "komeda_kms.h"
+ 
+ static u64 get_lpu_event(struct d71_pipeline *d71_pipeline)
+ {
+@@ -348,6 +349,8 @@ static void d71_cleanup(struct komeda_dev *mdev)
+ 
+ static int d71_enum_resources(struct komeda_dev *mdev)
+ {
++	struct komeda_kms_dev *kms = dev_get_drvdata(mdev->dev);
++	struct drm_device *drm = &kms->base;
+ 	struct d71_dev *d71;
+ 	struct komeda_pipeline *pipe;
+ 	struct block_header blk;
+@@ -366,7 +369,7 @@ static int d71_enum_resources(struct komeda_dev *mdev)
+ 
+ 	err = d71_reset(d71);
+ 	if (err) {
+-		DRM_ERROR("Fail to reset d71 device.\n");
++		drm_err(drm, "Fail to reset d71 device.\n");
+ 		goto err_cleanup;
+ 	}
+ 
+@@ -376,8 +379,8 @@ static int d71_enum_resources(struct komeda_dev *mdev)
+ 	d71->num_pipelines = (value >> 8) & 0x7;
+ 
+ 	if (d71->num_pipelines > D71_MAX_PIPELINE) {
+-		DRM_ERROR("d71 supports %d pipelines, but got: %d.\n",
+-			  D71_MAX_PIPELINE, d71->num_pipelines);
++		drm_err(drm, "d71 supports %d pipelines, but got: %d.\n",
++			D71_MAX_PIPELINE, d71->num_pipelines);
+ 		err = -EINVAL;
+ 		goto err_cleanup;
+ 	}
+@@ -455,8 +458,8 @@ static int d71_enum_resources(struct komeda_dev *mdev)
+ 		offset += D71_BLOCK_SIZE;
+ 	}
+ 
+-	DRM_DEBUG("total %d (out of %d) blocks are found.\n",
+-		  i, d71->num_blocks);
++	drm_dbg(drm, "total %d (out of %d) blocks are found.\n",
++		i, d71->num_blocks);
+ 
+ 	return 0;
+ 
+@@ -555,6 +558,8 @@ static void d71_init_fmt_tbl(struct komeda_dev *mdev)
+ 
+ static int d71_connect_iommu(struct komeda_dev *mdev)
+ {
++	struct komeda_kms_dev *kms = dev_get_drvdata(mdev->dev);
++	struct drm_device *drm = &kms->base;
+ 	struct d71_dev *d71 = mdev->chip_data;
+ 	u32 __iomem *reg = d71->gcu_addr;
+ 	u32 check_bits = (d71->num_pipelines == 2) ?
+@@ -569,7 +574,7 @@ static int d71_connect_iommu(struct komeda_dev *mdev)
+ 	ret = dp_wait_cond(has_bits(check_bits, malidp_read32(reg, BLK_STATUS)),
+ 			100, 1000, 1000);
+ 	if (ret < 0) {
+-		DRM_ERROR("timed out connecting to TCU!\n");
++		drm_err(drm, "timed out connecting to TCU!\n");
+ 		malidp_write32_mask(reg, BLK_CONTROL, 0x7, INACTIVE_MODE);
+ 		return ret;
+ 	}
+@@ -582,6 +587,8 @@ static int d71_connect_iommu(struct komeda_dev *mdev)
+ 
+ static int d71_disconnect_iommu(struct komeda_dev *mdev)
+ {
++	struct komeda_kms_dev *kms = dev_get_drvdata(mdev->dev);
++	struct drm_device *drm = &kms->base;
+ 	struct d71_dev *d71 = mdev->chip_data;
+ 	u32 __iomem *reg = d71->gcu_addr;
+ 	u32 check_bits = (d71->num_pipelines == 2) ?
+@@ -593,7 +600,7 @@ static int d71_disconnect_iommu(struct komeda_dev *mdev)
+ 	ret = dp_wait_cond(((malidp_read32(reg, BLK_STATUS) & check_bits) == 0),
+ 			100, 1000, 1000);
+ 	if (ret < 0) {
+-		DRM_ERROR("timed out disconnecting from TCU!\n");
++		drm_err(drm, "timed out disconnecting from TCU!\n");
+ 		malidp_write32_mask(reg, BLK_CONTROL, 0x7, INACTIVE_MODE);
+ 	}
+ 
+-- 
+2.43.0
+
