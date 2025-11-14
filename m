@@ -2,89 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83720C5BCCB
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 08:35:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D061BC5BCE5
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 08:37:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4721F10E9BB;
-	Fri, 14 Nov 2025 07:34:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8343C10E9BC;
+	Fri, 14 Nov 2025 07:36:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Qirtxlj0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3zZTMoGt";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Qirtxlj0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3zZTMoGt";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xODLR5Wg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EMlWKjJ1";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xODLR5Wg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EMlWKjJ1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7E2B10E9BB
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 07:34:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5CC110E9C5
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 07:36:56 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 558DB2124F;
- Fri, 14 Nov 2025 07:34:54 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 73F9421227;
+ Fri, 14 Nov 2025 07:36:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1763105694; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1763105815; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wUmMygQ6nh3STcjS45HFzsvs8JHrAs0bkrRhKEUH1qw=;
- b=Qirtxlj0nQjcJ/ORQzOIoo6FbBwXgpcsSrt2BTyTOTUXbQMufE/8harBcE5FUoEu32xDqc
- ASP0G8Pvj6dpK4OM4TrF/jfDPRfA24EpyGdXILhwH3e/HudTHdS9iTw3MAu+WxTclZzZjz
- fx3GENNDwhV8uaq9/uggE8zRoW15skU=
+ bh=EH+MBrZQrO5821dZqqARpOK4of13aqVDtBtwFBldXl0=;
+ b=xODLR5Wgz5QwgveYEV5t9RwPtERYEJTUK9d3/+CAAPXNa/oiM4l/N6d+SrOhcz8g1jBafT
+ cGQKiwXk/ckmt4DhGjW0ThLJNwE4TY5qYrnpaZg1rnDMUt0kJ7kC2sJ8A78mi+bM+bXY7C
+ aO5JTI3KDpQ3Ta0eaalbxOlbip9AEFY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1763105694;
+ s=susede2_ed25519; t=1763105815;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wUmMygQ6nh3STcjS45HFzsvs8JHrAs0bkrRhKEUH1qw=;
- b=3zZTMoGtbIcPf5wHiOTxbxb/6ZnKJ3BDSC1vgHDPpaYljgmu+GMtyYYHXj+bGCtsvJmf10
- ooF1PwK5YMJbknDw==
+ bh=EH+MBrZQrO5821dZqqARpOK4of13aqVDtBtwFBldXl0=;
+ b=EMlWKjJ1GGBKbHKPW/hp48eGeayR2bnfza0brrOUmPKDgWnUUEgoGBC0DeCeEgYdubZLXW
+ 4106ZnDfKwCoXgAA==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Qirtxlj0;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3zZTMoGt
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xODLR5Wg;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=EMlWKjJ1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1763105694; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1763105815; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wUmMygQ6nh3STcjS45HFzsvs8JHrAs0bkrRhKEUH1qw=;
- b=Qirtxlj0nQjcJ/ORQzOIoo6FbBwXgpcsSrt2BTyTOTUXbQMufE/8harBcE5FUoEu32xDqc
- ASP0G8Pvj6dpK4OM4TrF/jfDPRfA24EpyGdXILhwH3e/HudTHdS9iTw3MAu+WxTclZzZjz
- fx3GENNDwhV8uaq9/uggE8zRoW15skU=
+ bh=EH+MBrZQrO5821dZqqARpOK4of13aqVDtBtwFBldXl0=;
+ b=xODLR5Wgz5QwgveYEV5t9RwPtERYEJTUK9d3/+CAAPXNa/oiM4l/N6d+SrOhcz8g1jBafT
+ cGQKiwXk/ckmt4DhGjW0ThLJNwE4TY5qYrnpaZg1rnDMUt0kJ7kC2sJ8A78mi+bM+bXY7C
+ aO5JTI3KDpQ3Ta0eaalbxOlbip9AEFY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1763105694;
+ s=susede2_ed25519; t=1763105815;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=wUmMygQ6nh3STcjS45HFzsvs8JHrAs0bkrRhKEUH1qw=;
- b=3zZTMoGtbIcPf5wHiOTxbxb/6ZnKJ3BDSC1vgHDPpaYljgmu+GMtyYYHXj+bGCtsvJmf10
- ooF1PwK5YMJbknDw==
+ bh=EH+MBrZQrO5821dZqqARpOK4of13aqVDtBtwFBldXl0=;
+ b=EMlWKjJ1GGBKbHKPW/hp48eGeayR2bnfza0brrOUmPKDgWnUUEgoGBC0DeCeEgYdubZLXW
+ 4106ZnDfKwCoXgAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 180393EA61;
- Fri, 14 Nov 2025 07:34:54 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 07F733EA61;
+ Fri, 14 Nov 2025 07:36:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id mWwrBJ7bFmkHZAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 14 Nov 2025 07:34:54 +0000
-Message-ID: <6b9fbe75-146f-4668-8fce-5cda39f0daf7@suse.de>
-Date: Fri, 14 Nov 2025 08:34:53 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id SSlAOxbcFmkVZgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 14 Nov 2025 07:36:54 +0000
+Message-ID: <3805461a-cc7e-4ea4-8e26-823827aa7e70@suse.de>
+Date: Fri, 14 Nov 2025 08:36:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: Fix missing kernel-doc parameter descriptions in
- drm_gem_shmem_init()
-To: Kriish Sharma <kriish.sharma2006@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- lkp@intel.com
-References: <20251114072729.2604822-1-kriish.sharma2006@gmail.com>
+Subject: Re: [PATCH 1/3] drm: zynqmp: Check property creation status
+To: Sean Anderson <sean.anderson@linux.dev>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, Mike Looijmans <mike.looijmans@topic.nl>,
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Simona Vetter <simona@ffwll.ch>, Michal Simek <michal.simek@amd.com>
+References: <20251113203715.2768107-1-sean.anderson@linux.dev>
+ <20251113203715.2768107-2-sean.anderson@linux.dev>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -111,34 +116,33 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251114072729.2604822-1-kriish.sharma2006@gmail.com>
+In-Reply-To: <20251113203715.2768107-2-sean.anderson@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 558DB2124F
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 73F9421227
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
  R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MX_GOOD(-0.01)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch];
  RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FUZZY_RATELIMITED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[];
+ ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[13]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[vger.kernel.org,topic.nl,gmail.com,linux.intel.com,amd.com,kernel.org,lists.infradead.org,ffwll.ch];
+ MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
  RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_SEVEN(0.00)[8]; RCVD_VIA_SMTP_AUTH(0.00)[];
- TAGGED_RCPT(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url, intel.com:email, suse.de:email,
- suse.de:mid, suse.de:dkim]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
+ DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email, suse.de:dkim, suse.de:mid,
+ suse.de:email, suse.com:url]
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,41 +160,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-Am 14.11.25 um 08:27 schrieb Kriish Sharma:
-> The kernel test robot reported missing parameter documentation in
-> drm_gem_shmem_init(), triggering warnings during documentation builds:
+Am 13.11.25 um 21:37 schrieb Sean Anderson:
+> Make sure to return an error in the event that we can't create our
+> properties.
 >
-> WARNING: ./drivers/gpu/drm/drm_gem_shmem_helper.c:104 function parameter 'shmem' not described in 'drm_gem_shmem_init'
-> WARNING: ./drivers/gpu/drm/drm_gem_shmem_helper.c:104 function parameter 'size' not described in 'drm_gem_shmem_init'
+> Fixes: 650f12042b85 ("drm: xlnx: zynqmp_dpsub: Add global alpha support")
+> Fixes: 8c772f0b2b8e ("drm: xlnx: zynqmp_dpsub: Expose plane ordering to userspace")
 >
-> Add missing @shmem and @size descriptions to fix the kernel-doc issues
-> and ensure the documentation is complete
->
-> Fixes: e3f4bdaf2c5b ("drm/gem/shmem: Extract drm_gem_shmem_init() from drm_gem_shmem_create()")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202508040518.ZISc9nPg-lkp@intel.com
-> Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
+> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 > ---
->   drivers/gpu/drm/drm_gem_shmem_helper.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index dc94a27710e5..1d1e8add99c9 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -96,7 +96,8 @@ static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_obj
->   /**
->    * drm_gem_shmem_init - Initialize an allocated object.
->    * @dev: DRM device
-> - * @obj: The allocated shmem GEM object.
-> + * @shmem: shmem GEM object
-> + * @size: Size of the object to initialize
->    *
->    * Returns:
->    * 0 on success, or a negative error code on failure.
+>   drivers/gpu/drm/xlnx/zynqmp_kms.c | 12 +++++++++---
+>   1 file changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> index 2bee0a2275ed..c80a2d4034f3 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
+> @@ -174,9 +174,15 @@ static int zynqmp_dpsub_create_planes(struct zynqmp_dpsub *dpsub)
+>   
+>   		drm_plane_helper_add(plane, &zynqmp_dpsub_plane_helper_funcs);
+>   
+> -		drm_plane_create_zpos_immutable_property(plane, i);
+> -		if (i == ZYNQMP_DPSUB_LAYER_GFX)
+> -			drm_plane_create_alpha_property(plane);
+> +		ret = drm_plane_create_zpos_immutable_property(plane, i);
+> +		if (ret)
+> +			return ret;
+> +
+> +		if (i == ZYNQMP_DPSUB_LAYER_GFX) {
+> +			ret = drm_plane_create_alpha_property(plane);
+> +			if (ret)
+> +				return ret;
+> +		}
+>   	}
+>   
+>   	return 0;
 
 -- 
 --
