@@ -2,139 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71664C5CBEF
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 12:03:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD03C5CC82
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 12:13:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A34210EA39;
-	Fri, 14 Nov 2025 11:03:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 836DE10EA3C;
+	Fri, 14 Nov 2025 11:13:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Sf5NkDbs";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SN1/t2hx";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="X+fcgGzZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D12310EA39
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 11:03:20 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AE8Z6ri1686448
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 11:03:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- SsL1HDB38FRgMcij+jx/dBoF3vzUnXEGnTWRlo3FyXw=; b=Sf5NkDbsIzoxNN0g
- fio1is6hSCp4F0VbBAhVOImlbSGrtkPsPOnykwY5S6C3X3+DXOvTi5vxmmfSaosg
- PV6wf/0NoqTkha1yJ7E6P4BC0gB1++ENh49zU28tEaqZwM6SbEy29EHNqwwWH8Cx
- +3X8F0SyZln8FE1mRP3LYwY6U2d30/pkkSe8iTrJARyUCizFIo7DjG2asuIm2dhY
- ogKE7tL3HTflIEoBqJ9CAfaftWU7zr6I4pUZ8H4YB3bQWCX/abr/R1vYkj/2NGZ+
- bnJjU1pzQYmnVkUuiwe6Ehm+wewO7ZvtBXoKBszjWw9IGTJ0xPgmvCXGs1sXm8S+
- iJqcGQ==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4adr9g1wbd-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 11:03:18 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4ed79dd4a47so54463411cf.3
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 03:03:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763118198; x=1763722998;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=SsL1HDB38FRgMcij+jx/dBoF3vzUnXEGnTWRlo3FyXw=;
- b=SN1/t2hxKmMqwb/yEkSuQolFSMQtg2YOLaZVBUfQu0k9iNrTtRSJYS5+VkMiB1NxRf
- pPnolOMjZQdMjmQfa2lZKRMVA+jEjvnd61kbEE23CPbNDO5xxfDjBgPD2lybKn2NWRF/
- /Sb5UeuGwxNKy8vAJ33vHm79LWwUEtvXvbmzFSnob7/50s+58wp7DEZPqkmcIuaKSyyM
- 9HR+pSbwYqGa1CV9Y2rmiyTPKrqgIU/6icfpXScF5AeKMueYw8QEwY/Tjyp7Z3Dr7hKb
- WXgQJXuFwBtBFMssKXBnzGW26dOrx+DKT1/KyjgByg+dxwjmxYNb6xwyN/o2L5RYIQfY
- MFgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763118198; x=1763722998;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SsL1HDB38FRgMcij+jx/dBoF3vzUnXEGnTWRlo3FyXw=;
- b=YwdTNWRzDOTE12liQCUqhNVOVYqJbZs87rxFuvpteOWffRDjfFCVvHQn5ZXh/7947W
- EruTd1PUmxCWM6gScCMJ1T6Oiictoc+wfTBsdRe3JxWICxFIhWbu5C4+aLiGrQC2YAMq
- Kad/KpXDS+C3yQFgSJNFzQ5wLVoaQT4H+RhoVkdRLMfzwgY/9WjY36/LQbwzfUkR1iUj
- 4TLs1Kh9W6mxfB0nV5jbprWyOC0QqFSf4YNmaSgOiIcuYTgouFqsb3GJFXXg8b4sZJl3
- rjQp2xEbaNOotVTK3xnsCDspvNTlSjtCf2YzpzPgC8LHAqDwSlbiYX0ejATvyeJg4n8N
- XMEQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWEGkyvSGqlxx/2R+PkHUWDYyMVA0jFGtnaS3MdKJ+ahupBZ08Q0zYBhKQ9iQrO8yXVIa3QzU0x1mw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzYSYiY8YnbHgleAki7htdeG4Yf2OiVai6h2rZgqxMLyNCN7TKf
- tPhACaJ5wnwfgWiZu2zlKhzoBGcqdmUthnBvZN6KYgf6RNNW3ZqBuZTFJopHEkNyJwiMhxdC6Uy
- n1O+l+i0tyGStDrdCohqB9pxsjrX3KkkTfPof9L3BB7L/Onmxve4HVBOnlYOaKDistD2QzVU=
-X-Gm-Gg: ASbGncutNcCfPzH2xOXCeZxQvBdBWLqVP5jh/mhj5ezr+KIt5vPDXAgEW5MHCyx+oC3
- g9ehwZJgZIz+nsFNlz47uWEUw8DytRirpXpoPr6IsAlips+wcGvYNXYRzlmRvL5yTamTXLyzQie
- irNofEv2hZBrzV6goZdw9wAwRSZLhYeF8v2isCsmlOF3SjcRuVOB7Qgo8KhU/XPXieKonXcZ+my
- wFnP+vlamKbmChEFaV1sNBIGLWAI68YbdLQs+yMVf2327KMUbEDtGyCcpUj/IzuVWYVwB9aQSv2
- lJnCrk4iz9ZcJAITSC4dySs4kOiM5Eg3BXnUSDE37CRu33hFa3F0scUASUP9vtOiRZNHwMwJ978
- 5EN/pZ8t60BpjZ5+NoT8a9gnhfn7IGz58aEzlmarspUfyJQ3kJDcy2ppRmoy3ND4kTyt7hHVY+j
- pEdvJ9OfAvKP6p
-X-Received: by 2002:ac8:578b:0:b0:4db:e7be:b40b with SMTP id
- d75a77b69052e-4edf20a3de9mr40782431cf.23.1763118198144; 
- Fri, 14 Nov 2025 03:03:18 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGnk790PmVPOn1c7OeBtDwurCO7QZI3gzzVeXmoG8GqrbzlotEwQFNkCiIoA940ETO47ZtSJg==
-X-Received: by 2002:ac8:578b:0:b0:4db:e7be:b40b with SMTP id
- d75a77b69052e-4edf20a3de9mr40781771cf.23.1763118197632; 
- Fri, 14 Nov 2025 03:03:17 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-37b9ced4adasm9135771fa.26.2025.11.14.03.03.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 14 Nov 2025 03:03:16 -0800 (PST)
-Date: Fri, 14 Nov 2025 13:03:15 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: federico@izzo.pro
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- nicola@corna.info, David Heidelberg <david@ixit.cz>,
- Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>
-Subject: Re: [PATCH v3] drm/msm/dpu: Add DSPP GC driver to provide GAMMA_LUT
- DRM property
-Message-ID: <ac7fri2okl3bvzvfnjxg74x5gekn74ii5sslvldfw4ioan57bj@w63zkvngpi4x>
-References: <20251019-dpu-add-dspp-gc-driver-v3-1-840491934e56@izzo.pro>
+Received: from CY3PR05CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11013012.outbound.protection.outlook.com
+ [40.93.201.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74D2710EA3C
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 11:13:39 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fs8V3FCMs1KGmhNdXtjLVAx1kwG8c/KolmMXX0xuDZUhZsYKufzExicr2ClnawSfDItcWwPsyLwRnwuMkH8NuL6QTND/FmZ4ICrn0gDCMUfp8wVPYfC1CV9/Ltm5nweUpsC1cjL40TEGbzVk8RF1Q2ESb27Fb/SF3a0EFgDM8uvDLjvH8avsUrz9J0WM2QDh+x49YA03SORafdI58V5zh6x4fnLoFCxMVRiQELpDDkGQBdu1mbDY3baMQ23E5FMw6ekoRUlWW8kTukaojveH4apJ9IJAhkwdMpIqK/NQDCa9mk4AaPVRDNzXPWMgrut3seuaKjqPxvWoH7XmRpVgwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mMzKjTcHJWDpvDIK0bqX2/DAOrIti20vcVW2pwyhm7s=;
+ b=YEtJRvjpkQIWjz1LwdaW5+f68SrDTQfJ+OYYoqBvn0+hpG2f/B0N6VHNKqlRNc/FSmDJdYGsRqXAJf+k52+NXuyAv5i4smRIcxUhoF3s+avEtmuYcWePTTSLlVXXAA5IVZ2HA8jhHy9EsXUX/dguU+AtEFmQtELD3bUfgnjdUBYyABM/l7sWdZKjA0NI2/dVTdu53w4ZQNyu3m2yNFy/zC1i77P73U/jobAdRil3esTmrni27wEvX5K/0lgL8+LsSUoVJDiv9SaTNELbx6Hd0izYHe9Iw3K5QFZcy3uQ4VIFJLLhUo8WbraP1Y78E/WtjcJOUTGsYEpQg2ZzZyn0Ew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=kernel.org smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mMzKjTcHJWDpvDIK0bqX2/DAOrIti20vcVW2pwyhm7s=;
+ b=X+fcgGzZWMpprUT6aP21UyGjmZ8Iql+mtEoCDHshFhHkXICu3akJOTb+lew0iuht26TmvtoeljgkpBLTSgb/l9hUtDy/rrt3UHVZoioVhGMiC5M5t2/a+YA6hX9Zs0luNvHP4m8HQjn6x6mNI+CUf3dtDA9FTM8XPKzaDoe/Kj8=
+Received: from BN9PR03CA0906.namprd03.prod.outlook.com (2603:10b6:408:107::11)
+ by PH3PPF077CE0592.namprd10.prod.outlook.com (2603:10b6:518:1::785)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Fri, 14 Nov
+ 2025 11:13:36 +0000
+Received: from BN1PEPF00006000.namprd05.prod.outlook.com
+ (2603:10b6:408:107:cafe::e3) by BN9PR03CA0906.outlook.office365.com
+ (2603:10b6:408:107::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.16 via Frontend Transport; Fri,
+ 14 Nov 2025 11:13:29 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ BN1PEPF00006000.mail.protection.outlook.com (10.167.243.232) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.13 via Frontend Transport; Fri, 14 Nov 2025 11:13:33 +0000
+Received: from DFLE203.ent.ti.com (10.64.6.61) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 14 Nov
+ 2025 05:13:29 -0600
+Received: from DFLE201.ent.ti.com (10.64.6.59) by DFLE203.ent.ti.com
+ (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 14 Nov
+ 2025 05:13:28 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE201.ent.ti.com
+ (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 14 Nov 2025 05:13:28 -0600
+Received: from [10.24.69.13] (meghana-pc.dhcp.ti.com [10.24.69.13] (may be
+ forged))
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AEBDLRH1893172;
+ Fri, 14 Nov 2025 05:13:22 -0600
+Message-ID: <3737a9bf-e95b-4ea8-b16b-418b777f407c@ti.com>
+Date: Fri, 14 Nov 2025 16:43:21 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251019-dpu-add-dspp-gc-driver-v3-1-840491934e56@izzo.pro>
-X-Proofpoint-GUID: 6cLUlL-51I2MN257OVCu8ta8NPbVEfgv
-X-Proofpoint-ORIG-GUID: 6cLUlL-51I2MN257OVCu8ta8NPbVEfgv
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE0MDA4NyBTYWx0ZWRfX8K1snuPBI5sM
- aorAoqGqBInfmyksopRBpireGqfNmop7SO1okKg9uoVBN5yve1dwFY2tLbG6av6/l2JR/B6p6gD
- 5i82nOqD88xCcr2wG6J/y4T5LW4nwBZAuUI5zGb1sNvznQ5kUN7bXPFfOQ9xMSlbcm9Mv6TRyf9
- BNA1iO2DarGZ6yaCm0bXqZAoM6qT3k7gtzBvBxVwYbc2eyiT5v/I9Ze1By/HiEP3iFzjT9WoEkr
- jRMT7U7wwnZKfCebsxbNXvuEND4gRaPORbhs23BcOme1hsf5guKlasFrcWndN3PFcdye+CZe/9D
- r7TEJd85aiVfY5XtsLydUgw8L6bT+hsbLTHjdqBO5howy+JQTzBZXy+O6YXsfXSFlZ3Txn9TvQK
- Gq3cBCYDEX1Fj9FJXDsvr/KKf5i3Qg==
-X-Authority-Analysis: v=2.4 cv=IM8PywvG c=1 sm=1 tr=0 ts=69170c76 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=ze386MxoAAAA:8 a=ZFu0rgk015Nm-26e0XUA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
- a=a_PwQJl-kcHnX1M80qC6:22 a=iBZjaW-pnkserzjvUTHh:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-14_03,2025-11-13_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 malwarescore=0 suspectscore=0 lowpriorityscore=0
- adultscore=0 impostorscore=0 phishscore=0 priorityscore=1501 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511140087
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v5 1/6] net: ti: icssg-prueth: Add functions to
+ create and destroy Rx/Tx queues
+To: Simon Horman <horms@kernel.org>
+CC: <namcao@linutronix.de>, <vadim.fedorenko@linux.dev>,
+ <jacob.e.keller@intel.com>, <christian.koenig@amd.com>,
+ <sumit.semwal@linaro.org>, <sdf@fomichev.me>, <john.fastabend@gmail.com>,
+ <hawk@kernel.org>, <daniel@iogearbox.net>, <ast@kernel.org>,
+ <pabeni@redhat.com>, <kuba@kernel.org>, <edumazet@google.com>,
+ <davem@davemloft.net>, <andrew+netdev@lunn.ch>,
+ <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
+ <vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
+References: <20251111101523.3160680-1-m-malladi@ti.com>
+ <20251111101523.3160680-2-m-malladi@ti.com>
+ <aRcGMTRzDFwe23NV@horms.kernel.org>
+Content-Language: en-US
+From: Meghana Malladi <m-malladi@ti.com>
+In-Reply-To: <aRcGMTRzDFwe23NV@horms.kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN1PEPF00006000:EE_|PH3PPF077CE0592:EE_
+X-MS-Office365-Filtering-Correlation-Id: 19158132-7084-4256-0eb1-08de236ed9b3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|36860700013|82310400026|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UFBkaWdIUzJTNno5Tzk3NTNrdG9OaGRDMElIcWI3ZHdsM1lxT0x6TG9OTWto?=
+ =?utf-8?B?emY2VVpiVDFQS2dkV1lQa09yOC9JQmZHWVNocFVaMEdBWFFMNlFrZWFHL005?=
+ =?utf-8?B?VXJTaTVSTjdPRTFTNG0wVkYwMEt2NEIxVG1leHNpdEwwdVRNMVBGSVVSNmJK?=
+ =?utf-8?B?My9GQVY2bGlnTENoZllaNjUrRG13anJGSGtNTjNMUE8vM3YxQ2RoTmlvMlRo?=
+ =?utf-8?B?UVFiQmRxaGdjeUxuVEF0Y0JBT09LbU52WHh2cEtIcW03L2h4ZUR3MWgxNHFj?=
+ =?utf-8?B?UkxmQ29FRGp1VXp1bmRwMUNJM2FhbGo4WFVSSU1iTWhaTGVpY2tiUjVGbVh3?=
+ =?utf-8?B?eXNXUUt6M3d1dHlQVk9pVktpZ0Z5ZzREVnVsUWZmRGRRbEdZZlNsUG5nczNV?=
+ =?utf-8?B?VFJzQ3VoU2ZPMUl5ZHJ0QUh5WDV5ZEVDNzVFVDV2M3VrdXVMQkIvcGxrSEhE?=
+ =?utf-8?B?L3o0aW5tK2hwNkNnamQwT1VYRTI4ZzFWeFo0anNvaWgrdmlDUncxckZzc1NK?=
+ =?utf-8?B?K0dDeTJDVHVZQTJpNGJyQnBOVytWbDFvOVVrcW4wYXNTNytDbnhTQ1Q2TUEx?=
+ =?utf-8?B?VU5sYTZSYW8xNWVUWHFCMHdmUlF4VGVBNnNBd3U1VEFGNWJJU1RRVVIxVzE1?=
+ =?utf-8?B?YnQ5K3hnMDMwNnJKSFJhalNINmxILys2Y1BjZExJTjdvWTFhQk9ERk9sSTk5?=
+ =?utf-8?B?eHdHZlEwNndqeGFUQS9yaFU5QWdWS1NKcEdHVDJmU2JzZXl5NUhWNm9PZndl?=
+ =?utf-8?B?UGh2TU1DRUY4UVl1dXpQeGJoYlQyYlhPZnNETW9kdTNzNHVlczRsUGFtNjlK?=
+ =?utf-8?B?RmxWRFVqSlN4WmlIWnYzRmxwcUJDbmt5MkMxL2JJNDRvWE9JMlE4dEhidXNy?=
+ =?utf-8?B?VElqRS80eUpFdjJ6ZnRCMEFRMElsMmhGdFBFTEc3b05yWXFJb3lqQTFOMzVu?=
+ =?utf-8?B?dXZwcU81N2lsbFZLUTF6Y2g5R1NJL251MkQvL3N3aGlPdlVmOGJOUFlvZHVa?=
+ =?utf-8?B?OVB6djhOUDVYS2tUQW54M0xxWEh2Mkk1YUV2amdOclhlWm40bHNSOGYwaU1W?=
+ =?utf-8?B?VDlRYUE5WERnOGJOWEcxYkJzQ2lYb0NlUHdOMGRneUxZNzArVnVpeFAwbkNk?=
+ =?utf-8?B?SFJPSWpKZXgwcEFUeThCMVFLT09qWmZuY2dpM0Ntay9TV1ptdnNXTG9rR3B6?=
+ =?utf-8?B?cy9sTytLTDJVODVUc05LbUtZNjJhRzJrVDRacWRFaTJjc1lqZS9qeS9Ea2JB?=
+ =?utf-8?B?ak1VYVlqMXc5RXhqTWwyelRNblFNZVVvN0ZtSEs0YllOS2tqTWNZeWVGekVq?=
+ =?utf-8?B?K2ZFNUFxcjRzSXo4TDhPdEIzdDFYZzIxUUdSMnhrNis2b3RBb1dNS2UwbS9z?=
+ =?utf-8?B?UXUvTDJIN2dkRlNGNWpUQTlWWHRsVzA3TnQwdTN6RzB0UW9qYVNROVNIdStn?=
+ =?utf-8?B?VlRyVko3TDJhYkpxKzhuZk4yZ1RTWCtROTNPQkZqbW1ZSWQwS0VTN0hCeVRO?=
+ =?utf-8?B?THZPTkc0TEJDbDZIakdmbnFtTk9JZW5vcllqUEx0eExxQzRybWlHNmVjeUI1?=
+ =?utf-8?B?c05LWTdmS0lUR0QwODBzN3ZCVGM1SkYwMXRWenN4aUNmREFMQnp0WHhMeXBr?=
+ =?utf-8?B?bXk4N2ZJZXl0M3BhMEIyZmRIVkZzQ3IySTR4OER3R2ZWYnFJRnJucWtsbk1X?=
+ =?utf-8?B?Z2d3eGhwVFJlQ29WczdEUnMwZFRsQjI4RGVFWktiNkFoYXc2OHhUQjhhQTZx?=
+ =?utf-8?B?MEtWRGtkZTRJemhWbVpyZ3F2K2VpTnkyUEFEdmRrNnBQRXpIU0FwcmpYK21i?=
+ =?utf-8?B?ZzBTaGxUWHF4QW1tODR5Q0EzeTlaSkgrY2J6clQ4SW9TT1luRkxIYVNYaGlk?=
+ =?utf-8?B?RExMNDc5N1JvbHBwa1Y0dVowcDN5QWk2UXQxbHd1MWs1KzNkWndEWVd5YkFU?=
+ =?utf-8?B?WWptbFBTKzBleUs2S0F2Y0xkbDhJY3JCQ2pEZlY4RXl4Q2p1L1A4NlQyRWZB?=
+ =?utf-8?B?MDZpSDZLSGxwcU9PWmtpdGlySmptdWJINXJpWEc0UkRMMVR3NFlTK25aUFVp?=
+ =?utf-8?B?VzlGMmRlL01KTzBya2gweEs3c2c0UE15MDVpTFg0Y253KzlKVDBxSUJ4QzYr?=
+ =?utf-8?Q?TEsw=3D?=
+X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(36860700013)(82310400026)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2025 11:13:33.7891 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 19158132-7084-4256-0eb1-08de236ed9b3
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
+ Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN1PEPF00006000.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF077CE0592
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,40 +168,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Oct 19, 2025 at 12:06:32PM +0200, Federico Amedeo Izzo via B4 Relay wrote:
-> From: Federico Amedeo Izzo <federico@izzo.pro>
-> 
-> Add support for DSPP GC block in DPU driver for Qualcomm SoCs.
-> Expose the GAMMA_LUT DRM property, which is needed to enable
-> night light and basic screen color calibration.
-> 
-> I used LineageOS downstream kernel as a reference and found the LUT
-> format by trial-and-error on OnePlus 6.
-> 
-> Tested on oneplus-enchilada (sdm845-mainline 6.16-dev) and xiaomi-tissot
-> (msm8953-mainline 6.12/main).
-> 
-> Tested-by: David Heidelberg <david@ixit.cz>  # Pixel 3 (next-20251018)
-> Tested-by: Guido Günther <agx@sigxcpu.org> # on sdm845-shift-axolotl
-> Signed-off-by: Federico Amedeo Izzo <federico@izzo.pro>
-> ---
-> DRM GAMMA_LUT support was missing on sdm845 and other Qualcomm SoCs using
-> DPU for CRTC. This is needed in userspace to enable features like Night
-> Light or basic color calibration.
-> 
-> I wrote this driver to enable Night Light on OnePlus 6, and after the
-> driver was working I found out it applies to the 29 different Qualcomm SoCs
-> that use the DPU display engine, including X1E for laptops.
-> 
-> I used the LineageOS downstream kernel as reference and found the correct 
-> LUT format by trial-and-error on OnePlus 6.
-> 
-> This was my first Linux driver and it's been a great learning
-> experience.
+Hi Simon,
 
-This seems to break several gamma-related IGT tests. Please consider
-taking a look, why are they broken by this commit.
+On 11/14/25 16:06, Simon Horman wrote:
+> On Tue, Nov 11, 2025 at 03:45:18PM +0530, Meghana Malladi wrote:
+> 
+> ...
+> 
+>> diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.c b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
+>> index 57a7d1ceab08..b66ffbfb499c 100644
+>> --- a/drivers/net/ethernet/ti/icssg/icssg_prueth.c
+>> +++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
+>> @@ -735,6 +735,114 @@ static int icssg_update_vlan_mcast(struct net_device *vdev, int vid,
+>>   	return 0;
+>>   }
+>>   
+>> +static void prueth_destroy_txq(struct prueth_emac *emac)
+>> +{
+>> +	int ret, i;
+>> +
+>> +	atomic_set(&emac->tdown_cnt, emac->tx_ch_num);
+>> +	/* ensure new tdown_cnt value is visible */
+>> +	smp_mb__after_atomic();
+>> +	/* tear down and disable UDMA channels */
+>> +	reinit_completion(&emac->tdown_complete);
+>> +	for (i = 0; i < emac->tx_ch_num; i++)
+>> +		k3_udma_glue_tdown_tx_chn(emac->tx_chns[i].tx_chn, false);
+>> +
+>> +	ret = wait_for_completion_timeout(&emac->tdown_complete,
+>> +					  msecs_to_jiffies(1000));
+>> +	if (!ret)
+>> +		netdev_err(emac->ndev, "tx teardown timeout\n");
+>> +
+>> +	for (i = 0; i < emac->tx_ch_num; i++) {
+>> +		napi_disable(&emac->tx_chns[i].napi_tx);
+>> +		hrtimer_cancel(&emac->tx_chns[i].tx_hrtimer);
+>> +		k3_udma_glue_reset_tx_chn(emac->tx_chns[i].tx_chn,
+>> +					  &emac->tx_chns[i],
+>> +					  prueth_tx_cleanup);
+>> +		k3_udma_glue_disable_tx_chn(emac->tx_chns[i].tx_chn);
+>> +	}
+>> +}
+>> +
+>> +static void prueth_destroy_rxq(struct prueth_emac *emac)
+>> +{
+>> +	int i, ret;
+>> +
+>> +	/* tear down and disable UDMA channels */
+>> +	reinit_completion(&emac->tdown_complete);
+>> +	k3_udma_glue_tdown_rx_chn(emac->rx_chns.rx_chn, true);
+>> +
+>> +	/* When RX DMA Channel Teardown is initiated, it will result in an
+>> +	 * interrupt and a Teardown Completion Marker (TDCM) is queued into
+>> +	 * the RX Completion queue. Acknowledging the interrupt involves
+>> +	 * popping the TDCM descriptor from the RX Completion queue via the
+>> +	 * RX NAPI Handler. To avoid timing out when waiting for the TDCM to
+>> +	 * be popped, schedule the RX NAPI handler to run immediately.
+>> +	 */
+>> +	if (!napi_if_scheduled_mark_missed(&emac->napi_rx)) {
+>> +		if (napi_schedule_prep(&emac->napi_rx))
+>> +			__napi_schedule(&emac->napi_rx);
+>> +	}
+>> +
+>> +	ret = wait_for_completion_timeout(&emac->tdown_complete,
+>> +					  msecs_to_jiffies(1000));
+>> +	if (!ret)
+>> +		netdev_err(emac->ndev, "rx teardown timeout\n");
+>> +
+>> +	for (i = 0; i < PRUETH_MAX_RX_FLOWS; i++) {
+>> +		napi_disable(&emac->napi_rx);
+>> +		hrtimer_cancel(&emac->rx_hrtimer);
+> 
+> Hi Meghana,
+> 
+> Is it intentional that the napi_disable() and hrtimer_cancel()
+> are made once for each (possible) flow, rather than just once
+> as was the case before this patch?
+> 
+> Maybe the tx code, which does the same, was used as a template here
+> in error?
+> 
 
--- 
-With best wishes
-Dmitry
+Currently there is only one flow per Rx channel. But we can enable 
+support to add multiple flows to a given given channel. In that case 
+napi_disable() and hrtimer_cancel() will be invoked per flow. That being 
+said, though right now this for loop is redundant this is a intentional 
+change for multiple flows.
+
+> Flagged by Claude Code with https://github.com/masoncl/review-prompts/
+> 
+>> +		k3_udma_glue_reset_rx_chn(emac->rx_chns.rx_chn, i,
+>> +					  &emac->rx_chns,
+>> +					  prueth_rx_cleanup);
+>> +	}
+>> +
+>> +	prueth_destroy_xdp_rxqs(emac);
+>> +	k3_udma_glue_disable_rx_chn(emac->rx_chns.rx_chn);
+>> +}
+> 
+> ...
+> 
+>> @@ -905,32 +988,8 @@ static int emac_ndo_stop(struct net_device *ndev)
+>>   	else
+>>   		__dev_mc_unsync(ndev, icssg_prueth_del_mcast);
+>>   
+>> -	atomic_set(&emac->tdown_cnt, emac->tx_ch_num);
+>> -	/* ensure new tdown_cnt value is visible */
+>> -	smp_mb__after_atomic();
+>> -	/* tear down and disable UDMA channels */
+>> -	reinit_completion(&emac->tdown_complete);
+>> -	for (i = 0; i < emac->tx_ch_num; i++)
+>> -		k3_udma_glue_tdown_tx_chn(emac->tx_chns[i].tx_chn, false);
+>> -
+>> -	ret = wait_for_completion_timeout(&emac->tdown_complete,
+>> -					  msecs_to_jiffies(1000));
+>> -	if (!ret)
+>> -		netdev_err(ndev, "tx teardown timeout\n");
+>> -
+>> -	prueth_reset_tx_chan(emac, emac->tx_ch_num, true);
+>> -	for (i = 0; i < emac->tx_ch_num; i++) {
+>> -		napi_disable(&emac->tx_chns[i].napi_tx);
+>> -		hrtimer_cancel(&emac->tx_chns[i].tx_hrtimer);
+>> -	}
+>> -
+>> -	max_rx_flows = PRUETH_MAX_RX_FLOWS;
+>> -	k3_udma_glue_tdown_rx_chn(emac->rx_chns.rx_chn, true);
+>> -
+>> -	prueth_reset_rx_chan(&emac->rx_chns, max_rx_flows, true);
+>> -	prueth_destroy_xdp_rxqs(emac);
+>> -	napi_disable(&emac->napi_rx);
+>> -	hrtimer_cancel(&emac->rx_hrtimer);
+>> +	prueth_destroy_txq(emac);
+>> +	prueth_destroy_rxq(emac);
+>>   
+>>   	cancel_work_sync(&emac->rx_mode_work);
+>>   
+>> @@ -943,10 +1002,10 @@ static int emac_ndo_stop(struct net_device *ndev)
+>>   
+>>   	free_irq(emac->tx_ts_irq, emac);
+>>   
+>> -	free_irq(emac->rx_chns.irq[rx_flow], emac);
+>> +	free_irq(emac->rx_chns.irq[PRUETH_RX_FLOW_DATA], emac);
+>>   	prueth_ndev_del_tx_napi(emac, emac->tx_ch_num);
+>>   
+>> -	prueth_cleanup_rx_chns(emac, &emac->rx_chns, max_rx_flows);
+>> +	prueth_cleanup_rx_chns(emac, &emac->rx_chns, PRUETH_MAX_RX_FLOWS);
+>>   	prueth_cleanup_tx_chns(emac);
+>>   
+>>   	prueth->emacs_initialized--;
+> 
+> ...
+
