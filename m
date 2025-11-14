@@ -2,38 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A5CC5E169
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 17:08:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB431C5E263
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 17:17:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A981810E24F;
-	Fri, 14 Nov 2025 16:08:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C94810EABF;
+	Fri, 14 Nov 2025 16:17:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 24A0810E24F
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 16:07:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 9637F10EABF;
+ Fri, 14 Nov 2025 16:17:39 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 036CC1AC1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 08:07:51 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 677F73F5A1
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 08:07:58 -0800 (PST)
-Date: Fri, 14 Nov 2025 16:07:50 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Rahul Kumar <rk0006818@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/komeda: Convert logging in d71_dev.c to drm_* with
- drm_device parameter
-Message-ID: <aRdT1qscQqO7-U6h@e110455-lin.cambridge.arm.com>
-References: <20251114143627.3981217-1-rk0006818@gmail.com>
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5B06B1063;
+ Fri, 14 Nov 2025 08:17:31 -0800 (PST)
+Received: from [10.1.39.17] (e122027.cambridge.arm.com [10.1.39.17])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CAAF33F5A1;
+ Fri, 14 Nov 2025 08:17:33 -0800 (PST)
+Message-ID: <fdaf7208-a096-45ee-b36a-95ce9d534143@arm.com>
+Date: Fri, 14 Nov 2025 16:17:31 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251114143627.3981217-1-rk0006818@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 11/16] drm/panfrost: Provide a custom dma_buf
+ implementation
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Frank Binns <frank.binns@imgtec.com>,
+ Matt Coster <matt.coster@imgtec.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, kernel@collabora.com
+References: <20251030140525.366636-1-boris.brezillon@collabora.com>
+ <20251030140525.366636-12-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251030140525.366636-12-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,144 +66,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 14, 2025 at 08:06:27PM +0530, Rahul Kumar wrote:
-> Replace DRM_DEBUG() and DRM_ERROR() calls in
-> drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c with the
-> drm_dbg() and drm_err() helpers in functions where a drm_device
-> parameter is available.
+On 30/10/2025 14:05, Boris Brezillon wrote:
+> Before we introduce cached CPU mappings, we want a dma_buf
+> implementation satisfying synchronization requests around CPU
+> accesses coming from a dma_buf exported by our driver. Let's
+> provide our own implementation relying on the default
+> gem_shmem_prime helpers designed for that purpose.
 > 
-> The drm_*() logging macros require a struct drm_device * parameter,
-> which allows the DRM core to prefix log messages with the device
-> instance. This improves debugging clarity when multiple Komeda or
-> other DRM devices are present.
+> v5:
+> - New patch
 > 
-> Logging in early hardware probing functions such as d71_identify()
-> is intentionally left unchanged because they do not have access to
-> a drm_device pointer at that stage of initialization.
-> 
-> This conversion follows the DRM TODO entry:
-> "Convert logging to drm_* functions with drm_device parameter".
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Hi Rahul,
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-It would've been nice if these patches were collected in a series.
-
-
-> 
-> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
 > ---
->  .../gpu/drm/arm/display/komeda/d71/d71_dev.c  | 21 ++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/panfrost/panfrost_drv.c |  1 +
+>  drivers/gpu/drm/panfrost/panfrost_gem.c | 19 +++++++++++++++++++
+>  drivers/gpu/drm/panfrost/panfrost_gem.h |  2 ++
+>  3 files changed, 22 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
-> index 80973975bfdb..4305354badc8 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
-> @@ -9,6 +9,7 @@
->  #include <drm/drm_print.h>
->  #include "d71_dev.h"
->  #include "malidp_io.h"
-> +#include "komeda_kms.h"
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index 1c3c574cd64a..e3cdc0c95a56 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -852,6 +852,7 @@ static const struct drm_driver panfrost_drm_driver = {
 >  
->  static u64 get_lpu_event(struct d71_pipeline *d71_pipeline)
->  {
-> @@ -348,6 +349,8 @@ static void d71_cleanup(struct komeda_dev *mdev)
+>  	.gem_create_object	= panfrost_gem_create_object,
+>  	.gem_prime_import_sg_table = panfrost_gem_prime_import_sg_table,
+> +	.gem_prime_get_dma_buf_ops = panfrost_gem_prime_get_dma_buf_ops,
+>  #ifdef CONFIG_DEBUG_FS
+>  	.debugfs_init = panfrost_debugfs_init,
+>  #endif
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> index 0528de674a4f..070ea7108af6 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> @@ -323,6 +323,25 @@ panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
+>  	return bo;
+>  }
 >  
->  static int d71_enum_resources(struct komeda_dev *mdev)
->  {
-> +	struct komeda_kms_dev *kms = dev_get_drvdata(mdev->dev);
+> +static const struct dma_buf_ops panfrost_dma_buf_ops = {
+> +	.attach = drm_gem_map_attach,
+> +	.detach = drm_gem_map_detach,
+> +	.map_dma_buf = drm_gem_shmem_prime_map_dma_buf,
+> +	.unmap_dma_buf = drm_gem_shmem_prime_unmap_dma_buf,
+> +	.release = drm_gem_dmabuf_release,
+> +	.mmap = drm_gem_dmabuf_mmap,
+> +	.vmap = drm_gem_dmabuf_vmap,
+> +	.vunmap = drm_gem_dmabuf_vunmap,
+> +	.begin_cpu_access = drm_gem_shmem_prime_begin_cpu_access,
+> +	.end_cpu_access = drm_gem_shmem_prime_end_cpu_access,
+> +};
+> +
+> +const struct dma_buf_ops *
+> +panfrost_gem_prime_get_dma_buf_ops(struct drm_device *dev)
+> +{
+> +	return &panfrost_dma_buf_ops;
+> +}
+> +
+>  struct drm_gem_object *
+>  panfrost_gem_prime_import_sg_table(struct drm_device *dev,
+>  				   struct dma_buf_attachment *attach,
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
+> index 8de3e76f2717..c63264464271 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
+> @@ -130,6 +130,8 @@ struct drm_gem_object *
+>  panfrost_gem_prime_import_sg_table(struct drm_device *dev,
+>  				   struct dma_buf_attachment *attach,
+>  				   struct sg_table *sgt);
+> +const struct dma_buf_ops *
+> +panfrost_gem_prime_get_dma_buf_ops(struct drm_device *dev);
+>  
+>  struct panfrost_gem_object *
+>  panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags);
 
-I've made a mistake when I've reviewed the previous patch but it applies here too:
-
-dev_get_drvdata(mdev->dev) is going to give you a struct komeda_drv pointer,
-because that is what we set it to in komeda_platform_probe(). So this patch
-and the previous one for komeda_pipeline.c are invalid and need a respin.
-
-Best regards,
-Liviu
-
-
-> +	struct drm_device *drm = &kms->base;
->  	struct d71_dev *d71;
->  	struct komeda_pipeline *pipe;
->  	struct block_header blk;
-> @@ -366,7 +369,7 @@ static int d71_enum_resources(struct komeda_dev *mdev)
->  
->  	err = d71_reset(d71);
->  	if (err) {
-> -		DRM_ERROR("Fail to reset d71 device.\n");
-> +		drm_err(drm, "Fail to reset d71 device.\n");
->  		goto err_cleanup;
->  	}
->  
-> @@ -376,8 +379,8 @@ static int d71_enum_resources(struct komeda_dev *mdev)
->  	d71->num_pipelines = (value >> 8) & 0x7;
->  
->  	if (d71->num_pipelines > D71_MAX_PIPELINE) {
-> -		DRM_ERROR("d71 supports %d pipelines, but got: %d.\n",
-> -			  D71_MAX_PIPELINE, d71->num_pipelines);
-> +		drm_err(drm, "d71 supports %d pipelines, but got: %d.\n",
-> +			D71_MAX_PIPELINE, d71->num_pipelines);
->  		err = -EINVAL;
->  		goto err_cleanup;
->  	}
-> @@ -455,8 +458,8 @@ static int d71_enum_resources(struct komeda_dev *mdev)
->  		offset += D71_BLOCK_SIZE;
->  	}
->  
-> -	DRM_DEBUG("total %d (out of %d) blocks are found.\n",
-> -		  i, d71->num_blocks);
-> +	drm_dbg(drm, "total %d (out of %d) blocks are found.\n",
-> +		i, d71->num_blocks);
->  
->  	return 0;
->  
-> @@ -555,6 +558,8 @@ static void d71_init_fmt_tbl(struct komeda_dev *mdev)
->  
->  static int d71_connect_iommu(struct komeda_dev *mdev)
->  {
-> +	struct komeda_kms_dev *kms = dev_get_drvdata(mdev->dev);
-> +	struct drm_device *drm = &kms->base;
->  	struct d71_dev *d71 = mdev->chip_data;
->  	u32 __iomem *reg = d71->gcu_addr;
->  	u32 check_bits = (d71->num_pipelines == 2) ?
-> @@ -569,7 +574,7 @@ static int d71_connect_iommu(struct komeda_dev *mdev)
->  	ret = dp_wait_cond(has_bits(check_bits, malidp_read32(reg, BLK_STATUS)),
->  			100, 1000, 1000);
->  	if (ret < 0) {
-> -		DRM_ERROR("timed out connecting to TCU!\n");
-> +		drm_err(drm, "timed out connecting to TCU!\n");
->  		malidp_write32_mask(reg, BLK_CONTROL, 0x7, INACTIVE_MODE);
->  		return ret;
->  	}
-> @@ -582,6 +587,8 @@ static int d71_connect_iommu(struct komeda_dev *mdev)
->  
->  static int d71_disconnect_iommu(struct komeda_dev *mdev)
->  {
-> +	struct komeda_kms_dev *kms = dev_get_drvdata(mdev->dev);
-> +	struct drm_device *drm = &kms->base;
->  	struct d71_dev *d71 = mdev->chip_data;
->  	u32 __iomem *reg = d71->gcu_addr;
->  	u32 check_bits = (d71->num_pipelines == 2) ?
-> @@ -593,7 +600,7 @@ static int d71_disconnect_iommu(struct komeda_dev *mdev)
->  	ret = dp_wait_cond(((malidp_read32(reg, BLK_STATUS) & check_bits) == 0),
->  			100, 1000, 1000);
->  	if (ret < 0) {
-> -		DRM_ERROR("timed out disconnecting from TCU!\n");
-> +		drm_err(drm, "timed out disconnecting from TCU!\n");
->  		malidp_write32_mask(reg, BLK_CONTROL, 0x7, INACTIVE_MODE);
->  	}
->  
-> -- 
-> 2.43.0
-> 
-
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
