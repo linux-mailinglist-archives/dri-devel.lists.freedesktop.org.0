@@ -2,53 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7904FC5E05D
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 16:56:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61A5CC5E169
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 17:08:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DD3210EABD;
-	Fri, 14 Nov 2025 15:56:00 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N+FmMKTs";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A981810E24F;
+	Fri, 14 Nov 2025 16:08:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0C4C10EABD
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 15:55:58 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6E79244467;
- Fri, 14 Nov 2025 15:55:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43232C4CEF1;
- Fri, 14 Nov 2025 15:55:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763135758;
- bh=FUDCpNgNop8HGZx7sTIXYdEJpntgdXS+elPR6PEkmS0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=N+FmMKTsbYYRhC3CrAZYJakK68v4j0ChxewBYoHv0OLIJIoHpABT8jOpTwdvOodhN
- UMUNQFDSDRvBIuC0nCwxDGIuzh0ywS7SLLFeXUqAk6iWS4lF82dfxpkTxzp1fAuTrK
- vnVg7sfA3gDke6uRsBsq42FdsxD+PSJ4QkPqct/PAWQvvXtoEG99UpRorM7SDEDbkv
- bYnTtHqOn4pYvLWRhQ+uU0vcPCNv3YQ1NQn/IgCknf+feHJc+Ke/GTX1ZrrzIB8sQq
- 8UJzPEsrhPXGhBuurXy0yM4N8vinXGGheDan6yEqhCiXiLcuCR91zgQI840G9jo+Xi
- r7Ze6f22Awfcg==
-Date: Fri, 14 Nov 2025 10:00:25 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-Cc: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com, 
- arnd@arndb.de, gregkh@linuxfoundation.org, quic_bkumar@quicinc.com, 
- ekansh.gupta@oss.qualcomm.com, linux-kernel@vger.kernel.org,
- quic_chennak@quicinc.com, 
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- jingyi.wang@oss.qualcomm.com, 
- aiqun.yu@oss.qualcomm.com, ktadakam@qti.qualcomm.com
-Subject: Re: [PATCH v3 4/4] misc: fastrpc: Update dma_bits for CDSP support
- on Kaanapali SoC
-Message-ID: <3gld6djjzfwu6rj47tz6gdwdpmh3hjexce5y6crqjus7ourgxf@puxrcpvijitl>
-References: <20251114084142.3386682-1-kumari.pallavi@oss.qualcomm.com>
- <20251114084142.3386682-5-kumari.pallavi@oss.qualcomm.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 24A0810E24F
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 16:07:59 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 036CC1AC1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 08:07:51 -0800 (PST)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 677F73F5A1
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 08:07:58 -0800 (PST)
+Date: Fri, 14 Nov 2025 16:07:50 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Rahul Kumar <rk0006818@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/komeda: Convert logging in d71_dev.c to drm_* with
+ drm_device parameter
+Message-ID: <aRdT1qscQqO7-U6h@e110455-lin.cambridge.arm.com>
+References: <20251114143627.3981217-1-rk0006818@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251114084142.3386682-5-kumari.pallavi@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251114143627.3981217-1-rk0006818@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,103 +49,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 14, 2025 at 02:11:42PM +0530, Kumari Pallavi wrote:
-> DSP currently supports 32-bit IOVA (32-bit PA + 4-bit SID) for
-> both Q6 and user DMA (uDMA) access. This is being upgraded to
-> 34-bit PA + 4-bit SID due to a hardware revision in CDSP for
-> Kaanapali SoC, which expands the DMA addressable range.
-> Update DMA bits configuration in the driver to support CDSP on
-> Kaanapali SoC. Set the default `dma_bits` to 32-bit and update
-> it to 34-bit based on CDSP and OF matching on the fastrpc node.
+On Fri, Nov 14, 2025 at 08:06:27PM +0530, Rahul Kumar wrote:
+> Replace DRM_DEBUG() and DRM_ERROR() calls in
+> drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c with the
+> drm_dbg() and drm_err() helpers in functions where a drm_device
+> parameter is available.
 > 
-> Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+> The drm_*() logging macros require a struct drm_device * parameter,
+> which allows the DRM core to prefix log messages with the device
+> instance. This improves debugging clarity when multiple Komeda or
+> other DRM devices are present.
+> 
+> Logging in early hardware probing functions such as d71_identify()
+> is intentionally left unchanged because they do not have access to
+> a drm_device pointer at that stage of initialization.
+> 
+> This conversion follows the DRM TODO entry:
+> "Convert logging to drm_* functions with drm_device parameter".
+
+Hi Rahul,
+
+It would've been nice if these patches were collected in a series.
+
+
+> 
+> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
 > ---
->  drivers/misc/fastrpc.c | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
+>  .../gpu/drm/arm/display/komeda/d71/d71_dev.c  | 21 ++++++++++++-------
+>  1 file changed, 14 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index bcf3c7f8d3e9..2eb8d37cd9b4 100644
-> --- a/drivers/misc/fastrpc.c
-> +++ b/drivers/misc/fastrpc.c
-> @@ -267,6 +267,8 @@ struct fastrpc_session_ctx {
+> diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> index 80973975bfdb..4305354badc8 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> @@ -9,6 +9,7 @@
+>  #include <drm/drm_print.h>
+>  #include "d71_dev.h"
+>  #include "malidp_io.h"
+> +#include "komeda_kms.h"
 >  
->  struct fastrpc_soc_data {
->  	u32 sid_pos;
-> +	u32 cdsp_dma_bits;
-> +	u32 dsp_default_dma_bits;
->  };
+>  static u64 get_lpu_event(struct d71_pipeline *d71_pipeline)
+>  {
+> @@ -348,6 +349,8 @@ static void d71_cleanup(struct komeda_dev *mdev)
 >  
->  struct fastrpc_channel_ctx {
-> @@ -2186,6 +2188,7 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
->  	int i, sessions = 0;
->  	unsigned long flags;
->  	int rc;
-> +	u32 dma_bits;
+>  static int d71_enum_resources(struct komeda_dev *mdev)
+>  {
+> +	struct komeda_kms_dev *kms = dev_get_drvdata(mdev->dev);
+
+I've made a mistake when I've reviewed the previous patch but it applies here too:
+
+dev_get_drvdata(mdev->dev) is going to give you a struct komeda_drv pointer,
+because that is what we set it to in komeda_platform_probe(). So this patch
+and the previous one for komeda_pipeline.c are invalid and need a respin.
+
+Best regards,
+Liviu
+
+
+> +	struct drm_device *drm = &kms->base;
+>  	struct d71_dev *d71;
+>  	struct komeda_pipeline *pipe;
+>  	struct block_header blk;
+> @@ -366,7 +369,7 @@ static int d71_enum_resources(struct komeda_dev *mdev)
 >  
->  	cctx = dev_get_drvdata(dev->parent);
->  	if (!cctx)
-> @@ -2199,12 +2202,16 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
->  		spin_unlock_irqrestore(&cctx->lock, flags);
->  		return -ENOSPC;
->  	}
-> +	dma_bits = cctx->soc_data->dsp_default_dma_bits;
->  	sess = &cctx->session[cctx->sesscount++];
->  	sess->used = false;
->  	sess->valid = true;
->  	sess->dev = dev;
->  	dev_set_drvdata(dev, sess);
->  
-> +	if (cctx->domain_id == CDSP_DOMAIN_ID)
-> +		dma_bits = cctx->soc_data->cdsp_dma_bits;
-> +
->  	if (of_property_read_u32(dev->of_node, "reg", &sess->sid))
->  		dev_info(dev, "FastRPC Session ID not specified in DT\n");
->  
-> @@ -2219,9 +2226,9 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
->  		}
->  	}
->  	spin_unlock_irqrestore(&cctx->lock, flags);
-> -	rc = dma_set_mask(dev, DMA_BIT_MASK(32));
-> +	rc = dma_set_mask(dev, DMA_BIT_MASK(dma_bits));
->  	if (rc) {
-> -		dev_err(dev, "32-bit DMA enable failed\n");
-> +		dev_err(dev, "%u-bit DMA enable failed\n", dma_bits);
->  		return rc;
+>  	err = d71_reset(d71);
+>  	if (err) {
+> -		DRM_ERROR("Fail to reset d71 device.\n");
+> +		drm_err(drm, "Fail to reset d71 device.\n");
+>  		goto err_cleanup;
 >  	}
 >  
-> @@ -2308,10 +2315,14 @@ static int fastrpc_get_domain_id(const char *domain)
+> @@ -376,8 +379,8 @@ static int d71_enum_resources(struct komeda_dev *mdev)
+>  	d71->num_pipelines = (value >> 8) & 0x7;
 >  
->  static const struct fastrpc_soc_data kaanapali_soc_data = {
->  	.sid_pos = 56,
-> +	.cdsp_dma_bits = 34,
-> +	.dsp_default_dma_bits = 32,
->  };
+>  	if (d71->num_pipelines > D71_MAX_PIPELINE) {
+> -		DRM_ERROR("d71 supports %d pipelines, but got: %d.\n",
+> -			  D71_MAX_PIPELINE, d71->num_pipelines);
+> +		drm_err(drm, "d71 supports %d pipelines, but got: %d.\n",
+> +			D71_MAX_PIPELINE, d71->num_pipelines);
+>  		err = -EINVAL;
+>  		goto err_cleanup;
+>  	}
+> @@ -455,8 +458,8 @@ static int d71_enum_resources(struct komeda_dev *mdev)
+>  		offset += D71_BLOCK_SIZE;
+>  	}
 >  
->  static const struct fastrpc_soc_data default_soc_data = {
->  	.sid_pos = 32,
-> +	.cdsp_dma_bits = 32,
-> +	.dsp_default_dma_bits = 32,
-
-So, "dsp_default_dma_bits" specified "what is the dma_mask for the
-non-CDSP fastrpc instances"? I don't find "dsp_default" to naturally
-mean "not the cdsp".
-
-
-Wouldn't it be better to introduce two different compatibles, one being
-the "qcom,kaanapali-fastrpc" and one being the
-"qcom,kaanapali-cdsp-fastrpc" and then use that to select things here?
-
-
-PS. You store "dma_bits" just for the sake of turning it into a
-dma_mask, just store the DMA_BIT_MASK() directly here instead.
-
-Regards,
-Bjorn
-
->  };
+> -	DRM_DEBUG("total %d (out of %d) blocks are found.\n",
+> -		  i, d71->num_blocks);
+> +	drm_dbg(drm, "total %d (out of %d) blocks are found.\n",
+> +		i, d71->num_blocks);
 >  
->  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  	return 0;
+>  
+> @@ -555,6 +558,8 @@ static void d71_init_fmt_tbl(struct komeda_dev *mdev)
+>  
+>  static int d71_connect_iommu(struct komeda_dev *mdev)
+>  {
+> +	struct komeda_kms_dev *kms = dev_get_drvdata(mdev->dev);
+> +	struct drm_device *drm = &kms->base;
+>  	struct d71_dev *d71 = mdev->chip_data;
+>  	u32 __iomem *reg = d71->gcu_addr;
+>  	u32 check_bits = (d71->num_pipelines == 2) ?
+> @@ -569,7 +574,7 @@ static int d71_connect_iommu(struct komeda_dev *mdev)
+>  	ret = dp_wait_cond(has_bits(check_bits, malidp_read32(reg, BLK_STATUS)),
+>  			100, 1000, 1000);
+>  	if (ret < 0) {
+> -		DRM_ERROR("timed out connecting to TCU!\n");
+> +		drm_err(drm, "timed out connecting to TCU!\n");
+>  		malidp_write32_mask(reg, BLK_CONTROL, 0x7, INACTIVE_MODE);
+>  		return ret;
+>  	}
+> @@ -582,6 +587,8 @@ static int d71_connect_iommu(struct komeda_dev *mdev)
+>  
+>  static int d71_disconnect_iommu(struct komeda_dev *mdev)
+>  {
+> +	struct komeda_kms_dev *kms = dev_get_drvdata(mdev->dev);
+> +	struct drm_device *drm = &kms->base;
+>  	struct d71_dev *d71 = mdev->chip_data;
+>  	u32 __iomem *reg = d71->gcu_addr;
+>  	u32 check_bits = (d71->num_pipelines == 2) ?
+> @@ -593,7 +600,7 @@ static int d71_disconnect_iommu(struct komeda_dev *mdev)
+>  	ret = dp_wait_cond(((malidp_read32(reg, BLK_STATUS) & check_bits) == 0),
+>  			100, 1000, 1000);
+>  	if (ret < 0) {
+> -		DRM_ERROR("timed out disconnecting from TCU!\n");
+> +		drm_err(drm, "timed out disconnecting from TCU!\n");
+>  		malidp_write32_mask(reg, BLK_CONTROL, 0x7, INACTIVE_MODE);
+>  	}
+>  
 > -- 
-> 2.34.1
+> 2.43.0
 > 
-> 
+
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
