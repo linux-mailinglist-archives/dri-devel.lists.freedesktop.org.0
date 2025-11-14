@@ -2,66 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10520C5CAB6
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 11:50:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3195C5CABC
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 11:50:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F2A7910EA38;
-	Fri, 14 Nov 2025 10:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E0B510EA34;
+	Fri, 14 Nov 2025 10:50:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Nu+HoEA1";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="a7IXz6eV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1968D10EA37;
- Fri, 14 Nov 2025 10:50:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763117411; x=1794653411;
- h=date:from:to:cc:subject:message-id:mime-version:
- content-transfer-encoding;
- bh=t5GPbNuiZnVYZMKk4/no/WvqklymJuMiguXnLXGdvbM=;
- b=Nu+HoEA1b08w5GQU4kFv45ZlOd9Na2NcBvm25X9L1mt3n1s490JvYj0w
- x2hn16A8gwCo/bBaKJqW3IPI5KM+i63juv6diqDeTbzKrSe5S3cLr1MB1
- UIO35MFGIO3mcM43GDlC4LC++pSyEBLwF8Izdjr5CELBtoOK4WS3G+HfC
- WqdahzjOwSCbzQM/FRtFqcHZHSM+XLnkhxzEIMv/X+a/lHbEbqjPsIcwP
- AuSNKLpfOrz/7Dl1nJMrWOVMRsn4vV99J02u/H3xRmlmSIfcwR5HxMorE
- yCeVNJC+Gon6t0hQUy9Vjyeble8egcw9ckHtmQgzY5DnbKtNLI+rryD5M w==;
-X-CSE-ConnectionGUID: W7mk+H/TT5aZH+70+x2+eA==
-X-CSE-MsgGUID: XKeXJ4OVSNqLAmxi92+aJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="65245552"
-X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; d="scan'208";a="65245552"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2025 02:50:10 -0800
-X-CSE-ConnectionGUID: yIB268TLRw6nGQOLMyfrzA==
-X-CSE-MsgGUID: eRDdfUSwThKd+UGCmC7vMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,304,1754982000"; d="scan'208";a="194735714"
-Received: from abityuts-desk.ger.corp.intel.com (HELO fedora)
- ([10.245.245.253])
- by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Nov 2025 02:50:06 -0800
-Date: Fri, 14 Nov 2025 11:49:57 +0100
-From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-xe-next
-Message-ID: <aRcJOrisG2qPbucE@fedora>
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6099210EA37
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 10:50:35 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-4775e891b5eso9958565e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 02:50:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin.net; s=google; t=1763117434; x=1763722234; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=DTnv9o+1pVZiWUCe5+esGx/7+2GBOtlkuEGwLGzSeaQ=;
+ b=a7IXz6eVfS+uz5VOmd91zHD0H9If7/myb++no/dITywZdt2qhG+Q3b7HkkZ4AyK54u
+ 716pd/Nr4WT7y10BvCOY40Mgms7HLEflS/hs6xNjdTcIgPkK01W/Ac2JPnw5hTb2lOJf
+ v5Z3YSUh5E094GOq/ZQso03OjRPvdlUJf36nLjMpZGQOdaUukzj6IdBWDRgwPiQXrM9k
+ qduUEzbFLgW2Z6KGCmEv3aHFJGK/fxlqiw2B/i901xqVjAvk6YSmRG4ubtZvIGLouvWX
+ lEF0zecFoO5Ab90ThLbhHjahaH/3BUOUqX/oBN3RzpRW+yzsk4O3VdY/DdSc+t5yBj4Y
+ Qgcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763117434; x=1763722234;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DTnv9o+1pVZiWUCe5+esGx/7+2GBOtlkuEGwLGzSeaQ=;
+ b=EptsOMjR2+Ge6Omz9D+1ahh/0GBYEWoXZ8U4/eitS+Qvx/sBfpR/1pFXWHTjtrlsST
+ uSB2BzquNAn/mzb2NtkSzoaOrOV4NYJIJTG7Im4ynLj3O0HtrrL7znsJ34r7ppBsibrh
+ qRpdWEIk3Kf/XQlhMy0eYYMoIJxzJN8IODfrihH3A9UsLu6Wu9EH4Koe9Iq+MNEyEvXf
+ Ya8FXfwIF8iyT0YUgaj0C+JZAgFH6aGUnFQqsNFrqcs2bJSA/5Xt2qnrDWkT59QqBKp9
+ ZpF7G8c2vX0yw7wFeSdPwAWA8XZ+3BckPICrCXotS9LsT5hoq2pIcdGx98+vOHC0MpSO
+ Jvtg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX6yn/F3AxdXY1upxZ+hEaHwWVeCElpQ2dZaOjjc3hlJQ7lIk2m1xBHEVrnWktcvfCBeN5WOh40Axw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywoy/Edu37EdxFDXk0aOWBOafJw761BpxiWPCACGEc06xorscwT
+ ZIPvrV8HZzmNCnp5em+LTQRvwZ1Q1vGWDN6CB50hs5VU8FyXFssRjNVP6PAMczy3pYo=
+X-Gm-Gg: ASbGncsanHZGKT+N+0gtHewRHJNzyWXR5WIK8h/ZKsMiIXzn18qMa0QY2q6uhqDWEH4
+ 6ZoNXzuY2tWQZXxZZlCgfYxyA9ElEfofh49y+ELS5NAL+7UXFv4QvRXZj7JQaCCqyqYl0wjgFmp
+ r7dgiO/arVfvq4J8twOERZZT4CZzkFRozl1Cmlr29xixLqOPvG/kfX0lVC5DVDZCij7aoeR35X7
+ iUzr3fRSbAb66/z4qNe12J0OLttUiAOQQ5AjlzmYNe+eIhHwX/vBVglaKwy9ouFSQxvxF0KFdek
+ yzabh8biCH7TDmPuytaWYc24DlJ2VGqbrkYVhJoFWHJqCw7mlbP8FvF6uIxanmz0jjpnMws9+37
+ 93tAFGhzAGHceeQWdRWPO54ov4Paw65TPjqQD6UzndvW2HGRFQbBsl1XG/orhJAyKEgr0WvbBHU
+ e8FQmVeEOf7DrpIqbizKDR/w==
+X-Google-Smtp-Source: AGHT+IG5gPYZ3dY6exeIfSBIGM0oezJpRpLe8wGPs8TcFBCKu6rXaQwygSuTEWL00GgIZx2RJGYq2g==
+X-Received: by 2002:a05:600c:45d5:b0:477:7af8:c88b with SMTP id
+ 5b1f17b1804b1-4778fe57241mr24439905e9.11.1763117433322; 
+ Fri, 14 Nov 2025 02:50:33 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4778bd27e97sm42130015e9.7.2025.11.14.02.50.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 14 Nov 2025 02:50:32 -0800 (PST)
+Message-ID: <ef0f9459-6733-4e0a-9c06-c36c02e5a93c@ursulin.net>
+Date: Fri, 14 Nov 2025 10:50:32 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/18] dma-buf: protected fence ops by RCU v3
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
+ matthew.brost@intel.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org
+References: <20251113145332.16805-1-christian.koenig@amd.com>
+ <20251113145332.16805-3-christian.koenig@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20251113145332.16805-3-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,341 +96,279 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona
 
-This is the last feature drm-xe-next PR towards 6.19.
+On 13/11/2025 14:51, Christian König wrote:
+> At first glance it is counter intuitive to protect a constant function
+> pointer table by RCU, but this allows modules providing the function
+> table to unload by waiting for an RCU grace period.
+> 
+> v2: make one the now duplicated lockdep warnings a comment instead.
+> v3: Add more documentation to ->wait and ->release callback.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/dma-buf/dma-fence.c | 69 +++++++++++++++++++++++++------------
+>   include/linux/dma-fence.h   | 29 ++++++++++++++--
+>   2 files changed, 73 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index b4f5c8635276..ec21be9b089a 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -498,6 +498,7 @@ EXPORT_SYMBOL(dma_fence_signal);
+>   signed long
+>   dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+>   {
+> +	const struct dma_fence_ops *ops;
+>   	signed long ret;
+>   
+>   	if (WARN_ON(timeout < 0))
+> @@ -509,15 +510,21 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+>   
+>   	dma_fence_enable_sw_signaling(fence);
+>   
+> -	if (trace_dma_fence_wait_start_enabled()) {
+> -		rcu_read_lock();
+> -		trace_dma_fence_wait_start(fence);
+> +	rcu_read_lock();
+> +	ops = rcu_dereference(fence->ops);
+> +	trace_dma_fence_wait_start(fence);
+> +	if (ops->wait) {
+> +		/*
+> +		 * Implementing the wait ops is deprecated and not supported for
+> +		 * issuer independent fences, so it is ok to use the ops outside
+> +		 * the RCU protected section.
+> +		 */
+> +		rcu_read_unlock();
+> +		ret = ops->wait(fence, intr, timeout);
+> +	} else {
+>   		rcu_read_unlock();
+> -	}
+> -	if (fence->ops->wait)
+> -		ret = fence->ops->wait(fence, intr, timeout);
+> -	else
+>   		ret = dma_fence_default_wait(fence, intr, timeout);
+> +	}
+>   	if (trace_dma_fence_wait_end_enabled()) {
+>   		rcu_read_lock();
+>   		trace_dma_fence_wait_end(fence);
+> @@ -538,6 +545,7 @@ void dma_fence_release(struct kref *kref)
+>   {
+>   	struct dma_fence *fence =
+>   		container_of(kref, struct dma_fence, refcount);
+> +	const struct dma_fence_ops *ops;
+>   
+>   	rcu_read_lock();
+>   	trace_dma_fence_destroy(fence);
+> @@ -569,12 +577,12 @@ void dma_fence_release(struct kref *kref)
+>   		spin_unlock_irqrestore(fence->lock, flags);
+>   	}
+>   
+> -	rcu_read_unlock();
+> -
+> -	if (fence->ops->release)
+> -		fence->ops->release(fence);
+> +	ops = rcu_dereference(fence->ops);
+> +	if (ops->release)
+> +		ops->release(fence);
+>   	else
+>   		dma_fence_free(fence);
+> +	rcu_read_unlock();
 
-Note that the PR of 25-11-05 was never pulled, so this one
-incorporates that one as well. Please let me know if you want
-this done another way.
+Risk being a spin lock in the release callback will trigger a warning on 
+PREEMPT_RT. But at least the current code base does not have anything 
+like that AFAICS so I guess it is okay.
 
-Thanks,
-Thomas
+>   }
+>   EXPORT_SYMBOL(dma_fence_release);
+>   
+> @@ -593,6 +601,7 @@ EXPORT_SYMBOL(dma_fence_free);
+>   
+>   static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+>   {
+> +	const struct dma_fence_ops *ops;
+>   	bool was_set;
+>   
+>   	lockdep_assert_held(fence->lock);
+> @@ -603,14 +612,18 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+>   	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>   		return false;
+>   
+> -	if (!was_set && fence->ops->enable_signaling) {
+> +	rcu_read_lock();
+> +	ops = rcu_dereference(fence->ops);
+> +	if (!was_set && ops->enable_signaling) {
+>   		trace_dma_fence_enable_signal(fence);
+>   
+> -		if (!fence->ops->enable_signaling(fence)) {
+> +		if (!ops->enable_signaling(fence)) {
+> +			rcu_read_unlock();
+>   			dma_fence_signal_locked(fence);
+>   			return false;
+>   		}
+>   	}
+> +	rcu_read_unlock();
+>   
+>   	return true;
+>   }
+> @@ -983,8 +996,13 @@ EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+>    */
+>   void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+>   {
+> -	if (fence->ops->set_deadline && !dma_fence_is_signaled(fence))
+> -		fence->ops->set_deadline(fence, deadline);
+> +	const struct dma_fence_ops *ops;
+> +
+> +	rcu_read_lock();
+> +	ops = rcu_dereference(fence->ops);
+> +	if (ops->set_deadline && !dma_fence_is_signaled(fence))
+> +		ops->set_deadline(fence, deadline);
+> +	rcu_read_unlock();
+>   }
+>   EXPORT_SYMBOL(dma_fence_set_deadline);
+>   
+> @@ -1025,7 +1043,12 @@ __dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
+>   	BUG_ON(!ops || !ops->get_driver_name || !ops->get_timeline_name);
+>   
+>   	kref_init(&fence->refcount);
+> -	fence->ops = ops;
+> +	/*
+> +	 * At first glance it is counter intuitive to protect a constant
+> +	 * function pointer table by RCU, but this allows modules providing the
+> +	 * function table to unload by waiting for an RCU grace period.
+> +	 */
+> +	RCU_INIT_POINTER(fence->ops, ops);
+>   	INIT_LIST_HEAD(&fence->cb_list);
+>   	fence->lock = lock;
+>   	fence->context = context;
+> @@ -1105,11 +1128,12 @@ EXPORT_SYMBOL(dma_fence_init64);
+>    */
+>   const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
+>   {
+> -	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+> -			 "RCU protection is required for safe access to returned string");
+> +	const struct dma_fence_ops *ops;
+>   
+> +	/* RCU protection is required for safe access to returned string */
+> +	ops = rcu_dereference(fence->ops);
+>   	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> -		return fence->ops->get_driver_name(fence);
+> +		return ops->get_driver_name(fence);
+>   	else
+>   		return "detached-driver";
+>   }
+> @@ -1137,11 +1161,12 @@ EXPORT_SYMBOL(dma_fence_driver_name);
+>    */
+>   const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
+>   {
+> -	RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
+> -			 "RCU protection is required for safe access to returned string");
+> +	const struct dma_fence_ops *ops;
+>   
+> +	/* RCU protection is required for safe access to returned string */
+> +	ops = rcu_dereference(fence->ops);
+>   	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> -		return fence->ops->get_timeline_name(fence);
+> +		return ops->get_timeline_name(fence);
+>   	else
+>   		return "signaled-timeline";
+>   }
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index 64639e104110..77f07735f556 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -66,7 +66,7 @@ struct seq_file;
+>    */
+>   struct dma_fence {
+>   	spinlock_t *lock;
+> -	const struct dma_fence_ops *ops;
+> +	const struct dma_fence_ops __rcu *ops;
+>   	/*
+>   	 * We clear the callback list on kref_put so that by the time we
+>   	 * release the fence it is unused. No one should be adding to the
+> @@ -218,6 +218,10 @@ struct dma_fence_ops {
+>   	 * timed out. Can also return other error values on custom implementations,
+>   	 * which should be treated as if the fence is signaled. For example a hardware
+>   	 * lockup could be reported like that.
+> +	 *
+> +	 * Implementing this callback prevents the BO from detaching after
 
-drm-xe-next-2025-11-14:
-UAPI Changes:
+s/BO/fence/
 
-Limit number of jobs per exec queue (Shuicheng)
-Add sriov_admin sysfs tree (Michal)
+> +	 * signaling and so it is mandatory for the module providing the
+> +	 * dma_fence_ops to stay loaded as long as the dma_fence exists.
+>   	 */
+>   	signed long (*wait)(struct dma_fence *fence,
+>   			    bool intr, signed long timeout);
+> @@ -229,6 +233,13 @@ struct dma_fence_ops {
+>   	 * Can be called from irq context.  This callback is optional. If it is
+>   	 * NULL, then dma_fence_free() is instead called as the default
+>   	 * implementation.
+> +	 *
+> +	 * Implementing this callback prevents the BO from detaching after
 
-Driver Changes:
+Ditto.
 
-Fix an uninitialized value (Thomas)
-Expose a residency counter through debugfs (Mohammed Thasleem)
-Workaround enabling and improvement (Tapani, Tangudu)
-More Crescent Island-specific support (Sk Anirban, Lucas)
-PAT entry dump improvement (Xin)
-Inline gt_reset in the worker (Lucas)
-Synchronize GT reset with device unbind (Balasubramani)
-Do clean shutdown also when using flr (Jouni)
-Fix serialization on burst of unbinds (Matt Brost)
-Pagefault Refactor (Matt Brost)
-Remove some unused code (Gwan-gyeong)
-Avoid TOCTOU when montoring throttle reasons (Lucas)
-Add/extend workaround (Nitin)
-SRIOV migration work / plumbing (Michal Wajdeczko, Michal Winiarski, Lukasz)
-Drop debug flag requirement for VF resource fixup
-Fix MTL vm_max_level (Rodrigo)
-Changes around TILE_ADDR_RANGE for platform compatibility
-(Fei, Lucas)
-Add runtime registers for GFX ver >= 35 (Piotr)
-Kerneldoc fix (Kriish)
-Rework pcode error mapping (Lucas)
-Allow lockdown the PF (Michal)
-Eliminate GUC code caching of some frequency values (Sk)
-Improvements around forcewake referencing (Matt Roper)
-The following changes since commit 4504e780689245f01bee6ee4c19c74051bd87593:
+> +	 * signaling and so it is mandatory for the module providing the
+> +	 * dma_fence_ops to stay loaded as long as the dma_fence exists.
+> +	 *
+> +	 * If the callback is implemented the memory backing the dma_fence
+> +	 * object must be freed RCU safe.
+>   	 */
+>   	void (*release)(struct dma_fence *fence);
+>   
+> @@ -418,13 +429,19 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
+>   static inline bool
+>   dma_fence_is_signaled_locked(struct dma_fence *fence)
+>   {
+> +	const struct dma_fence_ops *ops;
+> +
+>   	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>   		return true;
+>   
+> -	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+> +	rcu_read_lock();
+> +	ops = rcu_dereference(fence->ops);
+> +	if (ops->signaled && ops->signaled(fence)) {
+> +		rcu_read_unlock();
+>   		dma_fence_signal_locked(fence);
+>   		return true;
+>   	}
+> +	rcu_read_unlock();
+>   
+>   	return false;
+>   }
+> @@ -448,13 +465,19 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+>   static inline bool
+>   dma_fence_is_signaled(struct dma_fence *fence)
+>   {
+> +	const struct dma_fence_ops *ops;
+> +
+>   	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>   		return true;
+>   
+> -	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+> +	rcu_read_lock();
+> +	ops = rcu_dereference(fence->ops);
+> +	if (ops->signaled && ops->signaled(fence)) {
+> +		rcu_read_unlock();
 
-  drm/xe/pf: Access VF's register using dedicated MMIO view (2025-10-27 17:22:18 +0100)
+With the unlocked version two threads could race and one could make the 
+fence->lock go away just around here, before the dma_fence_signal below 
+will take it. It seems it is only safe to rcu_read_unlock before 
+signaling if using the embedded fence (later in the series). Can you 
+think of a downside to holding the rcu read lock to after signaling? 
+that would make it safe I think.
 
-are available in the Git repository at:
+Regards,
 
-  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-2025-11-14
+Tvrtko
 
-for you to fetch changes up to 6bcb180f6f4585554cefbe8c412aa8879b15f07a:
+>   		dma_fence_signal(fence);
+>   		return true;
+>   	}
+> +	rcu_read_unlock();
+>   
+>   	return false;
+>   }
 
-  drm/xe/oa: Store forcewake reference in stream structure (2025-11-13 14:05:51 -0800)
-
-----------------------------------------------------------------
-UAPI Changes:
-
-Limit number of jobs per exec queue (Shuicheng)
-Add sriov_admin sysfs tree (Michal)
-
-Driver Changes:
-
-Fix an uninitialized value (Thomas)
-Expose a residency counter through debugfs (Mohammed Thasleem)
-Workaround enabling and improvement (Tapani, Tangudu)
-More Crescent Island-specific support (Sk Anirban, Lucas)
-PAT entry dump improvement (Xin)
-Inline gt_reset in the worker (Lucas)
-Synchronize GT reset with device unbind (Balasubramani)
-Do clean shutdown also when using flr (Jouni)
-Fix serialization on burst of unbinds (Matt Brost)
-Pagefault Refactor (Matt Brost)
-Remove some unused code (Gwan-gyeong)
-Avoid TOCTOU when montoring throttle reasons (Lucas)
-Add/extend workaround (Nitin)
-SRIOV migration work / plumbing (Michal Wajdeczko, Michal Winiarski, Lukasz)
-Drop debug flag requirement for VF resource fixup
-Fix MTL vm_max_level (Rodrigo)
-Changes around TILE_ADDR_RANGE for platform compatibility
-(Fei, Lucas)
-Add runtime registers for GFX ver >= 35 (Piotr)
-Kerneldoc fix (Kriish)
-Rework pcode error mapping (Lucas)
-Allow lockdown the PF (Michal)
-Eliminate GUC code caching of some frequency values (Sk)
-Improvements around forcewake referencing (Matt Roper)
-
-----------------------------------------------------------------
-Balasubramani Vivekanandan (2):
-      drm/xe/gt: Synchronize GT reset with device unbind
-      drm/xe/guc: Synchronize Dead CT worker with unbind
-
-Fei Yang (1):
-      drm/xe: Use SG_TILE_ADDR_RANGE instead of TILE_ADDR_RANGE
-
-Gwan-gyeong Mun (1):
-      drm/xe: Remove never used code in xe_vm_create()
-
-Jouni Högander (1):
-      drm/xe: Do clean shutdown also when using flr
-
-Kriish Sharma (1):
-      drm/xe: fix kernel-doc function name mismatch in xe_pm.c
-
-Lucas De Marchi (10):
-      drm/xe/gt_throttle: Tidy up perf reasons reading
-      drm/xe/gt_throttle: Always read and mask
-      drm/xe/gt_throttle: Add throttle_to_gt()
-      drm/xe/gt_throttle: Tidy up attribute definition
-      drm/xe: Improve freq and throttle documentation
-      drm/xe/gt_throttle: Drop individual show functions
-      drm/xe: Inline gt_reset in the worker
-      drm/xe/gt_throttle: Avoid TOCTOU when monitoring reasons
-      drm/xe/vram: Move forcewake down to get_flat_ccs_offset()
-      drm/xe/pcode: Rework error mapping
-
-Lukasz Laguna (2):
-      drm/xe/pf: Add helper to retrieve VF's LMEM object
-      drm/xe/migrate: Add function to copy of VRAM data in chunks
-
-Matt Roper (3):
-      drm/xe/forcewake: Improve kerneldoc
-      drm/xe/eustall: Store forcewake reference in stream structure
-      drm/xe/oa: Store forcewake reference in stream structure
-
-Matthew Brost (13):
-      drm/xe: Enforce correct user fence signaling order using
-      drm/xe: Attach last fence to TLB invalidation job queues
-      drm/xe: Decouple bind queue last fence from TLB invalidations
-      drm/xe: Skip TLB invalidation waits in page fault binds
-      drm/xe: Disallow input fences on zero batch execs and zero binds
-      drm/xe: Remove last fence dependency check from binds and execs
-      drm/xe: Stub out new pagefault layer
-      drm/xe: Implement xe_pagefault_init
-      drm/xe: Implement xe_pagefault_reset
-      drm/xe: Implement xe_pagefault_handler
-      drm/xe: Implement xe_pagefault_queue_work
-      drm/xe: Add xe_guc_pagefault layer
-      drm/xe: Remove unused GT page fault code
-
-Michal Wajdeczko (22):
-      drm/xe/pf: Prepare sysfs for SR-IOV admin attributes
-      drm/xe/pf: Take RPM during calls to SR-IOV attr.store()
-      drm/xe/pf: Add _locked variants of the VF EQ config functions
-      drm/xe/pf: Add _locked variants of the VF PT config functions
-      drm/xe/pf: Allow change PF and VFs EQ/PT using sysfs
-      drm/xe/pf: Relax report helper to accept PF in bulk configs
-      drm/xe/pf: Fix signature of internal config helpers
-      drm/xe/pf: Add functions to bulk configure EQ/PT on GT
-      drm/xe/pf: Add functions to bulk provision EQ/PT
-      drm/xe/pf: Allow bulk change all VFs EQ/PT using sysfs
-      drm/xe/pf: Add functions to provision scheduling priority
-      drm/xe/pf: Allow bulk change all VFs priority using sysfs
-      drm/xe/pf: Allow change PF scheduling priority using sysfs
-      drm/xe/pf: Promote xe_pci_sriov_get_vf_pdev
-      drm/xe/pf: Add sysfs device symlinks to enabled VFs
-      drm/xe/pf: Allow to stop the VF using sysfs
-      drm/xe/pf: Add documentation for sriov_admin attributes
-      drm/xe/pf: Use migration-friendly context IDs auto-provisioning
-      drm/xe/pf: Use migration-friendly doorbells auto-provisioning
-      drm/xe/tests: Add KUnit tests for PF fair provisioning
-      drm/xe/pf: Allow to lockdown the PF using custom guard
-      drm/xe/pf: Use migration-friendly GGTT auto-provisioning
-
-Michał Winiarski (23):
-      drm/xe/vf: Enable VF resource fixup unconditionally
-      drm/xe/pf: Remove GuC version check for migration support
-      drm/xe: Move migration support to device-level struct
-      drm/xe/pf: Convert control state to bitmap
-      drm/xe/pf: Add save/restore control state stubs and connect to debugfs
-      drm/xe/pf: Add data structures and handlers for migration rings
-      drm/xe/pf: Add helpers for migration data packet allocation / free
-      drm/xe/pf: Add support for encap/decap of bitstream to/from packet
-      drm/xe/pf: Add minimalistic migration descriptor
-      drm/xe/pf: Expose VF migration data size over debugfs
-      drm/xe: Add sa/guc_buf_cache sync interface
-      drm/xe: Allow the caller to pass guc_buf_cache size
-      drm/xe/pf: Increase PF GuC Buffer Cache size and use it for VF migration
-      drm/xe/pf: Remove GuC migration data save/restore from GT debugfs
-      drm/xe/pf: Don't save GuC VF migration data on pause
-      drm/xe/pf: Switch VF migration GuC save/restore to struct migration data
-      drm/xe/pf: Handle GuC migration data as part of PF control
-      drm/xe/pf: Add helpers for VF GGTT migration data handling
-      drm/xe/pf: Handle GGTT migration data as part of PF control
-      drm/xe/pf: Handle MMIO migration data as part of PF control
-      drm/xe/pf: Handle VRAM migration data as part of PF control
-      drm/xe/pf: Add wait helper for VF FLR
-      drm/intel/bmg: Allow device ID usage with single-argument macros
-
-Mohammed Thasleem (1):
-      drm/xe/xe_debugfs: Expose G7 package state residency counter through debugfs
-
-Nitin Gote (1):
-      drm/xe/xe3lpg: Extend Wa_15016589081 for xe3lpg
-
-Piotr Piórkowski (1):
-      drm/xe/pf: Add runtime registers for GFX ver >= 35
-
-Rodrigo Vivi (1):
-      drm/xe: Fix MTL vm_max_level
-
-Shuicheng Lin (1):
-      drm/xe: Limit number of jobs per exec queue
-
-Sk Anirban (3):
-      drm/xe/cri: Add new performance limit reasons bits
-      drm/xe/guc: Eliminate RPe caching for SLPC parameter handling
-      drm/xe/guc: Eliminate RPa frequency caching
-
-Tangudu Tilak Tirumalesh (1):
-      drm/xe/xe3: Extend wa_14023061436
-
-Tapani Pälli (1):
-      drm/xe/xe3: Apply wa_14024997852
-
-Thomas Hellström (1):
-      drm/xe: Fix uninitialized return value from xe_validation_guard()
-
-Xin Wang (1):
-      drm/xe: highlight reserved PAT entries in dump output
-
- .../ABI/testing/sysfs-driver-intel-xe-sriov        |  159 +++
- Documentation/gpu/xe/xe_gt_freq.rst                |    3 +
- drivers/gpu/drm/xe/Makefile                        |    6 +-
- drivers/gpu/drm/xe/regs/xe_gt_regs.h               |   14 +-
- drivers/gpu/drm/xe/regs/xe_pmt.h                   |    1 +
- drivers/gpu/drm/xe/regs/xe_regs.h                  |    2 +
- .../gpu/drm/xe/tests/xe_gt_sriov_pf_config_kunit.c |  208 ++++
- drivers/gpu/drm/xe/xe_debugfs.c                    |    1 +
- drivers/gpu/drm/xe/xe_device.c                     |   23 +-
- drivers/gpu/drm/xe/xe_device_types.h               |   11 +
- drivers/gpu/drm/xe/xe_eu_stall.c                   |    8 +-
- drivers/gpu/drm/xe/xe_exec.c                       |   14 +-
- drivers/gpu/drm/xe/xe_exec_queue.c                 |  124 ++-
- drivers/gpu/drm/xe/xe_exec_queue.h                 |   23 +-
- drivers/gpu/drm/xe/xe_exec_queue_types.h           |   17 +
- drivers/gpu/drm/xe/xe_force_wake_types.h           |   26 +-
- drivers/gpu/drm/xe/xe_ggtt.c                       |  104 ++
- drivers/gpu/drm/xe/xe_ggtt.h                       |    3 +
- drivers/gpu/drm/xe/xe_ggtt_types.h                 |    2 +
- drivers/gpu/drm/xe/xe_gt.c                         |   44 +-
- drivers/gpu/drm/xe/xe_gt_freq.c                    |   30 +-
- drivers/gpu/drm/xe/xe_gt_pagefault.c               |  679 ------------
- drivers/gpu/drm/xe/xe_gt_pagefault.h               |   19 -
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c         |  351 +++++-
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h         |   16 +
- drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c        |  650 +++++++++++-
- drivers/gpu/drm/xe/xe_gt_sriov_pf_control.h        |   10 +
- drivers/gpu/drm/xe/xe_gt_sriov_pf_control_types.h  |   34 +-
- drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c        |   47 -
- drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c      | 1112 +++++++++++++++-----
- drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.h      |   46 +-
- .../gpu/drm/xe/xe_gt_sriov_pf_migration_types.h    |   34 +-
- drivers/gpu/drm/xe/xe_gt_sriov_pf_service.c        |   21 +-
- drivers/gpu/drm/xe/xe_gt_sriov_pf_types.h          |    5 +-
- drivers/gpu/drm/xe/xe_gt_throttle.c                |  375 +++----
- drivers/gpu/drm/xe/xe_gt_types.h                   |   65 --
- drivers/gpu/drm/xe/xe_guard.h                      |  119 +++
- drivers/gpu/drm/xe/xe_guc.c                        |   13 +-
- drivers/gpu/drm/xe/xe_guc_buf.c                    |   57 +-
- drivers/gpu/drm/xe/xe_guc_buf.h                    |    2 +
- drivers/gpu/drm/xe/xe_guc_ct.c                     |    9 +-
- drivers/gpu/drm/xe/xe_guc_pagefault.c              |   95 ++
- drivers/gpu/drm/xe/xe_guc_pagefault.h              |   15 +
- drivers/gpu/drm/xe/xe_guc_pc.c                     |  100 +-
- drivers/gpu/drm/xe/xe_guc_pc_types.h               |    4 -
- drivers/gpu/drm/xe/xe_migrate.c                    |  142 ++-
- drivers/gpu/drm/xe/xe_migrate.h                    |   16 +
- drivers/gpu/drm/xe/xe_oa.c                         |   54 +-
- drivers/gpu/drm/xe/xe_oa_types.h                   |   11 +
- drivers/gpu/drm/xe/xe_pagefault.c                  |  445 ++++++++
- drivers/gpu/drm/xe/xe_pagefault.h                  |   19 +
- drivers/gpu/drm/xe/xe_pagefault_types.h            |  136 +++
- drivers/gpu/drm/xe/xe_pat.c                        |   15 +-
- drivers/gpu/drm/xe/xe_pat.h                        |    5 +
- drivers/gpu/drm/xe/xe_pci.c                        |    2 +-
- drivers/gpu/drm/xe/xe_pci_sriov.c                  |   62 +-
- drivers/gpu/drm/xe/xe_pci_sriov.h                  |    1 +
- drivers/gpu/drm/xe/xe_pcode.c                      |   40 +-
- drivers/gpu/drm/xe/xe_pcode_api.h                  |    6 -
- drivers/gpu/drm/xe/xe_pm.c                         |    2 +-
- drivers/gpu/drm/xe/xe_pt.c                         |   80 +-
- drivers/gpu/drm/xe/xe_reg_whitelist.c              |    7 +
- drivers/gpu/drm/xe/xe_sa.c                         |   21 +
- drivers/gpu/drm/xe/xe_sa.h                         |    1 +
- drivers/gpu/drm/xe/xe_sched_job.c                  |   19 +-
- drivers/gpu/drm/xe/xe_sched_job.h                  |    1 -
- drivers/gpu/drm/xe/xe_sriov_packet.c               |  520 +++++++++
- drivers/gpu/drm/xe/xe_sriov_packet.h               |   30 +
- drivers/gpu/drm/xe/xe_sriov_packet_types.h         |   75 ++
- drivers/gpu/drm/xe/xe_sriov_pf.c                   |  107 ++
- drivers/gpu/drm/xe/xe_sriov_pf.h                   |    4 +
- drivers/gpu/drm/xe/xe_sriov_pf_control.c           |  128 +++
- drivers/gpu/drm/xe/xe_sriov_pf_control.h           |    5 +
- drivers/gpu/drm/xe/xe_sriov_pf_debugfs.c           |  131 +++
- drivers/gpu/drm/xe/xe_sriov_pf_helpers.h           |   16 +
- drivers/gpu/drm/xe/xe_sriov_pf_migration.c         |  342 ++++++
- drivers/gpu/drm/xe/xe_sriov_pf_migration.h         |   29 +
- drivers/gpu/drm/xe/xe_sriov_pf_migration_types.h   |   37 +
- drivers/gpu/drm/xe/xe_sriov_pf_provision.c         |  284 +++++
- drivers/gpu/drm/xe/xe_sriov_pf_provision.h         |   14 +
- drivers/gpu/drm/xe/xe_sriov_pf_sysfs.c             |  647 ++++++++++++
- drivers/gpu/drm/xe/xe_sriov_pf_sysfs.h             |   16 +
- drivers/gpu/drm/xe/xe_sriov_pf_types.h             |   21 +
- drivers/gpu/drm/xe/xe_sriov_vf.c                   |    8 -
- drivers/gpu/drm/xe/xe_svm.c                        |    3 +-
- drivers/gpu/drm/xe/xe_sync.c                       |   95 +-
- drivers/gpu/drm/xe/xe_sync.h                       |    3 +
- drivers/gpu/drm/xe/xe_sync_types.h                 |    3 +
- drivers/gpu/drm/xe/xe_tlb_inval_job.c              |   31 +-
- drivers/gpu/drm/xe/xe_tlb_inval_job.h              |    5 +-
- drivers/gpu/drm/xe/xe_trace.h                      |   23 +
- drivers/gpu/drm/xe/xe_validation.h                 |    8 +-
- drivers/gpu/drm/xe/xe_vm.c                         |  101 +-
- drivers/gpu/drm/xe/xe_vm_types.h                   |    6 +-
- drivers/gpu/drm/xe/xe_vram.c                       |   26 +-
- drivers/gpu/drm/xe/xe_wa.c                         |    7 +
- include/drm/intel/pciids.h                         |    2 +-
- 97 files changed, 6762 insertions(+), 1751 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-driver-intel-xe-sriov
- create mode 100644 drivers/gpu/drm/xe/tests/xe_gt_sriov_pf_config_kunit.c
- delete mode 100644 drivers/gpu/drm/xe/xe_gt_pagefault.c
- delete mode 100644 drivers/gpu/drm/xe/xe_gt_pagefault.h
- create mode 100644 drivers/gpu/drm/xe/xe_guard.h
- create mode 100644 drivers/gpu/drm/xe/xe_guc_pagefault.c
- create mode 100644 drivers/gpu/drm/xe/xe_guc_pagefault.h
- create mode 100644 drivers/gpu/drm/xe/xe_pagefault.c
- create mode 100644 drivers/gpu/drm/xe/xe_pagefault.h
- create mode 100644 drivers/gpu/drm/xe/xe_pagefault_types.h
- create mode 100644 drivers/gpu/drm/xe/xe_sriov_packet.c
- create mode 100644 drivers/gpu/drm/xe/xe_sriov_packet.h
- create mode 100644 drivers/gpu/drm/xe/xe_sriov_packet_types.h
- create mode 100644 drivers/gpu/drm/xe/xe_sriov_pf_migration.c
- create mode 100644 drivers/gpu/drm/xe/xe_sriov_pf_migration.h
- create mode 100644 drivers/gpu/drm/xe/xe_sriov_pf_migration_types.h
- create mode 100644 drivers/gpu/drm/xe/xe_sriov_pf_sysfs.c
- create mode 100644 drivers/gpu/drm/xe/xe_sriov_pf_sysfs.h
