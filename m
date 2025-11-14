@@ -2,173 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8964EC5F04F
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 20:22:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83741C5F06A
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 20:26:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 713D410E25A;
-	Fri, 14 Nov 2025 19:22:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52B9310E25F;
+	Fri, 14 Nov 2025 19:26:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="NEaPhBqi";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="rdIg7f1k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DDB410E25A
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 19:22:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1763148120; x=1763752920; i=deller@gmx.de;
- bh=6nUCeGy3uRb5NtOMxuqD9Fu4r4vfjNe/fiA7ghwX3/c=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=NEaPhBqilsKApBwwJcqBiFhjBWW5qXUjIK0wHakIwFNjMIW4usxd/HihCsr8Nf7d
- UEoP+lnw3lS4NRk545RZUre0Q08Vz+1VcysZb6kgHkjhwNftl54f9oHyUJiOXIBsU
- 2iFoju9FtlUzqoufuMI03DqoffEHEapk/WdRQzZPjZ3wfDMeTpCrsRe33ZfMysjwU
- RiNUcP+7STV2bkbwxJ3hsD5tG+YuRHJyV71x8gdiW+ZsERSfiuyJWxz0gwUOc1enO
- lP7y3m85fZoUSU6hGXWdysOSAcOnIPgoVnPkkWewzP4Wf3sAzy0T8SHz1cOq6ZlsH
- 70pcJo6kfnuJWw2k6w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.51.147]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M9Wuq-1vEVie0TJ6-002voi; Fri, 14
- Nov 2025 20:22:00 +0100
-Message-ID: <148a116a-b893-4e91-8573-1eebc2bb5c0e@gmx.de>
-Date: Fri, 14 Nov 2025 20:21:57 +0100
+Received: from BYAPR05CU005.outbound.protection.outlook.com
+ (mail-westusazon11010061.outbound.protection.outlook.com [52.101.85.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F74910E25F;
+ Fri, 14 Nov 2025 19:26:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XVvqqXyifHue/Ynw5Y3Vfo/X0mS9Wh1yc3GDzohO9G2Xaritcb4F3nKHS1yYLCjgwD8sPvi/V9+94HCGp9imxPP60dNrr0FurvENnWGr8Drc3EAIOIkrNXyJtlGCpiTxXztAsI6NN/kUYav0BzCujMOsYWmKUiURVWcgnjM7JPGqgLGCN6q1yCetIytMczGCHKscPzkor/wbMv/5M24Lo//1m6w37IKyFJ3KahlWd9/72HrwL15HD9LqSLKmYv2xfYIt+DgNERvtdhLNlVUMekuD+8v7IgpJTdr0e8lV8oLJYoiy07k44Ol54ktUoMXACXR5+QXpxX1gzL5DqiS7Dg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I5+Jw11Zoys+Fb0NwP7BGT5wkxcvp2Er6SII+WYX3Eo=;
+ b=jaHrNNgedvp/fy41rRaLnUh16UUMaSZi0dDK9wU/Qc/HFbmyctfhkbgUfzvR5FfjPkKTtpjDsmU72vBJI19cBmoOyiGKUhD4gsq2jAh1p7kKF0gMQiTE4tUoVdhfpMzQRSlxPfMZfDVIV1a3hEbVn6+VmrN7M7eftiN18rmAAQbNVHduS59WDxIaE7ynb+9aw//2ygYNx9r7aFlQ9cqS4Buw9myjd95BUeQ19zAKDtVnuaT6IUwcxYWKslzBaOUrCB0s/Sa6cQ1Qvd9L4U9+AcsO9WrKIBPaLB3VPWIv0ww9G/B4I+s9amExPDfLlcT2sUDnbMEnJSzgM8ZeiT1GEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I5+Jw11Zoys+Fb0NwP7BGT5wkxcvp2Er6SII+WYX3Eo=;
+ b=rdIg7f1k4Ly9aoJdnBM1olXxbHWrtkm2v4DWyPhGAjsOeJsoTCOS0xalDldF91e1iVEnnh/sOKvOrXGgSmezwhe7sy+OGay4w9NJNoiRpqudp6A9exEfP6y1E5cB+t48shycrGMTJa/+HU1qW8gnkoAvmvF6UOGKkq2RQgSUn3A=
+Received: from SJ0PR05CA0190.namprd05.prod.outlook.com (2603:10b6:a03:330::15)
+ by DM4PR12MB7696.namprd12.prod.outlook.com (2603:10b6:8:100::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Fri, 14 Nov
+ 2025 19:26:23 +0000
+Received: from BY1PEPF0001AE1A.namprd04.prod.outlook.com
+ (2603:10b6:a03:330:cafe::c) by SJ0PR05CA0190.outlook.office365.com
+ (2603:10b6:a03:330::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.7 via Frontend Transport; Fri,
+ 14 Nov 2025 19:26:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BY1PEPF0001AE1A.mail.protection.outlook.com (10.167.242.102) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.13 via Frontend Transport; Fri, 14 Nov 2025 19:26:22 +0000
+Received: from tr4.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 14 Nov
+ 2025 11:26:18 -0800
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <simona.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu, amdkfd, radeon drm-next-6.19
+Date: Fri, 14 Nov 2025 14:25:53 -0500
+Message-ID: <20251114192553.442621-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH stable] fbdev: Fix out-of-bounds issue in sys_fillrect()
-To: Gu Bowen <gubowen5@huawei.com>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Lu Jialin <lujialin4@huawei.com>
-References: <20251112073207.1731125-1-gubowen5@huawei.com>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20251112073207.1731125-1-gubowen5@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ZhKYSOGuV9bVFWC2rGjkgKfoRB0elFk1aPSsjHly5tVq1K2V1AW
- ZRFPZgMfuJH5ALnq+LLb39hyMOCTx9Zr4sfG+Ahj9/0W+6w5N4h7VY5jHWSRMbxNT7MpMMa
- PXxbqEjpVYVhWFz+3Wq7S7nTRWI47ILThM97oK348gs28Uy7VteGN45ji7UpweVrNhhVj3V
- imZKNC4xA+YX0cxgUdV+A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:vtf00QxddQo=;XXddqnsMZK+hhosK/M+kQbGNeEk
- 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
- JQCN5fsWtXyGzn8ChP1HlsR2oHL6a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE1A:EE_|DM4PR12MB7696:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9cf8681e-76e5-46ff-df6c-08de23b3b233
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|1800799024|376014|82310400026|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VTlyYzBwTGhHZFFFQUlsOXVIOEFodzF0K1JOVERPWFZuWVhBczZvbEVDd2xM?=
+ =?utf-8?B?aTd3WTZ0Q3h4WkJtclBRT2Ywd2hZSXFocGkxblhoZUViOXpFeU8reHZTUHVT?=
+ =?utf-8?B?c3BycUdqUDgySDhUcFJlSjlXM1NXMTJzWWgzSy9DWHBkYVRtZ1ZZUCtSZ09n?=
+ =?utf-8?B?K1kvazdLM1Y0QUplTGtmZ2gxQjl1K28zV3AzUTUxTnJXc2ZRY01XcGpXeHRY?=
+ =?utf-8?B?b0d2bHJrRHJJcVRsZTVjY1B4a2g0TEJLaDZWa0xiSU15ejUraE1lY1JVSjdF?=
+ =?utf-8?B?cjM2V21EaVh5d3gyZGZzdTBlZGtxOG5QVmxUMWkxVW5pWUU3OVMrMXNRQUVu?=
+ =?utf-8?B?QmpjNkRGNnVnalR1eThRbVNGQ0RQdzNCZW50V2lBNGxBNGVyRlUvMFNrTngz?=
+ =?utf-8?B?RFJCVlFOeWo3MUF1T3BVSko4eVRJdGM5OXNBM0dLeEI3QWNycmdtUGppemt6?=
+ =?utf-8?B?VHhqZGRWaWZsWGVLSXk5c3c0UTdTSUN3VzJWaG8wcTloQjJGSURLV2xBcDdS?=
+ =?utf-8?B?dTdFenZhRkZFaFBWaGNjeFJTYUdzZnBTaEtESW5IRzZIWkJrcWpqRGF4bXdX?=
+ =?utf-8?B?bFUvclJHTXhOZXliNy9ZU0pZeGFyN3JBY2hwQWRSKzRhR0FHOU5kR3BvTlls?=
+ =?utf-8?B?RVhYWHF1KzZYL3RRU1k2R3JGMUM1U0ZtbVJuNitoNzQ5VGdkOHZkM1p3Smo5?=
+ =?utf-8?B?MzhhcVZzL0xsZDlaZzhiRE40VjE3SnV2OEN2MCtnWFo1eDNFK0p1RG1yQit6?=
+ =?utf-8?B?bXM2RmJONWZTdnYwSWpubDlXdnNlazhGQnhKcWVwOGVRN09PajVaN0g0eGw0?=
+ =?utf-8?B?MXEwNGN1NitOdjRyYVc3U3hPdjk5M3ZYalFMQjY3Vy8yc1crclRGaWg4dTRz?=
+ =?utf-8?B?SC9wQWVXSGpHRUdhS1Z2VitHZ3ZkelZBbEZPWm90dW5UU01ETmRBOVQyc3M1?=
+ =?utf-8?B?NXZVRUR3VjB2eVJaWHhxZEwwSk1zUGh0N0p1MFVjN3Q0VXJ3dUxXdDhLd01N?=
+ =?utf-8?B?SEJUYmt4cTZrQkFEOFFVRU1naml6VmlPU2w3NXhneFVEN1VrSVAzK3RySmVJ?=
+ =?utf-8?B?U1h0YzM2ajRNdkFXdjUwcU05aDZSNWJJYmtodGxSYm9MVTBWb01RWWlxQy9a?=
+ =?utf-8?B?ZEdudWRhekMyNzJzelhXVzMwMEZ2SGNXQXJkQk5iR3NlUVNzV21pM2J5ZURQ?=
+ =?utf-8?B?VlVxa1hOZC9WZGczc2JqUEVLVGlYakpFbU93ekVPTE1KSXpVS1g2SmRzY25B?=
+ =?utf-8?B?eGdlQ3V1MWlsQ0o1b3VQWGYwR0tTTXoySThNNFhKRTQ0MitaU3FRbFhVREZB?=
+ =?utf-8?B?enlGeTRkL1ZZQkhuWVB4ZE81dCtnbkVxL1JRbTBZcDlRNFRvQXozNjBML2Ey?=
+ =?utf-8?B?QWU4ZTdkWEUrTG5ZbU5McWZwZithQVd0YktIRklZcWZzTUlqenM3Ly9hcDc5?=
+ =?utf-8?B?UElMQ1JKRUNBajdKOEw2Yjd6RVo2VlpoZjgrbG02dDc3WUZEVkhYK1loZit0?=
+ =?utf-8?B?WlJpbzFabS9Pb0h4cmI1SFFxSzNKOVA2OUxKcXkzMFcwNGMvVUFHTkJLcG9o?=
+ =?utf-8?B?blFEeGQ0ckpOOTVQcWZYdGFqaWN4dzNvbVBkN21aZ3E0U3dQc0ZiL000T1VY?=
+ =?utf-8?B?SFgwZHRUNkxEMU0zdFJDVitMYzlDdlpkVkNzL3JjQ05pVzFrVk9ZTnV2anBX?=
+ =?utf-8?B?YU1WSXBXY003aEQwUnZ5bjlmMDJiaklhejRycW9kOXBIeWQ0RkY4WU9JeC9E?=
+ =?utf-8?B?amROVzUrWUJEUEd6WFBSL25GQldWMGN5c0lXOU1PMDVUdURtbi92Yjk0VHl6?=
+ =?utf-8?B?a2pxaGZGNTdFZnpVWnpZekZKNEZ2S29MQ2tVblVqZ2tjb3M3YUJ5WXFQN0F6?=
+ =?utf-8?B?MzFWVnRFKzFQN0I4Y1liWElWdGRqVzdrVEFJb0ZYYVNzZHVmWGo0aURKRDlZ?=
+ =?utf-8?B?MTF1Mm9Pa2VQc3JGZHptSm1Fc01xczVsbDNITU9oUUNodkVwcE1hU21icm0z?=
+ =?utf-8?B?L3djT3d3UjRwai83dWN6bGVibnMzQ1hxVytNY2RTcVVpMDhrUXVCZXBKUFVm?=
+ =?utf-8?Q?hZiazI?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2025 19:26:22.7716 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9cf8681e-76e5-46ff-df6c-08de23b3b233
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BY1PEPF0001AE1A.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7696
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -184,131 +141,263 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/12/25 08:32, Gu Bowen wrote:
-> There was an out-of-bounds issue found by syzkaller test on v6.6.
->=20
-> BUG: unable to handle page fault for address: ffffc90000c3f000
-> PGD 100000067 P4D 100000067 PUD 100c80067 PMD 10ac1c067 PTE 0
-> Oops: 0002 [#1] PREEMPT SMP KASAN PTI
-> CPU: 3 PID: 6521 Comm: syz.3.1365 Not tainted 6.6.0+ #82
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.14.0-0=
--g155821a1990b-prebuilt.qemu.org 04/01/2014
-> RIP: 0010:memset64 arch/x86/include/asm/string_64.h:58 [inline]
-> RIP: 0010:memset_l include/linux/string.h:168 [inline]
-> RIP: 0010:bitfill_aligned drivers/video/fbdev/core/sysfillrect.c:53 [inl=
-ine]
-> RIP: 0010:bitfill_aligned+0x144/0x1c0 drivers/video/fbdev/core/sysfillre=
-ct.c:25
-> Code: 23 04 24 48 31 d0 49 89 46 f8 44 89 e0 44 29 f8 29 c3 e8 9f 39 49 =
-fe 89 d8 31 d2 4c 89 f7 41 f7 f4 48 89 c3 48 89 c1 48 89 e8 <f3> 48 ab 31 =
-ff 4c 89 ee e8 df 2f 49 fe 4d 85 ed 0f 84 6b ff ff ff
-> RSP: 0018:ffff888119ce7418 EFLAGS: 00010246
-> RAX: 0000000000000000 RBX: 0000000000000180 RCX: 0000000000000180
-> RDX: 0000000000000000 RSI: ffffc90003873000 RDI: ffffc90000c3f000
-> RBP: 0000000000000000 R08: 0000000000006000 R09: 0000000000000040
-> R10: 0000000000000000 R11: 0000000000000001 R12: 0000000000000040
-> R13: 0000000000000000 R14: ffffc90000c3f000 R15: 0000000000000000
-> FS:  00007f1704b926c0(0000) GS:ffff8881f5980000(0000) knlGS:000000000000=
-0000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: ffffc90000c3f000 CR3: 00000001230d0002 CR4: 0000000000770ee0
-> DR0: 0000000000000000 DR1: 000000000000e000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
-> PKRU: 80000000
-> Call Trace:
->   <TASK>
->   sys_fillrect+0x429/0x830 drivers/video/fbdev/core/sysfillrect.c:281
->   drm_fbdev_generic_defio_fillrect+0x27/0x140 drivers/gpu/drm/drm_fbdev_=
-generic.c:37
->   bit_clear+0x183/0x220 drivers/video/fbdev/core/bitblit.c:73
->   __fbcon_clear+0x5ea/0x670 drivers/video/fbdev/core/fbcon.c:1281
->   fbcon_scroll+0x41e/0x560 drivers/video/fbdev/core/fbcon.c:1847
->   con_scroll+0x464/0x6a0 drivers/tty/vt/vt.c:577
->   lf+0x274/0x2d0 drivers/tty/vt/vt.c:1461
->   do_con_trol+0x5ea/0x3d80 drivers/tty/vt/vt.c:2149
->   do_con_write+0x780/0x10c0 drivers/tty/vt/vt.c:2905
->   con_write+0x28/0xc0 drivers/tty/vt/vt.c:3245
->   do_output_char+0x5de/0x850 drivers/tty/n_tty.c:433
->   process_output drivers/tty/n_tty.c:500 [inline]
->   n_tty_write+0x442/0xb00 drivers/tty/n_tty.c:2406
->   iterate_tty_write+0x2b5/0x630 drivers/tty/tty_io.c:1017
->   file_tty_write.constprop.0+0x20c/0x3b0 drivers/tty/tty_io.c:1088
->   call_write_iter include/linux/fs.h:2085 [inline]
->   do_iter_readv_writev+0x210/0x3c0 fs/read_write.c:737
->   do_iter_write+0x181/0x4e0 fs/read_write.c:862
->   vfs_writev+0x15b/0x4d0 fs/read_write.c:935
->   do_writev+0x136/0x370 fs/read_write.c:978
->   do_syscall_x64 arch/x86/entry/common.c:51 [inline]
->   do_syscall_64+0x59/0x110 arch/x86/entry/common.c:81
->   entry_SYSCALL_64_after_hwframe+0x78/0xe2
->=20
-> When the virtual console is rotated in the backend state, it can lead to
-> inconsistencies between the size of the virtual console's size and its
-> hook functions. In such cases, clearing the screen may result in
-> out-of-bounds issue.
->=20
-> Fix it by adding a check in sys_fillrect() and moving set_blitting_type(=
-)
-> to the visible area of the VC.
->=20
-> CC: stable@vger.kernel.org      # fbdev had been refactored on 6.15-rc1
-> Fixes: 68648ed1f58d ("fbdev: add drawing functions for framebuffers in s=
-ystem RAM")
-> Signed-off-by: Gu Bowen <gubowen5@huawei.com>
-> ---
->   drivers/video/fbdev/core/fbcon.c       | 2 +-
->   drivers/video/fbdev/core/sysfillrect.c | 6 ++++++
->   2 files changed, 7 insertions(+), 1 deletion(-)
+Hi Dave, Simona,
 
+Updates for 6.19.
 
-That patch does not apply to git head.
-Can you try to reproduce with git head?
+The following changes since commit 2a084f4ad727244768b919455aa9dc1c04630487:
 
-Helge
+  Merge tag 'amd-drm-next-6.19-2025-11-07' of https://gitlab.freedesktop.org/agd5f/linux into drm-next (2025-11-11 15:35:49 +1000)
 
- =20
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core=
-/fbcon.c
-> index b49f15a3442e..a6602f230089 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -2702,9 +2702,9 @@ static void fbcon_modechanged(struct fb_info *info=
-)
->   		return;
->  =20
->   	p =3D &fb_display[vc->vc_num];
-> -	set_blitting_type(vc, info);
->  =20
->   	if (con_is_visible(vc)) {
-> +		set_blitting_type(vc, info);
->   		var_to_display(p, &info->var, info);
->   		cols =3D FBCON_SWAP(ops->rotate, info->var.xres, info->var.yres);
->   		rows =3D FBCON_SWAP(ops->rotate, info->var.yres, info->var.xres);
-> diff --git a/drivers/video/fbdev/core/sysfillrect.c b/drivers/video/fbde=
-v/core/sysfillrect.c
-> index bcdcaeae6538..e5c4ee317b0b 100644
-> --- a/drivers/video/fbdev/core/sysfillrect.c
-> +++ b/drivers/video/fbdev/core/sysfillrect.c
-> @@ -238,6 +238,7 @@ void sys_fillrect(struct fb_info *p, const struct fb=
-_fillrect *rect)
->   	u32 bpp =3D p->var.bits_per_pixel;
->   	unsigned long *dst;
->   	int dst_idx, left;
-> +	long dst_offset;
->  =20
->   	if (p->state !=3D FBINFO_STATE_RUNNING)
->   		return;
-> @@ -277,6 +278,11 @@ void sys_fillrect(struct fb_info *p, const struct f=
-b_fillrect *rect)
->   		}
->   		while (height--) {
->   			dst +=3D dst_idx >> (ffs(bits) - 1);
-> +			dst_offset =3D (unsigned long)dst - (unsigned long)p->screen_base;
-> +			if (dst_offset < 0 || dst_offset >=3D p->fix.smem_len) {
-> +				pr_err("dst offset out of bound: dst_offset(%ld)", dst_offset);
-> +				return;
-> +			}
->   			dst_idx &=3D (bits - 1);
->   			fill_op32(p, dst, dst_idx, pat, width*bpp, bits);
->   			dst_idx +=3D p->fix.line_length*8;
+are available in the Git repository at:
 
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-next-6.19-2025-11-14
+
+for you to fetch changes up to ccd3b4c7c37fbbd3e5244d3c54ca24ae0a37810d:
+
+  drm/amdgpu: Use amdgpu by default on SI dedicated GPUs (v2) (2025-11-14 11:28:29 -0500)
+
+----------------------------------------------------------------
+amd-drm-next-6.19-2025-11-14:
+
+amdgpu:
+- RAS updates
+- GC12 DCC P2P fix
+- Documentation fixes
+- Power limit code cleanup
+- Userq updates
+- VRR fix
+- SMART OLED support
+- DSC refactor for DCN 3.5
+- Replay updates
+- DC clockgating updates
+- HDCP refactor
+- ISP fix
+- SMU 13.0.12 updates
+- JPEG 5.0.1 fix
+- VCE1 support
+- Enable DC by default on SI
+- Refactor CIK and SI enablement
+- Enable amdgpu by default for CI dGPUs
+- XGMI fixes
+- SR-IOV fixes
+- Memory allocation critical path fixes
+- Enable amdgpu by default on SI dGPUs
+
+amdkfd:
+- Relax checks on save area overallocations
+- Fix GPU mappings after prefetch
+
+radeon:
+- Refactor CIK and SI enablement
+
+----------------------------------------------------------------
+Ahmad Rehman (1):
+      drm/amdkfd: Fixing the clang format
+
+Alvin Lee (1):
+      drm/amd/display: Only initialize LSDMA if it is supported in DMU
+
+Asad Kamal (6):
+      drm/amd/pm: Add NULL check for power limit
+      drm/amd/pm: Update pmfw headers for smu_v13_0_12
+      drm/amd/pm: Add ppt1 support for smu_v13_0_12
+      drm/amd/pm: Expose ppt1 limit for gc_v9_5_0
+      drm/amd/pm: Enable ppt1 caps for smu_v13_0_12
+      drm/amd/pm: Remove power2_average node
+
+Christian König (2):
+      drm/amdgpu: avoid memory allocation in the critical code path v3
+      drm/amdgpu: use GFP_ATOMIC instead of NOWAIT in the critical path
+
+Chuntao Tso (1):
+      drm/amd/display: To support Replay frame skip mode
+
+Dillon Varone (1):
+      drm/amd/display: Fix index bug for fill latency
+
+Dominik Kaszewski (2):
+      drm/amd/display: Change lock descriptor values
+      drm/amd/display: Revert in_transfer_func_change to MED
+
+Gangliang Xie (1):
+      drm/amd/pm: remove unnecessary prints for smu busy
+
+George Shen (1):
+      drm/amd/display: Add interface to capture power feature status for debug logging
+
+Harish Kasiviswanathan (1):
+      drm/amdkfd: Fix GPU mappings for APU after prefetch
+
+Ian Chen (1):
+      drm/amd/display: Add new SMART POWER OLED interfaces
+
+Ivan Lipski (1):
+      drm/amd/display: Allow VRR params change if unsynced with the stream
+
+Jesse.Zhang (2):
+      drm/amdgpu: fix lock warning in amdgpu_userq_fence_driver_process
+      drm/amdgpu: resume MES scheduling after user queue hang detection and recovery
+
+Jiapeng Chong (1):
+      drm/amdgpu/userqueue: Remove duplicate amdgpu_reset.h header
+
+Jonathan Kim (1):
+      drm/amdkfd: relax checks for over allocation of save area
+
+Leo Chen (1):
+      drm/amd/display: dynamically clock gate before and after prefetch
+
+Lijo Lazar (2):
+      drm/amdgpu: Check if AID is active before access
+      drm/amdgpu: Avoid xgmi register access
+
+Mario Limonciello (AMD) (1):
+      drm/amd: Clarify that amdgpu.audio only works for non-DC
+
+Mohit Bawa (1):
+      drm/amd/display: refactor DSC cap calculation for dcn35
+
+Pierre-Eric Pelloux-Prayer (1):
+      drm/amdgpu: jump to the correct label on failure
+
+Sathishkumar S (1):
+      drm/amdgpu/jpeg: Add parse_cs for JPEG5_0_1
+
+Srinivasan Shanmugam (2):
+      drm/amd/display: Fix annotations for connector poll/detect parameters
+      drm/amd/display: Add kdoc params/returns in dc/link detection helpers
+
+Sultan Alsawaf (1):
+      drm/amd/amdgpu: Ensure isp_kernel_buffer_alloc() creates a new BO
+
+Taimur Hassan (2):
+      drm/amd/display: [FW Promotion] Release 0.1.35.0
+      drm/amd/display: Promote DC to 3.2.358
+
+Tao Zhou (5):
+      drm/amdgpu: load RAS bad page from PMFW in page retirement
+      drm/amdgpu: get RAS bad page address from MCA address
+      drm/amdgpu: try for more times if RAS bad page number is not updated
+      drm/amdgpu: add RAS bad page threshold handling for PMFW manages eeprom
+      drm/amdgpu: optimize timeout implemention in ras_eeprom_update_record_num
+
+Timur Kristóf (18):
+      drm/amdgpu/gmc6: Place gart at low address range
+      drm/amdgpu/gart: Add helper to bind VRAM pages (v2)
+      drm/amdgpu: Use DC by default on SI dGPUs
+      drm/amdgpu/ttm: Use GART helper to map VRAM pages (v2)
+      drm/amdgpu/vce: Move firmware load to amdgpu_vce_early_init
+      drm/amdgpu/vce: Clear VCPU BO, don't unmap/unreserve (v4)
+      drm/amdgpu/vce1: Clean up register definitions
+      drm/amdgpu/vce1: Load VCE1 firmware
+      drm/amdgpu/vce1: Implement VCE1 IP block (v2)
+      drm/amdgpu/vce1: Ensure VCPU BO is in lower 32-bit address space (v3)
+      drm/amd/pm/si: Hook up VCE1 to SI DPM
+      drm/amdgpu/vce1: Enable VCE1 on Tahiti, Pitcairn, Cape Verde GPUs
+      drm/amdgpu/vce1: Workaround PLL timeout on FirePro W9000
+      drm/radeon: Refactor how SI and CIK support is determined
+      drm/amdgpu: Refactor how SI and CIK support is determined
+      drm/amdgpu: Use amdgpu by default on CIK dedicated GPUs
+      drm/amdgpu: Use amdgpu by default on CIK dedicated GPUs
+      drm/amdgpu: Use amdgpu by default on SI dedicated GPUs (v2)
+
+Vitaly Prosyak (1):
+      drm/amdgpu: disable peer-to-peer access for DCC-enabled GC12 VRAM surfaces
+
+Wenjing Liu (2):
+      drm/amd/display: add macros to simplify code
+      drm/amd/display: Refactor HDCP Status Log Format
+
+Will Aitken (3):
+      drm/amdgpu: Refactor sriov xgmi topology filling to common code
+      drm/amdgpu: Update headers for sriov xgmi ext peer link support feature flag
+      drm/amdgpu: Enable xgmi extended peer links for sriov guest
+
+YiPeng Chai (3):
+      drm/amdgpu: Synchronize sriov host to add block_mmsch bit field
+      drm/amdgpu: Add lock to serialize sriov command execution
+      drm/amdgpu: Fix the issue of missing ras message on sriov host
+
+ drivers/gpu/drm/amd/amdgpu/Kconfig                 |  24 +-
+ drivers/gpu/drm/amd/amdgpu/Makefile                |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |  15 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c            |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  15 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c        |  12 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c            | 162 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gart.c           |  36 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gart.h           |   3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c        |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c            |  58 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_isp.c            |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c            |  23 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c            |  23 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c     |  72 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_umc.c            | 147 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c          |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c    |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vce.c            | 174 +++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vce.h            |   3 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c           |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h           |   6 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c             |   7 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h             |   4 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c           |  37 +-
+ drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h        |   6 +-
+ drivers/gpu/drm/amd/amdgpu/gmc_v6_0.c              |   2 +-
+ drivers/gpu/drm/amd/amdgpu/jpeg_v5_0_1.c           |   1 +
+ drivers/gpu/drm/amd/amdgpu/mes_userqueue.c         |   7 +
+ drivers/gpu/drm/amd/amdgpu/mxgpu_nv.c              |  17 +-
+ drivers/gpu/drm/amd/amdgpu/si.c                    |  22 +-
+ drivers/gpu/drm/amd/amdgpu/sid.h                   |  40 -
+ drivers/gpu/drm/amd/amdgpu/vce_v1_0.c              | 839 +++++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/vce_v1_0.h              |  32 +
+ drivers/gpu/drm/amd/amdgpu/vce_v2_0.c              |   5 +
+ drivers/gpu/drm/amd/amdgpu/vce_v3_0.c              |   5 +
+ drivers/gpu/drm/amd/amdgpu/vce_v4_0.c              |   5 +
+ .../gpu/drm/amd/amdkfd/kfd_device_queue_manager.c  |   2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_queue.c             |  12 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c               |   2 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  22 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_replay.c   |   2 +-
+ .../amd/display/dc/clk_mgr/dcn35/dcn35_clk_mgr.c   |  30 +
+ drivers/gpu/drm/amd/display/dc/core/dc.c           | 242 ++++--
+ drivers/gpu/drm/amd/display/dc/dc.h                |  28 +-
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c       |   3 +
+ drivers/gpu/drm/amd/display/dc/dc_types.h          |   6 +
+ drivers/gpu/drm/amd/display/dc/dce/dmub_replay.c   |   7 +-
+ drivers/gpu/drm/amd/display/dc/dce/dmub_replay.h   |   5 +-
+ .../dml21/src/dml2_core/dml2_core_dcn4_calcs.c     |   2 +-
+ .../gpu/drm/amd/display/dc/dsc/dcn35/dcn35_dsc.c   |  31 +-
+ .../drm/amd/display/dc/hubbub/dcn31/dcn31_hubbub.c |   7 +-
+ .../drm/amd/display/dc/hubbub/dcn35/dcn35_hubbub.c |  52 +-
+ .../drm/amd/display/dc/hubbub/dcn35/dcn35_hubbub.h |   1 +
+ drivers/gpu/drm/amd/display/dc/inc/hw/dchubbub.h   |   2 +
+ drivers/gpu/drm/amd/display/dc/inc/link_service.h  |   4 +-
+ .../gpu/drm/amd/display/dc/link/link_detection.c   |  23 +
+ .../dc/link/protocols/link_edp_panel_control.c     |  17 +-
+ .../dc/link/protocols/link_edp_panel_control.h     |   4 +-
+ drivers/gpu/drm/amd/display/dmub/inc/dmub_cmd.h    |  10 +-
+ .../drm/amd/display/modules/freesync/freesync.c    |  11 +
+ .../gpu/drm/amd/display/modules/hdcp/hdcp_log.c    | 124 +--
+ drivers/gpu/drm/amd/display/modules/inc/mod_hdcp.h | 126 ++--
+ .../drm/amd/display/modules/power/power_helpers.c  |  30 +
+ .../drm/amd/display/modules/power/power_helpers.h  |   5 +
+ .../gpu/drm/amd/include/asic_reg/vce/vce_1_0_d.h   |   5 +
+ .../drm/amd/include/asic_reg/vce/vce_1_0_sh_mask.h |  10 +
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c                 |  15 +-
+ drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c         |  18 +-
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |   5 +
+ .../amd/pm/swsmu/inc/pmfw_if/smu_v13_0_12_pmfw.h   |   7 +-
+ .../amd/pm/swsmu/inc/pmfw_if/smu_v13_0_12_ppsmc.h  |   4 +-
+ drivers/gpu/drm/amd/pm/swsmu/inc/smu_types.h       |   4 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_12_ppt.c  |  10 +
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.c   |  83 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_6_ppt.h   |   4 +
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |  10 +-
+ drivers/gpu/drm/radeon/radeon_drv.c                |  81 +-
+ 79 files changed, 2152 insertions(+), 742 deletions(-)
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/vce_v1_0.c
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/vce_v1_0.h
