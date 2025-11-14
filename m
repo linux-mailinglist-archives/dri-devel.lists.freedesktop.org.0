@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98CD0C5E2C4
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 17:22:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 490B7C5E2D6
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 17:22:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7B9510EAC6;
-	Fri, 14 Nov 2025 16:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1779910EAC9;
+	Fri, 14 Nov 2025 16:22:36 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="GjXQU64P";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 61FFE10EAC5;
- Fri, 14 Nov 2025 16:22:15 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5B0FC1063;
- Fri, 14 Nov 2025 08:22:07 -0800 (PST)
-Received: from [10.1.39.17] (e122027.cambridge.arm.com [10.1.39.17])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 42B143F5A1;
- Fri, 14 Nov 2025 08:22:08 -0800 (PST)
-Message-ID: <468df8dc-0dab-449f-b48a-50470403ca3b@arm.com>
-Date: Fri, 14 Nov 2025 16:22:06 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 15/16] drm/panfrost: Add flag to map GEM object
- Write-Back Cacheable
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B550910EAC7;
+ Fri, 14 Nov 2025 16:22:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=q7oRAcOcgteATiqqbfYyV4DVbpBrb7vdxWZrPENTc3w=; b=GjXQU64P8bnaekapB8qDWzF/bW
+ 2/C1hR4MWPJlIJIQRWYhBqA7gXRTSIB1RpgWgj5vGqi1XgDCYinmqYEuosiSXffk9vfduLkBt33cJ
+ WbfCRxpBznrcKB8B9udJcmA+Bk3MbE50+8ICO/5zwFQZnor9PJrVD95dePBP76Mz0OO17S8xeFoDa
+ 0Li5sXkV6VcLPcZ+DATlnp6LZI0BHn71AxkeU0FddOH+BvmymVOeKdHN/gtpuXA1qKQOCTh/dwyKx
+ u6SsQ3/MxQjhCC0aIrCF4mkfMhDMYvn19HeEywfVtSTXS3m1SXphViu82jd3r0dMIsbhHdWnRZEY9
+ RsMNdUMg==;
+Received: from [90.240.106.137] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1vJwZ0-000WIs-LL; Fri, 14 Nov 2025 17:22:18 +0100
+Date: Fri, 14 Nov 2025 16:22:16 +0000
+From: Tvrtko Ursulin <tursulin@igalia.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
  Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Frank Binns <frank.binns@imgtec.com>,
- Matt Coster <matt.coster@imgtec.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, kernel@collabora.com
-References: <20251030140525.366636-1-boris.brezillon@collabora.com>
- <20251030140525.366636-16-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251030140525.366636-16-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-intel-gt-next
+Message-ID: <aRdXOAKlTVX_b0en@linux>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,171 +67,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/10/2025 14:05, Boris Brezillon wrote:
-> From: Faith Ekstrand <faith.ekstrand@collabora.com>
-> 
-> Will be used by the UMD to optimize CPU accesses to buffers
-> that are frequently read by the CPU, or on which the access
-> pattern makes non-cacheable mappings inefficient.
-> 
-> Mapping buffers CPU-cached implies taking care of the CPU
-> cache maintenance in the UMD, unless the GPU is IO coherent.
-> 
-> v2:
-> - Add more to the commit message
-> 
-> v3:
-> - No changes
-> 
-> v4:
-> - Fix the map_wc test in panfrost_ioctl_query_bo_info()
-> 
-> v5:
-> - Drop Steve's R-b (enough has changed to justify a new review)
-> 
-> Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Hi Dave, Sima,
 
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 10 ++++++--
->  drivers/gpu/drm/panfrost/panfrost_gem.c | 33 +++++++++++++++++++++++++
->  drivers/gpu/drm/panfrost/panfrost_gem.h |  5 ++++
->  include/uapi/drm/panfrost_drm.h         |  5 +++-
->  4 files changed, 50 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index ba03a4420264..74b7dc75d88b 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -125,6 +125,10 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
->  	return 0;
->  }
->  
-> +#define PANFROST_BO_FLAGS	(PANFROST_BO_NOEXEC | \
-> +				 PANFROST_BO_HEAP | \
-> +				 PANFROST_BO_WB_MMAP)
-> +
->  static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
->  		struct drm_file *file)
->  {
-> @@ -134,8 +138,7 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
->  	struct panfrost_gem_mapping *mapping;
->  	int ret;
->  
-> -	if (!args->size || args->pad ||
-> -	    (args->flags & ~(PANFROST_BO_NOEXEC | PANFROST_BO_HEAP)))
-> +	if (!args->size || args->pad || (args->flags & ~PANFROST_BO_FLAGS))
->  		return -EINVAL;
->  
->  	/* Heaps should never be executable */
-> @@ -652,6 +655,9 @@ static int panfrost_ioctl_query_bo_info(struct drm_device *dev, void *data,
->  
->  		if (bo->is_heap)
->  			args->create_flags |= PANFROST_BO_HEAP;
-> +
-> +		if (!bo->base.map_wc)
-> +			args->create_flags |= PANFROST_BO_WB_MMAP;
->  	}
->  
->  	drm_gem_object_put(gem_obj);
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index 05d3f8a6fa78..1c600939c17a 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -269,6 +269,7 @@ static const struct drm_gem_object_funcs panfrost_gem_funcs = {
->  	.vmap = drm_gem_shmem_object_vmap,
->  	.vunmap = drm_gem_shmem_object_vunmap,
->  	.mmap = drm_gem_shmem_object_mmap,
-> +	.export = drm_gem_prime_export,
->  	.status = panfrost_gem_status,
->  	.rss = panfrost_gem_rss,
->  	.vm_ops = &drm_gem_shmem_vm_ops,
-> @@ -302,12 +303,42 @@ struct drm_gem_object *panfrost_gem_create_object(struct drm_device *dev, size_t
->  	return &obj->base.base;
->  }
->  
-> +static bool
-> +should_map_wc(struct panfrost_gem_object *bo)
-> +{
-> +	struct panfrost_device *pfdev = to_panfrost_device(bo->base.base.dev);
-> +
-> +	/* We can't do uncached mappings if the device is coherent,
-> +	 * because the zeroing done by the shmem layer at page allocation
-> +	 * time happens on a cached mapping which isn't CPU-flushed (at least
-> +	 * not on Arm64 where the flush is deferred to PTE setup time, and
-> +	 * only done conditionally based on the mapping permissions). We can't
-> +	 * rely on dma_map_sgtable()/dma_sync_sgtable_for_xxx() either to flush
-> +	 * those, because they are NOPed if dma_dev_coherent() returns true.
-> +	 */
-> +	if (pfdev->coherent)
-> +		return false;
-> +
-> +	/* Cached mappings are explicitly requested, so no write-combine. */
-> +	if (bo->wb_mmap)
-> +		return false;
-> +
-> +	/* The default is write-combine. */
-> +	return true;
-> +}
-> +
->  struct panfrost_gem_object *
->  panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
->  {
->  	struct drm_gem_shmem_object *shmem;
->  	struct panfrost_gem_object *bo;
->  
-> +	/* The heap buffer is not supposed to be CPU-visible, so don't allow
-> +	 * WB_MMAP on those.
-> +	 */
-> +	if ((flags & PANFROST_BO_HEAP) && (flags & PANFROST_BO_WB_MMAP))
-> +		return ERR_PTR(-EINVAL);
-> +
->  	/* Round up heap allocations to 2MB to keep fault handling simple */
->  	if (flags & PANFROST_BO_HEAP)
->  		size = roundup(size, SZ_2M);
-> @@ -319,6 +350,8 @@ panfrost_gem_create(struct drm_device *dev, size_t size, u32 flags)
->  	bo = to_panfrost_bo(&shmem->base);
->  	bo->noexec = !!(flags & PANFROST_BO_NOEXEC);
->  	bo->is_heap = !!(flags & PANFROST_BO_HEAP);
-> +	bo->wb_mmap = !!(flags & PANFROST_BO_WB_MMAP);
-> +	bo->base.map_wc = should_map_wc(bo);
->  
->  	return bo;
->  }
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> index 87b918f30baa..d2d532b3007a 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> @@ -98,6 +98,11 @@ struct panfrost_gem_object {
->  	bool noexec		:1;
->  	bool is_heap		:1;
->  
-> +	/* On coherent devices, this reflects the creation flags, not the true
-> +	 * cacheability attribute of the mapping.
-> +	 */
-> +	bool wb_mmap		:1;
-> +
->  #ifdef CONFIG_DEBUG_FS
->  	struct panfrost_gem_debugfs debugfs;
->  #endif
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index 743c79a38f1b..82f4e69bafb4 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -101,9 +101,12 @@ struct drm_panfrost_wait_bo {
->  	__s64 timeout_ns;	/* absolute */
->  };
->  
-> -/* Valid flags to pass to drm_panfrost_create_bo */
-> +/* Valid flags to pass to drm_panfrost_create_bo.
-> + * PANFROST_BO_WB_MMAP can't be set if PANFROST_BO_HEAP is.
-> + */
->  #define PANFROST_BO_NOEXEC	1
->  #define PANFROST_BO_HEAP	2
-> +#define PANFROST_BO_WB_MMAP	4
->  
->  /**
->   * struct drm_panfrost_create_bo - ioctl argument for creating Panfrost BOs.
+Here goes the final drm-intel-gt-next pull request for 6.19. It contains
+one locking fix for Cherryview/Broxton with VT-D enabled, one making use
+of a more canonical driver API, and a couple of selftest cleanups.
 
+Regards,
+
+Tvrtko
+
+drm-intel-gt-next-2025-11-14:
+Driver Changes:
+
+Fixes/improvements/new stuff:
+
+- Avoid lock inversion when pinning to GGTT on CHV/BXT+VTD (Janusz Krzysztofik)
+- Use standard API for seqcount read in TLB invalidation [gt] (Andi Shyti)
+
+Miscellaneous:
+
+- Wait longer for threads in migrate selftest on CHV/BXT+VTD (Janusz Krzysztofik)
+- Wait for page_sizes_gtt in gtt selftest on CHV/BXT+VTD (Janusz Krzysztofik)
+The following changes since commit 2ada9cb1df3f5405a01d013b708b1b0914efccfe:
+
+  drm/i915: Fix conversion between clock ticks and nanoseconds (2025-10-16 14:40:22 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-gt-next-2025-11-14
+
+for you to fetch changes up to 3bcf7894a93e18bff802088a368c13d86a5987a0:
+
+  drm/i915/gt: Use standard API for seqcount read in TLB invalidation (2025-10-31 10:58:05 +0100)
+
+----------------------------------------------------------------
+Driver Changes:
+
+Fixes/improvements/new stuff:
+
+- Avoid lock inversion when pinning to GGTT on CHV/BXT+VTD (Janusz Krzysztofik)
+- Use standard API for seqcount read in TLB invalidation [gt] (Andi Shyti)
+
+Miscellaneous:
+
+- Wait longer for threads in migrate selftest on CHV/BXT+VTD (Janusz Krzysztofik)
+- Wait for page_sizes_gtt in gtt selftest on CHV/BXT+VTD (Janusz Krzysztofik)
+
+----------------------------------------------------------------
+Andi Shyti (1):
+      drm/i915/gt: Use standard API for seqcount read in TLB invalidation
+
+Janusz Krzysztofik (3):
+      drm/i915: Avoid lock inversion when pinning to GGTT on CHV/BXT+VTD
+      drm/i915: Wait longer for threads in migrate selftest on CHV/BXT+VTD
+      drm/i915: Wait for page_sizes_gtt in gtt selftest on CHV/BXT+VTD
+
+ drivers/gpu/drm/i915/gt/intel_tlb.h           |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_migrate.c    |  9 ++++++++-
+ drivers/gpu/drm/i915/i915_vma.c               | 16 ++++++++++++++--
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |  4 ++++
+ 4 files changed, 27 insertions(+), 4 deletions(-)
