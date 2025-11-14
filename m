@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985ABC5B3DD
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 04:54:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38839C5B3E0
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 04:54:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B29810E068;
-	Fri, 14 Nov 2025 03:53:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C4D810E99C;
+	Fri, 14 Nov 2025 03:53:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 687A210E068
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 03:53:46 +0000 (UTC)
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 625FB10E99C
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 03:53:49 +0000 (UTC)
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-53-Une5n3XhPy-XUXJTge3gmg-1; Thu,
- 13 Nov 2025 22:53:43 -0500
-X-MC-Unique: Une5n3XhPy-XUXJTge3gmg-1
-X-Mimecast-MFC-AGG-ID: Une5n3XhPy-XUXJTge3gmg_1763092422
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-306-OlcnbYsgMruUKfdHCX-YdA-1; Thu,
+ 13 Nov 2025 22:53:46 -0500
+X-MC-Unique: OlcnbYsgMruUKfdHCX-YdA-1
+X-Mimecast-MFC-AGG-ID: OlcnbYsgMruUKfdHCX-YdA_1763092425
 Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 9E7481956080
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 03:53:42 +0000 (UTC)
+ by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 0BAB919560B2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 03:53:45 +0000 (UTC)
 Received: from dreadlord.redhat.com (unknown [10.67.32.53])
  by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 47DE619560B9
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 03:53:40 +0000 (UTC)
+ id 972BC19560B9
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 03:53:43 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/scdc: add frl config/status registers to scdc header.
-Date: Fri, 14 Nov 2025 13:53:37 +1000
-Message-ID: <20251114035338.15144-1-airlied@gmail.com>
+Subject: [PATCH 2/2] amd/dc: add frl bits to the registers
+Date: Fri, 14 Nov 2025 13:53:38 +1000
+Message-ID: <20251114035338.15144-2-airlied@gmail.com>
+In-Reply-To: <20251114035338.15144-1-airlied@gmail.com>
+References: <20251114035338.15144-1-airlied@gmail.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Pcchiica2GhTs4VLo29DGktbcUY4rUqhcZ6MkAf2ZbY_1763092422
+X-Mimecast-MFC-PROC-ID: ud9Gf-naUceD_Q1d6YDNovNjT3f80ncXkMYNDQjcfJY_1763092425
 X-Mimecast-Originator: gmail.com
 Content-Transfer-Encoding: quoted-printable
 content-type: text/plain; charset=WINDOWS-1252; x-default=true
@@ -61,63 +63,66 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-These are sourced from publically available presentations like
-https://www.ti.com/content/dam/videos/external-videos/en-us/11/381684162600=
-1/overview-ddc-bus-hdmi-systems.mp4/subassets/overview-ddc-bus-hdmi-systems=
--presentation.pdf
-
-Document in the kernel in case they are of use to someone.
+document the same bits as added to the main headers.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- include/drm/display/drm_scdc.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ .../gpu/drm/amd/display/dc/dc_hdmi_types.h    | 30 +++++++++++++++++--
+ 1 file changed, 28 insertions(+), 2 deletions(-)
 
-diff --git a/include/drm/display/drm_scdc.h b/include/drm/display/drm_scdc.=
-h
-index 3d58f37e8ed8..3b6a8a4a4bca 100644
---- a/include/drm/display/drm_scdc.h
-+++ b/include/drm/display/drm_scdc.h
-@@ -29,6 +29,8 @@
- #define SCDC_SOURCE_VERSION 0x02
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_hdmi_types.h b/drivers/gpu/d=
+rm/amd/display/dc/dc_hdmi_types.h
+index b015e80672ec..693129b987ac 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_hdmi_types.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_hdmi_types.h
+@@ -77,11 +77,24 @@ union hdmi_scdc_update_read_data {
+ =09=09uint8_t STATUS_UPDATE:1;
+ =09=09uint8_t CED_UPDATE:1;
+ =09=09uint8_t RR_TEST:1;
+-=09=09uint8_t RESERVED:5;
++=09=09uint8_t RESERVED0:1;
++=09=09uint8_t FRL_START:1;
++=09=09uint8_t FLT_UPDATE:1;
++=09=09uint8_t RESERVED:2;
+ =09=09uint8_t RESERVED2:8;
+ =09} fields;
+ };
 =20
- #define SCDC_UPDATE_0 0x10
-+#define  SCDC_FLT_UPDATE (1 << 5)
-+#define  SCDC_FRL_START (1 << 4)
- #define  SCDC_READ_REQUEST_TEST (1 << 2)
- #define  SCDC_CED_UPDATE (1 << 1)
- #define  SCDC_STATUS_UPDATE (1 << 0)
-@@ -46,7 +48,20 @@
- #define SCDC_CONFIG_0 0x30
- #define  SCDC_READ_REQUEST_ENABLE (1 << 0)
-=20
-+#define SCDC_CONFIG_FRL 0x31
-+#define  SCDC_FRL_RATE(x) (((x) & 0x7) << 0)
-+#define  SCDC_FRL_RATE_DISABLE 0
-+#define  SCDC_FRL_RATE_FIXED_3LANE_3GB 1
-+#define  SCDC_FRL_RATE_FIXED_3LANE_6GB 2
-+#define  SCDC_FRL_RATE_FIXED_4LANE_6GB 3
-+#define  SCDC_FRL_RATE_FIXED_4LANE_8GB 4
-+#define  SCDC_FRL_RATE_FIXED_4LANE_10GB 5
-+#define  SCDC_FRL_RATE_FIXED_4LANE_12GB 6
-+#define  SCDC_FRL_FFE_LEVELS(x) (((x) & 0xF) << 4)
++union hdmi_scdc_config_data {
++=09uint8_t byte[2];
++=09struct {
++=09=09uint8_t RR_ENABLE:1;
++=09=09uint8_t RESERVED:7;
++=09=09uint8_t FRL_RATE:4;
++=09=09uint8_t FFE_LEVELS:4;
++=09} fields;
++};
 +
- #define SCDC_STATUS_FLAGS_0 0x40
-+#define  SCDC_FLT_READY (1 << 6)
-+#define  SCDC_LANE3_LOCK (1 << 4)
- #define  SCDC_CH2_LOCK (1 << 3)
- #define  SCDC_CH1_LOCK (1 << 2)
- #define  SCDC_CH0_LOCK (1 << 1)
-@@ -55,6 +70,9 @@
-=20
- #define SCDC_STATUS_FLAGS_1 0x41
-=20
-+#define SCDC_LN_LTP_01 0x41
-+#define SCDC_LN_LTP_23 0x42
+ union hdmi_scdc_status_flags_data {
+ =09uint8_t byte;
+ =09struct {
+@@ -89,7 +102,20 @@ union hdmi_scdc_status_flags_data {
+ =09=09uint8_t CH0_LOCKED:1;
+ =09=09uint8_t CH1_LOCKED:1;
+ =09=09uint8_t CH2_LOCKED:1;
+-=09=09uint8_t RESERVED:4;
++=09=09uint8_t LANE3_LOCKED:1;
++=09=09uint8_t RESERVED:1;
++=09=09uint8_t FLT_READY:1;
++=09=09uint8_t RESERVED2:1;
++=09} fields;
++};
 +
- #define SCDC_ERR_DET_0_L 0x50
- #define SCDC_ERR_DET_0_H 0x51
- #define SCDC_ERR_DET_1_L 0x52
++union hdmi_scdc_lane_status_data {
++=09uint8_t byte[2];
++=09struct {
++=09=09uint8_t ltp_0:4;
++=09=09uint8_t ltp_1:4;
++=09=09uint8_t ltp_2:4;
++=09=09uint8_t ltp_3:4;
+ =09} fields;
+ };
+=20
 --=20
 2.51.1
 
