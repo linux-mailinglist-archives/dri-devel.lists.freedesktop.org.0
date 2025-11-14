@@ -2,38 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6451C5CB61
-	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 11:56:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71664C5CBEF
+	for <lists+dri-devel@lfdr.de>; Fri, 14 Nov 2025 12:03:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 514AF10EA32;
-	Fri, 14 Nov 2025 10:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A34210EA39;
+	Fri, 14 Nov 2025 11:03:21 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Sf5NkDbs";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SN1/t2hx";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E2ADF10EA32
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 10:56:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CEBAF1063
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 02:56:13 -0800 (PST)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 423B53F66E
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 02:56:21 -0800 (PST)
-Date: Fri, 14 Nov 2025 10:56:13 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Rahul Kumar <rk0006818@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/komeda: Convert logging in komeda_pipeline.c to
- drm_* with drm_device parameter
-Message-ID: <aRcKzbV_cKbC6vlV@e110455-lin.cambridge.arm.com>
-References: <20251114091825.3591430-1-rk0006818@gmail.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D12310EA39
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 11:03:20 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AE8Z6ri1686448
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 11:03:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ SsL1HDB38FRgMcij+jx/dBoF3vzUnXEGnTWRlo3FyXw=; b=Sf5NkDbsIzoxNN0g
+ fio1is6hSCp4F0VbBAhVOImlbSGrtkPsPOnykwY5S6C3X3+DXOvTi5vxmmfSaosg
+ PV6wf/0NoqTkha1yJ7E6P4BC0gB1++ENh49zU28tEaqZwM6SbEy29EHNqwwWH8Cx
+ +3X8F0SyZln8FE1mRP3LYwY6U2d30/pkkSe8iTrJARyUCizFIo7DjG2asuIm2dhY
+ ogKE7tL3HTflIEoBqJ9CAfaftWU7zr6I4pUZ8H4YB3bQWCX/abr/R1vYkj/2NGZ+
+ bnJjU1pzQYmnVkUuiwe6Ehm+wewO7ZvtBXoKBszjWw9IGTJ0xPgmvCXGs1sXm8S+
+ iJqcGQ==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4adr9g1wbd-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 11:03:18 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4ed79dd4a47so54463411cf.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 03:03:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1763118198; x=1763722998;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=SsL1HDB38FRgMcij+jx/dBoF3vzUnXEGnTWRlo3FyXw=;
+ b=SN1/t2hxKmMqwb/yEkSuQolFSMQtg2YOLaZVBUfQu0k9iNrTtRSJYS5+VkMiB1NxRf
+ pPnolOMjZQdMjmQfa2lZKRMVA+jEjvnd61kbEE23CPbNDO5xxfDjBgPD2lybKn2NWRF/
+ /Sb5UeuGwxNKy8vAJ33vHm79LWwUEtvXvbmzFSnob7/50s+58wp7DEZPqkmcIuaKSyyM
+ 9HR+pSbwYqGa1CV9Y2rmiyTPKrqgIU/6icfpXScF5AeKMueYw8QEwY/Tjyp7Z3Dr7hKb
+ WXgQJXuFwBtBFMssKXBnzGW26dOrx+DKT1/KyjgByg+dxwjmxYNb6xwyN/o2L5RYIQfY
+ MFgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763118198; x=1763722998;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=SsL1HDB38FRgMcij+jx/dBoF3vzUnXEGnTWRlo3FyXw=;
+ b=YwdTNWRzDOTE12liQCUqhNVOVYqJbZs87rxFuvpteOWffRDjfFCVvHQn5ZXh/7947W
+ EruTd1PUmxCWM6gScCMJ1T6Oiictoc+wfTBsdRe3JxWICxFIhWbu5C4+aLiGrQC2YAMq
+ Kad/KpXDS+C3yQFgSJNFzQ5wLVoaQT4H+RhoVkdRLMfzwgY/9WjY36/LQbwzfUkR1iUj
+ 4TLs1Kh9W6mxfB0nV5jbprWyOC0QqFSf4YNmaSgOiIcuYTgouFqsb3GJFXXg8b4sZJl3
+ rjQp2xEbaNOotVTK3xnsCDspvNTlSjtCf2YzpzPgC8LHAqDwSlbiYX0ejATvyeJg4n8N
+ XMEQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWEGkyvSGqlxx/2R+PkHUWDYyMVA0jFGtnaS3MdKJ+ahupBZ08Q0zYBhKQ9iQrO8yXVIa3QzU0x1mw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzYSYiY8YnbHgleAki7htdeG4Yf2OiVai6h2rZgqxMLyNCN7TKf
+ tPhACaJ5wnwfgWiZu2zlKhzoBGcqdmUthnBvZN6KYgf6RNNW3ZqBuZTFJopHEkNyJwiMhxdC6Uy
+ n1O+l+i0tyGStDrdCohqB9pxsjrX3KkkTfPof9L3BB7L/Onmxve4HVBOnlYOaKDistD2QzVU=
+X-Gm-Gg: ASbGncutNcCfPzH2xOXCeZxQvBdBWLqVP5jh/mhj5ezr+KIt5vPDXAgEW5MHCyx+oC3
+ g9ehwZJgZIz+nsFNlz47uWEUw8DytRirpXpoPr6IsAlips+wcGvYNXYRzlmRvL5yTamTXLyzQie
+ irNofEv2hZBrzV6goZdw9wAwRSZLhYeF8v2isCsmlOF3SjcRuVOB7Qgo8KhU/XPXieKonXcZ+my
+ wFnP+vlamKbmChEFaV1sNBIGLWAI68YbdLQs+yMVf2327KMUbEDtGyCcpUj/IzuVWYVwB9aQSv2
+ lJnCrk4iz9ZcJAITSC4dySs4kOiM5Eg3BXnUSDE37CRu33hFa3F0scUASUP9vtOiRZNHwMwJ978
+ 5EN/pZ8t60BpjZ5+NoT8a9gnhfn7IGz58aEzlmarspUfyJQ3kJDcy2ppRmoy3ND4kTyt7hHVY+j
+ pEdvJ9OfAvKP6p
+X-Received: by 2002:ac8:578b:0:b0:4db:e7be:b40b with SMTP id
+ d75a77b69052e-4edf20a3de9mr40782431cf.23.1763118198144; 
+ Fri, 14 Nov 2025 03:03:18 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGnk790PmVPOn1c7OeBtDwurCO7QZI3gzzVeXmoG8GqrbzlotEwQFNkCiIoA940ETO47ZtSJg==
+X-Received: by 2002:ac8:578b:0:b0:4db:e7be:b40b with SMTP id
+ d75a77b69052e-4edf20a3de9mr40781771cf.23.1763118197632; 
+ Fri, 14 Nov 2025 03:03:17 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-37b9ced4adasm9135771fa.26.2025.11.14.03.03.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 14 Nov 2025 03:03:16 -0800 (PST)
+Date: Fri, 14 Nov 2025 13:03:15 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: federico@izzo.pro
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ nicola@corna.info, David Heidelberg <david@ixit.cz>,
+ Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>
+Subject: Re: [PATCH v3] drm/msm/dpu: Add DSPP GC driver to provide GAMMA_LUT
+ DRM property
+Message-ID: <ac7fri2okl3bvzvfnjxg74x5gekn74ii5sslvldfw4ioan57bj@w63zkvngpi4x>
+References: <20251019-dpu-add-dspp-gc-driver-v3-1-840491934e56@izzo.pro>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251114091825.3591430-1-rk0006818@gmail.com>
+In-Reply-To: <20251019-dpu-add-dspp-gc-driver-v3-1-840491934e56@izzo.pro>
+X-Proofpoint-GUID: 6cLUlL-51I2MN257OVCu8ta8NPbVEfgv
+X-Proofpoint-ORIG-GUID: 6cLUlL-51I2MN257OVCu8ta8NPbVEfgv
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE0MDA4NyBTYWx0ZWRfX8K1snuPBI5sM
+ aorAoqGqBInfmyksopRBpireGqfNmop7SO1okKg9uoVBN5yve1dwFY2tLbG6av6/l2JR/B6p6gD
+ 5i82nOqD88xCcr2wG6J/y4T5LW4nwBZAuUI5zGb1sNvznQ5kUN7bXPFfOQ9xMSlbcm9Mv6TRyf9
+ BNA1iO2DarGZ6yaCm0bXqZAoM6qT3k7gtzBvBxVwYbc2eyiT5v/I9Ze1By/HiEP3iFzjT9WoEkr
+ jRMT7U7wwnZKfCebsxbNXvuEND4gRaPORbhs23BcOme1hsf5guKlasFrcWndN3PFcdye+CZe/9D
+ r7TEJd85aiVfY5XtsLydUgw8L6bT+hsbLTHjdqBO5howy+JQTzBZXy+O6YXsfXSFlZ3Txn9TvQK
+ Gq3cBCYDEX1Fj9FJXDsvr/KKf5i3Qg==
+X-Authority-Analysis: v=2.4 cv=IM8PywvG c=1 sm=1 tr=0 ts=69170c76 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=ze386MxoAAAA:8 a=ZFu0rgk015Nm-26e0XUA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+ a=a_PwQJl-kcHnX1M80qC6:22 a=iBZjaW-pnkserzjvUTHh:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-14_03,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 malwarescore=0 suspectscore=0 lowpriorityscore=0
+ adultscore=0 impostorscore=0 phishscore=0 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511140087
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,208 +150,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 14, 2025 at 02:48:25PM +0530, Rahul Kumar wrote:
-> Replace DRM_ERROR/WARN/INFO() and DRM_DEBUG() calls in
-> drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c with the
-> drm_err(), drm_warn(), drm_info() and drm_dbg() helpers.
+On Sun, Oct 19, 2025 at 12:06:32PM +0200, Federico Amedeo Izzo via B4 Relay wrote:
+> From: Federico Amedeo Izzo <federico@izzo.pro>
 > 
-> The drm_*() logging macros require a struct drm_device * parameter,
-> which allows the DRM core to prefix log messages with the device
-> instance. This is important for distinguishing logs when multiple
-> Komeda or other DRM devices are present.
+> Add support for DSPP GC block in DPU driver for Qualcomm SoCs.
+> Expose the GAMMA_LUT DRM property, which is needed to enable
+> night light and basic screen color calibration.
 > 
-> This conversion follows the DRM TODO entry:
-> "Convert logging to drm_* functions with drm_device parameter".
+> I used LineageOS downstream kernel as a reference and found the LUT
+> format by trial-and-error on OnePlus 6.
 > 
-> Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
-
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-
-Will push this today to drm-misc-next.
-
-Best regards,
-Liviu
-
+> Tested on oneplus-enchilada (sdm845-mainline 6.16-dev) and xiaomi-tissot
+> (msm8953-mainline 6.12/main).
+> 
+> Tested-by: David Heidelberg <david@ixit.cz>  # Pixel 3 (next-20251018)
+> Tested-by: Guido G�nther <agx@sigxcpu.org> # on sdm845-shift-axolotl
+> Signed-off-by: Federico Amedeo Izzo <federico@izzo.pro>
 > ---
->  .../drm/arm/display/komeda/komeda_pipeline.c  | 53 ++++++++++++-------
->  1 file changed, 34 insertions(+), 19 deletions(-)
+> DRM GAMMA_LUT support was missing on sdm845 and other Qualcomm SoCs using
+> DPU for CRTC. This is needed in userspace to enable features like Night
+> Light or basic color calibration.
 > 
-> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
-> index 81e244f0c0ca..88d24b074e5e 100644
-> --- a/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
-> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_pipeline.c
-> @@ -18,16 +18,18 @@ struct komeda_pipeline *
->  komeda_pipeline_add(struct komeda_dev *mdev, size_t size,
->  		    const struct komeda_pipeline_funcs *funcs)
->  {
-> +	struct komeda_kms_dev *kms = dev_get_drvdata(mdev->dev);
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_pipeline *pipe;
->  
->  	if (mdev->n_pipelines + 1 > KOMEDA_MAX_PIPELINES) {
-> -		DRM_ERROR("Exceed max support %d pipelines.\n",
-> -			  KOMEDA_MAX_PIPELINES);
-> +		drm_err(drm, "Exceed max support %d pipelines.\n",
-> +			KOMEDA_MAX_PIPELINES);
->  		return ERR_PTR(-ENOSPC);
->  	}
->  
->  	if (size < sizeof(*pipe)) {
-> -		DRM_ERROR("Request pipeline size too small.\n");
-> +		drm_err(drm, "Request pipeline size too small.\n");
->  		return ERR_PTR(-EINVAL);
->  	}
->  
-> @@ -71,6 +73,8 @@ static struct komeda_component **
->  komeda_pipeline_get_component_pos(struct komeda_pipeline *pipe, int id)
->  {
->  	struct komeda_dev *mdev = pipe->mdev;
-> +	struct komeda_kms_dev *kms = dev_get_drvdata(mdev->dev);
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_pipeline *temp = NULL;
->  	struct komeda_component **pos = NULL;
->  
-> @@ -88,7 +92,7 @@ komeda_pipeline_get_component_pos(struct komeda_pipeline *pipe, int id)
->  	case KOMEDA_COMPONENT_COMPIZ1:
->  		temp = mdev->pipelines[id - KOMEDA_COMPONENT_COMPIZ0];
->  		if (!temp) {
-> -			DRM_ERROR("compiz-%d doesn't exist.\n", id);
-> +			drm_err(drm, "compiz-%d doesn't exist.\n", id);
->  			return NULL;
->  		}
->  		pos = to_cpos(temp->compiz);
-> @@ -107,7 +111,7 @@ komeda_pipeline_get_component_pos(struct komeda_pipeline *pipe, int id)
->  	case KOMEDA_COMPONENT_IPS1:
->  		temp = mdev->pipelines[id - KOMEDA_COMPONENT_IPS0];
->  		if (!temp) {
-> -			DRM_ERROR("ips-%d doesn't exist.\n", id);
-> +			drm_err(drm, "ips-%d doesn't exist.\n", id);
->  			return NULL;
->  		}
->  		pos = to_cpos(temp->improc);
-> @@ -117,7 +121,7 @@ komeda_pipeline_get_component_pos(struct komeda_pipeline *pipe, int id)
->  		break;
->  	default:
->  		pos = NULL;
-> -		DRM_ERROR("Unknown pipeline resource ID: %d.\n", id);
-> +		drm_err(drm, "Unknown pipeline resource ID: %d.\n", id);
->  		break;
->  	}
->  
-> @@ -169,6 +173,8 @@ komeda_component_add(struct komeda_pipeline *pipe,
->  		     u8 max_active_outputs, u32 __iomem *reg,
->  		     const char *name_fmt, ...)
->  {
-> +	struct komeda_kms_dev *kms = dev_get_drvdata(pipe->mdev->dev);
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_component **pos;
->  	struct komeda_component *c;
->  	int idx, *num = NULL;
-> @@ -187,14 +193,14 @@ komeda_component_add(struct komeda_pipeline *pipe,
->  		idx = id - KOMEDA_COMPONENT_LAYER0;
->  		num = &pipe->n_layers;
->  		if (idx != pipe->n_layers) {
-> -			DRM_ERROR("please add Layer by id sequence.\n");
-> +			drm_err(drm, "please add Layer by id sequence.\n");
->  			return ERR_PTR(-EINVAL);
->  		}
->  	} else if (has_bit(id,  KOMEDA_PIPELINE_SCALERS)) {
->  		idx = id - KOMEDA_COMPONENT_SCALER0;
->  		num = &pipe->n_scalers;
->  		if (idx != pipe->n_scalers) {
-> -			DRM_ERROR("please add Scaler by id sequence.\n");
-> +			drm_err(drm, "please add Scaler by id sequence.\n");
->  			return ERR_PTR(-EINVAL);
->  		}
->  	}
-> @@ -240,27 +246,32 @@ static void komeda_component_dump(struct komeda_component *c)
->  	if (!c)
->  		return;
->  
-> -	DRM_DEBUG("	%s: ID %d-0x%08lx.\n",
-> -		  c->name, c->id, BIT(c->id));
-> -	DRM_DEBUG("		max_active_inputs:%d, supported_inputs: 0x%08x.\n",
-> -		  c->max_active_inputs, c->supported_inputs);
-> -	DRM_DEBUG("		max_active_outputs:%d, supported_outputs: 0x%08x.\n",
-> -		  c->max_active_outputs, c->supported_outputs);
-> +	struct komeda_kms_dev *kms = dev_get_drvdata(c->pipeline->mdev->dev);
-> +	struct drm_device *drm = &kms->base;
-> +
-> +	drm_dbg(drm, "	%s: ID %d-0x%08lx.\n",
-> +		c->name, c->id, BIT(c->id));
-> +	drm_dbg(drm, "		max_active_inputs:%d, supported_inputs: 0x%08x.\n",
-> +		c->max_active_inputs, c->supported_inputs);
-> +	drm_dbg(drm, "		max_active_outputs:%d, supported_outputs: 0x%08x.\n",
-> +		c->max_active_outputs, c->supported_outputs);
->  }
->  
->  void komeda_pipeline_dump(struct komeda_pipeline *pipe)
->  {
-> +	struct komeda_kms_dev *kms = dev_get_drvdata(pipe->mdev->dev);
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_component *c;
->  	int id;
->  	unsigned long avail_comps = pipe->avail_comps;
->  
-> -	DRM_INFO("Pipeline-%d: n_layers: %d, n_scalers: %d, output: %s.\n",
-> +	drm_info(drm, "Pipeline-%d: n_layers: %d, n_scalers: %d, output: %s.\n",
->  		 pipe->id, pipe->n_layers, pipe->n_scalers,
->  		 pipe->dual_link ? "dual-link" : "single-link");
-> -	DRM_INFO("	output_link[0]: %s.\n",
-> +	drm_info(drm, "	output_link[0]: %s.\n",
->  		 pipe->of_output_links[0] ?
->  		 pipe->of_output_links[0]->full_name : "none");
-> -	DRM_INFO("	output_link[1]: %s.\n",
-> +	drm_info(drm, "	output_link[1]: %s.\n",
->  		 pipe->of_output_links[1] ?
->  		 pipe->of_output_links[1]->full_name : "none");
->  
-> @@ -274,6 +285,8 @@ void komeda_pipeline_dump(struct komeda_pipeline *pipe)
->  static void komeda_component_verify_inputs(struct komeda_component *c)
->  {
->  	struct komeda_pipeline *pipe = c->pipeline;
-> +	struct komeda_kms_dev *kms = dev_get_drvdata(pipe->mdev->dev);
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_component *input;
->  	int id;
->  	unsigned long supported_inputs = c->supported_inputs;
-> @@ -282,7 +295,7 @@ static void komeda_component_verify_inputs(struct komeda_component *c)
->  		input = komeda_pipeline_get_component(pipe, id);
->  		if (!input) {
->  			c->supported_inputs &= ~(BIT(id));
-> -			DRM_WARN("Can not find input(ID-%d) for component: %s.\n",
-> +			drm_warn(drm, "Can not find input(ID-%d) for component: %s.\n",
->  				 id, c->name);
->  			continue;
->  		}
-> @@ -306,6 +319,8 @@ komeda_get_layer_split_right_layer(struct komeda_pipeline *pipe,
->  
->  static void komeda_pipeline_assemble(struct komeda_pipeline *pipe)
->  {
-> +	struct komeda_kms_dev *kms = dev_get_drvdata(pipe->mdev->dev);
-> +	struct drm_device *drm = &kms->base;
->  	struct komeda_component *c;
->  	struct komeda_layer *layer;
->  	int i, id;
-> @@ -324,7 +339,7 @@ static void komeda_pipeline_assemble(struct komeda_pipeline *pipe)
->  
->  	if (pipe->dual_link && !pipe->ctrlr->supports_dual_link) {
->  		pipe->dual_link = false;
-> -		DRM_WARN("PIPE-%d doesn't support dual-link, ignore DT dual-link configuration.\n",
-> +		drm_warn(drm, "PIPE-%d doesn't support dual-link, ignore DT dual-link configuration.\n",
->  			 pipe->id);
->  	}
->  }
-> -- 
-> 2.43.0
+> I wrote this driver to enable Night Light on OnePlus 6, and after the
+> driver was working I found out it applies to the 29 different Qualcomm SoCs
+> that use the DPU display engine, including X1E for laptops.
 > 
+> I used the LineageOS downstream kernel as reference and found the correct 
+> LUT format by trial-and-error on OnePlus 6.
+> 
+> This was my first Linux driver and it's been a great learning
+> experience.
+
+This seems to break several gamma-related IGT tests. Please consider
+taking a look, why are they broken by this commit.
 
 -- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+With best wishes
+Dmitry
