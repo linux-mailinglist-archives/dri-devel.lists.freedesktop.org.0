@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3695C60356
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 11:41:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C33AC6035F
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 11:42:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8AF410E18A;
-	Sat, 15 Nov 2025 10:41:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A85E210E1E7;
+	Sat, 15 Nov 2025 10:42:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ufX3g/mZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JbU7cFkG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D448C10E18A
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 10:41:00 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C844A10E1E7
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 10:42:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id AAB4A42DA6;
- Sat, 15 Nov 2025 10:41:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7FD7C113D0;
- Sat, 15 Nov 2025 10:40:55 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 2F5E86011F;
+ Sat, 15 Nov 2025 10:42:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13A22C4CEF5;
+ Sat, 15 Nov 2025 10:42:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763203260;
- bh=3i8/uTjukZz9tP8XgQvL2kD776ylXDUV/LlrgdnBnfI=;
+ s=k20201202; t=1763203339;
+ bh=RYW/3G0h+0itZaHXOduCQxrS6QSmPM0hb2xb0Dt5obk=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ufX3g/mZPenMpwjI3GvHVT1RS7TlJzx3B8HwcWV+CQeJET2eIkRLK8g1FExL/o2bP
- yBbEvsrhGKvezweL/AOtG5M8LGmRAsaEwSsaIkIPkw/kDhS/9b0zmaVL0xovJ0L6Pt
- E8oTdRZUYL3KsUquyqn526qAWa5SGg635nCG+vADD/AnNTXxiQiHlmQ0XVZvZ7imLA
- TvOtbZESbTaoLvzDC+iNpQ97KZQtB/qqk35FA84SZM8T+xNYUIVi+CP+9BODFDOpQi
- ctoRAmaSUU/li2unZavZd63NrlxF/sRaiV6X8Kcm/LdZCVwREw0QXsBvyuI491UD+K
- Nnz5lw2gBsXlg==
-Message-ID: <bde0d237-b27c-460d-896b-417292f8d4c6@kernel.org>
-Date: Sat, 15 Nov 2025 11:40:53 +0100
+ b=JbU7cFkGfqkVtPD0bFfmajHFnjVUQOl5+wfEXSndtnOzVdD0wCO+jODXK5RF28dR7
+ xR47g9Lil5AZq3DMy0JjlXIuFX6QhIfnRWYwONwOoGDRPqu311wkTdZ2w+5/5kIyJ4
+ Nxnd1BGr5jwgckGCIuTOKrAq+vXs0A2orwuWVTx+3ZkbQ5Zq2YFEGRnu+DnNBi09K4
+ wGYKx5/e//MGiikdGjWVEXlpTPQ3xqNoAaWWZjy7h69djsaTzBKS5bay934uy/LdsA
+ aaY9QpzgMFIVjCcKHd6Gp3oTYS9JAFSgeRgsvXIzRSixlRJOeDT0iYo+AFNbs+dL5R
+ GkpBv4QpVZMbQ==
+Message-ID: <e2f8beed-48e5-4d5b-9bdb-1b13aa598b27@kernel.org>
+Date: Sat, 15 Nov 2025 11:42:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: bridge: lt8713sx: Add bindings
+Subject: Re: [PATCH 2/2] drm/bridge: add support for lontium lt8713sx bridge
+ driver
 To: Vishnu Saini <vishnu.saini@oss.qualcomm.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -50,7 +51,7 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  qc-display-maintainer@oss.qualcomm.com,
  Prahlad Valluru <vvalluru@qti.qualcomm.com>
 References: <20251115-lt8713sx-bridge-driver-v1-0-bd5a1c1c730a@oss.qualcomm.com>
- <20251115-lt8713sx-bridge-driver-v1-1-bd5a1c1c730a@oss.qualcomm.com>
+ <20251115-lt8713sx-bridge-driver-v1-2-bd5a1c1c730a@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,7 +97,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251115-lt8713sx-bridge-driver-v1-1-bd5a1c1c730a@oss.qualcomm.com>
+In-Reply-To: <20251115-lt8713sx-bridge-driver-v1-2-bd5a1c1c730a@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,86 +116,36 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 15/11/2025 02:03, Vishnu Saini wrote:
-> Add bindings for lt8713sx.
+> The lt8713sx is a Type-C/DP1.4 to Type-C/DP1.4/HDMI2.0 converter,
+> with three configurable DP1.4/HDMI2.0/DP++ output interfaces and
+> audio output interface.
+> 
+> Driver is required for firmware upgrade in the bridge chip.
 > 
 > Signed-off-by: Vishnu Saini <vishnu.saini@oss.qualcomm.com>
 > Co-developed-by: Prahlad Valluru <vvalluru@qti.qualcomm.com>
 > Signed-off-by: Prahlad Valluru <vvalluru@qti.qualcomm.com>
-
-Incomplete or incorrectly ordered DCO chain. Please read submitting
-patches so you understand what you have to certify.
-
 > ---
->  Documentation/devicetree/bindings/display/bridge/lontium,lt8713sx.yaml | 47 +++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/lontium,lt8713sx.yaml b/Documentation/devicetree/bindings/display/bridge/lontium,lt8713sx.yaml
-> new file mode 100644
-> index 000000000000..3292e149706c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/lontium,lt8713sx.yaml
-> @@ -0,0 +1,47 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/lontium,lt8713sx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Lontium LT8713SX Type-C/DP1.4 to Type-C/DP1.4/HDMI2.0/DP++ bridge-hub
-> +
-> +maintainers:
-> +  - Tony <syyang@lontium.com>
-> +
-> +description: |
 
-Do not need '|' unless you need to preserve formatting.
 
-> +  The Lontium LT8713SX is a Type-C/DP1.4 to Type-C/DP1.4/HDMI2.0 converter
-> +  that integrates one DP input and up to three configurable output interfaces
-> +  (DP1.4 / HDMI2.0 / DP++), with SST/MST functionality and audio support.
+
+> +static int lt8713sx_gpio_init(struct lt8713sx *lt8713sx)
+> +{
+> +	struct device *dev = lt8713sx->dev;
 > +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - lontium,lt8713sx
+> +	lt8713sx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(lt8713sx->reset_gpio)) {
+> +		dev_err(dev, "failed to acquire reset gpio\n");
+> +		return PTR_ERR(lt8713sx->reset_gpio);
+> +	}
 > +
-> +  reg:
-> +    maxItems: 1
-> +    description: I2C address of the device.
+> +	/* power enable gpio */
+> +	lt8713sx->enable_gpio = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(lt8713sx->enable_gpio)) {
+> +		dev_err(dev, "failed to acquire enable gpio\n");
 
-Drop description, obvious thus redundant.
-
-> +
-> +  reset-gpios:
-> +    description: GPIO connected to active high RESET pin.
-> +
-
-Missing ports, supply.
-
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c0 {
-
-i2c
-
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        bridge@4f {
-> +            compatible = "lontium,lt8713sx";
-> +            reg = <0x4f>;
-> +            reset-gpios = <&tlmm 6 GPIO_ACTIVE_HIGH>;
-> +        };
-> +    };
-> 
-
+Syntax is return dev_err_probe. In multiple other places as well. You
+need to handle deferred probe.
 
 Best regards,
 Krzysztof
