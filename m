@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA7FC6034A
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 11:38:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A658C60350
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 11:38:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6754F10E044;
-	Sat, 15 Nov 2025 10:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A43910E177;
+	Sat, 15 Nov 2025 10:38:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="B6nqQ25O";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="coHj8wfu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 98FA110E044
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 10:38:27 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2238610E044
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 10:38:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 9744E60053;
+ by sea.source.kernel.org (Postfix) with ESMTP id C93EE4380E;
+ Sat, 15 Nov 2025 10:38:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8182C116B1;
  Sat, 15 Nov 2025 10:38:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41613C4CEF5;
- Sat, 15 Nov 2025 10:38:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763203106;
- bh=wjSfYYewZkWseDZM+m9SVJu0cxTPbLACBWmOP3nBi30=;
+ s=k20201202; t=1763203108;
+ bh=c/TPOuH+aIozQX4frVvUV9DudeIdNtBPhvwg7DDBl3k=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=B6nqQ25On9X0ss02C8stooiwqNKmddmJfQbLq4RjxKFnc1/0lxb2aI/8IiwXY8nDx
- LS1GgkVPbBCjjhE1uNH0c9aKds/iOljlmvQIRqpO7UbuVYgDuyXTp3V7tg9mg+ylXm
- s9KVbuLAxUUv4rV0y+IjWtBgU8HkwLM4laFpiiufFe3yLGoJbGfjuNCosiaGPebL9v
- FdePNavo+QNT3/Kd0a1uUQOvsQsixR72j7b0JGPyW7lp5jNFFnRbK+i/cFU8PBGUz1
- XWvrNUt542+F7rwpZqpQz+QUXaWsukPUPwtJnFOshSn9NBjxWehHxDlmuj2HeskAkJ
- uOxhA+rLBavJg==
-Message-ID: <7172af43-a548-4378-abdd-e55df7ad6a45@kernel.org>
-Date: Sat, 15 Nov 2025 11:38:20 +0100
+ b=coHj8wfudcU2TY2kgyV7F7MHLfbCUY3FiT76uiC2CxS3PLlND95cmYt/w7sn6Z1Jr
+ R/097ZSLMR/xO/RqvJV+sIr206Gz2AcRL41NCDtHSJOm6HPpM1wshoGPJ6XEqW+lZo
+ FXekwwYwHVLF0ru/nWRJ5pxZ9rzHMnChjHd8H2F/rkf3O/69Szyk5fNbsQeuqMfqL+
+ zb38yguxxwqFoZ9143Qg5ijza5FTItZz/cJysel55CZXW90LGMzYLEEMG/JJOxTRUY
+ K3qbntWpRGVCYPGTxsryyepVttfESsTdnqbaLLMFYI59HxatiZuYeZ5//kuaQcoddx
+ Af09kIavtJf6Q==
+Message-ID: <a86179c2-5380-4c62-9972-0c2d0c94fe59@kernel.org>
+Date: Sat, 15 Nov 2025 11:38:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: Add Raystar Optronics, 
- Inc
+Subject: Re: [PATCH 2/3] dt-bindings: display: simple: Add Raystar
+ RFF500F-AWH-DNN panel
 To: Fabio Estevam <festevam@gmail.com>, neil.armstrong@linaro.org
 Cc: jesszhan0024@gmail.com, dri-devel@lists.freedesktop.org, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
- Fabio Estevam <festevam@nabladev.com>
+ krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
 References: <20251115025827.3113790-1-festevam@gmail.com>
+ <20251115025827.3113790-2-festevam@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -86,7 +86,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251115025827.3113790-1-festevam@gmail.com>
+In-Reply-To: <20251115025827.3113790-2-festevam@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,12 +105,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 15/11/2025 03:58, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@nabladev.com>
+> Add Raystar RFF500F-AWH-DNN 5.0" TFT 840x480 LVDS panel compatible string.
 > 
-> Raystar Optronics is an LCD manufacturer based in Taiwan:
-> https://www.raystar-optronics.com/
-> 
-> Add a vendor prefix for it.
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> ---
+>  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
 
 
