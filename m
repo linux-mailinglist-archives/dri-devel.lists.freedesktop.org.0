@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0180C5FB38
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 01:12:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98346C5FB46
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 01:12:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F15CC10EB54;
-	Sat, 15 Nov 2025 00:12:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB40A10EBC8;
+	Sat, 15 Nov 2025 00:12:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="I86IWQjp";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="yUb1gajM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010061.outbound.protection.outlook.com [52.101.46.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD76010EB33;
- Sat, 15 Nov 2025 00:12:13 +0000 (UTC)
+Received: from CH4PR04CU002.outbound.protection.outlook.com
+ (mail-northcentralusazon11013063.outbound.protection.outlook.com
+ [40.107.201.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF2D610EBA4;
+ Sat, 15 Nov 2025 00:12:27 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LydErbnnpIc8+ymYDMb2HTJYYu89JMfGNBCwzsSX+YL5i6bH7rqF/5udhQCk9RPmGcVvaU9k2SrLaev7VmdktWeESFvdCX7TtplBAhNUIQY1jMIi6kyHKr64fUJFjeEoGN29KOzeYCmYhTZYXbaoh3OQUML2eai8rM3ET6PyyxjCdPyUnYiblPk94Z/heGVt7+dLLCZ68MM9SCzz/fI58WwBOT+syVMhLgdW27glhqqatjG7faSH1f63b+QcjCgnie83Q+K6pKbGuE8WghflV+WbZm1/jLfNJgst8Jhu0rOcS6qt0TJ3kNJeyOk1a0gDVvqM9Fx3Ms/Le3GJeRhmow==
+ b=bVzesQXbbKMcH6VquIggaJxQF5jzH8MFxjXLq+ys6pmTd2ZETRI0PxmdBuUH6JEMSK+EZGuOkPLrZ9VrvebcEwscNOjedDXyU7/kJ65AD+6ibLRJ9OCpjNNOBB6X+YcUhFUDzOPyAXXOXKPL8thMzRXj3GLY1Mlf4EEB/G6yOYggWC1i5aSC+Ak1cTtTyMwtysc/wA/P7aYhp5L9iANS9cykd8pUlEJIApugTiP/h/dKs52/GxembrHcovRhJWO5w0FYDb31An5mVgv0D4VQfwnJdD59NHz5K+XF84zyzAMueuVQCQiMncEhbsNoT8fhUpQXq5i5g7WfEvmrAe0xAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mqXUruZ8e60+9pmHjY8RgU4J6fGD9pT7rqaQWLMYA/E=;
- b=Qgq6Sm8rvIqu5w9lsONxgntIwj8p8aLJh0XHIAIuAi7CKrumeOyCjreRTECdkWCKPckrcaYNO5d2YuMDyOV8RBuD2YJvIx6noBEZt1oeQdqpve7D6fEtcZpcvmAlGngSW3t5LG5yyaXd1TlnFt//c3RR35RBANcsHARukIETpjU5MtSNS0Kr4MW0KVYD52hQPvk6N+LY7gtxpk5qv617rAyhgm/ilTeMKIVFUygaJWgP/4vHwiy5dNi+beA47RSX7pnJALHTWhq7hv4QJNI8xQedh2MwiOr0q0Q2gAhdfg9u9OpTYVDWGmEdozXeYvm2tConiqD9RE0M+Z21aISU8A==
+ bh=574KmEhBdgbF23fKdtHZj7VH0L4c/bSnEpnpwr54MTw=;
+ b=efZjzfSVhmkTTfyWrRcylWv2BPDcbqpN+e7Ug2yDqT4c5wfnxEdcuQD+Z1U2YiHSLRcztQiaRBQD9m3vCB8hY31ZSvBYhPcrNj5F5DHL0wwOUi1D0CYaD731q4HKdQENDdLZJ3p6o2B1CkihFe4AUbbd2lD4SI08Pw0DGrhY3ddJby2RoZ5KUGxmqBNELljtoJSuettDgM8fB0meN4cYGV8rVGfTqgyCxbcT6/WFHd5ecAkf3mIqrkTQiFgsMU116P9V28U3e8P6gBiFMtdXrmp/oeSM828AQltz9hu3TMvjdrm5rSY2zIkisQKPvfhfq4tGhmMXEeYXMQRtQCmifg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mqXUruZ8e60+9pmHjY8RgU4J6fGD9pT7rqaQWLMYA/E=;
- b=I86IWQjpAR7eft9hgqC0qVB2z/5nmV+TQcfjEAAxTUMldtvVYWUpK4gaSnbDfCMxSfNGJMlLuOHG1tKik+lK4ApwTABbVB2Y90DpR8vFe1zLyXN9yZfAN6EB0z8yr5JOlR5fKNJJSb58MHxVi0T7XUcqjhmTICFA3aIbiWD334s=
-Received: from PH2PEPF0000385B.namprd17.prod.outlook.com (2603:10b6:518:1::69)
- by LV3PR12MB9404.namprd12.prod.outlook.com (2603:10b6:408:219::9)
+ bh=574KmEhBdgbF23fKdtHZj7VH0L4c/bSnEpnpwr54MTw=;
+ b=yUb1gajMpx/7TjzcMzUQ8rqRD0btD39fQ2cjQTxhYaWKPP5CNzKdSPHHh412ErW2GpchXfdrPfd8tXMQYz0ctvDcjlO1gO2edMjSAVazZdXs+7HGJk7btxTOj/sYnU0w9ESCH3ko6Vm7YXVv1FU5rrHyYWLogltWVHy9iUstsFY=
+Received: from PH2PEPF0000384E.namprd17.prod.outlook.com (2603:10b6:518:1::6f)
+ by PH8PR12MB6937.namprd12.prod.outlook.com (2603:10b6:510:1bc::15)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.16; Sat, 15 Nov
- 2025 00:12:09 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Sat, 15 Nov
+ 2025 00:12:23 +0000
 Received: from CY4PEPF0000EE37.namprd05.prod.outlook.com
- (2a01:111:f403:f912::2) by PH2PEPF0000385B.outlook.office365.com
+ (2a01:111:f403:f912::2) by PH2PEPF0000384E.outlook.office365.com
  (2603:1036:903:48::3) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.18 via Frontend Transport; Sat,
- 15 Nov 2025 00:12:09 +0000
+ 15 Nov 2025 00:12:23 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,11 +51,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from satlexmb07.amd.com (165.204.84.17) by
  CY4PEPF0000EE37.mail.protection.outlook.com (10.167.242.43) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9320.13 via Frontend Transport; Sat, 15 Nov 2025 00:12:09 +0000
+ 15.20.9320.13 via Frontend Transport; Sat, 15 Nov 2025 00:12:22 +0000
 Received: from kylin.lan (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 14 Nov
- 2025 16:12:05 -0800
+ 2025 16:12:19 -0800
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
@@ -68,9 +69,10 @@ CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <Liviu.Dudau@arm.com>, <sashamcintosh@google.com>,
  <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>,
  <mcanal@igalia.com>, <nfraprado@collabora.com>, <arthurgrillo@riseup.net>
-Subject: [PATCH V13 35/51] drm: Add Enhanced LUT precision structure
-Date: Fri, 14 Nov 2025 17:02:00 -0700
-Message-ID: <20251115000237.3561250-36-alex.hung@amd.com>
+Subject: [PATCH V13 36/51] drm: Add helper to extract lut from struct
+ drm_color_lut32
+Date: Fri, 14 Nov 2025 17:02:01 -0700
+Message-ID: <20251115000237.3561250-37-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251115000237.3561250-1-alex.hung@amd.com>
 References: <20251115000237.3561250-1-alex.hung@amd.com>
@@ -82,53 +84,53 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE37:EE_|LV3PR12MB9404:EE_
-X-MS-Office365-Filtering-Correlation-Id: f47dd71e-c1d6-4276-e92a-08de23db9e2d
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE37:EE_|PH8PR12MB6937:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5d8f80b8-1f96-4cb8-6274-08de23dba66d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|7416014|376014|36860700013|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?y199nuBv4pgWjYIqFPLfNuCXdEh5omtDrT7xIJ2rl4TkbGCeC/MTnj9YmVJr?=
- =?us-ascii?Q?h0mZVHToo9zqG2BQC8P64v3//oqsGiom3rowqK2NXyzm1yZ5FH8XoWQEhReH?=
- =?us-ascii?Q?bgN8MSGSnfWjBmdQsthDynQcgJsIoFcALDmtwpLF+almZbkdOlnxohhNRTPJ?=
- =?us-ascii?Q?qYWUeG4Eiy4cbtSjnm/G8Fv7AnbFLKlExsHVFKKRtMd8F/gYcSGnxIIYIX4P?=
- =?us-ascii?Q?gmqjy7ek/WdRraEJ209cIttndLHkBDtXD6dJeKlVOrerTfyZuv52QV/sxUbW?=
- =?us-ascii?Q?cbDN1aZXTel8+iQnptB4u4KScWOB0QwsOL/WnoNEstjlO2zYD7+YhD04Hc/P?=
- =?us-ascii?Q?fpeF8JRhLlwri6Zh9G8+T5LTGrMpZkffUJ3YPp7w06lkD3xrOzTu8vNXXzn2?=
- =?us-ascii?Q?qpYfXuaxpbJUQNOo81MCs5gkAqBEWmDLACh5+zuvBhowuq1KPlfl5bJaZ/fv?=
- =?us-ascii?Q?oHkhqg/GSXvn2dErBQLAmPAy45tx0pm/OQSZrazeetrcs+cBToLuZ7s5gEsN?=
- =?us-ascii?Q?APMDP99OCf3b5gp0W5CLHWQljtZiSeIE0svnIvsCFgLCTgrLpPExzMNCLW/Z?=
- =?us-ascii?Q?MTeZdj5KYKQ4Rp+ow649LUcPPyQRz9PcPAY5hc01otHuvyhxZuggvBuFhtZM?=
- =?us-ascii?Q?ds6/XmkeFGxYiAaj6J0K7d1u8na33sDob4TwnEe/65GG2w3ZZQehvdJg1IMV?=
- =?us-ascii?Q?y7DP2vExmuhOLAFaouEUPm7WK1XGjSK8eylCEEefzjOwXJyzWD4oP11UlZJv?=
- =?us-ascii?Q?POuXt7yYouMvDPi0jfo6FQ+37qb4aoKBmp+IeRWnaAFEQegVH2XLjT4uC0xf?=
- =?us-ascii?Q?Owh2COtFHJXyR3ORg0JFWG54Ut6WJ7JU/NyQUf1gZ52hSVW6sRy4dZe24R23?=
- =?us-ascii?Q?MV+2TqiybBOBSkw3H8Nnz9JbpC9w+U4Qh7mpG+N2lSOb8wp4td51xlTvHa0G?=
- =?us-ascii?Q?xT5iEqY2lp8LU+UCr1YtNTY3Jx68BB7jTEM93zC4s98c9vNN8G3S43k2VRjc?=
- =?us-ascii?Q?UGvucmDGoP2Rg7Qyk5c4RSCHWcFElf3MslYufDLBnNgfaxWdhDAhk55isTDh?=
- =?us-ascii?Q?RIYSI8VPpVvtzD2vMPRNdLW+YeosHnjhX1leEO3A2IkcpKX79XNGaDxRVMXY?=
- =?us-ascii?Q?PthRrng9K41nawCdSfqQ/cMDnlTIXNHHZTJ/Rjl8z/4XVcNNM+99NQfOvA7y?=
- =?us-ascii?Q?xN/3YFJAhT2a7HMVUcZ2WUggGWFqgqnX7FAwPHHOzI+x7AfjI/NbdLbGLr4l?=
- =?us-ascii?Q?25D/+4UCsnfdnhdmHV2mt06xSzz0lJxCPr81+YqytNLHoAmsTvafgS5SjyFk?=
- =?us-ascii?Q?U4zPlHnDbWj+7GAYyUo86/u8euHRE1nO0FQKPOPCjohco/hBcRY662AwO0NN?=
- =?us-ascii?Q?LD2mxE2mRtr5srNYdriKJVCKTotoqTEMqxgBoFFvDEuO4NqFapZFqy6D/PCC?=
- =?us-ascii?Q?HDXz8chlZoBRgNDSKKGN4i4EzhZz71PpMVoW2aubyKnnSLVrv9Kh/e6So8Mt?=
- =?us-ascii?Q?aPIfl06dd6FYKchXIQtwAMrPNDSgyN8Zof3gwVT5alUJBipwetR37bxdDsHp?=
- =?us-ascii?Q?N2hIIoWHySgHFhrN+WA=3D?=
+ ARA:13230040|36860700013|82310400026|7416014|376014|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FvwEFuFJuspANd8nmkIPO/U622oXJ5odC/QezmbXBl4YjQFGYggQTiwknok8?=
+ =?us-ascii?Q?OJWNMsni1VkbGwawPXDoNVQZB/MI5z3iAd+HoGD7kq8hUVdtF7pp6c+Yumb3?=
+ =?us-ascii?Q?gSKp8AlA5MOBwrCbOUfYZK5Hda5vbZsK/mCyQMaWkF6EH7hmOCkLvR56C9Jg?=
+ =?us-ascii?Q?y4HaU7gaUTitCkCsbYr1R+baEJmc4dqolDJGVH3KKdEAkvxb1cOTwAcePCmU?=
+ =?us-ascii?Q?/Rcclwsq2D++qFB8052FSdhDoDvKg9lV2lK3AaqlzvTh1ELgq66AkhOVJVqC?=
+ =?us-ascii?Q?QJfJrWxbFMoUDd7cXfvTWEq6SJZ+0Gc8S6P1xsBLFTc1MOYWD0cF9mKAUaPg?=
+ =?us-ascii?Q?2/vr6/6ECCvKAOmU3ZFt5Oq7sSwTIhhxbmaUJ5Pit0JNJBCLD2lCfd7GZd3v?=
+ =?us-ascii?Q?khKSnGtyywxjjsi+AD8dCeb+AN8UCBAGDxKsUefHvuzjRc8298SQIldBP9j1?=
+ =?us-ascii?Q?Agg/ZWCAiCDFlc3qJ9RoXFT6OGQu8Yjt/ZYVRBCazHC7Ventr5RKiGzIR2cR?=
+ =?us-ascii?Q?WBcWVoaIcN0hKdu+Us+bEXRALrLuDO2Fy7lWDqjEtcWqg69tlgfF/aPPL1nt?=
+ =?us-ascii?Q?9gRfAJgC1aPNXnHz5FBoAbCxvfOTOlrUPS96vcLpMwvWqqbB0x7O6NRHQFmT?=
+ =?us-ascii?Q?1W+59dGvWDeUlcBnHOOASsz2fSGBkGSjF0zPMx/gQ9PjjcFRsW+XmiOHWV+U?=
+ =?us-ascii?Q?UdX5oCUodFUKYmoVO6ndR1PwQqgBnQZ9m5pJywSpnnZV0Y6WegWEnLYZT6yK?=
+ =?us-ascii?Q?oUGUhW8yRWAYg4CLH2NK/l1Z3APGb5Wvdy9xhlFx4qfysCBpdCMkwbMcpEG3?=
+ =?us-ascii?Q?mWyFi2wibcFaAMwOYTLFqxceQHkk/6r6/KACLEnMq4WqHky1c4XWcyGtu8Gr?=
+ =?us-ascii?Q?USa0IXXJzkZ7G2EVu0aTAYQnnMFGRFl1kg8XMOLrjR34G0YvSNdyY2pEKLLj?=
+ =?us-ascii?Q?SG2NLH0Y8U2Uc/kx5lFsTZE5BESNnpv1upVW3TNG/cYBzp8Gcxu1Q58XY1oW?=
+ =?us-ascii?Q?5qQLosrQpAwiHMb4dgT/H1QX8v7FRotmrViqDSu8v4NyKcfctOq0d2OLHb+j?=
+ =?us-ascii?Q?U3oEchFmTQgkKjmlCLNXsfC5tRYAc5rzCPbsf7BsmwsvSbX1kV8cgxR2XA5l?=
+ =?us-ascii?Q?+1Tf2sw90In+J1ajAlqtzi0DRESG+NhuSPGRa2LPzSZA6Ry/K3vvevlfr/LI?=
+ =?us-ascii?Q?00jfOaGjssIo4l3NztMMEZTqIzAecZ+IPuAz55RmadVAgb6WnnD0sjAWUaXP?=
+ =?us-ascii?Q?6A8HXFADjdy3lTwI/NyQuj+OQSLLnFU3Blul8peeN6bA1uE+cluy1AsfXYHy?=
+ =?us-ascii?Q?FKEXd9t9X14/mpbLNPtuJPkA/koT97UX8SqefpKwyzJ3eMXMTGKGkL6xxhsL?=
+ =?us-ascii?Q?xQ8RRfmLm7cuMQIYsKzOloOzPP5fIzwWrMLcdjmDCbTTSGEghrz45gcPvXEI?=
+ =?us-ascii?Q?+gf7YgCEuUzI7E3H53fx7He4hKhiWZ/iV7ZLMGPKW+5qyYVYIFtnNEh5WJuR?=
+ =?us-ascii?Q?QHiS0jc/iTQxr+3d82RWWekd0qpCe9+jyp/g9tkudpnCPRg8gCrqKOgmFg7v?=
+ =?us-ascii?Q?34glo3aAqmWGXPJPU2U=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(7416014)(376014)(36860700013)(1800799024); DIR:OUT;
+ SFS:(13230040)(36860700013)(82310400026)(7416014)(376014)(1800799024); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2025 00:12:09.0931 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f47dd71e-c1d6-4276-e92a-08de23db9e2d
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2025 00:12:22.9302 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d8f80b8-1f96-4cb8-6274-08de23dba66d
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000EE37.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9404
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6937
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,12 +146,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Uma Shankar <uma.shankar@intel.com>
+From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 
-Existing LUT precision structure drm_color_lut has only 16 bit
-precision. This is not enough for upcoming enhanced hardwares
-and advance usecases like HDR processing. Hence added a new
-structure with 32 bit precision values.
+Add helper to extract lut values in 32-bit precision needed by
+hardware.
 
 Signed-off-by: Alex Hung <alex.hung@amd.com>
 Signed-off-by: Uma Shankar <uma.shankar@intel.com>
@@ -157,120 +157,38 @@ Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
 ---
 v11:
- - Update names from *_lut_32_* to *_lut32_* (Simon Ser)
+ - Include help function drm_color_lut32_extract (Uma Shankar)
 
-v10:
- - Include drm_color_lut_32 from Intel to support 32BIT RGB in 1D & 3D
-   LUTs (Uma Shankar)
+ include/drm/drm_color_mgmt.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
- drivers/gpu/drm/drm_color_mgmt.c | 43 ++++++++++++++++++++++++++++++++
- include/drm/drm_color_mgmt.h     | 13 ++++++++++
- include/uapi/drm/drm_mode.h      | 12 +++++++++
- 3 files changed, 68 insertions(+)
-
-diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-index 131c1c9ae92f..c598b99673fc 100644
---- a/drivers/gpu/drm/drm_color_mgmt.c
-+++ b/drivers/gpu/drm/drm_color_mgmt.c
-@@ -874,3 +874,46 @@ void drm_crtc_fill_palette_8(struct drm_crtc *crtc, drm_crtc_set_lut_func set_pa
- 		fill_palette_8(crtc, i, set_palette);
- }
- EXPORT_SYMBOL(drm_crtc_fill_palette_8);
-+
-+/**
-+ * drm_color_lut32_check - check validity of extended lookup table
-+ * @lut: property blob containing extended LUT to check
-+ * @tests: bitmask of tests to run
-+ *
-+ * Helper to check whether a userspace-provided extended lookup table is valid and
-+ * satisfies hardware requirements.  Drivers pass a bitmask indicating which of
-+ * the tests in &drm_color_lut_tests should be performed.
-+ *
-+ * Returns 0 on success, -EINVAL on failure.
-+ */
-+int drm_color_lut32_check(const struct drm_property_blob *lut, u32 tests)
-+{
-+	const struct drm_color_lut32 *entry;
-+	int i;
-+
-+	if (!lut || !tests)
-+		return 0;
-+
-+	entry = lut->data;
-+	for (i = 0; i < drm_color_lut32_size(lut); i++) {
-+		if (tests & DRM_COLOR_LUT_EQUAL_CHANNELS) {
-+			if (entry[i].red != entry[i].blue ||
-+			    entry[i].red != entry[i].green) {
-+				DRM_DEBUG_KMS("All LUT entries must have equal r/g/b\n");
-+				return -EINVAL;
-+			}
-+		}
-+
-+		if (i > 0 && tests & DRM_COLOR_LUT_NON_DECREASING) {
-+			if (entry[i].red < entry[i - 1].red ||
-+			    entry[i].green < entry[i - 1].green ||
-+			    entry[i].blue < entry[i - 1].blue) {
-+				DRM_DEBUG_KMS("LUT entries must never decrease.\n");
-+				return -EINVAL;
-+			}
-+		}
-+	}
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_color_lut32_check);
 diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
-index eccb71ab335a..527582c20885 100644
+index 527582c20885..5140691f476a 100644
 --- a/include/drm/drm_color_mgmt.h
 +++ b/include/drm/drm_color_mgmt.h
-@@ -72,6 +72,18 @@ static inline int drm_color_lut_size(const struct drm_property_blob *blob)
- 	return blob->length / sizeof(struct drm_color_lut);
+@@ -50,6 +50,22 @@ static inline u32 drm_color_lut_extract(u32 user_input, int bit_precision)
+ 					 (1 << 16) - 1);
  }
  
 +/**
-+ * drm_color_lut32_size - calculate the number of entries in the extended LUT
-+ * @blob: blob containing the LUT
++ * drm_color_lut32_extract - clamp and round LUT entries
++ * @user_input: input value
++ * @bit_precision: number of bits the hw LUT supports
 + *
-+ * Returns:
-+ * The number of entries in the color LUT stored in @blob.
++ * Extract U0.bit_precision from a U0.32 LUT value.
++ *
 + */
-+static inline int drm_color_lut32_size(const struct drm_property_blob *blob)
++static inline u32 drm_color_lut32_extract(u32 user_input, int bit_precision)
 +{
-+	return blob->length / sizeof(struct drm_color_lut32);
++	u64 max = (bit_precision >= 64) ? ~0ULL : (1ULL << bit_precision) - 1;
++
++	return DIV_ROUND_CLOSEST_ULL((u64)user_input * max,
++				     (1ULL << 32) - 1);
 +}
 +
- enum drm_color_encoding {
- 	DRM_COLOR_YCBCR_BT601,
- 	DRM_COLOR_YCBCR_BT709,
-@@ -146,4 +158,5 @@ void drm_crtc_load_palette_8(struct drm_crtc *crtc, const struct drm_color_lut *
- void drm_crtc_fill_palette_332(struct drm_crtc *crtc, drm_crtc_set_lut_func set_palette);
- void drm_crtc_fill_palette_8(struct drm_crtc *crtc, drm_crtc_set_lut_func set_palette);
+ u64 drm_color_ctm_s31_32_to_qm_n(u64 user_input, u32 m, u32 n);
  
-+int drm_color_lut32_check(const struct drm_property_blob *lut, u32 tests);
- #endif
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 054561022953..5e637ec7b64c 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -872,6 +872,18 @@ struct drm_color_lut {
- 	__u16 reserved;
- };
- 
-+/*
-+ * struct drm_color_lut32
-+ *
-+ * 32-bit per channel color LUT entry, similar to drm_color_lut.
-+ */
-+struct drm_color_lut32 {
-+	__u32 red;
-+	__u32 green;
-+	__u32 blue;
-+	__u32 reserved;
-+};
-+
- /**
-  * enum drm_colorop_type - Type of color operation
-  *
+ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
 -- 
 2.43.0
 
