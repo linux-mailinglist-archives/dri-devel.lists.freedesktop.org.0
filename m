@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C33AC6035F
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 11:42:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD341C6036B
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 11:44:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A85E210E1E7;
-	Sat, 15 Nov 2025 10:42:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B377D10E1DB;
+	Sat, 15 Nov 2025 10:44:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JbU7cFkG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bYm9/S/9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C844A10E1E7
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 10:42:20 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8528310E1DB
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 10:44:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2F5E86011F;
- Sat, 15 Nov 2025 10:42:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13A22C4CEF5;
- Sat, 15 Nov 2025 10:42:14 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 39E2F438EF;
+ Sat, 15 Nov 2025 10:44:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C811C4CEF5;
+ Sat, 15 Nov 2025 10:44:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763203339;
- bh=RYW/3G0h+0itZaHXOduCQxrS6QSmPM0hb2xb0Dt5obk=;
+ s=k20201202; t=1763203454;
+ bh=wLt4VsjmuXLLz60GygTCIamCHF3k2PJZ6bjj8bXn9GY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=JbU7cFkGfqkVtPD0bFfmajHFnjVUQOl5+wfEXSndtnOzVdD0wCO+jODXK5RF28dR7
- xR47g9Lil5AZq3DMy0JjlXIuFX6QhIfnRWYwONwOoGDRPqu311wkTdZ2w+5/5kIyJ4
- Nxnd1BGr5jwgckGCIuTOKrAq+vXs0A2orwuWVTx+3ZkbQ5Zq2YFEGRnu+DnNBi09K4
- wGYKx5/e//MGiikdGjWVEXlpTPQ3xqNoAaWWZjy7h69djsaTzBKS5bay934uy/LdsA
- aaY9QpzgMFIVjCcKHd6Gp3oTYS9JAFSgeRgsvXIzRSixlRJOeDT0iYo+AFNbs+dL5R
- GkpBv4QpVZMbQ==
-Message-ID: <e2f8beed-48e5-4d5b-9bdb-1b13aa598b27@kernel.org>
-Date: Sat, 15 Nov 2025 11:42:13 +0100
+ b=bYm9/S/9688VZh04uplx6bDVHdNMe/UCosmAHw+1zTH0SzGfy2xhdFzXZ8pc8/bSR
+ infAHGH1NfPXshByMboVXMQzzlqpfoE+5bGXm1MLo1lskF95YcVvb8bp48TsKS4MNy
+ GRMbAwSQYjCDX/yVGd8EULQjEHBtwQKhwyRQ9cCkP3w+y1TXuny43RvcMaqMU0CQpl
+ PiW9UygCiHUGBF5UcponfzMy+yyWsxHIQIN+iN3ml1cJay7HOM8PbrzlzMpm1I+37q
+ UyFB8Gto1suzWvw8v93kF7U/Gz/wsih8iypuABWe1iLIMUObmETVuP/QnkZYPPxyb/
+ PeG6xFc5YR4LA==
+Message-ID: <4ca484ca-1149-403c-b007-6b493b0deb01@kernel.org>
+Date: Sat, 15 Nov 2025 11:44:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] drm/bridge: add support for lontium lt8713sx bridge
- driver
+Subject: Re: [PATCH 0/2] Add lontium lt8713sx bridge driver
 To: Vishnu Saini <vishnu.saini@oss.qualcomm.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -51,7 +50,6 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  qc-display-maintainer@oss.qualcomm.com,
  Prahlad Valluru <vvalluru@qti.qualcomm.com>
 References: <20251115-lt8713sx-bridge-driver-v1-0-bd5a1c1c730a@oss.qualcomm.com>
- <20251115-lt8713sx-bridge-driver-v1-2-bd5a1c1c730a@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -97,7 +95,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251115-lt8713sx-bridge-driver-v1-2-bd5a1c1c730a@oss.qualcomm.com>
+In-Reply-To: <20251115-lt8713sx-bridge-driver-v1-0-bd5a1c1c730a@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -120,32 +118,16 @@ On 15/11/2025 02:03, Vishnu Saini wrote:
 > with three configurable DP1.4/HDMI2.0/DP++ output interfaces and
 > audio output interface.
 > 
-> Driver is required for firmware upgrade in the bridge chip.
+> This series provides bridge driver and dt bindings for lt8713sx.
+> The driver is required for firmware upgrade in the bridge chip.
 > 
 > Signed-off-by: Vishnu Saini <vishnu.saini@oss.qualcomm.com>
-> Co-developed-by: Prahlad Valluru <vvalluru@qti.qualcomm.com>
-> Signed-off-by: Prahlad Valluru <vvalluru@qti.qualcomm.com>
-> ---
 
 
-
-> +static int lt8713sx_gpio_init(struct lt8713sx *lt8713sx)
-> +{
-> +	struct device *dev = lt8713sx->dev;
-> +
-> +	lt8713sx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(lt8713sx->reset_gpio)) {
-> +		dev_err(dev, "failed to acquire reset gpio\n");
-> +		return PTR_ERR(lt8713sx->reset_gpio);
-> +	}
-> +
-> +	/* power enable gpio */
-> +	lt8713sx->enable_gpio = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(lt8713sx->enable_gpio)) {
-> +		dev_err(dev, "failed to acquire enable gpio\n");
-
-Syntax is return dev_err_probe. In multiple other places as well. You
-need to handle deferred probe.
+There are bounces here from qc-display-maintainer@oss.qualcomm.com.
+Please do not Cc fake addresses or internal stuff, because we do not
+care about them and I really should have to deal with bounces from your
+internal stuff.
 
 Best regards,
 Krzysztof
