@@ -2,82 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434C3C609B3
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 19:00:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B0BC60BF4
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 23:20:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2405C10E03B;
-	Sat, 15 Nov 2025 18:00:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7DF910E0A8;
+	Sat, 15 Nov 2025 22:20:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HNTvfqDR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GVmjIZ25";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C31E10E03B
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 18:00:10 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-29845b06dd2so32996755ad.2
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 10:00:10 -0800 (PST)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFE6910E06D
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 19:42:28 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-2953e415b27so30323555ad.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 11:42:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763229610; x=1763834410; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1763235748; x=1763840548; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=nXa39g3lX0uLafEymjfro1eQzu9oup1GMo1ewT5+ko0=;
- b=HNTvfqDRkXQSJs1cOvc/ljkGVYAooowJYKWKibfB0RKihRGiEiOJoLYVd/PfN089TO
- jb9GuGg1kAX16BcM3CKku8+eyAKIPcuSX7Ffjf9QmKcAb0L5xb9KMpEtcZRWrzLnazOj
- ajdMGhBXyIFPygSq6/M7r2W1GwJUQ7+O9TbRBuehKgySG/C9Mkhcqejt5MEbqG+z8yus
- WxyGhX5O4QdRzDyebRrZMy7O7QwfTk3QPLVI9OEnNBafEkXgdQfuDgGhhi/tUh338UIq
- 38NaItjwpjK6mC8N3TqPKf8kIXKJ6tl+emR03dyj2AnDTNudlkNm9vQTN87SJ91JoDA1
- 9ZLA==
+ bh=pPC//MKTJx0p4rlyodABKyWHPBkP7FnZTmd024KA6E4=;
+ b=GVmjIZ25w8ULjRIwyLh32jm0erCDFfzctNWgwz0Q8Xy/nCy/VhlDQchSC0gFhQ5G8V
+ 4E/TFjjfzwPn/DxhB4guWlFRLmqqpHjhws6Nkc+i2cMn76rXNg8VOAZkMSnk94dv0dVx
+ N2n0++4mC3ECOnu87crr2XsFfjf80UP4dwMN+2GESJMdRQ20KddrcpM5hP0Vstf2Citg
+ GOg3Exnrn2LRHDXXTTBavSpxv5r69VBF8hPTFeYva+Dmx2hK0OdOM5j6kGo3mmIAGLNO
+ gtBzNQ8C4t/QRXB4+8/JQL5MkZqHWC0/8U0Rjgv1J1lR+FtHxvbBbMt9F3tz7PIBs15t
+ ymMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763229610; x=1763834410;
+ d=1e100.net; s=20230601; t=1763235748; x=1763840548;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nXa39g3lX0uLafEymjfro1eQzu9oup1GMo1ewT5+ko0=;
- b=dejcNfqZm7zXKs40If3qFUXxUVcSsSG6ggM5KIFNt7djJBTLYjILzfB4ebIZvAdkAj
- ZhftTLf0LKlaTZijqxRtydXKw5Cl+jbsjPghCaaK7Smh4Y4G2Ct+Eif1e6NkOOA3HIJu
- 3hegNRRRlzn4CW1GBXpHWWKy4l2vi1mC41k0mnQ3GuqigmWzo38qAqPHKXcbpQNjyIYk
- 1NI6MmgY4v8ymIRP2sLUp1ysbBDM7X44SYYLuy3HU7aVFYz9MwSmVbNRpdsRSGS07yon
- SdkAU1FornMFE+jUjhzNzDof48TBB7k/uUokHgMubMHjmbBFhxsE0LW1mnIFDUBAFvi8
- soTQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV1sMYxG/6wInZhhpDdLEF4UU3bKOT4tBIgvk2p+mq24MWHEHM0aLDPYI6AjGarX/x53TzWoFPSJG8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxXFB8wOmwB+w5CtOHgWE0fFYOzfhAhp9qr0oaMgiJEyofHJKB3
- oqdGFLFm4lMmap60OcqLz9hro1od/krrQlT8etZoWcKpOmGGlbrTu9Gl
-X-Gm-Gg: ASbGncvdtXZkK//K+WxUUiFCT6DEmbTps7FF3TWGs5k7S+TTlpSxc7+AK1OEv9PW9Gk
- eVVH/+LZOEOKZhka14/cO5sHHGMVAZ92u3fd+n7GqNuJmkH9POrdFhcu5gOo27o6DlOSVioTqTX
- D/C+ab+hasBVMx/B9m/ZmZINXabMgx7tkSNwEM4XG/9gtl1GfbXTwrD1tK882Ul0c3u4y4FQXqw
- tHDARNQf6AEcs+nHxR6FgiaLUq6Xbvhkmt8Nr/l2HMhWDAPTvtqN/LWgSoG5TwUG9SHzCU8o4FD
- MpKs2yH58TU8cTqg0yP9WpS/2u8laWJttPGDw6XytcQHx0K7L1u2tOGZJAZBqv30wqcRZYBcyOk
- W8nveIf+yDGzD3Odg1valpApU7+bm+O+NW2QnUxYrEpGsMfO5QPRB64Ga97xV9Sdu+6NYNXMs6r
- YbM5gSpXI=
-X-Google-Smtp-Source: AGHT+IG4FNTrXxEatoXT8ZreRor8XQ6Hsv27jGeA7IqF3DhTphHxnwPLXI8stlzorRzzgwWkoU0POw==
-X-Received: by 2002:a17:903:1c9:b0:295:2645:9f5 with SMTP id
- d9443c01a7336-2986a72cb09mr83050645ad.37.1763229610198; 
- Sat, 15 Nov 2025 10:00:10 -0800 (PST)
-Received: from hsukr3.. ([2405:201:d019:4042:982d:4536:f564:9a92])
+ bh=pPC//MKTJx0p4rlyodABKyWHPBkP7FnZTmd024KA6E4=;
+ b=Hvu2FF3oOaqK6c0ODGY9xHNPKg+muMPKCkQvXZgPFuj7fI+XdvOri/HmZEoMFHJpip
+ jnfEw94PcZdSKOoEsiE3zPykj91VsqTAP5isho1FAvRYSJ5H7dXDp913vrpeFXlq4REc
+ ebz6a++TXdj/hrtWkCex0tQCaaejmnVlo0P8hicy6EV1a1BT9qzrKwWJaoT4GsHfV4eL
+ 5BpPNjT+a6pCIdYIUuNYzXWhnU2Yi77Btw8KvxMaOa0xRh0txE/Dit5MdYt9d+KtwVeU
+ 88BjLQlWoea+QF7D3GsJyGSAxyp1YF6ElpEo0mI314U7lOSEDK8fM7PG4JRmn2Ge0Chz
+ ypyg==
+X-Gm-Message-State: AOJu0Yyqncf7xHrO5LaQtmwoWIk76CsJQQvOvnL6mSjnyrvO9SMpd7k/
+ /9xFRHao8WJAls4L+zv7CTemx+DQo+p27gazCkJPv5ekoqtulxnd4Y8PEwMLkw==
+X-Gm-Gg: ASbGncsA0OlK3t370EwWgCG0AkfSJdd1CI7dxjg4oIcBoybEyDfY7vNpOxGDq3aaf6n
+ OGJud28RvKloMiWOv3txWWKkKlw0Vvdz8CaBa3oYU7+dRSNq1ALRgwRWt68Qkvp2hxFq5NHxUx/
+ QY0I8zNIJep7N9tetgEMTCyd1PCYS/mZwFE4p9FwzIkWZ3BZick5aocII4rpROc8m3mGGHYDAvJ
+ OLOFgGgY1RUGwMzxvv1wc1+pEXnPQX9SUafzrP2WoVN1e2Cl5LKrtMNiryhJX513r12iNWtM2i+
+ Ya9Es7TE+qXc8p8QSutQ6nhUu4JwWrHF5HzTxssG5wvET9/jXaynuP96IYWqcZAEtb6xugEcWSb
+ 4IABNPna+xyAgF9VuIiveTa0/rkdKxzZ3jMNY7i3nAmu8mzf9C/NqToybZenLFhzCitYHmkjrbf
+ eI6zV+v1NFkfuZ2jVGlihyve6+rIXWNogZWtLr
+X-Google-Smtp-Source: AGHT+IFfroPQ+K/O79k3gCfogAuIxKuiwhy3M9mQ+dq+aIEPKQDVxtSYq5Zce8J4DPwQ3991vlPG3g==
+X-Received: by 2002:a17:902:cf42:b0:297:c4b0:8d53 with SMTP id
+ d9443c01a7336-2986a76a2d7mr91436965ad.54.1763235748178; 
+ Sat, 15 Nov 2025 11:42:28 -0800 (PST)
+Received: from ideapad.tail50fddd.ts.net ([139.5.199.70])
  by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-bc37731d21dsm7865756a12.34.2025.11.15.10.00.05
+ 41be03b00d2f7-bc37507fc7bsm8057442a12.23.2025.11.15.11.42.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 15 Nov 2025 10:00:09 -0800 (PST)
-From: Sukrut Heroorkar <hsukrut3@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-doc@vger.kernel.org (open list:DOCUMENTATION),
- linux-kernel@vger.kernel.org (open list)
-Cc: shuah@kernel.org, david.hunter.linux@gmail.com,
- Sukrut Heroorkar <hsukrut3@gmail.com>
-Subject: [PATCH] fbdev/ todo: Remove obsolete line about VGA16fb memory region
-Date: Sat, 15 Nov 2025 23:29:54 +0530
-Message-ID: <20251115175955.203312-1-hsukrut3@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ Sat, 15 Nov 2025 11:42:27 -0800 (PST)
+From: Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: javierm@redhat.com, maarten.lankhorst@linux.intel.com,
+ Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
+Subject: [PATCH] drm/solomon: ssd130x: Use kmalloc_array() to prevent
+ overflows.
+Date: Sun, 16 Nov 2025 01:11:56 +0530
+Message-ID: <20251115194156.44375-1-ayaanmirzabaig85@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Sat, 15 Nov 2025 22:20:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,29 +87,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The fbdev TODO item  mentions that VGA16fb does not request its memory
-region properly. This was fixed by commit 0be42724bf4d ("fbdev: vga16fb:
-Request memory region"). Remove the obsolete line.
+Replace three open-coded multiplications in kmalloc() with calls
+to kmalloc_array() to prevent potential integer overflows
 
-Signed-off-by: Sukrut Heroorkar <hsukrut3@gmail.com>
+Signed-off-by: Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
 ---
- Documentation/gpu/todo.rst | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/solomon/ssd130x.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 9013ced318cb..277b3e495726 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -424,8 +424,7 @@ Go through these drivers and add code to request the memory regions
- that the driver uses. This requires adding calls to request_mem_region(),
- pci_request_region() or similar functions. Use helpers for managed cleanup
- where possible. Problematic areas include hardware that has exclusive ranges
--like VGA. VGA16fb does not request the range as it is expected.
--Drivers are pretty bad at doing this and there used to be conflicts among
-+like VGA. Drivers are pretty bad at doing this and there used to be conflicts among
- DRM and fbdev drivers. Still, it's the correct thing to do.
+diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+index eec43d1a5595..8368f0ffbe1e 100644
+--- a/drivers/gpu/drm/solomon/ssd130x.c
++++ b/drivers/gpu/drm/solomon/ssd130x.c
+@@ -1498,7 +1498,7 @@ static int ssd130x_crtc_atomic_check(struct drm_crtc *crtc,
+ 	if (ret)
+ 		return ret;
  
- Contact: Thomas Zimmermann <tzimmermann@suse.de>
+-	ssd130x_state->data_array = kmalloc(ssd130x->width * pages, GFP_KERNEL);
++	ssd130x_state->data_array = kmalloc_array(ssd130x->width, pages, GFP_KERNEL);
+ 	if (!ssd130x_state->data_array)
+ 		return -ENOMEM;
+ 
+@@ -1519,7 +1519,7 @@ static int ssd132x_crtc_atomic_check(struct drm_crtc *crtc,
+ 	if (ret)
+ 		return ret;
+ 
+-	ssd130x_state->data_array = kmalloc(columns * ssd130x->height, GFP_KERNEL);
++	ssd130x_state->data_array = kmalloc_array(columns, ssd130x->height, GFP_KERNEL);
+ 	if (!ssd130x_state->data_array)
+ 		return -ENOMEM;
+ 
+@@ -1546,7 +1546,7 @@ static int ssd133x_crtc_atomic_check(struct drm_crtc *crtc,
+ 
+ 	pitch = drm_format_info_min_pitch(fi, 0, ssd130x->width);
+ 
+-	ssd130x_state->data_array = kmalloc(pitch * ssd130x->height, GFP_KERNEL);
++	ssd130x_state->data_array = kmalloc_array(pitch, ssd130x->height, GFP_KERNEL);
+ 	if (!ssd130x_state->data_array)
+ 		return -ENOMEM;
+ 
 -- 
-2.43.0
+2.51.0
 
