@@ -2,96 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C418C5FCF2
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 02:10:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98EFFC5FD47
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 02:25:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2A1B10EBAD;
-	Sat, 15 Nov 2025 01:10:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D8B4D10EB70;
+	Sat, 15 Nov 2025 01:25:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MnauAKVd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jCtMupPO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
- [209.85.166.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37B4610EB94
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 01:10:00 +0000 (UTC)
-Received: by mail-il1-f170.google.com with SMTP id
- e9e14a558f8ab-4331709968fso9387225ab.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 17:10:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763168999; x=1763773799; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=o0qRv7D69CzuYjO3j1EhxqH/ct/yNh/3IP2tz5K1Gqw=;
- b=MnauAKVdwOyQNJUcByp7D0BtfIQjE5qM0YXjbX5j6be3IO0Q33h2ge5aGx0LJWMDDb
- OXKyDH+ANASq9pa2hu7vDLbm3P1xNO9bMcW7VPOa+3kxnpaf/Oz0tT03GtW5rPpANhV5
- RscDyImmkmAOJdYfx8ucdwtsvqMSg/ySJv8NPWwQDjSqbmdCWS+OOOFpaB7yutfee6XV
- lxO3ztqDZCWbRdfsEA4ZfjoWhVIBQCoZBAUG79Y8houdWUKm7ndrNWeCnc0bcJDh4dOX
- b6WEV+5PaiJ8ofdGZo2zoKxRN0DZrNB8Z8HBd5AUKENb4WFV3zkLz64+IyjAMmiUzO0Y
- Zikw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763168999; x=1763773799;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=o0qRv7D69CzuYjO3j1EhxqH/ct/yNh/3IP2tz5K1Gqw=;
- b=JKNBerzfLoBB1SgmQhvVHJXFVrveAauTkLLr3uRJj42uMe8kn7QkZ8WcksbJLwtR8b
- V5sQJ9Hmlaj9HWoNDb/BVN9MfzYHIp32Mv330T42aQeRCRLhZUYnyj3/p1zXSr09juT3
- aLDnjCun2wdGiy+L7u4nSjZgMNzP69fLegm7nMZUsgCAtTDKK6H7+Siih9e0MU7/2lqD
- aKrQdflFGqS8+BKNSfrZmXGzNgnr0WmhXHYgMqZv0Euq0KyqrIqtECGZwNzb9+tBtDRs
- PBXebU7DTVJoUafmFQA6oU8HysAQ34E/ijnfVz7cTZ3jKvQ6RqZoCupkA/JUU25Q+VL6
- EaXw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWQzFKYqPiySCsQxwWlIM95LE1sMk0qU/ua4z2791ZuqlVaMgrXXZxd6MRQWJSOPeQgJw2AeqqPV1U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwSGl7LSwe0S+l3RltT/AlDC63q8zpvFTbZIi0OoOegA1/uUApp
- Og85nVlmaXAbLwDobM+IiCLni844/QixROD+9zwxQbvFuGI4zuLah/UuX9GKbK59Yb2spoc73pO
- wfQ0y/Av+39zWJeCrtct7DHLK+2XVXmU=
-X-Gm-Gg: ASbGncuO9FxFYsb/1hgVc2avB8LCk/O2eRIZSeh+UjROVvXXsxlqCySW03y71U6Y7G7
- EqUl556xbcKC6PtyyCS1kETxr+8AUONRFlf1uLzgEJ4tI7aC2cSAadflkXxUkf0uOYaHkIwK20H
- 9AHrMzPHgvJOfco3tb2ndh19cLqwJx5djpe65zcti4gX1Q7dium894T0YtMI+eaheVXigC8lAN9
- 5okB2Q30UiE7OeoYQzdq6ePTTxFbE5685n0Z5cNTBJVZfrNTXA5p1LX/Aur9UrlWM41dQaenycC
- RJi30Q==
-X-Google-Smtp-Source: AGHT+IGKr+SF3i4IMqwtFmH1LrnsWvseLPJ1eP5fnws2PS56tgVe0SFilID5gX/syOfN/2tpbyjVHNc8lJjWhGJSBeY=
-X-Received: by 2002:a05:6e02:3784:b0:433:2812:8066 with SMTP id
- e9e14a558f8ab-4348c91b9ecmr67887805ab.23.1763168998948; Fri, 14 Nov 2025
- 17:09:58 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAF4710E0CD;
+ Sat, 15 Nov 2025 01:25:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1763169954; x=1794705954;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=iPExCk3IoyHhYPVE40ddcBvRNJQ3dzOYx5Nkt2dYcN8=;
+ b=jCtMupPOP/CrJDBz2KCc8CKv9uSBTpQNlD5ew21ukted9e6+TtUwhPxn
+ 5iPwEXpE48mnxDDe9S0EHnq9DkZtzcCX4pRNIaZdjJ8Rtv5uQNfB71/pW
+ PDTza2FyGPQz/70gz/maagHQKdrlr57RvU9YnfVCei2KvfnynEX8gt5Po
+ 8ToUoxIOJzDjkBBtIEarAiVI+w2GdoMFKrVqCbTBvKn2VdxiAK/FvHQoC
+ FVE/j8L0oAZNVHMO0maUEjKEhuWfS19/nItiigcBuN9+ZuP/g1PfNVgOm
+ UP9todf1TGwODiMCNtUmVI3tGtWRgz0JltsSPO+K+ieE1m83LkzOv95NX w==;
+X-CSE-ConnectionGUID: nWECr12HTheFm4DQbx0hHQ==
+X-CSE-MsgGUID: VuyxIx3rRS6AGtXe/JinXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11613"; a="52838224"
+X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; d="scan'208";a="52838224"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2025 17:25:53 -0800
+X-CSE-ConnectionGUID: aURj6TDRSuGtYSLO1Tp36w==
+X-CSE-MsgGUID: qnAljBisQU2tIH8L0jrOfQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,306,1754982000"; d="scan'208";a="189938871"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Nov 2025 17:25:54 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 14 Nov 2025 17:25:53 -0800
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Fri, 14 Nov 2025 17:25:53 -0800
+Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.14) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 14 Nov 2025 17:25:53 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uR6SWNYKwiZLSGR0wKDR15vgxvWPE33RpjM+AKAdJ3ZLl5zHI4YsbANOe/klsxuCE2wOurOoXJcYgkKxVQoE2vHWxTl/W1MWkAUc0loTMJH41As0x0cOiowGRGrL15VyQV5Dt0QvbnPrEtfHBJZJ8MbaEKYTkQuYW9F6VTChZN91igd1jdXlsQAsXMbEN8F3Zcm8Q3P0j9nJzYaZfXKCc2S29HdaQgOQKmMIi97q26oSc970gv4xdihWeHqqRS9Om/FlCMLC2C9X1SoXLvAnqOBkwh8MKj/RKiBcSAzxBzOqGiVnsK6kZQ63MJ0JckqaSqrN62ohMXsxSVdhWMCj/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S63QONS3+kex+rnYUOJIXLMMRKxHG/qJHc3Lt5/XfSY=;
+ b=WaiMKRu09XID95fnhsgCWRrKOmA7h3SD9KFnu00TjU5db2sHxnKLLyiPoYKr5madTuOPyCxQNeu1d7zspvrE2KrQjh8lRs584iCUTgxf3LHi2QhG3rir9OLqR+Gjp5Bt1yvBTJivkewrnd60igXcxOsXqNqzTTpZyXYioCCXT+lM895WF1OF/uiY1qC7mUV4j9kqB3hqOfvl/TVbEBrADq7/xKTVtliAirmj67dgUI7J5wpsRxV0NZz+jD4AOnle4HWxuEdOoTVtDn6OmyMe3lxT/fXEI9XaO1dT7TQJF8maCpnmJosylbL5Igl57/ewQ5OPIIFDBDxayPAG5GBkIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL3PR11MB6410.namprd11.prod.outlook.com (2603:10b6:208:3b9::15)
+ by LV8PR11MB8461.namprd11.prod.outlook.com (2603:10b6:408:1e6::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.18; Sat, 15 Nov
+ 2025 01:25:50 +0000
+Received: from BL3PR11MB6410.namprd11.prod.outlook.com
+ ([fe80::b01a:aa33:165:efc]) by BL3PR11MB6410.namprd11.prod.outlook.com
+ ([fe80::b01a:aa33:165:efc%3]) with mapi id 15.20.9320.013; Sat, 15 Nov 2025
+ 01:25:50 +0000
+Date: Fri, 14 Nov 2025 17:25:47 -0800
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <christian.koenig@amd.com>, <pstanner@redhat.com>, <dakr@kernel.org>
+Subject: Re: [PATCH v3 1/7] drm/sched: Add pending job list iterator
+Message-ID: <aRfWm7zRm3UodJKX@nvishwa1-desk>
+References: <20251016204826.284077-1-matthew.brost@intel.com>
+ <20251016204826.284077-2-matthew.brost@intel.com>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20251016204826.284077-2-matthew.brost@intel.com>
+X-ClientProxiedBy: SJ0PR13CA0097.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c5::12) To BL3PR11MB6410.namprd11.prod.outlook.com
+ (2603:10b6:208:3b9::15)
 MIME-Version: 1.0
-References: <20251114-kaana-gpu-support-v3-0-92300c7ec8ff@oss.qualcomm.com>
-In-Reply-To: <20251114-kaana-gpu-support-v3-0-92300c7ec8ff@oss.qualcomm.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Fri, 14 Nov 2025 17:09:47 -0800
-X-Gm-Features: AWmQ_blMGRjNwnGFGy7X8EnS3-0DGpK0qt7AurVAQy8ubC4mlk6tdicKfSfYn9U
-Message-ID: <CAF6AEGt=qUeEcNbyETriZLnpwt+Zg7K2N7SUsc4Riu5z54VaoQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/20] drm/msm/adreno: Introduce Adreno 8xx family
- support
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Sean Paul <sean@poorly.run>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Marek <jonathan@marek.ca>, 
- Jordan Crouse <jordan@cosmicpenguin.net>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Connor Abbott <cwabbott0@gmail.com>,
- linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- iommu@lists.linux.dev, devicetree@vger.kernel.org, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Rob Clark <rob.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzk@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL3PR11MB6410:EE_|LV8PR11MB8461:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6a53a97e-778b-4c1e-1279-08de23e5e97f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?B6Jhntv8zhZiJw8WPnDcCM9hA6nQABr8+sd6QgBI13+1PG7oTPA0FzpoK4BP?=
+ =?us-ascii?Q?0SBdFLEhiaqJHO0EllCUKK4kGxbikCY3MdtOtaKRLJ4zwbU2axRq5XpXGmDo?=
+ =?us-ascii?Q?Xdico/wzg6D+4KIoVNW0qhDo+QDLBCpJJydUq4F3Idx263jkq3A8QTtKpUvw?=
+ =?us-ascii?Q?mUZvFf61p8B2K9+usmVSfIP30fpn8FERD/YyQP9f1mydXoxe3bsfH6UOQsnO?=
+ =?us-ascii?Q?GFtlYjPS/xlQZODEaavSnRF43GtCFA1wualqxaMg8jUAzXNqUXVX2LPHGaOC?=
+ =?us-ascii?Q?i6ul+J28czyXFrFxVsaKlZDFzEgfZGl4Ef6d00eO2gmXsYc6NmPk3xKQLEGj?=
+ =?us-ascii?Q?xq4OJtLugWTs1AjW+ji0R8HnI6q1o+3NW85DwM1YXdRRl9Qy5rC8KcrcvDdM?=
+ =?us-ascii?Q?t/fbrBfSAfj9sgEs6ot24xBUxh9ij+hpaZY1obFFUP0t2kv4ohhoi+pBv5Lu?=
+ =?us-ascii?Q?u1v2w2cRpeNq9jIsQqWrxUKOcfVlRP82UeDqlT+PQytVMwEGbvcJgQoChQVD?=
+ =?us-ascii?Q?ujXS2Wcy5LZTRz2lQfPjoEGvBQrS2MYHRXcT8U6zaF5r+gZaAlIPqCK4x4ej?=
+ =?us-ascii?Q?iSseMkVFJ4/Ht+3NRzdVhcIiDcUfhB7mWMXUj9Dhzr+7G/kXeuA/Rvn6DRV8?=
+ =?us-ascii?Q?o+mRSn5y70TPkNRTbsS7+XfQe3PDAMs3LkDwaKakgdwXGMlyMoGOG0BZATAC?=
+ =?us-ascii?Q?I26qL3QuAurT4PxifnAlqptpg1fDCAzHYEo92WDWBu/q0XI03Ads1syp4Bm/?=
+ =?us-ascii?Q?ypi7CRIaYXl4vD23nJEasJvCqk/DpcLsxJGRWLeL+IGe/R9fd+iBRfIyGVIz?=
+ =?us-ascii?Q?cTunNBWTeWeINTifj4zeuKgaqycxGo281AZbfiDMatzyjV8MwrK+Ke4/ViZR?=
+ =?us-ascii?Q?1XP4+nXUoUSQl/kb7dA2c0x8J3MefD+2AaZR+TZnYUxqNGJzgUQz+DgOh416?=
+ =?us-ascii?Q?1O+Xz9f67th8puGcWHwyHuZ9AOs/Wr8QZTQa6p2Un8tpe0wQHdRRFlC2osb1?=
+ =?us-ascii?Q?6Y9nUOh8/dWThmQ6VIadw8cBN+upetRFwl7Uyu4TdZVTnTdf6eOIPr1SqllK?=
+ =?us-ascii?Q?gEUdnNUOeBvrJveaud8+p66UYU561rdRkMGsFuwEa6PaNXaS/nFdzp6n4PAp?=
+ =?us-ascii?Q?zHPBK31clZmhT+3uZU2nALp9wMmvShjJmU1HbLpcR0jVu9mOO/V0rlOS151o?=
+ =?us-ascii?Q?iedoLPd4GRGxH5d0QWhzKwWMcYPfHQSfguOBplKjzshl31L/4yaRYWVUS610?=
+ =?us-ascii?Q?Ojjx2Esh3qcLWOj7S4i9+j8Vs5FEQtpi2NknwDbngZqKxtm4iK0Z574vCWPx?=
+ =?us-ascii?Q?F0msD6vEvLzi9F1zUpWwK1gLFS6L/46Ol9KG0evg6VfzlcUr46GS9qyjwQKt?=
+ =?us-ascii?Q?+FveFc/sDHvMu3beQxknv2nsK7k0KOrB+Wd1hm+dusUjgLbL6iNQ2iJnrGuR?=
+ =?us-ascii?Q?Qv4RzEBchduPGRiYmoN1newwoZ54puR2?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL3PR11MB6410.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FK1L4XohjT1o5IygxVbvielDuZzy8O85YYDBB0/YCXbTawRuuvnYldMzw63j?=
+ =?us-ascii?Q?3HC6gxO3B4J+5XP+oMHFZ3KtpzEWR3N6c/MBpgIcfVV0Xxk2UqbDzS7FfTsi?=
+ =?us-ascii?Q?oPcLXel0SHVIC+CKrNYEgUhI/Y0Ve8nsTgp0NnG44BH5X9oemIwk7Qa7Ztqn?=
+ =?us-ascii?Q?TApQHAdif4qN5pNoQ9sHFptleQpc2FiQDU7dJXCLdN7e8u8AIm/YBoP9GSBh?=
+ =?us-ascii?Q?vm5h8Q2geVSfd0ThznF72ZfS0BPOHMSk8Ob6Mit9VcvmUCnT6FB79LG175zT?=
+ =?us-ascii?Q?7uVeWkRB8iuomaUd09K1IOaWM01rqic3VkMXsW9kiv/sBtmzB5ZsUAC7dWih?=
+ =?us-ascii?Q?P5CXS9s6CD5VztzGMcIpQ6l5g1SvCOKVnZ2iyalhtiBgj7V5GN6KLdFDun+Y?=
+ =?us-ascii?Q?xSo/06MFEMHwGKbBh16By0+17mV0aPhBMMZcHB189QufPYHEtnf98G5RNgfV?=
+ =?us-ascii?Q?gmquh3BmrFR3uHEdwrLZ/zH527knhpeWR1WvDGCae0Fi90LapQPpBqibUvu/?=
+ =?us-ascii?Q?WKQcoTZsx+Xro1mloYdzHHRgbQJ1iKJoCZAfeAvzvBC1g8KUJDlIlaBmZU4O?=
+ =?us-ascii?Q?vTuk5EbVRE1qL/pQfngN4pH6r2h8bnyR332tXfBL8TIuxV4pvdu8+NlELaL+?=
+ =?us-ascii?Q?/N3ko060WGVYz5BV1uGsVqOlG0rxS2mH4anGTydZfoNtdpDd7DhDyBtzC4GX?=
+ =?us-ascii?Q?oOmUHkztznq1gQ8A9Nkqyj3ao65DPN6/E6vOSFQhSf672Vp+eYfCP2qaVcu6?=
+ =?us-ascii?Q?kl2HkK1I63Z/Wg/X9K1j6ZBVv+j4aWBrE/euiyFcVnzfzYsdoXetvhO1iFcO?=
+ =?us-ascii?Q?z82mLDEu8P3EVG+27zswcg1e+t0aMR1NPATEo7ygjE/33FHSxgXo5rq9Ryr1?=
+ =?us-ascii?Q?cSxzkxEoJwwzYf+89S+MmtWLKxBHVSLTyvZ2vjOZfy+fX/ZOGgiJPhLWpjiw?=
+ =?us-ascii?Q?XO4vTMBriYeyDZHLsTHrw2fAdQjHosSN1O9EzdFfeNqxjiiRuiFwL6pCA/gS?=
+ =?us-ascii?Q?M+vi8bddfRLmzijndQMHa/GdYrtb6kI8ydBhcjXITlDYQGx0nwQbK/z4pw2B?=
+ =?us-ascii?Q?dDkq+dGbj6YEa8u2RWToNk23dX2HUkgYyPG4njXOobAZj70Cd5H1PJJyN72d?=
+ =?us-ascii?Q?mrLxGqoPZeKIisLONCOAwKWQPA9HbHlOuih6taHbZ22Ek546VimR5nrErB/G?=
+ =?us-ascii?Q?VqgHkTk32g2Nl4MPvEAh46sqDtDn6Ff1QH8VUEzw4KAPLcMz1xxV9Vlvjq3D?=
+ =?us-ascii?Q?wtDAC4pOHDDZN5vnH5wnxugBLF5npqXOMuhosh9OGm0vqZ4pW7ESAoLkCyTF?=
+ =?us-ascii?Q?CWmriWnRPKO+U3H4e4fJcr9HFDDIWOMF+fomJDQmpu257yWRFzyYvUUlRoUH?=
+ =?us-ascii?Q?qk3MnJBLtMIEJf6zMLY/IhHUwGGpNNRHPXEH4hfi0YGUxL8XkWGWneasfBLF?=
+ =?us-ascii?Q?xqR6iu0kPoAnZLeuNCXfe58zy9nfXDI2RWCqHjpH8E6IHpF3qfTa5TmCW58b?=
+ =?us-ascii?Q?fXlWrBCNYQh8Sp/4MjwXEii/uZUi1T4CyvqqtcrHoez5kRQzC5H5bE1914dJ?=
+ =?us-ascii?Q?1G/vbpWSQVDE92vy7rqF/ayuLPBTK9t2bDHD6L3pmcZ+brmRdQwxB8zHfhAH?=
+ =?us-ascii?Q?rNAVlCrXpDm13dbBuahfn88=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a53a97e-778b-4c1e-1279-08de23e5e97f
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR11MB6410.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2025 01:25:50.7321 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cBGoynnDVCB8UL3Jq8FZztX+xRp6WBlvawhAFw8K2p3mQbRFB5Sgp4ADscnN9RbA2a4cImiLkVvtpHt+jwrJ93pQBdBn2bOQU7aPCJ8RYn0KzKVBBixOZD10uAKcj5zx
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8461
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,164 +178,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 13, 2025 at 3:29=E2=80=AFPM Akhil P Oommen <akhilpo@oss.qualcom=
-m.com> wrote:
+On Thu, Oct 16, 2025 at 01:48:20PM -0700, Matthew Brost wrote:
+>Stop open coding pending job list in drivers. Add pending job list
+>iterator which safely walks DRM scheduler list asserting DRM scheduler
+>is stopped.
 >
-> This series adds the A8xx HWL along with Adreno 840 GPU support to the
-> drm-msm driver. A8x is the next generation in the Adreno family,
-> featuring a significant hardware design change. A major update to the
-> design is the introduction of 'Slice' architecture. Slices are sort of
-> mini-GPUs within the GPU which are more independent in processing Graphic=
-s
-> and compute workloads. Also, in addition to the BV and BR pipe we saw in
-> A7x, CP has more concurrency with additional pipes.
+>v2:
+> - Fix checkpatch (CI)
+>v3:
+> - Drop locked version (Christian)
 >
-> From KMD-HW SWI perspective, there is significant register shuffling in
-> some of the blocks. For slice or aperture related registers which are
-> virtualized now, KMD/crashdumper has to configure an aperture register
-> to access them. On the GMU front, there are some shuffling in register
-> offsets, but it is manageable as of now. There is a new HFI message to
-> transfer data tables and new power related features to support higher
-> peak currents and thermal mitigations.
+>Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>---
+> include/drm/gpu_scheduler.h | 52 +++++++++++++++++++++++++++++++++++++
+> 1 file changed, 52 insertions(+)
 >
-> Adreno 840 GPU is the second generation architecture in the A8x family
-> present in Kaanapali (a.k.a Snapdragon 8 Elite Gen 5) chipset [1]. It
-> has a maximum of 3 slices with 2 SPs per slice. Along with the 3-slice
-> configuration, there is also another 2-slice SKU (Partial Slice SKU).
-> A840 GPU has a bigger 18MB of GMEM which can be utilized for graphics
-> and compute workload. It also features improved Concurrent binning
-> support, UBWC v6 etc.
+>diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>index fb88301b3c45..7f31eba3bd61 100644
+>--- a/include/drm/gpu_scheduler.h
+>+++ b/include/drm/gpu_scheduler.h
+>@@ -698,4 +698,56 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+> 				   struct drm_gpu_scheduler **sched_list,
+> 				   unsigned int num_sched_list);
 >
-> Adreno X2-85 GPU present in Glymur chipset is very similar to A840
-> architecturally. So adding initial support for it requires just an
-> additional entry in the catalog with the necessary register lists.
->
-> This series adds only the driver side support along with a few dt binding=
-s
-> updates. Devicetree patches will be sent separately, but those who
-> are interested can take look at it from the Qualcomm's public tree [2].
-> Features like coredump, gmu power features, ifpc, preemption etc will be
-> added in a future series.
->
-> Initial few patches are for improving code sharing between a6xx/a7xx and
-> a8x routines. Then there is a patch to rebase GMU register offsets from
-> GPU's base. Rest of the patches add A8x HWL and Adreno 840/X2-85 GPU
-> support.
->
-> Mesa support for A8x/A840 GPU is WIP and will be posted in the near
-> future.
+>+/* Inlines */
+>+
+>+/**
+>+ * struct drm_sched_pending_job_iter - DRM scheduler pending job iterator state
+>+ * @sched: DRM scheduler associated with pending job iterator
+>+ */
+>+struct drm_sched_pending_job_iter {
+>+	struct drm_gpu_scheduler *sched;
+>+};
+>+
+>+/* Drivers should never call this directly */
+>+static inline struct drm_sched_pending_job_iter
+>+__drm_sched_pending_job_iter_begin(struct drm_gpu_scheduler *sched)
+>+{
+>+	struct drm_sched_pending_job_iter iter = {
+>+		.sched = sched,
+>+	};
+>+
+>+	WARN_ON(!READ_ONCE(sched->pause_submit));
+>+	return iter;
+>+}
+>+
+>+/* Drivers should never call this directly */
+>+static inline void
+>+__drm_sched_pending_job_iter_end(const struct drm_sched_pending_job_iter iter)
+>+{
+>+	WARN_ON(!READ_ONCE(iter.sched->pause_submit));
+>+}
 
-mesa support: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/384=
-50
+May be instead of these inline functions, we can add the code in a '({' block
+in the below DEFINE_CLASS itself to avoid drivers from calling these inline
+funcions? Though I agree these inline functions makes it cleaner to read.
 
-BR,
--R
+>+
+>+DEFINE_CLASS(drm_sched_pending_job_iter, struct drm_sched_pending_job_iter,
+>+	     __drm_sched_pending_job_iter_end(_T),
+>+	     __drm_sched_pending_job_iter_begin(__sched),
+>+	     struct drm_gpu_scheduler *__sched);
+>+static inline void *
+>+class_drm_sched_pending_job_iter_lock_ptr(class_drm_sched_pending_job_iter_t *_T)
+>+{ return _T; }
+>+#define class_drm_sched_pending_job_iter_is_conditional false
+>+
+>+/**
+>+ * drm_sched_for_each_pending_job() - Iterator for each pending job in scheduler
+>+ * @__job: Current pending job being iterated over
+>+ * @__sched: DRM scheduler to iterate over pending jobs
+>+ * @__entity: DRM scheduler entity to filter jobs, NULL indicates no filter
+>+ *
+>+ * Iterator for each pending job in scheduler, filtering on an entity, and
+>+ * enforcing scheduler is fully stopped
+>+ */
+>+#define drm_sched_for_each_pending_job(__job, __sched, __entity)		\
+>+	scoped_guard(drm_sched_pending_job_iter, (__sched))			\
+>+		list_for_each_entry((__job), &(__sched)->pending_list, list)	\
+>+			for_each_if(!(__entity) || (__job)->entity == (__entity))
+>+
 
-> [1] https://www.qualcomm.com/products/mobile/snapdragon/smartphones/snapd=
-ragon-8-series-mobile-platforms/snapdragon-8-elite-gen-5
-> [2] https://git.codelinaro.org/clo/linux-kernel/kernel-qcom/-/commit/5fb7=
-2c27909d56660db6afe8e3e08a09bd83a284
->
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> ---
-> Changes in v3:
-> - Squash gpu smmu bindings patches for Kaana and Glymur (Krzysztof)
-> - Reuse a6xx_flush() and drop the patch that added submit_flush callback
-> - Fix GBIF configs for a640 and a650 family (Konrad)
-> - Add partial SKU detection support
-> - Correct Chipids in the catalog
-> - Add a new patch to drop SCRATCH reg dumps (Rob)
-> - Read slice info right after CX gdsc is up
-> - Don't drop raytracing support if preemption is unsupported
-> - Drop the unused A840 pwrup list (Konrad)
-> - Updates to A840 nonctxt list (Rob)
-> - Capture trailers
-> - Link to v2: https://lore.kernel.org/r/20251110-kaana-gpu-support-v2-0-b=
-ef18acd5e94@oss.qualcomm.com
->
-> Changes in v2:
-> - Rebase on top of next-20251110 tag
-> - Include support for Glymur chipset
-> - Drop the ubwc_config driver patch as it is picked up
-> - Sync the latest a6xx register definitions from Rob's tree
-> - New patch to do LRZ flush to fix pagefaults
-> - Reuse a7xx_cx_mem_init(). Dropped related patch (Connor)
-> - Few changes around cp protect configuration to align it with downstream
-> - Fix the incorrect register usage at few places
-> - Updates to non-ctxt register list
-> - Serialize aperture updates (Rob)
-> - More helpful cp error irq logging
-> - Split A8x GMU support patch (Dmitry)
-> - Use devm_platform_get_and_ioremap_resource in GMU init (Konrad)
-> - Link to v1: https://lore.kernel.org/r/20250930-kaana-gpu-support-v1-0-7=
-3530b0700ed@oss.qualcomm.com
->
-> ---
-> Akhil P Oommen (20):
->       drm/msm/a6xx: Flush LRZ cache before PT switch
->       drm/msm/a6xx: Fix the gemnoc workaround
->       drm/msm/a6xx: Skip dumping SCRATCH registers
->       drm/msm/adreno: Common-ize PIPE definitions
->       drm/msm/adreno: Move adreno_gpu_func to catalogue
->       drm/msm/adreno: Move gbif_halt() to adreno_gpu_func
->       drm/msm/adreno: Add MMU fault handler to adreno_gpu_func
->       drm/msm/a6xx: Sync latest register definitions
->       drm/msm/a6xx: Rebase GMU register offsets
->       drm/msm/a8xx: Add support for A8x GMU
->       drm/msm/a6xx: Improve MX rail fallback in RPMH vote init
->       drm/msm/a6xx: Share dependency vote table with GMU
->       drm/msm/adreno: Introduce A8x GPU Support
->       drm/msm/adreno: Support AQE engine
->       drm/msm/a8xx: Add support for Adreno 840 GPU
->       drm/msm/adreno: Do CX GBIF config before GMU start
->       drm/msm/a8xx: Add support for Adreno X2-85 GPU
->       dt-bindings: arm-smmu: Add Kaanapali and Glymur GPU SMMU
->       dt-bindings: display/msm/gmu: Add Adreno 840 GMU
->       dt-bindings: display/msm/gmu: Add Adreno X2-85 GMU
->
->  .../devicetree/bindings/display/msm/gmu.yaml       |   60 +-
->  .../devicetree/bindings/iommu/arm,smmu.yaml        |    2 +
->  drivers/gpu/drm/msm/Makefile                       |    2 +
->  drivers/gpu/drm/msm/adreno/a2xx_catalog.c          |    7 +-
->  drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   50 +-
->  drivers/gpu/drm/msm/adreno/a2xx_gpu.h              |    2 +
->  drivers/gpu/drm/msm/adreno/a3xx_catalog.c          |   13 +-
->  drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   52 +-
->  drivers/gpu/drm/msm/adreno/a3xx_gpu.h              |    2 +
->  drivers/gpu/drm/msm/adreno/a4xx_catalog.c          |    7 +-
->  drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   54 +-
->  drivers/gpu/drm/msm/adreno/a4xx_gpu.h              |    2 +
->  drivers/gpu/drm/msm/adreno/a5xx_catalog.c          |   17 +-
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   61 +-
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.h              |    1 +
->  drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |  369 +++-
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |  287 ++-
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |   25 +-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  393 ++--
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |   31 +-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        |   18 +-
->  drivers/gpu/drm/msm/adreno/a6xx_hfi.c              |   53 +
->  drivers/gpu/drm/msm/adreno/a6xx_hfi.h              |   17 +
->  drivers/gpu/drm/msm/adreno/a8xx_gpu.c              | 1205 ++++++++++++
->  drivers/gpu/drm/msm/adreno/adreno_device.c         |    4 +-
->  .../gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h  |  420 ++---
->  .../gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h  |  332 ++--
->  .../gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h  |  470 ++---
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   38 +-
->  drivers/gpu/drm/msm/registers/adreno/a6xx.xml      | 1954 ++++++++++++++=
-+-----
->  .../gpu/drm/msm/registers/adreno/a6xx_enums.xml    |    2 +-
->  drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml  |  283 +--
->  .../gpu/drm/msm/registers/adreno/a7xx_enums.xml    |    7 -
->  .../drm/msm/registers/adreno/a8xx_descriptors.xml  |  120 ++
->  .../gpu/drm/msm/registers/adreno/a8xx_enums.xml    |  289 +++
->  .../gpu/drm/msm/registers/adreno/adreno_common.xml |   12 +
->  36 files changed, 5008 insertions(+), 1653 deletions(-)
-> ---
-> base-commit: edf57d8dafc63f9298a209e518ea6a2e0df78ed0
-> change-id: 20250929-kaana-gpu-support-11d21c8fa1dc
->
-> Best regards,
-> --
-> Akhil P Oommen <akhilpo@oss.qualcomm.com>
+I am comparing it with DEFINE_CLASS usage in ttm driver here.
+It looks like the body of this macro (where we call list_for_each_entry()),
+doesn't use the drm_sched_pending_job_iter at all. So, looks like the only
+reason we are using a DEFINE_CLASS with scoped_guard here is for those
+WARN_ON() messages at the beginning and end of loop iteration, which is not
+fully fool proof. Right?
+I wonder if we really need DEFINE_CLASS here for that, though I am not
+against using it.
+
+Niranjana
+
+> #endif
+>-- 
+>2.34.1
 >
