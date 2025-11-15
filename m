@@ -2,80 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83FA2C6097F
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 18:37:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 434C3C609B3
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 19:00:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FE8C898F0;
-	Sat, 15 Nov 2025 17:37:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2405C10E03B;
+	Sat, 15 Nov 2025 18:00:12 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HNTvfqDR";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 212CB898F0
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 17:37:43 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-37a3d86b773so29112951fa.0
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 09:37:43 -0800 (PST)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C31E10E03B
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 18:00:10 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-29845b06dd2so32996755ad.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 10:00:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1763229610; x=1763834410; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=nXa39g3lX0uLafEymjfro1eQzu9oup1GMo1ewT5+ko0=;
+ b=HNTvfqDRkXQSJs1cOvc/ljkGVYAooowJYKWKibfB0RKihRGiEiOJoLYVd/PfN089TO
+ jb9GuGg1kAX16BcM3CKku8+eyAKIPcuSX7Ffjf9QmKcAb0L5xb9KMpEtcZRWrzLnazOj
+ ajdMGhBXyIFPygSq6/M7r2W1GwJUQ7+O9TbRBuehKgySG/C9Mkhcqejt5MEbqG+z8yus
+ WxyGhX5O4QdRzDyebRrZMy7O7QwfTk3QPLVI9OEnNBafEkXgdQfuDgGhhi/tUh338UIq
+ 38NaItjwpjK6mC8N3TqPKf8kIXKJ6tl+emR03dyj2AnDTNudlkNm9vQTN87SJ91JoDA1
+ 9ZLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763228258; x=1763833058;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=iS8st6S4NEhfwQi2ADWQ0RHyYWa8wB83L+ih+AMC2co=;
- b=AwlzuJvO7nXLTPlF+feJ6CcnMZtZb+P2WlMj5eXxLBJ0xEdEZSB0tw+Z4Kg5+f3C1c
- J9cxJbc3Etb6RlwKAeKVxo3+7vEsGTMb7aKwpE8tteWdBIIPZ4/SrpsrkNmN/hiNrE5q
- ue9Rto1bkdZ7pXbwZoQfLfwxVrgQKmt/LPizfAGS/kWZBeNI6cL1qSo8QKhxFJFalHqE
- UUtcwi+XYL/kyjBiyWMooCI9iclOuGgORuGKjQ+YU28OektlReVBC5qY11o4kL39fyZo
- mpzmOUxhqKpFuk0HW5kFRP9Eo2QCjsPZkUjvp8ns7i7NA7VHo53Zwpl2LB/c1MHKDxGx
- SHPA==
+ d=1e100.net; s=20230601; t=1763229610; x=1763834410;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nXa39g3lX0uLafEymjfro1eQzu9oup1GMo1ewT5+ko0=;
+ b=dejcNfqZm7zXKs40If3qFUXxUVcSsSG6ggM5KIFNt7djJBTLYjILzfB4ebIZvAdkAj
+ ZhftTLf0LKlaTZijqxRtydXKw5Cl+jbsjPghCaaK7Smh4Y4G2Ct+Eif1e6NkOOA3HIJu
+ 3hegNRRRlzn4CW1GBXpHWWKy4l2vi1mC41k0mnQ3GuqigmWzo38qAqPHKXcbpQNjyIYk
+ 1NI6MmgY4v8ymIRP2sLUp1ysbBDM7X44SYYLuy3HU7aVFYz9MwSmVbNRpdsRSGS07yon
+ SdkAU1FornMFE+jUjhzNzDof48TBB7k/uUokHgMubMHjmbBFhxsE0LW1mnIFDUBAFvi8
+ soTQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVHY/+WYUK3wIOuaHrwkhdrmItM+SW8+qzyDlCoqqxb/xbcEvH6X4CnBEwhQrJXkrQ0nLz3Q7K7cG8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxFMqIkG6KMCc5LPK9rUQzAJNbH1Cn+FmT9DfNBZRLfSdyx3rxO
- 5RAHZKG+r/GatAnPY4EcNBzpIRo78LU0cnGQmcHL0oNg1lFOLrT5woDeffXyB8ft
-X-Gm-Gg: ASbGnctx23/LCrMdhTB8sNDfMh54Z9uFItmbMAnHskfP73crfvfn3LNusm+9/JHoyVc
- 4NOCmTkfeRHk+UvIURtUokHmkBqRDVY1yA2lx6lu9+7/dy5zuFIxU7/Hr+i23xIXxyXG8hRZTid
- tcJIKA/hogxbXHzrj7L7F/6UAR8nxwaWxCf1IN7wW7uYwUmEZkj4c0F1MHGGpR/wqOLVbNWfkQW
- UiNzmWWvh+nCtJl983D+ea8tbOsnXKOcYW2RHzZKhGT31iEpyEMylDwgFEaEIWpGGnITQFBt0s/
- HgbmzRsJmBrI2bOL94fRsEUAT8MKrdOJnxOjSbEnRwqNCtfOEmvXvMcL5mgmV+uUW4yOmRAXU+4
- ls4NoN/s54UcfYwwo+Zc3oM5dbzZvRjw3nMtRL7WmXB4jbYZAbQVRWIv6RqDghah0V7sNaJ04Yk
- le0f96I19xYjYIOLJaafjbhXW2sDQjYsJy+FbiZwo7r2c=
-X-Google-Smtp-Source: AGHT+IEQWk7nWq0H2gHgAaJk7N/GGYzWRzGPYFVasYcQ8vs7m5d1p64r5l9OOZ3/TRw9vmaFT6nMyw==
-X-Received: by 2002:a05:6512:4028:b0:594:34c4:a33a with SMTP id
- 2adb3069b0e04-595841b4b06mr2333313e87.19.1763228257941; 
- Sat, 15 Nov 2025 09:37:37 -0800 (PST)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com.
- [209.85.208.170]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-59580400458sm1878957e87.63.2025.11.15.09.37.37
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 15 Nov 2025 09:37:37 -0800 (PST)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-37a875e3418so22079981fa.1
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 09:37:37 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWtPqulMrkX4W6x3B9glcmY+ktwPUdIfRQjGTsvqyA2585AM3SYbkvbqGfLwxSGaIMmD2iin3w+yQk=@lists.freedesktop.org
-X-Received: by 2002:a05:651c:41d5:b0:37a:4c29:3a90 with SMTP id
- 38308e7fff4ca-37babac1aa5mr18627811fa.0.1763228257141; Sat, 15 Nov 2025
- 09:37:37 -0800 (PST)
+ AJvYcCV1sMYxG/6wInZhhpDdLEF4UU3bKOT4tBIgvk2p+mq24MWHEHM0aLDPYI6AjGarX/x53TzWoFPSJG8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxXFB8wOmwB+w5CtOHgWE0fFYOzfhAhp9qr0oaMgiJEyofHJKB3
+ oqdGFLFm4lMmap60OcqLz9hro1od/krrQlT8etZoWcKpOmGGlbrTu9Gl
+X-Gm-Gg: ASbGncvdtXZkK//K+WxUUiFCT6DEmbTps7FF3TWGs5k7S+TTlpSxc7+AK1OEv9PW9Gk
+ eVVH/+LZOEOKZhka14/cO5sHHGMVAZ92u3fd+n7GqNuJmkH9POrdFhcu5gOo27o6DlOSVioTqTX
+ D/C+ab+hasBVMx/B9m/ZmZINXabMgx7tkSNwEM4XG/9gtl1GfbXTwrD1tK882Ul0c3u4y4FQXqw
+ tHDARNQf6AEcs+nHxR6FgiaLUq6Xbvhkmt8Nr/l2HMhWDAPTvtqN/LWgSoG5TwUG9SHzCU8o4FD
+ MpKs2yH58TU8cTqg0yP9WpS/2u8laWJttPGDw6XytcQHx0K7L1u2tOGZJAZBqv30wqcRZYBcyOk
+ W8nveIf+yDGzD3Odg1valpApU7+bm+O+NW2QnUxYrEpGsMfO5QPRB64Ga97xV9Sdu+6NYNXMs6r
+ YbM5gSpXI=
+X-Google-Smtp-Source: AGHT+IG4FNTrXxEatoXT8ZreRor8XQ6Hsv27jGeA7IqF3DhTphHxnwPLXI8stlzorRzzgwWkoU0POw==
+X-Received: by 2002:a17:903:1c9:b0:295:2645:9f5 with SMTP id
+ d9443c01a7336-2986a72cb09mr83050645ad.37.1763229610198; 
+ Sat, 15 Nov 2025 10:00:10 -0800 (PST)
+Received: from hsukr3.. ([2405:201:d019:4042:982d:4536:f564:9a92])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-bc37731d21dsm7865756a12.34.2025.11.15.10.00.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 15 Nov 2025 10:00:09 -0800 (PST)
+From: Sukrut Heroorkar <hsukrut3@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+ linux-kernel@vger.kernel.org (open list)
+Cc: shuah@kernel.org, david.hunter.linux@gmail.com,
+ Sukrut Heroorkar <hsukrut3@gmail.com>
+Subject: [PATCH] fbdev/ todo: Remove obsolete line about VGA16fb memory region
+Date: Sat, 15 Nov 2025 23:29:54 +0530
+Message-ID: <20251115175955.203312-1-hsukrut3@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20251115141347.13087-1-jernej.skrabec@gmail.com>
- <20251115141347.13087-4-jernej.skrabec@gmail.com>
-In-Reply-To: <20251115141347.13087-4-jernej.skrabec@gmail.com>
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 16 Nov 2025 01:37:24 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64xOrLzPYNOfFNFfPckR8EUF_U6xY0J_a3G7b0Ymb4OnA@mail.gmail.com>
-X-Gm-Features: AWmQ_bmhcY2-o8gJRo_3ltGzVFP1TpTD5csESojSsWw724bLMcf3HNL8i2V4XHQ
-Message-ID: <CAGb2v64xOrLzPYNOfFNFfPckR8EUF_U6xY0J_a3G7b0Ymb4OnA@mail.gmail.com>
-Subject: Re: [PATCH 3/7] clk: sunxi-ng: de2: Export register regmap for DE33
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: samuel@sholland.org, mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org, 
- krzk+dt@kernel.org, conor+dt@kernel.org, mturquette@baylibre.com, 
- sboyd@kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,129 +90,32 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: wens@csie.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 15, 2025 at 10:14=E2=80=AFPM Jernej Skrabec
-<jernej.skrabec@gmail.com> wrote:
->
-> DE33 clock pre-set plane mapping, which is not something that we want
-> from clock driver. Export registers instead, so DRM driver can set them
-> properly.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  drivers/clk/sunxi-ng/ccu-sun8i-de2.c | 53 ++++++++++++++++++++++++++--
->  1 file changed, 50 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/=
-ccu-sun8i-de2.c
-> index a6cd0f988859..2841ec922025 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-> @@ -6,9 +6,11 @@
->  #include <linux/clk.h>
->  #include <linux/clk-provider.h>
->  #include <linux/io.h>
-> +#include <linux/mfd/syscon.h>
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
-> +#include <linux/regmap.h>
->  #include <linux/reset.h>
->
->  #include "ccu_common.h"
-> @@ -250,6 +252,41 @@ static const struct sunxi_ccu_desc sun50i_h616_de33_=
-clk_desc =3D {
->         .num_resets     =3D ARRAY_SIZE(sun50i_h5_de2_resets),
->  };
->
-> +/*
-> + * Add a regmap for the DE33 plane driver to access plane
-> + * mapping registers.
-> + * Only these registers are allowed to be written, to prevent
-> + * overriding clock and reset configuration.
-> + */
-> +
-> +#define SUN50I_DE33_CHN2CORE_REG 0x24
-> +#define SUN50I_DE33_PORT02CHN_REG 0x28
-> +#define SUN50I_DE33_PORT12CHN_REG 0x2c
-> +
-> +static bool sun8i_de2_ccu_regmap_accessible_reg(struct device *dev,
-> +                                               unsigned int reg)
-> +{
-> +       switch (reg) {
-> +       case SUN50I_DE33_CHN2CORE_REG:
-> +       case SUN50I_DE33_PORT02CHN_REG:
-> +       case SUN50I_DE33_PORT12CHN_REG:
-> +               return true;
-> +       default:
-> +               return false;
-> +       }
-> +}
+The fbdev TODO item  mentions that VGA16fb does not request its memory
+region properly. This was fixed by commit 0be42724bf4d ("fbdev: vga16fb:
+Request memory region"). Remove the obsolete line.
 
-Since the registers are contiguous, I think it makes a bit more sense
-to use the .rd_table and .wr_table. A bonus is that the check can be
-inlined in the core instead of calling a function pointer.
+Signed-off-by: Sukrut Heroorkar <hsukrut3@gmail.com>
+---
+ Documentation/gpu/todo.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> +static const struct regmap_config sun8i_de2_ccu_regmap_config =3D {
-> +       .reg_bits       =3D 32,
-> +       .val_bits       =3D 32,
-> +       .reg_stride     =3D 4,
-> +       .max_register   =3D 0xe0,
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 9013ced318cb..277b3e495726 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -424,8 +424,7 @@ Go through these drivers and add code to request the memory regions
+ that the driver uses. This requires adding calls to request_mem_region(),
+ pci_request_region() or similar functions. Use helpers for managed cleanup
+ where possible. Problematic areas include hardware that has exclusive ranges
+-like VGA. VGA16fb does not request the range as it is expected.
+-Drivers are pretty bad at doing this and there used to be conflicts among
++like VGA. Drivers are pretty bad at doing this and there used to be conflicts among
+ DRM and fbdev drivers. Still, it's the correct thing to do.
+ 
+ Contact: Thomas Zimmermann <tzimmermann@suse.de>
+-- 
+2.43.0
 
-None of the registers past SUN50I_DE33_PORT12CHN_REG are accessible,
-so we should probably just put that here.
-
-> +
-> +       /* other devices have no business accessing other registers */
-> +       .readable_reg   =3D sun8i_de2_ccu_regmap_accessible_reg,
-> +       .writeable_reg  =3D sun8i_de2_ccu_regmap_accessible_reg,
-> +};
-> +
->  static int sunxi_de2_clk_probe(struct platform_device *pdev)
->  {
->         struct clk *bus_clk, *mod_clk;
-> @@ -303,13 +340,23 @@ static int sunxi_de2_clk_probe(struct platform_devi=
-ce *pdev)
->         }
->
->         /*
-> -        * The DE33 requires these additional (unknown) registers set
-> +        * The DE33 requires these additional plane mapping registers set
->          * during initialisation.
->          */
->         if (of_device_is_compatible(pdev->dev.of_node,
->                                     "allwinner,sun50i-h616-de33-clk")) {
-> -               writel(0, reg + 0x24);
-> -               writel(0x0000a980, reg + 0x28);
-> +               struct regmap *regmap;
-> +
-> +               regmap =3D devm_regmap_init_mmio(&pdev->dev, reg,
-> +                                              &sun8i_de2_ccu_regmap_conf=
-ig);
-> +               if (IS_ERR(regmap)) {
-> +                       ret =3D PTR_ERR(regmap);
-> +                       goto err_assert_reset;
-> +               }
-> +
-> +               ret =3D of_syscon_register_regmap(pdev->dev.of_node, regm=
-ap);
-
-dev_of_node(&pdev->dev) instead of directly accessing the member.
-IIRC this is the new preferred style.
-
-
-Thanks
-ChenYu
-
-> +               if (ret)
-> +                       goto err_assert_reset;
->         }
->
->         ret =3D devm_sunxi_ccu_probe(&pdev->dev, reg, ccu_desc);
-> --
-> 2.51.2
->
->
