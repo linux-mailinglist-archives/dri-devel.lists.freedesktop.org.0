@@ -2,68 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB24C60114
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 08:30:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A063C6011D
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 08:31:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAEEA10E049;
-	Sat, 15 Nov 2025 07:29:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D6D610E0C6;
+	Sat, 15 Nov 2025 07:31:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WdhqVeN5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fPcbfF5e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBDF210E049
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 07:29:56 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-b72bf7e703fso454666866b.2
- for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 23:29:56 -0800 (PST)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1BFB10E0C6
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 07:31:25 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-6419b7b4b80so3941172a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 14 Nov 2025 23:31:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763191795; x=1763796595; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1763191884; x=1763796684; darn=lists.freedesktop.org;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=XCPqxsFa6KDnq/UuyZpBimWkGLy2aEdXnS+xKFhpcAE=;
- b=WdhqVeN50F7EETzr+ZiyORoON76M2UwViGJ0m/1PAMocLdDYnj3h9PmQmfPZEbr6wS
- ukeLmCzdJLQ3JJIQmYxiAfNBzyDOxdI0R9n59ZRDbuL/Yqm0d3EkH2VhiQgZ9IA06ooX
- 7sKLcMfJ2qFpc2bNjYrs3aJ5rnXEeadxu4b9U8id2UjaHpJHGSQrG55jg4YqX0otznuE
- 09lBiJ/PSmGKIJVcX6eHC7pMnVaCvm2o2hT532xplV5wjg8HrD+ZugQgUjmu33YEdp/q
- J2DATndEf72cfFMs2NjM2apBkSGfNSTdIa0ZNaEjSEldFA59awm7ChOExuL58B7+jy70
- VAPg==
+ bh=1GthNzvU7oIYpZFVMhRNcIwup0JI2wPPRFd6se98Fvw=;
+ b=fPcbfF5ejUnLJM3zHxaNTXsBm+40GCSzY3ogBULcxPEZDUzvgh28QYoUjvpjk/xd3+
+ Ix5QDbd6ue4xRqzQJpOjVU6s4hVtsHHb+HL2BWYH/vT1dWL/KtkzsWno8z7I7IRN7cbY
+ tRPCZ97waa5uebNlokdCm0SZKR0/8glyRcionV8YjWEvKDtSfW74tkIqQLGUQNpncFKg
+ I483ru6c4dbMIW24eDTckxQjO/hYGqs8FyroMUoIIvfxCzFVxv//ezErIdMMGTPZq6nj
+ AHh7vIF3ut5akzvBdqieRRRmpLzNsCQoftJ45R6wHV9Cg2i3TpPxcENp3+m307nepNLx
+ IxWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763191795; x=1763796595;
+ d=1e100.net; s=20230601; t=1763191884; x=1763796684;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XCPqxsFa6KDnq/UuyZpBimWkGLy2aEdXnS+xKFhpcAE=;
- b=rqT6nhsgKP1f3Siyy1d/Am+OXKqn3n7zuJy4tbKbLBc6LmzVFnssYSwnWuBeuMK65Y
- JrBZpmcyzHddz8EE9v54AgARdva0IrNG3Yy7EPHVWoP1aJymRP8Dvux8dTQ7dMsMr4fl
- MuThiLE/24cQMq/RokCMHLabc4fzzIbjyzQSSxgqv3vsPyf96layuicdRTnfnCr4ahnc
- 49LOSXZQjztsU12A07l+X3O69y6AinpxQicLVaPB79IdZhLgq6BSDG9AEHovqTFGuej7
- UY97QLBvNw4pH/2EqtmT2o+PKHnywSTBkXwie6+4AcsOk/gywY6yD7JfPMYSrcVJY3Ns
- L3Pg==
+ bh=1GthNzvU7oIYpZFVMhRNcIwup0JI2wPPRFd6se98Fvw=;
+ b=FK3UDu3zj8Tym3HkQmPWJkv/pmi7dkHNYaiwX7zhu8aymAzQvQXMrDxo0GbOVjRn0H
+ ldjtUiE9Zr9gN1cP7VkY3HnVj7pxuhtlxz11xKyqvHXMo9goQ9RhahxipS+nzo8FlRb9
+ JvdIebf5I4pATHLil6bd+Jbq2LTyRQFdBA8qKcKcKXTnhOEnVdB/96btkTWihGDQCeRL
+ nqqQwAeiM5zb8dMX7XP/bXnLsHdlConEdFE6q4M36SI/h7ItVADzXkpv6xQ4SfFvs9wv
+ Er7iaH64NirjI2IbaMJIJsa7xBEJzrC2hHES0QR05blLG5L7ybbaz1ruPEh5HPH48Cob
+ xqdw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVlr3dhaBNMSI4bGiw5wtaXPF1FV0uoJtGeHDko629MujgMAcJ2BvXq3DWm32czFfpYxG7YkiQcbsA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwPFdMIkXOJ0QrDYK06Fvupfe8RawLk0e+AiojLMGbnEaFv082N
- tj0+JSVRKqxqQusNKq3tFB4TsXLpdNl6Wl3IxvbIHMX3nBzKmwynIubcBopAb3eCUyNhWKwg7UX
- zZOzxjhji9Eo8u7tzqx1wP32CCcbw/7E=
-X-Gm-Gg: ASbGncs1XzTp7UWgNKCEdLoJ8aNUBkBOhU71KcQIVQ+FW9A8kKkj6WJIqBtk3iIkgQy
- 9k3b1rjbtn4PiRv5TAF/A0HKtcJUH8HrGNhBCRPhPtUT+ww8eaR6OV1YPUyht+GX4nTGtDSgODo
- wYK1bfO7Gj6siuDzCbhNYOjtbkcuqkz8/btyOFkmF4NImh3+725A6KGsztwdegL/1hLHkggdwq2
- /gfA8CO0Zeh0co+faLiWMlj+Sj3UHNjI/A5yyQqz7JNAL9AgPfoi42S6vGS7f7ySzx3Uutmn6Pu
- b9iVCKxkt8op1qDTIRh+18OP
-X-Google-Smtp-Source: AGHT+IGFFlGriMdbkcAdxD5aaCkp09loEuvc59rIUdShi5eQS0NgZzUUo2H3BlPjMa7UMiDXEWxdnGVvOoc2N0htRpw=
-X-Received: by 2002:a17:907:1b02:b0:b6d:552f:e400 with SMTP id
- a640c23a62f3a-b7367869cb4mr576169166b.3.1763191795022; Fri, 14 Nov 2025
- 23:29:55 -0800 (PST)
+ AJvYcCWIMcv4pTpfOXUG21EKOi0PUPL8UWGR0sivnihGTxtqko3ap1qC9IiTdRg+dAqVxXQubu93aoYn8ZQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzUppIZeskMducOCqdMKhAfzdKBvBLi/Vyd9/2fzomgZ6sOVQwQ
+ cUJsh6qTvNnKhft3LZN53AkY/l5IjenyW/1SO/2uIVx+kdyEImNBjku05vzz+yk6GMVb384GHV6
+ 63oyb2gasHgKeKmR5W7+/SnPeagvvHto=
+X-Gm-Gg: ASbGncvQD/gfM/POFtTRmIxcO4s3cqfPmQvGjCEuRqd1COAi4u3fpLeBvp7NfD5hycX
+ OTnKQ8uMfhqpoYtxh+QLwfbolFCt7uiS3u8EaJMFF5IwjNFv4B9CgjCpeI4t+Agb5Jc9vUSa1PY
+ LWoCD8+49iaidkyyszzlcVD8dUQ+g9WVY98evnETTBAoUSOkGWGT3f2JCr0YSvV8eVBLZqDFraM
+ Tqj1Y20ceDp+iLunPgzL69nL1RigK7PYuDWsxAm+hG2uRapMHzvkMf0dnjxSZ568WKSS6YpfWLO
+ Z4O8lXIk6rN/5GcebUy+cJqn
+X-Google-Smtp-Source: AGHT+IHeQM7ska+yl8ZfByGr4aIQ8nWV7A0qqzSGCvXBmMDkvmobczaDf2bIGmtPK1vTSc5h13fGDlsqSNTRmjJYcJ8=
+X-Received: by 2002:a17:906:c18:b0:b73:6d57:3e06 with SMTP id
+ a640c23a62f3a-b736d573f0fmr368135966b.7.1763191884278; Fri, 14 Nov 2025
+ 23:31:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20251110090446.2910998-1-rampxxxx@gmail.com>
-In-Reply-To: <20251110090446.2910998-1-rampxxxx@gmail.com>
+References: <f9998d60-e532-48ae-8e03-d867cc0ec847@gmx.de>
+ <20251108093348.2842180-1-rampxxxx@gmail.com>
+In-Reply-To: <20251108093348.2842180-1-rampxxxx@gmail.com>
 From: Javier Garcia <rampxxxx@gmail.com>
-Date: Sat, 15 Nov 2025 08:29:43 +0100
-X-Gm-Features: AWmQ_bnALRQasujF1SCDe3eociVFBy6ZIjVZttvGy2QuDowEndVcbLwZYJTKm2Y
-Message-ID: <CABPJ0vj9+qWo54X6Rg19kCgdQSpKoP_69Byfj0bjGNXys9LoCQ@mail.gmail.com>
-Subject: Re: [PATCH] fbdev/vga16fb: Use dev_* fn's instead printk.
+Date: Sat, 15 Nov 2025 08:31:13 +0100
+X-Gm-Features: AWmQ_bn5W6cFQWAXvma80RKDC3o72Zt4SI3uXLPsjYIbAeCDIpi_bsg6NlHL0hg
+Message-ID: <CABPJ0vgAK5-vhuqCDa0LNkjUeD8qE8GD0Yu5D3wc59ixw6OHiQ@mail.gmail.com>
+Subject: Re: [PATCH v3] fbdev: vga16fb: Request memory region.
 To: deller@gmx.de
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linux-kernel@vger.kernel.org, shuah@kernel.org
@@ -85,77 +86,66 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-Helge Deller, any comment on this patch?
+Helge Deller, added this extra space clean as a I received a bot msg.
+
 
 ---
-
 Javier Garcia
 
-On Mon, 10 Nov 2025 at 10:04, Javier Garcia <rampxxxx@gmail.com> wrote:
+On Sat, 8 Nov 2025 at 10:33, Javier Garcia <rampxxxx@gmail.com> wrote:
 >
-> - Family dev_* fn's will show device name, giving extra info to logs.
-> - Delete the prefix `vga16fb:` from msg strings, not needed now.
+> This patch reserve and release VGA memory region.
 >
-> [    1.037947] vga16fb vga-framebuffer.0: initializing
+> This align with Documentation/drm/todo.rst
+> "Request memory regions in all fbdev drivers"
+>
+> I've tested with 32bits kernel and qemu.
 >
 > Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
 > ---
->  drivers/video/fbdev/vga16fb.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+> v1 -> v3:
+>       * Add space after comma.
+>       * v2 https://lore.kernel.org/lkml/20251028191615.2765711-1-rampxxxx@gmail.com/
+> v1 -> v2:
+>       * Add release in vga16fb_remove , thanks Helge Deller.
+>       * v1 https://lore.kernel.org/lkml/20251016171845.1397153-1-rampxxxx@gmail.com/
+>  drivers/video/fbdev/vga16fb.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
 > diff --git a/drivers/video/fbdev/vga16fb.c b/drivers/video/fbdev/vga16fb.c
-> index 3b4c50d98ba6..432ba7c8164b 100644
+> index eedab14c7d51..3b4c50d98ba6 100644
 > --- a/drivers/video/fbdev/vga16fb.c
 > +++ b/drivers/video/fbdev/vga16fb.c
-> @@ -1324,7 +1324,7 @@ static int vga16fb_probe(struct platform_device *dev)
->                 dev_err(&dev->dev, "vga16b: cannot reserve video memory at 0x%lx\n",
->                        vga16fb_fix.smem_start);
->         }
-> -       printk(KERN_DEBUG "vga16fb: initializing\n");
-> +       dev_dbg(&dev->dev, "initializing\n");
+> @@ -1319,6 +1319,11 @@ static int vga16fb_probe(struct platform_device *dev)
+>         if (ret)
+>                 return ret;
+>
+> +       if (!request_mem_region(vga16fb_fix.smem_start, vga16fb_fix.smem_len,
+> +                               "vga16b")) {
+> +               dev_err(&dev->dev, "vga16b: cannot reserve video memory at 0x%lx\n",
+> +                      vga16fb_fix.smem_start);
+> +       }
+>         printk(KERN_DEBUG "vga16fb: initializing\n");
 >         info = framebuffer_alloc(sizeof(struct vga16fb_par), &dev->dev);
 >
->         if (!info) {
-> @@ -1336,12 +1336,12 @@ static int vga16fb_probe(struct platform_device *dev)
->         info->screen_base = (void __iomem *)VGA_MAP_MEM(VGA_FB_PHYS_BASE, 0);
+> @@ -1398,6 +1403,8 @@ static int vga16fb_probe(struct platform_device *dev)
+>   err_ioremap:
+>         framebuffer_release(info);
+>   err_fb_alloc:
+> +       release_mem_region(vga16fb_fix.smem_start,
+> +                   vga16fb_fix.smem_len);
+>         return ret;
+>  }
 >
->         if (!info->screen_base) {
-> -               printk(KERN_ERR "vga16fb: unable to map device\n");
-> +               dev_err(&dev->dev, "unable to map device\n");
->                 ret = -ENOMEM;
->                 goto err_ioremap;
->         }
+> @@ -1407,6 +1414,8 @@ static void vga16fb_remove(struct platform_device *dev)
 >
-> -       printk(KERN_INFO "vga16fb: mapped to 0x%p\n", info->screen_base);
-> +       dev_info(&dev->dev, "mapped to 0x%p\n", info->screen_base);
->         par = info->par;
+>         if (info)
+>                 unregister_framebuffer(info);
+> +       release_mem_region(vga16fb_fix.smem_start,
+> +                   vga16fb_fix.smem_len);
+>  }
 >
->         par->isVGA = screen_info_video_type(si) == VIDEO_TYPE_VGAC;
-> @@ -1369,13 +1369,13 @@ static int vga16fb_probe(struct platform_device *dev)
->         i = (info->var.bits_per_pixel == 8) ? 256 : 16;
->         ret = fb_alloc_cmap(&info->cmap, i, 0);
->         if (ret) {
-> -               printk(KERN_ERR "vga16fb: unable to allocate colormap\n");
-> +               dev_err(&dev->dev, "unable to allocate colormap\n");
->                 ret = -ENOMEM;
->                 goto err_alloc_cmap;
->         }
->
->         if (vga16fb_check_var(&info->var, info)) {
-> -               printk(KERN_ERR "vga16fb: unable to validate variable\n");
-> +               dev_err(&dev->dev, "unable to validate variable\n");
->                 ret = -EINVAL;
->                 goto err_check_var;
->         }
-> @@ -1386,7 +1386,7 @@ static int vga16fb_probe(struct platform_device *dev)
->         if (ret)
->                 goto err_check_var;
->         if (register_framebuffer(info) < 0) {
-> -               printk(KERN_ERR "vga16fb: unable to register framebuffer\n");
-> +               dev_err(&dev->dev, "unable to register framebuffer\n");
->                 ret = -EINVAL;
->                 goto err_check_var;
->         }
+>  static const struct platform_device_id vga16fb_driver_id_table[] = {
 > --
 > 2.50.1
 >
