@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE48C604CA
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 13:21:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50E0EC604D0
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 13:22:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D75E10E298;
-	Sat, 15 Nov 2025 12:21:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02ABB10E29D;
+	Sat, 15 Nov 2025 12:21:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="K1+3VldC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GbhUTg2y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 319FE10E298
- for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 12:21:35 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66BED10E29D
+ for <dri-devel@lists.freedesktop.org>; Sat, 15 Nov 2025 12:21:39 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6F44560052;
+ by sea.source.kernel.org (Postfix) with ESMTP id 4CBA1401E6;
+ Sat, 15 Nov 2025 12:21:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96EF2C19423;
  Sat, 15 Nov 2025 12:21:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72599C4CEF5;
- Sat, 15 Nov 2025 12:21:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763209294;
- bh=avO0zpLxyi3tvTmbM/WVmfIlk/427UKM8doZxyoj6Cg=;
+ s=k20201202; t=1763209299;
+ bh=qnbEQfJ/X0ZmpMOyN7rpabYvjrZ5czl2oCiK6yZ/aM8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=K1+3VldCGa52eZ/Zo9eHfml5HhFLEVqgR3n9XtEeu6QAjh3Am5hDmX4t+djYzeiHu
- mzDNoXpTh//8eVqq5dqIzbJLEwXXSmgiOtoQnANHt9m37XXdg5dcC0hqB298vmobjJ
- cXsizUghYcXIBNDtZ0WuQbjkybj3P9RGym/UcjQNJVbjzX5IngWDGIeOKYfaDUwwzT
- vOQ1gzwm66U/NvQDkl7Vx9oa8mUdcd3mROhtQXtoyjTZYBPfqQietdG2Q0oPMwlH2h
- wMH2knPzRBeTeKMpA50kGQDVPJR4c790AYNKlopkmkSaBWBMcjSwMES5Z6uV/YS2B8
- 6CyS+nXy2LFqg==
+ b=GbhUTg2yrGlqBqVcfC9aqi1YG/6NW5DUwhyWV5txF5m9ZyTAKTz4BxGdHAxWXA+z/
+ ajY63z2+iHYvGDaOnpHL8KOwJQ+bXOfC8Fr0xhYnthlwHTK8sXSVUwZvfzhmIRBIYe
+ jE6a3yvmWy0jZ6Hr1QMg2MV2qXco19ljCMv+g0jPfD6GUioaFESwYdCG151UU09IvA
+ en868vAL8EhhCnk6SXMC9QHZAmXMfBjjNRYgbtGkpnAMjwMYLJi2sE5Ge4dN7nlY8d
+ gGSYvw8rKDUP0ZDisjQin1CkHJxVFx3Xb5aIDUk4DkCqXOby51UQsbzJfJELPcry/4
+ KArbIYHHxlkmg==
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Jyri Sarha <jyri.sarha@iki.fi>,
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
@@ -47,9 +47,9 @@ To: Jyri Sarha <jyri.sarha@iki.fi>,
  linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-mmc@vger.kernel.org
 Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 2/3] dt-bindings: dma: xilinx: Simplify dma-coherent property
-Date: Sat, 15 Nov 2025 13:21:22 +0100
-Message-ID: <20251115122120.35315-5-krzk@kernel.org>
+Subject: [PATCH 3/3] dt-bindings: mmc: am654: Simplify dma-coherent property
+Date: Sat, 15 Nov 2025 13:21:23 +0100
+Message-ID: <20251115122120.35315-6-krzk@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20251115122120.35315-4-krzk@kernel.org>
 References: <20251115122120.35315-4-krzk@kernel.org>
@@ -76,23 +76,23 @@ Simplify dma-coherent property to match common syntax.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- .../devicetree/bindings/dma/xilinx/xlnx,zynqmp-dma-1.0.yaml    | 3 +--
+ Documentation/devicetree/bindings/mmc/sdhci-am654.yaml | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/dma/xilinx/xlnx,zynqmp-dma-1.0.yaml b/Documentation/devicetree/bindings/dma/xilinx/xlnx,zynqmp-dma-1.0.yaml
-index b5399c65a731..2da86037ad79 100644
---- a/Documentation/devicetree/bindings/dma/xilinx/xlnx,zynqmp-dma-1.0.yaml
-+++ b/Documentation/devicetree/bindings/dma/xilinx/xlnx,zynqmp-dma-1.0.yaml
-@@ -59,8 +59,7 @@ properties:
-   power-domains:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml b/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml
+index 676a74695389..242a3c6b925c 100644
+--- a/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml
++++ b/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml
+@@ -50,8 +50,7 @@ properties:
+       - const: clk_ahb
+       - const: clk_xin
  
 -  dma-coherent:
--    description: present if dma operations are coherent
+-    type: boolean
 +  dma-coherent: true
  
- required:
-   - "#dma-cells"
+   # PHY output tap delays:
+   # Used to delay the data valid window and align it to the sampling clock.
 -- 
 2.48.1
 
