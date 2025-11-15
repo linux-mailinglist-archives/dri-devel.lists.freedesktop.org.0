@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93E39C5FB91
-	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 01:15:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9789C5FB97
+	for <lists+dri-devel@lfdr.de>; Sat, 15 Nov 2025 01:15:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D415D10ED1E;
-	Sat, 15 Nov 2025 00:15:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F6A410ED41;
+	Sat, 15 Nov 2025 00:15:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="HHK8FHCa";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="jcQzIm7b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com
- (mail-centralusazon11010007.outbound.protection.outlook.com [52.101.61.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32F1810ED1E;
- Sat, 15 Nov 2025 00:15:34 +0000 (UTC)
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011060.outbound.protection.outlook.com [52.101.62.60])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26C3F10ED6C;
+ Sat, 15 Nov 2025 00:15:47 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jvMRPgriCWd0P3UtU9z8n2p+9E/Hn/Atf5EgQIwURtSU+Zkz7/Hw6WNLMDaj1x6mZA4KHQDcaMSgSkcBuIKdUjJi6lGpYzzfmJIabX6C0G++LQXMnBz4FwG1NguQXl8NSWMhj/esmh74zMo+NXsSzIWkMEwiiNa98LqYEAuPZLjSiu4uIQv5IH/7vVSRtilX5EZNrJyusAmlP3Zdex5X5m1U6I9KEo81sjglAhNM9IKUjj5YY+r34qF2xksaTfsTBKORnlEYSpUGc0c4zdP1Sn8R6Rx9wBQlXZA7v0aj3YhdNPVsPfK7yyZ3vpiMZ232Nmt/Q7OhoovcX8EydGU+bA==
+ b=dqKIq5y8lyJxj3571YHOmB0FcZsEP4XW2UQxPI0QvZxXl8fwQrs0ceeB5szCXmD6R/hA2rS4jGtGxQ7jS5AgnL6D0SlT/YalRZPBcegz19IsSDZFnkVeG69F0Lpkz9FHZemVthBAfdFNCB+rM+jvPdf//I1i4B6uAPZSJFbwTAWVxP9TFbF4cHg6pyWjt5IyYdni8t9y6yJfzt0MPn4jXeQOGXAQdy/7u/Mu+NbdmYOqmx+X/NWFuHaO9BnBibJ5BkOpxEGv+vUwci3oqGjdJnp4QuK8//cuRa/VEakwm4E5GTdlLQ1FE9pyrW5owZ1USaXFMT2oqRFz+A64M9H9dg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i8gXwO4Q4AWMZHbOaI0gm303xPHR9Vb4RRKaHgIQNW4=;
- b=fHQ2a/8p3WPT9O1yDqmAIz0QFpidjKXVM4opYY1H427jh6plL6aDemB3KnmjOyF17IRqGVMwHRTrYl7XUOf99/azR7ZdOv9Hy5V1bDM/zBWIrDbVX8IbM7GuyRdLQq0/7lqmwGmWWOStKJ4DVDpfKReXzCIfxtMpyT2k/XZvgFwLbsaIb08xAEaKib7n5JfTZ+PQZzHqRQKTa/WjvV4t2+lT6MK7h+6ZE6Aa0nOMCO4Euu9loY0pegh7mBsG053TeQCVp2gZXVXx3HFIgEWc+LJ5kz/jvRTS25PybrGNe5zh+hjY20U3dlR/bHMVcaUrnHMLfWzKMzvl8nTmtI1LBg==
+ bh=CH0iN8WbnQ0x4HXIwUnbZ25nlENaAx32356Ls2d56Fo=;
+ b=d3TsjU/839o7TORoT9bldQ5waoqfGsJK0FqCp2vsvVVJ/2zM9Zjv6dMzcIgX8JQGnv/4kOdd+Cl7ocqW9Sq2U3DXVns2i33JGYQl3F7o/qx2vyq55+nSwbXTbVghmWwR7zrG8qc31TcYoxwqc5ZQDuh0H6V6WGMsgex/ll/mXokt21KiZSnB96/Pg9YG92vSuxGl38ejhn3bl2QqhbhA2H34jAqQWhj/HcMuswpKcNojAaBzDKFRs2D6vE7s3HgjMDvreRfQINzD1jI95XWQ/3ogCyWjdnaPzW6oVrWEOTDytN7COdL31XHp3fg5xBbE/D9EsAVle4B5TJYYpjq2/A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i8gXwO4Q4AWMZHbOaI0gm303xPHR9Vb4RRKaHgIQNW4=;
- b=HHK8FHCacLtJCZ6BNGsmnzNvBMyF3pFSpUl1z/NKjhH1tjcNnwUX8CafTBkPwn/JbV3f/C2BXsUhGoqf+ykz3IyARpMA0qQL+7Vs9T9QyXQCJ4/fI/SFyiCeZ5M8SVgt1PA5/zMtAbiFt0pWa8Imsqhtbx+WAlllfFAHhDOE6LE=
-Received: from CH5PR04CA0023.namprd04.prod.outlook.com (2603:10b6:610:1f4::23)
- by PH7PR12MB6978.namprd12.prod.outlook.com (2603:10b6:510:1b8::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Sat, 15 Nov
- 2025 00:15:29 +0000
-Received: from DS3PEPF000099E1.namprd04.prod.outlook.com
- (2603:10b6:610:1f4:cafe::c) by CH5PR04CA0023.outlook.office365.com
- (2603:10b6:610:1f4::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.18 via Frontend Transport; Sat,
- 15 Nov 2025 00:15:22 +0000
+ bh=CH0iN8WbnQ0x4HXIwUnbZ25nlENaAx32356Ls2d56Fo=;
+ b=jcQzIm7bV26uewFFaLTFUGauqTBRMjVd3R1BPSbLsXqHMyNEXmIzDGlRipOzOv0prcvubS6o1dJFZiws1UhVwly4gvcH4GrhAtEiwLJi7/oNJ5bFvu0NFFUNrAcHMmfWXspjJifQdppduFikHkqK0IbrzdtKu4MCENRQ36wS6Ss=
+Received: from DS7PR03CA0337.namprd03.prod.outlook.com (2603:10b6:8:55::25) by
+ MN2PR12MB4422.namprd12.prod.outlook.com (2603:10b6:208:265::9) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.18; Sat, 15 Nov 2025 00:15:44 +0000
+Received: from DS3PEPF000099DE.namprd04.prod.outlook.com
+ (2603:10b6:8:55:cafe::a4) by DS7PR03CA0337.outlook.office365.com
+ (2603:10b6:8:55::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.17 via Frontend Transport; Sat,
+ 15 Nov 2025 00:15:43 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- DS3PEPF000099E1.mail.protection.outlook.com (10.167.17.196) with Microsoft
+ DS3PEPF000099DE.mail.protection.outlook.com (10.167.17.200) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9320.13 via Frontend Transport; Sat, 15 Nov 2025 00:15:28 +0000
+ 15.20.9320.13 via Frontend Transport; Sat, 15 Nov 2025 00:15:43 +0000
 Received: from kylin.lan (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 14 Nov
- 2025 16:15:25 -0800
+ 2025 16:15:39 -0800
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
@@ -68,10 +68,10 @@ CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <Liviu.Dudau@arm.com>, <sashamcintosh@google.com>,
  <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>,
  <mcanal@igalia.com>, <nfraprado@collabora.com>, <arthurgrillo@riseup.net>
-Subject: [PATCH V13 49/51] drm/amd/display: Disable CRTC degamma when color
- pipeline is enabled
-Date: Fri, 14 Nov 2025 17:02:14 -0700
-Message-ID: <20251115000237.3561250-50-alex.hung@amd.com>
+Subject: [PATCH V13 50/51] drm/colorop: Add DRM_COLOROP_1D_CURVE_GAMMA22 to 1D
+ Curve
+Date: Fri, 14 Nov 2025 17:02:15 -0700
+Message-ID: <20251115000237.3561250-51-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251115000237.3561250-1-alex.hung@amd.com>
 References: <20251115000237.3561250-1-alex.hung@amd.com>
@@ -83,53 +83,53 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099E1:EE_|PH7PR12MB6978:EE_
-X-MS-Office365-Filtering-Correlation-Id: 86548009-4acb-4bc8-3baf-08de23dc153c
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099DE:EE_|MN2PR12MB4422:EE_
+X-MS-Office365-Filtering-Correlation-Id: e7042902-c487-43ba-368d-08de23dc1dbb
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|7416014|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?kIsGo8sIzp2y1MtvcCV4yMWuKE9Eo94XgxMMiyuIrAAM53nM/rj/NEl/Ey1u?=
- =?us-ascii?Q?kquftG6fTFSmPX53RPPr/IPW7PWdRl6+oU3tqm6JpsxtI6Txo0v4wgP4/6Nj?=
- =?us-ascii?Q?sOXeposaoGgYkCcrRVYO6IrnVRB/QB9v5ZclW1f2wmNQeLb62DPcUDI611/P?=
- =?us-ascii?Q?4d6l99LghqFdHEU263Otea3qCHLT9GyHTEdkxg1RhZA2+GHRb1oQtp/Tmaj7?=
- =?us-ascii?Q?+L4VHhP6gFvBzWpCl4zn0zTBW7KGzVovh9YWFTzR68fheE7Op2qyIe/3kKOK?=
- =?us-ascii?Q?ZCHu1r9zSTJOJUCCqnBNdJZIT1rZELf9WXEyV9euJ/jxNOxGFFAqi+ui7SKh?=
- =?us-ascii?Q?55UYm0ivHNZkyIkAgA+laYuxQaUJZnzPwrmDiepSvWCWs3jrfrxPEUVPb5Z7?=
- =?us-ascii?Q?DAEYTytAJ1VytVyqhSLZp1hTIn+X6HpWwJoP+I6agmoq4mgPqxAGxTJFAq/q?=
- =?us-ascii?Q?Vlj9CJo4i4k0EwcgIqe0D3o3a7LncfF//3gDguVo5+d2H8khm9ctQ6mPalsG?=
- =?us-ascii?Q?p9yEmmFRt+p2VwHtLGf22axYsdogdLOR7qLVcOABiBli3MAXVa8G0q6eKgJk?=
- =?us-ascii?Q?Iior+CJ2ct10M6mzF0M8bUBF5MlTWnzARlpPpmIqtoTLcP0JPfOn8g3qQqkO?=
- =?us-ascii?Q?BMc3w35nSGjeQLxegwlJCHcFUDVjfq86vmL7AApMAuK/XOAo4pqPo/cf01IO?=
- =?us-ascii?Q?+K+3R6100HqaQjygG3FFY3enw1XhSAMmFMm2adoe+8ddw6rzVyE2MZ1H0kUy?=
- =?us-ascii?Q?m0ri+0H4Kt1oJSgP/MOqHh/N9oyMSm+C7tICVYZO0sOzJ4E5O0wMHmDsWOS1?=
- =?us-ascii?Q?Mh+uEPy+aQB8i+jM7HU1VOoHl9w/yvARqxDGf8o8CRow7ckjwlAgUp3STwWy?=
- =?us-ascii?Q?Y8JngwNG0ChjATQPL7LuKDSfzNoXJ1+JzLoRNUyoeeDEciyiu8DFzSSLWLjp?=
- =?us-ascii?Q?7LOXUlfgdbcJH4LVPZriRtfJbxIkbNGKhvm0Fy6pqCJjiS4Jdq5o7GKqx4fc?=
- =?us-ascii?Q?l+BF0RBhtqMBM9HuE+Ov8H3+j0gEhUe20N4Cqo65T1a8x85Ip19j4GGPNBZl?=
- =?us-ascii?Q?ayxGFQUAY9ryMIV7iePOq6Gx9eel7UY5ETc/VRqO6SEwFkBHdToU/D6Dgcap?=
- =?us-ascii?Q?gRoQNyPMiWXbPTbOcPVNhSAGCIy3AUcvVnFmDvLWTw/3Y4rT1T7r05Y9hwS1?=
- =?us-ascii?Q?QKdv/cUL+N13McK6a7uuED4CBaRkg6lZJkojeYDRbnT1XHYOeQExObTx7aAr?=
- =?us-ascii?Q?MQNOdl5G9wSy+eElro0Hu6xQKDU8fQsaJKfcYz2uS+/N2vfG6QgIrIS23BuH?=
- =?us-ascii?Q?vm5VWF8b2nhpWB5RsH+Lqlmf7z9cdGIOxO0jPWCeyEpnm3/Jq6LKvOhfzw2c?=
- =?us-ascii?Q?DkAbLZqK9VZKsc6rGk9TvZV04wbjThogteU2xljOOy6jcrqWlEaMs457zy7v?=
- =?us-ascii?Q?RE/NVCBy64Ulmcx+EZc5fqmEpYcVMBX2V2VCUhZNcJxkkGHnLidL5Ypeo0dG?=
- =?us-ascii?Q?LtF63hIEOTKq5rKTLbygW8/wO5Gty/z328fX83yhJR+YmDywnRudkCAE7DlE?=
- =?us-ascii?Q?XNEoDNPQGjMdBL31ESE=3D?=
+ ARA:13230040|36860700013|1800799024|82310400026|7416014|376014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?JPVqdbjzFercnc2mc+csucvGUNB0PwFyj2GkO8/ZFUd/5Dqm6nLe4hl/Yv+t?=
+ =?us-ascii?Q?eXDs61LwEtJSoK3Lzjze3Jnn2O61G35o/zQOWpOVrUoe4N57IKt5teaWQBXs?=
+ =?us-ascii?Q?ItnDw8o/DInxtMJ4b/zMIwciYPdpAvCX994DbdfZDSFmybMBkMHk4gqfX2wv?=
+ =?us-ascii?Q?lJ8auCNXJWq3oYkDamh9myZFbJ9yWbNy7xMJHOclBZH/rwsntNLOjLt6eaRF?=
+ =?us-ascii?Q?Cte55xTa8MPOWtysd84+P1aLbPlIJEnxLk4VRU4kQU9hKxwSRCFNVEwB7VLc?=
+ =?us-ascii?Q?QolG2R9pMGo5QgzCpayzioZx6ZTXRbgL088l70Redon6APCqMILIgbbWIeGs?=
+ =?us-ascii?Q?C0TfAqGBl3vIgYH6HkDgwYcwrqPknw0Pqw5PjTVrvbX0oZgDAYzHEaXHF4eH?=
+ =?us-ascii?Q?DNFCuURzFozkKcxTVke0VTgVKd31C2KXkjLlhINprHTbHpxTT9TgnaCMrn8g?=
+ =?us-ascii?Q?jvxx5ssR0XK724uD3LRKoI9LMKk2ZIW1bAdBW0lQp5VWaGk5T0m5AJQprG8J?=
+ =?us-ascii?Q?ixe/iyGekuxneS3ePalT9lNkOOg0BNn+ZHGH4uIScFPFwDs16qEggphK7h2Q?=
+ =?us-ascii?Q?zUOm7ObvVeu4Un7Y5I6OQZ3S6Tc+ZUZLtd7058U3PVmesNMIYwVwNjGUnP02?=
+ =?us-ascii?Q?h/9WQRjtNGl5bjRvISsR9+YJNF8MWUWXkbfYT7Rv1T0cR1R6DUksA1T6IhSA?=
+ =?us-ascii?Q?e3zVQcBT3pAgwE2+fUfu+egsneG52B4rDNSYWEk/U5k0b65XiNv6Cid2mAbI?=
+ =?us-ascii?Q?UA0fev/bVJdSItRh7DJEh5SWY5gziKGcSnLZgOCr/S7LiwdyRHOk/0XrI9ej?=
+ =?us-ascii?Q?zOKXXc81Jm3ju00VJ0bt5fts7QmSy6buuHh53yNCPEwEa+jz0gz5OyiXmmDB?=
+ =?us-ascii?Q?oRgsC0zIlKRcp5JynzG+eEs4T4G2eo3Iy10uUdD2eldmXeiZOyCGuXirfWlc?=
+ =?us-ascii?Q?s2LW4p3bs8pR/CYj/UUWToHQ3uqQeK+6YJOjqlug6hZWoi7EkhObSbJ4pULZ?=
+ =?us-ascii?Q?A6ShVm4SfPJJlWqze+7MmYjgOPMioAEVNX20iw6tX4+u6JhVeZeo1npH+aIl?=
+ =?us-ascii?Q?IT2lEcSNHMaU04G6ZIgN+fOuxNpIXtPo18m3bzTqS4YVn/+IswtQ400eZ0Yd?=
+ =?us-ascii?Q?cXYvUFJtw6IBarWQu4oS9BXVv3o8Bh69JCOigsERM8pAlYDXBlaEdkEvrsuu?=
+ =?us-ascii?Q?e0ppQzFRV+VGn+ZHte1ZBUhfp+ccXl0STzr26eib7jKmO2PSie4lujTr/lXi?=
+ =?us-ascii?Q?1fkSvjkZJgHAH3kmaTuzZYKAfhu/zbuj8aNOHBZFV7PvqxkUTw3/X1RvCBwZ?=
+ =?us-ascii?Q?RxaDlHPc2VgofVEVvSHWwauuWTKS7SSmxh8MuTlLCDmXPPdXxunf5LyNTHom?=
+ =?us-ascii?Q?eAoqWRFW5XdlumW9OLwzG0UBPhF5zaNiY7ydNUY6EWlWpbjthRdXm3jhRDcv?=
+ =?us-ascii?Q?eeF2ejKnlIKpaHq6dOUyY/+JGAaVA7rjyYyPq/YqBMvk2pmsTvgkFJGrAE3M?=
+ =?us-ascii?Q?veVBBHwV89d4Uqb7GpHJnMIqIopmBlwN0xO+vnA0jgMTaG+wVWZio18rNrB5?=
+ =?us-ascii?Q?xZK8O099hjeinroJ4ks=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(7416014)(376014)(1800799024); DIR:OUT;
+ SFS:(13230040)(36860700013)(1800799024)(82310400026)(7416014)(376014); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2025 00:15:28.8500 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86548009-4acb-4bc8-3baf-08de23dc153c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2025 00:15:43.0996 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7042902-c487-43ba-368d-08de23dc1dbb
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099E1.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099DE.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6978
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4422
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,65 +145,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The degamma is to be handled by Color pipeline API.
+Add "DRM_COLOROP_1D_CURVE_GAMMA22" and DRM_COLOROP_1D_CURVE_GAMMA22_INV
+subtypes to drm_colorop of DRM_COLOROP_1D_CURVE.
 
 Reviewed-by: Harry Wentland <harry.wentland@amd.com>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
 ---
-v11:
- - Merged enable condition for drm_crtc_enable_color_mgmt (Melissa Wen)  
+v12:
+ - Add gamma 2.2 (Sebastian Wick & Xaver Hugl & Pekka)
 
-v10:
- - Disable CRTC degamma when color pipeline is enabled (Melissa Wen)
+ drivers/gpu/drm/drm_colorop.c |  2 ++
+ include/drm/drm_colorop.h     | 18 ++++++++++++++++++
+ 2 files changed, 20 insertions(+)
 
- .../amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 26 +++++++++----------
- 1 file changed, 12 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-index 38f9ea313dcb..697e232acebf 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-@@ -736,7 +736,7 @@ int amdgpu_dm_crtc_init(struct amdgpu_display_manager *dm,
- {
- 	struct amdgpu_crtc *acrtc = NULL;
- 	struct drm_plane *cursor_plane;
--	bool is_dcn;
-+	bool has_degamma;
- 	int res = -ENOMEM;
+diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
+index e1b2b446faf2..4e54bd46be7a 100644
+--- a/drivers/gpu/drm/drm_colorop.c
++++ b/drivers/gpu/drm/drm_colorop.c
+@@ -77,6 +77,8 @@ static const char * const colorop_curve_1d_type_names[] = {
+ 	[DRM_COLOROP_1D_CURVE_PQ_125_INV_EOTF] = "PQ 125 Inverse EOTF",
+ 	[DRM_COLOROP_1D_CURVE_BT2020_INV_OETF] = "BT.2020 Inverse OETF",
+ 	[DRM_COLOROP_1D_CURVE_BT2020_OETF] = "BT.2020 OETF",
++	[DRM_COLOROP_1D_CURVE_GAMMA22] = "Gamma 2.2",
++	[DRM_COLOROP_1D_CURVE_GAMMA22_INV] = "Gamma 2.2 Inverse",
+ };
  
- 	cursor_plane = kzalloc(sizeof(*cursor_plane), GFP_KERNEL);
-@@ -775,20 +775,18 @@ int amdgpu_dm_crtc_init(struct amdgpu_display_manager *dm,
- 
- 	dm->adev->mode_info.crtcs[crtc_index] = acrtc;
- 
--	/* Don't enable DRM CRTC degamma property for DCE since it doesn't
--	 * support programmable degamma anywhere.
-+	/* Don't enable DRM CRTC degamma property for
-+	 * 1. Degamma is replaced by color pipeline.
-+	 * 2. DCE since it doesn't support programmable degamma anywhere.
-+	 * 3. DCN401 since pre-blending degamma LUT doesn't apply to cursor.
+ static const struct drm_prop_enum_list drm_colorop_lut1d_interpolation_list[] = {
+diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
+index 3e70f66940e0..01e6774c482e 100644
+--- a/include/drm/drm_colorop.h
++++ b/include/drm/drm_colorop.h
+@@ -108,6 +108,24 @@ enum drm_colorop_curve_1d_type {
  	 */
--	is_dcn = dm->adev->dm.dc->caps.color.dpp.dcn_arch;
--	/* Dont't enable DRM CRTC degamma property for DCN401 since the
--	 * pre-blending degamma LUT doesn't apply to cursor, and therefore
--	 * can't work similar to a post-blending degamma LUT as in other hw
--	 * versions.
--	 * TODO: revisit it once KMS plane color API is merged.
--	 */
--	drm_crtc_enable_color_mgmt(&acrtc->base,
--				   (is_dcn &&
--				    dm->adev->dm.dc->ctx->dce_version != DCN_VERSION_4_01) ?
--				     MAX_COLOR_LUT_ENTRIES : 0,
-+	if (plane->color_pipeline_property)
-+		has_degamma = false;
-+	else
-+		has_degamma = dm->adev->dm.dc->caps.color.dpp.dcn_arch &&
-+			      dm->adev->dm.dc->ctx->dce_version != DCN_VERSION_4_01;
-+
-+	drm_crtc_enable_color_mgmt(&acrtc->base, has_degamma ? MAX_COLOR_LUT_ENTRIES : 0,
- 				   true, MAX_COLOR_LUT_ENTRIES);
+ 	DRM_COLOROP_1D_CURVE_BT2020_OETF,
  
- 	drm_mode_crtc_set_gamma_size(&acrtc->base, MAX_COLOR_LEGACY_LUT_ENTRIES);
++	/**
++	 * @DRM_COLOROP_1D_CURVE_GAMMA22:
++	 *
++	 * enum string "Gamma 2.2"
++	 *
++	 * A gamma 2.2 power function. This applies a power curve with
++	 * gamma value of 2.2 to the input values.
++	 */
++	DRM_COLOROP_1D_CURVE_GAMMA22,
++
++	/**
++	 * @DRM_COLOROP_1D_CURVE_GAMMA22_INV:
++	 *
++	 * enum string "Gamma 2.2 Inverse"
++	 *
++	 * The inverse of &DRM_COLOROP_1D_CURVE_GAMMA22
++	 */
++	DRM_COLOROP_1D_CURVE_GAMMA22_INV,
+ 	/**
+ 	 * @DRM_COLOROP_1D_CURVE_COUNT:
+ 	 *
 -- 
 2.43.0
 
