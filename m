@@ -2,72 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50839C616F2
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 15:37:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF02C61701
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 15:42:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E38A10E2C0;
-	Sun, 16 Nov 2025 14:37:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA74310E161;
+	Sun, 16 Nov 2025 14:42:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hReJ0nw5";
+	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="b14NR+8M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7E4510E161
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 14:37:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 01E14601EB
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 14:37:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A71BBC113D0
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 14:37:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763303851;
- bh=2Bggx1JE8zrmrCOlLWA1b4H8PTZ9Hv6P2gnc61wAGjg=;
- h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
- b=hReJ0nw5+W23nQcULZpkXPGjdtKIkKQRDDgXEWOZD6+yQH+WVgRoFy7kG3aPRjnW+
- TFgb1HBXGtzcJuNARqACSjFASZXzJGV7Ft4d8z40QcPUbI3WP4JDcC0RPtRUEW3Ozt
- cx3Gm5Oc6zSaRjff4fZhQ13GmgQxu19StTQ+DGj3r4QDr8SuWz+BzU+C82zNWPmg6T
- 1T+pCCfVl/gbYn+54GfiDY/Hy17JCL7dDXxnXEyYXyndwXuS6OSODo1hh9N5g3ZHQ7
- 8NmamzUtJFvLUVH6vhhyhS9q5l/akZF1NziwuzZVXNnruglfARaBd/wStr20lOxiiL
- nnhtovb7RvbVg==
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-37ba5af5951so28238171fa.1
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 06:37:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUbR6YBrkoQOcmrRUkPrwDcYs054kDqVN1e4tpF3HH+d3yKoQ2EMusFrXg0jhzJ+xnNWRSJaJBZmx8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyzCiHR9o1kmyH6sff9qfmE2DyjxoUm6TeNpn9tOzRLltVSM+8T
- EZHk7QsCiDEEMEtvoSxZk+lQgwbeLvilc1oPoH3wi/quQPCv5Q+EjpPuNBDdsZ8x9JKTksDRYz3
- vNu75HgbvIv+BWnb5W/+jL285GSC+fhc=
-X-Google-Smtp-Source: AGHT+IG7vqFgL8pcnoWY4X8bK83bCjs7yr5BwCnDCB4u5oYDjeQdmjUX3ZIX6NF6V8m3f8emPC7cEmlAcG+l7wyAhyk=
-X-Received: by 2002:a2e:b952:0:b0:378:f267:3107 with SMTP id
- 38308e7fff4ca-37babd46336mr21467291fa.37.1763303850006; Sun, 16 Nov 2025
- 06:37:30 -0800 (PST)
+Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7905410E161
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 14:42:08 +0000 (UTC)
+Received: from [10.0.0.200] (unknown [10.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id EE08C53412A2;
+ Sun, 16 Nov 2025 15:42:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1763304126;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=LjYOWtCffzgNMebgJlMNfWTh/7EezeDBlJxB3iE8iTM=;
+ b=b14NR+8M108ri2ILOwLsagkVEWsICtRkqyyOOjEZLraOmy7XWPNgsBnlNZT6h7JIhPHyGB
+ chPTHurujUpkqDqTKMRiexidclkxXtQMQugXVJTscD9hLSdUCQcELbRcsHAROMTnrJe8rx
+ cNcq2jnNDnc9UIUKJ7ybSJqln8oorCI=
+Message-ID: <babcd7be-40f6-4023-8781-0b7203faf662@ixit.cz>
+Date: Sun, 16 Nov 2025 15:42:05 +0100
 MIME-Version: 1.0
-References: <20250221161751.1278049-1-kuba@szczodrzynski.pl>
- <20251116134609.447043-1-kuba@szczodrzynski.pl>
- <CAGb2v67V01k8zj2r+Dd+JDEsH2LX2Jtx+CP=i8aQfX_JyFtLfg@mail.gmail.com>
- <7ff30ae9-e4c0-47ae-80ad-726eaa557fd0@szczodrzynski.pl>
-In-Reply-To: <7ff30ae9-e4c0-47ae-80ad-726eaa557fd0@szczodrzynski.pl>
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 16 Nov 2025 22:37:15 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67iovqfErt20Oz0SrHC558zBDDFq1ZqRau83NOQ2w8AoQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bnuktLAy6WzxMHGACOr-_rXESjXpP0XBu3tC1d0_mcaLovZAV-ch-mI9ko
-Message-ID: <CAGb2v67iovqfErt20Oz0SrHC558zBDDFq1ZqRau83NOQ2w8AoQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] drm/sun4i: Support LVDS on D1s/T113 combo D-PHY
-To: =?UTF-8?Q?Kuba_Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>
-Cc: Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/12] dt-bindings: panel: Convert Samsung SOFEF00 DDIC
+ into standalone yaml
+To: Casey Connolly <casey.connolly@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, parthiban@linumiz.com, paulk@sys-base.io
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ phone-devel@vger.kernel.org
+References: <20251113-sofef00-rebuild-v2-0-e175053061ec@ixit.cz>
+ <20251113-sofef00-rebuild-v2-1-e175053061ec@ixit.cz>
+ <9ef0e4f9-7594-4c26-ab45-38e62a7d0e37@linaro.org>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <9ef0e4f9-7594-4c26-ab45-38e62a7d0e37@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,93 +114,53 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: wens@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 16, 2025 at 10:31=E2=80=AFPM Kuba Szczodrzy=C5=84ski
-<kuba@szczodrzynski.pl> wrote:
->
-> W dniu 2025-11-16 o 15:03:18, Chen-Yu Tsai pisze:
->
-> > On Sun, Nov 16, 2025 at 9:46=E2=80=AFPM Kuba Szczodrzy=C5=84ski
-> > <kuba@szczodrzynski.pl> wrote:
-> >> [replying to v1 to keep the same series on Patchwork]
-> > That is not the right way to do it.
-> >
-> > If you reply to an old series, the tooling does not pickup the new vers=
-ion
-> > as a separate series.
-> >
-> > ChenYu
->
-> Hi,
->
-> I noticed that it indeed didn't work. However, Patchwork didn't pick up t=
-he v2 cover letter at all, so I thought replying to v2 would mess up the th=
-read even more.
->
-> That being said, the v3 cover letter is not visible there either.
->
-> Should I resend this as v4 [which message to reply to?] or send a complet=
-ely new series perhaps?
+On 16/11/2025 14:55, Casey Connolly wrote:
+> Hi David,
+> 
+> I may not have added myself to MAINTAINERS when I submitted this driver, 
+> but a heads-up would have been appreciated before just taking it over!
+> 
+> On 11/13/25 18:57, David Heidelberg via B4 Relay wrote:
+>> From: David Heidelberg <david@ixit.cz>
+> 
+> [...]> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 7e015dcbac732..a4b16812d5a0c 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -8117,6 +8117,12 @@ S:    Maintained
+>>   F:    Documentation/devicetree/bindings/display/panel/ 
+>> samsung,s6e3ha8.yaml
+>>   F:    drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c
+>> +DRM DRIVER FOR SAMSUNG SOFEF00 DDIC
+>> +M:    David Heidelberg <david@ixit.cz>
+> 
+> M:    Casey Connolly <casey.connolly@linaro.org>
 
-Each new version should be a completely new series.
+Sure, I'll add you in next patch version.
 
-If patchwork still didn't pick it up, then it's possible either your
-patches didn't reach the mailing lists or the patchwork instances.
-Please check lore to see if your patches are there.
+Could you review the patches not authored by you within the patchset too?
 
+Thank you
+David
 
-ChenYu
+> 
+> Please and thanks!
+> Casey (she/they)
+> 
+>> +S:    Maintained
+>> +F:    Documentation/devicetree/bindings/display/panel/ 
+>> samsung,sofef00.yaml
+>> +F:    drivers/gpu/drm/panel/panel-samsung-sofef00.c
+>> +
+>>   DRM DRIVER FOR SHARP MEMORY LCD
+>>   M:    Alex Lanzano <lanzano.alex@gmail.com>
+>>   S:    Maintained
+>>
+> 
 
-> I apologize for the confusion, this is my first time doing that.
->
-> Regards
-> Kuba
->
-> >> Some Allwinner chips (notably the D1s/T113 and the A100) have a "combo
-> >> MIPI DSI D-PHY" which is required when using single-link LVDS0. The sa=
-me
-> >> PD0..PD9 pins are used for either DSI or LVDS.
-> >>
-> >> Other than having to use the combo D-PHY, LVDS output is configured in
-> >> the same way as on older chips.
-> >>
-> >> This series enables the sun6i MIPI D-PHY to also work in LVDS mode. It
-> >> is then configured by the LCD TCON, which allows connecting a
-> >> single-link LVDS display panel.
-> >>
-> >> Changes in v2/v3:
-> >> - Applied code formatting changes from review comments
-> >> - Changed "dphy" to "combo-phy"
-> >> - Made the LVDS setup/teardown functions abort early in case of error
-> >>    (adding a proper return value would require changes in several leve=
-ls
-> >>     of caller functions; perhaps could be done in a separate patch)
-> >> - Added the PHY properties to DT bindings
-> >> - Renamed lvds0_pins to lcd_lvds0_pins
-> >> - Rebased on top of drm/misc/kernel/for-linux-next
-> >> - Hopefully corrected the incomplete patch list of v2, which happened
-> >>    due to an SMTP error
-> >>
-> >> Kuba Szczodrzy=C5=84ski (6):
-> >>    phy: allwinner: phy-sun6i-mipi-dphy: Support LVDS in combo D-PHY
-> >>    drm/sun4i: Support LVDS using MIPI DSI combo D-PHY
-> >>    drm/sun4i: Enable LVDS output on sun20i D1s/T113
-> >>    dt-bindings: display: sun4i: Add D1s/T113 combo D-PHY bindings
-> >>    riscv: dts: allwinner: d1s-t113: Add D-PHY to TCON LCD0
-> >>    riscv: dts: allwinner: d1s-t113: Add LVDS0 pins
-> >>
-> >>   .../display/allwinner,sun4i-a10-tcon.yaml     |  6 ++
-> >>   .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 11 +++
-> >>   drivers/gpu/drm/sun4i/sun4i_tcon.c            | 50 +++++++++++++
-> >>   drivers/gpu/drm/sun4i/sun4i_tcon.h            |  6 ++
-> >>   drivers/phy/allwinner/phy-sun6i-mipi-dphy.c   | 70 +++++++++++++++++=
-+-
-> >>   5 files changed, 141 insertions(+), 2 deletions(-)
-> >>
-> >> --
-> >> 2.25.1
-> >>
->
+-- 
+David Heidelberg
+
