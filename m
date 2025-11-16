@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AD11C61497
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 13:21:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54AB4C616B0
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 15:22:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 405C310E2B9;
-	Sun, 16 Nov 2025 12:21:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EACC10E2BD;
+	Sun, 16 Nov 2025 14:22:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=yeah.net header.i=@yeah.net header.b="R5MLfLFN";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=szczodrzynski.pl header.i=@szczodrzynski.pl header.b="bMtB0Qg/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m16.yeah.net (mail-m16.yeah.net [220.197.32.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B336710E2B9
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 12:21:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
- s=s110527; h=Date:From:To:Subject:Message-ID:MIME-Version:
- Content-Type; bh=kNW9yPvfa/OhtLEXuIIfofqtoj6rCxgnTJJKlGU6kjg=;
- b=R5MLfLFNkagzbrOgQ/NYPkwh/zPPi+ubMxzJRVvX1yodJ1sL4JADl7W+HZ0GLJ
- TEOFiOBFgSX/FsUiIrUGTd6BZZfK6c1BZU67zka7J3TcoeMBtNQFVEO9/z3RPJUt
- qp92xrqBT0erQuFQn6s5qd5RkZYGSBKYu4nF9f5cT6y2A=
-Received: from dragon (unknown [])
- by gzsmtp1 (Coremail) with SMTP id Mc8vCgAXXyeqwRlpCI87AQ--.8095S3;
- Sun, 16 Nov 2025 20:21:01 +0800 (CST)
-Date: Sun, 16 Nov 2025 20:20:58 +0800
-From: Shawn Guo <shawnguo2@yeah.net>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: linux-arm-kernel@lists.infradead.org, Frank Li <Frank.Li@nxp.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Fabio Estevam <festevam@gmail.com>,
- "Jiyu Yang (OSS)" <jiyu.yang@oss.nxp.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Liviu Dudau <liviu.dudau@arm.com>,
+Received: from s2.avantea.pl (s2.avantea.pl [46.242.128.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 387D910E161
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 14:22:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=szczodrzynski.pl; s=x; h=Content-Transfer-Encoding:Content-Type:
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ALqrvYx16IgQIglbpOnwhVRORNfwDsxM2tJC2QOGjhQ=; b=bMtB0Qg/1+SsHyMo3tyeEyYGtI
+ nf4o+cbragiw/zKK0FphHMOpRJLSRcqI8fBYHJrhQIx8uUQpO9ygpW0MiJgNsapUrni94RTM2friZ
+ eKZPqZTyySpbVNSdH4crYAkVFEpggWtlSfyH8hFwb7TAEldSnP0qGWNgG8IkROR7yyvmG7AzJdVUU
+ xnOafJHM++YT5PkOVfrAKnOHqJqooeuXUNpEH2wMxliQy/KiaAqHdjz7JkAyZAdx0dKawY/b2/Q79
+ To9wceIfxw19SgOKhIAKB8UXnGeo6HI4uDxpOUwCSPN+c6C3uSRKzgxHOvLQNE3VQecsGzGZPqhvA
+ hp9vdaCQ==;
+Received: from [62.171.184.96] (helo=buildhost.contaboserver.net)
+ by s2.avantea.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.98.1) (envelope-from <kuba@szczodrzynski.pl>)
+ id 1vKcfw-0000000FW4E-1LDX; Sun, 16 Nov 2025 14:20:16 +0100
+From: =?UTF-8?q?Kuba=20Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>
+To: Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Sebastian Reichel <sre@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Xianzhong Li <xianzhong.li@nxp.com>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, imx@lists.linux.dev
-Subject: Re: [PATCH v4 2/2] arm64: dts: imx95: Describe Mali G310 GPU
-Message-ID: <aRnBqgzeotfrdNmy@dragon>
-References: <20251102160927.45157-1-marek.vasut@mailbox.org>
- <20251102160927.45157-2-marek.vasut@mailbox.org>
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, parthiban@linumiz.com, paulk@sys-base.io
+Subject: [PATCH v2 0/6] drm/sun4i: Support LVDS on D1s/T113 combo D-PHY
+Date: Sun, 16 Nov 2025 14:18:47 +0100
+Message-Id: <20251116131853.440863-1-kuba@szczodrzynski.pl>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250221161751.1278049-1-kuba@szczodrzynski.pl>
+References: <20250221161751.1278049-1-kuba@szczodrzynski.pl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251102160927.45157-2-marek.vasut@mailbox.org>
-X-CM-TRANSID: Mc8vCgAXXyeqwRlpCI87AQ--.8095S3
-X-Coremail-Antispam: 1Uf129KBjvJXoWxZr1UGFW8KF43Ww1xZF1rCrg_yoWrJryDpr
- WDCw45Cr4kXr1Ik3WagFW0ka4fuw4kCFyUur1DG3yjyry2qryIqFnIkrnaga4UXF1UGa1U
- trnFqryI9wnxu3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U9iSdUUUUU=
-X-Originating-IP: [117.82.150.42]
-X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiNw48oWkZwa5RngAA30
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Id: kuba@szczodrzynski.pl
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,112 +68,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 02, 2025 at 05:09:07PM +0100, Marek Vasut wrote:
-> The instance of the GPU populated in i.MX95 is the G310, describe this
-> GPU in the DT. Include dummy GPU voltage regulator and OPP tables.
+Some Allwinner chips (notably the D1s/T113 and the A100) have a "combo
+MIPI DSI D-PHY" which is required when using single-link LVDS0. The same
+PD0..PD9 pins are used for either DSI or LVDS.
 
-The commit log seems need an update for the regulator part?
+Other than having to use the combo D-PHY, LVDS output is configured in
+the same way as on older chips.
 
-Shawn
+This series enables the sun6i MIPI D-PHY to also work in LVDS mode. It
+is then configured by the LCD TCON, which allows connecting a
+single-link LVDS display panel.
 
-> 
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
-> ---
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Jiyu Yang (OSS) <jiyu.yang@oss.nxp.com>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Xianzhong Li <xianzhong.li@nxp.com>
-> Cc: devicetree@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: imx@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
-> ---
-> V2: - Drop regulator-{always,boot}-on from fixed-gpu-reg regulator
->     - Keep the GPU and GPUMIX always enabled
->     - Switch from fsl, to nxp, vendor prefix
->     - Fix opp_table to opp-table
->     - Describe IMX95_CLK_GPUAPB as coregroup clock
->     - Sort interrupts by their names to match bindings
-> V3: - Drop perf power domain
->     - Drop reset block controller
-> V4: - Add RB from Frank
->     - Drop the now optional GPU regulator
-> ---
->  arch/arm64/boot/dts/freescale/imx95.dtsi | 37 ++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/freescale/imx95.dtsi b/arch/arm64/boot/dts/freescale/imx95.dtsi
-> index a91e1724ab1a4..e45014d50abef 100644
-> --- a/arch/arm64/boot/dts/freescale/imx95.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx95.dtsi
-> @@ -250,6 +250,28 @@ dummy: clock-dummy {
->  		clock-output-names = "dummy";
->  	};
->  
-> +	gpu_opp_table: opp-table {
-> +		compatible = "operating-points-v2";
-> +
-> +		opp-500000000 {
-> +			opp-hz = /bits/ 64 <500000000>;
-> +			opp-hz-real = /bits/ 64 <500000000>;
-> +			opp-microvolt = <920000>;
-> +		};
-> +
-> +		opp-800000000 {
-> +			opp-hz = /bits/ 64 <800000000>;
-> +			opp-hz-real = /bits/ 64 <800000000>;
-> +			opp-microvolt = <920000>;
-> +		};
-> +
-> +		opp-1000000000 {
-> +			opp-hz = /bits/ 64 <1000000000>;
-> +			opp-hz-real = /bits/ 64 <1000000000>;
-> +			opp-microvolt = <920000>;
-> +		};
-> +	};
-> +
->  	clk_ext1: clock-ext1 {
->  		compatible = "fixed-clock";
->  		#clock-cells = <0>;
-> @@ -2139,6 +2161,21 @@ netc_emdio: mdio@0,0 {
->  			};
->  		};
->  
-> +		gpu: gpu@4d900000 {
-> +			compatible = "nxp,imx95-mali", "arm,mali-valhall-csf";
-> +			reg = <0 0x4d900000 0 0x480000>;
-> +			clocks = <&scmi_clk IMX95_CLK_GPU>, <&scmi_clk IMX95_CLK_GPUAPB>;
-> +			clock-names = "core", "coregroup";
-> +			interrupts = <GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 288 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "job", "mmu", "gpu";
-> +			operating-points-v2 = <&gpu_opp_table>;
-> +			power-domains = <&scmi_devpd IMX95_PD_GPU>;
-> +			#cooling-cells = <2>;
-> +			dynamic-power-coefficient = <1013>;
-> +		};
-> +
->  		ddr-pmu@4e090dc0 {
->  			compatible = "fsl,imx95-ddr-pmu", "fsl,imx93-ddr-pmu";
->  			reg = <0x0 0x4e090dc0 0x0 0x200>;
-> -- 
-> 2.51.0
-> 
+Changes in v2:
+- Applied code formatting changes from review comments
+- Changed "dphy" to "combo-phy"
+- Made the LVDS setup/teardown functions abort early in case of error
+  (adding a proper return value would require changes in several levels
+   of caller functions; perhaps could be done in a separate patch)
+- Added the PHY properties to DT bindings
+- Renamed lvds0_pins to lcd_lvds0_pins
+- Rebased on top of drm/misc/kernel/for-linux-next
+
+Kuba Szczodrzyński (6):
+  phy: allwinner: phy-sun6i-mipi-dphy: Support LVDS in combo D-PHY
+  drm/sun4i: Support LVDS using MIPI DSI combo D-PHY
+  drm/sun4i: Enable LVDS output on sun20i D1s/T113
+  dt-bindings: display: sun4i: Add D1s/T113 combo D-PHY bindings
+  riscv: dts: allwinner: d1s-t113: Add D-PHY to TCON LCD0
+  riscv: dts: allwinner: d1s-t113: Add LVDS0 pins
+
+ .../display/allwinner,sun4i-a10-tcon.yaml     |  6 ++
+ .../boot/dts/allwinner/sunxi-d1s-t113.dtsi    | 11 +++
+ drivers/gpu/drm/sun4i/sun4i_tcon.c            | 50 +++++++++++++
+ drivers/gpu/drm/sun4i/sun4i_tcon.h            |  6 ++
+ drivers/phy/allwinner/phy-sun6i-mipi-dphy.c   | 70 ++++++++++++++++++-
+ 5 files changed, 141 insertions(+), 2 deletions(-)
+
+-- 
+2.25.1
 
