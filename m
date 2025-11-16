@@ -2,106 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF02C61701
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 15:42:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E204AC61783
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 16:32:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA74310E161;
-	Sun, 16 Nov 2025 14:42:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 233B710E07F;
+	Sun, 16 Nov 2025 15:32:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="b14NR+8M";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="STV1aCeq";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NhmzmGtL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7905410E161
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 14:42:08 +0000 (UTC)
-Received: from [10.0.0.200] (unknown [10.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id EE08C53412A2;
- Sun, 16 Nov 2025 15:42:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1763304126;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=LjYOWtCffzgNMebgJlMNfWTh/7EezeDBlJxB3iE8iTM=;
- b=b14NR+8M108ri2ILOwLsagkVEWsICtRkqyyOOjEZLraOmy7XWPNgsBnlNZT6h7JIhPHyGB
- chPTHurujUpkqDqTKMRiexidclkxXtQMQugXVJTscD9hLSdUCQcELbRcsHAROMTnrJe8rx
- cNcq2jnNDnc9UIUKJ7ybSJqln8oorCI=
-Message-ID: <babcd7be-40f6-4023-8781-0b7203faf662@ixit.cz>
-Date: Sun, 16 Nov 2025 15:42:05 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E112810E155
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 15:32:08 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AGEaIm31598567
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 15:32:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=brXB1Y/LPVXbRpByEO14Lypc
+ 5NwpFVTcCsuQsNLy+W4=; b=STV1aCeqitSSB1V44tB0l1zmgK/7jDhruQaVos81
+ EssOg08VRmId+HKWwnbjmu1A0oxPC5Ot0Oyvyo87OOJHticVG/YB653NVBPtYm9d
+ UMItP9V/wSh+4E91LFlEQhJNuVhFvVTS+/bfsvX8obshzPQA/diigqQyXgEmYa+2
+ zxXYJ2F40o0rqOYznjpqhDid9v6g18id9gJ19enQV+cFgUdkWcy+0mxpFb239eHs
+ p3aVsMkvNCq6kwdAPk3OKLUDSbymiPKKYAioD2H3p7O3WWKAQeMEmM52tSJ1CZTR
+ ylI817cj5MU9L4CVRhwrC+CcUAq4YwWU/UgKqZenuQxUbw==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aejm5a9s3-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 15:32:07 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-8b2e4b78e35so189809685a.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 07:32:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1763307127; x=1763911927;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=brXB1Y/LPVXbRpByEO14Lypc5NwpFVTcCsuQsNLy+W4=;
+ b=NhmzmGtLKRT9CdGTvxFtVLRUqgTTYxe+8DLpyMskAvnTLRMSd8SBRL4LUFIwVPNlvE
+ u0KFaCZ9Up/3usT6sMLMjYQCsCsqiUoK+s4Ha+LRxkfq4TddqwUtikodpyEgLL2iGI9Q
+ 94toYt/cR66WS9BFUNZNHDqeQ5sro3qyN6vMXsdkPJ96FnBLR5aF8HdusXGKkl+0CEjB
+ GDhbQPzfZQc1KOzRp0z6R6TWxY1k9iRqq/Ls/zlgE/wNW3ComSvE/4TW+FxMYddawv5U
+ Cn/4rEyJKcYqP0dtOdeYpo4c5hNTByH8waff0IP4RieWRW79Dhn7k5HgDmt9JYYJMObc
+ Zj8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763307127; x=1763911927;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=brXB1Y/LPVXbRpByEO14Lypc5NwpFVTcCsuQsNLy+W4=;
+ b=XgW5o7uNF+C7BsK3eZYkRapIScsBSmyh6YGPgajO9QlH4DFjhBJt9BKTNwG6ieumDi
+ m59YbqJ6SmEtuauLyIY3GPnfY1EZTMZK3vlvNl3Kivgem2p5ZjmgxayIG77asCyQqdIj
+ ofLF7oMrJrfLfAz6gbQZ4EghsXbQU+W+ArtODUkLq+ZMEvI5N2z8bBlcW2fjPSuM7ApB
+ OzdftANMIoI42KUHOmavNQRlOCPsqDdjEdhs5mCDWXAFQbhPekYht6WKYcKPwktYEGjE
+ ah8ZrW13/QV/GrJUVfXHMYjK/GpHG7GwOYs6felrgAFK2nPPCfR2/oNspjAlB6U7W+Aa
+ q3+A==
+X-Gm-Message-State: AOJu0YygO791mTzMnoRPcg0ofUQ6F89MmMCJg2HZU/rjbg+iElw+HzD8
+ ugLtJVXipYKvgldxCYpatTmfHEMGkmCS3C8lYqQ+wIyrsJtN8bckL0v0uZV2OZdYp0ykvUOBIw0
+ N3E717EpcvUmqsAB3aZMNN0sa3rK+l3cq3pCESOjmoSY48es1yl9brQKq6kVZ8CkwqIiKCw0=
+X-Gm-Gg: ASbGncs20YfIkKLyoakIhRNv5B3WLQIKTyLQems2po8VvYJTPHXX9+KyCYMWxPI9yo6
+ w7Cu1ikM7RRK6JV6vpouJQHz32LTtvUKrT+3Men9fxAjiVOhgo8ovEw8PRTYJ/eFB3GK9/6I/uI
+ MRm/ag+3A0F/DsxaYRb5aaP3l5+7VHfUTjs1dI2AiAG5udxdErlgUDMWyKcsd5HMFoYvTEkFufb
+ 2I+6HDDfxCBf7Ugyq+hO1xe+zSeE30Ta2DOpgD0R/q1vNAvwbhhVJyOm+DiphbUbRlmlfv+JPkE
+ c73IupDuc9NPnfpwDQ5PRSQ0MHi32YNnQEhdAQy9n4QfUvRILKROmrSebrjuFbJJ4LQUOpd48+6
+ FOT8ghABRaRcNs3dijkZDyzz1zZ3GRkc2nT2oqNakEaEMQ/UWTspFYjeFa4ZU/1BLkA64RlR3ho
+ JBK+vqBfzjr+bF
+X-Received: by 2002:ac8:7dd6:0:b0:4eb:a3fe:53d with SMTP id
+ d75a77b69052e-4edf2177a96mr137561361cf.79.1763307127071; 
+ Sun, 16 Nov 2025 07:32:07 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHLhJkaOMAE2symS5kOW15WypsaRmGyogTqDdNGkh+5TTdpKm+0QEXmKB8gHRw7DCEiCrhb5w==
+X-Received: by 2002:ac8:7dd6:0:b0:4eb:a3fe:53d with SMTP id
+ d75a77b69052e-4edf2177a96mr137560551cf.79.1763307126391; 
+ Sun, 16 Nov 2025 07:32:06 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-595804003a4sm2483875e87.59.2025.11.16.07.32.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 Nov 2025 07:32:05 -0800 (PST)
+Date: Sun, 16 Nov 2025 17:32:03 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vignesh Raman <vignesh.raman@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, daniels@collabora.com,
+ helen.fornazier@gmail.com, airlied@gmail.com, simona.vetter@ffwll.ch,
+ lumag@kernel.org, robdclark@gmail.com, robin.clark@oss.qualcomm.com,
+ guilherme.gallo@collabora.com, sergi.blanch.torne@collabora.com,
+ valentine.burley@collabora.com, linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] drm/ci: uprev mesa
+Message-ID: <2obhppq6a4ercfnhvm42tbbgh3xut4lz66fc4j7mpev5oxxno7@dydu2wysmgvi>
+References: <20251114030056.1139570-1-vignesh.raman@collabora.com>
+ <20251114030056.1139570-2-vignesh.raman@collabora.com>
+ <prjwrsepfc3b6ozhue5cp66khlcvdrpvpy6jkk23edncmi4l3y@oiddmamgg3mx>
+ <42v64xdsaqug5yy76yel4tukh6wkt2tp237vlnpteabyl5qjo5@iigtgujvecwc>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/12] dt-bindings: panel: Convert Samsung SOFEF00 DDIC
- into standalone yaml
-To: Casey Connolly <casey.connolly@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Thierry Reding
- <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- phone-devel@vger.kernel.org
-References: <20251113-sofef00-rebuild-v2-0-e175053061ec@ixit.cz>
- <20251113-sofef00-rebuild-v2-1-e175053061ec@ixit.cz>
- <9ef0e4f9-7594-4c26-ab45-38e62a7d0e37@linaro.org>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <9ef0e4f9-7594-4c26-ab45-38e62a7d0e37@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <42v64xdsaqug5yy76yel4tukh6wkt2tp237vlnpteabyl5qjo5@iigtgujvecwc>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE2MDEyOSBTYWx0ZWRfX8vHDIx/mHmNj
+ 4VtM6X3onYx8xrZkzo28aW7nZAyIJ0/HnR2CWvtWi7+8oz2Y3wZicsjCnkREhFWi+uewuk0LHUp
+ Nr+e11zSIVMdCMOjN+7TidMY3pyp6xgt8EnV8Pes11nv04FCVQFHuD8ZUDUStCrWyeQfr8327tz
+ ArLtHEY5J0kBj9RyX1xzNVovIomCDuYqZrG0xViVKzJ/Ya6vrtiLvikwjccTNQYhtvhLUxMK6Uy
+ XctNmwnXJTReMxx1vV5O5C6Pku6FWknGKhRducjmSX0VjkPxp7mmbrRtxlJc/ZR5BdyK1rrfUDQ
+ aS65B5bUOR6iFhwgC4ipSAAIFa1gWjEBxgSHgGaeuooAyTl535LrXjFfqMRcV1l2gqCbPnHqVKa
+ YpJrDg9bGjImp4kahHtofuKkda2iKQ==
+X-Proofpoint-GUID: jf9T8AOwZLSipoGe-56MuyOW0kJ5tFg9
+X-Proofpoint-ORIG-GUID: jf9T8AOwZLSipoGe-56MuyOW0kJ5tFg9
+X-Authority-Analysis: v=2.4 cv=Pb7yRyhd c=1 sm=1 tr=0 ts=6919ee77 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8 a=QX4gbG5DAAAA:8 a=zodt2Hv4yxvvtHnNIosA:9
+ a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-16_06,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015
+ priorityscore=1501 suspectscore=0 bulkscore=0 impostorscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511160129
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,50 +146,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/11/2025 14:55, Casey Connolly wrote:
-> Hi David,
+On Sat, Nov 15, 2025 at 05:55:17AM +0200, Dmitry Baryshkov wrote:
+> On Sat, Nov 15, 2025 at 02:44:56AM +0200, Dmitry Baryshkov wrote:
+> > On Fri, Nov 14, 2025 at 08:30:50AM +0530, Vignesh Raman wrote:
+> > > Uprev mesa to adapt to the latest changes in Mesa CI, including support
+> > > for firmware via LAVA overlays, removal of the python-artifacts job,
+> > > split container and build rules, use lava-job-submitter container,
+> > > and various misc fixes.
+> > > 
+> > > Co-developed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > > Signed-off-by: Vignesh Raman <vignesh.raman@collabora.com>
+> > > ---
+> > >  drivers/gpu/drm/ci/build.yml         |  22 +++---
+> > >  drivers/gpu/drm/ci/container.yml     |  28 ++++++--
+> > >  drivers/gpu/drm/ci/gitlab-ci.yml     |  95 ++++++++++++++++++++-----
+> > >  drivers/gpu/drm/ci/igt_runner.sh     |   4 +-
+> > >  drivers/gpu/drm/ci/image-tags.yml    |  22 +++---
+> > >  drivers/gpu/drm/ci/lava-submit.sh    | 101 +++++++++++++--------------
+> > >  drivers/gpu/drm/ci/static-checks.yml |   1 +
+> > >  drivers/gpu/drm/ci/test.yml          |  18 +++--
+> > >  8 files changed, 186 insertions(+), 105 deletions(-)
+> > > 
+> > 
+> > Thanks a lot for taking care of it!
+> > 
+> > 
+> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > 
-> I may not have added myself to MAINTAINERS when I submitted this driver, 
-> but a heads-up would have been appreciated before just taking it over!
-> 
-> On 11/13/25 18:57, David Heidelberg via B4 Relay wrote:
->> From: David Heidelberg <david@ixit.cz>
-> 
-> [...]> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 7e015dcbac732..a4b16812d5a0c 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -8117,6 +8117,12 @@ S:    Maintained
->>   F:    Documentation/devicetree/bindings/display/panel/ 
->> samsung,s6e3ha8.yaml
->>   F:    drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c
->> +DRM DRIVER FOR SAMSUNG SOFEF00 DDIC
->> +M:    David Heidelberg <david@ixit.cz>
-> 
-> M:    Casey Connolly <casey.connolly@linaro.org>
+> Hmm, this causes a lot of failures, see [1] (note, the run is not
+> finished yet):
+> - On some platforms (msm, rk3399, mt8173) the
+>   core_setmaster@master-drop-set-root test fails. On other it seems to
+>   work correctly
+> - sm8350 seems to have some issues with this uprev, it cant' finish the
+>   jobs at all
+> - mt8173 and rockchip:rk3399 seem to have other test failures too
 
-Sure, I'll add you in next patch version.
+I have fixed most of the fallouts, see [2]. But ideally this should be
+split into two parts: fix before mesa uprev (I think some of them are
+already there), uprev mesa, applying necessary fixes and then enable apq
+jobs.
 
-Could you review the patches not authored by you within the patchset too?
+At this point I have no idea what's wrong with MT8183. Most likely it
+needs either a DT fix or a driver fix. The driver fails to probe because
+it can't build a sensible component chain.
 
-Thank you
-David
+On i915 several tests kill the hardware, making it timeout all remaining
+tests in a bad way.
+
+BTW: I see that for some of the drivers we skip the absolute majority of
+the tests. What are we actually testing on those?
 
 > 
-> Please and thanks!
-> Casey (she/they)
+> Could you please update fails / flakes tor all the affected platforms?
+> Also I'm really interested in the master-drop-set tests. Why do they
+> fail on some of the platforms, but not on all? This seems to be some
+> infrastructure-related issue, since exactly the same kernel with the
+> same IGT passes those tests (at least on msm hardware).
 > 
->> +S:    Maintained
->> +F:    Documentation/devicetree/bindings/display/panel/ 
->> samsung,sofef00.yaml
->> +F:    drivers/gpu/drm/panel/panel-samsung-sofef00.c
->> +
->>   DRM DRIVER FOR SHARP MEMORY LCD
->>   M:    Alex Lanzano <lanzano.alex@gmail.com>
->>   S:    Maintained
->>
-> 
+> [1] https://gitlab.freedesktop.org/drm/msm/-/pipelines/1547684
+
+[2] https://gitlab.freedesktop.org/lumag/msm/-/commits/msm-next-lumag-db820c
+
 
 -- 
-David Heidelberg
-
+With best wishes
+Dmitry
