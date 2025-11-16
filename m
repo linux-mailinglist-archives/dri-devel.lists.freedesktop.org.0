@@ -2,86 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84091C61475
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 13:10:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD11C61497
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 13:21:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F83F10E2B5;
-	Sun, 16 Nov 2025 12:10:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 405C310E2B9;
+	Sun, 16 Nov 2025 12:21:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PvLkQbKy";
+	dkim=pass (1024-bit key; unprotected) header.d=yeah.net header.i=@yeah.net header.b="R5MLfLFN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
- [209.85.208.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 588DE10E2B5
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 12:10:39 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id
- 4fb4d7f45d1cf-64074f01a6eso5780473a12.2
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 04:10:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763295038; x=1763899838; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BnsF6JeZIC4Q2fWv2jeLUTcHN7i4Xl69LvES25j5B6Y=;
- b=PvLkQbKyi/vW/jSXSKHyvgCk+nsQL/U+s0YrCqs521UxvqV6r8id1yuARZyNaKePT/
- qHFyt+btDXH84WviM5cnFCFlkrfbZWuMYJfBWN5QDzgWBtlwHRUfLT6Zf/CFsdY+qOVz
- 0JXEXvl1L/eJOWh4XWH/DxaIpz3CDUX2M2xBbO1a1Z0fYBqi6mZImFBkW+zrsNp/f7iK
- AO+QHA/lLquhOouvGcqLpR2UZL6bFFINzIzcL92YKpaQHAYtPiauKHvLbD5lW+Mk+K+H
- vJ8fk7YFsnvNh8qP+WXbNruYzH1AdxEdiSU/4PmVd/5o0/JzA+Vqj4Ls44N89+bAoqbC
- kmLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763295038; x=1763899838;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=BnsF6JeZIC4Q2fWv2jeLUTcHN7i4Xl69LvES25j5B6Y=;
- b=taO7SGwoT8RdtaFMMACZfikE6iE+kgsPqqidqZ58GfwBOYWIUWKxHXHRoMgDD8swOP
- GogMI/JgZSIOrwTjxvG6lkWiTHSNbddRKCPlNx99vawlNsMQSW8Zpu76HM31aNnFe1Bh
- gwX+iL4dr/3MUHoPe/xZNy6Ov7uyZjkwYbN4coJQ9SRFVUb5h+aep9iXx/cz977khjLz
- 2DVxjv9T+cCxMNxlWIC2IqpZaBDuOeyFtal9fUI7DYvEAd4R8JYZCsVHdVaNJkbTmvcM
- IVB+bZBUix5S9entSdOBQM+qCRhpBi3m/1qIc41bRv7cYX5ZITgxYPDmWVXAzt30l223
- AMHw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUnafVg+SzheK6k7/NFuA2B+0Pi6+fpDmXjdglACjZl+K7B8r5qzM1BudumArw/8X108qndqjo1XSs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YymsictXyYwsEL3c1c9fGB9daSdz96wKnOuuUNCgLptAtFddIYW
- bW7JpuJNQif5EzVEwyxmUIXB3MICmN96RyC4/LvZP36s4V9q8KbDlSqgoKVDag==
-X-Gm-Gg: ASbGnctaS+jxXwLvzj917gdOaJ1L50/kQnsS9ubInMAFJuEEtBYy2ykAZrcpfsW+qT0
- CrUUINqFyPH1vWszAAleVuyQme51cMrVadhQwlj4MxHA2aX7OxvvN+JgVDZ7UiKwfC/bMNBi6/c
- N1qwS/U1dQOYpk5pUvyR85DpFr6LUPoIaC4XtSWkLv1bJeDqxB4hnwKp7kknOUJWSdmKpRzIH9t
- XrHC1m2OKSFx1BqUDn3BiQQJAJIC8m6ekeXi1dos2FzInDXBewdt6fDN0mq/HlwE/fyzR8bvRYH
- Ft34RdOMShnbetZz0PkQtn2f/eSvG6govBmekkcbRXsiCgcOZYWj3ZylpZcZYYUBPTPDRX49QU0
- QGs6tn2EkaEOpe2UWMlce1WMhQUQ50gyOkXD7+vw6ZjarlhMZiTGaaQDbb781eCJFvcPs7hkGcw
- SLFhGh7x8wfcQFlAt4AjTGoq1iQeE164F7gByb6SaHwaxlCeNjKYiCUVvZWA==
-X-Google-Smtp-Source: AGHT+IG5Pb4oZTy+N/ijhNzo5h6b+rv9IQmhgKS6Icb7AJg8wd0rdoZ0YkfWkZADk7dGg/KIAneikA==
-X-Received: by 2002:a05:6402:5112:b0:641:9aac:e4bd with SMTP id
- 4fb4d7f45d1cf-64350e9ed21mr8531044a12.26.1763295037690; 
- Sun, 16 Nov 2025 04:10:37 -0800 (PST)
-Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net.
- [178.79.73.218]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-6433a4b1fadsm8008375a12.31.2025.11.16.04.10.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Nov 2025 04:10:37 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: wens@csie.org, samuel@sholland.org, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- mturquette@baylibre.com, sboyd@kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org
-Subject: Re: [PATCH 4/7] dt-bindings: display: allwinner: Add DE33 planes
-Date: Sun, 16 Nov 2025 13:10:35 +0100
-Message-ID: <3659815.iIbC2pHGDl@jernej-laptop>
-In-Reply-To: <f8979d59-0f71-438f-92ec-bf1077279dce@kernel.org>
-References: <20251115141347.13087-1-jernej.skrabec@gmail.com>
- <4691137.LvFx2qVVIh@jernej-laptop>
- <f8979d59-0f71-438f-92ec-bf1077279dce@kernel.org>
+Received: from mail-m16.yeah.net (mail-m16.yeah.net [220.197.32.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B336710E2B9
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 12:21:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
+ s=s110527; h=Date:From:To:Subject:Message-ID:MIME-Version:
+ Content-Type; bh=kNW9yPvfa/OhtLEXuIIfofqtoj6rCxgnTJJKlGU6kjg=;
+ b=R5MLfLFNkagzbrOgQ/NYPkwh/zPPi+ubMxzJRVvX1yodJ1sL4JADl7W+HZ0GLJ
+ TEOFiOBFgSX/FsUiIrUGTd6BZZfK6c1BZU67zka7J3TcoeMBtNQFVEO9/z3RPJUt
+ qp92xrqBT0erQuFQn6s5qd5RkZYGSBKYu4nF9f5cT6y2A=
+Received: from dragon (unknown [])
+ by gzsmtp1 (Coremail) with SMTP id Mc8vCgAXXyeqwRlpCI87AQ--.8095S3;
+ Sun, 16 Nov 2025 20:21:01 +0800 (CST)
+Date: Sun, 16 Nov 2025 20:20:58 +0800
+From: Shawn Guo <shawnguo2@yeah.net>
+To: Marek Vasut <marek.vasut@mailbox.org>
+Cc: linux-arm-kernel@lists.infradead.org, Frank Li <Frank.Li@nxp.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ "Jiyu Yang (OSS)" <jiyu.yang@oss.nxp.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Sebastian Reichel <sre@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Xianzhong Li <xianzhong.li@nxp.com>, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev
+Subject: Re: [PATCH v4 2/2] arm64: dts: imx95: Describe Mali G310 GPU
+Message-ID: <aRnBqgzeotfrdNmy@dragon>
+References: <20251102160927.45157-1-marek.vasut@mailbox.org>
+ <20251102160927.45157-2-marek.vasut@mailbox.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251102160927.45157-2-marek.vasut@mailbox.org>
+X-CM-TRANSID: Mc8vCgAXXyeqwRlpCI87AQ--.8095S3
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZr1UGFW8KF43Ww1xZF1rCrg_yoWrJryDpr
+ WDCw45Cr4kXr1Ik3WagFW0ka4fuw4kCFyUur1DG3yjyry2qryIqFnIkrnaga4UXF1UGa1U
+ trnFqryI9wnxu3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U9iSdUUUUU=
+X-Originating-IP: [117.82.150.42]
+X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiNw48oWkZwa5RngAA30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,96 +74,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dne nedelja, 16. november 2025 ob 12:49:45 Srednjeevropski standardni =C4=
-=8Das je Krzysztof Kozlowski napisal(a):
-> On 16/11/2025 12:44, Jernej =C5=A0krabec wrote:
-> > Hi!
-> >=20
-> > Dne nedelja, 16. november 2025 ob 12:29:27 Srednjeevropski standardni =
-=C4=8Das je Krzysztof Kozlowski napisal(a):
-> >> On Sat, Nov 15, 2025 at 03:13:44PM +0100, Jernej Skrabec wrote:
-> >>> Allwinner Display Engine 3.3 contains planes, which are shared resour=
-ces
-> >>> between all mixers present in SoC. They can be assigned to specific
-> >>> mixer by using registers which reside in display clocks MMIO.
-> >>>
-> >>> Add a binding for them.
-> >>>
-> >>> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >>> ---
-> >>>  .../allwinner,sun50i-h616-de33-planes.yaml    | 44 +++++++++++++++++=
-++
-> >>>  1 file changed, 44 insertions(+)
-> >>>  create mode 100644 Documentation/devicetree/bindings/display/allwinn=
-er,sun50i-h616-de33-planes.yaml
-> >>>
-> >>> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun5=
-0i-h616-de33-planes.yaml b/Documentation/devicetree/bindings/display/allwin=
-ner,sun50i-h616-de33-planes.yaml
-> >>> new file mode 100644
-> >>> index 000000000000..801e5068a6b5
-> >>> --- /dev/null
-> >>> +++ b/Documentation/devicetree/bindings/display/allwinner,sun50i-h616=
-=2Dde33-planes.yaml
-> >>> @@ -0,0 +1,44 @@
-> >>> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> >>> +%YAML 1.2
-> >>> +---
-> >>> +$id: http://devicetree.org/schemas/display/allwinner,sun50i-h616-de3=
-3-planes.yaml#
-> >>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >>> +
-> >>> +title: Allwinner H616 Display Engine 3.3 planes
-> >>> +
-> >>> +maintainers:
-> >>> +  - Jernej Skrabec <jernej.skrabec@gmail.com>
-> >>> +
-> >>> +description: |
-> >>
-> >> Do not need '|' unless you need to preserve formatting.
-> >>
-> >>> +  Display Engine 3.3 planes are independent of mixers, contrary to
-> >>> +  previous generations of Display Engine. Planes can be assigned to
-> >>> +  mixers independently and even dynamically during runtime.
-> >>> +
-> >>> +properties:
-> >>> +  compatible:
-> >>> +    enum:
-> >>> +      - allwinner,sun50i-h616-de33-planes
-> >>> +
-> >>> +  reg:
-> >>> +    maxItems: 1
-> >>> +
-> >>> +  allwinner,plane-mapping:
-> >>> +    $ref: /schemas/types.yaml#/definitions/phandle
-> >>> +    description: Phandle of Display Engine clock node
-> >>
-> >> You description is almost duplicating property name. You need to expla=
-in
-> >> here how this device uses them.
-> >=20
-> > So I guess I can copy commit description here? It is needed to
-> > access registers from different core, so it can assign (map)
-> > planes between mixers at runtime.
->=20
->=20
-> "to assign (map) planes between mixers." is enough.
->=20
-> But it looks unfortunately like a spaghetti.
->=20
-> Your mixer binding references via phandle this planes. These planes
-> reference via phandle some other region to configure planes between mixer=
-s.
->=20
-> Isn't this the job of this device?
+On Sun, Nov 02, 2025 at 05:09:07PM +0100, Marek Vasut wrote:
+> The instance of the GPU populated in i.MX95 is the G310, describe this
+> GPU in the DT. Include dummy GPU voltage regulator and OPP tables.
 
-It is a bit confusing, yes. There is no clean split in register space
-for some functionality. Register space for this node on H616 SoC
-represents 6 planes (each plane consist of framebuffer management, CSC
-unit, scaler, etc.) but not actual registers which tell to which mixer
-they are currently assigned.
+The commit log seems need an update for the regulator part?
 
-Best regards,
-Jernej
+Shawn
 
+> 
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+> ---
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Jiyu Yang (OSS) <jiyu.yang@oss.nxp.com>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Steven Price <steven.price@arm.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Xianzhong Li <xianzhong.li@nxp.com>
+> Cc: devicetree@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: imx@lists.linux.dev
+> Cc: linux-arm-kernel@lists.infradead.org
+> ---
+> V2: - Drop regulator-{always,boot}-on from fixed-gpu-reg regulator
+>     - Keep the GPU and GPUMIX always enabled
+>     - Switch from fsl, to nxp, vendor prefix
+>     - Fix opp_table to opp-table
+>     - Describe IMX95_CLK_GPUAPB as coregroup clock
+>     - Sort interrupts by their names to match bindings
+> V3: - Drop perf power domain
+>     - Drop reset block controller
+> V4: - Add RB from Frank
+>     - Drop the now optional GPU regulator
+> ---
+>  arch/arm64/boot/dts/freescale/imx95.dtsi | 37 ++++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/freescale/imx95.dtsi b/arch/arm64/boot/dts/freescale/imx95.dtsi
+> index a91e1724ab1a4..e45014d50abef 100644
+> --- a/arch/arm64/boot/dts/freescale/imx95.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx95.dtsi
+> @@ -250,6 +250,28 @@ dummy: clock-dummy {
+>  		clock-output-names = "dummy";
+>  	};
+>  
+> +	gpu_opp_table: opp-table {
+> +		compatible = "operating-points-v2";
+> +
+> +		opp-500000000 {
+> +			opp-hz = /bits/ 64 <500000000>;
+> +			opp-hz-real = /bits/ 64 <500000000>;
+> +			opp-microvolt = <920000>;
+> +		};
+> +
+> +		opp-800000000 {
+> +			opp-hz = /bits/ 64 <800000000>;
+> +			opp-hz-real = /bits/ 64 <800000000>;
+> +			opp-microvolt = <920000>;
+> +		};
+> +
+> +		opp-1000000000 {
+> +			opp-hz = /bits/ 64 <1000000000>;
+> +			opp-hz-real = /bits/ 64 <1000000000>;
+> +			opp-microvolt = <920000>;
+> +		};
+> +	};
+> +
+>  	clk_ext1: clock-ext1 {
+>  		compatible = "fixed-clock";
+>  		#clock-cells = <0>;
+> @@ -2139,6 +2161,21 @@ netc_emdio: mdio@0,0 {
+>  			};
+>  		};
+>  
+> +		gpu: gpu@4d900000 {
+> +			compatible = "nxp,imx95-mali", "arm,mali-valhall-csf";
+> +			reg = <0 0x4d900000 0 0x480000>;
+> +			clocks = <&scmi_clk IMX95_CLK_GPU>, <&scmi_clk IMX95_CLK_GPUAPB>;
+> +			clock-names = "core", "coregroup";
+> +			interrupts = <GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 288 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupt-names = "job", "mmu", "gpu";
+> +			operating-points-v2 = <&gpu_opp_table>;
+> +			power-domains = <&scmi_devpd IMX95_PD_GPU>;
+> +			#cooling-cells = <2>;
+> +			dynamic-power-coefficient = <1013>;
+> +		};
+> +
+>  		ddr-pmu@4e090dc0 {
+>  			compatible = "fsl,imx95-ddr-pmu", "fsl,imx93-ddr-pmu";
+>  			reg = <0x0 0x4e090dc0 0x0 0x200>;
+> -- 
+> 2.51.0
+> 
 
