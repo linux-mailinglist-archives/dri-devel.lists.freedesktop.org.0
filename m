@@ -2,74 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F470C612B6
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 11:52:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C288C6134F
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 12:29:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8B310E04C;
-	Sun, 16 Nov 2025 10:52:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97F0610E030;
+	Sun, 16 Nov 2025 11:29:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q6SU/Htl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wzunf4+D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 19EB910E0CE
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 10:52:26 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D356310E030
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 11:29:30 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id BCD5D446AD;
- Sun, 16 Nov 2025 10:52:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 93FE7C19421;
- Sun, 16 Nov 2025 10:52:25 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 20C2A60183;
+ Sun, 16 Nov 2025 11:29:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A557C4CEF1;
+ Sun, 16 Nov 2025 11:29:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763290345;
- bh=k3KRolxdNesj6iiyyyETOCkob3J9SPgOASuozIOhElA=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=Q6SU/Htl3VJwP+rcDiRZ/vo+LTaM/yg3Jnbxu8Ga35qboE1mxEr9I/rjMVn1f9F8l
- 1SqyqJ1ETZ4fFezvQWD6pMtbNnVeyFfZa7OmXZVPN1eZaVE/vuUn1mSbA0x3EbO6mr
- 7WGN1X22IHujoYSHGONpxsbLN+YuxcH87Ty4efBV4viHEnY4DXVF9F386Y9orCcj2Q
- bcpgkdf81inMXAbL4T8gYlSDA8V93eslkwiSexyOPTmg/WU3J8YaTagJr/BRL6CW1u
- uuwXbp8e9m9Oy9MtHOec32WoKnmd7NO8fRjJ/Rh8ApGc3L3NcDHMS8MKxp00VJ2aFD
- 9OGcoigontAGw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 8CA9FCD4F3E;
- Sun, 16 Nov 2025 10:52:25 +0000 (UTC)
-From: Maud Spierings via B4 Relay
- <devnull+maud_spierings.hotmail.com@kernel.org>
-Date: Sun, 16 Nov 2025 11:52:11 +0100
-Subject: [PATCH v2 6/6] arm64: dts: qcom: x1e80100-vivobook-s15: enable
- IRIS
+ s=k20201202; t=1763292569;
+ bh=mnXvqYmImcinYneeN4zW9LnuvANHy8IWtl4d1UPxOE8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Wzunf4+Dqpm8I172TRzSWUXI6UzmdSlHBq8WRdCWcS94xCaQm+lKMWs54tSMmFeSu
+ 0GmB/twTiwhYFSrxFAG1f3TYhJ7Gd42+wN5/tmmAJRuT3km0Uq2dRgy6vQDE+FSKSG
+ Ks6rda4N7Eam799dwq3KdZDNuxIqAwMe6/i4Iy++9UxUjxAMwD/tZB3XJCg9TygBmi
+ yYG3g3vk3adHL/vlhpDzM0UjZjNeiTH2SelYpRF+zwBb06K7yET+XUXd8Ftwiw67CA
+ p8+z0LYsDz/GVpjoHsbqJqVqSwlQXit2P5MxXdrnVIIAUvONjeYP4QsV9P4aJMlu3n
+ VoSpxAaT3fE+w==
+Date: Sun, 16 Nov 2025 12:29:27 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: wens@csie.org, samuel@sholland.org, mripard@kernel.org, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ mturquette@baylibre.com, 
+ sboyd@kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH 4/7] dt-bindings: display: allwinner: Add DE33 planes
+Message-ID: <20251116-humongous-ant-from-betelgeuse-c0c416@kuoka>
+References: <20251115141347.13087-1-jernej.skrabec@gmail.com>
+ <20251115141347.13087-5-jernej.skrabec@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251116-asus_usbc_dp-v2-6-cc8f51136c9f@hotmail.com>
-References: <20251116-asus_usbc_dp-v2-0-cc8f51136c9f@hotmail.com>
-In-Reply-To: <20251116-asus_usbc_dp-v2-0-cc8f51136c9f@hotmail.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Maud Spierings <maud_spierings@hotmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763290343; l=1012;
- i=maud_spierings@hotmail.com; s=20241110; h=from:subject:message-id;
- bh=ZWmCWiua5n5egQRb9x1NYydUjOW+BFATCTtHiwvWGpQ=;
- b=phmvb/RyHfB1ybeFgUHWUKLmMar+NfvGWePtX7qURUDEXGwzjyThXM+8lI4SyDMrXhwAXx2F+
- AFk4wqlw6IyBe4MbThNRTuOOSM4O0tqKhG6nHiNQlIlj4ZrdMO9Pl8P
-X-Developer-Key: i=maud_spierings@hotmail.com; a=ed25519;
- pk=CeFKVnZvRfX2QjB1DpdiAe2N+MEjwLEB9Yhx/OAcxRc=
-X-Endpoint-Received: by B4 Relay for maud_spierings@hotmail.com/20241110
- with auth_id=273
-X-Original-From: Maud Spierings <maud_spierings@hotmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251115141347.13087-5-jernej.skrabec@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,41 +60,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: maud_spierings@hotmail.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Maud Spierings <maud_spierings@hotmail.com>
+On Sat, Nov 15, 2025 at 03:13:44PM +0100, Jernej Skrabec wrote:
+> Allwinner Display Engine 3.3 contains planes, which are shared resources
+> between all mixers present in SoC. They can be assigned to specific
+> mixer by using registers which reside in display clocks MMIO.
+> 
+> Add a binding for them.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  .../allwinner,sun50i-h616-de33-planes.yaml    | 44 +++++++++++++++++++
+>  1 file changed, 44 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml b/Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml
+> new file mode 100644
+> index 000000000000..801e5068a6b5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml
+> @@ -0,0 +1,44 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/allwinner,sun50i-h616-de33-planes.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner H616 Display Engine 3.3 planes
+> +
+> +maintainers:
+> +  - Jernej Skrabec <jernej.skrabec@gmail.com>
+> +
+> +description: |
 
-Enable IRIS to allow using the hardware-accelerated video codecs. The
-firmware is not upstream in linux-firmware yet, so users need to copy it
-from Windows to qcom/x1e80100/ASUSTeK/vivobook-s15/qcvss8380.mbn (just like
-GPU/ADSP/CDSP firmware).
+Do not need '|' unless you need to preserve formatting.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
----
- arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts | 5 +++++
- 1 file changed, 5 insertions(+)
+> +  Display Engine 3.3 planes are independent of mixers, contrary to
+> +  previous generations of Display Engine. Planes can be assigned to
+> +  mixers independently and even dynamically during runtime.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun50i-h616-de33-planes
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  allwinner,plane-mapping:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: Phandle of Display Engine clock node
 
-diff --git a/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts b/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
-index 2d9b812d299e..7e57d5029a73 100644
---- a/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
-+++ b/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
-@@ -839,6 +839,11 @@ retimer_ss1_con_sbu_out: endpoint {
- 	};
- };
- 
-+&iris {
-+	firmware-name = "qcom/x1e80100/ASUSTeK/vivobook-s15/qcvss8380.mbn";
-+	status = "okay";
-+};
-+
- &mdss {
- 	status = "okay";
- };
+You description is almost duplicating property name. You need to explain
+here how this device uses them.
 
--- 
-2.51.2
+Esxpecially that clocks do not go via custom properties.
 
+Best regards,
+Krzysztof
 
