@@ -2,103 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B87DBC613D6
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 12:47:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C872C613C4
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 12:44:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0E3E10E2AE;
-	Sun, 16 Nov 2025 11:47:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3760110E2AD;
+	Sun, 16 Nov 2025 11:44:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KFwzBUUp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hxIclktg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D21AB10E2AC
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 11:47:24 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 16BAB60147;
- Sun, 16 Nov 2025 11:37:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B8C7C4CEFB;
- Sun, 16 Nov 2025 11:37:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763293044;
- bh=im6DmuF4iGlVO4Ak2kfup34KlXMP9GQla5lGTKsOf/U=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=KFwzBUUpqwGmxhPYxOmQG9+UYQ+otttsEDSuEEbNyyxcLLHSeA22hxPvyakf+qjPC
- dQHSKbgxg5kYHk8NMKuakRUY+1/+gtvMu9ebTP5c6u9ZBCvp7gMvBv4EVJEezdH4g8
- wLY6r5l+FBjShVq0uNmASlRf0fBDivePjljaEUywDVgRABpPhNJ300RRTEX/kvUbG9
- sd5qIF2pegLLZbODiijzD35tCxpU2tBV33z4E2/82cBfKemrP44E/g++5epvlsFDGh
- +cj6GtRqBY2G9AcbBcPHxtvRcR7iofx6qYc0RBsg50qkoi5nwf1S1SodX/q3QvpdZC
- kYV1qF2cQWOQQ==
-Message-ID: <ba5db26e-b59d-4074-9436-3e71257fa70f@kernel.org>
-Date: Sun, 16 Nov 2025 12:37:15 +0100
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02D8910E2AD
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 11:44:11 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-b737502f77bso219104066b.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 03:44:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1763293450; x=1763898250; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=e0FdCBKLZNmvA5H65lDRryOm2kL/lm5kmNUU93njJEQ=;
+ b=hxIclktgWf4ceBD+UaO0VrNKtnzQbjRCsmG9dC5imAV52gY1f7qdQn7WmKSUSiGP68
+ 1sKg6e6goYOA8dLn27ZG++iSOi4GSJ/CFopsrMDNqVT/mL+h+QHYfzg/fAD08rmVjG6j
+ beOQVu0/QF7plD+avawtnzfW6FDEX1msAyLEG549eqNCR9JqDm5gf+CBGDcYsNd5M+BQ
+ Kft41VBRNqR/4c+6znReTP0IfQvVVnKnMpttoA54WNE1CWZDu2icWtUaJm3AgrtmYo2a
+ MWQ+G1joj0EZLFSg4G9PJBBry2dkwCgPUfmcfMwFDbayw6Dmburil7Nh6i8ie8MxoAev
+ G3xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763293450; x=1763898250;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=e0FdCBKLZNmvA5H65lDRryOm2kL/lm5kmNUU93njJEQ=;
+ b=NNlQHvo6KzacWn+fFxaydhzSToQSZwDbu92Y4IHHsf7jXWeQVoq2bCHwhcbxYrilCi
+ nN6sfuKm6d89pxe/wraqP3MCwFUQKx2BzF17b+NwFmrqXStnSDDPd6FVRPW0D+0I3mYD
+ mcbJbaLVbfg4mpjLJzIfCbwNlZYZ1uf4rrdlM7wHqQUX6oKa3JHdpu2G52l5nvqDvPYm
+ xcY9dKfdee0tW1m75nGgiAv4fIinlpN3U+LjAk0wZcSeHX1FDfHo2qazi2Pt1Mde1I/q
+ Guv0CdC/qPaprYEwVWSbSzbVNRoZP30p4wiJqTSb7sBRpJnrCHTD5XuIoE8iafUoYpGS
+ Lwgg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXQz3Fg+fy5R7EtRPH9GnPSI0u1O2KgCpU4cRjMaPQ6BJjsUxYj2BtWaK18Wz1yWpuO6ypp5q1AQ3A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyQJz6EgQYay+xwVjq64tf4Z7RyT4tDl5IZJ8z8k4bJrbItszOn
+ FpLNQptEOwWKzmIMUXEIDbXrr6/1J2Mhi3FOWW5xMK9Hh3s9++QhhZdW
+X-Gm-Gg: ASbGncvIk3OO5CSjnt0W8Q/e8fzke/iT2kd1894up0/LjxiTRi3xRXgWzjlw2M8cpj2
+ UKGUMWW7jXiiRewsdQFVAJGxOYwA26/pEfpN6Dhxm8/U13r9hzO3jy1XFhYpmL321tym3GjrVui
+ +Ox1Oqs09Zv92BOjiBDTxtBG2KmUNCCFxzunusLI2glxTv9KGOfvQbuI3LzevkPPrS7yu4BS5ri
+ Rp9E16Oyd2eTHwjSoN0c22XEhyloZWGgR1RlSMFHdNlLBb3bPDW1FLZN5nB+svuIBsS+75xzrsD
+ 0G5vFsmcXqnMt/JCpQnTFWnDBEbo60X2Wd83qKPO+m961qxK/ap71nhEh7ClHpDup2AjctDLLye
+ veUspNdPo/MlkDO/EzhGv8ZL+WFlMcId9Spcwhy8FzFv/kubnsHrusT9u0dR/jWHWd7/WP7EN5r
+ dYud7tS/KsNsLRfpostHuwRyctRE3gnv6cDjGjzkapeERwpZR/qDi5+aqPwDg7IMVM9wQ2
+X-Google-Smtp-Source: AGHT+IF71fotOguLRbTRHhdoPXFXtZCCxjXGGJnugEk1v1pjxqWMpiA2cn4S56S/ok6Kp7QddGfEdA==
+X-Received: by 2002:a17:907:fdcb:b0:b73:8757:68ad with SMTP id
+ a640c23a62f3a-b7387577ab2mr403687966b.47.1763293450183; 
+ Sun, 16 Nov 2025 03:44:10 -0800 (PST)
+Received: from jernej-laptop.localnet (178-79-73-218.dynamic.telemach.net.
+ [178.79.73.218]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b734fa81172sm820527166b.15.2025.11.16.03.44.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 16 Nov 2025 03:44:09 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: wens@csie.org, samuel@sholland.org, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ mturquette@baylibre.com, sboyd@kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org
+Subject: Re: [PATCH 4/7] dt-bindings: display: allwinner: Add DE33 planes
+Date: Sun, 16 Nov 2025 12:44:08 +0100
+Message-ID: <4691137.LvFx2qVVIh@jernej-laptop>
+In-Reply-To: <20251116-humongous-ant-from-betelgeuse-c0c416@kuoka>
+References: <20251115141347.13087-1-jernej.skrabec@gmail.com>
+ <20251115141347.13087-5-jernej.skrabec@gmail.com>
+ <20251116-humongous-ant-from-betelgeuse-c0c416@kuoka>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/7] dt-bindings: display: imx: add HDMI PAI for i.MX8MP
-To: Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com,
- neil.armstrong@linaro.org, rfoss@kernel.org,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- lumag@kernel.org, dianders@chromium.org, cristian.ciocaltea@collabora.com,
- luca.ceresoli@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, victor.liu@nxp.com, shawnguo@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
- devicetree@vger.kernel.org, l.stach@pengutronix.de, shengjiu.wang@gmail.com,
- perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
-References: <20250923053001.2678596-1-shengjiu.wang@nxp.com>
- <20250923053001.2678596-2-shengjiu.wang@nxp.com>
- <aPc9-wYxGB1KYPyQ@phenom.ffwll.local>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
- QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
- +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
- ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
- 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
- hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
- tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
- 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
- naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
- hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
- whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
- qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
- RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
- Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
- H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
- dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
- AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
- jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
- zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
- XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <aPc9-wYxGB1KYPyQ@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,28 +97,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/10/2025 10:02, Simona Vetter wrote:
-> On Tue, Sep 23, 2025 at 01:29:55PM +0800, Shengjiu Wang wrote:
->> Add binding for the i.MX8MP HDMI parallel Audio interface block.
->>
->> The HDMI TX Parallel Audio Interface (HTX_PAI) is a digital module that
->> acts as the bridge between the Audio Subsystem to the HDMI TX Controller.
->> This IP block is found in the HDMI subsystem of the i.MX8MP SoC.
->>
->> Aud2htx module in Audio Subsystem, HDMI PAI module and HDMI TX
->> Controller compose the HDMI audio pipeline.
->>
->> In fsl,imx8mp-hdmi-tx.yaml, add port@2 that is linked to pai_to_hdmi_tx.
->>
->> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
->> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> 
-> dt patches need an ack from dt maintainers before you push them, please
-> make sure you follow that for the next changes.
+Hi!
 
-Huh? Review is an Ack as well. We NEVER give both Rb and Ack. Either Ack
-or Review, because Review carries much stronger acceptance.
+Dne nedelja, 16. november 2025 ob 12:29:27 Srednjeevropski standardni =C4=
+=8Das je Krzysztof Kozlowski napisal(a):
+> On Sat, Nov 15, 2025 at 03:13:44PM +0100, Jernej Skrabec wrote:
+> > Allwinner Display Engine 3.3 contains planes, which are shared resources
+> > between all mixers present in SoC. They can be assigned to specific
+> > mixer by using registers which reside in display clocks MMIO.
+> >=20
+> > Add a binding for them.
+> >=20
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> >  .../allwinner,sun50i-h616-de33-planes.yaml    | 44 +++++++++++++++++++
+> >  1 file changed, 44 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/display/allwinner=
+,sun50i-h616-de33-planes.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/display/allwinner,sun50i=
+=2Dh616-de33-planes.yaml b/Documentation/devicetree/bindings/display/allwin=
+ner,sun50i-h616-de33-planes.yaml
+> > new file mode 100644
+> > index 000000000000..801e5068a6b5
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/allwinner,sun50i-h616-d=
+e33-planes.yaml
+> > @@ -0,0 +1,44 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/display/allwinner,sun50i-h616-de33-=
+planes.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Allwinner H616 Display Engine 3.3 planes
+> > +
+> > +maintainers:
+> > +  - Jernej Skrabec <jernej.skrabec@gmail.com>
+> > +
+> > +description: |
+>=20
+> Do not need '|' unless you need to preserve formatting.
+>=20
+> > +  Display Engine 3.3 planes are independent of mixers, contrary to
+> > +  previous generations of Display Engine. Planes can be assigned to
+> > +  mixers independently and even dynamically during runtime.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - allwinner,sun50i-h616-de33-planes
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  allwinner,plane-mapping:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description: Phandle of Display Engine clock node
+>=20
+> You description is almost duplicating property name. You need to explain
+> here how this device uses them.
+
+So I guess I can copy commit description here? It is needed to
+access registers from different core, so it can assign (map)
+planes between mixers at runtime.
+
+>=20
+> Esxpecially that clocks do not go via custom properties.
+
+This has nothing to do with clocks per se, it's just that registers
+that driver needs to access for mapping planes between mixers
+are in IP core which takes care mostly for clocks and resets.
 
 Best regards,
-Krzysztof
+Jernej
+
+>=20
+> Best regards,
+> Krzysztof
+>=20
+>=20
+
+
+
+
