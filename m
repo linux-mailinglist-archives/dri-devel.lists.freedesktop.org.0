@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85FAC612CB
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 11:52:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54438C612B9
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 11:52:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DBB310E142;
-	Sun, 16 Nov 2025 10:52:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9500210E0CE;
+	Sun, 16 Nov 2025 10:52:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GAhxUu+q";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RgJbXTWe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 162B310E05B
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D7C710E0F6
  for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 10:52:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5406544495;
+ by sea.source.kernel.org (Postfix) with ESMTP id 6721044642;
  Sun, 16 Nov 2025 10:52:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 29D82C16AAE;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 34B67C19423;
  Sun, 16 Nov 2025 10:52:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1763290345;
- bh=rPe4gyipcIF7HL0/VyaXz4O56VvUmhrk2PiF4giFqO8=;
+ bh=qsGCtEk6WzluqKeFoHg53wFve+N+m+ibvws3FvZDkSo=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=GAhxUu+qgwBkn21RjhUIzQk3Pepzp2ofUhPqwFY4VCg0U30pnR5flp3Igj4LEHRnF
- LLtpSokPonzdggaIKjNOR9tAgac6On2jeW2TmkhJoNHj24tILOAY78BifIbL6cnhPj
- OtniCiQQhYPiCZCo8S40al/fXXvbqDw+LpyTYYu1/cqWoVSy27Rrjnqe7DLP2T82sZ
- JFuES7RMRiY4V1+lX3SksIfAVHKUgq50rivJxuCVP4qZ/5hNTkwEhKStg0GW/Ne5KC
- X9eTq/QOdYKLmU5Q3YS5rC0xPGZaZv10eJDqFrs3Ca8mIdEYzWVuz2n1DMTVF6GCJZ
- RvOIKBkJrJSuA==
+ b=RgJbXTWexVuwL2Vu5gnmNjlm74qLnYiN6zjgb7PjiBHmrQztPYZP/M1cJTG4yxRTp
+ ae0FT3plzKexY1VewjUV7QYCmb18fwWo7lTndrAoxidfGppMYauaiVTy1VGmWVV2Kv
+ C7OQHi+jbeHc8nfcX+POB8NY3deHzrmemJ/2fNQhLaTuuiPNk3GT+RsZgmO/TToe48
+ r/Di//pwbS4iq4AoOIgIL3ApG5PCAYmVl7UdjYuq9iaj4sDc6NJ38cCe8Mwi0rwHyH
+ TM0vM1hq6EjSESUBNulQ7/4m5kmdRrVv/wzZrTWrXmLnEYIEfRGoRieJTjXo+d/l3W
+ NwP8pU31frtzg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 177F9CD4F3E;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 2C15BCEBF61;
  Sun, 16 Nov 2025 10:52:25 +0000 (UTC)
 From: Maud Spierings via B4 Relay
  <devnull+maud_spierings.hotmail.com@kernel.org>
-Date: Sun, 16 Nov 2025 11:52:06 +0100
-Subject: [PATCH v2 1/6] dt-bindings: display: bridge: simple: document the
- Parade PS185HDM DP-to-HDMI bridge
+Date: Sun, 16 Nov 2025 11:52:07 +0100
+Subject: [PATCH v2 2/6] drm/bridge: simple: add the Parade PS185HDM
+ DP-to-HDMI bridge
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251116-asus_usbc_dp-v2-1-cc8f51136c9f@hotmail.com>
+Message-Id: <20251116-asus_usbc_dp-v2-2-cc8f51136c9f@hotmail.com>
 References: <20251116-asus_usbc_dp-v2-0-cc8f51136c9f@hotmail.com>
 In-Reply-To: <20251116-asus_usbc_dp-v2-0-cc8f51136c9f@hotmail.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -58,13 +58,13 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
  Maud Spierings <maud_spierings@hotmail.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763290343; l=876;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1763290343; l=945;
  i=maud_spierings@hotmail.com; s=20241110; h=from:subject:message-id;
- bh=0pWqVth8tq9Q9WV6wD5wdXxK/GglHDQWiUHPPE01118=;
- b=uCs7Uzr//Sc6LSh9XEE6yvwKOOc/vLSwvHLq61xg4rTW5BnoOg1NobJSdkfZNBWj7DKnG5NcQ
- Ii0T4jpO91xCHXS/0llKwPEIIsTz5fympxxJy77s0cy0jC8w6zpcU7d
+ bh=lOwUKlnZWvBGuZzv+yAV11vLtSXDOnT6l1naKVDPm98=;
+ b=KeTmdssRRamJCQIgZoutDL6TdRGTm08erGUsWcT8KNW6xLav1onjBFM1b1bIsbAiVHgLhSv1r
+ ZZjHf1fHA2LCclKfBO1GZd17K5lP4kjudM4pKsPe1+cwpjkkGpbUhnD
 X-Developer-Key: i=maud_spierings@hotmail.com; a=ed25519;
  pk=CeFKVnZvRfX2QjB1DpdiAe2N+MEjwLEB9Yhx/OAcxRc=
 X-Endpoint-Received: by B4 Relay for maud_spierings@hotmail.com/20241110
@@ -90,24 +90,28 @@ From: Maud Spierings <maud_spierings@hotmail.com>
 
 The Parade PS185HDM is a transparent Displayport to HDMI bridge.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
 ---
- Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/bridge/simple-bridge.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-index 9ef587d46506..950268632370 100644
---- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-@@ -28,6 +28,7 @@ properties:
-       - enum:
-           - adi,adv7123
-           - dumb-vga-dac
-+          - parade,ps185hdm
-           - radxa,ra620
-           - realtek,rtd2171
-           - ti,opa362
+diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
+index e4d0bc2200f8..90abda199cea 100644
+--- a/drivers/gpu/drm/bridge/simple-bridge.c
++++ b/drivers/gpu/drm/bridge/simple-bridge.c
+@@ -261,6 +261,11 @@ static const struct of_device_id simple_bridge_match[] = {
+ 			.timings = &default_bridge_timings,
+ 			.connector_type = DRM_MODE_CONNECTOR_VGA,
+ 		},
++	}, {
++		.compatible = "parade,ps185hdm",
++		.data = &(const struct simple_bridge_info) {
++			.connector_type = DRM_MODE_CONNECTOR_HDMIA,
++		},
+ 	}, {
+ 		.compatible = "radxa,ra620",
+ 		.data = &(const struct simple_bridge_info) {
 
 -- 
 2.51.2
