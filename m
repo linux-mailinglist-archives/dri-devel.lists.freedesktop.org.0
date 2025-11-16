@@ -2,47 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54438C612B9
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 11:52:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A47B8C612BC
+	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 11:52:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9500210E0CE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 941DA10E05B;
 	Sun, 16 Nov 2025 10:52:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RgJbXTWe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OETgOnVm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D7C710E0F6
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1263F10E04C
  for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 10:52:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 6721044642;
+ by sea.source.kernel.org (Postfix) with ESMTP id 7C1EB44697;
  Sun, 16 Nov 2025 10:52:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 34B67C19423;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 53D55C2BC9E;
  Sun, 16 Nov 2025 10:52:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1763290345;
- bh=qsGCtEk6WzluqKeFoHg53wFve+N+m+ibvws3FvZDkSo=;
+ bh=D7kRmKE1Luo++Vdw+y7aNxvOngWUw/D42pctwoR5R7A=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=RgJbXTWexVuwL2Vu5gnmNjlm74qLnYiN6zjgb7PjiBHmrQztPYZP/M1cJTG4yxRTp
- ae0FT3plzKexY1VewjUV7QYCmb18fwWo7lTndrAoxidfGppMYauaiVTy1VGmWVV2Kv
- C7OQHi+jbeHc8nfcX+POB8NY3deHzrmemJ/2fNQhLaTuuiPNk3GT+RsZgmO/TToe48
- r/Di//pwbS4iq4AoOIgIL3ApG5PCAYmVl7UdjYuq9iaj4sDc6NJ38cCe8Mwi0rwHyH
- TM0vM1hq6EjSESUBNulQ7/4m5kmdRrVv/wzZrTWrXmLnEYIEfRGoRieJTjXo+d/l3W
- NwP8pU31frtzg==
+ b=OETgOnVmMURiFmPoQNiCKrQr9sF/3trbadJ318lHCorPoF0v869wHZ/p5FHgVj3Yv
+ mhb/NdpDy1VM8OpriRF4ufB7miDgMCt9AjI+dpM4Ed5yvvOu93ny/u02FGi8wSWMWw
+ 84sR3b0cHVqiXrld4Rbom2E+5gdh0Jt2XM3Z0MRFj4Ompdpw4Ou8lVfv4BKX9Ug44F
+ Q+wo/9paO+SKwtk3te4QOyyhAeIB1eDTygsyjfWQA8zl2W/TpToFuuORWK4EkQI4X7
+ Bc1tN7md27Did7xE48r1kW/T6B4KV3y23ZHxU3u45mJJQM3eTW2gTRXVmvo+8uu2uW
+ 5YqyFU2iPpAVQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 2C15BCEBF61;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 4B6A3CEBF8D;
  Sun, 16 Nov 2025 10:52:25 +0000 (UTC)
 From: Maud Spierings via B4 Relay
  <devnull+maud_spierings.hotmail.com@kernel.org>
-Date: Sun, 16 Nov 2025 11:52:07 +0100
-Subject: [PATCH v2 2/6] drm/bridge: simple: add the Parade PS185HDM
- DP-to-HDMI bridge
+Date: Sun, 16 Nov 2025 11:52:08 +0100
+Subject: [PATCH v2 3/6] arm64: dts: qcom: x1e80100-vivobook-s15: enable
+ ps8830 retimers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251116-asus_usbc_dp-v2-2-cc8f51136c9f@hotmail.com>
+Message-Id: <20251116-asus_usbc_dp-v2-3-cc8f51136c9f@hotmail.com>
 References: <20251116-asus_usbc_dp-v2-0-cc8f51136c9f@hotmail.com>
 In-Reply-To: <20251116-asus_usbc_dp-v2-0-cc8f51136c9f@hotmail.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -57,14 +57,13 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>,
  Konrad Dybcio <konradybcio@kernel.org>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- Maud Spierings <maud_spierings@hotmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+ Maud Spierings <maud_spierings@hotmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763290343; l=945;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1763290343; l=8996;
  i=maud_spierings@hotmail.com; s=20241110; h=from:subject:message-id;
- bh=lOwUKlnZWvBGuZzv+yAV11vLtSXDOnT6l1naKVDPm98=;
- b=KeTmdssRRamJCQIgZoutDL6TdRGTm08erGUsWcT8KNW6xLav1onjBFM1b1bIsbAiVHgLhSv1r
- ZZjHf1fHA2LCclKfBO1GZd17K5lP4kjudM4pKsPe1+cwpjkkGpbUhnD
+ bh=Kf/zuTHcTItZxVErNnMnFs9tJD6NpEEanR7nlZ4F6l8=;
+ b=Id2OrQRwczzimv624CnorBK2jvx4L+ji9GjdRJUebinYRno9Qpa1AkWlmOhVIQAcdTzufBkfW
+ wb2TA6jaGuzB/ZaHD+q61QTdpfZalNJcPOLzxun4gMskcjYeTYuXVlt
 X-Developer-Key: i=maud_spierings@hotmail.com; a=ed25519;
  pk=CeFKVnZvRfX2QjB1DpdiAe2N+MEjwLEB9Yhx/OAcxRc=
 X-Endpoint-Received: by B4 Relay for maud_spierings@hotmail.com/20241110
@@ -88,30 +87,417 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Maud Spierings <maud_spierings@hotmail.com>
 
-The Parade PS185HDM is a transparent Displayport to HDMI bridge.
+The Asus vivobook s15 has two usb type c ports on the left side, these
+use parade ps8830 retimers like the others, enable them to also enable
+dp altmode
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
 ---
- drivers/gpu/drm/bridge/simple-bridge.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../boot/dts/qcom/x1e80100-asus-vivobook-s15.dts   | 310 ++++++++++++++++++++-
+ 1 file changed, 302 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-index e4d0bc2200f8..90abda199cea 100644
---- a/drivers/gpu/drm/bridge/simple-bridge.c
-+++ b/drivers/gpu/drm/bridge/simple-bridge.c
-@@ -261,6 +261,11 @@ static const struct of_device_id simple_bridge_match[] = {
- 			.timings = &default_bridge_timings,
- 			.connector_type = DRM_MODE_CONNECTOR_VGA,
- 		},
-+	}, {
-+		.compatible = "parade,ps185hdm",
-+		.data = &(const struct simple_bridge_info) {
-+			.connector_type = DRM_MODE_CONNECTOR_HDMIA,
-+		},
- 	}, {
- 		.compatible = "radxa,ra620",
- 		.data = &(const struct simple_bridge_info) {
+diff --git a/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts b/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
+index d4df21de0d95..ea8ad67e511f 100644
+--- a/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
++++ b/arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dts
+@@ -69,7 +69,15 @@ port@1 {
+ 					reg = <1>;
+ 
+ 					pmic_glink_ss0_ss_in: endpoint {
+-						remote-endpoint = <&usb_1_ss0_qmpphy_out>;
++						remote-endpoint = <&retimer_ss0_ss_out>;
++					};
++				};
++
++				port@2 {
++					reg = <2>;
++
++					pmic_glink_ss0_con_sbu_in: endpoint {
++						remote-endpoint = <&retimer_ss0_con_sbu_out>;
+ 					};
+ 				};
+ 			};
+@@ -98,7 +106,15 @@ port@1 {
+ 					reg = <1>;
+ 
+ 					pmic_glink_ss1_ss_in: endpoint {
+-						remote-endpoint = <&usb_1_ss1_qmpphy_out>;
++						remote-endpoint = <&retimer_ss1_ss_out>;
++					};
++				};
++
++				port@2 {
++					reg = <2>;
++
++					pmic_glink_ss1_con_sbu_in: endpoint {
++						remote-endpoint = <&retimer_ss1_con_sbu_out>;
+ 					};
+ 				};
+ 			};
+@@ -147,6 +163,102 @@ vreg_nvme: regulator-nvme {
+ 		regulator-boot-on;
+ 	};
+ 
++	vreg_rtmr0_1p15: regulator-rtmr0-1p15 {
++		compatible = "regulator-fixed";
++
++		regulator-name = "VREG_RTMR0_1P15";
++		regulator-min-microvolt = <1150000>;
++		regulator-max-microvolt = <1150000>;
++
++		gpio = <&pmc8380_5_gpios 8 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-0 = <&usb0_pwr_1p15_reg_en>;
++		pinctrl-names = "default";
++
++		regulator-boot-on;
++	};
++
++	vreg_rtmr0_1p8: regulator-rtmr0-1p8 {
++		compatible = "regulator-fixed";
++
++		regulator-name = "VREG_RTMR0_1P8";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++
++		gpio = <&pm8550ve_9_gpios 8 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-0 = <&usb0_1p8_reg_en>;
++		pinctrl-names = "default";
++
++		regulator-boot-on;
++	};
++
++	vreg_rtmr0_3p3: regulator-rtmr0-3p3 {
++		compatible = "regulator-fixed";
++
++		regulator-name = "VREG_RTMR0_3P3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++
++		gpio = <&pm8550_gpios 11 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-0 = <&usb0_3p3_reg_en>;
++		pinctrl-names = "default";
++
++		regulator-boot-on;
++	};
++
++	vreg_rtmr1_1p15: regulator-rtmr1-1p15 {
++		compatible = "regulator-fixed";
++
++		regulator-name = "VREG_RTMR1_1P15";
++		regulator-min-microvolt = <1150000>;
++		regulator-max-microvolt = <1150000>;
++
++		gpio = <&tlmm 188 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-0 = <&usb1_pwr_1p15_reg_en>;
++		pinctrl-names = "default";
++
++		regulator-boot-on;
++	};
++
++	vreg_rtmr1_1p8: regulator-rtmr1-1p8 {
++		compatible = "regulator-fixed";
++
++		regulator-name = "VREG_RTMR1_1P8";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++
++		gpio = <&tlmm 175 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-0 = <&usb1_pwr_1p8_reg_en>;
++		pinctrl-names = "default";
++
++		regulator-boot-on;
++	};
++
++	vreg_rtmr1_3p3: regulator-rtmr1-3p3 {
++		compatible = "regulator-fixed";
++
++		regulator-name = "VREG_RTMR1_3P3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++
++		gpio = <&tlmm 186 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++
++		pinctrl-0 = <&usb1_pwr_3p3_reg_en>;
++		pinctrl-names = "default";
++
++		regulator-boot-on;
++	};
++
+ 	vph_pwr: regulator-vph-pwr {
+ 		compatible = "regulator-fixed";
+ 
+@@ -506,15 +618,62 @@ touchpad@15 {
+ &i2c1 {
+ 	clock-frequency = <400000>;
+ 	status = "okay";
+-
+-	/* PS8830 USB4 Retimer? @ 0x8 */
+ };
+ 
+ &i2c3 {
+ 	clock-frequency = <400000>;
+ 	status = "okay";
+ 
+-	/* PS8830 USB4 Retimer? @ 0x8 */
++	typec-mux@8 {
++		compatible = "parade,ps8830";
++		reg = <0x08>;
++
++		clocks = <&rpmhcc RPMH_RF_CLK3>;
++
++		vdd-supply = <&vreg_rtmr0_1p15>;
++		vdd33-supply = <&vreg_rtmr0_3p3>;
++		vdd33-cap-supply = <&vreg_rtmr0_3p3>;
++		vddar-supply = <&vreg_rtmr0_1p15>;
++		vddat-supply = <&vreg_rtmr0_1p15>;
++		vddio-supply = <&vreg_rtmr0_1p8>;
++
++		reset-gpios = <&pm8550_gpios 10 GPIO_ACTIVE_LOW>;
++
++		pinctrl-0 = <&rtmr0_default>;
++		pinctrl-names = "default";
++
++		orientation-switch;
++		retimer-switch;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++
++				retimer_ss0_ss_out: endpoint {
++					remote-endpoint = <&pmic_glink_ss0_ss_in>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++
++				retimer_ss0_ss_in: endpoint {
++					remote-endpoint = <&usb_1_ss0_qmpphy_out>;
++				};
++			};
++
++			port@2 {
++				reg = <2>;
++
++				retimer_ss0_con_sbu_out: endpoint {
++					remote-endpoint = <&pmic_glink_ss0_con_sbu_in>;
++				};
++			};
++		};
++	};
+ };
+ 
+ &i2c5 {
+@@ -583,13 +742,78 @@ &i2c7 {
+ 	clock-frequency = <400000>;
+ 	status = "okay";
+ 
+-	/* PS8830 USB4 Retimer? @ 0x8 */
++	typec-mux@8 {
++		compatible = "parade,ps8830";
++		reg = <0x8>;
++
++		clocks = <&rpmhcc RPMH_RF_CLK4>;
++
++		vdd-supply = <&vreg_rtmr1_1p15>;
++		vdd33-supply = <&vreg_rtmr1_3p3>;
++		vdd33-cap-supply = <&vreg_rtmr1_3p3>;
++		vddar-supply = <&vreg_rtmr1_1p15>;
++		vddat-supply = <&vreg_rtmr1_1p15>;
++		vddio-supply = <&vreg_rtmr1_1p8>;
++
++		reset-gpios = <&tlmm 176 GPIO_ACTIVE_LOW>;
++
++		pinctrl-0 = <&rtmr1_default>;
++		pinctrl-names = "default";
++
++		retimer-switch;
++		orientation-switch;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++
++				retimer_ss1_ss_out: endpoint {
++					remote-endpoint = <&pmic_glink_ss1_ss_in>;
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++
++				retimer_ss1_ss_in: endpoint {
++					remote-endpoint = <&usb_1_ss1_qmpphy_out>;
++				};
++			};
++
++			port@2 {
++				reg = <2>;
++
++				retimer_ss1_con_sbu_out: endpoint {
++					remote-endpoint = <&pmic_glink_ss1_con_sbu_in>;
++				};
++			};
++		};
++	};
+ };
+ 
+ &mdss {
+ 	status = "okay";
+ };
+ 
++&mdss_dp0 {
++	status = "okay";
++};
++
++&mdss_dp0_out {
++	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
++};
++
++&mdss_dp1 {
++	status = "okay";
++};
++
++&mdss_dp1_out {
++	link-frequencies = /bits/ 64 <1620000000 2700000000 5400000000 8100000000>;
++};
++
+ &mdss_dp3 {
+ 	/delete-property/ #sound-dai-cells;
+ 
+@@ -683,6 +907,37 @@ &pcie6a_phy {
+ 	status = "okay";
+ };
+ 
++&pm8550_gpios {
++	rtmr0_default: rtmr0-reset-n-active-state {
++		pins = "gpio10";
++		function = "normal";
++		power-source = <1>; /* 1.8V */
++		bias-disable;
++		input-disable;
++		output-enable;
++	};
++
++	usb0_3p3_reg_en: usb0-3p3-reg-en-state {
++		pins = "gpio11";
++		function = "normal";
++		power-source = <1>; /* 1.8V */
++		bias-disable;
++		input-disable;
++		output-enable;
++	};
++};
++
++&pm8550ve_9_gpios {
++	usb0_1p8_reg_en: usb0-1p8-reg-en-state {
++		pins = "gpio8";
++		function = "normal";
++		power-source = <1>; /* 1.8V */
++		bias-disable;
++		input-disable;
++		output-enable;
++	};
++};
++
+ &pmc8380_3_gpios {
+ 	edp_bl_en: edp-bl-en-state {
+ 		pins = "gpio4";
+@@ -695,6 +950,17 @@ edp_bl_en: edp-bl-en-state {
+ 	};
+ };
+ 
++&pmc8380_5_gpios {
++	usb0_pwr_1p15_reg_en: usb0-pwr-1p15-reg-en-state {
++		pins = "gpio8";
++		function = "normal";
++		power-source = <1>; /* 1.8V */
++		bias-disable;
++		input-disable;
++		output-enable;
++	};
++};
++
+ &qupv3_0 {
+ 	status = "okay";
+ };
+@@ -840,12 +1106,40 @@ wake-n-pins {
+ 		};
+ 	};
+ 
++	rtmr1_default: rtmr1-reset-n-active-state {
++		pins = "gpio176";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-pull-up;
++	};
++
+ 	tpad_default: tpad-default-state {
+ 		pins = "gpio3";
+ 		function = "gpio";
+ 		bias-disable;
+ 	};
+ 
++	usb1_pwr_1p15_reg_en: usb1-pwr-1p15-reg-en-state {
++		pins = "gpio188";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-pull-up;
++	};
++
++	usb1_pwr_1p8_reg_en: usb1-pwr-1p8-reg-en-state {
++		pins = "gpio175";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-pull-up;
++	};
++
++	usb1_pwr_3p3_reg_en: usb1-pwr-3p3-reg-en-state {
++		pins = "gpio186";
++		function = "gpio";
++		drive-strength = <2>;
++		bias-pull-up;
++	};
++
+ 	wcn_bt_en: wcn-bt-en-state {
+ 		pins = "gpio116";
+ 		function = "gpio";
+@@ -914,7 +1208,7 @@ &usb_1_ss0_dwc3_hs {
+ };
+ 
+ &usb_1_ss0_qmpphy_out {
+-	remote-endpoint = <&pmic_glink_ss0_ss_in>;
++	remote-endpoint = <&retimer_ss0_ss_in>;
+ };
+ 
+ &usb_1_ss1_hsphy {
+@@ -946,7 +1240,7 @@ &usb_1_ss1_dwc3_hs {
+ };
+ 
+ &usb_1_ss1_qmpphy_out {
+-	remote-endpoint = <&pmic_glink_ss1_ss_in>;
++	remote-endpoint = <&retimer_ss1_ss_in>;
+ };
+ 
+ &usb_2 {
 
 -- 
 2.51.2
