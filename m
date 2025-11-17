@@ -2,69 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C154C66022
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 20:43:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A379C66052
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 20:49:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DFC610E3F7;
-	Mon, 17 Nov 2025 19:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9543A10E1C8;
+	Mon, 17 Nov 2025 19:49:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IYhBaFbl";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fVLLfVwj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1786910E085
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 19:43:44 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id
- d9443c01a7336-297f5278e5cso7143035ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 11:43:44 -0800 (PST)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 492FC10E1C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 19:49:05 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-7baa5787440so124729b3a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 11:49:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763408623; x=1764013423; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1763408945; x=1764013745; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/+5Hf3TIECg/WJ3vcEYDCdeJ1dVpbMxZKUO+m2nTD5o=;
- b=IYhBaFblCfRKQtT21F+Ea7CWbQg4np1wAkp/9MigXLxI5tdeHiv79mGWsHTri58MFD
- pSZDJuEuKxEtWZ1pHc7nZDT1yhKJ9XtR9HNAq+/U6+Gpp8WrDT2gVBJLLO8+MC0/qgcQ
- IXLosI90jiX429uv//Vq+nb/qTEdVL8efdqJnaFvy2RmPaFGr/f95ZvxJG53wRObRjjL
- Ii9HWGli5gGXMTFbLNrHHMjeFX+5Z2Tk+6w0PmRrXhYhWzvucfqYoJaSRpPVjNJO3/zZ
- GEIVUNbvDJ9GMPHOz6MSlIIfskCni0iEwLa6rBmNOXnsD/GNRIt2EDewd0gLUtM5vJpS
- 0w/Q==
+ bh=uwN9xd/+ICCzUFjJbywSX4hJRNbIwbnqiOuOojfw4bA=;
+ b=fVLLfVwjFMl516VbEQBcrftJljChIwAl6bPweiKM0n+uh8DvCODISzvtkGBpoLj4Yk
+ 1P7NoRl35c0nMwXA1YyDlhk8tkUGUTQ6rQCozW0BYmrx0FHdqiIl+nnEG+vw1GdVOu4D
+ jclskGvMvv0HwCCMUXKkBdiB3j2UYGqqJ1Vz6UfxWu4PWbNzzaVfHqV/VqvHyeeKXn75
+ LGAZWjKwrX8R8ZTOY1lT4mUrONVMULkVSVxJUZW6Z80pkumq25M7dQEnoUZ2fzexL1E2
+ CDftCvYtipD2WNyyiSedyCyvNjx9I+5L+GUUtxnHKgCC8dxE0i+GRo5fDd8cJHczqQxY
+ a7SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763408623; x=1764013423;
+ d=1e100.net; s=20230601; t=1763408945; x=1764013745;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=/+5Hf3TIECg/WJ3vcEYDCdeJ1dVpbMxZKUO+m2nTD5o=;
- b=ViSFvf5Aw3lza6xB2K2elxy0Cs7+xifhl286d6xrBP1Tn0Xt7kSaBtJUGvoX/LTCN8
- 3GqOLCXyLwWmgzcAt2TxC7jXQURDJFA2tw0po2zyaBTIYrOu4cGrNT5zJsYD7oXriMNi
- 8fnJVTlpGDhmeFAvEVKhq0+lSW6E1dlhruJiYq2xxATnz1kyQofkmba/MeJEb9uV4KWu
- fQICZv8vLESuIL91vRo6OBXFJ1qxMJe/EOU3hxiVT7mFEKzgpb/a6Y7yKD3MpNb9BiTQ
- Dm1SuwM5rEQF6UQM8anxjAjsZH2XHfn9d20L2Txkpyu/zq4i+hYwUEhfXZ2Wvi4drZNh
- Wc9Q==
+ bh=uwN9xd/+ICCzUFjJbywSX4hJRNbIwbnqiOuOojfw4bA=;
+ b=kosE6nQrASwg4PH0R3vUuOdjslDYtSQBjpcUPBdSL7czeZ6dFQmKvYa4m7Mgsi/EC7
+ XlAMppDugxMkSARW9BvcAYKsTVxHtboNYaON1jheWVzlONoPP3AlGtH/EkyhR8s1pwww
+ 6qQHQ6t1hDZS/Z4OI/hBofpocHf1EepwvOSfd4a/7D2RDZiH+6UI7Z1uPalNRqGNzzZ4
+ eBTreiSQCealijc35k6S2+AhFUkUXm98ChbYHLnoKb2I87xb46l+pyQXoIBs54vpNSQP
+ L9VwJUQHdkmPpt2V+v6KYN4x5iFg0ELfhrJVbAtsgerFF1PD5IBWStqFJNkO+ibVkQBV
+ NLsQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVPgKSQMebhdb1A5+LZcDs3mxlnB0ht2I2UxfCnIpSyKgG5rYVjBGHpu3kj1bQviIFEXxvQJrjQsXU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwCff5JHzFkV6cLaXM4pl1raMDIfBioc9hiBbt0Nvb7mpwfdV8Z
- PpBMQ6Zl9H4nCKlHbQNlIUPu6QJr++hOwBHtl/68+a+3tjyeWiF2LN15T+StEv6nnmb1svAWZpa
- mU/icbzNnxMJccD1jEPouUAtYGURDltY=
-X-Gm-Gg: ASbGncv3VJ1WxGiDrlSW7trkOlnA+CocwI4mGnsdRyoy6asNMnnh8HPFr/qDVz/GX7r
- 3gVgitFL7I1bqX51KiZlDGq8rhkg94/VJvGuzp1Soo6XsZchYbjxzHo6lBlNhzn6JbGG4XXQH9w
- iT0wAyQblF+OoEqoct7RZGGmmX1j2C6+Nh9jyXcNoRCbrDrhjnukMHAT7o3Eu5LNlUtcocFewZD
- MLt1rG2n+zjQCZoSgtm3GtKOQrUS8Zvy3PFoH01RJaJLrGWy5fyurd5r13o
-X-Google-Smtp-Source: AGHT+IFJT7XNlWHFboAYjTqdvl7ansBxArPIS/GzhzEzb3yO8TC3LpcI1Q9gDnb4O5U1xZ57lT1Bq32f9CGrvBl2Zyo=
-X-Received: by 2002:a05:7022:e0d:b0:119:e55a:95a1 with SMTP id
- a92af1059eb24-11b493dbc02mr4800591c88.3.1763408623379; Mon, 17 Nov 2025
- 11:43:43 -0800 (PST)
+ AJvYcCU0c901R/GYRM2rQ/tFeQhYiZwAQ4oonqz2XIih160zXRYB2k8tmJ7TTHDcFr/L4pNnCl+8klJFo1I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/Wf/iJAaK98aJ/IrsW4dYn7A6VdRLbqt60TXi5S9zwkxFsqUF
+ LMlALnm2Iv3MCKk73n9WF3ns97VNdUr/dq5fFac5HZo/wjS49LHNJIDMhIIbgZVAtdxka733XiF
+ 3dj4dbmM3ZRu8bwYjvfi/pw+LV7ct4VA=
+X-Gm-Gg: ASbGncu8DevnHNcA0OdiN7c7Q5bW+xVLLqlGlFAja3xDh/+zFLONRBH8NXAnXdCpb7T
+ pGH7dFDfs0eKPoTwFfdJtcnbHEHv6JIHEUSupuWDckVGsTwJtfgeiMb9Wtwz+24wVhrP1uNw6wG
+ VP5u+ilfz+akoaTVsKvW1VUmHdVu1O6UkL9UpAyEuycltKHjWXj2jtEWrv9lNJUYBITYscG2d1g
+ WqVf+NyNDLAGYqN1YaUTPwrkcUX0RIcuSUsfCbtPxTkHX+2Aquz/OHUhvPItgbKsKbxw71XoKNw
+ OjKOXQ==
+X-Google-Smtp-Source: AGHT+IE/8ggS6LUeyVsp5eEk+e9DOPtpK5cG7eKvt4t1ew0SgFR+tKonGHD5OH0s8yx7jrceY7HF7o2yVSkpv+xcRzs=
+X-Received: by 2002:a05:7022:6297:b0:11a:c044:ec44 with SMTP id
+ a92af1059eb24-11c78562aa4mr21812c88.0.1763408944651; Mon, 17 Nov 2025
+ 11:49:04 -0800 (PST)
 MIME-Version: 1.0
 References: <20251114-vram-carveout-tuning-for-upstream-v2-0-4f6bdd48030d@amd.com>
- <20251114-vram-carveout-tuning-for-upstream-v2-2-4f6bdd48030d@amd.com>
-In-Reply-To: <20251114-vram-carveout-tuning-for-upstream-v2-2-4f6bdd48030d@amd.com>
+ <20251114-vram-carveout-tuning-for-upstream-v2-4-4f6bdd48030d@amd.com>
+In-Reply-To: <20251114-vram-carveout-tuning-for-upstream-v2-4-4f6bdd48030d@amd.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 17 Nov 2025 14:43:32 -0500
-X-Gm-Features: AWmQ_bn-rx8YdtVYoFVyGRgVCjAn1BgDod9sCkmCCuCja0xAzzBGgF5NjOGu8mg
-Message-ID: <CADnq5_POzLjMetvQAW6gi8Emp5OM-VyrVmKGJ5t5w2S=5POjxw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] drm/amdgpu: add helper to read UMA carveout info
+Date: Mon, 17 Nov 2025 14:48:52 -0500
+X-Gm-Features: AWmQ_blyq-3bafSyeznjWZ3ESVeo9aWvK16_VaoKKclzjAv-7Z2Oe4CELV6neqw
+Message-ID: <CADnq5_Mjo7M-ndi0mOUZzrvCnz2gUY0wm0a7uGtdLp=_kWLW0Q@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] drm/amdgpu: add UMA allocation interfaces to sysfs
 To: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>, 
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
@@ -96,206 +97,206 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Fri, Nov 14, 2025 at 3:52=E2=80=AFAM Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.=
 com> wrote:
 >
-> Currently, the available UMA allocation configs in the integrated system
-> information table have not been parsed. Add a helper function to retrieve
-> and store these configs.
+> Add two sysfs files as interfaces to inspect or change UMA carveout
+> size. These files are:
+>
+> - uma_carveout_options: a read-only file listing all the available
+>   UMA allocation options and their index.
+>
+> - uma_carveout: a file that is both readable and writable. On read,
+>   it shows the index of the current setting. Writing a valid index
+>   into this file allows users to change the UMA carveout size to that
+>   option on the next boot.
+
+Would it be cleaner to combine these?  Reading the file would show the
+indexed list of options with a * next to the currently selected one
+and then writing the index to the file would cause the change to take
+effect on the next reboot.
+
+Alex
+
 >
 > Co-developed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 > Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
 > Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
-
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h              | 32 +++++++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c         |  2 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c | 73 ++++++++++++++++++=
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 127 +++++++++++++++++++++++++=
 ++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h |  2 +
->  4 files changed, 109 insertions(+)
+>  1 file changed, 127 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/am=
-dgpu/amdgpu.h
-> index a5574e84694b..2c1123291577 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -1675,6 +1675,38 @@ struct amdgpu_numa_info {
->         int nid;
->  };
->
-> +#define MAX_UMA_OPTION_NAME    28
-> +#define MAX_UMA_OPTION_ENTRIES 19
-> +
-> +#define AMDGPU_UMA_FLAG_AUTO   BIT(1)
-> +#define AMDGPU_UMA_FLAG_CUSTOM BIT(0)
-> +
-> +/**
-> + * struct amdgpu_uma_carveut_option - single UMA carveout option
-> + * @name: Name of the carveout option
-> + * @memory_carved: Amount of memory carved
-> + * @flags: ATCS flags supported by this option
-> + */
-> +struct amdgpu_uma_carveout_option {
-> +       char name[MAX_UMA_OPTION_NAME];
-> +       uint8_t memory_carved;
-> +       uint8_t flags;
-> +};
-> +
-> +/**
-> + * struct amdgpu_uma_carveut_info - table of available UMA carveout opti=
-ons
-> + * @num_entries: Number of available options
-> + * @uma_option_index: The index of the option currently applied
-> + * @update_lock: Lock to serialize changes to the option
-> + * @entries: The array of carveout options
-> + */
-> +struct amdgpu_uma_carveout_info {
-> +       uint8_t num_entries;
-> +       uint8_t uma_option_index;
-> +       struct mutex update_lock;
-> +       struct amdgpu_uma_carveout_option entries[MAX_UMA_OPTION_ENTRIES]=
-;
-> +};
-> +
->  /* ATCS Device/Driver State */
->  #define AMDGPU_ATCS_PSC_DEV_STATE_D0           0
->  #define AMDGPU_ATCS_PSC_DEV_STATE_D3_HOT       3
 > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/a=
 md/amdgpu/amdgpu_acpi.c
-> index 0743fd8620e4..d442dc442d34 100644
+> index 444ab4102168..b9378f34eb79 100644
 > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
 > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> @@ -38,6 +38,7 @@
->  #include "amdgpu_display.h"
->  #include "amd_acpi.h"
->  #include "atom.h"
-> +#include "amdgpu_atomfirmware.h"
+> @@ -30,6 +30,7 @@
+>  #include <linux/power_supply.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/suspend.h>
+> +#include <linux/device.h>
+>  #include <acpi/video.h>
+>  #include <acpi/actbl.h>
 >
->  /* Declare GUID for AMD _DSM method for XCCs */
->  static const guid_t amd_xcc_dsm_guid =3D GUID_INIT(0x8267f5d5, 0xa556, 0=
-x44f2,
-> @@ -125,6 +126,7 @@ struct amdgpu_atcs {
->         acpi_handle handle;
->
->         struct amdgpu_atcs_functions functions;
-> +       struct amdgpu_uma_carveout_info uma_info;
->  };
->
->  static struct amdgpu_acpi_priv {
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c b/drivers/g=
-pu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-> index 636385c80f64..b1463bb594aa 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
-> @@ -296,6 +296,79 @@ static int convert_atom_mem_type_to_vram_type(struct=
- amdgpu_device *adev,
->         return vram_type;
+> @@ -1247,6 +1248,125 @@ int amdgpu_acpi_get_mem_info(struct amdgpu_device=
+ *adev, int xcc_id,
+>         return -ENOENT;
 >  }
 >
-> +static int amdgpu_atomfirmware_get_uma_carveout_info_v2_3(struct amdgpu_=
-device *adev,
-> +                                                         union igp_info =
-*igp_info,
-> +                                                         struct amdgpu_u=
-ma_carveout_info *uma_info)
+> +static ssize_t uma_carveout_options_show(struct device *dev,
+> +                                        struct device_attribute *attr,
+> +                                        char *buf)
 > +{
-> +       struct uma_carveout_option *opts;
-> +       uint8_t nr_uma_options;
-> +       int i;
+> +       struct amdgpu_uma_carveout_info *uma_info =3D &amdgpu_acpi_priv.a=
+tcs.uma_info;
+> +       ssize_t size =3D 0;
 > +
-> +       nr_uma_options =3D igp_info->v23.UMACarveoutIndexMax;
-> +
-> +       if (!nr_uma_options)
+> +       if (!uma_info || !uma_info->num_entries)
 > +               return -ENODEV;
 > +
-> +       if (nr_uma_options > MAX_UMA_OPTION_ENTRIES) {
-> +               drm_dbg(adev_to_drm(adev),
-> +                       "Number of UMA options exceeds max table size. Op=
-tions will not be parsed");
+> +       for (int i =3D 0; i < uma_info->num_entries; i++) {
+> +               size +=3D sysfs_emit_at(buf, size, "%d: %s (%u GB)\n",
+> +                                     i,
+> +                                     uma_info->entries[i].name,
+> +                                     uma_info->entries[i].memory_carved)=
+;
+> +       }
+> +
+> +       return size;
+> +}
+> +static DEVICE_ATTR_RO(uma_carveout_options);
+> +
+> +static ssize_t uma_carveout_show(struct device *dev,
+> +                                struct device_attribute *attr,
+> +                                char *buf)
+> +{
+> +       return sysfs_emit(buf, "%u\n", amdgpu_acpi_priv.atcs.uma_info.uma=
+_option_index);
+> +}
+> +
+> +static ssize_t uma_carveout_store(struct device *dev,
+> +                                 struct device_attribute *attr,
+> +                                 const char *buf, size_t count)
+> +{
+> +       struct amdgpu_uma_carveout_info *uma_info =3D &amdgpu_acpi_priv.a=
+tcs.uma_info;
+> +       struct drm_device *ddev =3D dev_get_drvdata(dev);
+> +       struct amdgpu_device *adev =3D drm_to_adev(ddev);
+> +       struct amdgpu_uma_carveout_option *opt;
+> +       unsigned long val;
+> +       uint8_t flags;
+> +       int r;
+> +
+> +       r =3D kstrtoul(buf, 10, &val);
+> +       if (r)
+> +               return r;
+> +
+> +       if (val >=3D uma_info->num_entries)
+> +               return -EINVAL;
+> +
+> +       opt =3D &uma_info->entries[val];
+> +
+> +       if (!(opt->flags & AMDGPU_UMA_FLAG_AUTO) &&
+> +           !(opt->flags & AMDGPU_UMA_FLAG_CUSTOM)) {
+> +               drm_err_once(ddev, "Option %ul not supported due to lack =
+of Custom/Auto flag", r);
 > +               return -EINVAL;
 > +       }
 > +
-> +       uma_info->num_entries =3D nr_uma_options;
-> +       uma_info->uma_option_index =3D igp_info->v23.UMACarveoutIndex;
+> +       flags =3D opt->flags;
+> +       flags &=3D ~((flags & AMDGPU_UMA_FLAG_AUTO) >> 1);
 > +
-> +       opts =3D igp_info->v23.UMASizeControlOption;
+> +       guard(mutex)(&uma_info->update_lock);
 > +
-> +       for (i =3D 0; i < nr_uma_options; i++) {
-> +               uma_info->entries[i].memory_carved =3D opts[i].memoryCarv=
-edGb;
-> +               uma_info->entries[i].flags =3D opts[i].uma_carveout_optio=
-n_flags.all8;
-> +               strscpy(uma_info->entries[i].name, opts[i].optionName, MA=
-X_UMA_OPTION_NAME);
+> +       r =3D amdgpu_acpi_set_uma_allocation_size(adev, val, flags);
+> +       if (r)
+> +               return r;
+> +
+> +       uma_info->uma_option_index =3D val;
+> +
+> +       return count;
+> +}
+> +static DEVICE_ATTR_RW(uma_carveout);
+> +
+> +static struct attribute *amdgpu_uma_attrs[] =3D {
+> +       &dev_attr_uma_carveout.attr,
+> +       &dev_attr_uma_carveout_options.attr,
+> +       NULL
+> +};
+> +
+> +const struct attribute_group amdgpu_uma_attr_group =3D {
+> +       .attrs =3D amdgpu_uma_attrs
+> +};
+> +
+> +static int amdgpu_acpi_uma_option_init(struct amdgpu_device *adev)
+> +{
+> +       struct amdgpu_atcs *atcs =3D &amdgpu_acpi_priv.atcs;
+> +       int rc;
+> +
+> +       if (!atcs->functions.set_uma_allocation_size)
+> +               return -ENODEV;
+> +
+> +       rc =3D amdgpu_atomfirmware_get_uma_carveout_info(adev, &atcs->uma=
+_info);
+> +       if (rc) {
+> +               drm_dbg(adev_to_drm(adev),
+> +                       "Failed to parse UMA carveout info from VBIOS: %d=
+\n", rc);
+> +               goto out_info;
+> +       }
+> +
+> +       mutex_init(&atcs->uma_info.update_lock);
+> +
+> +       rc =3D devm_device_add_group(adev->dev, &amdgpu_uma_attr_group);
+> +       if (rc) {
+> +               drm_dbg(adev_to_drm(adev), "Failed to add UMA carveout sy=
+sfs interfaces %d\n", rc);
+> +               goto out_attr;
 > +       }
 > +
 > +       return 0;
+> +
+> +out_attr:
+> +       mutex_destroy(&atcs->uma_info.update_lock);
+> +out_info:
+> +       return rc;
 > +}
 > +
-> +int amdgpu_atomfirmware_get_uma_carveout_info(struct amdgpu_device *adev=
-,
-> +                                             struct amdgpu_uma_carveout_=
-info *uma_info)
+> +static void amdgpu_acpi_uma_option_fini(void)
 > +{
-> +       struct amdgpu_mode_info *mode_info =3D &adev->mode_info;
-> +       union igp_info *igp_info;
-> +       u16 data_offset, size;
-> +       u8 frev, crev;
-> +       int index;
+> +       struct amdgpu_uma_carveout_info *uma_info =3D &amdgpu_acpi_priv.a=
+tcs.uma_info;
 > +
-> +       if (!(adev->flags & AMD_IS_APU))
-> +               return -ENODEV;
-> +
-> +       index =3D get_index_into_master_table(atom_master_list_of_data_ta=
-bles_v2_1,
-> +                                           integratedsysteminfo);
-> +
-> +       if (!amdgpu_atom_parse_data_header(mode_info->atom_context,
-> +                                         index, &size,
-> +                                         &frev, &crev, &data_offset)) {
-> +               return -EINVAL;
-> +       }
-> +
-> +       igp_info =3D (union igp_info *)
-> +                       (mode_info->atom_context->bios + data_offset);
-> +
-> +       switch (frev) {
-> +       case 2:
-> +               switch (crev) {
-> +               case 3:
-> +                       return amdgpu_atomfirmware_get_uma_carveout_info_=
-v2_3(adev, igp_info, uma_info);
-> +               break;
-> +               default:
-> +                       break;
-> +               }
-> +               break;
-> +       default:
-> +               break;
-> +       }
-> +       return -ENODEV;
+> +       mutex_destroy(&uma_info->update_lock);
+> +       uma_info->num_entries =3D 0;
 > +}
 > +
->  int
->  amdgpu_atomfirmware_get_vram_info(struct amdgpu_device *adev,
->                                   int *vram_width, int *vram_type,
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h b/drivers/g=
-pu/drm/amd/amdgpu/amdgpu_atomfirmware.h
-> index 649b5530d8ae..67c8d105729b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.h
-> @@ -32,6 +32,8 @@ void amdgpu_atomfirmware_scratch_regs_init(struct amdgp=
-u_device *adev);
->  int amdgpu_atomfirmware_allocate_fb_scratch(struct amdgpu_device *adev);
->  int amdgpu_atomfirmware_get_vram_info(struct amdgpu_device *adev,
->         int *vram_width, int *vram_type, int *vram_vendor);
-> +int amdgpu_atomfirmware_get_uma_carveout_info(struct amdgpu_device *adev=
-,
-> +                                             struct amdgpu_uma_carveout_=
-info *uma_info);
->  int amdgpu_atomfirmware_get_clock_info(struct amdgpu_device *adev);
->  int amdgpu_atomfirmware_get_gfx_info(struct amdgpu_device *adev);
->  bool amdgpu_atomfirmware_mem_ecc_supported(struct amdgpu_device *adev);
+>  /**
+>   * amdgpu_acpi_event - handle notify events
+>   *
+> @@ -1291,6 +1411,12 @@ static int amdgpu_acpi_event(struct notifier_block=
+ *nb,
+>  int amdgpu_acpi_init(struct amdgpu_device *adev)
+>  {
+>         struct amdgpu_atif *atif =3D &amdgpu_acpi_priv.atif;
+> +       int rc;
+> +
+> +       rc =3D amdgpu_acpi_uma_option_init(adev);
+> +
+> +       if (rc)
+> +               drm_dbg(adev_to_drm(adev), "Not creating uma carveout int=
+erfaces: %d", rc);
+>
+>         if (atif->notifications.brightness_change) {
+>                 if (adev->dc_enabled) {
+> @@ -1343,6 +1469,7 @@ void amdgpu_acpi_get_backlight_caps(struct amdgpu_d=
+m_backlight_caps *caps)
+>  void amdgpu_acpi_fini(struct amdgpu_device *adev)
+>  {
+>         unregister_acpi_notifier(&adev->acpi_nb);
+> +       amdgpu_acpi_uma_option_fini();
+>  }
+>
+>  /**
 >
 > --
 > 2.43.0
