@@ -2,96 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 069F4C637D3
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 11:19:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F06C63878
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 11:26:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5230910E340;
-	Mon, 17 Nov 2025 10:19:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 753F610E00A;
+	Mon, 17 Nov 2025 10:26:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Qv0xn7XT";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="pw3/SVyS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A17B10E33F
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 10:19:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1763374783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8Sj1yzB+yodW9emJVWyrm3VZBnBWrcQvlOUnMxJLYhU=;
- b=Qv0xn7XT351EP4000yIc+/f+dIjGouHejtUFBzsPi173Fdp2O5Fh4TjCZejbabcero3sYq
- JNBrMnog8mer21geky3YxCi8SWwGJVjpCnc08bOJ/iLehE27+cGW4KsvKfjtF+KBUvJn/T
- K1Xqr7QFyHCWITcABElN0fnvCdRwvzI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-368-ihCDv0PSN22CnYKJXpL0lQ-1; Mon, 17 Nov 2025 05:19:42 -0500
-X-MC-Unique: ihCDv0PSN22CnYKJXpL0lQ-1
-X-Mimecast-MFC-AGG-ID: ihCDv0PSN22CnYKJXpL0lQ_1763374781
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-429c76c8a1bso2451074f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 02:19:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763374781; x=1763979581;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8Sj1yzB+yodW9emJVWyrm3VZBnBWrcQvlOUnMxJLYhU=;
- b=DcKMi7Du0ZuJ10gYCFarehqmIEavH26jlZSMOhl1leFyWaISGZ939KlCuuAoDWofBG
- PXFdmXxCGk+s3vkhJ6fQ797ZSXlRRLtu9oZi9CbR+Ajqxk3+JtkKCTdts1RqHHulWhBM
- JqSXi1gyKiGmc0IYHwWTVWa3cKM2HMxaXuqB/XXnxlb/wxImzZqe/ycEL5EBqr3XpoD+
- QcP/s6wy8SFGBSuqY8u9ur2YzMe+dig8eRkf6DxXwrlSL+0uISkxfSquLspEpFfOcrZC
- GxZQvrgkgvrl/1ZFmShWTMLEgNBD3o2d0dcmD9yKgeLPDcdlfsjMS31q9wNDJNyYCtH9
- GZhg==
-X-Gm-Message-State: AOJu0YzUqAxdKr+FJ1ChCwKu5L5FzjAHIIrzWeOutaF0SjbA7bV1PuMm
- 5fOGKq9SPWiqOyQPgqEFrxnds5Y23BsLhUMzoUDjo9Y/b1xxscHEIHbxkbBU+JVGoT0btHrkxDc
- TE9PiO/2waUEv7BOh/w0N+sZsJepZ+wrN1H80WRKyuyTimEYiQcPI9IiEXxxRfePwbwIlnQ==
-X-Gm-Gg: ASbGncv2LnvIiYijwFzkhHGZW1swAmm1Z8x/kJFGMIjOU2IjXvqfmi/7/KQ1VaJ7xcK
- nYZln6CPuFRWjS8gfKJhjQ201ky01oPAsaWfD/NUQ/ei4EqvVfxngmf9ZRADfAtat3omzDmXmoq
- a6ljZ794cjmmkFbbCQ2Ojj9FRVZX2FLKeUVCpc5/5PYZYQftBTd89Yanx1zdlHJAlP+5vD+zxy2
- E1bvsMHRo4sB0xBsHj14pBujB7fcBXwgu+LwmgpJ9WASENwmqtoy2KcA5BSr2ibD3/iC011LJk9
- /+NyRKkpu6FLnYlrDrgBWNevazMQKQTMeUjd56UE1iSU8t7KG3vNBLUUv5euKMmcyq5cyzbCrpq
- LmdpWM8pcIhGRu1alnoxeiiKP3yhxD0botxWOeAAB
-X-Received: by 2002:a5d:5f47:0:b0:427:9e6:3a64 with SMTP id
- ffacd0b85a97d-42b593847f2mr10779177f8f.47.1763374780942; 
- Mon, 17 Nov 2025 02:19:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHuLJzRkeZwRTSmYiDMNFB5b9Y04M5/X3K0AsCLwjmRlR2lS/HTXuIsn1n38y2t71o3SspdXw==
-X-Received: by 2002:a5d:5f47:0:b0:427:9e6:3a64 with SMTP id
- ffacd0b85a97d-42b593847f2mr10779119f8f.47.1763374780429; 
- Mon, 17 Nov 2025 02:19:40 -0800 (PST)
-Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42b53f0b8d6sm26377484f8f.28.2025.11.17.02.19.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Nov 2025 02:19:39 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@gmail.com,
- simona@ffwll.ch, linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, patrik.r.jakobsson@gmail.com,
- jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
- robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
- sean@poorly.run, marijn.suijten@somainline.org,
- tomi.valkeinen@ideasonboard.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, thierry.reding@gmail.com, mperttunen@nvidia.com,
- jonathanh@nvidia.com
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2] drm/fb-helper: Allocate and release fb_info in
- single place
-In-Reply-To: <20251027081245.80262-1-tzimmermann@suse.de>
-References: <20251027081245.80262-1-tzimmermann@suse.de>
-Date: Mon, 17 Nov 2025 11:19:38 +0100
-Message-ID: <87ikf9kll1.fsf@ocarina.mail-host-address-is-not-set>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4EFD610E00A
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 10:26:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1763375198;
+ bh=7E1iGzMd4PDWHzR3rFxKohDJmdKwKNnadkzMdyJaFAI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=pw3/SVySjxBjRbUGsHXER1AtYL/ROW1n8XlfwAbfvNWfGDowFHpPGMi/RDtmDIzip
+ jKevGmZo/2vFkeDLjADMOoDD7Gn2v4j6ZxoR8it3SrVkZdd1Q+cuuWdtkgv9BgJX6e
+ Mh1wYdMQ8M2IX51PkZH0wnA25bA+9CYnEP64ZxKHZBb5oukSKXvEoL6LExDluO5Hpi
+ VNcdZWiOimryWcdInLegq/Iw2JwYKmePqSGBktVyUxP6nQQoejoVNY0hqx9tO+Ibtv
+ 6QyXruvt1VqjhkW4zprbTXi+FsA6kei4uKXehhoX76fSXYtmO0Vn4QVHiU3NBWMJ5G
+ 5NnYQGD7C+6hA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5B4D917E126B;
+ Mon, 17 Nov 2025 11:26:38 +0100 (CET)
+Date: Mon, 17 Nov 2025 11:26:34 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
+ <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org, Lars-Ivar
+ Hesselberg Simonsen <lars-ivar.simonsen@arm.com>, kernel@collabora.com
+Subject: Re: [PATCH v1 4/4] drm/panthor: Relax check in
+ panthor_sched_pre_reset()
+Message-ID: <20251117112634.0542ee63@fedora>
+In-Reply-To: <285e5435-7dca-4539-a5ab-aae82df4ef7b@arm.com>
+References: <20251031154818.821054-1-boris.brezillon@collabora.com>
+ <20251031154818.821054-5-boris.brezillon@collabora.com>
+ <717fea87-6927-484a-b373-cb1917185c0f@arm.com>
+ <20251112134725.160734c4@fedora>
+ <285e5435-7dca-4539-a5ab-aae82df4ef7b@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: _8G-iu6eDuDvmkHrz8Gr-0dzM-HOg-AUKMl1dogIzEE_1763374781
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,37 +68,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Mon, 17 Nov 2025 09:49:27 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-Hello Thomas,
+> On 12/11/2025 12:47, Boris Brezillon wrote:
+> > On Fri, 7 Nov 2025 16:40:53 +0000
+> > Steven Price <steven.price@arm.com> wrote:
+> >   
+> >> On 31/10/2025 15:48, Boris Brezillon wrote:  
+> >>> A group can become runnable even after reset.in_progress has
+> >>> been set to true and panthor_sched_suspend() has been called,
+> >>> because the drm_sched queues are still running at that point,
+> >>> and ::run_job() might call group_schedule_locked() which moves
+> >>> the group to the runnable list. And that's fine, because we're
+> >>> moving those groups to the stopped list anyway when we call
+> >>> panthor_group_stop(), so just drop the misleading WARN_ON().    
+> >>
+> >> If we've got another thread mutating the runnable list between
+> >> panthor_sched_suspend() and list_for_each_entry_safe(), doesn't that
+> >> make the list iterator unsafe? (_safe only protects against deleting the
+> >> current item, not against concurrent access).  
+> > 
+> > I'm not too sure actually. There's an
+> > atomic_read(&sched->reset.in_progress) to check if we're about to reset
+> > in group_schedule_locked() and cancel the insertion into the runnable
+> > list in that case, meaning we're sure nothing new will be inserted after
+> > we've set the in_progress=true in panthor_sched_pre_reset().  
+> 
+> I was mostly going on your commit message:
+> 
+> > A group can become runnable even after reset.in_progress has
+> > been set to true and panthor_sched_suspend() has been called  
+> 
+> if that is indeed happening then we have a problem (and removing the
+> WARN_ON is just papering over it). I haven't actually followed through
+> the logic.
 
-> Move the calls to drm_fb_helper_alloc_info() from drivers into a
-> single place in fbdev helpers. Allocates struct fb_info for a new
-> framebuffer device. Then call drm_fb_helper_single_fb_probe() to
-> create an fbdev screen buffer. Also release the instance on errors
-> by calling drm_fb_helper_release_info().
->
-> Simplifies the code and fixes the error cleanup for some of the
-> drivers.
->
-> Regular release of the struct fb_info instance still happens in
-> drm_fb_helper_fini() as before.
->
-> v2:
-> - remove error rollback in driver implementations (kernel test robot)
-> - initialize info in TTM implementation (kernel test robot)
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
+Sorry, it's not exactly that. The problem is that a group might be
+inserted in the runnable list before we've had a chance to set
+reset.in_progress=true (earlier in this function), and there's nothing
+removing those groups from the runnable list between this assignment and
+the loop stopping the groups.
 
-It simplifies the drivers' code indeed.
+> 
+> >>
+> >> It feels to me like we should be holding the sched mutex - at least
+> >> while iterating. I agree the WARN_ON is unnecessary, and will need
+> >> removing if we simply guard the iteration - the alternative is to
+> >> recolour panthor_sched_suspend() to assume the lock is held (and take
+> >> the lock in panthor_sched_pre_reset), but I suspect that's a more ugly
+> >> change.  
+> > 
+> > I'd rather ensure that nothing new is inserted in the runnable/idle
+> > lists after sched->reset.in_progress is set to true. Note that
+> > sched->reset.in_progress is set to true with the sched lock held,
+> > meaning any path modifying the sched lists (must be done with the sched
+> > lock held) should complete before we set this to true. As long as those
+> > paths also skip the list insertion, or, for things happening in a work
+> > context (thinking of the tick work here), as long as the work is not
+> > rescheduled until we get a chance to disable this work, we should be
+> > good, no?  
+> 
+> Yes that design can work. But atomics can be difficult to reason about,
+> so unless there's a good reason I think we'd generally be better
+> sticking with (simple) locks
 
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+Locks alone won't prevent groups from being moved around after the
+stop_all_groups loop though. It's the lock plus the fact groups can't
+have their state changed while a reset is in progress that gives this
+guarantee, at which point I guess checking reset.in_progress with or
+without the lock held is the same, no? We do change the
+reset.in_progress state with the sched.reset.lock held though, to make
+sure any path that could move the group to a different list is out of
+the way when we exit the locked section. That means that new threads
+entering such paths (path changing the group state) will see the new
+value and bail out.
 
--- 
-Best regards,
+> on the slow paths, then we get the benefits
+> of lockdep etc checking we haven't messed up.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+I don't mind taking the sched lock in this slow path, but I don't think
+taking/releasing it inside panthor_sched_pre_reset() is giving any more
+safeness, because what we want is a guarantee that groups won't be
+moved around between panthor_sched_pre_reset() and
+panthor_sched_post_reset(). If that's really a change we want to push
+(reworking the locking in the reset sequence), I'd rather do that in
+its own patchset, if you don't mind.
