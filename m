@@ -2,57 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F06C63878
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 11:26:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD7DC638FF
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 11:32:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 753F610E00A;
-	Mon, 17 Nov 2025 10:26:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F4D489238;
+	Mon, 17 Nov 2025 10:32:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="pw3/SVyS";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="e84udcCc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EFD610E00A
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 10:26:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1763375198;
- bh=7E1iGzMd4PDWHzR3rFxKohDJmdKwKNnadkzMdyJaFAI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=pw3/SVySjxBjRbUGsHXER1AtYL/ROW1n8XlfwAbfvNWfGDowFHpPGMi/RDtmDIzip
- jKevGmZo/2vFkeDLjADMOoDD7Gn2v4j6ZxoR8it3SrVkZdd1Q+cuuWdtkgv9BgJX6e
- Mh1wYdMQ8M2IX51PkZH0wnA25bA+9CYnEP64ZxKHZBb5oukSKXvEoL6LExDluO5Hpi
- VNcdZWiOimryWcdInLegq/Iw2JwYKmePqSGBktVyUxP6nQQoejoVNY0hqx9tO+Ibtv
- 6QyXruvt1VqjhkW4zprbTXi+FsA6kei4uKXehhoX76fSXYtmO0Vn4QVHiU3NBWMJ5G
- 5NnYQGD7C+6hA==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 5B4D917E126B;
- Mon, 17 Nov 2025 11:26:38 +0100 (CET)
-Date: Mon, 17 Nov 2025 11:26:34 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
- <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org, Lars-Ivar
- Hesselberg Simonsen <lars-ivar.simonsen@arm.com>, kernel@collabora.com
-Subject: Re: [PATCH v1 4/4] drm/panthor: Relax check in
- panthor_sched_pre_reset()
-Message-ID: <20251117112634.0542ee63@fedora>
-In-Reply-To: <285e5435-7dca-4539-a5ab-aae82df4ef7b@arm.com>
-References: <20251031154818.821054-1-boris.brezillon@collabora.com>
- <20251031154818.821054-5-boris.brezillon@collabora.com>
- <717fea87-6927-484a-b373-cb1917185c0f@arm.com>
- <20251112134725.160734c4@fedora>
- <285e5435-7dca-4539-a5ab-aae82df4ef7b@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35A2989238
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 10:32:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1763375551;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=P0XBD0RgaW2cGHx+QzNrWzybZSw9/JBmPBIYsTf/QGM=;
+ b=e84udcCclP87sb/2AsY28oB0SSqYKAkuzWferew+g5/3wvSdOZ3ti6RWTKE57pj4l3UaFm
+ AjJrMUpUCMS76B3DQlqshr5SpurTS5I1Tn6KI/4tNyy783H6gEN2Mqy+JRgv9m48ud/PjO
+ KnRvRFsRqTxVwUI9wXF2iDgPgO8ASno=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-324-B5F4VLBdPcGYzgSiUM5z-w-1; Mon, 17 Nov 2025 05:32:29 -0500
+X-MC-Unique: B5F4VLBdPcGYzgSiUM5z-w-1
+X-Mimecast-MFC-AGG-ID: B5F4VLBdPcGYzgSiUM5z-w_1763375548
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-4779b432aecso7831835e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 02:32:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763375548; x=1763980348;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=P0XBD0RgaW2cGHx+QzNrWzybZSw9/JBmPBIYsTf/QGM=;
+ b=WOFk4uMWR8QhsyWaCRAjCd/u7MWpcy6o3moxlgGNFLA5TeZ8Ohi+wshNXTsDGFpmn9
+ 3yld5Lem03xmeu5Ok3LKxIKlKZOYgZlfGASEHy42GerqvLfmny8AVUXExGvq+RRaIcSp
+ Vq2HlZnYEVZHaAeqOr17kFYR8AysMKn30yfhEnlhJamvp98KTLsd5MvSiU1UoDSbdqLN
+ 57zdpbgl1dz+HGWdKBZoz6gGi+BX70xI8k2AoDCcyIm/y5KVYxY6ibdsaur1lYLLSm9l
+ ipmoAQ7lKZ1a2E8HdnlRzCgB9mF32KiXQyrSKE2klgNGWQIr0Ug6dzMvkA7ThnnC7Kw/
+ 32iw==
+X-Gm-Message-State: AOJu0YxrvUfcAZCnRzlhHfaBCqkhULwxsxOjnRiHDpD1gaEKX5EBF16a
+ lV5XLa/v/QvGfWcHi4M1M5vQxM4JJo4Mbi73lSupNIMsmzLbD6+9B2HILz7jHi5bCXkUxyGB7rt
+ /Mb8qppFKFqlIiDBZYasSlQt2XgjqMMHBpvQ74kcxzXVe6suSxJhBpOZxOBFGDqlzJ1mVcA==
+X-Gm-Gg: ASbGncuKfYPmPPW7x1tomj4MAYyS+eFfxw3GFNQWWFuoctU9pzbxyX/U+NZfWSAeFTr
+ D59O1LwpDTJiE/j4mmAsuuE/3TpVsHGoxvtXjiPWkPpqhOwF4MfM1ZAe8bWVfTc1Jn+KORT7OpT
+ rZuifyMvo+gQIj5vjJ+C2Ouzy65zyAzVg/TH+Cs1W/iSeiMVkwUJl/m5bNBzke9HSYTnoKpGeHT
+ lZXHyNMFxiaGr0QcdZOkOK+AXlkpsNtVoq4avCA8BBMwhZMaI/uuDz1MOaFgdULmFUvcecBl1ou
+ fNUjGzvUUr8hLhInco28dCVREtH9toUjR8rsYJ9zTh6ALnAmdqVpY48IJGDrm4MeinX56/k8A28
+ sSYck7/B9ai9tBrzhZ46swqVabFu6RWX7rJma8vQt
+X-Received: by 2002:a05:600c:8b38:b0:475:de14:db1e with SMTP id
+ 5b1f17b1804b1-4778fea2de7mr106847855e9.24.1763375548374; 
+ Mon, 17 Nov 2025 02:32:28 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGnGB9P6XwFNFJpyxvyFcr1IsclfGk24GU77X7h/tXKSTtxct0mRYbVmgv2LusoMFuX2eiZ6A==
+X-Received: by 2002:a05:600c:8b38:b0:475:de14:db1e with SMTP id
+ 5b1f17b1804b1-4778fea2de7mr106847495e9.24.1763375547978; 
+ Mon, 17 Nov 2025 02:32:27 -0800 (PST)
+Received: from localhost ([195.166.127.210]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4778bb34278sm107906635e9.4.2025.11.17.02.32.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 17 Nov 2025 02:32:27 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, deller@gmx.de, lukas@wunner.de,
+ ville.syrjala@linux.intel.com, sam@ravnborg.org
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, Thomas
+ Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm, fbcon, vga_switcheroo: Avoid race condition in
+ fbcon setup
+In-Reply-To: <20251105161549.98836-1-tzimmermann@suse.de>
+References: <20251105161549.98836-1-tzimmermann@suse.de>
+Date: Mon, 17 Nov 2025 11:32:26 +0100
+Message-ID: <87fradkkzp.fsf@ocarina.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 0q9jz1hlhp6qzGq9OFJZrTaUKI2jkjOs2XxnPOPONgk_1763375548
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,89 +99,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 17 Nov 2025 09:49:27 +0000
-Steven Price <steven.price@arm.com> wrote:
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> On 12/11/2025 12:47, Boris Brezillon wrote:
-> > On Fri, 7 Nov 2025 16:40:53 +0000
-> > Steven Price <steven.price@arm.com> wrote:
-> >   
-> >> On 31/10/2025 15:48, Boris Brezillon wrote:  
-> >>> A group can become runnable even after reset.in_progress has
-> >>> been set to true and panthor_sched_suspend() has been called,
-> >>> because the drm_sched queues are still running at that point,
-> >>> and ::run_job() might call group_schedule_locked() which moves
-> >>> the group to the runnable list. And that's fine, because we're
-> >>> moving those groups to the stopped list anyway when we call
-> >>> panthor_group_stop(), so just drop the misleading WARN_ON().    
-> >>
-> >> If we've got another thread mutating the runnable list between
-> >> panthor_sched_suspend() and list_for_each_entry_safe(), doesn't that
-> >> make the list iterator unsafe? (_safe only protects against deleting the
-> >> current item, not against concurrent access).  
-> > 
-> > I'm not too sure actually. There's an
-> > atomic_read(&sched->reset.in_progress) to check if we're about to reset
-> > in group_schedule_locked() and cancel the insertion into the runnable
-> > list in that case, meaning we're sure nothing new will be inserted after
-> > we've set the in_progress=true in panthor_sched_pre_reset().  
-> 
-> I was mostly going on your commit message:
-> 
-> > A group can become runnable even after reset.in_progress has
-> > been set to true and panthor_sched_suspend() has been called  
-> 
-> if that is indeed happening then we have a problem (and removing the
-> WARN_ON is just papering over it). I haven't actually followed through
-> the logic.
+Hello Thomas,
 
-Sorry, it's not exactly that. The problem is that a group might be
-inserted in the runnable list before we've had a chance to set
-reset.in_progress=true (earlier in this function), and there's nothing
-removing those groups from the runnable list between this assignment and
-the loop stopping the groups.
+> Protect vga_switcheroo_client_fb_set() with console lock. Avoids OOB
+> access in fbcon_remap_all(). Without holding the console lock the call
+> races with switching outputs.
+>
+> VGA switcheroo calls fbcon_remap_all() when switching clients. The fbcon
+> function uses struct fb_info.node, which is set by register_framebuffer().
+> As the fb-helper code currently sets up VGA switcheroo before registering
+> the framebuffer, the value of node is -1 and therefore not a legal value.
+> For example, fbcon uses the value within set_con2fb_map() [1] as an index
+> into an array.
+>
+> Moving vga_switcheroo_client_fb_set() after register_framebuffer() can
+> result in VGA switching that does not switch fbcon correctly.
+>
+> Therefore move vga_switcheroo_client_fb_set() under fbcon_fb_registered(),
+> which already holds the console lock. Fbdev calls fbcon_fb_registered()
+> from within register_framebuffer(). Serializes the helper with VGA
+> switcheroo's call to fbcon_remap_all().
+>
+> Although vga_switcheroo_client_fb_set() takes an instance of struct fb_info
+> as parameter, it really only needs the contained fbcon state. Moving the
+> call to fbcon initialization is therefore cleaner than before. Only amdgpu,
+> i915, nouveau and radeon support vga_switcheroo. For all other drivers,
+> this change does nothing.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Link: https://elixir.bootlin.com/linux/v6.17/source/drivers/video/fbdev/core/fbcon.c#L2942 # [1]
+> ---
 
-> 
-> >>
-> >> It feels to me like we should be holding the sched mutex - at least
-> >> while iterating. I agree the WARN_ON is unnecessary, and will need
-> >> removing if we simply guard the iteration - the alternative is to
-> >> recolour panthor_sched_suspend() to assume the lock is held (and take
-> >> the lock in panthor_sched_pre_reset), but I suspect that's a more ugly
-> >> change.  
-> > 
-> > I'd rather ensure that nothing new is inserted in the runnable/idle
-> > lists after sched->reset.in_progress is set to true. Note that
-> > sched->reset.in_progress is set to true with the sched lock held,
-> > meaning any path modifying the sched lists (must be done with the sched
-> > lock held) should complete before we set this to true. As long as those
-> > paths also skip the list insertion, or, for things happening in a work
-> > context (thinking of the tick work here), as long as the work is not
-> > rescheduled until we get a chance to disable this work, we should be
-> > good, no?  
-> 
-> Yes that design can work. But atomics can be difficult to reason about,
-> so unless there's a good reason I think we'd generally be better
-> sticking with (simple) locks
+I'm not that familiar with fbcon and vga_switcheroo to properly review
+your patch but after reading the explanation in the commit message and
+reading the diff, the change does make sense to me.
 
-Locks alone won't prevent groups from being moved around after the
-stop_all_groups loop though. It's the lock plus the fact groups can't
-have their state changed while a reset is in progress that gives this
-guarantee, at which point I guess checking reset.in_progress with or
-without the lock held is the same, no? We do change the
-reset.in_progress state with the sched.reset.lock held though, to make
-sure any path that could move the group to a different list is out of
-the way when we exit the locked section. That means that new threads
-entering such paths (path changing the group state) will see the new
-value and bail out.
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 
-> on the slow paths, then we get the benefits
-> of lockdep etc checking we haven't messed up.
+But I think that would be good if you get some testing for the drivers
+that make use of vga_switcheroo. Also, do you need a Fixes tag ?
 
-I don't mind taking the sched lock in this slow path, but I don't think
-taking/releasing it inside panthor_sched_pre_reset() is giving any more
-safeness, because what we want is a guarantee that groups won't be
-moved around between panthor_sched_pre_reset() and
-panthor_sched_post_reset(). If that's really a change we want to push
-(reworking the locking in the reset sequence), I'd rather do that in
-its own patchset, if you don't mind.
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
