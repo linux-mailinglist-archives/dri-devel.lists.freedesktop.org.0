@@ -2,156 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF16C62F49
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 09:47:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FA23C6301E
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 09:57:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EE5E10E302;
-	Mon, 17 Nov 2025 08:47:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 327E910E307;
+	Mon, 17 Nov 2025 08:57:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="djc+SZqU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b6r8ffUL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11010006.outbound.protection.outlook.com
- [40.93.198.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6406810E302;
- Mon, 17 Nov 2025 08:47:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QN/5svfgYCwRSZgqiVVeHNRpi7bPK0pOB4+96Q+qUcNGsiqmtUc3KJdfRj+w6742/cJ59wf5bx4Qnu7Cc8sdw0igQjdt6AyYqXs6gdaRtvse5RIn8xFBzgPVNvCekXoFHFiJ4uDhmSQ9I+FoYIm6sWJX37DZBRRVRSPJ6R9oV1LYnRGZ/vE3aNgF0y6EqahsEtdxGmCo1mqq8PkIVJEqVjJvydbxKqiAj1BRrGpZ3e5xKArUvhklqUXBH4xv82Up5fHiEXFm6oMj0IAP9SjVUoCsY9T3fH1wK6aE7/lD7qHrrgQkCQxMv4T9V1P0PW/Ii6fcTUpOML0EmLS8CuM2SA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qamzGq7Ax7GfiXIkdYjNgKzKFHxcybrTBVtF0aBDo4Y=;
- b=h0GJFTXdff1c+ljisxg4GpVS9aMlO29YB+GSTlTs1ESW3t/yySG7pyWV5+6zg5fWfPtLwFB5iMIE/AwKVfiqEnlgZUl1BvOYigPFBjHT0ANhL44TUebS94oDUQhkk3PMeKysY2cm8rv4+wm7ZHMsbXTGWXc1aVCAfmLAUcAkxxpovt10KHtW9XcsIA/F+ss2DR8sR03U/cBjtnGp4Eie6u4KetUE8ujvg7DY9WUxlkU12BUPX9l0jdJArsTzVFM2ylVou7UV+2LLz3VG9BlRKFqheCWDu43Qzc25erT1SDs49kL3+7qgpOmIoLd7tlNjF32vLOwidFzIOj3N0PhDJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qamzGq7Ax7GfiXIkdYjNgKzKFHxcybrTBVtF0aBDo4Y=;
- b=djc+SZqUh1vAcKXhkn0Il6ZX8lJig4KMRcDCkgAw1xk/BE6K3N37wv7EsSMdY8qFXZWOrJrgvIirnxDBCAxRkP70k6l/NhYOfcPKPvnQvBU31zE3SwRDyaMI9yhEK6gdFMte9VTaht06QrsRk8rYAohMEyGwQLGXxrbU07n9rV0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13)
- by DS7PR12MB9525.namprd12.prod.outlook.com (2603:10b6:8:251::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.21; Mon, 17 Nov
- 2025 08:47:51 +0000
-Received: from SJ0PR12MB5673.namprd12.prod.outlook.com
- ([fe80::ec7a:dd71:9d6c:3062]) by SJ0PR12MB5673.namprd12.prod.outlook.com
- ([fe80::ec7a:dd71:9d6c:3062%4]) with mapi id 15.20.9320.021; Mon, 17 Nov 2025
- 08:47:50 +0000
-Message-ID: <af0e47da-81ef-4247-ae10-52048d797291@amd.com>
-Date: Mon, 17 Nov 2025 09:47:39 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/20] drm/amdgpu: round robin through clear_entities
- in amdgpu_fill_buffer
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20251113160632.5889-1-pierre-eric.pelloux-prayer@amd.com>
- <20251113160632.5889-12-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20251113160632.5889-12-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0041.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:c7::11) To SJ0PR12MB5673.namprd12.prod.outlook.com
- (2603:10b6:a03:42b::13)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE95910E306
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 08:57:52 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-343ea89896eso3965580a91.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 00:57:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1763369872; x=1763974672; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Wv78zHeBNr1UA9v2/9FsEFlSLafZ0Pl5MgNra/ozcuw=;
+ b=b6r8ffULTa1e02Urkz+u4oz9CuuJEW4F8UDRD+1xInWqJqhzLVSa7vUSoWZHntDCIN
+ 53DbX7nU29b/SnKzIDxMvT3Xvkr5wvoNzCagZeOmgUwisckexDnGfeOm3c2Gp5vFc/yW
+ IP+JvFFDT/kEIG+ytYstL3iFbxrqr5FzyeZW59CUqQoLYpIcYae+YJpiNcTiSFsgB6jr
+ EAICDqHHJyjmjr5y7xhjooFK5udh0zd1sT+h/K8TYyjB/ktb9mKnsgrRageAP+Oo+/aO
+ 6D0ZzhYF2NRxdTNPp4LaxDyPtaqMLlV3X0+WvGewD0FbAWGV59NllfywSPxiLzXbBNTm
+ 5uJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763369872; x=1763974672;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Wv78zHeBNr1UA9v2/9FsEFlSLafZ0Pl5MgNra/ozcuw=;
+ b=IyHowcwtw1CppW2IkjtQXz+wyqrgGoRZ/gZdxRubxjn2JEsXppYcpblkXC/B5GXSdz
+ 2QgSkaDChdkhfaWUwkOvA6MeZK98NyEF3YWMIIJmCAIztEk+KI01sB2vHkDNLRRIjxNB
+ Ac+kD/cIGBf6eptLJmH34lFk12aOTPnTWbfER+UDO3a0rSkVtSTDIp1q/4WerAnX+RBt
+ fhkQTlxiVdkqqD/b9Vt1kOjaYuFideAYjO6NhSHh8U1Xne7nNoZzntT63Gxu8kknakH8
+ 4ctVlR500LHqxCjsmDeYEqEd4EmGxVyAbiHHBIqkejCIN3LL9EmhNAcED9ueh8LpG8Bb
+ skrw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX9cIwDZ94Fiv0dy4xRrLHKuvd2Iif7UfLDhBe0QHCPWlEqSfAlqUehCozcwADQo6O7xIQJmfRrGuk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzIzavjUnRHS3Uz9RZaMGU7vYC7Aoz9+2b9qd7xZ/kd96H9XK8Z
+ PUZEpeNvNbzKCuAfoTyjC5mJrzczZUB0gp8P4FoNt99KOY4eGIW2YSh7KYhf8Gr8nsT/OQHTSip
+ yoN07G9IN/3YrCMaA6EBXTdcf8Q8sCa8=
+X-Gm-Gg: ASbGncs368M+Akdo8a7TzVC2VMZTh+v0lCKGkkceYglCSHHlnUuceIMKgJgo+efiay5
+ I48fnqefzIvGLuFcjLGvn0km9WDR7TNPFRHqra81hbKBNqrxmKQQSOMVgtuQ6y5Qa+II2JGkYlL
+ L+cow+TQ14DvwMnTAikfLM4BbPLP41T+KHlCuWtF6/zqDM7jOsRN0dSGaJ9un55tJGtOspQQSIR
+ kkcM2X1mkLNTull6zWV4Soygbut8+5KxXLlFpOoB65yPEl1MisLqmjDHSY=
+X-Google-Smtp-Source: AGHT+IFdfo50t9dB3Gj4NTWyj/ck9AzkRLi9oxNKu+pf1V3BFtb9qzQ7KE/x9iBcTBzRkg0Oxfi+b0PymTaN2bySU/Y=
+X-Received: by 2002:a17:90b:3dc7:b0:32b:baaa:21b0 with SMTP id
+ 98e67ed59e1d1-343f9e90610mr12774302a91.6.1763369872376; Mon, 17 Nov 2025
+ 00:57:52 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB5673:EE_|DS7PR12MB9525:EE_
-X-MS-Office365-Filtering-Correlation-Id: be706e8f-6f3a-4193-6991-08de25b5fd71
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QU5neWdPUzdiUmUxYzVBRUM5dVRJRTJBMERNMlFXZmlRR1BFRndia295YVZZ?=
- =?utf-8?B?cGRJbHNQMFJPdS9wcnhvTGhZalBmbGdkWitvY1hDV3laWVl6YXR2aThnaWgr?=
- =?utf-8?B?bTRUaUUxNm1XMnVPNzhjYlRXRDhvdUFnRGRiWEZ3cmVjWHkrdVBGbkxjUGtX?=
- =?utf-8?B?bU1XVlc2SnljMkRhTEtmb3EwdXpsTTdtYncreml4bGM1WTFFK25odTc2MnI2?=
- =?utf-8?B?QjFkZnE2UUdkc1FDNFY4c2Fsdk1Fb0F5eEZPY2dvV3JTSExVQTh5RTFjaUZU?=
- =?utf-8?B?TFV4WEZwVGVVRnpCaUlHdkpwVDRDdnZUaWVFaTJPRHVuNUtPZDNqVExsNEFQ?=
- =?utf-8?B?QnkvdTJMZ1hjekF3NjZUY2xma3kyRXpObkc2TVZZODNIOCtJQnVBMVJwbkcz?=
- =?utf-8?B?MDhaMzRueTAzamlla3p0Z2srZ3QwYzRWV1FueE9pS2FraGVxVlJKNCttdFhP?=
- =?utf-8?B?YjRPM0w3cWoxK0tRVE5lRFJaN1RZTHVQZEhZOHFqbEQvUW9wK0QrclJDaWFH?=
- =?utf-8?B?WWt0NDVUdENlcFNjdDU1SnNmdGs5U0xMRHFlSnFSQm84QkRZU3dBZDFYUVlV?=
- =?utf-8?B?aERWOFlwU1JVVW9qMGZSMjV3aHAveFVyNXFBbjJpNGEwRWoxdFNwSUw3Q29Q?=
- =?utf-8?B?aE5ZWkc5SWdkLzJ0WDducVBwZE0vcXE5eVR0Sk9LemhKT2J4NG5FRXNtMHk1?=
- =?utf-8?B?ak5PM3B1NTlOZE9ZZ2ZIOTY4WXhSckMwQ3ZYQXV4OXBLRTdnSmlXMEtCam1F?=
- =?utf-8?B?MnR1WXRzaVlZWS9nV2Q3M0RHQVpHN1Q5Q0ZQNVc4U1luWjNjRnlYbTg5Witw?=
- =?utf-8?B?QTBwRVJUdGNBblpZbFY1KzRjU3lMK3VFYUNZYjJIUCtqaVA3VlN2SmtBNVJ5?=
- =?utf-8?B?cVlPaGM0aXlRTDNBOW5nVHdRSVBhVHZwb1I5ck1JdFpON0lwS1NWV1JkTUtU?=
- =?utf-8?B?M2R4Nlp5UGgyRzdzQTVGNS8zSEozSVBYdmtGUzkxTEVCYUIzK2ZiTmlXTWE5?=
- =?utf-8?B?SWNtT3UyYUlWeUMxNDZIeUJReU5wQmIzbkczdHFRYllYSGw1L05VbzBuVW04?=
- =?utf-8?B?V29OUkJxVjBOekE4ZEJVNTl1QjdtYlppWU91L0F0Tk40eXpLV1V0Z1RiU2Yw?=
- =?utf-8?B?dHlBTEJhSjJxN2VTQ3Y5VFRTcytXVzJiSU9oVkNmcldHcHpsWVh2OXZuYWFS?=
- =?utf-8?B?dXhlM0hTaWVMeGoreGJQRUo5OFU0RUt0UUlTSjVzY3lkc1BHSXMxbDlhT3lV?=
- =?utf-8?B?NE5RRGM2U1g2VFo3QUhHTWhKSFJnNFdmMGtTa3hjYWtCemVoSE0rMUJ6Ymsy?=
- =?utf-8?B?OVBSRzR6TllvSkRmWGQxb0lnRXFHVTYxYXZ5ZEljNVY2eHdJUERJbnF4VTF3?=
- =?utf-8?B?eGF5ckt1SUNlL2FHV0UvaGFLbDBNbGFqRmdHZEJSZXIxL3lQa1pQeks1RXBJ?=
- =?utf-8?B?b1R6aWZFaEN2aUtDdTh4OWFrRW1GSUtJeTZiMjdBMlNsNWxFdjlZZDBORU5Z?=
- =?utf-8?B?OHpMSEVyY09IT3lneE9GTFc1ZUZkc1FCeWVFRURlZmFORTFWaUg3Y1ROeE5F?=
- =?utf-8?B?MitJM01ZUzhCalhVVWVVci94clFJbmV5RWdtdGNUM3E0QXVyV1hFcVUxa3Rr?=
- =?utf-8?B?SllSdWt0TnYvczU4RmQvV0pFcXB0bEJBT1Azd3lrdEZ2Y3JqTGZTMCtOR3Jj?=
- =?utf-8?B?YTFiN3pOVkF4NzdMSWNIV0phd21RT0NHQ081M0NjVzRIdXpSd1FnVHlLbDJk?=
- =?utf-8?B?NERNa1VKUDJaTndrZkRUZnl2Vld3cThObUs3VXlUY0RoVmpmSGxUcXRCRDlD?=
- =?utf-8?B?ZGxNbG9kMUFaOFhocEs5blJSSXNWNVE1SEdSeERFbkVqZDNQZnM5VWtxZHdu?=
- =?utf-8?B?VDJLRmFGZlhkTkVxdExHK2FsN2lnbWp4cW5HMEoycUlLU2MxelQxQlFCM3k1?=
- =?utf-8?Q?wITks5Uh2Ucp0uk9xn11RLGDAzYz+kul?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR12MB5673.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UGYxdmM2Q3l2QUlNOHpNUGhESGFQemxEMEhjQ0ZLWkpFTkNpdmpwZjdnakk5?=
- =?utf-8?B?eXZ5d3BYWWpTL3RmSWdiOVQ0VTlUSnEybWJTSUF0SWRCb3J6Zi9lcW52U3E0?=
- =?utf-8?B?SGVOazBXZDg0VW05enhKNDlGS2hkMVN0RWtDNnZNR2JmMFErbjhFZkNBRkFl?=
- =?utf-8?B?ajFLVUViRVFOcW9EWlZWNnA4QkpPcGZsc2VwWW5iTnhRclRwWDNFN1owc25D?=
- =?utf-8?B?bU5tVHVwMXpVOUlpbkJIKzd2T0c1cSs5cXJPTFBMK3RNQ2UvbzFNS0JCNkcx?=
- =?utf-8?B?VUg4UklmZHRKRTdxNHlsb2l4VVgyemdRSzlOVFRuR2FWdkorMVkwMlVnT3RF?=
- =?utf-8?B?R3J5cFRJWFYyUlRwdUtnK3NYdGVJT1J1bEVoMGpNTkdseXRjc01NcmdkNW1R?=
- =?utf-8?B?dDhUV0FqcEY4WjYrODdrbUNBN3hQZjN3Z0FrcVBGdFNpb2FxWVk5Nk03R09i?=
- =?utf-8?B?dzhDZEl6dWJUR1dMSXYxM0tXNTl0WnF4V1BlOUgxeE85QkIyT0tSUUluakE5?=
- =?utf-8?B?bzF4Mi8xeHZEVWNIMG9zdTVpMi9YMzJFWGFMZjJ2dU42eHcrMGs5b3BOdDRT?=
- =?utf-8?B?bFk5aWRTcCtUMFlESDBEQ0cwbHR2Rkh5VXlaVmhyajY2a0J4KzRrSyswdHRS?=
- =?utf-8?B?RzZRTU9wd2hSYWxDQ01PdS9oU2hXb1kxbndPREd5MXJvRGI3dTRlcFJHd2Zv?=
- =?utf-8?B?M0xHbW5ETDVCN0g4V01ZK2QzTU1INVRpSFY1Yk5Xc3JxdGNPMGM4VndPY2pz?=
- =?utf-8?B?WmdUVmtOaFgwY25EbzM3STQyOXhKZzlCT1pRYi9aVlU4NGV6a2k1Q2J3MzdL?=
- =?utf-8?B?U1JLZ0NIeEFvSWhLd0xGNCtva05KR0FORG9TS3NrQkI4NEVVTDZzWWVpRmdp?=
- =?utf-8?B?MWRuU3dvU3RORjE1dDBVVmZabC8rSklTaXpXd2ZZRHVMcmtvWmVpM0FmdlRx?=
- =?utf-8?B?Z3FJa1pBbWNTN0t1bmJBWDcwc29pTTE1eFdnVElaMHNrbEVCU0p3YTBZQzcz?=
- =?utf-8?B?aGdzalY3Q2VudlFNcXdBckRMNEhCVlljREV2TlJ6azRKRmtIVWtBbEo4QlFK?=
- =?utf-8?B?VGVVZEk5ZElIZ0ZjY2RCNjdwZDZtenhSZ2RQaTFFbGJtdUNDUW1wNXEydWxV?=
- =?utf-8?B?V3BWNGhQR3o5SkhzbmFuWW1YdWt5akh4OVpQeldKZ2ZHcTRla3o4Mk9XdGhm?=
- =?utf-8?B?L0U1OW5UNDNRSldKd2RNM2Jjc3ZiNFVlZlg2YW82dFlMVHFweFk3OThPcUhm?=
- =?utf-8?B?Nml0QzVaNytWeUZna2xXai9PUFRjYVJvZlhjZXdlYmh6dTE0aDY1d1c2NFdT?=
- =?utf-8?B?SUdnUXJYc1hxR05UV3htc0Q1a3MrRFdkZUdYc3hsM1JHNFNRcHBoMXVtTHhs?=
- =?utf-8?B?SkNEdWkxVGRSZ2hYbDBvUmRPU1dEZVd1cGdzdXpzNmh6Z3BlNXR4YzBBbGJw?=
- =?utf-8?B?MkgvdTdLUmtNMnphUWNqd3FiN1p1cEVGZjRhNFRiUEErSDc2WlpkdStjK09U?=
- =?utf-8?B?N3RUSmlDYm42TTBEMmNzRjJJSWdUTytlUTFNZXI2ZDRPRE9xVlZkb1ZzMlN4?=
- =?utf-8?B?dHE3ZEdZNWMyKzlHL0hleGJaWTljR0wzbWlwaEppOVYxY3VVL0lzaEphcXUv?=
- =?utf-8?B?dHZkcDV4aW9oMldKKzBDZDE3N0hONEpTUXlVdk56SzFPOXRjSU9PY0I1M0Iy?=
- =?utf-8?B?QnhPbXRGdkIwVDJIdUVNSVlZRHYyeVhRaDYreHRCZ2pjZnZIN05mQUx2R1Iw?=
- =?utf-8?B?Q3E5N1FzTFJLRkpqSTd0S2UrS3F1SklXVXVObHBnc3cwbWtmVXhSZ1VNNjZs?=
- =?utf-8?B?UnVmZjllYmJiWU1xSVdVaVluMUc4bXFqdFcvQkN6MlkxdDNlOXRsRU0yUlQr?=
- =?utf-8?B?a2diOGVZZWJQd1J6bWVLVjUvTkEyV2F6RmZ2cGVHZzFXRWtwRU8vZHloamxx?=
- =?utf-8?B?TzBOSDI1T2JMTmVwd29aQkJudnRKS2l1YlVPVkZ6cW9lNjBNelB2WHVzS3VY?=
- =?utf-8?B?N05DTnVUYmlmb3R3QTdZU3N3Zi83QjhLSm1jT2RqenEyejcyRDNZNERoRTB2?=
- =?utf-8?B?bG9kbHNnaWlXQ3BEaEFnc1RNbG4vanRIUnNVMHpYVmsvOU5tZmZzSkMzTkZZ?=
- =?utf-8?Q?6XeN+M2mIHoARR+EQuUEIVg2Q?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: be706e8f-6f3a-4193-6991-08de25b5fd71
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2025 08:47:50.7751 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2XOVa+N7sz6fCB3E3a445NF928AWCEPslN9G8tSyFZN2PHqzwQ4M+V+R0NjqbbqI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB9525
+References: <20250630202703.13844-1-gert.wollny@collabora.com>
+ <20251110144625.18653-1-gert.wollny@collabora.com>
+ <20251110144625.18653-5-gert.wollny@collabora.com>
+In-Reply-To: <20251110144625.18653-5-gert.wollny@collabora.com>
+From: Christian Gmeiner <christian.gmeiner@gmail.com>
+Date: Mon, 17 Nov 2025 09:57:39 +0100
+X-Gm-Features: AWmQ_bknvXNjse9vyXgp3S0IV78TVBPNJzHwhon3lvHrjpSRCyz72zjZuaE5W-Q
+Message-ID: <CAH9NwWerm4c4vZ8LYnwnwxMic6q-UdFxTz-rm=cYifQ1kYZEtA@mail.gmail.com>
+Subject: Re: [PATCH v4 4/5] drm/etnaviv: Add PPU flop reset
+To: gert.wollny@collabora.com
+Cc: Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ etnaviv@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,84 +87,403 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/13/25 17:05, Pierre-Eric Pelloux-Prayer wrote:
-> This makes clear of different BOs run in parallel. Partial jobs to
-> clear a single BO still execute sequentially.
-> 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> From: Gert Wollny <gert.wollny@collabora.com>
+>
+> The PPU flop reset is required on some hardware to clear the
+> temporary registers. This code follows the implementation
+> of the PPU flop reset as found in the public galcore kernel
+> module. Compared to that code some superfluous parts were
+> removed and only the code path for SoC chip_model = 0x8000
+> and revision = 0x6205 is implemented and tested.
+>
+> v2: - Move flop reset data to etnaviv_drm_private and initialize it
+>       from etnaviv_gpu_bind (Lucas)
+>     - Prepare code for more chip IDs and other flop reset types
+>     - Do some cleanups and rename some functions
+>
+> v3: - Move initialization of flop reset data to etnaviv_gpu_init (Lucas)
+>     - Free PPU data suballocation (Lucas)
+>
+> v4: As suggested by Christian Gmeiner:
+>     - replace "asm-generic/int-ll64.h" with "linux/types.h"
+>     - drop flop reset type enum since we only support one type here
+>     - move function return parameters on same line with function name
+>     - replace open coded for loop with memset32
+>     - add cnost to local static values
+>     - add a return value to etnaviv_flop_reset_ppu_init; handle and
+>       pass errors on to the caller
+>     - handle etnaviv_flop_reset_ppu_init return value
+>     - use dev_err for flop reset error message
+>     - fix include guard to be consistent with the other driver code
+>     - fix license header and formatting
+>
+> Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 9 ++++++++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    | 1 +
->  3 files changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> index be3532134e46..33b397107778 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> @@ -1321,7 +1321,7 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
->  	if (r)
->  		goto out;
->  
-> -	r = amdgpu_fill_buffer(&adev->mman.clear_entities[0], abo, 0, &bo->base._resv,
-> +	r = amdgpu_fill_buffer(NULL, abo, 0, &bo->base._resv,
->  			       &fence, NULL, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
->  	if (WARN_ON(r))
->  		goto out;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index 411997db70eb..486c701d0d5b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -2224,6 +2224,7 @@ u32 amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
->  		adev->mman.clear_entities = kcalloc(num_clear_entities,
->  						    sizeof(struct amdgpu_ttm_buffer_entity),
->  						    GFP_KERNEL);
-> +		atomic_set(&adev->mman.next_clear_entity, 0);
->  		if (!adev->mman.clear_entities)
->  			goto error_free_entity;
->  
-> @@ -2489,7 +2490,7 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
->  	struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
->  	struct dma_fence *fence = NULL;
->  	struct amdgpu_res_cursor dst;
-> -	int r;
-> +	int r, e;
->  
->  	if (!adev->mman.buffer_funcs_enabled) {
->  		dev_err(adev->dev,
-> @@ -2497,6 +2498,12 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
->  		return -EINVAL;
->  	}
->  
-> +	if (entity == NULL) {
-> +		e = atomic_inc_return(&adev->mman.next_clear_entity) %
-> +				      adev->mman.num_clear_entities;
-> +		entity = &adev->mman.clear_entities[e];
-> +	}
+>  drivers/gpu/drm/etnaviv/Makefile             |   1 +
+>  drivers/gpu/drm/etnaviv/etnaviv_buffer.c     |   6 +
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c        |   3 +
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.h        |   3 +
+>  drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c | 204 +++++++++++++++++++
+>  drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h |  21 ++
+>  drivers/gpu/drm/etnaviv/etnaviv_gpu.c        |  11 +
+>  7 files changed, 249 insertions(+)
+>  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
+>  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h
+>
+> diff --git a/drivers/gpu/drm/etnaviv/Makefile b/drivers/gpu/drm/etnaviv/Makefile
+> index 46e5ffad69a6..903101e8751a 100644
+> --- a/drivers/gpu/drm/etnaviv/Makefile
+> +++ b/drivers/gpu/drm/etnaviv/Makefile
+> @@ -14,6 +14,7 @@ etnaviv-y := \
+>         etnaviv_iommu.o \
+>         etnaviv_mmu.o \
+>         etnaviv_perfmon.o \
+> +       etnaviv_flop_reset.o \
+>         etnaviv_sched.o
+>
+>  obj-$(CONFIG_DRM_ETNAVIV)      += etnaviv.o
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> index 5be9978e34d9..7b5f4da85a1f 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
+> @@ -19,6 +19,8 @@
+>  #include "state_3d.xml.h"
+>  #include "cmdstream.xml.h"
+>
+> +#include "etnaviv_flop_reset.h"
 > +
+>  static void etnaviv_cmd_select_pipe(struct etnaviv_gpu *gpu,
+>         struct etnaviv_cmdbuf *buffer, u8 pipe)
+>  {
+> @@ -101,6 +103,10 @@ u16 etnaviv_buffer_init(struct etnaviv_gpu *gpu)
+>         /* initialize buffer */
+>         buffer->user_size = 0;
+>
+> +       /* Queue in PPU flop reset */
+> +       if (etnaviv_flop_reset_ppu_require(&gpu->identity))
+> +               etnaviv_flop_reset_ppu_run(gpu);
+> +
+>         CMD_WAIT(buffer, gpu->fe_waitcycles);
+>         CMD_LINK(buffer, 2,
+>                  etnaviv_cmdbuf_get_va(buffer, &gpu->mmu_context->cmdbuf_mapping)
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.c b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> index 54ceae87b401..bb1b84eecec8 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.c
+> @@ -601,6 +601,9 @@ static void etnaviv_unbind(struct device *dev)
+>
+>         component_unbind_all(dev, drm);
+>
+> +       etnaviv_cmdbuf_free(priv->flop_reset_data_ppu);
+> +       kfree(priv->flop_reset_data_ppu);
+> +
+>         etnaviv_cmdbuf_suballoc_destroy(priv->cmdbuf_suballoc);
+>
+>         xa_destroy(&priv->active_contexts);
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_drv.h b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> index b3eb1662e90c..20dad16fd554 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_drv.h
+> @@ -48,6 +48,9 @@ struct etnaviv_drm_private {
+>         /* list of GEM objects: */
+>         struct mutex gem_lock;
+>         struct list_head gem_list;
+> +
+> +       /* ppu flop reset data */
+> +       struct etnaviv_cmdbuf *flop_reset_data_ppu;
+>  };
+>
+>  int etnaviv_ioctl_gem_submit(struct drm_device *dev, void *data,
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
+> new file mode 100644
+> index 000000000000..7c0112b3b3ad
+> --- /dev/null
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.c
+> @@ -0,0 +1,204 @@
+> +/* SPDX-License-Identifier: GPL-2.0
+> + *
+> + * Copyright (C) 2025 Etnaviv Project
+> + */
+> +
+> +#include "asm-generic/errno-base.h"
 
-Oh, that is really ugly.
+#include <linux/errno.h>
 
-I think you should have something like amdgpu_ttm_next_clear_entity() which returns the pointer round robin.
 
-And then give that as parameter to amdgpu_fill_buffer().
+> +#include "linux/dev_printk.h"
+> +#include "linux/string.h"
+> +#include "linux/types.h"
 
-Regards,
-Christian.
+#include <linux/dev_printk.h>
+#include <linux/string.h>
+#include <linux/types.h>
 
->  	amdgpu_res_first(bo->tbo.resource, 0, amdgpu_bo_size(bo), &dst);
->  
->  	mutex_lock(&entity->gart_window_lock);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> index e8f8165f5bcf..781b0bdca56c 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> @@ -73,6 +73,7 @@ struct amdgpu_mman {
->  
->  	struct amdgpu_ttm_buffer_entity default_entity; /* has no gart windows */
->  	struct amdgpu_ttm_buffer_entity *clear_entities;
-> +	atomic_t next_clear_entity;
->  	u32 num_clear_entities;
->  	struct amdgpu_ttm_buffer_entity move_entities[TTM_NUM_MOVE_FENCES];
->  	u32 num_move_entities;
 
+> +#include "etnaviv_buffer.h"
+> +#include "etnaviv_cmdbuf.h"
+> +#include "state_3d.xml.h"
+> +
+> +#include "etnaviv_flop_reset.h"
+> +
+> +#define PPU_IMAGE_STRIDE 64
+> +#define PPU_IMAGE_XSIZE 64
+> +#define PPU_IMAGE_YSIZE 6
+> +
+> +#define PPU_FLOP_RESET_INSTR_DWORD_COUNT 16
+> +
+> +static void etnaviv_emit_flop_reset_state_ppu(struct etnaviv_cmdbuf *cmdbuf,
+> +                                             u32 buffer_base, u32 input_offset,
+> +                                             u32 output_offset,
+> +                                             u32 shader_offset,
+> +                                             u32 shader_size,
+> +                                             u32 shader_register_count)
+> +{
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_GL_API_MODE, VIVS_GL_API_MODE_OPENCL);
+> +       CMD_SEM(cmdbuf, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
+> +       CMD_STALL(cmdbuf, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
+> +
+> +       CMD_LOAD_STATES_START(cmdbuf, VIVS_SH_HALTI5_UNIFORMS(0), 4);
+> +
+> +       OUT(cmdbuf, buffer_base + input_offset);
+> +       OUT(cmdbuf, PPU_IMAGE_STRIDE);
+> +       OUT(cmdbuf, PPU_IMAGE_XSIZE | (PPU_IMAGE_YSIZE << 16));
+> +       OUT(cmdbuf, 0x444051f0);
+> +       OUT(cmdbuf, 0xffffffff);
+> +
+> +       CMD_LOAD_STATES_START(cmdbuf, VIVS_SH_HALTI5_UNIFORMS(4), 4);
+> +       OUT(cmdbuf, buffer_base + output_offset);
+> +       OUT(cmdbuf, PPU_IMAGE_STRIDE);
+> +       OUT(cmdbuf, PPU_IMAGE_XSIZE | (PPU_IMAGE_YSIZE << 16));
+> +       OUT(cmdbuf, 0x444051f0);
+> +       OUT(cmdbuf, 0xffffffff);
+> +
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_CONFIG,
+> +                      VIVS_CL_CONFIG_DIMENSIONS(2) |
+> +                              VIVS_CL_CONFIG_VALUE_ORDER(3));
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_VS_ICACHE_INVALIDATE, 0x1f);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_VARYING_NUM_COMPONENTS(0), 0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_TEMP_REGISTER_CONTROL,
+> +                      shader_register_count);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_SAMPLER_BASE, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_UNIFORM_BASE, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_NEWRANGE_LOW, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_NEWRANGE_HIGH, shader_size / 16);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_INST_ADDR, buffer_base + shader_offset);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_SH_CONFIG, VIVS_SH_CONFIG_RTNE_ROUNDING);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_VS_ICACHE_CONTROL,
+> +                      VIVS_VS_ICACHE_CONTROL_ENABLE);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_ICACHE_COUNT, shader_size / 16 - 1);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_INPUT_COUNT, 0x1f01);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_VS_HALTI5_UNK008A0, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PA_VS_OUTPUT_COUNT, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_GL_VARYING_TOTAL_COMPONENTS, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_CONTROL_EXT, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_VS_OUTPUT_COUNT, 0x1);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_GL_HALTI5_SH_SPECIALS, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_PS_ICACHE_PREFETCH, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_UNK00924, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_THREAD_ALLOCATION, 0x1);
+> +
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_GLOBAL_WORK_OFFSET_X, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_GLOBAL_WORK_OFFSET_Y, 0x0);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_GLOBAL_WORK_OFFSET_Z, 0x0);
+> +
+> +       CMD_LOAD_STATES_START(cmdbuf, VIVS_CL_WORKGROUP_COUNT_X, 9);
+> +       OUT(cmdbuf, 0xf);
+> +       OUT(cmdbuf, 0x5);
+> +       OUT(cmdbuf, 0xffffffff);
+> +       OUT(cmdbuf, 0x0);
+> +       OUT(cmdbuf, 0x0);
+> +       OUT(cmdbuf, 0x3ff);
+> +       OUT(cmdbuf, 0x0);
+> +       OUT(cmdbuf, 0x4);
+> +       OUT(cmdbuf, 0x1);
+> +       OUT(cmdbuf, 0x0);
+> +
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_CL_KICKER, 0xbadabeeb);
+> +       CMD_LOAD_STATE(cmdbuf, VIVS_GL_FLUSH_CACHE,
+> +                      VIVS_GL_FLUSH_CACHE_SHADER_L1 |
+> +                              VIVS_GL_FLUSH_CACHE_UNK10 |
+> +                              VIVS_GL_FLUSH_CACHE_UNK11);
+> +}
+> +
+> +static void etnaviv_flop_reset_ppu_fill_input(u32 *buffer, u32 size)
+> +{
+> +       memset32(buffer, 0x01010101, size / 4);
+> +}
+> +
+> +static void etnaviv_flop_reset_ppu_set_shader(u8 *dest)
+> +{
+> +       static const u32 inst[PPU_FLOP_RESET_INSTR_DWORD_COUNT] = {
+> +               /* img_load.u8 r1, c0, r0.xy */
+> +               0x78011779,
+> +               0x39000804,
+> +               0x00A90050,
+> +               0x00000000,
+> +               /* img_load.u8 r2, c0, r0.xy */
+> +               0x78021779,
+> +               0x39000804,
+> +               0x00A90050,
+> +               0x00000000,
+> +               /* dp2x8 r1, r1, r2, c3_512 */
+> +               0xB8017145,
+> +               0x390018FC,
+> +               0x01C90140,
+> +               0x40390028,
+> +               /* img_store.u8 r1, c2, r0.xy, r1 */
+> +               0x380007BA,
+> +               0x39001804,
+> +               0x00A90050,
+> +               0x00390018,
+> +       };
+> +       memcpy(dest, inst, sizeof(inst));
+> +}
+> +
+> +static const struct etnaviv_flop_reset_entry {
+> +       u16 chip_model;
+> +       u16 revision;
+> +       u32 flags;
+> +} etnaviv_flop_reset_db[] = {
+> +       {
+> +               .chip_model = 0x8000,
+> +               .revision = 0x6205,
+> +       },
+> +};
+> +
+> +bool etnaviv_flop_reset_ppu_require(const struct etnaviv_chip_identity *chip_id)
+> +{
+> +       const struct etnaviv_flop_reset_entry *e = etnaviv_flop_reset_db;
+> +
+> +       for (int i = 0; i < ARRAY_SIZE(etnaviv_flop_reset_db); ++i, ++e) {
+> +               if (chip_id->model == e->chip_model &&
+> +                   chip_id->revision == e->revision)
+> +                       return true;
+> +       }
+> +
+> +       return false;
+> +}
+> +
+> +static const u32 image_data_size = PPU_IMAGE_STRIDE * PPU_IMAGE_YSIZE;
+> +static const u32 output_offset = ALIGN(image_data_size, 64);
+> +static const u32 shader_offset = ALIGN(output_offset + image_data_size, 64);
+> +static const u32 shader_size = PPU_FLOP_RESET_INSTR_DWORD_COUNT * sizeof(u32);
+> +static const u32 shader_register_count = 3;
+> +static const u32 buffer_size = shader_offset + shader_size;
+> +
+> +int etnaviv_flop_reset_ppu_init(struct etnaviv_drm_private *priv)
+> +{
+> +       /* Get some space from the rung buffer to put the payload
+> +        * (input and output image, and shader), we keep this buffer
+> +        * for the whole life time the driver is bound
+> +        */
+> +       priv->flop_reset_data_ppu =
+> +               kzalloc(sizeof(*priv->flop_reset_data_ppu), GFP_KERNEL);
+> +
+> +       if (!priv->flop_reset_data_ppu)
+> +               return -ENOMEM;
+> +
+> +       int ret = etnaviv_cmdbuf_init(priv->cmdbuf_suballoc,
+> +                                     priv->flop_reset_data_ppu, buffer_size);
+> +       if (ret)
+
+We are leaking priv->flop_reset_data_ppu here.
+
+> +               return ret;
+> +
+> +       void *buffer_base = priv->flop_reset_data_ppu->vaddr;
+> +       u32 *input_data = (u32 *)buffer_base;
+> +       u8 *shader_data = (u8 *)buffer_base + shader_offset;
+> +
+> +       etnaviv_flop_reset_ppu_fill_input(input_data, image_data_size);
+> +       etnaviv_flop_reset_ppu_set_shader(shader_data);
+> +
+> +       return 0;
+> +}
+> +
+> +void etnaviv_flop_reset_ppu_run(struct etnaviv_gpu *gpu)
+> +{
+> +       struct etnaviv_drm_private *priv = gpu->drm->dev_private;
+> +
+> +       if (!priv->flop_reset_data_ppu) {
+> +               dev_err(gpu->dev,
+> +                       "Oops: Flop reset data was not initialized, skipping\n");
+> +               return;
+> +       }
+> +
+> +       u32 buffer_base = etnaviv_cmdbuf_get_va(
+> +               priv->flop_reset_data_ppu, &gpu->mmu_context->cmdbuf_mapping);
+> +
+> +       etnaviv_emit_flop_reset_state_ppu(&gpu->buffer, buffer_base, 0,
+> +                                         output_offset, shader_offset,
+> +                                         shader_size, shader_register_count);
+> +}
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h
+> new file mode 100644
+> index 000000000000..e6dee1db788f
+> --- /dev/null
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_flop_reset.h
+> @@ -0,0 +1,21 @@
+> +/* SPDX-License-Identifier: GPL-2.0
+> + *
+> + * Copyright (C) 2025 Etnaviv Project
+> + */
+> +
+> +#ifndef _ETNAVIV_FLOP_RESET_H_
+> +#define _ETNAVIV_FLOP_RESET_H_
+> +
+> +#include <linux/types.h>
+> +
+> +struct etnaviv_chip_identity;
+> +struct etnaviv_drm_private;
+> +struct etnaviv_gpu;
+> +
+> +bool etnaviv_flop_reset_ppu_require(const struct etnaviv_chip_identity *chip_id);
+> +
+> +int etnaviv_flop_reset_ppu_init(struct etnaviv_drm_private *priv);
+> +
+> +void etnaviv_flop_reset_ppu_run(struct etnaviv_gpu *gpu);
+> +
+> +#endif
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> index ca0be293f5fe..839ffa445ce2 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+> @@ -20,6 +20,7 @@
+>
+>  #include "etnaviv_cmdbuf.h"
+>  #include "etnaviv_dump.h"
+> +#include "etnaviv_flop_reset.h"
+>  #include "etnaviv_gpu.h"
+>  #include "etnaviv_gem.h"
+>  #include "etnaviv_mmu.h"
+> @@ -839,6 +840,16 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+>                 goto fail;
+>         }
+>
+> +       if (etnaviv_flop_reset_ppu_require(&gpu->identity) &&
+> +           !priv->flop_reset_data_ppu) {
+> +               ret = etnaviv_flop_reset_ppu_init(priv);
+> +               if (ret) {
+> +                       dev_err(gpu->dev,
+> +                               "Unable to initialize PPU flop reset date\n");
+
+typo: should be data and not date
+
+> +                       goto fail;
+> +               }
+> +       }
+> +
+>         if (gpu->identity.nn_core_count > 0)
+>                 dev_warn(gpu->dev, "etnaviv has been instantiated on a NPU, "
+>                                     "for which the UAPI is still experimental\n");
+> --
+> 2.51.0
+>
+
+
+-- 
+greets
+--
+Christian Gmeiner, MSc
+
+https://christian-gmeiner.info/privacypolicy
