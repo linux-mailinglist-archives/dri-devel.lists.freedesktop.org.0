@@ -2,75 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D07C61FDC
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 02:34:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FDDDC625D3
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 06:09:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A27E10E043;
-	Mon, 17 Nov 2025 01:34:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A6B410E17D;
+	Mon, 17 Nov 2025 05:09:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="M0Whx/IN";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QY4dhIky";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m21471.qiye.163.com (mail-m21471.qiye.163.com
- [117.135.214.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 282DB10E043
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 01:34:07 +0000 (UTC)
-Received: from [172.16.12.51] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 29c3ce0df;
- Mon, 17 Nov 2025 09:33:59 +0800 (GMT+08:00)
-Message-ID: <2ebace6f-d3c4-4516-b6cb-4951de06b6c8@rock-chips.com>
-Date: Mon, 17 Nov 2025 09:33:55 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 08/10] drm/rockchip: cdn-dp: Add multiple bridges to
- support PHY port selection
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Chaoyi Chen
- <kernel@airkyi.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org
-References: <20251111105040.94-1-kernel@airkyi.com>
- <20251111105040.94-9-kernel@airkyi.com>
- <DE5YP3AVGOG3.OHP68Z0F6KBU@bootlin.com>
- <b1a339e7-a011-4b4b-8988-2e3768753c85@rock-chips.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B981610E17D;
+ Mon, 17 Nov 2025 05:09:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1763356183; x=1794892183;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=ivygQA97ARwVwVdr0pefpybvLm2Ay9oSMumYFB82p+A=;
+ b=QY4dhIkyT8pX3s6mE0KwcfEKDgT26tDhWta/dlKmQgBdOhlIPHQ8LR9J
+ RIr7yV8bPjnkg6+WtzSzoZ1Jh9hFHAgRPiqQHgydYKkrGh22woYWaTre5
+ a7zp9BN0ZV8TLl3G3ErUUEr7HzhPUt4ZSBA7Lw34bFm/JdIod3+Vby30a
+ +98CWvqKFB3toCz2kivbAG9LblGygck8pU4BfZ1tdEFhXQ4y/wii7/LbO
+ E1saZAvVUMqJ7xfA/dnTORk5JRWRX/+MIcc2g9HmvRA72xdsWbNlqr1XU
+ xY7u0nvT+RzsPcJoJxLIHE4DqGfHHwS68wntNoB986y5f01PDRwqCprPM A==;
+X-CSE-ConnectionGUID: LkxYAmLsSAK1O9AveztAjA==
+X-CSE-MsgGUID: odo5FN1HS5OPxB1ALAHbKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="65250005"
+X-IronPort-AV: E=Sophos;i="6.19,310,1754982000"; d="scan'208";a="65250005"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2025 21:09:42 -0800
+X-CSE-ConnectionGUID: 09ZlM0iOQ4qsfk4Z7b7cIQ==
+X-CSE-MsgGUID: D3Z6fzjNT3acxsI6Ys7U6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,310,1754982000"; d="scan'208";a="227686588"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+ by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Nov 2025 21:09:42 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Sun, 16 Nov 2025 21:09:41 -0800
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Sun, 16 Nov 2025 21:09:41 -0800
+Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.53) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Sun, 16 Nov 2025 21:09:40 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qSjh3mPKr7q7bHSs/Wtj6my+3H2QFml5mZcHhXqdl87Nwt222yAl5g6l2kaCbhu+PXUn/vSDC5xc9ZRQRjoJFa6/xYUioB6nsoZZ28sGOBSPaI+RGSf5Gdy7bF7tLo5K6irwBg6lscI7l+aN3okJLV/QRjYqjMa2VX0w2Pc1Bqy39m7C4+NKMxhreGqzsfcsdvltutgz4ZtesvrekDLUqfghspmUpzVr6c/Riv3CfGlXG5XZW1+T3vJWqWgw0sVsTcfVGBYi43XqJdMkmRxerKgaVu8fNc8LKahlyTMEwSGpgdDEqoS45awhzv3aKGU046ZGRMfyBV553TCWyiCObg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xzqCJgm/SPXHI9b5ups/aiYMBhYAPNrhGR0gfoWmFoQ=;
+ b=ch4uMB6IzsZyZbqwRhGCSXHKVTDKBvsSab5DuMp8IUoon1LN9/ugaMZULOWuUGXzgg0HI4417Ac4DpTDpx2qZwp3mM8rXTASgbjwzDn2Lf3F8nUGXYZm6Y6W5d3RunXJiQe8Wazc0CcQ6+gUJ5rGAc5oZXVEEGxhd6d95amPiuNnJTo5JVdXxkhNF2V1HmmOAzhnU/yKsrd+guwhNXpB4XYYYZuAVWun91CML1XBl2zcs9qIxC0+FijLjHkyXy2QogOZt6v202opVduJwilU/FvjrD5lC6M7pGp/8OAUr03wZylNKcG+/mg1bnkAsXSy5iuyM5evqgNYfS8eJ97Tdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
+ (2603:10b6:f:fc00::f13) by DM4PR11MB7759.namprd11.prod.outlook.com
+ (2603:10b6:8:10e::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.21; Mon, 17 Nov
+ 2025 05:09:38 +0000
+Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
+ ([fe80::95c9:5973:5297:d3cc]) by DM3PPF208195D8D.namprd11.prod.outlook.com
+ ([fe80::95c9:5973:5297:d3cc%6]) with mapi id 15.20.9320.021; Mon, 17 Nov 2025
+ 05:09:38 +0000
+From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>, "Deak, Imre"
+ <imre.deak@intel.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "Nautiyal, Ankit K" <ankit.k.nautiyal@intel.com>, "Murthy, Arun R"
+ <arun.r.murthy@intel.com>
+Subject: RE: [PATCH] drm/display/dp_mst: Add protection against 0 vcpi
+Thread-Topic: [PATCH] drm/display/dp_mst: Add protection against 0 vcpi
+Thread-Index: AQHcVFeIsN6bopHDnE6NSW3ozkyKJbTwREQAgACHCYCABYqGMA==
+Date: Mon, 17 Nov 2025 05:09:38 +0000
+Message-ID: <DM3PPF208195D8D4E9B5E427A947CB14523E3C9A@DM3PPF208195D8D.namprd11.prod.outlook.com>
+References: <20251113043918.716367-1-suraj.kandpal@intel.com>
+ <aRWU-ovOdSRUQI-B@ideak-desk>
+ <689e22d69f7ad9be4f4a78b5194d8c4965be8ca8@intel.com>
+In-Reply-To: <689e22d69f7ad9be4f4a78b5194d8c4965be8ca8@intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <b1a339e7-a011-4b4b-8988-2e3768753c85@rock-chips.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9a8f728a9203abkunm7f35530083703a
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGktOGlYYQ04fHUlKSkhNGEhWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
- xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=M0Whx/IN7vzwWpGNPYw1m+tNCPRjv3SM+gdWc+WtuhKETcY7rThZlrCaxI2fAlhI3391csTS8ehibRh6ex51cQ/r+4YXK3tXX6w3wypz7DSxUZKNiakt6+eBek5O66Hvb28jfRZ1ZP/4biJPialEUbDiHj1QrwZ1mtTGsdG5MX8=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=OCoPxWh+b3eSvtYMRsNlQyefUpu6kD2yKDCWJQ7xR74=;
- h=date:mime-version:subject:message-id:from;
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|DM4PR11MB7759:EE_
+x-ms-office365-filtering-correlation-id: 1a7d441c-8d53-46d7-831c-08de259781d7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|366016|1800799024|376014|38070700021;
+x-microsoft-antispam-message-info: =?us-ascii?Q?FQuZ8Z3D16i9YUXSaNSRapRIS9xSM8o4RLft2g5emTGs27ot2p/dDTRzsEZW?=
+ =?us-ascii?Q?bLYJeBubMJks7jIIfi0vYuuLbvld0nVyrGN/UdczY7HSC+Ozzq2zqp7o2ghm?=
+ =?us-ascii?Q?gT5SvlhCpy2GBIPTpCgDBp+z31UR1KXvrMS8xLHvCPTibVPgBkveIMGR+SnA?=
+ =?us-ascii?Q?DlZQ7O729dSsarwPtI+1FH8f2ZRTHeoIc+O7pgoKGe3or6YWxlbtU/ouRPj/?=
+ =?us-ascii?Q?NqrhiB0yeZKd/QvOMMo8/xCYsCb5enX5sYGCckaU3Iqy4BPbtak/D9/I0qCs?=
+ =?us-ascii?Q?1rGClG8ASLOyMB+SCGDq7CnK5I2zPyMH5GvQlTklinmi/yVkF9yURXwHPNsG?=
+ =?us-ascii?Q?pAPJJkPM4TFQMmHzSZCjpBc9hxp9XgINXXOTFghn1EImGBWsM/fLAL3qt9ED?=
+ =?us-ascii?Q?in2UUnpt7B1t/bb2/isKDURxFxKfdI2VIhQVCRNBFMYZRRI9R8mwZJBFIxah?=
+ =?us-ascii?Q?waa8TtbJFki8A/YSFcmhp6KefHilIZhiAO/9ZApajBO6jy8UhCiYaDAJyfLa?=
+ =?us-ascii?Q?1P2QnIaa7M5v351XIL09DxXg4U8DD+Ju9k5cnUh0rJEdGaDipdQylx6E/AkE?=
+ =?us-ascii?Q?Qcoa1pJ5YpfuOsaOhMopi2JPqLuGj5EaIcO0eSLcAyXRNiBYeTbbEy3CYxRQ?=
+ =?us-ascii?Q?msOnbaG0onhv8bwHlFm+WYJ+IZ3RxvxSS0Yk0wpJu45q5Ykssz8XPAYehVlu?=
+ =?us-ascii?Q?Ka5j55u9CaXuIUDDVJlA9yWzroKjHGeqahYWzSPkE7mM6pjFa6B2wnnAL14j?=
+ =?us-ascii?Q?Hc5Upwh4gkoSeP1VCVaY7l0Q4FEZMXuT9Ela6cHUw3ATrSGa2P3XHWSD3YRd?=
+ =?us-ascii?Q?9YQsBf/JuDvikUU/hmStcu7iCSJMukhPju3AdHwa39H+TxZBBHN7Qhn47aoo?=
+ =?us-ascii?Q?a5RrKcNF4eL0v6ed2fzBTmbL9XfyDhOeGPpK2sz8WsTki2oMuUNAx/w7P8tU?=
+ =?us-ascii?Q?LBN0WjXWqzva2VxeqUO2oqEkkET08UCF39UEm2uE4T32nT0FCvr+pRhX+nNc?=
+ =?us-ascii?Q?l5KuCggxKK5Fw/qGVBPwE+kOvdlhts9u1eZKlDWjW2TplE3oNbWcI5EAZYIU?=
+ =?us-ascii?Q?lr1++T+rij+JAEFeeJjYac2KEMQOMDJXgDdj0kN8jQC95+s6lCtCAsaCti6e?=
+ =?us-ascii?Q?WHiRB5cZnXC2sR6fSrHlG+Fovj0i2vjOBMhcQWDYnLS2P5ff7YM9Kmi9A6+Z?=
+ =?us-ascii?Q?IQu4nxl2bWEkRJ2LzHVuYaNetPDwvkIAX7zMde/2t/kyCXVqL/tr10xu/MvF?=
+ =?us-ascii?Q?ZOOGfMEEGFgL0mado7HTAlf50jg+MhUjP0iwazZTiVKK0grFu1dWX6LM+vI1?=
+ =?us-ascii?Q?YmRiHXZU3dsfqyVB9V7hE8Q/cEByPja3eXPkegR2BF2xT1JkNEWtTb9M8r5O?=
+ =?us-ascii?Q?060+2kq0xZFXnxnZdmrGa9lfFC1m3sE8QqHRKdrdftf9bFgEri4mSJOMBzXT?=
+ =?us-ascii?Q?ch9jFfoVwIEyex65I89SU0e91ZuH1WC0ncOKYUm2yzO2s3QCv4FT8sL/hb7C?=
+ =?us-ascii?Q?w7WMxrsE78R8q/i+gR2zTZP1NuLYRfgcofdm?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM3PPF208195D8D.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(38070700021); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?C5r6KNrGTcaEDzZiRdVuxk8zeYISOY3tP1nrdvXfR39VkCvkHL8xYO6wRnZT?=
+ =?us-ascii?Q?KQ3f9JnpVMMI3WkMc4WV+ou+634fcKxPFb2We2aTInNvirK8EUk7arVpLxGr?=
+ =?us-ascii?Q?qFxfpwGvUDY41V/twcUViKaet8W3GO7lM4FfHAM66HaOUyit5tPvoqnmMRyH?=
+ =?us-ascii?Q?P89R+4KxhW4+S83AaZSzGXZyNdo7y03byp4WPheabWFW0JA0yIAXL476OsHr?=
+ =?us-ascii?Q?7dpWvs2IitcFppRg37JCAYYchad3qfirPFkF4syWiWb0GBaCjCiusuHROnJ9?=
+ =?us-ascii?Q?jYixQIZR1KuXHLF89uIxtLpqu6Eqe6rdOkkg0fKmddsgF54nDy/MfVsHXun5?=
+ =?us-ascii?Q?1IWbF1U4aSRz28bjgd2Tc0o+yzR3liKjz6EmP9fy0xbIJgPms1N61MeK29wC?=
+ =?us-ascii?Q?AlMoNqUY0U0wu88rSl65ZWm//rB2eChVJv2uKVIa1lT1MCwxYGzkwLhUQRNQ?=
+ =?us-ascii?Q?Wi+HuU2lQwDxvvbsWqglxRwt8gyQldkIj2nfKHqcYPohfGgXzu6tff76TuNm?=
+ =?us-ascii?Q?HYT7zNEkTVAD7AFv8PZnRtMO8HBdnsM7PANmS4CHFNAfTHPcq6rBULoRGKuK?=
+ =?us-ascii?Q?nDQvUPA7/rz/fy+NfdP9IUmvuC1cxnhMIrqb/d/iAnZlt+6hE/GNfa+Z15Bw?=
+ =?us-ascii?Q?kE0+OzVffxklXdXCDf1pQRZwxT1VQuZO9gtZykHs0h0IHACv5xmg9LbeEbrd?=
+ =?us-ascii?Q?0QcNiyKJDFdQuALiAR3lWBZ8her4uxqar+x3GMwx6g0KdefC95PSUPUy/OYX?=
+ =?us-ascii?Q?2jpsR6Fr8QfbUgJEApETFJJqWYmsucGaaxPB0R+3imB7f3g3aEo7QghfHcy0?=
+ =?us-ascii?Q?FcZAEWddZ31FH4A9iQ8NlM8RSZi97dDR+5GX17jkPk5XxuhaJix2Cki8P4GN?=
+ =?us-ascii?Q?n1ULa92e0xhswX5Nfeab3kHgANlia3ra9rCT0jHzHhanqjEn+OJYwexjLwGp?=
+ =?us-ascii?Q?aY0Y+N/fX6ym6XqeQJFzZ5RxMbBWR79PomiH1deA4RSCAKZsMFLV1k6h+tbZ?=
+ =?us-ascii?Q?q9FLAYWtxfdl0j1Nn3FXkHiJVxk+MmlEiLboJ1umeX4rZ/z/5DPQ61atHsxr?=
+ =?us-ascii?Q?3KuT34yJhdoNOjjvub7LCAoiAii9STibzvkyIRaRgv7V2PPJkjhynvGrFS2H?=
+ =?us-ascii?Q?ogb2plER1SbCKvfHAiHThZVgoh+BTI+DBayPb7jERDEdzuytElwgLcxo0oBC?=
+ =?us-ascii?Q?ufaOVPiDnI6rJ+0GwXCWFOSyeOJrzWVgr8XFbIUa9SQmdtTl4TKsiKU0LB8U?=
+ =?us-ascii?Q?n0T+/UDarYKVwVKDcPMtIkrvXhC0iKXjnk8wnea/EoT7tSX5+T3Ij2mxaPy8?=
+ =?us-ascii?Q?SJ2ZuGTv2coDqToD0Ybne/sPRCfXTAV/EJ+W682eIMx6h7HdZjdGNwhyQ8kx?=
+ =?us-ascii?Q?Kq03JdxI4RZ8ZMJdQBlgUxYgkbv2gMZSsNBMHJOvcIrAV50Dx7hzoN07zd+r?=
+ =?us-ascii?Q?Va2BAntCdLNgtPReKe8K/PxMHUi+SV/NgugQb1vN7tNTfECb0PokJk8krRPH?=
+ =?us-ascii?Q?xQVB5mdqerBPR3ggmX8oArKdRFMReZoEIwkZkpGzrRFQB1cW3wjXiWfSbdrf?=
+ =?us-ascii?Q?1mWck+dGph+OcSWPa+Y6+6Ru+JP0DwuGEeFSagI+?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a7d441c-8d53-46d7-831c-08de259781d7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2025 05:09:38.1836 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: dqE7aLCaX4/fj/LOkU9+HGlHVZO1qwaH4HHFMjgxhNIMpL9q7FXLvEXh5ExkCu5g3wjMF6pP90q8mTmRm8b8RA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7759
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,168 +186,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Luca,
-
-On 11/12/2025 9:37 AM, Chaoyi Chen wrote:
-> Hello Luca,
->
-> On 11/11/2025 11:14 PM, Luca Ceresoli wrote:
->> Hello Chaoyi,
->>
->> On Tue Nov 11, 2025 at 11:50 AM CET, Chaoyi Chen wrote:
->>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>>
->>> The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
->>> the CDN-DP can be switched to output to one of the PHYs. If both ports
->>> are plugged into DP, DP will select the first port for output.
->>>
->>> This patch adds support for multiple bridges, enabling users to flexibly
->>> select the output port. For each PHY port, a separate encoder and bridge
->>> are registered.
->>>
->>> The change is based on the DRM AUX HPD bridge, rather than the
->>> extcon approach. This requires the DT to correctly describe the
->>> connections between the first bridge in bridge chain and DP
->>> controller. For example, the bridge chain may be like this:
->>>
->>> PHY aux birdge -> fsa4480 analog audio switch bridge ->
->>> onnn,nb7vpq904m USB reminder bridge -> USB-C controller AUX HPD bridge
->>>
->>> In this case, the connection relationships among the PHY aux bridge
->>> and the DP contorller need to be described in DT.
->>>
->>> In addition, the cdn_dp_parse_next_bridge_dt() will parses it and
->>> determines whether to register one or two bridges.
->>>
->>> Since there is only one DP controller, only one of the PHY ports can
->>> output at a time. The key is how to switch between different PHYs,
->>> which is handled by cdn_dp_switch_port() and cdn_dp_enable().
->>>
->>> There are two cases:
->>>
->>> 1. Neither bridge is enabled. In this case, both bridges can
->>> independently read the EDID, and the PHY port may switch before
->>> reading the EDID.
->>>
->>> 2. One bridge is already enabled. In this case, other bridges are not
->>> allowed to read the EDID. So we will try to return the cached EDID.
->>>
->>> Since the scenario of two ports plug in at the same time is rare,
->>> I don't have a board which support two TypeC connector to test this.
->>> Therefore, I tested forced switching on a single PHY port, as well as
->>> output using a fake PHY port alongside a real PHY port.
->>>
->>> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->> [...]
->>
->>> @@ -966,28 +1084,16 @@ static int cdn_dp_pd_event(struct notifier_block *nb,
->>>       return NOTIFY_DONE;
->>>   }
->>>
->>> -static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
->>> +static int cdn_bridge_add(struct device *dev,
->>> +              struct drm_bridge *bridge,
->>> +              struct drm_bridge *next_bridge,
->>> +              struct drm_encoder *encoder)
->>>   {
->>>       struct cdn_dp_device *dp = dev_get_drvdata(dev);
->>> -    struct drm_encoder *encoder;
->>> +    struct drm_device *drm_dev = dp->drm_dev;
->>> +    struct drm_bridge *last_bridge = NULL;
->>>       struct drm_connector *connector;
->>> -    struct cdn_dp_port *port;
->>> -    struct drm_device *drm_dev = data;
->>> -    int ret, i;
->> [...]
->>
->>> +    if (next_bridge) {
->>> +        ret = drm_bridge_attach(encoder, next_bridge, bridge,
->>> +                    DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->>> +        if (ret)
->>> +            return ret;
->>> +
->>> +        last_bridge = next_bridge;
->>> +        while (drm_bridge_get_next_bridge(last_bridge))
->>> +            last_bridge = drm_bridge_get_next_bridge(last_bridge);
->> DRM bridges are now refcounted, and you are not calling drm_bridge_get()
->> and drm_bridge_put() here. But here you can use
->> drm_bridge_chain_get_last_bridge() which will simplify your job.
->>
->> Don't forget to call drm_bridge_put() on the returned bridge when the
->> bridge is not referenced anymore. This should be as easy as adding a
->> cleanup action on the variable declaration above:
->>
->> -    struct drm_bridge *last_bridge = NULL;
->> +    struct drm_bridge *last_bridge __free(drm_bridge_put) = NULL;
->
-> Ah, I have seen your patch about this. Thank you for the reminder, I will fix this in v10.
->
->>
->>> @@ -1029,8 +1147,102 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
->>>           return ret;
->>>       }
->>>
->>> +    if (last_bridge)
->>> +        connector->fwnode = fwnode_handle_get(of_fwnode_handle(last_bridge->of_node));
->>> +
->>>       drm_connector_attach_encoder(connector, encoder);
->>>
->>> +    return 0;
->>> +}
->>> +
->>> +static int cdn_dp_parse_next_bridge_dt(struct cdn_dp_device *dp)
->>> +{
->>> +    struct device_node *np = dp->dev->of_node;
->>> +    struct device_node *port __free(device_node) = of_graph_get_port_by_id(np, 1);
->>> +    struct drm_bridge *bridge;
->>> +    int count = 0;
->>> +    int ret = 0;
->>> +    int i;
->>> +
->>> +    /* If device use extcon, do not use hpd bridge */
->>> +    for (i = 0; i < dp->ports; i++) {
->>> +        if (dp->port[i]->extcon) {
->>> +            dp->bridge_count = 1;
->>> +            return 0;
->>> +        }
->>> +    }
->>> +
->>> +
->>> +    /* One endpoint may correspond to one next bridge. */
->>> +    for_each_of_graph_port_endpoint(port, dp_ep) {
->>> +        struct device_node *next_bridge_node __free(device_node) =
->>> +            of_graph_get_remote_port_parent(dp_ep);
->>> +
->>> +        bridge = of_drm_find_bridge(next_bridge_node);
->>> +        if (!bridge) {
->>> +            ret = -EPROBE_DEFER;
->>> +            goto out;
->>> +        }
->>> +
->>> +        dp->next_bridge_valid = true;
->>> +        dp->next_bridge_list[count].bridge = bridge;
->> You are storing a reference to a drm_bridge, so have to increment the
->> refcount:
->>
->>         dp->next_bridge_list[count].bridge = drm_bridge_get(bridge);
->>                                              ^^^^^^^^^^^^^^
->>
->> FYI there is a plan to replace of_drm_find_bridge() with a function that
->> increases the bridge refcount before returning the bridge, but it's not
->> there yet. When that will happen, the explicit drm_bridge_get() won't be
->> needed anymore and this code can be updated accordingly.
-
-Out of curiosity, I checked the callers of of_drm_find_bridge(), and it seems that the vast majority of them do not pay attention to the increase or decrease of reference counts. Does this mean that even if we add reference counting in of_drm_find_bridge(), we still need to modify the corresponding functions of their callers and decrease the reference count at the appropriate time? Thank you.
 
 
->>
->> Also you have to call drm_bridge_put() to release that reference when the
->> pointer goes away. I guess that should happen in cdn_dp_unbind().
->
-> You're right, this is indeed a pitfall. I will fix it in v10.
->
->
--- 
-Best,
-Chaoyi
+> -----Original Message-----
+> From: Jani Nikula <jani.nikula@linux.intel.com>
+> Sent: Thursday, November 13, 2025 9:55 PM
+> To: Deak, Imre <imre.deak@intel.com>; Kandpal, Suraj
+> <suraj.kandpal@intel.com>
+> Cc: dri-devel@lists.freedesktop.org; intel-xe@lists.freedesktop.org; inte=
+l-
+> gfx@lists.freedesktop.org; Nautiyal, Ankit K <ankit.k.nautiyal@intel.com>=
+;
+> Murthy, Arun R <arun.r.murthy@intel.com>
+> Subject: Re: [PATCH] drm/display/dp_mst: Add protection against 0 vcpi
+>=20
+> On Thu, 13 Nov 2025, Imre Deak <imre.deak@intel.com> wrote:
+> > On Thu, Nov 13, 2025 at 10:09:19AM +0530, Suraj Kandpal wrote:
+> >> When releasing a timeslot there is a slight chance we may end up with
+> >> the wrong payload mask due to overflow if the delayed_destroy_work
+> >> ends up coming into play after a DP 2.1 monitor gets disconnected
+> >> which causes vcpi to become 0 then we try to make the payload =3D
+> >> ~BIT(vcpi - 1) which is a negative shift.
+> >>
+> >> Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> >> ---
+> >>  drivers/gpu/drm/display/drm_dp_mst_topology.c | 4 +++-
+> >>  1 file changed, 3 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> >> b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> >> index 64e5c176d5cc..3cf1eafcfcb5 100644
+> >> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> >> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> >> @@ -4531,6 +4531,7 @@ int drm_dp_atomic_release_time_slots(struct
+> drm_atomic_state *state,
+> >>  	struct drm_dp_mst_atomic_payload *payload;
+> >>  	struct drm_connector_state *old_conn_state, *new_conn_state;
+> >>  	bool update_payload =3D true;
+> >> +	int bit;
+> >>
+> >>  	old_conn_state =3D drm_atomic_get_old_connector_state(state, port-
+> >connector);
+> >>  	if (!old_conn_state->crtc)
+> >> @@ -4572,7 +4573,8 @@ int drm_dp_atomic_release_time_slots(struct
+> drm_atomic_state *state,
+> >>  	if (!payload->delete) {
+> >>  		payload->pbn =3D 0;
+> >>  		payload->delete =3D true;
+> >> -		topology_state->payload_mask &=3D ~BIT(payload->vcpi - 1);
+> >> +		bit =3D payload->vcpi ? payload->vcpi - 1 : 0;
+> >> +		topology_state->payload_mask &=3D ~BIT(bit);
+> >
+> > This looks wrong, clearing the bit for an unrelated payload.
+>=20
+> Agreed.
+>=20
+> The logs have, among other things,
+>=20
+> <7> [515.138211] xe 0000:03:00.0: [drm:intel_dp_sink_set_dsc_decompressio=
+n
+> [xe]] Failed to enable sink decompression state
+>=20
+> <7> [515.193484] xe 0000:03:00.0: [drm:drm_dp_add_payload_part1
+> [drm_display_helper]] VCPI 0 for port ffff888126ce9000 not in topology, n=
+ot
+> creating a payload to remote
+>=20
+> <7> [515.194671] xe 0000:03:00.0: [drm:drm_dp_add_payload_part2
+> [drm_display_helper]] Part 1 of payload creation for DP-5 failed, skippin=
+g part 2
+>=20
+> <7> [515.347331] xe 0000:03:00.0: [drm:drm_dp_remove_payload_part1
+> [drm_display_helper]] Payload for VCPI 0 not in topology, not sending rem=
+ove
+>=20
+> So it's no wonder the port's not in topology and everything fails. We obv=
+iously
+> need to skip payload_mask updates when the VCPI is 0, but that's just a
+> symptom of other stuff going wrong first. Perhaps we could do with some
+> earlier error handling too?
+>=20
 
+Yes I agree the question is how high will the error handling needs to be ad=
+ded.
+A lot of weird things going on here.
+1st one is how is it finding a payload which we do not create while we call=
+ destroy function
+2nd how is VCPI with id 0 possible from what I see VCPI are 1 at least that=
+'s what I gather from
+drm_dp_mst_atomic_check_payload_alloc_limits.So what are we missing when we
+create a payload?
+Imre, Jani any idea still new to how payload creation work so am I missing =
+something.
+
+Regards
+Suraj Kandpal=20
+
+> BR,
+> Jani.
+>=20
+>=20
+> >
+> >>  	}
+> >>
+> >>  	return 0;
+> >> --
+> >> 2.34.1
+> >>
+>=20
+> --
+> Jani Nikula, Intel
