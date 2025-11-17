@@ -2,83 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A379C66052
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 20:49:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E21C660A3
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 20:57:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9543A10E1C8;
-	Mon, 17 Nov 2025 19:49:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E905910E1A7;
+	Mon, 17 Nov 2025 19:57:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="fVLLfVwj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kUMa50se";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 492FC10E1C8
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 19:49:05 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-7baa5787440so124729b3a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 11:49:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763408945; x=1764013745; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uwN9xd/+ICCzUFjJbywSX4hJRNbIwbnqiOuOojfw4bA=;
- b=fVLLfVwjFMl516VbEQBcrftJljChIwAl6bPweiKM0n+uh8DvCODISzvtkGBpoLj4Yk
- 1P7NoRl35c0nMwXA1YyDlhk8tkUGUTQ6rQCozW0BYmrx0FHdqiIl+nnEG+vw1GdVOu4D
- jclskGvMvv0HwCCMUXKkBdiB3j2UYGqqJ1Vz6UfxWu4PWbNzzaVfHqV/VqvHyeeKXn75
- LGAZWjKwrX8R8ZTOY1lT4mUrONVMULkVSVxJUZW6Z80pkumq25M7dQEnoUZ2fzexL1E2
- CDftCvYtipD2WNyyiSedyCyvNjx9I+5L+GUUtxnHKgCC8dxE0i+GRo5fDd8cJHczqQxY
- a7SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763408945; x=1764013745;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=uwN9xd/+ICCzUFjJbywSX4hJRNbIwbnqiOuOojfw4bA=;
- b=kosE6nQrASwg4PH0R3vUuOdjslDYtSQBjpcUPBdSL7czeZ6dFQmKvYa4m7Mgsi/EC7
- XlAMppDugxMkSARW9BvcAYKsTVxHtboNYaON1jheWVzlONoPP3AlGtH/EkyhR8s1pwww
- 6qQHQ6t1hDZS/Z4OI/hBofpocHf1EepwvOSfd4a/7D2RDZiH+6UI7Z1uPalNRqGNzzZ4
- eBTreiSQCealijc35k6S2+AhFUkUXm98ChbYHLnoKb2I87xb46l+pyQXoIBs54vpNSQP
- L9VwJUQHdkmPpt2V+v6KYN4x5iFg0ELfhrJVbAtsgerFF1PD5IBWStqFJNkO+ibVkQBV
- NLsQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU0c901R/GYRM2rQ/tFeQhYiZwAQ4oonqz2XIih160zXRYB2k8tmJ7TTHDcFr/L4pNnCl+8klJFo1I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz/Wf/iJAaK98aJ/IrsW4dYn7A6VdRLbqt60TXi5S9zwkxFsqUF
- LMlALnm2Iv3MCKk73n9WF3ns97VNdUr/dq5fFac5HZo/wjS49LHNJIDMhIIbgZVAtdxka733XiF
- 3dj4dbmM3ZRu8bwYjvfi/pw+LV7ct4VA=
-X-Gm-Gg: ASbGncu8DevnHNcA0OdiN7c7Q5bW+xVLLqlGlFAja3xDh/+zFLONRBH8NXAnXdCpb7T
- pGH7dFDfs0eKPoTwFfdJtcnbHEHv6JIHEUSupuWDckVGsTwJtfgeiMb9Wtwz+24wVhrP1uNw6wG
- VP5u+ilfz+akoaTVsKvW1VUmHdVu1O6UkL9UpAyEuycltKHjWXj2jtEWrv9lNJUYBITYscG2d1g
- WqVf+NyNDLAGYqN1YaUTPwrkcUX0RIcuSUsfCbtPxTkHX+2Aquz/OHUhvPItgbKsKbxw71XoKNw
- OjKOXQ==
-X-Google-Smtp-Source: AGHT+IE/8ggS6LUeyVsp5eEk+e9DOPtpK5cG7eKvt4t1ew0SgFR+tKonGHD5OH0s8yx7jrceY7HF7o2yVSkpv+xcRzs=
-X-Received: by 2002:a05:7022:6297:b0:11a:c044:ec44 with SMTP id
- a92af1059eb24-11c78562aa4mr21812c88.0.1763408944651; Mon, 17 Nov 2025
- 11:49:04 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE8F010E1A7;
+ Mon, 17 Nov 2025 19:57:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1763409471; x=1794945471;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=fSKxT7N3yCVL7hCr590A8Uxlnv2rPP/C2B4Ab+kC9Oc=;
+ b=kUMa50segmlVC/r465w4y8bfk2QJI5REZRCiAdigcfQ0k7jL9/OvLxaT
+ W9ArGrIHz+x0XNjnx8CO9iTBZScyG5wcAWDwa5SIY3MVoj7fR5qSG1eBA
+ 4/oiwe8DdGT4ShPyZkP/DKP3aAn9vx6OyFOcO4gpWg4dCk72CChPtGPKN
+ GuV8YioY8HNJj15W0hj0RFMtZlQfPgFHMoZun6LuZzceOBunxrbLwdok+
+ K9P3lN2bQ5e7CY5ygWFaYD5c2oxzb74Zj+OwzxKyT/lX2sETFpFkDkTnc
+ on1cXmca+iSCJgDNreg5aup3e/Zmeg4cDDuggg8H+aAnY5w70LWMc3R00 g==;
+X-CSE-ConnectionGUID: Jk1cn6vQS2WiVmlkPWH1sw==
+X-CSE-MsgGUID: 3Ma4c1qcQSCu15HsgR7EBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="69270679"
+X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; d="scan'208";a="69270679"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2025 11:57:50 -0800
+X-CSE-ConnectionGUID: 96av16g5SMWtY5z6Cl7KIw==
+X-CSE-MsgGUID: uj5uMvXhSUOaS01HSQuelQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,312,1754982000"; d="scan'208";a="213934005"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+ by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Nov 2025 11:57:49 -0800
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 17 Nov 2025 11:57:49 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Mon, 17 Nov 2025 11:57:49 -0800
+Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.6) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 17 Nov 2025 11:57:49 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oZmp3YT/hXwct+6Yy86FkEsoVtGWHgwlDbqi5Bhu/VM7bejQcmA1sySSaVdaifXqO0lBMMg7F7hrw6aMTPEuNr3jP7EpowdMVhUdX3rSzaecPRKIgTCwTY56bz1iZ+CvB8EcoPh2xsHpC1UK2cDzkH8eAT3qv7OZcfPyaBl84LVfJN2+JBml1/EBm6TX356cWfoxpws8QBDcmDBnVkY4B2C/aYaE5ebHQ94If6WvUelftwCtRVov/Gr5tjY6NJV5SpKKRwMFvfWuvEvm7sChwDxmsNZrjAYLzQqnxBV6FMvp2V1ls45DXeuZnOCdeyArnLeDOsCogbrplNcxv6oN1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jlQihu64XEWrDQBfh438lq3u1hictCTMjXcBRK63GJ4=;
+ b=wrLGtK7HV/6EP9c1yxEHn+z0zpDccOFzQUfKYzXDc1Vj8X2v6cq7xvNFuFm116C3wB4ij6u2En/Aoca182P5wd7ZlzXOkrX/9g1x68E69xv/R1roKUNyw5F/UhmvxJZTdnzKzZgt8/reuilmNq/J/bF4G4j3aoyIxtq904pZNCrDuuOc+hV+f/Kz4IGCrj0DJRi20LKjYuo5vejLbfqxtLTl3yAO9w7j8Ib0etb0fzxvDd87ZO5NJK5Lunv5YHxoTvHrkTSn7JtmPdPtYFw/nV/PdvxeNuNRmlUgw90i4cfj1J83ptlBXLEi7mrG1fSMx+8fUjzl008KKoM8/VRcLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL3PR11MB6410.namprd11.prod.outlook.com (2603:10b6:208:3b9::15)
+ by IA3PR11MB9302.namprd11.prod.outlook.com (2603:10b6:208:579::6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.21; Mon, 17 Nov
+ 2025 19:57:47 +0000
+Received: from BL3PR11MB6410.namprd11.prod.outlook.com
+ ([fe80::b01a:aa33:165:efc]) by BL3PR11MB6410.namprd11.prod.outlook.com
+ ([fe80::b01a:aa33:165:efc%3]) with mapi id 15.20.9320.021; Mon, 17 Nov 2025
+ 19:57:47 +0000
+Date: Mon, 17 Nov 2025 11:57:44 -0800
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <christian.koenig@amd.com>, <pstanner@redhat.com>, <dakr@kernel.org>
+Subject: Re: [PATCH v3 2/7] drm/sched: Add several job helpers to avoid
+ drivers touching scheduler state
+Message-ID: <aRt-OPJh01t8AhVG@nvishwa1-desk>
+References: <20251016204826.284077-1-matthew.brost@intel.com>
+ <20251016204826.284077-3-matthew.brost@intel.com>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20251016204826.284077-3-matthew.brost@intel.com>
+X-ClientProxiedBy: BY3PR04CA0026.namprd04.prod.outlook.com
+ (2603:10b6:a03:217::31) To BL3PR11MB6410.namprd11.prod.outlook.com
+ (2603:10b6:208:3b9::15)
 MIME-Version: 1.0
-References: <20251114-vram-carveout-tuning-for-upstream-v2-0-4f6bdd48030d@amd.com>
- <20251114-vram-carveout-tuning-for-upstream-v2-4-4f6bdd48030d@amd.com>
-In-Reply-To: <20251114-vram-carveout-tuning-for-upstream-v2-4-4f6bdd48030d@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 17 Nov 2025 14:48:52 -0500
-X-Gm-Features: AWmQ_blyq-3bafSyeznjWZ3ESVeo9aWvK16_VaoKKclzjAv-7Z2Oe4CELV6neqw
-Message-ID: <CADnq5_Mjo7M-ndi0mOUZzrvCnz2gUY0wm0a7uGtdLp=_kWLW0Q@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] drm/amdgpu: add UMA allocation interfaces to sysfs
-To: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, "Tsao, Anson" <anson.tsao@amd.com>, 
- "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL3PR11MB6410:EE_|IA3PR11MB9302:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6853dbf8-86b8-421a-f5b8-08de26139495
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Hu0TXXOg8uDHOU0uXRu9/4IVV5tvNJtozF/IVKS3Kco7LCkKOPoQKlIyX0jv?=
+ =?us-ascii?Q?NI8veEndwDKKSipz0cR5mJZcbE15TXbl0Aty4JyxwvwbP0jNYKvbe9vvJQih?=
+ =?us-ascii?Q?f3LeNVchnoBkWwiC1rO7CVlBVQ8iYXjV/Zdae15TZw36iSS/TN2NLTJCF804?=
+ =?us-ascii?Q?MSO8l0MfPV+CuI4vf9e8sCzwrM0LVEEFJ5Snu4bcow0m9EQNyp+DooBS9Qey?=
+ =?us-ascii?Q?arZtCH15R4YrgTs0snKW6Ity1omV6jsntfh1hkUkDPwI/J91Ky9wcjiBirn+?=
+ =?us-ascii?Q?j32MIdsrIkQUX18ejLgqQRwRrE2bE7DzNgO5400AJqceSIkT5NMuf1y6N7Qi?=
+ =?us-ascii?Q?ZRCOt+M/CTAHNkESXFNybF7IAEShnesoaNdIU+aUUFWkPdc1oK5qiJsgO3lV?=
+ =?us-ascii?Q?BE/6tFJCxB2NxJbjhLKMm30OScWbe7MXgHvV9EEMfEiWkO/WS9nQZTxz3QfK?=
+ =?us-ascii?Q?lCnIUIcOKV30DaFGBOx174POO5hElkeJ9uwavmC++2fjnp6CHhCVNt8H5Vv5?=
+ =?us-ascii?Q?srnshHdUgiMNTUAQraM2nW3T9JWHu7UzphZdmDXtFJLK5mz7vWdZCM3NFFno?=
+ =?us-ascii?Q?tDDY35WiXCluUeUT/rFTkMKqpp46v7R1VRNPfoHwGOT2lFJ/DqCBAiyGPQJP?=
+ =?us-ascii?Q?H9YCYsjiA8rM02y3WG4M2TkIeOM17Zj7NzUaGwxe9cgtYbJZ02et58c6WgqC?=
+ =?us-ascii?Q?E7np8Rc2pTOpdtUniZORldCNitaeAfcpwfTbFyYuugXiObvwm4964heZPmNF?=
+ =?us-ascii?Q?2xL4kLneIH5EHyJjxlEldnd51iVBBua3Y+M1BsxvTcokrG5lfBV44cehC94x?=
+ =?us-ascii?Q?B0YRo6bRZRfyDcjYOIERUADWgExkxsSkHaCMdZ8yGgaRz/1N5dmxaaKMOUbM?=
+ =?us-ascii?Q?sJtzU56JwdFZuOua8oaTyAtQ+OE/KA7DHJukOFE+eNuMzYwhQYVIAe/SsosY?=
+ =?us-ascii?Q?hNCLz6DtYq/uVdoGOfbaXz3JFMgo01Q9Cj4/ZW4gomx6+CdVxVZtAwpagT7j?=
+ =?us-ascii?Q?0MnMWKrk2S1EJeCxjFMfQCHtheM4Y5yO4jgRoPJRJKEx7BXBGU6pxJE2QAH5?=
+ =?us-ascii?Q?C8GPFzb4skK0PeIwsXUbQv64RwzB94BNXy58xaeJIJNVUUx6ckWKOZVewnfO?=
+ =?us-ascii?Q?uraDfUnAenaLpUSk5bcm9m+VH9F+PCR1OZlwSJlJdR1KR1xKIiTDgB+4fG5T?=
+ =?us-ascii?Q?h1dQffYjDMa+URD0+euSZzJ9raqwrXSlj+DkhEYfsgUeSeMNfg55/JW55+3u?=
+ =?us-ascii?Q?s8fOUxqdBgFYQScDTiwTlOhGSgl0roOIa/bWguHMBADUz8X9sunFRSueg5v+?=
+ =?us-ascii?Q?UKGNAyTBrNJq0qbTT9BehYfTTjzT5sDNW6ZtKEmd3sD5SuBnD9P3Vvq/uS2Y?=
+ =?us-ascii?Q?8pa+yOH3FdXhLAiqDzGtUvuWMOSVakPXlP+gDU4Uijz9MzWdya+Vle5MZM5f?=
+ =?us-ascii?Q?+Xb/SkcwN8gAKADs3UlQXO9XiYbbsesC?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL3PR11MB6410.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8hO8CIhVFM9GkpUO1TzP8PjKR0I/W63uLM9MN2RQwk4cPcXXEclwDRxBp5Rd?=
+ =?us-ascii?Q?nm8iVKgXyIBJfuAvDlsF0I9quvig8Jp2okd0vbFAQCiKxQLe46nJGf3BbmRI?=
+ =?us-ascii?Q?gKjchc1qtdYbkMPzrh5tT1ZEUJbtfgL33kdYXRTqOGzxpm5KO3KVB845ph9L?=
+ =?us-ascii?Q?+qpGHjRqB2/6WGBDIGnOcwc1jh0+Rq20y5avmAFb8H/BudfBLEHOofogBlY+?=
+ =?us-ascii?Q?D8ijj9fJRQnT9me0uAml9obx9nU6Mb48PQ0B7CFMAPsP+V7Pn4uI4c5oMyQQ?=
+ =?us-ascii?Q?svcDA10Liza8gMo79g03Pqy/JooqYSYC3PCCIWK2lKpfw4LbHWKECkoF5M+5?=
+ =?us-ascii?Q?t7VMrunPMK0x2t4zydZ9Vhr0WcT+ER1w1J+qcaYoR9x1+Sfnih/fuIe6XOlz?=
+ =?us-ascii?Q?JWBNzBIBXLnqU+NuM2WjV0qGkhiGhMdtwXqSrFELB7pUp9WlJ8p05PNUWJew?=
+ =?us-ascii?Q?zWReWW9EZZpJZ1IDNJrnSAXl+Qh46BKjB9t/BsZQyORSXab0EDfRTl2MJf3V?=
+ =?us-ascii?Q?J3GBKwZ+NnOgrm3IIwlmvPSIBWn8LMrKC++UY489a8JuOvEx7vw/BjH/RD/v?=
+ =?us-ascii?Q?C/wJ6cNKYlY3WD8sCcABPWq9ecv98WIErTGcO9HalJcmlc6Zypms2FWsio3g?=
+ =?us-ascii?Q?DCNZ7sqT1mI0ozjskd2Vf613REolwr2RbgzESoWvxUAyKLiBHVz1Tsdz58xp?=
+ =?us-ascii?Q?sISt+YzDoBv7amRIm3y2lHHKjZ9g2TrYCpysOlYUudUT9TdpAeYoVDJEm2ea?=
+ =?us-ascii?Q?h8Buf69ArJ+1lBnA3HNowJ4b4O0YdyKQxL4tF+E9AqadBhoVsDXm6AwcMpPg?=
+ =?us-ascii?Q?Ph5s8I9epMZz3Gjq5adGXiSN4NDITcmv+ZxXBB4npWEnAJQV+dhX9VBeMvOw?=
+ =?us-ascii?Q?WgAaZsCrbrnELlqIETNPJXtd1L8zFuW3DY7UaNQmAr6vYeckOJD/u0wPObjq?=
+ =?us-ascii?Q?nxrqDY9Owzrb6TGe9lrwgvkks6gi7GqERl4bGdN09JJGCZB2eoJsPEQZfHCi?=
+ =?us-ascii?Q?9HZTaeSlCXP133ANqm0sNzFsEg31cq3p/QiI7wMGgGeqRtz4D+2fPVRV44BY?=
+ =?us-ascii?Q?yDtibuLsXKChbiLqWV611kdpJqQvWTbETk9E9E2IMmqfM4uDj3RQfC4WXWtW?=
+ =?us-ascii?Q?u6CsuwGFWqpeIbGaZNgXX9UXa6/NuIM65bthvkB0jPngvscl3HJURtVUpSK7?=
+ =?us-ascii?Q?RhOOed5NZMvp/bmbR32QR+OKEZLeWd0z3KlpfbEqaigwcIZB9ktxllLUtf5+?=
+ =?us-ascii?Q?L3G6x45QMNau2CWPO5PYwDat2z7beU4uORIvoOdAWxFa6Bvl2JrXiMEFQb5G?=
+ =?us-ascii?Q?KxXhYg+WaAccUOAT8OyZmulCdlwsqCPEwIuqiY8J+IVphQy/5S8FnZZbGBks?=
+ =?us-ascii?Q?zi5LRwrhlc3z7tJbWyorK0aZowbBs0/0qRrX5k2k0fIYey5AdqoNqTJcF+7R?=
+ =?us-ascii?Q?CNGCQvvrOaI4Q5PfQFl6RyoDaMyrX2Ltysi6easy2k3iAmTiWTJxPv657HlE?=
+ =?us-ascii?Q?3E1/AMa16jD8gZrumbPP0gyaA1OwBa8oOVuapytXDmdEN6z8A9kLpPANZgfb?=
+ =?us-ascii?Q?5szxFyr2dJjgQtrAr+jaNnGa/aGEkW2GHvp0CBJ803Sn7QFDT9NDrzvSxcTP?=
+ =?us-ascii?Q?JAd8SwFk29yN6PxqzM31zYs=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6853dbf8-86b8-421a-f5b8-08de26139495
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR11MB6410.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2025 19:57:47.4510 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0w/vTJH8gvmCGStt+HKxtA3Ly57cXNzypdLlrhWXm1YvJwMurbm61QU0xnNcbYgn+B/t2bXk3jFRj+EIfiIwiKxSmpiKloY4LcH0QFMaYBYgiDZwqfs5odI6Gr3lJ2Yr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9302
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,210 +179,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 14, 2025 at 3:52=E2=80=AFAM Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.=
-com> wrote:
+On Thu, Oct 16, 2025 at 01:48:21PM -0700, Matthew Brost wrote:
+>Add helpers to see if scheduler is stopped and a jobs signaled state.
+>Expected to be used driver side on recovery and debug flows.
 >
-> Add two sysfs files as interfaces to inspect or change UMA carveout
-> size. These files are:
+>Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>---
+> drivers/gpu/drm/scheduler/sched_main.c |  4 ++--
+> include/drm/gpu_scheduler.h            | 32 ++++++++++++++++++++++++--
+> 2 files changed, 32 insertions(+), 4 deletions(-)
 >
-> - uma_carveout_options: a read-only file listing all the available
->   UMA allocation options and their index.
+>diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+>index 46119aacb809..69bd6e482268 100644
+>--- a/drivers/gpu/drm/scheduler/sched_main.c
+>+++ b/drivers/gpu/drm/scheduler/sched_main.c
+>@@ -344,7 +344,7 @@ drm_sched_rq_select_entity_fifo(struct drm_gpu_scheduler *sched,
+>  */
+> static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+> {
+>-	if (!READ_ONCE(sched->pause_submit))
+>+	if (!drm_sched_is_stopped(sched))
+> 		queue_work(sched->submit_wq, &sched->work_run_job);
+> }
 >
-> - uma_carveout: a file that is both readable and writable. On read,
->   it shows the index of the current setting. Writing a valid index
->   into this file allows users to change the UMA carveout size to that
->   option on the next boot.
+>@@ -354,7 +354,7 @@ static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+>  */
+> static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+> {
+>-	if (!READ_ONCE(sched->pause_submit))
+>+	if (!drm_sched_is_stopped(sched))
+> 		queue_work(sched->submit_wq, &sched->work_free_job);
+> }
+>
+>diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>index 7f31eba3bd61..d1a2d7f61c1d 100644
+>--- a/include/drm/gpu_scheduler.h
+>+++ b/include/drm/gpu_scheduler.h
+>@@ -700,6 +700,17 @@ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+>
+> /* Inlines */
+>
+>+/**
+>+ * drm_sched_is_stopped() - DRM is stopped
+>+ * @sched: DRM scheduler
+>+ *
+>+ * Return: True if sched is stopped, False otherwise
+>+ */
+>+static inline bool drm_sched_is_stopped(struct drm_gpu_scheduler *sched)
+>+{
+>+	return READ_ONCE(sched->pause_submit);
+>+}
+>+
+> /**
+>  * struct drm_sched_pending_job_iter - DRM scheduler pending job iterator state
+>  * @sched: DRM scheduler associated with pending job iterator
+>@@ -716,7 +727,7 @@ __drm_sched_pending_job_iter_begin(struct drm_gpu_scheduler *sched)
+> 		.sched = sched,
+> 	};
+>
+>-	WARN_ON(!READ_ONCE(sched->pause_submit));
+>+	WARN_ON(!drm_sched_is_stopped(sched));
+> 	return iter;
+> }
 
-Would it be cleaner to combine these?  Reading the file would show the
-indexed list of options with a * next to the currently selected one
-and then writing the index to the file would cause the change to take
-effect on the next reboot.
-
-Alex
+NIT...instead of modifying the functions added in previous patch, may be this
+patch should go in first and the previous patch can be added after that with
+drm_sched_is_stopped() usage?
 
 >
-> Co-developed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 127 +++++++++++++++++++++++++=
-++++++
->  1 file changed, 127 insertions(+)
+>@@ -724,7 +735,7 @@ __drm_sched_pending_job_iter_begin(struct drm_gpu_scheduler *sched)
+> static inline void
+> __drm_sched_pending_job_iter_end(const struct drm_sched_pending_job_iter iter)
+> {
+>-	WARN_ON(!READ_ONCE(iter.sched->pause_submit));
+>+	WARN_ON(!drm_sched_is_stopped(iter.sched));
+> }
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_acpi.c
-> index 444ab4102168..b9378f34eb79 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-> @@ -30,6 +30,7 @@
->  #include <linux/power_supply.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/suspend.h>
-> +#include <linux/device.h>
->  #include <acpi/video.h>
->  #include <acpi/actbl.h>
+> DEFINE_CLASS(drm_sched_pending_job_iter, struct drm_sched_pending_job_iter,
+>@@ -750,4 +761,21 @@ class_drm_sched_pending_job_iter_lock_ptr(class_drm_sched_pending_job_iter_t *_T
+> 		list_for_each_entry((__job), &(__sched)->pending_list, list)	\
+> 			for_each_if(!(__entity) || (__job)->entity == (__entity))
 >
-> @@ -1247,6 +1248,125 @@ int amdgpu_acpi_get_mem_info(struct amdgpu_device=
- *adev, int xcc_id,
->         return -ENOENT;
->  }
->
-> +static ssize_t uma_carveout_options_show(struct device *dev,
-> +                                        struct device_attribute *attr,
-> +                                        char *buf)
-> +{
-> +       struct amdgpu_uma_carveout_info *uma_info =3D &amdgpu_acpi_priv.a=
-tcs.uma_info;
-> +       ssize_t size =3D 0;
-> +
-> +       if (!uma_info || !uma_info->num_entries)
-> +               return -ENODEV;
-> +
-> +       for (int i =3D 0; i < uma_info->num_entries; i++) {
-> +               size +=3D sysfs_emit_at(buf, size, "%d: %s (%u GB)\n",
-> +                                     i,
-> +                                     uma_info->entries[i].name,
-> +                                     uma_info->entries[i].memory_carved)=
-;
-> +       }
-> +
-> +       return size;
-> +}
-> +static DEVICE_ATTR_RO(uma_carveout_options);
-> +
-> +static ssize_t uma_carveout_show(struct device *dev,
-> +                                struct device_attribute *attr,
-> +                                char *buf)
-> +{
-> +       return sysfs_emit(buf, "%u\n", amdgpu_acpi_priv.atcs.uma_info.uma=
-_option_index);
-> +}
-> +
-> +static ssize_t uma_carveout_store(struct device *dev,
-> +                                 struct device_attribute *attr,
-> +                                 const char *buf, size_t count)
-> +{
-> +       struct amdgpu_uma_carveout_info *uma_info =3D &amdgpu_acpi_priv.a=
-tcs.uma_info;
-> +       struct drm_device *ddev =3D dev_get_drvdata(dev);
-> +       struct amdgpu_device *adev =3D drm_to_adev(ddev);
-> +       struct amdgpu_uma_carveout_option *opt;
-> +       unsigned long val;
-> +       uint8_t flags;
-> +       int r;
-> +
-> +       r =3D kstrtoul(buf, 10, &val);
-> +       if (r)
-> +               return r;
-> +
-> +       if (val >=3D uma_info->num_entries)
-> +               return -EINVAL;
-> +
-> +       opt =3D &uma_info->entries[val];
-> +
-> +       if (!(opt->flags & AMDGPU_UMA_FLAG_AUTO) &&
-> +           !(opt->flags & AMDGPU_UMA_FLAG_CUSTOM)) {
-> +               drm_err_once(ddev, "Option %ul not supported due to lack =
-of Custom/Auto flag", r);
-> +               return -EINVAL;
-> +       }
-> +
-> +       flags =3D opt->flags;
-> +       flags &=3D ~((flags & AMDGPU_UMA_FLAG_AUTO) >> 1);
-> +
-> +       guard(mutex)(&uma_info->update_lock);
-> +
-> +       r =3D amdgpu_acpi_set_uma_allocation_size(adev, val, flags);
-> +       if (r)
-> +               return r;
-> +
-> +       uma_info->uma_option_index =3D val;
-> +
-> +       return count;
-> +}
-> +static DEVICE_ATTR_RW(uma_carveout);
-> +
-> +static struct attribute *amdgpu_uma_attrs[] =3D {
-> +       &dev_attr_uma_carveout.attr,
-> +       &dev_attr_uma_carveout_options.attr,
-> +       NULL
-> +};
-> +
-> +const struct attribute_group amdgpu_uma_attr_group =3D {
-> +       .attrs =3D amdgpu_uma_attrs
-> +};
-> +
-> +static int amdgpu_acpi_uma_option_init(struct amdgpu_device *adev)
-> +{
-> +       struct amdgpu_atcs *atcs =3D &amdgpu_acpi_priv.atcs;
-> +       int rc;
-> +
-> +       if (!atcs->functions.set_uma_allocation_size)
-> +               return -ENODEV;
-> +
-> +       rc =3D amdgpu_atomfirmware_get_uma_carveout_info(adev, &atcs->uma=
-_info);
-> +       if (rc) {
-> +               drm_dbg(adev_to_drm(adev),
-> +                       "Failed to parse UMA carveout info from VBIOS: %d=
-\n", rc);
-> +               goto out_info;
-> +       }
-> +
-> +       mutex_init(&atcs->uma_info.update_lock);
-> +
-> +       rc =3D devm_device_add_group(adev->dev, &amdgpu_uma_attr_group);
-> +       if (rc) {
-> +               drm_dbg(adev_to_drm(adev), "Failed to add UMA carveout sy=
-sfs interfaces %d\n", rc);
-> +               goto out_attr;
-> +       }
-> +
-> +       return 0;
-> +
-> +out_attr:
-> +       mutex_destroy(&atcs->uma_info.update_lock);
-> +out_info:
-> +       return rc;
-> +}
-> +
-> +static void amdgpu_acpi_uma_option_fini(void)
-> +{
-> +       struct amdgpu_uma_carveout_info *uma_info =3D &amdgpu_acpi_priv.a=
-tcs.uma_info;
-> +
-> +       mutex_destroy(&uma_info->update_lock);
-> +       uma_info->num_entries =3D 0;
-> +}
-> +
->  /**
->   * amdgpu_acpi_event - handle notify events
->   *
-> @@ -1291,6 +1411,12 @@ static int amdgpu_acpi_event(struct notifier_block=
- *nb,
->  int amdgpu_acpi_init(struct amdgpu_device *adev)
->  {
->         struct amdgpu_atif *atif =3D &amdgpu_acpi_priv.atif;
-> +       int rc;
-> +
-> +       rc =3D amdgpu_acpi_uma_option_init(adev);
-> +
-> +       if (rc)
-> +               drm_dbg(adev_to_drm(adev), "Not creating uma carveout int=
-erfaces: %d", rc);
->
->         if (atif->notifications.brightness_change) {
->                 if (adev->dc_enabled) {
-> @@ -1343,6 +1469,7 @@ void amdgpu_acpi_get_backlight_caps(struct amdgpu_d=
-m_backlight_caps *caps)
->  void amdgpu_acpi_fini(struct amdgpu_device *adev)
->  {
->         unregister_acpi_notifier(&adev->acpi_nb);
-> +       amdgpu_acpi_uma_option_fini();
->  }
->
->  /**
->
-> --
-> 2.43.0
+>+/**
+>+ * drm_sched_job_is_signaled() - DRM scheduler job is signaled
+>+ * @job: DRM scheduler job
+>+ *
+>+ * Determine if DRM scheduler job is signaled. DRM scheduler should be stopped
+>+ * to obtain a stable snapshot of state.
+>+ *
+>+ * Return: True if job is signaled, False otherwise
+>+ */
+>+static inline bool drm_sched_job_is_signaled(struct drm_sched_job *job)
+>+{
+>+	struct drm_sched_fence *s_fence = job->s_fence;
+>+
+>+	WARN_ON(!drm_sched_is_stopped(job->sched));
+>+	return dma_fence_is_signaled(&s_fence->finished);
+>+}
+
+NIT..In patch#4 where xe driver uses this function in couple places,
+I am seeing originally it checks if the s_fence->parent is signaled
+instead of &s_fence->finished as done here.
+I do see below message in the 's_fence->parent' kernel-doc,
+"We signal the &drm_sched_fence.finished fence once parent is signalled."
+So, probably it is fine, but just want to ensure.
+
+Niranjana
+
+>+
+> #endif
+>-- 
+>2.34.1
 >
