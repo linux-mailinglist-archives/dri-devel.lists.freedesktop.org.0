@@ -2,191 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620B2C634B7
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 10:45:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C00B7C634DB
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 10:46:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5C8910E32D;
-	Mon, 17 Nov 2025 09:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 047E610E341;
+	Mon, 17 Nov 2025 09:46:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k4RfV1Wg";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="I3qfby7t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42C7810E320;
- Mon, 17 Nov 2025 09:45:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763372742; x=1794908742;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=iKVYJpYKyZsmmCtYt5pHVzEkeB35tXqj7mMFOYnKOIU=;
- b=k4RfV1Wg0wS93rhwDt7PMfecx1M8KyCDd2ILsDIVqesqpN8YUM65iNqe
- BXzWATAk4cGr5AJgVniPucpP9OheoacLCl1MBVFrFnxGOp+8THS8kRQIe
- vRlmhlBuW5n7CLd+cYEhj51kZcSZG4M8FtlEVjwmrZ6XUdp9Fc66YJibu
- ER4K28fCD8lkCFM2KFOLa1h40wn8oxuvgvRWNyndFZ04foMmvTfqHlqje
- +DBTo23Kevg17ETbJKGxFB+E9FodEgK+BaE1fvBE4lSL2qan730Jf/7Wn
- /h/Y7qWYXi+/Yk0jIVlDCo7edO3Mz9FOtDqZcFABYNKArS2Q3aQTohHxb A==;
-X-CSE-ConnectionGUID: zvcGz3j/SgCEvrLTkvykWg==
-X-CSE-MsgGUID: 5IxZGoGqRp6EoTFsE/fo3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11615"; a="90843322"
-X-IronPort-AV: E=Sophos;i="6.19,311,1754982000"; d="scan'208";a="90843322"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2025 01:45:42 -0800
-X-CSE-ConnectionGUID: +0W5ij6oQ1eoYiYLACeBnA==
-X-CSE-MsgGUID: KuytailfR/GT6Db70/KZ4A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,311,1754982000"; d="scan'208";a="213805934"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2025 01:45:40 -0800
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 17 Nov 2025 01:45:41 -0800
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Mon, 17 Nov 2025 01:45:41 -0800
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.6) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 17 Nov 2025 01:45:41 -0800
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azon11010038.outbound.protection.outlook.com [52.101.46.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B614910E33E;
+ Mon, 17 Nov 2025 09:46:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D1cgZvmnozEK2X/GH7zeSGo+u/DVeyJ8aoEzXqm075eQ6qopatFA64LnJjj0LiD7DoWoUWD+Vzi8IOmj3M5g0zUum8m0q41sl+U7ER6w9WCCsQdK+6rpcoalRZgiyiA/nG6B0WLWUQVKfEWyj14BPov2D19JasGcoSS0vBRwF/+Afl8G6UFM5wwN5Np9N3jVsE+qyDI8jtHu2d5g+BDDm3Qy+g0Z2Eu0kWXQVqnekBIxqv8tkal3B9J16LowrHQozh3/wvJfuBDW6gFPEowjZ+5u2lzq4LXuu2eApYtDljeHjz1uDmbHcULQpBoTBAlcj4rIY6hn07bh0XHfqzm/AQ==
+ b=aWaYcf4OHZC95ZupsaW2I22PsvZ8ewfI1jqTiANevVy3I/TCGmIuBuXO6kcOYIUU2JbYJNWGRnArpLncsOlVnKYwOnur37K9LuhefK6HGWh9ngg2Js5NNNkWBffQf/o+7ZypxWXzUSN6i3p1bOsYagbqZ6LYJoxADVs7/Uk3TokD5RCW47UXDtaHik/ft0FfV2dssoTKaeyHcqdZcxnPnYR9ZAVzZDpM5zzMSDLnyahZJ2k3JCRbT+QCrVPawbLAKTnADeEc40zkqs2EtybkXylUkZZjc1efnf+O8IBNgjflbPxRhlsDgoYRtXDf+MvqUi1xeq41anjlXnqcjMPxNQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iKVYJpYKyZsmmCtYt5pHVzEkeB35tXqj7mMFOYnKOIU=;
- b=RuZCkxEzPHnh3EwtOHByIUbdSSBTwVVl7afoB/h5ctvRc88d8/axXDx6ZWAULxlshHZXv8S7/sNXAMBVh5H4IbNdv3OVKf22Pivhbxgi+MSUZlHmV6ghedLGKsB/TvsFH9PkI0KY9OKtxpOWJYMVG9geRvb0WUAvjwlV1sDKlMmbrzOCEL0y8xRli8jOy6GW6nENCagn9F5mFfmtNb3GM1kgN/N2HsJeuZBOLCxzLS9h95IhMjK7uJIjc4vu7NzKvTQhB37i4N9YaqlqpnjofdpIARygk+Zm2DCN+JbSnRkdIQanAneT1o6uMaKFgtgp34yHh0R/Gf/BkexlxGH8tQ==
+ bh=PZKFZF/i4sBC/Yhbev7q1dfndmwha1usN8ruRiuYySc=;
+ b=rZp6zx/uWqYGXQd8VYLV35HRsEpp5G9/xW1bOpz6CZ+gVCbVUgYXxKzsM0WzY1OiA5aXPEJnr6dXCfSW3c77e1MJMN4aMePKNxIM1riXUSUIWPYgTecrlsYKoAOsnKcZbs/rnMn5Mnz/smH8O8CHMlpoqywJJb8ioAkoc0RZORxOHxJX8CKF64fVF29iy0vE6Lw5RUHC9yM+VH8vM7qsPWDjaLacnNQ2pWMjHaKOQU+JEAJ6/opc7lZ6TQwJRDrfkPNI9y65xmEOB7zRSorsgtHvK5PY+onMYB52yEVYfo1i5eLA7zGx3MDbo/wK6q7ZR8VQYobDZbkB7wh3lYtmFg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- (2603:10b6:f:fc00::f13) by BL1PR11MB5979.namprd11.prod.outlook.com
- (2603:10b6:208:386::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.19; Mon, 17 Nov
- 2025 09:45:32 +0000
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::95c9:5973:5297:d3cc]) by DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::95c9:5973:5297:d3cc%6]) with mapi id 15.20.9320.021; Mon, 17 Nov 2025
- 09:45:32 +0000
-From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-To: "Manna, Animesh" <animesh.manna@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-CC: "Nikula, Jani" <jani.nikula@intel.com>, "Hogander, Jouni"
- <jouni.hogander@intel.com>
-Subject: RE: [PATCH v4 06/10] drm/i915/alpm: Half LFPS cycle calculation
-Thread-Topic: [PATCH v4 06/10] drm/i915/alpm: Half LFPS cycle calculation
-Thread-Index: AQHcVJkdyyqcQMSjXEqMrrUQmDptFrT2o5AA
-Date: Mon, 17 Nov 2025 09:45:32 +0000
-Message-ID: <DM3PPF208195D8D5E601C957C3894CE29C9E3C9A@DM3PPF208195D8D.namprd11.prod.outlook.com>
-References: <20251113120119.1437955-1-animesh.manna@intel.com>
- <20251113120119.1437955-7-animesh.manna@intel.com>
-In-Reply-To: <20251113120119.1437955-7-animesh.manna@intel.com>
-Accept-Language: en-US
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PZKFZF/i4sBC/Yhbev7q1dfndmwha1usN8ruRiuYySc=;
+ b=I3qfby7tcd9L7T4PoLelsKHFTZaS/CCsxN+UFBIhDFMcJ+7BPL9J9w+8PQpi10P9OUHSTWdAzu7LSmN9dgjuzkyqduMYD8IvKPG+cMF1ot19kO/ugH+4tr3NfarhYucL9N1iS53MCI6ejFl8cObt5UlnN9aF6thX9OaMgw4qbnw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS0PR12MB9448.namprd12.prod.outlook.com (2603:10b6:8:1bb::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.21; Mon, 17 Nov
+ 2025 09:46:12 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9320.021; Mon, 17 Nov 2025
+ 09:46:12 +0000
+Message-ID: <2920edba-469e-424a-87da-475821bd5c2e@amd.com>
+Date: Mon, 17 Nov 2025 10:46:04 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 15/20] drm/amdgpu: pass all the sdma scheds to
+ amdgpu_mman
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Felix Kuehling <Felix.Kuehling@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20251113160632.5889-1-pierre-eric.pelloux-prayer@amd.com>
+ <20251113160632.5889-16-pierre-eric.pelloux-prayer@amd.com>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|BL1PR11MB5979:EE_
-x-ms-office365-filtering-correlation-id: c8d9e839-c375-4e30-2dc6-08de25be0cda
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|376014|1800799024|366016|38070700021;
-x-microsoft-antispam-message-info: =?utf-8?B?aXdMSVZqNVNHQ0ZWYktuNmpTVGlQc1BlTDUyNFhhWWFObmhVNk50N0JpRWJj?=
- =?utf-8?B?S2czK0NnL2FIQXV6SUFScXhjM3RCZE9maXQ3WlVUcHRLcmdya1ZmbWh2MHY4?=
- =?utf-8?B?bkhvYmMvUjV4dEhubWF2a2o4WThYdU55UXByeU1BcldQVGt5dEFPejNxSTRv?=
- =?utf-8?B?RzJUMVl4Ym5KbngydEZuMW82a1N4M280N09PZ0V2YjJGWHRjampBMVhTK0Nl?=
- =?utf-8?B?aEJZY3l6cGk1bTlIeXhqSjFLenN3NnAwZ0hlNWRiSVdIYnRaaEFKZkxOUlZX?=
- =?utf-8?B?ZS9FNXJaT3FxTDNXc3JTYktQNnNQUGQydnNwUFVCdkoydzY3RUIwR1UweWRh?=
- =?utf-8?B?M3l4U3BnSy8wTmZuSFdoTHVNRE11SnJ5Uy9qVzFuWUphUTZmNWUxc01sZFFN?=
- =?utf-8?B?RGpyY0E1ZnJMQVpTUmlmNmRaeFdySjc4UkE4SlRvTkFiY1ZBNFNYc0xtSHha?=
- =?utf-8?B?Z1RCU2RjVWFwTUUvZ0V6UjFUL3N6SUpieG1xd1gwWmtWNmNLeTlOajFOUUdY?=
- =?utf-8?B?MWxJaXRMN2VVd0QrM3IvcWNGMnU2T0V4YW5sdTczVFZ1SGxuei9qUzJHNE4r?=
- =?utf-8?B?N040YS8zZGlQeEtHelhucjVKRHM1bGczYmNaZ1VLbUVhUWZZRkhGRlZTUUhT?=
- =?utf-8?B?cDhvR09lVUJxWnUyOW5IMUxINnhOL25YUUxiWjNCWGVEK09yN3lHOW00cHVq?=
- =?utf-8?B?d25QMFhlQVhzSC9jMkc2S2w2OGdIeDcraG0rVVFES3QxTzJUMzk2bFhzTDM1?=
- =?utf-8?B?ajg0UDltQklybmk0NENzKzFEQURpdUVPTlF0WFdLMXk4b0xJYmhJdUNUYkgy?=
- =?utf-8?B?UTlRRTBkMXBQdjl4ZjFZK1BEMEdOaHlHV2tveFNjbUFjUlU0MUFpZFNtSGYx?=
- =?utf-8?B?eDZWRmFxa0VET28wS3YzVW1UNU5sNytrdU1DTDA1bEJEMzdhUXBVREpVMnNT?=
- =?utf-8?B?R0RHem1rME5GWmVOYnRqbms5UkVrZVZXSW92R1ozRmhFZXJuMUZyZXlDemFr?=
- =?utf-8?B?bjh1eW5IQnB5RWdrcDQvcWZwOE15MDViejB6aytPODRxODhsU3hsRm1FYjFa?=
- =?utf-8?B?N3hFaEhWUjNPSG5kcWJMWW5xd2EzK0djZXJ3RHZEMkRvSi9TUE9jRmd4bzRO?=
- =?utf-8?B?N29OWVJOTEsrQmFKMC93VFF0ekJ0cmZPTXROS3BaYXNPVVNjRWtydEZzWjU1?=
- =?utf-8?B?Mjk2bHBVUFJYTnVQM2NiSEtCbG4vS05vdC9HdnlEdktYcmhjN2F5K3J5dXh2?=
- =?utf-8?B?UWlxMUNyWEpOZGxVaXBLY0tEaERnVUFVQVpJQml4NElsT2xQNlFnYzNHMTdu?=
- =?utf-8?B?dzJMVGY3ZWs2TmNCUTRjem1LVmRQeWJPbnROazV0ekhIOC9nSFFFMXdMYmJG?=
- =?utf-8?B?Vyswa0FOV1ZpZGwvSU12Tk5zWU5QTUUzaGJmbkVIempPSDdCakZzWUFZemNH?=
- =?utf-8?B?M1QvTFdoem9KTkRMbm1yOEZ2MUZPUTN5VEt6ZnF5L2RlSG9sbkxrVlV4QlZQ?=
- =?utf-8?B?Qi9rcVl5ajlFMzBmQU14N3Y5Q0JBMEVNSjFKYXVnRkVEdmVYMEg3UHZHTGtQ?=
- =?utf-8?B?RmtVN2dwMlJJZTNmb2Y3akk3NTNhZ2dkMEhOT1N5YXU3bStOMnpNV2xHdk9K?=
- =?utf-8?B?a1l2Uk9zeFRESUFFSUJQUWVsbkpNbVErUVlUL0JBS2lUa1cxVHZ2cHloSG1i?=
- =?utf-8?B?Sm96ZjBWNHAyVzhKMkVLUTZPaElkTk9BRTZoNW9lcXhIejJHdmlHaTg1d1Fp?=
- =?utf-8?B?OTg3cWRSeUZsemlQVSt0ZDZyTlluTDNhK0RFWG9KVmRLY1BOL1dTWUhBNGlG?=
- =?utf-8?B?RjhnM1ZKUkU2UUdkY0Y1SE9TWDRaMm51T3BabHJKLzNFcmYrUlZEQUYxUCtq?=
- =?utf-8?B?UG9UaFUyL0FhQTgvRVVVVTRpb20yOVpIcytDS281allTUkNkdWFyNkFiQTBa?=
- =?utf-8?B?M2NGSmpGTTBCT2RvUlRDdzZpaGg1b1ZZR1N1d0E1US8vVnRjU3Z5TzNzMWly?=
- =?utf-8?B?OHNpdGtvM21MemV6UjAvZjM5UUNOc2ZDYmk2T2ZLditTQXB1TkRoemNHNEdp?=
- =?utf-8?Q?oU9j2l?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM3PPF208195D8D.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(38070700021); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Vko3WmFVMGlxRmpaQlpIanZiYkZNVit6U1RiQlZzRUxSWHMzUEpRS256bFZ0?=
- =?utf-8?B?NFIwMFVSMFhnUDd1OGdDc201YkhMQkwwQk90RXUrRytwbU9hRjliQkx6d0Uv?=
- =?utf-8?B?UllHVXdsUkxNSWhwYUZqYXdXTm41WW43aXFpM1dyZDIycXpxNGIwZzBWYkNi?=
- =?utf-8?B?OU9lQlB2bEhKWTJVRWpGcnJCcVlRWm90QklOaURkZ2VoZzhaaTdqNXlBVUdZ?=
- =?utf-8?B?Rm9BSGxKdHJVTFkzWXM2VGw5d1BDTk40aGQ2T3QvY25iRWd0MmtNak4yendm?=
- =?utf-8?B?VGdHN09DOWRtTDhZNkwzMGlseUpjM0NMYkpxSUdma0dSUHJmWTVsQUQ2QW40?=
- =?utf-8?B?VUpBSWdBWXJ3a3ZlcmpJWnBwbGYwZnJmWEpVcTZQZUdkMkpxZysvVnVzTWJC?=
- =?utf-8?B?RE5KcVU0a002N1RxYkVRL1JwSXY5bVBkZW5nQWg3T1VVKzE3UzI4bTc2eHl3?=
- =?utf-8?B?bGlSeDU4d0lLVHgvQlVDVm5VWnA1THdyQkZ5NEN6c3p4MUFOT2hRZitBaGdk?=
- =?utf-8?B?UVBqUkk0UmFVVm9ZekY5Y2VIWVB4c0pzRFdNUXFiNGNZRjVmTkMrRlNIYkE4?=
- =?utf-8?B?bmtISDR5anZIeFF6eHNabEVSb2VaVWxsdFlDVGowMkRnaEtiNlZ4MjRZUklJ?=
- =?utf-8?B?aHJ3Rkx4UHJ1MDU1VHhtdDY3NGpoK3UzMlcxTVFldGZUTzZoMHBVT1M4VXFC?=
- =?utf-8?B?am9NaEI5R1FXSU5VNGpvdEZ0UGFRbnptYi9CU1hpdlBleUtrMDlkWCtuRW5H?=
- =?utf-8?B?VVJqcERmWjNpcFBVdWdrWFlqSnQ0TzN0TU9nRUMrM3c1azNsdjcvSjhMblgy?=
- =?utf-8?B?QnZxMUJmVXFISUdaa1B0aGdSTXFGU0tpNERLbU8vdmFnTks1Z3VmTnhzSWVP?=
- =?utf-8?B?WlVsWXkxSHJhbUlySHE1cG9BODJLMUY2Nk44M0QyTUlZdWxRS294WVNZZ09X?=
- =?utf-8?B?MmxsWG5FcmFRcC9WSUJvU3FSajdhR2tLNkk2cTB4YTkyRW15dlBGNG4vVnE0?=
- =?utf-8?B?S01EeW9aZGI2eTZXMXdRWVFvRUNUeUN1ODFLb21rNHUvL2JKM0E5UklwcmhR?=
- =?utf-8?B?bUg0OTVvK0czMlVzdnRsdm9kcVlkeUZ3WGlId3ptY3JwV2pvVSsvY1haSGcw?=
- =?utf-8?B?WXp1NmVCN28xL1ZIcGVWeFBLVkxLbXppQjA4YTNqTmxHOHN6OWV0MDJtaU9J?=
- =?utf-8?B?NTIxM1dibjZxUS9oNkF5bXp0eWhCdStsdTFiZFRQRXYvYTYrY3FJUEZ4TUZD?=
- =?utf-8?B?bXhReXMrMENhdi93czMrOGRrTUQ5emxYV0hHVi9JWkVaemtKQ3RyNzYwREN3?=
- =?utf-8?B?SGZnYlpqcTcyQVRHUm1RSEduWHk2dzNMelg5dzQvTENJY2JKSC9oQVkyMjcr?=
- =?utf-8?B?eG8zNWFldW9UZ0VDdlo5UGJ6QzhaY1B2QjVHU0NmNUlRd1FnRDJDNDVTMkJS?=
- =?utf-8?B?OEJjbGVNTlNZc1V2NGlyNnZvbDdiaWhJV0dmZnR1Z3l5SVB5RHUwYXlSQTdS?=
- =?utf-8?B?WklOUTd4Tm1oNXhtTk1aQ2t6dUUrSUM3T0VEbUNJRDNGaGtqWEtLMkRpaVBH?=
- =?utf-8?B?US96T0RLc2JtNnk0aUhFYkUxQllvRmlCOGpjOVFzUnR0dDVMaTVMcUdCdFF1?=
- =?utf-8?B?S1NNWkZDcEJ5elhueDBOcU8wUUh2MEsvS1VvbkJuZ0Z3Q3BHSnVtcVBMZ1Jl?=
- =?utf-8?B?VVh3a0hGVXNrWDYzSWRQRXZidVViWlFZY0NDNGtycUNza0k2N1o2b1lmNzhZ?=
- =?utf-8?B?K2NqOU5LaGovczRZR0hZZWRGQXpiTHpGYWZMWGZxZFc5ZTRHaHplaEtTbDIz?=
- =?utf-8?B?UEpwVGFjaTVaSm1mRHJyNWhPeGhPMGRHWTd5clhNYWd5SXlRbVZTVmZOVlJU?=
- =?utf-8?B?NUxoUkhVaTl2UEJNSFlBNlhnRDFPc09EWWp6bWhmbEpwbWM4a3RIbEI3T1Rt?=
- =?utf-8?B?RndsRXBzNkN3YXBZcG8zMG9LTmp4K0RUL1hsdU9LQ0tKVmhZMXVVak51U3N3?=
- =?utf-8?B?ZzJSWUljekFiNDhkOFExZlVzOXp4TE8wM3dhZHJHSTRMdWVaWG9wMHBYUlJ0?=
- =?utf-8?B?NkxhNm5kUVZ6K0RHUTR5bmtXckVnL0wrV3VpN2xCcm0zOUVBWG5vQURxTWhW?=
- =?utf-8?Q?QUg6ndwzQFI0hgf7KZisPQyy0?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251113160632.5889-16-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0299.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e7::10) To SJ0PR12MB5673.namprd12.prod.outlook.com
+ (2603:10b6:a03:42b::13)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB9448:EE_
+X-MS-Office365-Filtering-Correlation-Id: 98c6332b-8062-4826-1163-08de25be2457
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RmVmN0w0NzRWZWFmUlNRNlVUOVd6MUFsSUdWbmxoQkhUaFZSbk9FSVBONUQ2?=
+ =?utf-8?B?WmhCYU5zY1RZSUhNWkVmWWpnZ2thOVBHUW5mRkwvSTVVWmEyK2d0NnlsU1pF?=
+ =?utf-8?B?dzFic3lhOXZEaFV1V1pwRUNkVFN0QjNjcFkvR252eDZwMW5vYnVYVVZXZVBO?=
+ =?utf-8?B?Qi9OVG5pN3l0dkpoa05nL2U0RUhob2Z3R0g1OC9rbmhRdVdYT3VZcEtVUzBl?=
+ =?utf-8?B?dTQ2MFh2bGgxYk1wRWpwdkIvUlBWM3N2QThDRUpCYmwyQXdweGp1OW9qZFBL?=
+ =?utf-8?B?ZXBtVU5SNUV3eW1SNkx0cStPM3pYd2p4cGIxeDhtVElNZ0F4SmFVeXZqa08z?=
+ =?utf-8?B?bEZZZlZRLzNoMDNFUkxUUm1OS3ljMGkzdk5kWXNTODNKZWErbi9QRnhCOUR2?=
+ =?utf-8?B?RmEyNFNaRTBGemY2U1o5SGY1Y2RIcklFT3l2WUl2STJoYnNUMG9TcnJxUDNY?=
+ =?utf-8?B?NzdYY1JSSUJMQkVkdVA2WHlvdkZ3YUw1NUE1SU9iRGJkWjBLVW83bjFoajZP?=
+ =?utf-8?B?bE9Ed0V6N2pRaFRzYmV4T1VOWkZoT1FHK1doOXJIRk5xZDJXakJVbytibnFG?=
+ =?utf-8?B?N015dTlQUXVyaHB6Sm0rNDhRVEw4R29scWNMZ3Q4eVBVSFUrZ1krRy8zS05O?=
+ =?utf-8?B?alAzdDhxYS9YWWR4TDcyK3lmQ0k2VHFyb1dPV051NXZUTDdxK2ZzODBhZlIy?=
+ =?utf-8?B?VnRIQUdVd1dqbjJ5T1RwZWJ0YUhidUQ0eG0xZ3owMkgwNjFkbGQzTiszOEFZ?=
+ =?utf-8?B?VzcrMHc5azNmWHg0MFpKVTBhN3VYQUpONW1NNzhCdEZwa2VTaEVmK3JyOXp4?=
+ =?utf-8?B?aXdkeDhoVGI5WVBQcFlWa1dKY1hZcnAyMFpkbHFocmhOdHIyRlZBelpPNyti?=
+ =?utf-8?B?bnBuU0QxWm9KTDNLUmpHTlJ5OStHTzdnRDRjK0MraGFUT2dCNGxocXphbzdy?=
+ =?utf-8?B?UGhMUTZhTEhoczd6YjZ5MThqNVgyeHVxTENqdklMUGxjYlZCNTZJdkoydCtk?=
+ =?utf-8?B?ZlE0eEc2VzY0bVc4QWFNdXZsdGovbEVXRFM5T3BaT1laQkJLYVpraGlZOWt5?=
+ =?utf-8?B?NjlRUyt2UGFqREJaZ1BuQnBud29yYTZLS3ZFVC9ibUxTa293UUpEeG9pMzcv?=
+ =?utf-8?B?K2lMdUcyWEc1RGZaSnRpdVhRaTB3Vk50UUF1NFJyYVRVRHJ3dWw5UnVJdlZV?=
+ =?utf-8?B?NUpLQTlYVEtTbmdnTXFwZDk4a0hXZ2hWWi81OHpkVm8yRmw0aFFqd2h0bTJi?=
+ =?utf-8?B?bXdzTnBtbW5xdDlCRS8wWEtEbWN0QkprTUhmcFllTnBPRWF5MEVnRHJNTGY1?=
+ =?utf-8?B?UlpSS1JqdkNVcWxEYU43MThSMGVjbXAycVRKeVl5M3dxZmN0SFoxVlI4RWJl?=
+ =?utf-8?B?OW44RGRNZ2FWNHJLL1ozY2RXTFhNVkFRK0htc2JHTTRUWllEU2NOVk5ENFVy?=
+ =?utf-8?B?ejhLQkNQUjZxbjR0aUdGSzZkZFFTU200OE1abGRZeUkxRFg3YTJpTlZlakdW?=
+ =?utf-8?B?OFRUdlAwMGxUTDNiRGVCcUlkN05YV3lET25YL0gwenpoVzJqc2lYWEZIU0Zx?=
+ =?utf-8?B?V1pDMFNXc3ZxTlBTK3d5Z0RQdjNodVB1RlRFVFZlb2xiOFlFY0ZkQzhRSENt?=
+ =?utf-8?B?Z3k2OGc3Vm9xSmdvR3BtRmdWWkhtY0w5cVhLcnk3TzhvRStQMytLc2J2M1VT?=
+ =?utf-8?B?QnFFZ2d3bnNZWC9WVE1iYmpHN0hNQnlLcUpsb1ZYcWxqSkNtZDBCTC9XUUpR?=
+ =?utf-8?B?c2JIK0VlcEFKa1dXRHZkRjBMUzNWOGVzbXhya29La2ptT2F3MitKUnVkSDk2?=
+ =?utf-8?B?UklUZ2JvZ1I0OXpRZ2hEUVg2dk10ditnUksrM0doZG8vQVZjb3c2QUw1QWkr?=
+ =?utf-8?B?dWlnVWpqNGZlNEFmOEpBbzJXd2F5UTVrbHVZWENTOFkxSDFDY2IwdjdpV1FF?=
+ =?utf-8?Q?6Ia071ij+JRGm/3AQ7jQWj0OoFJ43zkV?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NFhOQ0NvVzBEM0YweGVmSkVYSm0xYjBuWDZkR0NGQms0aWMzZ3dNNnA3MmtY?=
+ =?utf-8?B?MjRYMEdGV1N3bEhKRGN1YlFTOUNKVE9jamhMdnBVaUVuVmE2ZHhJTHBmcGdx?=
+ =?utf-8?B?alY2bmp5SFhrSVB6RlUvbithY2d2NTljWkloTjFFcmwrYmxsK05JcG5oam9S?=
+ =?utf-8?B?VjJXUm5VejlZdHhmUkpTU21mdkVGT0lNdFF1elNTSDVNQk41UDNMTnJHUjdz?=
+ =?utf-8?B?endvN2REZTE3cmtHUEpoV0I0TGNYU1ExNkR1U0ErSXYrd2JXNFljc0h6eVk1?=
+ =?utf-8?B?Q2xqQVdSUldpQUdkdnJ4Wk9xVmlodzJmQ09kUnJvTzlNQmMzWGxxOGI3ZmY0?=
+ =?utf-8?B?Y2JaMDhWL0M1eUlwNGFqNFU2MVhiQTd4Tlg3d21OKytMeVNydm1hVDZMelYr?=
+ =?utf-8?B?Sm9idjRWcEJVTmlRelg5TDBnelhKNE0yanIzWm9NVEtQUUMwMHBINGZqZU53?=
+ =?utf-8?B?QVJqaERXWEswd1ZVbXpPaVhGRUx2REtSbnJDbDlSbWV1WnphemVsbGdpSFk3?=
+ =?utf-8?B?VlFBQitFaHB4U1dDU25YRmxaMVFNakx6NEdIcUc5dEppMDBDVlRjeGZzc08z?=
+ =?utf-8?B?UXVJWlREYzhGTnFJUE9Ia3lkZUdTVTgxelVZOFU5aHlaQWFHbEh4Zm5HRFlB?=
+ =?utf-8?B?YjBFMHNyM28yTW1kYXVzWW52L1lSdjk1dUR4aWg1WlpvamJCZlQxY005OGIw?=
+ =?utf-8?B?eFBMcGUxc0ZoK3F5ZU15M3ZrcmI4S3h3Q2xrcXI1UEZrZmFubUtDRFNUVlA5?=
+ =?utf-8?B?RDlDdGNGc3ZYcHUxTGtOZDh0bldocU1ZdVBhL2hqbTZML2xPQlEzckJvaUxE?=
+ =?utf-8?B?VlBMcVgybEp1QjRXYzhwQnZ6NUhQQ2hkL09WNnl5TDdoMGVLOUM3Tm5sa0hL?=
+ =?utf-8?B?T0F3dnpPZHhrSVBWZy9nTElQSktWbU1VM0Vydzlucjk3MWVQT2h0cDRVRnRO?=
+ =?utf-8?B?OGw2dlJvNzJsL3dtNFJSMU9ySDErWkVBdTRQcGFCYnVodnhQVDVFZFdxR3Zl?=
+ =?utf-8?B?aTRjMGJQNVJGcjVqcm44Ym4vbFcySVVNTjl3cFppdHNLNWd2am1VSDBoMHlG?=
+ =?utf-8?B?RElyVEF6Y2ZLWUUvUUtkeGp6RWxxSDkraHVBK3pJMFNQdkFjZDNQZmZkTFht?=
+ =?utf-8?B?LzZRei83Z1lzeW10S1c3dHVTR1hwajZvQThJREhuZ3IxQXBpRlNUcW13c2JC?=
+ =?utf-8?B?ZHdIR2dNaEYzaTJNRGxhb2ZiVnp6OGFJSkliOExFdlhkdTczdncvZFZJTmZE?=
+ =?utf-8?B?YkpkbTVlU21SNHZ3ODBQR242SnVnZGdmUmNHeitJLzVTWmszaFQvUlY5d2x4?=
+ =?utf-8?B?RnpQQ2xXQzdwa0dDN2VrQzNXR1JIMG94bmZZemNkOXd2QzlqaEd4NkZkTGQ4?=
+ =?utf-8?B?eGtJS3ZxejVVS1VwSnUreUxZbmZEK0hSL1V1L0R0QXh3RzFKaXpXMEFpZVE4?=
+ =?utf-8?B?dVZJZGtUdlZRMjl3N2wzWXNOSHhNOWZmWGthNGFUWEt0VC81M0hlSzF3NXRm?=
+ =?utf-8?B?VUZYUmlpMzFpcEtnL2YvazVOVEVUSUE1OTN5ZDVhei9CQkV3NXI2YU8rbEtR?=
+ =?utf-8?B?K3ZkaGhtZUFHK1I2azc4M3l5T3MxZXlWSEpRbGxCWUVPa3NMK3AxREFpdUQ4?=
+ =?utf-8?B?KzhtelI5Nk8rMGhXM1N0a0hvRE5FNm82SzU2MlRnTGZtTDNZNmhaZzZyeG1H?=
+ =?utf-8?B?dEN4N0xuZFlBVnQreW5JaVZ1N2NORzY4ZXB1a3BhdUR3TUJZSVUwcldWbnRy?=
+ =?utf-8?B?bGNSbEFicllaOWg2b3NhMm1OaEY0TEN6cUpoWk41YVhVcG0ySFJCcXk3ZlFi?=
+ =?utf-8?B?eEJJekpOZDNUUGtHMWh6SHdXUUhYU3RXS0tPZ1Jqdm1lU3JJdFBkVmc5ZjdH?=
+ =?utf-8?B?ZDY0NEU4QzBJOS9lTHVqK1o5UDZteDAreUZMbms3bmxnS2JZOTV6OTgyemx6?=
+ =?utf-8?B?NXZHWldUa2JudkJHbHdxdE5YeVB0MUduWlZ5S1IyNGg1aHFDenAwd2hiUTc2?=
+ =?utf-8?B?dzZMWlFlMGowRWRTU1FZZHFoN0Nqc3c2V1pFZjJvYW5wb0ZNSnhLY1VHT3pU?=
+ =?utf-8?B?VFZrb0o4WW1XT2FnejUzY1gxdlpxSWNFdVpMM0U1NVBVNGpwVmxKdE1ZdkVq?=
+ =?utf-8?Q?PXpZHCqwc0ynMq8LYKq5iXoR3?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98c6332b-8062-4826-1163-08de25be2457
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8d9e839-c375-4e30-2dc6-08de25be0cda
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2025 09:45:32.2478 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: p0GaQlksNIY99ucu3mCC/TVNtkWCSnEafhX5E3iAV0QkIv/AwLdTGl6t9bJdHGj3yiahNMxdh1PhTcaxCxkYTA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5979
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2025 09:46:12.3235 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 01PDWoE5zfZabnnq+i8Ouh2xEA3kcRV7q5nJhc/xD23ysXm4nSRbySb86kfbCd/R
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9448
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -202,39 +166,456 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-PiBTdWJqZWN0OiBbUEFUQ0ggdjQgMDYvMTBdIGRybS9pOTE1L2FscG06IEhhbGYgTEZQUyBjeWNs
-ZSBjYWxjdWxhdGlvbg0KPiANCj4gQWRkIHN1cHBvcnQgZm9yIGhhbGYgTEZQUyBjeWNsZSBjYWxj
-dWxhdGlvbiBmb3IgRFAyLjEgQUxQTSBhcyBkZXBlbmRlbnQNCj4gcGFyYW1ldGVycyBnb3QgY2hh
-bmdlZC4NCj4gDQo+IHYxOiBJbml0aWFsIHZlcnNpb24uDQo+IHYyOiBBdm9pZCByZXR1cm5pbmcg
-ZWFybHkuIFtKYW5pXQ0KPiB2MzogVXNlIGludGVsX2NydGNfaGFzX3R5cGUoKS4gW1N1cmFqXQ0K
-PiANCj4gQ2M6IEpvdW5pIEjDtmdhbmRlciA8am91bmkuaG9nYW5kZXJAaW50ZWwuY29tPg0KPiBT
-aWduZWQtb2ZmLWJ5OiBBbmltZXNoIE1hbm5hIDxhbmltZXNoLm1hbm5hQGludGVsLmNvbT4NCj4g
-LS0tDQo+ICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2FscG0uYyB8IDE4ICsr
-KysrKysrKysrKystLS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDUg
-ZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlz
-cGxheS9pbnRlbF9hbHBtLmMNCj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
-X2FscG0uYw0KPiBpbmRleCA4MTQ3MjI1NGFiNzMuLjMzNjIwZjk1ZWNjNSAxMDA2NDQNCj4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hbHBtLmMNCj4gKysrIGIvZHJp
-dmVycy9ncHUvZHJtL2k5MTUvZGlzcGxheS9pbnRlbF9hbHBtLmMNCj4gQEAgLTczLDEyICs3Mywy
-MCBAQCBzdGF0aWMgaW50IGdldF9zaWxlbmNlX3BlcmlvZF9zeW1ib2xzKGNvbnN0IHN0cnVjdA0K
-PiBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0YXRlKSAgc3RhdGljIHZvaWQgZ2V0X2xmcHNfY3lj
-bGVfbWluX21heF90aW1lKGNvbnN0DQo+IHN0cnVjdCBpbnRlbF9jcnRjX3N0YXRlICpjcnRjX3N0
-YXRlLA0KPiAgCQkJCQlpbnQgKm1pbiwgaW50ICptYXgpDQo+ICB7DQo+IC0JaWYgKGNydGNfc3Rh
-dGUtPnBvcnRfY2xvY2sgPCA1NDAwMDApIHsNCj4gLQkJKm1pbiA9IDY1ICogTEZQU19DWUNMRV9D
-T1VOVDsNCj4gLQkJKm1heCA9IDc1ICogTEZQU19DWUNMRV9DT1VOVDsNCj4gKwlzdHJ1Y3QgaW50
-ZWxfZGlzcGxheSAqZGlzcGxheSA9IHRvX2ludGVsX2Rpc3BsYXkoY3J0Y19zdGF0ZSk7DQo+ICsN
-Cj4gKwlpZiAoaW50ZWxfY3J0Y19oYXNfdHlwZShjcnRjX3N0YXRlLCBJTlRFTF9PVVRQVVRfRURQ
-KSkgew0KPiArCQlpZiAoY3J0Y19zdGF0ZS0+cG9ydF9jbG9jayA8IDU0MDAwMCkgew0KPiArCQkJ
-Km1pbiA9IERJU1BMQVlfVkVSKGRpc3BsYXkpIDwgMzUgPyA2NSAqDQo+IExGUFNfQ1lDTEVfQ09V
-TlQgOiAxNDA7DQo+ICsJCQkqbWF4ID0gRElTUExBWV9WRVIoZGlzcGxheSkgPCAzNSA/IDc1ICoN
-Cj4gTEZQU19DWUNMRV9DT1VOVCA6IDgwMDsNCj4gKwkJfSBlbHNlIHsNCj4gKwkJCSptaW4gPSAx
-NDA7DQo+ICsJCQkqbWF4ID0gODAwOw0KPiArCQl9DQo+ICAJfSBlbHNlIHsNCj4gLQkJKm1pbiA9
-IDE0MDsNCj4gLQkJKm1heCA9IDgwMDsNCj4gKwkJKm1pbiA9IDMyMDsNCj4gKwkJKm1heCA9IDE2
-MDA7DQo+ICsJCXJldHVybjsNCj4gIAl9DQoNCg0KVGhpcyBjYW4gYmUganVzdCANCnN0cnVjdCBp
-bnRlbF9kaXNwbGF5ICpkaXNwbGF5ID0gdG9faW50ZWxfZGlzcGxheShjcnRjX3N0YXRlKTsNCg0K
-Km1pbiA9IDE0MDsNCiptYXg9IDE4MDsNCmlmIChpbnRlbF9jcnRjX2hhc190eXBlKGNydGNfc3Rh
-dGUsIElOVEVMX09VVFBVVF9FRFApKSB7DQoJaWYgKGNydGNfc3RhdGUtPnBvcnRfY2xvY2sgPCA1
-NDAwMDAgJiYgRElTUExBWV9WRVIgPCA1NDAwMDApIHsNCgkJKm1pbiA9IDY1ICogTEZQU19DWUNM
-RV9DT1VOVCA7DQogCQkqbWF4ID0gNzUgKiBMRlBTX0NZQ0xFX0NPVU5UOw0KICAJfSBlbHNlIHsN
-CgkJKm1pbiA9IDMyMDsNCgkJKm1heCA9IDE2MDA7DQoJCXJldHVybjsNCiAgCX0NCg0KUmVnYXJk
-cywNClN1cmFqIEthbmRwYWwNCg0KPiANCj4gLS0NCj4gMi4yOS4wDQoNCg==
+On 11/13/25 17:05, Pierre-Eric Pelloux-Prayer wrote:
+> This will allow the use of all of them for clear/fill buffer
+> operations.
+> Since drm_sched_entity_init requires a scheduler array, we
+> store schedulers rather than rings. For the few places that need
+> access to a ring, we can get it from the sched using container_of.
+> 
+> Since the code is the same for all sdma versions, add a new
+> helper amdgpu_sdma_set_buffer_funcs_scheds to set buffer_funcs_scheds
+> based on the number of sdma instances.
+> 
+> Note: the new sched array is identical to the amdgpu_vm_manager one.
+> These 2 could be merged.
+
+I realized a bit after we discussed it that this isn't true.
+
+We need the two arrays separated for a Navi 1x workaround to work correctly.
+
+Anyway, that doesn't affect reviewing this patch here.
+
+> 
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu.h           |  2 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c |  4 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  8 ++--
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c       |  4 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       | 41 +++++++++++++++----
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       |  3 +-
+>  drivers/gpu/drm/amd/amdgpu/cik_sdma.c         |  3 +-
+>  drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c        |  3 +-
+>  drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c        |  3 +-
+>  drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c        |  6 +--
+>  drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c      |  6 +--
+>  drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c        |  6 +--
+>  drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c        |  6 +--
+>  drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c        |  3 +-
+>  drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c        |  3 +-
+>  drivers/gpu/drm/amd/amdgpu/si_dma.c           |  3 +-
+>  drivers/gpu/drm/amd/amdkfd/kfd_migrate.c      |  3 +-
+>  17 files changed, 62 insertions(+), 45 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> index 3fab3dc9f3e4..05c13fb0e6bf 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+> @@ -1615,6 +1615,8 @@ ssize_t amdgpu_get_soft_full_reset_mask(struct amdgpu_ring *ring);
+>  ssize_t amdgpu_show_reset_mask(char *buf, uint32_t supported_reset);
+>  void amdgpu_sdma_set_vm_pte_scheds(struct amdgpu_device *adev,
+>  				   const struct amdgpu_vm_pte_funcs *vm_pte_funcs);
+> +void amdgpu_sdma_set_buffer_funcs_scheds(struct amdgpu_device *adev,
+> +					 const struct amdgpu_buffer_funcs *buffer_funcs);
+>  
+>  /* atpx handler */
+>  #if defined(CONFIG_VGA_SWITCHEROO)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
+> index b59040a8771f..9ea927e07a77 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
+> @@ -32,12 +32,14 @@ static int amdgpu_benchmark_do_move(struct amdgpu_device *adev, unsigned size,
+>  				    uint64_t saddr, uint64_t daddr, int n, s64 *time_ms)
+>  {
+>  	ktime_t stime, etime;
+> +	struct amdgpu_ring *ring;
+>  	struct dma_fence *fence;
+>  	int i, r;
+>  
+> +	ring = container_of(adev->mman.buffer_funcs_scheds[0], struct amdgpu_ring, sched);
+
+We have the to_amdgpu_ring() macro for that.
+
+> +
+>  	stime = ktime_get();
+>  	for (i = 0; i < n; i++) {
+> -		struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+>  		r = amdgpu_copy_buffer(ring, &adev->mman.default_entity.base,
+>  				       saddr, daddr, size, NULL, &fence,
+>  				       false, 0);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index b92234d63562..1927d940fbca 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -3303,7 +3303,7 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
+>  	if (r)
+>  		goto init_failed;
+>  
+> -	if (adev->mman.buffer_funcs_ring->sched.ready)
+> +	if (adev->mman.buffer_funcs_scheds[0]->ready)
+>  		amdgpu_ttm_set_buffer_funcs_status(adev, true);
+>  
+>  	/* Don't init kfd if whole hive need to be reset during init */
+> @@ -4143,7 +4143,7 @@ static int amdgpu_device_ip_resume(struct amdgpu_device *adev)
+>  
+>  	r = amdgpu_device_ip_resume_phase2(adev);
+>  
+> -	if (adev->mman.buffer_funcs_ring->sched.ready)
+> +	if (adev->mman.buffer_funcs_scheds[0]->ready)
+
+We should probably drop that check here and move this into amdgpu_ttm_set_buffer_funcs_status().
+
+>  		amdgpu_ttm_set_buffer_funcs_status(adev, true);
+>  
+>  	if (r)
+> @@ -4493,7 +4493,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>  	adev->num_rings = 0;
+>  	RCU_INIT_POINTER(adev->gang_submit, dma_fence_get_stub());
+>  	adev->mman.buffer_funcs = NULL;
+> -	adev->mman.buffer_funcs_ring = NULL;
+> +	adev->mman.num_buffer_funcs_scheds = 0;
+>  	adev->vm_manager.vm_pte_funcs = NULL;
+>  	adev->vm_manager.vm_pte_num_scheds = 0;
+>  	adev->gmc.gmc_funcs = NULL;
+> @@ -5965,7 +5965,7 @@ int amdgpu_device_reinit_after_reset(struct amdgpu_reset_context *reset_context)
+>  				if (r)
+>  					goto out;
+>  
+> -				if (tmp_adev->mman.buffer_funcs_ring->sched.ready)
+> +				if (tmp_adev->mman.buffer_funcs_scheds[0]->ready)
+>  					amdgpu_ttm_set_buffer_funcs_status(tmp_adev, true);
+>  
+>  				r = amdgpu_device_ip_resume_phase3(tmp_adev);
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+> index 2713dd51ab9a..4433d8620129 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+> @@ -651,12 +651,14 @@ int amdgpu_gmc_allocate_vm_inv_eng(struct amdgpu_device *adev)
+>  void amdgpu_gmc_flush_gpu_tlb(struct amdgpu_device *adev, uint32_t vmid,
+>  			      uint32_t vmhub, uint32_t flush_type)
+>  {
+> -	struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+> +	struct amdgpu_ring *ring;
+>  	struct amdgpu_vmhub *hub = &adev->vmhub[vmhub];
+>  	struct dma_fence *fence;
+>  	struct amdgpu_job *job;
+>  	int r, i;
+>  
+> +	ring = container_of(adev->mman.buffer_funcs_scheds[0], struct amdgpu_ring, sched);
+> +
+>  	if (!hub->sdma_invalidation_workaround || vmid ||
+>  	    !adev->mman.buffer_funcs_enabled || !adev->ib_pool_ready ||
+>  	    !ring->sched.ready) {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> index 6c333dba7a35..11fec0fa4c11 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -308,7 +308,7 @@ static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
+>  				      struct dma_resv *resv,
+>  				      struct dma_fence **f)
+>  {
+> -	struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+> +	struct amdgpu_ring *ring;
+>  	struct amdgpu_res_cursor src_mm, dst_mm;
+>  	struct dma_fence *fence = NULL;
+>  	int r = 0;
+> @@ -321,6 +321,8 @@ static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
+>  		return -EINVAL;
+>  	}
+>  
+> +	ring = container_of(adev->mman.buffer_funcs_scheds[0], struct amdgpu_ring, sched);
+> +
+>  	amdgpu_res_first(src->mem, src->offset, size, &src_mm);
+>  	amdgpu_res_first(dst->mem, dst->offset, size, &dst_mm);
+>  
+> @@ -1493,6 +1495,7 @@ static int amdgpu_ttm_access_memory_sdma(struct ttm_buffer_object *bo,
+>  	struct amdgpu_bo *abo = ttm_to_amdgpu_bo(bo);
+>  	struct amdgpu_device *adev = amdgpu_ttm_adev(abo->tbo.bdev);
+>  	struct amdgpu_res_cursor src_mm;
+> +	struct amdgpu_ring *ring;
+>  	struct amdgpu_job *job;
+>  	struct dma_fence *fence;
+>  	uint64_t src_addr, dst_addr;
+> @@ -1530,7 +1533,8 @@ static int amdgpu_ttm_access_memory_sdma(struct ttm_buffer_object *bo,
+>  	amdgpu_emit_copy_buffer(adev, &job->ibs[0], src_addr, dst_addr,
+>  				PAGE_SIZE, 0);
+>  
+> -	amdgpu_ring_pad_ib(adev->mman.buffer_funcs_ring, &job->ibs[0]);
+> +	ring = container_of(adev->mman.buffer_funcs_scheds[0], struct amdgpu_ring, sched);
+> +	amdgpu_ring_pad_ib(ring, &job->ibs[0]);
+>  	WARN_ON(job->ibs[0].length_dw > num_dw);
+>  
+>  	fence = amdgpu_job_submit(job);
+> @@ -2196,11 +2200,9 @@ u32 amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+>  		return windows;
+>  
+>  	if (enable) {
+> -		struct amdgpu_ring *ring;
+>  		struct drm_gpu_scheduler *sched;
+>  
+> -		ring = adev->mman.buffer_funcs_ring;
+> -		sched = &ring->sched;
+> +		sched = adev->mman.buffer_funcs_scheds[0];
+>  		r = drm_sched_entity_init(&adev->mman.default_entity.base,
+>  					  DRM_SCHED_PRIORITY_KERNEL, &sched,
+>  					  1, NULL);
+> @@ -2432,7 +2434,7 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
+>  			    struct dma_fence **fence)
+>  {
+>  	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+> -	struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+> +	struct amdgpu_ring *ring;
+>  	struct amdgpu_ttm_buffer_entity *entity;
+>  	struct amdgpu_res_cursor cursor;
+>  	u64 addr;
+> @@ -2443,6 +2445,8 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
+>  
+>  	if (!fence)
+>  		return -EINVAL;
+> +
+> +	ring = container_of(adev->mman.buffer_funcs_scheds[0], struct amdgpu_ring, sched);
+>  	entity = &adev->mman.clear_entities[0];
+>  	*fence = dma_fence_get_stub();
+>  
+> @@ -2494,9 +2498,9 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
+>  		       u64 k_job_id)
+>  {
+>  	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+> -	struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+>  	struct dma_fence *fence = NULL;
+>  	struct amdgpu_res_cursor dst;
+> +	struct amdgpu_ring *ring;
+>  	int r, e;
+>  
+>  	if (!adev->mman.buffer_funcs_enabled) {
+> @@ -2505,6 +2509,8 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
+>  		return -EINVAL;
+>  	}
+>  
+> +	ring = container_of(adev->mman.buffer_funcs_scheds[0], struct amdgpu_ring, sched);
+> +
+>  	if (entity == NULL) {
+>  		e = atomic_inc_return(&adev->mman.next_clear_entity) %
+>  				      adev->mman.num_clear_entities;
+> @@ -2579,6 +2585,27 @@ int amdgpu_ttm_evict_resources(struct amdgpu_device *adev, int mem_type)
+>  	return ttm_resource_manager_evict_all(&adev->mman.bdev, man);
+>  }
+>  
+> +void amdgpu_sdma_set_buffer_funcs_scheds(struct amdgpu_device *adev,
+> +					 const struct amdgpu_buffer_funcs *buffer_funcs)
+> +{
+> +	struct amdgpu_vmhub *hub = &adev->vmhub[AMDGPU_GFXHUB(0)];
+> +	struct drm_gpu_scheduler *sched;
+> +	int i;
+> +
+> +	adev->mman.buffer_funcs = buffer_funcs;
+> +
+> +	for (i = 0; i < adev->sdma.num_instances; i++) {
+> +		if (adev->sdma.has_page_queue)
+> +			sched = &adev->sdma.instance[i].page.sched;
+> +		else
+> +			sched = &adev->sdma.instance[i].ring.sched;
+> +		adev->mman.buffer_funcs_scheds[i] = sched;
+> +	}
+> +
+> +	adev->mman.num_buffer_funcs_scheds = hub->sdma_invalidation_workaround ?
+> +		1 : adev->sdma.num_instances;
+> +}
+> +
+
+Probably better to make all SDMA version switch to use amdgpu_sdma_set_buffer_funcs_scheds() one patch and then changing amdgpu_sdma_set_buffer_funcs_scheds() to use more than one DMA engine a second patch.
+
+Regards,
+Christian.
+
+>  #if defined(CONFIG_DEBUG_FS)
+>  
+>  static int amdgpu_ttm_page_pool_show(struct seq_file *m, void *unused)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> index 4844f001f590..63c3e2466708 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> @@ -66,7 +66,8 @@ struct amdgpu_mman {
+>  
+>  	/* buffer handling */
+>  	const struct amdgpu_buffer_funcs	*buffer_funcs;
+> -	struct amdgpu_ring			*buffer_funcs_ring;
+> +	struct drm_gpu_scheduler		*buffer_funcs_scheds[AMDGPU_MAX_RINGS];
+> +	u32					num_buffer_funcs_scheds;
+>  	bool					buffer_funcs_enabled;
+>  
+>  	struct mutex				gtt_window_lock;
+> diff --git a/drivers/gpu/drm/amd/amdgpu/cik_sdma.c b/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
+> index 5fe162f52c92..a36385ad8da8 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
+> @@ -1333,8 +1333,7 @@ static const struct amdgpu_buffer_funcs cik_sdma_buffer_funcs = {
+>  
+>  static void cik_sdma_set_buffer_funcs(struct amdgpu_device *adev)
+>  {
+> -	adev->mman.buffer_funcs = &cik_sdma_buffer_funcs;
+> -	adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+> +	amdgpu_sdma_set_buffer_funcs_scheds(adev, &cik_sdma_buffer_funcs);
+>  }
+>  
+>  static const struct amdgpu_vm_pte_funcs cik_sdma_vm_pte_funcs = {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c b/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c
+> index 63636643db3d..4a3ba136a36c 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c
+> @@ -1228,8 +1228,7 @@ static const struct amdgpu_buffer_funcs sdma_v2_4_buffer_funcs = {
+>  
+>  static void sdma_v2_4_set_buffer_funcs(struct amdgpu_device *adev)
+>  {
+> -	adev->mman.buffer_funcs = &sdma_v2_4_buffer_funcs;
+> -	adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+> +	amdgpu_sdma_set_buffer_funcs_scheds(adev, &sdma_v2_4_buffer_funcs);
+>  }
+>  
+>  static const struct amdgpu_vm_pte_funcs sdma_v2_4_vm_pte_funcs = {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c
+> index 0153626b5df2..3cf527bcadf6 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c
+> @@ -1670,8 +1670,7 @@ static const struct amdgpu_buffer_funcs sdma_v3_0_buffer_funcs = {
+>  
+>  static void sdma_v3_0_set_buffer_funcs(struct amdgpu_device *adev)
+>  {
+> -	adev->mman.buffer_funcs = &sdma_v3_0_buffer_funcs;
+> -	adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+> +	amdgpu_sdma_set_buffer_funcs_scheds(adev, &sdma_v3_0_buffer_funcs);
+>  }
+>  
+>  static const struct amdgpu_vm_pte_funcs sdma_v3_0_vm_pte_funcs = {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
+> index 96a67b30854c..7e106baecad5 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
+> @@ -2608,11 +2608,7 @@ static const struct amdgpu_buffer_funcs sdma_v4_0_buffer_funcs = {
+>  
+>  static void sdma_v4_0_set_buffer_funcs(struct amdgpu_device *adev)
+>  {
+> -	adev->mman.buffer_funcs = &sdma_v4_0_buffer_funcs;
+> -	if (adev->sdma.has_page_queue)
+> -		adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].page;
+> -	else
+> -		adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+> +	amdgpu_sdma_set_buffer_funcs_scheds(adev, &sdma_v4_0_buffer_funcs);
+>  }
+>  
+>  static const struct amdgpu_vm_pte_funcs sdma_v4_0_vm_pte_funcs = {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
+> index 04dc8a8f4d66..7cb0e213bab2 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
+> @@ -2309,11 +2309,7 @@ static const struct amdgpu_buffer_funcs sdma_v4_4_2_buffer_funcs = {
+>  
+>  static void sdma_v4_4_2_set_buffer_funcs(struct amdgpu_device *adev)
+>  {
+> -	adev->mman.buffer_funcs = &sdma_v4_4_2_buffer_funcs;
+> -	if (adev->sdma.has_page_queue)
+> -		adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].page;
+> -	else
+> -		adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+> +	amdgpu_sdma_set_buffer_funcs_scheds(adev, &sdma_v4_4_2_buffer_funcs);
+>  }
+>  
+>  static const struct amdgpu_vm_pte_funcs sdma_v4_4_2_vm_pte_funcs = {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
+> index 19c717f2c602..eab09c5fc762 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
+> @@ -2066,10 +2066,8 @@ static const struct amdgpu_buffer_funcs sdma_v5_0_buffer_funcs = {
+>  
+>  static void sdma_v5_0_set_buffer_funcs(struct amdgpu_device *adev)
+>  {
+> -	if (adev->mman.buffer_funcs == NULL) {
+> -		adev->mman.buffer_funcs = &sdma_v5_0_buffer_funcs;
+> -		adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+> -	}
+> +	if (adev->mman.buffer_funcs == NULL)
+> +		amdgpu_sdma_set_buffer_funcs_scheds(adev, &sdma_v5_0_buffer_funcs);
+>  }
+>  
+>  static const struct amdgpu_vm_pte_funcs sdma_v5_0_vm_pte_funcs = {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+> index 7a07b8f4e86d..e843da1dce59 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+> @@ -2076,10 +2076,8 @@ static const struct amdgpu_buffer_funcs sdma_v5_2_buffer_funcs = {
+>  
+>  static void sdma_v5_2_set_buffer_funcs(struct amdgpu_device *adev)
+>  {
+> -	if (adev->mman.buffer_funcs == NULL) {
+> -		adev->mman.buffer_funcs = &sdma_v5_2_buffer_funcs;
+> -		adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+> -	}
+> +	if (adev->mman.buffer_funcs == NULL)
+> +		amdgpu_sdma_set_buffer_funcs_scheds(adev, &sdma_v5_2_buffer_funcs);
+>  }
+>  
+>  static const struct amdgpu_vm_pte_funcs sdma_v5_2_vm_pte_funcs = {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
+> index 8f8228c7adee..d078bff42983 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
+> @@ -1884,8 +1884,7 @@ static const struct amdgpu_buffer_funcs sdma_v6_0_buffer_funcs = {
+>  
+>  static void sdma_v6_0_set_buffer_funcs(struct amdgpu_device *adev)
+>  {
+> -	adev->mman.buffer_funcs = &sdma_v6_0_buffer_funcs;
+> -	adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+> +	amdgpu_sdma_set_buffer_funcs_scheds(adev, &sdma_v6_0_buffer_funcs);
+>  }
+>  
+>  static const struct amdgpu_vm_pte_funcs sdma_v6_0_vm_pte_funcs = {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c
+> index cf412d8fb0ed..77ad6f128e75 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c
+> @@ -1826,8 +1826,7 @@ static const struct amdgpu_buffer_funcs sdma_v7_0_buffer_funcs = {
+>  
+>  static void sdma_v7_0_set_buffer_funcs(struct amdgpu_device *adev)
+>  {
+> -	adev->mman.buffer_funcs = &sdma_v7_0_buffer_funcs;
+> -	adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+> +	amdgpu_sdma_set_buffer_funcs_scheds(adev, &sdma_v7_0_buffer_funcs);
+>  }
+>  
+>  static const struct amdgpu_vm_pte_funcs sdma_v7_0_vm_pte_funcs = {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/si_dma.c b/drivers/gpu/drm/amd/amdgpu/si_dma.c
+> index 863e00086c30..4f6d7eeceb37 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/si_dma.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/si_dma.c
+> @@ -826,8 +826,7 @@ static const struct amdgpu_buffer_funcs si_dma_buffer_funcs = {
+>  
+>  static void si_dma_set_buffer_funcs(struct amdgpu_device *adev)
+>  {
+> -	adev->mman.buffer_funcs = &si_dma_buffer_funcs;
+> -	adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+> +	amdgpu_sdma_set_buffer_funcs_scheds(adev, &si_dma_buffer_funcs);
+>  }
+>  
+>  static const struct amdgpu_vm_pte_funcs si_dma_vm_pte_funcs = {
+> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+> index 943c3438c7ee..3f7b85aabb72 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
+> @@ -129,13 +129,14 @@ svm_migrate_copy_memory_gart(struct amdgpu_device *adev, dma_addr_t *sys,
+>  			     struct dma_fence **mfence)
+>  {
+>  	const u64 GTT_MAX_PAGES = AMDGPU_GTT_MAX_TRANSFER_SIZE;
+> -	struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+> +	struct amdgpu_ring *ring;
+>  	struct amdgpu_ttm_buffer_entity *entity;
+>  	u64 gart_s, gart_d;
+>  	struct dma_fence *next;
+>  	u64 size;
+>  	int r;
+>  
+> +	ring = container_of(adev->mman.buffer_funcs_scheds[0], struct amdgpu_ring, sched);
+>  	entity = &adev->mman.move_entities[0];
+>  
+>  	mutex_lock(&entity->gart_window_lock);
+
