@@ -2,138 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88BF0C63A8E
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 11:59:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEE52C63AF4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 12:01:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C418D10E35E;
-	Mon, 17 Nov 2025 10:59:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A126A10E3A9;
+	Mon, 17 Nov 2025 11:01:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="V9xw2QpV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qDuXhd2o";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ARgKS07k";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Bw/L/bBf";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rGWYzEGJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7502010E35E
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 10:59:13 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DD6D41F445;
- Mon, 17 Nov 2025 10:59:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1763377152; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+U26GLBP9JylWtOx4kS1TXd/qAIpdbS4aWA16suFa8c=;
- b=V9xw2QpVy185sI9Bg0e8f116Zo2xFp9j1iCrZqR2CZ/+YCSwFVy0G1zE8d1MPtwLEkMTHL
- 3lcHDvzbcFPzlNBOsCNch9zYw7IzKIOs3GHnRjxUPFpTeiQccV1DDe47LWLvqJrOeyzvap
- OMoie29j4eq3HK8i7KXjbiw1T1Ebkfo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1763377152;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+U26GLBP9JylWtOx4kS1TXd/qAIpdbS4aWA16suFa8c=;
- b=qDuXhd2oTL52VS2CWWZ7540JOHnQMUhgqXsp654ydj6gdWxz/Xd4w7xYt0DRpxyWq52OJh
- YgCmziG0S2sTcnCg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1763377150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+U26GLBP9JylWtOx4kS1TXd/qAIpdbS4aWA16suFa8c=;
- b=ARgKS07ksUpupwhKy6+RwHOJuxLKb9jz/e6s3AhU6QrSNUW4YLQppMEh9k8CTwvZdSonUE
- 8/LfpHcyFt42Or2r2yh7lczrD8NX8lL/ZbEtMcvkHU5AJs064ckPLN3t4fRV4J0b0Bdoo3
- HvWnvwcapM0GycatHflQ+fF+UYY4iOk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1763377150;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=+U26GLBP9JylWtOx4kS1TXd/qAIpdbS4aWA16suFa8c=;
- b=Bw/L/bBfYR2nv8YWlZ8A3GMAhQ4Ci6wwdn5X/jYvThT8FrWhDOXOTXMphqjn8C+VX07c/p
- hcnps0OstC/UAHCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 97B2F3EA61;
- Mon, 17 Nov 2025 10:59:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id OOWgI/7/Gml2ZAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 17 Nov 2025 10:59:10 +0000
-Message-ID: <9306d41f-6afc-4277-9198-a23e51cbd9f6@suse.de>
-Date: Mon, 17 Nov 2025 11:59:10 +0100
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com
+ [74.125.224.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2E110E3A7
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 11:01:15 +0000 (UTC)
+Received: by mail-yx1-f47.google.com with SMTP id
+ 956f58d0204a3-64107188baeso3653926d50.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 03:01:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1763377274; x=1763982074; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/RSfdrwfxNJQiZz80hQXf9twz6yOQXKrW5ZfA5HxaxE=;
+ b=rGWYzEGJqEi99qHctaP87trGMrdAGuwv4GrrQXjH3cU+eAResOFjd1qo5/ugh57pLN
+ /32eix5G2SniEuad4khM+xi4mkAbBnQwcnoOFxUEnebbVBRK8cjBFVkP2mGpsJF4xH7v
+ 40kl4fX1DNVz6LkWqGQDaJeU8ID+Y2JM2FqOQ5HzrzZJQ44rA4NlP+Fpug5M3XdUr6X1
+ 6lYE0UCqUTwjiONC6szlx/AHer8mzCgOBdGJq7LhX/QfFxxJDHktGefqs9UZq3B6cLMb
+ ExtpH9Wu9whBjnboY8+T/HokG15TUIzP8nK3fB12na76M9Tz9XDr3tCz5k29G+hNvnoO
+ ZSZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763377274; x=1763982074;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/RSfdrwfxNJQiZz80hQXf9twz6yOQXKrW5ZfA5HxaxE=;
+ b=sZf64fIkW0j7GmKuB7CZhsr3WftMagsc7+CWhL2wpg1sLj9p7IYyP80GAbVRE40Is8
+ Aidzg5YA++ysC9r/FBRpg8xYAygjOsQ4n02h/0nYhME0uFKK2SfahtKt/ca1WmuJpvdS
+ UCkIgXRjReqYKeC9NaMMah3VCrAFnhbRpi9M1BAAzBHrXTAVzTKWBswCkBW5vcWjxNRa
+ wPQxtgu1YchM2HvZEJopEiXfh8+69YryMKUAHcV+p67MQHRfyIygq6Iyb6wKBrh2hizA
+ VxJ524NG4ljNgRyJ4TbPuqraV8y9EfqfDY5KJmXSctM6qpanTRGlDzB0LSVkp6AlUiW9
+ RU3w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVPyUIWxo/5CZ5ZbcEBQl3GtuHIPcETIYpFnLMtIpg1/1AZfUU5w1DVQg7op0a1r+xhpb1Cy27uWig=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyRLRtIpeazhoRPWKMKJwNeB/iEmb1br569PtVzMAdRXUNbuiXb
+ pk2gSzmB002Qdy+jGrgOE6UYZ/Ciw8bkJfumkOcIYCoZp4GXlHBzDI3a3BXd4pLBCi2Aw3/TxSd
+ hkzaAC2K96kOGOnlJAZLzILSq/W9T6DWoVmiIndYdAA==
+X-Gm-Gg: ASbGncv3OF1ErH8BkZpJRSKfMvDbb0+WIgA1Ze1AMD7J95lssI+drPPLhA6ut8kwxps
+ +Xk1wwpHP1epouYOImPIjd8VnKtRbJPhwvQ9y91in0PnehcjfbOtArjbtxX1qMao/45pNa17Jjx
+ zGNY2a6ePpDMbPBxDks5SkWcvKWQWHp8HiHFowc3buVaZbOYVCKD4Vkn2S+QRstUF8LBAvezLCs
+ lrCAF1F63PayOieeeHzfNrNtBKcQgoqlyDQXao9Fj4GOJiR/1eYKqQSmSOVtEXyuPnU6WfRVOrt
+ x3q8ZsE=
+X-Google-Smtp-Source: AGHT+IEjvegoUIWfi8UaBD0jEKwHtT+y2Cbu5UHhJ+VHUPJu6okR0AoxTFiIq+cxtmlIxdFEnLzs3e2dtieQR/hKIVs=
+X-Received: by 2002:a05:690e:d86:b0:642:84a:7ba4 with SMTP id
+ 956f58d0204a3-642084a7c6bmr1567493d50.85.1763377273901; Mon, 17 Nov 2025
+ 03:01:13 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm, fbcon, vga_switcheroo: Avoid race condition in fbcon
- setup
-To: Javier Martinez Canillas <javierm@redhat.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, deller@gmx.de, lukas@wunner.de,
- ville.syrjala@linux.intel.com, sam@ravnborg.org
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-References: <20251105161549.98836-1-tzimmermann@suse.de>
- <87fradkkzp.fsf@ocarina.mail-host-address-is-not-set>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <87fradkkzp.fsf@ocarina.mail-host-address-is-not-set>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_TO(0.00)[redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,gmx.de,wunner.de,ravnborg.org];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCPT_COUNT_SEVEN(0.00)[11];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email, imap1.dmz-prg2.suse.org:helo,
- linuxfoundation.org:email, bootlin.com:url, wunner.de:email, gmx.de:email,
- suse.com:url, ffwll.ch:email, amd.com:email, lists.freedesktop.org:email,
- ursulin.net:email]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
+References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
+ <20251113150217.3030010-14-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20251113150217.3030010-14-andriy.shevchenko@linux.intel.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 17 Nov 2025 12:00:38 +0100
+X-Gm-Features: AWmQ_bk2fwrMGKoLr3e8DW_NORum6cYwB-Ynf9Wgckyt3WUUk5QWFuYE7vXt0wM
+Message-ID: <CAPDyKFotmQyHzBim-8nib-KVvQaQgA_ELbgdC_Q4Y95-GrvRSw@mail.gmail.com>
+Subject: Re: [PATCH v3 13/21] mmc: mmc_test: Switch to use %ptSp
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Corey Minyard <corey@minyard.net>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ "Dr. David Alan Gilbert" <linux@treblig.org>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Matthew Brost <matthew.brost@intel.com>, 
+ Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+ Vitaly Lifshits <vitaly.lifshits@intel.com>, 
+ Manivannan Sadhasivam <mani@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+ Calvin Owens <calvin@wbinvd.org>, 
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Sagi Maimon <maimon.sagi@gmail.com>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Karan Tilak Kumar <kartilak@cisco.com>, 
+ Hans Verkuil <hverkuil+cisco@kernel.org>,
+ Casey Schaufler <casey@schaufler-ca.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>, 
+ Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+ Max Kellermann <max.kellermann@ionos.com>, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ openipmi-developer@lists.sourceforge.net, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ freedreno@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
+ intel-wired-lan@lists.osuosl.org, linux-pci@vger.kernel.org, 
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-staging@lists.linux.dev, ceph-devel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ Gustavo Padovan <gustavo@padovan.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Vladimir Oltean <olteanv@gmail.com>,
+ Andrew Lunn <andrew@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Rodolfo Giometti <giometti@enneenne.com>,
+ Jonathan Lemon <jonathan.lemon@gmail.com>, 
+ Richard Cochran <richardcochran@gmail.com>,
+ Stefan Haberland <sth@linux.ibm.com>, 
+ Jan Hoeppner <hoeppner@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+ Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, 
+ Satish Kharat <satishkh@cisco.com>, Sesidhar Baddela <sebaddel@cisco.com>, 
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,93 +150,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 17.11.25 um 11:32 schrieb Javier Martinez Canillas:
-> Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Thu, 13 Nov 2025 at 16:03, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 >
-> Hello Thomas,
+> Use %ptSp instead of open coded variants to print content of
+> struct timespec64 in human readable format.
 >
->> Protect vga_switcheroo_client_fb_set() with console lock. Avoids OOB
->> access in fbcon_remap_all(). Without holding the console lock the call
->> races with switching outputs.
->>
->> VGA switcheroo calls fbcon_remap_all() when switching clients. The fbcon
->> function uses struct fb_info.node, which is set by register_framebuffer().
->> As the fb-helper code currently sets up VGA switcheroo before registering
->> the framebuffer, the value of node is -1 and therefore not a legal value.
->> For example, fbcon uses the value within set_con2fb_map() [1] as an index
->> into an array.
->>
->> Moving vga_switcheroo_client_fb_set() after register_framebuffer() can
->> result in VGA switching that does not switch fbcon correctly.
->>
->> Therefore move vga_switcheroo_client_fb_set() under fbcon_fb_registered(),
->> which already holds the console lock. Fbdev calls fbcon_fb_registered()
->> from within register_framebuffer(). Serializes the helper with VGA
->> switcheroo's call to fbcon_remap_all().
->>
->> Although vga_switcheroo_client_fb_set() takes an instance of struct fb_info
->> as parameter, it really only needs the contained fbcon state. Moving the
->> call to fbcon initialization is therefore cleaner than before. Only amdgpu,
->> i915, nouveau and radeon support vga_switcheroo. For all other drivers,
->> this change does nothing.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Link: https://elixir.bootlin.com/linux/v6.17/source/drivers/video/fbdev/core/fbcon.c#L2942 # [1]
->> ---
-> I'm not that familiar with fbcon and vga_switcheroo to properly review
-> your patch but after reading the explanation in the commit message and
-> reading the diff, the change does make sense to me.
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+
+Kind regards
+Uffe
+
+> ---
+>  drivers/mmc/core/mmc_test.c | 20 ++++++++------------
+>  1 file changed, 8 insertions(+), 12 deletions(-)
 >
-> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+> diff --git a/drivers/mmc/core/mmc_test.c b/drivers/mmc/core/mmc_test.c
+> index a74089df4547..01d1e62c2ce7 100644
+> --- a/drivers/mmc/core/mmc_test.c
+> +++ b/drivers/mmc/core/mmc_test.c
+> @@ -586,14 +586,11 @@ static void mmc_test_print_avg_rate(struct mmc_test_card *test, uint64_t bytes,
+>         rate = mmc_test_rate(tot, &ts);
+>         iops = mmc_test_rate(count * 100, &ts); /* I/O ops per sec x 100 */
 >
-> But I think that would be good if you get some testing for the drivers
-> that make use of vga_switcheroo. Also, do you need a Fixes tag ?
-
-I've ran the testing on amdgpu and i915 so that nothing breaks. The bug 
-is hard to reproduce though. I've discovered it by reading the code.
-
-About Fixes, the problem has been in the code forever. So IDK what Fixes 
-would make sense. Just in case:
-
-Fixes: 6a9ee8af344e ("vga_switcheroo: initial implementation (v15)")
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Lukas Wunner <lukas@wunner.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Helge Deller <deller@gmx.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.org
-Cc: linux-fbdev@vger.kernel.org
-Cc: <stable@vger.kernel.org> # v2.6.34+
-
-
-Best regards
-Thomas
-
+> -       pr_info("%s: Transfer of %u x %u sectors (%u x %u%s KiB) took "
+> -                        "%llu.%09u seconds (%u kB/s, %u KiB/s, "
+> -                        "%u.%02u IOPS, sg_len %d)\n",
+> -                        mmc_hostname(test->card->host), count, sectors, count,
+> -                        sectors >> 1, (sectors & 1 ? ".5" : ""),
+> -                        (u64)ts.tv_sec, (u32)ts.tv_nsec,
+> -                        rate / 1000, rate / 1024, iops / 100, iops % 100,
+> -                        test->area.sg_len);
+> +       pr_info("%s: Transfer of %u x %u sectors (%u x %u%s KiB) took %ptSp seconds (%u kB/s, %u KiB/s, %u.%02u IOPS, sg_len %d)\n",
+> +               mmc_hostname(test->card->host), count, sectors, count,
+> +               sectors >> 1, (sectors & 1 ? ".5" : ""), &ts,
+> +               rate / 1000, rate / 1024, iops / 100, iops % 100,
+> +               test->area.sg_len);
 >
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+>         mmc_test_save_transfer_result(test, count, sectors, ts, rate, iops);
+>  }
+> @@ -3074,10 +3071,9 @@ static int mtf_test_show(struct seq_file *sf, void *data)
+>                 seq_printf(sf, "Test %d: %d\n", gr->testcase + 1, gr->result);
+>
+>                 list_for_each_entry(tr, &gr->tr_lst, link) {
+> -                       seq_printf(sf, "%u %d %llu.%09u %u %u.%02u\n",
+> -                               tr->count, tr->sectors,
+> -                               (u64)tr->ts.tv_sec, (u32)tr->ts.tv_nsec,
+> -                               tr->rate, tr->iops / 100, tr->iops % 100);
+> +                       seq_printf(sf, "%u %d %ptSp %u %u.%02u\n",
+> +                                  tr->count, tr->sectors, &tr->ts, tr->rate,
+> +                                  tr->iops / 100, tr->iops % 100);
+>                 }
+>         }
+>
+> --
+> 2.50.1
+>
