@@ -2,137 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790D7C64C6B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 16:02:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB9DC64CD4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 16:07:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 546B410E3BA;
-	Mon, 17 Nov 2025 15:02:34 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Rxr5i0oi";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="CdfWwGuN";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EE9010E087;
+	Mon, 17 Nov 2025 15:07:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D98910E3BA
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 15:02:32 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AHAprBc3921002
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 15:02:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 2ef1fLkfHBFXiSME/ii8xpkgp4NebP/rTeWyzU9gVLk=; b=Rxr5i0oirw1zAggV
- Exsm9UtDszwgt4OytMP/A138pIOZHoSLVbNvWFjLw0AC2Jh0IjxibjboFo2dICbj
- m3wg4hByNUpbBfr/Lae7/q/vCYSYVjVYDk3HSzcmQhAm0EdNUbZj5Z3EprZaSUfO
- V6qAWlKbe2lScqp/1N6hGPirg/XGixrVxtvCvniMeiy/rvWujvJK9soodiL8OnnF
- daKfH/gOVkf5hu+pK0Txnm2RYW3pCyx3z2maC8qXfKvoTf6cmz+8W8AuXb/3KjXC
- kljcfqGaQPDShqn4P3OwdW1xjRHT7OWrNy+9CeGUXgDSnLSVIvgGON9g+s/meWq7
- PUqNwA==
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ag2ay8pnk-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 15:02:31 +0000 (GMT)
-Received: by mail-vs1-f72.google.com with SMTP id
- ada2fe7eead31-5dfa4d7ed54so453088137.2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 07:02:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763391751; x=1763996551;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2ef1fLkfHBFXiSME/ii8xpkgp4NebP/rTeWyzU9gVLk=;
- b=CdfWwGuNYgCyOehXtJ6IqUHankKCSUBqUl6SDqicx9JVBZsnNp5GwkFlo0aZKBCxxF
- 3aXUvknFbITzDZGRznS0eJLYW455d2K/ASFeTWlWcNNmpajZrc+3ZW+5ka12bWgpYs5N
- LjjKGM/AOusnf8KpB/4K28/Cn/lQctCwwYL3wmQDbAPkANLvFpgRyHL5rDvb2OXnrer1
- 3xs0qsFUriGNjNPmZ9qw6gRLsSlGW3xARWnTQ09V66+SZXSYhetnaEkDgH+2FmFpS9vJ
- o9KOhSFX408c2Nj3m+ZpGEmIeJFzsYA/GygDXZlY4e7Usmw36vCJTROaRIP3lZeiqTxH
- 7c0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763391751; x=1763996551;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=2ef1fLkfHBFXiSME/ii8xpkgp4NebP/rTeWyzU9gVLk=;
- b=kQQfxJuVPZpz1Z4g+tBL0dt9N5QGasIBSMdtzA9ZGz/sAjFO5VrBLp7Pe4q0OUZRSd
- Mb42NMg27roBKegUrlmV0w6JjvhOkR6rH+L9r2f3PYEtJnNJVr0aTKTJWkUyOoE4ABMr
- rB/2jbTwEQTwTY2l2OXja1D8r2ADzZbw+URKeYDefSJma5sv6FtIOgtU07u/T77pTQxP
- 8HtQHGDmeq9Ygjgnaf2iZInTGKk+M5a7VzT1elq5Nl/4Sg44TngYHyEF2uPIL3e1Cf2S
- 6LTlDbRTugQrF217hhMiLa8tnNSj0L9Sg3l+Y69zhtYBc15VOKx939oqlj8diJMqGTkv
- 1/1Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWt+v9NWGgP6tJHTGP2UxxbcOf7jwSN+5F+sZUWFBb6ChEA4O7lMRYauYAogpK1Qujx4Sq0NBxUTig=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5mYoYlqNL80KlpL3K2XzfSqVulx5yYXJ+/8cJ6fb6XqaKKnH3
- 5hb7fdtaRIt47AZxh6lzSnEi7wt9e71+eYxNYufn8OzrgGkbq4/wD0TBoTp0NLXrG/Wwcce5WHa
- MA94O/qkuSWBwAcZ/a+eKsZ3gsOaHRq3/ecTEZ0a+eU17aeDl395bKpB35mhPwt8wuc2Y/Zw=
-X-Gm-Gg: ASbGncsDQChRgzrVRWHmCBoFaL1Q9Zl46BwF072vnDwOaCrh5xTP1vnI7HEyO3rXvzw
- yOjrvUZbtFJdboW6WPSP1Zs9GFHyWsjEEaK9KH6LpIOBWLWyALrJaGIA3AkxUel5J2LhF56Lmme
- VAhA4mfQmzZaLVouD6nlqbzo46+Kaek3T0tb/NzdqzsTps1iRmggnmVhF+UkjKbAwb11sAfRnRL
- qAfxwsWyFZ/E9hEucWjl62RHdEfqfCXJteBwDtDiJBTpOcP0nZ1xyDGGgbqpMoa4IZAL5GVuFz8
- ZdojZaZ8D2Mcxx3ng6KiCAshzy26ti1pol6yOZkkdZP7Uq100nM5lEvsWDsKmnBC93AIoRhIW/C
- qhHXeED2DqDkbdY/AVlV2D3JztiU1PfVPjQyrl97XtC3GUtV0z56NC4MI
-X-Received: by 2002:ac5:c818:0:b0:55b:ac1:d05f with SMTP id
- 71dfb90a1353d-55b1e8e656bmr1366536e0c.0.1763391750443; 
- Mon, 17 Nov 2025 07:02:30 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF3gTN2k6xAY3h/CeIVWmGva+PTDh6zNiEHBeDvsWL5An00LUHJvO9nFZJUxYNN6II0l3pA5A==
-X-Received: by 2002:ac5:c818:0:b0:55b:ac1:d05f with SMTP id
- 71dfb90a1353d-55b1e8e656bmr1366500e0c.0.1763391749842; 
- Mon, 17 Nov 2025 07:02:29 -0800 (PST)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-644f132653fsm981327a12.15.2025.11.17.07.02.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Nov 2025 07:02:27 -0800 (PST)
-Message-ID: <04aec988-59ba-4c98-b922-510d86b10ea5@oss.qualcomm.com>
-Date: Mon, 17 Nov 2025 16:02:25 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7555B10E087
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 15:07:54 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 81049FEC;
+ Mon, 17 Nov 2025 07:07:46 -0800 (PST)
+Received: from [10.57.69.30] (unknown [10.57.69.30])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4B2D33F66E;
+ Mon, 17 Nov 2025 07:07:52 -0800 (PST)
+Message-ID: <713a36aa-c8ff-4110-ae84-e67851b3efc1@arm.com>
+Date: Mon, 17 Nov 2025 15:07:50 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm: adreno: fix deferencing ifpc_reglist when not
- declared
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20251117-topic-sm8x50-fix-a6xx-non-ifpc-v1-1-e4473cbf5903@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251117-topic-sm8x50-fix-a6xx-non-ifpc-v1-1-e4473cbf5903@linaro.org>
+Subject: Re: [PATCH v2 5/6] drm/panthor: Make panthor_vm_[un]map_pages() more
+ robust
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>,
+ Karunika Choo <karunika.choo@arm.com>, kernel@collabora.com
+References: <20251113103953.1519935-1-boris.brezillon@collabora.com>
+ <20251113103953.1519935-6-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251113103953.1519935-6-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=dL2rWeZb c=1 sm=1 tr=0 ts=691b3907 cx=c_pps
- a=DUEm7b3gzWu7BqY5nP7+9g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=KKAkSRfTAAAA:8 a=5-YDskA_wAJxIDT2F10A:9
- a=QEXdDO2ut3YA:10 a=-aSRE8QhW-JAV6biHavz:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: H1X_6nLyp8wSJE5sNid_W8KDcG1rqyLa
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE3MDEyNyBTYWx0ZWRfX/GFlgvF21Rb6
- KWOwpYobrrwX7t0IzJZJoNObUdR1XnEDgiDjFNyQ8isstqaj0trdUsEO6+90R2c/KbV+3xqkSV+
- 2Qtxsfun+9+m8ie+kLg7V9tltEFo01IQyIWy+O9zP8j38blfU4E1P51UWPtGBxhEzkKLVrJwsl1
- pO6fSkEjbP+/sb9JKqJTg6L6DQ4llPiP1REb0cwT3STu66bGFIXy5QOChwFIRTm7SrKFYFwPE/X
- 9WFk8XI26Pk9A2BLrL4UeiveNintPo35HTeE3JBTQimuwivsibgKhHQpQ+r6F+/Lg3fSvW7q8q2
- pQUoyYT4B7S5KoN9zfOCasdCg5y29UI1GE/iC70KMW1orftpxzfNkaXgP99p8XhKRGvcWSN7Sqc
- mtc4ssniuNoyMkSoEt/nsBbaSiq0ng==
-X-Proofpoint-ORIG-GUID: H1X_6nLyp8wSJE5sNid_W8KDcG1rqyLa
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-17_03,2025-11-13_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 suspectscore=0 clxscore=1015 adultscore=0
- impostorscore=0 priorityscore=1501 bulkscore=0 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511170127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,39 +51,174 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/17/25 3:51 PM, Neil Armstrong wrote:
-> On plaforms with an a7xx GPU not supporting IFPC, the ifpc_reglist
-> if still deferenced in a7xx_patch_pwrup_reglist() which causes
-> a kernel crash:
-> Unable to handle kernel NULL pointer dereference at virtual address 0000000000000008
-> ...
-> pc : a6xx_hw_init+0x155c/0x1e4c [msm]
-> lr : a6xx_hw_init+0x9a8/0x1e4c [msm]
-> ...
-> Call trace:
->   a6xx_hw_init+0x155c/0x1e4c [msm] (P)
->   msm_gpu_hw_init+0x58/0x88 [msm]
->   adreno_load_gpu+0x94/0x1fc [msm]
->   msm_open+0xe4/0xf4 [msm]
->   drm_file_alloc+0x1a0/0x2e4 [drm]
->   drm_client_init+0x7c/0x104 [drm]
->   drm_fbdev_client_setup+0x94/0xcf0 [drm_client_lib]
->   drm_client_setup+0xb4/0xd8 [drm_client_lib]
->   msm_drm_kms_post_init+0x2c/0x3c [msm]
->   msm_drm_init+0x1a4/0x228 [msm]
->   msm_drm_bind+0x30/0x3c [msm]
-> ...
+On 13/11/2025 10:39, Boris Brezillon wrote:
+> There's no reason for panthor_vm_[un]map_pages() to fail unless the
+> drm_gpuvm state and the page table are out of sync, so let's reflect that
+> by making panthor_vm_unmap_pages() a void function and adding
+> WARN_ON()s in various places. We also try to recover from those
+> unexpected mismatch by checking for already unmapped ranges and skipping
+> them. But there's only so much we can do to try and cope with such
+> SW bugs, so when we see a mismatch, we flag the VM unusable and disable
+> the AS to avoid further GPU accesses to the memory.
 > 
-> Check the validity of ifpc_reglist before deferencing the table
-> to setup the register values.
+> It could be that the as_disable() call fails because the MMU unit is
+> stuck, in which case the whole GPU is frozen, and only a GPU reset can
+> unblock things. Ater the reset, the VM will be seen as unusable and
+> any attempt to re-use it will fail, so we should be covered for any
+> use-after-unmap issues.
 > 
-> Fixes: a6a0157cc68e ("drm/msm/a6xx: Enable IFPC on Adreno X1-85")
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> v2:
+> - Fix double unlock
+> 
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
 > ---
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 82 ++++++++++++++++++---------
+>  1 file changed, 55 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index 21389137a324..35aad1e0ecaa 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -842,12 +842,32 @@ static size_t get_pgsize(u64 addr, size_t size, size_t *count)
+>  	return SZ_2M;
+>  }
+>  
+> -static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
+> +static void panthor_vm_declare_unusable(struct panthor_vm *vm)
+> +{
+> +	struct panthor_device *ptdev = vm->ptdev;
+> +	int cookie;
+> +
+> +	if (vm->unusable)
+> +		return;
+> +
+> +	vm->unusable = true;
+> +	mutex_lock(&ptdev->mmu->as.slots_lock);
+> +	if (vm->as.id >= 0 && drm_dev_enter(&ptdev->base, &cookie)) {
+> +		panthor_mmu_as_disable(ptdev, vm->as.id);
+> +		drm_dev_exit(cookie);
+> +	}
+> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> +}
+> +
+> +static void panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
+>  {
+>  	struct panthor_device *ptdev = vm->ptdev;
+>  	struct io_pgtable_ops *ops = vm->pgtbl_ops;
+>  	u64 offset = 0;
+>  
+> +	if (!size)
+> +		return;
+> +
+>  	drm_WARN_ON(&ptdev->base,
+>  		    (iova < vm->locked_region.start) ||
+>  		    (iova + size > vm->locked_region.start + vm->locked_region.size));
+> @@ -858,18 +878,32 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
+>  		size_t pgsize = get_pgsize(iova + offset, size - offset, &pgcount);
+>  
+>  		unmapped_sz = ops->unmap_pages(ops, iova + offset, pgsize, pgcount, NULL);
+> +		if (drm_WARN_ON_ONCE(&ptdev->base, unmapped_sz != pgsize * pgcount)) {
+> +			/* Gracefully handle sparsely unmapped regions to avoid leaving
+> +			 * page table pages behind when the drm_gpuvm and VM page table
+> +			 * are out-of-sync. This is not supposed to happen, hence the
+> +			 * above WARN_ON().
+> +			 */
+> +			while (!ops->iova_to_phys(ops, iova + unmapped_sz) &&
+> +			       unmapped_sz < pgsize * pgcount)
+> +				unmapped_sz += SZ_4K;
+>  
+> -		if (drm_WARN_ON(&ptdev->base, unmapped_sz != pgsize * pgcount)) {
+> -			drm_err(&ptdev->base, "failed to unmap range %llx-%llx (requested range %llx-%llx)\n",
+> -				iova + offset + unmapped_sz,
+> -				iova + offset + pgsize * pgcount,
+> -				iova, iova + size);
+> -			return  -EINVAL;
+> +			/* We're passed the point where we can try to fix things,
+> +			 * so flag the VM unusable to make sure it's not going
+> +			 * to be used anymore.
+> +			 */
+> +			panthor_vm_declare_unusable(vm);
+> +
+> +			/* If we don't make progress, we're screwed. That also means
+> +			 * something else prevents us from unmapping the region, but
+> +			 * there's not much we can do here: time for debugging.
+> +			 */
+> +			if (drm_WARN_ON_ONCE(&ptdev->base, !unmapped_sz))
+> +				return;
+>  		}
+> +
+>  		offset += unmapped_sz;
+>  	}
+> -
+> -	return 0;
+>  }
+>  
+>  static int
+> @@ -917,16 +951,17 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+>  			paddr += mapped;
+>  			len -= mapped;
+>  
+> -			if (drm_WARN_ON(&ptdev->base, !ret && !mapped))
+> +			/* If nothing was mapped, consider it an ENOMEM. */
+> +			if (!ret && !mapped)
+>  				ret = -ENOMEM;
+>  
+> -			if (ret) {
+> -				/* If something failed, unmap what we've already mapped before
+> -				 * returning. The unmap call is not supposed to fail.
+> +			/* If something fails, we stop there, and flag the VM unusable. */
+> +			if (drm_WARN_ON_ONCE(&ptdev->base, ret)) {
+> +				/* Unmap what we've already mapped to avoid leaving page
+> +				 * table pages behind.
+>  				 */
+> -				drm_WARN_ON(&ptdev->base,
+> -					    panthor_vm_unmap_pages(vm, start_iova,
+> -								   iova - start_iova));
+> +				panthor_vm_unmap_pages(vm, start_iova, iova - start_iova);
+> +				panthor_vm_declare_unusable(vm);
+>  				return ret;
+>  			}
+>  		}
+> @@ -2109,12 +2144,9 @@ static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
+>  	struct panthor_vm_op_ctx *op_ctx = vm->op_ctx;
+>  	struct panthor_vma *prev_vma = NULL, *next_vma = NULL;
+>  	u64 unmap_start, unmap_range;
+> -	int ret;
+>  
+>  	drm_gpuva_op_remap_to_unmap_range(&op->remap, &unmap_start, &unmap_range);
+> -	ret = panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
+> -	if (ret)
+> -		return ret;
+> +	panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
+>  
+>  	if (op->remap.prev) {
+>  		prev_vma = panthor_vm_op_ctx_get_vma(op_ctx);
+> @@ -2154,13 +2186,9 @@ static int panthor_gpuva_sm_step_unmap(struct drm_gpuva_op *op,
+>  {
+>  	struct panthor_vma *unmap_vma = container_of(op->unmap.va, struct panthor_vma, base);
+>  	struct panthor_vm *vm = priv;
+> -	int ret;
+> -
+> -	ret = panthor_vm_unmap_pages(vm, unmap_vma->base.va.addr,
+> -				     unmap_vma->base.va.range);
+> -	if (drm_WARN_ON(&vm->ptdev->base, ret))
+> -		return ret;
+>  
+> +	panthor_vm_unmap_pages(vm, unmap_vma->base.va.addr,
+> +			       unmap_vma->base.va.range);
+>  	drm_gpuva_unmap(&op->unmap);
+>  	panthor_vma_unlink(vm, unmap_vma);
+>  	return 0;
+> @@ -2240,7 +2268,7 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
+>  
+>  out:
+>  	if (ret && flag_vm_unusable_on_failure)
+> -		vm->unusable = true;
+> +		panthor_vm_declare_unusable(vm);
+>  
+>  	vm->op_ctx = NULL;
+>  	mutex_unlock(&vm->op_lock);
 
-I think it should be fine to skip calling this func altogether
-if !ifpc || !pwrup_reglist
-
-Although ifpc && !pwrup_reglist should probably scream very loud
-
-Konrad
