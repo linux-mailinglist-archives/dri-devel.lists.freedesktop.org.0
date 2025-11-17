@@ -2,149 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3299AC6495E
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 15:13:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4141DC64A37
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 15:26:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACAFE10E109;
-	Mon, 17 Nov 2025 14:13:21 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=hotmail.com header.i=@hotmail.com header.b="Jba11VMn";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77CEF10E0AA;
+	Mon, 17 Nov 2025 14:26:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com
- (mail-northeuropeazolkn19010022.outbound.protection.outlook.com
- [52.103.32.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1502410E109
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 14:13:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JJlRhSWaL4CXqSQ5y7CKBX5gO9mcX7HdfOziGo42kErPY51k8q99DpwpT7CIcuelqlzziwUUMDK2gl5rggruumFcVbnVJ4g+xKf3K84HelF2WL75qrYkLJ0RI6mECc4BzRkPdUZB8KvpPpvUGUwZPj8/6MDTsqqdBDKebj58IWxWRRznVdOoKTGcF5E5OyfW/mRYYgEJs8s8FaM8ftpitaJJC4mkhnysXHreXP0o+YqoGBz76fYaAUmF1yA2zWSrmbu++88hc2bmKJ3+Saf1LsP7n3KAwvLrrhv5JX1V83dE0yVgL1/X/XNgmD1cfSwicokJ6Vfh34ySgJAVCePulQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wpydVwvsCjn6qQq2Gfn2vZf/0ZUf1HjA/OrOHQkE+Ck=;
- b=T7zswuJc9ZSYH3L79neOdWqVLFK7fg4jPLpBeSWvJyOMSvRUSRMR+nhF+njsSQBrZg55oq4Z+eQeu5BRcFFlR0St+dejcdcPkkCoQUQ7442pgNRKG4+AI7wBzWonmN2fdrehdCWliwn/YAE5M30pgxlNIcz2gDdlLVTP2k0+0us2W+DuaE+gJBBawUpyfNMBilbEUvzbGNxYelgsy9f/CK3tt7gFYSRUWC1WeIXzZIebZM0VE1Dww0+ui6uiyTHbPkOJZSQBfspZ6q+hDRCJDx/V1qt6D4PSHjM5A9Qtw+GYoQ8nxCL+dOMT9MoH/hGZ5j8qIUv7TqWcnCcnDiTaBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wpydVwvsCjn6qQq2Gfn2vZf/0ZUf1HjA/OrOHQkE+Ck=;
- b=Jba11VMnAqCKLkt00r0WA/uDPmlu8bOVCT25DNvyxMXR5Dfz8P6UiCyPgT3d6JkglpUjDiL6Zew3nF0Xd+NticAL0gXNJY5kJewcvzenkCoKxub9F9x4Fl1CIqpVlqsp3nxUn0SoGsIYF1LHa87mcFmkEiO79yj8lgB8J0lv9ykrdaO0gTJb1mRXje43k0KUSvmW08JXIF7HxYONBYFItYX5J0TB4fDWBq37XmPanixNZR09OVRlLcvNBD+5hFGF4ZAy3O0W04lCGaOiuRHCJtZcBuBUXtnI7NEKUKlWQir9JFX/ozRaRjq/CdpR/el8YF+M7lGuGshTHkrY3CkcHw==
-Received: from PR3P189MB1020.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4e::16)
- by AS4P189MB2158.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:575::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.22; Mon, 17 Nov
- 2025 14:13:17 +0000
-Received: from PR3P189MB1020.EURP189.PROD.OUTLOOK.COM
- ([fe80::89e2:ab64:8c13:9c68]) by PR3P189MB1020.EURP189.PROD.OUTLOOK.COM
- ([fe80::89e2:ab64:8c13:9c68%7]) with mapi id 15.20.9320.021; Mon, 17 Nov 2025
- 14:13:17 +0000
-Message-ID: <PR3P189MB1020E7393F72B285173137A2E3C9A@PR3P189MB1020.EURP189.PROD.OUTLOOK.COM>
-Date: Mon, 17 Nov 2025 15:13:00 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/6] arm64: dts: qcom: x1e80100-vivobook-s15: add
- charge limit nvmem
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20251116-asus_usbc_dp-v2-0-cc8f51136c9f@hotmail.com>
- <20251116-asus_usbc_dp-v2-5-cc8f51136c9f@hotmail.com>
- <378c611b-f8c6-4f89-a3b3-6d8c22445e83@oss.qualcomm.com>
-Content-Language: en-US
-From: Maud Spierings <maud_spierings@hotmail.com>
-In-Reply-To: <378c611b-f8c6-4f89-a3b3-6d8c22445e83@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS4P189CA0050.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:659::28) To PR3P189MB1020.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:4e::16)
-X-Microsoft-Original-Message-ID: <ceaac834-e23c-455b-9e81-fc5f7bd6cd0c@hotmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 14A1A10E0AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 14:26:12 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 29135FEC;
+ Mon, 17 Nov 2025 06:26:04 -0800 (PST)
+Received: from [10.57.69.30] (unknown [10.57.69.30])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A61A3F740;
+ Mon, 17 Nov 2025 06:26:09 -0800 (PST)
+Message-ID: <6de63f18-bd10-4e13-9aa5-4190ba01db6e@arm.com>
+Date: Mon, 17 Nov 2025 14:26:07 +0000
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PR3P189MB1020:EE_|AS4P189MB2158:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6bf9fb53-8d4a-4bb1-5e76-08de25e37411
-X-Microsoft-Antispam: BCL:0;
- ARA:14566002|15080799012|10092599007|23021999003|51005399006|461199028|8060799015|19110799012|5072599009|6090799003|40105399003|440099028|3412199025;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NzQ5b1VqVk94Ym5xTm5iWGk2eTBWR2V2Q29RaVBOOCt0dTI0dFI3eStEWXlj?=
- =?utf-8?B?eFhIZGdJRVNyLzFvcUR3Q1ZPR0FNY2c1UWNvQ2xHTCt4NW5qSGt2Yy9URndm?=
- =?utf-8?B?THhsREFSOFFWOUpnN3dabkltcjlMLzJsdDE3bWxtNEU5Tmh4ZEtzR0QzeG91?=
- =?utf-8?B?WlNERjc2eXlhbVJWUWx3Uk8rV2ZuSStMemVTTTJGQ1dOTE9NLzJJUzRSaDF0?=
- =?utf-8?B?TDJLekx3WFhFZXFPQVNvSE5EcVBLZGRZU2lLNEhXUGtodlY0NHVUN0hZOWtP?=
- =?utf-8?B?NzJNanlDZEFJaDd6Y1ZyTEdIMkpqVHNvbWl2MU1KcEt0THdIeDE3SjF6cEth?=
- =?utf-8?B?VHovU2JwNW1tL1JQQ3ZCV0FSVzJ0cGliVFhkazZCcHYrZnVRUERwQWVqaGlY?=
- =?utf-8?B?YnF1cS9PQ0tGbWpkSnFzampROTdnRUh0REdoSlF0UDZHb0VvQ1dMdW9vZ3c2?=
- =?utf-8?B?REpBNDNndlc4aEFzVjFTMGdKR1c3Q0FoSEhQQk52d3pxWFBXL3NTVi93TEtP?=
- =?utf-8?B?cnM3ZzlFcmZnV2lodWdKaXo5VklsN0NMT3dSL25NNzdlQmViNFRzYWJQdzdh?=
- =?utf-8?B?bmdpUCs5dFhRSVNCTmwrNGdTSVMwY0t1S0ZsYVVKblBqYXhiWlduV293RWtK?=
- =?utf-8?B?cUFzRHNSNjJ0WVk1a0tvZkh3Nmo3ZzZ0a2lrRUVNS1VNRS9oZlRxWTJDSnFq?=
- =?utf-8?B?Y3NUT25icy9pcGphZlpYekczSk4xZlFsYnkxSjdpODhScE5kbmJIemhiTkRR?=
- =?utf-8?B?Y0lLMkI3U0tUSFBQTE1oOE1YUlhNTHkzWjdEV01hd0tPN2U5S3QxazJJUWlw?=
- =?utf-8?B?QUhrVU1vVjU0V0hJYXVuWmoxZTBtZm5SN2psNXBQaEVocWQ2RmtaOWlMVVIz?=
- =?utf-8?B?OEhNQS9Va1VMVFN1RHcxZFhWWkNhMHo0b0JSWGJ0Y0hBMS9OZEQ2SUdZdGFR?=
- =?utf-8?B?QmFPT1NPaVhOYjliNEE0eEEzalBkQnB3RnQrN1FmMUltdk83akxaWUdkSk01?=
- =?utf-8?B?bU1UT3dCa3R6RmREdDYxWjRyYWQ5MC8vTEYycHNqYk11N3UyU1BYa21ZNEFx?=
- =?utf-8?B?WXpJV2lhM1VadkVkUlhkTUVxbDJHcUFTeXY1Q3dRajc2VFVnQVo1aGxrcTNh?=
- =?utf-8?B?QXAvWUliVllmU216dFNRN0xZUW9JYUxpZllIVXlYNEJ1blJmenF4amVYWVBV?=
- =?utf-8?B?eDVtdFF1RExRK1RVMDhGMmxueWYwR0t1dEN6ZlJnWFY4b0ljeUI1RjNEdkc3?=
- =?utf-8?B?dXB5RWdYL3lEbWlBaWgxWVdrdGN5K3FzclVxR2JtN2pMQTdaRDhmMGJWUmdK?=
- =?utf-8?B?VmNmQWQzTWVKWjkzK05BN29Bb21MWDloNURuTFFCcFdySy9Pb0ZQUHdBY1U3?=
- =?utf-8?B?WUhZb2RiM0l5OGtZQ20xR2tuWVZnTGtURzVBb0hFWDFmcm5CYThRSTRiZWxE?=
- =?utf-8?B?RjZOZWFuUHM1RmFtb1VPRWQ1d2dWeklWWmlZcWhPR3gvNTFtaWxldE1KT3g1?=
- =?utf-8?B?U0dVQWxhTDBST2RNUExodGxrZXJaSEMwSURZYUQ2REczdWdtNlcwTEkvMXRH?=
- =?utf-8?B?NWp5MzBSME96QXJhdlU4ZFdwREdXekZmM08wUE9HY1RET1FhaXA0eFBBWVgr?=
- =?utf-8?Q?lCAZ1efDDTym7IQwIf20Fht7GoWIkVtj0sc2/RHbTlso=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S2tCSE5HR2U3V3NzQjhRZlc3M1ArVTg3VDNNa0VMMENJZG5LbE94SjJQa2FR?=
- =?utf-8?B?UmJLZTZLcU9Oa3Znc2ZhTG5pa2Rxck15SFBRRXlFTkxBOFdHNUhaVkNLQXNM?=
- =?utf-8?B?ci9sUjZUYWtPdzBQeFJBVmVtT2pZNzJYd1V4dHpkakFrZ2NVZlFPYjlIMXIr?=
- =?utf-8?B?d3VlWkZxVmhLT3dUUFRjTUFySmp0UEk0ZnRlcTRSN0dNL0ROT3o1Qy80V3NK?=
- =?utf-8?B?Wm9wRzJDOEF3SFc2RWE2SExlZFNXRXFSd0REb05mRTM0dEtlOWxOVU15d2xT?=
- =?utf-8?B?NjhrWG1PUEdxd0Y0blhGRmRXd3pDQUFwaWZvR0lnSGdpZGVxdmEwWGR2bDEr?=
- =?utf-8?B?NWRqa3VJZWhnNmxGZ3lFZ015VUJMVDNwdEhZRjNXdGptNDMzdFQrTU1WSUp5?=
- =?utf-8?B?ZFh6UmxoRlVvbk5La2Y5djJ2YktRYWVQMjhIU0JrYmZteGxOUXVQU0JNUVNJ?=
- =?utf-8?B?SENtdzNNQ1pBU0I0b0ZmWEZLS3BLMlY3WGs5QzZIVzZWd0VXb2g4TnIvdUNF?=
- =?utf-8?B?ekdvYXpCMlRmMmNSeFdaQnAreVpPMjNGOEhJZGhiNFNMcUlxMVVEZnNxdzFY?=
- =?utf-8?B?NnRTMzZaN0lhWE0vaXBxdVYvaHlSek00YVFjVnVuWSt0eGowWGUzbDE5SDlJ?=
- =?utf-8?B?Sk5JejdtSDQ3Y0NaRHBtcTdReExKRnV0aG1rNjZGNU9KYmJ2aXBVeS9FYW5k?=
- =?utf-8?B?OTk0a2ZwNGtXUGJFZndtNTNuSlZNOXcxYXU3ZnlBYWF4UVZucXVobGp2NHRY?=
- =?utf-8?B?WXdNWlFlc2VZaGl5SUxNdWVBM0RjWElkNmMyZEJWbjBVdlFzNHlmTy9Yb2Jw?=
- =?utf-8?B?eXp0akVYMU1BbHJoYUJJbXppVjQvc1ZTbUM1NEdhelBCTHVoeTBmaFl3WEM0?=
- =?utf-8?B?dnJyK1JvRU9xS1JBUkxUdEtPaTdxTkJFclRuNnpFajNVbFR2WU9RUDdBcUcv?=
- =?utf-8?B?TytFQU9PTVdOK040QkR3b0ozbG1aa1hzLzhUVzNYbFpEVGhoZUlaWjZDYVJ5?=
- =?utf-8?B?dmNvOXJOeThsRVFHcElQTnlIdTdWd2pqNFJHS0dIU3V5S1pFUnFNK1U3bXBT?=
- =?utf-8?B?WUpUWTVUUUMxUWxSTDNrbmtrc0w4UW81anhOQzdaQmdDMktKZ1BKNmJLZVk5?=
- =?utf-8?B?MnZIUWoxcDNDMWVYckJaQW9uWjhTWjhXVFdqNHZTZlEzdGRPcFBPb0FuVUNO?=
- =?utf-8?B?NmdyNjVXaFZEV3VtdzZUNXBUSEsxVUlaU2hBZFNXZWhrbkRhSmN0TlJ4dlZx?=
- =?utf-8?B?MHBtQVMweExVNm80V3U5Y1d1MmlsSU9McWFUOWxqYmtrL3JDQ29GeVpsWXgw?=
- =?utf-8?B?czFVWWlCWXhadUthbjVYeTNNR0JRSUJuaWdNMzh0Zm1wdlZkL3pNQ0RvMHBT?=
- =?utf-8?B?dTNCemhmSE9LRmtpRStPdkVKRVRjVk1FQUxBZ3cwdkIybEh4eU0zQkxpcmQ3?=
- =?utf-8?B?dVRHMy9iYjZrRFJyUlRqbGE1a3BaVUl4WHdQNHJzMlJ5TllMWmFuRWlQcmhn?=
- =?utf-8?B?b09hUG8wTEthRzNKWXdWVmcrMXF5M2x5NUV2ZDB3NXpnM0l1aUk2MEpmNTVN?=
- =?utf-8?B?dWYwWkdsbXJoeVRUMngzTndjY2dxcThwV3Q5ZlVIcnFvU1l6TEZ3ek5WUGo3?=
- =?utf-8?B?Y1pZTHZpM2xkL1JsNnpCTDNiV0tvY1ZHWGZVLzd6dUx2ZGcwRys2SzNLOThk?=
- =?utf-8?B?NjNoQVYwTEFNSDFsaCt1Y2hvOStMVzFRaFlMKzJtSnhmU0NiZHRrQkFxWTU1?=
- =?utf-8?Q?PYMncsVKC8th1woLjk0qHaIGCUZFD8r0b9/DM6X?=
-X-OriginatorOrg: sct-15-20-8534-20-msonline-outlook-2ef4d.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6bf9fb53-8d4a-4bb1-5e76-08de25e37411
-X-MS-Exchange-CrossTenant-AuthSource: PR3P189MB1020.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2025 14:13:17.1038 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P189MB2158
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/6] drm/panthor: Add support for atomic page table
+ updates
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>,
+ Karunika Choo <karunika.choo@arm.com>, kernel@collabora.com
+References: <20251113103953.1519935-1-boris.brezillon@collabora.com>
+ <20251113103953.1519935-5-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251113103953.1519935-5-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,32 +51,335 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Konrad,
-
-On 11/17/25 13:59, Konrad Dybcio wrote:
-> On 11/16/25 11:52 AM, Maud Spierings via B4 Relay wrote:
->> From: Maud Spierings <maud_spierings@hotmail.com>
->>
->> Add nvmem cells for getting charge control thresholds if they have
->> been set previously.
->>
->> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
->> ---
+On 13/11/2025 10:39, Boris Brezillon wrote:
+> Move the lock/flush_mem operations around the gpuvm_sm_[un]map() calls
+> so we can implement true atomic page updates, where any access in the
+> locked range done by the GPU has to wait for the page table updates
+> to land before proceeding.
 > 
-> Have you verified that e.g.
+> This is needed for vkQueueBindSparse(), so we can replace the dummy
+> page mapped over the entire object by actual BO backed pages in an atomic
+> way. But it's also useful to avoid "AS_ACTIVE bit stuck" failures in
+> the sm_[un]map() path, leading to gpuvm state inconsistencies.
 > 
-> connecting the charger
-> setting the charge threshold
-> rebooting to windows
-> rebooting to windows once more for good measure
-> rebooting to linux
+> v2:
+> - Adjust to match the two new preliminary patches
 > 
-> still has the settings persist?
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Hmm I have tried several things but I can't seem to get the values to 
-stick. I the spmi-sdam driver is compiled in, I am not quite sure if I 
-might be missing something.
+Looks fine to me.
 
-Kind regards,
-Maud
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 184 +++++++++++++-------------
+>  1 file changed, 95 insertions(+), 89 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index f109c1588186..21389137a324 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -389,6 +389,15 @@ struct panthor_vm {
+>  	 * flagged as faulty as a result.
+>  	 */
+>  	bool unhandled_fault;
+> +
+> +	/** @locked_region: Information about the currently locked region currently. */
+> +	struct {
+> +		/** @locked_region.start: Start of the locked region. */
+> +		u64 start;
+> +
+> +		/** @locked_region.size: Size of the locked region. */
+> +		u64 size;
+> +	} locked_region;
+>  };
+>  
+>  /**
+> @@ -566,76 +575,9 @@ static u64 pack_region_range(u64 region_start, u64 size)
+>  	return region_width | region_start;
+>  }
+>  
+> -static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
+> -				      u64 iova, u64 size, u32 op)
+> -{
+> -	const u32 l2_flush_op = CACHE_CLEAN | CACHE_INV;
+> -	u32 lsc_flush_op;
+> -	int ret;
+> -
+> -	lockdep_assert_held(&ptdev->mmu->as.slots_lock);
+> -
+> -	switch (op) {
+> -	case AS_COMMAND_FLUSH_MEM:
+> -		lsc_flush_op = CACHE_CLEAN | CACHE_INV;
+> -		break;
+> -	case AS_COMMAND_FLUSH_PT:
+> -		lsc_flush_op = 0;
+> -		break;
+> -	default:
+> -		drm_WARN(&ptdev->base, 1, "Unexpected AS_COMMAND: %d", op);
+> -		return -EINVAL;
+> -	}
+> -
+> -	if (as_nr < 0)
+> -		return 0;
+> -
+> -	/*
+> -	 * If the AS number is greater than zero, then we can be sure
+> -	 * the device is up and running, so we don't need to explicitly
+> -	 * power it up
+> -	 */
+> -
+> -	/* Lock the region that needs to be updated */
+> -	gpu_write64(ptdev, AS_LOCKADDR(as_nr), pack_region_range(iova, size));
+> -	ret = as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_LOCK);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = panthor_gpu_flush_caches(ptdev, l2_flush_op, lsc_flush_op, 0);
+> -	if (ret)
+> -		return ret;
+> -
+> -	/*
+> -	 * Explicitly unlock the region as the AS is not unlocked automatically
+> -	 * at the end of the GPU_CONTROL cache flush command, unlike
+> -	 * AS_COMMAND_FLUSH_MEM or AS_COMMAND_FLUSH_PT.
+> -	 */
+> -	return as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_UNLOCK);
+> -}
+> -
+> -static int mmu_hw_do_operation(struct panthor_vm *vm,
+> -			       u64 iova, u64 size, u32 op)
+> -{
+> -	struct panthor_device *ptdev = vm->ptdev;
+> -	int ret;
+> -
+> -	mutex_lock(&ptdev->mmu->as.slots_lock);
+> -	ret = mmu_hw_do_operation_locked(ptdev, vm->as.id, iova, size, op);
+> -	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> -
+> -	return ret;
+> -}
+> -
+>  static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
+>  				 u64 transtab, u64 transcfg, u64 memattr)
+>  {
+> -	int ret;
+> -
+> -	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
+> -	if (ret)
+> -		return ret;
+> -
+>  	gpu_write64(ptdev, AS_TRANSTAB(as_nr), transtab);
+>  	gpu_write64(ptdev, AS_MEMATTR(as_nr), memattr);
+>  	gpu_write64(ptdev, AS_TRANSCFG(as_nr), transcfg);
+> @@ -647,7 +589,9 @@ static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
+>  {
+>  	int ret;
+>  
+> -	ret = mmu_hw_do_operation_locked(ptdev, as_nr, 0, ~0ULL, AS_COMMAND_FLUSH_MEM);
+> +	/* Flush+invalidate RW caches, invalidate RO ones. */
+> +	ret = panthor_gpu_flush_caches(ptdev, CACHE_CLEAN | CACHE_INV,
+> +				       CACHE_CLEAN | CACHE_INV, CACHE_INV);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -729,6 +673,10 @@ int panthor_vm_active(struct panthor_vm *vm)
+>  	if (refcount_inc_not_zero(&vm->as.active_cnt))
+>  		goto out_dev_exit;
+>  
+> +	/* Make sure we don't race with lock/unlock_region() calls
+> +	 * happening around VM bind operations.
+> +	 */
+> +	mutex_lock(&vm->op_lock);
+>  	mutex_lock(&ptdev->mmu->as.slots_lock);
+>  
+>  	if (refcount_inc_not_zero(&vm->as.active_cnt))
+> @@ -796,6 +744,10 @@ int panthor_vm_active(struct panthor_vm *vm)
+>  		gpu_write(ptdev, MMU_INT_MASK, ~ptdev->mmu->as.faulty_mask);
+>  	}
+>  
+> +	/* The VM update is guarded by ::op_lock, which we take at the beginning
+> +	 * of this function, so we don't expect any locked region here.
+> +	 */
+> +	drm_WARN_ON(&vm->ptdev->base, vm->locked_region.size > 0);
+>  	ret = panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab, transcfg, vm->memattr);
+>  
+>  out_make_active:
+> @@ -806,6 +758,7 @@ int panthor_vm_active(struct panthor_vm *vm)
+>  
+>  out_unlock:
+>  	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> +	mutex_unlock(&vm->op_lock);
+>  
+>  out_dev_exit:
+>  	drm_dev_exit(cookie);
+> @@ -889,30 +842,15 @@ static size_t get_pgsize(u64 addr, size_t size, size_t *count)
+>  	return SZ_2M;
+>  }
+>  
+> -static int panthor_vm_flush_range(struct panthor_vm *vm, u64 iova, u64 size)
+> -{
+> -	struct panthor_device *ptdev = vm->ptdev;
+> -	int ret = 0, cookie;
+> -
+> -	if (vm->as.id < 0)
+> -		return 0;
+> -
+> -	/* If the device is unplugged, we just silently skip the flush. */
+> -	if (!drm_dev_enter(&ptdev->base, &cookie))
+> -		return 0;
+> -
+> -	ret = mmu_hw_do_operation(vm, iova, size, AS_COMMAND_FLUSH_PT);
+> -
+> -	drm_dev_exit(cookie);
+> -	return ret;
+> -}
+> -
+>  static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
+>  {
+>  	struct panthor_device *ptdev = vm->ptdev;
+>  	struct io_pgtable_ops *ops = vm->pgtbl_ops;
+>  	u64 offset = 0;
+>  
+> +	drm_WARN_ON(&ptdev->base,
+> +		    (iova < vm->locked_region.start) ||
+> +		    (iova + size > vm->locked_region.start + vm->locked_region.size));
+>  	drm_dbg(&ptdev->base, "unmap: as=%d, iova=%llx, len=%llx", vm->as.id, iova, size);
+>  
+>  	while (offset < size) {
+> @@ -926,13 +864,12 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
+>  				iova + offset + unmapped_sz,
+>  				iova + offset + pgsize * pgcount,
+>  				iova, iova + size);
+> -			panthor_vm_flush_range(vm, iova, offset + unmapped_sz);
+>  			return  -EINVAL;
+>  		}
+>  		offset += unmapped_sz;
+>  	}
+>  
+> -	return panthor_vm_flush_range(vm, iova, size);
+> +	return 0;
+>  }
+>  
+>  static int
+> @@ -949,6 +886,10 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+>  	if (!size)
+>  		return 0;
+>  
+> +	drm_WARN_ON(&ptdev->base,
+> +		    (iova < vm->locked_region.start) ||
+> +		    (iova + size > vm->locked_region.start + vm->locked_region.size));
+> +
+>  	for_each_sgtable_dma_sg(sgt, sgl, count) {
+>  		dma_addr_t paddr = sg_dma_address(sgl);
+>  		size_t len = sg_dma_len(sgl);
+> @@ -996,7 +937,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+>  		offset = 0;
+>  	}
+>  
+> -	return panthor_vm_flush_range(vm, start_iova, iova - start_iova);
+> +	return 0;
+>  }
+>  
+>  static int flags_to_prot(u32 flags)
+> @@ -1679,6 +1620,61 @@ static const char *access_type_name(struct panthor_device *ptdev,
+>  	}
+>  }
+>  
+> +static int panthor_vm_lock_region(struct panthor_vm *vm, u64 start, u64 size)
+> +{
+> +	struct panthor_device *ptdev = vm->ptdev;
+> +	int ret = 0;
+> +
+> +	mutex_lock(&ptdev->mmu->as.slots_lock);
+> +	drm_WARN_ON(&ptdev->base, vm->locked_region.start || vm->locked_region.size);
+> +	if (vm->as.id >= 0 && size) {
+> +		/* Lock the region that needs to be updated */
+> +		gpu_write64(ptdev, AS_LOCKADDR(vm->as.id), pack_region_range(start, size));
+> +
+> +		/* If the lock succeeded, update the locked_region info. */
+> +		ret = as_send_cmd_and_wait(ptdev, vm->as.id, AS_COMMAND_LOCK);
+> +	}
+> +
+> +	if (!ret) {
+> +		vm->locked_region.start = start;
+> +		vm->locked_region.size = size;
+> +	}
+> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> +
+> +	return ret;
+> +}
+> +
+> +static void panthor_vm_unlock_region(struct panthor_vm *vm)
+> +{
+> +	struct panthor_device *ptdev = vm->ptdev;
+> +
+> +	mutex_lock(&ptdev->mmu->as.slots_lock);
+> +	if (vm->as.id >= 0) {
+> +		int ret;
+> +
+> +		/* flush+invalidate RW caches and invalidate RO ones.
+> +		 * TODO: See if we can use FLUSH_PA_RANGE when the physical
+> +		 * range is narrow enough and the HW supports it.
+> +		 */
+> +		ret = panthor_gpu_flush_caches(ptdev, CACHE_CLEAN | CACHE_INV,
+> +					       CACHE_CLEAN | CACHE_INV,
+> +					       CACHE_INV);
+> +
+> +		/* Unlock the region if the flush is effective. */
+> +		if (!ret)
+> +			ret = as_send_cmd_and_wait(ptdev, vm->as.id, AS_COMMAND_UNLOCK);
+> +
+> +		/* If we fail to flush or unlock the region, schedule a GPU reset
+> +		 * to unblock the situation.
+> +		 */
+> +		if (ret)
+> +			panthor_device_schedule_reset(ptdev);
+> +	}
+> +	vm->locked_region.start = 0;
+> +	vm->locked_region.size = 0;
+> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> +}
+> +
+>  static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+>  {
+>  	bool has_unhandled_faults = false;
+> @@ -1883,6 +1879,7 @@ static void panthor_vm_free(struct drm_gpuvm *gpuvm)
+>  	drm_sched_entity_destroy(&vm->entity);
+>  	drm_sched_fini(&vm->sched);
+>  
+> +	mutex_lock(&vm->op_lock);
+>  	mutex_lock(&ptdev->mmu->as.slots_lock);
+>  	if (vm->as.id >= 0) {
+>  		int cookie;
+> @@ -1897,6 +1894,7 @@ static void panthor_vm_free(struct drm_gpuvm *gpuvm)
+>  		list_del(&vm->as.lru_node);
+>  	}
+>  	mutex_unlock(&ptdev->mmu->as.slots_lock);
+> +	mutex_unlock(&vm->op_lock);
+>  
+>  	free_io_pgtable_ops(vm->pgtbl_ops);
+>  
+> @@ -2206,6 +2204,11 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
+>  
+>  	mutex_lock(&vm->op_lock);
+>  	vm->op_ctx = op;
+> +
+> +	ret = panthor_vm_lock_region(vm, op->va.addr, op->va.range);
+> +	if (ret)
+> +		goto out;
+> +
+>  	switch (op_type) {
+>  	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP: {
+>  		const struct drm_gpuvm_map_req map_req = {
+> @@ -2233,6 +2236,9 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
+>  		break;
+>  	}
+>  
+> +	panthor_vm_unlock_region(vm);
+> +
+> +out:
+>  	if (ret && flag_vm_unusable_on_failure)
+>  		vm->unusable = true;
+>  
 
