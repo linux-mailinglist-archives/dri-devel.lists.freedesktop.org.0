@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B795BC65E47
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 20:12:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9623C65E4D
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 20:13:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1BB9010E103;
-	Mon, 17 Nov 2025 19:12:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 270C710E1D1;
+	Mon, 17 Nov 2025 19:13:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="J7bMahNJ";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="h5mnxMVb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2B8110E103
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 19:12:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1763406762; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A740910E1CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 19:13:00 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1763406768; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=hrm+qKgW/rySYKUswoBT/MbdkDO6GqmBUPMxXuPc4hiuAzKiKmQbzkZvPLN3d/o5mHPGZHyMWx7uFdr8CMRYp3Umha7Bt4btZM18IQpTpGCfXVO1xMD2C9pCJWLcselh40lw/n3tjDwA2wTbvMIksSTdqzRpwJ5yxeGIl8KD28w=
+ b=cVM9978GDavgE50qYqu/y/GBTUKtg3eiRR5t6sf9f64Rf50DbbU3nqSJEAxVskfXsGARweifmsqym/Cfe4W74z0kcs97SVo4iKhD53tw7jAJSwUD2pdw0JkcMV81Jk5jIP6Nl3FBlgCevS9w1B4Qfbb7a19mSJT+t5EQR788cYo=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1763406762;
+ s=zohoarc; t=1763406768;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=Wl+Rgi87r48WhXQHR78kVLoSBu5iwS2wv+pKzPrF8ig=; 
- b=F8dcbuaN3E6mgwEs42uhNTVYhp+Em/q41SIAemz7vPn0dn39KT4+AmzlfyeU5SNyYR+/APcvDdI35Mx19+SUTY3bUKKG5nyBEA08laItInIqOmDTR6jQdFOZMhIQjNHQsI0kdZk9/ktMFmHMjWOnXj5Ql3yzGsWrYqVTzs3w7z8=
+ bh=S6LcICyBa/1soH/3gHBQS+INlICwkZAcXtWkwxSMBkQ=; 
+ b=MktG0vxhPEiJmpcbNWUw3bfyL3uMsrZbWiJwUUuYwQmsqZQEEWUek66E0nQ3Ini0sAYP2xXJ1Ox+qtSgyDmx/UnyOFUj8p07EOdAPbAq0VyvrmpFn9Fjupee44ZpRPdfDrwXh8OYp7HuLSijyCpGCzG2UvNFcFmlXtIHbfkz7jc=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763406762; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763406768; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=Wl+Rgi87r48WhXQHR78kVLoSBu5iwS2wv+pKzPrF8ig=;
- b=J7bMahNJZxwspv9ecDqh3gRSiMywGJUNMFlvEbFO6EWe0xu+m7PAIEd7b5gB+KJL
- cxRrCU72paetabfqXpFuKi4QjSWmkSS7fX2h6NeM84Ywfdk0tewhsdVa3LPbs9VTM3n
- HP3kq3F6rVEgvq7abK2Pc7v+Vk+Ys8tRTfy/KTmg=
-Received: by mx.zohomail.com with SMTPS id 1763406759575712.9921053494943;
- Mon, 17 Nov 2025 11:12:39 -0800 (PST)
+ bh=S6LcICyBa/1soH/3gHBQS+INlICwkZAcXtWkwxSMBkQ=;
+ b=h5mnxMVbJ75hfO3GUG5awBD3Be9327Rs80GR6qflKO84rDj1lwNlCXDaTAZ4ONob
+ VW0NPofk659ym0BLJYpwmT8KgvT0AW4LVhJ0reojxBXIMAMQgXPF6E563Z5QKU2rI7a
+ bQNdXDAKNtDYqCUbpOtjZwgOrrD801Qvu/8ztvQg=
+Received: by mx.zohomail.com with SMTPS id 1763406765821183.3489410114414;
+ Mon, 17 Nov 2025 11:12:45 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 17 Nov 2025 20:11:47 +0100
-Subject: [PATCH v4 03/10] drm: Add enum conversion from/to HDMI_COLORSPACE
- to DRM_COLOR_FORMAT
+Date: Mon, 17 Nov 2025 20:11:48 +0100
+Subject: [PATCH v4 04/10] drm/bridge: Act on the DRM color format property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251117-color-format-v4-3-0ded72bd1b00@collabora.com>
+Message-Id: <20251117-color-format-v4-4-0ded72bd1b00@collabora.com>
 References: <20251117-color-format-v4-0-0ded72bd1b00@collabora.com>
 In-Reply-To: <20251117-color-format-v4-0-0ded72bd1b00@collabora.com>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -69,8 +68,7 @@ Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Marius Vlad <marius.vlad@collabora.com>
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,61 +85,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Marius Vlad <marius.vlad@collabora.com>
+The new DRM color format property allows userspace to request a specific
+color format on a connector. In turn, this fills the connector state's
+color_format member to switch color formats.
 
-This would please the compiler to have a enum transformation from one to
-another even though the values are the same. It should also make things
-obvious that we use different enums.
+Make drm_bridges consider the color_format set in the connector state
+during the atomic bridge check. Specifically, reject any output bus
+formats that do not correspond to the requested color format.
 
-Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/drm_connector.c | 18 ++++++++++++++++++
- include/drm/drm_connector.h     |  3 +++
- 2 files changed, 21 insertions(+)
+ drivers/gpu/drm/drm_bridge.c | 57 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 0ad7be0a2d09..61c077b67ac3 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -1384,6 +1384,24 @@ drm_color_format_enum_to_color_format(enum drm_color_format_enum fmt_enum)
- 	}
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 8f355df883d8..b7df5cbad832 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -1052,6 +1052,59 @@ static int select_bus_fmt_recursive(struct drm_bridge *first_bridge,
+ 	return ret;
  }
  
-+enum hdmi_colorspace
-+color_format_to_hdmi_colorspace(enum drm_color_format fmt)
++static bool __pure bus_format_is_color_fmt(u32 bus_fmt, enum drm_color_format fmt)
 +{
++	if (bus_fmt == MEDIA_BUS_FMT_FIXED)
++		return true;
++
 +	switch (fmt) {
-+	default:
++	case DRM_COLOR_FORMAT_NONE:
 +	case DRM_COLOR_FORMAT_AUTO:
++		return true;
 +	case DRM_COLOR_FORMAT_RGB444:
-+		return HDMI_COLORSPACE_RGB;
++		switch (bus_fmt) {
++		case MEDIA_BUS_FMT_RGB888_1X24:
++		case MEDIA_BUS_FMT_RGB101010_1X30:
++		case MEDIA_BUS_FMT_RGB121212_1X36:
++		case MEDIA_BUS_FMT_RGB161616_1X48:
++			return true;
++		default:
++			return false;
++		}
 +	case DRM_COLOR_FORMAT_YCBCR444:
-+		return HDMI_COLORSPACE_YUV444;
++		switch (bus_fmt) {
++		case MEDIA_BUS_FMT_YUV8_1X24:
++		case MEDIA_BUS_FMT_YUV10_1X30:
++		case MEDIA_BUS_FMT_YUV12_1X36:
++		case MEDIA_BUS_FMT_YUV16_1X48:
++			return true;
++		default:
++			return false;
++		}
 +	case DRM_COLOR_FORMAT_YCBCR422:
-+		return HDMI_COLORSPACE_YUV422;
++		switch (bus_fmt) {
++		case MEDIA_BUS_FMT_UYVY8_1X16:
++		case MEDIA_BUS_FMT_UYVY10_1X20:
++		case MEDIA_BUS_FMT_UYVY12_1X24:
++			return true;
++		default:
++			return false;
++		}
 +	case DRM_COLOR_FORMAT_YCBCR420:
-+		return HDMI_COLORSPACE_YUV420;
++		switch (bus_fmt) {
++		case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
++		case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
++		case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
++		case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
++			return true;
++		default:
++			return false;
++		}
 +	}
++
++	return false;
 +}
-+EXPORT_SYMBOL(color_format_to_hdmi_colorspace);
 +
- /**
-  * drm_get_color_format_name - return a string for color format
-  * @colorspace: color format to compute name of
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index a071079fd3ad..e044976c8d76 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -2586,6 +2586,9 @@ drm_color_format_to_color_format_enum(enum drm_color_format fmt);
- u32
- drm_color_format_enum_to_color_format(enum drm_color_format_enum fmt_enum);
+ /*
+  * This function is called by &drm_atomic_bridge_chain_check() just before
+  * calling &drm_bridge_funcs.atomic_check() on all elements of the chain.
+@@ -1137,6 +1190,10 @@ drm_atomic_bridge_chain_select_bus_fmts(struct drm_bridge *bridge,
+ 	}
  
-+enum hdmi_colorspace
-+color_format_to_hdmi_colorspace(enum drm_color_format fmt);
-+
- /**
-  * drm_for_each_connector_iter - connector_list iterator macro
-  * @connector: &struct drm_connector pointer used as cursor
+ 	for (i = 0; i < num_out_bus_fmts; i++) {
++		if (!bus_format_is_color_fmt(out_bus_fmts[i], conn_state->color_format)) {
++			ret = -ENOTSUPP;
++			continue;
++		}
+ 		ret = select_bus_fmt_recursive(bridge, last_bridge, crtc_state,
+ 					       conn_state, out_bus_fmts[i]);
+ 		if (ret != -ENOTSUPP)
 
 -- 
 2.51.2
