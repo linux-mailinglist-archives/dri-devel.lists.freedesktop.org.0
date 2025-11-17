@@ -2,54 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B5E9C64EFF
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 16:46:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6764FC64F11
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 16:47:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6131A10E3E1;
-	Mon, 17 Nov 2025 15:46:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B96E610E3EC;
+	Mon, 17 Nov 2025 15:47:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BXGlW1TO";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="aWMf+PQU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DB2910E3E1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 15:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1763394404;
- bh=RjRAGalUSuZOAPkgTLxvvc9ygl4RedSR4hQAgYVJHMQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=BXGlW1TORxlCzGpYwgEBkzG7XBdR5ZMT/LZy6lpXFRirNNn603Wd7kgG8uSNUKfio
- 1UxI+/YKlEBzZFLuLbQf8dOucLdHntev05Xhvx5XEjbiQo06lM47pP8VkXaB+HzV6z
- 3XjwA5ELGWrgd3mvbaQ//GwHPVNY9uLD5oxcoLdoMYTrxoc+C9VtgNW29560b+Pfuu
- 6S8bYr1vu+9fjp1Rb+7ud4e6vXdOBqVT4lJ3VmBbueB63aaVVMp/1ETQ6eRlI1+L26
- OnxMfJsRN7zvOCxnAMsiPnsoad6+W3ZUPIcrTTicIawPIRhR4/1npmG6kwFVx50h2P
- +6vjhFEih3YMA==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id A6ADA17E130A;
- Mon, 17 Nov 2025 16:46:43 +0100 (CET)
-Date: Mon, 17 Nov 2025 16:46:39 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
- <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org, Akash Goel
- <akash.goel@arm.com>, Karunika Choo <karunika.choo@arm.com>,
- kernel@collabora.com
-Subject: Re: [PATCH v2 2/6] drm/panthor: Kill lock_region()
-Message-ID: <20251117164639.5018b9ca@fedora>
-In-Reply-To: <bf18504d-5ff6-47f2-9936-3c798a337816@arm.com>
-References: <20251113103953.1519935-1-boris.brezillon@collabora.com>
- <20251113103953.1519935-3-boris.brezillon@collabora.com>
- <bf18504d-5ff6-47f2-9936-3c798a337816@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+ [209.85.128.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 466A810E3E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 15:47:29 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-4775ae77516so49678215e9.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 07:47:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1763394448; x=1763999248; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=PIgBKPIhg16h/OqUa/f0YqwJTctSG0gGZpea6OLuGEY=;
+ b=aWMf+PQUCACWtXvGgIWHb19aeES7fNdgmt41gw+jW2NeaIMMkedC7805+lu0Co2+RG
+ 9xfUiDp6nXcmwdrmqlIXJp0293JBm7BDOC3LrzFKCYSNmS/jHlVoGlxtzyeMa43QxcQQ
+ rVVRaUMeqVKVdPHU3u0Noej9hQyq6Ybt5fWD6YUWsBBv4FuHf62DkIw1GmiheFaW6mC/
+ KyciV7gbFOPIFnYXbV4nSeJVzPOqb186Jl4SyTkU73Izmx8WEYJzG/Inlv/fy4M19w52
+ xxSHvUcLro8fE+sQjNIIGeK1kqlXUkSQ5KpMRRDZS6wNsFT7Kt46cSd6hnL4QdMQMkqc
+ D4qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763394448; x=1763999248;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PIgBKPIhg16h/OqUa/f0YqwJTctSG0gGZpea6OLuGEY=;
+ b=aqqLg5ks0FazGkHYTj8rUQMi94/FVlPKfY3bo/WGOhlISVz9rpFxKwwnKweFlaCyG6
+ 1VUv5b7r9j9IcDioV6gO9GEJyBCLCGOol1DmbDTtUiuAJku+A/t2bzQ/DsuDXPszYWTE
+ HfDGz1U1bPFFkn5QaJE0YhQEjPf9O2PUHDV2d/PI6571rXe3J2OOF0kfUdbrjwYuslfU
+ 1l0OjiqVQo+GGxrNlxi8UBR8ivnm0wzGDFlTfbSYbvU62XfQZMRLcow0ustkVWq9WPLs
+ psfiNUW9vP48RApQnc+L3AfhutHMDUsL4M4c4UyeeSuK1uV5HYk2taa8pgLlvPPLUWTI
+ F0zg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVmNBDwXEMoWFEpou3lxiwNJHgj6ZNCi+Z0YeZ6t9qO6oUzFXlmhz5YIZ4ZRaKYeBzCtTjYSbUoSCA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwxEtNz7Fn9cBctc6Qdvf2Ps6nUbLjUSGZTKciBqohr20yqi2qp
+ kurbO8tDSw1y3mUxEHjvmjYlQq6tPpMyHDwMZBtnKn745hzTan4HnAToQU6NuJZEMyE=
+X-Gm-Gg: ASbGnctPjXRcHOE/UL53DMxNLHRTdZisy/RaM6LnsFrHMMt8VHGsa9uumXcasNlaNV6
+ oqKNBMvy+hqHCKdiUfhHwTws9X3GjB7zabirV78TkJZUeEcfO+hhFHYTOOz/cy3vll50snuMIIU
+ h65/p2nxMTob6v150hhMvn09niAmREz2v2mDLK5yjdGhokFD94nrX/MxXGSZyX3KVPIYIn2EbV9
+ Gn2a6+IGv5hWTlormNMjZe3+kBA9v9oOWfzNlgb/jtKXPafw4AkRp0TpCplvISEfk1Y6Pw2HhEV
+ xghN3i/J/2hupCcQsVSlq2VSS5cO4rqc1ZpSYkhdiu6JXc3agFTYM7D7WHT+MDz5b4tJ0swcyax
+ 65FmIKkZv9GfVmMkv2Nbi/69CvCUgvzYlEm9iINLFulwOWkPj4htmDLXE1QJecRHp0pmWm409po
+ x9sNuyxqp9x4D/plS2gzhvIqNCoTrj+L5HdgbvY3hHxIMUejniYYJ7
+X-Google-Smtp-Source: AGHT+IEBd79a6dYljA3MZX+cNglY3uITavEkQzyznMYyE7VV+eFYzQzCVuHaNRfiwfZAjPjWNzJXLQ==
+X-Received: by 2002:a05:600c:45d4:b0:477:7c45:87b2 with SMTP id
+ 5b1f17b1804b1-4778fe5dde3mr157686805e9.16.1763394447511; 
+ Mon, 17 Nov 2025 07:47:27 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:3d9:2080:d631:aa74:9313:e9f3?
+ ([2a01:e0a:3d9:2080:d631:aa74:9313:e9f3])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4779fc42f25sm96547835e9.6.2025.11.17.07.47.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Nov 2025 07:47:27 -0800 (PST)
+Message-ID: <1488f09b-63b7-4412-ba56-28b1c81528ac@linaro.org>
+Date: Mon, 17 Nov 2025 16:47:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH] drm/msm: adreno: fix deferencing ifpc_reglist when not
+ declared
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251117-topic-sm8x50-fix-a6xx-non-ifpc-v1-1-e4473cbf5903@linaro.org>
+ <04aec988-59ba-4c98-b922-510d86b10ea5@oss.qualcomm.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <04aec988-59ba-4c98-b922-510d86b10ea5@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,89 +125,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 17 Nov 2025 12:44:58 +0000
-Steven Price <steven.price@arm.com> wrote:
+On 11/17/25 16:02, Konrad Dybcio wrote:
+> On 11/17/25 3:51 PM, Neil Armstrong wrote:
+>> On plaforms with an a7xx GPU not supporting IFPC, the ifpc_reglist
+>> if still deferenced in a7xx_patch_pwrup_reglist() which causes
+>> a kernel crash:
+>> Unable to handle kernel NULL pointer dereference at virtual address 0000000000000008
+>> ...
+>> pc : a6xx_hw_init+0x155c/0x1e4c [msm]
+>> lr : a6xx_hw_init+0x9a8/0x1e4c [msm]
+>> ...
+>> Call trace:
+>>    a6xx_hw_init+0x155c/0x1e4c [msm] (P)
+>>    msm_gpu_hw_init+0x58/0x88 [msm]
+>>    adreno_load_gpu+0x94/0x1fc [msm]
+>>    msm_open+0xe4/0xf4 [msm]
+>>    drm_file_alloc+0x1a0/0x2e4 [drm]
+>>    drm_client_init+0x7c/0x104 [drm]
+>>    drm_fbdev_client_setup+0x94/0xcf0 [drm_client_lib]
+>>    drm_client_setup+0xb4/0xd8 [drm_client_lib]
+>>    msm_drm_kms_post_init+0x2c/0x3c [msm]
+>>    msm_drm_init+0x1a4/0x228 [msm]
+>>    msm_drm_bind+0x30/0x3c [msm]
+>> ...
+>>
+>> Check the validity of ifpc_reglist before deferencing the table
+>> to setup the register values.
+>>
+>> Fixes: a6a0157cc68e ("drm/msm/a6xx: Enable IFPC on Adreno X1-85")
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+> 
+> I think it should be fine to skip calling this func altogether
+> if !ifpc || !pwrup_reglist
+> 
+> Although ifpc && !pwrup_reglist should probably scream very loud
 
-> On 13/11/2025 10:39, Boris Brezillon wrote:
-> > The meat in lock_region() is about packing a region range into a
-> > single u64. The rest is just a regular reg write plus a
-> > as_send_cmd_and_wait() call that can easily be inlined in
-> > mmu_hw_do_operation_locked().
-> > 
-> > v2:
-> > - New patch
-> > 
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_mmu.c | 14 +++++---------
-> >  1 file changed, 5 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> > index 186048fc2c25..f109c1588186 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> > @@ -538,11 +538,9 @@ static int as_send_cmd_and_wait(struct panthor_device *ptdev, u32 as_nr, u32 cmd
-> >  	return status;
-> >  }
-> >  
-> > -static int lock_region(struct panthor_device *ptdev, u32 as_nr,
-> > -		       u64 region_start, u64 size)
-> > +static u64 pack_region_range(u64 region_start, u64 size)
-> >  {
-> >  	u8 region_width;
-> > -	u64 region;
-> >  	u64 region_end = region_start + size;
-> >  
-> >  	if (!size)  
-> Extra context:
-> >		return 0;  
-> Rather than skipping the lock for size==0 you are now performing a lock
-> with LOCKADDR=0. The best documentation I can find for that says (for
-> LOCKADDR_SIZE in the Midgard architecture): "Values in the range 0 to 10
-> are undefined and should not be used".
-> 
-> I think later versions upped the minimum to 14 (log2(1<<15)-1) for
-> reasons due to supporting larger page sizes.
-> 
-> While I suspect this might work (since we don't actually need a lock
-> region when size==0) I don't think we should be relying on undefined
-> behaviour.
-> 
-> I think the simple solution is to move the size==0 check up into the caller.
+Sorry but why? pwrup_reglist was introduced way earlier than IFPC.
 
-Right. I addressed that in patch 4 (which basically removes
-mmu_hw_do_operation_locked()), but I can do it here too.
+Why would we be skipping the a7xx_patch_pwrup_reglist() because ifpc_reglist is not declared ???
+
+Neil
 
 > 
-> Thanks,
-> Steve
-> 
-> > @@ -565,11 +563,7 @@ static int lock_region(struct panthor_device *ptdev, u32 as_nr,
-> >  	 */
-> >  	region_start &= GENMASK_ULL(63, region_width);
-> >  
-> > -	region = region_width | region_start;
-> > -
-> > -	/* Lock the region that needs to be updated */
-> > -	gpu_write64(ptdev, AS_LOCKADDR(as_nr), region);
-> > -	return as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_LOCK);
-> > +	return region_width | region_start;
-> >  }
-> >  
-> >  static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
-> > @@ -602,7 +596,9 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
-> >  	 * power it up
-> >  	 */
-> >  
-> > -	ret = lock_region(ptdev, as_nr, iova, size);
-> > +	/* Lock the region that needs to be updated */
-> > +	gpu_write64(ptdev, AS_LOCKADDR(as_nr), pack_region_range(iova, size));
-> > +	ret = as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_LOCK);
-> >  	if (ret)
-> >  		return ret;
-> >    
-> 
+> Konrad
 
