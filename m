@@ -2,106 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1283CC619DE
-	for <lists+dri-devel@lfdr.de>; Sun, 16 Nov 2025 18:46:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D07C61FDC
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 02:34:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDB1B10E037;
-	Sun, 16 Nov 2025 17:46:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A27E10E043;
+	Mon, 17 Nov 2025 01:34:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="hJS2cFjl";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="M0Whx/IN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 712F710E037
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 17:46:12 +0000 (UTC)
-Received: from [10.0.0.200] (unknown [10.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id F31685340FCD;
- Sun, 16 Nov 2025 18:46:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1763315170;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=dmSTYZcJD3kr6AbFuIQiAa0536twYODkxO7OVk9gi0M=;
- b=hJS2cFjljLTnR7CsBpvxhnqDuYKpu/CsInLu8yhv3qHhnpdBz9738xDwttaaMnHER9Pdl6
- rGcpqzqmOSpc0yh9TMQGTRPk/Hkv7dGVDuLjH2PiAsyUQW8bJog76yBvTgpOm3EfHAXP3W
- eg+Ua+PkHCAd2u1/sWfpJG3gwN9vxnc=
-Message-ID: <0792c7a7-1bbd-4156-a73c-5060e5612dfc@ixit.cz>
-Date: Sun, 16 Nov 2025 18:46:09 +0100
+Received: from mail-m21471.qiye.163.com (mail-m21471.qiye.163.com
+ [117.135.214.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 282DB10E043
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 01:34:07 +0000 (UTC)
+Received: from [172.16.12.51] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 29c3ce0df;
+ Mon, 17 Nov 2025 09:33:59 +0800 (GMT+08:00)
+Message-ID: <2ebace6f-d3c4-4516-b6cb-4951de06b6c8@rock-chips.com>
+Date: Mon, 17 Nov 2025 09:33:55 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/12] dt-bindings: panel: Convert Samsung SOFEF00 DDIC
- into standalone yaml
-To: Casey Connolly <casey.connolly@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+Subject: Re: [PATCH v9 08/10] drm/rockchip: cdn-dp: Add multiple bridges to
+ support PHY port selection
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Chaoyi Chen
+ <kernel@airkyi.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Peter Chen <hzpeterchen@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Thierry Reding
- <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- phone-devel@vger.kernel.org
-References: <20251113-sofef00-rebuild-v2-0-e175053061ec@ixit.cz>
- <20251113-sofef00-rebuild-v2-1-e175053061ec@ixit.cz>
- <9ef0e4f9-7594-4c26-ab45-38e62a7d0e37@linaro.org>
+ Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
+ Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+References: <20251111105040.94-1-kernel@airkyi.com>
+ <20251111105040.94-9-kernel@airkyi.com>
+ <DE5YP3AVGOG3.OHP68Z0F6KBU@bootlin.com>
+ <b1a339e7-a011-4b4b-8988-2e3768753c85@rock-chips.com>
 Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <9ef0e4f9-7594-4c26-ab45-38e62a7d0e37@linaro.org>
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <b1a339e7-a011-4b4b-8988-2e3768753c85@rock-chips.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9a8f728a9203abkunm7f35530083703a
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGktOGlYYQ04fHUlKSkhNGEhWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+ xVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=M0Whx/IN7vzwWpGNPYw1m+tNCPRjv3SM+gdWc+WtuhKETcY7rThZlrCaxI2fAlhI3391csTS8ehibRh6ex51cQ/r+4YXK3tXX6w3wypz7DSxUZKNiakt6+eBek5O66Hvb28jfRZ1ZP/4biJPialEUbDiHj1QrwZ1mtTGsdG5MX8=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=OCoPxWh+b3eSvtYMRsNlQyefUpu6kD2yKDCWJQ7xR74=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,56 +86,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/11/2025 14:55, Casey Connolly wrote:
-> Hi David,
-> 
-> I may not have added myself to MAINTAINERS when I submitted this driver, 
-> but a heads-up would have been appreciated before just taking it over!
+Hi Luca,
 
-I missed this part in first reaction to your email.
-
-Since the driver was broken in mainline and you didn't upstream any 
-patches you had in sdm845-mainline tree for more than year, I assumed 
-you don't have time to maintain the driver.
-
-I'm very happy you got back and you're going to maintain the driver 
-again thou.
-
-I didn't feel I'm taking over from you, so sorry about that!
-
-David
-
-> 
-> On 11/13/25 18:57, David Heidelberg via B4 Relay wrote:
->> From: David Heidelberg <david@ixit.cz>
-> 
-> [...]> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 7e015dcbac732..a4b16812d5a0c 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -8117,6 +8117,12 @@ S:    Maintained
->>   F:    Documentation/devicetree/bindings/display/panel/ 
->> samsung,s6e3ha8.yaml
->>   F:    drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c
->> +DRM DRIVER FOR SAMSUNG SOFEF00 DDIC
->> +M:    David Heidelberg <david@ixit.cz>
-> 
-> M:    Casey Connolly <casey.connolly@linaro.org>
-> 
-> Please and thanks!
-> Casey (she/they)
-> 
->> +S:    Maintained
->> +F:    Documentation/devicetree/bindings/display/panel/ 
->> samsung,sofef00.yaml
->> +F:    drivers/gpu/drm/panel/panel-samsung-sofef00.c
->> +
->>   DRM DRIVER FOR SHARP MEMORY LCD
->>   M:    Alex Lanzano <lanzano.alex@gmail.com>
->>   S:    Maintained
+On 11/12/2025 9:37 AM, Chaoyi Chen wrote:
+> Hello Luca,
+>
+> On 11/11/2025 11:14 PM, Luca Ceresoli wrote:
+>> Hello Chaoyi,
 >>
-> 
+>> On Tue Nov 11, 2025 at 11:50 AM CET, Chaoyi Chen wrote:
+>>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>>>
+>>> The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
+>>> the CDN-DP can be switched to output to one of the PHYs. If both ports
+>>> are plugged into DP, DP will select the first port for output.
+>>>
+>>> This patch adds support for multiple bridges, enabling users to flexibly
+>>> select the output port. For each PHY port, a separate encoder and bridge
+>>> are registered.
+>>>
+>>> The change is based on the DRM AUX HPD bridge, rather than the
+>>> extcon approach. This requires the DT to correctly describe the
+>>> connections between the first bridge in bridge chain and DP
+>>> controller. For example, the bridge chain may be like this:
+>>>
+>>> PHY aux birdge -> fsa4480 analog audio switch bridge ->
+>>> onnn,nb7vpq904m USB reminder bridge -> USB-C controller AUX HPD bridge
+>>>
+>>> In this case, the connection relationships among the PHY aux bridge
+>>> and the DP contorller need to be described in DT.
+>>>
+>>> In addition, the cdn_dp_parse_next_bridge_dt() will parses it and
+>>> determines whether to register one or two bridges.
+>>>
+>>> Since there is only one DP controller, only one of the PHY ports can
+>>> output at a time. The key is how to switch between different PHYs,
+>>> which is handled by cdn_dp_switch_port() and cdn_dp_enable().
+>>>
+>>> There are two cases:
+>>>
+>>> 1. Neither bridge is enabled. In this case, both bridges can
+>>> independently read the EDID, and the PHY port may switch before
+>>> reading the EDID.
+>>>
+>>> 2. One bridge is already enabled. In this case, other bridges are not
+>>> allowed to read the EDID. So we will try to return the cached EDID.
+>>>
+>>> Since the scenario of two ports plug in at the same time is rare,
+>>> I don't have a board which support two TypeC connector to test this.
+>>> Therefore, I tested forced switching on a single PHY port, as well as
+>>> output using a fake PHY port alongside a real PHY port.
+>>>
+>>> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>> [...]
+>>
+>>> @@ -966,28 +1084,16 @@ static int cdn_dp_pd_event(struct notifier_block *nb,
+>>>       return NOTIFY_DONE;
+>>>   }
+>>>
+>>> -static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
+>>> +static int cdn_bridge_add(struct device *dev,
+>>> +              struct drm_bridge *bridge,
+>>> +              struct drm_bridge *next_bridge,
+>>> +              struct drm_encoder *encoder)
+>>>   {
+>>>       struct cdn_dp_device *dp = dev_get_drvdata(dev);
+>>> -    struct drm_encoder *encoder;
+>>> +    struct drm_device *drm_dev = dp->drm_dev;
+>>> +    struct drm_bridge *last_bridge = NULL;
+>>>       struct drm_connector *connector;
+>>> -    struct cdn_dp_port *port;
+>>> -    struct drm_device *drm_dev = data;
+>>> -    int ret, i;
+>> [...]
+>>
+>>> +    if (next_bridge) {
+>>> +        ret = drm_bridge_attach(encoder, next_bridge, bridge,
+>>> +                    DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+>>> +        if (ret)
+>>> +            return ret;
+>>> +
+>>> +        last_bridge = next_bridge;
+>>> +        while (drm_bridge_get_next_bridge(last_bridge))
+>>> +            last_bridge = drm_bridge_get_next_bridge(last_bridge);
+>> DRM bridges are now refcounted, and you are not calling drm_bridge_get()
+>> and drm_bridge_put() here. But here you can use
+>> drm_bridge_chain_get_last_bridge() which will simplify your job.
+>>
+>> Don't forget to call drm_bridge_put() on the returned bridge when the
+>> bridge is not referenced anymore. This should be as easy as adding a
+>> cleanup action on the variable declaration above:
+>>
+>> -    struct drm_bridge *last_bridge = NULL;
+>> +    struct drm_bridge *last_bridge __free(drm_bridge_put) = NULL;
+>
+> Ah, I have seen your patch about this. Thank you for the reminder, I will fix this in v10.
+>
+>>
+>>> @@ -1029,8 +1147,102 @@ static int cdn_dp_bind(struct device *dev, struct device *master, void *data)
+>>>           return ret;
+>>>       }
+>>>
+>>> +    if (last_bridge)
+>>> +        connector->fwnode = fwnode_handle_get(of_fwnode_handle(last_bridge->of_node));
+>>> +
+>>>       drm_connector_attach_encoder(connector, encoder);
+>>>
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static int cdn_dp_parse_next_bridge_dt(struct cdn_dp_device *dp)
+>>> +{
+>>> +    struct device_node *np = dp->dev->of_node;
+>>> +    struct device_node *port __free(device_node) = of_graph_get_port_by_id(np, 1);
+>>> +    struct drm_bridge *bridge;
+>>> +    int count = 0;
+>>> +    int ret = 0;
+>>> +    int i;
+>>> +
+>>> +    /* If device use extcon, do not use hpd bridge */
+>>> +    for (i = 0; i < dp->ports; i++) {
+>>> +        if (dp->port[i]->extcon) {
+>>> +            dp->bridge_count = 1;
+>>> +            return 0;
+>>> +        }
+>>> +    }
+>>> +
+>>> +
+>>> +    /* One endpoint may correspond to one next bridge. */
+>>> +    for_each_of_graph_port_endpoint(port, dp_ep) {
+>>> +        struct device_node *next_bridge_node __free(device_node) =
+>>> +            of_graph_get_remote_port_parent(dp_ep);
+>>> +
+>>> +        bridge = of_drm_find_bridge(next_bridge_node);
+>>> +        if (!bridge) {
+>>> +            ret = -EPROBE_DEFER;
+>>> +            goto out;
+>>> +        }
+>>> +
+>>> +        dp->next_bridge_valid = true;
+>>> +        dp->next_bridge_list[count].bridge = bridge;
+>> You are storing a reference to a drm_bridge, so have to increment the
+>> refcount:
+>>
+>>         dp->next_bridge_list[count].bridge = drm_bridge_get(bridge);
+>>                                              ^^^^^^^^^^^^^^
+>>
+>> FYI there is a plan to replace of_drm_find_bridge() with a function that
+>> increases the bridge refcount before returning the bridge, but it's not
+>> there yet. When that will happen, the explicit drm_bridge_get() won't be
+>> needed anymore and this code can be updated accordingly.
 
+Out of curiosity, I checked the callers of of_drm_find_bridge(), and it seems that the vast majority of them do not pay attention to the increase or decrease of reference counts. Does this mean that even if we add reference counting in of_drm_find_bridge(), we still need to modify the corresponding functions of their callers and decrease the reference count at the appropriate time? Thank you.
+
+
+>>
+>> Also you have to call drm_bridge_put() to release that reference when the
+>> pointer goes away. I guess that should happen in cdn_dp_unbind().
+>
+> You're right, this is indeed a pitfall. I will fix it in v10.
+>
+>
 -- 
-David Heidelberg
+Best,
+Chaoyi
 
