@@ -2,90 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5678C64D28
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 16:14:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 412B1C64D56
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 16:18:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1574910E369;
-	Mon, 17 Nov 2025 15:14:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1B4310E3C6;
+	Mon, 17 Nov 2025 15:18:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IsaZG9eZ";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="PgBU8UWM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49E3F10E369
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 15:14:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1763392489;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kx8ZUuPVQ5znIDs7P4S73XyxKgfUqqBlKv9cHIMA/P0=;
- b=IsaZG9eZWHsqKLzh5Xp4iXhoMnyVHDo+VtcwTma46UG4GUstFvTgOKjMzC2tkxFvHjcLtu
- T7X5uV8WVtpdM5eshLo++m/XhzRw/lyJchx4wmKHGx3egObvEHm/T8aBY7Tbl/TbGKZ3Xs
- RvEPbfG0s1x5gedAiKj8HvroUDJ2/kM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-624-Gx-rrkVQNfCOdBj3jOjvDA-1; Mon, 17 Nov 2025 10:14:47 -0500
-X-MC-Unique: Gx-rrkVQNfCOdBj3jOjvDA-1
-X-Mimecast-MFC-AGG-ID: Gx-rrkVQNfCOdBj3jOjvDA_1763392487
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-477a1e2b372so15399925e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 07:14:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763392486; x=1763997286;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kx8ZUuPVQ5znIDs7P4S73XyxKgfUqqBlKv9cHIMA/P0=;
- b=tILAGHRR/hHjSOp4ZqTQc/7rIPvWLurMs3IPyK7iX7lr9+08I3931b2ftTiqehzGiF
- bVKDCKLvVrRiioYhJf6B59r1bgMPObf0ad3FSKZx8xcFrYO3pA7av/uXsYVA6JJMkVjt
- 7XQ7hx031E5u4N8l21uxjXmzY/7I7hhUdxGeUfD2sQ/5DVtk3iKBYUkrauRTsOtJSNcJ
- 1mxI2ZQ+AEqp7/r4pldc0iherdLSDj9qo3Hs09r0Tb3XESJjQB25lHHmYDTbtz2JP0AY
- s4CYcbiVO7Q6bHyH98tMqphIhA1zqU1bpy1YTQGp5ZDuJlpoaukYcNu244Rx8yR7f0LT
- l+pA==
-X-Gm-Message-State: AOJu0YxLghNqJqLZS0NYabdAZytowxrQSHNKbd0YclVSRCcP6cobaXjt
- fLIUhAGVV0PbcK7XK1tIDPcQiX5bCIYgIyfcvaccJ/CPb1I7WMf0MEj5d21cycH2BxoWg+N6Zkl
- LNQBPTPu+Oop0y9s40Zz3Gv0kdMJ2X1csC8h/7NIjRZFQeJGBBccyClQFz0FPuf1v7aRw7g==
-X-Gm-Gg: ASbGncu0Ode3CZtyHs5ay7if8Uo1+4jqdDcfi0Km9IEGIhdp08VZyOScR9J7BFpRT3m
- db54UyVZLB6w/i1Wy/1O5Ej0adUnTAf577B/vBYd0LEvEMk09/o7mu0mNXhjLy7gtdMrdwF5X6X
- LGP2UITlmhNF0tVcITjSMizS1JYmAU0rLLPRNs0xjlWh8wUlCmRHwKIpiw6v2GbgCWVi66je9a+
- V9wH3pw5NCYxZStw+L2dJxLmt+NTFBNpWjo55djfRhYzBVkZavbycfAxv2KVS32ue1gYexERSdc
- hfmPD1NOTQ5z/sYNle61VoK0QBz9F1ih9M/zXCarEd0grTeKx7gv8r8aILbaYgwrJFqWbzG4HMX
- GUpTjeJujTsY4M1eV5sQBscClB6iSRV6FxlnluoO4eNIAU8KgWEQ9dKtmRXKFtplKf685
-X-Received: by 2002:a05:600c:8b4b:b0:477:755b:5587 with SMTP id
- 5b1f17b1804b1-4778fe55405mr135076695e9.8.1763392486530; 
- Mon, 17 Nov 2025 07:14:46 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF1Imhn+5hGc5232CXEsbuOoPXvPaiufKMMUFle9A3qt/AF8KRLMNtNt270jXisxDN8USi6Ng==
-X-Received: by 2002:a05:600c:8b4b:b0:477:755b:5587 with SMTP id
- 5b1f17b1804b1-4778fe55405mr135076405e9.8.1763392486109; 
- Mon, 17 Nov 2025 07:14:46 -0800 (PST)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47787e2bcf9sm313765805e9.3.2025.11.17.07.14.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Nov 2025 07:14:45 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, deller@gmx.de, lukas@wunner.de,
- ville.syrjala@linux.intel.com, sam@ravnborg.org
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH] drm, fbcon, vga_switcheroo: Avoid race condition in
- fbcon setup
-In-Reply-To: <9306d41f-6afc-4277-9198-a23e51cbd9f6@suse.de>
-References: <20251105161549.98836-1-tzimmermann@suse.de>
- <87fradkkzp.fsf@ocarina.mail-host-address-is-not-set>
- <9306d41f-6afc-4277-9198-a23e51cbd9f6@suse.de>
-Date: Mon, 17 Nov 2025 16:14:44 +0100
-Message-ID: <87cy5glmhn.fsf@ocarina.mail-host-address-is-not-set>
+Received: from mout.web.de (mout.web.de [212.227.15.3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D555510E3C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 15:18:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1763392684; x=1763997484; i=markus.elfring@web.de;
+ bh=2W5Rbwxqtq0XX/ZesOB9631VZ2GDsGyw2Vnd98tuWE4=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=PgBU8UWMHUapoEaBcEFOAMPokRP28jmc8OfvyNFRUAE3ZwCjiNe33AwbLMnQc69k
+ OBtymeYT2a8kVyITh9t7PudhTNCGZOBCgWduxXmUqKDWfkkf9glhUJfW6KcsY4pS0
+ GMEI//jJaG+VkZeNBlBAySYTz++fnbBzX5mn0XoAwRs9Le3ivMDZPodz0XflBgydO
+ RTuhLQm6AbmGpltXwVE0dd4F7P2ncFsz/iCrAjNuviFB7SZ7Tm847Znt9OoFABnW+
+ 4hoN/If/L9omyEJT7NBeGSPKGFx0UI6OcRbjsoJxwtBNpIZK3Iq1jOc6im2joIXCD
+ u83ni5oypeJYo/BI3A==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.92.218]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MSIF2-1vjEtn3Agi-00QqYM; Mon, 17
+ Nov 2025 16:18:03 +0100
+Message-ID: <1822671a-5f10-43b1-b678-04f47752cd29@web.de>
+Date: Mon, 17 Nov 2025 16:18:01 +0100
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: RZCrYucoq2f9D3TTaUQA9ugDxs-SyUMM2m2ff4ikGs4_1763392487
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+To: make24@iscas.ac.cn, dri-devel@lists.freedesktop.org
+Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ David Airlie <airlied@gmail.com>, Edmund Dea <edmund.j.dea@intel.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Simona Vetter <simona@ffwll.ch>
+References: <20251117075708.37414-1-make24@iscas.ac.cn>
+Subject: Re: [PATCH] drm/kmb: Fix error handling in kmb_probe
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20251117075708.37414-1-make24@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:OUUHpJXTJ8/RDPKfSJDgjDJ46e2ecf6AeZCclxibDQKGRavmXng
+ t6eDvQQde/v/+MSqbIpB5wzVEcCIPB3fWzwCCbe11mu7KWxbUQ+HS3hzeMCOd5YV/HluHJL
+ eucwIFd0VkEcnjQxc4OWv05xItxHIOxk18hEo6m2jm0Dmd8IaJl6kNM09VIxosDLUNd2DB4
+ x1w0D14rWVn5NO0qHAt2g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:KIgYaJpVs54=;PsBBNn2VcoOQ8TJLSVKzACU7/93
+ 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,72 +141,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+=E2=80=A6
+> Add put_device() in all code paths where dsi_pdev is no longer needed,
+> including error paths and the normal removal path.
 
-> Hi
->
-> Am 17.11.25 um 11:32 schrieb Javier Martinez Canillas:
->> Thomas Zimmermann <tzimmermann@suse.de> writes:
->>
->> Hello Thomas,
->>
->>> Protect vga_switcheroo_client_fb_set() with console lock. Avoids OOB
->>> access in fbcon_remap_all(). Without holding the console lock the call
->>> races with switching outputs.
->>>
->>> VGA switcheroo calls fbcon_remap_all() when switching clients. The fbcon
->>> function uses struct fb_info.node, which is set by register_framebuffer().
->>> As the fb-helper code currently sets up VGA switcheroo before registering
->>> the framebuffer, the value of node is -1 and therefore not a legal value.
->>> For example, fbcon uses the value within set_con2fb_map() [1] as an index
->>> into an array.
->>>
->>> Moving vga_switcheroo_client_fb_set() after register_framebuffer() can
->>> result in VGA switching that does not switch fbcon correctly.
->>>
->>> Therefore move vga_switcheroo_client_fb_set() under fbcon_fb_registered(),
->>> which already holds the console lock. Fbdev calls fbcon_fb_registered()
->>> from within register_framebuffer(). Serializes the helper with VGA
->>> switcheroo's call to fbcon_remap_all().
->>>
->>> Although vga_switcheroo_client_fb_set() takes an instance of struct fb_info
->>> as parameter, it really only needs the contained fbcon state. Moving the
->>> call to fbcon initialization is therefore cleaner than before. Only amdgpu,
->>> i915, nouveau and radeon support vga_switcheroo. For all other drivers,
->>> this change does nothing.
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> Link: https://elixir.bootlin.com/linux/v6.17/source/drivers/video/fbdev/core/fbcon.c#L2942 # [1]
->>> ---
->> I'm not that familiar with fbcon and vga_switcheroo to properly review
->> your patch but after reading the explanation in the commit message and
->> reading the diff, the change does make sense to me.
->>
->> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
->>
->> But I think that would be good if you get some testing for the drivers
->> that make use of vga_switcheroo. Also, do you need a Fixes tag ?
->
-> I've ran the testing on amdgpu and i915 so that nothing breaks. The bug 
-> is hard to reproduce though. I've discovered it by reading the code.
->
+How do you think about to apply the attribute =E2=80=9C__free(put_device)=
+=E2=80=9D?
+https://elixir.bootlin.com/linux/v6.18-rc5/source/include/linux/device.h#L=
+1183
 
-Thanks.
+By the way:
+I propose to avoid duplicate of_node_put() calls in this function implemen=
+tation.
 
-I usually put that kind of information between the --- separator and the
-start of the diff. Since that info can be useful for reviewers and doesn't
-end in the commited patch, due tools like `git am` omitting that section.
 
-> About Fixes, the problem has been in the code forever. So IDK what Fixes 
-> would make sense. Just in case:
->
+Would it be helpful to append parentheses to the function name in the summ=
+ary phrase?
 
-I see. Then I agree that having the tag is less useful.
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+Regards,
+Markus
