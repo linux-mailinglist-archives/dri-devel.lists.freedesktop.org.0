@@ -2,139 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE52C63AF4
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 12:01:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6649BC63B6F
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 12:07:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A126A10E3A9;
-	Mon, 17 Nov 2025 11:01:16 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rGWYzEGJ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6C7810E03A;
+	Mon, 17 Nov 2025 11:07:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com
- [74.125.224.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D2E110E3A7
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 11:01:15 +0000 (UTC)
-Received: by mail-yx1-f47.google.com with SMTP id
- 956f58d0204a3-64107188baeso3653926d50.3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 03:01:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763377274; x=1763982074; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/RSfdrwfxNJQiZz80hQXf9twz6yOQXKrW5ZfA5HxaxE=;
- b=rGWYzEGJqEi99qHctaP87trGMrdAGuwv4GrrQXjH3cU+eAResOFjd1qo5/ugh57pLN
- /32eix5G2SniEuad4khM+xi4mkAbBnQwcnoOFxUEnebbVBRK8cjBFVkP2mGpsJF4xH7v
- 40kl4fX1DNVz6LkWqGQDaJeU8ID+Y2JM2FqOQ5HzrzZJQ44rA4NlP+Fpug5M3XdUr6X1
- 6lYE0UCqUTwjiONC6szlx/AHer8mzCgOBdGJq7LhX/QfFxxJDHktGefqs9UZq3B6cLMb
- ExtpH9Wu9whBjnboY8+T/HokG15TUIzP8nK3fB12na76M9Tz9XDr3tCz5k29G+hNvnoO
- ZSZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763377274; x=1763982074;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/RSfdrwfxNJQiZz80hQXf9twz6yOQXKrW5ZfA5HxaxE=;
- b=sZf64fIkW0j7GmKuB7CZhsr3WftMagsc7+CWhL2wpg1sLj9p7IYyP80GAbVRE40Is8
- Aidzg5YA++ysC9r/FBRpg8xYAygjOsQ4n02h/0nYhME0uFKK2SfahtKt/ca1WmuJpvdS
- UCkIgXRjReqYKeC9NaMMah3VCrAFnhbRpi9M1BAAzBHrXTAVzTKWBswCkBW5vcWjxNRa
- wPQxtgu1YchM2HvZEJopEiXfh8+69YryMKUAHcV+p67MQHRfyIygq6Iyb6wKBrh2hizA
- VxJ524NG4ljNgRyJ4TbPuqraV8y9EfqfDY5KJmXSctM6qpanTRGlDzB0LSVkp6AlUiW9
- RU3w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVPyUIWxo/5CZ5ZbcEBQl3GtuHIPcETIYpFnLMtIpg1/1AZfUU5w1DVQg7op0a1r+xhpb1Cy27uWig=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyRLRtIpeazhoRPWKMKJwNeB/iEmb1br569PtVzMAdRXUNbuiXb
- pk2gSzmB002Qdy+jGrgOE6UYZ/Ciw8bkJfumkOcIYCoZp4GXlHBzDI3a3BXd4pLBCi2Aw3/TxSd
- hkzaAC2K96kOGOnlJAZLzILSq/W9T6DWoVmiIndYdAA==
-X-Gm-Gg: ASbGncv3OF1ErH8BkZpJRSKfMvDbb0+WIgA1Ze1AMD7J95lssI+drPPLhA6ut8kwxps
- +Xk1wwpHP1epouYOImPIjd8VnKtRbJPhwvQ9y91in0PnehcjfbOtArjbtxX1qMao/45pNa17Jjx
- zGNY2a6ePpDMbPBxDks5SkWcvKWQWHp8HiHFowc3buVaZbOYVCKD4Vkn2S+QRstUF8LBAvezLCs
- lrCAF1F63PayOieeeHzfNrNtBKcQgoqlyDQXao9Fj4GOJiR/1eYKqQSmSOVtEXyuPnU6WfRVOrt
- x3q8ZsE=
-X-Google-Smtp-Source: AGHT+IEjvegoUIWfi8UaBD0jEKwHtT+y2Cbu5UHhJ+VHUPJu6okR0AoxTFiIq+cxtmlIxdFEnLzs3e2dtieQR/hKIVs=
-X-Received: by 2002:a05:690e:d86:b0:642:84a:7ba4 with SMTP id
- 956f58d0204a3-642084a7c6bmr1567493d50.85.1763377273901; Mon, 17 Nov 2025
- 03:01:13 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2F55A10E08F
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 11:07:15 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 23101FEC;
+ Mon, 17 Nov 2025 03:07:07 -0800 (PST)
+Received: from [10.57.69.30] (unknown [10.57.69.30])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B50EF3F66E;
+ Mon, 17 Nov 2025 03:07:13 -0800 (PST)
+Message-ID: <1cfa2075-a229-44f2-b078-e46334c328fb@arm.com>
+Date: Mon, 17 Nov 2025 11:07:11 +0000
 MIME-Version: 1.0
-References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
- <20251113150217.3030010-14-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20251113150217.3030010-14-andriy.shevchenko@linux.intel.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 17 Nov 2025 12:00:38 +0100
-X-Gm-Features: AWmQ_bk2fwrMGKoLr3e8DW_NORum6cYwB-Ynf9Wgckyt3WUUk5QWFuYE7vXt0wM
-Message-ID: <CAPDyKFotmQyHzBim-8nib-KVvQaQgA_ELbgdC_Q4Y95-GrvRSw@mail.gmail.com>
-Subject: Re: [PATCH v3 13/21] mmc: mmc_test: Switch to use %ptSp
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Corey Minyard <corey@minyard.net>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "Dr. David Alan Gilbert" <linux@treblig.org>,
- Alex Deucher <alexander.deucher@amd.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Matthew Brost <matthew.brost@intel.com>, 
- Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
- Vitaly Lifshits <vitaly.lifshits@intel.com>, 
- Manivannan Sadhasivam <mani@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- Calvin Owens <calvin@wbinvd.org>, 
- Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Sagi Maimon <maimon.sagi@gmail.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Karan Tilak Kumar <kartilak@cisco.com>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>,
- Casey Schaufler <casey@schaufler-ca.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>, 
- Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
- Max Kellermann <max.kellermann@ionos.com>, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- openipmi-developer@lists.sourceforge.net, linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
- intel-wired-lan@lists.osuosl.org, linux-pci@vger.kernel.org, 
- linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-staging@lists.linux.dev, ceph-devel@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, 
- Gustavo Padovan <gustavo@padovan.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Konrad Dybcio <konradybcio@kernel.org>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Vladimir Oltean <olteanv@gmail.com>,
- Andrew Lunn <andrew@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Rodolfo Giometti <giometti@enneenne.com>,
- Jonathan Lemon <jonathan.lemon@gmail.com>, 
- Richard Cochran <richardcochran@gmail.com>,
- Stefan Haberland <sth@linux.ibm.com>, 
- Jan Hoeppner <hoeppner@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
- Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, 
- Satish Kharat <satishkh@cisco.com>, Sesidhar Baddela <sebaddel@cisco.com>, 
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 4/4] drm/panthor: Relax check in
+ panthor_sched_pre_reset()
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org,
+ Lars-Ivar Hesselberg Simonsen <lars-ivar.simonsen@arm.com>,
+ kernel@collabora.com
+References: <20251031154818.821054-1-boris.brezillon@collabora.com>
+ <20251031154818.821054-5-boris.brezillon@collabora.com>
+ <717fea87-6927-484a-b373-cb1917185c0f@arm.com>
+ <20251112134725.160734c4@fedora>
+ <285e5435-7dca-4539-a5ab-aae82df4ef7b@arm.com>
+ <20251117112634.0542ee63@fedora>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251117112634.0542ee63@fedora>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,61 +56,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 13 Nov 2025 at 16:03, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> Use %ptSp instead of open coded variants to print content of
-> struct timespec64 in human readable format.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On 17/11/2025 10:26, Boris Brezillon wrote:
+> On Mon, 17 Nov 2025 09:49:27 +0000
+> Steven Price <steven.price@arm.com> wrote:
+> 
+>> On 12/11/2025 12:47, Boris Brezillon wrote:
+>>> On Fri, 7 Nov 2025 16:40:53 +0000
+>>> Steven Price <steven.price@arm.com> wrote:
+>>>   
+>>>> On 31/10/2025 15:48, Boris Brezillon wrote:  
+>>>>> A group can become runnable even after reset.in_progress has
+>>>>> been set to true and panthor_sched_suspend() has been called,
+>>>>> because the drm_sched queues are still running at that point,
+>>>>> and ::run_job() might call group_schedule_locked() which moves
+>>>>> the group to the runnable list. And that's fine, because we're
+>>>>> moving those groups to the stopped list anyway when we call
+>>>>> panthor_group_stop(), so just drop the misleading WARN_ON().    
+>>>>
+>>>> If we've got another thread mutating the runnable list between
+>>>> panthor_sched_suspend() and list_for_each_entry_safe(), doesn't that
+>>>> make the list iterator unsafe? (_safe only protects against deleting the
+>>>> current item, not against concurrent access).  
+>>>
+>>> I'm not too sure actually. There's an
+>>> atomic_read(&sched->reset.in_progress) to check if we're about to reset
+>>> in group_schedule_locked() and cancel the insertion into the runnable
+>>> list in that case, meaning we're sure nothing new will be inserted after
+>>> we've set the in_progress=true in panthor_sched_pre_reset().  
+>>
+>> I was mostly going on your commit message:
+>>
+>>> A group can become runnable even after reset.in_progress has
+>>> been set to true and panthor_sched_suspend() has been called  
+>>
+>> if that is indeed happening then we have a problem (and removing the
+>> WARN_ON is just papering over it). I haven't actually followed through
+>> the logic.
+> 
+> Sorry, it's not exactly that. The problem is that a group might be
+> inserted in the runnable list before we've had a chance to set
+> reset.in_progress=true (earlier in this function), and there's nothing
+> removing those groups from the runnable list between this assignment and
+> the loop stopping the groups.
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+Ok, so the commit message is misleading...
 
-Kind regards
-Uffe
+My understanding is that the tick and sync_upd is what moves things onto
+the runnable list. So we set the "reset.in_progress" flag and cancel
+(and sync) with the two work queues which could move things onto runnable.
 
-> ---
->  drivers/mmc/core/mmc_test.c | 20 ++++++++------------
->  1 file changed, 8 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/mmc/core/mmc_test.c b/drivers/mmc/core/mmc_test.c
-> index a74089df4547..01d1e62c2ce7 100644
-> --- a/drivers/mmc/core/mmc_test.c
-> +++ b/drivers/mmc/core/mmc_test.c
-> @@ -586,14 +586,11 @@ static void mmc_test_print_avg_rate(struct mmc_test_card *test, uint64_t bytes,
->         rate = mmc_test_rate(tot, &ts);
->         iops = mmc_test_rate(count * 100, &ts); /* I/O ops per sec x 100 */
->
-> -       pr_info("%s: Transfer of %u x %u sectors (%u x %u%s KiB) took "
-> -                        "%llu.%09u seconds (%u kB/s, %u KiB/s, "
-> -                        "%u.%02u IOPS, sg_len %d)\n",
-> -                        mmc_hostname(test->card->host), count, sectors, count,
-> -                        sectors >> 1, (sectors & 1 ? ".5" : ""),
-> -                        (u64)ts.tv_sec, (u32)ts.tv_nsec,
-> -                        rate / 1000, rate / 1024, iops / 100, iops % 100,
-> -                        test->area.sg_len);
-> +       pr_info("%s: Transfer of %u x %u sectors (%u x %u%s KiB) took %ptSp seconds (%u kB/s, %u KiB/s, %u.%02u IOPS, sg_len %d)\n",
-> +               mmc_hostname(test->card->host), count, sectors, count,
-> +               sectors >> 1, (sectors & 1 ? ".5" : ""), &ts,
-> +               rate / 1000, rate / 1024, iops / 100, iops % 100,
-> +               test->area.sg_len);
->
->         mmc_test_save_transfer_result(test, count, sectors, ts, rate, iops);
->  }
-> @@ -3074,10 +3071,9 @@ static int mtf_test_show(struct seq_file *sf, void *data)
->                 seq_printf(sf, "Test %d: %d\n", gr->testcase + 1, gr->result);
->
->                 list_for_each_entry(tr, &gr->tr_lst, link) {
-> -                       seq_printf(sf, "%u %d %llu.%09u %u %u.%02u\n",
-> -                               tr->count, tr->sectors,
-> -                               (u64)tr->ts.tv_sec, (u32)tr->ts.tv_nsec,
-> -                               tr->rate, tr->iops / 100, tr->iops % 100);
-> +                       seq_printf(sf, "%u %d %ptSp %u %u.%02u\n",
-> +                                  tr->count, tr->sectors, &tr->ts, tr->rate,
-> +                                  tr->iops / 100, tr->iops % 100);
->                 }
->         }
->
-> --
-> 2.50.1
->
+panthor_sched_suspend() then deals with anything actually running, but
+it does appear we're missing anything to deal with the runnable list,
+hence the WARN_ON needs dropping.
+
+>>
+>>>>
+>>>> It feels to me like we should be holding the sched mutex - at least
+>>>> while iterating. I agree the WARN_ON is unnecessary, and will need
+>>>> removing if we simply guard the iteration - the alternative is to
+>>>> recolour panthor_sched_suspend() to assume the lock is held (and take
+>>>> the lock in panthor_sched_pre_reset), but I suspect that's a more ugly
+>>>> change.  
+>>>
+>>> I'd rather ensure that nothing new is inserted in the runnable/idle
+>>> lists after sched->reset.in_progress is set to true. Note that
+>>> sched->reset.in_progress is set to true with the sched lock held,
+>>> meaning any path modifying the sched lists (must be done with the sched
+>>> lock held) should complete before we set this to true. As long as those
+>>> paths also skip the list insertion, or, for things happening in a work
+>>> context (thinking of the tick work here), as long as the work is not
+>>> rescheduled until we get a chance to disable this work, we should be
+>>> good, no?  
+>>
+>> Yes that design can work. But atomics can be difficult to reason about,
+>> so unless there's a good reason I think we'd generally be better
+>> sticking with (simple) locks
+> 
+> Locks alone won't prevent groups from being moved around after the
+> stop_all_groups loop though. It's the lock plus the fact groups can't
+> have their state changed while a reset is in progress that gives this
+> guarantee, at which point I guess checking reset.in_progress with or
+> without the lock held is the same, no? We do change the
+> reset.in_progress state with the sched.reset.lock held though, to make
+> sure any path that could move the group to a different list is out of
+> the way when we exit the locked section. That means that new threads
+> entering such paths (path changing the group state) will see the new
+> value and bail out.
+
+No you're right - the lock by itself won't work because we need to drop
+all locks before returning from pre_reset() and we need to keep that
+state until post_reset().
+
+>> on the slow paths, then we get the benefits
+>> of lockdep etc checking we haven't messed up.
+> 
+> I don't mind taking the sched lock in this slow path, but I don't think
+> taking/releasing it inside panthor_sched_pre_reset() is giving any more
+> safeness, because what we want is a guarantee that groups won't be
+> moved around between panthor_sched_pre_reset() and
+> panthor_sched_post_reset(). If that's really a change we want to push
+> (reworking the locking in the reset sequence), I'd rather do that in
+> its own patchset, if you don't mind.
+
+I think the real issue was the commit message misleading me. I'd assumed
+from the commit message that you'd observed the situation of a group
+being put on the runnable list between the call to
+panthor_sched_suspend() and the drm_WARN_ON check. If that really did
+happen then there's a much deeper bug somewhere that needs fixing.
+
+If I understand correctly what you've actually observed is a group being
+put on the runnable list *before* panthor_sched_suspend() and we're not
+currently handling that[1]. I agree that simply dropping the
+drm_WARN_ON() would be the logic fix for that.
+
+TLDR; The commit message needs some work ;)
+
+Thanks,
+Steve
+
+[1] Well we are, but with a big WARN_ON splat ;)
+
