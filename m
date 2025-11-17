@@ -2,153 +2,162 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5B8C626AA
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 06:37:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD488C628A7
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 07:38:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC74E10E0F3;
-	Mon, 17 Nov 2025 05:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25E3210E2C4;
+	Mon, 17 Nov 2025 06:38:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="mn0odtuj";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="muouXfvB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH7PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11010064.outbound.protection.outlook.com [52.101.201.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 658AA10E0F3
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 05:37:19 +0000 (UTC)
+Received: from MW6PR02CU001.outbound.protection.outlook.com
+ (mail-westus2azon11012039.outbound.protection.outlook.com [52.101.48.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8C4310E2C4
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 06:38:55 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o5ozpKGuFYnYWuK0inrGH87stAaeb5csejMpjl5EbK7IZOxwl1+WBlLxcZ+We9er0WzD8dakbM6BWUFO50iEdyh5J+uxjuxQ4CZcfEdS7HNo0uhw8RvazVozJuz99Oo/PrL8unO2ufahEEu7W4r9YRuvfPC0X6ElE52Mcj5gGXyb5OXWeAIPTrlaHs4OZ2PRT+rybNK4NDA4dkTywLdyCe2hlGF808nrBgKBgFKOE07swol26NDOMEPnD4GSXUMs4aYDfDDn2ZHSllC6Pbf4/CeTVABobgx1RC0gwachCiHT/Z+jPLA0ndP4eeFSVnRX0EJL70b02CHc/TPzBdfobA==
+ b=xvtQhQP80cO3uYsOvyr4FL17Uy19YcwzwIDL5lbdAWRZ+FiOSujXv+FXrMLnTzxnBWztXxJQW7LQ5V/UiTCfk+cE4DANYfWQSQErk3299Mq1SYZ84qJqLM9V2jHmXNcgTDEnpcCCWn566fsp4V+A4n1liNiaYR3Qy5QzRNFZRtbVTtNWXaNDtJkzFEPlcsDq3OIoSpON+CcfXtnFvzazVo7kGKjMknms6YqBb0wnT5c6mQA0IzXJE6wBr1SC6q953z1nILPvrHOp906sgk/hOqjldVQUPizRoF+j6rjNONr8dyPHVpEwcZfSQ3k810fDV6dJoqGqe3Oy1p0973BgJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tgVPTNkgcqqRAjMiSa5MkUYxqofolhv3Y6VhGeWTTcQ=;
- b=ALS8Oe2VzlD70MDS3eqzGGg5IrXX2ywTzCswK8T2c58HpBMuvE3sbcUlbYqhOLht0NZrdWE5DGmrAw9WTCmhLzpjbd3c6pGn8TZ6bl2Uos/LXtR/yy9nNL9HSNK352nCERUObXnyTBjeCHgxPdpiOguFvLSq94mXN40/9LAJJV3G++Gmky5tYEdY7zuoaHO5NFuc3p5qGWOFELwFAyjvfQBJkMG70J/bq7wSaRvHhCn/jNwdpKJX/1y16CVVbLGvB2xUZIuT2NGGELpJo7Ubdlpy3ZmSprK/Ul5ON2YNAE5KLYWgqJfRXj118P0w1tSzNdeHUe42BP5HBthCLkpkDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=lists.linaro.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ bh=nriFT6XrbrTox7sfcBeMnmAws9kpXfnV6rPiiuLNviY=;
+ b=Q0wBTYEza7GrR8KRoXItHJCylxOElnUp04g6NyppqoITNABocWCK68vFFgkS94ihDRUjQC50wgO6MFiplXrquAivieNRAyXd5qL48LShRhCxFUgW7+wkDfwGnBTTS5DRAFHBCxfKToKYS24bEmpM/GJ33x9Mb5o18gHP1zSj7NYQxTDOjH3dK0mZAvby96Kn6QTN9Td7D/Xvw51UM6TGrOk1IpSEy6Pb6kWDwDumT6lFASzeI9b3uFinHQEKfCbJAK94HDTW0knlwEE77iRVUV+dXG6IxgHrXUn1JSRkhwzJZMbEoecrNcJrPf/GmF3Eq4lm7wf6V+lgQDvAg3mLuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tgVPTNkgcqqRAjMiSa5MkUYxqofolhv3Y6VhGeWTTcQ=;
- b=mn0odtuj2388eDxqOtMN2Hu30/uehIJuNpvSlNMge51HNP8hhuPN2CiFhN6e+pixhniIQLEtK4qoLbyM0EgfG2ezpUzUIWjYKQnd8kMUSS4gbYMDHcdmxM7VZXQbS9nF2xkkjS7Pvr4ggB6mkRxuv6f+OvzwGalh4mfCXHaacOI=
-Received: from CH0PR04CA0082.namprd04.prod.outlook.com (2603:10b6:610:74::27)
- by SJ2PR10MB7597.namprd10.prod.outlook.com (2603:10b6:a03:53d::14)
+ bh=nriFT6XrbrTox7sfcBeMnmAws9kpXfnV6rPiiuLNviY=;
+ b=muouXfvBADZU4MwKtp7sXHKq4kS1TNCL3frTdc9q/3ou9wIYTyR04mYVT7soHdId79N1BALKxhWMLATZ1TasIpTiFAFunyNR2+MqSfyBE485ZrvJSLYrRk7DJA6kNBlUFZethUgqEFQrGCoc2pyZdJ6qtWJvILIz+L2aCZyQbyc=
+Received: from SA3PR12MB7922.namprd12.prod.outlook.com (2603:10b6:806:314::12)
+ by PH0PR12MB7861.namprd12.prod.outlook.com (2603:10b6:510:26e::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.21; Mon, 17 Nov
- 2025 05:37:16 +0000
-Received: from DS3PEPF000099DF.namprd04.prod.outlook.com
- (2603:10b6:610:74:cafe::b9) by CH0PR04CA0082.outlook.office365.com
- (2603:10b6:610:74::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.22 via Frontend Transport; Mon,
- 17 Nov 2025 05:37:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- DS3PEPF000099DF.mail.protection.outlook.com (10.167.17.202) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9343.9 via Frontend Transport; Mon, 17 Nov 2025 05:37:15 +0000
-Received: from DFLE201.ent.ti.com (10.64.6.59) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 16 Nov
- 2025 23:37:09 -0600
-Received: from DFLE203.ent.ti.com (10.64.6.61) by DFLE201.ent.ti.com
- (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Sun, 16 Nov
- 2025 23:37:09 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE203.ent.ti.com
- (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Sun, 16 Nov 2025 23:37:09 -0600
-Received: from [10.24.69.13] (meghana-pc.dhcp.ti.com [10.24.69.13] (may be
- forged))
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AH5b37d1941015;
- Sun, 16 Nov 2025 23:37:04 -0600
-Message-ID: <83137569-d34b-4cd1-bff5-81a115c1923d@ti.com>
-Date: Mon, 17 Nov 2025 11:07:03 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXTERNAL] [PATCH net-next v2 0/7] net: ethernet: ti: am65-cpsw:
- add AF_XDP zero copy support
-To: Roger Quadros <rogerq@kernel.org>, Siddharth Vadapalli
- <s-vadapalli@ti.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Alexei Starovoitov
- <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, "Jesper Dangaard
- Brouer" <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, "Sumit
- Semwal" <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Stanislav Fomichev <sdf@fomichev.me>, "Simon
- Horman" <horms@kernel.org>
-CC: <srk@ti.com>, <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <bpf@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
-References: <20251109-am65-cpsw-xdp-zc-v2-0-858f60a09d12@kernel.org>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.19; Mon, 17 Nov
+ 2025 06:38:51 +0000
+Received: from SA3PR12MB7922.namprd12.prod.outlook.com
+ ([fe80::9b6:464:1a68:ed47]) by SA3PR12MB7922.namprd12.prod.outlook.com
+ ([fe80::9b6:464:1a68:ed47%6]) with mapi id 15.20.9320.019; Mon, 17 Nov 2025
+ 06:38:51 +0000
+From: "Katakam, Harini" <harini.katakam@amd.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Vinod Koul <vkoul@kernel.org>, "Simek, Michal" <michal.simek@amd.com>, Ulf
+ Hansson <ulf.hansson@linaro.org>, Michael Tretter <m.tretter@pengutronix.de>, 
+ "Pandey, Radhey Shyam" <radhey.shyam.pandey@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-mmc@vger.kernel.org"
+ <linux-mmc@vger.kernel.org>
+Subject: RE: [PATCH 2/3] dt-bindings: dma: xilinx: Simplify dma-coherent
+ property
+Thread-Topic: [PATCH 2/3] dt-bindings: dma: xilinx: Simplify dma-coherent
+ property
+Thread-Index: AQHcVipjsH7TYINoC0qSGcnNCETQ07T2bREg
+Date: Mon, 17 Nov 2025 06:38:50 +0000
+Message-ID: <SA3PR12MB7922C216B3A409FF6C58DB329EC9A@SA3PR12MB7922.namprd12.prod.outlook.com>
+References: <20251115122120.35315-4-krzk@kernel.org>
+ <20251115122120.35315-5-krzk@kernel.org>
+In-Reply-To: <20251115122120.35315-5-krzk@kernel.org>
+Accept-Language: en-US
 Content-Language: en-US
-From: Meghana Malladi <m-malladi@ti.com>
-In-Reply-To: <20251109-am65-cpsw-xdp-zc-v2-0-858f60a09d12@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099DF:EE_|SJ2PR10MB7597:EE_
-X-MS-Office365-Filtering-Correlation-Id: 04d948d2-5ab0-4f75-ba7b-08de259b5dda
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|36860700013|82310400026|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?aHkyOUVCY3pXbmF6Smw4TFFvNVRBTE5zMW1tUmZTRHozU3B5VlFnKzhGYVhJ?=
- =?utf-8?B?ZFptSUNFeTIzVm40UVN4bFVWS0lwWW10Ulp1ZTBCWVJvditaMEd3U1RDQlgz?=
- =?utf-8?B?RVpTbmVEMWNUQUZXa1g0S29ZWE5IRjl3YmpoRmc5WDRXUUVjdEhDRTFYeW9L?=
- =?utf-8?B?TG93amxGME1henkxRjNaT1EwVHlyZU95b2YyVWVmeWNxTDgxcmIwSSttcEFh?=
- =?utf-8?B?NW1adGVKVjVzK1dqY1huSWIrYzBEMWNlNTZIWjNZcExjNVFWZ1orTmpOQkhx?=
- =?utf-8?B?WUdLL3dNL2ZKOWpDSnMwLzNvVkYwRHdNd2t1YUJubVU0SXpSRUppMmlqUm5y?=
- =?utf-8?B?MG1pQ3UyUFhqU2NmNy8yc2EyMnRCeExpWXpxeURZLy9EWEMyei9NdUs3VXAr?=
- =?utf-8?B?V3NTZlkrVTB6NmVBUmV5cjdzM2JzNUJLS20rQUZyMjZPeTdiek05TDl0RVdR?=
- =?utf-8?B?d05ldnZhdHIva2lRZStNTmdpMHdrRmFYdkwvY053QnBiMlVhOUNUL21RYjhK?=
- =?utf-8?B?dm5VYjlxWStLTEtldEQ4b1dvUDNhSlEyVjhrd3FGUjFCNG5jYTVqNEh3YVcz?=
- =?utf-8?B?YXBtWlFkRWJuN0ZaMERvWDJXWHovOGZOMWwvdGhGQWFVaS9sV2svZy9nMWJ0?=
- =?utf-8?B?QnpYS3dlcVIzenhzdHdzOVBxUm52ZE1aRkRDcjJOQnd5NkcyWHNFTDhHNGRz?=
- =?utf-8?B?eG53d0NzSWE0elBTaUlmZjFuT05jY0ptaEpzeDVpYUI2NzdlSE1nZzJyV1BR?=
- =?utf-8?B?US96RmFJTkRQRkNGcERXcDZPTkFjaFBHMnk3Zm1vR0VVRmdIZmJDaUFBa0hE?=
- =?utf-8?B?cmJJTThvc2xxTTdRd2VCMEdaNVZzR2pOSURWRXppL3ZSdDBQSHFnTklGKzBR?=
- =?utf-8?B?V3h0ZXhCN3BLdlV3OHNxaEdKVFB1VjRnN0RsNk56RkptRGowRUltL1hRYzJN?=
- =?utf-8?B?ZkUzM3ZBZEFxaVp3QzVpNHhpZkN3ekVicHhxL0E4ODhIS2NnTTlubmV3dkFa?=
- =?utf-8?B?cTA4M3hpQVBkUFJ1Y2V6aGhEK2JiMnc0MVhpZThBU3JjTkU2bkJFUE1rWGlm?=
- =?utf-8?B?ZXZlZUF2TFdMN1h5U3BWR0VlUjV2SzJsUHhBWHUySENyUGE0blJFUjRacGlu?=
- =?utf-8?B?MmZDMEx2ZHMxUkxlTHY1VUE5U2NYMmUrdWZNRnBLNkp1NVppU0NuNXJYU2Jl?=
- =?utf-8?B?cEs5T2t5SHA3V1c3SlIrVzdyN0t5Rlo1Yk1XK1hnNDQ4MEtZU0c1cVNXdG16?=
- =?utf-8?B?Q2h3SjBTcXdjN3ZyR2pvMm9oemVQeEdxMmk0Y25jdm5Hc3lBazdLR0tRNVhH?=
- =?utf-8?B?akFQZFRsS0s0RThQMkoxM1VVOWl0dnE5eElhYnhIVGN2b3lCRStBdzJ5bEZX?=
- =?utf-8?B?Y3V0QmUwSXROZzdQMGMrUDYwbUVsTHV2aXF3bDVMZC9FUEY5Z0tCQy90bDNN?=
- =?utf-8?B?UVVPN0E0RmQydzk0QmhMcDhQakRIa3pWZURHU3NzNTZ2eFdaZEJRaTRkY0dX?=
- =?utf-8?B?VXQ3WTRVblIyMkh0UFFVNkt1MStVSjdrTTZSNytNMGQycnJpYW0yOUJNaTB5?=
- =?utf-8?B?VjFIeSswcER2dWRyY1ZMUlk1eUI0OTk0UVo5c3BwL3BkZVR1cEMxZmxKSXJJ?=
- =?utf-8?B?VzkwM21QWHIzQVVOWTVsemxybHJqRVFrU1ROOHlDdlI4dGFLZFBtaURZbGVR?=
- =?utf-8?B?U2FGbkpma25IT0x0SElGTXB4WEhjMTh1UGhBTlNkelpLblN4UWZEL1NVUlJ2?=
- =?utf-8?B?RU1yODBIdEI4ZEU2anNsQUJvd3N4NFFNZnVlTGUxRG5XNy9mWXoyNzFkblRq?=
- =?utf-8?B?SXZjbkVESUNITlptTWRsaWFmNW9BNWdQeU44RkxNekJ2NkVnalh3MEtVREQw?=
- =?utf-8?B?MjdUZlo2MS93NU8rUDFNbkUySDNmNWMvakhEZWdzMVNYUDd6TEg1aHZPT1lt?=
- =?utf-8?B?bHpqU0hFa2ltWnk1YWFla1dJTEFKNzRWSUpHTjArT3R3Q3I3ZXNNNmU1WE1q?=
- =?utf-8?B?cm5lRE96Qk5Xc3Vnd2o0NXFlY25ueVp6eUtCaElYUEhrcTNNQjZ5amxCKzVr?=
- =?utf-8?Q?i5wI2b?=
-X-Forefront-Antispam-Report: CIP:198.47.21.195; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:flwvzet201.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(36860700013)(82310400026)(921020);
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Enabled=True;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_SetDate=2025-11-17T06:37:52.0000000Z;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Name=AMD
+ Internal Distribution
+ Only; MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_ContentBits=3;
+ MSIP_Label_dce362fe-1558-4fb5-9f64-8a6240d76441_Method=Standard
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA3PR12MB7922:EE_|PH0PR12MB7861:EE_
+x-ms-office365-filtering-correlation-id: d95b2cd0-56c7-44fc-4235-08de25a3f860
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|366016|7416014|376014|38070700021|921020; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?yK5gYC02RNSZf5AD+oHkdoJvu0LCiYIvt/ZUYG8FSHvG9k3YtaWDXArqEoFk?=
+ =?us-ascii?Q?3VgAjttlTOnlRdaM9LP/dsqjbRHznilWqaXbCyltr8VvuYeaQ1hCnsyKGINT?=
+ =?us-ascii?Q?cdoY3zw7czqiflFufT+YDDz7SNCdUkSh+fscUkIS9WWjwJ+xJlGLdtGWCRU6?=
+ =?us-ascii?Q?hFHyotE2iZ0Fkx94OO+DceMfobLRmQDelBKPywMrgLyDxBUbNGR9M+3MIqIR?=
+ =?us-ascii?Q?YCb0kv8G9D4SPy99Pq0cPD2cZk7VRJs8Yt3g2AmH2JdEzEeShTrjiQsuVy2O?=
+ =?us-ascii?Q?rUfvMfjPW2T6fyM2RkUogpcbTDzwANu70L8iDtxks8bCh55S7zgyYZzz+0w+?=
+ =?us-ascii?Q?ThN+a7aer7qGEON8xWao5crs3wOTCi7AzHuvFzMBXMWex95rkeUr/Vgo4Ae0?=
+ =?us-ascii?Q?nlrXAUYaC5HL4sBTe4xlMGReazjgEqMWGbUhwIUghDquFpwUnh5ZJBerNrdd?=
+ =?us-ascii?Q?FY5xAH1IQNqviCIsz/ogpSS8AKzS9keXhoiRJ7SXcg5AskIumtySVHU+6Rh6?=
+ =?us-ascii?Q?/9urNwCIk1b/yIUOP7izpyIuekTk6hOAUk3G+G5Y7GP3nXPrqfAmJH52BW7O?=
+ =?us-ascii?Q?vWiex04HIcdRhXJN9X2RLIDdGTevza+2mcdC1x8rSwanQ72AzOO+J+MMgbhM?=
+ =?us-ascii?Q?gROwe9KwgLImUiavY9gW0Ty5EHiizYMJGRJuRAv5b6fII4aHcg+hC41szVyx?=
+ =?us-ascii?Q?Kx8qcCZCLxTE4Jd928EpiK754Llyi5/uBTpXgd1p2dOLDCZShIKqTgHQpMOt?=
+ =?us-ascii?Q?bT84iz8rY5/VPNLJJlLG1pyhUpqVFlYe+GDRq+YOn3XHZDF0gIntH3cK293O?=
+ =?us-ascii?Q?EFAHADFE+1ulIt4u0eJJHTZp8mAIeMXf9pc+8bt1jlXSxap+NrhHz3FqiMVd?=
+ =?us-ascii?Q?3B/76n9JDHCK/2JNevWoPxAeJmHXEEMOmKuo+z9KCMzdXdMCg9Q8nMAgCi7F?=
+ =?us-ascii?Q?aGI2H3WzDdpJbaOxRU6WmNtIoimBB6asIk11riKG9eU+PC8EqioarA108TJO?=
+ =?us-ascii?Q?vaxjQ50jH63tci+QQZb3I5bAl4I1J5r5N23iFF5pFsL7UqE4dVLhtoqq8B94?=
+ =?us-ascii?Q?aFrXSTQuyTunC4srFZq0gDBkWK1gjYaHREH8/B1Y6CChmGkGqJVMMxvOIDAL?=
+ =?us-ascii?Q?yYJXoDAsp5VNwMA4BLTjLn1aI6dTFcIOeJMPqgDl2YTXcARY7ZIqtmNQPPdI?=
+ =?us-ascii?Q?9Sc70hPoY2DCbEa7Nr9SGxwj5m4XRmCy835aSwRGCsmG8u/Cg7fPZAlUvncA?=
+ =?us-ascii?Q?UBAZYaKYyKMnxKp/MdNU1CthbXHJKJJFPMzUT3LurWYLUDwl4Xa23/D7q+2F?=
+ =?us-ascii?Q?Isak2RAh55xNsKn7sShS9JyLqKDyB6TOl1NhTYChZHN7T0SIS9lpp8aa1LLm?=
+ =?us-ascii?Q?6T1KUmVlpeBNNejAuzgpRpn9LOAv+Sr53ycKUFRR1W3a8ySja4eAz6tzaXtn?=
+ =?us-ascii?Q?NF6RfEL/lyBQVjCON9tNxFsWVSg69jmhrSWRlzSEYvoZ1/Cf5DcB6uh0yp5O?=
+ =?us-ascii?Q?j6Qjfhpjo90cD10Ta6u8h9zqtKgAIpG11NTcbPkmdW2DSzmQkZccTkf+4g?=
+ =?us-ascii?Q?=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA3PR12MB7922.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700021)(921020);
  DIR:OUT; SFP:1101; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2025 05:37:15.6767 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04d948d2-5ab0-4f75-ba7b-08de259b5dda
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.195];
- Helo=[flwvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099DF.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR10MB7597
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?nsqmdI9rjqgktG79Et2ZNJ2UDJcctbXaXCQmahqaDo+O5sqzf0kQrVyX6Dke?=
+ =?us-ascii?Q?vtX2OjRpfWur3UZTibC5yVIBvWBIzy5KC1xkB/0fMVJrquwDSQn1qKFVqnYS?=
+ =?us-ascii?Q?bgQfb8bCFsC1A0JA96EBBXbPomuFla0sJnXQ0ud26+UVs+RNz+crvWhE6t3d?=
+ =?us-ascii?Q?fVzA3YKd9Z7BRFKRzHy3baSsFiODtjnkkkzb4lshANd869+rjZl74PbkYGwa?=
+ =?us-ascii?Q?XQvLyPhRvjxL0YaDenvjIybHAq44r5ukbc1HQRGL1PT3KWxJeMDV2jLj/BmV?=
+ =?us-ascii?Q?kXpdfYufNJADSLF0YrL6YFre5NiDw4+rewdF+4DvYq/nV3TKw+uSnQtLs9bL?=
+ =?us-ascii?Q?s4Eo1O0SBSKjZUQpKo7GuiPXEQqHhO4CLkc9CzVQ7Gg9Q72GfTt7mKHO4Jyk?=
+ =?us-ascii?Q?+GwkKtLYIOy1ImUaZFFcnGOwYA8Ibl6SClGPIbYDv9Xr9jAd3xF2QIsPPoDx?=
+ =?us-ascii?Q?5GEVPyxYIFqB2umR/5/+ZSQ8gpobLDSZ2pwdwovwhjMc3UbxX6Gm8LXXsstm?=
+ =?us-ascii?Q?+bVFUjkAqY6STam2XdD/S1eJ1ixB4d9zUOvgIQXdIRx4Wm4dTO6bLej8NRxS?=
+ =?us-ascii?Q?vbM5Cc/NoKrdornDp69AUcv/Pz/r4KRO28JZelkxNWPZmX1AGpOI6ICcpaLh?=
+ =?us-ascii?Q?XKZz/2pJx8dN/WE/qSOH8KI+E6HpyAu3Nz6B1ZdeIaJ63KcnSO7JZtFkwhj9?=
+ =?us-ascii?Q?gJeKtlTPMURTEQoWTdJN/dmnrnU+eSVgnSJYMDlD14uoCoAinZ8kzpqsCz8l?=
+ =?us-ascii?Q?nC/RWYhrLEmMzWgteF0lDhlVPsbGvxx9GL4dystF1cbo7XcNlbUX+zobra2y?=
+ =?us-ascii?Q?wMnnijsUzTWBJ7OClE0j5gJhEa7k7KWVFmGryMhWYVSbUhsxSopDUebIM8QX?=
+ =?us-ascii?Q?w0unO8wyj4bpLgIK2gI9g6XFdEM61gMbNbdlyIpyGRwQfCZChgX8Qb9KzOFf?=
+ =?us-ascii?Q?UUXMv3eKMsOgUEQleDl0biMiXx9fp4/7RP4W03NVry0z2+iVlx1OiNUPLbtn?=
+ =?us-ascii?Q?z1UORYxh28hHbX5z9bLw2sCxoyQuKxkzt/kd3M5AIo5K67FYUff2MPbUCnDi?=
+ =?us-ascii?Q?fWiyK0Orc7YZ0b5k7pAByutwoC1nDW24McXWkhWH5kRnVNLaJhQSHGkv/9Ov?=
+ =?us-ascii?Q?/493oprwWApKCgjPc9R2TVtSsLcsfOS73pDnvkB4L7jnXzb48KI6N0XILnZN?=
+ =?us-ascii?Q?NCwweIbttB1WYVyEecl260vHr1C5t/p74VKHfAZaMceVOckwuzWt3IkfOCAr?=
+ =?us-ascii?Q?KPVWfPjzeK6CWRLimgsXWU6Vj2GPWsJGksQVXCto9dohz63hDCBfPvO5Yjud?=
+ =?us-ascii?Q?T8mYefyvWVSb82iRytXffxxdSG/vU2Fq4Tj4qwUcPb4iN3ohFjndJra02eEf?=
+ =?us-ascii?Q?uQ46bp5vs22MWoBUVaZRauEBLiBOYFxxpjloJj9DzVhbRTWdzPpLy47pRV6P?=
+ =?us-ascii?Q?gcVx2ro3LmwgRj3tz1uTGfzXxnhQDo0ny5LuEGI6ZMlzW0k6LKMzcsWRx6i6?=
+ =?us-ascii?Q?ca5drFRneIJaXsCjDWyVpkaZ8czXxQcr/LRYnzSnIDeMzIlHxxAa4RlsXLQE?=
+ =?us-ascii?Q?9lIN1cchKhOrBNz/LXQ=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA3PR12MB7922.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d95b2cd0-56c7-44fc-4235-08de25a3f860
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2025 06:38:50.9522 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6gKQ8uLQG6AiNPHvCNc13Gwn8uU4R8JnjhChvmdVnYwBVPhEKS9kFAcirflLiASG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7861
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,97 +173,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Roger,
+[AMD Official Use Only - AMD Internal Distribution Only]
 
-On 11/10/25 03:07, Roger Quadros wrote:
-> This series adds AF_XDP zero coppy support to am65-cpsw driver. Tests 
-> were performed on AM62x-sk with xdpsock application [1]. A clear 
-> improvement is seen in 64 byte packets on Transmit (txonly) and receive 
-> (rxdrop). 1500 byte test seems to
-> ZjQcmQRYFpfptBannerStart
-> This message was sent from outside of Texas Instruments.
-> Do not click links or open attachments unless you recognize the source 
-> of this email and know the content is safe.
-> Report Suspicious
-> <https://us-phishalarm-ewt.proofpoint.com/EWT/v1/G3vK! 
-> u7dqXRfP1k07KyXOF3NDf8vo0my_AFaH4vPAPLVnKCsqFWj_bXKNsRmhTJBE82Rrr_w736hROV-tgpjEGb6O7cQAClKjG9x9il73ZT70$>
-> ZjQcmQRYFpfptBannerEnd
-> 
-> This series adds AF_XDP zero coppy support to am65-cpsw driver.
-> 
-> Tests were performed on AM62x-sk with xdpsock application [1].
-> 
-> A clear improvement is seen in 64 byte packets on Transmit (txonly)
-> and receive (rxdrop).
-> 1500 byte test seems to be limited by line rate (1G link) so no
-> improvement seen there in packet rate. A test on higher speed link
-> (or PHY-less setup) might be worthwile.
-> 
-> There is some issue during l2fwd with 64 byte packets and benchmark
-> results show 0. This issue needs to be debugged further.
-> A 512 byte l2fwd test result has been added to compare instead.
-> 
-> AF_XDP performance using 64 byte packets in Kpps.
-> Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
-> rxdrop		322		491		845
-> txonly		390		394		723
-> l2fwd 		205		257		0
-> 
-> AF_XDP performance using 512 byte packets in Kpps.
-> l2fwd		140		167		231
-> 
-> AF_XDP performance using 1500 byte packets in Kpps.
-> Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
-> rxdrop		82		82		82
-> txonly		82		82		82
-> l2fwd 		82		82		82
-> 
-> [1]:https://urldefense.com/v3/__https://github.com/xdp-project/bpf-examples/ 
-> tree/master/AF_XDP-example__;!!G3vK! 
-> SX4J82NfOn_sfwizSTYO-8W3GRuffFIHyCngO1J2CT4Alea18pIGiBI4l5XKFKVUbxESDgb4GkCb$ <https://urldefense.com/v3/__https://github.com/xdp-project/bpf-examples/tree/master/AF_XDP-example__;!!G3vK!SX4J82NfOn_sfwizSTYO-8W3GRuffFIHyCngO1J2CT4Alea18pIGiBI4l5XKFKVUbxESDgb4GkCb$>
-> 
-> Signed-off-by: Roger Quadros <rogerq@kernel.org>
+> -----Original Message-----
+> From: Krzysztof Kozlowski <krzk@kernel.org>
+> Sent: Saturday, November 15, 2025 5:51 PM
+> To: Jyri Sarha <jyri.sarha@iki.fi>; Tomi Valkeinen
+> <tomi.valkeinen@ideasonboard.com>; David Airlie <airlied@gmail.com>;
+> Simona Vetter <simona@ffwll.ch>; Maarten Lankhorst
+> <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
+> Thomas Zimmermann <tzimmermann@suse.de>; Rob Herring
+> <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
+> <conor+dt@kernel.org>; Vinod Koul <vkoul@kernel.org>; Simek, Michal
+> <michal.simek@amd.com>; Ulf Hansson <ulf.hansson@linaro.org>; Michael
+> Tretter <m.tretter@pengutronix.de>; Katakam, Harini
+> <harini.katakam@amd.com>; Pandey, Radhey Shyam
+> <radhey.shyam.pandey@amd.com>; dri-devel@lists.freedesktop.org;
+> devicetree@vger.kernel.org; linux-kernel@vger.kernel.org;
+> dmaengine@vger.kernel.org; linux-arm-kernel@lists.infradead.org; linux-
+> mmc@vger.kernel.org
+> Cc: Krzysztof Kozlowski <krzk@kernel.org>
+> Subject: [PATCH 2/3] dt-bindings: dma: xilinx: Simplify dma-coherent prop=
+erty
+>
+> Common boolean properties need to be only allowed in the binding (":true"=
+),
+> because their type is already defined by core DT schema.
+> Simplify dma-coherent property to match common syntax.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-After applying this series patches, I tried booting am64xx-hsevm in 
-prueth dual-emac mode by applying k3-am642-evm-icssg1-dualemac.dtbo 
-overlay, and I am getting the following kernel crash: 
-https://gist.github.com/MeghanaMalladiTI/784fd2262d95b19fe9573c553c4a6a24
+Thanks,
+Reviewed-by: Harini Katakam <harini.katakam@amd.com>
 
-Can you please take a look at this.
+Regards,
+Harini
 
 > ---
-> Changes in v2:
-> - Prevent crash on systems with 1 of 2 ports disabled in device tree. check
->    for valid ndev before registering/unregistering XDP RXQ.
->    Reported-by: Meghana Malladi <m-malladi@ti.com>
-> - Retain page pool on XDP program exchangae so we don't have to re-alloacate
->    memory.
-> - Fix clearing of irq_disabled flag in am65_cpsw_nuss_rx_poll().
-> - Link to v1:https://urldefense.com/v3/__https://lore.kernel.org/r/20250520-am65- 
-> cpsw-xdp-zc-v1-0-45558024f566@kernel.org__;!!G3vK! 
-> SX4J82NfOn_sfwizSTYO-8W3GRuffFIHyCngO1J2CT4Alea18pIGiBI4l5XKFKVUbxESDgAECR9g$ <https://urldefense.com/v3/__https://lore.kernel.org/r/20250520-am65-cpsw-xdp-zc-v1-0-45558024f566@kernel.org__;!!G3vK!SX4J82NfOn_sfwizSTYO-8W3GRuffFIHyCngO1J2CT4Alea18pIGiBI4l5XKFKVUbxESDgAECR9g$>
-> 
-> ---
-> Roger Quadros (7):
->        net: ethernet: ti: am65-cpsw: fix BPF Program change on multi-port CPSW
->        net: ethernet: ti: am65-cpsw: Retain page_pool on XDP program exchange
->        net: ethernet: ti: am65-cpsw: add XSK pool helpers
->        net: ethernet: ti: am65-cpsw: Add AF_XDP zero copy for RX
->        net: ethernet: ti: am65-cpsw: Add AF_XDP zero copy for TX
->        net: ethernet: ti: am65-cpsw: enable zero copy in XDP features
->        net: ethernet: ti: am65-cpsw: Fix clearing of irq_disabled flag in rx_poll
-> 
->   drivers/net/ethernet/ti/Makefile         |   2 +-
->   drivers/net/ethernet/ti/am65-cpsw-nuss.c | 583 ++++++++++++++++++++++++++-----
->   drivers/net/ethernet/ti/am65-cpsw-nuss.h |  37 +-
->   drivers/net/ethernet/ti/am65-cpsw-xdp.c  | 155 ++++++++
->   4 files changed, 692 insertions(+), 85 deletions(-)
-> ---
-> base-commit: a0c3aefb08cd81864b17c23c25b388dba90b9dad
-> change-id: 20250225-am65-cpsw-xdp-zc-2af9e4be1356
-> 
-> Best regards,
-> -- 
-> Roger Quadros <rogerq@kernel.org>
-> 
+>  .../devicetree/bindings/dma/xilinx/xlnx,zynqmp-dma-1.0.yaml    | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/dma/xilinx/xlnx,zynqmp-dma=
+-
+> 1.0.yaml b/Documentation/devicetree/bindings/dma/xilinx/xlnx,zynqmp-
+> dma-1.0.yaml
+> index b5399c65a731..2da86037ad79 100644
+> --- a/Documentation/devicetree/bindings/dma/xilinx/xlnx,zynqmp-dma-
+> 1.0.yaml
+> +++ b/Documentation/devicetree/bindings/dma/xilinx/xlnx,zynqmp-dma-
+> 1.0.y
+> +++ aml
+> @@ -59,8 +59,7 @@ properties:
+>    power-domains:
+>      maxItems: 1
+>
+> -  dma-coherent:
+> -    description: present if dma operations are coherent
+> +  dma-coherent: true
+>
+>  required:
+>    - "#dma-cells"
+> --
+> 2.48.1
 
