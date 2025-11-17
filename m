@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 240EDC64EEE
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 16:45:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5E9C64EFF
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 16:46:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6819710E3D8;
-	Mon, 17 Nov 2025 15:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6131A10E3E1;
+	Mon, 17 Nov 2025 15:46:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qXt7838b";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BXGlW1TO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C32F10E3D8
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 15:45:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DB2910E3E1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 15:46:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1763394302;
- bh=lbFlnTpGGNMackA254ZBSjhjUD4CP/UFMLbO/PR3Sko=;
+ s=mail; t=1763394404;
+ bh=RjRAGalUSuZOAPkgTLxvvc9ygl4RedSR4hQAgYVJHMQ=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=qXt7838bh2yDX8canwzxujLVy9TX6WlKRrGFVcr5aQDMDK26mjZ0tDBmin8uSp5fR
- nw/ve6i/EPVtzKx2QlU2Dx74YRuXEy2vNHP9tpbqr4dYtK/emA1BPibTf9VncOeHGX
- 9kqKKtFjMvq3GqZQeLPkF1FrQslBg0fBBF3zql18o9w9R5ijpKpTeQjTMTGYrriuFJ
- NMkLMYW07M+d/yquFzv+AVuEgi/3+kkCXifSTFgAmsoktO3wVXvw/0jTizsqG1mT6M
- TKqwubPxC3nXzWupMlZzGBYV65stzY8tmHCs9pNRmtAlgNHsY9iy+mRpUCW2SleJ8O
- dQMrfy4G6Ajeg==
+ b=BXGlW1TORxlCzGpYwgEBkzG7XBdR5ZMT/LZy6lpXFRirNNn603Wd7kgG8uSNUKfio
+ 1UxI+/YKlEBzZFLuLbQf8dOucLdHntev05Xhvx5XEjbiQo06lM47pP8VkXaB+HzV6z
+ 3XjwA5ELGWrgd3mvbaQ//GwHPVNY9uLD5oxcoLdoMYTrxoc+C9VtgNW29560b+Pfuu
+ 6S8bYr1vu+9fjp1Rb+7ud4e6vXdOBqVT4lJ3VmBbueB63aaVVMp/1ETQ6eRlI1+L26
+ OnxMfJsRN7zvOCxnAMsiPnsoad6+W3ZUPIcrTTicIawPIRhR4/1npmG6kwFVx50h2P
+ +6vjhFEih3YMA==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9A7A417E0097;
- Mon, 17 Nov 2025 16:45:01 +0100 (CET)
-Date: Mon, 17 Nov 2025 16:44:55 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A6ADA17E130A;
+ Mon, 17 Nov 2025 16:46:43 +0100 (CET)
+Date: Mon, 17 Nov 2025 16:46:39 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
 Cc: Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRyacOhbg==?= Larumbe
  <adrian.larumbe@collabora.com>, dri-devel@lists.freedesktop.org, Akash Goel
  <akash.goel@arm.com>, Karunika Choo <karunika.choo@arm.com>,
  kernel@collabora.com
-Subject: Re: [PATCH v2 3/6] drm/panthor: Recover from
- panthor_gpu_flush_caches() failures
-Message-ID: <20251117164455.09f41dcc@fedora>
-In-Reply-To: <e6fbbfa1-789f-46bf-9591-b19ff954b69a@arm.com>
+Subject: Re: [PATCH v2 2/6] drm/panthor: Kill lock_region()
+Message-ID: <20251117164639.5018b9ca@fedora>
+In-Reply-To: <bf18504d-5ff6-47f2-9936-3c798a337816@arm.com>
 References: <20251113103953.1519935-1-boris.brezillon@collabora.com>
- <20251113103953.1519935-4-boris.brezillon@collabora.com>
- <e6fbbfa1-789f-46bf-9591-b19ff954b69a@arm.com>
+ <20251113103953.1519935-3-boris.brezillon@collabora.com>
+ <bf18504d-5ff6-47f2-9936-3c798a337816@arm.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -67,104 +66,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 17 Nov 2025 14:02:35 +0000
+On Mon, 17 Nov 2025 12:44:58 +0000
 Steven Price <steven.price@arm.com> wrote:
 
 > On 13/11/2025 10:39, Boris Brezillon wrote:
-> > We have seen a few cases where the whole memory subsystem is blocked
-> > and flush operations never complete. When that happens, we want to:
-> > 
-> > - schedule a reset, so we can recover from this situation
-> > - in the reset path, we need to reset the pending_reqs so we can send
-> >   new commands after the reset
-> > - if more panthor_gpu_flush_caches() operations are queued after
-> >   the timeout, we skip them and return -EIO directly to avoid needless
-> >   waits (the memory block won't miraculously work again)  
-> 
-> You've removed the WARN from this last case. Is this intentional? I
-> agree the recovery is better, but I don't think we expect this to happen
-> - so it's pointing to something else being broken.
-
-I did because there's a way for the UMD to trigger that (see the link
-to the bug in the cover letter) without any mitigation we can put in
-place kernel side, other than the GPU reset I'm adding here.I
-tend to use WARN_ON()s only for things the kernel code has control on,
-not stuff users can force the kernel driver into. Note that I kept the
-drm_err(), so we still have a trace of such errors in the logs (along
-with some timeouts).
-
-> 
+> > The meat in lock_region() is about packing a region range into a
+> > single u64. The rest is just a regular reg write plus a
+> > as_send_cmd_and_wait() call that can easily be inlined in
+> > mmu_hw_do_operation_locked().
 > > 
 > > v2:
 > > - New patch
 > > 
-> > Fixes: 5cd894e258c4 ("drm/panthor: Add the GPU logical block")
 > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 > > ---
-> >  drivers/gpu/drm/panthor/panthor_gpu.c | 19 ++++++++++++-------
-> >  1 file changed, 12 insertions(+), 7 deletions(-)
+> >  drivers/gpu/drm/panthor/panthor_mmu.c | 14 +++++---------
+> >  1 file changed, 5 insertions(+), 9 deletions(-)
 > > 
-> > diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> > index eda670229184..abd2fde04da9 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> > @@ -283,38 +283,42 @@ int panthor_gpu_l2_power_on(struct panthor_device *ptdev)
-> >  int panthor_gpu_flush_caches(struct panthor_device *ptdev,
-> >  			     u32 l2, u32 lsc, u32 other)
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > index 186048fc2c25..f109c1588186 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > @@ -538,11 +538,9 @@ static int as_send_cmd_and_wait(struct panthor_device *ptdev, u32 as_nr, u32 cmd
+> >  	return status;
+> >  }
+> >  
+> > -static int lock_region(struct panthor_device *ptdev, u32 as_nr,
+> > -		       u64 region_start, u64 size)
+> > +static u64 pack_region_range(u64 region_start, u64 size)
 > >  {
-> > -	bool timedout = false;
-> >  	unsigned long flags;
-> > +	int ret = 0;
+> >  	u8 region_width;
+> > -	u64 region;
+> >  	u64 region_end = region_start + size;
 > >  
-> >  	/* Serialize cache flush operations. */
-> >  	guard(mutex)(&ptdev->gpu->cache_flush_lock);
+> >  	if (!size)  
+> Extra context:
+> >		return 0;  
+> Rather than skipping the lock for size==0 you are now performing a lock
+> with LOCKADDR=0. The best documentation I can find for that says (for
+> LOCKADDR_SIZE in the Midgard architecture): "Values in the range 0 to 10
+> are undefined and should not be used".
+> 
+> I think later versions upped the minimum to 14 (log2(1<<15)-1) for
+> reasons due to supporting larger page sizes.
+> 
+> While I suspect this might work (since we don't actually need a lock
+> region when size==0) I don't think we should be relying on undefined
+> behaviour.
+> 
+> I think the simple solution is to move the size==0 check up into the caller.
+
+Right. I addressed that in patch 4 (which basically removes
+mmu_hw_do_operation_locked()), but I can do it here too.
+
+> 
+> Thanks,
+> Steve
+> 
+> > @@ -565,11 +563,7 @@ static int lock_region(struct panthor_device *ptdev, u32 as_nr,
+> >  	 */
+> >  	region_start &= GENMASK_ULL(63, region_width);
 > >  
-> >  	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
-> > -	if (!drm_WARN_ON(&ptdev->base,
-> > -			 ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED)) {
-> > +	if (!(ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED)) {
-> >  		ptdev->gpu->pending_reqs |= GPU_IRQ_CLEAN_CACHES_COMPLETED;
-> >  		gpu_write(ptdev, GPU_CMD, GPU_FLUSH_CACHES(l2, lsc, other));
-> > +	} else {
-> > +		ret = -EIO;
-> >  	}
-> >  	spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
-> >  
-> > +	if (ret)
-> > +		return ret;
-> > +
-> >  	if (!wait_event_timeout(ptdev->gpu->reqs_acked,
-> >  				!(ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED),
-> >  				msecs_to_jiffies(100))) {
-> >  		spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
-> >  		if ((ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED) != 0 &&
-> >  		    !(gpu_read(ptdev, GPU_INT_RAWSTAT) & GPU_IRQ_CLEAN_CACHES_COMPLETED))
-> > -			timedout = true;
-> > +			ret = -ETIMEDOUT;
-> >  		else
-> >  			ptdev->gpu->pending_reqs &= ~GPU_IRQ_CLEAN_CACHES_COMPLETED;
-> >  		spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
-> >  	}
-> >  
-> > -	if (timedout) {
-> > +	if (ret) {
-> > +		panthor_device_schedule_reset(ptdev);
-> >  		drm_err(&ptdev->base, "Flush caches timeout");
-> > -		return -ETIMEDOUT;
-> >  	}
-> >  
-> > -	return 0;
-> > +	return ret;
+> > -	region = region_width | region_start;
+> > -
+> > -	/* Lock the region that needs to be updated */
+> > -	gpu_write64(ptdev, AS_LOCKADDR(as_nr), region);
+> > -	return as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_LOCK);
+> > +	return region_width | region_start;
 > >  }
 > >  
-> >  /**
-> > @@ -354,6 +358,7 @@ int panthor_gpu_soft_reset(struct panthor_device *ptdev)
-> >  		return -ETIMEDOUT;
-> >  	}
+> >  static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
+> > @@ -602,7 +596,9 @@ static int mmu_hw_do_operation_locked(struct panthor_device *ptdev, int as_nr,
+> >  	 * power it up
+> >  	 */
 > >  
-> > +	ptdev->gpu->pending_reqs = 0;
-> >  	return 0;
-> >  }
+> > -	ret = lock_region(ptdev, as_nr, iova, size);
+> > +	/* Lock the region that needs to be updated */
+> > +	gpu_write64(ptdev, AS_LOCKADDR(as_nr), pack_region_range(iova, size));
+> > +	ret = as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_LOCK);
+> >  	if (ret)
+> >  		return ret;
 > >    
 > 
 
