@@ -2,88 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C45C62BFC
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 08:37:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D557C62C36
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 08:40:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77E3A10E2EA;
-	Mon, 17 Nov 2025 07:37:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC35710E2EE;
+	Mon, 17 Nov 2025 07:40:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="RiEccO7Z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eo6o23Qp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RiEccO7Z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eo6o23Qp";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="gO/EMq7T";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0cXYD4tS";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gO/EMq7T";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0cXYD4tS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D83BF10E2EA
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 07:37:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7300610E2EC
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 07:40:40 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8B77B211FF;
- Mon, 17 Nov 2025 07:37:06 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2540C2120E;
+ Mon, 17 Nov 2025 07:40:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1763365026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1763365239; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5NLvbYnT3faBz30Rv5ipLxXZHc4UFIvTCRa6lyTuc4E=;
- b=RiEccO7ZfYAdZgkyQ0KbBrkZp4VPOFnJbZmq03mKwQWP5XP8zgMs5n9ttqDGh4nUMHxq8/
- iyqInoF9XwkmK93gsbYSHzli2DEul4wuRwMGD3IeRxImVOM1phWlPoDBzHS9Lbu60oHTuq
- nLZILwMBox6eRQBl2PxHUwEhsFA29ks=
+ bh=SyrdeImVaAmWweVRNISv7nc7l+eNeBZch4YQOYAa5iw=;
+ b=gO/EMq7T56divsdvPtgvpRic77/iLjKExyhY3+vbD0pDkRf4Wq+Vgc5UWR4UeD5RwvPTr3
+ Tq9/Oh0wfYRpIXjT3C3DDF0CT4OHQm4pl/UFz//ROjKhYAGkK3hoUYMQ8RqMNrbUGrx9j2
+ NttsPeDrTsvlP7rBgXjXgnqgVHLD0pY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1763365026;
+ s=susede2_ed25519; t=1763365239;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5NLvbYnT3faBz30Rv5ipLxXZHc4UFIvTCRa6lyTuc4E=;
- b=Eo6o23Qp3MlVaOOnCxwZYRUdvEcs1ZTW9SABX8AxviDxs5XGQPy9w6gcJuLoWab+pCCue8
- Iw2sCNWSdCI4o/AA==
+ bh=SyrdeImVaAmWweVRNISv7nc7l+eNeBZch4YQOYAa5iw=;
+ b=0cXYD4tSvpFrNUBcFLkyCHJXMFpNtkzTvnbg0d8zMBAR8vz+MO7rZouL1Hya8teIO8okuv
+ gMOoWn+pqkzxxYCw==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1763365026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1763365239; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5NLvbYnT3faBz30Rv5ipLxXZHc4UFIvTCRa6lyTuc4E=;
- b=RiEccO7ZfYAdZgkyQ0KbBrkZp4VPOFnJbZmq03mKwQWP5XP8zgMs5n9ttqDGh4nUMHxq8/
- iyqInoF9XwkmK93gsbYSHzli2DEul4wuRwMGD3IeRxImVOM1phWlPoDBzHS9Lbu60oHTuq
- nLZILwMBox6eRQBl2PxHUwEhsFA29ks=
+ bh=SyrdeImVaAmWweVRNISv7nc7l+eNeBZch4YQOYAa5iw=;
+ b=gO/EMq7T56divsdvPtgvpRic77/iLjKExyhY3+vbD0pDkRf4Wq+Vgc5UWR4UeD5RwvPTr3
+ Tq9/Oh0wfYRpIXjT3C3DDF0CT4OHQm4pl/UFz//ROjKhYAGkK3hoUYMQ8RqMNrbUGrx9j2
+ NttsPeDrTsvlP7rBgXjXgnqgVHLD0pY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1763365026;
+ s=susede2_ed25519; t=1763365239;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5NLvbYnT3faBz30Rv5ipLxXZHc4UFIvTCRa6lyTuc4E=;
- b=Eo6o23Qp3MlVaOOnCxwZYRUdvEcs1ZTW9SABX8AxviDxs5XGQPy9w6gcJuLoWab+pCCue8
- Iw2sCNWSdCI4o/AA==
+ bh=SyrdeImVaAmWweVRNISv7nc7l+eNeBZch4YQOYAa5iw=;
+ b=0cXYD4tSvpFrNUBcFLkyCHJXMFpNtkzTvnbg0d8zMBAR8vz+MO7rZouL1Hya8teIO8okuv
+ gMOoWn+pqkzxxYCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5D97C3EA61;
- Mon, 17 Nov 2025 07:37:06 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EA6843EA61;
+ Mon, 17 Nov 2025 07:40:38 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id eDGhFaLQGmlHJwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 17 Nov 2025 07:37:06 +0000
-Message-ID: <40165201-80b7-4fa4-9812-6a8fcbee4a42@suse.de>
-Date: Mon, 17 Nov 2025 08:37:05 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id sMPGN3bRGmkXKgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 17 Nov 2025 07:40:38 +0000
+Message-ID: <4b1172e5-514e-4509-84e0-66818db4adb4@suse.de>
+Date: Mon, 17 Nov 2025 08:40:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] efi/libstub: gop: Initialize screen_info in helper
- function
+Subject: Re: [PATCH 4/5] efi/libstub: gop: Add support for reading EDID
 To: Javier Martinez Canillas <javierm@redhat.com>, ardb@kernel.org,
  jonathan@marek.ca
 Cc: linux-efi@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 References: <20251015160816.525825-1-tzimmermann@suse.de>
- <20251015160816.525825-4-tzimmermann@suse.de>
- <87tszo8w2q.fsf@ocarina.mail-host-address-is-not-set>
+ <20251015160816.525825-5-tzimmermann@suse.de>
+ <87qzus8vxl.fsf@ocarina.mail-host-address-is-not-set>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -110,25 +109,24 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <87tszo8w2q.fsf@ocarina.mail-host-address-is-not-set>
+In-Reply-To: <87qzus8vxl.fsf@ocarina.mail-host-address-is-not-set>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
 X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
  NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_TLS_ALL(0.00)[];
+ FROM_HAS_DN(0.00)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
- FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:mid, suse.com:url,
- bootlin.com:url]
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ RCPT_COUNT_FIVE(0.00)[6]; RCVD_COUNT_TWO(0.00)[2];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:mid,suse.de:email]
 X-Spam-Flag: NO
 X-Spam-Score: -4.30
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,62 +142,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi Javier
 
-Am 24.10.25 um 11:53 schrieb Javier Martinez Canillas:
+Am 24.10.25 um 11:56 schrieb Javier Martinez Canillas:
 > Thomas Zimmermann <tzimmermann@suse.de> writes:
 >
->> Move initialization of screen_info into a single helper function.
->> Frees up space in the main setup helper for adding EDID support.
->> No functional changes.
+>> Add support for EFI_EDID_DISCOVERED_PROTOCOL and EFI_EDID_ACTIVE_PROTOCOL
+>> as defined in UEFI 2.8, sec 12.9. Define GUIDs and data structures in the
+>> rsp header files.
+>>
+>> In the GOP setup function, read the EDID of the primary GOP device. First
+>> try EFI_EDID_ACTIVE_PROTOCOL, which supports user-specified EDID data. Or
+>> else try EFI_EDID_DISCOVERED_PROTOCOL, which returns the display device's
+>> native EDID. If no EDID could be retrieved, clear the storage.
+>>
+>> Rename efi_setup_gop() to efi_setup_graphics() to reflect the changes
+>> Let callers pass an optional instance of struct edid_data, if they are
+>> interested.
+>>
+>> While screen_info and edid_info come from the same device handle, they
+>> should be considered indendent data. The former refers to the graphics
+> independent
+>
+>> mode, the latter refers to the display device. GOP devices might not
+>> provide both.
 >>
 >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 >> ---
->>   drivers/firmware/efi/libstub/gop.c | 76 +++++++++++++-----------------
->>   1 file changed, 33 insertions(+), 43 deletions(-)
->>
->> diff --git a/drivers/firmware/efi/libstub/gop.c b/drivers/firmware/efi/libstub/gop.c
->> index fd32be8dd146..02459ef0f18c 100644
->> --- a/drivers/firmware/efi/libstub/gop.c
->> +++ b/drivers/firmware/efi/libstub/gop.c
->> @@ -367,24 +367,31 @@ static void find_bits(u32 mask, u8 *pos, u8 *size)
->>   	*size = __fls(mask) - *pos + 1;
->>   }
->>   
->> -static void
->> -setup_pixel_info(struct screen_info *si, u32 pixels_per_scan_line,
->> -		 efi_pixel_bitmask_t pixel_info, int pixel_format)
->> +static void setup_screen_info(struct screen_info *si, const efi_graphics_output_protocol_t *gop)
->>   {
->> -	if (pixel_format == PIXEL_BIT_MASK) {
->> -		find_bits(pixel_info.red_mask,
->> -			  &si->red_pos, &si->red_size);
->> -		find_bits(pixel_info.green_mask,
->> -			  &si->green_pos, &si->green_size);
->> -		find_bits(pixel_info.blue_mask,
->> -			  &si->blue_pos, &si->blue_size);
->> -		find_bits(pixel_info.reserved_mask,
->> -			  &si->rsvd_pos, &si->rsvd_size);
->> -		si->lfb_depth = si->red_size + si->green_size +
->> -			si->blue_size + si->rsvd_size;
->> -		si->lfb_linelength = (pixels_per_scan_line * si->lfb_depth) / 8;
->> +	const efi_graphics_output_protocol_mode_t *mode = efi_table_attr(gop, mode);
->> +	const efi_graphics_output_mode_info_t *info = efi_table_attr(mode, info);
->> +
->> +	si->orig_video_isVGA = VIDEO_TYPE_EFI;
->> +
-> Not related with your patch but I dislike so much the name of this field,
-> since it started as a "is VGA?" bool and ended being an enum afterwards.
+> [...]
 >
-> But I beleve we discussed this already and decided that it would be too
-> much churn to change it at this point.
+>> +static void setup_edid_info(struct edid_info *edid, u32 gop_size_of_edid, u8 *gop_edid)
+>> +{
+>> +	if (!gop_edid || gop_size_of_edid < 128)
+> Can you define a constant for 128 instead of having a magic number ?
 
-That's why we need helpers for decoding, such as [1]. The kernel only 
-initializes screen_info to VGAC, EFI and VLFB. We could add initializer 
-functions for these cases.
-
-[1] 
-https://elixir.bootlin.com/linux/v6.17.8/source/include/linux/screen_info.h#L92
+Of course. FYI the number comes from the UEFI spec 2.8, sec 12.9. It 
+says that the minimum EDID size is 128 bytes.
 
 Best regards
 Thomas
