@@ -2,58 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A9EC650B5
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 17:10:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1483C650B8
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 17:10:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 677F010E3F1;
-	Mon, 17 Nov 2025 16:10:06 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="lBS4GNQ/";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A27AB10E3E9;
+	Mon, 17 Nov 2025 16:10:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com
- [91.218.175.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FB6410E052
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 16:10:04 +0000 (UTC)
-Message-ID: <7248b96f-be82-4b89-87e4-f86b3898bc55@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1763395802;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SwAPPDquHtcNm47PaRnhELwXgDi0cjA+vnOu+Fa7qBE=;
- b=lBS4GNQ/vb9F6Vn/H9S43xfWCRoEeB5UrFnWt3WBDy+U0RbpDu5SAii+DYIYorWbkpkzWV
- K/TDPrFQV4wt4IYlP33rqlxWYcWmvwZpNedARWTDnTXWvpK87WtJpg8DYGE9+ksAUpMOU2
- ROGZ/mbtzBV9DQc6Lib9c62Ai2zK4iE=
-Date: Mon, 17 Nov 2025 11:09:57 -0500
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DACED10E052
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 16:10:07 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AA1CAFEC;
+ Mon, 17 Nov 2025 08:09:59 -0800 (PST)
+Received: from [10.57.69.30] (unknown [10.57.69.30])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1555A3F740;
+ Mon, 17 Nov 2025 08:10:05 -0800 (PST)
+Message-ID: <5744311b-d7bb-45b1-b012-1a38a3b48abf@arm.com>
+Date: Mon, 17 Nov 2025 16:10:04 +0000
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/3] drm: zynqmp: Make the video plane primary
-To: "Klymenko, Anatoliy" <Anatoliy.Klymenko@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Mike Looijmans <mike.looijmans@topic.nl>, David Airlie <airlied@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, Simona Vetter <simona@ffwll.ch>,
- "Simek, Michal" <michal.simek@amd.com>
-References: <20251113203715.2768107-1-sean.anderson@linux.dev>
- <20251113203715.2768107-3-sean.anderson@linux.dev>
- <MW4PR12MB71651E0E82AD8E4898DBD017E6CDA@MW4PR12MB7165.namprd12.prod.outlook.com>
- <680bee12-6bac-4634-8a02-4b1717a90aa2@linux.dev>
- <MW4PR12MB7165F8413848B53CB8C7C031E6CBA@MW4PR12MB7165.namprd12.prod.outlook.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <MW4PR12MB7165F8413848B53CB8C7C031E6CBA@MW4PR12MB7165.namprd12.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/6] drm/panthor: Recover from
+ panthor_gpu_flush_caches() failures
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>,
+ Karunika Choo <karunika.choo@arm.com>, kernel@collabora.com
+References: <20251113103953.1519935-1-boris.brezillon@collabora.com>
+ <20251113103953.1519935-4-boris.brezillon@collabora.com>
+ <e6fbbfa1-789f-46bf-9591-b19ff954b69a@arm.com>
+ <20251117164455.09f41dcc@fedora>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251117164455.09f41dcc@fedora>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,186 +53,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/14/25 19:57, Klymenko, Anatoliy wrote:
-> [AMD Official Use Only - AMD Internal Distribution Only]
+On 17/11/2025 15:44, Boris Brezillon wrote:
+> On Mon, 17 Nov 2025 14:02:35 +0000
+> Steven Price <steven.price@arm.com> wrote:
 > 
->> -----Original Message-----
->> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Sean
->> Anderson
->> Sent: Thursday, November 13, 2025 2:52 PM
->> To: Klymenko, Anatoliy <Anatoliy.Klymenko@amd.com>; Laurent Pinchart
->> <laurent.pinchart@ideasonboard.com>; Tomi Valkeinen
->> <tomi.valkeinen@ideasonboard.com>; dri-devel@lists.freedesktop.org
->> Cc: linux-kernel@vger.kernel.org; Mike Looijmans <mike.looijmans@topic.nl>;
->> David Airlie <airlied@gmail.com>; Thomas Zimmermann
->> <tzimmermann@suse.de>; Maarten Lankhorst
->> <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>;
->> linux-arm-kernel@lists.infradead.org; Simona Vetter <simona@ffwll.ch>; Simek,
->> Michal <michal.simek@amd.com>
->> Subject: Re: [PATCH 2/3] drm: zynqmp: Make the video plane primary
+>> On 13/11/2025 10:39, Boris Brezillon wrote:
+>>> We have seen a few cases where the whole memory subsystem is blocked
+>>> and flush operations never complete. When that happens, we want to:
+>>>
+>>> - schedule a reset, so we can recover from this situation
+>>> - in the reset path, we need to reset the pending_reqs so we can send
+>>>   new commands after the reset
+>>> - if more panthor_gpu_flush_caches() operations are queued after
+>>>   the timeout, we skip them and return -EIO directly to avoid needless
+>>>   waits (the memory block won't miraculously work again)  
 >>
->> Caution: This message originated from an External Source. Use proper caution
->> when opening attachments, clicking links, or responding.
+>> You've removed the WARN from this last case. Is this intentional? I
+>> agree the recovery is better, but I don't think we expect this to happen
+>> - so it's pointing to something else being broken.
+> 
+> I did because there's a way for the UMD to trigger that (see the link
+> to the bug in the cover letter) without any mitigation we can put in
+> place kernel side, other than the GPU reset I'm adding here.I
+> tend to use WARN_ON()s only for things the kernel code has control on,
+> not stuff users can force the kernel driver into. Note that I kept the
+> drm_err(), so we still have a trace of such errors in the logs (along
+> with some timeouts).
+
+Ah, fair enough - would be good to put that in the commit message ;) The
+cover letter for this posting doesn't seem to have the link either. With
+an updated commit message:
+
+Reviewed-by: Steven Price <steven.price@arm.com>
+
 >>
->>
->> On 11/13/25 17:45, Klymenko, Anatoliy wrote:
->> > [AMD Official Use Only - AMD Internal Distribution Only]
->> >
->> > Hi Sean,
->> >
->> > Thanks a lot for the patch (and tackling the alpha issue in general)
->> >
->> >> -----Original Message-----
->> >> From: Sean Anderson <sean.anderson@linux.dev>
->> >> Sent: Thursday, November 13, 2025 12:37 PM
->> >> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>; Tomi Valkeinen
->> >> <tomi.valkeinen@ideasonboard.com>; dri-devel@lists.freedesktop.org
->> >> Cc: linux-kernel@vger.kernel.org; Mike Looijmans
->> <mike.looijmans@topic.nl>;
->> >> David Airlie <airlied@gmail.com>; Thomas Zimmermann
->> >> <tzimmermann@suse.de>; Maarten Lankhorst
->> >> <maarten.lankhorst@linux.intel.com>; Klymenko, Anatoliy
->> >> <Anatoliy.Klymenko@amd.com>; Maxime Ripard <mripard@kernel.org>;
->> linux-
->> >> arm-kernel@lists.infradead.org; Simona Vetter <simona@ffwll.ch>; Simek,
->> >> Michal <michal.simek@amd.com>; Sean Anderson
->> >> <sean.anderson@linux.dev>
->> >> Subject: [PATCH 2/3] drm: zynqmp: Make the video plane primary
->> >>
->> >> Caution: This message originated from an External Source. Use proper
->> caution
->> >> when opening attachments, clicking links, or responding.
->> >>
->> >>
->> >> The zynqmp has two planes: "video" and "graphics". The video plane
->> >>
->> >> - Is on the bottom (zpos=0) (except when chroma keying as the master
->> plane)
->> >> - Supports "live" input (e.g. from an external source)
->> >> - Supports RGB, YUV, and YCbCr formats, including XRGB8888
->> >> - Does not support transparency, except via chroma keying (colorkey)
->> >> - Must cover the entire screen (translation/resizing not supported)
->> >>
->> >> The graphics plane
->> >>
->> >> - Is on the top (zpos=1)
->> >> - Supports "live" input (e.g. from an external source)
->> >> - Supports RGB and YUV444 formats, but not XRGB8888
->> >> - Supports transparency either via
->> >>   - Global alpha channel, which disables per-pixel alpha when enabled
->> >>   - Per-pixel alpha, which cannot be used with global alpha
->> >>   - Chroma keying (colorkey)
->> >> - Must cover the entire screen (translation/resizing not supported)
->> >>
->> >> Currently the graphics plane is the primary plane. Make the video plane
->> >> the primary plane:
->> >>
->> >> - The video plane supports XRGB8888, which is the default 24-bit
->> >>   colorspace for X. This results in improved performance when compared
->> >>   to RGB565.
->> >> - The graphics plane can be used as an overlay because it has a higher
->> >>   z-pos and supports a per-pixel alpha channel. Unfortunately, clients
->> >>   like weston cannot currently take advantage of this because they
->> >>   expect overlay planes to support translation/resizing.
->> >>
->> >> One downside to this approach could be that the graphics plane has worse
->> >> support for YUV and YCBCr, so it may be more difficult to compose video
->> >
->> > Not just more difficult but practically impossible:
->> > 1. GFX (in Xilinx terminology) plane doesn't support pixel upscaling, so
->> > no support for NV12, YUY2 and other common video pixel formats.
->> > 2. Both planes are unscalable, this means we can only output native
->> > display resolution video on the top plane, or display thick black frame
->> > around the picture. We are losing GFX masking capabilities.
->>
->> The graphics masking capabilities are the same as they always were.
->>
->> > 3. We won't be able to render subtitles on top of the video.
->> > Probably the only practical video player option remains here is to render
->> > video to a texture and embed it into graphics composition.
->>
->> OK, but none of this is currently possible either because of the global
->> alpha setting. So do you have a specific program in mind that plays
->> video and will do it with an "underlay" plane?
+>>>
+>>> v2:
+>>> - New patch
+>>>
+>>> Fixes: 5cd894e258c4 ("drm/panthor: Add the GPU logical block")
+>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>> ---
+>>>  drivers/gpu/drm/panthor/panthor_gpu.c | 19 ++++++++++++-------
+>>>  1 file changed, 12 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+>>> index eda670229184..abd2fde04da9 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+>>> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+>>> @@ -283,38 +283,42 @@ int panthor_gpu_l2_power_on(struct panthor_device *ptdev)
+>>>  int panthor_gpu_flush_caches(struct panthor_device *ptdev,
+>>>  			     u32 l2, u32 lsc, u32 other)
+>>>  {
+>>> -	bool timedout = false;
+>>>  	unsigned long flags;
+>>> +	int ret = 0;
+>>>  
+>>>  	/* Serialize cache flush operations. */
+>>>  	guard(mutex)(&ptdev->gpu->cache_flush_lock);
+>>>  
+>>>  	spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+>>> -	if (!drm_WARN_ON(&ptdev->base,
+>>> -			 ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED)) {
+>>> +	if (!(ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED)) {
+>>>  		ptdev->gpu->pending_reqs |= GPU_IRQ_CLEAN_CACHES_COMPLETED;
+>>>  		gpu_write(ptdev, GPU_CMD, GPU_FLUSH_CACHES(l2, lsc, other));
+>>> +	} else {
+>>> +		ret = -EIO;
+>>>  	}
+>>>  	spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
+>>>  
+>>> +	if (ret)
+>>> +		return ret;
+>>> +
+>>>  	if (!wait_event_timeout(ptdev->gpu->reqs_acked,
+>>>  				!(ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED),
+>>>  				msecs_to_jiffies(100))) {
+>>>  		spin_lock_irqsave(&ptdev->gpu->reqs_lock, flags);
+>>>  		if ((ptdev->gpu->pending_reqs & GPU_IRQ_CLEAN_CACHES_COMPLETED) != 0 &&
+>>>  		    !(gpu_read(ptdev, GPU_INT_RAWSTAT) & GPU_IRQ_CLEAN_CACHES_COMPLETED))
+>>> -			timedout = true;
+>>> +			ret = -ETIMEDOUT;
+>>>  		else
+>>>  			ptdev->gpu->pending_reqs &= ~GPU_IRQ_CLEAN_CACHES_COMPLETED;
+>>>  		spin_unlock_irqrestore(&ptdev->gpu->reqs_lock, flags);
+>>>  	}
+>>>  
+>>> -	if (timedout) {
+>>> +	if (ret) {
+>>> +		panthor_device_schedule_reset(ptdev);
+>>>  		drm_err(&ptdev->base, "Flush caches timeout");
+>>> -		return -ETIMEDOUT;
+>>>  	}
+>>>  
+>>> -	return 0;
+>>> +	return ret;
+>>>  }
+>>>  
+>>>  /**
+>>> @@ -354,6 +358,7 @@ int panthor_gpu_soft_reset(struct panthor_device *ptdev)
+>>>  		return -ETIMEDOUT;
+>>>  	}
+>>>  
+>>> +	ptdev->gpu->pending_reqs = 0;
+>>>  	return 0;
+>>>  }
+>>>    
 >>
 > 
-> webOS, Roku OS, just to name a few. But most importantly, AMD has quite
-> a few customers using "underlay" plane because of its YUV 420 capability.
 
-Can you link to a specific example where the plane is selected based on
-its primary/overlay status and not based on its format support?  I'm not
-too familiar with these distros, but e.g. [1] selects the plane based on
-the format, and doesn't care which one is primary.
-
---Sean
-
-[1] https://github.com/webosose/omx-components/blob/27b33e17c25023f2c7ffbbfda10169fb500dacdc/src/omxdrm/videorenderer.cpp#L469
-
->> >> streams into the window of a media player. However, no existing software
->> >> could rely on this because there is no way to enable the per-pixel alpha
->> >> channel when the graphics plane is enabled. This makes it impossible to
->> >
->> > This situation is a driver bug not a fatum.
->>
->> And yet the driver bug provides ample evidence that no one is doing this,
->> so we don't need to worry about it.
->>
->> --Sean
->>
->> > Per pixel alpha blending works
->> > just fine if we disable global alpha. We just need to avoid enabling it when
->> > we have alpha capable GFX plane format.
->> >
->> >> "carve out" an area in the graphics plane where the video plane shows
->> >> through. This limitation is addressed in the next patch, but it means we
->> >> do not need to worry about compatibility in this area.
->> >>
->> >> An alternate approach could be to pretend that the graphics plane
->> >> supports XRGB8888 by using the supported ARGB8888 mode instead and
->> >> enabling the global alpha channel. However, this would rule out ever
->> >> using the per-pixel alpha channel.
->> >>
->> >> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
->> >> ---
->> >>
->> >>  drivers/gpu/drm/xlnx/zynqmp_kms.c | 6 +++---
->> >>  1 file changed, 3 insertions(+), 3 deletions(-)
->> >>
->> >> diff --git a/drivers/gpu/drm/xlnx/zynqmp_kms.c
->> >> b/drivers/gpu/drm/xlnx/zynqmp_kms.c
->> >> index c80a2d4034f3..456ada9ac003 100644
->> >> --- a/drivers/gpu/drm/xlnx/zynqmp_kms.c
->> >> +++ b/drivers/gpu/drm/xlnx/zynqmp_kms.c
->> >> @@ -161,8 +161,8 @@ static int zynqmp_dpsub_create_planes(struct
->> >> zynqmp_dpsub *dpsub)
->> >>                 if (!formats)
->> >>                         return -ENOMEM;
->> >>
->> >> -               /* Graphics layer is primary, and video layer is overlay. */
->> >> -               type = i == ZYNQMP_DPSUB_LAYER_VID
->> >> +               /* Graphics layer is overlay, and video layer is primary. */
->> >> +               type = i == ZYNQMP_DPSUB_LAYER_GFX
->> >>                      ? DRM_PLANE_TYPE_OVERLAY :
->> >> DRM_PLANE_TYPE_PRIMARY;
->> >>                 ret = drm_universal_plane_init(&dpsub->drm->dev, plane, 0,
->> >>                                                &zynqmp_dpsub_plane_funcs,
->> >> @@ -322,7 +322,7 @@ static const struct drm_crtc_funcs
->> >> zynqmp_dpsub_crtc_funcs = {
->> >>
->> >>  static int zynqmp_dpsub_create_crtc(struct zynqmp_dpsub *dpsub)
->> >>  {
->> >> -       struct drm_plane *plane = &dpsub->drm-
->> >> >planes[ZYNQMP_DPSUB_LAYER_GFX];
->> >> +       struct drm_plane *plane = &dpsub->drm-
->> >> >planes[ZYNQMP_DPSUB_LAYER_VID];
->> >>         struct drm_crtc *crtc = &dpsub->drm->crtc;
->> >>         int ret;
->> >>
->> >> --
->> >> 2.35.1.1320.gc452695387.dirty
->> >
->> > Thank you,
->> > Anatoliy
-> 
-> Thank you,
-> Anatoliy
