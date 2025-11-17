@@ -2,40 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB9DC64CD4
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 16:07:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC25C64CE6
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 16:09:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EE9010E087;
-	Mon, 17 Nov 2025 15:07:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4E3D10E3B8;
+	Mon, 17 Nov 2025 15:09:29 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kw9Nxu5e";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7555B10E087
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 15:07:54 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 81049FEC;
- Mon, 17 Nov 2025 07:07:46 -0800 (PST)
-Received: from [10.57.69.30] (unknown [10.57.69.30])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4B2D33F66E;
- Mon, 17 Nov 2025 07:07:52 -0800 (PST)
-Message-ID: <713a36aa-c8ff-4110-ae84-e67851b3efc1@arm.com>
-Date: Mon, 17 Nov 2025 15:07:50 +0000
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DBC6510E3BE
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 15:09:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 59473416A0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 15:09:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27D31C2BC87
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 15:09:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763392168;
+ bh=3zbp3rv3Pbtp6BhnnUjE7+HUOuLx/KIf8Dvndl0seZc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=kw9Nxu5ejnAZFvD3mnDxi6HpQkf1TgCNkug5+vryg+OfHvPaua1TmSfausyzdSJSj
+ j5/XRGmsUjmRLpF8lA27iWNm9p6msDA6JNDADSqp7hWFEEnt8QhzXM+sKx/q7gy3+d
+ IZRxiGHrFG6pwi8hwjiI5aV+AJUJhHXQ5kD6iW9UwcTV0JTvf0ctvr86iH22FOu2DX
+ 30qYOr+WjJdeCTYviJlpMzx6jRQIbVY/JMsJbPZ0kXa1nlGKRMVk18OydnPp/v7WrT
+ Bk45BmO7n4l6lB0KkTXhRC1fabRjX8qEiMjsjGuppD9QFm3w7stbi5O9Lreuv+mqkE
+ pJxhqzJCc5lgw==
+Received: by mail-pf1-f182.google.com with SMTP id
+ d2e1a72fcca58-7bb710d1d1dso143041b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 07:09:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUc1FBJK06HSpmTzSSqJcC4znnOCQORsbj+vhk6Mr5mQyM7oe6e7+jbVUdq7y3jWNC/Sgidl9B0XXg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzqVGuu238gA4heaOUrjztyv+nb0JjNHBwAiBRjetde7xHb+DQj
+ JOzTQPF6w9NCHzMkpojF3KZ9fV9JM0IGtFcs0D8OjTqpc5PP0VbkvgpobiznyrF6X4P2KjeBeJr
+ 23jbegYPWN2NTN2g7Ddtc7Krz+fZe2Q==
+X-Google-Smtp-Source: AGHT+IFX3yT4m31cCyb/Z1+I4aTapLK5A2aAWg8mzrZJNC4ShJE0Imif2VAN6sLkFovV/4nwzbgRRFZL/2cPkevezx8=
+X-Received: by 2002:a05:7022:98d:b0:11b:b61a:a497 with SMTP id
+ a92af1059eb24-11bb61aa776mr3945411c88.37.1763392167590; Mon, 17 Nov 2025
+ 07:09:27 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/6] drm/panthor: Make panthor_vm_[un]map_pages() more
- robust
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>,
- Karunika Choo <karunika.choo@arm.com>, kernel@collabora.com
-References: <20251113103953.1519935-1-boris.brezillon@collabora.com>
- <20251113103953.1519935-6-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251113103953.1519935-6-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250923152340.18234-1-johan@kernel.org>
+ <aP91AfdoyESxqfPG@hovoldconsulting.com>
+ <aRr6Bj4yrcKN-jUD@hovoldconsulting.com>
+In-Reply-To: <aRr6Bj4yrcKN-jUD@hovoldconsulting.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 17 Nov 2025 15:09:15 +0000
+X-Gmail-Original-Message-ID: <CAAOTY_8B8svZDHcLP0yRfU=2oTEe2RU+iz5Vpbhy77tvq9yM2A@mail.gmail.com>
+X-Gm-Features: AWmQ_bnoz0kpERdVA_cJtV4JW9qwxQ8EFQkGKR1UJIT7D9EKmhqQzgDRCdCXfdc
+Message-ID: <CAAOTY_8B8svZDHcLP0yRfU=2oTEe2RU+iz5Vpbhy77tvq9yM2A@mail.gmail.com>
+Subject: Re: [PATCH 0/5] drm/mediatek: fix probe resource leaks
+To: Johan Hovold <johan@kernel.org>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,174 +78,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/11/2025 10:39, Boris Brezillon wrote:
-> There's no reason for panthor_vm_[un]map_pages() to fail unless the
-> drm_gpuvm state and the page table are out of sync, so let's reflect that
-> by making panthor_vm_unmap_pages() a void function and adding
-> WARN_ON()s in various places. We also try to recover from those
-> unexpected mismatch by checking for already unmapped ranges and skipping
-> them. But there's only so much we can do to try and cope with such
-> SW bugs, so when we see a mismatch, we flag the VM unusable and disable
-> the AS to avoid further GPU accesses to the memory.
-> 
-> It could be that the as_disable() call fails because the MMU unit is
-> stuck, in which case the whole GPU is frozen, and only a GPU reset can
-> unblock things. Ater the reset, the VM will be seen as unusable and
-> any attempt to re-use it will fail, so we should be covered for any
-> use-after-unmap issues.
-> 
-> v2:
-> - Fix double unlock
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Hi, Johan:
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Johan Hovold <johan@kernel.org> =E6=96=BC 2025=E5=B9=B411=E6=9C=8817=E6=97=
+=A5 =E9=80=B1=E4=B8=80 =E4=B8=8A=E5=8D=8810:33=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> Hi Chun-Kuang and Philipp,
+>
+> On Mon, Oct 27, 2025 at 02:34:58PM +0100, Johan Hovold wrote:
+> > On Tue, Sep 23, 2025 at 05:23:35PM +0200, Johan Hovold wrote:
+> > > This series fixes various probe resource leaks in the mediatek drm
+> > > drivers that were found through inspection.
+> >
+> > Can these be picked up (for 6.19) as well?
+>
+> It's been another three weeks and we're at rc6 so sending another
+> reminder. Can these please be picked up for 6.19?
 
-> ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 82 ++++++++++++++++++---------
->  1 file changed, 55 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index 21389137a324..35aad1e0ecaa 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -842,12 +842,32 @@ static size_t get_pgsize(u64 addr, size_t size, size_t *count)
->  	return SZ_2M;
->  }
->  
-> -static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
-> +static void panthor_vm_declare_unusable(struct panthor_vm *vm)
-> +{
-> +	struct panthor_device *ptdev = vm->ptdev;
-> +	int cookie;
-> +
-> +	if (vm->unusable)
-> +		return;
-> +
-> +	vm->unusable = true;
-> +	mutex_lock(&ptdev->mmu->as.slots_lock);
-> +	if (vm->as.id >= 0 && drm_dev_enter(&ptdev->base, &cookie)) {
-> +		panthor_mmu_as_disable(ptdev, vm->as.id);
-> +		drm_dev_exit(cookie);
-> +	}
-> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> +}
-> +
-> +static void panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
->  {
->  	struct panthor_device *ptdev = vm->ptdev;
->  	struct io_pgtable_ops *ops = vm->pgtbl_ops;
->  	u64 offset = 0;
->  
-> +	if (!size)
-> +		return;
-> +
->  	drm_WARN_ON(&ptdev->base,
->  		    (iova < vm->locked_region.start) ||
->  		    (iova + size > vm->locked_region.start + vm->locked_region.size));
-> @@ -858,18 +878,32 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
->  		size_t pgsize = get_pgsize(iova + offset, size - offset, &pgcount);
->  
->  		unmapped_sz = ops->unmap_pages(ops, iova + offset, pgsize, pgcount, NULL);
-> +		if (drm_WARN_ON_ONCE(&ptdev->base, unmapped_sz != pgsize * pgcount)) {
-> +			/* Gracefully handle sparsely unmapped regions to avoid leaving
-> +			 * page table pages behind when the drm_gpuvm and VM page table
-> +			 * are out-of-sync. This is not supposed to happen, hence the
-> +			 * above WARN_ON().
-> +			 */
-> +			while (!ops->iova_to_phys(ops, iova + unmapped_sz) &&
-> +			       unmapped_sz < pgsize * pgcount)
-> +				unmapped_sz += SZ_4K;
->  
-> -		if (drm_WARN_ON(&ptdev->base, unmapped_sz != pgsize * pgcount)) {
-> -			drm_err(&ptdev->base, "failed to unmap range %llx-%llx (requested range %llx-%llx)\n",
-> -				iova + offset + unmapped_sz,
-> -				iova + offset + pgsize * pgcount,
-> -				iova, iova + size);
-> -			return  -EINVAL;
-> +			/* We're passed the point where we can try to fix things,
-> +			 * so flag the VM unusable to make sure it's not going
-> +			 * to be used anymore.
-> +			 */
-> +			panthor_vm_declare_unusable(vm);
-> +
-> +			/* If we don't make progress, we're screwed. That also means
-> +			 * something else prevents us from unmapping the region, but
-> +			 * there's not much we can do here: time for debugging.
-> +			 */
-> +			if (drm_WARN_ON_ONCE(&ptdev->base, !unmapped_sz))
-> +				return;
->  		}
-> +
->  		offset += unmapped_sz;
->  	}
-> -
-> -	return 0;
->  }
->  
->  static int
-> @@ -917,16 +951,17 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
->  			paddr += mapped;
->  			len -= mapped;
->  
-> -			if (drm_WARN_ON(&ptdev->base, !ret && !mapped))
-> +			/* If nothing was mapped, consider it an ENOMEM. */
-> +			if (!ret && !mapped)
->  				ret = -ENOMEM;
->  
-> -			if (ret) {
-> -				/* If something failed, unmap what we've already mapped before
-> -				 * returning. The unmap call is not supposed to fail.
-> +			/* If something fails, we stop there, and flag the VM unusable. */
-> +			if (drm_WARN_ON_ONCE(&ptdev->base, ret)) {
-> +				/* Unmap what we've already mapped to avoid leaving page
-> +				 * table pages behind.
->  				 */
-> -				drm_WARN_ON(&ptdev->base,
-> -					    panthor_vm_unmap_pages(vm, start_iova,
-> -								   iova - start_iova));
-> +				panthor_vm_unmap_pages(vm, start_iova, iova - start_iova);
-> +				panthor_vm_declare_unusable(vm);
->  				return ret;
->  			}
->  		}
-> @@ -2109,12 +2144,9 @@ static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
->  	struct panthor_vm_op_ctx *op_ctx = vm->op_ctx;
->  	struct panthor_vma *prev_vma = NULL, *next_vma = NULL;
->  	u64 unmap_start, unmap_range;
-> -	int ret;
->  
->  	drm_gpuva_op_remap_to_unmap_range(&op->remap, &unmap_start, &unmap_range);
-> -	ret = panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
-> -	if (ret)
-> -		return ret;
-> +	panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
->  
->  	if (op->remap.prev) {
->  		prev_vma = panthor_vm_op_ctx_get_vma(op_ctx);
-> @@ -2154,13 +2186,9 @@ static int panthor_gpuva_sm_step_unmap(struct drm_gpuva_op *op,
->  {
->  	struct panthor_vma *unmap_vma = container_of(op->unmap.va, struct panthor_vma, base);
->  	struct panthor_vm *vm = priv;
-> -	int ret;
-> -
-> -	ret = panthor_vm_unmap_pages(vm, unmap_vma->base.va.addr,
-> -				     unmap_vma->base.va.range);
-> -	if (drm_WARN_ON(&vm->ptdev->base, ret))
-> -		return ret;
->  
-> +	panthor_vm_unmap_pages(vm, unmap_vma->base.va.addr,
-> +			       unmap_vma->base.va.range);
->  	drm_gpuva_unmap(&op->unmap);
->  	panthor_vma_unlink(vm, unmap_vma);
->  	return 0;
-> @@ -2240,7 +2268,7 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
->  
->  out:
->  	if (ret && flag_vm_unusable_on_failure)
-> -		vm->unusable = true;
-> +		panthor_vm_declare_unusable(vm);
->  
->  	vm->op_ctx = NULL;
->  	mutex_unlock(&vm->op_lock);
+For the whole series, applied to mediatek-drm-next [1], thanks.
 
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
+
+Regards,
+Chun-Kuang.
+
+>
+> Johan
