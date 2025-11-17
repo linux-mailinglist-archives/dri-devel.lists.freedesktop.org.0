@@ -2,100 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EAF3C62B48
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 08:20:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C45C62BFC
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 08:37:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C55010E2E6;
-	Mon, 17 Nov 2025 07:20:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77E3A10E2EA;
+	Mon, 17 Nov 2025 07:37:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="I3qRQiJg";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="RiEccO7Z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eo6o23Qp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RiEccO7Z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eo6o23Qp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D363B10E2E6
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 07:20:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 24CB86019C;
- Mon, 17 Nov 2025 07:20:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B73ECC19423;
- Mon, 17 Nov 2025 07:20:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763364032;
- bh=30aA+IWtDrCd2C8OLi864eLsqVQ1tKrvaKRV+KL+FMQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=I3qRQiJgFnKax1PXxapyTJZYNBkvemKcVKXbimMcSNT3kSXr3K9X5PB3qGzn8nGpd
- m58XdhI3K0nGgso54iZ6LqMATrJ3+CxyxyUh4+33XTG9RUDdfwtFVxXDXuQcZzxDRk
- 0DkeT5X+xPC7M5wzL5XbBnOcQfkbwiJoPJfj01E3v8605/16Qbag2bgL+CSwk7Xf9Z
- 95eDVWfm0QMIkg8PUR8JXvpLykw2hRTccf0s884Hnx/ohTr8Ec/g5DqUUxG4DVQt6z
- FQKCJn2W7VnlqQn6+xq6jyS3tgeCEQ6XuSeX9J/UdWnDWGoCMKefz0BiCAR9LNSQXG
- ZzYyz1ldbZDBg==
-Message-ID: <80ce9e2e-3e18-4782-aa6a-2b6913c327df@kernel.org>
-Date: Mon, 17 Nov 2025 08:20:28 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D83BF10E2EA
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 07:37:07 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 8B77B211FF;
+ Mon, 17 Nov 2025 07:37:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1763365026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5NLvbYnT3faBz30Rv5ipLxXZHc4UFIvTCRa6lyTuc4E=;
+ b=RiEccO7ZfYAdZgkyQ0KbBrkZp4VPOFnJbZmq03mKwQWP5XP8zgMs5n9ttqDGh4nUMHxq8/
+ iyqInoF9XwkmK93gsbYSHzli2DEul4wuRwMGD3IeRxImVOM1phWlPoDBzHS9Lbu60oHTuq
+ nLZILwMBox6eRQBl2PxHUwEhsFA29ks=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1763365026;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5NLvbYnT3faBz30Rv5ipLxXZHc4UFIvTCRa6lyTuc4E=;
+ b=Eo6o23Qp3MlVaOOnCxwZYRUdvEcs1ZTW9SABX8AxviDxs5XGQPy9w6gcJuLoWab+pCCue8
+ Iw2sCNWSdCI4o/AA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1763365026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5NLvbYnT3faBz30Rv5ipLxXZHc4UFIvTCRa6lyTuc4E=;
+ b=RiEccO7ZfYAdZgkyQ0KbBrkZp4VPOFnJbZmq03mKwQWP5XP8zgMs5n9ttqDGh4nUMHxq8/
+ iyqInoF9XwkmK93gsbYSHzli2DEul4wuRwMGD3IeRxImVOM1phWlPoDBzHS9Lbu60oHTuq
+ nLZILwMBox6eRQBl2PxHUwEhsFA29ks=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1763365026;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5NLvbYnT3faBz30Rv5ipLxXZHc4UFIvTCRa6lyTuc4E=;
+ b=Eo6o23Qp3MlVaOOnCxwZYRUdvEcs1ZTW9SABX8AxviDxs5XGQPy9w6gcJuLoWab+pCCue8
+ Iw2sCNWSdCI4o/AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5D97C3EA61;
+ Mon, 17 Nov 2025 07:37:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id eDGhFaLQGmlHJwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 17 Nov 2025 07:37:06 +0000
+Message-ID: <40165201-80b7-4fa4-9812-6a8fcbee4a42@suse.de>
+Date: Mon, 17 Nov 2025 08:37:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] dt-bindings: misc: qcom,fastrpc: Add compatible
- for Kaanapali
-To: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>,
- kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
- arnd@arndb.de, gregkh@linuxfoundation.org
-Cc: quic_bkumar@quicinc.com, ekansh.gupta@oss.qualcomm.com,
- linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- jingyi.wang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
- ktadakam@qti.qualcomm.com
-References: <20251114084142.3386682-1-kumari.pallavi@oss.qualcomm.com>
- <20251114084142.3386682-2-kumari.pallavi@oss.qualcomm.com>
- <e387957d-b27b-47e7-adb0-3cc8c656ee8d@kernel.org>
- <73e6b7b9-7ecc-4137-aaa7-43a7fd950168@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 3/5] efi/libstub: gop: Initialize screen_info in helper
+ function
+To: Javier Martinez Canillas <javierm@redhat.com>, ardb@kernel.org,
+ jonathan@marek.ca
+Cc: linux-efi@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20251015160816.525825-1-tzimmermann@suse.de>
+ <20251015160816.525825-4-tzimmermann@suse.de>
+ <87tszo8w2q.fsf@ocarina.mail-host-address-is-not-set>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
- QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
- +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
- ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
- 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
- hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
- tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
- 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
- naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
- hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
- whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
- qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
- RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
- Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
- H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
- dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
- AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
- jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
- zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
- XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <73e6b7b9-7ecc-4137-aaa7-43a7fd950168@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <87tszo8w2q.fsf@ocarina.mail-host-address-is-not-set>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
+ FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email, suse.de:mid, suse.com:url,
+ bootlin.com:url]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,35 +144,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17/11/2025 08:17, Kumari Pallavi wrote:
-> 
-> 
-> On 11/14/2025 9:17 PM, Krzysztof Kozlowski wrote:
->> On 14/11/2025 09:41, Kumari Pallavi wrote:
->>> Add a new compatible string "qcom,kaanapali-fastrpc" to support
->>> for Kaanapali SoC.
->>>
->>> Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
->>> ---
->>
->> You not only did not bother to test it - there are obvious bugs here -
->> but you also did not send it to mailing lists for actual testing by
->> Rob's bot.
->>
->> NAK
->>
->> Best regards,
->> Krzysztof
-> 
-> Thank you for the feedback. I did run the schema validation locally using:
-> make dt_binding_check
-> (as per 
-> https://www.linaro.org/blog/tips-and-tricks-for-validating-devicetree-sources-with-the-devicetree-schema/), 
-> and the build completed successfully without any errors.
+Hi
 
-But you did not read warnings and messages shown to you...
+Am 24.10.25 um 11:53 schrieb Javier Martinez Canillas:
+> Thomas Zimmermann <tzimmermann@suse.de> writes:
+>
+>> Move initialization of screen_info into a single helper function.
+>> Frees up space in the main setup helper for adding EDID support.
+>> No functional changes.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/firmware/efi/libstub/gop.c | 76 +++++++++++++-----------------
+>>   1 file changed, 33 insertions(+), 43 deletions(-)
+>>
+>> diff --git a/drivers/firmware/efi/libstub/gop.c b/drivers/firmware/efi/libstub/gop.c
+>> index fd32be8dd146..02459ef0f18c 100644
+>> --- a/drivers/firmware/efi/libstub/gop.c
+>> +++ b/drivers/firmware/efi/libstub/gop.c
+>> @@ -367,24 +367,31 @@ static void find_bits(u32 mask, u8 *pos, u8 *size)
+>>   	*size = __fls(mask) - *pos + 1;
+>>   }
+>>   
+>> -static void
+>> -setup_pixel_info(struct screen_info *si, u32 pixels_per_scan_line,
+>> -		 efi_pixel_bitmask_t pixel_info, int pixel_format)
+>> +static void setup_screen_info(struct screen_info *si, const efi_graphics_output_protocol_t *gop)
+>>   {
+>> -	if (pixel_format == PIXEL_BIT_MASK) {
+>> -		find_bits(pixel_info.red_mask,
+>> -			  &si->red_pos, &si->red_size);
+>> -		find_bits(pixel_info.green_mask,
+>> -			  &si->green_pos, &si->green_size);
+>> -		find_bits(pixel_info.blue_mask,
+>> -			  &si->blue_pos, &si->blue_size);
+>> -		find_bits(pixel_info.reserved_mask,
+>> -			  &si->rsvd_pos, &si->rsvd_size);
+>> -		si->lfb_depth = si->red_size + si->green_size +
+>> -			si->blue_size + si->rsvd_size;
+>> -		si->lfb_linelength = (pixels_per_scan_line * si->lfb_depth) / 8;
+>> +	const efi_graphics_output_protocol_mode_t *mode = efi_table_attr(gop, mode);
+>> +	const efi_graphics_output_mode_info_t *info = efi_table_attr(mode, info);
+>> +
+>> +	si->orig_video_isVGA = VIDEO_TYPE_EFI;
+>> +
+> Not related with your patch but I dislike so much the name of this field,
+> since it started as a "is VGA?" bool and ended being an enum afterwards.
+>
+> But I beleve we discussed this already and decided that it would be too
+> much churn to change it at this point.
 
-That's still obviously NAK.
+That's why we need helpers for decoding, such as [1]. The kernel only 
+initializes screen_info to VGAC, EFI and VLFB. We could add initializer 
+functions for these cases.
 
-Best regards,
-Krzysztof
+[1] 
+https://elixir.bootlin.com/linux/v6.17.8/source/include/linux/screen_info.h#L92
+
+Best regards
+Thomas
+
+>
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
