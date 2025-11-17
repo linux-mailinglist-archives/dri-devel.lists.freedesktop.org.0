@@ -2,77 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074BEC6292E
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 07:47:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21243C62934
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 07:47:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AED810E2C8;
-	Mon, 17 Nov 2025 06:47:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E9ED10E2CA;
+	Mon, 17 Nov 2025 06:47:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Bq4+YV5D";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="dRPKaa+M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C8C010E2C8
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 06:47:24 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-7b852bb31d9so4376724b3a.0
- for <dri-devel@lists.freedesktop.org>; Sun, 16 Nov 2025 22:47:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763362044; x=1763966844; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=3IbKKPsoRB1Mx3WXroKWoaQI9BjNXtHuFALXaeWnR5c=;
- b=Bq4+YV5Dl0nrnPFcL7cJjMsxLpaTzwLzm9b0ngSJjSQKjZG6Rq4UO4egLTXUBg/B9X
- KRjrWG5UcEcLqvsfAbcelcAGe1xOb6RUCPSwSf9AzrE97g80P1blvy+h+yLAA8D/NlhT
- nqy0NmDiFlduP0n3ROZD1hX8ZtkgCGEY3LooQic7zYpxV84IuQbKd4W3xjfx1p/+keUL
- pr4cH/pd4M0Qt8zJUe3PMsWUlv92LwwJTxiFr3Seb32pXNu4RqUVt4QOx9+FMNZefCoJ
- Ze6QPG4395wL4Ye4YeDeNOTWecZ79dw5G6ncVn0sC8CBjiXSDdmIga3iB2oVCGraeXNL
- QQIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763362044; x=1763966844;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3IbKKPsoRB1Mx3WXroKWoaQI9BjNXtHuFALXaeWnR5c=;
- b=lLh7w/Xrw6Apm3tYLi0uMy09YicXen6cCTwkqpCRFU2V/rUt21z3mnaPpZ0PvYgzhA
- /b+ukTGEvN+g1OUaJ+Pap8uss7nIy4a/WFHWiJnKnwOb0ZSzg4JcipbmgRoKRjD5FDUJ
- k6+TOG6Bvw9yfhp3e2iSV15HrZ0qCorME0e7K2V6Y8Lxs/nz2EyGS6VrB3KC4ilxNym1
- oMaN5+yCSR+v3zIT2Y/EvLFrJ3yrxlsX8+jodII62s/BocAppgO3tp4nka7Q4JW04NfI
- aKj79SKbMjkf9M4xyNSGxiIRjT034V0ln9/r4qFOSq9Lxz2fhKlZBehlKr/2lQNek98A
- W/Tw==
-X-Gm-Message-State: AOJu0YzFemAFK89PwYIhQM95jlAcJBBRV8QMZHv/5jBZurUskLI951PS
- +/6+VpbbXT2UTfUNkRd0NAdmzFld4M5J27OgHdsZSTGKUcTDfC9ANYNagtRX/tfX
-X-Gm-Gg: ASbGncvfYkkjvN7nPwM8YpPpcVgU3oWuH9q68Cd9kgSy9tjkl5I8dO/gB7JyzYNlktR
- xlO5FsfFGgrrhxdSuj+f8oFBoIG4Nj/SHXffL+Zaee41YRVFdFakMcywf7//zuD8oLqPXI5F3WS
- OtlW5qlRVwA0YlIrfmiEzrGVpYBTzet0nHHnx5tonWsKBNMBMqhKbfY7I7cYtYEbyCIevMZuyEF
- e8CsykIu8Cnlco3Zaau7AyswlBXYKAW2y+AVJ44lkM58IJOREwiJKzsznu/UCO7wV8c+oyH68rL
- 8/UToEz51OSgjz+USEj8euXw7E5EN5BItSR49pSC/NMf9iM/ykvN1qc73AAVa+Z50T4gxssRdU9
- 6KnrizfUR0qr6xmLZZfCjy6Y3whWSm2mzXqIqzmQIbQRn+/7xN66W9GDbsP9LfMfcHmMeHKQalr
- Hi5U+9ENX72QYHf/HsQTOuu+zyeVR8Nv10hpKA5YN735h7OVRygw==
-X-Google-Smtp-Source: AGHT+IHJ49e+9ouwcUmzJ+pb4Jq299H7iuxWmBHY4uSa5JwRG/6wBhvME+Kno1HDnyjOHCqpxYkLyw==
-X-Received: by 2002:a05:6a20:6a28:b0:262:cbbc:3125 with SMTP id
- adf61e73a8af0-35ba047d55amr13901423637.20.1763362044079; 
- Sun, 16 Nov 2025 22:47:24 -0800 (PST)
-Received: from rahul-mintos.ban-spse ([165.204.156.251])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-bc36db21a0esm10866359a12.8.2025.11.16.22.47.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 16 Nov 2025 22:47:23 -0800 (PST)
-From: Abhishek Rajput <abhiraj21put@gmail.com>
-To: jagan@edgeble.ai, neil.armstrong@linaro.org,
- jessica.zhang@oss.qualcomm.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- abhiraj21put@gmail.com
-Subject: [PATCH] drm/panel: jadard-jd9365da-h3: Use dev_err_probe() instead of
- DRM_DEV_ERROR() during probing
-Date: Mon, 17 Nov 2025 12:17:02 +0530
-Message-ID: <20251117064702.222424-1-abhiraj21put@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Received: from SJ2PR03CU001.outbound.protection.outlook.com
+ (mail-westusazon11012047.outbound.protection.outlook.com [52.101.43.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0946110E2CA
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 06:47:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rGPf+X9qhdNIs/kGcAJbV4+J7afsYbJsR2GVkZTBWbYHTbHG6r9rKX4xWnz39MU7RnGemL+jjepYKosr1Fio2OTTfNfmXrXPIxeI9aDiDPl9DgtS+Fk0qipBAPS6HEN8c7oKu5HuVAjx42F+NyxS7x60ng61AEgI4CeRFk2bHAf90elMHHoQgqx8h3yKBfF0PQ4pxfa1yFyOLFIYz+HaNL2/KBqIgZ/9pP7QHk+5kPphV8kMcl/8ZDyJX8ku2vTD6TAub6sZ54A73D7eaxZjOoKsYD1HigraPfnKLdA8tAEPgzwr+k5/uvDWwNzXX3WzHNy8Y4dGIr3AW2E8fMuXCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nFygtM8/tRaIMTlVdJ4uq6mjnvonA5KWZA3lEHhJ3Y4=;
+ b=CXnRxAlhEhaKyez0zTWHZk+wGMzUBLwwjEt3jhgTnee5ohkSfLYFw/dIc9Pbn1+QL7yUsGfdA7GkKERlPHqXPbIFL7WCZSnAShjj2/+bxdzPR/tTqZMF5pG0ZYm7K9em4R0+CnIx1Mr9pjXhwdHuvJ14zWUfBwmnspGBpc50hotC3Gs6Yf7VLqxYm9y6eKzwZ9EIkTGHQDqlW4urhEET6FGot4B6euY6CpIVZS/fv6eZ4Ga4728QjTx/G+Bkp6BWh5L4yXbNehAbLKKJ+WZxei9SVTPelO/01buo2vWYBUriBsbikGooWO70ai6PSyKipK7kLwUdbgL4OeKiE9Hr+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nFygtM8/tRaIMTlVdJ4uq6mjnvonA5KWZA3lEHhJ3Y4=;
+ b=dRPKaa+Mj3dN7QL/rPGyUcs7lZcJhKdH8rH+bFKvAiyGk1XEg9Ua/cvtIS/ldAfp6WW6C19eCVhr2DwUK8vD4mw1fdbL54TCgUsaYiVkhQO/webZIa/u/zsp++5pCP2AXeOUk4CGd3lW3SP8LNGZichD5GO+kAfJVx4vTOWE6gQ=
+Received: from SA3PR12MB7922.namprd12.prod.outlook.com (2603:10b6:806:314::12)
+ by MW6PR12MB8959.namprd12.prod.outlook.com (2603:10b6:303:23c::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.21; Mon, 17 Nov
+ 2025 06:47:50 +0000
+Received: from SA3PR12MB7922.namprd12.prod.outlook.com
+ ([fe80::9b6:464:1a68:ed47]) by SA3PR12MB7922.namprd12.prod.outlook.com
+ ([fe80::9b6:464:1a68:ed47%6]) with mapi id 15.20.9320.019; Mon, 17 Nov 2025
+ 06:47:49 +0000
+From: "Katakam, Harini" <harini.katakam@amd.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Vinod Koul <vkoul@kernel.org>, "Simek, Michal" <michal.simek@amd.com>, Ulf
+ Hansson <ulf.hansson@linaro.org>, Michael Tretter <m.tretter@pengutronix.de>, 
+ "Pandey, Radhey Shyam" <radhey.shyam.pandey@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-mmc@vger.kernel.org"
+ <linux-mmc@vger.kernel.org>
+Subject: Recall: [PATCH 2/3] dt-bindings: dma: xilinx: Simplify dma-coherent
+ property
+Thread-Topic: [PATCH 2/3] dt-bindings: dma: xilinx: Simplify dma-coherent
+ property
+Thread-Index: AQHcV44WwCgQ60w/FUSS7sA0fIX6QQ==
+X-CallingTelephoneNumber: IPM.Note
+X-VoiceMessageDuration: 1
+X-FaxNumberOfPages: 0
+Date: Mon, 17 Nov 2025 06:47:49 +0000
+Message-ID: <SA3PR12MB7922952E6DE5C156FED760519EC9A@SA3PR12MB7922.namprd12.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+x-ms-traffictypediagnostic: SA3PR12MB7922:EE_|MW6PR12MB8959:EE_LegacyOutlookRecall
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2e2bea90-988b-4807-5ac0-08de25a53914
+x-ms-exchange-recallreportgenerated: true
+x-ms-exchange-recallreportcfmgenerated: true
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|7416014|376014|1800799024|366016|921020|38070700021; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?1oz7vlERn1zqHk38+axJnzwnEbKBWXcDoVIbl6PDI3zNMyWNBnffu9ch+avE?=
+ =?us-ascii?Q?+nhP0SNeM9SWaR66rUjbcgjoNJEGGp15WUoAOCeQdoZjyBVUUC1BnWZst6cH?=
+ =?us-ascii?Q?WQgAgnZ0mGsSH4tdYW09g4Qgm9wyV5msM8WmiFw25TJ+KCi3wsUH6tAXtj/d?=
+ =?us-ascii?Q?bfc+wLG5EnGas2R6ciLpL+C615satHHkTLoGZnkriiwMG+HckCmlJowrtGJp?=
+ =?us-ascii?Q?Zc2D1PCKc9Y78waOFbYCsFr1T9VkHKs+DfAC6b/Nl9d745IQrGJufd1anIqA?=
+ =?us-ascii?Q?Ii0S6xS2JDQjCRsXwLzLgzl2IB9rQ5vIfksk/hgK7Vvt7jbFMq4TZo1OW3vY?=
+ =?us-ascii?Q?iOBUosG+x3EmzGQircwo81dwPj81uIieFGaTeron1fxkUhcK9lWaUNUb3MoZ?=
+ =?us-ascii?Q?G/TCxgBSpNUfoix4alnx0c02yeZm4VG/pH79jSVgya0tkEifnntzA3y+x+X3?=
+ =?us-ascii?Q?Pkr3SmRk+YLoM0J0iwNZ2l0N7BOiiLirfrtAle6N6HurL7PeaXTNhb4S5mVZ?=
+ =?us-ascii?Q?q9t4siWJKo3heyS+nqCx7bizgAUO3eX8oSP9C+8LCgyeH6gOz9x2fcmKzb9w?=
+ =?us-ascii?Q?hPHj8ImcG76J+8++ziUCAh6kUcwUX3NQuKtobcl5bOqM/jnXzq+OaSObG7PA?=
+ =?us-ascii?Q?E8zEWTVuU2u98+p3DCcCffMhXEho3aEAQ1Xw+d3/YizEYFQCCRyKy4lFa+sK?=
+ =?us-ascii?Q?Jn1OyxjKjz/6B31WYuS3yY7o0TaT3BN8o3zTgdWFqmVJy9XaZm3LBpUvWaDv?=
+ =?us-ascii?Q?N51NY1LTlmiK+0nmiTBq82QSEGxxZp/9DGySnGyNq74WOY/XXx9FS/MeIq5k?=
+ =?us-ascii?Q?+mSPeL/HJ8RTv73ZjjdQgszwtLbge9l5HbHyTD7mW89IXEvGkubbT9A82ix5?=
+ =?us-ascii?Q?gJKqvF58w1uATLgy3981fD0ZW7xaF9gQzLb23czlk0vIMfleXSd8UTAU5C+d?=
+ =?us-ascii?Q?TBLK7didz8GAEr3uiSaCSyrk0uegFVA0s8Ovife69JO47WvKbB5SmV6OK9Da?=
+ =?us-ascii?Q?/5FTMAIXUK7QaWm84HLOXVYH92WLHyRhyjUEjkQm6UKWi9Sp7F45+I6PEA0j?=
+ =?us-ascii?Q?LW4xybpIY15auXhTNbsit0rQP6GaDTnC/09OmTs3nx37hrtjlK1DHfws4oVp?=
+ =?us-ascii?Q?CslleCvu1Ow7sWXX43gYmjdh6pjrKooYTU5i74T1bUm//Vcp9YJ4+numl4sA?=
+ =?us-ascii?Q?YKWUDcJlSJ/kQfhCbNcKIA1pWGRh98iWwlYqB0QOAjSS89uT0eBwnVPrwj0M?=
+ =?us-ascii?Q?V+syLXPSA7lIbkgMNg4bRNDQelA5hhbAQ0SetqSw34v/qyLIyXXX4HqV5RdB?=
+ =?us-ascii?Q?91tjLRYo9rbNkzGMyMlLKwehQqQRN44/b7Y0GvC+ar69tFYzZqbIktMQcCoS?=
+ =?us-ascii?Q?AonIystDL7Vniyr7pEsYvTCCcIwBUTgpt2jQshiHpGvpmk8qza0++RpEmXlU?=
+ =?us-ascii?Q?JQ7EJhuBf953338bgl5jbqbaYtUFmVwRKtJuQEoWOEdAAp4Kl8pyC2xd01Qp?=
+ =?us-ascii?Q?MgT2fUNbjADEgQe3hNqZj3Dzbd6S6vaUlRn2tOfSIaiYO8aKO1BWuLhqWw?=
+ =?us-ascii?Q?=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA3PR12MB7922.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016)(921020)(38070700021);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?V5kpwvzVlkRuuf7BTvp1u9n5TW8fuJ/OJKXKg23Q8kD86ybUymHTgTcRLiIj?=
+ =?us-ascii?Q?hKaXGi22PZgpnb0/46OIA8bnUEQziv5vS/8w6Nfo+z7PmN1pPhTla8e9eMY9?=
+ =?us-ascii?Q?yhJTmb808FdPBSKwq/iLvrCev4PR+axnjdtUr/dVbcLuEoJTa6Rp2iFZ79Hd?=
+ =?us-ascii?Q?WY8C/vkOodELEoPYEJ4oIXPrXqDv3O1nzlz/Fk5a/EMXWfvJ8mQr8pFZ383o?=
+ =?us-ascii?Q?VjWpR5H1876w1bfd/LpGl5JyGHhqs50/LJi6yuVScgIeCNdJxT0O6OGI2bJx?=
+ =?us-ascii?Q?XvsetJKtJRcSXdbqUcHAS1vbMztRO8W5coLWQFTvyxf52AyTWfuXlMVocsQY?=
+ =?us-ascii?Q?jX+bbU/q4SEQftv6fnpsLyr3FQ74QtS2pdV27GQ0u/zd6Z9wI9u8CJ9IxmPl?=
+ =?us-ascii?Q?g0aw4m6k1V8Bd88uZwa5IsntNGZXEdwt/ZEgIEg+P8o5Q96/rVVvCQfkw68L?=
+ =?us-ascii?Q?DNUMcZANu9fo1V8SgDmbdpk8nD2SaK0vfm6iWOZE7/CBYGt57jpAgfzxlYLB?=
+ =?us-ascii?Q?YUVyoTDxS3G2i+nTzgKKopcOxmqX2M9OJVR/AOIyrEBrM06fLXZFp61BR1pR?=
+ =?us-ascii?Q?V4SFMOzE0+HObN3byPqLJeLlPgCIp6wzeCobRW0MgT52xq1lbrjXZwLlcfbX?=
+ =?us-ascii?Q?nuaESdJm8eY6tesxCpYgdDsMJVDAITbEpeZIC7Jd7u/3h1Hs+6mEzjbOQ6Hk?=
+ =?us-ascii?Q?k8R66+Drb9JICetJEEuWYLM+di5EScJxWjoIcAxkRtU1190fM0EiTatqISSs?=
+ =?us-ascii?Q?JyvDFFRmrZ+NSYanKkCU+uGBPg3/isV2OdDX/3RIZ0JUdCn7uJEN+lm8CXdx?=
+ =?us-ascii?Q?ctjiZP+s4CYwax+o1tHefpT74tUDH04spbnU8l8MGREDk9Nw2bT1yOq7GaL/?=
+ =?us-ascii?Q?waJ+QTjVOoh3P/z9+Gf2t1TjtxUNGExuEEeCjzYlLyAmNowngc1CdV/Wum6v?=
+ =?us-ascii?Q?pfAuhsniqxiWoJDkqeePjjiJ/f5c7oarhJ4aYrwvSzy/l9aL+UNvLN+9tY5f?=
+ =?us-ascii?Q?tbsRWtQvL9vGPRHxhkcie6pRWsXxBQjNrHzH1PeOT9h+ZwUGPiOrbygQ8eL/?=
+ =?us-ascii?Q?i+opjjkknZLUr0Iw1wzEoogb4vTbklZbfyjaphWeDZMsP6cTcnE7G8aWJCML?=
+ =?us-ascii?Q?4X3iQQVNODwH44AeykaiX3plFlNap9RW8RWKy89qrNNHDDMxlCmMPAtydfpF?=
+ =?us-ascii?Q?LwQnpmwDoXS/hZ3qURDaMj78hcyximDjFLGaps/FMvuhB9lnzruUu8xptWYj?=
+ =?us-ascii?Q?B9CyK9AQHhMXWjt3XprddN2NtZolsz0Seez7qaYaXWUqpWACoqJr2VLK2KYh?=
+ =?us-ascii?Q?942jmyvTLm5f3/8cPD1zRL3O8IEcmZe7/GCNwnFZIvoYszl6Txby0gZuOeRG?=
+ =?us-ascii?Q?9uAEfo+ZDkDYszQLLTJHBsytS+0ZgzgphwHKUjrcWZ8YLOGtJVmDt8Glllla?=
+ =?us-ascii?Q?4IDd7/BFJCaU/+dbDZPNi3l8Zr31hu6vB1ZXEoNv4TT3jI7sDBrWAkOny0jY?=
+ =?us-ascii?Q?TiDZF+OZb8XpwrVMF/wIhfrQaedyVFmJDYWCyONn7/dvKcBiWzUIL0ybyiSU?=
+ =?us-ascii?Q?3hotKLpO1S7NXyjdlqQ=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA3PR12MB7922.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e2bea90-988b-4807-5ac0-08de25a53914
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2025 06:47:49.0614 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NFu+qNpR7vuPVuvJcGVAvlydbo1OuW2z+UMuLAnEZ5Fv3lB/wKajN3ZvGVXkqODn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8959
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,48 +168,5 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DRM_DEV_ERROR() has been deprecated, and use dev_err_probe()
-can be better. The other reason is that dev_err_probe() help avoid
-unexpected repeated err logs during defered probing.
-
-Signed-off-by: Abhishek Rajput <abhiraj21put@gmail.com>
-
-diff --git a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-index 5c2530598ddb..aa05316dc57b 100644
---- a/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-+++ b/drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c
-@@ -1132,22 +1132,19 @@ static int jadard_dsi_probe(struct mipi_dsi_device *dsi)
- 	dsi->lanes = desc->lanes;
- 
- 	jadard->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
--	if (IS_ERR(jadard->reset)) {
--		DRM_DEV_ERROR(&dsi->dev, "failed to get our reset GPIO\n");
--		return PTR_ERR(jadard->reset);
--	}
-+	if (IS_ERR(jadard->reset))
-+		return dev_err_probe(&dsi->dev, PTR_ERR(jadard->reset),
-+				"failed to get our reset GPIO\n");
- 
- 	jadard->vdd = devm_regulator_get(dev, "vdd");
--	if (IS_ERR(jadard->vdd)) {
--		DRM_DEV_ERROR(&dsi->dev, "failed to get vdd regulator\n");
--		return PTR_ERR(jadard->vdd);
--	}
-+	if (IS_ERR(jadard->vdd))
-+		return dev_err_probe(&dsi->dev, PTR_ERR(jadard->vdd),
-+				"failed to get vdd regulator\n");
- 
- 	jadard->vccio = devm_regulator_get(dev, "vccio");
--	if (IS_ERR(jadard->vccio)) {
--		DRM_DEV_ERROR(&dsi->dev, "failed to get vccio regulator\n");
--		return PTR_ERR(jadard->vccio);
--	}
-+	if (IS_ERR(jadard->vccio))
-+		return dev_err_probe(&dsi->dev, PTR_ERR(jadard->vccio),
-+				"failed to get vccio regulator\n");
- 
- 	ret = of_drm_get_panel_orientation(dev->of_node, &jadard->orientation);
- 	if (ret < 0)
--- 
-2.43.0
-
+Katakam, Harini would like to recall the message, "[PATCH 2/3] dt-bindings:=
+ dma: xilinx: Simplify dma-coherent property".=
