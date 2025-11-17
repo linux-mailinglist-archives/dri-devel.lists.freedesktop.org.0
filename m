@@ -2,140 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB82C6468A
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 14:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79BF6C646B4
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 14:41:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 336EA10E38B;
-	Mon, 17 Nov 2025 13:39:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4839F10E3C1;
+	Mon, 17 Nov 2025 13:41:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FXri2I17";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eK6w3fHh";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="NkHdYpKy";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ppvt3Aic";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFB0B10E38B
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:39:38 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA1E10E3BE
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:41:46 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AHAKN033932611
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:39:38 GMT
+ 5AHBYC672790704
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:41:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- madWQ8LNSH0zkc6V66UGGR8dYDx8zrt7q0Rlr0n4JSQ=; b=FXri2I17p8o0uSsa
- l756g/4+5dAWAWNQ2+yzKFFJbeFnX0OcY8nt2wrOHncflCEMfcadsVQ2P/SGy6vU
- mnTGiW9+xjiI68V8h3X1XOZiKREAQ1IW+YZN/tpNOiDE6iH7RUbYUmWu37x131c2
- FUwZ08Su9AnYFu1SV54el7jvH6d2bRVuahSmGzJmColFRy+6eTuC+wnbzu5Va8eQ
- /10TW+AX8HjDcurmhOD8OdqtjPP9YQYhXZJXao5nl8PjL4VLYlLQg96hurZQRVNW
- J6EKZ7BoLRVTrkqHXF7PxgMMKlLkfYNjj79g5HIJKS21gSqgSuOJKF5R2xigR3/b
- u7gqZg==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ag1v90hc1-1
+ klK61PXSjd0hNV0oaWV/P29BTB/za3rlPJ5baCM50Ys=; b=NkHdYpKySJIqD62B
+ iLM+aTqSWr/EqWltK4xwbCyZRhPw79ywpwhzIYfQUQOVrggF6baAGuIz2nuKN4Al
+ ElZ5P9UDAuMxgiLjfCZN1Bha9R7xshmZvHhdG6jRngHrtmjnarTjgAn5BGJPHurq
+ uXGRvhAw/ceWxizANbFEQ/SZxs629YCGC2lPy3KUxEGQa02XFtEsyxn8PdQBc6cz
+ 4Be6WFPzuAeDt7BeEGsYkiibpbAZ/no1LZUlTZsqq4EdPNQnvoGpv8EDdYNE9nRt
+ xi3YNM1zxuxUsL7eU6tsw+EcCc/447db+NioZVYy1rs/EzX7NA5qW1XQMvvxvfhk
+ 749AIg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4afu5bhrx0-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:39:37 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id
- d75a77b69052e-4ee05927208so6644431cf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 05:39:37 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:41:45 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4ee05927208so6651361cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 05:41:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763386777; x=1763991577;
+ d=oss.qualcomm.com; s=google; t=1763386905; x=1763991705;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=madWQ8LNSH0zkc6V66UGGR8dYDx8zrt7q0Rlr0n4JSQ=;
- b=eK6w3fHhnjOHAMbDv2lFxOVG/BxCQ2LYs6EiIoLy3r672SfxwwajkwqbKmDZOzbMIj
- 4n8IYFsQfD5RRVCKawTkDkMz93IYDejTgTkK87wi4Q0HwnLe5xV+RLuBEJ7lQigbX7xA
- oadpWM2KX1MMEizgl0pyGklKTAM+8pect4c+0mCxUSHw8p4MfmP1LY9EEMxLzb5CEuHE
- X1QUdNGNUrESpeepHfJjS0oAR5y8cbhThp60yN65ndVICHSFTq3Dn/i/rviro8AiozU1
- QQag0tuhulQdyh0Ev5PuE9USDz9ABFFMykAKjs7eywS18iTh1Th1JQbwL/NH0jdES+Dy
- yOnQ==
+ bh=klK61PXSjd0hNV0oaWV/P29BTB/za3rlPJ5baCM50Ys=;
+ b=Ppvt3AicG5BZZdd2w5bin9Mw/O10B+aA35JQLXfyrcbQl3m8HQaSyq7zvss1c5d9e7
+ q1vK7iwimQTdK1cTBzd0bBMIkdNCI/kNhOY1tShPkXOIL/p5NVcilSlQRE+pVRTYnuYU
+ +wIInIOTXSYUO6PeJLv0wAkM4bt1cbILRIYY1Qw957dUPJ5ev6EaQPIlLBEhX3TaeMR0
+ o1I1dtXaecLnK7KT8Z88S7vK9juEwAThko92NlI0NYAEFcZj3KUMPI3GRn39Atkw8ykV
+ E/g8IOKK63Rz8LrsFXQRX80cZybVbTFX68dLLdZOzNOEuP0Lm8MhcPeNGnlpbZt8Da67
+ xbqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763386777; x=1763991577;
+ d=1e100.net; s=20230601; t=1763386905; x=1763991705;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=madWQ8LNSH0zkc6V66UGGR8dYDx8zrt7q0Rlr0n4JSQ=;
- b=qAnwe9M0tZkF0Stu/wDGAKLMmPPvujQbcFFOpIougJcOn/VL/NO5+n0OFzDDvJYql6
- IJMBNSzXAZccoGOHZcvuoh3oNxaLpK6VO9TgBdqmkrR6xGDln/FICkjFKuISOHHN92Eg
- x72sEMAEkElxutEk3FXnEPv2+TyUoJhVgMxJe1VhC4SlT32tz0Nn0q1wp1S2ygYo4qxN
- N1idSADVl06vz1h/HgHfC/9DwyIxXtUXpcASPiRo2fmMGW7JM9i8FJUxAz2/JnOM0hPv
- hQ1VyJBJSRVBrZm/3cKTVPEgXNIiEsSBTHRR2nERupzabVHEtoMPiT2xZ5HhqtKJnn8b
- W3TA==
+ bh=klK61PXSjd0hNV0oaWV/P29BTB/za3rlPJ5baCM50Ys=;
+ b=NLvEmp6dqzxfZs+Ie+2yuACqtZuMmyoQ/lSG1hCj3rbUboEo/FSQ4BvvoPQigrriNa
+ pE0ITJ6k0drtCxD7oPtCPpcYddIIQGiDvWEuVS0Rz0CIO2COKKzPaknKDrBDsTz9peOX
+ tBWgeXvGmEE8TQCZFJ+7d61J8bX9pN11Rdb3wqrC0A3pvjDdltKaSNeZ61Ig9ucBUn7X
+ ohyp3UcH7RAB1xgbQvnhCzfgGtZSh3UlDn2avHfQbfYIlYfgKvUlJlYQHBRWcnmdklth
+ Y8y3QbNwzchkGYsWa4UqyN5f7V3Uzwsy20KEI1DGgKUjkUzxZxZD310GPv1waBwWgXgQ
+ 39TA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXMpEp3WBOhDGiPgjWDgGmV+wOFeUEZBirg3OfCklNb0hjTYKcgwn7WK8YOK+rDyyTm50MvoKISV7Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywzvxh3BTvUiQ2+8bHb/rIIAJVZQN/YdMHtpjei/ABh1Lzm60nR
- A97DAFJLFYsIGMKgnQAOSJYrdEscMlGuw5QwamgQFBqM3MQ+7GXF5HY+BIF7EqzWlCgOfAW8tle
- 6NmU0M2iOgJwrkEl64NlYRx3yCPDxLpcym7mGKGEXTOOv3fzNaUrJLQ2vPsekK0iS+1qL11s=
-X-Gm-Gg: ASbGncsaRfwIBPXk2YtkQmIjt6yU7yK8rYrgQ8bPpj0TrEjtR7tELLeOOMnIIrb4Mjt
- wtJ90sSDgQot54TQFD8iS+pUOJu4G0nRa1rpE1G+UHRa2R3KkflKPdXF5Fbdnx8x1bwvg6nKGDA
- /3G93uD0BvoK6ursEPyuFMHT0BA2FUnwH4XCZDrF3aKUcHIZEQP95ckChr09PsqIu9Km7AAafUN
- vKRFZaJLg/70JT4Jb0QvTujwcKD8H8R1D4JOO7AAnii4vp6ZaUG41ZAF5iGt1r4N65POgHa/aVX
- W27YaQdlcc1EwAuCzJMvd3J0/8ZyFY3bfTj6Mqt6bx2PFMB7Ys6Dp7Jf54QqcHjpuCTNoE2CM1A
- RmlpbOraTxIwwdWmAo9V5+k+7+TZhXmluXgS3QDOcNaLiDIUqdCpXrUCo
+ AJvYcCWDgzpGKh8NE7Vd02OXB7iNlstd0Up51YozZ1JSwcO2o4a8A7LIdwD8qf96AM2qIkmXlRJp5VNNLIs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzK4Ug84hTCZ/8WpGskb1tsv2xF8gbl5+/8PxKQPkN5YAAAOeF/
+ wJw5y8oTQ8r+SfCSS3+7HY2MXrhoOv66PmOZPpqpAMmN4eN8lNwBhBxWxdJmgiWYjAt97EJ+5/F
+ /fsYF/OvXDPWRL5KTNuBxB5ssFgbv/dIHJme1EvNP20YhErR9o6VZnTElW2q5EkivAZCZWM0=
+X-Gm-Gg: ASbGncsUrcOuj9E0B3Gv+Af73tPRA5CC2JOanabWZvDt3LNd1KejubNjLEwgMgbRkrF
+ 9PEgnVdNpIpKPt57KRCXsOgHBdianrutT7fvA/27akKiKmgr8nkXyCet5nWqv7igLwxd1BxmqJp
+ NLM+artGNRORmc8BeQ3CMhAaUDtmO1Mld3voaaBIwKluv7ma8UPMbMLW1bBnR+Rh/iovMAuRwji
+ FAFHyvIj7e+JZoAlIVK9XIc9qNgihJU6wl463ALQnkR/JmE0ZUl5cI/CCIxXJT7VYbUj1V8l6oA
+ O1OjFaXdpSmwtwGrVF0LCzCemXKeAVhpIl+Yf2QoPo1C4LDzWHOhQ+yqCD8QNe42YoigiI3XaC1
+ uzjDJcJ2uu1Keaj29S4S0DwpRtVl4PrK2mjOmMswtjs3M/CDoIgl+NgOg
 X-Received: by 2002:a05:622a:8e01:b0:4ee:1588:6186 with SMTP id
- d75a77b69052e-4ee1588686emr42287381cf.11.1763386776975; 
- Mon, 17 Nov 2025 05:39:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGT8ylpMPqKnQUlh0IndGHgSMmDdm1g/UFqOcl+Eqo38NWcx4OZT9FwONF6B4ZL7MlT4U9B4w==
+ d75a77b69052e-4ee1588686emr42334541cf.11.1763386904656; 
+ Mon, 17 Nov 2025 05:41:44 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHXjeOnWOqKRzGv7+Ux5gt6tTZvyWI1wBlvFc4rLJ5C0QkL7YdbAjBn/AYTf8fPgd9jvCo6gw==
 X-Received: by 2002:a05:622a:8e01:b0:4ee:1588:6186 with SMTP id
- d75a77b69052e-4ee1588686emr42286991cf.11.1763386776246; 
- Mon, 17 Nov 2025 05:39:36 -0800 (PST)
+ d75a77b69052e-4ee1588686emr42334251cf.11.1763386904241; 
+ Mon, 17 Nov 2025 05:41:44 -0800 (PST)
 Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
  [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-6433a3d6f5bsm10176335a12.6.2025.11.17.05.39.33
+ a640c23a62f3a-b734fa81296sm1103136466b.6.2025.11.17.05.41.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Nov 2025 05:39:35 -0800 (PST)
-Message-ID: <d49d449b-7bbb-46fc-8e10-f04649d852f2@oss.qualcomm.com>
-Date: Mon, 17 Nov 2025 14:39:32 +0100
+ Mon, 17 Nov 2025 05:41:41 -0800 (PST)
+Message-ID: <d7bcc255-b922-4ae9-af70-5757f17100c2@oss.qualcomm.com>
+Date: Mon, 17 Nov 2025 14:41:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/dpu: disable gamma correction unit on SC7180
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Federico Amedeo Izzo <federico@izzo.pro>
-References: <20251115-dpu-fix-gc-v1-1-0a4fd718208d@oss.qualcomm.com>
- <6457c60a-2ede-4df8-ad82-d974690eba89@oss.qualcomm.com>
- <CAO9ioeUfZQVy7VFUp8FEVHN2_uL0ZB9jbkuexWY4D12YN_O3Jw@mail.gmail.com>
- <8541a10d-99ca-43d2-bafa-8e33bba01382@oss.qualcomm.com>
- <CAO9ioeVT_1qGedvdACkE4pqbsP8VReeArbe=-zaH-SHfhi3pkQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/a6xx: check state before dereferencing in
+ a6xx_show
+To: Alok Tiwari <alok.a.tiwari@oracle.com>, jordan@cosmicpenguin.net,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, simona@ffwll.ch, airlied@gmail.com,
+ marijn.suijten@somainline.org, robin.clark@oss.qualcomm.com,
+ sean@poorly.run, konradybcio@kernel.org, lumag@kernel.org,
+ abhinav.kumar@linux.dev, jessica.zhang@oss.qualcomm.com
+Cc: alok.a.tiwarilinux@gmail.com
+References: <20251117132516.18834-1-alok.a.tiwari@oracle.com>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <CAO9ioeVT_1qGedvdACkE4pqbsP8VReeArbe=-zaH-SHfhi3pkQ@mail.gmail.com>
+In-Reply-To: <20251117132516.18834-1-alok.a.tiwari@oracle.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: s8_ufSnFnoxnUOp1LQ5-8mR-ka4C7WL7
-X-Proofpoint-GUID: s8_ufSnFnoxnUOp1LQ5-8mR-ka4C7WL7
-X-Authority-Analysis: v=2.4 cv=acVsXBot c=1 sm=1 tr=0 ts=691b2599 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+X-Proofpoint-GUID: O2QzgsJsIkauz6iYU1g0q3X2V9DWOd8-
+X-Proofpoint-ORIG-GUID: O2QzgsJsIkauz6iYU1g0q3X2V9DWOd8-
+X-Authority-Analysis: v=2.4 cv=Xvz3+FF9 c=1 sm=1 tr=0 ts=691b2619 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
  a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8
- a=emW-11kZ4ehC4T1iGCQA:9 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
- a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE3MDExNSBTYWx0ZWRfXwaF+EohSkHGu
- OE3PCdERxOcZzlzlPgEALupmnajVqm8U3r9stcd/AuDdIwmp1cjonWoJQbnPJ7pHnAklMy/nlWL
- qg0O3K/GbQjGM394S5xAEqLUhxM60kHLncUSmh/5axFcFhf1AowPfoPNCs802igcARpEZASo/sX
- Jhr+BE7CAe8ypgjTnLly6nv4sbvE+3wqgxtnYnLzGWiBBjivn4m6NEtcLCpILIq2JMrk9Y64DC6
- 4SZwL1OrcgyPdTZyN/PXDl1EfOBerl8DJq7jfthSN28tdpH1/bupLAh7BCSJ660SiwWPlpPHH3g
- sT+NyIZwjWgI/IP5Hrit4R0b3JGCKwdJqSRkgABv8fbEUruZLTC9ay7IeU1hoBRlpYyJO6K75Df
- p5CiFhCPGOMrroSU3B20hmG/wtHOKA==
+ a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8 a=73rUxmhrSfcUVL-5kvkA:9
+ a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE3MDExNiBTYWx0ZWRfXzLHAwFMmiDPq
+ G2dbZ+I0cG03jsSqOUVeOxGPG/9DS2pcsTFq6/rkl96dOzlRi92MdUec2XZY+aLdZIQXKIB0JQG
+ f8vxWHmyM0J4JAMDdVGd+AcD/kSebOePnONx6jls7yAZ7zxkSR4rPsdgCm/170mYO8GJjqVFBTn
+ tS1Q7f3QuY9HQ0diwih8KD0Q+H1qPuf5TSXSnG+RjwqHbTj89vUNBJqNf+Ev3e+ma+Aswx23Zla
+ /+MbFbmenM+19cQK3G/zHOlvWLvwvvFRLIlB5IyfLsTl/VUqOGPH6hw+PWnLY0cpS8VzLjL/zrR
+ ECtHHsEksDJeAyROSsgCDb5gt5I1P5TU/FSpsqAK+shgJyYOt+XX8dmQ/gYIZiSES3yrK71UecF
+ 0FXo8ArJD0D0xwbs2ERedOGaHBr/SA==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-17_03,2025-11-13_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 malwarescore=0
- spamscore=0 bulkscore=0 impostorscore=0 phishscore=0 lowpriorityscore=0
+ adultscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
+ phishscore=0 priorityscore=1501 clxscore=1015 suspectscore=0 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511170115
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511170116
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,101 +144,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/17/25 2:16 PM, Dmitry Baryshkov wrote:
-> On Mon, 17 Nov 2025 at 14:10, Konrad Dybcio
-> <konrad.dybcio@oss.qualcomm.com> wrote:
->>
->> On 11/17/25 12:51 PM, Dmitry Baryshkov wrote:
->>> On Mon, 17 Nov 2025 at 13:25, Konrad Dybcio
->>> <konrad.dybcio@oss.qualcomm.com> wrote:
->>>>
->>>> On 11/15/25 4:08 AM, Dmitry Baryshkov wrote:
->>>>> IGT reported test failures with Gamma correction block on SC7180.
->>>>> Disable GC subblock on SC7180 until we trage the issue.
->>>>>
->>>>> Cc: Federico Amedeo Izzo <federico@izzo.pro>
->>>>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>>>> ---
->>>>> Most likely I will squash this into the GC patch
->>>>> ---
->>>>
->>>> Peeking at downstream, 7180 and 845 should have the exact same GC
->>>> (v1.8).. it seems like there's an attempt to program it through
->>>> REGDMA instead of regular reg access. Not sure if it's actually
->>>> necessary or just an optimization
->>>
->>> I think it's mostly an optimization.
->>>
->>>> What tests are exactly failing? I couldn't track it down on FDO GL
->>>
->>> See [1] and other failed SC7180 jobs from the same pipeline. I haven't
->>> triaged it yet, but I assume this might be related to platform
->>> resources (it has only 2 LM blocks and only 1 DSPP).
->>> Another possibility is that maybe we need higher CFG bus bandwidth
->>> when writing LUT registers.
->>>
->>> [1] https://gitlab.freedesktop.org/drm/msm/-/jobs/87878393
->>
->> igt.kms_color@gamma.log fails, we get an ENAVAIL (-119) (which doesn't
->> seem like a good return value for this error but anyway..), dmesg says
->>
->> 05:42:13.199: [   75.472174] [drm:_dpu_rm_check_lm_and_get_connected_blks] [dpu error]failed to get dspp on lm 0
->> 05:42:13.199: [   75.481487] [drm:_dpu_rm_make_reservation] [dpu error]unable to find appropriate mixers
->> 05:42:13.199: [   75.490235] [drm:dpu_rm_reserve] [dpu error]failed to reserve hw resources: -119
->>
->> which comes from:
->>
->> idx = lm_cfg->dspp - DSPP_0;
->> if (idx < 0 || idx >= ARRAY_SIZE(rm->dspp_blks)) {
->>         // misleading error message, it's not LM%d, but DSPP%d
->>         DPU_ERROR("failed to get dspp on lm %d\n", lm_cfg->dspp);
->>         return false;
->> }
->>
->> which comes from:
->>
->> static const struct dpu_lm_cfg sc7180_lm[] = {
->>         {
->>                 .name = "lm_0", .id = LM_0,
->>                 .base = 0x44000, .len = 0x320,
->>                 .features = MIXER_MSM8998_MASK,
->>                 .sblk = &sc7180_lm_sblk,
->>                 .lm_pair = LM_1,
->>                 .pingpong = PINGPONG_0,
->>                 .dspp = DSPP_0,
->>         }, {
->>                 .name = "lm_1", .id = LM_1,
->>                 .base = 0x45000, .len = 0x320,
->>                 .features = MIXER_MSM8998_MASK,
->>                 .sblk = &sc7180_lm_sblk,
->>                 .lm_pair = LM_0,
->>                 .pingpong = PINGPONG_1,
->>                 // no dspp here, errors out
->>         },
->> };
->>
->> would simply binding .dspp = DSPP_0 to the other one just work here?
+On 11/17/25 2:25 PM, Alok Tiwari wrote:
+> Currently, a6xx_show() dereferences state before checking whether it is
+> NULL or an error pointer.This can lead to invalid memory access if state
+> is invalid.
 > 
-> Only LM_0 can use DSPP_0, that part is not flexible.
-
-OK that makes sense
-
+> Move the IS_ERR_OR_NULL(state) check to the top of the function before
+> any use of state.
 > 
->> Also, would that mean we can only have gamma control on a single active
->> LM at a time?
-> 
-> We can only control gamma on LM_0 on this platform.
-> 
-> BTW, the other log is more interesting:
-> 
-> [3] https://gitlab.freedesktop.org/drm/msm/-/jobs/87895515/viewer
+> Fixes: 1707add81551 ("drm/msm/a6xx: Add a6xx gpu state")
+> Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+> ---
 
-I wonder if we need to take a closer look at this hunk:
-
-/* Disable 8-bit rounding mode */
-gc_lut->flags = 0;
-
-also, IGT tests XRGB8888 - any chance the X is getting mistakenly
-(un)modified?
+container_of doesn't do any dereferencing of the pointer, it only does
+ptr arithmetic which is ""fine"" with a random/null value
 
 Konrad
+
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> index 4c7f3c642f6a..e408e1d84ade 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
+> @@ -1976,14 +1976,14 @@ static void a6xx_show_debugbus(struct a6xx_gpu_state *a6xx_state,
+>  void a6xx_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
+>  		struct drm_printer *p)
+>  {
+> +	if (IS_ERR_OR_NULL(state))
+> +		return;
+> +
+>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>  	struct a6xx_gpu_state *a6xx_state = container_of(state,
+>  			struct a6xx_gpu_state, base);
+>  	int i;
+>  
+> -	if (IS_ERR_OR_NULL(state))
+> -		return;
+> -
+>  	drm_printf(p, "gpu-initialized: %d\n", a6xx_state->gpu_initialized);
+>  
+>  	adreno_show(gpu, state, p);
