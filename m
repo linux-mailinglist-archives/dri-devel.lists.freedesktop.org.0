@@ -2,133 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79BF6C646B4
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 14:41:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D20C647BE
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 14:53:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4839F10E3C1;
-	Mon, 17 Nov 2025 13:41:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60B1310E3B6;
+	Mon, 17 Nov 2025 13:53:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="NkHdYpKy";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ppvt3Aic";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mFtFuGK1";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cJR+8UQf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DA1E10E3BE
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:41:46 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 02FA610E3BA
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:53:04 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AHBYC672790704
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:41:45 GMT
+ 5AHB64ac4107460
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:53:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- klK61PXSjd0hNV0oaWV/P29BTB/za3rlPJ5baCM50Ys=; b=NkHdYpKySJIqD62B
- iLM+aTqSWr/EqWltK4xwbCyZRhPw79ywpwhzIYfQUQOVrggF6baAGuIz2nuKN4Al
- ElZ5P9UDAuMxgiLjfCZN1Bha9R7xshmZvHhdG6jRngHrtmjnarTjgAn5BGJPHurq
- uXGRvhAw/ceWxizANbFEQ/SZxs629YCGC2lPy3KUxEGQa02XFtEsyxn8PdQBc6cz
- 4Be6WFPzuAeDt7BeEGsYkiibpbAZ/no1LZUlTZsqq4EdPNQnvoGpv8EDdYNE9nRt
- xi3YNM1zxuxUsL7eU6tsw+EcCc/447db+NioZVYy1rs/EzX7NA5qW1XQMvvxvfhk
- 749AIg==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4afu5bhrx0-1
+ Yi+BdGPgnrk+oNWxD1uiFb+dRMmL82ThS7ds7IVksSw=; b=mFtFuGK1MCuVmr12
+ f9haVzaVKOz32O1RSgy/Q2GSQLp0IWB6W1rgvDBTRR86RSit5e/+gL7U9Xf4xY8P
+ PpvZb8gQE910myLphQRL2OWHai4slaABAa+akYYX6cdEGm0iZinbzoeouP3lFqwB
+ FiE7ADx79zOF4EWoLQio/1MMQ/F9Ipft88DUbf8M2q+dpOgrluXfim46yIfXD+Vl
+ LGgURcg40mLjKu/qRRbcCHsAuhQRpz/dcSqa8Vl0cBZ6skK2SqI7rHe9TqHvZr9m
+ RYZdThUlTtssyPSjrI4YTIolsb6e73tn3hD+UU+sLtYBVCq7O/CxnI8efXt0ataz
+ og8aZw==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ag2hp8e9u-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:41:45 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4ee05927208so6651361cf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 05:41:45 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:53:04 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id
+ d75a77b69052e-4ee24e1559aso690661cf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 05:53:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763386905; x=1763991705;
+ d=oss.qualcomm.com; s=google; t=1763387583; x=1763992383;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=klK61PXSjd0hNV0oaWV/P29BTB/za3rlPJ5baCM50Ys=;
- b=Ppvt3AicG5BZZdd2w5bin9Mw/O10B+aA35JQLXfyrcbQl3m8HQaSyq7zvss1c5d9e7
- q1vK7iwimQTdK1cTBzd0bBMIkdNCI/kNhOY1tShPkXOIL/p5NVcilSlQRE+pVRTYnuYU
- +wIInIOTXSYUO6PeJLv0wAkM4bt1cbILRIYY1Qw957dUPJ5ev6EaQPIlLBEhX3TaeMR0
- o1I1dtXaecLnK7KT8Z88S7vK9juEwAThko92NlI0NYAEFcZj3KUMPI3GRn39Atkw8ykV
- E/g8IOKK63Rz8LrsFXQRX80cZybVbTFX68dLLdZOzNOEuP0Lm8MhcPeNGnlpbZt8Da67
- xbqw==
+ bh=Yi+BdGPgnrk+oNWxD1uiFb+dRMmL82ThS7ds7IVksSw=;
+ b=cJR+8UQf+D6VDcEyx4YaMTF/sOsgOwpAJQY+MBFnGWEPsX3UfTwQZQoG5nWEf4XEC6
+ 3UzW+wF+6mt6lTONyXKEBf1tFOej8WKcplQ2j7GkhRT+6TvFqs5pfrjtu1pUvBcCW8R8
+ ry7nXQSAE+mlqovSaGvjJw2sSczpgrYlakxJcO0rqMQNenREeM8XEx5Ylqu3iPTr94IL
+ yP/PgVcWXXGxaB40ztqHs6BMcGzaLDF6Y3E86wTT7R8hM58C6G9E6Rnn6CcPKqVAs2U/
+ CNEuGaYMBUuCsoF6mVQ4wlApuSo2neec4yzmMn91Rv3Di0yyG9odR7/bOhQS2XEKd4Xi
+ bm5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763386905; x=1763991705;
+ d=1e100.net; s=20230601; t=1763387583; x=1763992383;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=klK61PXSjd0hNV0oaWV/P29BTB/za3rlPJ5baCM50Ys=;
- b=NLvEmp6dqzxfZs+Ie+2yuACqtZuMmyoQ/lSG1hCj3rbUboEo/FSQ4BvvoPQigrriNa
- pE0ITJ6k0drtCxD7oPtCPpcYddIIQGiDvWEuVS0Rz0CIO2COKKzPaknKDrBDsTz9peOX
- tBWgeXvGmEE8TQCZFJ+7d61J8bX9pN11Rdb3wqrC0A3pvjDdltKaSNeZ61Ig9ucBUn7X
- ohyp3UcH7RAB1xgbQvnhCzfgGtZSh3UlDn2avHfQbfYIlYfgKvUlJlYQHBRWcnmdklth
- Y8y3QbNwzchkGYsWa4UqyN5f7V3Uzwsy20KEI1DGgKUjkUzxZxZD310GPv1waBwWgXgQ
- 39TA==
+ bh=Yi+BdGPgnrk+oNWxD1uiFb+dRMmL82ThS7ds7IVksSw=;
+ b=qUp0x9GAc/og1MVJ8aVi8g/UVvMZZhRF4Nus3mB7snvsTyJ7Df4DBvvw7c8wvT9p5n
+ KLQAPhCtNSuGJgKMIYtxBLSNd0t2drmifRKPzpdFOyJ3aE9MxBrjyFT+e/9cjrD9S8DT
+ mbKPViYxUi7DomQ2rKGr7UeyDLaTTufBpiyynrdQ+BeLKqOkmh5C8eT4dMSI6xj83etB
+ q5rWWMUl5Skd2WKc+05AFnaqRF8pPfuZv5lHAR1FtOA7wtitTxq9L8qxw29GFSAPCB9N
+ 32M30SKzXekbFNV8jevTlBcG0nNNGkAMvbpovEe16OIRtLuNYPr+98hLdmJvzfdaw8yq
+ LC+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWDgzpGKh8NE7Vd02OXB7iNlstd0Up51YozZ1JSwcO2o4a8A7LIdwD8qf96AM2qIkmXlRJp5VNNLIs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzK4Ug84hTCZ/8WpGskb1tsv2xF8gbl5+/8PxKQPkN5YAAAOeF/
- wJw5y8oTQ8r+SfCSS3+7HY2MXrhoOv66PmOZPpqpAMmN4eN8lNwBhBxWxdJmgiWYjAt97EJ+5/F
- /fsYF/OvXDPWRL5KTNuBxB5ssFgbv/dIHJme1EvNP20YhErR9o6VZnTElW2q5EkivAZCZWM0=
-X-Gm-Gg: ASbGncsUrcOuj9E0B3Gv+Af73tPRA5CC2JOanabWZvDt3LNd1KejubNjLEwgMgbRkrF
- 9PEgnVdNpIpKPt57KRCXsOgHBdianrutT7fvA/27akKiKmgr8nkXyCet5nWqv7igLwxd1BxmqJp
- NLM+artGNRORmc8BeQ3CMhAaUDtmO1Mld3voaaBIwKluv7ma8UPMbMLW1bBnR+Rh/iovMAuRwji
- FAFHyvIj7e+JZoAlIVK9XIc9qNgihJU6wl463ALQnkR/JmE0ZUl5cI/CCIxXJT7VYbUj1V8l6oA
- O1OjFaXdpSmwtwGrVF0LCzCemXKeAVhpIl+Yf2QoPo1C4LDzWHOhQ+yqCD8QNe42YoigiI3XaC1
- uzjDJcJ2uu1Keaj29S4S0DwpRtVl4PrK2mjOmMswtjs3M/CDoIgl+NgOg
-X-Received: by 2002:a05:622a:8e01:b0:4ee:1588:6186 with SMTP id
- d75a77b69052e-4ee1588686emr42334541cf.11.1763386904656; 
- Mon, 17 Nov 2025 05:41:44 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHXjeOnWOqKRzGv7+Ux5gt6tTZvyWI1wBlvFc4rLJ5C0QkL7YdbAjBn/AYTf8fPgd9jvCo6gw==
-X-Received: by 2002:a05:622a:8e01:b0:4ee:1588:6186 with SMTP id
- d75a77b69052e-4ee1588686emr42334251cf.11.1763386904241; 
- Mon, 17 Nov 2025 05:41:44 -0800 (PST)
+ AJvYcCWI5rXSmEjOGUj4f3EVZ+zOXvV/dZNZVqil12KroTeFbJ18hEOMhv1dWgPta3viSQcpGq8yaqbwIM4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YynEO1XXWjuFf0MvDS3K6kDJZeXNAtE0yZmd7B8dOv1HQeQJL1Z
+ dx21zR8vZzJQ/rMgFcFM4o8mY7trcdzmnbbZMo0g1A2g0/UtgbvslnLxMcWDY0kLTurbrvd9qfu
+ T+g9R7euAh5lhgzHvEPSaRhE+Pi6wwf/bnzR5632f1BhV/SOqBbaN7ULt42OrEFsOAFtVoRo=
+X-Gm-Gg: ASbGncvihQrz3eIaY+et7fzy4swfXZZwnSWN/vBtn56E2W0L2BiIt3S24sQ6bsGQHoa
+ aJ9n4bcxJmtSCDOkWlCyarINvs5ZmCwY0pFHqCOcTCRf+m5CjEXRo0CsVH4MrB7WsUiwvT0W5Yx
+ R5VZAtQFBeqocUmtNxGjnti98bBh1BTQh+Ra8wGVfkj4TYtiWQ68UQWdS2417tEzEfcVIIycVc7
+ lUgMbyB6crG3Gd2N+oin777BQ6fK3CA/GetRF/TwaXL9VFVy1YMHIhZchWBC1MI4g4ekt8tXUP0
+ fIjyE0ly99+JJ0WRZkAa+p3l8Lb8B7+kGnptuKMJ6rY0U2xxj6bhLh7jeYl0cEvvUN02Ibkxi/X
+ WsmFS3fiTsP8VfWRgGhIfCnmcj870cCBX8Bigax/8KEbQ7hLQgazLXsrc
+X-Received: by 2002:ac8:6f08:0:b0:4ee:1063:d0f3 with SMTP id
+ d75a77b69052e-4ee1063d7d8mr73608711cf.11.1763387583368; 
+ Mon, 17 Nov 2025 05:53:03 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFP6/ieJt0wbfNJVaOx0h7m7+0k3hS0h1MhOub3nCOiBuEQbZ7V+KAM8rQUI0q8j+iY7BfrDw==
+X-Received: by 2002:ac8:6f08:0:b0:4ee:1063:d0f3 with SMTP id
+ d75a77b69052e-4ee1063d7d8mr73608341cf.11.1763387582843; 
+ Mon, 17 Nov 2025 05:53:02 -0800 (PST)
 Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
  [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b734fa81296sm1103136466b.6.2025.11.17.05.41.38
+ a640c23a62f3a-b734fad43dfsm1089481766b.20.2025.11.17.05.52.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Nov 2025 05:41:41 -0800 (PST)
-Message-ID: <d7bcc255-b922-4ae9-af70-5757f17100c2@oss.qualcomm.com>
-Date: Mon, 17 Nov 2025 14:41:38 +0100
+ Mon, 17 Nov 2025 05:53:02 -0800 (PST)
+Message-ID: <73c3de56-5c60-492f-8b1a-209b5b06e7e1@oss.qualcomm.com>
+Date: Mon, 17 Nov 2025 14:52:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/a6xx: check state before dereferencing in
- a6xx_show
-To: Alok Tiwari <alok.a.tiwari@oracle.com>, jordan@cosmicpenguin.net,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, simona@ffwll.ch, airlied@gmail.com,
- marijn.suijten@somainline.org, robin.clark@oss.qualcomm.com,
- sean@poorly.run, konradybcio@kernel.org, lumag@kernel.org,
- abhinav.kumar@linux.dev, jessica.zhang@oss.qualcomm.com
-Cc: alok.a.tiwarilinux@gmail.com
-References: <20251117132516.18834-1-alok.a.tiwari@oracle.com>
+Subject: Re: [PATCH v3 02/20] drm/msm/a6xx: Fix the gemnoc workaround
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Marek <jonathan@marek.ca>, Jordan Crouse
+ <jordan@cosmicpenguin.net>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Connor Abbott <cwabbott0@gmail.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+ devicetree@vger.kernel.org
+References: <20251114-kaana-gpu-support-v3-0-92300c7ec8ff@oss.qualcomm.com>
+ <20251114-kaana-gpu-support-v3-2-92300c7ec8ff@oss.qualcomm.com>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251117132516.18834-1-alok.a.tiwari@oracle.com>
+In-Reply-To: <20251114-kaana-gpu-support-v3-2-92300c7ec8ff@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: O2QzgsJsIkauz6iYU1g0q3X2V9DWOd8-
-X-Proofpoint-ORIG-GUID: O2QzgsJsIkauz6iYU1g0q3X2V9DWOd8-
-X-Authority-Analysis: v=2.4 cv=Xvz3+FF9 c=1 sm=1 tr=0 ts=691b2619 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+X-Proofpoint-GUID: rCijgoIrZBdusKvPQGzeVzNYiMetbB8S
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE3MDExOCBTYWx0ZWRfX6p3LJMErgctl
+ kdMWscimM/zYXGnDg18MKq8lmvXXUVnlHrpPbii6+n52G2Bq3STyIr1w3UOxexByYGJaiW28+s6
+ vpYWo76Eew1yMUTZgXDoewTA0CxD0BdAQrx197Yf1r99SUKzv4Xs4RWZbkSjs7YMN2RCJwHrUYI
+ lcsTEItXw236zHc3yOkVA935L14j7M8aj8N0XhGarWf/Z3nfiGH0Da23flZavGfpEbYILzqxJkj
+ A+HBYzIKigHF38x06qKvjeh9zIb1GKlS74U3Dz45xU53Ehu6oqtIseRg12ESmPvynwCs947ey/T
+ +dEZYj2zc5WHcLBpcslhwGcEdeVk3OUffEc6hd4aJs2xh7JlVfSYn3q++fRKHyvruNctlnuGoaf
+ Mux7INBIpD1gnabWEGhks9rFFUWUkQ==
+X-Proofpoint-ORIG-GUID: rCijgoIrZBdusKvPQGzeVzNYiMetbB8S
+X-Authority-Analysis: v=2.4 cv=Y5L1cxeN c=1 sm=1 tr=0 ts=691b28c0 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
  a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8 a=73rUxmhrSfcUVL-5kvkA:9
- a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE3MDExNiBTYWx0ZWRfXzLHAwFMmiDPq
- G2dbZ+I0cG03jsSqOUVeOxGPG/9DS2pcsTFq6/rkl96dOzlRi92MdUec2XZY+aLdZIQXKIB0JQG
- f8vxWHmyM0J4JAMDdVGd+AcD/kSebOePnONx6jls7yAZ7zxkSR4rPsdgCm/170mYO8GJjqVFBTn
- tS1Q7f3QuY9HQ0diwih8KD0Q+H1qPuf5TSXSnG+RjwqHbTj89vUNBJqNf+Ev3e+ma+Aswx23Zla
- /+MbFbmenM+19cQK3G/zHOlvWLvwvvFRLIlB5IyfLsTl/VUqOGPH6hw+PWnLY0cpS8VzLjL/zrR
- ECtHHsEksDJeAyROSsgCDb5gt5I1P5TU/FSpsqAK+shgJyYOt+XX8dmQ/gYIZiSES3yrK71UecF
- 0FXo8ArJD0D0xwbs2ERedOGaHBr/SA==
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=ws8SwQwlQu7ULn3ZA60A:9
+ a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-17_03,2025-11-13_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
- phishscore=0 priorityscore=1501 clxscore=1015 suspectscore=0 malwarescore=0
+ suspectscore=0 spamscore=0 bulkscore=0 phishscore=0 priorityscore=1501
+ malwarescore=0 impostorscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511170116
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511170118
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,45 +159,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/17/25 2:25 PM, Alok Tiwari wrote:
-> Currently, a6xx_show() dereferences state before checking whether it is
-> NULL or an error pointer.This can lead to invalid memory access if state
-> is invalid.
+On 11/14/25 12:28 AM, Akhil P Oommen wrote:
+> Correct the register offset and enable this workaround for all A7x
+> and newer GPUs to match the recommendation. Also, downstream does this
+> w/a after moving the fence to allow mode. So do the same.
 > 
-> Move the IS_ERR_OR_NULL(state) check to the top of the function before
-> any use of state.
-> 
-> Fixes: 1707add81551 ("drm/msm/a6xx: Add a6xx gpu state")
-> Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+> Fixes: dbfbb376b50c ("drm/msm/a6xx: Add A621 support")
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 > ---
 
-container_of doesn't do any dereferencing of the pointer, it only does
-ptr arithmetic which is ""fine"" with a random/null value
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
 Konrad
-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> index 4c7f3c642f6a..e408e1d84ade 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-> @@ -1976,14 +1976,14 @@ static void a6xx_show_debugbus(struct a6xx_gpu_state *a6xx_state,
->  void a6xx_show(struct msm_gpu *gpu, struct msm_gpu_state *state,
->  		struct drm_printer *p)
->  {
-> +	if (IS_ERR_OR_NULL(state))
-> +		return;
-> +
->  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->  	struct a6xx_gpu_state *a6xx_state = container_of(state,
->  			struct a6xx_gpu_state, base);
->  	int i;
->  
-> -	if (IS_ERR_OR_NULL(state))
-> -		return;
-> -
->  	drm_printf(p, "gpu-initialized: %d\n", a6xx_state->gpu_initialized);
->  
->  	adreno_show(gpu, state, p);
