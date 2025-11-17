@@ -2,63 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A999C6438B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 13:58:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1DF3C643A3
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 13:59:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B10DF10E3B7;
-	Mon, 17 Nov 2025 12:58:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 253F510E3D4;
+	Mon, 17 Nov 2025 12:59:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Uhgn3cJv";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="YF5F/Q7F";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OiU78jxB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EE0310E3E0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 12:58:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 36C0A601FE;
- Mon, 17 Nov 2025 12:58:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FCDFC116B1;
- Mon, 17 Nov 2025 12:58:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763384308;
- bh=OLr27sQ+JriRX4/NEDgdTqE74P+APe5Bc1JBLjDHgq4=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Uhgn3cJv5PiL0Ru44n2U1aAWvA4gQuK/A4zSlD33Ju9WdIDaoc4NQCi9BKrydme5U
- 0YQBymY5uU72yIUqIBCKC9O0IAOn16lO+ukjanViFoKEcpRGZ5DGGV/SECz0RDBUjT
- rEePn1ib158MU2B6hox8YN6Z8CnVFAAf8bezetMjZXueWirN4xVewvtZ+kdgV6ddMx
- uIoJDwlqHCfLvfu0d9jdPXE2270dPM93g75FBKwB/rO/CP0Htlee1sS5JKudJbH7wT
- JgsPZF2O2DkT1Ds6IAJR6fZ2bFZn6G3we5pytq8XbrqcFpBImUoIntYOUfVxzmLaao
- euff+N0en5yAw==
-Message-ID: <6020005e-8b62-415f-993e-b1d99e0c5158@kernel.org>
-Date: Mon, 17 Nov 2025 13:58:19 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8048410E3C4
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 12:59:35 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AHBVugJ3318399
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 12:59:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 2wBqwAqowlt5gdoPKzSt8gOue47EZ4DUPa251PXU7Ww=; b=YF5F/Q7Fs+Gxn51b
+ 5aELFM11Sek0/g+VcneEwqAQ5uwBoYB1sCRfkgFo1GJMYe3ES+HlJ5r8nOTvaEsn
+ wdPL7rptXl0TGugVoUqB27zrwCaxQomX9njME1hDWQyo39ufVTdHeuKK/YVr3v+6
+ a/71T/IIaP+AyWyNV/nS6rUmFq+wYTu+rjwFT2RDCmuWX666d/ll/4qltCByuMSA
+ B+DUJxvyFwc784w6NnzwNnyohFrQhmZmAiMiY0cf9OrfE6X/kPIKJ8X9wrIdf/t1
+ InGQLc5q98ug08XnHXZXn2OR4QgGaYc0/85q9MHKM3z+O2uOTbwujcCa9QFQNY2+
+ kYrdDQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aejm5cs1a-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 12:59:34 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4ed5ff5e770so10743511cf.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 04:59:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1763384374; x=1763989174;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2wBqwAqowlt5gdoPKzSt8gOue47EZ4DUPa251PXU7Ww=;
+ b=OiU78jxBueF35+YB8RcI/dQTP3+cgzQ3uIUivgmOSUimcDPOr96l4coh2fP061dmGU
+ UgMCu3kpehVS5PvwA2e8nYDUOCW4UHVW3kRY7jvS+QBHfqOXjb/m0QIlI/PwT0iUTc0u
+ siWKBaQHGGSuB1RT9dIdhlnh+7OopINWfDm9LaXorTw5bG8T2HpmtPJSiWfJFz+Mt9X+
+ udoNy1Ih9o5TgzOHm978TQueSlN6ctMYoLU7MmzdkUVvytQMmFvsRWcqG6QhptIGMlv1
+ TTMf5UVo6kJEHgxKHDXFZapcLFSw3lJ3lnlpEcoTl0Fe05zhzv/NSu74LabX9+aFRBcU
+ aE8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763384374; x=1763989174;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=2wBqwAqowlt5gdoPKzSt8gOue47EZ4DUPa251PXU7Ww=;
+ b=DC/+TMYEqXSANeUGInr6+/xGuw/i4PiZnTkX9YaiuLeeTNNisZoZBXON6+rTHQJpLs
+ EhiOHcoaxfE6jb6GqvT/lI1cZnvTCHAy1eyM9G9HPtj7YDvFgNMM0H7ves9PMFw7sit9
+ p8BZw7iwfUBxWEmhu4dWUtP0E0K5BX9zKUpof1jrvKC0z9mRvpyvdZ6dPaKD5pSrbGrR
+ PmmwBTkl7xl7BTkmAKxo/5ZSVTgto1Ab2nRPt77r5MAHMoKf1lpkM1tECSV4QxsmrhQN
+ eF3JLyOd2Bj/F1peAWtGRDffbZ7kQpPesku+GH7JNXOyVsXARXTiWrQYAA0y/v6M96Nf
+ V+XQ==
+X-Gm-Message-State: AOJu0Yz/XUqiWLUFNRyIj5/e3vLKGsAp5dHmZQKC2GvZTerEPPDqkY87
+ +pA4CyBudtlfTCYruXEHMPDac9+p8PxVjFy6C3BD/D5gFt3aWabUI3lCFr6CPD4Je+bmySh3VyI
+ oyGaCo0HFSKzGZFKc/oTwpVrHfn3ka72PG6thZoURFRHmOlxiTBoi7wdlS4mXi5FJks86b2A=
+X-Gm-Gg: ASbGnct4yOWgdCgFbveJIGDmGvSGkaQ087LWX9KnicoZtTzw2pnuviSxGrmpw3C24NT
+ F/CWOzbInU4xJdRm0Hd4Wf1TcNzBYQs+VRg2myqEr1cY9bAJ8ehT8kvlWaaBSsEA09roCVSJ/Ar
+ 3g4I5ahVW2uYEue8YlpKKZXAHndoPr6A1gwO/+oMODMUBGWcUofl89L6wqxsn5+WwlciON22V5F
+ 4vrLlCjhXC3F/trVynglySv+T1DDz7aZbOjfYycAqAnl7ti/z03fPrF4+4C5K2ITB+iOpXZxvFn
+ ngY/O0731EvElVP689KODb/VFUJtIxuYwH5SwobldJFrxvm2olFv7W9L4WgpG+QytmhPHJt+aw7
+ LtmVyYNqR28yLjY55pS15xLait/ukyn2NDeJbSQRgoYE5niGnssc1nT24
+X-Received: by 2002:a05:622a:508:b0:4ee:2339:a056 with SMTP id
+ d75a77b69052e-4ee2339a1b0mr23147691cf.2.1763384373748; 
+ Mon, 17 Nov 2025 04:59:33 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHMoEnycdD3w70U1NmIvIEUXmP2lG17YpfSEEGfj8P8nU+BACdCGVpPpkv0IHj5+BPfSRPqiA==
+X-Received: by 2002:a05:622a:508:b0:4ee:2339:a056 with SMTP id
+ d75a77b69052e-4ee2339a1b0mr23147411cf.2.1763384373244; 
+ Mon, 17 Nov 2025 04:59:33 -0800 (PST)
+Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b734fa81172sm1066827766b.15.2025.11.17.04.59.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Nov 2025 04:59:32 -0800 (PST)
+Message-ID: <378c611b-f8c6-4f89-a3b3-6d8c22445e83@oss.qualcomm.com>
+Date: Mon, 17 Nov 2025 13:59:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fixup: mm/rmap: extend rmap and migration support
- device-private entries
-To: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, dri-devel@lists.freedesktop.org
-Cc: Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
- =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-References: <20251115002835.3515194-1-balbirs@nvidia.com>
-From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Subject: Re: [PATCH v2 5/6] arm64: dts: qcom: x1e80100-vivobook-s15: add
+ charge limit nvmem
+To: maud_spierings@hotmail.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20251116-asus_usbc_dp-v2-0-cc8f51136c9f@hotmail.com>
+ <20251116-asus_usbc_dp-v2-5-cc8f51136c9f@hotmail.com>
 Content-Language: en-US
-In-Reply-To: <20251115002835.3515194-1-balbirs@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251116-asus_usbc_dp-v2-5-cc8f51136c9f@hotmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE3MDExMCBTYWx0ZWRfX4dz621PPoRoe
+ 7CTUHl3OtUyptMahBjeK9hXSCCy/ivVuOZbIey4QDkB+Gtz+JQqsx1ky2wEE/OyzlGpapRFc90Q
+ Ws+7cPM9eKNDwwKBZz7IkCq1/1QhybsDPQluK/kslndMiABwhaJLTfoX0ICgiGOULnSZrxKi+xM
+ nDPjvUH04LM2PiHKOxzJVP3rTnlx4HyBk4ke/EWGStKZUcp+r2k/KUqdvxRtYsnSqx69BVIGHfP
+ Vsx1DZqv3PIhwILfQJD3Y5BzwqlyG8Dnjui0h34IFZt7e/H2oxcf+zEwTOC4VZgyjI457oS85eC
+ g4tSidTxkAoLC/61RYRtzFaXRA8b8VzEJr1YIVT85jWCCv4EqhqwdgandOu94zqnPEkif2GNxcc
+ 1G2rtrJJBe1dKO/6VFkef3N9/TPgKw==
+X-Proofpoint-GUID: DD5NJYVjVBSwlS8sYNVb_ckxKadIhSsA
+X-Proofpoint-ORIG-GUID: DD5NJYVjVBSwlS8sYNVb_ckxKadIhSsA
+X-Authority-Analysis: v=2.4 cv=Pb7yRyhd c=1 sm=1 tr=0 ts=691b1c36 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=69EAbJreAAAA:8 a=ucDlCoAaIB5v6D95Jc0A:9
+ a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-17_03,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015
+ priorityscore=1501 suspectscore=0 bulkscore=0 impostorscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511170110
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,115 +149,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15.11.25 01:28, Balbir Singh wrote:
-> Follow the pattern used in remove_migration_pte() in
-> remove_migration_pmd(). Process the migration entries and if the entry
-> type is device private, override the pmde with a device private entry
-> and set the soft dirty and uffd_wp bits with the pmd_swp_mksoft_dirty
-> and pmd_swp_mkuffd_wp
+On 11/16/25 11:52 AM, Maud Spierings via B4 Relay wrote:
+> From: Maud Spierings <maud_spierings@hotmail.com>
 > 
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Zi Yan <ziy@nvidia.com>
-> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
-> Cc: Rakie Kim <rakie.kim@sk.com>
-> Cc: Byungchul Park <byungchul@sk.com>
-> Cc: Gregory Price <gourry@gourry.net>
-> Cc: Ying Huang <ying.huang@linux.alibaba.com>
-> Cc: Alistair Popple <apopple@nvidia.com>
-> Cc: Oscar Salvador <osalvador@suse.de>
-> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-> Cc: Nico Pache <npache@redhat.com>
-> Cc: Ryan Roberts <ryan.roberts@arm.com>
-> Cc: Dev Jain <dev.jain@arm.com>
-> Cc: Barry Song <baohua@kernel.org>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Ralph Campbell <rcampbell@nvidia.com>
-> Cc: Mika Penttilä <mpenttil@redhat.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Francois Dugast <francois.dugast@intel.com>
+> Add nvmem cells for getting charge control thresholds if they have
+> been set previously.
 > 
-> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
+> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
 > ---
-> This fixup should be squashed into the patch "mm/rmap: extend rmap and
-> migration support" of mm/mm-unstable
-> 
->   mm/huge_memory.c | 27 +++++++++++++++++----------
->   1 file changed, 17 insertions(+), 10 deletions(-)
-> 
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 9dda8c48daca..50ba458efcab 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -4698,16 +4698,6 @@ void remove_migration_pmd(struct page_vma_mapped_walk *pvmw, struct page *new)
->   	folio_get(folio);
->   	pmde = folio_mk_pmd(folio, READ_ONCE(vma->vm_page_prot));
->   
-> -	if (folio_is_device_private(folio)) {
-> -		if (pmd_write(pmde))
-> -			entry = make_writable_device_private_entry(
-> -							page_to_pfn(new));
-> -		else
-> -			entry = make_readable_device_private_entry(
-> -							page_to_pfn(new));
-> -		pmde = swp_entry_to_pmd(entry);
-> -	}
-> -
->   	if (pmd_swp_soft_dirty(*pvmw->pmd))
->   		pmde = pmd_mksoft_dirty(pmde);
->   	if (is_writable_migration_entry(entry))
-> @@ -4720,6 +4710,23 @@ void remove_migration_pmd(struct page_vma_mapped_walk *pvmw, struct page *new)
->   	if (folio_test_dirty(folio) && is_migration_entry_dirty(entry))
->   		pmde = pmd_mkdirty(pmde);
->   
-> +	if (folio_is_device_private(folio)) {
-> +		swp_entry_t entry;
 
-It's a bit nasty to have the same variable shadowed here.
+Have you verified that e.g.
 
-We could reuse the existing entry by handling the code more similar to 
-remove_migration_pte(): determine RMAP_EXCLUSIVE earlier.
+connecting the charger
+setting the charge threshold
+rebooting to windows
+rebooting to windows once more for good measure
+rebooting to linux
 
-> +
-> +		if (pmd_write(pmde))
-> +			entry = make_writable_device_private_entry(
-> +							page_to_pfn(new));
-> +		else
-> +			entry = make_readable_device_private_entry(
-> +							page_to_pfn(new));
-> +		pmde = swp_entry_to_pmd(entry);
-> +
-> +		if (pmd_swp_soft_dirty(*pvmw->pmd))
-> +			pmde = pmd_swp_mksoft_dirty(pmde);
-> +		if (pmd_swp_uffd_wp(*pvmw->pmd))
-> +			pmde = pmd_swp_mkuffd_wp(pmde);
-> +	}
-> +
->   	if (folio_test_anon(folio)) {
->   		rmap_t rmap_flags = RMAP_NONE;
->   
+still has the settings persist?
 
-I guess at some point we could separate both parts completely (no need 
-to do all this work on pmdb before the folio_is_device_private(folio) 
-check, so this could be
-
-if (folio_is_device_private(folio)) {
-	...
-} else {
-	entry = pmd_to_swp_entry(*pvmw->pmd);
-	folio_get(folio);
-	...
-}
-
-That is something for another day though, and remove_migration_pte() 
-should be cleaned up then as well.
-
--- 
-Cheers
-
-David
+Konrad
