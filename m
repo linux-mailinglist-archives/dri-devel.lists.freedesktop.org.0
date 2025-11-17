@@ -2,135 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1FD2C63111
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 10:12:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 808D7C6311D
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 10:12:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5334410E30E;
-	Mon, 17 Nov 2025 09:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C856510E30B;
+	Mon, 17 Nov 2025 09:12:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="HsqwPPKt";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cVQkZgsQ";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="FzmphKDd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3224010E314
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 09:12:33 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AH4o50V3189685
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 09:12:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- TS1l4z4FCSnPq1fx1zTnWoNNXIfyztzlqt9YbRe5R/g=; b=HsqwPPKtmRF/VDbk
- eZiHDz8paG6eBM4SV8dOMNbMydwYt71sCGCC/jk9BVQpLx0mphHSyinmKV3VHSjL
- Fu89u9fM2YB4pE9l+NUPabD4f/y0A5iiuk9Qqohbus+D1Xm0RWeuoXGIem8Z0Q2l
- vR0MiOX5CO3JCeT8NybMYM0BLoMkmOCLmg0sQXPJ6I7XbBogh0DnB7egXOGu//Z5
- X9PGEa1tdcib4jKlJhDwOOoHYrS3vYLs1izwsAYEPLJEqYkFwaPZ7dOKQRHKncFo
- rY5KBCoAkzMXP2D+AuejGjAelVPHNjIhK8V23zXQeu3JLawLbOK5fzo34EMSV+Pe
- Yw7cnw==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aejkmc2qu-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 09:12:32 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id
- d2e1a72fcca58-7bf5cdef41dso1499685b3a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 01:12:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763370751; x=1763975551;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TS1l4z4FCSnPq1fx1zTnWoNNXIfyztzlqt9YbRe5R/g=;
- b=cVQkZgsQ5b1Me/4O8DJvg9WKSJOS3ywKYduGdvJkIJZ2q3eWoWVOsF7fVNyQ2sePXI
- oZoHUB9LqUPR64onHqbgbNX2lIsI6Ocy18EazaJUcfZ8J2HAiVwWgObE/LmrkmfY04Qz
- FO394X31tz3twshIKWcBXVEx9qS/qSz7BXr+gj/NWSKvYN6iwMvfYbIuZkhlVyHiuPx9
- SKLO1gT4cH9fiHQ0VBku2bsFHwlhSwm3+cEUV0SnAPScfIEy6jQYewqEL/SYVzOPTORr
- dRfwgz8OolNltqFe8MZIc8plvhb1+Jwbw9hp01pXv5q6ZzzpGjevhlic/BdteKTqTEgq
- M84w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763370751; x=1763975551;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TS1l4z4FCSnPq1fx1zTnWoNNXIfyztzlqt9YbRe5R/g=;
- b=bY+P7y5wgOoG0LWcJ1dqpC2O3jiuSn9AY4Vu6fo+Inci78keSZg2dmJnfiV409TkMT
- NLzs7aQ/3QQOZpfV/sQG907RZn6lczRvY7kLYj95I4N7HZp5JGEDHutTovxvYijuaG9d
- 8z/ovhLCW7G0/R+4Rv5Xg2K6QQZVX3Xf9RQ5JPtGBUXRW4XlOBD8VofaRvGFzYVdWbmS
- lh/s73uVCv5JHAlmhc7YJct2SjHy9Dr1VBL6L9exRFOL+XvczSBlceS5K135tFIqxzCQ
- 6xUqNiY/V8ijgHc4MKoWZ9rlNeTHM+FOrN59zjWZ3bjJBNiUhQhnp4Up202kBR5Gh+pT
- wKeg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU9qsCpvBG/Hk87qbCtNR+Gv1PL3ZTC4t9z63+s0sZxSn7/FL5d7RJFhg/n8yPk9QBCiZg6zVy+7DY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxPrfF8Y5/Z7WZVahXyUqyliPTv5KFPA5jwswkkqZ1UXfSh5oeB
- wJyONtctwfeBt8uecaknYZYj66HKY1Wk/fDntfC3Xs+QpEmQfJ+PoY8JwQndVDC3RDkUIE+dEBh
- 3YFA92MrMxndBkypmATPvUSpKrkPjWpWq6g/eFHW0AvSFhs/CQcPIKS8zs+t9vx/eoFvrRkY=
-X-Gm-Gg: ASbGncsYEI2NJUqgjduiKgZa663K9zNIfOihbWPG6jtU53fSwFEvVcTC3c/45dAohSA
- /ERSrCb91jxdIOzco6iY0KwWYiftwk1cRXQBYQ42tcA4AbsJZEr1xCA9UqUtdE3vsF8lj2FV8Kr
- LUuhMuFKkeu57UuagvWnrPBh10WO0uMTCA3b4HBWBWwrEXXlcVoTc98n9XRMCHX5g8Pd6W87q8T
- ULyIEnOpudD6CY+kPegIhljz7dx3UQNnVNw5TyqSbqBG0jNY8tI5Rgwp09M0xtMOM3C8yRb0/gN
- oOec32BTVNzGkMtveb/LcIxFNqKp7RVaTE6nX3JLpKE4nCgOaq5ws7Sc1tYnzQiAV+sYIgliDUm
- yy339upRuRkzuB48szEpOWn9Ay4fn2l0=
-X-Received: by 2002:a05:6a00:cc9:b0:7aa:d7dd:b7dc with SMTP id
- d2e1a72fcca58-7ba3ca62f1cmr15229559b3a.31.1763370751022; 
- Mon, 17 Nov 2025 01:12:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHPhAbe67a4qq0g0SmTJWSl/SMH4NtB4XKNSGQjREqxyGkcUL/E/ZWvL7YwRbphuALEA6/cXw==
-X-Received: by 2002:a05:6a00:cc9:b0:7aa:d7dd:b7dc with SMTP id
- d2e1a72fcca58-7ba3ca62f1cmr15229504b3a.31.1763370750432; 
- Mon, 17 Nov 2025 01:12:30 -0800 (PST)
-Received: from [10.204.86.112] ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7b92782d39bsm12517242b3a.63.2025.11.17.01.12.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 17 Nov 2025 01:12:29 -0800 (PST)
-Message-ID: <2404a7a5-f4ac-4e62-b4b7-df0494d71150@oss.qualcomm.com>
-Date: Mon, 17 Nov 2025 14:42:23 +0530
-MIME-Version: 1.0
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012050.outbound.protection.outlook.com [40.107.209.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A12BD10E311;
+ Mon, 17 Nov 2025 09:12:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nu0qYbdyBPIEHL56We8UQi44fE0beZYguGO9DAyGRlhndR5nYJOdlML58rSaAQZQ4N3anem9/Qs2IUztIoQM2pmByVKe4nEhi8Xhj6VQief89jgBbO8qTWFuTem99O0Pp4DKSOFS8nf7FbthgcMWC3d6oQUwQDu8RhZ41lfggb0uOwCBQVHTEMjjU6pckCz9H/8CCIP3PsAqVFgWr1Wj4ErmmurH+mRs8qy8AuT2D/48GdmRuBwy+WY7HWFMimh3T8OCTCVIGtMbDP3dj43r5YIfFH5MimfTbc/NxvKAYyCxmr6CKpYjysZ4vk2y1t+jmsqMkKyZNWVOktMVQMiArA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IkdqdmrBVKQy2wWmCwwFSi0p/ZqKJ+s7EOGjjFf8YaA=;
+ b=fspMzmy8tQOfT8X1FF/j+bZNs9sl1DQN+/RL2ujbmc6fYIARk26xXDWGjE/hqqMTrEJOzjvBguNHnaU/rPDHuonzPaQH1p0ldHnm2qSAy7ZZu9u8T/jeA2bYz+0PCuIdy6ay6QrvWOiAIUQb9L6n9OOKS/6NK1HtKUbNgme+zoaiYSjJTxK0U06+jkF4gHE3zERoiSl1BrXblIxpbvrKsRKdtkf+pHAEmG9dgW4/1CjRmSRuJyiWSuHIKh87g8+lEChlWMvJFKy/5arnFXGOV2l+kT4DtZBXsdfeQH+xAQc2NJUDjwTlWZoam1vjU4uQiUBpizF48AjxyQD3cnujbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IkdqdmrBVKQy2wWmCwwFSi0p/ZqKJ+s7EOGjjFf8YaA=;
+ b=FzmphKDd5mmCpbgRckUNmshhaajznKeSWpKdC2b0XODt1tkKxk/vrQICJJhpqVVWzmukwe8lTfGCpEYZJV3HvrNiLiGJ9O1ZbO+KAnb48ckXA3P4+AUe1PxVksdV+RSSeG2Si5J8P+LgWttutQ1MU8vbC45jDNMKq0BJxd/Y1Kg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY8PR12MB8265.namprd12.prod.outlook.com (2603:10b6:930:72::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.22; Mon, 17 Nov
+ 2025 09:12:50 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9320.021; Mon, 17 Nov 2025
+ 09:12:50 +0000
+Message-ID: <2ee1929f-4518-434a-b388-7eadee10d40f@amd.com>
+Date: Mon, 17 Nov 2025 10:12:44 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] misc: fastrpc: Update dma_bits for CDSP support on
- Kaanapali SoC
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
- arnd@arndb.de, gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
- ekansh.gupta@oss.qualcomm.com, linux-kernel@vger.kernel.org,
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, jingyi.wang@oss.qualcomm.com,
- aiqun.yu@oss.qualcomm.com, ktadakam@qti.qualcomm.com
-References: <20251114084142.3386682-1-kumari.pallavi@oss.qualcomm.com>
- <20251114084142.3386682-5-kumari.pallavi@oss.qualcomm.com>
- <3gld6djjzfwu6rj47tz6gdwdpmh3hjexce5y6crqjus7ourgxf@puxrcpvijitl>
+Subject: Re: [PATCH v2 13/20] drm/amdgpu: use multiple entities in
+ amdgpu_move_blit
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20251113160632.5889-1-pierre-eric.pelloux-prayer@amd.com>
+ <20251113160632.5889-14-pierre-eric.pelloux-prayer@amd.com>
 Content-Language: en-US
-From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-In-Reply-To: <3gld6djjzfwu6rj47tz6gdwdpmh3hjexce5y6crqjus7ourgxf@puxrcpvijitl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251113160632.5889-14-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: MCqS3MHnUySZrLZSS8MCGQCEB-Q0HtAR
-X-Authority-Analysis: v=2.4 cv=N6ok1m9B c=1 sm=1 tr=0 ts=691ae700 cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=IvGWEb95ivA0J32o5h0A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE3MDA3NyBTYWx0ZWRfX08Q3JntANXgX
- V7Ns2e6XG4Rh6KD84xb3QZQA8G+vNRwlaiMSsTCJA47XtpozO8nFPKmkzXEY9IEs6ObNZ9Hw4Wz
- RhVY8x9TQnUbyy4y/vBeH5/GvLvgRedDUg/PZvCV0GSkXvUpp4CzbYF6KG9QfmyT3dOGIZ7M46c
- wIx2oOvVLj+SvHya/gyBmI2lYMB4Q0OkoAqxBURdPl3pr28AgE7d9quH9Iqj4kqAYf1xAazSGPR
- GmAWqdvl14PFhYZJPJFl9Bp0sD+9TEzYGvPzNhCwWljCWvQ5U5rCE+LpGYRMzDTU0iS4q1iKfbQ
- /XL6A/K0Xml8uxxUscRVuWq2PaEyL9BKjh9XzrPZMo0nIQ3xQdI+PIk3B6V74vo7AJ0nEiRzft0
- l4WUq3KNP4ivM1wS32jpdfydFQYtng==
-X-Proofpoint-GUID: MCqS3MHnUySZrLZSS8MCGQCEB-Q0HtAR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-17_02,2025-11-13_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015
- priorityscore=1501 adultscore=0 phishscore=0 spamscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511170077
+X-ClientProxiedBy: BN9P221CA0004.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:408:10a::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB8265:EE_
+X-MS-Office365-Filtering-Correlation-Id: 116c91cd-a9f3-4d66-b3a0-08de25b97b22
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Rkk4OTR0MXBkWVZZdUJVOGJXY3BuVG9WWFZmY2pxU1QvWXNpMnB6NnlIZ01i?=
+ =?utf-8?B?dG9CaENZSzJpRVdNUjJ2VDZJLzRoNUtGMTdHS1FlN1MvaFprSjZicyt2elhH?=
+ =?utf-8?B?NTkvbWFQT21YR2ZnMHZaSENrbGV4d2c4clEyZ09JRGRaYVNKRzM3VWRnalFZ?=
+ =?utf-8?B?eWlZZWM1ZmdMYUphWU9JejJ5TCt1OW1NSzhvU0tYcjlWdnIyRjNVVmdiZTl1?=
+ =?utf-8?B?aGl3L0NOa3czbWtpSXlZdUJSMnNPSmUrY0tEbXE2UnoyU1praS9ScDdIb0lx?=
+ =?utf-8?B?ekVqaUJkWm43QnloMlJFRUdvZGVoRGowbVVBdlhGU0p4Z3RNamxKRXdnSTVy?=
+ =?utf-8?B?S0x6eEpuTjNtem1hZk9OTEpqWmdtRFFDRFNwOEZuTTFNQkNwa0F3QTRqYWVR?=
+ =?utf-8?B?QmptYzI1d3VIWXFRWmtQTlJIV0FPSndSMzE1QkIzQk01SGVxZGNXRUlleGVT?=
+ =?utf-8?B?cDAzY1BreDVNZU0zeGNDejJ5QzNaRStKakpjN0NRWFo5YzVmYllZbkRXMVY5?=
+ =?utf-8?B?cXorL0x5QThyU1lvbXdwcXB1L3lOQVh5aHphZSs1cVBNTDhqSmg0bytVZnVo?=
+ =?utf-8?B?TjdyVXg4RDZWUU5KbXV1YXhhdkF5R3FRMUtOT0JOQ2NhS1VWQzNPWHpzaWNp?=
+ =?utf-8?B?MFl6bzVhU09BS29pcUJXTXhDd01ub3paRkg1R0NNY0p6MkFaenQ2L1c4RXQ3?=
+ =?utf-8?B?SFJhYUs2Tm5vK1RabEFKWk96UWZBRDRqQzN2dXV5aFZmQTF0bmpoNUZ3cWVB?=
+ =?utf-8?B?RzNRUTV1eENqZGpsbndCcGJhZDdRaVd4aXE0NVhwNHRqd3pxMWNGUFhsUE1I?=
+ =?utf-8?B?NVZRa1VoNWxKbmRpVGwyVGkrdlIrcldBcFN5eGMzbitETjg0TUJKSmVDWlo4?=
+ =?utf-8?B?VDhpWUZsWnR5T3daSWJzUTd6NU4wMmVPNDhCeE1jNnhhSkNGVHhLc3dkREZE?=
+ =?utf-8?B?THVINlZxRGE4ZlRiQlVtcTJLTGNzYnh0Vnd0R3VWYmR3R1ZSN3NTUGltclZv?=
+ =?utf-8?B?YXZyeXN4UVBwZWVCeWxvRXlCeTc1UGxITUZ1T3RFSFRFL2RPeTRjQ0NOUGtN?=
+ =?utf-8?B?bVpLUkF2MFhxaDRXY3pwdzMxYURSWnphVmwrNDFRMGh5dlRTMlkyTUVYUExl?=
+ =?utf-8?B?YjVoU0ZCWG1raENBN0xwdXd3YklrOHRqSTF1UmpuakZmZnYxb1hFQ0VaMGJ4?=
+ =?utf-8?B?TThCeVRoSFB4YXpqVnBLWFV6aWVoYnVSUStPZHdyVFR3ZnJVV3FsZi8xb0pF?=
+ =?utf-8?B?R0hHS2pxWHRQYUt4aWxWbUxoOHZGS1p1cEFId0JyemhkemRYUkxrdS8wL0I2?=
+ =?utf-8?B?QlFaOGgzQWlBVGZxaDN3dk5PYVBHZDNCM3Q2TnlxRVpHQ3lVTDNMSFdWSVRT?=
+ =?utf-8?B?cko1MEZ1UG5pVklZc0lIZjEyRU1HTUF6R21oK3NleW5wMXdKNDBjSno1TlRF?=
+ =?utf-8?B?SVkxY1lGZFpZN2JldU12REM1OVhPdXM5ZDhQWS9aZ0RwYjlxUkdWRkp4Yy91?=
+ =?utf-8?B?RVRzYStqVmFaNFFTcnJWeTVoR3RkdmxOcFJFM1h6ckpMWDc5ZDdjT0lDaC9x?=
+ =?utf-8?B?RHZmLzQ5N2NVSGJXMCtHRjhBMUZ4SzFmMC9FditEcEl3cUxtT2psL1ZqTWx5?=
+ =?utf-8?B?S0xPcEUwaXhvWDhzNEpTNmV4ZE1VU3hoeU5IS2wxTS94aWI1RGRhSWpoMVo0?=
+ =?utf-8?B?WUczNHZ1OEJjTEhWYUpWemhXeHNrYmNPeC91VGF5UmxYQkVOdEQ0ZWwxbVd1?=
+ =?utf-8?B?a2JuU3R6SzBlTVdnbzI4ekwxNkxQNGZtcVM3elNCNm1yRmhKcDNEa2p1Z2Jk?=
+ =?utf-8?B?eGJjYzI5ckdUTDZtZVk4bGtVYzB5cHJlSVpPc2VlSmtoN3VyV24vK3kzdmQw?=
+ =?utf-8?B?VlMvRStIc2RkT21acXZ4R0c5anY5aWIzV0tZVXp3WmJMMUdocStCM3NmSXB0?=
+ =?utf-8?Q?RNpk2ybfsBXeRki0DB4hCWLeaZasLmYN?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NExLc1g5Y3RMTDVtQTBwbTc5c3ZjMk5GTENzS1hCejRxL1BjUkliclEvUk9i?=
+ =?utf-8?B?VXBIaURUbUJIclFsZXFlN1FGUnRLeFJiN1ZoT2tjR3NJcng1SWlnZm15UnBQ?=
+ =?utf-8?B?a1JrYzJOc1ZFUWluN3VZeDdkMUhYclFHSTBFOXpYazNLbER0NGNZU1pDam9u?=
+ =?utf-8?B?SWVGZWhFR1BESzkvcVdZT0xoTUgxQXVNdXVnQjJONWZUc0VwRDFQWDZ5OWVO?=
+ =?utf-8?B?SXFhT2plYzI4aDhBdVRiTXpEaXI4bTlHM0V1L2dsYnVYUXY5ZFFzQndJSlI5?=
+ =?utf-8?B?Mk9FYmtZVjJtN05oK1dqcEQrdk5VQUVGUGR6QWFYaG4rVVo4bGxuekdZU3Vh?=
+ =?utf-8?B?ZnRPUjNuUFNyVDZROXd1NStCRXE0ejZHNEphemtyNlF0WksrR2JLQk9MbmRV?=
+ =?utf-8?B?Vm9OZi9ieW9lTURuMjFaQzFaNDhhWVhDd2wzUTByOE51NjJoenU5MlBhdG9w?=
+ =?utf-8?B?VnNlK1JGNE02OGtsUHdkUDUwbE5LSFUxQ2dlNHBwQ3dZR1E1SHhlb2F3R2ZK?=
+ =?utf-8?B?QUc3YVdxK0FCZEtXdTk1VlB2NS94dGx5UXo1T3Vmb2s3ZUMrTUxYZ1M3UkZh?=
+ =?utf-8?B?NnFPb24vQ2RmT0dTWXBmckhrV0hhTVFPNWN2am8zeFE3WmM4c08zN2pSYktV?=
+ =?utf-8?B?T3AycWxmM1pqdXlHMlBwS21UVlJQNWpiVUZLZFhBYUc1ZWtuK1p4ZE1sWmQx?=
+ =?utf-8?B?R2I3U3MwNXBBMEEwam9UNEFYSi9mRk8wRndITmU1YkxRSEltRVQzRkc4QzlU?=
+ =?utf-8?B?a1hza1hKdisvWFd4eGh2b3BLZjd0d0tiK1lpWTZUbVcrQW5tbHVWNWdKOHZs?=
+ =?utf-8?B?ZFA0WWdrSXliOVh6cC9ySTBlQlNoVlRTQktrNXprUFlNTTNFb2lHRmJnRnZQ?=
+ =?utf-8?B?OG4vVkxXdXBBdVUvbDk4amlULzZQUGpsLzZmY1VITlRQVzVQMXpsUng0T3NR?=
+ =?utf-8?B?QVRnaXcwUldWU2ZIUUd2dmNYNHRVVk1YY1VpMVZwbUhlRGNZWVlLbyt3MGU1?=
+ =?utf-8?B?bDhPei8vME5sN1d2bDNKbER0YXYrV1RaMmFjK3NRZFFQZEpZSjdpRllEYlN3?=
+ =?utf-8?B?M3UxNWp3MTJEaVpoNTNwZXN4RjVvZFMrQm1KY21FRUJqZmxtNlNmM1krS2hK?=
+ =?utf-8?B?QzRxd0xiVzBBcXhMemJJZjRiN0F3Mmo5YThIbU1PaEU1M0VzcVRzd3RNUzEv?=
+ =?utf-8?B?OGt1d0xLVktwaXlzR3l2NElUU0dvM0VJTENSeWdlLzB5aDZ1djJWNWtTVEUx?=
+ =?utf-8?B?ak5OQUZYNGw1cW5QRGRGQ25oeXN1d3Qza2pRUkRLRkViNHRaWnZ5MEpkVDNB?=
+ =?utf-8?B?TE94bjVGN3Jnay9qeXJTdXpQMzJKbTU5WGdjbWVLak9pWkE0V1JZWVR3cFpB?=
+ =?utf-8?B?K0FRVGdnM21DbzFwa0syUmo3RXNDVnpiWnB2YURmV1NnSVJQN1pmT1JzbmY0?=
+ =?utf-8?B?THFLOFdpTzM3M3ZyR3Fid25NSzZyVjhGOTV6Zms1R3FHazhyT2xGT01zSVNu?=
+ =?utf-8?B?Wk5mSlJNOFJKY09mVFNIWDJZR0E0MThqNXpQS0lUeFNUdXNqa0x6Q1o2cWN3?=
+ =?utf-8?B?MUhXajY5YjhoRk15R0ZscGdwOGFZUi96aVg0cE95bklvOVJoRzB0b1FYQjNn?=
+ =?utf-8?B?a1pCZS9lU2JTbTdnbmxVdDVESkJjb1FEeUdsYTRTclp6SU9DcGRqclFuS0t6?=
+ =?utf-8?B?VlliaE10bktnQmRNelI0MkxWM2cwSXUyOWJIdFd1R240NHJwYTM2ZGxQNjUr?=
+ =?utf-8?B?b0t3MnZheU8yNVRuTExDanY5RmQ3aVYrb3VsMmJhZ29GYzBGUFZpQlZOQmJO?=
+ =?utf-8?B?QVgyK2EwRFMxZzRsSDFKZjFpVklIUld5Vm5oa25nMEJvaTl5R3RVdzhKekM5?=
+ =?utf-8?B?a0RTdTdzVkFYeXduZ3dwWWFKQ0tOMXhZR1hnZWZtZHBRQ2NpWGhEY3VRVVVk?=
+ =?utf-8?B?UWVKN3RSS21kMExhclJ2cGpEcDhTRzdOZkE2ZmdINW9CK3lmYUVwTXNpa1Bm?=
+ =?utf-8?B?RmJSNFQ1cDAyT0d6bFZWY0I1Q3hIbEFaWVR3R3JIK1pOT1R1Wm4ya3JJS0Jp?=
+ =?utf-8?B?TGt1N0VSQ1dJUzdGdWh6QnlPaEVRK0tvbVUrblNVdDlOa0RzOWFzZXJOQlEy?=
+ =?utf-8?Q?1X6lX9pl5aa5rXhADIw4UmUP1?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 116c91cd-a9f3-4d66-b3a0-08de25b97b22
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2025 09:12:50.0448 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TpACid12UZ/tOz4tuFYgDWheW9CBAGva3B7dJ4IQfoHXMJK35im71sDa4lnxmt2w
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8265
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,127 +166,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 11/14/2025 9:30 PM, Bjorn Andersson wrote:
-> On Fri, Nov 14, 2025 at 02:11:42PM +0530, Kumari Pallavi wrote:
->> DSP currently supports 32-bit IOVA (32-bit PA + 4-bit SID) for
->> both Q6 and user DMA (uDMA) access. This is being upgraded to
->> 34-bit PA + 4-bit SID due to a hardware revision in CDSP for
->> Kaanapali SoC, which expands the DMA addressable range.
->> Update DMA bits configuration in the driver to support CDSP on
->> Kaanapali SoC. Set the default `dma_bits` to 32-bit and update
->> it to 34-bit based on CDSP and OF matching on the fastrpc node.
->>
->> Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
->> ---
->>   drivers/misc/fastrpc.c | 15 +++++++++++++--
->>   1 file changed, 13 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->> index bcf3c7f8d3e9..2eb8d37cd9b4 100644
->> --- a/drivers/misc/fastrpc.c
->> +++ b/drivers/misc/fastrpc.c
->> @@ -267,6 +267,8 @@ struct fastrpc_session_ctx {
->>   
->>   struct fastrpc_soc_data {
->>   	u32 sid_pos;
->> +	u32 cdsp_dma_bits;
->> +	u32 dsp_default_dma_bits;
->>   };
->>   
->>   struct fastrpc_channel_ctx {
->> @@ -2186,6 +2188,7 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
->>   	int i, sessions = 0;
->>   	unsigned long flags;
->>   	int rc;
->> +	u32 dma_bits;
->>   
->>   	cctx = dev_get_drvdata(dev->parent);
->>   	if (!cctx)
->> @@ -2199,12 +2202,16 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
->>   		spin_unlock_irqrestore(&cctx->lock, flags);
->>   		return -ENOSPC;
->>   	}
->> +	dma_bits = cctx->soc_data->dsp_default_dma_bits;
->>   	sess = &cctx->session[cctx->sesscount++];
->>   	sess->used = false;
->>   	sess->valid = true;
->>   	sess->dev = dev;
->>   	dev_set_drvdata(dev, sess);
->>   
->> +	if (cctx->domain_id == CDSP_DOMAIN_ID)
->> +		dma_bits = cctx->soc_data->cdsp_dma_bits;
->> +
->>   	if (of_property_read_u32(dev->of_node, "reg", &sess->sid))
->>   		dev_info(dev, "FastRPC Session ID not specified in DT\n");
->>   
->> @@ -2219,9 +2226,9 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
->>   		}
->>   	}
->>   	spin_unlock_irqrestore(&cctx->lock, flags);
->> -	rc = dma_set_mask(dev, DMA_BIT_MASK(32));
->> +	rc = dma_set_mask(dev, DMA_BIT_MASK(dma_bits));
->>   	if (rc) {
->> -		dev_err(dev, "32-bit DMA enable failed\n");
->> +		dev_err(dev, "%u-bit DMA enable failed\n", dma_bits);
->>   		return rc;
->>   	}
->>   
->> @@ -2308,10 +2315,14 @@ static int fastrpc_get_domain_id(const char *domain)
->>   
->>   static const struct fastrpc_soc_data kaanapali_soc_data = {
->>   	.sid_pos = 56,
->> +	.cdsp_dma_bits = 34,
->> +	.dsp_default_dma_bits = 32,
->>   };
->>   
->>   static const struct fastrpc_soc_data default_soc_data = {
->>   	.sid_pos = 32,
->> +	.cdsp_dma_bits = 32,
->> +	.dsp_default_dma_bits = 32,
+On 11/13/25 17:05, Pierre-Eric Pelloux-Prayer wrote:
+> Thanks to "drm/ttm: rework pipelined eviction fence handling", ttm
+> can deal correctly with moves and evictions being executed from
+> different contexts.
 > 
-> So, "dsp_default_dma_bits" specified "what is the dma_mask for the
-> non-CDSP fastrpc instances"? I don't find "dsp_default" to naturally
-> mean "not the cdsp".
+> Create several entities and use them in a round-robin fashion.
 > 
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 13 ++++++++++---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h |  1 +
+>  2 files changed, 11 insertions(+), 3 deletions(-)
 > 
-> Wouldn't it be better to introduce two different compatibles, one being
-> the "qcom,kaanapali-fastrpc" and one being the
-> "qcom,kaanapali-cdsp-fastrpc" and then use that to select things here?
-> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> index 486c701d0d5b..6c333dba7a35 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -401,6 +401,7 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+>  {
+>  	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->bdev);
+>  	struct amdgpu_bo *abo = ttm_to_amdgpu_bo(bo);
+> +	struct amdgpu_ttm_buffer_entity *entity;
+>  	struct amdgpu_copy_mem src, dst;
+>  	struct dma_fence *fence = NULL;
+>  	int r;
+> @@ -412,8 +413,12 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+>  	src.offset = 0;
+>  	dst.offset = 0;
+>  
+> +	int e = atomic_inc_return(&adev->mman.next_move_entity) %
+> +				  adev->mman.num_move_entities;
+> +	entity = &adev->mman.move_entities[e];
 
-Thank you for the suggestion. In this case, sid_pos is common across all
-DSP domains on kaanapali Soc. Splitting into two compatibles would lead 
-to duplication of these shared property in the DT schema and driver logic.
-The only difference here is the DMA address width for CDSP (34-bit) 
-versus other DSPs (32-bit).
+Similar to clears this could be a sepatate function, but not a must have.
 
-To address the concern about naming, I can provide:
+Reviewed-by: Christian König <christian.koenig@amd.com> either way.
 
-dma_bits_cdsp → clearly indicates this applies to the CDSP domain.
-dma_bits_non_cdsp (or dma_bits_other_dsp) → for ADSP and other DSP domains.
-Please let me know if this aligns with your suggestion ?
+Regards,
+Christian.
 
-> 
-> PS. You store "dma_bits" just for the sake of turning it into a
-> dma_mask, just store the DMA_BIT_MASK() directly here instead.
-> 
+> +
+>  	r = amdgpu_ttm_copy_mem_to_mem(adev,
+> -				       &adev->mman.move_entities[0],
+> +				       entity,
+>  				       &src, &dst,
+>  				       new_mem->size,
+>  				       amdgpu_bo_encrypted(abo),
+> @@ -426,7 +431,7 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+>  	    (abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE)) {
+>  		struct dma_fence *wipe_fence = NULL;
+>  
+> -		r = amdgpu_fill_buffer(&adev->mman.move_entities[0],
+> +		r = amdgpu_fill_buffer(entity,
+>  				       abo, 0, NULL, &wipe_fence, fence,
+>  				       AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
+>  		if (r) {
+> @@ -2179,7 +2184,8 @@ u32 amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+>  	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_VRAM);
+>  	uint64_t size;
+>  	int r, i, j;
+> -	u32 num_clear_entities, num_move_entities, windows, w;
+> +	u32 num_clear_entities, num_move_entities;
+> +	u32 windows, w;
+>  
+>  	num_clear_entities = adev->sdma.num_instances;
+>  	num_move_entities = MIN(adev->sdma.num_instances, TTM_NUM_MOVE_FENCES);
+> @@ -2205,6 +2211,7 @@ u32 amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+>  		}
+>  
+>  		adev->mman.num_move_entities = num_move_entities;
+> +		atomic_set(&adev->mman.next_move_entity, 0);
+>  		for (i = 0; i < num_move_entities; i++) {
+>  			r = drm_sched_entity_init(&adev->mman.move_entities[i].base,
+>  						  DRM_SCHED_PRIORITY_NORMAL, &sched,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> index 781b0bdca56c..4844f001f590 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+> @@ -76,6 +76,7 @@ struct amdgpu_mman {
+>  	atomic_t next_clear_entity;
+>  	u32 num_clear_entities;
+>  	struct amdgpu_ttm_buffer_entity move_entities[TTM_NUM_MOVE_FENCES];
+> +	atomic_t next_move_entity;
+>  	u32 num_move_entities;
+>  
+>  	struct amdgpu_vram_mgr vram_mgr;
 
-The current approach of assigning a value to cdsp_dma_mask allows for 
-adaptable logging behavior, making it easier to trace.
-
-
-> Regards,
-> Bjorn
-> 
->>   };
->>   
->>   static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->> -- 
->> 2.34.1
->>
->>
-
-Thanks,
-Pallavi
