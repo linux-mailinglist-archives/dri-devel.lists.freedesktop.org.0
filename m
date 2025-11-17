@@ -2,55 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB61CC6445B
-	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 14:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85595C644FF
+	for <lists+dri-devel@lfdr.de>; Mon, 17 Nov 2025 14:17:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D4D110E371;
-	Mon, 17 Nov 2025 13:07:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74DEF10E09B;
+	Mon, 17 Nov 2025 13:16:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fLlUUhtv";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Yo1HwbgP";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="d1zpsqCL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5414A10E371
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:07:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1763384819;
- bh=e4ZK070NOSBCNWb0kYDdyrXcWtSkZmm8MeHidLG2kcQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fLlUUhtvWoV3WOxV8gNZQdZbVJx6Y4GmPFQ8rMNbi2pFFB95nXGMe+jiVlA/uaEqz
- 8g6okd7exhOwv3D3keAFykaZlRR/tWH0SlnflXbNo+og8Ecy/FF57k6KCQgP6ESu3a
- RkGZp2NtcHSGt3pXEugSEGtFz8Qk8JiadloaN92u1Z9Fnane8VtApACqfsWaZJc6hz
- CkmEnyuZ9EiTe4Eq77yQNNV5tjMiziCHpF/XT2eMlXsyeefxShRcR5KnjGYuLdghRg
- Hrz6a/uWkLWUaI+gllZyhkvrhRiqFlguC0+VulyuwEkf5GHtdzEUdDMECn6lMblZ71
- N+nXwppIhHJtg==
-Received: from xpredator (unknown
- [IPv6:2a02:2f08:eb0f:ad00:e88e:21ff:fe65:be18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: mvlad)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9148617E10F3;
- Mon, 17 Nov 2025 14:06:59 +0100 (CET)
-Date: Mon, 17 Nov 2025 15:06:58 +0200
-From: Marius Vlad <marius.vlad@collabora.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, dmitry.baryshkov@oss.qualcomm.com,
- tzimmermann@suse.de, simona.vetter@ffwll.ch,
- jani.nikula@linux.intel.com, ian.forbes@broadcom.com,
- louis.chauvet@bootlin.com, daniel.stone@collabora.com
-Subject: Re: [PATCH 1/4] drm: Introduce a new connector status
-Message-ID: <aRsd8hL2-zhOFC-U@xpredator>
-References: <20251111162338.15141-1-marius.vlad@collabora.com>
- <20251111162338.15141-2-marius.vlad@collabora.com>
- <aROGg9-ra30e4HRZ@intel.com> <aROKwmZxFt52g4ed@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A254110E0BB
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:16:50 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AHB2K013916356
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:16:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=Vj5ZcMOs3KsLHT8Zdi03abv/
+ VC07dPRnuxMbrQ23NEE=; b=Yo1HwbgPT0K1lIgI7/ws2S/Gme5GT3BE70Jy/BbL
+ L3qHAHm2tdmv6m2qTWF+uJgwegqXkQlrj4nozq9+0uraKnQrXvRjMrjBSq/kqMTz
+ yfwRAb2/qKHAxT/aHn8sKP8Ge19exTAr6Xt9PUvkKqkFtNDgVKcyWCAqjFYDG/Nh
+ bPIg68DqOi9TbF3wHcxTyxfY9ZKj6+NQCdaeuTZt35UDEPcGAKydX0dG+6Ui/8eP
+ I1D9ZF1eZvQVkdZ25JbQ2pqH7L9lVpkGTgTN/yrlFQDopeM6pcmMdSHye7u3yTyy
+ V1WNuC73hFqzLRbY4gm+CjeSRHT5nwX/956V0NVKzaCPHw==
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ag2fx8c0w-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 13:16:49 +0000 (GMT)
+Received: by mail-pg1-f200.google.com with SMTP id
+ 41be03b00d2f7-bc2a04abc5aso3480905a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 05:16:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1763385409; x=1763990209;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Vj5ZcMOs3KsLHT8Zdi03abv/VC07dPRnuxMbrQ23NEE=;
+ b=d1zpsqCLWjzKdUr0DeGPb6oikLxZQuYSSO/Yh35vr+GPphys2wckd7xVS2uze8B8oi
+ +fCieSzDjwNOKToZMXjVVwzw3ZU4Fx4ORPWOO+OUXcGnzllPn8gmxDx5QEluESzzIAaK
+ RD1nB0zQiC0VMb2xOSy20SlI5eWzRxDmyMzPF89wwzkJDAxZRE4qOGPMMrZj+QuJv0wN
+ lKSwFe43gV3ZTZ9YieOJXmykkiqLNmeosEQqJj5PHoLup8H8Nz+TJbf3sDFPUZH+jNtc
+ X5KDn2mSuQF+TnucPOSTsFd1mSLpdrVYNM6cYrQc/w43GlnqIaUC4ZugZvgjaaXU8MBF
+ WImA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763385409; x=1763990209;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Vj5ZcMOs3KsLHT8Zdi03abv/VC07dPRnuxMbrQ23NEE=;
+ b=Cex02uExIwjtnR96A6200Ee9nsui1dS0UrpUHQlR/H2xqrDZyzfY3LE0CcjNRAL6f6
+ sEpOjM5t+ytWnQqRqKw+YvlZZvy0efeDzlmC4MSP5BsYvBnWDeJ3+X1DXLhirmwrYUzy
+ l2Maebk3wEhMg5g7hUZflXeeN0otfHcxMZ4htiQ/lj8xc0k1J65yg/01yr6kIk/3x3Dg
+ dF8+ydcCRY1jW+N8TdwHCNxXWtlMuT83Vwzcb4bG1Ul4db5ogISybFBWsTk58wb0KxzJ
+ S5uTSV6k5cKcqkmgXut8zjWRccu+OQF9NTfctd7QzBqi6UGO2GS6256F2ZfAX1rGZceI
+ f0Iw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUqHCRcg+j6eqP/LFSYFPhvnOpt1lugR+npJZntwdLSGYwPgc3p0TcHQnTyAqrTZZ0tqLCCTzypQTo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwHv5SYQdTTQX4+EJwW3AHpe8/wgN19W/v1qTMPE7YMh0MnCteT
+ lTd1OO7X6yRbpdp8Adfa2w9Ivl/HXoWEWYrOjs6lkVSppSVbV0uiVrj7NlSliTFpnEaVxAsbOzR
+ 0bugGDXqDkJwKrbOQrerJVGosKrltq9soctRM9zyzp2YbTmK7yhWRtCsprHKB5Al7kNm0Sk5Goy
+ RFoja1JP3uwSNFoEzinmAtp2lUrIDD+pDdZEsdUoUwmhchuQ==
+X-Gm-Gg: ASbGncsIg/9h/gu5OPZgZ+0s1OQ8TJpKlp6ombK7peK1Mi1DyCoqz0C2OV69jMKuoPs
+ xKxPxn+X2iEqwqL5FEk7/hfcPTa+a4TzbtmveIlMT/eEGytSzXeZbDb4KEzx3MXOSPiUNtHkDxU
+ BzdgIXtOO7lEYKu3BBaqi+klg7jvN7g0p55qIy/Jbap9+Q3k0NUu52XFTgIlAScJl1uMaBiIJmv
+ o3fsZ/vcAOmQxA=
+X-Received: by 2002:a17:90b:1647:b0:33e:30e8:81cb with SMTP id
+ 98e67ed59e1d1-343f9eb3971mr13201769a91.13.1763385408499; 
+ Mon, 17 Nov 2025 05:16:48 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFihb7teyupjKqIBCMh+TDYSyILYGMrEp4gWjInkFX5Zos5pwMEb0Fz1Uc0Vjzvg2oHO3cVkntD3anF1J/+5y8=
+X-Received: by 2002:a17:90b:1647:b0:33e:30e8:81cb with SMTP id
+ 98e67ed59e1d1-343f9eb3971mr13201713a91.13.1763385407848; Mon, 17 Nov 2025
+ 05:16:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2ATeF0pOl5C8UM9m"
-Content-Disposition: inline
-In-Reply-To: <aROKwmZxFt52g4ed@intel.com>
+References: <20251115-dpu-fix-gc-v1-1-0a4fd718208d@oss.qualcomm.com>
+ <6457c60a-2ede-4df8-ad82-d974690eba89@oss.qualcomm.com>
+ <CAO9ioeUfZQVy7VFUp8FEVHN2_uL0ZB9jbkuexWY4D12YN_O3Jw@mail.gmail.com>
+ <8541a10d-99ca-43d2-bafa-8e33bba01382@oss.qualcomm.com>
+In-Reply-To: <8541a10d-99ca-43d2-bafa-8e33bba01382@oss.qualcomm.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Date: Mon, 17 Nov 2025 15:16:36 +0200
+X-Gm-Features: AWmQ_bldWn3qGJhpGBYv-2oYFmnlXXeCyzixQ_jXnUrblALzLNWv8mieP4Sa1iM
+Message-ID: <CAO9ioeVT_1qGedvdACkE4pqbsP8VReeArbe=-zaH-SHfhi3pkQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dpu: disable gamma correction unit on SC7180
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Federico Amedeo Izzo <federico@izzo.pro>
+Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-ORIG-GUID: H5I6SdkDrCxQDjEKyOhTuhAPg5GDZRbv
+X-Authority-Analysis: v=2.4 cv=EIELElZC c=1 sm=1 tr=0 ts=691b2041 cx=c_pps
+ a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8
+ a=srVbb6NRTgbgkvQ9qfIA:9 a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
+ a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-GUID: H5I6SdkDrCxQDjEKyOhTuhAPg5GDZRbv
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE3MDExMyBTYWx0ZWRfXwiqh443ddSI+
+ CEO38QfDeei4BjIlKYsYKyIxO1YTtCcwyucHpudXrK4rApWvFJXnbOp1z2fva9IW2Q5Xl0bNzlb
+ oME69dnldgeLDUH7bIfw7GDXUzQcOSSqgXfdyFpentraFtV9cLfsPQrorZ9CnGDl9k9CdzlCsJl
+ 4A2xeM1JjUJYLWh4G2Jut1yFb+MUHrq83HKZgwadrauEPugdybiCSWpU4tqeY5+bW3v2F45k/ir
+ CrVhuuKDl7EnIk3vi6vpRigQVyJOuzuex9IHMSVSEwBBvbSztW3q7D+7CQSi649NRGS6MzMUFdd
+ 6QCDklogTmoT5Z8daTu3lxDtlWj/oAPJKBgzjGNhTD0eODBSprNwl+OghQt3p/2MCYu9UUTAyVz
+ ukuvBjlzj8TA2NTx8zKtHh7bcPWehw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-17_03,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 spamscore=0 bulkscore=0 clxscore=1015
+ lowpriorityscore=0 phishscore=0 impostorscore=0 adultscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511170113
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,200 +138,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 17 Nov 2025 at 14:10, Konrad Dybcio
+<konrad.dybcio@oss.qualcomm.com> wrote:
+>
+> On 11/17/25 12:51 PM, Dmitry Baryshkov wrote:
+> > On Mon, 17 Nov 2025 at 13:25, Konrad Dybcio
+> > <konrad.dybcio@oss.qualcomm.com> wrote:
+> >>
+> >> On 11/15/25 4:08 AM, Dmitry Baryshkov wrote:
+> >>> IGT reported test failures with Gamma correction block on SC7180.
+> >>> Disable GC subblock on SC7180 until we trage the issue.
+> >>>
+> >>> Cc: Federico Amedeo Izzo <federico@izzo.pro>
+> >>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> >>> ---
+> >>> Most likely I will squash this into the GC patch
+> >>> ---
+> >>
+> >> Peeking at downstream, 7180 and 845 should have the exact same GC
+> >> (v1.8).. it seems like there's an attempt to program it through
+> >> REGDMA instead of regular reg access. Not sure if it's actually
+> >> necessary or just an optimization
+> >
+> > I think it's mostly an optimization.
+> >
+> >> What tests are exactly failing? I couldn't track it down on FDO GL
+> >
+> > See [1] and other failed SC7180 jobs from the same pipeline. I haven't
+> > triaged it yet, but I assume this might be related to platform
+> > resources (it has only 2 LM blocks and only 1 DSPP).
+> > Another possibility is that maybe we need higher CFG bus bandwidth
+> > when writing LUT registers.
+> >
+> > [1] https://gitlab.freedesktop.org/drm/msm/-/jobs/87878393
+>
+> igt.kms_color@gamma.log fails, we get an ENAVAIL (-119) (which doesn't
+> seem like a good return value for this error but anyway..), dmesg says
+>
+> 05:42:13.199: [   75.472174] [drm:_dpu_rm_check_lm_and_get_connected_blks] [dpu error]failed to get dspp on lm 0
+> 05:42:13.199: [   75.481487] [drm:_dpu_rm_make_reservation] [dpu error]unable to find appropriate mixers
+> 05:42:13.199: [   75.490235] [drm:dpu_rm_reserve] [dpu error]failed to reserve hw resources: -119
+>
+> which comes from:
+>
+> idx = lm_cfg->dspp - DSPP_0;
+> if (idx < 0 || idx >= ARRAY_SIZE(rm->dspp_blks)) {
+>         // misleading error message, it's not LM%d, but DSPP%d
+>         DPU_ERROR("failed to get dspp on lm %d\n", lm_cfg->dspp);
+>         return false;
+> }
+>
+> which comes from:
+>
+> static const struct dpu_lm_cfg sc7180_lm[] = {
+>         {
+>                 .name = "lm_0", .id = LM_0,
+>                 .base = 0x44000, .len = 0x320,
+>                 .features = MIXER_MSM8998_MASK,
+>                 .sblk = &sc7180_lm_sblk,
+>                 .lm_pair = LM_1,
+>                 .pingpong = PINGPONG_0,
+>                 .dspp = DSPP_0,
+>         }, {
+>                 .name = "lm_1", .id = LM_1,
+>                 .base = 0x45000, .len = 0x320,
+>                 .features = MIXER_MSM8998_MASK,
+>                 .sblk = &sc7180_lm_sblk,
+>                 .lm_pair = LM_0,
+>                 .pingpong = PINGPONG_1,
+>                 // no dspp here, errors out
+>         },
+> };
+>
+> would simply binding .dspp = DSPP_0 to the other one just work here?
 
---2ATeF0pOl5C8UM9m
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Only LM_0 can use DSPP_0, that part is not flexible.
 
-On Tue, Nov 11, 2025 at 09:13:06PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Tue, Nov 11, 2025 at 08:54:59PM +0200, Ville Syrj=E4l=E4 wrote:
-> > On Tue, Nov 11, 2025 at 06:23:35PM +0200, Marius Vlad wrote:
-> > > Introduce a new boolean variable used to track connector's
-> > > connect/disconnect status and it is being used on both polling and the
-> > > HPD (Hot Plug Detect) paths.
-> > >=20
-> > > A subsequent change would make use of this connector status to propag=
-ate
-> > > per-connector udev hotplug events.
-> > >=20
-> > > The connector status is set in the drm_connector_funcs.fill_modes/vkms
-> > > ConfigFS connector's status and cleared out when firing out KMS ueven=
-ts.
-> > >=20
-> > > Allows user-space to receive the connector's ID, rather than having a
-> > > generic hot-plug event for all connectors, or in the HPD path, just t=
-he
-> > > first one found with a connection status change.
-> > >=20
-> > > Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_connector.c      |  1 +
-> > >  drivers/gpu/drm/drm_probe_helper.c   | 17 +++++++++++++++++
-> > >  drivers/gpu/drm/drm_sysfs.c          |  1 +
-> > >  drivers/gpu/drm/vkms/vkms_configfs.c |  6 ++++++
-> > >  include/drm/drm_connector.h          |  3 +++
-> > >  5 files changed, 28 insertions(+)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_co=
-nnector.c
-> > > index 272d6254ea47..3c6628ee3096 100644
-> > > --- a/drivers/gpu/drm/drm_connector.c
-> > > +++ b/drivers/gpu/drm/drm_connector.c
-> > > @@ -274,6 +274,7 @@ static int drm_connector_init_only(struct drm_dev=
-ice *dev,
-> > > =20
-> > >  	/* provide ddc symlink in sysfs */
-> > >  	connector->ddc =3D ddc;
-> > > +	connector->status_changed =3D false;
-> > > =20
-> > >  	INIT_LIST_HEAD(&connector->head);
-> > >  	INIT_LIST_HEAD(&connector->global_connector_list_entry);
-> > > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm=
-_probe_helper.c
-> > > index 09b12c30df69..f0474368e98d 100644
-> > > --- a/drivers/gpu/drm/drm_probe_helper.c
-> > > +++ b/drivers/gpu/drm/drm_probe_helper.c
-> > > @@ -629,6 +629,8 @@ int drm_helper_probe_single_connector_modes(struc=
-t drm_connector *connector,
-> > >  			mod_delayed_work(system_wq,
-> > >  					 &dev->mode_config.output_poll_work,
-> > >  					 0);
-> > > +
-> > > +		connector->status_changed =3D true;
-> >=20
-> > .fill_modes() gets exectued from the getconnector() ioctl which userspa=
-ce
-> > issues in response to the uevent. Not the other way around. So looks
-> > like you have the chicken and egg the wrong way around here.
->=20
-> Oh, and we already have a connector->epoch_counter which is supposed
-> track whether anything on the connector has changed. So I'm not sure
-> what extra this new boolean is supposed to achieve on top of that?
-epoch_counter doesn't take all cases into consideration. For the
-instance the connector list loop in output_poll_execute will be a no-op
-if we try to simulate a hot-plug event with drm_sysfs. I suppose we
-could've have used it for (real) HW hot-plug.
+> Also, would that mean we can only have gamma control on a single active
+> LM at a time?
 
-There's a few use-cases:
+We can only control gamma on LM_0 on this platform.
 
-- 2 with real HW hot-plug - one for polling and one for HPD=20
-- 2 for with virtual connectors - one for VKMS and one for drm_sysfs
+BTW, the other log is more interesting:
 
-The bool helps to know -- in case you have multiple connectors -- which
-of them had a hot-plug event.
->=20
-> > >  	}
-> > > =20
-> > >  	/*
-> > > @@ -732,6 +734,17 @@ EXPORT_SYMBOL(drm_helper_probe_single_connector_=
-modes);
-> > >   */
-> > >  void drm_kms_helper_hotplug_event(struct drm_device *dev)
-> > >  {
-> > > +	struct drm_connector *connector;
-> > > +	struct drm_connector_list_iter conn_iter;
-> > > +
-> > > +	mutex_lock(&dev->mode_config.mutex);
-> > > +	drm_connector_list_iter_begin(dev, &conn_iter);
-> > > +	drm_for_each_connector_iter(connector, &conn_iter) {
-> > > +		connector->status_changed =3D false;
-> > > +	}
-> > > +	drm_connector_list_iter_end(&conn_iter);
-> > > +	mutex_unlock(&dev->mode_config.mutex);
-> > > +
-> > >  	drm_sysfs_hotplug_event(dev);
-> > >  	drm_client_dev_hotplug(dev);
-> > >  }
-> > > @@ -748,6 +761,10 @@ void drm_kms_helper_connector_hotplug_event(stru=
-ct drm_connector *connector)
-> > >  {
-> > >  	struct drm_device *dev =3D connector->dev;
-> > > =20
-> > > +	mutex_lock(&dev->mode_config.mutex);
-> > > +	connector->status_changed =3D false;
-> > > +	mutex_unlock(&dev->mode_config.mutex);
-> > > +
-> > >  	drm_sysfs_connector_hotplug_event(connector);
-> > >  	drm_client_dev_hotplug(dev);
-> > >  }
-> > > diff --git a/drivers/gpu/drm/drm_sysfs.c b/drivers/gpu/drm/drm_sysfs.c
-> > > index b01ffa4d6509..bd9161490116 100644
-> > > --- a/drivers/gpu/drm/drm_sysfs.c
-> > > +++ b/drivers/gpu/drm/drm_sysfs.c
-> > > @@ -199,6 +199,7 @@ static ssize_t status_store(struct device *device,
-> > >  		return ret;
-> > > =20
-> > >  	old_force =3D connector->force;
-> > > +	connector->status_changed =3D true;
-> > > =20
-> > >  	if (sysfs_streq(buf, "detect"))
-> > >  		connector->force =3D 0;
-> > > diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/v=
-kms/vkms_configfs.c
-> > > index 506666e21c91..6d6dd1a2c3a6 100644
-> > > --- a/drivers/gpu/drm/vkms/vkms_configfs.c
-> > > +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
-> > > @@ -537,8 +537,14 @@ static ssize_t connector_status_store(struct con=
-fig_item *item,
-> > >  {
-> > >  	struct vkms_configfs_connector *connector;
-> > >  	enum drm_connector_status status;
-> > > +	struct vkms_connector *vkms_connector;
-> > > +	struct vkms_device *vkms_dev;
-> > > =20
-> > >  	connector =3D connector_item_to_vkms_configfs_connector(item);
-> > > +	vkms_connector =3D connector->config->connector;
-> > > +	vkms_dev =3D connector->config->config->dev;
-> > > +	scoped_guard(mutex, &vkms_dev->drm.mode_config.mutex)
-> > > +		vkms_connector->base.status_changed =3D true;
-> > > =20
-> > >  	if (kstrtouint(page, 10, &status))
-> > >  		return -EINVAL;
-> > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > > index 8f34f4b8183d..e4310df3d55c 100644
-> > > --- a/include/drm/drm_connector.h
-> > > +++ b/include/drm/drm_connector.h
-> > > @@ -2146,6 +2146,9 @@ struct drm_connector {
-> > >  	/** @force: a DRM_FORCE_<foo> state for forced mode sets */
-> > >  	enum drm_connector_force force;
-> > > =20
-> > > +	/** @status_changed: if the old status doesn't match current connec=
-tion status */
-> > > +	bool status_changed;
-> > > +
-> > >  	/**
-> > >  	 * @edid_override: Override EDID set via debugfs.
-> > >  	 *
-> > > --=20
-> > > 2.47.2
-> >=20
-> > --=20
-> > Ville Syrj=E4l=E4
-> > Intel
->=20
-> --=20
-> Ville Syrj=E4l=E4
-> Intel
+[3] https://gitlab.freedesktop.org/drm/msm/-/jobs/87895515/viewer
 
---2ATeF0pOl5C8UM9m
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAmkbHeoACgkQ9jQS5glH
-1u9lDBAAz/sRxgSOmKO1SwZwO/smxhuh/1dOgYTbju7Z/SJBP4/zRRkNNOU2LpWW
-KKkXI1IkqE3AEMHdWiuIM7MoveglPi9x6ci/sLa5q0ml3ECRKpQSyuS6HvfjMGTu
-FB9epOfvJJDqWcHE5AHKM3vAnhMI1X205/uYWTdyW5AJBGHOPdS7YKtf0Ib67YuK
-RICukmG61afqFWeEQFdsdhjxel8FIa+diglf9SWkGcl3UILCbR+Ga+Fo/UGIkKX9
-RokFB4kgF98MDoJQgNwMCahjJB7+3pbxw52yia7COM1L3vQBGyjA9G03cge29obZ
-aNECWeHbYegu451rRpG4C2W4wX/yzsQrONCJEh6hqZspeukgTE3DjILrH0Sx117+
-bfz2usBoYinjfj20/8Cq7Z5cfHf9OWxe/qDPX/HZIqfAetm+ZvUFwudYRHMa8itM
-FTFzmI70z4Guulz5o5J1En0XDzlDks+nkAOQr8mHf0fDobIK2MqQ0VtxSyKmrzfM
-/EeqVrJ44dJxhjswITT3S1D/9OMyoTC02uJv6A9VIbSys6KJC1UvkdYQJCHLQW6y
-YR7QAJDOhCvMmp9qquGa8LooxO5pocACr37DCxnMY/9WUWo8Fyws9sGIFs88BvPu
-pe7kdhOOChrtZGCZdUCjXmqbOilJiDdXr5GMgCVv/BiuyTfEG0Y=
-=FWIW
------END PGP SIGNATURE-----
-
---2ATeF0pOl5C8UM9m--
+-- 
+With best wishes
+Dmitry
