@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0963BC6B930
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 21:20:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F91C6B918
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 21:19:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23B5B10E52F;
-	Tue, 18 Nov 2025 20:20:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A778B10E528;
+	Tue, 18 Nov 2025 20:19:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XPU4MNRy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ORSfscwq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-il1-f176.google.com (mail-il1-f176.google.com
  [209.85.166.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 228EA10E526
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 20:19:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24EC910E51C
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 20:19:36 +0000 (UTC)
 Received: by mail-il1-f176.google.com with SMTP id
- e9e14a558f8ab-4331b4d5c6eso23907935ab.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 12:19:35 -0800 (PST)
+ e9e14a558f8ab-431d65ad973so21902195ab.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 12:19:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763497174; x=1764101974; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1763497175; x=1764101975; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Pzl7FKRTTqXJnEcqZYC3kmINB8k+XvKVj8HTxhUS64o=;
- b=XPU4MNRyGBzgu2BL6F6aNmFA1VYZbspphU0iikhUbaCWI8Emym22DtUdls5wbfonp3
- 2ZgxG6rMZzWoX2kJPppmvy6LNsgLhfeJs2jl1Pansg/3NgCAY4SsgSvy2KXIowPpWl/X
- Sw2X7Jail75mjC2noBPa/d30YoDPvgjfGxkRGHrhMhtbu+NE7Mc76UHQ5DW43MxMg2Nr
- KxZD9gTQdktCDOeGTuMswUc6c9aAUBEYQ2UpT8M1banwSTxBEoqQ1G76IyKWxRhEOtM3
- SM3iEep5urWqF038C3mPsDcw1G/QCXc6CFHFjJaX2yFqyW37H6OCgQdTJn/dMN8CGpbs
- EiuA==
+ bh=f6vnJl9LV7HlaaUH7ZnHOrsbcFGdoDkm0Y0taUKZPwI=;
+ b=ORSfscwqJxsMsE+CSXjvkvFo5iLuppi+OZSqoggL261VYBBuMK99TDMpGDGlqJUNGV
+ j5FGFTI2goPsrcF90GqqQGzPLKOlDYtRJFRovavA+tVdln+yRj73HGcLb6cMbOn0G07x
+ Sb9Qvo7CeNLH2RTUp4M32sOAm5oWLe7QRGgUNPWe7NW47ebXGYeB6xPRyO9N1FuPH1p6
+ rJq2rvz/2sFuys0VXWl5wJiOTZGISp/lNUK0RZjXfV9VrMvAtDuCotcx/fMfS5JCK+ft
+ 3voN8ZZVOigCvkK5sLO7/i71nRWsljckowd0Z2spDnWwNyLhmWhbS8Ycu6WZ8A8WEgBw
+ vgCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763497174; x=1764101974;
+ d=1e100.net; s=20230601; t=1763497175; x=1764101975;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=Pzl7FKRTTqXJnEcqZYC3kmINB8k+XvKVj8HTxhUS64o=;
- b=ppv3HA94lsCRbwVxWWZ0+EFyI46PyDSzz15nxCncL85BSBMF6V112pcWZzra20sMYc
- p0ioh/P+NqNsmuZn+qas5hNsYBEEw0zkswa8Ceaj4h6S6X7vQ15niDJJMG9jaRigBya0
- 9uRoctPtof2fsF8rR0KRczfXjCMjHxAAhOEIHZiFhszOgIygDpVKLl+G1eTflVWnqseF
- zmDF9irCSA7tivYrQRB5xgNXRmFSJUkAENI0Sd1yxHCOATN3PolIdkM9gQhlbu0Z9lv4
- BtFoKlHpamZ2ejufjZ/pSYa0jzp3z/ckz1zc8FpWPA7bBN45gh5BCeOXiweXK1mF9qeF
- ElUA==
+ bh=f6vnJl9LV7HlaaUH7ZnHOrsbcFGdoDkm0Y0taUKZPwI=;
+ b=wv/YQkOsU4mfXVIlcRsXmZRe3+TfR5Jl408LzG9aAYtIqiRyK1cUMUtVwS2ESssbzM
+ vJAs6kAI9V0N8X342zMRpqW18RXeFXssY1Qp4sIf1uPRPNCdJkBU2+T4Ud2Bc5tszI5b
+ IKqlSJpaSx/cuQpxgAYB+Z2ZCj8ozFaw4Uch67nYKfLuy8h/17zdgCRfTWabgsqgufi9
+ mmbTB9IPyb5UN7O1A8vJ1FIU6XMaaO/zThdWTTqxE4YxS1xqRmm06zOX7ztD9MbQTO+U
+ cHeZdpVztB/EE93rw1MXvP1HnXGOM6IGCferwE5AtUF7rnBbWpQAmM7JzIhyVwDdc9Xq
+ EYUQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUYHINM/x2g2WPw9HIBBX7cvq7FDZOesUdsz7ty+/ey+jO1dX0dw3Yb/A/GBcjtzmiSEQwAdHUu7Zs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyYvdUBmNOjcs/j0WPscE2MxEFEDT1HdP4eU/gOqfFg9vGHNZKd
- ABxPdLh2aL0T5legy7Tqj/GfPPjwtP4ZYpShd6wpw0hcdximuNrJ2s3G
-X-Gm-Gg: ASbGnctEuESgaBnI+9bdRktCiGWOrb6y30ANBLxPt9IiLafiDqWw99pdgsZ3f2bT00B
- gGFVjhVHlLE1RGTg6QN7tzLgiSDHaESKVWJk5YHtxwNZA1yxw8qQEMa1BEKrkQr6vEkepTl7NMK
- WCkzO3mruAjf3wvGKJLHjrYnpj6FGKUOAsL2Wm8q3OEJiw0AqhgYCg/tOU4YZk4l7Ac4pN2ctm3
- ai7owSLvr2dJrB8PXOL5bFky4jpPUvj8y178HwyW22n0SK6Zr2MmWhpzvySAQwZssbzSsp6x/KM
- SaBF+5NyJ0vMyUSbiWANCaZThBQu1h6/Ln5p0N+LuJZxqtOZDRkSN1uVL+ThGuQxzG3VeLSKGOz
- G8H33rt/5Y6Bl4+48Efc2bEuMgpioq387xX+P6CM8pyt7QXjo5kQIBHS9yei0x87iZNypF7lQEt
- vWzuSN7x33Zox8ogKAHZX29kfn90FaHwOShy01tPEoVzus882l0uy9Zke+oz+yu/+TrDQ=
-X-Google-Smtp-Source: AGHT+IHrOtzMdyakNuObdh3/HwiaoIGSX4ghGN1icypqK5mgUjKfASizUVusxgNRAZI5rl5+uPN7mA==
-X-Received: by 2002:a05:6e02:1527:b0:433:30e0:6f68 with SMTP id
- e9e14a558f8ab-4348c94e1bdmr189470205ab.24.1763497174345; 
- Tue, 18 Nov 2025 12:19:34 -0800 (PST)
+ AJvYcCUKl/iRQ8f99jMofp7f+0VpmRNTQShyctvtFcsntrJmQg+Vl1nssmyL8TvS0sZRsN4zGZ7hfa27eKM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTXzaTAp3Ni726dFungJ0HWbrKz8rJbRj90uuhc20jYn3q4UN9
+ DgBHcX3plL4A/yiLP1ngjb7eIGbOzqjlXzQ906Ze/VFcLhBLbw/iam6R
+X-Gm-Gg: ASbGncvDDL2DqSMxrmatD4rFtwLq1zrFEOJ3XqaNH9xgEXU7RdLOvLjJtsvpdSVH0XR
+ x8X0/UFvu9Ov3p+lz/2HYYXvqKFQIX9esc+w2RGJX/lHhYBoH1ZjWM4eZanZO+4d5904WGTbat1
+ QrJhMtGhlp5dk4h4J5VqI8GU58rV4v5zFT31CZNa7BM7y/to+TSLGQW4dlTuoq2QHxIc7o+U5Vi
+ BbtLeXb0VJdEDMBazcc8p6dJSu22aBkq8YwrA3G525KRVVyGhzy8C/HKoN3EcO+V1oxuTCKDO9C
+ pYeXzkogq02MpSgwI/DvchktD4gtbko+GNg0BFTSpJ0Dv5OZPMSysumwJZ12ANoaCZDZSi6c66d
+ Pl0V51jCs0kk1+WoxBSc0jdqCiFDtSpGCvypwwMCIXAEqJ2eF1i3BMyfBHfnrwEDeCew+bEX6V1
+ Spa0pAdRQT2OiTtWyAm0Sa4VqAeB24uU0N5xjc4adKxAiLJIO1DOSdxEzJ3+ct0KFnqmi4nO3gP
+ OCjNA==
+X-Google-Smtp-Source: AGHT+IFhMgxL8xO7QXjyxKhciV5i56lPkCw/9yrS08t5Daw42RmTXFSJThazbTqGeULpmbYf4wiCjA==
+X-Received: by 2002:a05:6e02:96f:b0:434:a7ce:da4a with SMTP id
+ e9e14a558f8ab-434a7de20damr88076485ab.30.1763497175351; 
+ Tue, 18 Nov 2025 12:19:35 -0800 (PST)
 Received: from godzilla.raven-morpho.ts.net
  (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
  by smtp.googlemail.com with ESMTPSA id
- ca18e2360f4ac-948fd4c273bsm419823939f.18.2025.11.18.12.19.33
+ ca18e2360f4ac-948fd4c273bsm419823939f.18.2025.11.18.12.19.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Nov 2025 12:19:33 -0800 (PST)
+ Tue, 18 Nov 2025 12:19:34 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, jbaron@akamai.com
 Cc: ukaszb@chromium.org, louis.chauvet@bootlin.com,
- Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v6 30/31] dyndbg: add
- DYNAMIC_DEBUG_CLASSMAP_USE_(dd_class_name, offset)
-Date: Tue, 18 Nov 2025 13:18:40 -0700
-Message-ID: <20251118201842.1447666-31-jim.cromie@gmail.com>
+ Jim Cromie <jim.cromie@gmail.com>, linux-doc@vger.kernel.org
+Subject: [PATCH v6 31/31] docs/dyndbg: add classmap info to howto
+Date: Tue, 18 Nov 2025 13:18:41 -0700
+Message-ID: <20251118201842.1447666-32-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251118201842.1447666-1-jim.cromie@gmail.com>
 References: <20251118201842.1447666-1-jim.cromie@gmail.com>
@@ -93,153 +93,199 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Allow a module to use 2 classmaps together that would otherwise have a
-class_id range conflict.
+Describe the 3 API macros providing dynamic_debug's classmaps
 
-Suppose drm-driver does:
+DYNAMIC_DEBUG_CLASSMAP_DEFINE - create & export a classmap
+DYNAMIC_DEBUG_CLASSMAP_USE    - refer to exported map
+DYNAMIC_DEBUG_CLASSMAP_PARAM  - bind control param to the classmap
+DYNAMIC_DEBUG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
 
-  DYNAMIC_DEBUG_CLASSMAP_USE(drm_debug_classes);
-  DYNAMIC_DEBUG_CLASSMAP_USE(drm_accel_xfer_debug);
+NB: The _DEFINE & _USE model makes the user dependent on the definer,
+just like EXPORT_SYMBOL(__drm_debug) already does.
 
-And (for some reason) drm-accel will not define their constants to
-avoid DRM's 0..10 reservations (seems a long stretch).
-
-So I dont think this potential conflict would become an issue until we
-have at least a 3-X-3 of classmap-defns X classmap-users
-
-So drop this if its too speculative, knowing theres at least a
-notional solution should the situation arise.
-
+cc: linux-doc@vger.kernel.org
 Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
 ---
-re-ref of an lvalue is fine.
-CHECK: Macro argument reuse '_var' - possible side-effects?
+v3- rework protection around PARAM
 
--v5+ less hand-wavy
+v0.5 adjustments per Randy Dunlap
+v0.7 checkpatch fixes
+v0.8 more
+v0.9 rewords
+
+fixup-howto
 ---
- include/linux/dynamic_debug.h | 30 +++++++++++++++++++++++-------
- lib/dynamic_debug.c           | 19 ++++++++++++-------
- 2 files changed, 35 insertions(+), 14 deletions(-)
+ .../admin-guide/dynamic-debug-howto.rst       | 129 ++++++++++++++++--
+ 1 file changed, 116 insertions(+), 13 deletions(-)
 
-diff --git a/include/linux/dynamic_debug.h b/include/linux/dynamic_debug.h
-index b22da40e2583..5307be8da5c1 100644
---- a/include/linux/dynamic_debug.h
-+++ b/include/linux/dynamic_debug.h
-@@ -87,7 +87,7 @@ struct _ddebug_class_map {
- struct _ddebug_class_user {
- 	char *mod_name;
- 	struct _ddebug_class_map *map;
--	const int base;		/* user offset to re-number the used map */
-+	const int offset;	/* offset from map->base */
- };
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 1ceadf4f28f9..adac32a5cd23 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -146,7 +146,9 @@ keywords are:::
+   "1-30" is valid range but "1 - 30" is not.
  
- /*
-@@ -235,21 +235,37 @@ struct _ddebug_class_param {
- /**
-  * DYNAMIC_DEBUG_CLASSMAP_USE - refer to a classmap, DEFINEd elsewhere.
-  * @_var: name of the exported classmap var
-- * @_not_yet: _base-like, but applies only to this USEr. (if needed)
-  *
-  * This tells dyndbg that the module has prdbgs with classids defined
-  * in the named classmap.  This qualifies "class NAME" >controls on
-- * the user module, and ignores unknown names.
-+ * the user module, and ignores unknown names. This is a wrapper for
-+ * DYNAMIC_DEBUG_CLASSMAP_USE_() with a base offset of 0.
-  */
--#define DYNAMIC_DEBUG_CLASSMAP_USE(_var)				\
--	DYNAMIC_DEBUG_CLASSMAP_USE_(_var, 0, __UNIQUE_ID(_ddebug_class_user))
--#define DYNAMIC_DEBUG_CLASSMAP_USE_(_var, _base, _uname)		\
-+#define DYNAMIC_DEBUG_CLASSMAP_USE(_var) \
-+	DYNAMIC_DEBUG_CLASSMAP_USE_(_var, 0)
+ 
+-The meanings of each keyword are:
++Keywords:::
 +
-+/**
-+ * DYNAMIC_DEBUG_CLASSMAP_USE_ - refer to a classmap with a manual offset.
-+ * @_var:   name of the exported classmap var to use.
-+ * @_offset:  an integer offset to add to the class IDs of the used map.
-+ *
-+ * This is an extended version of DYNAMIC_DEBUG_CLASSMAP_USE(). It should
-+ * only be used to resolve class ID conflicts when a module uses multiple
-+ * classmaps that have overlapping ID ranges.
-+ *
-+ * The final class IDs for the used map will be calculated as:
-+ * original_map_base + class_index + @_base.
-+ */
-+#define DYNAMIC_DEBUG_CLASSMAP_USE_(_var, _offset)			\
-+	__DYNAMIC_DEBUG_CLASSMAP_USE(_var, _offset, __UNIQUE_ID(_ddebug_class_user))
++The meanings of each keyword are::
+ 
+ func
+     The given string is compared against the function name
+@@ -194,16 +196,6 @@ format
+ 	format "nfsd: SETATTR"  // a neater way to match a format with whitespace
+ 	format 'nfsd: SETATTR'  // yet another way to match a format with whitespace
+ 
+-class
+-    The given class_name is validated against each module, which may
+-    have declared a list of known class_names.  If the class_name is
+-    found for a module, callsite & class matching and adjustment
+-    proceeds.  Examples::
+-
+-	class DRM_UT_KMS	# a DRM.debug category
+-	class JUNK		# silent non-match
+-	// class TLD_*		# NOTICE: no wildcard in class names
+-
+ line
+     The given line number or range of line numbers is compared
+     against the line number of each ``pr_debug()`` callsite.  A single
+@@ -218,6 +210,24 @@ line
+ 	line -1605          // the 1605 lines from line 1 to line 1605
+ 	line 1600-          // all lines from line 1600 to the end of the file
+ 
++class
 +
-+#define __DYNAMIC_DEBUG_CLASSMAP_USE(_var, _offset, _uname)		\
- 	extern struct _ddebug_class_map _var;				\
- 	static struct _ddebug_class_user __aligned(8) __used		\
- 	__section("__dyndbg_class_users") _uname = {			\
- 		.mod_name = KBUILD_MODNAME,				\
- 		.map = &(_var),						\
--		.base = _base						\
-+		.offset = _offset						\
- 	}
- 
- /**
-diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-index 1082e0273f0e..bf1ff29cca95 100644
---- a/lib/dynamic_debug.c
-+++ b/lib/dynamic_debug.c
-@@ -198,7 +198,7 @@ ddebug_find_valid_class(struct _ddebug_info const *di, const char *query_class,
- 		if (idx >= 0) {
- 			vpr_di_info(di, "class-ref: %s -> %s.%s ",
- 				    cli->mod_name, cli->map->mod_name, query_class);
--			*class_id = idx + cli->map->base;
-+			*class_id = idx + cli->map->base - cli->offset;
- 			return cli->map;
- 		}
- 	}
-@@ -206,12 +206,17 @@ ddebug_find_valid_class(struct _ddebug_info const *di, const char *query_class,
- 	return NULL;
- }
- 
--static bool ddebug_class_in_range(const int class_id, const struct _ddebug_class_map *map)
-+static bool ddebug_class_map_in_range(const int class_id, const struct _ddebug_class_map *map)
- {
- 	return (class_id >= map->base &&
- 		class_id < map->base + map->length);
- }
- 
-+static bool ddebug_class_user_in_range(const int class_id, const struct _ddebug_class_user *user)
-+{
-+	return ddebug_class_map_in_range(class_id - user->offset, user->map);
-+}
++    The given class_name is validated against each module, which may
++    have declared a list of class_names it accepts.  If the class_name
++    accepted by a module, callsite & class matching and adjustment
++    proceeds.  Examples::
 +
- static struct _ddebug_class_map *
- ddebug_find_map_by_class_id(struct _ddebug_info *di, int class_id)
- {
-@@ -220,11 +225,11 @@ ddebug_find_map_by_class_id(struct _ddebug_info *di, int class_id)
- 	int i;
++	class DRM_UT_KMS	# a drm.debug category
++	class JUNK		# silent non-match
++	// class TLD_*		# NOTICE: no wildcard in class names
++
++.. note ::
++
++    Unlike other keywords, classes are "name-to-change", not
++    "omitting-constraint-allows-change".  See Dynamic Debug Classmaps
++
++Flags:::
++
+ The flags specification comprises a change operation followed
+ by one or more flag characters.  The change operation is one
+ of the characters::
+@@ -238,11 +248,15 @@ The flags are::
+   s    Include the source file name
+   l    Include line number
  
- 	for_subvec(i, map, di, maps)
--		if (ddebug_class_in_range(class_id, map))
-+		if (ddebug_class_map_in_range(class_id, map))
- 			return map;
++Notes:
++
++To query without changing	``+_`` or ``-_``.
++To clear all flags		``=_`` or ``-fslmpt``.
++
+ For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
+ the ``p`` flag has meaning, other flags are ignored.
  
- 	for_subvec(i, cli, di, users)
--		if (ddebug_class_in_range(class_id, cli->map))
-+		if (ddebug_class_user_in_range(class_id, cli))
- 			return cli->map;
+-Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
+-To clear all flags at once, use ``=_`` or ``-fslmpt``.
++The regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
  
- 	return NULL;
-@@ -1177,12 +1182,12 @@ static const char *ddebug_class_name(struct _ddebug_info *di, struct _ddebug *dp
- 	int i;
  
- 	for_subvec(i, map, di, maps)
--		if (ddebug_class_in_range(dp->class_id, map))
-+		if (ddebug_class_map_in_range(dp->class_id, map))
- 			return map->class_names[dp->class_id - map->base];
- 
- 	for_subvec(i, cli, di, users)
--		if (ddebug_class_in_range(dp->class_id, cli->map))
--			return cli->map->class_names[dp->class_id - cli->map->base];
-+		if (ddebug_class_user_in_range(dp->class_id, cli))
-+			return cli->map->class_names[dp->class_id - cli->map->base - cli->offset];
- 
- 	return NULL;
- }
+ Debug messages during Boot Process
+@@ -394,3 +408,92 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
+ For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
+ its ``prefix_str`` argument, if it is constant string; or ``hexdump``
+ in case ``prefix_str`` is built dynamically.
++
++Dynamic Debug Classmaps
++=======================
++
++The "class" keyword selects prdbgs based on author supplied,
++domain-oriented names.  This complements the nested-scope keywords:
++module, file, function, line.
++
++The main difference from the others: classes must be named to be
++changed.  This protects them from unintended overwrite:
++
++  # IOW this cannot undo any drm.debug settings
++  :#> ddcmd -p
++
++This protection is needed; /sys/module/drm/parameters/debug is ABI.
++drm.debug is authoritative when dyndbg is not used, dyndbg-under-DRM
++is an implementation detail, and must not behave erratically, just
++because another admin fed >control something unrelated.
++
++So each class must be enabled individually (no wildcards):
++
++  :#> ddcmd class DRM_UT_CORE +p
++  :#> ddcmd class DRM_UT_KMS +p
++  # or more selectively
++  :#> ddcmd class DRM_UT_CORE module drm +p
++
++That makes direct >control wordy and annoying, but it is a secondary
++interface; it is not intended to replace the ABI, just slide in
++underneath and reimplement the guaranteed behavior.  So DRM would keep
++using the convenient way, and be able to trust it.
++
++  :#> echo 0x1ff > /sys/module/drm/parameters/debug
++
++That said, since the sysfs/kparam is the ABI, if the author omits the
++CLASSMAP_PARAM, theres no ABI to guard, and he probably wants a less
++pedantic >control interface.  In this case, protection is dropped.
++
++Dynamic Debug Classmap API
++==========================
++
++DYNAMIC_DEBUG_CLASSMAP_DEFINE(clname,type,_base,classnames) - this maps
++classnames (a list of strings) onto class-ids consecutively, starting
++at _base.
++
++DYNAMIC_DEBUG_CLASSMAP_USE(clname) & _USE_(clname,_base) - modules
++call this to refer to the var _DEFINEd elsewhere (and exported).
++
++DYNAMIC_DEBUG_CLASSMAP_PARAM(clname) - creates the sysfs/kparam,
++maps/exposes bits 0..N as class-names.
++
++Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
++dyndbg to update those classes.  "class FOO" queries are validated
++against the classes, this finds the classid to alter; classes are not
++directly selectable by their classid.
++
++NB: It is an inherent API limitation (due to int class_id defn) that
++the following are possible:
++
++  // these errors should be caught in review
++  __pr_debug_cls(0, "fake DRM_UT_CORE msg");  // this works
++  __pr_debug_cls(62, "un-known classid msg"); // this compiles, does nothing
++
++There are 2 types of classmaps:
++
++ DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like drm.debug
++ DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
++
++DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
++refers to a DEFINEd classmap, and associates it to the param's
++data-store.  This state is then applied to DEFINEr and USEr modules
++when they're modprobed.
++
++The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
++amongst the contained classnames; all classes are independent in the
++control parser itself.  There is no implied meaning in names like "V4"
++or "PL_ERROR" vs "PL_WARNING".
++
++Modules or module-groups (drm & drivers) can define multiple
++classmaps, as long as they (all the classmaps) share the limited 0..62
++per-module-group _class_id range, without overlap.
++
++If a module encounters a conflict between 2 classmaps its _USEing or
++_DEFINEing, it can invoke the extended _USE_(name,_base) macro to
++de-conflict the respective ranges.
++
++``#define DEBUG`` will enable all pr_debugs in scope, including any
++class'd ones.  This won't be reflected in the PARAM readback value,
++but the class'd pr_debug callsites can be forced off by toggling the
++classmap-kparam all-on then all-off.
 -- 
 2.51.1
 
