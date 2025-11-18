@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E50BC6A5F5
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 16:44:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A59C6A62E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 16:48:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFEC510E4E5;
-	Tue, 18 Nov 2025 15:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EC5510E02C;
+	Tue, 18 Nov 2025 15:48:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WwXFqbf3";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k5pjPCDm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D90110E02C
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:44:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC13310E02C
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:48:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id DA611434FF;
- Tue, 18 Nov 2025 15:44:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE8B7C116D0;
- Tue, 18 Nov 2025 15:44:10 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 95AAE443C8;
+ Tue, 18 Nov 2025 15:48:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BED5DC4AF0C;
+ Tue, 18 Nov 2025 15:48:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763480651;
- bh=fPMobCdaL0FOBplLcMBrhnDqTORQkIgrmqJMrXuIO2k=;
+ s=k20201202; t=1763480882;
+ bh=ftZPrL7pkqvYgzApMIEmVisxDVAsYx0F5C0VOMSH8Uc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WwXFqbf3G8hm+/Hj8BtHUHFguYbM/9cxbGPe39D/4i2azDjf13+V5Z5EwBHqExQIk
- uCODL8v1HrEfc8QAD921ikF/MqxyBRTQ1w6XbK3ulD7WU0amFzvjpNJ+zW/G7muyJi
- 9u24Kk6dyITjbgaIa/yX6t3GtLkaK4DWoeKvPW6jRj6JPqGw/GxEipSwo19k8Lh8uJ
- 2p6lcuaTSs7ZrYgtu/5acJNbUvjhZiRwEImqQW15Xi1oselp+leq9BheD2qu6s5Ebh
- 7yOEeMLN6pJLk2ffNwo/GBoO/oTem9ZP42HYgqPVw3uSk4Ryu9fWTgCbNO9MibgO1l
- WZ7TgO3lTnaww==
-Date: Tue, 18 Nov 2025 16:44:07 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>, 
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
-Message-ID: <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
-References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
- <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
- <20251118150128.GB23711@pendragon.ideasonboard.com>
+ b=k5pjPCDmvhAAn2oD9/OV0u6iLC0wJSXclH9vdGlaSAM+UfJxYDhpzeScPhOK42i5a
+ novsxhH4WsGPI03LBveRVb7SU1HdfjfUyPCKxB2wPSW2SnVZAadV1fN3ytqp24ezF8
+ gGKajyIDUkQmuc7r+OHkA700Bva3XuF2atYlX8MNRmtRxN8sU7/WKvQHUx6j3eCrIs
+ D9SjRUcUqkSOBJisCQ6Hz+QHTrZ1Mf1srHA9CTSq2c8ybWCR0jgKKvQwGtwXCINSU4
+ AyMM8+k847N3VhhKl9DRi1Bpv9L87t3x4tqDp5EMhbHmXXrGOkZA5HVXb+4tYKh55J
+ ziWLY/7RtV2aA==
+Date: Tue, 18 Nov 2025 09:52:49 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+Cc: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com, 
+ arnd@arndb.de, gregkh@linuxfoundation.org, quic_bkumar@quicinc.com, 
+ ekansh.gupta@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+ quic_chennak@quicinc.com, 
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ jingyi.wang@oss.qualcomm.com, 
+ aiqun.yu@oss.qualcomm.com, ktadakam@qti.qualcomm.com
+Subject: Re: [PATCH v3 3/4] misc: fastrpc: Add support for new DSP IOVA
+ formatting
+Message-ID: <yucfjksc5w2eac6fmsamknjhbwebxg7xsz6633vs2rw3qt4kfa@w2wsbfvszhb7>
+References: <20251114084142.3386682-1-kumari.pallavi@oss.qualcomm.com>
+ <20251114084142.3386682-4-kumari.pallavi@oss.qualcomm.com>
+ <di5fqyh4uygb72xov6zqvg2i2ujlllrnnzlsphlzvghgttdqpe@u6uwwa4rxiow>
+ <8c59e08a-99cb-473b-999c-e7d08bc2124b@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="egvq5gtiq3uff7un"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251118150128.GB23711@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8c59e08a-99cb-473b-999c-e7d08bc2124b@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,102 +67,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Nov 17, 2025 at 12:32:59PM +0530, Kumari Pallavi wrote:
+> 
+> 
+> On 11/14/2025 9:21 PM, Bjorn Andersson wrote:
+> > On Fri, Nov 14, 2025 at 02:11:41PM +0530, Kumari Pallavi wrote:
+> > > Implement the new IOVA formatting required by the DSP architecture change
+> > > on Kaanapali SoC. Place the SID for DSP DMA transactions at bit 56 in the
+> > > physical address. This placement is necessary for the DSPs to correctly
+> > > identify streams and operate as intended.
+> > > To address this, set SID position to bit 56 via OF matching on the fastrpc
+> > > node; otherwise, default to legacy 32-bit placement.
+> > > This change ensures consistent SID placement across DSPs.
+> > > 
+> > 
+> > In patch 2 I said I think it would be a good idea to separate the two
+> > perspectives (Linux/SMMU vs remote addresses).
+> > 
+> > Looking ta this patch I'm completely convinced that it's the right thing
+> > to do!
+> > 
+> > > Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+> > > ---
+> > >   drivers/misc/fastrpc.c | 46 +++++++++++++++++++++++++++++++++++-------
+> > >   1 file changed, 39 insertions(+), 7 deletions(-)
+> > > 
+> > > diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> > > index d6a7960fe716..bcf3c7f8d3e9 100644
+> > > --- a/drivers/misc/fastrpc.c
+> > > +++ b/drivers/misc/fastrpc.c
+> > > @@ -33,7 +33,6 @@
+> > >   #define FASTRPC_ALIGN		128
+> > >   #define FASTRPC_MAX_FDLIST	16
+> > >   #define FASTRPC_MAX_CRCLIST	64
+> > > -#define FASTRPC_PHYS(p)	((p) & 0xffffffff)
+> > >   #define FASTRPC_CTX_MAX (256)
+> > >   #define FASTRPC_INIT_HANDLE	1
+> > >   #define FASTRPC_DSP_UTILITIES_HANDLE	2
+> > > @@ -105,6 +104,15 @@
+> > >   #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
+> > > +/* Extract smmu pa from consolidated iova */
+> > > +#define IPA_TO_DMA_ADDR(iova, sid_pos) (iova & ((1ULL << sid_pos) - 1ULL))
+> > > +/*
+> > > + * Prepare the consolidated iova to send to dsp by prepending the sid
+> > > + * to smmu pa at the appropriate position
+> > > + */
+> > > +#define IOVA_FROM_SID_PA(sid, phys, sid_pos) \
+> > > +       (phys += sid << sid_pos)
+> > 
+> > This is a horrible macro. It looks just like a function taking values,
+> > it's named to sound like it takes a sid and pa and return an iova, but
+> > it has side effects.
+> > 
+> > And what's up with the ordering? Take argument 1 and 3, and put the
+> > result in argument 2?!
+> > 
+> 
+> Thank you for the feedback regarding the macro implementation. I understand
+> your concern about readability and hidden side effects.
+> To address this, I’ve replaced the macro with an inline function
+> 
+> 
+> static inline u64 fastrpc_compute_sid_offset(u64 sid, u32 sid_pos)
+> {
+>     return sid << sid_pos;
+> }
+> 
+> 
+> buf->dma_addr += fastrpc_compute_sid_offset(sid, sid_pos);
+> 
+> Could you confirm if this is in line with what you suggested?
+> 
 
---egvq5gtiq3uff7un
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
-MIME-Version: 1.0
+That is possible to read, so yes that would be much better. 
 
-On Tue, Nov 18, 2025 at 05:01:28PM +0200, Laurent Pinchart wrote:
-> Hi Linus,
->=20
-> Thank you for the patch.
->=20
-> On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
-> > This adds (yet another) variant of the
-> > drm_atomic_helper_commit_tail_crtc_early_late() helper function
-> > to deal with regressions caused by reordering the bridge
-> > prepare/enablement sequence.
-> >=20
-> > commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
-> > "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
-> > caused a series of regressions in all panels that send
-> > DSI commands in their .prepare() and .unprepare()
-> > callbacks.
-> >=20
-> > As the CRTC is no longer online at bridge_pre_enable()
-> > and gone at brige_post_disable() which maps to the panel
-> > bridge .prepare()/.unprepare() callbacks, any CRTC that
-> > enable/disable the DSI transmitter in it's enable/disable
-> > callbacks will be unable to send any DSI commands in the
-> > .prepare() and .unprepare() callbacks.
-> >=20
-> > However the MCDE driver definitely need the CRTC to be
-> > enabled during .prepare()/.unprepare().
-> >=20
-> > This patch from Marek Vasut:
-> > https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenes=
-as%40mailbox.org/
-> > solves part of the problem for drivers using custom
-> > tail functions, since MCDE is using helpers only, we
-> > add a new helper function that exploits the new
-> > drm_atomic_helper_commit_modeset_enables_crtc_early()
-> > and use that in MCDE.
-> >=20
-> > Link: https://lore.kernel.org/dri-devel/20251026-fix-mcde-drm-regressio=
-n-v2-0-8d799e488cf9@linaro.org/
-> > Link: https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2=
-Brenesas%40mailbox.org/
-> > Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enab=
-le and post-disable")
-> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> > ---
-> >  drivers/gpu/drm/drm_atomic_helper.c | 35 +++++++++++++++++++++++++++++=
-++++++
-> >  drivers/gpu/drm/mcde/mcde_drv.c     |  6 ++++--
-> >  include/drm/drm_atomic_helper.h     |  1 +
-> >  3 files changed, 40 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_=
-atomic_helper.c
-> > index eb47883be153..23fa27f21c4e 100644
-> > --- a/drivers/gpu/drm/drm_atomic_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> > @@ -2005,6 +2005,41 @@ void drm_atomic_helper_commit_tail_rpm(struct dr=
-m_atomic_state *state)
-> >  }
-> >  EXPORT_SYMBOL(drm_atomic_helper_commit_tail_rpm);
-> > =20
-> > +/**
-> > + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic update
->=20
-> Based on the function name, it feels that the nem commit tail and
-> modeset enable/disable helpers reached a point where we may want to
-> reconsider the design instead of adding new functions with small
-> differences in behaviour that will end up confusing driver developers.
-
-Agreed, and I'd go even further than that: we don't want every odd order
-in the core. And if some driver has to break the order we document in
-some way it should be very obvious.
-
-If you have a single user for all these new helpers variants, you
-shouldn't be using the helpers at all. Go with a driver specific
-implementation.
-
-Maxime
-
---egvq5gtiq3uff7un
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaRyUQgAKCRAnX84Zoj2+
-dnY5AX9iZHY/r2tVzkrfThZnjfOczM7NRxE5jEcho5iiWb9htyjQkGm/EovpA9Su
-VLbfXqgBgOZOpxB2C1cTz97QuQRbskUCkanBSs8nqjVeuq0QNyB9v7wb8vI4qkxP
-Jw8dHysUfQ==
-=2YbF
------END PGP SIGNATURE-----
-
---egvq5gtiq3uff7un--
+Regards,
+Bjorn
