@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F576C68A37
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 10:49:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A385C68AA1
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 10:57:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4411810E129;
-	Tue, 18 Nov 2025 09:49:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01D5310E475;
+	Tue, 18 Nov 2025 09:57:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="H00t4DUz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jZT7QUY3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
- [209.85.214.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5390410E129
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 09:49:38 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id
- d9443c01a7336-29586626fbeso55998735ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 01:49:38 -0800 (PST)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+ [209.85.214.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD05410E475
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 09:57:16 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id
+ d9443c01a7336-29806bd47b5so33958335ad.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 01:57:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763459378; x=1764064178; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1763459836; x=1764064636; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=wB7GKKfp5hNWKas7zrDPnmb8wSgvfF3RD0g/s/fBfK8=;
- b=H00t4DUzzSkzuvRHgIT/0EF2oBgfY+eRwI2KtRnJhAIONqayIBFqqFycAVgCURfXeG
- 6yEEdTUvbjsdbD7yw97mt2EdjfRfrvhFWJEuKlQhkId148Jd9Q3VwCOYVH6hi87p7Fs0
- ULY2xDvbhBnBvY2Gtyo0WMIYV0ck0rVTxexU7FSUCky2zI/XgfvcX7wfNVgp24mYZEV/
- ol5gklkxeNwpePAqK2m3V0qzZnHy7UONGRwby/ECLa0dpEybkw3QU60tnbCjtaPhnHcz
- eCqGsKX3yjWNS1Rd1kWH4VBkED4Xw3lLgwR/EFoU4eBFLNNmeSP2jDsj9MsoHY7lIc6O
- /klg==
+ bh=Q6tZ5VzBoVYTTO+te69K4vXT1SJ3st9Rw22BJ6+xFwY=;
+ b=jZT7QUY3bdnrfYkYKTiDSdiaYN/3osIcfy/F6Z+p6KJdDmRIZfzfhIKmCNpM43JmCS
+ E8mHBMCTUKv2Nb+CQJ+jo/6grlYohbcwW6OKtF0cO7Y/WiV9EjZWT1pmuOOV1yvOVrFV
+ s4YvBL7Wcvfqfw1Om05TL/MOxd7Rkbz20rJY6JDJZN+aNd+I7kVTTLKGGSqmg9qpYNdZ
+ ncyboHpbg9zKEQVDExMC8lgXPe2yLN94Fqr02f/Ksykn/LvDu0vVZu4CxHxkYLGMfF73
+ ZnsV1mAE83MEOdct7HzJPbOgSVfWvn9Xg3YuZ+cZCu/SVUBDRwMw6A+H4X2veB/gbdoz
+ FF9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763459378; x=1764064178;
+ d=1e100.net; s=20230601; t=1763459836; x=1764064636;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wB7GKKfp5hNWKas7zrDPnmb8wSgvfF3RD0g/s/fBfK8=;
- b=HBcxzGYg+JV34rmkSqHSHemJm6RnsGGcfvDNGJHmHVDvhCdp3WsMzVNOiTzYGEPvZv
- 4hKrw0hDaX3H6JWRmlF3W/CYWKIAVB/qZh1mVALfDpT4myGgV9vpHDqVVDlBt47GFMsc
- Y1yUmymq1nwlLvRecbir+lhy+TkSO7Y0GnDPo2cTr7eV8eapH76vTiecMQ5bzLT+HLCz
- KO/FkJwYmxF3jlJRXW1t/1OiGtpW84ONnqOreMLCq/7oOzffGuxZOvWtXtcd0FQh5Z1B
- jPyNJYJun6i7ljjleq5B+ARKOogAknkVyXyojlobwtumGyIFHVrqxhKGT9ajaoCvGAkc
- 5L0Q==
-X-Gm-Message-State: AOJu0YyHFHGoIL1Zzmxx7+ffSKEAidQKNKmLjNKImVlw0EJuT1Z3dIIg
- qpiYA4yy3uxdAo9y8HIWu6tv9x8gpm5N8Ua9XyVcSEecd0ZfAy2ZcZmx
-X-Gm-Gg: ASbGncuFt70IeYtJZzZfB9XPzyGIyRgysc/pfPmta7EaCtfGJSmhdQfo7TSp2SBY5VG
- FWmVzYEwm/Xby3bU8CCUs1/ZtM/2eWhJArpApSjWhwCi6SlXlu5BNsj83I99XNi0uAS7lJFrGmU
- EjpLUywXg9MinQLUmTmbE6Culaz9Stnr+r4tzcAZk450tGrNGxgnqLQoA3nAy5nryyC/HiO/CSn
- V8RAKZg7CgB7tXUKDxLXFXeJE5upukSzvvS4k++eYcRh8cklD8E8Hj9uNzX272OdLqE1jO8ksvj
- vKkLUhbdYrZNFgeBl2DPYRvBxWFMGV0p4xtRgFTW0NzMRW4Nvvi806zPOCwTyMiNp5DJWm78fHw
- biRV0iYd/4XmySZD/OOei7KWFPlyjMLQHKNCvroaRxitlv1F6gxDX6BxMjNuyZWilvi/FpUIQPU
- xx1xd0kIiPJ3+SPKX4ieS2RfqSFywA
-X-Google-Smtp-Source: AGHT+IFiWL3LqQmkeS44K9ymL4p8riBvyXWKhkcVBYbURfrJxjWXHSAwE7EJgyDR8KHKEo5KjBRLWg==
-X-Received: by 2002:a17:902:c951:b0:295:8da5:c631 with SMTP id
- d9443c01a7336-2986a751b79mr164171495ad.42.1763459377740; 
- Tue, 18 Nov 2025 01:49:37 -0800 (PST)
-Received: from rahul-mintos.ban-spse ([165.204.156.251])
+ bh=Q6tZ5VzBoVYTTO+te69K4vXT1SJ3st9Rw22BJ6+xFwY=;
+ b=jDnPNMOcaw2reDJSvQpcRli9CSNcTqbq2uxlW0MJBuC6YKy+XeGDI64h9QWOIUwTv8
+ QbBURo+fG864WTDHBEqYpmRCkksn5UDsSKBWUZJ+5QHAn9DawvVUzS6CNa4TMBW0Z/Ro
+ T9ngcDZLFyCc8WWFbzunEMSCk79DZaMiOaHDwo4rsuuqXFFxxN8sVuRLlPG36r89Q9o3
+ HrZb/RX2gp53H+UrZOO5PZI8YJwEyychw9/iGUhWKBXKVef1C8syksCYiW3x2SWuAj7F
+ EKryr5zCWmjitYWB7AH0jXlg3jUC78hCnBZD70/T1dG08PYzwHeL5uZdl8zgvJ4H5mkI
+ AkDw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVy7+9oEq8rFLcS+yOoAJS/MzspuXQaslgLPBAm3RyNwgajpEDPMO5gpjE1E+LkR7y7X7rNU/tNxrk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz6o7MEzPn9GeAKPafz380FM/sRp19FdDvIPZSCvm8cfK7W/Z+I
+ PBhG388wc5NaXbVQInUBFbkiEUuaac+HjlgFBRSKhajW/IrRLRG2bbiD
+X-Gm-Gg: ASbGncvqDkp1n6oV0S+wPzi8aIv5JV0ypzKVToVTSMxClu3DO+mEqFrPR6MWe97HtXy
+ 4M+KtGpa9/fQrDPqELGmAMsQ3S8e3n2wSK2pH6TyZBdXtNab0xtAdkqfR8EPCmMpd//lnQeZnGP
+ 0J9ylhx47VYZ3XTS1bbvzzelUstEej5lxzzs6TEC7kqADf48AGWU6TtFqApTWAIKCuMNJokxjpM
+ XE9MZet2oA6oAnieS1HIH+Za1UNgFxmir3ZAiYI/Zh0G/pwz8Dz28WozoHd9ZcJzIHL5m5r7dRP
+ qACLHioaHdG/nO9rKJIiMSjPY7EZyUPvIDHNqqDBLUzoDlz6OKjquJB/qKhYdaW7O2wdKw8rb98
+ 03Ugd5kKjqwcp9ZGLHLAAwlYWs6pQRvAeqfFcgv40jyabb8QoiYnK3JsskWncBUrnOoY8eVJA
+X-Google-Smtp-Source: AGHT+IHMmjMJMqz3ygPywtDFWliHJnZbTS7XL1ZWr8wjn2DCGXdd4NPyybAvK2X81ZXZ3yNMXbed1g==
+X-Received: by 2002:a17:903:198b:b0:295:82b4:216a with SMTP id
+ d9443c01a7336-2986a76a1d4mr172192395ad.55.1763459836197; 
+ Tue, 18 Nov 2025 01:57:16 -0800 (PST)
+Received: from hsukr3.. ([2405:201:d019:4042:80a6:7dd7:b597:d951])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2985c2346f3sm168815565ad.18.2025.11.18.01.49.33
+ d9443c01a7336-2985c2ccafesm168572415ad.97.2025.11.18.01.57.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Nov 2025 01:49:37 -0800 (PST)
-From: Abhishek Rajput <abhiraj21put@gmail.com>
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, alexander.deucher@amd.com,
- jeff.hugo@oss.qualcomm.com, jani.nikula@intel.com, contact@emersion.fr,
- lucas.demarchi@intel.com
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- abhiraj21put@gmail.com
-Subject: [PATCH] drm/tiny: ili9163: Use dev_err_probe() instead of
- DRM_DEV_ERROR() during probing
-Date: Tue, 18 Nov 2025 15:18:15 +0530
-Message-ID: <20251118094815.243962-1-abhiraj21put@gmail.com>
+ Tue, 18 Nov 2025 01:57:15 -0800 (PST)
+From: Sukrut Heroorkar <hsukrut3@gmail.com>
+To: Helge Deller <deller@gmx.de>, Sukrut Heroorkar <hsukrut3@gmail.com>,
+ linux-fbdev@vger.kernel.org (open list:FRAMEBUFFER LAYER),
+ dri-devel@lists.freedesktop.org (open list:FRAMEBUFFER LAYER),
+ linux-kernel@vger.kernel.org (open list)
+Cc: shuah@kernel.org,
+	david.hunter.linux@gmail.com
+Subject: [PATCH] fbdev: q40fb: request memory region
+Date: Tue, 18 Nov 2025 15:26:55 +0530
+Message-ID: <20251118095700.393474-1-hsukrut3@gmail.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -89,39 +89,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The DRM_DEV_ERROR() macro has been deprecated, and using
-dev_err_probe() is preferred. In addition, dev_err_probe() helps
-avoid unexpected repeated error logs during deferred probing.
+The q40fb driver uses a fixed physical address but never reserves
+the corresponding I/O region. Reserve the range  as suggested in
+Documentation/gpu/todo.rst ("Request memory regions in all fbdev drivers").
 
-Signed-off-by: Abhishek Rajput <abhiraj21put@gmail.com>
+No functional change beyond claming the resource. This change is compile
+tested only.
 
-diff --git a/drivers/gpu/drm/tiny/ili9163.c b/drivers/gpu/drm/tiny/ili9163.c
-index 62cadf5e033d..22028c7a1ea1 100644
---- a/drivers/gpu/drm/tiny/ili9163.c
-+++ b/drivers/gpu/drm/tiny/ili9163.c
-@@ -155,16 +155,14 @@ static int ili9163_probe(struct spi_device *spi)
- 	spi_set_drvdata(spi, drm);
+Signed-off-by: Sukrut Heroorkar <hsukrut3@gmail.com>
+---
+ drivers/video/fbdev/q40fb.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/video/fbdev/q40fb.c b/drivers/video/fbdev/q40fb.c
+index 1ff8fa176124..935260326c6f 100644
+--- a/drivers/video/fbdev/q40fb.c
++++ b/drivers/video/fbdev/q40fb.c
+@@ -101,6 +101,12 @@ static int q40fb_probe(struct platform_device *dev)
+ 	info->par = NULL;
+ 	info->screen_base = (char *) q40fb_fix.smem_start;
  
- 	dbi->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
--	if (IS_ERR(dbi->reset)) {
--		DRM_DEV_ERROR(dev, "Failed to get gpio 'reset'\n");
--		return PTR_ERR(dbi->reset);
--	}
-+	if (IS_ERR(dbi->reset))
-+		return dev_err_probe(dev, PTR_ERR(dbi->reset),
-+				"Failed to get gpio 'reset'\n");
++	if (!request_mem_region(q40fb_fix.smem_start, q40fb_fix.smem_len,
++				"q40fb")) {
++		dev_err(&dev->dev, "cannot reserve video memory at 0x%lx\n",
++			q40fb_fix.smem_start);
++	}
++
+ 	if (fb_alloc_cmap(&info->cmap, 256, 0) < 0) {
+ 		framebuffer_release(info);
+ 		return -ENOMEM;
+@@ -144,6 +150,7 @@ static int __init q40fb_init(void)
+ 		if (ret)
+ 			platform_driver_unregister(&q40fb_driver);
+ 	}
++
+ 	return ret;
+ }
  
- 	dc = devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW);
--	if (IS_ERR(dc)) {
--		DRM_DEV_ERROR(dev, "Failed to get gpio 'dc'\n");
--		return PTR_ERR(dc);
--	}
-+	if (IS_ERR(dc))
-+		return dev_err_probe(dev, PTR_ERR(dc),
-+				"Failed to get gpio 'dc'\n");
- 
- 	dbidev->backlight = devm_of_find_backlight(dev);
- 	if (IS_ERR(dbidev->backlight))
 -- 
-2.34.1
+2.43.0
 
