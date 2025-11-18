@@ -2,87 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA21C6A7B8
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 17:03:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3E63C6A752
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 16:59:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF7E210E4F0;
-	Tue, 18 Nov 2025 16:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1706F10E4E8;
+	Tue, 18 Nov 2025 15:59:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="fUNccxNC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qBuWoeOc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 68A7210E4EE
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 16:03:52 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-477619f8ae5so38158155e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 08:03:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1763481831; x=1764086631; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=NPy7MtRGfLlvM770xBVrc8IbPL912/1L/AULTvqcMyg=;
- b=fUNccxNCDfvOexIOEQ+5uB/HfaSEOPW1K+S0LBe+aoJRYL/dmrhLA9TS68EcU3iYrg
- ocSOOByfG1PC+6Yt/CeMKZ7JjjZiOVE+2nx4e7ikTqChfzxmVtA+lynlkzR2bNVE2nvk
- vFfa0Uhd5sMgyCq4RaUNehKv2Qbu1kG6eMWmNcNfFPbfAW1yLc3dsS1HKDy377G1DoK2
- T/JfdKbT9heEwgFa5VoGWbZwQ4BQPAZz5bVA7csdf6oQ2V/YwZ5ah/nOiIHyqR8YAUvB
- Kj3MpwTnQOVq60LaWSW2KYan1Dg7c1UlH2APFgHdH09RxsEOHYceQTiMPdWII9Gh65j6
- Kp9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763481831; x=1764086631;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=NPy7MtRGfLlvM770xBVrc8IbPL912/1L/AULTvqcMyg=;
- b=FauaxhwH9kg6D64olQBIo1NNkB49Vc3j/yI6ZWt7mCMZUPpSrCAQagrw68KahM69A8
- XIRH3EgBr1If1hRkjhxeX74f97EaMm48Mf7XADoGXRAiLy7C5rEw1TKmUiLAMujl6ip6
- YMDTdc7oUYqR0T5SaBBk48EipUG8bTMldPiA7q1S3Cq+K7qMjjTPoSl/RdRDZl0Rk+aV
- 4SbTMEHozZbz4xRCCJZo4ZOuTBVMd4TA4QY4xtcqwM0yJU0fi8uVu0IZmETgqdMh43Ik
- I839QVpjeFbkLaVq15piRb7xMYDP5CveeevMImDljf1M653wNl6wPoqMBR8230wn/its
- xUOA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVxbH3/ClOHc+uEROh4tCA/Dev6qUcxsVQnfVk6iVaxCqiDzkT8eXubcHFd52NMB5b38Gsz97T0za4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz+BMzrJaiW7a/cL4zRtKJb8i6yodH9fvVlY2OkBd9Z7VZIJNY0
- AzGB8Hv16QSitpjD0jvpBPgP12MNQgL+wRm6gkm2RjdQi/tmmuAh19LvyVz9qNb8Il8=
-X-Gm-Gg: ASbGncuxr5cY1WkLjhI3Zk+P0yhHJ7/rfUU0g0VjvXivJEVgKQzKKPwrQU89tsrtQO/
- WxrF7tJDfQwsuFvU9Okd7DKKCK1C1+CmBZnICM0ZBI0OZvnLILKRVvP/GV/tNQQoiflFCmQOxoT
- YmqRC8n4i0XsGRWVWVaQpoDYC48nVCEawEwlZKh06vdMuFSq2DrMRtyXQjc5iu16T0Rox81Se4q
- 6HWh5ZmWcTFlFmMMn1u6bBy2Up2OaK7gOpX16E9ZBCdmskI8o1c7F6qlcbFUuFjaaKaLXZLJvFp
- k0R/0HW1Xl4hgpzpYBKo3H39Jj82QbmjlMkbyHCAEaytE+i/2409tudTETosxoPMWvSYQkZjU2N
- gZTzhwlueeADHMmuU3oZEMy3W4iN1EvuhXXq5J8jGRU7ieSiaGzvDisODoP8gaeBk5S8HrN/qsO
- BDaEDB4STyrqbMIOLg1yNgzHrv+8u0MGUm
-X-Google-Smtp-Source: AGHT+IGysRbMzbECL6E+MizQEQGrtqhmQyxOI0y7D4OkZygIod9v97e1L6AKbj5saKClh+dNolGEFw==
-X-Received: by 2002:a05:600c:4695:b0:477:63b4:ef7a with SMTP id
- 5b1f17b1804b1-4778feaa8a1mr139503735e9.20.1763481830363; 
- Tue, 18 Nov 2025 08:03:50 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-477a973390csm20979025e9.4.2025.11.18.08.03.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Nov 2025 08:03:49 -0800 (PST)
-Message-ID: <ed7595b4-b6e4-4a7f-ad35-e3a3cf063e72@ursulin.net>
-Date: Tue, 18 Nov 2025 16:03:48 +0000
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7F0D10E4E8
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:59:38 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id DF9C960B51;
+ Tue, 18 Nov 2025 15:59:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F366C2BCB9;
+ Tue, 18 Nov 2025 15:59:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763481577;
+ bh=bEzHZ/Jnn64fhupSV1OfaSiBM3yCoNN942RbQnBUkcA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qBuWoeOcRLWf+3+7zSX9hQQ1FcWyrPtFeOe4prmwhxxQUQeUjp1y2e2fqxPBnyjc6
+ BLyfNtpWi2TGnLXuTmbyZB58ZQ64P9hxVifCH5P8Y3y8kKYkxlRhqvbortFtzSOxSU
+ rLEirOMtuEAX3e8EAueXdGyp2UEeLT5iK2XtczIOxCU3lH3x97ogk3b+X97cvT/Z8K
+ XqhmXXaYDz8YDgHMxWZ1CD4fzBHq9acNuZb6I6RZ8HzLHzXuwch+HRqYYwP3REsE5H
+ HEgdF1bX5guuCu3KdyxpaaO1dehO9Qjkt2Kx1cpZwpd1KrOkpNH58MOyfe6hEaQufz
+ 2fh4VP0qccHZw==
+Date: Tue, 18 Nov 2025 10:04:24 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+Cc: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com, 
+ arnd@arndb.de, gregkh@linuxfoundation.org, quic_bkumar@quicinc.com, 
+ ekansh.gupta@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+ quic_chennak@quicinc.com, 
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ jingyi.wang@oss.qualcomm.com, 
+ aiqun.yu@oss.qualcomm.com, ktadakam@qti.qualcomm.com
+Subject: Re: [PATCH v3 2/4] misc: fastrpc: Rename phys to dma_addr for clarity
+Message-ID: <yenp6ss5u5s4h75s7ggpyecmkfiiwd6vidqh7zu4yd3cahyoh2@iuja6rwwg4pi>
+References: <20251114084142.3386682-1-kumari.pallavi@oss.qualcomm.com>
+ <20251114084142.3386682-3-kumari.pallavi@oss.qualcomm.com>
+ <q46rupdndsmeojv4szm3qbtcwu6n7x2ukwrrx4jd7rph7nlq5b@xiclcnpx7rc7>
+ <83112aa3-5998-4030-98cb-d3d5ee7c0570@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/18] dma-buf: protected fence ops by RCU v3
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
- matthew.brost@intel.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org
-References: <20251113145332.16805-1-christian.koenig@amd.com>
- <20251113145332.16805-3-christian.koenig@amd.com>
- <ef0f9459-6733-4e0a-9c06-c36c02e5a93c@ursulin.net>
- <35d7ab6c-bd4d-4267-8ae1-2637d6c0f1ff@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <35d7ab6c-bd4d-4267-8ae1-2637d6c0f1ff@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <83112aa3-5998-4030-98cb-d3d5ee7c0570@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,136 +65,321 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Nov 17, 2025 at 12:37:33PM +0530, Kumari Pallavi wrote:
+> 
+> 
+> On 11/14/2025 9:14 PM, Bjorn Andersson wrote:
+> > On Fri, Nov 14, 2025 at 02:11:40PM +0530, Kumari Pallavi wrote:
+> > > Update all references of buf->phys and map->phys to buf->dma_addr and
+> > > map->dma_addr to accurately represent that these fields store DMA
+> > > addresses, not physical addresses. This change improves code clarity
+> > > and aligns with kernel conventions for dma_addr_t usage.
+> > > 
+> > > Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+> > > ---
+> > >   drivers/misc/fastrpc.c | 76 ++++++++++++++++++++++--------------------
+> > >   1 file changed, 40 insertions(+), 36 deletions(-)
+> > > 
+> > > diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> > > index ee652ef01534..d6a7960fe716 100644
+> > > --- a/drivers/misc/fastrpc.c
+> > > +++ b/drivers/misc/fastrpc.c
+> > > @@ -106,7 +106,7 @@
+> > >   #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
+> > >   struct fastrpc_phy_page {
+> > > -	u64 addr;		/* physical address */
+> > > +	u64 addr;		/* physical or dma address */
+> > >   	u64 size;		/* size of contiguous region */
+> > >   };
+> > > @@ -171,7 +171,7 @@ struct fastrpc_msg {
+> > >   	u64 ctx;		/* invoke caller context */
+> > >   	u32 handle;	/* handle to invoke */
+> > >   	u32 sc;		/* scalars structure describing the data */
+> > > -	u64 addr;		/* physical address */
+> > > +	u64 addr;		/* physical or dma address */
+> > 
+> > Can you go all the way and make the type dma_addr_t? That way you don't
+> > need to typecast the dma_alloc_coherent() and dma_free_coherent().
+> > 
+> > I believe it might complicate the places where you do math on it, but
+> > that is a good thing, as it highlights those places where you do
+> > something unexpected.
+> > 
+> 
+> While this not strictly limited to holding a dma_addr_t.
+> Based on historical behavior, when the FASTRPC_ATTR_SECUREMAP flag is
+> set, S2 mapping expects a physical address to be passed to the
+> qcom_scm_assign_mem() API.
+> reference-
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/misc/fastrpc.c?id=e90d911906196bf987492c94e38f10ca611dfd7b
 
-On 18/11/2025 14:28, Christian König wrote:
-> On 11/14/25 11:50, Tvrtko Ursulin wrote:
->>> @@ -569,12 +577,12 @@ void dma_fence_release(struct kref *kref)
->>>            spin_unlock_irqrestore(fence->lock, flags);
->>>        }
->>>    -    rcu_read_unlock();
->>> -
->>> -    if (fence->ops->release)
->>> -        fence->ops->release(fence);
->>> +    ops = rcu_dereference(fence->ops);
->>> +    if (ops->release)
->>> +        ops->release(fence);
->>>        else
->>>            dma_fence_free(fence);
->>> +    rcu_read_unlock();
->>
->> Risk being a spin lock in the release callback will trigger a warning on PREEMPT_RT. But at least the current code base does not have anything like that AFAICS so I guess it is okay.
-> 
-> I don't think that this is a problem. When PREEMPT_RT is enabled both RCU and spinlocks become preemptible.
-> 
-> So as far as I know it is perfectly valid to grab a spinlock under an rcu read side critical section.
+If I understand correctly, when FASTRPC_ATTR_SECUREMAP is set that
+implies that the mapping happens in the firmware SID, i.e. outside of
+Linux's view. So it's still a dma_addr_t, but it's mapped 1:1 with the
+physical address.
 
-Looking at the source just now, I think it is possible I mixed it up 
-with preempt_disable()+spin_lock().
->>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->>> index 64639e104110..77f07735f556 100644
->>> --- a/include/linux/dma-fence.h
->>> +++ b/include/linux/dma-fence.h
->>> @@ -66,7 +66,7 @@ struct seq_file;
->>>     */
->>>    struct dma_fence {
->>>        spinlock_t *lock;
->>> -    const struct dma_fence_ops *ops;
->>> +    const struct dma_fence_ops __rcu *ops;
->>>        /*
->>>         * We clear the callback list on kref_put so that by the time we
->>>         * release the fence it is unused. No one should be adding to the
->>> @@ -218,6 +218,10 @@ struct dma_fence_ops {
->>>         * timed out. Can also return other error values on custom implementations,
->>>         * which should be treated as if the fence is signaled. For example a hardware
->>>         * lockup could be reported like that.
->>> +     *
->>> +     * Implementing this callback prevents the BO from detaching after
->>
->> s/BO/fence/
->>
->>> +     * signaling and so it is mandatory for the module providing the
->>> +     * dma_fence_ops to stay loaded as long as the dma_fence exists.
->>>         */
->>>        signed long (*wait)(struct dma_fence *fence,
->>>                    bool intr, signed long timeout);
->>> @@ -229,6 +233,13 @@ struct dma_fence_ops {
->>>         * Can be called from irq context.  This callback is optional. If it is
->>>         * NULL, then dma_fence_free() is instead called as the default
->>>         * implementation.
->>> +     *
->>> +     * Implementing this callback prevents the BO from detaching after
->>
->> Ditto.
-> 
-> Both fixed, thanks.
-> 
->>
->>> +     * signaling and so it is mandatory for the module providing the
->>> +     * dma_fence_ops to stay loaded as long as the dma_fence exists.
->>> +     *
->>> +     * If the callback is implemented the memory backing the dma_fence
->>> +     * object must be freed RCU safe.
->>>         */
->>>        void (*release)(struct dma_fence *fence);
->>>    @@ -418,13 +429,19 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
->>>    static inline bool
->>>    dma_fence_is_signaled_locked(struct dma_fence *fence)
->>>    {
->>> +    const struct dma_fence_ops *ops;
->>> +
->>>        if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->>>            return true;
->>>    -    if (fence->ops->signaled && fence->ops->signaled(fence)) {
->>> +    rcu_read_lock();
->>> +    ops = rcu_dereference(fence->ops);
->>> +    if (ops->signaled && ops->signaled(fence)) {
->>> +        rcu_read_unlock();
->>>            dma_fence_signal_locked(fence);
->>>            return true;
->>>        }
->>> +    rcu_read_unlock();
->>>          return false;
->>>    }
->>> @@ -448,13 +465,19 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
->>>    static inline bool
->>>    dma_fence_is_signaled(struct dma_fence *fence)
->>>    {
->>> +    const struct dma_fence_ops *ops;
->>> +
->>>        if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->>>            return true;
->>>    -    if (fence->ops->signaled && fence->ops->signaled(fence)) {
->>> +    rcu_read_lock();
->>> +    ops = rcu_dereference(fence->ops);
->>> +    if (ops->signaled && ops->signaled(fence)) {
->>> +        rcu_read_unlock();
->>
->> With the unlocked version two threads could race and one could make the fence->lock go away just around here, before the dma_fence_signal below will take it. It seems it is only safe to rcu_read_unlock before signaling if using the embedded fence (later in the series). Can you think of a downside to holding the rcu read lock to after signaling? that would make it safe I think.
-> 
-> Well it's good to talk about it but I think that it is not necessary to protect the lock in this particular case.
-> 
-> See the RCU protection is only for the fence->ops pointer, but the lock can be taken way after the fence is already signaled.
-> 
-> That's why I came up with the patch to move the lock into the fence in the first place.
+I think this is another good reason to make the changes I suggested
+below (which you didn't comment on?). Sometimes this "addr" is the
+actual address and sometimes it contains the annotated address.
 
-Right. And you think there is nothing to gain with the option of keeping 
-the rcu_read_unlock() to after signalling? Ie. why not plug a potential 
-race if we can for no negative effect.
+> 
+> If you suggest, I can define it as dma_addr_t and perform typecasting to u64
+> wherever required.
+
+Yes, maintain the mapping in a dma_addr_t, then you have the two cases:
+
+1) Contexts with SMMU, you cast the dma_addr_t and annotate it with the
+sid information before communicate the addresses to the firmware.
+
+2) Contexts without SMMU, you make it clear that your dma_addr_t is 1:1
+with physical addresses and you then pass it to qcom_scm_assign_mem() et
+al.
+
+
+That way the "addr" is always the actual iova (with or without mapping)
+and the places where it's treated as a physical address or an annotated
+"address" becomes very explicit.
 
 Regards,
+Bjorn
 
-Tvrtko
-
->> Regards,
->>
->> Tvrtko
->>
->>>            dma_fence_signal(fence);
->>>            return true;
->>>        }
->>> +    rcu_read_unlock();
->>>          return false;
->>>    }
->>
 > 
-
+> Thanks,
+> Pallavi
+> 
+> 
+> > >   	u64 size;		/* size of contiguous region */
+> > >   };
+> > > @@ -194,7 +194,7 @@ struct fastrpc_buf {
+> > >   	struct dma_buf *dmabuf;
+> > >   	struct device *dev;
+> > >   	void *virt;
+> > > -	u64 phys;
+> > > +	u64 dma_addr;
+> > >   	u64 size;
+> > >   	/* Lock for dma buf attachments */
+> > >   	struct mutex lock;
+> > > @@ -217,7 +217,7 @@ struct fastrpc_map {
+> > >   	struct dma_buf *buf;
+> > >   	struct sg_table *table;
+> > >   	struct dma_buf_attachment *attach;
+> > > -	u64 phys;
+> > > +	u64 dma_addr;
+> > >   	u64 size;
+> > >   	void *va;
+> > >   	u64 len;
+> > > @@ -320,11 +320,12 @@ static void fastrpc_free_map(struct kref *ref)
+> > >   			perm.vmid = QCOM_SCM_VMID_HLOS;
+> > >   			perm.perm = QCOM_SCM_PERM_RWX;
+> > > -			err = qcom_scm_assign_mem(map->phys, map->len,
+> > > +			err = qcom_scm_assign_mem(map->dma_addr, map->len,
+> > >   				&src_perms, &perm, 1);
+> > >   			if (err) {
+> > > -				dev_err(map->fl->sctx->dev, "Failed to assign memory phys 0x%llx size 0x%llx err %d\n",
+> > > -						map->phys, map->len, err);
+> > > +				dev_err(map->fl->sctx->dev,
+> > > +					"Failed to assign memory dma_addr 0x%llx size 0x%llx err %d\n",
+> > > +					map->dma_addr, map->len, err);
+> > >   				return;
+> > >   			}
+> > >   		}
+> > > @@ -389,7 +390,7 @@ static int fastrpc_map_lookup(struct fastrpc_user *fl, int fd,
+> > >   static void fastrpc_buf_free(struct fastrpc_buf *buf)
+> > >   {
+> > >   	dma_free_coherent(buf->dev, buf->size, buf->virt,
+> > > -			  FASTRPC_PHYS(buf->phys));
+> > > +			  FASTRPC_PHYS(buf->dma_addr));
+> > >   	kfree(buf);
+> > >   }
+> > > @@ -408,12 +409,12 @@ static int __fastrpc_buf_alloc(struct fastrpc_user *fl, struct device *dev,
+> > >   	buf->fl = fl;
+> > >   	buf->virt = NULL;
+> > > -	buf->phys = 0;
+> > > +	buf->dma_addr = 0;
+> > >   	buf->size = size;
+> > >   	buf->dev = dev;
+> > >   	buf->raddr = 0;
+> > > -	buf->virt = dma_alloc_coherent(dev, buf->size, (dma_addr_t *)&buf->phys,
+> > > +	buf->virt = dma_alloc_coherent(dev, buf->size, (dma_addr_t *)&buf->dma_addr,
+> > >   				       GFP_KERNEL);
+> > >   	if (!buf->virt) {
+> > >   		mutex_destroy(&buf->lock);
+> > > @@ -439,7 +440,7 @@ static int fastrpc_buf_alloc(struct fastrpc_user *fl, struct device *dev,
+> > >   	buf = *obuf;
+> > >   	if (fl->sctx && fl->sctx->sid)
+> > > -		buf->phys += ((u64)fl->sctx->sid << 32);
+> > > +		buf->dma_addr += ((u64)fl->sctx->sid << 32);
+> > >   	return 0;
+> > >   }
+> > > @@ -684,7 +685,7 @@ static int fastrpc_dma_buf_attach(struct dma_buf *dmabuf,
+> > >   		return -ENOMEM;
+> > >   	ret = dma_get_sgtable(buffer->dev, &a->sgt, buffer->virt,
+> > > -			      FASTRPC_PHYS(buffer->phys), buffer->size);
+> > > +			      FASTRPC_PHYS(buffer->dma_addr), buffer->size);
+> > >   	if (ret < 0) {
+> > >   		dev_err(buffer->dev, "failed to get scatterlist from DMA API\n");
+> > >   		kfree(a);
+> > > @@ -733,7 +734,7 @@ static int fastrpc_mmap(struct dma_buf *dmabuf,
+> > >   	dma_resv_assert_held(dmabuf->resv);
+> > >   	return dma_mmap_coherent(buf->dev, vma, buf->virt,
+> > > -				 FASTRPC_PHYS(buf->phys), size);
+> > > +				 FASTRPC_PHYS(buf->dma_addr), size);
+> > 
+> > In fact, we invoke dma_alloc_coherent() above to get a dma_addr_t, and
+> > then we call map, unmap, and free on the lower 32 bits of that
+> > address...
+> > 
+> > In other words, each time we reference dma_addr we have that implicit
+> > thing that it's a composit of a dma_addr_t as seen from Linux's point of
+> > view (which is matching the addresses in the SMMU page tables) and the
+> > adjusted address that we use in communication with the firmware to
+> > direct the accesses to the right SID + iova.
+> > 
+> > I think it would be quite nice to make this more explicit throughout the
+> > code, rather than juggling the two perspectives in the same variable.
+> > 
+> > Regards,
+> > Bjorn
+> > 
+> > >   }
+> > >   static const struct dma_buf_ops fastrpc_dma_buf_ops = {
+> > > @@ -785,10 +786,10 @@ static int fastrpc_map_attach(struct fastrpc_user *fl, int fd,
+> > >   	map->table = table;
+> > >   	if (attr & FASTRPC_ATTR_SECUREMAP) {
+> > > -		map->phys = sg_phys(map->table->sgl);
+> > > +		map->dma_addr = sg_phys(map->table->sgl);
+> > >   	} else {
+> > > -		map->phys = sg_dma_address(map->table->sgl);
+> > > -		map->phys += ((u64)fl->sctx->sid << 32);
+> > > +		map->dma_addr = sg_dma_address(map->table->sgl);
+> > > +		map->dma_addr += ((u64)fl->sctx->sid << 32);
+> > >   	}
+> > >   	for_each_sg(map->table->sgl, sgl, map->table->nents,
+> > >   		sgl_index)
+> > > @@ -815,10 +816,11 @@ static int fastrpc_map_attach(struct fastrpc_user *fl, int fd,
+> > >   		dst_perms[1].vmid = fl->cctx->vmperms[0].vmid;
+> > >   		dst_perms[1].perm = QCOM_SCM_PERM_RWX;
+> > >   		map->attr = attr;
+> > > -		err = qcom_scm_assign_mem(map->phys, (u64)map->len, &src_perms, dst_perms, 2);
+> > > +		err = qcom_scm_assign_mem(map->dma_addr, (u64)map->len, &src_perms, dst_perms, 2);
+> > >   		if (err) {
+> > > -			dev_err(sess->dev, "Failed to assign memory with phys 0x%llx size 0x%llx err %d\n",
+> > > -					map->phys, map->len, err);
+> > > +			dev_err(sess->dev,
+> > > +				"Failed to assign memory with dma_addr 0x%llx size 0x%llx err %d\n",
+> > > +				map->dma_addr, map->len, err);
+> > >   			goto map_err;
+> > >   		}
+> > >   	}
+> > > @@ -1009,7 +1011,7 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
+> > >   			struct vm_area_struct *vma = NULL;
+> > >   			rpra[i].buf.pv = (u64) ctx->args[i].ptr;
+> > > -			pages[i].addr = ctx->maps[i]->phys;
+> > > +			pages[i].addr = ctx->maps[i]->dma_addr;
+> > >   			mmap_read_lock(current->mm);
+> > >   			vma = find_vma(current->mm, ctx->args[i].ptr);
+> > > @@ -1036,7 +1038,7 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
+> > >   				goto bail;
+> > >   			rpra[i].buf.pv = args - ctx->olaps[oix].offset;
+> > > -			pages[i].addr = ctx->buf->phys -
+> > > +			pages[i].addr = ctx->buf->dma_addr -
+> > >   					ctx->olaps[oix].offset +
+> > >   					(pkt_size - rlen);
+> > >   			pages[i].addr = pages[i].addr &	PAGE_MASK;
+> > > @@ -1068,7 +1070,7 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
+> > >   		list[i].num = ctx->args[i].length ? 1 : 0;
+> > >   		list[i].pgidx = i;
+> > >   		if (ctx->maps[i]) {
+> > > -			pages[i].addr = ctx->maps[i]->phys;
+> > > +			pages[i].addr = ctx->maps[i]->dma_addr;
+> > >   			pages[i].size = ctx->maps[i]->size;
+> > >   		}
+> > >   		rpra[i].dma.fd = ctx->args[i].fd;
+> > > @@ -1150,7 +1152,7 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
+> > >   	msg->ctx = ctx->ctxid | fl->pd;
+> > >   	msg->handle = handle;
+> > >   	msg->sc = ctx->sc;
+> > > -	msg->addr = ctx->buf ? ctx->buf->phys : 0;
+> > > +	msg->addr = ctx->buf ? ctx->buf->dma_addr : 0;
+> > >   	msg->size = roundup(ctx->msg_sz, PAGE_SIZE);
+> > >   	fastrpc_context_get(ctx);
+> > > @@ -1306,13 +1308,14 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+> > >   		if (fl->cctx->vmcount) {
+> > >   			u64 src_perms = BIT(QCOM_SCM_VMID_HLOS);
+> > > -			err = qcom_scm_assign_mem(fl->cctx->remote_heap->phys,
+> > > +			err = qcom_scm_assign_mem(fl->cctx->remote_heap->dma_addr,
+> > >   							(u64)fl->cctx->remote_heap->size,
+> > >   							&src_perms,
+> > >   							fl->cctx->vmperms, fl->cctx->vmcount);
+> > >   			if (err) {
+> > > -				dev_err(fl->sctx->dev, "Failed to assign memory with phys 0x%llx size 0x%llx err %d\n",
+> > > -					fl->cctx->remote_heap->phys, fl->cctx->remote_heap->size, err);
+> > > +				dev_err(fl->sctx->dev,
+> > > +					"Failed to assign memory with dma_addr 0x%llx size 0x%llx err %d\n",
+> > > +					fl->cctx->remote_heap->dma_addr, fl->cctx->remote_heap->size, err);
+> > >   				goto err_map;
+> > >   			}
+> > >   			scm_done = true;
+> > > @@ -1332,7 +1335,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+> > >   	args[1].length = inbuf.namelen;
+> > >   	args[1].fd = -1;
+> > > -	pages[0].addr = fl->cctx->remote_heap->phys;
+> > > +	pages[0].addr = fl->cctx->remote_heap->dma_addr;
+> > >   	pages[0].size = fl->cctx->remote_heap->size;
+> > >   	args[2].ptr = (u64)(uintptr_t) pages;
+> > > @@ -1361,12 +1364,12 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+> > >   		dst_perms.vmid = QCOM_SCM_VMID_HLOS;
+> > >   		dst_perms.perm = QCOM_SCM_PERM_RWX;
+> > > -		err = qcom_scm_assign_mem(fl->cctx->remote_heap->phys,
+> > > +		err = qcom_scm_assign_mem(fl->cctx->remote_heap->dma_addr,
+> > >   						(u64)fl->cctx->remote_heap->size,
+> > >   						&src_perms, &dst_perms, 1);
+> > >   		if (err)
+> > > -			dev_err(fl->sctx->dev, "Failed to assign memory phys 0x%llx size 0x%llx err %d\n",
+> > > -				fl->cctx->remote_heap->phys, fl->cctx->remote_heap->size, err);
+> > > +			dev_err(fl->sctx->dev, "Failed to assign memory dma_addr 0x%llx size 0x%llx err %d\n",
+> > > +				fl->cctx->remote_heap->dma_addr, fl->cctx->remote_heap->size, err);
+> > >   	}
+> > >   err_map:
+> > >   	fastrpc_buf_free(fl->cctx->remote_heap);
+> > > @@ -1455,7 +1458,7 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
+> > >   	args[2].length = inbuf.filelen;
+> > >   	args[2].fd = init.filefd;
+> > > -	pages[0].addr = imem->phys;
+> > > +	pages[0].addr = imem->dma_addr;
+> > >   	pages[0].size = imem->size;
+> > >   	args[3].ptr = (u64)(uintptr_t) pages;
+> > > @@ -1913,7 +1916,7 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
+> > >   	args[0].ptr = (u64) (uintptr_t) &req_msg;
+> > >   	args[0].length = sizeof(req_msg);
+> > > -	pages.addr = buf->phys;
+> > > +	pages.addr = buf->dma_addr;
+> > >   	pages.size = buf->size;
+> > >   	args[1].ptr = (u64) (uintptr_t) &pages;
+> > > @@ -1941,11 +1944,12 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
+> > >   	if (req.flags == ADSP_MMAP_REMOTE_HEAP_ADDR && fl->cctx->vmcount) {
+> > >   		u64 src_perms = BIT(QCOM_SCM_VMID_HLOS);
+> > > -		err = qcom_scm_assign_mem(buf->phys, (u64)buf->size,
+> > > +		err = qcom_scm_assign_mem(buf->dma_addr, (u64)buf->size,
+> > >   			&src_perms, fl->cctx->vmperms, fl->cctx->vmcount);
+> > >   		if (err) {
+> > > -			dev_err(fl->sctx->dev, "Failed to assign memory phys 0x%llx size 0x%llx err %d",
+> > > -					buf->phys, buf->size, err);
+> > > +			dev_err(fl->sctx->dev,
+> > > +				"Failed to assign memory dma_addr 0x%llx size 0x%llx err %d",
+> > > +				buf->dma_addr, buf->size, err);
+> > >   			goto err_assign;
+> > >   		}
+> > >   	}
+> > > @@ -2059,7 +2063,7 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
+> > >   	args[0].ptr = (u64) (uintptr_t) &req_msg;
+> > >   	args[0].length = sizeof(req_msg);
+> > > -	pages.addr = map->phys;
+> > > +	pages.addr = map->dma_addr;
+> > >   	pages.size = map->len;
+> > >   	args[1].ptr = (u64) (uintptr_t) &pages;
+> > > -- 
+> > > 2.34.1
+> > > 
+> > > 
+> 
