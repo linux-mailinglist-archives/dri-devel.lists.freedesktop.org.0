@@ -2,87 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39FD6C6AB85
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 17:47:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C08E2C6ABA3
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 17:49:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1206710E053;
-	Tue, 18 Nov 2025 16:47:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9144110E4F6;
+	Tue, 18 Nov 2025 16:49:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="e/HzbwCE";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="GHkfuahz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gBHyHE70";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D44B10E053
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 16:47:49 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4d9rBq4PNXz9tkc;
- Tue, 18 Nov 2025 17:47:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1763484467;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9RvB2sl0Ug/r6GqiA0V1FoFIi23iiOpJYn0tCLClgME=;
- b=e/HzbwCE7BIgVHn08e7bvHanK21uBWNQgaOjFK27nX1M0YEP19nbL6v8XyCCWbSeYKs5yh
- bS5VanqMxuXJSYHbAWGqpyF0XZN9AvfpV4DEIutEqVzYL82h9pAFtu26+U0Ra/5OiMQ6yG
- 2X+yjO8UdX/lRz3JK2yZ0wfUoUndjdxKCt8qF6f9EsxsVGBhjTPt6fEmPzg5MbJlL5V40g
- nnD8rt9p7kU3I/yl5hKFqqrSv4NUCZAeh6UdvTOWVcijs1KcLMqv4DOjfSBpP/t3ZSlnax
- 9rxLFsJKuq4rjyWWG3oGFGyiinhLNSahPOdS7jiJCvNji4Uz9iYbQfdvACsS5A==
-Authentication-Results: outgoing_mbo_mout;
- dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=GHkfuahz;
- spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates
- 2001:67c:2050:b231:465::102 as permitted sender)
- smtp.mailfrom=marek.vasut@mailbox.org
-Message-ID: <126de82c-b301-4785-8ad8-7e6d018ce12f@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1763484465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9RvB2sl0Ug/r6GqiA0V1FoFIi23iiOpJYn0tCLClgME=;
- b=GHkfuahzDtKGo4kXOZABA52/mtLZvbkl5cGD1CHr9tBNuuc+33/L11vyQbQos5nVN4bbot
- qAy27xpda1SRPmIX7FTj5GhY4BuQLs8bHTm2F1y9Xii9TZkTyhMigtcs/HaafiOSpS5oF6
- 9Hs0NjlZEgwGdmNO/kF3hnVE4FtVrkhACE1iZKwmmM36Rl5iFLgRK441/UccIhxxIg56yC
- UnPmZYtY595Qd+1a45eEzO2U6ibbDuzxIpjZqHcWeTemm9X9vOj9hijEn9/5BpQniuC0Fq
- 4aiLLcaPvAIo8guVIlVdsCvdDObnKlD5i7mQ13QvP5644c46AbNUnsov17URsg==
-Date: Tue, 18 Nov 2025 17:47:40 +0100
-MIME-Version: 1.0
-Subject: Re: [PATCH v2 0/4] drm: panel: Fix atomic helper-induced regressions
-To: Linus Walleij <linus.walleij@linaro.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Aradhya Bhatia <a-bhatia1@ti.com>, Stefan Hansson
- <newbyte@postmarketos.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35C5810E4F6
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 16:49:43 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id E325C43E57;
+ Tue, 18 Nov 2025 16:49:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D252C16AAE;
+ Tue, 18 Nov 2025 16:49:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763484582;
+ bh=i8Tsgj/qMoP8iQFAFXkeiyPZiwBea+n+HCYt7T9sGJk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gBHyHE700S35tc23A2ybTpgL2BrkbTwYPmf3uAXsfQ7iNy8DYZJXQ6aIafQ8VFfhT
+ zQg9hSmtYV9tNkRx54uDAruoz7miUBrWjqjBZz9zRziTAWtzuC7SlRU51NJv7qjjcv
+ R5ZNRPGBzosVairpAPGOV8zv8MjVxOwnL/a+qEw2acaojJSUfGiv+xs2hqrj3E34Ii
+ kwHOp55tUT3/5jWu7mcTVi9+Epl2vaZJlT2mJ2LCFT0155JKhv3sI9TMSf/qw2YrOH
+ tRHvp+Nn8lfKysmldVORF/vmW5O0dCL1kpFcguo9dyHGws7HbqQWR1PmOSxi1zMelm
+ ZOE+T59Y51ocg==
+Date: Tue, 18 Nov 2025 17:49:38 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: dri-devel@lists.freedesktop.org, Aradhya Bhatia <a-bhatia1@ti.com>, 
+ David Airlie <airlied@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org
-References: <20251026-fix-mcde-drm-regression-v2-0-8d799e488cf9@linaro.org>
- <067817a3-dee3-4ffb-a56f-8b46949cb494@ideasonboard.com>
- <CACRpkdYth1-QMDRW17bERXdzYvxvkfLq0o5QVTiis+o6NqubBA@mail.gmail.com>
- <22eb27cd-5ce9-4189-803a-14295b6650c4@ideasonboard.com>
- <CACRpkdazwqEUi7HR6ygUYE8Jr4zfMvJR+r9UL1+S0jduPqAyrw@mail.gmail.com>
- <17cedb40-d64a-4824-a1a9-c82d21f4606a@ideasonboard.com>
- <CACRpkdbtySSfCiV-6Dqy--D+J0vcnyvcFiASLYGauNHSK9TCjw@mail.gmail.com>
- <8256d054-a946-4aff-9953-03b29a4d01c5@ideasonboard.com>
- <CACRpkdaCyqESKyhfmBpnnto8MTFLVLfZxv496Kgy7KpW_rRXLA@mail.gmail.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <CACRpkdaCyqESKyhfmBpnnto8MTFLVLfZxv496Kgy7KpW_rRXLA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: db8b95a2dbe5c550cc6
-X-MBO-RS-META: m8af5g94w57ttga3uzjscw7aisfsdkyk
-X-Rspamd-Queue-Id: 4d9rBq4PNXz9tkc
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] drm/atomic-helper: rcar-du: Enable CRTC early on R-Car DU
+Message-ID: <2v43kghgrw7qeh7l77czahr5ms34raykviuzetdbda7wuvh2ic@mc5stkequmh3>
+References: <20251107230517.471894-1-marek.vasut+renesas@mailbox.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="33wsdvvmpdbglial"
+Content-Disposition: inline
+In-Reply-To: <20251107230517.471894-1-marek.vasut+renesas@mailbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,23 +65,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/18/25 3:31 PM, Linus Walleij wrote:
-> On Tue, Nov 18, 2025 at 2:54 PM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
-> 
->> The questions I have:
->>
->> - Should we 1) keep the current upstream sequence as default, and
->> specific drivers can opt to use new helpers that make sure the crtc is
->> enabled early (like your patch), or 2) revert the sequence changes from
->> Aradhya, restoring the crtc-enabled-first style, and add new helpers
->> that handle the sequence in the new way, as it is currently in upstream.
-> 
-> I'm opting toward (1) given that:
-> 
-> - The new sequence order is natural, a sensible default
-> 
-> - Only mine and Mareks systems appear to be affected despite the
->    patch has been upstream for a while.
-I might have had a revert in tree for a while, revert which I forgot 
-about, sorry.
+
+--33wsdvvmpdbglial
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm/atomic-helper: rcar-du: Enable CRTC early on R-Car DU
+MIME-Version: 1.0
+
+Hi,
+
+On Sat, Nov 08, 2025 at 12:04:26AM +0100, Marek Vasut wrote:
+> Introduce a variant of drm_atomic_helper_commit_modeset_enables()
+> which enables CRTC before encoder/bridge. This is needed on R-Car DU,
+> where the CRTC provides clock to LVDS and DSI, and has to be started
+> before a bridge may call .prepare , which may trigger e.g. DSI transfer.
+>=20
+> This specifically fixes the case where ILI9881C is connected to R-Car
+> DU DSI. The ILI9881C panel driver does DSI command transfer in its
+> struct drm_panel_funcs .prepare function, which is currently called
+> before R-Car DU rcar_du_crtc_atomic_enable() rcar_mipi_dsi_pclk_enable()
+> and the DSI command transfer times out.
+>=20
+> Fix this by restoring the enable ordering introduced in commit
+> c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable
+> and post-disable"), to enable CRTC early.
+>=20
+> Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable=
+ and post-disable")
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+> ---
+> Cc: Aradhya Bhatia <a-bhatia1@ti.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c           | 24 +++++++++++++++++++
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c |  2 +-
+>  include/drm/drm_atomic_helper.h               |  2 ++
+>  3 files changed, 27 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_at=
+omic_helper.c
+> index 5a473a274ff06..c0cdd36a03df1 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -1692,6 +1692,30 @@ void drm_atomic_helper_commit_modeset_enables(stru=
+ct drm_device *dev,
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_enables);
+> =20
+> +/**
+> + * drm_atomic_helper_commit_modeset_enables_crtc_early - modeset commit =
+to enable outputs, start CRTC early
+> + * @dev: DRM device
+> + * @state: atomic state object being committed
+> + *
+> + * This function is a variant of drm_atomic_helper_commit_modeset_enable=
+s()
+> + * which enables CRTC before encoder/bridge. This is needed on R-Car DU,
+> + * where the CRTC provides clock to LVDS and DSI, and has to be started
+> + * before a bridge may call .prepare , which may trigger e.g. DSI transf=
+er.
+> + */
+> +void
+> +drm_atomic_helper_commit_modeset_enables_crtc_early(struct drm_device *d=
+ev,
+> +						    struct drm_atomic_state *state)
+> +{
+> +	crtc_enable(dev, state);
+> +
+> +	encoder_bridge_pre_enable(dev, state);
+> +
+> +	encoder_bridge_enable(dev, state);
+> +
+> +	drm_atomic_helper_commit_writebacks(dev, state);
+> +}
+> +EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_enables_crtc_early);
+> +
+>  /*
+>   * For atomic updates which touch just a single CRTC, calculate the time=
+ of the
+>   * next vblank, and inform all the fences of the deadline.
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/=
+drm/renesas/rcar-du/rcar_du_kms.c
+> index 116ad9605704b..b7e2a735a03ae 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> @@ -547,7 +547,7 @@ static void rcar_du_atomic_commit_tail(struct drm_ato=
+mic_state *old_state)
+>  	drm_atomic_helper_commit_modeset_disables(dev, old_state);
+>  	drm_atomic_helper_commit_planes(dev, old_state,
+>  					DRM_PLANE_COMMIT_ACTIVE_ONLY);
+> -	drm_atomic_helper_commit_modeset_enables(dev, old_state);
+> +	drm_atomic_helper_commit_modeset_enables_crtc_early(dev, old_state);
+
+Just like we discussed on Linus' series for MCDE, we don't want to have
+an helper variant for every driver variation. If rcar is the only user
+of that helper, rename and export the symbols you need, and roll yor own
+commit_tail implementation.
+
+Maxime
+
+--33wsdvvmpdbglial
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaRyjogAKCRAnX84Zoj2+
+dmk6AYD5CsYty/IQaEeXnGws/aqHkXoWfExvsCS1VBPBsnpSLxaRhxPCMlN/VhtA
+Q5/KfTcBgI41obEwATFZ87RjN3xbSzhOYaBiRyLc/BTvSnClPR8KyxGqiMd/pNua
+9kQNAS9+Zg==
+=OOQw
+-----END PGP SIGNATURE-----
+
+--33wsdvvmpdbglial--
