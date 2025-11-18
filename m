@@ -2,87 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F71C683CC
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 09:41:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98D6DC683E4
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 09:42:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBAA910E13A;
-	Tue, 18 Nov 2025 08:41:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFD4E10E435;
+	Tue, 18 Nov 2025 08:42:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="F9e9N1nk";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Srl8pJ4a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2748910E13A
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 08:41:19 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-42b32a5494dso3054867f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 00:41:19 -0800 (PST)
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com
+ [209.85.218.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A7FF10E435
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 08:42:22 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id
+ a640c23a62f3a-b73b06c5024so175405766b.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 00:42:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763455277; x=1764060077; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1763455341; x=1764060141; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=yq4vFOa6PyL7QNMnAmGQxCezFFACJ7a135Nb6zfyyV0=;
- b=F9e9N1nkn97avB0oI898wW0r/Cuwy70Ao3fcqlXdCeIKuJXU/qepJ1kW8L2B7mSndE
- epuSBLaQ2YDBRzO+V1wQnnmFVvFzQdqEk8vQssx2Sc7SID/F+KDUtuaN2ZQTszdWMKvR
- P7+HC558T2jBcgt/iLH4GUFM+P1VXjTsE69HO92IFCI+kS2iuM30K1RXmeUqmbn+5MDn
- +C/tqzlfwyUH9mioxWf2+XADQ9gzIjS3r/maH10ERecKxuGKbi3xRYD9BtrCqLHUuaIO
- OLG5FFRRACpytMbUaupXz4TFvaeNexz2hNJ7eWaferaOemmK5WxJULVtgDK+KWwdtlQ0
- Ll0Q==
+ :reply-to; bh=WH5kfDA8Its3YM03fhXy4ZKpO/6JPKnHsTZ2/L3NhrE=;
+ b=Srl8pJ4aRYcWCNoYoyuf7GCQNVeL1XIClP0tOaIKntysZAYlk9sHjSjrUOc4Ww2KaS
+ fufLShLv7yHFJIY/5FuCThPJ83KVy/dwU8Gw6ct5Yer+lAeaFaLO42FjX5S0Ebs+qCrJ
+ aUE6rIYiE3nBDPe6Q9JhMUD1oJJHrKRNijgvf2rt/Bsilx7RvxBy9UD4uBrfeY34PkZj
+ CP0Op3fjRqKmO7gTp2RD2idohouQajvBi0W2J2yLRpVuUhPhsUWREeogxgrYiKcKb+bO
+ b57Q8tNA7DxaOGq7HmNyJNjKbUsLkf4yeY6VO+3tBJi+VVeSgHEdLM0Ehh4BhevMycJD
+ l01g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763455277; x=1764060077;
+ d=1e100.net; s=20230601; t=1763455341; x=1764060141;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yq4vFOa6PyL7QNMnAmGQxCezFFACJ7a135Nb6zfyyV0=;
- b=hvbdNJMMPLweCB1HcPtUkfMwXyQRD+C6fyyMN1A7HmBPPtoJp48KY0DW6Vm4OWrNMl
- dr7h6G2oF7/nhmroDxufcJ+U/x1GIwFXW9Y1D8mjX9CZFeK2Ugo1J+v92DacYNaLs+fD
- YqKDuD0u6sTYFOKrJ+f38PG4iFMSSATSz9c4OZ04vwhLPedKBTuBWiJjTWY5m9JNWZND
- tR7gnq0a0mVNaMK7HKx38RS+MEKFm9Y1tZviTW8ZUDHKqSxv/sIToOvtjB4DF6jG1lYA
- jc4a5xsQSD/5dDSBvGgm1DQqXI08a2hz0sBf058zgp6obdUxqSE9ks5/wGxA59OKjoOv
- +QGg==
-X-Gm-Message-State: AOJu0Ywsklcv+Y/E2Ia03dfh7gaI/dyLxOIapvbZbqjXLeq9t7Ac1ECM
- IhdY9V5oHQtSMZm4zZ2RhFj8P+cAh0W8qHl8r/yTwTTX5Nfei8RlgFjWxiOMvld86Yw=
-X-Gm-Gg: ASbGnctT7RwFNmHtWpnt3tWysCzmiwPdGSNHSiKUbw2T6A4JWZbDVd1eNO+DriYqiBU
- ZywcZh+rU6kCv86C7Xq+ghGszbsyVIn6GjE2KoPFb8QFk+y+ACl+O0JL8r46qxzwNPE+izXWs9I
- IsSozr2M6J8NoQPzojZpX/d1Jr4CGRbTcW8pwDa37Eedxbu2rRhM8N0462nUKibCZoLqq1+CEHB
- Kn01DIAbQqlCbjgovWQ62PVBqy6NudAGUoY02Q9BSWsrzvTv3OZI8M7RbGnCbZLpkRYn6QbAJMd
- Wl0UfAedOIWwfeL9137NtwZJc9zGpGhreJnfHulnfpKnrnL7u0wd4ln5kH4UWdgaPOuFadayEw1
- f+QmHzCUkQ2LpT2Hb3VzcDluMXm0DMPA40dio7SYzIgishXYJ5MLTsFDP/l79d8JShEi/tYtRmN
- OdnxYu2ph3BojTI6KbbPHzHgwBLSj1kjMs0TeCYgdeuhU2tdVwq16D541RqbGPA0TZTEtKser4x
- A==
-X-Google-Smtp-Source: AGHT+IH41RiGPHEXbxH0nSlq5WI8s9kpwlJS/lHBgfJ72O2j5qeoTLetkMeucm/wWN5c+EHRHiOcTw==
-X-Received: by 2002:a05:6000:2087:b0:42b:3bee:a7ff with SMTP id
- ffacd0b85a97d-42b5933b831mr14592311f8f.24.1763455277412; 
- Tue, 18 Nov 2025 00:41:17 -0800 (PST)
+ bh=WH5kfDA8Its3YM03fhXy4ZKpO/6JPKnHsTZ2/L3NhrE=;
+ b=aUJ2Fwt82QyFhzhY4HVxwbTbNf227RsR+vJYxCgwq5nN5NBOVH6klB+Q6p2jHi+1BI
+ WSJTuFLWHaAg1/U8PaAAu+VHVSQI6A1l4qOIFy/dQQKACMIOkHcsznbb/VzUNuETtx3V
+ 0lzbFOVExpmPLv+QZH0t88TXA5BAmJzpFA0fbg7aucFijoGp40V1DilERbyV4cA1tfej
+ xcKhyU/bqJfTAZLm9YVJEwm4LK0gK7GtmRneO7G1UdrCM4CVx2auTYe8c1PxWIZHzvS0
+ BpFCuweZhVxeans1WytkG5uYnCBScYjYcYeXc6tngs8jZbKntC0NRTtrjXTY8KLYmUKx
+ +1cg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWVd61OlTEnJrYoyXxtxd60yFl1GJsDtKQbSQa6eS5F0UIkwhqckP6/T1h3WTGq6Nq0y1ptTHSmYNM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz+xDA/veB/cc4At3/FDLMgFN/ATdPVUmQzYsXALzKZN821ceUe
+ W5+rFRymnV9feDNMWHlwIBylBAHt4TFGwNMvsd+tDiKhEzpNS3a7GdCfzUx3N7lgpbM=
+X-Gm-Gg: ASbGncv/69UTBn0Qayxoj+tnRJY2GNDQbU3d8VFXbs5rIOHyxlsqJzft56cuifGrPAH
+ 0OwF6CVcowGRucImq0YtrCMHDmHG+g0F5MRuGAE42CAqh+kjcLzG9zU3aogtVAfgXuMBsRi+G2N
+ 6FXPDIFK4q6CaQIfOEVE6srKotlCwQW0akdqoZ8bylW3tUVf6RL1kcPj2K/pldXYJvlD5fq1d87
+ 4Dd0Ty3plbbJTT4Lmuqjo0GOI23kEh+f/QDBj4+RyBxGzrPrT7Zvf/+1nmLfipTgGXKi84dhEnx
+ NdZLO5iBpI59UruhNK2N7ZPQa8kY0sWcptmNu9lASrW7qNYk4QoHdAHT1D4/Yf4vNqhjxPMRfLs
+ Gaf0ZvXzRB1RJbQS7uWV/IGy9OIJpNexOSCy2+kblLwu0koylvD95SaGekQFAizVgttFGIjRrZu
+ o0re7Pqgvi/LdY2z+p9jkK3trWdQkXkd5EHfpFqdf0zhWj0J4l/SBORern4SY51SPlRnjToS/e/
+ Q==
+X-Google-Smtp-Source: AGHT+IEhaFrOYu4Py+Us8ArflJOXu7G/hF9hQlr+6Ey8vBfY4KTWkqm9lk8u57P3nPnHffpUYL34jw==
+X-Received: by 2002:a17:907:1c96:b0:b73:39c3:b4f with SMTP id
+ a640c23a62f3a-b7367be02a8mr1542271266b.50.1763455340651; 
+ Tue, 18 Nov 2025 00:42:20 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:3d9:2080:366e:5264:fffe:1c49?
  ([2a01:e0a:3d9:2080:366e:5264:fffe:1c49])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42b5ce849ddsm24329515f8f.14.2025.11.18.00.41.15
+ a640c23a62f3a-b734fad4487sm1331425866b.22.2025.11.18.00.42.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Nov 2025 00:41:15 -0800 (PST)
-Message-ID: <8c2069c4-54ef-4cb2-8277-a807d08b472c@linaro.org>
-Date: Tue, 18 Nov 2025 09:41:14 +0100
+ Tue, 18 Nov 2025 00:42:20 -0800 (PST)
+Message-ID: <4bca0397-df09-49b4-aced-3046e09a6861@linaro.org>
+Date: Tue, 18 Nov 2025 09:42:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 5/7 RESEND] gpu/drm: panel: simple-panel: add Samsung
- LTL106AL01 LVDS panel support
-To: Svyatoslav Ryhel <clamor95@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Thierry Reding
- <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Douglas Anderson <dianders@chromium.org>, Sam Ravnborg <sam@ravnborg.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20251110091440.5251-1-clamor95@gmail.com>
- <20251110091440.5251-6-clamor95@gmail.com>
+From: neil.armstrong@linaro.org
+Subject: Re: [PATCH 3/3] drm/panel: simple: Add Raystar RFF500F-AWH-DNN panel
+ entry
+To: Fabio Estevam <festevam@gmail.com>
+Cc: jesszhan0024@gmail.com, dri-devel@lists.freedesktop.org, robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
+References: <20251115025827.3113790-1-festevam@gmail.com>
+ <20251115025827.3113790-3-festevam@gmail.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -109,7 +104,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20251110091440.5251-6-clamor95@gmail.com>
+In-Reply-To: <20251115025827.3113790-3-festevam@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -128,66 +123,58 @@ Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/10/25 10:14, Svyatoslav Ryhel wrote:
-> Samsung LTL106AL01 is a 10.6" FWXGA (1366x768) simple LVDS panel found in
-> Microsoft Surface RT tablet.
+On 11/15/25 03:58, Fabio Estevam wrote:
+> Add support for the Raystar RFF500F-AWH-DNN 5.0" TFT 840x480 LVDS panel.
 > 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
 > ---
->   drivers/gpu/drm/panel/panel-simple.c | 34 ++++++++++++++++++++++++++++
->   1 file changed, 34 insertions(+)
+>   drivers/gpu/drm/panel/panel-simple.c | 27 +++++++++++++++++++++++++++
+>   1 file changed, 27 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 6369e5828189..bdb53824e3ed 100644
+> index da6b71b70a46..57c44b016957 100644
 > --- a/drivers/gpu/drm/panel/panel-simple.c
 > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -4223,6 +4223,37 @@ static const struct panel_desc samsung_ltl101al01 = {
->   	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> @@ -4106,6 +4106,30 @@ static const struct panel_desc qishenglong_gopher2b_lcd = {
+>   	.connector_type = DRM_MODE_CONNECTOR_DPI,
 >   };
 >   
-> +static const struct display_timing samsung_ltl106al01_timing = {
-> +	.pixelclock = { 71980000, 71980000, 71980000 },
-> +	.hactive = { 1366, 1366, 1366 },
-> +	.hfront_porch = { 56, 56, 56 },
-> +	.hback_porch = { 106, 106, 106 },
-> +	.hsync_len = { 14, 14, 14 },
-> +	.vactive = { 768, 768, 768 },
-> +	.vfront_porch = { 3, 3, 3 },
-> +	.vback_porch = { 6, 6, 6 },
-> +	.vsync_len = { 1, 1, 1 },
-> +	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW,
+> +static const struct display_timing raystar_rff500f_awh_dnn_timing = {
+> +	.pixelclock = { 23000000, 25000000, 27000000 },
+> +	.hactive = { 800, 800, 800 },
+> +	.hback_porch = { 4, 8, 48 },
+> +	.hfront_porch = { 4, 8, 48 },
+> +	.hsync_len = { 2, 4, 8 },
+> +	.vactive = { 480, 480, 480 },
+> +	.vback_porch = { 4, 8, 12 },
+> +	.vfront_porch = { 4, 8, 12 },
+> +	.vsync_len = { 2, 4, 8 },
 > +};
 > +
-> +static const struct panel_desc samsung_ltl106al01 = {
-> +	.timings = &samsung_ltl106al01_timing,
+> +static const struct panel_desc raystar_rff500f_awh_dnn = {
+> +	.timings = &raystar_rff500f_awh_dnn_timing,
 > +	.num_timings = 1,
 > +	.bpc = 8,
 > +	.size = {
-> +		.width = 235,
-> +		.height = 132,
-> +	},
-> +	.delay = {
-> +		.prepare = 5,
-> +		.enable = 10,
-> +		.disable = 10,
-> +		.unprepare = 5,
+> +		.width = 108,
+> +		.height = 65,
 > +	},
 > +	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
 > +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
 > +};
 > +
->   static const struct drm_display_mode samsung_ltn101nt05_mode = {
->   	.clock = 54030,
->   	.hdisplay = 1024,
-> @@ -5390,6 +5421,9 @@ static const struct of_device_id platform_of_match[] = {
+>   static const struct display_timing rocktech_rk043fn48h_timing = {
+>   	.pixelclock = { 6000000, 9000000, 12000000 },
+>   	.hactive = { 480, 480, 480 },
+> @@ -5378,6 +5402,9 @@ static const struct of_device_id platform_of_match[] = {
 >   	}, {
->   		.compatible = "samsung,ltl101al01",
->   		.data = &samsung_ltl101al01,
+>   		.compatible = "qishenglong,gopher2b-lcd",
+>   		.data = &qishenglong_gopher2b_lcd,
 > +	}, {
-> +		.compatible = "samsung,ltl106al01",
-> +		.data = &samsung_ltl106al01,
+> +		.compatible = "raystar,rff500f-awh-dnn",
+> +		.data = &raystar_rff500f_awh_dnn,
 >   	}, {
->   		.compatible = "samsung,ltn101nt05",
->   		.data = &samsung_ltn101nt05,
+>   		.compatible = "rocktech,rk043fn48h",
+>   		.data = &rocktech_rk043fn48h,
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
