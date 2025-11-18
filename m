@@ -2,56 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98EFBC69A19
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 14:39:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFEDBC69A13
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 14:39:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0187510E4BF;
-	Tue, 18 Nov 2025 13:39:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A16A10E4B0;
+	Tue, 18 Nov 2025 13:39:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KxaKJHRm";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ikqO0xlZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 921ED10E4B0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 13:39:21 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 7D2BB1A1B86;
- Tue, 18 Nov 2025 13:39:19 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 4EF0E606FE;
- Tue, 18 Nov 2025 13:39:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id A893710371DD3; Tue, 18 Nov 2025 14:39:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1763473158; h=from:subject:date:message-id:to:cc:mime-version:
- content-transfer-encoding; bh=+5BtD6UXAzSoODFJ0HtV1TARfbnO74SaTKUs4pCZoxo=;
- b=KxaKJHRmfqTlJw6wcWE+4fak/MCoHFUHILBP8MP5Y6Nc9II/kbbhKwizdIIRW7VyjNevec
- VQEwr3rdp2KAsFTeTwaSQgWJvtFxgo14EC9T1j713YltOpk3jl/MMeQI9k0CFsM1nhHW3f
- 0NuW0jI74cUZG+xpoXIpGsgdS9mCGBQFLjTLpxqDs/sWnUI4HV2aFEIgbEz2+LYZHmDVED
- A9t4EaSzmaGAK1819MkOTIsHCH+HQswyXF6YLzXBM9WhS3SdqWlo0532N+GOS7g7uherzo
- 26qaJ+fZqDnWe14Di81L9madRnm5AfFKdRDDMN7VayWQO5nzueSya6A5svbC6g==
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Bajjuri Praneeth <praneeth@ti.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>,
- stable@vger.kernel.org, thomas.petazzoni@bootlin.com,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH v3] drm/tilcdc: Fix removal actions in case of failed probe
-Date: Tue, 18 Nov 2025 14:38:48 +0100
-Message-ID: <20251118133850.125561-1-kory.maincent@bootlin.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+ [209.85.208.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F4DB10E4B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 13:39:20 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id
+ 38308e7fff4ca-37b8aa5adf9so48053921fa.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 05:39:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1763473158; x=1764077958; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=FaTe+b1ye5h/AwfFGLANzjH/J5A7rL3yeYNV/rVxI2I=;
+ b=ikqO0xlZECUMlMI97YxYahUfCXx+IzgJG2Qp8XkXbUVuyYXRWUdjqHxgdqEIXHf91S
+ rAatnHa4bp+gZ8e2SXlnAHtEkmJpbyA/HrVV1j2D/L/HCfp2i+PqMo/7aoQIhuM40Ag+
+ RFxZGkUvYvIwwLAyhGBZ+LT5h7nDuOJ/eJj6Hi/WRZKl+NQQuxPUYw0uFFBnlb4aWVXh
+ sBb+/UV58V6jR6F21ky27JSYswCLwf39ITeILR5svXrqgDHFS0UJUnQNbnAAYoZnxLCf
+ c+I28xaA0P5ak9cxKp+R8yLUSuk+guqqQ+rad9xRc6KWf9n3fRwb6kYzZZaip/v4zNV/
+ ZTZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763473158; x=1764077958;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=FaTe+b1ye5h/AwfFGLANzjH/J5A7rL3yeYNV/rVxI2I=;
+ b=LQLEKYNKSN7GibigZtkos55Rr2VafzKMVBRHzNa1QFip9dNb9VSAvxMZvF5eMgKBCX
+ Wm3QhKnt+7ZVYq9I6NrqJv/XjuK4KFoPSBZzP//aIJ0NKpaZ2gVmJpLOf42qSTF1wLJT
+ y8WxiYaI0zu5jRNUfjcTgpMAE4U6Eu0qKlQAIC8tZLMMm6bMUs2olF78Vf0I5U9Z67tV
+ 4UFwMidawZHceZp0XPN7bDXP3u1uyzg7SOM+vKMgN9raqSvAMJ3GXF+ocSJOxd6zCOGz
+ U6YyISYJC5e5z82O+gFkGK9AmnSTIYd3DAi3JfxJ1Wx9GvxMiQn/TIm60zG2BgkIi3Cn
+ QNLw==
+X-Gm-Message-State: AOJu0Yy9gCBg3izG7p+q5totDqaveShHdCcazh87RtN/NaqlSBqAr85W
+ Q2SkrzYesfwALbyqhMIgoJMS/HgaX5uuFOYwvxYUO9uFSSghklKQym7Q80bc2iZTipSa71Hb9wj
+ esWgi8+DNDQ==
+X-Gm-Gg: ASbGncvjMYW9YMouZTxyxZQ0MN+BLZKGcMiCjCUD2WGjZEPH8QYYigA/AjXp7mWlAHo
+ kh8H7PA5U1c3/bJqE4cKLi/ntf/rlBwJ+/ja2Zaslyv2qoDD6qFq2k9DHCzFsC2v/23AWf60LkB
+ QMSqFLVfZqjSnUm57wUYm9llz2OveskvRe1Z3K/yvNS/rcLemzStxmwJEs8FlVO5vI8d8vW+ox9
+ bP6rWusM37U+iI76qpUDzQiYZQ8IqdAgQ0qt6hOckm6lTYAFMrek4SSQ7sxvxSzh920ou55X8f4
+ TihvU5w2ydc/5shwJ6u+OI2bhkPDc+MGm5DtuOJWrTk+Q/qjLXLbTEvJcxCTpOKRzLggl0UvRkd
+ IKhtbWLvInWeDESUIFjAf5CEKxlDYNDuWEmREafQCZ7IWAgeQv6oyj3Gx1Hxa/VImneUbDtNT3P
+ oHtdh72U3vY0qRlhQ5Q1h5gf/9T7csxLPb3cBisEA9QBAULMM/SFG8siQ=
+X-Google-Smtp-Source: AGHT+IFaM18nTVu333bbUCq7VxC1brsVvz9U5JSgeOsz389jmfv/SgEaP5v2AVDm854VlQ/Cs6q0xw==
+X-Received: by 2002:a05:6512:1250:b0:594:54ec:92e7 with SMTP id
+ 2adb3069b0e04-595842523bfmr5002142e87.28.1763473157864; 
+ Tue, 18 Nov 2025 05:39:17 -0800 (PST)
+Received: from [192.168.1.2] (c-92-34-217-190.bbcust.telenor.se.
+ [92.34.217.190]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5958040c55fsm3963391e87.98.2025.11.18.05.39.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Nov 2025 05:39:14 -0800 (PST)
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 18 Nov 2025 14:39:12 +0100
+Subject: [PATCH] drm: atomic helper: Add special quirk tail function
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251118-mcde-drm-regression-v1-1-ed5583efbd68@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MzQ5AMBAGX0X2bBPVoLyKOKAf9uAn20Qk4t2V4
+ yQzc1OACgI1yU2KU4LsWwSTJjQu/TaDxUemPMsLY4zjdfRgrysrZkX4fLbWY6hcX5duolgeikm
+ u/9p2z/MC4g+P4WUAAAA=
+X-Change-ID: 20251118-mcde-drm-regression-33deb78a968f
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
+ Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,223 +101,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
+This adds (yet another) variant of the
+drm_atomic_helper_commit_tail() helper function to deal
+with regressions caused by reordering the bridge
+prepare/enablement sequence.
 
-The drm_kms_helper_poll_fini() and drm_atomic_helper_shutdown() helpers
-should only be called when the device has been successfully registered.
-Currently, these functions are called unconditionally in tilcdc_fini(),
-which causes warnings during probe deferral scenarios.
+commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+"drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+caused a series of regressions in all panels that send
+DSI commands in their .prepare() and .unprepare()
+callbacks.
 
-[    7.972317] WARNING: CPU: 0 PID: 23 at drivers/gpu/drm/drm_atomic_state_helper.c:175 drm_atomic_helper_crtc_duplicate_state+0x60/0x68
-...
-[    8.005820]  drm_atomic_helper_crtc_duplicate_state from drm_atomic_get_crtc_state+0x68/0x108
-[    8.005858]  drm_atomic_get_crtc_state from drm_atomic_helper_disable_all+0x90/0x1c8
-[    8.005885]  drm_atomic_helper_disable_all from drm_atomic_helper_shutdown+0x90/0x144
-[    8.005911]  drm_atomic_helper_shutdown from tilcdc_fini+0x68/0xf8 [tilcdc]
-[    8.005957]  tilcdc_fini [tilcdc] from tilcdc_pdev_probe+0xb0/0x6d4 [tilcdc]
+As the CRTC is no longer online at bridge_pre_enable()
+and gone at brige_post_disable() which maps to the panel
+bridge .prepare()/.unprepare() callbacks, any CRTC that
+enable/disable the DSI transmitter in it's enable/disable
+callbacks will be unable to send any DSI commands in the
+.prepare() and .unprepare() callbacks.
 
-Fix this by rewriting the failed probe cleanup path using the standard
-goto error handling pattern, which ensures that cleanup functions are
-only called on successfully initialized resources. Additionally, remove
-the now-unnecessary is_registered flag.
+However the MCDE driver definitely need the CRTC to be
+enabled during .prepare()/.unprepare().
 
-Cc: stable@vger.kernel.org
-Fixes: 3c4babae3c4a ("drm: Call drm_atomic_helper_shutdown() at shutdown/remove time for misc drivers")
-Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
+This patch from Marek Vasut:
+https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas%40mailbox.org/
+solves part of the problem for drivers using custom
+tail functions, since MCDE is using helpers only, we
+add a new helper function that exploits the new
+drm_atomic_helper_commit_modeset_enables_crtc_early()
+and use that in MCDE.
+
+Link: https://lore.kernel.org/dri-devel/20251026-fix-mcde-drm-regression-v2-0-8d799e488cf9@linaro.org/
+Link: https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas%40mailbox.org/
+Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
-
-I'm working on removing the usage of deprecated functions as well as
-general improvements to this driver, but it will take some time so for
-now this is a simple fix to a functional bug.
-
-Change in v3:
-- Rewrite the failed probe clean up path using goto
-- Remove the is_registered flag
-
-Change in v2:
-- Add missing cc: stable tag
-- Add Swamil reviewed-by
+This obviously needs Marek's patch to be applied first, as
+it is a prerequisite.
 ---
- drivers/gpu/drm/tilcdc/tilcdc_crtc.c |  2 +-
- drivers/gpu/drm/tilcdc/tilcdc_drv.c  | 53 ++++++++++++++++++----------
- drivers/gpu/drm/tilcdc/tilcdc_drv.h  |  2 +-
- 3 files changed, 37 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/drm_atomic_helper.c | 32 ++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/mcde/mcde_drv.c     |  5 +++--
+ include/drm/drm_atomic_helper.h     |  1 +
+ 3 files changed, 36 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-index 5718d9d83a49f..52c95131af5af 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-@@ -586,7 +586,7 @@ static void tilcdc_crtc_recover_work(struct work_struct *work)
- 	drm_modeset_unlock(&crtc->mutex);
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index f03b93c72b8f..fe30159d13b1 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -1976,6 +1976,38 @@ void drm_atomic_helper_commit_tail_rpm(struct drm_atomic_state *state)
  }
+ EXPORT_SYMBOL(drm_atomic_helper_commit_tail_rpm);
  
--static void tilcdc_crtc_destroy(struct drm_crtc *crtc)
-+void tilcdc_crtc_destroy(struct drm_crtc *crtc)
++/**
++ * drm_atomic_helper_commit_tail_early - commit atomic update to hardware
++ * @state: new modeset state to be committed
++ *
++ * This is an alternative implementation for the
++ * &drm_mode_config_helper_funcs.atomic_commit_tail hook, for drivers
++ * that support runtime_pm or need the CRTC to be enabled to perform a
++ * commit, and also need the CRTC to be enabled before preparing any
++ * bridhes. Otherwise, one should use the default implementation
++ * drm_atomic_helper_commit_tail().
++ */
++void drm_atomic_helper_commit_tail_early(struct drm_atomic_state *state)
++{
++	struct drm_device *dev = state->dev;
++
++	drm_atomic_helper_commit_modeset_disables(dev, state);
++
++	drm_atomic_helper_commit_modeset_enables_crtc_early(dev, state);
++
++	drm_atomic_helper_commit_planes(dev, state,
++					DRM_PLANE_COMMIT_ACTIVE_ONLY);
++
++	drm_atomic_helper_fake_vblank(state);
++
++	drm_atomic_helper_commit_hw_done(state);
++
++	drm_atomic_helper_wait_for_vblanks(dev, state);
++
++	drm_atomic_helper_cleanup_planes(dev, state);
++}
++EXPORT_SYMBOL(drm_atomic_helper_commit_tail_early);
++
+ static void commit_tail(struct drm_atomic_state *state)
  {
- 	struct tilcdc_drm_private *priv = crtc->dev->dev_private;
- 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-index 7caec4d38ddf0..2a88cce445b8f 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-@@ -172,8 +172,7 @@ static void tilcdc_fini(struct drm_device *dev)
- 	if (priv->crtc)
- 		tilcdc_crtc_shutdown(priv->crtc);
- 
--	if (priv->is_registered)
--		drm_dev_unregister(dev);
-+	drm_dev_unregister(dev);
- 
- 	drm_kms_helper_poll_fini(dev);
- 	drm_atomic_helper_shutdown(dev);
-@@ -220,21 +219,21 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
- 	priv->wq = alloc_ordered_workqueue("tilcdc", 0);
- 	if (!priv->wq) {
- 		ret = -ENOMEM;
--		goto init_failed;
-+		goto put_drm;
- 	}
- 
- 	priv->mmio = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(priv->mmio)) {
- 		dev_err(dev, "failed to request / ioremap\n");
- 		ret = PTR_ERR(priv->mmio);
--		goto init_failed;
-+		goto free_wq;
- 	}
- 
- 	priv->clk = clk_get(dev, "fck");
- 	if (IS_ERR(priv->clk)) {
- 		dev_err(dev, "failed to get functional clock\n");
- 		ret = -ENODEV;
--		goto init_failed;
-+		goto free_wq;
- 	}
- 
- 	pm_runtime_enable(dev);
-@@ -313,7 +312,7 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
- 	ret = tilcdc_crtc_create(ddev);
- 	if (ret < 0) {
- 		dev_err(dev, "failed to create crtc\n");
--		goto init_failed;
-+		goto disable_pm;
- 	}
- 	modeset_init(ddev);
- 
-@@ -324,46 +323,46 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
- 	if (ret) {
- 		dev_err(dev, "failed to register cpufreq notifier\n");
- 		priv->freq_transition.notifier_call = NULL;
--		goto init_failed;
-+		goto destroy_crtc;
- 	}
- #endif
- 
- 	if (priv->is_componentized) {
- 		ret = component_bind_all(dev, ddev);
- 		if (ret < 0)
--			goto init_failed;
-+			goto unregister_cpufreq_notif;
- 
- 		ret = tilcdc_add_component_encoder(ddev);
- 		if (ret < 0)
--			goto init_failed;
-+			goto unbind_component;
- 	} else {
- 		ret = tilcdc_attach_external_device(ddev);
- 		if (ret)
--			goto init_failed;
-+			goto unregister_cpufreq_notif;
- 	}
- 
- 	if (!priv->external_connector &&
- 	    ((priv->num_encoders == 0) || (priv->num_connectors == 0))) {
- 		dev_err(dev, "no encoders/connectors found\n");
- 		ret = -EPROBE_DEFER;
--		goto init_failed;
-+		goto unbind_component;
- 	}
- 
- 	ret = drm_vblank_init(ddev, 1);
- 	if (ret < 0) {
- 		dev_err(dev, "failed to initialize vblank\n");
--		goto init_failed;
-+		goto unbind_component;
- 	}
- 
- 	ret = platform_get_irq(pdev, 0);
- 	if (ret < 0)
--		goto init_failed;
-+		goto unbind_component;
- 	priv->irq = ret;
- 
- 	ret = tilcdc_irq_install(ddev, priv->irq);
- 	if (ret < 0) {
- 		dev_err(dev, "failed to install IRQ handler\n");
--		goto init_failed;
-+		goto unbind_component;
- 	}
- 
- 	drm_mode_config_reset(ddev);
-@@ -372,16 +371,34 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
- 
- 	ret = drm_dev_register(ddev, 0);
- 	if (ret)
--		goto init_failed;
--	priv->is_registered = true;
-+		goto stop_poll;
- 
- 	drm_client_setup_with_color_mode(ddev, bpp);
- 
- 	return 0;
- 
--init_failed:
--	tilcdc_fini(ddev);
-+stop_poll:
-+	drm_kms_helper_poll_fini(ddev);
-+	tilcdc_irq_uninstall(ddev);
-+unbind_component:
-+	if (priv->is_componentized)
-+		component_unbind_all(dev, ddev);
-+unregister_cpufreq_notif:
-+#ifdef CONFIG_CPU_FREQ
-+	cpufreq_unregister_notifier(&priv->freq_transition,
-+				    CPUFREQ_TRANSITION_NOTIFIER);
-+#endif
-+destroy_crtc:
-+	tilcdc_crtc_destroy(priv->crtc);
-+disable_pm:
-+	pm_runtime_disable(dev);
-+	clk_put(priv->clk);
-+free_wq:
-+	destroy_workqueue(priv->wq);
-+put_drm:
- 	platform_set_drvdata(pdev, NULL);
-+	ddev->dev_private = NULL;
-+	drm_dev_put(ddev);
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.h b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-index b818448c83f61..58b276f82a669 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-@@ -82,7 +82,6 @@ struct tilcdc_drm_private {
- 	struct drm_encoder *external_encoder;
- 	struct drm_connector *external_connector;
- 
--	bool is_registered;
- 	bool is_componentized;
- 	bool irq_enabled;
+ 	struct drm_device *dev = state->dev;
+diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
+index 5f2c462bad7e..4d88b342ed9e 100644
+--- a/drivers/gpu/drm/mcde/mcde_drv.c
++++ b/drivers/gpu/drm/mcde/mcde_drv.c
+@@ -104,9 +104,10 @@ static const struct drm_mode_config_helper_funcs mcde_mode_config_helpers = {
+ 	/*
+ 	 * Using this function is necessary to commit atomic updates
+ 	 * that need the CRTC to be enabled before a commit, as is
+-	 * the case with e.g. DSI displays.
++	 * the case with e.g. DSI displays, and also make sure that the
++	 * CRTC is enabled before any bridges are prepared.
+ 	 */
+-	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
++	.atomic_commit_tail = drm_atomic_helper_commit_tail_early,
  };
-@@ -164,6 +163,7 @@ void tilcdc_crtc_set_panel_info(struct drm_crtc *crtc,
- void tilcdc_crtc_set_simulate_vesa_sync(struct drm_crtc *crtc,
- 					bool simulate_vesa_sync);
- void tilcdc_crtc_shutdown(struct drm_crtc *crtc);
-+void tilcdc_crtc_destroy(struct drm_crtc *crtc);
- int tilcdc_crtc_update_fb(struct drm_crtc *crtc,
- 		struct drm_framebuffer *fb,
- 		struct drm_pending_vblank_event *event);
+ 
+ static irqreturn_t mcde_irq(int irq, void *data)
+diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+index d7fb473db343..75e480760313 100644
+--- a/include/drm/drm_atomic_helper.h
++++ b/include/drm/drm_atomic_helper.h
+@@ -64,6 +64,7 @@ int drm_atomic_helper_check(struct drm_device *dev,
+ 			    struct drm_atomic_state *state);
+ void drm_atomic_helper_commit_tail(struct drm_atomic_state *state);
+ void drm_atomic_helper_commit_tail_rpm(struct drm_atomic_state *state);
++void drm_atomic_helper_commit_tail_early(struct drm_atomic_state *state);
+ int drm_atomic_helper_commit(struct drm_device *dev,
+ 			     struct drm_atomic_state *state,
+ 			     bool nonblock);
+
+---
+base-commit: 643e6ae9e34fc3a87c7953b6929265e93b9c38e1
+change-id: 20251118-mcde-drm-regression-33deb78a968f
+
+Best regards,
 -- 
-2.43.0
+Linus Walleij <linus.walleij@linaro.org>
 
