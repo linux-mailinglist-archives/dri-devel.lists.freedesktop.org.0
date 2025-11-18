@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF513C67C1E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 07:42:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A0F2C67C42
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 07:45:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A839E10E417;
-	Tue, 18 Nov 2025 06:41:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7464610E414;
+	Tue, 18 Nov 2025 06:45:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nFAf7Fn1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kJyckBfV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 13AAB10E414;
- Tue, 18 Nov 2025 06:41:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B45F10E0EC;
+ Tue, 18 Nov 2025 06:45:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763448119; x=1794984119;
+ t=1763448339; x=1794984339;
  h=date:from:to:cc:subject:message-id:references:
  in-reply-to:mime-version;
- bh=sTZ0S5Mg4WgW7t+ZwOcvI/I/6zAdpaDGYtIRA2mANeo=;
- b=nFAf7Fn1sNqRwEsiZ9U020Sw8EHWJIxfqf7RddBylKkcxpK1Hfav2tza
- FO/HIW78t/hXwkN5kwCxQFSi/pK3NSc98aXrl41uNfcKzFdWQi8Y1BJph
- QQN8OOYkQKFIkNZAS7YHKsL8ibsU84i5AEAR1OQ4DqppiZpu/oigpX17G
- JE62BeS5Wdr6G9F+W60v1Sk01BXTnyw8QdaRXQ7+M0didzCBqyylUNFWH
- 6+eGBOWAfnlRr6D3URrT0vH+8r74+4Y729nNeBiJBLRo38G9CAvY5RBSs
- dnnoqc79fhwmpG/XG65L8W1VmQVgiAR5XzYEDyn1ghnINB80iONCIZI9v Q==;
-X-CSE-ConnectionGUID: pC2Jezt1Saa5cGMmVvg4Ww==
-X-CSE-MsgGUID: YXZHOa5AQhSP5osctf+qXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="82851668"
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208";a="82851668"
+ bh=s+J9Nre3ZYBEjBJIcAkWX9O+Bmfh09tRhL28qUlx+qw=;
+ b=kJyckBfVsPtlzwVQVEoFBcZ8Kavm5KNev5cdo7/xZzNhz03+vYZzq0y2
+ 2StxuqvlcddVeY0ycBJbXynKLYcNXk4wF5ASnls9lAOa+xToFEbgotZY7
+ LGVALxXdWHkgIsHVJQxGNb+XwecBubQUYlUGTFD2XKhEVVREKDoqfUoYZ
+ fiYx9AYKpcfF9Uit0fJ6rstLje0lFEJvkk0qjdD1DpAPlQ6DwcVJShukM
+ n5TfcWb+rVShTQvI5HBuYxko0rcDQ1zvUFVGwt/LuIPSHUZA8h2N0Y6K/
+ nUua0bAUiJyXOn1lFfJqWcoQIr39STYOIYnMHuEJ26Te/UNhNfrIYaXe5 w==;
+X-CSE-ConnectionGUID: x3Dh8VWCT5Kab4rRhS94bw==
+X-CSE-MsgGUID: xUzjyH0OQz68AeC14VUPnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="82852174"
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208";a="82852174"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2025 22:41:58 -0800
-X-CSE-ConnectionGUID: xED/2OywTPqjVv5ebyvhww==
-X-CSE-MsgGUID: HfDdvjs+R6ije2998n1B6g==
+ 17 Nov 2025 22:45:38 -0800
+X-CSE-ConnectionGUID: LyIYgELLQ5mSKVmoGKKR2w==
+X-CSE-MsgGUID: 39c2/5DoQzSiiCKQL3zIRw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208";a="189964546"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208";a="189965618"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2025 22:41:58 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ 17 Nov 2025 22:45:38 -0800
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 17 Nov 2025 22:45:37 -0800
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
  ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 17 Nov 2025 22:41:57 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Mon, 17 Nov 2025 22:41:57 -0800
-Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.61) by
+ 15.2.2562.27 via Frontend Transport; Mon, 17 Nov 2025 22:45:37 -0800
+Received: from DM5PR21CU001.outbound.protection.outlook.com (52.101.62.47) by
  edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 17 Nov 2025 22:41:56 -0800
+ 15.2.2562.27; Mon, 17 Nov 2025 22:45:37 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vDa4HvZXxYoNN6DdbDqi/uxdXfhI201otevth33bH2KSeDTxcbFifw5auDGu8SaT82dWtC5d70M651WMmNdmljE6T+EACnhvGW11MQfJ4+GpgwskYwncLODyF6nEZ3X+OsHJJf01tMt/FkBJpRi8G+x8NxaVwQK2zXAxl+UQgB70Ngef08RQNI+qTgOYhUP58cXiCl6JlE+Boj/WnOioCgS4d+oTbIlOfhkSVQSNk642MbmXgfZ+s9cjxyJmaPCFoTmBBCRXL6FC3rgM8zYsVOBlAbY9uqooydIclxmSc2iFpUGoKdiikTPifBBxkR9LQDoOHEFfIskOl2Fq/blEug==
+ b=XJGoabREVxn/QuqQnk6XpE5degNf1t9H5rSkrupKpfs0MshhooZVbTq9GNQXwLfzBPKjQQmL+VfZBkSlKDsF3Lz4L7ktG31GG/lj8sEUrdvbFw78MIrnF4eVUc5vLYbScWf07WGfhPWXuafHY+34UFmYzOCo37rJhmMzASsLfdrUy6xBPT+DcwsyqdUSuhsvLLZFb6Nj/Y0iQI67LI3zM9zTW/5FAyGw5HCh1YpkRCfdQ+L4P1MTLC4ENChtTEeyv3J7AoCqiLC3qRIobr1nSXcC59Th78dDvkWUh1Db1VPbA2cHDsmUJjzxKx5HfZ3u+jCjxc+lwmBIb3l6xIzGAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j0QUQVD0f057O9NGPzfcnYEPAGg+cEpDf0j6ZG04w2Y=;
- b=sVcit4fWR/d+F0+2nO+Tpi1bmm+bnqeer338P81nAglITK28HcN5uBLlKzDd4Y9Y8+d3y1KvkS1r1rust3I5XTHdmng/ey6HO1m6yAMn8TBQs84ZomkiGh0YQ1nLTZWC1T80+CKyuz6GpP0iOJEYhv55JLhy5qAAmmRQcvqoDVCGLeSoJ15D9OYIFFxjZh8Zg4zIAV9PCXOct7kKM6MhQfVr/C6GcWilGL1OqUVXeuwq9P+oi7/eDz6nrnb/UrS9/cdOttp9bqpp/5ZutI9mnwGQOhuQ5NHzi/P5yEl9kXLNtWVOsBo1PG0weIb23ri6Cdm2xuZ83td7Tm8xdNpeiw==
+ bh=fzH0GLY88O9UyQNktpym/x4uMICRvXOlTtwoGSbX4Sg=;
+ b=kptVvsACDpb2QtgNg7WZ3zdzzmE6Ba6rAZfwUUD5haEaPwjy3WNPs/C7uX/TPHk2dDEg0yhaF6plKTEiDL05hPm/sEj/6+Q80abgP7PaVNiESuGhN3z3+YN/rsRGmhF4jA0HLEk4vN/LdtPON2hLA1Q4ViEtGR+hJCtm/CmKOoFNeoLPtPHQLQIMZkg+s2ffsNCDrr2lwM+BMURd9oAzfQ3QJfkNswH59G0AWpmCfNXo6zmuplsdv1cFtjLSD0gaH7AwRl1JLqQ1+cnXY8PuFpKncgRuRgcOCZHOajUAxESd/3Z/2w1p/BC+04HKyfwV4V7eHp/fhkCKCcYKeNJw0g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -69,98 +69,99 @@ Received: from BL3PR11MB6410.namprd11.prod.outlook.com (2603:10b6:208:3b9::15)
  by SA3PR11MB7534.namprd11.prod.outlook.com (2603:10b6:806:305::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.16; Tue, 18 Nov
- 2025 06:41:55 +0000
+ 2025 06:45:34 +0000
 Received: from BL3PR11MB6410.namprd11.prod.outlook.com
  ([fe80::b01a:aa33:165:efc]) by BL3PR11MB6410.namprd11.prod.outlook.com
  ([fe80::b01a:aa33:165:efc%3]) with mapi id 15.20.9320.021; Tue, 18 Nov 2025
- 06:41:54 +0000
-Date: Mon, 17 Nov 2025 22:41:52 -0800
+ 06:45:34 +0000
+Date: Mon, 17 Nov 2025 22:45:31 -0800
 From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
 To: Matthew Brost <matthew.brost@intel.com>
 CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <christian.koenig@amd.com>, <pstanner@redhat.com>, <dakr@kernel.org>
-Subject: Re: [PATCH v3 5/7] drm/xe: Do not deregister queues in TDR
-Message-ID: <aRwVMM_RKyx1CKEI@nvishwa1-desk>
+Subject: Re: [PATCH v3 6/7] drm/xe: Remove special casing for LR queues in
+ submission
+Message-ID: <aRwWC46dgXKjRGVW@nvishwa1-desk>
 References: <20251016204826.284077-1-matthew.brost@intel.com>
- <20251016204826.284077-6-matthew.brost@intel.com>
+ <20251016204826.284077-7-matthew.brost@intel.com>
 Content-Type: text/plain; charset="us-ascii"; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20251016204826.284077-6-matthew.brost@intel.com>
-X-ClientProxiedBy: BY3PR03CA0016.namprd03.prod.outlook.com
- (2603:10b6:a03:39a::21) To BL3PR11MB6410.namprd11.prod.outlook.com
+In-Reply-To: <20251016204826.284077-7-matthew.brost@intel.com>
+X-ClientProxiedBy: SJ0PR03CA0142.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::27) To BL3PR11MB6410.namprd11.prod.outlook.com
  (2603:10b6:208:3b9::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: BL3PR11MB6410:EE_|SA3PR11MB7534:EE_
-X-MS-Office365-Filtering-Correlation-Id: e0a226a8-625b-4ec4-653a-08de266d904b
+X-MS-Office365-Filtering-Correlation-Id: fbfe7443-c5d5-4e4a-9be5-08de266e133f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?K2zMHqnVQkfcQQSs/70tC+ZumRSlipcVXb6w7HGnaCBnfeG6dzp1mR8xWJYv?=
- =?us-ascii?Q?fcjy8LTwgsXykhKaALq+adosrinhOz6gLJIfzCEhuewtsE2wwx4L9XA5NMKK?=
- =?us-ascii?Q?aUJzcZUa8H857LqQrM2vKXE4dWk22bseOp0aOWBer8UeT7EEfaPfYPXUPV2s?=
- =?us-ascii?Q?M4dIbepqEJzdlWCmLHZT+v1vZRDuoSuDBUyXZfUp1GojHFvWWJ9AjMuWtUaz?=
- =?us-ascii?Q?DGmgTRTOhS6BAi80SM6SKZihY/xPpHlv0LZkMaC6MUagyGMTRFlSG9/K6pYn?=
- =?us-ascii?Q?HpiRWppYtaleG7oRN8dPETssTD1m+qbQA66pJ9K0Ayr5VYiLHQVeFxAFne6u?=
- =?us-ascii?Q?nDm7Akz31uhHGNQOLn5a9cGDZQNW7xtM9B3p4joAJsABZaFQMm0jdE0/bXnC?=
- =?us-ascii?Q?ZVold6kuE8gNfIhGlQErRSftA25DcbkIdjGrb/ncjfir3xaiEgMHQaMjxrTc?=
- =?us-ascii?Q?TxHVhIntK2ICwyEKFO2WZKkvrPVx7JbeC9y//JsvMjC9Ftk+LVXUvOqC7kVT?=
- =?us-ascii?Q?Zr/wHyeZ1GwxuTj8F2fUbaOkAy7os1b9TviGOZFG127fxpw71acrfI8rh+Mm?=
- =?us-ascii?Q?mPr1BqRvdteBTHamvVnBqDyo2JgMMFlP5AX7PjA/aqtKquwV1cgM+56TkzC+?=
- =?us-ascii?Q?Bv8oplcRKYamMhw+rvzGFTO4a3ATmpwWrKcnnXSLG5yabNwgzOfKdfy6JdS6?=
- =?us-ascii?Q?9tRIs8KMhYOgEEaN4KkfnJC7psA2HMsPMgzvOzfeB1h+57zE1tELVUV6H93d?=
- =?us-ascii?Q?7IyfpSd20U4b4E/6wTmWpzycIbi7oU+hFARpiILi4GJQIsUGchVTesZt1dkZ?=
- =?us-ascii?Q?7bXmdC/Tw1/QJarekM/HvJX7f9/NEE068Ul4EB1eWqIf/rHVfSdVgsn5u9+2?=
- =?us-ascii?Q?HGFsuzdIdRYlz1YkQ13cwL8sbnvwHyAb3pUG9mimm1YXhbjkJwoZBQzXMKo+?=
- =?us-ascii?Q?lvOwGSstgaYBV1TyI02qYs+ENeF1zDlajqhbUkCRWWJK3yxeWIC0u07Fv9mE?=
- =?us-ascii?Q?diEWjoxN3+HhhkfOwxR/Cxk2IPgQyoTx3rBluHX/QAJT776eRUKpbV8x0osc?=
- =?us-ascii?Q?gzlsRSIubDGzBSWByVk7S1762bNjVI7OutbIythIxso+5fWnLE7lXe9xO+lT?=
- =?us-ascii?Q?P4tAsh2f92N0HxCjTJ6MbLoxJCXDYMH6K3NIHn1vCjy+wiN8VyARGxPXaX7I?=
- =?us-ascii?Q?sV+yaCjdbOUB4Zw8nt1uCN4SL5scSP9CT1QPg/toqluE8xID6rUbJwvZ8eKZ?=
- =?us-ascii?Q?1EGEM8zk/5O5Kk4zbhi075LplHvlEp6X475QH/uYJoWsfJZP4XmgkAaq25bp?=
- =?us-ascii?Q?HbffTIRZOYIq5Mmx4y7cqpY0iGBiKNn2axf4zhadsGoU8dzttNdmcxpJdkte?=
- =?us-ascii?Q?WKaVlzcY/qBvZVpw5jPhz4vW7khMGkYhOaDH+JMm4LHuQGmbAllx+lNIuBIO?=
- =?us-ascii?Q?w3k3utl8K9y8yBFCc2YWkcfl/QCggh1G?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fD60V9WstorT467BFgDwlVSWbBCR0fo1zqPJl/5RybA9Ye53JO1WC9fehOaA?=
+ =?us-ascii?Q?131Oshe8b7waQr3++43ckFNHAkOWP9C5b9oblWPe37XGD/WYJXhBAPjb14hS?=
+ =?us-ascii?Q?JBCnyIqZVNVVPsH8VkLWa7g4221LuFczzNlZW7pIvcc7VYrOCvA5VRz0OyFe?=
+ =?us-ascii?Q?jtOa+eKWbzyivVyYoV9dXURmQACQ49EjLl9AmqZjOYsgcuCPilWz+qi76v7J?=
+ =?us-ascii?Q?rKvvuhsqdq+CNfPUrGafxRcDbKSQdnOe8DPrFki3dtUzcrv9TrEUYlGh4htt?=
+ =?us-ascii?Q?0ec2YqnNONft09zV2P0vDg+l+PjBSK34v+5uCmQpXLT8mS9VYf8g4Lhl1gn/?=
+ =?us-ascii?Q?nzH0F9oVkqbj8Jzv4WbYzb/sJnIFI0A2tisc04bL8+93KaUB0uz6vWNYos1q?=
+ =?us-ascii?Q?Wjij5932X6760LhUnsjw9z3VuZjD3EmP0rXYAJs+GhRIOncOFCRt/Upy3UCR?=
+ =?us-ascii?Q?1nYrdXIx7+aN1Ppk5PsJFJmhuNuhN7Xc2GMA6ofF8Og/8K38AmxoSIBCunWO?=
+ =?us-ascii?Q?IJsJd0KiGFvSGL4A1o3+upbu6RHAw/0zynViT5BVOc0RNTrk57XS9jzMlEF/?=
+ =?us-ascii?Q?QySsUCFHMbRthu65oP7wKkgJSlNhn37/QV77yUDQ6LK4yj21/0eLCqlSM4I+?=
+ =?us-ascii?Q?uRUjU02Cm5WPBQ0vshZ/kXpqBQnlt5IfjeNsAkbyoSMmZ6RZj1TeF7j4ceMk?=
+ =?us-ascii?Q?UyQIHLkuaROvGnFhPi5ft5+2WlkpXT97w/Ykd/xM7Yej4hmFwPcgTOjNphek?=
+ =?us-ascii?Q?MNx4CzJOufP5OJ0RIaT0y0bSYxYZv9KbP/A3S71fCbBkxvPBojr1U1G3xV3O?=
+ =?us-ascii?Q?c4IdA3P8RR6IvilNXsDeVsXw4cJVcwbmU3jPwe4KmX3Y0+s1Ab0UEdcjWU6D?=
+ =?us-ascii?Q?e2GxoOcZGEFNutA59Y80ydj5ggNOJ/ugqFNWWkv1i4/KubIyZ3HHk0snHwlE?=
+ =?us-ascii?Q?AjXcrFxxSVHx3XowKQ38dkxZ3YAJFi5rqcc/HFHZ+dINzT17ArdUPyciG2s1?=
+ =?us-ascii?Q?RSeAu1thnsrr+P3uitRewgd9uXaCLknAHBzmyadNJGQTaFCPfcbXR1yUuxLz?=
+ =?us-ascii?Q?/H/UyWK2aMQinXYVtfkvn9ICtSsTa4563DrmjItxB4EbXxJFrggMT4aO03iV?=
+ =?us-ascii?Q?WIza6K0qEc4hsX+tDT5uyQBuNV1QK26R8gTUwBTI9lX7kXv9Cy9gTayqdw6O?=
+ =?us-ascii?Q?sy1r0vLK7P12lO19UC/WkotqBuc2+ilL/9lpwZQhnLcyXAQLq5XAv4hZtL0+?=
+ =?us-ascii?Q?de1aJNEuD83faqgc3U4AZLhpWYuOEvfQ89eA2HrZMKjpeI78syiLJhcfZow1?=
+ =?us-ascii?Q?7O3D8Npgzir2H0Udt7VMIptFtEWCEaZkcS9U+Xk1wzjM9Za4Zn5B4Jm3l1RH?=
+ =?us-ascii?Q?0PnolSjJ+e7lwdOLU298rG4esluw5KAeTRnDTcjdWQTG1AgYzO0NOi4GJVAz?=
+ =?us-ascii?Q?WI6cdf0luvPvnvyBQDy9qYi0As5uHHV/?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL3PR11MB6410.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kaF1vvi3z0tVnP325tWiC0kYA5gBw5T+X/vEy/EH5z/so7YVxvgTGcpqW1E0?=
- =?us-ascii?Q?lg8+0y1gyerRZfVo5XoexW/MBHbIXI24OlH1k3ALGgpYBDTLKa8r+NfoTGjB?=
- =?us-ascii?Q?8lcWdLZXnJRcVpx+tDwItfoCpHCCulLKyPqF3XnJg65A9rz6Qvii4snB1/Ks?=
- =?us-ascii?Q?vdnH2cF0P9vslQooxm/gs37ymX+ND4sFJ6cfaRxfcHxzGV+mDVzqWaJNlWWM?=
- =?us-ascii?Q?7zLjb0nEZfZzpKA2MLw7PB0syQLgtBOuJ2mgXMAPKXw6F9yuXLQwtQJ4n9DS?=
- =?us-ascii?Q?zu+uRnCOoIIheRKddF6X7ZnM7zCh27L2pZCR4Sp5CtQ1QHDPFccbLflFHK9l?=
- =?us-ascii?Q?5fU1ol4ikLjbzvT3GmHNJquNs+Su54S++15EwlwZsK0IchY+ZFZRJQBvo1V7?=
- =?us-ascii?Q?3y1HPq0vBaZf+svN7gByxddzLaPZOajoSEKYLd/rHobHMTJsmNVaGzvC3hFH?=
- =?us-ascii?Q?GJivlqJjtev0y/2w8refew6EBAV9K4qJrrwSZfyHN95If0Bm5SzDtELGvT1J?=
- =?us-ascii?Q?ojkNB1jPwl+ekMORyVV+QHKjrS7Ep7/jPv+RV05t6zBfAcjRzETqehe+Xr54?=
- =?us-ascii?Q?4ccbFI8odFDFnCb3DJQc45FocV4CdKM+SU8xeWJJDXWvMdBn2/jz61QKGzvh?=
- =?us-ascii?Q?f3aH9xhqoFWizD3BUBiPVpmPEaunQCH4iFb5QJ3fDWglw96BFUv5srHLUOk7?=
- =?us-ascii?Q?gIAOd/gGSW6yrlsPRx6hbNXRn1CKRus3zvY/BEuEL7fbdB9iAxApfIe6c1Qv?=
- =?us-ascii?Q?HObxd6eX7nUBzyaj563ULmOeSiyJBSKHqwS6pCdanNhxwGPamWfmgpd5AXui?=
- =?us-ascii?Q?LGWhit4sMKbFa2RIaQw9zN6598FOggfzfKYoT9xe2MydGjTWFo6BxhMXguMN?=
- =?us-ascii?Q?EsQ2OJKZoIUpcxup7XP6h+ylOAGihlTE7KkU1fADW3ZAiMgo7gP2siFM5WnF?=
- =?us-ascii?Q?jke6fLkXN+75DpJzbPrWcLZRQD3E920e0SqAtdmHjMUqsQZkJVCu7wjKgJ0g?=
- =?us-ascii?Q?5M56WfPDvAVDQTseoqCzzK3vpWzyDokczFNVs+QmhFa81d52A0ESbY1FNfx3?=
- =?us-ascii?Q?eeOc91m+RkDySV4Zj535lzsptGxL+owUenwv5g5sRyqE1hPRIcHAvGkvHaNE?=
- =?us-ascii?Q?vnmQ2bgTj22/KDJ7mmjleb2m3QHsr9E0XM5KZVpq+uNeNhFqZOPCmKrVBhbO?=
- =?us-ascii?Q?W3aJw74omCFR6Q9DTU/OHWOCLLcXsKDvBUv/Z4+bHboWsMKPIrsgxZLN/uGY?=
- =?us-ascii?Q?al9bXR9itGlYTMPV9A0F6dheOywZn/vXX5wAWNC61pWsqxLIo2Kf8g9Soffa?=
- =?us-ascii?Q?lsAdC17CsCcz+h0DfEcdyUYJuWFFeH6RdmbtFpc5DPpqlx5XtjZNbN4tnUt2?=
- =?us-ascii?Q?jA3AYVxKEX2FhVb8OPcw5RIyXu5zltHCBnDVbxvPOTtKXBvuVHA83gwaRFj5?=
- =?us-ascii?Q?qprqdgghsPR78gGFjQa6YDgh8J4ZniiPcVFy1uYq+AtkeHFldbhpW0pUScni?=
- =?us-ascii?Q?c+FQzTo0bj27OjoenmnvsDl0J0uUu+gH2ljCDkj9Pr65eaHWfKVWqD06pX6K?=
- =?us-ascii?Q?v+3ZLyF1IV4IiTRHX5MV5bLoUofFa3qrgTjWZ+Y9TbgPQfFuCA32g+KTeh3F?=
- =?us-ascii?Q?EDqlkHrLj8h+hflaUMo9JqQ=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0a226a8-625b-4ec4-653a-08de266d904b
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ryl7R2+5jSwoBlWP7RylTlmEqAgyOth2EBsx1TSUWP7rxQQDm53aNTmPH/aj?=
+ =?us-ascii?Q?pFZSdtIig11N2U1wSfU7QZLPSt5J15/XA6kkJwi07hBab/WRJhzUM04z3RBh?=
+ =?us-ascii?Q?aGAatuICezJMMVUHAlrif2ruJjx9/dUf1KEUTzvJ+iGCbfR9hK0O9XsGpdqr?=
+ =?us-ascii?Q?67hCNM+8SqJuKEg8h5n1ECg+QgKN/ZF1Wr2+G+ugXmzwY1BM9AB9PqBsML/P?=
+ =?us-ascii?Q?5C4WdDuWgws50H40uZh0AxPgnWye+voNqkRPqVnrSLU4Mp8aGjuO2iMIhiIX?=
+ =?us-ascii?Q?5Xf8qfSkVfp5DBole3bkxXrGMYEHUzTsdKQmEuT8UPm/xjdAxLe+iYF3FNRk?=
+ =?us-ascii?Q?Q6p9K4MVOC95sb/q2Hpn3TrQN117iFXEEtTNg5FNNK49IEn5TlyUehdZX8o9?=
+ =?us-ascii?Q?1WIb7rzCjPpIzorCmZfw9N6guSCWVaVhMSyLkJYBRSzNbDfKI6pX8rLmmeeJ?=
+ =?us-ascii?Q?prtWHBbOifNJSx9Gv4Zm1hk4pkJ0gJ+hMILFWZoYVTommYaV3fLTK9H++mtW?=
+ =?us-ascii?Q?hdUfs7in13KwLdYqJM0tgMY75cvLRGAd8krajZnaXOWKlVhjj+YBYHeYUATJ?=
+ =?us-ascii?Q?qor8wN3SKHCkayw8lNloFGQtAwVddODb84FhhETcKVoXYFncwvBZYnrrEVw0?=
+ =?us-ascii?Q?ip6d33cW4HW34f7RmG8rKMD5PyIxUBsUM26kL8moBtWoCqzv8zm4DFXVfZCV?=
+ =?us-ascii?Q?W0/b8JjYCWmjt1rd85YOJSG7pw7vW5r7sTEWKjOxQxb8Jfw83hCnQkdi4Ne+?=
+ =?us-ascii?Q?xqvYz3oFgSL7w7U6dKNL57jF8O0gSh8Wm1AS53FVl6BcNzpjAeU2ENk8Od4N?=
+ =?us-ascii?Q?46v9lnmwU8S2oFgBaF2WnjgmItXR4FOrctWNavwdXOpncVS770pru00QZVnw?=
+ =?us-ascii?Q?Wld70M75ATz1cvJL7zwjvWYX2CfwMVc6zoEpr6BISsREsJyrnQMvJr9A9Acb?=
+ =?us-ascii?Q?MmwEaU4gNGvqDB5UpUIFeHREZVPf7kxkVqEEX8st8/lKOJOrQsk3zifreoGZ?=
+ =?us-ascii?Q?5u4FbWhkCpDZdMWcvt3BS3QKU0tNrfchPROM5bOB9CjjL+3wBbCSy0ZN/bTR?=
+ =?us-ascii?Q?BY0yjVHFIoy7lYi/6fsBmbM1Rk21SGPCq3HOFvLj03lEs/K/vw/QljIy1CuB?=
+ =?us-ascii?Q?/f75ZuYhJH2cFOsPtBFQunfCyiuksfgNL4jVDtGQ/hIsOJW+sNn1ePuD4f2X?=
+ =?us-ascii?Q?W0vtZAMnM6rN9O7vwXWENqEaULNW6hqAkqZWJomYTe+QukWNOaij7JqI9zUY?=
+ =?us-ascii?Q?XrLQFmzCHCaplMrY9eAJ3EzbGizxLx1OEZN1KKP6Fa4nRWXOGt7fVlC8qc3O?=
+ =?us-ascii?Q?btxHZxHXKO4KfcMZyH2bPBjM0eeEc/j4CkfhpjyxWb1wRahWC2yW6RqaibT5?=
+ =?us-ascii?Q?BGa9UjUK+6TMuk+d38GdcNXIHiyFWOSOh7wfm549ZjVh7L412jVhKTZzQUdV?=
+ =?us-ascii?Q?AKp5WX6lia6WOOToWntLMvAFum6D3DY9Qp+AHAOXYj0PsVqbxsHvfwwem8vT?=
+ =?us-ascii?Q?Mllc2CodeCMsiyO/rk9xn3i4j2hpTBtgWh8KSWarPTGA/wjhoCdxPK6l2ttt?=
+ =?us-ascii?Q?GtNerhmp6Rk1gO5tYpA8lelzgs+wFLu7l2ryt7r8JhXligQCV7zTotTCbDAu?=
+ =?us-ascii?Q?CNPO1xK2kfHH1nqwJ4BES/c=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fbfe7443-c5d5-4e4a-9be5-08de266e133f
 X-MS-Exchange-CrossTenant-AuthSource: BL3PR11MB6410.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2025 06:41:54.8537 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2025 06:45:34.6337 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lMcz/MB4hf+DxTZbTlwsmZZOCUFFIIPiubImy8njRP6Eri5NbU6wzR7Utp3UgA35KMVI8fwWsxkGnA3Z9qBK4ogS4l/UCtvBtXqPm4SExMw8ipKpLIw48ktZ8HPaQT/t
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3FvfDm6Fr3rvRBWpz5Mbhnd6jAtTNolU9lNqg1t5uLz/DG+dHYzfAbZgvCVuHSLqwOaUUj8eFiZbX8rd73kDt4uvld9o5adFeELHmjIQMBa8Vpr1bzdvVGo8U9+7Jkiw
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7534
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -178,144 +179,277 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 16, 2025 at 01:48:24PM -0700, Matthew Brost wrote:
->Deregistering queues in the TDR introduces unnecessary complexity,
->requiring reference counting tricks to function correctly. All that's
->needed in the TDR is to kick the queue off the hardware, which is
->achieved by disabling scheduling. Queue deregistration should be handled
->in a single, well-defined point in the cleanup path, tied to the queue's
->reference count.
+On Thu, Oct 16, 2025 at 01:48:25PM -0700, Matthew Brost wrote:
+>Now that LR jobs are tracked by the DRM scheduler, there's no longer a
+>need to special-case LR queues. This change removes all LR
+>queue-specific handling, including dedicated TDR logic, reference
+>counting schemes, and other related mechanisms.
 >
+>Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>---
+> drivers/gpu/drm/xe/xe_guc_exec_queue_types.h |   2 -
+> drivers/gpu/drm/xe/xe_guc_submit.c           | 129 +------------------
+> 2 files changed, 7 insertions(+), 124 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h b/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
+>index a3b034e4b205..fd0915ed8eb1 100644
+>--- a/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
+>+++ b/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
+>@@ -33,8 +33,6 @@ struct xe_guc_exec_queue {
+> 	 */
+> #define MAX_STATIC_MSG_TYPE	3
+> 	struct xe_sched_msg static_msgs[MAX_STATIC_MSG_TYPE];
+>-	/** @lr_tdr: long running TDR worker */
+>-	struct work_struct lr_tdr;
+> 	/** @destroy_async: do final destroy async from this worker */
+> 	struct work_struct destroy_async;
+> 	/** @resume_time: time of last resume */
+>diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
+>index ab0f1a2d4871..bb1f2929441c 100644
+>--- a/drivers/gpu/drm/xe/xe_guc_submit.c
+>+++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+>@@ -674,14 +674,6 @@ static void register_exec_queue(struct xe_exec_queue *q, int ctx_type)
+> 		parallel_write(xe, map, wq_desc.wq_status, WQ_STATUS_ACTIVE);
+> 	}
+>
+>-	/*
+>-	 * We must keep a reference for LR engines if engine is registered with
+>-	 * the GuC as jobs signal immediately and can't destroy an engine if the
+>-	 * GuC has a reference to it.
+>-	 */
+>-	if (xe_exec_queue_is_lr(q))
+>-		xe_exec_queue_get(q);
+>-
+> 	set_exec_queue_registered(q);
+> 	trace_xe_exec_queue_register(q);
+> 	if (xe_exec_queue_is_parallel(q))
+>@@ -854,7 +846,7 @@ guc_exec_queue_run_job(struct drm_sched_job *drm_job)
+> 	struct xe_sched_job *job = to_xe_sched_job(drm_job);
+> 	struct xe_exec_queue *q = job->q;
+> 	struct xe_guc *guc = exec_queue_to_guc(q);
+>-	bool lr = xe_exec_queue_is_lr(q), killed_or_banned_or_wedged =
+>+	bool killed_or_banned_or_wedged =
+> 		exec_queue_killed_or_banned_or_wedged(q);
+>
+> 	xe_gt_assert(guc_to_gt(guc), !(exec_queue_destroyed(q) || exec_queue_pending_disable(q)) ||
+>@@ -871,15 +863,6 @@ guc_exec_queue_run_job(struct drm_sched_job *drm_job)
+> 		job->skip_emit = false;
+> 	}
+>
+>-	/*
+>-	 * We don't care about job-fence ordering in LR VMs because these fences
+>-	 * are never exported; they are used solely to keep jobs on the pending
+>-	 * list. Once a queue enters an error state, there's no need to track
+>-	 * them.
+>-	 */
+>-	if (killed_or_banned_or_wedged && lr)
+>-		xe_sched_job_set_error(job, -ECANCELED);
+>-
 
-Overall looks good to me.
-But it would help if the commit text describes why this extra reference
-taking was there before for lr jobs and why it is not needed now.
+Why this piece of code here is being removed?
+
+> 	return job->fence;
+> }
+>
+>@@ -923,8 +906,7 @@ static void disable_scheduling_deregister(struct xe_guc *guc,
+> 		xe_gt_warn(q->gt, "Pending enable/disable failed to respond\n");
+> 		xe_sched_submission_start(sched);
+> 		xe_gt_reset_async(q->gt);
+>-		if (!xe_exec_queue_is_lr(q))
+>-			xe_sched_tdr_queue_imm(sched);
+>+		xe_sched_tdr_queue_imm(sched);
+> 		return;
+> 	}
+>
+>@@ -950,10 +932,7 @@ static void xe_guc_exec_queue_trigger_cleanup(struct xe_exec_queue *q)
+> 	/** to wakeup xe_wait_user_fence ioctl if exec queue is reset */
+> 	wake_up_all(&xe->ufence_wq);
+>
+>-	if (xe_exec_queue_is_lr(q))
+>-		queue_work(guc_to_gt(guc)->ordered_wq, &q->guc->lr_tdr);
+>-	else
+>-		xe_sched_tdr_queue_imm(&q->guc->sched);
+>+	xe_sched_tdr_queue_imm(&q->guc->sched);
+> }
+>
+> /**
+>@@ -1009,78 +988,6 @@ static bool guc_submit_hint_wedged(struct xe_guc *guc)
+> 	return true;
+> }
+>
+>-static void xe_guc_exec_queue_lr_cleanup(struct work_struct *w)
+>-{
+>-	struct xe_guc_exec_queue *ge =
+>-		container_of(w, struct xe_guc_exec_queue, lr_tdr);
+>-	struct xe_exec_queue *q = ge->q;
+>-	struct xe_guc *guc = exec_queue_to_guc(q);
+>-	struct xe_gpu_scheduler *sched = &ge->sched;
+>-	struct drm_sched_job *job;
+>-	bool wedged = false;
+>-
+>-	xe_gt_assert(guc_to_gt(guc), xe_exec_queue_is_lr(q));
+>-
+>-	if (vf_recovery(guc))
+>-		return;
+>-
+>-	trace_xe_exec_queue_lr_cleanup(q);
+
+Remove the trace event as well in xe_trace.h?
 
 Niranjana
 
->Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->---
-> drivers/gpu/drm/xe/xe_guc_submit.c | 57 +++---------------------------
-> 1 file changed, 5 insertions(+), 52 deletions(-)
->
->diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
->index 680696efc434..ab0f1a2d4871 100644
->--- a/drivers/gpu/drm/xe/xe_guc_submit.c
->+++ b/drivers/gpu/drm/xe/xe_guc_submit.c
->@@ -69,9 +69,8 @@ exec_queue_to_guc(struct xe_exec_queue *q)
-> #define EXEC_QUEUE_STATE_WEDGED			(1 << 8)
-> #define EXEC_QUEUE_STATE_BANNED			(1 << 9)
-> #define EXEC_QUEUE_STATE_CHECK_TIMEOUT		(1 << 10)
->-#define EXEC_QUEUE_STATE_EXTRA_REF		(1 << 11)
->-#define EXEC_QUEUE_STATE_PENDING_RESUME		(1 << 12)
->-#define EXEC_QUEUE_STATE_PENDING_TDR_EXIT	(1 << 13)
->+#define EXEC_QUEUE_STATE_PENDING_RESUME		(1 << 11)
->+#define EXEC_QUEUE_STATE_PENDING_TDR_EXIT	(1 << 12)
->
-> static bool exec_queue_registered(struct xe_exec_queue *q)
-> {
->@@ -218,21 +217,6 @@ static void clear_exec_queue_check_timeout(struct xe_exec_queue *q)
-> 	atomic_and(~EXEC_QUEUE_STATE_CHECK_TIMEOUT, &q->guc->state);
-> }
->
->-static bool exec_queue_extra_ref(struct xe_exec_queue *q)
->-{
->-	return atomic_read(&q->guc->state) & EXEC_QUEUE_STATE_EXTRA_REF;
->-}
 >-
->-static void set_exec_queue_extra_ref(struct xe_exec_queue *q)
->-{
->-	atomic_or(EXEC_QUEUE_STATE_EXTRA_REF, &q->guc->state);
->-}
+>-	if (!exec_queue_killed(q))
+>-		wedged = guc_submit_hint_wedged(exec_queue_to_guc(q));
 >-
->-static void clear_exec_queue_extra_ref(struct xe_exec_queue *q)
->-{
->-	atomic_and(~EXEC_QUEUE_STATE_EXTRA_REF, &q->guc->state);
->-}
+>-	/* Kill the run_job / process_msg entry points */
+>-	xe_sched_submission_stop(sched);
 >-
-> static bool exec_queue_pending_resume(struct xe_exec_queue *q)
-> {
-> 	return atomic_read(&q->guc->state) & EXEC_QUEUE_STATE_PENDING_RESUME;
->@@ -1190,25 +1174,6 @@ static void disable_scheduling(struct xe_exec_queue *q, bool immediate)
-> 		       G2H_LEN_DW_SCHED_CONTEXT_MODE_SET, 1);
-> }
->
->-static void __deregister_exec_queue(struct xe_guc *guc, struct xe_exec_queue *q)
->-{
->-	u32 action[] = {
->-		XE_GUC_ACTION_DEREGISTER_CONTEXT,
->-		q->guc->id,
->-	};
->-
->-	xe_gt_assert(guc_to_gt(guc), !exec_queue_destroyed(q));
->-	xe_gt_assert(guc_to_gt(guc), exec_queue_registered(q));
->-	xe_gt_assert(guc_to_gt(guc), !exec_queue_pending_enable(q));
->-	xe_gt_assert(guc_to_gt(guc), !exec_queue_pending_disable(q));
->-
->-	set_exec_queue_destroyed(q);
->-	trace_xe_exec_queue_deregister(q);
->-
->-	xe_guc_ct_send(&guc->ct, action, ARRAY_SIZE(action),
->-		       G2H_LEN_DW_DEREGISTER_CONTEXT, 1);
->-}
->-
-> static enum drm_gpu_sched_stat
-> guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
-> {
->@@ -1326,8 +1291,6 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
-> 			xe_devcoredump(q, job,
-> 				       "Schedule disable failed to respond, guc_id=%d, ret=%d, guc_read=%d",
-> 				       q->guc->id, ret, xe_guc_read_stopped(guc));
->-			set_exec_queue_extra_ref(q);
->-			xe_exec_queue_get(q);	/* GT reset owns this */
-> 			set_exec_queue_banned(q);
-> 			xe_gt_reset_async(q->gt);
-> 			xe_sched_tdr_queue_imm(sched);
->@@ -1380,13 +1343,7 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
-> 		}
-> 	}
->
->-	/* Finish cleaning up exec queue via deregister */
-> 	set_exec_queue_banned(q);
+>-	/*
+>-	 * Engine state now mostly stable, disable scheduling / deregister if
+>-	 * needed. This cleanup routine might be called multiple times, where
+>-	 * the actual async engine deregister drops the final engine ref.
+>-	 * Calling disable_scheduling_deregister will mark the engine as
+>-	 * destroyed and fire off the CT requests to disable scheduling /
+>-	 * deregister, which we only want to do once. We also don't want to mark
+>-	 * the engine as pending_disable again as this may race with the
+>-	 * xe_guc_deregister_done_handler() which treats it as an unexpected
+>-	 * state.
+>-	 */
 >-	if (!wedged && exec_queue_registered(q) && !exec_queue_destroyed(q)) {
->-		set_exec_queue_extra_ref(q);
->-		xe_exec_queue_get(q);
->-		__deregister_exec_queue(guc, q);
+>-		struct xe_guc *guc = exec_queue_to_guc(q);
+>-		int ret;
+>-
+>-		set_exec_queue_banned(q);
+>-		disable_scheduling_deregister(guc, q);
+>-
+>-		/*
+>-		 * Must wait for scheduling to be disabled before signalling
+>-		 * any fences, if GT broken the GT reset code should signal us.
+>-		 */
+>-		ret = wait_event_timeout(guc->ct.wq,
+>-					 !exec_queue_pending_disable(q) ||
+>-					 xe_guc_read_stopped(guc) ||
+>-					 vf_recovery(guc), HZ * 5);
+>-		if (vf_recovery(guc))
+>-			return;
+>-
+>-		if (!ret) {
+>-			xe_gt_warn(q->gt, "Schedule disable failed to respond, guc_id=%d\n",
+>-				   q->guc->id);
+>-			xe_devcoredump(q, NULL, "Schedule disable failed to respond, guc_id=%d\n",
+>-				       q->guc->id);
+>-			xe_sched_submission_start(sched);
+>-			xe_gt_reset_async(q->gt);
+>-			return;
+>-		}
 >-	}
+>-
+>-	if (!exec_queue_killed(q) && !xe_lrc_ring_is_idle(q->lrc[0]))
+>-		xe_devcoredump(q, NULL, "LR job cleanup, guc_id=%d", q->guc->id);
+>-
+>-	drm_sched_for_each_pending_job(job, &sched->base, NULL)
+>-		xe_sched_job_set_error(to_xe_sched_job(job), -ECANCELED);
+>-
+>-	xe_sched_submission_start(sched);
+>-}
+>-
+> #define ADJUST_FIVE_PERCENT(__t)	mul_u64_u32_div(__t, 105, 100)
 >
-> 	/* Mark all outstanding jobs as bad, thus completing them */
-> 	xe_sched_job_set_error(job, err);
->@@ -1928,7 +1885,7 @@ static void guc_exec_queue_stop(struct xe_guc *guc, struct xe_exec_queue *q)
+> static bool check_timeout(struct xe_exec_queue *q, struct xe_sched_job *job)
+>@@ -1150,8 +1057,7 @@ static void enable_scheduling(struct xe_exec_queue *q)
+> 		xe_gt_warn(guc_to_gt(guc), "Schedule enable failed to respond");
+> 		set_exec_queue_banned(q);
+> 		xe_gt_reset_async(q->gt);
+>-		if (!xe_exec_queue_is_lr(q))
+>-			xe_sched_tdr_queue_imm(&q->guc->sched);
+>+		xe_sched_tdr_queue_imm(&q->guc->sched);
+> 	}
+> }
+>
+>@@ -1189,8 +1095,6 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
+> 	pid_t pid = -1;
+> 	bool wedged = false, skip_timeout_check;
+>
+>-	xe_gt_assert(guc_to_gt(guc), !xe_exec_queue_is_lr(q));
+>-
+> 	/*
+> 	 * TDR has fired before free job worker. Common if exec queue
+> 	 * immediately closed after last fence signaled. Add back to pending
+>@@ -1395,8 +1299,6 @@ static void __guc_exec_queue_destroy_async(struct work_struct *w)
+> 	xe_pm_runtime_get(guc_to_xe(guc));
+> 	trace_xe_exec_queue_destroy(q);
+>
+>-	if (xe_exec_queue_is_lr(q))
+>-		cancel_work_sync(&ge->lr_tdr);
+> 	/* Confirm no work left behind accessing device structures */
+> 	cancel_delayed_work_sync(&ge->sched.base.work_tdr);
+>
+>@@ -1629,9 +1531,6 @@ static int guc_exec_queue_init(struct xe_exec_queue *q)
+> 	if (err)
+> 		goto err_sched;
+>
+>-	if (xe_exec_queue_is_lr(q))
+>-		INIT_WORK(&q->guc->lr_tdr, xe_guc_exec_queue_lr_cleanup);
+>-
+> 	mutex_lock(&guc->submission_state.lock);
+>
+> 	err = alloc_guc_id(guc, q);
+>@@ -1885,9 +1784,7 @@ static void guc_exec_queue_stop(struct xe_guc *guc, struct xe_exec_queue *q)
 >
 > 	/* Clean up lost G2H + reset engine state */
 > 	if (exec_queue_registered(q)) {
->-		if (exec_queue_extra_ref(q) || xe_exec_queue_is_lr(q))
->+		if (xe_exec_queue_is_lr(q))
-> 			xe_exec_queue_put(q);
-> 		else if (exec_queue_destroyed(q))
-> 			__guc_exec_queue_destroy(guc, q);
->@@ -2062,11 +2019,7 @@ static void guc_exec_queue_revert_pending_state_change(struct xe_guc *guc,
->
-> 	if (exec_queue_destroyed(q) && exec_queue_registered(q)) {
-> 		clear_exec_queue_destroyed(q);
->-		if (exec_queue_extra_ref(q))
+>-		if (xe_exec_queue_is_lr(q))
 >-			xe_exec_queue_put(q);
->-		else
->-			q->guc->needs_cleanup = true;
->-		clear_exec_queue_extra_ref(q);
->+		q->guc->needs_cleanup = true;
-> 		xe_gt_dbg(guc_to_gt(guc), "Replay CLEANUP - guc_id=%d",
+>-		else if (exec_queue_destroyed(q))
+>+		if (exec_queue_destroyed(q))
+> 			__guc_exec_queue_destroy(guc, q);
+> 	}
+> 	if (q->guc->suspend_pending) {
+>@@ -1917,9 +1814,6 @@ static void guc_exec_queue_stop(struct xe_guc *guc, struct xe_exec_queue *q)
+> 				trace_xe_sched_job_ban(job);
+> 				ban = true;
+> 			}
+>-		} else if (xe_exec_queue_is_lr(q) &&
+>-			   !xe_lrc_ring_is_idle(q->lrc[0])) {
+>-			ban = true;
+> 		}
+>
+> 		if (ban) {
+>@@ -2002,8 +1896,6 @@ static void guc_exec_queue_revert_pending_state_change(struct xe_guc *guc,
+> 	if (pending_enable && !pending_resume &&
+> 	    !exec_queue_pending_tdr_exit(q)) {
+> 		clear_exec_queue_registered(q);
+>-		if (xe_exec_queue_is_lr(q))
+>-			xe_exec_queue_put(q);
+> 		xe_gt_dbg(guc_to_gt(guc), "Replay REGISTER - guc_id=%d",
 > 			  q->guc->id);
 > 	}
->@@ -2483,7 +2436,7 @@ static void handle_deregister_done(struct xe_guc *guc, struct xe_exec_queue *q)
+>@@ -2060,10 +1952,7 @@ static void guc_exec_queue_pause(struct xe_guc *guc, struct xe_exec_queue *q)
+>
+> 	/* Stop scheduling + flush any DRM scheduler operations */
+> 	xe_sched_submission_stop(sched);
+>-	if (xe_exec_queue_is_lr(q))
+>-		cancel_work_sync(&q->guc->lr_tdr);
+>-	else
+>-		cancel_delayed_work_sync(&sched->base.work_tdr);
+>+	cancel_delayed_work_sync(&sched->base.work_tdr);
+>
+> 	guc_exec_queue_revert_pending_state_change(guc, q);
+>
+>@@ -2435,11 +2324,7 @@ static void handle_deregister_done(struct xe_guc *guc, struct xe_exec_queue *q)
+> 	trace_xe_exec_queue_deregister_done(q);
 >
 > 	clear_exec_queue_registered(q);
+>-
+>-	if (xe_exec_queue_is_lr(q))
+>-		xe_exec_queue_put(q);
+>-	else
+>-		__guc_exec_queue_destroy(guc, q);
+>+	__guc_exec_queue_destroy(guc, q);
+> }
 >
->-	if (exec_queue_extra_ref(q) || xe_exec_queue_is_lr(q))
->+	if (xe_exec_queue_is_lr(q))
-> 		xe_exec_queue_put(q);
-> 	else
-> 		__guc_exec_queue_destroy(guc, q);
+> int xe_guc_deregister_done_handler(struct xe_guc *guc, u32 *msg, u32 len)
 >-- 
 >2.34.1
 >
