@@ -2,84 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD02C69A46
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 14:42:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779A9C69B49
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 14:50:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B04E10E4B5;
-	Tue, 18 Nov 2025 13:42:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEF8210E057;
+	Tue, 18 Nov 2025 13:50:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="X/QLunBD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YigVSk1P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
- [209.85.128.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9897B10E4B2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 13:42:00 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-71d60157747so44733807b3.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 05:42:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763473319; x=1764078119; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HbWihSl/seq2iSenPMdAEzOdr4EnCHKVYwFGzvMWGCo=;
- b=X/QLunBDAFb60s2ehZKKfxqcnoydsmgWJPURDSQvqz5QNuBJSZ/n1x07JA+7rUZYkI
- ZZqvV9qeuaGMuzRRxbEDX9Wv/7zCv9c34Xiy8DZIQzyMLUgrbTVd9OxhylR0QK8kWq/e
- TmHNdh5hr44mcauqH/wsmH5y2O2nGvB8ulQkjPE8ZFBlqeZw9Jk6vCPI35ry9JZTTnxj
- 3v+L0xNQQzIeWJaFfh5JP1XJ51iD2vlvgHDHCHpj3pltgKOaHGOyTBIaxE38IW2OjNTo
- zq2mFDNVMZN7W1++G35XNRpyf9W5UVE8Z50FEOmdgzcHcrN1wL7+1ZSSRhaflOxhhQZU
- yYzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763473319; x=1764078119;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=HbWihSl/seq2iSenPMdAEzOdr4EnCHKVYwFGzvMWGCo=;
- b=CleJFvXNv733RI1DV5yv/Bz9zojp4ggPr56kaaJ1/zrhCq6UFwTRRSqrdpZPsuoMkq
- Xxw1tTvakflMLv9yo5LE4NpMjIG0XNNI/QVNruDHiBRjrWCZQu9ZUu43TCrO6bPRbAg6
- fLDSmAJJg9fK3smdNt5x2Cnbr1a8kXuCtCrcsf9QvXhhdIwiitg3zKoMgQv9zgAeLtDd
- ckv2y9V3N+A4XQsdEwIYZmATlRJfP/+Dxy8OQxz3cgZdADsjl9FppTkuCiluNBbXV5oP
- UhXPFibA4O8qojERQWg2QvFKq3krzY40Si5cSkISAV4C7IF+oE4fWKDOb8dyTgb39yl6
- HMug==
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BF6E10E057
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 13:50:22 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 88E314050A
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 13:50:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CC74C16AAE
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 13:50:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763473821;
+ bh=rZN0IQenPgdJTxvH2ZMIbHtQc8Q8fpFwqgB1ZfTEqYk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=YigVSk1PucNXZQaqOmxEHcomc++750v1Ylo27FOmB9pTIpPkwH0Bk5DwmbRsx0+2t
+ 8GvUnt1m2TVDPUGhB8ZWOT8LhOKu4vf3igP2ZFZzqahSY8PBvz5Sqq57WvFylzBn1D
+ eFQYpEXmJap5I5RFvFk0LkrrJC/av9ytQHB9lt3rZgQXydh5DZgXtX1xfwEb6Q0F3I
+ PJIoc7G1O+F1jH7Ik0ymxY1/PlHRuZr58bdHpLG9A3DpSQgL07yLdjsuTUKxPJUyAk
+ +SOh8IrpJp74ggyYz+4HSccnRBDkfc2nQf1iZitzp9/vZxWVvps0KXMioVKWuTcV4W
+ EalTmxIvj8eMg==
+Received: by mail-pf1-f178.google.com with SMTP id
+ d2e1a72fcca58-7ba92341f83so1652863b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 05:50:21 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXvZnZ1GnT3yMTmVTaOdTSH7URqiB2D7qoX7Lv/vqkYnmkZFL5nwCHO1Tn7YSxkngUmeSzNVZSJRag=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwmmQvmk6Tny0WQR7BZ4PFiOPQn1bY7t0sYU/hIrhzSNXvLGnAV
- CJGierexAkIbX6oaMRRzRWlxGPTB4vLDBkL711K5qlzhpOYiIgs73ChBohYSVzbpB8q8ThyIeOd
- tQM3CWyjvoUBiQJAycJ8PKZ/5RuJ58oZS25u/rWh6cQ==
-X-Gm-Gg: ASbGnctT8Jn3zQ+Omomq8HHhmeTJ7YCLLRTqbfJZnMjEh1nfOU7dCsK9IM6c5HSTQ7w
- uwOquW/p5xVL03IU+o4Yyjoymmq/Mldbhuq44r753WkTgHCgi3AwzacVbCBh1FGlyzSkioa2ekV
- bG0ovqNUFiqc+h0XC15Ax40o5tDPaYXoSruOUpSb7i7mTC/k9CSWxHl58N9QMnA3mC8r0FGsNBK
- HaEZ50CHuO+uaZYdCFGCTEX+BBBtRJ4IPMcPr1cBtvJJaY4FA09aHs0rfJLoxo8LOE4HRk=
-X-Google-Smtp-Source: AGHT+IEXY4sz+z82OILtE0SuCw2B6z6fVpEqUThFoyXmCKI5f/Ek1XuIj03U7CX6KW6DzdzwAkaXc3zbi6wKAbSyZd4=
-X-Received: by 2002:a05:690c:46c9:b0:784:1f81:8c39 with SMTP id
- 00721157ae682-78929f1c647mr152836727b3.59.1763473319392; Tue, 18 Nov 2025
- 05:41:59 -0800 (PST)
+ AJvYcCUyx6loa6zbg/yj6TloYIWI3bkznG+5WlygrHE/a7Gl0jwpSYT9D/Q/BoBLtVkjR+LyAbYHbz/jsiw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy4neUwdsA3r8w14quRF0Syih825eH43nc/U1QJyb2i5kTUxckA
+ saa6QNW0oSd4ZrNFueOVG/O9FU4vRJs5Wr2v6ETCft+++9hNslaXojzvDlU5GhgwqgOh0CbEO5S
+ p+7v9P0ZgvOiTiBM+TGmEsuTZbVm85A==
+X-Google-Smtp-Source: AGHT+IE5Z2MpRyC9oab0WJaiNyBW3hN6XFa3Rzhz8UyPsuoc9Pa2UFnVnNAcowlT5BeYTRlFBG3gB1aTEHHdsdqc3w8=
+X-Received: by 2002:a05:7022:3c0d:b0:11b:8278:9f3a with SMTP id
+ a92af1059eb24-11b82789fd2mr4151535c88.8.1763473819071; Tue, 18 Nov 2025
+ 05:50:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20251026-fix-mcde-drm-regression-v2-0-8d799e488cf9@linaro.org>
- <067817a3-dee3-4ffb-a56f-8b46949cb494@ideasonboard.com>
- <CACRpkdYth1-QMDRW17bERXdzYvxvkfLq0o5QVTiis+o6NqubBA@mail.gmail.com>
- <22eb27cd-5ce9-4189-803a-14295b6650c4@ideasonboard.com>
- <CACRpkdazwqEUi7HR6ygUYE8Jr4zfMvJR+r9UL1+S0jduPqAyrw@mail.gmail.com>
- <17cedb40-d64a-4824-a1a9-c82d21f4606a@ideasonboard.com>
-In-Reply-To: <17cedb40-d64a-4824-a1a9-c82d21f4606a@ideasonboard.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 18 Nov 2025 14:41:47 +0100
-X-Gm-Features: AWmQ_blqTNxpyn3FrMGcqA-E1FsUbjiavwyStsVAeZ8eQRWboZz0JnfPwtJLGGA
-Message-ID: <CACRpkdbtySSfCiV-6Dqy--D+J0vcnyvcFiASLYGauNHSK9TCjw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] drm: panel: Fix atomic helper-induced regressions
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Aradhya Bhatia <a-bhatia1@ti.com>, 
- Stefan Hansson <newbyte@postmarketos.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org
+References: <20250921055416.25588-1-jay.liu@mediatek.com>
+ <20250921055416.25588-2-jay.liu@mediatek.com>
+In-Reply-To: <20250921055416.25588-2-jay.liu@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Tue, 18 Nov 2025 13:50:05 +0000
+X-Gmail-Original-Message-ID: <CAAOTY_8awo9B857BRdgNoh_350VHa8eTaxh0ALWbT287ZNstAw@mail.gmail.com>
+X-Gm-Features: AWmQ_blmZtT5uXUtSPveVBwvv-qvjHpM1nxw_RCICsWDHLjgGSlWLYcocIHO-_w
+Message-ID: <CAAOTY_8awo9B857BRdgNoh_350VHa8eTaxh0ALWbT287ZNstAw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] drm/mediatek: fix CCORR mtk_ctm_s31_32_to_s1_n
+ function issue
+To: Jay Liu <jay.liu@mediatek.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, CK Hu <ck.hu@mediatek.com>, 
+ Hsin-Yi Wang <hsinyi@chromium.org>, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,35 +80,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 10, 2025 at 4:16=E2=80=AFPM Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
+Hi, Jay:
 
-> > So what is needed is for .enable on the preceding bridge to have
-> > been called first.
+Jay Liu <jay.liu@mediatek.com> =E6=96=BC 2025=E5=B9=B49=E6=9C=8821=E6=97=A5=
+ =E9=80=B1=E6=97=A5 =E4=B8=8A=E5=8D=885:55=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> Marek sent
+> if matrixbit is 11,
+> The range of color matrix is from 0 to (BIT(12) - 1).
+> Values from 0 to (BIT(11) - 1) represent positive numbers,
+> values from BIT(11) to (BIT(12) - 1) represent negative numbers.
+> For example, -1 need converted to 8191.
+> so convert S31.32 to HW Q2.11 format by drm_color_ctm_s31_32_to_qm_n,
+> and set int_bits to 2.
 >
-> https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas=
-%40mailbox.org/
+> Fixes: 738ed4156fba ("drm/mediatek: Add matrix_bits private data for ccor=
+r")
+> Change-Id: Icb2aae1dee21d9ea34f263a54850fee26d97d455
+
+With some fixed up, applied to mediatek-drm-next [1], thanks.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-next
+
+Regards,
+Chun-Kuang.
+
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
+ora.com>
+> Signed-off-by: Jay Liu <jay.liu@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_disp_ccorr.c | 26 +++--------------------
+>  1 file changed, 3 insertions(+), 23 deletions(-)
 >
-> Linus, I don't know if we want to go there or not, but could you see if
-> that solves the problem on mcde?
-
-It does, after some fiddling and adding a custom helper
-for this usecase. I just sent the patch.
-
-> If Marek's patch helps, we could go with it, or we could also try to
-> apply it the other way around: revert the order back for, but add a new
-> drm_atomic_helper_commit_modeset_enables variant, where the crtc is
-> enabled after bridge pre_enables.
-
-Marek's patch helps, if applied and then with my additional
-patch on top.
-
-Can you apply them both if this fix is acceptable?
-
-We need to get this regression fixed for v6.18 final I
-think.
-
-Yours,
-Linus Walleij
+> diff --git a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c b/drivers/gpu/drm/=
+mediatek/mtk_disp_ccorr.c
+> index 10d60d2c2a56..634b31346921 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_disp_ccorr.c
+> @@ -80,28 +80,7 @@ void mtk_ccorr_stop(struct device *dev)
+>         writel_relaxed(0x0, ccorr->regs + DISP_CCORR_EN);
+>  }
+>
+> -/* Converts a DRM S31.32 value to the HW S1.n format. */
+> -static u16 mtk_ctm_s31_32_to_s1_n(u64 in, u32 n)
+> -{
+> -       u16 r;
+> -
+> -       /* Sign bit. */
+> -       r =3D in & BIT_ULL(63) ? BIT(n + 1) : 0;
+> -
+> -       if ((in & GENMASK_ULL(62, 33)) > 0) {
+> -               /* identity value 0x100000000 -> 0x400(mt8183), */
+> -               /* identity value 0x100000000 -> 0x800(mt8192), */
+> -               /* if bigger this, set it to max 0x7ff. */
+> -               r |=3D GENMASK(n, 0);
+> -       } else {
+> -               /* take the n+1 most important bits. */
+> -               r |=3D (in >> (32 - n)) & GENMASK(n, 0);
+> -       }
+> -
+> -       return r;
+> -}
+> -
+> -void mtk_ccorr_ctm_set(struct device *dev, struct drm_crtc_state *state)
+> +bool mtk_ccorr_ctm_set(struct device *dev, struct drm_crtc_state *state)
+>  {
+>         struct mtk_disp_ccorr *ccorr =3D dev_get_drvdata(dev);
+>         struct drm_property_blob *blob =3D state->ctm;
+> @@ -109,6 +88,7 @@ void mtk_ccorr_ctm_set(struct device *dev, struct drm_=
+crtc_state *state)
+>         const u64 *input;
+>         uint16_t coeffs[9] =3D { 0 };
+>         int i;
+> +       int int_bits =3D 2;
+>         struct cmdq_pkt *cmdq_pkt =3D NULL;
+>         u32 matrix_bits =3D ccorr->data->matrix_bits;
+>
+> @@ -119,7 +99,7 @@ void mtk_ccorr_ctm_set(struct device *dev, struct drm_=
+crtc_state *state)
+>         input =3D ctm->matrix;
+>
+>         for (i =3D 0; i < ARRAY_SIZE(coeffs); i++)
+> -               coeffs[i] =3D mtk_ctm_s31_32_to_s1_n(input[i], matrix_bit=
+s);
+> +               coeffs[i] =3D drm_color_ctm_s31_32_to_qm_n(input[i], int_=
+bits, matrix_bits);
+>
+>         mtk_ddp_write(cmdq_pkt, coeffs[0] << 16 | coeffs[1],
+>                       &ccorr->cmdq_reg, ccorr->regs, DISP_CCORR_COEF_0);
+> --
+> 2.46.0
+>
