@@ -2,98 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C585C69313
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 12:50:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1A1C69332
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 12:53:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3369D10E484;
-	Tue, 18 Nov 2025 11:50:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90EA910E488;
+	Tue, 18 Nov 2025 11:53:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="S17d8gnE";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="FcZVe8pt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1739710E0F8
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 11:50:48 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-42b3720e58eso4988823f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 03:50:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763466646; x=1764071446; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3dvlVzeTZOL3SeM1Ld6pZdy3YbDlbCykL8GrXDIYLsA=;
- b=S17d8gnEXW53rGNcXbbpEGFNbb3VdgBT0aWvdTjbfwLnLoCoXuW0PjNarpaH76bBPN
- 18ycKKMnnGYFK7b1G2/oV7RpO+vLi6j8Q8OPd5qeyoxCA1KWp3GLk7iXI3bBlxhaBvQm
- GYJOW77qoN3XA5KEpyqYDheTf2CQdXMzPtoQbtGHWjnwhMleHXa6Tj0lDb17/2aE0Ph/
- kXPTUSSRx5+jsxBQBtHNL3N/wwEKlb91cp2iADTliABvgFJNsZGdSxKMZcR4QZ+aDcxp
- AoORtIKiReertdRD0tS65l/l5oCKFcuaVXsAsrV9gOGufGOxcs2jtU0ECW6bdJa9bbUh
- 6Jvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763466646; x=1764071446;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=3dvlVzeTZOL3SeM1Ld6pZdy3YbDlbCykL8GrXDIYLsA=;
- b=TKRy7zmMVxfueYG78oWwcq3yWQ0zeeBbf7vMd5iEg25LOJc1Xskqwv0Uj92krugUPN
- ngcpFcp1NFIfGLfYR6ujc0TXh/5xfzoepLunvTfMiXD4U4fMqcX04K9gAgKUPgHMhTM7
- +so6MCwXXM76d+rPKC0F9c4WfNuid20629YUAIV+hhkQ0mSWhX23zbEkeM4MxjXUCegj
- h486DCS+YS12aujqtoclf/5KLQdHEFXpagUlYwcesSM6JT7guo/GPLQn9lMrRYe/axej
- jkWZAZDbrEKodvEfv5Mz/MdVfo09xTXC8PgFbNqjZhi7Ha1HgxwyQgpTRMzcUb8ScZ/m
- VMQw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV79iZZEJrc2M+5PHgLXRKqA0MqZrAqsz9dF6o1tK0vsfNtOlDTX7VTibb8EbaXFLhSevpG5sxApS8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUi0U1ab47ylw1yywLWHW7cIQLX1cE4fpC3fK/o0hfcrLZKSs7
- y5xOlhZgsXSQs+UFFokqj1UZ0oq9ssU0HiKc6xXYcrtiq4jR1z2bNo9U0XseqffVamFrr8VGcSh
- qOU2OPGxVZYKWUwkD//o0DtLdzSX5pSo=
-X-Gm-Gg: ASbGnctxLo6DdQV3+Wt66KuTWlu9XyqdYt7r8XS40zs9FPA3yV776E74U1ocGHDlJ+F
- wDWCTx0KrwyktVoX7zaAMpvrtkUSD5COc8EWn5agqFsizRqZIaL/TQ6MiODqjofazg5exd6NY6E
- ZUap20/ux2u6W8IHJnYrHi0gMI+Eak1Si3L3/39MT5briQdWxikHmYD6kZD/t6Goaur1wWe5i2a
- enksnU2gBdpZqvxUHTHd3mK3tsSuabtsHU28l7RBpJkp3qq66wqrlE157UMAFWWjBqyjo22k3Jf
- RDuPgFG7kpX/GgOl6CDuMYXpli4t
-X-Google-Smtp-Source: AGHT+IEBEKeO2bU9AocfEk+Htq/TSXCk60FbpZ0ZYLaYz3dvQxmRCANeaq3rrPQuzWW4G28xtGF7ejVCsUjv5/CqkFA=
-X-Received: by 2002:a05:6000:2405:b0:428:4004:8241 with SMTP id
- ffacd0b85a97d-42b59382195mr15731333f8f.40.1763466646273; Tue, 18 Nov 2025
- 03:50:46 -0800 (PST)
+Received: from SN4PR0501CU005.outbound.protection.outlook.com
+ (mail-southcentralusazon11011062.outbound.protection.outlook.com
+ [40.93.194.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6E6D10E490
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 11:53:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o75W5UzKfepq/0LrnPuiFH3OvMeDzIvGvFQS4lQOEXmnKniDDLw0VehjKfPrBkWBvzHQyWtbE2JoWn0to4BkpGJNwfhEVOV7l9wBg//2DPwiEMDSpQWral13OMvw39k0ZVpsDZ+fw0ddqh0x0YCOQiOABs2DcvcxnWEhl2sFlpkMg67JmVkJP79rzvJcF+31aumXhGMxOnGOCJemnYj6NxZ+zHq7gTa0X6UB6E86ZIqp+ROozTh0JFLFb/2CXTyaG+W2AoO7YixObR/JQcQwhpu2rW5Hj17XKMJBzexX+hJtWicPcVfuKc8Gi6E/Qlm8Bo+vjSWrn5wdc/E55ZcHCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R9RKSW2tkIdVNl3aQlVV2LJDJIMefAA2+OlrMbK9dSo=;
+ b=UkNQbxMyppfpvrKswLTw338b8DJtpZ5vvK+q7b60PQQLNgq+x0JVBq35MDNTw2OO1L5vsh1IIXacdlScpOM3gVnBn+xiucA6b8udqbHl7aRO8VGFJh6bQBRH+K1BoRtc9WTXh/VLCRtCLdXxwvqjk4ybuXyAY9tong/WquKrQd0zqrdqmijGw0w2EiLUdmgojyVEi/uov8Q1fXDBxdPxsDbds8Z1cPnzxUQxKGU8eNgHd52ZOp257K2kM4Msx4cZhKetFiMv/AvieQzrmXlo9IdqETKVKu4iU1yni8A5U2mZP73k+omegGoWQf+XNMZ78t52Z5qx7d3h2g6RltTVwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=suse.de smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R9RKSW2tkIdVNl3aQlVV2LJDJIMefAA2+OlrMbK9dSo=;
+ b=FcZVe8pt2tbCZEdMatisV/1rglT/ZzdiSeJRI0zzG1fREXB5eWdRmfZbIjG09kqLGxKbhd6znNGw0DGLP7baMK9NZk4pclZeJb6Nhq4PDa+16848s7dAwXzKIV4KWPqVg995bX7HUSd2c7t5QDsJEPi1Hs/UA6Ut8Zn9Fivhpr0=
+Received: from BL0PR1501CA0028.namprd15.prod.outlook.com
+ (2603:10b6:207:17::41) by CY5PR10MB6024.namprd10.prod.outlook.com
+ (2603:10b6:930:3c::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.21; Tue, 18 Nov
+ 2025 11:53:09 +0000
+Received: from MN1PEPF0000F0E3.namprd04.prod.outlook.com
+ (2603:10b6:207:17:cafe::a4) by BL0PR1501CA0028.outlook.office365.com
+ (2603:10b6:207:17::41) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.10 via Frontend Transport; Tue,
+ 18 Nov 2025 11:53:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ MN1PEPF0000F0E3.mail.protection.outlook.com (10.167.242.41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9343.9 via Frontend Transport; Tue, 18 Nov 2025 11:53:07 +0000
+Received: from DFLE206.ent.ti.com (10.64.6.64) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 18 Nov
+ 2025 05:53:03 -0600
+Received: from DFLE213.ent.ti.com (10.64.6.71) by DFLE206.ent.ti.com
+ (10.64.6.64) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 18 Nov
+ 2025 05:53:03 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE213.ent.ti.com
+ (10.64.6.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 18 Nov 2025 05:53:03 -0600
+Received: from hkshenoy.dhcp.ti.com (hkshenoy.dhcp.ti.com [172.24.235.208])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AIBqulN006869;
+ Tue, 18 Nov 2025 05:52:56 -0600
+From: Harikrishna Shenoy <h-shenoy@ti.com>
+To: <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
+ <andrzej.hajda@intel.com>, <andy.yan@rock-chips.com>,
+ <aradhya.bhatia@linux.dev>, <devarsht@ti.com>, <dianders@chromium.org>,
+ <dri-devel@lists.freedesktop.org>, <javierm@redhat.com>,
+ <jernej.skrabec@gmail.com>, <jonas@kwiboo.se>,
+ <linux-kernel@vger.kernel.org>, <linux@treblig.org>,
+ <luca.ceresoli@bootlin.com>, <lumag@kernel.org>, <lyude@redhat.com>,
+ <maarten.lankhorst@linux.intel.com>, <mordan@ispras.ru>,
+ <mripard@kernel.org>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <s-jain1@ti.com>, <simona@ffwll.ch>, <tomi.valkeinen@ideasonboard.com>,
+ <tzimmermann@suse.de>, <u-kumar1@ti.com>
+Subject: [PATCH v9 0/6]  MHDP8546 fixes related to DBANC usecase
+Date: Tue, 18 Nov 2025 17:22:49 +0530
+Message-ID: <20251118115255.108225-1-h-shenoy@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20251015192611.241920-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdW1B7Yk1hUU9MSJsiL8wSmjAUGN7Qd_wgBHv8Ct=-wi4Q@mail.gmail.com>
- <CA+V-a8uY11uWoQ_en5QC=W4HPHRwT6rKQQJ-knT8Gi-+czm05w@mail.gmail.com>
- <20251021184502.GD19043@pendragon.ideasonboard.com>
- <CAMuHMdVrfVP1XZbQVNwEEP8L69mVzNN2yLSjNyHO7o2zqBuY0w@mail.gmail.com>
- <CA+V-a8vLXg-whqwpE3pLF5JP3kK9on9Hu3iyLXEvrWbR9XmF5w@mail.gmail.com>
- <20251118113434.GA22495@pendragon.ideasonboard.com>
-In-Reply-To: <20251118113434.GA22495@pendragon.ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 18 Nov 2025 11:50:20 +0000
-X-Gm-Features: AWmQ_bmJ-5wRZxj7MbmQMhRNDbiK7VXawO483M5C_HjqRzY3YZWOZRnXXVy1Z6s
-Message-ID: <CA+V-a8uz2Y2qNtHvGSzkoj2bJPQkuUKSxffqx9=Rwr88LZXM6g@mail.gmail.com>
-Subject: Re: [PATCH v11 0/7] Add support for DU/DSI clocks and DSI driver
- support for the Renesas RZ/V2H(P) SoC
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Biju Das <biju.das.jz@bp.renesas.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E3:EE_|CY5PR10MB6024:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6ebb609d-83cc-413c-bd63-08de26990a23
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|36860700013|82310400026|376014|7416014|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?LAEdZ/69CSiFXnuvOXBDryqNSkHDFSDEGrp8RMP0maIqXhjsSOiTsRbvh1/I?=
+ =?us-ascii?Q?2SZbwoTukGa9boIw2Hs4QBR2r+jJwqSjsYQW5TNTOyeW2KEvjkvv6E9Wv9/G?=
+ =?us-ascii?Q?66SAn935BFdX8pw1BiAzKgF5GKIaHYLUsrfaF3YY1aS7aSfM9JFfERs5nJkT?=
+ =?us-ascii?Q?0lIdn35sfY9TlGTn0sAci3YIDuNS/7SfRApjznYdj+RTBY1Z1UmVvIphL1hp?=
+ =?us-ascii?Q?miA/sF0nvxhGDNk549yMklIOSppnpXZ8LKvOC6Nz+iwh0m7mA6hbwu+gBKPg?=
+ =?us-ascii?Q?K6l324wBDFyay952w1qwNBUqQ6MmGtKhWxlG2Za6V2Z1byxp8vQOYuleJ2jI?=
+ =?us-ascii?Q?Ah6DGaomVZ3QDC6GsqJ3hALu08MCt+ZKVkvLRpbkHQm11nDMe6vzy4apJAAi?=
+ =?us-ascii?Q?nfU+wn+lmoF0vkba2g7LYCta+6560PSvQFRWpWf8ASLChWIZdm6qdBY3V7H/?=
+ =?us-ascii?Q?GV7RyyYPVaFfi+V+g9QBHv5p7NwGCLclFid10Vqun+nZ5OjmVHSwWTgUbJ6+?=
+ =?us-ascii?Q?/MKUOVwa8+A1KvhMhUYdcTOhJvMd17qcmP0ZuDrNx3ZIyzDVHAWlAUVwO3dI?=
+ =?us-ascii?Q?aVqGJF0whePhXQe1uuOZo603TfRvE1revzYEvabjS0+f26Y+WhfYjb4du6Z6?=
+ =?us-ascii?Q?oh220Z3T48Q4RcHZ5A6pVGKMoF/PtR4c63x5SpD7FkwRACw45Sdm2XaNkKyo?=
+ =?us-ascii?Q?IKsqX3jBJx+w566FPsK9Q6gOQkbSrx9B1szsofYXUW4hBFsZZGSPS7ewVrIo?=
+ =?us-ascii?Q?Mq8nNyVT0RaDM5w664naP7s/kPESgbH2EofjC5LxXkFgVPURT2VxZMFGO5J8?=
+ =?us-ascii?Q?GyWLou73Bt9E6s2t8S2iVuQcJ2nKG15WnEjYka4UzVmUuDNxV1ZSA3jIeh3H?=
+ =?us-ascii?Q?SI5h/cZpi9gTsY+7Zvrd6PmRX3ptcS74bdrXJDbt15HEf9revvVqyI1iKQ+y?=
+ =?us-ascii?Q?UwgqeWlttrS8f3JIhgqgw9JCpIH5tgqfcAHfWOfzo2JaG35Z1omntaZULeH0?=
+ =?us-ascii?Q?QiWceoqIBTR+yXeyjg1Wzb18sbC90R79Jzr5lfgDvYhj2eA4tq4MCHy5rUUl?=
+ =?us-ascii?Q?/7VNRxzLhO/4vYMWYahpIf/8XoFMBh595NnXac7ARxKsNbtq3nZzpZKfbEa4?=
+ =?us-ascii?Q?nLR4I1Lsjs6vMoEKjk+lRAIbWvMtDRrwqAyndVGPQ/kB17ocCVG6ZpvWy/aw?=
+ =?us-ascii?Q?L3sVJQsCWXG/dF6TnXaLDCAzleJuNTFrDar9iwck0JEdw1V8Lae6VocKCgZ5?=
+ =?us-ascii?Q?U6odT5BOn1OVas0uRx2DHd+JwC3DrAnESIBYiAC+uR/xBxLuJSR8obCBK9sx?=
+ =?us-ascii?Q?Mu3EHoUTF+cAwnu5tnc6yaHmRL3+BnlExuvPs71oQgpns1s8906It4eDZx+h?=
+ =?us-ascii?Q?OMPytnlzzvEtzGd+9RcnHPA6a39+ueEQdkrYiWAwygmeIoenJPrcyQmO8LEw?=
+ =?us-ascii?Q?PJDBKoWiRIxleP6L8/5D2pRX2JyLXoKtZ+2zsFtzXo5G4x83oU+PosdwxxVt?=
+ =?us-ascii?Q?lvgyfcZZp/cEJ4yTPIlIdXsdRtB80jeLdRnfMarhrgo4bEZO+Et3rXGUcBSU?=
+ =?us-ascii?Q?UR//k125HVxLavEBj++iUZPARd0DIgnVXq1k9ZjZ?=
+X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
+ SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014)(7416014)(921020);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2025 11:53:07.4148 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ebb609d-83cc-413c-bd63-08de26990a23
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
+ Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: MN1PEPF0000F0E3.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR10MB6024
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,107 +151,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Laurent,
+With the DBANC framework, the connector is no longer initialized in 
+bridge_attach() when the display controller sets the 
+DRM_BRIDGE_ATTACH_NO_CONNECTOR flag. 
+This causes a null pointer dereference in cdns_mhdp_modeset_retry_fn() 
+when trying to access &conn->dev->mode_config.mutex. 
+Observed on a board where EDID read failed. 
+(log: https://gist.github.com/Jayesh2000/233f87f9becdf1e66f1da6fd53f77429)
 
-On Tue, Nov 18, 2025 at 11:34=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Prabhakar,
->
-> On Tue, Nov 18, 2025 at 11:21:12AM +0000, Lad, Prabhakar wrote:
-> > On Mon, Oct 27, 2025 at 11:23=E2=80=AFAM Geert Uytterhoeven wrote:
-> > > On Tue, 21 Oct 2025 at 20:45, Laurent Pinchart wrote:
-> > > > On Tue, Oct 21, 2025 at 07:26:49PM +0100, Lad, Prabhakar wrote:
-> > > > > On Tue, Oct 21, 2025 at 11:26=E2=80=AFAM Geert Uytterhoeven wrote=
-:
-> > > > > > On Wed, 15 Oct 2025 at 21:26, Prabhakar <prabhakar.csengg@gmail=
-.com> wrote:
-> > > > > > > This patch series adds DU/DSI clocks and provides support for=
- the
-> > > > > > > MIPI DSI interface on the RZ/V2H(P) SoC.
-> > > > > > >
-> > > > > > > v10->v11:
-> > > > > > > - Split CPG_PLL_CLK1_K/M/PDIV macro change into separate patc=
-h
-> > > > > > > - Updated rzv2h_cpg_plldsi_div_determine_rate()
-> > > > > > >   while iterating over the divider table
-> > > > > > > - Added Acked-by tag from Tomi for patch 2/7 and 3/7
-> > > > > > > - Added Reviewed-by tag from Geert for patch 2/7 and 3/7
-> > > > > >
-> > > > > > I think this series is ready for merging.
-> > > > >
-> > > > > \o/
-> > > > >
-> > > > > > > Lad Prabhakar (7):
-> > > > > > >   clk: renesas: rzv2h-cpg: Add instance field to struct pll
-> > > > > > >   clk: renesas: rzv2h-cpg: Use GENMASK for PLL fields
-> > > > > > >   clk: renesas: rzv2h-cpg: Add support for DSI clocks
-> > > > > > >   clk: renesas: r9a09g057: Add clock and reset entries for DS=
-I and LCDC
-> > > > > > >   dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(=
-P) and
-> > > > > > >     RZ/V2N
-> > > > > > >   drm: renesas: rz-du: mipi_dsi: Add LPCLK clock support
-> > > > > > >   drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) So=
-C
-> > > > > >
-> > > > > > As this touches both clk and drm, let's discuss the merge strat=
-egy.
-> > > > > > My proposal:
-> > > > > >   1. I queue patches 1-3 in an immutable branch with a signed t=
-ag,
-> > > > > >      to be used as a base for the remaining patches,
-> > >
-> > > Done:
-> > >
-> > > The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1d=
-f56787:
-> > >
-> > >   Linux 6.18-rc1 (2025-10-12 13:42:36 -0700)
-> > >
-> > > are available in the Git repository at:
-> > >
-> > >   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers=
-.git
-> > > tags/clk-renesas-rzv2h-plldsi-tag
-> > >
-> > > for you to fetch changes up to f864e4b721e386be132cc973eadefe5d52cdfd=
-94:
-> > >
-> > >   clk: renesas: rzv2h: Add support for DSI clocks (2025-10-27 11:58:0=
-3 +0100)
-> > >
-> > > ----------------------------------------------------------------
-> > > clk: renesas: rzv2h: Add support for DSI clocks
-> > >
-> > > RZ/V2H Clock Pulse Generator PLLDSI API, shared by clock and MIPI DSI
-> > > driver source files.
-> > >
-> > > ----------------------------------------------------------------
-> > > Lad Prabhakar (3):
-> > >       clk: renesas: rzv2h: Add instance field to struct pll
-> > >       clk: renesas: rzv2h: Use GENMASK for PLL fields
-> > >       clk: renesas: rzv2h: Add support for DSI clocks
-> > >
-> > >  drivers/clk/renesas/rzv2h-cpg.c | 512 ++++++++++++++++++++++++++++++=
-+++++++++-
-> > >  drivers/clk/renesas/rzv2h-cpg.h |  26 +-
-> > >  include/linux/clk/renesas.h     | 145 ++++++++++++
-> > >  3 files changed, 672 insertions(+), 11 deletions(-)
-> > >
-> > > > > >   2. I queue patch 4 on top of 1 in renesas-clk for v6.19,
-> > >
-> > > Done.
-> >
-> > Can you please pick up the DSI patches.
->
-> We can't, this has to be done by a drm-misc maintainer as it involves
-> merging a non-fast forward branch instead of pushing commit directly on
-> top of drm-misc-next.
->
-I see, thank you. Talking to Geert we are closed for v6.19 as the
-SoC+board changes have not made into v6.19. Probably we can wait for
-the next cycle and Biju should be able to pick them up.
+Patch 1 adds a connector_ptr which takes care of both 
+DBANC and !DBANC case by setting the pointer in appropriate hooks
+and checking for pointer validity before accessing the connector.
+Patch 2 adds mode validation hook to bridge fucntions.
+Patch 3 fixes HDCP to work with both DBANC and !DBANC case by
+moving HDCP state handling into the bridge atomic check in line with 
+the DBANC model.
+Patches 4,5 do necessary cleanup and alignment for using
+connector pointer.
 
-Cheers,
-Prabhakar
+The rationale behind the sequence of commits is we can cleanly 
+switch to drm_connector pointer after removal of connector helper 
+code blocks, which are anyways not touch after DBANC has been 
+enabled in driver.
+
+The last patch make smaller adjustments: lowering the log level for
+noisy DPCD transfer errors.
+
+v8 patch link:
+<https://lore.kernel.org/all/20251014094527.3916421-1-h-shenoy@ti.com/>
+
+Changelog v8-v9:
+-Move the patch 6 in v8 related to HDCP to patch 3 and add fixes tag.
+-Update to connector_ptr in HDCP code in patch 1.
+-Rebased on next-20251114.
+
+v7 patch link:
+<https://lore.kernel.org/all/20250929083936.1575685-1-h-shenoy@ti.com/>
+
+Changelog v7-v8:
+-Move patches with firxes tag to top of series with appropriate changes
+to them.
+-Add R/B tag to patch 
+https://lore.kernel.org/all/ae3snoap64r252sbqhsshsadxfmlqdfn6b4o5fgfcmxppglkqf@2lsstfsghzwb/
+
+v6 patch link:
+<https://lore.kernel.org/all/20250909090824.1655537-1-h-shenoy@ti.com/>
+
+Changelog v6-v7:
+-Update cover letter to explain the series.
+-Add R/B tag in PATCH 1 and drop fixes tag as suggested.
+-Drop fixes tag in PATCH 2.
+-Update the commit messages for clear understanding of changes done in patches.
+
+v5 patch link:
+<https://lore.kernel.org/all/20250811075904.1613519-1-h-shenoy@ti.com/>
+
+Changelog v5 -> v6:
+-Update cover letter to clarify the series in better way.
+-Add Reviewed-by tag to relevant patches.
+ 
+v4 patch link: 
+<https://lore.kernel.org/all/20250624054448.192801-1-j-choudhary@ti.com>
+
+Changelog v4->v5:
+- Handle HDCP state in bridge atomic check instead of connector 
+atomic check
+ 
+v3 patch link:
+<https://lore.kernel.org/all/20250529142517.188786-1-j-choudhary@ti.com/>
+
+Changelog v3->v4:
+- Fix kernel test robot build warning:
+  <https://lore.kernel.org/all/202505300201.2s6r12yc-lkp@intel.com/>
+
+v2 patch link:
+<https://lore.kernel.org/all/20250521073237.366463-1-j-choudhary@ti.com/>
+
+Changelog v2->v3:
+- Add mode_valid in drm_bridge_funcs to a separate patch
+- Remove "if (mhdp->connector.dev)" conditions that were missed in v2
+- Split out the move of drm_atomic_get_new_connector_for_encoder()
+  to a separate patch
+- Drop "R-by" considering the changes in v2[1/3]
+- Add Fixes tag to first 4 patches:
+  commit c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
+  This added DBANC flag in tidss while attaching bridge to the encoder
+- Drop RFC prefix
+
+v1 patch link:
+<https://lore.kernel.org/all/20250116111636.157641-1-j-choudhary@ti.com/>
+
+Changelog v1->v2:
+- Remove !DRM_BRIDGE_ATTACH_NO_CONNECTOR entirely
+- Add mode_valid in drm_bridge_funcs[0]
+- Fix NULL POINTER differently since we cannot access atomic_state
+- Reduce log level in cdns_mhdp_transfer call
+
+[0]: https://lore.kernel.org/all/20240530091757.433106-1-j-choudhary@ti.com/
+
+Harikrishna Shenoy (1):
+  drm/bridge: cadence: cdns-mhdp8546-core: Handle HDCP state in bridge
+    atomic check
+
+Jayesh Choudhary (5):
+  drm/bridge: cadence: cdns-mhdp8546-core: Set the mhdp connector
+    earlier in atomic_enable()
+  drm/bridge: cadence: cdns-mhdp8546-core: Add mode_valid hook to
+    drm_bridge_funcs
+  drm/bridge: cadence: cdns-mhdp8546-core: Remove legacy support for
+    connector initialisation in bridge
+  drm/bridge: cadence: cdns-mhdp8546*: Change drm_connector from
+    structure to pointer
+  drm/bridge: cadence: cdns-mhdp8546-core: Reduce log level for DPCD
+    read/write
+
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 258 +++++-------------
+ .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   2 +-
+ .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   |   8 +-
+ 3 files changed, 72 insertions(+), 196 deletions(-)
+
+-- 
+2.34.1
+
