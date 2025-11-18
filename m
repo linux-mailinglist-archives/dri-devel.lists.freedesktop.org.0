@@ -2,139 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D68BC6A4D4
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 16:28:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 053F4C6A4F5
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 16:30:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F70B10E362;
-	Tue, 18 Nov 2025 15:28:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4494B10E4E7;
+	Tue, 18 Nov 2025 15:30:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="G5f9l7J1";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="GsciJI+e";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="B12YxdW9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com
- (mail-northeuropeazon11011032.outbound.protection.outlook.com [52.101.65.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8653410E362
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:28:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QguYBYRPvtuSupeSJ2d6sM9kg9jppBu4WevU2ZBHdTAb/vX9nq4yPwLqOtEQbua4GkPf+x0KK2tAKcpuD+bhFUtw8iD23pR9dGyNdYFeOxPdX/Vh3zPcGBXrh0WBwjauR8PlMFNTdIK03T1VYdMYIfofuobohXJCCK10ntub0N+UX9buhFzxcs75iQG409fnrVis+LJQTIY7wp66/2HrfcbTzkTIZTOyIiPAftDoCrq7pYOXj3OM/XHLTWk1SutvLaYIca406dhLKn5LI5oE465D2wlfRqV0lAlJ76+LcL14IgOvmMlyJvmpwa2ZFmukh1iYdkcxUotOzK+IFgresg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=76rwl0ex5vM5BpDavEDUnBUNTWO3o0/XftCvz1D5+Ts=;
- b=aDus5kZt1kYSRGVgvKIIW6duAQS/2M71EBJg+hUwhbHCqwz3FiWzAN7NWRJZIZbQkQBW4nvp/xdRwad4fpuqPt4G5Z/UKM4/5wuDUia+Lz0sW/czoD+RiybBJ/6fYh2IqZ/kV4t/gnyP8IYWkDAqFElLcd6HxwaiM51iI60h+cfwWAXyXXQsrJBA1Tvli62G0zrqFVH12MM2uGsUhueJmzz+zYW/hlcFeRT564wapI5L+a+ieadI98jwyksgi+Sv/3LbkbzNMQGQFdIrxB+B7ZGy3zr2u+xoPhIuWtV5ph+HwkaZGuWXfbquM2T8Dw5XAqRrBmHfpakrR9tKNWQF4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=76rwl0ex5vM5BpDavEDUnBUNTWO3o0/XftCvz1D5+Ts=;
- b=G5f9l7J1wxDkzt9fSmEBfYSnTJqp9I0sZIbgBHqmPza6pnLxSJx3yIkGUTipMMmpSyW1H7PIvFh+upne2/tke36GXCteY3RQjpRNYUEUodsVJGayuEdQ6MB2gjeIIcax599U2kKiXryVhWIOHxKiBgwlNv3jMutONYSltW2P8+h1ShxQ+KgFHQiABNUU3AlDraswZs1nDS6ydf1SiLs7gNhceg50+muJQCYagD8P7eyYo0g8srYKXAF2NZc7W62823pLNxT03yuXrJo6ALzf8YfnmM42PMsSmie013T7kiabRz0WiIQmjHLMpPT167nE9WryPavIgG6WnK6uV7jYSw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
- by AM0PR04MB12052.eurprd04.prod.outlook.com (2603:10a6:20b:745::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Tue, 18 Nov
- 2025 15:28:30 +0000
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::55ef:fa41:b021:b5dd]) by DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::55ef:fa41:b021:b5dd%4]) with mapi id 15.20.9320.021; Tue, 18 Nov 2025
- 15:28:30 +0000
-Date: Tue, 18 Nov 2025 10:28:19 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: neil.armstrong@linaro.org, Laurent.pinchart@ideasonboard.com,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- imx@lists.linux.dev
-Subject: Re: [PATCH 1/2] dt-bindings: display: bridge: ldb: Document
- nxp,termination-resistor
-Message-ID: <aRyQkxNEZ/XkItXm@lizhi-Precision-Tower-5810>
-References: <20251118132208.143315-1-festevam@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251118132208.143315-1-festevam@gmail.com>
-X-ClientProxiedBy: SJ0PR05CA0150.namprd05.prod.outlook.com
- (2603:10b6:a03:33d::35) To DB9PR04MB9626.eurprd04.prod.outlook.com
- (2603:10a6:10:309::18)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F7B910E4E7
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:29:59 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AI8l8gR2755312
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:29:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=I+VDmgEGyB6TgQRIfvWH0W0zNDau9SODpdv
+ whVSLYSM=; b=GsciJI+eubbH2Zmbgge245eKjnyy1XkJFZ116YUk6WP9LAt4OV5
+ chSnlm/0lB2NYYL5CAeSzv/WDruvnDN8rmlEYZg2J5gHafySfRbC+4LpEeX/ctqh
+ ZYlwpK7AoME1ijgGfm92JuoPWq9+mYBeeZKZK9CKofoT12BKRksywKrzwrN7fbz/
+ pzODjAdPZtmg37xmbOqaTBmlMrlVBU55fA+tmV4K/RvOT+1WrhJ6AcB2dueFiYiN
+ pJKKN/5ZQIzBFwLl82W09vE/M3hdBAzylhO6mBHzUs/QLRwK78/ayMJb7BxDHdUF
+ BAYRgkcQ7cZRU/P+cOcGR5zqwWA4HQlrdgw==
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4agnkj14e2-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:29:58 +0000 (GMT)
+Received: by mail-pg1-f199.google.com with SMTP id
+ 41be03b00d2f7-b9d73d57328so5046555a12.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 07:29:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1763479797; x=1764084597;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=I+VDmgEGyB6TgQRIfvWH0W0zNDau9SODpdvwhVSLYSM=;
+ b=B12YxdW95xvBx548Z9H+HULWXw+felUvfOqSS2rvpGWwenRJgtjwEV8hu7fZakLUSy
+ 8rzRB3yCFAlBKWLuwH7KuUN5uBOS2x+n5YluEVp+9fYYolNFZjRYPlnqzpSjnsxAzLJk
+ fGOZBB9tpNbAT6GiQrR/aMY1cUpLK2f+UNz65uUjV6MVrdPbUKU7XHKOCtgOo98SkzYd
+ GT61r8eoXtYVlhyknRfXpyfvuM/YRzMXtaMJwhWYlJ3t9Yzjz8p2+P5walpIw1Pie7/v
+ pNZ2t4AxGV4PtTPI4OczqQYwJIiyaPB2LKTgUBRcFB7NYlzB2BMFgUNzZE804J2hDlJF
+ U/lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763479797; x=1764084597;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=I+VDmgEGyB6TgQRIfvWH0W0zNDau9SODpdvwhVSLYSM=;
+ b=g+IOYAp7NZAj1X10bU1yApTjfI77eLcvGWoNtH8KNB0INJDUeoo40wLtkOB+Vh6coe
+ BVRpIf8n1Tm823mpG/ypjx3Cauh7SMc4S1ARdJwxXyJwDLCq3EBYHFSFjci5hCLY1c1t
+ Q+LT1YDU0FynaX6qDIWEFTaNqfNiaOidZ5QN2r+Kya7zV6/InZaT+mzSQxTKTz6fpB2D
+ IpOj+pR2BmUSzds0c6LyLkO11t/RZsczilsjdpCZTx/LvUMKeopJhg9f6ORUZ/H4Zsnq
+ zT2aAX/PaS6XpduyY2VgYdocsaJOg+994iGcHko+zdd0KFhf6w52WhvQr/z3gWJwHjKc
+ 5I2A==
+X-Gm-Message-State: AOJu0YxgT0DinIq3AllSZTs3llMPz2PrzOKHRDHjU/sd1KV62jLXZ8i8
+ B7C7fHPPI51WEDpgNq0m1dWwOnbvEaXOhsfDDs9mFYDliXgXjAkVfaEzQk/Kih8ZWVoZm/5PX0B
+ auyOnNft/pVoL+qrLMRPhkE5d6d2WlQFjR05IkK0NU2ya0F1gidzVB2ZQfucbD2+fRv3RJ7Wotj
+ foR+s=
+X-Gm-Gg: ASbGncsQGUc/0Xrjd89Q2bvXCadQOPnF0FtfzxDpXggh41ASpL8NNjFG3rIbptjr2rT
+ 4FX+AKb3uDFAbgz+BuyUyDobq1Jei3186Wd6GTXodRLxS0IW9ZG/2yPOddTM2yz2oC6v6mX8C06
+ lIT+K1gNCVx55ZDf0i+yBoli+OlLALPBnyHn9OQaqhkAhoBzfPAvJGrptjcVZ/fge8YT7FHhJk3
+ lVorVGdo3NTcSJte35gRzYVxoD53lkTtNLZhwiGytVMFFy+akve2u32C9+qsLamtEfH7PkC275U
+ xzwMz7Fso3Avhtl4/rOOTz71+W3SNfhA6u2bnT0lGUOyrkmQSGYQrBKwRICD2A8CJCUgyGdyKsf
+ gx03y5xoO/UshJGvXtowOHb1RwLCj72xSV9NerEZBI8w0mt1hnCAD5dJE
+X-Received: by 2002:a05:6a20:3952:b0:341:84ee:7597 with SMTP id
+ adf61e73a8af0-35ba228b7c4mr18420526637.47.1763479797459; 
+ Tue, 18 Nov 2025 07:29:57 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEe4mHSbCZax4MAs1NmPegRHOtwX0Q3zmqbi4opsIbcLXwrTwyddGfmcrdprr0gXjZZ4jZQ0g==
+X-Received: by 2002:a05:6a20:3952:b0:341:84ee:7597 with SMTP id
+ adf61e73a8af0-35ba228b7c4mr18420492637.47.1763479796936; 
+ Tue, 18 Nov 2025 07:29:56 -0800 (PST)
+Received: from localhost (c-73-37-105-206.hsd1.or.comcast.net. [73.37.105.206])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-bc375081bf8sm15591289a12.24.2025.11.18.07.29.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Nov 2025 07:29:56 -0800 (PST)
+From: Rob Clark <robin.clark@oss.qualcomm.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Connor Abbott <cwabbott0@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2] drm/msm/registers: Fix encoding fields in 64b registers
+Date: Tue, 18 Nov 2025 07:29:49 -0800
+Message-ID: <20251118152952.226510-1-robin.clark@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR04MB9626:EE_|AM0PR04MB12052:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6f1edfc7-5769-4311-a85f-08de26b7205b
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|376014|52116014|19092799006|38350700014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?bbEGR9Z90xy+F41M/pTY424wBYs/dqqrH4o5af3dhNiLVIjMu8zB02Ti6+mG?=
- =?us-ascii?Q?0ARerhBE49ZrgHND+XBsRbOFZ79Vz4SWMlaRXt0a1Qd9Y37IEkxIHEcDsC+S?=
- =?us-ascii?Q?0ci8Hi+ApCxWOON8/ULgrt7AZV4JVTDHX6pbxTNeNYcb7ws7UkdYiqbM1DcV?=
- =?us-ascii?Q?iT5msxhL+LgkYCeF/IRmAOZ2CzXbYxr9Inu5qsJ3z+ulcoXB9xhrZZ19zpxm?=
- =?us-ascii?Q?Ddn4QQLbEMff3RxbhA3npdeT3kV19fnRk+OtIVTAk18h6uGFUUVydhjqooeS?=
- =?us-ascii?Q?8+SMZyi7QY5gPvvxuLk5A2oEof2QUEErmI68fiJe9rJI2R6mVd6mLMwa+PsX?=
- =?us-ascii?Q?TFQSn7xzrk0WikoKCaiTDfB+vxhL4hJBYNo1bmJMbs/GAHVdXNIXosYdaEih?=
- =?us-ascii?Q?Dn7m+xpYTsNgewQ07CF3UcQMzE8+JdKt0N0BEm4RAlSY7B2HZJTlok6RWXrY?=
- =?us-ascii?Q?GtuEZecGpxM0seikdCQfZjHichzI1g1gbtGjshC69O1wYV404xZBDe+0vJ9F?=
- =?us-ascii?Q?tYVP81Ub9NAGUVzKbfD4eeTyfGOmh6/cTIlIx4AYE+WMpDdkMbBWjEiuoSNl?=
- =?us-ascii?Q?mqZD+gBALMwX6Ly96ytcwtUpKgsyWWPnIiYMPoF5rfUj2yW4vbbGFiQ/LXya?=
- =?us-ascii?Q?9cCOfMzpa5JXS8U/vdvzuSkeT8Es/tSWjxcZatOpI6nkm7In6eQFeHhwbKgI?=
- =?us-ascii?Q?sRR48+B0UvX9oHjYKo0RthfnA3lh8+x4GK2c5+AT92J+sVehI6k06ibK79kH?=
- =?us-ascii?Q?BHppRdXG1S5U/hBTkojqALyt4iquTVoAcUgtVW0HW4epW/baB2OVx0kYTBcX?=
- =?us-ascii?Q?a759oZOfGXEw9FIjtCVdlKFT4bdIpPpcwlzHmZKEJkf7KJL+FZBGXaVEONi9?=
- =?us-ascii?Q?k3U8nR443HE+hBTuR3Wao5JSCohcNTyi8cBHHW0Jc1xiYQYieiA0tKGG9pZL?=
- =?us-ascii?Q?xXblL95hMU8e+aNnz2ItWas9SmD84de3OenQ2m4RQ1V+7GQmOc02yi6C8KaF?=
- =?us-ascii?Q?zbYVo1X68NDw+ldpGBjbvia+mKrcsFCGSooeTlQBd7ElKz2NgV4VT+0cWchn?=
- =?us-ascii?Q?x+2E+63xOU+3U6JBlHGyVEVkznl6eA50SyGefSaHi8GQg/9gFjmA+0TLNZe/?=
- =?us-ascii?Q?XAW9hpQ9ppgcJj5DjW/E7WGwyez5XtZckgv4LAs26bd1XnXb/oMSnX2O1kRS?=
- =?us-ascii?Q?eVbu1ERGNsiQaad1gZjqGzpglfmpaTrTRQ+ArJf/YP9erEhNOwP28VAfo75S?=
- =?us-ascii?Q?3/+/8Jaoqh8PVNnVXxUWQn+nXY4jhPvdqZuD0weZmhzxxAXvBOHK/LshzPTG?=
- =?us-ascii?Q?qVtuBRuK2THLzryc8ga2KvTt+7I/BodoXEEu6pq7RBKbV/WQCIcnFAeRbdAD?=
- =?us-ascii?Q?ahUS9ykN/H3xsxNivnRVAHYCFZFgI5Afxp9m/40P0s37ey6RhAS6YCcQksLA?=
- =?us-ascii?Q?ToeYsu1CAGfhoPS2aii1brj7jhXISzKBbmD6AAUydrn9KyKvwheMjmcSqmwV?=
- =?us-ascii?Q?eop3oyBYVK8vqrj0O1AsMcAEIsTXZS6uvAns?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DB9PR04MB9626.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(52116014)(19092799006)(38350700014)(7053199007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hlc5BXbO1eWvu1xySalPo8VHW7I1PERMlx753JjhIw4fLbOg4Nd/Xe38E8Mk?=
- =?us-ascii?Q?wrmbIMTQy5KyIU27IHZby60sTgkDvZCscGiy4WTnDUQV0VxJg3yZHwmsNH+9?=
- =?us-ascii?Q?ME2EmWac3b6sj18ICAkF/dIDAo5Iysvv5psYpg8cIpMQslAJM87/T9zlhM/2?=
- =?us-ascii?Q?mMfvVLjiPiaOjALB3ATcvagLyMUL8NFyLwjoecVlLpJOZik/OlqInAfAW2Zr?=
- =?us-ascii?Q?GuezJ5daIo+ATeSCLNMUjqzyPzVtAs34TdVvbiL9J2S/GJh5IrNYZDRSIqNr?=
- =?us-ascii?Q?mNwXC8oYH2igtBX2AINhKQTjOx37iMJMiihuN0XTElv1iKFVqdbZUbBxqIHc?=
- =?us-ascii?Q?S6tRXeqDubatIdZP/pIBubsXBYVvWp5L5hI9A/1ssCYyVTqc/mDaqEkTzWUv?=
- =?us-ascii?Q?T8tJp1EMvfNuvMReItgpK/17LAJqNsthNDBV0jVDwJuseiObCtOC57atken6?=
- =?us-ascii?Q?ND6W/B674yf3bl33RoP7Lv0dXkgD0ETR6kIYfc6tCx74jA8d+cWv6t2Dwx47?=
- =?us-ascii?Q?l9V475PSfahriEVSupFkH4BxQH8MhNvibPWbnfY6vgU+78zlE/ofeO6iv0Bz?=
- =?us-ascii?Q?RXe6Hz1LFUrDDP+qw4LPH4dvljg5Ipqb7KXRJnXHDNpvwLuN4vvEhqrZTRlv?=
- =?us-ascii?Q?Pf8ilLErKfNqYDJLUTYqQLsoBEVrF7svy21S2S2/TnV0xV+Edh4pstdqdQ2A?=
- =?us-ascii?Q?KcLF2Hj6w6Y5WVMIQ47VIotK1QR3p2lhfMQabsWYMUERZQX90DSZctLNot32?=
- =?us-ascii?Q?t7rAxryPQX5OYPDT3RMiHcXcOV2fIUIiv7EBFKrOx17NQty4tL8s3WDNld/R?=
- =?us-ascii?Q?kOy6o/OXZfcvMaJHLY5waobM4ktTYy3ydOJqPfyKmxInC6zrobqeCXB3tEy1?=
- =?us-ascii?Q?hEke/CxVETLnnKDx7jV8B6TP/z4UFIz4JTLqtlD9eJqD/diL3sHhBVSRy6W0?=
- =?us-ascii?Q?sWmFCOUWiH/PYVObmO/3aKBKbje8BjHy9nxCtYZ/TSdGEvlUBYUfjlsp1b+q?=
- =?us-ascii?Q?E6EHleqxfsmsJaOkQlbC3IMts4EPNd/3VQzBIXBmpeZhWY7AO45nvQdDKnEa?=
- =?us-ascii?Q?KLDPM3zfEKoC9SIVAi8tmkK4bdus2/RHUq70pJnk6ZYyvBnyGCLN/0qwNYDX?=
- =?us-ascii?Q?MX0+TgLdmioN9olOl3Wnsnw3PjXsHZqo8/FnBDGgi3ktvl5akhaUhnBjLrp6?=
- =?us-ascii?Q?AIKjgw80fef7AJG5JuHxYynNz7gDQpTgRCedq8suKx/Ut56MZ20y/ZAi9XBr?=
- =?us-ascii?Q?OR05We2Pc39RuBDoRBKnh6Oau+O+pgVNMGXGgzWRGw2U/hZLYZCWYn8R15GV?=
- =?us-ascii?Q?45qYsU+q2iJCgEem3MpVVkpGyLqDn5ykJTkaHehnJv4XVoBpKxQsMK6nQobx?=
- =?us-ascii?Q?cydg8Sgn608MAneWulRfD7ZK+/05gfrc2B+BhDpKqw0RdzSDLKatPMGk8dI5?=
- =?us-ascii?Q?HVISnNeSU0xP/8H88zgYHi+qIftz6R1MgRMYgZx9G9egmYbgrEoW/JpzRHL3?=
- =?us-ascii?Q?b/lxz0Ttue0s2EwQJbQbWiFSdly1BSd1uqPsL8SkfX61+17209dXhIOBgY5L?=
- =?us-ascii?Q?LH8sVVbTnaRkkAuFYgeSv5rn/KZ4hjQ0AN7BaxVC?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f1edfc7-5769-4311-a85f-08de26b7205b
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9626.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2025 15:28:29.9380 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4Y6+qTqJF/uaPpx0p1xO9HH7te0YiTB/DZV/4wQP92Jzh33NNCj3dw23zm6kt56lhrQBUZT2d298lQ59yp0m6Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB12052
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: _5X6EUPC3icmoFIeKj9bR8KgWx1lPkaW
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE4MDEyNCBTYWx0ZWRfXw/neMj6ZchHS
+ Y/36uFwixq6Rc6yopOfXSh+BDDqiQl/XeGdab1q9kDREI1lnVreY91jkioQfd3KEANN958kQTk9
+ IJXnw5Vv/lfAPyCC2tm+4dFGaUhobP5AwMdlaVArPhHrXHxfHn9gMuAh7nEb/tXYC3w9dD6HD+q
+ Cyh1Uof2v/LJOmjtKQ1GUKQkg5MPRz9wutEN8OG/AyZLp/D/XJsiPAdO4skO0MYEtWMRKH1pIdt
+ sJ1sM6Av+O83K9BCwLu1FCbqnzsVbpbOaWQthG1eFLKjoPK/8nsckpkEOJI5jiyIUYJ7Z6bmf+p
+ NF0DgC+jG8zhkxcdhy8hTXPsLNwre87K5Rq2qMI2tLWlqyfSE3Xx2VOKzeUvv1hIUS6oTzQ72a2
+ kKYRih9636BOWDuiGYYUHap4ep6hhg==
+X-Authority-Analysis: v=2.4 cv=cs+WUl4i c=1 sm=1 tr=0 ts=691c90f6 cx=c_pps
+ a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=19Wyn7e3V/0aNffMjNCMQw==:17
+ a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=OSLXHSMv42BtIwkUFNYA:9
+ a=_Vgx9l1VpLgwpw_dHYaR:22
+X-Proofpoint-ORIG-GUID: _5X6EUPC3icmoFIeKj9bR8KgWx1lPkaW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-18_01,2025-11-18_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0 phishscore=0 malwarescore=0 priorityscore=1501
+ bulkscore=0 adultscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511180124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,46 +137,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 18, 2025 at 10:22:07AM -0300, Fabio Estevam wrote:
-> Document the optional nxp,termination-resistor property for the
-> i.MX LVDS display bridge.
->
-> This boolean property indicates that the built-in 100 Ohm termination
-> resistor on the LVDS output is enabled. It is controlled via the HS_EN
-> bit in the LVDS_CTRL register. Enabling the resistor can improve LVDS
-> signal quality and may prevent visual artifacts on some boards, but
-> increases the power consumption.
->
-> Signed-off-by: Fabio Estevam <festevam@gmail.com>
-> ---
->  .../devicetree/bindings/display/bridge/fsl,ldb.yaml      | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
-> index 07388bf2b90d..6bc786204e65 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
-> @@ -35,6 +35,15 @@ properties:
->        - const: ldb
->        - const: lvds
->
-> +  nxp,termination-resistor:
+Based on mesa commit 3f70b0578402 ("freedreno/registers: Fix encoding
+fields in 64b registers"), but with some fixes to not skip emitting
+interrupt enum values.
 
-the name looks like resistor value, how about nxp,term-resistor-en?
+v2: Don't append "ull" to 32b reg MASK defines, to avoid printf format
+    conversion warnings all over the place
 
-Frank
+Co-developed-by: Connor Abbott <cwabbott0@gmail.com>
+Signed-off-by: Connor Abbott <cwabbott0@gmail.com>
+Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
+---
+ drivers/gpu/drm/msm/registers/gen_header.py | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-> +    type: boolean
-> +    description:
-> +      Indicates that the built-in 100 Ohm termination resistor on the LVDS
-> +      output is enabled. This property is optional and controlled via the
-> +      HS_EN bit in the LVDS_CTRL register. Enabling it can improve signal
-> +      quality and prevent visual artifacts on some boards, but increases
-> +      power consumption.
-> +
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
->
-> --
-> 2.34.1
->
+diff --git a/drivers/gpu/drm/msm/registers/gen_header.py b/drivers/gpu/drm/msm/registers/gen_header.py
+index 1d603dadfabd..2acad951f1e2 100644
+--- a/drivers/gpu/drm/msm/registers/gen_header.py
++++ b/drivers/gpu/drm/msm/registers/gen_header.py
+@@ -189,12 +189,13 @@ class Bitset(object):
+ 		print("    return (struct fd_reg_pair) {")
+ 		print("        .reg = (uint32_t)%s," % reg.reg_offset())
+ 		print("        .value =")
++		cast = "(uint64_t)" if reg.bit_size == 64 else ""
+ 		for f in self.fields:
+ 			if f.type in [ "address", "waddress" ]:
+ 				continue
+ 			else:
+ 				type, val = f.ctype("fields.%s" % field_name(reg, f))
+-				print("            (%-40s << %2d) |" % (val, f.low))
++				print("            (%s%-40s << %2d) |" % (cast, val, f.low))
+ 		value_name = "dword"
+ 		if reg.bit_size == 64:
+ 			value_name = "qword"
+@@ -264,10 +265,11 @@ class Bitset(object):
+ 				  (prefix, prefix, prefix, skip))
+ 
+ 
+-	def dump(self, is_deprecated, prefix=None):
++	def dump(self, is_deprecated, prefix=None, reg=None):
+ 		if prefix is None:
+ 			prefix = self.name
+-		if self.reg and self.reg.bit_size == 64:
++		reg64 = reg and self.reg and self.reg.bit_size == 64
++		if reg64:
+ 			print("static inline uint32_t %s_LO(uint32_t val)\n{" % prefix)
+ 			print("\treturn val;\n}")
+ 			print("static inline uint32_t %s_HI(uint32_t val)\n{" % prefix)
+@@ -283,14 +285,17 @@ class Bitset(object):
+ 			elif f.type == "boolean" or (f.type is None and f.low == f.high):
+ 				tab_to("#define %s" % name, "0x%08x" % (1 << f.low))
+ 			else:
+-				tab_to("#define %s__MASK" % name, "0x%08x" % mask(f.low, f.high))
++				typespec = "ull" if reg64 else "u"
++				tab_to("#define %s__MASK" % name, "0x%08x%s" % (mask(f.low, f.high), typespec))
+ 				tab_to("#define %s__SHIFT" % name, "%d" % f.low)
+ 				type, val = f.ctype("val")
++				ret_type = "uint64_t" if reg64 else "uint32_t"
++				cast = "(uint64_t)" if reg64 else ""
+ 
+-				print("static inline uint32_t %s(%s val)\n{" % (name, type))
++				print("static inline %s %s(%s val)\n{" % (ret_type, name, type))
+ 				if f.shr > 0:
+ 					print("\tassert(!(val & 0x%x));" % mask(0, f.shr - 1))
+-				print("\treturn ((%s) << %s__SHIFT) & %s__MASK;\n}" % (val, name, name))
++				print("\treturn (%s(%s) << %s__SHIFT) & %s__MASK;\n}" % (cast, val, name, name))
+ 		print()
+ 
+ class Array(object):
+@@ -437,7 +442,7 @@ class Reg(object):
+ 			print("static inline%s uint32_t REG_%s(%s) { return 0x%08x + %s; }" % (depcrstr, self.full_name, proto, offset, strides))
+ 
+ 		if self.bitset.inline:
+-			self.bitset.dump(is_deprecated, self.full_name)
++			self.bitset.dump(is_deprecated, self.full_name, self)
+ 		print("")
+ 
+ 	def dump_pack_struct(self, is_deprecated):
+-- 
+2.51.1
+
