@@ -2,163 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B55CDC6816D
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 08:59:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B487C6817F
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 09:00:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B8A510E420;
-	Tue, 18 Nov 2025 07:59:25 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="thh3eOwR";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id CED7910E41C;
+	Tue, 18 Nov 2025 08:00:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011000.outbound.protection.outlook.com [40.107.208.0])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59C8710E41C
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 07:59:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Wr0gWv2VsUWAp1wHUdFC0ua9CxJNit/MEaY4g1HdECj3GFdECYwLFpb4mGpnh7XfRomoCueowlaFZiKlLlild8QgTrnTNDM372hzehroS+jRtFKWHVgjOT9HYGoOzW+vGgtd2yiLsuC0sQKxsTIb7DrWTWhS4FsP6GzFUSivubs8i191ZQVyXqK2it8LWzRjFxUc7z80L1Y7JRkyzm7jD2JKI2SQ3G4rq0JVyLXA6m0xwUUhmWTF+uhlJ1No3HszTDDYV8GEb2b+25Hed5rZaWCA1z9wva4F3nf08R3umQTQjkhDJSeuTRXEHCyqoAl96YiibmCIhCBCI8XFVsNRgg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VGgJKSJS8HO1P18sKsT+ALREKZePZzfExHrZ3CVL4Ko=;
- b=LoQVNdICqwGwqQVH/yL84dBa1pzoxdrZSMdSfzjflEeUlKByYukdmZ6hIqiecDzYP9Cf2uHF/g77BMMbpgs1IuqGrRqZWyga/41Fni8wboTK6MP8BrcBzW4GtC55TB33TXTd1eqo/vpH2M86zzZoCUSVkxAwFono1IyHzL8dE2sXUkhtHR3wcpjHuZKrRM6YAarZz/iQ2dnto0NJNEJ/Ywlge1ZC9lR9IQEPOtcT8kdm6zpJB5qxU/Rf9gkFpvof3jkuGWFzwZpeo0eP2YmRKYDK6GbeMk7he6LSsuHyyPDWAC1RtUWDyC1VRbrRl2A/3gi+3F9EpK034kz8wgRaUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VGgJKSJS8HO1P18sKsT+ALREKZePZzfExHrZ3CVL4Ko=;
- b=thh3eOwRUheNgrLS+JfhmosA8jqYmNaElYb2N3EVKWOclCRBSKL0kgdW99UHI1PFA8RugfsA0aHq5LibdwatU37VCwmnwE1m0gqjyL7eBHhOqlTZqH8KXI2aHb8wmv/qTbrUyE/+kDSjoiR0VDMvdCbmzWpmgF5jml88n2JiLD/nO89G+JHdbu2Qm5NPz5qS9Ja8G6jLrpa0JjMTRyku6Wi/NvxFqmJJyDuoGOFLIvwKiyAuKgSmviCWB/wlXUoqGCKOex1aT8ULIKUL3FYusmaIYzDZqF8bTuLLWpaKEJBTEdKPCnT/FFQehrp7HEa+R3fVfyLEzaIsopCI9lSwug==
-Received: from SA1PR12MB7199.namprd12.prod.outlook.com (2603:10b6:806:2bc::21)
- by PH7PR12MB8796.namprd12.prod.outlook.com (2603:10b6:510:272::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.21; Tue, 18 Nov
- 2025 07:59:20 +0000
-Received: from SA1PR12MB7199.namprd12.prod.outlook.com
- ([fe80::928c:89d8:e8d6:72dd]) by SA1PR12MB7199.namprd12.prod.outlook.com
- ([fe80::928c:89d8:e8d6:72dd%6]) with mapi id 15.20.9320.021; Tue, 18 Nov 2025
- 07:59:20 +0000
-From: Ankit Agrawal <ankita@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>, Robin
- Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
- <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, Jason
- Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>, Jonathan
- Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, Kees Cook
- <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Yishai
- Hadas <yishaih@nvidia.com>, Shameer Kolothum <skolothumtho@nvidia.com>, Kevin
- Tian <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>
-CC: Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>, "linux-mm@kvack.org"
- <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "linux-media@vger.kernel.org"
- <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
- <linaro-mm-sig@lists.linaro.org>, "kvm@vger.kernel.org"
- <kvm@vger.kernel.org>, "linux-hardening@vger.kernel.org"
- <linux-hardening@vger.kernel.org>, Alex Mastro <amastro@fb.com>, Nicolin Chen
- <nicolinc@nvidia.com>
-Subject: Re: [PATCH v8 11/11] vfio/nvgrace: Support get_dmabuf_phys
-Thread-Topic: [PATCH v8 11/11] vfio/nvgrace: Support get_dmabuf_phys
-Thread-Index: AQHcUvHEG6GIBgha/EW1FY2tAPLvh7T4GiZE
-Date: Tue, 18 Nov 2025 07:59:20 +0000
-Message-ID: <SA1PR12MB7199A8A0D17CDC980F819CC6B0D6A@SA1PR12MB7199.namprd12.prod.outlook.com>
-References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
- <20251111-dmabuf-vfio-v8-11-fd9aa5df478f@nvidia.com>
-In-Reply-To: <20251111-dmabuf-vfio-v8-11-fd9aa5df478f@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR12MB7199:EE_|PH7PR12MB8796:EE_
-x-ms-office365-filtering-correlation-id: bec107fb-824f-4403-0d6f-08de26786145
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|366016|376014|7416014|38070700021|921020; 
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?7bm8jZpHiSV0/4xXwO/M7LDsKMq8aUZ4S52bNCiKWvWLRE4mUUvOHUkH9B?=
- =?iso-8859-1?Q?yl9VazyjMdJtwZH819xxNTmF1h8DUzflQzG6RyHmaeJf4+NDpdAts1ZfE0?=
- =?iso-8859-1?Q?o8ygCLMDgyvUAc9NdHKWUzbjFYXSojwue/rosH+EDbexRaVuzOqkvUJnOy?=
- =?iso-8859-1?Q?kQOxqHbqKSy45VYzUy1i49Lk253hamqRcGlbFuuWnSHyMl1opQ8UiPIwsi?=
- =?iso-8859-1?Q?GXz3/VyxIh9AXSrkdPZC5zWEff/A1Me6Sm4t5Mo6jYXnn9+hsbb25iPs30?=
- =?iso-8859-1?Q?BxDOqTlYzy0YHQvkwRtvTvMtJ4dl6xXKXK55X6uZ8YlxV5ch15GIsNUqjx?=
- =?iso-8859-1?Q?zG7zFF+5BsiHNoZzwMI3iJE1Vkx56AwGjCKAHPpORW9nueA2/orrSzvEW7?=
- =?iso-8859-1?Q?342EV+5yB+Iu0jZI4PVC5J99dP0edHUEBRAVvyTjfhih/J/pk5KtM10yE2?=
- =?iso-8859-1?Q?keP8kd6byMArLNuWWUfNAOe+zIfACoYDcuqFhuX1f+qTL8UUp5bwYwmEuQ?=
- =?iso-8859-1?Q?xtQN3vQ46sdQbyA5BYHJu3sftyr5rRF6QUXoM4wWFiUfrb1TQXS7DrSNKO?=
- =?iso-8859-1?Q?uSPj313R//HCMHehe4epuSMBMrBQLviV+TfjHCp68pAREmr2K2+/jw87Sg?=
- =?iso-8859-1?Q?m9asUDjO3NYE1kDx2EvhDpj67ts4ep6SfeR3/hF9eHhAA5tq96V9s2I8jn?=
- =?iso-8859-1?Q?+pXbLDIItucoNjlG4+Z9dQz8rW2lLglCRGfh1df7o9qEcL/cCdEC4ddzW2?=
- =?iso-8859-1?Q?09RSBLMEG9EbpbVAHmjnQ8ufoD6pPJSM+/oBYoD9PZ+e/JrbRWG676NwHl?=
- =?iso-8859-1?Q?gC69ZjK4ScL2jAX/KQOP9fj4Cj5ZJGjI/yCmL1p+fSNyIANzg5J1U8h59e?=
- =?iso-8859-1?Q?IFEiUGciYwWGEKZYjWpYrvLSydvuM6uVaORz7J1nqor8fgY3GxYtMfHfRn?=
- =?iso-8859-1?Q?QNzlNQAHFuSy2YcLz/BpXcq5/VF+hXqUlYJlMEk0oFgMf0sUdYNt26Wpi7?=
- =?iso-8859-1?Q?U68dRpsuNoTrcoB6pHAqZHALVJcOFqeAVOQH0qsMaKwRIu73I1VIMHbuDL?=
- =?iso-8859-1?Q?Q/44+0coqZTO1rp0y163UOpaFAa+AMsbAeAZNXgBwKfXTyu9X9NEYodOYa?=
- =?iso-8859-1?Q?FDRlK0K2LYwyaIwYTG7bKmsxZ9xbfmySt5NW2qxxSEyw9hAnP2atGoH8Pm?=
- =?iso-8859-1?Q?mdy7D1RdxS0oJIksejIV4sQgbpkYeLiw90eUf+nInS/tWuk7dIy57FsjvG?=
- =?iso-8859-1?Q?6bjYWpcrN8DCRNRK2DZ3dk+F4p7iFvVywYeGDUDmSwAkFBZno/gwQjzudt?=
- =?iso-8859-1?Q?uRzTBCgcwj8YgP7ckd+cEBveqzGCgXQS3CfW9+zgl5t8Jf+36dZVR7U4GT?=
- =?iso-8859-1?Q?D0gCR4kB1m1k7x/NPDtkn5uSOr86Px1GfvqFVuERN7R+NcOh+0xwPMOX3i?=
- =?iso-8859-1?Q?9VriLdrOAadnVtMo1LR2SlBMeFkkhmxcwI4GRYDjm4PaM9Zb3Oethm8dGz?=
- =?iso-8859-1?Q?eAnMMi8aBN1CTf8qVAo2+00DY0FS0hDQQVfYQavb6jGGvcUIrQh8ctGaM5?=
- =?iso-8859-1?Q?tQqLXq6V3+1jt/h0IaWm0Wb1r3xouGyHfVcPN2My+2S85gYeoQ=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR12MB7199.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700021)(921020);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?euFfucWZ/MBFEPd1KmvjmN6RDR9Cli1Y7WXunzwfLCwBkAAhZNalb5QK7N?=
- =?iso-8859-1?Q?UlYZz2p17/I2Y6hmlwR1o0lYEFYIozA7mkGwcYgDBRRRKZkGo8rXTJVeVv?=
- =?iso-8859-1?Q?rNegigw4saSqmwIywgzKHTnQy6vITmuxBFyxOORkJzYAA0V37LKkLj9tyD?=
- =?iso-8859-1?Q?P01j+mANLH7EJeqxQ1cPAf7ykGDO++T2VPmyoMiKtShh7M2ixZicvdUT/D?=
- =?iso-8859-1?Q?BFFNljkmnaKg3okjMjPQ/rXU1BUaGgYyWbUObM5vwDmWK1C+VzmwXAkzcU?=
- =?iso-8859-1?Q?LT8IWTter3hfdYjz2/y54VqHPZ3f7M2tbEkoTdVqoXxCKhW0vKwLei77xz?=
- =?iso-8859-1?Q?zypuhaHb8oI3gctHaXVvUIc4Crbglj+n7b0DpIfsWXzhHXPtFuihGzAjjW?=
- =?iso-8859-1?Q?6NWS36hSMCz8LvcWABJOZFafgGrGyvwR6OsMb6dw8Lg/vymxyS3zQQPQlD?=
- =?iso-8859-1?Q?hwGqofRs1tsOMqJRgDA4A00oe7MBcWeePpRq3xX0OAYnuSYPzCgabRR8Yo?=
- =?iso-8859-1?Q?Rra5V8DclDw5xOivyjlU+aNA/IcgN1xYA6/NqfNvLKPlu/85z1902wgufO?=
- =?iso-8859-1?Q?zNgJEHtLujjQo5Lxb4C3D7WqvZik4AiSEe2uuNcmVwVf8ziKx+KsRpDJkC?=
- =?iso-8859-1?Q?S5BE71O169VceBlTiBm8TrSVcdxkFmDdfCCEGKjihhfxV2xW6lm6CODilJ?=
- =?iso-8859-1?Q?slOo5qZLGJGXMxDFqNuuPX8LahHRw7hIKwnyUfV7U8LMsdCQd4XXsgufMY?=
- =?iso-8859-1?Q?9zkO4tI6ettMEWCAg/Gn3idLkDPl2zE1p3M5ZgoQhJ9WeeZAQlOkNouxKA?=
- =?iso-8859-1?Q?yNi05uMO8yfs89sGeAIbJzznE59Ml5VlRrrnVXkjEaPk58uQmyOXAM38AZ?=
- =?iso-8859-1?Q?r+J0U5QR0dRH9LbgsNXgGr9WoeAqseAwOOcwWqvrglLiqbQnJBhgiDDJTi?=
- =?iso-8859-1?Q?MfEdzge7gaOPIc1d6HK5MaM2+25u9Zk5B7mbSFYWpZq53T6DtDqEkc/T+j?=
- =?iso-8859-1?Q?0B2vg8JoYyx9j/2IjsoIXbLZPk+88iDbBVjO5Kluy7X75rE2DAZVwKgMay?=
- =?iso-8859-1?Q?9MOHkY+2/q3IbqVInOSSH2nXdNPJQTfGfazJ7ZT6lwZ00Vrjr2dBrsNcDe?=
- =?iso-8859-1?Q?paSZkNZOiMUkkxNvHgq102iudFBcI9ebf7sqadHx2EaJA9fpiArBc5vSlS?=
- =?iso-8859-1?Q?5UIfWikmcPO62LxSiyIt0OFhPov2cECLyljYNTxhJoicBXukRFC7Fs6NAb?=
- =?iso-8859-1?Q?61Mpos7lqJVRg0GAs740HAcWFRLsk0ovQaYI/URsrvF7XALukSsxoKz0bJ?=
- =?iso-8859-1?Q?pQ4Gaqg8QmFZib6XITpTEmpYY/FxCRALZdwqFU4Vq7ngCtDJoG7RwsYwGK?=
- =?iso-8859-1?Q?hVYSod0V4xbCZwE6nxfd1Pte24qqJ5AcNULO3G7s2X9MBU71DmK5DZrgx3?=
- =?iso-8859-1?Q?l8peaDNtiUG07cAOSZ7028l5e8fvm4eM3Gyle/XS0Mm3tAEDmg1Mfk2Tom?=
- =?iso-8859-1?Q?oi0hZe9yy6vFqW71B4/xDlEKdKO/zzGGVDSIEtr1SYmQVU+yDn9cTkobMl?=
- =?iso-8859-1?Q?7AXA/iNzbbXeVhMD3L/v++JjIZXK2IM3Zpa7iXVMLXJCBWuUUf0E8bv/xB?=
- =?iso-8859-1?Q?N7SkaSKykjsVM=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-io1-f77.google.com (mail-io1-f77.google.com
+ [209.85.166.77])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D394010E41C
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 08:00:30 +0000 (UTC)
+Received: by mail-io1-f77.google.com with SMTP id
+ ca18e2360f4ac-945aa9e086eso444179039f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 00:00:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763452830; x=1764057630;
+ h=to:from:subject:message-id:in-reply-to:date:mime-version
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=C8/pNX9SbOjjNIN26OVWmhsh/hu9+rN3ZW/7Vppn+XU=;
+ b=dD8ddcaxPfwP+T+07JddCLJriAbVZCGVOACNDGHJJe70l2NBlcKIQwBVwHLagIUiZO
+ O6hZpBI7vXRTXbkLCwop5b908CKDO+7thC3UpGaSHCRNKW80SuaVELdghS+d0Fe0yzEo
+ XggiWhz25+BSNLIvh4YvPgmrq+s1g/3rc+63hF0wPKNUCCzpEwKyoZNbToCdSkoZG62a
+ NZjf5qSdExiPq2XLuvLKdZWTcRfnl0/rDxXrVAEmD4C3ZHVws8RRbSWVGOjb21mnYvo7
+ hoNJUBGDgc9r0el4Lw6uKmj0FbtILBLjx1u2b11413Cz/9ySBe0V0SXeSheweSgkL19B
+ iMRw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW+jegPQuK3EguzLcf7A+v51f6jrMJJwUOJx8u11Qxd7ocW1S8xdX4QyYahRgPC5wjcXENf4X6ML5M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx15C1TTt2QbXOn6pSZ3Zdrz/XFqzZQ+OnXvTqmG4v62V76Z36w
+ bB3DoqnRuCYvod0SFzNwOj1RlKBTzHXxR7B0p06adtOg/f9rHcUgmRk8RSsaph1Eg76BIC7mkC9
+ w9K0VCZ4sdrgAbkCdvAsai9JWHE6jd/4jnQW1yFORkq606yiECuZaZYJqyQg=
+X-Google-Smtp-Source: AGHT+IFUSYc9EyrU2PmUGojVWx8wzC4EoFtzpZnqsofEv6VT0N5YvuvB7b8t6F5+Hyp52FZwysMK6tWyhPLmwhf5eNBJ83zLs10Q
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB7199.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bec107fb-824f-4403-0d6f-08de26786145
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2025 07:59:20.2749 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DfDyZdulZf8pON/1fknIJmxboNkTBa7r4G0MOyMsI6QaeUkbAfBqOjMBw/dyxwtlXVTj5tticujCZ7miu02X3w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8796
+X-Received: by 2002:a05:6638:3f1a:b0:572:c2ff:b9bd with SMTP id
+ 8926c6da1cb9f-5b7fa51bd46mr2755534173.0.1763452830020; Tue, 18 Nov 2025
+ 00:00:30 -0800 (PST)
+Date: Tue, 18 Nov 2025 00:00:30 -0800
+In-Reply-To: <6907c8c8.a70a0220.37351b.0012.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <691c279e.a70a0220.3124cb.00b5.GAE@google.com>
+Subject: Re: [syzbot] [fbdev?] KASAN: vmalloc-out-of-bounds Write in imageblit
+ (6)
+From: syzbot <syzbot+5a40432dfe8f86ee657a@syzkaller.appspotmail.com>
+To: deller@gmx.de, dri-devel@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, simona@ffwll.ch, 
+ soci@c64.rulez.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,37 +64,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+=A0=A0=A0=A0=A0=A0 if (nvdev->resmem.memlength && region_index =3D=3D RESM=
-EM_REGION_INDEX) {=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 /*=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * The P2P properties of the =
-non-BAR memory is the same as the=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * BAR memory, so just use th=
-e provider for index 0. Someday=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * when CXL gets P2P support =
-we could create CXLish providers=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * for the non-BAR memory.=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 */=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 mem_region =3D &nvdev->resmem;=
-=0A=
-+=A0=A0=A0=A0=A0=A0 } else if (region_index =3D=3D USEMEM_REGION_INDEX) {=
-=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 /*=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * This is actually cachable =
-memory and isn't treated as P2P in=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * the chip. For now we have =
-no way to push cachable memory=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * through everything and the=
- Grace HW doesn't care what caching=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 * attribute is programmed in=
-to the SMMU. So use BAR 0.=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 */=0A=
-+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 mem_region =3D &nvdev->usemem;=
-=0A=
-+=A0=A0=A0=A0=A0=A0 }=0A=
-+=0A=
-=0A=
-Can we replace this with nvgrace_gpu_memregion()?=0A=
-=0A=
-=0A=
-=0A=
+syzbot has found a reproducer for the following issue on:
+
+HEAD commit:    e7c375b18160 Merge tag 'vfs-6.18-rc7.fixes' of gitolite.ke..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15476692580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1cd7f786c0f5182f
+dashboard link: https://syzkaller.appspot.com/bug?extid=5a40432dfe8f86ee657a
+compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10a70332580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=173228b4580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/1fcb660703f1/disk-e7c375b1.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/4bf314965321/vmlinux-e7c375b1.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/456b373fea36/bzImage-e7c375b1.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+5a40432dfe8f86ee657a@syzkaller.appspotmail.com
+
+RDX: 0000000000000007 RSI: 0000000000000000 RDI: 0000000000000003
+RBP: 00007fff34de03f0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 00007fd0417e5fa0 R14: 00007fd0417e5fa0 R15: 0000000000000003
+ </TASK>
+==================================================================
+BUG: KASAN: vmalloc-out-of-bounds in fb_write_offset drivers/video/fbdev/core/sysmem.h:30 [inline]
+BUG: KASAN: vmalloc-out-of-bounds in fb_bitmap_2ppw drivers/video/fbdev/core/fb_imageblit.h:364 [inline]
+BUG: KASAN: vmalloc-out-of-bounds in fb_bitmap_imageblit drivers/video/fbdev/core/fb_imageblit.h:462 [inline]
+BUG: KASAN: vmalloc-out-of-bounds in fb_imageblit drivers/video/fbdev/core/fb_imageblit.h:492 [inline]
+BUG: KASAN: vmalloc-out-of-bounds in sys_imageblit+0x1a6f/0x1e60 drivers/video/fbdev/core/sysimgblt.c:24
+Write of size 8 at addr ffffc90003749fc0 by task syz.0.17/6037
+
+CPU: 0 UID: 0 PID: 6037 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/25/2025
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0xcd/0x630 mm/kasan/report.c:482
+ kasan_report+0xe0/0x110 mm/kasan/report.c:595
+ fb_write_offset drivers/video/fbdev/core/sysmem.h:30 [inline]
+ fb_bitmap_2ppw drivers/video/fbdev/core/fb_imageblit.h:364 [inline]
+ fb_bitmap_imageblit drivers/video/fbdev/core/fb_imageblit.h:462 [inline]
+ fb_imageblit drivers/video/fbdev/core/fb_imageblit.h:492 [inline]
+ sys_imageblit+0x1a6f/0x1e60 drivers/video/fbdev/core/sysimgblt.c:24
+ drm_fbdev_shmem_defio_imageblit+0x20/0x130 drivers/gpu/drm/drm_fbdev_shmem.c:38
+ cw_putcs_aligned drivers/video/fbdev/core/fbcon_cw.c:110 [inline]
+ cw_putcs+0x917/0xbb0 drivers/video/fbdev/core/fbcon_cw.c:158
+ fbcon_putcs+0x387/0x450 drivers/video/fbdev/core/fbcon.c:1320
+ do_update_region+0x2e9/0x3f0 drivers/tty/vt/vt.c:628
+ redraw_screen+0x63f/0x760 drivers/tty/vt/vt.c:980
+ fbcon_modechanged+0x456/0x6b0 drivers/video/fbdev/core/fbcon.c:2710
+ fbcon_rotate drivers/video/fbdev/core/fbcon.c:228 [inline]
+ rotate_store+0x258/0x2f0 drivers/video/fbdev/core/fbcon.c:3215
+ dev_attr_store+0x58/0x80 drivers/base/core.c:2437
+ sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:142
+ kernfs_fop_write_iter+0x3af/0x570 fs/kernfs/file.c:352
+ new_sync_write fs/read_write.c:593 [inline]
+ vfs_write+0x7d3/0x11d0 fs/read_write.c:686
+ ksys_write+0x12a/0x250 fs/read_write.c:738
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xcd/0xfa0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fd04158f6c9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fff34de0398 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007fd0417e5fa0 RCX: 00007fd04158f6c9
+RDX: 0000000000000007 RSI: 0000000000000000 RDI: 0000000000000003
+RBP: 00007fff34de03f0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 00007fd0417e5fa0 R14: 00007fd0417e5fa0 R15: 0000000000000003
+ </TASK>
+
+The buggy address belongs to a vmalloc virtual mapping
+Memory state around the buggy address:
+ ffffc90003749e80: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+ ffffc90003749f00: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+>ffffc90003749f80: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+                                           ^
+ ffffc9000374a000: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+ ffffc9000374a080: f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8 f8
+==================================================================
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
