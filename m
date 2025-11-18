@@ -2,106 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51DE0C6966F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 13:34:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CAFDC69690
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 13:36:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABBA710E493;
-	Tue, 18 Nov 2025 12:34:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD3E210E496;
+	Tue, 18 Nov 2025 12:35:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="htDw2Bgg";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BzuSylW2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52BDA10E493
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 12:34:18 +0000 (UTC)
-Received: from [10.0.0.200] (unknown [10.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange x25519) (No client certificate requested)
- by ixit.cz (Postfix) with ESMTPSA id C776D5340B4C;
- Tue, 18 Nov 2025 13:34:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
- t=1763469256;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AqKItSbNBg0rTA7GzgF445S5K6uusvDHoO+8ekmP/rk=;
- b=htDw2BggSDu2mhuqeAuVxeUYHm8EA57oFTYOA6e4/VtQo4fz0xwj7zsDv/COj3SCtuSX7a
- ORQ6UbexduNc+hGapELkzD9S9hzYXBuBTgjVoyN1DoYVLABOKbjJoW6uXuzB/ZnP0Sl6Qc
- 1KL/x3LIyEj9GupgbtYEA1SRZgE38V0=
-Message-ID: <eb75f5c7-18ef-4eda-a28f-6efde9df03e4@ixit.cz>
-Date: Tue, 18 Nov 2025 13:34:15 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D5CB10E496;
+ Tue, 18 Nov 2025 12:35:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1763469358; x=1795005358;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=cgK1lh13jH1Mgh11EtlfsZr0bCDmgqNorXaMJ/LoVDo=;
+ b=BzuSylW2ptsvA58rXeQaUacN7PJI9F3nrnDI30pJFmN6D9zzz5A5kfXD
+ S/m7hPH+H1AwWP3UvEUkHEOETV7/LliesHZsZqmlLUJWUYDNlgs17zl2G
+ wcVi2PC7XRhNV07k0ko3rYKl6j6twBxg0De6TOI6F2ePoEv3zCq6+pQDn
+ rlYqOkGbCX6G7BZL3LinvxfA4jZzijIGbKUfngmPJJDHKgotBMX67J6mr
+ ZfwUUjOuSk53jGiyTyzOlsXGloVGKxLcHgeleHs9kRy5LVy/74GkmGhHd
+ G0cNnNvyuB1KAHNWZgMBR3TTxqJtYk2bReD4KjP8wCGH1jF7Rag1VqXHV Q==;
+X-CSE-ConnectionGUID: R6G40xXhR3yrgk2URyermg==
+X-CSE-MsgGUID: CiBw4bCLQ6K6cvbHtajUBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="65647740"
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208,223";a="65647740"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2025 04:35:57 -0800
+X-CSE-ConnectionGUID: OHFXb+m3SNSmkWP9XuQtug==
+X-CSE-MsgGUID: WVlucfOdS12qvEEOolxMpA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; 
+ d="scan'208,223";a="195879322"
+Received: from administrator-system-product-name.igk.intel.com
+ ([10.91.214.181])
+ by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2025 04:35:55 -0800
+Date: Tue, 18 Nov 2025 13:35:53 +0100 (CET)
+From: =?ISO-8859-2?Q?Micha=B3_Grzelak?= <michal.grzelak@intel.com>
+To: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+cc: Lucas De Marchi <lucas.demarchi@intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>, 
+ =?ISO-8859-15?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
+ =?ISO-8859-2?Q?Micha=B3_Grzelak?= <michal.grzelak@intel.com>
+Subject: [REGRESSION][RFC] memleak on xe load & unload on PTL
+Message-ID: <c1245e1a-2856-83e6-69ed-1ddead4ad3d0@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/8] dt-bindings: panel: sw43408: adjust to reflect the
- DDIC and panel used
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- "Rob Herring (Arm)" <robh@kernel.org>
-Cc: phone-devel@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Jessica Zhang <jesszhan0024@gmail.com>, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Casey Connolly <casey.connolly@linaro.org>, linux-arm-msm@vger.kernel.org,
- phodina@protonmail.com, Conor Dooley <conor+dt@kernel.org>,
- devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, linux-kernel@vger.kernel.org,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>
-References: <20251118-pixel-3-v3-0-317a2b400d8a@ixit.cz>
- <20251118-pixel-3-v3-2-317a2b400d8a@ixit.cz>
- <176346899005.2610273.2055455026150162691.robh@kernel.org>
- <715ea6b0-a8d7-4ecf-b0c7-f4469c94b969@oss.qualcomm.com>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <715ea6b0-a8d7-4ecf-b0c7-f4469c94b969@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed;
+ boundary="8323329-2050227086-1763469356=:4175455"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,40 +71,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-yup, saw, consider it solved in next version! :)
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Also hopefully I'll fire ut the dt_bindings_check and dtbs_check in our CI.
+--8323329-2050227086-1763469356=:4175455
+Content-Type: text/plain; format=flowed; charset=ISO-8859-2
+Content-Transfer-Encoding: 8BIT
 
-David
+Hi,
 
-On 18/11/2025 13:33, Konrad Dybcio wrote:
-> On 11/18/25 1:29 PM, Rob Herring (Arm) wrote:
->>
->> On Tue, 18 Nov 2025 12:30:37 +0100, David Heidelberg wrote:
->>> Add compatible for used LG panel.
->>> SW43408 is not panel, but DDIC. The panel itself is the
->>> LG LH546WF1-ED01, so introduce combined compatible for it.
->>>
->>> Signed-off-by: David Heidelberg <david@ixit.cz>
->>> ---
->>>   .../devicetree/bindings/display/panel/lg,sw43408.yaml         | 11 ++++++++---
->>>   1 file changed, 8 insertions(+), 3 deletions(-)
->>>
->>
->> My bot found errors running 'make dt_binding_check' on your patch:
->>
->> yamllint warnings/errors:
->>
->> dtschema/dtc warnings/errors:
->> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/lg,sw43408.example.dtb: panel@0 (lg,sw43408): compatible:0: 'lg,sw43408' is not one of ['lg,sw43408-lh546wf1-ed01']
->> 	from schema $id: http://devicetree.org/schemas/display/panel/lg,sw43408.yaml
->> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/lg,sw43408.example.dtb: panel@0 (lg,sw43408): compatible: ['lg,sw43408'] is too short
-> 
-> You got this error because you didn't fix the example DT (which would be
-> validated with `make dt_binding_check`
-> 
-> Konrad
+just hit memory leak on xe module load & unload:
 
--- 
-David Heidelberg
+unreferenced object 0xffff88811b047d10 (size 16):
+   comm "modprobe", pid 1058, jiffies 4297578480
+   hex dump (first 16 bytes):
+     00 6b 4b 2d 81 88 ff ff 80 7e 4b 2d 81 88 ff ff  .kK-.....~K-....
+   backtrace (crc 4f169eaf):
+     kmemleak_alloc+0x4a/0x90
+     __kmalloc_cache_noprof+0x488/0x800
+     drm_buddy_init+0xc2/0x330 [drm_buddy]
+     __xe_ttm_vram_mgr_init+0xc3/0x190 [xe]
+     xe_ttm_stolen_mgr_init+0xf5/0x9d0 [xe]
+     xe_device_probe+0x326/0x9e0 [xe]
+     xe_pci_probe+0x39a/0x610 [xe]
+     local_pci_probe+0x47/0xb0
+     pci_device_probe+0xf3/0x260
+     really_probe+0xf1/0x3c0
+     __driver_probe_device+0x8c/0x180
+     driver_probe_device+0x24/0xd0
+     __driver_attach+0x10f/0x220
+     bus_for_each_dev+0x7f/0xe0
+     driver_attach+0x1e/0x30
+     bus_add_driver+0x151/0x290
 
+Issue was reproduced on PTL & BMG, booted with latest kernel from
+drm-tip. Looks like fault was introduced in commit d4cd665c9
+("drm/buddy: Separate clear and dirty free block trees"), since reverting it
+makes the leak disappear. Also attached RFC patch, which at first
+glance could fix the issue.
+
+Added xe maintainers and the author to Cc.
+
+BR,
+Micha³
+
+--8323329-2050227086-1763469356=:4175455
+Content-Type: text/x-diff; name=0001-drm-buddy-release-free_trees-array-on-buddy-mm-teard.patch
+Content-Transfer-Encoding: BASE64
+Content-ID: <23984ebe-d629-33fd-8c62-bd8d0378bb8a@intel.com>
+Content-Description: rfc.patch
+Content-Disposition: attachment; filename=0001-drm-buddy-release-free_trees-array-on-buddy-mm-teard.patch
+
+RnJvbSA5MTRhYTUzYzE4YTg4ODM0MzEwYjg1NjAzMjNiNjNiYWU5OGZiMjlk
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQ0KRnJvbTogPT9VVEYtOD9xP01p
+Y2hhPUM1PTgyPTIwR3J6ZWxhaz89IDxtaWNoYWwuZ3J6ZWxha0BpbnRlbC5j
+b20+DQpEYXRlOiBUdWUsIDE4IE5vdiAyMDI1IDExOjM0OjExICswMTAwDQpT
+dWJqZWN0OiBbUEFUQ0hdIGRybS9idWRkeTogcmVsZWFzZSBmcmVlX3RyZWVz
+IGFycmF5IG9uIGJ1ZGR5IG1tIHRlYXJkb3duDQpNSU1FLVZlcnNpb246IDEu
+MA0KQ29udGVudC1UeXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04DQpD
+b250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiA4Yml0DQpPcmdhbml6YXRpb246
+IEludGVsIFRlY2hub2xvZ3kgUG9sYW5kIHNwLiB6IG8uby4gLSB1bC4gU2xv
+d2Fja2llZ28gMTczLCA4MC0yOTggR2RhbnNrIC0gS1JTIDEwMTg4MiAtIE5J
+UCA5NTctMDctNTItMzE2DQoNCkR1cmluZyBpbml0aWFsaXphdGlvbiBvZiBE
+Uk0gYnVkZHkgbWVtb3J5IG1hbmFnZXIgYXQgZHJtX2J1ZGR5X2luaXQsDQpt
+bS0+ZnJlZV90cmVlcyBhcnJheSBpcyBhbGxvY2F0ZWQgZm9yIGJvdGggY2xl
+YXIgYW5kIGRpcnR5IFJCIHRyZWVzLg0KRHVyaW5nIGNsZWFudXAgaGFwcGVu
+aW5nIGF0IGRybV9idWRkeV9maW5pIGl0IGlzIG5ldmVyIGZyZWVkLCBsZWFk
+aW5nIHRvDQptZW1vcnkgbGVha3Mgb2JzZXJ2ZWQgb24geGUgbW9kdWxlIGxv
+YWQgJiB1bmxvYWQgY3ljbGVzLg0KDQpEZWFsbG9jYXRlIGFycmF5IGZvciBm
+cmVlIHRyZWVzIHdoZW4gY2xlYW5pbmcgdXAgYnVkZHkgbWVtb3J5IG1hbmFn
+ZXIuDQoNCkZpeGVzOiBkNGNkNjY1YyAoImRybS9idWRkeTogU2VwYXJhdGUg
+Y2xlYXIgYW5kIGRpcnR5IGZyZWUgYmxvY2sgdHJlZXMiKQ0KU2lnbmVkLW9m
+Zi1ieTogTWljaGHFgiBHcnplbGFrIDxtaWNoYWwuZ3J6ZWxha0BpbnRlbC5j
+b20+DQotLS0NCiBkcml2ZXJzL2dwdS9kcm0vZHJtX2J1ZGR5LmMgfCAxICsN
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykNCg0KZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fYnVkZHkuYyBiL2RyaXZlcnMvZ3B1
+L2RybS9kcm1fYnVkZHkuYw0KaW5kZXggMmYyNzliNDZiZDJjLi44MzA4MTE2
+MDU4Y2MgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2J1ZGR5
+LmMNCisrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fYnVkZHkuYw0KQEAgLTQy
+MCw2ICs0MjAsNyBAQCB2b2lkIGRybV9idWRkeV9maW5pKHN0cnVjdCBkcm1f
+YnVkZHkgKm1tKQ0KIA0KIAlmb3JfZWFjaF9mcmVlX3RyZWUoaSkNCiAJCWtm
+cmVlKG1tLT5mcmVlX3RyZWVzW2ldKTsNCisJa2ZyZWUobW0tPmZyZWVfdHJl
+ZXMpOw0KIAlrZnJlZShtbS0+cm9vdHMpOw0KIH0NCiBFWFBPUlRfU1lNQk9M
+KGRybV9idWRkeV9maW5pKTsNCi0tIA0KMi40NS4yDQoNCg==
+
+--8323329-2050227086-1763469356=:4175455--
