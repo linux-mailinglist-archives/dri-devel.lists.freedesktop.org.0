@@ -2,126 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D48C6A36C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 16:07:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7100C6A49B
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 16:24:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A4A110E4EB;
-	Tue, 18 Nov 2025 15:07:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5AEF10E4E6;
+	Tue, 18 Nov 2025 15:24:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="o1BE7OeW";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="InKyQ0x4";
+	dkim=pass (2048-bit key; unprotected) header.d=ibm.com header.i=@ibm.com header.b="mEE4eUYj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F32510E503
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:07:21 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AICApav2802314
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:07:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=B8mN/GmjCsBG0594TCA5PjjHjg1VtzMRNYw
- pzS6EVWg=; b=o1BE7OeWrWuG5/+UmIahCqeT249CIiRgTZqGP/9UbC8XDo2aK11
- EPHXxoWfw+vM98ijbrfNKR4+jk7AKTiMIuJ89L8k1Qzru5xwUhwNbgIQpX0TQH0w
- ELAiG/Rqck0TbhoIGHF3x5+TyPudc7dgPrjGo8Imh4afgGfsgsE0KWoaMZppE8k3
- dnikibjEod+hLGj5cpaxJvsfFtSVz7QL5zFFDhMK6b3lC0n/hCf9bJo1zz57jUkW
- syTfwoMWuLvk5WD+GbuNPo/nv6vmW90xT6+wRT0MYwImop1U6Lk8m4lxk4/Y50vB
- jX+/uuTUBk8qLLUmevmTMG7hgOm4CAM0jCg==
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4agrk20f4j-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:07:20 +0000 (GMT)
-Received: by mail-pf1-f197.google.com with SMTP id
- d2e1a72fcca58-7b9ef46df43so5466685b3a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 07:07:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763478440; x=1764083240;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=B8mN/GmjCsBG0594TCA5PjjHjg1VtzMRNYwpzS6EVWg=;
- b=InKyQ0x4X4kV6kz83asVoZtwwPKm6aXfDWFc86VCTHRUfLu3QuMyigFY7X14hoYVmS
- YWsoKa67YENwKAzaWzqdm1lLmEU3MUdNnCNjd/NkNtUXo83YUCvQehqpHvVyn9P9Z03r
- oyMC9wfTafaWwPBZGSUG+FDE7Wvft5SoHvwJ5kLlwY8XeozpBP6sqZrZ+JI8hiZEFdRG
- XgZuRZ9Zc1NFdQm00TrawtiqxuK8m3LPEa8Omvn+E7NNE2IRntukwRUFhfAjrIgviZef
- sVWrvsncf81mnab0z3ae5K6O0i5D/T3rW4zcbA/yL7TdgBzxzH01D9nH72oCp5UYp6oQ
- wLJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763478440; x=1764083240;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=B8mN/GmjCsBG0594TCA5PjjHjg1VtzMRNYwpzS6EVWg=;
- b=BBLMr1GnQjal3u5EsgAbmcjduSkU9S1CR+GOKNY+3Z7BitCcXkYBVHh5CwZ5nZQMx9
- jnzG/TJJfoksixQQNNpDHaOhCf8BXO/SUc1b8ERKsewWMeVnAGKRMMHWTamxwTzDOroS
- eFuDib4NJlUTTWy6PjivOLH2oZJ9PYXRc+3dBii+OTJyT18tKsfrYxo4OQtpQchM+S2o
- ++1WCgQrWUKwcDGDqd8eVFBB0rQYad3gxqpKgSv4dM2cSTvtOvktyTdcV6xVu0k1f1Kv
- N75MYmoa7oEksY7JgJyABwCkAURB/1dIvNw8VtmdZZPw9de36gXrmLWVmNzXEh4mAwka
- dOaw==
-X-Gm-Message-State: AOJu0YzSvxt7OiZ7xUFzYz0v7owkML5UuSfb+lrRdofh6P8QEr5/yMWT
- iW+R1tLdthuQhcR+JU3PhangNNNiznVBNn1amIzak80s+0bBaKhLvJn8HPYhOTnM0DDP053O/sa
- WLrWejs0HkJt31CyGsnzZFZJ80uPIYEtWULhkD2YWFMaK9NdzlsffL/eypW9RLAIJL1psXH87N6
- r1cdQ=
-X-Gm-Gg: ASbGnctHbNEC2nDWJ6k4KyIhd+Q4SwGe0ybxiHjnzX94s+Y3cQ+0ZXhDuHNbG5erLn7
- zYnHsvnwHw+pPc3ES9U7mh9lVnrP8FtBv1fK+/uatypQjV/UHGndgTaewTi+y7Bfc/DN+fLnGFw
- 8ZDvdfhOqhCeYj1mFd87SfYAVTCN1n08l6Hq5H2jfyIo2snks2/AdBIIQeytPqw3efIZWJD2CT2
- ce0ZCtbaB9pmLVJ0X2gFflb8CP1X6y77EVHp0WuZl/6wRRJvCdwOHhJUfMDBWNp9aVk/74jA6he
- X1LGPyHTrR8cqg2ZdXV2SdpeWU5E38KHO2St7zjNcS3///lCxNyq3+cM6Bgoob/rMt2HuWYmQhE
- CV5I3u/nQQpCto+tu1WT9BZ08FV9syoo5Nserzzthf4470ns2lkn7KTsb
-X-Received: by 2002:a05:6a00:1703:b0:772:4319:e7df with SMTP id
- d2e1a72fcca58-7ba3c66bd52mr18596375b3a.30.1763478439461; 
- Tue, 18 Nov 2025 07:07:19 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEN8v25wkXWT1nNh0+Q/Q5NPaq5o0aKvp1i2kqJK/B168hXAA16+kV6/H29MM4NOga7YqBAhw==
-X-Received: by 2002:a05:6a00:1703:b0:772:4319:e7df with SMTP id
- d2e1a72fcca58-7ba3c66bd52mr18596314b3a.30.1763478438733; 
- Tue, 18 Nov 2025 07:07:18 -0800 (PST)
-Received: from localhost (c-73-37-105-206.hsd1.or.comcast.net. [73.37.105.206])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7b921cb6f44sm16942993b3a.0.2025.11.18.07.07.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Nov 2025 07:07:18 -0800 (PST)
-From: Rob Clark <robin.clark@oss.qualcomm.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3661210E362;
+ Tue, 18 Nov 2025 15:24:34 +0000 (UTC)
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5AI1tqs7028393;
+ Tue, 18 Nov 2025 15:23:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+ :content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=pp1; bh=b8qR1f
+ NCOUcGmFlXBqf2Jmbglcn0cz6vrnKg5k3I8HY=; b=mEE4eUYjgklKf8ckwZAhDy
+ SemFjclSHph4OIcNgGIRB33yKEvmDkUgpvf4MsjpE3xo0akxzvjylX58YARmSJ5h
+ c2Ooip5l5xKCeB+ZszFhhCXGu1T0RI/6rBGNycK4VKLDmLOQLbQF8xC71MwsdRpI
+ 0oQIclRsJ2BH/z3isyuBtV/G5oGzzxcyO/U8jZGhW63jDjC0GT2rEygs7Nywqf0o
+ LKYkHjV4YQgao5GRKh0XTFLZa5uyctdwxj2IR2IjesWo4ulffbUPV3WfYorlMzp9
+ 3UQws93x7ragECUHS6LnyzjaTYBragG1GGke7RSE/IYNqSxXY5az/LqI4/4Qzsew
+ ==
+Received: from ppma13.dal12v.mail.ibm.com
+ (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4aejmsk7vk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Nov 2025 15:23:16 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+ by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5AICQoFw006967;
+ Tue, 18 Nov 2025 15:23:15 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4af62jbj06-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 18 Nov 2025 15:23:15 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
+ [10.20.54.101])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 5AIFNBfr40042972
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 Nov 2025 15:23:12 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C34CE20040;
+ Tue, 18 Nov 2025 15:23:11 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9A79420043;
+ Tue, 18 Nov 2025 15:23:10 +0000 (GMT)
+Received: from [9.152.212.246] (unknown [9.152.212.246])
+ by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Tue, 18 Nov 2025 15:23:10 +0000 (GMT)
+Message-ID: <55871dc5-2467-4558-be5b-0296d478a6d1@linux.ibm.com>
+Date: Tue, 18 Nov 2025 16:23:09 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 18/21] s390/dasd: Switch to use %ptSp
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Corey Minyard <corey@minyard.net>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, "Dr. David Alan Gilbert" <linux@treblig.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
  Rob Clark <robin.clark@oss.qualcomm.com>,
- Connor Abbott <cwabbott0@gmail.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Aleksandr Loktionov
+ <aleksandr.loktionov@intel.com>, Vitaly Lifshits
+ <vitaly.lifshits@intel.com>, Manivannan Sadhasivam <mani@kernel.org>,
+ Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Sagi Maimon <maimon.sagi@gmail.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Karan Tilak Kumar <kartilak@cisco.com>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>,
+ Casey Schaufler <casey@schaufler-ca.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>,
+ Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+ Max Kellermann <max.kellermann@ionos.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
+ netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+ ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
  Abhinav Kumar <abhinav.kumar@linux.dev>,
  Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/msm/registers: Fix encoding fields in 64b registers
-Date: Tue, 18 Nov 2025 07:07:12 -0800
-Message-ID: <20251118150715.201623-1-robin.clark@oss.qualcomm.com>
-X-Mailer: git-send-email 2.51.1
-MIME-Version: 1.0
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Rodolfo Giometti
+ <giometti@enneenne.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
+ Richard Cochran <richardcochran@gmail.com>,
+ Jan Hoeppner <hoeppner@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Satish Kharat <satishkh@cisco.com>,
+ Sesidhar Baddela <sebaddel@cisco.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Xiubo Li
+ <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
+ <20251113150217.3030010-19-andriy.shevchenko@linux.intel.com>
+Content-Language: en-US
+From: Stefan Haberland <sth@linux.ibm.com>
+In-Reply-To: <20251113150217.3030010-19-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=a6Q9NESF c=1 sm=1 tr=0 ts=691c8ba8 cx=c_pps
- a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=19Wyn7e3V/0aNffMjNCMQw==:17
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=OSLXHSMv42BtIwkUFNYA:9
- a=2VI0MkxyNR6bbpdq8BZq:22
-X-Proofpoint-GUID: zUz7aNdO5qk8I3itzZeP8qIX3mQCEIt1
-X-Proofpoint-ORIG-GUID: zUz7aNdO5qk8I3itzZeP8qIX3mQCEIt1
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE4MDEyMSBTYWx0ZWRfX3DiQwYAEpEBN
- MpE0HxePsB/i362dtEJUiOueKWFp9os2jEgg3Bb0AoMiqYXA6BBlzTsS/TsQMR1vHH1xpWvw2sj
- UugvBZahLEaBSR9K0myXSI/igoxUnMNDhw6nDq5g2apANhuITo+HQPMUjE/tdRPuEHn2SkM11Pc
- Mu197gTveQSBKrMvR7jlOlxZEU2j8XkPrvfkmUxXhvx8atGjFTymqI40i7UVx7U9FRPMWlMUe+Q
- i6lFEDo8ed9c0iMfRmV2+Mcq/na4Zj/rIBEFC7bmRCDMY8RXVqfzI3HlZQ+GGXuTAVkEQI+QV0j
- qG3EkfJudbSzHvErnaGYHIm7wwHsnR13ssXXJQjo5LQZt4gDRjYVQmFXBy0pGpaOuKuKN73CMkx
- xKWA/Kx/4Ybvsyhyv6nSwzA7pDUV2w==
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: z5vCIuXQoxQhVWpfGoNnS3CQXWBOkQvm
+X-Authority-Analysis: v=2.4 cv=Rv3I7SmK c=1 sm=1 tr=0 ts=691c8f65 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=QyXUC8HyAAAA:8 a=VnNF1IyMAAAA:8 a=JNz3O4sEs4oywJvo4n4A:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=UhEZJTgQB8St2RibIkdl:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22
+ a=QOGEsqRv6VhmHaoFNykA:22
+X-Proofpoint-GUID: z5vCIuXQoxQhVWpfGoNnS3CQXWBOkQvm
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE1MDAzMiBTYWx0ZWRfX7xgDi9VMkHy1
+ xY1Kr5CN6JO103EZyDLYmJUVyCiuwKR/4uc3+Lmy/gvg5ECzM4sd6vU0zWqCHklppK8uLUvWjGX
+ HwwwwH+Ce8Jw0NQCUNjE3exfborRXuQ4RjSB1HZACxh4RkWbE7BpIzojfb5TKd4SBA0XBh10Euo
+ CsCaHasXAGt43yERBXoTQ5hFXFxjF+AK1zNBNgHfBYOInKsNmRYBkGYznwzarJkxLc/UdbEghnq
+ kmXAnC8NgaNRASHp2cZtXrz3YttsT408eVXN4mQFU8o8MSMzbwi3Kptdqy/18crsQhyL56cLX4n
+ RnZa0fHWW+S36zf2ZHPlGEIVPwtibWxtWTZqXsygWW1T/83Ban6/JWLGXi3iADfuOgd8HUjrRri
+ jkkd9Ckpow854pIeK6bG7rGX3zWg/g==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-18_01,2025-11-18_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- adultscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0 malwarescore=0
+ malwarescore=0 suspectscore=0 clxscore=1011 phishscore=0 priorityscore=1501
+ spamscore=0 lowpriorityscore=0 impostorscore=0 adultscore=0 bulkscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511180121
+ reason=mlx scancount=1 engine=8.19.0-2510240000 definitions=main-2511150032
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,78 +174,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Based on mesa commit 3f70b0578402 ("freedreno/registers: Fix encoding
-fields in 64b registers"), but with some fixes to not skip emitting
-interrupt enum values.
+Am 13.11.25 um 15:32 schrieb Andy Shevchenko:
 
-Co-developed-by: Connor Abbott <cwabbott0@gmail.com>
-Signed-off-by: Connor Abbott <cwabbott0@gmail.com>
-Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/registers/gen_header.py | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+> Use %ptSp instead of open coded variants to print content of
+> struct timespec64 in human readable format.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
 
-diff --git a/drivers/gpu/drm/msm/registers/gen_header.py b/drivers/gpu/drm/msm/registers/gen_header.py
-index 1d603dadfabd..54a08d4a0ae7 100644
---- a/drivers/gpu/drm/msm/registers/gen_header.py
-+++ b/drivers/gpu/drm/msm/registers/gen_header.py
-@@ -189,12 +189,13 @@ class Bitset(object):
- 		print("    return (struct fd_reg_pair) {")
- 		print("        .reg = (uint32_t)%s," % reg.reg_offset())
- 		print("        .value =")
-+		cast = "(uint64_t)" if reg.bit_size == 64 else ""
- 		for f in self.fields:
- 			if f.type in [ "address", "waddress" ]:
- 				continue
- 			else:
- 				type, val = f.ctype("fields.%s" % field_name(reg, f))
--				print("            (%-40s << %2d) |" % (val, f.low))
-+				print("            (%s%-40s << %2d) |" % (cast, val, f.low))
- 		value_name = "dword"
- 		if reg.bit_size == 64:
- 			value_name = "qword"
-@@ -264,10 +265,10 @@ class Bitset(object):
- 				  (prefix, prefix, prefix, skip))
- 
- 
--	def dump(self, is_deprecated, prefix=None):
-+	def dump(self, is_deprecated, prefix=None, reg=None):
- 		if prefix is None:
- 			prefix = self.name
--		if self.reg and self.reg.bit_size == 64:
-+		if reg and self.reg and self.reg.bit_size == 64:
- 			print("static inline uint32_t %s_LO(uint32_t val)\n{" % prefix)
- 			print("\treturn val;\n}")
- 			print("static inline uint32_t %s_HI(uint32_t val)\n{" % prefix)
-@@ -283,14 +284,16 @@ class Bitset(object):
- 			elif f.type == "boolean" or (f.type is None and f.low == f.high):
- 				tab_to("#define %s" % name, "0x%08x" % (1 << f.low))
- 			else:
--				tab_to("#define %s__MASK" % name, "0x%08x" % mask(f.low, f.high))
-+				tab_to("#define %s__MASK" % name, "0x%08xull" % mask(f.low, f.high))
- 				tab_to("#define %s__SHIFT" % name, "%d" % f.low)
- 				type, val = f.ctype("val")
-+				ret_type = "uint64_t" if reg and reg.bit_size == 64 else "uint32_t"
-+				cast = "(uint64_t)" if reg and reg.bit_size == 64 else ""
- 
--				print("static inline uint32_t %s(%s val)\n{" % (name, type))
-+				print("static inline %s %s(%s val)\n{" % (ret_type, name, type))
- 				if f.shr > 0:
- 					print("\tassert(!(val & 0x%x));" % mask(0, f.shr - 1))
--				print("\treturn ((%s) << %s__SHIFT) & %s__MASK;\n}" % (val, name, name))
-+				print("\treturn (%s(%s) << %s__SHIFT) & %s__MASK;\n}" % (cast, val, name, name))
- 		print()
- 
- class Array(object):
-@@ -437,7 +440,7 @@ class Reg(object):
- 			print("static inline%s uint32_t REG_%s(%s) { return 0x%08x + %s; }" % (depcrstr, self.full_name, proto, offset, strides))
- 
- 		if self.bitset.inline:
--			self.bitset.dump(is_deprecated, self.full_name)
-+			self.bitset.dump(is_deprecated, self.full_name, self)
- 		print("")
- 
- 	def dump_pack_struct(self, is_deprecated):
--- 
-2.51.1
+Thanks, looks good to me.
+
+Acked-by: Stefan Haberland <sth@linux.ibm.com> 
+
 
