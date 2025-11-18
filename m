@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B534C69986
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 14:27:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1387BC699EE
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 14:37:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCDFC10E4A8;
-	Tue, 18 Nov 2025 13:27:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF0410E4A4;
+	Tue, 18 Nov 2025 13:37:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sSW27ozh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="opNF97Ly";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C5AB10E4A8
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 13:27:33 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFCB310E4A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 13:37:24 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E87A540A18;
- Tue, 18 Nov 2025 13:27:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE36BC4CEF1;
- Tue, 18 Nov 2025 13:27:28 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id CA44A601B9;
+ Tue, 18 Nov 2025 13:27:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60A12C19422;
+ Tue, 18 Nov 2025 13:27:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763472452;
- bh=O6w8yE+bQAU4FwyqlCvQpDdc1jWO3Vrz2pdLrX3KRAs=;
+ s=k20201202; t=1763472457;
+ bh=OVR6mVP21sm9fzL9r2vnhG2F6BDvIoURwGoNLywV05I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sSW27ozhxydZh+w4GiB5IRjKKwLLBj/nRTZruTWHa/gPU/6yXinllb4JeI4/uJdd+
- zQWRbQ2MkGimhOWkEGtLPyVGagoHmEDwjKUGUToaExi4fDwga8L2elfJXd7qRYzY+x
- LwuUshugcNGZ4TnWyjM3ARCrnvRPb5WiLTqwYkJQeyb6KTAo+vE6V36UZxWDOQnhOv
- Yc40zpi40zkk+r4upgBj8cPVhKJgBAq1zgrTs8uXvpTGxiUBoZ8pxePvF8bhExnp1J
- szSkha4XM+50OkTiBA+NrWbhh/KTGGsqqu9eRLitNfX4seBwHYLjevTKp3EJfL21uh
- d597D7wlLbtIg==
+ b=opNF97LycH4qRrTqaRnRp0Vk/GF1X2inv1r8Pcv/2Fu9k8ZdInvbYxy5W954/WOr+
+ tf+2tni3OjZM5horerJPtfQ91PYONH60LPb3tK8goNFJUaeDc/OSntvPB6ZgoOdmuG
+ 2FtJPRtPE9okl3GYhE6Uad2HUqUzf4q5528gLv/17xaKA3jmhAiMlNbgvzgvU1XMZb
+ tA2HHFlWzozAr/w9bqyblrBB0DYX8D2HnJiCJOllaQ5P9aVfVbwjPqP7m4narcSQJ8
+ qLPHc57N6Ot1hXbM4eCvbXLiRKShUQ/GDK8cJOoToSInenyCIdjajiVyrqQqo0e0CQ
+ OGnvedCON4Rpw==
 From: Philipp Stanner <phasta@kernel.org>
 To: Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
@@ -41,9 +41,9 @@ To: Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>,
  Peter Colberg <pcolberg@redhat.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  rust-for-linux@vger.kernel.org, Philipp Stanner <phasta@kernel.org>
-Subject: [RFC WIP 2/3] rust: sync: Add dma_fence abstractions
-Date: Tue, 18 Nov 2025 14:25:18 +0100
-Message-ID: <20251118132520.266179-4-phasta@kernel.org>
+Subject: [RFC WIP 3/3] rust/drm: Add initial jobqueue sceleton
+Date: Tue, 18 Nov 2025 14:25:19 +0100
+Message-ID: <20251118132520.266179-5-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251118132520.266179-2-phasta@kernel.org>
 References: <20251118132520.266179-2-phasta@kernel.org>
@@ -64,519 +64,458 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-dma_fence is a synchronization mechanism which is needed by virtually
-all GPU drivers.
+DRM jobqueue is intended to become a load balancer, dependency manager
+and timeout handler for GPU drivers with firmware scheduling.
 
-A dma_fence offers many features, among which the most important ones
-are registering callbacks (for example to kick off a work item) which
-get executed once a fence gets signalled.
+The presented code shall give the reader an overview over the intended
+architecture, notably over the API functions, DmaFence callbacks, job
+lists and job control flow.
 
-dma_fence has a number of callbacks. Only the two most basic ones
-(get_driver_name(), get_timeline_name() are abstracted since they are
-enough to enable the basic functionality.
+This code compiles (with warnings) but is incomplete. Notable missing
+features are:
+- Actually registering the fence callbacks
+- workqueue
+- timeout handling
+- actually calling the driver callback for job submissions
 
-Callbacks in Rust are registered by passing driver data which implements
-the Rust callback trait, whose function will be called by the C backend.
+Moreover, the implementation of the waiting_jobs and running_jobs lists
+is currently not operational because I've got trouble with getting it to
+work with generic Job data. Verifyable by commenting in the push_job()
+call in the submit_job() function.
 
-dma_fence's are always refcounted, so implement AlwaysRefcounted for
-them. Once a reference drops to zero, the C backend calls a release
-function, where we implement drop_in_place() to conveniently marry that
-C-cleanup mechanism with Rust's ownership concepts.
-
-This patch provides basic functionality, but is still missing:
-  - An implementation of PinInit<T, Error> for all driver data.
-  - A clever implementation for working dma_fence_begin_signalling()
-    guards. See the corresponding TODO in the code.
-  - Additional useful helper functions such as dma_fence_is_signaled().
-    These _should_ be relatively trivial to implement, though.
+Some WIP code is commented out, but is probably worth reading
+nevertheless since it completes the picture.
 
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- rust/bindings/bindings_helper.h |   1 +
- rust/helpers/dma_fence.c        |  23 ++
- rust/helpers/helpers.c          |   1 +
- rust/helpers/spinlock.c         |   5 +
- rust/kernel/sync.rs             |   2 +
- rust/kernel/sync/dma_fence.rs   | 380 ++++++++++++++++++++++++++++++++
- 6 files changed, 412 insertions(+)
- create mode 100644 rust/helpers/dma_fence.c
- create mode 100644 rust/kernel/sync/dma_fence.rs
+ rust/kernel/drm/jq.rs  | 398 +++++++++++++++++++++++++++++++++++++++++
+ rust/kernel/drm/mod.rs |   2 +
+ 2 files changed, 400 insertions(+)
+ create mode 100644 rust/kernel/drm/jq.rs
 
-diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-index 84d60635e8a9..107cb6b6f4a4 100644
---- a/rust/bindings/bindings_helper.h
-+++ b/rust/bindings/bindings_helper.h
-@@ -48,6 +48,7 @@
- #include <linux/cred.h>
- #include <linux/device/faux.h>
- #include <linux/dma-mapping.h>
-+#include <linux/dma-fence.h>
- #include <linux/errname.h>
- #include <linux/ethtool.h>
- #include <linux/file.h>
-diff --git a/rust/helpers/dma_fence.c b/rust/helpers/dma_fence.c
+diff --git a/rust/kernel/drm/jq.rs b/rust/kernel/drm/jq.rs
 new file mode 100644
-index 000000000000..a9fc4829bbae
+index 000000000000..b3f7ab4655cf
 --- /dev/null
-+++ b/rust/helpers/dma_fence.c
-@@ -0,0 +1,23 @@
++++ b/rust/kernel/drm/jq.rs
+@@ -0,0 +1,398 @@
 +// SPDX-License-Identifier: GPL-2.0
++//
++// Copyright (C) 2025 Red Hat Inc.:
++//   - Philipp Stanner <pstanner@redhat.com>
++//   - Danilo Krummrich <dakr@redhat.com>
++//   - David Airlie <airlied@redhat.com>
 +
-+#include <linux/dma-fence.h>
-+
-+void rust_helper_dma_fence_get(struct dma_fence *f)
-+{
-+	dma_fence_get(f);
-+}
-+
-+void rust_helper_dma_fence_put(struct dma_fence *f)
-+{
-+	dma_fence_put(f);
-+}
-+
-+bool rust_helper_dma_fence_begin_signalling(void)
-+{
-+	return dma_fence_begin_signalling();
-+}
-+
-+void rust_helper_dma_fence_end_signalling(bool cookie)
-+{
-+	dma_fence_end_signalling(cookie);
-+}
-diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
-index 7cf7fe95e41d..99a7f7834c03 100644
---- a/rust/helpers/helpers.c
-+++ b/rust/helpers/helpers.c
-@@ -20,6 +20,7 @@
- #include "cred.c"
- #include "device.c"
- #include "dma.c"
-+#include "dma_fence.c"
- #include "drm.c"
- #include "err.c"
- #include "fs.c"
-diff --git a/rust/helpers/spinlock.c b/rust/helpers/spinlock.c
-index 42c4bf01a23e..017ac447ebbd 100644
---- a/rust/helpers/spinlock.c
-+++ b/rust/helpers/spinlock.c
-@@ -16,6 +16,11 @@ void rust_helper___spin_lock_init(spinlock_t *lock, const char *name,
- #endif /* CONFIG_DEBUG_SPINLOCK */
- }
- 
-+void rust_helper_spin_lock_init(spinlock_t *lock)
-+{
-+	spin_lock_init(lock);
-+}
-+
- void rust_helper_spin_lock(spinlock_t *lock)
- {
- 	spin_lock(lock);
-diff --git a/rust/kernel/sync.rs b/rust/kernel/sync.rs
-index 00f9b558a3ad..84c406b6b9e1 100644
---- a/rust/kernel/sync.rs
-+++ b/rust/kernel/sync.rs
-@@ -12,6 +12,7 @@
- mod arc;
- pub mod aref;
- pub mod completion;
-+pub mod dma_fence;
- mod condvar;
- pub mod lock;
- mod locked_by;
-@@ -20,6 +21,7 @@
- 
- pub use arc::{Arc, ArcBorrow, UniqueArc};
- pub use completion::Completion;
-+pub use dma_fence::{DmaFence, DmaFenceCtx, DmaFenceCb, DmaFenceCbFunc};
- pub use condvar::{new_condvar, CondVar, CondVarTimeoutResult};
- pub use lock::global::{global_lock, GlobalGuard, GlobalLock, GlobalLockBackend, GlobalLockedBy};
- pub use lock::mutex::{new_mutex, Mutex, MutexGuard};
-diff --git a/rust/kernel/sync/dma_fence.rs b/rust/kernel/sync/dma_fence.rs
-new file mode 100644
-index 000000000000..d9a59dde0210
---- /dev/null
-+++ b/rust/kernel/sync/dma_fence.rs
-@@ -0,0 +1,380 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! DmaFence support.
-+//!
-+//! Reference: <https://docs.kernel.org/driver-api/dma-buf.html#c.dma_fence>
-+//!
-+//! C header: [`include/linux/dma-fence.h`](srctree/include/linux/dma-fence.h)
++//! DrmJobqueue. A load balancer, dependency manager and timeout handler for
++//! GPU job submissions.
 +
 +use crate::{
-+    bindings,
 +    prelude::*,
-+    types::ForeignOwnable,
-+    types::{ARef, AlwaysRefCounted, Opaque},
++    types::ARef,
 +};
++use kernel::sync::{Arc, SpinLock, new_spinlock, DmaFence, DmaFenceCtx, DmaFenceCb, DmaFenceCbFunc};
++use kernel::list::*;
++use kernel::revocable::Revocable;
 +
-+use core::{
-+    ptr::{drop_in_place, NonNull},
-+    sync::atomic::{AtomicU64, Ordering},
-+};
 +
-+use kernel::sync::{Arc, ArcBorrow};
-+use kernel::c_str;
-+
-+/// Defines the callback function the dma-fence backend will call once the fence gets signalled.
-+pub trait DmaFenceCbFunc {
-+    /// The callback function. `cb` is a container of the data which the driver passed in
-+    /// [`DmaFence::register_callback`].
-+    fn callback(cb: Pin<KBox<DmaFenceCb<Self>>>)
-+    where
-+        Self: Sized;
-+}
-+
-+/// Container for driver data which the driver gets back in its callback once the fence gets
-+/// signalled.
 +#[pin_data]
-+pub struct DmaFenceCb<T: DmaFenceCbFunc> {
-+    /// C struct needed for the backend.
-+    #[pin]
-+    inner: Opaque<bindings::dma_fence_cb>,
-+    /// Driver data.
-+    #[pin]
-+    pub data: T,
-+}
-+
-+impl<T: DmaFenceCbFunc + 'static> DmaFenceCb<T> {
-+    fn new(data: impl PinInit<T>) -> Result<Pin<KBox<Self>>> {
-+        let cb = try_pin_init!(Self {
-+            inner: Opaque::zeroed(), // This gets initialized by the C backend.
-+            data <- data,
-+        });
-+
-+        KBox::pin_init(cb, GFP_KERNEL)
-+    }
-+
-+    /// Callback for the C dma_fence backend.
-+    ///
-+    /// # Safety
-+    /// All data used and cast in this function was validly created by
-+    /// [`DmaFence::register_callback`] and isn't modified by the C backend until this callback
-+    /// here has run.
-+    unsafe extern "C" fn callback(
-+        _fence_ptr: *mut bindings::dma_fence,
-+        cb_ptr: *mut bindings::dma_fence_cb,
-+    ) {
-+        let cb_ptr = Opaque::cast_from(cb_ptr);
-+
-+        // SAFETY: The constructor guarantees that `cb_ptr` is always `inner` of a DmaFenceCb.
-+        let cb_ptr = unsafe { crate::container_of!(cb_ptr, Self, inner) }.cast_mut() as *mut c_void;
-+        // SAFETY: `cp_ptr` is the heap memory of a Pin<Kbox<Self>> because it was created by
-+        // invoking ForeignOwnable::into_foreign() on such an instance.
-+        let cb = unsafe { <Pin<KBox<Self>> as ForeignOwnable>::from_foreign(cb_ptr) };
-+
-+        // Pass ownership back over to the driver.
-+        T::callback(cb);
-+    }
-+}
-+
-+/// A dma-fence context. A fence context takes care of associating related fences with each other,
-+/// providing each with raising sequence numbers and a common identifier.
-+#[pin_data]
-+pub struct DmaFenceCtx {
-+    /// An opaque spinlock. Only ever passed to the C backend, never used by Rust.
-+    #[pin]
-+    lock: Opaque<bindings::spinlock_t>,
-+    /// The fence context number.
-+    nr: u64,
-+    /// The sequence number for the next fence created.
-+    seqno: AtomicU64,
-+}
-+
-+impl DmaFenceCtx {
-+    /// Create a new `DmaFenceCtx`.
-+    pub fn new() -> Result<Arc<Self>> {
-+        let ctx = pin_init!(Self {
-+            // Feed in a non-Rust spinlock for now, since the Rust side never needs the lock.
-+            lock <- Opaque::ffi_init(|slot: *mut bindings::spinlock| {
-+                // SAFETY: `slot` is a valid pointer to an uninitialized `struct spinlock_t`.
-+                unsafe { bindings::spin_lock_init(slot) };
-+            }),
-+            // SAFETY: `dma_fence_context_alloc()` merely works on a global atomic. Parameter `1`
-+            // is the number of contexts we want to allocate.
-+            nr: unsafe { bindings::dma_fence_context_alloc(1) },
-+            seqno: AtomicU64::new(0),
-+        });
-+
-+        Arc::pin_init(ctx, GFP_KERNEL)
-+    }
-+
-+    fn get_new_fence_seqno(&self) -> u64 {
-+        self.seqno.fetch_add(1, Ordering::Relaxed)
-+    }
-+}
-+
-+impl ArcBorrow<'_, DmaFenceCtx> {
-+    /// Create a new fence, consuming `data`.
-+    ///
-+    /// The fence will increment the refcount of the fence context associated with this
-+    /// [`DmaFenceCtx`].
-+    pub fn new_fence<T>(
-+        &mut self,
-+        data: impl PinInit<T>,
-+    ) -> Result<ARef<DmaFence<T>>> {
-+        let fctx: Arc<DmaFenceCtx> = (*self).into();
-+        let seqno: u64 = fctx.get_new_fence_seqno();
-+
-+        // TODO: Should we reset seqno in case of failure?
-+        // Pass `fctx` by value so that the fence will hold a reference to the DmaFenceCtx as long
-+        // as it lives.
-+        DmaFence::new(fctx, data, &self.lock, self.nr, seqno)
-+    }
-+}
-+
-+/// A synchronization primitive mainly for GPU drivers.
-+///
-+/// DmaFences are always reference counted. The typical use case is that one side registers
-+/// callbacks on the fence which will perform a certain action (such as queueing work) once the
-+/// other side signals the fence.
-+///
-+/// # Examples
-+///
-+/// ```
-+/// use kernel::sync::{Arc, ArcBorrow, DmaFence, DmaFenceCtx, DmaFenceCb, DmaFenceCbFunc};
-+/// use core::sync::atomic::{self, AtomicBool};
-+///
-+/// static mut CHECKER: AtomicBool = AtomicBool::new(false);
-+///
-+/// struct CallbackData {
-+///     i: u32,
-+/// }
-+///
-+/// impl CallbackData {
-+///     fn new() -> Self {
-+///         Self { i: 9 }
-+///     }
-+/// }
-+///
-+/// impl DmaFenceCbFunc for CallbackData {
-+///     fn callback(cb: Pin<KBox<DmaFenceCb<Self>>>) where Self: Sized {
-+///         assert_eq!(cb.data.i, 9);
-+///         // SAFETY: Just to have an easy way for testing. This cannot race with the checker
-+///         // because the fence signalling callbacks are executed synchronously.
-+///         unsafe { CHECKER.store(true, atomic::Ordering::Relaxed); }
-+///     }
-+/// }
-+///
-+/// struct DriverData {
-+///     i: u32,
-+/// }
-+///
-+/// impl DriverData {
-+///     fn new() -> Self {
-+///         Self { i: 5 }
-+///     }
-+/// }
-+///
-+/// let data = DriverData::new();
-+/// let fctx = DmaFenceCtx::new()?;
-+///
-+/// let mut fence = fctx.as_arc_borrow().new_fence(data)?;
-+///
-+/// let cb_data = CallbackData::new();
-+/// fence.register_callback(cb_data);
-+/// // fence.begin_signalling();
-+/// fence.signal()?;
-+/// // Now check wehether the callback was actually executed.
-+/// // SAFETY: `fence.signal()` above works sequentially. We just check here whether the signalling
-+/// // actually did set the boolean correctly.
-+/// unsafe { assert_eq!(CHECKER.load(atomic::Ordering::Relaxed), true); }
-+///
-+/// Ok::<(), Error>(())
-+/// ```
-+#[pin_data]
-+pub struct DmaFence<T> {
-+    /// The actual dma_fence passed to C.
-+    #[pin]
-+    inner: Opaque<bindings::dma_fence>,
-+    /// User data.
++pub struct Job<T: ?Sized> {
++    credits: u32,
++//    dependencies: List, // TODO implement dependency list
 +    #[pin]
 +    data: T,
-+    /// Marks whether the fence is currently in the signalling critical section.
-+    signalling: bool,
-+    /// A boolean needed for the C backend's lockdep guard.
-+    signalling_cookie: bool,
-+    /// A reference to the associated [`DmaFenceCtx`] so that it cannot be dropped while there are
-+    /// still fences around.
-+    fctx: Arc<DmaFenceCtx>,
 +}
 +
-+// SAFETY: `DmaFence` is safe to be sent to any task.
-+unsafe impl<T> Send for DmaFence<T> {}
-+
-+// SAFETY: `DmaFence` is safe to be accessed concurrently.
-+unsafe impl<T> Sync for DmaFence<T> {}
-+
-+// SAFETY: These implement the C backends refcounting methods which are proven to work correctly.
-+unsafe impl<T> AlwaysRefCounted for DmaFence<T> {
-+    fn inc_ref(&self) {
-+        // SAFETY: `self.as_raw()` is a pointer to a valid `struct dma_fence`.
-+        unsafe { bindings::dma_fence_get(self.as_raw()) }
-+    }
-+
-+    /// # Safety
++impl<T> Job<T> {
++    /// Create a new job that can be submitted to [`Jobqueue`].
 +    ///
-+    /// `ptr`must be a valid pointer to a [`DmaFence`].
-+    unsafe fn dec_ref(ptr: NonNull<Self>) {
-+        // SAFETY: `ptr` is never a NULL pointer; and when `dec_ref()` is called
-+        // the fence is by definition still valid.
-+        let fence = unsafe { (*ptr.as_ptr()).inner.get() };
-+
-+        // SAFETY: Valid because `fence` was created validly above.
-+        unsafe { bindings::dma_fence_put(fence) }
-+    }
-+}
-+
-+impl<T> DmaFence<T> {
-+    // TODO: There could be a subtle potential problem here? The LLVM compiler backend can create
-+    // several versions of this constant. Their content would be identical, but their addresses
-+    // different.
-+    const OPS: bindings::dma_fence_ops = Self::ops_create();
-+
-+    /// Create an initializer for a new [`DmaFence`].
-+    fn new(
-+        fctx: Arc<DmaFenceCtx>,
-+        data: impl PinInit<T>, // TODO: The driver data should implement PinInit<T, Error>
-+        lock: &Opaque<bindings::spinlock_t>,
-+        context: u64,
-+        seqno: u64,
-+    ) -> Result<ARef<Self>> {
-+        let fence = pin_init!(Self {
-+            inner <- Opaque::ffi_init(|slot: *mut bindings::dma_fence| {
-+                let lock_ptr = &raw const (*lock);
-+                // SAFETY: `slot` is a valid pointer to an uninitialized `struct dma_fence`.
-+                // `lock_ptr` is a pointer to the spinlock of the fence context, which is shared
-+                // among all the fences. This can't become a UAF because each fence takes a
-+                // reference of the fence context.
-+                unsafe { bindings::dma_fence_init(slot, &Self::OPS, Opaque::cast_into(lock_ptr), context, seqno) };
-+            }),
++    /// Jobs contain driver data that will later be made available to the driver's
++    /// run_job() callback in which the job gets pushed to the GPU.
++    pub fn new(credits: u32, data: impl PinInit<T>) -> Result<Pin<KBox<Self>>> {
++        let job = pin_init!(Self {
++            credits,
 +            data <- data,
-+            signalling: false,
-+            signalling_cookie: false,
-+            fctx: fctx,
 +        });
 +
-+        let b = KBox::pin_init(fence, GFP_KERNEL)?;
-+
-+        // SAFETY: We don't move the contents of `b` anywhere here. After unwrapping it, ARef will
-+        // take care of preventing memory moves.
-+        let rawptr = KBox::into_raw(unsafe { Pin::into_inner_unchecked(b) });
-+
-+        // SAFETY: `rawptr` was created validly above.
-+        let aref = unsafe { ARef::from_raw(NonNull::new_unchecked(rawptr)) };
-+
-+        Ok(aref)
++        KBox::pin_init(job, GFP_KERNEL)
 +    }
 +
-+    /// Mark the beginning of a DmaFence signalling critical section. Should be called once a fence
-+    /// gets published.
-+    ///
-+    /// The signalling critical section is marked as finished automatically once the fence signals.
-+    pub fn begin_signalling(&mut self) {
-+        // FIXME: this needs to be mutable, obviously, but we can't borrow mutably. *sigh*
-+        self.signalling = true;
-+        // TODO: Should we warn if a user tries to do this several times for the same
-+        // fence? And should we ignore the request if the fence is already signalled?
-+
-+        // SAFETY: `dma_fence_begin_signalling()` works on global lockdep data and calling it is
-+        // always safe.
-+        self.signalling_cookie = unsafe { bindings::dma_fence_begin_signalling() };
-+    }
-+
-+    const fn ops_create() -> bindings::dma_fence_ops {
-+        // SAFETY: Zeroing out memory on the stack is always safe.
-+        let mut ops: bindings::dma_fence_ops = unsafe { core::mem::zeroed() };
-+
-+        ops.get_driver_name = Some(Self::get_driver_name);
-+        ops.get_timeline_name = Some(Self::get_timeline_name);
-+        ops.release = Some(Self::release);
-+
-+        ops
-+    }
-+
-+    // The C backend demands the following two callbacks. They are intended for
-+    // cross-driver communication, i.e., for another driver to figure out to
-+    // whom a fence belongs. As we don't support that currently in the Rust
-+    // implementation, let's go for dummy data. By the way it has already been
-+    // proposed to remove those callbacks from C, since there are barely any
-+    // users.
-+    //
-+    // And implementing them properly in Rust would require a mandatory interface
-+    // and potentially open questions about UAF bugs when the module gets unloaded.
-+    extern "C" fn get_driver_name(_ptr: *mut bindings::dma_fence) -> *const c_char {
-+        c_str!("DRIVER_NAME_UNUSED").as_char_ptr()
-+    }
-+
-+    extern "C" fn get_timeline_name(_ptr: *mut bindings::dma_fence) -> *const c_char {
-+        c_str!("TIMELINE_NAME_UNUSED").as_char_ptr()
-+    }
-+
-+    /// The release function called by the C backend once the refcount drops to 0. We use this to
-+    /// drop the Rust dma-fence, too. Since [`DmaFence`] implements [`AlwaysRefCounted`], this is
-+    /// perfectly safe and a convenient way to concile the two release mechanisms of C and Rust.
-+    unsafe extern "C" fn release(ptr: *mut bindings::dma_fence) {
-+        let ptr = Opaque::cast_from(ptr);
-+
-+        // SAFETY: The constructor guarantees that `ptr` is always the inner fence of a DmaFence.
-+        let fence = unsafe { crate::container_of!(ptr, Self, inner) }.cast_mut();
-+
-+        // SAFETY: See above. Also, the release callback will only be called once, when the
-+        // refcount drops to 0, and when that happens the fence is by definition still valid.
-+        unsafe { drop_in_place(fence) };
-+    }
-+
-+    /// Signal the fence. This will invoke all registered callbacks.
-+    pub fn signal(&self) -> Result {
-+        // SAFETY: `self` is refcounted.
-+        let ret = unsafe { bindings::dma_fence_signal(self.as_raw()) };
-+        if ret != 0 {
-+            return Err(Error::from_errno(ret));
-+        }
-+
-+        if self.signalling {
-+            // SAFETY: `dma_fence_end_signalling()` works on global lockdep data. The only
-+            // parameter is a boolean passed by value.
-+            unsafe { bindings::dma_fence_end_signalling(self.signalling_cookie) };
-+        }
-+
++    /// Add a callback to the job. When the job gets submitted, all added callbacks will be
++    /// registered on the [`DmaFence`] the jobqueue returns for that job.
++    pub fn add_callback() -> Result {
 +        Ok(())
 +    }
 +
-+    /// Register a callback on a [`DmaFence`]. The callback will be invoked in the fence's
-+    /// signalling path, i.e., critical section.
-+    ///
-+    /// Consumes `data`. `data` is passed back to the implemented callback function when the fence
-+    /// gets signalled.
-+    pub fn register_callback<U: DmaFenceCbFunc + 'static>(&self, data: impl PinInit<U>) -> Result {
-+        let cb = DmaFenceCb::new(data)?;
-+        let ptr = cb.into_foreign() as *mut DmaFenceCb<U>;
-+        // SAFETY: `ptr` was created validly directly above.
-+        let inner_cb = unsafe { (*ptr).inner.get() };
-+
-+        // SAFETY: `self.as_raw()` is valid because `self` is refcounted, `inner_cb` was created
-+        // validly above and was turned into a ForeignOwnable, so it won't be dropped. `callback`
-+        // has static life time.
-+        let ret = unsafe {
-+            bindings::dma_fence_add_callback(
-+                self.as_raw(),
-+                inner_cb,
-+                Some(DmaFenceCb::<U>::callback),
-+            )
-+        };
-+        if ret != 0 {
-+            return Err(Error::from_errno(ret));
-+        }
++    /// Add a [`DmaFence`] or a [`DoneFence`] as this job's dependency. The job
++    /// will only be executed after that dependency has been finished.
++    pub fn add_dependency() -> Result {
++        // TODO: Enqueue passed DmaFence into the job's dependency list.
 +        Ok(())
 +    }
 +
-+    fn as_raw(&self) -> *mut bindings::dma_fence {
-+        self.inner.get()
++    /// Check if there are dependencies for this job. Register the jobqueue
++    /// waker if yes.
++    fn arm_deps() -> Result {
++        // TODO: Register DependencyWaker here if applicable.
++        Ok(())
 +    }
 +}
++
++// Dummy trait for the linked list.
++trait JobData {
++    fn access_data(&self) -> i32;
++}
++
++#[pin_data]
++struct EnqueuedJob<T: ?Sized> {
++    inner: Pin<KBox<Job<T>>>,
++    #[pin]
++    links: ListLinksSelfPtr<EnqueuedJob<dyn JobData>>,
++    done_fence: ARef<DmaFence<i32>>, // i32 is just dummy data. TODO: allow for replacing with `()`
++    // The hardware_fence can by definition only be set at an unknown point in
++    // time.
++    // TODO: Think about replacing this with a `struct RunningJob` which consumes
++    // an `EnqueuedJob`.
++    hardware_fence: Option<ARef<DmaFence<i32>>>, // i32 is dummy data until there's DmaFence
++                                                 // without data.
++    nr_of_deps: u32,
++}
++
++impl<T> EnqueuedJob<T> {
++    fn new(inner: Pin<KBox<Job<T>>>, fctx: &Arc<DmaFenceCtx>) -> Result<ListArc<Self>> {
++        let pseudo_data: i32 = 42;
++        let done_fence = fctx.as_arc_borrow().new_fence(pseudo_data)?;
++
++        ListArc::pin_init(try_pin_init!(Self {
++            inner,
++            links <- ListLinksSelfPtr::new(),
++            done_fence,
++            hardware_fence: None,
++            nr_of_deps: 0, // TODO implement
++        }), GFP_KERNEL)
++    }
++}
++
++impl_list_arc_safe! {
++    impl{T: ?Sized} ListArcSafe<0> for EnqueuedJob<T> { untracked; }
++}
++
++impl_list_item! {
++    impl ListItem<0> for EnqueuedJob<dyn JobData> { using ListLinksSelfPtr { self.links }; }
++}
++
++// Callback item for the hardware fences to wake / progress the jobqueue.
++struct HwFenceWaker<T> {
++    jobq: Arc<Revocable<SpinLock<InnerJobqueue>>>,
++    job: ListArc<EnqueuedJob<T>>,
++}
++
++impl<T> DmaFenceCbFunc for HwFenceWaker<T> {
++     fn callback(cb: Pin<KBox<DmaFenceCb<Self>>>) where Self: Sized {
++         // This prevents against deadlock. See Jobqueue's drop() for details.
++         let jq_guard = cb.data.jobq.try_access();
++         if jq_guard.is_none() {
++             return;
++         }
++         let jq_guard = jq_guard.unwrap();
++
++         // Take Jobqueue lock.
++         let jq = jq_guard.lock();
++         // Remove job from running list.
++         //let _ = unsafe { cb.data.job.remove() };
++         // Signal done_fence.
++         // TODO: It's more robust if the JQ makes sure that fences get signalled
++         // in order, even if the driver should signal them chaotically.
++         let _ = cb.data.job.done_fence.signal();
++         // Run more ready jobs if there's capacity.
++         //jq.start_submit_worker();
++     }
++}
++
++// Callback item for the dependency fences to wake / progress the jobqueue.
++struct DependencyWaker<T> {
++    jobq: Arc<Revocable<SpinLock<InnerJobqueue>>>,
++    job: ListArc<EnqueuedJob<T>>,
++}
++
++impl<T> DmaFenceCbFunc for DependencyWaker<T> {
++    fn callback(cb: Pin<KBox<DmaFenceCb<Self>>>) where Self: Sized {
++        // This prevents against deadlock. See Jobqueue's drop() for details.
++        let jq_guard = cb.data.jobq.try_access();
++        if jq_guard.is_none() {
++            return;
++        }
++        let jq_guard = jq_guard.unwrap();
++
++        // Take Jobqueue lock.
++        let jq = jq_guard.lock();
++
++        // TODO: Lock Contention
++        //
++        // Alright, so the Jobqueue is currently designed around a big central
++        // lock, which also protects the jobs. submit_job(), the JQ's cb on the
++        // hw_fences and its cbs on the (external) dependency fences compete for
++        // the lock. The first two should ever only run sequentially, so likely
++        // aren't a problem.
++        //
++        // Dependency callbacks, however, could be registered and then signalled
++        // by the thousands and then all compete for the lock possibly for nothing.
++        //
++        // That can likely be improved. Maybe by just making the nr_of_deps
++        // counter atomic?
++
++        // Decrement dep counter.
++        // cb.data.job.nr_of_deps -= 1; // TODO needs to be DerefMut
++        // If counter == 0, a new job somewhere in the queue just got ready.
++        // Check if it was the head job and if yes, run all jobs possible.
++        if cb.data.job.nr_of_deps == 0 {
++//            jq.start_submit_worker();
++        }
++    }
++}
++
++struct InnerJobqueue {
++    capacity: u32,
++    waiting_jobs: List<EnqueuedJob<dyn JobData>>,
++    running_jobs: List<EnqueuedJob<dyn JobData>>,
++    submit_worker_active: bool,
++}
++
++impl InnerJobqueue {
++    fn new(capacity: u32) -> Self {
++        let waiting_jobs = List::<EnqueuedJob<dyn JobData>>::new();
++        let running_jobs = List::<EnqueuedJob<dyn JobData>>::new();
++
++        Self {
++            capacity,
++            waiting_jobs,
++            running_jobs,
++            submit_worker_active: false,
++        }
++    }
++
++    fn has_waiting_jobs(&self) -> bool {
++        !self.waiting_jobs.is_empty()
++    }
++
++    fn has_capacity_left(&self, cost: u32) -> bool {
++        let cost = cost as i64;
++        let capacity = self.capacity as i64;
++
++        if capacity - cost >= 0 {
++            return true;
++        }
++
++        false
++    }
++
++    fn update_capacity(&mut self, cost: u32) {
++        self.capacity -= cost;
++    }
++
++
++    // Called by the hw_fence callbacks, dependency callbacks, and submit_job().
++    // TODO: does submit_job() ever have to call it?
++    fn start_submit_worker(&mut self) {
++        if self.submit_worker_active {
++            return;
++        }
++
++        // TODO run submit work item
++
++        self.submit_worker_active = true;
++    }
++
++    /*
++
++    /// Push a job immediately.
++    ///
++    /// Returns true if the job ran immediately, false otherwise.
++    fn run_job(&mut self, job: &EnqueuedJob) -> bool {
++        // TODO remove job from waiting list.
++
++        // TODO Call the driver's run_job() callback.
++        let hardware_fence = run_job(&job);
++        job.hardware_fence = Some(hardware_fence);
++
++        // TODO check whether hardware_fence raced and is already signalled.
++
++        self.running_jobs.push_back(job);
++
++        // TODO Register HwFenceWaker on the hw_fence.
++    }
++
++    // Submits all ready jobs as long as there's capacity.
++    fn run_all_ready_jobs(&mut self) {
++        for job in self.waiting_jobs.reverse() {
++            if job.nr_of_deps > 0 {
++                return;
++            }
++
++            if self.has_capacity_left(job.credits) {
++                if !self.run_job(&job) {
++                    // run_job() didn't run the job immediately (because the
++                    // hw_fence did not race). Subtract the credits.
++                    self.update_capacity(job.credits);
++                }
++            } else {
++                return;
++            }
++        }
++    }
++    */
++}
++
++//#[pin_data]
++pub struct Jobqueue {
++    inner: Arc<Revocable<SpinLock<InnerJobqueue>>>,
++    fctx: Arc<DmaFenceCtx>, // TODO currently has a separate lock shared with fences
++//    #[pin]
++//    data: T,
++}
++
++impl Jobqueue {
++    /// Create a new [`Jobqueue`] with `capacity` space for jobs. `run_job` is
++    /// your driver's callback which the jobqueue will call to push a submitted
++    /// job to the hardware.
++    pub fn new<T, V>(capacity: u32, _run_job: fn(&Pin<KBox<Job<T>>>) -> ARef<DmaFence<V>>) -> Result<Self> {
++        let inner = Arc::pin_init(Revocable::new(new_spinlock!(InnerJobqueue::new(capacity))), GFP_KERNEL)?;
++        let fctx = DmaFenceCtx::new()?;
++
++        Ok (Self {
++            inner,
++            fctx,
++        })
++    }
++
++    /// Submit a job to the jobqueue.
++    ///
++    /// The jobqueue takes ownership over the job and later passes it back to the
++    /// driver by reference through the driver's run_job callback. Jobs are
++    /// passed back by reference instead of by value partially to allow for later
++    /// adding a job resubmission mechanism to be added to [`Jobqueue`].
++    ///
++    /// Jobs get run and their done_fences get signalled in submission order.
++    ///
++    /// Returns the "done_fence" on success, which gets signalled once the
++    /// hardware has completed the job and once the jobqueue is done with a job.
++    pub fn submit_job<U>(&self, job: Pin<KBox<Job<U>>>) -> Result<ARef<DmaFence<i32>>> {
++        let job_cost = job.credits;
++        // TODO: It would be nice if the done_fence's seqno actually matches the
++        // submission order. To do that, however, we'd need to protect job
++        // creation with InnerJobqueue's spinlock. Is that worth it?
++        let enq = EnqueuedJob::new(job, &self.fctx)?;
++        let done_fence = enq.done_fence.clone(); // Get the fence for the user.
++
++        // TODO register job's callbacks on done_fence.
++
++        let guard = self.inner.try_access();
++        if guard.is_none() {
++            // Can never happen. JQ gets only revoked when it drops.
++            return Err(ENODEV);
++        }
++        let jobq = guard.unwrap();
++
++        let jobq = jobq.lock();
++
++        // Check if there are dependencies and, if yes, register rewake
++        // callbacks on their fences. Must be done under the JQ lock's protection
++        // since the callbacks will access JQ data.
++        //job.arm_deps();
++        //jobq.waiting_jobs.push_back(job);
++
++        if jobq.has_waiting_jobs() {
++            // Jobs waiting means that there is either currently no capacity
++            // for more jobs, or the jobqueue is blocked by a job with
++            // unfullfilled dependencies. Either the hardware fences' callbacks
++            // or those of the dependency fences will pull in more jobs once
++            // there is capacity.
++            return Ok(done_fence);
++        } else if !jobq.submit_worker_active && jobq.has_capacity_left(job_cost) {
++            // This is the first waiting job. No one (i.e., no hw_fence) has
++            // woken the worker yet, but there is space. Awake it manually.
++            //jobq.start_submit_worker();
++        }
++
++        // If there was no capacity for the job, the callbacks registered on the
++        // already running jobs' hardware fences will check if there's space for
++        // the next job, guaranteeing progress.
++        //
++        // If no jobs were running, there was by definition still space and the
++        // job will get pushed by the worker.
++        //
++        // If a job couldn't be pushed because there were unfinished dependencies,
++        // then the hardware fences' callbacks mentioned above will detect that
++        // and not yet push the job.
++        //
++        // Each dependency's fence has its own callback which checks:
++        //   a) whether all other callbacks are fullfilled and if yes:
++        //   b) whether there is now enough credits available.
++        //
++        // If a) and b) are fullfilled, the job gets pushed.
++        //
++        // If there are no jobs currently running, credits must be available by
++        // definition.
++
++        Ok(done_fence)
++
++    }
++}
++
++impl Drop for Jobqueue {
++    fn drop(&mut self) {
++        // The hardware fences might outlive the jobqueue. So hw_fence callbacks
++        // could very well still call into job queue code, resulting in
++        // data UAF or, should the jobqueue code be unloaded, even code UAF.
++        //
++        // Thus, the jobqueue needs to be cleanly decoupled from the hardware
++        // fences when it drops, in other words, it needs to deregister all its
++        // hw_fence callbacks.
++        //
++        // This, however, could easily deadlock when a hw_fence signals:
++        //
++        // Step     |   Jobqueue step               |   hw_fence step
++        // ------------------------------------------------------------------
++        // 1        |   JQ starts drop              |   fence signals
++        // 2        |   JQ lock taken               |   fence lock taken
++        // 3        |   Tries to take fence lock    |   Tries to take JQ lock
++        // 4        |   ***DEADLOCK***              |   ***DEADLOCK***
++        //
++        // In order to prevent deadlock, we first have to revoke access to the
++        // JQ so that all fence callbacks can't try to take the lock anymore,
++        // and then deregister all JQ callbacks.
++        self.inner.revoke();
++
++        /*
++        let guard = self.inner.lock();
++        for job in self.inner.waiting_jobs {
++            job.deregister_dep_fences();
++        }
++        for job in self.inner.running_jobs {
++            job.deregister_hw_fence();
++        }
++        */
++    }
++}
+diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
+index 1b82b6945edf..803bed36231b 100644
+--- a/rust/kernel/drm/mod.rs
++++ b/rust/kernel/drm/mod.rs
+@@ -7,12 +7,14 @@
+ pub mod file;
+ pub mod gem;
+ pub mod ioctl;
++pub mod jq;
+ 
+ pub use self::device::Device;
+ pub use self::driver::Driver;
+ pub use self::driver::DriverInfo;
+ pub use self::driver::Registration;
+ pub use self::file::File;
++pub use self::jq::Jobqueue;
+ 
+ pub(crate) mod private {
+     pub trait Sealed {}
 -- 
 2.49.0
 
