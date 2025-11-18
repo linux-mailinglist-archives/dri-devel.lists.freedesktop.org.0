@@ -2,61 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C0AC6B868
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 21:08:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12293C6B881
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 21:10:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0034610E508;
-	Tue, 18 Nov 2025 20:08:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7013810E50F;
+	Tue, 18 Nov 2025 20:10:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="quiVWOGl";
+	dkim=pass (2048-bit key; unprotected) header.d=shazbot.org header.i=@shazbot.org header.b="dKsiVfIf";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="b4BcgUdY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60F4410E508
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 20:08:26 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4d9wfH16TQz9v6T;
- Tue, 18 Nov 2025 21:08:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1763496503;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=62JbVR0rfXOv5ktjxfrITbxdHa9P8CnEO8KeHvj0UO0=;
- b=quiVWOGlLM7ObPjgW9oRstr2jgcysxVx8IM7nauUYgahiBaTPByepE/uHZIuqHJfw+tGqt
- Gq/jqe2nrgaff56cpUhFjN0WKJIh7WtxQfFegX7T+JYgbn268ul83BaFOxU8B3GCCHAZD0
- qzoUzJbipQIxfevKwU7BEb4lLj6kbl0viQVNTIK/ayGqprUTY9ZVRXMI7IlyBuwS8fnJ+R
- y/+An1P/0XyTFIPf5qlRvvkjb/LKQtctnUFBr7hYQFjRBGdSb8SJRbo8IRiTXE5xnuyDBa
- 4MWy0pgvZUttQMgQ9qVapAh2bVKa3McklMnTnPtJOhqB+7bo4Qxz7wyi4Ok5fg==
-Message-ID: <246dfc90-5d6c-4bac-8e13-ce95653fa6d7@mailbox.org>
-Date: Tue, 18 Nov 2025 21:08:18 +0100
+Received: from fout-b5-smtp.messagingengine.com
+ (fout-b5-smtp.messagingengine.com [202.12.124.148])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D0F110E513
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 20:10:52 +0000 (UTC)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+ by mailfout.stl.internal (Postfix) with ESMTP id 7E23D1D00011;
+ Tue, 18 Nov 2025 15:10:50 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-05.internal (MEProxy); Tue, 18 Nov 2025 15:10:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+ cc:cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1763496650;
+ x=1763583050; bh=JKFcF4a+cNbrtlp+FIdvl2Y5hDbZC7BuoipJJsoD+Xg=; b=
+ dKsiVfIfgRz3kNZHBVLW4w4a09M1An1YvYNcijPZ2AbBFboB1FxX0SwNlWv2rI3m
+ jLV/veDDgOhw9IS/7J8t81UctKoauLfjaXOyWqAp44a4MChEre02HVqGpMlsgIQ5
+ OVDMVHJablLjrzU+B8hL8QqRQ1+FyFvGpkw3BwGVonzwVgBd7NvVAsA+IlLoTNVT
+ kot+Gxju1ZTzga7Bee121GDDqWNUI+lqCGgG89zYk6ckhz8rEtrBbj0mNQhPhOcc
+ 4uOd0pLPLZNlB7v3J3DPPBINt8sCnltepxWxkehpeYBA1Harjd8rccj6w8gmbij3
+ nDgGERM8bBQyy2uD5HkTCw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1763496650; x=
+ 1763583050; bh=JKFcF4a+cNbrtlp+FIdvl2Y5hDbZC7BuoipJJsoD+Xg=; b=b
+ 4BcgUdYcPIovWahMuxFSya7KoSim52uHsgehgqj/ncnPhxE3qTN1l9XUmfH5dLA0
+ nA9E0d7Le0Mc4/Xf7R7J2lQ/+CU38ymtFa6iaGShFA8iMhhJds2uyGYsUrmk0AGZ
+ wwHqhNPuDyy3T1wmEKwJ83vo1u1sv9Rg4GlJkbcIEp90cjcQFPESsb71YSlLcyQd
+ UEAV/QlH64EIJ1lqCiYY4cKUDhQBuK7Z/C878cS9zvqM5xyFNzLBS1ECI4FZmTN2
+ zM7jJStJjqi5FJm842MkyHtQUwl7n/Nil39X0PVzn77HpNlgls3inc0qko2NNjgy
+ yxSKoNtyts9q6kzxUKgCg==
+X-ME-Sender: <xms:yNIcaVSvmDTF8VooyebZ_3iAuWJLF1nEpDYA2SFkLVpCRLI7ry-_yQ>
+ <xme:yNIcaVmEGLCY5Y5fPmoEJKQOT9y5RfkjFiDcjDM82fNtYUukk3d8ZO-gnIlZyOOPP
+ GAmhpj4l6gxq2LE9j06pWjqNlxkgm2Z3bZOzOLp7Twv9NJiGOok>
+X-ME-Received: <xmr:yNIcaTzm8Q6mhtNsmKzPVt9MMUAmwOqIQ5a4gIx8lLQ0mWSG2DA3IJH6>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvvddvvdegucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+ rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+ gurhepfffhvfevuffkjghfgggtgfesthejredttddtvdenucfhrhhomheptehlvgigucgh
+ ihhllhhirghmshhonhcuoegrlhgvgiesshhhrgiisghothdrohhrgheqnecuggftrfgrth
+ htvghrnhepteetudelgeekieegudegleeuvdffgeehleeivddtfeektdekkeehffehudet
+ hffhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+ hlvgigsehshhgriigsohhtrdhorhhgpdhnsggprhgtphhtthhopeefgedpmhhouggvpehs
+ mhhtphhouhhtpdhrtghpthhtohepkhgvvhhinhdrthhirghnsehinhhtvghlrdgtohhmpd
+ hrtghpthhtoheplhgvohhnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegshhgvlhhg
+ rggrshesghhoohhglhgvrdgtohhmpdhrtghpthhtoheplhhoghgrnhhgseguvghlthgrth
+ gvvgdrtghomhdprhgtphhtthhopegrgigsohgvsehkvghrnhgvlhdrughkpdhrtghpthht
+ oheprhhosghinhdrmhhurhhphhihsegrrhhmrdgtohhmpdhrtghpthhtohepjhhorhhose
+ eksgihthgvshdrohhrghdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhgpdhr
+ tghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgtohhm
+X-ME-Proxy: <xmx:yNIcaf26KhFFpsUivmrVFhTObM-rKgDaEfC2zz-v9EkVExJppHMvwg>
+ <xmx:yNIcaSxvHZrLpODSMU140Px8A7i2ec7wW6bLtqhUmriZmnVfLlueSA>
+ <xmx:yNIcaQJG6BeoorANBFQ22bf_jmYfsKJ4ShsrttygfX-HrSPLvyCzdg>
+ <xmx:yNIcaY_XYy0V85f_vM-5tra11pYCLKaPoalvR53bkh_Q_lBlGmVbiA>
+ <xmx:ytIcabAqBX1IJkm5xY2Na7fzL8IPkzZ-PxplGx_6mGsuM1UBrv418EQg>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 18 Nov 2025 15:10:45 -0500 (EST)
+Date: Tue, 18 Nov 2025 13:10:38 -0700
+From: Alex Williamson <alex@shazbot.org>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+ "Robin Murphy" <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ "Ankit Agrawal" <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+ "Shameer Kolothum" <skolothumtho@nvidia.com>,
+ Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+ Alex Mastro <amastro@fb.com>, Nicolin Chen <nicolinc@nvidia.com>
+Subject: Re: [PATCH v8 09/11] vfio/pci: Enable peer-to-peer DMA transactions
+ by default
+Message-ID: <20251118131038.32b7804d.alex@shazbot.org>
+In-Reply-To: <BN9PR11MB52767F78317AF3AB94A5B7D38CD6A@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
+ <20251111-dmabuf-vfio-v8-9-fd9aa5df478f@nvidia.com>
+ <BN9PR11MB52767F78317AF3AB94A5B7D38CD6A@BN9PR11MB5276.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/atomic-helper: rcar-du: Enable CRTC early on R-Car DU
-To: Maxime Ripard <mripard@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, Aradhya Bhatia <a-bhatia1@ti.com>,
- David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- linux-renesas-soc@vger.kernel.org
-References: <20251107230517.471894-1-marek.vasut+renesas@mailbox.org>
- <2v43kghgrw7qeh7l77czahr5ms34raykviuzetdbda7wuvh2ic@mc5stkequmh3>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <2v43kghgrw7qeh7l77czahr5ms34raykviuzetdbda7wuvh2ic@mc5stkequmh3>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: i99pdnje8uybuybh7fpgq4rb1rkmtw7t
-X-MBO-RS-ID: c41cec412c7958fb13d
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,96 +125,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/18/25 5:49 PM, Maxime Ripard wrote:
-> Hi,
+On Tue, 18 Nov 2025 07:18:36 +0000
+"Tian, Kevin" <kevin.tian@intel.com> wrote:
+
+> > From: Leon Romanovsky <leon@kernel.org>
+> > Sent: Tuesday, November 11, 2025 5:58 PM
+> > 
+> > From: Leon Romanovsky <leonro@nvidia.com>  
 > 
-> On Sat, Nov 08, 2025 at 12:04:26AM +0100, Marek Vasut wrote:
->> Introduce a variant of drm_atomic_helper_commit_modeset_enables()
->> which enables CRTC before encoder/bridge. This is needed on R-Car DU,
->> where the CRTC provides clock to LVDS and DSI, and has to be started
->> before a bridge may call .prepare , which may trigger e.g. DSI transfer.
->>
->> This specifically fixes the case where ILI9881C is connected to R-Car
->> DU DSI. The ILI9881C panel driver does DSI command transfer in its
->> struct drm_panel_funcs .prepare function, which is currently called
->> before R-Car DU rcar_du_crtc_atomic_enable() rcar_mipi_dsi_pclk_enable()
->> and the DSI command transfer times out.
->>
->> Fix this by restoring the enable ordering introduced in commit
->> c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable
->> and post-disable"), to enable CRTC early.
->>
->> Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
->> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
->> ---
->> Cc: Aradhya Bhatia <a-bhatia1@ti.com>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
->> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Magnus Damm <magnus.damm@gmail.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Simona Vetter <simona@ffwll.ch>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> Cc: dri-devel@lists.freedesktop.org
->> Cc: linux-renesas-soc@vger.kernel.org
->> ---
->>   drivers/gpu/drm/drm_atomic_helper.c           | 24 +++++++++++++++++++
->>   drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c |  2 +-
->>   include/drm/drm_atomic_helper.h               |  2 ++
->>   3 files changed, 27 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
->> index 5a473a274ff06..c0cdd36a03df1 100644
->> --- a/drivers/gpu/drm/drm_atomic_helper.c
->> +++ b/drivers/gpu/drm/drm_atomic_helper.c
->> @@ -1692,6 +1692,30 @@ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
->>   }
->>   EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_enables);
->>   
->> +/**
->> + * drm_atomic_helper_commit_modeset_enables_crtc_early - modeset commit to enable outputs, start CRTC early
->> + * @dev: DRM device
->> + * @state: atomic state object being committed
->> + *
->> + * This function is a variant of drm_atomic_helper_commit_modeset_enables()
->> + * which enables CRTC before encoder/bridge. This is needed on R-Car DU,
->> + * where the CRTC provides clock to LVDS and DSI, and has to be started
->> + * before a bridge may call .prepare , which may trigger e.g. DSI transfer.
->> + */
->> +void
->> +drm_atomic_helper_commit_modeset_enables_crtc_early(struct drm_device *dev,
->> +						    struct drm_atomic_state *state)
->> +{
->> +	crtc_enable(dev, state);
->> +
->> +	encoder_bridge_pre_enable(dev, state);
->> +
->> +	encoder_bridge_enable(dev, state);
->> +
->> +	drm_atomic_helper_commit_writebacks(dev, state);
->> +}
->> +EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_enables_crtc_early);
->> +
->>   /*
->>    * For atomic updates which touch just a single CRTC, calculate the time of the
->>    * next vblank, and inform all the fences of the deadline.
->> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
->> index 116ad9605704b..b7e2a735a03ae 100644
->> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
->> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
->> @@ -547,7 +547,7 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
->>   	drm_atomic_helper_commit_modeset_disables(dev, old_state);
->>   	drm_atomic_helper_commit_planes(dev, old_state,
->>   					DRM_PLANE_COMMIT_ACTIVE_ONLY);
->> -	drm_atomic_helper_commit_modeset_enables(dev, old_state);
->> +	drm_atomic_helper_commit_modeset_enables_crtc_early(dev, old_state);
+> not required with only your own s-o-b
 > 
-> Just like we discussed on Linus' series for MCDE, we don't want to have
-> an helper variant for every driver variation. If rcar is the only user
-> of that helper, rename and export the symbols you need, and roll yor own
-> commit_tail implementation.
-It seems both Linus and me are affected, and those are now two different 
-drivers ?
+> > @@ -2090,6 +2092,9 @@ int vfio_pci_core_init_dev(struct vfio_device
+> > *core_vdev)
+> >  	INIT_LIST_HEAD(&vdev->dummy_resources_list);
+> >  	INIT_LIST_HEAD(&vdev->ioeventfds_list);
+> >  	INIT_LIST_HEAD(&vdev->sriov_pfs_item);
+> > +	ret = pcim_p2pdma_init(vdev->pdev);
+> > +	if (ret && ret != -EOPNOTSUPP)
+> > +		return ret;  
+> 
+> Reading the commit msg seems -EOPNOTSUPP is only returned for fake
+> PCI devices, otherwise it implies regression. better add a comment for it?
+
+I think the commit log is saying that if a device comes along that
+can't support this, we'd quirk the init path to return -EOPNOTSUPP for
+that particular device here.  This path is currently used when
+!CONFIG_PCI_P2PDMA to make this error non-fatal to the device init.
+
+I don't see a regression if such a device comes along and while we
+could survive other types of failures by disabling p2pdma here, I think
+all such cases are sufficient rare out of memory cases to consider them
+catastrophic.  Thanks,
+
+Alex
