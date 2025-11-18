@@ -2,61 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F01C6ABE2
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 17:52:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF6DC6ABF3
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 17:53:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70DD810E4F9;
-	Tue, 18 Nov 2025 16:52:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC9F10E4FB;
+	Tue, 18 Nov 2025 16:52:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SyNoXJq4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aGZ5Ruq/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 949DB10E4F9
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 16:52:26 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0C3310E4FB
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 16:52:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B936461103
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 16:52:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29146C2BCB7
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 16:52:25 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id BEED7406F0;
+ Tue, 18 Nov 2025 16:52:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A73C9C19424;
+ Tue, 18 Nov 2025 16:52:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763484745;
- bh=/UYbgwArONFdvk5Zr+rtS+c/GYFVhvmgd+R153ybqGY=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=SyNoXJq4jqfUAHQHyTiqEz9LkvLvKoyPVCWUygPrHGjdxKHyZtAh/0rofTzJJiOJv
- QGO+N1GFrcndODXDQtyA9Dl2ctgZ2+jylsXszcIbvDGH4w0h8DTt0XIeOKhd7+US09
- CrXtRg5mV8GaB5E2zR5OJ0mWc28Zfk4b8cPEm53PQHe+mYFmbd7POgX9ZvlJpR1hhh
- 4RGuABPqVb0/iFJ5EyIL8Y+saWmcA/nIaOGbGGCRo7bZV/ChfeoRXxqpDJ8TIrdgQS
- LChIeLsq1jTPXzdxRQ2bu9s0O8VjH9kqHedUmRjvPZ7DpokZv5mHagSS/aFRZhJU0z
- 0ryOx6wYUYWoQ==
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-59578e38613so6226311e87.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 08:52:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVrCgg+w9r//DF8kaYSwqJyzULSqM92jgjzBzREupuYhlR8UPFQX6UuBGZ/uWl5Auv8qIRXcdoUlZ4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzU/LQoZnIDHwzpuvhZrNRCrnYD0VywDKVOKxSiY5vtrdc7+KGy
- zqvAYACaLHEpClc+mMATXWdJsHAI9SX0djWJhQ+K3CyrRZFxKwEHL24XjcBje+dH82bwjBtPtA9
- fbqoXGzo0wJhceew3/7kVaV+PMU4usqs=
-X-Google-Smtp-Source: AGHT+IFksk9/clMmZi7mOOu8rAadkOumT7VeVOL++ibIDj8QdKllEdllcxF8SVt5pBbMxZLv1hClzabPHWc/9O7alyo=
-X-Received: by 2002:a05:6512:32ca:b0:595:7e2d:986a with SMTP id
- 2adb3069b0e04-595841b664emr5509917e87.24.1763484742954; Tue, 18 Nov 2025
- 08:52:22 -0800 (PST)
+ s=k20201202; t=1763484772;
+ bh=xAm1zDJBYs1yREAbrbFBldFfX+BbQfw8t7SPPJ7/ewk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=aGZ5Ruq/6BzkpjObLltIN7lS/GhlyHQNI4mUFMRcbV7s/nExDNuVWP38N67JEIhpq
+ s1WB8jz0AQxmShdmLxKTDCTb2W+HlAP8UKRqDtbK/H53O13TcW08XoMqZjRw1FFRw9
+ RQ9/3ngSQKK8naHY+OKGdI2bLyDQOs87WMzAp9dnhLS0WWIOEzWfJy7vMsvf2A15wB
+ 9bNQdkg6FqZMNt0bsdCQJniE03AKnvu7cez5Y0V3+09QgxqesrfWkf37nPZSpcoqFh
+ GZtyrjpseJNNZgd/Xacv85THBWAip0xBNC0UdjRvppf5JcDHX8VT8NNKw3deUXmKER
+ x3yzBCtZqFT6g==
+Date: Tue, 18 Nov 2025 10:57:39 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+Cc: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com, 
+ arnd@arndb.de, gregkh@linuxfoundation.org, quic_bkumar@quicinc.com, 
+ ekansh.gupta@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+ quic_chennak@quicinc.com, 
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ jingyi.wang@oss.qualcomm.com, 
+ aiqun.yu@oss.qualcomm.com, ktadakam@qti.qualcomm.com
+Subject: Re: [PATCH v3 4/4] misc: fastrpc: Update dma_bits for CDSP support
+ on Kaanapali SoC
+Message-ID: <3qgrwpi3vl3bumd2zxmjxvwgdewuwwsj3fymljkf2etjedleup@xsrnpuuv66ax>
+References: <20251114084142.3386682-1-kumari.pallavi@oss.qualcomm.com>
+ <20251114084142.3386682-5-kumari.pallavi@oss.qualcomm.com>
+ <3gld6djjzfwu6rj47tz6gdwdpmh3hjexce5y6crqjus7ourgxf@puxrcpvijitl>
+ <2404a7a5-f4ac-4e62-b4b7-df0494d71150@oss.qualcomm.com>
 MIME-Version: 1.0
-References: <20251015160816.525825-1-tzimmermann@suse.de>
- <CAMj1kXF62pEMUJAM12HnF7qMt5xhZaZXpPoMdebMUKCfoAYisQ@mail.gmail.com>
- <b6801420-6ae4-44cb-9d86-e9353a2a59d8@suse.de>
-In-Reply-To: <b6801420-6ae4-44cb-9d86-e9353a2a59d8@suse.de>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 18 Nov 2025 17:52:11 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXHKc4jJnQ9x+sUhAO54PeZ6QN6yzcHVTovGvunp2QYnDA@mail.gmail.com>
-X-Gm-Features: AWmQ_bl7etIV5p_8fkgiaE4DIbmT-ztJJoP0b_jbGjWYhamjdP8Q_QlshQ_xgdY
-Message-ID: <CAMj1kXHKc4jJnQ9x+sUhAO54PeZ6QN6yzcHVTovGvunp2QYnDA@mail.gmail.com>
-Subject: Re: [PATCH 0/5] efi: x86: Provide EDID from GOP device
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: jonathan@marek.ca, javierm@redhat.com, linux-efi@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2404a7a5-f4ac-4e62-b4b7-df0494d71150@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,74 +67,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 17 Nov 2025 at 09:02, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Hi
->
-> Am 14.11.25 um 09:31 schrieb Ard Biesheuvel:
-> > On Wed, 15 Oct 2025 at 18:08, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >> Add support for EFI_EDID_ACTIVE_PROTOCOL and EFI_EDID_DISCOVERED_PROTOCOL
-> >> on x86. Refactor the GOP helpers for EDID support, then retrieve the EDID
-> >> into x86 boot_params.
-> >>
-> >> Later boot code copies the EDID from the boot parameters into the global
-> >> variable edid_info. Graphics drivers, such as efidrm, can pick up the
-> >> information from there. In the case of efidrm, it provides the EDID to
-> >> user-space compositors, which use it for improved QoS on the display
-> >> output. Similar functionality is already available on old VESA systems
-> >> with vesadrm.
-> >>
-> >> Tested on x86 EFI systems.
-> >>
-> >> Another patch is required to provide EDID on non-x86 systems via the
-> >> generic EFI stub. The implementation can directly build upon this
-> >> series.
-> >>
-> >> Thomas Zimmermann (5):
-> >>    efi: Fix trailing whitespace in header file
-> >>    efi/libstub: gop: Find GOP handle instead of GOP data
-> >>    efi/libstub: gop: Initialize screen_info in helper function
-> >>    efi/libstub: gop: Add support for reading EDID
-> >>    efi/libstub: x86: Store EDID in boot_params
-> >>
-> > Hi,
-> >
-> > Apologies for the delay. This series looks fine to me, although I
-> > would prefer it if we could make things a bit more generic?
-> >
-> > Everything you are adding here is arch-agnostic, except for the bit
-> > where we use x86-specific plumbing to pass the EDID info between the
-> > EFI stub and the core kernel.
->
-> Attached is an RFC patch that I already have. This would be the next
-> step for EDID support. I've not yet sent the generic-EFI patch, as I did
-> not have opportunity to test it. The patch addresses most of what you
-> ask for, I think.
->
-> >
-> > More specifically, could we do the following:
-> > - move struct edid_info edid_info into common code
->
-> edid_info is related to screen_info, so it follows the same conventions.
-> Arnd Bergmann made x86-specific changes for screen_info in commit
-> b8466fe82b79 ("efi: move screen_info into efi init code"). x86 has it's
-> own thing, sort of. See the attached patch for my non-x86 solution.
->
-> > - pass the detected EDID info block via a EFI config table instead of
-> > boot_params
->
-> The x86 code uses boot params for screen_info already and also transfers
-> edid_info on VESA systems via boot params (or if grub set up boot_params
-> for us). [1] It's all there and working already. If we transfer
-> edid_info via config table, we'd need extra code on x86.
->
+On Mon, Nov 17, 2025 at 02:42:23PM +0530, Kumari Pallavi wrote:
+> 
+> 
+> On 11/14/2025 9:30 PM, Bjorn Andersson wrote:
+> > On Fri, Nov 14, 2025 at 02:11:42PM +0530, Kumari Pallavi wrote:
+> > > DSP currently supports 32-bit IOVA (32-bit PA + 4-bit SID) for
+> > > both Q6 and user DMA (uDMA) access. This is being upgraded to
+> > > 34-bit PA + 4-bit SID due to a hardware revision in CDSP for
+> > > Kaanapali SoC, which expands the DMA addressable range.
+> > > Update DMA bits configuration in the driver to support CDSP on
+> > > Kaanapali SoC. Set the default `dma_bits` to 32-bit and update
+> > > it to 34-bit based on CDSP and OF matching on the fastrpc node.
+> > > 
+> > > Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+> > > ---
+> > >   drivers/misc/fastrpc.c | 15 +++++++++++++--
+> > >   1 file changed, 13 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> > > index bcf3c7f8d3e9..2eb8d37cd9b4 100644
+> > > --- a/drivers/misc/fastrpc.c
+> > > +++ b/drivers/misc/fastrpc.c
+> > > @@ -267,6 +267,8 @@ struct fastrpc_session_ctx {
+> > >   struct fastrpc_soc_data {
+> > >   	u32 sid_pos;
+> > > +	u32 cdsp_dma_bits;
+> > > +	u32 dsp_default_dma_bits;
+> > >   };
+> > >   struct fastrpc_channel_ctx {
+> > > @@ -2186,6 +2188,7 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
+> > >   	int i, sessions = 0;
+> > >   	unsigned long flags;
+> > >   	int rc;
+> > > +	u32 dma_bits;
+> > >   	cctx = dev_get_drvdata(dev->parent);
+> > >   	if (!cctx)
+> > > @@ -2199,12 +2202,16 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
+> > >   		spin_unlock_irqrestore(&cctx->lock, flags);
+> > >   		return -ENOSPC;
+> > >   	}
+> > > +	dma_bits = cctx->soc_data->dsp_default_dma_bits;
+> > >   	sess = &cctx->session[cctx->sesscount++];
+> > >   	sess->used = false;
+> > >   	sess->valid = true;
+> > >   	sess->dev = dev;
+> > >   	dev_set_drvdata(dev, sess);
+> > > +	if (cctx->domain_id == CDSP_DOMAIN_ID)
+> > > +		dma_bits = cctx->soc_data->cdsp_dma_bits;
+> > > +
+> > >   	if (of_property_read_u32(dev->of_node, "reg", &sess->sid))
+> > >   		dev_info(dev, "FastRPC Session ID not specified in DT\n");
+> > > @@ -2219,9 +2226,9 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
+> > >   		}
+> > >   	}
+> > >   	spin_unlock_irqrestore(&cctx->lock, flags);
+> > > -	rc = dma_set_mask(dev, DMA_BIT_MASK(32));
+> > > +	rc = dma_set_mask(dev, DMA_BIT_MASK(dma_bits));
+> > >   	if (rc) {
+> > > -		dev_err(dev, "32-bit DMA enable failed\n");
+> > > +		dev_err(dev, "%u-bit DMA enable failed\n", dma_bits);
+> > >   		return rc;
+> > >   	}
+> > > @@ -2308,10 +2315,14 @@ static int fastrpc_get_domain_id(const char *domain)
+> > >   static const struct fastrpc_soc_data kaanapali_soc_data = {
+> > >   	.sid_pos = 56,
+> > > +	.cdsp_dma_bits = 34,
+> > > +	.dsp_default_dma_bits = 32,
+> > >   };
+> > >   static const struct fastrpc_soc_data default_soc_data = {
+> > >   	.sid_pos = 32,
+> > > +	.cdsp_dma_bits = 32,
+> > > +	.dsp_default_dma_bits = 32,
+> > 
+> > So, "dsp_default_dma_bits" specified "what is the dma_mask for the
+> > non-CDSP fastrpc instances"? I don't find "dsp_default" to naturally
+> > mean "not the cdsp".
+> > 
+> > 
+> > Wouldn't it be better to introduce two different compatibles, one being
+> > the "qcom,kaanapali-fastrpc" and one being the
+> > "qcom,kaanapali-cdsp-fastrpc" and then use that to select things here?
+> > 
+> 
+> Thank you for the suggestion. In this case, sid_pos is common across all
+> DSP domains on kaanapali Soc. Splitting into two compatibles would lead to
+> duplication of these shared property in the DT schema and driver logic.
+> The only difference here is the DMA address width for CDSP (34-bit) versus
+> other DSPs (32-bit).
+> 
+> To address the concern about naming, I can provide:
+> 
+> dma_bits_cdsp → clearly indicates this applies to the CDSP domain.
+> dma_bits_non_cdsp (or dma_bits_other_dsp) → for ADSP and other DSP domains.
+> Please let me know if this aligns with your suggestion ?
+> 
 
-I understand the x86 already uses edid_info for non-EFI boot, but that
-doesn't mean we have to introduce new dependencies on legacy bits like
-boot_params to the EFI stub.
+This naming is much better.
 
-For generic EFI, I don't think it is necessary to clone all the config
-table logic with GUIDs and stuff. Instead, given that the EFI stub is
-tightly coupled with the kernel anyway, we can just decide that the
-config table has both a screen_info and a edid_info struct, and the
-generic EFI code consuming the config table populates both.
+I'm not entirely sure about the compatibility part though. The Kaanapali
+CSDP and Kaanapali ADSP doesn't have the same DMA address width, so are
+they then compatible/the same?
+
+The fact that the two compatibles would refer to something with the same
+sid_pos isn't a concern to me. De-duplicating a single constant at the
+expense of more complicated logic, that is a concern however.
+
+> > 
+> > PS. You store "dma_bits" just for the sake of turning it into a
+> > dma_mask, just store the DMA_BIT_MASK() directly here instead.
+> > 
+> 
+> The current approach of assigning a value to cdsp_dma_mask allows for
+> adaptable logging behavior, making it easier to trace.
+> 
+
+I presume you mean it allows you to do "%u-bit DMA enable failed"?
+
+There are only two options here (32 and 34), and the only reason why
+it's not directly obvious which case you're looking at is because you're
+"dynamically" deriving that number from something else.
+
+Regards,
+Bjorn
+
+> 
+> > Regards,
+> > Bjorn
+> > 
+> > >   };
+> > >   static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+> > > -- 
+> > > 2.34.1
+> > > 
+> > > 
+> 
+> Thanks,
+> Pallavi
