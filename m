@@ -2,103 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C89C67FEA
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 08:37:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FBFCC680B6
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 08:47:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66E8F10E301;
-	Tue, 18 Nov 2025 07:37:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3422E10E41B;
+	Tue, 18 Nov 2025 07:47:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qJSSdMOA";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="b5BXBk9H";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="W5epfE+F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D69A110E301
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 07:37:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 41E224050B;
- Tue, 18 Nov 2025 07:37:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CAA8C19422;
- Tue, 18 Nov 2025 07:37:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763451450;
- bh=q8Fza9xwjqkdneMT8IawDbUHHmPPiYj486b7I3nIOlc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=qJSSdMOAqQdsy+tb+I3NgiZ20BJgrOCgKHzMmIQm753K/Di8mRppzv0UtVaszwvu3
- QQ2uch4WtaScDRKYw7hOZjuONyAwlFwyWRchwjjwzn7sEvjSmbCMiNACDzBUCzd6rU
- 8whHM38yJReDQEhSRooJS8bI6SQ9WZbI4U78zvyD8N8hgTnzn/+YCh0MGio80e6kRP
- Z0zIZ5MedE1BTEjvGLlad5YuOXUXCrmztcFm8igWPWsrx8cht2QM2lW2DJa3ukD85K
- UmGF+rJuOSPwr0Gmy4IvkbqREftZyvilsr8SEefDGoDx8ZpJ4HEIHkMNw7DIqqtfP7
- Pdiezp4QvDG+Q==
-Message-ID: <c931853e-faa6-41ae-89a8-d22544a9da9c@kernel.org>
-Date: Tue, 18 Nov 2025 08:37:22 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D462010E41B
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 07:47:11 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AI6fdFo2343601
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 07:47:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ q1LWjTec/cNj1zznlk0UfLKuZfQ9QSNnT3txdizlw+Q=; b=b5BXBk9HdZKRGk83
+ OyMwQ4JGrVT010MvU+JoNyjHmGDP+XCZLfK47dTGZp2pnD8WyXJy13JAy3DR6VzV
+ SNlt/6zOK2nBd4uJY+ldaU/v66O0Ic+ZjRyw1Em+/X79j4nx2/q1hTvDe0pIahLE
+ yrOf4jX9spDnZhgVJFhv8kOLuF78huV44JXvNkynFnua1+VTUZVNGaI0JNk8FfbT
+ s2BpuPK/CSKJVhcYEp9GU8nSw79DY5BJZGka1g8bjcpjGD6US3ndEwXcaJ9RMeQD
+ 8ElvHrHnrZ9/eOc2BozpEulbn8ZO08rRC047KBgIY2rElg9DNh4tk8kQqUp9UjQj
+ tdosCQ==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4agkrn060w-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 07:47:10 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id
+ 98e67ed59e1d1-341616a6fb7so6525234a91.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 23:47:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1763452030; x=1764056830;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=q1LWjTec/cNj1zznlk0UfLKuZfQ9QSNnT3txdizlw+Q=;
+ b=W5epfE+FDM50hcYIqhdb1AS5aXkvTUGm6J5e+04T1j4ZDsBPg37qZ25BFpsnHTj6mh
+ /YQtJVENcVeWNmMp2zXoBHVzlr8BxFUt/TWZx3ca8eVFq+wIlLAa1RpDvjmp24rt2aHC
+ Vo9OxeZQdEis20WWCKccHACP6BIc+nhXMLRjSUhXRmtf2s4142DHEdVoAzXtJrBuJunU
+ izV7S81bOib9obEsKirPZ/RENuNRq+H83oMClZr7B4n4bqCesqz9cK+NQJ1c6mcI6oTc
+ odJaQwZ3eIyMhNMacm4+qIg2PbO6cnKEfkqvP15cB12WXRk8VJZABK93+mWA+ciefizb
+ Bj3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763452030; x=1764056830;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=q1LWjTec/cNj1zznlk0UfLKuZfQ9QSNnT3txdizlw+Q=;
+ b=o/kDkvejJay7N3ht4WsmfJvov+ms5sAlG6PQNrTaWuv1I8MhOjdQ46/v/lguoftPMo
+ vfU66Y6LIp0di+xWMTULv4frtNnW5j4N3O9X0/TVg/QzxBdBAQI+XNgIKJ8XWo+DVvL3
+ 4Bnvgxlbn16QjfN6hQfFTHm69MbqpFBEKqQXORMmKm2umVKqroQa3DlKsvifZwUV8aeN
+ jdZaGLKO1jgzghD+Xczz/i4ht3cKCqc13n3MIAONw1snkEV/jFfvTT1KEKA6PIMSDH2Z
+ siirU4H4H1pBvHlil8UdlhR9TmMLWAHumoLGLEjxTVCjtYReK2c4P4ml2wES876pKzzc
+ 2otg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWJRQTSjNFkauP43qTkjtlY/mIrvV8VVzcclitB9giqdgqyUbftx2YA4BtgEErRdm4ionLYh3pUWVo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwsVNbd+VlwNqGUzMGvA2by+Ym8mWrXAZjJW63Knk16fgsidd8i
+ qIpnFINR4IQkbdRjuiNke3U2uVl8mvsIJmzUxKmIz5mctUmkoEJ3YU5mRIgDvjtFylydAJA3Ixf
+ 6GkMoHnvSAXXiH32jEyh0onKppdcQMQS+dpuHxn47gwI0NDnhv1gyR0m9yrNVtA3MFcQ4n9E=
+X-Gm-Gg: ASbGnct3DjPi1aiATUoHDyK//OAmMO6ZY5AYg2hqkXI7AAk4qvEaRH35IiwEIeFeb2H
+ 1MfX9eBk1OJQGL9M1la3wSj51PlggeeVuyXViYS9JdO9dMfI3Y7Jud135SqwjZt3tmDwr+oyvX0
+ 7C/TDZV1CI5iZNPt66e9kO16KQs+6S2GAJ6ry57dukUdh8z26k6u14Pqlsv+Zu873Q/hOpFDuA/
+ Ld41u43o9Cthu84/97OLlil99ED8yTlvL45bY8DFSAPIMQjyHdZO3w9wP+hXgXtLJV+Lao4Zhu4
+ PycwrdFiYJlw2bT68wbFg0UNlB4G3CN5fIrpX5fPK70+mkpxVrq6W4k/N9TMXcl0+wLVbFmjYcc
+ mxRfGjpf4ArLjvEPrwx383mRVWotiUg9rXlJvVN/M+znCmvnVXee3y+H3EpeO
+X-Received: by 2002:a17:90b:2d85:b0:340:bc27:97b8 with SMTP id
+ 98e67ed59e1d1-343f9e9fed3mr16849642a91.10.1763452029755; 
+ Mon, 17 Nov 2025 23:47:09 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFUOPpGmBx8rKkZzj0uTmBKIWodmlBH/li4fkOhajEWnDrqLQS2O3q75qH/Lbykyu6xMmPnMA==
+X-Received: by 2002:a17:90b:2d85:b0:340:bc27:97b8 with SMTP id
+ 98e67ed59e1d1-343f9e9fed3mr16849592a91.10.1763452029261; 
+ Mon, 17 Nov 2025 23:47:09 -0800 (PST)
+Received: from ?IPV6:2401:4900:1cb4:7658:a83f:a091:98a7:4ddd?
+ ([2401:4900:1cb4:7658:a83f:a091:98a7:4ddd])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7b924aee147sm15589487b3a.13.2025.11.17.23.47.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 17 Nov 2025 23:47:08 -0800 (PST)
+Message-ID: <a874d12a-6da4-4a2a-bea3-20c69bd53c6b@oss.qualcomm.com>
+Date: Tue, 18 Nov 2025 13:17:03 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drm/bridge: add support for lontium lt8713sx
- bridge driver
-To: Vishnu Saini <vishnu.saini@oss.qualcomm.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Subject: Re: [PATCH] drm/msm: adreno: fix deferencing ifpc_reglist when not
+ declared
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Tony <syyang@lontium.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, prahlad.valluru@oss.qualcomm.com,
- Prahlad Valluru <vvalluru@qti.qualcomm.com>
-References: <20251118-lt8713sx-bridge-driver-v2-0-25ad49280a11@oss.qualcomm.com>
- <20251118-lt8713sx-bridge-driver-v2-2-25ad49280a11@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251117-topic-sm8x50-fix-a6xx-non-ifpc-v1-1-e4473cbf5903@linaro.org>
+ <04aec988-59ba-4c98-b922-510d86b10ea5@oss.qualcomm.com>
+ <1488f09b-63b7-4412-ba56-28b1c81528ac@linaro.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251118-lt8713sx-bridge-driver-v2-2-25ad49280a11@oss.qualcomm.com>
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+In-Reply-To: <1488f09b-63b7-4412-ba56-28b1c81528ac@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: U_54INv_YJ1_QVkSBw1Q0XODoMzz14Dj
+X-Proofpoint-ORIG-GUID: U_54INv_YJ1_QVkSBw1Q0XODoMzz14Dj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE4MDA2MCBTYWx0ZWRfX27UkWRSTZOPM
+ F4S8w67bUqfRgHk66I6WcDH5skSaKqvDZainllQMhLr9hnKILGxAV6+Op/2+TenXvnpKtuL6dqJ
+ 53sooD5yOXwdrBLiZszfmq/xMjH4JZ/eiqSxngT9NFeSp4lF902vYyjZ5iiUGvW+vPVWU9DOCeD
+ UR6e7gfWJPlMX5AbjxB7ka5ZxSU7ZQRuGgpkdF7ebaplnTsFZQ3hsO69ml1xjsFNf+epIuhYcuN
+ 9rioNqY/85Z6WNiALmUkYNexKb5HGDbbWePxO5d/PHeoh15sz0gsOwoDQpPUdOPhQE+nlj8NZDc
+ u6x5f1h7dkVSCrl67Ji9Jqpt4lee0wIcsUxVbqUAf7mEk9+9RCtwf71bXnbxSHcEANTvYlm2Z6p
+ e3/LqMnR+pYOEongJR1GtXh3YyNIJw==
+X-Authority-Analysis: v=2.4 cv=L+kQguT8 c=1 sm=1 tr=0 ts=691c247e cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=KKAkSRfTAAAA:8 a=O7ohuQCFNY90Bn7chwgA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-17_04,2025-11-13_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ clxscore=1015 bulkscore=0 adultscore=0 spamscore=0 phishscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511180060
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,130 +152,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/11/2025 05:37, Vishnu Saini wrote:
-> +static void lt8713sx_reset(struct lt8713sx *lt8713sx)
-> +{
-> +	pr_debug("reset bridge.\n");
-> +	gpiod_set_value_cansleep(lt8713sx->reset_gpio, 1);
-> +	msleep(20);
-> +
-> +	gpiod_set_value_cansleep(lt8713sx->reset_gpio, 0);
-> +	msleep(20);
-> +
-> +	gpiod_set_value_cansleep(lt8713sx->reset_gpio, 1);
-> +	msleep(20);
-> +	pr_debug("reset done.\n");
+On 11/17/2025 9:17 PM, Neil Armstrong wrote:
+> On 11/17/25 16:02, Konrad Dybcio wrote:
+>> On 11/17/25 3:51 PM, Neil Armstrong wrote:
+>>> On plaforms with an a7xx GPU not supporting IFPC, the ifpc_reglist
+>>> if still deferenced in a7xx_patch_pwrup_reglist() which causes
+>>> a kernel crash:
+>>> Unable to handle kernel NULL pointer dereference at virtual address
+>>> 0000000000000008
+>>> ...
+>>> pc : a6xx_hw_init+0x155c/0x1e4c [msm]
+>>> lr : a6xx_hw_init+0x9a8/0x1e4c [msm]
+>>> ...
+>>> Call trace:
+>>>    a6xx_hw_init+0x155c/0x1e4c [msm] (P)
+>>>    msm_gpu_hw_init+0x58/0x88 [msm]
+>>>    adreno_load_gpu+0x94/0x1fc [msm]
+>>>    msm_open+0xe4/0xf4 [msm]
+>>>    drm_file_alloc+0x1a0/0x2e4 [drm]
+>>>    drm_client_init+0x7c/0x104 [drm]
+>>>    drm_fbdev_client_setup+0x94/0xcf0 [drm_client_lib]
+>>>    drm_client_setup+0xb4/0xd8 [drm_client_lib]
+>>>    msm_drm_kms_post_init+0x2c/0x3c [msm]
+>>>    msm_drm_init+0x1a4/0x228 [msm]
+>>>    msm_drm_bind+0x30/0x3c [msm]
+>>> ...
+>>>
+>>> Check the validity of ifpc_reglist before deferencing the table
+>>> to setup the register values.
+>>>
+>>> Fixes: a6a0157cc68e ("drm/msm/a6xx: Enable IFPC on Adreno X1-85")
+>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>> ---
+>>
+>> I think it should be fine to skip calling this func altogether
+>> if !ifpc || !pwrup_reglist
+>>
+>> Although ifpc && !pwrup_reglist should probably scream very loud
 
-No, it is not done, because you kept the device in the reset. 1 is
-reset. Don't mix up line and logical signals.
+That's correct. It is a weird combo.
 
-> +}
-> +
-> +static int lt8713sx_regulator_init(struct lt8713sx *lt8713sx)
-> +{
-> +	int ret;
-> +
-> +	lt8713sx->supplies[0].supply = "vdd";
-> +	lt8713sx->supplies[1].supply = "vcc";
-> +
-> +	ret = devm_regulator_bulk_get(lt8713sx->dev, 2, lt8713sx->supplies);
-> +	if (ret < 0)
-> +		return dev_err_probe(lt8713sx->dev, ret, "failed to get regulators\n");
-> +
-> +	ret = regulator_set_load(lt8713sx->supplies[0].consumer, 200000);
-> +	if (ret < 0)
-> +		return dev_err_probe(lt8713sx->dev, ret, "failed to set regulator load\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt8713sx_regulator_enable(struct lt8713sx *lt8713sx)
-> +{
-> +	int ret;
-> +
-> +	ret = regulator_enable(lt8713sx->supplies[0].consumer);
-> +	if (ret < 0)
-> +		return dev_err_probe(lt8713sx->dev, ret, "failed to enable vdd regulator\n");
-> +
-> +	usleep_range(1000, 10000);
-> +
-> +	ret = regulator_enable(lt8713sx->supplies[1].consumer);
-> +	if (ret < 0) {
-> +		regulator_disable(lt8713sx->supplies[0].consumer);
-> +		return dev_err_probe(lt8713sx->dev, ret, "failed to enable vcc regulator\n");
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int lt8713sx_gpio_init(struct lt8713sx *lt8713sx)
-> +{
-> +	struct device *dev = lt8713sx->dev;
-> +
-> +	lt8713sx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(lt8713sx->reset_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(lt8713sx->reset_gpio),
-> +				     "failed to acquire reset gpio\n");
-> +
-> +	/* power enable gpio */
-> +	lt8713sx->enable_gpio = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(lt8713sx->enable_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(lt8713sx->enable_gpio),
-> +				     "failed to acquire enable gpio\n");
-> +	return 0;
-> +}
-> +
-> +static ssize_t lt8713sx_firmware_store(struct device *dev,
-> +				       struct device_attribute *attr,
-> +				       const char *buf, size_t len)
-> +{
-> +	struct lt8713sx *lt8713sx = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	ret = lt8713sx_firmware_update(lt8713sx);
-> +	if (ret < 0)
-> +		return ret;
-> +	return len;
-> +}
-> +
-> +static DEVICE_ATTR_WO(lt8713sx_firmware);
-> +
-> +static struct attribute *lt8713sx_attrs[] = {
-> +	&dev_attr_lt8713sx_firmware.attr,
-> +	NULL,
-> +};
-> +
-> +static const struct attribute_group lt8713sx_attr_group = {
-> +	.attrs = lt8713sx_attrs,
-> +};
-> +
-> +static const struct attribute_group *lt8713sx_attr_groups[] = {
-> +	&lt8713sx_attr_group,
-> +	NULL,
-> +};
-> +
-> +static int lt8713sx_probe(struct i2c_client *client)
-> +{
-> +	struct lt8713sx *lt8713sx;
-> +	struct device *dev = &client->dev;
-> +	int ret;
-> +
-> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
-> +		return dev_err_probe(dev, -ENODEV, "device doesn't support I2C\n");
-> +
-> +	lt8713sx = devm_kzalloc(dev, sizeof(*lt8713sx), GFP_KERNEL);
-> +	if (!lt8713sx)
-> +		return dev_err_probe(dev, -ENOMEM, "failed to allocate lt8713sx struct\n");
-> +
-I did not ask for dev_err_probe here. Do you see such pattern anywhere?
-No, because there are never error messages on memory allocation (see
-coccinelle). Drop.
+> 
+> Sorry but why? pwrup_reglist was introduced way earlier than IFPC.
 
-Please run standard kernel tools for static analysis, like coccinelle,
-smatch and sparse, and fix reported warnings. Also please check for
-warnings when building with W=1 for gcc and clang. Most of these
-commands (checks or W=1 build) can build specific targets, like some
-directory, to narrow the scope to only your code. The code here looks
-like it needs a fix. Feel free to get in touch if the warning is not clear.
+Pwrup list is shared with preemption feature too. And preemption support
+was introduced before IFPC.
 
-Best regards,
-Krzysztof
+nit: It is nice to have a similar NULL check for pwrup reglist too. We
+sometimes skip these during initial GPU bringup (like A840 for eg:).
+
+-Akhil
+
+> 
+> Why would we be skipping the a7xx_patch_pwrup_reglist() because
+> ifpc_reglist is not declared ???
+> 
+> Neil
+> 
+>>
+>> Konrad
+> 
+
