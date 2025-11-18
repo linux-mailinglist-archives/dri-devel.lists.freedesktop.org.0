@@ -2,146 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B326C6746C
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 05:38:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B0BC674C9
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 05:55:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E18310E1E6;
-	Tue, 18 Nov 2025 04:38:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F03810E00C;
+	Tue, 18 Nov 2025 04:54:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="eKsckedD";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jktHDImF";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="ka+Dh7ma";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BEF510E1E6
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 04:38:02 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AI1boWX375045
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 04:38:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- NwaET8dkGG3qetmUuWdn8IRc6ey8Z0jU4ZaVGWUys5w=; b=eKsckedDKUT4OiVD
- IL8HKCUthHxjtRocZj2L1poG9Rck/K4bZgk1lu32AmChdV+axS8gaVar01jcbaN5
- kqKhiQ7yJHneSsSqmq0CxAa5xeJD8ZA2zmu9ntR5Ou1X06ToWQDKcclAjsn1bTRu
- XFVS0BBRRqCs75+3bqhBOAYN6H1WuAXZbOQG49Hc77d7Czzb7ZNPP25mtd17/wph
- 414cv+k2vzK1+uAdFzfM1YBjAUn1NXIWsxDOc9oWZGQJr+kHBa7t5QFrtAIJycT+
- Rc7nNwSW8lJ1J7kfaQ1Yk4CovT7EqNJh8bdjNV41EdlmNc/g8Rr0CchgELACAWIF
- 1GiJvQ==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ag599a5sh-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 04:38:01 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id
- d9443c01a7336-2957babd7aeso18222935ad.2
- for <dri-devel@lists.freedesktop.org>; Mon, 17 Nov 2025 20:38:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763440680; x=1764045480;
- darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=NwaET8dkGG3qetmUuWdn8IRc6ey8Z0jU4ZaVGWUys5w=;
- b=jktHDImFqOMjHXl1dHkXRBN7c/JMhcb/9vxk2WmSRG6Ve182ihhq1rqRrbprZYJvEf
- qnrca6YCVmX3vH25O4uewuaHaeBonsMAFkNXITV4y8ytmsN1oMYGcxsgA5hnDvvXq4ZD
- e5Wmai6cdj6S6TcKG0nU2gMuMn4n3PsJpWbkSqBBARMXy0noUDy00MD3f5VAiE76w9MZ
- wTf+Cn40ZZQHUj2FTmYb147wHD5cCCPzKXKs7vl+8kGJZ8I6WxH144EUCatRywln+Gbn
- 0v2cOXEPsT6DvutsqYBYOG2ZXDCe+Q7oGIok6c4SWKhlaGq0i2TnCae5W6ZoWR2jydH7
- fkfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763440680; x=1764045480;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=NwaET8dkGG3qetmUuWdn8IRc6ey8Z0jU4ZaVGWUys5w=;
- b=dKFKVijZ9cgIOG3hvstFPIDwQk0ejXnSwkN9SpRsEkcGSm4qjibEa45SAzVZnq4IiA
- 2YxJEhFSt5LjCYQPi5xquqF65bCIMFkKz3LDtiTyP4KV2SUTnOGD2wJAtEBNAgJmU+dK
- U8KI53ihLfQ1ExyktMJzTbm48AivnU6zvZvF06iKP3SfE31m5odlhoXH6G6jVOFFVHzR
- mRvW4kZH8VVyYHE7/p9KXLcjJsSPdb034Y2UxCdxX3NBxWr2Eijwv9bgD+QL3VDNcttU
- kswcVC/QFdwPXv5AuVpOqXpxYQ0D3e7RMh4rMJXRt1fYulsaK56VlS97HHBoqliKKJwd
- hS6Q==
-X-Gm-Message-State: AOJu0YwSK87CQnYwRU/TCyYpyYgP75kUazj2CxAQEkDnYyZHSwgByE/l
- FPIFYUJRYE1F8g8xhUBHq0n1oX41MJy2AyYbIuYlF9kLMQXRT40rPkiz6pvHb1h46MgGCvT5Vaw
- iZ0L5zUfCZh3UQpbMGvCLqQMJISJ98Y9+YRuldoLvSriU2aso5A9s2q4qf8LtiU7zusW9xm0=
-X-Gm-Gg: ASbGncv7gQp116Q6xptO7O8mLSeLJknAFPV0vGEbkAW1LBEVcl7fpLgeXQZ0WxXI9n2
- QNqjfmWDj/md6ItpNp9DY8+Y9ApVVJ3MvzJ4hFVW2LFoXR6fg53a/Gmfcatbe7vwj7+27U4NR+Q
- wM6XuySeNm1hi9u6RcOMSuh0SR3TOZs0XaVMxrCS+zs8lQjW3IRlKPWRNzJOmXUqw/0318BHbTj
- u0+jSPonHi7dWsRoNYkAUOH6rxXtSKWCGnCV4MYppIz/7zZcDnXBU4Ti8tQoN8lONQWphKJonoF
- E2U/tnK6O2AWnawIyiIGtkkC8JmA4ohES1qWs/WTe6NQ/F5lxtoFdhb4rJLEMgpdahv7oV6y7GY
- i2kT0nM84c3d6Yx4wk08T+QlNXECclUagX7Cxpg63L2IzeMDbzKtG3LOLj8tpnzVvrdVT+dbqwh
- LFZuPsYyk6vHn1ksPZcbw=
-X-Received: by 2002:a17:902:d508:b0:295:3f35:a31b with SMTP id
- d9443c01a7336-299f63ec343mr11702795ad.0.1763440680005; 
- Mon, 17 Nov 2025 20:38:00 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEG3IqHtPXg/aOZsy4Ay0vgHyo4PBM8J9vmkkYO6f/LJI4+hvo706xkc1A1IrL+tSXib7W5yg==
-X-Received: by 2002:a17:902:d508:b0:295:3f35:a31b with SMTP id
- d9443c01a7336-299f63ec343mr11702425ad.0.1763440679322; 
- Mon, 17 Nov 2025 20:37:59 -0800 (PST)
-Received: from hu-vishsain-blr.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com. [103.229.18.19])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2985c2ccafesm157426315ad.97.2025.11.17.20.37.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 17 Nov 2025 20:37:58 -0800 (PST)
-From: Vishnu Saini <vishnu.saini@oss.qualcomm.com>
-Date: Tue, 18 Nov 2025 10:07:09 +0530
-Subject: [PATCH v2 2/2] drm/bridge: add support for lontium lt8713sx bridge
- driver
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012062.outbound.protection.outlook.com [40.107.209.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DEE710E00C
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 04:54:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y7xY1ZPxjIhOlvDP/0/cm0VR6KYWLydTSI5upKaXwoozjBnLkJn4GhmMIrwxGNg/6N+I9DzyODbEsl7FXY7lm5iE4QBo+EpbV6YS67VoFxcEgy7bHg3Ma5+Lk1hMKIIDGq4POMl02AzaHdzvx/z80bL8J2VNr9IL9rmbfa6KNtwPhQQSfcwlWPVyTgmtzjogUki8Tl6OJ+64+mARbotnCslcBbPNM802fIXoSgAvu03XmcCV2jIiZKOknMItjOR3VnTR/VF6aYmW4uQZIhQnsUpq8/iu+uyIxEghjaHCeLc959iE7V6jGa6X6bqJq7N9to4FLm6+C8RPcJxU+579bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Xzx/atYe8Y3+EVMz32LJed0woJqjC8LdqYamO4rrtWA=;
+ b=f1W4l2JGTvtbx2SH8AFvYgI78jR+qnqkoiG+mgFhnNVQMKRZoMmuVSA4Duu7LcHhDqgFf1vDVcBZqo8Td3AceGGLLAWxhLil7ahEGF0zayEkmztJBMoCVLWdMyi9GfDQQ+8GPZANiLkiFaP27nWYL4bbODcmKSayBMofqyKeoQeiqe2rkf38gyY+aqtcW63f5fKTaQojnXFVDtuQXQWjX/UP8WMO1RdlGtXNKUxIQZ2rGSJnY8VNpOxG42xJs/2HE0nBChempcTXFqni+4uPmQhri+HLdX3rejqs0L3AD6GqrzNxivmiTdM12iTWeFmof+cdVQ2yF6d1/al93Njffw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=suse.de smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Xzx/atYe8Y3+EVMz32LJed0woJqjC8LdqYamO4rrtWA=;
+ b=ka+Dh7maOrVQyzEl4o9wyDOuhpTZEDBfQXURrL+AqDp6WGMnHaW+NaYbQ6Zfv3L2qkNM6bsYRZbfrGzBV2Ylnl+Wulkn37u2kcNf7021lXlJNyRh833E08ig/BnS6gRxeyHeeSIxcKOl6d82z/lYOPOjyk+gPiGclG/bw/TEC1M=
+Received: from CY5PR14CA0029.namprd14.prod.outlook.com (2603:10b6:930:2::10)
+ by IA3PR10MB8563.namprd10.prod.outlook.com (2603:10b6:208:571::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.21; Tue, 18 Nov
+ 2025 04:54:55 +0000
+Received: from CY4PEPF0000E9D6.namprd05.prod.outlook.com
+ (2603:10b6:930:2:cafe::ca) by CY5PR14CA0029.outlook.office365.com
+ (2603:10b6:930:2::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9320.23 via Frontend Transport; Tue,
+ 18 Nov 2025 04:54:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ CY4PEPF0000E9D6.mail.protection.outlook.com (10.167.241.69) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9343.9 via Frontend Transport; Tue, 18 Nov 2025 04:54:53 +0000
+Received: from DFLE201.ent.ti.com (10.64.6.59) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 17 Nov
+ 2025 22:54:51 -0600
+Received: from DFLE204.ent.ti.com (10.64.6.62) by DFLE201.ent.ti.com
+ (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 17 Nov
+ 2025 22:54:51 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE204.ent.ti.com
+ (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Mon, 17 Nov 2025 22:54:51 -0600
+Received: from [172.24.235.208] (hkshenoy.dhcp.ti.com [172.24.235.208])
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AI4siiu3697475;
+ Mon, 17 Nov 2025 22:54:45 -0600
+Message-ID: <30a0040d-2ced-46bd-85db-f92dfdc9e347@ti.com>
+Date: Tue, 18 Nov 2025 10:24:43 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 6/6] drm/bridge: cadence: cdns-mhdp8546-core: Handle
+ HDCP state in bridge atomic check
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+CC: <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
+ <andrzej.hajda@intel.com>, <andy.yan@rock-chips.com>,
+ <aradhya.bhatia@linux.dev>, <devarsht@ti.com>, <dianders@chromium.org>,
+ <dri-devel@lists.freedesktop.org>, <javierm@redhat.com>,
+ <jernej.skrabec@gmail.com>, <jonas@kwiboo.se>,
+ <linux-kernel@vger.kernel.org>, <linux@treblig.org>,
+ <luca.ceresoli@bootlin.com>, <lumag@kernel.org>, <lyude@redhat.com>,
+ <maarten.lankhorst@linux.intel.com>, <mordan@ispras.ru>,
+ <mripard@kernel.org>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <s-jain1@ti.com>, <simona@ffwll.ch>, <tzimmermann@suse.de>, <u-kumar1@ti.com>
+References: <20251014094527.3916421-1-h-shenoy@ti.com>
+ <20251014094527.3916421-7-h-shenoy@ti.com>
+ <3a05be44-97f6-4c0f-b565-0f70947d7fff@ideasonboard.com>
+Content-Language: en-US
+From: Harikrishna shenoy <h-shenoy@ti.com>
+In-Reply-To: <3a05be44-97f6-4c0f-b565-0f70947d7fff@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251118-lt8713sx-bridge-driver-v2-2-25ad49280a11@oss.qualcomm.com>
-References: <20251118-lt8713sx-bridge-driver-v2-0-25ad49280a11@oss.qualcomm.com>
-In-Reply-To: <20251118-lt8713sx-bridge-driver-v2-0-25ad49280a11@oss.qualcomm.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Tony <syyang@lontium.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Vishnu Saini <vishnu.saini@oss.qualcomm.com>,
- prahlad.valluru@oss.qualcomm.com,
- Prahlad Valluru <vvalluru@qti.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763440662; l=22220;
- i=vishnu.saini@oss.qualcomm.com; s=20251113; h=from:subject:message-id;
- bh=GoEr9AlrDIhF4qW9t+Gss/wck6pvIfAaBKEurwqOFDY=;
- b=T33V6OSZxL2A1tdeFad6RmcnFCiI1nuj4phCIR5iIuLVCvwdFgIcMvul5PoorQM7LwCwYcDo/
- RSol4B+uqftD3Ic9fxYZwkdqmeOjjZEUQO49gb7x6iHHhmCy2TXOnbH
-X-Developer-Key: i=vishnu.saini@oss.qualcomm.com; a=ed25519;
- pk=8hlXlF8j/3GeOaDK3w2LYhkv9FanCQru0c7kRH/It7k=
-X-Proofpoint-GUID: 9ZccnokK31NIzI0tOWcysf1givtDVoBA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE4MDAzMyBTYWx0ZWRfXyQb3JZngqVC2
- g7rDC9BkRxUrKTbJWljXHzT/hnHnZ2a3yywkqZOM3cV8Vy/6KT/HJNs3LDPrHI3mOfHt3/7EkXc
- jUxTBWlI1+gnAUcBhoO4QswpLeadHo26LuAKTOXeQbdSFWrh05RM3dPeajdKQWRfOMirFLqvVbi
- m0DJbU5dvXXn8njAMSsSt5uTXKrbWvA0s+DA885zRssX+jxbR0/+x1lhjj6XdhO/ONODqLYpJse
- F+g9/wwFZWDcCDu/3ogMcnKntXWjTPG/fP56Abl8OhmshyfURjwacF0VDq1AZ/mpBa/VPxATj22
- iokBqBTMv2JDOWllKwSOWIzvKGPQlAhXska85DyDVRwyBui07nPeWx2xmS15NuZ6gEkalrbk8jG
- Br0hHOw5BWGWMW8TgdXITOKiXFB2Ug==
-X-Authority-Analysis: v=2.4 cv=HaMZjyE8 c=1 sm=1 tr=0 ts=691bf829 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=Kz8-B0t5AAAA:8
- a=qUO0xVzsbagvrNELR24A:9 a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
- a=RuZk68QooNbwfxovefhk:22
-X-Proofpoint-ORIG-GUID: 9ZccnokK31NIzI0tOWcysf1givtDVoBA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-17_04,2025-11-13_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 malwarescore=0
- clxscore=1015 phishscore=0 bulkscore=0 impostorscore=0 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511180033
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D6:EE_|IA3PR10MB8563:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7beeb4c9-bcb7-4025-44b1-08de265e9ce3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|376014|7416014|1800799024|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Nzd1WHFnek1hUTYzbkt4eFlDRy9DcVcxOGJJWnFHNWNxWCsvS2NoTHkweVl4?=
+ =?utf-8?B?R0s4Skc2UzFoZGRNVEJDSVJsUlNHNDVRUnA4TTZOb1dLMXMvS29ENGdIMXp2?=
+ =?utf-8?B?SWlTL1NFcUhOM1doajhNZTdrMzh0S0gyajRac2E4bmFXUlRIVUwxZ3luYzRQ?=
+ =?utf-8?B?RmxRcm10ZVcyMnFKYllablpTcm5CeHcxd2tBa1lBNW9jS3IrZWdZTHd1NlBW?=
+ =?utf-8?B?bVNyYk5tcEdaQVZqdlRpWnFmdnRGeXlBSVBoYkhqdy9GNCtSK2hmVXRkelpz?=
+ =?utf-8?B?Y3NTMnZhK3NMOFl3L0w2KzdBS0Z5WnRJclF3Y3pJZXJGVVE5c1B4QVJRVFRX?=
+ =?utf-8?B?SmtqbEhMaWt2MXdZUXJNSUF4YmlnV0xscUdvREJaNlFVU0tBRDllbXJXdVVl?=
+ =?utf-8?B?dFhhcHJMTkdvRy81dWhjTVdLWkp1VXRwWkJWMndNVnM5UWZtVUp0bEdFS2w0?=
+ =?utf-8?B?YlNOWnU2Z1l0UmZ0MnlKZTV4S0JoYXc5SEt1MDVzNGo3T3VuRkR6MGNtR3li?=
+ =?utf-8?B?Sjd0elV3a3NNZEJNeWt5am9nVmVlSnRKbS9sUjVvZGxXRzhQMWZRZTh2N056?=
+ =?utf-8?B?UDNyT3lWbkMxSENnUnBlVm5ZMmhLeGU5a2NxcVhuSytVZUlyei9zUHFWOFRQ?=
+ =?utf-8?B?Qm1GVUFnR1A2SkpiODd0UGRhaG9JVDRYVFBrTEJMb0Q3RlN3WFFYT2JSYTZB?=
+ =?utf-8?B?Sk51VUc2SWJjWXRaaVVrV090d1lWYVJ0S1VadTNTRmlWSDc4TmZVdjdlNzNE?=
+ =?utf-8?B?ZkZnTi92dGtSUEhQOW96UEt3SWRPM0pjV0JnSUZrV3MwcFJFRkNYSXdnV29r?=
+ =?utf-8?B?YTNPRmNTZjBTY2ZzMWY1OHo2Sk0xSURITWt1TlRWT0p4d2VFMDhFZWkvMG9u?=
+ =?utf-8?B?aDZ5ZTM2NEVVbzdBOXJEdG0wejI4b2sxdUk0NFhKeVJnNzRoRWVHNGpRUEpp?=
+ =?utf-8?B?VjBJcngxR3Z2ajJIci9OREdjYzllWWR1Rm9RNXVYVm1BcE11OWpidEFkRWtM?=
+ =?utf-8?B?NTYyNThkSDJyWGZNQ3VYYWpyWlpCT3QzTGtNNzZ1TUU1YzY4cjlxaWY3c0lV?=
+ =?utf-8?B?d3FCUStMUVpnenR4MHNhNk01TUZmUTFxSDNSdUhvNHlwTnkrMjBsS3FzNE5F?=
+ =?utf-8?B?L1pzRzdzTW1NclZFd2pXNTY5TGY3bytXVkdtRm95cTRlOHZGbTVEemtHdzZZ?=
+ =?utf-8?B?OWJrdXh5OHQ1NVZZYm82QXJ4eUcrNzg3U1FoZ2tNNUtFWHBCKzhQTmoyWE9o?=
+ =?utf-8?B?aDNyZWdrQjRvbHJyeE5GTlVUV0lXOTBtREZRdjhkaEEvRktzUG9SNmdUcEEr?=
+ =?utf-8?B?Nm1JeWtUaWdRc2N3eUlhUmNXdVNpclZYckpkWXppVzNLQy9yNzliWHhrblFr?=
+ =?utf-8?B?NXBDTytCL0FXT3F5dFhGT2NLVmRUN1R2L2pWaHFaQ0QvbjdDYlRLOGVZUmt0?=
+ =?utf-8?B?VFRuM3VZS3o4MEhNZ1lXdGxFRXRZNEVxclNDeXZFWnMrN211d21YSlQ5WUdx?=
+ =?utf-8?B?N0JZVUJyUDNISW1JS2gyaG5iZVJoYXo2cmt4d0EyaVBTT0ZGdTRBSkJXdFJV?=
+ =?utf-8?B?MGoySDV0bFJRdG1CNDB4bFJwSnA0M2plWVJ0M0FuSHMvMTJpMldZaSs4ZlNs?=
+ =?utf-8?B?SDFIUStwTkMwbjlaNDZ6eGhBMDRiL0tuQS9OZzd6VTN5ZkJMVmdFNEJ1NkNl?=
+ =?utf-8?B?MFl5UjBLZGdkbW1yNGpMaE5zNFlybTJpbWdoWk1YNCsyREhoWVVHRmk0UStL?=
+ =?utf-8?B?RHR4VEVFNDFmbmFwL0liRUU3NGNYcEQ5eFo1VmdjbzFNZ0p0Mm9FTHEwVzhY?=
+ =?utf-8?B?WDVEY3ZqZEZzdlBMaENjK1NWWlduMXdTR1hIYlhGbnhyNnd4ZWpZbm9SUUVT?=
+ =?utf-8?B?TDhuSUVEajVJVmVicTZKN3E3aWY0Lzd3WXdYK1cwZGdoOFVwZmpiM0habm5P?=
+ =?utf-8?B?TDMyNUJ6WXBaRXhrT2dUajJLZ0xIb1FjaU5yS0xKczgzU2d3c0ZLT3VDc3pN?=
+ =?utf-8?B?L21qYnNicXdEdDk5elRBUHNkck9iWDZmOEF2enU3U29JbFg5YUxxUXM4TjUx?=
+ =?utf-8?B?UDdvVmdwUC9VRWRrcVE5ckNqOXoyb29qeW5TcXd0Nk9RZTRxU3dtOSsrVlJj?=
+ =?utf-8?Q?glP8=3D?=
+X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
+ SFS:(13230040)(82310400026)(376014)(7416014)(1800799024)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2025 04:54:53.3307 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7beeb4c9-bcb7-4025-44b1-08de265e9ce3
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
+ Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY4PEPF0000E9D6.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR10MB8563
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,774 +165,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The lt8713sx is a Type-C/DP1.4 to Type-C/DP1.4/HDMI2.0 converter,
-with three configurable DP1.4/HDMI2.0/DP++ output interfaces and
-audio output interface.
 
-Driver is required for firmware upgrade in the bridge chip.
 
-Co-developed-by: Prahlad Valluru <vvalluru@qti.qualcomm.com>
-Signed-off-by: Prahlad Valluru <vvalluru@qti.qualcomm.com>
-Signed-off-by: Vishnu Saini <vishnu.saini@oss.qualcomm.com>
----
- drivers/gpu/drm/bridge/Kconfig            |  10 ++
- drivers/gpu/drm/bridge/Makefile           |   1 +
- drivers/gpu/drm/bridge/lontium-lt8713sx.c | 713 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 724 insertions(+)
+On 12/11/25 14:52, Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 14/10/2025 12:45, Harikrishna Shenoy wrote:
+>> Now that we have DBANC framework and legacy connector functions removed,
+>> handle the HDCP disabling in bridge atomic check rather than in connector
+>> atomic check in !(DBANC) usecase.
+> 
+> This sounds odd. The patch is only adding new code, so "handle the HDCP
+> disabling in bridge atomic check rather than in connector atomic check
+> in !(DBANC) usecase." doesn't quite make sense.
+> 
+> Afaiu in patch 3 you removed the HDCP code for !DBANC, and here you add
+> it for DBANC.
+> 
+> Correct me if I'm wrong, but HDCP support for DBANC is currently broken
+> in upstream, as the HDCP code is only for the !DBANC case?
+> 
+> Isn't this patch then similar to patch 2, which is a fix for a missing
+> feature with DBANC? So should this also be a fix, and perhaps be moved
+> as after patch 2?
+> 
+>   Tomi
+> 
+Hi Tomi,
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index a250afd8d662..7fef383ed7cb 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -184,6 +184,16 @@ config DRM_LONTIUM_LT9611UXC
- 	  HDMI signals
- 	  Please say Y if you have such hardware.
- 
-+config DRM_LONTIUM_LT8713SX
-+	tristate "Lontium LT8713SX DP MST bridge"
-+	depends on OF
-+	select REGMAP_I2C
-+	help
-+	  Driver for Lontium LT8713SX DP MST bridge
-+	  chip firmware upgrade, which converts Type-C/DP1.4
-+	  to 3 configurable Type-C/DP1.4/HDMI2.0 outputs
-+	  Please say Y if you have such hardware.
-+
- config DRM_ITE_IT66121
- 	tristate "ITE IT66121 HDMI bridge"
- 	depends on OF
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index c7dc03182e59..07eeb13fa497 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -16,6 +16,7 @@ obj-$(CONFIG_DRM_LONTIUM_LT8912B) += lontium-lt8912b.o
- obj-$(CONFIG_DRM_LONTIUM_LT9211) += lontium-lt9211.o
- obj-$(CONFIG_DRM_LONTIUM_LT9611) += lontium-lt9611.o
- obj-$(CONFIG_DRM_LONTIUM_LT9611UXC) += lontium-lt9611uxc.o
-+obj-$(CONFIG_DRM_LONTIUM_LT8713SX) += lontium-lt8713sx.o
- obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
- obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
- obj-$(CONFIG_DRM_MICROCHIP_LVDS_SERIALIZER) += microchip-lvds.o
-diff --git a/drivers/gpu/drm/bridge/lontium-lt8713sx.c b/drivers/gpu/drm/bridge/lontium-lt8713sx.c
-new file mode 100644
-index 000000000000..a5aed2474a2e
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/lontium-lt8713sx.c
-@@ -0,0 +1,713 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-+ */
-+
-+#include <linux/firmware.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/of_graph.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/wait.h>
-+#include <linux/workqueue.h>
-+
-+#define FW_FILE "lt8713sx_fw.bin"
-+
-+#define LT8713SX_PAGE_SIZE 256
-+#define FW_12K_SIZE        (12  * 1024)
-+#define FW_64K_SIZE        (64  * 1024)
-+#define FW_256K_SIZE       (256 * 1024)
-+
-+struct crc_config {
-+	u8 width;
-+	u32 poly;
-+	u32 crc_init;
-+	u32 xor_out;
-+	bool ref_in;
-+	bool ref_out;
-+};
-+
-+struct lt8713sx {
-+	struct device *dev;
-+
-+	struct regmap *regmap;
-+	/* Protects all accesses to registers by stopping the on-chip MCU */
-+	struct mutex ocm_lock;
-+
-+	struct gpio_desc *reset_gpio;
-+	struct gpio_desc *enable_gpio;
-+
-+	struct regulator_bulk_data supplies[2];
-+
-+	struct i2c_client *client;
-+	const struct firmware *fw;
-+
-+	u8 *fw_buffer;
-+
-+	u32 main_crc_value;
-+	u32 bank_crc_value[17];
-+
-+	int bank_num;
-+};
-+
-+static void lt8713sx_reset(struct lt8713sx *lt8713sx);
-+
-+static const struct regmap_range lt8713sx_ranges[] = {
-+	{
-+		.range_min = 0,
-+		.range_max = 0xffff
-+	},
-+};
-+
-+static const struct regmap_access_table lt8713sx_table = {
-+	.yes_ranges = lt8713sx_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(lt8713sx_ranges),
-+};
-+
-+static const struct regmap_config lt8713sx_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.volatile_table = &lt8713sx_table,
-+	.cache_type = REGCACHE_NONE,
-+};
-+
-+static void lt8713sx_i2c_enable(struct lt8713sx *lt8713sx)
-+{
-+	regmap_write(lt8713sx->regmap, 0xff, 0xe0);
-+	regmap_write(lt8713sx->regmap, 0xee, 0x01);
-+}
-+
-+static void lt8713sx_i2c_disable(struct lt8713sx *lt8713sx)
-+{
-+	regmap_write(lt8713sx->regmap, 0xff, 0xe0);
-+	regmap_write(lt8713sx->regmap, 0xee, 0x00);
-+}
-+
-+static unsigned int bits_reverse(u32 in_val, u8 bits)
-+{
-+	u32 out_val = 0;
-+	u8 i;
-+
-+	for (i = 0; i < bits; i++) {
-+		if (in_val & (1 << i))
-+			out_val |= 1 << (bits - 1 - i);
-+	}
-+
-+	return out_val;
-+}
-+
-+static unsigned int get_crc(struct crc_config crc_cfg, const  u8 *buf, u64 buf_len)
-+{
-+	u8 width    = crc_cfg.width;
-+	u32  poly   = crc_cfg.poly;
-+	u32  crc    = crc_cfg.crc_init;
-+	u32  xorout = crc_cfg.xor_out;
-+	bool refin  = crc_cfg.ref_in;
-+	bool refout = crc_cfg.ref_out;
-+	u8 n;
-+	u32  bits;
-+	u32  data;
-+	u8 i;
-+
-+	n    =  (width < 8) ? 0 : (width - 8);
-+	crc  =  (width < 8) ? (crc << (8 - width)) : crc;
-+	bits =  (width < 8) ? 0x80 : (1 << (width - 1));
-+	poly =  (width < 8) ? (poly << (8 - width)) : poly;
-+
-+	while (buf_len--) {
-+		data = *(buf++);
-+		if (refin)
-+			data = bits_reverse(data, 8);
-+		crc ^= (data << n);
-+		for (i = 0; i < 8; i++) {
-+			if (crc & bits)
-+				crc = (crc << 1) ^ poly;
-+			else
-+				crc = crc << 1;
-+		}
-+	}
-+	crc = (width < 8) ? (crc >> (8 - width)) : crc;
-+	if (refout)
-+		crc = bits_reverse(crc, width);
-+	crc ^= xorout;
-+
-+	return (crc & ((2 << (width - 1)) - 1));
-+}
-+
-+static u32 calculate_64K_crc(const u8 *upgrade_data, u64 len)
-+{
-+	struct crc_config crc_cfg = {
-+		.width = 8,
-+		.poly  = 0x31,
-+		.crc_init = 0,
-+		.xor_out = 0,
-+		.ref_out = false,
-+		.ref_in = false,
-+	};
-+	u64 crc_size = FW_64K_SIZE - 1;
-+	u8 default_val = 0xFF;
-+
-+	crc_cfg.crc_init = get_crc(crc_cfg, upgrade_data, len);
-+
-+	crc_size -= len;
-+	while (crc_size--)
-+		crc_cfg.crc_init = get_crc(crc_cfg, &default_val, 1);
-+
-+	return crc_cfg.crc_init;
-+}
-+
-+static u32 calculate_12K_crc(const u8 *upgrade_data, u64 len)
-+{
-+	struct crc_config crc_cfg = {
-+		.width = 8,
-+		.poly  = 0x31,
-+		.crc_init = 0,
-+		.xor_out = 0,
-+		.ref_out = false,
-+		.ref_in = false,
-+	};
-+	u64 crc_size = FW_12K_SIZE;
-+	u8 default_val = 0xFF;
-+
-+	crc_cfg.crc_init = get_crc(crc_cfg, upgrade_data, len);
-+
-+	crc_size -= len;
-+	while (crc_size--)
-+		crc_cfg.crc_init = get_crc(crc_cfg, &default_val, 1);
-+
-+	return crc_cfg.crc_init;
-+}
-+
-+static int lt8713sx_prepare_firmware_data(struct lt8713sx *lt8713sx)
-+{
-+	int ret = 0;
-+
-+	ret = request_firmware(&lt8713sx->fw, FW_FILE, lt8713sx->dev);
-+	if (ret < 0) {
-+		pr_err("request firmware failed\n");
-+		return ret;
-+	}
-+
-+	pr_debug("Firmware size: %zu bytes\n", lt8713sx->fw->size);
-+
-+	if (lt8713sx->fw->size > FW_256K_SIZE - 1) {
-+		pr_err("Firmware size exceeds 256KB limit\n");
-+		release_firmware(lt8713sx->fw);
-+		return -EINVAL;
-+	}
-+
-+	lt8713sx->fw_buffer = kzalloc(FW_256K_SIZE, GFP_KERNEL);
-+	if (!lt8713sx->fw_buffer) {
-+		release_firmware(lt8713sx->fw);
-+		return -ENOMEM;
-+	}
-+
-+	memset(lt8713sx->fw_buffer, 0xFF, FW_256K_SIZE);
-+
-+	if (lt8713sx->fw->size < FW_64K_SIZE) {
-+		/*TODO: CRC should be calculated with 0xff also */
-+		memcpy(lt8713sx->fw_buffer, lt8713sx->fw->data, lt8713sx->fw->size);
-+		lt8713sx->fw_buffer[FW_64K_SIZE - 1] =
-+				calculate_64K_crc(lt8713sx->fw->data, lt8713sx->fw->size);
-+		lt8713sx->main_crc_value = lt8713sx->fw_buffer[FW_64K_SIZE - 1];
-+		pr_debug("Main Firmware Data  Crc=0x%02X\n", lt8713sx->main_crc_value);
-+
-+	} else {
-+		//main firmware
-+		memcpy(lt8713sx->fw_buffer, lt8713sx->fw->data, FW_64K_SIZE - 1);
-+		lt8713sx->fw_buffer[FW_64K_SIZE - 1] =
-+				calculate_64K_crc(lt8713sx->fw_buffer, FW_64K_SIZE - 1);
-+		lt8713sx->main_crc_value = lt8713sx->fw_buffer[FW_64K_SIZE - 1];
-+		pr_debug("Main Firmware Data  Crc=0x%02X\n", lt8713sx->main_crc_value);
-+
-+		//bank firmware
-+		memcpy(lt8713sx->fw_buffer + FW_64K_SIZE,
-+		       lt8713sx->fw->data + FW_64K_SIZE,
-+		       lt8713sx->fw->size - FW_64K_SIZE);
-+
-+		lt8713sx->bank_num = (lt8713sx->fw->size - FW_64K_SIZE + FW_12K_SIZE - 1) /
-+					FW_12K_SIZE;
-+		pr_debug("Bank Number Total is %d.\n", lt8713sx->bank_num);
-+
-+		for (int i = 0; i < lt8713sx->bank_num; i++) {
-+			lt8713sx->bank_crc_value[i] =
-+				calculate_12K_crc(lt8713sx->fw_buffer + FW_64K_SIZE +
-+						  i * FW_12K_SIZE,
-+						  FW_12K_SIZE);
-+			pr_debug("Bank number:%d; Firmware Data  Crc:0x%02X\n",
-+				 i, lt8713sx->bank_crc_value[i]);
-+		}
-+	}
-+	return 0;
-+}
-+
-+static void lt8713sx_config_parameters(struct lt8713sx *lt8713sx)
-+{
-+	regmap_write(lt8713sx->regmap, 0xFF, 0xE0);
-+	regmap_write(lt8713sx->regmap, 0xEE, 0x01);
-+	regmap_write(lt8713sx->regmap, 0x5E, 0xC1);
-+	regmap_write(lt8713sx->regmap, 0x58, 0x00);
-+	regmap_write(lt8713sx->regmap, 0x59, 0x50);
-+	regmap_write(lt8713sx->regmap, 0x5A, 0x10);
-+	regmap_write(lt8713sx->regmap, 0x5A, 0x00);
-+	regmap_write(lt8713sx->regmap, 0x58, 0x21);
-+}
-+
-+static void lt8713sx_wren(struct lt8713sx *lt8713sx)
-+{
-+	regmap_write(lt8713sx->regmap, 0xff, 0xe1);
-+	regmap_write(lt8713sx->regmap, 0x03, 0xbf);
-+	regmap_write(lt8713sx->regmap, 0x03, 0xff);
-+	regmap_write(lt8713sx->regmap, 0xff, 0xe0);
-+	regmap_write(lt8713sx->regmap, 0x5a, 0x04);
-+	regmap_write(lt8713sx->regmap, 0x5a, 0x00);
-+}
-+
-+static void lt8713sx_wrdi(struct lt8713sx *lt8713sx)
-+{
-+	regmap_write(lt8713sx->regmap, 0x5A, 0x08);
-+	regmap_write(lt8713sx->regmap, 0x5A, 0x00);
-+}
-+
-+static void lt8713sx_fifo_reset(struct lt8713sx *lt8713sx)
-+{
-+	regmap_write(lt8713sx->regmap, 0xff, 0xe1);
-+	regmap_write(lt8713sx->regmap, 0x03, 0xbf);
-+	regmap_write(lt8713sx->regmap, 0x03, 0xff);
-+}
-+
-+static void lt8713sx_disable_sram_write(struct lt8713sx *lt8713sx)
-+{
-+	regmap_write(lt8713sx->regmap, 0xff, 0xe0);
-+	regmap_write(lt8713sx->regmap, 0x55, 0x00);
-+}
-+
-+static void lt8713sx_sram_to_flash(struct lt8713sx *lt8713sx)
-+{
-+	regmap_write(lt8713sx->regmap, 0x5a, 0x30);
-+	regmap_write(lt8713sx->regmap, 0x5a, 0x00);
-+}
-+
-+static void lt8713sx_i2c_to_sram(struct lt8713sx *lt8713sx)
-+{
-+	regmap_write(lt8713sx->regmap, 0x55, 0x80);
-+	regmap_write(lt8713sx->regmap, 0x5e, 0xc0);
-+	regmap_write(lt8713sx->regmap, 0x58, 0x21);
-+}
-+
-+static u8 lt8713sx_read_flash_status(struct lt8713sx *lt8713sx)
-+{
-+	u32 flash_status = 0;
-+
-+	regmap_write(lt8713sx->regmap,  0xFF, 0xE1);//fifo_rst_n
-+	regmap_write(lt8713sx->regmap,  0x03, 0x3F);
-+	regmap_write(lt8713sx->regmap,  0x03, 0xFF);
-+
-+	regmap_write(lt8713sx->regmap,  0xFF, 0xE0);
-+	regmap_write(lt8713sx->regmap,  0x5e, 0x40);
-+	regmap_write(lt8713sx->regmap,  0x56, 0x05);//opcode=read status register
-+	regmap_write(lt8713sx->regmap,  0x55, 0x25);
-+	regmap_write(lt8713sx->regmap,  0x55, 0x01);
-+	regmap_write(lt8713sx->regmap,  0x58, 0x21);
-+
-+	regmap_read(lt8713sx->regmap, 0x5f, &flash_status);
-+	pr_debug("flash_status:%x\n", flash_status);
-+
-+	return flash_status;
-+}
-+
-+static void lt8713sx_block_erase(struct lt8713sx *lt8713sx)
-+{
-+	u32 i = 0;
-+	u8 flash_status = 0;
-+	u8 blocknum = 0x00;
-+	u32 flashaddr = 0x00;
-+
-+	for (blocknum = 0; blocknum < 8; blocknum++) {
-+		flashaddr = blocknum * 0x008000;
-+		regmap_write(lt8713sx->regmap,  0xFF, 0xE0);
-+		regmap_write(lt8713sx->regmap,  0xEE, 0x01);
-+		regmap_write(lt8713sx->regmap,  0x5A, 0x04);
-+		regmap_write(lt8713sx->regmap,  0x5A, 0x00);
-+		regmap_write(lt8713sx->regmap,  0x5B, flashaddr >> 16);//set flash address[23:16]
-+		regmap_write(lt8713sx->regmap,  0x5C, flashaddr >> 8);//set flash address[15:8]
-+		regmap_write(lt8713sx->regmap,  0x5D, flashaddr);//set flash address[7:0]
-+		regmap_write(lt8713sx->regmap,  0x5A, 0x01);
-+		regmap_write(lt8713sx->regmap,  0x5A, 0x00);
-+		msleep(100); //delay 100ms
-+		i = 0;
-+		while (1) {
-+			flash_status = lt8713sx_read_flash_status(lt8713sx); //wait erase finish
-+			if ((flash_status & 0x01) == 0)
-+				break;
-+
-+			if (i > 50)
-+				break;
-+
-+			i++;
-+			msleep(50); //delay 50ms
-+		}
-+	}
-+	pr_debug("erase flash done.\n");
-+}
-+
-+static void lt8713sx_load_main_fw_to_sram(struct lt8713sx *lt8713sx)
-+{
-+	regmap_write(lt8713sx->regmap, 0xff, 0xe0);
-+	regmap_write(lt8713sx->regmap, 0xee, 0x01);
-+	regmap_write(lt8713sx->regmap, 0x68, 0x00);
-+	regmap_write(lt8713sx->regmap, 0x69, 0x00);
-+	regmap_write(lt8713sx->regmap, 0x6a, 0x00);
-+	regmap_write(lt8713sx->regmap, 0x65, 0x00);
-+	regmap_write(lt8713sx->regmap, 0x66, 0xff);
-+	regmap_write(lt8713sx->regmap, 0x67, 0xff);
-+	regmap_write(lt8713sx->regmap, 0x6b, 0x00);
-+	regmap_write(lt8713sx->regmap, 0x6c, 0x00);
-+	regmap_write(lt8713sx->regmap, 0x60, 0x01);
-+	msleep(200);
-+	regmap_write(lt8713sx->regmap, 0x60, 0x00);
-+}
-+
-+static void lt8713sx_load_bank_fw_to_sram(struct lt8713sx *lt8713sx, u64 addr)
-+{
-+	regmap_write(lt8713sx->regmap, 0xff, 0xe0);
-+	regmap_write(lt8713sx->regmap, 0xee, 0x01);
-+	regmap_write(lt8713sx->regmap, 0x68, ((addr & 0xFF0000) >> 16));
-+	regmap_write(lt8713sx->regmap, 0x69, ((addr & 0x00FF00) >> 8));
-+	regmap_write(lt8713sx->regmap, 0x6a, (addr & 0x0000FF));
-+	regmap_write(lt8713sx->regmap, 0x65, 0x00);
-+	regmap_write(lt8713sx->regmap, 0x66, 0x30);
-+	regmap_write(lt8713sx->regmap, 0x67, 0x00);
-+	regmap_write(lt8713sx->regmap, 0x6b, 0x00);
-+	regmap_write(lt8713sx->regmap, 0x6c, 0x00);
-+	regmap_write(lt8713sx->regmap, 0x60, 0x01);
-+	msleep(50);
-+	regmap_write(lt8713sx->regmap, 0x60, 0x00);
-+}
-+
-+static int lt8713sx_write_data(struct lt8713sx *lt8713sx, const u8 *data, u64 filesize)
-+{
-+	int page = 0, num = 0, i = 0, val;
-+
-+	page = (filesize % LT8713SX_PAGE_SIZE) ?
-+			((filesize / LT8713SX_PAGE_SIZE) + 1) : (filesize / LT8713SX_PAGE_SIZE);
-+
-+	pr_debug("Writing to Sram=%u pages, total size = %llu bytes\n", page, filesize);
-+
-+	for (num = 0; num < page; num++) {
-+		pr_debug("page[%d]\n", num);
-+		lt8713sx_i2c_to_sram(lt8713sx);
-+
-+		for (i = 0; i < LT8713SX_PAGE_SIZE; i++) {
-+			if ((num * LT8713SX_PAGE_SIZE + i) < filesize)
-+				val = *(data + (num * LT8713SX_PAGE_SIZE + i));
-+			else
-+				val = 0xFF;
-+			regmap_write(lt8713sx->regmap, 0x59, val);
-+		}
-+
-+		lt8713sx_wren(lt8713sx);
-+		lt8713sx_sram_to_flash(lt8713sx);
-+	}
-+
-+	lt8713sx_wrdi(lt8713sx);
-+	lt8713sx_disable_sram_write(lt8713sx);
-+
-+	return 0;
-+}
-+
-+static void lt8713sx_main_upgrade_result(struct lt8713sx *lt8713sx)
-+{
-+	u32 main_crc_result;
-+
-+	regmap_write(lt8713sx->regmap, 0xff, 0xe0);
-+	regmap_read(lt8713sx->regmap, 0x23, &main_crc_result);
-+
-+	pr_debug("Main CRC HW: 0x%02X\n", main_crc_result);
-+	pr_debug("Main CRC FW: 0x%02X\n", lt8713sx->main_crc_value);
-+
-+	if (main_crc_result == lt8713sx->main_crc_value)
-+		pr_debug("Main Firmware Upgrade Success.\n");
-+	else
-+		pr_err("Main Firmware Upgrade Failed.\n");
-+}
-+
-+static void lt8713sx_bank_upgrade_result(struct lt8713sx *lt8713sx, u8 banknum)
-+{
-+	u32 bank_crc_result;
-+
-+	regmap_write(lt8713sx->regmap, 0xff, 0xe0);
-+
-+	regmap_read(lt8713sx->regmap, 0x23, &bank_crc_result);
-+
-+	pr_debug("Bank %d CRC Result: 0x%02X\n", banknum, bank_crc_result);
-+
-+	if (bank_crc_result == lt8713sx->bank_crc_value[banknum])
-+		pr_debug("Bank %d Firmware Upgrade Success.\n", banknum);
-+	else
-+		pr_err("Bank %d Firmware Upgrade Failed.\n", banknum);
-+}
-+
-+static void lt8713sx_bank_result_check(struct lt8713sx *lt8713sx)
-+{
-+	int i;
-+	u64 addr = 0x010000;
-+
-+	for (i = 0; i < lt8713sx->bank_num; i++) {
-+		lt8713sx_load_bank_fw_to_sram(lt8713sx, addr);
-+		lt8713sx_bank_upgrade_result(lt8713sx, i);
-+		addr += 0x3000;
-+	}
-+}
-+
-+static int lt8713sx_firmware_upgrade(struct lt8713sx *lt8713sx)
-+{
-+	int ret;
-+
-+	lt8713sx_config_parameters(lt8713sx);
-+
-+	lt8713sx_block_erase(lt8713sx);
-+
-+	if (lt8713sx->fw->size < FW_64K_SIZE) {
-+		ret = lt8713sx_write_data(lt8713sx, lt8713sx->fw_buffer, FW_64K_SIZE);
-+		if (ret < 0) {
-+			pr_err("Failed to write firmware data: %d\n", ret);
-+			return ret;
-+		}
-+	} else {
-+		ret = lt8713sx_write_data(lt8713sx, lt8713sx->fw_buffer, lt8713sx->fw->size);
-+		if (ret < 0) {
-+			pr_err("Failed to write firmware data: %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
-+	pr_debug("Write Data done.\n");
-+
-+	return 0;
-+}
-+
-+static int lt8713sx_firmware_update(struct lt8713sx *lt8713sx)
-+{
-+	int ret = 0;
-+
-+	mutex_lock(&lt8713sx->ocm_lock);
-+	lt8713sx_i2c_enable(lt8713sx);
-+
-+	ret = lt8713sx_prepare_firmware_data(lt8713sx);
-+	if (ret < 0) {
-+		pr_err("Failed to prepare firmware data: %d\n", ret);
-+		goto error;
-+	}
-+
-+	ret = lt8713sx_firmware_upgrade(lt8713sx);
-+	if (ret < 0) {
-+		pr_err("Upgrade failure.\n");
-+		goto error;
-+	} else {
-+		/* Validate CRC */
-+		lt8713sx_load_main_fw_to_sram(lt8713sx);
-+		lt8713sx_main_upgrade_result(lt8713sx);
-+		lt8713sx_wrdi(lt8713sx);
-+		lt8713sx_fifo_reset(lt8713sx);
-+		lt8713sx_bank_result_check(lt8713sx);
-+		lt8713sx_wrdi(lt8713sx);
-+	}
-+
-+error:
-+	lt8713sx_i2c_disable(lt8713sx);
-+	if (!ret)
-+		lt8713sx_reset(lt8713sx);
-+
-+	kfree(lt8713sx->fw_buffer);
-+	lt8713sx->fw_buffer = NULL;
-+
-+	if (lt8713sx->fw) {
-+		release_firmware(lt8713sx->fw);
-+		lt8713sx->fw = NULL;
-+	}
-+	mutex_unlock(&lt8713sx->ocm_lock);
-+
-+	return ret;
-+}
-+
-+static void lt8713sx_reset(struct lt8713sx *lt8713sx)
-+{
-+	pr_debug("reset bridge.\n");
-+	gpiod_set_value_cansleep(lt8713sx->reset_gpio, 1);
-+	msleep(20);
-+
-+	gpiod_set_value_cansleep(lt8713sx->reset_gpio, 0);
-+	msleep(20);
-+
-+	gpiod_set_value_cansleep(lt8713sx->reset_gpio, 1);
-+	msleep(20);
-+	pr_debug("reset done.\n");
-+}
-+
-+static int lt8713sx_regulator_init(struct lt8713sx *lt8713sx)
-+{
-+	int ret;
-+
-+	lt8713sx->supplies[0].supply = "vdd";
-+	lt8713sx->supplies[1].supply = "vcc";
-+
-+	ret = devm_regulator_bulk_get(lt8713sx->dev, 2, lt8713sx->supplies);
-+	if (ret < 0)
-+		return dev_err_probe(lt8713sx->dev, ret, "failed to get regulators\n");
-+
-+	ret = regulator_set_load(lt8713sx->supplies[0].consumer, 200000);
-+	if (ret < 0)
-+		return dev_err_probe(lt8713sx->dev, ret, "failed to set regulator load\n");
-+
-+	return 0;
-+}
-+
-+static int lt8713sx_regulator_enable(struct lt8713sx *lt8713sx)
-+{
-+	int ret;
-+
-+	ret = regulator_enable(lt8713sx->supplies[0].consumer);
-+	if (ret < 0)
-+		return dev_err_probe(lt8713sx->dev, ret, "failed to enable vdd regulator\n");
-+
-+	usleep_range(1000, 10000);
-+
-+	ret = regulator_enable(lt8713sx->supplies[1].consumer);
-+	if (ret < 0) {
-+		regulator_disable(lt8713sx->supplies[0].consumer);
-+		return dev_err_probe(lt8713sx->dev, ret, "failed to enable vcc regulator\n");
-+	}
-+	return 0;
-+}
-+
-+static int lt8713sx_gpio_init(struct lt8713sx *lt8713sx)
-+{
-+	struct device *dev = lt8713sx->dev;
-+
-+	lt8713sx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(lt8713sx->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(lt8713sx->reset_gpio),
-+				     "failed to acquire reset gpio\n");
-+
-+	/* power enable gpio */
-+	lt8713sx->enable_gpio = devm_gpiod_get_optional(dev, "enable", GPIOD_OUT_HIGH);
-+	if (IS_ERR(lt8713sx->enable_gpio))
-+		return dev_err_probe(dev, PTR_ERR(lt8713sx->enable_gpio),
-+				     "failed to acquire enable gpio\n");
-+	return 0;
-+}
-+
-+static ssize_t lt8713sx_firmware_store(struct device *dev,
-+				       struct device_attribute *attr,
-+				       const char *buf, size_t len)
-+{
-+	struct lt8713sx *lt8713sx = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = lt8713sx_firmware_update(lt8713sx);
-+	if (ret < 0)
-+		return ret;
-+	return len;
-+}
-+
-+static DEVICE_ATTR_WO(lt8713sx_firmware);
-+
-+static struct attribute *lt8713sx_attrs[] = {
-+	&dev_attr_lt8713sx_firmware.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group lt8713sx_attr_group = {
-+	.attrs = lt8713sx_attrs,
-+};
-+
-+static const struct attribute_group *lt8713sx_attr_groups[] = {
-+	&lt8713sx_attr_group,
-+	NULL,
-+};
-+
-+static int lt8713sx_probe(struct i2c_client *client)
-+{
-+	struct lt8713sx *lt8713sx;
-+	struct device *dev = &client->dev;
-+	int ret;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
-+		return dev_err_probe(dev, -ENODEV, "device doesn't support I2C\n");
-+
-+	lt8713sx = devm_kzalloc(dev, sizeof(*lt8713sx), GFP_KERNEL);
-+	if (!lt8713sx)
-+		return dev_err_probe(dev, -ENOMEM, "failed to allocate lt8713sx struct\n");
-+
-+	lt8713sx->dev = dev;
-+	lt8713sx->client = client;
-+	i2c_set_clientdata(client, lt8713sx);
-+
-+	mutex_init(&lt8713sx->ocm_lock);
-+
-+	lt8713sx->regmap = devm_regmap_init_i2c(client, &lt8713sx_regmap_config);
-+	if (IS_ERR(lt8713sx->regmap))
-+		return dev_err_probe(dev, PTR_ERR(lt8713sx->regmap), "regmap i2c init failed\n");
-+
-+	ret = lt8713sx_gpio_init(lt8713sx);
-+	if (ret < 0)
-+		goto err_of_put;
-+
-+	ret = lt8713sx_regulator_init(lt8713sx);
-+	if (ret < 0)
-+		goto err_of_put;
-+
-+	ret = lt8713sx_regulator_enable(lt8713sx);
-+	if (ret)
-+		goto err_of_put;
-+
-+	lt8713sx_reset(lt8713sx);
-+
-+	return 0;
-+
-+err_of_put:
-+	return ret;
-+}
-+
-+static void lt8713sx_remove(struct i2c_client *client)
-+{
-+	struct lt8713sx *lt8713sx = i2c_get_clientdata(client);
-+
-+	mutex_destroy(&lt8713sx->ocm_lock);
-+
-+	regulator_bulk_disable(ARRAY_SIZE(lt8713sx->supplies), lt8713sx->supplies);
-+}
-+
-+static struct i2c_device_id lt8713sx_id[] = {
-+	{ "lontium,lt8713sx", 0 },
-+	{ /* sentinel */ }
-+};
-+
-+static const struct of_device_id lt8713sx_match_table[] = {
-+	{ .compatible = "lontium,lt8713sx" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, lt8713sx_match_table);
-+
-+static struct i2c_driver lt8713sx_driver = {
-+	.driver = {
-+		.name = "lt8713sx",
-+		.of_match_table = lt8713sx_match_table,
-+		.dev_groups = lt8713sx_attr_groups,
-+	},
-+	.probe = lt8713sx_probe,
-+	.remove = lt8713sx_remove,
-+	.id_table = lt8713sx_id,
-+};
-+
-+module_i2c_driver(lt8713sx_driver);
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("lt8713sx drm bridge driver");
-+MODULE_AUTHOR("Tony <syyang@lontium.com>");
-+MODULE_FIRMWARE(FW_FILE);
+Thanks for the review, yes will update the sequence of patch and move 
+this after patch 2 and also will add fixes patch.
 
--- 
-2.34.1
+Regards,
+Hari
+>> Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
+>> ---
+>>   .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 23 +++++++++++++++++++
+>>   1 file changed, 23 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> index 06ac5c2ee78f..120eb7ffe20c 100644
+>> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
+>> @@ -1962,6 +1962,10 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
+>>   {
+>>   	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+>>   	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+>> +	struct drm_connector_state *old_state, *new_state;
+>> +	struct drm_atomic_state *state = crtc_state->state;
+>> +	struct drm_connector *conn = mhdp->connector;
+>> +	u64 old_cp, new_cp;
+>>   
+>>   	mutex_lock(&mhdp->link_mutex);
+>>   
+>> @@ -1981,6 +1985,25 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
+>>   	if (mhdp->info)
+>>   		bridge_state->input_bus_cfg.flags = *mhdp->info->input_bus_flags;
+>>   
+>> +	if (conn && mhdp->hdcp_supported) {
+>> +		old_state = drm_atomic_get_old_connector_state(state, conn);
+>> +		new_state = drm_atomic_get_new_connector_state(state, conn);
+>> +		old_cp = old_state->content_protection;
+>> +		new_cp = new_state->content_protection;
+>> +
+>> +		if (old_state->hdcp_content_type != new_state->hdcp_content_type &&
+>> +		    new_cp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+>> +			new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
+>> +			crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
+>> +			crtc_state->mode_changed = true;
+>> +		}
+>> +
+>> +		if (!new_state->crtc) {
+>> +			if (old_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED)
+>> +				new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
+>> +		}
+>> +	}
+>> +
+>>   	mutex_unlock(&mhdp->link_mutex);
+>>   	return 0;
+>>   }
+> 
 
