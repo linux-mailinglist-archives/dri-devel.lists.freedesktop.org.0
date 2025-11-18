@@ -2,50 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FCFFC69151
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 12:30:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2A2C69157
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 12:30:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13D0A89CA4;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5653410E050;
 	Tue, 18 Nov 2025 11:30:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MDG2XqwH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vF07eux9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BE5B89CA4
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 11:30:44 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 088DD89CA4
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 11:30:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B08BD43A2A;
- Tue, 18 Nov 2025 11:30:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E4197C2BC87;
+ by tor.source.kernel.org (Postfix) with ESMTP id 27C2E60628;
+ Tue, 18 Nov 2025 11:30:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E5FF4C2BCB3;
  Tue, 18 Nov 2025 11:30:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1763465443;
- bh=tWnNYvYQRDsGGxSuDn/MWDrGcftRyl+P4vR4eD0JmvI=;
- h=From:Subject:Date:To:Cc:Reply-To:From;
- b=MDG2XqwHNLnqAMMxNhqX481Ozin7fyJnbvBMDJenJ7SdbkTw+RjGnj5bL34T7NSAC
- 1OJaaQJrA5C2DGhjtFaZtavOM+CLJAjgNNcFWVU1REvCXrC/RDN1inqagjd/iMBowc
- OlX3SLAJIU2COR/KHw2DsR2mx6J7MY2Okb0w3iYRLw8PoRPTL6QcAiKwjFCrVX+szW
- CUEs+wBsXrHd93/p3bbdtqA/TKnV/teNRb58+fCK0r47PbQN3piUY3cRE0cn9IYHEJ
- hPTqw4vn2Gk1SEJFpr9CKxkaXlZWwVL6zaFZfiMxc+sfNSAy95GGWeJImKufP1zU6E
- mKrqcMLEZFSkg==
+ bh=8aOZFPFTflbkscTIWZBhClsCIM9o4GWwmg9TXIcb2zo=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+ b=vF07eux9XSkZyvK3eQT+j/eZXoJ7u7Fae4jVybT32sur0SIsn+LhDrO2AYebJKZ8u
+ rxp+zwOivtzKfMCNL1h5Xb075mT00+liIrsM6XTT/sdXr/ZVPhuJGa5xVjLfe/b0ui
+ wGci7/tRJV1yL4BON0vLJOyhK3Unht0XCXqr5USnfvYI3cxTgMyHv1ie7lHLAmME/5
+ ampT5RBFWb1oSuUB+xFBELQTahkxzdZ+RuACGt3bjJMdkho6Jl1YtN1S7994rxwFGy
+ k33r9Lgl0HL1q3Lagn9iwZR6Gl/r/dmraK9suoTuX8W4uY1afNP5Ti0IvEcpIgK423
+ ejnqOoToAaHYA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 8FAEACED61E;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id A1F39CED620;
  Tue, 18 Nov 2025 11:30:42 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Subject: [PATCH v3 0/8] Add support for Pixel 3 and Pixel 3 XL
-Date: Tue, 18 Nov 2025 12:30:35 +0100
-Message-Id: <20251118-pixel-3-v3-0-317a2b400d8a@ixit.cz>
+Date: Tue, 18 Nov 2025 12:30:36 +0100
+Subject: [PATCH v3 1/8] dt-bindings: arm: qcom: Add Pixel 3 and 3 XL
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANtYHGkC/02Pyw6CMBBFf8V0bc20pTxc+R/GBbSDTGIAW2xQw
- r9b0IjLOzPn5M7EPDpCz467iTkM5KlrY1D7HTNN2V6Rk42ZSZAaElHwnka8ccW1EGiNLJMUMha
- ve4d1XC2m8yXmhvzQuecqDmKZrg4BoH+OIDjwssqrXNepUKo+0UjDwbzYYgjyj1KwUTJSuSmtr
- RAyaYqNmj9FHN4f8ZPh22ae38+XzMXnAAAA
-X-Change-ID: 20250419-pixel-3-511edc2a4607
+Message-Id: <20251118-pixel-3-v3-1-317a2b400d8a@ixit.cz>
+References: <20251118-pixel-3-v3-0-317a2b400d8a@ixit.cz>
+In-Reply-To: <20251118-pixel-3-v3-0-317a2b400d8a@ixit.cz>
 To: Bjorn Andersson <andersson@kernel.org>, 
  Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -59,25 +56,23 @@ To: Bjorn Andersson <andersson@kernel.org>,
 Cc: phodina@protonmail.com, linux-arm-msm@vger.kernel.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  phone-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- David Heidelberg <david@ixit.cz>, Amit Pundir <amit.pundir@linaro.org>, 
- Casey Connolly <casey@connolly.tech>, Joel Selvaraj <foss@joelselvaraj.com>, 
- Vinod Koul <vkoul@kernel.org>, Bjorn Andersson <andersson@kernel.org>
+ David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3670; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=716; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=tWnNYvYQRDsGGxSuDn/MWDrGcftRyl+P4vR4eD0JmvI=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpHFjg+z2KM7Ixt9O1Fd1uwPNNs4KTdFRA5lbt0
- itZnamnsUGJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaRxY4AAKCRBgAj/E00kg
- cgiuEACFpKLhluE0HMUuoXRR78KqEyHJEmsKa0DDyyX53skNLLjJBPebBafR9vmO8BCKXuDIeBY
- J78omfidybBS27HCy//CKzIRXeGiGwIwWy2bpO2yqAi2lUio5H0zeZ1B4qkJTDu1aw/3GvQWFnE
- bdBc4THVllBXTdOZzD0x2HStfldBWlWIYVTIUvsuavMMWxUJTneZeeIncmcEGEek5lPPLl0aB0X
- lKwPpe8BTLX+fgFN+j6tz5kzJCL8mostUi6PWLaNuKy03MdsIG9EHSOB4EWJ2cQ32LSZUGNiY58
- l3HilOURssxcYlgFGHoWJA2579JAeVgd2gXGAlt7n0IV+XFDN61hdZShnY5Ffw9lkdOIaIk2j6y
- VSlBNZnbAZeXYA4ayoHOtTXK+k/3HQk+vBu8lwbss1vmYoIyRr7mgfrceBotMrOo4oMaLbdr+jB
- uSUi1szWqvyGsEtw8UbWt0Hcu4cEmbZz9tq4HL50eSCIeTjj8e/E9FHeA709gEcTL64h6ewioMF
- ihz8DvZGSbjMlCCa6g0A2K71CuRcjLgMvKcO43JOLK6OdCIWT2aLmF1c2HBFnHwu+yjUJQoDIeD
- qlHjjrpz+Yc3MGGqoqT7S8FYMxF2G8VJlLvjKekH6IpytPy2aA7ya7A1Y5YJe0T0IDjL8Mp/o5P
- ihfeEif4G3ttvfg==
+ bh=DlXm2VUp7Ijt8uTzaBaBxliSbXJ4DoxMqfa5a4LztB0=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpHFjg6F+JThpLkjMmprBjtyfG75J8RRGnB/rUx
+ kGMqVGVXCiJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaRxY4AAKCRBgAj/E00kg
+ cpqHEACHSQC5WpfNbxcU5X0hYKyjt7Ul+jRuZeBhkzzz6XKwM4qYp+xE4v0ETdr3CZ8Z06hW/tn
+ cwS75DfyP78LRQ8qAbiM8/3fmqpJ1yzuZZEjnSiSfCfwS5pCzT2a1ZoIJOKpxUeviavE5tVsmTO
+ pI5U5sYc2qosloveYRFK3AzsQ4R/56nLBmNDmWYC3WBzY6jhi4Uaj2kC2B6RDuqTJ6UedZNH4KS
+ AnZrFssyGnmNt+XYUKUM7V/tVDT3PwqfL0Py43jN1IEHIK4WDRa6sLNDKt5RyVPe+5XetpyshOe
+ xNZ+Z0fewLYMvRBHp/j3tcT1xB7QARyV133q1kZoKY+29SKPQXEd9u1oW+aLDAXKfNvcx6L1r2B
+ WLiGT0Qr9O4rxf/HOc0qg3tWtQo6m8l8JeYnyx133IQAyDb5Bj6fA1tEeWXG91OKBz6AuM6q4FE
+ Bhd2YGrIlehIdH0Ot9R2mLwIOPYK64JzTKzKPu3pGRiH7pYKpZZ9T6rrQdAIyetpzOu6njtNXKO
+ A3IhcOnDM4U3xwGes4nP45NIU4/8tyGX9ctKvmGS5QaHwiEFccmaOiXM8dhqiKa7cD+aK7V/ErR
+ MY6jjpVcCzillKZmqMBc+Gd+giJGB12InEkPkmRyGDZiCKJl2yHphsRMvV/o2SeOigxGeHKxax3
+ i19bGPqfvX54HxQ==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -98,96 +93,30 @@ Reply-To: david@ixit.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds initial device tree support for the following phones:
+From: David Heidelberg <david@ixit.cz>
 
- - Google Pixel 3 (blueline)
- - Google Pixel 3 XL (crosshatch)
-
-Both phone boards use the same identifiers and differ only slightly
-in their connected peripherals.
-
-This is mainly focused to get the base functionality of the board and
-being able to use the upstream DTS within Linux and u-boot.
-
-Booting
--------
-For older Pixel 3 bootloaders, bootloader-compatible board and MSM IDs are
-required for the kernel to boot, so these have been added.
-
-For recent Pixel 3 bootloaders,
-a) you want chainloaded proper bootloader (f.e. u-boot),
-b) you can also boot kernel when adding back TEXT_OFFSET
-   (partial revert of 120dc60d).
-
-This series is a beggining of cleaning up and transitioning support from
-sdm845 close to mainline tree to the mainline.
-
-Until merged, available at:
-  https://gitlab.com/sdm845/sdm845-next/-/commits/b4/pixel-3
-
-Depends on:
-- "[PATCH 0/7] arm64: dts: qcom: cleanup GPU's zap-shader node" series.
+Document the bindings for the Pixel 3 and 3 XL.
 
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
-Changes in v3:
-- dropped Documentaion: prefix from 1st commit (Krzysztof)
-- extended the compatible for panel driver
-- Document reserved GPIOs.
-- Drop some useless statuses, sort pinctrl. (Konrad)
-- Link to v2: https://lore.kernel.org/r/20251030-pixel-3-v2-0-8caddbe072c9@ixit.cz
+ Documentation/devicetree/bindings/arm/qcom.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Changes in v2:
-- rebased on next-20251030
-- generalize chosen to -common (Dmitry)
-- demystify rmtfs_mem qcom,vmid
-- use qcom,use-guard-pages instead of lower/upper guard block
-- merge port@1 endpoint into label mdss_dsi0_out
-- sort pinctrl
-- sorted the nodes inside root
-- put status as a last property into mdss_dsi0 block
-- rename volume-keys to gpio-keys   
-- removed LS-UART1 label
-- removed gmu block, already enabled
-- removed accidentally introduced WIP crosshatch panel support
-- removed useless panel_pmgpio_pins (Dmitry)
-- removed usb_2 as it's unused on production units (only devkit)
-- move mdss node into the -common and disable in crosshatch (Dmitry)
-- move battery node into the -commonm
-- move framebuffer into the -common (Dmitry)
-- add all firmwares (Dmitry)
-- add Wi-Fi support
-- add Bluetooth support
-- add missing gpi_dma1 node
-- renamed regulators to follow regulator-foo-bar BCP (Dmitry)
-- adapt to recent cleanup GPU's zap-shader node
-- Link to v1: https://lore.kernel.org/r/20251005-pixel-3-v1-0-ab8b85f6133f@ixit.cz
+diff --git a/Documentation/devicetree/bindings/arm/qcom.yaml b/Documentation/devicetree/bindings/arm/qcom.yaml
+index d84bd3bca2010..760b6633b7a55 100644
+--- a/Documentation/devicetree/bindings/arm/qcom.yaml
++++ b/Documentation/devicetree/bindings/arm/qcom.yaml
+@@ -900,6 +900,8 @@ properties:
+ 
+       - items:
+           - enum:
++              - google,blueline
++              - google,crosshatch
+               - huawei,planck
+               - lenovo,yoga-c630
+               - lg,judyln
 
----
-David Heidelberg (8):
-      dt-bindings: arm: qcom: Add Pixel 3 and 3 XL
-      dt-bindings: panel: sw43408: adjust to reflect the DDIC and panel used
-      drm/panel: sw43408: Introduce LH546WF1-ED01 panel compatible
-      drm/panel: sw43408: Introduce disable/enable functions
-      drm/panel: sw43408: Remove manual invocation of unprepare at remove
-      drm/panel: sw43408: Switch to devm_regulator_bulk_get_const
-      drm/panel: sw43408: Improve wording when reset-gpios aren't available
-      arm64: dts: qcom: Add support for Pixel 3 and Pixel 3 XL
-
- Documentation/devicetree/bindings/arm/qcom.yaml    |   2 +
- .../bindings/display/panel/lg,sw43408.yaml         |  11 +-
- arch/arm64/boot/dts/qcom/Makefile                  |   2 +
- .../arm64/boot/dts/qcom/sdm845-google-blueline.dts |  88 ++++
- arch/arm64/boot/dts/qcom/sdm845-google-common.dtsi | 515 +++++++++++++++++++++
- .../boot/dts/qcom/sdm845-google-crosshatch.dts     |  33 ++
- drivers/gpu/drm/panel/panel-lg-sw43408.c           | 123 +++--
- 7 files changed, 721 insertions(+), 53 deletions(-)
----
-base-commit: ace0e2ec8bedd82f153e51c5d8d36ed3cb181e69
-change-id: 20250419-pixel-3-511edc2a4607
-
-Best regards,
 -- 
-David Heidelberg <david@ixit.cz>
+2.51.0
 
 
