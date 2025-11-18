@@ -2,91 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A472C6A719
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 16:56:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA21C6A7B8
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 17:03:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2355010E4ED;
-	Tue, 18 Nov 2025 15:56:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF7E210E4F0;
+	Tue, 18 Nov 2025 16:03:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UFKTkVzq";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="fUNccxNC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3D6010E4E8
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:56:27 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-297e2736308so5498555ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 07:56:27 -0800 (PST)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68A7210E4EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 16:03:52 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-477619f8ae5so38158155e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 08:03:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763481387; x=1764086187; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=M5WRdUpA2CUE7aS1AisvjTy+gobCtbtissttVLsKK2w=;
- b=UFKTkVzqPQt/WCVkZPaYByLl5H9lw2HKN47ppcn3/XRjaR04R/54y3ptII6K+TFO72
- qP44vOcl3E7imXYMObr/5KY4UQSsBOlwiRBleD9Vb03FogB86dhYafQ4e9qm33/Jfz8R
- HLTF9Nb+5Z5mJabK5onq6ZYarQC2iaPeXA13ea/SuXsRmPBKoCXuas5LSxu8Pj+6FZM5
- 4M5JkssqucrxyBs101wyqimn9xdkOfZVIeIx6HSUmrZMaQKHATbUt2xHMrxhaw4dvSm1
- SsJ6XDocJWngLh3CFYd+nnZ/EjvxtCTFyXXu4QGjoSTLrLrY9grepxZ50Ge8kph7UNRN
- jEFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763481387; x=1764086187;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ d=ursulin.net; s=google; t=1763481831; x=1764086631; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
  :to:cc:subject:date:message-id:reply-to;
- bh=M5WRdUpA2CUE7aS1AisvjTy+gobCtbtissttVLsKK2w=;
- b=FNFBTLQFdDGzriu5oPm555Jb3eEzHaYJyqyCiBf2W84mg7EW2G9fU942N35ZF23bpk
- EIeW/abRZpE00x5GEMDWn9m/JUtia7MduKa+fLZ+PonaohXNoZRKdS3k8Y5uRdLXOMzU
- kspAE5Fycv3fXRhlZhq5uWjASx7tCgQhnUWqxtHKY/ZlGDeEJf/qwzmHEf0SvcqmJWSx
- 4M929yfwH0ilsMLUMxW41MdFeMwLi+IMb8RZCoMhOpZfmFQnxg1eGCJZgF5OehzmzJUV
- 2FQs2VQSu5SGfkVlKHgHzCO3GPaGIkMPgqixAW78nKTtTSfP8J8RXSMWvIm+NqafKAFp
- P7Tw==
+ bh=NPy7MtRGfLlvM770xBVrc8IbPL912/1L/AULTvqcMyg=;
+ b=fUNccxNCDfvOexIOEQ+5uB/HfaSEOPW1K+S0LBe+aoJRYL/dmrhLA9TS68EcU3iYrg
+ ocSOOByfG1PC+6Yt/CeMKZ7JjjZiOVE+2nx4e7ikTqChfzxmVtA+lynlkzR2bNVE2nvk
+ vFfa0Uhd5sMgyCq4RaUNehKv2Qbu1kG6eMWmNcNfFPbfAW1yLc3dsS1HKDy377G1DoK2
+ T/JfdKbT9heEwgFa5VoGWbZwQ4BQPAZz5bVA7csdf6oQ2V/YwZ5ah/nOiIHyqR8YAUvB
+ Kj3MpwTnQOVq60LaWSW2KYan1Dg7c1UlH2APFgHdH09RxsEOHYceQTiMPdWII9Gh65j6
+ Kp9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763481831; x=1764086631;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=NPy7MtRGfLlvM770xBVrc8IbPL912/1L/AULTvqcMyg=;
+ b=FauaxhwH9kg6D64olQBIo1NNkB49Vc3j/yI6ZWt7mCMZUPpSrCAQagrw68KahM69A8
+ XIRH3EgBr1If1hRkjhxeX74f97EaMm48Mf7XADoGXRAiLy7C5rEw1TKmUiLAMujl6ip6
+ YMDTdc7oUYqR0T5SaBBk48EipUG8bTMldPiA7q1S3Cq+K7qMjjTPoSl/RdRDZl0Rk+aV
+ 4SbTMEHozZbz4xRCCJZo4ZOuTBVMd4TA4QY4xtcqwM0yJU0fi8uVu0IZmETgqdMh43Ik
+ I839QVpjeFbkLaVq15piRb7xMYDP5CveeevMImDljf1M653wNl6wPoqMBR8230wn/its
+ xUOA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU2D1CZUxJhEmmKd2gg4g8jqGzC9P+v8qU1ty4nA3YsNWryIk/E37jnpi0fAbVSuzTyEkXNuhTOTS4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzMSbr1TEWgMxaCyuNQw1zLAoG4BXcipjdBj2eVA58epv8oLkPe
- zC0atvG5ZwIbMPXbuphVtcSI1NHUK6Nj1M8eMS+y5TvloQXc2nZz6mEpZoHM4MdZq04dgzLuyGf
- aJP5DRNnFYsZ1TLNgJsTgbhlXUueHHUU=
-X-Gm-Gg: ASbGnctN8LjwQ/lEcYWgueBcFMCUWFtWhca2/ZYoGv1+PP0wUDBSWBP02skopBLQL+r
- 4j8Hk0IKqNphp/bvzJv+fz05DvrbGjOzyZGJ6fWoIbhGJLdH78l+fA+L7E1GnuuLP0VnJ6aKscL
- jXsZ1x0YrVr8tEfnSs1X+/bn4zpwrrnKVnEImKlwA3d3LnuzjxdQC6m4uCa/iTz+su4vXN4Xqt+
- sjV+rHa5ZCSdNcNdjVsGqwGp9I0YB4z3Q3YTOhxRbuHMRmmMn3bHZzN/1xNPPsIqiILGtu47oRc
- WADnPS5HOKbu9dg1
-X-Google-Smtp-Source: AGHT+IE8t1o/EHIJG7uVd/X+qmNh/IfoMFCfRZRkp7Xo8e8ghyzgHnHIC3pizFSaKdc3W9ZzA4z9Bd0F68Sq2swtnFU=
-X-Received: by 2002:a17:90b:1b01:b0:341:b5a2:3e78 with SMTP id
- 98e67ed59e1d1-343fa74f0bfmr9250914a91.3.1763481387271; Tue, 18 Nov 2025
- 07:56:27 -0800 (PST)
+ AJvYcCVxbH3/ClOHc+uEROh4tCA/Dev6qUcxsVQnfVk6iVaxCqiDzkT8eXubcHFd52NMB5b38Gsz97T0za4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz+BMzrJaiW7a/cL4zRtKJb8i6yodH9fvVlY2OkBd9Z7VZIJNY0
+ AzGB8Hv16QSitpjD0jvpBPgP12MNQgL+wRm6gkm2RjdQi/tmmuAh19LvyVz9qNb8Il8=
+X-Gm-Gg: ASbGncuxr5cY1WkLjhI3Zk+P0yhHJ7/rfUU0g0VjvXivJEVgKQzKKPwrQU89tsrtQO/
+ WxrF7tJDfQwsuFvU9Okd7DKKCK1C1+CmBZnICM0ZBI0OZvnLILKRVvP/GV/tNQQoiflFCmQOxoT
+ YmqRC8n4i0XsGRWVWVaQpoDYC48nVCEawEwlZKh06vdMuFSq2DrMRtyXQjc5iu16T0Rox81Se4q
+ 6HWh5ZmWcTFlFmMMn1u6bBy2Up2OaK7gOpX16E9ZBCdmskI8o1c7F6qlcbFUuFjaaKaLXZLJvFp
+ k0R/0HW1Xl4hgpzpYBKo3H39Jj82QbmjlMkbyHCAEaytE+i/2409tudTETosxoPMWvSYQkZjU2N
+ gZTzhwlueeADHMmuU3oZEMy3W4iN1EvuhXXq5J8jGRU7ieSiaGzvDisODoP8gaeBk5S8HrN/qsO
+ BDaEDB4STyrqbMIOLg1yNgzHrv+8u0MGUm
+X-Google-Smtp-Source: AGHT+IGysRbMzbECL6E+MizQEQGrtqhmQyxOI0y7D4OkZygIod9v97e1L6AKbj5saKClh+dNolGEFw==
+X-Received: by 2002:a05:600c:4695:b0:477:63b4:ef7a with SMTP id
+ 5b1f17b1804b1-4778feaa8a1mr139503735e9.20.1763481830363; 
+ Tue, 18 Nov 2025 08:03:50 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-477a973390csm20979025e9.4.2025.11.18.08.03.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 18 Nov 2025 08:03:49 -0800 (PST)
+Message-ID: <ed7595b4-b6e4-4a7f-ad35-e3a3cf063e72@ursulin.net>
+Date: Tue, 18 Nov 2025 16:03:48 +0000
 MIME-Version: 1.0
-References: <20251118-kaana-gpu-support-v4-0-86eeb8e93fb6@oss.qualcomm.com>
- <20251118-kaana-gpu-support-v4-15-86eeb8e93fb6@oss.qualcomm.com>
-In-Reply-To: <20251118-kaana-gpu-support-v4-15-86eeb8e93fb6@oss.qualcomm.com>
-From: Connor Abbott <cwabbott0@gmail.com>
-Date: Tue, 18 Nov 2025 10:56:16 -0500
-X-Gm-Features: AWmQ_bmdki1r5-87hufvE1VD2aBWZ9nuG-r_2OiqIAnZ7-v6leUi15c6-xeP3Cc
-Message-ID: <CACu1E7HzsnSjz0SiUJT0SMNJ7cFhiNdtUE9jKHpvD3UzG6EegQ@mail.gmail.com>
-Subject: Re: [PATCH v4 15/22] drm/msm/adreno: Support AQE engine
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Sean Paul <sean@poorly.run>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Marek <jonathan@marek.ca>, 
- Jordan Crouse <jordan@cosmicpenguin.net>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- iommu@lists.linux.dev, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/18] dma-buf: protected fence ops by RCU v3
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
+ matthew.brost@intel.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org
+References: <20251113145332.16805-1-christian.koenig@amd.com>
+ <20251113145332.16805-3-christian.koenig@amd.com>
+ <ef0f9459-6733-4e0a-9c06-c36c02e5a93c@ursulin.net>
+ <35d7ab6c-bd4d-4267-8ae1-2637d6c0f1ff@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <35d7ab6c-bd4d-4267-8ae1-2637d6c0f1ff@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,121 +98,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 18, 2025 at 3:53=E2=80=AFAM Akhil P Oommen <akhilpo@oss.qualcom=
-m.com> wrote:
->
-> AQE (Applicaton Qrisc Engine) is a dedicated core inside CP which aides
-> in Raytracing related workloads. Add support for loading the AQE firmware
-> and initialize the necessary registers.
->
-> Since AQE engine has dependency on preemption context records, expose
-> Raytracing support to userspace only when preemption is enabled.
 
-I guess the plan is to expose MSM_PARAM_AQE later once preemption
-records are in place and for now just load the firmware to ensure that
-people have it?
+On 18/11/2025 14:28, Christian König wrote:
+> On 11/14/25 11:50, Tvrtko Ursulin wrote:
+>>> @@ -569,12 +577,12 @@ void dma_fence_release(struct kref *kref)
+>>>            spin_unlock_irqrestore(fence->lock, flags);
+>>>        }
+>>>    -    rcu_read_unlock();
+>>> -
+>>> -    if (fence->ops->release)
+>>> -        fence->ops->release(fence);
+>>> +    ops = rcu_dereference(fence->ops);
+>>> +    if (ops->release)
+>>> +        ops->release(fence);
+>>>        else
+>>>            dma_fence_free(fence);
+>>> +    rcu_read_unlock();
+>>
+>> Risk being a spin lock in the release callback will trigger a warning on PREEMPT_RT. But at least the current code base does not have anything like that AFAICS so I guess it is okay.
+> 
+> I don't think that this is a problem. When PREEMPT_RT is enabled both RCU and spinlocks become preemptible.
+> 
+> So as far as I know it is perfectly valid to grab a spinlock under an rcu read side critical section.
 
-The interrupt error handling is still missing, but I guess that can be
-handled later if that's the plan.
+Looking at the source just now, I think it is possible I mixed it up 
+with preempt_disable()+spin_lock().
+>>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>>> index 64639e104110..77f07735f556 100644
+>>> --- a/include/linux/dma-fence.h
+>>> +++ b/include/linux/dma-fence.h
+>>> @@ -66,7 +66,7 @@ struct seq_file;
+>>>     */
+>>>    struct dma_fence {
+>>>        spinlock_t *lock;
+>>> -    const struct dma_fence_ops *ops;
+>>> +    const struct dma_fence_ops __rcu *ops;
+>>>        /*
+>>>         * We clear the callback list on kref_put so that by the time we
+>>>         * release the fence it is unused. No one should be adding to the
+>>> @@ -218,6 +218,10 @@ struct dma_fence_ops {
+>>>         * timed out. Can also return other error values on custom implementations,
+>>>         * which should be treated as if the fence is signaled. For example a hardware
+>>>         * lockup could be reported like that.
+>>> +     *
+>>> +     * Implementing this callback prevents the BO from detaching after
+>>
+>> s/BO/fence/
+>>
+>>> +     * signaling and so it is mandatory for the module providing the
+>>> +     * dma_fence_ops to stay loaded as long as the dma_fence exists.
+>>>         */
+>>>        signed long (*wait)(struct dma_fence *fence,
+>>>                    bool intr, signed long timeout);
+>>> @@ -229,6 +233,13 @@ struct dma_fence_ops {
+>>>         * Can be called from irq context.  This callback is optional. If it is
+>>>         * NULL, then dma_fence_free() is instead called as the default
+>>>         * implementation.
+>>> +     *
+>>> +     * Implementing this callback prevents the BO from detaching after
+>>
+>> Ditto.
+> 
+> Both fixed, thanks.
+> 
+>>
+>>> +     * signaling and so it is mandatory for the module providing the
+>>> +     * dma_fence_ops to stay loaded as long as the dma_fence exists.
+>>> +     *
+>>> +     * If the callback is implemented the memory backing the dma_fence
+>>> +     * object must be freed RCU safe.
+>>>         */
+>>>        void (*release)(struct dma_fence *fence);
+>>>    @@ -418,13 +429,19 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence);
+>>>    static inline bool
+>>>    dma_fence_is_signaled_locked(struct dma_fence *fence)
+>>>    {
+>>> +    const struct dma_fence_ops *ops;
+>>> +
+>>>        if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>>            return true;
+>>>    -    if (fence->ops->signaled && fence->ops->signaled(fence)) {
+>>> +    rcu_read_lock();
+>>> +    ops = rcu_dereference(fence->ops);
+>>> +    if (ops->signaled && ops->signaled(fence)) {
+>>> +        rcu_read_unlock();
+>>>            dma_fence_signal_locked(fence);
+>>>            return true;
+>>>        }
+>>> +    rcu_read_unlock();
+>>>          return false;
+>>>    }
+>>> @@ -448,13 +465,19 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+>>>    static inline bool
+>>>    dma_fence_is_signaled(struct dma_fence *fence)
+>>>    {
+>>> +    const struct dma_fence_ops *ops;
+>>> +
+>>>        if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>>            return true;
+>>>    -    if (fence->ops->signaled && fence->ops->signaled(fence)) {
+>>> +    rcu_read_lock();
+>>> +    ops = rcu_dereference(fence->ops);
+>>> +    if (ops->signaled && ops->signaled(fence)) {
+>>> +        rcu_read_unlock();
+>>
+>> With the unlocked version two threads could race and one could make the fence->lock go away just around here, before the dma_fence_signal below will take it. It seems it is only safe to rcu_read_unlock before signaling if using the embedded fence (later in the series). Can you think of a downside to holding the rcu read lock to after signaling? that would make it safe I think.
+> 
+> Well it's good to talk about it but I think that it is not necessary to protect the lock in this particular case.
+> 
+> See the RCU protection is only for the fence->ops pointer, but the lock can be taken way after the fence is already signaled.
+> 
+> That's why I came up with the patch to move the lock into the fence in the first place.
 
-Connor
+Right. And you think there is nothing to gain with the option of keeping 
+the rcu_read_unlock() to after signalling? Ie. why not plug a potential 
+race if we can for no negative effect.
 
->
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c   | 22 ++++++++++++++++++++++
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h   |  2 ++
->  drivers/gpu/drm/msm/adreno/a8xx_gpu.c   |  3 +++
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h |  1 +
->  4 files changed, 28 insertions(+)
->
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/=
-adreno/a6xx_gpu.c
-> index 810b64b909f5..9a643bcccdcf 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -1118,6 +1118,23 @@ static int a6xx_ucode_load(struct msm_gpu *gpu)
->                 }
->         }
->
-> +       if (!a6xx_gpu->aqe_bo && adreno_gpu->fw[ADRENO_FW_AQE]) {
-> +               a6xx_gpu->aqe_bo =3D adreno_fw_create_bo(gpu,
-> +                       adreno_gpu->fw[ADRENO_FW_AQE], &a6xx_gpu->aqe_iov=
-a);
-> +
-> +               if (IS_ERR(a6xx_gpu->aqe_bo)) {
-> +                       int ret =3D PTR_ERR(a6xx_gpu->aqe_bo);
-> +
-> +                       a6xx_gpu->aqe_bo =3D NULL;
-> +                       DRM_DEV_ERROR(&gpu->pdev->dev,
-> +                               "Could not allocate AQE ucode: %d\n", ret=
-);
-> +
-> +                       return ret;
-> +               }
-> +
-> +               msm_gem_object_set_name(a6xx_gpu->aqe_bo, "aqefw");
-> +       }
-> +
->         /*
->          * Expanded APRIV and targets that support WHERE_AM_I both need a
->          * privileged buffer to store the RPTR shadow
-> @@ -2400,6 +2417,11 @@ static void a6xx_destroy(struct msm_gpu *gpu)
->                 drm_gem_object_put(a6xx_gpu->sqe_bo);
->         }
->
-> +       if (a6xx_gpu->aqe_bo) {
-> +               msm_gem_unpin_iova(a6xx_gpu->aqe_bo, gpu->vm);
-> +               drm_gem_object_put(a6xx_gpu->aqe_bo);
-> +       }
-> +
->         if (a6xx_gpu->shadow_bo) {
->                 msm_gem_unpin_iova(a6xx_gpu->shadow_bo, gpu->vm);
->                 drm_gem_object_put(a6xx_gpu->shadow_bo);
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/=
-adreno/a6xx_gpu.h
-> index e6218b0b9732..3a054fcdeb4a 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> @@ -59,6 +59,8 @@ struct a6xx_gpu {
->
->         struct drm_gem_object *sqe_bo;
->         uint64_t sqe_iova;
-> +       struct drm_gem_object *aqe_bo;
-> +       uint64_t aqe_iova;
->
->         struct msm_ringbuffer *cur_ring;
->         struct msm_ringbuffer *next_ring;
-> diff --git a/drivers/gpu/drm/msm/adreno/a8xx_gpu.c b/drivers/gpu/drm/msm/=
-adreno/a8xx_gpu.c
-> index c9cd7546024a..e011e80ceb50 100644
-> --- a/drivers/gpu/drm/msm/adreno/a8xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a8xx_gpu.c
-> @@ -627,6 +627,9 @@ static int hw_init(struct msm_gpu *gpu)
->                 goto out;
->
->         gpu_write64(gpu, REG_A8XX_CP_SQE_INSTR_BASE, a6xx_gpu->sqe_iova);
-> +       if (a6xx_gpu->aqe_iova)
-> +               gpu_write64(gpu, REG_A8XX_CP_AQE_INSTR_BASE_0, a6xx_gpu->=
-aqe_iova);
-> +
->         /* Set the ringbuffer address */
->         gpu_write64(gpu, REG_A6XX_CP_RB_BASE, gpu->rb[0]->iova);
->         gpu_write(gpu, REG_A6XX_CP_RB_CNTL, MSM_GPU_RB_CNTL_DEFAULT);
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/ms=
-m/adreno/adreno_gpu.h
-> index c496b63ffd41..0aca222c46bc 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> @@ -27,6 +27,7 @@ enum {
->         ADRENO_FW_PFP =3D 1,
->         ADRENO_FW_GMU =3D 1, /* a6xx */
->         ADRENO_FW_GPMU =3D 2,
-> +       ADRENO_FW_AQE =3D 3,
->         ADRENO_FW_MAX,
->  };
->
->
-> --
-> 2.51.0
->
+Regards,
+
+Tvrtko
+
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>            dma_fence_signal(fence);
+>>>            return true;
+>>>        }
+>>> +    rcu_read_unlock();
+>>>          return false;
+>>>    }
+>>
+> 
+
