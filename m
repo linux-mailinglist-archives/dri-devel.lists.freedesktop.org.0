@@ -2,86 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB18C6A517
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 16:32:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E50BC6A5F5
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 16:44:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 651A410E4E9;
-	Tue, 18 Nov 2025 15:32:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFEC510E4E5;
+	Tue, 18 Nov 2025 15:44:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="rBJUZfaA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WwXFqbf3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com
- [209.85.128.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B850810E4E9
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:32:09 +0000 (UTC)
-Received: by mail-yw1-f174.google.com with SMTP id
- 00721157ae682-787ff3f462bso64849107b3.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 07:32:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763479928; x=1764084728; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=IxHLXotX/VR/smtmuGtjLAN5l6lgr5iFZlYRIN9JEyQ=;
- b=rBJUZfaA2sForoLSZv8UfNoApeV3EPI01DeGS7Z0OG2O0/59xAFRFf4tLwjPb0kzDY
- Un21qTPj/+ObpTPpIWGSPXk4ROugMPZak7DYppjorto6y1PkxR4xsAdb24vj7kdI4OJn
- HCbMTp1bUUdBX1z24FJE1sgvW85/bwMKAuiiYK/jP7qUhtuwlJy3RyvcbykyzEcDvqYB
- IKGIHdSHf6r4NX79IW0B1lmCWUuAvGaybAumHPsk2H8NFEyb1Fr9IdU+YYvh5dsVEEhs
- 9io2RS4ry9icfdyHIfsY7ksBzQU8sptxSO/KukSUoXdAwOGkIiMAqUPqFENh8HYNU2EJ
- Gazg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763479928; x=1764084728;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IxHLXotX/VR/smtmuGtjLAN5l6lgr5iFZlYRIN9JEyQ=;
- b=uEnJLH6DMlRL1araHQ0UOVBghKcnN6XGn6utXztT5pBeUMlcEgLgiDPk+vGDLfyJ9x
- ZAQt/Lfh4zPQTrWI0l08Z02ZIaZrj575uAFq18ncpRKc35tKgBy/5DsCxojKeZvGtYs9
- +7CclLbjQbS1+Yt3S+SEq6acTbzDXpisDqaVOriBMHanTxSMl4baCIkzhY05QcXRjItA
- 84yoyvaMyD4HP82mkj1lQX6fbdttwWP3B9rfyF4p5ioV4JZW4lgvp1YkbLLyeP9JMq8a
- dEIThgXPCd0n2q0Vag/8YO0qnz+DTCCy251mkfhm4c+XltUTiyhj351e41ztB+MVao6f
- rDoA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVGmsro/XORben9Z4rFNqjVIWiF+xQ9kz1NvtszaHyCmhisZzq1D4iFXjOcu4f7Ymby6yQoHnUVNeo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyBk5z1riAWzLH6GF7CnOjGcmsMxzN50kMFlUjyhl8d7uHw1BlF
- nJaDheAv4OzO5C98omQkvdjyMCMjDIRlRmgsyCvL+7gDhLn/u6/rq/kE1C+2Bz0k11Vw3zfTn6g
- yHQX/vpcGWbrGXHqBicvWlp2OzzyZNjf59j7IPeuPUQ==
-X-Gm-Gg: ASbGncvnc+g9KOXsW6dsVqL75mnmGWV7qZnjYcYp2SCkawZgLJmZ/ZpYSrVxwQekikR
- rtS6CzO4zZLVJ0DwRNM+Y+jIcVso+WAuzrT5Gk15umNFBvqCi3hxCFvzMZ1IhUekhMO7Xc6Mi/G
- yKPc/Q39noyZu3Wj5Hl1jIaB6foYw0Oa5SlrkQZ6TGNRCAu/9idySXxpmQthuAfqfV+z/4J/Wm/
- d9VcKaoJI9BoFjnCS1t+iSUflPI/DOLqNT0pGfeyE+ARYmB88ONQtXV/dkNg/51NQKEIVMvsLH/
- 8n2+jnJ2GpgpDvl9PQ==
-X-Google-Smtp-Source: AGHT+IEc8GglvCIsD6cGrALsj9LLh6N+Jx7VKw+16XtXMLh8fZV72joZEMGSMeUR4bEuhwbV7IWYBeRgua2rFcuL8iQ=
-X-Received: by 2002:a05:690e:d86:b0:640:d597:4170 with SMTP id
- 956f58d0204a3-642132db3f6mr2565633d50.0.1763479928233; Tue, 18 Nov 2025
- 07:32:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20251115122120.35315-4-krzk@kernel.org>
- <20251115122120.35315-6-krzk@kernel.org>
-In-Reply-To: <20251115122120.35315-6-krzk@kernel.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 18 Nov 2025 16:31:32 +0100
-X-Gm-Features: AWmQ_bmXlb23IcHWwlaA2kdC6A8acUsbATP4k59c9PPxA0jX-7QbyyZj3x6u5n8
-Message-ID: <CAPDyKFpquaBo64eKvMPiCPdKrPkYc8fhpaOmFL9KN0UzFs0xkw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] dt-bindings: mmc: am654: Simplify dma-coherent
- property
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D90110E02C
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:44:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id DA611434FF;
+ Tue, 18 Nov 2025 15:44:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE8B7C116D0;
+ Tue, 18 Nov 2025 15:44:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763480651;
+ bh=fPMobCdaL0FOBplLcMBrhnDqTORQkIgrmqJMrXuIO2k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=WwXFqbf3G8hm+/Hj8BtHUHFguYbM/9cxbGPe39D/4i2azDjf13+V5Z5EwBHqExQIk
+ uCODL8v1HrEfc8QAD921ikF/MqxyBRTQ1w6XbK3ulD7WU0amFzvjpNJ+zW/G7muyJi
+ 9u24Kk6dyITjbgaIa/yX6t3GtLkaK4DWoeKvPW6jRj6JPqGw/GxEipSwo19k8Lh8uJ
+ 2p6lcuaTSs7ZrYgtu/5acJNbUvjhZiRwEImqQW15Xi1oselp+leq9BheD2qu6s5Ebh
+ 7yOEeMLN6pJLk2ffNwo/GBoO/oTem9ZP42HYgqPVw3uSk4Ryu9fWTgCbNO9MibgO1l
+ WZ7TgO3lTnaww==
+Date: Tue, 18 Nov 2025 16:44:07 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Vinod Koul <vkoul@kernel.org>, 
- Michal Simek <michal.simek@amd.com>, Michael Tretter <m.tretter@pengutronix.de>,
- Harini Katakam <harini.katakam@amd.com>,
- Shyam Pandey <radhey.shyam.pandey@amd.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mmc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
+Message-ID: <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
+References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
+ <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
+ <20251118150128.GB23711@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="egvq5gtiq3uff7un"
+Content-Disposition: inline
+In-Reply-To: <20251118150128.GB23711@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,38 +70,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 15 Nov 2025 at 13:21, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->
-> Common boolean properties need to be only allowed in the binding
-> (":true"), because their type is already defined by core DT schema.
-> Simplify dma-coherent property to match common syntax.
->
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Applied for next, thanks!
+--egvq5gtiq3uff7un
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
+MIME-Version: 1.0
 
-Kind regards
-Uffe
+On Tue, Nov 18, 2025 at 05:01:28PM +0200, Laurent Pinchart wrote:
+> Hi Linus,
+>=20
+> Thank you for the patch.
+>=20
+> On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
+> > This adds (yet another) variant of the
+> > drm_atomic_helper_commit_tail_crtc_early_late() helper function
+> > to deal with regressions caused by reordering the bridge
+> > prepare/enablement sequence.
+> >=20
+> > commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+> > "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+> > caused a series of regressions in all panels that send
+> > DSI commands in their .prepare() and .unprepare()
+> > callbacks.
+> >=20
+> > As the CRTC is no longer online at bridge_pre_enable()
+> > and gone at brige_post_disable() which maps to the panel
+> > bridge .prepare()/.unprepare() callbacks, any CRTC that
+> > enable/disable the DSI transmitter in it's enable/disable
+> > callbacks will be unable to send any DSI commands in the
+> > .prepare() and .unprepare() callbacks.
+> >=20
+> > However the MCDE driver definitely need the CRTC to be
+> > enabled during .prepare()/.unprepare().
+> >=20
+> > This patch from Marek Vasut:
+> > https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenes=
+as%40mailbox.org/
+> > solves part of the problem for drivers using custom
+> > tail functions, since MCDE is using helpers only, we
+> > add a new helper function that exploits the new
+> > drm_atomic_helper_commit_modeset_enables_crtc_early()
+> > and use that in MCDE.
+> >=20
+> > Link: https://lore.kernel.org/dri-devel/20251026-fix-mcde-drm-regressio=
+n-v2-0-8d799e488cf9@linaro.org/
+> > Link: https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2=
+Brenesas%40mailbox.org/
+> > Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enab=
+le and post-disable")
+> > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> > ---
+> >  drivers/gpu/drm/drm_atomic_helper.c | 35 +++++++++++++++++++++++++++++=
+++++++
+> >  drivers/gpu/drm/mcde/mcde_drv.c     |  6 ++++--
+> >  include/drm/drm_atomic_helper.h     |  1 +
+> >  3 files changed, 40 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_=
+atomic_helper.c
+> > index eb47883be153..23fa27f21c4e 100644
+> > --- a/drivers/gpu/drm/drm_atomic_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> > @@ -2005,6 +2005,41 @@ void drm_atomic_helper_commit_tail_rpm(struct dr=
+m_atomic_state *state)
+> >  }
+> >  EXPORT_SYMBOL(drm_atomic_helper_commit_tail_rpm);
+> > =20
+> > +/**
+> > + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic update
+>=20
+> Based on the function name, it feels that the nem commit tail and
+> modeset enable/disable helpers reached a point where we may want to
+> reconsider the design instead of adding new functions with small
+> differences in behaviour that will end up confusing driver developers.
 
+Agreed, and I'd go even further than that: we don't want every odd order
+in the core. And if some driver has to break the order we document in
+some way it should be very obvious.
 
-> ---
->  Documentation/devicetree/bindings/mmc/sdhci-am654.yaml | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml b/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml
-> index 676a74695389..242a3c6b925c 100644
-> --- a/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/sdhci-am654.yaml
-> @@ -50,8 +50,7 @@ properties:
->        - const: clk_ahb
->        - const: clk_xin
->
-> -  dma-coherent:
-> -    type: boolean
-> +  dma-coherent: true
->
->    # PHY output tap delays:
->    # Used to delay the data valid window and align it to the sampling clock.
-> --
-> 2.48.1
->
+If you have a single user for all these new helpers variants, you
+shouldn't be using the helpers at all. Go with a driver specific
+implementation.
+
+Maxime
+
+--egvq5gtiq3uff7un
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaRyUQgAKCRAnX84Zoj2+
+dnY5AX9iZHY/r2tVzkrfThZnjfOczM7NRxE5jEcho5iiWb9htyjQkGm/EovpA9Su
+VLbfXqgBgOZOpxB2C1cTz97QuQRbskUCkanBSs8nqjVeuq0QNyB9v7wb8vI4qkxP
+Jw8dHysUfQ==
+=2YbF
+-----END PGP SIGNATURE-----
+
+--egvq5gtiq3uff7un--
