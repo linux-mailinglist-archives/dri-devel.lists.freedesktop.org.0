@@ -2,120 +2,198 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A8DC6BF26
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 00:07:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3E9C6C0E8
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 00:56:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 694D910E543;
-	Tue, 18 Nov 2025 23:07:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D1EA10E00D;
+	Tue, 18 Nov 2025 23:56:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="U4d+rPDO";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="C6m1HCnz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="g3+vpR43";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8586810E205
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 23:07:03 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AIG3RdY3176704
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 23:07:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:message-id:mime-version:reply-to
- :subject:to; s=qcppdkim1; bh=F/3h8YHCsdho8aVvrfvugC36nylgn1evTxl
- 6ZxJO100=; b=U4d+rPDOzsbe8dltT8QMp03Nn2/t1kava2bH32bxra+3fYDWtDz
- hzC7AjIasF1TKUMiTlx41TXIrFWpsb7TxKPddz381LP6QnDzPe6kH1KV/tbGbqw6
- PrPiM943qmd4K7TTAr+dXJa3O20/mPN7tTjgFhkq22hB8v/uGDBEN1yYGP4mC3sj
- vEOrmdPnKMHnHCJs81jrXUZCJYJx96z6vabE7drGBB6kLh0lfDW29Kp8X0FlRcEZ
- cH45K0U+rewlfKdEQuO6jl7Xot0ryZZ7zRzngPKT27L28HaqXdFRtW3wMVlLLviO
- aq0hmbfD5P0l3iqXSBMRhmOom7Xe5JCGlTQ==
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4agv02166n-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 23:07:02 +0000 (GMT)
-Received: by mail-oa1-f69.google.com with SMTP id
- 586e51a60fabf-3e80c245742so10350116fac.0
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:07:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763507222; x=1764112022;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
- :subject:date:message-id:reply-to;
- bh=F/3h8YHCsdho8aVvrfvugC36nylgn1evTxl6ZxJO100=;
- b=C6m1HCnzjzdct2MWhhqVTK69PzkYospbiN7TmH8OY4g0QaR6xoSQHs3FpONLsbrqnU
- B/ZOK/mgsdoJXYK4JH7orvrVuu5t4qicWe+mqM0pgMyQsdZq7e3Qe5HvtS89WS3K+eMu
- 6Kx+sbT7DN5b1gCGeUXYQw6Y11/HWqgh6x91B8U9NU7w5TNycS7yMpfbPfF+0JYRAXiK
- 7lT4nniN6rOnLNfujsoh7QEV5YJDO5/YOGDFyNLTANtMOjnerXttTGuBP04PDcMKmBl4
- Xzoj2AGr4q7BNYNPmwTGhrnpUlgx1NMk7FTjV7jJNLRruMBrH+3IGraURi4b480dCweH
- zA+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763507222; x=1764112022;
- h=cc:to:subject:message-id:date:from:reply-to:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=F/3h8YHCsdho8aVvrfvugC36nylgn1evTxl6ZxJO100=;
- b=bIPkBHA+6P4xzsuzF2N9FrD4tbM+Cpxw48WTABiP10WGPeTS9RBkazyL1cPvLAvnsh
- 7baDnuPJ+zlP3VrWzvSVkCutt7XDjwYLoBKYBP7WVnzVBDrqQ8ZKxw/wjlvXNYLrkbq9
- 29PDxV/Jv3PdEhyZSjBnoaFuZ/vKWrdkMaOxD2DYnXB3rdpqL7zI1pDAdLFEzlqoWUoI
- NRe94x1b2Y1YrSQKKpvTIUsnZ9LOXoUNC1us1FLUQ0ZXnRn3bfxgohZq0IBREsJKIKLZ
- aDns8ycfBKuTqO1hxrpZkIvMlTLcWBPnz91G7q8v1JWJpEvgpxb/VghdM4pocWUgcoTb
- iOgA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXBKd9XQcFlpHREZbqOoizh30+l3lnPu5FlgTqP48ztivZ3DGY8tShokwY53a1o6KqDeg/OSeD/9x0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwEmzxlIWl6Dwmu50yb/rgMNcyMsVPmw1AGycHphO5UnA4FmnVC
- EeoSrlfRMPUUoqX3Hxmmtf/azOQdNgGcMBnMOiEKdsxYMV/oVNvRKNtOTEzFV0PL6BBB9HWURe/
- 4lrFJXmKZSFBv6tBDrDmCgfjvoyHkcJiAY8naCNcr8YD8q+3cjgCqyI3Y1YssSE4wjTUrkp8VXW
- nr9cxs+F+7KggqzAkjLOSarG9mPVzDmjvUJHRkcvnLyTB3ZQ==
-X-Gm-Gg: ASbGncs7Ed9sRK05nKZ/bI0T2OJP7otC9Qgj2mDg8HHy5clb6xDPEwdTOQu1/imdLZs
- FJve1CLVMV5AhkU9bbtltNMNpXr0Lgv9iZv4P5IhMLxWSU+BJNcIL7dlI8Ea+62SN+sWK5zzHSd
- PU0GuSc8eeCyDq4x23qvcFJRX5QAXdcBPZo7T0CWNFVej25fecO0lcz+7aLLH2WtpApQ==
-X-Received: by 2002:a05:6870:178e:b0:381:e796:fbdd with SMTP id
- 586e51a60fabf-3e869184d8cmr8964686fac.35.1763507221719; 
- Tue, 18 Nov 2025 15:07:01 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEUP1CxGrV0D7O030YCOk1ptzP7b4KK9i9lk0k1a7Hj0q7tftAkHAmLxtV7Qu3qRI1aBNqXbBK4sU44ckzwyfQ=
-X-Received: by 2002:a05:6870:178e:b0:381:e796:fbdd with SMTP id
- 586e51a60fabf-3e869184d8cmr8964674fac.35.1763507221170; Tue, 18 Nov 2025
- 15:07:01 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F89210E00D
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 23:56:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1763510180; x=1795046180;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=c0n17xVOHyFQBRWKN/aSsNKZ4YWkhz3J71Xq0bnXXEM=;
+ b=g3+vpR43CVJlMYuGdoaC8tkTIkk4FtuJZe/aiKJKudkm/2dbfDJhl4xD
+ rtA9VrSP5qMiIT7amY/QsMMmd/Zm8MO5m7Mf9IpjEtc8IGcf+atVZ/gQI
+ XuVEta7nz24T6q12jWwZGyYQpnPRJLONKHjFkzOp9seBFIjBIDxJ6mQnD
+ w4ISW+cfMopCQNl9ZwWGQEjEnpcQPec2qrrSt4ADnjRBzCM/RxTTfo/7I
+ WbCLcqTOEzO20W4wBupxiSRFBMWuIcsNopRax1YmHMy6D4MjNqdFc6f7y
+ i/C5WHDfY1yRItuTg4hHd3srFipa2iloUPMc8nVoXOe04l1wAc+aKqz/F Q==;
+X-CSE-ConnectionGUID: jSYENef8RXSIM5VkmDnmoQ==
+X-CSE-MsgGUID: YVBIeDLJQruG+s/3HYaoFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="91020739"
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208";a="91020739"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2025 15:56:19 -0800
+X-CSE-ConnectionGUID: bKuvKGK0TLeL3ytr366xZA==
+X-CSE-MsgGUID: vNuxDQ4BTfaWqS9OFRb0SQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208";a="191029253"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+ by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2025 15:56:18 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 18 Nov 2025 15:56:18 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Tue, 18 Nov 2025 15:56:18 -0800
+Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.59) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Tue, 18 Nov 2025 15:56:17 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=O86nubght9a/3pe0J/Eh9T8DFnex9p2+PxukW652246J7KlxUh8kWNMgto3sKWskNx700avTuHs9o2tv/3hV/xTz2c6bpBGn6WiOK/worTA4+TP+V2CsfgzFyfw8+pd35v4ZpPuG3Sm5URqEJsERuYzO85pY1O6Os98pCpkrCOkgBHGLUtf8uiYekbB28nmfi1iRUQhlm52I6q/AV+hSsEuAtJ19vlPaVqxkraMfoZH1x01Z/o4Y9QxW3ORDZ3gq0V5OKI9cFVRZ6QSHNRIY5k79TqFSXqU1tMEcCtbYph6JTMDq+5d8sUd3QLOiFTM+gZ7/PS4yv+3VAKzpcr93ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Sq61xRYuZ3+RGUxWQJiZuRXpaSbCqY3wHUVLXy7blqs=;
+ b=EnV39yXJwfM80bLOrSscal3iaESe/ySjwUH0xT/2J/e+Zgvmr/8rW3v+oWkLcTBGjKR6YX4gGqHomQSvebG/6cLc0ar3+A3UOJ96NXlLObGN/Ae/d7gFSHkmmO9x251wGWQSPgy/WpteZcvW8pnvzHV89DkjVkN9xyg9Z1Egm85cdcfVTmiPswkUBlom8lq5r/kVHt5Oun73hcBMnB3N7uBKESUdwYMxmauZ7vZnSa26vOmJRTMArAeW/+ztgBzazvtXM6cK0qjH1w4H6fnK4w9zHe1v+C/DNugkQU1iGattAemCjQEr//biqu3T/jgL+4IvaRdMFuevggDa+myC6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by PH3PPFF2B8F6C64.namprd11.prod.outlook.com (2603:10b6:518:1::d60)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.22; Tue, 18 Nov
+ 2025 23:56:15 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::b576:d3bd:c8e0:4bc1]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::b576:d3bd:c8e0:4bc1%5]) with mapi id 15.20.9343.009; Tue, 18 Nov 2025
+ 23:56:15 +0000
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+CC: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>, "Robin
+ Murphy" <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
+ <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Sumit Semwal
+ <sumit.semwal@linaro.org>, =?iso-8859-1?Q?Christian_K=F6nig?=
+ <christian.koenig@amd.com>, Kees Cook <kees@kernel.org>, "Gustavo A. R.
+ Silva" <gustavoars@kernel.org>, Ankit Agrawal <ankita@nvidia.com>, "Yishai
+ Hadas" <yishaih@nvidia.com>, Shameer Kolothum <skolothumtho@nvidia.com>, Alex
+ Williamson <alex@shazbot.org>, Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs
+ <mochs@nvidia.com>, "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>, "linux-mm@kvack.org"
+ <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
+ <linaro-mm-sig@lists.linaro.org>, "kvm@vger.kernel.org"
+ <kvm@vger.kernel.org>, "linux-hardening@vger.kernel.org"
+ <linux-hardening@vger.kernel.org>, "Kasireddy, Vivek"
+ <vivek.kasireddy@intel.com>
+Subject: RE: [PATCH v8 10/11] vfio/pci: Add dma-buf export support for MMIO
+ regions
+Thread-Topic: [PATCH v8 10/11] vfio/pci: Add dma-buf export support for MMIO
+ regions
+Thread-Index: AQHcUvHJUsSz328bbEaizAQHYSZo87T4ET6ggAB4LYCAAJvxAA==
+Date: Tue, 18 Nov 2025 23:56:14 +0000
+Message-ID: <BN9PR11MB5276EF47D26AB55B2CD456EE8CD6A@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
+ <20251111-dmabuf-vfio-v8-10-fd9aa5df478f@nvidia.com>
+ <BN9PR11MB527610F3240E677BE9720C2B8CD6A@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <20251118142849.GG17968@ziepe.ca>
+In-Reply-To: <20251118142849.GG17968@ziepe.ca>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|PH3PPFF2B8F6C64:EE_
+x-ms-office365-filtering-correlation-id: 92e33f49-54d1-4391-b96b-08de26fe0efd
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|7416014|376014|1800799024|366016|38070700021; 
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?4e12kQ8YGI8p7YEpca/Olq4xZsw9pUMXW1+c2ylx4kKOZa+3UM++hkhJK6?=
+ =?iso-8859-1?Q?tKH8qRiu+4pLrP/CFLaYwL/ST/kuFpU+N5uzrN5GPr8qU/jbEfbZ3VjQCM?=
+ =?iso-8859-1?Q?rxG5T1yPUmtbn/8e6LP7r6Ez0+hq5iVdSiS7bmJHWH7ThQ9RUjv14pwVvF?=
+ =?iso-8859-1?Q?a1USt3kZsCFZ3Ez4vihz5nRrPBSI2ejGgWBo7uYnRKvW3yUWpKXZa1WqZf?=
+ =?iso-8859-1?Q?DDacMokOOTR8uW6eu8TW566ZCRwtmskErw6HdxRT68Cr049gVKWES57v5P?=
+ =?iso-8859-1?Q?wI5Qz4Hopw2/AAEwMld6el73H0/bT8Z0rat/7rUjifww7jUezUgdccc7+2?=
+ =?iso-8859-1?Q?2w2eU/CTK0YYnJtFv4W/URAwZNjKyYZjjuqxDuMJkOUD/t/yogwutyTC6n?=
+ =?iso-8859-1?Q?Dh76B7gkkQOVpQyAL5vZCJJwjt1dojGgb14dIf276+0rYEMt8LdwxpDqeC?=
+ =?iso-8859-1?Q?BKEKLwvUDUGOZfAwV6hMUuwgXIT8iveTSoqPZvtEdNvV2LR+C1Mrz/EEpD?=
+ =?iso-8859-1?Q?54UM7nfVsPFXXRV/DI4pGwZp3AKeJC7xQ2tr3WfS+42cqwuEphXNC1mb6S?=
+ =?iso-8859-1?Q?Srbl8H/CKHeugZ+obyGqPsWgMuAR8DMdwj/kxr8l15ScikcftCHNy7fWlP?=
+ =?iso-8859-1?Q?qOy+1HAx+Vcmvs+pJHKTJutzE7oqQyXTMMCFWCEX9UxqJMKanMVlUmJsj4?=
+ =?iso-8859-1?Q?ipz65Hg/nw3/+dbq5scUzJjZpu7t9JqiqfSw7jIUON9Jxa47bBlzwrgGyt?=
+ =?iso-8859-1?Q?MR2X49JTxUkprkGluHlAIqUM4IsIk/4lBHcxwXGBG2axeATpC+Iahh/dYE?=
+ =?iso-8859-1?Q?O75+5tGMq+jUEG5fnpbk2SmpJ53jpAIiSIRbte16fcviuXuHslJyfGtKAj?=
+ =?iso-8859-1?Q?ruGBJCElHl+AQ317sN8iuRKoCuzS8TIG32Wte6jJru8EMUKxXBTjXwnjRa?=
+ =?iso-8859-1?Q?dnWC747TJCYRnK++Ny8Wwg4KhomAVd73VIDEZGszzixUbnunqKzU8Hapm0?=
+ =?iso-8859-1?Q?LX2U7E3/KLBpvuSW8iqdF9kZDiCSW207qFtRrBKnlea+U6xwbBGIyK6UPr?=
+ =?iso-8859-1?Q?C9d4qyE5SuBgOgbZiVlG4LlfBV0Hg38v7/2YymZ8MpgklgMD7mVTF1FSLe?=
+ =?iso-8859-1?Q?qfyjUStfwRVctlR2P5B1aTUMlfOFug57vSzIzjAdsQg0F/6h5H6HWUB0rB?=
+ =?iso-8859-1?Q?M0UIjIiibeKsFaIFn0x5DnTWczHhw12Jwc9nQtIbsT2D3bVWe969pveORD?=
+ =?iso-8859-1?Q?7ouWUcCKU7pM+1+semEr0tEUnwf52ptQTOWAfheRKaldugux9T+SczHRpk?=
+ =?iso-8859-1?Q?weV3V67+Lx1o8sJWutHOJ9WQcIrqiloNXxsE37lxCEEvzwmhe5GmcDuoW/?=
+ =?iso-8859-1?Q?jfx0Ln5cIA6YjbGg5uDNFORe3VNxU4qi+ZiJ4C8dhQoQ4SmynCDxaU0c0d?=
+ =?iso-8859-1?Q?V8Ou8Tpa2zNDgQT+Q7lvVOMBJDzxg/ISoM4yf+oU2X3gJwYReurcpYcz69?=
+ =?iso-8859-1?Q?0i2Weyz3B2t6oOh+iU53XCoplZ+MP68crhjWp0ZLfc8oONte2aCh7F3d1p?=
+ =?iso-8859-1?Q?GBXxhoVUwixEcLC1LDAHButLuOju?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR11MB5276.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700021); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?ydFwOKLqxAtotg6s+eCUQl3cRChf2US51mKp73caqi4rV8PiDpf3MZZuU4?=
+ =?iso-8859-1?Q?Mh39rSVQ3FHInAx0iOWRLOtrBwHIYt0OZgBKyEXZV9QNVhZtQ7k1zMl1JB?=
+ =?iso-8859-1?Q?ksJMg78AjOU8PfXFcHXF2ga1zDy0x2aY6N2k/htbVFjqa+kPFpD2Zr9DKx?=
+ =?iso-8859-1?Q?GN3YSt4/jymMGHi6VLp6Q9ytf7skUjbd5NOMIKayMIbXHi8MxxJ/Pxu49L?=
+ =?iso-8859-1?Q?wXHOQmUvWy4ZZMYoyyE2PeVBWavzHwGEX44tiD1fWkcROYwmIab3DIgeqe?=
+ =?iso-8859-1?Q?z3/A4xdVcKNEjmzZK4sfXiaUCAtmivOyxWxAzSoGmttA2XB2CcSj+GuDWY?=
+ =?iso-8859-1?Q?TN64UMazzS/NqzhR9Q/quAeEiLUGhCrbchi1HF5wXKbM6IggogyXPcJ4c+?=
+ =?iso-8859-1?Q?RWQv5862WWQ24VDSuF84/JPNSoxYPQynduBLJQyxcpg+4aAidhjhtSo/FJ?=
+ =?iso-8859-1?Q?58bLUVscPLl/5Q/654jQ2HuLG15Ril1cj5wfUydc+JXOU7OA2Hew2iaxe+?=
+ =?iso-8859-1?Q?g1PXoBTxVR8E+i/9Rb7uyKK4VV/hZz3GY/OAQnTRGKUnjdK3qcT9PHKRCj?=
+ =?iso-8859-1?Q?AhlDdDJp7aqhzjfluc78Aj5zVHk5n07sih6sEmtVHhcTBOtlYLvEQQP2B5?=
+ =?iso-8859-1?Q?ekKdPnTHHHUfcCj02auchs/EhiXobxa13SFWT5Xhc1TQnm0eXB+u2OnEe3?=
+ =?iso-8859-1?Q?1Hiul/QqdfsKnBTjxNPFQ5nmTbRZUemoTDSSiS/uqXrldNVcz3wNjMtBK0?=
+ =?iso-8859-1?Q?zwBM87TZw7bR0UWf0pnspqHAn/hx5zj1N9H96S9IsowBwx0yjDYLEPOZ+G?=
+ =?iso-8859-1?Q?Il5Z6ctvhl35NPaLnvm6LSQmsP1y+rUfY9S3ZiP96y/5MFMfk/alvS9x/p?=
+ =?iso-8859-1?Q?XlAQRzs9v13MRlL23/bbYPwbT3Qb5AxFhVa81DBl5c1+LuCQLrwx4HbTsN?=
+ =?iso-8859-1?Q?r/lVHCHD+hNe2jfekqnuL0bpEy+/2GlonRyoleKcJ9qQcYJ5IaPHkg9HR/?=
+ =?iso-8859-1?Q?+VAVp38bZdjtUCGgG+RYtqxBTJLeFd87C4nfe3Mbu7XfLslWBYuOO5oceR?=
+ =?iso-8859-1?Q?RuTnGABN5gB1uwVRYXIXRsgrCUHWnw7OrZJnGHPvIoV8SymJaejCTtwKWY?=
+ =?iso-8859-1?Q?D8CgU9pSo4zxjstcZCZ/3ZwG5YswLYFcHcfES2D/syPohT51xn4nt9ACjn?=
+ =?iso-8859-1?Q?BHrzBExf53tpO9ugjWFyjDT5DWcDvyguGdG6e8BZ6NK8GBTfmudWr9UCGo?=
+ =?iso-8859-1?Q?Hlk4vc5sIbbHEjyJmaHCJzJ1QlmeGb6wSuzXKq2xbG16SEm/SELzFUBSBU?=
+ =?iso-8859-1?Q?7ZDXr3Rh6pvRlKuaHReZYT0xwVbG1iYyB0xYBebdBnQrGd0fGb/gX7N3Zc?=
+ =?iso-8859-1?Q?bco1IDDiIMBnlJ56UzOhrJUuX13JiKvlSFy4vWNTG2ZHPVY4Pj6ZCTMT+h?=
+ =?iso-8859-1?Q?RZtXcLM0kHIJ2k8CjWpm60W/wH4hdiEPRVYX6fmmLXP7oIpRyVwL3sRORj?=
+ =?iso-8859-1?Q?At6BOd+OSZI/+Bg4sc15ijdGxBPuTE/Ebjkz4H3ckF/VOlWt7qZkVKzXrw?=
+ =?iso-8859-1?Q?Mk5tM71CsNB1bPpJiNcTO3S6spNxG04WS5lP9PjxhrvSAFC8ffFMCd2cSi?=
+ =?iso-8859-1?Q?yILX5tRnC8FubokAo6ZFfzTQ1X+SpCIxWv?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Tue, 18 Nov 2025 15:06:50 -0800
-X-Gm-Features: AWmQ_bl9TBEL3cnTzDyZ-qHEr5wUIW788ooSn-00N0v5fkUaPB7Hapd43GHGD8k
-Message-ID: <CACSVV00sFi65XrZipHCU3C0bYji7vgu7OgWvLeOQ1Cg475_pUA@mail.gmail.com>
-Subject: [pull] drm/msm: drm-msm-next-2025-11-18 for v6.19
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: "open list:DRM DRIVER for Qualcomm Adreno GPUs"
- <freedreno@lists.freedesktop.org>, 
- "open list:DRM DRIVER for Qualcomm Adreno GPUs"
- <dri-devel@lists.freedesktop.org>, 
- "open list:DRM DRIVER for Qualcomm Adreno GPUs"
- <linux-arm-msm@vger.kernel.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-ORIG-GUID: im_-OhPhLjLQUHK2DxnFLPaGwNR0y64a
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE4MDE4NyBTYWx0ZWRfX20XYf0LgaO99
- 3izx3azSZEAe9Igpz4TKXFvx+kAqKE4ZUUcGOsvkmvdldRz/XTIvLz82ZNl85LGfSWOOY3fLnWH
- WZjo06K+Zkt2xPeZTLU/Xe4LuBCf74OmobF1rqpikS0KMuz/q8eS+bazsE6ArUX0y30BeXm70Kf
- xPJQiEoAy7B9cliR5dGuuX7+1cd6MEHHcofcbwLylVsMX4ll+I4iFQS1kq8s463a0A7LijOmJtx
- tLsiJtbXDBAO/IR6XYfsYxUxdFJHZQH11vkMPyYveFTCLh+iKNtVg+M532ez3T/h0FNxaCT3mjP
- TU+qAVj7HIC4YKs8+sPSMqalyIDB4dA3C1GlhhVWKx+a69+BZ93JEnX0n526ydWMQLwA2EbrUIS
- oi6ia3r6GpI37i6Z/9AAJNyau7Aldw==
-X-Authority-Analysis: v=2.4 cv=ad9sXBot c=1 sm=1 tr=0 ts=691cfc16 cx=c_pps
- a=zPxD6eHSjdtQ/OcAcrOFGw==:117 a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=e5mUnYsNAAAA:8
- a=s54uQsvZatRMKIvkDIgA:9 a=QEXdDO2ut3YA:10 a=y8BKWJGFn5sdPF1Y92-H:22
- a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-GUID: im_-OhPhLjLQUHK2DxnFLPaGwNR0y64a
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-18_04,2025-11-18_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015 bulkscore=0 adultscore=0 malwarescore=0
- impostorscore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511180187
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92e33f49-54d1-4391-b96b-08de26fe0efd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2025 23:56:14.7911 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: KDRL3+SlVUSP0XlfwlIc1Fvz0PJK346nYZzk17RmHKjUaGvJt1K9BBtJBSsCuYDcF03iwQHB3Jf051bPeFLKVg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPFF2B8F6C64
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,264 +206,70 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona,
+> From: Jason Gunthorpe <jgg@ziepe.ca>
+> Sent: Tuesday, November 18, 2025 10:29 PM
+>=20
+> On Tue, Nov 18, 2025 at 07:33:23AM +0000, Tian, Kevin wrote:
+> > > From: Leon Romanovsky <leon@kernel.org>
+> > > Sent: Tuesday, November 11, 2025 5:58 PM
+> > >
+> > > -		if (!new_mem)
+> > > +		if (!new_mem) {
+> > >  			vfio_pci_zap_and_down_write_memory_lock(vdev);
+> > > -		else
+> > > +			vfio_pci_dma_buf_move(vdev, true);
+> > > +		} else {
+> > >  			down_write(&vdev->memory_lock);
+> > > +		}
+> >
+> > shouldn't we notify move before zapping the bars? otherwise there is
+> > still a small window in between where the exporter already has the
+> > mapping cleared while the importer still keeps it...
+>=20
+> zapping the VMA and moving/revoking the DMABUF are independent
+> operations that can happen in any order. They effect different kinds
+> of users. The VMA zap prevents CPU access from userspace, the DMABUF
+> move prevents DMA access from devices.
 
-Pull for v6.19, as described below.
+The comment was triggered by the description about UAF in the=20
+commit msg.
 
-Includes the first gen8 devices:
-- x2-85: Snapdragon x2 elite compute (laptop) chipset, GPU and Display support
-- a840: Snapdragon 8 Elite Gen 5 GPU support.  (Display support is on
-list, but wasn't quite ready to merge.)
+>=20
+> The order has to be like the above because vfio_pci_dma_buf_move()
+> must be called under the memory lock and
+> vfio_pci_zap_and_down_write_memory_lock() gets the memory lock..
 
-Mesa support for the new gen8 GPUs is at:
+make sense.
 
- https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/38450
+> > > +	down_write(&vdev->memory_lock);
+> > > +	list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm)
+> > > {
+> > > +		if (!get_file_active(&priv->dmabuf->file))
+> > > +			continue;
+> > > +
+> > > +		dma_resv_lock(priv->dmabuf->resv, NULL);
+> > > +		list_del_init(&priv->dmabufs_elm);
+> > > +		priv->vdev =3D NULL;
+> > > +		priv->revoked =3D true;
+> > > +		dma_buf_move_notify(priv->dmabuf);
+> > > +		dma_resv_unlock(priv->dmabuf->resv);
+> > > +		vfio_device_put_registration(&vdev->vdev);
+> > > +		fput(priv->dmabuf->file);
+> >
+> > dma_buf_put(priv->dmabuf), consistent with other places.
+>=20
+> Someone else said this, I don't agree, the above got the get via
+>=20
+> get_file_active() instead of a dma_buf version..
+>=20
+> So we should pair with get_file_active() vs fput().
+>=20
+> Christian rejected the idea of adding a dmabuf wrapper for
+> get_file_active(), oh well.
 
-Sorry this is running a bit late, it took a bit longer than planned to
-push mesa support for gen8.  And then inevitably drm/ci found some
-issues at the last minute.
+Okay then vfio_pci_dma_buf_move() should be changed. It uses
+get_file_active() to pair dma_buf_put().
 
-
-The following changes since commit f67d54e96bc9e4e20a927868f02c2e9d1aa09751:
-
-  Merge tag 'amd-drm-next-6.19-2025-10-29' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-next (2025-10-31
-22:08:24 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/msm.git tags/drm-msm-next-2025-11-18
-
-for you to fetch changes up to 7bc29d5fb6faff2f547323c9ee8d3a0790cd2530:
-
-  dt-bindings: display/msm/gmu: Add Adreno X2-85 GMU (2025-11-18 09:04:13 -0800)
-
-----------------------------------------------------------------
-Changes for v6.19:
-
-GPU:
-- Gen8 support: A840 (Kaanapali) and X2-85 (Glymur)
-- A612 support
-- A few NULL check fixes
-
-MDSS:
-- Added support for Glymur and QCS8300 platforms
-
-DPU:
-- Enabled Quad-Pipe support, unlocking higher resolutions support
-- Added support for Glymur platform
-- Documented DPU on QCS8300 platform as supported
-- Misc small fixes
-
-DisplayPort:
-- Added support for Glymur platform
-- Added support lame remapping inside DP block
-- Documented DisplayPort controller on QCS8300 and SM6150/QCS615 as
-  supported
-
-----------------------------------------------------------------
-Abel Vesa (6):
-      dt-bindings: display: msm: Document the Glymur Mobile Display SubSystem
-      dt-bindings: display: msm: Document the Glymur Display Processing Unit
-      dt-bindings: display: msm: Document the Glymur DiplayPort controller
-      drm/msm/mdss: Add Glymur device configuration
-      drm/msm/dpu: Add support for Glymur
-      drm/msm/dp: Add support for Glymur
-
-Akhil P Oommen (22):
-      drm/msm/a6xx: Fix GMU firmware parser
-      drm/msm/a6xx: Fix out of bound IO access in a6xx_get_gmu_registers
-      drm/msm/a6xx: Flush LRZ cache before PT switch
-      drm/msm/a6xx: Fix the gemnoc workaround
-      drm/msm/a6xx: Skip dumping SCRATCH registers
-      drm/msm/adreno: Common-ize PIPE definitions
-      drm/msm/adreno: Move adreno_gpu_func to catalogue
-      drm/msm/adreno: Move gbif_halt() to adreno_gpu_func
-      drm/msm/adreno: Add MMU fault handler to adreno_gpu_func
-      drm/msm/a6xx: Sync latest register definitions
-      drm/msm/a6xx: Rebase GMU register offsets
-      drm/msm/a8xx: Add support for A8x GMU
-      drm/msm/a6xx: Improve MX rail fallback in RPMH vote init
-      drm/msm/a6xx: Share dependency vote table with GMU
-      drm/msm/adreno: Introduce A8x GPU Support
-      drm/msm/adreno: Support AQE engine
-      drm/msm/a8xx: Add support for Adreno 840 GPU
-      drm/msm/adreno: Do CX GBIF config before GMU start
-      drm/msm/a8xx: Add support for Adreno X2-85 GPU
-      dt-bindings: arm-smmu: Add Kaanapali and Glymur GPU SMMU
-      dt-bindings: display/msm/gmu: Add Adreno 840 GMU
-      dt-bindings: display/msm/gmu: Add Adreno X2-85 GMU
-
-Anna Maniscalco (1):
-      drm/msm: make sure last_fence is always updated
-
-Christophe JAILLET (1):
-      drm/msm/dpu: Remove dead-code in dpu_encoder_helper_reset_mixers()
-
-Connor Abbott (1):
-      drm/msm: Wait for MMU devcoredump when waiting for GMU
-
-Dmitry Baryshkov (3):
-      drm/msm: fix allocation of dumb buffers for non-RGB formats
-      drm/msm/dpu: drop dpu_hw_dsc_destroy() prototype
-      drm/msm/a2xx: stop over-complaining about the legacy firmware
-
-Gopi Krishna Menon (1):
-      drm/msm: Add NULL check in vm_op_enqueue()
-
-Huiwen He (2):
-      drm/msm: Fix NULL pointer dereference in crashstate_get_vm_logs()
-      drm/msm: fix missing NULL check after kcalloc in crashstate_get_bos()
-
-Jessica Zhang (1):
-      drm/msm/dpu: Fix adjusted mode clock check for 3d merge
-
-Jie Zhang (1):
-      drm/msm/a6xx: Add support for Adreno 612
-
-Jun Nie (10):
-      drm/msm/dpu: fix mixer number counter on allocation
-      drm/msm/dpu: bind correct pingpong for quad pipe
-      drm/msm/dpu: Add pipe as trace argument
-      drm/msm/dpu: handle pipes as array
-      drm/msm/dpu: split PIPES_PER_STAGE definition per plane and mixer
-      drm/msm/dpu: Use dedicated WB number definition
-      drm/msm/dpu: blend pipes per mixer pairs config
-      drm/msm/dpu: support SSPP assignment for quad-pipe case
-      drm/msm/dpu: support plane splitting in quad-pipe case
-      drm/msm/dpu: Enable quad-pipe for DSC and dual-DSI case
-
-Krzysztof Kozlowski (1):
-      dt-bindings: display/msm: Reference DAI schema for DAI properties
-
-Neil Armstrong (1):
-      drm/msm: dsi: fix PLL init in bonded mode
-
-Randy Dunlap (1):
-      drm/msm/disp: fix kernel-doc warnings
-
-Rob Clark (7):
-      drm/msm: Fix GEM free for imported dma-bufs
-      drm/msm: Fix pgtable prealloc error path
-      drm/msm: Reject MAP_NULL op if no PRR
-      drm/msm: Ensure vm is created in VM_BIND ioctl
-      Merge remote-tracking branch 'drm/drm-next' into msm-next-robclark
-      MAINTAINERS: Add Akhil as a reviewer for the Adreno driver
-      drm/msm/registers: Fix encoding fields in 64b registers
-
-Vignesh Raman (1):
-      drm/ci: disable broken MR check in sanity job
-
-Vladimir Lypak (6):
-      drm/msm/dpu: Fix allocation of RGB SSPPs without scaling
-      drm/msm/dpu: Propagate error from dpu_assign_plane_resources
-      drm/msm/dpu: Disable scaling for unsupported scaler types
-      drm/msm/dpu: Fix pixel extension sub-sampling
-      drm/msm/dpu: Require linear modifier for writeback framebuffers
-      drm/msm/dpu: Disable broken YUV on QSEED2 hardware
-
-Xiangxu Yin (5):
-      drm/msm/dp: move link-specific parsing from dp_panel to dp_link
-      drm/msm/dp: Add support for lane mapping configuration
-      dt-bindings: display/msm: dp-controller: Add SM6150
-      dt-bindings: display: msm: sm6150-mdss: Add DisplayPort controller
-      dt-bindings: display: msm: sm6150-mdss: Fix example indentation
-and OPP values
-
-Yongxing Mou (4):
-      dt-bindings: display/msm: Document the DPU for QCS8300
-      dt-bindings: display/msm: dp-controller: document QCS8300 compatible
-      dt-bindings: display/msm: Document MDSS on QCS8300
-      drm/msm: mdss: Add QCS8300 support
-
- .../bindings/display/msm/dp-controller.yaml        |   17 +-
- .../devicetree/bindings/display/msm/gmu.yaml       |   60 +-
- .../bindings/display/msm/qcom,glymur-mdss.yaml     |  264 +++
- .../bindings/display/msm/qcom,qcs8300-mdss.yaml    |  286 +++
- .../bindings/display/msm/qcom,sm6150-mdss.yaml     |   40 +-
- .../bindings/display/msm/qcom,sm8650-dpu.yaml      |   16 +-
- .../devicetree/bindings/iommu/arm,smmu.yaml        |    2 +
- MAINTAINERS                                        |    1 +
- drivers/gpu/drm/ci/gitlab-ci.yml                   |    2 +-
- drivers/gpu/drm/msm/Makefile                       |    2 +
- drivers/gpu/drm/msm/adreno/a2xx_catalog.c          |    7 +-
- drivers/gpu/drm/msm/adreno/a2xx_gpu.c              |   52 +-
- drivers/gpu/drm/msm/adreno/a2xx_gpu.h              |    2 +
- drivers/gpu/drm/msm/adreno/a3xx_catalog.c          |   13 +-
- drivers/gpu/drm/msm/adreno/a3xx_gpu.c              |   52 +-
- drivers/gpu/drm/msm/adreno/a3xx_gpu.h              |    2 +
- drivers/gpu/drm/msm/adreno/a4xx_catalog.c          |    7 +-
- drivers/gpu/drm/msm/adreno/a4xx_gpu.c              |   54 +-
- drivers/gpu/drm/msm/adreno/a4xx_gpu.h              |    2 +
- drivers/gpu/drm/msm/adreno/a5xx_catalog.c          |   17 +-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c              |   61 +-
- drivers/gpu/drm/msm/adreno/a5xx_gpu.h              |    1 +
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c          |  385 +++-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |  335 ++-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h              |   25 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c              |  438 ++--
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h              |   31 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c        |    5 +-
- drivers/gpu/drm/msm/adreno/a6xx_gpu_state.h        |   74 +-
- drivers/gpu/drm/msm/adreno/a6xx_hfi.c              |   74 +-
- drivers/gpu/drm/msm/adreno/a6xx_hfi.h              |   17 +
- drivers/gpu/drm/msm/adreno/a8xx_gpu.c              | 1201 +++++++++++
- drivers/gpu/drm/msm/adreno/adreno_device.c         |    4 +-
- .../gpu/drm/msm/adreno/adreno_gen7_0_0_snapshot.h  |  420 ++--
- .../gpu/drm/msm/adreno/adreno_gen7_2_0_snapshot.h  |  332 +--
- .../gpu/drm/msm/adreno/adreno_gen7_9_0_snapshot.h  |  470 ++---
- drivers/gpu/drm/msm/adreno/adreno_gpu.c            |   19 +-
- drivers/gpu/drm/msm/adreno/adreno_gpu.h            |   56 +-
- .../drm/msm/disp/dpu1/catalog/dpu_12_2_glymur.h    |  541 +++++
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  118 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h           |    8 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |   47 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h   |    2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c     |    5 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h     |    3 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dsc.h         |    6 -
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h        |    8 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |    1 +
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  442 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h          |   12 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c             |    8 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h          |   10 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c      |    3 +
- drivers/gpu/drm/msm/disp/msm_disp_snapshot.h       |   13 +-
- drivers/gpu/drm/msm/dp/dp_ctrl.c                   |   10 +-
- drivers/gpu/drm/msm/dp/dp_display.c                |    9 +
- drivers/gpu/drm/msm/dp/dp_link.c                   |  117 ++
- drivers/gpu/drm/msm/dp/dp_link.h                   |    5 +
- drivers/gpu/drm/msm/dp/dp_panel.c                  |   78 +-
- drivers/gpu/drm/msm/dp/dp_panel.h                  |    3 -
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h              |    1 -
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c          |   18 +-
- drivers/gpu/drm/msm/msm_gem.c                      |   27 +-
- drivers/gpu/drm/msm/msm_gem_submit.c               |    9 +-
- drivers/gpu/drm/msm/msm_gem_vma.c                  |   36 +-
- drivers/gpu/drm/msm/msm_gpu.c                      |   21 +-
- drivers/gpu/drm/msm/msm_gpu.h                      |   11 +
- drivers/gpu/drm/msm/msm_iommu.c                    |    5 +
- drivers/gpu/drm/msm/msm_mdss.c                     |    2 +
- drivers/gpu/drm/msm/registers/adreno/a6xx.xml      | 2199 +++++++++++++++-----
- .../gpu/drm/msm/registers/adreno/a6xx_enums.xml    |    2 +-
- drivers/gpu/drm/msm/registers/adreno/a6xx_gmu.xml  |  283 +--
- .../gpu/drm/msm/registers/adreno/a7xx_enums.xml    |    7 -
- .../drm/msm/registers/adreno/a8xx_descriptors.xml  |  121 ++
- .../gpu/drm/msm/registers/adreno/a8xx_enums.xml    |  299 +++
- .../gpu/drm/msm/registers/adreno/adreno_common.xml |   12 +
- .../gpu/drm/msm/registers/adreno/adreno_pm4.xml    |  361 +++-
- drivers/gpu/drm/msm/registers/gen_header.py        |   19 +-
- 78 files changed, 7418 insertions(+), 2310 deletions(-)
- create mode 100644
-Documentation/devicetree/bindings/display/msm/qcom,glymur-mdss.yaml
- create mode 100644
-Documentation/devicetree/bindings/display/msm/qcom,qcs8300-mdss.yaml
- create mode 100644 drivers/gpu/drm/msm/adreno/a8xx_gpu.c
- create mode 100644 drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_12_2_glymur.h
- create mode 100644 drivers/gpu/drm/msm/registers/adreno/a8xx_descriptors.xml
- create mode 100644 drivers/gpu/drm/msm/registers/adreno/a8xx_enums.xml
