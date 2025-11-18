@@ -2,183 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBAE5C67A88
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 07:09:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29818C67AD3
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 07:16:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3EE610E40F;
-	Tue, 18 Nov 2025 06:09:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C474C10E233;
+	Tue, 18 Nov 2025 06:15:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I+6c5UoG";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="C8qtTMdZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A35110E20F;
- Tue, 18 Nov 2025 06:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763446191; x=1794982191;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=KWzCQ7ELQav2dkZAqxBX0D9yJ+OcTDW4ztLU2TEztkA=;
- b=I+6c5UoGTM0qa0ABU7byUmWMl6Dxui90ZLpEMgB7SSKW2Py88Z0vbujg
- 5pJGwszlvPhVp4ETKKqHUkkuZ/jvohsndChe7OR34DNI7Qd9jUSHoOcKg
- kA16XqL2prAFGsebS00eXj/Lb3TJO3xorNwKYI7pfge4ba442sIi3Ob6O
- 9ffVY6muIa1Ymk+se51euiERD5qVOIxuU6+WxYYtA53imMgOxaG1qsZxe
- bK26NB9eXtA+yHPFqreZ17J0fw+LZ3/WHe6sab5tHVNFrV9vSbb+LQpSB
- ojdFaIJUH1rhMIF5XppyeJEwjofR3AjesLlTbxr6o4/9cWyny+qhB6BkV A==;
-X-CSE-ConnectionGUID: A4rQQuFgSRmWY/wKseu9aA==
-X-CSE-MsgGUID: aGi2Gk7TQB+WMDBu93FBHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="76810799"
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208";a="76810799"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2025 22:09:51 -0800
-X-CSE-ConnectionGUID: /BxJYy2BSQSg9+MbRRJB3Q==
-X-CSE-MsgGUID: l/QIsyyaT3OPC6IvbEg4bw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208";a="214062023"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Nov 2025 22:09:50 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 17 Nov 2025 22:09:50 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Mon, 17 Nov 2025 22:09:50 -0800
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.51)
- by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Mon, 17 Nov 2025 22:09:50 -0800
+Received: from SA9PR02CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11013020.outbound.protection.outlook.com
+ [40.93.196.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1B8510E202;
+ Tue, 18 Nov 2025 06:15:55 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eg3IbeZPgyX48hwueWD6BePn/IridP2Mc6NjQo+7fjoOwWA7CFTjsOQxM5uSQrEc97OH0hfjlUPn44s4nuno/LP0beNpqxvrv18EaHy3+YLhS823P5EYRqxfTSHjH2hU3sf9YOtSlG39mos2lrKuqglqqAB1kuwIwPh+x1la7UUB64IhYPZ4in8dg3TGEQMJKi98D8Q7O9jg1qP4dXQSoZ+2n5oRMmcdpln+61ovoIveZ5wEUf5Ztzw83l4QA3e2s4nlBCp9jZYbOMj66B/+ETrr9EtzoVaGwdOc3DWjfyf+E4oeeCqT+sI90YZdPWNy4ihsudKcveeTi9IYKKh88w==
+ b=QTFGoSZO9sQal4i/6DxqX7Bf+QzkPHdqPa9PZz7zpKAEoHSPTE5PGhi4fNyOcLEsYn2OU4n58b/OQ945yP/M+WLEIW/45XCXTbr9RCKYN/BSReue4RRd9Y/BbhuOs8QxpzKnqKvSgQlD7EFzuwKNRrNCDPxaxSg1/DlI145sb00B5xkPAd9/a7DylmrwIbquheObTOptR3zhrM+vRwukibGL3ejncW2z/DFLnLNZRKFeHCQPR8BYUHqYUsJk6bX8UFak+6/vGsfDF09jrODoGgQZ8viHykda0CEUfmycvyOTHj938LiG8iJe4B2kn071v4sl9quRFlFZKw/iDaNVXQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VhiLbnuXAnvsCcK32t1Fo0VMLQFn2gGeWa2a4fDwpVg=;
- b=RmqC9bQ0CQ0P5PZtxFOYceNaG3k+dPBX5j6ZGN4PvnEt3OdmQKRO7dG6/JIQXBduI9fwi8ym8j4NpRo9HZTFp+sCdd6ywvz+dYu1Rn/mrgUvoqn8/r84r0b8toa+8PEbziQ1f+LHdTMI3GEFLoNIzY8Hf6ryvL0ymciBaj9WQHOjIBv5UVnaRQ0t9Ph77xm4Db4pYJiGhF6WemOFD6x7uakRS0lf7WafCcy8srhml7l1EYH2ywvQaUq5jS3AMGtmCQdwwd6uUgXbEVBQ3Bj6s0HZ1MWFGMzBuDtVKvfKjxCp02hsC/UAnWTXluLWx6rxqN7PSfL5ifg8GKFEQC7kow==
+ bh=mM8dnmt0KCStX9c9hnUgHlLSWBfEy4Eps3VeCh7ku+I=;
+ b=Pe0SXbXjJ0+Qgoepl0P1RJjakIyuYk+ObN8ln/qJ7OQD6CB81g50lIkHPcN8flallJo9uw7Gn+Qg3Dt7H6R2+2fLW0aCSzxRL7RHDEdpK7q2FSZS0mLXIyEnzbyn0fHNw16/S+aArxd2PVV6rWFl9uD5RisPQhaQV8b6onla3UCVxfREa25m4kD6RDmq8zTqHXOrEH2N9BMEhjde1yBtrn8WbEYGozxu3uVmZfh9XGXedtbFYdeskp58/ka6RX+/72YkB7uCe6yzwYdxeU+ACv1nWP3Uzef+M6oDbf5QBm0KZj3Kj+WBmklYIDQd9R6TKNGbj9xVIch5AK/4GuFhVg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- (2603:10b6:f:fc00::f13) by IA1PR11MB9495.namprd11.prod.outlook.com
- (2603:10b6:208:59f::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Tue, 18 Nov
- 2025 06:09:48 +0000
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::95c9:5973:5297:d3cc]) by DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::95c9:5973:5297:d3cc%6]) with mapi id 15.20.9343.009; Tue, 18 Nov 2025
- 06:09:48 +0000
-From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-To: "Shankar, Uma" <uma.shankar@intel.com>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
- <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-CC: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "pekka.paalanen@collabora.com" <pekka.paalanen@collabora.com>,
- "contact@emersion.fr" <contact@emersion.fr>, "harry.wentland@amd.com"
- <harry.wentland@amd.com>, "mwen@igalia.com" <mwen@igalia.com>,
- "jadahl@redhat.com" <jadahl@redhat.com>, "sebastian.wick@redhat.com"
- <sebastian.wick@redhat.com>, "shashank.sharma@amd.com"
- <shashank.sharma@amd.com>, "Sharma, Swati2" <swati2.sharma@intel.com>,
- "alex.hung@amd.com" <alex.hung@amd.com>, "Nikula, Jani"
- <jani.nikula@intel.com>, "Shankar, Uma" <uma.shankar@intel.com>
-Subject: RE: [v6 04/16] drm/i915/color: Add helper to create intel colorop
-Thread-Topic: [v6 04/16] drm/i915/color: Add helper to create intel colorop
-Thread-Index: AQHcTk7w09RHabOksUyPSW82RXkXErT4ByQA
-Date: Tue, 18 Nov 2025 06:09:48 +0000
-Message-ID: <DM3PPF208195D8D0174EFBDC1EA950654DCE3D6A@DM3PPF208195D8D.namprd11.prod.outlook.com>
-References: <20251105123413.2671075-1-uma.shankar@intel.com>
- <20251105123413.2671075-5-uma.shankar@intel.com>
-In-Reply-To: <20251105123413.2671075-5-uma.shankar@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|IA1PR11MB9495:EE_
-x-ms-office365-filtering-correlation-id: 53caf6dc-3aba-4ba2-9496-08de26691430
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|376014|7416014|366016|38070700021; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?UaKfh0IaJiW39AyDSk4dIG6Dn+FuHISTQ9hEoeu1Yc8+E2/K2nCOP5fBgvk+?=
- =?us-ascii?Q?89x18Zb9yicJJsRIdIGJfI+9IdmqQ4I3EM+NLv73ncUOzvpxYaDfinMWWgn/?=
- =?us-ascii?Q?hp8+zGSA2HyuFj08/4rcTnkivK4iAupef2fddpXEImBPq2PBkNJmPHsyslhB?=
- =?us-ascii?Q?rXXRfGkw4RGR77bOcL2aQDVj1lMJRmh/38JGRv4sqr8fHw/TFQRfj2DFKpjh?=
- =?us-ascii?Q?MP4QcWkKG7f/iShmJkF7QjRuzZRr3KQ0ZtbwKJUmebvKzFn/zzXQtnVjc3jP?=
- =?us-ascii?Q?HAyoTsvsscTBUDMP4Di4d+suLDer+2IuIoL8xfc+K9N3Z+8yAxY8ILKZJPX/?=
- =?us-ascii?Q?l00O48og5TxkqfXhnPJt2mAMbMBwICRro05gQwU8Cp3ka60utzWHCTrwrQ9j?=
- =?us-ascii?Q?Kh/9/htUid/ADi6koGzKUU1XF7Zr+7hXWhbX7sxVgf34CD/5gWgGJCUVH8Iu?=
- =?us-ascii?Q?bh39B7opeeQ/9Nm8Mo0MPbOzbA6iwiGh8cLRNhSUCjY75ZoYtRXTNYDV/eET?=
- =?us-ascii?Q?ozempTiaBoP4S5NSNYccLgB8+5o7ntkZ32ZFz/ialk9pxYiFOJnp1+fNW/TW?=
- =?us-ascii?Q?hCBEcua80vBVMvVqZ/fq1fRDzHJuM/L9Bz+Y1zUQIFuXHkVqJAKH2ShjSP2Q?=
- =?us-ascii?Q?vGj2EkG4ev5f+ScnmtJ461YlAQ+4WcIy8F8D6440HVyfP0qOOnDB7qXKsGkH?=
- =?us-ascii?Q?PRFV/KVMM79f/8+5hbjBDEeVc5udKzQOXLXsu2Xpz3ob/wPSKHMA9OT24arz?=
- =?us-ascii?Q?0knPVI83I3Vhzjg2fN6JASbKjjcsRqxKIeJv/Nv9UDbqOJd7WoYQH1dl2L3E?=
- =?us-ascii?Q?Z8aO+BQc93rNYJHaKO8YYVE2IXHwLGk6+u9WGDn1GPyXR8SpqIBN587+Y8GO?=
- =?us-ascii?Q?bwLYQwezLRDX0Y6Ez4P2a1S3aKJC7oRXz+guNS2TDRW01ExPwBXyFAVDJdW2?=
- =?us-ascii?Q?F0Gs1Y8G5VornmZ0yQLZm056PKYS5i7Lmr803M+5PatTwto7rfM00hoAUrlr?=
- =?us-ascii?Q?hcJXPEocI6GUDhmZDHgRen6HSr1bXJ0wzi6llUc6AxmG+Vz3SdO0tzF7pRd6?=
- =?us-ascii?Q?DeItjFCgV3IKPvC2WgJbyhWV6TXYTOXkPFzHcGYE3Lve/tmUJLCCScmzVTZp?=
- =?us-ascii?Q?HokwaMRmWDgkxfila0gjcH84rOrSNnmSPg0L+krhIl/yxtpMDaYWSHts04FB?=
- =?us-ascii?Q?4xfNi7eOjhO25sByN3ghFwNLJ8DNNf4WsUTzXfF2Fadgd9GsRA19j65j8FMN?=
- =?us-ascii?Q?y/PSaigRvLJu8bRN0QuC8qNehbqckgXJwh39WPV7fAovzsuPuwCl56VAzgWD?=
- =?us-ascii?Q?xZo3VjVm6yowLKqTW/KCKLHRANpgr0leDYx2U9VTbeTbvBcq7mJgFYgPw/Q/?=
- =?us-ascii?Q?Si8GgJoYJSgVmryYenng1hReiaqNAYYV+ASE3zFD4k5bTg1vPCC9QChKhB3c?=
- =?us-ascii?Q?iPsUOChQM+dEtmB1eV8cUMb48YUW3AVhlFR/M5DrAxDbFgp0sUnLmimpEQQm?=
- =?us-ascii?Q?LONvQKBbqSekZOMjOtHtB06fR2jTTSue6sbj?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM3PPF208195D8D.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(366016)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?mOAE2J1spLnwq16OcHsFFBH3FjDNBq0eUthbQc2F8b5bgLXa7qSaYnFeYv9j?=
- =?us-ascii?Q?ky3955DSsnKs8PJFvFvTrHQfNtnSBghPC2qfo8GMTXaYJezt00gUdM3feweV?=
- =?us-ascii?Q?C9ZEUUr0nMiWcvtXJP78d98dozSqzQQTawowxEEvdbMlT2BrSQQCPD6eMMWk?=
- =?us-ascii?Q?POWeI4qXlq+9Az0nxx9lmxKxQ6EroAm2t2NoiH/hBy2HESMHeWZeycaGNtYS?=
- =?us-ascii?Q?k9TpiS1aNCRS6bka/w/nxWBTpf076KtiI1ywwLdwQt1lY56cSAqbRayZ72AB?=
- =?us-ascii?Q?9vvTsdBukGDvUR9UGCNt6InykvbD9zY/DnmM3PDquQX1bT+kt0C8e/Z789HF?=
- =?us-ascii?Q?PtX8K0+zsztBTAfw6yUsOH7orRVz9SiuUMn7AsTr/EvONAI1P8631sU7UOTG?=
- =?us-ascii?Q?7Fx06rQNQxyLjQHcsXjPpAVcbsbwclUMLRPLIl+NBW+/EOxevugEvHygZA3R?=
- =?us-ascii?Q?0EtKzfUc3ipTQaVM8CgosO16q+gGQ+z2pnTtPf4LFgYlDLoEtUKBUZESuZaS?=
- =?us-ascii?Q?vK81ciT2101fKIBuGcedawEzpvknIV7etbtgYfY4A96w/uDSSXX/LK4lKIff?=
- =?us-ascii?Q?v1mArJmqkhjBmsD0MxbXSykPzKvTsyz5Crj1RHYQ+5qDNqHlzrx9azyfM3OQ?=
- =?us-ascii?Q?tOjNhtR5UBxSIxnsHToByUAW+Gtzgo1VluUssJkxWRabFzhrBCCjGC4diUba?=
- =?us-ascii?Q?QiZMmpK3x9pmcba0jq21Aar0CvkS/5aL57q9G04uZNBjZOoKkQeNh78xpKIM?=
- =?us-ascii?Q?StDJ4iNYLTdWzuKmo1XhlDdOdRjLa5YyQcwVLOE69/HUgXEQlpa58OCO+Tnw?=
- =?us-ascii?Q?dj3xK+BBbnHRjq/bMH2cWEsf1QKHWK8QPwSr+ieDSUSqBzpppEVQsWxAn2LE?=
- =?us-ascii?Q?y1UZdTpx66g0NdCI4mjmKW4j9Hciwzy7+7H8WIfAVcmykouzwPwknXg0w+pX?=
- =?us-ascii?Q?MV1FXilUX5lt3ZR14C4rvOeulXtufZKAYVUYjpMYXFN2tpUHlbJBj4CeAa06?=
- =?us-ascii?Q?tmM4Vs5mpwWI26yoAUNPsa6zX172d1EHoUBWKCkBWwFsWDhm7FckVTBxw9ZC?=
- =?us-ascii?Q?X8fgV9IctlbHPgsBl7t+ycQ9vLm73nk+9UALVgasXbBj/FoaHz0N/ttl6J0f?=
- =?us-ascii?Q?VnzglPyv4jFCxLgcjo1J1BKu8XMXZ1T/Qvg74MPYf7mCTJv5j1GsVqbyn5G3?=
- =?us-ascii?Q?MoVbJK7z7xC1PVJr0WjigS+PPYr6hA8hXGOu+ZuschobGKHjQWBrOxi4c3CU?=
- =?us-ascii?Q?suSy7nCP4oGOJfI0SITsmdWLKQ4hxWUAyTHFk3rzcWb44kOUZveOdp2FyC6+?=
- =?us-ascii?Q?RYLCKXpD4M85zWQ3WJTyJA6sdpZAXZZXP0UXsVTJdebfHi7MKNgEg022H5RE?=
- =?us-ascii?Q?nmcpxaqcJTEAzuVIronUrZdLoSvZVQNKIYdGBbwT0UfxnoQNu+vXK8KwV13j?=
- =?us-ascii?Q?vTLITjncq2RfQoZKw+O0Vhr7vgnKvO0nhLnq+yPAjMAw7p1jcjxAlVCJMaba?=
- =?us-ascii?Q?yf1kRfJRGaVY/j4aaF4MNeSgGiFBKbHM1EbzGgWbauG4VF9BIC0FFBjee7VS?=
- =?us-ascii?Q?BXUP7SGxAqnvpv7L59GccYWFK7Z3C56UmOuocHfo?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mM8dnmt0KCStX9c9hnUgHlLSWBfEy4Eps3VeCh7ku+I=;
+ b=C8qtTMdZwGG2EyOR5bv7LBXBm6oJUVxFTmDVDsb7kuOU1cKRPoUsPzLvCoMFz/lkmk7T3uFoH9Je4E/FVZ1zBqfpeoTQtsxLMuQrhOSCt0u/R0f6WJPYZKIScRazP7pK1hMqZ8jW8OGvCoevc2On3tfAiFbcImB5xEyX8auZOeRpq2WPiKjB1Da09yKc+weQ6Pn5dbkuyerdbT5wdNZ1cTePNKCOSeGejgjyvN9EcM+JZ82DECOmrpkitBJxRpIneOFa3QtRYpA0lvSi4kjvjMFIsEdktdE/2eHtQn5t5ZyQRFUZ7Aqq7CWJZ+90zBTgyI2vfu/ilXueGAIC45QiPg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ IA1PR12MB6433.namprd12.prod.outlook.com (2603:10b6:208:3af::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.16; Tue, 18 Nov
+ 2025 06:15:52 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.9320.018; Tue, 18 Nov 2025
+ 06:15:52 +0000
+Date: Tue, 18 Nov 2025 17:15:47 +1100
+From: Alistair Popple <apopple@nvidia.com>
+To: Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ himal.prasad.ghimiray@intel.com, airlied@gmail.com,
+ Simona Vetter <simona.vetter@ffwll.ch>, 
+ felix.kuehling@amd.com, Matthew Brost <matthew.brost@intel.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, dakr@kernel.org,
+ "Mrozek, Michal" <michal.mrozek@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH v2 00/17] Dynamic drm_pagemaps and Initial multi-device SVM
+Message-ID: <gdveezxmqazqdyuyy6kpca7kfppxkackmcms6xrfcya2acqzat@jd2yjghp5bcm>
+References: <20251111164408.113070-1-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251111164408.113070-1-thomas.hellstrom@linux.intel.com>
+X-ClientProxiedBy: SY5P282CA0019.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:202::20) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|IA1PR12MB6433:EE_
+X-MS-Office365-Filtering-Correlation-Id: c867532d-0d15-4156-74a2-08de2669ecbf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|376014|7416014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?5wnc+RHM3QPT1ZMs8HStnvJ8nvBi7JE94uEGMQMlw4ldD4y/hTPZTjx8Ss?=
+ =?iso-8859-1?Q?KOZJyOSJ/WXgFsN2VDX/lPduPjaYdezuMWCiF3buYuajvmqGnNT4fFWtSO?=
+ =?iso-8859-1?Q?vmqImCKnt/I6f7SiRczRY1+IlNDKetJo9NZRPdyOB82od/6Ypt9WhVrOWw?=
+ =?iso-8859-1?Q?P4EREDM+PfxyyY3d7SPPydI+YFU+tuPtyAKg4cQ4CQfFq9MLagBB+MDJSD?=
+ =?iso-8859-1?Q?qN2aqqZjRXbJfGTOktKgq9p6F4lTXu5sgt5CuJG1Ws9C6AOpvNNgGK6PIj?=
+ =?iso-8859-1?Q?dwRnjFMXPOuZ1WF/+rswaTNqxSoeSt/8/qPdG/hYn/7CWl2MTzUg1+Lf+C?=
+ =?iso-8859-1?Q?EidYmvNnK5yoYe6+UAzYBGMZv2ciMdrzTAaaJges/FqjmBMmudzzleiQMb?=
+ =?iso-8859-1?Q?97M2pPZiprQEoiIOBnRBgtFYYctH7sqCs4bPm/9GunvAm7Lu0A3XU/cqL2?=
+ =?iso-8859-1?Q?CSIqd1w2xUZVGGHpQfZhSxjTT+QNozRoEPHziFreUXY0vNMpyYvUThB7Rb?=
+ =?iso-8859-1?Q?7nmDLBxHFe2wFFe+1f5tPzZCsvio9EPop+Bq8NlkSFcrXUke2T9kCULDnB?=
+ =?iso-8859-1?Q?o0oe/APxpso68XrPF6LPnEhWLmVQBHBYXp18IjT8VKK3el7mmtuz47UVEI?=
+ =?iso-8859-1?Q?0WAmPHlwf3vSvAeA7fVc9Dix5O2gYIosR5OF6QqvwnUCE3L+VuLPXgGsL8?=
+ =?iso-8859-1?Q?gHjZ6hc5lrdgTt+Ce6ndeqzuo3OeZocICohSHqFXB3HdDFMP30rc0u/qkw?=
+ =?iso-8859-1?Q?6vvsTgZvtORa9zEEDobaxdMmESjkdCXJWqMiIfckBf+/keDXmgah28WRvy?=
+ =?iso-8859-1?Q?Lv5EpBADACZpbVtAPkmG/lErPDDCzoBf3r060iWzGOdASkQvLu72a/nUNk?=
+ =?iso-8859-1?Q?sCGLyGaLGfCAmRQGuGml0PoxwaQFVR1d4oC0JozHcGYng1wKNM1MUr89MR?=
+ =?iso-8859-1?Q?i4ZgLP4cjKWBbwR38aNaNMZzMVwFa8suzl8cnkpbINLUnwaG2vo9cF1ybT?=
+ =?iso-8859-1?Q?rwXyEnCaz6A/oHbhw0xqLMMyjR8fWvZsUVV4cKTGHQjhSOlBmOgrtKX7WT?=
+ =?iso-8859-1?Q?Fpaqavk479ZeCfuKhQFp1hQQZQ3J+7LyiaeKm1T2+zgYy+G4j8HotnVJgK?=
+ =?iso-8859-1?Q?yN5FWHbfvg2Z2O0AfwL544jF3qVslKD0ZZAthmneZxX1XS8KEDJrc++Q4c?=
+ =?iso-8859-1?Q?H6fg2ekq6Eump8glagxy56WzDZlINFbjeV7SUa4MTjeZ5wPniOXqDQPB4f?=
+ =?iso-8859-1?Q?RtokIO+BoFdH352VQFr2G5ILHMCjdVn2worR+VZAl4kOOvyScGn1AOxOOG?=
+ =?iso-8859-1?Q?Z4V7WLneI4wEpD3YLCEcwe8mmHtT44TWzOY9oOJ8/FOv/GdC4T1TdG8e5m?=
+ =?iso-8859-1?Q?lnUrky3fNMeapvu2HBweHLzb3ZeMiJn4nD5jz2xlXSgt64wXK++UVTtcWC?=
+ =?iso-8859-1?Q?ZPBj2aJf8KkofmT+33FO6t8rKWM6nCmvymK0YSSCDUkDnT/OB6tx3NBAq8?=
+ =?iso-8859-1?Q?AHbPy9N6mgf5FO4tnoNvtC?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR12MB7726.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?zRsflFcTrrKl1AHAXkXgXc5N/2zyfHbc9dXChrEyYdgZ4tnbW2Biw8qUq+?=
+ =?iso-8859-1?Q?l1juVbzz4WhKY9DxNcwNJ1VlGj4vC+/c0BWBl98A99+XdbT4iH96avAQh2?=
+ =?iso-8859-1?Q?VsQJhiSLjAKow4OravDY85t19pOjXTJGwt3m2UVT//re3Ns7LxXMs0XQeV?=
+ =?iso-8859-1?Q?jcLsHPtq3FKWqk9VbvXBrdtpGz1nu1HVmOOpUWqMCqQakPNZkxuWVHQHSv?=
+ =?iso-8859-1?Q?tGYrD8NkSOK1dUL7to3H/Z39f1FZIF3xc3JjX4Au5vjIKl1vGlcNUHxnzo?=
+ =?iso-8859-1?Q?humiC/U1gmion/yQdDalhGVt+fxkv9I4zCSwSYUMQhuPqqHws/DQoGQ6I1?=
+ =?iso-8859-1?Q?p/oXvnlc1/ZzEN9ZjnqQPo3rQQ7AffWO2h9PuH+w4b0uiIGmNu4Qoohih5?=
+ =?iso-8859-1?Q?FsZcBz3e3pOeNOUwwuMGAl2bLj1askDlQL2RkblsW/QEbH39XKGGDVwunI?=
+ =?iso-8859-1?Q?YZp2ffpOtGXDhKppjCnoPo4oc8690KSkVTB3ahjdAKHiJOoX45jqKZRrHf?=
+ =?iso-8859-1?Q?SdrO1yZrjzalDKbQGsvHIAILMacMa65w5ZWQIM2bksGzae4OCS9LOqU9mq?=
+ =?iso-8859-1?Q?kbhHpdiZKXdV4jXknXnX5mAF9SzkcVIjSgrvVrQBqoYLOHN+IlTWlcTeDj?=
+ =?iso-8859-1?Q?7KmIZE8ELr3u2S7/M5MxmtaPyO9meew70u1HNjPUp3OZeUkjEVxJEMz3sM?=
+ =?iso-8859-1?Q?OTIoggEDOf60gPcVfUdot6bvHOZtoHyMz7u8b/uei6aTy1MJ1cE7wywE11?=
+ =?iso-8859-1?Q?xWZ/poLeub9lHMPd2IjmJTzUnCWK4Mb/Xw6TGPQtJCOb0BzgLODFCiP1F0?=
+ =?iso-8859-1?Q?pqE1UL+P4LECJ2A4ISQhjQADK8Y6mEp2y9fSJEKO4c7rF+Hw1B+eUiIbiq?=
+ =?iso-8859-1?Q?fTVjJ0PlCgGNLE7oDjnEzOoFBEzTC7O4jJqFC+mpQkb7AkdzOQ1FV5XVXY?=
+ =?iso-8859-1?Q?r/i+7brTw8mogeYvpE3BX6azNims3c20qaNCBGk7U1nCvfO9tgDJeJVt50?=
+ =?iso-8859-1?Q?He6VlyXVY2jly/IZt6As2hzEHiC7fmjTu3jL0KFXn3vR4Gm+WrvraxuJUp?=
+ =?iso-8859-1?Q?pg8V5NWkOp2/9PKlZHza8k4t5Bc/Sc9qswiVlZ16eoBzw+uSvDHnUnMQuT?=
+ =?iso-8859-1?Q?BAw3R8xoWY3iLqle63PIphdRXtvWksI1G9fgBrEx+6kDgQ1KCyMg4X00kj?=
+ =?iso-8859-1?Q?Q5g1UfuSG0I/F2JAkR8C/fJki4lTmVW6Pn+08+zLfq+81aNlGF3SGYy7DE?=
+ =?iso-8859-1?Q?jOCZ64Nc5ckyixCr3xSL17EIaHYEsNju5VMbRzkDRBAgrhoG5KdVesz0rT?=
+ =?iso-8859-1?Q?M940iOue1EJSDjlCVcIOR743hb9iUSmTYg0OPI/vVfy6/IYUNHwb8WrIbG?=
+ =?iso-8859-1?Q?H+DvBv3guA9oezpT6m4mioEOCdCripIS3L6NjUeRt6BU++np6/pUDacn+W?=
+ =?iso-8859-1?Q?p1j6X6daHhKjPuAFeQeE5uuOrk7do6scVsDsCgPZrbLsG8dpHiKq569QHw?=
+ =?iso-8859-1?Q?kZs2IUSLOp/e5eu4bkX20vIBJY9lEkb02cbbzXE0EC2nGyfWVXh0kbY/xq?=
+ =?iso-8859-1?Q?w2R4E0aKwomyLw8VXudgcDsEkeBXsN0+AXyqzHQX/khee71BaZWR6a66Qu?=
+ =?iso-8859-1?Q?ZzIvr9G+aA0bogUjaGLQxhDunOeS+lvo8z?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c867532d-0d15-4156-74a2-08de2669ecbf
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53caf6dc-3aba-4ba2-9496-08de26691430
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2025 06:09:48.5266 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KIfDWq4R6h72P0JDQ8LqITZOyEJ3qXepdvfva7FAMwQNAVAHT8+vlOwe/JAectRf30QbcZiFyPJAy9+d/5qzPQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB9495
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2025 06:15:52.2648 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7XY97MDzjdwD8Fx6LJveLZ4m87PyLBjvwfvAvh3lMAAdapP2aFaXnO1ZwSxE8J07vFmhvsQXSY889okfFxErBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6433
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -194,73 +155,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Subject: [v6 04/16] drm/i915/color: Add helper to create intel colorop
->=20
-> From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
->=20
-> Add intel colorop create helper
->=20
+On 2025-11-12 at 03:43 +1100, Thomas Hellström <thomas.hellstrom@linux.intel.com> wrote...
+> This series aims at providing an initial implementation of multi-device
+> SVM, where communitcation with peers (migration and direct execution out
+> of peer memory) uses some form of fast interconnect. In this series
+> we're using pcie p2p.
+> 
+> In a multi-device environment, the struct pages for device-private memory
+> (the dev_pagemap) may take up a significant amount of system memory. We
+> therefore want to provide a means of revoking / removing the dev_pagemaps
+> not in use. In particular when a device is offlined, we want to block
+> migrating *to* the device memory and migrate data already existing in the
+> devices memory to system. The dev_pagemap then becomes unused and can be
+> removed.
+> 
+> Removing and setting up a large dev_pagemap is also quite time-consuming,
+> so removal of unused dev_pagemaps only happens on system memory pressure
+> using a shrinker.
+
+Agree it is quite time-consuming, we have run into this problem as well
+including with the pcie p2p dma pages. On the mm side I've started looking
+at if/how we can remove the need for struct pages at all for supporting this.
+Doesn't help you at all now of course, but hopefully one day we can avoid the
+need for this. I will be discussing this at LPC if you happen to be there.
+
+ - Alistair
+
+> Patch 1 is a small debug printout fix.
+> Patches 2-7 deals with dynamic drm_pagemaps as described above.
+> Patches 8-12 adds infrastructure to handle remote drm_pagemaps with
+> fast interconnects.
+> Patch 13 extends the xe madvise() UAPI to handle remote drm_pagemaps.
+> Patch 14 adds a pcie-p2p dma SVM interconnect to the xe driver.
+> Patch 15 adds some SVM-related debug printouts for xe.
+> Patch 16 adds direct interconnect migration.
+> Patch 17 adds some documentation.
+> 
+> What's still missing is implementation of migration policies.
+> That will be implemented in follow-up series. 
+> 
 > v2:
->  - Make function names consistent (Jani)
->  - Remove redundant code related to colorop state
->  - Refactor code to separate files
->=20
-> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-
-LGTM,
-Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
-
-> ---
->  drivers/gpu/drm/i915/display/intel_colorop.c | 25 ++++++++++++++++++++
-> drivers/gpu/drm/i915/display/intel_colorop.h |  2 ++
->  2 files changed, 27 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/i915/display/intel_colorop.c
-> b/drivers/gpu/drm/i915/display/intel_colorop.c
-> index eaab50d2d126..f2fc0d8780ce 100644
-> --- a/drivers/gpu/drm/i915/display/intel_colorop.c
-> +++ b/drivers/gpu/drm/i915/display/intel_colorop.c
-> @@ -8,3 +8,28 @@ struct intel_colorop *to_intel_colorop(struct drm_coloro=
-p
-> *colorop)  {
->  	return container_of(colorop, struct intel_colorop, base);  }
-> +
-> +struct intel_colorop *intel_colorop_alloc(void) {
-> +	struct intel_colorop *colorop;
-> +
-> +	colorop =3D kzalloc(sizeof(*colorop), GFP_KERNEL);
-> +	if (!colorop)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	return colorop;
-> +}
-> +
-> +struct intel_colorop *intel_colorop_create(enum intel_color_block id) {
-> +	struct intel_colorop *colorop;
-> +
-> +	colorop =3D intel_colorop_alloc();
-> +
-> +	if (IS_ERR(colorop))
-> +		return colorop;
-> +
-> +	colorop->id =3D id;
-> +
-> +	return colorop;
-> +}
-> diff --git a/drivers/gpu/drm/i915/display/intel_colorop.h
-> b/drivers/gpu/drm/i915/display/intel_colorop.h
-> index 23a29a565949..21d58eb9f3d0 100644
-> --- a/drivers/gpu/drm/i915/display/intel_colorop.h
-> +++ b/drivers/gpu/drm/i915/display/intel_colorop.h
-> @@ -9,5 +9,7 @@
->  #include "intel_display_types.h"
->=20
->  struct intel_colorop *to_intel_colorop(struct drm_colorop *colorop);
-> +struct intel_colorop *intel_colorop_alloc(void); struct intel_colorop
-> +*intel_colorop_create(enum intel_color_block id);
->=20
->  #endif /* __INTEL_COLOROP_H__ */
-> --
-> 2.50.1
-
+> - Address review comments from Matt Brost.
+> - Fix compilation issues reported by automated testing
+> - Add patch 1, 17.
+> - What's now patch 16 was extended to support p2p migration.
+> 
+> Thomas Hellström (17):
+>   drm/xe/svm: Fix a debug printout
+>   drm/pagemap, drm/xe: Add refcounting to struct drm_pagemap
+>   drm/pagemap: Add a refcounted drm_pagemap backpointer to struct
+>     drm_pagemap_zdd
+>   drm/pagemap, drm/xe: Manage drm_pagemap provider lifetimes
+>   drm/pagemap: Add a drm_pagemap cache and shrinker
+>   drm/xe: Use the drm_pagemap cache and shrinker
+>   drm/pagemap: Remove the drm_pagemap_create() interface
+>   drm/pagemap_util: Add a utility to assign an owner to a set of
+>     interconnected gpus
+>   drm/xe: Use the drm_pagemap_util helper to get a svm pagemap owner
+>   drm/xe: Pass a drm_pagemap pointer around with the memory advise
+>     attributes
+>   drm/xe: Use the vma attibute drm_pagemap to select where to migrate
+>   drm/xe: Simplify madvise_preferred_mem_loc()
+>   drm/xe/uapi: Extend the madvise functionality to support foreign
+>     pagemap placement for svm
+>   drm/xe: Support pcie p2p dma as a fast interconnect
+>   drm/xe/vm: Add a couple of VM debug printouts
+>   drm/pagemap, drm/xe: Support migration over interconnect
+>   drm/xe/svm: Document how xe keeps drm_pagemap references
+> 
+>  drivers/gpu/drm/Makefile             |   3 +-
+>  drivers/gpu/drm/drm_gpusvm.c         |   4 +-
+>  drivers/gpu/drm/drm_pagemap.c        | 354 ++++++++++++---
+>  drivers/gpu/drm/drm_pagemap_util.c   | 568 ++++++++++++++++++++++++
+>  drivers/gpu/drm/xe/xe_device.c       |  20 +
+>  drivers/gpu/drm/xe/xe_device.h       |   2 +
+>  drivers/gpu/drm/xe/xe_device_types.h |   5 +
+>  drivers/gpu/drm/xe/xe_svm.c          | 631 ++++++++++++++++++++++-----
+>  drivers/gpu/drm/xe/xe_svm.h          |  82 +++-
+>  drivers/gpu/drm/xe/xe_tile.c         |  34 +-
+>  drivers/gpu/drm/xe/xe_tile.h         |  21 +
+>  drivers/gpu/drm/xe/xe_userptr.c      |   2 +-
+>  drivers/gpu/drm/xe/xe_vm.c           |  65 ++-
+>  drivers/gpu/drm/xe/xe_vm.h           |   1 +
+>  drivers/gpu/drm/xe/xe_vm_madvise.c   | 106 ++++-
+>  drivers/gpu/drm/xe/xe_vm_types.h     |  21 +-
+>  drivers/gpu/drm/xe/xe_vram_types.h   |  15 +-
+>  include/drm/drm_pagemap.h            |  91 +++-
+>  include/drm/drm_pagemap_util.h       |  92 ++++
+>  include/uapi/drm/xe_drm.h            |  18 +-
+>  20 files changed, 1898 insertions(+), 237 deletions(-)
+>  create mode 100644 drivers/gpu/drm/drm_pagemap_util.c
+>  create mode 100644 include/drm/drm_pagemap_util.h
+> 
+> -- 
+> 2.51.1
+> 
