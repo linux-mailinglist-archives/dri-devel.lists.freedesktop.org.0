@@ -2,109 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00489C69657
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 13:33:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51DE0C6966F
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 13:34:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F39110E492;
-	Tue, 18 Nov 2025 12:33:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABBA710E493;
+	Tue, 18 Nov 2025 12:34:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KwRRu+MC";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="T90FoTMH";
+	dkim=pass (1024-bit key; secure) header.d=ixit.cz header.i=@ixit.cz header.b="htDw2Bgg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 94C9310E492
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 12:33:28 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AI8Dt7h2194259
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 12:33:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- xWH61jHILhuuM/eqN9zZnCfpTwI2FbUKKoAu6Ut/IXg=; b=KwRRu+MCgOwJ74KV
- IByhtwyp+OmF+NIBMsdfaKXEwLINLdNDBc9uP8PHmzmN6nLD23Gp+Te+umlxSy5W
- D54l/pGPqxwaYZbNgWBq/PYy9Kc7nS5lt1ZFcIJNEhxJtDQPaiUT7GUKcaLu4k1k
- PHBRFAZ+Qs6rBcqY52VBEU/jq2Ceah/+JDHXqzV5ImIm2JUf0Trl0kOTv2SPlc9P
- 3eDWW7niR427sTkCU6w3WjCOu2mgZr9W8CVZY4ERG5/uT0nteGIfe7Iqm9LiJeKX
- TzFl2cpMScntfOXXJRhPc9wgUC960x/MAi4raLq2uBfb+SCTlUj2xpSdMHy+tbs3
- PYNYtQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4agn3y8r34-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 12:33:28 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4ed6a906c52so14259621cf.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 04:33:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763469207; x=1764074007;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=xWH61jHILhuuM/eqN9zZnCfpTwI2FbUKKoAu6Ut/IXg=;
- b=T90FoTMHug0c5YrZj578z4FqE3UDu6udMc28ILKQ9SZeCYVdv0SKPNBsIBPcTZU9l7
- YVe/kT7eXRtykKkwpfr91+rAEQz5JzbO1lEpFAOACx2+samRxcvGvsvU7uHHfb9dDkor
- M0wa7yudoShtvUB2hrNVCEgsU7jNDGlSUzbnAoO+8wY3neG7RNdNAd2OFmg7c+WvZj8S
- Fmm/hjeCUJpNk+oUsCZYG3Hj5lg7F2mSdPDvpxTSIJXSETTmhquhtxJ9mbsj/CAV1icX
- esOB0U5bPEQO0sDdzjh6MERsVTtq+C31WB/w1KdbIo+3w0E39NzuOT8BMiWZz5S+SmfK
- tCHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763469207; x=1764074007;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xWH61jHILhuuM/eqN9zZnCfpTwI2FbUKKoAu6Ut/IXg=;
- b=CMd8kCN6wGlG6XVuO4VlTPW7rAbiIusiOKreWhJFArYT5SX5SCIqjtMPYzQDz0Zg9U
- 4+JDlzscfIlq1NhXPwENVGoscvkIX8kudgcbku+qGWBQXlAYxkbse/r2sfnPXr6DTyWY
- d6/ZH7cZuQ/T6eDwCGZctDovLUwMWnwq89rf+pIaeh/FHs53BeZOuP5r4YaMISrNc3yK
- 0qOrnEKTiFOJLKW9Ew2W0wYHIB+/A3cERjShVCCoqpDjvsffI4OB7RXIX8OkxvfJYkd8
- gTtF0PlC0JhZrw+edt4Rn+08ko3tiKJx+LEefRqXFwfZfzksXr35KO57mQN+JCnrVTmK
- c7NA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV03I+QGNYorIzG9MAVjTGa+jyDHu7Y71iwpr5NBybpYc61Idmf+JhNLg6Yvl/5IGQ3yf+yx0nnrks=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywx0VTEiqO6XHh9FNBa2uNEJD9RCPZgqZZJvp08ZUFyEkyqXH2I
- 7soJBFp2sJdAVQqorYhK6Q+ZwE2OT9R3Og6RbG3aTwNCKPcQm190Iz/TYQSKdC5/HqslKAiO3lP
- nkoJUb9vsj7wL4SeBcLzpfKdgGpRUilYsY8GKk2OLxyI3DRbMlRxfevg9yGwi8QWwO/SegytsUi
- HBg/4=
-X-Gm-Gg: ASbGnctDT2r2MNEerfAMH8TzqwlgXhOg8vHZwZ3fePnFWpM+sM6+R+aAgjEg8C+/RWe
- edZHKwsJ4hjMD62HuqaBZmqUVEHRXqUPvU+clprSbn28/MaHuCU76O3CJE+QdWXMirKLtlYq1Ll
- uJaRnQlaUREHZlwHz+rgK4SMckflS7yngqsuIQLKvJ9v44z9EvzboG8R9tOcuOKBp3xGgPvb3+a
- 8889NKvuEgsD4yrB5JfikI+OIUENMmYxo2Hb8OfH6QJvxewRO0ozda7EO3otwpbPc6nCTGaoU1O
- lTuQ7KusqfVVcQJ4CyXqn81EDV8o0JKaU6DdxJiF/E7RZGUSG8JhB/n7o/XYt5TnWkNRiNZltZj
- x/Vb3rrpchsNXIdOwoc7aiDgG7ui0dDZagmb1rHXyWMAzLwV9QPz1JAt6CtkZQpEE+p8=
-X-Received: by 2002:ac8:7d50:0:b0:4ee:1718:dec8 with SMTP id
- d75a77b69052e-4ee313fa866mr24770431cf.3.1763469207014; 
- Tue, 18 Nov 2025 04:33:27 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFB8OaN3tmFzcOE29+YjSKwC8Jq3pDXXlW1BguEgp3kVHDiSSO5K52l1zjqF4g8J3kaErlFaQ==
-X-Received: by 2002:ac8:7d50:0:b0:4ee:1718:dec8 with SMTP id
- d75a77b69052e-4ee313fa866mr24770151cf.3.1763469206515; 
- Tue, 18 Nov 2025 04:33:26 -0800 (PST)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b734ff75e4fsm1345957566b.12.2025.11.18.04.33.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Nov 2025 04:33:26 -0800 (PST)
-Message-ID: <715ea6b0-a8d7-4ecf-b0c7-f4469c94b969@oss.qualcomm.com>
-Date: Tue, 18 Nov 2025 13:33:22 +0100
+Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52BDA10E493
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 12:34:18 +0000 (UTC)
+Received: from [10.0.0.200] (unknown [10.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange x25519) (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id C776D5340B4C;
+ Tue, 18 Nov 2025 13:34:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1763469256;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=AqKItSbNBg0rTA7GzgF445S5K6uusvDHoO+8ekmP/rk=;
+ b=htDw2BggSDu2mhuqeAuVxeUYHm8EA57oFTYOA6e4/VtQo4fz0xwj7zsDv/COj3SCtuSX7a
+ ORQ6UbexduNc+hGapELkzD9S9hzYXBuBTgjVoyN1DoYVLABOKbjJoW6uXuzB/ZnP0Sl6Qc
+ 1KL/x3LIyEj9GupgbtYEA1SRZgE38V0=
+Message-ID: <eb75f5c7-18ef-4eda-a28f-6efde9df03e4@ixit.cz>
+Date: Tue, 18 Nov 2025 13:34:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 2/8] dt-bindings: panel: sw43408: adjust to reflect the
  DDIC and panel used
-To: "Rob Herring (Arm)" <robh@kernel.org>, David Heidelberg <david@ixit.cz>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ "Rob Herring (Arm)" <robh@kernel.org>
 Cc: phone-devel@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Jessica Zhang <jesszhan0024@gmail.com>, dri-devel@lists.freedesktop.org,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Casey Connolly <casey.connolly@linaro.org>,
- linux-arm-msm@vger.kernel.org, phodina@protonmail.com,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
+ Casey Connolly <casey.connolly@linaro.org>, linux-arm-msm@vger.kernel.org,
+ phodina@protonmail.com, Conor Dooley <conor+dt@kernel.org>,
+ devicetree@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>,
  Sumit Semwal <sumit.semwal@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  David Airlie <airlied@gmail.com>, linux-kernel@vger.kernel.org,
@@ -112,34 +53,55 @@ Cc: phone-devel@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
 References: <20251118-pixel-3-v3-0-317a2b400d8a@ixit.cz>
  <20251118-pixel-3-v3-2-317a2b400d8a@ixit.cz>
  <176346899005.2610273.2055455026150162691.robh@kernel.org>
+ <715ea6b0-a8d7-4ecf-b0c7-f4469c94b969@oss.qualcomm.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <176346899005.2610273.2055455026150162691.robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <715ea6b0-a8d7-4ecf-b0c7-f4469c94b969@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE4MDEwMCBTYWx0ZWRfX+UQNuwS9htGP
- ctO4I2XWfsK1s9rsHCCeX8xigPCu1D7U6xF4I3hH2XnYxDukpzGINLXKyby9rZvrHzBl7ry4/YG
- 1XF5YSZn5fkq1mkNDzMwxz2oHKg0f/wrb3Inmp4J0hjImUAy2DCxi7LpnZnMczLkoTSq/NiGlHY
- r05+IjAUIu6Nw+u55m+S+fGyKhN1960ECO82VtqXhgpCa+uhLKkbslcrqw6lcPbcCVa+L5TeAQX
- ii+gBL0qZ7zymU8d890B4rQEf++jTvO2MZA/ldGwLKgG629SMVKY+gIzrd7R6E1klBcXyZRtkU5
- dZrgxnUtUt0sWJIfJeM/Mtdiaz/WwILpDKYcZB1WGtjaKI3n/Gy6NCtUwX+RRuDDB6R0qRSDGCy
- IPMlsl0/GGaxRpUzhFmtLYqnzQoqjQ==
-X-Proofpoint-GUID: MiJTakznS1Kk_6zcFYxGJZOo0OThhAJi
-X-Proofpoint-ORIG-GUID: MiJTakznS1Kk_6zcFYxGJZOo0OThhAJi
-X-Authority-Analysis: v=2.4 cv=FtIIPmrq c=1 sm=1 tr=0 ts=691c6798 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=gEfo2CItAAAA:8 a=SdGosrV6Qt3YffhYJa8A:9
- a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22 a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-17_04,2025-11-13_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0
- priorityscore=1501 malwarescore=0 phishscore=0 adultscore=0 bulkscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511180100
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,29 +117,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/18/25 1:29 PM, Rob Herring (Arm) wrote:
-> 
-> On Tue, 18 Nov 2025 12:30:37 +0100, David Heidelberg wrote:
->> Add compatible for used LG panel.
->> SW43408 is not panel, but DDIC. The panel itself is the
->> LG LH546WF1-ED01, so introduce combined compatible for it.
->>
->> Signed-off-by: David Heidelberg <david@ixit.cz>
->> ---
->>  .../devicetree/bindings/display/panel/lg,sw43408.yaml         | 11 ++++++++---
->>  1 file changed, 8 insertions(+), 3 deletions(-)
->>
-> 
-> My bot found errors running 'make dt_binding_check' on your patch:
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/lg,sw43408.example.dtb: panel@0 (lg,sw43408): compatible:0: 'lg,sw43408' is not one of ['lg,sw43408-lh546wf1-ed01']
-> 	from schema $id: http://devicetree.org/schemas/display/panel/lg,sw43408.yaml
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/lg,sw43408.example.dtb: panel@0 (lg,sw43408): compatible: ['lg,sw43408'] is too short
+yup, saw, consider it solved in next version! :)
 
-You got this error because you didn't fix the example DT (which would be
-validated with `make dt_binding_check`
+Also hopefully I'll fire ut the dt_bindings_check and dtbs_check in our CI.
 
-Konrad
+David
+
+On 18/11/2025 13:33, Konrad Dybcio wrote:
+> On 11/18/25 1:29 PM, Rob Herring (Arm) wrote:
+>>
+>> On Tue, 18 Nov 2025 12:30:37 +0100, David Heidelberg wrote:
+>>> Add compatible for used LG panel.
+>>> SW43408 is not panel, but DDIC. The panel itself is the
+>>> LG LH546WF1-ED01, so introduce combined compatible for it.
+>>>
+>>> Signed-off-by: David Heidelberg <david@ixit.cz>
+>>> ---
+>>>   .../devicetree/bindings/display/panel/lg,sw43408.yaml         | 11 ++++++++---
+>>>   1 file changed, 8 insertions(+), 3 deletions(-)
+>>>
+>>
+>> My bot found errors running 'make dt_binding_check' on your patch:
+>>
+>> yamllint warnings/errors:
+>>
+>> dtschema/dtc warnings/errors:
+>> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/lg,sw43408.example.dtb: panel@0 (lg,sw43408): compatible:0: 'lg,sw43408' is not one of ['lg,sw43408-lh546wf1-ed01']
+>> 	from schema $id: http://devicetree.org/schemas/display/panel/lg,sw43408.yaml
+>> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/panel/lg,sw43408.example.dtb: panel@0 (lg,sw43408): compatible: ['lg,sw43408'] is too short
+> 
+> You got this error because you didn't fix the example DT (which would be
+> validated with `make dt_binding_check`
+> 
+> Konrad
+
+-- 
+David Heidelberg
+
