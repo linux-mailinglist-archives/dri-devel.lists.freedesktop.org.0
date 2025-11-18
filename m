@@ -2,64 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85548C68FA7
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 12:06:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF08C690A3
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 12:21:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D2E810E350;
-	Tue, 18 Nov 2025 11:06:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D878A10E172;
+	Tue, 18 Nov 2025 11:21:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O8fj0FSX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OurahoAq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 021A210E346;
- Tue, 18 Nov 2025 11:06:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763463973; x=1794999973;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=XUyPpZWQO/7hHOnEZDr1T6NuMTPjfTBry/dhI/ipHGw=;
- b=O8fj0FSXbMxNcAZ8Cvi8Vh0Dy1vN6MLeW3tNWEKglVfGjwh9kJBu7slC
- 9STxll8wwZ5MYlpbViVZKkWyVIOsYGhKfAHtFBQCzYAzlQymQMlgNBcs6
- Uxozq/qeOR3apvAtiFM+QqstaxuLiuWRK+jsme5Vn9T48ZkjLfQ3jkih6
- MziT/pYdBFMV4Qit+LTIOHj+MVwWme3Ui7JeeyiV4UqX6vkoDtNuqzmyj
- DFLMMhhOKzqLqJXgi2j6pWsRl4ytKtPsYaUqmygO2NIyYqw21MYQnIH+a
- CsbckKJ2oDk1AHOFNWsR9KvWbm7TZtxbGMrxTOmMP+S/XSUR3Pusx4UU9 A==;
-X-CSE-ConnectionGUID: 6uKFaPI5QWCNdo6nLdVO0w==
-X-CSE-MsgGUID: ia1Iy5QCQgqWuJz676XS3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="76585322"
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208";a="76585322"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2025 03:06:12 -0800
-X-CSE-ConnectionGUID: IEHaxSpnQwiBpVLSMx2jcw==
-X-CSE-MsgGUID: eMP72bHjRrardTeBuMC4eg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208";a="191503038"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.125])
- by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2025 03:06:09 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: "Manna, Animesh" <animesh.manna@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: "Kandpal, Suraj" <suraj.kandpal@intel.com>, "Hogander, Jouni"
- <jouni.hogander@intel.com>
-Subject: RE: [PATCH v4 02/10] drm/i915/alpm: alpm_init() for DP2.1
-In-Reply-To: <DS0PR11MB80498D83C22B8B0F77FD1411F9D6A@DS0PR11MB8049.namprd11.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251113120119.1437955-1-animesh.manna@intel.com>
- <20251113120119.1437955-3-animesh.manna@intel.com>
- <4577de7373cb6bf2954d8d599168f408c87730c7@intel.com>
- <DS0PR11MB80498D83C22B8B0F77FD1411F9D6A@DS0PR11MB8049.namprd11.prod.outlook.com>
-Date: Tue, 18 Nov 2025 13:06:06 +0200
-Message-ID: <f34b3346ed026210c40e30cebd4d3a3209bb3d77@intel.com>
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8F1910E172
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 11:21:40 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-429c48e05aeso3234132f8f.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 03:21:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1763464899; x=1764069699; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=N4adjp1n4HMnqOgVZgrtwuRwqjyLZVjTGk78K7r+qec=;
+ b=OurahoAqSCXQrJtxAXBws+CiSmmg3Tw7quHSjp27qSm5/LkfqkRYQdgyYYVf8Mt05M
+ tVWwHzUXpLV9K3lgbIO1MBlkkgxGxRz0WPVexMqvqJ+AHAcLyEKK0Rk5uSVlzr2pJ5iv
+ z1UObw2ozM3h1dlhQln2gwhzR9bu3NXpp2begw3+VB1Zr4LHOXw+SsH/Y1sqeNK0lGdq
+ wRt0QgbWcVzpD4NG/Qt4sWm+DbH3rJaNGKXKkPjpFSVVtrAumPKXYVSKEBPutfbE6OLO
+ q3BMah+Fo4d/1EVlW8o1h4pHWaL8iwAFS/9AFGnnIEtELLRtYYag19KBexcmK2PlcLnW
+ tRmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763464899; x=1764069699;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=N4adjp1n4HMnqOgVZgrtwuRwqjyLZVjTGk78K7r+qec=;
+ b=gWf49SQn04k/kkl+lxL5laoEIu/6VbYn9/2sws6Gn0xX5wSMoTB4EJjpaPkiC6TiEz
+ p+6SCYZWTEcKLCmGYfgfGrBm2TXNcteTZGyzNX+q8KFuO7G1UtT1TrM28xVETUz7GDtg
+ A0EtGT5JyASyFfPCqKhqQ9a84LHDKX3643BES5c6sbrGv23i6Ij9LAjb5qCVKbQERJPl
+ snQ7fRnwRy339NWxERMVh3IPmyGKwAC98LJJq++bGNeAAFAbk4XlpcfQQCT7G4jZQr1t
+ TZ53qIXvXC/pNRMq3w00TarWDP1JJVe6kURsAANsA7+FbFC9DzF+6qS79fvqwOz+RrtL
+ 2Y7Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXcNQizqTRN1fU2qE8lFnyT3f74CMPQPb65SB26yg6QNpisvcvpGw26h8eDtozZayKNuQSIZq4kUzU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxasp0d2GKrDcLCzTNWiNRjyNg6OJvhnVOtM/6t+JReuLh7dofc
+ hzLCzU69MkUpEJ6Ud7JgPZd6ES72yc9BeA9bPDJHEo7drcckRnuStVkRuo6OnUA9uB0SrGkl5WN
+ qdeMthYz5+jmE+1eoSsHovCP2fR5kZ9WemnCJ
+X-Gm-Gg: ASbGncsYGqwaLush4HGMVwLdXLmB46LbkhNozI0KlonsqGldOLryOtDQRfEgMZmlt+9
+ eMipzE4rKV8MvFfzIg7Wzm4Tutb/91VKbPCoAFXFM7F2GfsdbEm4heuxFgYupH6omOA4m6R8Hpy
+ 7P0W+GTJF5n9VA9UOv0AE21WJS08X8UT3+Fz/22Ido3IsqyNvbWwt79rm+ACFSzE0lHN6w3Jbh5
+ ZwpuC2lNTTrc3RVXqsR+luEFBeeUZ/fyaQ/UlBzEbwFexFgxkAOhhGiSmUKKwIIEyoO/0xSrDhW
+ t1W/8xXx8t8sj/ZVdHdZXfNlhsW+
+X-Google-Smtp-Source: AGHT+IGANyPdqzYmfFEaFVGhyAXfuxeoDjl23RYIriV6FF/16VMTynZc4LvP1liBFBcOfFF1lFTyu84kN1+K1m6YB6o=
+X-Received: by 2002:a05:6000:178f:b0:429:cc35:7032 with SMTP id
+ ffacd0b85a97d-42ca8bd18c7mr2818838f8f.23.1763464898795; Tue, 18 Nov 2025
+ 03:21:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20251015192611.241920-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdW1B7Yk1hUU9MSJsiL8wSmjAUGN7Qd_wgBHv8Ct=-wi4Q@mail.gmail.com>
+ <CA+V-a8uY11uWoQ_en5QC=W4HPHRwT6rKQQJ-knT8Gi-+czm05w@mail.gmail.com>
+ <20251021184502.GD19043@pendragon.ideasonboard.com>
+ <CAMuHMdVrfVP1XZbQVNwEEP8L69mVzNN2yLSjNyHO7o2zqBuY0w@mail.gmail.com>
+In-Reply-To: <CAMuHMdVrfVP1XZbQVNwEEP8L69mVzNN2yLSjNyHO7o2zqBuY0w@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 18 Nov 2025 11:21:12 +0000
+X-Gm-Features: AWmQ_bl1DwIS-3Ab86i8VXMJ8kC7jPBYyZty6PEvVtZX5ppN0ByYyuYIgaFMugg
+Message-ID: <CA+V-a8vLXg-whqwpE3pLF5JP3kK9on9Hu3iyLXEvrWbR9XmF5w@mail.gmail.com>
+Subject: Re: [PATCH v11 0/7] Add support for DU/DSI clocks and DSI driver
+ support for the Renesas RZ/V2H(P) SoC
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,198 +106,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 18 Nov 2025, "Manna, Animesh" <animesh.manna@intel.com> wrote:
->> -----Original Message-----
->> From: Nikula, Jani <jani.nikula@intel.com>
->> Sent: Monday, November 17, 2025 8:59 PM
->> To: Manna, Animesh <animesh.manna@intel.com>; intel-
->> gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org; dri-
->> devel@lists.freedesktop.org
->> Cc: Kandpal, Suraj <suraj.kandpal@intel.com>; Manna, Animesh
->> <animesh.manna@intel.com>; Hogander, Jouni
->> <jouni.hogander@intel.com>
->> Subject: Re: [PATCH v4 02/10] drm/i915/alpm: alpm_init() for DP2.1
->>=20
->> On Thu, 13 Nov 2025, Animesh Manna <animesh.manna@intel.com> wrote:
->> > Initialize ALPM for DP2.1 and separate out ALPM mutex-init from
->> > alpm-init.
->>=20
->> I thought I said you're going to need multiple init functions. Don't mov=
-e the
->> alpm mutex init away from alpm code. It needs to stay in alpm code.
+Hi Laurent/Tomi,
+
+On Mon, Oct 27, 2025 at 11:23=E2=80=AFAM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
 >
-> Only for mutex-init do you want me to add a separate function?
-
-Yes, I absolutely do.
-
-It's not about how small or big something is, it's about the
-organization of the code. All things alpm should be in
-intel_alpm.[ch]. We also have alpm sub-struct in struct intel_dp; as a
-rule of thumb only intel_alpm.[ch] should touch stuff in that
-sub-struct.
-
-This also sets the example of what to do next, and where to add stuff
-next. If you have the mutex init in intel_dp.c, if more init is needed
-later, it'll also get added in intel_dp.c, intead of intel_alpm.c where
-it belongs.
-
->> And now the whole patch and subject and commit message talk of
->> completely different things.
+> On Tue, 21 Oct 2025 at 20:45, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> > On Tue, Oct 21, 2025 at 07:26:49PM +0100, Lad, Prabhakar wrote:
+> > > On Tue, Oct 21, 2025 at 11:26=E2=80=AFAM Geert Uytterhoeven wrote:
+> > > > On Wed, 15 Oct 2025 at 21:26, Prabhakar <prabhakar.csengg@gmail.com=
+> wrote:
+> > > > > This patch series adds DU/DSI clocks and provides support for the
+> > > > > MIPI DSI interface on the RZ/V2H(P) SoC.
+> > > > >
+> > > > > v10->v11:
+> > > > > - Split CPG_PLL_CLK1_K/M/PDIV macro change into separate patch
+> > > > > - Updated rzv2h_cpg_plldsi_div_determine_rate()
+> > > > >   while iterating over the divider table
+> > > > > - Added Acked-by tag from Tomi for patch 2/7 and 3/7
+> > > > > - Added Reviewed-by tag from Geert for patch 2/7 and 3/7
+> > > >
+> > > > I think this series is ready for merging.
+> > >
+> > > \o/
+> > >
+> > > > > Lad Prabhakar (7):
+> > > > >   clk: renesas: rzv2h-cpg: Add instance field to struct pll
+> > > > >   clk: renesas: rzv2h-cpg: Use GENMASK for PLL fields
+> > > > >   clk: renesas: rzv2h-cpg: Add support for DSI clocks
+> > > > >   clk: renesas: r9a09g057: Add clock and reset entries for DSI an=
+d LCDC
+> > > > >   dt-bindings: display: bridge: renesas,dsi: Document RZ/V2H(P) a=
+nd
+> > > > >     RZ/V2N
+> > > > >   drm: renesas: rz-du: mipi_dsi: Add LPCLK clock support
+> > > > >   drm: renesas: rz-du: mipi_dsi: Add support for RZ/V2H(P) SoC
+> > > >
+> > > > As this touches both clk and drm, let's discuss the merge strategy.
+> > > > My proposal:
+> > > >   1. I queue patches 1-3 in an immutable branch with a signed tag,
+> > > >      to be used as a base for the remaining patches,
 >
-> Earlier alpm is initialized for EDP only, now its extended for DP2.1 in t=
-his patch.
-> Earlier mutex init is part of alpm-init. Now after feedback I also felt i=
-t can be separate out because reading dpcd always not possible if the displ=
-ay is disconnected for dp-connector but mutex-init can be done.
-> So mentioned as separate out ALPM mutex-init from alpm-init().
+> Done:
 >
->>=20
->> Please read the review comments, and ask questions if they comments are
->> not clear.
+> The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df567=
+87:
 >
-> Currently I am little confused, need change in code or commit description=
-. From here onwards if you can point out some specific change will modify a=
-ccordingly in next version.
-
-As the first thing, I think you should add a function such as
-intel_alpm_init_dpcd(), and move the DPCD parts of intel_alpm_init()
-there. The mutex init should remain in
-intel_alpm_init(). intel_alpm_init_dpcd() should be called from
-intel_edp_init_dpcd().
-
-That's it, that's the first thing. Don't add anything more. The commit
-message should of course describe those changes. It should be all
-non-functional, no addition of new platform checks or anything.
-
-The next part would be moving intel_alpm_init() to be done for all DP,
-not just eDP, and calling intel_alpm_init_dpcd() also from
-intel_dp_detect_dpcd(), where supported.
-
-Small incremental things, one thing at a time.
-
-BR,
-Jani.
-
-
-
-
-
+>   Linux 6.18-rc1 (2025-10-12 13:42:36 -0700)
 >
-> Regards,
-> Animesh=20
+> are available in the Git repository at:
 >
->>=20
->> BR,
->> Jani.
->>=20
->>=20
->> >
->> > v2: Separate out mutex-init. [Jani]
->> > v3: Refactor further to avoid DISPLAY_VER check in multiple places.
->> > [Jani]
->> > V4: Cosmetic changes. [Suraj]
->> >
->> > Cc: Jouni H=C3=B6gander <jouni.hogander@intel.com>
->> > Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
->> > Signed-off-by: Animesh Manna <animesh.manna@intel.com>
->> > ---
->> >  drivers/gpu/drm/i915/display/intel_alpm.c | 16 ++++++++++++++--
->> > drivers/gpu/drm/i915/display/intel_alpm.h |  3 ++-
->> >  drivers/gpu/drm/i915/display/intel_dp.c   |  8 +++++++-
->> >  3 files changed, 23 insertions(+), 4 deletions(-)
->> >
->> > diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c
->> > b/drivers/gpu/drm/i915/display/intel_alpm.c
->> > index 6372f533f65b..14acd6717e59 100644
->> > --- a/drivers/gpu/drm/i915/display/intel_alpm.c
->> > +++ b/drivers/gpu/drm/i915/display/intel_alpm.c
->> > @@ -41,7 +41,20 @@ bool intel_alpm_is_alpm_aux_less(struct intel_dp
->> *intel_dp,
->> >  		(crtc_state->has_lobf &&
->> > intel_alpm_aux_less_wake_supported(intel_dp));
->> >  }
->> >
->> > -void intel_alpm_init(struct intel_dp *intel_dp)
->> > +bool intel_alpm_source_supported(struct intel_connector *connector) {
->> > +	struct intel_display *display =3D to_intel_display(connector);
->> > +
->> > +	if (!((connector->base.connector_type =3D=3D
->> DRM_MODE_CONNECTOR_DisplayPort &&
->> > +	       DISPLAY_VER(display) >=3D 35) ||
->> > +	    (connector->base.connector_type =3D=3D
->> DRM_MODE_CONNECTOR_eDP &&
->> > +	     DISPLAY_VER(display) >=3D 20)))
->> > +		return false;
->> > +
->> > +	return true;
->> > +}
->> > +
->> > +void intel_alpm_get_sink_capability(struct intel_dp *intel_dp)
->> >  {
->> >  	u8 dpcd;
->> >
->> > @@ -49,7 +62,6 @@ void intel_alpm_init(struct intel_dp *intel_dp)
->> >  		return;
->> >
->> >  	intel_dp->alpm_dpcd =3D dpcd;
->> > -	mutex_init(&intel_dp->alpm.lock);
->> >  }
->> >
->> >  static int get_silence_period_symbols(const struct intel_crtc_state
->> > *crtc_state) diff --git a/drivers/gpu/drm/i915/display/intel_alpm.h
->> > b/drivers/gpu/drm/i915/display/intel_alpm.h
->> > index 53599b464dea..bcc354a46a1d 100644
->> > --- a/drivers/gpu/drm/i915/display/intel_alpm.h
->> > +++ b/drivers/gpu/drm/i915/display/intel_alpm.h
->> > @@ -15,7 +15,8 @@ struct intel_connector;  struct intel_atomic_state;
->> > struct intel_crtc;
->> >
->> > -void intel_alpm_init(struct intel_dp *intel_dp);
->> > +bool intel_alpm_source_supported(struct intel_connector *connector);
->> > +void intel_alpm_get_sink_capability(struct intel_dp *intel_dp);
->> >  bool intel_alpm_compute_params(struct intel_dp *intel_dp,
->> >  			       struct intel_crtc_state *crtc_state);  void
->> > intel_alpm_lobf_compute_config(struct intel_dp *intel_dp, diff --git
->> > a/drivers/gpu/drm/i915/display/intel_dp.c
->> > b/drivers/gpu/drm/i915/display/intel_dp.c
->> > index 0ec82fcbcf48..81dd5bf7e3c5 100644
->> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
->> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
->> > @@ -6074,6 +6074,9 @@ intel_dp_detect(struct drm_connector
->> *_connector,
->> >  	if (ret =3D=3D 1)
->> >  		connector->base.epoch_counter++;
->> >
->> > +	if (intel_alpm_source_supported(connector))
->> > +		intel_alpm_get_sink_capability(intel_dp);
->> > +
->> >  	if (!intel_dp_is_edp(intel_dp))
->> >  		intel_psr_init_dpcd(intel_dp);
->> >
->> > @@ -6716,7 +6719,7 @@ static bool intel_edp_init_connector(struct
->> intel_dp *intel_dp,
->> >  	 */
->> >  	intel_hpd_enable_detection(encoder);
->> >
->> > -	intel_alpm_init(intel_dp);
->> > +	intel_alpm_get_sink_capability(intel_dp);
->> >
->> >  	/* Cache DPCD and EDID for edp. */
->> >  	has_dpcd =3D intel_edp_init_dpcd(intel_dp, connector); @@ -6932,6
->> > +6935,9 @@ intel_dp_init_connector(struct intel_digital_port
->> > *dig_port,
->> >
->> >  	intel_psr_init(intel_dp);
->> >
->> > +	if (intel_alpm_source_supported(connector))
->> > +		mutex_init(&intel_dp->alpm.lock);
->> > +
->> >  	return true;
->> >
->> >  fail:
->>=20
->> --
->> Jani Nikula, Intel
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+> tags/clk-renesas-rzv2h-plldsi-tag
+>
+> for you to fetch changes up to f864e4b721e386be132cc973eadefe5d52cdfd94:
+>
+>   clk: renesas: rzv2h: Add support for DSI clocks (2025-10-27 11:58:03 +0=
+100)
+>
+> ----------------------------------------------------------------
+> clk: renesas: rzv2h: Add support for DSI clocks
+>
+> RZ/V2H Clock Pulse Generator PLLDSI API, shared by clock and MIPI DSI
+> driver source files.
+>
+> ----------------------------------------------------------------
+> Lad Prabhakar (3):
+>       clk: renesas: rzv2h: Add instance field to struct pll
+>       clk: renesas: rzv2h: Use GENMASK for PLL fields
+>       clk: renesas: rzv2h: Add support for DSI clocks
+>
+>  drivers/clk/renesas/rzv2h-cpg.c | 512 ++++++++++++++++++++++++++++++++++=
++++++-
+>  drivers/clk/renesas/rzv2h-cpg.h |  26 +-
+>  include/linux/clk/renesas.h     | 145 ++++++++++++
+>  3 files changed, 672 insertions(+), 11 deletions(-)
+>
+> > > >   2. I queue patch 4 on top of 1 in renesas-clk for v6.19,
+>
+> Done.
+>
+Can you please pick up the DSI patches.
 
---=20
-Jani Nikula, Intel
+Cheers,
+Prabhakar
