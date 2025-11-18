@@ -2,69 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44929C6A2B3
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 16:00:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC95C6A2D4
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 16:01:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A263F10E134;
-	Tue, 18 Nov 2025 15:00:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 883E410E1A1;
+	Tue, 18 Nov 2025 15:01:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iYm68Ve8";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="T7Hq96Mw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7F7F10E134;
- Tue, 18 Nov 2025 15:00:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763478017; x=1795014017;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=Zz9YWiBTLV0B0EhGOFmhpjfs0b4houvXiVpjgI8aT8E=;
- b=iYm68Ve8ss4wC2TSYebQprhGPBvTzYVytlP4c3G+c0rZSCCBd44sBoYk
- 5Am26V79UyxHGSyhTr0ROdmCXyLmZQPaUubb5bt8X60OxEPfCqooM0xCT
- RhXR1NjXHEq8x9MZsn1TXwpdVhMvT6kiA7PQlv7raDuamxPif5s1tjepB
- 70SOpKiW1utneWF9xEHejVDVTlm4CZwuP547w0rnQgJxYowLc691cH7WE
- SB0DXXHnbWO8uWKlwsl6bltqQwmIM9Aa9nAp+9Wx/PzpQ1fndydgGayGq
- CyoXkcaBdrud2h1ZskH+ld0r9L44Tz+5ZYgK3CYkeDRAgGMhSiprYwga1 Q==;
-X-CSE-ConnectionGUID: qp3YSb7ZRimDuh7qNyRkmg==
-X-CSE-MsgGUID: Nct0W3ONS9GPPuqYfFmaVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="88151655"
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208";a="88151655"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2025 07:00:16 -0800
-X-CSE-ConnectionGUID: srJjTBFPTNCsvAFsGMnVzg==
-X-CSE-MsgGUID: fGCuAn9pSpC8wbsDghrqMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208";a="190931473"
-Received: from inaky-mobl1.amr.corp.intel.com (HELO [10.245.245.166])
- ([10.245.245.166])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Nov 2025 07:00:12 -0800
-Message-ID: <471b61ae7b130ea05b509a5fb0b7f3a4de59531a.camel@linux.intel.com>
-Subject: Re: [PATCH v2 02/20] drm/ttm: rework pipelined eviction fence handling
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, Alex
- Deucher <alexander.deucher@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>,  David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Huang Rui <ray.huang@amd.com>, Matthew Auld
- <matthew.auld@intel.com>, Matthew Brost <matthew.brost@intel.com>, Maarten
- Lankhorst	 <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, Sumit
- Semwal <sumit.semwal@linaro.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org
-Date: Tue, 18 Nov 2025 16:00:10 +0100
-In-Reply-To: <20251113160632.5889-3-pierre-eric.pelloux-prayer@amd.com>
-References: <20251113160632.5889-1-pierre-eric.pelloux-prayer@amd.com>
- <20251113160632.5889-3-pierre-eric.pelloux-prayer@amd.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1088A10E1A1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 15:01:47 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (unknown [95.214.66.65])
+ by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E73B0D52;
+ Tue, 18 Nov 2025 15:59:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1763477982;
+ bh=E/YsJM6IheylUC0Sw9Q0gCCkL3kmIQiShNp786J4lB8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=T7Hq96MwT29jQCWhrM94stZvZq1e8qZoCyedP9DEeIjLKzfWoGEFYS73+jA/Xl1pQ
+ sL/6jnlqWFyfe/n57UFMDAGVVZvCLhLtv18AEGMDjvU9P5LmNX0V+LT/ulb0Z6hbA+
+ ng2v9YKs4sfSR7R5NXAM5nMmwjoKdK+/P4hhiQ3U=
+Date: Tue, 18 Nov 2025 17:01:28 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
+Message-ID: <20251118150128.GB23711@pendragon.ideasonboard.com>
+References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
+ <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,29 +64,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Pierre-Eric
+Hi Linus,
 
-On Thu, 2025-11-13 at 17:05 +0100, Pierre-Eric Pelloux-Prayer wrote:
-> Until now ttm stored a single pipelined eviction fence which means
-> drivers had to use a single entity for these evictions.
->=20
-> To lift this requirement, this commit allows up to 8 entities to
-> be used.
->=20
-> Ideally a dma_resv object would have been used as a container of
-> the eviction fences, but the locking rules makes it complex.
-> dma_resv all have the same ww_class, which means "Attempting to
-> lock more mutexes after ww_acquire_done." is an error.
->=20
-> One alternative considered was to introduced a 2nd ww_class for
-> specific resv to hold a single "transient" lock (=3D the resv lock
-> would only be held for a short period, without taking any other
-> locks).
+Thank you for the patch.
 
-Wouldn't it be possible to use lockdep_set_class_and_name() to modify
-the resv lock class for these particular resv objects after they are
-allocated? Reusing the resv code certainly sounds attractive.
+On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
+> This adds (yet another) variant of the
+> drm_atomic_helper_commit_tail_crtc_early_late() helper function
+> to deal with regressions caused by reordering the bridge
+> prepare/enablement sequence.
+> 
+> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+> caused a series of regressions in all panels that send
+> DSI commands in their .prepare() and .unprepare()
+> callbacks.
+> 
+> As the CRTC is no longer online at bridge_pre_enable()
+> and gone at brige_post_disable() which maps to the panel
+> bridge .prepare()/.unprepare() callbacks, any CRTC that
+> enable/disable the DSI transmitter in it's enable/disable
+> callbacks will be unable to send any DSI commands in the
+> .prepare() and .unprepare() callbacks.
+> 
+> However the MCDE driver definitely need the CRTC to be
+> enabled during .prepare()/.unprepare().
+> 
+> This patch from Marek Vasut:
+> https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas%40mailbox.org/
+> solves part of the problem for drivers using custom
+> tail functions, since MCDE is using helpers only, we
+> add a new helper function that exploits the new
+> drm_atomic_helper_commit_modeset_enables_crtc_early()
+> and use that in MCDE.
+> 
+> Link: https://lore.kernel.org/dri-devel/20251026-fix-mcde-drm-regression-v2-0-8d799e488cf9@linaro.org/
+> Link: https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas%40mailbox.org/
+> Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c | 35 +++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/mcde/mcde_drv.c     |  6 ++++--
+>  include/drm/drm_atomic_helper.h     |  1 +
+>  3 files changed, 40 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index eb47883be153..23fa27f21c4e 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -2005,6 +2005,41 @@ void drm_atomic_helper_commit_tail_rpm(struct drm_atomic_state *state)
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_commit_tail_rpm);
+>  
+> +/**
+> + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic update
 
-Thanks,
-Thomas
+Based on the function name, it feels that the nem commit tail and
+modeset enable/disable helpers reached a point where we may want to
+reconsider the design instead of adding new functions with small
+differences in behaviour that will end up confusing driver developers.
 
+> + * @state: new modeset state to be committed
+> + *
+> + * This is an alternative implementation for the
+> + * &drm_mode_config_helper_funcs.atomic_commit_tail hook, for drivers
+> + * that support runtime_pm or need the CRTC to be enabled to perform a
+> + * commit, and also need the CRTC to be enabled before preparing any
+> + * bridges, as well as leaving the CRTC enabled while unpreparing
+> + * any bridges.
+> + *
+> + * Otherwise, one should use the default implementation
+> + * drm_atomic_helper_commit_tail().
+> + */
+> +void drm_atomic_helper_commit_tail_crtc_early_late(struct drm_atomic_state *state)
+> +{
+> +	struct drm_device *dev = state->dev;
+> +
+> +	drm_atomic_helper_commit_modeset_disables_crtc_late(dev, state);
+> +
+> +	drm_atomic_helper_commit_modeset_enables_crtc_early(dev, state);
+> +
+> +	drm_atomic_helper_commit_planes(dev, state,
+> +					DRM_PLANE_COMMIT_ACTIVE_ONLY);
+> +
+> +	drm_atomic_helper_fake_vblank(state);
+> +
+> +	drm_atomic_helper_commit_hw_done(state);
+> +
+> +	drm_atomic_helper_wait_for_vblanks(dev, state);
+> +
+> +	drm_atomic_helper_cleanup_planes(dev, state);
+> +}
+> +EXPORT_SYMBOL(drm_atomic_helper_commit_tail_crtc_early_late);
+> +
+>  static void commit_tail(struct drm_atomic_state *state)
+>  {
+>  	struct drm_device *dev = state->dev;
+> diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
+> index 5f2c462bad7e..f3833d20c0fa 100644
+> --- a/drivers/gpu/drm/mcde/mcde_drv.c
+> +++ b/drivers/gpu/drm/mcde/mcde_drv.c
+> @@ -104,9 +104,11 @@ static const struct drm_mode_config_helper_funcs mcde_mode_config_helpers = {
+>  	/*
+>  	 * Using this function is necessary to commit atomic updates
+>  	 * that need the CRTC to be enabled before a commit, as is
+> -	 * the case with e.g. DSI displays.
+> +	 * the case with e.g. DSI displays, and also make sure that the
+> +	 * CRTC is enabled before any bridges are prepared and disabled
+> +	 * after any bridges are disabled.
+>  	 */
+> -	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
+> +	.atomic_commit_tail = drm_atomic_helper_commit_tail_crtc_early_late,
+>  };
+>  
+>  static irqreturn_t mcde_irq(int irq, void *data)
+> diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+> index d479afcd1637..1e85df5eea4f 100644
+> --- a/include/drm/drm_atomic_helper.h
+> +++ b/include/drm/drm_atomic_helper.h
+> @@ -64,6 +64,7 @@ int drm_atomic_helper_check(struct drm_device *dev,
+>  			    struct drm_atomic_state *state);
+>  void drm_atomic_helper_commit_tail(struct drm_atomic_state *state);
+>  void drm_atomic_helper_commit_tail_rpm(struct drm_atomic_state *state);
+> +void drm_atomic_helper_commit_tail_crtc_early_late(struct drm_atomic_state *state);
+>  int drm_atomic_helper_commit(struct drm_device *dev,
+>  			     struct drm_atomic_state *state,
+>  			     bool nonblock);
+
+-- 
+Regards,
+
+Laurent Pinchart
