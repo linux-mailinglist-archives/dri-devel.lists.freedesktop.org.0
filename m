@@ -2,141 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFCCC699D1
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 14:35:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98EFBC69A19
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 14:39:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 046EC10E4AD;
-	Tue, 18 Nov 2025 13:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0187510E4BF;
+	Tue, 18 Nov 2025 13:39:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="dwiZvw1p";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FyLNP0j6";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KxaKJHRm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BACC10E4A4
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 13:35:54 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AI6fS0D2272085
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 13:35:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- KnPI+HvRCXHtDrr9MXHrsjdWCFalSnw5mTh9evIOeJM=; b=dwiZvw1pSJE/Grhw
- HJLYohoJE/tE3hqI2z9myan7EXkTKrpsrp5iiWmH2eWqe/p6LTvD57U3Zj80KZY+
- pszgS1llZ5I6c1r8vGXWQzcMdl3EbzGvYzVRUbz1x1IUFbYfz/CsSjLwY68jnyEI
- dvAr+rgwTNMCedd87Xhef8v8jprP0wYcrqmCUsSgEFr1Ra21sVdUN0Xy4AW0GoRu
- 4xNmEhEQ7CSgTtIkT4VRvXx6ZQLnGwU2ul4Cnc5ujy88ZUQ1G/nxokjQgdTL/oe8
- 7it8ld9jgLeQmF+5I+JCCyRElF4Y6sNqRVF0/e3NPuCglFFILhkHRYhQ64/RhAIm
- 4xWBeg==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4agkrmh59x-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 13:35:52 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4ee24e1559aso4368591cf.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 05:35:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763472952; x=1764077752;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=KnPI+HvRCXHtDrr9MXHrsjdWCFalSnw5mTh9evIOeJM=;
- b=FyLNP0j6Tsa45j+gFvmat8hDRlXkPqoSR+HxXUvfvykgCGqF1RSgmVRpEEYYFeQDvf
- FsLSbx/KwiqyXsrc7ek/H3II+S2hu4aZ/4jya3Klv+ADoSG//yazkGr75OwPMnU6tEw3
- 8ub4sbkErFRBHVN4TdnKfq/WyhQSWCb0mbDsRmEfN2Snx+3R3dvdZks6X1sC7D1ZunN/
- qlGeZZ1y1SuiddV8xtHDzH8KtTDxLWoBqJWtrhQvSL89AMDvhwefjqwCoEoFFaXim70C
- ppMUH3ZvNcDFmHLLq6CfdaruPljCZskYkYrr1yxT/7zQe5l3gTYJtigWD4keY2oc0tbk
- vWcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763472952; x=1764077752;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=KnPI+HvRCXHtDrr9MXHrsjdWCFalSnw5mTh9evIOeJM=;
- b=Z4pjTHPx57mDSM3zRcU54mduGi2ZtJ6fbkHtfK7p5LMTj4viwSBEekzP9IwTVlChah
- tFB/1AIiZg8iReOBgOXoU1IhwONxp2LDOoBh1xjgP5cn9tomXad0YywAta0n07rZ0d11
- c91KCxn23bn6HFgGYP3HAE8kg+WSlngWv2FKyinEFpTe77O3ALGbIeeQaOI5boCjKzK9
- hmKJOdZZt/hsyqBX2AUW7fVJ45/87qnCLW4q4ZqWbSfgHRqmzVpYF7Db8LDKCcHIaRo0
- ScOSnmL003rObTwLc8RawxuO/o55ELgQcC1oTRauf9IqgbJ1elu69i8mqlDqPCZ0o2yy
- aSPA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUWpDlrh38g6qLsL10I5ZekTyfLFzTcFT9nIccDxVLLn1/iuogwr73q1fwXiSBq0YQ+ePgg8SP+718=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyAS5U8uyOBRwwQGoyUfYYI8KW7sQaS684cNb1kCA/pLdS7iFXh
- HSYEnnMs/50k5ZRFNqZysRjhtr2klObLlmKRhRqzI13W90Hw4R/iIBvl+CYDGrfhd1haAJhnIQb
- qWqul1O5LRlNp0m3+lOUv+XQSY5k3aLeDNJ1r3s1TrO1Jn+ZQIR8L7rmvaZjXH8wmp3tTrXg=
-X-Gm-Gg: ASbGnct8aSS8nm3aL5uIaksXilxjOlc0MtOZaLAuFFI6nDsXxnPyXQ7VZ5ZMRIK/xjm
- ccjoh9mFSV18H6p+LvEXmctSvDG6s8329XdN8h5tGsFWc2ON4+TgNBoEz7UizUJf8Tc7udH2sXQ
- mn5tqhVixNB5tI1IspqCVcG0IwzVTNvxl/kLT/otZVuOVgH1p8GE/8iAOtB3DZAxBK6ruCe5sgK
- dE+kkDB6vUlQvE9dfFSVWfPHW/U86sCouBfNi5LJc8oes1ufyPv9EM0SiaMvuqYU/cIVuluLIWh
- tASWO5Hj4xIp/6eDAQSML1ovbKgZ/4AMapfBleP5yVoWMy1YDvnsJcLzAzQp9svHxAM8vuD8Ivo
- F5CnoMVvlbR9lqJRMLjCUtR+88H81+S+lHPqJCMQrmCEU1dHgeU7mMaofOF2mIGSPb8A=
-X-Received: by 2002:a05:622a:1a19:b0:4ee:1063:d0f3 with SMTP id
- d75a77b69052e-4ee317fa73emr26551681cf.11.1763472952276; 
- Tue, 18 Nov 2025 05:35:52 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGY1KZXSYMRxPN6HY6CHGoASb9AG9wqGfmmmqFipQhKzeaiMu/659NOr1Ib5Am/aZalUkf8vw==
-X-Received: by 2002:a05:622a:1a19:b0:4ee:1063:d0f3 with SMTP id
- d75a77b69052e-4ee317fa73emr26551291cf.11.1763472951811; 
- Tue, 18 Nov 2025 05:35:51 -0800 (PST)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b734e9e0f20sm1371741666b.0.2025.11.18.05.35.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Nov 2025 05:35:51 -0800 (PST)
-Message-ID: <0d0e85b1-a70f-430d-b75f-a74cd19f9895@oss.qualcomm.com>
-Date: Tue, 18 Nov 2025 14:35:48 +0100
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 921ED10E4B0
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 13:39:21 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 7D2BB1A1B86;
+ Tue, 18 Nov 2025 13:39:19 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 4EF0E606FE;
+ Tue, 18 Nov 2025 13:39:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id A893710371DD3; Tue, 18 Nov 2025 14:39:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1763473158; h=from:subject:date:message-id:to:cc:mime-version:
+ content-transfer-encoding; bh=+5BtD6UXAzSoODFJ0HtV1TARfbnO74SaTKUs4pCZoxo=;
+ b=KxaKJHRmfqTlJw6wcWE+4fak/MCoHFUHILBP8MP5Y6Nc9II/kbbhKwizdIIRW7VyjNevec
+ VQEwr3rdp2KAsFTeTwaSQgWJvtFxgo14EC9T1j713YltOpk3jl/MMeQI9k0CFsM1nhHW3f
+ 0NuW0jI74cUZG+xpoXIpGsgdS9mCGBQFLjTLpxqDs/sWnUI4HV2aFEIgbEz2+LYZHmDVED
+ A9t4EaSzmaGAK1819MkOTIsHCH+HQswyXF6YLzXBM9WhS3SdqWlo0532N+GOS7g7uherzo
+ 26qaJ+fZqDnWe14Di81L9madRnm5AfFKdRDDMN7VayWQO5nzueSya6A5svbC6g==
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Bajjuri Praneeth <praneeth@ti.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>,
+ stable@vger.kernel.org, thomas.petazzoni@bootlin.com,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Subject: [PATCH v3] drm/tilcdc: Fix removal actions in case of failed probe
+Date: Tue, 18 Nov 2025 14:38:48 +0100
+Message-ID: <20251118133850.125561-1-kory.maincent@bootlin.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm: adreno: fix deferencing ifpc_reglist when not
- declared
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20251117-topic-sm8x50-fix-a6xx-non-ifpc-v1-1-e4473cbf5903@linaro.org>
- <04aec988-59ba-4c98-b922-510d86b10ea5@oss.qualcomm.com>
- <1488f09b-63b7-4412-ba56-28b1c81528ac@linaro.org>
- <a874d12a-6da4-4a2a-bea3-20c69bd53c6b@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <a874d12a-6da4-4a2a-bea3-20c69bd53c6b@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE4MDEwOCBTYWx0ZWRfX8QmY9QfGMqZ3
- GOId+ozNUM/hmjwLrduBqcBzHP9v+kE6wTWivQrzZqUiD8ibbt4tJzeRTSD4q1+gs6HMdPa1yWv
- T0Gi/QnFH4STgZsnzbPkZ50cuZQEUuWE2nQedeWOUYLgSOlMyUgNrO8QKl6NNZvXHirZ4aVD7Zm
- vWkWCKfP7l+E2P7hPiQVn3g+KEHqGHAjSM8CPrKZsDxkHZ4Bs9nNq5AxVWirMg+O3zmORq4zmrY
- NlGqwvGAdu+tSlfnsBrZ6DMNvv/pdOH+MkttGl9F8ABw3KplO5oO8Sznai1ITRE3THjPUMQpVOT
- A1wkO62LoUAjPZrliYBAkUAlOwGUOmXR7jKUH8DzKWqeiqGwQYp2BP1E/scMX47TgOxruSTnWiP
- yoeg5iR1IYWMO5Tt6sA36+Sp4sQ6Vw==
-X-Proofpoint-ORIG-GUID: sRAdPo4THkbbAPxQMzYaYbkkhnJUJVV2
-X-Proofpoint-GUID: sRAdPo4THkbbAPxQMzYaYbkkhnJUJVV2
-X-Authority-Analysis: v=2.4 cv=JfWxbEKV c=1 sm=1 tr=0 ts=691c7638 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=KKAkSRfTAAAA:8 a=sUuaTTKWZZLiqq4pnuYA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-17_04,2025-11-18_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 suspectscore=0 adultscore=0 spamscore=0
- impostorscore=0 clxscore=1015 bulkscore=0 malwarescore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511180108
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,53 +67,223 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/18/25 8:47 AM, Akhil P Oommen wrote:
-> On 11/17/2025 9:17 PM, Neil Armstrong wrote:
->> On 11/17/25 16:02, Konrad Dybcio wrote:
->>> On 11/17/25 3:51 PM, Neil Armstrong wrote:
->>>> On plaforms with an a7xx GPU not supporting IFPC, the ifpc_reglist
->>>> if still deferenced in a7xx_patch_pwrup_reglist() which causes
->>>> a kernel crash:
->>>> Unable to handle kernel NULL pointer dereference at virtual address
->>>> 0000000000000008
->>>> ...
->>>> pc : a6xx_hw_init+0x155c/0x1e4c [msm]
->>>> lr : a6xx_hw_init+0x9a8/0x1e4c [msm]
->>>> ...
->>>> Call trace:
->>>>    a6xx_hw_init+0x155c/0x1e4c [msm] (P)
->>>>    msm_gpu_hw_init+0x58/0x88 [msm]
->>>>    adreno_load_gpu+0x94/0x1fc [msm]
->>>>    msm_open+0xe4/0xf4 [msm]
->>>>    drm_file_alloc+0x1a0/0x2e4 [drm]
->>>>    drm_client_init+0x7c/0x104 [drm]
->>>>    drm_fbdev_client_setup+0x94/0xcf0 [drm_client_lib]
->>>>    drm_client_setup+0xb4/0xd8 [drm_client_lib]
->>>>    msm_drm_kms_post_init+0x2c/0x3c [msm]
->>>>    msm_drm_init+0x1a4/0x228 [msm]
->>>>    msm_drm_bind+0x30/0x3c [msm]
->>>> ...
->>>>
->>>> Check the validity of ifpc_reglist before deferencing the table
->>>> to setup the register values.
->>>>
->>>> Fixes: a6a0157cc68e ("drm/msm/a6xx: Enable IFPC on Adreno X1-85")
->>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>> ---
->>>
->>> I think it should be fine to skip calling this func altogether
->>> if !ifpc || !pwrup_reglist
->>>
->>> Although ifpc && !pwrup_reglist should probably scream very loud
-> 
-> That's correct. It is a weird combo.
-> 
->>
->> Sorry but why? pwrup_reglist was introduced way earlier than IFPC.
-> 
-> Pwrup list is shared with preemption feature too. And preemption support
-> was introduced before IFPC.
+From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
 
-Sorry, I somehow erased that from my memory
+The drm_kms_helper_poll_fini() and drm_atomic_helper_shutdown() helpers
+should only be called when the device has been successfully registered.
+Currently, these functions are called unconditionally in tilcdc_fini(),
+which causes warnings during probe deferral scenarios.
 
-Konrad
+[    7.972317] WARNING: CPU: 0 PID: 23 at drivers/gpu/drm/drm_atomic_state_helper.c:175 drm_atomic_helper_crtc_duplicate_state+0x60/0x68
+...
+[    8.005820]  drm_atomic_helper_crtc_duplicate_state from drm_atomic_get_crtc_state+0x68/0x108
+[    8.005858]  drm_atomic_get_crtc_state from drm_atomic_helper_disable_all+0x90/0x1c8
+[    8.005885]  drm_atomic_helper_disable_all from drm_atomic_helper_shutdown+0x90/0x144
+[    8.005911]  drm_atomic_helper_shutdown from tilcdc_fini+0x68/0xf8 [tilcdc]
+[    8.005957]  tilcdc_fini [tilcdc] from tilcdc_pdev_probe+0xb0/0x6d4 [tilcdc]
+
+Fix this by rewriting the failed probe cleanup path using the standard
+goto error handling pattern, which ensures that cleanup functions are
+only called on successfully initialized resources. Additionally, remove
+the now-unnecessary is_registered flag.
+
+Cc: stable@vger.kernel.org
+Fixes: 3c4babae3c4a ("drm: Call drm_atomic_helper_shutdown() at shutdown/remove time for misc drivers")
+Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
+---
+
+I'm working on removing the usage of deprecated functions as well as
+general improvements to this driver, but it will take some time so for
+now this is a simple fix to a functional bug.
+
+Change in v3:
+- Rewrite the failed probe clean up path using goto
+- Remove the is_registered flag
+
+Change in v2:
+- Add missing cc: stable tag
+- Add Swamil reviewed-by
+---
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c |  2 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c  | 53 ++++++++++++++++++----------
+ drivers/gpu/drm/tilcdc/tilcdc_drv.h  |  2 +-
+ 3 files changed, 37 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+index 5718d9d83a49f..52c95131af5af 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+@@ -586,7 +586,7 @@ static void tilcdc_crtc_recover_work(struct work_struct *work)
+ 	drm_modeset_unlock(&crtc->mutex);
+ }
+ 
+-static void tilcdc_crtc_destroy(struct drm_crtc *crtc)
++void tilcdc_crtc_destroy(struct drm_crtc *crtc)
+ {
+ 	struct tilcdc_drm_private *priv = crtc->dev->dev_private;
+ 
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+index 7caec4d38ddf0..2a88cce445b8f 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+@@ -172,8 +172,7 @@ static void tilcdc_fini(struct drm_device *dev)
+ 	if (priv->crtc)
+ 		tilcdc_crtc_shutdown(priv->crtc);
+ 
+-	if (priv->is_registered)
+-		drm_dev_unregister(dev);
++	drm_dev_unregister(dev);
+ 
+ 	drm_kms_helper_poll_fini(dev);
+ 	drm_atomic_helper_shutdown(dev);
+@@ -220,21 +219,21 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+ 	priv->wq = alloc_ordered_workqueue("tilcdc", 0);
+ 	if (!priv->wq) {
+ 		ret = -ENOMEM;
+-		goto init_failed;
++		goto put_drm;
+ 	}
+ 
+ 	priv->mmio = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(priv->mmio)) {
+ 		dev_err(dev, "failed to request / ioremap\n");
+ 		ret = PTR_ERR(priv->mmio);
+-		goto init_failed;
++		goto free_wq;
+ 	}
+ 
+ 	priv->clk = clk_get(dev, "fck");
+ 	if (IS_ERR(priv->clk)) {
+ 		dev_err(dev, "failed to get functional clock\n");
+ 		ret = -ENODEV;
+-		goto init_failed;
++		goto free_wq;
+ 	}
+ 
+ 	pm_runtime_enable(dev);
+@@ -313,7 +312,7 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+ 	ret = tilcdc_crtc_create(ddev);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to create crtc\n");
+-		goto init_failed;
++		goto disable_pm;
+ 	}
+ 	modeset_init(ddev);
+ 
+@@ -324,46 +323,46 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+ 	if (ret) {
+ 		dev_err(dev, "failed to register cpufreq notifier\n");
+ 		priv->freq_transition.notifier_call = NULL;
+-		goto init_failed;
++		goto destroy_crtc;
+ 	}
+ #endif
+ 
+ 	if (priv->is_componentized) {
+ 		ret = component_bind_all(dev, ddev);
+ 		if (ret < 0)
+-			goto init_failed;
++			goto unregister_cpufreq_notif;
+ 
+ 		ret = tilcdc_add_component_encoder(ddev);
+ 		if (ret < 0)
+-			goto init_failed;
++			goto unbind_component;
+ 	} else {
+ 		ret = tilcdc_attach_external_device(ddev);
+ 		if (ret)
+-			goto init_failed;
++			goto unregister_cpufreq_notif;
+ 	}
+ 
+ 	if (!priv->external_connector &&
+ 	    ((priv->num_encoders == 0) || (priv->num_connectors == 0))) {
+ 		dev_err(dev, "no encoders/connectors found\n");
+ 		ret = -EPROBE_DEFER;
+-		goto init_failed;
++		goto unbind_component;
+ 	}
+ 
+ 	ret = drm_vblank_init(ddev, 1);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to initialize vblank\n");
+-		goto init_failed;
++		goto unbind_component;
+ 	}
+ 
+ 	ret = platform_get_irq(pdev, 0);
+ 	if (ret < 0)
+-		goto init_failed;
++		goto unbind_component;
+ 	priv->irq = ret;
+ 
+ 	ret = tilcdc_irq_install(ddev, priv->irq);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to install IRQ handler\n");
+-		goto init_failed;
++		goto unbind_component;
+ 	}
+ 
+ 	drm_mode_config_reset(ddev);
+@@ -372,16 +371,34 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+ 
+ 	ret = drm_dev_register(ddev, 0);
+ 	if (ret)
+-		goto init_failed;
+-	priv->is_registered = true;
++		goto stop_poll;
+ 
+ 	drm_client_setup_with_color_mode(ddev, bpp);
+ 
+ 	return 0;
+ 
+-init_failed:
+-	tilcdc_fini(ddev);
++stop_poll:
++	drm_kms_helper_poll_fini(ddev);
++	tilcdc_irq_uninstall(ddev);
++unbind_component:
++	if (priv->is_componentized)
++		component_unbind_all(dev, ddev);
++unregister_cpufreq_notif:
++#ifdef CONFIG_CPU_FREQ
++	cpufreq_unregister_notifier(&priv->freq_transition,
++				    CPUFREQ_TRANSITION_NOTIFIER);
++#endif
++destroy_crtc:
++	tilcdc_crtc_destroy(priv->crtc);
++disable_pm:
++	pm_runtime_disable(dev);
++	clk_put(priv->clk);
++free_wq:
++	destroy_workqueue(priv->wq);
++put_drm:
+ 	platform_set_drvdata(pdev, NULL);
++	ddev->dev_private = NULL;
++	drm_dev_put(ddev);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.h b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
+index b818448c83f61..58b276f82a669 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.h
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
+@@ -82,7 +82,6 @@ struct tilcdc_drm_private {
+ 	struct drm_encoder *external_encoder;
+ 	struct drm_connector *external_connector;
+ 
+-	bool is_registered;
+ 	bool is_componentized;
+ 	bool irq_enabled;
+ };
+@@ -164,6 +163,7 @@ void tilcdc_crtc_set_panel_info(struct drm_crtc *crtc,
+ void tilcdc_crtc_set_simulate_vesa_sync(struct drm_crtc *crtc,
+ 					bool simulate_vesa_sync);
+ void tilcdc_crtc_shutdown(struct drm_crtc *crtc);
++void tilcdc_crtc_destroy(struct drm_crtc *crtc);
+ int tilcdc_crtc_update_fb(struct drm_crtc *crtc,
+ 		struct drm_framebuffer *fb,
+ 		struct drm_pending_vblank_event *event);
+-- 
+2.43.0
+
