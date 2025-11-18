@@ -2,79 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F28C68F5E
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 12:02:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85548C68FA7
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 12:06:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BBFC10E345;
-	Tue, 18 Nov 2025 11:02:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D2E810E350;
+	Tue, 18 Nov 2025 11:06:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="V7GiluVX";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="O8fj0FSX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
- [209.85.214.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C00AB10E345
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 11:02:03 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-29555b384acso54849855ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 03:02:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763463723; x=1764068523; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=na4DhkN/5BRqSU3K/p/l3xB54l4eKEIWl6YEImlS290=;
- b=V7GiluVXFOaXMGg4DTmj7p4Y9An6hl6t8ovynuoC3hVAUav6869QmakWahXXvJOQWX
- ROBSC7mRzxMBYbBecmA/eVjO87ScgALXE+2nK3zmlfK+yWZ/xMjY/SUdAz1Uol6iSgsB
- m3OwZT5sZJO9xK1esT3gFrHHvNAFygRjduQ7X0NRhRln/Hoxwc69C9cRcRRTu4h1bMU1
- C7G7ziNJfQV+R2S4JRpjegKFnuU64NaZVYOAonti/v6DB5xuqiF0Byl++8kXJQVVnD4U
- cXdBZXfDb+k11JPWbzxrJat/oyjkG+3r2CeoZHo10u6HnF5wz33QxxqPp8z1ZK2biD22
- Mhow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763463723; x=1764068523;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=na4DhkN/5BRqSU3K/p/l3xB54l4eKEIWl6YEImlS290=;
- b=qUfRSdFaZyAswQBcRdKuc8q4S1EqK4u+Tq/ejQ2/j6koaYgY9or6heBCuCT/HAS0ci
- V9V+ILU5SnvV3Io7YbJ9VHy7m4YzMDv/0lQgG4ZNKFouS9C3ezm+2TTabq3j/csPanmY
- 0hVV/xqmwC3uRGuVnE1DbTX6n3sxAhP6Yq1GLKz2wk5LIjzyn76Oqr7PYuMtomb60tSC
- ajQdrWKcpEXSGf93iWHyIJeh8kiqCiE3k4sI7u2N7ChIiPVieS6qZHGAyqjCL24/mugz
- Pm2IHhwe5owJqpJc9l94GyN2nRHqJAZfc8TFAg16gvuH9oRoCycBu5td9sBmKM3HPUOb
- u+yQ==
-X-Gm-Message-State: AOJu0YyIGYoesuCnL1iT+367DZPE2jK8YxiYoVbN1kynZCIZAdGKuCaT
- o80u9Obl99AL32tZPBnQMbouey+haw8UZE4PTPbMGNh9c68KYIej2aWi
-X-Gm-Gg: ASbGnctxqCyUOf8rZlUQs0dIVPmFA6ITaBgonhX3VPP/shK5rQzrzmAuuJfmtp+L4E0
- O524Uc8TI9QKlEHYNWC0jRTmhhIU4wOcqvV9aVQY3wDC2MHkZqJrjWmW2AxVqQgeyAz1n78zc8r
- L1XNCM06jDKDkHfQg6TLDeen4e2xy4xD3kgG3odVrCdR/gqPblxp3kkfZycAWsk6pLv/irLSgss
- Om4+ThoZJ651EWmPqSW1KjSHNTpioKgDi4y6NjT6RI0/Kl0MpbXnXGjSFaDQMYD6Asgcn3bhiJN
- +LEpSlQ8NCSFAxY58Uqqdp7lVXMFsgEQ5BUf+9FK+XIJhFBT4RLGY2tJf81ltXbaaAkkSWzT+3b
- SY/F7cOIxXqbiJGiD2Go8rFp2oaOB0gMuefXR2mE5sKzgJylqIUvipl68SWCb4gSo6J88KseiJj
- T9BCmqSWJCk/TgogeJOalA7YTb
-X-Google-Smtp-Source: AGHT+IE6YrPAVjfDpiLLsFnYKJeDdAmdTRc9703k5Np/K4dcdP4WFnn2nsey6vdWdlf/71DWDVaJWQ==
-X-Received: by 2002:a17:903:178e:b0:298:1013:b8d8 with SMTP id
- d9443c01a7336-2986a76a111mr166893485ad.57.1763463723279; 
- Tue, 18 Nov 2025 03:02:03 -0800 (PST)
-Received: from rahul-mintos.ban-spse ([165.204.156.251])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2985c241f89sm168012035ad.28.2025.11.18.03.02.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 18 Nov 2025 03:02:03 -0800 (PST)
-From: Rahul Kumar <rk0006818@gmail.com>
-To: liviu.dudau@arm.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- rk0006818@gmail.com
-Subject: [PATCH v2 3/3] drm/komeda: Convert logging in d71_dev.c to drm_* with
- drm_device parameter
-Date: Tue, 18 Nov 2025 16:29:34 +0530
-Message-ID: <20251118105934.748955-4-rk0006818@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251118105934.748955-1-rk0006818@gmail.com>
-References: <20251118105934.748955-1-rk0006818@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 021A210E346;
+ Tue, 18 Nov 2025 11:06:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1763463973; x=1794999973;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=XUyPpZWQO/7hHOnEZDr1T6NuMTPjfTBry/dhI/ipHGw=;
+ b=O8fj0FSXbMxNcAZ8Cvi8Vh0Dy1vN6MLeW3tNWEKglVfGjwh9kJBu7slC
+ 9STxll8wwZ5MYlpbViVZKkWyVIOsYGhKfAHtFBQCzYAzlQymQMlgNBcs6
+ Uxozq/qeOR3apvAtiFM+QqstaxuLiuWRK+jsme5Vn9T48ZkjLfQ3jkih6
+ MziT/pYdBFMV4Qit+LTIOHj+MVwWme3Ui7JeeyiV4UqX6vkoDtNuqzmyj
+ DFLMMhhOKzqLqJXgi2j6pWsRl4ytKtPsYaUqmygO2NIyYqw21MYQnIH+a
+ CsbckKJ2oDk1AHOFNWsR9KvWbm7TZtxbGMrxTOmMP+S/XSUR3Pusx4UU9 A==;
+X-CSE-ConnectionGUID: 6uKFaPI5QWCNdo6nLdVO0w==
+X-CSE-MsgGUID: ia1Iy5QCQgqWuJz676XS3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11616"; a="76585322"
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208";a="76585322"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2025 03:06:12 -0800
+X-CSE-ConnectionGUID: IEHaxSpnQwiBpVLSMx2jcw==
+X-CSE-MsgGUID: eMP72bHjRrardTeBuMC4eg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,314,1754982000"; d="scan'208";a="191503038"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.125])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Nov 2025 03:06:09 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: "Manna, Animesh" <animesh.manna@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "Kandpal, Suraj" <suraj.kandpal@intel.com>, "Hogander, Jouni"
+ <jouni.hogander@intel.com>
+Subject: RE: [PATCH v4 02/10] drm/i915/alpm: alpm_init() for DP2.1
+In-Reply-To: <DS0PR11MB80498D83C22B8B0F77FD1411F9D6A@DS0PR11MB8049.namprd11.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251113120119.1437955-1-animesh.manna@intel.com>
+ <20251113120119.1437955-3-animesh.manna@intel.com>
+ <4577de7373cb6bf2954d8d599168f408c87730c7@intel.com>
+ <DS0PR11MB80498D83C22B8B0F77FD1411F9D6A@DS0PR11MB8049.namprd11.prod.outlook.com>
+Date: Tue, 18 Nov 2025 13:06:06 +0200
+Message-ID: <f34b3346ed026210c40e30cebd4d3a3209bb3d77@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,127 +76,198 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace DRM_DEBUG() and DRM_ERROR() calls in
-drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c with the
-drm_dbg() and drm_err() helpers in functions where a drm_device
-parameter is available.
+On Tue, 18 Nov 2025, "Manna, Animesh" <animesh.manna@intel.com> wrote:
+>> -----Original Message-----
+>> From: Nikula, Jani <jani.nikula@intel.com>
+>> Sent: Monday, November 17, 2025 8:59 PM
+>> To: Manna, Animesh <animesh.manna@intel.com>; intel-
+>> gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org; dri-
+>> devel@lists.freedesktop.org
+>> Cc: Kandpal, Suraj <suraj.kandpal@intel.com>; Manna, Animesh
+>> <animesh.manna@intel.com>; Hogander, Jouni
+>> <jouni.hogander@intel.com>
+>> Subject: Re: [PATCH v4 02/10] drm/i915/alpm: alpm_init() for DP2.1
+>>=20
+>> On Thu, 13 Nov 2025, Animesh Manna <animesh.manna@intel.com> wrote:
+>> > Initialize ALPM for DP2.1 and separate out ALPM mutex-init from
+>> > alpm-init.
+>>=20
+>> I thought I said you're going to need multiple init functions. Don't mov=
+e the
+>> alpm mutex init away from alpm code. It needs to stay in alpm code.
+>
+> Only for mutex-init do you want me to add a separate function?
 
-The drm_*() logging macros require a struct drm_device * parameter,
-which allows the DRM core to prefix log messages with the device
-instance. This improves debugging clarity when multiple Komeda or
-other DRM devices are present.
+Yes, I absolutely do.
 
-Logging in early hardware probing functions such as d71_identify()
-is intentionally left unchanged because they do not have access to
-a drm_device pointer at that stage of initialization.
+It's not about how small or big something is, it's about the
+organization of the code. All things alpm should be in
+intel_alpm.[ch]. We also have alpm sub-struct in struct intel_dp; as a
+rule of thumb only intel_alpm.[ch] should touch stuff in that
+sub-struct.
 
-This conversion follows the DRM TODO entry:
-"Convert logging to drm_* functions with drm_device parameter".
+This also sets the example of what to do next, and where to add stuff
+next. If you have the mutex init in intel_dp.c, if more init is needed
+later, it'll also get added in intel_dp.c, intead of intel_alpm.c where
+it belongs.
 
-Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
----
-Changes since v1:
-- Fixed incorrect use of dev_get_drvdata(): it returns struct komeda_drv *,
-  not struct komeda_kms_dev *, as pointed out by Liviu Dudau.
-- Updated DRM device pointer retrieval to use drv->kms.
-- Combined both changes into a 0/3 series.
-Link to v1:
-https://lore.kernel.org/all/aRdT1qscQqO7-U6h@e110455-lin.cambridge.arm.com/
----
- .../gpu/drm/arm/display/komeda/d71/d71_dev.c  | 24 +++++++++++++------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+>> And now the whole patch and subject and commit message talk of
+>> completely different things.
+>
+> Earlier alpm is initialized for EDP only, now its extended for DP2.1 in t=
+his patch.
+> Earlier mutex init is part of alpm-init. Now after feedback I also felt i=
+t can be separate out because reading dpcd always not possible if the displ=
+ay is disconnected for dp-connector but mutex-init can be done.
+> So mentioned as separate out ALPM mutex-init from alpm-init().
+>
+>>=20
+>> Please read the review comments, and ask questions if they comments are
+>> not clear.
+>
+> Currently I am little confused, need change in code or commit description=
+. From here onwards if you can point out some specific change will modify a=
+ccordingly in next version.
 
-diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
-index 80973975bfdb..39c51bbe2bb9 100644
---- a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
-+++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
-@@ -9,6 +9,7 @@
- #include <drm/drm_print.h>
- #include "d71_dev.h"
- #include "malidp_io.h"
-+#include "komeda_drv.h"
- 
- static u64 get_lpu_event(struct d71_pipeline *d71_pipeline)
- {
-@@ -348,6 +349,9 @@ static void d71_cleanup(struct komeda_dev *mdev)
- 
- static int d71_enum_resources(struct komeda_dev *mdev)
- {
-+	struct komeda_drv *drv = dev_get_drvdata(mdev->dev);
-+	struct komeda_kms_dev *kms = drv->kms;
-+	struct drm_device *drm = &kms->base;
- 	struct d71_dev *d71;
- 	struct komeda_pipeline *pipe;
- 	struct block_header blk;
-@@ -366,7 +370,7 @@ static int d71_enum_resources(struct komeda_dev *mdev)
- 
- 	err = d71_reset(d71);
- 	if (err) {
--		DRM_ERROR("Fail to reset d71 device.\n");
-+		drm_err(drm, "Fail to reset d71 device.\n");
- 		goto err_cleanup;
- 	}
- 
-@@ -376,8 +380,8 @@ static int d71_enum_resources(struct komeda_dev *mdev)
- 	d71->num_pipelines = (value >> 8) & 0x7;
- 
- 	if (d71->num_pipelines > D71_MAX_PIPELINE) {
--		DRM_ERROR("d71 supports %d pipelines, but got: %d.\n",
--			  D71_MAX_PIPELINE, d71->num_pipelines);
-+		drm_err(drm, "d71 supports %d pipelines, but got: %d.\n",
-+			D71_MAX_PIPELINE, d71->num_pipelines);
- 		err = -EINVAL;
- 		goto err_cleanup;
- 	}
-@@ -455,8 +459,8 @@ static int d71_enum_resources(struct komeda_dev *mdev)
- 		offset += D71_BLOCK_SIZE;
- 	}
- 
--	DRM_DEBUG("total %d (out of %d) blocks are found.\n",
--		  i, d71->num_blocks);
-+	drm_dbg(drm, "total %d (out of %d) blocks are found.\n",
-+		i, d71->num_blocks);
- 
- 	return 0;
- 
-@@ -555,6 +559,9 @@ static void d71_init_fmt_tbl(struct komeda_dev *mdev)
- 
- static int d71_connect_iommu(struct komeda_dev *mdev)
- {
-+	struct komeda_drv *drv = dev_get_drvdata(mdev->dev);
-+	struct komeda_kms_dev *kms = drv->kms;
-+	struct drm_device *drm = &kms->base;
- 	struct d71_dev *d71 = mdev->chip_data;
- 	u32 __iomem *reg = d71->gcu_addr;
- 	u32 check_bits = (d71->num_pipelines == 2) ?
-@@ -569,7 +576,7 @@ static int d71_connect_iommu(struct komeda_dev *mdev)
- 	ret = dp_wait_cond(has_bits(check_bits, malidp_read32(reg, BLK_STATUS)),
- 			100, 1000, 1000);
- 	if (ret < 0) {
--		DRM_ERROR("timed out connecting to TCU!\n");
-+		drm_err(drm, "timed out connecting to TCU!\n");
- 		malidp_write32_mask(reg, BLK_CONTROL, 0x7, INACTIVE_MODE);
- 		return ret;
- 	}
-@@ -582,6 +589,9 @@ static int d71_connect_iommu(struct komeda_dev *mdev)
- 
- static int d71_disconnect_iommu(struct komeda_dev *mdev)
- {
-+	struct komeda_drv *drv = dev_get_drvdata(mdev->dev);
-+	struct komeda_kms_dev *kms = drv->kms;
-+	struct drm_device *drm = &kms->base;
- 	struct d71_dev *d71 = mdev->chip_data;
- 	u32 __iomem *reg = d71->gcu_addr;
- 	u32 check_bits = (d71->num_pipelines == 2) ?
-@@ -593,7 +603,7 @@ static int d71_disconnect_iommu(struct komeda_dev *mdev)
- 	ret = dp_wait_cond(((malidp_read32(reg, BLK_STATUS) & check_bits) == 0),
- 			100, 1000, 1000);
- 	if (ret < 0) {
--		DRM_ERROR("timed out disconnecting from TCU!\n");
-+		drm_err(drm, "timed out disconnecting from TCU!\n");
- 		malidp_write32_mask(reg, BLK_CONTROL, 0x7, INACTIVE_MODE);
- 	}
- 
--- 
-2.43.0
+As the first thing, I think you should add a function such as
+intel_alpm_init_dpcd(), and move the DPCD parts of intel_alpm_init()
+there. The mutex init should remain in
+intel_alpm_init(). intel_alpm_init_dpcd() should be called from
+intel_edp_init_dpcd().
 
+That's it, that's the first thing. Don't add anything more. The commit
+message should of course describe those changes. It should be all
+non-functional, no addition of new platform checks or anything.
+
+The next part would be moving intel_alpm_init() to be done for all DP,
+not just eDP, and calling intel_alpm_init_dpcd() also from
+intel_dp_detect_dpcd(), where supported.
+
+Small incremental things, one thing at a time.
+
+BR,
+Jani.
+
+
+
+
+
+>
+> Regards,
+> Animesh=20
+>
+>>=20
+>> BR,
+>> Jani.
+>>=20
+>>=20
+>> >
+>> > v2: Separate out mutex-init. [Jani]
+>> > v3: Refactor further to avoid DISPLAY_VER check in multiple places.
+>> > [Jani]
+>> > V4: Cosmetic changes. [Suraj]
+>> >
+>> > Cc: Jouni H=C3=B6gander <jouni.hogander@intel.com>
+>> > Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
+>> > Signed-off-by: Animesh Manna <animesh.manna@intel.com>
+>> > ---
+>> >  drivers/gpu/drm/i915/display/intel_alpm.c | 16 ++++++++++++++--
+>> > drivers/gpu/drm/i915/display/intel_alpm.h |  3 ++-
+>> >  drivers/gpu/drm/i915/display/intel_dp.c   |  8 +++++++-
+>> >  3 files changed, 23 insertions(+), 4 deletions(-)
+>> >
+>> > diff --git a/drivers/gpu/drm/i915/display/intel_alpm.c
+>> > b/drivers/gpu/drm/i915/display/intel_alpm.c
+>> > index 6372f533f65b..14acd6717e59 100644
+>> > --- a/drivers/gpu/drm/i915/display/intel_alpm.c
+>> > +++ b/drivers/gpu/drm/i915/display/intel_alpm.c
+>> > @@ -41,7 +41,20 @@ bool intel_alpm_is_alpm_aux_less(struct intel_dp
+>> *intel_dp,
+>> >  		(crtc_state->has_lobf &&
+>> > intel_alpm_aux_less_wake_supported(intel_dp));
+>> >  }
+>> >
+>> > -void intel_alpm_init(struct intel_dp *intel_dp)
+>> > +bool intel_alpm_source_supported(struct intel_connector *connector) {
+>> > +	struct intel_display *display =3D to_intel_display(connector);
+>> > +
+>> > +	if (!((connector->base.connector_type =3D=3D
+>> DRM_MODE_CONNECTOR_DisplayPort &&
+>> > +	       DISPLAY_VER(display) >=3D 35) ||
+>> > +	    (connector->base.connector_type =3D=3D
+>> DRM_MODE_CONNECTOR_eDP &&
+>> > +	     DISPLAY_VER(display) >=3D 20)))
+>> > +		return false;
+>> > +
+>> > +	return true;
+>> > +}
+>> > +
+>> > +void intel_alpm_get_sink_capability(struct intel_dp *intel_dp)
+>> >  {
+>> >  	u8 dpcd;
+>> >
+>> > @@ -49,7 +62,6 @@ void intel_alpm_init(struct intel_dp *intel_dp)
+>> >  		return;
+>> >
+>> >  	intel_dp->alpm_dpcd =3D dpcd;
+>> > -	mutex_init(&intel_dp->alpm.lock);
+>> >  }
+>> >
+>> >  static int get_silence_period_symbols(const struct intel_crtc_state
+>> > *crtc_state) diff --git a/drivers/gpu/drm/i915/display/intel_alpm.h
+>> > b/drivers/gpu/drm/i915/display/intel_alpm.h
+>> > index 53599b464dea..bcc354a46a1d 100644
+>> > --- a/drivers/gpu/drm/i915/display/intel_alpm.h
+>> > +++ b/drivers/gpu/drm/i915/display/intel_alpm.h
+>> > @@ -15,7 +15,8 @@ struct intel_connector;  struct intel_atomic_state;
+>> > struct intel_crtc;
+>> >
+>> > -void intel_alpm_init(struct intel_dp *intel_dp);
+>> > +bool intel_alpm_source_supported(struct intel_connector *connector);
+>> > +void intel_alpm_get_sink_capability(struct intel_dp *intel_dp);
+>> >  bool intel_alpm_compute_params(struct intel_dp *intel_dp,
+>> >  			       struct intel_crtc_state *crtc_state);  void
+>> > intel_alpm_lobf_compute_config(struct intel_dp *intel_dp, diff --git
+>> > a/drivers/gpu/drm/i915/display/intel_dp.c
+>> > b/drivers/gpu/drm/i915/display/intel_dp.c
+>> > index 0ec82fcbcf48..81dd5bf7e3c5 100644
+>> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
+>> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+>> > @@ -6074,6 +6074,9 @@ intel_dp_detect(struct drm_connector
+>> *_connector,
+>> >  	if (ret =3D=3D 1)
+>> >  		connector->base.epoch_counter++;
+>> >
+>> > +	if (intel_alpm_source_supported(connector))
+>> > +		intel_alpm_get_sink_capability(intel_dp);
+>> > +
+>> >  	if (!intel_dp_is_edp(intel_dp))
+>> >  		intel_psr_init_dpcd(intel_dp);
+>> >
+>> > @@ -6716,7 +6719,7 @@ static bool intel_edp_init_connector(struct
+>> intel_dp *intel_dp,
+>> >  	 */
+>> >  	intel_hpd_enable_detection(encoder);
+>> >
+>> > -	intel_alpm_init(intel_dp);
+>> > +	intel_alpm_get_sink_capability(intel_dp);
+>> >
+>> >  	/* Cache DPCD and EDID for edp. */
+>> >  	has_dpcd =3D intel_edp_init_dpcd(intel_dp, connector); @@ -6932,6
+>> > +6935,9 @@ intel_dp_init_connector(struct intel_digital_port
+>> > *dig_port,
+>> >
+>> >  	intel_psr_init(intel_dp);
+>> >
+>> > +	if (intel_alpm_source_supported(connector))
+>> > +		mutex_init(&intel_dp->alpm.lock);
+>> > +
+>> >  	return true;
+>> >
+>> >  fail:
+>>=20
+>> --
+>> Jani Nikula, Intel
+
+--=20
+Jani Nikula, Intel
