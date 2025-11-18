@@ -2,119 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ABECC69B4F
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 14:50:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF573C69BA5
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 14:54:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B82710E4B4;
-	Tue, 18 Nov 2025 13:50:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1625010E4B6;
+	Tue, 18 Nov 2025 13:54:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="gxJXT2RR";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pLubX08h";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
- [209.85.221.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF25D10E4B2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 13:50:40 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id
- ffacd0b85a97d-42b3d7c1321so3980219f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 05:50:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763473839; x=1764078639; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=dY87Qd6K9FmYpUIN2v9FDUk/qdoG5fxW/x7OSqsCn3w=;
- b=gxJXT2RRaBrm/UUlmzCaho+OuiAS6eZ7y1dxqGBBaqmcYvyKXXaMKZgW5E5HMrrew0
- zRDvF2P4hihy0kDLploky7u8gJIBA7P3O8Eca7NjG1Ofh7BkbjvCbwADthximqIPII/1
- n6+qhtK116yaaR+QDZne56VHU5KXOTeqZ9qqmzIz8MwG1X+VhcgBIW57rAIr6WDvjvDY
- xmjBG9O9pfZXu/meYdZ7L5J7W4qrEdJNuxeKK2tIj+G1iRFYUoihefTB2WWoq4AeuLU1
- PiW8ZKbNZ648Z/fMNCcEW1ebB6Dgu/QJchXTz0NL1rtDZA8Hz+fuWsf4XqiznyDr0tMJ
- OeIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763473839; x=1764078639;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dY87Qd6K9FmYpUIN2v9FDUk/qdoG5fxW/x7OSqsCn3w=;
- b=HMectYqK8b+u/D5RmNdb9dFqtoBuq2vGmh2l+gyRKV7AzNran0/gW/lhY02oFYVTSe
- 9yTxq9PWiRBHq89OezAmd/53jNTmwemj4wMOjYpCTaBeuLGsZLCF9lp0squ1pvebTbhB
- IdeZqVRsJAbQ4wfkedLC3yqNgE6Pm3I6rrAOl4vLB2OjMLpDONB5/yNeT4zVfIHCRIeZ
- jag1/mSpx71CiBgbPAL1u9H0lsD1KdVkbTuIMJD8sh8QOrmqGUTUeEPzAsm9CYc1qmI4
- O6TS5PsSG/LBoIXNm+Zrcw6ZojldmOgiQUjwLtfvFNHJtCFzd4tn6/uyJX/Kiq7DAdge
- IeDA==
-X-Gm-Message-State: AOJu0YxkiTzM5xXM8WvDKCteZokPoehXbfxw2Qu/Y1HHmrmQ4g9r7kNe
- pW/647Wfw5AAm8kMnflXKQT2kSlWue+m3/klJziXwydzRMBK8TZi909JsljOJuoF6Sg=
-X-Gm-Gg: ASbGncsnr1VcgQ4q8BTpOX4QOHD3KofUdOHM++SCoGCtwUAsWvJjZP1eZplQKtnLFE3
- KIX2rH+2wvC0gpykHXFf215Fno39hFfmWCKFbQyYu244YgfcGCQ/dvKQSFY/OhtICmvNHuWSIKe
- 27pApIi0X3H86vZAre2WIwpMLSewSQ6i4FY3ym6Voswhq9/PNInl9HPj/QxAAUw6JEWAvfODad8
- RKkaoUNg99ncOlseoRRnXKZ8PdA3wySgzVYuvsOcpWkRlnYzjVQNJaVOpCE389X3ITMZAVlNz4H
- Ttbt0PEODkfr8p44VGXahJkF54aQLD5/9Ucz5oKmkhvGyvXFWQMocBjtxGLkvX3O2cnWCMDlB+w
- dE50tBII9T+zAcLK9sUcrBf2b/dCdGc10ltSvZjbkdXnGFau/p74u6YAmzNCcZzgJk/UgJzQwK9
- omBVIUeSbQeH01pfpXT7sr8V0xw4mjqt9UecunVK5PMBAq1rha1+NqMhzKCtH+J0M=
-X-Google-Smtp-Source: AGHT+IHO7NgHAvMoNL+Vwr0gsrbLBbRzB68mfS+LYvq/Q1H/ixopITAemFG2PunekaEBn/eSbVurMg==
-X-Received: by 2002:a05:6000:24c7:b0:428:52c7:feae with SMTP id
- ffacd0b85a97d-42b593869b1mr16288107f8f.32.1763473839029; 
- Tue, 18 Nov 2025 05:50:39 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:3d9:2080:366e:5264:fffe:1c49?
- ([2a01:e0a:3d9:2080:366e:5264:fffe:1c49])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42b53e85e6fsm32359458f8f.18.2025.11.18.05.50.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 18 Nov 2025 05:50:38 -0800 (PST)
-Message-ID: <e21760e8-4eaf-4181-a328-5d0d205b7ae0@linaro.org>
-Date: Tue, 18 Nov 2025 14:50:37 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A1B310E4B6
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 13:54:13 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 566441F37;
+ Tue, 18 Nov 2025 14:52:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1763473928;
+ bh=mQtE7V1tk4roweg8Y60kWoVlVdm6GIKHYJPwKYTk1gk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=pLubX08hH/T8P7oOfO2XR/ggC4fHZALL/gmormvfcs1WMMXMtRs7mUe2xZmluaAJd
+ Jt/68U4lV6i0GFGQC2hSHpTZTJvlI/vXWAftgKZ39sFIOiRFIzys09j7RRl/jVIhvW
+ 8sr73ZKwBDVTq6eRnFbxvONC0z7KnquuVkXGnJ2M=
+Message-ID: <8256d054-a946-4aff-9953-03b29a4d01c5@ideasonboard.com>
+Date: Tue, 18 Nov 2025 15:54:07 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH 5/9] drm/panel: ilitek-ili9881d: Add support for
- Wanchanglong W552946AAA panel
-To: Chaoyi Chen <kernel@airkyi.com>,
+Subject: Re: [PATCH v2 0/4] drm: panel: Fix atomic helper-induced regressions
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Aradhya Bhatia <a-bhatia1@ti.com>, Stefan Hansson
+ <newbyte@postmarketos.org>, Neil Armstrong <neil.armstrong@linaro.org>,
  Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-phy@lists.infradead.org,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>
-References: <20251106020632.92-1-kernel@airkyi.com>
- <20251106020632.92-6-kernel@airkyi.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20251106020632.92-6-kernel@airkyi.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org
+References: <20251026-fix-mcde-drm-regression-v2-0-8d799e488cf9@linaro.org>
+ <067817a3-dee3-4ffb-a56f-8b46949cb494@ideasonboard.com>
+ <CACRpkdYth1-QMDRW17bERXdzYvxvkfLq0o5QVTiis+o6NqubBA@mail.gmail.com>
+ <22eb27cd-5ce9-4189-803a-14295b6650c4@ideasonboard.com>
+ <CACRpkdazwqEUi7HR6ygUYE8Jr4zfMvJR+r9UL1+S0jduPqAyrw@mail.gmail.com>
+ <17cedb40-d64a-4824-a1a9-c82d21f4606a@ideasonboard.com>
+ <CACRpkdbtySSfCiV-6Dqy--D+J0vcnyvcFiASLYGauNHSK9TCjw@mail.gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <CACRpkdbtySSfCiV-6Dqy--D+J0vcnyvcFiASLYGauNHSK9TCjw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,282 +108,52 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/6/25 03:06, Chaoyi Chen wrote:
-> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> 
-> W552946AAA is a panel by Wanchanglong. This panel utilizes the
-> Ilitek ILI9881D controller.
-> 
-> W552946AAA is similar to W552946ABA, but the W552946AAA only
-> uses 2 lanes.
-> 
-> Tested on rk3506g-evb1-v10.
-> 
-> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> ---
->   drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 225 ++++++++++++++++++
->   1 file changed, 225 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> index ad4993b2f92a..9b3e9450808d 100644
-> --- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> @@ -820,6 +820,204 @@ static const struct ili9881c_instr tl050hdv35_init[] = {
->   	ILI9881C_COMMAND_INSTR(0xd3, 0x39),
->   };
->   
-> +static const struct ili9881c_instr w552946aaa_init[] = {
-> +	ILI9881C_SWITCH_PAGE_INSTR(3),
-> +	ILI9881C_COMMAND_INSTR(0x01, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x02, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x03, 0x53),
-> +	ILI9881C_COMMAND_INSTR(0x04, 0x53),
-> +	ILI9881C_COMMAND_INSTR(0x05, 0x13),
-> +	ILI9881C_COMMAND_INSTR(0x06, 0x04),
-> +	ILI9881C_COMMAND_INSTR(0x07, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x08, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x09, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x0a, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x0b, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x0c, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x0d, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x0e, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x0f, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x10, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x11, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x12, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x13, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x14, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x15, 0x08),
-> +	ILI9881C_COMMAND_INSTR(0x16, 0x10),
-> +	ILI9881C_COMMAND_INSTR(0x17, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x18, 0x08),
-> +	ILI9881C_COMMAND_INSTR(0x19, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x1a, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x1b, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x1c, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x1d, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x1e, 0xc0),
-> +	ILI9881C_COMMAND_INSTR(0x1f, 0x80),
-> +	ILI9881C_COMMAND_INSTR(0x20, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x21, 0x09),
-> +	ILI9881C_COMMAND_INSTR(0x22, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x23, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x24, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x25, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x26, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x27, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x28, 0x55),
-> +	ILI9881C_COMMAND_INSTR(0x29, 0x03),
-> +	ILI9881C_COMMAND_INSTR(0x2a, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x2b, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x2c, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x2d, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x2e, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x2f, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x30, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x31, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x32, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x33, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x34, 0x04),
-> +	ILI9881C_COMMAND_INSTR(0x35, 0x05),
-> +	ILI9881C_COMMAND_INSTR(0x36, 0x05),
-> +	ILI9881C_COMMAND_INSTR(0x37, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x38, 0x3c),
-> +	ILI9881C_COMMAND_INSTR(0x39, 0x35),
-> +	ILI9881C_COMMAND_INSTR(0x3a, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x3b, 0x40),
-> +	ILI9881C_COMMAND_INSTR(0x3c, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x3d, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x3e, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x3f, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x40, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x41, 0x88),
-> +	ILI9881C_COMMAND_INSTR(0x42, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x43, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x44, 0x1f),
-> +	ILI9881C_COMMAND_INSTR(0x50, 0x01),
-> +	ILI9881C_COMMAND_INSTR(0x51, 0x23),
-> +	ILI9881C_COMMAND_INSTR(0x52, 0x45),
-> +	ILI9881C_COMMAND_INSTR(0x53, 0x67),
-> +	ILI9881C_COMMAND_INSTR(0x54, 0x89),
-> +	ILI9881C_COMMAND_INSTR(0x55, 0xab),
-> +	ILI9881C_COMMAND_INSTR(0x56, 0x01),
-> +	ILI9881C_COMMAND_INSTR(0x57, 0x23),
-> +	ILI9881C_COMMAND_INSTR(0x58, 0x45),
-> +	ILI9881C_COMMAND_INSTR(0x59, 0x67),
-> +	ILI9881C_COMMAND_INSTR(0x5a, 0x89),
-> +	ILI9881C_COMMAND_INSTR(0x5b, 0xab),
-> +	ILI9881C_COMMAND_INSTR(0x5c, 0xcd),
-> +	ILI9881C_COMMAND_INSTR(0x5d, 0xef),
-> +	ILI9881C_COMMAND_INSTR(0x5e, 0x03),
-> +	ILI9881C_COMMAND_INSTR(0x5f, 0x14),
-> +	ILI9881C_COMMAND_INSTR(0x60, 0x15),
-> +	ILI9881C_COMMAND_INSTR(0x61, 0x0c),
-> +	ILI9881C_COMMAND_INSTR(0x62, 0x0d),
-> +	ILI9881C_COMMAND_INSTR(0x63, 0x0e),
-> +	ILI9881C_COMMAND_INSTR(0x64, 0x0f),
-> +	ILI9881C_COMMAND_INSTR(0x65, 0x10),
-> +	ILI9881C_COMMAND_INSTR(0x66, 0x11),
-> +	ILI9881C_COMMAND_INSTR(0x67, 0x08),
-> +	ILI9881C_COMMAND_INSTR(0x68, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x69, 0x0a),
-> +	ILI9881C_COMMAND_INSTR(0x6a, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x6b, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x6c, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x6d, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x6e, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x6f, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x70, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x71, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x72, 0x06),
-> +	ILI9881C_COMMAND_INSTR(0x73, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x74, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x75, 0x14),
-> +	ILI9881C_COMMAND_INSTR(0x76, 0x15),
-> +	ILI9881C_COMMAND_INSTR(0x77, 0x0f),
-> +	ILI9881C_COMMAND_INSTR(0x78, 0x0e),
-> +	ILI9881C_COMMAND_INSTR(0x79, 0x0d),
-> +	ILI9881C_COMMAND_INSTR(0x7a, 0x0c),
-> +	ILI9881C_COMMAND_INSTR(0x7b, 0x11),
-> +	ILI9881C_COMMAND_INSTR(0x7c, 0x10),
-> +	ILI9881C_COMMAND_INSTR(0x7d, 0x06),
-> +	ILI9881C_COMMAND_INSTR(0x7e, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x7f, 0x0a),
-> +	ILI9881C_COMMAND_INSTR(0x80, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x81, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x82, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x83, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x84, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x85, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x86, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x87, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x88, 0x08),
-> +	ILI9881C_COMMAND_INSTR(0x89, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0x8a, 0x02),
-> +	ILI9881C_SWITCH_PAGE_INSTR(4),
-> +	ILI9881C_COMMAND_INSTR(0x00, 0x80),
-> +	ILI9881C_COMMAND_INSTR(0x70, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x71, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x66, 0xfe),
-> +	ILI9881C_COMMAND_INSTR(0x82, 0x15),
-> +	ILI9881C_COMMAND_INSTR(0x84, 0x15),
-> +	ILI9881C_COMMAND_INSTR(0x85, 0x15),
-> +	ILI9881C_COMMAND_INSTR(0x3a, 0x24),
-> +	ILI9881C_COMMAND_INSTR(0x32, 0xac),
-> +	ILI9881C_COMMAND_INSTR(0x8c, 0x80),
-> +	ILI9881C_COMMAND_INSTR(0x3c, 0xf5),
-> +	ILI9881C_COMMAND_INSTR(0x88, 0x33),
-> +	ILI9881C_SWITCH_PAGE_INSTR(1),
-> +	ILI9881C_COMMAND_INSTR(0x22, 0x0a),
-> +	ILI9881C_COMMAND_INSTR(0x31, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x53, 0x78),
-> +	ILI9881C_COMMAND_INSTR(0x55, 0x7b),
-> +	ILI9881C_COMMAND_INSTR(0x60, 0x20),
-> +	ILI9881C_COMMAND_INSTR(0x61, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0x62, 0x0d),
-> +	ILI9881C_COMMAND_INSTR(0x63, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0xa0, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0xa1, 0x10),
-> +	ILI9881C_COMMAND_INSTR(0xa2, 0x1c),
-> +	ILI9881C_COMMAND_INSTR(0xa3, 0x13),
-> +	ILI9881C_COMMAND_INSTR(0xa4, 0x15),
-> +	ILI9881C_COMMAND_INSTR(0xa5, 0x26),
-> +	ILI9881C_COMMAND_INSTR(0xa6, 0x1a),
-> +	ILI9881C_COMMAND_INSTR(0xa7, 0x1d),
-> +	ILI9881C_COMMAND_INSTR(0xa8, 0x67),
-> +	ILI9881C_COMMAND_INSTR(0xa9, 0x1c),
-> +	ILI9881C_COMMAND_INSTR(0xaa, 0x29),
-> +	ILI9881C_COMMAND_INSTR(0xab, 0x5b),
-> +	ILI9881C_COMMAND_INSTR(0xac, 0x26),
-> +	ILI9881C_COMMAND_INSTR(0xad, 0x28),
-> +	ILI9881C_COMMAND_INSTR(0xae, 0x5c),
-> +	ILI9881C_COMMAND_INSTR(0xaf, 0x30),
-> +	ILI9881C_COMMAND_INSTR(0xb0, 0x31),
-> +	ILI9881C_COMMAND_INSTR(0xb1, 0x32),
-> +	ILI9881C_COMMAND_INSTR(0xb2, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0xb1, 0x2e),
-> +	ILI9881C_COMMAND_INSTR(0xb2, 0x32),
-> +	ILI9881C_COMMAND_INSTR(0xb3, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0xb6, 0x02),
-> +	ILI9881C_COMMAND_INSTR(0xb7, 0x03),
-> +	ILI9881C_COMMAND_INSTR(0xc0, 0x00),
-> +	ILI9881C_COMMAND_INSTR(0xc1, 0x10),
-> +	ILI9881C_COMMAND_INSTR(0xc2, 0x1c),
-> +	ILI9881C_COMMAND_INSTR(0xc3, 0x13),
-> +	ILI9881C_COMMAND_INSTR(0xc4, 0x15),
-> +	ILI9881C_COMMAND_INSTR(0xc5, 0x26),
-> +	ILI9881C_COMMAND_INSTR(0xc6, 0x1a),
-> +	ILI9881C_COMMAND_INSTR(0xc7, 0x1d),
-> +	ILI9881C_COMMAND_INSTR(0xc8, 0x67),
-> +	ILI9881C_COMMAND_INSTR(0xc9, 0x1c),
-> +	ILI9881C_COMMAND_INSTR(0xca, 0x29),
-> +	ILI9881C_COMMAND_INSTR(0xcb, 0x5b),
-> +	ILI9881C_COMMAND_INSTR(0xcc, 0x26),
-> +	ILI9881C_COMMAND_INSTR(0xcd, 0x28),
-> +	ILI9881C_COMMAND_INSTR(0xce, 0x5c),
-> +	ILI9881C_COMMAND_INSTR(0xcf, 0x30),
-> +	ILI9881C_COMMAND_INSTR(0xd0, 0x31),
-> +	ILI9881C_COMMAND_INSTR(0xd1, 0x2e),
-> +	ILI9881C_COMMAND_INSTR(0xd2, 0x32),
-> +	ILI9881C_COMMAND_INSTR(0xd3, 0x00),
-> +	ILI9881C_SWITCH_PAGE_INSTR(0),
-> +};
-> +
->   static const struct ili9881c_instr w552946ab_init[] = {
->   	ILI9881C_SWITCH_PAGE_INSTR(3),
->   	ILI9881C_COMMAND_INSTR(0x01, 0x00),
-> @@ -1772,6 +1970,23 @@ static const struct drm_display_mode tl050hdv35_default_mode = {
->   	.height_mm	= 110,
->   };
->   
-> +static const struct drm_display_mode w552946aaa_default_mode = {
-> +	.clock		= 65000,
-> +
-> +	.hdisplay	= 720,
-> +	.hsync_start	= 720 + 52,
-> +	.hsync_end	= 720 + 52 + 8,
-> +	.htotal		= 720 + 52 + 8 + 48,
-> +
-> +	.vdisplay	= 1280,
-> +	.vsync_start	= 1280 + 16,
-> +	.vsync_end	= 1280 + 16 + 6,
-> +	.vtotal		= 1280 + 16 + 6 + 15,
-> +
-> +	.width_mm	= 68,
-> +	.height_mm	= 121,
-> +};
-> +
->   static const struct drm_display_mode w552946aba_default_mode = {
->   	.clock		= 64000,
->   
-> @@ -1983,6 +2198,15 @@ static const struct ili9881c_desc tl050hdv35_desc = {
->   	.default_address_mode = 0x03,
->   };
->   
-> +static const struct ili9881c_desc w552946aaa_desc = {
-> +	.init = w552946aaa_init,
-> +	.init_length = ARRAY_SIZE(w552946aaa_init),
-> +	.mode = &w552946aaa_default_mode,
-> +	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> +		      MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_NO_EOT_PACKET,
-> +	.lanes = 2,
-> +};
-> +
->   static const struct ili9881c_desc w552946aba_desc = {
->   	.init = w552946ab_init,
->   	.init_length = ARRAY_SIZE(w552946ab_init),
-> @@ -2023,6 +2247,7 @@ static const struct of_device_id ili9881c_of_match[] = {
->   	{ .compatible = "feixin,k101-im2byl02", .data = &k101_im2byl02_desc },
->   	{ .compatible = "startek,kd050hdfia020", .data = &kd050hdfia020_desc },
->   	{ .compatible = "tdo,tl050hdv35", .data = &tl050hdv35_desc },
-> +	{ .compatible = "wanchanglong,w552946aaa", .data = &w552946aaa_desc },
->   	{ .compatible = "wanchanglong,w552946aba", .data = &w552946aba_desc },
->   	{ .compatible = "ampire,am8001280g", .data = &am8001280g_desc },
->   	{ .compatible = "raspberrypi,dsi-7inch", &rpi_7inch_desc },
+Hi,
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+On 18/11/2025 15:41, Linus Walleij wrote:
+> On Mon, Nov 10, 2025 at 4:16 PM Tomi Valkeinen
+> <tomi.valkeinen@ideasonboard.com> wrote:
+> 
+>>> So what is needed is for .enable on the preceding bridge to have
+>>> been called first.
+>>
+>> Marek sent
+>>
+>> https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas%40mailbox.org/
+>>
+>> Linus, I don't know if we want to go there or not, but could you see if
+>> that solves the problem on mcde?
+> 
+> It does, after some fiddling and adding a custom helper
+> for this usecase. I just sent the patch.
+
+Ok, great.
+
+>> If Marek's patch helps, we could go with it, or we could also try to
+>> apply it the other way around: revert the order back for, but add a new
+>> drm_atomic_helper_commit_modeset_enables variant, where the crtc is
+>> enabled after bridge pre_enables.
+> 
+> Marek's patch helps, if applied and then with my additional
+> patch on top.
+> 
+> Can you apply them both if this fix is acceptable?
+I'm trying to find time to do some hacking today or tomorrow wrt. this.
+The questions I have:
+
+- Should we 1) keep the current upstream sequence as default, and
+specific drivers can opt to use new helpers that make sure the crtc is
+enabled early (like your patch), or 2) revert the sequence changes from
+Aradhya, restoring the crtc-enabled-first style, and add new helpers
+that handle the sequence in the new way, as it is currently in upstream.
+
+- These patches only deal with the enable side. Disable side was also
+changed in Aradhya's patch. I guess that has not been a problem, but it
+worries me a bit if the enable and disable sequences are not mirroring
+each other.
+
+ Tomi
+
