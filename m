@@ -2,146 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC59C6B76D
-	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 20:38:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85980C6B78E
+	for <lists+dri-devel@lfdr.de>; Tue, 18 Nov 2025 20:42:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A85910E1E9;
-	Tue, 18 Nov 2025 19:38:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9222A10E163;
+	Tue, 18 Nov 2025 19:41:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="BaOm1z6f";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mGLXHUUN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11011013.outbound.protection.outlook.com [52.101.62.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE8510E1E9
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 19:38:23 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a9+jX94Njpjm71YEe55t+Su12ewW+QRK5dAMSjCgWBo/YyuycQ/tu45NZs9L7lgbTKM8yY97VWEQfwN30A8iAvCvbG8G8J2qVMnPnr9uYEbXkvTOeag8GDq8T3M+qw8mySs9dk2ciM+zsRqolNBt+bFyDHtLUhiS4L7DdAotQnkpTXZEJciBdqenydT0oYaOWWdYXKQYrih0voBSp87wqccG9uX+Yh9U/E+7R67OlbRof/eqalvax5+5ryOMIUrUpTsmJK5KkmWk6orJHApEZN8LeG+0McPdB48/X5CaVwHVwbAhFyN6k/UFcYJPQK5PhvXdf+jgbtkIPp+bD3BHug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hfDU+hOlWQsw+xOuOWZ396m7X/cGmXym6waEtVpnUOk=;
- b=t5MWrXG1297YImQq870MFzJ32WMl0I6vc4bdFE9S4JUhuX0lRUzN5aYZiOIpy1QRL7UtUFxPIL1ZgWFLSrf0MixkbkVCLJ9pBAI0GEj+oRXHx/Dt42z4bzKSOqUWoy9ZhjG9Vjd6MI7W6yfsamGmHU96pVAjSh6c1nr3mUK4ULlLcY5JtYtm/3qdPsjndu2QZuKLnywpm3C0+BDNQCYooPnWqtsEqYdpF6MtW+D1T64XNXca5k8iR49/CtE9fBuD5YvkkJoAAWa3pgjcVIHfe/H5msoMm86GoMyaMsFQ7VCFRUzb5/9VPmIPrx5/XCJYmdYwfA7+3JY/2MAbHRvEDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hfDU+hOlWQsw+xOuOWZ396m7X/cGmXym6waEtVpnUOk=;
- b=BaOm1z6fHGg2PnwkJI0v13iCNltFXTgF7H62fGoVYctDU4NL+7misOUZaU3KhZWdMl1ubrOS+vT1smzG9x1T3v+oVtWTsgXf4OEiCCy+NPPSfSNvJtfa8QZbbJmWTPx3k9ePCgOIkvMXoSpLrBcQK55kUTOZI+zBjgWovoohxERnq+cnxrayv1+2YAvGdDd1BPjdd458PPb+m4EOLsKwK8fN6AZRZcTibcu1e5t6fFd5tUwUJJCsTbaNXGbw7L85f74gZTh0KFBXfKHHerYWUUbIpaHnnMX9LaX14/58vu9kOjg/6f1gygNlK0yVb+g5EuPtUoIz4Jsc8I8Wb0GXFQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
- by PH8PR12MB7182.namprd12.prod.outlook.com (2603:10b6:510:229::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9275.12; Tue, 18 Nov
- 2025 19:38:19 +0000
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9343.009; Tue, 18 Nov 2025
- 19:38:19 +0000
-Date: Tue, 18 Nov 2025 15:38:17 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: Alex Williamson <alex@shazbot.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
- kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Will Deacon <will@kernel.org>, Krishnakant Jaju <kjaju@nvidia.com>,
- Leon Romanovsky <leon@kernel.org>, Matt Ochs <mochs@nvidia.com>,
- patches@lists.linux.dev, Simona Vetter <simona.vetter@ffwll.ch>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Xu Yilun <yilun.xu@linux.intel.com>
-Subject: Re: [PATCH 6/9] iommufd: Have pfn_reader process DMABUF iopt_pages
-Message-ID: <20251118193817.GA120075@nvidia.com>
-References: <0-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
- <6-v1-af84a3ab44f5+f68-iommufd_buf_jgg@nvidia.com>
- <aRZsQvvEfAD2vpcW@Asurada-Nvidia>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aRZsQvvEfAD2vpcW@Asurada-Nvidia>
-X-ClientProxiedBy: MN2PR03CA0023.namprd03.prod.outlook.com
- (2603:10b6:208:23a::28) To MN2PR12MB3613.namprd12.prod.outlook.com
- (2603:10b6:208:c1::17)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 388F810E163
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 19:41:58 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id B2AED4084D
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 19:41:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41674C2BCB4
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 19:41:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763494917;
+ bh=O4u0xKjB+4s0Wx1bDdt/I2ekbZcKY37riMw8RCIUqjs=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=mGLXHUUNB20NDwtDtfCEGu1vDLcEscIi6eLocV6ANR3FJqyUYtDLntCmggrpPguh+
+ 9O2K05zbkdAzYiQVABtAqtwTvqGfqp9YwQRKGaoZ/xXFp6R/EgvnaOYi9v/99u3FVB
+ JQA3EOKiiLhI6YqnYz1QpjKzDkIWIlGQQCAtXJXz1H1Yv+fQ+4Yy4+FUklp02QCeBc
+ T/QO90ta6R47zr//qZAimPtSPOW4fS/reY0sQrhW7yRUJMQDmjgXc9JEVdJ9C4ZbP+
+ SUqAYJEGJB1lu/9KjQznkDmsQC71hjS9Y/G2SBzynHT55v3+vBzoDYBrsgv+FA00gd
+ ZGAulyA4IuUOg==
+Received: by mail-lf1-f47.google.com with SMTP id
+ 2adb3069b0e04-5959187c5a9so1993793e87.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 11:41:57 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWrWFrlXRoVD/Xv5M+jRibxu++ZsoXbZWBC1zriW7DoexjYJLQmcTSyjYFI5veLZuUI/OozegIOFGI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyhf/Cv/2A/xlr5tmcbZ/LYTBNtIfgN0zDMJOKrMNXBQFtJ6SY+
+ PaImxKFx9AZdqhdVsn3WtC+mKcDhvbs7po2XjCKscyb0i41Q2F5ElQjAdRYeRO9GWb9iLjZmh5y
+ ftAGEnDQ0nyQRq5RnBj7ZXP3SwpWYD4o=
+X-Google-Smtp-Source: AGHT+IGKcHBNVAZHh0LRgoDGqBr/E9/d22wv+apDO28LtFrblSsU53zE8MytU3Vozln6fueen3TLYkJ9hh0/q2pjjQg=
+X-Received: by 2002:a05:6512:ba3:b0:592:fb0e:cf17 with SMTP id
+ 2adb3069b0e04-595841f0b66mr6050506e87.34.1763494914536; Tue, 18 Nov 2025
+ 11:41:54 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|PH8PR12MB7182:EE_
-X-MS-Office365-Filtering-Correlation-Id: 11bdbdd6-fe1e-4e09-2b39-08de26da0671
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GF2UxRYzgdqNqu/yM6e9LDBa9VfxEM1qrMLTCvAjX2WGQdQvucTDe5N7FYuA?=
- =?us-ascii?Q?iC//ktuaLjNCHFwxt3r37JZp2iQpLZaMDdPZRhzH3MOgEfhiFHuZsgeXTIGi?=
- =?us-ascii?Q?c/5ZWHS6mgjGAnBwrKwwJLnWyjg3bi0e3PCbzEZUvLiAHgAW7M24HRguGwlJ?=
- =?us-ascii?Q?nfnIymLdKYg7dnpLNfP38BF7qcmFRUGyIbXha7/qnGiOKxzhxlDgmZ/OuPdV?=
- =?us-ascii?Q?SQoSs28zWUoFgA2/06jCNZKUux1zKHJIDLPkb+YXZe+ASG6XpfFPfRdRpKRd?=
- =?us-ascii?Q?5YrKTh4tzUcnTGbBH9jCuq7SPYe8OdhrLLimjktZ97zJrRXiT3F4gUROb9gR?=
- =?us-ascii?Q?DQera5tE/xAS5EuZPTNAJZS2mlMQBTwvosEuW//ianAjfyWmYBXWfzIzs0Mk?=
- =?us-ascii?Q?qrx17OFcyqRnZpd+uv0fEROg+wrwfZfnv3nrw9J8x9stmknvgCEtLywUgCIV?=
- =?us-ascii?Q?ADVHXoKnoB0u29rcGmBHmyJWFal74Ghisy9kArM6RTtLcZ9tINOPOM105SjR?=
- =?us-ascii?Q?RHMLaxLFdUKeYvfDUCTHo743wxMvUTGOoECc2RP0WwcqEv1QfLveWh4dMrQE?=
- =?us-ascii?Q?c4Xn17QJZOPCDk3gpOIq7sM9ychFBK8JC1s2FAXRrZtwUL2Ki8btzcazf21X?=
- =?us-ascii?Q?GXNEkyLBxH3RbdUj1vEsoN61Wjn4iIpeiKzfBfBIigwVrJm33uV7LzCUyMGp?=
- =?us-ascii?Q?dg/UoZQ2vobjJc0CPUo8nOhJYLsIEc6v7UQ+5JMN6/Cj3dQQ5pgKbsgEzxTU?=
- =?us-ascii?Q?BfBihNE1F8MIoS6YU6H3uZxv70Y6hJf3oA+oiD3NwAl5xMa8vJXBCHIo8+2F?=
- =?us-ascii?Q?GANdhBobI09dMgWLCmJ+Naz3MShui5Wrh0kaJXW+g+1CH+Q3hNP+QU5lBPQw?=
- =?us-ascii?Q?9WgXQew+vRLTrL3flbJl6JqWcOEkXDIqyume3RLgPxy3u5rYbsoWiIvdzlNS?=
- =?us-ascii?Q?NxKY73SoHS1FvKS4OwD6P0+DoavL9yWXFRgMgISosyb/z9jyrWYb0KRv7tTm?=
- =?us-ascii?Q?U+0m7dcY8NhHw2cg4UDryCNBTivCcNOE2+jm05YgcEZZ7mkktNx4CX1HjUks?=
- =?us-ascii?Q?vqVtp9LsCmK0kRRosAjBL0W/NeaUZiLVDJNpZW7HMIJo3ZI1oyqGyJPPdKg/?=
- =?us-ascii?Q?wovqk3a5vX8KqoOl0XeNv5E28nBEO2OTzOl4EEjQxc/OJzmJbr/kafmKTpmQ?=
- =?us-ascii?Q?oVACyU5SFTjn6bBNdABalHrazicdNSBQvZOqkmKv/ApsPReOCtUAxVqgPdQV?=
- =?us-ascii?Q?sBsKeIAsfB/j8bYTR2cOY8m30UXQQfWlItuNR1KtJsD5qlDHmESV/P4q6Uc8?=
- =?us-ascii?Q?xk0IHQpk1cN9uPnyeparGLYOim2DG7koYAV/6bpEOk3PZOK7QApXs5zW7z4n?=
- =?us-ascii?Q?+40fIX9xyQQqWwpX1we3Rsg4FCkElrd93uHgugQRxOVvKwwQHU9nNBUdyylU?=
- =?us-ascii?Q?vIes9tmPAWif2KVgdIR3L0ePyeD8FdCD?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3613.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?73lRzuyDTfzixQDGc89dqo3YO80gT5pZDyFKlL85F+1NAmvSQ4rEKjfTKKME?=
- =?us-ascii?Q?i/+HeBG1591gq6dW/UZhbHiummVlVHSjDwcoQueBsunZobNjibTxDVnwuBXe?=
- =?us-ascii?Q?cQYMypzjFeu+xJPTtMCoRGWuKVjP5EzeyvOd08KQrvCSJKV3+Qw7uEgqMG0l?=
- =?us-ascii?Q?WfY3ck+XDx4VwPH4+gdP6zKeD2BLGMmodf30xrN1KQjGTx5EMtapEZZaY8f8?=
- =?us-ascii?Q?W5fXSVSmkDaweuzehWxxFXC3rWNZcSei6IHg+lKQeLRnnyqLxru98sWd1JWz?=
- =?us-ascii?Q?kdHjIEq1EeNWL4RG8ogIX3JjmEeytpnzOYJv5+ViWORxxGH1OEZK38dp1tyF?=
- =?us-ascii?Q?zugG5dIe22eScDs99lJWFRmQvg+HqgcEYClmMWIOjlc+kb/b/DLa2JPxZO97?=
- =?us-ascii?Q?pdnUk/d7aK54v3ktnz6mS9sV/WQH3pkNQA0xN9EPhgWEwxaaURRg7JYViBq4?=
- =?us-ascii?Q?BnbiMKK9JF3TRPD8rZmJNhiX80fxskD+EkBFb0/5eihazo5M/edyhc5b9WGW?=
- =?us-ascii?Q?H5gkxQsDs7zddklIwXnLFKQs0rc9wnDINxdc20Jwq2pDLGr1Z3F3/o8i/v2J?=
- =?us-ascii?Q?xIvxxvlMsesWc1TPWjNbODA2AeB6jJuTz2B2C/uOsJT7XZhnoYF2BMVh3yzA?=
- =?us-ascii?Q?TcvImZ8R+bZlwRjR8J5VCJzEgGZNa3nqrqMoq3OjNi9qR/xlHn3kbV0l/ltA?=
- =?us-ascii?Q?w3oZWeHr5E1eSpaFkuYlMBuIV0GgeSOgieT+j6D1D2TRRgtNDcbQ3hY2cgnc?=
- =?us-ascii?Q?u45bIMPEtNB6sjPHdQVr4/U5GHOdMxFwhBPyoInd+BuebBmlZkO46s79bTbz?=
- =?us-ascii?Q?F8YNczJk9leXbLLFrNDGRCruZYTi5PQSTbpt4We7sBcx5R5zUl9rjxEjwLE0?=
- =?us-ascii?Q?m6UN+/P5L8SU7q0KjXVZjdAWkh9g1WbfBmpKGaz9Uy+DBDufZWmP9jCRFkfO?=
- =?us-ascii?Q?09imViyYEkeLOEaGf8xXDt7P9FK3tmvnvDlnf4kCpgs6zwbUEoTcUwiLHS4U?=
- =?us-ascii?Q?XqlnZD7UnGLiYQYlm6YN5lvoD1nuWrJdbRcQfNzbSk94/H4EPGjdS0/SSuFK?=
- =?us-ascii?Q?OCdm/EDmhOoKwnU8o7mjv9nzt8g634hMHr9nsihFqTIQL/EV7Ss8eSkAV+/J?=
- =?us-ascii?Q?bZbq/MtQT6dnXjGRMgbHNC23LKxGqrFEuOvKwg2uMnqgjFQXH4Xw/NruhDFM?=
- =?us-ascii?Q?2+LVpEEW/igWNopgkbx2ApcTFkdWT2+KPTU42uQM3PnzR9/E2PENNo6fvih2?=
- =?us-ascii?Q?UAqf2r0qUhmdoLq8UNDTa+V7hl0Gd17GUxAE02mo9eB20BoN5zy2b7I+R3F1?=
- =?us-ascii?Q?pf/PhP3RUczGTjPow9lRW8Q2BZeW6mclAHJzkXx7Udhq/kcKDMx3pxGaT210?=
- =?us-ascii?Q?92djuEV8vFHHl0WcgQvkncxqHXyck5Pq7IANvxRKjPk5j69Pg1FpowlKdHxL?=
- =?us-ascii?Q?dKeckrg0VVCy7mh6iW7E4FIOV8s/sBItQuSDQvZm1NKXd4yey3nEdl/8S7Si?=
- =?us-ascii?Q?os/3R6pcUuy9RLDJlRdoewn2yFB+HmEc/aqJn1phd2CWzseRUW1yNqiOjvcE?=
- =?us-ascii?Q?rGbpWbl1aYESwxswkIA=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11bdbdd6-fe1e-4e09-2b39-08de26da0671
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2025 19:38:19.1495 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MngkeCTahDV86joB4Ep1GWkbbLFqDJM1s49IjiojEZvb/5izZKhsgsNxUxjYQYKb
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7182
+References: <20251015160816.525825-1-tzimmermann@suse.de>
+ <CAMj1kXF62pEMUJAM12HnF7qMt5xhZaZXpPoMdebMUKCfoAYisQ@mail.gmail.com>
+ <b6801420-6ae4-44cb-9d86-e9353a2a59d8@suse.de>
+ <CAMj1kXHKc4jJnQ9x+sUhAO54PeZ6QN6yzcHVTovGvunp2QYnDA@mail.gmail.com>
+In-Reply-To: <CAMj1kXHKc4jJnQ9x+sUhAO54PeZ6QN6yzcHVTovGvunp2QYnDA@mail.gmail.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Tue, 18 Nov 2025 20:41:43 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXEg2PKHJSnko8eFz8fVRDZYTuUYfKCD+jYwuFr=oaUiOg@mail.gmail.com>
+X-Gm-Features: AWmQ_bmcXzwvPbFyhYsZVuhr3-JvV70JUybAQ3Px2Zk2AbvQ9X1B63PzFXW3Uig
+Message-ID: <CAMj1kXEg2PKHJSnko8eFz8fVRDZYTuUYfKCD+jYwuFr=oaUiOg@mail.gmail.com>
+Subject: Re: [PATCH 0/5] efi: x86: Provide EDID from GOP device
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: jonathan@marek.ca, javierm@redhat.com, linux-efi@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,31 +73,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 13, 2025 at 03:39:46PM -0800, Nicolin Chen wrote:
-> > @@ -1687,6 +1737,12 @@ static void __iopt_area_unfill_domain(struct iopt_area *area,
-> >  
-> >  	lockdep_assert_held(&pages->mutex);
-> >  
-> > +	if (iopt_is_dmabuf(pages)) {
-> > +		iopt_area_unmap_domain_range(area, domain, start_index,
-> > +					     last_index);
-> > +		return;
-> > +	}
-> 
-> Should it be:
-> 	if (iopt_is_dmabuf(pages) && !iopt_dmabuf_revoked(pages)) {
-> ?
+On Tue, 18 Nov 2025 at 17:52, Ard Biesheuvel <ardb@kernel.org> wrote:
+>
+> On Mon, 17 Nov 2025 at 09:02, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> >
+> > Hi
+> >
+> > Am 14.11.25 um 09:31 schrieb Ard Biesheuvel:
+> > > On Wed, 15 Oct 2025 at 18:08, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> > >> Add support for EFI_EDID_ACTIVE_PROTOCOL and EFI_EDID_DISCOVERED_PROTOCOL
+> > >> on x86. Refactor the GOP helpers for EDID support, then retrieve the EDID
+> > >> into x86 boot_params.
+> > >>
+> > >> Later boot code copies the EDID from the boot parameters into the global
+> > >> variable edid_info. Graphics drivers, such as efidrm, can pick up the
+> > >> information from there. In the case of efidrm, it provides the EDID to
+> > >> user-space compositors, which use it for improved QoS on the display
+> > >> output. Similar functionality is already available on old VESA systems
+> > >> with vesadrm.
+> > >>
+> > >> Tested on x86 EFI systems.
+> > >>
+> > >> Another patch is required to provide EDID on non-x86 systems via the
+> > >> generic EFI stub. The implementation can directly build upon this
+> > >> series.
+> > >>
+> > >> Thomas Zimmermann (5):
+> > >>    efi: Fix trailing whitespace in header file
+> > >>    efi/libstub: gop: Find GOP handle instead of GOP data
+> > >>    efi/libstub: gop: Initialize screen_info in helper function
+> > >>    efi/libstub: gop: Add support for reading EDID
+> > >>    efi/libstub: x86: Store EDID in boot_params
+> > >>
+> > > Hi,
+> > >
+> > > Apologies for the delay. This series looks fine to me, although I
+> > > would prefer it if we could make things a bit more generic?
+> > >
+> > > Everything you are adding here is arch-agnostic, except for the bit
+> > > where we use x86-specific plumbing to pass the EDID info between the
+> > > EFI stub and the core kernel.
+> >
+> > Attached is an RFC patch that I already have. This would be the next
+> > step for EDID support. I've not yet sent the generic-EFI patch, as I did
+> > not have opportunity to test it. The patch addresses most of what you
+> > ask for, I think.
+> >
+> > >
+> > > More specifically, could we do the following:
+> > > - move struct edid_info edid_info into common code
+> >
+> > edid_info is related to screen_info, so it follows the same conventions.
+> > Arnd Bergmann made x86-specific changes for screen_info in commit
+> > b8466fe82b79 ("efi: move screen_info into efi init code"). x86 has it's
+> > own thing, sort of. See the attached patch for my non-x86 solution.
+> >
+> > > - pass the detected EDID info block via a EFI config table instead of
+> > > boot_params
+> >
+> > The x86 code uses boot params for screen_info already and also transfers
+> > edid_info on VESA systems via boot params (or if grub set up boot_params
+> > for us). [1] It's all there and working already. If we transfer
+> > edid_info via config table, we'd need extra code on x86.
+> >
+>
+> I understand the x86 already uses edid_info for non-EFI boot, but that
+> doesn't mean we have to introduce new dependencies on legacy bits like
+> boot_params to the EFI stub.
+>
+> For generic EFI, I don't think it is necessary to clone all the config
+> table logic with GUIDs and stuff. Instead, given that the EFI stub is
+> tightly coupled with the kernel anyway, we can just decide that the
+> config table has both a screen_info and a edid_info struct, and the
+> generic EFI code consuming the config table populates both.
 
-All callers have already done it, let's add an assertion though..
-
-@@ -1873,6 +1873,8 @@ static void __iopt_area_unfill_domain(struct iopt_area *area,
-        lockdep_assert_held(&pages->mutex);
- 
-        if (iopt_is_dmabuf(pages)) {
-+               if (WARN_ON(iopt_dmabuf_revoked(pages)))
-+                       return;
-                iopt_area_unmap_domain_range(area, domain, start_index,
-                                             last_index);
-                return;
-
-Jason
+I've queued this up for now so it can soak in -next for a bit, but
+please let's not leave non-x86 behind here.
