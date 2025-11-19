@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3AD3C7165A
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 23:58:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC80C7165D
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 23:58:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91A7A10E273;
+	by gabe.freedesktop.org (Postfix) with ESMTP id D55C310E6A6;
 	Wed, 19 Nov 2025 22:58:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ka0RHctj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="f3zBMtiY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com
- [209.85.160.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31F8010E26D
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com
+ [209.85.160.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E58F210E26D
  for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 22:57:57 +0000 (UTC)
-Received: by mail-oa1-f50.google.com with SMTP id
- 586e51a60fabf-3ec314aaae5so109449fac.0
+Received: by mail-oa1-f43.google.com with SMTP id
+ 586e51a60fabf-3ec5df386acso104578fac.1
  for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 14:57:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763593076; x=1764197876; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1763593077; x=1764197877; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ojyXh9J+hBwCNMVLciyvICBaCTIpiiyWT0C0jl060F0=;
- b=ka0RHctjBblrH92Blayiq4Mwi7EY3rQMm02nkD7h/5//0hRDQfF3wVsC5jpyMurzAP
- c33eCIekENiczZj/srMP1K4JqC4tSq4EiQeJVocPen7nincDOZi5CpYIPyU0Z6SvW8jZ
- cmaQDIHx1BBIHs3wy8NgaPMXQCmu1ElLZ8OhaJd50aOuLbymiMne+alfYlAEo3e1Wsit
- a60SGfV6AQVcqw6tVIlsUpOua2v8eep9cBFgBorx5kPT9+T08M8BGMZbV0sCd6kPLFov
- PBD5femvvyANT2MKJEz/+n/ViuSKMyjvbb+cGq25V8wxy315yDoWXQ3gvm8+kqsXrEXE
- FrWQ==
+ bh=y6LGAGBP9c6FoKoEIEPE5MCGiUaAlb4W0quePS5bYZY=;
+ b=f3zBMtiYJiBV2sptEzUmx8nsocpuD20v+tL4JlzHSXZmEXx4HP2VIGYL11XpSbOMfJ
+ 4+BZMo/u89eusYaSZIWcg+ROKQTGuaAb6ut40GC+NHmrCT3cSnxKoGt4chDCX9GPi2xa
+ QHvgeBXgQqfacrIebroma33wiYaBkyExhPsnX2fwZNrL6fU9Z0fTn67aFOa+CJTWGoSS
+ UbspJMRz7ziB/p1zFu0A5GkwDERBoz0ukeV+Vmc0v+6Wq7SklE3oYD7iTddJkOe0AKAp
+ hr6ZBEYRN+GLUaNx3lGVF7cuoZ3ZApbxS0AKMXES8zfEw4LqkppS8bLwM6CD40JjIqCq
+ 8vkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763593076; x=1764197876;
+ d=1e100.net; s=20230601; t=1763593077; x=1764197877;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=ojyXh9J+hBwCNMVLciyvICBaCTIpiiyWT0C0jl060F0=;
- b=VrREsT1VLKaM4cjKOUOfQDsvDYOCKX6wPRJjbciRqMYyS5aLWSZOa3z+t/vFho21z1
- FEmde3xCQBKrdHrCo+qkdvXR15/JPSm9rJoBqx3luFek19wOVdq/UHxG+ZTGKzhz4p+5
- 94uA35DFhwLhCV/ByiIaVokw75zW1esAYv5GP18Q6Nr2oCmWcx0b5i3kNBktUJ75GZE9
- z2oxk4DnKRYyOtnDkSyCRhgvtnKDG7TRyjujlZw01etSm93x8yFUsneJJlIYCQ5Rrjjd
- FiCpuR4ZMxXwGeFit9x8zIt67Q2t8Vw/kIyrZb7Y+tlULU8bKInPS67Xtlc733G2abbQ
- oyaA==
+ bh=y6LGAGBP9c6FoKoEIEPE5MCGiUaAlb4W0quePS5bYZY=;
+ b=B4WnzPJf3C/fsNRdE5U5c9TUYhY4xVt/WKsdAyEoHqnkOHslv7GuWUOjyySN3KMGzN
+ IrLhZ3cG2ivFJ4B3/1cLQLqS5bONslcrD+gawH88QX/Yj/3b191l5/7EJRnCItmq98fm
+ +mToiFb1UIFO5+qIa9v1weMACItMKNhx4UpswTbFRMw4fnSxY6VC6GbAKUxnDTJDabb7
+ KLRXhWIU0X3NfblCQZ+IE8K9zx2DbtHPbGHpjJkFhNRdPun0mL4w1bEehHKaQIAAPKxJ
+ 3EdzAlLdJxB6NMqynp3fzw2j7U18VMQFGl8bjZ5/c18x8CRVYveiItmmVMSNIxa+ZQTg
+ DaLQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXkYm7kic+P5aqk5dOP/xuL3SGWZ6GxrUr8q1cXg/CTJv0DFotCQcvEvvA+hyveM40vCxGqR6Uw/Gc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx9By1f6lgzgVcEYC/DFmvcjJl+qaUoIfFWVh6eeVV5cMDOCwyU
- 08Ax3ePnO+7hov+aWEjOd0WR5wX3hz3fIqz8aP4btKmcM/hb3+lGpVaD
-X-Gm-Gg: ASbGncvO3nc5WLDKuwGexl8xU233QdcF1s8m52kVeaPxdpVBT2tjo/ElxrKJTiT0qea
- 8UdiWBiKe63HbtRkatB1Q4sk+BxhbBntm+lPPRWlokFbFE7hDLsfB95pFHI/+Ck9O1RyZjnqcG8
- GvIig/kQn1Roql1Uv36m80JNgNmTT0VFqB8vEQEyhakv5OXBhSrzXmrYqyL69Y9LGa4T/XN1qcH
- 9LDuFoCzn6De1voEMQaFex6a/qcqkUmYB3/pl3CQ0wfUQe7P9GJUnBbU5ItQTZupZZ31P0dEmY+
- KIZwXnWnd/VJowq2iyRvsWN41PGgtf9DzJGMtqh8X25iG7UyPm/qOGFNhl5e37EroP6CZe352ww
- vdbdxnF9GxWIQzROGDYXckH6+LtifLFL7g95wjSTu0mqzcpWK23NlRJ2c4kHjcVBG9GvEhLvrFT
- xS+IaPbTlX/fVVqibbTnR9Jdo0pT30wA==
-X-Google-Smtp-Source: AGHT+IEkoK4IKUSKkADKn3nl7MMZN9fnLRgr8FuZfcsJqIloseBEgJ9BYQnnl0mgNPa4iiUW2K74ZQ==
-X-Received: by 2002:a05:6871:825:b0:3d4:fe66:28f6 with SMTP id
- 586e51a60fabf-3eca16b166cmr140484fac.27.1763593076280; 
- Wed, 19 Nov 2025 14:57:56 -0800 (PST)
+ AJvYcCWa/qtNDr11c6TtigfzLzi1Ga5wxRnngJMOrUGb1kCAONXBOkxd2RuK2hSYeL5JPUMCl5qCoEttxLE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTco1UcIIemCPPj7nAIpyzBaCXAThq3u7aKPO3sVUBNlzY9R9a
+ NMDsQZu0vRx9GGINAoYHvBMMG6gvYWEqAw9PCuiiO6/auejqlHTH2nvR
+X-Gm-Gg: ASbGnctStr3TlCJcU5bUHZriOTp/mvu9Z/Np+LlJPDmyxnyWVAaEMOQ0lUp+3CZbAyu
+ VfhHxPUHKzENltS8o5OVk1WXdVbwcmDnVl+0fx7U/sdNzRuHiwiuXI8nqfTnmBZnpOkQnSjlKwJ
+ zP9sEY9TZ/KxhAdrltnxDQeGkUYnWxA1FVuZkVAJBqdtj/ImPp1EniktAM2oiak6DJw/VvHW/gQ
+ dna9mhzUiJ3x2VTcWMFqOrMgZWndLEB6PJH53RQwRGsMwM/mH4nNgEkzhMTargHmyv+PkeZUdAE
+ eUTHq4MNbGo+lJh5B/LNyVlIe53CAk/IIim5frjfQIaaQtzlS10PMQ94g0QZG6e1OUJbfWT8ZvF
+ /gEatkP2FQsOrnDJaKtVfMGhUP82a6cJvpsYv/hCvf6dFgUInPtgcJXYRs9x2ewpt+LX2QmEe9R
+ M7Edow84tg5oaF41tp1rk=
+X-Google-Smtp-Source: AGHT+IFytu07GZ0leAT27e/jZkgFSTcxqNaPPUdMxf5ufIH3je+/bC9NW+Gg2lNinpphG6lYgT/JCg==
+X-Received: by 2002:a05:6870:80cb:b0:3ec:343c:8db7 with SMTP id
+ 586e51a60fabf-3ec9a3332f7mr514455fac.5.1763593077107; 
+ Wed, 19 Nov 2025 14:57:57 -0800 (PST)
 Received: from localhost.localdomain ([2600:1700:fb0:1bc0::54])
  by smtp.gmail.com with ESMTPSA id
- 586e51a60fabf-3ec9dcfe28csm346496fac.22.2025.11.19.14.57.55
+ 586e51a60fabf-3ec9dcfe28csm346496fac.22.2025.11.19.14.57.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Nov 2025 14:57:55 -0800 (PST)
+ Wed, 19 Nov 2025 14:57:56 -0800 (PST)
 From: Chris Morgan <macroalpha82@gmail.com>
 To: linux-rockchip@lists.infradead.org
 Cc: mripard@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org,
@@ -72,12 +72,10 @@ Cc: mripard@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org,
  dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
  andy.yan@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org,
  Laurent.pinchart@ideasonboard.com, cristian.ciocaltea@collabora.com,
- Chris Morgan <macromorgan@hotmail.com>,
- Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH V3 1/3] dt-bindings: display: rockchip: Add no-hpd for
- dw-hdmi-qp controller
-Date: Wed, 19 Nov 2025 16:55:24 -0600
-Message-ID: <20251119225526.70588-2-macroalpha82@gmail.com>
+ Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH V3 2/3] drm/bridge: dw-hdmi-qp: Add support for missing HPD
+Date: Wed, 19 Nov 2025 16:55:25 -0600
+Message-ID: <20251119225526.70588-3-macroalpha82@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251119225526.70588-1-macroalpha82@gmail.com>
 References: <20251119225526.70588-1-macroalpha82@gmail.com>
@@ -100,39 +98,103 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chris Morgan <macromorgan@hotmail.com>
 
-Add an attribute of "no-hpd" for the Rockchip dw-hdmi-qp controller.
-This is used to describe implementations where the HPD pin is not
-connected or used for other purposes, such as in the RK3588S based
-Gameforce Ace which repurposed the GPIO for an additional face
-button.
+Add support for the dw-hdmi-qp driver to handle devices with missing
+HPD pins.
 
-The "no-hpd" option was chosen to be consistent with other devices
-which already define this parameter for broken or missing hpd
-functionality.
+Since in this situation we are now polling for the EDID data via i2c
+change the error message to a rate limited debug message when we are
+unable to complete an i2c read, as a disconnected device would
+otherwise fill dmesg with i2c read errors.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
 ---
- .../display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml        | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 34 +++++++++++++++++---
+ 1 file changed, 30 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
-index 96b4b088eebe..07342838cd52 100644
---- a/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
-+++ b/Documentation/devicetree/bindings/display/rockchip/rockchip,rk3588-dw-hdmi-qp.yaml
-@@ -69,6 +69,12 @@ properties:
-       - const: main
-       - const: hpd
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+index 39332c57f2c5..929b2e95a5c5 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+@@ -145,6 +145,7 @@ struct dw_hdmi_qp {
+ 	struct regmap *regm;
  
-+  no-hpd:
-+    type: boolean
-+    description:
-+      The HPD pin is not present or used for another purpose, and the EDID
-+      must be polled instead to determine if a device is attached.
+ 	unsigned long tmds_char_rate;
++	bool no_hpd;
+ };
+ 
+ static void dw_hdmi_qp_write(struct dw_hdmi_qp *hdmi, unsigned int val,
+@@ -535,14 +536,22 @@ static int dw_hdmi_qp_i2c_read(struct dw_hdmi_qp *hdmi,
+ 
+ 		stat = wait_for_completion_timeout(&i2c->cmp, HZ / 10);
+ 		if (!stat) {
+-			dev_err(hdmi->dev, "i2c read timed out\n");
++			if (hdmi->no_hpd)
++				dev_dbg_ratelimited(hdmi->dev,
++						    "i2c read timed out\n");
++			else
++				dev_err(hdmi->dev, "i2c read timed out\n");
+ 			dw_hdmi_qp_write(hdmi, 0x01, I2CM_CONTROL0);
+ 			return -EAGAIN;
+ 		}
+ 
+ 		/* Check for error condition on the bus */
+ 		if (i2c->stat & I2CM_NACK_RCVD_IRQ) {
+-			dev_err(hdmi->dev, "i2c read error\n");
++			if (hdmi->no_hpd)
++				dev_dbg_ratelimited(hdmi->dev,
++						    "i2c read error\n");
++			else
++				dev_err(hdmi->dev, "i2c read error\n");
+ 			dw_hdmi_qp_write(hdmi, 0x01, I2CM_CONTROL0);
+ 			return -EIO;
+ 		}
+@@ -879,6 +888,15 @@ static enum drm_connector_status
+ dw_hdmi_qp_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
+ {
+ 	struct dw_hdmi_qp *hdmi = bridge->driver_private;
++	const struct drm_edid *drm_edid;
 +
-   phys:
-     maxItems: 1
-     description: The HDMI/eDP PHY
++	if (hdmi->no_hpd) {
++		drm_edid = drm_edid_read_ddc(connector, bridge->ddc);
++		if (drm_edid)
++			return connector_status_connected;
++		else
++			return connector_status_disconnected;
++	}
+ 
+ 	return hdmi->phy.ops->read_hpd(hdmi, hdmi->phy.data);
+ }
+@@ -904,6 +922,11 @@ dw_hdmi_qp_bridge_tmds_char_rate_valid(const struct drm_bridge *bridge,
+ {
+ 	struct dw_hdmi_qp *hdmi = bridge->driver_private;
+ 
++	/*
++	 * TODO: when hdmi->no_hpd is 1 we must not support modes that
++	 * require scrambling, including every mode with a clock above
++	 * HDMI14_MAX_TMDSCLK.
++	 */
+ 	if (rate > HDMI14_MAX_TMDSCLK) {
+ 		dev_dbg(hdmi->dev, "Unsupported TMDS char rate: %lld\n", rate);
+ 		return MODE_CLOCK_HIGH;
+@@ -1074,12 +1097,15 @@ struct dw_hdmi_qp *dw_hdmi_qp_bind(struct platform_device *pdev,
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
++	hdmi->no_hpd = device_property_read_bool(dev, "no-hpd");
++
+ 	hdmi->bridge.driver_private = hdmi;
+ 	hdmi->bridge.ops = DRM_BRIDGE_OP_DETECT |
+ 			   DRM_BRIDGE_OP_EDID |
+ 			   DRM_BRIDGE_OP_HDMI |
+-			   DRM_BRIDGE_OP_HDMI_AUDIO |
+-			   DRM_BRIDGE_OP_HPD;
++			   DRM_BRIDGE_OP_HDMI_AUDIO;
++	if (!hdmi->no_hpd)
++		hdmi->bridge.ops |= DRM_BRIDGE_OP_HPD;
+ 	hdmi->bridge.of_node = pdev->dev.of_node;
+ 	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+ 	hdmi->bridge.vendor = "Synopsys";
 -- 
 2.43.0
 
