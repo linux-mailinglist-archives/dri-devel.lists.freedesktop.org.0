@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F87AC6F3E2
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 15:22:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9300C6F493
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 15:28:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C5A010E63F;
-	Wed, 19 Nov 2025 14:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC42810E649;
+	Wed, 19 Nov 2025 14:28:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UfR7xwnX";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="tFLvY7ZQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DE3110E63F
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 14:22:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB5DE10E643
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 14:28:52 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 98C4D4E4179D;
- Wed, 19 Nov 2025 14:22:31 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 79BB74E4179F;
+ Wed, 19 Nov 2025 14:28:51 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 594C360699;
- Wed, 19 Nov 2025 14:22:31 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 44D3E60699;
+ Wed, 19 Nov 2025 14:28:51 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 468BE10371A62; Wed, 19 Nov 2025 15:22:17 +0100 (CET)
+ with ESMTPSA id 189D110371A62; Wed, 19 Nov 2025 15:28:37 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1763562149; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1763562529; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:content-language:in-reply-to:references;
- bh=KHIHzROR0vP9n7dvMFHoM55Ssw0KAKH53cQfe48RG2o=;
- b=UfR7xwnXYFcxt7dwYb9ZZ2eHN7rcQflUmmRbY6KpW0kfgQmHCUslJp41eFjRD7JVEUwKJZ
- S0oXT5p7TaoydFUvfXkgYXy2hBwhCbLh0hTZ9oWYkqCt/tCI/K1Dik6InPGVCplhxx20wG
- jBAFgm9Fp8hHkx89EpTboOzrEJyAyR0UxrgcfQigI3YyMTbWTXKDX9o5np5l95zrqxzp+5
- DnhkYQIm688Fn7PEOgNjQK5V7V7kSk65KKWVjPvAcYMqGom1O1QKFrIjeFzcaazJJ/4nQY
- BeP/9Xy2sVRjpilf746wFLr/iSKL71kXFK/see/F8PNIt2le3RaEWTWBwZD28Q==
-Message-ID: <35bda203-8c15-4219-a231-1379f909229f@bootlin.com>
-Date: Wed, 19 Nov 2025 14:22:21 +0000
+ bh=7cMCClSR0Yc33+8BuX00+rv0T/LwX4Ii536K2zY3W/o=;
+ b=tFLvY7ZQdBOvsEtfuS/kSFmOMupReVpG03GDdGnZV7Xrig9ypjEUdcbzMdi9x/Ij8uD5XM
+ z6wI2ohEObtnicjhCYmME9gf6whB5LWK8QB8tvteGhYZZtBUrfIxhwDpwiYwHcbGuS+55E
+ 2yWfafUAAdluU9DGmy71vILWizsiAgLo4k+r1lMCHonBOuhcBhJ4eZBB3a4xO0ivETw6o+
+ xHrCAXEn1uqjdU0vDmAKNn369fL+KDg4tXjFEatWotoBPVY4MOP4ClRu2NDUf2owzt3nP8
+ dOebpvxOSgU2JCLYS3eU1qgCh3hLRU9xxmxFpMMEjC4wY4pcQB25W/Xh0o75nQ==
+Message-ID: <66cdbe39-d065-4aa4-86e4-84a38b49c09c@bootlin.com>
+Date: Wed, 19 Nov 2025 14:28:41 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/26] drm/bridge: add drm_of_find_bridge()
+Subject: Re: [PATCH 02/26] drm/bridge: deprecate of_drm_find_bridge()
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
@@ -75,10 +75,10 @@ Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
  linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org,
  linux-samsung-soc@vger.kernel.org
 References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
- <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-1-0db98a7fe474@bootlin.com>
+ <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-2-0db98a7fe474@bootlin.com>
 From: Louis Chauvet <louis.chauvet@bootlin.com>
 Content-Language: en-US
-In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-1-0db98a7fe474@bootlin.com>
+In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-2-0db98a7fe474@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
@@ -100,99 +100,55 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 11/19/25 13:05, Luca Ceresoli wrote:
-> of_drm_find_bridge() does not increment the refcount for the returned
-> bridge, but that is required now. However converting it and all its users
-> is not realistically doable at once given the large amount of (direct and
-> indirect) callers and the complexity of some. Also, "of_drm_find_bridge is
-> oddly named according to our convention and it would make more sense to be
-> called drm_of_find_bridge()" (quoted from Link: below).
-> 
-> Solve both issues by creating a new drm_of_find_bridge() that is identical
-> to of_drm_find_bridge() except it takes a reference. Then
-> of_drm_find_bridge() will be deprecated to be eventually removed.
+> of_drm_find_bridge() does not increment the returned bridge
+> refcount. drm_of_find_bridge() is to be used as a replacement.
 > 
 > Suggested-by: Maxime Ripard <mripard@kernel.org>
 > Link: https://lore.kernel.org/dri-devel/20250319-stylish-lime-mongoose-0a18ad@houat/
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
 > ---
-> 
-> Note: a simple implementation would just be
->    { return drm_bridge_get(of_drm_find_bridge(np)); }
-> but it would release the mutex before getting the reference, so it is
-> not safe. Make things simple by duplicating the code. A later patch will
-> make instead the (to be deprecated) of_drm_find_bridge() become a wrapper
-> of the new drm_of_find_bridge()
-> ---
->   drivers/gpu/drm/drm_bridge.c | 29 +++++++++++++++++++++++++++++
->   include/drm/drm_bridge.h     |  5 +++++
->   2 files changed, 34 insertions(+)
+>   drivers/gpu/drm/drm_bridge.c | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 8f355df883d8..d98a7b4a83c0 100644
+> index d98a7b4a83c0..6debbf20aaa8 100644
 > --- a/drivers/gpu/drm/drm_bridge.c
 > +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -1417,6 +1417,35 @@ void drm_bridge_hpd_notify(struct drm_bridge *bridge,
->   EXPORT_SYMBOL_GPL(drm_bridge_hpd_notify);
->   
->   #ifdef CONFIG_OF
-> +/**
-> + * drm_of_find_bridge - find the bridge corresponding to the device node in
-> + *			the global bridge list
-> + * @np: device node
+> @@ -299,7 +299,7 @@ EXPORT_SYMBOL(__devm_drm_bridge_alloc);
+>    * @bridge: bridge control structure
+>    *
+>    * Add the given bridge to the global list of bridges, where they can be
+> - * found by users via of_drm_find_bridge().
+> + * found by users via drm_of_find_bridge().
+>    *
+>    * The bridge to be added must have been allocated by
+>    * devm_drm_bridge_alloc().
+> @@ -360,7 +360,7 @@ EXPORT_SYMBOL(devm_drm_bridge_add);
+>    * @bridge: bridge control structure
+>    *
+>    * Remove the given bridge from the global list of registered bridges, so
+> - * it won't be found by users via of_drm_find_bridge(), and add it to the
+> + * it won't be found by users via drm_of_find_bridge(), and add it to the
+>    * lingering bridge list, to keep track of it until its allocated memory is
+>    * eventually freed.
+>    */
+> @@ -1452,6 +1452,9 @@ EXPORT_SYMBOL(drm_of_find_bridge);
+>    *
+>    * @np: device node
+>    *
+> + * This function is deprecated. Use drm_of_find_bridge() instead for proper
+> + * refcounting.
 > + *
-> + * The refcount of the returned bridge is incremented. Use drm_bridge_put()
-> + * when done with it.
-> + *
-> + * RETURNS:
-> + * drm_bridge control struct on success, NULL on failure
-> + */
-> +struct drm_bridge *drm_of_find_bridge(struct device_node *np)
-> +{
-> +	struct drm_bridge *bridge;
-> +
-> +	mutex_lock(&bridge_lock);
-> +
-> +	list_for_each_entry(bridge, &bridge_list, list) {
-> +		if (bridge->of_node == np) {
-> +			mutex_unlock(&bridge_lock);
 
-It seems a bit strange to unlock the mutex just before the 
-drm_bridge_get, is it expected?
+I think it should be more explicit that the refcounting is not done by 
+this function, like:
 
-If no, I think you can use scoped_guard(mutex, &bridge_lock) to avoid 
-messing with mutex_unlock, IIRC, scoped_guard will unlock the mutex just 
-after the return, so in your case, just after the drm_bridge_get.
+	This function is deprecated. The returned bridge is not refcounted, you 
+should not use drm_bridge_put(). Use drm_of_find_bridge() instead for 
+proper refcounting.
 
-> +			return drm_bridge_get(bridge);
-> +		}
-> +	}
-> +
-> +	mutex_unlock(&bridge_lock);
-> +	return NULL;
-> +}
-> +EXPORT_SYMBOL(drm_of_find_bridge);
-> +
->   /**
->    * of_drm_find_bridge - find the bridge corresponding to the device node in
->    *			the global bridge list
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 0ff7ab4aa868..e74e91004c48 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -1313,8 +1313,13 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
->   		      enum drm_bridge_attach_flags flags);
->   
->   #ifdef CONFIG_OF
-> +struct drm_bridge *drm_of_find_bridge(struct device_node *np);
->   struct drm_bridge *of_drm_find_bridge(struct device_node *np);
->   #else
-> +static inline struct drm_bridge *drm_of_find_bridge(struct device_node *np)
-> +{
-> +	return NULL;
-> +}
->   static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
->   {
->   	return NULL;
+>    * RETURNS:
+>    * drm_bridge control struct on success, NULL on failure
+>    */
 > 
 
