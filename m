@@ -2,84 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D08C6ED24
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 14:22:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B9F9C6EDAA
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 14:25:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 716FD10E600;
-	Wed, 19 Nov 2025 13:22:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF1C510E602;
+	Wed, 19 Nov 2025 13:25:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="b9VnQceM";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="RL52T6gi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B789A10E600;
- Wed, 19 Nov 2025 13:22:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763558532; x=1795094532;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=4RZRKm1mcuRVsrxxt4NCQnk2yOWNnSIUwiCToHWTDNw=;
- b=b9VnQceMppKLqbm7B45kyhvgJwX70uPRND9nwKo5Akp06Bej4kXYlVAq
- E+7JTs09TR3qFJDvlMJqw+2fW05Vs4S3N7j6u2n8QhgALFdgLsMkelHQR
- eqkGRfihHe6Pk62jyU3eAci3+8u0txgPSLnt43EsLx2wVkdw3CVi1oacL
- f3yyidy0HdHlLCMUdk06kFrFEwJ7rUtgZjQoKPrZK/BJBxXzNVxawz0eM
- zdHz+qrQVGukj0hR9McJViXcbrfEt5vflEetUv1iPF4qf1cGxyJwdQ/1D
- +pis1l5eB2cP6mmLx2oCTAcmqnhvXlNV/ZOmzf7hbDzWnoWR8cx4/s6GE g==;
-X-CSE-ConnectionGUID: pUPbkC/TTm+jc89CZWIIQg==
-X-CSE-MsgGUID: ADV4SbLtSle87Tt25wMloA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="65494295"
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; d="scan'208";a="65494295"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Nov 2025 05:22:11 -0800
-X-CSE-ConnectionGUID: CK+7W/OXTIGCo7oW8YMnuw==
-X-CSE-MsgGUID: fc3Qou9dRyuGausIOGMSow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; d="scan'208";a="191090175"
-Received: from kamilkon-desk.igk.intel.com (HELO localhost) ([10.211.136.201])
- by orviesa007-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 05:22:08 -0800
-Date: Wed, 19 Nov 2025 14:21:49 +0100
-From: Kamil Konieczny <kamil.konieczny@linux.intel.com>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, igt-dev@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com, Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Juha-Pekka Heikkila <juha-pekka.heikkila@intel.com>,
- Karthik B S <karthik.b.s@intel.com>, Swati Sharma <swati2.sharma@intel.com>
-Subject: Re: [PATCH i-g-t] tests: (Re)add kms_crtc_background_color test
-Message-ID: <20251119132149.spbl5k3dmj2lwzon@kamilkon-DESK.igk.intel.com>
-Mail-Followup-To: Kamil Konieczny <kamil.konieczny@linux.intel.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, igt-dev@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com,
- Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Juha-Pekka Heikkila <juha-pekka.heikkila@intel.com>,
- Karthik B S <karthik.b.s@intel.com>,
- Swati Sharma <swati2.sharma@intel.com>
-References: <20251110-crtc-bgcolor-v1-1-28669b692970@collabora.com>
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C82510E602
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 13:25:13 +0000 (UTC)
+Received: by mail-qt1-f169.google.com with SMTP id
+ d75a77b69052e-4ed75832448so81985681cf.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 05:25:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ziepe.ca; s=google; t=1763558713; x=1764163513; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=7FcA8gVt6NKvMsMWTMSBQuU8SYBlABMNBdbtn9F9iv8=;
+ b=RL52T6gi5Uu8WHSF7iy2Im8ZMuXi5I8n8MUuhSM9OmuRcoZvSOPup+6CidX6JRl9vs
+ oEJBdHI6Bh4Xwwt+OXGui+MIagIyhCj10JrpeGzu6IpaQpwVFhywEoulEhvvYEwqC+3U
+ 4O7y8G+ZztMIqG17Q/PznM3vjWJiWzKj+xuyf7qg/xuLs8nmtnBLDr11KVHsDHblfZ4e
+ /neC4tSo9gbareEDMLDyhkt1akdg0w7bzBL6c61yTj2MXH1fl2lgZn4q9N4etyj8YvcN
+ WpAMhMvKJJf080qECwvRPXMQ91O8UaPBsEynpltydRV+QbRJdsyLRX43wLOJNT7g1Bqh
+ BZgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763558713; x=1764163513;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7FcA8gVt6NKvMsMWTMSBQuU8SYBlABMNBdbtn9F9iv8=;
+ b=o6IlBNvH1pSZjj/Nnb0LdyWxD6GyB9UG2uXPNJBoicvWMK9TVYCDKIpPPHB2VfbnTp
+ XuhmMuCdIXLKoIBqIxg/c2xVqzJpc/XmTLX3FXdV0sFkDDckFLJQ2B0y3W8v4tz2xWvd
+ j/gHybVQH608q1SjPKv/JYW6A6rv9FTqI/AKOM2r+eftd+1/5ralVxKmBV6os/Ru9AGt
+ lMU0IzNqLEHl9oKvlA9I6L05E2PQuEH/1gMVi4wTJR02Ms5az7+Xw5A6kGIBauNJpkhL
+ VZnOzRiU5v19b2lFOtL9M6imuGqFhQqtib4dzjio+dkUfDKgB5mVCD1/6E+lSqAy1lsy
+ eFTg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXbSlQJkqq+ppxf5Y45a6h9ovmPKQ/5vsOj0JLoYw8FmoX0/sr9z4LB1W4G6xe1YhThiweCKj7NYFA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwAMzHn2ZU/d9WtaN+DpNw46WeWR6Q4cTZRgUobO4PXJd5PIIUk
+ jWiQ7uUdiuXCHyqUzpLMID5Wkp19x51kor1AXGxqlBu/HDpM41QEuC+askstVEusi3c=
+X-Gm-Gg: ASbGnctBYWQEepSZsD7zJjRvbuaczcDVA8HSJwQsi1QCGTf3rkMiXvqjySYRhlnG97c
+ w6anDoED+iyoL6Boc4GvnT7XiVJhnaKbb8ldmtryGR0ViiQB7EdnO+dsXzUl7gqbl+a9EUomsMc
+ 6/zrT+Tz+c9emlEoWLbBfMj1Vwdx1jfJdq0I5nNjiyOcAuj8KUqkdbcH6XFXzCWjKZezR6rnC6a
+ IS+vwEY9JMtIg3BSyx0b7ynAnAFymJ7GglFUD5VGwOdRdPX0H0C1ZjWX8vPeU8iHuDDrCGZKe7D
+ B/wVtfyb7TmuB5O7pCw/TkKFZ2q3L/27n61Gv12eAMycF2voUIJ7Y8XFzFqF/K6oKZE8q872AFW
+ 4CCk4iu1ZvP0CrcoMbiF6aNUFc0qKG04S7R6HI5zqEbaOlodGjuC34orbRPtxEaUj6JkjWy+E/l
+ /YR11VZAByHr3jCmBGUH7RNRbiCNeeBHAdusOqdq7CEXVAsLxZ+l49JEMrkbRW2afBVS2yjw9RB
+ BNY+w==
+X-Google-Smtp-Source: AGHT+IGcHnQoF5t1hy3jZRVLXrR3AGxUUwufE8qFpbPEJxiBipRIqKgpWukFR+qkVncUWaOAApoSpg==
+X-Received: by 2002:a05:622a:1a8d:b0:4ee:219e:e66 with SMTP id
+ d75a77b69052e-4ee219e1ccbmr140009891cf.83.1763558712629; 
+ Wed, 19 Nov 2025 05:25:12 -0800 (PST)
+Received: from ziepe.ca
+ (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net.
+ [47.55.120.4]) by smtp.gmail.com with ESMTPSA id
+ 6a1803df08f44-88286588be1sm133530266d6.47.2025.11.19.05.25.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Nov 2025 05:25:11 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+ (envelope-from <jgg@ziepe.ca>) id 1vLiBL-00000000Z6L-0jbP;
+ Wed, 19 Nov 2025 09:25:11 -0400
+Date: Wed, 19 Nov 2025 09:25:11 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <skolothumtho@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>,
+ Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, iommu@lists.linux.dev,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
+ Nicolin Chen <nicolinc@nvidia.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v8 06/11] dma-buf: provide phys_vec to
+ scatter-gather mapping routine
+Message-ID: <20251119132511.GK17968@ziepe.ca>
+References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
+ <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
+ <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251110-crtc-bgcolor-v1-1-28669b692970@collabora.com>
+In-Reply-To: <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,343 +116,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Cristian,
-On 2025-11-10 at 15:18:05 +0200, Cristian Ciocaltea wrote:
-> Provide test to verify the behavior of BACKGROUND_COLOR DRM CRTC
-> property.
+On Wed, Nov 19, 2025 at 02:16:57PM +0100, Christian König wrote:
+> > +/**
+> > + * dma_buf_map - Returns the scatterlist table of the attachment from arrays
+> > + * of physical vectors. This funciton is intended for MMIO memory only.
+> > + * @attach:	[in]	attachment whose scatterlist is to be returned
+> > + * @provider:	[in]	p2pdma provider
+> > + * @phys_vec:	[in]	array of physical vectors
+> > + * @nr_ranges:	[in]	number of entries in phys_vec array
+> > + * @size:	[in]	total size of phys_vec
+> > + * @dir:	[in]	direction of DMA transfer
+> > + *
+> > + * Returns sg_table containing the scatterlist to be returned; returns ERR_PTR
+> > + * on error. May return -EINTR if it is interrupted by a signal.
+> > + *
+> > + * On success, the DMA addresses and lengths in the returned scatterlist are
+> > + * PAGE_SIZE aligned.
+> > + *
+> > + * A mapping must be unmapped by using dma_buf_unmap().
+> > + */
+> > +struct sg_table *dma_buf_map(struct dma_buf_attachment *attach,
 > 
-> This is done by filling a full-screen primary plane with a given color
-> and comparing the resulting CRC with the one obtained after turning off
-> all planes while having the CRTC background set to the same color.
+> That is clearly not a good name for this function. We already have overloaded the term *mapping* with something completely different.
 > 
-> It's worth noting this is a reworked version of the test that has been
-> dropped over 5 years ago via commit 33f07391e5f6 ("tests: Remove
-> kms_crtc_background_color test"), as the required kernel changes never
-> landed because of missing userspace support.
+> > +			     struct p2pdma_provider *provider,
+> > +			     struct dma_buf_phys_vec *phys_vec,
+> > +			     size_t nr_ranges, size_t size,
+> > +			     enum dma_data_direction dir)
+> > +{
+> > +	unsigned int nents, mapped_len = 0;
+> > +	struct dma_buf_dma *dma;
+> > +	struct scatterlist *sgl;
+> > +	dma_addr_t addr;
+> > +	size_t i;
+> > +	int ret;
+> > +
+> > +	dma_resv_assert_held(attach->dmabuf->resv);
+> > +
+> > +	if (WARN_ON(!attach || !attach->dmabuf || !provider))
+> > +		/* This function is supposed to work on MMIO memory only */
+> > +		return ERR_PTR(-EINVAL);
+> > +
+> > +	dma = kzalloc(sizeof(*dma), GFP_KERNEL);
+> > +	if (!dma)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	switch (pci_p2pdma_map_type(provider, attach->dev)) {
+> > +	case PCI_P2PDMA_MAP_BUS_ADDR:
+> > +		/*
+> > +		 * There is no need in IOVA at all for this flow.
+> > +		 */
+> > +		break;
+> > +	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+> > +		dma->state = kzalloc(sizeof(*dma->state), GFP_KERNEL);
+> > +		if (!dma->state) {
+> > +			ret = -ENOMEM;
+> > +			goto err_free_dma;
+> > +		}
+> > +
+> > +		dma_iova_try_alloc(attach->dev, dma->state, 0, size);
 > 
-+cc J-P, Karthik, Swati
-Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
-Cc: Juha-Pekka Heikkila <juha-pekka.heikkila@intel.com>
-Cc: Karthik B S <karthik.b.s@intel.com>
-Cc: Swati Sharma <swati2.sharma@intel.com>
+> Oh, that is a clear no-go for the core DMA-buf code.
+> 
+> It's intentionally up to the exporter how to create the DMA
+> addresses the importer can work with.
 
-I have few nits, see below.
+I can't fully understand this remark?
 
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
-> This has been tested on a Radxa ROCK 5B board which is based on Rockchip
-> RK3588 SoC.  It relies on the kernel series [1] introducing the
-> BACKGROUND_COLOR CRTC property and a few additional patches from [2]
-> enabling the required CRC functionality for the Rockchip platform (still
-> require a bit more work before sending those upstream).
-> 
-> It's worth noting CRC is only supported by the display controller (VOP2)
-> present in the RK3576 SoC variant.  However, the computation is done by
-> the hardware before applying the background color, hence it has limited
-> usage in IGT testing.
-> 
-> Luckily, the frame CRCs can be captured through DPCD, i.e. at
-> DisplayPort AUX channel level, hence I used the USB-C DP AltMode capable
-> port of the aforementioned board to perform the actual validation.
-> 
-> [1] https://lore.kernel.org/all/20251013-rk3588-bgcolor-v2-0-25cc3810ba8c@collabora.com/
-> [2] https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/commits/cristicc/rk3588-vop2-crc
-> 
-> root@rock5b$ cat /sys/kernel/debug/dri/1/vop2/summary
-> 
-> cat /sys/kernel/debug/dri/1/vop2/summary
-> Video Port0: DISABLED
-> Video Port1: DISABLED
-> Video Port2: ACTIVE
->     Connector: DP-1
-> 	bus_format[1018]: RGB101010_1X30
-> 	output_mode[f] color_space[0]
-> 	background color (10bpc): r=0x0 g=0x0 b=0x0
->     Display mode: 3840x2160p60
-> 	clk[594000] real_clk[594000] type[48] flag[9]
-> 	H: 3840 4016 4104 4400
-> 	V: 2160 2164 2174 2250
->     Cluster2-win0: ACTIVE
-> 	win_id: 2
-> 	format: XR24 little-endian (0x34325258) glb_alpha[0xff]
-> 	rotate: xmirror: 0 ymirror: 0 rotate_90: 0 rotate_270: 0
-> 	zpos: 0
-> 	src: pos[0, 0] rect[3840 x 2160]
-> 	dst: pos[0, 0] rect[3840 x 2160]
-> 	buf[0]: addr: 0x0000000000000000 pitch: 15360 offset: 0
-> 
-> root@rock5b$ ./kms_crtc_background_color --device drm:/dev/dri/card1
-> 
-> IGT-Version: 2.2-g3e4ec308e (aarch64) (Linux: 6.18.0-rc1 aarch64)
-> Using IGT_SRANDOM=1762774806 for randomisation
-> Opened device: /dev/dri/card1
-> Starting subtest: background-color-red
-> Starting dynamic subtest: pipe-C-DP-1
-> Dynamic subtest pipe-C-DP-1: SUCCESS (0.491s)
-> Subtest background-color-red: SUCCESS (0.493s)
-> Starting subtest: background-color-green
-> Starting dynamic subtest: pipe-C-DP-1
-> Dynamic subtest pipe-C-DP-1: SUCCESS (0.533s)
-> Subtest background-color-green: SUCCESS (0.535s)
-> Starting subtest: background-color-blue
-> Starting dynamic subtest: pipe-C-DP-1
-> Dynamic subtest pipe-C-DP-1: SUCCESS (0.541s)
-> Subtest background-color-blue: SUCCESS (0.544s)
-> Starting subtest: background-color-yellow
-> Starting dynamic subtest: pipe-C-DP-1
-> Dynamic subtest pipe-C-DP-1: SUCCESS (0.535s)
-> Subtest background-color-yellow: SUCCESS (0.537s)
-> Starting subtest: background-color-purple
-> Starting dynamic subtest: pipe-C-DP-1
-> Dynamic subtest pipe-C-DP-1: SUCCESS (0.536s)
-> Subtest background-color-purple: SUCCESS (0.538s)
-> Starting subtest: background-color-cyan
-> Starting dynamic subtest: pipe-C-DP-1
-> Dynamic subtest pipe-C-DP-1: SUCCESS (0.539s)
-> Subtest background-color-cyan: SUCCESS (0.541s)
-> Starting subtest: background-color-black
-> Starting dynamic subtest: pipe-C-DP-1
-> (kms_crtc_background_color:744) igt_pipe_crc-WARNING: Warning on condition all_zero in function crc_sanity_checks, file ../lib/igt_pipe_crc.c:475
-> (kms_crtc_background_color:744) igt_pipe_crc-WARNING: Suspicious CRC: All values are 0.
-> (kms_crtc_background_color:744) igt_pipe_crc-WARNING: Warning on condition all_zero in function crc_sanity_checks, file ../lib/igt_pipe_crc.c:475
-> (kms_crtc_background_color:744) igt_pipe_crc-WARNING: Suspicious CRC: All values are 0.
-> Dynamic subtest pipe-C-DP-1: SUCCESS (0.535s)
-> Subtest background-color-black: SUCCESS (0.537s)
-> Starting subtest: background-color-white
-> Starting dynamic subtest: pipe-C-DP-1
-> Dynamic subtest pipe-C-DP-1: SUCCESS (0.540s)
-> Subtest background-color-white: SUCCESS (0.542s)
-> ---
->  lib/igt_kms.c                     |   1 +
->  lib/igt_kms.h                     |   3 +-
->  tests/kms_crtc_background_color.c | 139 ++++++++++++++++++++++++++++++++++++++
->  tests/meson.build                 |   1 +
->  4 files changed, 143 insertions(+), 1 deletion(-)
-> 
-> diff --git a/lib/igt_kms.c b/lib/igt_kms.c
-> index 9208c8dbfc86..7c0848865038 100644
-> --- a/lib/igt_kms.c
-> +++ b/lib/igt_kms.c
-> @@ -705,6 +705,7 @@ const char * const igt_plane_prop_names[IGT_NUM_PLANE_PROPS] = {
->  };
->  
->  const char * const igt_crtc_prop_names[IGT_NUM_CRTC_PROPS] = {
-> +	[IGT_CRTC_BACKGROUND] = "BACKGROUND_COLOR",
->  	[IGT_CRTC_CTM] = "CTM",
->  	[IGT_CRTC_GAMMA_LUT] = "GAMMA_LUT",
->  	[IGT_CRTC_GAMMA_LUT_SIZE] = "GAMMA_LUT_SIZE",
-> diff --git a/lib/igt_kms.h b/lib/igt_kms.h
-> index eff76f0de0b3..a19f8d126a8d 100644
-> --- a/lib/igt_kms.h
-> +++ b/lib/igt_kms.h
-> @@ -156,7 +156,8 @@ void kmstest_restore_vt_mode(void);
->  void kmstest_set_vt_text_mode(void);
->  
->  enum igt_atomic_crtc_properties {
-> -       IGT_CRTC_CTM = 0,
-> +       IGT_CRTC_BACKGROUND = 0,
-> +       IGT_CRTC_CTM,
->         IGT_CRTC_GAMMA_LUT,
->         IGT_CRTC_GAMMA_LUT_SIZE,
->         IGT_CRTC_DEGAMMA_LUT,
-> diff --git a/tests/kms_crtc_background_color.c b/tests/kms_crtc_background_color.c
-> new file mode 100644
-> index 000000000000..4e6d183b736d
-> --- /dev/null
-> +++ b/tests/kms_crtc_background_color.c
-> @@ -0,0 +1,139 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2013,2014 Intel Corporation
-> + * Copyright © 2025 Collabora, Ltd.
-> + */
-> +
+> We could add something like a dma_buf_sg_helper.c or similar and put it in there.
 
-Please add here:
+Yes, the intention is this function is an "exporter helper" that an
+exporter can call if it wants to help generate the scatterlist.
 
-/**
- * TEST: crtc background color
- * Category: Display
- * Description: Test background color feature with CRC at CRTC
- * Driver requirement: i915, xe
- * Mega feature: General Display Features
- */
+So your "no-go" is just about what file it is in, not anything about
+how it works?
 
-Feel free to correct me with name and/or description.
-Karthik or Swati, please also correct this if I made any
-mistake here.
-
-> +#include "igt.h"
-> +
-> +IGT_TEST_DESCRIPTION("Test crtc background color feature");
-> +
-> +typedef struct {
-> +	int drm_fd;
-> +	int debugfs;
-> +	igt_display_t display;
-> +} data_t;
-> +
-> +#define __DRM_ARGB64_PREP(c, shift, bpc)			\
-> +	(((__u64)(c) << (16 - (bpc)) & 0xffffU) << (shift))
-> +
-> +#define DRM_ARGB64_PREP_BPC(alpha, red, green, blue, bpc)	\
-> +	(__DRM_ARGB64_PREP(alpha, 48, bpc) |			\
-> +	 __DRM_ARGB64_PREP(red,   32, bpc) |			\
-> +	 __DRM_ARGB64_PREP(green, 16, bpc) |			\
-> +	 __DRM_ARGB64_PREP(blue,   0, bpc))
-> +
-> +static void test_background(data_t *data, enum pipe pipe, igt_output_t *output,
-> +			    __u16 red, __u16 green, __u16 blue)
-> +{
-> +	igt_display_t *display = &data->display;
-> +	igt_crc_t plane_crc, bg_crc;
-> +	igt_pipe_crc_t *pipe_crc;
-> +	igt_plane_t *plane;
-> +	drmModeModeInfo *mode;
-> +	struct igt_fb fb;
-> +
-> +	igt_display_reset(display);
-> +
-> +	igt_output_set_pipe(output, pipe);
-> +	mode = igt_output_get_mode(output);
-> +
-> +	plane = igt_output_get_plane_type(output, DRM_PLANE_TYPE_PRIMARY);
-> +
-> +	/* Fill the primary plane and set the background to the same color */
-> +	igt_create_color_fb(data->drm_fd,
-> +			    mode->hdisplay, mode->vdisplay,
-> +			    DRM_FORMAT_XRGB8888,
-> +			    DRM_FORMAT_MOD_NONE,
-> +			    (double)red / 0xffff,
-> +			    (double)green / 0xffff,
-> +			    (double)blue / 0xffff,
-> +			    &fb);
-> +
-> +	igt_plane_set_fb(plane, &fb);
-> +	igt_pipe_set_prop_value(&data->display, pipe, IGT_CRTC_BACKGROUND,
-> +				DRM_ARGB64_PREP_BPC(0xffff, red, green, blue, 8));
-> +	igt_display_commit2(&data->display, COMMIT_ATOMIC);
-> +
-> +	pipe_crc = igt_pipe_crc_new(data->drm_fd, pipe, IGT_PIPE_CRC_SOURCE_AUTO);
-> +	igt_pipe_crc_collect_crc(pipe_crc, &plane_crc);
-> +
-> +	/* Turn off the primary plane so that only the background is visible */
-> +	igt_plane_set_fb(plane, NULL);
-> +	igt_display_commit2(&data->display, COMMIT_ATOMIC);
-> +	igt_pipe_crc_collect_crc(pipe_crc, &bg_crc);
-> +
-> +	/*
-> +	 * The test assumes hardware is able to generate valid CRCs when setting
-> +	 * the background color. Some platforms, e.g. Intel, might require at
-> +	 * least one plane to be visible before reading the pipe-level ("dmux")
-> +	 * CRC. Other platforms, e.g. Rockchip, do not take background color
-> +	 * into account when computing CRC at CRTC level.
-> +	 * A possible workaround would be to use alternative CRC sources, e.g.
-> +	 * where computation is performed at encoder or sink level.
-> +	 */
-> +	igt_assert_crc_equal(&plane_crc, &bg_crc);
-> +
-> +	/* Clean-up */
-> +	igt_pipe_set_prop_value(&data->display, pipe, IGT_CRTC_BACKGROUND,
-> +				DRM_ARGB64_PREP_BPC(0xffff, 0, 0, 0, 8));
-> +	igt_pipe_crc_free(pipe_crc);
-> +	igt_output_set_pipe(output, PIPE_NONE);
-> +	igt_display_commit(display);
-> +	igt_remove_fb(data->drm_fd, &fb);
-> +}
-> +
-
-Add here:
-
-/**
- * SUBTEST: background-color-%s
- * Description: Tests %arg[1] in background color
- *
- * arg[1]:
- *
- * @red:      red
- * @green:    green
- * @blue:     blue
- * @yellow:   yellow
- * @purple:   purple
- * @cyan:     cyan
- * @black:    black
- * @white:    white
- */
-
-With this it will compile and will be tested by Intel CI.
-
-Regards,
-Kamil
-
-> +igt_main
-> +{
-> +	igt_output_t *output;
-> +	data_t data = {};
-> +	enum pipe pipe;
-> +	int i;
-> +
-> +	struct {
-> +		const char *color;
-> +		__u16 red;
-> +		__u16 green;
-> +		__u16 blue;
-> +	} tests[] = {
-> +		{ "red",    0xffff, 0x0000, 0x0000, },
-> +		{ "green",  0x0000, 0xffff, 0x0000, },
-> +		{ "blue",   0x0000, 0x0000, 0xffff, },
-> +		{ "yellow", 0xffff, 0xffff, 0x0000, },
-> +		{ "purple", 0xffff, 0x0000, 0xffff, },
-> +		{ "cyan",   0x0000, 0xffff, 0xffff, },
-> +		{ "black",  0x0000, 0x0000, 0x0000, },
-> +		{ "white",  0xffff, 0xffff, 0xffff, },
-> +	};
-> +
-> +	igt_fixture {
-> +		data.drm_fd = drm_open_driver_master(DRIVER_ANY);
-> +
-> +		kmstest_set_vt_graphics_mode();
-> +
-> +		igt_display_require(&data.display, data.drm_fd);
-> +		igt_display_require_output(&data.display);
-> +		igt_require_pipe_crc(data.drm_fd);
-> +
-> +		data.debugfs = igt_debugfs_dir(data.drm_fd);
-> +	}
-> +
-> +	for (i = 0; i < ARRAY_SIZE(tests); i++) {
-> +		igt_describe_f("Test crtc background color %s", tests[i].color);
-> +		igt_subtest_with_dynamic_f("background-color-%s", tests[i].color) {
-> +			for_each_pipe_with_single_output(&data.display, pipe, output) {
-> +				igt_require(igt_pipe_has_prop(&data.display, pipe,
-> +							      IGT_CRTC_BACKGROUND));
-> +
-> +				igt_dynamic_f("pipe-%s-%s", kmstest_pipe_name(pipe), output->name)
-> +					test_background(&data, pipe, output, tests[i].red,
-> +							tests[i].green, tests[i].blue);
-> +			}
-> +		}
-> +	}
-> +
-> +	igt_fixture {
-> +		igt_display_fini(&data.display);
-> +		drm_close_driver(data.drm_fd);
-> +	}
-> +}
-> diff --git a/tests/meson.build b/tests/meson.build
-> index 9736f2338507..06827b41a00c 100644
-> --- a/tests/meson.build
-> +++ b/tests/meson.build
-> @@ -27,6 +27,7 @@ test_progs = [
->  	'kms_color',
->  	'kms_concurrent',
->  	'kms_content_protection',
-> +	'kms_crtc_background_color',
->  	'kms_cursor_crc',
->  	'kms_cursor_edge_walk',
->  	'kms_cursor_legacy',
-> 
-> ---
-> base-commit: 862eb176244feac8ee711f381fe1be1fdc6a7ede
-> change-id: 20251110-crtc-bgcolor-f6ed9a58e0bf
-> 
+Thanks,
+Jason
