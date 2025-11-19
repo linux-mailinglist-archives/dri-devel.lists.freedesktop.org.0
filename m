@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1AFC6CB1B
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 05:18:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D46BC6CBFE
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 05:33:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 927B310E56A;
-	Wed, 19 Nov 2025 04:18:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 536FC10E56E;
+	Wed, 19 Nov 2025 04:33:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Avztu/6T";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kxF0S5kZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23EBB10E566;
- Wed, 19 Nov 2025 04:18:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2731310E566;
+ Wed, 19 Nov 2025 04:33:25 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (unknown [205.220.129.225])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 08E8FDD9;
- Wed, 19 Nov 2025 05:16:08 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 25D80B5;
+ Wed, 19 Nov 2025 05:31:14 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1763525770;
- bh=Co0SQdTL8Op1neOiTCduNOiGp6gu3Kt8Xc6qs6rJnZw=;
+ s=mail; t=1763526679;
+ bh=pOisxB3tPa0K5/tNqcYR/OeTkmkwk8Z8S0wlo+6AupQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Avztu/6TS5bq2e/sK12229OUVbG1IkQ3SJlt5Fqo3xPeyTSpPD8yNyN0X5siBD4en
- mW9jba6o5mX6EH5BjkWy76EjvT/FJ7O1k2YlK4EJ66NWd3pc5/gguO1iuq6F8EhpQ/
- g24tg3xmkJxc5vkin6RTxvPBT08bdLkKnWYztSDE=
-Date: Wed, 19 Nov 2025 13:17:47 +0900
+ b=kxF0S5kZUsvvw0wJKW8N6wnNELjuWBHspI4m8nki/bfePMBcyASbRxjpLA36Q8y7B
+ WPZPyAqzNkNASh/wBGP3/9d5XnWO/tqy1iwqU2wdW+BbyCT4CXGzwWmtoiuLCnH6cK
+ 4BS5eEyiMbS+ndMBlf+npVIth7IEJeyw1pUmM67s=
+Date: Wed, 19 Nov 2025 13:32:46 +0900
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
@@ -52,15 +52,14 @@ Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v4 06/10] drm/rockchip: dw_hdmi_qp: Set supported_formats
- platdata
-Message-ID: <20251119041747.GF10711@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 04/10] drm/bridge: Act on the DRM color format property
+Message-ID: <20251119043246.GY10711@pendragon.ideasonboard.com>
 References: <20251117-color-format-v4-0-0ded72bd1b00@collabora.com>
- <20251117-color-format-v4-6-0ded72bd1b00@collabora.com>
+ <20251117-color-format-v4-4-0ded72bd1b00@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251117-color-format-v4-6-0ded72bd1b00@collabora.com>
+In-Reply-To: <20251117-color-format-v4-4-0ded72bd1b00@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,70 +75,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 17, 2025 at 08:11:50PM +0100, Nicolas Frattaroli wrote:
-> With the introduction of the supported_formats member in the
-> dw-hdmi-qp platform data struct, drivers that have access to this
-> information should now set it.
+On Mon, Nov 17, 2025 at 08:11:48PM +0100, Nicolas Frattaroli wrote:
+> The new DRM color format property allows userspace to request a specific
+> color format on a connector. In turn, this fills the connector state's
+> color_format member to switch color formats.
 > 
-> Set it in the rockchip dw_hdmi_qp glue driver, where such a bitmask of
-> supported color formats already exists. It just needs to be converted to
-> the appropriate HDMI_COLORSPACE_ mask.
-> 
-> This allows this information to be passed down to the dw-hdmi-qp core,
-> which sets it in the bridge it creates, and consequently will allow the
-> common HDMI bridge code to act on it.
+> Make drm_bridges consider the color_format set in the connector state
+> during the atomic bridge check. Specifically, reject any output bus
+> formats that do not correspond to the requested color format.
 > 
 > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 > ---
->  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+>  drivers/gpu/drm/drm_bridge.c | 57 ++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 57 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-> index c9fe6aa3e3e3..7c294751de19 100644
-> --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-> @@ -468,6 +468,28 @@ static const struct of_device_id dw_hdmi_qp_rockchip_dt_ids[] = {
->  };
->  MODULE_DEVICE_TABLE(of, dw_hdmi_qp_rockchip_dt_ids);
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 8f355df883d8..b7df5cbad832 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -1052,6 +1052,59 @@ static int select_bus_fmt_recursive(struct drm_bridge *first_bridge,
+>  	return ret;
+>  }
 >  
-> +static const u32 supported_colorformats = DRM_COLOR_FORMAT_AUTO |
-> +					  DRM_COLOR_FORMAT_RGB444 |
-> +					  DRM_COLOR_FORMAT_YCBCR444;
-> +
-> +static unsigned int __pure drm_to_hdmi_fmts(const u32 fmt)
+> +static bool __pure bus_format_is_color_fmt(u32 bus_fmt, enum drm_color_format fmt)
 > +{
-> +	unsigned int res = 0;
+> +	if (bus_fmt == MEDIA_BUS_FMT_FIXED)
+> +		return true;
 > +
-> +	if (fmt & DRM_COLOR_FORMAT_AUTO)
-> +		res |= BIT(HDMI_COLORSPACE_RGB);
-> +	if (fmt & DRM_COLOR_FORMAT_RGB444)
-> +		res |= BIT(HDMI_COLORSPACE_RGB);
-> +	if (fmt & DRM_COLOR_FORMAT_YCBCR444)
-> +		res |= BIT(HDMI_COLORSPACE_YUV444);
-> +	if (fmt & DRM_COLOR_FORMAT_YCBCR422)
-> +		res |= BIT(HDMI_COLORSPACE_YUV422);
-> +	if (fmt & DRM_COLOR_FORMAT_YCBCR420)
-> +		res |= BIT(HDMI_COLORSPACE_YUV420);
+> +	switch (fmt) {
+> +	case DRM_COLOR_FORMAT_NONE:
+> +	case DRM_COLOR_FORMAT_AUTO:
+> +		return true;
+> +	case DRM_COLOR_FORMAT_RGB444:
+> +		switch (bus_fmt) {
+> +		case MEDIA_BUS_FMT_RGB888_1X24:
+> +		case MEDIA_BUS_FMT_RGB101010_1X30:
+> +		case MEDIA_BUS_FMT_RGB121212_1X36:
+> +		case MEDIA_BUS_FMT_RGB161616_1X48:
+> +			return true;
+> +		default:
+> +			return false;
+> +		}
+> +	case DRM_COLOR_FORMAT_YCBCR444:
+> +		switch (bus_fmt) {
+> +		case MEDIA_BUS_FMT_YUV8_1X24:
+> +		case MEDIA_BUS_FMT_YUV10_1X30:
+> +		case MEDIA_BUS_FMT_YUV12_1X36:
+> +		case MEDIA_BUS_FMT_YUV16_1X48:
+> +			return true;
+> +		default:
+> +			return false;
+> +		}
+> +	case DRM_COLOR_FORMAT_YCBCR422:
+> +		switch (bus_fmt) {
+> +		case MEDIA_BUS_FMT_UYVY8_1X16:
+> +		case MEDIA_BUS_FMT_UYVY10_1X20:
+> +		case MEDIA_BUS_FMT_UYVY12_1X24:
+> +			return true;
+> +		default:
+> +			return false;
+> +		}
+> +	case DRM_COLOR_FORMAT_YCBCR420:
+> +		switch (bus_fmt) {
+> +		case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
+> +		case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
+> +		case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
+> +		case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
+> +			return true;
+> +		default:
+> +			return false;
+> +		}
+> +	}
+
+I'd find this more readable:
+
+	if (fmt == DRM_COLOR_FORMAT_NONE || fmt == DRM_COLOR_FORMAT_AUTO)
+		return true;
+
+	switch (bus_fmt) {
+	case MEDIA_BUS_FMT_RGB888_1X24:
+	case MEDIA_BUS_FMT_RGB101010_1X30:
+	case MEDIA_BUS_FMT_RGB121212_1X36:
+	case MEDIA_BUS_FMT_RGB161616_1X48:
+		return fmt == DRM_COLOR_FORMAT_RGB444:
+
+	case MEDIA_BUS_FMT_YUV8_1X24:
+	case MEDIA_BUS_FMT_YUV10_1X30:
+	case MEDIA_BUS_FMT_YUV12_1X36:
+	case MEDIA_BUS_FMT_YUV16_1X48:
+		return fmt == DRM_COLOR_FORMAT_YCBCR444;
+
+	case MEDIA_BUS_FMT_UYVY8_1X16:
+	case MEDIA_BUS_FMT_UYVY10_1X20:
+	case MEDIA_BUS_FMT_UYVY12_1X24:
+		return fmt == DRM_COLOR_FORMAT_YCBCR422;
+
+	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
+	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
+	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
+	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
+		return fmt == DRM_COLOR_FORMAT_YCBCR420;
+
+	default:
+		return false;
+	}
+
+but it could be a matter for personal preference ?
+
+I'm also a bit concerned about the 
+
+	if (fmt == DRM_COLOR_FORMAT_NONE || fmt == DRM_COLOR_FORMAT_AUTO)
+
+test. What's the difference between NONE and AUTO ? Is it meaningful, or
+should the two enumerators be merged into a single one ?
+
 > +
-> +	return res;
+> +	return false;
 > +}
 > +
-
-This would be greatly simplified by turning supported_formats into a
-bitmask of DRM_MODE_COLOR_FORMAT_* values, as suggested in 05/10.
-
->  static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
->  				    void *data)
->  {
-> @@ -521,6 +543,8 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
->  	plat_data.phy_data = hdmi;
->  	plat_data.max_bpc = 10;
+>  /*
+>   * This function is called by &drm_atomic_bridge_chain_check() just before
+>   * calling &drm_bridge_funcs.atomic_check() on all elements of the chain.
+> @@ -1137,6 +1190,10 @@ drm_atomic_bridge_chain_select_bus_fmts(struct drm_bridge *bridge,
+>  	}
 >  
-> +	plat_data.supported_formats = drm_to_hdmi_fmts(supported_colorformats);
-> +
->  	encoder = &hdmi->encoder.encoder;
->  	encoder->possible_crtcs = drm_of_find_possible_crtcs(drm, dev->of_node);
->  
+>  	for (i = 0; i < num_out_bus_fmts; i++) {
+> +		if (!bus_format_is_color_fmt(out_bus_fmts[i], conn_state->color_format)) {
+> +			ret = -ENOTSUPP;
+> +			continue;
+> +		}
+>  		ret = select_bus_fmt_recursive(bridge, last_bridge, crtc_state,
+>  					       conn_state, out_bus_fmts[i]);
+>  		if (ret != -ENOTSUPP)
 
 -- 
 Regards,
