@@ -2,57 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8D7C70136
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 17:27:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEDA8C701B4
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 17:33:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51DFF10E65E;
-	Wed, 19 Nov 2025 16:27:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2197F10E102;
+	Wed, 19 Nov 2025 16:33:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ashley.smith@collabora.com header.b="IpQSYcNg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mafG8ZOF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD2DB10E65E
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 16:27:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1763569629; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Y/0Vipmx5dbt/YY3fImwYpmBEPHcexUPnq7kxWZA2m6xsPN8Tm5cL3cuvAeevyPT3BJJ/fyWhmQOYw1BbkK82SqPKce6jZHROdccoGeraNvMv8IMQPR2faNH9htpXE4EiXxYg9HuAJtzqBN6NwgSLPpqJx1/K3ahSnytLPO6/EI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1763569629;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=6zLAhp5hPACOhr0eOoF5ggaWm7pqVl9tQSgogBc1AWE=; 
- b=HG32VRGJcUZxS46Dv5RGx0wuZ32wGJG89zxM6lN/yNTtM6hZADbiubukZXMIosc3TkQb7Tzb5WX0RSMk/E2AEaoAPJOjwPfW6rSAYkxl5/hmkTMV6GxXgDGl0hTQQqzxM/PAItJEAT9uoBd80H6PlvbY5RBQiZDTVHryomJc3m4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=ashley.smith@collabora.com;
- dmarc=pass header.from=<ashley.smith@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763569629; 
- s=zohomail; d=collabora.com; i=ashley.smith@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=6zLAhp5hPACOhr0eOoF5ggaWm7pqVl9tQSgogBc1AWE=;
- b=IpQSYcNgBD5nW0jJJ1+Mb2f6i1n0pkpi5pdlQe7r2xaIA6omX5yUk8MUcMjS4SbD
- WCEHiCteWEyTMZsmm7eQ16V03OGf/Pl/tJPRHobaytYM6dDY/m1YbP6QXq4HNmAl4Lh
- Bve9+v+Zq8Cjx7137FvaWk7RMssN4jJxpJBTHxcc=
-Received: by mx.zohomail.com with SMTPS id 176356962698772.195018392718;
- Wed, 19 Nov 2025 08:27:06 -0800 (PST)
-From: Ashley Smith <ashley.smith@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: kernel@collabora.com, Ashley Smith <ashley.smith@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panthor: Enable timestamp propogation
-Date: Wed, 19 Nov 2025 16:25:56 +0000
-Message-ID: <20251119162613.912486-1-ashley.smith@collabora.com>
-X-Mailer: git-send-email 2.43.0
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E65410E102
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 16:33:32 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 14CFF43BF9;
+ Wed, 19 Nov 2025 16:33:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48D05C116B1;
+ Wed, 19 Nov 2025 16:33:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763570012;
+ bh=SQB43V1lcm01gCfrVBWXeZWkfWYzDLNLnZu9KWeWJcg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mafG8ZOF8WzHpM0Ap0HV10HNQ+V26iii16RmNEh8xlVGt/3Fyif1MM/ooh0K/pfIz
+ szK/RWtsKgEJUAwJCF4Ei2amklh14ZMnM9irxppUQrCUJkvt/EZVFJcbPn28NcqEGY
+ H5mQcoOTZFTUtioKEvXhb//Hd+eC/e25r6Py2bHgQa/vmQ3b9ezpxZIBWcXV9ncmwt
+ 7e2asxChIzWsMtQIBzyz1HCL0UngdmumU3R+J6sfLJMWs0oS7ZF4iSIBsph8VRgCK0
+ +t4iS375piSkus/kTsSOX82JCK0IrwbeeJvL9xKC8TF2BvGIttU+8sQ9kfioC2gTlg
+ KCxDuQf1gZvsw==
+Date: Wed, 19 Nov 2025 18:33:26 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <skolothumtho@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>,
+ Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, iommu@lists.linux.dev,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+ linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
+ Nicolin Chen <nicolinc@nvidia.com>
+Subject: Re: [Linaro-mm-sig] [PATCH v8 06/11] dma-buf: provide phys_vec to
+ scatter-gather mapping routine
+Message-ID: <20251119163326.GL18335@unreal>
+References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
+ <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
+ <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
+ <20251119134245.GD18335@unreal>
+ <6714dc49-6b5c-4d58-9a43-95bb95873a97@amd.com>
+ <20251119145007.GJ18335@unreal>
+ <26d7ecab-33ed-4aab-82d5-954b0d1d1718@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+In-Reply-To: <26d7ecab-33ed-4aab-82d5-954b0d1d1718@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,53 +82,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set the GLB_COUNTER_EN bit to enable coherent propagation of GPU
-timestamp values to shader cores. This is a prerequisite for exposing
-device-coherent timestamp queries.
+On Wed, Nov 19, 2025 at 03:53:30PM +0100, Christian König wrote:
 
-Bump the version to 1.6 so userspace can detect support.
+<...>
 
-Signed-off-by: Ashley Smith <ashley.smith@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_drv.c | 3 ++-
- drivers/gpu/drm/panthor/panthor_fw.c  | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+> >>>>> +struct sg_table *dma_buf_map(struct dma_buf_attachment *attach,
+> >>>>
+> >>>> That is clearly not a good name for this function. We already have overloaded the term *mapping* with something completely different.
+> >>>
+> >>> This function performs DMA mapping, so what name do you suggest instead of dma_buf_map()?
+> >>
+> >> Something like dma_buf_phys_vec_to_sg_table(). I'm not good at naming either.
+> > 
+> > Can I call it simply dma_buf_mapping() as I plan to put that function in dma_buf_mapping.c
+> > file per-your request.
+> 
+> No, just completely drop the term "mapping" here. This is about phys_vector to sg_table conversion and nothing else.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index d1d4c50da5bf..0b0ec3b978c6 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1604,6 +1604,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
-  * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
-  * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
-  * - 1.5 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
-+ * - 1.6 - enables GLB_COUNTER_EN
-  */
- static const struct drm_driver panthor_drm_driver = {
- 	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-@@ -1617,7 +1618,7 @@ static const struct drm_driver panthor_drm_driver = {
- 	.name = "panthor",
- 	.desc = "Panthor DRM driver",
- 	.major = 1,
--	.minor = 5,
-+	.minor = 6,
- 
- 	.gem_create_object = panthor_gem_create_object,
- 	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index 38d87ab92eda..a02fb3afc2e1 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -999,6 +999,7 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
- 	panthor_fw_update_reqs(glb_iface, req, GLB_IDLE_EN, GLB_IDLE_EN);
- 	panthor_fw_toggle_reqs(glb_iface, req, ack,
- 			       GLB_CFG_ALLOC_EN |
-+			       GLB_COUNTER_EN |
- 			       GLB_CFG_POWEROFF_TIMER |
- 			       GLB_CFG_PROGRESS_TIMER);
- 
+In order to progress, I renamed these functions to be
+dma_buf_phys_vec_to_sgt() and dma_buf_free_sgt(), and put everything in dma_buf_mapping.c file.
 
-base-commit: 92c49b3f4df8f9acfa95551ef38fc00c675319fd
--- 
-2.43.0
-
+Thanks
