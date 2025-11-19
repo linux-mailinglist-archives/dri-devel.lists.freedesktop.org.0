@@ -2,172 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F401BC6F72B
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 15:54:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A33BC6F72E
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 15:55:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBC6789220;
-	Wed, 19 Nov 2025 14:54:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F251C898F5;
+	Wed, 19 Nov 2025 14:55:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="m2AKZFQk";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ya7vbsfQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com
- (mail-centralusazon11010023.outbound.protection.outlook.com [52.101.61.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80DC389220
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 14:54:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eoCCJIC2Yn8/MQygf6+QMVJqXBklnboMQXFkR5tXOqqpXgyMSKG8kzAKAvpJHiZKMKIuYSJpP+mmHOmD5X30H/9FjHi8jCsku3SmM1yvZTuCk2CMq2UflSSOqqt6fvWc4gD3vzhozQ9TUpz+pHKQcuIalcjZW5T4YvLy8L/TlScT56DONdle+hbFTW720LMjAdL16eLAqMVr0YJc8TKE+3zTkwI7Cl77PvzwnlzXs7/IhklhZlG5BRHJRBBoevhzZO5JaQZEMzdplRnMPF/qBdYoTMDvP2jBnFzh9CxZfd74Qhqdlr6mprZ2oOiZJ0+zTBdP3qk4Aj1VTkF0f624cg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=12ACATNbzileaDoqo3EoAjrShJw+rL7FwsR50NoiEvk=;
- b=G8eygHShglMI6xmktpuGiCZqI6LdR8HHq8g0R52CXQOfOHXUfmFumoFqEcDdAc7DPpxYD7X8pVV4uYul03X/9uKt0FSnuXM+PuMeNBxe7LBYmReEOgNnXEeYnl5v3B4SOhNym8vWXufP010dv8tRDFDs7PPMBZ0fKhPF2ki8jYjuGAbaLqrjoXT/N6gSl62V7ZwuOhqpZSHl3tp23KAgOIDiwnoXCNA3pIhqWcp7OoFB7E073maCxTJ/MHBopp0nT+McfpeLuwLiG1LnxoLeQIxk7jLEOPqZyl1f6dIFYFVfBT0yl/0GAJ29aaJ8ZTyXOkIIX2VLPcRg6UPvHG52Rg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=12ACATNbzileaDoqo3EoAjrShJw+rL7FwsR50NoiEvk=;
- b=m2AKZFQk8iURZLahgg0aAKk5EC9k9hlcS5vXTwx9YeG6ICwVgnKQSnfZAONK1RCDtc4HL9ANbAfw5jNPHpW4N5uiAJZk4ZiNd9MgQxsEijxTLp6gBdU2OYIbejstxkuoXZ8ok8lbIfBDzGu2Ctui96X9RN4hIF7zZ9zgQxRQEtc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MW4PR12MB6707.namprd12.prod.outlook.com (2603:10b6:303:1ee::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Wed, 19 Nov
- 2025 14:53:39 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9320.021; Wed, 19 Nov 2025
- 14:53:39 +0000
-Message-ID: <26d7ecab-33ed-4aab-82d5-954b0d1d1718@amd.com>
-Date: Wed, 19 Nov 2025 15:53:30 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] [PATCH v8 06/11] dma-buf: provide phys_vec to
- scatter-gather mapping routine
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe
- <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <skolothumtho@nvidia.com>, Kevin Tian
- <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>,
- Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- kvm@vger.kernel.org, linux-hardening@vger.kernel.org,
- Alex Mastro <amastro@fb.com>, Nicolin Chen <nicolinc@nvidia.com>
-References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
- <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
- <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
- <20251119134245.GD18335@unreal>
- <6714dc49-6b5c-4d58-9a43-95bb95873a97@amd.com>
- <20251119145007.GJ18335@unreal>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20251119145007.GJ18335@unreal>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0003.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::13) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 160B389F27
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 14:55:22 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-477632d45c9so50565485e9.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 06:55:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1763564120; x=1764168920; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=AG2Ivm3gxxeIGO2S2nN8YgMONCoL1ktp5mhPJvGMAXs=;
+ b=ya7vbsfQR3hUoG2vMFRQwUM3EbfggyyVzZLbC+VuXcQK7fDILOx+4/GUgd6fB6nFwW
+ Tz38bD87TWOhN53cfuzLVHJxrIkPpaZnkXbnwAQfpW9oXjSY94UJrtiGY4dEfX1Po2GO
+ J0l/pBAYvsHDALLDr9MQ3hUbcouTuBIIVvjkSWKXSGz1Ah1QRc2jIESE72Bboan2IOon
+ kX0fHMsffWK5jDVX8vFhaVCEo0WKOdWWOUtuQyRf3kHMavEDT62TOOVUprFYiG3q+ZEL
+ F1+MlU8rHXhNgvvT5CAseor6xoRY0T9HIWl8LWX0FJUH77WTi97ZDk2fWj443MK6Uufh
+ F1ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763564120; x=1764168920;
+ h=content-transfer-encoding:in-reply-to:organization:autocrypt
+ :content-language:references:cc:to:subject:reply-to:from:user-agent
+ :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=AG2Ivm3gxxeIGO2S2nN8YgMONCoL1ktp5mhPJvGMAXs=;
+ b=hjSC9HOvCTHrvYDc39oxYcSllWT1nEWxK9soNuIY58AM1E1HsfEs6wvJK3RNXOPtH9
+ HpZsE6J+yz3Q9yif2dzrqWqViroxJ9pdSfBAKhY3Ki+D6wVL+q7NoivHboAL8OYuZSVu
+ c2MJUzfTNQ/Sjr7xBSIL5mImomg5OQz2FgyfiqmXuWDdKbJWwU7XtKCcpoYimdNpcX76
+ 5nlcVznSD3UDOup9cjT940LQQ/dguF6AwtKxl5VjMH+oKxly3xFw0jkriOPDRpN+MD84
+ kH3FFI8NaklvPWfxL76jLmXF1PEkwCKWyJgn5jfUI8Ez2FVWYtAYqXtJPjL+toMOs3Pd
+ 64Xg==
+X-Gm-Message-State: AOJu0YygMXclOkI7ORZV0DNqc9GWuyLz9gFQ70unwPEHFS3Bb9HJPVFl
+ DmTwKpFVXQBRVMRmrI2QvwMx4Dhsjlevalb2mSRdSOOjZ01aIjhgsNVVRH+067HKWkU=
+X-Gm-Gg: ASbGnctuwleVetaHbQ0bStnUBEcrJaGzziJD3pgYOP071FCrhAe+thVszVdnSI5ZDq+
+ SXGLT9/qck8XMfiBq15KEAJeIUbQqJ0Xu9Ef89UrmWnEIjperTXvgIqziJN1ltS/YskskH3mh9K
+ 8gvqoA42GVYSRUNIaKOG/jD/m7lJR529ErivlUJh5QKLWf9fjKujVKGTnLneZV25o6rne1Ajkhk
+ Wna4q72rWU10TL0twmrR/RBWPyuPJSSG3FNfn0i6+hSRwaVHRR9atb2CHvL5SUhd9kV4nsvpvBj
+ 4Kv9wALYVQ3qAchctESYLOpu+5BUxA/ujdMwiYHL8Nc3XyJhE/8ajVLz/H+cmumHmPgYKtedSC/
+ 6WSnNGPJuctzSShumd4m0TYKSSpJGqOYGv7pBt0IDVzIY0APzQqkD76gyQV0UTXjpp0+jEQLZav
+ sExnB9c2iTAundHM6036G3hzenGtYnJp8oQsyPJzZ0RZauvZ/HyiQ+J5sDccB/v7c=
+X-Google-Smtp-Source: AGHT+IGVWrCliuxc+g4cZNa9BoI6eCTMQ+YEhvBOCZ461rA/CFjIgL3GjXC2pMqZRX0mGHfaueAfPQ==
+X-Received: by 2002:a05:600c:c4aa:b0:475:e09c:960e with SMTP id
+ 5b1f17b1804b1-4778fe88fefmr173211085e9.32.1763564120379; 
+ Wed, 19 Nov 2025 06:55:20 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:3d9:2080:263d:925b:a11f:ae36?
+ ([2a01:e0a:3d9:2080:263d:925b:a11f:ae36])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-477b103db28sm65817575e9.14.2025.11.19.06.55.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Nov 2025 06:55:20 -0800 (PST)
+Message-ID: <0dbb931f-5b62-4f37-a314-3c9696b5149e@linaro.org>
+Date: Wed, 19 Nov 2025 15:55:19 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB6707:EE_
-X-MS-Office365-Filtering-Correlation-Id: a6766521-bc9a-4885-9cf1-08de277b6c8e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?R2tiSFpIZ0xweXdtek9xQnFKMExPMHlldGV0bDBlV3FtS3BFU3FOQmdPTVNH?=
- =?utf-8?B?RXN3K25WSmZicFFBTUtGSFd6TVVTMHZIc0kvQlU4cWMrQ0FzUDJObWgvc1Nn?=
- =?utf-8?B?QkpzRm9BUG00MjBUZFZtUVRFN0x5OWd0eUY0OTEwRkljQlNjYW92dmoraTIv?=
- =?utf-8?B?K2JOMlV6VCs5aVFPaHZZSnZJblJkbHJJYnVnbmlYRCtpaW54cS80NFFQWDJa?=
- =?utf-8?B?bTU3bHNrc1VOVGdjYkxoQ2prWkpWOElXcVNxMGNSTmMzR3pmMm1pRFB5RUM0?=
- =?utf-8?B?YUZ5MVZuTXhpeHJNS0MzY0R4VVpGNEs5a1pHYTAwN0FISDJ0YzYwaXVtdGFH?=
- =?utf-8?B?OUxsbFdqNDBaS0lYdXU4OWNMSWE2L0ptVkNXQzZROHNRaTUvMTI3NC9oRjJF?=
- =?utf-8?B?aHhkNUxTUVB6VnAwSkVBRk91Y1RkdStVRXZRVE9RYTdGOU5zeCtKYXZlVEgv?=
- =?utf-8?B?anByWFVrSnllOGMxK3hnTWZIUnF5NVhrd3ZaLzZmUytiRFZOeWtjbWNUYTR3?=
- =?utf-8?B?WmtkRG4vTzhoVHpjNjBZY2M0cjUvUG1QditiYTdUSVNTMzlwZXNGeWV5ZVhN?=
- =?utf-8?B?Z1o5cWdteC9WR3hvcVlWNTBwM3hOUm00NSthMjlHeFk3b3hzcmk4RHUyTndQ?=
- =?utf-8?B?bjc2a2RWL2IyR3FHYlFjZFByNFpsNlRzM3U3Y0gwTHFseGZXbVY0SmJ2ZEMz?=
- =?utf-8?B?NmxFRHVoTUkrd24xeDdhOElMWmd2SmdOeXBlTWFTMVZTeEFndytmYTdFMnQ5?=
- =?utf-8?B?eGlIZGxKbkl5SEhqbXhoeVhLakY2dUFxYzNKSlpTWXFKb3gyTjZ0ZTRCcStD?=
- =?utf-8?B?T1V6dDFTekdBdmphbFZBM2lUNmJqUkRUQ2c3YktiVVBVaU15Mm9iSkUrczMy?=
- =?utf-8?B?SFBPR1pJWWxqaWU1WVFKTDVoMU12UHRvU0t0aTdzWnBrRjJtYm9vSGtqRGhM?=
- =?utf-8?B?TXNQUC9CU2dJR2RPd0M1UXl2bFNmdzRIdHlUUndZSE5IMndCMFdmbkZKcmhy?=
- =?utf-8?B?TUdIK2lrNXM5RjhpdklEMW1JU3REMzN3QXRhRTBFTWhLaUUxVyswVFBOKzJi?=
- =?utf-8?B?UHFkSUwrSXNERUE4V2lVd3FvazVSSWo4S2haRmhqSjBuSzN1cFZZTm1PRWg1?=
- =?utf-8?B?NnRiVDN6NWh4SlQ0Z2F6RFQySWF0Snd6WkdYZms2YjNzMzBzSXlKOElsckV3?=
- =?utf-8?B?Uk14aEUvZTI4WWprZ1Zzd2d4R2tJZGpXMGpQMUpjbTdvNlZEUnVuSTkvYk5z?=
- =?utf-8?B?M0JqamswTTVTL2JHRGpSeWQxSDZWUWxCM2hCQ1RoTDhvS3ZoZk8rWk9MOFl1?=
- =?utf-8?B?Y1Y5eVBlNVZqdmZnWHV4TXZWWlVzZk9OaE5CL29TbjVCRjBQMW5Dc3Jobktn?=
- =?utf-8?B?b3dxcVh3bklQR3RZeVoxblVqSFFmS3ZhZ1lqL3VBQzhTeEUvdDdVdkNJUEFm?=
- =?utf-8?B?bkg4LzhWK1Y3eGFHaFNvNVloM0ZaT0d0eUJBTkxNd09rK0Yva2dtaUR0YmJa?=
- =?utf-8?B?TjN3aSsyY2JTbWtPN29wVHZLdjdlajg3czg5c1BxcytEM295L01CRlM1NXJ6?=
- =?utf-8?B?dEw4SkRXalNTa0dCUU1QTTZPOUpYNmpndURRM1B1VDVSLzZKUDR0ZVNucGor?=
- =?utf-8?B?VFJOenVhZTBzRFlXUnY4VFVqazZJVWdNN0xIWXJFSjFpekFCYkxTaUNrb0JP?=
- =?utf-8?B?eFhlREtGcGdGUk8zUlNleEJqbDNhUWtXMVBmTmVyaEZYK1dyNTluNWVQVDdz?=
- =?utf-8?B?YzlVbzBwZGJSNWFiL0Jja3lVV3RwOUJrOW1zbFM5M3ptRmpEbWo0NjJuL3p4?=
- =?utf-8?B?TWFzVHVkUk9EWDJGd0RSQ2R2VGErUDU5cVZ2dWVwWi80QlhjQTcyOUs0RUp1?=
- =?utf-8?B?clNvVndNQUdsM1grc3ZGRXNQam5CcGRYdnZGOTZ3cnZTU01MVW5RMjRSaTl2?=
- =?utf-8?Q?ByReOjyq3jFWt9PECRHozOdLJW3bJOt5?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UHFJRVU5MnU2VnMxSm5QdnRnRCt2TXR2cFVnZ200bStCYytBN1JxSlZ5TmNG?=
- =?utf-8?B?a0UrcmpBMUE1SXo0Y25BRnNlVmswajVHMVdOdWhPV3dVOWhSd3hVUDR1UEdF?=
- =?utf-8?B?RGwvMHpSQ3BzTmxSNXNyczRURStQNDZBYmQzb2crRWJ2RUpRaGpodm93MTRG?=
- =?utf-8?B?ZEd5a0dkTFJzeG5QMDhCODBBejE4YTRsSFpzYjhpUElObG8xY3kxNnduZDVm?=
- =?utf-8?B?VHlqbWtVdnd4ZmNSQktSeG52RjdFYmxPS3BrWFloQWY4N0pxVkovQWZBeW93?=
- =?utf-8?B?WjJDYjd3UStjb1FmM0RkZzZEZFk1aE5BdmFZQ2NRREdRdnhzZW1UYSt3NlFR?=
- =?utf-8?B?TS8zZmxQeFgyZHNDbnJ6ditxa3dxZHlzOVhSRHBINkF2bml6aDhWTHdBYmlE?=
- =?utf-8?B?dCs2ZVYrdEV0NnJ2QUtKcHJVM3NrWXdDcWhPNkNvQS8xVjhwbXRvZEVrZUhm?=
- =?utf-8?B?ZUhMYWdUTFFZa0NxZ0dmR29ERkNxMGVmd3hkZnpCbVZYbHFqVXZtdXRFSndw?=
- =?utf-8?B?UkVJdmxYQ0p1aXRvSVZ4bzh2VjhEM0pMMkZiTU1WV21aTXU0NjY2UUZ4aXdt?=
- =?utf-8?B?cFF6TWxYN1JBZ3RJbHk3TCtjc016bm96NkVVajdIZTYzajJlVmI3WE83ZUZU?=
- =?utf-8?B?SWRsd0c2SUhBSGVCWFNpNlFGdEVqeW1Ka2hZRmEzZWhXbnBIM3ZzVWVBUmlC?=
- =?utf-8?B?eitRMHhwYTF6czVtRC96dHNVcXNNa2duSEhiUVFBbEZOcU9XNWZURTN3ZFlB?=
- =?utf-8?B?UDNlTWYxc0IzT1N6QllLNGVvM0I0OUtwczBpVFFxZWVVOFlEbGFyeUlmcXRC?=
- =?utf-8?B?SFA2WWlHVklIbTBQRFduN0tndmd6R0hkMm9tV0J4NWFRTWVwbnI1dnhhaVlV?=
- =?utf-8?B?UlN0amMwdHB4Q25QVEpCbEIybG40SDZzRTZZY2R4T1NtUFhDck9sNW4xejQw?=
- =?utf-8?B?Ykw3bU5DTWxhTWxqTHR1eEZVaEMzSHFNQlk1eEkvRldtY0w1TW9EWTJheTJh?=
- =?utf-8?B?YWZUN3QxUk1SWVg2WWYrU3RHSW5adkl3QythdWlpZ04rM1BEb1lyWnZDY3Bw?=
- =?utf-8?B?RS9hejArRkNvKzF1TFRrbHdVNjNob2VUcTdOMHFGSEdCUEVoWC9NWmltdDdI?=
- =?utf-8?B?MHhldG0zdlRoL2IzL0p2aEVWY3gzTUJrbHZ5TEJKZmxLZWdPSjR1ejk0dGxR?=
- =?utf-8?B?Wnk3dU1DSmpKb3RyeDRzekdoVFBWOExQektXT09BTFlFbnFrN3dMMThaYWM1?=
- =?utf-8?B?SnI5OVdGK2xvTUxPMTdodHJrcnMyNmFJK0JlaFZOTXZFWFFlajdKa0FUOFJS?=
- =?utf-8?B?VFJaeEVCU0g3eFRxYys5WW1OUDhvQVlPZHNVQU9lLzExQVNwWEFKc3g0TjF2?=
- =?utf-8?B?alMwRDdEY1B5UjdaaXEwUFgwdkNWR0FzSUpnVEx6dGhIdWxGc0h5OHlUWHg1?=
- =?utf-8?B?VkhzN00rZ01vUVJ4dE14RFE1L0dIckVzb0trT0grTlFGQ1BqRjlZZ25WVUYr?=
- =?utf-8?B?YjdzS2E0OFI1VTFtZllUVzhmSDV3Q0pnT00zNjBxMEVPVCtGQlRiZGJwREJ3?=
- =?utf-8?B?SHlDR3NMRzVZcGc5QytmRkRxd0d2YXZCY3dSZ2NnL0pLSXFxY2ExRFJrbHph?=
- =?utf-8?B?Z0pLSHE5dm80K0dnMWcycWZxbFpabFQvT2dvSzlaM2tuczg0TmwwdytxM2My?=
- =?utf-8?B?UlVNMGpDcVRIOE0rYUZGYzU2Q1d5REhKNzM2M3lIdURhcXdLalYydURVU2xW?=
- =?utf-8?B?dXpUcmk0b1ZtY05vTFFPY3U0R3JOVEYwaUIyTVlYeFFNVGlWYzAxN3h2clBB?=
- =?utf-8?B?cUU2cUkwOVV2MU1wTDVVS29WWkhMWWFLQ0ZZaVVGc2NKdW9iRmhTVzhFM0kr?=
- =?utf-8?B?b3B1cWpIYzJhSzBhQXBrcXRLY3NiTDdmRzV6OG1QalZueHE5VFpCcUcvOXZa?=
- =?utf-8?B?bWkrYW9DUmhYZXR5UWpNV2xrZS9sUkRydUt3Z3Y0UWh1N084ZWUrU01VSHds?=
- =?utf-8?B?ejd6cS9SUFd6bFFja1pNWlVHSjJvT0VyNElnaXQ0SXh6UlgyR1RucjlOUmc5?=
- =?utf-8?B?UU9qSFArZFZUUzdpcm5TK1V4d2ZFNGtnYjhKdXJPYWJ6WjJmUDRoMXBKMDd4?=
- =?utf-8?Q?STjDYM2Eul8c2L/6+mV+YNBiC?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6766521-bc9a-4885-9cf1-08de277b6c8e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 14:53:39.1798 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EAAgUa6BbVnYIR9n1lRVabMKLJZZQOerx9YYRq2dmneBCEkMtVz+yOoN8B+rd3WI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6707
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 00/12] Make Samsung SOFEF00 DDIC and panel work
+To: david@ixit.cz, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Casey Connolly <casey.connolly@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ phone-devel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>
+References: <20251119-sofef00-rebuild-v3-0-6cd55471e84e@ixit.cz>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20251119-sofef00-rebuild-v3-0-6cd55471e84e@ixit.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,184 +125,72 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 11/19/25 15:50, Leon Romanovsky wrote:
-> On Wed, Nov 19, 2025 at 03:11:01PM +0100, Christian König wrote:
->> On 11/19/25 14:42, Leon Romanovsky wrote:
->>> On Wed, Nov 19, 2025 at 02:16:57PM +0100, Christian König wrote:
->>>>
->>>>
->>>> On 11/11/25 10:57, Leon Romanovsky wrote:
->>>>> From: Leon Romanovsky <leonro@nvidia.com>
->>>>>
->>>>> Add dma_buf_map() and dma_buf_unmap() helpers to convert an array of
->>>>> MMIO physical address ranges into scatter-gather tables with proper
->>>>> DMA mapping.
->>>>>
->>>>> These common functions are a starting point and support any PCI
->>>>> drivers creating mappings from their BAR's MMIO addresses. VFIO is one
->>>>> case, as shortly will be RDMA. We can review existing DRM drivers to
->>>>> refactor them separately. We hope this will evolve into routines to
->>>>> help common DRM that include mixed CPU and MMIO mappings.
->>>>>
->>>>> Compared to the dma_map_resource() abuse this implementation handles
->>>>> the complicated PCI P2P scenarios properly, especially when an IOMMU
->>>>> is enabled:
->>>>>
->>>>>  - Direct bus address mapping without IOVA allocation for
->>>>>    PCI_P2PDMA_MAP_BUS_ADDR, using pci_p2pdma_bus_addr_map(). This
->>>>>    happens if the IOMMU is enabled but the PCIe switch ACS flags allow
->>>>>    transactions to avoid the host bridge.
->>>>>
->>>>>    Further, this handles the slightly obscure, case of MMIO with a
->>>>>    phys_addr_t that is different from the physical BAR programming
->>>>>    (bus offset). The phys_addr_t is converted to a dma_addr_t and
->>>>>    accommodates this effect. This enables certain real systems to
->>>>>    work, especially on ARM platforms.
->>>>>
->>>>>  - Mapping through host bridge with IOVA allocation and DMA_ATTR_MMIO
->>>>>    attribute for MMIO memory regions (PCI_P2PDMA_MAP_THRU_HOST_BRIDGE).
->>>>>    This happens when the IOMMU is enabled and the ACS flags are forcing
->>>>>    all traffic to the IOMMU - ie for virtualization systems.
->>>>>
->>>>>  - Cases where P2P is not supported through the host bridge/CPU. The
->>>>>    P2P subsystem is the proper place to detect this and block it.
->>>>>
->>>>> Helper functions fill_sg_entry() and calc_sg_nents() handle the
->>>>> scatter-gather table construction, splitting large regions into
->>>>> UINT_MAX-sized chunks to fit within sg->length field limits.
->>>>>
->>>>> Since the physical address based DMA API forbids use of the CPU list
->>>>> of the scatterlist this will produce a mangled scatterlist that has
->>>>> a fully zero-length and NULL'd CPU list. The list is 0 length,
->>>>> all the struct page pointers are NULL and zero sized. This is stronger
->>>>> and more robust than the existing mangle_sg_table() technique. It is
->>>>> a future project to migrate DMABUF as a subsystem away from using
->>>>> scatterlist for this data structure.
->>>>>
->>>>> Tested-by: Alex Mastro <amastro@fb.com>
->>>>> Tested-by: Nicolin Chen <nicolinc@nvidia.com>
->>>>> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
->>>>> ---
->>>>>  drivers/dma-buf/dma-buf.c | 235 ++++++++++++++++++++++++++++++++++++++++++++++
->>>>>  include/linux/dma-buf.h   |  18 ++++
->>>>>  2 files changed, 253 insertions(+)
->>>>>
->>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->>>>> index 2bcf9ceca997..cb55dff1dad5 100644
->>>>> --- a/drivers/dma-buf/dma-buf.c
->>>>> +++ b/drivers/dma-buf/dma-buf.c
->>>>> @@ -1254,6 +1254,241 @@ void dma_buf_unmap_attachment_unlocked(struct dma_buf_attachment *attach,
->>>>>  }
->>>>>  EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_attachment_unlocked, "DMA_BUF");
->>>>>  
->>>>> +static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
->>>>> +					 dma_addr_t addr)
->>>>> +{
->>>>> +	unsigned int len, nents;
->>>>> +	int i;
->>>>> +
->>>>> +	nents = DIV_ROUND_UP(length, UINT_MAX);
->>>>> +	for (i = 0; i < nents; i++) {
->>>>> +		len = min_t(size_t, length, UINT_MAX);
->>>>> +		length -= len;
->>>>> +		/*
->>>>> +		 * DMABUF abuses scatterlist to create a scatterlist
->>>>> +		 * that does not have any CPU list, only the DMA list.
->>>>> +		 * Always set the page related values to NULL to ensure
->>>>> +		 * importers can't use it. The phys_addr based DMA API
->>>>> +		 * does not require the CPU list for mapping or unmapping.
->>>>> +		 */
->>>>> +		sg_set_page(sgl, NULL, 0, 0);
->>>>> +		sg_dma_address(sgl) = addr + i * UINT_MAX;
->>>>> +		sg_dma_len(sgl) = len;
->>>>> +		sgl = sg_next(sgl);
->>>>> +	}
->>>>> +
->>>>> +	return sgl;
->>>>> +}
->>>>> +
->>>>> +static unsigned int calc_sg_nents(struct dma_iova_state *state,
->>>>> +				  struct dma_buf_phys_vec *phys_vec,
->>>>> +				  size_t nr_ranges, size_t size)
->>>>> +{
->>>>> +	unsigned int nents = 0;
->>>>> +	size_t i;
->>>>> +
->>>>> +	if (!state || !dma_use_iova(state)) {
->>>>> +		for (i = 0; i < nr_ranges; i++)
->>>>> +			nents += DIV_ROUND_UP(phys_vec[i].len, UINT_MAX);
->>>>> +	} else {
->>>>> +		/*
->>>>> +		 * In IOVA case, there is only one SG entry which spans
->>>>> +		 * for whole IOVA address space, but we need to make sure
->>>>> +		 * that it fits sg->length, maybe we need more.
->>>>> +		 */
->>>>> +		nents = DIV_ROUND_UP(size, UINT_MAX);
->>>>> +	}
->>>>> +
->>>>> +	return nents;
->>>>> +}
->>>>> +
->>>>> +/**
->>>>> + * struct dma_buf_dma - holds DMA mapping information
->>>>> + * @sgt:    Scatter-gather table
->>>>> + * @state:  DMA IOVA state relevant in IOMMU-based DMA
->>>>> + * @size:   Total size of DMA transfer
->>>>> + */
->>>>> +struct dma_buf_dma {
->>>>> +	struct sg_table sgt;
->>>>> +	struct dma_iova_state *state;
->>>>> +	size_t size;
->>>>> +};
->>>>> +
->>>>> +/**
->>>>> + * dma_buf_map - Returns the scatterlist table of the attachment from arrays
->>>>> + * of physical vectors. This funciton is intended for MMIO memory only.
->>>>> + * @attach:	[in]	attachment whose scatterlist is to be returned
->>>>> + * @provider:	[in]	p2pdma provider
->>>>> + * @phys_vec:	[in]	array of physical vectors
->>>>> + * @nr_ranges:	[in]	number of entries in phys_vec array
->>>>> + * @size:	[in]	total size of phys_vec
->>>>> + * @dir:	[in]	direction of DMA transfer
->>>>> + *
->>>>> + * Returns sg_table containing the scatterlist to be returned; returns ERR_PTR
->>>>> + * on error. May return -EINTR if it is interrupted by a signal.
->>>>> + *
->>>>> + * On success, the DMA addresses and lengths in the returned scatterlist are
->>>>> + * PAGE_SIZE aligned.
->>>>> + *
->>>>> + * A mapping must be unmapped by using dma_buf_unmap().
->>>>> + */
->>>>> +struct sg_table *dma_buf_map(struct dma_buf_attachment *attach,
->>>>
->>>> That is clearly not a good name for this function. We already have overloaded the term *mapping* with something completely different.
->>>
->>> This function performs DMA mapping, so what name do you suggest instead of dma_buf_map()?
->>
->> Something like dma_buf_phys_vec_to_sg_table(). I'm not good at naming either.
+On 11/19/25 15:21, David Heidelberg via B4 Relay wrote:
+> This DDIC is essential for panels used in OnePlus 6 and Pixel 3a XL
+> (SDC variant). With proper support, all downstream patches in
+> sdm845-mainline and sdm670-mainline can be dropped.
 > 
-> Can I call it simply dma_buf_mapping() as I plan to put that function in dma_buf_mapping.c
-> file per-your request.
-
-No, just completely drop the term "mapping" here. This is about phys_vector to sg_table conversion and nothing else.
-
-That we create an IOVA mapping when the access needs to go through the root complex is an implementation detail.
-
+> The mainline driver was broken so far, and with my recent introduction
+> of S6E3FC2X01 driver, I had to "break it even more" due to OnePlus 6
+> common device-tree changes which defined all the regulators and
+> corrected properties.
 > 
-> Regarding SG, the long term plan is to remove SG table completely, so at
-> least external users of DMABUF shouldn't be exposed to internal implementation
-> details (SG table).
-
-Hui? Well I suggested to remove the sg_table, but that doesn't mean that implementations shouldn't be aware of that.
-
-Regards,
-Christian.
-
+> At this moment the first version of the patchset will not include
+> Pixel 3a XL (SDC) as no testers yet volunteered.
 > 
-> Thanks
+> The code, including the Pixel 3a XL enhancement can be found at
+>    https://gitlab.com/sdm845/sdm845-next/-/commits/b4%252Fsofef00-rebuild
+> 
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+> Changes in v3:
+> - Drop arch prefix from the commit. (Bjorn)
+> - Added Casey into MAINTAINERS file. (Casey)
+> - Moved compatible legacy comment inline.
+> - Link to v2: https://lore.kernel.org/r/20251113-sofef00-rebuild-v2-0-e175053061ec@ixit.cz
+> 
+> Changes in v2:
+> - General fixes to device-tree binding (Krzysztof)
+> - Add myself as a maintainer
+> - Updated commits wording
+> - Link to v1: https://lore.kernel.org/r/20251104-sofef00-rebuild-v1-0-dfcfa17eb176@ixit.cz
+> 
+> ---
+> Casey Connolly (2):
+>        drm/panel: sofef00: Add prepare_prev_first flag to drm_panel
+>        drm/panel: sofef00: Initialise at 50% brightness
+> 
+> David Heidelberg (10):
+>        dt-bindings: panel: Convert Samsung SOFEF00 DDIC into standalone yaml
+>        arm64: qcom: sdm845-enchilada: Specify panel name within the compatible
+>        drm/panel: sofef00: Clean up panel description after s6e3fc2x01 removal
+>        drm/panel: sofef00: Handle all regulators
+>        drm/panel: sofef00: Split sending commands to the enable/disable functions
+>        drm/panel: sofef00: Introduce page macro
+>        drm/panel: sofef00: Introduce compatible which includes the panel name
+>        drm/panel: sofef00: Simplify get_modes
+>        drm/panel: sofef00: Mark the LPM mode always-on
+>        drm/panel: sofef00: Non-continuous mode and video burst are supported
+> 
+>   .../bindings/display/panel/panel-simple-dsi.yaml   |  25 +----
+>   .../bindings/display/panel/samsung,sofef00.yaml    |  79 ++++++++++++++++
+>   MAINTAINERS                                        |   7 ++
+>   .../boot/dts/qcom/sdm845-oneplus-enchilada.dts     |   4 +-
+>   drivers/gpu/drm/panel/Kconfig                      |   7 +-
+>   drivers/gpu/drm/panel/panel-samsung-sofef00.c      | 105 +++++++++++++--------
+>   6 files changed, 163 insertions(+), 64 deletions(-)
+> ---
+> base-commit: fe4d0dea039f2befb93f27569593ec209843b0f5
+> change-id: 20251104-sofef00-rebuild-04cfc6e68e71
+> 
+> Best regards,
 
+For the serie:
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+
+Thanks,
+Neil
