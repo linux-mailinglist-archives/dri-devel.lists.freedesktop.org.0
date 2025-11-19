@@ -2,96 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31DFC6DFAB
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 11:27:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9300FC6E073
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 11:42:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 082A810E232;
-	Wed, 19 Nov 2025 10:27:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75D3610E5D3;
+	Wed, 19 Nov 2025 10:42:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="amxKN1ws";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NcNgdJKM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
- [209.85.218.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FFB310E232
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 10:27:41 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id
- a640c23a62f3a-b73545723ebso1177181666b.1
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 02:27:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763548060; x=1764152860; darn=lists.freedesktop.org;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=S+nM8TwEn3pAM+Wkbq5/nAzbOqWOMItS7/Y6FbwZo48=;
- b=amxKN1wszSem15F79q3PCN0YwGndNvbvR+6J5z0Vx/8j0C9rxlQcxnzu2fGfvMgbRz
- 9Dg6AmFjoxi1wnHchxffJcNmHiGUQGzYYGZPFcM4PfpwOvrIVsVgmmRmtF7wfK+f3g3M
- RDPNqQzjtD/KidVnaxGtRJFkd+2hb+jq0XgV+eAyFlUF5dWij4BTXMuvdJ5h/FfSV8WO
- vWoG1g8xjG0wemLtfVXFyVOHUO+AfNC3irs11HTxCDA8J1lSxihh6DACHW50bG2feDJu
- +2M7ytVzNwXaxQNeA65MsyQJlebvBBzyQnnn/OQ4/f2VusURXh7pDeZTnYvrek8q5RZR
- jeAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763548060; x=1764152860;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=S+nM8TwEn3pAM+Wkbq5/nAzbOqWOMItS7/Y6FbwZo48=;
- b=JWzB4yFc2/VcEtc55MGTyFD1tuFjMgpLufPbQnetH80mjSetCO7ftwiJr8F9LYeRRS
- PGbkCqYKERcgRUJJKY4qmtuE1DTXxJcPU8YVrTqdPFlkOE+2fZphNBMVfqrLJzWKu6Zz
- 7S0wz6IuytUIHIxMl7ujgRPovmrnWuQjPep5FLvdxvyVusU5VFMERPrZ0mfavm1tMW5Y
- I90NKM+L08aXO4RekswoE7x/1H7uV2DHXCMLoq/lrDEf+1C/0URONPbFjlmu4ZgMiQQT
- vOg0bY0JZsjSOy29w6WqdD0Nvfo1ioUJA0Ck7K/RPogpBJ1wZ4Gu+PWdVxmD3Z6ujpYC
- MUAA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCURk2tdD51h/o8o7TlmYsIVj85U9u5vsibg5FU5RVhp7gohPG+0xw6jembGluqBaWtBlao6iOW4/ME=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy6KxCWRl9bMU1vqFDhHFWaRV0NUfZ4+Fag2aVcvYk3knzLGP7i
- hjbLJvDHTiRGFabHO0z6udyxdoo+njsYkVjd+4SCyb2xtH7uPHN75Lyg
-X-Gm-Gg: ASbGncsK9y2c/ux83DAUO/05Lsblj9JSuU/2ZriLwkP55aaSul8KshBgC7n6p1/e9KQ
- 8xErykS9+SffJo8etqURXFsqZBulO//B7beErJLMs3jdvhswjz33xOg6PVKMskNhBfSeS/zKytW
- RK9lhIrOtVKsTyi9NmBASMamBdAK2AmSxppEMWHMqN9USaL/PgWStQFxn/i4RkP26hjJ9QqqCkw
- cMIFAxsfne9cF6msowrDrHeGixBjSFgckB4z7R5bkbaxIoLaFNlzM3/JuEq/Hwg3yvA3ktwCgiE
- Dzlo5e7U6XJt1njGNxsd1OtkLbthnZg8LewLUK1HihIN/kXFlBr+1rEVDk4zLYssCPdi3v62HyM
- N6k7mAO7RZoIusvjepjKDqie2suArINTVyqE/YtC5+MQuLT8/X79gkomyL2KGuHJCqHU2BhMmo3
- AzNATFGBFI8SetlfidCZn2uHOcXQ5FLF6ZBdz0VrR6PZwUaQMIYQtX7AF6tj3hS+GCXhbU6O+d+
- zA=
-X-Google-Smtp-Source: AGHT+IFcsP/JWu7DWWlBu/BkWNRt0LIFSuLh7i2sy3UQ2gmA3tYApcSpm1bJdautTGMK/vyZo0UGug==
-X-Received: by 2002:a17:907:7e93:b0:b73:9368:ad44 with SMTP id
- a640c23a62f3a-b739368aff0mr1299146866b.16.1763548059649; 
- Wed, 19 Nov 2025 02:27:39 -0800 (PST)
-Received: from smtpclient.apple (89-66-237-154.dynamic.play.pl.
- [89.66.237.154]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b734fad4635sm1588133966b.26.2025.11.19.02.27.37
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 19 Nov 2025 02:27:39 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH 01/11] dt-bindings: display: meson-dw-hdmi: Add compatible
- for S4 HDMI controller
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-In-Reply-To: <8c3b9fa4-326e-4791-8154-07b268faa132@amlogic.com>
-Date: Wed, 19 Nov 2025 11:27:26 +0100
-Cc: ao.xu@amlogic.com, Neil Armstrong <neil.armstrong@linaro.org>,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECF810E5D0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 10:41:58 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82D78DD9;
+ Wed, 19 Nov 2025 11:39:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1763548792;
+ bh=g1jiTHE/fuydpOSP/XIfd73O3TS/XqiLkaHD1XH/nBo=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=NcNgdJKMiNTgRuyTdiJ7aUNkMdE9P8KIrgGnPffEoOsh5t6JfCn5qjkvs5owXDWwf
+ Em6YVHuEeF+mZsrFS6XyJerCKwkjkkf+0bQP73MAYh1zBzzgwRvA9RxpQM+sNoUiHy
+ YiM+W1UAn3vGxAh1PzE+EAuVoQbk6TzbBgWtx07I=
+Message-ID: <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
+Date: Wed, 19 Nov 2025 12:41:52 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
+To: Maxime Ripard <mripard@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <7703796D-35D4-4AD2-B7F8-B75D2BE0F7AD@gmail.com>
-References: <20250110-drm-s4-v1-0-cbc2d5edaae8@amlogic.com>
- <20250110-drm-s4-v1-1-cbc2d5edaae8@amlogic.com>
- <3AC316FA-A633-4B6C-81BA-CCCA290E7F03@gmail.com>
- <8c3b9fa4-326e-4791-8154-07b268faa132@amlogic.com>
-To: Chuan Liu <chuan.liu@amlogic.com>
-X-Mailer: Apple Mail (2.3826.700.81)
+ Simona Vetter <simona@ffwll.ch>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
+ <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
+ <20251118150128.GB23711@pendragon.ideasonboard.com>
+ <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
+ <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
+ <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,132 +114,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pls see inline
+Hi,
 
-> Wiadomo=C5=9B=C4=87 napisana przez Chuan Liu <chuan.liu@amlogic.com> w =
-dniu 19 lis 2025, o godz. 03:57:
->=20
-> Hi Piotr,
->=20
->=20
-> On 11/18/2025 10:50 PM, Piotr Oniszczuk wrote:
->> [You don't often get email from piotr.oniszczuk@gmail.com. Learn why =
-this is important at https://aka.ms/LearnAboutSenderIdentification ]
->> [ EXTERNAL EMAIL ]
->> Ao,
->> Is there any chance to get this s4 drm hdmi series for current 6.18?
->> (i tried backport this series to 6.18 but have some issues with =
-reparent vpu_0_sel to sysclk_b_sel)
->=20
-> Why do we need to reparent vpu_0_sel to sysclk_b_sel? is there any
-> background here?
+On 19/11/2025 11:19, Maxime Ripard wrote:
+> On Tue, Nov 18, 2025 at 07:10:47PM +0100, Linus Walleij wrote:
+>> On Tue, Nov 18, 2025 at 4:44 PM Maxime Ripard <mripard@kernel.org> wrote:
+>>> On Tue, Nov 18, 2025 at 05:01:28PM +0200, Laurent Pinchart wrote:
+>>>> On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
+>>
+>>>>> +/**
+>>>>> + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic update
+>>>>
+>>>> Based on the function name, it feels that the nem commit tail and
+>>>> modeset enable/disable helpers reached a point where we may want to
+>>>> reconsider the design instead of adding new functions with small
+>>>> differences in behaviour that will end up confusing driver developers.
+>>>
+>>> Agreed, and I'd go even further than that: we don't want every odd order
+>>> in the core. And if some driver has to break the order we document in
+>>> some way it should be very obvious.
+>>
+>> Is this just a comment on this patch 3/3?
+>>
+>> Or do you mean that Mareks new callback
+>> drm_atomic_helper_commit_modeset_enables_crtc_early()
+>> from patch 1/2 should go straight into the R-Car driver as well
+>> and that
+>> drm_atomic_helper_commit_modeset_disables_crtc_late()
+>> patch 2/2 should also go into my driver, even if this
+>> is a comment on patch 3/3?
+>>
+>> Both patches 1 & 2 have a lot to do with ordering, this is
+>> why I ask.
+> 
+> I mean, it applies to all your three patches and Marek's: helpers are
+> here to provide a default implementation. We shouldn't provide a default
+> implementation for a single user. All your patches enable to create
+> defaults for a single user.
 
-Well - it looks it is because bug....
-Martin Blumenstingl had perfect eye and catch typo in patch =
-https://lore.kernel.org/all/20250110-drm-s4-v1-11-cbc2d5edaae8@amlogic.com=
-/:
+Two users so far: Renesas and ST-Ericsson.
 
-By replacing:
-assigned-clock-parents =3D <&clkc_periphs CLKID_FCLK_DIV3>,
-<0>, /* Do Nothing */
-<&clkc_periphs CLKID_VPU_0>,
-<&clkc_periphs CLKID_FCLK_DIV4>,
-<0>, /* Do Nothing */
-<&clkc_periphs CLKID_VAPB_0>;
+> So my point is that none of those functions should be helpers.
+> 
+>> We already have
+>> drm_atomic_helper_commit_tail()
+>> drm_atomic_helper_commit_tail_rpm()
+> 
+> The former has 5 users, the latter 13. And it's already confusing enough
+> and regression-prone as it is.
+> 
+>> Does one more or less really matter? Maybe, I'm not sure,
+>> but if it's just this one patch that is the problem I can surely
+>> do it that way since we're only calling public functions.
+>>
+>> Pushing the first two patches would be more problematic,
+>> because they call a lot of functions that are local to the
+>> drm atomic helpers.
+> 
+> I'm totally fine with making more internal functions public though.
+While I generally agree with that, I still wonder if an implementation
+in the core is better here. Perhaps a flag in struct drm_driver, instead
+of new set of helpers.
 
-with:
-assigned-clock-parents =3D <&clkc_pll CLKID_FCLK_DIV3>,
-<0>, /* Do Nothing */
-<&clkc_periphs CLKID_VPU_0>,
-<&clkc_pll CLKID_FCLK_DIV4>,
-<0>, /* Do Nothing */
-<&clkc_periphs CLKID_VAPB_0>;
+Moving this to the driver would require (with a quick glance) exposing
+the following functions:
 
-dmesg is like this https://termbin.com/6020
+crtc_enable
+crtc_disable
+crtc_set_mode
+encoder_bridge_pre_enable
+encoder_bridge_enable
+encoder_bridge_disable
+encoder_bridge_post_disable
 
-So i'm getting hdmi working - but only when device boots _without_ =
-connected hdmi at boot (and connected later)
-If hdmi is connected at boot - boot hangs at:
+Not impossible to expose, but making a private function public does
+require work in validating the function for more general use, and adding
+kernel docs.
 
-    0.341676] meson-dw-hdmi fe300000.hdmi-tx: Detected HDMI TX =
-controller v2.01a with HDCP (meson_dw_hdmi_phy)
-[    0.342750] meson-dw-hdmi fe300000.hdmi-tx: registered DesignWare =
-HDMI I2C bus driver
-[    0.343660] meson-drm ff000000.vpu: bound fe300000.hdmi-tx (ops =
-meson_dw_hdmi_ops)
-[    0.344832] [drm] Initialized meson 1.0.0 for ff000000.vpu on minor 0
+Handling this in the core would act as documentation too, so instead of
+the driver doing things in a different way "hidden" inside the driver,
+it would be a standard quirk, clearly documented.
 
-FYI: It is after applying =
-https://patchwork.kernel.org/project/linux-amlogic/cover/20250110-drm-s4-v=
-1-0-cbc2d5edaae8@amlogic.com/ on mainline 6.18 (with some my adjustments =
-on this series required by changes in 6.18).=20
-For VPU clk changes see =
-https://github.com/warpme/minimyth2/blob/master/script/kernel/linux-6.18/f=
-iles/0312-drm-meson-add-vpu-clk-setting-for-S4.patch=20
-It is 6.18 adaptation of =
-https://patchwork.kernel.org/project/linux-amlogic/patch/20250110-drm-s4-v=
-1-9-cbc2d5edaae8@amlogic.com/
+Also, I'm also not sure how rare this quirk is. In fact, I feel we're
+missing ways to handle the enable/disable related issues in the core
+framework. In these patches we're talking about the case where the SoC's
+DSI host needs an incoming pclk to operate, and panels need to do
+configuration before the video stream is enabled. But the exact same
+problem could be present with an external DSI bridge, and then we can't
+fix it in the crtc driver.
 
-As kernel hangs - i have limited caps to drill where root cause is.=20
- =20
-Maybe above hang is reason of my backports or missing any pre-req =
-required to get s4 drm working?
-Anyway - it will be good to test with updated to 6.18 series of Add DRM =
-support for Amlogic S4 (plus info about any pre-req required to get s4 =
-drm working)  =20
-    =20
+So the question becomes "does any component in the pipeline need the
+video stream's clock to operate". But then, it doesn't help if the crtc
+output is enabled early if any bridge in between does not also enable
+its output early. So it all gets a bit complex.
 
->=20
-> The vpu_clk on S4 doesn't support sysclk_b_sel as one of its
-> selectable clock sources, so this reparent operation will definitely
-> fail. This has nothing to do with the kernel version.
->=20
->>> Wiadomo=C5=9B=C4=87 napisana przez Ao Xu via B4 Relay =
-<devnull+ao.xu.amlogic.com@kernel.org> w dniu 10 sty 2025, o godz. =
-06:39:
->>>=20
->>> From: Ao Xu <ao.xu@amlogic.com>
->>>=20
->>> Add devicetree document for S4 HDMI controller
->>>=20
->>> Signed-off-by: Ao Xu <ao.xu@amlogic.com>
->>> ---
->>> Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml =
-| 1 +
->>> 1 file changed, 1 insertion(+)
->>>=20
->>> diff --git =
-a/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml =
-b/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
->>> index =
-84d68b8cfccc86fd87a6a0fd2b70af12e51eb8a4..6e0a8369eee915fab55af24d450a6c40=
-e08def38 100644
->>> --- =
-a/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
->>> +++ =
-b/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
->>> @@ -55,6 +55,7 @@ properties:
->>>           - const: amlogic,meson-gx-dw-hdmi
->>>       - enum:
->>>           - amlogic,meson-g12a-dw-hdmi # G12A (S905X2, S905Y2, =
-S905D2)
->>> +          - amlogic,meson-s4-dw-hdmi # S4 (S905Y4)
->>>=20
->>>   reg:
->>>     maxItems: 1
->>>=20
->>> --
->>> 2.43.0
->>>=20
->>>=20
->>>=20
->>> _______________________________________________
->>> linux-amlogic mailing list
->>> linux-amlogic@lists.infradead.org
->>> http://lists.infradead.org/mailman/listinfo/linux-amlogic
->> _______________________________________________
->> linux-amlogic mailing list
->> linux-amlogic@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-amlogic
->=20
+And sometimes the clocks go backward: the entity on the downstream side
+provides a clock backwards, to the source entity...
+
+But I digress. I think initially we should just look for a clean fix for
+the platforms affected:
+
+- Add the implementation into the drivers?
+- Add helpers to the core?
+- Add a flag of some kind so the core can do the right thing?
+
+I made a quick test with the flag approach, below. It's not many lines,
+but... Ugh, it does feel like a hack.
+
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index d5ebe6ea0acb..8225aae43e3b 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -1341,9 +1341,13 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *state)
+>  {
+>         encoder_bridge_disable(dev, state);
+>  
+> -       crtc_disable(dev, state);
+> +       if (!dev->driver->crtc_early_on)
+> +               crtc_disable(dev, state);
+>  
+>         encoder_bridge_post_disable(dev, state);
+> +
+> +       if (dev->driver->crtc_early_on)
+> +               crtc_disable(dev, state);
+>  }
+>  
+>  /**
+> @@ -1682,9 +1686,13 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
+>  void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
+>                                               struct drm_atomic_state *state)
+>  {
+> +       if (dev->driver->crtc_early_on)
+> +               crtc_enable(dev, state);
+> +
+>         encoder_bridge_pre_enable(dev, state);
+>  
+> -       crtc_enable(dev, state);
+> +       if (!dev->driver->crtc_early_on)
+> +               crtc_enable(dev, state);
+>  
+
+ Tomi
 
