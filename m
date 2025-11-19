@@ -2,63 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CCD2C6D659
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 09:26:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D04C7182C
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 01:10:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F7C010E5A9;
-	Wed, 19 Nov 2025 08:26:25 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ncQv555x";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0FC710E6B9;
+	Thu, 20 Nov 2025 00:10:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B55610E5A9
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 08:26:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8547660123;
- Wed, 19 Nov 2025 08:26:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D67BBC116B1;
- Wed, 19 Nov 2025 08:26:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763540780;
- bh=jcPepnZLZgpDua5txvocFEmcFpPGA3RIdeogtsflON8=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=ncQv555xAkzsNq2E8THOD/w5ae5i9Vr778lCVxm6zsdvcDRuydmic8J35CTOIQbDQ
- Cjz0+BieySvLVT9Qa1oDXyYYSM1ZNxwVxHBZI7OV6FpTwiAa98TYgDtMLqyQiH9DkW
- r+Xgkg8YjVirW7S+sOHqoLWEd7Pu+LVQgq9ApRnHTudpvOhzKNGNCEI6jIi0R9b9iL
- DFH8QwU7zjfhpSD6KZ9fnuik1d4iKzHInsTHwOWWm0cGgBgPRtJ1YM1/JDcvFSTgUz
- P3dk94qSyZ4f48+rM1YNPOSugSnB9zLNGGxwC08y7DpP512ah1Ou2nmZwFGSlkQV8M
- Rv8pVr4ixh3Hw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id A4A8FCF259E;
- Wed, 19 Nov 2025 08:26:19 +0000 (UTC)
-From: Petri Karhula via B4 Relay <devnull+petri.karhula.novatron.fi@kernel.org>
-Date: Wed, 19 Nov 2025 08:25:47 +0000
-Subject: [PATCH v2 2/2] mfd: cgbc: Add support for backlight
+Received: from out28-93.mail.aliyun.com (out28-93.mail.aliyun.com
+ [115.124.28.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E72B10E5AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 08:28:48 +0000 (UTC)
+Received: from aliyun.com(mailfrom:zhangzhijie@bosc.ac.cn
+ fp:SMTPD_---.fQ5Hg1C_1763540924 cluster:ay29) by smtp.aliyun-inc.com;
+ Wed, 19 Nov 2025 16:28:45 +0800
+From: zhangzhijie <zhangzhijie@bosc.ac.cn>
+To: Hawking.Zhang@amd.com, zhangzhijie@bosc.ac.cn, wangran@bosc.ac.cn,
+ zhangjian@bosc.ac.cn, alexander.deucher@amd.com, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: botton_zhang@163.com
+Subject: [PATCH v1] tests: Add test suite for double-checking userptr write
+ validity and VRAM
+Date: Wed, 19 Nov 2025 16:28:41 +0800
+Message-Id: <20251119082841.1179938-1-zhangzhijie@bosc.ac.cn>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251119-cgbc-backlight-v2-2-4d4edd7ca662@novatron.fi>
-References: <20251119-cgbc-backlight-v2-0-4d4edd7ca662@novatron.fi>
-In-Reply-To: <20251119-cgbc-backlight-v2-0-4d4edd7ca662@novatron.fi>
-To: Thomas Richard <thomas.richard@bootlin.com>, Lee Jones <lee@kernel.org>, 
- Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
- Helge Deller <deller@gmx.de>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, Petri Karhula <petri.karhula@novatron.fi>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763540778; l=730;
- i=petri.karhula@novatron.fi; s=20251118; h=from:subject:message-id;
- bh=KPNSZCbWidPbzGQwgMCbuFj/C6Dnnhi7zAXThQ+Pso8=;
- b=A7+u4KN5Q5OzUvkb74yRsfjSwPDVsYz3jVlv1sGdlQe1+mLVQgad1xROxS1PTS1iZ1WxiMgXK
- 3nCRWzu6gzTCiIKkZwybI23Dy0+poEOu0GLUs3La79VILxRSokKxgXM
-X-Developer-Key: i=petri.karhula@novatron.fi; a=ed25519;
- pk=LRYJ99jPPsHJwdJEPkqlmzAMqo6oyw7I421aHEfDp7o=
-X-Endpoint-Received: by B4 Relay for petri.karhula@novatron.fi/20251118
- with auth_id=567
-X-Original-From: Petri Karhula <petri.karhula@novatron.fi>
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 20 Nov 2025 00:10:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,35 +41,191 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: petri.karhula@novatron.fi
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Petri Karhula <petri.karhula@novatron.fi>
+Userptr resides in host memory, and PCIe writes involve cache coherence.
+By using SDMA to copy GTT to VRAM and then verifying the values in VRAM, we can validate GTT cache coherence.
 
-The Board Controller has control for display backlight.
-Add backlight cell for the cgbc-backlight driver which
-adds support for backlight brightness control.
+Bo(Userptr) ----> SDMA ---> Bo(userptr) ----sdma-----> VRAM
 
-Signed-off-by: Petri Karhula <petri.karhula@novatron.fi>
+Signed-off-by: zhangzhijie <zhangzhijie@bosc.ac.cn>
 ---
- drivers/mfd/cgbc-core.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/amdgpu/basic_tests.c | 155 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 155 insertions(+)
 
-diff --git a/drivers/mfd/cgbc-core.c b/drivers/mfd/cgbc-core.c
-index 4782ff1114a9..10bb4b414c34 100644
---- a/drivers/mfd/cgbc-core.c
-+++ b/drivers/mfd/cgbc-core.c
-@@ -237,6 +237,7 @@ static struct mfd_cell cgbc_devs[] = {
- 	{ .name = "cgbc-i2c", .id = 1 },
- 	{ .name = "cgbc-i2c", .id = 2 },
- 	{ .name = "cgbc-hwmon"	},
-+	{ .name = "cgbc-backlight" },
- };
+diff --git a/tests/amdgpu/basic_tests.c b/tests/amdgpu/basic_tests.c
+index 0e4a357b..223a9b0b 100644
+--- a/tests/amdgpu/basic_tests.c
++++ b/tests/amdgpu/basic_tests.c
+@@ -2061,12 +2061,167 @@ static void amdgpu_command_submission_sdma_copy_linear(void)
+ {
+ 	amdgpu_command_submission_copy_linear_helper(AMDGPU_HW_IP_DMA);
+ }
++static void amdgpu_command_userptr_copy_to_vram_linear(void)
++{
++	int i, r, j;
++	uint32_t *pm4 = NULL;
++	uint64_t bo_mc;
++	void *ptr = NULL;
++	int pm4_dw = 256;
++	int sdma_write_length = 4;
++	amdgpu_bo_handle handle;
++	amdgpu_context_handle context_handle;
++	struct amdgpu_cs_ib_info *ib_info;
++	struct amdgpu_cs_request *ibs_request;
++	amdgpu_bo_handle buf_handle;
++	amdgpu_va_handle va_handle;
++
++	amdgpu_bo_handle bo1;
++	amdgpu_bo_handle *resources;
++	uint64_t bo1_mc;
++	volatile unsigned char *bo1_cpu;
++	amdgpu_va_handle bo1_va_handle;
++
++
++	r = amdgpu_bo_alloc_and_map(device_handle,
++				sdma_write_length, 4096,
++				AMDGPU_GEM_DOMAIN_VRAM,
++				AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED, &bo1,
++				(void**)&bo1_cpu, &bo1_mc,
++				&bo1_va_handle);
++	CU_ASSERT_EQUAL(r, 0);
++	/* set bo1 */
++	memset((void*)bo1_cpu, 0xaa, sdma_write_length);
++
++	pm4 = calloc(pm4_dw, sizeof(*pm4));
++	CU_ASSERT_NOT_EQUAL(pm4, NULL);
++
++	ib_info = calloc(1, sizeof(*ib_info));
++	CU_ASSERT_NOT_EQUAL(ib_info, NULL);
++
++	ibs_request = calloc(1, sizeof(*ibs_request));
++	CU_ASSERT_NOT_EQUAL(ibs_request, NULL);
++
++	r = amdgpu_cs_ctx_create(device_handle, &context_handle);
++	CU_ASSERT_EQUAL(r, 0);
++
++	posix_memalign(&ptr, sysconf(_SC_PAGE_SIZE), BUFFER_SIZE);
++	CU_ASSERT_NOT_EQUAL(ptr, NULL);
++	memset(ptr, 0, BUFFER_SIZE);
++
++	r = amdgpu_create_bo_from_user_mem(device_handle,
++					   ptr, BUFFER_SIZE, &buf_handle);
++	CU_ASSERT_EQUAL(r, 0);
++
++	r = amdgpu_va_range_alloc(device_handle,
++				  amdgpu_gpu_va_range_general,
++				  BUFFER_SIZE, 1, 0, &bo_mc,
++				  &va_handle, 0);
++	CU_ASSERT_EQUAL(r, 0);
++
++	r = amdgpu_bo_va_op(buf_handle, 0, BUFFER_SIZE, bo_mc, 0, AMDGPU_VA_OP_MAP);
++	CU_ASSERT_EQUAL(r, 0);
++
++	handle = buf_handle;
++
++	j = i = 0;
++
++	if (family_id == AMDGPU_FAMILY_SI)
++		pm4[i++] = SDMA_PACKET_SI(SDMA_OPCODE_WRITE, 0, 0, 0,
++				sdma_write_length);
++	else
++		pm4[i++] = SDMA_PACKET(SDMA_OPCODE_WRITE,
++				SDMA_WRITE_SUB_OPCODE_LINEAR, 0);
++	pm4[i++] = 0xffffffff & bo_mc;
++	pm4[i++] = (0xffffffff00000000 & bo_mc) >> 32;
++	if (family_id >= AMDGPU_FAMILY_AI)
++		pm4[i++] = sdma_write_length - 1;
++	else if (family_id != AMDGPU_FAMILY_SI)
++		pm4[i++] = sdma_write_length;
++
++	while (j++ < sdma_write_length)
++		pm4[i++] = 0xdeadbeaf;
++
++	if (!fork()) {
++		pm4[0] = 0x0;
++		exit(0);
++	}
++
++	amdgpu_test_exec_cs_helper(context_handle,
++				   AMDGPU_HW_IP_DMA, 0,
++				   i, pm4,
++				   1, &handle,
++				   ib_info, ibs_request);
++
++	i = 0;
++	sdma_write_length = 1024;
++	if (family_id == AMDGPU_FAMILY_SI) {
++		pm4[i++] =
++		SDMA_PACKET_SI(SDMA_OPCODE_COPY_SI, 0, 0, 0, sdma_write_length);
++		pm4[i++] = 0xffffffff & bo1_mc;
++		pm4[i++] = 0xffffffff & bo_mc;
++		pm4[i++] = (0xffffffff00000000 & bo1_mc) >> 32;
++		pm4[i++] = (0xffffffff00000000 & bo_mc) >> 32;
++	} else {
++		pm4[i++] =
++		SDMA_PACKET(SDMA_OPCODE_COPY, SDMA_COPY_SUB_OPCODE_LINEAR, 0);
++		if (family_id >= AMDGPU_FAMILY_AI)
++			pm4[i++] = sdma_write_length - 1;
++		else
++			pm4[i++] = sdma_write_length;
++		pm4[i++] = 0;
++		pm4[i++] = 0xffffffff & bo_mc;
++		pm4[i++] = (0xffffffff00000000 & bo_mc) >> 32;
++		pm4[i++] = 0xffffffff & bo1_mc;
++		pm4[i++] = (0xffffffff00000000 & bo1_mc) >> 32;
++	}
++	/* prepare resource */
++	resources = calloc(2, sizeof(amdgpu_bo_handle));
++	CU_ASSERT_NOT_EQUAL(resources, NULL);
++
++	resources[0] = bo1;
++	resources[1] = handle;
++	amdgpu_test_exec_cs_helper(context_handle,
++					AMDGPU_HW_IP_DMA, 0,
++					i, pm4,
++					2, resources,
++					ib_info, ibs_request);
++
++	i = 0;
++	while (i < 4) {
++		CU_ASSERT_EQUAL(((int*)ptr)[i++], 0xdeadbeaf);
++	}
++
++	i = 0;
++	while (i < 4) {
++		CU_ASSERT_EQUAL(((int*)bo1_cpu)[i++], 0xdeadbeaf);
++	}
++	free(ibs_request);
++	free(ib_info);
++	free(pm4);
++
++	r = amdgpu_bo_va_op(buf_handle, 0, BUFFER_SIZE, bo_mc, 0, AMDGPU_VA_OP_UNMAP);
++	CU_ASSERT_EQUAL(r, 0);
++	r = amdgpu_va_range_free(va_handle);
++	CU_ASSERT_EQUAL(r, 0);
++	r = amdgpu_bo_free(buf_handle);
++	CU_ASSERT_EQUAL(r, 0);
++	free(ptr);
++	r = amdgpu_bo_unmap_and_free(bo1, bo1_va_handle, bo1_mc,
++						sdma_write_length);
++	CU_ASSERT_EQUAL(r, 0);
++	r = amdgpu_cs_ctx_free(context_handle);
++	CU_ASSERT_EQUAL(r, 0);
++
++	wait(NULL);
++}
  
- static int cgbc_map(struct cgbc_device_data *cgbc)
-
+ static void amdgpu_command_submission_sdma(void)
+ {
+ 	amdgpu_command_submission_sdma_write_linear();
+ 	amdgpu_command_submission_sdma_const_fill();
+ 	amdgpu_command_submission_sdma_copy_linear();
++	amdgpu_command_userptr_copy_to_vram_linear();
+ }
+ 
+ static void amdgpu_command_submission_multi_fence_wait_all(bool wait_all)
 -- 
 2.34.1
-
 
