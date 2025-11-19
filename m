@@ -2,58 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98250C716A1
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 00:06:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E55C71657
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 23:58:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2F7610E269;
-	Wed, 19 Nov 2025 23:06:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C93CA10E26C;
+	Wed, 19 Nov 2025 22:57:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=runbox.com header.i=@runbox.com header.b="mDlHjQLr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IIMBclnP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1438 seconds by postgrey-1.36 at gabe;
- Wed, 19 Nov 2025 23:06:35 UTC
-Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com
- [185.226.149.38])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E17E10E269
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 23:06:35 +0000 (UTC)
-Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
- by mailtransmit05.runbox.com with esmtps (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
- (envelope-from <david.laight.linux_spam@runbox.com>)
- id 1vLqsl-006ksI-Lg; Wed, 19 Nov 2025 23:42:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com; 
- s=selector1;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To
- :Message-Id:Date:Subject:Cc:To:From;
- bh=KZaeZLqE5bpE2oI7JueUUAQfCDTGIs3rJJZPcaqXWlw=; b=mDlHjQLr3ylsbhaToLWMaW21yW
- 3UVy21XkacH0+aMXmbQJGgcaEEUcpaPdkWRfbeLgpnQWeuE5UazmtfWFCAxw4PAywzYxbWcWRE5wi
- yydZf/9QgusRj2ZIM70TwSLTYD0H8U34DcCttEXjGzQbWV1vIw2D5mA1dbb/AfJUSZxy0gC0UxGzm
- 3mhsqOossZ8FbtNoL7e/1hiK5mJJTtkE/SebrhXQF2cSm2NHVTf/4d9Tp7280RfRfVkSEXjg0swpr
- Gkjt72YT776jjIc8yqIXhdAFDxwNP31J3hEXpaDULau580GcJrDs4cTQLlPfzOIXGaBPL2mH0NWnz
- RW6tI2CQ==;
-Received: from [10.9.9.74] (helo=submission03.runbox)
- by mailtransmit03.runbox with esmtp (Exim 4.86_2)
- (envelope-from <david.laight.linux_spam@runbox.com>)
- id 1vLqsk-00005F-RE; Wed, 19 Nov 2025 23:42:35 +0100
-Received: by submission03.runbox with esmtpsa [Authenticated ID (1493616)]
- (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
- (Exim 4.93) id 1vLqsd-00Fos6-R9; Wed, 19 Nov 2025 23:42:27 +0100
-From: david.laight.linux@gmail.com
-To: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Simona Vetter <simona@ffwll.ch>,
- David Laight <david.laight.linux@gmail.com>
-Subject: [PATCH 19/44] drivers/gpu/drm/amd: use min() instead of min_t()
-Date: Wed, 19 Nov 2025 22:41:15 +0000
-Message-Id: <20251119224140.8616-20-david.laight.linux@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20251119224140.8616-1-david.laight.linux@gmail.com>
-References: <20251119224140.8616-1-david.laight.linux@gmail.com>
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com
+ [209.85.160.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55FDB10E26C
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 22:57:56 +0000 (UTC)
+Received: by mail-oa1-f49.google.com with SMTP id
+ 586e51a60fabf-3d56d0cb3dbso97644fac.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 14:57:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1763593075; x=1764197875; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=h36tUBqnvI9yhQ8wG7TJEWs6puqGdITr1kLVhg1nmeM=;
+ b=IIMBclnPnFBRVevwLIj6Wy2qoTafvekh9s/absZj7vmtxKkdiu1WNl7e6qtlyzewsE
+ NRAcwgA+sDEYLuzAkBu2ZmIutRT102yIw3rqnN0PhuvQVsI5mvNciMO8zpKixgZtYIll
+ 1MhIMWvkK5T5QOx4wStF4JfWii3phgNiCSy3OFEqRV9wwp5SaCaM7ADvw+eznMeAF4mU
+ mPQC2BVp5vxG1akvkQ6/dzswKjAkuXrEnX1bnrgZyI86BiPdG9YaE+ihU4fzRGnXSpHn
+ KLiWYUpG2p0umELl6XfU7QMrc5rT/DG8FW+c/ZxX1BHbI1FJdAu1L+NUWKcdm2IGj6pr
+ og9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763593075; x=1764197875;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=h36tUBqnvI9yhQ8wG7TJEWs6puqGdITr1kLVhg1nmeM=;
+ b=cocEHVnJ0X7X8hXL9jpdyDoUuDWqPm9qkN1erPgjA7qIORqqAFtW5umUfLqZPjsxAF
+ C3q24rJ4vk8hQ5SDWvT1DFL6s+jmr0YBxUQEy92PSxRlhOazifB/ZW0aLUvajDWEcVvo
+ aP0m7qumLfcy/WDWokh7QWvAipYIfMNdby0iSl3VSdDAvV9QkkDSxGMrOxUGmcN8dh9h
+ fNTfe74AxTs/oIZvz7vHnLgWVK667Bcr/swITwJX99JwZVER1L+hZCI/Tf1yZECroR1Y
+ OS3MXOBqSMfJpN1bfY7PO/+dBjKNnAZxkCW0hO88L9jPXyJiF/WROFxPvyH7igvp4CN2
+ mNkQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVItpMWbk72au7lQnBiJvaUVmIQfQ2aQ0EkWtAUMYew9Fsgudc1ecz2umdV9L2Nd5vGwmcOf9mArtU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwWeTyxFEbjBdnSIQ4HO+YnW2IBoJFSvx+07qVsuypJBHcRS/lW
+ tRV6Y0LOWm95hDzHU8QlsNjXcdrAmybDLfLHQD9jNM9lIANwFC9wSu0A
+X-Gm-Gg: ASbGncuoGEOkVpm1iW/mKQ3/974whcHkr5lkfALTZYQ7wOmeiESu/MXZAk/dqAqCxyP
+ 1TYd50f4RK0nW+ZWu+64mdamiIC3ClK/8lhJ4rBQ9t01nuHWSInyP9jSe6iIXOfke7fcC0oszy6
+ 7S5riuOnIWw4hzBPROLTlBa+QEHTrrpnnhK+AfacrtMSLbss48rC3f+qwXRtAwuQIPutraFO83T
+ h/QbO5c7u64/hkk8HYMSgwbWBwGr4IIQfcS9kMrhudj/H3/VBdGr8/6NWGIaSlTDxaphKG0fkUY
+ NFy//aBbXigRt2xrfgQ/jbUkM2241ecA/bCDiGuw05AnjttWY4JO0AwyqDUxJY9WjDj5DmPT5+J
+ rxnodpbIvk54xT6nK4pjYjyhktJE9l123tXTBc35C/oLyHb+2WKov2fhLxS4oDE2Y5CwrKerSDR
+ 3rd4xOp6radRC6M7HpObQ=
+X-Google-Smtp-Source: AGHT+IH9wEc6Xu5Y63+EI3sJOazQtxFAgXXLwWcD3isoAJkSTUE+rwJ88T80ylQPY6WT6pNzdbF2mw==
+X-Received: by 2002:a05:6871:5206:b0:3d4:876:34b1 with SMTP id
+ 586e51a60fabf-3eca16ac768mr138953fac.33.1763593075407; 
+ Wed, 19 Nov 2025 14:57:55 -0800 (PST)
+Received: from localhost.localdomain ([2600:1700:fb0:1bc0::54])
+ by smtp.gmail.com with ESMTPSA id
+ 586e51a60fabf-3ec9dcfe28csm346496fac.22.2025.11.19.14.57.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Nov 2025 14:57:54 -0800 (PST)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: linux-rockchip@lists.infradead.org
+Cc: mripard@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org,
+ rfoss@kernel.org, tzimmermann@suse.de, jonas@kwiboo.se,
+ neil.armstrong@linaro.org, heiko@sntech.de,
+ sebastian.reichel@collabora.com, jernej.skrabec@gmail.com,
+ dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
+ andy.yan@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org,
+ Laurent.pinchart@ideasonboard.com, cristian.ciocaltea@collabora.com,
+ Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH V3 0/3] Add HDMI for Gameforce Ace
+Date: Wed, 19 Nov 2025 16:55:23 -0600
+Message-ID: <20251119225526.70588-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,66 +93,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Laight <david.laight.linux@gmail.com>
+From: Chris Morgan <macromorgan@hotmail.com>
 
-min_t(unsigned int, a, b) casts an 'unsigned long' to 'unsigned int'.
-Use min(a, b) instead as it promotes any 'unsigned int' to 'unsigned long'
-and so cannot discard significant bits.
+Add support for the micro HDMI port for the Gameforce Ace. This port does
+not have a HPD pin so it requires making changes to the HDMI controller
+to support this configuration.
 
-min_t(u8, a, b) is particularly likely to be problematic
+Changes since v1:
+ - Simplified checking of no-hpd parameter and changed to
+   device_property_read_bool() function.
 
-In this case I think the values are small enough that the result is ok.
+Changes since v2:
+ - Changed dev_dbg i2c read and write errors to i2c_dbg_ratelimited.
+ - Added a TODO: note in an appropriate location to disable or limit
+   the ability for this driver to enable scrambling when no_hpd = 1.
+   Scrambling is not currently supported by this driver but the author
+   expects that it will be soon.
 
-Detected by an extra check added to min_t().
+Chris Morgan (3):
+  dt-bindings: display: rockchip: Add no-hpd for dw-hdmi-qp controller
+  drm/bridge: dw-hdmi-qp: Add support for missing HPD
+  arm64: dts: rockchip: Add HDMI to Gameforce Ace
 
-Signed-off-by: David Laight <david.laight.linux@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c  | 4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c            | 2 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ .../rockchip/rockchip,rk3588-dw-hdmi-qp.yaml  |  6 ++
+ .../dts/rockchip/rk3588s-gameforce-ace.dts    | 63 +++++++++++++++++++
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c  | 34 ++++++++--
+ 3 files changed, 99 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c
-index 3040437d99c2..1eb88327a18b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c
-@@ -211,8 +211,8 @@ int amdgpu_doorbell_init(struct amdgpu_device *adev)
- 	adev->doorbell.size = pci_resource_len(adev->pdev, 2);
- 
- 	adev->doorbell.num_kernel_doorbells =
--		min_t(u32, adev->doorbell.size / sizeof(u32),
--		      adev->doorbell_index.max_assignment + 1);
-+		min(adev->doorbell.size / sizeof(u32),
-+		    adev->doorbell_index.max_assignment + 1);
- 	if (adev->doorbell.num_kernel_doorbells == 0)
- 		return -EINVAL;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index c1a801203949..124ce3e7310e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -2388,7 +2388,7 @@ void amdgpu_vm_adjust_size(struct amdgpu_device *adev, uint32_t min_vm_size,
- 	if (amdgpu_vm_block_size != -1)
- 		tmp >>= amdgpu_vm_block_size - 9;
- 	tmp = DIV_ROUND_UP(fls64(tmp) - 1, 9) - 1;
--	adev->vm_manager.num_level = min_t(unsigned int, max_level, tmp);
-+	adev->vm_manager.num_level = min(max_level, tmp);
- 	switch (adev->vm_manager.num_level) {
- 	case 3:
- 		adev->vm_manager.root_level = AMDGPU_VM_PDB2;
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 91c0188a29b2..0180675e76a4 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6257,7 +6257,7 @@ convert_color_depth_from_display_info(const struct drm_connector *connector,
- 		 * or if this was called outside of atomic check, so it
- 		 * can't be used directly.
- 		 */
--		bpc = min_t(u8, bpc, requested_bpc);
-+		bpc = umin(bpc, requested_bpc);
- 
- 		/* Round down to the nearest even number. */
- 		bpc = bpc - (bpc & 1);
 -- 
-2.39.5
+2.43.0
 
