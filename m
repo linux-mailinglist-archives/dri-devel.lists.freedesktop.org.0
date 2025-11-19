@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51C1C7034F
+	by mail.lfdr.de (Postfix) with ESMTPS id CC02AC70351
 	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 17:49:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CCC210E036;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99E4610E66F;
 	Wed, 19 Nov 2025 16:49:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xxUoJ0io";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nWP/RJXX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2349B10E0A1
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+ [209.85.221.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB7110E670
  for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 16:49:08 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-42b3b29153fso3791849f8f.3
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-42b32a3e78bso5652271f8f.0
  for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 08:49:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763570946; x=1764175746; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1763570947; x=1764175747; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fP3mEwFpsF6SroI//feXRB59U8Qjn1AbUsRd1VVvnew=;
- b=xxUoJ0io4QHBNtvz0nv9L1jq/0zLDMhUQeaAFBroPoot18yAWHOknsefQt95QUrwSI
- H09Lcd+YWCI6xsr6wnbCnn0jnhpcT8+VE+/KcHi5yBSV/LJS5sRk6Fi/h5MIGEr7XsQe
- 6Dhc+PcEGzZTwyiABxZl8B2juEbcL5g/w9iGl5jDa1BHkgOPgnLA+hmEM67eVxsMOXaE
- 8XG7iPfB6Yt01nYOB22CpNqJe0CDsVFCd+5A5FCOKGHb2IbYJaXow5mfGa6FmbTDFtYH
- uWlPr/l/o5nV3Z8eDDHXnHNL31AH0Y4izZk95jJfaLq8ZzOeg4aI8Rzj3uuIlTtGsfp0
- wfcA==
+ bh=MAVeFoaswclHa0AcFUTcFiWRrdY0VmDg5ArpLD6CciA=;
+ b=nWP/RJXXQtZxZZ+exPkI7kImJuR0HMyXhDvJU7RGRUfCOl4Ala2j6hLyOCOi7thsGC
+ R0tAffEATnKiGEiF8muy3UsfU7JFlkUWSH4nZxV+sYFedBx9O5e4qqUQShTi+lvCkgSf
+ kYkpgG93baCUm7sJY6PkFokYSLrZzr8NLazaYC0Vf3NvR7EGgGnOPF/0tJWnEQ/tS/N9
+ 1AgruYRho0EY1WHQhpTmFLOW+IBWrpWbICy4Gp9FpmC1/UOlFrTFbFOiVAy9eT+sWZSd
+ BOrPrKFBwZmBlui3EtlAzc7erpTogPDA5w0FlN4d9zwMiIKP+OAIB1bPxpKCa/Guw7JX
+ FiGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763570946; x=1764175746;
+ d=1e100.net; s=20230601; t=1763570947; x=1764175747;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=fP3mEwFpsF6SroI//feXRB59U8Qjn1AbUsRd1VVvnew=;
- b=XjjX1q152YFz6O0cUnhkDP8Oq11asZZfinDPtEsJtVJGUSbDUuJFrD55sOBEmmPsPV
- pcZ6vjHp3bIb+ChX+GvCd4U8Y9jrvugE/jH2h3dhpTIVJX6NxZK/UblyP5o87DqZEV4H
- Oobr7OKC/bW3WetJlXFbAG5DenfuigQEdWGWVDCJlYIL3SC8hZppoUE5lAnWacsi5gjs
- 2IGu6NapniTR0I2Paj2ICSTilrTPPlhjhZHf3bdZUnOtJy2CiQT5KRHBZes64L1Q5XFf
- bUfSz4/AmuVN49fcntkostNOXITBYT/4webqajhQ28JW7LH4eSrikfHdO8zdHld/UaLW
- 2qIQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXntfX1OAB6QKbH6/9qmWPqerh/EmXIWCrQG16cHMCzhzxu8XgsAy/pfmts4CoblhJgPlaBLveZxRA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwsnLbRoHsqroDpLiN9wYzM1o/Jcp/bJfjtTb1+WNib3X5ctzIs
- CFPkkAGN1yI08S9Yi7vyz/sIcDGl4EbwT6fVscgXzfpwLAkC9TyYHBiNCLbYM80yGaY=
-X-Gm-Gg: ASbGncszfga3TwZGZpoLmku+zEn97DfYN7A6Lj3Pgi3xInfktY2Nvp5GPKcJkCXEzZt
- H9O2rVbD+PtuvVaJt4w831g0//yxvh3+ebgOkVCnyj2vYGP25NgPbQoCt9MqaY030+QV8Eu1oBP
- zGJGuw0LhY5GmmgKU+Zq6otExlrDxbRV44wWMqA3COTF2czzshQMYTBcReGRtz9iNXQ4ABLaL6+
- c9BI1GvtGrYBPqdkuQmf+6dW8uzeM75t9HDMrGhSfrhMOLYumugQy3PKJB+CCgC+JDOeChvRFi3
- nNDOO01eJ/hq95/Uo7+zt0t/mn2tNBjA96QT/LJofq9jzcxcNPdo7pm/Bfw5VLfi2p6DLT0/nyV
- yNzht9Q5H/3zeEpm71Z9g9cq7fg9Na+hUm3G2xzwKEl7yR3rZ5qmMZTwkA0GmpMS6np9vMbK1NM
- C+U9+dyTJH8/c853OA2UDVEdfKUCLMnG0=
-X-Google-Smtp-Source: AGHT+IFJpIEuxRckg0fs35/YF1zumhfLI6hXTo+NQzpKlh4APBaEOe3Aa9NPbO0iCSdpBRsqom8cRA==
-X-Received: by 2002:a05:6000:401e:b0:42b:3cd2:e9bc with SMTP id
- ffacd0b85a97d-42cb1fb9793mr3572008f8f.39.1763570946125; 
+ bh=MAVeFoaswclHa0AcFUTcFiWRrdY0VmDg5ArpLD6CciA=;
+ b=fsOxkIucm9MCjNSVr0EVkHT3skhgBKAM+LuN8BQ/DMDqlkUOrbrc9RgUPDrDr23855
+ d21OPhB1L+dO+VyW0yrnP8ap9lR8UQ33m4/Y8bkf7oFfq4unLfSD9/hA4fXZgnJx9ELx
+ x9QEAJt10yOnqOfkD1/Bolt8+QFGs6rONLzjrgylXTgLKRwz5PEQKP+1o2Qm+xueCYaD
+ PlNkWchGOx+XnldhNlo4By/CcfYAk4CfAHVvCFSCDM1yEfdpY42nA6R+LoFxd+T92pvz
+ KWDvS2uTLw09WevxHFQ/mM8K2FTwsVfcYM7yOsRTdQz/4NFp4UHkC8jSAudegZ3Tsdw9
+ VJYA==
+X-Gm-Message-State: AOJu0YyBkkya32eZK+szfgF6K43eDcFezAxyc7Ac2jQuoxWIbhypPWQf
+ mEKgtVmv/dt5759q3sMFMcxcVg+CbL9/bycShdug06G3lBU7aTmrkDs0iornwIL1w3JQRfd5mWU
+ 2GgoL
+X-Gm-Gg: ASbGncumeL7DbYmGR9j6qnGRrbcq4k5yZ5g+FtxFF0Ur8DnhRzm72VszGru6S2XNd2d
+ ZGvDPIUXcFVcgV7CJx53my79wzPowjXAjID4Osm1HKaGXJ+GrbuInf2Gp7LloXRD9OJHCzso1IR
+ xyRmCzxUgMcNLKCa08GHpxptsyRrXzwQsXTWLHLAyg7w1lpCx//HdQ8qReHUlBaJd4CKx39wddf
+ PmVrI2+Bl/32ZBFghQf7lRxjjROAzrWQedqGlnwFX5jFEqgid8y9qM9X23piL40t4qHS0+vt7zT
+ 4W6fEkmE+cOLK6lc+p8Lp9XUXtQ56eBsdBeuSAhZWlWgADdh6J9IExE3s93jPnFxKMRBMuGcQEY
+ Mo3/vdAgh9z1dY9jWfH3LOI7yCxrWhE+Nf/fGmG8nyOeKVHybLXIrskHK7I90uvEujczPQEjfBN
+ 8AYSi8kX2rRbfrNbW9U+/T+Y8+pyLpbfsTnBGxpLXfhw==
+X-Google-Smtp-Source: AGHT+IG9qhpyv4WB6t6znXPIaFDtapZBfxWk8sGKUKqmefbXNbi1fqM47cho8l+8wzgsOUvP7ppYDg==
+X-Received: by 2002:a05:6000:2310:b0:42b:3131:5435 with SMTP id
+ ffacd0b85a97d-42b5933e378mr21281006f8f.2.1763570946937; 
  Wed, 19 Nov 2025 08:49:06 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42cb7fa3592sm117957f8f.21.2025.11.19.08.49.05
+ ffacd0b85a97d-42cb7fa3592sm117957f8f.21.2025.11.19.08.49.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Nov 2025 08:49:05 -0800 (PST)
+ Wed, 19 Nov 2025 08:49:06 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: jesszhan0024@gmail.com, dri-devel@lists.freedesktop.org, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- devicetree@vger.kernel.org, Fabio Estevam <festevam@nabladev.com>
-In-Reply-To: <20251115025827.3113790-1-festevam@gmail.com>
-References: <20251115025827.3113790-1-festevam@gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: Add Raystar
- Optronics, Inc
-Message-Id: <176357094533.280640.13259117637796979460.b4-ty@linaro.org>
-Date: Wed, 19 Nov 2025 17:49:05 +0100
+To: jagan@edgeble.ai, jessica.zhang@oss.qualcomm.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, 
+ Abhishek Rajput <abhiraj21put@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20251117064702.222424-1-abhiraj21put@gmail.com>
+References: <20251117064702.222424-1-abhiraj21put@gmail.com>
+Subject: Re: [PATCH] drm/panel: jadard-jd9365da-h3: Use dev_err_probe()
+ instead of DRM_DEV_ERROR() during probing
+Message-Id: <176357094628.280640.13903619645198145123.b4-ty@linaro.org>
+Date: Wed, 19 Nov 2025 17:49:06 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -95,22 +95,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, 14 Nov 2025 23:58:25 -0300, Fabio Estevam wrote:
-> Raystar Optronics is an LCD manufacturer based in Taiwan:
-> https://www.raystar-optronics.com/
-> 
-> Add a vendor prefix for it.
+On Mon, 17 Nov 2025 12:17:02 +0530, Abhishek Rajput wrote:
+> The DRM_DEV_ERROR() has been deprecated, and use dev_err_probe()
+> can be better. The other reason is that dev_err_probe() help avoid
+> unexpected repeated err logs during defered probing.
 > 
 > 
 
 Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-[1/3] dt-bindings: vendor-prefixes: Add Raystar Optronics, Inc
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/9c1cd9e01c46bca66df47a4775685a862114c3a7
-[2/3] dt-bindings: display: simple: Add Raystar RFF500F-AWH-DNN panel
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/1594c6da54838823f7f88f7b692bd917530f6bd3
-[3/3] drm/panel: simple: Add Raystar RFF500F-AWH-DNN panel entry
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/1b2a9ec82099a39611705884c446cd45b6738537
+[1/1] drm/panel: jadard-jd9365da-h3: Use dev_err_probe() instead of DRM_DEV_ERROR() during probing
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/c8fd04c0e73370486fcb9203a1c90c244b7fa1ed
 
 -- 
 Neil
