@@ -2,60 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E321FC711CF
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 22:09:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 055A8C716CD
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 00:14:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 023CD10E697;
-	Wed, 19 Nov 2025 21:09:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B1AF10E26D;
+	Wed, 19 Nov 2025 23:14:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="oBhzSkif";
+	dkim=pass (2048-bit key; unprotected) header.d=runbox.com header.i=@runbox.com header.b="PsN5RGYw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41C8F10E690;
- Wed, 19 Nov 2025 21:09:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1763586568;
- bh=LrJ1g/mq1v+P1H2W9YtowF9FN91OOwyC6sLp2U2TUlY=;
- h=Date:Subject:To:References:From:In-Reply-To:From;
- b=oBhzSkifGTm8y9o1E0H/MtIGYftr8h7ch5J+7dzvEVj8uqwXsN8cdElEYPWy6IZKA
- ziucCHlMQRH2RmQgCxhcJg2X1EI41OLdGH5vVIv9Gm4kMbEvwHxjV4MQd+sGLoOk/0
- c/7JavOLDHXljoeIcEP8VOC7FT5I88yu9XyNjoFoXbnlLLWVGYXva4nTSgk19s3SOQ
- xtlZ+h1pwXivLIMKPj/HQDaA5BJMDqhIAJI/kA+XNtPtZuOFufNsXX8yvvoGBGAztF
- I60+hlZKY/5+4Nh+19jvzjToJ3nRYdcD4+TkEdePoujy73ZDv3Vq4rDZgyFY03iBas
- gyyW4mRVW5iPg==
-Received: from [192.168.1.90] (unknown [82.79.138.145])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id CB80217E107C;
- Wed, 19 Nov 2025 22:09:27 +0100 (CET)
-Message-ID: <dd1717b7-4e20-4ed7-ae08-7286713d4a71@collabora.com>
-Date: Wed, 19 Nov 2025 23:09:27 +0200
+Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com
+ [185.226.149.38])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFFEE10E26D;
+ Wed, 19 Nov 2025 23:14:33 +0000 (UTC)
+Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
+ by mailtransmit05.runbox.com with esmtps (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+ (envelope-from <david.laight.linux_spam@runbox.com>)
+ id 1vLqsC-006kl6-Cb; Wed, 19 Nov 2025 23:42:00 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com; 
+ s=selector1;
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
+ Subject:Cc:To:From; bh=vH8FIvcSxGANwVWko1oGmXX5GS5gNWUC/JCXBzpAFv8=; b=PsN5RG
+ Yw4adVp36kJvtQBzaOeT30b6SW8wtA5jYGrJdbMMMsYsvDj4CzgnWokM1Sou28r+uOGKmcLsCEfjF
+ x7vRqk4x0ZUk5Q3m4pLyHeUUi+2iNW4NTnKESfxwnZdG/Am3FVwILrLSmsIUe5z7hIsRaqS00FKIb
+ wpBgN3ajl01apzJtdlTrMHmSUaRE77jg78EefkqX+M/OVhBFzrdgCcdKMETn1d8vUsGL8F9h+RdA+
+ wbd/Fhu7XqijCSkRTMRCMNALzN5ANR/Nkxu1LF1FZnjDAvEZUMlegQ7pY4fPBR4It4haMp7qd5v5s
+ K6zPsakFUTM6CKZVixkuDzeoxeCg==;
+Received: from [10.9.9.74] (helo=submission03.runbox)
+ by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+ (envelope-from <david.laight.linux_spam@runbox.com>)
+ id 1vLqs5-0007yi-PP; Wed, 19 Nov 2025 23:41:53 +0100
+Received: by submission03.runbox with esmtpsa [Authenticated ID (1493616)]
+ (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.93) id 1vLqs1-00Fos6-6h; Wed, 19 Nov 2025 23:41:49 +0100
+From: david.laight.linux@gmail.com
+To: linux-kernel@vger.kernel.org
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Alexei Starovoitov <ast@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Andreas Dilger <adilger.kernel@dilger.ca>, Andrew Lunn <andrew@lunn.ch>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andrii Nakryiko <andrii@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Ard Biesheuvel <ardb@kernel.org>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Borislav Petkov <bp@alien8.de>,
+ Christian Brauner <brauner@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Christoph Hellwig <hch@lst.de>, Daniel Borkmann <daniel@iogearbox.net>,
+ Dan Williams <dan.j.williams@intel.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, David Ahern <dsahern@kernel.org>,
+ David Hildenbrand <david@redhat.com>, Davidlohr Bueso <dave@stgolabs.net>,
+ "David S. Miller" <davem@davemloft.net>, Dennis Zhou <dennis@kernel.org>,
+ Eric Dumazet <edumazet@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Herbert Xu <herbert@gondor.apana.org.au>, Ingo Molnar <mingo@redhat.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jakub Sitnicki <jakub@cloudflare.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>, Jens Axboe <axboe@kernel.dk>,
+ Jiri Slaby <jirislaby@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ John Allen <john.allen@amd.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Juergen Gross <jgross@suse.com>, Kees Cook <kees@kernel.org>,
+ KP Singh <kpsingh@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Mika Westerberg <westeri@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Miklos Szeredi <miklos@szeredi.hu>, Namhyung Kim <namhyung@kernel.org>,
+ Neal Cardwell <ncardwell@google.com>, nic_swsd@realtek.com,
+ OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+ Olivia Mackall <olivia@selenic.com>, Paolo Abeni <pabeni@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Huewe <peterhuewe@gmx.de>,
+ Peter Zijlstra <peterz@infradead.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Sean Christopherson <seanjc@google.com>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
+ "Theodore Ts'o" <tytso@mit.edu>, Thomas Gleixner <tglx@linutronix.de>,
+ Tom Lendacky <thomas.lendacky@amd.com>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, x86@kernel.org,
+ Yury Norov <yury.norov@gmail.com>, amd-gfx@lists.freedesktop.org,
+ bpf@vger.kernel.org, cgroups@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org,
+ kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-cxl@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-mm@kvack.org,
+ linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, mptcp@lists.linux.dev, netdev@vger.kernel.org,
+ usb-storage@lists.one-eyed-alien.net,
+ David Laight <david.laight.linux@gmail.com>
+Subject: [PATCH 00/44] Change a lot of min_t() that might mask high bits
+Date: Wed, 19 Nov 2025 22:40:56 +0000
+Message-Id: <20251119224140.8616-1-david.laight.linux@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH i-g-t] tests: (Re)add kms_crtc_background_color test
-To: Kamil Konieczny <kamil.konieczny@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, igt-dev@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
- kernel@collabora.com, Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>,
- Juha-Pekka Heikkila <juha-pekka.heikkila@intel.com>,
- Karthik B S <karthik.b.s@intel.com>, Swati Sharma <swati2.sharma@intel.com>
-References: <20251110-crtc-bgcolor-v1-1-28669b692970@collabora.com>
- <20251119132149.spbl5k3dmj2lwzon@kamilkon-DESK.igk.intel.com>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <20251119132149.spbl5k3dmj2lwzon@kamilkon-DESK.igk.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,179 +122,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kamil,
+From: David Laight <david.laight.linux@gmail.com>
 
-On 11/19/25 3:21 PM, Kamil Konieczny wrote:
-> Hi Cristian,
-> On 2025-11-10 at 15:18:05 +0200, Cristian Ciocaltea wrote:
->> Provide test to verify the behavior of BACKGROUND_COLOR DRM CRTC
->> property.
->>
->> This is done by filling a full-screen primary plane with a given color
->> and comparing the resulting CRC with the one obtained after turning off
->> all planes while having the CRTC background set to the same color.
->>
->> It's worth noting this is a reworked version of the test that has been
->> dropped over 5 years ago via commit 33f07391e5f6 ("tests: Remove
->> kms_crtc_background_color test"), as the required kernel changes never
->> landed because of missing userspace support.
->>
-> +cc J-P, Karthik, Swati
-> Cc: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
-> Cc: Juha-Pekka Heikkila <juha-pekka.heikkila@intel.com>
-> Cc: Karthik B S <karthik.b.s@intel.com>
-> Cc: Swati Sharma <swati2.sharma@intel.com>
-> 
-> I have few nits, see below.
-> 
->> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->> ---
->> This has been tested on a Radxa ROCK 5B board which is based on Rockchip
->> RK3588 SoC.  It relies on the kernel series [1] introducing the
->> BACKGROUND_COLOR CRTC property and a few additional patches from [2]
->> enabling the required CRC functionality for the Rockchip platform (still
->> require a bit more work before sending those upstream).
->>
->> It's worth noting CRC is only supported by the display controller (VOP2)
->> present in the RK3576 SoC variant.  However, the computation is done by
->> the hardware before applying the background color, hence it has limited
->> usage in IGT testing.
->>
->> Luckily, the frame CRCs can be captured through DPCD, i.e. at
->> DisplayPort AUX channel level, hence I used the USB-C DP AltMode capable
->> port of the aforementioned board to perform the actual validation.
->>
->> [1] https://lore.kernel.org/all/20251013-rk3588-bgcolor-v2-0-25cc3810ba8c@collabora.com/
->> [2] https://gitlab.collabora.com/hardware-enablement/rockchip-3588/linux/-/commits/cristicc/rk3588-vop2-crc
->>
+It in not uncommon for code to use min_t(uint, a, b) when one of a or b
+is 64bit and can have a value that is larger than 2^32;
+This is particularly prevelant with:
+	uint_var = min_t(uint, uint_var, uint64_expression);
 
-[...]
+Casts to u8 and u16 are very likely to discard significant bits.
 
-> Please add here:
-> 
-> /**
->  * TEST: crtc background color
->  * Category: Display
->  * Description: Test background color feature with CRC at CRTC
->  * Driver requirement: i915, xe
->  * Mega feature: General Display Features
->  */
-> 
-> Feel free to correct me with name and/or description.
+These can be detected at compile time by changing min_t(), for example:
+#define CHECK_SIZE(fn, type, val) \
+	BUILD_BUG_ON_MSG(sizeof (val) > sizeof (type) && \
+		!statically_true(((val) >> 8 * (sizeof (type) - 1)) < 256), \
+		fn "() significant bits of '" #val "' may be discarded")
 
-Ack.
+#define min_t(type, x, y) ({ \
+	CHECK_SIZE("min_t", type, x); \
+	CHECK_SIZE("min_t", type, y); \
+	__cmp_once(min, type, x, y); })
 
-> Karthik or Swati, please also correct this if I made any
-> mistake here.
-> 
->> +#include "igt.h"
->> +
->> +IGT_TEST_DESCRIPTION("Test crtc background color feature");
->> +
->> +typedef struct {
->> +	int drm_fd;
->> +	int debugfs;
->> +	igt_display_t display;
->> +} data_t;
->> +
->> +#define __DRM_ARGB64_PREP(c, shift, bpc)			\
->> +	(((__u64)(c) << (16 - (bpc)) & 0xffffU) << (shift))
->> +
->> +#define DRM_ARGB64_PREP_BPC(alpha, red, green, blue, bpc)	\
->> +	(__DRM_ARGB64_PREP(alpha, 48, bpc) |			\
->> +	 __DRM_ARGB64_PREP(red,   32, bpc) |			\
->> +	 __DRM_ARGB64_PREP(green, 16, bpc) |			\
->> +	 __DRM_ARGB64_PREP(blue,   0, bpc))
->> +
->> +static void test_background(data_t *data, enum pipe pipe, igt_output_t *output,
->> +			    __u16 red, __u16 green, __u16 blue)
->> +{
->> +	igt_display_t *display = &data->display;
->> +	igt_crc_t plane_crc, bg_crc;
->> +	igt_pipe_crc_t *pipe_crc;
->> +	igt_plane_t *plane;
->> +	drmModeModeInfo *mode;
->> +	struct igt_fb fb;
->> +
->> +	igt_display_reset(display);
->> +
->> +	igt_output_set_pipe(output, pipe);
->> +	mode = igt_output_get_mode(output);
->> +
->> +	plane = igt_output_get_plane_type(output, DRM_PLANE_TYPE_PRIMARY);
->> +
->> +	/* Fill the primary plane and set the background to the same color */
->> +	igt_create_color_fb(data->drm_fd,
->> +			    mode->hdisplay, mode->vdisplay,
->> +			    DRM_FORMAT_XRGB8888,
->> +			    DRM_FORMAT_MOD_NONE,
->> +			    (double)red / 0xffff,
->> +			    (double)green / 0xffff,
->> +			    (double)blue / 0xffff,
->> +			    &fb);
->> +
->> +	igt_plane_set_fb(plane, &fb);
->> +	igt_pipe_set_prop_value(&data->display, pipe, IGT_CRTC_BACKGROUND,
->> +				DRM_ARGB64_PREP_BPC(0xffff, red, green, blue, 8));
->> +	igt_display_commit2(&data->display, COMMIT_ATOMIC);
->> +
->> +	pipe_crc = igt_pipe_crc_new(data->drm_fd, pipe, IGT_PIPE_CRC_SOURCE_AUTO);
->> +	igt_pipe_crc_collect_crc(pipe_crc, &plane_crc);
->> +
->> +	/* Turn off the primary plane so that only the background is visible */
->> +	igt_plane_set_fb(plane, NULL);
->> +	igt_display_commit2(&data->display, COMMIT_ATOMIC);
->> +	igt_pipe_crc_collect_crc(pipe_crc, &bg_crc);
->> +
->> +	/*
->> +	 * The test assumes hardware is able to generate valid CRCs when setting
->> +	 * the background color. Some platforms, e.g. Intel, might require at
->> +	 * least one plane to be visible before reading the pipe-level ("dmux")
->> +	 * CRC. Other platforms, e.g. Rockchip, do not take background color
->> +	 * into account when computing CRC at CRTC level.
->> +	 * A possible workaround would be to use alternative CRC sources, e.g.
->> +	 * where computation is performed at encoder or sink level.
->> +	 */
->> +	igt_assert_crc_equal(&plane_crc, &bg_crc);
->> +
->> +	/* Clean-up */
->> +	igt_pipe_set_prop_value(&data->display, pipe, IGT_CRTC_BACKGROUND,
->> +				DRM_ARGB64_PREP_BPC(0xffff, 0, 0, 0, 8));
->> +	igt_pipe_crc_free(pipe_crc);
->> +	igt_output_set_pipe(output, PIPE_NONE);
->> +	igt_display_commit(display);
->> +	igt_remove_fb(data->drm_fd, &fb);
->> +}
->> +
-> 
-> Add here:
-> 
-> /**
->  * SUBTEST: background-color-%s
->  * Description: Tests %arg[1] in background color
->  *
->  * arg[1]:
->  *
->  * @red:      red
->  * @green:    green
->  * @blue:     blue
->  * @yellow:   yellow
->  * @purple:   purple
->  * @cyan:     cyan
->  * @black:    black
->  * @white:    white
->  */
-> 
-> With this it will compile and will be tested by Intel CI.
+(and similar changes to max_t() and clamp_t().)
 
-Great!  Please note there's already a 2nd revision [1] available which might
-require adjusting your kernel driver due to the following change:
+This shows up some real bugs, some unlikely bugs and some false positives.
+In most cases both arguments are unsigned type (just different ones)
+and min_t() can just be replaced by min().
 
-- Set the value of the CRTC background color property with 16bpc instead
-  of 8bpc, to avoid CRC check failures because of framebuffer format
-  precision mismatch - display controller drivers shall convert it back
-  from 16bpc to their internal representation of the pixel color if
-  necessary, e.g. VKMS already uses 16bpc, hence no conversion is
-  required in that case
+The patches are all independant and are most of the ones needed to
+get the x86-64 kernel I build to compile.
+I've not tried building an allyesconfig or allmodconfig kernel.
+I've also not included the patch to minmax.h itself.
 
-[1] https://lore.kernel.org/all/20251118-crtc-bgcolor-v2-1-dce4063f85a9@collabora.com/
+I've tried to put the patches that actually fix things first.
+The last one is 0009.
+
+I gave up on fixing sched/fair.c - it is too broken for a single patch!
+The patch for net/ipv4/tcp.c is also absent because do_tcp_getsockopt()
+needs multiple/larger changes to make it 'sane'.
+
+I've had to trim the 124 maintainers/lists that get_maintainer.pl finds
+from 124 to under 100 to be able to send the cover letter.
+The individual patches only go to the addresses found for the associated files.
+That reduces the number of emails to a less unsane number.
+
+David Laight (44):
+  x86/asm/bitops: Change the return type of variable__ffs() to unsigned
+    int
+  ext4: Fix saturation of 64bit inode times for old filesystems
+  perf: Fix branch stack callchain limit
+  io_uring/net: Change some dubious min_t()
+  ipc/msg: Fix saturation of percpu counts in msgctl_info()
+  bpf: Verifier, remove some unusual uses of min_t() and max_t()
+  net/core/flow_dissector: Fix cap of __skb_flow_dissect() return value.
+  net: ethtool: Use min3() instead of nested min_t(u16,...)
+  ipv6: __ip6_append_data() don't abuse max_t() casts
+  x86/crypto: ctr_crypt() use min() instead of min_t()
+  arch/x96/kvm: use min() instead of min_t()
+  block: use min() instead of min_t()
+  drivers/acpi: use min() instead of min_t()
+  drivers/char/hw_random: use min3() instead of nested min_t()
+  drivers/char/tpm: use min() instead of min_t()
+  drivers/crypto/ccp: use min() instead of min_t()
+  drivers/cxl: use min() instead of min_t()
+  drivers/gpio: use min() instead of min_t()
+  drivers/gpu/drm/amd: use min() instead of min_t()
+  drivers/i2c/busses: use min() instead of min_t()
+  drivers/net/ethernet/realtek: use min() instead of min_t()
+  drivers/nvme: use min() instead of min_t()
+  arch/x86/mm: use min() instead of min_t()
+  drivers/nvmem: use min() instead of min_t()
+  drivers/pci: use min() instead of min_t()
+  drivers/scsi: use min() instead of min_t()
+  drivers/tty/vt: use umin() instead of min_t(u16, ...) for row/col
+    limits
+  drivers/usb/storage: use min() instead of min_t()
+  drivers/xen: use min() instead of min_t()
+  fs: use min() or umin() instead of min_t()
+  block: bvec.h: use min() instead of min_t()
+  nodemask: use min() instead of min_t()
+  ipc: use min() instead of min_t()
+  bpf: use min() instead of min_t()
+  bpf_trace: use min() instead of min_t()
+  lib/bucket_locks: use min() instead of min_t()
+  lib/crypto/mpi: use min() instead of min_t()
+  lib/dynamic_queue_limits: use max() instead of max_t()
+  mm: use min() instead of min_t()
+  net: Don't pass bitfields to max_t()
+  net/core: Change loop conditions so min() can be used
+  net: use min() instead of min_t()
+  net/netlink: Use umin() to avoid min_t(int, ...) discarding high bits
+  net/mptcp: Change some dubious min_t(int, ...) to min()
+
+ arch/x86/crypto/aesni-intel_glue.c            |  3 +-
+ arch/x86/include/asm/bitops.h                 | 18 +++++-------
+ arch/x86/kvm/emulate.c                        |  3 +-
+ arch/x86/kvm/lapic.c                          |  2 +-
+ arch/x86/kvm/mmu/mmu.c                        |  2 +-
+ arch/x86/mm/pat/set_memory.c                  | 12 ++++----
+ block/blk-iocost.c                            |  6 ++--
+ block/blk-settings.c                          |  2 +-
+ block/partitions/efi.c                        |  3 +-
+ drivers/acpi/property.c                       |  2 +-
+ drivers/char/hw_random/core.c                 |  2 +-
+ drivers/char/tpm/tpm1-cmd.c                   |  2 +-
+ drivers/char/tpm/tpm_tis_core.c               |  4 +--
+ drivers/crypto/ccp/ccp-dev.c                  |  2 +-
+ drivers/cxl/core/mbox.c                       |  2 +-
+ drivers/gpio/gpiolib-acpi-core.c              |  2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c  |  4 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |  2 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 +-
+ drivers/i2c/busses/i2c-designware-master.c    |  2 +-
+ drivers/net/ethernet/realtek/r8169_main.c     |  3 +-
+ drivers/nvme/host/pci.c                       |  3 +-
+ drivers/nvme/host/zns.c                       |  3 +-
+ drivers/nvmem/core.c                          |  2 +-
+ drivers/pci/probe.c                           |  3 +-
+ drivers/scsi/hosts.c                          |  2 +-
+ drivers/tty/vt/selection.c                    |  9 +++---
+ drivers/usb/storage/protocol.c                |  3 +-
+ drivers/xen/grant-table.c                     |  2 +-
+ fs/buffer.c                                   |  2 +-
+ fs/exec.c                                     |  2 +-
+ fs/ext4/ext4.h                                |  2 +-
+ fs/ext4/mballoc.c                             |  3 +-
+ fs/ext4/resize.c                              |  2 +-
+ fs/ext4/super.c                               |  2 +-
+ fs/fat/dir.c                                  |  4 +--
+ fs/fat/file.c                                 |  3 +-
+ fs/fuse/dev.c                                 |  2 +-
+ fs/fuse/file.c                                |  8 ++---
+ fs/splice.c                                   |  2 +-
+ include/linux/bvec.h                          |  3 +-
+ include/linux/nodemask.h                      |  9 +++---
+ include/linux/perf_event.h                    |  2 +-
+ include/net/tcp_ecn.h                         |  5 ++--
+ io_uring/net.c                                |  6 ++--
+ ipc/mqueue.c                                  |  4 +--
+ ipc/msg.c                                     |  6 ++--
+ kernel/bpf/core.c                             |  4 +--
+ kernel/bpf/log.c                              |  2 +-
+ kernel/bpf/verifier.c                         | 29 +++++++------------
+ kernel/trace/bpf_trace.c                      |  2 +-
+ lib/bucket_locks.c                            |  2 +-
+ lib/crypto/mpi/mpicoder.c                     |  2 +-
+ lib/dynamic_queue_limits.c                    |  2 +-
+ mm/gup.c                                      |  4 +--
+ mm/memblock.c                                 |  2 +-
+ mm/memory.c                                   |  2 +-
+ mm/percpu.c                                   |  2 +-
+ mm/truncate.c                                 |  3 +-
+ mm/vmscan.c                                   |  2 +-
+ net/core/datagram.c                           |  6 ++--
+ net/core/flow_dissector.c                     |  7 ++---
+ net/core/net-sysfs.c                          |  3 +-
+ net/core/skmsg.c                              |  4 +--
+ net/ethtool/cmis_cdb.c                        |  7 ++---
+ net/ipv4/fib_trie.c                           |  2 +-
+ net/ipv4/tcp_input.c                          |  4 +--
+ net/ipv4/tcp_output.c                         |  5 ++--
+ net/ipv4/tcp_timer.c                          |  4 +--
+ net/ipv6/addrconf.c                           |  8 ++---
+ net/ipv6/ip6_output.c                         |  7 +++--
+ net/ipv6/ndisc.c                              |  5 ++--
+ net/mptcp/protocol.c                          |  8 ++---
+ net/netlink/genetlink.c                       |  9 +++---
+ net/packet/af_packet.c                        |  2 +-
+ net/unix/af_unix.c                            |  4 +--
+ 76 files changed, 141 insertions(+), 176 deletions(-)
+
+-- 
+2.39.5
+
