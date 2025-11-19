@@ -2,83 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F562C6F3A3
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 15:21:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F87AC6F3E2
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 15:22:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2725910E63A;
-	Wed, 19 Nov 2025 14:21:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C5A010E63F;
+	Wed, 19 Nov 2025 14:22:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gwCLXods";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="UfR7xwnX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AD0910E606
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 14:21:45 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 53D4B445D6;
- Wed, 19 Nov 2025 14:21:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7E63EC2BCF5;
- Wed, 19 Nov 2025 14:21:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763562103;
- bh=n+MbHJLuqiHoMoKEy+fupno4fvWaPOq/2PFTInr0Jy0=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=gwCLXodsyHfmtNp7eq1yhZUMKBugmKMftla83ywsBspR6VBMXRv1+AINc4tkzKFOn
- Jzl7KrbkXvhpitTDxyn0TQeZjbtZT2k4TSW3fVtWu7MOanxKPUkie9v/Iphf3TUHnx
- F1UghfDBWVN6zHAHiVf2tkPmJJuMhO7cIvB/teViPp+7s0dUV7jijqEipOWK0b+fNJ
- apYkmdnjmLUBuTE2qCRkrkrj8znBbL4B6BIvCaIb5G6rEpVove3pPN1nPuoZ798p/E
- xDQohpy+I1E5WFA+U3coDHuiNK5cGM12ZGNg053DsXHXWOwff+5qg9H2eC/SIjW4m0
- BQcA0AZtIqKDw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 34101CF34C6;
- Wed, 19 Nov 2025 14:21:41 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Wed, 19 Nov 2025 15:21:37 +0100
-Subject: [PATCH v3 12/12] drm/panel: sofef00: Non-continuous mode and video
- burst are supported
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DE3110E63F
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 14:22:33 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 98C4D4E4179D;
+ Wed, 19 Nov 2025 14:22:31 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 594C360699;
+ Wed, 19 Nov 2025 14:22:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 468BE10371A62; Wed, 19 Nov 2025 15:22:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1763562149; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:content-language:in-reply-to:references;
+ bh=KHIHzROR0vP9n7dvMFHoM55Ssw0KAKH53cQfe48RG2o=;
+ b=UfR7xwnXYFcxt7dwYb9ZZ2eHN7rcQflUmmRbY6KpW0kfgQmHCUslJp41eFjRD7JVEUwKJZ
+ S0oXT5p7TaoydFUvfXkgYXy2hBwhCbLh0hTZ9oWYkqCt/tCI/K1Dik6InPGVCplhxx20wG
+ jBAFgm9Fp8hHkx89EpTboOzrEJyAyR0UxrgcfQigI3YyMTbWTXKDX9o5np5l95zrqxzp+5
+ DnhkYQIm688Fn7PEOgNjQK5V7V7kSk65KKWVjPvAcYMqGom1O1QKFrIjeFzcaazJJ/4nQY
+ BeP/9Xy2sVRjpilf746wFLr/iSKL71kXFK/see/F8PNIt2le3RaEWTWBwZD28Q==
+Message-ID: <35bda203-8c15-4219-a231-1379f909229f@bootlin.com>
+Date: Wed, 19 Nov 2025 14:22:21 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/26] drm/bridge: add drm_of_find_bridge()
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Adrien Grassein <adrien.grassein@gmail.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org
+References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
+ <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-1-0db98a7fe474@bootlin.com>
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-1-0db98a7fe474@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251119-sofef00-rebuild-v3-12-6cd55471e84e@ixit.cz>
-References: <20251119-sofef00-rebuild-v3-0-6cd55471e84e@ixit.cz>
-In-Reply-To: <20251119-sofef00-rebuild-v3-0-6cd55471e84e@ixit.cz>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Casey Connolly <casey.connolly@linaro.org>, 
- Jessica Zhang <jesszhan0024@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=802; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=aJ/EglBDysKAXREtcXVh/z+Zh6bgaROjs/Vk7ZuGVZs=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpHdJyUgxKl+tyy/rxnd3ByE1L+Mfe9B9bTkPee
- MJVkwSsUUKJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaR3ScgAKCRBgAj/E00kg
- clwyD/9fUWuyonL8WuG+fTSZT85ZATR6y9QZJHZTGC0Dz0k587dKkHXiq1iJClfNO7LBAWWvjhZ
- UmiHaDU1mM0KZIxo97E301s/ocIacaSvbsGMLx69Z6VPOy00IGZmVVJmrX2708XBfaCWwMJNAXi
- rbynfoy99gZnH/Edzv8cad2wyicOZR2nJHmAvqYYxk61AEc/uBqfwlWLbcfnCqa/TxWWXI7wiYB
- f58nO9XAbsDDNdR/yd7bNW3d17eFwQ3ce0QAINiPzWZvOb/R5JRrHL8rkFtTxxDLcrB8Uk3akSJ
- xR1RB2Wl0eRplxbbwnIT+QyhxiiP5Qkk/75uw/SJ3GG2UswmLTqnFRr4jsdCGI6zxVLLmjguNuT
- yUijUGf7fx45zsdMaraxPq4UqL5tV+Wo+9DL4NEq0FRqxzHM0L8mmiKxkPUVSfSD+08A1Gv5gpb
- lxHifHWXE/Nl7/7oa6GfWZI/5WvoiwcSXsxlFf0BGeRL4HXbXogJpT0/01FpDoudFDPF4DOYa1d
- edFsioFRXFPvCdcW28TphGT60ghR2ObbSWN5yR87ctg2q0xPrysBbWVqg3jWj80bNRK76+NODUV
- 8TdyoNJML4CR8ZefQ75Ulh1JF6YESUuu7nP/W/BCViEywHAejH9nazcKGKgE8m7J6b5scRun+I3
- TubsItsGLoGMzxw==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,35 +94,105 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: david@ixit.cz
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Heidelberg <david@ixit.cz>
 
-The panel supports both modes.
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- drivers/gpu/drm/panel/panel-samsung-sofef00.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 11/19/25 13:05, Luca Ceresoli wrote:
+> of_drm_find_bridge() does not increment the refcount for the returned
+> bridge, but that is required now. However converting it and all its users
+> is not realistically doable at once given the large amount of (direct and
+> indirect) callers and the complexity of some. Also, "of_drm_find_bridge is
+> oddly named according to our convention and it would make more sense to be
+> called drm_of_find_bridge()" (quoted from Link: below).
+> 
+> Solve both issues by creating a new drm_of_find_bridge() that is identical
+> to of_drm_find_bridge() except it takes a reference. Then
+> of_drm_find_bridge() will be deprecated to be eventually removed.
+> 
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Link: https://lore.kernel.org/dri-devel/20250319-stylish-lime-mongoose-0a18ad@houat/
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> 
+> ---
+> 
+> Note: a simple implementation would just be
+>    { return drm_bridge_get(of_drm_find_bridge(np)); }
+> but it would release the mutex before getting the reference, so it is
+> not safe. Make things simple by duplicating the code. A later patch will
+> make instead the (to be deprecated) of_drm_find_bridge() become a wrapper
+> of the new drm_of_find_bridge()
+> ---
+>   drivers/gpu/drm/drm_bridge.c | 29 +++++++++++++++++++++++++++++
+>   include/drm/drm_bridge.h     |  5 +++++
+>   2 files changed, 34 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 8f355df883d8..d98a7b4a83c0 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -1417,6 +1417,35 @@ void drm_bridge_hpd_notify(struct drm_bridge *bridge,
+>   EXPORT_SYMBOL_GPL(drm_bridge_hpd_notify);
+>   
+>   #ifdef CONFIG_OF
+> +/**
+> + * drm_of_find_bridge - find the bridge corresponding to the device node in
+> + *			the global bridge list
+> + * @np: device node
+> + *
+> + * The refcount of the returned bridge is incremented. Use drm_bridge_put()
+> + * when done with it.
+> + *
+> + * RETURNS:
+> + * drm_bridge control struct on success, NULL on failure
+> + */
+> +struct drm_bridge *drm_of_find_bridge(struct device_node *np)
+> +{
+> +	struct drm_bridge *bridge;
+> +
+> +	mutex_lock(&bridge_lock);
+> +
+> +	list_for_each_entry(bridge, &bridge_list, list) {
+> +		if (bridge->of_node == np) {
+> +			mutex_unlock(&bridge_lock);
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-sofef00.c b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-index db9c181695f1d..e00a497a7c961 100644
---- a/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-sofef00.c
-@@ -236,7 +236,8 @@ static int sofef00_panel_probe(struct mipi_dsi_device *dsi)
- 
- 	dsi->lanes = 4;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
--	dsi->mode_flags = MIPI_DSI_MODE_LPM;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM;
- 
- 	ctx->panel.prepare_prev_first = true;
- 
+It seems a bit strange to unlock the mutex just before the 
+drm_bridge_get, is it expected?
 
--- 
-2.51.0
+If no, I think you can use scoped_guard(mutex, &bridge_lock) to avoid 
+messing with mutex_unlock, IIRC, scoped_guard will unlock the mutex just 
+after the return, so in your case, just after the drm_bridge_get.
 
+> +			return drm_bridge_get(bridge);
+> +		}
+> +	}
+> +
+> +	mutex_unlock(&bridge_lock);
+> +	return NULL;
+> +}
+> +EXPORT_SYMBOL(drm_of_find_bridge);
+> +
+>   /**
+>    * of_drm_find_bridge - find the bridge corresponding to the device node in
+>    *			the global bridge list
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 0ff7ab4aa868..e74e91004c48 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -1313,8 +1313,13 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+>   		      enum drm_bridge_attach_flags flags);
+>   
+>   #ifdef CONFIG_OF
+> +struct drm_bridge *drm_of_find_bridge(struct device_node *np);
+>   struct drm_bridge *of_drm_find_bridge(struct device_node *np);
+>   #else
+> +static inline struct drm_bridge *drm_of_find_bridge(struct device_node *np)
+> +{
+> +	return NULL;
+> +}
+>   static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+>   {
+>   	return NULL;
+> 
 
