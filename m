@@ -2,106 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1584C70D58
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 20:36:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7BB1C70DA0
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 20:41:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE11F10E265;
-	Wed, 19 Nov 2025 19:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83A5510E67E;
+	Wed, 19 Nov 2025 19:41:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="mHhbBhpe";
+	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="XiLViIrh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com
- [209.85.160.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 612C610E265
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 19:36:40 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id
- d75a77b69052e-4ee158187aaso1122501cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 11:36:40 -0800 (PST)
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com
+ [209.85.219.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E345910E665
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 19:41:22 +0000 (UTC)
+Received: by mail-qv1-f46.google.com with SMTP id
+ 6a1803df08f44-88249766055so1403096d6.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 11:41:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1763580999; x=1764185799; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=sztelLlBrONBmM282viGyh6kz65i94yYxCWrYWozdqM=;
- b=mHhbBhpeJEjpNyB93tCUejTbGeehqwkjVpXE0S0ji2DMbWvSQyhcqWNOaRZtTCYWdN
- fcCEJsYm7kM34+Y1pmouvzRu9Z1TPCSrk0DWYmnBI4/MlNG6saBoBQH78c4B0HEOmnDR
- rOJAHl7kQ+iIeN/rKppKoZuoxUpqSvnRgjevnVE19aiCrKhNx/Lo6fctOO33W8tHVcz9
- RYHwEAWe0BzXgg21FoNo1XZBw9MSq8JI/jTQ+WGXX6WxzA8CJSzAUVhMa1+EBvX7YSSY
- h/zqEWs5RF4G1eO4HrklRIcw+EaB9A1xEkMjkDdXxwfAR0cJN8p2Xt7KxYjQpjoGQ81i
- MOHw==
+ d=ziepe.ca; s=google; t=1763581282; x=1764186082; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=1xvMcuBzJSIcfclCVWQ2hNnnKt+oezBHS+z89ygHsa4=;
+ b=XiLViIrh4czZE/B95s5xUZH7qqzHWXcCJP/rNHdFHta8gnUXcDNWNtM5R1shIfSME0
+ p1XfNnMJnC02iXPcUNGiJ3uSSocNXiOVDtwLNMBnSBTOFHUp1eo9Fp3uNA/LwqAmgPvm
+ tUUsrUaA+Hkg6SaGfyGohy4fdPmtdaMr+qaSh0SPiqageQVSebLJJErJFzw8nwrM60f3
+ +BGqRVOuCemu58q+ZzApcOMBNBAuCIDBcFHMIIHvUKu9a6SFygToCWm3mZmm+ZBcmOeH
+ vxal9zZOlFv6n20K5JJpMkNOvGGA+IWqXCjD1IKpS5pSuxIwj6AHNqcI9jN6IwuELKLc
+ YuLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763580999; x=1764185799;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sztelLlBrONBmM282viGyh6kz65i94yYxCWrYWozdqM=;
- b=ZktV5OJgrBDCoj4ZEvm1L7fCiX1bL5afrwmVDasKk3QiZ8HH/MEPobs37JY9b8vd62
- OxhCqOnBY1e/0ApTue6dQ70RZ0mMIARSfxvvrCKjCUxiajo9FieviyipCiiegGwvVpXp
- BvYwjuAE60hL0wDLliuPcoDHoZ1BnV0qMoPPfVcwnOj0LLYhH8Q8pEso61xpg0TxxBon
- OwvE6gLHU1tPXyAhEPVL4WeYxmIowKvNuPaaemXQGIUyzucnIDnh8OgdDUD1gW/59TmJ
- WsPeA5wON8jTUCpjlLAj/WIkGqY4MSFhQDVdRKOFz2yQ0tTISRzdUHsxj+emW8inqXVO
- 7O5A==
+ d=1e100.net; s=20230601; t=1763581282; x=1764186082;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1xvMcuBzJSIcfclCVWQ2hNnnKt+oezBHS+z89ygHsa4=;
+ b=E96IKx4IVAdj4eVsGGoLt4rgbiZ7vtNV+iQz7S41HCHXmteQEfFDsxxJfQirNGL4B1
+ NvCG1ecFr1YRP7ZzLRoa+4RJ8FgP9xvmXIge+MbiRmcrFZC6FVazqdOiZ/v8SyDU+aTN
+ HQmsi2WePk0+Bne4JjcO6FdEbiwtY43gaxwv6xlaHIuQ9RgjbXgCf+L0cm080hTeh/5z
+ DS878FLQh4iNbY2s4cVG28WXI4MTiD/EOIwnRRIKPmqMv7J0a6XX5MkZgrrpHg7NOvv/
+ DNAblGMhMz/KPlQWxsbA6KiO0+AAsFiaL5bZcKb5VKyx/rF5H/VEX+hkerjf+mfmszCm
+ CeTA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUx6ZbJRjvYfB1m3E7rFzTONRMa2Sh5+tD+OmZ7QzCQRcc3TdS7zVUaYl4QHPO1+GvNpS+LY+kgwmM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwsZUmN7mPto8TGaumJiNPmYgnkDKWltcNByty0gQi9+XXkc+I/
- xLxDPdm8VW0nYD1pHUdUmimLHphooPlkfj7aRIa/ouzZUAKBbqbO5zdVPa82ZUiNKrc=
-X-Gm-Gg: ASbGnctE2kbJjgASFSqgooVsHyi+pFMMdZBSQmxZsHFj6n1vPrj6t2uzjQ9pBYtXEgg
- O20uVZEtop4vNbuqdLjvs3SCd1udhNqY63f4fCbMIvin4S6x5aQkMrKo5nBfYimWc9DPx6o0FHZ
- MhrGp2fsKgPXwSSZ9e/FKMvJGkFUcF0Z5bspEfF9n58R+VPg/Zqk2RT+DTylf95BMoOq6asuJTD
- r590pWi5QKQtJx43ijt/zFI4mKSQKSsMSo3gMozPZWyg9sxZbyVdqsugdCS38U4pZJvx9kQpDWU
- 8ZZQDurmZXWL/npwdrD2z3BN+8JrZDs8dTCcpKh18vO2xvmDgFrsmzEWANmZ3rz402SpH5Pk7Gg
- ST/YmeBuNb7U6PWss3+dE0mLg7V0Erwgyyqm9rKWX+FSTe2K4sUmPKjQL8ivN3OVNx3Kgi+6Hfd
- Ueb6s7mgpdOqaaIDn0xsA7JdM6OMA+Noigbkw7+/FfmdHz01/pl6RNCJHO
-X-Google-Smtp-Source: AGHT+IEogkhlTHFcyAE9/u1UuBQV+X3tukog/nHIoHavB/ndnYOWZGPWrkYoYNh/EOln2cA+Kp4KoA==
-X-Received: by 2002:a05:622a:310:b0:4ee:1d84:3068 with SMTP id
- d75a77b69052e-4ee4971a985mr8236121cf.76.1763580999342; 
- Wed, 19 Nov 2025 11:36:39 -0800 (PST)
+ AJvYcCVSrthSrXgKHPXNPXLYSOwCfGt4PttHS7vunVWbC7Giza5LhKVtx8LCZbxAJNq/0zENM23geazA2XM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzRbEuGa3kFDZdatpq7zPnS/EiOyGrd+rYOEbhmdK8pDvTi3LIt
+ LB6k6hg1tcgxXhIvAc61S9iMnlo5AEIia3N0u6BUlbOMl4XdDEu7qMejB5ZiJN8uhlU=
+X-Gm-Gg: ASbGncs+P/s1ZeQndabLhUvqTiCDNgd09GfXjulzr7kOaUxU7TCFGFkbki5urIZoiCd
+ hLGEONhPRoQxgGdEYsSCctirP4IkBzcifYDl2aOyC32mGhu7/balrfNb4KwPAo/+EhkN9IkhmXr
+ IkYYq+n38LaZwY9xDwAt+OAPSGV2WyJoLe6GghGNkSoIHgTV8sYd/wKeeVzDugBg9spkmePelss
+ LHeVY451LPg1R587iXZFvqb8oaHrO09cJj5avTU3tzB5nHXJw7sWYFKurq606afVL5csxkK7oDE
+ RJz9xhPbhMyikXXMAd3WaigbkoQ6SnrJ6Somc7DxuzXbUwiKKmHxlz5C8rLgFpPYHcbHQ8DNauc
+ x4Mmxw/DUDP5AUORLJmwBE6jS8lNjfQ95p2xvBlD2x7jggiIU3O3fWI+wmVIeUK3WuilEDbaZPB
+ LiTLr9vo3VNsXURre2aiWLGx1FX346GlVSiJpq966nbi6WehHVB1kETywO
+X-Google-Smtp-Source: AGHT+IEkkwKLlD7bgArhzanqcgyJXrNkTCLmX/zPs7UZp1FVMILPKD98FXvYwEVi1NAfBqdDip+8Dg==
+X-Received: by 2002:a05:6214:4a84:b0:7d2:f787:1978 with SMTP id
+ 6a1803df08f44-8846ed7f961mr1725046d6.3.1763581281958; 
+ Wed, 19 Nov 2025 11:41:21 -0800 (PST)
 Received: from ziepe.ca
  (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net.
  [47.55.120.4]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4ee48d64503sm3117901cf.13.2025.11.19.11.36.38
+ 6a1803df08f44-8846e47115bsm1948696d6.21.2025.11.19.11.41.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Nov 2025 11:36:38 -0800 (PST)
+ Wed, 19 Nov 2025 11:41:21 -0800 (PST)
 Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1vLnyo-00000000bYz-0lQx;
- Wed, 19 Nov 2025 15:36:38 -0400
-Date: Wed, 19 Nov 2025 15:36:38 -0400
+ (envelope-from <jgg@ziepe.ca>) id 1vLo3M-00000000bbB-3imG;
+ Wed, 19 Nov 2025 15:41:20 -0400
+Date: Wed, 19 Nov 2025 15:41:20 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
 Cc: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
  Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
  Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
  Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
  Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
  Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
  Shameer Kolothum <skolothumtho@nvidia.com>,
- Kevin Tian <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>,
+ Alex Williamson <alex@shazbot.org>,
  Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, iommu@lists.linux.dev,
- linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
- linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
- Nicolin Chen <nicolinc@nvidia.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v8 06/11] dma-buf: provide phys_vec to
- scatter-gather mapping routine
-Message-ID: <20251119193638.GQ17968@ziepe.ca>
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
+ "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v8 10/11] vfio/pci: Add dma-buf export support for MMIO
+ regions
+Message-ID: <20251119194120.GR17968@ziepe.ca>
 References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
- <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
- <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
- <20251119134245.GD18335@unreal>
- <6714dc49-6b5c-4d58-9a43-95bb95873a97@amd.com>
+ <20251111-dmabuf-vfio-v8-10-fd9aa5df478f@nvidia.com>
+ <BN9PR11MB527610F3240E677BE9720C2B8CD6A@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <20251118142849.GG17968@ziepe.ca>
+ <BN9PR11MB5276EF47D26AB55B2CD456EE8CD6A@BN9PR11MB5276.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6714dc49-6b5c-4d58-9a43-95bb95873a97@amd.com>
+In-Reply-To: <BN9PR11MB5276EF47D26AB55B2CD456EE8CD6A@BN9PR11MB5276.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,26 +120,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 19, 2025 at 03:11:01PM +0100, Christian König wrote:
+On Tue, Nov 18, 2025 at 11:56:14PM +0000, Tian, Kevin wrote:
+> > > > +	down_write(&vdev->memory_lock);
+> > > > +	list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm)
+> > > > {
+> > > > +		if (!get_file_active(&priv->dmabuf->file))
+> > > > +			continue;
+> > > > +
+> > > > +		dma_resv_lock(priv->dmabuf->resv, NULL);
+> > > > +		list_del_init(&priv->dmabufs_elm);
+> > > > +		priv->vdev = NULL;
+> > > > +		priv->revoked = true;
+> > > > +		dma_buf_move_notify(priv->dmabuf);
+> > > > +		dma_resv_unlock(priv->dmabuf->resv);
+> > > > +		vfio_device_put_registration(&vdev->vdev);
+> > > > +		fput(priv->dmabuf->file);
+> > >
+> > > dma_buf_put(priv->dmabuf), consistent with other places.
+> > 
+> > Someone else said this, I don't agree, the above got the get via
+> > 
+> > get_file_active() instead of a dma_buf version..
+> > 
+> > So we should pair with get_file_active() vs fput().
+> > 
+> > Christian rejected the idea of adding a dmabuf wrapper for
+> > get_file_active(), oh well.
+> 
+> Okay then vfio_pci_dma_buf_move() should be changed. It uses
+> get_file_active() to pair dma_buf_put().
 
-> I miss interpreted the call to pci_p2pdma_map_type() here in that
-> now the DMA-buf code decides if transactions go over the root
-> complex or not.
+Makes sense, Leon can you fix it?
 
-Oh, that's not it at all. I think you get it, but just to be really
-clear:
-
-This code is taking a physical address from the exporter and
-determining how it MUST route inside the fabric. There is only one
-single choice with no optionality.
-
-The exporter already decided if it will go over the host bridge by
-providing an address that must use a host bridge path.
-
-> But the exporter can call pci_p2pdma_map_type() even before calling
-> this function, so that looks fine to me.
-
-Yes, the exporter needs to decide where the data is placed before it
-tries to map it into the SGT.
-
-Jason
+Thanks,
+Jason 
