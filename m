@@ -2,76 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20296C6EF20
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 14:38:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 443E2C7180B
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 01:10:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78D3310E60C;
-	Wed, 19 Nov 2025 13:38:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7F7210E6B1;
+	Thu, 20 Nov 2025 00:10:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="lOK0BGrs";
+	dkim=pass (1024-bit key; unprotected) header.d=vjti.ac.in header.i=@vjti.ac.in header.b="S8pUfbKd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85B6F10E60C;
- Wed, 19 Nov 2025 13:38:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1763559482; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=CuwjR2h4Ha6FdX9YcmYJiHsMLW8UhFvlnuR8RsskwaZcOcgRJe+R6sdtnrxYVApCqwS/19y5nZYG42D9Zlo+RPeXtzzCIOhL7xTXZAz0qiAIUDj2DLaCrpAEizra3PiJFw6vLc/o5ZV1QnX+3YBSMP4wjqXjBkQgHjK505A5Xwg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1763559482;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=7kLvj5qlOUkKcedzN+9zXzz8KHY8mPvxCmgiQNKASC0=; 
- b=BCAuUf7lbq92vuxRMz/1dYjtXKeB4V2AgeLPbEvGKCNo1PsZBEWNnNL2rE/S5OB4m8uvbPJM+mIrekYRF4AgbS0ucOFBSaquhoFf6ZvIn81nZo5B/vh4I3TLFX7c9E3OjY6Hxu74BAGjUte++apzjOfX++EnahUAgYz5w6+dBmE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763559482; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=7kLvj5qlOUkKcedzN+9zXzz8KHY8mPvxCmgiQNKASC0=;
- b=lOK0BGrsyBiEDevslzfJVvrHYzJKW5KQ4sVEUjGezcv3IIJHy5sc4MlGVNfICCIN
- R0Bhi6yfEfVGmx5g0Y392pEDMHk0run1ePP/ik30HEqOq+cQIV0+Y3+9aOcBibP0RjH
- aInqlNcei+5GnD4BbDSIMlOsR2qwk/3VOUtRhD1g=
-Received: by mx.zohomail.com with SMTPS id 1763559480451443.4437908471832;
- Wed, 19 Nov 2025 05:38:00 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
+ [209.85.216.66])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7B7A10E60E
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 13:38:22 +0000 (UTC)
+Received: by mail-pj1-f66.google.com with SMTP id
+ 98e67ed59e1d1-340ba29d518so4665226a91.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 05:38:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vjti.ac.in; s=google; t=1763559502; x=1764164302; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=tBH1paFXTcehxT4QWVpPVMUi1/uSoFqOUzJ/8Lmr994=;
+ b=S8pUfbKdAi7GXaSvgg4JDQYL/typK7CRz8DReDIRhwkdk51igi6CsfXigIkrHrdc9C
+ dI+V5SxM2DHqDiXRk1D8kVlA5NXbdDZEjRUQpg4FdqSr5AOry+3QmUMLdX4/dzzvXU6W
+ AhZ/yPS0UjjUB4bpOyC6hO/7X2GRcM7JiF3XM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763559502; x=1764164302;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tBH1paFXTcehxT4QWVpPVMUi1/uSoFqOUzJ/8Lmr994=;
+ b=m+mnfO3EIyl9B89UEyPykkl3Qczr0aucM0U2/QB3lon1ONUn037OzIBT09RUa47q3d
+ K/B25IUzyG4FwKMsXOdE/TYygp/BTU059rLyxd6NimbNwUnOKOfEcx2L2jMQMqjnnApp
+ BOSq+4kQmx/C2M91uv/D3K83ndCTKc/xpviCxOQuwtR3Tx5W/r+vcJGgSdY5+iZNwMr5
+ P2p73uYPO4I13tpxNFlNZkZ4ilMv+2aVhm2x6vXsqGbFmknEuOGgQ1bWf0VnpnYWRbOh
+ Zl5Mi5WOy0qDCE+hm0XCZsG5LSXo51uykjwg/YpYFBcWG2VZ70wEgQJdKJ7LhJ7rh7/B
+ eHsw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXBeTTD3cLZB4aacPcVR1Y+uEp2Qb44tX/WRxHejgCzSh0rrzgNXNlxlWEAIH9fdzVYgbgMrvP+PfE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzIDfjU9wCzGex6q3vMORy2wQQspnlTuN7SmtZvHFeiY70j7Qy6
+ +GW0j3hZRLxQgF0kgR0XUBpcjn1z89BQugrS8hKiaKfI2FMJ9zuEVCjzAHKOtBNWBvY=
+X-Gm-Gg: ASbGncuxjKi+AcBm7foZVALoQLYScIZ+bCCKm5wF6NnVWbIBxJCTnfCSkCKSzmY121Z
+ XkKxpj7lGcndfif9LHDHtX0Z5nUwq+GvWvfmgEdYB3wVwi1vUa4V1E1Q4ixumkRkNsClCfIFU71
+ Yaff/IiGXg00hQk7pEJGYqMVoRE+VwldbjykFJcJLjB1T2BoqDf13OjRfVzKIOfCGwiavl2FlwA
+ 1u3zt3ZfDKJ6dIZd8SshWriV7fixrQPqWjx1fVae8uVPP77MDjUfCR+A35urwjLtX9cGzTpT1Em
+ lUt2tJ1VXn5QF4H0Ke08qdwC7PoIN6CbAZLgD3dIBkjoL6SatIPYRCiyHKBUsvD+hQ9MknqTH2P
+ vpuCN5TqqLiAHJjfyWWe7Jb+UzIEQuLsycgM1vK4dEtcopt3s1l4C5A8JPA0qrwgmmKS7uwesKU
+ Xo5dV8mC6B5POOD2PmrRwofeB1jr1oLuQoFr1NQJola3syvZBQdxRXytOXdUKWHDHGAMzdh1lP4
+ FDL
+X-Google-Smtp-Source: AGHT+IHHNBq8xvSVzoTsfO4QPAjwgiIHwukUdPe5JdTymryqzDGKGjkE8HCddxs/abUlkIdhe2q8+Q==
+X-Received: by 2002:a17:90b:1a86:b0:343:7714:4cab with SMTP id
+ 98e67ed59e1d1-343fa52559cmr20451425a91.22.1763559501918; 
+ Wed, 19 Nov 2025 05:38:21 -0800 (PST)
+Received: from ranegod-HP-ENVY-x360-Convertible-13-bd0xxx.. ([14.139.108.62])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-345bc24f941sm2856614a91.10.2025.11.19.05.38.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Nov 2025 05:38:21 -0800 (PST)
+From: ssrane_b23@ee.vjti.ac.in
+X-Google-Original-From: ssranevjti@gmail.com
+To: Zsolt Kajtar <soci@c64.rulez.org>, Simona Vetter <simona@ffwll.ch>,
+ Helge Deller <deller@gmx.de>
+Cc: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>, linux-fbdev@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v4 06/10] drm/rockchip: dw_hdmi_qp: Set supported_formats
- platdata
-Date: Wed, 19 Nov 2025 14:37:51 +0100
-Message-ID: <11723230.nUPlyArG6x@workhorse>
-In-Reply-To: <edc12051-6e50-4ef6-98cf-713abb49dd90@collabora.com>
-References: <20251117-color-format-v4-0-0ded72bd1b00@collabora.com>
- <20251117-color-format-v4-6-0ded72bd1b00@collabora.com>
- <edc12051-6e50-4ef6-98cf-713abb49dd90@collabora.com>
+ syzbot+5a40432dfe8f86ee657a@syzkaller.appspotmail.com
+Subject: [PATCH] fbdev: core: Fix vmalloc-out-of-bounds in fb_imageblit
+Date: Wed, 19 Nov 2025 19:08:21 +0530
+Message-Id: <20251119133821.89998-1-ssranevjti@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 20 Nov 2025 00:10:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,91 +89,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, 18 November 2025 21:14:31 Central European Standard Time Cristian Ciocaltea wrote:
-> On 11/17/25 9:11 PM, Nicolas Frattaroli wrote:
-> > With the introduction of the supported_formats member in the
-> > dw-hdmi-qp platform data struct, drivers that have access to this
-> > information should now set it.
-> > 
-> > Set it in the rockchip dw_hdmi_qp glue driver, where such a bitmask of
-> > supported color formats already exists. It just needs to be converted to
-> > the appropriate HDMI_COLORSPACE_ mask.
-> > 
-> > This allows this information to be passed down to the dw-hdmi-qp core,
-> > which sets it in the bridge it creates, and consequently will allow the
-> > common HDMI bridge code to act on it.
-> > 
-> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > ---
-> >  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-> > index c9fe6aa3e3e3..7c294751de19 100644
-> > --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-> > +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-> > @@ -468,6 +468,28 @@ static const struct of_device_id dw_hdmi_qp_rockchip_dt_ids[] = {
-> >  };
-> >  MODULE_DEVICE_TABLE(of, dw_hdmi_qp_rockchip_dt_ids);
-> >  
-> > +static const u32 supported_colorformats = DRM_COLOR_FORMAT_AUTO |
-> > +					  DRM_COLOR_FORMAT_RGB444 |
-> > +					  DRM_COLOR_FORMAT_YCBCR444;
-> > +
-> > +static unsigned int __pure drm_to_hdmi_fmts(const u32 fmt)
-> > +{
-> > +	unsigned int res = 0;
-> > +
-> > +	if (fmt & DRM_COLOR_FORMAT_AUTO)
-> > +		res |= BIT(HDMI_COLORSPACE_RGB);
-> > +	if (fmt & DRM_COLOR_FORMAT_RGB444)
-> > +		res |= BIT(HDMI_COLORSPACE_RGB);
-> > +	if (fmt & DRM_COLOR_FORMAT_YCBCR444)
-> > +		res |= BIT(HDMI_COLORSPACE_YUV444);
-> > +	if (fmt & DRM_COLOR_FORMAT_YCBCR422)
-> > +		res |= BIT(HDMI_COLORSPACE_YUV422);
-> > +	if (fmt & DRM_COLOR_FORMAT_YCBCR420)
-> > +		res |= BIT(HDMI_COLORSPACE_YUV420);
-> > +
-> > +	return res;
-> > +}
-> > +
-> >  static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
-> >  				    void *data)
-> >  {
-> > @@ -521,6 +543,8 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
-> >  	plat_data.phy_data = hdmi;
-> >  	plat_data.max_bpc = 10;
-> >  
-> > +	plat_data.supported_formats = drm_to_hdmi_fmts(supported_colorformats);
-> 
-> Any reason why this cannot be simply set as
-> 
->   BIT(HDMI_COLORSPACE_RGB) | BIT(HDMI_COLORSPACE_YUV444) | BIT(HDMI_COLORSPACE_YUV422)
-> 
-> and get rid of the unnecessary conversion?
+From: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
 
-My gut feeling lead me towards trying to have a single source of
-truth for the supported color formats, but upon further reflection
-this is indeed way too verbose and lead me to move the
-supported_colorformats definition into this patch rather than the
-one where it's needed for registering the property.
+syzbot reported a vmalloc-out-of-bounds write in fb_imageblit. The crash
+occurs when drawing an image at the very end of the framebuffer memory.
 
-So I agree with you here and will simplify this by just setting
-these as you described.
+The current bounds check in fb_imageblit limits the drawing height (max_y)
+by dividing the screen size by the line length. However, this calculation
+only ensures that the start of the last line fits within the buffer. It
+fails to account for the width of the image on that final line. If the
+image width (multiplied by bpp) exceeds the remaining space on the last
+line, the drawing routine writes past the end of the allocated video
+memory.
 
-Kind regards,
-Nicolas Frattaroli
+This patch replaces the insufficient check with a more precise one. It
+calculates the effective width in bytes of the image (accounting for
+clipping against xres_virtual) and ensures that the last byte of the
+operation falls within the screen buffer. Specifically, it checks if
+'(dy + height - 1) * line_length + effective_width_bytes' exceeds
+screen_size. If it does, the drawing height max_y is reduced to
+prevent the out-of-bounds access.
 
-> 
-> > +
-> >  	encoder = &hdmi->encoder.encoder;
-> >  	encoder->possible_crtcs = drm_of_find_possible_crtcs(drm, dev->of_node);
-> >  
-> > 
-> 
-> 
+Reported-by: syzbot+5a40432dfe8f86ee657a@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=5a40432dfe8f86ee657a
 
+Signed-off-by: Shaurya Rane <ssrane_b23@ee.vjti.ac.in>
+---
+ drivers/video/fbdev/core/fb_imageblit.h | 66 +++++++++++++++++++++++--
+ 1 file changed, 62 insertions(+), 4 deletions(-)
 
-
+diff --git a/drivers/video/fbdev/core/fb_imageblit.h b/drivers/video/fbdev/core/fb_imageblit.h
+index 3b2bb4946505..0c0d05cff3f8 100644
+--- a/drivers/video/fbdev/core/fb_imageblit.h
++++ b/drivers/video/fbdev/core/fb_imageblit.h
+@@ -485,11 +485,69 @@ static inline void fb_imageblit(struct fb_info *p, const struct fb_image *image)
+ 	struct fb_address dst = fb_address_init(p);
+ 	struct fb_reverse reverse = fb_reverse_init(p);
+ 	const u32 *palette = fb_palette(p);
++	struct fb_image clipped_image;
++	u32 max_x, max_y;
++	unsigned long max_offset_bytes;
++
++	/* Validate basic parameters */
++	if (!image || !p->screen_buffer || !p->screen_size ||
++	    !image->width || !image->height)
++		return;
++
++	/* Calculate maximum addressable coordinates based on virtual resolution and buffer size */
++	max_x = p->var.xres_virtual;
++	max_y = p->var.yres_virtual;
++
++	/* Check against actual buffer size to prevent vmalloc overflow */
++	{
++		unsigned long effective_width_bytes;
++		u32 right_edge = image->dx + image->width;
++
++		if (right_edge < image->dx)
++			right_edge = max_x;
++		else
++			right_edge = min(right_edge, max_x);
++
++		effective_width_bytes = (unsigned long)right_edge * bpp;
++		effective_width_bytes = (effective_width_bytes + 7) / 8;
++
++		if (effective_width_bytes > p->screen_size) {
++			max_y = 0;
++		} else if (p->fix.line_length) {
++			u32 max_lines = (p->screen_size - effective_width_bytes) /
++					p->fix.line_length + 1;
++			if (max_lines < max_y)
++				max_y = max_lines;
++		}
++	}
++
++	/* If image is completely outside bounds, skip it */
++	if (image->dx >= max_x || image->dy >= max_y)
++		return;
++
++	/* Create clipped image - clip to virtual resolution bounds */
++	clipped_image = *image;
++
++	/* Clip width if it extends beyond right edge */
++	if (clipped_image.dx + clipped_image.width > max_x) {
++		if (clipped_image.dx < max_x)
++			clipped_image.width = max_x - clipped_image.dx;
++		else
++			return; /* completely outside */
++	}
++
++	/* Clip height if it extends beyond bottom edge */
++	if (clipped_image.dy + clipped_image.height > max_y) {
++		if (clipped_image.dy < max_y)
++			clipped_image.height = max_y - clipped_image.dy;
++		else
++			return; /* completely outside */
++	}
+ 
+-	fb_address_forward(&dst, image->dy * bits_per_line + image->dx * bpp);
++	fb_address_forward(&dst, clipped_image.dy * bits_per_line + clipped_image.dx * bpp);
+ 
+-	if (image->depth == 1)
+-		fb_bitmap_imageblit(image, &dst, bits_per_line, palette, bpp, reverse);
++	if (clipped_image.depth == 1)
++		fb_bitmap_imageblit(&clipped_image, &dst, bits_per_line, palette, bpp, reverse);
+ 	else
+-		fb_color_imageblit(image, &dst, bits_per_line, palette, bpp, reverse);
++		fb_color_imageblit(&clipped_image, &dst, bits_per_line, palette, bpp, reverse);
+ }
+-- 
+2.34.1
 
