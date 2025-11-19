@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB28CC6EB0F
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 14:06:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC0DC6EB15
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 14:07:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2ABD210E5E7;
-	Wed, 19 Nov 2025 13:06:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B85DC10E5E9;
+	Wed, 19 Nov 2025 13:07:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Wbwzn0uV";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="SINksK3O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B6B810E5E9
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 13:06:55 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00C0710E5E9
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 13:07:05 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id EB3FAC1118A;
- Wed, 19 Nov 2025 13:06:31 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id E649A1A1BDD;
+ Wed, 19 Nov 2025 13:07:04 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 2D36F60720;
- Wed, 19 Nov 2025 13:06:54 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id B600660720;
+ Wed, 19 Nov 2025 13:07:04 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id B60E410371A4D; Wed, 19 Nov 2025 14:06:43 +0100 (CET)
+ with ESMTPSA id 95D7A10371A50; Wed, 19 Nov 2025 14:06:52 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1763557612; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1763557621; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=a6WNrs9Y6V3IsNLzdFtu7YCg0CGh4zNPN+hLyMO6Fv8=;
- b=Wbwzn0uVxzL0e/KdCS6XpEu2u22Bhj89nT+j8V+lPOjs5nB08HSlWeIApMk5lqJTqTx0O8
- 9a5kGAyCI0h3tBIL8GeAcGlzc0wiypsysOh5/bTgohaGSpK/RcIzB2QSLjN3z7w7CSPZM1
- cM4BGVsG3eh7Tde1ClKXPAce/5EIU5PYIfS7SFSnZMXIk6yiqFYu9m27WJGMB+JzN8Zh2P
- quo7b5H7V2VwfrAeEsKpGgEDayBJtAZF4iG5+3Q8xtiLzu1eFF4eWL6V54/8JN+uRhynPR
- JnW87vN4WO5iAWPI0jGeBK1k5B58PyuUE/mB32X4RBtSbbm9g6gPzztHbAeBPQ==
+ bh=qsazag2An/fgMKK08J9HfhnhU42+l2KXmaAJPH5Vluw=;
+ b=SINksK3OTvoGnmlWlEC2/vSxrmPi+Mro0sJJXQaFJuKGFTUA252iHhYx9EgmLc5PrbVKZM
+ RUr4gvoz9t6J9epsIL181FJgX+PDDF8pNu6M9USf2VcP7kWsaMShijyzm3GOItW+ABL7e0
+ +HSv/zNLf7bSGeSvlqjM8dkVZWu5RtJHnKc5V05UvOaa2waluCoxBZx3x+2P3f2Otb0Gtx
+ vVSWGhk0rCFESdXYMGery+tKQSB7m5QqpY7TahdE8Dpl2x8rYCC2poMCPoPxeuujw7DJeq
+ 7YupO9sXu+i9jcaWlNcyrgtk4Q5dmaMC8Wf9vqrZRKLaAu1dnSW0FhhY1c6RfA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 19 Nov 2025 14:05:37 +0100
-Subject: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
+Date: Wed, 19 Nov 2025 14:05:38 +0100
+Subject: [PATCH 07/26] drm/bridge: ite-it66121: use
+ devm_drm_of_find_bridge() to put the next bridge
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
+Message-Id: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-7-0db98a7fe474@bootlin.com>
 References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
 In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -96,100 +97,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Several drivers (about 20) follow the same pattern:
-
- 1. get a pointer to a bridge (typically the next bridge in the chain) by
-    calling of_drm_find_bridge()
- 2. store the returned pointer in the private driver data, keep it until
-    driver .remove
- 3. dereference the pointer at attach time and possibly at other times
-
-of_drm_find_bridge() is now deprecated because it does not increment the
-refcount and should be replaced with drm_of_find_bridge() +
-drm_bridge_put().
-
-However some of those drivers have a complex code flow and adding a
-drm_bridge_put() call in all the appropriate locations is error-prone,
-leads to ugly and more complex code, and can lead to errors over time with
-code flow changes.
-
-To handle all those drivers in a straightforward way, add a devm variant of
-drm_of_find_bridge() that adds a devm action to invoke drm_bridge_put()
-when the said driver is removed. This allows all those drivers to put the
-reference automatically and safely with a one line change:
-
-  - priv->next_bridge = of_drm_find_bridge(remote_np);
-  + priv->next_bridge = devm_drm_of_find_bridge(dev, remote_np);
+This driver obtains a bridge pointer from of_drm_find_bridge() in the probe
+function and stores it until driver removal. of_drm_find_bridge() is
+deprecated. Move to devm_drm_of_find_bridge() which puts the bridge
+reference on remove or on probe failure.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/drm_bridge.c | 30 ++++++++++++++++++++++++++++++
- include/drm/drm_bridge.h     |  5 +++++
- 2 files changed, 35 insertions(+)
+ drivers/gpu/drm/bridge/ite-it66121.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 09ad825f9cb8..c7baafbe5695 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1446,6 +1446,36 @@ struct drm_bridge *drm_of_find_bridge(struct device_node *np)
- }
- EXPORT_SYMBOL(drm_of_find_bridge);
+diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+index aa7b1dcc5d70..5bc4e5afb823 100644
+--- a/drivers/gpu/drm/bridge/ite-it66121.c
++++ b/drivers/gpu/drm/bridge/ite-it66121.c
+@@ -1542,7 +1542,7 @@ static int it66121_probe(struct i2c_client *client)
+ 		return -EINVAL;
+ 	}
  
-+/**
-+ * devm_drm_of_find_bridge - find the bridge corresponding to the device
-+ *			     node in the global bridge list and add a devm
-+ *			     action to put it
-+ *
-+ * @dev: device requesting the bridge
-+ * @np: device node
-+ *
-+ * On success the returned bridge refcount is incremented, and a devm
-+ * action is added to call drm_bridge_put() when @dev is removed. So the
-+ * caller does not have to put the returned bridge explicitly.
-+ *
-+ * RETURNS:
-+ * drm_bridge control struct on success, NULL on failure
-+ */
-+struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, struct device_node *np)
-+{
-+	struct drm_bridge *bridge = drm_of_find_bridge(np);
-+
-+	if (bridge) {
-+		int err = devm_add_action_or_reset(dev, drm_bridge_put_void, bridge);
-+
-+		if (err)
-+			return ERR_PTR(err);
-+	}
-+
-+	return bridge;
-+}
-+EXPORT_SYMBOL(devm_drm_of_find_bridge);
-+
- /**
-  * of_drm_find_bridge - find the bridge corresponding to the device node in
-  *			the global bridge list
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index e74e91004c48..98d5433f7d35 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -1314,12 +1314,17 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 
- #ifdef CONFIG_OF
- struct drm_bridge *drm_of_find_bridge(struct device_node *np);
-+struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, struct device_node *np);
- struct drm_bridge *of_drm_find_bridge(struct device_node *np);
- #else
- static inline struct drm_bridge *drm_of_find_bridge(struct device_node *np)
- {
- 	return NULL;
- }
-+static inline struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, struct device_node *np)
-+{
-+	return NULL;
-+}
- static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
- {
- 	return NULL;
+-	ctx->next_bridge = of_drm_find_bridge(ep);
++	ctx->next_bridge = devm_drm_of_find_bridge(dev, ep);
+ 	of_node_put(ep);
+ 	if (!ctx->next_bridge) {
+ 		dev_dbg(ctx->dev, "Next bridge not found, deferring probe\n");
 
 -- 
 2.51.1
