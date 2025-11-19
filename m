@@ -2,85 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1DAC71660
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 23:58:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21617C71722
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 00:31:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9DBB10E6A7;
-	Wed, 19 Nov 2025 22:58:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98FBC10E27D;
+	Wed, 19 Nov 2025 23:31:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bpOBJT1B";
+	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="C2EowBCX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com
- [209.85.160.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A993C10E26D
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 22:57:58 +0000 (UTC)
-Received: by mail-oa1-f45.google.com with SMTP id
- 586e51a60fabf-3e2d1477b9cso138381fac.2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 14:57:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763593078; x=1764197878; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IXmVFPMQ40Hruy/E9zAx+RGPm4uKA5BjVJYa0KPmt0c=;
- b=bpOBJT1BZTWQOBgZK5+qzZf1wrEMjY1Lysit1kRParxhWru3uEWsV9UNivFkP/mH1t
- 5GXicFRhvTy0sMI1h9dSnw4dCgG7kFQ9L8PEu23QZm85KFIMFZBIcA6pJCMbNVronCcr
- k/8/W86wQvmnPjcEk40LqjaqRmGJd+MT+Lt0pbXn5XL32AVVXLPmPxgXzYs2HOvzo3Hf
- 9gZPD2CKS+ZgkCxQWVIwh4oEEjfT2XlLLkLwpLsevnMe3YpHUZ3GR8vRij1GO1HnMKlT
- NvVBoJECBhcveMhhTvdaDM7uTEMUuKCLqybJLM90ZeXMBPT2IBXZCU7Ri1qWDj//9nHD
- rq9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763593078; x=1764197878;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=IXmVFPMQ40Hruy/E9zAx+RGPm4uKA5BjVJYa0KPmt0c=;
- b=lVtqPxMoOgaWdu/PWpOc0eH4dBLWA78a+m8v6kYaP1SagXxYxxDk0HME2LV86kiSZh
- Setshq/fbNxcxq4WyGIdcUb4fpu2smTupx+ml/AVQr2rTTIkvm1xQ3xdTeqGr+bWGBJh
- NDSdQXgfX3KuI8Ju5sqG2cPBDF4FGWYrq7Udx0iTofK/JIE12zkbTFfaZRhxVBOSiRDs
- AF/XhzSQWz35oWLJk502XgePag7uBWCzwZmBwUOPEusFuyXI8m9fLIPgunMCoxBRuLz4
- RdP3yfc3fa3Art7vuerGC5H0r9Of+bDWTN4WL9IPBtitRYLnB9YUe4RKqJk4ayf5nIWP
- xheQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWB0aP/C9c6h8OiBs/N9emiO+OOu1H3q44FplgmyxLhbYOkMHhA3KRx0lksa+Lu9xE9OHHqJdUTEas=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwPQ6IFxdw7go6zzGWUAc25Tnfh4bLjdAQ9xTeopQqwmXLd+x50
- 9fTNRALq11/X9IlVL/vSV4Y8NOkApctNEDIY2i3nGJwy9HpLXPYld0zi
-X-Gm-Gg: ASbGncsVr+kNrJjTKCols5LVxxHHCeK7wW3oHz4U44IzvxsB7u8c7keN5zGMgID6jF8
- TBBfBb2afPAifCkUCTpTRt3AynnnJW+MrA3XFck1l5YnX0wDFLweH4UCWoDBqELZrQFOC4kHtGB
- ID+5cbF8LdzGUuW/PEWvPB3dXLFoRAQh6ZhF5wRtIUR9zhuXgQp7SsnCTKmBe2+7Lg6Kx8bWTvz
- IzBJ1Pk0FfR2q01tqA0E4WMrv7ZHNipSK6CLAoMC8gc9VYfMP3iULc33ChsZ4rpjbVaH1cbab0v
- 2s4hdug46sMtfgyd2k2qlGSN7pM10ObK9Hm8mBUt2UBf4FtZfTYZl/gYIie7zHMlq7OAW4NbDye
- T1foFe7eDF3n93Y/rRq3nhcmLj0D2AEdMKzfq/3okY6TgjAqwMb+xfgNDvVTD9hFV2VSd72c6jU
- v4FRpD0UIR7vFM5TZzZsI=
-X-Google-Smtp-Source: AGHT+IEtt8X7i3eTJjeg5rMzfEF6Ri0+tEQiTgyoMB1/D5iNSgiCmp83clMkoOMZdVS/lRECHQLviA==
-X-Received: by 2002:a05:6808:152a:b0:43f:5b3e:11f4 with SMTP id
- 5614622812f47-450ff34a912mr511966b6e.43.1763593077894; 
- Wed, 19 Nov 2025 14:57:57 -0800 (PST)
-Received: from localhost.localdomain ([2600:1700:fb0:1bc0::54])
- by smtp.gmail.com with ESMTPSA id
- 586e51a60fabf-3ec9dcfe28csm346496fac.22.2025.11.19.14.57.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Nov 2025 14:57:57 -0800 (PST)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: linux-rockchip@lists.infradead.org
-Cc: mripard@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org,
- rfoss@kernel.org, tzimmermann@suse.de, jonas@kwiboo.se,
- neil.armstrong@linaro.org, heiko@sntech.de,
- sebastian.reichel@collabora.com, jernej.skrabec@gmail.com,
- dri-devel@lists.freedesktop.org, andrzej.hajda@intel.com,
- andy.yan@rock-chips.com, krzk+dt@kernel.org, robh@kernel.org,
- Laurent.pinchart@ideasonboard.com, cristian.ciocaltea@collabora.com,
- Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH V3 3/3] arm64: dts: rockchip: Add HDMI to Gameforce Ace
-Date: Wed, 19 Nov 2025 16:55:26 -0600
-Message-ID: <20251119225526.70588-4-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251119225526.70588-1-macroalpha82@gmail.com>
-References: <20251119225526.70588-1-macroalpha82@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD54010E27D
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 23:31:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
+ ; s=x;
+ h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
+ :Date:subject:date:message-id:reply-to;
+ bh=m2Wt2FxrpFGw+jXNcISuMi9evacIUQw+6s00ZTprzFY=; b=C2EowBCXrCGCeay3nX7f9c6sod
+ t/LdJBJ/aYqKtc/38BNcGjjq9NmCuV4gvRkzigV8LSAmxJvI76V4nqNiboxcwPb82KqL1J5ZnhYgx
+ +j+B7vZfceMoWFKaggLB5jkp2RqkZQjmYRUuR237UlrhuEzbTBMya7qaKHzPQJH6alls=;
+Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:44664
+ helo=pettiford) by mail.hugovil.com with esmtpa (Exim 4.92)
+ (envelope-from <hugo@hugovil.com>)
+ id 1vLreC-0004oJ-5J; Wed, 19 Nov 2025 18:31:37 -0500
+Date: Wed, 19 Nov 2025 18:31:35 -0500
+From: Hugo Villeneuve <hugo@hugovil.com>
+To: Chris Brandt <chris.brandt@renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
+ <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+ Nghia Vo <nghia.vo.zn@renesas.com>, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
+Message-Id: <20251119183135.85ac542b68c732b6ea9b7a4d@hugovil.com>
+In-Reply-To: <20251119022744.1599235-2-chris.brandt@renesas.com>
+References: <20251119022744.1599235-1-chris.brandt@renesas.com>
+ <20251119022744.1599235-2-chris.brandt@renesas.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 70.80.174.168
+X-SA-Exim-Mail-From: hugo@hugovil.com
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
+X-Spam-Level: 
+X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+ * -1.4 NICE_REPLY_A Looks like a legit reply (A)
+X-Spam-Status: No, score=-2.4 required=5.0 tests=ALL_TRUSTED,NICE_REPLY_A
+ autolearn=ham autolearn_force=no version=3.4.2
+Subject: Re: [PATCH v5 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,120 +72,358 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
+Hi Chris,
 
-Add support for the HDMI port for the Gameforce Ace. The HDMI port
-has no HPD pin present (the manufacturer's devicetree states the pin
-is reused for an additional face button) so add the attribute of
-no-hpd to poll for connected devices.
+On Tue, 18 Nov 2025 21:27:43 -0500
+Chris Brandt <chris.brandt@renesas.com> wrote:
 
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- .../dts/rockchip/rk3588s-gameforce-ace.dts    | 63 +++++++++++++++++++
- 1 file changed, 63 insertions(+)
+> Convert the limited MIPI clock calculations to a full range of settings
+> based on math including H/W limitation validation.
+> Since the required DSI division setting must be specified from external
+> sources before calculations, expose a new API to set it.
+> 
+> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+> 
+> ---
+> v1->v2:
+> - Remove unnecessary parentheses
+> - Add target argument to new API
+> - DPI mode has more restrictions on DIV_A and DIV_B
+> 
+> v2->v3:
+> - Removed Empty lines (Hugo)
+> - Add dummy for compile-testing CONFIG_CLK_RZG2L=n case (Geert)
+> - Renamed label found_dsi_div to calc_pll_clk (Hugo)
+> - Renamed label found_clk to clk_valid (Hugo)
+> - Removed 'found' var because not needed
+> - Move 'foutpostdiv_rate =' after if(foutvco_rate > 1500000000) (Hugo)
+> - Move PLL5_TARGET_* for new API to renesas.h (Hugo,Geert)
+> - Convert #define macros PLL5_TARGET_* to enum (Geert)
+> - static {unsigned} int dsi_div_ab; (Geert)
+> - {unsigned} int a, b;  (Geert)
+> - Change "((1 << a) * (b + 1))" to "(b + 1) << a"  (Geert)
+> - Change "foutvco_rate = rate * (1 << xxx ) * ..." to " = rate * ... * << xxx (Geert)
+> - Move (u64) outside of modulo operation to avoid helper on 32-bit compiles (Geert)
+> - Change DIV_ROUND_CLOSEST_ULL() to DIV_ROUND_CLOSEST() (Geert)
+> - void rzg2l_cpg_dsi_div_set_divider({unsinged} int divider, int target)
+> - Change "dsi_div_ab = (1 << AAA) * (BBB + 1)" to " = (BBB + 1) << AAA (Geert)
+> - Added Reviewed-by and Tested-by (Biju)
+> 
+> v3->v4:
+> - Changed <,> to <=,>=  (Hugo)
+> - Removed duplicate code bock (copy/paste mistake) (Hugo)
+> - Fix dummy for rzg2l_cpg_dsi_div_set_divider when CONFIG_CLK_RZG2L=n (Geert)
+> - Removed comment "Below conditions must be set.." (Hugo)
+> - Removed +1,-1 from pl5_intin comparison math because it was not correct
+> - Removed default register settings (PLL5_xxx_DEF) because makes no sense
+> - If any calcualtion error, print a message and return a rate of 0
+> - Rename global var "dsi_div_ab" to "dsi_div_ab_desired"
+> - Check the range of hsclk
+> - The correct clock parent is determined by if the divider is even/odd
+> - Add in all the restrictions from DIV A,B from the hardware manual
+> - No more need to be a recursive function
+> - DPI settings must have DSI_DIV_B be '0' (divide 1/1)
+> 
+> v4->v5:
+> - Change dsi_div_ab_desired to u8 (Hugo)
+> - Create the helper function rzg2l_cpg_div_ab (Hugo)
+> - Remove odd/even comments because implied (Hugo)
+> - Change continue to break for the for loop (Hugo)
+> - Change if{} if{} to if{} else if{} (Hugo)
+> - Remove function rzg2l_cpg_get_vclk_rate (Chris)
+> - Set default clksrc,div_a,b using set_divider function (Biju)
+> - Return -EINVAL if rzg2l_cpg_dsi_div_determine_rate fails (Hugo)
+> ---
+>  drivers/clk/renesas/rzg2l-cpg.c | 162 ++++++++++++++++++++++++++------
+>  include/linux/clk/renesas.h     |  12 +++
+>  2 files changed, 146 insertions(+), 28 deletions(-)
+> 
+> diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+> index 6743e50d44d0..69a96fa5a272 100644
+> --- a/drivers/clk/renesas/rzg2l-cpg.c
+> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> @@ -74,6 +74,17 @@
+>  #define MSTOP_OFF(conf)		FIELD_GET(GENMASK(31, 16), (conf))
+>  #define MSTOP_MASK(conf)	FIELD_GET(GENMASK(15, 0), (conf))
+>  
+> +#define PLL5_FOUTVCO_MIN	800000000
+> +#define PLL5_FOUTVCO_MAX	3000000000
+> +#define PLL5_POSTDIV_MIN	1
+> +#define PLL5_POSTDIV_MAX	7
+> +#define PLL5_REFDIV_MIN		1
+> +#define PLL5_REFDIV_MAX		2
+> +#define PLL5_INTIN_MIN		20
+> +#define PLL5_INTIN_MAX		320
+> +#define PLL5_HSCLK_MIN		10000000
+> +#define PLL5_HSCLK_MAX		187500000
+> +
+>  /**
+>   * struct clk_hw_data - clock hardware data
+>   * @hw: clock hw
+> @@ -129,6 +140,12 @@ struct rzg2l_pll5_param {
+>  	u8 pl5_spread;
+>  };
+>  
+> +/* PLL5 output will be used for DPI or MIPI-DSI */
+> +static int dsi_div_target = PLL5_TARGET_DPI;
+> +
+> +/* Required division ratio for MIPI D-PHY clock depending on number of lanes and bpp. */
+> +static u8 dsi_div_ab_desired;
+> +
+>  struct rzg2l_pll5_mux_dsi_div_param {
+>  	u8 clksrc;
+>  	u8 dsi_div_a;
+> @@ -170,6 +187,11 @@ struct rzg2l_cpg_priv {
+>  	struct rzg2l_pll5_mux_dsi_div_param mux_dsi_div_params;
+>  };
+>  
+> +static inline u8 rzg2l_cpg_div_ab(u8 a, u8 b)
+> +{
+> +	return (b + 1) << a;
+> +}
+> +
+>  static void rzg2l_cpg_del_clk_provider(void *data)
+>  {
+>  	of_clk_del_provider(data);
+> @@ -557,16 +579,108 @@ rzg2l_cpg_sd_mux_clk_register(const struct cpg_core_clk *core,
+>  }
+>  
+>  static unsigned long
+> -rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_pll5_param *params,
+> +rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_cpg_priv *priv,
+> +			       struct rzg2l_pll5_param *params,
+>  			       unsigned long rate)
+>  {
+>  	unsigned long foutpostdiv_rate, foutvco_rate;
+> +	unsigned long hsclk;
+> +	unsigned int a, b, odd;
+> +	unsigned int dsi_div_ab_calc;
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dts b/arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dts
-index f5894672fcbd..b98e1a3369dc 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dts
-@@ -300,6 +300,20 @@ amp_headphone: headphone-amplifier {
- 		sound-name-prefix = "Headphones Amplifier";
- 	};
- 
-+	hdmi0-con {
-+		compatible = "hdmi-connector";
-+		ddc-en-gpios = <&gpio4 RK_PB3 GPIO_ACTIVE_HIGH>;
-+		pinctrl-0 = <&hdmi0_en>;
-+		pinctrl-names = "default";
-+		type = "d";
-+
-+		port {
-+			hdmi0_con_in: endpoint {
-+				remote-endpoint = <&hdmi0_out_con>;
-+			};
-+		};
-+	};
-+
- 	pwm_fan: pwm-fan {
- 		compatible = "pwm-fan";
- 		#cooling-cells = <2>;
-@@ -498,6 +512,34 @@ &gpu {
- 	status = "okay";
- };
- 
-+&hdmi0 {
-+	no-hpd;
-+	pinctrl-0 = <&hdmim0_tx0_cec>, <&hdmim0_tx0_scl>,
-+		    <&hdmim0_tx0_sda>;
-+	pinctrl-names = "default";
-+	status = "okay";
-+};
-+
-+&hdmi0_in {
-+	hdmi0_in_vp0: endpoint {
-+		remote-endpoint = <&vp0_out_hdmi0>;
-+	};
-+};
-+
-+&hdmi0_out {
-+	hdmi0_out_con: endpoint {
-+		remote-endpoint = <&hdmi0_con_in>;
-+	};
-+};
-+
-+&hdmi0_sound {
-+	status = "okay";
-+};
-+
-+&hdptxphy0 {
-+	status = "okay";
-+};
-+
- &i2c0 {
- 	pinctrl-0 = <&i2c0m2_xfer>;
- 	pinctrl-names = "default";
-@@ -746,6 +788,10 @@ &i2s0_sdi0
- 	status = "okay";
- };
- 
-+&i2s5_8ch {
-+	status = "okay";
-+};
-+
- &mipidcphy0 {
- 	status = "okay";
- };
-@@ -842,6 +888,13 @@ charger_int_h: charger-int-h {
- 		};
- 	};
- 
-+	hdmi {
-+		hdmi0_en: hdmi0-en {
-+			rockchip,pins =
-+				<4 RK_PB3 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	hym8563 {
- 		hym8563_int: hym8563-int {
- 			rockchip,pins =
-@@ -1416,6 +1469,16 @@ &vop_mmu {
- 	status = "okay";
- };
- 
-+&vp0 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	vp0_out_hdmi0: endpoint@ROCKCHIP_VOP2_EP_HDMI0 {
-+		reg = <ROCKCHIP_VOP2_EP_HDMI0>;
-+		remote-endpoint = <&hdmi0_in_vp0>;
-+	};
-+};
-+
- &vp3 {
- 	#address-cells = <1>;
- 	#size-cells = <0>;
+Change type to u8 like dsi_div_ab_desired.
+
+
+> +
+> +	if (dsi_div_target == PLL5_TARGET_DSI) {
+> +		/*
+> +		 * VCO-->[POSTDIV1,2]--FOUTPOSTDIV-->|   |-->[1/(DSI DIV A * B)]--> MIPI_DSI_VCLK
+> +		 *            |                      |-->|
+> +		 *            |-->[1/2]---FOUT1PH0-->|   |-->[1/16]---------------> hsclk (MIPI-PHY)
+> +		 */
+> +
+> +		/* Check hsclk */
+> +		hsclk = rate * dsi_div_ab_desired / 16;
+> +		if (hsclk < PLL5_HSCLK_MIN || hsclk > PLL5_HSCLK_MAX) {
+> +			dev_err(priv->dev, "hsclk out of range\n");
+> +			return 0;
+> +		}
+> +
+> +		/* Determine the correct clock source based on even/odd of the divider */
+> +		odd = dsi_div_ab_desired & 1;
+> +		if (odd) {
+> +			priv->mux_dsi_div_params.clksrc = 0;	/* FOUTPOSTDIV */
+> +			dsi_div_ab_calc = dsi_div_ab_desired;
+> +		} else {
+> +			priv->mux_dsi_div_params.clksrc = 1;	/*  FOUT1PH0 */
+> +			dsi_div_ab_calc = dsi_div_ab_desired / 2;
+> +		}
+> +
+> +		/* Calculate the DIV_DSI_A and DIV_DSI_B based on the desired divider */
+> +		for (a = 0; a < 4; a++) {
+> +			/* FOUT1PH0: Max output of DIV_DSI_A is 750MHz so at least 1/2 to be safe */
+> +			if (!odd && a == 0)
+> +				continue;
+> +
+> +			/* FOUTPOSTDIV: DIV_DSI_A must always be 1/1 */
+> +			if (odd && a != 0)
+> +				break;
+> +
+> +			for (b = 0; b < 16; b++) {
+> +				/* FOUTPOSTDIV: DIV_DSI_B must always be odd divider 1/(b+1) */
+> +				if (odd && b & 1)
+> +					continue;
+> +
+> +				if (rzg2l_cpg_div_ab(a, b) == dsi_div_ab_calc) {
+> +					priv->mux_dsi_div_params.dsi_div_a = a;
+> +					priv->mux_dsi_div_params.dsi_div_b = b;
+> +					goto calc_pll_clk;
+
+At this point, you matched your a and b with dsi_div_ab_calc, which can
+be different than dsi_div_ab_desired (even -> divided by 2). And when
+you calculate PLL5 clock (after calc_pll_clk), you use
+dsi_div_ab_desired, not dsi_div_ab_calc. Is this ok?
+
+If not, I suggest you simply get rid of variable dsi_div_ab_calc,
+and simply divide dsi_div_ab_desired by 2 for the even case.
+
+
+> +				}
+> +			}
+> +		}
+> +
+> +		dev_err(priv->dev, "Failed to calculate DIV_DSI_A,B\n");
+> +
+> +		return 0;
+> +	} else if (dsi_div_target == PLL5_TARGET_DPI) {
+> +		/* Fixed settings for DPI */
+> +		priv->mux_dsi_div_params.clksrc = 0;
+> +		priv->mux_dsi_div_params.dsi_div_a = 3; /* Divided by 8 */
+> +		priv->mux_dsi_div_params.dsi_div_b = 0; /* Divided by 1 */
+> +		dsi_div_ab_desired = 8;			/* (1 << a) * (b + 1) */
+> +	}
+> +
+> +calc_pll_clk:
+> +	/* PLL5 (MIPI_DSI_PLLCLK) = VCO / POSTDIV1 / POSTDIV2 */
+> +	for (params->pl5_postdiv1 = PLL5_POSTDIV_MIN;
+> +	     params->pl5_postdiv1 <= PLL5_POSTDIV_MAX;
+> +	     params->pl5_postdiv1++) {
+> +		for (params->pl5_postdiv2 = PLL5_POSTDIV_MIN;
+> +		     params->pl5_postdiv2 <= PLL5_POSTDIV_MAX;
+> +		     params->pl5_postdiv2++) {
+> +			foutvco_rate = rate * params->pl5_postdiv1 * params->pl5_postdiv2 *
+> +				       dsi_div_ab_desired;
+> +			if (foutvco_rate <= PLL5_FOUTVCO_MIN || foutvco_rate >= PLL5_FOUTVCO_MAX)
+> +				continue;
+> +
+> +			for (params->pl5_refdiv = PLL5_REFDIV_MIN;
+> +			     params->pl5_refdiv <= PLL5_REFDIV_MAX;
+> +			     params->pl5_refdiv++) {
+> +				params->pl5_intin = (foutvco_rate * params->pl5_refdiv) /
+> +						    (EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+> +				if (params->pl5_intin < PLL5_INTIN_MIN ||
+> +				    params->pl5_intin > PLL5_INTIN_MAX)
+> +					continue;
+> +
+> +				params->pl5_fracin = div_u64(((u64)
+> +						     (foutvco_rate * params->pl5_refdiv) %
+> +						     (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
+> +						     EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+> +				goto clk_valid;
+> +			}
+> +		}
+> +	}
+>  
+> -	params->pl5_intin = rate / MEGA;
+> -	params->pl5_fracin = div_u64(((u64)rate % MEGA) << 24, MEGA);
+> -	params->pl5_refdiv = 2;
+> -	params->pl5_postdiv1 = 1;
+> -	params->pl5_postdiv2 = 1;
+> +	dev_err(priv->dev, "Failed to calculate PLL5 settings\n");
+> +	return 0;
+> +
+> +clk_valid:
+>  	params->pl5_spread = 0x16;
+>  
+>  	foutvco_rate = div_u64(mul_u32_u32(EXTAL_FREQ_IN_MEGA_HZ * MEGA,
+> @@ -607,7 +721,7 @@ static unsigned long rzg2l_cpg_get_vclk_parent_rate(struct clk_hw *hw,
+>  	struct rzg2l_pll5_param params;
+>  	unsigned long parent_rate;
+>  
+> -	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(&params, rate);
+> +	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(priv, &params, rate);
+>  
+>  	if (priv->mux_dsi_div_params.clksrc)
+>  		parent_rate /= 2;
+> @@ -623,9 +737,19 @@ static int rzg2l_cpg_dsi_div_determine_rate(struct clk_hw *hw,
+>  
+>  	req->best_parent_rate = rzg2l_cpg_get_vclk_parent_rate(hw, req->rate);
+>  
+> +	if (!req->best_parent_rate)
+> +		return -EINVAL;
+> +
+>  	return 0;
+>  }
+>  
+> +void rzg2l_cpg_dsi_div_set_divider(u8 divider, int target)
+> +{
+> +	dsi_div_ab_desired = divider;
+> +	dsi_div_target = target;
+> +}
+> +EXPORT_SYMBOL_GPL(rzg2l_cpg_dsi_div_set_divider);
+> +
+>  static int rzg2l_cpg_dsi_div_set_rate(struct clk_hw *hw,
+>  				      unsigned long rate,
+>  				      unsigned long parent_rate)
+> @@ -796,22 +920,6 @@ struct sipll5 {
+>  
+>  #define to_sipll5(_hw)	container_of(_hw, struct sipll5, hw)
+>  
+> -static unsigned long rzg2l_cpg_get_vclk_rate(struct clk_hw *hw,
+> -					     unsigned long rate)
+> -{
+> -	struct sipll5 *sipll5 = to_sipll5(hw);
+> -	struct rzg2l_cpg_priv *priv = sipll5->priv;
+> -	unsigned long vclk;
+> -
+> -	vclk = rate / ((1 << priv->mux_dsi_div_params.dsi_div_a) *
+> -		       (priv->mux_dsi_div_params.dsi_div_b + 1));
+> -
+> -	if (priv->mux_dsi_div_params.clksrc)
+> -		vclk /= 2;
+> -
+> -	return vclk;
+> -}
+> -
+>  static unsigned long rzg2l_cpg_sipll5_recalc_rate(struct clk_hw *hw,
+>  						  unsigned long parent_rate)
+>  {
+> @@ -856,9 +964,9 @@ static int rzg2l_cpg_sipll5_set_rate(struct clk_hw *hw,
+>  	if (!rate)
+>  		return -EINVAL;
+>  
+> -	vclk_rate = rzg2l_cpg_get_vclk_rate(hw, rate);
+> +	vclk_rate = rate / dsi_div_ab_desired;
+>  	sipll5->foutpostdiv_rate =
+> -		rzg2l_cpg_get_foutpostdiv_rate(&params, vclk_rate);
+> +		rzg2l_cpg_get_foutpostdiv_rate(priv, &params, vclk_rate);
+>  
+>  	/* Put PLL5 into standby mode */
+>  	writel(CPG_SIPLL5_STBY_RESETB_WEN, priv->base + CPG_SIPLL5_STBY);
+> @@ -945,9 +1053,7 @@ rzg2l_cpg_sipll5_register(const struct cpg_core_clk *core,
+>  	if (ret)
+>  		return ERR_PTR(ret);
+>  
+> -	priv->mux_dsi_div_params.clksrc = 1; /* Use clk src 1 for DSI */
+> -	priv->mux_dsi_div_params.dsi_div_a = 1; /* Divided by 2 */
+> -	priv->mux_dsi_div_params.dsi_div_b = 2; /* Divided by 3 */
+> +	rzg2l_cpg_dsi_div_set_divider(8, PLL5_TARGET_DPI);
+>  
+>  	return clk_hw->clk;
+>  }
+> diff --git a/include/linux/clk/renesas.h b/include/linux/clk/renesas.h
+> index 0ebbe2f0b45e..96c5e8f3b5d7 100644
+> --- a/include/linux/clk/renesas.h
+> +++ b/include/linux/clk/renesas.h
+> @@ -16,6 +16,11 @@ struct device;
+>  struct device_node;
+>  struct generic_pm_domain;
+>  
+> +enum {
+> +	PLL5_TARGET_DPI,
+> +	PLL5_TARGET_DSI
+> +};
+> +
+>  void cpg_mstp_add_clk_domain(struct device_node *np);
+>  #ifdef CONFIG_CLK_RENESAS_CPG_MSTP
+>  int cpg_mstp_attach_dev(struct generic_pm_domain *unused, struct device *dev);
+> @@ -32,4 +37,11 @@ void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct device *dev);
+>  #define cpg_mssr_attach_dev	NULL
+>  #define cpg_mssr_detach_dev	NULL
+>  #endif
+> +
+> +#ifdef CONFIG_CLK_RZG2L
+> +void rzg2l_cpg_dsi_div_set_divider(u8 divider, int target);
+> +#else
+> +static inline void rzg2l_cpg_dsi_div_set_divider(u8, int target) { }
+> +#endif
+> +
+>  #endif
+> -- 
+> 2.50.1
+> 
+> 
+
+
 -- 
-2.43.0
-
+Hugo Villeneuve
