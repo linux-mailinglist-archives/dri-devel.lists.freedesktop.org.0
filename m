@@ -2,33 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D04C7182C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 01:10:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD21CC6D6B0
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 09:29:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0FC710E6B9;
-	Thu, 20 Nov 2025 00:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BCD110E5AC;
+	Wed, 19 Nov 2025 08:29:07 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="kPYfLD5j";
+	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="KycOX4jZ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-93.mail.aliyun.com (out28-93.mail.aliyun.com
- [115.124.28.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E72B10E5AA
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 08:28:48 +0000 (UTC)
-Received: from aliyun.com(mailfrom:zhangzhijie@bosc.ac.cn
- fp:SMTPD_---.fQ5Hg1C_1763540924 cluster:ay29) by smtp.aliyun-inc.com;
- Wed, 19 Nov 2025 16:28:45 +0800
-From: zhangzhijie <zhangzhijie@bosc.ac.cn>
-To: Hawking.Zhang@amd.com, zhangzhijie@bosc.ac.cn, wangran@bosc.ac.cn,
- zhangjian@bosc.ac.cn, alexander.deucher@amd.com, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: botton_zhang@163.com
-Subject: [PATCH v1] tests: Add test suite for double-checking userptr write
- validity and VRAM
-Date: Wed, 19 Nov 2025 16:28:41 +0800
-Message-Id: <20251119082841.1179938-1-zhangzhijie@bosc.ac.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D76A210E5AA;
+ Wed, 19 Nov 2025 08:29:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1763540935;
+ bh=UuVoHiX4g1DcUjyvKAoxU8D
+ BSFgJKZF+njAyH5dFFYc=; b=kPYfLD5jrPQ5qPDQwRfqKDwGwsFo33eoPCQbC4OBc4kDSS47w/
+ WjSQBOOr+QABNlYpqjNh46rwf3XfVCxHdu4QJrFZLAfSyEUAFjEE2X4UNsVkevr8aCJmfnmaO+E
+ ZUNmfKsHxi5rxhPFn1kZvbtq6Zr/O1Mt9I1VZAF/VIiKsc/b6+V9KW1efR3dL9fE/WDmLX6X5WO
+ iP6pebym4YKxV4Ma0CInXxI+eeIL/NSVwA+gUWYrrRcLfd45fySBu86PynZV1+LZCMEjyIl8RsE
+ FAnM9gOuboUQdUYQJVeYZk5LSDvtVyRqgrXwKH20X2sEqIQ4nx309dnCcTmGCRyLOSg==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
+ c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1763540935; bh=UuVoHiX4g1DcUjyvKAoxU8D
+ BSFgJKZF+njAyH5dFFYc=; b=KycOX4jZWE/T7hQo+sFKk3hoGSjmtQo3+lW9S0zV/N5jk7FyLd
+ T++LSUgYSRUta3m5zPJL3FBQ85vSpBGLdSDw==;
+Message-ID: <918608aa-0383-46fe-9130-8c9cd3f57aae@damsy.net>
+Date: Wed, 19 Nov 2025 09:28:54 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 10/20] drm/admgpu: handle resv dependencies in
+ amdgpu_ttm_map_buffer
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20251113160632.5889-1-pierre-eric.pelloux-prayer@amd.com>
+ <20251113160632.5889-11-pierre-eric.pelloux-prayer@amd.com>
+ <ebb52a9a-9454-471b-8262-098231b58777@amd.com>
+Content-Language: en-US
+From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
+In-Reply-To: <ebb52a9a-9454-471b-8262-098231b58777@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 20 Nov 2025 00:10:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,188 +65,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Userptr resides in host memory, and PCIe writes involve cache coherence.
-By using SDMA to copy GTT to VRAM and then verifying the values in VRAM, we can validate GTT cache coherence.
 
-Bo(Userptr) ----> SDMA ---> Bo(userptr) ----sdma-----> VRAM
 
-Signed-off-by: zhangzhijie <zhangzhijie@bosc.ac.cn>
----
- tests/amdgpu/basic_tests.c | 155 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 155 insertions(+)
+Le 17/11/2025 à 09:44, Christian König a écrit :
+> On 11/13/25 17:05, Pierre-Eric Pelloux-Prayer wrote:
+>> If a resv object is passed, its fences are treated as a dependency
+>> for the amdgpu_ttm_map_buffer operation.
+>>
+>> This will be used by amdgpu_bo_release_notify through
+>> amdgpu_fill_buffer.
+> 
+> Why should updating the GART window depend on fences in a resv object?
+> 
 
-diff --git a/tests/amdgpu/basic_tests.c b/tests/amdgpu/basic_tests.c
-index 0e4a357b..223a9b0b 100644
---- a/tests/amdgpu/basic_tests.c
-+++ b/tests/amdgpu/basic_tests.c
-@@ -2061,12 +2061,167 @@ static void amdgpu_command_submission_sdma_copy_linear(void)
- {
- 	amdgpu_command_submission_copy_linear_helper(AMDGPU_HW_IP_DMA);
- }
-+static void amdgpu_command_userptr_copy_to_vram_linear(void)
-+{
-+	int i, r, j;
-+	uint32_t *pm4 = NULL;
-+	uint64_t bo_mc;
-+	void *ptr = NULL;
-+	int pm4_dw = 256;
-+	int sdma_write_length = 4;
-+	amdgpu_bo_handle handle;
-+	amdgpu_context_handle context_handle;
-+	struct amdgpu_cs_ib_info *ib_info;
-+	struct amdgpu_cs_request *ibs_request;
-+	amdgpu_bo_handle buf_handle;
-+	amdgpu_va_handle va_handle;
-+
-+	amdgpu_bo_handle bo1;
-+	amdgpu_bo_handle *resources;
-+	uint64_t bo1_mc;
-+	volatile unsigned char *bo1_cpu;
-+	amdgpu_va_handle bo1_va_handle;
-+
-+
-+	r = amdgpu_bo_alloc_and_map(device_handle,
-+				sdma_write_length, 4096,
-+				AMDGPU_GEM_DOMAIN_VRAM,
-+				AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED, &bo1,
-+				(void**)&bo1_cpu, &bo1_mc,
-+				&bo1_va_handle);
-+	CU_ASSERT_EQUAL(r, 0);
-+	/* set bo1 */
-+	memset((void*)bo1_cpu, 0xaa, sdma_write_length);
-+
-+	pm4 = calloc(pm4_dw, sizeof(*pm4));
-+	CU_ASSERT_NOT_EQUAL(pm4, NULL);
-+
-+	ib_info = calloc(1, sizeof(*ib_info));
-+	CU_ASSERT_NOT_EQUAL(ib_info, NULL);
-+
-+	ibs_request = calloc(1, sizeof(*ibs_request));
-+	CU_ASSERT_NOT_EQUAL(ibs_request, NULL);
-+
-+	r = amdgpu_cs_ctx_create(device_handle, &context_handle);
-+	CU_ASSERT_EQUAL(r, 0);
-+
-+	posix_memalign(&ptr, sysconf(_SC_PAGE_SIZE), BUFFER_SIZE);
-+	CU_ASSERT_NOT_EQUAL(ptr, NULL);
-+	memset(ptr, 0, BUFFER_SIZE);
-+
-+	r = amdgpu_create_bo_from_user_mem(device_handle,
-+					   ptr, BUFFER_SIZE, &buf_handle);
-+	CU_ASSERT_EQUAL(r, 0);
-+
-+	r = amdgpu_va_range_alloc(device_handle,
-+				  amdgpu_gpu_va_range_general,
-+				  BUFFER_SIZE, 1, 0, &bo_mc,
-+				  &va_handle, 0);
-+	CU_ASSERT_EQUAL(r, 0);
-+
-+	r = amdgpu_bo_va_op(buf_handle, 0, BUFFER_SIZE, bo_mc, 0, AMDGPU_VA_OP_MAP);
-+	CU_ASSERT_EQUAL(r, 0);
-+
-+	handle = buf_handle;
-+
-+	j = i = 0;
-+
-+	if (family_id == AMDGPU_FAMILY_SI)
-+		pm4[i++] = SDMA_PACKET_SI(SDMA_OPCODE_WRITE, 0, 0, 0,
-+				sdma_write_length);
-+	else
-+		pm4[i++] = SDMA_PACKET(SDMA_OPCODE_WRITE,
-+				SDMA_WRITE_SUB_OPCODE_LINEAR, 0);
-+	pm4[i++] = 0xffffffff & bo_mc;
-+	pm4[i++] = (0xffffffff00000000 & bo_mc) >> 32;
-+	if (family_id >= AMDGPU_FAMILY_AI)
-+		pm4[i++] = sdma_write_length - 1;
-+	else if (family_id != AMDGPU_FAMILY_SI)
-+		pm4[i++] = sdma_write_length;
-+
-+	while (j++ < sdma_write_length)
-+		pm4[i++] = 0xdeadbeaf;
-+
-+	if (!fork()) {
-+		pm4[0] = 0x0;
-+		exit(0);
-+	}
-+
-+	amdgpu_test_exec_cs_helper(context_handle,
-+				   AMDGPU_HW_IP_DMA, 0,
-+				   i, pm4,
-+				   1, &handle,
-+				   ib_info, ibs_request);
-+
-+	i = 0;
-+	sdma_write_length = 1024;
-+	if (family_id == AMDGPU_FAMILY_SI) {
-+		pm4[i++] =
-+		SDMA_PACKET_SI(SDMA_OPCODE_COPY_SI, 0, 0, 0, sdma_write_length);
-+		pm4[i++] = 0xffffffff & bo1_mc;
-+		pm4[i++] = 0xffffffff & bo_mc;
-+		pm4[i++] = (0xffffffff00000000 & bo1_mc) >> 32;
-+		pm4[i++] = (0xffffffff00000000 & bo_mc) >> 32;
-+	} else {
-+		pm4[i++] =
-+		SDMA_PACKET(SDMA_OPCODE_COPY, SDMA_COPY_SUB_OPCODE_LINEAR, 0);
-+		if (family_id >= AMDGPU_FAMILY_AI)
-+			pm4[i++] = sdma_write_length - 1;
-+		else
-+			pm4[i++] = sdma_write_length;
-+		pm4[i++] = 0;
-+		pm4[i++] = 0xffffffff & bo_mc;
-+		pm4[i++] = (0xffffffff00000000 & bo_mc) >> 32;
-+		pm4[i++] = 0xffffffff & bo1_mc;
-+		pm4[i++] = (0xffffffff00000000 & bo1_mc) >> 32;
-+	}
-+	/* prepare resource */
-+	resources = calloc(2, sizeof(amdgpu_bo_handle));
-+	CU_ASSERT_NOT_EQUAL(resources, NULL);
-+
-+	resources[0] = bo1;
-+	resources[1] = handle;
-+	amdgpu_test_exec_cs_helper(context_handle,
-+					AMDGPU_HW_IP_DMA, 0,
-+					i, pm4,
-+					2, resources,
-+					ib_info, ibs_request);
-+
-+	i = 0;
-+	while (i < 4) {
-+		CU_ASSERT_EQUAL(((int*)ptr)[i++], 0xdeadbeaf);
-+	}
-+
-+	i = 0;
-+	while (i < 4) {
-+		CU_ASSERT_EQUAL(((int*)bo1_cpu)[i++], 0xdeadbeaf);
-+	}
-+	free(ibs_request);
-+	free(ib_info);
-+	free(pm4);
-+
-+	r = amdgpu_bo_va_op(buf_handle, 0, BUFFER_SIZE, bo_mc, 0, AMDGPU_VA_OP_UNMAP);
-+	CU_ASSERT_EQUAL(r, 0);
-+	r = amdgpu_va_range_free(va_handle);
-+	CU_ASSERT_EQUAL(r, 0);
-+	r = amdgpu_bo_free(buf_handle);
-+	CU_ASSERT_EQUAL(r, 0);
-+	free(ptr);
-+	r = amdgpu_bo_unmap_and_free(bo1, bo1_va_handle, bo1_mc,
-+						sdma_write_length);
-+	CU_ASSERT_EQUAL(r, 0);
-+	r = amdgpu_cs_ctx_free(context_handle);
-+	CU_ASSERT_EQUAL(r, 0);
-+
-+	wait(NULL);
-+}
- 
- static void amdgpu_command_submission_sdma(void)
- {
- 	amdgpu_command_submission_sdma_write_linear();
- 	amdgpu_command_submission_sdma_const_fill();
- 	amdgpu_command_submission_sdma_copy_linear();
-+	amdgpu_command_userptr_copy_to_vram_linear();
- }
- 
- static void amdgpu_command_submission_multi_fence_wait_all(bool wait_all)
--- 
-2.34.1
+You're right, this is not needed. I'll drop the patch.
 
+Pierre-Eric
+
+> Regards,
+> Christian.
+> 
+>>
+>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 16 +++++++++++-----
+>>   1 file changed, 11 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> index b13f0993dbf1..411997db70eb 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> @@ -184,7 +184,8 @@ static int amdgpu_ttm_map_buffer(struct drm_sched_entity *entity,
+>>   				 struct amdgpu_res_cursor *mm_cur,
+>>   				 unsigned int window, struct amdgpu_ring *ring,
+>>   				 bool tmz, uint64_t *size, uint64_t *addr,
+>> -				 struct dma_fence *dep)
+>> +				 struct dma_fence *dep,
+>> +				 struct dma_resv *resv)
+>>   {
+>>   	struct amdgpu_device *adev = ring->adev;
+>>   	unsigned int offset, num_pages, num_dw, num_bytes;
+>> @@ -239,6 +240,10 @@ static int amdgpu_ttm_map_buffer(struct drm_sched_entity *entity,
+>>   	if (dep)
+>>   		drm_sched_job_add_dependency(&job->base, dma_fence_get(dep));
+>>   
+>> +	if (resv)
+>> +		drm_sched_job_add_resv_dependencies(&job->base, resv,
+>> +						    DMA_RESV_USAGE_BOOKKEEP);
+>> +
+>>   	src_addr = num_dw * 4;
+>>   	src_addr += job->ibs[0].gpu_addr;
+>>   
+>> @@ -332,14 +337,14 @@ static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
+>>   		r = amdgpu_ttm_map_buffer(&entity->base,
+>>   					  src->bo, src->mem, &src_mm,
+>>   					  entity->gart_window_id0, ring, tmz, &cur_size, &from,
+>> -					  NULL);
+>> +					  NULL, NULL);
+>>   		if (r)
+>>   			goto error;
+>>   
+>>   		r = amdgpu_ttm_map_buffer(&entity->base,
+>>   					  dst->bo, dst->mem, &dst_mm,
+>>   					  entity->gart_window_id1, ring, tmz, &cur_size, &to,
+>> -					  NULL);
+>> +					  NULL, NULL);
+>>   		if (r)
+>>   			goto error;
+>>   
+>> @@ -2451,7 +2456,7 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
+>>   		r = amdgpu_ttm_map_buffer(&entity->base,
+>>   					  &bo->tbo, bo->tbo.resource, &cursor,
+>>   					  entity->gart_window_id1, ring, false, &size, &addr,
+>> -					  NULL);
+>> +					  NULL, NULL);
+>>   		if (r)
+>>   			goto err;
+>>   
+>> @@ -2506,7 +2511,8 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
+>>   					  &bo->tbo, bo->tbo.resource, &dst,
+>>   					  entity->gart_window_id1, ring, false,
+>>   					  &cur_size, &to,
+>> -					  dependency);
+>> +					  dependency,
+>> +					  resv);
+>>   		if (r)
+>>   			goto error;
+>>   
