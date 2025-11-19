@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE15C6EAEE
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 14:06:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B00AC6EAFA
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 14:06:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD55110E5E0;
-	Wed, 19 Nov 2025 13:06:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 741C710E5E1;
+	Wed, 19 Nov 2025 13:06:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="0Hd83lZn";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="bFcA+TR6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50C2B10E5E0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 13:06:19 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B40BB10E5E1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 13:06:28 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 36ADB4E4179E;
- Wed, 19 Nov 2025 13:06:18 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 8059E1A1BDA;
+ Wed, 19 Nov 2025 13:06:27 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 07FAC60720;
- Wed, 19 Nov 2025 13:06:18 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 4885260720;
+ Wed, 19 Nov 2025 13:06:27 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 4F0AD10371A51; Wed, 19 Nov 2025 14:06:08 +0100 (CET)
+ with ESMTPSA id 9625410371A4D; Wed, 19 Nov 2025 14:06:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1763557576; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1763557584; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=7gXiH7KcRJHe1y+SYEzwMmqFZuuFI7TA/lpp17IXqG8=;
- b=0Hd83lZn7CdaVUWqOlfWjJu1jw/lw2DIktzY9jb0BeiS7Y4iIApnXv4P92JPO2ooDgbfDq
- v7u5idqxDSoseWG//QVTOcBPGjFmXiNTrbASRGB/nRtdeMAunctuzwm98BbFQvhOeDQVGD
- l4Ts7WrSeasXZM1QJ/fw0WHIIWWBlxsenw+f7vMNUQgE1Xh9xO+mTq7UmiZdq45tyFU9S2
- XKbKIfz2IRdhFZVRRVV6pHl5yrHQhhAgLGzw7PjQcfuiDRV5MT2wNKndy0RkwsclB3fgNt
- b0VhYtHooEpKf/t2W6nWBWBfYm4XKqM9y3ZAG0Q2F+12er81mhAqq2pfA/oBIQ==
+ bh=U5pSp1vPWfg6VVqrqrSp3mxOttgley4fq02+zPb9SPE=;
+ b=bFcA+TR6jEG5qm9LQ9GiqfHt1lqV/lld+li8AOuv98I2mxB/Moe4o/Qc1HDGOBV4ufX4MZ
+ NKb5vGxeI5/5fCmp4TSXS9/h2xnyzlwlxO3mm3Qr4/0DC3Ysk3r/siQxkCIL7CVzCgDsg8
+ 6y5bRL++49tf86mgGirblyly0TJLFRC5f/Ht8qoDIEXFqvSX/+fOwFJ7nvTebCXdOq2skV
+ ovYfRDxHpTkSa5h4hLUBzKohE7UgHX/0TnirrywxaN3V+A8R8c/s34HbyZ8PovJIfzWZZa
+ ahSxa4pU6pIwQG7dSheA4Bc+vyy6Z4uGaSY5dk2xEI2DA3F8pxsGqulwwk86Ug==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 19 Nov 2025 14:05:33 +0100
-Subject: [PATCH 02/26] drm/bridge: deprecate of_drm_find_bridge()
+Date: Wed, 19 Nov 2025 14:05:34 +0100
+Subject: [PATCH 03/26] drm/todo: add entry about converting to
+ drm_of_find_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-2-0db98a7fe474@bootlin.com>
+Message-Id: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-3-0db98a7fe474@bootlin.com>
 References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
 In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -96,48 +97,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-of_drm_find_bridge() does not increment the returned bridge
-refcount. drm_of_find_bridge() is to be used as a replacement.
+of_drm_find_bridge() is deprecated, but converting some users is very
+complex and should be reasonably doable only after the DRM panel bridge
+lifetime rework. Add a TODO to track this.
 
 Suggested-by: Maxime Ripard <mripard@kernel.org>
 Link: https://lore.kernel.org/dri-devel/20250319-stylish-lime-mongoose-0a18ad@houat/
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/drm_bridge.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ Documentation/gpu/todo.rst | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index d98a7b4a83c0..6debbf20aaa8 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -299,7 +299,7 @@ EXPORT_SYMBOL(__devm_drm_bridge_alloc);
-  * @bridge: bridge control structure
-  *
-  * Add the given bridge to the global list of bridges, where they can be
-- * found by users via of_drm_find_bridge().
-+ * found by users via drm_of_find_bridge().
-  *
-  * The bridge to be added must have been allocated by
-  * devm_drm_bridge_alloc().
-@@ -360,7 +360,7 @@ EXPORT_SYMBOL(devm_drm_bridge_add);
-  * @bridge: bridge control structure
-  *
-  * Remove the given bridge from the global list of registered bridges, so
-- * it won't be found by users via of_drm_find_bridge(), and add it to the
-+ * it won't be found by users via drm_of_find_bridge(), and add it to the
-  * lingering bridge list, to keep track of it until its allocated memory is
-  * eventually freed.
-  */
-@@ -1452,6 +1452,9 @@ EXPORT_SYMBOL(drm_of_find_bridge);
-  *
-  * @np: device node
-  *
-+ * This function is deprecated. Use drm_of_find_bridge() instead for proper
-+ * refcounting.
-+ *
-  * RETURNS:
-  * drm_bridge control struct on success, NULL on failure
-  */
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 9013ced318cb..1a4a11dee036 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -506,6 +506,22 @@ Contact: Maxime Ripard <mripard@kernel.org>,
+ 
+ Level: Intermediate
+ 
++Convert users of of_drm_find_bridge() to drm_of_find_bridge()
++-------------------------------------------------------------
++
++Taking a struct drm_bridge pointer requires getting a reference and putting
++it after disposing of the pointer. Most functions returning a struct
++drm_bridge pointer already call drm_bridge_get() to increment the refcount
++and their users have been updated to call drm_bridge_put() when
++appropriate. of_drm_find_bridge() does not get a reference and it has been
++deprecated in favor of drm_of_find_bridge() which does, but some users
++still need to be converted.
++
++Contact: Maxime Ripard <mripard@kernel.org>,
++         Luca Ceresoli <luca.ceresoli@bootlin.com>
++
++Level: Intermediate
++
+ Core refactorings
+ =================
+ 
 
 -- 
 2.51.1
