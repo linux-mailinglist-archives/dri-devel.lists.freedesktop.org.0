@@ -2,168 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6579CC71817
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 01:10:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 592D0C6C858
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 04:08:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B073F10E6B4;
-	Thu, 20 Nov 2025 00:10:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08D1A10E55B;
+	Wed, 19 Nov 2025 03:08:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=amlogic.com header.i=@amlogic.com header.b="HXJ3ERNM";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="S13X6mPb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SEYPR02CU001.outbound.protection.outlook.com
- (mail-koreacentralazon11023141.outbound.protection.outlook.com
- [40.107.44.141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64C7110E219
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 02:58:04 +0000 (UTC)
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011023.outbound.protection.outlook.com [52.101.62.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B69410E55B
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 03:08:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ez8vLCUEbMHBBCZUBD2Mllnhu0MaKenNRUx8fapeQoIt8yxFXxxE5muiJJo8lTgv2pR5dd6vnzZIfhEPt1Qft/mVVQjanyqFQpqBwJygR/b60eU9izYit+P3pZpfOxJkZPPTLO6iUyg8W4DWQzJ2aSKSGcM1GrHt8KUj8Bz958ub3aOXt3kEVOH+EGbxaS6FgbVOMtvMVyTgDK0ckiD0MHJE2PiW2iAG3Y1IoyfJCV1Fhxp1DS3XptsRN0K7HB5jgjK40F+jNprebYyQ9HBuWNMBEaiDqH9RQxstUyUPn3GgPvOv1gwKg++b9w1ouMdPShHM6//KXl2HwiSXyePc3w==
+ b=KJ+aS1QVFjE9O25WNm1vLgJt2H3tfPYPkH1+nY1oQJPY1XYmKQ1HB8vx7FbTF8b22/+mXPkCxdr2Owi97ji/m5xt2xkryGDMmligwtXrFJeWrVWwJQIaXjmeFG0EvPrpg2/Qr8rheLOboXiYnXSHwN81GeoDBYPCwLJnEVDiXr6DEWaLiVQ03RsanCCClM1V9CkKvuWf8DRk+J2Ize7Wf9StA7j9d8wwGTtf/P4htXnr0AM9c2bvQS0AudK8bpaOCwXlTnOIffdD3BxBIO1hHtEcbZ4O3OlJLwPbFyGifj7TDK1j6+cvb1CMGNVaQU8tlUQYEn4oW9sABHlLDH2fSg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mPyKUQ6UwAxeXmFHE90N/mHH3xHxp9lXO94nmn8YwQg=;
- b=lBo+XDuuvA3fY+V95BhLi29QaBIXjjVJlvy7sKfSBqevtFTBIgVyYlfDiOGNxIBY/7ZsKQXHdA4BSWU2yWX7RYJkh/LEcl1mnNguYOn+B6HIAYejxMzq5ePRPHQo8BqqxXf+s8isjP7oYpZydr5qdHywW8N7ZLt1dlvEXL5uYd2aZV7KXFcnieZISbyzW8YUIdZezWvznLUW1RwfFaQAmDsjsrin55ZGo62FHK+bhkWBjNQwfz6v2b615acersbIVJJSaFrOVr+Fx3OGEAF5ZYuEg/ytzii9SO7by+Msoq6m2GiSqn6dt6f4cg9eumhMyatCeELIhbgiYQnTF4RoFw==
+ bh=8xB/9wySgYbErYHK0icE0Muyj0ZOWvPbpgb+BkdCYkE=;
+ b=VLUBnTTpQCX798S9PWesdFUcsJG0xbEnnIF8E5saTRp+TtsrGYoc49HJSUptsPlHlyY0iPWdYV4A7+Y6sYja53Lw8dp3m296YTJVx3ArCG8BhMLdA4He557CE3JmA5W7wgpaR/mguH+MxqJCUlk20EVGN0E03QfVHLx1H4eZHtbZJGYmIHMqlKe7BkESW9QfarFJqqV4UP2PbIajenSench+5bBXAsKr04mlF3AJ4J2i0cVAvIv3k6qgGPbY4ylVT8USP2H9qd63juoPvRRnmoUVY3D3Ntv2nCl/hoZA498PyhewM+9zYx09XrHh1kYvrIwglFNayc/Zbtpmoxfp5g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amlogic.com; dmarc=pass action=none header.from=amlogic.com;
- dkim=pass header.d=amlogic.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amlogic.com;
- s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mPyKUQ6UwAxeXmFHE90N/mHH3xHxp9lXO94nmn8YwQg=;
- b=HXJ3ERNMRU6hlws9ffkRUJ5W9Ms48dkwOh5APyWCxp08WrDYwO0jLj6F5r8egwUzSOH5AFugN1fpeOP9Xl7KqhjnEX5qGfag5QCQXW8XQiriQ8Hs18tvscHXjR/LZvLrWddaGtv6VRUBzi7E4AG+ibNFTCow4/ElW+MiP23IdB35u31ZFrqJHjfPGBTi+l3fc7eDza8a/Eaqu/S1ElmAY2LDXAKKc631A5EThbj2rzMKwz3p+OfsjiQ5fnLE6j0j8eTM9FopSLza4aQffe5wWLpIVjDoAkpiHmPeXLN8AhfoWPqBHrwlaiz8OosSpaMNgVS5seZcGXJuJmTfeY4zhQ==
+ bh=8xB/9wySgYbErYHK0icE0Muyj0ZOWvPbpgb+BkdCYkE=;
+ b=S13X6mPbAayCHwy9RouMrWuQYpvj/mCG8ma2FKhUH2QDN5X6T5QXp/JJQm8eLgZWWlHzwaLL/jhbK3p22hAy/LLyCNaBypeL0+iT+WeqHWepxUJFrTqrG/heHxzYntyG5oV5Burhg6BT34wyNFhDwmaGfQ0VYp7YUIgIdaeAsCzm92EjRbMFyicBLeNGbBPaN/uJHi5Ftdjegh05TadLkxk9iwgtjHHfpeIfY0sxnrr3kvHz9YCEI79r0E1XLvvGRfbUlgeErS1IwiAFUDi5mhg6ZtYoJQG0XQR2NPCrQoXtvW4zDJ2HNQ1gS2J1IOIeJfOwMHNyk7mzv2v/aJRGJg==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amlogic.com;
-Received: from KL1PR03MB5778.apcprd03.prod.outlook.com (2603:1096:820:6d::13)
- by KL1PR03MB7311.apcprd03.prod.outlook.com (2603:1096:820:cc::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.23; Wed, 19 Nov
- 2025 02:57:59 +0000
-Received: from KL1PR03MB5778.apcprd03.prod.outlook.com
- ([fe80::e1e:5c95:a889:828e]) by KL1PR03MB5778.apcprd03.prod.outlook.com
- ([fe80::e1e:5c95:a889:828e%5]) with mapi id 15.20.9320.021; Wed, 19 Nov 2025
- 02:57:59 +0000
-Message-ID: <8c3b9fa4-326e-4791-8154-07b268faa132@amlogic.com>
-Date: Wed, 19 Nov 2025 10:57:21 +0800
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
+ by DS0PR12MB8344.namprd12.prod.outlook.com (2603:10b6:8:fe::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9343.10; Wed, 19 Nov 2025 03:08:01 +0000
+Received: from PH8PR12MB7277.namprd12.prod.outlook.com
+ ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
+ ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9320.021; Wed, 19 Nov 2025
+ 03:08:01 +0000
+Message-ID: <4eb9c2af-566c-4791-93ae-19f787af0b55@nvidia.com>
+Date: Wed, 19 Nov 2025 14:07:57 +1100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/11] dt-bindings: display: meson-dw-hdmi: Add compatible
- for S4 HDMI controller
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, ao.xu@amlogic.com
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20250110-drm-s4-v1-0-cbc2d5edaae8@amlogic.com>
- <20250110-drm-s4-v1-1-cbc2d5edaae8@amlogic.com>
- <3AC316FA-A633-4B6C-81BA-CCCA290E7F03@gmail.com>
-From: Chuan Liu <chuan.liu@amlogic.com>
-In-Reply-To: <3AC316FA-A633-4B6C-81BA-CCCA290E7F03@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v2] mm/huge_memory: introduce folio_split_unmapped
+To: dri-devel@lists.freedesktop.org
+References: <20251115084041.3914728-1-balbirs@nvidia.com>
+ <5e864bfe-6817-4ec5-819f-9648a23abfa3@kernel.org>
+Content-Language: en-US
+From: Balbir Singh <balbirs@nvidia.com>
+In-Reply-To: <5e864bfe-6817-4ec5-819f-9648a23abfa3@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI1PR02CA0011.apcprd02.prod.outlook.com
- (2603:1096:4:1f7::19) To KL1PR03MB5778.apcprd03.prod.outlook.com
- (2603:1096:820:6d::13)
+X-ClientProxiedBy: BY3PR03CA0028.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::33) To PH8PR12MB7277.namprd12.prod.outlook.com
+ (2603:10b6:510:223::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: KL1PR03MB5778:EE_|KL1PR03MB7311:EE_
-X-MS-Office365-Filtering-Correlation-Id: 141fd3d6-d1be-45fd-a31a-08de27177249
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|DS0PR12MB8344:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee154e7f-5bfc-4d7d-e92e-08de2718d96e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|7416014|7053199007|13003099007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UGtlNG9YWTZvM3k0cGgybGxCU1dlMjMzSEtXckFOQUhIL3V2NVdEZVNyYXJH?=
- =?utf-8?B?cTAyL01tOHZJdmVLM21vU2VqSEhLN3BFbVBsaW82cXdZeWpZbGtqOXByQ3Ar?=
- =?utf-8?B?QWhCRTNGMXNBUWlPVHlYb2EzS0lOa2tZMDBQNDZEaHJYd3ZVSTRDeG9qVE1Z?=
- =?utf-8?B?RWxObHluTUw2UFhaRmV1aDZJMTFnUytKbDZzakUyWDRzazVxckozNVRsOWpT?=
- =?utf-8?B?STVOQ2p2cXg5RVMveUFwOHZUVEtRQVFteEpkZ1A2RmtSeFpudjRYbFczb2ps?=
- =?utf-8?B?R05uakE1bmZuQTc1eVUrRG9peU9tL2NZVUZ2RC9xYzBiSjVLYWYrUkhPL1dI?=
- =?utf-8?B?QXN5bFVYN3N5ZjZnRUNHeFdqMjRTbGdwcGJxNEhxQ09OUEpQS1U0bEVmZ0lC?=
- =?utf-8?B?aGR0V3A2R1VzV2c1M1I1Y2VmNWVMV016OGgvemtxMm5iamtudDBIaU8xN1FX?=
- =?utf-8?B?NHdmYnQ2Wk1iQ2FEeTN3TmFoWnExcWtIeHhRN09ZUGxreU8wNWtPM2owcEU2?=
- =?utf-8?B?Zm1nVDJYc1ppSXJsUnRZNjFIc0ZzUmpVTWFoZUo3SU0wb09kVFhqY2U2emxC?=
- =?utf-8?B?MDNITm9oQkZJdWl2eVdCT1dXM0dCN1B0TUdoNlFBTjBVQUpCWnM4L0h5MWNu?=
- =?utf-8?B?TStjak9CdUJVMTRIMUxIUm9yUmlhYnhUdklNTitOdUozMGFXd3pCZGwza3Z1?=
- =?utf-8?B?WEVzNmQ1OTNoK1RZdnRUaHVrMWZJcTRKMnJqalNxSUtCWHN5OUFlS0pOMFpz?=
- =?utf-8?B?eVJVTGNjaEs1MTdmVnB1TTdQNkNVQlFpVzRpb2lRSURRYlJSYWlQbEY5RUZy?=
- =?utf-8?B?WkNjM3BMbkNuamtQTzlsTm0rVmpTcURJdGxmVDVvNXhXekRjelpIdmQvcVJT?=
- =?utf-8?B?QXN0WG5xWnExTTRpejV2S1JwNHNyMGpvZmI5QmdiNUdmektXMWcxdkNKL1RO?=
- =?utf-8?B?YStHOWpabGQrREM1OERhVlN1UkVnS3l5SUVTcXBQcHBWMFZOemErL0tzUks1?=
- =?utf-8?B?cWxYSEN6L2lCb2dDekkyTTU2Rzg0TUhBSFpUNllhN2ZiS3NSeTArcWdsM3RL?=
- =?utf-8?B?Wk5tOVI0bGMrcEVaalhKZ2VPQTNWaXZtbU1ZWXFkenVHMUkxYVVNVWtHZGZq?=
- =?utf-8?B?eGZjaUxITk5hbEVDTUU2OXFoT1VxSVpPZ2RrUWJNRGdSSEdrZ2dhbUpvYVV0?=
- =?utf-8?B?RkhUWjRHUm9udWpkMVRKMUhqTEZob0RLYmhVL0VCT21RMFdaTUlGYmYxeW9Z?=
- =?utf-8?B?b2xxczgzRkhPWmNsUHl4WW5yRC9NTDZObUhoU0gwcDQrL2FPdnB2dW91UVV1?=
- =?utf-8?B?eHUvVXp4N2xEK0V2RWNZbWZYdXNpUW5CMklNU0lUeTNuV1J3L2xFRGRXOUZO?=
- =?utf-8?B?ZG5NTFVsS2FOeXYyR1hXbmNjZ1pLOUR1U2dVUmJsUmxJM1BEYXhDZE8xVC82?=
- =?utf-8?B?NDhla3pSVjZpbVd3U2hKQzYwek5pWWtiWEZUMit2NjJOK0ZKb05oWEJBeG1U?=
- =?utf-8?B?aFIwUCt6NmdkU0E1aUJDQ01TRGlvRjgzcTRCQ2VRcmFGM2hDQllud0hxTVo1?=
- =?utf-8?B?UFVoNWJCSkMvczNYbW1vRkdSNUhHQlZpNDJyMFViK2ltR3l3NXpJYk90N05p?=
- =?utf-8?B?Q2pqbFdPNzBDMDNyOXVLaXVla2ZPZk8yeVZUUFhZaXRuTWdtcDNDek8vV0E5?=
- =?utf-8?B?bENOc0poeEF6QmY4V3E3RE1kYjYzTmNmeXlvbHd0NW83bnNROWw2VWdzN3RY?=
- =?utf-8?B?UkNYZ3lhSThPbXhDNVc3Z1FrQmdQTUdYZkU2TTVBcTA1K015RlA4Wk5NNkVa?=
- =?utf-8?B?RkJzdFhSN3FCMmhKL2pvV1h2YWN3TjFVSTFrS1lRUjh3SkRvSkVCUCtkaE1M?=
- =?utf-8?B?U1I3ZURQWjk1OGJpdkNaMmpac3NqcmVjTHhiakMxb0FjdDlhL1JhY3ZET3lT?=
- =?utf-8?B?ZklNZEtUc2MwbWRuS1kyaTFzT3RTeTVORnE3aDlWdDRnb0FSanRSU2JhM1Mx?=
- =?utf-8?B?bDZVNTFnMEpRPT0=?=
+X-Microsoft-Antispam: BCL:0; ARA:13230040|376014|1800799024|10070799003|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QXV1THVCRTlrS0tXWXE2bERJVFU3eC9BekVIdTdQaGtoK1FKZmx5QUZmMGs0?=
+ =?utf-8?B?RnpmNmM0NTFCMkFVdWhDNnlOTnBwN2V3ZWJNSzZQekltOFY4MDd1cEwxR0J5?=
+ =?utf-8?B?dmFhMWFTbzNycW9sWG9xa1NUR29JVHJOL3lxb1RpQVplc0ZNQUsydjROWXkv?=
+ =?utf-8?B?NFpPaGwxNk5pQWVMRVdpUmpzTHJ5Q3hmdTd6em92NmlFNGtjcHF5eVdwY1lG?=
+ =?utf-8?B?dXlsSTdVeGxnYy9HaGJnSCtWSlN6cnVvbHkrc3E5NlcwVGZ4Nm8ybDNHV2dZ?=
+ =?utf-8?B?UHExbHhkcUhlTzc0Nk9NcFlXZk9LcHFoU2c2NVBFdzVSeHBDUEo0K0FwdXpn?=
+ =?utf-8?B?dWczdUkvT0s3WkhzZTgyT1Z5cFpVdHFJZjl6ZW5qc3p4ZzVFeGV0S2RMdEE0?=
+ =?utf-8?B?cGo1V2t5UGR0UlF4S0p5V1AxRDNGcnRySUtWb1RBSlc4RDdqWWNIeVpGMS9N?=
+ =?utf-8?B?ZVRrQXlXbnA4UWRUZ0RhbnRzVkU3cUZwVHRRbkE0a3VxMk1SaTZKUE5VNXVS?=
+ =?utf-8?B?RW1lQ0tWS3JsbUYyTjloT01GVTJnUFE3MlY3VlBETXQrOVNlam5NS1dzOHVP?=
+ =?utf-8?B?bGdsZENSdmlMM3hXNEVsdkdEcks3d244UmNmRzJFSm9qVFJNRVU3U1FkMkFa?=
+ =?utf-8?B?cEdBQUR1QzdZUSswalY3S29CZm5BaVlqNGkvUm5oMVBVejVPb0dTSUlwdTFz?=
+ =?utf-8?B?eE94TzMyUngzRWtQRUJZVko4akVUZ0JZbzJzb1pnenlSdGJ2d0dWYll3WEhh?=
+ =?utf-8?B?WUxkVG1PTTR2S1V2VlZCQjBRejhSc1l1VnA5Z2dqNEVMZCtCZXZvNFBPVTRn?=
+ =?utf-8?B?M1lTVy90am9YdXpDbi9BaGpLY25FekFHeW5WQWc4MnBTQ0ZFZmJJdTJ5YUdG?=
+ =?utf-8?B?NVFGS1BPQ1JXMk8zNkwxVENrUnVtSzJ1M3dIUFAxZzRPamRtaE5vZ2piQ284?=
+ =?utf-8?B?NHJ1WC9oYjFWZWQrUm1EQnN1MXNMUmRGT1owWmEyMkFqMTZDQlhGNUJDNnh4?=
+ =?utf-8?B?L1I1OHpqNVRSRDVndTgzQWY4UHMyK1dEMXVZbkN0ZHpBOWVSWjhCWnpUQm5F?=
+ =?utf-8?B?UzNMMWNqK0s3SUIzaGlWamNXS3V0ZlRQUHp1b25EZ2h1amp5NUs1UW0wM2Nq?=
+ =?utf-8?B?WGZXNHVVTVBqK1dnbXZuQ0xlNEpndlhLbnQ5RHhJallENVVHQ0hhdFc1NXNQ?=
+ =?utf-8?B?RkhIMEdTUkZHd1ZmeW5HbGZsdkdacFpwU29lNHgzOG9hb2tkM29wczZ1dTBE?=
+ =?utf-8?B?R0FKK2t6dFBxMUFLVU8xaGNicW1DZUlhUUlCMHpaZGRsY05oUVVBZ0E3OXRG?=
+ =?utf-8?B?anY4aThMUkNndHUzeE9YWHM5aituTWc1YzE3SDZLVG51NmNMdWlxNW41TEJu?=
+ =?utf-8?B?RU9xZzZtWHRFQ0VOZTJ5b0NCcENmdVZwVWpRcXBuMVdKRFBQelk0d3NxTTVO?=
+ =?utf-8?B?M0pNdXpzcUtMRUF5RnU3cmt1NlB5aHNmOTJZbTlrMDd5OU54d09abEgxWElB?=
+ =?utf-8?B?SzVKcks4YWh0UXJXUkRsV2pBQjY4YVB2dFQvRlBIQThKTld1NDhVZk43aEZR?=
+ =?utf-8?B?aTVCLzFPV3pDdDB1eXdCNE9zR0d2bk1wVGp5Mnp1WWNQWTArZlF0cHplcWhK?=
+ =?utf-8?B?UmZxWmxQMmMyQXpXWTgwUitXVmx6cHE1MEwyVkQ2eWdKZ3U3cjF1Vkp2RElI?=
+ =?utf-8?B?TkxkOWFXTXVVWjRZc1k4T2l1dEtBajM4a1BrM2ZRSndBWk5kTGxGQ1dkaWto?=
+ =?utf-8?B?RDZkU1V2SjBieC80L0JiNmc5M3UrUndsazh1dmlSNllyWTh0a2NDSXFyRnBP?=
+ =?utf-8?B?TXIrakNVOTllZlJ2NW4yWEFLNnhtL1VwR0lsc2IrcG9jV0VDeHRJNlMzYzdU?=
+ =?utf-8?B?bjgwU3V1TFBqSlpaRTZaVEZkaWR1TmhkdVlnVjRqNGVwODRUL1hJRGtqQkN5?=
+ =?utf-8?Q?enag77CyOg4U1CPwgB99OiKCPlHDOixM?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:KL1PR03MB5778.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007)(13003099007);
- DIR:OUT; SFP:1102; 
+ IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(10070799003)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bXYrcStaZlRmMWJrSFBadExFdUN3dHpNVXBZaEN4NFhIT1JIOWFSYVZhQmhM?=
- =?utf-8?B?SGE3V0Z0bEhLQ0ZKUlZSRThXR29wUkVCa1dycUdLMDY4cHhtN1dWWTNuSW8y?=
- =?utf-8?B?aXJLM1B6bkcvRVcxMmsvaHFwSU05R3o4OXZNbXdiS2JHMzdVWjRyTDVXb2VV?=
- =?utf-8?B?Y0VxTjhQRmh1b2V2d1cvNnFqR2txVGVwaU1nWVFDNWlvR09Db1dIZjh6ZURu?=
- =?utf-8?B?WWk4YnJ6bCsreS9XUDBsMzlDVCtDVUsrd29hVWpDWDdSam40dVNwUEJ4bjdR?=
- =?utf-8?B?QXNaMEpLNU55ZEVremJpYUZuM0hDcnJoZjNheGpYSHpsYzRaNzgrOGZLMlE3?=
- =?utf-8?B?WWhrYVUrVVV0ZEM3RlJUSWpZb2VvQ3BpVERKV1J3UCtJL21PeWZQRHNPS0o3?=
- =?utf-8?B?cGJzVWFodnpRaE9Fc1lPN25xeGVCeVdLMVMrOGtLblJnT1FCc1F3MzQ3UHFz?=
- =?utf-8?B?NWd4a2F6K0ZYS0NDYTBWeDFtWkhReWd0Z05nN1k1OE5DR1BIOHczVk40SEFG?=
- =?utf-8?B?OE5CZlhmRE1oV0hEaVBrUEt1WUVmMDd4TEFJRTF5dUF6cWlUb2RJc1YxRnA4?=
- =?utf-8?B?aDVPdmhQZFRPUk5JUy9YS3VML29yTWZLWG04aU8wejlPdGc4Z0hkY2RwclVt?=
- =?utf-8?B?bWxnSkNUZkZaNGFYTWhsNUhORFY0Zy9aVTB1NkpiQ2d0N2N6NFlIditOZ2V2?=
- =?utf-8?B?bGljZkJGRGRvZHR0eUNvdS91YlJ5VnVpLzY5VHZtVUtTVmZPWnk5aFdBbjVZ?=
- =?utf-8?B?WjIrRVpSYXRpWktoWnRRZnB5aXZiVm9NaUdWbTFJNjR1SVRRU1ZkK3MvcEFr?=
- =?utf-8?B?cnVkbWJ6NGJXR3NIb1lYWUIyR3NxZi94eWdLOFl0SmdwSXZnVnM4TGp0RnFW?=
- =?utf-8?B?SytSZE5TeUkrZi8rMW0wTkNVRUV3c2pCUTFscVc4TW1OMGdCcjhwMUc0VCtI?=
- =?utf-8?B?MHUvaE5NTXoxWi9VeHpMYTBpTXErL2hUYXgvaU9Cd0trcmEwT3ZxSDlMQStq?=
- =?utf-8?B?eW1IY3V2THNFVEc1ZmppRjc3ZXBDYldpT01ZRnVCN09KOGY4Unp2dDlNY2Rq?=
- =?utf-8?B?aDNZR2FPbjBqdmlpR052UWpjaUxSYjZpNVk1RDZpZ0V2SllVRFpuZncxcXB4?=
- =?utf-8?B?S2V1Nzg4ZGx1bTNkY0l2YWpqZ0hqUnA3MjlDNEJMNlRNVG5GT1pKVi8vWnMv?=
- =?utf-8?B?anBkM1FBMHE1RDBHVEFURGRHajFyMjNsVVhjQXJEdFY1alJGUWd5bk9MMzNh?=
- =?utf-8?B?YmJ0RW54YUJvME5sclNqOUUwVDF4bGdmN0V2Yi90cXJJbXcwTkZBeExFYWpL?=
- =?utf-8?B?SVpRMWtsSDR3UWpVL21Wc2N2akNEUFIrdWZWWHU4VTdQTEJ3OXF6bmRzRDlH?=
- =?utf-8?B?Ry9jcHc1NzI4M2V0VzFESlI1M3ZVaENUWFkzbGZxc00yUmhLYldNZXRXbk1u?=
- =?utf-8?B?aGNwd0wwakpRNFM3Vm9UZzc4QnpaZVUrY2hqRGowUGtMazlLU3NKV0FDUm9m?=
- =?utf-8?B?b0dzU3pBbHJXT3dlTURpeU5WcGhkeXc1eDFFaFJrNlVhTk16bkJxdDFOb3FU?=
- =?utf-8?B?Vzc1VWNaUUdYUVB2UEtWNnM3VFdtRkdtYjBaSVFaOVdzU201bFJhM2haZTdH?=
- =?utf-8?B?YXVuZTRERmZNNWgzL2ZvbUVKcWtJdzdWVEEveFhWRDZwcGpJSDAzbVpiM242?=
- =?utf-8?B?QmcwSzhEZjZQNUdzRVJqSWQ1ajByV0Z0YW5HOEdmbE82SFpUU2pFU1NHTnIr?=
- =?utf-8?B?MEppeW9OOExhL05iT0d3TWxKSmd3SDM3aysrbjJPQlJOLzNnTGNhUUhXc0dU?=
- =?utf-8?B?bVVzV00rUHkwRFN6YVV4WnNNajFhT2Q5cDgvRk52Nmx0TWVTOFRlVUJHMHlp?=
- =?utf-8?B?RWYvdlJsR0FlL00rVm1ITHVlOFFWaW5OZ05FNUozTGV0RHYzM0w4Mm1VUW4z?=
- =?utf-8?B?ak5mWXdNcGJDVXVrNExVUDNOa1FTZWpEZmxaa2ZsV0ZHOTNwdTY5aGZ1c05w?=
- =?utf-8?B?UnNYWlkzTzVCK0xLTWtURUMySytpY2NQOVFvZDE4S0RmdW1FZ3NWT3IzZ3NC?=
- =?utf-8?B?TEZQRS9PR2hsQW56RkI3eTBOYkdxNVBrSkc0SkduV2VjMFZCN0E1WS9odVMz?=
- =?utf-8?Q?rysODpJAv1Z4k9gvLZ/VqeVQ1?=
-X-OriginatorOrg: amlogic.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 141fd3d6-d1be-45fd-a31a-08de27177249
-X-MS-Exchange-CrossTenant-AuthSource: KL1PR03MB5778.apcprd03.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bnR3b1d6Nm9nTzI4eUpSSzI3bkNiMlFiamtXaVhPVFg0RHBHSTE2REJDT1ZZ?=
+ =?utf-8?B?QWVmY01hVWVZWXlpcjFLMmpSeXJXc29QeVNzSzE5RU90S3Vlc3A3TGRWSlow?=
+ =?utf-8?B?T0Q1NDNFQmhSZTRGejFTalhnTTBVZGJONUwwMm5PTTl5Z0ZkMG9PTnlPTGMr?=
+ =?utf-8?B?c25IcXgrVWhvYUVDRWR5M29ZdVpTeFVKM2RtcTg3WDVTaDBaRTUzRElXaUFS?=
+ =?utf-8?B?Q0pQUUdoTndlRkdTaDlYamI3ZXZhMGNHdHZSN1NXR1dEc0prR1hpM2RPWmNF?=
+ =?utf-8?B?d040TzlkUS95ajRVaVVuTXlGZ1lORU9iQUtUUldqUW5XeXgvNUFyZjdWVUV3?=
+ =?utf-8?B?ai96cTkrdXpUYzJ0K1VUdzI5dHRBMW9nK01GeGRYL2pCRmZxUGprMlFJOWVk?=
+ =?utf-8?B?SDF1YU95bC8xUlFDOFh1cHJhS3ZSb2NxbVVqS2NxeVMzSU13RDBTdmdzcVll?=
+ =?utf-8?B?dDR2VHNlVnJ3Vk9RQnpDbkxKSkZ1NFFhQUdVVGt5bThwM0MzZWZ2YTNvbEVy?=
+ =?utf-8?B?V2Rsb2l3S045R1FVTVlqR2gyS05TdkZXcXExVU94RnNpa1k0SzZhSG1oVEtn?=
+ =?utf-8?B?RmpOeHZWQUdJcitJcVNEWDd2NVNLczkzZkFCcTNtZm0ydndwU2R1cUcxblJh?=
+ =?utf-8?B?Wmhtdk9Dc1F4K1A0OWhFcWx3OVRsN0krM3VSNDhYRVBDbGM3Z0wyT3djWXNH?=
+ =?utf-8?B?T0dXN1hkYnZVc0J0bUdNcStnaWh1TWFMd3pxa01mZ01YLyt4RXhsQjNYR1B3?=
+ =?utf-8?B?cGFjbWVhaldkZ25jSjIwTUZhQVY4UDRJTFRVS0ZXMWFaSGRxSG1QREVIdWJX?=
+ =?utf-8?B?bjBnLyswMHlwUGM1MUJ0NEdRY2VsZjEvcGM2NlpseHJPUnVpVEtEVmRBd05I?=
+ =?utf-8?B?eE5nYmRmOVpJN09UbmVnTkwyQ1hOSjRRT0thWmNrZ1dVQkg1ekVWL2FocDJ4?=
+ =?utf-8?B?bVR1amhQeFJpMzZJcmN1c0lrN21BL2hEckk5YjVEZHoveXZxeVM5WHRQRFBS?=
+ =?utf-8?B?MUwvRm0zdWJyVHRLMVowMWp5b3I1NEYzUGU4eTduMEVHTTZnZ1J3YWJuY3J0?=
+ =?utf-8?B?UTdld2dhaU9qSStIdEVSUEE0Tk9HV04zRDN3N3FKSGQvN2FoSUhkY1lYSnI1?=
+ =?utf-8?B?YTZTaHg3MDJ6NXB0U3FjMWZUcGZwYnptd3NlUTZSdWhXNWMrL1pqSGZxZTRM?=
+ =?utf-8?B?V2NVMTZWNVZiZXM3VEdMNDlIZzNaQUQwd0hPbkgrYTJnd3VnVkxLSXNnSW1m?=
+ =?utf-8?B?UHY3MzBaT0ptQnZLN2ZKQ2w1TjFsek9qT3ZxY24vcXpadVp2aGJaQlZCN2Nq?=
+ =?utf-8?B?eUFQaW9qd3lNRVNNSklSb2IyQmtMdVFTL0F2THdBaGVzU1VLL1d6VTVaSlNV?=
+ =?utf-8?B?cENyU0UzRXJWZjlSVlVjL1FUbGtLRlFRcnVpalBtTm83aC8zMTVudCt1VHpT?=
+ =?utf-8?B?bDcyYk9tR0V4RUpGWTlJa0h0QXVKRlJnenlGZlN2OVdsWUVYWUwwMkVsSzd5?=
+ =?utf-8?B?RUFPY2VSRXJZZVhOU2lwSUI4S3FqNTFGZnYrQVY5SndvcnROQnVRZGpsT3Y2?=
+ =?utf-8?B?NGlwaGJjU2FpVHZZOUYrdHg5RjZKWnlVbGwya2tBN0dXUmZSYXBHRHBxeEFH?=
+ =?utf-8?B?Mk1qbmF5bGZrNlVydTBlR0VrZTRQcGxiQk9rRHVybnJnOHZlZUZFcW9Ram82?=
+ =?utf-8?B?V3FyMVgwUmZoYS96c0svMmhqdk12MWZQa25JSGgyREt3L29IRVlRUnBUNkZB?=
+ =?utf-8?B?YjZrb0lqNHFKT1RnaW1zWTR6aFhRbDd6V0ZPR2VrdXNJQ1MxcnU4N2dGSnQ1?=
+ =?utf-8?B?YllRMUVDdm5abzZwNG5nck5NQ0MxZkNXbTdyREZvdHVtSG91UWdHc1ZXRlpa?=
+ =?utf-8?B?cTJ0eURDeTYxSTBPS3RaemN3OHNTNGpSbTM5SXMybXBSRk1GcHNyZWhUU0sw?=
+ =?utf-8?B?MDFxWVVCaGhrWmlzTmpSa1J3Q0lBekV2VkxGcWM1QjQxdEh1V0ZuWjdqTkp3?=
+ =?utf-8?B?dEppSXRFbjZJS2l4THllRkMySVh0eTN0Rk9mc21oZCtHRStvMGpWeXhadS82?=
+ =?utf-8?B?TitjdjlwWHo2UnpLV2pOamtuWCtKbyt4eWhkY3R2ZVRva1ZQbCtpVm9NNlVD?=
+ =?utf-8?B?T3JqOFRqZ3BPd0ZJT2NnYTNkZFdNYzRIdTJOS3l5ZkppYkNmcnZvTk9NclJO?=
+ =?utf-8?Q?E2x9YkcTkCSuRTR+G3O1ODvlr3Z1+tSTe1HIErkq6KDP?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee154e7f-5bfc-4d7d-e92e-08de2718d96e
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 02:57:58.9788 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 03:08:01.5653 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0df2add9-25ca-4b3a-acb4-c99ddf0b1114
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bvJdYc1rzInM2Maijk5UpjipaZmFN/ktzNXss3jbpTgoIJfuFnd5IoAOSTK8/PhsYrLmbPe3SI2X5zalWHm4gg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB7311
-X-Mailman-Approved-At: Thu, 20 Nov 2025 00:10:28 +0000
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5p3w5CVZ6ZDbDovsdtUlV0DrY2r4LOpRNOz4Aed63UBiDF+MMB3QzVRE8b5t4khnom21NtWunaO+SN2onCJLSQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8344
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -179,67 +163,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Piotr,
+On 11/19/25 07:36, David Hildenbrand (Red Hat) wrote:
+> On 15.11.25 09:40, Balbir Singh wrote:
+>> Unmapped was added as a parameter to __folio_split() and related
+>> call sites to support splitting of folios already in the midst
+>> of a migration. This special case arose for device private folio
+>> migration since during migration there could be a disconnect between
+>> source and destination on the folio size.
+>>
+>> Introduce folio_split_unmapped() to handle this special case. Also
+>> refactor code and add __folio_freeze_and_split_unmapped() helper that
+>> is common to both __folio_split() and folio_split_unmapped().
+>>
+>> This in turn removes the special casing introduced by the unmapped
+>> parameter in __folio_split().
+>>
+> 
+> I was briefly wondering: why can't we just detect at the beginning of the __folio_split() that the folio is unmapped (!folio_mapped()) and then continue assuming the folio is unmapped?
+> 
+> The folio is locked, so it shouldn't just become mapped again.
+> 
+> But then I looked into the details and figured that we will also not try to remap (replace migration entries) and focus on anon folios only.
+> 
+> I think we really have to document this properly. See below.
+> 
+> [...]
+> 
+
+Your observations are correct.
+
+>> +/*
+> 
+> Can we have proper kerneldoc?
+> 
+>> + * This function is a helper for splitting folios that have already been unmapped.
+>> + * The use case is that the device or the CPU can refuse to migrate THP pages in
+>> + * the middle of migration, due to allocation issues on either side
+>> + *
+>> + * The high level code is copied from __folio_split, since the pages are anonymous
+>> + * and are already isolated from the LRU, the code has been simplified to not
+>> + * burden __folio_split with unmapped sprinkled into the code.
+> 
+> Please drop the history of how this code was obtained :) Focus on ducmenting what the function does, what it expects from the caller, and what the result of the operation will be.
+> 
+>> + *
+>> + * None of the split folios are unlocked
+> 
+> 
+> Looking into the details, I think this function also does not
+> 
+> (a) remap the folio
+> 
+> (b) call things like free_folio_and_swap_cache()
+> 
+> Which locks do have to be held by the caller? I'd assume the anon vma lock and the folio lock?
+> 
+> Would this function currently work for anon folios that are in the swapcache?
+> 
+> And I assume this function works for ZONE_DEVICE and !ZONE_DEVICE?
+> 
+> 
+> Please carefully document all that (locks held, folio isolated, folio unmapped, will not remap the folio, anon folios only, etc).
 
 
-On 11/18/2025 10:50 PM, Piotr Oniszczuk wrote:
-> [You don't often get email from piotr.oniszczuk@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> 
-> [ EXTERNAL EMAIL ]
-> 
-> Ao,
-> 
-> Is there any chance to get this s4 drm hdmi series for current 6.18?
-> 
-> (i tried backport this series to 6.18 but have some issues with reparent vpu_0_sel to sysclk_b_sel)
+Something like this below?
 
-Why do we need to reparent vpu_0_sel to sysclk_b_sel? is there any
-background here?
+/**
+ * folio_split_unmapped() - split a large anon folio that is already unmapped
+ * @folio: folio to split
+ * @new_order: the order of folios after split
+ *
+ * This function is a helper for splitting folios that have already been
+ * unmapped. The use case is that the device or the CPU can refuse to migrate
+ * THP pages in the middle of migration, due to allocation issues on either
+ * side.
+ *
+ * anon_vma_lock is not required to be held, mmap_read_lock() or
+ * mmap_write_lock() should be held. @folio is expected to be locked by the
+ * caller. device-private and non device-private folios are supported along
+ * with folios that are in the swapcache. @folio should also be unmapped and
+ * isolated from LRU (if applicable)
+ *
+ * Upon return, the folio is not remapped, split folios are not added to LRU,
+ * free_folio_and_swap_cache() is not called, and new folios remain locked.
+ *
+ * Return: 0 on success, -EAGAIN if the folio cannot be split (e.g., due to
+ *         insufficient reference count or extra pins).
+ */
 
-The vpu_clk on S4 doesn't support sysclk_b_sel as one of its
-selectable clock sources, so this reparent operation will definitely
-fail. This has nothing to do with the kernel version.
+> 
+>> + */
+>> +int folio_split_unmapped(struct folio *folio, unsigned int new_order)
+>> +{
+>> +    int extra_pins, ret = 0;
+>> +
+>> +    VM_WARN_ON_ONCE_FOLIO(folio_mapped(folio), folio);
+>> +    VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
+>> +    VM_WARN_ON_ONCE_FOLIO(!folio_test_large(folio), folio);
+>> +    VM_WARN_ON_ONCE_FOLIO(!folio_test_anon(folio), folio);
+>> +
+>> +    if (!can_split_folio(folio, 1, &extra_pins))
+>> +        return -EAGAIN;
+>> +
+>> +    local_irq_disable();
+>> +    ret = __folio_freeze_and_split_unmapped(folio, new_order, &folio->page, NULL,
+>> +                        NULL, false, NULL, SPLIT_TYPE_UNIFORM,
+>> +                        0, NULL, extra_pins);
+>> +    local_irq_enable();
+>> +    return ret;
+>> +}
+>> +
+>>   /*
+>>    * This function splits a large folio into smaller folios of order @new_order.
+>>    * @page can point to any page of the large folio to split. The split operation
+>> @@ -4127,12 +4171,12 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
+>>    * with the folio. Splitting to order 0 is compatible with all folios.
+>>    */
+>>   int __split_huge_page_to_list_to_order(struct page *page, struct list_head *list,
+>> -                     unsigned int new_order, bool unmapped)
+>> +                     unsigned int new_order)
+>>   {
+>>       struct folio *folio = page_folio(page);
+>>         return __folio_split(folio, new_order, &folio->page, page, list,
+>> -                 SPLIT_TYPE_UNIFORM, unmapped);
+>> +                 SPLIT_TYPE_UNIFORM);
+>>   }
+>>     /**
+>> @@ -4163,7 +4207,7 @@ int folio_split(struct folio *folio, unsigned int new_order,
+>>           struct page *split_at, struct list_head *list)
+>>   {
+>>       return __folio_split(folio, new_order, split_at, &folio->page, list,
+>> -                 SPLIT_TYPE_NON_UNIFORM, false);
+>> +                 SPLIT_TYPE_NON_UNIFORM);
+>>   }
+>>     int min_order_for_split(struct folio *folio)
+>> diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+>> index 46dd68cfc503..05ce95f43ab9 100644
+>> --- a/mm/migrate_device.c
+>> +++ b/mm/migrate_device.c
+>> @@ -909,8 +909,7 @@ static int migrate_vma_split_unmapped_folio(struct migrate_vma *migrate,
+>>         folio_get(folio);
+>>       split_huge_pmd_address(migrate->vma, addr, true);
+>> -    ret = __split_huge_page_to_list_to_order(folio_page(folio, 0), NULL,
+>> -                            0, true);
+>> +    ret = folio_split_unmapped(folio, 0);
+>>       if (ret)
+>>           return ret;
+>>       migrate->src[idx] &= ~MIGRATE_PFN_COMPOUND;
+> 
+> This is clearly a win.
+> 
 
-> 
-> 
-> 
->> Wiadomość napisana przez Ao Xu via B4 Relay <devnull+ao.xu.amlogic.com@kernel.org> w dniu 10 sty 2025, o godz. 06:39:
->>
->> From: Ao Xu <ao.xu@amlogic.com>
->>
->> Add devicetree document for S4 HDMI controller
->>
->> Signed-off-by: Ao Xu <ao.xu@amlogic.com>
->> ---
->> Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml | 1 +
->> 1 file changed, 1 insertion(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml b/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
->> index 84d68b8cfccc86fd87a6a0fd2b70af12e51eb8a4..6e0a8369eee915fab55af24d450a6c40e08def38 100644
->> --- a/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
->> +++ b/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
->> @@ -55,6 +55,7 @@ properties:
->>            - const: amlogic,meson-gx-dw-hdmi
->>        - enum:
->>            - amlogic,meson-g12a-dw-hdmi # G12A (S905X2, S905Y2, S905D2)
->> +          - amlogic,meson-s4-dw-hdmi # S4 (S905Y4)
->>
->>    reg:
->>      maxItems: 1
->>
->> --
->> 2.43.0
->>
->>
->>
->> _______________________________________________
->> linux-amlogic mailing list
->> linux-amlogic@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-amlogic
-> 
-> 
-> _______________________________________________
-> linux-amlogic mailing list
-> linux-amlogic@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-amlogic
-
+Thanks for the review!
+Balbir
