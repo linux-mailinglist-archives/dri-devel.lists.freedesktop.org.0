@@ -2,72 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA6AC6D0E7
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 08:17:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F2F8C6D1A4
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 08:28:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A042010E58E;
-	Wed, 19 Nov 2025 07:17:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91C4A10E229;
+	Wed, 19 Nov 2025 07:28:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YPpWVRqR";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="QA/DpA+U";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WUiCUOik";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B46A10E58E
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 07:17:12 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-64198771a9bso11868046a12.2
- for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 23:17:12 -0800 (PST)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6140610E229
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 07:28:39 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AJ5FIvo2802575
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 07:28:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=8F6tsr+Y0mCAYNRXqHWtql8i
+ o0OKhfJCKZv2IA1/dx8=; b=QA/DpA+UCM6D6A5ksdtM2sywgq+h+LzbsP9RDuj5
+ m4pK8oM2M0695vJFraUckgv8PmelkZ/N5FvbuW8WnzUUXcuXqPGFNKZgTETy+PvJ
+ H2vT/dkeNSwWq0fyQWfPBA7SyqbJVUlkOX3OBCxWdyPPN/GrCTZFILzum1Ai5el3
+ KmVg/oITEHLOyZrtzoJNpZsX6/6G0qjkuGQWd/2zd5C6KxBlWJABwhj0BFfbjhZZ
+ 2IV3vBsgpPy0A2vopTObhXvunK+UE2Q7yvkX6c7NUfgo2hrH4LxKCZvoeHamWkyV
+ TpygTfkp7GHuV3qFzokgAsPzF64H2uIkiQd3yeXAq+UbwQ==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4agrk231jd-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 07:28:38 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id
+ 6a1803df08f44-880501dcc67so240317096d6.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 23:28:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763536631; x=1764141431; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/EJ+O+/tQ6vW+24H3RZKmxUGOMkY2b8gAhqMukrgBCU=;
- b=YPpWVRqRWdTJhGpf5PO3CU7OOfpAr9OvpZXRYGcbf/2fRRnj8jj40//iFhNT9pdFuQ
- V9T6nDQhvT0Ciq+V2zL1a9a2TWizWF/c//btwDjkJ5xE0aNlirfGNS2k6l2axgeilMNC
- i3ztXHhLBezoqBTUYkE2DuId+zjQcIeGsTPGWSCUnOLriU+tvHQbuMjqwkkp5uAXjTze
- 6Vykl3U+p+vWMH903mhfGJW54XGvHYzZaR0DiiTMGJoZtCX0aiY8jUbY/RAaPiWPvWbU
- Ozox8EJJS8kyCBrbsDTP8Aczuoi232SnfL8BSVor/hmVJ8TR+7tJPXBDFJciHN2szZpZ
- yytg==
+ d=oss.qualcomm.com; s=google; t=1763537318; x=1764142118;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=8F6tsr+Y0mCAYNRXqHWtql8io0OKhfJCKZv2IA1/dx8=;
+ b=WUiCUOik/DWF5SUUM1KiU622NQXQz1JPdr+MLUuOGsNW54QgLPu/dFJlxSydIGHWD9
+ rFehrdjBhKWKHU2BvJ5FABkz4agxi11SVeh4MtlN6OugYZ6oj5bsgwm5eUqeP+H3zkOm
+ caGtcx9OOr3OXksPNBjvriOtDnEi9FlOgkYa3TgR3vc4Ny9omG5hFJHPTD5mFPZMiu7g
+ 3pl/7w3PcctUFNj6Agidl81BQRyB5DNo2+QXzcX+Uo8z6d2OhUmogiTcKS+MPpcc0Qul
+ YmYDMZyd6BRzbQ3luckZZpEZv8tZONZa4Mve60NL20KLmjpVH9BVSVG2Zma5RMUioheb
+ 5WOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763536631; x=1764141431;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/EJ+O+/tQ6vW+24H3RZKmxUGOMkY2b8gAhqMukrgBCU=;
- b=Omv0IDPpCk2xIDGoeASxGWbZ3VUeJEtrf/h9NKRhYFVFw99DPkxNWi59U5qMAwPPFv
- XFTu9zBDCX+yHFfmx6TbL2oXaQsZO9l1+K4ii/F/h+9JiiF5iZqOzDcPjwLc+VoMeWRb
- 2bIg8GnG1Iyw7c5IqUtz8Di2od4vpo62V7QsInN9UNe0UTma8URjQ28c4cxCSc+If7rM
- ExOzLe9GhT3QEsHMFeQ1UbUO01kNVwh6ieSjftLF7k6u/mlVPtot0H0mf24mQrWJ5Wd3
- BMDvbbLXKoit2e/To2CkItAd12eguByMBGkwRr00ZSUo+FlypaMp3lLmhsUt+bxP9bR8
- dj6g==
+ d=1e100.net; s=20230601; t=1763537318; x=1764142118;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8F6tsr+Y0mCAYNRXqHWtql8io0OKhfJCKZv2IA1/dx8=;
+ b=cNL7n9zjnzeAMphipE/v4TplEHmPhefAHFzg/lZh7UVChwkLmdr/NVcr/yTYFpj4V0
+ WWsY6pOZ+clbl3Wb20zEbci+/mLYiHhpaIeiqCw0hE97NcCosVRau+DOarvJQp7MxNXk
+ Gxv7FX9qD9+3Z74eTPgRkRXTmEbjoyd+idq3VCMwkJc1jj41xqk1TrWMEhN/Q1ak2208
+ D438jrnAqeNJ/KqzCynTruRaCkz6hAzKFsSw2k59Ctj5fmDZknjFHx8Xr5bfi70PNOHW
+ vDBgM0Fdyl5y7Kp9+bWEaWeW+mzSks9Mc82iACNHr4/2L3VKYEcEKIqccqvyJHiHytJh
+ vA1Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWVOlejcbvRb9dbKjJqfZcg4BscDnfpLuqCxa4RxqyhDEFmyTkdm0wvg6U0e3mbF0Y0No6DpwkfsUM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzFa6QCbFbO31zZ5mFinU3yW7/u4HqMBmrpNGveNMWyoGO3owwJ
- 73AkeMb/1okfN4ukR+EyXX28c9FFxlABtjkIvAqIBzeSMV22JJkVFSzlJRkGo0BSdmy+W6s27ae
- TE31T0vs6ygZXzFbJBpzQZA3b3LjT56g=
-X-Gm-Gg: ASbGncsNXjYg1arJGNiOjDqGrAvLygPe+C3PoGshgN2KV84obOfWu6fAB5dinMs7GIR
- VnPaUJ0PswICPCSPLwAqgFwsLnQhA/jQSKvWrBxfvvie1BDaEhPs1MLDcL6E8fPNa9CH2Zq3wFi
- 8v7n70kbJqJWoYeaMaVBhli84EGtG+X6bCacFsL9vfR56ne5OmqSuwYRW43S0j4j9FrdA2YFkwh
- OW4zNP0UavStpuYCeWy4tfHtl9r/iy0CgHP+9Ek9Ac9Mn0Yl+YrdkBFP7JuxEPTCNGdIGe14hKe
- 1KhkmU/lGataY4p8lrIH0MvW
-X-Google-Smtp-Source: AGHT+IE9uQZLBFdQDPsVLkSPNjmAX4yph6y8DZKHX9lDmrbOkhEeQZJx2xhnAtV5cyCcH5NeKJmBDDc5Ze+fOVNVM3M=
-X-Received: by 2002:a05:6402:4310:b0:640:3210:6e48 with SMTP id
- 4fb4d7f45d1cf-64350e046fcmr17282325a12.4.1763536630884; Tue, 18 Nov 2025
- 23:17:10 -0800 (PST)
+ AJvYcCXpUOSQoJ3N9Smtsdes9yWtJhh4gs/FjN/uTf7gg3ZhjrfJSse+EVpYvG3c3L9jog3SckrLAOZoqwQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw6pVfNmc1MZD2UnKeNp3kGYJmZBgTboC/mnMvrQI6g50xaZzv/
+ dRHSvQcrpLTPqVLYKKkKOcNhkALA+mOFGd2SOOclnNC/gTT2Y9ZJ5scXnfo0FRjXiBHWTUcbUWs
+ JYVIa+jMI93RK/pBvtRNBPkXdNvGruDMfWdJ3hZf4qvEMVx7aR1w1H5+8cJOyKqnMqXqnsp0=
+X-Gm-Gg: ASbGncsbNtZ5IqzgSGNotjqQUCH7nj1jMsoJBqE9VoQmVZboRua1MsoyMHFJ9Ad3a5i
+ e5dgQaFUgNmZkQ1LLxq5rzciilxzLH7VtZNKVrIclT8cqfNWwMv+S6kwRcIInonmqMnUa0Hkd+N
+ KA6YT1fG24rq6R9VTmjmsOTePq0f8F9sqxWCXvEs562saIN7+yZnGtKYN8/xfPlEecbNY626WnN
+ C5dmsPeaNxoMQQg+CfUXnl9Iv4vcJk5ef04xuTElMgLS8QiGZqP6vRHABtr93XNwU98FNmOjynp
+ KN3Oysz1/V4fYbBfggZIDBK7SdU9ayiu0JSrNlq4eonobQITiBTle9L9Opv7mOn4AkW/u3iOOEo
+ AhZI4OsuTmBV2jhu+cl5M1ZbDDB0zr4se6o8xEfH3HiCMftSLVK+ufQxl8OKJZ+2mWrT/3J9PvL
+ LMCP1Iq0bqot5jV+yUm5y9Oqw=
+X-Received: by 2002:a05:6214:27ee:b0:87c:2847:f7bf with SMTP id
+ 6a1803df08f44-882925b1becmr231604926d6.17.1763537317678; 
+ Tue, 18 Nov 2025 23:28:37 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGmqu4l/1lwgBqhj/Al6iB0IsTB91IKNEHwScXTc29DhfUQ0y8XmgfCWtAYGvoeLUhwuKcxaA==
+X-Received: by 2002:a05:6214:27ee:b0:87c:2847:f7bf with SMTP id
+ 6a1803df08f44-882925b1becmr231604376d6.17.1763537316583; 
+ Tue, 18 Nov 2025 23:28:36 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-595804004b5sm4540413e87.64.2025.11.18.23.28.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Nov 2025 23:28:35 -0800 (PST)
+Date: Wed, 19 Nov 2025 09:28:34 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: david@ixit.cz
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Casey Connolly <casey.connolly@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ phodina@protonmail.com, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 4/8] drm/panel: sw43408: Introduce disable/enable
+ functions
+Message-ID: <sioljpees3e6sfygylxihk4kagh3dcfk7xpaydd4y5tip6apng@5zdkogftr3mr>
+References: <20251118-pixel-3-v3-0-317a2b400d8a@ixit.cz>
+ <20251118-pixel-3-v3-4-317a2b400d8a@ixit.cz>
 MIME-Version: 1.0
-References: <20251115125701.3228804-1-rampxxxx@gmail.com>
-In-Reply-To: <20251115125701.3228804-1-rampxxxx@gmail.com>
-From: Javier Garcia <rampxxxx@gmail.com>
-Date: Wed, 19 Nov 2025 08:16:58 +0100
-X-Gm-Features: AWmQ_bmzv8l-KX59QSz0MNOTxclz8UMiBbVuiOxbVwWiFfQ6NOwXKoAwcySw9Pg
-Message-ID: <CABPJ0vjy1ccb4DCd5Q1B=LQPMdpAQN+hhWd39tk9y6TbepZoSw@mail.gmail.com>
-Subject: Re: [PATCH] fbdev/tridentfb: replace printk() with dev_*() in probe
-To: deller@gmx.de
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251118-pixel-3-v3-4-317a2b400d8a@ixit.cz>
+X-Authority-Analysis: v=2.4 cv=a6Q9NESF c=1 sm=1 tr=0 ts=691d71a6 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EXGSQNdf1jmvRekyyJ4A:9 a=CjuIK1q_8ugA:10 a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-GUID: Bzqrnn9VTKZLeKKuexFB0tMkJPyBXxTF
+X-Proofpoint-ORIG-GUID: Bzqrnn9VTKZLeKKuexFB0tMkJPyBXxTF
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE5MDA1NyBTYWx0ZWRfX9eOB8WxKS4B2
+ KqVV+I83zFpOf3UMjhEiVE3XOkD4/W9BbPJBZD/IEkt5nrkm4Ee3bQrXnE13QGxgx2in8kkjctx
+ o9J1VgUTUH1yZnFkyzNEI6F7bZROHMnarkRjwF9IGAPRmwjYmsA4KjrxHpWH3OyqOs3g2GoijXP
+ 7ojTHcdCMjfSBwAX2zt2vdEEWWephgzZ6St2SNsJc7hmaSCzUJs+gXet/4K0DM3XjFE0Kqy/pr0
+ W/6Asa2125eqmsoWHVr9fOaMbtJ0+QVlbajz4nCZW5pN+TuDTgdNzv/WotsEJeX6llkBQ8h2LRS
+ i+BMs0vxEj612r40REYbuFOcT/vTRS0honNqvro9C/vzaqskbUpvFn7yu9opqexDZifHsUMVAUZ
+ CFwQCvlJPmjGNxFEn9zzsOoUqg2jeg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-19_01,2025-11-18_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0 bulkscore=0 priorityscore=1501 impostorscore=0
+ adultscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511190057
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,47 +150,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Deller,
+On Tue, Nov 18, 2025 at 12:30:39PM +0100, David Heidelberg via B4 Relay wrote:
+> From: David Heidelberg <david@ixit.cz>
+> 
+> Mostly cleanup, introduced disable, enable, and reset function, which
+> takeover parts of prepare and unprepare suitable for splitting.
 
-Any comments on this patch?,
+Why?
 
-Thanks!
-
----
-Javier Garcia
-
-On Sat, 15 Nov 2025 at 13:57, Javier Garcia <rampxxxx@gmail.com> wrote:
->
-> - Replace in `trident_pc_probe()` printk by dev_* fn's
-> - Delete the prefix `tridentfb:` from msg strings, not needed now.
->
-> Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
+> 
+> Signed-off-by: David Heidelberg <david@ixit.cz>
 > ---
->  drivers/video/fbdev/tridentfb.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/video/fbdev/tridentfb.c b/drivers/video/fbdev/tridentfb.c
-> index 516cf2a18757..17b7253b8fbe 100644
-> --- a/drivers/video/fbdev/tridentfb.c
-> +++ b/drivers/video/fbdev/tridentfb.c
-> @@ -1631,7 +1631,7 @@ static int trident_pci_probe(struct pci_dev *dev,
->         }
->
->         if (noaccel) {
-> -               printk(KERN_DEBUG "disabling acceleration\n");
-> +               dev_dbg(&dev->dev, "disabling acceleration\n");
->                 info->flags |= FBINFO_HWACCEL_DISABLED;
->                 info->pixmap.scan_align = 1;
->         }
-> @@ -1693,7 +1693,7 @@ static int trident_pci_probe(struct pci_dev *dev,
->         info->var.activate |= FB_ACTIVATE_NOW;
->         info->device = &dev->dev;
->         if (register_framebuffer(info) < 0) {
-> -               printk(KERN_ERR "tridentfb: could not register framebuffer\n");
-> +               dev_err(&dev->dev, "could not register framebuffer\n");
->                 fb_dealloc_cmap(&info->cmap);
->                 err = -EINVAL;
->                 goto out_unmap2;
-> --
-> 2.50.1
->
+>  drivers/gpu/drm/panel/panel-lg-sw43408.c | 83 ++++++++++++++++++++------------
+>  1 file changed, 53 insertions(+), 30 deletions(-)
+> 
+
+-- 
+With best wishes
+Dmitry
