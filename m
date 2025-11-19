@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652E1C710A2
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 21:34:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CCBDC710F9
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 21:45:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C122210E672;
-	Wed, 19 Nov 2025 20:34:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B53B10E67A;
+	Wed, 19 Nov 2025 20:45:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="V8IhV5Yz";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qlv5a0X0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7EBE10E672
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 20:34:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763584481; x=1795120481;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=qewXocdKo9cLRXB0u7E4iV5rncB/pe/qAOBWdTkGlpM=;
- b=V8IhV5Yz3TAgQjv/8wB8ep17gegepkRiASEsXc82AhQIKZybcJKLg+Zz
- HaEbZBcyR9m9RL0pfxlwCOke569Bour6Gywoi/lMPZexBfMBzuMrVjhhW
- 0LhDJ/xepUnJR/eS/RzhIFXqWgLDf/MHRlu5z5xZ2Fb7DLKacEEBnUrJZ
- XZ/mWcFeSC38MItDApLX4fAO1V9GLnpk6+GbGED+vlwacQQtkIRptb3B5
- 62dDl/4PT7nXy+Jz1snYnzvxfPBCWuUcYzuYpOVm44sKwVZg0JMVe2Fxu
- FO42kHw9AV5D/ifYnAKkmuicXqhZCzj/4xbWVoeBWmy8WdktAv8VPzNz7 Q==;
-X-CSE-ConnectionGUID: kfERTIYdQEqdwtl5V+HQKQ==
-X-CSE-MsgGUID: Umu3toOyS8iWv59dOXIFYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="65798448"
-X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; d="scan'208";a="65798448"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Nov 2025 12:34:41 -0800
-X-CSE-ConnectionGUID: CN8Juv0BSfO7B4DVJs2Nww==
-X-CSE-MsgGUID: 243fnx0sSK+yPpa3iYBPZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; d="scan'208";a="195273752"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
- by orviesa003.jf.intel.com with ESMTP; 19 Nov 2025 12:34:37 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1vLosr-0003IB-36;
- Wed, 19 Nov 2025 20:34:33 +0000
-Date: Thu, 20 Nov 2025 04:34:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chris Brandt <chris.brandt@renesas.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Hien Huynh <hien.huynh.px@renesas.com>, Nghia Vo <nghia.vo.zn@renesas.com>,
- Hugo Villeneuve <hugo@hugovil.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Chris Brandt <chris.brandt@renesas.com>
-Subject: Re: [PATCH v5 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-Message-ID: <202511200435.SrjxVc9k-lkp@intel.com>
-References: <20251119022744.1599235-2-chris.brandt@renesas.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A4FE10E681
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 20:45:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 441AF6000A;
+ Wed, 19 Nov 2025 20:45:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05F3FC4CEF5;
+ Wed, 19 Nov 2025 20:45:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763585145;
+ bh=5rI8lrrVbFn1InvbQielmCucdPk01bWsAxmwyIxRJJc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qlv5a0X0ngRKyFh2JKVmpc2TkyYK/DU2m5BSvUPEl7BnF5Z4h3h/m+RqO7z1bx61m
+ rbyyfMoS9aqKBh0aUmaaII2BVk6WpQkAzGGpg1rUG+s8HZmAW8WSgoYrh4VjU5XyVE
+ cn3LgrCO1dpfJBw5cCJ/USdlN3JLkb+DpB22klLCEqHAbG4qjTuayYPjr+pzzDi4EO
+ R0Qx5aJ2BOOXu+TPpbSpmwtVpBrFTUylK5laErKZm5ellYru+TJRCMyV7sgWpV4Qxc
+ Y4Mw7ZQsZniCIYFf6yWIotwra9fYcCXVMUXRBjbCK8S0k+X0tqBTMuTL7f8E/JttUG
+ kQjOcbKaf5FSw==
+Date: Wed, 19 Nov 2025 22:45:41 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
+ Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <skolothumtho@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>,
+ Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, iommu@lists.linux.dev,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v8 05/11] PCI/P2PDMA: Document DMABUF model
+Message-ID: <20251119204541.GN18335@unreal>
+References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
+ <20251111-dmabuf-vfio-v8-5-fd9aa5df478f@nvidia.com>
+ <9798b34c-618b-4e89-82b0-803bc655c82b@amd.com>
+ <20251119133529.GL17968@ziepe.ca>
+ <ad36ef4e-a485-4bbf-aaa9-67cd517ca018@amd.com>
+ <20251119194506.GS17968@ziepe.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20251119022744.1599235-2-chris.brandt@renesas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251119194506.GS17968@ziepe.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,44 +80,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chris,
+On Wed, Nov 19, 2025 at 03:45:06PM -0400, Jason Gunthorpe wrote:
+> On Wed, Nov 19, 2025 at 03:06:18PM +0100, Christian König wrote:
+> > On 11/19/25 14:35, Jason Gunthorpe wrote:
+> > > On Wed, Nov 19, 2025 at 10:18:08AM +0100, Christian König wrote:
+> > >>> +As this is not well-defined or well-supported in real HW the kernel defaults to
+> > >>> +blocking such routing. There is an allow list to allow detecting known-good HW,
+> > >>> +in which case P2P between any two PCIe devices will be permitted.
 
-kernel test robot noticed the following build warnings:
+<...>
 
-[auto build test WARNING on dd30a345f284e0d9b1755e3538f8257cf4deb79f]
+> > The documentation makes it sound like DMA-buf is limited to not
+> > using struct pages and direct I/O, but that is not true.
+> 
+> Okay, I see what you mean, the intention was to be very strong and say
+> if you are not using struct pages then you must using DMABUF or
+> something like it to control lifetime. Not to say that was the only
+> way how DMABUF can be used.
+> 
+> Leon let's try to clarify that a bit more
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Brandt/clk-renesas-rzg2l-Remove-DSI-clock-rate-restrictions/20251119-103032
-base:   dd30a345f284e0d9b1755e3538f8257cf4deb79f
-patch link:    https://lore.kernel.org/r/20251119022744.1599235-2-chris.brandt%40renesas.com
-patch subject: [PATCH v5 1/2] clk: renesas: rzg2l: Remove DSI clock rate restrictions
-config: loongarch-randconfig-001-20251119 (https://download.01.org/0day-ci/archive/20251120/202511200435.SrjxVc9k-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 0bba1e76581bad04e7d7f09f5115ae5e2989e0d9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511200435.SrjxVc9k-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511200435.SrjxVc9k-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/pmdomain/renesas/rcar-gen4-sysc.c:9:
->> include/linux/clk/renesas.h:44:52: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
-      44 | static inline void rzg2l_cpg_dsi_div_set_divider(u8, int target) { }
-         |                                                    ^
-   1 warning generated.
+diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver-api/pci/p2pdma.rst
+index 32e9b691508b..280673b50350 100644
+--- a/Documentation/driver-api/pci/p2pdma.rst
++++ b/Documentation/driver-api/pci/p2pdma.rst
+@@ -156,7 +156,8 @@ Usage With DMABUF
+ =================
+ 
+ DMABUF provides an alternative to the above struct page-based
+-client/provider/orchestrator system. In this mode the exporting driver will wrap
++client/provider/orchestrator system and should be used when struct page
++doesn't exist. In this mode the exporting driver will wrap
+ some of its MMIO in a DMABUF and give the DMABUF FD to userspace.
+ 
+ Userspace can then pass the FD to an importing driver which will ask the
 
 
-vim +44 include/linux/clk/renesas.h
-
-    40	
-    41	#ifdef CONFIG_CLK_RZG2L
-    42	void rzg2l_cpg_dsi_div_set_divider(u8 divider, int target);
-    43	#else
-  > 44	static inline void rzg2l_cpg_dsi_div_set_divider(u8, int target) { }
-    45	#endif
-    46	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Jason
