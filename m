@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34CE4C6EB21
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 14:07:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4322C6EB27
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 14:07:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 839F410E5EC;
-	Wed, 19 Nov 2025 13:07:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05AFA10E5ED;
+	Wed, 19 Nov 2025 13:07:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="l+0OYA58";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="D7DBAvwb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA1EB10E5EB
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 13:07:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD0FB10E5EB
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 13:07:33 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 799A7C1118A;
- Wed, 19 Nov 2025 13:07:01 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 4F7F3C11188;
+ Wed, 19 Nov 2025 13:07:10 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id AE0F660720;
- Wed, 19 Nov 2025 13:07:23 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 8418E60720;
+ Wed, 19 Nov 2025 13:07:32 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id E362910371A56; Wed, 19 Nov 2025 14:07:12 +0100 (CET)
+ with ESMTPSA id 3AAD010371A4D; Wed, 19 Nov 2025 14:07:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1763557641; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1763557650; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=7hY9DFSVUt8stZoOBMtLkJiT453oPgUoQz6S+q61Vao=;
- b=l+0OYA5810JbZzH9x4xTRdK5G+QjVIdPTE9T3ZP+XMU6tdl9kh1/CjgIPGrNthEXBVGnu4
- DfMhD3za7iWMeKWue5X/iLYcrMBiTD5wUDWrLv3taoDJnvXYmUfZ2CTLPO+jxevJffoTMe
- uY20lo4bUtLYqygBc6uIgMzVk4/+SRAJ8JIzF6BcenWKLMNfkbz2Qau5M46uzeSFzIoEXy
- K1SMXFz3hdTF3jZSO7P6xPvPdPR0xcBuhjHK8gNDXH0dTR2l3QSztkjuqsFdjd2sJDIP9j
- BRku7MhZfQCSq4W82ZzF2o8KLsWSeOQyRrAe99f0iMQyhGDv5p5jPavjumZtyA==
+ bh=Ic9ph8Z1Op+ytw7mO9G+BaMZIC2zCJODcJzk4yl4TnA=;
+ b=D7DBAvwbZZjrlq8Ev1VpLDlL34tBKuPw/seXgJf+ILNy9gVNWZJ0CqqBCwICCvH4/YakiQ
+ RoezdaLkZkEwwoeoxUv/tclieBny0oVLZXVOp9rReGTdfThXukdXepfPgAU61m0H6xUhAc
+ uh1W+D4gOhnT5F7YsPL2bvl3G67BcDZyMWSVlzW+l8NALHrkElTq9Q/1hq/E/eqgcF8wxm
+ q4LwhHTGqYGjnMxyKaDmmqjOdlu80GKThQ/XkawPXCHj80EMdrWS0iY/IgdXPCkeUQMcDJ
+ t1IuY87oY/acM/7tOs5YrzrZQMltSj5zzVqjvBfpDFVyZNH4RPA9Q+XGi2T9ng==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 19 Nov 2025 14:05:40 +0100
-Subject: [PATCH 09/26] drm/bridge: simple-bridge: use
- devm_drm_of_find_bridge() to put the next bridge
+Date: Wed, 19 Nov 2025 14:05:41 +0100
+Subject: [PATCH 10/26] drm/bridge: tpd12s015: use devm_drm_of_find_bridge()
+ to put the next bridge
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-9-0db98a7fe474@bootlin.com>
+Message-Id: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-10-0db98a7fe474@bootlin.com>
 References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
 In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -104,22 +104,22 @@ reference on remove or on probe failure.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/simple-bridge.c | 2 +-
+ drivers/gpu/drm/bridge/ti-tpd12s015.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-index 90abda199cea..a4f74c940dd1 100644
---- a/drivers/gpu/drm/bridge/simple-bridge.c
-+++ b/drivers/gpu/drm/bridge/simple-bridge.c
-@@ -180,7 +180,7 @@ static int simple_bridge_probe(struct platform_device *pdev)
- 	if (!remote)
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/bridge/ti-tpd12s015.c b/drivers/gpu/drm/bridge/ti-tpd12s015.c
+index dcf686c4e73d..cef01106db31 100644
+--- a/drivers/gpu/drm/bridge/ti-tpd12s015.c
++++ b/drivers/gpu/drm/bridge/ti-tpd12s015.c
+@@ -138,7 +138,7 @@ static int tpd12s015_probe(struct platform_device *pdev)
+ 	if (!node)
+ 		return -ENODEV;
  
--	sbridge->next_bridge = of_drm_find_bridge(remote);
-+	sbridge->next_bridge = devm_drm_of_find_bridge(&pdev->dev, remote);
- 	of_node_put(remote);
+-	tpd->next_bridge = of_drm_find_bridge(node);
++	tpd->next_bridge = devm_drm_of_find_bridge(&pdev->dev, node);
+ 	of_node_put(node);
  
- 	if (!sbridge->next_bridge) {
+ 	if (!tpd->next_bridge)
 
 -- 
 2.51.1
