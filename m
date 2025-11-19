@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 591E1C714E6
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 23:41:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34409C714E9
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 23:41:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8F9610E6A1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA06D10E6A2;
 	Wed, 19 Nov 2025 22:41:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B2/NVoUG";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="erKJAH/O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 517E310E26C;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71B9810E271;
  Wed, 19 Nov 2025 22:41:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1763592074; x=1795128074;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=6Y0krbqfKLeXuuH9qQEWHUVmzxiD9OHnFy8/xvRA1SQ=;
- b=B2/NVoUGI4OUCEoa80xJ1FqzDRdh6a51OsyUmQcRVXUkLHMjveSMSSRY
- mhYXjOBnQBa7zwGf0L6Dw7uU8Zp0zaiWQAq5QIcXhZAxLHPP3cxLruQXB
- 7IT30Cg+DY5j+7VlIr1WUf3AeK+hC8PcDi+z8wWaWSwWNDX0PV4ghzWMa
- NgymVMqryGPFksWiwtF86QGXeHgOpklKuvHzy/Tw4hz7mdtwZbTuHYg7u
- gMpirw8WXSHq5gDCYsjZ+oQC8Sp0Ba78M7v92f1nxYFfDKobIbevbLMlG
- Smct9l+gIotmwXT8RyB/J8R8cEqWyNjhZ5Mr0bUvspqaK88/YHrPR8bMe g==;
-X-CSE-ConnectionGUID: Hr3mAVISSzaUb2cFrQTEKg==
-X-CSE-MsgGUID: S96l7C2KTgGeAFxt/vQJ+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="76755406"
-X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; d="scan'208";a="76755406"
+ bh=fEEfEfSabA+u5q2pKZUg/lKFGfHqhUkC00ebmT0sc4k=;
+ b=erKJAH/OS8Sgrt2Ht4wTYAhZKJdrSPt3YVqMZEtBNy4KOwcqFFdpTdMm
+ m0Jpi4sAW/ZQX5hp9QVJgGagJPxwYGZxDR1gR3PQ978s7dsI8mQVqFOrY
+ 5rYra8yLTzpV+kW+7zSxxlG9oNZLBzO55mbsYjSEbpdACgW+SVU2LKCdA
+ nBh93CGWReS/PNeRXHY1axUB1OoolLaC1LUArA0L8M84whdDmH0xjejLP
+ dg1ZRF7eVHZaf4eGEyshRptmSxPc1qtvQnzTIorSIWXMvzd23+3JHnVNb
+ ZVIWlicMgnMonfwYK+bFnUtrLOYLZKouYrdluO1WyhQwVpWvqdoWdOye1 Q==;
+X-CSE-ConnectionGUID: kUNVsNBzSOaSmqD0R8rKLQ==
+X-CSE-MsgGUID: 7OJl+2UqSuKRM/uFVogYlw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="76755407"
+X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; d="scan'208";a="76755407"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  19 Nov 2025 14:41:12 -0800
-X-CSE-ConnectionGUID: UaGXPAllSYm28bkLoskyJQ==
-X-CSE-MsgGUID: 2Zpa5+fJSB6AoAneLp5mFQ==
+X-CSE-ConnectionGUID: d8l2t5xkR6OjOwh4TD11DQ==
+X-CSE-MsgGUID: xHJlmL+OTuSntUqReWhSVw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; d="scan'208";a="228504151"
+X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; d="scan'208";a="228504154"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  19 Nov 2025 14:41:11 -0800
@@ -46,10 +46,10 @@ To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: niranjana.vishwanathapura@intel.com, umesh.nerlige.ramappa@intel.com,
  christian.koenig@amd.com, pstanner@redhat.com, dakr@kernel.org
-Subject: [PATCH v4 7/8] drm/xe: Remove special casing for LR queues in
- submission
-Date: Wed, 19 Nov 2025 14:41:05 -0800
-Message-Id: <20251119224106.3733883-8-matthew.brost@intel.com>
+Subject: [PATCH v4 8/8] drm/xe: Avoid toggling schedule state to check LRC
+ timestamp in TDR
+Date: Wed, 19 Nov 2025 14:41:06 -0800
+Message-Id: <20251119224106.3733883-9-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251119224106.3733883-1-matthew.brost@intel.com>
 References: <20251119224106.3733883-1-matthew.brost@intel.com>
@@ -70,298 +70,296 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that LR jobs are tracked by the DRM scheduler, there's no longer a
-need to special-case LR queues. This change removes all LR
-queue-specific handling, including dedicated TDR logic, reference
-counting schemes, and other related mechanisms.
+We now have proper infrastructure to accurately check the LRC timestamp
+without toggling the scheduling state for non-VFs. For VFs, it is still
+possible to get an inaccurate view if the context is on hardware. We
+guard against free-running contexts on VFs by banning jobs whose
+timestamps are not moving. In addition, VFs have a timeslice quantum
+that naturally triggers context switches when more than one VF is
+running, thus updating the LRC timestamp.
 
-v4:
- - Remove xe_exec_queue_lr_cleanup tracepoint (Niranjana)
+For multi-queue, it is desirable to avoid scheduling toggling in the TDR
+because this scheduling state is shared among many queues. Furthermore,
+this change simplifies the GuC state machine. The trade-off for VF cases
+seems worthwhile.
 
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/xe/xe_guc_exec_queue_types.h |   2 -
- drivers/gpu/drm/xe/xe_guc_submit.c           | 132 ++-----------------
- drivers/gpu/drm/xe/xe_trace.h                |   5 -
- 3 files changed, 11 insertions(+), 128 deletions(-)
+ drivers/gpu/drm/xe/xe_guc_submit.c      | 100 ++++++------------------
+ drivers/gpu/drm/xe/xe_sched_job.c       |   1 +
+ drivers/gpu/drm/xe/xe_sched_job_types.h |   2 +
+ 3 files changed, 28 insertions(+), 75 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h b/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-index a3b034e4b205..fd0915ed8eb1 100644
---- a/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-+++ b/drivers/gpu/drm/xe/xe_guc_exec_queue_types.h
-@@ -33,8 +33,6 @@ struct xe_guc_exec_queue {
- 	 */
- #define MAX_STATIC_MSG_TYPE	3
- 	struct xe_sched_msg static_msgs[MAX_STATIC_MSG_TYPE];
--	/** @lr_tdr: long running TDR worker */
--	struct work_struct lr_tdr;
- 	/** @destroy_async: do final destroy async from this worker */
- 	struct work_struct destroy_async;
- 	/** @resume_time: time of last resume */
 diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
-index 5de300b66767..1f2afad1766e 100644
+index 1f2afad1766e..7404716e979f 100644
 --- a/drivers/gpu/drm/xe/xe_guc_submit.c
 +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-@@ -674,14 +674,6 @@ static void register_exec_queue(struct xe_exec_queue *q, int ctx_type)
- 		parallel_write(xe, map, wq_desc.wq_status, WQ_STATUS_ACTIVE);
- 	}
+@@ -68,9 +68,7 @@ exec_queue_to_guc(struct xe_exec_queue *q)
+ #define EXEC_QUEUE_STATE_KILLED			(1 << 7)
+ #define EXEC_QUEUE_STATE_WEDGED			(1 << 8)
+ #define EXEC_QUEUE_STATE_BANNED			(1 << 9)
+-#define EXEC_QUEUE_STATE_CHECK_TIMEOUT		(1 << 10)
+-#define EXEC_QUEUE_STATE_PENDING_RESUME		(1 << 11)
+-#define EXEC_QUEUE_STATE_PENDING_TDR_EXIT	(1 << 12)
++#define EXEC_QUEUE_STATE_PENDING_RESUME		(1 << 10)
  
--	/*
--	 * We must keep a reference for LR engines if engine is registered with
--	 * the GuC as jobs signal immediately and can't destroy an engine if the
--	 * GuC has a reference to it.
--	 */
--	if (xe_exec_queue_is_lr(q))
--		xe_exec_queue_get(q);
--
- 	set_exec_queue_registered(q);
- 	trace_xe_exec_queue_register(q);
- 	if (xe_exec_queue_is_parallel(q))
-@@ -854,7 +846,7 @@ guc_exec_queue_run_job(struct drm_sched_job *drm_job)
- 	struct xe_sched_job *job = to_xe_sched_job(drm_job);
- 	struct xe_exec_queue *q = job->q;
- 	struct xe_guc *guc = exec_queue_to_guc(q);
--	bool lr = xe_exec_queue_is_lr(q), killed_or_banned_or_wedged =
-+	bool killed_or_banned_or_wedged =
- 		exec_queue_killed_or_banned_or_wedged(q);
- 
- 	xe_gt_assert(guc_to_gt(guc), !(exec_queue_destroyed(q) || exec_queue_pending_disable(q)) ||
-@@ -871,15 +863,6 @@ guc_exec_queue_run_job(struct drm_sched_job *drm_job)
- 		job->skip_emit = false;
- 	}
- 
--	/*
--	 * We don't care about job-fence ordering in LR VMs because these fences
--	 * are never exported; they are used solely to keep jobs on the pending
--	 * list. Once a queue enters an error state, there's no need to track
--	 * them.
--	 */
--	if (killed_or_banned_or_wedged && lr)
--		xe_sched_job_set_error(job, -ECANCELED);
--
- 	return job->fence;
+ static bool exec_queue_registered(struct xe_exec_queue *q)
+ {
+@@ -202,21 +200,6 @@ static void set_exec_queue_wedged(struct xe_exec_queue *q)
+ 	atomic_or(EXEC_QUEUE_STATE_WEDGED, &q->guc->state);
  }
  
-@@ -923,8 +906,7 @@ static void disable_scheduling_deregister(struct xe_guc *guc,
- 		xe_gt_warn(q->gt, "Pending enable/disable failed to respond\n");
- 		xe_sched_submission_start(sched);
- 		xe_gt_reset_async(q->gt);
--		if (!xe_exec_queue_is_lr(q))
--			xe_sched_tdr_queue_imm(sched);
-+		xe_sched_tdr_queue_imm(sched);
- 		return;
- 	}
- 
-@@ -950,10 +932,7 @@ static void xe_guc_exec_queue_trigger_cleanup(struct xe_exec_queue *q)
- 	/** to wakeup xe_wait_user_fence ioctl if exec queue is reset */
- 	wake_up_all(&xe->ufence_wq);
- 
--	if (xe_exec_queue_is_lr(q))
--		queue_work(guc_to_gt(guc)->ordered_wq, &q->guc->lr_tdr);
--	else
--		xe_sched_tdr_queue_imm(&q->guc->sched);
-+	xe_sched_tdr_queue_imm(&q->guc->sched);
- }
- 
- /**
-@@ -1009,78 +988,6 @@ static bool guc_submit_hint_wedged(struct xe_guc *guc)
- 	return true;
- }
- 
--static void xe_guc_exec_queue_lr_cleanup(struct work_struct *w)
+-static bool exec_queue_check_timeout(struct xe_exec_queue *q)
 -{
--	struct xe_guc_exec_queue *ge =
--		container_of(w, struct xe_guc_exec_queue, lr_tdr);
--	struct xe_exec_queue *q = ge->q;
--	struct xe_guc *guc = exec_queue_to_guc(q);
--	struct xe_gpu_scheduler *sched = &ge->sched;
--	struct drm_sched_job *job;
--	bool wedged = false;
--
--	xe_gt_assert(guc_to_gt(guc), xe_exec_queue_is_lr(q));
--
--	if (vf_recovery(guc))
--		return;
--
--	trace_xe_exec_queue_lr_cleanup(q);
--
--	if (!exec_queue_killed(q))
--		wedged = guc_submit_hint_wedged(exec_queue_to_guc(q));
--
--	/* Kill the run_job / process_msg entry points */
--	xe_sched_submission_stop(sched);
--
--	/*
--	 * Engine state now mostly stable, disable scheduling / deregister if
--	 * needed. This cleanup routine might be called multiple times, where
--	 * the actual async engine deregister drops the final engine ref.
--	 * Calling disable_scheduling_deregister will mark the engine as
--	 * destroyed and fire off the CT requests to disable scheduling /
--	 * deregister, which we only want to do once. We also don't want to mark
--	 * the engine as pending_disable again as this may race with the
--	 * xe_guc_deregister_done_handler() which treats it as an unexpected
--	 * state.
--	 */
--	if (!wedged && exec_queue_registered(q) && !exec_queue_destroyed(q)) {
--		struct xe_guc *guc = exec_queue_to_guc(q);
--		int ret;
--
--		set_exec_queue_banned(q);
--		disable_scheduling_deregister(guc, q);
--
--		/*
--		 * Must wait for scheduling to be disabled before signalling
--		 * any fences, if GT broken the GT reset code should signal us.
--		 */
--		ret = wait_event_timeout(guc->ct.wq,
--					 !exec_queue_pending_disable(q) ||
--					 xe_guc_read_stopped(guc) ||
--					 vf_recovery(guc), HZ * 5);
--		if (vf_recovery(guc))
--			return;
--
--		if (!ret) {
--			xe_gt_warn(q->gt, "Schedule disable failed to respond, guc_id=%d\n",
--				   q->guc->id);
--			xe_devcoredump(q, NULL, "Schedule disable failed to respond, guc_id=%d\n",
--				       q->guc->id);
--			xe_sched_submission_start(sched);
--			xe_gt_reset_async(q->gt);
--			return;
--		}
--	}
--
--	if (!exec_queue_killed(q) && !xe_lrc_ring_is_idle(q->lrc[0]))
--		xe_devcoredump(q, NULL, "LR job cleanup, guc_id=%d", q->guc->id);
--
--	drm_sched_for_each_pending_job(job, &sched->base, NULL)
--		xe_sched_job_set_error(to_xe_sched_job(job), -ECANCELED);
--
--	xe_sched_submission_start(sched);
+-	return atomic_read(&q->guc->state) & EXEC_QUEUE_STATE_CHECK_TIMEOUT;
 -}
 -
- #define ADJUST_FIVE_PERCENT(__t)	mul_u64_u32_div(__t, 105, 100)
- 
- static bool check_timeout(struct xe_exec_queue *q, struct xe_sched_job *job)
-@@ -1150,8 +1057,7 @@ static void enable_scheduling(struct xe_exec_queue *q)
- 		xe_gt_warn(guc_to_gt(guc), "Schedule enable failed to respond");
- 		set_exec_queue_banned(q);
- 		xe_gt_reset_async(q->gt);
--		if (!xe_exec_queue_is_lr(q))
--			xe_sched_tdr_queue_imm(&q->guc->sched);
-+		xe_sched_tdr_queue_imm(&q->guc->sched);
- 	}
+-static void set_exec_queue_check_timeout(struct xe_exec_queue *q)
+-{
+-	atomic_or(EXEC_QUEUE_STATE_CHECK_TIMEOUT, &q->guc->state);
+-}
+-
+-static void clear_exec_queue_check_timeout(struct xe_exec_queue *q)
+-{
+-	atomic_and(~EXEC_QUEUE_STATE_CHECK_TIMEOUT, &q->guc->state);
+-}
+-
+ static bool exec_queue_pending_resume(struct xe_exec_queue *q)
+ {
+ 	return atomic_read(&q->guc->state) & EXEC_QUEUE_STATE_PENDING_RESUME;
+@@ -232,21 +215,6 @@ static void clear_exec_queue_pending_resume(struct xe_exec_queue *q)
+ 	atomic_and(~EXEC_QUEUE_STATE_PENDING_RESUME, &q->guc->state);
  }
  
-@@ -1189,7 +1095,6 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
- 	pid_t pid = -1;
- 	bool wedged = false, skip_timeout_check;
- 
--	xe_gt_assert(guc_to_gt(guc), !xe_exec_queue_is_lr(q));
- 	xe_gt_assert(guc_to_gt(guc), !exec_queue_destroyed(q));
- 
- 	/*
-@@ -1209,6 +1114,10 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
- 	skip_timeout_check = exec_queue_reset(q) ||
- 		exec_queue_killed_or_banned_or_wedged(q);
- 
-+	/* LR jobs can only get here if queue has been killed or hit an error */
-+	if (xe_exec_queue_is_lr(q))
-+		xe_gt_assert(guc_to_gt(guc), skip_timeout_check);
-+
- 	/*
- 	 * If devcoredump not captured and GuC capture for the job is not ready
- 	 * do manual capture first and decide later if we need to use it
-@@ -1400,8 +1309,6 @@ static void __guc_exec_queue_destroy_async(struct work_struct *w)
- 	xe_pm_runtime_get(guc_to_xe(guc));
- 	trace_xe_exec_queue_destroy(q);
- 
--	if (xe_exec_queue_is_lr(q))
--		cancel_work_sync(&ge->lr_tdr);
- 	/* Confirm no work left behind accessing device structures */
- 	cancel_delayed_work_sync(&ge->sched.base.work_tdr);
- 
-@@ -1634,9 +1541,6 @@ static int guc_exec_queue_init(struct xe_exec_queue *q)
- 	if (err)
- 		goto err_sched;
- 
--	if (xe_exec_queue_is_lr(q))
--		INIT_WORK(&q->guc->lr_tdr, xe_guc_exec_queue_lr_cleanup);
+-static bool exec_queue_pending_tdr_exit(struct xe_exec_queue *q)
+-{
+-	return atomic_read(&q->guc->state) & EXEC_QUEUE_STATE_PENDING_TDR_EXIT;
+-}
 -
- 	mutex_lock(&guc->submission_state.lock);
+-static void set_exec_queue_pending_tdr_exit(struct xe_exec_queue *q)
+-{
+-	atomic_or(EXEC_QUEUE_STATE_PENDING_TDR_EXIT, &q->guc->state);
+-}
+-
+-static void clear_exec_queue_pending_tdr_exit(struct xe_exec_queue *q)
+-{
+-	atomic_and(~EXEC_QUEUE_STATE_PENDING_TDR_EXIT, &q->guc->state);
+-}
+-
+ static bool exec_queue_killed_or_banned_or_wedged(struct xe_exec_queue *q)
+ {
+ 	return (atomic_read(&q->guc->state) &
+@@ -996,7 +964,7 @@ static bool check_timeout(struct xe_exec_queue *q, struct xe_sched_job *job)
+ 	u32 ctx_timestamp, ctx_job_timestamp;
+ 	u32 timeout_ms = q->sched_props.job_timeout_ms;
+ 	u32 diff;
+-	u64 running_time_ms;
++	u64 running_time_ms, old_timestamp;
  
- 	err = alloc_guc_id(guc, q);
-@@ -1890,9 +1794,7 @@ static void guc_exec_queue_stop(struct xe_guc *guc, struct xe_exec_queue *q)
- 
- 	/* Clean up lost G2H + reset engine state */
- 	if (exec_queue_registered(q)) {
--		if (xe_exec_queue_is_lr(q))
--			xe_exec_queue_put(q);
--		else if (exec_queue_destroyed(q))
-+		if (exec_queue_destroyed(q))
- 			__guc_exec_queue_destroy(guc, q);
+ 	if (!xe_sched_job_started(job)) {
+ 		xe_gt_warn(gt, "Check job timeout: seqno=%u, lrc_seqno=%u, guc_id=%d, not started",
+@@ -1006,7 +974,17 @@ static bool check_timeout(struct xe_exec_queue *q, struct xe_sched_job *job)
+ 		return xe_sched_invalidate_job(job, 2);
  	}
- 	if (q->guc->suspend_pending) {
-@@ -1922,9 +1824,6 @@ static void guc_exec_queue_stop(struct xe_guc *guc, struct xe_exec_queue *q)
- 				trace_xe_sched_job_ban(job);
- 				ban = true;
- 			}
--		} else if (xe_exec_queue_is_lr(q) &&
--			   !xe_lrc_ring_is_idle(q->lrc[0])) {
--			ban = true;
+ 
+-	ctx_timestamp = lower_32_bits(xe_lrc_ctx_timestamp(q->lrc[0]));
++	ctx_timestamp = lower_32_bits(xe_lrc_update_timestamp(q->lrc[0],
++							      &old_timestamp));
++	if (ctx_timestamp == job->sample_timestamp) {
++		xe_gt_warn(gt, "Check job timeout: seqno=%u, lrc_seqno=%u, guc_id=%d, timestamp stuck",
++			   xe_sched_job_seqno(job), xe_sched_job_lrc_seqno(job),
++			   q->guc->id);
++
++		return xe_sched_invalidate_job(job, 2);
++	}
++
++	job->sample_timestamp = ctx_timestamp;
+ 	ctx_job_timestamp = xe_lrc_ctx_job_timestamp(q->lrc[0]);
+ 
+ 	/*
+@@ -1135,16 +1113,17 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
+ 	}
+ 
+ 	/*
+-	 * XXX: Sampling timeout doesn't work in wedged mode as we have to
+-	 * modify scheduling state to read timestamp. We could read the
+-	 * timestamp from a register to accumulate current running time but this
+-	 * doesn't work for SRIOV. For now assuming timeouts in wedged mode are
+-	 * genuine timeouts.
++	 * Check if job is actually timed out, if so restart job execution and TDR
+ 	 */
++	if (!skip_timeout_check && !check_timeout(q, job))
++		goto rearm;
++
+ 	if (!exec_queue_killed(q))
+ 		wedged = guc_submit_hint_wedged(exec_queue_to_guc(q));
+ 
+-	/* Engine state now stable, disable scheduling to check timestamp */
++	set_exec_queue_banned(q);
++
++	/* Kick job / queue off hardware */
+ 	if (!wedged && (exec_queue_enabled(q) || exec_queue_pending_disable(q))) {
+ 		int ret;
+ 
+@@ -1166,13 +1145,6 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
+ 			if (!ret || xe_guc_read_stopped(guc))
+ 				goto trigger_reset;
+ 
+-			/*
+-			 * Flag communicates to G2H handler that schedule
+-			 * disable originated from a timeout check. The G2H then
+-			 * avoid triggering cleanup or deregistering the exec
+-			 * queue.
+-			 */
+-			set_exec_queue_check_timeout(q);
+ 			disable_scheduling(q, skip_timeout_check);
  		}
  
- 		if (ban) {
-@@ -2007,8 +1906,6 @@ static void guc_exec_queue_revert_pending_state_change(struct xe_guc *guc,
- 	if (pending_enable && !pending_resume &&
- 	    !exec_queue_pending_tdr_exit(q)) {
- 		clear_exec_queue_registered(q);
--		if (xe_exec_queue_is_lr(q))
--			xe_exec_queue_put(q);
- 		xe_gt_dbg(guc_to_gt(guc), "Replay REGISTER - guc_id=%d",
+@@ -1201,22 +1173,12 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
+ 			xe_devcoredump(q, job,
+ 				       "Schedule disable failed to respond, guc_id=%d, ret=%d, guc_read=%d",
+ 				       q->guc->id, ret, xe_guc_read_stopped(guc));
+-			set_exec_queue_banned(q);
+ 			xe_gt_reset_async(q->gt);
+ 			xe_sched_tdr_queue_imm(sched);
+ 			goto rearm;
+ 		}
+ 	}
+ 
+-	/*
+-	 * Check if job is actually timed out, if so restart job execution and TDR
+-	 */
+-	if (!wedged && !skip_timeout_check && !check_timeout(q, job) &&
+-	    !exec_queue_reset(q) && exec_queue_registered(q)) {
+-		clear_exec_queue_check_timeout(q);
+-		goto sched_enable;
+-	}
+-
+ 	if (q->vm && q->vm->xef) {
+ 		process_name = q->vm->xef->process_name;
+ 		pid = q->vm->xef->pid;
+@@ -1247,14 +1209,11 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
+ 	if (!wedged && (q->flags & EXEC_QUEUE_FLAG_KERNEL ||
+ 			(q->flags & EXEC_QUEUE_FLAG_VM && !exec_queue_killed(q)))) {
+ 		if (!xe_sched_invalidate_job(job, 2)) {
+-			clear_exec_queue_check_timeout(q);
+ 			xe_gt_reset_async(q->gt);
+ 			goto rearm;
+ 		}
+ 	}
+ 
+-	set_exec_queue_banned(q);
+-
+ 	/* Mark all outstanding jobs as bad, thus completing them */
+ 	xe_sched_job_set_error(job, err);
+ 	drm_sched_for_each_pending_job(tmp_job, &sched->base, NULL)
+@@ -1269,9 +1228,6 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
+ 	 */
+ 	return DRM_GPU_SCHED_STAT_NO_HANG;
+ 
+-sched_enable:
+-	set_exec_queue_pending_tdr_exit(q);
+-	enable_scheduling(q);
+ rearm:
+ 	/*
+ 	 * XXX: Ideally want to adjust timeout based on current execution time
+@@ -1903,8 +1859,7 @@ static void guc_exec_queue_revert_pending_state_change(struct xe_guc *guc,
  			  q->guc->id);
  	}
-@@ -2065,10 +1962,7 @@ static void guc_exec_queue_pause(struct xe_guc *guc, struct xe_exec_queue *q)
  
- 	/* Stop scheduling + flush any DRM scheduler operations */
- 	xe_sched_submission_stop(sched);
--	if (xe_exec_queue_is_lr(q))
--		cancel_work_sync(&q->guc->lr_tdr);
--	else
--		cancel_delayed_work_sync(&sched->base.work_tdr);
-+	cancel_delayed_work_sync(&sched->base.work_tdr);
+-	if (pending_enable && !pending_resume &&
+-	    !exec_queue_pending_tdr_exit(q)) {
++	if (pending_enable && !pending_resume) {
+ 		clear_exec_queue_registered(q);
+ 		xe_gt_dbg(guc_to_gt(guc), "Replay REGISTER - guc_id=%d",
+ 			  q->guc->id);
+@@ -1913,7 +1868,6 @@ static void guc_exec_queue_revert_pending_state_change(struct xe_guc *guc,
+ 	if (pending_enable) {
+ 		clear_exec_queue_enabled(q);
+ 		clear_exec_queue_pending_resume(q);
+-		clear_exec_queue_pending_tdr_exit(q);
+ 		clear_exec_queue_pending_enable(q);
+ 		xe_gt_dbg(guc_to_gt(guc), "Replay ENABLE - guc_id=%d",
+ 			  q->guc->id);
+@@ -1939,7 +1893,6 @@ static void guc_exec_queue_revert_pending_state_change(struct xe_guc *guc,
+ 		if (!pending_enable)
+ 			set_exec_queue_enabled(q);
+ 		clear_exec_queue_pending_disable(q);
+-		clear_exec_queue_check_timeout(q);
+ 		xe_gt_dbg(guc_to_gt(guc), "Replay DISABLE - guc_id=%d",
+ 			  q->guc->id);
+ 	}
+@@ -2263,13 +2216,10 @@ static void handle_sched_done(struct xe_guc *guc, struct xe_exec_queue *q,
  
- 	guc_exec_queue_revert_pending_state_change(guc, q);
- 
-@@ -2440,11 +2334,7 @@ static void handle_deregister_done(struct xe_guc *guc, struct xe_exec_queue *q)
- 	trace_xe_exec_queue_deregister_done(q);
- 
- 	clear_exec_queue_registered(q);
+ 		q->guc->resume_time = ktime_get();
+ 		clear_exec_queue_pending_resume(q);
+-		clear_exec_queue_pending_tdr_exit(q);
+ 		clear_exec_queue_pending_enable(q);
+ 		smp_wmb();
+ 		wake_up_all(&guc->ct.wq);
+ 	} else {
+-		bool check_timeout = exec_queue_check_timeout(q);
 -
--	if (xe_exec_queue_is_lr(q))
--		xe_exec_queue_put(q);
--	else
--		__guc_exec_queue_destroy(guc, q);
-+	__guc_exec_queue_destroy(guc, q);
- }
+ 		xe_gt_assert(guc_to_gt(guc), runnable_state == 0);
+ 		xe_gt_assert(guc_to_gt(guc), exec_queue_pending_disable(q));
  
- int xe_guc_deregister_done_handler(struct xe_guc *guc, u32 *msg, u32 len)
-diff --git a/drivers/gpu/drm/xe/xe_trace.h b/drivers/gpu/drm/xe/xe_trace.h
-index 79a97b086cb2..cf2ef70fb7ce 100644
---- a/drivers/gpu/drm/xe/xe_trace.h
-+++ b/drivers/gpu/drm/xe/xe_trace.h
-@@ -182,11 +182,6 @@ DEFINE_EVENT(xe_exec_queue, xe_exec_queue_resubmit,
- 	     TP_ARGS(q)
- );
+@@ -2277,11 +2227,11 @@ static void handle_sched_done(struct xe_guc *guc, struct xe_exec_queue *q,
+ 			suspend_fence_signal(q);
+ 			clear_exec_queue_pending_disable(q);
+ 		} else {
+-			if (exec_queue_banned(q) || check_timeout) {
++			if (exec_queue_banned(q)) {
+ 				smp_wmb();
+ 				wake_up_all(&guc->ct.wq);
+ 			}
+-			if (!check_timeout && exec_queue_destroyed(q)) {
++			if (exec_queue_destroyed(q)) {
+ 				/*
+ 				 * Make sure to clear the pending_disable only
+ 				 * after sampling the destroyed state. We want
+@@ -2391,7 +2341,7 @@ int xe_guc_exec_queue_reset_handler(struct xe_guc *guc, u32 *msg, u32 len)
+ 	 * guc_exec_queue_timedout_job.
+ 	 */
+ 	set_exec_queue_reset(q);
+-	if (!exec_queue_banned(q) && !exec_queue_check_timeout(q))
++	if (!exec_queue_banned(q))
+ 		xe_guc_exec_queue_trigger_cleanup(q);
  
--DEFINE_EVENT(xe_exec_queue, xe_exec_queue_lr_cleanup,
--	     TP_PROTO(struct xe_exec_queue *q),
--	     TP_ARGS(q)
--);
--
- DECLARE_EVENT_CLASS(xe_sched_job,
- 		    TP_PROTO(struct xe_sched_job *job),
- 		    TP_ARGS(job),
+ 	return 0;
+@@ -2472,7 +2422,7 @@ int xe_guc_exec_queue_memory_cat_error_handler(struct xe_guc *guc, u32 *msg,
+ 
+ 	/* Treat the same as engine reset */
+ 	set_exec_queue_reset(q);
+-	if (!exec_queue_banned(q) && !exec_queue_check_timeout(q))
++	if (!exec_queue_banned(q))
+ 		xe_guc_exec_queue_trigger_cleanup(q);
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/xe/xe_sched_job.c b/drivers/gpu/drm/xe/xe_sched_job.c
+index cb674a322113..39aec7f6d86d 100644
+--- a/drivers/gpu/drm/xe/xe_sched_job.c
++++ b/drivers/gpu/drm/xe/xe_sched_job.c
+@@ -110,6 +110,7 @@ struct xe_sched_job *xe_sched_job_create(struct xe_exec_queue *q,
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	job->q = q;
++	job->sample_timestamp = U64_MAX;
+ 	kref_init(&job->refcount);
+ 	xe_exec_queue_get(job->q);
+ 
+diff --git a/drivers/gpu/drm/xe/xe_sched_job_types.h b/drivers/gpu/drm/xe/xe_sched_job_types.h
+index d26612abb4ca..ad5eee8a8cdb 100644
+--- a/drivers/gpu/drm/xe/xe_sched_job_types.h
++++ b/drivers/gpu/drm/xe/xe_sched_job_types.h
+@@ -59,6 +59,8 @@ struct xe_sched_job {
+ 	u32 lrc_seqno;
+ 	/** @migrate_flush_flags: Additional flush flags for migration jobs */
+ 	u32 migrate_flush_flags;
++	/** @sample_timestamp: Sampling of job timestamp in TDR */
++	u64 sample_timestamp;
+ 	/** @ring_ops_flush_tlb: The ring ops need to flush TLB before payload. */
+ 	bool ring_ops_flush_tlb;
+ 	/** @ggtt: mapped in ggtt. */
 -- 
 2.34.1
 
