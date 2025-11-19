@@ -2,78 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC02AC70351
+	by mail.lfdr.de (Postfix) with ESMTPS id CA294C70350
 	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 17:49:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99E4610E66F;
-	Wed, 19 Nov 2025 16:49:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B42A310E67F;
+	Wed, 19 Nov 2025 16:49:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nWP/RJXX";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HWF0xt9c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DB7110E670
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 16:49:08 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-42b32a3e78bso5652271f8f.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 08:49:08 -0800 (PST)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9A6610E673
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 16:49:09 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-429c4c65485so5815855f8f.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 08:49:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763570947; x=1764175747; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1763570948; x=1764175748; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MAVeFoaswclHa0AcFUTcFiWRrdY0VmDg5ArpLD6CciA=;
- b=nWP/RJXXQtZxZZ+exPkI7kImJuR0HMyXhDvJU7RGRUfCOl4Ala2j6hLyOCOi7thsGC
- R0tAffEATnKiGEiF8muy3UsfU7JFlkUWSH4nZxV+sYFedBx9O5e4qqUQShTi+lvCkgSf
- kYkpgG93baCUm7sJY6PkFokYSLrZzr8NLazaYC0Vf3NvR7EGgGnOPF/0tJWnEQ/tS/N9
- 1AgruYRho0EY1WHQhpTmFLOW+IBWrpWbICy4Gp9FpmC1/UOlFrTFbFOiVAy9eT+sWZSd
- BOrPrKFBwZmBlui3EtlAzc7erpTogPDA5w0FlN4d9zwMiIKP+OAIB1bPxpKCa/Guw7JX
- FiGA==
+ bh=W+BKTv32VzHjWL0NXMYpgvUxDlBNuCFA53q1tVGjGOw=;
+ b=HWF0xt9ctE0T1eHIxx0q7qj4YhG0bnE1FGR+xonuoPE1kU0QVKX0VwFsGgnKocDlYq
+ aqMu4c1YOhNE78ZUip34ovuxjdf+b9QYXMHiTivP2TWCs9b/QBqRm/tIXXF4+1Y8oWlO
+ mtcj7ECnjfUcv+QgAx1mFKet8Hx9mAoaN+Ghofi0odb6+jyaGWh6W7KClJp5uUQIpVTE
+ C3Zno3BS3kRsHOKIWeuntPrWKB6H1bmafJn6o23vaHngwlKP6IMTIE+ZZB7u4PHpUSfE
+ +SssuYKbWXdpA+RdiP1JYl+GYLYgJULgT0y8AJQfz2kZ1ET/WIpfuVDmT1VEcilPekdu
+ 5R8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763570947; x=1764175747;
+ d=1e100.net; s=20230601; t=1763570948; x=1764175748;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=MAVeFoaswclHa0AcFUTcFiWRrdY0VmDg5ArpLD6CciA=;
- b=fsOxkIucm9MCjNSVr0EVkHT3skhgBKAM+LuN8BQ/DMDqlkUOrbrc9RgUPDrDr23855
- d21OPhB1L+dO+VyW0yrnP8ap9lR8UQ33m4/Y8bkf7oFfq4unLfSD9/hA4fXZgnJx9ELx
- x9QEAJt10yOnqOfkD1/Bolt8+QFGs6rONLzjrgylXTgLKRwz5PEQKP+1o2Qm+xueCYaD
- PlNkWchGOx+XnldhNlo4By/CcfYAk4CfAHVvCFSCDM1yEfdpY42nA6R+LoFxd+T92pvz
- KWDvS2uTLw09WevxHFQ/mM8K2FTwsVfcYM7yOsRTdQz/4NFp4UHkC8jSAudegZ3Tsdw9
- VJYA==
-X-Gm-Message-State: AOJu0YyBkkya32eZK+szfgF6K43eDcFezAxyc7Ac2jQuoxWIbhypPWQf
- mEKgtVmv/dt5759q3sMFMcxcVg+CbL9/bycShdug06G3lBU7aTmrkDs0iornwIL1w3JQRfd5mWU
- 2GgoL
-X-Gm-Gg: ASbGncumeL7DbYmGR9j6qnGRrbcq4k5yZ5g+FtxFF0Ur8DnhRzm72VszGru6S2XNd2d
- ZGvDPIUXcFVcgV7CJx53my79wzPowjXAjID4Osm1HKaGXJ+GrbuInf2Gp7LloXRD9OJHCzso1IR
- xyRmCzxUgMcNLKCa08GHpxptsyRrXzwQsXTWLHLAyg7w1lpCx//HdQ8qReHUlBaJd4CKx39wddf
- PmVrI2+Bl/32ZBFghQf7lRxjjROAzrWQedqGlnwFX5jFEqgid8y9qM9X23piL40t4qHS0+vt7zT
- 4W6fEkmE+cOLK6lc+p8Lp9XUXtQ56eBsdBeuSAhZWlWgADdh6J9IExE3s93jPnFxKMRBMuGcQEY
- Mo3/vdAgh9z1dY9jWfH3LOI7yCxrWhE+Nf/fGmG8nyOeKVHybLXIrskHK7I90uvEujczPQEjfBN
- 8AYSi8kX2rRbfrNbW9U+/T+Y8+pyLpbfsTnBGxpLXfhw==
-X-Google-Smtp-Source: AGHT+IG9qhpyv4WB6t6znXPIaFDtapZBfxWk8sGKUKqmefbXNbi1fqM47cho8l+8wzgsOUvP7ppYDg==
-X-Received: by 2002:a05:6000:2310:b0:42b:3131:5435 with SMTP id
- ffacd0b85a97d-42b5933e378mr21281006f8f.2.1763570946937; 
- Wed, 19 Nov 2025 08:49:06 -0800 (PST)
+ bh=W+BKTv32VzHjWL0NXMYpgvUxDlBNuCFA53q1tVGjGOw=;
+ b=m46+SAHz60dkoCFSmyHsCsPYt7Ue5PtfPG+Jz5Ow/6s/qY+YsX32lLc7O0Ud9LkaZC
+ NGab0zMoIHkJx9u+vX8+3qQg4ObCoulPyIvicgHWBL4cTguO8U9a57LqCWxCBDBrUkfn
+ tWQiDHRMEDyj9ZTCXtp2D2xmgehgNFkU79NYUNpxJBbwXWHQwRzzZYssPE535MKoL817
+ JtLu28ZQgqvkJjCnI/QAitoOUgII4PDplItcgKYm1pQJiE4pm3TiqeY/ASlU/PshnSe3
+ slQ4gYma0xCWXsaybqVow6t/p+Ljimp3Efv4SW86bftYMac8NGkaswhz6KbQ3JMygZgy
+ wk7Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU4wqLBbRjOHSnbr/pMH8lSuFC831EQit+VudROfC42p0LdcCMsOixZCxGDG9JVg8Ge3KOn+2DLpwI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxdu3Ngj9atGRU8LYFhB/7gCutUMLxqanqGTICS+h2BGcDbFrWb
+ TfCO3t2rGnw62B8Zc9JmPGovf4pLZif5eRZi+fG29V0JLKAcaHDmOb28ISkni3lMiKM=
+X-Gm-Gg: ASbGncsXCDLt41SQg/dSnIxvYMmvnSRLucaCTyuerlBzS1JEGneEfBmortS1vtGspK1
+ DszWk7XthZCnytymYRg/tUkIVNuXq2PbH9w/vkTxZqfQ3LO9qTsUABiv8cxq7Cnf7REsGrcFPP1
+ xCRvcr/HIudR/tmLq2BTXWHREvJnRKpjj+HbZzTCzn/VGFV0sXfOYIXFSdM5+OHdSnijRvaqVc0
+ W+RBs/o2pBai99jF/2JMs3S1y5wZTC9Xb462P+yA/XL4QxDxcd1PfWz60ZV/ExKf/vEVbowziPK
+ S3YzOeXfxLHOuYXIoKtb1ML/F1lkMPORZFVZBuOyGaLUEFShqwFINdc2MsT/YwxLwzgaZPsp6H7
+ 7/gg5uq4FB+6cmwpJm90Agam0YOX7fGnNVxsmRvLUTlUCkKSAzzjk7xWROe+Y77Tlv9UYUWmdpf
+ 0OX6wXPu9BJgYLwL+huiIW+tC2yjj0yQY179z92jFa5A==
+X-Google-Smtp-Source: AGHT+IGarLhroHkX7qTmCRjo26XJBz7LFy48hq3bSCrrSEHsmi3uQiS1f6ngL2AlJBr3sKmOqBWAhw==
+X-Received: by 2002:a05:6000:200c:b0:42b:31a5:f032 with SMTP id
+ ffacd0b85a97d-42b5934dad6mr21284526f8f.28.1763570948041; 
+ Wed, 19 Nov 2025 08:49:08 -0800 (PST)
 Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42cb7fa3592sm117957f8f.21.2025.11.19.08.49.06
+ ffacd0b85a97d-42cb7fa3592sm117957f8f.21.2025.11.19.08.49.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Nov 2025 08:49:06 -0800 (PST)
+ Wed, 19 Nov 2025 08:49:07 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-To: jagan@edgeble.ai, jessica.zhang@oss.qualcomm.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, 
- Abhishek Rajput <abhiraj21put@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20251117064702.222424-1-abhiraj21put@gmail.com>
-References: <20251117064702.222424-1-abhiraj21put@gmail.com>
-Subject: Re: [PATCH] drm/panel: jadard-jd9365da-h3: Use dev_err_probe()
- instead of DRM_DEV_ERROR() during probing
-Message-Id: <176357094628.280640.13903619645198145123.b4-ty@linaro.org>
-Date: Wed, 19 Nov 2025 17:49:06 +0100
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Josua Mayer <josua@solid-run.com>
+Cc: Jon Nettleton <jon@solid-run.com>, 
+ Mikhail Anikin <mikhail.anikin@solid-run.com>, 
+ Yazan Shhady <yazan.shhady@solid-run.com>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-input@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Conor Dooley <conor.dooley@microchip.com>
+In-Reply-To: <20251117-imx8mp-hb-iiot-v3-0-bf1a4cf5fa8e@solid-run.com>
+References: <20251117-imx8mp-hb-iiot-v3-0-bf1a4cf5fa8e@solid-run.com>
+Subject: Re: (subset) [PATCH v3 00/11] arm64: dts: add description for
+ solidrun imx8mp hummingboard-iiot
+Message-Id: <176357094703.280640.18246985537228820663.b4-ty@linaro.org>
+Date: Wed, 19 Nov 2025 17:49:07 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -95,17 +113,24 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, 17 Nov 2025 12:17:02 +0530, Abhishek Rajput wrote:
-> The DRM_DEV_ERROR() has been deprecated, and use dev_err_probe()
-> can be better. The other reason is that dev_err_probe() help avoid
-> unexpected repeated err logs during defered probing.
+On Mon, 17 Nov 2025 13:28:42 +0100, Josua Mayer wrote:
+> This patchset mainl adds description for 3 SolidRun boards:
+> - i.MX8MP Hummingboard IIoT
+> - SolidSense N8 Compact
+> - i.MX8MM Hummingboard Ripple
 > 
+> This includes dt bindings and a range of bug-fixes:
 > 
+> [...]
 
 Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-[1/1] drm/panel: jadard-jd9365da-h3: Use dev_err_probe() instead of DRM_DEV_ERROR() during probing
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/c8fd04c0e73370486fcb9203a1c90c244b7fa1ed
+[02/11] dt-bindings: display: panel: ronbo,rb070d30: panel-common ref
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/779640415ea28abb60bb7641d50f1d9cccaa4d73
+[03/11] dt-bindings: panel: lvds: add Winstar WF70A8SYJHLNGA
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/72539c4b9e482f397cc9340bcd97bb7643c0692d
+[05/11] drm/panel: ronbo-rb070d30: fix warning with gpio controllers that sleep
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/93f5a0dc2b7c2df71a93e0fc59edae474bb84c6f
 
 -- 
 Neil
