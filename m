@@ -2,103 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9300FC6E073
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 11:42:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 299DCC6E0DC
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 11:49:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75D3610E5D3;
-	Wed, 19 Nov 2025 10:42:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D5B210E5D1;
+	Wed, 19 Nov 2025 10:49:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NcNgdJKM";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="EI/HHgWM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ECF810E5D0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 10:41:58 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82D78DD9;
- Wed, 19 Nov 2025 11:39:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1763548792;
- bh=g1jiTHE/fuydpOSP/XIfd73O3TS/XqiLkaHD1XH/nBo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=NcNgdJKMiNTgRuyTdiJ7aUNkMdE9P8KIrgGnPffEoOsh5t6JfCn5qjkvs5owXDWwf
- Em6YVHuEeF+mZsrFS6XyJerCKwkjkkf+0bQP73MAYh1zBzzgwRvA9RxpQM+sNoUiHy
- YiM+W1UAn3vGxAh1PzE+EAuVoQbk6TzbBgWtx07I=
-Message-ID: <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
-Date: Wed, 19 Nov 2025 12:41:52 +0200
-MIME-Version: 1.0
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azon11010022.outbound.protection.outlook.com [52.101.46.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 442F010E5D0;
+ Wed, 19 Nov 2025 10:49:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MdLrkNSKr1LAMKIrdXsQYzYqEEKdLpwuFMsfBiJv4BFsJxwPbc+1Jae8q3Z8HVdZcRr8qN6JiYlSejgkerc6tzEVPyGbxeEdxVoB8gQcRnWQMkAloCmXaElmuNVViQE5PpnCKoMGHsMaZA+yINLMqluPgO07v9NhkjcYLOEbj/9a3sbs/k91r3Rrav+W8BqOlGY3w2Bnb73vFbGsp76wml4wGtow22+OW3ofxiPgrwSEEIwHU1FrZODKfbVgevjU/7X2mOQk17NV2/fC2bp4XI0Eiz8XusPHaoFztNfmwXieglEh/PN6UJV0id/3NzrLcjyzW/dqbAYUsZsyk28WYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=H25hB+jpeF6a7ViaRHxoaqxstG27sa4O0IHaVVJvOHE=;
+ b=wCcTxlN6H2crvchb33qzybV6mPsQHVOD6/J4vfe9xgqFMLYlrrMh+TQbiqc9AzJ2OFoJNoFrrddocGZq6yhV4+sGZYJk6yhIENtQLvngStaeOnBVtW9zoXaVZW6Ul+6nt49erck4QFP7YpZiG8KAXa2gJJS5xidtbhcVSnkZipBN93/8ZEXP4EQw3mLuoU4T3gkJgrsGlDC8DwjhHVdZ26SbLhLQ7H2XmPKGO8C00wZnBvC4ANHr6wRZVLsZkzIkZWr3FoRcAt9j4/dpuuY5n2usOyoJd5SmFN+WBkLkwuEB/EjchtlCPiadVgkf/It1LFriNN8aHzJBmVcPvzOr7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=H25hB+jpeF6a7ViaRHxoaqxstG27sa4O0IHaVVJvOHE=;
+ b=EI/HHgWMRUFffo5BxsKHR5Mz4Yg1fr3qypgPuP9oH0GscHdENl5VF9/FjrXzKvZDLdh9tnJZAEsXLw/FoI9iidh+hiwS0OEdEQ3oy0nQAGesSAEt8733Xqc7smwMb+Za5UDSfSRXWIPy3+SZL74wg2x0ZqaL8eK23I4dIJSNaZc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ2PR12MB7964.namprd12.prod.outlook.com (2603:10b6:a03:4cf::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Wed, 19 Nov
+ 2025 10:49:25 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9320.021; Wed, 19 Nov 2025
+ 10:49:25 +0000
+Message-ID: <5f412000-b31d-46cf-af84-443c5b28caee@amd.com>
+Date: Wed, 19 Nov 2025 11:49:20 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
-To: Maxime Ripard <mripard@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org
-References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
- <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
- <20251118150128.GB23711@pendragon.ideasonboard.com>
- <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
- <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
- <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v2 15/20] drm/amdgpu: pass all the sdma scheds to
+ amdgpu_mman
+To: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Felix Kuehling <Felix.Kuehling@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20251113160632.5889-1-pierre-eric.pelloux-prayer@amd.com>
+ <20251113160632.5889-16-pierre-eric.pelloux-prayer@amd.com>
+ <2920edba-469e-424a-87da-475821bd5c2e@amd.com>
+ <5dbbce76-b8c6-4654-8098-fce1ee7b7b47@damsy.net>
 Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <5dbbce76-b8c6-4654-8098-fce1ee7b7b47@damsy.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0349.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f4::9) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB7964:EE_
+X-MS-Office365-Filtering-Correlation-Id: a916a091-14c2-4a17-4660-08de27594e5c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YXNYZEkwaDM2ZVQ5UXcwajVWcFRrd0VNOEpDRy93Skd2YkpmalhZcUZpdHk5?=
+ =?utf-8?B?L2VUWUxCbzdYTjlTeGRkZUJJUXB4a0dxQWhsdnlRa2VhWXBIbHJzc2JBWFIr?=
+ =?utf-8?B?Q1h2RmFzWUE5ay9HTnVrTlYwSDBVQncvRGtLUGJwYU95VFpJTnV4NCtHSkNO?=
+ =?utf-8?B?U2lMSGFTNFFjYzZlT0k1TDNtTE9GdWxNeGZRSFBnN0NEL2tQR0pnYUN3ZFB3?=
+ =?utf-8?B?dkhIbEJOVytqM04xcXNVSnlTeUl3SG83V01pTUxJVjI2YVAycmJkVHRSLzlv?=
+ =?utf-8?B?a2ZzNEJ2OHRnMUZQWlQ5MDh4M1VDTmRwaUY5ZXdzM0xsQ2V1QUtybE5FbnYx?=
+ =?utf-8?B?aWpXU29kUmxRVlRWSDhFNTlZcTZmTld1RXpWck45cVovblc5OFRua1hpMGRL?=
+ =?utf-8?B?M0xwUUx0a0NRSGJIcGdKdDFwYTUwSjZpeW5oNzhETWp5RVZNc3B1bjZTaVcv?=
+ =?utf-8?B?SW93aWpmWDZEa3paalo5RVR1R0g2VjRyOVdlZUVyd1k2TjNHbytGUDltNEFU?=
+ =?utf-8?B?azE4WTEwUVRXT2todW1xQ2lIcUMwaG9PY2gxZ2JXU0hrY3hPVVV4V3N3ZGk4?=
+ =?utf-8?B?bUExWHFreGdNNFJzSWM2VTJaMUlYbFpoTDFaaktQSzJQTmJkTXF6bjZGS3VJ?=
+ =?utf-8?B?SGVJTGNacjZVYUtvZVJteGxZS2RvNXZjaVBmNTh1MkdtNml2RFpHMXZHaG8r?=
+ =?utf-8?B?czRvblRwTXZsV1ZHUG82cEN2TGhxZXRjbWxpY3BwOVlUbmR0UDBOZng2YU5m?=
+ =?utf-8?B?MnNwbktkc1VEYzQ4ZWhqdUxaZTg3cjNSRkRZcHE1QTViQlAzMGdiZWx3VDUv?=
+ =?utf-8?B?VGZGSUZia2tKb0NpUTY3Z1l1N1A4aTQrUGZ1K1B2dDNFQm93enRhRzJ2cnpI?=
+ =?utf-8?B?S1hFUEdoM2tabVJudTJndmRZSGRHd1d3bktLeEVXaUpMNmdidDM1SmN2bU5l?=
+ =?utf-8?B?ZSs2U1FxWERlTGFhdmtHaDZCZWJ5c2lVRFlpclZJbmRUNm1VVkdzcmNBaTE4?=
+ =?utf-8?B?dkgwbGxSTks1MWhIWDRGUVE5eHFPWHppWEtLMWo2ZUVnSDA1WE5Jd09TRi9m?=
+ =?utf-8?B?K3plNklFaGsrekRHb3FxaHd1OVFQYWI3TnRZNWh0MTJGbHlFSVE2dDh3SkYx?=
+ =?utf-8?B?UEtHdVJvUEo5cHgybitiS2dNM2owNXhoVkJkNEVYUmR6dVF5eXQ1SnJQUWE3?=
+ =?utf-8?B?UW9iUVpHU2gvZXBRdTF4c1BDOVlWYWViQmVvYzFiV01iWHVjd3M3ZmZ2TWdX?=
+ =?utf-8?B?R2pJenNaWWphaDBLNjhuOGxSMERDMkxBdS9VakRDcHNuREdmQXhPc3ZyYUhv?=
+ =?utf-8?B?ZWZEb1NPdnpHZU12ZTF6L1NHNUFGT1V1eWtkTEw0elNMakVBMXAzREdVcG9t?=
+ =?utf-8?B?eURVYW4vVmZsU1RxVGNWcmw4TElmbys3UGorTWZVV3puV0M4UEJldXhodjc3?=
+ =?utf-8?B?NVFHNk1xSU5vOUM3a2RPanlOdTlGL0Q2UUQ1WHRKdHRXWVA3UEFaQlpHOE9m?=
+ =?utf-8?B?NGNFZEJvTSs0d1FOcmxlb0J0NkxnZHoraDcwVGUzdnV3TGI2dUhyWm9icUx0?=
+ =?utf-8?B?VjljR0U5SXowbzFGaGFXc2pkZzY3NjA2TEkzUDVtemMySi9NWTBmOUVRMVpT?=
+ =?utf-8?B?TndtZGpkQzE3dEFTREdtbWpSbTRuSnpWdktVOWhjb0FLNDIyZU55ZnhnM2JS?=
+ =?utf-8?B?ZTFCWnNnamw1bTZkL2RLK2ZRWk1mcWlmakNyZ1BFRTBXdis0dG04VkRoOWE0?=
+ =?utf-8?B?alFxaGhkVjM2eFVGTnNQU01uaWhsblJGUER6eUVqQXlqd0J0ZUEwaVphWlN6?=
+ =?utf-8?B?S09EZ0dPR2xRbnFmbEg5NGhIdEpGdklMN0wzSEMxSXFuWGJ3WXRZdGQrRnN5?=
+ =?utf-8?B?N1hmTjVHdmNvdVR4NnhyNmxlSE5FMkUwOEZLZHhQdGxuaEZjeFRuZklxc0Vz?=
+ =?utf-8?Q?Q7I9gdn7Wg+I1aK+lCQtgSXXUqciG/J0?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZVp1aTJmNnVmOFBMaEdxYTVabDRBSHpJQk1qaWMxdlgrSVdneGtWcCtNeTFE?=
+ =?utf-8?B?eWE1Y05EUnhLWERyZTgySlJybkppVGZYWStNWm04amhCNDhSbTJaRlU0UXRJ?=
+ =?utf-8?B?UWRsZytkdTgrd1RnMTMyWGFGMi8xS2tLWnNtaFdhRm1LMGhNNmptMmx3ejJa?=
+ =?utf-8?B?R1h2MFNkZjhHT1J3ZWdRZGFwMk5qa3lwbkdmaUVmeU5reTg3NVUvVEdsODZy?=
+ =?utf-8?B?dEJJamN3WWszM3Q4TFltRS9PZEhFVlQyQVpUa2VuZEVuNnMwd21razFaR0l6?=
+ =?utf-8?B?Umk0Yll2czJNTEFoMEpnUTNNNGNDc3Q5MGM0SWVPZnU2K09lVUVUNVNCVi9l?=
+ =?utf-8?B?Sjh4NW9UNzczclQrQ2dDd2R0WGJ5eUgwd3JMOE1sTGd6NGh6V1lQMXJKL0Zt?=
+ =?utf-8?B?OWZrNkJSMDZMQ0EzSmp3c3d2TFA1QmV6elQ2N0tDMnNjTXpSQldsclZVYWJq?=
+ =?utf-8?B?UDlmTjZFRVdCbXVkaGZwdFVaVTJPYUVxdnZ6YUZTVGFCSzRqR2gxRURaMitN?=
+ =?utf-8?B?d1ZPN3VJdWJGOGlpbEJxVkRteTdaVUlhSy9FOFE1bW9yRWoyM1RQQ1krcjkr?=
+ =?utf-8?B?ZHllb1AraFo1UUEvLzlWcDdzR2VSaHhEdk8xUmJTZnZNUTFCc2xrdzBTdnN4?=
+ =?utf-8?B?bXBFc29Mb2V0TVBrWmFaMGRydGVzTW5jSE15dG84S0lmSCtkbWJRcnZ1V0kx?=
+ =?utf-8?B?V3M4ekRrZm9VTjdvdnlUY3c3QW1WeDdHS3k1VnhEd016YmpTTS9RcitHYjdt?=
+ =?utf-8?B?RTczak41bDl3aTZKOUJsTDIwN01aaGtiam5VMDlPYXVzVS85cVhrYmZCbGlZ?=
+ =?utf-8?B?dldhYnZndzR3ZTJsdWg2aDIxTWdhczlDWTJzZlBiM3h5OU5od0s1L2lJbEFV?=
+ =?utf-8?B?d3p1WS9OZ2lrcmxhUGlkTisvOElyWHhYOTdwQ3VjelM3eGZSdWFTdUxsc0tZ?=
+ =?utf-8?B?Z3lEeTVFazFkelBKcVR2V3dNZmovR2o0QjRyQlJBODRvVUtqbHFDRDFEUVIw?=
+ =?utf-8?B?SHZ0cVM0Z2svbjJUYllrWFFjY2JXMHdSRHpycVpRdnVZL1VnTnp3UzFXd0dD?=
+ =?utf-8?B?R01ZMEI5dzU1SXpobEF0Ny9icGFobkZvWUlWaDVlVTYyNGgyNmNKVC95elhQ?=
+ =?utf-8?B?b3FrZEV6Y1dsWk1yVk4xalEzc29kcklRVFJIUmVaVlVmVVBwdVk4UWNITmtq?=
+ =?utf-8?B?Z0w0eFdjenNyZjFMUytEbmhnSVpONUt3dGd4cks2M2pyMDdtYmwySGtTbnpR?=
+ =?utf-8?B?RHZqNUtEUUFhbURlRURqWC9RUTR3RzBWNUVCaW9ueWhqTVE2LzhLMHpwdDlL?=
+ =?utf-8?B?amExdWNpVUZXOUk2Z2ZTbjlPbFphdnlFc29Ya09JMmt3ZjB0ZFVqc1lCL1lX?=
+ =?utf-8?B?eDR4RHZnbkNSai82N0wwL09hWE9oNXpiV0RMZ3NQSVEyWG5XUVg1enp4NnV3?=
+ =?utf-8?B?TFIrM25mZ3lUVEFDNkpZZ0EycnhlZ1Z2Tm9iT2Y3WXRzZWRCWkhsODRDTFhZ?=
+ =?utf-8?B?aGNQYXdPc0hTNy9CcnpiUFJtRVkwbnJ4ak5RNmVVS090OWtyYWxVTHdlN2t5?=
+ =?utf-8?B?a2ZoWGZWQjlrZGR4Z3UxcFdYY1dlTXhoYWRIeWNBdjFXN2ZtTjRoeGh0YzNO?=
+ =?utf-8?B?bzZ4eVU3UjJqMm4wQXRUVjBVMFVRak5TRnpvUW5VSGI5UE42aHcyNkx4M3pK?=
+ =?utf-8?B?NXp3SkVzNGoyM0oyNmJBQXNSeUdJSlFndHUzZGJaUVcvUXIrQzVqRVFwR2NY?=
+ =?utf-8?B?c0UyRGFydWd1QUhlRFFIL3VuSXhOYkhKSTB3L2h3dW5QQWJBTXNuZTBhWHZT?=
+ =?utf-8?B?dnN0V0NHMXlrM2YwYUhxbllHamRBR2l1ODEvNHkzd24zc1NselBETmZVK1lE?=
+ =?utf-8?B?ZTA5cWtLaFlsRFNPSFlJVGV0T3JFa3hRRzN1blQ2UEQ2dE9JUUd2U2dHR0l1?=
+ =?utf-8?B?VTJBbktqbG8vQjkzV2xOMGord0xwUkNjZ2ZYa1ZyY0h2eTd2UGRVVjZnallP?=
+ =?utf-8?B?SlJCQi84cjdxQnl6TmIxK3Z1Sy9ZTFp5ZlBOMTBPTEFIdnRCakJESzZlZVB6?=
+ =?utf-8?B?RTV0S1JsY2dqVlJidWxnbkxUdmhlblNGVHFaVlhvbHZVcDlqU09pS0trakwx?=
+ =?utf-8?Q?5ZOOCFuSW6xqCU4dRqo3NbK+i?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a916a091-14c2-4a17-4660-08de27594e5c
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 10:49:25.5444 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6KHOSNxCVvG52i/4uPn0PedeqJuPa1p/DMNi64V6bXYsmhvwTw3HAe/ZXz4XZQ25
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7964
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,145 +169,273 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 19/11/2025 11:19, Maxime Ripard wrote:
-> On Tue, Nov 18, 2025 at 07:10:47PM +0100, Linus Walleij wrote:
->> On Tue, Nov 18, 2025 at 4:44 PM Maxime Ripard <mripard@kernel.org> wrote:
->>> On Tue, Nov 18, 2025 at 05:01:28PM +0200, Laurent Pinchart wrote:
->>>> On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
->>
->>>>> +/**
->>>>> + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic update
->>>>
->>>> Based on the function name, it feels that the nem commit tail and
->>>> modeset enable/disable helpers reached a point where we may want to
->>>> reconsider the design instead of adding new functions with small
->>>> differences in behaviour that will end up confusing driver developers.
+On 11/19/25 10:34, Pierre-Eric Pelloux-Prayer wrote:
+> 
+> 
+> Le 17/11/2025 à 10:46, Christian König a écrit :
+>> On 11/13/25 17:05, Pierre-Eric Pelloux-Prayer wrote:
+>>> This will allow the use of all of them for clear/fill buffer
+>>> operations.
+>>> Since drm_sched_entity_init requires a scheduler array, we
+>>> store schedulers rather than rings. For the few places that need
+>>> access to a ring, we can get it from the sched using container_of.
 >>>
->>> Agreed, and I'd go even further than that: we don't want every odd order
->>> in the core. And if some driver has to break the order we document in
->>> some way it should be very obvious.
+>>> Since the code is the same for all sdma versions, add a new
+>>> helper amdgpu_sdma_set_buffer_funcs_scheds to set buffer_funcs_scheds
+>>> based on the number of sdma instances.
+>>>
+>>> Note: the new sched array is identical to the amdgpu_vm_manager one.
+>>> These 2 could be merged.
 >>
->> Is this just a comment on this patch 3/3?
+>> I realized a bit after we discussed it that this isn't true.
 >>
->> Or do you mean that Mareks new callback
->> drm_atomic_helper_commit_modeset_enables_crtc_early()
->> from patch 1/2 should go straight into the R-Car driver as well
->> and that
->> drm_atomic_helper_commit_modeset_disables_crtc_late()
->> patch 2/2 should also go into my driver, even if this
->> is a comment on patch 3/3?
+>> We need the two arrays separated for a Navi 1x workaround to work correctly.
+> 
+> Why 2 arrays? AFAICT the only needed thing is for amdgpu_ttm to be aware that it should only use a single sched in this situation.
+
+So it could just use the first entry of the array for TTM and the full array for VM updates.
+
+Good point, I haven't thought about that possibility.
+
+> 
 >>
->> Both patches 1 & 2 have a lot to do with ordering, this is
->> why I ask.
-> 
-> I mean, it applies to all your three patches and Marek's: helpers are
-> here to provide a default implementation. We shouldn't provide a default
-> implementation for a single user. All your patches enable to create
-> defaults for a single user.
-
-Two users so far: Renesas and ST-Ericsson.
-
-> So my point is that none of those functions should be helpers.
-> 
->> We already have
->> drm_atomic_helper_commit_tail()
->> drm_atomic_helper_commit_tail_rpm()
-> 
-> The former has 5 users, the latter 13. And it's already confusing enough
-> and regression-prone as it is.
-> 
->> Does one more or less really matter? Maybe, I'm not sure,
->> but if it's just this one patch that is the problem I can surely
->> do it that way since we're only calling public functions.
+>> Anyway, that doesn't affect reviewing this patch here.
 >>
->> Pushing the first two patches would be more problematic,
->> because they call a lot of functions that are local to the
->> drm atomic helpers.
+>>>
+>>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu.h           |  2 +
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c |  4 +-
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |  8 ++--
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c       |  4 +-
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       | 41 +++++++++++++++----
+>>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h       |  3 +-
+>>>   drivers/gpu/drm/amd/amdgpu/cik_sdma.c         |  3 +-
+>>>   drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c        |  3 +-
+>>>   drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c        |  3 +-
+>>>   drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c        |  6 +--
+>>>   drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c      |  6 +--
+>>>   drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c        |  6 +--
+>>>   drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c        |  6 +--
+>>>   drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c        |  3 +-
+>>>   drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c        |  3 +-
+>>>   drivers/gpu/drm/amd/amdgpu/si_dma.c           |  3 +-
+>>>   drivers/gpu/drm/amd/amdkfd/kfd_migrate.c      |  3 +-
+>>>   17 files changed, 62 insertions(+), 45 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+>>> index 3fab3dc9f3e4..05c13fb0e6bf 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+>>> @@ -1615,6 +1615,8 @@ ssize_t amdgpu_get_soft_full_reset_mask(struct amdgpu_ring *ring);
+>>>   ssize_t amdgpu_show_reset_mask(char *buf, uint32_t supported_reset);
+>>>   void amdgpu_sdma_set_vm_pte_scheds(struct amdgpu_device *adev,
+>>>                      const struct amdgpu_vm_pte_funcs *vm_pte_funcs);
+>>> +void amdgpu_sdma_set_buffer_funcs_scheds(struct amdgpu_device *adev,
+>>> +                     const struct amdgpu_buffer_funcs *buffer_funcs);
+>>>     /* atpx handler */
+>>>   #if defined(CONFIG_VGA_SWITCHEROO)
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
+>>> index b59040a8771f..9ea927e07a77 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_benchmark.c
+>>> @@ -32,12 +32,14 @@ static int amdgpu_benchmark_do_move(struct amdgpu_device *adev, unsigned size,
+>>>                       uint64_t saddr, uint64_t daddr, int n, s64 *time_ms)
+>>>   {
+>>>       ktime_t stime, etime;
+>>> +    struct amdgpu_ring *ring;
+>>>       struct dma_fence *fence;
+>>>       int i, r;
+>>>   +    ring = container_of(adev->mman.buffer_funcs_scheds[0], struct amdgpu_ring, sched);
+>>
+>> We have the to_amdgpu_ring() macro for that.
 > 
-> I'm totally fine with making more internal functions public though.
-While I generally agree with that, I still wonder if an implementation
-in the core is better here. Perhaps a flag in struct drm_driver, instead
-of new set of helpers.
+> I'll update the patch, thx.
+> 
+>>
+>>> +
+>>>       stime = ktime_get();
+>>>       for (i = 0; i < n; i++) {
+>>> -        struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+>>>           r = amdgpu_copy_buffer(ring, &adev->mman.default_entity.base,
+>>>                          saddr, daddr, size, NULL, &fence,
+>>>                          false, 0);
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>> index b92234d63562..1927d940fbca 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+>>> @@ -3303,7 +3303,7 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
+>>>       if (r)
+>>>           goto init_failed;
+>>>   -    if (adev->mman.buffer_funcs_ring->sched.ready)
+>>> +    if (adev->mman.buffer_funcs_scheds[0]->ready)
+>>>           amdgpu_ttm_set_buffer_funcs_status(adev, true);
+>>>         /* Don't init kfd if whole hive need to be reset during init */
+>>> @@ -4143,7 +4143,7 @@ static int amdgpu_device_ip_resume(struct amdgpu_device *adev)
+>>>         r = amdgpu_device_ip_resume_phase2(adev);
+>>>   -    if (adev->mman.buffer_funcs_ring->sched.ready)
+>>> +    if (adev->mman.buffer_funcs_scheds[0]->ready)
+>>
+>> We should probably drop that check here and move this into amdgpu_ttm_set_buffer_funcs_status().
+> 
+> What should amdgpu_ttm_set_buffer_funcs_status() do if ready is false but enable is true? Exit early?
 
-Moving this to the driver would require (with a quick glance) exposing
-the following functions:
+Yes, probably while printing a warning like "Not enabling DMA transfers for in kernel use..." or something like that.
 
-crtc_enable
-crtc_disable
-crtc_set_mode
-encoder_bridge_pre_enable
-encoder_bridge_enable
-encoder_bridge_disable
-encoder_bridge_post_disable
+>>
+>>>           amdgpu_ttm_set_buffer_funcs_status(adev, true);
+>>>         if (r)
+>>> @@ -4493,7 +4493,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>>>       adev->num_rings = 0;
+>>>       RCU_INIT_POINTER(adev->gang_submit, dma_fence_get_stub());
+>>>       adev->mman.buffer_funcs = NULL;
+>>> -    adev->mman.buffer_funcs_ring = NULL;
+>>> +    adev->mman.num_buffer_funcs_scheds = 0;
+>>>       adev->vm_manager.vm_pte_funcs = NULL;
+>>>       adev->vm_manager.vm_pte_num_scheds = 0;
+>>>       adev->gmc.gmc_funcs = NULL;
+>>> @@ -5965,7 +5965,7 @@ int amdgpu_device_reinit_after_reset(struct amdgpu_reset_context *reset_context)
+>>>                   if (r)
+>>>                       goto out;
+>>>   -                if (tmp_adev->mman.buffer_funcs_ring->sched.ready)
+>>> +                if (tmp_adev->mman.buffer_funcs_scheds[0]->ready)
+>>>                       amdgpu_ttm_set_buffer_funcs_status(tmp_adev, true);
+>>>                     r = amdgpu_device_ip_resume_phase3(tmp_adev);
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+>>> index 2713dd51ab9a..4433d8620129 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c
+>>> @@ -651,12 +651,14 @@ int amdgpu_gmc_allocate_vm_inv_eng(struct amdgpu_device *adev)
+>>>   void amdgpu_gmc_flush_gpu_tlb(struct amdgpu_device *adev, uint32_t vmid,
+>>>                     uint32_t vmhub, uint32_t flush_type)
+>>>   {
+>>> -    struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+>>> +    struct amdgpu_ring *ring;
+>>>       struct amdgpu_vmhub *hub = &adev->vmhub[vmhub];
+>>>       struct dma_fence *fence;
+>>>       struct amdgpu_job *job;
+>>>       int r, i;
+>>>   +    ring = container_of(adev->mman.buffer_funcs_scheds[0], struct amdgpu_ring, sched);
+>>> +
+>>>       if (!hub->sdma_invalidation_workaround || vmid ||
+>>>           !adev->mman.buffer_funcs_enabled || !adev->ib_pool_ready ||
+>>>           !ring->sched.ready) {
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>> index 6c333dba7a35..11fec0fa4c11 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>> @@ -308,7 +308,7 @@ static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
+>>>                         struct dma_resv *resv,
+>>>                         struct dma_fence **f)
+>>>   {
+>>> -    struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+>>> +    struct amdgpu_ring *ring;
+>>>       struct amdgpu_res_cursor src_mm, dst_mm;
+>>>       struct dma_fence *fence = NULL;
+>>>       int r = 0;
+>>> @@ -321,6 +321,8 @@ static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
+>>>           return -EINVAL;
+>>>       }
+>>>   +    ring = container_of(adev->mman.buffer_funcs_scheds[0], struct amdgpu_ring, sched);
+>>> +
+>>>       amdgpu_res_first(src->mem, src->offset, size, &src_mm);
+>>>       amdgpu_res_first(dst->mem, dst->offset, size, &dst_mm);
+>>>   @@ -1493,6 +1495,7 @@ static int amdgpu_ttm_access_memory_sdma(struct ttm_buffer_object *bo,
+>>>       struct amdgpu_bo *abo = ttm_to_amdgpu_bo(bo);
+>>>       struct amdgpu_device *adev = amdgpu_ttm_adev(abo->tbo.bdev);
+>>>       struct amdgpu_res_cursor src_mm;
+>>> +    struct amdgpu_ring *ring;
+>>>       struct amdgpu_job *job;
+>>>       struct dma_fence *fence;
+>>>       uint64_t src_addr, dst_addr;
+>>> @@ -1530,7 +1533,8 @@ static int amdgpu_ttm_access_memory_sdma(struct ttm_buffer_object *bo,
+>>>       amdgpu_emit_copy_buffer(adev, &job->ibs[0], src_addr, dst_addr,
+>>>                   PAGE_SIZE, 0);
+>>>   -    amdgpu_ring_pad_ib(adev->mman.buffer_funcs_ring, &job->ibs[0]);
+>>> +    ring = container_of(adev->mman.buffer_funcs_scheds[0], struct amdgpu_ring, sched);
+>>> +    amdgpu_ring_pad_ib(ring, &job->ibs[0]);
+>>>       WARN_ON(job->ibs[0].length_dw > num_dw);
+>>>         fence = amdgpu_job_submit(job);
+>>> @@ -2196,11 +2200,9 @@ u32 amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+>>>           return windows;
+>>>         if (enable) {
+>>> -        struct amdgpu_ring *ring;
+>>>           struct drm_gpu_scheduler *sched;
+>>>   -        ring = adev->mman.buffer_funcs_ring;
+>>> -        sched = &ring->sched;
+>>> +        sched = adev->mman.buffer_funcs_scheds[0];
+>>>           r = drm_sched_entity_init(&adev->mman.default_entity.base,
+>>>                         DRM_SCHED_PRIORITY_KERNEL, &sched,
+>>>                         1, NULL);
+>>> @@ -2432,7 +2434,7 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
+>>>                   struct dma_fence **fence)
+>>>   {
+>>>       struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+>>> -    struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+>>> +    struct amdgpu_ring *ring;
+>>>       struct amdgpu_ttm_buffer_entity *entity;
+>>>       struct amdgpu_res_cursor cursor;
+>>>       u64 addr;
+>>> @@ -2443,6 +2445,8 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
+>>>         if (!fence)
+>>>           return -EINVAL;
+>>> +
+>>> +    ring = container_of(adev->mman.buffer_funcs_scheds[0], struct amdgpu_ring, sched);
+>>>       entity = &adev->mman.clear_entities[0];
+>>>       *fence = dma_fence_get_stub();
+>>>   @@ -2494,9 +2498,9 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
+>>>                  u64 k_job_id)
+>>>   {
+>>>       struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+>>> -    struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
+>>>       struct dma_fence *fence = NULL;
+>>>       struct amdgpu_res_cursor dst;
+>>> +    struct amdgpu_ring *ring;
+>>>       int r, e;
+>>>         if (!adev->mman.buffer_funcs_enabled) {
+>>> @@ -2505,6 +2509,8 @@ int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
+>>>           return -EINVAL;
+>>>       }
+>>>   +    ring = container_of(adev->mman.buffer_funcs_scheds[0], struct amdgpu_ring, sched);
+>>> +
+>>>       if (entity == NULL) {
+>>>           e = atomic_inc_return(&adev->mman.next_clear_entity) %
+>>>                         adev->mman.num_clear_entities;
+>>> @@ -2579,6 +2585,27 @@ int amdgpu_ttm_evict_resources(struct amdgpu_device *adev, int mem_type)
+>>>       return ttm_resource_manager_evict_all(&adev->mman.bdev, man);
+>>>   }
+>>>   +void amdgpu_sdma_set_buffer_funcs_scheds(struct amdgpu_device *adev,
+>>> +                     const struct amdgpu_buffer_funcs *buffer_funcs)
+>>> +{
+>>> +    struct amdgpu_vmhub *hub = &adev->vmhub[AMDGPU_GFXHUB(0)];
+>>> +    struct drm_gpu_scheduler *sched;
+>>> +    int i;
+>>> +
+>>> +    adev->mman.buffer_funcs = buffer_funcs;
+>>> +
+>>> +    for (i = 0; i < adev->sdma.num_instances; i++) {
+>>> +        if (adev->sdma.has_page_queue)
+>>> +            sched = &adev->sdma.instance[i].page.sched;
+>>> +        else
+>>> +            sched = &adev->sdma.instance[i].ring.sched;
+>>> +        adev->mman.buffer_funcs_scheds[i] = sched;
+>>> +    }
+>>> +
+>>> +    adev->mman.num_buffer_funcs_scheds = hub->sdma_invalidation_workaround ?
+>>> +        1 : adev->sdma.num_instances;
+>>> +}
+>>> +
+>>
+>> Probably better to make all SDMA version switch to use amdgpu_sdma_set_buffer_funcs_scheds() one patch and then changing amdgpu_sdma_set_buffer_funcs_scheds() to use more than one DMA engine a second patch.
+> 
+> I'm not sure it's useful: this patch simply creates an array of scheduler, but every user of this array only use the first sched.
+> Enabling multiple schedulers usage is done in the "drm/amdgpu: give ttm entities access to all the sdma scheds" patch.
 
-Not impossible to expose, but making a private function public does
-require work in validating the function for more general use, and adding
-kernel docs.
+Oh, good point as well. Yeah than in that case please go ahead with what you have currently.
 
-Handling this in the core would act as documentation too, so instead of
-the driver doing things in a different way "hidden" inside the driver,
-it would be a standard quirk, clearly documented.
+Thanks,
+Christian.
 
-Also, I'm also not sure how rare this quirk is. In fact, I feel we're
-missing ways to handle the enable/disable related issues in the core
-framework. In these patches we're talking about the case where the SoC's
-DSI host needs an incoming pclk to operate, and panels need to do
-configuration before the video stream is enabled. But the exact same
-problem could be present with an external DSI bridge, and then we can't
-fix it in the crtc driver.
-
-So the question becomes "does any component in the pipeline need the
-video stream's clock to operate". But then, it doesn't help if the crtc
-output is enabled early if any bridge in between does not also enable
-its output early. So it all gets a bit complex.
-
-And sometimes the clocks go backward: the entity on the downstream side
-provides a clock backwards, to the source entity...
-
-But I digress. I think initially we should just look for a clean fix for
-the platforms affected:
-
-- Add the implementation into the drivers?
-- Add helpers to the core?
-- Add a flag of some kind so the core can do the right thing?
-
-I made a quick test with the flag approach, below. It's not many lines,
-but... Ugh, it does feel like a hack.
-
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> index d5ebe6ea0acb..8225aae43e3b 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1341,9 +1341,13 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *state)
->  {
->         encoder_bridge_disable(dev, state);
->  
-> -       crtc_disable(dev, state);
-> +       if (!dev->driver->crtc_early_on)
-> +               crtc_disable(dev, state);
->  
->         encoder_bridge_post_disable(dev, state);
-> +
-> +       if (dev->driver->crtc_early_on)
-> +               crtc_disable(dev, state);
->  }
->  
->  /**
-> @@ -1682,9 +1686,13 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
->  void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
->                                               struct drm_atomic_state *state)
->  {
-> +       if (dev->driver->crtc_early_on)
-> +               crtc_enable(dev, state);
-> +
->         encoder_bridge_pre_enable(dev, state);
->  
-> -       crtc_enable(dev, state);
-> +       if (!dev->driver->crtc_early_on)
-> +               crtc_enable(dev, state);
->  
-
- Tomi
+> 
+> Pierre-Eric
 
