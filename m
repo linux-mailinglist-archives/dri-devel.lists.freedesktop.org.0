@@ -2,71 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3907DC6D9A8
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 10:10:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4EA6C6DA08
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 10:14:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF08A10E5B2;
-	Wed, 19 Nov 2025 09:10:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F13E510E5BF;
+	Wed, 19 Nov 2025 09:14:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WYkwxoEo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cekMWXcD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7FA010E235;
- Wed, 19 Nov 2025 09:10:29 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B191640B05;
- Wed, 19 Nov 2025 09:10:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B977DC2BC9E;
- Wed, 19 Nov 2025 09:10:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763543429;
- bh=0ooC3zk40bMIfdzUa/d1KFYHBm62ThIBveVi/NzSqME=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=WYkwxoEoIY0kEfPKwxkhEOyIUknU4PaoqDuimh3ALPGiCRcpCW5HFYuw8iKBHE1Vv
- 180AdCb62rhuKbfWe234uQJOIp5/qWcB6yAsB3sixNgrkOu9jSCKcopJLH8pjraeIC
- locvCj98kCc1UrD6NTZ6Z0ZRM/JxH0dHkhkJefUzpxY5Go9pAH1/v4bq+/wgEqiHH/
- zDi2tPuYk6EzRZ5dv0rIDTy+Sssko9WHvNfGBIIfcOgPrz6nd9Pclbj7QAQ844Sjei
- t0L2dLYM2T36xrEhcVkJHxclpHi8DB7wUjWR39ndJN8LUBzLJMwPZLtWYGqB0LQZWH
- FSbL9E3053pUg==
-Date: Wed, 19 Nov 2025 10:10:26 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, kernel@collabora.com, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- Derek Foreman <derek.foreman@collabora.com>,
- Marius Vlad <marius.vlad@collabora.com>
-Subject: Re: [PATCH v4 10/10] drm/rockchip: Implement "color format" DRM
- property
-Message-ID: <irl64vwqiwdgxwwvim62qm55fc36p6fyduxlnc23zkotsr6726@4zswp4rjdtu4>
-References: <20251117-color-format-v4-0-0ded72bd1b00@collabora.com>
- <20251117-color-format-v4-10-0ded72bd1b00@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 233E310E5BF;
+ Wed, 19 Nov 2025 09:14:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1763543690; x=1795079690;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=q6da8jLQtnLnim6HyWRfNmg8bV209AFrRAch7qncfbs=;
+ b=cekMWXcD4aJBhqzu2a/2fPvj8qaxdpzbQGuSHMilqF2V+cbAekelvhKK
+ +DUjCDRwzR9B8+If3AgHJCVbL2XZ/pg2HA8ozhEW68p8MQNWHfAlxoh9V
+ wqw2ba1B2LLzlVhch/3eUZGlnyfau2sb2qeljWzb7RPZL0nxRWkpExT84
+ Axk8Zh6wVDrR6e4RDEJQf/l5IDqS0eOM3FTrLK45SnQpmkJ56iFDgGMZL
+ Ejqf5IvlRKN4dliHJIcMhFi4SDWDxTAyeQqaP4bGS+qrFeTxn5/Qdm727
+ uexSKOp5A5GZHggrajymje87+RT3504euXkA3s9e+Q2w+f4pFpl/Rsnyt A==;
+X-CSE-ConnectionGUID: DTvyaCbRTqiOpYekrv18IQ==
+X-CSE-MsgGUID: HVLu3NS5Qtm+L/3gT4mCdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="88232434"
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; d="scan'208";a="88232434"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2025 01:14:47 -0800
+X-CSE-ConnectionGUID: oHYrWS8ATQebFcLjYXGykg==
+X-CSE-MsgGUID: DikRyuhjQLyYtee9Ng8YEQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; d="scan'208";a="228346786"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.245])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Nov 2025 01:14:41 -0800
+Date: Wed, 19 Nov 2025 11:14:38 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Petr Mladek <pmladek@suse.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
+ netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+ ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v3 01/21] lib/vsprintf: Add specifier for printing struct
+ timespec64
+Message-ID: <aR2KfgzV1_3ZzXhT@smile.fi.intel.com>
+References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
+ <20251113150217.3030010-2-andriy.shevchenko@linux.intel.com>
+ <aRcnug35DOZ3IGNi@pathway.suse.cz>
+ <aRd5HHUBu2ookDv_@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="g3dvg44f3him5ido"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251117-color-format-v4-10-0ded72bd1b00@collabora.com>
+In-Reply-To: <aRd5HHUBu2ookDv_@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,61 +86,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Nov 14, 2025 at 08:46:52PM +0200, Andy Shevchenko wrote:
+> On Fri, Nov 14, 2025 at 01:59:38PM +0100, Petr Mladek wrote:
+> > On Thu 2025-11-13 15:32:15, Andy Shevchenko wrote:
 
---g3dvg44f3him5ido
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 10/10] drm/rockchip: Implement "color format" DRM
- property
-MIME-Version: 1.0
+...
 
-On Mon, Nov 17, 2025 at 08:11:54PM +0100, Nicolas Frattaroli wrote:
-> From: Derek Foreman <derek.foreman@collabora.com>
->=20
-> Register the color format property in the dw_hdmi_qp-rockchip driver,
-> and act on requested format changes as part of the connector state in
-> the vop2 video output driver.
->=20
-> Signed-off-by: Derek Foreman <derek.foreman@collabora.com>
-> Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c |  3 ++
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c   | 46 ++++++++++++++++++++=
-++++++
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h   |  2 ++
->  3 files changed, 51 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu=
-/drm/rockchip/dw_hdmi_qp-rockchip.c
-> index 7c294751de19..7028166fdace 100644
-> --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-> @@ -635,6 +635,9 @@ static int dw_hdmi_qp_rockchip_bind(struct device *de=
-v, struct device *master,
->  		return dev_err_probe(hdmi->dev, PTR_ERR(connector),
->  				     "Failed to init bridge connector\n");
-> =20
-> +	if (!drm_mode_create_hdmi_color_format_property(connector, supported_co=
-lorformats))
-> +		drm_connector_attach_color_format_property(connector);
-> +
+> > I wonder how to move forward. I could take the whole patchset via
+> > printk tree. There is no conflict with linux-next at the moment.
+> > 
+> > It seems that only 3 patches haven't got any ack yet. I am going
+> > to wait for more feedback and push it later the following week
+> > (Wednesday or so) unless anyone complains.
+> 
+> Sounds good to me!
+> 
+> But in the worst case all but untagged can be pushed, the rest can go
+> to the next cycle.
 
-Why shouldn't we register the property in drmm_connector_hdmi_init directly?
+Just got a "BUILD SUCCESS" from LKP and since we gained even more tags
+I think it's ready to go.
 
-Maxime
+-- 
+With Best Regards,
+Andy Shevchenko
 
---g3dvg44f3him5ido
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaR2JgQAKCRAnX84Zoj2+
-dmvfAYDCo+PJW5u5/sNK3esukJxyFfwo+aBeX8aZqtnXuZcqKb9iKdX/e3Bpfnj4
-tNf3U7gBf0YrO/GhoJ/IYd6OFABbqrfpJOXtt98+CfuhHB+6M0WlyQ3jg6ddDDok
-C7UgUczAhA==
-=94DU
------END PGP SIGNATURE-----
-
---g3dvg44f3him5ido--
