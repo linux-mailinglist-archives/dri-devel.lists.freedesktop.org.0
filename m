@@ -2,41 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4B7C6C611
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 03:28:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37DA8C6C61A
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 03:30:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E9AE10E555;
-	Wed, 19 Nov 2025 02:28:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21B1B10E551;
+	Wed, 19 Nov 2025 02:30:18 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YgahwC+H";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
- [210.160.252.171])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7A2D010E55E
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 02:28:33 +0000 (UTC)
-X-CSE-ConnectionGUID: JbJhE5jERtGgN44cUygdoA==
-X-CSE-MsgGUID: xZysjspTTrqpkHxZTLWEQw==
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
- by relmlie5.idc.renesas.com with ESMTP; 19 Nov 2025 11:28:32 +0900
-Received: from lenovo-p330 (unknown [132.158.152.96])
- by relmlir5.idc.renesas.com (Postfix) with ESMTP id E134640CCF88;
- Wed, 19 Nov 2025 11:28:28 +0900 (JST)
-From: Chris Brandt <chris.brandt@renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
- Nghia Vo <nghia.vo.zn@renesas.com>, Hugo Villeneuve <hugo@hugovil.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Chris Brandt <chris.brandt@renesas.com>
-Subject: [PATCH v5 2/2] drm: renesas: rz-du: mipi_dsi: Set DSI divider
-Date: Tue, 18 Nov 2025 21:27:44 -0500
-Message-ID: <20251119022744.1599235-3-chris.brandt@renesas.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20251119022744.1599235-1-chris.brandt@renesas.com>
-References: <20251119022744.1599235-1-chris.brandt@renesas.com>
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 600FF10E551
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 02:30:16 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-343ea89896eso6204652a91.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 18 Nov 2025 18:30:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1763519416; x=1764124216; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=IAUl3DvNF4a96OMaEmiq14uCqbdByDkYT7FAGSKW29g=;
+ b=YgahwC+H+X0/qmQFUigc9V5pXEHE77OlUaMoUWJK+FSIdxD9Cp5DM+f05onKF1cluL
+ LHvUMeE4hSunfXty00NOZ6zeJ6PeRK5O4afxgs4KlbBY/aRtYz7nphqFUywZlPIkJ8rt
+ p/X4fKgwEWoa9wWneNIybj1Fi87QezIK3p18ZHZlZW4kLzSLH4pmYZMQ9JH/9lVuG2M0
+ 6+3VnaKM0I6ASLcAFjQ+TtIDnI36aOIONppoQS8fA7sp/316SBoBkl4H+YYwoPpBGZYF
+ O+B97qhBqSi1RlJnNFoAhbiz3E50EO/+IN6mvvn11F8S0QyzT/hU60g7bVgNV/g1DhJs
+ t12g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763519416; x=1764124216;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IAUl3DvNF4a96OMaEmiq14uCqbdByDkYT7FAGSKW29g=;
+ b=aB4Eyya+M9ZnmzuTxgUCbI41gHeShaZ5GUKN5rTo4dnoS2UiJjhCX/fQlLoyNUq832
+ jVsSo39wx4UD90AOtAsaLKub8r3ZpIQjPXAotYEBHDJCRiez6QQhhoygxAa14g+MmBJv
+ rzP7xi5WXIyRHw5xHJZ0wavSn19qoKr/QamSCZlvA4h526IE+prwbh4uKh6uILdcMPAL
+ 1i80pm7KauEIifiNFvoQ6gxeJHZl8hCIGVwhNmG7FqFJb9e4YN0Ho/ESO4bK591rLXFZ
+ xjj7UXHJWKbhG0+Xn4vywlv+Zw6B97YScJHSJ31o0lMwf7MjM+DHjIPrvyvw9sUNc4vo
+ PwKw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUx5XPJgkneGhYfy13KRbZbuZSqGrpnUS9K6qsgQ0plRDNaZSA0wyoRcikWXQXsESxhB1dU6zuL+R4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwzOSPTCFZwC1rBTFhCspqse2jHQXnCO3mluEoaEvQkHnaaMO7M
+ Ksd/GZ4AXDsQFPdthI7v7HWmy+nF1RL6wFxCA8MOm7QJnUip6hzkjuug
+X-Gm-Gg: ASbGnctzlpCj9sGSx19KO/PT8y+feUfXLERVyoJQ5/BCzu6P55FP8+l9NX7di5zDSpj
+ /cWjpSgoucFXHi2/0SwhDO+qWAV2ibDgWdCwG9FmOmsvroNNUftM7dfy5qlxFYKlTFNq4QEizdo
+ dB4YU9WpPsVfnP89wFOdLi6xP8Y1SIqrfWHeFRTnNGqd4gOrk6auzNd+GaxpBvTJJUJvQ8eeEnV
+ x8KgMAPQM+fItgCOz/GI02JfeSo0meKoHt37Cqpw/WoD3REKwxjkQolz9anpWVQr8ioTOaWifVw
+ mfv2p6XCFZCpzDyacOpl2xRZXz8NkUJwJm7rTNYdbbZOX1kouoDowHYXG7Ieb0Gd8BmVN33Wu7+
+ RqGAie4UEMHzWjKF7Ga3V+A8HZtR6Rr+I6fDpxMqINBFpF5XtYsUbG0bdZIkkSPhe8nHtJ+9mht
+ yaDlOJNVFE5Y7SjVqayLMqBd0o6VSiludATLU=
+X-Google-Smtp-Source: AGHT+IFh8r79lVQpAeCYF0NNbGC4p1MGfSUZomtiu+dfIgiNGPVRw/+zobtyaOULhCb1FmLl6qDzjQ==
+X-Received: by 2002:a05:7022:d8e:b0:119:e569:f258 with SMTP id
+ a92af1059eb24-11b40e7b689mr5344109c88.1.1763519415678; 
+ Tue, 18 Nov 2025 18:30:15 -0800 (PST)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:8863:100d:2a2a:9a74])
+ by smtp.gmail.com with ESMTPSA id
+ a92af1059eb24-11b060885e3sm65842955c88.0.2025.11.18.18.30.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 18 Nov 2025 18:30:15 -0800 (PST)
+From: Fabio Estevam <festevam@gmail.com>
+To: neil.armstrong@linaro.org
+Cc: Laurent.pinchart@ideasonboard.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev, Frank.li@nxp.com,
+ Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH v2 1/2] dt-bindings: display: bridge: ldb: Document nxp,
+ enable-termination-resistor
+Date: Tue, 18 Nov 2025 23:29:45 -0300
+Message-Id: <20251119022946.268748-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -54,87 +90,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Before the MIPI DSI clock source can be configured, the target divide
-ratio needs to be known.
+Document the optional nxp,enable-termination-resistor property for the
+i.MX LVDS display bridge.
 
-Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+This boolean property indicates that the built-in 100 Ohm termination
+resistor on the LVDS output is enabled. It is controlled via the HS_EN
+bit in the LVDS_CTRL register. Enabling the resistor can improve LVDS
+signal quality and may prevent visual artifacts on some boards, but
+increases the power consumption.
 
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
 ---
-v1->v2:
-- Add spaces around '/' in comments
-- Add target argument in new API
+Changes since v1:
+- Change the property name to nxp,enable-termination-resistor (Frank).
 
-v2->v3:
-- Add missing period in comment (Hugo)
-- Changed '1' to 'PLL5_TARGET_DSI' (Hugo)
-- Added Reviewed-by and Tested-by (Biju)
+ .../devicetree/bindings/display/bridge/fsl,ldb.yaml      | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-v3->v4:
-- Fixed up the comments
-- Fixed the match for the divider to set (was missing a * 2)
-
-v4->v5:
-- Rename patch title (Hugo)
-- Add bpp varable for easy reuse (Hugo)
----
- .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 21 ++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-index 3b52dfc0ea1e..7f03ea8052e2 100644
---- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-+++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-@@ -7,6 +7,7 @@
+diff --git a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+index 07388bf2b90d..6bc786204e65 100644
+--- a/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/fsl,ldb.yaml
+@@ -35,6 +35,15 @@ properties:
+       - const: ldb
+       - const: lvds
  
- #include <linux/bitfield.h>
- #include <linux/clk.h>
-+#include <linux/clk/renesas.h>
- #include <linux/delay.h>
- #include <linux/dma-mapping.h>
- #include <linux/io.h>
-@@ -692,6 +693,7 @@ static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
- 				      struct mipi_dsi_device *device)
- {
- 	struct rzg2l_mipi_dsi *dsi = host_to_rzg2l_mipi_dsi(host);
-+	int bpp;
- 	int ret;
- 
- 	if (device->lanes > dsi->num_data_lanes) {
-@@ -701,7 +703,8 @@ static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
- 		return -EINVAL;
- 	}
- 
--	switch (mipi_dsi_pixel_format_to_bpp(device->format)) {
-+	bpp = mipi_dsi_pixel_format_to_bpp(device->format);
-+	switch (bpp) {
- 	case 24:
- 		break;
- 	case 18:
-@@ -732,6 +735,22 @@ static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
- 
- 	drm_bridge_add(&dsi->bridge);
- 
-+	/*
-+	 * Report the required division ratio setting for the MIPI clock dividers.
-+	 *
-+	 * VCO-->[POSTDIV1,2]--FOUTPOSTDIV-->|   |-->[1/(DSI DIV A * B)]--> MIPI_DSI_VCLK
-+	 *            |                      |-->|
-+	 *            |-->[1/2]---FOUT1PH0-->|   |-->[1/16]---------------> hsclk (MIPI-PHY)
-+	 *
-+	 * vclk * bpp = hsclk * 8 * num_lanes
-+	 *
-+	 * vclk * DSI_AB_divider = hsclk * 16
-+	 *
-+	 *   which simplifies to...
-+	 * DSI_AB_divider = bpp * 2 / num_lanes
-+	 */
-+	rzg2l_cpg_dsi_div_set_divider(bpp * 2 / dsi->lanes, PLL5_TARGET_DSI);
++  nxp,enable-termination-resistor:
++    type: boolean
++    description:
++      Indicates that the built-in 100 Ohm termination resistor on the LVDS
++      output is enabled. This property is optional and controlled via the
++      HS_EN bit in the LVDS_CTRL register. Enabling it can improve signal
++      quality and prevent visual artifacts on some boards, but increases
++      power consumption.
 +
- 	return 0;
- }
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
  
 -- 
-2.50.1
+2.34.1
 
