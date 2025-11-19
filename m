@@ -2,136 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0943AC6E39B
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 12:29:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9FFC6E52D
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 12:47:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0DAF10E5D7;
-	Wed, 19 Nov 2025 11:29:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B251B10E238;
+	Wed, 19 Nov 2025 11:47:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="wN0JWP6x";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SNdZ88Ss";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013063.outbound.protection.outlook.com
- [40.107.201.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A7A610E5D7
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 11:29:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cvam+RqVa+SZiKTPZTNgARi74vv7j2eJuYPKovvPbP8htuj5n/Dq5XTX5Adb5Nkvj8wq3to7UKnjeXEWKAvcGKjX1IocubThrffMp5+KH3IQTGl7Hi6nK5YzWohNxIw4IhhoeU7ZFw4C8gjobYPpXbVOdk/YQcXbkbLcK/M7SCiu9vNWJjeecE3WY6wJx8I7vNcRUIRfOETBYITTOqdwxfGn5H5z3/emxHc/PX3vKwKmyenD+6GF/SjqgkAzMCs3QpYQ0a6Aeyt1Hp9/HMafZ3imWizgnKovyEo50KYVa7IWPnb88MV6R1SRC20mqbO6lVr3viWLUIgHCpHHoApXjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KaBx7W77mnC/sNdEpkaoSaNod5CY0260wqhfzXSSWEM=;
- b=K4poajWqA0t11dcQvyjnb9IQ9UE2OBpE8F6WzmyJ69rNX1bN01piFf8WJA+PCxj4nhI+3ygjqI2lEwEhRW3+/ELuivHcWB3Mq/TLHZtAcC+ZETGzkXOSVsRm9ho4znTtc6UJnhxUbia6M/+AHW/xvuEx4CtRPU6hwX8L17e2NWty0E/hVPOh6bruS+wqwbdnFiDKltDHiX1SWE32N0OzN2E3XAxV63ytrAtTvVEX2+5fxVLjy533RoOtttHAd0FveI+EFuoiOZOIL9ygvIVDCVzb0rgbqoTQ2rtOZ51lwI5Ea8gsF8Ew7uUKtzdXgbDM+AaBj3kBjz1hLHKNdjbwfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KaBx7W77mnC/sNdEpkaoSaNod5CY0260wqhfzXSSWEM=;
- b=wN0JWP6xc+airz/X/ltIcb9UiG89WwBmobF9aoQnNqxvzsI15HW1UUjTH+MjMdaaJfzJQa/UtGQI4W8WSFz8C9a9+h/jwuD56e1RUvmRLjwSQ80gN5VSVgJFJ4wKw3eU9c93WxqYObjB89bqiSmfAKqDrIoEQLfYkbVOR4X24FQ=
-Received: from MN0P223CA0010.NAMP223.PROD.OUTLOOK.COM (2603:10b6:208:52b::16)
- by DM3PPF5CC7476E1.namprd10.prod.outlook.com (2603:10b6:f:fc00::c2a)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Wed, 19 Nov
- 2025 11:29:29 +0000
-Received: from BL02EPF0001A108.namprd05.prod.outlook.com
- (2603:10b6:208:52b:cafe::70) by MN0P223CA0010.outlook.office365.com
- (2603:10b6:208:52b::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.10 via Frontend Transport; Wed,
- 19 Nov 2025 11:29:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- BL02EPF0001A108.mail.protection.outlook.com (10.167.241.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9343.9 via Frontend Transport; Wed, 19 Nov 2025 11:29:27 +0000
-Received: from DFLE212.ent.ti.com (10.64.6.70) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 19 Nov
- 2025 05:29:22 -0600
-Received: from DFLE202.ent.ti.com (10.64.6.60) by DFLE212.ent.ti.com
- (10.64.6.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 19 Nov
- 2025 05:29:22 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE202.ent.ti.com
- (10.64.6.60) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 19 Nov 2025 05:29:22 -0600
-Received: from a0512632.dhcp.ti.com (a0512632.dhcp.ti.com [172.24.233.20])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AJBTHwi1803780;
- Wed, 19 Nov 2025 05:29:17 -0600
-From: Swamil Jain <s-jain1@ti.com>
-To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>,
- <rfoss@kernel.org>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>,
- <jernej.skrabec@gmail.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <tomi.valkeinen@ideasonboard.com>
-CC: <devarsht@ti.com>, <praneeth@ti.com>, <s-jain1@ti.com>, <h-shenoy@ti.com>, 
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/bridge: cdns-dsi: Set bridge connector type
-Date: Wed, 19 Nov 2025 16:59:16 +0530
-Message-ID: <20251119112916.2854262-1-s-jain1@ti.com>
-X-Mailer: git-send-email 2.34.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0CD0F10E238
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 11:47:52 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1306EE7C;
+ Wed, 19 Nov 2025 12:45:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1763552745;
+ bh=VlGe3iUjwos+U62QKMz+Jrof4qkfimoxIV728ZLV8+k=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=SNdZ88SsTwPXDwBZuIzH+tU37ra3MxAiHBMjNe9xvnoY1vkeLK/pLhPH6ST8CbaRz
+ CqgfcjXtJVUrl8oAIH9JGZgVpvTSeXxRofSzC2dvq9rebEtlk4YPMF3fx7AjU8YibK
+ pyAkjLFoqTN/vPERL20krUmSUTcd6buwwg/yyPNA=
+Message-ID: <20d0fd9a-9b75-4a4a-9874-0f503ddcc885@ideasonboard.com>
+Date: Wed, 19 Nov 2025 13:47:45 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A108:EE_|DM3PPF5CC7476E1:EE_
-X-MS-Office365-Filtering-Correlation-Id: 921e43e1-13dd-435d-ecc8-08de275ee60b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|82310400026|36860700013|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FjvOTSRPLztHzwFzrF50rzOf5SH95MH01uNIeCofLRU9aRfKhnsvuLnNLYwD?=
- =?us-ascii?Q?oyuF3YTzcDZU4cgGAypKLbiyqnKt/58GwXas1qMja5hpatlmzchBAzH9DUhp?=
- =?us-ascii?Q?7CPjeQCEIXatvGSd1KsiwMaAQdMoUoKfaqbCu2nEyEEzlpjG9li7rRbqfKhL?=
- =?us-ascii?Q?f7GLV417wUHB/m9iBIxdOkLqdk5RUk96XSUM7hY5yVcSuJjlq/bQLH5V7s+h?=
- =?us-ascii?Q?UMihO6kOhDl32MYGPOtggH7BySCq5nqz5hplh7Rso0ruEMKfu6pZnHvpa315?=
- =?us-ascii?Q?oeNo0Nov6jaWtvgB8LQevP46mYyb4H83dS3shdV7TzwRozz4JmE0JhF7/SMx?=
- =?us-ascii?Q?GUojVDABvB+q93jHC3j/ozFBOjDHJebzWlTvCz8lFoghXsUgD+gC1jsaOYJ+?=
- =?us-ascii?Q?Ji6vEpNqo4T7/yEl4XO37I12xVM0g9BumbhWCCuvJ4QqX6j4nK352ltWguQY?=
- =?us-ascii?Q?MY24WM43WuqEg/LNtSMlMqJOZEJXZqedVz1uiL2BzTbsnaPmSVgCYMpPNR2D?=
- =?us-ascii?Q?FnXALruz8Nj/K49IFfyo+r1s62JBJU6xHbnT6ofTorflw9OAA8gq1/5QhECZ?=
- =?us-ascii?Q?2isvt3XDo1KDoHfGdxDVZpaGNc5TpDTiHbrfrSaiwrM2Mj6UuXBU/4dUZKqE?=
- =?us-ascii?Q?jCAiInquW+eAtBDZo95dUu7xRBkFCqACGkXILZ0+EcKhwAXXjKJxPoKKKqge?=
- =?us-ascii?Q?VEuGLswBFOxS2weY6fFlHD14yw/V+PEFSPPT8mBBePipk+ynzCWK9lxnNCXE?=
- =?us-ascii?Q?sJqgAZ6sJI2THaRSxlZf2M8c8662ZAgWpdusMws48rfiagztSaBsjX0iYubd?=
- =?us-ascii?Q?3c65FMl2T9kCELcwLD6cUzYx3wJAlqhPQUCaFWiK8g3CfDPZMEthKoAFY8Bb?=
- =?us-ascii?Q?+dRt/ePNtN5qaefhm9E/NhZ5wjToYhrx0Q+A/xgXy5Nt/14HIMXU144xQf2o?=
- =?us-ascii?Q?mWkMpkV3SbaK2p/JqdaQhhHBS6r9JGdnuWe0IuJIJGSdJgLCyCjAHrrnhDeD?=
- =?us-ascii?Q?vyuLibHnKDoNudO4LmU2iOeVLa7/s1leDvLy4cAx/FzDG/4Vtc++tAdJzV8n?=
- =?us-ascii?Q?1tXFA7R4XbbEvFRiiUgPHmy7xLDkFdzZjsKj7BWVVtrS6p+m5oKNgcdjv2cE?=
- =?us-ascii?Q?x9q2+iGmj2Jdj37HUSkaYU0v2GqA2JMitkEXuiLi86CWGWUQsoqHHIF2Mm+e?=
- =?us-ascii?Q?LH33cSDSa3/CgyawUCS1WgNK5OYnyhGofeVtmJfVQ1yuv9gwkZ8XSG5GDHG7?=
- =?us-ascii?Q?ZGjWfN9lfaKO8Mff6F/+hI2JAq7npryp92t0UWO0/zXCgDJe+8FTTWckPsWM?=
- =?us-ascii?Q?aQvJ2YAbbvBDp9Ib8hTbAQvHV2yZoVO3YkrtXhP/PcXfhEdKORyWZZAsPTRa?=
- =?us-ascii?Q?oJBwHTwFEPucdqfponzXiRPd/Cu5uWX7OPnWxrMbNDrU/D7Q2uODc4ejYmVd?=
- =?us-ascii?Q?JGihQsNT4ahiE0o5in7kMYgbY/+TykHB46DGGT9nODdYy9ufVtWHmBOCQxV1?=
- =?us-ascii?Q?7ir1N7w9ga3dQaooxh4EzlBf4r7hZZd+0RzO66Mlnt7eAL7FBSWIao34518s?=
- =?us-ascii?Q?dyGRKYoAKfjWgbqzCWmxREbyP2lKOPJr1JOd6J0h?=
-X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(82310400026)(36860700013)(1800799024)(921020);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 11:29:27.1997 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 921e43e1-13dd-435d-ecc8-08de275ee60b
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
- Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A108.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF5CC7476E1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/bridge: cdns-dsi: Set bridge connector type
+To: Swamil Jain <s-jain1@ti.com>
+Cc: devarsht@ti.com, praneeth@ti.com, h-shenoy@ti.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch
+References: <20251119112916.2854262-1-s-jain1@ti.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20251119112916.2854262-1-s-jain1@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,27 +103,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set the bridge connector type to DRM_MODE_CONNECTOR_DSI to properly
-identify the DSI connector in the display pipeline.
+Hi,
 
-Without this, the bridge connector type defaults to
-DRM_MODE_CONNECTOR_Unknown. Hence, to get correct bridge type set the
-bridge connector type to DRM_MODE_CONNECTOR_DSI.
+On 19/11/2025 13:29, Swamil Jain wrote:
+> Set the bridge connector type to DRM_MODE_CONNECTOR_DSI to properly
+> identify the DSI connector in the display pipeline.
+> 
+> Without this, the bridge connector type defaults to
+> DRM_MODE_CONNECTOR_Unknown. Hence, to get correct bridge type set the
+> bridge connector type to DRM_MODE_CONNECTOR_DSI.
+> 
+> Signed-off-by: Swamil Jain <s-jain1@ti.com>
+> ---
+>  drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> index 09b289f0fcbf..84b5a0cdf722 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> @@ -1323,6 +1323,7 @@ static int cdns_dsi_drm_probe(struct platform_device *pdev)
+>  	 */
+>  	input->id = CDNS_DPI_INPUT;
+>  	input->bridge.of_node = pdev->dev.of_node;
+> +	input->bridge.type = DRM_MODE_CONNECTOR_DSI;
+>  
+>  	/* Mask all interrupts before registering the IRQ handler. */
+>  	writel(0, dsi->regs + MCTL_MAIN_STS_CTL);
 
-Signed-off-by: Swamil Jain <s-jain1@ti.com>
----
- drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 1 +
- 1 file changed, 1 insertion(+)
+Hmm, how does this all work...
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-index 09b289f0fcbf..84b5a0cdf722 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
-@@ -1323,6 +1323,7 @@ static int cdns_dsi_drm_probe(struct platform_device *pdev)
- 	 */
- 	input->id = CDNS_DPI_INPUT;
- 	input->bridge.of_node = pdev->dev.of_node;
-+	input->bridge.type = DRM_MODE_CONNECTOR_DSI;
- 
- 	/* Mask all interrupts before registering the IRQ handler. */
- 	writel(0, dsi->regs + MCTL_MAIN_STS_CTL);
+tidss_kms.c calls devm_drm_panel_bridge_add(), which then does
+devm_drm_panel_bridge_add_typed() with panel's connector type. Doesn't
+that already work?
+
+Why do you need the bridge type to be set, i.e. what's the use case?
+
+Somewhat besides the point of this patch, but input->bridge feels odd.
+Why "input"... Why isn't the bridge just in the struct cdns_dsi? And
+what's the bridge in cdns_dsi_output? Is that the next bridge?
+
+ Tomi
+
