@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9E64C6EB3F
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 14:08:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A418AC6EB45
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 14:08:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C89C10E5F0;
-	Wed, 19 Nov 2025 13:08:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01A2E10E5F3;
+	Wed, 19 Nov 2025 13:08:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="vK5hzMDL";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="XslKHHOY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C41C610E5F2
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 13:08:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC13C10E5F3
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 13:08:25 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id A83194E4179E;
- Wed, 19 Nov 2025 13:08:15 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id BCA024E41795;
+ Wed, 19 Nov 2025 13:08:24 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 7B4F260699;
- Wed, 19 Nov 2025 13:08:15 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 8ECF460699;
+ Wed, 19 Nov 2025 13:08:24 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 46EAE10371A4D; Wed, 19 Nov 2025 14:08:05 +0100 (CET)
+ with ESMTPSA id 1C55B10371A51; Wed, 19 Nov 2025 14:08:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1763557693; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1763557702; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=UMItbV1BqSBtiyoTv8FuwBwyend0qlHR9kODuTk7EBs=;
- b=vK5hzMDLgDAe4/q6DnEnn5bfdWZLtGGnBjzWeyv25mRKYdk8F9/vdd1y3/c0LEAXFOda8W
- 7KjQq5EnhRQWpXG2A/+3op7Jin/h+zb0WySpIcsNv2IfGuen/0Rbtxw56fOU8ymy3HdgMy
- yR3rxi2xksUUtEZU3mUUyMGsBSwFiwYF0osffDI/h20AiJZFpLqRIZ4VLDN4lx6xP51UDE
- Rw3vzHHphsnHKyL4EjruQ+gun05NIDYtEETL6bJQg78eKuNejwynI6ELl0apl34BoKxGk4
- m6w/np10gGRk1Mex+aghV3+5pG5ba9uB014ZFleymMw0U3XJO3p3sFoLbIK/pQ==
+ bh=mViNdbRzGaaVnwve0SCNnc2a5Fs3PLzmuOdUXgD58UY=;
+ b=XslKHHOYor7dNfpOR5k8O6dwCdDWNf7EDetAevL57Z9FclN7i6NDjPuILa6tOj1vQg7CnP
+ sBABuLNrXbyrz+Mk8fK08qxFss/z9ibIZ4PchkWQOZncn0x+ga0V6dG1iOWGC4Mj/Wz5Tb
+ QJdpfHZB/R5bsVvcl2THwLCdcPS/Ii3GdPmT6/aQocphyYVYOebGQymq/aKBw/xiKCd6b1
+ EAWkFcgeEXGiDhKxMr3ePOXpQ1ob99p6qLxOPBNe0aOP6emzt+K0ZG73HxH+rTVKBXDHtS
+ QzM3tn4A3Y3u1J6rwIYlfo9bBAhAaC5tkW3E+1L4RZzH2kdpNVhuBV2jTnAujw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 19 Nov 2025 14:05:46 +0100
-Subject: [PATCH 15/26] drm/bridge: imx8qxp-ldb: use
- devm_drm_of_find_bridge() to put the companion bridge
+Date: Wed, 19 Nov 2025 14:05:47 +0100
+Subject: [PATCH 16/26] drm/rcar-du: lvds: use devm_drm_of_find_bridge() to
+ put the next bridge
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-15-0db98a7fe474@bootlin.com>
+Message-Id: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-16-0db98a7fe474@bootlin.com>
 References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
 In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -104,22 +104,22 @@ reference on remove or on probe failure.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c | 2 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-index 122502968927..e0bd227fd47a 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c
-@@ -552,7 +552,7 @@ static int imx8qxp_ldb_parse_dt_companion(struct imx8qxp_ldb *imx8qxp_ldb)
- 		goto out;
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
+index 001b3543924a..8eb73ca25eaa 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
+@@ -740,7 +740,7 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
+ 		goto done;
  	}
  
--	imx8qxp_ldb->companion = of_drm_find_bridge(companion_port);
-+	imx8qxp_ldb->companion = devm_drm_of_find_bridge(dev, companion_port);
- 	if (!imx8qxp_ldb->companion) {
+-	lvds->companion = of_drm_find_bridge(companion);
++	lvds->companion = devm_drm_of_find_bridge(dev, companion);
+ 	if (!lvds->companion) {
  		ret = -EPROBE_DEFER;
- 		DRM_DEV_DEBUG_DRIVER(dev,
+ 		goto done;
 
 -- 
 2.51.1
