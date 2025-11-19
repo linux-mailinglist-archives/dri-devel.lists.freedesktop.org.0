@@ -2,125 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D586AC71808
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 01:10:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21B88C6E142
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 11:54:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E6FA10E6AF;
-	Thu, 20 Nov 2025 00:10:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 68EF810E231;
+	Wed, 19 Nov 2025 10:54:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="drMcD8m3";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6C05B10E231
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 10:53:21 +0000 (UTC)
-X-AuditID: a67dfc5b-c2dff70000001609-1c-691da19e91dd
-Date: Wed, 19 Nov 2025 19:53:12 +0900
-From: Byungchul Park <byungchul@sk.com>
-To: linux-kernel@vger.kernel.org
-Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
- damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
- adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
- mingo@redhat.com, peterz@infradead.org, will@kernel.org,
- tglx@linutronix.de, rostedt@goodmis.org, joel@joelfernandes.org,
- sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com,
- johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu,
- willy@infradead.org, david@fromorbit.com, amir73il@gmail.com,
- gregkh@linuxfoundation.org, kernel-team@lge.com, linux-mm@kvack.org,
- akpm@linux-foundation.org, mhocko@kernel.org, minchan@kernel.org,
- hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org,
- jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
- penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
- ngupta@vflare.org, linux-block@vger.kernel.org,
- josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
- jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
- djwong@kernel.org, dri-devel@lists.freedesktop.org,
- rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
- hamohammed.sa@gmail.com, harry.yoo@oracle.com,
- chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
- max.byungchul.park@gmail.com, boqun.feng@gmail.com,
- longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
- yeoreum.yun@arm.com, netdev@vger.kernel.org,
- matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
- catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
- x86@kernel.org, hpa@zytor.com, luto@kernel.org,
- sumit.semwal@linaro.org, gustavo@padovan.org,
- christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
- petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
- paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
- joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
- mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
- qiang.zhang@linux.dev, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
- bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
- chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
- Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
- anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
- clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
- kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
- broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
- shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
- yuzhao@google.com, baolin.wang@linux.alibaba.com,
- usamaarif642@gmail.com, joel.granados@kernel.org,
- richard.weiyang@gmail.com, geert+renesas@glider.be,
- tim.c.chen@linux.intel.com, linux@treblig.org,
- alexander.shishkin@linux.intel.com, lillian@star-ark.net,
- chenhuacai@kernel.org, francesco@valla.it,
- guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
- masahiroy@kernel.org, brauner@kernel.org,
- thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
- andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
- rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v17 44/47] dept: introduce APIs to set page usage and use
- subclasses_evt for the usage
-Message-ID: <20251119105312.GA11582@system.software.com>
-References: <20251002081247.51255-1-byungchul@sk.com>
- <20251002081247.51255-45-byungchul@sk.com>
+Received: from BL2PR02CU003.outbound.protection.outlook.com
+ (mail-eastusazon11011033.outbound.protection.outlook.com [52.101.52.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE7B610E231
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 10:54:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lvq6yzf9jwvUXGrZC8MzFJWWxcAeYDB5Muf4S0Wsmx80w5W7N4BGNvwU4gwNQHdW7GTgM5/6cBIqyF5Mou4QW9Ol/Jx1Fv0GBuUmN0GDZkMuY7hrrPV/n2NX8aFK+iVfeNdyfwKeRM35M/sM37R+PS98vFYfRraT1VbaUpLJ/4SnRwqb2rI+H/B4ADy3qVQrXcHIjtRrpRhQCn/swBUwcwlpom4qwJ77Nd7/Xxvtkwxn4RA/EYRvB6irZG8XGKXk4uOBp2ddMiE0+Hi/paFMyYQrTNggFFS2w3WuFNREjcbufYNCXu44Aw9Tm0PALFIH1hd8EvDbzhX6WIsDWOvNVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ag859vXxBdrGBUrEIA/SqDdCkuaZFw8S6u7XInG3To0=;
+ b=JDtXhDmGNffgsI/WeMBDvO+X4k8zWbgFEdsly4bVKFTBrwppvzoI9Eb7lFwBqo1Dg5A686ea86I7FSVAa/gtb/WqRZE3O9cfodKsocSAt74ShBtMc3WJA0/Kvb0qqQPhz+HPO5gg7aiIQuLfiOjXXU6MMAKWhvBGJxW/CkwB09EaujJtCDKJz3rUtb+4s/zcYVN1uZTllC+LZlBWnHHS8annDaBXKMQVnF7LRSRUT/ZMyOSeEA0hU5TGy+6OWFeRP5EW3h54o06yYpLz95DUk3plv+HTAXtRj6eRGrOGlK5d629fLw3VEtftcdy8s+BNtVjZEkD3pomKu49I6RmzFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ag859vXxBdrGBUrEIA/SqDdCkuaZFw8S6u7XInG3To0=;
+ b=drMcD8m3MQYyDtlPw0nHNESo8EYY3dDKb2Zn0vnA5pC+Cyg5tRaXNKSI3cl7Vt7bkrXuYB/5PHqX8q7vVVxv5b28D4enyiPGtrMi3/URFbiRB1lpkiTy7/d8e6hspToBhtLy0xjfWapEMUyTBpvE5zrlDvhKhDlqUw6NmKMROD0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS2PR12MB9712.namprd12.prod.outlook.com (2603:10b6:8:275::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Wed, 19 Nov
+ 2025 10:54:50 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9320.021; Wed, 19 Nov 2025
+ 10:54:50 +0000
+Message-ID: <cf54bdad-f603-437b-9871-d09f0242739c@amd.com>
+Date: Wed, 19 Nov 2025 11:54:45 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] tests: Add test suite for double-checking userptr
+ write validity and VRAM
+To: zhangzhijie <zhangzhijie@bosc.ac.cn>, Hawking.Zhang@amd.com,
+ wangran@bosc.ac.cn, zhangjian@bosc.ac.cn, alexander.deucher@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: botton_zhang@163.com, "Prosyak, Vitaly" <Vitaly.Prosyak@amd.com>
+References: <20251119082841.1179938-1-zhangzhijie@bosc.ac.cn>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251119082841.1179938-1-zhangzhijie@bosc.ac.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0007.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c8::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251002081247.51255-45-byungchul@sk.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTH+9z73Jc2VK8di1cZy9JJnDhRF5adD7hotmX3w2ZYTLZlZpEq
- N3K1FFNeFLMtMGQyA6ayWUPLu6FUaJC1TFDBIBYEgVhk0Q7rkACFRjoW1taRlboWY+aXk1/+
- 55z/OSc5LKmqoTeyki5P1Os0WjWtwAp/XOO22oZEaYf3xia4X9yLIRgow1B92UaDq60VwdN/
- zSQElh8yYByrJMHWUUzA3+0RGi74ijEsWsoRmLxmBnz9H4N/8joFD0ILCCwzEQJWjEehrtER
- LT3vQtAw9YiE+fbTCHqs39Mwa/iVhPGZNfBbcJGGP9tpqDFXIjDW2DGMPQkT4DFWEtBq/xQm
- LV4Mw4ZGIjqSBvOFEiIa5glYtrQwMHLRg8E8Ok5BeGonPKvPgYHWOQba/HcpmLz9AwWdRY8Z
- sP/ej8BW7iWh7FoQg336PgU9E1uhqtZDQ3fPEIaylQCC8WvV0at7hym41+rCcHnOTcDwwCCG
- IdMlDE0PxghwjI6QEDqbAK5zFRS4DbNod6bwtPQsFkrvrdCCrdaGhFJDNNxaWCSFU47jQtPw
- Ai30hOqxcG50m3DV9IgR6u35wimnnxIc1mThYrePECae7BLsLT/S6W99pUjLFLVSgajf/n6G
- IuvG42b62OldJ6xzXUwRGtlxBslZnkvlr078xbzghUDDKmMuiR8sHqdiTHObebd7mYxxPPcG
- 76jwRnUFS3JVCXywvYSOJV7htHzI2bbarOSAd9Y5V3UVd5A/3/IT9Vxfxw9VzeAYk1wy7474
- iDOIjXIC3xxhY7Kce49vqxtAMX6Ve5PvvXKbiM3iuT/k/BXrP+j5ohv4m1Y3NiDO9JKt6SVb
- 0/+29YhsQSpJV5CtkbSpKVmFOulEyqGcbDuKPq3l2/D+LrTk2teHOBap45RlaxMlFaUpyC3M
- 7kM8S6rjlUl7XpNUykxN4UlRn3NAn68Vc/tQAovV65XvhI5nqrjDmjzxqCgeE/UvsgQr31iE
- Kko+DG5/uH6Ncd/Bpk++sD3r/OCXr/sabuX5IxM3+5em5xUZyXHOzs7dS3s/S9J2VDaHFQdq
- ZJLs+oZ31WsDGVNMxeGTmwarP/ft75JrQ93KL8v1H8VvCR+ROYO6aSIl1TOfvmfvZCTtmyN3
- LmVwho7EtLeD+emynwfMr896Dsm+k6lxbpZmZzKpz9X8Bx9L8M6wAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0xTZxjHfc+dZtUjg3hiXUK6oQaDQjLmk7kZlyzxxGXGxA9LtkWtejYa
- SmGtY9aEDCyNBJ3UukJoBcrt2BSE2noBSQ3jUqdCLKubZIMBSy0wuSTaApXbTl2W+eXN7/39
- n3/yfHgYPHGF3MyotacEnValUVIyQnZwjzG9uu4tdUYgvBt+K+4iIBopJeBKWwsFpZ4qEgKt
- zQhGo6UIFpbsOJg61ghYsfhpiMT+oGHN50dQMWjBoeVGMQYv3KsUPOt5jsA6HqKgcqqYgDnx
- AgJb2E7DVN9+mBntJGFtZAKDJ/PTCMTQKgahrnMIVipyoLbeS8HSwCMcKq0BBHXjIzhMuqXw
- hv9PBD7nWQqemm/iEAyth8fROQruW89TMDN4BYNZNwWOsz4Squ0WBMaGNgoqqj0EdIzdoWHw
- 2TIGwxUWDJo9n8KoGCbgobkek/aTpq5vAnulEZOeSQys1zoxiIkuGvobhgkQi1LBPhAk4S+n
- jYbl8UxYc+SBv3mChpFyKwGtM4/IfVbEL5guErzLewvjTb+sUHxLTQvil15aEB9pMuK8ySx9
- e6bncL7E+x3f9HCa4l9Gf6V437yD4B/Uc/ylgXS+wzZC8yV3f6cPvf+57IOTgkZdIOh27T0m
- y747dpXKP/fhaedEO12E+jPKUALDse9y05E6Os4Em8r9XBwk40yx27ihoRge5yQ2hfP+EJa8
- jMHZKgUXdRupePAmq+Hme1tfleUscL21va98Inucs7ouk//6jdz9qhARZ5xN44ZWp7AyxEis
- 4K6uMnGdwO7mWmv9KM7J7Ntc1617mBnJba+1ba+1bf+3HQh3oSS1tiBXpdZk7dTnZBu06tM7
- T+TlepB0lGLh8qV2FAnu70Ysg5RvyBfNW9SJpKpAb8jtRhyDK5PkqR9JSn5SZTgj6PKO6r7V
- CPpupGAI5Sb5gc+EY4ns16pTQo4g5Au6/1KMSdhchFwpXRu+f55pejyW9YVKH3sykbl93dbC
- NPTJ4t5wRvJC5zd/L9aUKH5aUISInB9v6icPtycf6T/cdHQwwJ+pOeBrNNBHKgvHHxwKOi+I
- X/aleAJfpR8MG4wZTva2uyemnd1RfvHpO0lZfeWjH7MNmONyG31evL7eWzY7/F7jjJjfqyT0
- 2arMNFynV/0DMGDGq5ADAAA=
-X-CFilter-Loop: Reflected
-X-Mailman-Approved-At: Thu, 20 Nov 2025 00:10:28 +0000
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS2PR12MB9712:EE_
+X-MS-Office365-Filtering-Correlation-Id: 73dcd540-81a2-4005-55fb-08de275a1017
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aTg5aXVjcnU4blQrR25UUGVjSi9hV3RDMHFUNkg4b25CN29YeU55cW42Vm12?=
+ =?utf-8?B?QytVVkZKcDhseWNKa0JieG5xU0xYZzNTeHZicDhrajFoYmwzOHFQdE9ESndO?=
+ =?utf-8?B?UFBEUUptNVQwZ1owanplME5RM1BHUllJRkg1bU9XZk5uenRmcVlnWGc2OTMx?=
+ =?utf-8?B?QUgwV3FxWkJ3bVRZdlEvbmd4dnZ6bTIzY01rVHhWZE1JaVdDeEdHWVA0WDNs?=
+ =?utf-8?B?dUFwQk5Sam1wN2xCR1NhOUNBcGRZazJranE1MFI2THhZd1dCU2htTTJpd3pJ?=
+ =?utf-8?B?emtrdll4YWJ1VnJzMXE0SGM1Qkl2MmdNMkU4aUY4cHRmTUgxbFRUKzIzSnBH?=
+ =?utf-8?B?S0tjczQvV0xqdmhUV0lOTi9qTzZUZmIzRSswaGtuU3dHU3RVa1YyQ2ovcld1?=
+ =?utf-8?B?Q29EQmlNSjIxN3JCRDJYMlB6RmZPYUJhbGpudG9iZytxM3hHRlFYTVV1NjlR?=
+ =?utf-8?B?SWc3OWM2WDhGbWo5dGpWQjdsNXpLT0laY2U4azFBVlNyaWpZUy9sWXZ6a3gy?=
+ =?utf-8?B?U1hLak15WkljZzFHcXl1Vm9CNnBVcTE3SUovYS9sakMvQmpWV2hUN2tyNzhp?=
+ =?utf-8?B?aEoycGRJemc3cUoxTDdvMkhxU29Hbmd3WnJqblY3ZkczR3pDc0lDQ09wMkF3?=
+ =?utf-8?B?d053Q2RKM2syZCtFMzFaZ09jSnh0TUdDWTIwb3ZFTnRKMjl4RzgvS3MzQkd6?=
+ =?utf-8?B?d1RvVHE5NFZoSitwamFRMC9Da2QyMzBoWXMrclZjYVdJRXVlK0NmaDlQUUFB?=
+ =?utf-8?B?V2tlZUtEVExRMUthemJnZWRkb2FkQk1HbGNESVp1bWRBQ2lKNFB2OE5aQUcw?=
+ =?utf-8?B?SWJHME05TDJzVEREa2FPcmhtclArTDB2TEkxOGtROVZVRVJPNzRLTWEreExj?=
+ =?utf-8?B?d3dyZE9DeUhZbTdGODJMc1paN1h0L3pjVnpVOEJqNEExMHp3dEJQZVdCNjkw?=
+ =?utf-8?B?UFZCL3dKcm11bGZodW5GMDNZcEZkUWhRMUJJZEJiVFJYRmt1YXpjZTNmVzJH?=
+ =?utf-8?B?MmR3TU9EVG9VM2dDNTNYNXZGSDIzSWlpMzgwem1UR0d2TlU4c0laV0pTemRO?=
+ =?utf-8?B?U1NXWXVLRjNvVmUrRVp5S1hER0J6TVZ1MlQrbERnV2dZb0RBd0RWZEpTWW1K?=
+ =?utf-8?B?ZUtYUFE1VmgxZDgxaEQ5bGowMjFzRkNVams4VzVyeW5tZWFoQk5hV2N0d05r?=
+ =?utf-8?B?aDlWejdLYm9qRkNjbHRsR2REdEJoVk4xNEYvSCtOSk5XUjhUS1JYY0FQd3o2?=
+ =?utf-8?B?WWZvZDFNUTl3VzlSd3Q3ejZJNmlXMWNoZmJXaVhjRnN3ckxMa2lzWW4wZUlh?=
+ =?utf-8?B?K2VhUHEvSGhsMzRaUW5hQXlVUHZ2cVN3QitteVRhRm9XcG4vUXNjV01wcEFV?=
+ =?utf-8?B?Y2E2d3NFVVdMdEJFYXNtb2xWbUZab1h0dk4yYlRKN0xwVVp3TEdqQ1kwSG5x?=
+ =?utf-8?B?T2czNmRVendCWFpaR3pMYlo3YWFSZWM3Nm53a1RlZHF6em81SWhFWmQ1ME1V?=
+ =?utf-8?B?emhCS0h0RlZxVXlZSGVuZlBsd2MyanlJVFdORlRta01RRWlScGE5TlVqeHlp?=
+ =?utf-8?B?dWlFS25nNVFFaVZRSXpSZEFoQVNWUFErWVIrSnVjUXBzbkd1cjFXY3hPRnp1?=
+ =?utf-8?B?M3kxRGhNWVpQbVlPeG5pZW90SFZibExpVlVsSmtzVTVKd2JZUGxsWERDZnZ3?=
+ =?utf-8?B?djNjTDFPRHNXZW5DQVBuVUpBT1RPTDRxT0NoQkZnb0l0MlZFK3BlK1NOeDFH?=
+ =?utf-8?B?ZXpGYkNwTTlZMjN3eDJzUmttTmtwQ29KdVRsZTl2K1J0bGhJRHJETlpUMkZo?=
+ =?utf-8?B?N2ovY0N2MnRQT0I2YVZWYlRUOUhBNzZXK0piU1k2T0xIUi9laVZRb2wzc1JM?=
+ =?utf-8?B?Ui9leGo3TzRVcU03Q2FLQ2MrN0o2ckovdTd2ekhVK3hUS1RJRXp3SHFmcVo1?=
+ =?utf-8?Q?XxvzXq9mOucGCjsIVSAsGZJ/yPa6uLVy?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bFdJODVvYU5aeXg2ampkMitVN2k4Ymhzem9HSGtIVTBMSm1ycXBRUTUwR3BS?=
+ =?utf-8?B?UUVaV1Q2SzlTKzFGK0RXbmYvRFNxY1duOTNRanBRSDN5U1J2WkZNVVdOdVZn?=
+ =?utf-8?B?SWlxYjBWL291VkpYNitjQzM3QVVOODV3c0Q0TUUzMCtLMitOeTIvRm5XTFFk?=
+ =?utf-8?B?ZFdmcE1lRE96OG85UUdyOWcrZnA1VnlVaGZ0dTZCczFweFVNb1crUnpJRTRp?=
+ =?utf-8?B?U2ZTWEl0V2pGOFVVRGYxTlpSUjFSWXpWZTczQmlZa3pqeUhXOVZqdjFZQUJF?=
+ =?utf-8?B?bUcwSnRZaXZtM3JOUTZhRHF6cVVvUDQybkRqcStubkM5VmJzWTczMUZ3MjRV?=
+ =?utf-8?B?dEE5VXRldFlRUjFBTURmd3Q4K1JpMnFvZU9ucE5xQlBzc1JxdE9UeWhrTUdz?=
+ =?utf-8?B?U00wR2JvczE1WFN2OHdLMldzZGRJWWkvSzNOSnlpbzJuL0JCZkM2SW1pY08x?=
+ =?utf-8?B?UmxqbW9xYytSU2VzWUw4Y05yQzVQMnhSaE13UjBBdjZvOFhFQW0rK0k5NjlH?=
+ =?utf-8?B?SEJ1bHFkeGkrNzBGNHN6RExZU1VYYXVNbnJMTnBCRHRWTVFkQXBxUDd5MWxT?=
+ =?utf-8?B?dzhDNm85V0JGaFVkODdDd0E3L2VCSk9wYU40THpGNHR4Tms1Q0hhSTBGeE9O?=
+ =?utf-8?B?SDhCR3NoeGFsazZDSUZSZmhRR2c4MWlqQmRoL2VZdmdRMldlVENqVy8vRWRO?=
+ =?utf-8?B?QS85Z2tGdFJ3bmJyeHc5am8wR0kvMXhqek4rSnFqWmh3Z1N4Tk9VK2hTOGFD?=
+ =?utf-8?B?L3BPTDVJbTVXTjBLQWozVE5nS295dnNFK3lMYW5ITHFnNmYzd1I2bnFtTDZl?=
+ =?utf-8?B?MkdpZWo4Wkw0R0ZPRlY4ZGRzcXFxQXZkR3NDS0N4Y0dYeWxPS0J1TEE3SGhL?=
+ =?utf-8?B?c1RybDlKM2FKY1hqbnBvOGdFRXJSWmlaaHJIeHFPTktLWmlGVk15eEhQd2Vp?=
+ =?utf-8?B?L2V3Qk1RZVIvVlpTdWNJeDllRWJWbFZNZDFJUnhkYWx0S3hTR0ZvbU9oM0Mv?=
+ =?utf-8?B?Yis0cG9SNjg1ajRvVC9yWkIwS3JOandHZFZtUzd5MXRXVDA0T2xpSUIyUmlP?=
+ =?utf-8?B?VzA0SmdRKzlFNmFUSWd1TzJndEo5bjBQcEJINzQ5N0l6UGU5bzhBQ0ZMalJm?=
+ =?utf-8?B?RmlZSGt2OVJGeVVQWE5QNUFTTjUzejVKYVdoSHBjblRZYXFlejEzL0l4WEVj?=
+ =?utf-8?B?QnpNcjNSYzlOOERmNDZHNjZETHoxeXh0RWo0UkpmbkZmQUZUT1JpWGV2R2Z5?=
+ =?utf-8?B?dDVNTHVCN05OaTE2bHVlZmc1Z0Z3OXVCOXBrTmtDQlZpMGwzRWFIOWJEaU8x?=
+ =?utf-8?B?ZzZFaWVtMkF0dlhBcElBemsyU05XU2xwZGxyYi9nYlh0T25jcmplYWFUTVlF?=
+ =?utf-8?B?aXlDeHJRc2c1K3lHdmNPOUtWRGJ4OTJxMGNBMGs1NTh1YzV1U0RpcWk5bXdD?=
+ =?utf-8?B?MkgyYzhldURHL2lrREJWOUlucUxLRnh6OEtGTW5xWUNBWlB3ZlZjbHdZcUZ1?=
+ =?utf-8?B?OEE2RUhva2o3b1kwVXE3OVJBd3VWKytteWRNbk9yN09Qb09uTXNkMnJvbTBo?=
+ =?utf-8?B?SnNWWm9jSk84V01COVQzWW4vVzV1YitxK0RMZDJjdm9RaStnMlluSWdCb0Vz?=
+ =?utf-8?B?U0U2WnRna1hSa0NIKytKZzlzV3ZXS0FUMzdkTVpWbmkxd29XemdkdmR3MkZ4?=
+ =?utf-8?B?RUd1bW1KNUhGQnhCSVR3anVWNXdwVWdSMWpBWEhRUmczNEJpZVhRNUl5UjBR?=
+ =?utf-8?B?dkw3Y09ZN0xFclJhdWtXb09GNndRbFQ3WjhIZDRIWlBPZFFZb1VtL2Z2SmVS?=
+ =?utf-8?B?WVRKMkhIOU1rQ0tScVJIRG5XblhiMlREVGlFcURweXJ5RUNTbXkvRWorZ2Vh?=
+ =?utf-8?B?ZjVrSmdScTFJSVVIVXhUVmRMQ1RVSzdRR0w2NkwxQ0pzdllGR0xqd3U1bnFs?=
+ =?utf-8?B?d29Jc0pVRFYrSTNQYkIzUk82Y3FNTElSMVFjWG9LUy9Xek9HWHYyYVBnYW43?=
+ =?utf-8?B?MWE1TzBGWHhYM2ZjVDVWWEU4L3Z0Zi9ReWpRaXhqN2pNcXJJUTVueW4xU2lB?=
+ =?utf-8?B?WmdNOTB3NkhNSU9pOWdVcmxnVHp2a0dUek5kTkFrUDBaZUU5MzhBVTJQYmJS?=
+ =?utf-8?Q?tNRAkDqx83/gueUZK7IbRkcxg?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73dcd540-81a2-4005-55fb-08de275a1017
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2025 10:54:50.6767 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qwWFDsxhY2blerVVz5exNyolnluBlsrLjrfkPY9lnK4HLuFrUPEqISbJ0qwElUTD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9712
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,237 +164,197 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 02, 2025 at 05:12:44PM +0900, Byungchul Park wrote:
-> False positive reports have been observed since dept works with the
-> assumption that all the pages have the same dept class, but the class
-> should be split since the problematic call paths are different depending
-> on what the page is used for.
+On 11/19/25 09:28, zhangzhijie wrote:
+> Userptr resides in host memory, and PCIe writes involve cache coherence.
+> By using SDMA to copy GTT to VRAM and then verifying the values in VRAM, we can validate GTT cache coherence.
 > 
-> At least, ones in block device's address_space and ones in regular
-> file's address_space have exclusively different usages.
-> 
-> Thus, define usage candidates like:
-> 
->    DEPT_PAGE_REGFILE_CACHE /* page in regular file's address_space */
->    DEPT_PAGE_BDEV_CACHE    /* page in block device's address_space */
->    DEPT_PAGE_DEFAULT       /* the others */
+> Bo(Userptr) ----> SDMA ---> Bo(userptr) ----sdma-----> VRAM
 
-1. I'd like to annotate a page to DEPT_PAGE_REGFILE_CACHE when the page
-   starts to be associated with a page cache for fs data.
+In general nice to have, but the amdgpu tests in libdrm have been deprecated and not been updated in more than two years.
 
-2. And I'd like to annotate a page to DEPT_PAGE_BDEV_CACHE when the page
-   starts to be associated with meta data of fs e.g. super block.
+We have even removed them completely recently because people were accidentally using them on unsupported HW.
 
-3. Lastly, I'd like to reset the annotated value if any, that has been
-   set in the page, when the page ends the assoication with either page
-   cache or meta block of fs e.g. freeing the page.
+Instead the AMD team has switched over using IGT test cases in our CI system. Vitaly can probably point you to the code and maybe help porting the test case over.
 
-Can anyone suggest good places in code for the annotation 1, 2, 3?  It'd
-be totally appreciated. :-)
+Thanks,
+Christian.
 
-	Byungchul
-
-> Introduce APIs to set each page's usage properly and make sure not to
-> interact between at least between DEPT_PAGE_REGFILE_CACHE and
-> DEPT_PAGE_BDEV_CACHE.  However, besides the exclusive usages, allow any
-> other combinations to interact to the other for example:
 > 
->    PG_locked for DEPT_PAGE_DEFAULT page can wait for PG_locked for
->    DEPT_PAGE_REGFILE_CACHE page and vice versa.
-> 
->    PG_locked for DEPT_PAGE_DEFAULT page can wait for PG_locked for
->    DEPT_PAGE_BDEV_CACHE page and vice versa.
-> 
->    PG_locked for DEPT_PAGE_DEFAULT page can wait for PG_locked for
->    DEPT_PAGE_DEFAULT page.
-> 
-> Signed-off-by: Byungchul Park <byungchul@sk.com>
+> Signed-off-by: zhangzhijie <zhangzhijie@bosc.ac.cn>
 > ---
->  include/linux/dept.h       | 31 +++++++++++++++-
->  include/linux/mm_types.h   |  1 +
->  include/linux/page-flags.h | 76 +++++++++++++++++++++++++++++++++++++-
->  3 files changed, 104 insertions(+), 4 deletions(-)
+>  tests/amdgpu/basic_tests.c | 155 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 155 insertions(+)
 > 
-> diff --git a/include/linux/dept.h b/include/linux/dept.h
-> index 0ac13129f308..fbbc41048fac 100644
-> --- a/include/linux/dept.h
-> +++ b/include/linux/dept.h
-> @@ -21,8 +21,8 @@ struct task_struct;
->  #define DEPT_MAX_WAIT_HIST		64
->  #define DEPT_MAX_ECXT_HELD		48
->  
-> -#define DEPT_MAX_SUBCLASSES		16
-> -#define DEPT_MAX_SUBCLASSES_EVT		2
-> +#define DEPT_MAX_SUBCLASSES		24
-> +#define DEPT_MAX_SUBCLASSES_EVT		3
->  #define DEPT_MAX_SUBCLASSES_USR		(DEPT_MAX_SUBCLASSES / DEPT_MAX_SUBCLASSES_EVT)
->  #define DEPT_MAX_SUBCLASSES_CACHE	2
->  
-> @@ -390,6 +390,32 @@ struct dept_ext_wgen {
->  	unsigned int wgen;
->  };
->  
-> +enum {
-> +	DEPT_PAGE_DEFAULT = 0,
-> +	DEPT_PAGE_REGFILE_CACHE,	/* regular file page cache */
-> +	DEPT_PAGE_BDEV_CACHE,		/* block device cache */
-> +	DEPT_PAGE_USAGE_NR,		/* nr of usages options */
-> +};
-> +
-> +#define DEPT_PAGE_USAGE_SHIFT 16
-> +#define DEPT_PAGE_USAGE_MASK ((1U << DEPT_PAGE_USAGE_SHIFT) - 1)
-> +#define DEPT_PAGE_USAGE_PENDING_MASK (DEPT_PAGE_USAGE_MASK << DEPT_PAGE_USAGE_SHIFT)
-> +
-> +/*
-> + * Identify each page's usage type
-> + */
-> +struct dept_page_usage {
-> +	/*
-> +	 * low 16 bits  : the current usage type
-> +	 * high 16 bits : usage type requested to be set
-> +	 *
-> +	 * Do not apply the type requested immediately but defer until
-> +	 * after clearing PG_locked bit of the folio or page e.g. by
-> +	 * folio_unlock().
-> +	 */
-> +	atomic_t type; /* Update and read atomically */
-> +};
-> +
->  struct dept_event_site {
->  	/*
->  	 * event site name
-> @@ -562,6 +588,7 @@ extern void dept_hardirqs_off(void);
->  struct dept_key { };
->  struct dept_map { };
->  struct dept_ext_wgen { };
-> +struct dept_page_usage { };
->  struct dept_event_site { };
->  
->  #define DEPT_MAP_INITIALIZER(n, k) { }
-> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> index 5ebc565309af..8ccbb030500c 100644
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -224,6 +224,7 @@ struct page {
->  	struct page *kmsan_shadow;
->  	struct page *kmsan_origin;
->  #endif
-> +	struct dept_page_usage usage;
->  	struct dept_ext_wgen pg_locked_wgen;
->  } _struct_page_alignment;
->  
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index d3c4954c4218..3fd3660ddc6f 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -204,6 +204,68 @@ enum pageflags {
->  
->  extern struct dept_map pg_locked_map;
->  
-> +static inline int dept_set_page_usage(struct page *p,
-> +		unsigned int new_type)
-> +{
-> +	unsigned int type = atomic_read(&p->usage.type);
-> +
-> +	if (WARN_ON_ONCE(new_type >= DEPT_PAGE_USAGE_NR))
-> +		return -1;
-> +
-> +	new_type <<= DEPT_PAGE_USAGE_SHIFT;
-> +retry:
-> +	new_type &= ~DEPT_PAGE_USAGE_MASK;
-> +	new_type |= type & DEPT_PAGE_USAGE_MASK;
-> +
-> +	if (!atomic_try_cmpxchg(&p->usage.type, &type, new_type))
-> +		goto retry;
-> +
-> +	return 0;
-> +}
-> +
-> +static inline int dept_reset_page_usage(struct page *p)
-> +{
-> +	return dept_set_page_usage(p, DEPT_PAGE_DEFAULT);
-> +}
-> +
-> +static inline void dept_update_page_usage(struct page *p)
-> +{
-> +	unsigned int type = atomic_read(&p->usage.type);
-> +	unsigned int new_type;
-> +
-> +retry:
-> +	new_type = type & DEPT_PAGE_USAGE_PENDING_MASK;
-> +	new_type >>= DEPT_PAGE_USAGE_SHIFT;
-> +	new_type |= type & DEPT_PAGE_USAGE_PENDING_MASK;
-> +
-> +	/*
-> +	 * Already updated by others.
-> +	 */
-> +	if (type == new_type)
-> +		return;
-> +
-> +	if (!atomic_try_cmpxchg(&p->usage.type, &type, new_type))
-> +		goto retry;
-> +}
-> +
-> +static inline unsigned long dept_event_flags(struct page *p, bool wait)
-> +{
-> +	unsigned int type;
-> +
-> +	type = atomic_read(&p->usage.type) & DEPT_PAGE_USAGE_MASK;
-> +
-> +	if (WARN_ON_ONCE(type >= DEPT_PAGE_USAGE_NR))
-> +		return 0;
-> +
-> +	/*
-> +	 * event
-> +	 */
-> +	if (!wait)
-> +		return 1UL << type;
-> +
-> +	return (1UL << DEPT_PAGE_DEFAULT) | (1UL << type);
-> +}
-> +
->  /*
->   * Place the following annotations in its suitable point in code:
->   *
-> @@ -214,20 +276,28 @@ extern struct dept_map pg_locked_map;
->  
->  static inline void dept_page_set_bit(struct page *p, int bit_nr)
+> diff --git a/tests/amdgpu/basic_tests.c b/tests/amdgpu/basic_tests.c
+> index 0e4a357b..223a9b0b 100644
+> --- a/tests/amdgpu/basic_tests.c
+> +++ b/tests/amdgpu/basic_tests.c
+> @@ -2061,12 +2061,167 @@ static void amdgpu_command_submission_sdma_copy_linear(void)
 >  {
-> +	dept_update_page_usage(p);
->  	if (bit_nr == PG_locked)
->  		dept_request_event(&pg_locked_map, &p->pg_locked_wgen);
+>  	amdgpu_command_submission_copy_linear_helper(AMDGPU_HW_IP_DMA);
 >  }
->  
->  static inline void dept_page_clear_bit(struct page *p, int bit_nr)
->  {
-> +	unsigned long evt_f;
+> +static void amdgpu_command_userptr_copy_to_vram_linear(void)
+> +{
+> +	int i, r, j;
+> +	uint32_t *pm4 = NULL;
+> +	uint64_t bo_mc;
+> +	void *ptr = NULL;
+> +	int pm4_dw = 256;
+> +	int sdma_write_length = 4;
+> +	amdgpu_bo_handle handle;
+> +	amdgpu_context_handle context_handle;
+> +	struct amdgpu_cs_ib_info *ib_info;
+> +	struct amdgpu_cs_request *ibs_request;
+> +	amdgpu_bo_handle buf_handle;
+> +	amdgpu_va_handle va_handle;
 > +
-> +	evt_f = dept_event_flags(p, false);
->  	if (bit_nr == PG_locked)
-> -		dept_event(&pg_locked_map, 1UL, _RET_IP_, __func__, &p->pg_locked_wgen);
-> +		dept_event(&pg_locked_map, evt_f, _RET_IP_, __func__, &p->pg_locked_wgen);
->  }
->  
->  static inline void dept_page_wait_on_bit(struct page *p, int bit_nr)
->  {
-> +	unsigned long evt_f;
+> +	amdgpu_bo_handle bo1;
+> +	amdgpu_bo_handle *resources;
+> +	uint64_t bo1_mc;
+> +	volatile unsigned char *bo1_cpu;
+> +	amdgpu_va_handle bo1_va_handle;
 > +
-> +	dept_update_page_usage(p);
-> +	evt_f = dept_event_flags(p, true);
->  	if (bit_nr == PG_locked)
-> -		dept_wait(&pg_locked_map, 1UL, _RET_IP_, __func__, 0, -1L);
-> +		dept_wait(&pg_locked_map, evt_f, _RET_IP_, __func__, 0, -1L);
+> +
+> +	r = amdgpu_bo_alloc_and_map(device_handle,
+> +				sdma_write_length, 4096,
+> +				AMDGPU_GEM_DOMAIN_VRAM,
+> +				AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED, &bo1,
+> +				(void**)&bo1_cpu, &bo1_mc,
+> +				&bo1_va_handle);
+> +	CU_ASSERT_EQUAL(r, 0);
+> +	/* set bo1 */
+> +	memset((void*)bo1_cpu, 0xaa, sdma_write_length);
+> +
+> +	pm4 = calloc(pm4_dw, sizeof(*pm4));
+> +	CU_ASSERT_NOT_EQUAL(pm4, NULL);
+> +
+> +	ib_info = calloc(1, sizeof(*ib_info));
+> +	CU_ASSERT_NOT_EQUAL(ib_info, NULL);
+> +
+> +	ibs_request = calloc(1, sizeof(*ibs_request));
+> +	CU_ASSERT_NOT_EQUAL(ibs_request, NULL);
+> +
+> +	r = amdgpu_cs_ctx_create(device_handle, &context_handle);
+> +	CU_ASSERT_EQUAL(r, 0);
+> +
+> +	posix_memalign(&ptr, sysconf(_SC_PAGE_SIZE), BUFFER_SIZE);
+> +	CU_ASSERT_NOT_EQUAL(ptr, NULL);
+> +	memset(ptr, 0, BUFFER_SIZE);
+> +
+> +	r = amdgpu_create_bo_from_user_mem(device_handle,
+> +					   ptr, BUFFER_SIZE, &buf_handle);
+> +	CU_ASSERT_EQUAL(r, 0);
+> +
+> +	r = amdgpu_va_range_alloc(device_handle,
+> +				  amdgpu_gpu_va_range_general,
+> +				  BUFFER_SIZE, 1, 0, &bo_mc,
+> +				  &va_handle, 0);
+> +	CU_ASSERT_EQUAL(r, 0);
+> +
+> +	r = amdgpu_bo_va_op(buf_handle, 0, BUFFER_SIZE, bo_mc, 0, AMDGPU_VA_OP_MAP);
+> +	CU_ASSERT_EQUAL(r, 0);
+> +
+> +	handle = buf_handle;
+> +
+> +	j = i = 0;
+> +
+> +	if (family_id == AMDGPU_FAMILY_SI)
+> +		pm4[i++] = SDMA_PACKET_SI(SDMA_OPCODE_WRITE, 0, 0, 0,
+> +				sdma_write_length);
+> +	else
+> +		pm4[i++] = SDMA_PACKET(SDMA_OPCODE_WRITE,
+> +				SDMA_WRITE_SUB_OPCODE_LINEAR, 0);
+> +	pm4[i++] = 0xffffffff & bo_mc;
+> +	pm4[i++] = (0xffffffff00000000 & bo_mc) >> 32;
+> +	if (family_id >= AMDGPU_FAMILY_AI)
+> +		pm4[i++] = sdma_write_length - 1;
+> +	else if (family_id != AMDGPU_FAMILY_SI)
+> +		pm4[i++] = sdma_write_length;
+> +
+> +	while (j++ < sdma_write_length)
+> +		pm4[i++] = 0xdeadbeaf;
+> +
+> +	if (!fork()) {
+> +		pm4[0] = 0x0;
+> +		exit(0);
+> +	}
+> +
+> +	amdgpu_test_exec_cs_helper(context_handle,
+> +				   AMDGPU_HW_IP_DMA, 0,
+> +				   i, pm4,
+> +				   1, &handle,
+> +				   ib_info, ibs_request);
+> +
+> +	i = 0;
+> +	sdma_write_length = 1024;
+> +	if (family_id == AMDGPU_FAMILY_SI) {
+> +		pm4[i++] =
+> +		SDMA_PACKET_SI(SDMA_OPCODE_COPY_SI, 0, 0, 0, sdma_write_length);
+> +		pm4[i++] = 0xffffffff & bo1_mc;
+> +		pm4[i++] = 0xffffffff & bo_mc;
+> +		pm4[i++] = (0xffffffff00000000 & bo1_mc) >> 32;
+> +		pm4[i++] = (0xffffffff00000000 & bo_mc) >> 32;
+> +	} else {
+> +		pm4[i++] =
+> +		SDMA_PACKET(SDMA_OPCODE_COPY, SDMA_COPY_SUB_OPCODE_LINEAR, 0);
+> +		if (family_id >= AMDGPU_FAMILY_AI)
+> +			pm4[i++] = sdma_write_length - 1;
+> +		else
+> +			pm4[i++] = sdma_write_length;
+> +		pm4[i++] = 0;
+> +		pm4[i++] = 0xffffffff & bo_mc;
+> +		pm4[i++] = (0xffffffff00000000 & bo_mc) >> 32;
+> +		pm4[i++] = 0xffffffff & bo1_mc;
+> +		pm4[i++] = (0xffffffff00000000 & bo1_mc) >> 32;
+> +	}
+> +	/* prepare resource */
+> +	resources = calloc(2, sizeof(amdgpu_bo_handle));
+> +	CU_ASSERT_NOT_EQUAL(resources, NULL);
+> +
+> +	resources[0] = bo1;
+> +	resources[1] = handle;
+> +	amdgpu_test_exec_cs_helper(context_handle,
+> +					AMDGPU_HW_IP_DMA, 0,
+> +					i, pm4,
+> +					2, resources,
+> +					ib_info, ibs_request);
+> +
+> +	i = 0;
+> +	while (i < 4) {
+> +		CU_ASSERT_EQUAL(((int*)ptr)[i++], 0xdeadbeaf);
+> +	}
+> +
+> +	i = 0;
+> +	while (i < 4) {
+> +		CU_ASSERT_EQUAL(((int*)bo1_cpu)[i++], 0xdeadbeaf);
+> +	}
+> +	free(ibs_request);
+> +	free(ib_info);
+> +	free(pm4);
+> +
+> +	r = amdgpu_bo_va_op(buf_handle, 0, BUFFER_SIZE, bo_mc, 0, AMDGPU_VA_OP_UNMAP);
+> +	CU_ASSERT_EQUAL(r, 0);
+> +	r = amdgpu_va_range_free(va_handle);
+> +	CU_ASSERT_EQUAL(r, 0);
+> +	r = amdgpu_bo_free(buf_handle);
+> +	CU_ASSERT_EQUAL(r, 0);
+> +	free(ptr);
+> +	r = amdgpu_bo_unmap_and_free(bo1, bo1_va_handle, bo1_mc,
+> +						sdma_write_length);
+> +	CU_ASSERT_EQUAL(r, 0);
+> +	r = amdgpu_cs_ctx_free(context_handle);
+> +	CU_ASSERT_EQUAL(r, 0);
+> +
+> +	wait(NULL);
+> +}
+>  
+>  static void amdgpu_command_submission_sdma(void)
+>  {
+>  	amdgpu_command_submission_sdma_write_linear();
+>  	amdgpu_command_submission_sdma_const_fill();
+>  	amdgpu_command_submission_sdma_copy_linear();
+> +	amdgpu_command_userptr_copy_to_vram_linear();
 >  }
 >  
->  static inline void dept_folio_set_bit(struct folio *f, int bit_nr)
-> @@ -245,6 +315,8 @@ static inline void dept_folio_wait_on_bit(struct folio *f, int bit_nr)
->  	dept_page_wait_on_bit(&f->page, bit_nr);
->  }
->  #else
-> +#define dept_set_page_usage(p, t)		do { } while (0)
-> +#define dept_reset_page_usage(p)		do { } while (0)
->  #define dept_page_set_bit(p, bit_nr)		do { } while (0)
->  #define dept_page_clear_bit(p, bit_nr)		do { } while (0)
->  #define dept_page_wait_on_bit(p, bit_nr)	do { } while (0)
-> -- 
-> 2.17.1
+>  static void amdgpu_command_submission_multi_fence_wait_all(bool wait_all)
+
