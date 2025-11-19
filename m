@@ -2,73 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE361C6F0E9
-	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 14:54:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2C86C6F15E
+	for <lists+dri-devel@lfdr.de>; Wed, 19 Nov 2025 14:57:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AEB610E626;
-	Wed, 19 Nov 2025 13:54:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F4D810E5D9;
+	Wed, 19 Nov 2025 13:57:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lOc+pw0S";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ui+V5JMo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4CBB10E626
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 13:54:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4E82840251;
- Wed, 19 Nov 2025 13:54:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4089C2BCB6;
- Wed, 19 Nov 2025 13:54:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763560452;
- bh=khDyF27Ua+YvAG563h+Mn5TVNwmjUpzwzSeY1s3ZrlM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lOc+pw0SropUFqAbVYzMoWEHW1jJDTrt97jUDXz56yN0le/B+KOyXK6xnERbWqNdy
- LBjMT4gf6zJ5xLQ64pQkqww1I8qSD+7y/IDRApuyDvzXjq9BFKkEOeCi8bxA/oo1gH
- 70+OJhKd6XWXCZEn57dkcHhMJy+/OipA/ho8GrlgsWfIHeiMPKdy6djUHim0G3aLYZ
- Smu4HN5s73AeSqAjTtbTpkSpzB4YO7/XVcv9jfbhTGeKtpPOUqXybhXbJn04qeXgZf
- DJ8SJ2zHpC/cN0o1khK2H92TSVtXxhG0/mnVCa20BOeZHJlnQ/YkrpnwOm6k6yFofi
- vqwHi5UdKLC/g==
-Date: Wed, 19 Nov 2025 15:54:07 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Cc: Keith Busch <kbusch@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <skolothumtho@nvidia.com>,
- Alex Williamson <alex@shazbot.org>,
- Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
- Alex Mastro <amastro@fb.com>, Nicolin Chen <nicolinc@nvidia.com>
-Subject: Re: [PATCH v8 09/11] vfio/pci: Enable peer-to-peer DMA transactions
- by default
-Message-ID: <20251119135407.GG18335@unreal>
-References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
- <20251111-dmabuf-vfio-v8-9-fd9aa5df478f@nvidia.com>
- <BN9PR11MB52767F78317AF3AB94A5B7D38CD6A@BN9PR11MB5276.namprd11.prod.outlook.com>
- <aRzUpmUkDy-qN5c1@kbusch-mbp>
- <BN9PR11MB52768D54FF42AB11C49202C98CD7A@BN9PR11MB5276.namprd11.prod.outlook.com>
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com
+ [209.85.222.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57A7510E5D9
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 13:57:25 +0000 (UTC)
+Received: by mail-ua1-f45.google.com with SMTP id
+ a1e0cc1a2514c-934fb15ee9dso1792171241.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 05:57:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1763560644; x=1764165444; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=de5iNSvcqaaOwtf/lxZWP8NugFiYs5OOT1HDIPeVtSo=;
+ b=Ui+V5JMo0vxT8Lgl6ki1ox17d4sRBobXirm6gwb4vtQAGGj4BXLvx+q1R00SVA/cgj
+ hOxS4qX1aoxFQQ/drgdc05U+3duThZuwt6YICnaJQxixdZUw4nWFaTWakpz2w6OB4Rkl
+ L3eqckcOBrovbi91PBt9P6sN9RvY9iPnheSU+vMvcNGA2mqOWpGU5PkAmtml7i9iGY5P
+ 7oW03PICSG7b5nicLuHuZ4gIvcGwIVc5v7CsqngH8fH2ZOW/oic+F6mX3kEJePv9T4sa
+ US/EIoeIa1tH9novnggEIsg0ZgQA6nnrBR3rgx1eLReDb/YGBkUZffzdC7OCPoIDLQmT
+ BeeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763560644; x=1764165444;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=de5iNSvcqaaOwtf/lxZWP8NugFiYs5OOT1HDIPeVtSo=;
+ b=FEUGWW5AQyflk9koLNkTqTVUUS3e1CY4Aef1yobolEV/lWPXdPVBKG/oIsgSdOVbhr
+ Nzc0QG/nHmQm/R5PEvm5KTfxzAYCJ2+4LxY06dK2PV+sZlSWasZLzaik/9TqZl69M9LL
+ zkazwcsMkLRZNb0jKLqqg4IXKr4sz2Q18kDkV4COMqvPyIqwWHXdAbubyCKwS1b2u129
+ PQvJnD6/sSBDDPXw1efhPfLmWi2pjNTpuSiBtkxDZ1JyBIM8pUNx713Y+Etx5RwU20Sh
+ MGSv4tIPO4eFduR+IMrqWXnlfQv6qACVvkL0sh7kr9y68reRyKQAqdMBUbfqN0FbCOAC
+ 65JQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVmYTNRxej/w0A9DGlyfX9ItsQYH4tSsrrQpB63VC1JqYy4pnWWoo8gl4SUwpuLXHpBM6owwvSLE+Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw5bpx6SuVYsQkAsdF5lc3shEYf7pF/SVWzBhEM/0pQ8lMsPbMv
+ MdowoAkHlIiS5piUXWo1cieT39AdKQJlVKTQ+YYeNNuXpioGNoBRNRxg
+X-Gm-Gg: ASbGncs9BuNwozcwexcuJUDAUVE+njXoQXp5VoHCqw/r1eq5so8q/eeX0XuuuxvFxux
+ tbIrb2I8i3/3d+jPCUE0R42EdkErq+x6YWjXtnUIwmUphDbynez9pE2+5meYiAIpbQfNuSLL7S4
+ 5jN+1OiLfmlAU6SLYrmY78oHlE6EQ3zXRbS5FcRIcYCMvXRJBkbKqrHcNDjXqZwrJZVwBRzGuYa
+ lbdcUm6GpvgM4ifL38LyZf+45GTYP6KD965F4BPS3qYLmVX2bUJWGyGpHaisnUXOqYJGyQ5/D1A
+ uCIHdBJIQNCE4KpU4P85BG+hx/eyF1aFSMC+FD9lFsJlCQvRjDt+MIEjZ+aC+aj+C69PpZAiZfR
+ 0i9qDhHP+BN9W34vkSOWb6uNI1/1L9T0v2MiRpgLf4eiRvLHr0KGdQ05Bu4JgsbWsWuY+4vKppd
+ nKXu2ESJOPtSUwxtpZj7g4avoJqI4ejAR1KPFU+w==
+X-Google-Smtp-Source: AGHT+IGa7rzG95o6W6cj6AePLxJr9+GNclEXHGzK7/ZUIMQGaEM6Y41RRqYBi1xyySb7CTzboZJPMg==
+X-Received: by 2002:a05:6102:2906:b0:5d7:de08:dcd6 with SMTP id
+ ada2fe7eead31-5dfc54eb53dmr6337612137.2.1763560644030; 
+ Wed, 19 Nov 2025 05:57:24 -0800 (PST)
+Received: from [192.168.1.145] ([104.203.11.126])
+ by smtp.gmail.com with ESMTPSA id
+ ada2fe7eead31-5dfb726ff96sm6675438137.14.2025.11.19.05.57.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 19 Nov 2025 05:57:23 -0800 (PST)
+Message-ID: <4ec784a5-0f67-4fd3-9d51-d89a9fa9a385@gmail.com>
+Date: Wed, 19 Nov 2025 08:57:21 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB52768D54FF42AB11C49202C98CD7A@BN9PR11MB5276.namprd11.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev: q40fb: request memory region
+To: Sukrut Heroorkar <hsukrut3@gmail.com>, Helge Deller <deller@gmx.de>,
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+ "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Cc: shuah@kernel.org, david.hunter.linux@gmail.com
+References: <20251118095700.393474-1-hsukrut3@gmail.com>
+Content-Language: en-US
+From: David Hunter <david.hunter.linux@gmail.com>
+In-Reply-To: <20251118095700.393474-1-hsukrut3@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,27 +95,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 19, 2025 at 12:02:02AM +0000, Tian, Kevin wrote:
-> > From: Keith Busch <kbusch@kernel.org>
-> > Sent: Wednesday, November 19, 2025 4:19 AM
-> > 
-> > On Tue, Nov 18, 2025 at 07:18:36AM +0000, Tian, Kevin wrote:
-> > > > From: Leon Romanovsky <leon@kernel.org>
-> > > > Sent: Tuesday, November 11, 2025 5:58 PM
-> > > >
-> > > > From: Leon Romanovsky <leonro@nvidia.com>
-> > >
-> > > not required with only your own s-o-b
-> > 
-> > That's automatically appended when the sender and signer don't match.
-> > It's not uncommon for developers to send from a kernel.org email but
-> > sign off with a corporate account, or the other way around.
+On 11/18/25 04:56, Sukrut Heroorkar wrote:
+> The q40fb driver uses a fixed physical address but never reserves
+> the corresponding I/O region. Reserve the range  as suggested in
+> Documentation/gpu/todo.rst ("Request memory regions in all fbdev drivers").
 > 
-> Good to know.
+> No functional change beyond claming the resource. This change is compile
+> tested only.
 
-Yes, in addition, I used to separate between code authorship and my
-open-source activity. Code belongs to my employer and this is why corporate
-address is used as an author, but all emails and communications are coming from
-my kernel.org account.
+Reserving memory is a significant "functional" change, so you should not
+put "No functional change...". I have noticed that in the mentorship
+program, mentees might say this often times when they have not done
+testing.
 
-Thanks
+Thank you for describing that you did a compile test, but I believe that
+more testing should be done before this patch is accepted.
+
+As a result, if you are unable to test this device, I believe that an
+RFT tag should be used. Also, the testing information goes below the
+"---". This puts it in the change log and would make it so that if a
+patch is accepted, everything below the change log is not put in the
+commit message.
+
+> 
+> Signed-off-by: Sukrut Heroorkar <hsukrut3@gmail.com>
+> ---
+>  drivers/video/fbdev/q40fb.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/video/fbdev/q40fb.c b/drivers/video/fbdev/q40fb.c
+> index 1ff8fa176124..935260326c6f 100644
+> --- a/drivers/video/fbdev/q40fb.c
+> +++ b/drivers/video/fbdev/q40fb.c
+> @@ -101,6 +101,12 @@ static int q40fb_probe(struct platform_device *dev)
+>  	info->par = NULL;
+>  	info->screen_base = (char *) q40fb_fix.smem_start;
+>  
+> +	if (!request_mem_region(q40fb_fix.smem_start, q40fb_fix.smem_len,
+> +				"q40fb")) {
+> +		dev_err(&dev->dev, "cannot reserve video memory at 0x%lx\n",
+> +			q40fb_fix.smem_start);
+> +	}
+> +
+
+Is this correct? It seems to me that in the case of an error, all you
+are doing is simply logging the error and proceeding. Would this cause
+the device to continue to try to use space that it was not able to
+reserve? I do not have experience with this device or the driver, but
+that does not seem correct to me.
+
+>  	if (fb_alloc_cmap(&info->cmap, 256, 0) < 0) {
+>  		framebuffer_release(info);
+>  		return -ENOMEM;
+> @@ -144,6 +150,7 @@ static int __init q40fb_init(void)
+>  		if (ret)
+>  			platform_driver_unregister(&q40fb_driver);
+>  	}
+> +
+>  	return ret;
+>  }
+>  
+
