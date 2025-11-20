@@ -2,93 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7A6C756F7
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 17:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD1CC75715
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 17:43:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 037A610E78A;
-	Thu, 20 Nov 2025 16:43:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 312F710E795;
+	Thu, 20 Nov 2025 16:43:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="KpmUK30d";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="gyI8r2Gx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f227.google.com (mail-pl1-f227.google.com
- [209.85.214.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D54110E78B
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 16:43:04 +0000 (UTC)
-Received: by mail-pl1-f227.google.com with SMTP id
- d9443c01a7336-298456bb53aso14513695ad.0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 08:43:04 -0800 (PST)
+Received: from mail-io1-f97.google.com (mail-io1-f97.google.com
+ [209.85.166.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3A3D510E78C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 16:43:49 +0000 (UTC)
+Received: by mail-io1-f97.google.com with SMTP id
+ ca18e2360f4ac-9491ba846b2so41020539f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 08:43:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763656984; x=1764261784;
+ d=1e100.net; s=20230601; t=1763657028; x=1764261828;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:dkim-signature:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TEpS+2UmIgYQnyCJdO2gZgarWG/asYABHmbrxYaLbUg=;
- b=ESQYFjMmXsECEuOYGdaiUiJridvcNUyeK+pIwwm0zBuoEPGlS4Ci/RxkTpHy4tuIRH
- 19ftxR7zgcFrj0TgT8SD37c4uMTKv9pphZe1brGSzZY1B4zBlpJOv1I9nsNFjSkI+2fF
- qDcvTMJWevRggu88mhnzRl1XL2PcdHzbJt7AlkgipS5eZWT5hUhUnqdgjX8CM3X8pM1s
- uj2Vw8HdYSjhWDReVGnoTmerniUrPReEvSiBIOqU+ImF+fN94XIJrEnwM/XRMcjY/jHE
- q92W75+K9iaoTVZ8Pt4eWK7JwrqPaHHbvjK5RudGgq6ruZmU7WjJFshK0EreybBhzZpQ
- P6Qg==
-X-Gm-Message-State: AOJu0YwG8Esgq8OsD0/aWWPAnXGNSm/2cpXICmVwiUJKsAzNXVyy3lkh
- 8K0ssMvmm1K3y8SAx84iwvLGz2c3/YDSy5sv7uSDU1lEW/eFyb3wUOm/Bq2b+zSsX9ZTDal46D9
- hM0/6ObygxmHxZI+JjxXQrF0OAX+WlOh6dW2Xxd8OHUat9jwfAoHlQTGCak9XotWbeOqX8908n0
- OSXmwSdnAjGzkyyALVbnJTIsJGDdK8vD5Sdf2w5/7ogVkgaNBYcjei0G6t4uEEn9bt+r7JHS493
- twhImVe6cG5MKcKaUbx
-X-Gm-Gg: ASbGnctz2nT5hrWxQFPXp7hS8YDTwq9Da76aXD7v6immdpilxNm4StCmGmskOTJ/IUo
- X+8Ug5B1ZqePlsHQaN+OTZQqGlgZJOQCGthrtZtTcyO6d9b8q9IE36coHjODUtIcVw2WlYI+X2G
- 8l2ASgmNoypHEs8AnQn9ntwffDQPxNaV/m5ZPB+azWvL15IOqHL44Y4rXX4pZraWCgiYkJHX5eC
- FVF27oGN8/7HXGOsyO2E9R+ahjtfF1+cX2AKYlWCEItPpB017SFGg9a8Hm4pP/8w5LEnd9sWo7F
- 6CRjQ+DRfNlSN9COrZNcffOoKx+Ecb9C1JzswQOW3/TBdRSIU1IJqUrWu6VvbmfaXhVWYjd9Oor
- 0spbtxMbPerhmFN0RB27iO78qFGtfTeBr4aJ5+Wh/pwbUVUbk2DttKHmBIrO+SyH9t+r3wYBgAR
- Tc0gbwy4Q9bO0fVONT8JsYtwUr4mRN+wl21uewJZAYXg==
-X-Google-Smtp-Source: AGHT+IGwVsCDypQwRLYG8WLp4E6vIm9m7bZvoI5p35C2h0Btixt27M7QHJM1I48QRApSqdzzrh17tHDEkGIu
-X-Received: by 2002:a17:903:4b4b:b0:297:ece8:a3cb with SMTP id
- d9443c01a7336-29b5b07b7cemr48175485ad.25.1763656983832; 
- Thu, 20 Nov 2025 08:43:03 -0800 (PST)
+ bh=nMZNkP+DMRIZ8Ue4PkV8MekzAjhPPdsd8snKP/PE7qE=;
+ b=OEpKJRc8PUW9dXKufgHycNhqWBJYApdyzg9t9ALif0XplomgBU6RjAtjgMWms0J5by
+ /9jJDeJAgU7E4RtFfsvAooEThIHZV+Y4RbJuR9pswsMQGkQD4lou3Z2MB0MEaevr6FLt
+ dXyU4EFC9mB2vQaCVL1zYGe0AIDOTpXvkW3AOajTPXH1qMpahqR+Mv9tC2HyB6Soi1hq
+ 6/713bRR2Cj6RhrfTsBwwCS9opNzvlqpcTiRjJycZgMKESfQcVdanreitsuN5Yw7HasL
+ hwpW0NRblQtNdSISnLpjpbIin4yu+Rr1EZOn3+Q+lilk1jn3r8odbvVcf99l8gHpHKdo
+ YE+A==
+X-Gm-Message-State: AOJu0YwCRN/FcfEY9SYYsFP+zobIc2qHdfcfHT2PeO0yo3AJlf/4Xxfl
+ uFyVOiS6JB7EJK7axs6MrpoeRO2tnXumm/k2/uMl2pMlUMdO7OLQ9/50vENbGBYf4FwsJ6kxtwH
+ rYVJtibW6aXHR6X3r1E52RAemD7SpWMWg6VcKcSTxEH69bzAFhqzZnoWVXmuOp9OaRQC9ddEiLF
+ LW2eIMADfJWeqiqAxN4LFb+GUUTKHjdv4ZMTXOysrGUG+qyrvUrJom8xy1KWBSiR48qVL3qnGwy
+ Dn2PQxdiw+X3Fww0k0V
+X-Gm-Gg: ASbGncsOO7EdDN2O7c+1G9j5VLiV4dJR+Eqz1XOX7MtlnVelA0QMapS9jiovYTPoRlU
+ 67z6saoGYhuWCuYotKw8EDtodHKXuowp3D2hmePXo61ECBRhvM25+j3u1H1DuYOEn+g6WbikqnF
+ R0IN7CpbnZQ24tQ6m0SFMpRfC9ubeOpe+rUtMXhpysXJYbM02L9ww32eSgP1ERkLddHJ/mkC7gv
+ JEsGI1PafoQHPs2Y1z9XkQ9yDe1gQkb60ipxHCc5bkGxW6mX1vnzOw9X/oWiSrlwj35kZ3spTan
+ 4MKBcB0Vm92NaIV1scWD6EbYYBRmczD/PnNkse+lfUAoZdDtqRrVfVA544zwYaKe0/bMweKrw/C
+ laFeSB6Z7AUEqVrRJ5Pn2Jky4T1Ri5Sj3wsPxwFiOkLHmCtZbzbeWkIGA4Ejl7ZWs6mbmcnzhsQ
+ VAJF0NhWuzY9NMBWeNzI1zFU2rJiY7unMUkG4evxeMOw==
+X-Google-Smtp-Source: AGHT+IGE/z95XItyhUclflx/6Vau7qjJTQbA/f5COa9dMUO+xSgQzRW4igSIeBycywQqxoqnnp9fsxy1s7T/
+X-Received: by 2002:a05:6602:1413:b0:938:9f22:ed34 with SMTP id
+ ca18e2360f4ac-94938af1c7bmr246310239f.16.1763657028233; 
+ Thu, 20 Nov 2025 08:43:48 -0800 (PST)
 Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com
- (address-144-49-247-77.dlp.protect.broadcom.com. [144.49.247.77])
+ (address-144-49-247-17.dlp.protect.broadcom.com. [144.49.247.17])
  by smtp-relay.gmail.com with ESMTPS id
- d9443c01a7336-29b5b1060b6sm3557665ad.10.2025.11.20.08.43.03
+ ca18e2360f4ac-949385cb727sm13372339f.6.2025.11.20.08.43.46
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Nov 2025 08:43:03 -0800 (PST)
+ Thu, 20 Nov 2025 08:43:48 -0800 (PST)
 X-Relaying-Domain: broadcom.com
 X-CFilter-Loop: Reflected
-Received: by mail-lf1-f70.google.com with SMTP id
- 2adb3069b0e04-5957abd4ddcso1268434e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 08:43:02 -0800 (PST)
+Received: by mail-lf1-f71.google.com with SMTP id
+ 2adb3069b0e04-5944d65a8f5so591374e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 08:43:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1763656981; x=1764261781;
+ d=broadcom.com; s=google; t=1763657024; x=1764261824;
  darn=lists.freedesktop.org; 
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=TEpS+2UmIgYQnyCJdO2gZgarWG/asYABHmbrxYaLbUg=;
- b=KpmUK30dWymH/eedkCfQ3yMbsSuANvJG8ZRXt3VAHfKd+6Wfh62eOO/Q1tOEWoYY3M
- wCGENU4pVbn9S2DbgTbXBnwLyO9UE2lHDLem0M79TjrByThZykOjsXUsb/oLXQdcoK5U
- +RswH1kUA46jKDa5eZKvkUo9oe9dgptvDxYY0=
-X-Received: by 2002:a05:6512:acc:b0:595:81c1:c55 with SMTP id
- 2adb3069b0e04-5969e2ae965mr1497859e87.8.1763656981076; 
- Thu, 20 Nov 2025 08:43:01 -0800 (PST)
-X-Received: by 2002:a05:6512:acc:b0:595:81c1:c55 with SMTP id
- 2adb3069b0e04-5969e2ae965mr1497849e87.8.1763656980521; Thu, 20 Nov 2025
- 08:43:00 -0800 (PST)
+ bh=nMZNkP+DMRIZ8Ue4PkV8MekzAjhPPdsd8snKP/PE7qE=;
+ b=gyI8r2GxYZpXnp2WRM4pHTdhKxBsIShC8Ne9sPlr8ygNCCiNyhLV3wIL4vC2kxNIS7
+ XGsQBsXMY9IPa16TDhFdChWlfHRM+TKhX5WGZ7OajaZUpIL3XsoPY/+rFKaMYro6kT/n
+ hsZwOB6qStpySe8TSD2sh82QWBZMNxxXJGLzY=
+X-Received: by 2002:a05:6512:1252:b0:595:9da1:500e with SMTP id
+ 2adb3069b0e04-5969e2d05f5mr1348112e87.9.1763657024052; 
+ Thu, 20 Nov 2025 08:43:44 -0800 (PST)
+X-Received: by 2002:a05:6512:1252:b0:595:9da1:500e with SMTP id
+ 2adb3069b0e04-5969e2d05f5mr1348109e87.9.1763657023579; Thu, 20 Nov 2025
+ 08:43:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20251114184702.1909989-1-ian.forbes@broadcom.com>
-In-Reply-To: <20251114184702.1909989-1-ian.forbes@broadcom.com>
+References: <20251114203703.1946616-1-ian.forbes@broadcom.com>
+In-Reply-To: <20251114203703.1946616-1-ian.forbes@broadcom.com>
 From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Thu, 20 Nov 2025 11:42:47 -0500
-X-Gm-Features: AWmQ_bmBZMy_p4UQgmJu1SBnT9E-DfBrSL2e2EQbOTnmejLFE6OsoChXW5-US0o
-Message-ID: <CABQX2QP=F5zFzCub1H_hhBw4Y8OpyeHDNT=uj2CeSjj77gSRcg@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/vmwgfx: Move the validation duplicates hashtable
- onto the stack
+Date: Thu, 20 Nov 2025 11:43:30 -0500
+X-Gm-Features: AWmQ_bnMd52X75-Z9l-q8N0jTsc03kF-qqluhT-2KCDc6exSIvbYca6DVqnaB9w
+Message-ID: <CABQX2QNEROVXKA0e7KzHM3dSrBr2kW5oha08pyq3TN_iK6_7Zg@mail.gmail.com>
+Subject: Re: [PATCH] drm/vmwgfx: Fix KMS with 3D on HW version 10
 To: Ian Forbes <ian.forbes@broadcom.com>
 Cc: dri-devel@lists.freedesktop.org, bcm-kernel-feedback-list@broadcom.com, 
  maaz.mombasawala@broadcom.com
 X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000e4e63a0644096319"
+ micalg=sha-256; boundary="000000000000723f21064409662b"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,347 +103,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000e4e63a0644096319
+--000000000000723f21064409662b
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 14, 2025 at 1:47=E2=80=AFPM Ian Forbes <ian.forbes@broadcom.com=
+On Fri, Nov 14, 2025 at 3:37=E2=80=AFPM Ian Forbes <ian.forbes@broadcom.com=
 > wrote:
 >
-> This hashtable is only used under a lock in vmw_execbuf_process and needs
-> to be cleared before vmw_execbuf_process returns otherwise bad things
-> happen because the nodes that are stored in the table come from an arena
-> allocator that is cleared at the end of the function.
+> HW version 10 does not have GB Surfaces so there is no backing buffer for
+> surface backed FBs. This would result in a nullptr dereference and crash
+> the driver causing a black screen.
 >
-> Rather than wasting time cleaning up the hashtable move it onto the stack
-> so we don't have to do any cleanup.
->
+> Fixes: 965544150d1c ("drm/vmwgfx: Refactor cursor handling")
 > Signed-off-by: Ian Forbes <ian.forbes@broadcom.com>
 > ---
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
 >
-> v2:
->  - remove sw_context from the validation context
->
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.c        |  9 --
->  drivers/gpu/drm/vmwgfx/vmwgfx_drv.h        |  3 -
->  drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c    |  7 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c        |  2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c       |  6 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c       |  4 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_validation.c | 98 ++++------------------
->  drivers/gpu/drm/vmwgfx/vmwgfx_validation.h | 18 ++--
->  8 files changed, 32 insertions(+), 115 deletions(-)
->
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_drv.c
-> index abceffea3683..3ac9eb8a2e21 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-> @@ -814,13 +814,6 @@ static void vmw_write_driver_id(struct vmw_private *=
-dev)
->         }
->  }
->
-> -static void vmw_sw_context_init(struct vmw_private *dev_priv)
-> -{
-> -       struct vmw_sw_context *sw_context =3D &dev_priv->ctx;
-> -
-> -       hash_init(sw_context->res_ht);
-> -}
-> -
->  static void vmw_sw_context_fini(struct vmw_private *dev_priv)
->  {
->         struct vmw_sw_context *sw_context =3D &dev_priv->ctx;
-> @@ -836,8 +829,6 @@ static int vmw_driver_load(struct vmw_private *dev_pr=
-iv, u32 pci_id)
->         enum vmw_res_type i;
->         bool refuse_dma =3D false;
->
-> -       vmw_sw_context_init(dev_priv);
-> -
->         mutex_init(&dev_priv->cmdbuf_mutex);
->         mutex_init(&dev_priv->binding_mutex);
->         spin_lock_init(&dev_priv->resource_lock);
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx=
-/vmwgfx_drv.h
-> index 62db3f3f3aa0..f7c760d72b85 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-> @@ -79,7 +79,6 @@
->  #define VMW_RES_STREAM ttm_driver_type2
->  #define VMW_RES_FENCE ttm_driver_type3
->  #define VMW_RES_SHADER ttm_driver_type4
-> -#define VMW_RES_HT_ORDER 12
->
->  #define MKSSTAT_CAPACITY_LOG2 5U
->  #define MKSSTAT_CAPACITY (1U << MKSSTAT_CAPACITY_LOG2)
-> @@ -348,7 +347,6 @@ struct vmw_ctx_validation_info;
->
->  /**
->   * struct vmw_sw_context - Command submission context
-> - * @res_ht: Pointer hash table used to find validation duplicates
->   * @kernel: Whether the command buffer originates from kernel code rathe=
-r
->   * than from user-space
->   * @fp: If @kernel is false, points to the file of the client. Otherwise
-> @@ -378,7 +376,6 @@ struct vmw_ctx_validation_info;
->   * @ctx: The validation context
->   */
->  struct vmw_sw_context{
-> -       DECLARE_HASHTABLE(res_ht, VMW_RES_HT_ORDER);
->         bool kernel;
->         struct vmw_fpriv *fp;
->         struct drm_file *filp;
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c b/drivers/gpu/drm/vm=
-wgfx/vmwgfx_execbuf.c
-> index 3057f8baa7d2..3a211baa8b88 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
-> @@ -4094,7 +4094,7 @@ int vmw_execbuf_process(struct drm_file *file_priv,
->         int ret;
->         int32_t out_fence_fd =3D -1;
->         struct sync_file *sync_file =3D NULL;
-> -       DECLARE_VAL_CONTEXT(val_ctx, sw_context, 1);
-> +       DECLARE_VAL_CONTEXT(val_ctx, 1);
->
->         if (flags & DRM_VMW_EXECBUF_FLAG_EXPORT_FENCE_FD) {
->                 out_fence_fd =3D get_unused_fd_flags(O_CLOEXEC);
-> @@ -4184,8 +4184,6 @@ int vmw_execbuf_process(struct drm_file *file_priv,
->         if (unlikely(ret !=3D 0))
->                 goto out_err;
->
-> -       vmw_validation_drop_ht(&val_ctx);
-> -
->         ret =3D mutex_lock_interruptible(&dev_priv->binding_mutex);
->         if (unlikely(ret !=3D 0)) {
->                 ret =3D -ERESTARTSYS;
-> @@ -4294,7 +4292,6 @@ int vmw_execbuf_process(struct drm_file *file_priv,
->                 __vmw_execbuf_release_pinned_bo(dev_priv, NULL);
->  out_unlock:
->         vmw_cmdbuf_res_revert(&sw_context->staged_cmd_res);
-> -       vmw_validation_drop_ht(&val_ctx);
->         WARN_ON(!list_empty(&sw_context->ctx_list));
->         mutex_unlock(&dev_priv->cmdbuf_mutex);
->
-> @@ -4363,7 +4360,7 @@ void __vmw_execbuf_release_pinned_bo(struct vmw_pri=
-vate *dev_priv,
->  {
->         int ret =3D 0;
->         struct vmw_fence_obj *lfence =3D NULL;
-> -       DECLARE_VAL_CONTEXT(val_ctx, NULL, 0);
-> +       DECLARE_VAL_CONTEXT(val_ctx, 0);
->
->         if (dev_priv->pinned_bo =3D=3D NULL)
->                 goto out_unlock;
 > diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx=
 /vmwgfx_kms.c
-> index 07f2a5ead34b..4446f25e526d 100644
+> index 87448e86d3b3..4446f25e526d 100644
 > --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
 > +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
-> @@ -1739,7 +1739,7 @@ int vmw_du_helper_plane_update(struct vmw_du_update=
-_plane *update)
->         struct drm_atomic_helper_damage_iter iter;
->         struct drm_rect clip;
->         struct drm_rect bb;
-> -       DECLARE_VAL_CONTEXT(val_ctx, NULL, 0);
-> +       DECLARE_VAL_CONTEXT(val_ctx, 0);
->         uint32_t reserved_size =3D 0;
->         uint32_t submit_size =3D 0;
->         uint32_t curr_size =3D 0;
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c b/drivers/gpu/drm/vmwgf=
-x/vmwgfx_scrn.c
-> index 5f5f5a94301f..4e85ba5206ae 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c
-> @@ -1104,7 +1104,7 @@ int vmw_kms_sou_do_surface_dirty(struct vmw_private=
- *dev_priv,
->         struct vmw_framebuffer_surface *vfbs =3D
->                 container_of(framebuffer, typeof(*vfbs), base);
->         struct vmw_kms_sou_surface_dirty sdirty;
-> -       DECLARE_VAL_CONTEXT(val_ctx, NULL, 0);
-> +       DECLARE_VAL_CONTEXT(val_ctx, 0);
->         int ret;
->
->         if (!srf)
-> @@ -1219,7 +1219,7 @@ int vmw_kms_sou_do_bo_dirty(struct vmw_private *dev=
-_priv,
->                 container_of(framebuffer, struct vmw_framebuffer_bo,
->                              base)->buffer;
->         struct vmw_kms_dirty dirty;
-> -       DECLARE_VAL_CONTEXT(val_ctx, NULL, 0);
-> +       DECLARE_VAL_CONTEXT(val_ctx, 0);
->         int ret;
->
->         vmw_bo_placement_set(buf, VMW_BO_DOMAIN_GMR | VMW_BO_DOMAIN_VRAM,
-> @@ -1327,7 +1327,7 @@ int vmw_kms_sou_readback(struct vmw_private *dev_pr=
-iv,
->         struct vmw_bo *buf =3D
->                 container_of(vfb, struct vmw_framebuffer_bo, base)->buffe=
-r;
->         struct vmw_kms_dirty dirty;
-> -       DECLARE_VAL_CONTEXT(val_ctx, NULL, 0);
-> +       DECLARE_VAL_CONTEXT(val_ctx, 0);
->         int ret;
->
->         vmw_bo_placement_set(buf, VMW_BO_DOMAIN_GMR | VMW_BO_DOMAIN_VRAM,
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c b/drivers/gpu/drm/vmwgf=
-x/vmwgfx_stdu.c
-> index 37cb742ba1d9..faacfef7baa5 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c
-> @@ -566,7 +566,7 @@ int vmw_kms_stdu_readback(struct vmw_private *dev_pri=
-v,
->                 container_of(vfb, struct vmw_framebuffer_bo, base)->buffe=
-r;
->         struct vmw_stdu_dirty ddirty;
->         int ret;
-> -       DECLARE_VAL_CONTEXT(val_ctx, NULL, 0);
-> +       DECLARE_VAL_CONTEXT(val_ctx, 0);
->
->         /*
->          * The GMR domain might seem confusing because it might seem like=
- it should
-> @@ -733,7 +733,7 @@ int vmw_kms_stdu_surface_dirty(struct vmw_private *de=
-v_priv,
->         struct vmw_framebuffer_surface *vfbs =3D
->                 container_of(framebuffer, typeof(*vfbs), base);
->         struct vmw_stdu_dirty sdirty;
-> -       DECLARE_VAL_CONTEXT(val_ctx, NULL, 0);
-> +       DECLARE_VAL_CONTEXT(val_ctx, 0);
->         int ret;
->
->         if (!srf)
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c b/drivers/gpu/drm=
-/vmwgfx/vmwgfx_validation.c
-> index 35dc94c3db39..508809712398 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_validation.c
-> @@ -162,24 +162,13 @@ vmw_validation_find_bo_dup(struct vmw_validation_co=
-ntext *ctx,
->         if (!ctx->merge_dups)
->                 return NULL;
->
-> -       if (ctx->sw_context) {
-> -               struct vmwgfx_hash_item *hash;
-> -               unsigned long key =3D (unsigned long) vbo;
-> -
-> -               hash_for_each_possible_rcu(ctx->sw_context->res_ht, hash,=
- head, key) {
-> -                       if (hash->key =3D=3D key) {
-> -                               bo_node =3D container_of(hash, typeof(*bo=
-_node), hash);
-> -                               break;
-> -                       }
-> -               }
-> -       } else {
-> -               struct  vmw_validation_bo_node *entry;
-> +       struct vmwgfx_hash_item *hash;
-> +       unsigned long key =3D (unsigned long)vbo;
->
-> -               list_for_each_entry(entry, &ctx->bo_list, base.head) {
-> -                       if (entry->base.bo =3D=3D &vbo->tbo) {
-> -                               bo_node =3D entry;
-> -                               break;
-> -                       }
-> +       hash_for_each_possible(ctx->res_ht, hash, head, key) {
-> +               if (hash->key =3D=3D key) {
-> +                       bo_node =3D container_of(hash, typeof(*bo_node), =
-hash);
-> +                       break;
->                 }
+> @@ -767,13 +767,15 @@ static struct drm_framebuffer *vmw_kms_fb_create(st=
+ruct drm_device *dev,
+>                 return ERR_PTR(ret);
 >         }
 >
-> @@ -204,35 +193,15 @@ vmw_validation_find_res_dup(struct vmw_validation_c=
-ontext *ctx,
->         if (!ctx->merge_dups)
->                 return NULL;
->
-> -       if (ctx->sw_context) {
-> -               struct vmwgfx_hash_item *hash;
-> -               unsigned long key =3D (unsigned long) res;
-> -
-> -               hash_for_each_possible_rcu(ctx->sw_context->res_ht, hash,=
- head, key) {
-> -                       if (hash->key =3D=3D key) {
-> -                               res_node =3D container_of(hash, typeof(*r=
-es_node), hash);
-> -                               break;
-> -                       }
-> -               }
-> -       } else {
-> -               struct  vmw_validation_res_node *entry;
-> -
-> -               list_for_each_entry(entry, &ctx->resource_ctx_list, head)=
- {
-> -                       if (entry->res =3D=3D res) {
-> -                               res_node =3D entry;
-> -                               goto out;
-> -                       }
-> -               }
-> +       struct vmwgfx_hash_item *hash;
-> +       unsigned long key =3D (unsigned long)res;
->
-> -               list_for_each_entry(entry, &ctx->resource_list, head) {
-> -                       if (entry->res =3D=3D res) {
-> -                               res_node =3D entry;
-> -                               break;
-> -                       }
-> +       hash_for_each_possible(ctx->res_ht, hash, head, key) {
-> +               if (hash->key =3D=3D key) {
-> +                       res_node =3D container_of(hash, typeof(*res_node)=
-, hash);
-> +                       break;
->                 }
-> -
+> -       ttm_bo_reserve(&bo->tbo, false, false, NULL);
+> -       ret =3D vmw_bo_dirty_add(bo);
+> -       if (!ret && surface && surface->res.func->dirty_alloc) {
+> -               surface->res.coherent =3D true;
+> -               ret =3D surface->res.func->dirty_alloc(&surface->res);
+> +       if (bo) {
+> +               ttm_bo_reserve(&bo->tbo, false, false, NULL);
+> +               ret =3D vmw_bo_dirty_add(bo);
+> +               if (!ret && surface && surface->res.func->dirty_alloc) {
+> +                       surface->res.coherent =3D true;
+> +                       ret =3D surface->res.func->dirty_alloc(&surface->=
+res);
+> +               }
+> +               ttm_bo_unreserve(&bo->tbo);
 >         }
-> -out:
->         return res_node;
+> -       ttm_bo_unreserve(&bo->tbo);
+>
+>         return &vfb->base;
 >  }
+> --
+> 2.51.1
 >
-> @@ -256,10 +225,9 @@ int vmw_validation_add_bo(struct vmw_validation_cont=
-ext *ctx,
->                 if (!bo_node)
->                         return -ENOMEM;
->
-> -               if (ctx->sw_context) {
-> +               if (ctx->merge_dups) {
->                         bo_node->hash.key =3D (unsigned long) vbo;
-> -                       hash_add_rcu(ctx->sw_context->res_ht, &bo_node->h=
-ash.head,
-> -                               bo_node->hash.key);
-> +                       hash_add(ctx->res_ht, &bo_node->hash.head, bo_nod=
-e->hash.key);
->                 }
->                 val_buf =3D &bo_node->base;
->                 vmw_bo_reference(vbo);
-> @@ -303,13 +271,13 @@ int vmw_validation_add_resource(struct vmw_validati=
-on_context *ctx,
->                 return -ENOMEM;
->         }
->
-> -       if (ctx->sw_context) {
-> +       if (ctx->merge_dups) {
->                 node->hash.key =3D (unsigned long) res;
-> -               hash_add_rcu(ctx->sw_context->res_ht, &node->hash.head, n=
-ode->hash.key);
-> +               hash_add(ctx->res_ht, &node->hash.head, node->hash.key);
->         }
->         node->res =3D vmw_resource_reference_unless_doomed(res);
->         if (!node->res) {
-> -               hash_del_rcu(&node->hash.head);
-> +               hash_del(&node->hash.head);
->                 return -ESRCH;
 
-This bit looks suspicious. It looks like if ctx->merge_dups is false
-and the resource is doomed then we'll try to remove an invalid node
-(because it has not been added to the hash).
+Looks great.
 
-Other than that, it looks great.
-
+Reviewed-by: Zack Rusin <zack.rusin@broadcom.com>
 
 z
 
---000000000000e4e63a0644096319
+--000000000000723f21064409662b
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -536,13 +251,13 @@ iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
 b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
 VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
 VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIO25
-Slsmd7jkDZOZ3nwTDfD4JakQogv+7zA5K2z2yV4DMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI1MTEyMDE2NDMwMVowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIJNN
+dcjAEPbA/FxNAuGuE41HUvRYBvb/CdZqXqG72lEeMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI1MTEyMDE2NDM0NFowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
 ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAFIdVdP2Ns7/OoJUE0Ghd/9aCr2mbYxCKIadKcYd
-/RIJxzFjIBVdqeCXFKAgqGJbMp0FffXE8pQXm6rq6CE9wV8Di9GFTYfwl8/Halh84uGcjnk5a2hF
-y/BgwfOuZkfwFKAyyV+TihNJ1wMreMgrFPEW+ZYaQT78bQDhhAOp+F3H7kkda30QvPOXakNvnR9h
-isyuq2El/AmX7ha41k1B2lPiCp+zeVW7zOu794OcfgEAcmaJFEIaTeXDPRUkUnU6fkiJVIcud3qS
-UMUd3Z9iudhMEw3WX2phW6ai7T6KIHBb6HQBzyT5CQzVes2r1ZpvWybj7m8qzB7qThS6Vc86ePo=
---000000000000e4e63a0644096319--
+YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAFSsgizuzCFePS3mNLqflKnADKcBdw9XwbQVj/ZK
+oiw00oSXbDWPTorqOMDS3tU44Pj6WrI6NRH19QkgqQgB4PeFVEi7Nsg5eMkKQBgtr+QwLzXFpu/T
+fGXa3LF31RHGm6eRbKComt+s6N0QHAyea3wHfsGA4+q3Mm/Wck9Ond5f5RJEQJw+681AeECU9kx9
+uyXTQLkqwRVUKq1P9TCmrm+7cvjffHS1U5wzdXrbcaz7LZvZDr4ZtzbhDufMakJsL74hYVWumQwB
+bOX+NQcEXWEhWgCy3qtYbU+nc+e5xFEJqHSiEX0v5XhTF3VFNg9g9b8OsTXmDLo+o57xu0ylLho=
+--000000000000723f21064409662b--
