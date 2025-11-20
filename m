@@ -2,77 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F72C74BE7
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 16:08:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82185C74C69
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 16:13:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CF6510E770;
-	Thu, 20 Nov 2025 15:08:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3B810E775;
+	Thu, 20 Nov 2025 15:13:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SnKadgvr";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="cpwKhtPE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+J0hEc9P";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cpwKhtPE";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+J0hEc9P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D77E710E770
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 15:08:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763651314; x=1795187314;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=w6TwQck4RtZRaN5bhbwgxiKkgVxB7RKGVAekX7C+lhk=;
- b=SnKadgvrKZpY/BawVDTFk/hba/5PpTMIr2Yv1P8Xz52eLbmJXRC3kxrD
- goi6aIkm15eMkQFWM1B5ugo/Oxg0L+MFpCUnjEyTkIksoTGMKteuCcwgl
- 8lS1j8xpwKuzwvvyLZw/PNu4fsI8OW/kRUD+zQZcHQ0GU8uOBiigE3Ory
- fZ39IrNIQgt04Mzdjwhhphm6hJ69kjNeSFM4w87ry3rilpy0a6Rw6cRjx
- 6zZzobFi81Uvv7k6W6fdQgPllCFjIY6xpYhiwY+e//tU/o1a6cPKGSVLN
- KRR/zUxshncf0o2L3+H3HPJcwsKTl3v6gmerGNpF3lgkD1fg3tE3DS23d g==;
-X-CSE-ConnectionGUID: bIxpkibYQ225VgjoMFJ+og==
-X-CSE-MsgGUID: ATMz3FNlS2ChohKyxL2wJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="77085126"
-X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; d="scan'208";a="77085126"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Nov 2025 07:08:34 -0800
-X-CSE-ConnectionGUID: 8Ou1fJjxTwG9hXVmY0biCA==
-X-CSE-MsgGUID: UaNGhiOURrSS5efMdFg1NQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; d="scan'208";a="190634335"
-Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
- by orviesa006.jf.intel.com with ESMTP; 20 Nov 2025 07:08:27 -0800
-Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1vM6Gm-0004AN-1q;
- Thu, 20 Nov 2025 15:08:24 +0000
-Date: Thu, 20 Nov 2025 23:07:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Balbir Singh <balbirs@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Ralph Campbell <rcampbell@nvidia.com>,
- Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-Subject: Re: [PATCH v2] fixup: mm/huge_memory.c: introduce folio_split_unmapped
-Message-ID: <202511202251.PCvSd2p2-lkp@intel.com>
-References: <20251120134232.3588203-1-balbirs@nvidia.com>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E227C10E771
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 15:13:11 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 690C41F441;
+ Thu, 20 Nov 2025 15:13:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1763651590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ial72GLszEleezwa1Z30bChDpXZLG7wGDUUVENhegr0=;
+ b=cpwKhtPEWGDtq0OINKW2wGBc2pnD3luRGpED17Q8jhbxSIFfRwZpXl/kQQHcRYbaV+WuT+
+ lrrQSboi4F4iTdUWvvOyZS9ve5o9ck9aS2WVswIIIRCxCGY9ml+vhJrHPRbuzwQR2gc9vT
+ i9U6blzByK9qOQQYP8dLfoRg1XoB6c4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1763651590;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ial72GLszEleezwa1Z30bChDpXZLG7wGDUUVENhegr0=;
+ b=+J0hEc9PPn5QqRe1cqbc8hg/Jkpm4udxWT9FKlPeKOaeSXKzp7ffXHqBjJpvUk3hPDlXYY
+ 82xAmusaMFVc4gDA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cpwKhtPE;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+J0hEc9P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1763651590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ial72GLszEleezwa1Z30bChDpXZLG7wGDUUVENhegr0=;
+ b=cpwKhtPEWGDtq0OINKW2wGBc2pnD3luRGpED17Q8jhbxSIFfRwZpXl/kQQHcRYbaV+WuT+
+ lrrQSboi4F4iTdUWvvOyZS9ve5o9ck9aS2WVswIIIRCxCGY9ml+vhJrHPRbuzwQR2gc9vT
+ i9U6blzByK9qOQQYP8dLfoRg1XoB6c4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1763651590;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ial72GLszEleezwa1Z30bChDpXZLG7wGDUUVENhegr0=;
+ b=+J0hEc9PPn5QqRe1cqbc8hg/Jkpm4udxWT9FKlPeKOaeSXKzp7ffXHqBjJpvUk3hPDlXYY
+ 82xAmusaMFVc4gDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EAE083EA61;
+ Thu, 20 Nov 2025 15:13:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id Cj2iNwUwH2lNcwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 20 Nov 2025 15:13:09 +0000
+Date: Thu, 20 Nov 2025 16:13:08 +0100
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <20251120151308.GA589436@linux.fritz.box>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20251120134232.3588203-1-balbirs@nvidia.com>
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 690C41F441
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RCPT_COUNT_TWELVE(0.00)[16];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ MISSING_XM_UA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.com:url, suse.de:dkim]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,59 +130,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Balbir,
+Hi Dave, Sima,
 
-kernel test robot noticed the following build warnings:
+here's the PR for drm-misc-fixes.
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on next-20251120]
-[cannot apply to drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.18-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Best regards
+Thomas
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Balbir-Singh/fixup-mm-huge_memory-c-introduce-folio_split_unmapped/20251120-214322
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251120134232.3588203-1-balbirs%40nvidia.com
-patch subject: [PATCH v2] fixup: mm/huge_memory.c: introduce folio_split_unmapped
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20251120/202511202251.PCvSd2p2-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511202251.PCvSd2p2-lkp@intel.com/reproduce)
+drm-misc-fixes-2025-11-20:
+Short summary of fixes pull:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511202251.PCvSd2p2-lkp@intel.com/
+atomic:
+- Return error codes on failed blob creation for planes
 
-All warnings (new ones prefixed by >>):
+nouveau:
+- Fix memory leak
 
-   In file included from mm/filemap.c:39:
->> include/linux/shmem_fs.h:160:13: warning: 'shmem_uncharge' defined but not used [-Wunused-function]
-     160 | static void shmem_uncharge(struct inode *inode, long pages)
-         |             ^~~~~~~~~~~~~~
---
-   mm/shmem.c: In function '__shmem_file_setup':
-   mm/shmem.c:5838:23: warning: unused variable 'flags' [-Wunused-variable]
-    5838 |         unsigned long flags = (vm_flags & VM_NORESERVE) ? SHMEM_F_NORESERVE : 0;
-         |                       ^~~~~
-   In file included from mm/shmem.c:36:
-   include/linux/shmem_fs.h: At top level:
->> include/linux/shmem_fs.h:160:13: warning: 'shmem_uncharge' defined but not used [-Wunused-function]
-     160 | static void shmem_uncharge(struct inode *inode, long pages)
-         |             ^~~~~~~~~~~~~~
+tegra:
+- Fix device ref counting
+- Fix pid ref counting
+- Revert booting on Pixel C
+The following changes since commit 6a23ae0a96a600d1d12557add110e0bb6e32730c:
 
+  Linux 6.18-rc6 (2025-11-16 14:25:38 -0800)
 
-vim +/shmem_uncharge +160 include/linux/shmem_fs.h
+are available in the Git repository at:
 
-   159	
- > 160	static void shmem_uncharge(struct inode *inode, long pages)
-   161	{
-   162	}
-   163	#endif
-   164	extern unsigned long shmem_partial_swap_usage(struct address_space *mapping,
-   165							pgoff_t start, pgoff_t end);
-   166	
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-11-20
+
+for you to fetch changes up to cead55e24cf9e092890cf51c0548eccd7569defa:
+
+  drm/plane: Fix create_in_format_blob() return value (2025-11-19 19:37:04 +0200)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+atomic:
+- Return error codes on failed blob creation for planes
+
+nouveau:
+- Fix memory leak
+
+tegra:
+- Fix device ref counting
+- Fix pid ref counting
+- Revert booting on Pixel C
+
+----------------------------------------------------------------
+Diogo Ivo (1):
+      Revert "drm/tegra: dsi: Clear enable register if powered by bootloader"
+
+Ma Ke (1):
+      drm/tegra: dc: Fix reference leak in tegra_dc_couple()
+
+Nam Cao (1):
+      nouveau/firmware: Add missing kfree() of nvkm_falcon_fw::boot
+
+Prateek Agarwal (1):
+      drm/tegra: Add call to put_pid()
+
+Thomas Zimmermann (1):
+      Merge drm/drm-fixes into drm-misc-fixes
+
+Ville Syrjälä (1):
+      drm/plane: Fix create_in_format_blob() return value
+
+ drivers/gpu/drm/drm_plane.c              | 4 ++--
+ drivers/gpu/drm/nouveau/nvkm/falcon/fw.c | 2 ++
+ drivers/gpu/drm/tegra/dc.c               | 1 +
+ drivers/gpu/drm/tegra/dsi.c              | 9 ---------
+ drivers/gpu/drm/tegra/uapi.c             | 7 +++++--
+ 5 files changed, 10 insertions(+), 13 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
