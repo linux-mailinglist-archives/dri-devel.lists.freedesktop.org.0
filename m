@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B97C729F8
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 08:38:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 383E8C72A19
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 08:41:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD00910E6F6;
-	Thu, 20 Nov 2025 07:38:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A2CA10E70A;
+	Thu, 20 Nov 2025 07:41:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Fk1GOwXX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QNiHfv2S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D491B10E6F6
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 07:38:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A037410E708
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 07:41:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 32E2D6014A;
- Thu, 20 Nov 2025 07:38:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B2CDC4CEF1;
- Thu, 20 Nov 2025 07:38:14 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id D72AA6011E;
+ Thu, 20 Nov 2025 07:41:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE678C4CEF1;
+ Thu, 20 Nov 2025 07:41:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763624294;
- bh=TBmcKl0VoEim/6SAhgGNXn7s3ldHbwABAdg4lb6XQUg=;
+ s=k20201202; t=1763624501;
+ bh=RzCrc8OP4MQJ51Y3Cp/KnGNHr8pH8H/uOuzXNgsdf0I=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Fk1GOwXX+8I2wrjVFUFCs8eOHzSYMIpbSRNsybaaYnqmR1hvk8o1qyzeHekcACEa7
- 0yEVvvcB58TVkvjvuQ+g/DQOgZnEaPJs34D8Vdf/e9Zwg/WSSr8nANTFzZTxu1EY4w
- f+G77YPyofCyVfOqnqhJ1EEumdeOwl1cYYCiSj7kjTatwWqUljRJ6vu6RxqRHEAEU8
- HRAo+V91htNpmPP70IHNTW6yrAz7B8PMq5q1hNDWdzinzbtY3bxLpPYfEP2VVI+Xgm
- NiTNPnC07XH/GYQn22i+8qeLjGe/j0I0H3GmLnYmVwrnbgDp8dKA8f5MMMocC3fZuC
- Xf3HRBvJIpyCw==
-Date: Thu, 20 Nov 2025 09:38:10 +0200
+ b=QNiHfv2SAaFyrrm6ZhCR8ucSYnRrrdzPojcMIcohfbtDqJS/JJSe9Cm0EPsn0RMT1
+ 9FMh/DEL9DggTQsNRNFC6ZevNso3DG/8cJnjGqx1F973WBJx3zNUrkfRwIJTDtGniq
+ T1iBja1OPDeFawU+b9NyxYO1eLXP5bDXy+x7TMExTwuaVkaO9yRhyCB63N85FD3fx7
+ OxMoyn5s+7tJhzxI145c0GzmDIWiwooPR63zC0GIQoVhzfmUIy/rjbN0wvDQAasxv8
+ 4RKMSzrJoBj9dPKY+MZCCAfPLwtiZfQrtzxCUQWESd/6QU20I/oRvqEOXzQEx5F9s1
+ fwoUvg48Mzzlw==
+Date: Thu, 20 Nov 2025 09:41:37 +0200
 From: Leon Romanovsky <leon@kernel.org>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Bjorn Helgaas <bhelgaas@google.com>,
  Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
  Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
  Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
  Jonathan Corbet <corbet@lwn.net>,
  Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
  "Gustavo A. R. Silva" <gustavoars@kernel.org>,
@@ -54,21 +54,19 @@ Cc: Bjorn Helgaas <bhelgaas@google.com>,
  Nicolin Chen <nicolinc@nvidia.com>
 Subject: Re: [Linaro-mm-sig] [PATCH v8 06/11] dma-buf: provide phys_vec to
  scatter-gather mapping routine
-Message-ID: <20251120073810.GQ18335@unreal>
+Message-ID: <20251120074137.GR18335@unreal>
 References: <20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com>
  <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
  <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
- <20251119134245.GD18335@unreal>
- <6714dc49-6b5c-4d58-9a43-95bb95873a97@amd.com>
- <20251119145007.GJ18335@unreal>
- <26d7ecab-33ed-4aab-82d5-954b0d1d1718@amd.com>
- <20251119163326.GL18335@unreal>
- <3053398d-94d8-42fa-aedc-927746375521@amd.com>
+ <20251119132511.GK17968@ziepe.ca>
+ <69436b2a-108d-4a5a-8025-c94348b74db6@amd.com>
+ <20251119193114.GP17968@ziepe.ca>
+ <c115432c-b63d-4b99-be18-0bf96398e153@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3053398d-94d8-42fa-aedc-927746375521@amd.com>
+In-Reply-To: <c115432c-b63d-4b99-be18-0bf96398e153@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,37 +82,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 20, 2025 at 08:03:09AM +0100, Christian König wrote:
-> On 11/19/25 17:33, Leon Romanovsky wrote:
-> > On Wed, Nov 19, 2025 at 03:53:30PM +0100, Christian König wrote:
+On Thu, Nov 20, 2025 at 08:08:27AM +0100, Christian König wrote:
+> On 11/19/25 20:31, Jason Gunthorpe wrote:
+> > On Wed, Nov 19, 2025 at 02:42:18PM +0100, Christian König wrote:
 > > 
-> > <...>
-> > 
-> >>>>>>> +struct sg_table *dma_buf_map(struct dma_buf_attachment *attach,
-> >>>>>>
-> >>>>>> That is clearly not a good name for this function. We already have overloaded the term *mapping* with something completely different.
-> >>>>>
-> >>>>> This function performs DMA mapping, so what name do you suggest instead of dma_buf_map()?
+> >>>>> +	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+> >>>>> +		dma->state = kzalloc(sizeof(*dma->state), GFP_KERNEL);
+> >>>>> +		if (!dma->state) {
+> >>>>> +			ret = -ENOMEM;
+> >>>>> +			goto err_free_dma;
+> >>>>> +		}
+> >>>>> +
+> >>>>> +		dma_iova_try_alloc(attach->dev, dma->state, 0, size);
 > >>>>
-> >>>> Something like dma_buf_phys_vec_to_sg_table(). I'm not good at naming either.
+> >>>> Oh, that is a clear no-go for the core DMA-buf code.
+> >>>>
+> >>>> It's intentionally up to the exporter how to create the DMA
+> >>>> addresses the importer can work with.
 > >>>
-> >>> Can I call it simply dma_buf_mapping() as I plan to put that function in dma_buf_mapping.c
-> >>> file per-your request.
+> >>> I can't fully understand this remark?
 > >>
-> >> No, just completely drop the term "mapping" here. This is about phys_vector to sg_table conversion and nothing else.
+> >> The exporter should be able to decide if it actually wants to use
+> >> P2P when the transfer has to go through the host bridge (e.g. when
+> >> IOMMU/bridge routing bits are enabled).
 > > 
-> > In order to progress, I renamed these functions to be
-> > dma_buf_phys_vec_to_sgt() and dma_buf_free_sgt(), and put everything in dma_buf_mapping.c file.
+> > Sure, but this is a simplified helper for exporters that don't have
+> > choices where the memory comes from.
 > 
-> Yeah, the problem is I even thought more about it and came to the conclusion that this is still not sufficient for an rb or an Ack-by.
+> That is extremely questionable as justification to put that in common DMA-buf code.
 > 
-> A core concept of DMA-buf is that the exporter takes care of all the mappings and not the framework.
+> > I fully expet to see changes to this to support more use cases,
+> > including the one above. We should do those changes along with users
+> > making use of them so we can evaluate what works best.
 > 
-> Calling pci_p2pdma_bus_addr_map(), dma_map_phys() or dma_map_phys() from DMA-buf code is extremely questionable.
+> Yeah, exactly that's my concern.
 > 
-> That should really be inside VFIO and not DMA-buf code, so to move forward I strongly suggest to either move that into VFIO or the DMA API directly.
+> >> But only take that as Acked-by, I would need at least a day (or
+> >> week) of free time to wrap my head around all the technical details
+> >> again. And that is something I won't have before January or even
+> >> later.
+> > 
+> > Sure, it is alot, and I think DRM community in general should come up
+> > to speed on the new DMA API and how we are pushing to see P2P work
+> > within Linux.
+> > 
+> > So thanks, we can take the Acked-by and progress here. Interested
+> > parties can pick it up from this point when time allows.
+> 
+> Wait a second. After sleeping a night over it I think my initial take that we really should not put that into common DMA-buf code seems to hold true.
+> 
+> This is the use case for VFIO, but I absolutely want to avoid other drivers from re-using this code until be have more experience with that.
+> 
+> So to move forward I now strongly think we should keep that in VFIO until somebody else comes along and needs that helper.
 
-We got the request to move to DMABUF and agreement a long time ago, in v5.
+It was put in VFIO at the beginning, but Christoph objected to it,
+because that will require exporting symbol for pci_p2pdma_map_type().
+which was universally agreed as not good idea.
+
 https://lore.kernel.org/all/aPYrEroyWVOvAu-5@infradead.org/
 
 Thanks
@@ -124,5 +148,9 @@ Thanks
 > Christian.
 > 
 > > 
-> > Thanks
+> > We can also have a mini-community call to give a summary/etc on these
+> > topics.
+> > 
+> > Thanks,
+> > Jason
 > 
