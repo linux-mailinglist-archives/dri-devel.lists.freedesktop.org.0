@@ -2,72 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6DAC723E2
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 06:26:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A371AC72463
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 06:46:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AE2610E16E;
-	Thu, 20 Nov 2025 05:26:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE18310E296;
+	Thu, 20 Nov 2025 05:46:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="d0KVhzx0";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="lqAfp+KR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2AC510E16E
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 05:26:08 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-47796a837c7so2745105e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 21:26:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763616367; x=1764221167; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=vUqeS6K4g0hUxh5GcRzYb7k8IKeXwg6G9epDSLnS8mY=;
- b=d0KVhzx0sjYmDwsMzFAoe2f2hfULEH656VNBPWvPKCa1c5ydm4oOgEh3hWnTqA5+QN
- w1By7cVQfWRVhGORW6rjTBkD/dUtDvTVhZIznxLDT10hb9Y0b0t/vEkf/KJhx30HKmHq
- erVoF/rxC1rVTQuw3iiRbfjwkuaJfrykkBnHCyFgXEJGhYz8i9AOxHf6ZO1ZKfJin6RP
- VwAGrqpQi/lbYdipToO4E6tpIpJX+rpMSrcVON5Yr5puCb0r0y2dItxhhKG8h9MrgWbT
- hAV1xK3eo9gBG+/SbHh32EMhOCRTaywE0oocDtTwkmuZEbhjAJ87dryXNYdYZQjywVXk
- Ep+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763616367; x=1764221167;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=vUqeS6K4g0hUxh5GcRzYb7k8IKeXwg6G9epDSLnS8mY=;
- b=tgHXjLIO26iciaBVzd1kn6DxZAD40bGwadH8KSamBLhd10ot2sMFex2blsSTd/xYZs
- eyrtBjspnfUcrh+p30/RynT4Z2HlgffhO/MHxZI9/zdTdcnBZS5j/gd+c0ANQLouIktJ
- DdVH4C6X3oReMZjnjWiOPVPLJPwW+cVRmIjfhua+djSDvXRT8m24JwjV+NhmtCj9lw8U
- v9qudw6Psive/5jKkS2+uSanmWoSyvBV+u29IHEP9fG9lMqOGX539NYy5dDRvFpuc99U
- eWAKbjk65QvVupBRCyHSr/c2LmvhQP95ARnFtswyTMg+STy2bwA4Qsr8F0v/xWUV0cWv
- mDOg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX3drXvBh4rVnwY8mjOmAPFP+0X/6LTsGTJRKh7uu7XP11aaJQST2aty2g4SHXKCXqspSM2VoaM4o0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzINdkK4ii7XKHEaKp6m4bUyvXydb66rIzpVrjEGm35IGHJrN/M
- iOwdaIuSyrId7xxPPxSnFkllB6fKa1xS/CBtY/HxyT3iHddhh2TRgV4E9Ntc1SmZQ8w=
-X-Gm-Gg: ASbGncsopTE988TuqFQaY/2rN4up0MRIGWIeZmmRjx+oW87BnWIoQ70nC0eOQ6Bznd0
- NWoGipeEvf848xSrByI8wfsM8HOClZlM0CpbQRFs8rBWxypQlnpyYrJq7S8uauZDYVTXf1T70Ev
- gkHCDqwZCQ4lETQErXbX1lXfa5j4M3zi9oHduZCXIiVoZFAhe1Hk1X7pGLZfX7n0TdC40yON0e5
- qQ4/pHhdHGEZU1JBBaj6bZlyAxE5QOss6NIqRX3ua4kDS9B7TZv5rhMO84PoGZzknOPLLptqLq0
- QvOzC1ZamAEwPVF2SFyhLdo4FQTpTEqdC1WvwrIwlN5JEeJ3O4PaOusc3ntGNvSoTS/mqRx8A7Q
- UUeO0asSt1SWgvNiNnSEej3bc3W5OJHXELkF5rjBJruAoI8pztRzj3QSol1V0yruhiY0ukIt2Ko
- Zh+tAPXnXEM7XuaTxb
-X-Google-Smtp-Source: AGHT+IFWWOupAlmioPPlt+riq99upzqU3hX3m2vpY2Y33m3pRyb3Gi9KlUndDLVMEA6CzkdsEjgEWg==
-X-Received: by 2002:a05:600c:4746:b0:471:1774:3003 with SMTP id
- 5b1f17b1804b1-477bac1d90bmr5158065e9.29.1763616367195; 
- Wed, 19 Nov 2025 21:26:07 -0800 (PST)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-477a9df8db3sm53497665e9.11.2025.11.19.21.26.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 19 Nov 2025 21:26:06 -0800 (PST)
-Date: Thu, 20 Nov 2025 08:26:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Balbir Singh <balbirs@nvidia.com>
-Cc: oe-kbuild@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, dri-devel@lists.freedesktop.org, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+Received: from PH0PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11011039.outbound.protection.outlook.com [40.107.208.39])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF47510E296
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 05:46:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=b6LPkSmWXE9vnb8RuYlIJhEMF261e/d3G4+lorKQ8oUH72XOMAh9XEUXiflPzA1qdXv6NnqP2giaPHudsheeecLM76DHSalCO2GnVDN+6Bqhl/fbpFRv1cx1bSOzx26DOsBAZJQYrIQQ3t1VHITtVxIO5k+hDmHblbqTeq6OTSGhDo6rwxDSkRAu/iPdUuqfFOtqtQwIrKoXip8RR+t0weDQvfRB3YVAFCtqO/26IY7NOVOlyeOEKvFbDCeY8IK+nKaazGs1G74fAheEZDi2YP/qmfDq+l0GP/0nsfqtsJr14nCFin1v6d0FAE6yUdclaFX1VhL5X/HZBG8Txr5/6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cRIXAuTAfiXQgkRHPVb1acoMjcILmb6GQqNwewcGTfE=;
+ b=eMmDr0wHhN/h5DfZdTgQqej4Wp5v9JlZIAfCKRATIqFSuKeyHGaer6cjsDjOnKVHmYEfvl5cYaZssDZ9NaS2LOurt2mOeQxs/4RTDYxbIo2XdWELC/Ypc6ojG3iAdANWP7bRmenkeEeVUbKz69G0FZeU/NpUV0ag3/iUpHMtRN+n3b6v+b95KY4w3avkxmSn0vbgyjZO6KK3058K007PY/0nZYr1FWq8NDpWQmUg1I+wkQZ4dgxLewRsTD/BA7FGkW0pKxGIY0uBCOv7rVkzyoY73mGv+QA3J/Oo7lCKCS6ulAwgJkBUnNDySnclE8qCdg5crX5yzHvNofR2Bv8NfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cRIXAuTAfiXQgkRHPVb1acoMjcILmb6GQqNwewcGTfE=;
+ b=lqAfp+KR8CI/4UK5kZaV42ugDjvZq1scdWMuRvWPK4/09IycN1XmHrftMRZTzH0wTmtNzf/v3xxVDlRz2yKx6BJxEysvl23UQ0cBVghXcigx1SYs/BK/tGyKC2pqMj7KSGGCyhnu/hKqXchgyNrRQWRCJq5iQXs7ANSMSA0j3Myw1RkrOa7i6XCyOg7zhyL7fS103M1bHj+agQKE5ow/j1UFu2YOiwdfn4R0jskjPa1z445d3BxRs4SCjL+QNghKKhXtOkw+4c5ixCju89dwAveWiouJzaPaTmdmaSehFo92eb5ZB2TaWsyJLVSn37xqPzmWJhpH3i9wv5BqFKNZiw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
+ by DS2PR12MB9568.namprd12.prod.outlook.com (2603:10b6:8:27c::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
+ 2025 05:46:22 +0000
+Received: from PH8PR12MB7277.namprd12.prod.outlook.com
+ ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
+ ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9343.009; Thu, 20 Nov 2025
+ 05:46:21 +0000
+Message-ID: <273f3d36-a36f-46f4-a311-b764c52e7b40@nvidia.com>
+Date: Thu, 20 Nov 2025 16:46:14 +1100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v7 00/16] mm: support device-private THP
+From: Balbir Singh <balbirs@nvidia.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
  David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
  Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
  Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
@@ -75,23 +57,124 @@ Cc: oe-kbuild@lists.linux.dev, linux-kernel@vger.kernel.org,
  Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Ralph Campbell <rcampbell@nvidia.com>,
- Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
  Francois Dugast <francois.dugast@intel.com>
-Subject: Re: [PATCH] mm/huge_memory.c: introduce folio_split_unmapped
-Message-ID: <aR6max8N4djU5OVB@stanley.mountain>
-References: <202511151216.rhK2ItOb-lkp@intel.com>
- <661d1f3b-0f04-43fc-85ef-d29d492a2b06@nvidia.com>
+References: <20251001065707.920170-1-balbirs@nvidia.com>
+ <20251008201740.d9507f4807a73058d4da23a8@linux-foundation.org>
+ <a5992f11-5841-4bbf-b190-b5df41b68b0c@nvidia.com>
+ <aOePfeoDuRW+prFq@lstrano-desk.jf.intel.com>
+ <20251111154326.bc48466a6962fbbffd8ebdd0@linux-foundation.org>
+ <7a0f2704-80b5-4cbd-8f3b-ac03692eefd3@nvidia.com>
+ <aR5/uUFboeeSwN0z@lstrano-desk.jf.intel.com>
+ <7ecb3faa-8bc7-4eb1-9342-404a9ff52b97@nvidia.com>
+ <24d8d39b-5ebe-4f29-93ff-3f7ca2a9b1cc@nvidia.com>
+ <aR6HtvxhmVxUvd+h@lstrano-desk.jf.intel.com>
+ <e8efd187-237c-47c7-ab99-33183e0988df@nvidia.com>
+Content-Language: en-US
+In-Reply-To: <e8efd187-237c-47c7-ab99-33183e0988df@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR03CA0232.namprd03.prod.outlook.com
+ (2603:10b6:a03:39f::27) To PH8PR12MB7277.namprd12.prod.outlook.com
+ (2603:10b6:510:223::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <661d1f3b-0f04-43fc-85ef-d29d492a2b06@nvidia.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|DS2PR12MB9568:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3ba98ad5-54ec-437e-3743-08de27f8225b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|10070799003|376014|366016|7416014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Qzhpb3hGOXdFKzBtaE53T2RGMXdtdkFGWDZOREk5ZEUwcGxZaG00Y2loc0hB?=
+ =?utf-8?B?L0sycGpmSWVtOUYzTmhRekVkamoydy9KbExROXRmR2gwaUlHUC9nR2M2WHpX?=
+ =?utf-8?B?WG5uZi9hN1phZk1kdG1YMjNON2o2S2d0d090OUppZlpkdVZvLzVDaXk0MEtv?=
+ =?utf-8?B?b0U4UFpPZW05UnBrdXFya25KSGo5Z3NyWGhuelNnTUhzT2tHZXlub1o5bzJh?=
+ =?utf-8?B?WTRCZTZvZW42ZmlQallGZGJxWWFQOVVzTmdGVGtCTVFZNDNRMU0vNm16K1hl?=
+ =?utf-8?B?VGFPanJFb0FsK0pWbGFubmJXNDJyMTBKeWxwdytETUM1VmxRbFl3MXE2RUd2?=
+ =?utf-8?B?MFpsUWJnbEkxWGwwek5RakJsOEdabHRqN1h1Z1hCRGNYNWRDVW1oZkJQeGNl?=
+ =?utf-8?B?cHBTeVRSVVI5NmVKbUdUVmZxRzR1SFBlaDN1SC9tZ3JPS0ZISis3cTdzMFBh?=
+ =?utf-8?B?Y0d5cjZZRWE3N2JqV2VyUTZzZ2UybDJlcE5Ib21CNG9TTnlyN0hmUSt0clJi?=
+ =?utf-8?B?MitTTjFCZ0ZSTkliNnFRQnMwWUdLTmtXZyt2ZmtYdHFwWnYxVWZWeEFCS2hs?=
+ =?utf-8?B?Y1crSHM4MExtTzhBcCtzbjNMdDZNNEJxUW9vSSt1L3JvTWpNYWdHUzdkbDVa?=
+ =?utf-8?B?WkFWY2lsMnFNNHFlWUJiWlJWT2FTc214UDNleDhyUG4rcXl5TStOUlV0NGZs?=
+ =?utf-8?B?RVZoQ2JqUFM3WVJSOHUveTJtcm9GNzhWdWo4UllpSnlhdDhscWFxNVppcmJN?=
+ =?utf-8?B?ZjFnV2dVOVNNb0VaOGtWR3BWejdPcXhEYXZpOEViWlJqN0xPUlpEVHYzbVYw?=
+ =?utf-8?B?SHJ2RGJPTzQ3SzZDcmZtemJ0V29TSjV1U0ZyNjAxaDZteXdnRzRmZGxnWFhz?=
+ =?utf-8?B?MFpoSW9CSGhTM3B6b09YbU1VRy8zZGhzVm8xZ2xHR2x4NmlrZk9CTTBjMG8y?=
+ =?utf-8?B?WjFEMWZvcGJPVElpbmxjWTRoZkNLWkdsWG5zRzl1ekg0ZUdLS1FjUS9zeGVX?=
+ =?utf-8?B?QmlUeWxrWEp3MnFxNEJzdVhHVit3WGx3Y053UFpIQS9yZ01pd2FnL0U5RHEy?=
+ =?utf-8?B?Tm53QlBGRXNMRFFkdDE2d1JBMUFJbnUxUU5lOXZReEJPSE16eTVOMUNOa3lE?=
+ =?utf-8?B?ZFc4R3V3eUZWMytjTTNWOXZ2UUloakRWSGFOaDZ3RTZucVlQbEdrMlBWS1Ay?=
+ =?utf-8?B?YzU0VDdVa0xDOXdxRUd4ZjBZS21QcnRHVTVUZ0JacjBiM0k1WXVKOVNsbFg0?=
+ =?utf-8?B?TGN5dVBvTElnblljbmxGQnJ3bDErVGgwNVNSY1B0bUJST0EwSGFjcHZrcTlC?=
+ =?utf-8?B?Y1pzMElwR3ExQXk2d1p6N2ZrUCtIS3dXWm9ISUc1SE5JeTE2M25WSDE3d0w0?=
+ =?utf-8?B?VW1jL1VMNUFhM0NqWWY1WWVKZkFiLzBKRmtqMG5mM2d5NGJxelI4UGVRTjhM?=
+ =?utf-8?B?UjZncUdsbWdxMnNEdk14Z0E5aUtXNXN5YU80KzkwUmtJdnQ1eUgrRFMrUWc4?=
+ =?utf-8?B?ZlVtMDFxQW5FTjEwMUlzL1BOOThkYkFSWUV6blMwS0NMMFphaDBpS0tlck1Y?=
+ =?utf-8?B?UWtNM0VyQXFaSVlqeE0vTndZRTgwMzR0Y0duZ2Q0c1lhc3o3RjlZZFJVSUJ0?=
+ =?utf-8?B?MzBCbGE3RjRrQVpxaHRGd2N4Y0ZMZU41bDJEQ0hvUGJrVTEvMjYweHhUUXBm?=
+ =?utf-8?B?cGVmdmpURTRneEU3Z2Z4dVN1a0xKb1JsRXBwWGxMSlhoZm1oRmJHUUlKajBI?=
+ =?utf-8?B?TGY0TGRscXdCeVFPa2ZUV0pxYWdmYWNDYkNSZFZLRFduSkFzTko3SDdabUZH?=
+ =?utf-8?B?Z1NMUWUxQTBLZUU2dUljZDFZaGt5cmZwNW1LaVNqb1hnMktibm5PRkRtUjZD?=
+ =?utf-8?B?QkZwWUhFQ2dBU1lRYWJnQW85WVZqRU5CSTJKL0J0VVQzMnhHNEM4VVRlZWc5?=
+ =?utf-8?Q?esl7kvCN0MZsYVRFj8TuAxCJ0eGD/e+U?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(10070799003)(376014)(366016)(7416014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ME5PMUJkQW5FWlZCS0V0N1h4b3dUbUpJTm5SVTcrYWRKdDk2QmJUOUxlQjF3?=
+ =?utf-8?B?ZUt0Z0lKSEJ5aXlPUG1YQTQrdWt0dlBSMDdWQlVDMFYybUd4aEVOTkw1T0Zp?=
+ =?utf-8?B?MUVidXdOc0N6dUIrcGlmd0JSVUErTzZaZEVRS2tKd0Z2ck5PekJ6VW5YSFJ2?=
+ =?utf-8?B?eStXNDNDNVhzNTR0S3lBdC9ndFJESDd2RUc1bjg4RU1CTnVaVm5Bb3FFZnN6?=
+ =?utf-8?B?bDh4RUhxK2xhTzJiQkxGejZadlMzelVuQnZEVjZZbTJnV3pDYVFhai9uTnBL?=
+ =?utf-8?B?VXBEWVpuOUJKNzFHZXZDREh6RTRiMXBNODFoa3dpcUlaVkVJWDNsRHBEMyth?=
+ =?utf-8?B?dGNuY3pLSWtBa083U1NQWVp2ZWV5ZXR1Ykgxdi9YZHA3NGxUN2JpNjdacjVQ?=
+ =?utf-8?B?clBIODhQV0xvR3QweS9XQkxtNEZLZ25xN0xSM0g3VlNnTmJQeGd0VkxSUzJV?=
+ =?utf-8?B?N2pleUdTMHQ5dkYveGhINElnOElqR0MyTjVsV3ZhU05XdnVzYWgxVXNyVWQr?=
+ =?utf-8?B?bXlYUk5KVjJDK3FYbE9nczJENjhhZUhXZHNWTGwyajNIVlNSbVZQTmNUZ2o0?=
+ =?utf-8?B?ekN5TXluTVdodGJkRFNhWWNUa3hSS1dyenRUYlF2VHN4alNMVEo1K1NNNnRT?=
+ =?utf-8?B?VGtIV2d4dXF1VXl2VmhzN0hkbHBmcU1zQUpvQXRjdE1pYVprRnMzaVVPQU91?=
+ =?utf-8?B?MGdUN0tjeWpacmlMNHpxcnJUREpJTWo5RSszYnNyMm1pLzRaQWtNWmhWdXRT?=
+ =?utf-8?B?dkpPVkY2QURhNTFPbUU4UHdkc2lUcUJ3VSs5QmgrZGY1WFVZMnJSQ3NHNzAx?=
+ =?utf-8?B?eUJHWGZqaW9hazhnOVhpVkpvTm5vL2lrNGphQXcyQXBkOGE3Y1IrdHdoZlVi?=
+ =?utf-8?B?WE1LVG05VE5WTmFlK05nWXBFcW41c2RZMUVtRWlyV0ZqdTZiV3VlMjJ1SEsr?=
+ =?utf-8?B?YnpyZ3hWNThrbFNCd0hFb2tpdnV5L29HNjNyWDdqa1BTTStlUlhqNStyVERk?=
+ =?utf-8?B?cFY4bWZEcFpXdFZhbldNZVlyRkw4NXZTcXJRN1AwR0pxL1ZHcmFKUHFxYU1L?=
+ =?utf-8?B?dVU4ZkdxNmdXNEF0QlpvN1hUZ3ZwMFJFSlZhcERCUWxWWEtDZzNPTEdleXpy?=
+ =?utf-8?B?OE9MVTgyNlZLSnQzY1NRdHRmZytuQjJBakVuODZFTHVkcWtGdWo3K3FTM3g3?=
+ =?utf-8?B?UTR1cUt1ZHArU3l5dTY1Ym1QaHlXc210OEk4U3M4SWVNM0xMcHhKYzBlNDF6?=
+ =?utf-8?B?dkRzSkY3cngvcXRDWlhodEFadFZ1WmorTllnWGVXZlVJZXk4QnV6UVQxbFhN?=
+ =?utf-8?B?M0VlSmxPOXFaNWxYU3NtNDk2YzBQU0FRK0FqSGJIM1BleUUwN2dUUWwzR1Vy?=
+ =?utf-8?B?bFFMOTJsbC8xcjU2Zks5cW40cCs0czNLRGJIUXRhUk8yWnhGQ3BuZ3BvN1d4?=
+ =?utf-8?B?bnJNbGw4RHAwTldIdUNFMGM4NjdxaG1rWEpQSXQzTExxQkpLZkxZWlo4K3Np?=
+ =?utf-8?B?eE5pUXNHa3FwZlZ1SWVtYzIzNnNYeWxoR1VSVnNKK241K0prTUg4S2Zod3hI?=
+ =?utf-8?B?YzlzZU9CUkFLaHpJK3U2cVI5ZzRrYXR6ZDQzVDRhVFBWT1VmNEdHK0lSMkUx?=
+ =?utf-8?B?Q0xSVFlBenFZeXRPTEpScDRSUUlCTmRRZU1MWUtXc0RJMlh1REg3Mk9oT0lH?=
+ =?utf-8?B?RlpqRjhuK0lOUXV0YWxha2tRMVkvcHVHd1dzdlYzd1FhOFpjbnFCSWdLVDhy?=
+ =?utf-8?B?eU44aEd5ejhIYXhjMnNVY1ZjUGRDWWdjLzNuQXJTMGF3L0FBUFVNTEswMEVl?=
+ =?utf-8?B?ZmM1SzQrdG0rUGFqUm1GVmVEZHhzRWJtVTV0K3N6c3d6bWRYY2QvN2lmR2JI?=
+ =?utf-8?B?NVJReGxiRE5HQVA5OVRzaFEzR2dFK05STlRvSzM4L25JZ2NEK3RpMldsdncv?=
+ =?utf-8?B?S1hHRzlvV3JYdFRaVjBvVFpSd2JiclZnMEtWYUF3QnJjS1BEclRWajBuK3I2?=
+ =?utf-8?B?VDVUQU5zYm1Wek02czg5TWJmMlVYNjZxQ0Y0dVZtZFcrMjh3dlliL1kxVmU3?=
+ =?utf-8?B?UnovV2ZNMEJwZDBhUjRoektGWGpwQkNQMkRSRjFCOXRuZDhIRDhEUWgvQU1I?=
+ =?utf-8?B?cEt0RGFyMTdDemRpUXlHOEpqTkV2ZVluN0ZYNVhpaEl0bnBkaDh3am5QVlV1?=
+ =?utf-8?Q?hT5X2jVuEg7nNJOgJ5B0ddKRafHKzulPx7VxHTsiLSt0?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ba98ad5-54ec-437e-3743-08de27f8225b
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 05:46:21.7596 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cysyCWx2+OC2ngP3aekImGGxkOTl7ir6p7SVJTlKkd2tbzisU+vqHfUCUslctS7wp1oWoUBUHiBq+Dc8M69n6g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9568
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,208 +190,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 20, 2025 at 10:58:07AM +1100, Balbir Singh wrote:
-> On 11/19/25 23:32, Dan Carpenter wrote:
-> > Hi Balbir,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Balbir-Singh/mm-huge_memory-c-introduce-folio_split_unmapped/20251114-093541
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> > patch link:    https://lore.kernel.org/r/20251114012228.2634882-1-balbirs%40nvidia.com
-> > patch subject: [PATCH] mm/huge_memory.c: introduce folio_split_unmapped
-> > config: i386-randconfig-141-20251115 (https://download.01.org/0day-ci/archive/20251115/202511151216.rhK2ItOb-lkp@intel.com/config)
-> > compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202511151216.rhK2ItOb-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > mm/huge_memory.c:4044 __folio_split() error: uninitialized symbol 'end'.
-> > mm/huge_memory.c:4052 __folio_split() error: we previously assumed 'mapping' could be null (see line 4046)
-> > 
+[...]>>>>>>>
+>>>>>>> How'd it go?
+>>>>>>>
+>>>>>
+>>>>> My apologies for the delay—I got distracted by other tasks in Xe (my
+>>>>> driver) and was out for a bit. Unfortunately, this series breaks
+>>>>> something in the existing core MM code for the Xe SVM implementation. I
+>>>>> have an extensive test case that hammers on SVM, which fully passes
+>>>>> prior to applying this series, but fails randomly with the series
+>>>>> applied (to drm-tip-rc6) due to the below kernel lockup.
+>>>>>
+>>>>> I've tried to trace where the migration PTE gets installed but not
+>>>>> removed or isolate a test case which causes this failure but no luck so
+>>>>> far. I'll keep digging as I have time.
+>>>>>
+>>>>> Beyond that, if I enable Xe SVM + THP, it seems to mostly work (though
+>>>>> the same issue as above eventually occurs), but I do need two additional
+>>>>> core MM patches—one is new code required for Xe, and the other could be
+>>>>> considered a bug fix. Those patches can included when Xe merges SVM THP
+>>>>> support but we need at least not break Xe SVM before this series merges.
+>>>>>
+>>>>> Stack trace:
+>>>>>
+>>>>> INFO: task kworker/u65:2:1642 blocked for more than 30
+>>>>> seconds.
+>>>>> [  212.624286]       Tainted: G S      W           6.18.0-rc6-xe+ #1719
+>>>>> [  212.630561] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
+>>>>> disables this message.
+>>>>> [  212.638285] task:kworker/u65:2   state:D stack:0     pid:1642
+>>>>> tgid:1642  ppid:2      task_flags:0x4208060 flags:0x00080000
+>>>>> [  212.638288] Workqueue: xe_page_fault_work_queue
+>>>>> xe_pagefault_queue_work [xe]
+>>>>> [  212.638323] Call Trace:
+>>>>> [  212.638324]  <TASK>
+>>>>> [  212.638325]  __schedule+0x4b0/0x990
+>>>>> [  212.638330]  schedule+0x22/0xd0
+>>>>> [  212.638331]  io_schedule+0x41/0x60
+>>>>> [  212.638333]  migration_entry_wait_on_locked+0x1d8/0x2d0
+>>>>> [  212.638336]  ? __pfx_wake_page_function+0x10/0x10
+>>>>> [  212.638339]  migration_entry_wait+0xd2/0xe0
+>>>>> [  212.638341]  hmm_vma_walk_pmd+0x7c9/0x8d0
+>>>>> [  212.638343]  walk_pgd_range+0x51d/0xa40
+>>>>> [  212.638345]  __walk_page_range+0x75/0x1e0
+>>>>> [  212.638347]  walk_page_range_mm+0x138/0x1f0
+>>>>> [  212.638349]  hmm_range_fault+0x59/0xa0
+>>>>> [  212.638351]  drm_gpusvm_get_pages+0x194/0x7b0 [drm_gpusvm_helper]
+>>>>> [  212.638354]  drm_gpusvm_range_get_pages+0x2d/0x40 [drm_gpusvm_helper]
+>>>>> [  212.638355]  __xe_svm_handle_pagefault+0x259/0x900 [xe]
+>>>>> [  212.638375]  ? update_load_avg+0x7f/0x6c0
+>>>>> [  212.638377]  ? update_curr+0x13d/0x170
+>>>>> [  212.638379]  xe_svm_handle_pagefault+0x37/0x90 [xe]
+>>>>> [  212.638396]  xe_pagefault_queue_work+0x2da/0x3c0 [xe]
+>>>>> [  212.638420]  process_one_work+0x16e/0x2e0
+>>>>> [  212.638422]  worker_thread+0x284/0x410
+>>>>> [  212.638423]  ? __pfx_worker_thread+0x10/0x10
+>>>>> [  212.638425]  kthread+0xec/0x210
+>>>>> [  212.638427]  ? __pfx_kthread+0x10/0x10
+>>>>> [  212.638428]  ? __pfx_kthread+0x10/0x10
+>>>>> [  212.638430]  ret_from_fork+0xbd/0x100
+>>>>> [  212.638433]  ? __pfx_kthread+0x10/0x10
+>>>>> [  212.638434]  ret_from_fork_asm+0x1a/0x30
+>>>>> [  212.638436]  </TASK>
+>>>>>
+>>>>
+>>>> Hi, Matt
+>>>>
+>>>> Thanks for the report, two questions
+>>>>
+>>>> 1. Are you using mm/mm-unstable, we've got some fixes in there (including fixes to remove_migration_pmd())
+>>
+>> remove_migration_pmd - This is a PTE migration entry.
+>>
 > 
-> Thanks for the report!
+> I don't have your symbols, I thought we were hitting, the following condition in the walk
 > 
-> If mapping is not NULL, end is initialized. More comments on UBSan below
+> 	if (thp_migration_supported() && pmd_is_migration_entry(pmd)) {
 > 
-> > vim +/end +4044 mm/huge_memory.c
-> > 
-> > 6384dd1d18de7b Zi Yan                  2025-03-07  3908  static int __folio_split(struct folio *folio, unsigned int new_order,
-> > 58729c04cf1092 Zi Yan                  2025-03-07  3909  		struct page *split_at, struct page *lock_at,
-> > f6b1f167ffe29f Balbir Singh            2025-11-14  3910  		struct list_head *list, enum split_type split_type)
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3911  {
-> > 58729c04cf1092 Zi Yan                  2025-03-07  3912  	XA_STATE(xas, &folio->mapping->i_pages, folio->index);
-> > 6c7de9c83be68b Zi Yan                  2025-07-18  3913  	struct folio *end_folio = folio_next(folio);
-> > 5d65c8d758f259 Barry Song              2024-08-24  3914  	bool is_anon = folio_test_anon(folio);
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3915  	struct address_space *mapping = NULL;
-> > 5d65c8d758f259 Barry Song              2024-08-24  3916  	struct anon_vma *anon_vma = NULL;
-> > 8ec26327c18e1d Wei Yang                2025-10-10  3917  	int old_order = folio_order(folio);
-> > 6c7de9c83be68b Zi Yan                  2025-07-18  3918  	struct folio *new_folio, *next;
-> > 391dc7f40590d7 Zi Yan                  2025-07-18  3919  	int nr_shmem_dropped = 0;
-> > 391dc7f40590d7 Zi Yan                  2025-07-18  3920  	int remap_flags = 0;
-> > 504e070dc08f75 Yang Shi                2021-06-15  3921  	int extra_pins, ret;
-> > 006d3ff27e884f Hugh Dickins            2018-11-30  3922  	pgoff_t end;
-> > 478d134e9506c7 Xu Yu                   2022-04-28  3923  	bool is_hzp;
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3924  
-> > 714b056c832106 Zi Yan                  2025-07-17  3925  	VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
-> > 714b056c832106 Zi Yan                  2025-07-17  3926  	VM_WARN_ON_ONCE_FOLIO(!folio_test_large(folio), folio);
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3927  
-> > 58729c04cf1092 Zi Yan                  2025-03-07  3928  	if (folio != page_folio(split_at) || folio != page_folio(lock_at))
-> > 1412ecb3d256e5 Zi Yan                  2024-03-07  3929  		return -EINVAL;
-> > 1412ecb3d256e5 Zi Yan                  2024-03-07  3930  
-> > 8ec26327c18e1d Wei Yang                2025-10-10  3931  	if (new_order >= old_order)
-> > c010d47f107f60 Zi Yan                  2024-02-26  3932  		return -EINVAL;
-> > 58729c04cf1092 Zi Yan                  2025-03-07  3933  
-> > aa27253af32c74 Wei Yang                2025-11-06  3934  	if (!folio_split_supported(folio, new_order, split_type, /* warn = */ true))
-> > 6a50c9b512f773 Ran Xiaokai             2024-06-07  3935  		return -EINVAL;
-> > c010d47f107f60 Zi Yan                  2024-02-26  3936  
-> > 5beaee54a324ba Matthew Wilcox (Oracle  2024-03-26  3937) 	is_hzp = is_huge_zero_folio(folio);
-> > 4737edbbdd4958 Naoya Horiguchi         2023-04-06  3938  	if (is_hzp) {
-> > 4737edbbdd4958 Naoya Horiguchi         2023-04-06  3939  		pr_warn_ratelimited("Called split_huge_page for huge zero page\n");
-> > 478d134e9506c7 Xu Yu                   2022-04-28  3940  		return -EBUSY;
-> > 4737edbbdd4958 Naoya Horiguchi         2023-04-06  3941  	}
-> > 478d134e9506c7 Xu Yu                   2022-04-28  3942  
-> > 3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  3943) 	if (folio_test_writeback(folio))
-> > 59807685a7e77e Ying Huang              2017-09-06  3944  		return -EBUSY;
-> > 59807685a7e77e Ying Huang              2017-09-06  3945  
-> > 5d65c8d758f259 Barry Song              2024-08-24  3946  	if (is_anon) {
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3947  		/*
-> > c1e8d7c6a7a682 Michel Lespinasse       2020-06-08  3948  		 * The caller does not necessarily hold an mmap_lock that would
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3949  		 * prevent the anon_vma disappearing so we first we take a
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3950  		 * reference to it and then lock the anon_vma for write. This
-> > 2f031c6f042cb8 Matthew Wilcox (Oracle  2022-01-29  3951) 		 * is similar to folio_lock_anon_vma_read except the write lock
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3952  		 * is taken to serialise against parallel split or collapse
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3953  		 * operations.
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3954  		 */
-> > 29eea9b5a9c9ec Matthew Wilcox (Oracle  2022-09-02  3955) 		anon_vma = folio_get_anon_vma(folio);
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3956  		if (!anon_vma) {
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3957  			ret = -EBUSY;
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3958  			goto out;
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3959  		}
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  3960  		anon_vma_lock_write(anon_vma);
-> > 3d4c0d98eb8572 Balbir Singh            2025-10-01  3961  		mapping = NULL;
-> > 
-> > end is not initialized for anonymous folios.
-> > 
+> But sounds like you are not, PMD/THP has not been enabled in this case
 > 
-> Yes
 > 
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3962  	} else {
-> > e220917fa50774 Luis Chamberlain        2024-08-22  3963  		unsigned int min_order;
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3964  		gfp_t gfp;
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3965  
-> > 3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  3966) 		mapping = folio->mapping;
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3967  
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3968  		/* Truncated ? */
-> > 6384dd1d18de7b Zi Yan                  2025-03-07  3969  		/*
-> > 6384dd1d18de7b Zi Yan                  2025-03-07  3970  		 * TODO: add support for large shmem folio in swap cache.
-> > 6384dd1d18de7b Zi Yan                  2025-03-07  3971  		 * When shmem is in swap cache, mapping is NULL and
-> > 6384dd1d18de7b Zi Yan                  2025-03-07  3972  		 * folio_test_swapcache() is true.
-> > 6384dd1d18de7b Zi Yan                  2025-03-07  3973  		 */
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3974  		if (!mapping) {
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3975  			ret = -EBUSY;
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3976  			goto out;
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3977  		}
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  3978  
-> > e220917fa50774 Luis Chamberlain        2024-08-22  3979  		min_order = mapping_min_folio_order(folio->mapping);
-> > e220917fa50774 Luis Chamberlain        2024-08-22  3980  		if (new_order < min_order) {
-> > e220917fa50774 Luis Chamberlain        2024-08-22  3981  			ret = -EINVAL;
-> > e220917fa50774 Luis Chamberlain        2024-08-22  3982  			goto out;
-> > e220917fa50774 Luis Chamberlain        2024-08-22  3983  		}
-> > e220917fa50774 Luis Chamberlain        2024-08-22  3984  
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3985  		gfp = current_gfp_context(mapping_gfp_mask(mapping) &
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3986  							GFP_RECLAIM_MASK);
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3987  
-> > 0201ebf274a306 David Howells           2023-06-28  3988  		if (!filemap_release_folio(folio, gfp)) {
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3989  			ret = -EBUSY;
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3990  			goto out;
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3991  		}
-> > 6a3edd29395631 Yin Fengwei             2022-08-10  3992  
-> > 3c844d850e4486 Wei Yang                2025-11-06  3993  		if (split_type == SPLIT_TYPE_UNIFORM) {
-> > 58729c04cf1092 Zi Yan                  2025-03-07  3994  			xas_set_order(&xas, folio->index, new_order);
-> > 8ec26327c18e1d Wei Yang                2025-10-10  3995  			xas_split_alloc(&xas, folio, old_order, gfp);
-> > 6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3996) 			if (xas_error(&xas)) {
-> > 6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3997) 				ret = xas_error(&xas);
-> > 6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3998) 				goto out;
-> > 6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  3999) 			}
-> > 58729c04cf1092 Zi Yan                  2025-03-07  4000  		}
-> > 6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4001) 
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4002  		anon_vma = NULL;
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4003  		i_mmap_lock_read(mapping);
-> > 006d3ff27e884f Hugh Dickins            2018-11-30  4004  
-> > 006d3ff27e884f Hugh Dickins            2018-11-30  4005  		/*
-> > 58729c04cf1092 Zi Yan                  2025-03-07  4006  		 *__split_unmapped_folio() may need to trim off pages beyond
-> > 58729c04cf1092 Zi Yan                  2025-03-07  4007  		 * EOF: but on 32-bit, i_size_read() takes an irq-unsafe
-> > 58729c04cf1092 Zi Yan                  2025-03-07  4008  		 * seqlock, which cannot be nested inside the page tree lock.
-> > 58729c04cf1092 Zi Yan                  2025-03-07  4009  		 * So note end now: i_size itself may be changed at any moment,
-> > 58729c04cf1092 Zi Yan                  2025-03-07  4010  		 * but folio lock is good enough to serialize the trimming.
-> > 006d3ff27e884f Hugh Dickins            2018-11-30  4011  		 */
-> > 006d3ff27e884f Hugh Dickins            2018-11-30  4012  		end = DIV_ROUND_UP(i_size_read(mapping->host), PAGE_SIZE);
-> > d144bf6205342a Hugh Dickins            2021-09-02  4013  		if (shmem_mapping(mapping))
-> > d144bf6205342a Hugh Dickins            2021-09-02  4014  			end = shmem_fallocend(mapping->host, end);
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4015  	}
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4016  
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4017  	/*
-> > 684555aacc90d7 Matthew Wilcox (Oracle  2022-09-02  4018) 	 * Racy check if we can split the page, before unmap_folio() will
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4019  	 * split PMDs
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4020  	 */
-> > 8710f6ed34e7bc David Hildenbrand       2024-08-02  4021  	if (!can_split_folio(folio, 1, &extra_pins)) {
-> > fd4a7ac32918d3 Baolin Wang             2022-10-24  4022  		ret = -EAGAIN;
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4023  		goto out_unlock;
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4024  	}
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4025  
-> > 684555aacc90d7 Matthew Wilcox (Oracle  2022-09-02  4026) 	unmap_folio(folio);
-> > e9b61f19858a5d Kirill A. Shutemov      2016-01-15  4027  
-> > b6769834aac1d4 Alex Shi                2020-12-15  4028  	/* block interrupt reentry in xa_lock and spinlock */
-> > b6769834aac1d4 Alex Shi                2020-12-15  4029  	local_irq_disable();
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4030  	if (mapping) {
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4031  		/*
-> > 3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  4032) 		 * Check if the folio is present in page cache.
-> > 3e9a13daa61253 Matthew Wilcox (Oracle  2022-09-02  4033) 		 * We assume all tail are present too, if folio is there.
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4034  		 */
-> > 6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4035) 		xas_lock(&xas);
-> > 6b24ca4a1a8d4e Matthew Wilcox (Oracle  2020-06-27  4036) 		xas_reset(&xas);
-> > 391dc7f40590d7 Zi Yan                  2025-07-18  4037  		if (xas_load(&xas) != folio) {
-> > 391dc7f40590d7 Zi Yan                  2025-07-18  4038  			ret = -EAGAIN;
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4039  			goto fail;
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4040  		}
-> > 391dc7f40590d7 Zi Yan                  2025-07-18  4041  	}
-> > baa355fd331424 Kirill A. Shutemov      2016-07-26  4042  
-> > f6b1f167ffe29f Balbir Singh            2025-11-14  4043  	ret = __folio_freeze_and_split_unmapped(folio, new_order, split_at, &xas, mapping,
-> > f6b1f167ffe29f Balbir Singh            2025-11-14 @4044  						true, list, split_type, end, extra_pins);
-> >                                                                                                                                 ^^^
-> > Passing uninitialized variables isn't allowed unless the function is
-> > inlined.  It triggers a UBSan warning at runtime as well.
+>>>>    - Generally a left behind migration entry is a symptom of a failed migration that did not clean up
+>>>>      after itself.
+>>
+>> I'm on drm-tip as I generally need the latest version of my driver
+>> because of the speed we move at.
+>>
+>> Yes, I agree it looks like somehow a migration PTE is not getting
+>> properly removed.
+>>
+>> I'm happy to cherry pick any patches that you think might be helpful
+>> into my tree.
+>>
 > 
-> end is expected to be unused when uninitialized, are you suggesting we need to have a default value even if unused inside the function.
-> My daily build has UBSan enabled, I'll try again
+> Could you try the mm/mm-new tree with the current xe driver?
 > 
-> CONFIG_UBSAN=y
-> CONFIG_CC_HAS_UBSAN_ARRAY_BOUNDS=y
-> # CONFIG_UBSAN_BOUNDS is not set
-> CONFIG_UBSAN_SHIFT=y
-> # CONFIG_UBSAN_UNREACHABLE is not set
-> # CONFIG_UBSAN_BOOL is not set
-> # CONFIG_UBSAN_ENUM is not set
+> In general, w.r.t failure, I would check for the following
+> 
+> 1. Are the dst_pfns in migrate_vma_pages() setup correctly by the device driver?
+> 2. Any failures in folio_migrate_mapping()?
+> 3. In migrate_vma_finalize() check to see if remove_migration_ptes() failed
+> 
+> If (3) fails that will explain the left over migration entries
+> 
+Just thought of two other places to look at
+
+1. split_folio(), do you have a large entry on the CPU side that needs to be split
+   prior to migration?
+2. Any partial munmap() code, because that can cause a pmd split, but the folio
+   is not fully split yet
+
+I also have a patch for debugging migrations via trace-points (to be updated)
+https://patchew.org/linux/20251016054619.3174997-1-balbirs@nvidia.com/
+
+May be it'll help you figure out if something failed to migrate.
+
+>>>> 2. The stack trace is from hmm_range_fault(), not something that this code touches.
+>>>>
+>>
+>> Agree this is a symptom of the above issue.
+>>
+>>>> The stack trace shows your code is seeing a migration entry and waiting on it.
+>>>> Can you please provide a reproducer for the issue? In the form of a test in hmm-tests.c
+>>>>
+>>
+>> That will be my plan. Right now I'm opening my test up which runs 1000s
+>> of variations of SVM tests and the test that hangs is not consistent.
+>> Some of these are threaded or multi-process so it might possibly be a
+>> timing issue which could be hard to reproduce in hmm-tests.c. I'll do my
+>> best here.
+>>
+>>>> Have you been able to bisect the issue?
+>>>
+>>
+>> That is my next step along with isolating a test case.
+>>
+>>> Also could you please try with 10b9feee2d0d ("mm/hmm: populate PFNs from PMD swap entry")
+>>> reverted?
+>>>
+>>
+>> I can try but I highly doubt this is related. The hanging HMM code in is
+>> PTE walk step after this, also I am not even enabling THP device pages
+>> in my SVM code to reproduce this.
+>>
+> 
+> Thanks, do regular hmm-tests pass for you in that setup/environment?
+> 
+> Balbir
 > 
 
-Huh.  It's interesting that UBSan doesn't complain.  Potentially, the
-function is inlined?
+[..]
 
-Technically, passing uninitialized variables to a function is undefined
-behavior in C.  But in practical terms (and it make Linus cross that
-the C standard doesn't account for this), when a function is inlined
-then that shouldn't really be undefined.  But otherwise, yes, passing
-uninitialized variables is not allowed, even when they're not used.
-
-Everyone sensible is going to set CONFIG_INIT_STACK_ALL_ZERO for
-production systems so initializing variables to zero doesn't affect
-anything.
-
-regards,
-dan carpenter
-
+Balbir
