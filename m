@@ -2,61 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2DDC74A41
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 15:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E20FDC74A95
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 15:52:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E40810E758;
-	Thu, 20 Nov 2025 14:48:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0939810E761;
+	Thu, 20 Nov 2025 14:52:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="osdsjg98";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="JrUOINTS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50E6D10E758
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 14:48:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
- ; s=x;
- h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
- :Date:subject:date:message-id:reply-to;
- bh=DMiWuLRB770VNnDjVdKAF+/7CzT3CgEN1Qvobk8xGUM=; b=osdsjg98K1iOHotd+x7c5/6lEG
- zzGsWC7ZcKGfKDiBV2hKFCAJxpWBQ7eFlC7QaRiwbawEKH0onRwhRbC3v4AShaLAKslY1n9ktjbZ9
- NmrZqeXwRmUsSr3CuGAekkAm5WoF/fjb9JlzsJEzkUKbLxGIX0KcSBrHONz8VVyELDx8=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:32860
- helo=pettiford) by mail.hugovil.com with esmtpa (Exim 4.92)
- (envelope-from <hugo@hugovil.com>)
- id 1vM5wl-0007SF-PQ; Thu, 20 Nov 2025 09:47:44 -0500
-Date: Thu, 20 Nov 2025 09:47:43 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Chris Brandt <chris.brandt@renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
- <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
- Nghia Vo <nghia.vo.zn@renesas.com>, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-Id: <20251120094743.48a0db4ead55c3968cb0cb3d@hugovil.com>
-In-Reply-To: <20251119022744.1599235-2-chris.brandt@renesas.com>
-References: <20251119022744.1599235-1-chris.brandt@renesas.com>
- <20251119022744.1599235-2-chris.brandt@renesas.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com
+ [209.85.166.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D4BA10E763
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 14:52:48 +0000 (UTC)
+Received: by mail-il1-f180.google.com with SMTP id
+ e9e14a558f8ab-43476cba770so4317505ab.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 06:52:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1763650367; x=1764255167;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mIp1emodWmrQX+c6TjoXmEBGWcecINECr9nK+dGHBUw=;
+ b=JrUOINTSppNhoQhfX8k5syViccp3259yTxwk6ESjnwwTGWo+zCVh5Q5uru8gOo05MP
+ E4wTlNeBb4F+6CK4uXm+lkS2b6vVrKRGPppQnSUoiuEMFlwEb7m05J5gjIsTDPNPunCC
+ oY8Sm+3eeeq3FzZj8eRbLg4uWmMfhEHZNRXchbVKZ5q5lpDnjgK/Gi4Lbi8aGBEOGLI/
+ YiHyXmk88PBRjKMzLH2syDRrgiZ3xoA1vV14frmqjnnNq6Ci2jzF7sYUQ3RWJqEp+/1C
+ g8fzqYXu4vWqBOAqmoXSXxm23JeWxTlaNhVUaA5FyL8mSH2zIVciMf2GBUgEB3czdAUA
+ FLFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763650367; x=1764255167;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=mIp1emodWmrQX+c6TjoXmEBGWcecINECr9nK+dGHBUw=;
+ b=vMZQkph2fJc5zY1XJ5jKiLn/Y4V7fNhuj22I0c1TIctF9AxEyQJHlL8d8ixDAnErDU
+ f8cRK/Or5oyoFCIEMY8uE7+Iqg52gYvfgHmJ3Scy2diK6xjQBK3hfY5J3MnNJhaksy7e
+ SlwtbwgXARN4/6mJMt/4g0lVlrScMWqHWy3wPJGPBy5doN/ChLML+QC1n7MbYj2w7Iz5
+ fCBYAYBWC1Ll1SR6YL8ff11s/etp33ozCF74972KF8XOeLXv6hCcttYAaRpoaqm1o8aG
+ rUv98pICJFHC9oWPrVA+kVid7DJOWt78IV5M4cm9SR1MvFqmbGbAqE8/E5xxaBRlsc8F
+ GVMw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXpFl9mmRUnyju60bAO/VXr3kvO2WMRWKWD3HrHE6IJx0/lgn5Az+F4yibafKaewIyDqHYRss26nUo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw4oEZbObgvn7G+2kpTTWu4Tv9gJoo3J6w3keA6ipGCS5dYczi4
+ QxlqXP0Xxy8QToOYdzyG1N0u2fzxBnav4hrQnOZSObA1lcbW6oyGIwlGoTRsFPnnrCM=
+X-Gm-Gg: ASbGncuT5xpaqMM9UtzJA2iCd/HmvHWJDoRIQfRD/bhpQOz9+N5Dpn8YQ71OI0WXhfz
+ qUP40H+By5ZUeWktOu/5eyHkWi/uVKrFBwPd8qY/8sdNCY+JgmdBLXu11aSNlsjHTgd1XiVH4Hg
+ RcSTDKSgy16/w19o9xxMS317z1OkelRi1esDoKX7vV28hYtXAmHp6bfopL4wzMPblVV1v6elmKG
+ k++hOEp1nxRFnciBI5pymBxhedvEvyqZgwYM/dNUryqelqn7PciwseLfHWvDh34oqU9nQJZVwZj
+ hd28Cidf3KXSmJgl6ySs7lymWyAWXSUze/Bmr2W4/07OPjm/zwvmoK2ZTpojT2Yf/r/0425BS9G
+ Wvbu+ma+saLkuqC6OkYLNUlWCsG3ROqzeRbTvMG6PpofWYgMQqCzoNklSVDChAE6tKsB5Obpnqq
+ wKag==
+X-Google-Smtp-Source: AGHT+IEmRlVKCe07qbgo1t2w3uFpBKsqx62crTftDC+8sZ0oUBIrcGL53VTRakva//fmnWvcfQrQww==
+X-Received: by 2002:a05:6e02:1c01:b0:433:1d5a:5157 with SMTP id
+ e9e14a558f8ab-435aa88e822mr21434775ab.6.1763650367018; 
+ Thu, 20 Nov 2025 06:52:47 -0800 (PST)
+Received: from [127.0.0.1] ([96.43.243.2]) by smtp.gmail.com with ESMTPSA id
+ 8926c6da1cb9f-5b954b207d7sm1008611173.33.2025.11.20.06.52.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Nov 2025 06:52:46 -0800 (PST)
+From: Jens Axboe <axboe@kernel.dk>
+To: linux-kernel@vger.kernel.org, david.laight.linux@gmail.com
+Cc: Alan Stern <stern@rowland.harvard.edu>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Alexei Starovoitov <ast@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, Andrew Lunn <andrew@lunn.ch>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Andrii Nakryiko <andrii@kernel.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Ard Biesheuvel <ardb@kernel.org>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, Borislav Petkov <bp@alien8.de>, 
+ Christian Brauner <brauner@kernel.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Christoph Hellwig <hch@lst.de>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Dan Williams <dan.j.williams@intel.com>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, 
+ Dave Jiang <dave.jiang@intel.com>, David Ahern <dsahern@kernel.org>, 
+ Davidlohr Bueso <dave@stgolabs.net>, 
+ "David S. Miller" <davem@davemloft.net>, Dennis Zhou <dennis@kernel.org>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Herbert Xu <herbert@gondor.apana.org.au>, Ingo Molnar <mingo@redhat.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Jakub Sitnicki <jakub@cloudflare.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ Jarkko Sakkinen <jarkko@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
+ Jiri Slaby <jirislaby@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+ John Allen <john.allen@amd.com>, 
+ Jonathan Cameron <jonathan.cameron@huawei.com>, 
+ Juergen Gross <jgross@suse.com>, Kees Cook <kees@kernel.org>, 
+ KP Singh <kpsingh@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+ "Martin K. Petersen" <martin.petersen@oracle.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+ Mika Westerberg <westeri@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Miklos Szeredi <miklos@szeredi.hu>, Namhyung Kim <namhyung@kernel.org>, 
+ Neal Cardwell <ncardwell@google.com>, nic_swsd@realtek.com, 
+ OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+ Olivia Mackall <olivia@selenic.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Huewe <peterhuewe@gmx.de>, 
+ Peter Zijlstra <peterz@infradead.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Sean Christopherson <seanjc@google.com>, 
+ Srinivas Kandagatla <srini@kernel.org>, 
+ Stefano Stabellini <sstabellini@kernel.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>, 
+ Theodore Ts'o <tytso@mit.edu>, Thomas Gleixner <tglx@linutronix.de>, 
+ Tom Lendacky <thomas.lendacky@amd.com>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, x86@kernel.org, 
+ Yury Norov <yury.norov@gmail.com>, amd-gfx@lists.freedesktop.org, 
+ bpf@vger.kernel.org, cgroups@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org, 
+ kvm@vger.kernel.org, linux-acpi@vger.kernel.org, 
+ linux-block@vger.kernel.org, linux-crypto@vger.kernel.org, 
+ linux-cxl@vger.kernel.org, linux-efi@vger.kernel.org, 
+ linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+ linux-integrity@vger.kernel.org, linux-mm@kvack.org, 
+ linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ linux-serial@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-usb@vger.kernel.org, mptcp@lists.linux.dev, netdev@vger.kernel.org, 
+ usb-storage@lists.one-eyed-alien.net, David Hildenbrand <david@kernel.org>
+In-Reply-To: <20251119224140.8616-1-david.laight.linux@gmail.com>
+References: <20251119224140.8616-1-david.laight.linux@gmail.com>
+Subject: Re: (subset) [PATCH 00/44] Change a lot of min_t() that might mask
+ high bits
+Message-Id: <176365036384.566630.2992984118137417732.b4-ty@kernel.dk>
+Date: Thu, 20 Nov 2025 07:52:43 -0700
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
-X-Spam-Level: 
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
- * -0.7 NICE_REPLY_A Looks like a legit reply (A)
-X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED,NICE_REPLY_A
- autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: [PATCH v5 1/2] clk: renesas: rzg2l: Remove DSI clock rate
- restrictions
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,348 +150,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 18 Nov 2025 21:27:43 -0500
-Chris Brandt <chris.brandt@renesas.com> wrote:
 
-> Convert the limited MIPI clock calculations to a full range of settings
-> based on math including H/W limitation validation.
-> Since the required DSI division setting must be specified from external
-> sources before calculations, expose a new API to set it.
+On Wed, 19 Nov 2025 22:40:56 +0000, david.laight.linux@gmail.com wrote:
+> It in not uncommon for code to use min_t(uint, a, b) when one of a or b
+> is 64bit and can have a value that is larger than 2^32;
+> This is particularly prevelant with:
+> 	uint_var = min_t(uint, uint_var, uint64_expression);
 > 
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Casts to u8 and u16 are very likely to discard significant bits.
 > 
-> ---
-> v1->v2:
-> - Remove unnecessary parentheses
-> - Add target argument to new API
-> - DPI mode has more restrictions on DIV_A and DIV_B
-> 
-> v2->v3:
-> - Removed Empty lines (Hugo)
-> - Add dummy for compile-testing CONFIG_CLK_RZG2L=n case (Geert)
-> - Renamed label found_dsi_div to calc_pll_clk (Hugo)
-> - Renamed label found_clk to clk_valid (Hugo)
-> - Removed 'found' var because not needed
-> - Move 'foutpostdiv_rate =' after if(foutvco_rate > 1500000000) (Hugo)
-> - Move PLL5_TARGET_* for new API to renesas.h (Hugo,Geert)
-> - Convert #define macros PLL5_TARGET_* to enum (Geert)
-> - static {unsigned} int dsi_div_ab; (Geert)
-> - {unsigned} int a, b;  (Geert)
-> - Change "((1 << a) * (b + 1))" to "(b + 1) << a"  (Geert)
-> - Change "foutvco_rate = rate * (1 << xxx ) * ..." to " = rate * ... * << xxx (Geert)
-> - Move (u64) outside of modulo operation to avoid helper on 32-bit compiles (Geert)
-> - Change DIV_ROUND_CLOSEST_ULL() to DIV_ROUND_CLOSEST() (Geert)
-> - void rzg2l_cpg_dsi_div_set_divider({unsinged} int divider, int target)
-> - Change "dsi_div_ab = (1 << AAA) * (BBB + 1)" to " = (BBB + 1) << AAA (Geert)
-> - Added Reviewed-by and Tested-by (Biju)
-> 
-> v3->v4:
-> - Changed <,> to <=,>=  (Hugo)
-> - Removed duplicate code bock (copy/paste mistake) (Hugo)
-> - Fix dummy for rzg2l_cpg_dsi_div_set_divider when CONFIG_CLK_RZG2L=n (Geert)
-> - Removed comment "Below conditions must be set.." (Hugo)
-> - Removed +1,-1 from pl5_intin comparison math because it was not correct
-> - Removed default register settings (PLL5_xxx_DEF) because makes no sense
-> - If any calcualtion error, print a message and return a rate of 0
-> - Rename global var "dsi_div_ab" to "dsi_div_ab_desired"
-> - Check the range of hsclk
-> - The correct clock parent is determined by if the divider is even/odd
-> - Add in all the restrictions from DIV A,B from the hardware manual
-> - No more need to be a recursive function
-> - DPI settings must have DSI_DIV_B be '0' (divide 1/1)
-> 
-> v4->v5:
-> - Change dsi_div_ab_desired to u8 (Hugo)
-> - Create the helper function rzg2l_cpg_div_ab (Hugo)
-> - Remove odd/even comments because implied (Hugo)
-> - Change continue to break for the for loop (Hugo)
-> - Change if{} if{} to if{} else if{} (Hugo)
-> - Remove function rzg2l_cpg_get_vclk_rate (Chris)
-> - Set default clksrc,div_a,b using set_divider function (Biju)
-> - Return -EINVAL if rzg2l_cpg_dsi_div_determine_rate fails (Hugo)
-> ---
->  drivers/clk/renesas/rzg2l-cpg.c | 162 ++++++++++++++++++++++++++------
->  include/linux/clk/renesas.h     |  12 +++
->  2 files changed, 146 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-> index 6743e50d44d0..69a96fa5a272 100644
-> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> @@ -74,6 +74,17 @@
->  #define MSTOP_OFF(conf)		FIELD_GET(GENMASK(31, 16), (conf))
->  #define MSTOP_MASK(conf)	FIELD_GET(GENMASK(15, 0), (conf))
->  
-> +#define PLL5_FOUTVCO_MIN	800000000
-> +#define PLL5_FOUTVCO_MAX	3000000000
-> +#define PLL5_POSTDIV_MIN	1
-> +#define PLL5_POSTDIV_MAX	7
-> +#define PLL5_REFDIV_MIN		1
-> +#define PLL5_REFDIV_MAX		2
-> +#define PLL5_INTIN_MIN		20
-> +#define PLL5_INTIN_MAX		320
-> +#define PLL5_HSCLK_MIN		10000000
-> +#define PLL5_HSCLK_MAX		187500000
-> +
->  /**
->   * struct clk_hw_data - clock hardware data
->   * @hw: clock hw
-> @@ -129,6 +140,12 @@ struct rzg2l_pll5_param {
->  	u8 pl5_spread;
->  };
->  
-> +/* PLL5 output will be used for DPI or MIPI-DSI */
-> +static int dsi_div_target = PLL5_TARGET_DPI;
-> +
-> +/* Required division ratio for MIPI D-PHY clock depending on number of lanes and bpp. */
-> +static u8 dsi_div_ab_desired;
-> +
->  struct rzg2l_pll5_mux_dsi_div_param {
->  	u8 clksrc;
->  	u8 dsi_div_a;
-> @@ -170,6 +187,11 @@ struct rzg2l_cpg_priv {
->  	struct rzg2l_pll5_mux_dsi_div_param mux_dsi_div_params;
->  };
->  
-> +static inline u8 rzg2l_cpg_div_ab(u8 a, u8 b)
-> +{
-> +	return (b + 1) << a;
-> +}
-> +
->  static void rzg2l_cpg_del_clk_provider(void *data)
->  {
->  	of_clk_del_provider(data);
-> @@ -557,16 +579,108 @@ rzg2l_cpg_sd_mux_clk_register(const struct cpg_core_clk *core,
->  }
->  
->  static unsigned long
-> -rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_pll5_param *params,
-> +rzg2l_cpg_get_foutpostdiv_rate(struct rzg2l_cpg_priv *priv,
-> +			       struct rzg2l_pll5_param *params,
->  			       unsigned long rate)
->  {
->  	unsigned long foutpostdiv_rate, foutvco_rate;
-> +	unsigned long hsclk;
-> +	unsigned int a, b, odd;
-> +	unsigned int dsi_div_ab_calc;
-> +
-> +	if (dsi_div_target == PLL5_TARGET_DSI) {
-> +		/*
-> +		 * VCO-->[POSTDIV1,2]--FOUTPOSTDIV-->|   |-->[1/(DSI DIV A * B)]--> MIPI_DSI_VCLK
-> +		 *            |                      |-->|
-> +		 *            |-->[1/2]---FOUT1PH0-->|   |-->[1/16]---------------> hsclk (MIPI-PHY)
-> +		 */
-> +
-> +		/* Check hsclk */
-> +		hsclk = rate * dsi_div_ab_desired / 16;
-> +		if (hsclk < PLL5_HSCLK_MIN || hsclk > PLL5_HSCLK_MAX) {
-> +			dev_err(priv->dev, "hsclk out of range\n");
-> +			return 0;
-> +		}
-> +
-> +		/* Determine the correct clock source based on even/odd of the divider */
-> +		odd = dsi_div_ab_desired & 1;
-> +		if (odd) {
-> +			priv->mux_dsi_div_params.clksrc = 0;	/* FOUTPOSTDIV */
-> +			dsi_div_ab_calc = dsi_div_ab_desired;
-> +		} else {
-> +			priv->mux_dsi_div_params.clksrc = 1;	/*  FOUT1PH0 */
-> +			dsi_div_ab_calc = dsi_div_ab_desired / 2;
-> +		}
-> +
-> +		/* Calculate the DIV_DSI_A and DIV_DSI_B based on the desired divider */
-> +		for (a = 0; a < 4; a++) {
-> +			/* FOUT1PH0: Max output of DIV_DSI_A is 750MHz so at least 1/2 to be safe */
-> +			if (!odd && a == 0)
-> +				continue;
-> +
-> +			/* FOUTPOSTDIV: DIV_DSI_A must always be 1/1 */
-> +			if (odd && a != 0)
-> +				break;
-> +
-> +			for (b = 0; b < 16; b++) {
-> +				/* FOUTPOSTDIV: DIV_DSI_B must always be odd divider 1/(b+1) */
-> +				if (odd && b & 1)
-> +					continue;
-> +
-> +				if (rzg2l_cpg_div_ab(a, b) == dsi_div_ab_calc) {
-> +					priv->mux_dsi_div_params.dsi_div_a = a;
-> +					priv->mux_dsi_div_params.dsi_div_b = b;
-> +					goto calc_pll_clk;
-> +				}
-> +			}
-> +		}
-> +
-> +		dev_err(priv->dev, "Failed to calculate DIV_DSI_A,B\n");
-> +
-> +		return 0;
-> +	} else if (dsi_div_target == PLL5_TARGET_DPI) {
-> +		/* Fixed settings for DPI */
-> +		priv->mux_dsi_div_params.clksrc = 0;
-> +		priv->mux_dsi_div_params.dsi_div_a = 3; /* Divided by 8 */
-> +		priv->mux_dsi_div_params.dsi_div_b = 0; /* Divided by 1 */
-> +		dsi_div_ab_desired = 8;			/* (1 << a) * (b + 1) */
-> +	}
-> +
-> +calc_pll_clk:
-> +	/* PLL5 (MIPI_DSI_PLLCLK) = VCO / POSTDIV1 / POSTDIV2 */
-> +	for (params->pl5_postdiv1 = PLL5_POSTDIV_MIN;
-> +	     params->pl5_postdiv1 <= PLL5_POSTDIV_MAX;
-> +	     params->pl5_postdiv1++) {
-> +		for (params->pl5_postdiv2 = PLL5_POSTDIV_MIN;
-> +		     params->pl5_postdiv2 <= PLL5_POSTDIV_MAX;
-> +		     params->pl5_postdiv2++) {
-> +			foutvco_rate = rate * params->pl5_postdiv1 * params->pl5_postdiv2 *
-> +				       dsi_div_ab_desired;
-> +			if (foutvco_rate <= PLL5_FOUTVCO_MIN || foutvco_rate >= PLL5_FOUTVCO_MAX)
-> +				continue;
-> +
-> +			for (params->pl5_refdiv = PLL5_REFDIV_MIN;
-> +			     params->pl5_refdiv <= PLL5_REFDIV_MAX;
-> +			     params->pl5_refdiv++) {
-> +				params->pl5_intin = (foutvco_rate * params->pl5_refdiv) /
-> +						    (EXTAL_FREQ_IN_MEGA_HZ * MEGA);
-> +				if (params->pl5_intin < PLL5_INTIN_MIN ||
-> +				    params->pl5_intin > PLL5_INTIN_MAX)
-> +					continue;
-> +
-> +				params->pl5_fracin = div_u64(((u64)
-> +						     (foutvco_rate * params->pl5_refdiv) %
-> +						     (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
-> +						     EXTAL_FREQ_IN_MEGA_HZ * MEGA);
-> +				goto clk_valid;
-> +			}
-> +		}
-> +	}
->  
-> -	params->pl5_intin = rate / MEGA;
-> -	params->pl5_fracin = div_u64(((u64)rate % MEGA) << 24, MEGA);
-> -	params->pl5_refdiv = 2;
-> -	params->pl5_postdiv1 = 1;
-> -	params->pl5_postdiv2 = 1;
-> +	dev_err(priv->dev, "Failed to calculate PLL5 settings\n");
-> +	return 0;
-> +
-> +clk_valid:
->  	params->pl5_spread = 0x16;
->  
->  	foutvco_rate = div_u64(mul_u32_u32(EXTAL_FREQ_IN_MEGA_HZ * MEGA,
-> @@ -607,7 +721,7 @@ static unsigned long rzg2l_cpg_get_vclk_parent_rate(struct clk_hw *hw,
->  	struct rzg2l_pll5_param params;
->  	unsigned long parent_rate;
->  
-> -	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(&params, rate);
-> +	parent_rate = rzg2l_cpg_get_foutpostdiv_rate(priv, &params, rate);
->  
->  	if (priv->mux_dsi_div_params.clksrc)
->  		parent_rate /= 2;
-> @@ -623,9 +737,19 @@ static int rzg2l_cpg_dsi_div_determine_rate(struct clk_hw *hw,
->  
->  	req->best_parent_rate = rzg2l_cpg_get_vclk_parent_rate(hw, req->rate);
->  
-> +	if (!req->best_parent_rate)
-> +		return -EINVAL;
-> +
->  	return 0;
->  }
->  
-> +void rzg2l_cpg_dsi_div_set_divider(u8 divider, int target)
-> +{
-> +	dsi_div_ab_desired = divider;
-> +	dsi_div_target = target;
-> +}
-> +EXPORT_SYMBOL_GPL(rzg2l_cpg_dsi_div_set_divider);
-> +
->  static int rzg2l_cpg_dsi_div_set_rate(struct clk_hw *hw,
->  				      unsigned long rate,
->  				      unsigned long parent_rate)
-> @@ -796,22 +920,6 @@ struct sipll5 {
->  
->  #define to_sipll5(_hw)	container_of(_hw, struct sipll5, hw)
->  
-> -static unsigned long rzg2l_cpg_get_vclk_rate(struct clk_hw *hw,
-> -					     unsigned long rate)
-> -{
-> -	struct sipll5 *sipll5 = to_sipll5(hw);
-> -	struct rzg2l_cpg_priv *priv = sipll5->priv;
-> -	unsigned long vclk;
-> -
-> -	vclk = rate / ((1 << priv->mux_dsi_div_params.dsi_div_a) *
-> -		       (priv->mux_dsi_div_params.dsi_div_b + 1));
-> -
-> -	if (priv->mux_dsi_div_params.clksrc)
-> -		vclk /= 2;
-> -
-> -	return vclk;
-> -}
-> -
->  static unsigned long rzg2l_cpg_sipll5_recalc_rate(struct clk_hw *hw,
->  						  unsigned long parent_rate)
->  {
-> @@ -856,9 +964,9 @@ static int rzg2l_cpg_sipll5_set_rate(struct clk_hw *hw,
->  	if (!rate)
->  		return -EINVAL;
->  
-> -	vclk_rate = rzg2l_cpg_get_vclk_rate(hw, rate);
-> +	vclk_rate = rate / dsi_div_ab_desired;
->  	sipll5->foutpostdiv_rate =
-> -		rzg2l_cpg_get_foutpostdiv_rate(&params, vclk_rate);
-> +		rzg2l_cpg_get_foutpostdiv_rate(priv, &params, vclk_rate);
->  
->  	/* Put PLL5 into standby mode */
->  	writel(CPG_SIPLL5_STBY_RESETB_WEN, priv->base + CPG_SIPLL5_STBY);
-> @@ -945,9 +1053,7 @@ rzg2l_cpg_sipll5_register(const struct cpg_core_clk *core,
->  	if (ret)
->  		return ERR_PTR(ret);
->  
-> -	priv->mux_dsi_div_params.clksrc = 1; /* Use clk src 1 for DSI */
-> -	priv->mux_dsi_div_params.dsi_div_a = 1; /* Divided by 2 */
-> -	priv->mux_dsi_div_params.dsi_div_b = 2; /* Divided by 3 */
-> +	rzg2l_cpg_dsi_div_set_divider(8, PLL5_TARGET_DPI);
->  
->  	return clk_hw->clk;
->  }
-> diff --git a/include/linux/clk/renesas.h b/include/linux/clk/renesas.h
-> index 0ebbe2f0b45e..96c5e8f3b5d7 100644
-> --- a/include/linux/clk/renesas.h
-> +++ b/include/linux/clk/renesas.h
-> @@ -16,6 +16,11 @@ struct device;
->  struct device_node;
->  struct generic_pm_domain;
->  
-> +enum {
-> +	PLL5_TARGET_DPI,
-> +	PLL5_TARGET_DSI
-> +};
-> +
->  void cpg_mstp_add_clk_domain(struct device_node *np);
->  #ifdef CONFIG_CLK_RENESAS_CPG_MSTP
->  int cpg_mstp_attach_dev(struct generic_pm_domain *unused, struct device *dev);
-> @@ -32,4 +37,11 @@ void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct device *dev);
->  #define cpg_mssr_attach_dev	NULL
->  #define cpg_mssr_detach_dev	NULL
->  #endif
-> +
-> +#ifdef CONFIG_CLK_RZG2L
-> +void rzg2l_cpg_dsi_div_set_divider(u8 divider, int target);
-> +#else
-> +static inline void rzg2l_cpg_dsi_div_set_divider(u8, int target) { }
+> [...]
 
-Maybe use:
+Applied, thanks!
 
-#define rzg2l_cpg_dsi_div_set_divider(...) do { } while (0)
+[12/44] block: use min() instead of min_t()
+        commit: 9420e720ad192c53c8d2803c5a2313b2d586adbd
 
-
-> +#endif
-> +
->  #endif
-> -- 
-> 2.50.1
-> 
-> 
-
-
+Best regards,
 -- 
-Hugo Villeneuve
+Jens Axboe
+
+
+
