@@ -2,164 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8316C759EA
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 18:23:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02885C75A71
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 18:27:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1388510E796;
-	Thu, 20 Nov 2025 17:23:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67D9410E79C;
+	Thu, 20 Nov 2025 17:26:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="HZVTyq5c";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HShujuMa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com
- (mail-centralusazon11010011.outbound.protection.outlook.com [52.101.61.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09A6310E796
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 17:23:15 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 569CE10E79C;
+ Thu, 20 Nov 2025 17:26:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1763659617; x=1795195617;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=564rtOLcrsQtuQElcUFYGRNual6uqXUjofvlXB5I5p0=;
+ b=HShujuMaisGOy5aOXUvkZ9HhL5lhbGSxYAqCkX2snwBVkVu87fmXKPKH
+ 5aT+do8qls//2EeZ84EXHWQCpl/Irfe5KiCF7bL3zPqjGMtBnvXdEBSTe
+ 9+Iq2f4TTaYnVLMp+ctPU9sOM+DNkqSqhqdhB0Wx3aBP3rjR8C4wCcl1I
+ zPJYzCkEBQ1XfZ2Gz/8ejg1DZ9g7e2Z/XW850+5BnIhIAsvzxt9bIIGVh
+ wXrDMRw6ZYrDfgvbZh7IVKZ5trwnWt7DYEdKvcajyZIpSFce4wikHtnEe
+ pdEe/QU3OuLCa+97T914n2G0XrcJOXhW8wjg74/M6EOdQjcdCYrU535Wg g==;
+X-CSE-ConnectionGUID: ChjDtA6ISZCm+XSn33Lp/g==
+X-CSE-MsgGUID: xSlK+HTVRQ2dWc0kcN3EIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="65768114"
+X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; d="scan'208";a="65768114"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2025 09:26:57 -0800
+X-CSE-ConnectionGUID: 7/uWA9z6SC2HqEU+GPHIsg==
+X-CSE-MsgGUID: kLt3ErFrR6SqWgemISFL1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; d="scan'208";a="195729056"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+ by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2025 09:26:56 -0800
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Thu, 20 Nov 2025 09:26:56 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Thu, 20 Nov 2025 09:26:56 -0800
+Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.51) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Thu, 20 Nov 2025 09:26:55 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HIz7V006tlFCnmMJXPK8+R9hFHM6YB5OmtXL+yqVF0N006BdgrvuDLKHfI7zUID0H9SvPERSkp/NXAUZhxewWUmWeiZ3ubVMSQvvdQe1Tub2fkg3RbhFuhhLqglLgq4iqDls6inJrD0BPBiXh0En1qHUERZLG15kSL2cJLdaEjxdcC9cX89MeKRMHyOV6YShq5HgqSy/1opr6bnb47Zy/AIYEAyRGyYLNC3Sn6mjfTslxWgsVBAP4kTpjKULrEl8d/++cdW8ab5F1gSNvtgODT1FhvmjSVF9fpQmNYZ5CWxp79UjMgdTJZicPxEgA+W05zJiinpcZq1QhtcB1jMHtQ==
+ b=IwrNp9vIpBw4SVE2NHDG5yyjSWjXCR8IfMMP5KdqZKZLqAhM2I+APhLCgs2n30yEn2f/AZMOZwvPcP4OAlzDIcqnvkp3k0/fX5AQJLNdjZmjFqUYxIM+LW531+snKMMyPzfojKUGwMXWZUQoGl8Z4kaTWDvoP7oTs9kHnZa3a0NMQDs+xCLtU89Z40pVXA688PYgSOi1+qKBPcuJZ6B4G614HdJsVZ51eWGhJSyVp0JTivFNt4fO+F5qmrXt7gFzFqsOA+61AKfWRiBhx/CrW0WB+mXK7Ozl5KhdJ2X0ZgumBcte9HS8XA03uZC2dy1Bu0WeVJl07w6hc6tkIrC3ow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+ZqFC3+8oYwTUAqqaUHWWxxhiicGXHgBaUCU8Y3yVl8=;
- b=u232i4CvhB27conyj66Oae9ckzekm6JyIs5MfAeQsv0pGoymUjmBYSmQ+fbK1aIh5ZI9DAPa7H9dlyQe5cXelwOY2mR97S9XgBLrscR0sqxWZJvH739KDoglDLIAzbQyWdoa65NWk/40yx4P7f/jwPMoAMBQPFhj6ZmAGvGbn0lwhHVCIxgej9YCj7GkNvufXCsq5zCwswCsmb7fPibUbBPcP1qOlLpzjnGDLjTGOxtauneFgYP+tDWLOsgp/kLzNDuiMc6grjcVpAzzezCIxkCTI4zdEBfEUn7Fhzl/8IoWKb9Yi26pjfwYJSPFAkEB240L2hvrRPCL9J3nSPXo2Q==
+ bh=kJBE6yQm9wis92+8L3wqCGtqca3sJ8ogTIzP6ewCeEA=;
+ b=X8kpa1A0SZDjKOZ+nCxxGyL1BvQ+oADkuVrITVKba06qCyOYLHTqv6JSmYKL+qvKWP7MFhIGvcJgT3E1mY4JQIqow8SH0UWpq8ubBa+31+/TgzqzL0oL/jFa66m/o6PXDFHUOS1zzjyDyyz9Izo8m7j5/8QT9/DPNLKZ2xWuqHJOfeKpDVyNLTFbopXJ9HHLDPCDHUbS+lRcf2IU32fiY9aBSWN2R8CGGo9X2E4D3m4PbEe+u9u6voLOqDZjlqjOUJm+1kSXB/IDUgtsIPJgR7bML3hcuUjBT1feLsou0rpE2lQUlqfffUA4d3VhVhSmUP3cuVQeq/Z06b2z3DQo/g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+ZqFC3+8oYwTUAqqaUHWWxxhiicGXHgBaUCU8Y3yVl8=;
- b=HZVTyq5cwWsX+FtsPZ8TKRZvuUrMpQZt2lRGm7VcQM9MsjkaeUDYDSvscbh1+jElSdo/bTcxwBt/GqC2VmdgFAznE014rYjg7thZJtjLiB9FP9MHvSieRaNVZ86+wu8w6AWg6BOt6gp9zrj1Psl2JZaczkvYXafXmh97qxDiG/UF5GozYNpMQFZJc9Vfp7q3SHQa/Xv2hD3WlAZJlghrw3SBn/rmFhkEWYEUVo45FdTB+C914zkmYSwR/qPwt17ap6e7zeBtBezRmh4TcYN2wWsEvOYhHG44Uo6xnb5YX4xIX9zRomDFLdp9YKU5J0ip4e3o+Z3ntIM0WdwnxWzxMg==
-Received: from SA1PR12MB7199.namprd12.prod.outlook.com (2603:10b6:806:2bc::21)
- by MN0PR12MB6126.namprd12.prod.outlook.com (2603:10b6:208:3c6::5)
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6425.namprd11.prod.outlook.com (2603:10b6:510:1f7::20)
+ by CO1PR11MB4978.namprd11.prod.outlook.com (2603:10b6:303:91::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Thu, 20 Nov
- 2025 17:23:09 +0000
-Received: from SA1PR12MB7199.namprd12.prod.outlook.com
- ([fe80::928c:89d8:e8d6:72dd]) by SA1PR12MB7199.namprd12.prod.outlook.com
- ([fe80::928c:89d8:e8d6:72dd%6]) with mapi id 15.20.9343.009; Thu, 20 Nov 2025
- 17:23:09 +0000
-From: Ankit Agrawal <ankita@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>, Robin
- Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
- <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, Jason
- Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>, Jonathan
- Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, Kees Cook
- <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Yishai
- Hadas <yishaih@nvidia.com>, Shameer Kolothum <skolothumtho@nvidia.com>, Kevin
- Tian <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>
-CC: Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
- "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>, "linux-mm@kvack.org"
- <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "linux-media@vger.kernel.org"
- <linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
- <linaro-mm-sig@lists.linaro.org>, "kvm@vger.kernel.org"
- <kvm@vger.kernel.org>, "linux-hardening@vger.kernel.org"
- <linux-hardening@vger.kernel.org>, Alex Mastro <amastro@fb.com>, Nicolin Chen
- <nicolinc@nvidia.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v9 00/11] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Thread-Topic: [PATCH v9 00/11] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Thread-Index: AQHcWgAWTN39XsG3l0G2qITcS04IR7T7uNNp
-Date: Thu, 20 Nov 2025 17:23:09 +0000
-Message-ID: <SA1PR12MB71997E0FE7E8CD84586FD7E6B0D4A@SA1PR12MB7199.namprd12.prod.outlook.com>
-References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
-In-Reply-To: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR12MB7199:EE_|MN0PR12MB6126:EE_
-x-ms-office365-filtering-correlation-id: 88738be0-af42-418d-280b-08de28597a08
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|7416014|38070700021|921020; 
-x-microsoft-antispam-message-info: =?iso-8859-1?Q?wp1dBGiSZIbWH2sTAthna1qHPdq7H9MwXZgkwRyj7qFgFxngBrEjktp/fW?=
- =?iso-8859-1?Q?UOSPLuYF3FTuOb0pszaabpY3teKnosWeYr/1g74CLSg8uC7ifNa8zry88M?=
- =?iso-8859-1?Q?YvZHJ9X9ArU49ex47WTC+9SAT8ZwVEK25xDG7tdLLJWiuDwa7Da3UvEB40?=
- =?iso-8859-1?Q?S7jBhCkJi/DojY9HXFrux7MNRxvKkIQIeJ4/yQbAhafVqH/O6vP4A/pQpq?=
- =?iso-8859-1?Q?st6FuasiE4qLKyxkp5wGgVFto+HDauXBwLmwGXOTm4tfD2bB3WzD9hj5r4?=
- =?iso-8859-1?Q?pdWagM+08yfUG6yD1wuWCq9PrbBw0ua5zTROI5XtvfWN5Ytvpj9D28M1uG?=
- =?iso-8859-1?Q?MFeANUcUyJt5rbRJ3LyqiGWVwail2UjhuPa2I6odNwKshsYrhK9YNRyYHx?=
- =?iso-8859-1?Q?qYXHb7m85E8Qzi4seA+NXv+jxtHRuzCBiE2cakZngRQStvSDdTdB8hRKIN?=
- =?iso-8859-1?Q?PBhEDka6lc90EGXmDfH2EVsSMWG0U4pX9Hq5ezo9xrToEQFOkXwnKrSRGf?=
- =?iso-8859-1?Q?dZxlyKY55aQcH2+1TmrKdhfjoVguregGvjvFS67RXrsVUs1BfPcfi2w/st?=
- =?iso-8859-1?Q?QHIRNdICfelA21QL83xP+Yh2TJtCATzxkPMJTqM7GyyY4IIxuOZ+hy9M77?=
- =?iso-8859-1?Q?ZQbDd8sCXtiNIl2GmgsHwGuP3QpUrRktEOENgmglQ+cIEfoulvZJMM2a4P?=
- =?iso-8859-1?Q?UGXmKXDVxtqLabqgWOZhh+EM3G7NWLZj3ZIZrdNKwbrQeIjBue9S8/OooE?=
- =?iso-8859-1?Q?413ENrzdQENXPktnmllXAU2ITAJAxL8Zro0JfZCkUaN7V5f51pSV5XQ0ji?=
- =?iso-8859-1?Q?KjilLVh7t5MsVTtASoDhQWaz3SbkwT3kLsT/Fifqr3YlddvRhFLR6SVB88?=
- =?iso-8859-1?Q?vOIWzSJd18HVGLiNDyN/p7AMlOMaEDxVZQkvKdZ1Y2bpquoe2W4CSPfmnQ?=
- =?iso-8859-1?Q?TMN3JkxcyfGML4/fwdX5GYRbYmtphZHa4pAFkOav5TqKxJXKAR4/mktbKg?=
- =?iso-8859-1?Q?WD+RQGiMjbinDUAnz3Mb7MeiWHk684dTIp6oHNuE/J/hIlo8L2oedyPk6p?=
- =?iso-8859-1?Q?hoRkiUZLjaJwB8HKgjmwwSPmJLnL/ywhoHJQwDsAGqhIlK40piQ8f0+i3B?=
- =?iso-8859-1?Q?/isDvfVjtjthKrBlzcnB6o8BXxlzfqp1VF+PPgdzZLMYgTXAYsv7+7aUJ4?=
- =?iso-8859-1?Q?Y6adW1U4nJ+rwFRc+aLc3NihIzIDZ+7C7KQOAfIwQmJn3fQzXz7GK0E1rN?=
- =?iso-8859-1?Q?5FBwq5D4BGZgrqNlLjfAhDYp61PLgLCgVGfFufu1IxQSg3Imb4tGsZjpgJ?=
- =?iso-8859-1?Q?oju/VNVWo42RcBPk5KoxB3Y2taBq1Eg1WiZuZeEK8f7GNQrGoP87/1uYJk?=
- =?iso-8859-1?Q?tYns8XgCJQwpjTzSZwXdXGzWiuGshp2e/MgPZ0fO7/44ZBcTsjUEOQQBUj?=
- =?iso-8859-1?Q?cEk0rhj3guCKI91d3s5Bp0nLdatxbjw0kmVj/+ci51wKIu6BvO2ZhjMeo3?=
- =?iso-8859-1?Q?rL5iYk1fDrAUeRwctaINnWDOgmfH++w6dVLd3md5qNDwrMT18hd+VrvWdY?=
- =?iso-8859-1?Q?FPE+LDFQzHCR7zcBNFLCLbE2J259XCe6Dlqb760q3vjwyOio7w=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR12MB7199.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700021)(921020);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?pdxBDfvEqC7gReBpiKJOX+sk1G575btf9xgxvE6rqbZloGAXUK8D/7uWoQ?=
- =?iso-8859-1?Q?HkwFd6dKo4/z17Ck71pkRSUasFj9iHiSChVoi19lUC/es7z538jOitinNq?=
- =?iso-8859-1?Q?SxYk+A4mW+uygNr0jFUacjSqPDoQR9RKCvedwEC0x/rkn1G7rJjq5HJnoz?=
- =?iso-8859-1?Q?CXDnRs3Vi9i2r6c/d5pUBfxKyN6MScXXBy9Omy+K2IpBxZ1CF691TNkAe2?=
- =?iso-8859-1?Q?L1NQJYby8zR/kdsnvDd9ym/tLVLL2dU5btkW1TxeW9vQTRC20gG7+t/1G8?=
- =?iso-8859-1?Q?yJGPivjsfLPGnEhVNH0fiMiYqi7+eKYG1BYX3PHoaUSybiaHLKCZNN9NSp?=
- =?iso-8859-1?Q?NtIyskTZBjr/L4xzCTkGBvRXOoy0DEPALBaGuDx0jd+6e8C8NiK4uDX4pk?=
- =?iso-8859-1?Q?3OfQ/on4P0ObPqIMGDJ+65+RU+gOj9tyokhi1OpRcbWsXAB5fUUnEatWpm?=
- =?iso-8859-1?Q?5SCjV37Xti0bjGjJoiPbrUqJDj5L3jQqHG5D2/lD9xrGJNEkq6Wc4gZEp+?=
- =?iso-8859-1?Q?ZMQypV/hGNVO8Yg8AalyVJngA4t/d4Qc6edPBgKIrwkH9W7fhYywr+gcve?=
- =?iso-8859-1?Q?9UjH5dIyZdfXBA8aggs2Q7Gy3vYN6L/wD/L87o7IxHZwBnJ2ic0hUf0Wcj?=
- =?iso-8859-1?Q?UveVMTUA4Ygo5ivBWYj8bkDkC1b5jE4Q8R+f7BDNMM74COGEMIPvslmc2P?=
- =?iso-8859-1?Q?AIFbEYJGderMrWcpldyxhrHd2sS0FTwYh6dFayfFEieVsbKF+N7gHzvCAG?=
- =?iso-8859-1?Q?2UQsRT6yFqYJSkz+OzJpO8xID6gYKgzTSOPuaGpxnjEX+DWxcpcZKMEy6R?=
- =?iso-8859-1?Q?w+jR6XDMQjMs7N73fVV3DqBOTAtxF1282UH9Rv321k8fH1d99pd/3HH9T2?=
- =?iso-8859-1?Q?JS6OQ7787EGclviYOTrwjaQPO68JoRjl+D9c/FpKHKtAsDJATASQ2jhByW?=
- =?iso-8859-1?Q?y8J8myc76qLVxrTHE1ncG7R6V1YXHn0iY85ygXFsAmAnXnoEG9Wcvs7vJM?=
- =?iso-8859-1?Q?g6lE2P77ZIv3ESztlrUYZcnncY2yWrzrDa6zP+Q1QHu/nHfzpnzwi5Bh93?=
- =?iso-8859-1?Q?UHyvzzyu6cH/eZs+RzdRufil7j6lOi/8uW3WaA4tG1xcivsp6VKKJv/guo?=
- =?iso-8859-1?Q?MAN8uAwDJx5XQiTYWejnxLUAfKSZLHy6VxU9OB3igkt/wClB2vd72PBNSn?=
- =?iso-8859-1?Q?9dkR4WSmNveAQrueOYbP9DhNuQtuMrhAjyntCwhstpUMOOWKK00gXMh/Zm?=
- =?iso-8859-1?Q?srchV2w6s1hTJ1z0o0NlvyyTbmrgKuqbhWQhCZPxc63EtW/A2atH/H8rSt?=
- =?iso-8859-1?Q?SEck9wfgUY0GisId16xta4YBh4qkg9TVYahkxsSNjtF4ZYI+O1ymMPi4fi?=
- =?iso-8859-1?Q?vSt3eS3cgYUqFsH+Ya8nBrQM6g62ZdK/u0PiN5U8jbVSYSmoaMgcaLXZUo?=
- =?iso-8859-1?Q?0hqcYQVpM07zT1U75h2wS9LrJ0kzHII+bNn77T4SMm9pbXh/eUDpLZE449?=
- =?iso-8859-1?Q?e4oXPo+pPBNIhO69A/6Yl+Oz/JMLP/BTvX2+RibRNrKLwmPd6BmIlIZbyQ?=
- =?iso-8859-1?Q?/QqBJ2cSsEoNu4tGGGOWRdERlWXDEZj8Xth3EchIaTzR48xIUCk8jLbdkD?=
- =?iso-8859-1?Q?/lrCt+vcxH3q8=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
+ 2025 17:26:53 +0000
+Received: from PH7PR11MB6425.namprd11.prod.outlook.com
+ ([fe80::4c6a:e73b:a344:f302]) by PH7PR11MB6425.namprd11.prod.outlook.com
+ ([fe80::4c6a:e73b:a344:f302%5]) with mapi id 15.20.9343.009; Thu, 20 Nov 2025
+ 17:26:52 +0000
+Date: Thu, 20 Nov 2025 09:26:49 -0800
+From: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <umesh.nerlige.ramappa@intel.com>, <christian.koenig@amd.com>,
+ <pstanner@redhat.com>, <dakr@kernel.org>
+Subject: Re: [PATCH v4 4/8] drm/xe: Stop abusing DRM scheduler internals
+Message-ID: <aR9PWZB7Fg-9ve8F@nvishwa1-desk>
+References: <20251119224106.3733883-1-matthew.brost@intel.com>
+ <20251119224106.3733883-5-matthew.brost@intel.com>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20251119224106.3733883-5-matthew.brost@intel.com>
+X-ClientProxiedBy: BYAPR06CA0059.namprd06.prod.outlook.com
+ (2603:10b6:a03:14b::36) To PH7PR11MB6425.namprd11.prod.outlook.com
+ (2603:10b6:510:1f7::20)
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6425:EE_|CO1PR11MB4978:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5cc3163b-e22b-47b2-dc61-08de2859fe6c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?BVisAfmxROvlUulFNxdydEsm9nUekLyakhNw1fSMcvwLQcghhYgYoatm4fhM?=
+ =?us-ascii?Q?u2KdanChDffJqg6WVj3L+i3HrBzPgxcIOQya8dltRC88gi28IRbX+X2DnUWZ?=
+ =?us-ascii?Q?ZJWy/8simb1S+Ndl5YjyG1cIT6usEOeBXEDo/Cim3pUtiF9bazoM7megwPAf?=
+ =?us-ascii?Q?3SbfuhW8Y/DKAkMjsukXroWjAO8EU1eu66OSMzLKVE7azDsdGa0TirMlUmNL?=
+ =?us-ascii?Q?llyEfh9AHZLtOVL5vPw+5r4ikmP1eebvpwoJ2tM/o6gH/D1NGWONiLk8c+Hb?=
+ =?us-ascii?Q?tlIb6b/SZAgqZD+2zm6ZTgXeVeMBjYdNecYqye5K9+ty/gX8LA2E4MroLwhb?=
+ =?us-ascii?Q?an/4MX5oT3nmsSm8tPXYOccYtDnEjtBpNtSESi0p6bYRpPNuzFZmrdmY7GtQ?=
+ =?us-ascii?Q?c58s3OMMDDaIfgH8J2PdsTuDIl171jBw/5kJukx7t20K7brXCZC3G+IFXKAa?=
+ =?us-ascii?Q?XiCBdaKeZpW65Osr5awT3erH4uP6E7rCDJFf8Fby7s9XImktnGh6z/gvFteN?=
+ =?us-ascii?Q?y3pS1kKOpK/hSAABl2IFIRafVTrquuE4RvJLYtItnY+7giIIMkxZ7fjQhDAz?=
+ =?us-ascii?Q?C8S7g7zm1tBbKfN4LvcJ3LWQAIWAQceD8UJKT/eAeerLW1scC1kHp6xQCZSi?=
+ =?us-ascii?Q?7bQGZIYfr1fp4J0eOXVxL/E1ohBtN5ijwyRCzouLHViynJcX4ygoSPgKCQ9+?=
+ =?us-ascii?Q?NBeksN7Cd4mYotIVspCxyaHeZPkqm+JAlE3nmVN3vxG72Xepdze99MrzlZGO?=
+ =?us-ascii?Q?zf12C8ImC2CPsWdn6Fg4v6h/6rRuVigtu9lcLwFMQo6VNqyVEoZzPmhJIqza?=
+ =?us-ascii?Q?g34xYAGuwYmF1uDfN5hQqmBL9hlUP0IfJRpVyspHceI50gDL6ziGK1PoOyYp?=
+ =?us-ascii?Q?Z0sYiiBaWnCruzmYXi0jX/BKyXXhN3oDMxcEXGjiEiKIjhU4N6+EhKRG5ce+?=
+ =?us-ascii?Q?bdDJxwE8jeTmtydkgJ/rmEICw51nbcU6wtasQQ0bUgyT48RaulTQtirF4qYP?=
+ =?us-ascii?Q?Pwi/1s7nqgAfCTMATvKYrqTJqa0/jvMfd1SGCRT3suzkfKWfHC0UWm75kHri?=
+ =?us-ascii?Q?Rv7sGW3TR3Nry+CPV4+JUBYw1flVNuOP1cNj+BktZt4+FjBxyC1LgQZY3Ldq?=
+ =?us-ascii?Q?+k6Ibpw90YRl2Ci61f/YtSKSbFR67P37dVCE5opsO9sXI4cR1g8GFN1sUwI6?=
+ =?us-ascii?Q?gmA7VhrWV3TrJf5oioMLu55GA3h8P/yTuyhLlCnfaFDFDRg9h073bcKurVq4?=
+ =?us-ascii?Q?llbExsz2gaBjjnwXoJCsr3fm7CyQ3tZt17SbuAAuOzEvMs3kplEzKhY051+6?=
+ =?us-ascii?Q?VvuZoEQdiyvqdv2daTVrAQNXtAdrPqUukl29yc5SMtIT2UKPTRNfC7q+LDlZ?=
+ =?us-ascii?Q?p8jABKoAGYY4sIGDQPnJMgiDZzllGGYVrS0+i7dr21TxMFjaFpr8ZRuvZuK4?=
+ =?us-ascii?Q?GklFB3p8GaMLLmKRfvTbckO9KE2ZUyIO?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6425.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?r4otnUoVZJxwS8KfkV9/do3gTwMvwfLYX2yl+z2ccUjfGDbJSWLqxpjXcw8I?=
+ =?us-ascii?Q?uk5MAWS1gMzeRp4EPcCpSnQFOVi1Bn1PuIGL48lAzDX/6nBCAkvG4poyI+mz?=
+ =?us-ascii?Q?fQVNYcDvpkkTsMMYGvJJMviAy5mARydSRy9etK3dYaBhdSy3l3el32tB44AY?=
+ =?us-ascii?Q?Na5p6upCBC/jYy901BZDlXb/e4x/bHUoUa2cfsEtUNdrkCe2VVLtmYVowZIy?=
+ =?us-ascii?Q?jJqc95GpvwSG59XU971KJeDp4N8v6XV0nn+NHjdOurCNKSV2DQsMbAW/7Qcc?=
+ =?us-ascii?Q?EoEJOaNVhjRpz1wNkfbRNoYGIp9Dorkz77EQNQ/iZoQLqCXgp4fF3rbBQnox?=
+ =?us-ascii?Q?gV0US+h4bbDXxnkDRNHCte+FEGVwdWU+T8KIjMcjxLhsY9q1UAec9ROtMotD?=
+ =?us-ascii?Q?teXeRo0ZqbpFlTQsL9aH52E8bgrp0qnaMHhpdZc/YdPWNYJQfoCpR4Gm3k6u?=
+ =?us-ascii?Q?NkszYJiTU+H7lnwmRyylZLhnqZCF6b4YHYFDvIlxhchPBIBZyyi3G/qoj0jo?=
+ =?us-ascii?Q?5sDAULWX2peQffFspy6852U5CjVKh0B18UmAQa7VPDFC6Vuzz5Id3SDHe/ul?=
+ =?us-ascii?Q?ZAZXWqBwgz8i0HzgBsJ3lsMYepP+5+VM5jDbLdV6sKJKbAbc71zOF80kvVZJ?=
+ =?us-ascii?Q?+6c10JIVEHdxks7DNneFxFI7kjV1GDKzpjEH4XLwYOOm/MvSfukX2ewfDjoO?=
+ =?us-ascii?Q?HrNLnYOR5v+RxUX6o0iQsPiO2IzkT/PHaw9+MFLuOr0Tef78f0a/bs8xyVCi?=
+ =?us-ascii?Q?OAm0qbMVCX+qWY1MNCPlivxRxISjSOpd3cJsDIlpHqiMsGmZBppQmeVDh3yj?=
+ =?us-ascii?Q?hW+b7fmT9RGMLTS0IRESqNgiQmU1WKKMNWxO496UvSNmM6YiJUqusaByyBZA?=
+ =?us-ascii?Q?hh1cjJX8XhYB6lchDRwtnD9utInhJPirTS541SWZrwa9v+qpgT+UxaQt9N7t?=
+ =?us-ascii?Q?+DyEtGs371RdDnHrLF2c3muqq9zvSa0VW14GykHt/JAej+Pwc8j/0jvJGBeo?=
+ =?us-ascii?Q?mI4lzpxdsUZKpqf02z5Fj5tayEuMCApzBV0e1UkSNlcjuWGEnymAYGBctPrw?=
+ =?us-ascii?Q?nVt1qQ10zS5UNe8Rle/6lie4cl9bxy34KG/d3+h2ati46kLPwnEGb1Y9iXN6?=
+ =?us-ascii?Q?T569GATe0cerUzsKvOLuOEshfchN+VYkGkj6Xw1zdj+RK+mC34nGaxDhne88?=
+ =?us-ascii?Q?kkpU7Ls0BraRcWZFhKgaEr8MhI9LXPp6Z9icwUFnXuqQhe0MLvRja8ZK68AQ?=
+ =?us-ascii?Q?lw5tYEIyyKO8kgH1UICcR7E+IbW9ij4PD0jO2siZMgVdrNjV+mB3uBV0ZTz6?=
+ =?us-ascii?Q?RnB/PDpwWmdkbV5uuEk8Kx3fOrECkotW6icnF+66l0ldQMDeEIt/3GQqqdjf?=
+ =?us-ascii?Q?oRaVdtzSFfO1OJMvf+K/3zQxLoBy2knc5o88DJs4lR83b2UU0uDlUKsAQvEU?=
+ =?us-ascii?Q?AAkbtlFFzeKc8PX33FQl8IQQkwuWEpKqN5yjPMqcJhSTbTQkzRtoMFAMtTfP?=
+ =?us-ascii?Q?tzNUljcoJqbRg8CJtBh8rmeEL7Z5OnBCXwRHIxbaCzCSxT1M8eXRo5d8I1/h?=
+ =?us-ascii?Q?tJAN0OQvW8IGt2s3NzwVb/z3o2Bez/6HszLiVn6ECDL9DYLEeGumP5izRDMD?=
+ =?us-ascii?Q?hfFpQJfXb5uXrcW6Xo++pXs=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5cc3163b-e22b-47b2-dc61-08de2859fe6c
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6425.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB7199.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88738be0-af42-418d-280b-08de28597a08
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2025 17:23:09.6878 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KC7D/VTeVrmvf6/f0WMVdoJULq3MysawiYlZxIvbVml3VZ7rbr5VCWe3ZVIDsOt01CZgA3sUzKBrwXOKvr1dWA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6126
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 17:26:52.1142 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sPSsoQwXSq8L8xQSDxHtzXhJRGAEYu/xcM1uiQLDHqzG8A/0doe0LHVJAHM0U5Fal08l7EfAVfGkbR2GU+AAW3MqWhyzm55loTD9OUQegbi2UxBBu2dXzqFFcAjpRbM4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4978
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,60 +179,348 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> This series extends the VFIO PCI subsystem to support exporting MMIO=0A=
-> regions from PCI device BARs as dma-buf objects, enabling safe sharing of=
-=0A=
-> non-struct page memory with controlled lifetime management. This allows R=
-DMA=0A=
-> and other subsystems to import dma-buf FDs and build them into memory reg=
-ions=0A=
-> for PCI P2P operations.=0A=
->=0A=
-> The series supports a use case for SPDK where a NVMe device will be=0A=
-> owned by SPDK through VFIO but interacting with a RDMA device. The RDMA=
-=0A=
-> device may directly access the NVMe CMB or directly manipulate the NVMe=
-=0A=
-> device's doorbell using PCI P2P.=0A=
->=0A=
-> However, as a general mechanism, it can support many other scenarios with=
-=0A=
-> VFIO. This dmabuf approach can be usable by iommufd as well for generic=
-=0A=
-> and safe P2P mappings.=0A=
->=0A=
-> In addition to the SPDK use-case mentioned above, the capability added=0A=
-> in this patch series can also be useful when a buffer (located in device=
-=0A=
-> memory such as VRAM) needs to be shared between any two dGPU devices or=
-=0A=
-> instances (assuming one of them is bound to VFIO PCI) as long as they=0A=
-> are P2P DMA compatible.=0A=
->=0A=
-> The implementation provides a revocable attachment mechanism using dma-bu=
-f=0A=
-> move operations. MMIO regions are normally pinned as BARs don't change=0A=
-> physical addresses, but access is revoked when the VFIO device is closed=
-=0A=
-> or a PCI reset is issued. This ensures kernel self-defense against=0A=
-> potentially hostile userspace.=0A=
->=0A=
-> The series includes significant refactoring of the PCI P2PDMA subsystem=
-=0A=
-> to separate core P2P functionality from memory allocation features,=0A=
-> making it more modular and suitable for VFIO use cases that don't need=0A=
-> struct page support.=0A=
->=0A=
-> -----------------------------------------------------------------------=
-=0A=
-> The series is based originally on=0A=
-> https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel=
-.com/=0A=
-> but heavily rewritten to be based on DMA physical API.=0A=
-> -----------------------------------------------------------------------=
-=0A=
-> The WIP branch can be found here:=0A=
-> https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?=
-h=3Ddmabuf-vfio-v9=0A=
-=0A=
-Acked-by: Ankit Agrawal <ankita@nvidia.com>=
+On Wed, Nov 19, 2025 at 02:41:02PM -0800, Matthew Brost wrote:
+>Use new pending job list iterator and new helper functions in Xe to
+>avoid reaching into DRM scheduler internals.
+>
+>Part of this change involves removing pending jobs debug information
+>from debugfs and devcoredump. As agreed, the pending job list should
+>only be accessed when the scheduler is stopped. However, it's not
+>straightforward to determine whether the scheduler is stopped from the
+>shared debugfs/devcoredump code path. Additionally, the pending job list
+>provides little useful information, as pending jobs can be inferred from
+>seqnos and ring head/tail positions. Therefore, this debug information
+>is being removed.
+>
+>v4:
+> - Add comment around DRM_GPU_SCHED_STAT_NO_HANG (Niranjana)
+>
+>Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+
+LGTM.
+Reviewed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+
+>---
+> drivers/gpu/drm/xe/xe_gpu_scheduler.c    |  4 +-
+> drivers/gpu/drm/xe/xe_gpu_scheduler.h    | 34 +++--------
+> drivers/gpu/drm/xe/xe_guc_submit.c       | 78 +++++-------------------
+> drivers/gpu/drm/xe/xe_guc_submit_types.h | 11 ----
+> drivers/gpu/drm/xe/xe_hw_fence.c         | 16 -----
+> drivers/gpu/drm/xe/xe_hw_fence.h         |  2 -
+> 6 files changed, 24 insertions(+), 121 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/xe/xe_gpu_scheduler.c b/drivers/gpu/drm/xe/xe_gpu_scheduler.c
+>index f4f23317191f..9c8004d5dd91 100644
+>--- a/drivers/gpu/drm/xe/xe_gpu_scheduler.c
+>+++ b/drivers/gpu/drm/xe/xe_gpu_scheduler.c
+>@@ -7,7 +7,7 @@
+>
+> static void xe_sched_process_msg_queue(struct xe_gpu_scheduler *sched)
+> {
+>-	if (!READ_ONCE(sched->base.pause_submit))
+>+	if (!drm_sched_is_stopped(&sched->base))
+> 		queue_work(sched->base.submit_wq, &sched->work_process_msg);
+> }
+>
+>@@ -43,7 +43,7 @@ static void xe_sched_process_msg_work(struct work_struct *w)
+> 		container_of(w, struct xe_gpu_scheduler, work_process_msg);
+> 	struct xe_sched_msg *msg;
+>
+>-	if (READ_ONCE(sched->base.pause_submit))
+>+	if (drm_sched_is_stopped(&sched->base))
+> 		return;
+>
+> 	msg = xe_sched_get_msg(sched);
+>diff --git a/drivers/gpu/drm/xe/xe_gpu_scheduler.h b/drivers/gpu/drm/xe/xe_gpu_scheduler.h
+>index b971b6b69419..583372a78140 100644
+>--- a/drivers/gpu/drm/xe/xe_gpu_scheduler.h
+>+++ b/drivers/gpu/drm/xe/xe_gpu_scheduler.h
+>@@ -55,14 +55,10 @@ static inline void xe_sched_resubmit_jobs(struct xe_gpu_scheduler *sched)
+> {
+> 	struct drm_sched_job *s_job;
+>
+>-	list_for_each_entry(s_job, &sched->base.pending_list, list) {
+>-		struct drm_sched_fence *s_fence = s_job->s_fence;
+>-		struct dma_fence *hw_fence = s_fence->parent;
+>-
+>+	drm_sched_for_each_pending_job(s_job, &sched->base, NULL)
+> 		if (to_xe_sched_job(s_job)->skip_emit ||
+>-		    (hw_fence && !dma_fence_is_signaled(hw_fence)))
+>+		    !drm_sched_job_is_signaled(s_job))
+> 			sched->base.ops->run_job(s_job);
+>-	}
+> }
+>
+> static inline bool
+>@@ -71,14 +67,6 @@ xe_sched_invalidate_job(struct xe_sched_job *job, int threshold)
+> 	return drm_sched_invalidate_job(&job->drm, threshold);
+> }
+>
+>-static inline void xe_sched_add_pending_job(struct xe_gpu_scheduler *sched,
+>-					    struct xe_sched_job *job)
+>-{
+>-	spin_lock(&sched->base.job_list_lock);
+>-	list_add(&job->drm.list, &sched->base.pending_list);
+>-	spin_unlock(&sched->base.job_list_lock);
+>-}
+>-
+> /**
+>  * xe_sched_first_pending_job() - Find first pending job which is unsignaled
+>  * @sched: Xe GPU scheduler
+>@@ -88,21 +76,13 @@ static inline void xe_sched_add_pending_job(struct xe_gpu_scheduler *sched,
+> static inline
+> struct xe_sched_job *xe_sched_first_pending_job(struct xe_gpu_scheduler *sched)
+> {
+>-	struct xe_sched_job *job, *r_job = NULL;
+>-
+>-	spin_lock(&sched->base.job_list_lock);
+>-	list_for_each_entry(job, &sched->base.pending_list, drm.list) {
+>-		struct drm_sched_fence *s_fence = job->drm.s_fence;
+>-		struct dma_fence *hw_fence = s_fence->parent;
+>+	struct drm_sched_job *job;
+>
+>-		if (hw_fence && !dma_fence_is_signaled(hw_fence)) {
+>-			r_job = job;
+>-			break;
+>-		}
+>-	}
+>-	spin_unlock(&sched->base.job_list_lock);
+>+	drm_sched_for_each_pending_job(job, &sched->base, NULL)
+>+		if (!drm_sched_job_is_signaled(job))
+>+			return to_xe_sched_job(job);
+>
+>-	return r_job;
+>+	return NULL;
+> }
+>
+> static inline int
+>diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
+>index d4ffdb71ef3d..3ee35d4873bc 100644
+>--- a/drivers/gpu/drm/xe/xe_guc_submit.c
+>+++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+>@@ -1032,7 +1032,7 @@ static void xe_guc_exec_queue_lr_cleanup(struct work_struct *w)
+> 	struct xe_exec_queue *q = ge->q;
+> 	struct xe_guc *guc = exec_queue_to_guc(q);
+> 	struct xe_gpu_scheduler *sched = &ge->sched;
+>-	struct xe_sched_job *job;
+>+	struct drm_sched_job *job;
+> 	bool wedged = false;
+>
+> 	xe_gt_assert(guc_to_gt(guc), xe_exec_queue_is_lr(q));
+>@@ -1091,16 +1091,10 @@ static void xe_guc_exec_queue_lr_cleanup(struct work_struct *w)
+> 	if (!exec_queue_killed(q) && !xe_lrc_ring_is_idle(q->lrc[0]))
+> 		xe_devcoredump(q, NULL, "LR job cleanup, guc_id=%d", q->guc->id);
+>
+>-	xe_hw_fence_irq_stop(q->fence_irq);
+>+	drm_sched_for_each_pending_job(job, &sched->base, NULL)
+>+		xe_sched_job_set_error(to_xe_sched_job(job), -ECANCELED);
+>
+> 	xe_sched_submission_start(sched);
+>-
+>-	spin_lock(&sched->base.job_list_lock);
+>-	list_for_each_entry(job, &sched->base.pending_list, drm.list)
+>-		xe_sched_job_set_error(job, -ECANCELED);
+>-	spin_unlock(&sched->base.job_list_lock);
+>-
+>-	xe_hw_fence_irq_start(q->fence_irq);
+> }
+>
+> #define ADJUST_FIVE_PERCENT(__t)	mul_u64_u32_div(__t, 105, 100)
+>@@ -1219,7 +1213,7 @@ static enum drm_gpu_sched_stat
+> guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
+> {
+> 	struct xe_sched_job *job = to_xe_sched_job(drm_job);
+>-	struct xe_sched_job *tmp_job;
+>+	struct drm_sched_job *tmp_job;
+> 	struct xe_exec_queue *q = job->q;
+> 	struct xe_gpu_scheduler *sched = &q->guc->sched;
+> 	struct xe_guc *guc = exec_queue_to_guc(q);
+>@@ -1228,7 +1222,6 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
+> 	unsigned int fw_ref;
+> 	int err = -ETIME;
+> 	pid_t pid = -1;
+>-	int i = 0;
+> 	bool wedged = false, skip_timeout_check;
+>
+> 	xe_gt_assert(guc_to_gt(guc), !xe_exec_queue_is_lr(q));
+>@@ -1395,28 +1388,19 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
+> 		__deregister_exec_queue(guc, q);
+> 	}
+>
+>-	/* Stop fence signaling */
+>-	xe_hw_fence_irq_stop(q->fence_irq);
+>+	/* Mark all outstanding jobs as bad, thus completing them */
+>+	xe_sched_job_set_error(job, err);
+>+	drm_sched_for_each_pending_job(tmp_job, &sched->base, NULL)
+>+		xe_sched_job_set_error(to_xe_sched_job(tmp_job), -ECANCELED);
+>
+>-	/*
+>-	 * Fence state now stable, stop / start scheduler which cleans up any
+>-	 * fences that are complete
+>-	 */
+>-	xe_sched_add_pending_job(sched, job);
+> 	xe_sched_submission_start(sched);
+>-
+> 	xe_guc_exec_queue_trigger_cleanup(q);
+>
+>-	/* Mark all outstanding jobs as bad, thus completing them */
+>-	spin_lock(&sched->base.job_list_lock);
+>-	list_for_each_entry(tmp_job, &sched->base.pending_list, drm.list)
+>-		xe_sched_job_set_error(tmp_job, !i++ ? err : -ECANCELED);
+>-	spin_unlock(&sched->base.job_list_lock);
+>-
+>-	/* Start fence signaling */
+>-	xe_hw_fence_irq_start(q->fence_irq);
+>-
+>-	return DRM_GPU_SCHED_STAT_RESET;
+>+	/*
+>+	 * We want the job added back to the pending list so it gets freed; this
+>+	 * is what DRM_GPU_SCHED_STAT_NO_HANG does.
+>+	 */
+>+	return DRM_GPU_SCHED_STAT_NO_HANG;
+>
+> sched_enable:
+> 	set_exec_queue_pending_tdr_exit(q);
+>@@ -2244,7 +2228,7 @@ static void guc_exec_queue_unpause_prepare(struct xe_guc *guc,
+> 	struct drm_sched_job *s_job;
+> 	struct xe_sched_job *job = NULL;
+>
+>-	list_for_each_entry(s_job, &sched->base.pending_list, list) {
+>+	drm_sched_for_each_pending_job(s_job, &sched->base, NULL) {
+> 		job = to_xe_sched_job(s_job);
+>
+> 		xe_gt_dbg(guc_to_gt(guc), "Replay JOB - guc_id=%d, seqno=%d",
+>@@ -2349,7 +2333,7 @@ void xe_guc_submit_unpause(struct xe_guc *guc)
+> 		 * created after resfix done.
+> 		 */
+> 		if (q->guc->id != index ||
+>-		    !READ_ONCE(q->guc->sched.base.pause_submit))
+>+		    !drm_sched_is_stopped(&q->guc->sched.base))
+> 			continue;
+>
+> 		guc_exec_queue_unpause(guc, q);
+>@@ -2771,30 +2755,6 @@ xe_guc_exec_queue_snapshot_capture(struct xe_exec_queue *q)
+> 	if (snapshot->parallel_execution)
+> 		guc_exec_queue_wq_snapshot_capture(q, snapshot);
+>
+>-	spin_lock(&sched->base.job_list_lock);
+>-	snapshot->pending_list_size = list_count_nodes(&sched->base.pending_list);
+>-	snapshot->pending_list = kmalloc_array(snapshot->pending_list_size,
+>-					       sizeof(struct pending_list_snapshot),
+>-					       GFP_ATOMIC);
+>-
+>-	if (snapshot->pending_list) {
+>-		struct xe_sched_job *job_iter;
+>-
+>-		i = 0;
+>-		list_for_each_entry(job_iter, &sched->base.pending_list, drm.list) {
+>-			snapshot->pending_list[i].seqno =
+>-				xe_sched_job_seqno(job_iter);
+>-			snapshot->pending_list[i].fence =
+>-				dma_fence_is_signaled(job_iter->fence) ? 1 : 0;
+>-			snapshot->pending_list[i].finished =
+>-				dma_fence_is_signaled(&job_iter->drm.s_fence->finished)
+>-				? 1 : 0;
+>-			i++;
+>-		}
+>-	}
+>-
+>-	spin_unlock(&sched->base.job_list_lock);
+>-
+> 	return snapshot;
+> }
+>
+>@@ -2852,13 +2812,6 @@ xe_guc_exec_queue_snapshot_print(struct xe_guc_submit_exec_queue_snapshot *snaps
+>
+> 	if (snapshot->parallel_execution)
+> 		guc_exec_queue_wq_snapshot_print(snapshot, p);
+>-
+>-	for (i = 0; snapshot->pending_list && i < snapshot->pending_list_size;
+>-	     i++)
+>-		drm_printf(p, "\tJob: seqno=%d, fence=%d, finished=%d\n",
+>-			   snapshot->pending_list[i].seqno,
+>-			   snapshot->pending_list[i].fence,
+>-			   snapshot->pending_list[i].finished);
+> }
+>
+> /**
+>@@ -2881,7 +2834,6 @@ void xe_guc_exec_queue_snapshot_free(struct xe_guc_submit_exec_queue_snapshot *s
+> 			xe_lrc_snapshot_free(snapshot->lrc[i]);
+> 		kfree(snapshot->lrc);
+> 	}
+>-	kfree(snapshot->pending_list);
+> 	kfree(snapshot);
+> }
+>
+>diff --git a/drivers/gpu/drm/xe/xe_guc_submit_types.h b/drivers/gpu/drm/xe/xe_guc_submit_types.h
+>index dc7456c34583..0b08c79cf3b9 100644
+>--- a/drivers/gpu/drm/xe/xe_guc_submit_types.h
+>+++ b/drivers/gpu/drm/xe/xe_guc_submit_types.h
+>@@ -61,12 +61,6 @@ struct guc_submit_parallel_scratch {
+> 	u32 wq[WQ_SIZE / sizeof(u32)];
+> };
+>
+>-struct pending_list_snapshot {
+>-	u32 seqno;
+>-	bool fence;
+>-	bool finished;
+>-};
+>-
+> /**
+>  * struct xe_guc_submit_exec_queue_snapshot - Snapshot for devcoredump
+>  */
+>@@ -134,11 +128,6 @@ struct xe_guc_submit_exec_queue_snapshot {
+> 		/** @wq: Workqueue Items */
+> 		u32 wq[WQ_SIZE / sizeof(u32)];
+> 	} parallel;
+>-
+>-	/** @pending_list_size: Size of the pending list snapshot array */
+>-	int pending_list_size;
+>-	/** @pending_list: snapshot of the pending list info */
+>-	struct pending_list_snapshot *pending_list;
+> };
+>
+> #endif
+>diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
+>index b2a0c46dfcd4..e65dfcdfdbc5 100644
+>--- a/drivers/gpu/drm/xe/xe_hw_fence.c
+>+++ b/drivers/gpu/drm/xe/xe_hw_fence.c
+>@@ -110,22 +110,6 @@ void xe_hw_fence_irq_run(struct xe_hw_fence_irq *irq)
+> 	irq_work_queue(&irq->work);
+> }
+>
+>-void xe_hw_fence_irq_stop(struct xe_hw_fence_irq *irq)
+>-{
+>-	spin_lock_irq(&irq->lock);
+>-	irq->enabled = false;
+>-	spin_unlock_irq(&irq->lock);
+>-}
+>-
+>-void xe_hw_fence_irq_start(struct xe_hw_fence_irq *irq)
+>-{
+>-	spin_lock_irq(&irq->lock);
+>-	irq->enabled = true;
+>-	spin_unlock_irq(&irq->lock);
+>-
+>-	irq_work_queue(&irq->work);
+>-}
+>-
+> void xe_hw_fence_ctx_init(struct xe_hw_fence_ctx *ctx, struct xe_gt *gt,
+> 			  struct xe_hw_fence_irq *irq, const char *name)
+> {
+>diff --git a/drivers/gpu/drm/xe/xe_hw_fence.h b/drivers/gpu/drm/xe/xe_hw_fence.h
+>index f13a1c4982c7..599492c13f80 100644
+>--- a/drivers/gpu/drm/xe/xe_hw_fence.h
+>+++ b/drivers/gpu/drm/xe/xe_hw_fence.h
+>@@ -17,8 +17,6 @@ void xe_hw_fence_module_exit(void);
+> void xe_hw_fence_irq_init(struct xe_hw_fence_irq *irq);
+> void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq);
+> void xe_hw_fence_irq_run(struct xe_hw_fence_irq *irq);
+>-void xe_hw_fence_irq_stop(struct xe_hw_fence_irq *irq);
+>-void xe_hw_fence_irq_start(struct xe_hw_fence_irq *irq);
+>
+> void xe_hw_fence_ctx_init(struct xe_hw_fence_ctx *ctx, struct xe_gt *gt,
+> 			  struct xe_hw_fence_irq *irq, const char *name);
+>-- 
+>2.34.1
+>
