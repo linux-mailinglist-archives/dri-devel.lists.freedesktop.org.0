@@ -2,48 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14EFBC7488A
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 15:25:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB2F1C74903
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 15:30:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8071210E041;
-	Thu, 20 Nov 2025 14:25:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0AA810E765;
+	Thu, 20 Nov 2025 14:30:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="apPuLH8T";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BY9YcLo9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0334110E041
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 14:25:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A33EF10E76C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 14:30:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 29F0260052;
- Thu, 20 Nov 2025 14:25:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CA53C4CEF1;
- Thu, 20 Nov 2025 14:25:06 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id BE20D60131;
+ Thu, 20 Nov 2025 14:30:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D225C4CEF1;
+ Thu, 20 Nov 2025 14:30:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763648707;
- bh=P02NKJm9d4HVc3qEBXdT7gfdA6zg3DsAH5iu97J9h5o=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=apPuLH8T93/7v4CYZ97SdBZWLgQs3reOWTCTuyIG8TybXuHB1wp9HR+oPwjPHMuT+
- mEmiPvYz7pb/vU53+C8dS2jv21NUksFXGl+Ph5FB11JLtQ/LW5ckJy0GNKirzKZIhd
- rlA23V8tzpkOVd+m8Jgg5gvQoDO6rg+Zk6CJ2xy8sRZcg4djh0rKVqhdZ3ErwZitBw
- FUBRdaFl45bdwj6qLv0FuED4uf/HaOozDFqMZ5EQcxAa9enOV5Ou9sqEWP2YmhbpNs
- aFjGlTIZssx0edS49xu6TRi38r+4GP87kA3SqncKyF//bOL6OST5Rx9Fu+TE82iRSi
- LAVgCI3qAvwPw==
-From: Lee Jones <lee@kernel.org>
-To: linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
- Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org
-In-Reply-To: <20251111060916.1995920-1-rdunlap@infradead.org>
-References: <20251111060916.1995920-1-rdunlap@infradead.org>
-Subject: Re: (subset) [PATCH] backlight: lp855x: fix lp855x.h kernel-doc
- warnings
-Message-Id: <176364870609.729924.9672066870008477994.b4-ty@kernel.org>
-Date: Thu, 20 Nov 2025 14:25:06 +0000
-MIME-Version: 1.0
+ s=k20201202; t=1763649050;
+ bh=G0UVsRqQ7j8J9S16cmfX+j6Xm8Cx7ey9TFc+hgOvBdc=;
+ h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+ b=BY9YcLo9PfgLCtt2rd0kgNyiwsySVweY8KcCyA6BZwyH6QSGzWolRG59qQBleVOdV
+ 2YPw73f5oaRWHYMp8PsWt758sIPRvImjds+2QvxjNT3pk8FpD2uAENbsyJmyTcmAko
+ K4Wc5H8igZzgX7q8zgD+GXWCcXiKU69+OnaDj0cUCcVtMqR6Ln8u+cpMdxpjs1DkLs
+ Vz0b8JopsN8zGBq7Ln7dQ2vhkJy4GWNtl0fKvy+i5uXY5FB8T7eu3rMobUPWuwSwx0
+ kSia1/X5hInvUYSppwsSJLpqago3Xi67ZiQLZarj/c/x/AGqDoRprp63jB4vlrxvEJ
+ 7Rim3ehM+vlsg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+ by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
+ EAF1739FEB77; Thu, 20 Nov 2025 14:30:16 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-52d38
+Subject: Re: [PATCH net-next v6 0/6] Add AF_XDP zero copy support
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: <176364901575.1647241.5550367394642830810.git-patchwork-notify@kernel.org>
+Date: Thu, 20 Nov 2025 14:30:15 +0000
+References: <20251118135542.380574-1-m-malladi@ti.com>
+In-Reply-To: <20251118135542.380574-1-m-malladi@ti.com>
+To: Meghana Malladi <m-malladi@ti.com>
+Cc: horms@kernel.org, namcao@linutronix.de, vadim.fedorenko@linux.dev,
+ jacob.e.keller@intel.com, christian.koenig@amd.com, sumit.semwal@linaro.org,
+ sdf@fomichev.me, john.fastabend@gmail.com, hawk@kernel.org,
+ daniel@iogearbox.net, ast@kernel.org, pabeni@redhat.com, kuba@kernel.org,
+ edumazet@google.com, davem@davemloft.net, andrew+netdev@lunn.ch,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, srk@ti.com, vigneshr@ti.com,
+ rogerq@kernel.org, danishanwar@ti.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,23 +68,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 10 Nov 2025 22:09:16 -0800, Randy Dunlap wrote:
-> Add a missing struct short description and a missing leading " *" to
-> lp855x.h to avoid kernel-doc warnings:
+Hello:
+
+This series was applied to netdev/net-next.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
+
+On Tue, 18 Nov 2025 19:25:36 +0530 you wrote:
+> This series adds AF_XDP zero coppy support to icssg driver.
 > 
-> Warning: include/linux/platform_data/lp855x.h:126 missing initial short
->  description on line:
->  * struct lp855x_platform_data
-> Warning: include/linux/platform_data/lp855x.h:131 bad line:
->    Only valid when mode is PWM_BASED.
+> Tests were performed on AM64x-EVM with xdpsock application [1].
+> 
+> A clear improvement is seen Transmit (txonly) and receive (rxdrop)
+> for 64 byte packets. 1500 byte test seems to be limited by line
+> rate (1G link) so no improvement seen there in packet rate
 > 
 > [...]
 
-Applied, thanks!
+Here is the summary with links:
+  - [net-next,v6,1/6] net: ti: icssg-prueth: Add functions to create and destroy Rx/Tx queues
+    https://git.kernel.org/netdev/net-next/c/41dde7f1d013
+  - [net-next,v6,2/6] net: ti: icssg-prueth: Add XSK pool helpers
+    https://git.kernel.org/netdev/net-next/c/7dfd7597911f
+  - [net-next,v6,3/6] net: ti: icssg-prueth: Add AF_XDP zero copy for TX
+    https://git.kernel.org/netdev/net-next/c/8756ef2eb078
+  - [net-next,v6,4/6] net: ti: icssg-prueth: Make emac_run_xdp function independent of page
+    https://git.kernel.org/netdev/net-next/c/121133163c9f
+  - [net-next,v6,5/6] net: ti: icssg-prueth: Add AF_XDP zero copy for RX
+    https://git.kernel.org/netdev/net-next/c/7a64bb388df3
+  - [net-next,v6,6/6] net: ti: icssg-prueth: Enable zero copy in XDP features
+    https://git.kernel.org/netdev/net-next/c/c6a1ec1870e6
 
-[1/1] backlight: lp855x: fix lp855x.h kernel-doc warnings
-      commit: 1704e206cb98c5e43af1483e3b07450055a31008
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
---
-Lee Jones [李琼斯]
 
