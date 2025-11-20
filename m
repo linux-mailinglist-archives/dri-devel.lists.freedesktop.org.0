@@ -2,60 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8802CC71E23
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 03:45:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3ED7C71E44
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 03:51:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BC9610E083;
-	Thu, 20 Nov 2025 02:45:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49E7A10E131;
+	Thu, 20 Nov 2025 02:50:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hKhq+dNU";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="mgbTYwRh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DA3210E083
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 02:45:48 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (fs276ed015.tkyc509.ap.nuro.jp
- [39.110.208.21])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 165B46A8;
- Thu, 20 Nov 2025 03:43:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1763606621;
- bh=pgDnyPCQ4kOR1m6vsWTDpXSA6ZeXyjGx2I/7FDoMTVQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hKhq+dNUijD4c/HYvb7id4RDo3f2v9AwGz/QfwVnCVHx617S3njPxRV0RPH8/tRuf
- RwO2CJXP5fXpnU8+boz5Vc0MNM/+uiafyhqILK4rM+QQoDGGQZ7CvL38COlC8WzxRQ
- EDEPPHccSoDTVNeJC77HWCdHieb7xWt+5W3deAIQ=
-Date: Thu, 20 Nov 2025 11:45:23 +0900
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
-Message-ID: <20251120024523.GI10711@pendragon.ideasonboard.com>
-References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
- <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
- <20251118150128.GB23711@pendragon.ideasonboard.com>
- <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
- <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
- <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
- <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Received: from BL2PR02CU003.outbound.protection.outlook.com
+ (mail-eastusazon11011036.outbound.protection.outlook.com [52.101.52.36])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2FE210E131
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 02:50:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Eg9pxYbHeU6Mje5m395U41tZzpIZ4aa2vCmnrSOZwT0ATCG2c5q/AJxx1DPJ5P4kyM5gJM6efMiUI7B9B7ir68caugZS4eI4vZwl/y0qvSG6XRQ7/YPxxEs9zMC9k7wKFFjaLJ5SFIjyNAaViwfRDk0LjGsfqs+lrKQDC7bfzykI0Dt+AOQpjwRopRdLQfWxNYrvbh8DiXPmPmhIdxi9C3qEkUbOU/VsLMrU0i56Vnvxi5whgll0CKshnx9AkCd4eJGhs/5fd5EU50UB4XEstDmiWEkdlsjUPGOCQZiYsoV2l7qfoF9iZ9ttelwtKYEalxRHlnndpM49juBhmvI1ig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2NYmFLIwT/CMiogSg3ztU6g+N8xNixgU5RfO45fAGCM=;
+ b=JZK1EJUo4GS7yxcKwZfJGbAKFBIeMLk6ncDPQOJ68NC2kf82aDBhRNhPUs8rIAWGC6WdzZYjwzxkIRNgYePV4jvknCQgJhtJfKjvgP+iBr6dZ1Jjgr6DSH9YLvbMEK0ihXZubqW8q1FijpAJzt5Ds2CY100owkO9786I8YDxHsvktoQBUk+FLJn9elKScAw8IRorsqpj2fyLIJnqO8TsSCvRQ1vzPCBcC7WkO7XrRf20oiRcCPqKg6tD/U6o56AiM3ald6jI3H8KCQxrmujQ1xNdTVhJaZFJeicZRfZC8XKr1aVRlgE814luvnzbdjYBNjp1g4OhWa+nx5Fhge/7Yw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2NYmFLIwT/CMiogSg3ztU6g+N8xNixgU5RfO45fAGCM=;
+ b=mgbTYwRhNOcQmu9yM3k2sRMAkZkDbWotDerqw4kdvBhgD+SnDTSD3ewdUlyfEhk1MFEhGFOVmihQoygTx1iMmtB4UxrgrIHpDMEvaHdGr5VYqMSjq5iVZ6B+sLOf+qcREpi4AaoVdlvINmQxoqcCUvFg8CG44AicTsKHLfeT73vX/G1CxY8h1q+ektheg9enhAk+8hhbRe1eiUz81CBFowTp3NLnu2E2TyRh6jBazy0vc8/SWRUMrBs4Uo5MYrm5e24xa3vubq8CNO7p74WgDxo7193Z7r+gg3XMMCkQKEuggVP1VDFCZIr1UkJ4VCnqKjsQ0FuKJxdnw+o/zH2zcQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
+ by SA0PR12MB4352.namprd12.prod.outlook.com (2603:10b6:806:9c::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
+ 2025 02:50:52 +0000
+Received: from PH8PR12MB7277.namprd12.prod.outlook.com
+ ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
+ ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9320.021; Thu, 20 Nov 2025
+ 02:50:51 +0000
+Message-ID: <7ecb3faa-8bc7-4eb1-9342-404a9ff52b97@nvidia.com>
+Date: Thu, 20 Nov 2025 13:50:43 +1100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v7 00/16] mm: support device-private THP
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
+ Francois Dugast <francois.dugast@intel.com>
+References: <20251001065707.920170-1-balbirs@nvidia.com>
+ <20251008201740.d9507f4807a73058d4da23a8@linux-foundation.org>
+ <a5992f11-5841-4bbf-b190-b5df41b68b0c@nvidia.com>
+ <aOePfeoDuRW+prFq@lstrano-desk.jf.intel.com>
+ <20251111154326.bc48466a6962fbbffd8ebdd0@linux-foundation.org>
+ <7a0f2704-80b5-4cbd-8f3b-ac03692eefd3@nvidia.com>
+ <aR5/uUFboeeSwN0z@lstrano-desk.jf.intel.com>
+Content-Language: en-US
+From: Balbir Singh <balbirs@nvidia.com>
+In-Reply-To: <aR5/uUFboeeSwN0z@lstrano-desk.jf.intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
+X-ClientProxiedBy: BY3PR05CA0013.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::18) To PH8PR12MB7277.namprd12.prod.outlook.com
+ (2603:10b6:510:223::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|SA0PR12MB4352:EE_
+X-MS-Office365-Filtering-Correlation-Id: 28aaccfe-38f1-4972-b65f-08de27df9e18
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|1800799024|7416014|376014|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?K0RhQnpIWWx6VVFNTDkrcTFnYjZ2Mm53Rzg3d1VpU0tHNjlOcW5ZVTYxd1Qv?=
+ =?utf-8?B?UGJRZ1RjZStDbTFsMVVWNHQvL3lMWlMvWkJZVmFYSEJRbEdLZDZXaG0rRDd2?=
+ =?utf-8?B?alJUM2NMVnpOS2diL3JJZ21IWGNTN2ZsTVlIYlJMWFBiVGhmWUQ3OWNWTVBv?=
+ =?utf-8?B?amZtYXlLTnhCZk42VjlUeWVYTFBncjhUenkxMXIzSGtxZll4aG9tMzdFUkI0?=
+ =?utf-8?B?ekNETXoxVElSb0NVdXRTQVZiOS9GWnJhRVA3QjdPWWRUWXF5SFFFMFJsVExv?=
+ =?utf-8?B?dk1CSFpjUi82L2FrSWVQVmF0UmJrbUZDRCtyQUtPY3NxRG5QclZoV2Qrd1h1?=
+ =?utf-8?B?UnBjNUNPekJUTDRkZkNnWjdZWkt5QThlUE5YdDZWTHltRlV0ZnNXZDZMMXZj?=
+ =?utf-8?B?bFlQMFIzYk43TkVCV2VFWjNhUHNWM3pYMiswNFdYT3VqcUhLVFF1dWVuSzVa?=
+ =?utf-8?B?UXlpTTAyU1JmWk9tU2RISkVkK2xycENPQkFCd0I5YkcrQVh5Sm53S1R6bzRS?=
+ =?utf-8?B?OFhrQ3VBbmpLdFhLU1lGZlpSMjBVNXFteElQZklvNWUwTWZkWWVBbC9Ld1RB?=
+ =?utf-8?B?bDNWYzg0U1YyTGR2YXFGdnlSZHA2YXY0SUpYekF2QmllOWF6UTFaemVzWFdj?=
+ =?utf-8?B?THNYbzlJbk4zaFFJcUovOE0wV0wvc0RGUXJKNlprTXF1OGVQSmkyS0RDOVBp?=
+ =?utf-8?B?L2tOcy9nOHhCNXRRZzlIU2h5NmR0bzMyNG9TTkdFMlhZbmdRQWxJaEdqRFFw?=
+ =?utf-8?B?dFkrT1UzdElzVVErc1luZUh1ajdxMm1Nc0RJWGptMytiMGRnZXgrOTZUTDdK?=
+ =?utf-8?B?RG1hbGtmZ1I5OHVoR3A2RFg5RzFyUkNJZHRxYTZhWENOYm0wd0dhYVZXQ1JV?=
+ =?utf-8?B?YjUrSU5XM3NGOTNWdTRJeTZwNGwzT05hM1JNbDg5ZVI2OTZWb2lyUDVhQ0gx?=
+ =?utf-8?B?S3FmZ1FheUVyMFBqL3lVa0hZbWpTVE0zOVVPeEd4RHUybU1hR0c1ZjcweUtk?=
+ =?utf-8?B?NlFSZzdIN1o4a0lRV0l1c1l5bkdvdENZR1lPcGdDQUl0dlBzbGkxdkN3cGFj?=
+ =?utf-8?B?cHdkTDVTUkNMbHBaVkxsaWYyUGQrNnZZZHNNeXM2WUw4V3c5cnBsandLcHhy?=
+ =?utf-8?B?ZjFlU3IxZ0hnRmpTaXh2WlExa3RTWC9zYmZ1SU40ODhjejhLL1pleGIwMFRD?=
+ =?utf-8?B?SEtTa2c5T1dxRDF2dTRyQkpaUUUwTUxCNWFHckZpeUVVcU4rV1Ewb1hjQVV6?=
+ =?utf-8?B?NFBnSWhWU3hXc2Job1NmZmJxQ2hFS2tzZjVuWGtiNEJzSDA3TkJFbWtLZmc0?=
+ =?utf-8?B?a1JtUUFDbHJsZFBSakx0ZkNTOTd4Y3EzTXNiRVVrbG1DYk1Ycjg4QmdoTjJO?=
+ =?utf-8?B?Z2JIdFlWdGd5eDJDTWNXa00rTVNJNFFNY3YxTnNSVHJUV1cyWituc1pJby8z?=
+ =?utf-8?B?TTRXOEdxU29qZ1Awd3F5NHlYT2Mrb2tKcnhyQkFDVGRqQkJLRUx6VHhPbDdq?=
+ =?utf-8?B?aTl1aDlPZTROaUdZd2NPS3RMZ25TZjFBRGpxMEl5UjJVRmJCUEZma2lWc3Q1?=
+ =?utf-8?B?eG1SOXdSVUhsNm8rVjYzYkwrSmYrdDk4UlZtc2pDOCtOTUEzYlBOUlhFZ0sw?=
+ =?utf-8?B?UDMyeVlaRlV4SHIvdWZHTVNNdXNOdzdXQWJtcTlvZEdOeTBaeVNJREVLOU5N?=
+ =?utf-8?B?NUcxM0tYOGZkazQvWDJzeWQ5OGNEa2Y5VCtTUGdnRVJHQjJoY0RSS3piYlEw?=
+ =?utf-8?B?ODBldlcxbjZtWms2cjFhS0RSV2JvQWhERFh0UkxWS1NqZmd0WFRxRHIzSzh1?=
+ =?utf-8?B?d0tINjZ3R280eEpjZXR1c3I5RVZoOHVRemhQdHVEc0xwTTRtdWprQUpiWTBD?=
+ =?utf-8?B?VXBTMXJHTndOSExUSk5UTFBFV2Mzd3VFaG1wV0tqNE40TTAyWGJrTTUzL0U4?=
+ =?utf-8?Q?vBKonHsomrmHHVwGxFM1qGKJz761Y3kj?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(1800799024)(7416014)(376014)(366016)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aGdZeWs1ZGY2OExCOHl4S1lEZWtRTnFUQzNTZ0E3REYzUlVyK05FRlRETmJv?=
+ =?utf-8?B?Z1VYMTNXRkVpL0FmUWk4a0N4aU90ZzVlMG96dWZXWUN2aDUyYWNKNlpZdWdu?=
+ =?utf-8?B?OFpjdVgyaXdBTC9PVmpoTWJFQUZjRXhRc0lVbTdjZ2VHb0R4UnFsT014dnNF?=
+ =?utf-8?B?Z0JnQmwvekRNWk8vbjJpdTN6Q1lGTWw2dEpiQTVaMmZmNkZ5V3ZqaEVRSTJx?=
+ =?utf-8?B?WlFMK0NrRXZhZkRheTZ5dmVicHd0K1B2eGlUSXpJTXNhWUxXUDVOSlhpdkFx?=
+ =?utf-8?B?S3NUekhsZDU1b09RTktSdHpQanlDMTY2bHFYNmhUaTVWMkhZMFZ2NjlCd2lJ?=
+ =?utf-8?B?K2RkdlJhYlVnRXk0L3N1VkRWQytmaUh5YUhrQ0lmSlhnVE1DcFB3QTRwT2Nn?=
+ =?utf-8?B?RGEvWWtzREhYVGtmeDlRN0RkekxLbTJvajU1WWhrRmRlSk5uL0h2bWVzSy9v?=
+ =?utf-8?B?RGkrU2RiTE1kWUdoazcwdDZQTG5TWk1jUGsvVk9uNzFDUHAzaGoyNVZ2Y1dr?=
+ =?utf-8?B?dDQwVzFFZzI2N3BXL3REcWU5RENJOE93Q1QwcVBnYXZKSXlPeFA4TGFFSzhq?=
+ =?utf-8?B?YW5Ga1FYM3c5VExUbEpEWHpjNVgxR3YrdHkwZmhjK2FHeDdaZityYXVkNVYz?=
+ =?utf-8?B?MkJNTkt5MitLa3RhOTU0Wm4rUjJaeHIvRTZtcGZoL1p4ckZJVWVVMDJHM0lG?=
+ =?utf-8?B?TjhKZG9zekYrTTVPa2RBWnRjWE1ubUJYcG1iYVg4M0FnWkN1STdDUStWWFh5?=
+ =?utf-8?B?TTdkNmYwbE04ZTJyMCtmS01RaTJ6ckdtYkhkbUU3UzcrWWEzUnpEMXVPbWJ2?=
+ =?utf-8?B?ZFgrNk9adFo4RW5vRlBPZjNybFdVNmlkQnhMWEJsRENvaWU5SHlialQvUmtz?=
+ =?utf-8?B?Ym1URTRCa1Jid0IvUDE4cnl3YXhuUFpickUyOVNNK3JqUVVaSHp0Njk0czJC?=
+ =?utf-8?B?QWJkNzUvc2R0dTVWNGdVNkpHd1dvUUZBYm9yc3V1YWFGcU9ISnBPYU5Zamow?=
+ =?utf-8?B?QmxkcEhiTnZJMStDS2xqM2U2b1RSOGcrdm5pQXZoM2Iwam1YMFF2aUh4d0xI?=
+ =?utf-8?B?Tzc4N1NoNUE0U3hOc0dsMVRsNE1xa2ZmZXlLaGowYThJd0JkVXhFVys2Ymdm?=
+ =?utf-8?B?MExtY3RxSXpwa3VlY1hNM28wa0lYTXQ1ejU0UTFiR3doUTV4eDUrSjZIVHUy?=
+ =?utf-8?B?L3JZZ1M1SmZrNE9xN1UyUkRvS1k5REtkZi9sdnVmR2czL1JHV09INE1VTGhP?=
+ =?utf-8?B?SmhjVXk1SGxUUnlBSUdSbGRFbXJvd0VsSmJwb1lwRU1GWFgxa0pndmp0ek1N?=
+ =?utf-8?B?UTV4UEtIR1l1cXkyUmd0Rkd3ZFBKMU9kQ3MzQnJYazlqVStiS1BtMkxVdXR3?=
+ =?utf-8?B?SytlYU1ZdjJ4T3dUTml0d3pGNnRFR2lZTGgzOFlWeVdUMjVuSG5JQXFBQ0d5?=
+ =?utf-8?B?Ry9YTmk4VmFJWXhyM2NQRUhnalQrQkdJMHdrTDkxV0J5VXR4Mjg4aU9xLzZC?=
+ =?utf-8?B?Szhma2EyR2o3ZmllOTQ4cFBLdll4UkRDbHloZ3MzdEFyZFRXZVR6UDhsTjYz?=
+ =?utf-8?B?K1EzTyszYkhCbWtxL3VIRHBWayt5Smt0RThTQW1Sb0dvTC9FcEdQejRNSTF5?=
+ =?utf-8?B?ZG9tbVpsa21Ucko2S2FtWEo2UGdCNHBPY1RtU2ZHSUtQNGhIa2xxVEtzN2Zt?=
+ =?utf-8?B?Z3F5WTZJWVllV0Q5bmgxVGhZOG5oc1EvWnFhSGVMT2hBWXZxY3R1NS8vMjNx?=
+ =?utf-8?B?aWUrZ3FmaTdFVVhTMEVFUUxFWERXdC9wV3BlVDVUaXUrTEVnYmtPZGFVODZW?=
+ =?utf-8?B?M09GSHRydThDSFlZbytBdDlIRjNEOTlHL0ZUc3czR0w0blVkTmsrZmsraFlu?=
+ =?utf-8?B?MHNTTkJXWjhmU1UzbGdlMFpTTEFINnRWeUtLdWgxendsTW0xamlUc2RiL1hZ?=
+ =?utf-8?B?MVFQRjVvVWtneVFoWFU5dkV4Y3BpazBLN1dCWFk4WkFUMmhhcXAyWG5HSE8w?=
+ =?utf-8?B?ZVBBaFprTHJqcEc5V1pDb2EwODV0eXBKeHRZcXI2SmIvdlRMdVFhd09qVmJv?=
+ =?utf-8?B?YzRERGxxQlh1M1ZUNk15WDdEN0xWdkFNYkVHYjJVQkxweGRHd3VVbXFjMXZu?=
+ =?utf-8?B?QXBNYUpYa2ozS1UyK0wyVHhoUkhvbUN1bTJKMU1nZ3NmUERrN0FsT1pBNkkx?=
+ =?utf-8?Q?BJWcKtRk7IIlXXKbgX/bCBNxC5rvAsQVfsaC61THP28o?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28aaccfe-38f1-4972-b65f-08de27df9e18
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 02:50:51.7959 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ytJHATZnL7Fhnkv16up/CTmKHYSCcTHUdS4ahMyW+7IUy0jOBnLZSj5Whix1YSnwwjp6q2HStSlkgrkptA+M3Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4352
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,165 +186,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 19, 2025 at 12:41:52PM +0200, Tomi Valkeinen wrote:
-> On 19/11/2025 11:19, Maxime Ripard wrote:
-> > On Tue, Nov 18, 2025 at 07:10:47PM +0100, Linus Walleij wrote:
-> >> On Tue, Nov 18, 2025 at 4:44 PM Maxime Ripard <mripard@kernel.org> wrote:
-> >>> On Tue, Nov 18, 2025 at 05:01:28PM +0200, Laurent Pinchart wrote:
-> >>>> On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
-> >>
-> >>>>> +/**
-> >>>>> + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic update
-> >>>>
-> >>>> Based on the function name, it feels that the nem commit tail and
-> >>>> modeset enable/disable helpers reached a point where we may want to
-> >>>> reconsider the design instead of adding new functions with small
-> >>>> differences in behaviour that will end up confusing driver developers.
-> >>>
-> >>> Agreed, and I'd go even further than that: we don't want every odd order
-> >>> in the core. And if some driver has to break the order we document in
-> >>> some way it should be very obvious.
-> >>
-> >> Is this just a comment on this patch 3/3?
-> >>
-> >> Or do you mean that Mareks new callback
-> >> drm_atomic_helper_commit_modeset_enables_crtc_early()
-> >> from patch 1/2 should go straight into the R-Car driver as well
-> >> and that
-> >> drm_atomic_helper_commit_modeset_disables_crtc_late()
-> >> patch 2/2 should also go into my driver, even if this
-> >> is a comment on patch 3/3?
-> >>
-> >> Both patches 1 & 2 have a lot to do with ordering, this is
-> >> why I ask.
-> > 
-> > I mean, it applies to all your three patches and Marek's: helpers are
-> > here to provide a default implementation. We shouldn't provide a default
-> > implementation for a single user. All your patches enable to create
-> > defaults for a single user.
+On 11/20/25 13:40, Matthew Brost wrote:
+> On Wed, Nov 12, 2025 at 10:52:43AM +1100, Balbir Singh wrote:
+>> On 11/12/25 10:43, Andrew Morton wrote:
+>>> On Thu, 9 Oct 2025 03:33:33 -0700 Matthew Brost <matthew.brost@intel.com> wrote:
+>>>
+>>>>>>> This patch series introduces support for Transparent Huge Page
+>>>>>>> (THP) migration in zone device-private memory. The implementation enables
+>>>>>>> efficient migration of large folios between system memory and
+>>>>>>> device-private memory
+>>>>>>
+>>>>>> Lots of chatter for the v6 series, but none for v7.  I hope that's a
+>>>>>> good sign.
+>>>>>>
+>>>>>
+>>>>> I hope so too, I've tried to address the comments in v6.
+>>>>>
+>>>>
+>>>> Circling back to this series, we will itegrate and test this version.
+>>>
+>>> How'd it go?
+>>>
 > 
-> Two users so far: Renesas and ST-Ericsson.
-
-Only MCDE uses the new drm_atomic_helper_commit_tail_crtc_early_late()
-function, while the new
-drm_atomic_helper_commit_modeset_enables_crtc_early() helper is used
-directly by R-Car DU to implement its commit tail handler, and by
-drm_atomic_helper_commit_tail_crtc_early_late().
-
-> > So my point is that none of those functions should be helpers.
-> > 
-> >> We already have
-> >> drm_atomic_helper_commit_tail()
-> >> drm_atomic_helper_commit_tail_rpm()
-> > 
-> > The former has 5 users, the latter 13. And it's already confusing enough
-> > and regression-prone as it is.
-> > 
-> >> Does one more or less really matter? Maybe, I'm not sure,
-> >> but if it's just this one patch that is the problem I can surely
-> >> do it that way since we're only calling public functions.
-> >>
-> >> Pushing the first two patches would be more problematic,
-> >> because they call a lot of functions that are local to the
-> >> drm atomic helpers.
-> > 
-> > I'm totally fine with making more internal functions public though.
+> My apologies for the delay—I got distracted by other tasks in Xe (my
+> driver) and was out for a bit. Unfortunately, this series breaks
+> something in the existing core MM code for the Xe SVM implementation. I
+> have an extensive test case that hammers on SVM, which fully passes
+> prior to applying this series, but fails randomly with the series
+> applied (to drm-tip-rc6) due to the below kernel lockup.
 > 
-> While I generally agree with that, I still wonder if an implementation
-> in the core is better here. Perhaps a flag in struct drm_driver, instead
-> of new set of helpers.
+> I've tried to trace where the migration PTE gets installed but not
+> removed or isolate a test case which causes this failure but no luck so
+> far. I'll keep digging as I have time.
 > 
-> Moving this to the driver would require (with a quick glance) exposing
-> the following functions:
+> Beyond that, if I enable Xe SVM + THP, it seems to mostly work (though
+> the same issue as above eventually occurs), but I do need two additional
+> core MM patches—one is new code required for Xe, and the other could be
+> considered a bug fix. Those patches can included when Xe merges SVM THP
+> support but we need at least not break Xe SVM before this series merges.
 > 
-> crtc_enable
-> crtc_disable
-> crtc_set_mode
-> encoder_bridge_pre_enable
-> encoder_bridge_enable
-> encoder_bridge_disable
-> encoder_bridge_post_disable
+> Stack trace:
 > 
-> Not impossible to expose, but making a private function public does
-> require work in validating the function for more general use, and adding
-> kernel docs.
+> INFO: task kworker/u65:2:1642 blocked for more than 30
+> seconds.
+> [  212.624286]       Tainted: G S      W           6.18.0-rc6-xe+ #1719
+> [  212.630561] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs"
+> disables this message.
+> [  212.638285] task:kworker/u65:2   state:D stack:0     pid:1642
+> tgid:1642  ppid:2      task_flags:0x4208060 flags:0x00080000
+> [  212.638288] Workqueue: xe_page_fault_work_queue
+> xe_pagefault_queue_work [xe]
+> [  212.638323] Call Trace:
+> [  212.638324]  <TASK>
+> [  212.638325]  __schedule+0x4b0/0x990
+> [  212.638330]  schedule+0x22/0xd0
+> [  212.638331]  io_schedule+0x41/0x60
+> [  212.638333]  migration_entry_wait_on_locked+0x1d8/0x2d0
+> [  212.638336]  ? __pfx_wake_page_function+0x10/0x10
+> [  212.638339]  migration_entry_wait+0xd2/0xe0
+> [  212.638341]  hmm_vma_walk_pmd+0x7c9/0x8d0
+> [  212.638343]  walk_pgd_range+0x51d/0xa40
+> [  212.638345]  __walk_page_range+0x75/0x1e0
+> [  212.638347]  walk_page_range_mm+0x138/0x1f0
+> [  212.638349]  hmm_range_fault+0x59/0xa0
+> [  212.638351]  drm_gpusvm_get_pages+0x194/0x7b0 [drm_gpusvm_helper]
+> [  212.638354]  drm_gpusvm_range_get_pages+0x2d/0x40 [drm_gpusvm_helper]
+> [  212.638355]  __xe_svm_handle_pagefault+0x259/0x900 [xe]
+> [  212.638375]  ? update_load_avg+0x7f/0x6c0
+> [  212.638377]  ? update_curr+0x13d/0x170
+> [  212.638379]  xe_svm_handle_pagefault+0x37/0x90 [xe]
+> [  212.638396]  xe_pagefault_queue_work+0x2da/0x3c0 [xe]
+> [  212.638420]  process_one_work+0x16e/0x2e0
+> [  212.638422]  worker_thread+0x284/0x410
+> [  212.638423]  ? __pfx_worker_thread+0x10/0x10
+> [  212.638425]  kthread+0xec/0x210
+> [  212.638427]  ? __pfx_kthread+0x10/0x10
+> [  212.638428]  ? __pfx_kthread+0x10/0x10
+> [  212.638430]  ret_from_fork+0xbd/0x100
+> [  212.638433]  ? __pfx_kthread+0x10/0x10
+> [  212.638434]  ret_from_fork_asm+0x1a/0x30
+> [  212.638436]  </TASK>
 > 
-> Handling this in the core would act as documentation too, so instead of
-> the driver doing things in a different way "hidden" inside the driver,
-> it would be a standard quirk, clearly documented.
+
+Hi, Matt
+
+Thanks for the report, two questions
+
+1. Are you using mm/mm-unstable, we've got some fixes in there (including fixes to remove_migration_pmd())
+   - Generally a left behind migration entry is a symptom of a failed migration that did not clean up
+     after itself.
+2. The stack trace is from hmm_range_fault(), not something that this code touches.
+
+The stack trace shows your code is seeing a migration entry and waiting on it.
+Can you please provide a reproducer for the issue? In the form of a test in hmm-tests.c
+
+Have you been able to bisect the issue?
+
+Balbir
+
+
+> Matt 
 > 
-> Also, I'm also not sure how rare this quirk is. In fact, I feel we're
-> missing ways to handle the enable/disable related issues in the core
-> framework. In these patches we're talking about the case where the SoC's
-> DSI host needs an incoming pclk to operate, and panels need to do
-> configuration before the video stream is enabled. But the exact same
-> problem could be present with an external DSI bridge, and then we can't
-> fix it in the crtc driver.
-> 
-> So the question becomes "does any component in the pipeline need the
-> video stream's clock to operate". But then, it doesn't help if the crtc
-> output is enabled early if any bridge in between does not also enable
-> its output early. So it all gets a bit complex.
+>>> Balbir, what's the status here?  It's been a month and this series
+>>> still has a "needs a new version" feeling to it.  If so, very soon
+>>> please.
+>>>
+>>
+>> I don't think this needs a new revision, I've been testing frequently
+>> at my end to see if I can catch any regressions. I have a patch update for
+>> mm-migrate_device-add-thp-splitting-during-migration.patch, it can be applied
+>> on top or I can send a new version of the patch. I was waiting
+>> on any feedback before I sent the patch out, but I'll do it now.
+>>
+>>> TODOs which I have noted are
+>>>
+>>> https://lkml.kernel.org/r/aOePfeoDuRW+prFq@lstrano-desk.jf.intel.com
+>>
+>> This was a clarification on the HMM patch mentioned in the changelog
+>>
+>>> https://lkml.kernel.org/r/CABzRoyZZ8QLF5PSeDCVxgcnQmF9kFQ3RZdNq0Deik3o9OrK+BQ@mail.gmail.com
+>>
+>> That's a minor comment on not using a temporary declaration, I don't think we need it, let me know if you feel strongly
+>>
+>>> https://lkml.kernel.org/r/D2A4B724-E5EF-46D3-9D3F-EBAD9B22371E@nvidia.com
+>>
+>> I have a patch for this, which I posted, I can do an update and resend it if required (the one mentioned above)
+>>
+>>> https://lkml.kernel.org/r/62073ca1-5bb6-49e8-b8d4-447c5e0e582e@
+>>>
+>>
+>> I can't seem to open this
+>>
+>>> plus a general re-read of the
+>>> mm-migrate_device-add-thp-splitting-during-migration.patch review
+>>> discussion.
+>>>
+>> That's the patch I have
+>>
+>> Thanks for following up
+>> Balbir
 
-Are we getting close to a point where we all know the bridge model will
-need to be reworked extensively, and everybody hopes someone else will
-do it ? :-)
-
-> And sometimes the clocks go backward: the entity on the downstream side
-> provides a clock backwards, to the source entity...
-> 
-> But I digress. I think initially we should just look for a clean fix for
-> the platforms affected:
-> 
-> - Add the implementation into the drivers?
-> - Add helpers to the core?
-> - Add a flag of some kind so the core can do the right thing?
-
-drm_atomic_helper_commit_modeset_enables_crtc_early() would be more
-cumbersome to implement manually in drivers as most of the functions it
-calls are not exported. drm_atomic_helper_commit_tail_crtc_early_late()
-shouldn't be difficult to implement in the MCDE driver.
-
-> I made a quick test with the flag approach, below. It's not many lines,
-> but... Ugh, it does feel like a hack.
-
-Without seeing the code I can already imagine how this would feel like a
-hack, so I agree not to go that way.
-
-> > diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-> > index d5ebe6ea0acb..8225aae43e3b 100644
-> > --- a/drivers/gpu/drm/drm_atomic_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> > @@ -1341,9 +1341,13 @@ disable_outputs(struct drm_device *dev, struct drm_atomic_state *state)
-> >  {
-> >         encoder_bridge_disable(dev, state);
-> >  
-> > -       crtc_disable(dev, state);
-> > +       if (!dev->driver->crtc_early_on)
-> > +               crtc_disable(dev, state);
-> >  
-> >         encoder_bridge_post_disable(dev, state);
-> > +
-> > +       if (dev->driver->crtc_early_on)
-> > +               crtc_disable(dev, state);
-> >  }
-> >  
-> >  /**
-> > @@ -1682,9 +1686,13 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
-> >  void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
-> >                                               struct drm_atomic_state *state)
-> >  {
-> > +       if (dev->driver->crtc_early_on)
-> > +               crtc_enable(dev, state);
-> > +
-> >         encoder_bridge_pre_enable(dev, state);
-> >  
-> > -       crtc_enable(dev, state);
-> > +       if (!dev->driver->crtc_early_on)
-> > +               crtc_enable(dev, state);
-> >  
-
--- 
-Regards,
-
-Laurent Pinchart
