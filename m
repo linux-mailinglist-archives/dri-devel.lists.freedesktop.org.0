@@ -2,119 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82185C74C69
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 16:13:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5976CC74D8D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 16:19:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3B810E775;
-	Thu, 20 Nov 2025 15:13:13 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="cpwKhtPE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+J0hEc9P";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cpwKhtPE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+J0hEc9P";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9C5B10E2A9;
+	Thu, 20 Nov 2025 15:19:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E227C10E771
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 15:13:11 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 690C41F441;
- Thu, 20 Nov 2025 15:13:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1763651590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Ial72GLszEleezwa1Z30bChDpXZLG7wGDUUVENhegr0=;
- b=cpwKhtPEWGDtq0OINKW2wGBc2pnD3luRGpED17Q8jhbxSIFfRwZpXl/kQQHcRYbaV+WuT+
- lrrQSboi4F4iTdUWvvOyZS9ve5o9ck9aS2WVswIIIRCxCGY9ml+vhJrHPRbuzwQR2gc9vT
- i9U6blzByK9qOQQYP8dLfoRg1XoB6c4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1763651590;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Ial72GLszEleezwa1Z30bChDpXZLG7wGDUUVENhegr0=;
- b=+J0hEc9PPn5QqRe1cqbc8hg/Jkpm4udxWT9FKlPeKOaeSXKzp7ffXHqBjJpvUk3hPDlXYY
- 82xAmusaMFVc4gDA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=cpwKhtPE;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+J0hEc9P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1763651590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Ial72GLszEleezwa1Z30bChDpXZLG7wGDUUVENhegr0=;
- b=cpwKhtPEWGDtq0OINKW2wGBc2pnD3luRGpED17Q8jhbxSIFfRwZpXl/kQQHcRYbaV+WuT+
- lrrQSboi4F4iTdUWvvOyZS9ve5o9ck9aS2WVswIIIRCxCGY9ml+vhJrHPRbuzwQR2gc9vT
- i9U6blzByK9qOQQYP8dLfoRg1XoB6c4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1763651590;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Ial72GLszEleezwa1Z30bChDpXZLG7wGDUUVENhegr0=;
- b=+J0hEc9PPn5QqRe1cqbc8hg/Jkpm4udxWT9FKlPeKOaeSXKzp7ffXHqBjJpvUk3hPDlXYY
- 82xAmusaMFVc4gDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EAE083EA61;
- Thu, 20 Nov 2025 15:13:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id Cj2iNwUwH2lNcwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 20 Nov 2025 15:13:09 +0000
-Date: Thu, 20 Nov 2025 16:13:08 +0100
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-fixes
-Message-ID: <20251120151308.GA589436@linux.fritz.box>
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com
+ [209.85.217.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1703710E2A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 15:19:03 +0000 (UTC)
+Received: by mail-vs1-f42.google.com with SMTP id
+ ada2fe7eead31-5dfd2148bf3so357560137.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 07:19:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763651942; x=1764256742;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ub9l6qBIoXlIUbnmglQ/dhIf5gsVEoXOGghpcNa1o2o=;
+ b=u5nkglJNYDMcdDROFsLLA6q/OuJaxujqooEPINEiAt1AxfxDprzzUjeFISJ7ptOI2s
+ 9UzqnrVNGIeyxU75wIZNjM3AeCeMiCFHUASme43o7HP3OivCK8j1mo8gINm0KHTehaN3
+ Bp9tpF1NfMsTRF29CRt7Lg53d4JhQLV54nrEKH2OyFVp3x86Ibu0MWOf8cLd2PoCW6XE
+ dOAEVvNQ1p7PBHgffpMsVTlqVsqukdv+VlrXzPsrZo7m4cTkYSiGxl6aOf17Hk03p3T5
+ mN7GWJFBRc6vFArYmY7MPxmfrDsJM3/m3S8X2A3qyCZ+AX9J+lpdLZB+XswoKUR/5Hx7
+ lCBw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXWYhc03gExvF0okRLuetB2huNHNsCmxYmq7RLPj4k5apUuzoLPrpCDysOKab9EuIwTSS4T9ZfKz0o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwknEp+yOTGaqR+LPQBsz8KRF0tkV8gKoE5aq17cgvDSwMRHUrp
+ WqF+NuZQ260n65GqYNtUNqfbISvj125UglcMiDWy+s/SNv8LVFZBuHv9xjGXANRu
+X-Gm-Gg: ASbGnctlJPJtv9SzSjwgRZtxm37bnElIwr2Y99WSgKTU1bPn71x8y3S9NI8Tz5iYQxo
+ JPqi071Xam25SdqsebWhjT/0Xxij0gY7x5qSXJpmxBsSJgTpFuE9xZHYx7Inaxb7Hn0NPWqCtle
+ fWrkh6f140POhSpE/H/MZfUlh0EHsHDChMTn1X2H0EsC6w0NKMmYb8MnLvyp/G2Jz/Ni5mSUQ84
+ 3zNZkftPdNnKmEXc//mQS2lQ05hVFafe828uBJSv23bOfBbn98AEpFLk/5ajBU2HOyh3dCt0F5D
+ WaXrK09ocOIy+Ij8eISSx2ezd1csKZTfGEmk+zvozWsliRxbLxngIQKM564OjNEUKu2dWnjAIz8
+ o6BzGabdT7u6RxPO0/R452YM512inJdFdqZo/7Kga2uo1f1q15R9xP1az5zFi+jxN+ji1GXV9Ce
+ 26usxnnMSRAlnr732hiI1j35+utgB3KRfMD3tYc+V2TqbiRUCT6kim
+X-Google-Smtp-Source: AGHT+IEFELD+5SGgHXTJmUwYwRCrWx7r2QmUjcw4pTloM73RoMq4xivtJdVhByNXun3Ru2Inb/SmhQ==
+X-Received: by 2002:a05:6102:3713:b0:5dd:f9c2:551c with SMTP id
+ ada2fe7eead31-5e1c857378amr755664137.27.1763651941673; 
+ Thu, 20 Nov 2025 07:19:01 -0800 (PST)
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com.
+ [209.85.222.52]) by smtp.gmail.com with ESMTPSA id
+ a1e0cc1a2514c-93c56519711sm1120392241.12.2025.11.20.07.19.00
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Nov 2025 07:19:00 -0800 (PST)
+Received: by mail-ua1-f52.google.com with SMTP id
+ a1e0cc1a2514c-93a9f6efe8bso298871241.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 07:19:00 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUxif2X+dJNvUk+XkuPGjG7rUBlvvXSo1nxCzBUvV+Wa6UyZtU2Y2aD4iLxDFbpwbW/PEPdvgl9C8Y=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:50ac:b0:5df:b507:acc4 with SMTP id
+ ada2fe7eead31-5e1c81dd242mr686147137.15.1763651940149; Thu, 20 Nov 2025
+ 07:19:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 690C41F441
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[gmail.com,ffwll.ch];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCPT_COUNT_TWELVE(0.00)[16];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- MISSING_XM_UA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns, suse.com:url, suse.de:dkim]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+References: <20251119022744.1599235-1-chris.brandt@renesas.com>
+ <20251119022744.1599235-2-chris.brandt@renesas.com>
+ <20251120094743.48a0db4ead55c3968cb0cb3d@hugovil.com>
+In-Reply-To: <20251120094743.48a0db4ead55c3968cb0cb3d@hugovil.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 20 Nov 2025 16:18:49 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWeZsrE=pVroosOg6y-pjsE9CqyoBi5P_Ja5kZ0fgbY4w@mail.gmail.com>
+X-Gm-Features: AWmQ_bk9X-7xje-hq15MNOmoQx3jV91rBDyxVCLaD3AFsFSCe_bv9qxDdxdRCY8
+Message-ID: <CAMuHMdWeZsrE=pVroosOg6y-pjsE9CqyoBi5P_Ja5kZ0fgbY4w@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+To: Hugo Villeneuve <hugo@hugovil.com>
+Cc: Chris Brandt <chris.brandt@renesas.com>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Hien Huynh <hien.huynh.px@renesas.com>, Nghia Vo <nghia.vo.zn@renesas.com>, 
+ linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,81 +96,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Sima,
+Hi Hugo,
 
-here's the PR for drm-misc-fixes.
+On Thu, 20 Nov 2025 at 15:47, Hugo Villeneuve <hugo@hugovil.com> wrote:
+> On Tue, 18 Nov 2025 21:27:43 -0500
+> Chris Brandt <chris.brandt@renesas.com> wrote:
+> > Convert the limited MIPI clock calculations to a full range of settings
+> > based on math including H/W limitation validation.
+> > Since the required DSI division setting must be specified from external
+> > sources before calculations, expose a new API to set it.
+> >
+> > Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Best regards
-Thomas
+> > --- a/include/linux/clk/renesas.h
+> > +++ b/include/linux/clk/renesas.h
+> > @@ -16,6 +16,11 @@ struct device;
+> >  struct device_node;
+> >  struct generic_pm_domain;
+> >
+> > +enum {
+> > +     PLL5_TARGET_DPI,
+> > +     PLL5_TARGET_DSI
+> > +};
+> > +
+> >  void cpg_mstp_add_clk_domain(struct device_node *np);
+> >  #ifdef CONFIG_CLK_RENESAS_CPG_MSTP
+> >  int cpg_mstp_attach_dev(struct generic_pm_domain *unused, struct device *dev);
+> > @@ -32,4 +37,11 @@ void cpg_mssr_detach_dev(struct generic_pm_domain *unused, struct device *dev);
+> >  #define cpg_mssr_attach_dev  NULL
+> >  #define cpg_mssr_detach_dev  NULL
+> >  #endif
+> > +
+> > +#ifdef CONFIG_CLK_RZG2L
+> > +void rzg2l_cpg_dsi_div_set_divider(u8 divider, int target);
+> > +#else
+> > +static inline void rzg2l_cpg_dsi_div_set_divider(u8, int target) { }
+>
+> Maybe use:
+>
+> #define rzg2l_cpg_dsi_div_set_divider(...) do { } while (0)
 
-drm-misc-fixes-2025-11-20:
-Short summary of fixes pull:
+I assume you are saying this in the context of the kernel test robot's
+report?
 
-atomic:
-- Return error codes on failed blob creation for planes
+Static inline functions offer more safety. Just s/u8/u8 divider/ should
+fix the W=1 issue.
 
-nouveau:
-- Fix memory leak
+Gr{oetje,eeting}s,
 
-tegra:
-- Fix device ref counting
-- Fix pid ref counting
-- Revert booting on Pixel C
-The following changes since commit 6a23ae0a96a600d1d12557add110e0bb6e32730c:
-
-  Linux 6.18-rc6 (2025-11-16 14:25:38 -0800)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-11-20
-
-for you to fetch changes up to cead55e24cf9e092890cf51c0548eccd7569defa:
-
-  drm/plane: Fix create_in_format_blob() return value (2025-11-19 19:37:04 +0200)
-
-----------------------------------------------------------------
-Short summary of fixes pull:
-
-atomic:
-- Return error codes on failed blob creation for planes
-
-nouveau:
-- Fix memory leak
-
-tegra:
-- Fix device ref counting
-- Fix pid ref counting
-- Revert booting on Pixel C
-
-----------------------------------------------------------------
-Diogo Ivo (1):
-      Revert "drm/tegra: dsi: Clear enable register if powered by bootloader"
-
-Ma Ke (1):
-      drm/tegra: dc: Fix reference leak in tegra_dc_couple()
-
-Nam Cao (1):
-      nouveau/firmware: Add missing kfree() of nvkm_falcon_fw::boot
-
-Prateek Agarwal (1):
-      drm/tegra: Add call to put_pid()
-
-Thomas Zimmermann (1):
-      Merge drm/drm-fixes into drm-misc-fixes
-
-Ville Syrjälä (1):
-      drm/plane: Fix create_in_format_blob() return value
-
- drivers/gpu/drm/drm_plane.c              | 4 ++--
- drivers/gpu/drm/nouveau/nvkm/falcon/fw.c | 2 ++
- drivers/gpu/drm/tegra/dc.c               | 1 +
- drivers/gpu/drm/tegra/dsi.c              | 9 ---------
- drivers/gpu/drm/tegra/uapi.c             | 7 +++++--
- 5 files changed, 10 insertions(+), 13 deletions(-)
+                        Geert
 
 -- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
