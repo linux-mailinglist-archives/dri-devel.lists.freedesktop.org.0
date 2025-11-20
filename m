@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA11C73064
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 10:09:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 263B0C731B5
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 10:24:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E89610E71D;
-	Thu, 20 Nov 2025 09:09:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A989A89854;
+	Thu, 20 Nov 2025 09:24:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YFgfR4YE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SPf2MM1x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EAFF10E71F
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 09:09:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id F328743A99;
- Thu, 20 Nov 2025 09:09:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71202C116B1;
- Thu, 20 Nov 2025 09:09:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763629760;
- bh=3LRBNuFqcIWNv6+llg0BKBD85RcO8c2uV+3xfhb2i7E=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=YFgfR4YEhqqRgIYW5R3th1AbIc7N4bMKYuIyuo1OQ6cSObvbe8AQcGnngD39IwZdr
- ++v65KV1XOH9vDz4/dcQ/BPGftq92Q1iHqergUHm66NR3WzzIuWKPJyau97h29YT5z
- N981+SHwilrL7xh8KcpDzkcM2lHZ+HWwnz9Jcp9KTn9Cqas7AKLACuhs/W3IXUeS/t
- ji75XIawgZATeYoXZVyT3RP4lmzWOyx8moZ0jZRxAKY+Dcuwj+9F25LTDd/uQ6k+Mu
- r63xXelNelaLHfk+75Fl8thTejwKggktdAEU3rQ/gXWAA4ygAbM/UeaREjq/g1fj0V
- yNyTSc7Ygu6RQ==
-Message-ID: <4b87bd52-5582-4599-8a97-38843e27d0a7@kernel.org>
-Date: Thu, 20 Nov 2025 10:09:11 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56B9489854
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 09:24:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1763630691; x=1795166691;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=OPjNc/gUByCFqZ8Vixc1KLela/ta95EHDRNxS4C1lGg=;
+ b=SPf2MM1xLa+vJHVeSH9Ay7RxnZaDNcv48c8ie25+RGkymxyX4lDko4ll
+ QaNOyu8IvBXP9Ar0H5wF2yHwuYGUM3yLIghaxtza6kqAjYCSrQE9W8h8d
+ tBYLlD7YYTZ949FdD4MDrrr2+hm1NVCeDKdQpl0btH5DHrv1RQ/gayzhf
+ cHToiwayvLt2YNuVUPPlgNIA9qw34xiFIVUNekp3qepVGNcbDYMEDrrBS
+ SzlV2vtYKExvvqw0lwKxj9rJNBmsj8uBtdZhp0F0t8H6UAwBfhv2xbbVd
+ P5swZKX7qT1GY7YwM6QVS+1rrvPzlK50elTgcUS43MQQkbhKsru7baPGP w==;
+X-CSE-ConnectionGUID: Bmgahkc7Q82EX41p1t9dqA==
+X-CSE-MsgGUID: cUqR0lzhSZOFV/HEfYnIXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="65572015"
+X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; d="scan'208";a="65572015"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2025 01:24:51 -0800
+X-CSE-ConnectionGUID: c33I7xXpT0ibIp+AOLBl8w==
+X-CSE-MsgGUID: 2SrIl1SnRwWseOQT7lVhaA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; d="scan'208";a="221957870"
+Received: from lkp-server01.sh.intel.com (HELO adf6d29aa8d9) ([10.239.97.150])
+ by orviesa002.jf.intel.com with ESMTP; 20 Nov 2025 01:24:49 -0800
+Received: from kbuild by adf6d29aa8d9 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1vM0uD-0003oF-2q;
+ Thu, 20 Nov 2025 09:24:45 +0000
+Date: Thu, 20 Nov 2025 17:23:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: ssrane_b23@ee.vjti.ac.in, Zsolt Kajtar <soci@c64.rulez.org>,
+ Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>
+Cc: oe-kbuild-all@lists.linux.dev, Shaurya Rane <ssrane_b23@ee.vjti.ac.in>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+5a40432dfe8f86ee657a@syzkaller.appspotmail.com
+Subject: Re: [PATCH] fbdev: core: Fix vmalloc-out-of-bounds in fb_imageblit
+Message-ID: <202511201752.4fVbQwPc-lkp@intel.com>
+References: <20251119133821.89998-1-ssranevjti@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fixup: mm/huge_memory.c: introduce folio_split_unmapped
-To: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, dri-devel@lists.freedesktop.org
-Cc: Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
- =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-References: <20251120030709.2933665-1-balbirs@nvidia.com>
-From: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20251120030709.2933665-1-balbirs@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251119133821.89998-1-ssranevjti@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,130 +73,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/20/25 04:07, Balbir Singh wrote:
-> Code refactoring of __folio_split() via helper
-> __folio_freeze_and_split_unmapped() caused a regression with clang-20
-> with CONFIG_SHMEM=n, the compiler was not able to optimize away the
-> call to shmem_uncharge() due to changes in nr_shmem_dropped.
-> Fix this by checking for shmem_mapping() prior to calling
-> shmem_uncharge(), shmem_mapping() returns false when CONFIG_SHMEM=n.
-> 
-> smatch also complained about parameter end being used without
-> initialization, which is a false positive, but keep the tool happy
-> by sending in initialized parameters. end is initialized to 0.
-> 
-> Add detailed documentation comments for folio_split_unmapped()
-> 
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Zi Yan <ziy@nvidia.com>
-> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
-> Cc: Rakie Kim <rakie.kim@sk.com>
-> Cc: Byungchul Park <byungchul@sk.com>
-> Cc: Gregory Price <gourry@gourry.net>
-> Cc: Ying Huang <ying.huang@linux.alibaba.com>
-> Cc: Alistair Popple <apopple@nvidia.com>
-> Cc: Oscar Salvador <osalvador@suse.de>
-> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-> Cc: Nico Pache <npache@redhat.com>
-> Cc: Ryan Roberts <ryan.roberts@arm.com>
-> Cc: Dev Jain <dev.jain@arm.com>
-> Cc: Barry Song <baohua@kernel.org>
-> Cc: Lyude Paul <lyude@redhat.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Simona Vetter <simona@ffwll.ch>
-> Cc: Ralph Campbell <rcampbell@nvidia.com>
-> Cc: Mika Penttilä <mpenttil@redhat.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Francois Dugast <francois.dugast@intel.com>
-> 
-> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
-> ---
->   mm/huge_memory.c | 32 ++++++++++++++++++++++----------
->   1 file changed, 22 insertions(+), 10 deletions(-)
-> 
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 78a31a476ad3..c4267a0f74df 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -3751,6 +3751,7 @@ static int __folio_freeze_and_split_unmapped(struct folio *folio, unsigned int n
->   	int ret = 0;
->   	struct deferred_split *ds_queue;
->   
-> +	VM_WARN_ON_ONCE(!mapping && end != 0);
+Hi,
 
-You could drop the "!= 0"
+kernel test robot noticed the following build warnings:
 
->   	/* Prevent deferred_split_scan() touching ->_refcount */
->   	ds_queue = folio_split_queue_lock(folio);
->   	if (folio_ref_freeze(folio, 1 + extra_pins)) {
-> @@ -3919,7 +3920,7 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
->   	int nr_shmem_dropped = 0;
->   	int remap_flags = 0;
->   	int extra_pins, ret;
-> -	pgoff_t end;
-> +	pgoff_t end = 0;
->   	bool is_hzp;
->   
->   	VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
-> @@ -4049,7 +4050,7 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
->   
->   	local_irq_enable();
->   
-> -	if (nr_shmem_dropped)
-> +	if (mapping && shmem_mapping(mapping) && nr_shmem_dropped)
->   		shmem_uncharge(mapping->host, nr_shmem_dropped);
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-tip/drm-tip linus/master v6.18-rc6 next-20251119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-That looks questionable. We shouldn't add runtime check to handle 
-buildtime things.
+url:    https://github.com/intel-lab-lkp/linux/commits/ssrane_b23-ee-vjti-ac-in/fbdev-core-Fix-vmalloc-out-of-bounds-in-fb_imageblit/20251119-215054
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20251119133821.89998-1-ssranevjti%40gmail.com
+patch subject: [PATCH] fbdev: core: Fix vmalloc-out-of-bounds in fb_imageblit
+config: nios2-randconfig-r073-20251120 (https://download.01.org/0day-ci/archive/20251120/202511201752.4fVbQwPc-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251120/202511201752.4fVbQwPc-lkp@intel.com/reproduce)
 
-Likely what you want is instead
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511201752.4fVbQwPc-lkp@intel.com/
 
-if (IS_ENABLED(CONFIG_SHMEM) && nr_shmem_dropped)
-	shmem_uncharge()
+All warnings (new ones prefixed by >>):
 
->   
->   	if (!ret && is_anon && !folio_is_device_private(folio))
-> @@ -4092,16 +4093,27 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
->   	return ret;
->   }
->   
-> -/*
-> - * This function is a helper for splitting folios that have already been unmapped.
-> - * The use case is that the device or the CPU can refuse to migrate THP pages in
-> - * the middle of migration, due to allocation issues on either side
-> +/**
-> + * folio_split_unmapped() - split a large anon folio that is already unmapped
-> + * @folio: folio to split
-> + * @new_order: the order of folios after split
-> + *
-> + * This function is a helper for splitting folios that have already been
-> + * unmapped. The use case is that the device or the CPU can refuse to migrate
-> + * THP pages in the middle of migration, due to allocation issues on either
-> + * side.
-> + *
-> + * anon_vma_lock is not required to be held, mmap_read_lock() or
-> + * mmap_write_lock() should be held. @folio is expected to be locked by the
-> + * caller. device-private and non device-private folios are supported along
-> + * with folios that are in the swapcache. @folio should also be unmapped and
-> + * isolated from LRU (if applicable)
->    *
-> - * The high level code is copied from __folio_split, since the pages are anonymous
-> - * and are already isolated from the LRU, the code has been simplified to not
-> - * burden __folio_split with unmapped sprinkled into the code.
-> + * Upon return, the folio is not remapped, split folios are not added to LRU,
-> + * free_folio_and_swap_cache() is not called, and new folios remain locked.
->    *
-> - * None of the split folios are unlocked
-> + * Return: 0 on success, -EAGAIN if the folio cannot be split (e.g., due to
-> + *         insufficient reference count or extra pins).
+   In file included from drivers/video/fbdev/core/cfbimgblt.c:17:
+   drivers/video/fbdev/core/fb_imageblit.h: In function 'fb_imageblit':
+>> drivers/video/fbdev/core/fb_imageblit.h:490:16: warning: unused variable 'max_offset_bytes' [-Wunused-variable]
+     490 |  unsigned long max_offset_bytes;
+         |                ^~~~~~~~~~~~~~~~
 
-Sounds much better to me, thanks.
+
+vim +/max_offset_bytes +490 drivers/video/fbdev/core/fb_imageblit.h
+
+   480	
+   481	static inline void fb_imageblit(struct fb_info *p, const struct fb_image *image)
+   482	{
+   483		int bpp = p->var.bits_per_pixel;
+   484		unsigned int bits_per_line = BYTES_TO_BITS(p->fix.line_length);
+   485		struct fb_address dst = fb_address_init(p);
+   486		struct fb_reverse reverse = fb_reverse_init(p);
+   487		const u32 *palette = fb_palette(p);
+   488		struct fb_image clipped_image;
+   489		u32 max_x, max_y;
+ > 490		unsigned long max_offset_bytes;
 
 -- 
-Cheers
-
-David
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
