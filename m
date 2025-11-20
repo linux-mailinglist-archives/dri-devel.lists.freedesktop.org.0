@@ -2,174 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0C67C754A8
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 17:18:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B114CC754D5
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 17:20:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E03D10E786;
-	Thu, 20 Nov 2025 16:18:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6AD810E785;
+	Thu, 20 Nov 2025 16:20:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Hv9LvdqU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NfSDP/Df";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17CA810E77E;
- Thu, 20 Nov 2025 16:18:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763655487; x=1795191487;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=TbM9efMM+/5wKvRriWbxpJfesIVvPcfBfgUwoAIeqW8=;
- b=Hv9LvdqU/LD28+jIcNQ20Z63cjUBKcqvF185TbND4lgrLEoW5cCGQR82
- JTsy6HsAXNWlNmgBg8qWQdhDrcIeaNtw/xL9GUIe2UfUC+Gd4XftvhYdh
- KUGmRO7Hh2XiIgyyFz/W6hX+XWePky1KQjd95d7AsN8Dh4LFv/hGO/lUz
- Nc6q/23a5swyQTd6xVFgOxFrSJabLgfQKVlPVFb00wUEf67kLrimeGIIi
- udtvdc7g+h/aR98gjE9TJVan+RW+0RW7Vihz0FSa8weSB00w2GwUV4mEN
- ZCIZaq+yS900O2CyiRuDOpZCm8oasbSIZaS5DOBzMYi5yxHd4pmzHdJ1I w==;
-X-CSE-ConnectionGUID: gegTCYPqS3iFvVEy/VRdVA==
-X-CSE-MsgGUID: DC1hP1PBQAyGgIehA+x0Ng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="76343742"
-X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; d="scan'208";a="76343742"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Nov 2025 08:18:07 -0800
-X-CSE-ConnectionGUID: YF8/2imXQhaOggna8l7Snw==
-X-CSE-MsgGUID: yy4gfUHITaSg1/3nuIbCwg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; d="scan'208";a="228719027"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
- by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Nov 2025 08:18:06 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 20 Nov 2025 08:18:05 -0800
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Thu, 20 Nov 2025 08:18:05 -0800
-Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.26) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Thu, 20 Nov 2025 08:18:01 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RL3A1mVDPHeofO+cdhcOXy4em/08UJ1XT26zeEFbb0xHDsE1h1u49+W1BDh+UZFMRRQkeqwLVw8wix3PRIxn2SCDd7yYg6smV4+7kiDhSJGDsfaUWJGTt7WhxcMnqfwLFH0hW7UCCLIdY5QA8KUjE6ABfCQh2WO4VoZ30ui3o6croImCqTFxfixgeSrZNZPShc9Dy82egoLSgTGfFttw372kyhanI7wXxUQ7NBDyTq/AIS2eSJ8AyuOQwLECJISarx9BW0KQXLLrwcioBT2mLPBB2llFIn7nWRJCW5CrCccpIsQd0pHu+JKDRIvoSqRWpC/jvRnWbHihYyJUa0KLmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aZQ6oH/ltwX3XGOh0+I5bYs4W6KVcliyBw5He1micE4=;
- b=KPNDffp1jbjgwww7wUS5WXxMFEfKym5qSeYRkI1ByCQdP9GdDCowJW+i8zBqYWGNQVjRhMkmmrL+hJzX6+ztwbfU/VEDNe8PsAAxFPOeksaKl1bizxb4oV14FUjhZ+XN3EKqoROZqGUD8UBvf8AXsuiTT5a2NdZLElWm+GzddoMe54FHSLRhKZT0kcwC2IomUmaKQjX8Ztd2Snmru2G0T+ydSHTr2Mh+AtEboUU0G9aCjR99nvQN5PGeCWnvQWAcGucPJ6ojrmgvh8HgCUZ8LLH3odDLp+U+RpxqH2L3JAzjAkiN9Eq3JoA4T0CwchcnOBf21l1Vgzpbmdz52dwiFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by SJ0PR11MB8272.namprd11.prod.outlook.com (2603:10b6:a03:47d::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
- 2025 16:17:58 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.9343.009; Thu, 20 Nov 2025
- 16:17:58 +0000
-Date: Thu, 20 Nov 2025 08:17:55 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-CC: <intel-xe@lists.freedesktop.org>, Stuart Summers
- <stuart.summers@intel.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, <linux-media@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH] drm/xe: Fix memory leak when handling pagefault vma
-Message-ID: <aR8/M3KgpPz9bwxD@lstrano-desk.jf.intel.com>
-References: <20251120161435.3674556-1-mika.kuoppala@linux.intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251120161435.3674556-1-mika.kuoppala@linux.intel.com>
-X-ClientProxiedBy: SJ0PR13CA0127.namprd13.prod.outlook.com
- (2603:10b6:a03:2c6::12) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C1F0F10E783
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 16:20:00 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 4614B403A5;
+ Thu, 20 Nov 2025 16:20:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7714C16AAE;
+ Thu, 20 Nov 2025 16:19:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763655600;
+ bh=8f5zLlMjNGjBzd/6entD5aIPPBWnkaQUfjw9Eq1Jy14=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NfSDP/DfuXZMEVxiD6DA0MVI4ci/ceTvXf7ANKsg/4brL5lc/n62xphZQjONgqtFK
+ 2l0Oz69Uy4HDwy+x0d8eawS03z+mApQ2uN/R754ZYQ3IWl5CmO4rOod4j4wc8Pxzd0
+ m8o6SB+8Pn3YZ2hovLU/EWZz/c8JP+IFh5EhAEspOa9kQNU7g+aqu68fv4a9nwwp5c
+ QCCjln+diXsF7U81Xrvg5+2+YM81kFz6mfxeulV11UYE08YLaXyYF4X1zpYaN4j0mH
+ 3IXaScSTCbFVqMLj5WqiwjuGqqQF0aSbge7riY/i7VeRDeDeqLuM3KR8kXYiVohkcX
+ a9jvuivuDlDNA==
+Date: Thu, 20 Nov 2025 17:19:56 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
+Message-ID: <tcu23ayvadb3vtz6vksrrkw6rkngofxnhokaa4khat2grnqgcu@ttmqg6illoz7>
+References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
+ <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
+ <20251118150128.GB23711@pendragon.ideasonboard.com>
+ <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
+ <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
+ <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
+ <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SJ0PR11MB8272:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7cbae42f-4709-4e1e-54fe-08de28505e77
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?jGt9Raz8onr6aUrALroBE+MAuk/Udc/TXnisU9RmzdYCgbZMKhVz6PMMhW?=
- =?iso-8859-1?Q?+4mlnADVeBPBmCXnLZpcBY70zLocCeY+HXnt2QVRxMzB5NpA5iS8tbGrJY?=
- =?iso-8859-1?Q?Xd3PH7apaVao7gAqmvYXGZOVcSQxxGSGOd2BDHSyDNgQU4zPk7cuAAlNC/?=
- =?iso-8859-1?Q?4l09M+EcBPSt4blRNiBw+jN+x8+7dTTT0yw66Qu60r0MEOzUtj5+b+CkMj?=
- =?iso-8859-1?Q?YWIfVBP3yLBuKqbu008YQt3DQA5Vr5GEaGRcSLXPUGKcQqDjkMTqy7kuBB?=
- =?iso-8859-1?Q?Q8swe50TgBva+Tuwo7oAAfUxvAmsU1EuN5fBdpsrNIBv5FUlJ27zNo1CF7?=
- =?iso-8859-1?Q?2MAHqp323GqIN2HUI4JdEE+PuvjPNlgNRL5PJ33mKnYnd4YRXjTOijamxA?=
- =?iso-8859-1?Q?RO9h2khW7jR5O63z7Kv7z1DglTOIIAF6FkstY2OxTNCGiFdg1ri87UB9GU?=
- =?iso-8859-1?Q?PtRRL+tIbCWqMOEBu3jIM3MANXbNQpcgnwb1YdgXnAW3r/8z3JGXTDR4mM?=
- =?iso-8859-1?Q?NoqZeIdh8tYB7Ogcsx7T+Bd/lb8TqQqo/tPrVGbeUQsECoYZLWrq15mjKW?=
- =?iso-8859-1?Q?j80g2lpYEX4R2VQdrDzVEIHVKuLzNx6BkLM6RcdBqe/DFh29Udcguv1ex2?=
- =?iso-8859-1?Q?X3ju6Rg2x7HI9sRhhalh4K5b5jF+Ri1sOTw4EXdzWyq2ALBlK4Vkw8h8fi?=
- =?iso-8859-1?Q?QEkZ6Z4dR+ok+ofynqSUPIwiWVRknTKwHNyElyRpM8oE7GJB2lh9MiWF2E?=
- =?iso-8859-1?Q?zqSNDR7ysW1xVvZHydWyRZQ71y/00+S2bhdbBvdmSUjMoqH7+QPVgrvtU4?=
- =?iso-8859-1?Q?3cAtiyIF8fHZW/Unm3NdM59I5VWzRDaYbqsyplKQSRznSU5NP9faemj4pg?=
- =?iso-8859-1?Q?Reu3AiTW8OFhoplXbFLvW5Oed/FD4/rLDS3hZjBdorSr4WT233bNMUvO0Y?=
- =?iso-8859-1?Q?sh1w7NjtKvXcUJNI8vaJwyW8oSy1oJn3qz2NvzNkeUhbtoVJXFLIuXe/Qg?=
- =?iso-8859-1?Q?MkckThkJAYcq0ZJGK8Tf19G3v8th8WiqUuUMIILBJXE5vUfc1AOy8xLePf?=
- =?iso-8859-1?Q?CY06XH/HqEtBbj4ZAyomW+23iPvt2ekle3d1FtuRiEmtpYc1qUF/+oTo1q?=
- =?iso-8859-1?Q?eqk7aEVHrxwJYQ/YbEqYz0650pLSuRXSKpFY7dij7LTheIQfXlsy062LL1?=
- =?iso-8859-1?Q?A2pF5lPrcoEvsLkXmmoBZZwJ6u49FjqbkEbL6ziZSAI873c2zbN3iV64fR?=
- =?iso-8859-1?Q?I7vDAl86eUlo0Hg7rLE1Raqb1t8KW8iRDndCep58RruMR6kKA0pgTLSPjI?=
- =?iso-8859-1?Q?iYvy8Bs/mPL8WFhskIjmbgfD+H9DA9iPokN186xjJNfP+8B8odmPmtk3aS?=
- =?iso-8859-1?Q?e99LHs87UT6lyytwfRLt/U6m1NapugMsojCOhYHf+qd7WGABcXIBdxOOzU?=
- =?iso-8859-1?Q?kfOqDUN57TsCPFWKHPUdm8TAd/5MdoctiT2iox2mE6ZI/JFqIZD4FZgWvr?=
- =?iso-8859-1?Q?/1D6WxQjofU9ufYvFGPu/l?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?3MyFkvr7G/GWVcwYtn/Fzo8uSTQYPg0ETcWj92JUaP1SRe29eWwuV5G+fK?=
- =?iso-8859-1?Q?EEWoDcZ4Y/d2HXIkc9Cm486C6y4RRRgolHzpqaiaoy3yvxnB5jK7Wvxq0X?=
- =?iso-8859-1?Q?T8aCj16NK6odS39/OKhbPUf0+AzLOcQ6LBPkxHrfpnZAvN1hApKrtDfl77?=
- =?iso-8859-1?Q?FngTF9R60/sYlP8ciUQigxhRXvyiJiURIvRXLG5BJdfLb7IwwUhgOAkEgk?=
- =?iso-8859-1?Q?NWPPEuN7HL4BjCXTOQoX4dXAyERI4Rk2XzJG7Bbzj62HbjhQWXwzwObjd1?=
- =?iso-8859-1?Q?dsrCtFsJOT0z+YzmV6ND2lh2DCp0Giit+2C/YY6VHQxLi3Muvy+MrqSJbB?=
- =?iso-8859-1?Q?cY2su1niIRlkHCQ34DLSNj5WtfSLUfmTla/YHIKKN/rsA5iGhaNNMCF27j?=
- =?iso-8859-1?Q?Sv9QsJZTyViv0z4UIewocVdF5irF4J99NbKd62DTz6XYDKgnB852pl4nJa?=
- =?iso-8859-1?Q?zgtXrIqRg06VgfFTjdvcNFDjLpTYldgILilpdVj+Q0kNxZ/F2N0jc0pAJh?=
- =?iso-8859-1?Q?7+hMA/ZLI8JT+Bo3Bhmf8lvIgEWAxIUkbsoEODvFZIMKZCp90zeMaS/b29?=
- =?iso-8859-1?Q?Qg34SGeGc/HyhIfU1LdaP/7XABOnMz/Tz5UUNhtosmJs76C8oNeYT4zlUr?=
- =?iso-8859-1?Q?A6MDHQh6oF9RoreIauJfe1/pa9tW+u1q+72fFcFObxytWJs+tOV7cU1Ydk?=
- =?iso-8859-1?Q?/LFS5xr94//U6qlC1gjdK183KVL3JjF0ltPRO0LleelJN44XcPiOecW7X0?=
- =?iso-8859-1?Q?Sy19kgL23lcQLFRkUGkgPGTajlAtjlBRC53SEkKblBZwTgczfLq4F2j+Jd?=
- =?iso-8859-1?Q?nKrIi5GGkqJCI0Un/KXduL3/vnkclcdgUJDfQRTEhiu0RxD2Z777arnF2L?=
- =?iso-8859-1?Q?dKQEh/88pIwk9cS3U2HGKP1t3A9wswtm7Qrd6l+4rNrbhbf8/pufWLR0Mg?=
- =?iso-8859-1?Q?Qjvnx+gs2ms1XvEIECLGT1II4ncmPZXXJjeeJU2YQDmJMrVxB0L9sYxAwn?=
- =?iso-8859-1?Q?pX0jX5YWT8MULvopcQ+yKjZzeQn/UU+FkjA77SUQbXSqH5tnR07IcUBfL0?=
- =?iso-8859-1?Q?+ClAJVFiDkzukIkf62gjA+Ia5WW6N9Uo9iqME2qCwojoZNhvwh44rA1z47?=
- =?iso-8859-1?Q?3rWDVqL0eFadR5eENChR5GC4wguHGuZS5hwI3iMdmJX0KBOf0i6PpqINR9?=
- =?iso-8859-1?Q?0FcwDPn2IoUToFM05AL8zEUz06wLDXVbedG5mz5ZiejSHivGbWSuLHnxyJ?=
- =?iso-8859-1?Q?rSz3+vSxZ3NzhJz792ITMz+XjMbdCics6FNB/KOt8/H8iwc1v+dCbgP9dO?=
- =?iso-8859-1?Q?JA7ZXl4CvCgYWzmO50r47dwhh7fdm3X2mHTK16EEJUdpd2xXlarUPb2lnE?=
- =?iso-8859-1?Q?rZzYj44LrvH/rn2D7RJ4E7Kk5xYBSn6DsKeAihh6JSdaZi8VTieF40VIin?=
- =?iso-8859-1?Q?C31EEuU80LwWpU3TtLd/J5XTVV8oPvYHIeFSxsCR0ryvbFPwaMDcqSA60U?=
- =?iso-8859-1?Q?uZzxFPb+4O9xNjbWzJl/2k2risW29AfbodutMthQsHPbGChEFS92Cq+sjM?=
- =?iso-8859-1?Q?IwDmwV+IgML1T1LySDOfnCqZgKQNZhfQKLgJstWXvfMt8H+5K3FFiFV8Ut?=
- =?iso-8859-1?Q?9Mp9YnspbB5nrOtXILVnUYpqGe49aSvL5kC+meZpG/188EzlNVD85jNA?=
- =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7cbae42f-4709-4e1e-54fe-08de28505e77
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 16:17:58.2592 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fwER4D50AgG2hbE3htlZmv7SrbrXmQ2CZU41cqLs1/8sGKT1MZq5DZcqQiZ8AQu2r/3R+BgECZaG0ddGkmPO5Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB8272
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="wopmgmmayr32ufyd"
+Content-Disposition: inline
+In-Reply-To: <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -185,48 +74,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 20, 2025 at 06:14:35PM +0200, Mika Kuoppala wrote:
-> When the pagefault handling code was moved to a new file, an extra
-> drm_exec_init() was added to the VMA path. This call is unnecessary because
-> xe_validation_ctx_init() already performs a drm_exec_init(), resulting in a
-> memory leak reported by kmemleak.
-> 
-> Remove the redundant drm_exec_init() from the VMA pagefault handling code.
-> 
-> Fixes: fb544b844508 ("drm/xe: Implement xe_pagefault_queue_work")
-> Cc: Matthew Brost <matthew.brost@intel.com>
 
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+--wopmgmmayr32ufyd
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
+MIME-Version: 1.0
 
-Thanks for the fix, will merge once CI comes back.
+On Wed, Nov 19, 2025 at 12:41:52PM +0200, Tomi Valkeinen wrote:
+> Hi,
+>=20
+> On 19/11/2025 11:19, Maxime Ripard wrote:
+> > On Tue, Nov 18, 2025 at 07:10:47PM +0100, Linus Walleij wrote:
+> >> On Tue, Nov 18, 2025 at 4:44=E2=80=AFPM Maxime Ripard <mripard@kernel.=
+org> wrote:
+> >>> On Tue, Nov 18, 2025 at 05:01:28PM +0200, Laurent Pinchart wrote:
+> >>>> On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
+> >>
+> >>>>> +/**
+> >>>>> + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic u=
+pdate
+> >>>>
+> >>>> Based on the function name, it feels that the nem commit tail and
+> >>>> modeset enable/disable helpers reached a point where we may want to
+> >>>> reconsider the design instead of adding new functions with small
+> >>>> differences in behaviour that will end up confusing driver developer=
+s.
+> >>>
+> >>> Agreed, and I'd go even further than that: we don't want every odd or=
+der
+> >>> in the core. And if some driver has to break the order we document in
+> >>> some way it should be very obvious.
+> >>
+> >> Is this just a comment on this patch 3/3?
+> >>
+> >> Or do you mean that Mareks new callback
+> >> drm_atomic_helper_commit_modeset_enables_crtc_early()
+> >> from patch 1/2 should go straight into the R-Car driver as well
+> >> and that
+> >> drm_atomic_helper_commit_modeset_disables_crtc_late()
+> >> patch 2/2 should also go into my driver, even if this
+> >> is a comment on patch 3/3?
+> >>
+> >> Both patches 1 & 2 have a lot to do with ordering, this is
+> >> why I ask.
+> >=20
+> > I mean, it applies to all your three patches and Marek's: helpers are
+> > here to provide a default implementation. We shouldn't provide a default
+> > implementation for a single user. All your patches enable to create
+> > defaults for a single user.
+>=20
+> Two users so far: Renesas and ST-Ericsson.
+>=20
+> > So my point is that none of those functions should be helpers.
+> >=20
+> >> We already have
+> >> drm_atomic_helper_commit_tail()
+> >> drm_atomic_helper_commit_tail_rpm()
+> >=20
+> > The former has 5 users, the latter 13. And it's already confusing enough
+> > and regression-prone as it is.
+> >=20
+> >> Does one more or less really matter? Maybe, I'm not sure,
+> >> but if it's just this one patch that is the problem I can surely
+> >> do it that way since we're only calling public functions.
+> >>
+> >> Pushing the first two patches would be more problematic,
+> >> because they call a lot of functions that are local to the
+> >> drm atomic helpers.
+> >=20
+> > I'm totally fine with making more internal functions public though.
+> While I generally agree with that, I still wonder if an implementation
+> in the core is better here. Perhaps a flag in struct drm_driver, instead
+> of new set of helpers.
+>=20
+> Moving this to the driver would require (with a quick glance) exposing
+> the following functions:
+>=20
+> crtc_enable
+> crtc_disable
+> crtc_set_mode
+> encoder_bridge_pre_enable
+> encoder_bridge_enable
+> encoder_bridge_disable
+> encoder_bridge_post_disable
+>=20
+> Not impossible to expose, but making a private function public does
+> require work in validating the function for more general use, and adding
+> kernel docs.
 
-> Cc: Stuart Summers <stuart.summers@intel.com>
-> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: intel-xe@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> ---
->  drivers/gpu/drm/xe/xe_pagefault.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_pagefault.c b/drivers/gpu/drm/xe/xe_pagefault.c
-> index fe3e40145012..afb06598b6e1 100644
-> --- a/drivers/gpu/drm/xe/xe_pagefault.c
-> +++ b/drivers/gpu/drm/xe/xe_pagefault.c
-> @@ -102,7 +102,6 @@ static int xe_pagefault_handle_vma(struct xe_gt *gt, struct xe_vma *vma,
->  
->  	/* Lock VM and BOs dma-resv */
->  	xe_validation_ctx_init(&ctx, &vm->xe->val, &exec, (struct xe_val_flags) {});
-> -	drm_exec_init(&exec, 0, 0);
->  	drm_exec_until_all_locked(&exec) {
->  		err = xe_pagefault_begin(&exec, vma, tile->mem.vram,
->  					 needs_vram == 1);
-> -- 
-> 2.43.0
-> 
+Those are pretty trivial to document though, compared to document how
+the new variants differ from drm_atomic_helper_commit_tail() and
+drm_atomic_helper_commit_tail_rpm(), and then validating that it does
+indeed stay that way.
+
+> Handling this in the core would act as documentation too, so instead of
+> the driver doing things in a different way "hidden" inside the driver,
+> it would be a standard quirk, clearly documented.
+
+We've had the "let's not introduce helpers for a single user" rule for
+like a decade at this point, because it simply doesn't scale. Plenty of
+drivers have opted-out for very specific use-case already. I'm not sure
+why we should create this precedent.
+
+> Also, I'm also not sure how rare this quirk is. In fact, I feel we're
+> missing ways to handle the enable/disable related issues in the core
+> framework. In these patches we're talking about the case where the SoC's
+> DSI host needs an incoming pclk to operate, and panels need to do
+> configuration before the video stream is enabled. But the exact same
+> problem could be present with an external DSI bridge, and then we can't
+> fix it in the crtc driver.
+>=20
+> So the question becomes "does any component in the pipeline need the
+> video stream's clock to operate". But then, it doesn't help if the crtc
+> output is enabled early if any bridge in between does not also enable
+> its output early. So it all gets a bit complex.
+>=20
+> And sometimes the clocks go backward: the entity on the downstream side
+> provides a clock backwards, to the source entity...
+
+Yes, you're right, this is why it's so fragile. Do you want to create
+the test suite to check that all combinations are properly tested before
+reworking the whole thing?
+
+> But I digress. I think initially we should just look for a clean fix for
+> the platforms affected:
+>=20
+> - Add the implementation into the drivers?
+> - Add helpers to the core?
+> - Add a flag of some kind so the core can do the right thing?
+>=20
+> I made a quick test with the flag approach, below. It's not many lines,
+> but... Ugh, it does feel like a hack.
+
+Because it is.
+
+Really, I don't get it. I gave you a free pass to do whatever you wanted
+in your driver. It doesn't add any maintenance burden on anyone. It
+doesn't risk regressing other drivers in the process. It doesn't come
+with any testing requirement. It doesn't even have to be reviewed by us,
+really.
+
+Why do you argue for a more bothersome (for everyone) solution?
+
+Maxime
+
+--wopmgmmayr32ufyd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaR8/rAAKCRAnX84Zoj2+
+dh3oAYC11UtpTMG6KDGtdCP75AeMIOGISGMhZbRGjJsyKe0tCTwwaOmZtoUSIPsR
+9TKKwioBf1zpb/qajz0Jc7SmiA4yZXjZbpwhAqJSArIPmfEJyEHSRQ3uUd//KQkN
+cgxrbIqvlw==
+=KoYO
+-----END PGP SIGNATURE-----
+
+--wopmgmmayr32ufyd--
