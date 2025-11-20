@@ -2,172 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6AF2C731D9
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 10:26:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECF9C731FD
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 10:29:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25A2210E71C;
-	Thu, 20 Nov 2025 09:26:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0C4610E71E;
+	Thu, 20 Nov 2025 09:28:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="n5GCpz+s";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s4xF+5wM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013071.outbound.protection.outlook.com
- [40.107.201.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A549110E71C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 09:25:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HjoGJj2Gb7e7x6d0mQtosy3plJHLfACrv5g6fcpw+x7+APSnz3IPd8v/wES2sep9F1k5PAg6TPpYrduWGYlow2dLO1ONleegL+IHHGq7d5/qsSQVOKK7qOsQIESed4cgg38q9R4VunlgpTbE/aA/TcA0u4dn9gkT2Fr0kDt1KTulP6yDKFEwagG6jYcui2YuRhmuNNmf+Qbam0KSyv/d2dhoIPzX3kId3stnCDRR5ebczA4R1kBtH0pgJOrW9p+oDh0p3k1cVd7XxBZ+Y9GiuMt+BMo4loFHLAVupUkF61DHdq0OBShwTUEbJayBmJwwdQgYqR21ZaANnLNfbCvKTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2ISZiqQWYwb/lf3noREhYaApAp6G+kWaR/Bb7sOPLwc=;
- b=S8vRxp8nVFiXw7EffpbSe8o+C0N8n19lFncFtDvZcmpkn4WXqaLyiPvewMqu4D02aH8S0hSFA+ryYtr3grKIOviT4HV/xYD3dnqzWPdpmherGz/J0Y7V0z6Ty9u1x2+oZFTe91SdS11THW93fg9Q4GomNoynwhfNuM3j+aO8jZVZwN+clvTHZB7ZzIuhz05iNzfTdhxX3IyiP9VHP4ezFr6suKBRPzuAhKPZmj0ZT5vywrQvNqmipXN5fGQC3kGTGNFwJMyXdusPfVTdMjdoW84dIyXGVvPkHx36HWLxx44HDqw3lsHQc6cV3PGIeFqh2I5fVkoS+r2bJPZ0vIQ5jg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2ISZiqQWYwb/lf3noREhYaApAp6G+kWaR/Bb7sOPLwc=;
- b=n5GCpz+s/6brimoTI4XOYKe7ofBYtQ3LrJ/f2kl9AhhCs1d/ZqLQURZoFIFbpg9TBSvW2y1Bn7Oa5M3TB8Tl4rctFT3aV4m1E3LuvtICFcySIAnwIM9JDYDpSAhnOIDzquedfhFVShGMkKyiYGGZBlRFY5g2xOpVNl3xXeaR3pvqRIe5Y3AUnWpyBcA5bIFouIlRYT20nj8NGYYALVs5GL/Dx0oUeCIohHD0KINeqxXFCSseiDlRrFYn6esOfjQQgr7Ul1t/9hxsh0nknb0lHuaWk8ltFVhgTwpSTyVfYhTdb4hxJPdOxKTw/XoPbALG/yDPqENO33lBvoXTl0FmAA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
- by PH8PR12MB7375.namprd12.prod.outlook.com (2603:10b6:510:215::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.16; Thu, 20 Nov
- 2025 09:25:55 +0000
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9343.009; Thu, 20 Nov 2025
- 09:25:55 +0000
-Message-ID: <875a9449-fcdd-4aef-9d77-1703dd02edf0@nvidia.com>
-Date: Thu, 20 Nov 2025 20:25:48 +1100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fixup: mm/huge_memory.c: introduce folio_split_unmapped
-To: "David Hildenbrand (Red Hat)" <david@kernel.org>,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- dri-devel@lists.freedesktop.org
-Cc: Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
- =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-References: <20251120030709.2933665-1-balbirs@nvidia.com>
- <4b87bd52-5582-4599-8a97-38843e27d0a7@kernel.org>
-Content-Language: en-US
-From: Balbir Singh <balbirs@nvidia.com>
-In-Reply-To: <4b87bd52-5582-4599-8a97-38843e27d0a7@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BYAPR04CA0023.namprd04.prod.outlook.com
- (2603:10b6:a03:40::36) To PH8PR12MB7277.namprd12.prod.outlook.com
- (2603:10b6:510:223::13)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2FB710E71E
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 09:28:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id E87A06014A;
+ Thu, 20 Nov 2025 09:28:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1571C4CEF1;
+ Thu, 20 Nov 2025 09:28:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763630927;
+ bh=I2Ow+FoVVNgAF5HMTVEjWmPor12AxpDfs1Z6H54cyr8=;
+ h=From:To:Cc:Subject:Date:From;
+ b=s4xF+5wMT4a8M94UXO4W8SX/ZHtbVxbZgyCr/zZ5AEZBu/b5ZsWpMuuX/n+r8u+h5
+ 4rH9JeGqKTNngFLaGXWvqxsGZ4yMgs1vFlNWwhUHJWM/6XvWGNFLVWSFy0CkQbXgTL
+ gg1nPrdVyPsYvj/myW5kVgUbLFTZT1fViF0ZH/gb2yBqGDfoMNVpSnxjeERbZipKjH
+ CiIUaWD/18OOt/YX1zmcUySs76rRrFCbbN8Z8HZL1FS5unC8MMWfa0rw3G41S5awu7
+ 2m3Haa7BYkL+Gt3HSqKUFqGLCyXFOaLHpYPLakvL+iVUzMzpKjlkOboqpB4QnfJ7QW
+ i0kRKIqxKZ//A==
+From: Leon Romanovsky <leon@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
+ Jens Axboe <axboe@kernel.dk>, Robin Murphy <robin.murphy@arm.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <skolothumtho@nvidia.com>,
+ Kevin Tian <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>
+Cc: Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ kvm@vger.kernel.org, linux-hardening@vger.kernel.org,
+ Alex Mastro <amastro@fb.com>, Nicolin Chen <nicolinc@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: [PATCH v9 00/11] vfio/pci: Allow MMIO regions to be exported through
+ dma-buf
+Date: Thu, 20 Nov 2025 11:28:19 +0200
+Message-ID: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|PH8PR12MB7375:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d09dfe2-8367-41f4-3fa7-08de2816ce81
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|10070799003; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QlI1Z055a2hqekxCVU1EQ09MY01mbmRMSW5BZklWTjl2MStPQnpVU2gwSUhT?=
- =?utf-8?B?V1pjSmxkSjIrQklDZ0RsNms0cFN0QVZpTHV6dTVrQjR5QVBBcEhTTk93QUJ0?=
- =?utf-8?B?OGVtM0poR3kycE0yTUwyM0FwSWJ1Z2l4dm1JdVpmMkVtRUUxcTErVHZoc2d1?=
- =?utf-8?B?NTBIZ0ZkLytGUDFhWXFFTWdEbzBJTXRJL0hsbkVVVUVFblR5b3doaENrQnNJ?=
- =?utf-8?B?emxMYk1yWTZxQ0RCVk9JKzU4MzJJV2t4a1NxOXpvS2VxV3RjVFRRMjdVbnRx?=
- =?utf-8?B?ZHFPaEFQcTl4eFZpLzVzQjlVcS95OHdCSDhGRnBpek96dkpzcjU0RWlIcXJ5?=
- =?utf-8?B?SkIxWlR4WElhbFphQzZpekZGcStCVmFBZXJwd0pFT1hXRjFRVGlqZ3RCOUlP?=
- =?utf-8?B?WmJNTW96MnF3dnp5NXhDajNDc2t4SGFYc1NleUc3UDNlK012R1owb3BUaWxo?=
- =?utf-8?B?ZDBqQWgremp0NklVZE1ZdmFDakJLanJzemR0aWZWUmhyTStoTDNWWVJKbUhy?=
- =?utf-8?B?UWIwUnVuaThQb20wODg1NnBGVG5rWXlMUVluaFBGcGlBTm1WcWgwbE11OUVY?=
- =?utf-8?B?SGNMZ2IyZTFYU3hRUzF0MnloSW1lQzd0YWVTRm03MUh4aE52eVZxK0FCd1Bm?=
- =?utf-8?B?eWNWcS9PaHFHNC9rODJJaklwUTIwSjgvU3lKL2g4Z3REalVCMm9HWFpZS2tw?=
- =?utf-8?B?cFFaeGx5aXZKUWJNaW0xa2c4M0k2ck1oSGlpaVlBWXNzK3N3azRtbXYvMEJI?=
- =?utf-8?B?NXo4a2Z4SVJ1WnQ2TEs1UzN6ak1LcDgxL2JhaFBGQWNNNHRlNXNLdHVGd1lY?=
- =?utf-8?B?OU5QTGNVZDdYeVVnTlFZN0ZtWi8ySkJ4TVJLLzVjTFByZEpWemJqRWxXNUJr?=
- =?utf-8?B?YmEvVGJ3enN4MTJQcnoyWjl4M3B3YnlIdk5pYjc0QzVKNGQ5SFZFVHRMMUFD?=
- =?utf-8?B?MG8zNEJ6ZUdwUVZSRzV0azdmYTUreStjU2VjYzRqSVZkbFUvQ3N4d01KMjE2?=
- =?utf-8?B?VjZJNGtnTzYveHRVQS9lbW90a0RjMkxVbm1ISHJKeFRMd1BURjJUVXVFN2FQ?=
- =?utf-8?B?WkN4MmovOG1WaHJKelJuTUtRbW5JamZ5aldJV3FVaktHSkdua3kxa2xuamFi?=
- =?utf-8?B?U1RGazNUTTc0NWtuLys2REtKUnVDZGlMaXRiU3d0Nnl5Und1L2t5Y3RPUWtj?=
- =?utf-8?B?ZUZRdWV3am05bUZCa2F4cDUzdkZIcmRFQ01rTHhLRmh3aHovMmZMMklQYnh6?=
- =?utf-8?B?YVR5YUs5RE5BaFd3T2VlQVFVa0Z2NnZuVlJiR0VLeUF0MnlxTnNKaDNrRG8y?=
- =?utf-8?B?amwvR1NoRmt4VE44dGtxcHRPSXNONk1UbzhnWnlJaGJQTEJwMzFWM216ZElU?=
- =?utf-8?B?cmN2OGpMSVVkbHVqYWpnWGVzOUo2ZmptdW9JSm4xMmNmSEVwSk1EM0FKVXVX?=
- =?utf-8?B?MERGTmZRdGFnUjN5cW11TWNqRU1NM3VWTkNJYzFUSE9WSTZnOFBCaStLZ2Ew?=
- =?utf-8?B?ZGVMWWhxTUZLZndWaDRIcVhGQklvekIwT1puY2dnK1RtaHdvdk0vb3ZML1lD?=
- =?utf-8?B?YnlvNDhlaElPVjVaRjRISVFsZldzUVAvWTYyNUxYbjNvelFLbi8vZ2VneDRx?=
- =?utf-8?B?UXgwUTc0OGd6NUM4S2puRzVGT3NEL3ljald6ajZpY2I4eTU5UWlDQlByaFRK?=
- =?utf-8?B?UTBxenVwbGt4SlluYk5aRitRd3EyZ2M3QXVkTzhMaVVHYVdoZ3I4bWNwemJF?=
- =?utf-8?B?ck5FRWFrTkhvNFRwS04wRjVZMWdGVFRERm1WSjF0K1YxOXlQMnErN1o5Rms1?=
- =?utf-8?B?TnlLUDYwM0tjUmZ4dERCcnk4Qm9ReWJDcVltVGc2UVFjR2JSV29NWDRMNGFS?=
- =?utf-8?B?RlFUTHgzRFBwcFBwbUh6UUlFMXJjNHNBYndrd3ZTMndZVzhYMi9yVlFJajR1?=
- =?utf-8?Q?e9NKaR8C5vW6wJ+arljIEFbHSifWxBp8?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(10070799003); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YkMwUnhFMEJCTnZTUTVudmNXQ0VWTC9vSzExOTRYUkFOUi9uWnRoeXJsSkFn?=
- =?utf-8?B?TUJUN2tyNllsZzR6R2x2dWpRUjNpRVkybDluK0RMbjlINi9PMlcrTUJUbEN3?=
- =?utf-8?B?RlNGUXFhaTlodFZZUkQ4Yzd2bWpzQjM0QVlGRHBYVldPRVRJRVM4Yk5SZEZz?=
- =?utf-8?B?dDU4TFJXL0lYYW5rZDEwOWlhenl1c2Noa2pNd2NmZE1maWx0M3RtZG16KzZj?=
- =?utf-8?B?ZEFJMVVyOVZWajVLVmtDelV2SmZXdVZVNXJYR1A4VXJvSVRzL2lmWThFaVVy?=
- =?utf-8?B?dXl1dUloWTFIYzNzckNVVS9DSXRDY0lBK2dQRnI5NWx1cktCNUxFQmtEeGxM?=
- =?utf-8?B?RHVMSmFzMkhPVlBUMk0va0hnQnhiOUJ2Qis0NDY2aEZ0cTBIQ2JMbGpWbnRj?=
- =?utf-8?B?SWlaSEZ2ODBsUTZjVWY1Rk9vRHNIdGEwWk9uTlFmNXNEa0RGc3RjV0dRVlRj?=
- =?utf-8?B?eGhMTkJDRkZPNjdiU3VsVGRjNVBvMmowMFRsb2tpd1RTMEVBS0Z0TUg2YVhp?=
- =?utf-8?B?OU5UVlpnNmd4dWVDc2Y1bFdsVEFXVW5YUGh4RENkelFVOFloS3AzMityQVVs?=
- =?utf-8?B?SHozdWJVMHkrK203OG01cnhTVHBYelJ5cmZ6S1BLWnU2T0FrNXZNQkZtODd1?=
- =?utf-8?B?UW9VYkgrUHZQd09kSzdNcmp1R3cvTUlXVnVJRXdJaG01Vlk1b0M1eko3ZVJQ?=
- =?utf-8?B?OU5GY3lkM3Y4OVF3bCsrOTlUQ2RPVm1FNVFjb2RvdGVOU3BrdjlYZnVLbjJi?=
- =?utf-8?B?VWZXTm03ZjQ5VUZ5RjR2OEFSNjU4NVRxSEtndnV6Y0hkNzRUbDFoOUlRU241?=
- =?utf-8?B?cVdNSkpvYjdiRlV1T3BwRzRha25jYkFMZThJTTZ3RUNTT1pmUDBwOE5CMyts?=
- =?utf-8?B?MHpyNnVzSHhXZUVUTVBtYVFFalBRNksxcG92RldTZS9NN05najA1aytvMFlr?=
- =?utf-8?B?YkczWWJ5ZWg2RG1UMzhIczl4UlY5RE82K2U0UzA3SHlnUjlEWUJrNVJBNCs2?=
- =?utf-8?B?STlxSmUramc2SXRGYnd6M1dKbDBQcHZoL2xmdUFJSjVuQVJkWFVmellPSnVi?=
- =?utf-8?B?c3c5TTg0aUtqSkl4REVrMUY4bG5qVVZBZUFaTmhQaGlaMkpQT1V2MUROdW5U?=
- =?utf-8?B?UGkwckQ1WlMrRTg2YmRhL3dkeW1xYWpyeCs0WlZvdG8vRXM5OVBkeFNmRVNj?=
- =?utf-8?B?RjNpVE9pbENMbEZmYkdxMUZRd0RMeUxTb3RKWkx5K0kzWGlCdkdIYisrenIx?=
- =?utf-8?B?dlVFYitFcUVMb29xMDdmNDFYeWVwazJPaHpLRnhRZms0K3cvcTNlbHNYM3RY?=
- =?utf-8?B?ZUhOd1hUUGprbW91UWxieVpHcnFtODZDOGlmdUMrQnNHenQzVDd4NC9TTGZF?=
- =?utf-8?B?ejN3ZzFLVnJkUURER2lMZGNNMG95UUlrZ1E4aWN4ZW1uSHVtT0RLeGdyOTdl?=
- =?utf-8?B?RW5aMHZBdzIzOFYySitVNGhFU2o5QjJoaDJ3UkFjTnp5bUhIWHlUMnh3cytq?=
- =?utf-8?B?MEdUaC9peGhsT0hEdTJ4V2RtOEVLRkREdGFMSGRybC9xRTVWSXQrbkFYdjZ2?=
- =?utf-8?B?MGZvenYxTU9GRnlPcjN3WTd6R3ZmbzBuTUswRkNaZE8yR3NWY3JCOGRXSjJO?=
- =?utf-8?B?S0FpRmlVZW5OdHF2R2REVUdGS1J4YWEyeWhpMm9PQS9SOW9XcEo1Q25CaWpo?=
- =?utf-8?B?b1RsdlJKTG1QbzJMRlhWSHRHRnJZYiswclRldEhidVpWdVdqWE9jT0hqSWJO?=
- =?utf-8?B?ZXN5Zk5oQUkwYkxHV3kwamVDa3RWRHVacmo4L2I2MDVSSlRieThkVS8xS0Rh?=
- =?utf-8?B?SjZlSkFPZlZXdjZsQWROOXhubVk2dFZqQjdHMWJuSXAxTmpDZ0RKakZhenlL?=
- =?utf-8?B?a2tMclRyWUtGZFpqRVFTeE9IUmxhbFBYSXBaZHRQZS9SSytkY2x5ZE9YT0xT?=
- =?utf-8?B?RXU0a2xWeWRPbTRBNWh2c2lqeHd1aU5ad3cyQmtwd0VoeGxMZkU0eW1aMjJp?=
- =?utf-8?B?U2JRSzVUMk5ucUQzRmVtWkJoMnl0NkRtdXJyRHZwYXlsc3pvUjlTRjR6NlFF?=
- =?utf-8?B?YkszbUZPR09hR0hLSEE1NVdvM1FTMzEzd0lhU0dJTFV4WEFFL1AvTjRUaENq?=
- =?utf-8?B?T2J4SlFxaTZ0bk51OExkdyttSmFYWWFESFNZQk5aZVNIb203dUx5bHJxWnp1?=
- =?utf-8?Q?N6Uwb7/czlB/RDDJQpnKX6q6Tfbm4eT9Xd+J9DsBlPol?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d09dfe2-8367-41f4-3fa7-08de2816ce81
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 09:25:55.3407 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8gbFSDK5k7Q5+lXXkt0Uckxk4uhYTY7yWPJn2aVfR6XXOuWV7sB3bIa5H5TucXkpESKr3q4eGYv9+2usWuJfFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7375
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20251016-dmabuf-vfio-6cef732adf5a
+X-Mailer: b4 0.15-dev-a6db3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,133 +76,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/20/25 20:09, David Hildenbrand (Red Hat) wrote:
-> On 11/20/25 04:07, Balbir Singh wrote:
->> Code refactoring of __folio_split() via helper
->> __folio_freeze_and_split_unmapped() caused a regression with clang-20
->> with CONFIG_SHMEM=n, the compiler was not able to optimize away the
->> call to shmem_uncharge() due to changes in nr_shmem_dropped.
->> Fix this by checking for shmem_mapping() prior to calling
->> shmem_uncharge(), shmem_mapping() returns false when CONFIG_SHMEM=n.
->>
->> smatch also complained about parameter end being used without
->> initialization, which is a false positive, but keep the tool happy
->> by sending in initialized parameters. end is initialized to 0.
->>
->> Add detailed documentation comments for folio_split_unmapped()
->>
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> Cc: David Hildenbrand <david@redhat.com>
->> Cc: Zi Yan <ziy@nvidia.com>
->> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
->> Cc: Rakie Kim <rakie.kim@sk.com>
->> Cc: Byungchul Park <byungchul@sk.com>
->> Cc: Gregory Price <gourry@gourry.net>
->> Cc: Ying Huang <ying.huang@linux.alibaba.com>
->> Cc: Alistair Popple <apopple@nvidia.com>
->> Cc: Oscar Salvador <osalvador@suse.de>
->> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
->> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
->> Cc: Nico Pache <npache@redhat.com>
->> Cc: Ryan Roberts <ryan.roberts@arm.com>
->> Cc: Dev Jain <dev.jain@arm.com>
->> Cc: Barry Song <baohua@kernel.org>
->> Cc: Lyude Paul <lyude@redhat.com>
->> Cc: Danilo Krummrich <dakr@kernel.org>
->> Cc: David Airlie <airlied@gmail.com>
->> Cc: Simona Vetter <simona@ffwll.ch>
->> Cc: Ralph Campbell <rcampbell@nvidia.com>
->> Cc: Mika Penttilä <mpenttil@redhat.com>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Francois Dugast <francois.dugast@intel.com>
->>
->> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
->> ---
->>   mm/huge_memory.c | 32 ++++++++++++++++++++++----------
->>   1 file changed, 22 insertions(+), 10 deletions(-)
->>
->> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->> index 78a31a476ad3..c4267a0f74df 100644
->> --- a/mm/huge_memory.c
->> +++ b/mm/huge_memory.c
->> @@ -3751,6 +3751,7 @@ static int __folio_freeze_and_split_unmapped(struct folio *folio, unsigned int n
->>       int ret = 0;
->>       struct deferred_split *ds_queue;
->>   +    VM_WARN_ON_ONCE(!mapping && end != 0);
-> 
-> You could drop the "!= 0"
+Changelog:
+v9:
+ * Added Reviewed-by tags.
+ * Fixes to p2pdma documentation.
+ * Renamed dma_buf_map and unmap.
+ * Moved them to separate file.
+ * Used nvgrace_gpu_memregion() function instead of open-coded variant.
+ * Paired get_file_active() with fput().
+v8: https://patch.msgid.link/20251111-dmabuf-vfio-v8-0-fd9aa5df478f@nvidia.com
+ * Fixed spelling errors in p2pdma documentation file.
+ * Added vdev->pci_ops check for NULL in vfio_pci_core_feature_dma_buf().
+ * Simplified the nvgrace_get_dmabuf_phys() function.
+ * Added extra check in pcim_p2pdma_provider() to catch missing call
+   to pcim_p2pdma_init().
+v7: https://patch.msgid.link/20251106-dmabuf-vfio-v7-0-2503bf390699@nvidia.com
+ * Dropped restore_revoke flag and added vfio_pci_dma_buf_move
+   to reverse loop.
+ * Fixed spelling errors in documentation patch.
+ * Rebased on top of v6.18-rc3.
+ * Added include to stddef.h to vfio.h, to keep uapi header file independent.
+v6: https://patch.msgid.link/20251102-dmabuf-vfio-v6-0-d773cff0db9f@nvidia.com
+ * Fixed wrong error check from pcim_p2pdma_init().
+ * Documented pcim_p2pdma_provider() function.
+ * Improved commit messages.
+ * Added VFIO DMA-BUF selftest, not sent yet.
+ * Added __counted_by(nr_ranges) annotation to struct vfio_device_feature_dma_buf.
+ * Fixed error unwind when dma_buf_fd() fails.
+ * Document latest changes to p2pmem.
+ * Removed EXPORT_SYMBOL_GPL from pci_p2pdma_map_type.
+ * Moved DMA mapping logic to DMA-BUF.
+ * Removed types patch to avoid dependencies between subsystems.
+ * Moved vfio_pci_dma_buf_move() in err_undo block.
+ * Added nvgrace patch.
+v5: https://lore.kernel.org/all/cover.1760368250.git.leon@kernel.org
+ * Rebased on top of v6.18-rc1.
+ * Added more validation logic to make sure that DMA-BUF length doesn't
+   overflow in various scenarios.
+ * Hide kernel config from the users.
+ * Fixed type conversion issue. DMA ranges are exposed with u64 length,
+   but DMA-BUF uses "unsigned int" as a length for SG entries.
+ * Added check to prevent from VFIO drivers which reports BAR size
+   different from PCI, do not use DMA-BUF functionality.
+v4: https://lore.kernel.org/all/cover.1759070796.git.leon@kernel.org
+ * Split pcim_p2pdma_provider() to two functions, one that initializes
+   array of providers and another to return right provider pointer.
+v3: https://lore.kernel.org/all/cover.1758804980.git.leon@kernel.org
+ * Changed pcim_p2pdma_enable() to be pcim_p2pdma_provider().
+ * Cache provider in vfio_pci_dma_buf struct instead of BAR index.
+ * Removed misleading comment from pcim_p2pdma_provider().
+ * Moved MMIO check to be in pcim_p2pdma_provider().
+v2: https://lore.kernel.org/all/cover.1757589589.git.leon@kernel.org/
+ * Added extra patch which adds new CONFIG, so next patches can reuse
+ * it.
+ * Squashed "PCI/P2PDMA: Remove redundant bus_offset from map state"
+   into the other patch.
+ * Fixed revoke calls to be aligned with true->false semantics.
+ * Extended p2pdma_providers to be per-BAR and not global to whole
+ * device.
+ * Fixed possible race between dmabuf states and revoke.
+ * Moved revoke to PCI BAR zap block.
+v1: https://lore.kernel.org/all/cover.1754311439.git.leon@kernel.org
+ * Changed commit messages.
+ * Reused DMA_ATTR_MMIO attribute.
+ * Returned support for multiple DMA ranges per-dMABUF.
+v0: https://lore.kernel.org/all/cover.1753274085.git.leonro@nvidia.com
 
-Ack
+---------------------------------------------------------------------------
+Based on "[PATCH v6 00/16] dma-mapping: migrate to physical address-based API"
+https://lore.kernel.org/all/cover.1757423202.git.leonro@nvidia.com/ series.
+---------------------------------------------------------------------------
 
-VM_WARN_ONE(!mapping && end);
+This series extends the VFIO PCI subsystem to support exporting MMIO
+regions from PCI device BARs as dma-buf objects, enabling safe sharing of
+non-struct page memory with controlled lifetime management. This allows RDMA
+and other subsystems to import dma-buf FDs and build them into memory regions
+for PCI P2P operations.
 
-> 
->>       /* Prevent deferred_split_scan() touching ->_refcount */
->>       ds_queue = folio_split_queue_lock(folio);
->>       if (folio_ref_freeze(folio, 1 + extra_pins)) {
->> @@ -3919,7 +3920,7 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
->>       int nr_shmem_dropped = 0;
->>       int remap_flags = 0;
->>       int extra_pins, ret;
->> -    pgoff_t end;
->> +    pgoff_t end = 0;
->>       bool is_hzp;
->>         VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
->> @@ -4049,7 +4050,7 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
->>         local_irq_enable();
->>   -    if (nr_shmem_dropped)
->> +    if (mapping && shmem_mapping(mapping) && nr_shmem_dropped)
->>           shmem_uncharge(mapping->host, nr_shmem_dropped);
-> 
-> That looks questionable. We shouldn't add runtime check to handle buildtime things.
-> 
-> Likely what you want is instead
-> 
-> if (IS_ENABLED(CONFIG_SHMEM) && nr_shmem_dropped)
->     shmem_uncharge()
-> 
+The series supports a use case for SPDK where a NVMe device will be
+owned by SPDK through VFIO but interacting with a RDMA device. The RDMA
+device may directly access the NVMe CMB or directly manipulate the NVMe
+device's doorbell using PCI P2P.
 
-shmem_mapping() returns false for CONFIG_SHMEM=n and shmem_mapping() checks that the mapping
-is indeed for shmem ops before uncharging. Happy to change it if you like,
-your version is more readable
+However, as a general mechanism, it can support many other scenarios with
+VFIO. This dmabuf approach can be usable by iommufd as well for generic
+and safe P2P mappings.
 
->>         if (!ret && is_anon && !folio_is_device_private(folio))
->> @@ -4092,16 +4093,27 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
->>       return ret;
->>   }
->>   -/*
->> - * This function is a helper for splitting folios that have already been unmapped.
->> - * The use case is that the device or the CPU can refuse to migrate THP pages in
->> - * the middle of migration, due to allocation issues on either side
->> +/**
->> + * folio_split_unmapped() - split a large anon folio that is already unmapped
->> + * @folio: folio to split
->> + * @new_order: the order of folios after split
->> + *
->> + * This function is a helper for splitting folios that have already been
->> + * unmapped. The use case is that the device or the CPU can refuse to migrate
->> + * THP pages in the middle of migration, due to allocation issues on either
->> + * side.
->> + *
->> + * anon_vma_lock is not required to be held, mmap_read_lock() or
->> + * mmap_write_lock() should be held. @folio is expected to be locked by the
->> + * caller. device-private and non device-private folios are supported along
->> + * with folios that are in the swapcache. @folio should also be unmapped and
->> + * isolated from LRU (if applicable)
->>    *
->> - * The high level code is copied from __folio_split, since the pages are anonymous
->> - * and are already isolated from the LRU, the code has been simplified to not
->> - * burden __folio_split with unmapped sprinkled into the code.
->> + * Upon return, the folio is not remapped, split folios are not added to LRU,
->> + * free_folio_and_swap_cache() is not called, and new folios remain locked.
->>    *
->> - * None of the split folios are unlocked
->> + * Return: 0 on success, -EAGAIN if the folio cannot be split (e.g., due to
->> + *         insufficient reference count or extra pins).
-> 
-> Sounds much better to me, thanks.
-> 
+In addition to the SPDK use-case mentioned above, the capability added
+in this patch series can also be useful when a buffer (located in device
+memory such as VRAM) needs to be shared between any two dGPU devices or
+instances (assuming one of them is bound to VFIO PCI) as long as they
+are P2P DMA compatible.
+
+The implementation provides a revocable attachment mechanism using dma-buf
+move operations. MMIO regions are normally pinned as BARs don't change
+physical addresses, but access is revoked when the VFIO device is closed
+or a PCI reset is issued. This ensures kernel self-defense against
+potentially hostile userspace.
+
+The series includes significant refactoring of the PCI P2PDMA subsystem
+to separate core P2P functionality from memory allocation features,
+making it more modular and suitable for VFIO use cases that don't need
+struct page support.
+
+-----------------------------------------------------------------------
+The series is based originally on
+https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel.com/
+but heavily rewritten to be based on DMA physical API.
+-----------------------------------------------------------------------
+The WIP branch can be found here:
+https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-vfio-v9
 
 Thanks
-Balbir
+
+---
+Jason Gunthorpe (2):
+      PCI/P2PDMA: Document DMABUF model
+      vfio/nvgrace: Support get_dmabuf_phys
+
+Leon Romanovsky (7):
+      PCI/P2PDMA: Separate the mmap() support from the core logic
+      PCI/P2PDMA: Simplify bus address mapping API
+      PCI/P2PDMA: Refactor to separate core P2P functionality from memory allocation
+      PCI/P2PDMA: Provide an access to pci_p2pdma_map_type() function
+      dma-buf: provide phys_vec to scatter-gather mapping routine
+      vfio/pci: Enable peer-to-peer DMA transactions by default
+      vfio/pci: Add dma-buf export support for MMIO regions
+
+Vivek Kasireddy (2):
+      vfio: Export vfio device get and put registration helpers
+      vfio/pci: Share the core device pointer while invoking feature functions
+
+ Documentation/driver-api/pci/p2pdma.rst |  97 +++++++---
+ block/blk-mq-dma.c                      |   2 +-
+ drivers/dma-buf/Makefile                |   2 +-
+ drivers/dma-buf/dma-buf-mapping.c       | 248 +++++++++++++++++++++++++
+ drivers/iommu/dma-iommu.c               |   4 +-
+ drivers/pci/p2pdma.c                    | 186 ++++++++++++++-----
+ drivers/vfio/pci/Kconfig                |   3 +
+ drivers/vfio/pci/Makefile               |   1 +
+ drivers/vfio/pci/nvgrace-gpu/main.c     |  52 ++++++
+ drivers/vfio/pci/vfio_pci.c             |   5 +
+ drivers/vfio/pci/vfio_pci_config.c      |  22 ++-
+ drivers/vfio/pci/vfio_pci_core.c        |  53 ++++--
+ drivers/vfio/pci/vfio_pci_dmabuf.c      | 316 ++++++++++++++++++++++++++++++++
+ drivers/vfio/pci/vfio_pci_priv.h        |  23 +++
+ drivers/vfio/vfio_main.c                |   2 +
+ include/linux/dma-buf-mapping.h         |  17 ++
+ include/linux/dma-buf.h                 |  11 ++
+ include/linux/pci-p2pdma.h              | 120 +++++++-----
+ include/linux/vfio.h                    |   2 +
+ include/linux/vfio_pci_core.h           |  42 +++++
+ include/uapi/linux/vfio.h               |  28 +++
+ kernel/dma/direct.c                     |   4 +-
+ mm/hmm.c                                |   2 +-
+ 23 files changed, 1101 insertions(+), 141 deletions(-)
+---
+base-commit: dcb6fa37fd7bc9c3d2b066329b0d27dedf8becaa
+change-id: 20251016-dmabuf-vfio-6cef732adf5a
+
+Best regards,
+--  
+Leon Romanovsky <leonro@nvidia.com>
+
