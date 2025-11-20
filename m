@@ -2,63 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B114CC754D5
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 17:20:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70EDBC7550D
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 17:21:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D6AD810E785;
-	Thu, 20 Nov 2025 16:20:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1275D10E77E;
+	Thu, 20 Nov 2025 16:21:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NfSDP/Df";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YiLNKzrL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C1F0F10E783
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 16:20:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F16F210E77E
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 16:21:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4614B403A5;
- Thu, 20 Nov 2025 16:20:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7714C16AAE;
- Thu, 20 Nov 2025 16:19:59 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id CEFA14167E;
+ Thu, 20 Nov 2025 16:21:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97884C4CEF1;
+ Thu, 20 Nov 2025 16:21:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763655600;
- bh=8f5zLlMjNGjBzd/6entD5aIPPBWnkaQUfjw9Eq1Jy14=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NfSDP/DfuXZMEVxiD6DA0MVI4ci/ceTvXf7ANKsg/4brL5lc/n62xphZQjONgqtFK
- 2l0Oz69Uy4HDwy+x0d8eawS03z+mApQ2uN/R754ZYQ3IWl5CmO4rOod4j4wc8Pxzd0
- m8o6SB+8Pn3YZ2hovLU/EWZz/c8JP+IFh5EhAEspOa9kQNU7g+aqu68fv4a9nwwp5c
- QCCjln+diXsF7U81Xrvg5+2+YM81kFz6mfxeulV11UYE08YLaXyYF4X1zpYaN4j0mH
- 3IXaScSTCbFVqMLj5WqiwjuGqqQF0aSbge7riY/i7VeRDeDeqLuM3KR8kXYiVohkcX
- a9jvuivuDlDNA==
-Date: Thu, 20 Nov 2025 17:19:56 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>, 
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
-Message-ID: <tcu23ayvadb3vtz6vksrrkw6rkngofxnhokaa4khat2grnqgcu@ttmqg6illoz7>
-References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
- <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
- <20251118150128.GB23711@pendragon.ideasonboard.com>
- <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
- <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
- <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
- <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
+ s=k20201202; t=1763655715;
+ bh=NZKGOfpHm1+oI2EFNHX4s7/pBTvqhugD71XFSvGZD1A=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=YiLNKzrLmFvvyKW12ItCD0e9K8K/Bt/UXrcOtHd4kC5Rn5L2X+jvujiPQWWfLuSag
+ wYOdQxeQgrA6o3riKZyzaLVi1WGOD6j/AswJ9H0Fmr4uFm/bBij2aJ6+jF7nUXJACI
+ Ddb5YTxdvpmmat72DvvbiUfCrmoL+cOpaLqxDCMQvkvK//QNAOymY0SJ/gWntdw2jI
+ KJ1h0KoIBCMLX/2RXZlHyCxsrQosgqMHx9HwWnItExwZtPXlVRhzhYCsnCs0Yb/xmp
+ FGxqBeSdI2pJf2F3OpzcMiyrUaN76KscFGrSS16j4WvLB4ZDqGV5iA1G2+zLDtN6M2
+ mK1Wjr6+5c5mA==
+Message-ID: <779100ad-a012-49ab-b2ba-b67335947481@kernel.org>
+Date: Thu, 20 Nov 2025 17:21:46 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="wopmgmmayr32ufyd"
-Content-Disposition: inline
-In-Reply-To: <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fixup: mm/huge_memory.c: introduce folio_split_unmapped
+To: Balbir Singh <balbirs@nvidia.com>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, dri-devel@lists.freedesktop.org
+Cc: Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Francois Dugast <francois.dugast@intel.com>
+References: <20251120134232.3588203-1-balbirs@nvidia.com>
+From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20251120134232.3588203-1-balbirs@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,162 +73,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 11/20/25 14:42, Balbir Singh wrote:
+> Code refactoring of __folio_split() via helper
+> __folio_freeze_and_split_unmapped() caused a regression with clang-20
+> with CONFIG_SHMEM=n, the compiler was not able to optimize away the
+> call to shmem_uncharge() due to changes in nr_shmem_dropped.
+> Fix this by adding a stub function for shmem_uncharge when
+> CONFIG_SHMEM is not defined.
+> 
+> smatch also complained about parameter end being used without
+> initialization, which is a false positive, but keep the tool happy
+> by sending in initialized parameters. end is initialized to 0.
+> smatch still complains about mapping being NULL and nr_shmem_dropped
+> may not be 0, but that is not true prior to or after the changes.
+> 
+> Add detailed documentation comments for folio_split_unmapped()
+> 
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Zi Yan <ziy@nvidia.com>
+> Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
+> Cc: Rakie Kim <rakie.kim@sk.com>
+> Cc: Byungchul Park <byungchul@sk.com>
+> Cc: Gregory Price <gourry@gourry.net>
+> Cc: Ying Huang <ying.huang@linux.alibaba.com>
+> Cc: Alistair Popple <apopple@nvidia.com>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+> Cc: Nico Pache <npache@redhat.com>
+> Cc: Ryan Roberts <ryan.roberts@arm.com>
+> Cc: Dev Jain <dev.jain@arm.com>
+> Cc: Barry Song <baohua@kernel.org>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Ralph Campbell <rcampbell@nvidia.com>
+> Cc: Mika Penttilä <mpenttil@redhat.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Francois Dugast <francois.dugast@intel.com>
+> 
+> Suggested-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
+> ---
+> This fixup should be squashed into the patch "mm/huge_memory.c:
+> introduce folio_split_unmapped" in mm/mm-unstable
+> 
+>   include/linux/shmem_fs.h |  6 +++++-
+>   mm/huge_memory.c         | 30 +++++++++++++++++++++---------
+>   2 files changed, 26 insertions(+), 10 deletions(-)
+> 
+> diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+> index 5b368f9549d6..7a412dd6eb4f 100644
+> --- a/include/linux/shmem_fs.h
+> +++ b/include/linux/shmem_fs.h
+> @@ -136,11 +136,16 @@ static inline bool shmem_hpage_pmd_enabled(void)
+>   
+>   #ifdef CONFIG_SHMEM
+>   extern unsigned long shmem_swap_usage(struct vm_area_struct *vma);
+> +extern void shmem_uncharge(struct inode *inode, long pages);
 
---wopmgmmayr32ufyd
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
-MIME-Version: 1.0
+I forgot to add, we drop the "extern" on functions whenever we move them.
 
-On Wed, Nov 19, 2025 at 12:41:52PM +0200, Tomi Valkeinen wrote:
-> Hi,
->=20
-> On 19/11/2025 11:19, Maxime Ripard wrote:
-> > On Tue, Nov 18, 2025 at 07:10:47PM +0100, Linus Walleij wrote:
-> >> On Tue, Nov 18, 2025 at 4:44=E2=80=AFPM Maxime Ripard <mripard@kernel.=
-org> wrote:
-> >>> On Tue, Nov 18, 2025 at 05:01:28PM +0200, Laurent Pinchart wrote:
-> >>>> On Tue, Nov 18, 2025 at 03:36:05PM +0100, Linus Walleij wrote:
-> >>
-> >>>>> +/**
-> >>>>> + * drm_atomic_helper_commit_tail_crtc_early_late - commit atomic u=
-pdate
-> >>>>
-> >>>> Based on the function name, it feels that the nem commit tail and
-> >>>> modeset enable/disable helpers reached a point where we may want to
-> >>>> reconsider the design instead of adding new functions with small
-> >>>> differences in behaviour that will end up confusing driver developer=
-s.
-> >>>
-> >>> Agreed, and I'd go even further than that: we don't want every odd or=
-der
-> >>> in the core. And if some driver has to break the order we document in
-> >>> some way it should be very obvious.
-> >>
-> >> Is this just a comment on this patch 3/3?
-> >>
-> >> Or do you mean that Mareks new callback
-> >> drm_atomic_helper_commit_modeset_enables_crtc_early()
-> >> from patch 1/2 should go straight into the R-Car driver as well
-> >> and that
-> >> drm_atomic_helper_commit_modeset_disables_crtc_late()
-> >> patch 2/2 should also go into my driver, even if this
-> >> is a comment on patch 3/3?
-> >>
-> >> Both patches 1 & 2 have a lot to do with ordering, this is
-> >> why I ask.
-> >=20
-> > I mean, it applies to all your three patches and Marek's: helpers are
-> > here to provide a default implementation. We shouldn't provide a default
-> > implementation for a single user. All your patches enable to create
-> > defaults for a single user.
->=20
-> Two users so far: Renesas and ST-Ericsson.
->=20
-> > So my point is that none of those functions should be helpers.
-> >=20
-> >> We already have
-> >> drm_atomic_helper_commit_tail()
-> >> drm_atomic_helper_commit_tail_rpm()
-> >=20
-> > The former has 5 users, the latter 13. And it's already confusing enough
-> > and regression-prone as it is.
-> >=20
-> >> Does one more or less really matter? Maybe, I'm not sure,
-> >> but if it's just this one patch that is the problem I can surely
-> >> do it that way since we're only calling public functions.
-> >>
-> >> Pushing the first two patches would be more problematic,
-> >> because they call a lot of functions that are local to the
-> >> drm atomic helpers.
-> >=20
-> > I'm totally fine with making more internal functions public though.
-> While I generally agree with that, I still wonder if an implementation
-> in the core is better here. Perhaps a flag in struct drm_driver, instead
-> of new set of helpers.
->=20
-> Moving this to the driver would require (with a quick glance) exposing
-> the following functions:
->=20
-> crtc_enable
-> crtc_disable
-> crtc_set_mode
-> encoder_bridge_pre_enable
-> encoder_bridge_enable
-> encoder_bridge_disable
-> encoder_bridge_post_disable
->=20
-> Not impossible to expose, but making a private function public does
-> require work in validating the function for more general use, and adding
-> kernel docs.
+>   #else
+>   static inline unsigned long shmem_swap_usage(struct vm_area_struct *vma)
+>   {
+>   	return 0;
+>   }
+> +
+> +static void shmem_uncharge(struct inode *inode, long pages)
 
-Those are pretty trivial to document though, compared to document how
-the new variants differ from drm_atomic_helper_commit_tail() and
-drm_atomic_helper_commit_tail_rpm(), and then validating that it does
-indeed stay that way.
+"static inline void" should resolve the compilation issue.
 
-> Handling this in the core would act as documentation too, so instead of
-> the driver doing things in a different way "hidden" inside the driver,
-> it would be a standard quirk, clearly documented.
 
-We've had the "let's not introduce helpers for a single user" rule for
-like a decade at this point, because it simply doesn't scale. Plenty of
-drivers have opted-out for very specific use-case already. I'm not sure
-why we should create this precedent.
 
-> Also, I'm also not sure how rare this quirk is. In fact, I feel we're
-> missing ways to handle the enable/disable related issues in the core
-> framework. In these patches we're talking about the case where the SoC's
-> DSI host needs an incoming pclk to operate, and panels need to do
-> configuration before the video stream is enabled. But the exact same
-> problem could be present with an external DSI bridge, and then we can't
-> fix it in the crtc driver.
->=20
-> So the question becomes "does any component in the pipeline need the
-> video stream's clock to operate". But then, it doesn't help if the crtc
-> output is enabled early if any bridge in between does not also enable
-> its output early. So it all gets a bit complex.
->=20
-> And sometimes the clocks go backward: the entity on the downstream side
-> provides a clock backwards, to the source entity...
+-- 
+Cheers
 
-Yes, you're right, this is why it's so fragile. Do you want to create
-the test suite to check that all combinations are properly tested before
-reworking the whole thing?
-
-> But I digress. I think initially we should just look for a clean fix for
-> the platforms affected:
->=20
-> - Add the implementation into the drivers?
-> - Add helpers to the core?
-> - Add a flag of some kind so the core can do the right thing?
->=20
-> I made a quick test with the flag approach, below. It's not many lines,
-> but... Ugh, it does feel like a hack.
-
-Because it is.
-
-Really, I don't get it. I gave you a free pass to do whatever you wanted
-in your driver. It doesn't add any maintenance burden on anyone. It
-doesn't risk regressing other drivers in the process. It doesn't come
-with any testing requirement. It doesn't even have to be reviewed by us,
-really.
-
-Why do you argue for a more bothersome (for everyone) solution?
-
-Maxime
-
---wopmgmmayr32ufyd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaR8/rAAKCRAnX84Zoj2+
-dh3oAYC11UtpTMG6KDGtdCP75AeMIOGISGMhZbRGjJsyKe0tCTwwaOmZtoUSIPsR
-9TKKwioBf1zpb/qajz0Jc7SmiA4yZXjZbpwhAqJSArIPmfEJyEHSRQ3uUd//KQkN
-cgxrbIqvlw==
-=KoYO
------END PGP SIGNATURE-----
-
---wopmgmmayr32ufyd--
+David
