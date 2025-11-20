@@ -2,74 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B3A7C72EF5
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 09:43:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8800C72FCD
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 09:57:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA96810E708;
-	Thu, 20 Nov 2025 08:43:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38A2F10E71A;
+	Thu, 20 Nov 2025 08:57:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XwM9VF0/";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="eJSg2uQB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95B1E10E708
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 08:43:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 4E49743EDD;
- Thu, 20 Nov 2025 08:43:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FADBC4CEF1;
- Thu, 20 Nov 2025 08:43:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763628182;
- bh=P5XvCfo2kL1FT8lQd/duz2IZNp+Bc6vjBcFoBDexpxA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XwM9VF0/MdzjJFRWGcTU+as96VZEq0Zb/fyLDF58ZfSH35uzQmxfr4TmytcS6mL88
- d1t0Wx0u0jj7fsdr5rg1/N1bGUYv7dvnAc1Es+H74RFvNwnWfKaQ53LvyByCAGFAAh
- I7jNUZW/ydTTb1ZZicgEeQDolVmPtWGgW50zR3zu9NFkWMcO7PFAgTiTBGYnctFDzH
- v2CUO+Rk+ConUzbB/bRLLrMZJhBmYdtxZm/7TcQa12wKM5gP+hl5DNE9M+GLA4aAZ+
- uB36oeBHPnhbuuXsBWdkmnKZN9coakgPW2EmMZJTa1WNpabXyaPUyQmy381pCUWWJD
- qzDxtYKxcztcQ==
-Date: Thu, 20 Nov 2025 10:42:57 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Sumit Semwal <sumit.semwal@linaro.org>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <skolothumtho@nvidia.com>,
- Kevin Tian <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>,
- Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, iommu@lists.linux.dev,
- linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
- linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
- Nicolin Chen <nicolinc@nvidia.com>
-Subject: Re: [Linaro-mm-sig] [PATCH v8 06/11] dma-buf: provide phys_vec to
- scatter-gather mapping routine
-Message-ID: <20251120084257.GU18335@unreal>
-References: <20251111-dmabuf-vfio-v8-6-fd9aa5df478f@nvidia.com>
- <8a11b605-6ac7-48ac-8f27-22df7072e4ad@amd.com>
- <20251119132511.GK17968@ziepe.ca>
- <69436b2a-108d-4a5a-8025-c94348b74db6@amd.com>
- <20251119193114.GP17968@ziepe.ca>
- <c115432c-b63d-4b99-be18-0bf96398e153@amd.com>
- <20251120074137.GR18335@unreal>
- <209499e2-6a06-4291-ad4c-77230926c665@amd.com>
- <20251120080635.GT18335@unreal>
- <1e238415-1080-40b3-abb4-7fd31033d6de@amd.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF5EA10E719;
+ Thu, 20 Nov 2025 08:57:34 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AK4pcKd3407842; Thu, 20 Nov 2025 08:57:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ Vdyhnm7V1htoyU0Wm/p71kj6fEKj48K34jJr10G3hXg=; b=eJSg2uQB0TO1WfiA
+ Gp6R4adIB0vBfaUwfVKmSALvAXIBzjBNSYtxYyk2qpWEYvfyYd94gYHrdP/F0WEk
+ XC1XhRpd+dKEDck5a7uE+puNrbhc5Jwk988tFcGXNIe1O7xdgwHIZ9QL2MBB5V60
+ 0DwAcvBPHwOLTxLwIqUkXVtjZgF4EznvbUU+3bFwypCeZEnPoXj+yyfo7b6qktUm
+ tc6L0qDltvDbgOEyRznLhQjvBgrw2/UPN9UDsyqu9nBzU3Qz+U08E/ysNJBaaMZq
+ 718w2r4btATGz+IFvd6VEJ1DddxHozSQlZeNwm1J1Gat/b/8kPiHTUPsl0I1G3OJ
+ neUXoA==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ahm8121fy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Nov 2025 08:57:15 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com
+ [10.52.223.231])
+ by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5AK8vFbN008715
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 20 Nov 2025 08:57:15 GMT
+Received: from [10.204.78.57] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 20 Nov
+ 2025 00:55:04 -0800
+Message-ID: <5f52beba-fca6-4dc1-ac6d-ec0a771a291e@quicinc.com>
+Date: Thu, 20 Nov 2025 14:25:01 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1e238415-1080-40b3-abb4-7fd31033d6de@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] arm64: dts: qcom: lemans: add mdss1 displayPort
+ device nodes
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ <dmitry.baryshkov@oss.qualcomm.com>, <marijn.suijten@somainline.org>,
+ <swboyd@chromium.org>, <mripard@kernel.org>, <abel.vesa@linaro.org>,
+ <andersson@kernel.org>, <konradybcio@kernel.org>, <robh@kernel.org>,
+ <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+ <robin.clark@oss.qualcomm.com>, <jessica.zhang@oss.qualcomm.com>,
+ <abhinav.kumar@linux.dev>, <sean@poorly.run>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <alex.vinarskis@gmail.com>
+CC: <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <freedreno@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <quic_rajeevny@quicinc.com>, <quic_vproddut@quicinc.com>,
+ <quic_riteshk@quicinc.com>, <quic_amitsi@quicinc.com>
+References: <20250926085956.2346179-1-quic_mkuntuma@quicinc.com>
+ <20250926085956.2346179-3-quic_mkuntuma@quicinc.com>
+ <e3400ab5-c4ea-455a-b8ea-d4fba2ece85d@oss.qualcomm.com>
+Content-Language: en-US
+From: Mani Chandana Kuntumalla <quic_mkuntuma@quicinc.com>
+In-Reply-To: <e3400ab5-c4ea-455a-b8ea-d4fba2ece85d@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: qcN9EioFOCcCyE2iMFKt35Fk6xa20tlT
+X-Proofpoint-GUID: qcN9EioFOCcCyE2iMFKt35Fk6xa20tlT
+X-Authority-Analysis: v=2.4 cv=SJ5PlevH c=1 sm=1 tr=0 ts=691ed7eb cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=c-1eStOGazR1lmZwCp8A:9
+ a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIwMDA1MiBTYWx0ZWRfX0Up9kgzvlJqZ
+ 4vQ6SWNC7gXdR9RQXwV3kMoPh5FMyVrqwgMNnPG7XOhmJnF7xOKmczjlykc1TynQUgt9b8iBjR7
+ L34xk7ReBRzdQCAKa3M4JsrZAuJ7oi2RYLmXnZdcoAMTQ6VhB1Nn8eaaBwcMY4a3vDuEbJ7of45
+ 5LftA37GnEQOCXUtBiSWQNhWklWTN/KmX4SEt8iO7O46O2rr7dG6i2vSkiY/RiTsSSZMazvnfxD
+ OEq/GA5iMIeCFsTOH5gx8ANqYZ0PSxjrJAhwfYqYaYWJdWGbDID+SBdir0NZZtbN+VKFOdR4a/q
+ 2ywClCFA5my1XWd6Ztu0KEKcz9dAf/095DBNRAPjZzhU1lF0fW0yFAgP7yzvuZSHumd4uGCVgmK
+ XUcUN6iH0PoqYwwD4ykIu3lTNs7Neg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-20_03,2025-11-18_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
+ lowpriorityscore=0 malwarescore=0 adultscore=0 spamscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511200052
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,134 +113,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 20, 2025 at 09:32:22AM +0100, Christian König wrote:
-> On 11/20/25 09:06, Leon Romanovsky wrote:
-> > On Thu, Nov 20, 2025 at 08:54:37AM +0100, Christian König wrote:
-> >> On 11/20/25 08:41, Leon Romanovsky wrote:
-> >>> On Thu, Nov 20, 2025 at 08:08:27AM +0100, Christian König wrote:
-> >>>> On 11/19/25 20:31, Jason Gunthorpe wrote:
-> >>>>> On Wed, Nov 19, 2025 at 02:42:18PM +0100, Christian König wrote:
-> >>>>>
-> >>>>>>>>> +	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
-> >>>>>>>>> +		dma->state = kzalloc(sizeof(*dma->state), GFP_KERNEL);
-> >>>>>>>>> +		if (!dma->state) {
-> >>>>>>>>> +			ret = -ENOMEM;
-> >>>>>>>>> +			goto err_free_dma;
-> >>>>>>>>> +		}
-> >>>>>>>>> +
-> >>>>>>>>> +		dma_iova_try_alloc(attach->dev, dma->state, 0, size);
-> >>>>>>>>
-> >>>>>>>> Oh, that is a clear no-go for the core DMA-buf code.
-> >>>>>>>>
-> >>>>>>>> It's intentionally up to the exporter how to create the DMA
-> >>>>>>>> addresses the importer can work with.
-> >>>>>>>
-> >>>>>>> I can't fully understand this remark?
-> >>>>>>
-> >>>>>> The exporter should be able to decide if it actually wants to use
-> >>>>>> P2P when the transfer has to go through the host bridge (e.g. when
-> >>>>>> IOMMU/bridge routing bits are enabled).
-> >>>>>
-> >>>>> Sure, but this is a simplified helper for exporters that don't have
-> >>>>> choices where the memory comes from.
-> >>>>
-> >>>> That is extremely questionable as justification to put that in common DMA-buf code.
-> >>>>
-> >>>>> I fully expet to see changes to this to support more use cases,
-> >>>>> including the one above. We should do those changes along with users
-> >>>>> making use of them so we can evaluate what works best.
-> >>>>
-> >>>> Yeah, exactly that's my concern.
-> >>>>
-> >>>>>> But only take that as Acked-by, I would need at least a day (or
-> >>>>>> week) of free time to wrap my head around all the technical details
-> >>>>>> again. And that is something I won't have before January or even
-> >>>>>> later.
-> >>>>>
-> >>>>> Sure, it is alot, and I think DRM community in general should come up
-> >>>>> to speed on the new DMA API and how we are pushing to see P2P work
-> >>>>> within Linux.
-> >>>>>
-> >>>>> So thanks, we can take the Acked-by and progress here. Interested
-> >>>>> parties can pick it up from this point when time allows.
-> >>>>
-> >>>> Wait a second. After sleeping a night over it I think my initial take that we really should not put that into common DMA-buf code seems to hold true.
-> >>>>
-> >>>> This is the use case for VFIO, but I absolutely want to avoid other drivers from re-using this code until be have more experience with that.
-> >>>>
-> >>>> So to move forward I now strongly think we should keep that in VFIO until somebody else comes along and needs that helper.
-> >>>
-> >>> It was put in VFIO at the beginning, but Christoph objected to it,
-> >>> because that will require exporting symbol for pci_p2pdma_map_type().
-> >>> which was universally agreed as not good idea.
-> >>
-> >> Yeah, that is exactly what I object here :)
-> >>
-> >> We can have the helper in DMA-buf *if* pci_p2pdma_map_type() is called by drivers or at least accessible. That's what I pointed out in the other mail before as well.
-> >>
-> >> The exporter must be able to make decisions based on if the transaction would go over the host bridge or not.
-> >>
-> >> Background is that in a lot of use cases you rather want to move the backing store into system memory instead of keeping it in local memory if the driver doesn't have direct access over a common upstream bridge.
-> >>
-> >> Currently drivers decide that based on if IOMMU is enabled or not (and a few other quirks), but essentially you absolutely want a function which gives this information to exporters. For the VFIO use case it doesn't matter because you can't switch the BAR for system memory.
-> >>
-> >> To unblock you, please add a big fat comment in the kerneldoc of the mapping explaining this and that it might be necessary for exporters to call pci_p2pdma_map_type() as well.
-> > 
-> > Thanks,
-> > 
-> > What do you think about it?
-> > 
-> > diff --git a/drivers/dma-buf/dma-buf-mapping.c b/drivers/dma-buf/dma-buf-mapping.c
-> > index a69bb73db86d..05ec84a0157b 100644
-> > --- a/drivers/dma-buf/dma-buf-mapping.c
-> > +++ b/drivers/dma-buf/dma-buf-mapping.c
-> > @@ -84,6 +84,11 @@ struct dma_buf_dma {
-> >   * PAGE_SIZE aligned.
-> >   *
-> >   * A mapping must be unmapped by using dma_buf_free_sgt().
-> > + *
-> > + * NOTE: While this function is intended for DMA-buf importers, it is critical
-> > + * that the DMA-buf exporter is capable of performing peer-to-peer (P2P) DMA
-> > + * directly between PCI devices, without routing transactions through the host
-> > + * bridge.
-> 
-> Well first of all this function is intended for exporters not importers.
-> 
-> Maybe write something like "This function is intended for exporters. If direct traffic routing is mandatory exporter should call routing pci_p2pdma_map_type() before calling this function.".
 
-Sure, no problem.
 
-Thanks
+On 10/8/2025 6:10 PM, Konrad Dybcio wrote:
+> On 9/26/25 10:59 AM, Mani Chandana Ballary Kuntumalla wrote:
+>> Add device tree nodes for the mdss1 DPTX0 and DPTX1 controllers
+>> with their corresponding PHYs.
+>>
+>> Signed-off-by: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>
+>> ---
+> 
+> [...]
+> 
+>> +			mdss1_dp0: displayport-controller@22154000 {
+>> +				compatible = "qcom,sa8775p-dp";
+>> +
+>> +				reg = <0x0 0x22154000 0x0 0x104>,
+> 
+> sz = 0x200
+> 
+>> +				      <0x0 0x22154200 0x0 0x0c0>,
+> 
+> sz = 0x200
+> 
+>> +				      <0x0 0x22155000 0x0 0x770>,
+> 
+> sz = 0xc00> +				      <0x0 0x22156000 0x0 0x09c>,
+>> +				      <0x0 0x22157000 0x0 0x09c>,
+>> +				      <0x0 0x22158000 0x0 0x09c>,
+>> +				      <0x0 0x22159000 0x0 0x09c>,
+> 
+> sz = 0x400 for all 0x9c
+> 
+>> +				      <0x0 0x2215a000 0x0 0x23c>,
+>> +				      <0x0 0x2215b000 0x0 0x23c>;
+> 
+> 0x23c -> 0x600
+> 
+> [...]
+> 
+> 
+>> +			mdss1_dp1: displayport-controller@2215c000 {
+>> +				compatible = "qcom,sa8775p-dp";
+>> +
+>> +				reg = <0x0 0x2215c000 0x0 0x104>,
+>> +				      <0x0 0x2215c200 0x0 0x0c0>,
+>> +				      <0x0 0x2215d000 0x0 0x770>,
+>> +				      <0x0 0x2215e000 0x0 0x09c>,
+>> +				      <0x0 0x2215f000 0x0 0x09c>,
+>> +				      <0x0 0x22160000 0x0 0x09c>,
+>> +				      <0x0 0x22161000 0x0 0x09c>,
+>> +				      <0x0 0x22162000 0x0 0x23c>,
+>> +				      <0x0 0x22163000 0x0 0x23c>;
+> 
+> 0x2216_2000 and _3000 don't exist, there's no MST2/3
+> 
+> sizes should be changed similarly
+
+MST2/3 is supported for MDSS1 DPTX0.
 
 > 
-> Regards,
-> Christian.
+> [...]
 > 
-> >   */
-> >  struct sg_table *dma_buf_phys_vec_to_sgt(struct dma_buf_attachment *attach,
-> >                                          struct p2pdma_provider *provider,
-> > (END)
-> > 
-> > 
-> >>
-> >> Regards,
-> >> Christian.
-> >>
-> >>>
-> >>> https://lore.kernel.org/all/aPYrEroyWVOvAu-5@infradead.org/
-> >>>
-> >>> Thanks
-> >>>
-> >>>>
-> >>>> Regards,
-> >>>> Christian.
-> >>>>
-> >>>>>
-> >>>>> We can also have a mini-community call to give a summary/etc on these
-> >>>>> topics.
-> >>>>>
-> >>>>> Thanks,
-> >>>>> Jason
-> >>>>
-> >>
+>>   		dispcc1: clock-controller@22100000 {
+>> @@ -6872,6 +7115,8 @@ dispcc1: clock-controller@22100000 {
+>>   				 <&rpmhcc RPMH_CXO_CLK>,
+>>   				 <&rpmhcc RPMH_CXO_CLK_A>,
+>>   				 <&sleep_clk>,
+>> +				 <&mdss1_dp0_phy 0>, <&mdss1_dp0_phy 1>,
+>> +				 <&mdss1_dp1_phy 0>, <&mdss1_dp1_phy 1>,
+>>   				 <0>, <0>, <0>, <0>,
 > 
+> You need to remove the same amount of zeroes that you added
+> 
+
+Sure, Will update this in the next version.
+
+> Konrad
+> 
+>>   				 <0>, <0>, <0>, <0>;
+>>   			power-domains = <&rpmhpd SA8775P_MMCX>;
+
