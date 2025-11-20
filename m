@@ -2,90 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B47C71D3C
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 03:25:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 176C3C73A97
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 12:17:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94E2F10E6D1;
-	Thu, 20 Nov 2025 02:25:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0140A10E73D;
+	Thu, 20 Nov 2025 11:17:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="F47Tlp0T";
+	dkim=pass (2048-bit key; unprotected) header.d=outlook.com header.i=@outlook.com header.b="GJWqwJ4J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D596510E6D1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 02:25:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1763605517;
- bh=Xn5Sqf6jlBXaETnSdjcUsZQPPZf1EW7Rcj8pIik+fGE=;
- h=From:To:Subject:Date:Message-Id;
- b=F47Tlp0TlguIuuN8WvpVyhM0CNjx3WhTRwGKpluRiKavlYRObCqMG+HHUwHE48xeJ
- L4N2FB3ZWhLOm+6ElAG4L7qMmDJBnyfYyZSqt1cmKTxUchntLjAXQdkALVUP7Asjeo
- 1K5QDLJ156ZJ/kkeiL2/Oqmkv3Cis9/yremDpMB8=
-X-QQ-mid: zesmtpsz5t1763605479t4f566fe8
-X-QQ-Originating-IP: u55IejQC99cX06tuNwkUEpyW35B2cmYSlSGFqlYKtDg=
-Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Thu, 20 Nov 2025 10:24:36 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 534471061521823290
-From: Chaoyi Chen <kernel@airkyi.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from CY3PR05CU001.outbound.protection.outlook.com
+ (mail-westcentralusazolkn19013085.outbound.protection.outlook.com
+ [52.103.7.85])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 385C410E6D0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 02:25:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Sm8M+PIOzw9kd8GU7By6boZD/ziUkgixQ7QK784isQLrv+Rbm9VCLBkeyG8yQvLgyfcy0oFW8oLblpYfHqVyLTQv55/TJEIUpOC/4ov3qzqLV+gtQIw4fw2l7QwrDGUBCK8QpE7NpQrNDLXxQm5HrasQ3sk1L2bgRx5mkXFaBBy6S+8y/f31dLVrNazlSUYAtUlonHRQCS6uVaA2DGkK+kXZ4K2DucYf0FbFfemSRo+/tXH5OdJfyYAQ864IeJrsIXoqyM/S3sESFhm8pPCVbjfJLoypCG/Vg1uK3l+Tqzv0fBzIgfifq+rH5HE8mvrv6tPCNXtvpv8qZcvqurEL3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1QLP/fPNIS+f01x36qB9vsGfbpeFGOF1IA3wGGjGWyQ=;
+ b=hsjiEJogtKbaiA/XNYiB+v+FY7MH5eOawudNvWvR63vNTXvai0J+14mcjK8oLq3uo2NO1EarC4YwyKKL+plkcuD99HZZs1/liO946OBXm64Eiq92i6nYKNR+ailfZ0lr7ZxbYf+KXFvVnplJerA3MjYy9oizVjGqjoNOF/fEWe1BJqDNhE/IlPsMHA58E1yC7S5PZA8qsEXVUVbfIesGNHcQCyNWCoVK0wq+dCgBvKgPePnbBBLo6TZpyz/AYhq+EoA/rGkeGZupNHL1kSK97KCw7XGEV/327jgKxshQQdkdoIF1FPCrTFHQYR1OXltv1CH4SBZOZ/tY+ZIpVRgKKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1QLP/fPNIS+f01x36qB9vsGfbpeFGOF1IA3wGGjGWyQ=;
+ b=GJWqwJ4JYZnT9uPhq6L1OhygJZeB6iCNIosPGiMDwFxQDDKQdgymOoW6UBt403iZagOiJzT1VNMiRn2DRMZfDhAYDcsKTEAuEoJE25YOkRhSn1pPq68Rf/24pVJujfEyAo4hXeFiK54Gf41hTrbuwDxGSNFI3YxrX+erl91ibyoV0ufTcsI5lRxHKwx7EcULcNOytepihoA6alqeWBXeWuF5JCLdXU68E1jaQn76Kdu3pyx7PK8A4udJHIqDHwwpOIV1GCmMs7/QOouj8CTeQmRLrkYgEshliLefw/vpZhUmSB5crNFjMjyU6pcPkn0CkqSLm9VVubxyBumWuhroGQ==
+Received: from PH3PPFAB08B9FD3.namprd19.prod.outlook.com
+ (2603:10b6:518:1::c43) by MW4PR19MB5653.namprd19.prod.outlook.com
+ (2603:10b6:303:16b::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.15; Thu, 20 Nov
+ 2025 02:25:06 +0000
+Received: from PH3PPFAB08B9FD3.namprd19.prod.outlook.com
+ ([fe80::7a3a:4c04:a3cb:1102]) by PH3PPFAB08B9FD3.namprd19.prod.outlook.com
+ ([fe80::7a3a:4c04:a3cb:1102%5]) with mapi id 15.20.9343.009; Thu, 20 Nov 2025
+ 02:25:05 +0000
+Message-ID: <PH3PPFAB08B9FD3DE70CD833C0C470243EE99D4A@PH3PPFAB08B9FD3.namprd19.prod.outlook.com>
+Date: Wed, 19 Nov 2025 21:25:02 -0500
+User-Agent: Mozilla Thunderbird
+From: Matt Smith <matthew.j.smith2@outlook.com>
+Content-Language: en-US
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Amit Sunil Dhamne <amitsd@google.com>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v10 11/11] arm64: dts: rockchip: rk3399-evb-ind: Add support
- for DisplayPort
-Date: Thu, 20 Nov 2025 10:23:43 +0800
-Message-Id: <20251120022343.250-12-kernel@airkyi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20251120022343.250-1-kernel@airkyi.com>
-References: <20251120022343.250-1-kernel@airkyi.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: NtksVjXir1Sb6sQ5D/1nQfdIoldl/JaU00sxOQbjTG4AL2yif0yU2QQW
- EAZ8EdeOE2uq27vFq/Pat57+n5fGXxK4u4jpr1PuJ9STkQRfypt3Rp1PFXGaQip6wFJ7bk5
- 1Dbdi+0lDDB+hRp4T/52z/ytoEwzN/2Q1xhCeggnAwbbF8xoJKLFnzoeSp1Y8D2fW0IaYkC
- ZMgKH0k9i/yog315t8ziJvn43C54FFLDzS0Y+eSdBToWxaiz53a91ABGsyBHCXpp9Qz/sKn
- xhzzD8RwU/HknuzK0+ZyQiw67BzTiIQvZ12XSt29k1gtuPGHFzH0W0xoOEQH8ScGJboO52z
- lVrFVnVIyu5otIwELUNbGJ/8148xDH/GpRqgVxSTc0GpNnj3HIPOReaTUCbvs4Sfo7hs3IJ
- gRFFjlzyBtb9InkAnXiuGICeM5ecmCVIncv6lDC7duf+XsRRmbj3FyaJDx68c4cQbNn1w8Y
- UgE4LXB9w3nIsjd/7aCoO2jOPQw24an+WDbpajHnou/UzjBpXf1TY7ro5nG9fscIQeoHTIK
- MbY4WcEnH2Xh/8Db7Y34kwNdbvSfFJNIY706G0q+090fNjyeOqIzQJBfjJdmxbzhAVu5YbJ
- 1/vss1ixpXhHlH5Ri/Ey7AckWNxIiU5PexlWp4Chv6kBcL3LVdI4RaQasWNHvbJBSyjnHe3
- OJEoaLeG9+h729S/OaDwBr8r6WHX2i9L/8EwBW/pUWrvnTZG/1VC5CI9465/DzFbvsup2+P
- z1ZLaygpwp7Jd38YNnqcY31AOYaN5dRrpH7vsQHuXn8p8STPTa0Eh3VdDuGwLgRjhFLkwm5
- ZNIbTeZKc3wQeC3bSek7TNlpEZfe6RU3c8MphHdSbatPC43BKoRbqVLwMJBknXfA4FJ9+2q
- /JFkSQp9+gHYwdttMS7iA0+INcrxzEKbd9WWKj4X/rTG8xhTGB8bjiNVwBp64k5Se46BcmW
- liSGoQ7woHFE6Qjy2FFqrTMtRAHR2nJflR373o8k6SIpH/wUo4Gy6D8gCni1XcQSqSxsiec
- 4gCvNBxmnlzxBgoLAeuD4AxG5uJ3NdfOG/2JNZXg==
-X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
-X-QQ-RECHKSPAM: 0
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/panel: osd-osd101t2587-53ts: migrate to
+ mipi_dsi_turn_on_peripheral_multi
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR20CA0057.namprd20.prod.outlook.com
+ (2603:10b6:208:235::26) To PH3PPFAB08B9FD3.namprd19.prod.outlook.com
+ (2603:10b6:518:1::c43)
+X-Microsoft-Original-Message-ID: <e98c265c-7d02-4b2a-89b2-75b5ea428941@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH3PPFAB08B9FD3:EE_|MW4PR19MB5653:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0490011e-0143-4bf8-528b-08de27dc0430
+X-MS-Exchange-SLBlob-MailProps: znQPCv1HvwUhM6k1QWx02acDuEqXpbI5H9tct2aeGhqEmlQbgdzZiO6ahHom8EawD+/2t0Z3QUGcm9ehXobjLkDSDHNC1cNWy2/K/nVfDQIQfHa41ElC6OQL7sIJfL5AiI+4VI+zH//PpPhycFiKu/C/z1Nj83kbjhqAgqOUzMhZu8vOGtI96EdCcX8w0i4+maHj9K8fqN4V6I/aIi2U1TMzmRhlWduUaMJ9nch4fn5GYGsMaFyf9ye+P01+Q/xsT9hTuKuaCGAWOJOblNI9yeBIMkWsD90OYpYcasPrNsjCw99jhvE5q9Be/QCwB+EEtGHCpLbKEKIY3HTr3CDhWkJMTheO8MDc3mUMf9u8bArTbVkI1K+OcsZS7ZjAAEWT3d0e+dkV+z+jvzq17gR+piGni1hfZ/seeMN6ar/f6bUJeZWiIpLFblcfhBIzO8mAquHBO5hohIkxKqAhRqb6/Cc5His7Kd+wwB6mDs3P2EiNPhk40J6l4693FIsIMvKaLllJyJstb/biFh1ElSR0RCl0W9V2zLR/OOTnHRPmiP94jfHG1lw+CevIKWC4kcDYkUSQuv6tLbppy4vy8FEeVUQnjWeXygpHfK5hMmN6NXqnZa/6lIk/e4zCNAoNl9q1JOBtmbos2AOEoIG7lNiV1p3a4zW+vv5T447yTECOhZA4XgYMoV8FonxpWXX9lJCy6ZH942zPKROCXQX6sK9Y1A4xlMbjjKOhh0bBNIEL77wukETv8UZgxJHQNpIn2dhFK4B1bPQSy+A=
+X-Microsoft-Antispam: BCL:0;
+ ARA:14566002|15080799012|5072599009|6090799003|8060799015|23021999003|41001999006|39105399006|19110799012|461199028|5062599005|3412199025|440099028|40105399003;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OTl1RzAxMGxvSUIrOGtpRnVCMGk3WTdQNmRpdWppL1A4M05jNEpzNUZKQkE5?=
+ =?utf-8?B?cndLMXBmcG5VcXY4OTVyY2l0dVVUSzRBYmx0NTJpeUJ3RThaN0p5NW9oRkE2?=
+ =?utf-8?B?czdpZWwzNUtKZkRQUUwvMkMyL3d5V0E0aHRRYWdCVVdTTVQyenI5U0F5ck1h?=
+ =?utf-8?B?LzB0and4QUtzRzZ1YlNSakw5cmxLVTVwdFNtS2VPQlF1cWtQMCsvZ3ZXWVJY?=
+ =?utf-8?B?UVdhNE5VdW8zbHM4OFRuaUt6WnRGS2hJNzJHcjhIYUFmbjNxMmRBR3h3NFl5?=
+ =?utf-8?B?dlhlbGp0bWlkOWJFTUIxcVh0UThibVJEWUVhT0pnY2I2N3JHaEdPcXk0eTRL?=
+ =?utf-8?B?d2UzRzZBVktRakVQem1oMXZxOVh6dkdLalgrS0RyUjRnNDllVS9wbHU5aVlR?=
+ =?utf-8?B?KzJGbjJkRjBVaEFudklQZ1BMRGt6ZlR2R29rZUVtWVhHa2V0NXBhaXRaa2Rl?=
+ =?utf-8?B?bTdkMTd4N0laZU9vRDZXVnphd2FQczZJdnVsQ2Zuc0JuWklFQ0txVWxvdGxh?=
+ =?utf-8?B?Vmx1OTdWYW10bzNnMkpUZ2piTitXNGpkV1RvMnUzRHdYd2JhN0VQcUNhbk96?=
+ =?utf-8?B?UGw4bXllb2VWR3BCZE03dkFuZ2dGYmpDVmV0QTdnTWZ5TWIvOU0yRHpJbHRU?=
+ =?utf-8?B?T3dtRS83M3lzVnRodzFwQStFU3pjV3QzR1JsN1N3VzR2YjkvMjhFdDQvcDJM?=
+ =?utf-8?B?NklTTUNkTTdXTzh6THVlS29NTWZrSGIyejhBck5VeHBtZHZoK1RmU3cySEFK?=
+ =?utf-8?B?YkFnVjZHZ0VDdldiemVvMkFYcHI5K3hjZzdEaWpJM3R2Rllja3JXUEUxSjhM?=
+ =?utf-8?B?cVcwa3h4eVZrUXRCSUVJSmNFdlpKemdsZlNBcksvTlIwSDY4VkxNclpOdkw5?=
+ =?utf-8?B?dmJ0NTc4a3BIaCs1U1NGVHlIbTBQRm9uU2p3ZkRFRFJERnk2aXBaQklsdnZK?=
+ =?utf-8?B?U1BwT0pBVmVLaEI4NmpDWmJpUnRMYUxDOW5PZm43N1FjdE81ZFdLMXFTQ2Jw?=
+ =?utf-8?B?WklIMEY0a0QwMzk0KzNXWHUzK0srS2cxTU1Dc0JabmJnOFA0Z05pNFg1MWZs?=
+ =?utf-8?B?akxnWmF2elVTL1M2MEhYcklHakxCOTNONHp0OEVIamJybkFoOXdmNU1mQm9t?=
+ =?utf-8?B?UFNkWUZUcXdxTHlONWs0OXViNkRiYmpsSmlhU1pqSEVLczFUNy9Bc1FqaWRz?=
+ =?utf-8?B?QXI2c3FKYll6bnRrSFE4V05sWjZzVDJYak1zUlh3TytYditvejVrb3AzN1hH?=
+ =?utf-8?B?NlMxejNqL1NyYytxM2g2cFpORVZlYWJxUWFIZmxFY05YdVRwbW9aOHAyZEhy?=
+ =?utf-8?B?MUdMVTJvdHNhTWJwc3lxa0FNOFVtdmVxNVd2bC9ianFTSEhOTTNqQjliRGhy?=
+ =?utf-8?B?ZlVsZTUycjcwS0lWbkZONmQ0T1FzTzBjdVFOKytEcEVES3poRG5RNXVJeG85?=
+ =?utf-8?B?K0pxdFdCUHVSRFBZeGJ1VktIbFY1RnpjUVpTeDhMYTZETFdRaFovaHg0SGtz?=
+ =?utf-8?B?UFB6ekdSK2hGM21OSi9TWUhycTVXeXZ2cnJlaXI1anpLMUIweVROWTkwdmow?=
+ =?utf-8?B?aTJvL3NTMUdUdVRwK2YxZXZYcEJFeWkzR3Z4eTVSZ08xU2dGVFpPYk9xTUw4?=
+ =?utf-8?B?K256UWlIQ2NWcjlHQU0yOGJFQkdmTEtuVFJkME5TY1R0WEI4SGIxRkk0R0lZ?=
+ =?utf-8?B?T3BBdTJrNUhvMXZOVXB1N2FjQTZCWlZDL0Vod01Jc0RVZXh4dXhNaW9BPT0=?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c2RBMHRZdG9hR0daWGdXK1RIenpsRUxpWTJVZG5sL3VOdlF5S1BrK1BHM2I1?=
+ =?utf-8?B?N3hFK1pkNWxvdWEzOVNnQTRUUEhhdmFIQVRRWmVsNDJqZnh6YVBPOXgwTElu?=
+ =?utf-8?B?aXlYbWtFQTJmMC9SWHY2TG1DM2liMU05QjFpNjVCSVBSOTZjQzdtbnpLUkJI?=
+ =?utf-8?B?alQ3R2V3ZktrUktvMXNteWFIdVFnZ2VyUzFKbmZYU082dlVtVzZwbEZ3aWE1?=
+ =?utf-8?B?dXJWS0ZxMWpkVWg5T3hQYUhMMWlyb1dRaTFNRm1OOElhcUlJdWoySjdRVi9j?=
+ =?utf-8?B?b1preHJwVUJNeWxKYllsL04zdXlnd1Q5UmpPSnJtZURnTE1OMU9UTkdhMTVk?=
+ =?utf-8?B?WUZWejJ4L21JclVpOTZrRmE0UEt2NmtmbCtlOUNhUmdlcUZXM2VuekJoWEtz?=
+ =?utf-8?B?aWp6THBBejIvZlJXc3pBZ01zQkkramRDUUUrZnVMTXdZRU5CK1h6b0Vwd1hq?=
+ =?utf-8?B?bEhrREZGRGxWS3ZNV1RlWE9DSXdhb2dBenR3Ym9XT2JTYkFzcHo5cUJzSHF0?=
+ =?utf-8?B?cVV3Wnl1UGdzdTdNbFZJT3daSzAvTnMyb013Y2tnRW90YlN6K0NXazFpWloy?=
+ =?utf-8?B?ditiUlFyS3RvVlIyelR4eHI4dHo4Um95a3FxZmp6NXpXNHNaY0dsSFJJK0xY?=
+ =?utf-8?B?dWZ0Snc3ZkZXaTltQjR5TkF0MFYxU29BTG1Nem5PRG9UZ09pQlNYVUhoOUc0?=
+ =?utf-8?B?bHVpUTJGbm9JZFY3SVhhaTBDTGdGdHZSdnVDQkUvT0RCRlpPcExXRjJlZG4z?=
+ =?utf-8?B?Y2FrNVQvNVB6Y0twdTh2TFR4aUNhdytUM1c4c1NqZGtDZ1IvdHJIL0Y4TXZF?=
+ =?utf-8?B?QzA5S3JwSytCQ2RxampxWjZGSUxMclFZVzkxK3BydGtFWXJmeSsyUytVci9z?=
+ =?utf-8?B?c3I0Q3JnWGJJLzAvUWJPZnZqN2IzdW1Ib0lRSEhyb2xIT1lueXg1M3ZVcnBz?=
+ =?utf-8?B?OFRnaXI2eDBhTUYrbHY5TWRYZnN1L0dKdDhzMFBVM25BNHhQRzlnZTUva1Mv?=
+ =?utf-8?B?OS9RN2hXc2FXeG1MdWk0dmJUT1FXSDJyTkowazBtTGUyUWZMa1BnaG04Z2s5?=
+ =?utf-8?B?bUt1bFNsdFhyTlU0VHJqQms2VmI3RUtnaitzWHlVTGhEaTBhNW1QWVVrbXoz?=
+ =?utf-8?B?cG9PcTFVcVQ0K2hHenZWSnRSQ1VlRGxRZ0ZrblI0V2Nmb1IvZTQvNVdzMjMy?=
+ =?utf-8?B?ZHdsUFIvZ0lnOHAvS1BEeTVYTExKNkc2bVd2enZtdkJzd2dOWXlHd2ErcTdC?=
+ =?utf-8?B?TFVIbWE2V01vZE9yc2V5eVdLSE8vUEhrTjF3ZTQ2anRWWnVwQkRHSWtaUEEz?=
+ =?utf-8?B?aFZHM1kzeFJ3TTJ6SzV2ajdacVBJTjhwSlJtOWpKZ2ZIWGIxbnpCRk42Z0tq?=
+ =?utf-8?B?VDQzMWxEZm1EZEVzcStDY0JHalBjY0xzUTlIWlpPc2F1M29xRWdIVEx5bFFs?=
+ =?utf-8?B?SXZSSVJ5bHg4eDVMVWZkMXJpa3Vlb2kyQWJiZ1RsT2ZXRURTR3BwU2JGQS9H?=
+ =?utf-8?B?Y0FpMjViYWhJZ05BVllHYi8zMTZwWnJ2NUlPMjFCVUxlVm4yK09pMU5VU1NY?=
+ =?utf-8?B?QUE5N05nZEtwRCs4YXo2Sjc0NWUrc0daaFJybVNsL21FOGtCaVg1SE1jTXlR?=
+ =?utf-8?B?eGsvZGtWa0pDQ1RJbkcyNXNzdS91R041WEZMRDJKQnFKU3RLREYxUm0yaDkv?=
+ =?utf-8?Q?iaAjyPep0hoyIM6xDuHi?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0490011e-0143-4bf8-528b-08de27dc0430
+X-MS-Exchange-CrossTenant-AuthSource: PH3PPFAB08B9FD3.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 02:25:05.3914 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR19MB5653
+X-Mailman-Approved-At: Thu, 20 Nov 2025 11:17:36 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,247 +151,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Documentation/gpu/todo.rst lists to transition away from using
+deprecated methods in drm_mipi_dsi.c, so migrating from
+mipi_dsi_turn_on_peripheral to mipi_dsi_turn_on_peripheral_multi.
 
-The RK3399 EVB IND board has a Type-C interface DisplayPort.
-It use fusb302 chip as Type-C controller.
+Used commit e139c0eb22ce ("drm/panel: mantix-mlaf057we51: transition
+to mipi_dsi wrapped functions") as a reference.
 
-fusb302 chip ---> USB/DP PHY0 <----> CDN-DP controller
-
-Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Signed-off-by: Matt Smith <matthew.j.smith2@outlook.com>
 ---
+ drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-(no changes since v10)
+diff --git a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
+index 2334b77f348c..45baf2c238d2 100644
+--- a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
++++ b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
+@@ -58,13 +58,14 @@ static int osd101t2587_panel_prepare(struct drm_panel *panel)
+ static int osd101t2587_panel_enable(struct drm_panel *panel)
+ {
+        struct osd101t2587_panel *osd101t2587 = ti_osd_panel(panel);
+-       int ret;
 
-Changes in v9:
-- Add usb role switch for Type-C.
-- Remove USB2 PHY in Type-C connection.
+-       ret = mipi_dsi_turn_on_peripheral(osd101t2587->dsi);
+-       if (ret)
+-               return ret;
++       struct mipi_dsi_multi_context dsi_ctx = {
++               .dsi = osd101t2587->dsi
++       };
 
-(no changes since v4)
+-       return ret;
++       mipi_dsi_turn_on_peripheral_multi(&dsi_ctx);
++
++       return dsi_ctx.accum_err;
+ }
 
-Changes in v3:
-- Fix wrong vdo value.
-- Fix port node in usb-c-connector.
-
-Changes in v2:
-- Add endpoint to link DP PHY and DP controller.
-- Fix devicetree coding style.
-
- .../boot/dts/rockchip/rk3399-evb-ind.dts      | 147 ++++++++++++++++++
- 1 file changed, 147 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts b/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-index 70aee1ab904c..be1e90f7a453 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-@@ -4,6 +4,7 @@
-  */
- 
- /dts-v1/;
-+#include <dt-bindings/usb/pd.h>
- #include "rk3399.dtsi"
- 
- / {
-@@ -19,6 +20,21 @@ chosen {
- 		stdout-path = "serial2:1500000n8";
- 	};
- 
-+	sound: sound {
-+		compatible = "rockchip,rk3399-gru-sound";
-+		rockchip,cpu = <&i2s0 &spdif>;
-+	};
-+
-+	vbus_typec: regulator-vbus-typec {
-+		compatible = "regulator-fixed";
-+		enable-active-high;
-+		gpio = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&vcc5v0_typec0_en>;
-+		regulator-name = "vbus_typec";
-+		vin-supply = <&vcc5v0_sys>;
-+	};
-+
- 	vcc5v0_sys: regulator-vcc5v0-sys {
- 		compatible = "regulator-fixed";
- 		enable-active-high;
-@@ -31,6 +47,11 @@ vcc5v0_sys: regulator-vcc5v0-sys {
- 	};
- };
- 
-+&cdn_dp {
-+	phys = <&tcphy0_dp>;
-+	status = "okay";
-+};
-+
- &cpu_b0 {
- 	cpu-supply = <&vdd_cpu_b>;
- };
-@@ -55,6 +76,12 @@ &cpu_l3 {
- 	cpu-supply = <&vdd_cpu_l>;
- };
- 
-+&dp_out {
-+	dp_controller_output: endpoint {
-+		remote-endpoint = <&dp_phy_in>;
-+	};
-+};
-+
- &emmc_phy {
- 	status = "okay";
- };
-@@ -341,6 +368,71 @@ regulator-state-mem {
- 	};
- };
- 
-+&i2c4 {
-+	i2c-scl-rising-time-ns = <475>;
-+	i2c-scl-falling-time-ns = <26>;
-+	status = "okay";
-+
-+	usbc0: typec-portc@22 {
-+		compatible = "fcs,fusb302";
-+		reg = <0x22>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&usbc0_int>;
-+		vbus-supply = <&vbus_typec>;
-+
-+		usb_con: connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C";
-+			data-role = "dual";
-+			power-role = "dual";
-+			try-power-role = "sink";
-+			op-sink-microwatt = <1000000>;
-+			sink-pdos =
-+				<PDO_FIXED(5000, 2500, PDO_FIXED_USB_COMM)>;
-+			source-pdos =
-+				<PDO_FIXED(5000, 1500, PDO_FIXED_USB_COMM)>;
-+
-+			altmodes {
-+				displayport {
-+					svid = /bits/ 16 <0xff01>;
-+					vdo = <0x00001c46>;
-+				};
-+			};
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+
-+					usbc0_orien_sw: endpoint {
-+						remote-endpoint = <&tcphy0_orientation_switch>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+
-+					usbc0_role_sw: endpoint {
-+						remote-endpoint = <&dwc3_0_role_switch>;
-+					};
-+				};
-+
-+				port@2 {
-+					reg = <2>;
-+
-+					dp_altmode_mux: endpoint {
-+						remote-endpoint = <&tcphy0_typec_dp>;
-+					};
-+				};
-+			};
-+		};
-+	};
-+};
-+
- &i2s2 {
- 	status = "okay";
- };
-@@ -354,6 +446,16 @@ &io_domains {
- };
- 
- &pinctrl {
-+	usb-typec {
-+		usbc0_int: usbc0-int {
-+			rockchip,pins = <1 RK_PA2 RK_FUNC_GPIO &pcfg_pull_up>;
-+		};
-+
-+		vcc5v0_typec0_en: vcc5v0-typec0-en {
-+			rockchip,pins = <1 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	pmic {
- 		pmic_int_l: pmic-int-l {
- 			rockchip,pins = <1 RK_PC5 RK_FUNC_GPIO &pcfg_pull_up>;
-@@ -400,10 +502,48 @@ &sdmmc {
- 	status = "okay";
- };
- 
-+&sound {
-+	rockchip,codec = <&cdn_dp>;
-+	status = "okay";
-+};
-+
-+&spdif {
-+	status = "okay";
-+};
-+
- &tcphy0 {
- 	status = "okay";
- };
- 
-+&tcphy0_dp {
-+	mode-switch;
-+
-+	port {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		tcphy0_typec_dp: endpoint@0 {
-+			reg = <0>;
-+			remote-endpoint = <&dp_altmode_mux>;
-+		};
-+
-+		dp_phy_in: endpoint@1 {
-+			reg = <1>;
-+			remote-endpoint = <&dp_controller_output>;
-+		};
-+	};
-+};
-+
-+&tcphy0_usb3 {
-+	orientation-switch;
-+
-+	port {
-+		tcphy0_orientation_switch: endpoint {
-+			remote-endpoint = <&usbc0_orien_sw>;
-+		};
-+	};
-+};
-+
- &tcphy1 {
- 	status = "okay";
- };
-@@ -461,7 +601,14 @@ &usb_host1_ohci {
- };
- 
- &usbdrd_dwc3_0 {
-+	usb-role-switch;
- 	status = "okay";
-+
-+	port {
-+		dwc3_0_role_switch: endpoint {
-+			remote-endpoint = <&usbc0_role_sw>;
-+		};
-+	};
- };
- 
- &usbdrd3_0 {
--- 
-2.51.1
+ static const struct drm_display_mode default_mode_osd101t2587 = {
+--
+2.49.0
 
