@@ -2,41 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C061C757A5
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 17:53:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23859C75890
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 18:05:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C88D110E76E;
-	Thu, 20 Nov 2025 16:53:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7710410E78F;
+	Thu, 20 Nov 2025 17:05:27 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JVBDHs8c";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E882210E78B
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 16:53:53 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CE82C339;
- Thu, 20 Nov 2025 08:53:45 -0800 (PST)
-Received: from [10.1.32.17] (unknown [10.1.32.17])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5B0BE3F66E;
- Thu, 20 Nov 2025 08:53:51 -0800 (PST)
-Message-ID: <61a9daa2-e34a-483e-a577-253feccb65f8@arm.com>
-Date: Thu, 20 Nov 2025 16:53:49 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2B310E78F
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 17:05:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1763658327; x=1795194327;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=0P+F2Tg0fn+MXjgxnMgiCiFpy4TcG5e/HDS82IiOpjI=;
+ b=JVBDHs8coFTYxq8wiuyCHU4Jr7lyJYuonmE9NMVYM/IyP36ypBR66veI
+ YfH82lFy7MFIUrYBIHlOeQtMOTtS7ryVM4CxVMH6VwEcB8+flWZLqRvin
+ FkyQrHlp7dHhjKmtcxq44QzJJ/fK2jthGIYBsfkUz27n8QPU+PFZ3ABLi
+ J7IXabkQp6frCn7JBIOPCISa7NB4yPCUeSlF/pieWRCC/dvEvsAEQnqYI
+ n5FAI0L16pLMB7ouMlHmys0Wk6rOsFOovBtwRwfvHL4BR5gm7gHaHNSUY
+ Azc2mYu8IhWhb7veAIeMF2eHAvJlqPO9t8O5iuxiQv1bM7r37HjuOc7Yk w==;
+X-CSE-ConnectionGUID: aOmsG8a8ROCEvovsSLvBkA==
+X-CSE-MsgGUID: 8LQyXUmRRxGYUQPqtlOAOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="77205140"
+X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; d="scan'208";a="77205140"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2025 09:05:26 -0800
+X-CSE-ConnectionGUID: d67znad0TziXigjrOBwcAQ==
+X-CSE-MsgGUID: SxjtGamwQXaoMQ8AZZezmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; d="scan'208";a="190710630"
+Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2025 09:05:25 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?q?Mika=20Penttil=C3=A4?= <mpenttil@redhat.com>,
+ Francois Dugast <francois.dugast@intel.com>,
+ Balbir Singh <balbirs@nvidia.com>
+Subject: [PATCH] fixup: mm/migrate_device: handle partially mapped folios
+ during
+Date: Thu, 20 Nov 2025 09:05:15 -0800
+Message-Id: <20251120170515.46504-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Enable timestamp propogation
-To: Ashley Smith <ashley.smith@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20251119162613.912486-1-ashley.smith@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251119162613.912486-1-ashley.smith@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,64 +84,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19/11/2025 16:25, Ashley Smith wrote:
-> Set the GLB_COUNTER_EN bit to enable coherent propagation of GPU
-> timestamp values to shader cores. This is a prerequisite for exposing
-> device-coherent timestamp queries.
->> Bump the version to 1.6 so userspace can detect support.
-> 
-> Signed-off-by: Ashley Smith <ashley.smith@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 3 ++-
->  drivers/gpu/drm/panthor/panthor_fw.c  | 1 +
->  2 files changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index d1d4c50da5bf..0b0ec3b978c6 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1604,6 +1604,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
->   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
->   * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
->   * - 1.5 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
-> + * - 1.6 - enables GLB_COUNTER_EN
->   */
->  static const struct drm_driver panthor_drm_driver = {
->  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-> @@ -1617,7 +1618,7 @@ static const struct drm_driver panthor_drm_driver = {
->  	.name = "panthor",
->  	.desc = "Panthor DRM driver",
->  	.major = 1,
-> -	.minor = 5,
-> +	.minor = 6,
->  
->  	.gem_create_object = panthor_gem_create_object,
->  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 38d87ab92eda..a02fb3afc2e1 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -999,6 +999,7 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
->  	panthor_fw_update_reqs(glb_iface, req, GLB_IDLE_EN, GLB_IDLE_EN);
->  	panthor_fw_toggle_reqs(glb_iface, req, ack,
->  			       GLB_CFG_ALLOC_EN |
-> +			       GLB_COUNTER_EN |
->  			       GLB_CFG_POWEROFF_TIMER |
->  			       GLB_CFG_PROGRESS_TIMER);
+Splitting a partially mapped folio caused a regression in the Intel Xe
+SVM test suite in the mremap section, resulting in the following stack
+trace:
 
-This is definitely the wrong function. The COUNTER_ENABLE field isn't a
-toggle field. So '1' enables the counter propagation, '0' disables it.
-This code is toggling it so changing it from whatever default it started
-out at.
+ NFO: task kworker/u65:2:1642 blocked for more than 30 seconds.
+[  212.624286]       Tainted: G S      W           6.18.0-rc6-xe+ #1719
+[  212.638288] Workqueue: xe_page_fault_work_queue xe_pagefault_queue_work [xe]
+[  212.638323] Call Trace:
+[  212.638324]  <TASK>
+[  212.638325]  __schedule+0x4b0/0x990
+[  212.638330]  schedule+0x22/0xd0
+[  212.638331]  io_schedule+0x41/0x60
+[  212.638333]  migration_entry_wait_on_locked+0x1d8/0x2d0
+[  212.638336]  ? __pfx_wake_page_function+0x10/0x10
+[  212.638339]  migration_entry_wait+0xd2/0xe0
+[  212.638341]  hmm_vma_walk_pmd+0x7c9/0x8d0
+[  212.638343]  walk_pgd_range+0x51d/0xa40
+[  212.638345]  __walk_page_range+0x75/0x1e0
+[  212.638347]  walk_page_range_mm+0x138/0x1f0
+[  212.638349]  hmm_range_fault+0x59/0xa0
+[  212.638351]  drm_gpusvm_get_pages+0x194/0x7b0 [drm_gpusvm_helper]
+[  212.638354]  drm_gpusvm_range_get_pages+0x2d/0x40 [drm_gpusvm_helper]
+[  212.638355]  __xe_svm_handle_pagefault+0x259/0x900 [xe]
+[  212.638375]  ? update_load_avg+0x7f/0x6c0
+[  212.638377]  ? update_curr+0x13d/0x170
+[  212.638379]  xe_svm_handle_pagefault+0x37/0x90 [xe]
+[  212.638396]  xe_pagefault_queue_work+0x2da/0x3c0 [xe]
+[  212.638420]  process_one_work+0x16e/0x2e0
+[  212.638422]  worker_thread+0x284/0x410
+[  212.638423]  ? __pfx_worker_thread+0x10/0x10
+[  212.638425]  kthread+0xec/0x210
+[  212.638427]  ? __pfx_kthread+0x10/0x10
+[  212.638428]  ? __pfx_kthread+0x10/0x10
+[  212.638430]  ret_from_fork+0xbd/0x100
+[  212.638433]  ? __pfx_kthread+0x10/0x10
+[  212.638434]  ret_from_fork_asm+0x1a/0x30
+[  212.638436]  </TASK>
 
-Testing on my Rock5B I see that it does seem to start at 0, so this is
-probably why it seemed to work. But you need to include this value in
-the panthor_fw_update_reqs() call instead.
+The issue appears to be that migration PTEs are not properly removed
+after a split.
 
-Thanks,
-Steve
+This change refactors the code to perform the split in a slightly
+different manner while retaining the original patch’s intent. With this
+update, the Intel Xe SVM test suite fully passes.
 
->  
-> 
-> base-commit: 92c49b3f4df8f9acfa95551ef38fc00c675319fd
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Zi Yan <ziy@nvidia.com>
+Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
+Cc: Rakie Kim <rakie.kim@sk.com>
+Cc: Byungchul Park <byungchul@sk.com>
+Cc: Gregory Price <gourry@gourry.net>
+Cc: Ying Huang <ying.huang@linux.alibaba.com>
+Cc: Alistair Popple <apopple@nvidia.com>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
+Cc: Nico Pache <npache@redhat.com>
+Cc: Ryan Roberts <ryan.roberts@arm.com>
+Cc: Dev Jain <dev.jain@arm.com>
+Cc: Barry Song <baohua@kernel.org>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Ralph Campbell <rcampbell@nvidia.com>
+Cc: Mika Penttilä <mpenttil@redhat.com>
+Cc: Francois Dugast <francois.dugast@intel.com>
+Cc: Balbir Singh <balbirs@nvidia.com>
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+
+---
+This fixup should be squashed into the patch "mm/migrate_device: handle
+partially mapped folios during" in mm/mm-unstable
+
+I replaced the original patch with a local patch I authored a while back
+that solves the same problem but uses a different code structure. The
+failing test case—only available on an Xe driver—passes with this patch.
+I can attempt to fix up the original patch within its structure if
+that’s preferred.
+---
+ mm/migrate_device.c | 42 ++++++++++++++++++++++++------------------
+ 1 file changed, 24 insertions(+), 18 deletions(-)
+
+diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+index fa42d2ebd024..69e88f4a2563 100644
+--- a/mm/migrate_device.c
++++ b/mm/migrate_device.c
+@@ -254,6 +254,7 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 	spinlock_t *ptl;
+ 	struct folio *fault_folio = migrate->fault_page ?
+ 		page_folio(migrate->fault_page) : NULL;
++	struct folio *split_folio = NULL;
+ 	pte_t *ptep;
+ 
+ again:
+@@ -266,10 +267,11 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 			return 0;
+ 	}
+ 
+-	ptep = pte_offset_map_lock(mm, pmdp, addr, &ptl);
++	ptep = pte_offset_map_lock(mm, pmdp, start, &ptl);
+ 	if (!ptep)
+ 		goto again;
+ 	arch_enter_lazy_mmu_mode();
++	ptep += (addr - start) / PAGE_SIZE;
+ 
+ 	for (; addr < end; addr += PAGE_SIZE, ptep++) {
+ 		struct dev_pagemap *pgmap;
+@@ -347,22 +349,6 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 					pgmap->owner != migrate->pgmap_owner)
+ 					goto next;
+ 			}
+-			folio = page ? page_folio(page) : NULL;
+-			if (folio && folio_test_large(folio)) {
+-				int ret;
+-
+-				pte_unmap_unlock(ptep, ptl);
+-				ret = migrate_vma_split_folio(folio,
+-							  migrate->fault_page);
+-
+-				if (ret) {
+-					ptep = pte_offset_map_lock(mm, pmdp, addr, &ptl);
+-					goto next;
+-				}
+-
+-				addr = start;
+-				goto again;
+-			}
+ 			mpfn = migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
+ 			mpfn |= pte_write(pte) ? MIGRATE_PFN_WRITE : 0;
+ 		}
+@@ -400,6 +386,11 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 			bool anon_exclusive;
+ 			pte_t swp_pte;
+ 
++			if (folio_order(folio)) {
++				split_folio = folio;
++				goto split;
++			}
++
+ 			flush_cache_page(vma, addr, pte_pfn(pte));
+ 			anon_exclusive = folio_test_anon(folio) &&
+ 					  PageAnonExclusive(page);
+@@ -478,8 +469,23 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 	if (unmapped)
+ 		flush_tlb_range(walk->vma, start, end);
+ 
++split:
+ 	arch_leave_lazy_mmu_mode();
+-	pte_unmap_unlock(ptep - 1, ptl);
++	pte_unmap_unlock(ptep - 1 + !!split_folio, ptl);
++
++	if (split_folio) {
++		int ret;
++
++		ret = split_folio(split_folio);
++		if (fault_folio != split_folio)
++			folio_unlock(split_folio);
++		folio_put(split_folio);
++		if (ret)
++			return migrate_vma_collect_skip(addr, end, walk);
++
++		split_folio = NULL;
++		goto again;
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.34.1
 
