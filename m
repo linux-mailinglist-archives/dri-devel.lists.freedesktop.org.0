@@ -2,89 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62010C74725
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 15:08:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4F4C74739
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 15:09:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 971D010E74D;
-	Thu, 20 Nov 2025 14:08:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18EEA10E74C;
+	Thu, 20 Nov 2025 14:09:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="Ytnbh0pv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CVqEZpA4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A58C510E74D
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 14:08:18 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-47118259fd8so7805675e9.3
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 06:08:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1763647697; x=1764252497; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=JXstQUEqL/bZuziJRZPRZ2cDQPTUDlyNI00lh/nMSWI=;
- b=Ytnbh0pv7w8Fv7FgnMv7MbNrD3zx4sIegB39FXI5dWouaPNuMZpKt0eQRroOEPwbAJ
- 1SZQrVl0saJbDUsHjiMLsSqDkPHRU/6RLs9O/sykuUm7PtGoWw6xjRGbeWbmpRJUSmC8
- +jXf/oxpjI+UqO1pXLi+o9mgUxFCeDVSEt+EbTTRgAZHPTd09zxHGL+tQ1E+HEdH3UWJ
- XULmVyIpWspA+GWZ0pd2B0dXqOMGSjC8laTf/HHhTJ9Y19v2HNOiLMjTsz1CQRUOcmrZ
- 0Uk2bRydn+Mz1Yr7uASXlqOX1Blj9tjtpF+m5y5vX26cJc/dJtY6BApd/PfrBshXBkuT
- kQZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763647697; x=1764252497;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JXstQUEqL/bZuziJRZPRZ2cDQPTUDlyNI00lh/nMSWI=;
- b=s/XLuT6q0ZyavzEgvLZ4n1K2nv3Qt/C0d3p8k2+Rw/5Jj5hyRwM2DJCvwVIoP4KyoW
- r+fyRt035UMi3Q3TUJusNGV6lyMeE1oSbWghkHGtgQXS7PerTwo/5z8OgZf/pMr6JKAQ
- u5cS/a7zE4Au2mRDWL0nTC+e/E556YmjIbZ8p+iPf/4j8nRQbdypEqEQOrs7XZwVhU8s
- 38lQPM08hTrQ6OpKwMbyMHIFlBd8CTIupmLjCbvfskxccLq0w3tIgL2PE/DpirLAzvMy
- RHyV3o126iT49eVj3B76zm8YvegWMr5/w3SN/eALe1D1GHwR5k9GPD5dNV6w41J5uMPd
- ECtQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXqkbHGwxHQtpMW+dcqK014u74JvLNv6NNVhWc/LZPctvfF0elgYTYI2RhKa3oy3QCkqT2TDVFpPOc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyWH84v3zEjCAkGaL4L+ApPmYeeBPWTo5ugJ6maP5FA7BDeZal5
- QOtEIXkNzSeVNAFC5ZMahfAVf/vzcDKfMFV4HtTFpWV2yMg1N1HZgo/xWaNXIjrcebM=
-X-Gm-Gg: ASbGncuuXEQQp6G1OmVx0PdQlAUgOakKkunDmlUXyXO2jJJ7rA4DVOvMbPHTY6YiMwa
- Slo3DIIYk3TthaUEFtjlTIkZyZ7qBJWLrbXGoueY4zqpiVJ6WNs2hdV+PwJPxqg7hVyUpwwlfG2
- 6W1E78Y/qd3TM/aR84Pfm/KPkv4ld5kjwOWBYmKOcTfIboQ6ddeN8ZKfj1pXrV5EZGBIf1BIpNW
- 04YCpUeLd+u5KSGIG/zj/4atfT4f+o64hpLm/NWW7QnbygCCUoDnRxSLEl8k8xUwkszMWrZanGd
- XUEkLoqeG+F6iMIF2ff1q0e3LOb3G0ibEoQnlO38cztjiGrXZ9fg6WTr4dafTB/c0GNg48RXskE
- p/Dk0N0dUh46JbOHSDgU7ICUFgOdCceX/78LPCLidiGLxF6Eps8NffUpOXqChhOYcLL2k0pnJOu
- 1FKv7Hb6zRDzM1T/r1KOwOC3ZZQUcRCq0H
-X-Google-Smtp-Source: AGHT+IGiYICzT0SiSdJ79J+OFCjv7rFWlIQ83a4GvCv8TxbMfVeiavtPjbFnDFmUN/8OlFIRX6N7Lg==
-X-Received: by 2002:a05:600c:4704:b0:477:7d94:5d0e with SMTP id
- 5b1f17b1804b1-477b8a9ab58mr30259805e9.27.1763647696641; 
- Thu, 20 Nov 2025 06:08:16 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-477b82d8023sm51152575e9.4.2025.11.20.06.08.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 20 Nov 2025 06:08:16 -0800 (PST)
-Message-ID: <1036b926-a874-443a-a1bb-78c7889e7895@ursulin.net>
-Date: Thu, 20 Nov 2025 14:08:15 +0000
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62F8810E74C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 14:09:21 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id A0A1D60052;
+ Thu, 20 Nov 2025 14:09:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EC6AC4CEF1;
+ Thu, 20 Nov 2025 14:09:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763647760;
+ bh=cB1MfBeclsVR7tg+ihgdmU0VGtZGLmlkem4dlSdvRNE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=CVqEZpA4Nhxw17SJ6Vlb53h4OvwmjmgrppItW3kIZG6sdTTYWjpPlGn4rQMDAeDc9
+ jWEkGWCbUwTt9Dt2afL8cx3GVtBatWPkjpKeglKw7d/lusU97BuPDWcZwDFb9y9OBT
+ zeINZpzcVhQcmHtH28yKnbPEV/AAGjkPkL2XFsWKOMEHoYDxRIS1nIQo3YEroSaNdl
+ S5LhNRuQJ/R62Xfq2HhkqGkfV0/EQJxdUiGhwXnJdLJuvysjbVRfxG/lQLs49pIRSf
+ FHTj1JZ7n33i3YoRq+WnPd2bpS7LcJpQsdt82RA+av+cML3mNqSIbdGVQzP/V3RHiA
+ 7w8E7a7gXKMNg==
+Message-ID: <3f66d2dd-4378-4d33-a0ce-3128c13ad6a5@kernel.org>
+Date: Thu, 20 Nov 2025 15:09:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/18] dma-buf: protected fence ops by RCU v3
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
- matthew.brost@intel.com, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- sumit.semwal@linaro.org
-References: <20251113145332.16805-1-christian.koenig@amd.com>
- <20251113145332.16805-3-christian.koenig@amd.com>
- <ef0f9459-6733-4e0a-9c06-c36c02e5a93c@ursulin.net>
- <35d7ab6c-bd4d-4267-8ae1-2637d6c0f1ff@amd.com>
- <ed7595b4-b6e4-4a7f-ad35-e3a3cf063e72@ursulin.net>
- <7e436158-41ed-4c4b-a0e1-7d4bf03e3499@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <7e436158-41ed-4c4b-a0e1-7d4bf03e3499@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] backlight: Add Congatec Board Controller (CGBC) backlight
+ support
+To: petri.karhula@novatron.fi, Thomas Richard <thomas.richard@bootlin.com>,
+ Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+References: <20251118-cgbc-backlight-v1-1-cc6ac5301034@novatron.fi>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251118-cgbc-backlight-v1-1-cc6ac5301034@novatron.fi>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,40 +105,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 18/11/2025 17:43, Petri Karhula via B4 Relay wrote:
+> +
+> +/**
+> + * Get current backlight brightness
+> + * @bl: Backlight device
+> + *
+> + * Returns the current brightness level by reading from hardware.
+> + *
+> + * Return: Current brightness level (0-100), or negative error code
+> + */
 
-On 20/11/2025 14:03, Christian König wrote:
-> On 11/18/25 17:03, Tvrtko Ursulin wrote:
->>>>> @@ -448,13 +465,19 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
->>>>>     static inline bool
->>>>>     dma_fence_is_signaled(struct dma_fence *fence)
->>>>>     {
->>>>> +    const struct dma_fence_ops *ops;
->>>>> +
->>>>>         if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->>>>>             return true;
->>>>>     -    if (fence->ops->signaled && fence->ops->signaled(fence)) {
->>>>> +    rcu_read_lock();
->>>>> +    ops = rcu_dereference(fence->ops);
->>>>> +    if (ops->signaled && ops->signaled(fence)) {
->>>>> +        rcu_read_unlock();
->>>>
->>>> With the unlocked version two threads could race and one could make the fence->lock go away just around here, before the dma_fence_signal below will take it. It seems it is only safe to rcu_read_unlock before signaling if using the embedded fence (later in the series). Can you think of a downside to holding the rcu read lock to after signaling? that would make it safe I think.
->>>
->>> Well it's good to talk about it but I think that it is not necessary to protect the lock in this particular case.
->>>
->>> See the RCU protection is only for the fence->ops pointer, but the lock can be taken way after the fence is already signaled.
->>>
->>> That's why I came up with the patch to move the lock into the fence in the first place.
->>
->> Right. And you think there is nothing to gain with the option of keeping the rcu_read_unlock() to after signalling? Ie. why not plug a potential race if we can for no negative effect.
-> 
-> I thought quite a bit over that, but at least of hand I can't come up with a reason why we should do this. The signaling path doesn't need the RCU read side lock as far as I can see.
+Why are you documenting standard API?
 
-Okay, and thanks, it indeed sounds right for the signalling path. Any 
-races hitting this would mean a more serious problem in the driver 
-implementation.
+> +static int cgbc_bl_get_brightness(struct backlight_device *bl)
+> +{
+> +	struct cgbc_bl_data *bl_data = bl_get_data(bl);
+> +	int ret;
+> +
+> +	/* Read current PWM brightness settings */
+> +	ret = cgbc_bl_read_pwm_settings(bl_data);
+> +
+> +	if (ret < 0) {
+> +		dev_err(bl_data->dev, "Failed to read PWM settings: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return bl_data->current_brightness;
+> +}
+> +
+> +/* Backlight device operations */
 
-Regards,
+Huh? Can it be a GPIO device operations?
 
-Tvrtko
+> +static const struct backlight_ops cgbc_bl_ops = {
+> +	.options = BL_CORE_SUSPENDRESUME,
+> +	.update_status = cgbc_bl_update_status,
+> +	.get_brightness = cgbc_bl_get_brightness,
+> +};
+> +
+> +/**
+> + * Probe function for CGBC backlight driver
+> + * @pdev: Platform device
+> + *
+> + * Initializes the CGBC backlight driver and registers it with the
+> + * Linux backlight subsystem.
+> + *
+> + * Return: 0 on success, negative error code on failure
 
+Very redundant and useless comment.
+
+> + */
+> +static int cgbc_bl_probe(struct platform_device *pdev)
+> +{
+> +	struct cgbc_device_data *cgbc = dev_get_drvdata(pdev->dev.parent);
+> +	struct cgbc_bl_data *bl_data;
+> +	struct backlight_properties props;
+> +	struct backlight_device *bl_dev;
+> +	int ret;
+> +
+> +	bl_data = devm_kzalloc(&pdev->dev, sizeof(*bl_data), GFP_KERNEL);
+> +
+
+Drop blank line. There is never such line between allocation and check.
+
+> +	if (!bl_data)
+> +		return -ENOMEM;
+> +
+> +	bl_data->dev = &pdev->dev;
+> +	bl_data->cgbc = cgbc;
+> +
+> +	ret = cgbc_bl_read_pwm_settings(bl_data);
+> +
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Failed to read initial PWM settings: %d\n",
+> +			ret);
+
+return dev_err_probe
+
+> +		return ret;
+> +	}
+> +
+> +	memset(&props, 0, sizeof(props));
+> +	props.type = BACKLIGHT_PLATFORM;
+> +	props.max_brightness = CGBC_BL_MAX_BRIGHTNESS;
+> +	props.brightness = bl_data->current_brightness;
+> +
+> +	bl_dev = devm_backlight_device_register(&pdev->dev, "cgbc-backlight",
+> +						&pdev->dev, bl_data,
+> +						&cgbc_bl_ops, &props);
+> +
+> +	if (IS_ERR(bl_dev)) {
+> +		dev_err(&pdev->dev, "Failed to register backlight device\n");
+
+return dev_err_probe
+
+> +		return PTR_ERR(bl_dev);
+> +	}
+> +
+> +	bl_data->bl_dev = bl_dev;
+> +	platform_set_drvdata(pdev, bl_data);
+> +
+> +	dev_info(&pdev->dev,
+> +		 "CGBC backlight driver registered (brightness=%u)\n",
+> +		 bl_data->current_brightness);
+
+Drop.
+
+This does not look like useful printk message. Drivers should be silent
+on success:
+https://elixir.bootlin.com/linux/v6.15-rc7/source/Documentation/process/coding-style.rst#L913
+https://elixir.bootlin.com/linux/v6.15-rc7/source/Documentation/process/debugging/driver_development_debugging_guide.rst#L79
+
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * Remove function for CGBC backlight driver
+> + * @pdev: Platform device
+> + *
+> + * The Linux device-managed resource framework (devres) does the cleanup.
+> + * No explicit cleanup is needed here.
+
+Drop such comments, they are not useful. Please write only useful
+comments, not ones stating obvious.
+
+> + */
+> +static void cgbc_bl_remove(struct platform_device *pdev)
+> +{
+> +	dev_info(&pdev->dev, "CGBC backlight driver removed\n");
+
+Drop, there is no such code in Linux kernel. Drop it.
+
+
+> +}
+> +
+Best regards,
+Krzysztof
