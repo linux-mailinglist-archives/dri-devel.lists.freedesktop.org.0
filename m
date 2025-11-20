@@ -2,103 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085A8C73007
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 10:02:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69826C73061
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 10:09:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BB8A10E718;
-	Thu, 20 Nov 2025 09:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4535010E719;
+	Thu, 20 Nov 2025 09:09:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="lhcnnLRm";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="VMMMGD9P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78BEC10E2B0;
- Thu, 20 Nov 2025 09:02:24 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AK4pu8Y4185034; Thu, 20 Nov 2025 09:02:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- cD9jmBh6F6XRkchGZaRUwfUZ0TpdFNa6MKHRpBt8wFY=; b=lhcnnLRmne1XZSs+
- x2MniyNrWyTN/0ZY04UwiIEjtYC7xazLfTXFL9moa4yCgVUe91/XStoE6bTdkK/x
- Yp8fTthE5A0LnTjsUaN4zb5/ZNBEerRaF3LhP24CWKixTrAOr5jrb7NBD9VkDBz/
- TcvrWTlPl25/tmFih+CntIyQkd089dpFZW5M7RbFpl+rjgrjdHc9u52QLNmdfECj
- 2o/CtfoVKNNksqMng3wucSrlPs8cfl8TBR+RX25juA3RqXjVV2OKKrxWPVimSGf0
- IXgMguUX89Bp6DZsI7ya/sb/G0K2cxbmXbew5jF2nAqpgxg4iaLjxA3c02qetNfB
- o3IBtg==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ahbt6unuq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Nov 2025 09:02:03 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com
- [10.52.223.231])
- by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5AK922e4015795
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 20 Nov 2025 09:02:02 GMT
-Received: from [10.204.78.57] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 20 Nov
- 2025 01:01:10 -0800
-Message-ID: <b4a4493b-0b4a-42d8-b4ee-ddbb348f0b01@quicinc.com>
-Date: Thu, 20 Nov 2025 14:31:07 +0530
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0980510E719
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 09:09:07 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-04.galae.net (Postfix) with ESMTPS id D5CFAC111B2
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 09:08:43 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 29A216068C;
+ Thu, 20 Nov 2025 09:09:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 0F35E10371C05; Thu, 20 Nov 2025 10:09:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1763629745; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:content-language:in-reply-to:references;
+ bh=7l7LwjakFaiU9qB8wCUSVjG9lA7SMcgmBpsVuJVyMBg=;
+ b=VMMMGD9P4nTeHCrU8VMOPqfEG/P703S9KjU0+6/fVuKydalkAuRnGKnbOTWel860eAINfQ
+ UDf3ip/Bz/0WnQoUOlVI6BD2P3SLwyV1k8APFkFqXL1qcBg+qfSn+JpK7mJ54m3hUyy+1d
+ +zYR/sTMhvhhwtlGK/bgDxgocOU0dfR0pMyFXY908HfQQ4oobxu08ZLDCeu3jhL9eUv3aq
+ 7QRTZ74SfnRrpICMzdtUCNODB+2Rn76BvfGTFxlF/7KtE2J0pDBbdWTJQqnzGodHF7l3pb
+ n+ExLgCwlBV+SyzfM5Az+QCvt/SU175/ejzmQMfr3HB1/ySpowCpBjFdY3wKkw==
+Message-ID: <f40abf01-46f2-41e6-a21f-c58c21d653c4@bootlin.com>
+Date: Thu, 20 Nov 2025 10:09:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] arm64: dts: qcom: lemans-ride: Enable dispcc1
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Dmitry Baryshkov
- <dmitry.baryshkov@oss.qualcomm.com>
-CC: <marijn.suijten@somainline.org>, <swboyd@chromium.org>,
- <mripard@kernel.org>, <abel.vesa@linaro.org>, <andersson@kernel.org>,
- <konradybcio@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
- <conor+dt@kernel.org>, <robin.clark@oss.qualcomm.com>,
- <jessica.zhang@oss.qualcomm.com>, <abhinav.kumar@linux.dev>,
- <sean@poorly.run>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <alex.vinarskis@gmail.com>, <linux-arm-msm@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <freedreno@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <quic_rajeevny@quicinc.com>, <quic_vproddut@quicinc.com>,
- <quic_riteshk@quicinc.com>, <quic_amitsi@quicinc.com>
-References: <20250926085956.2346179-1-quic_mkuntuma@quicinc.com>
- <20250926085956.2346179-4-quic_mkuntuma@quicinc.com>
- <v4b35cmwbkoosdgs3d6ftml4yvdkyh27q65ssqojplb7uyniwp@wuxbeof7cikr>
- <869d1f94-9d66-4045-abdb-6e88d504a884@oss.qualcomm.com>
+From: Thomas Richard <thomas.richard@bootlin.com>
+Subject: Re: [PATCH v2 1/2] backlight: Add Congatec Board Controller (CGBC)
+ backlight support
+To: petri.karhula@novatron.fi, Lee Jones <lee@kernel.org>,
+ Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+References: <20251119-cgbc-backlight-v2-0-4d4edd7ca662@novatron.fi>
+ <20251119-cgbc-backlight-v2-1-4d4edd7ca662@novatron.fi>
 Content-Language: en-US
-From: Mani Chandana Kuntumalla <quic_mkuntuma@quicinc.com>
-In-Reply-To: <869d1f94-9d66-4045-abdb-6e88d504a884@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: PqNPwdwjcpIGtsDjBllpy6cYIDZ8zK_L
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIwMDA1MyBTYWx0ZWRfX/o/pD8dGN+Hb
- HIUYZph3N10Geu1hkO2nFgoR3Wv/FvRTF0QZWi5Ebv13Tnx6OPSSbhEEGfvurebndAI0OraASBk
- vhA2a1DcUter6PxyGXO+OHYvLxQxzLIpCUmlvQ7JIEE4EtMoNa/WZWmrlJzF8dsmtOq+fC1+HQx
- AkWA8G+TRqqGW7iBA/MPRJM/549T4DxBN1u7+NVk3/IJOZgnBFlxgeSE5Orv+06dzHb30NfQAvy
- qN16Bc2HrXCRUczVxzGxW1gn/nDkoqw4Fhj+cvjwX6RhM1Et8rqP1IIIz1DniqwVPY/VKP9bw24
- tBCbuoz1poUqZjIxLVNvqyZhQjIfMgHoF8BNmdC36tijDZwCgnZM++V6MDyzLzzGEnwh2YJX0ZJ
- 6v+K8C1AH1WB/B1RXuFeg3VT5FH9pg==
-X-Proofpoint-ORIG-GUID: PqNPwdwjcpIGtsDjBllpy6cYIDZ8zK_L
-X-Authority-Analysis: v=2.4 cv=PJICOPqC c=1 sm=1 tr=0 ts=691ed90b cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=-2IW8HrhzCBWiBGBFSsA:9
- a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-20_03,2025-11-18_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 phishscore=0 impostorscore=0 spamscore=0
- lowpriorityscore=0 adultscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511200053
+In-Reply-To: <20251119-cgbc-backlight-v2-1-4d4edd7ca662@novatron.fi>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,36 +66,438 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Petri,
 
+Thanks for your patch.
 
-On 10/1/2025 3:13 PM, Konrad Dybcio wrote:
-> On 9/26/25 3:53 PM, Dmitry Baryshkov wrote:
->> On Fri, Sep 26, 2025 at 02:29:55PM +0530, Mani Chandana Ballary Kuntumalla wrote:
->>> This change enables display1 clock controller.
->>>
->>> Signed-off-by: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>
->>> ---
->>>   arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi | 4 ++++
->>>   1 file changed, 4 insertions(+)
->>>
->>> diff --git a/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi b/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi
->>> index c69aa2f41ce2..d4436bc473ba 100644
->>> --- a/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi
->>> +++ b/arch/arm64/boot/dts/qcom/lemans-ride-common.dtsi
->>> @@ -436,6 +436,10 @@ vreg_l8e: ldo8 {
->>>   	};
->>>   };
->>>   
->>> +&dispcc1 {
->>> +	status = "okay";
->>
->> I think this one should be enabled by default. Unless Konrad or Bjorn
->> disagrees, please fix lemans.dtsi.
+On 11/19/25 9:25 AM, Petri Karhula via B4 Relay wrote:
+> From: Petri Karhula <petri.karhula@novatron.fi>
 > 
-> Of course there is no reason for clock controllers to be disabled
+> This driver provides backlight brightness control through the Linux
+> backlight subsystem. It communicates with the board controller to
+> adjust LCD backlight using PWM signals. Communication is done
+> through Congatec Board Controller core driver.
+> 
+> Signed-off-by: Petri Karhula <petri.karhula@novatron.fi>
+> ---
+>  drivers/video/backlight/Kconfig   |  11 ++
+>  drivers/video/backlight/Makefile  |   1 +
+>  drivers/video/backlight/cgbc_bl.c | 281 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 293 insertions(+)
+> 
+> diff --git a/drivers/video/backlight/Kconfig b/drivers/video/backlight/Kconfig
+> index d9374d208cee..702f3b8ed036 100644
+> --- a/drivers/video/backlight/Kconfig
+> +++ b/drivers/video/backlight/Kconfig
+> @@ -249,6 +249,17 @@ config BACKLIGHT_PWM
+>  	  If you have a LCD backlight adjustable by PWM, say Y to enable
+>  	  this driver.
+>  
+> +config BACKLIGHT_CGBC
+> +	tristate "Congatec Board Controller (CGBC) backlight support"
+> +	depends on MFD_CGBC && X86
+> +	help
+> +	  Say Y here to enable support for LCD backlight control on Congatec
+> +	  x86-based boards via the CGBC (Congatec Board Controller).
+> +
+> +	  This driver provides backlight brightness control through the Linux
+> +	  backlight subsystem. It communicates with the board controller to
+> +	  adjust LCD backlight using PWM signals.
+> +
+>  config BACKLIGHT_DA903X
+>  	tristate "Backlight Driver for DA9030/DA9034 using WLED"
+>  	depends on PMIC_DA903X
+> diff --git a/drivers/video/backlight/Makefile b/drivers/video/backlight/Makefile
+> index dfbb169bf6ea..0169fd8873ed 100644
+> --- a/drivers/video/backlight/Makefile
+> +++ b/drivers/video/backlight/Makefile
+> @@ -27,6 +27,7 @@ obj-$(CONFIG_BACKLIGHT_APPLE_DWI)	+= apple_dwi_bl.o
+>  obj-$(CONFIG_BACKLIGHT_AS3711)		+= as3711_bl.o
+>  obj-$(CONFIG_BACKLIGHT_BD6107)		+= bd6107.o
+>  obj-$(CONFIG_BACKLIGHT_CLASS_DEVICE)	+= backlight.o
+> +obj-$(CONFIG_BACKLIGHT_CGBC)		+= cgbc_bl.o
+>  obj-$(CONFIG_BACKLIGHT_DA903X)		+= da903x_bl.o
+>  obj-$(CONFIG_BACKLIGHT_DA9052)		+= da9052_bl.o
+>  obj-$(CONFIG_BACKLIGHT_EP93XX)		+= ep93xx_bl.o
+> diff --git a/drivers/video/backlight/cgbc_bl.c b/drivers/video/backlight/cgbc_bl.c
+> new file mode 100644
+> index 000000000000..4382321f4cac
+> --- /dev/null
+> +++ b/drivers/video/backlight/cgbc_bl.c
+> @@ -0,0 +1,281 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Congatec Board Controller (CGBC) Backlight Driver
+> + *
+> + * This driver provides backlight control for LCD displays connected to
+> + * Congatec boards via the CGBC (Congatec Board Controller). It integrates
+> + * with the Linux backlight subsystem and communicates with hardware through
+> + * the cgbc-core module.
+> + *
+> + * Copyright (C) 2025 Novatron Oy
+> + *
+> + * Author: Petri Karhula <petri.karhula@novatron.fi>
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/backlight.h>
+> +
+> +#include <linux/mfd/cgbc.h>
+
+headers shall be sorted in alphabetical order
+
+> +
+> +#define CGBC_BL_DRIVER_VERSION     "0.0.1"
+
+not needed
+
+> +
+> +#define BLT_PWM_DUTY_MASK          0x7F
+> +#define BLT_PWM_INVERTED_MASK      0x80
+
+Use GENMASK
+
+> +
+> +/* CGBC command for PWM brightness control*/
+> +#define CGBC_CMD_BLT0_PWM          0x75
+> +
+> +#define CGBC_BL_MAX_BRIGHTNESS     100
+> +
+> +/**
+> + * CGBC backlight driver data
+> + * @dev: Pointer to the platform device
+> + * @bl_dev: Pointer to the backlight device
+> + * @cgbc: Pointer to the parent CGBC device data
+> + * @current_brightness: Current brightness level (0-100)
+> + */
+> +struct cgbc_bl_data {
+> +	struct device *dev;
+> +	struct backlight_device *bl_dev;
+
+not used
+
+> +	struct cgbc_device_data *cgbc;
+> +	unsigned int current_brightness;
+> +};
+> +
+> +/**
+> + * Read current PWM settings from hardware
+> + * @bl_data: Backlight driver data
+> + *
+> + * Reads the current PWM duty cycle percentage (= brightness level)
+> + * from the board controller.
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +static int cgbc_bl_read_pwm_settings(struct cgbc_bl_data *bl_data)
+> +{
+> +	u8 cmd_buf[4] = { CGBC_CMD_BLT0_PWM, 0, 0, 0 };
+> +	u8 reply_buf[3];
+> +	int ret;
+> +
+> +	ret = cgbc_command(bl_data->cgbc, cmd_buf, sizeof(cmd_buf), reply_buf,
+> +			   sizeof(reply_buf), NULL);
+> +
+> +	if (ret < 0) {
+> +		dev_err(bl_data->dev, "Failed to read PWM settings: %d\n", ret);
+> +		return ret;
+> +	}
+
+error message not needed from my point of view.
+
+> +
+> +	/*
+> +	 * Only return PWM duty factor percentage,
+> +	 * ignore polarity inversion bit (bit 7)
+> +	 */
+> +	bl_data->current_brightness = reply_buf[0] & BLT_PWM_DUTY_MASK;
+
+I would prefer to use FIELD_GET
+
+> +
+> +	dev_dbg(bl_data->dev, "Current PWM duty=%u\n", bl_data->current_brightness);
+
+Not needed from my point of view.
+
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * Set backlight brightness
+> + * @bl_data: Backlight driver data
+> + * @brightness: Brightness level (0-100)
+> + *
+> + * Sets the backlight brightness by configuring the PWM duty cycle.
+> + * Preserves the current polarity and frequency settings.
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +static int cgbc_bl_set_brightness(struct cgbc_bl_data *bl_data, u8 brightness)
+> +{
+> +	u8 cmd_buf[4] = { CGBC_CMD_BLT0_PWM, 0, 0, 0 };
+
+u8 cmd_buf[4] = { CGBC_CMD_BLT0_PWM };
+
+> +	u8 reply_buf[3];
+> +	int ret;
+> +
+> +	/* Read the current values */
+> +	ret = cgbc_command(bl_data->cgbc, cmd_buf, sizeof(cmd_buf), reply_buf,
+> +			   sizeof(reply_buf), NULL);
+> +
+> +	if (ret < 0) {
+> +		dev_err(bl_data->dev, "Failed to read PWM settings: %d\n", ret);
+> +		return ret;
+> +	}
+
+error message not needed from my point of view.
+
+> +
+> +	/*
+> +	 * Prepare command buffer for writing new settings. Only 2nd byte is changed
+> +	 * to set new brightness (PWM duty cycle %). Other balues (polarity, frequency)
+
+values
+
+> +	 * are preserved from the read values.
+> +	 */
+> +	cmd_buf[1] = (reply_buf[0] & BLT_PWM_INVERTED_MASK) |
+> +		     (BLT_PWM_DUTY_MASK & brightness);
+
+use FIELD_PREP
+
+> +	cmd_buf[2] = reply_buf[1];
+> +	cmd_buf[3] = reply_buf[2];
+> +
+> +	ret = cgbc_command(bl_data->cgbc, cmd_buf, sizeof(cmd_buf), reply_buf,
+> +			   sizeof(reply_buf), NULL);
+> +
+> +	if (ret < 0) {
+> +		dev_err(bl_data->dev, "Failed to set brightness: %d\n", ret);
+
+error messages not needed from my point of view.
+
+> +		return ret;
+> +	}
+> +
+> +	bl_data->current_brightness = reply_buf[0] & BLT_PWM_DUTY_MASK;
+> +
+> +	/* Verify the setting was applied correctly */
+> +	if (bl_data->current_brightness != brightness) {
+> +		dev_err(bl_data->dev,
+> +			"Brightness setting verification failed\n");
+> +		return -EIO;
+> +	}
+
+Do we really need to check the brightness returned by the board
+controller? Have you ever run into a situation where cbgc_command
+completed without errors, but the brightness level didn’t match what you
+expected? Maybe we could assume that if the cbgc_command returned
+successfully the brightness value is correct?
+
+I'm not against checking the backlight value. I looked at Congatec's
+implementation and they also check it.
+
+> +
+> +	dev_dbg(bl_data->dev, "Set brightness to %u\n", brightness);
+
+Not needed, the core already has this message
+
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * Backlight update callback
+> + * @bl: Backlight device
+> + *
+> + * Called by the backlight subsystem when brightness needs to be updated.
+> + * Changes the brightness level on the hardware
+> + * if requested value differs from the current setting.
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +static int cgbc_bl_update_status(struct backlight_device *bl)
+> +{
+> +	struct cgbc_bl_data *bl_data = bl_get_data(bl);
+> +	u8 brightness;
+> +	int ret;
+> +
+> +	brightness = bl->props.brightness;
+
+use backlight_get_brightness()
+
+> +
+> +	if (brightness != bl_data->current_brightness) {
+> +		ret = cgbc_bl_set_brightness(bl_data, brightness);
+> +
+> +		if (ret < 0) {
+> +			dev_err(bl_data->dev, "Failed to set brightness: %d\n",
+> +			       ret);
+> +			return ret;
+> +		}
+
+error message not needed from my point of view.
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * Get current backlight brightness
+> + * @bl: Backlight device
+> + *
+> + * Returns the current brightness level by reading from hardware.
+> + *
+> + * Return: Current brightness level (0-100), or negative error code
+> + */
+> +static int cgbc_bl_get_brightness(struct backlight_device *bl)
+> +{
+> +	struct cgbc_bl_data *bl_data = bl_get_data(bl);
+> +	int ret;
+> +
+> +	/* Read current PWM brightness settings */
+> +	ret = cgbc_bl_read_pwm_settings(bl_data);
+> +
+> +	if (ret < 0) {
+> +		dev_err(bl_data->dev, "Failed to read PWM settings: %d\n", ret);
+> +		return ret;
+> +	}
+
+error message not needed from my point of view.
+If you remove all these error messages, you can also remove the struct
+device in the struct cgbc_bl_data.
+
+> +
+> +	return bl_data->current_brightness;
+> +}
+
+Maybe you can remove cgbc_bl_read_pwm_settings() and move all the code
+in cgbc_bl_get_brightness(). It makes the code easier to read.
+
+> +
+> +/* Backlight device operations */
+> +static const struct backlight_ops cgbc_bl_ops = {
+> +	.options = BL_CORE_SUSPENDRESUME,
+> +	.update_status = cgbc_bl_update_status,
+> +	.get_brightness = cgbc_bl_get_brightness,
+> +};
+> +
+> +/**
+> + * Probe function for CGBC backlight driver
+> + * @pdev: Platform device
+> + *
+> + * Initializes the CGBC backlight driver and registers it with the
+> + * Linux backlight subsystem.
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +static int cgbc_bl_probe(struct platform_device *pdev)
+> +{
+> +	struct cgbc_device_data *cgbc = dev_get_drvdata(pdev->dev.parent);
+> +	struct cgbc_bl_data *bl_data;
+> +	struct backlight_properties props;
+> +	struct backlight_device *bl_dev;
+> +	int ret;
+
+nitpick: reverse xmas tree
+
+> +
+> +	bl_data = devm_kzalloc(&pdev->dev, sizeof(*bl_data), GFP_KERNEL);
+> +
+
+nitpick: drop empty line.
+
+> +	if (!bl_data)
+> +		return -ENOMEM;
+> +
+> +	bl_data->dev = &pdev->dev;
+> +	bl_data->cgbc = cgbc;
+> +
+> +	ret = cgbc_bl_read_pwm_settings(bl_data);
+> +
+
+nitpick: drop empty line.
+
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Failed to read initial PWM settings: %d\n",
+> +			ret);
+> +		return ret;
+> +	}
+
+Use dev_err_probe().
+
+> +
+> +	memset(&props, 0, sizeof(props));
+
+Use struct backlight_properties props = { };
+
+> +	props.type = BACKLIGHT_PLATFORM;
+> +	props.max_brightness = CGBC_BL_MAX_BRIGHTNESS;
+> +	props.brightness = bl_data->current_brightness;
+> +
+> +	bl_dev = devm_backlight_device_register(&pdev->dev, "cgbc-backlight",
+> +						&pdev->dev, bl_data,
+> +						&cgbc_bl_ops, &props);
+> +
+> +	if (IS_ERR(bl_dev)) {
+> +		dev_err(&pdev->dev, "Failed to register backlight device\n");
+> +		return PTR_ERR(bl_dev);
+> +	}
+
+Use dev_err_probe()
+
+> +
+> +	bl_data->bl_dev = bl_dev;
+> +	platform_set_drvdata(pdev, bl_data);
+> +
+> +	dev_info(&pdev->dev,
+> +		 "CGBC backlight driver registered (brightness=%u)\n",
+> +		 bl_data->current_brightness);
+
+No logs if device probes successfully.
+
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * Remove function for CGBC backlight driver
+> + * @pdev: Platform device
+> + *
+> + * The Linux device-managed resource framework (devres) does the cleanup.
+> + * No explicit cleanup is needed here.
+> + */
+> +static void cgbc_bl_remove(struct platform_device *pdev)
+> +{
+> +	dev_info(&pdev->dev, "CGBC backlight driver removed\n");
+> +}
+
+Remove operation does nothing so drop it.
+
+> +
+> +static struct platform_driver cgbc_bl_driver = {
+> +	.driver = {
+> +		.name = "cgbc-backlight",
+> +	},
+> +	.probe = cgbc_bl_probe,
+> +	.remove = cgbc_bl_remove,
+> +};
+> +
+> +module_platform_driver(cgbc_bl_driver);
+> +
+> +MODULE_AUTHOR("Petri Karhula <petri.karhula@novatron.fi>");
+> +MODULE_DESCRIPTION("Congatec Board Controller (CGBC) Backlight Driver");
+> +MODULE_LICENSE("GPL");
+> +MODULE_VERSION(CGBC_BL_DRIVER_VERSION);
+
+Not needed
+
+> +MODULE_ALIAS("platform:cgbc-backlight");
 > 
 
-Sure, will enable dispcc1 in the main dtsi file.
-
-> Konrad
-
+Best Regards,
+Thomas
