@@ -2,90 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4702C74703
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 15:07:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62010C74725
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 15:08:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83A3110E75D;
-	Thu, 20 Nov 2025 14:07:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 971D010E74D;
+	Thu, 20 Nov 2025 14:08:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="s6CI8Q97";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="Ytnbh0pv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com
- [74.125.224.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2E4F10E75D
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 14:07:48 +0000 (UTC)
-Received: by mail-yx1-f45.google.com with SMTP id
- 956f58d0204a3-63e19642764so677667d50.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 06:07:48 -0800 (PST)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+ [209.85.128.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A58C510E74D
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 14:08:18 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id
+ 5b1f17b1804b1-47118259fd8so7805675e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 06:08:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763647667; x=1764252467; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zPjSZ94CNLG87Co8dKmzNKmFn74ftGXglxtJ38De2DE=;
- b=s6CI8Q97Cjul/OSCLx6DSTrHmNtY57oFnhI/bDT0k+qd+e8xBdZxosBmAZMikkrE61
- /I/C7DhfE24odfLz1cfMl1rIw8GLKldLJ7UvPPmjsy9+FnLDKgXKQV9yVrn2ICrQbNDX
- vX7wHySkERwX7nuizawgaQpr8umjRdSBxezf5uAxjQgPLoJRyAgG83CJpfMTzVj3jIJh
- o2/giZbuf6Q9WWPLpnByq9onL7fCPPuvnELajIX6bKgSSHz7iNPUgT2ETlykgXOGFKYi
- hh5ZL3iGPB4Muw608W7KOOoM8tvnaL+AZI3o7clwg/mRVmAWk9HO39ZZt79RUkhqRcW0
- J31g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763647667; x=1764252467;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ d=ursulin.net; s=google; t=1763647697; x=1764252497; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
  :to:cc:subject:date:message-id:reply-to;
- bh=zPjSZ94CNLG87Co8dKmzNKmFn74ftGXglxtJ38De2DE=;
- b=eugbDa1C717eA6RdUZ34OmNNlE1di8l/zR5oqusuypxZKBETXOoMf2pTSyTf/XwQkz
- CBfUDUilgLxBf2tA13798XqyYSiY1LCChWdsTdRwXcotoHcEkgVIRt2pC4F9qk/sv6or
- WqJzoPxTgHyXDj5KOVEz/tdhCf+yGThPiMrdAuaLgAEbsvX00Uynt6Lv7dTY5DFXIdF6
- ig6RODFRjdknlzhuqmNhb1gg12Q4wttiM0TlK3P1cetvB2xssS9keKgjeQRl2sjseu9H
- 6Ww7AIWfcDIJl/d98AIt8awOCQLgCYZlYXC4pR4z1k16zWSXPcEpZFmNj38F7uAX3aX9
- QHiQ==
+ bh=JXstQUEqL/bZuziJRZPRZ2cDQPTUDlyNI00lh/nMSWI=;
+ b=Ytnbh0pv7w8Fv7FgnMv7MbNrD3zx4sIegB39FXI5dWouaPNuMZpKt0eQRroOEPwbAJ
+ 1SZQrVl0saJbDUsHjiMLsSqDkPHRU/6RLs9O/sykuUm7PtGoWw6xjRGbeWbmpRJUSmC8
+ +jXf/oxpjI+UqO1pXLi+o9mgUxFCeDVSEt+EbTTRgAZHPTd09zxHGL+tQ1E+HEdH3UWJ
+ XULmVyIpWspA+GWZ0pd2B0dXqOMGSjC8laTf/HHhTJ9Y19v2HNOiLMjTsz1CQRUOcmrZ
+ 0Uk2bRydn+Mz1Yr7uASXlqOX1Blj9tjtpF+m5y5vX26cJc/dJtY6BApd/PfrBshXBkuT
+ kQZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763647697; x=1764252497;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=JXstQUEqL/bZuziJRZPRZ2cDQPTUDlyNI00lh/nMSWI=;
+ b=s/XLuT6q0ZyavzEgvLZ4n1K2nv3Qt/C0d3p8k2+Rw/5Jj5hyRwM2DJCvwVIoP4KyoW
+ r+fyRt035UMi3Q3TUJusNGV6lyMeE1oSbWghkHGtgQXS7PerTwo/5z8OgZf/pMr6JKAQ
+ u5cS/a7zE4Au2mRDWL0nTC+e/E556YmjIbZ8p+iPf/4j8nRQbdypEqEQOrs7XZwVhU8s
+ 38lQPM08hTrQ6OpKwMbyMHIFlBd8CTIupmLjCbvfskxccLq0w3tIgL2PE/DpirLAzvMy
+ RHyV3o126iT49eVj3B76zm8YvegWMr5/w3SN/eALe1D1GHwR5k9GPD5dNV6w41J5uMPd
+ ECtQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW10lnK9km2aqtKuHUi5BfNEOa49q846IbU8HFM0XhpDaKtzJ8w08fII0oFb1YaOxhaBhpTvbZOPVc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxviMXScdiVzxyFWptSbpGLL0IrbROeH32+BqsFcwB/uy1MEt42
- JBhcnf1HVb3DMzBjXPMW1GkDXLje5QX5ORqftOXQypmMKbjDeIGgQC6u5irm/AHUGKE2pQz9M4Z
- Hg5V2BpXZPQ5uouBzKu2oYRDPNf8EbJ9TPXDzMlcLdw==
-X-Gm-Gg: ASbGnctlQxVyb2WUJPmPYlz0cnu7rstmPeQy5tqMC8COtGksU+YaYEHZ5QPBjKeF7Sr
- DxQaPKhwV5whgkFSj1z6YGkyM+QwOq51zMYLpW6NIYJzKa0DqQaAYr+0Z6h6IZWaEdMhpitmsmR
- 7kC0WSUPvI7iraM1ICUZzOGTWpTKYexg5pF+uMOMpJO2dIwHFZJKagdiIJOwCcRRAM+Dg75dXwv
- Ylkc0d+N5vr5d0QxvZn0zVJIZPLnUsZIcNypdZtHFLP+XXXxokXOjB49Op8h4fJKj+v5NE=
-X-Google-Smtp-Source: AGHT+IHvMQfjnGMOjW7vW3sZWEW8qjVMXpKxefI37CvUYXCFXEROenQqfDOoQIoeIU/ss+8Pk88rI7K0bbXf64s1ZJ0=
-X-Received: by 2002:a53:d001:0:b0:641:f5bc:68d9 with SMTP id
- 956f58d0204a3-642f7a682f2mr1803616d50.70.1763647667453; Thu, 20 Nov 2025
- 06:07:47 -0800 (PST)
+ AJvYcCXqkbHGwxHQtpMW+dcqK014u74JvLNv6NNVhWc/LZPctvfF0elgYTYI2RhKa3oy3QCkqT2TDVFpPOc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWH84v3zEjCAkGaL4L+ApPmYeeBPWTo5ugJ6maP5FA7BDeZal5
+ QOtEIXkNzSeVNAFC5ZMahfAVf/vzcDKfMFV4HtTFpWV2yMg1N1HZgo/xWaNXIjrcebM=
+X-Gm-Gg: ASbGncuuXEQQp6G1OmVx0PdQlAUgOakKkunDmlUXyXO2jJJ7rA4DVOvMbPHTY6YiMwa
+ Slo3DIIYk3TthaUEFtjlTIkZyZ7qBJWLrbXGoueY4zqpiVJ6WNs2hdV+PwJPxqg7hVyUpwwlfG2
+ 6W1E78Y/qd3TM/aR84Pfm/KPkv4ld5kjwOWBYmKOcTfIboQ6ddeN8ZKfj1pXrV5EZGBIf1BIpNW
+ 04YCpUeLd+u5KSGIG/zj/4atfT4f+o64hpLm/NWW7QnbygCCUoDnRxSLEl8k8xUwkszMWrZanGd
+ XUEkLoqeG+F6iMIF2ff1q0e3LOb3G0ibEoQnlO38cztjiGrXZ9fg6WTr4dafTB/c0GNg48RXskE
+ p/Dk0N0dUh46JbOHSDgU7ICUFgOdCceX/78LPCLidiGLxF6Eps8NffUpOXqChhOYcLL2k0pnJOu
+ 1FKv7Hb6zRDzM1T/r1KOwOC3ZZQUcRCq0H
+X-Google-Smtp-Source: AGHT+IGiYICzT0SiSdJ79J+OFCjv7rFWlIQ83a4GvCv8TxbMfVeiavtPjbFnDFmUN/8OlFIRX6N7Lg==
+X-Received: by 2002:a05:600c:4704:b0:477:7d94:5d0e with SMTP id
+ 5b1f17b1804b1-477b8a9ab58mr30259805e9.27.1763647696641; 
+ Thu, 20 Nov 2025 06:08:16 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-477b82d8023sm51152575e9.4.2025.11.20.06.08.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 20 Nov 2025 06:08:16 -0800 (PST)
+Message-ID: <1036b926-a874-443a-a1bb-78c7889e7895@ursulin.net>
+Date: Thu, 20 Nov 2025 14:08:15 +0000
 MIME-Version: 1.0
-References: <20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org>
- <20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org>
- <20251118150128.GB23711@pendragon.ideasonboard.com>
- <cncl6nwbr6fu3nvhz2y34ou4geqzo7hjf3wpukmm4t6utvygor@t2v4smey5ful>
- <CACRpkdYh9nSBtqU_8w5gnkWOc+Dw7fW3tPinm6JjfXMbdEJOjg@mail.gmail.com>
- <5zo76nnejrinmf6snaezld5ylfvk266bwyxg3phdhtg74z43pu@kub3r7tvz7vc>
- <19fc5a8e-999c-46a0-b755-0bd09fe84d92@ideasonboard.com>
- <20251120024523.GI10711@pendragon.ideasonboard.com>
-In-Reply-To: <20251120024523.GI10711@pendragon.ideasonboard.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 20 Nov 2025 15:07:32 +0100
-X-Gm-Features: AWmQ_bkTm3pm4AZxXZawzpHvNOqx9Ph_uoWV_Jgh7iWmnUYFQI-EXzxFar9QfVk
-Message-ID: <CACRpkdbE0VXLF2Gui6WRGke+Dt=GQLqDDebRJ-ug-rC4NO0UAg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] drm/atomic-helper: Add special quirk tail function
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Marek Vasut <marek.vasut+renesas@mailbox.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/18] dma-buf: protected fence ops by RCU v3
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ phasta@mailbox.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
+ matthew.brost@intel.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ sumit.semwal@linaro.org
+References: <20251113145332.16805-1-christian.koenig@amd.com>
+ <20251113145332.16805-3-christian.koenig@amd.com>
+ <ef0f9459-6733-4e0a-9c06-c36c02e5a93c@ursulin.net>
+ <35d7ab6c-bd4d-4267-8ae1-2637d6c0f1ff@amd.com>
+ <ed7595b4-b6e4-4a7f-ad35-e3a3cf063e72@ursulin.net>
+ <7e436158-41ed-4c4b-a0e1-7d4bf03e3499@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <7e436158-41ed-4c4b-a0e1-7d4bf03e3499@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,36 +100,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 20, 2025 at 3:45=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
 
-> > But I digress. I think initially we should just look for a clean fix fo=
-r
-> > the platforms affected:
-> >
-> > - Add the implementation into the drivers?
-> > - Add helpers to the core?
-> > - Add a flag of some kind so the core can do the right thing?
->
-> drm_atomic_helper_commit_modeset_enables_crtc_early() would be more
-> cumbersome to implement manually in drivers as most of the functions it
-> calls are not exported. drm_atomic_helper_commit_tail_crtc_early_late()
-> shouldn't be difficult to implement in the MCDE driver.
+On 20/11/2025 14:03, Christian König wrote:
+> On 11/18/25 17:03, Tvrtko Ursulin wrote:
+>>>>> @@ -448,13 +465,19 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+>>>>>     static inline bool
+>>>>>     dma_fence_is_signaled(struct dma_fence *fence)
+>>>>>     {
+>>>>> +    const struct dma_fence_ops *ops;
+>>>>> +
+>>>>>         if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+>>>>>             return true;
+>>>>>     -    if (fence->ops->signaled && fence->ops->signaled(fence)) {
+>>>>> +    rcu_read_lock();
+>>>>> +    ops = rcu_dereference(fence->ops);
+>>>>> +    if (ops->signaled && ops->signaled(fence)) {
+>>>>> +        rcu_read_unlock();
+>>>>
+>>>> With the unlocked version two threads could race and one could make the fence->lock go away just around here, before the dma_fence_signal below will take it. It seems it is only safe to rcu_read_unlock before signaling if using the embedded fence (later in the series). Can you think of a downside to holding the rcu read lock to after signaling? that would make it safe I think.
+>>>
+>>> Well it's good to talk about it but I think that it is not necessary to protect the lock in this particular case.
+>>>
+>>> See the RCU protection is only for the fence->ops pointer, but the lock can be taken way after the fence is already signaled.
+>>>
+>>> That's why I came up with the patch to move the lock into the fence in the first place.
+>>
+>> Right. And you think there is nothing to gain with the option of keeping the rcu_read_unlock() to after signalling? Ie. why not plug a potential race if we can for no negative effect.
+> 
+> I thought quite a bit over that, but at least of hand I can't come up with a reason why we should do this. The signaling path doesn't need the RCU read side lock as far as I can see.
 
-But the second patch patch adding
-drm_atomic_helper_commit_modeset_disables_crtc_late()
-would be needed for symmetry.
+Okay, and thanks, it indeed sounds right for the signalling path. Any 
+races hitting this would mean a more serious problem in the driver 
+implementation.
 
-> > I made a quick test with the flag approach, below. It's not many lines,
-> > but... Ugh, it does feel like a hack.
->
-> Without seeing the code I can already imagine how this would feel like a
-> hack, so I agree not to go that way.
+Regards,
 
-It seems we cannot reach consensus on a regression fix that doesn't
-require large re-architecturing, so I'll go ahead and propose a
-revert instead, it's the only sensible thing. I hope nothing breaks
-from the revert...
+Tvrtko
 
-Yours,
-Linus Walleij
