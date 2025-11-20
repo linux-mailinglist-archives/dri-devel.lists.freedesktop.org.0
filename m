@@ -2,87 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CCBC768F0
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 23:56:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56445C76931
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 00:08:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 467F310E7D7;
-	Thu, 20 Nov 2025 22:56:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD8B010E7DB;
+	Thu, 20 Nov 2025 23:08:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="K5hIZUH9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jn+TaGvw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 342AF10E7D7
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 22:56:00 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-5957c929a5eso1976557e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 14:56:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763679358; x=1764284158; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=9V19WHZJ0LiGdpxDp5Xzjy+hNnmDgOEjSJETgzGbOoc=;
- b=K5hIZUH9miuf6v2zvXOs9CUj2yd4Zz1FCsgfCdufOBikfr+9pQD+I9xtFNOfcLCpU8
- 14n355bxhwVLDg7x2onefUd3C9v7vNfl3zhN6i3A2QfRnwnNKKDWqlhmCCaZFowtoMWd
- 5vlw6+NLIOrL90Zz+abq/1IdHK6yd3b3PfMte9ju6x5wmHsDfVmWxvEb8QT8mNfSK40U
- v40atOHc7MYGR62LigJfk9benRQagcIdFKWTOexnEet1Iow2we7sUbRR0LBQc5kHJsHi
- Eu+x319SXAB4UXoIF3Yc0m2ETOv1NFF3FjEKdI1/l7KEM8/q4MYpQyM4qEImC2JCPYcs
- tgfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763679358; x=1764284158;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=9V19WHZJ0LiGdpxDp5Xzjy+hNnmDgOEjSJETgzGbOoc=;
- b=lqY+BE0qlYDKa7VzflMiTrN18i89ga7gmdJD1mWXqr7GoNxY9I6R3GEa9hTs9tEsES
- 39QhT0WzTkVOcnCU2mGrSsuTZBSow+xEX4ohJ1ocQk/4BK0U1H2Tn4l24D8BuzZLUEIE
- eiJDz6cCoSMr0keQ+B8up171u1nmN2+E3l0yp5M2TYpw7DC01dsXSXc+U3MZ+HRoRyWZ
- cTJitR6nnMu20BSqv/OkYinyvL+fqxolyL6qo30uP2kB8gA7OZ6JVQb5lp8LBKyv67ZW
- DneSWTyZNyA8P1gFKUDf6D1pS6lWoEbEZqNNfYg0bK2RxLQwoTm2KwOdtNJO1sHno8F+
- yphw==
-X-Gm-Message-State: AOJu0YygDmnXmGLQknZ43j4N/798J/NMIXMDCJPxF+rHcLu5ZDTmGTHO
- p0uF8j/DGJehRmzHLU3cTE+gsyRXVRdidisV4ioXqW3fArS0vNJOkdSkUEGFihFXfvM=
-X-Gm-Gg: ASbGncuFaT/BhElnfsKsLkV/HJMbfmx6nnc9dbdc+tRA6rhK20RDDW9PRKSBTO/89o2
- DHtcoJIl0aXp0weSm9zzW9WY6fhxXenwpcdqLezBjU/vPgj5k688Jyj/8d7gemVxSxHRnIF5YCD
- d5gxj5kEDdQMQMsoxxTdO1LmjC5fqASy+emcSULZN6iYW1ik99C2zpzO4LXuO1D7cNE98UrtOLk
- 9+N3vZdZ1ZLa/KY4YSZJeACQo2oImVG9CDJbNL0qgECa29y8R0nnAxehEq+YmeAnzohvyiMbRYB
- +fsQuaWAGCPtWlh1FEXcj7e2AQKfdGm9SbEEv7K6hInGC6dGbRtEGRf6E+12e5vVyNdLO0F9DP0
- IG5RmSt19Woak2Fb4NQLTDryLis4z4nxVyME0LltUleDiCYtIoIDqVR1zD4Kh6fUz7j/cqz5NhZ
- 0AHl9P0xC1fHl0OApuY1c2FCCAXkdAF+Ol1aQO/UnzjHHITX6OBaIgFKg=
-X-Google-Smtp-Source: AGHT+IFQCy93+vVkz+zyf4jE1GvNsq0F+1SIQdV2kOxKmGKnmCHkK+0WJ82nyGq7goP7wnuIqeRZsA==
-X-Received: by 2002:a05:6512:3d87:b0:595:83f5:c33f with SMTP id
- 2adb3069b0e04-5969e2d4b98mr1713739e87.19.1763679358449; 
- Thu, 20 Nov 2025 14:55:58 -0800 (PST)
-Received: from [192.168.1.2] (c-92-34-217-190.bbcust.telenor.se.
- [92.34.217.190]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5969db75705sm1066877e87.15.2025.11.20.14.55.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Nov 2025 14:55:55 -0800 (PST)
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 20 Nov 2025 23:55:34 +0100
-Subject: [PATCH v3 3/3] RFT: drm/rcar-du: Modify custom commit tail
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64D7210E7DA
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 23:08:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1763680112; x=1795216112;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=x2VAm+R3jcI1JiM4uWkT0rwamPlQO26XoY+4izZN9Gs=;
+ b=jn+TaGvwm6yhYINL9a3vuVTnNgFknAnLh5X29YlUmtRfz53GI7ZCdsRh
+ GPBrT9Ej3GrUhW0r7kR0lE3pjoFCmDzBMfWS3ZgicmJ4/jkTF3K2WTrDK
+ /psF8HosmOxtBWdtCv/VrlaSOW0uz/oIyOkr4/D23SAGVUta+kCAdeuLj
+ BwZtEo2MuzTOX9oC0Vu2bX0QtUx2VD7v3ZesWxIuHvkqMtKH6bT8gmyRY
+ EjJKMgf3e7nLAqckfeDZrdo3IBeSY6nCaaRsbN09djDdo6lofv8FLf9Xv
+ bV243eoN+TCQVzsRIzWA+nyjAWpmp1d+exP4/goMd1DJ0azM/UaY0noYK A==;
+X-CSE-ConnectionGUID: 4LAzX5bJSHORtHptTBCEUQ==
+X-CSE-MsgGUID: NK7E3G+tRQqVc6Hz6ZdyQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="65699762"
+X-IronPort-AV: E=Sophos;i="6.20,214,1758610800"; d="scan'208";a="65699762"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2025 15:08:31 -0800
+X-CSE-ConnectionGUID: v6v9bqX9QrmQXgFYt1OkiA==
+X-CSE-MsgGUID: MjETsGsXRL2vrmvo3mUyBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,214,1758610800"; d="scan'208";a="191364901"
+Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2025 15:08:29 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Ralph Campbell <rcampbell@nvidia.com>,
+ =?UTF-8?q?Mika=20Penttil=C3=A4?= <mpenttil@redhat.com>,
+ Francois Dugast <francois.dugast@intel.com>,
+ Balbir Singh <balbirs@nvidia.com>
+Subject: [PATCH v2 1/2] fixup: mm/migrate_device: handle partially mapped
+ folios during
+Date: Thu, 20 Nov 2025 15:08:24 -0800
+Message-Id: <20251120230825.181072-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251120-mcde-drm-regression-thirdfix-v3-3-24b1e9886bbf@linaro.org>
-References: <20251120-mcde-drm-regression-thirdfix-v3-0-24b1e9886bbf@linaro.org>
-In-Reply-To: <20251120-mcde-drm-regression-thirdfix-v3-0-24b1e9886bbf@linaro.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Marek Vasut <marek.vasut+renesas@mailbox.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>, 
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
- Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,74 +84,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
-"drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
-caused regressions in all bridges that e.g. send DSI commands in
-their .prepare() and .unprepare() callbacks when used with R-Car DU.
+Splitting a partially mapped folio caused a regression in the Intel Xe
+SVM test suite in the mremap section, resulting in the following stack
+trace:
 
-This is needed on R-Car DU, where the CRTC provides clock to LVDS
-and DSI, and has to be started before a bridge may call .prepare,
-which may trigger e.g. a DSI transfer.
+ NFO: task kworker/u65:2:1642 blocked for more than 30 seconds.
+[  212.624286]       Tainted: G S      W           6.18.0-rc6-xe+ #1719
+[  212.638288] Workqueue: xe_page_fault_work_queue xe_pagefault_queue_work [xe]
+[  212.638323] Call Trace:
+[  212.638324]  <TASK>
+[  212.638325]  __schedule+0x4b0/0x990
+[  212.638330]  schedule+0x22/0xd0
+[  212.638331]  io_schedule+0x41/0x60
+[  212.638333]  migration_entry_wait_on_locked+0x1d8/0x2d0
+[  212.638336]  ? __pfx_wake_page_function+0x10/0x10
+[  212.638339]  migration_entry_wait+0xd2/0xe0
+[  212.638341]  hmm_vma_walk_pmd+0x7c9/0x8d0
+[  212.638343]  walk_pgd_range+0x51d/0xa40
+[  212.638345]  __walk_page_range+0x75/0x1e0
+[  212.638347]  walk_page_range_mm+0x138/0x1f0
+[  212.638349]  hmm_range_fault+0x59/0xa0
+[  212.638351]  drm_gpusvm_get_pages+0x194/0x7b0 [drm_gpusvm_helper]
+[  212.638354]  drm_gpusvm_range_get_pages+0x2d/0x40 [drm_gpusvm_helper]
+[  212.638355]  __xe_svm_handle_pagefault+0x259/0x900 [xe]
+[  212.638375]  ? update_load_avg+0x7f/0x6c0
+[  212.638377]  ? update_curr+0x13d/0x170
+[  212.638379]  xe_svm_handle_pagefault+0x37/0x90 [xe]
+[  212.638396]  xe_pagefault_queue_work+0x2da/0x3c0 [xe]
+[  212.638420]  process_one_work+0x16e/0x2e0
+[  212.638422]  worker_thread+0x284/0x410
+[  212.638423]  ? __pfx_worker_thread+0x10/0x10
+[  212.638425]  kthread+0xec/0x210
+[  212.638427]  ? __pfx_kthread+0x10/0x10
+[  212.638428]  ? __pfx_kthread+0x10/0x10
+[  212.638430]  ret_from_fork+0xbd/0x100
+[  212.638433]  ? __pfx_kthread+0x10/0x10
+[  212.638434]  ret_from_fork_asm+0x1a/0x30
+[  212.638436]  </TASK>
 
-This specifically fixes the case where ILI9881C is connected to R-Car
-DU DSI. The ILI9881C panel driver does DSI command transfer in its
-struct drm_panel_funcs .prepare function, which is currently called
-before R-Car DU rcar_du_crtc_atomic_enable() rcar_mipi_dsi_pclk_enable()
-and the DSI command transfer times out.
+The issue appears to be that migration PTEs are not properly removed
+after a split due to incorrect retry handling after a split failure or
+success. Upon failure, collect a skip, and upon success, continue the
+collection from the current position in the sequence.
 
-Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
-Link: https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas%40mailbox.org/
-Co-developed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Also, while here, fix migrate_vma_split_folio to only lock the new fault
+folio if it is different from the original fault folio (i.e., it’s
+possible the original fault folio is not the same as the one being
+split).
+
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Zi Yan <ziy@nvidia.com>
+Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
+Cc: Rakie Kim <rakie.kim@sk.com>
+Cc: Byungchul Park <byungchul@sk.com>
+Cc: Gregory Price <gourry@gourry.net>
+Cc: Ying Huang <ying.huang@linux.alibaba.com>
+Cc: Alistair Popple <apopple@nvidia.com>
+Cc: Oscar Salvador <osalvador@suse.de>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
+Cc: Nico Pache <npache@redhat.com>
+Cc: Ryan Roberts <ryan.roberts@arm.com>
+Cc: Dev Jain <dev.jain@arm.com>
+Cc: Barry Song <baohua@kernel.org>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Ralph Campbell <rcampbell@nvidia.com>
+Cc: Mika Penttilä <mpenttil@redhat.com>
+Cc: Francois Dugast <francois.dugast@intel.com>
+Cc: Balbir Singh <balbirs@nvidia.com>
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+
 ---
-This is a modified version of Marek's patch using the approach
-from MCDE. I'm pretty sure this driver also needs the original
-semantic ording during disablement, and it surely doesn't hurt
-to restore it too.
+This fixup should be squashed into the patch "mm/migrate_device: handle
+partially mapped folios during" in mm/mm-unstable
 ---
- drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 25 ++++++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
+ mm/migrate_device.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-index 216219accfd9..d1d756f40fc6 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-@@ -540,11 +540,30 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
- 			rcdu->dpad1_source = rcrtc->index;
+diff --git a/mm/migrate_device.c b/mm/migrate_device.c
+index fa42d2ebd024..4506e96dcd20 100644
+--- a/mm/migrate_device.c
++++ b/mm/migrate_device.c
+@@ -110,8 +110,10 @@ static int migrate_vma_split_folio(struct folio *folio,
+ 		folio_unlock(folio);
+ 		folio_put(folio);
+ 	} else if (folio != new_fault_folio) {
+-		folio_get(new_fault_folio);
+-		folio_lock(new_fault_folio);
++		if (new_fault_folio != fault_folio) {
++			folio_get(new_fault_folio);
++			folio_lock(new_fault_folio);
++		}
+ 		folio_unlock(folio);
+ 		folio_put(folio);
+ 	}
+@@ -266,10 +268,11 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 			return 0;
  	}
  
--	/* Apply the atomic update. */
--	drm_atomic_helper_commit_modeset_disables(dev, old_state);
-+	/*
-+	 * Apply the atomic update.
-+	 *
-+	 * We need special ordering to make sure the CRTC disabled last
-+	 * and enabled first. We do this with modified versions of the
-+	 * common modeset_disables/enables functions.
-+	 */
-+
-+	/* Variant of drm_atomic_helper_commit_modeset_disables() */
-+	drm_encoder_bridge_disable(dev, state);
-+	drm_encoder_bridge_post_disable(dev, state);
-+	drm_crtc_disable(dev, state);
-+	drm_atomic_helper_update_legacy_modeset_state(dev, state);
-+	drm_atomic_helper_calc_timestamping_constants(state);
-+	drm_crtc_set_mode(dev, state);
-+
- 	drm_atomic_helper_commit_planes(dev, old_state,
- 					DRM_PLANE_COMMIT_ACTIVE_ONLY);
--	drm_atomic_helper_commit_modeset_enables(dev, old_state);
-+
-+	/* Variant of drm_atomic_helper_commit_modeset_enables() */
-+	drm_crtc_enable(dev, state);
-+	drm_encoder_bridge_pre_enable(dev, state);
-+	drm_encoder_bridge_enable(dev, state);
-+	drm_atomic_helper_commit_writebacks(dev, state);
+-	ptep = pte_offset_map_lock(mm, pmdp, addr, &ptl);
++	ptep = pte_offset_map_lock(mm, pmdp, start, &ptl);
+ 	if (!ptep)
+ 		goto again;
+ 	arch_enter_lazy_mmu_mode();
++	ptep += (addr - start) / PAGE_SIZE;
  
- 	drm_atomic_helper_commit_hw_done(old_state);
- 	drm_atomic_helper_wait_for_flip_done(dev, old_state);
-
+ 	for (; addr < end; addr += PAGE_SIZE, ptep++) {
+ 		struct dev_pagemap *pgmap;
+@@ -351,16 +354,18 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+ 			if (folio && folio_test_large(folio)) {
+ 				int ret;
+ 
++				arch_leave_lazy_mmu_mode();
+ 				pte_unmap_unlock(ptep, ptl);
+ 				ret = migrate_vma_split_folio(folio,
+ 							  migrate->fault_page);
+ 
+ 				if (ret) {
+-					ptep = pte_offset_map_lock(mm, pmdp, addr, &ptl);
+-					goto next;
++					if (unmapped)
++						flush_tlb_range(walk->vma, start, end);
++
++					return migrate_vma_collect_skip(addr, end, walk);
+ 				}
+ 
+-				addr = start;
+ 				goto again;
+ 			}
+ 			mpfn = migrate_pfn(pfn) | MIGRATE_PFN_MIGRATE;
 -- 
-2.51.1
+2.34.1
 
