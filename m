@@ -2,139 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20FDC74A95
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 15:52:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 683C0C74AAA
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 15:53:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0939810E761;
-	Thu, 20 Nov 2025 14:52:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9923C10E764;
+	Thu, 20 Nov 2025 14:53:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="JrUOINTS";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="XG+PU+Pw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com
- [209.85.166.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D4BA10E763
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 14:52:48 +0000 (UTC)
-Received: by mail-il1-f180.google.com with SMTP id
- e9e14a558f8ab-43476cba770so4317505ab.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 06:52:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1763650367; x=1764255167;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=mIp1emodWmrQX+c6TjoXmEBGWcecINECr9nK+dGHBUw=;
- b=JrUOINTSppNhoQhfX8k5syViccp3259yTxwk6ESjnwwTGWo+zCVh5Q5uru8gOo05MP
- E4wTlNeBb4F+6CK4uXm+lkS2b6vVrKRGPppQnSUoiuEMFlwEb7m05J5gjIsTDPNPunCC
- oY8Sm+3eeeq3FzZj8eRbLg4uWmMfhEHZNRXchbVKZ5q5lpDnjgK/Gi4Lbi8aGBEOGLI/
- YiHyXmk88PBRjKMzLH2syDRrgiZ3xoA1vV14frmqjnnNq6Ci2jzF7sYUQ3RWJqEp+/1C
- g8fzqYXu4vWqBOAqmoXSXxm23JeWxTlaNhVUaA5FyL8mSH2zIVciMf2GBUgEB3czdAUA
- FLFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763650367; x=1764255167;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=mIp1emodWmrQX+c6TjoXmEBGWcecINECr9nK+dGHBUw=;
- b=vMZQkph2fJc5zY1XJ5jKiLn/Y4V7fNhuj22I0c1TIctF9AxEyQJHlL8d8ixDAnErDU
- f8cRK/Or5oyoFCIEMY8uE7+Iqg52gYvfgHmJ3Scy2diK6xjQBK3hfY5J3MnNJhaksy7e
- SlwtbwgXARN4/6mJMt/4g0lVlrScMWqHWy3wPJGPBy5doN/ChLML+QC1n7MbYj2w7Iz5
- fCBYAYBWC1Ll1SR6YL8ff11s/etp33ozCF74972KF8XOeLXv6hCcttYAaRpoaqm1o8aG
- rUv98pICJFHC9oWPrVA+kVid7DJOWt78IV5M4cm9SR1MvFqmbGbAqE8/E5xxaBRlsc8F
- GVMw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXpFl9mmRUnyju60bAO/VXr3kvO2WMRWKWD3HrHE6IJx0/lgn5Az+F4yibafKaewIyDqHYRss26nUo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw4oEZbObgvn7G+2kpTTWu4Tv9gJoo3J6w3keA6ipGCS5dYczi4
- QxlqXP0Xxy8QToOYdzyG1N0u2fzxBnav4hrQnOZSObA1lcbW6oyGIwlGoTRsFPnnrCM=
-X-Gm-Gg: ASbGncuT5xpaqMM9UtzJA2iCd/HmvHWJDoRIQfRD/bhpQOz9+N5Dpn8YQ71OI0WXhfz
- qUP40H+By5ZUeWktOu/5eyHkWi/uVKrFBwPd8qY/8sdNCY+JgmdBLXu11aSNlsjHTgd1XiVH4Hg
- RcSTDKSgy16/w19o9xxMS317z1OkelRi1esDoKX7vV28hYtXAmHp6bfopL4wzMPblVV1v6elmKG
- k++hOEp1nxRFnciBI5pymBxhedvEvyqZgwYM/dNUryqelqn7PciwseLfHWvDh34oqU9nQJZVwZj
- hd28Cidf3KXSmJgl6ySs7lymWyAWXSUze/Bmr2W4/07OPjm/zwvmoK2ZTpojT2Yf/r/0425BS9G
- Wvbu+ma+saLkuqC6OkYLNUlWCsG3ROqzeRbTvMG6PpofWYgMQqCzoNklSVDChAE6tKsB5Obpnqq
- wKag==
-X-Google-Smtp-Source: AGHT+IEmRlVKCe07qbgo1t2w3uFpBKsqx62crTftDC+8sZ0oUBIrcGL53VTRakva//fmnWvcfQrQww==
-X-Received: by 2002:a05:6e02:1c01:b0:433:1d5a:5157 with SMTP id
- e9e14a558f8ab-435aa88e822mr21434775ab.6.1763650367018; 
- Thu, 20 Nov 2025 06:52:47 -0800 (PST)
-Received: from [127.0.0.1] ([96.43.243.2]) by smtp.gmail.com with ESMTPSA id
- 8926c6da1cb9f-5b954b207d7sm1008611173.33.2025.11.20.06.52.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Nov 2025 06:52:46 -0800 (PST)
-From: Jens Axboe <axboe@kernel.dk>
-To: linux-kernel@vger.kernel.org, david.laight.linux@gmail.com
-Cc: Alan Stern <stern@rowland.harvard.edu>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Alexei Starovoitov <ast@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
- Andreas Dilger <adilger.kernel@dilger.ca>, Andrew Lunn <andrew@lunn.ch>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Andrii Nakryiko <andrii@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Ard Biesheuvel <ardb@kernel.org>, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, Borislav Petkov <bp@alien8.de>, 
- Christian Brauner <brauner@kernel.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Christoph Hellwig <hch@lst.de>, Daniel Borkmann <daniel@iogearbox.net>, 
- Dan Williams <dan.j.williams@intel.com>, 
- Dave Hansen <dave.hansen@linux.intel.com>, 
- Dave Jiang <dave.jiang@intel.com>, David Ahern <dsahern@kernel.org>, 
- Davidlohr Bueso <dave@stgolabs.net>, 
- "David S. Miller" <davem@davemloft.net>, Dennis Zhou <dennis@kernel.org>, 
- Eric Dumazet <edumazet@google.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Herbert Xu <herbert@gondor.apana.org.au>, Ingo Molnar <mingo@redhat.com>, 
- Jakub Kicinski <kuba@kernel.org>, Jakub Sitnicki <jakub@cloudflare.com>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- Jarkko Sakkinen <jarkko@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
- Jiri Slaby <jirislaby@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
- John Allen <john.allen@amd.com>, 
- Jonathan Cameron <jonathan.cameron@huawei.com>, 
- Juergen Gross <jgross@suse.com>, Kees Cook <kees@kernel.org>, 
- KP Singh <kpsingh@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
- Mika Westerberg <westeri@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Miklos Szeredi <miklos@szeredi.hu>, Namhyung Kim <namhyung@kernel.org>, 
- Neal Cardwell <ncardwell@google.com>, nic_swsd@realtek.com, 
- OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
- Olivia Mackall <olivia@selenic.com>, Paolo Abeni <pabeni@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Peter Huewe <peterhuewe@gmx.de>, 
- Peter Zijlstra <peterz@infradead.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Sean Christopherson <seanjc@google.com>, 
- Srinivas Kandagatla <srini@kernel.org>, 
- Stefano Stabellini <sstabellini@kernel.org>, 
- Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>, 
- Theodore Ts'o <tytso@mit.edu>, Thomas Gleixner <tglx@linutronix.de>, 
- Tom Lendacky <thomas.lendacky@amd.com>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, x86@kernel.org, 
- Yury Norov <yury.norov@gmail.com>, amd-gfx@lists.freedesktop.org, 
- bpf@vger.kernel.org, cgroups@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org, 
- kvm@vger.kernel.org, linux-acpi@vger.kernel.org, 
- linux-block@vger.kernel.org, linux-crypto@vger.kernel.org, 
- linux-cxl@vger.kernel.org, linux-efi@vger.kernel.org, 
- linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
- linux-integrity@vger.kernel.org, linux-mm@kvack.org, 
- linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-serial@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-usb@vger.kernel.org, mptcp@lists.linux.dev, netdev@vger.kernel.org, 
- usb-storage@lists.one-eyed-alien.net, David Hildenbrand <david@kernel.org>
-In-Reply-To: <20251119224140.8616-1-david.laight.linux@gmail.com>
-References: <20251119224140.8616-1-david.laight.linux@gmail.com>
-Subject: Re: (subset) [PATCH 00/44] Change a lot of min_t() that might mask
- high bits
-Message-Id: <176365036384.566630.2992984118137417732.b4-ty@kernel.dk>
-Date: Thu, 20 Nov 2025 07:52:43 -0700
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC88210E764
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 14:53:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=9nvaIGF05sFTlxAbyZDvKMnhtN7ysIWooOLGoreMFBI=; b=XG+PU+PwA88UdXUgoWu2P1zbyk
+ t1txo467yKlT22p2MWDfk1voN9RADyEmbRhiMbTBryWxM9ZDNZJehM/aXaHRwLigE4hVi4qXPsFwX
+ 82r5OEXZsPV2ZEyZcZM0RttnDcg/LiVyNxuIFRncV25BKA77tefDejAo8UKDox5fz3hsWLDb77jzM
+ V1JHNH5/InkcsJVtkHYqE9L7sTunthCyHgtfDmAEsykyJeCTQ5p4dFg+NbqzjI62e+vLVxJ6OT8N1
+ O9TpSsCKXDKbJqgBsJb0KfmFOzWHDuAIVBKuZe5eC6kolV7dlPxnLZ4h8a8A8NFEU/h7itDNPLkdp
+ aAgc8H/Q==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vM62T-003HDi-Nr; Thu, 20 Nov 2025 15:53:37 +0100
+Message-ID: <a52bb8ed-6c4e-4173-947e-7c4f7f4436a4@igalia.com>
+Date: Thu, 20 Nov 2025 14:53:36 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/gem: Use vmemdup_array_user in
+ drm_gem_objects_lookup
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
+References: <20251112092732.23584-1-tvrtko.ursulin@igalia.com>
+ <765f43f5-2cd8-400b-bb8e-2a03132268f9@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <765f43f5-2cd8-400b-bb8e-2a03132268f9@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,24 +63,69 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Wed, 19 Nov 2025 22:40:56 +0000, david.laight.linux@gmail.com wrote:
-> It in not uncommon for code to use min_t(uint, a, b) when one of a or b
-> is 64bit and can have a value that is larger than 2^32;
-> This is particularly prevelant with:
-> 	uint_var = min_t(uint, uint_var, uint64_expression);
+On 20/11/2025 14:39, André Almeida wrote:
+> Hi Tvrtko,
 > 
-> Casts to u8 and u16 are very likely to discard significant bits.
+> Em 12/11/2025 06:27, Tvrtko Ursulin escreveu:
+>> Using a helper shrinks the code and separating the user and kernel slabs
+>> is more secure.
 > 
-> [...]
+> As in the commit message, the commit description should be writing in 
+> the imperative mood.
 
-Applied, thanks!
+"Use a helper to shrink the code and separate the user and kernel slabs 
+for better security."
 
-[12/44] block: use min() instead of min_t()
-        commit: 9420e720ad192c53c8d2803c5a2313b2d586adbd
+This sounds good?
 
-Best regards,
--- 
-Jens Axboe
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> ---
+>> v2:
+>>   * Remove now unused dev local.
+>> ---
+>>   drivers/gpu/drm/drm_gem.c | 13 +++----------
+>>   1 file changed, 3 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+>> index a1a9c828938b..68168d58a7c8 100644
+>> --- a/drivers/gpu/drm/drm_gem.c
+>> +++ b/drivers/gpu/drm/drm_gem.c
+>> @@ -783,7 +783,6 @@ static int objects_lookup(struct drm_file *filp, 
+>> u32 *handle, int count,
+>>   int drm_gem_objects_lookup(struct drm_file *filp, void __user 
+>> *bo_handles,
+>>                  int count, struct drm_gem_object ***objs_out)
+>>   {
+>> -    struct drm_device *dev = filp->minor->dev;
+>>       struct drm_gem_object **objs;
+>>       u32 *handles;
+>>       int ret;
+>> @@ -798,15 +797,9 @@ int drm_gem_objects_lookup(struct drm_file *filp, 
+>> void __user *bo_handles,
+>>       *objs_out = objs;
+>> -    handles = kvmalloc_array(count, sizeof(u32), GFP_KERNEL);
+>> -    if (!handles) {
+>> -        ret = -ENOMEM;
+>> -        goto out;
+>> -    }
+>> -
+>> -    if (copy_from_user(handles, bo_handles, count * sizeof(u32))) {
+>> -        ret = -EFAULT;
+>> -        drm_dbg_core(dev, "Failed to copy in GEM handles\n");
+> 
+> Why the debugged message has been removed?
 
+I should indeed have mentioned in the commit message:
 
+"While at it lets remove the useless debug message."
 
+Regards,
+
+Tvrtko
+>> +    handles = vmemdup_array_user(bo_handles, count, sizeof(u32));
+>> +    if (IS_ERR(handles)) {
+>> +        ret = PTR_ERR(handles);
+>>           goto out;
+>>       }
+> 
