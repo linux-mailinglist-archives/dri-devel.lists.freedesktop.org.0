@@ -2,71 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07AA5C75264
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 16:54:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8119C7545F
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 17:14:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7675E10E77C;
-	Thu, 20 Nov 2025 15:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 976AA10E77B;
+	Thu, 20 Nov 2025 16:14:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Jlbg60rD";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LmHhLMfz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16FA410E550;
- Thu, 20 Nov 2025 15:54:30 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 8C5EC442C6;
- Thu, 20 Nov 2025 15:54:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCA87C4CEF1;
- Thu, 20 Nov 2025 15:54:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763654069;
- bh=03wWAsaF2p66SA+8tzLL46Iahcv1zn29Tz5R4bnU5cU=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Jlbg60rDJnba7Ff0KTxPv2DPwljI87BGbXxW78s1405lTXn1j/RsPhWbbr3YQNPUM
- ne1J21WQeFM31F374+o9av6JukMFAPr4xtj2n5/T5JtJWmq8KHlzUGiiya3MzHazti
- iAY54xqr3CPTsEwXfAEhQrPSjppkSdk3h5LhBGb69UC2lkBlCCm0FHb2v3IZimqg2e
- MesnRnvc6o8sfLCXADjE94dmCljtYeTBr9VDxqt9ZYAS/9Z1EplMHopGIyDEabbIpM
- 6uVOYGt2uBLsfIGU3jyEbmUg0ZipPBbQLIdkYkaKmdP2bvpLJZQaz38jzzF7vTYiWE
- x17Q1RmsQ5SKQ==
-Date: Thu, 20 Nov 2025 16:54:25 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, kernel@collabora.com, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v4 07/10] drm/display: hdmi-state-helper: Act on color
- format DRM property
-Message-ID: <nbrdnftrsybpowsu2f6me3jumdeodg45x4quouzlzd5jo7xrux@4pny3aiverzn>
-References: <20251117-color-format-v4-0-0ded72bd1b00@collabora.com>
- <20251117-color-format-v4-7-0ded72bd1b00@collabora.com>
- <4wt5dbvseauo2bvi66ohtk445zsfjtpjwgvochwwlyk4uugcmy@5ubwtkxyy2ax>
- <7179523.lOV4Wx5bFT@workhorse>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D000610E778;
+ Thu, 20 Nov 2025 16:14:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1763655287; x=1795191287;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=8FQ3Hx/P7dpdV17EIj8i93hlmzauTJyPVO0chUYXFTc=;
+ b=LmHhLMfz7hJ8Y2QbGJ2glJOcEASblEV8rxS4DM6YYjl49usCZdBan15k
+ OpbJ2ulgK9wQ2Kl9SS7U3PwzOOdVmLXOQ7KEldhg+CDSoqvEsIPQE/4wY
+ e9WwaNO+q+KfoV38g2mSi7nMRFj5sbVDCEmwmfJT4Er3pjwOERJWrA/SE
+ Chfw0fqUqfWGqpnyWuV8uXWJxijhoh/nP2XZM2Hu5oHvHJJlD4MrJuGnZ
+ UxqCy4igE4RQevSlN0OEygOnZqp+qbDYZPCH6Oqd9KGYgxGlqLMH06dhh
+ f79e4QfgsK85ikq4ZSI+XzScvRmcgRFwbmJaCn+G8fD0BkfoqjAUlR7Em A==;
+X-CSE-ConnectionGUID: IIhwHUGLTR2qK5T1bK1brA==
+X-CSE-MsgGUID: 4YT96dngQ+adl7/Ms6WnIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="83353096"
+X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; d="scan'208";a="83353096"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2025 08:14:47 -0800
+X-CSE-ConnectionGUID: 6kyUDZjeRrCVQr+kF9Zn2A==
+X-CSE-MsgGUID: h8yGTxHUTLyjCrItzSWwxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,213,1758610800"; d="scan'208";a="191529642"
+Received: from carterle-desk.ger.corp.intel.com (HELO mkuoppal-desk.intel.com)
+ ([10.245.246.16])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Nov 2025 08:14:43 -0800
+From: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Stuart Summers <stuart.summers@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] drm/xe: Fix memory leak when handling pagefault vma
+Date: Thu, 20 Nov 2025 18:14:35 +0200
+Message-ID: <20251120161435.3674556-1-mika.kuoppala@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="4alnfwchsomlml4z"
-Content-Disposition: inline
-In-Reply-To: <7179523.lOV4Wx5bFT@workhorse>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,94 +76,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+When the pagefault handling code was moved to a new file, an extra
+drm_exec_init() was added to the VMA path. This call is unnecessary because
+xe_validation_ctx_init() already performs a drm_exec_init(), resulting in a
+memory leak reported by kmemleak.
 
---4alnfwchsomlml4z
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 07/10] drm/display: hdmi-state-helper: Act on color
- format DRM property
-MIME-Version: 1.0
+Remove the redundant drm_exec_init() from the VMA pagefault handling code.
 
-On Wed, Nov 19, 2025 at 01:41:18PM +0100, Nicolas Frattaroli wrote:
-> On Wednesday, 19 November 2025 10:09:12 Central European Standard Time Ma=
-xime Ripard wrote:
-> > Hi,
-> >=20
-> > On Mon, Nov 17, 2025 at 08:11:51PM +0100, Nicolas Frattaroli wrote:
-> > > With the introduction of the "color format" DRM property, which allows
-> > > userspace to request a specific color format, the HDMI state helper
-> > > should implement this.
-> > >=20
-> > > Implement it by checking whether the property is set and set to
-> > > something other than auto. If so, pass the requested color format, and
-> > > otherwise set RGB.
-> > >=20
-> > > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > > ---
-> > >  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 8 +++++++-
-> > >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/driver=
-s/gpu/drm/display/drm_hdmi_state_helper.c
-> > > index a561f124be99..add0d51fce33 100644
-> > > --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> > > +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> > > @@ -650,9 +650,15 @@ hdmi_compute_config(const struct drm_connector *=
-connector,
-> > >  				       conn_state->max_bpc,
-> > >  				       8, connector->max_bpc);
-> > >  	int ret;
-> > > +	enum hdmi_colorspace hdmi_colorspace;
-> > > +
-> > > +	if (conn_state->color_format && conn_state->color_format !=3D DRM_C=
-OLOR_FORMAT_AUTO)
-> > > +		hdmi_colorspace =3D color_format_to_hdmi_colorspace(conn_state->co=
-lor_format);
-> > > +	else
-> > > +		hdmi_colorspace =3D HDMI_COLORSPACE_RGB;
-> > > =20
-> > >  	ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bp=
-c,
-> > > -				      HDMI_COLORSPACE_RGB);
-> > > +				      hdmi_colorspace);
-> >=20
-> > I don't think we want the fallback to yuv420 for anything but auto, so
->=20
-> Okay. Changing all the non-hdmi-state-helper drivers (amdgpu, i915)
-> to do this as well would require some more work however, especially
-> in the case of amdgpu where the code flow is not always obvious.
+Fixes: fb544b844508 ("drm/xe: Implement xe_pagefault_queue_work")
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Stuart Summers <stuart.summers@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: intel-xe@lists.freedesktop.org
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Signed-off-by: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+---
+ drivers/gpu/drm/xe/xe_pagefault.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Yeah, I think we want to be consistent here, the whole point of the HDMI
-state helpers was to be consistently consistent with Intel's behaviour
-anyway :)
+diff --git a/drivers/gpu/drm/xe/xe_pagefault.c b/drivers/gpu/drm/xe/xe_pagefault.c
+index fe3e40145012..afb06598b6e1 100644
+--- a/drivers/gpu/drm/xe/xe_pagefault.c
++++ b/drivers/gpu/drm/xe/xe_pagefault.c
+@@ -102,7 +102,6 @@ static int xe_pagefault_handle_vma(struct xe_gt *gt, struct xe_vma *vma,
+ 
+ 	/* Lock VM and BOs dma-resv */
+ 	xe_validation_ctx_init(&ctx, &vm->xe->val, &exec, (struct xe_val_flags) {});
+-	drm_exec_init(&exec, 0, 0);
+ 	drm_exec_until_all_locked(&exec) {
+ 		err = xe_pagefault_begin(&exec, vma, tile->mem.vram,
+ 					 needs_vram == 1);
+-- 
+2.43.0
 
-> > I'd rather have something like
-> >=20
-> > if (conn_state->color_format !=3D DRM_COLOR_FORMAT_AUTO)
-> >    return hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc,
-> >                                   color_format_to_hdmi_colorspace(conn_=
-state->color_format))
-> >=20
-> > We'll also need unit tests.
->=20
-> Sure, am I guessing correctly that they'd go in
-> drm_hdmi_state_helper_test.c?
-
-Yes
-
-Maxime
-
---4alnfwchsomlml4z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaR85rAAKCRAnX84Zoj2+
-dv6UAX9b0ty0vhrPxBcqaoWJddkNvIG7owUS7e5lljmKMtX9SeDNbFLRDL44gdvr
-YZMxKF4Bf08i85DvKTyHG/luF+TnRXuESfkJdU9q1iykKJz21hcyXghzIupe9hKW
-0WFpzuh7CA==
-=NkNa
------END PGP SIGNATURE-----
-
---4alnfwchsomlml4z--
