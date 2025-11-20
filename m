@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F342C74B4B
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 16:00:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F33C74B54
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 16:00:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA5FE10E76A;
-	Thu, 20 Nov 2025 15:00:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C85AC10E76D;
+	Thu, 20 Nov 2025 15:00:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dMwI9sFJ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DpQCWMU6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C78A10E76A
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECFC510E76B
  for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 15:00:24 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-644f90587e5so1518124a12.0
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 07:00:23 -0800 (PST)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-640a3317b89so1600755a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 07:00:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763650822; x=1764255622; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1763650823; x=1764255623; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KW+kRzBEHA4jKkrkR9ZLwv6sirYslh2oCRpUNEgLzxs=;
- b=dMwI9sFJAIuD+BnHz+rdpWGDa1Wlzg0oPLsWA9KA9hBwHLfiKhWPtZhzvBXQhTpcZp
- 1ZCy4CgQB/expNcyYJWVmtKbUASFKLF3rI3+TpSQwikNYqKQJ0EaNYffJbBcO/3iaDoF
- 8m4HjV93cZqhSM1CbWej9Ju0n2gGFaHLy8CDUBBpb0dFl5G33kwQZzQAR6k12Hi+4Eqg
- HJnAlgj9vETM749A8U31ljg6QsYhDX2yRnCWZYGRw5hxRVYef6UKuLw06ADKmsutYvBg
- SUaenQzCpkBmVPCIhdadcAzP9LCorvEtoa/orw60aTHHhgksdEhhznvfOsr618okUs4K
- tBpA==
+ bh=TR/tq9rqcXsmUUX++Z4tC7vtqCs6KQO5/msjUdFZ3Jw=;
+ b=DpQCWMU6mF6bQsKKnSarSsMiESsGLob+kE6edRM6Hb70d4AkhKWMrrpQ8DdyZLEse+
+ eKWPDHDMX5k4wfonH52ONXCOsDD6U0YbCLEfT+MPmky+vVtspZWrYt93TRBSisF3KTBy
+ Y/5VaU+iM+3kDrYnMd55A6W7CBkKqcSj5j7X5PqXZ5QzNc58WXr4AOWXAxfAXw0iszbP
+ 8oMUSenooMn1vkWybSH+CkPjxZgZSqvKPXCQwWuetiHRQOrsJYzV6eTIMUTRTPXy0zxn
+ BMK+cNDCqBVOQ8GLzHNPPdI4YWlrTFL1427JpIXsVyWdbNukIljIiYRThC5dKKzgWV2r
+ ll/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763650822; x=1764255622;
+ d=1e100.net; s=20230601; t=1763650823; x=1764255623;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=KW+kRzBEHA4jKkrkR9ZLwv6sirYslh2oCRpUNEgLzxs=;
- b=h2N7DCn1xrTeBrP3JMbnPa6iM50MSnYrxE3ifDzq02/HZ3c/y6UNXSIXBCAiHZrh7O
- ne0brvlNkhnMU2L/LXmUm0GwkWmHx159A72ISlyUdFSrdoiykQDzl5HhHQsgHIbr1ffO
- XCTyvVo8n8rv0+9xtRmkmTocjNkVqOtfBEYDhIbotKv7FjZy+BP7EbR8IHvSR4ivN7ai
- h+q7Hx13L4IdNVpUJ9fLy+qKn6JD69Yqi1LsT3N7KDG1pwmaYoO/im7D6qGo4skSMgIU
- 2M053PMk7IBUCOwW8oJ0zBJ6DDEXUErKt6vcFm5rjVf1vU+znelnV3UoxNJE1+xk7PfU
- WrTQ==
+ bh=TR/tq9rqcXsmUUX++Z4tC7vtqCs6KQO5/msjUdFZ3Jw=;
+ b=FPHSVCbG3dF4XVCckptL8GfzZBsGjQYggD5gSVGCTTHmxs1MIiimwMtXFZbrJOF43Z
+ slpi2Bi8ZoXoN47R5joayUhYfjRRuCx2N9khE5m9ReALWcjyH6SSkckk66U5E8jcQ7zW
+ VBUPbciM6Nkya0obg8FYw30qDbbBn8QA7Ioo3Kg9lbvUos8HbLW8FVm4Wu0COzKm2q1I
+ wSI0GtAxI0zUA+dcrHSjwLvT4xzKS6AhfYWY3CRe5kjc1K7m5hcmnraNwK8xrdynMnZU
+ cBYEIZPzgLfHwL9VTBDegAUpFYoHB1vj5r/ToaPEFilzB3oK1IQOGDmuHN4HuSJjUTGq
+ kXsQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVV31WyO641Er9fOyW87/V2KfqJ5WAkEWMoMvz0KkZZbR7Bezvu4ZkVtBM10YMsJXJrNBhgP7OM21M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzh53SyIw0M7XHGJDpOGIdWgLym9QattMkgSXIpZbbG/XmqmUoq
- mnDI5jdBLr7F3R01C9D61fwYSAvxjsG1KwW0P/gyAuonCAwcyXKLKqSG
-X-Gm-Gg: ASbGncsGrTg60LMBSNYLc4+aY4VRv9U3dabW+w/eB1TqPLXKWnR9+Poh/TU03uMHEQ/
- 5UyECt+GhNQp5Gg06MMWJo7GfdRVkiZkgaQ56GvPqebTU7k1f3bWjswt0DFWxavxS4qJFV9Lvt6
- GQ6Mh0razG2ELHXcU9nWr7xsv+Xrr7CFEojI3EeHmDh4Ta3bnWHHNgM5quclUvS6aBcOecfXDsT
- hZXAD7K6zKnUve3DK7eFEbDnETpeG+YXhY+YF5/2CWMpNKiHYADCSvbQwXnWJzjQjSBn11QNiu5
- 3mk9sSYNc0nFDdEZ4rA3cpheXwzAPi5CE4IPt46HBQB4/4swxxnEt3qIxg2uBWqkzN6XmflqybI
- 3UKIT9gH8btg4igUrsoaqWw+bBmTsZEsyNom3s4+otcD1PSutS8Yw51DuA3fc63411vH/CNw6OY
- IfsQG226UzgRJS6WdnEg0peUM7ha39eTU88rY=
-X-Google-Smtp-Source: AGHT+IE6prXF8s/y7WhNH087a0LGD4PggM53BQrC7EcC+xM7xmoqpQMJoNG0KtFEZd2Ox+C7TxsuKQ==
-X-Received: by 2002:a05:6402:5406:b0:640:a7bc:30c5 with SMTP id
- 4fb4d7f45d1cf-6453647ba22mr3201568a12.28.1763650822418; 
- Thu, 20 Nov 2025 07:00:22 -0800 (PST)
+ AJvYcCUO10/yHxJ6A9YR++URrQy8VnTGOwhD+HOTPmCu2X/ug5A5YciwJFUttxiuRcLej3fY9WV4I+s9/ZM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwrGyXXeXY/+KPPmOokXPq22m93no3avdZOfrV5s9GJxc/8wHSx
+ hPs/XDk30eVtuGVb1bxVOJuSYygvb7zeUCdFY9FkHR0FOCqz514ZBleA
+X-Gm-Gg: ASbGnctwt/x2o2L28/pghyjWlrXc5VINVW5ZOaL4CPN85ZznNsNcVLuOLsBXt0/mlMZ
+ j2KdVlsiIju5hPc4hXu2dYNzbYb+SbBG2yuXarqtu8DaYtmMLP3qCD3Wubh75wh1kWlAMoJViKK
+ YbkWqjcKeI3xyeuma6dygux7++ZhpvLvYovSaxxDDKrAFmI7IJaziWW2fWl5zedjONvIHYlZGfa
+ pe6GtmLO7nqexXIFEMGw/Ekh33d8qCy3wQodwhf5mTP7f6VZvefOvU5Hdy5Ca53Q8i8zpuibQvq
+ 5UPRcsqjgWc6OXAPkN6UdyYkS9+7zs/p5RWhMFEjZdo8/cHtIMpgQGM2K3B1ITMH8buJNB0Ruc8
+ pWeeOwVUOqPCBBN2xQxw5fV5pS8v+PNWhlSY1fF1vN7e+0ExfMqElWftBov0pMGVSBM0hK/hhvq
+ ZbgthbUgI9nURzhXBysejhOv+d
+X-Google-Smtp-Source: AGHT+IGuzNVpVHWhhWfLfTS2UWEMGrYSwJP3rK1+vj1kUJ1S/t2YyQMCeHfaZUx+JETxy9PwKqvPGg==
+X-Received: by 2002:a05:6402:1ed5:b0:640:a356:e797 with SMTP id
+ 4fb4d7f45d1cf-64536403e48mr3137102a12.13.1763650823291; 
+ Thu, 20 Nov 2025 07:00:23 -0800 (PST)
 Received: from able.fritz.box ([2a00:e180:154c:c900:7aba:c4b7:a402:3cd2])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-6453645f2easm2205878a12.33.2025.11.20.07.00.21
+ 4fb4d7f45d1cf-6453645f2easm2205878a12.33.2025.11.20.07.00.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Nov 2025 07:00:21 -0800 (PST)
+ Thu, 20 Nov 2025 07:00:22 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -70,10 +70,10 @@ To: phasta@kernel.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
  faith@gfxstrand.net, sumit.semwal@linaro.org
 Cc: linaro-mm-sig@lists.linaro.org,
 	dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/4] dma-buf/fence: give some reasonable maximum signaling
- timeout
-Date: Thu, 20 Nov 2025 15:41:07 +0100
-Message-ID: <20251120150018.27385-2-christian.koenig@amd.com>
+Subject: [PATCH 2/4] dma-buf/sw-sync: always taint the kernel when sw-sync is
+ used
+Date: Thu, 20 Nov 2025 15:41:08 +0100
+Message-ID: <20251120150018.27385-3-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251120150018.27385-1-christian.koenig@amd.com>
 References: <20251120150018.27385-1-christian.koenig@amd.com>
@@ -95,43 +95,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a define implementations can use as reasonable maximum signaling
-timeout. Document that if this timeout is exceeded by config options
-implementations should taint the kernel.
-
-Tainting the kernel is important for bug reports to detect that end
-users might be using a problematic configuration.
+The SW-sync functionality should only be used for testing and debugging
+since it is inherently unsave.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- include/linux/dma-fence.h | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/dma-buf/sw_sync.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 64639e104110..b31dfa501c84 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -28,6 +28,20 @@ struct dma_fence_ops;
- struct dma_fence_cb;
- struct seq_file;
+diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+index 3c20f1d31cf5..6f09d13be6b6 100644
+--- a/drivers/dma-buf/sw_sync.c
++++ b/drivers/dma-buf/sw_sync.c
+@@ -8,6 +8,7 @@
+ #include <linux/file.h>
+ #include <linux/fs.h>
+ #include <linux/uaccess.h>
++#include <linux/panic.h>
+ #include <linux/slab.h>
+ #include <linux/sync_file.h>
  
-+/**
-+ * define DMA_FENCE_MAX_REASONABLE_TIMEOUT - max reasonable signaling timeout
-+ *
-+ * The dma_fence object has a deep inter dependency with core memory
-+ * management, for a detailed explanation see section DMA Fences under
-+ * Documentation/driver-api/dma-buf.rst.
-+ *
-+ * Because of this all dma_fence implementations must guarantee that each fence
-+ * completes in a finite time. This define here now gives a reasonable value for
-+ * the timeout to use. It is possible to use a longer timeout in an
-+ * implementation but that should taint the kernel.
-+ */
-+#define DMA_FENCE_MAX_REASONABLE_TIMEOUT (2*HZ)
+@@ -349,6 +350,9 @@ static long sw_sync_ioctl_create_fence(struct sync_timeline *obj,
+ 	struct sync_file *sync_file;
+ 	struct sw_sync_create_fence_data data;
+ 
++	/* SW sync fence are inherently unsafe and can deadlock the kernel */
++	add_taint(TAINT_SOFTLOCKUP, LOCKDEP_STILL_OK);
 +
- /**
-  * struct dma_fence - software synchronization primitive
-  * @refcount: refcount for this fence
+ 	if (fd < 0)
+ 		return fd;
+ 
 -- 
 2.43.0
 
