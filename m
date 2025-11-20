@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC53CC768ED
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 23:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CCBC768F0
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 23:56:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B1E410E7D4;
-	Thu, 20 Nov 2025 22:55:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 467F310E7D7;
+	Thu, 20 Nov 2025 22:56:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="HaKHMwUI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="K5hIZUH9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
- [209.85.167.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D67A810E7D7
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 22:55:55 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-5943b62c47dso1451094e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 14:55:55 -0800 (PST)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+ [209.85.167.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 342AF10E7D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 22:56:00 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id
+ 2adb3069b0e04-5957c929a5eso1976557e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 14:56:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763679354; x=1764284154; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1763679358; x=1764284158; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=ad/4om2M/AQ7PqpIcaRnNBk8hiQAbDj8O1LhlyygVkg=;
- b=HaKHMwUI8V2K8kFtLeQVLQAM8ApOtTmXxatVjmtrs29RSik94nCc0b/IqD9Y0rx7z8
- Gp0BR7GEak3kAmZCP9uzzMBYJV/6wUEtx9g2o1G6+NoeOuqEd7tdiBfaEcFflsbF2Bxc
- 6BGEJGKBy518nj7JYHKFhkrifVKoER7xjMbEHgAfAeakE2zEHseKZOXtkGpJ7am+Ue9T
- D/sLIbXZQoaE53/e+JVw5U9bmx96KhtPwgmDh8nTdixSNAy1wXnWULljGh6hsS8j/0t9
- uBy3K8f0EfUXcpJEgDisOzsMFuiqbpYM/mMcmwIcTX9CcCxOgV885EK+A7V/PtlYqcOi
- FtmA==
+ :reply-to; bh=9V19WHZJ0LiGdpxDp5Xzjy+hNnmDgOEjSJETgzGbOoc=;
+ b=K5hIZUH9miuf6v2zvXOs9CUj2yd4Zz1FCsgfCdufOBikfr+9pQD+I9xtFNOfcLCpU8
+ 14n355bxhwVLDg7x2onefUd3C9v7vNfl3zhN6i3A2QfRnwnNKKDWqlhmCCaZFowtoMWd
+ 5vlw6+NLIOrL90Zz+abq/1IdHK6yd3b3PfMte9ju6x5wmHsDfVmWxvEb8QT8mNfSK40U
+ v40atOHc7MYGR62LigJfk9benRQagcIdFKWTOexnEet1Iow2we7sUbRR0LBQc5kHJsHi
+ Eu+x319SXAB4UXoIF3Yc0m2ETOv1NFF3FjEKdI1/l7KEM8/q4MYpQyM4qEImC2JCPYcs
+ tgfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763679354; x=1764284154;
+ d=1e100.net; s=20230601; t=1763679358; x=1764284158;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=ad/4om2M/AQ7PqpIcaRnNBk8hiQAbDj8O1LhlyygVkg=;
- b=etLBR4zwzAkDZn0Q0qBUI7T4tXoE6iMUyRnCZkUGliCOYrmAVFM6WcQQ8RI/f1uWQU
- 93PaLnUeZY3m3sYfzyRWg0VgpnH6bcZOFjg6laTYNhFBtNSvIZUWt+xpQr5yxXOukKp6
- ZI8xeDaAU6BDiUY1AkU75ZHjpSsMA6dKqIQfFCo0hzttB2oKVXeK/RX/f22FzM4/SxUU
- a1dwCJ5gk4b2G6BRxj7HherDT1O4P9XSXKUQYSltZIJJ7OKpP2+Ks+RX3jen1OJ/xlvP
- Q4fYPIiKCw9ln5ULUgJKZG+PFoBDN0DOrTvQO08ql1DxIHuowHYIcw3zay+51q2prFrE
- 98JQ==
-X-Gm-Message-State: AOJu0YxQi5/QktPYLeeP4L9mkARwM/QxYySPd89qBNM2NeRAp5tSOlWp
- kiBfc63dg6WaaZBkdhvobIFfo408mpdhk5oxD8OvGxLmMpejur/iCdaHqaS1JsI9vYM=
-X-Gm-Gg: ASbGncsf4vvg72d4jymzBBifsiaOuPSDhBOlckCAcXDyBBOfnO3A4BTBavHya/KBeOF
- UrVFPCaM5Gzet1mj1Csb+CntVYwHlHQXaMpus8MSkMRXbptGjhB57BXaRKXrJrLz4asmyPtdLLx
- Yj14ECbi4HRWN9JrEAL7nrGQgebBjVhwnebxfaDmfYa9wYojy+pU28W3KwSQTrDvrnavcl6qyru
- Gl39vE1n/vmdXHehezixr1Mu9Q4Ekl9SvrPH/PAAjUclTxmc0m8xwySZ2e0iqflTz/rQvtiMgFu
- YtXk2pXPYIoHn186WtIf5V9dYEG/DInxBHJYTIKkXbm+dmyWqVv5FU2LN7qSJkTswd5F2wmnDK6
- Djj369ZZOVXMhfWPMwhn7ArOuGILGBW0IJu1eaoYwImJGu7YUNlWov9vgol5NGK419GcmWXwv/J
- A9Iy/ElBdUKSjYq1tn/i+G73ERObMWjSg5ilsl5uo1em636kva1+OtDj4=
-X-Google-Smtp-Source: AGHT+IH6YCa9UIe3b2frKJ2OHFfqg0ooXQh6HmGeTHCO6BkYBH0AHOCL5vFPB7J9FgKpShI8V2AdcA==
-X-Received: by 2002:a05:6512:2342:b0:594:2475:a160 with SMTP id
- 2adb3069b0e04-596a2efd773mr246920e87.26.1763679354023; 
- Thu, 20 Nov 2025 14:55:54 -0800 (PST)
+ bh=9V19WHZJ0LiGdpxDp5Xzjy+hNnmDgOEjSJETgzGbOoc=;
+ b=lqY+BE0qlYDKa7VzflMiTrN18i89ga7gmdJD1mWXqr7GoNxY9I6R3GEa9hTs9tEsES
+ 39QhT0WzTkVOcnCU2mGrSsuTZBSow+xEX4ohJ1ocQk/4BK0U1H2Tn4l24D8BuzZLUEIE
+ eiJDz6cCoSMr0keQ+B8up171u1nmN2+E3l0yp5M2TYpw7DC01dsXSXc+U3MZ+HRoRyWZ
+ cTJitR6nnMu20BSqv/OkYinyvL+fqxolyL6qo30uP2kB8gA7OZ6JVQb5lp8LBKyv67ZW
+ DneSWTyZNyA8P1gFKUDf6D1pS6lWoEbEZqNNfYg0bK2RxLQwoTm2KwOdtNJO1sHno8F+
+ yphw==
+X-Gm-Message-State: AOJu0YygDmnXmGLQknZ43j4N/798J/NMIXMDCJPxF+rHcLu5ZDTmGTHO
+ p0uF8j/DGJehRmzHLU3cTE+gsyRXVRdidisV4ioXqW3fArS0vNJOkdSkUEGFihFXfvM=
+X-Gm-Gg: ASbGncuFaT/BhElnfsKsLkV/HJMbfmx6nnc9dbdc+tRA6rhK20RDDW9PRKSBTO/89o2
+ DHtcoJIl0aXp0weSm9zzW9WY6fhxXenwpcdqLezBjU/vPgj5k688Jyj/8d7gemVxSxHRnIF5YCD
+ d5gxj5kEDdQMQMsoxxTdO1LmjC5fqASy+emcSULZN6iYW1ik99C2zpzO4LXuO1D7cNE98UrtOLk
+ 9+N3vZdZ1ZLa/KY4YSZJeACQo2oImVG9CDJbNL0qgECa29y8R0nnAxehEq+YmeAnzohvyiMbRYB
+ +fsQuaWAGCPtWlh1FEXcj7e2AQKfdGm9SbEEv7K6hInGC6dGbRtEGRf6E+12e5vVyNdLO0F9DP0
+ IG5RmSt19Woak2Fb4NQLTDryLis4z4nxVyME0LltUleDiCYtIoIDqVR1zD4Kh6fUz7j/cqz5NhZ
+ 0AHl9P0xC1fHl0OApuY1c2FCCAXkdAF+Ol1aQO/UnzjHHITX6OBaIgFKg=
+X-Google-Smtp-Source: AGHT+IFQCy93+vVkz+zyf4jE1GvNsq0F+1SIQdV2kOxKmGKnmCHkK+0WJ82nyGq7goP7wnuIqeRZsA==
+X-Received: by 2002:a05:6512:3d87:b0:595:83f5:c33f with SMTP id
+ 2adb3069b0e04-5969e2d4b98mr1713739e87.19.1763679358449; 
+ Thu, 20 Nov 2025 14:55:58 -0800 (PST)
 Received: from [192.168.1.2] (c-92-34-217-190.bbcust.telenor.se.
  [92.34.217.190]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5969db75705sm1066877e87.15.2025.11.20.14.55.46
+ 2adb3069b0e04-5969db75705sm1066877e87.15.2025.11.20.14.55.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 20 Nov 2025 14:55:47 -0800 (PST)
+ Thu, 20 Nov 2025 14:55:55 -0800 (PST)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 20 Nov 2025 23:55:33 +0100
-Subject: [PATCH v3 2/3] drm/mcde: Create custom commit tail
+Date: Thu, 20 Nov 2025 23:55:34 +0100
+Subject: [PATCH v3 3/3] RFT: drm/rcar-du: Modify custom commit tail
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251120-mcde-drm-regression-thirdfix-v3-2-24b1e9886bbf@linaro.org>
+Message-Id: <20251120-mcde-drm-regression-thirdfix-v3-3-24b1e9886bbf@linaro.org>
 References: <20251120-mcde-drm-regression-thirdfix-v3-0-24b1e9886bbf@linaro.org>
 In-Reply-To: <20251120-mcde-drm-regression-thirdfix-v3-0-24b1e9886bbf@linaro.org>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
@@ -100,48 +100,50 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
 "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
-caused a series of regressions in all panels that send
-DSI commands in their .prepare() and .unprepare()
-callbacks when used with MCDE.
+caused regressions in all bridges that e.g. send DSI commands in
+their .prepare() and .unprepare() callbacks when used with R-Car DU.
 
-As the CRTC is no longer online at bridge_pre_enable()
-and gone at brige_post_disable() which maps to the panel
-bridge .prepare()/.unprepare() callbacks, any CRTC that
-enable/disable the DSI transmitter in it's enable/disable
-callbacks will be unable to send any DSI commands in the
-.prepare() and .unprepare() callbacks.
+This is needed on R-Car DU, where the CRTC provides clock to LVDS
+and DSI, and has to be started before a bridge may call .prepare,
+which may trigger e.g. a DSI transfer.
 
-However the MCDE driver definitely need the CRTC to be
-enabled during .prepare()/.unprepare().
+This specifically fixes the case where ILI9881C is connected to R-Car
+DU DSI. The ILI9881C panel driver does DSI command transfer in its
+struct drm_panel_funcs .prepare function, which is currently called
+before R-Car DU rcar_du_crtc_atomic_enable() rcar_mipi_dsi_pclk_enable()
+and the DSI command transfer times out.
 
-Solve this by implementing a custom commit tail function
-in the MCDE driver that always enables the CRTC first
-and disables it last, using the newly exported helpers.
-
-Link: https://lore.kernel.org/dri-devel/20251026-fix-mcde-drm-regression-v2-0-8d799e488cf9@linaro.org/
-Link: https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas%40mailbox.org/
 Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+Link: https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas%40mailbox.org/
+Co-developed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/gpu/drm/mcde/mcde_drv.c | 37 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 36 insertions(+), 1 deletion(-)
+This is a modified version of Marek's patch using the approach
+from MCDE. I'm pretty sure this driver also needs the original
+semantic ording during disablement, and it surely doesn't hurt
+to restore it too.
+---
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
-index 5f2c462bad7e..290082c86100 100644
---- a/drivers/gpu/drm/mcde/mcde_drv.c
-+++ b/drivers/gpu/drm/mcde/mcde_drv.c
-@@ -100,13 +100,48 @@ static const struct drm_mode_config_funcs mcde_mode_config_funcs = {
- 	.atomic_commit = drm_atomic_helper_commit,
- };
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+index 216219accfd9..d1d756f40fc6 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+@@ -540,11 +540,30 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
+ 			rcdu->dpad1_source = rcrtc->index;
+ 	}
  
-+/*
-+ * This commit tail explicitly copies and changes the behaviour of
-+ * the related core DRM atomic helper instead of trying to make
-+ * the core helpers overly generic.
-+ */
-+static void mcde_atomic_commit_tail(struct drm_atomic_state *state)
-+{
-+	struct drm_device *dev = state->dev;
+-	/* Apply the atomic update. */
+-	drm_atomic_helper_commit_modeset_disables(dev, old_state);
++	/*
++	 * Apply the atomic update.
++	 *
++	 * We need special ordering to make sure the CRTC disabled last
++	 * and enabled first. We do this with modified versions of the
++	 * common modeset_disables/enables functions.
++	 */
 +
 +	/* Variant of drm_atomic_helper_commit_modeset_disables() */
 +	drm_encoder_bridge_disable(dev, state);
@@ -151,35 +153,18 @@ index 5f2c462bad7e..290082c86100 100644
 +	drm_atomic_helper_calc_timestamping_constants(state);
 +	drm_crtc_set_mode(dev, state);
 +
+ 	drm_atomic_helper_commit_planes(dev, old_state,
+ 					DRM_PLANE_COMMIT_ACTIVE_ONLY);
+-	drm_atomic_helper_commit_modeset_enables(dev, old_state);
++
 +	/* Variant of drm_atomic_helper_commit_modeset_enables() */
 +	drm_crtc_enable(dev, state);
 +	drm_encoder_bridge_pre_enable(dev, state);
 +	drm_encoder_bridge_enable(dev, state);
 +	drm_atomic_helper_commit_writebacks(dev, state);
-+
-+	drm_atomic_helper_commit_planes(dev, state,
-+					DRM_PLANE_COMMIT_ACTIVE_ONLY);
-+
-+	drm_atomic_helper_fake_vblank(state);
-+
-+	drm_atomic_helper_commit_hw_done(state);
-+
-+	drm_atomic_helper_wait_for_vblanks(dev, state);
-+
-+	drm_atomic_helper_cleanup_planes(dev, state);
-+}
-+
- static const struct drm_mode_config_helper_funcs mcde_mode_config_helpers = {
- 	/*
- 	 * Using this function is necessary to commit atomic updates
- 	 * that need the CRTC to be enabled before a commit, as is
- 	 * the case with e.g. DSI displays.
- 	 */
--	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
-+	.atomic_commit_tail = mcde_atomic_commit_tail,
- };
  
- static irqreturn_t mcde_irq(int irq, void *data)
+ 	drm_atomic_helper_commit_hw_done(old_state);
+ 	drm_atomic_helper_wait_for_flip_done(dev, old_state);
 
 -- 
 2.51.1
