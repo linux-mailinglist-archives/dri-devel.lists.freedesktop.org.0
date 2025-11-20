@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2871AC73EAE
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 13:14:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 614ECC73EB4
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 13:14:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A69AB10E73E;
-	Thu, 20 Nov 2025 12:14:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC16610E27E;
+	Thu, 20 Nov 2025 12:14:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="Y2cDCWug";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="NadxFfIN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com
- (mail-northcentralusazon11012046.outbound.protection.outlook.com
- [40.107.200.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3EC210E2A8
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 12:14:45 +0000 (UTC)
+Received: from MW6PR02CU001.outbound.protection.outlook.com
+ (mail-westus2azon11012040.outbound.protection.outlook.com [52.101.48.40])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7A4610E27E
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 12:14:52 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NRgtswEj3Zk/Unt9jhXj2fDOEjKeopOBYeFe//R69H9rTOG2U2HUe+fJ2L9QKo9EwBa7l++FP58Y3i4ReSn7JNDAoo0bv2ofiQIiiE8kWnmB7SQh+6+f0JECoKv/1S7oYO4OzfhXqyLKzT7V/0Ad/hP0KlrS60IgCnweFyFjDg/Zz/PgKgm76rZyMj7+Tj1KBhj9MwyVAWXNBF83UhIhdzu9NtUEML5oTCKJDLz6oj9rED6x7w1OIYcj9FKF8J03tG8CxdKFvxZJW6lIVp2OSlBYLL1EryUe85nnPRE5qnx1zuqpwXoUo2gtWE6hG0+ch+8YahFJoRmfaWnmNUWqyg==
+ b=rKi4AmJ/P69f7CwXt57wMy7hQprrCM/kjXqpp03QTLxOeK7BjUVJW8dGJDd8QYKj4Wgi7q+GyFefC5i7EMhpMgvJq2qud1UNWxYEZ7jRd70TZDV6xjfg25c594VAwII5ziAeZb2n/QNe2ZJRTYlkFyjDTjOpCmaWLzHEVM3qelYSy4SOEVc6GubqVtaXFA19fz/IZKBto8VffYifS2RngxtWLZmGu/riFt8Df1RWSYP0b63ynmfUyGnXuJ8YW1uZ4017R0QWG0tbUxOeVw/ZMXd6zpg1JTVUhhW7EyzNGdGvORUPwVACkNYENK0SNO9XuPabJKvebDbIm7uDveDi/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/w7uSbPkb3gfr4l2WgN5S8ZDOsgdsLVoLIIrA1/OHfE=;
- b=kDvlO5TI35I/oV7PTAjnZ0kRwThikGRkqsip77eUixTvUTksYCmKONAAC7z7//erfPlxscr+4Y1KkWc4P36XfDDwBeswKTd4q1QYYZ4Oh+P6LJ6jI67kNnpEZJ5KNZXb4Wy6cMGH4WrSZU6GwCeOUsQefBWIIjccXmaXYomwpdXkBksiDhi6APFG+uJRjQM5w5+12j2K3taX6heOhH5MUEdHmSA5lzMzncaph0QxqMWm7BL/m5G+bkWvmHhU72yLj42M8Ev1awYAW4pL7/La92bhs3nY75dEaY6uZCF2Vv9+uQ2g9Me2bAyXsvMOe90yM0c+VniCTV0E9Fpo5PMIBw==
+ bh=2A/X2cKJPzIUynJOP0tfMCoreJ4+oBhLtpm3lBxDwiY=;
+ b=uP0d5ZyTOP3RCfWS8i1VpQ9Fp/X9q0o4Gc3vWRPN0+95en0Ck+zt+qTxp1g/XT40tmtWCQqXehcouVzIfMnpBIWmnMQ3DmE04eCAhnoxGqANJSlN1bFq8G3N6V04k6GCZGqg/lelR7VIOp3oMve5ViEHZ8dbs84vIOdS1Nlij6aIIBqXVnAH8Cg7GzkvgQmyuKqgRR9iGd8j9PDPzIiJ5Bb7eC4mjvP2xapJH7w1kAE9j/pVZeypnS/S1nl917qtUIZkEiQySo9E+LMtXrCx1g465sxo2Vh42g2Ha8oQLcf3sBLsrQf4n5t32KqY0En+CzNvGt1OXeIgzbLyhJ6jJw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  198.47.23.195) smtp.rcpttodomain=suse.de smtp.mailfrom=ti.com; dmarc=pass
  (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
  (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/w7uSbPkb3gfr4l2WgN5S8ZDOsgdsLVoLIIrA1/OHfE=;
- b=Y2cDCWug6RfxBDBcC5R5xY9zrXJDPT9/Rpp5G2QQLoyS7WZutdsEpIuvIuXkx+HWEBZMLUPtKRV4xEYwl8VW5P3M5CWfBf4ejO4vP3AcOoP7G3UaEoPhV1lgK2sHpS7Oe1wKmytdjdJn9l/GnLUp4CQmuNY+3uV3vYk0IaWEkj0=
-Received: from BL0PR0102CA0041.prod.exchangelabs.com (2603:10b6:208:25::18) by
- PH7PR10MB6311.namprd10.prod.outlook.com (2603:10b6:510:1b2::12) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=2A/X2cKJPzIUynJOP0tfMCoreJ4+oBhLtpm3lBxDwiY=;
+ b=NadxFfIN9UyPbGAR33mW/PGm/6LFZ3q4R+0ZqHnRa4XvE/uBuT9mXmHET50LTccCP18REX8cKPoANN+jGZ9YMBo11QT47zriHO96a693ej+s0CN8koDNkE/uFSy32Z1bzAILkwGFso0OQ9pT11PFiJjcgZAxNJWb+9IDpUEzns8=
+Received: from MN2PR19CA0040.namprd19.prod.outlook.com (2603:10b6:208:19b::17)
+ by CO6PR10MB5569.namprd10.prod.outlook.com (2603:10b6:303:144::5)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
- 2025 12:14:41 +0000
-Received: from BL02EPF0002992D.namprd02.prod.outlook.com
- (2603:10b6:208:25:cafe::63) by BL0PR0102CA0041.outlook.office365.com
- (2603:10b6:208:25::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.11 via Frontend Transport; Thu,
- 20 Nov 2025 12:17:23 +0000
+ 2025 12:14:49 +0000
+Received: from BL02EPF00029927.namprd02.prod.outlook.com
+ (2603:10b6:208:19b:cafe::55) by MN2PR19CA0040.outlook.office365.com
+ (2603:10b6:208:19b::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.10 via Frontend Transport; Thu,
+ 20 Nov 2025 12:14:47 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
  action=none header.from=ti.com;
@@ -49,24 +48,24 @@ Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
  198.47.23.195 as permitted sender) receiver=protection.outlook.com;
  client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
 Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- BL02EPF0002992D.mail.protection.outlook.com (10.167.249.58) with Microsoft
+ BL02EPF00029927.mail.protection.outlook.com (10.167.249.52) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9343.9 via Frontend Transport; Thu, 20 Nov 2025 12:14:39 +0000
-Received: from DLEE202.ent.ti.com (157.170.170.77) by lewvzet201.ext.ti.com
+ 15.20.9343.9 via Frontend Transport; Thu, 20 Nov 2025 12:14:47 +0000
+Received: from DLEE205.ent.ti.com (157.170.170.85) by lewvzet201.ext.ti.com
  (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
- 2025 06:14:37 -0600
-Received: from DLEE209.ent.ti.com (157.170.170.98) by DLEE202.ent.ti.com
- (157.170.170.77) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 06:14:43 -0600
+Received: from DLEE208.ent.ti.com (157.170.170.97) by DLEE205.ent.ti.com
+ (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 20 Nov
- 2025 06:14:37 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE209.ent.ti.com
- (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 06:14:43 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE208.ent.ti.com
+ (157.170.170.97) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 20 Nov 2025 06:14:37 -0600
+ Transport; Thu, 20 Nov 2025 06:14:43 -0600
 Received: from hkshenoy.dhcp.ti.com (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AKCEHDv3636470;
- Thu, 20 Nov 2025 06:14:30 -0600
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AKCEHDw3636470;
+ Thu, 20 Nov 2025 06:14:37 -0600
 From: Harikrishna Shenoy <h-shenoy@ti.com>
 To: <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
  <andrzej.hajda@intel.com>, <andy.yan@rock-chips.com>,
@@ -79,10 +78,10 @@ To: <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
  <mripard@kernel.org>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
  <s-jain1@ti.com>, <simona@ffwll.ch>, <tomi.valkeinen@ideasonboard.com>,
  <tzimmermann@suse.de>, <u-kumar1@ti.com>
-Subject: [PATCH RESEND v9 2/6] drm/bridge: cadence: cdns-mhdp8546-core: Add
- mode_valid hook to drm_bridge_funcs
-Date: Thu, 20 Nov 2025 17:44:12 +0530
-Message-ID: <20251120121416.660781-3-h-shenoy@ti.com>
+Subject: [PATCH RESEND v9 3/6] drm/bridge: cadence: cdns-mhdp8546-core: Handle
+ HDCP state in bridge atomic check
+Date: Thu, 20 Nov 2025 17:44:13 +0530
+Message-ID: <20251120121416.660781-4-h-shenoy@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251120121416.660781-1-h-shenoy@ti.com>
 References: <20251120121416.660781-1-h-shenoy@ti.com>
@@ -92,54 +91,54 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0002992D:EE_|PH7PR10MB6311:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3db14eca-c474-40c2-1659-08de282e6137
+X-MS-TrafficTypeDiagnostic: BL02EPF00029927:EE_|CO6PR10MB5569:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4eb4c586-439f-4a50-edd5-08de282e660a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|1800799024|376014|36860700013|82310400026|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?4v3API5N0kIorB8kTmNnSoZ8ModQ+1ritEzwkbSI0AtvE1hML3LeXKX0lq0W?=
- =?us-ascii?Q?9ANQpLS4uDiMU7aZ9N8jIvzpBySSxwJ68UOjlSmhA1raWDp8I+JyunafUalT?=
- =?us-ascii?Q?X9ExXdofD9id9Y4O/0Z6zXCFssU5bSj6cLRh5FhZrRJflRXLHUV7L/jdKbPz?=
- =?us-ascii?Q?y8RKmvgy0ZqSYuUYmdqg4x+pXW7P0Np1cmzeRH9uJH7tQWPU2vFSIq+N7xfS?=
- =?us-ascii?Q?sFziXD8SJ5fRwwCE+JcgJV3dSbKJcBhuZ00MQZdb+n614171W3qXyNlnPEKa?=
- =?us-ascii?Q?9PEwYbgtKsflewq3nGQTMUIXcK3dF42FMaj3gRoq4eaCeRqMrfhKWYL9qRCR?=
- =?us-ascii?Q?z54p0v5I1oFYDtJyj+EI9bYluQt3kiFXBmjvd6Vx64H2na8cBaUP/4YolFoD?=
- =?us-ascii?Q?8KVlMpNn2MBLzqVQS7IlotWCshdtYGqsX0Mk62faTe9BQLkNqWZgrwopGnYE?=
- =?us-ascii?Q?iP3nA3hIGA9/mfXgG2j05jx3551rGcqWBZOxYVuVqz30etsokIaflk6FPGE9?=
- =?us-ascii?Q?xzoqvRfFVMSDZGViioER1U/Q1B2sMXha8221YeUszsHaRd3dEdamXSq+UeGz?=
- =?us-ascii?Q?FndBjB3Zpnoozy/AOw3knQgrw1Po6uXzEaBXnIFCFv4rBY9A2f214LwwXpV8?=
- =?us-ascii?Q?cKi/xQCAQ+zYQXZxRqVzr/4yYcQqjNw6OLI5R5TlLjRtttQlQaRBVhDPf3+f?=
- =?us-ascii?Q?F1fUSl0edResjxDOAFe/d8J2iBATtsouMWl3hrJYlBLTrZ46dHlD+5eqkTl6?=
- =?us-ascii?Q?DCqDOkjv6fninby8LM+Eo2tIhaRuMwjJ+swNhBoCdDHpN1S+7/kPTxJtRMvM?=
- =?us-ascii?Q?ybph/0N0WdAyoZNf57uRE2hFsRtyXY5h9LI/LgPZewjv8iJPUs/HL+RasrZD?=
- =?us-ascii?Q?hTKwDm+yPcmg/Po/P8T4gWYk4QrAgZN5pteLw3vbB3DgQLGWuVg7Bq3Tx1bW?=
- =?us-ascii?Q?gn8wDtvmTiS3QiuPfNwLMqGAuUu6yEIV7ZaYJeXzONHq14kViWWsXj8aRTeO?=
- =?us-ascii?Q?An4GCaNPs4CLRUnzgtzV62oBIaESp46Vir4+uwmscMYUvBmL0o+axjbMatEF?=
- =?us-ascii?Q?IUfuQNQlOL8ofuRNcaMfdZiduAMOgtwqhq70zfmtI32b1dG4lrCiJB7XhPse?=
- =?us-ascii?Q?BxI/3CDikRvovA/uaORV8nW0jBqJufFw4hOIZQKPwqAAZ5nlVlWJBxye62+0?=
- =?us-ascii?Q?wwIquOa4gLxnkXLYyEOExwZpgNMHRT4833FLPxnMhomYXLzhZ7K1kJJJ6m3+?=
- =?us-ascii?Q?0ECEwqqM4zqy6vhBvvyo0ioaz9BAIlTKSbYEHkYKtToSmtAhCyKcAJ9bTfwq?=
- =?us-ascii?Q?1ymlCqTxBA2IvCFfK3DPtYviBxblb0b6YJa7aJTH6huSIcF/ppD29HtSGmqU?=
- =?us-ascii?Q?yYTSKNF7SK5SFjQlrKBees976slj0Co2O4K4bf7fsdCA+TgA9PnIpCoe6zTz?=
- =?us-ascii?Q?2BeI2w2Tf3COztaWgp+HSAssFavkduiSESR43CzqALmnNxZsfdINgj9g1O5c?=
- =?us-ascii?Q?dWcT2Utkb+JfdvIhh5keVdwTTanUa4QJLTIDLUKbxsD47DPjRu3ZjoOuDVVw?=
- =?us-ascii?Q?epsu7GTbKAainZZOlz690vK5mrcKPXCQRH6OjQ9j?=
+ ARA:13230040|1800799024|376014|7416014|82310400026|36860700013|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?t34yp0US0yZYxdw5lKaMxXaTw0/w4LpN4UsX6zIjPZiaKeTCf48Rm/9aC34f?=
+ =?us-ascii?Q?ZbVOB7NIOgLVqkKmMBc99H4b5PLvBWgfEEAyrYG5+5PE9A8MUrKfKZ4DFgog?=
+ =?us-ascii?Q?JxTfuteXRjXxDK7jjuZs1EOOpLT+IAwyMT6XpqzwDMsNebvTh876UJnmzjaI?=
+ =?us-ascii?Q?BOkc34tzViTExHUqJc5+YWClE0HfdLirKTagol0elT6Qp9PPQRPEVHUqkQxb?=
+ =?us-ascii?Q?a1AhHzZN0ltWs8e0bbuAvs9uMTn3pIUk+dNM2gbI5gKahV+VpfhRl6MTgRoI?=
+ =?us-ascii?Q?VdandyegPnyhnlMBjFiebIQfqxY/M4k+6valXaZw+rcWZ7r3rd20VeCQUh2f?=
+ =?us-ascii?Q?7WvwxcEWw0k6p/0c3cfOtGpoqWclyJpbCUheQHWy7thCfNTSxlF+TjerYBlD?=
+ =?us-ascii?Q?UATBBUsgzZwcQLLDTfNUVhFqsP2AQna75xnBp0iZpxVxeTGYk2PJxGXvJMps?=
+ =?us-ascii?Q?OiLbCccSMa3NQ4AVk5fF95duWuo/xPx6PvR/roMKasG9+5dlut54unVCi4By?=
+ =?us-ascii?Q?EL8WJ4dTVn9j3HTJ1M+7Xq1bE6OAY17XGcWW9x3TL+IstEWpL9USsIQI10dM?=
+ =?us-ascii?Q?V80y6JwI06m4Hhu5/QFeEOaQ9u8bKb5uz3LMvdGafeRjHP7CCVxb/f7861CT?=
+ =?us-ascii?Q?wm2/4PYAb58gBLnCKZ7r1jffIm5x7UWtVEQtnFJjSD5cMmBKMn6OsxIScWeK?=
+ =?us-ascii?Q?Pm/1yicf/BeEUfhvoTy4dZvn2GUE+SxFa9kaRbHFwZ49bL4AqwYYDUJJYkKG?=
+ =?us-ascii?Q?QApZNqeqqGhRtH/zJ9PcRqSKvhKpBeNFulKgy7YBT7WNR7W+U923yqXX4roX?=
+ =?us-ascii?Q?e2591mY6eL742D9dJPmKUFA1vSunha1QssBpGwXbehOMxo7wH+LdzApT+48a?=
+ =?us-ascii?Q?rHqS9UQMVSoPGEPt1jfZh7eScyevROKzu4q8o7un/w7XtKBWBXc7LJzNIPFA?=
+ =?us-ascii?Q?rcBa/XIdmi4SCoMC2/OMKMHo1+xCtSoAxW4Y1juDmf3zE+ienw3RNN4OBuPf?=
+ =?us-ascii?Q?mk6WM7FY3dcJ6v9fGuDhU/MBq0T4bJQfa8sq5vjC66ZQ/NsnDo+sIFBkCMt3?=
+ =?us-ascii?Q?OO0xarn3q9/QN2AWZz/m5P8fuISviM2yNyAiuZPevFP7ww74PaQbA9SGW7BV?=
+ =?us-ascii?Q?Ht6hf9HKnfMbZNlAP6dLBLPNJZPQfcCda2Ixaf0jgucAe+YlcZflJcGsGKwM?=
+ =?us-ascii?Q?HtsnNM9VhW49jUsmdAGT2MT6y64v/0PrqIOCvd24TXUbuDVrFW+x56ImtKkQ?=
+ =?us-ascii?Q?Eu+NPNyho9o/SKngD7/N9cZ/xPVPF5OX1p4ELKk30U1RRcFzNOfnj1yzlijM?=
+ =?us-ascii?Q?A/CiaAciz3gE5ueXoI15YxyFjuV/vQPju3aXQuB8KswPxu8ZTwJIbYhgblPh?=
+ =?us-ascii?Q?phgrqJ0ELLoeDQFuL/F7/cZa4n3QMgt5jDKlM8McompatCyJuvBLibi0Oggk?=
+ =?us-ascii?Q?n5YUDp99K/ofSOLWLR3LTby/mkiRekqTnf8F/Z7OhhZFBgmsnC1wMbCBJriz?=
+ =?us-ascii?Q?EMhcvRr0g1WGfTALgN1RHTnCIPK+/ilom40Prcua+07vDvmgE/hiW3Z2ak+Y?=
+ =?us-ascii?Q?AmLYp9fzSBKGrfNMnoMfFjjWbTTJlC4DKw8cFpDL?=
 X-Forefront-Antispam-Report: CIP:198.47.23.195; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:lewvzet201.ext.ti.com; PTR:InfoDomainNonexistent;
  CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(376014)(36860700013)(82310400026)(921020);
+ SFS:(13230040)(1800799024)(376014)(7416014)(82310400026)(36860700013)(921020);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 12:14:39.6625 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3db14eca-c474-40c2-1659-08de282e6137
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 12:14:47.7616 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4eb4c586-439f-4a50-edd5-08de282e660a
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.195];
  Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0002992D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF00029927.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6311
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR10MB5569
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,60 +154,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jayesh Choudhary <j-choudhary@ti.com>
+Now that we have DRM_BRIDGE_ATTACH_NO_CONNECTOR framework, handle the
+HDCP state change inbridge atomic check as well to enable correct
+functioning for HDCP in both DRM_BRIDGE_ATTACH_NO_CONNECTOR and
+!DRM_BRIDGE_ATTACH_NO_CONNECTOR case.
 
-Add cdns_mhdp_bridge_mode_valid() to check if specific mode is valid for
-this bridge or not. In the legacy usecase with
-!DRM_BRIDGE_ATTACH_NO_CONNECTOR we were using the hook from
-drm_connector_helper_funcs but with DRM_BRIDGE_ATTACH_NO_CONNECTOR
-we need to have mode_valid() in drm_bridge_funcs.
-
-Fixes: c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+Fixes: 6a3608eae6d33 ("drm: bridge: cdns-mhdp8546: Enable HDCP")
 Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
 ---
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 20 +++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index f3076e9cdabbe..7178a01e4d4d8 100644
+index 7178a01e4d4d8..d944095da4722 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -2162,6 +2162,25 @@ static const struct drm_edid *cdns_mhdp_bridge_edid_read(struct drm_bridge *brid
- 	return cdns_mhdp_edid_read(mhdp, connector);
- }
+@@ -2123,6 +2123,10 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
+ {
+ 	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+ 	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
++	struct drm_connector_state *old_state, *new_state;
++	struct drm_atomic_state *state = crtc_state->state;
++	struct drm_connector *conn = mhdp->connector_ptr;
++	u64 old_cp, new_cp;
  
-+static enum drm_mode_status
-+cdns_mhdp_bridge_mode_valid(struct drm_bridge *bridge,
-+			    const struct drm_display_info *info,
-+			    const struct drm_display_mode *mode)
-+{
-+	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+ 	mutex_lock(&mhdp->link_mutex);
+ 
+@@ -2142,6 +2146,25 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
+ 	if (mhdp->info)
+ 		bridge_state->input_bus_cfg.flags = *mhdp->info->input_bus_flags;
+ 
++	if (conn && mhdp->hdcp_supported) {
++		old_state = drm_atomic_get_old_connector_state(state, conn);
++		new_state = drm_atomic_get_new_connector_state(state, conn);
++		old_cp = old_state->content_protection;
++		new_cp = new_state->content_protection;
 +
-+	mutex_lock(&mhdp->link_mutex);
++		if (old_state->hdcp_content_type != new_state->hdcp_content_type &&
++		    new_cp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
++			new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
++			crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
++			crtc_state->mode_changed = true;
++		}
 +
-+	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
-+				    mhdp->link.rate)) {
-+		mutex_unlock(&mhdp->link_mutex);
-+		return MODE_CLOCK_HIGH;
++		if (!new_state->crtc) {
++			if (old_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED)
++				new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
++		}
 +	}
 +
-+	mutex_unlock(&mhdp->link_mutex);
-+	return MODE_OK;
-+}
-+
- static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
- 	.atomic_enable = cdns_mhdp_atomic_enable,
- 	.atomic_disable = cdns_mhdp_atomic_disable,
-@@ -2176,6 +2195,7 @@ static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
- 	.edid_read = cdns_mhdp_bridge_edid_read,
- 	.hpd_enable = cdns_mhdp_bridge_hpd_enable,
- 	.hpd_disable = cdns_mhdp_bridge_hpd_disable,
-+	.mode_valid = cdns_mhdp_bridge_mode_valid,
- };
- 
- static bool cdns_mhdp_detect_hpd(struct cdns_mhdp_device *mhdp, bool *hpd_pulse)
+ 	mutex_unlock(&mhdp->link_mutex);
+ 	return 0;
+ }
 -- 
 2.34.1
 
