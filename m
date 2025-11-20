@@ -2,169 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54EA7C71ED2
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 04:07:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFA3DC71EDE
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 04:08:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 525AA10E6DA;
-	Thu, 20 Nov 2025 03:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30E8810E28C;
+	Thu, 20 Nov 2025 03:08:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="niAEVTKm";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="N2j26XpK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11012014.outbound.protection.outlook.com [40.107.209.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30D0B10E28C
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 03:07:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e7j3ez3vo0Lp4iWQD7VAuJKRn5J97vXnTMZTpqYT5duSIOXcEnxAhv1if4j1APvmsJ0iF9TeifrPKp0hGlebqLTNIg7cmHiSpEqlZ5ZNraX/x14pAjAZuW27L96UpX/r35a50dXKyJIsdn6OQTjPe7dYXtmofQOy1lU2JPTLLF8pdnmkRPHDnncOUMAR4jQ4k1gMxbzwYWVSNig/AK5ka4XrdQZoby/69quppqxxJ90MhLrCJpKHkSnHYtpFed/cYypQYaGyrkp3jskAV4aLxh4lAmkVuH/rWrYWIjQCXvuB5f63Ree9Eb/WzZrcWWbL2QWHtKSPVFwTCvL4uZpiqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EK4btPPY7g2HbdNv4D1dc5WjmP8kX/C3F+vSkC6551c=;
- b=U6qwTaAtmG74ZNv4zyqsT7wO+gK1uaL3k0CD9XJz2/BvRvgIwrWnLi82MPX9ODOFw4YLypx98n3Ojw3C+YTcn4VVm949poYYysaBzETvUipUwxQPdjdepV9oSuXe5dgKxeV1U4fGMV6ZskNI7SPZG6vDB6+BbFslflkALs0sSc8Gc0XAwkDpCn5ldUS0dGBn3VBeKGYE3XXboh+n2sMX1F2BlsA+FqfsBkWTcA14slB385RkPdn39dAGtBjPgrVD1tqFwQ9eH0Ip207Lv7RSDYzcUBz6delE/za0jN1k9wQsr631Yb0iZXF84saeWAMSxq4YNXRQtOkJc0rWipkHxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EK4btPPY7g2HbdNv4D1dc5WjmP8kX/C3F+vSkC6551c=;
- b=niAEVTKmrInxqYz32IHQ92ZUf0bJ4nUdFuRPNAtdVVcV+pDnZIPl34tPxV6KKghHYCyJNuLq7CgONqQfLBkqxEQVwTlCLYowRpQI+oqIoL4+3ireu03G1XeSHPTuMgZtghlx+xiyuxXxvZWGOtqIAwYFBpQVm2D42L1uBs7rFz6qo4hu3lQg2Oh2yzo1jzKVbLVgibxaA8jI0t0LaZFo5ABlBnNQ314ewFaMZkvTyqfebrkUEOcA36HP5YI3xxrRBzJTKi+ylVGKgCkqibnXg5CmxhlH9Q5zRNJxugGnsBhrXzz3LWe/Px5daeXP57gawxSXMkK1tlZDn4LwgKMw8A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
- by CH1PR12MB9598.namprd12.prod.outlook.com (2603:10b6:610:2ae::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Thu, 20 Nov
- 2025 03:07:17 +0000
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251%7]) with mapi id 15.20.9320.021; Thu, 20 Nov 2025
- 03:07:17 +0000
-From: Balbir Singh <balbirs@nvidia.com>
-To: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- dri-devel@lists.freedesktop.org
-Cc: Balbir Singh <balbirs@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Oscar Salvador <osalvador@suse.de>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Ralph Campbell <rcampbell@nvidia.com>,
- =?UTF-8?q?Mika=20Penttil=C3=A4?= <mpenttil@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Francois Dugast <francois.dugast@intel.com>
-Subject: [PATCH] fixup: mm/huge_memory.c: introduce folio_split_unmapped
-Date: Thu, 20 Nov 2025 14:07:09 +1100
-Message-ID: <20251120030709.2933665-1-balbirs@nvidia.com>
-X-Mailer: git-send-email 2.51.1
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SY5P282CA0196.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:249::7) To PH8PR12MB7277.namprd12.prod.outlook.com
- (2603:10b6:510:223::13)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B71410E28C
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 03:08:53 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-2981f9ce15cso4891265ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 19 Nov 2025 19:08:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1763608133; x=1764212933; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=obhMPXIkkdooRW9j/Fgg6xtfxvhQxt5QkqAkScu5Ygg=;
+ b=N2j26XpKcRpP7jhV08+7ua+xCfcNOB/BJIszcZ6g53MD1FFGxv5frmMQ372YBdVLwN
+ yeGMxvuFRNDpqKLE+SSK/0aMGqaX+SRAkqVuxuhRpSJqYtD87KHwXy4QO61WuaR/Eu/K
+ kyU2ButaZearII7WD+SGKSE7czxj4pzGdFoTbUFovY7UUPWMbF5FFUDVUHwKOPFuHL3V
+ fy7pQR74knjzDACNoVrg+W8+nRW5MZ8CuBi62dQzQXZdcwhXxggKDWuGWhjXpLmSYuBv
+ UiWON4ZY9YL+yssFJLFOJscDasQ7g+3uPsFaJI3roysKJ0/8lvIIrq3AAe6piueBTiIS
+ il7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763608133; x=1764212933;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=obhMPXIkkdooRW9j/Fgg6xtfxvhQxt5QkqAkScu5Ygg=;
+ b=exhsjLRUbkzqWGiAP4Tdn0BxzFKl8nRfhAmp+dfy+5qkKo49doMh60krcyTYUPPcIm
+ 2urKcF3/VC0fEODfRdfOKQLLcssj4AxSHP0p63emnScX7c1UttnGv5rXIgArEKrGT0IB
+ Zj7M00O+7AN/y4263CsGVZ1ea1QZIzIvi4JWcSKcL8odQqsXcQDRqdJVuTWzFKzZfp1l
+ CoZ2kF5Zp3OFbu6yK3V0UW2dWZekZ1asTTn1TYyQRTUZjmoVoMOAzuMbt0DfLJnmtZdj
+ 9xiqKIxsKIG+U32mo+ws5DedsO6YItkBI7V1PUDSmexNT35aMY1LLTYzTBP7ZJNMKu01
+ 6fjw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXPLB+OMVhATT9ftg8C4sc5yZWkA59JxHiGfZT8PMprM3lPiMnoDzrFCeHE4XU9DxzCovCmFMDzi1A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzT73nzEAvF1drqmZIHofupwSx+HTlaRr3JHefzgeY8hyyl5He/
+ Ybaa8KkpIEVaTw9EUsF2vrDif97AXEKZX8zTwTkhrCphr9dxTHNwta/J
+X-Gm-Gg: ASbGncthodirY9pMDIIgeD8sZ836PAgXlN82rB6SbdFgJoss51ocA1geaTMt1oO26DU
+ HL47g+aVyEYG8oeoBgVBJyn6cIy1uTKzbGPr7plph36ZlVw6cMVGMR46AzQMN/30CET2fhf1HD8
+ M2HALm7gE8zQGBgMHgqSKPeztj8UzsSdEy8NSY5Pm0UtmjybKczHDJ6lF/MRm5YegRlpk8QC9mY
+ K6ucnb2LpjK/WPd8DKeUn/TstZVxOZADxbVEGGoWOMMC/zsDD2uKIZkfvSue20n2Iy+x4ALTJGr
+ MWP7zKJqg2RevIOMW4AQFXHvAyBB4tprwL87/HUWRu1xbrvQv/qKnKgbXLVY746XjqW7sOQ5RJF
+ bU5zVGukdRdhrtIPzpwNo7hFAF5qm39bpX/pQ2MMK3naSToWfK0fs0WgBhorlLn7IKkedKmXIcA
+ eSAHkLRh/6U40=
+X-Google-Smtp-Source: AGHT+IF+i7eRVDL93AayD7pCpjsON/H/qC8/CmYibw5k9KhxkFq0GDgTD2VE7/kyvTrhs6frphltCQ==
+X-Received: by 2002:a17:903:40cb:b0:297:df17:54cd with SMTP id
+ d9443c01a7336-29b5ebe28a2mr7905725ad.27.1763608132801; 
+ Wed, 19 Nov 2025 19:08:52 -0800 (PST)
+Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29b5b29d706sm8451995ad.80.2025.11.19.19.08.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 19 Nov 2025 19:08:51 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+ id AAB3D41D96E5; Thu, 20 Nov 2025 10:08:49 +0700 (WIB)
+Date: Thu, 20 Nov 2025 10:08:49 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ jbaron@akamai.com
+Cc: ukaszb@chromium.org, louis.chauvet@bootlin.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 31/31] docs/dyndbg: add classmap info to howto
+Message-ID: <aR6GQeLW-sh9-A3W@archie.me>
+References: <20251118201842.1447666-1-jim.cromie@gmail.com>
+ <20251118201842.1447666-32-jim.cromie@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|CH1PR12MB9598:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0c635789-7fca-4dd6-5ea5-08de27e1e96b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|7416014|10070799003; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MGJINVVVT2VWTHpRWVJpcER4U1VCS3VEUDMyMml3K1lpSFRlR1RhdmZzeGZW?=
- =?utf-8?B?UWd6b2hGbnVNdTRobldSMnlqTzJHdHpkU215NDJSbUdHUzhZQlZIeUUyQXJx?=
- =?utf-8?B?cEhGYzFzeUpLNHVLcS8vYi81RFQzQU1UNXpzbnk2ZDd3ZnNJRHYzK1dPRDRD?=
- =?utf-8?B?cEprbmhXeUQySm8yWE14cmozWUZTcFF2QnBGMklFSEJ6UmdUODlLd01QK2Np?=
- =?utf-8?B?ZTR2c0VTd0RFdWR4bFhad2p4Qy9XS1FiT215Q2VWSHRkRTZHN0p6a2R6OHlz?=
- =?utf-8?B?QzdFek5Wa1M3S1g5bGp2ZklER1o0Wkt2QTdmUDNDMzlLMXE3WXhsMENRSk1L?=
- =?utf-8?B?bmQ4ZEQwK0xDSUprRHQyZjVLeHJLMzgzd3dHRklBOUNKdjc2UGt4aXlOK2JQ?=
- =?utf-8?B?aUF3SFdQQ3pMWndsU0VqK3lXNnFxbTN6WGpsVVZNN0lheXNxWU1hY0txWWkz?=
- =?utf-8?B?M1lmRHQ0c0szeEU4OVNDdFYyLy8vbnEzcTVCMm5zaFpGN2I0VFpYeERTYWtu?=
- =?utf-8?B?Vm9JcHZWN25nZVl5dGNITE5tYS9nREJKQlpDNVF3WXRKbjhZM1FXT2xkQnY5?=
- =?utf-8?B?cXFLd2JrNENNVjJ5QkFoYk94RmorUVVLVitOVTU4Q2lSUlR0ajUweGQ5R24v?=
- =?utf-8?B?em1IZ21uZTRIU0NOUjdFVndrUnpDN2MzUUdQK0QyblEzeTJSWmxEaCtvcVlH?=
- =?utf-8?B?YjNyeEh2NDRiQTc3TEZXT2VJSEFSck9GeURRRWRLZkFkWkJ3SWpXNzlnMDla?=
- =?utf-8?B?N29MbGpDWldmOTltWXdvNU9xd1lTMFJQaUZ4OGZydlZxN1lCUWxOTWtZbDdx?=
- =?utf-8?B?czRXVTZVZVNrMUdiS2R0Wm83SExTNUdKdVR4dzZzSVJkUXRlTG9jQjFYMG45?=
- =?utf-8?B?N0o2SWdldmJiYk83aDdQb25heklvOXlQUlVFR3A0TWxnVTNPL0VyeHVaVWlC?=
- =?utf-8?B?MURneTZsbUd0OUljbHpxT21kWTZVd1ArWHNZZ2x5aS9CQzN4dmxkR2o2SW1q?=
- =?utf-8?B?MU1LMEVQaHQ5YUVkSG14TWpaU2hVUE5VS3RPMUFoY1pzbmhtL0gyNjY1bzVQ?=
- =?utf-8?B?dkFWcnZqM29aeE1IREZsdjJMcUpFR0FXU2pFbEUvZEw0YXlxK1NCNGdUU1Y1?=
- =?utf-8?B?dmNWQytVay9UY3FjTjVPM2pGQU1EU0hLMmxGRVZDbUJzNWZJRTRWVVF4TDlt?=
- =?utf-8?B?TEw5aHQ4Z1V5eDB3ZWFPNWhCOFN3SzZuUDFobnhDa1lJcjl1RlRJcEtoc0FZ?=
- =?utf-8?B?S2ZLc08zY1FXNGRlZ1dQK0V5MmpwZ09HSTNZWmVrNjAwck14QVl1QlZ0VHlB?=
- =?utf-8?B?TDdlRnlYKzVHMXVNTWdWdHk0cStRTldwcGovYUwyRVVBVHBNeU0rOE51azNi?=
- =?utf-8?B?ci9wNVNpM0NsQkkwYWtsSGVoYTh3S3Vmckh5bTJVQnJtdHFCeXBnU1FXMlRm?=
- =?utf-8?B?U3RpYTcwTlJxNVdFWHBoY1BDOXAzYzZPMXJpOGMva2taUGdzWE5Ob09jS2lh?=
- =?utf-8?B?N2VaR3pVK2c5YnVmbXZqcUUzL0FOcUJURGdSM3cyTEgvMUVDSkt3cEhNbUZE?=
- =?utf-8?B?Y2dmVDY5T3hISWlWcTdPRTdaQTBtTXVsNWJHWFpyVHhiS21jR01hLzhZc2V6?=
- =?utf-8?B?ZjlQUnZ1T3NEaGFvV05xNVFOYWpiT0hQSUFYOWtVcUxVUlJBWnpZOXRmTFlk?=
- =?utf-8?B?YWthZVNUV2RST0poMFdFdjQvUDRRUkZOK2FTbXdKUEVPRFFFUVZmMFNnWlpo?=
- =?utf-8?B?WUh0REUrRnhlTVVTbGhVUXBrZFllcHBvWTR2cyt5ZjQ2R0xLQkZ3MUVmNXM2?=
- =?utf-8?B?dXo3blpFQ0NKWlJMYWdVbDBERktHeGVZYkI1UHl5OU0rUk9SS2F1d3lZSS9o?=
- =?utf-8?B?eXFJTDcvOU81WVdCUjhoaGNEcGtRRTdwR0JBVWh5cnA1d096L0c4Q2J0b2NZ?=
- =?utf-8?Q?6ATECXr0/vseBDLTFsrx19sCR5HFK5cb?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014)(10070799003); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dlZXQlpaakFMN2FLYXptd0dxYUZtcU85RmxRb0NOZjZPeU1LdVFmeUZRejRv?=
- =?utf-8?B?MVJiSzM0NUpwT3JHQkNFUXI1aU5reXVkVEFOTlp1cnB6N1VNQW5XenZhUUc0?=
- =?utf-8?B?YTNrVTI1SGxNakJJTEZBaHlGK0JQaXZidjFwQTVvT0FCNVhrdFllVWU1Rloy?=
- =?utf-8?B?UW8yYlp0TmppaHZ5RE1JMlNDTXVEUjIvbmN6MEhseC85RUVzWFpsOFVFOEhr?=
- =?utf-8?B?eG8xMk5KTHpURXh5WDF0U3pmd0F0TTVocTJaUW10M01XWk5hSW5XQ3ZvNXcx?=
- =?utf-8?B?U0EzM2hEY2xha3oyekFuVDNEaFNqYkdjRjNHR0F2cVJXZitVVitxTmNsdnVx?=
- =?utf-8?B?UGNLTmd0N00vTEdvbFpoYThYc0JoYnBsODV1SFJocmxQQ2FTNUVzWFpVNFM5?=
- =?utf-8?B?bDZHbTUxUkpxMFg0VXlpN2JjbjFmcTZpd1ZRQitLUHd6M1FUK0FPeklQQitU?=
- =?utf-8?B?U29lWkRKaThmUzQ1cjI1d2lEWHV6UVRjcEpWUjdzNllJZDdEUGhtZCtZTlRz?=
- =?utf-8?B?U2dNZTRnaWZ5UDM4L0pPeDN2aEpLbUt4YTJuZUVZeUY5M2VqSVdsYzQ0Kzli?=
- =?utf-8?B?TTBrTVZTTCtMdC93eVBCMFdmanZuNXNKWG9rWjNBVDczNU43YStkcDRmVkhh?=
- =?utf-8?B?WXlPMW5pdEhzZDgzWTg2cCszZnhvaFNxdXovd3JhazRWVXg5cGZEOWhoa0dJ?=
- =?utf-8?B?Zm5od2NMTHJhajVQMTI2ZUw4bnlNcmdxVm1pZWQwVFhjR0VoTlpQSjRMbEtu?=
- =?utf-8?B?Y1UybmE5RzhSVkY5d05tUEhCNjk2OWd4Rll1Nk44ZnpUNjRweUxvaTJKUkVM?=
- =?utf-8?B?MW0xNmMwWlZyaE9aeGJoMTR0dngvd1F2MW1UZGZsSnNHdzVmSHNSN3g5VEJR?=
- =?utf-8?B?WGxtWDJJZWFkQm9MSzlTNitTS21sdHpvcjNaQnA0V1U2Z1VITnVpTElDZWkz?=
- =?utf-8?B?ZW5MYW1hUDVJVXh2WWp2WDBlNEdXeXEvOGgvUElQcVh3aCtNbnJtQnY4eitq?=
- =?utf-8?B?OVlKNnVUS1cwTWRrL21OcElCZ0pwTm92L2RYaVJUQk9CUUh6eCtHNURhcUdz?=
- =?utf-8?B?blBFRVFHbmxZMTlVRjMzY3F5QzdFMkt3OVpaZE92ODZQRzZQVEhCeGVQZ1Ev?=
- =?utf-8?B?NU94YVFpckhBYk9jdE9DUUF6OXlPU21HcjA5aDVaYXVCYlNPMVN4L2VucllQ?=
- =?utf-8?B?NDBUSHp5N0NNMEtkemFwYldpQ0Uvb2FObEpsb1FiYUF1N0o1N3hIb3dKUFZW?=
- =?utf-8?B?TjZGZXQ1YVcrZmxTOTl1RWhxanFqMTJibmEzRWcySTRrUWhTY2dqb2pxeXlW?=
- =?utf-8?B?Smo5RGg5ZWg0MFJESm4wMVdXYVl1T1NJNUVyS2NRZG1HcEdONG5YWEl6NHVa?=
- =?utf-8?B?VEdTQmdObXI5NW4rbXJPdmhVbkdLdWFVMjhxTmxzVHNyWnpMK09ScWIxNlhz?=
- =?utf-8?B?TWM3Tm9QU1kzekJRK2tmSStrNFRMQWRvdnR6TklRWC9NMVQzK2VVeDBqdEhT?=
- =?utf-8?B?ejE2emFsUjJsRE44Yy9aVXkxd2ZZM3VYckZmR3BWV1VkaHdwZGYzQktvQ0VX?=
- =?utf-8?B?NktiYzZkNFFlQUFZSlRtb2pwUlcrYTc4V1dvUGMvWFU1Q2VSczdydTljSDJM?=
- =?utf-8?B?Zm10WTYzOVlLUGVrd2F4clBQYjNVNVpqRks5Mk8vYytBNWhPOEU1ZmNSS21u?=
- =?utf-8?B?U2t4enZ5UmFmQWVhK3JlRFg3Mkw1WmJDQVIwTHlZOWZ4MjhRdXhkS0h4YVBJ?=
- =?utf-8?B?RHZIU1JOanl2WHY4Ni9lUkxxTFYrUWJsTStBbERkT05GRUs0a05WeGw5U1Vx?=
- =?utf-8?B?MmpnRXJUR09GbWM0YWJlQUNGUEdaQjZCby9VVXlRTlFrYzh0ZFVHQm5Mc0xP?=
- =?utf-8?B?MmtHVnBYM3NXOSt1T2RRZEw5WTZ5Sk9relpsbjkrcTZ2MGdpUEtSV1FOQzlE?=
- =?utf-8?B?WXhRUmpkZUtCYWZndmR2dFpCZXY3Q2sxVHJqZWdUNUxMNU13bm5ocS8vZlM4?=
- =?utf-8?B?ZjF4VS8zQU1zdUZyR0VYMy9QRk5BSVdkQkFsaUxRd2d3T0FwdFBtRE44d1hy?=
- =?utf-8?B?akFidUhrdlJtZy8zZkJqUHd2V3cyZkl5cFBDMUtURUpoY2cxMnRveFA2bnJN?=
- =?utf-8?B?bEE3SlQxMHlTZzJQZFd4a0hoeUd4NDVnWWVGLytPa0p0R0JFOTI3eVI0THBI?=
- =?utf-8?B?N2c9PQ==?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c635789-7fca-4dd6-5ea5-08de27e1e96b
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2025 03:07:17.3208 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ESN3B3mC+G+kv1xzzj2gmYgjRE2LLnyZfNU/wS+C2/n/tgxBz/Zayi5MJM/RQ+YYRlEDCijLHSZPTp66XjhPQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PR12MB9598
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="HVQbqimanuPfAVD/"
+Content-Disposition: inline
+In-Reply-To: <20251118201842.1447666-32-jim.cromie@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,116 +93,316 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Code refactoring of __folio_split() via helper
-__folio_freeze_and_split_unmapped() caused a regression with clang-20
-with CONFIG_SHMEM=n, the compiler was not able to optimize away the
-call to shmem_uncharge() due to changes in nr_shmem_dropped.
-Fix this by checking for shmem_mapping() prior to calling
-shmem_uncharge(), shmem_mapping() returns false when CONFIG_SHMEM=n.
 
-smatch also complained about parameter end being used without
-initialization, which is a false positive, but keep the tool happy
-by sending in initialized parameters. end is initialized to 0.
+--HVQbqimanuPfAVD/
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Add detailed documentation comments for folio_split_unmapped()
+On Tue, Nov 18, 2025 at 01:18:41PM -0700, Jim Cromie wrote:
+> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Document=
+ation/admin-guide/dynamic-debug-howto.rst
+> index 1ceadf4f28f9..adac32a5cd23 100644
+> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
+> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+> @@ -146,7 +146,9 @@ keywords are:::
+>    "1-30" is valid range but "1 - 30" is not.
+> =20
+> =20
+> -The meanings of each keyword are:
+> +Keywords:::
+> +
+> +The meanings of each keyword are::
+> =20
+>  func
+>      The given string is compared against the function name
+> @@ -194,16 +196,6 @@ format
+>  	format "nfsd: SETATTR"  // a neater way to match a format with whitespa=
+ce
+>  	format 'nfsd: SETATTR'  // yet another way to match a format with white=
+space
+> =20
+> -class
+> -    The given class_name is validated against each module, which may
+> -    have declared a list of known class_names.  If the class_name is
+> -    found for a module, callsite & class matching and adjustment
+> -    proceeds.  Examples::
+> -
+> -	class DRM_UT_KMS	# a DRM.debug category
+> -	class JUNK		# silent non-match
+> -	// class TLD_*		# NOTICE: no wildcard in class names
+> -
+>  line
+>      The given line number or range of line numbers is compared
+>      against the line number of each ``pr_debug()`` callsite.  A single
+> @@ -218,6 +210,24 @@ line
+>  	line -1605          // the 1605 lines from line 1 to line 1605
+>  	line 1600-          // all lines from line 1600 to the end of the file
+> =20
+> +class
+> +
+> +    The given class_name is validated against each module, which may
+> +    have declared a list of class_names it accepts.  If the class_name
+> +    accepted by a module, callsite & class matching and adjustment
+> +    proceeds.  Examples::
+> +
+> +	class DRM_UT_KMS	# a drm.debug category
+> +	class JUNK		# silent non-match
+> +	// class TLD_*		# NOTICE: no wildcard in class names
+> +
+> +.. note ::
+> +
+> +    Unlike other keywords, classes are "name-to-change", not
+> +    "omitting-constraint-allows-change".  See Dynamic Debug Classmaps
+> +
+> +Flags:::
+> +
+>  The flags specification comprises a change operation followed
+>  by one or more flag characters.  The change operation is one
+>  of the characters::
+> @@ -238,11 +248,15 @@ The flags are::
+>    s    Include the source file name
+>    l    Include line number
+> =20
+> +Notes:
+> +
+> +To query without changing	``+_`` or ``-_``.
+> +To clear all flags		``=3D_`` or ``-fslmpt``.
+> +
+>  For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
+>  the ``p`` flag has meaning, other flags are ignored.
+> =20
+> -Note the regexp ``^[-+=3D][fslmpt_]+$`` matches a flags specification.
+> -To clear all flags at once, use ``=3D_`` or ``-fslmpt``.
+> +The regexp ``^[-+=3D][fslmpt_]+$`` matches a flags specification.
+> =20
+> =20
+>  Debug messages during Boot Process
+> @@ -394,3 +408,92 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
+>  For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string=
+ is
+>  its ``prefix_str`` argument, if it is constant string; or ``hexdump``
+>  in case ``prefix_str`` is built dynamically.
+> +
+> +Dynamic Debug Classmaps
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The "class" keyword selects prdbgs based on author supplied,
+> +domain-oriented names.  This complements the nested-scope keywords:
+> +module, file, function, line.
+> +
+> +The main difference from the others: classes must be named to be
+> +changed.  This protects them from unintended overwrite:
+> +
+> +  # IOW this cannot undo any drm.debug settings
+> +  :#> ddcmd -p
+> +
+> +This protection is needed; /sys/module/drm/parameters/debug is ABI.
+> +drm.debug is authoritative when dyndbg is not used, dyndbg-under-DRM
+> +is an implementation detail, and must not behave erratically, just
+> +because another admin fed >control something unrelated.
+> +
+> +So each class must be enabled individually (no wildcards):
+> +
+> +  :#> ddcmd class DRM_UT_CORE +p
+> +  :#> ddcmd class DRM_UT_KMS +p
+> +  # or more selectively
+> +  :#> ddcmd class DRM_UT_CORE module drm +p
+> +
+> +That makes direct >control wordy and annoying, but it is a secondary
+> +interface; it is not intended to replace the ABI, just slide in
+> +underneath and reimplement the guaranteed behavior.  So DRM would keep
+> +using the convenient way, and be able to trust it.
+> +
+> +  :#> echo 0x1ff > /sys/module/drm/parameters/debug
+> +
+> +That said, since the sysfs/kparam is the ABI, if the author omits the
+> +CLASSMAP_PARAM, theres no ABI to guard, and he probably wants a less
+> +pedantic >control interface.  In this case, protection is dropped.
+> +
+> +Dynamic Debug Classmap API
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+> +
+> +DYNAMIC_DEBUG_CLASSMAP_DEFINE(clname,type,_base,classnames) - this maps
+> +classnames (a list of strings) onto class-ids consecutively, starting
+> +at _base.
+> +
+> +DYNAMIC_DEBUG_CLASSMAP_USE(clname) & _USE_(clname,_base) - modules
+> +call this to refer to the var _DEFINEd elsewhere (and exported).
+> +
+> +DYNAMIC_DEBUG_CLASSMAP_PARAM(clname) - creates the sysfs/kparam,
+> +maps/exposes bits 0..N as class-names.
+> +
+> +Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
+> +dyndbg to update those classes.  "class FOO" queries are validated
+> +against the classes, this finds the classid to alter; classes are not
+> +directly selectable by their classid.
+> +
+> +NB: It is an inherent API limitation (due to int class_id defn) that
+> +the following are possible:
+> +
+> +  // these errors should be caught in review
+> +  __pr_debug_cls(0, "fake DRM_UT_CORE msg");  // this works
+> +  __pr_debug_cls(62, "un-known classid msg"); // this compiles, does not=
+hing
+> +
+> +There are 2 types of classmaps:
+> +
+> + DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like drm.debug
+> + DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
+> +
+> +DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
+> +refers to a DEFINEd classmap, and associates it to the param's
+> +data-store.  This state is then applied to DEFINEr and USEr modules
+> +when they're modprobed.
+> +
+> +The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
+> +amongst the contained classnames; all classes are independent in the
+> +control parser itself.  There is no implied meaning in names like "V4"
+> +or "PL_ERROR" vs "PL_WARNING".
+> +
+> +Modules or module-groups (drm & drivers) can define multiple
+> +classmaps, as long as they (all the classmaps) share the limited 0..62
+> +per-module-group _class_id range, without overlap.
+> +
+> +If a module encounters a conflict between 2 classmaps its _USEing or
+> +_DEFINEing, it can invoke the extended _USE_(name,_base) macro to
+> +de-conflict the respective ranges.
+> +
+> +``#define DEBUG`` will enable all pr_debugs in scope, including any
+> +class'd ones.  This won't be reflected in the PARAM readback value,
+> +but the class'd pr_debug callsites can be forced off by toggling the
+> +classmap-kparam all-on then all-off.
 
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Zi Yan <ziy@nvidia.com>
-Cc: Joshua Hahn <joshua.hahnjy@gmail.com>
-Cc: Rakie Kim <rakie.kim@sk.com>
-Cc: Byungchul Park <byungchul@sk.com>
-Cc: Gregory Price <gourry@gourry.net>
-Cc: Ying Huang <ying.huang@linux.alibaba.com>
-Cc: Alistair Popple <apopple@nvidia.com>
-Cc: Oscar Salvador <osalvador@suse.de>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-Cc: Nico Pache <npache@redhat.com>
-Cc: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Dev Jain <dev.jain@arm.com>
-Cc: Barry Song <baohua@kernel.org>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Danilo Krummrich <dakr@kernel.org>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Ralph Campbell <rcampbell@nvidia.com>
-Cc: Mika Penttilä <mpenttil@redhat.com>
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Francois Dugast <francois.dugast@intel.com>
+Hmmm... the resulting htmldocs looks messy so I clean it up:
 
-Signed-off-by: Balbir Singh <balbirs@nvidia.com>
----
- mm/huge_memory.c | 32 ++++++++++++++++++++++----------
- 1 file changed, 22 insertions(+), 10 deletions(-)
+---- >8 ----
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentat=
+ion/admin-guide/dynamic-debug-howto.rst
+index adac32a5cd232d..fd3dbae00cfc60 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -146,9 +146,10 @@ keywords are:::
+   "1-30" is valid range but "1 - 30" is not.
+=20
+=20
+-Keywords:::
++Keywords
++--------
+=20
+-The meanings of each keyword are::
++The meanings of each keyword are:
+=20
+ func
+     The given string is compared against the function name
+@@ -221,12 +222,13 @@ class
+ 	class JUNK		# silent non-match
+ 	// class TLD_*		# NOTICE: no wildcard in class names
+=20
+-.. note ::
++.. note::
+=20
+     Unlike other keywords, classes are "name-to-change", not
+-    "omitting-constraint-allows-change".  See Dynamic Debug Classmaps
++    "omitting-constraint-allows-change".  See :ref:`dyndbg-classmaps`.
+=20
+-Flags:::
++Flags
++-----
+=20
+ The flags specification comprises a change operation followed
+ by one or more flag characters.  The change operation is one
+@@ -248,10 +250,10 @@ The flags are::
+   s    Include the source file name
+   l    Include line number
+=20
+-Notes:
++.. note::
+=20
+-To query without changing	``+_`` or ``-_``.
+-To clear all flags		``=3D_`` or ``-fslmpt``.
++   * To query without changing:	``+_`` or ``-_``.
++   * To clear all flags:	``=3D_`` or ``-fslmpt``.
+=20
+ For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
+ the ``p`` flag has meaning, other flags are ignored.
+@@ -409,6 +411,8 @@ For ``print_hex_dump_debug()``/``print_hex_dump_bytes()=
+``, format string is
+ its ``prefix_str`` argument, if it is constant string; or ``hexdump``
+ in case ``prefix_str`` is built dynamically.
+=20
++.. _dyndbg-classmaps:
++
+ Dynamic Debug Classmaps
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+@@ -417,7 +421,7 @@ domain-oriented names.  This complements the nested-sco=
+pe keywords:
+ module, file, function, line.
+=20
+ The main difference from the others: classes must be named to be
+-changed.  This protects them from unintended overwrite:
++changed.  This protects them from unintended overwrite::
+=20
+   # IOW this cannot undo any drm.debug settings
+   :#> ddcmd -p
+@@ -427,7 +431,7 @@ drm.debug is authoritative when dyndbg is not used, dyn=
+dbg-under-DRM
+ is an implementation detail, and must not behave erratically, just
+ because another admin fed >control something unrelated.
+=20
+-So each class must be enabled individually (no wildcards):
++So each class must be enabled individually (no wildcards)::
+=20
+   :#> ddcmd class DRM_UT_CORE +p
+   :#> ddcmd class DRM_UT_KMS +p
+@@ -437,7 +441,7 @@ So each class must be enabled individually (no wildcard=
+s):
+ That makes direct >control wordy and annoying, but it is a secondary
+ interface; it is not intended to replace the ABI, just slide in
+ underneath and reimplement the guaranteed behavior.  So DRM would keep
+-using the convenient way, and be able to trust it.
++using the convenient way, and be able to trust it::
+=20
+   :#> echo 0x1ff > /sys/module/drm/parameters/debug
+=20
+@@ -464,7 +468,7 @@ against the classes, this finds the classid to alter; c=
+lasses are not
+ directly selectable by their classid.
+=20
+ NB: It is an inherent API limitation (due to int class_id defn) that
+-the following are possible:
++the following are possible::
+=20
+   // these errors should be caught in review
+   __pr_debug_cls(0, "fake DRM_UT_CORE msg");  // this works
+@@ -472,8 +476,8 @@ the following are possible:
+=20
+ There are 2 types of classmaps:
+=20
+- DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like drm.debug
+- DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
++* DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like drm.debug
++* DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
+=20
+ DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
+ refers to a DEFINEd classmap, and associates it to the param's
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 78a31a476ad3..c4267a0f74df 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -3751,6 +3751,7 @@ static int __folio_freeze_and_split_unmapped(struct folio *folio, unsigned int n
- 	int ret = 0;
- 	struct deferred_split *ds_queue;
- 
-+	VM_WARN_ON_ONCE(!mapping && end != 0);
- 	/* Prevent deferred_split_scan() touching ->_refcount */
- 	ds_queue = folio_split_queue_lock(folio);
- 	if (folio_ref_freeze(folio, 1 + extra_pins)) {
-@@ -3919,7 +3920,7 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
- 	int nr_shmem_dropped = 0;
- 	int remap_flags = 0;
- 	int extra_pins, ret;
--	pgoff_t end;
-+	pgoff_t end = 0;
- 	bool is_hzp;
- 
- 	VM_WARN_ON_ONCE_FOLIO(!folio_test_locked(folio), folio);
-@@ -4049,7 +4050,7 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
- 
- 	local_irq_enable();
- 
--	if (nr_shmem_dropped)
-+	if (mapping && shmem_mapping(mapping) && nr_shmem_dropped)
- 		shmem_uncharge(mapping->host, nr_shmem_dropped);
- 
- 	if (!ret && is_anon && !folio_is_device_private(folio))
-@@ -4092,16 +4093,27 @@ static int __folio_split(struct folio *folio, unsigned int new_order,
- 	return ret;
- }
- 
--/*
-- * This function is a helper for splitting folios that have already been unmapped.
-- * The use case is that the device or the CPU can refuse to migrate THP pages in
-- * the middle of migration, due to allocation issues on either side
-+/**
-+ * folio_split_unmapped() - split a large anon folio that is already unmapped
-+ * @folio: folio to split
-+ * @new_order: the order of folios after split
-+ *
-+ * This function is a helper for splitting folios that have already been
-+ * unmapped. The use case is that the device or the CPU can refuse to migrate
-+ * THP pages in the middle of migration, due to allocation issues on either
-+ * side.
-+ *
-+ * anon_vma_lock is not required to be held, mmap_read_lock() or
-+ * mmap_write_lock() should be held. @folio is expected to be locked by the
-+ * caller. device-private and non device-private folios are supported along
-+ * with folios that are in the swapcache. @folio should also be unmapped and
-+ * isolated from LRU (if applicable)
-  *
-- * The high level code is copied from __folio_split, since the pages are anonymous
-- * and are already isolated from the LRU, the code has been simplified to not
-- * burden __folio_split with unmapped sprinkled into the code.
-+ * Upon return, the folio is not remapped, split folios are not added to LRU,
-+ * free_folio_and_swap_cache() is not called, and new folios remain locked.
-  *
-- * None of the split folios are unlocked
-+ * Return: 0 on success, -EAGAIN if the folio cannot be split (e.g., due to
-+ *         insufficient reference count or extra pins).
-  */
- int folio_split_unmapped(struct folio *folio, unsigned int new_order)
- {
--- 
-2.51.1
+Thanks.
 
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--HVQbqimanuPfAVD/
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaR6GPAAKCRD2uYlJVVFO
+o82NAP9o9bKdHzQr2WUnsmQEo2y9z1jOdX8J+HgUei4iaKFGoAEA7aYmQOKNkEme
+AThPfWzYb2VtrLEG2zkxC0iPslgWTAg=
+=vmiO
+-----END PGP SIGNATURE-----
+
+--HVQbqimanuPfAVD/--
