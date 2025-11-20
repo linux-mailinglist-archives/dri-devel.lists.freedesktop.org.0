@@ -2,64 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220B7C73239
-	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 10:29:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1204C7325A
+	for <lists+dri-devel@lfdr.de>; Thu, 20 Nov 2025 10:30:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 714F510E727;
-	Thu, 20 Nov 2025 09:29:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E753510E72D;
+	Thu, 20 Nov 2025 09:30:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uO5bvReP";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XqBlhOPr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3269010E72A
- for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 09:29:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 9E28B60149;
- Thu, 20 Nov 2025 09:29:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8EE2C116C6;
- Thu, 20 Nov 2025 09:29:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763630966;
- bh=LFSaVFGXyqZ1Ymg7hrWHvuDYaezafYJR42/4yF3AC6Q=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uO5bvReP4vqmF17vp4umydSjwbMPlUEBwrr06wx2F06At0/D21mfaz/7x8ruRvX1v
- 3Uq6tUwzacon0WOtQFzpZGt0RcDpBSDOHYKNsLthJEbiBNaxV80Ir0z6pZR3p1qV7x
- dYAq1ufKqD7WSUWjj2c+VaxFnLI5cuf1bYNHnTmdN6EBNBg1de5v+GG2XKWf9NcHYD
- FAzZjictEB2q/huOTMy21YG403zsmAl6hCATZRJReXLB03B8swFxed7wkRnmWjPcT2
- 6mrCIzwnXTd2Cp6XwJSoeCi2stzNxUdFQ34bfMGdm8qh30x4qLAgam/sJ1wdVrEbvC
- SupDOjG80fwmg==
-From: Leon Romanovsky <leon@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
- Jens Axboe <axboe@kernel.dk>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <skolothumtho@nvidia.com>,
- Kevin Tian <kevin.tian@intel.com>, Alex Williamson <alex@shazbot.org>
-Cc: Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-block@vger.kernel.org, iommu@lists.linux.dev, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- kvm@vger.kernel.org, linux-hardening@vger.kernel.org,
- Alex Mastro <amastro@fb.com>, Nicolin Chen <nicolinc@nvidia.com>
-Subject: [PATCH v9 11/11] vfio/nvgrace: Support get_dmabuf_phys
-Date: Thu, 20 Nov 2025 11:28:30 +0200
-Message-ID: <20251120-dmabuf-vfio-v9-11-d7f71607f371@nvidia.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
-References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+ [209.85.210.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAD9710E730
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 09:30:04 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id
+ d2e1a72fcca58-7baf61be569so781369b3a.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 20 Nov 2025 01:30:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1763631004; x=1764235804; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y0ahZnkbKTq/zXCngVOV5tNUB9eHwQteBjkic4SlaNw=;
+ b=XqBlhOPre3i9+piqMqw8DLUW6BYHEX+Oqt0GlGTO3Rp4n1/Ro/HO5tEImwwwasNpjW
+ 8o8/wI5A/BBz0rEZsrQiXLefJcNxyGGpU8dl9JrdBWrqSdCP6QrVkAX75aDWw1wEPa5V
+ tiAUQ+VbgoEZO02c+c/eDeNIq4a844niCzl9RsnNZqvdsDFcpivCKo1LC1yM95JNsr8T
+ z9MZE/eztboRJbvx4v40nBmOnkEdMbqVx4eOMjhGP30PRneGmPXB+kPy2ZwaXUlTRBND
+ 7EfnenUv7jE5+cX1NDuK2SSlK4vAl3bJ86re2/xPtv9w66s8/Vhwpt5l0e+RT1IebY/s
+ 24og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763631004; x=1764235804;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Y0ahZnkbKTq/zXCngVOV5tNUB9eHwQteBjkic4SlaNw=;
+ b=QLaaBL2ehHA3rG3QDaC0AsH9OtwXTfi4EQukpVkj/pqiQuAahfSu035Ea0E84Y5raz
+ sOwdwJn5//oB7Ih/adOM/XmLZFgKeITvqm9zayWeOJqLgHtBqyUvYXK2Rb1X2BowCevq
+ y5+YXfmSvmk3PbjrpCtBAZwiyR0TFf8VE0krMGYDFXUiA2nwN9IsCdBIeVDS7JHQXaqm
+ WHG32M1TXyP1N0FMlcVOUpvCgM3VPCR6b8e5wNFvxfxkOInvkfx4IY6dkzbeD+nFHZwV
+ QDp+Q6i1IAfJRi6pPPQFQcwgknPOCCbjvDFgXQDx1Bo1h+z5Fu8097+c6ir9/6U+Pl2J
+ 2Rxg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX9z0IO7mJ5oG/zEtQCts8+yCr6k+rpzyhgDuhbCK1RTWyA4vH4tDTuAjZfSQpiWW1EAyLhtbHnS64=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyj4GxgEMHxncsfpa/1wFE9tb81ecsZSaYLVrvYCxjtT6+yPBWK
+ 7s+bQAzLsPguk6NMKGwpuyUukDdX1x54fQUtjvNnruJbDBae2Pb1zvt+
+X-Gm-Gg: ASbGncsL542Z/Di2D/QKRAT3bofEW463E/zOLmT5MNSlyuJ8xBnFdKimQpasLuU55t4
+ L8tO/enbZWFvvzBJEj0M4QoH3Qo5FHsItEV+G4ndEp5lw0/kH06DCIWjXfABp2uEagXeyJdeQKe
+ xnJjei7VyTSY/SzWTfOY2SkQy0/Bmf81MeIAYQjm8onk1i4++U8CKp9q+a1ODJVfsd3DqnkMhLD
+ c0SfElPmAiD6p+bXbGkgI/XOntA9vm7DPuBAyAw9Vgydb39oCOxIRh1podWhVKaRN6VwTe/HCEj
+ o1gYM0awRFs0dRo15PADodTG+rNb/7I33BHVkDcMAM/W3is8rqFxMWD9hpj4SQYSX2y073EkzX2
+ 6wbHiqLzx8nytNcEq2fMYLCdqwWzvsQPQqXdviecpAdc/KTNIcT+W9MxIcwtdifTwV1Po6ICE3n
+ CL7LSwMya3wT6MPA+ASHiQkA==
+X-Google-Smtp-Source: AGHT+IFM1rG6BQ9QLPRgC9WRSoHnGffbzNzuoM89C5S7NauJeRqdu2h4JvYetmK1mXobCaM3XLB4rA==
+X-Received: by 2002:a05:6a00:10ce:b0:7ab:8d8a:1024 with SMTP id
+ d2e1a72fcca58-7c3ee197dfemr2897250b3a.7.1763631004085; 
+ Thu, 20 Nov 2025 01:30:04 -0800 (PST)
+Received: from archie.me ([210.87.74.117]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7c3ed379558sm2106554b3a.25.2025.11.20.01.30.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 20 Nov 2025 01:30:03 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+ id 5E84A41117C8; Thu, 20 Nov 2025 16:30:01 +0700 (WIB)
+Date: Thu, 20 Nov 2025 16:30:01 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Jim Cromie <jim.cromie@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ jbaron@akamai.com
+Cc: ukaszb@chromium.org, louis.chauvet@bootlin.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 04/31] docs/dyndbg: explain flags parse 1st
+Message-ID: <aR7fmRgNmP60RJZz@archie.me>
+References: <20251118201842.1447666-1-jim.cromie@gmail.com>
+ <20251118201842.1447666-5-jim.cromie@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.15-dev-a6db3
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="tNRZFCgC3+laadDu"
+Content-Disposition: inline
+In-Reply-To: <20251118201842.1447666-5-jim.cromie@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,118 +93,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jason Gunthorpe <jgg@nvidia.com>
 
-Call vfio_pci_core_fill_phys_vec() with the proper physical ranges for the
-synthetic BAR 2 and BAR 4 regions. Otherwise use the normal flow based on
-the PCI bar.
+--tNRZFCgC3+laadDu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This demonstrates a DMABUF that follows the region info report to only
-allow mapping parts of the region that are mmapable. Since the BAR is
-power of two sized and the "CXL" region is just page aligned the there can
-be a padding region at the end that is not mmaped or passed into the
-DMABUF.
+On Tue, Nov 18, 2025 at 01:18:14PM -0700, Jim Cromie wrote:
+> -
+> -A match specification is a keyword, which selects the attribute of
+> -the callsite to be compared, and a value to compare against.  Possible
+> +Note: because the match-spec can be empty, the flags are checked 1st,
+> +then the pairs of keyword values.  Flag errs will hide keyword errs:
+> +
+> +  bash-5.2# ddcmd mod bar +foo
+> +  dyndbg: read 13 bytes from userspace
+> +  dyndbg: query 0: "mod bar +foo" mod:*
+> +  dyndbg: unknown flag 'o'
+> +  dyndbg: flags parse failed
+> +  dyndbg: processed 1 queries, with 0 matches, 1 errs
 
-The "CXL" ranges that are remapped into BAR 2 and BAR 4 areas are not PCI
-MMIO, they actually run over the CXL-like coherent interconnect and for
-the purposes of DMA behave identically to DRAM. We don't try to model this
-distinction between true PCI BAR memory that takes a real PCI path and the
-"CXL" memory that takes a different path in the p2p framework for now.
+The snippet above is shown as long-running paragraph instead, so I wrap it
+in literal code block:
 
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-Tested-by: Alex Mastro <amastro@fb.com>
-Tested-by: Nicolin Chen <nicolinc@nvidia.com>
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/vfio/pci/nvgrace-gpu/main.c | 52 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+---- >8 ----
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentat=
+ion/admin-guide/dynamic-debug-howto.rst
+index fd3dbae00cfc60..7690287cbe0c79 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -112,8 +112,8 @@ The match-spec's select *prdbgs* from the catalog, upon=
+ which to apply
+ the flags-spec, all constraints are ANDed together.  An absent keyword
+ is the same as keyword "*".
+=20
+-Note: because the match-spec can be empty, the flags are checked 1st,
+-then the pairs of keyword values.  Flag errs will hide keyword errs:
++Note that since the match-spec can be empty, the flags are checked first,
++then the pairs of keyword values.  Flag errs will hide keyword errs::
+=20
+   bash-5.2# ddcmd mod bar +foo
+   dyndbg: read 13 bytes from userspace
+@@ -122,9 +122,9 @@ then the pairs of keyword values.  Flag errs will hide =
+keyword errs:
+   dyndbg: flags parse failed
+   dyndbg: processed 1 queries, with 0 matches, 1 errs
+=20
+-So a match-spec is a keyword, which selects the attribute of the
++Hence, a match-spec is a keyword, which selects the attribute of the
+ callsite to be compared, and a value to compare against.  Possible
+-keywords are:::
++keywords are::
+=20
+   match-spec ::=3D 'func' string |
+ 		 'file' string |
 
-diff --git a/drivers/vfio/pci/nvgrace-gpu/main.c b/drivers/vfio/pci/nvgrace-gpu/main.c
-index e346392b72f6..691e56944882 100644
---- a/drivers/vfio/pci/nvgrace-gpu/main.c
-+++ b/drivers/vfio/pci/nvgrace-gpu/main.c
-@@ -7,6 +7,7 @@
- #include <linux/vfio_pci_core.h>
- #include <linux/delay.h>
- #include <linux/jiffies.h>
-+#include <linux/pci-p2pdma.h>
- 
- /*
-  * The device memory usable to the workloads running in the VM is cached
-@@ -683,6 +684,50 @@ nvgrace_gpu_write(struct vfio_device *core_vdev,
- 	return vfio_pci_core_write(core_vdev, buf, count, ppos);
- }
- 
-+static int nvgrace_get_dmabuf_phys(struct vfio_pci_core_device *core_vdev,
-+				   struct p2pdma_provider **provider,
-+				   unsigned int region_index,
-+				   struct dma_buf_phys_vec *phys_vec,
-+				   struct vfio_region_dma_range *dma_ranges,
-+				   size_t nr_ranges)
-+{
-+	struct nvgrace_gpu_pci_core_device *nvdev = container_of(
-+		core_vdev, struct nvgrace_gpu_pci_core_device, core_device);
-+	struct pci_dev *pdev = core_vdev->pdev;
-+	struct mem_region *mem_region;
-+
-+	/* 
-+	 * if (nvdev->resmem.memlength && region_index == RESMEM_REGION_INDEX) {
-+	 * 	The P2P properties of the non-BAR memory is the same as the
-+	 * 	BAR memory, so just use the provider for index 0. Someday
-+	 * 	when CXL gets P2P support we could create CXLish providers
-+	 * 	for the non-BAR memory.
-+	 * } else if (region_index == USEMEM_REGION_INDEX) {
-+	 * 	This is actually cachable memory and isn't treated as P2P in
-+	 * 	the chip. For now we have no way to push cachable memory
-+	 * 	through everything and the Grace HW doesn't care what caching
-+	 * 	attribute is programmed into the SMMU. So use BAR 0.
-+	 * }
-+	 */
-+	mem_region = nvgrace_gpu_memregion(region_index, nvdev);
-+	if (mem_region) {
-+		*provider = pcim_p2pdma_provider(pdev, 0);
-+		if (!*provider)
-+			return -EINVAL;
-+		return vfio_pci_core_fill_phys_vec(phys_vec, dma_ranges,
-+						   nr_ranges,
-+						   mem_region->memphys,
-+						   mem_region->memlength);
-+	}
-+
-+	return vfio_pci_core_get_dmabuf_phys(core_vdev, provider, region_index,
-+					     phys_vec, dma_ranges, nr_ranges);
-+}
-+
-+static const struct vfio_pci_device_ops nvgrace_gpu_pci_dev_ops = {
-+	.get_dmabuf_phys = nvgrace_get_dmabuf_phys,
-+};
-+
- static const struct vfio_device_ops nvgrace_gpu_pci_ops = {
- 	.name		= "nvgrace-gpu-vfio-pci",
- 	.init		= vfio_pci_core_init_dev,
-@@ -703,6 +748,10 @@ static const struct vfio_device_ops nvgrace_gpu_pci_ops = {
- 	.detach_ioas	= vfio_iommufd_physical_detach_ioas,
- };
- 
-+static const struct vfio_pci_device_ops nvgrace_gpu_pci_dev_core_ops = {
-+	.get_dmabuf_phys = vfio_pci_core_get_dmabuf_phys,
-+};
-+
- static const struct vfio_device_ops nvgrace_gpu_pci_core_ops = {
- 	.name		= "nvgrace-gpu-vfio-pci-core",
- 	.init		= vfio_pci_core_init_dev,
-@@ -965,6 +1014,9 @@ static int nvgrace_gpu_probe(struct pci_dev *pdev,
- 						    memphys, memlength);
- 		if (ret)
- 			goto out_put_vdev;
-+		nvdev->core_device.pci_ops = &nvgrace_gpu_pci_dev_ops;
-+	} else {
-+		nvdev->core_device.pci_ops = &nvgrace_gpu_pci_dev_core_ops;
- 	}
- 
- 	ret = vfio_pci_core_register_device(&nvdev->core_device);
+Thanks.
 
--- 
-2.51.1
+--=20
+An old man doll... just what I always wanted! - Clara
 
+--tNRZFCgC3+laadDu
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaR7flQAKCRD2uYlJVVFO
+ozygAQDeqV2+eAL925SBI3I8R+CQGvz0yTuUJJ9a6KUiNhCDDgEAsMy6wTgxalgk
+ymAwck6TVuSNIyI5PoEJGZv83FrVLgs=
+=wp6p
+-----END PGP SIGNATURE-----
+
+--tNRZFCgC3+laadDu--
