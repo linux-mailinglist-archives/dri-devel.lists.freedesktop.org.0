@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E18C7A666
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 16:07:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6B8C7A65F
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 16:06:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B5F710E8B1;
-	Fri, 21 Nov 2025 15:07:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFEEC10E8AC;
+	Fri, 21 Nov 2025 15:06:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="s7QGKQWd";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="rqF6iQlJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8A4E10E8AF
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 15:06:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5209110E8AC
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 15:06:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1763737618; x=1795273618;
+ t=1763737605; x=1795273605;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=ykS7JdsTZDTvpcv0YzakxnBGh6GHP2mr6Lt81AtHCBs=;
- b=s7QGKQWdgnBlOIqAxZPB89AaBeuUQpMDTd0sh9/IbHwWuEv4bkLLs5zO
- DqUDlngMc16j91R727IzwxOsQKVxlZMIEdBb4hS2N+Bf53s0TBhJiS6Wg
- A8RfkZaXv5zJLzhmoOxhbCmYlYZw4cYtVOqnZIv/k4zh0D8qqdhVz6Mzt
- MKeQvyqcsxfh+a1c8L2OrzrwDvaoGUfACAwVMeq9tC+Layh0hXqAB8Ai+
- tcDQByQJMn4E3l6ZyExXuz5tJH3RR8uQTJpJ3QyPy7HWdPXnoEWPttRYU
- V+Ze4o09hUP54tyB+4I5qnWPsTFKQJiTulVE1IYMB5adZfCdIl9wwo0xD w==;
-X-CSE-ConnectionGUID: ZsY1rJHWSEWAtJuR27K+Sw==
-X-CSE-MsgGUID: qyzdrfUkTTWgu9IQmxnKWg==
-X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; d="scan'208";a="280874262"
+ bh=LrFGjF1cQ/xx2DanwIh3lkueUOjcNFt4oFeE1YjJwXw=;
+ b=rqF6iQlJeWuVwnVEVSf3ou+7XEmzgM16fRvnaNZGD4k0ts7FVPXp2Wy+
+ kVnw28ePxB7P97OYyq3zgFeQQ9IIiZzZN6zqqU7z3RoMToaoanuWcCcB0
+ 9/15orLTZT7hP1iNunzUOV0VGAZWb6j8F85nq2kevYWZCGggfNYYtoVav
+ ZENA3pK0ks4hZ0SalKP20VzpkqzZWMFt0syyE0jMq4KUBR4PuPUmKxtFv
+ fC7vN9qCaOLCZS8U2KDF3R0fsonKFQBvFc/l/rw7s2vTMVpzE+FYJsoWN
+ s8W5ed4TsBGHwLxKsKlLyvkSwdHu1I5TA8r3dRbjiAzL4OK0slViwIiS1 A==;
+X-CSE-ConnectionGUID: QYOCTpQMSWiHPKM8DKtIjA==
+X-CSE-MsgGUID: nlhkiNAZT/23BwN+3qdrHw==
+X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; d="scan'208";a="280874243"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2025 08:06:57 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.87.151) by
- chn-vm-ex4.mchp-main.com (10.10.87.33) with Microsoft SMTP Server
+ by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 21 Nov 2025 08:06:45 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.29; Fri, 21 Nov 2025 08:06:27 -0700
+ 15.1.2507.58; Fri, 21 Nov 2025 08:06:32 -0700
 Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex04.mchp-main.com
  (10.10.85.152) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Fri, 21 Nov 2025 08:06:22 -0700
+ Transport; Fri, 21 Nov 2025 08:06:28 -0700
 From: Ludovic Desroches <ludovic.desroches@microchip.com>
-Date: Fri, 21 Nov 2025 16:04:36 +0100
-Subject: [PATCH 4/8] drm/atmel-hlcdc: use drm_crtc_mask()
+Date: Fri, 21 Nov 2025 16:04:37 +0100
+Subject: [PATCH 5/8] drm/atmel-hlcdc: use devm_drm_of_get_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20251121-lcd_cleanup_mainline-v1-4-2587e6fe4d67@microchip.com>
+Message-ID: <20251121-lcd_cleanup_mainline-v1-5-2587e6fe4d67@microchip.com>
 References: <20251121-lcd_cleanup_mainline-v1-0-2587e6fe4d67@microchip.com>
 In-Reply-To: <20251121-lcd_cleanup_mainline-v1-0-2587e6fe4d67@microchip.com>
 To: Manikandan Muralidharan <manikandan.m@microchip.com>, "Dharma
@@ -62,21 +62,21 @@ CC: <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
  <linux-kernel@vger.kernel.org>, Ludovic Desroches
  <ludovic.desroches@microchip.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2760;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1939;
  i=ludovic.desroches@microchip.com; h=from:subject:message-id;
- bh=ykS7JdsTZDTvpcv0YzakxnBGh6GHP2mr6Lt81AtHCBs=;
- b=owEBbQKS/ZANAwAKAT455hP3e2QtAcsmYgBpIH/Wto7t+cwIKFwcL7ixOr20oYrI6fqOiPoVu
- hN4ZiWNMryJAjMEAAEKAB0WIQQAMEvJiWmsW41tNU0+OeYT93tkLQUCaSB/1gAKCRA+OeYT93tk
- LQKYD/0Wg6ViuiiaWT23b0Hu883goIyW2Gn2x0x+1Dbik+Sw5Ju7GaRkAsC2ZGwi35vbCuj/Y+b
- RJ3G65JYSs5Bdrtgtj/brCoJUwJrnOUx6QcNi1kyxqyPhekrsOOoKTTzGCo+6gRPE/AcmNRMXzZ
- rFqZZWw8JyGy6OLXHFEeAMNvli4SYn0XzHaxo+Freu1EbAj+yXIaHdzsjdG2BEU0NgLpizS5umz
- ZHLK8Y+qPROPLEZcTvxvTAkVulpmj2px6wZxq7vbsbhj4nw2Im0F4Y7QC37dH4UPWtJcEKZgAJH
- NJMLd9N+EyhLvRRLeGsjBZQZjXNwJtVxiL1bQ3hT6jcMPO9gQGGcFpZW8FaDjCEibkNyN7i49fl
- g47nNF03rR8ZYrzAFkqGHc/8XTpRfFKtvk5qkeQum4nJkw65uu51pkeBbuwq7x2z3aBq0SP7lT1
- 3UXRtlZVs0E5crWpx1VnSGSAXFU1EMDbQaclf2rBeals+C2qeetefpZZp3grlKXf4MwrFMZ5EPd
- tDwH5QovWi1s2FDDoluJBdaSc05LZld463pgXp/84hxcIAhbixgXj/cp20RlQriz+UnUS5Vue4J
- FEx+wagocUitMBoZQITlYWcgSwJX+ZahZOsHyT5RJVgMT9ejTKB7QsVCCwU7b3JQVDoywcfP1RP
- 4w3cnpifpsBw0XQ==
+ bh=LrFGjF1cQ/xx2DanwIh3lkueUOjcNFt4oFeE1YjJwXw=;
+ b=kA0DAAoBPjnmE/d7ZC0ByyZiAGkgf9ahRGYugbEKVpcEF6f1xnKpL6KcNeh6c8Yl9ls/2CBq1
+ okCMwQAAQoAHRYhBAAwS8mJaaxbjW01TT455hP3e2QtBQJpIH/WAAoJED455hP3e2Qtfd8QAIpQ
+ fB1clOh9Edtn7HnGd+yrG+lG/iJL3qBmUnh5rw/46p5uVkIvepwzhqFXEttkL9Mi+5huV0t9dKb
+ joBRLyYnNqJFbkLIFsHCQCCduPowHMjWQAPaQvZqCFw5KERw+eW/JAZMAS0A/51gqHpKvhw2Iu1
+ YGIe8LI4Vv/sff5BCeUl8tTC6qp04eVYV28tqjaUCGb3htppBpadnSvkQ2P4giJqi3axxH3Guve
+ W3pmANEceOE++rQN4IBRaOdDgRFmRaBzaEjKDd/t+oV1EVGc0/T2LVLj96jC7M5NPgV+E6iblp9
+ n8shgrZdxMWKo+Gx//ugIigTuPgopVfjVMguqwvi+gHoS9q3YIIeZS9blK9YRffP+CZObGYuu5/
+ 0FaRHIkAz0BZVBA9mgKlkZ1HVvg6SaeaSfT8ESNE+r3p8OSA6FbdjSOkgo68Zp2yhyP7mxAPApR
+ kn1pL+dFUIjxIqoAc0N+Yep4n2WhkWgLa4+bgfpXooYtbfjwYQTgHrHirASPJl0zkvQ0HlvXVMh
+ RubAouFhv0B3ObX9A6vCngnCmE+5WqIs5wG+lIeqvMnNaGhkxJ97fYqvDNyi+IKGTj0et/UDGsO
+ k0zL9fr9Z9yN8vTmXyuXRgqfehoCNSenbdl+zY7Q2a9njppQ1kQFPwsUAA84lk/mPDxE0gYwsaL
+ QtLI6
 X-Developer-Key: i=ludovic.desroches@microchip.com; a=openpgp;
  fpr=665BAA7297BE089A28B77696E332995F09DCC11A
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,75 +94,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prefer using the drm_crtc_mask() helper instead of a raw value. It
-involves reordering components initialization as we need a valid crtc.
+Get rid of drm_of_find_panel_or_bridge() as it is deprecated and use
+devm_drm_of_get_bridge() instead.
 
 Signed-off-by: Ludovic Desroches <ludovic.desroches@microchip.com>
 Reviewed-by: Manikandan Muralidharan <manikandan.m@microchip.com>
 ---
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c     | 12 ++++++------
- drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c |  4 +++-
- 2 files changed, 9 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c | 18 +++---------------
+ 1 file changed, 3 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-index 8ff582a394794aacf84f9e23fd59f123445926a3..d1f5451ebfeaf81c382b49d0c1a6c3c32e44866b 100644
---- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-+++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c
-@@ -723,12 +723,6 @@ static int atmel_hlcdc_dc_modeset_init(struct drm_device *dev)
- 
- 	drm_mode_config_init(dev);
- 
--	ret = atmel_hlcdc_create_outputs(dev);
--	if (ret) {
--		drm_err(dev, "failed to create HLCDC outputs: %d\n", ret);
--		return ret;
--	}
--
- 	ret = atmel_hlcdc_create_planes(dev);
- 	if (ret) {
- 		drm_err(dev, "failed to create planes: %d\n", ret);
-@@ -741,6 +735,12 @@ static int atmel_hlcdc_dc_modeset_init(struct drm_device *dev)
- 		return ret;
- 	}
- 
-+	ret = atmel_hlcdc_create_outputs(dev);
-+	if (ret) {
-+		drm_err(dev, "failed to create HLCDC outputs: %d\n", ret);
-+		return ret;
-+	}
-+
- 	dev->mode_config.min_width = dc->desc->min_width;
- 	dev->mode_config.min_height = dc->desc->min_height;
- 	dev->mode_config.max_width = dc->desc->max_width;
 diff --git a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-index 1f43e0feeedae54321a17efc266654e72e8b9d8e..e582315f70a119f2b39057ff112bc427117b85f5 100644
+index e582315f70a119f2b39057ff112bc427117b85f5..99bc7790d47ffc7e6df26768559407df0184565b 100644
 --- a/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
 +++ b/drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c
-@@ -71,6 +71,8 @@ static int atmel_hlcdc_attach_endpoint(struct drm_device *dev, int endpoint)
+@@ -69,16 +69,14 @@ static int atmel_hlcdc_attach_endpoint(struct drm_device *dev, int endpoint)
+ {
+ 	struct atmel_hlcdc_rgb_output *output;
  	struct device_node *ep;
- 	struct drm_panel *panel;
+-	struct drm_panel *panel;
  	struct drm_bridge *bridge;
-+	struct atmel_hlcdc_dc *dc = dev->dev_private;
-+	struct drm_crtc *crtc = dc->crtc;
+ 	struct atmel_hlcdc_dc *dc = dev->dev_private;
+ 	struct drm_crtc *crtc = dc->crtc;
  	int ret;
  
- 	ret = drm_of_find_panel_or_bridge(dev->dev->of_node, 0, endpoint,
-@@ -95,7 +97,6 @@ static int atmel_hlcdc_attach_endpoint(struct drm_device *dev, int endpoint)
+-	ret = drm_of_find_panel_or_bridge(dev->dev->of_node, 0, endpoint,
+-					  &panel, &bridge);
+-	if (ret)
+-		return ret;
++	bridge = devm_drm_of_get_bridge(dev->dev, dev->dev->of_node, 0, endpoint);
++	if (IS_ERR(bridge))
++		return PTR_ERR(bridge);
+ 
+ 	output = drmm_simple_encoder_alloc(dev, struct atmel_hlcdc_rgb_output,
+ 					   encoder, DRM_MODE_ENCODER_NONE);
+@@ -97,22 +95,12 @@ static int atmel_hlcdc_attach_endpoint(struct drm_device *dev, int endpoint)
  	}
  
  
--	output->encoder.possible_crtcs = 0x1;
- 
- 	if (panel) {
- 		bridge = drm_panel_bridge_add_typed(panel,
-@@ -103,6 +104,7 @@ static int atmel_hlcdc_attach_endpoint(struct drm_device *dev, int endpoint)
- 		if (IS_ERR(bridge))
- 			return PTR_ERR(bridge);
- 	}
-+	output->encoder.possible_crtcs = drm_crtc_mask(crtc);
+-
+-	if (panel) {
+-		bridge = drm_panel_bridge_add_typed(panel,
+-						    DRM_MODE_CONNECTOR_Unknown);
+-		if (IS_ERR(bridge))
+-			return PTR_ERR(bridge);
+-	}
+ 	output->encoder.possible_crtcs = drm_crtc_mask(crtc);
  
  	if (bridge) {
  		ret = drm_bridge_attach(&output->encoder, bridge, NULL, 0);
+ 		if (!ret)
+ 			return 0;
+-
+-		if (panel)
+-			drm_panel_bridge_remove(bridge);
+ 	}
+ 
+ 	return ret;
 
 -- 
 2.51.0
