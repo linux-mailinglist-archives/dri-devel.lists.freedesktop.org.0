@@ -2,53 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CAAAC77D2B
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 09:15:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67860C77D48
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 09:17:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABC9210E7FC;
-	Fri, 21 Nov 2025 08:15:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB5810E0B9;
+	Fri, 21 Nov 2025 08:17:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="O46oYf9k";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MSGiD9M3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A22D10E2B3
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 08:15:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=BQC2ump1/ZDmiI/Ox9lbDlStDU6UDaeJiVcwbUnk2Zo=; b=O46oYf9kfnEvjjVwUYiFgAdTFo
- cvfIgXdOCLu4I+pVBJbF4l+SzUiSe0/ffMYcdgq58uYzJJRbyLz9OTTeRgHuAPjXWTHeUBDq0y7hC
- jn3yDIk3hVv/zKKJ0rtioHdMfV0sU4U1JIxDAkeR0yc0oNNtaAdf+VIYhSJvS/DkL32GzZvyhDSI7
- qXICggnWGi1b1kLtgnJYg8QduPxuBhCraKGZeUasd1eKHL9GjcPjb34+7/cP9m6n//kyzbXtzMLOg
- Pu/O807OI3HoCxJKQjom3+1BKpHDKh25i97Laftwsx7ZrdTUKmjU4O7ggoweHKuESrEzGCCwm0CTz
- v4/KKqKg==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vMMIQ-003ZbU-LQ; Fri, 21 Nov 2025 09:15:10 +0100
-Message-ID: <e7fcdac9-798e-4d8f-91b7-a0dbc247aa2c@igalia.com>
-Date: Fri, 21 Nov 2025 08:15:09 +0000
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C051B10E0B9
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 08:17:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C989560225
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 08:17:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C269C19425
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 08:17:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763713058;
+ bh=ZxNL4WDP1NxE7Y6tOWw+wsU/bh+QHBcVmvwUtwTV7/s=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=MSGiD9M3i0HgEvsLoJ93c6pSfgP3neN5I3LSW0GTW0RLR8CIaV6XTOqsa4jFlT8mC
+ 6dMUKZ89RMEGleozg/cugTTjBoDUTcwezsXH6H96E+O1FWKt3V7H0kfrOKo8NaAdEm
+ Gkkxt7/LBRR2PmFKL2sBKD4d2EIyLWlsMZWzhNoD1XBBNyhGBbTuce5ZeqCeKobQ6m
+ A2L0ihcT6skbaFOW/nySMHKXVN8RaLjtYxWPR8F501eHygX4W03UyyHY5chH8ojld7
+ mk0Fi5SB7o1iNsDfP/nBRH7dgoprnt2y6/UkinI6u8K0jjuLRggPs8T5PoTuuHHAIQ
+ XXNdzFfoF7DWQ==
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-787ff3f462bso31523027b3.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 00:17:38 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVLcWbtFMIb8tE7jrsNyJ5drwlkPY4c88kaZIwLHM1CTN+DFFHry1lx2eG8dkbE8cSI3qYCCG729Dw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz3Qo4P8Ok2XDSRWISCwCjAExGGl2xPE+3/cj1CgQR7yOgf5/bu
+ ZF2S+71JsJHMkd7nqt86HFWmfCpj9Rf5alIQfQNZxKOFpdoJN9ts0bYaRnw1oIC8XAmppP+un/q
+ /ulJmEzIF936nUnO5M4368pvWTsSZ/60=
+X-Google-Smtp-Source: AGHT+IGz/ZassbK2KhUhK8BGDBTfY682756Y7uunrw+26DdUeq3vz5aPSRwICt4Vk6dL/KVr1FANk8QqBNVMNwalptk=
+X-Received: by 2002:a53:d008:0:b0:63f:b330:8c85 with SMTP id
+ 956f58d0204a3-642f8dee6cbmr3343757d50.18.1763713057800; Fri, 21 Nov 2025
+ 00:17:37 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/gem: Use vmemdup_array_user in
- drm_gem_objects_lookup
-To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org
-References: <20251112092732.23584-1-tvrtko.ursulin@igalia.com>
- <765f43f5-2cd8-400b-bb8e-2a03132268f9@igalia.com>
- <a52bb8ed-6c4e-4173-947e-7c4f7f4436a4@igalia.com>
- <c37479da-dc17-4789-9b09-9192f845a927@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <c37479da-dc17-4789-9b09-9192f845a927@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20251120-mcde-drm-regression-thirdfix-v3-0-24b1e9886bbf@linaro.org>
+ <20251120-mcde-drm-regression-thirdfix-v3-3-24b1e9886bbf@linaro.org>
+ <20251121024206.GC11519@pendragon.ideasonboard.com>
+In-Reply-To: <20251121024206.GC11519@pendragon.ideasonboard.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 21 Nov 2025 09:17:26 +0100
+X-Gmail-Original-Message-ID: <CAD++jLkNCH=8VmwXh0UJS5QZ9wB-iP2kinytT+__fq0L1PzoZQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bkSFb3C22QokljT-j-z5EP6W6WYTPVlLJ5Gz6Ap3vM-D9eJPAdozQanQPI
+Message-ID: <CAD++jLkNCH=8VmwXh0UJS5QZ9wB-iP2kinytT+__fq0L1PzoZQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] RFT: drm/rcar-du: Modify custom commit tail
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,88 +84,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Laurent,
 
-On 20/11/2025 14:55, André Almeida wrote:
-> Em 20/11/2025 11:53, Tvrtko Ursulin escreveu:
->>
->> On 20/11/2025 14:39, André Almeida wrote:
->>> Hi Tvrtko,
->>>
->>> Em 12/11/2025 06:27, Tvrtko Ursulin escreveu:
->>>> Using a helper shrinks the code and separating the user and kernel 
->>>> slabs
->>>> is more secure.
->>>
->>> As in the commit message, the commit description should be writing in 
->>> the imperative mood.
->>
->> "Use a helper to shrink the code and separate the user and kernel 
->> slabs for better security."
->>
->> This sounds good?
->>
-> 
-> All good to me, thanks! With both observations addressed:
-> 
-> Reviewed-by: André Almeida <andrealmeid@igalia.com>
+On Fri, Nov 21, 2025 at 3:42=E2=80=AFAM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 
-Thank you, pushed to drm-misc-next!
+> > This is needed on R-Car DU, where the CRTC provides clock to LVDS
+> > and DSI, and has to be started before a bridge may call .prepare,
+> > which may trigger e.g. a DSI transfer.
+>
+> Is there an issue with LVDS ? The LVDS encoder receivers its pixel clock
+> from the CRTC the same way any encoder does (except on R-Car D3 and E3
+> where the encoder *provides* the pixel clock to the CRTC, which is
+> handled through explicit function calls from the CRTC to the LVDS
+> encoder). There's no command mode with LVDS. Is the concern that we may
+> have an external LVDS to DSI bridge ?
 
-Regards,
+Question to Marek, this commit text is from his original patch (which
+I modified heavily so almost only the commit message is left...)
 
-Tvrtko
+> > -     /* Apply the atomic update. */
+> > -     drm_atomic_helper_commit_modeset_disables(dev, old_state);
+> > +     /*
+> > +      * Apply the atomic update.
+> > +      *
+> > +      * We need special ordering to make sure the CRTC disabled last
+> > +      * and enabled first. We do this with modified versions of the
+> > +      * common modeset_disables/enables functions.
+> > +      */
+> > +
+> > +     /* Variant of drm_atomic_helper_commit_modeset_disables() */
+> > +     drm_encoder_bridge_disable(dev, state);
+> > +     drm_encoder_bridge_post_disable(dev, state);
+> > +     drm_crtc_disable(dev, state);
+>
+> I think we have a fundamental issue here. Commit c9b1150a68d9
+> ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+> states that
+>
+>     The definition of bridge pre_enable hook says that,
+>     "The display pipe (i.e. clocks and timing signals) feeding this bridg=
+e
+>     will not yet be running when this callback is called".
+>
+> This is right, and the above sequence does not comply with the
+> documentation, which is a concern. Quite clearly the bridge API isn't up
+> to the task here. I don't know how we'll fix it, the pre/post
+> enable/disable operations are really a hack and don't scale, and fixing
+> that will likely not be a simple task.
 
-> 
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>> ---
->>>> v2:
->>>>   * Remove now unused dev local.
->>>> ---
->>>>   drivers/gpu/drm/drm_gem.c | 13 +++----------
->>>>   1 file changed, 3 insertions(+), 10 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->>>> index a1a9c828938b..68168d58a7c8 100644
->>>> --- a/drivers/gpu/drm/drm_gem.c
->>>> +++ b/drivers/gpu/drm/drm_gem.c
->>>> @@ -783,7 +783,6 @@ static int objects_lookup(struct drm_file *filp, 
->>>> u32 *handle, int count,
->>>>   int drm_gem_objects_lookup(struct drm_file *filp, void __user 
->>>> *bo_handles,
->>>>                  int count, struct drm_gem_object ***objs_out)
->>>>   {
->>>> -    struct drm_device *dev = filp->minor->dev;
->>>>       struct drm_gem_object **objs;
->>>>       u32 *handles;
->>>>       int ret;
->>>> @@ -798,15 +797,9 @@ int drm_gem_objects_lookup(struct drm_file 
->>>> *filp, void __user *bo_handles,
->>>>       *objs_out = objs;
->>>> -    handles = kvmalloc_array(count, sizeof(u32), GFP_KERNEL);
->>>> -    if (!handles) {
->>>> -        ret = -ENOMEM;
->>>> -        goto out;
->>>> -    }
->>>> -
->>>> -    if (copy_from_user(handles, bo_handles, count * sizeof(u32))) {
->>>> -        ret = -EFAULT;
->>>> -        drm_dbg_core(dev, "Failed to copy in GEM handles\n");
->>>
->>> Why the debugged message has been removed?
->>
->> I should indeed have mentioned in the commit message:
->>
->> "While at it lets remove the useless debug message."
->>
->> Regards,
->>
->> Tvrtko
->>>> +    handles = vmemdup_array_user(bo_handles, count, sizeof(u32));
->>>> +    if (IS_ERR(handles)) {
->>>> +        ret = PTR_ERR(handles);
->>>>           goto out;
->>>>       }
->>>
-> 
+Well in the v1 patch I tried to go with this definition, if:
 
+1. The display pipe is not running and
+2. The hardware is such that DSI will not work unless the display
+    pipe is running then it follows logically that:
+
+3. We cannot send DSI commands in bridge prepare()/unprepare()
+   execution paths.
+
+Thus the v1 patch moves all DSI commands to the enable/disable
+callbacks. It fixes the regression, too.
+
+We would need to comb over the existing DSI bridges and panels
+to convert them to this semantic if we wanna be strict, what I
+did was to just fix all panels used by this one hardware. I'm pretty
+sure the same can be done of any R-Car DU-related panel/bridge.
+
+> The short term question is how to deal with the regression that
+> c9b1150a68d9 caused in the MCDE and R-Car DU drivers. This patch
+> probably works. The complexity makes me worry that we'll introduce other
+> regressions, but it can be argued that we're merely restoring the
+> previous order of operations, which should therefore be safe. I'm still
+> concerned about maintainability though. Commit c9b1150a68d9 should
+> probably have been rejected, we should have developed a proper solution
+> instead :-(
+
+Yeah, it's a bit of a mess when regressions get detected late.
+I'm also worried about more regressions popping up. They will
+all be with DSI panels/bridges I think.
+
+Yours,
+Linus Walleij
