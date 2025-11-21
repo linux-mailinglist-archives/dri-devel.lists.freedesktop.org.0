@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3787C78ED3
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 13:02:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F4BC78F03
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 13:07:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C66210E04C;
-	Fri, 21 Nov 2025 12:02:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7BF110E0CE;
+	Fri, 21 Nov 2025 12:07:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iN9p1X8X";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="r3gfstet";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E2DE10E04C
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 12:02:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7964F10E0CE
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 12:07:42 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2EEEC6A;
- Fri, 21 Nov 2025 13:00:15 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21C836A6;
+ Fri, 21 Nov 2025 13:05:33 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1763726417;
- bh=Z2GL9mckblOsewxGx//Z4PjeFtj/fxrv3yPZCRoz6S8=;
+ s=mail; t=1763726735;
+ bh=CSz7DcU4vC7vNNXvv0S58mDvdmc6kNxg9oj2/N9Le9w=;
  h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
- b=iN9p1X8XYtYa/sUGj4a2ErZW3bsoyya6UukphbxvjXOOP2RP2R4PJblMuE+L/Rttl
- IGo6H2NxOS2m/aRN8DknGsKkZSHnaElCVkun01OzlS4mz1evYMkMXBCpHzjGdGYuDr
- W2xYcOnpPynYHM4hzwi0qdzwbdDeDwS44ln2E+t8=
-Message-ID: <082379e2-2d00-4f2f-82dd-cff93d2867af@ideasonboard.com>
-Date: Fri, 21 Nov 2025 14:02:18 +0200
+ b=r3gfstetiWyxxWsWJLuaKMQ9+9p/YTqnYLcM8ayzbl/6E5VzSm8aUnjTIPaG0Lexv
+ cOKWkxiYEH6ew1uqyQsVVSKe19jv2HotgCFeFEuqybsBenH9sVjUwshke8i19zBTVh
+ yrWC4scl8vEQhpxTltQwMeyNF6x+4o4hfqMxOWq8=
+Message-ID: <22985633-f20c-4f36-96d1-ce01fe6cf6df@ideasonboard.com>
+Date: Fri, 21 Nov 2025 14:07:36 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v9 5/6] cadence: cdns-mhdp8546*: Change
- drm_connector from structure to pointer
+Subject: Re: [PATCH RESEND v9 0/6] MHDP8546 fixes related to
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR usecase
 To: Harikrishna Shenoy <h-shenoy@ti.com>
 References: <20251120121416.660781-1-h-shenoy@ti.com>
- <20251120121416.660781-6-h-shenoy@ti.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
@@ -90,7 +89,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20251120121416.660781-6-h-shenoy@ti.com>
+In-Reply-To: <20251120121416.660781-1-h-shenoy@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,147 +110,134 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi,
 
 On 20/11/2025 14:14, Harikrishna Shenoy wrote:
-> After enabling DRM_BRIDGE_ATTACH_NO_CONNECTOR flag, mhdp->connector is not
-> initialised during bridge_attach(). The connector is however required in
-> few driver calls like cdns_mhdp_hdcp_enable() and
-> cdns_mhdp_modeset_retry_fn().Now that we have dropped the legacy code
-> which became redundant with introduction of DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> usecase in driver,we can cleanly switch to drm_connector pointer
-> instead of structure.
+> With the DRM_BRIDGE_ATTACH_NO_CONNECTOR framework, the connector is 
+> no longer initialized in  bridge_attach() when the display controller 
+> sets the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag. 
+> This causes a null pointer dereference in cdns_mhdp_modeset_retry_fn() 
+> when trying to access &conn->dev->mode_config.mutex. 
+> Observed on a board where EDID read failed. 
+> (log: https://gist.github.com/Jayesh2000/233f87f9becdf1e66f1da6fd53f77429)
 > 
-> Set it in bridge_enable() and clear it in bridge_disable(),
-> and make appropriate changes.
+> Patch 1 adds a connector_ptr which takes care of both 
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR and !DRM_BRIDGE_ATTACH_NO_CONNECTOR 
+> case by setting the pointer in appropriate hooks and checking for pointer 
+> validity before accessing the connector.
+> Patch 2 adds mode validation hook to bridge fucntions.
+> Patch 3 fixes HDCP to work with both DRM_BRIDGE_ATTACH_NO_CONNECTOR 
+> and !DRM_BRIDGE_ATTACH_NO_CONNECTOR case by moving HDCP state handling 
+> into the bridge atomic check inline with the 
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR model.
+> Patches 4,5 do necessary cleanup and alignment for using
+> connector pointer.
 > 
-> This allows us to dynamically set the reference in bridge_enable()
-> when the connector becomes available and clear it in bridge_disable().
-> This change is necessary to properly integrate with the
-> DRM_BRIDGE_ATTACH_NO_CONNECTOR flag set while maintaining all
-> connector-dependent functionality in the driver.
+> The rationale behind the sequence of commits is we can cleanly 
+> switch to drm_connector pointer after removal of connector helper 
+> code blocks, which are anyways not touch after 
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR has been enabled in driver.
+> 
+> The last patch make smaller adjustment: lowering the log level for
+> noisy DPCD transfer errors.
+> 
+> v8 patch link:
+> <https://lore.kernel.org/all/20251014094527.3916421-1-h-shenoy@ti.com/>
+> 
+> Changelog v8-v9:
+> -Move the patch 6 in v8 related to HDCP to patch 3 and add fixes tag.
+> -Update to connector_ptr in HDCP code in patch 1.
+> -Rebased on next-20251114.
 
-Now the code looks fine, but you didn't update the description, which
-now looks to be quite wrong for this.
+Don't base on linux-next, except in some quite special circumstances.
+Base on latest major version from Linus, or -rc from Linus, or
+drm-misc-next. Usually drm-misc-next is a safe choice for DRM patches.
+
+And if you make changes to a series, it's not a "resend" but a new version.
 
  Tomi
 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-> Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
-> ---
->  .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c  | 14 +++++++-------
->  .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.h  |  3 +--
->  .../gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c  | 16 ++++++++--------
->  3 files changed, 16 insertions(+), 17 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> index 816d5d87b45fe..002b4be3de674 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> @@ -1765,12 +1765,12 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
+> v7 patch link:
+> <https://lore.kernel.org/all/20250929083936.1575685-1-h-shenoy@ti.com/>
+> 
+> Changelog v7-v8:
+> -Move patches with firxes tag to top of series with appropriate changes
+> to them.
+> -Add R/B tag to patch 
+> https://lore.kernel.org/all/ae3snoap64r252sbqhsshsadxfmlqdfn6b4o5fgfcmxppglkqf@2lsstfsghzwb/
+> 
+> v6 patch link:
+> <https://lore.kernel.org/all/20250909090824.1655537-1-h-shenoy@ti.com/>
+> 
+> Changelog v6-v7:
+> -Update cover letter to explain the series.
+> -Add R/B tag in PATCH 1 and drop fixes tag as suggested.
+> -Drop fixes tag in PATCH 2.
+> -Update the commit messages for clear understanding of changes done in patches.
+> 
+> v5 patch link:
+> <https://lore.kernel.org/all/20250811075904.1613519-1-h-shenoy@ti.com/>
+> 
+> Changelog v5 -> v6:
+> -Update cover letter to clarify the series in better way.
+> -Add Reviewed-by tag to relevant patches.
 >  
->  	mutex_lock(&mhdp->link_mutex);
+> v4 patch link: 
+> <https://lore.kernel.org/all/20250624054448.192801-1-j-choudhary@ti.com>
+> 
+> Changelog v4->v5:
+> - Handle HDCP state in bridge atomic check instead of connector 
+> atomic check
 >  
-> -	mhdp->connector_ptr = drm_atomic_get_new_connector_for_encoder(state,
-> -								       bridge->encoder);
-> -	if (WARN_ON(!mhdp->connector_ptr))
-> +	mhdp->connector = drm_atomic_get_new_connector_for_encoder(state,
-> +								   bridge->encoder);
-> +	if (WARN_ON(!mhdp->connector))
->  		goto out;
->  
-> -	conn_state = drm_atomic_get_new_connector_state(state, mhdp->connector_ptr);
-> +	conn_state = drm_atomic_get_new_connector_state(state, mhdp->connector);
->  	if (WARN_ON(!conn_state))
->  		goto out;
->  
-> @@ -1869,7 +1869,7 @@ static void cdns_mhdp_atomic_disable(struct drm_bridge *bridge,
->  	if (mhdp->info && mhdp->info->ops && mhdp->info->ops->disable)
->  		mhdp->info->ops->disable(mhdp);
->  
-> -	mhdp->connector_ptr = NULL;
-> +	mhdp->connector = NULL;
->  	mutex_unlock(&mhdp->link_mutex);
->  }
->  
-> @@ -1964,7 +1964,7 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
->  	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
->  	struct drm_connector_state *old_state, *new_state;
->  	struct drm_atomic_state *state = crtc_state->state;
-> -	struct drm_connector *conn = mhdp->connector_ptr;
-> +	struct drm_connector *conn = mhdp->connector;
->  	u64 old_cp, new_cp;
->  
->  	mutex_lock(&mhdp->link_mutex);
-> @@ -2179,7 +2179,7 @@ static void cdns_mhdp_modeset_retry_fn(struct work_struct *work)
->  
->  	mhdp = container_of(work, typeof(*mhdp), modeset_retry_work);
->  
-> -	conn = mhdp->connector_ptr;
-> +	conn = mhdp->connector;
->  
->  	/* Grab the locks before changing connector property */
->  	mutex_lock(&conn->dev->mode_config.mutex);
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-> index a76775c768956..b297db53ba283 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
-> @@ -375,8 +375,7 @@ struct cdns_mhdp_device {
->  	 */
->  	struct mutex link_mutex;
->  
-> -	struct drm_connector connector;
-> -	struct drm_connector *connector_ptr;
-> +	struct drm_connector *connector;
->  	struct drm_bridge bridge;
->  
->  	struct cdns_mhdp_link link;
-> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-> index 5ac2fad2f0078..1d433ad3fe878 100644
-> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
-> @@ -393,9 +393,9 @@ static int _cdns_mhdp_hdcp_disable(struct cdns_mhdp_device *mhdp)
->  {
->  	int ret;
->  
-> -	if (mhdp->connector_ptr) {
-> +	if (mhdp->connector) {
->  		dev_dbg(mhdp->dev, "[%s:%d] HDCP is being disabled...\n",
-> -			mhdp->connector_ptr->name, mhdp->connector_ptr->base.id);
-> +			mhdp->connector->name, mhdp->connector->base.id);
->  	}
->  
->  	ret = cdns_mhdp_hdcp_set_config(mhdp, 0, false);
-> @@ -445,10 +445,10 @@ static int cdns_mhdp_hdcp_check_link(struct cdns_mhdp_device *mhdp)
->  	if (!ret && hdcp_port_status & HDCP_PORT_STS_AUTH)
->  		goto out;
->  
-> -	if (mhdp->connector_ptr) {
-> +	if (mhdp->connector) {
->  		dev_err(mhdp->dev,
->  			"[%s:%d] HDCP link failed, retrying authentication\n",
-> -			mhdp->connector_ptr->name, mhdp->connector_ptr->base.id);
-> +			mhdp->connector->name, mhdp->connector->base.id);
->  	}
->  
->  	ret = _cdns_mhdp_hdcp_disable(mhdp);
-> @@ -494,16 +494,16 @@ static void cdns_mhdp_hdcp_prop_work(struct work_struct *work)
->  	struct drm_device *dev = NULL;
->  	struct drm_connector_state *state;
->  
-> -	if (mhdp->connector_ptr)
-> -		dev = mhdp->connector_ptr->dev;
-> +	if (mhdp->connector)
-> +		dev = mhdp->connector->dev;
->  
->  	if (!dev)
->  		return;
->  
->  	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
->  	mutex_lock(&mhdp->hdcp.mutex);
-> -	if (mhdp->connector_ptr && mhdp->hdcp.value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-> -		state = mhdp->connector_ptr->state;
-> +	if (mhdp->connector && mhdp->hdcp.value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-> +		state = mhdp->connector->state;
->  		state->content_protection = mhdp->hdcp.value;
->  	}
->  	mutex_unlock(&mhdp->hdcp.mutex);
+> v3 patch link:
+> <https://lore.kernel.org/all/20250529142517.188786-1-j-choudhary@ti.com/>
+> 
+> Changelog v3->v4:
+> - Fix kernel test robot build warning:
+>   <https://lore.kernel.org/all/202505300201.2s6r12yc-lkp@intel.com/>
+> 
+> v2 patch link:
+> <https://lore.kernel.org/all/20250521073237.366463-1-j-choudhary@ti.com/>
+> 
+> Changelog v2->v3:
+> - Add mode_valid in drm_bridge_funcs to a separate patch
+> - Remove "if (mhdp->connector.dev)" conditions that were missed in v2
+> - Split out the move of drm_atomic_get_new_connector_for_encoder()
+>   to a separate patch
+> - Drop "R-by" considering the changes in v2[1/3]
+> - Add Fixes tag to first 4 patches:
+>   commit c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
+>   This added DBANC flag in tidss while attaching bridge to the encoder
+> - Drop RFC prefix
+> 
+> v1 patch link:
+> <https://lore.kernel.org/all/20250116111636.157641-1-j-choudhary@ti.com/>
+> 
+> Changelog v1->v2:
+> - Remove !DRM_BRIDGE_ATTACH_NO_CONNECTOR entirely
+> - Add mode_valid in drm_bridge_funcs[0]
+> - Fix NULL POINTER differently since we cannot access atomic_state
+> - Reduce log level in cdns_mhdp_transfer call
+> 
+> [0]: https://lore.kernel.org/all/20240530091757.433106-1-j-choudhary@ti.com/
+> 
+> Harikrishna Shenoy (1):
+>   drm/bridge: cadence: cdns-mhdp8546-core: Handle HDCP state in bridge
+>     atomic check
+> 
+> Jayesh Choudhary (5):
+>   drm/bridge: cadence: cdns-mhdp8546-core: Set the mhdp connector
+>     earlier in atomic_enable()
+>   drm/bridge: cadence: cdns-mhdp8546-core: Add mode_valid hook to
+>     drm_bridge_funcs
+>   drm/bridge: cadence: cdns-mhdp8546-core: Remove legacy support for
+>     connector initialisation in bridge
+>   drm/bridge: cadence: cdns-mhdp8546*: Change drm_connector from
+>     structure to pointer
+>   drm/bridge: cadence: cdns-mhdp8546-core: Reduce log level for DPCD
+>     read/write
+> 
+>  .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 258 +++++-------------
+>  .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   2 +-
+>  .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   |   8 +-
+>  3 files changed, 72 insertions(+), 196 deletions(-)
+> 
 
