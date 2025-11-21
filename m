@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02AD3C786FE
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 11:17:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAE1C7870F
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 11:17:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58DBA10E82B;
-	Fri, 21 Nov 2025 10:17:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD46010E832;
+	Fri, 21 Nov 2025 10:17:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="mehL36YB";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Al5jV6hU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013056.outbound.protection.outlook.com
- [40.107.201.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D991410E830;
- Fri, 21 Nov 2025 10:17:20 +0000 (UTC)
+Received: from CH5PR02CU005.outbound.protection.outlook.com
+ (mail-northcentralusazon11012013.outbound.protection.outlook.com
+ [40.107.200.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74FA410E831;
+ Fri, 21 Nov 2025 10:17:48 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gKRYAgiyCWOEpAcne1NQp66gqwJ7/Yxq0KGh/AdXb1bFkN1Y56wpaWDN1D4dedaDAbm9V/7NjvBb9ps8wNt8yUy9bFwoQuoiZnZ8DBkGNeHhaEK+9NMu4pM8YMAT/oYXUU9MP1sioepcXJLb/uBXv3ngugxuAbA/gSmCeNryZrbdi4ZiCuYeShLEIg2GAgQy/ThL1On5JY38wLchBPpBc2QQt38nMnKqmZh+RDTx7Xgn5rEGvvpQzDMBE/aMnfutip4eRaawiNSuWlDMowMWluIVoLh1OoOA7+sQM6/jFdGZLyJGnyi3gHLHlmswv7fpOEkCNMQ7W7D3aIwpLVcT2A==
+ b=Y2qRnLgvEzF0SchlTG0LG5uRuFW5VtobbB3VW1uZJWKb87fns/EUzN6vW0evi1n1znYz30CzSwJ70dNqH0m9JBo7U604O1TGYSwB5rJxkNOpaoNp2JZOjrrbnJrzKGMpIpm6DZMoEpOjxWQng3bkI5IxlDkTNqP2J1RJSWO1Aqps0XT7t7BzDll/TffYPQGEIcOmEN83RGgkE8+sGjXNp7ZUARBKlJkzXvV+pWY4dxELItCGpFJj0O/CTqbxACsIaAqOYTHkLcj4EZcndCk/eXwU4//8T6gOZZtjVdRss17uRY+RhPgON0NhfCvaPKdaVrQLFHtixsXCAjQyTpy8zQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nhjDsTRh5IebcsVAiaDqcyvCU553tYBS531yz4q0CHg=;
- b=KYtQcqNwLcU1dSreewa5W4XTJbaQ8SvV9OE5NFt7ptK2F8CfKy9Ec11RzHbGjG5HVZsMOEQA2XGWIkQFjPUPBwEkJGyYeZtKXBGbUQmYi1fiNyVqkwAATxLsGa3MzpYiblta6rxM8tlYg6K9AcPw6lEwIBCDIT3mA/n9K0UQ1bq79TzmK4euXPo3JAL2hYnrjdritwrAdtN2dvBLrbF0yQrg9nk+BEH4ZmsyKx27Enn1jQFXGsc3aexjm0QZmrutetRbJY9eZ5lyd47PKaU3cdSCOnLofv1Rwkvlc4ku4+PJFApeO7F7M2ZxicRKJvoIZRjUZjhAZauxNJWij7I6jA==
+ bh=CNUx8BQ1JJsXhzyti5kJ8AB0aapQDuXGnS6dSlOYifw=;
+ b=YR0IKlXpya+SJp7Nx5FyOilo7Kq5M+m9ugCyLbFR9abnrepUNnLWhGxKPn5rTStWm/T4v5PabujeDxeDfjoBjj3Q6E2L1QAwtXCyj9HYJiAp2UtcsT7MqsrolPpTj1RMs663N8TyHxWL6QpPzs/Xc42Za4tCDQrXbbE/s9bgInxcik5jg3agFrNe+R6zl3rjf8y2S5c+XsAKwz99aqtKap5bsOSK/GwdmpIkwr2rCEkQFw5RUaC0Cfb0UWcQMUjMfZG9nEBYIywM9vG8BlI4mTkxKkTLm9xBOw+Bbq2HHYCEEWGRSfQVbcgvUvyD9ShSIlNbe8WTqciGb9DAIZKRmA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nhjDsTRh5IebcsVAiaDqcyvCU553tYBS531yz4q0CHg=;
- b=mehL36YBFclfh31z9KXgkLct3wAWLwouQasCJVDz5w9Xll0sury58OeaySKBzYnx4lkXOiGlySyogbeDzQvmO1LKnEcsPshmCszfkgIq7mA3IEKCE2oKJv/ucU0hkxurYCjdiAkVco6VOTxxmKvYyI+q9JwWhsyzwyJqk4Xtjlw=
-Received: from BN0PR04CA0043.namprd04.prod.outlook.com (2603:10b6:408:e8::18)
- by BL3PR12MB6548.namprd12.prod.outlook.com (2603:10b6:208:38f::8)
+ bh=CNUx8BQ1JJsXhzyti5kJ8AB0aapQDuXGnS6dSlOYifw=;
+ b=Al5jV6hUoWUT2/5mPRSC+tWM/oHxTyV73e+JAQYsylX7wG2uKupZTzsvzvCfB0lFlLKAeWB70TzlFL8fgN7wftb6VDGfEVzuMV/6MYV9GV5CaKBo9KBVW0DobZN0piUkcOpP4ManghYNHljGnA4FXDXIuvNV43gWoXTr01Vwfzc=
+Received: from MN2PR07CA0004.namprd07.prod.outlook.com (2603:10b6:208:1a0::14)
+ by CH3PR12MB8546.namprd12.prod.outlook.com (2603:10b6:610:15f::18)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Fri, 21 Nov
- 2025 10:17:15 +0000
-Received: from BN2PEPF000055E1.namprd21.prod.outlook.com
- (2603:10b6:408:e8:cafe::e3) by BN0PR04CA0043.outlook.office365.com
- (2603:10b6:408:e8::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.14 via Frontend Transport; Fri,
- 21 Nov 2025 10:16:57 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Fri, 21 Nov
+ 2025 10:17:41 +0000
+Received: from BN2PEPF000055E0.namprd21.prod.outlook.com
+ (2603:10b6:208:1a0:cafe::6) by MN2PR07CA0004.outlook.office365.com
+ (2603:10b6:208:1a0::14) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.11 via Frontend Transport; Fri,
+ 21 Nov 2025 10:17:29 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -49,13 +49,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- BN2PEPF000055E1.mail.protection.outlook.com (10.167.245.11) with Microsoft
+ BN2PEPF000055E0.mail.protection.outlook.com (10.167.245.10) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.1 via Frontend Transport; Fri, 21 Nov 2025 10:17:15 +0000
+ 15.20.9366.1 via Frontend Transport; Fri, 21 Nov 2025 10:17:41 +0000
 Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
  satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Fri, 21 Nov 2025 02:17:13 -0800
+ 15.2.2562.17; Fri, 21 Nov 2025 02:17:39 -0800
 From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 To: Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
@@ -63,9 +63,9 @@ To: Alex Deucher <alexander.deucher@amd.com>,
 CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
  <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 16/28] drm/amdgpu: use larger gart window when possible
-Date: Fri, 21 Nov 2025 11:12:26 +0100
-Message-ID: <20251121101315.3585-17-pierre-eric.pelloux-prayer@amd.com>
+Subject: [PATCH v3 17/28] drm/amdgpu: introduce amdgpu_sdma_set_vm_pte_scheds
+Date: Fri, 21 Nov 2025 11:12:27 +0100
+Message-ID: <20251121101315.3585-18-pierre-eric.pelloux-prayer@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251121101315.3585-1-pierre-eric.pelloux-prayer@amd.com>
 References: <20251121101315.3585-1-pierre-eric.pelloux-prayer@amd.com>
@@ -77,53 +77,53 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055E1:EE_|BL3PR12MB6548:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6358cf49-f40c-4b71-7c2f-08de28e724c4
+X-MS-TrafficTypeDiagnostic: BN2PEPF000055E0:EE_|CH3PR12MB8546:EE_
+X-MS-Office365-Filtering-Correlation-Id: ff97a502-34f5-4ad6-5043-08de28e7344d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|82310400026|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?fCkl/nT10Bc8Z3MVEf008+ZVvYNZ7q+uMYPKnop45qPhwI7B9W8Wsk4zPG4W?=
- =?us-ascii?Q?fkITE/i322y0bnPUWQnSCUGFM+PjX2kKSGDslGCDfNnpBppmCDPkwQn2S3Pw?=
- =?us-ascii?Q?XplQYUjdqf+kkp6qYJVsDbuVByPlxgjKpMqSe/MmMnymKtiLl3zsxc+rbd2b?=
- =?us-ascii?Q?YQvyeNF5IUNpyWp4pzVi/x+eL+FBCPGeRYZhz8rLW0nH+QqCU/5kdVVjUvi+?=
- =?us-ascii?Q?O/PsuGfve52NXXq3X4qH8GWYdudC/8IQdt548/0GUnOPgULtx5g0nTTcLJfa?=
- =?us-ascii?Q?cNZk1TJlgjQghB7Dat5Wsp+fIZVqIPaYJJ8t/15flspg5vYCE3xK2D1jXV/x?=
- =?us-ascii?Q?zZ85KTpJVySXvucZpyB9/9d1ddOj48bYAXx6tS+nk84Il4fW4PH3t3JHH22T?=
- =?us-ascii?Q?jP1Rf2yslb3xTdjlVptcZt/6U08G7A+6Ixl3rzGSSPFWrB0t4KdTHr1cyM5e?=
- =?us-ascii?Q?4C57V66jGvsw+qLCLJdkfmEhbsi1RTt0Hy88edJI1+6661DAe54qs8t8bHga?=
- =?us-ascii?Q?WpEcs/XdDKVxRVgdxIZgtdWvrezuo632GiosjhPuC4fZu/in5/UY6vrRpez3?=
- =?us-ascii?Q?bCsGEyoeMZSCAyVDZOkitXycGCwgIGVVPaH2162RKa+7Th48+6OPos9eQp9B?=
- =?us-ascii?Q?nb/rqLH451fXPM74bJKtlLexMdhfhlDu3Ne0TOgfZOq7OWizVVXPUg3Tlk+J?=
- =?us-ascii?Q?11qnohLbKoCg0CX2klwoRkov0Ba2mbWTlZJAlUMXSWqjvDkUvfxUKArUr6n9?=
- =?us-ascii?Q?aNbh0MruCwt8cXttYkIOToX+3CdDokVbf/Oj4waCoHfVHwaAICcRQ0mnGczn?=
- =?us-ascii?Q?9Ht9tTYWzFwddqeC4GlhRMlHl4XQ9+eUP9wUHpMprvBves74zjXN1dhsO4Ks?=
- =?us-ascii?Q?3UjQoEmHKvDrxt7YPmR0otd4u8+sezCNWCVvl5GRXu1onWtW3oT613fjC53d?=
- =?us-ascii?Q?P7sqTQzokpVqS8SZ7otU77ZM6CbXNxzfZpEYLhocQwu6NNUV087sYNz4fiLz?=
- =?us-ascii?Q?zGOvHEFDyI1pu8/4a1M3TXVMwEqmeeMLnfUrFLcLTR/Mgzu7jI/Kk013VjbC?=
- =?us-ascii?Q?ZX7J7boWKa8A4e+qLimM4IJoTgUe03baWxOzkljM4iB1Als2+FhJlZUaMwde?=
- =?us-ascii?Q?aWf4iCCsoyz+kutgtf5VeqVYf3i3bS6hzhxrHQb5evfRqLNDcXwOOU7r0JKw?=
- =?us-ascii?Q?LtuDOCUU7uIoHGQTyq1dDTJU7GskM+Hl/Px2FGr81LA6GdXb9Z3YuiS49Y1A?=
- =?us-ascii?Q?edXDtBqmcoXdsNhQxVxDJrShG+voZb22vizEoGnBXg40ntrBEPsVwZF8UFLf?=
- =?us-ascii?Q?M+yhTOttlSmGKqTwqrpeOjxThzDGpjIaiFQqABGkjNrb1Ur8V3cLoAiGiape?=
- =?us-ascii?Q?ivel4M5uUQ+iYo63nv7Pc4eZvVemF6dxyzhqg2JezhUrsyfXSNO95mXOMsjj?=
- =?us-ascii?Q?PepjKrAu2Fa7OsT9mBYjDdgtMCUo4YUErhf8qN5EtUxs17PxhFWDo2oSYtNU?=
- =?us-ascii?Q?56Ro3RFdZn21zWO/njI3NSwkvoY4tyTDkTR06lSa4SCf/IMNmnKhXIBYt03S?=
- =?us-ascii?Q?bVA9VlEgRPncqvcSYbo=3D?=
+ ARA:13230040|36860700013|1800799024|376014|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?BzWAxXtoa1NixFph41cI37ASbJ1Fi5yaJEiA1jnG+7z98uxxYnu6gKlhbtRv?=
+ =?us-ascii?Q?4hurAGpN2kTbXBRAoVpkasfmTZWOlazzRgwZnpsP0ohm//glfzkvh/7UL4LU?=
+ =?us-ascii?Q?lgYZ+Aewll3hmSVbzbrvV4kAptcEpokaWl3iS2bmOY0FE8gXlj/gq2dicb3W?=
+ =?us-ascii?Q?0vJp3OdavbZ+wK70lP3gFU3f4eigoAgFqGEMicPqr+Q97dPDy/K3HY7RK2bx?=
+ =?us-ascii?Q?HrWtab6JRm0OON+Hf8cQQ9Yjud7DVlrvxWQPD53Oas3leyCXy3OpUXGyVK8Q?=
+ =?us-ascii?Q?oZohSye+PrRfXLZZoqmcTDFPzAdmzwLJPHi2LJllyuCC8BJ8AQm7GmhP595C?=
+ =?us-ascii?Q?VA32Euja5bagbAdvK9u4ttR7I9cICdl+i74AtlHTG7kNLtiBqLuntQ5/b3Rv?=
+ =?us-ascii?Q?o56Ewr5qgnYRqbFiKpxbekQxMvvl/T6nLYWmsWayjDnOTxibNXc22tQ8fjBT?=
+ =?us-ascii?Q?MsAPWttfxoF+R1Plx0cRyIHwheK8TaeO3zKv2cvj60BiYV+46LeF1xbpLJXC?=
+ =?us-ascii?Q?0uC8aCoNbsnUwGqq8pdxd1sbRyj9/yHu6R5ldPEQ8Mg0TyfDjGnWeMkYQoYs?=
+ =?us-ascii?Q?X7KAeU9StL4K1pmvXFvSKzZJ9Y0HcRlPgXjkWwcon3kD1Tu/P+fFgdS8lS1/?=
+ =?us-ascii?Q?rUbIRMI46ecg82YmGzgKiFWsVczs2qpC1BVxsFg2HGIwcfFu7E8WEx97SKR5?=
+ =?us-ascii?Q?8ekKX8Ejq1q+sOLB9pl91zZP7mBWOae5e5r4ton5Zu1mKXGUv0/IOQAP98X9?=
+ =?us-ascii?Q?bnYWyJcSA+Rzo92bcyFe8jURh1XOU6YCF3RPiyXoVoq7LiZ2xtgcq/wssbCR?=
+ =?us-ascii?Q?/kpchmBWst2I87jG8diD0BZNPeQbQZVkMq3ijNLfQy/VViwBFrTwnXiyLw6u?=
+ =?us-ascii?Q?3fs5fPCVXx7lTEDoidDqzJMYj07VOG3L7ESCDeIu6ziUgwHzKngWGbUvvMOt?=
+ =?us-ascii?Q?A2eXz1VxdaZrXnpJGxmI5wPJP+sSgVsJaPIOPZoUiVb75qQ9hC6duBPIqTWX?=
+ =?us-ascii?Q?z7FIQjrrD3UkDBXy4RIiHuLVDebyz5GG/cl/f5W/qyOP2MQl2EDTpjImkyDG?=
+ =?us-ascii?Q?QDqbE9sCJwQf8e6cgx7K2hMoYySwO4S9nnqN+jmAiumBfFSEqSSAg1clKIfq?=
+ =?us-ascii?Q?PxTTbxMfXj+nOddMhT7TKr3nkyYi3xsNX+TzdIHwJxx+DJRSNQ2PbF2CvhBs?=
+ =?us-ascii?Q?iV+1Ni1Iwmg7hMqJQq+DR0LAzXSwEiZAc99NDmzAjLxEKUZsl87VnqyBPCgo?=
+ =?us-ascii?Q?VKXJI26X1YsPi0asAkLUshZafDwkESgwQAXfKCGcvDGwZWJ2mVcsS46XRYS1?=
+ =?us-ascii?Q?MQrRr6r81Gr1UAuT+VZckxdVhRBvyduc4VUtNv7Efdr8wmrplYGZrpx7ktfQ?=
+ =?us-ascii?Q?59yUPuWcqdA8kQitNK7pCtea78LlNxn7z8MIs1mBgTDIaGtrH7RopHjtKGpZ?=
+ =?us-ascii?Q?TKee9HTfrIcZ2SmRX9E4gm+K416kTK+wgJTw+XHJ+wcwKjEpTOz7yIMFs9G1?=
+ =?us-ascii?Q?2iXIbpCoh52KpOSLrI0OxciFGzQohfAWzDGNODwBKj7r3IFjQ7hDs1kNCwWe?=
+ =?us-ascii?Q?DtE/7450h9UgUDyHBUI=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024); DIR:OUT;
+ SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 10:17:15.2177 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6358cf49-f40c-4b71-7c2f-08de28e724c4
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 10:17:41.2805 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff97a502-34f5-4ad6-5043-08de28e7344d
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000055E1.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000055E0.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6548
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8546
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,170 +139,702 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Entities' gart windows are contiguous so when copying a buffer
-and src doesn't need a gart window, its window can be used to
-extend dst one (and vice versa).
-
-This doubles the gart window size and reduces the number of jobs
-required.
+All sdma versions used the same logic, so add a helper and move the
+common code to a single place.
 
 ---
-v2: pass adev instead of ring to amdgpu_ttm_needs_gart_window
+v2: pass amdgpu_vm_pte_funcs as well
+v3: drop all the *_set_vm_pte_funcs one liners
 ---
 
 Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 78 ++++++++++++++++++-------
- 1 file changed, 58 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h      |  2 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c   | 17 ++++++++++++
+ drivers/gpu/drm/amd/amdgpu/cik_sdma.c    | 31 ++++++---------------
+ drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c   | 31 ++++++---------------
+ drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c   | 31 ++++++---------------
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c   | 35 ++++++------------------
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c | 35 ++++++------------------
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c   | 31 ++++++---------------
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c   | 31 ++++++---------------
+ drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c   | 29 ++++++--------------
+ drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c   | 29 ++++++--------------
+ drivers/gpu/drm/amd/amdgpu/si_dma.c      | 31 ++++++---------------
+ 12 files changed, 105 insertions(+), 228 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 164b49d768d8..489880b2fb8e 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -177,6 +177,21 @@ amdgpu_ttm_job_submit(struct amdgpu_device *adev, struct amdgpu_ttm_buffer_entit
- 	return amdgpu_job_submit(job);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+index 790e84fec949..a50e3c0a4b18 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
+@@ -1612,6 +1612,8 @@ struct dma_fence *amdgpu_device_enforce_isolation(struct amdgpu_device *adev,
+ bool amdgpu_device_has_display_hardware(struct amdgpu_device *adev);
+ ssize_t amdgpu_get_soft_full_reset_mask(struct amdgpu_ring *ring);
+ ssize_t amdgpu_show_reset_mask(char *buf, uint32_t supported_reset);
++void amdgpu_sdma_set_vm_pte_scheds(struct amdgpu_device *adev,
++				   const struct amdgpu_vm_pte_funcs *vm_pte_funcs);
+ 
+ /* atpx handler */
+ #if defined(CONFIG_VGA_SWITCHEROO)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 193de267984e..5061d5b0f875 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -3228,3 +3228,20 @@ void amdgpu_vm_print_task_info(struct amdgpu_device *adev,
+ 		task_info->process_name, task_info->tgid,
+ 		task_info->task.comm, task_info->task.pid);
+ }
++
++void amdgpu_sdma_set_vm_pte_scheds(struct amdgpu_device *adev,
++				   const struct amdgpu_vm_pte_funcs *vm_pte_funcs)
++{
++	struct drm_gpu_scheduler *sched;
++	int i;
++
++	for (i = 0; i < adev->sdma.num_instances; i++) {
++		if (adev->sdma.has_page_queue)
++			sched = &adev->sdma.instance[i].page.sched;
++		else
++			sched = &adev->sdma.instance[i].ring.sched;
++		adev->vm_manager.vm_pte_scheds[i] = sched;
++	}
++	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
++	adev->vm_manager.vm_pte_funcs = vm_pte_funcs;
++}
+diff --git a/drivers/gpu/drm/amd/amdgpu/cik_sdma.c b/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
+index 9e8715b4739d..22780c09177d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
++++ b/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
+@@ -53,7 +53,6 @@ static const u32 sdma_offsets[SDMA_MAX_INSTANCE] =
+ static void cik_sdma_set_ring_funcs(struct amdgpu_device *adev);
+ static void cik_sdma_set_irq_funcs(struct amdgpu_device *adev);
+ static void cik_sdma_set_buffer_funcs(struct amdgpu_device *adev);
+-static void cik_sdma_set_vm_pte_funcs(struct amdgpu_device *adev);
+ static int cik_sdma_soft_reset(struct amdgpu_ip_block *ip_block);
+ 
+ u32 amdgpu_cik_gpu_check_soft_reset(struct amdgpu_device *adev);
+@@ -919,6 +918,14 @@ static void cik_enable_sdma_mgls(struct amdgpu_device *adev,
+ 	}
  }
  
-+static bool amdgpu_ttm_needs_gart_window(struct amdgpu_device *adev,
-+					 struct ttm_resource *mem,
-+					 struct amdgpu_res_cursor *mm_cur,
-+					 bool tmz,
-+					 uint64_t *addr)
-+{
-+	/* Map only what can't be accessed directly */
-+	if (!tmz && mem->start != AMDGPU_BO_INVALID_OFFSET) {
-+		*addr = amdgpu_ttm_domain_start(adev, mem->mem_type) +
-+			mm_cur->start;
-+		return false;
-+	}
-+	return true;
-+}
++static const struct amdgpu_vm_pte_funcs cik_sdma_vm_pte_funcs = {
++	.copy_pte_num_dw = 7,
++	.copy_pte = cik_sdma_vm_copy_pte,
 +
- /**
-  * amdgpu_ttm_map_buffer - Map memory into the GART windows
-  * @adev: the device being used
-@@ -185,6 +200,7 @@ amdgpu_ttm_job_submit(struct amdgpu_device *adev, struct amdgpu_ttm_buffer_entit
-  * @mem: memory object to map
-  * @mm_cur: range to map
-  * @window: which GART window to use
-+ * @use_two_windows: if true, use a double window
-  * @tmz: if we should setup a TMZ enabled mapping
-  * @size: in number of bytes to map, out number of bytes mapped
-  * @addr: resulting address inside the MC address space
-@@ -198,6 +214,7 @@ static int amdgpu_ttm_map_buffer(struct amdgpu_device *adev,
- 				 struct ttm_resource *mem,
- 				 struct amdgpu_res_cursor *mm_cur,
- 				 unsigned int window,
-+				 bool use_two_windows,
- 				 bool tmz, uint64_t *size, uint64_t *addr)
++	.write_pte = cik_sdma_vm_write_pte,
++	.set_pte_pde = cik_sdma_vm_set_pte_pde,
++};
++
+ static int cik_sdma_early_init(struct amdgpu_ip_block *ip_block)
  {
- 	unsigned int offset, num_pages, num_dw, num_bytes;
-@@ -213,13 +230,8 @@ static int amdgpu_ttm_map_buffer(struct amdgpu_device *adev,
- 	if (WARN_ON(mem->mem_type == AMDGPU_PL_PREEMPT))
- 		return -EINVAL;
+ 	struct amdgpu_device *adev = ip_block->adev;
+@@ -933,7 +940,7 @@ static int cik_sdma_early_init(struct amdgpu_ip_block *ip_block)
+ 	cik_sdma_set_ring_funcs(adev);
+ 	cik_sdma_set_irq_funcs(adev);
+ 	cik_sdma_set_buffer_funcs(adev);
+-	cik_sdma_set_vm_pte_funcs(adev);
++	amdgpu_sdma_set_vm_pte_scheds(adev, &cik_sdma_vm_pte_funcs);
  
--	/* Map only what can't be accessed directly */
--	if (!tmz && mem->start != AMDGPU_BO_INVALID_OFFSET) {
--		*addr = amdgpu_ttm_domain_start(adev, mem->mem_type) +
--			mm_cur->start;
-+	if (!amdgpu_ttm_needs_gart_window(adev, mem, mm_cur, tmz, addr))
- 		return 0;
--	}
+ 	return 0;
+ }
+@@ -1337,26 +1344,6 @@ static void cik_sdma_set_buffer_funcs(struct amdgpu_device *adev)
+ 	adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+ }
+ 
+-static const struct amdgpu_vm_pte_funcs cik_sdma_vm_pte_funcs = {
+-	.copy_pte_num_dw = 7,
+-	.copy_pte = cik_sdma_vm_copy_pte,
 -
- 
- 	/*
- 	 * If start begins at an offset inside the page, then adjust the size
-@@ -228,7 +240,8 @@ static int amdgpu_ttm_map_buffer(struct amdgpu_device *adev,
- 	offset = mm_cur->start & ~PAGE_MASK;
- 
- 	num_pages = PFN_UP(*size + offset);
--	num_pages = min_t(uint32_t, num_pages, AMDGPU_GTT_MAX_TRANSFER_SIZE);
-+	num_pages = min_t(uint32_t,
-+		num_pages, AMDGPU_GTT_MAX_TRANSFER_SIZE * (use_two_windows ? 2 : 1));
- 
- 	*size = min(*size, (uint64_t)num_pages * PAGE_SIZE - offset);
- 
-@@ -300,7 +313,9 @@ static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
- 				      struct dma_resv *resv,
- 				      struct dma_fence **f)
+-	.write_pte = cik_sdma_vm_write_pte,
+-	.set_pte_pde = cik_sdma_vm_set_pte_pde,
+-};
+-
+-static void cik_sdma_set_vm_pte_funcs(struct amdgpu_device *adev)
+-{
+-	unsigned i;
+-
+-	adev->vm_manager.vm_pte_funcs = &cik_sdma_vm_pte_funcs;
+-	for (i = 0; i < adev->sdma.num_instances; i++) {
+-		adev->vm_manager.vm_pte_scheds[i] =
+-			&adev->sdma.instance[i].ring.sched;
+-	}
+-	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
+-}
+-
+ const struct amdgpu_ip_block_version cik_sdma_ip_block =
  {
-+	bool src_needs_gart_window, dst_needs_gart_window, use_two_gart_windows;
- 	struct amdgpu_res_cursor src_mm, dst_mm;
-+	int src_gart_window, dst_gart_window;
- 	struct dma_fence *fence = NULL;
- 	int r = 0;
- 	uint32_t copy_flags = 0;
-@@ -324,18 +339,40 @@ static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
- 		/* Never copy more than 256MiB at once to avoid a timeout */
- 		cur_size = min3(src_mm.size, dst_mm.size, 256ULL << 20);
+ 	.type = AMD_IP_BLOCK_TYPE_SDMA,
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c b/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c
+index 92ce580647cd..0090ace49024 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v2_4.c
+@@ -51,7 +51,6 @@
  
--		/* Map src to window 0 and dst to window 1. */
--		r = amdgpu_ttm_map_buffer(adev, entity,
--					  src->bo, src->mem, &src_mm,
--					  0, tmz, &cur_size, &from);
--		if (r)
--			goto error;
-+		/* If only one direction needs a gart window to access memory, use both
-+		 * windows for it.
-+		 */
-+		src_needs_gart_window =
-+			amdgpu_ttm_needs_gart_window(adev, src->mem, &src_mm, tmz, &from);
-+		dst_needs_gart_window =
-+			amdgpu_ttm_needs_gart_window(adev, dst->mem, &dst_mm, tmz, &to);
+ static void sdma_v2_4_set_ring_funcs(struct amdgpu_device *adev);
+ static void sdma_v2_4_set_buffer_funcs(struct amdgpu_device *adev);
+-static void sdma_v2_4_set_vm_pte_funcs(struct amdgpu_device *adev);
+ static void sdma_v2_4_set_irq_funcs(struct amdgpu_device *adev);
  
--		r = amdgpu_ttm_map_buffer(adev, entity,
--					  dst->bo, dst->mem, &dst_mm,
--					  1, tmz, &cur_size, &to);
--		if (r)
--			goto error;
-+		if (src_needs_gart_window) {
-+			src_gart_window = 0;
-+			use_two_gart_windows = !dst_needs_gart_window;
-+		}
-+		if (dst_needs_gart_window) {
-+			dst_gart_window = src_needs_gart_window ? 1 : 0;
-+			use_two_gart_windows = !src_needs_gart_window;
-+		}
+ MODULE_FIRMWARE("amdgpu/topaz_sdma.bin");
+@@ -809,6 +808,14 @@ static void sdma_v2_4_ring_emit_wreg(struct amdgpu_ring *ring,
+ 	amdgpu_ring_write(ring, val);
+ }
+ 
++static const struct amdgpu_vm_pte_funcs sdma_v2_4_vm_pte_funcs = {
++	.copy_pte_num_dw = 7,
++	.copy_pte = sdma_v2_4_vm_copy_pte,
 +
-+		if (src_needs_gart_window) {
-+			r = amdgpu_ttm_map_buffer(adev, entity,
-+						  src->bo, src->mem, &src_mm,
-+						  src_gart_window, use_two_gart_windows,
-+						  tmz, &cur_size, &from);
-+			if (r)
-+				goto error;
-+		}
++	.write_pte = sdma_v2_4_vm_write_pte,
++	.set_pte_pde = sdma_v2_4_vm_set_pte_pde,
++};
 +
-+		if (dst_needs_gart_window) {
-+			r = amdgpu_ttm_map_buffer(adev, entity,
-+						  dst->bo, dst->mem, &dst_mm,
-+						  dst_gart_window, use_two_gart_windows,
-+						  tmz, &cur_size, &to);
-+			if (r)
-+				goto error;
-+		}
+ static int sdma_v2_4_early_init(struct amdgpu_ip_block *ip_block)
+ {
+ 	struct amdgpu_device *adev = ip_block->adev;
+@@ -822,7 +829,7 @@ static int sdma_v2_4_early_init(struct amdgpu_ip_block *ip_block)
  
- 		abo_src = ttm_to_amdgpu_bo(src->bo);
- 		abo_dst = ttm_to_amdgpu_bo(dst->bo);
-@@ -2434,7 +2471,7 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_device *adev,
+ 	sdma_v2_4_set_ring_funcs(adev);
+ 	sdma_v2_4_set_buffer_funcs(adev);
+-	sdma_v2_4_set_vm_pte_funcs(adev);
++	amdgpu_sdma_set_vm_pte_scheds(adev, &sdma_v2_4_vm_pte_funcs);
+ 	sdma_v2_4_set_irq_funcs(adev);
  
- 		r = amdgpu_ttm_map_buffer(adev, entity,
- 					  &bo->tbo, bo->tbo.resource, &cursor,
--					  1, false, &size, &addr);
-+					  1, false, false, &size, &addr);
- 		if (r)
- 			goto err;
+ 	return 0;
+@@ -1232,26 +1239,6 @@ static void sdma_v2_4_set_buffer_funcs(struct amdgpu_device *adev)
+ 	adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+ }
  
-@@ -2485,7 +2522,8 @@ int amdgpu_fill_buffer(struct amdgpu_device *adev,
+-static const struct amdgpu_vm_pte_funcs sdma_v2_4_vm_pte_funcs = {
+-	.copy_pte_num_dw = 7,
+-	.copy_pte = sdma_v2_4_vm_copy_pte,
+-
+-	.write_pte = sdma_v2_4_vm_write_pte,
+-	.set_pte_pde = sdma_v2_4_vm_set_pte_pde,
+-};
+-
+-static void sdma_v2_4_set_vm_pte_funcs(struct amdgpu_device *adev)
+-{
+-	unsigned i;
+-
+-	adev->vm_manager.vm_pte_funcs = &sdma_v2_4_vm_pte_funcs;
+-	for (i = 0; i < adev->sdma.num_instances; i++) {
+-		adev->vm_manager.vm_pte_scheds[i] =
+-			&adev->sdma.instance[i].ring.sched;
+-	}
+-	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
+-}
+-
+ const struct amdgpu_ip_block_version sdma_v2_4_ip_block = {
+ 	.type = AMD_IP_BLOCK_TYPE_SDMA,
+ 	.major = 2,
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c
+index 1c076bd1cf73..2526d393162a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v3_0.c
+@@ -51,7 +51,6 @@
  
- 		r = amdgpu_ttm_map_buffer(adev, entity,
- 					  &bo->tbo, bo->tbo.resource, &dst,
--					  1, false, &cur_size, &to);
-+					  1, false, false,
-+					  &cur_size, &to);
- 		if (r)
- 			goto error;
+ static void sdma_v3_0_set_ring_funcs(struct amdgpu_device *adev);
+ static void sdma_v3_0_set_buffer_funcs(struct amdgpu_device *adev);
+-static void sdma_v3_0_set_vm_pte_funcs(struct amdgpu_device *adev);
+ static void sdma_v3_0_set_irq_funcs(struct amdgpu_device *adev);
  
+ MODULE_FIRMWARE("amdgpu/tonga_sdma.bin");
+@@ -1082,6 +1081,14 @@ static void sdma_v3_0_ring_emit_wreg(struct amdgpu_ring *ring,
+ 	amdgpu_ring_write(ring, val);
+ }
+ 
++static const struct amdgpu_vm_pte_funcs sdma_v3_0_vm_pte_funcs = {
++	.copy_pte_num_dw = 7,
++	.copy_pte = sdma_v3_0_vm_copy_pte,
++
++	.write_pte = sdma_v3_0_vm_write_pte,
++	.set_pte_pde = sdma_v3_0_vm_set_pte_pde,
++};
++
+ static int sdma_v3_0_early_init(struct amdgpu_ip_block *ip_block)
+ {
+ 	struct amdgpu_device *adev = ip_block->adev;
+@@ -1102,7 +1109,7 @@ static int sdma_v3_0_early_init(struct amdgpu_ip_block *ip_block)
+ 
+ 	sdma_v3_0_set_ring_funcs(adev);
+ 	sdma_v3_0_set_buffer_funcs(adev);
+-	sdma_v3_0_set_vm_pte_funcs(adev);
++	amdgpu_sdma_set_vm_pte_scheds(adev, &sdma_v3_0_vm_pte_funcs);
+ 	sdma_v3_0_set_irq_funcs(adev);
+ 
+ 	return 0;
+@@ -1674,26 +1681,6 @@ static void sdma_v3_0_set_buffer_funcs(struct amdgpu_device *adev)
+ 	adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+ }
+ 
+-static const struct amdgpu_vm_pte_funcs sdma_v3_0_vm_pte_funcs = {
+-	.copy_pte_num_dw = 7,
+-	.copy_pte = sdma_v3_0_vm_copy_pte,
+-
+-	.write_pte = sdma_v3_0_vm_write_pte,
+-	.set_pte_pde = sdma_v3_0_vm_set_pte_pde,
+-};
+-
+-static void sdma_v3_0_set_vm_pte_funcs(struct amdgpu_device *adev)
+-{
+-	unsigned i;
+-
+-	adev->vm_manager.vm_pte_funcs = &sdma_v3_0_vm_pte_funcs;
+-	for (i = 0; i < adev->sdma.num_instances; i++) {
+-		adev->vm_manager.vm_pte_scheds[i] =
+-			 &adev->sdma.instance[i].ring.sched;
+-	}
+-	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
+-}
+-
+ const struct amdgpu_ip_block_version sdma_v3_0_ip_block =
+ {
+ 	.type = AMD_IP_BLOCK_TYPE_SDMA,
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
+index f38004e6064e..a35d9951e22a 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c
+@@ -129,7 +129,6 @@ static const struct amdgpu_hwip_reg_entry sdma_reg_list_4_0[] = {
+ 
+ static void sdma_v4_0_set_ring_funcs(struct amdgpu_device *adev);
+ static void sdma_v4_0_set_buffer_funcs(struct amdgpu_device *adev);
+-static void sdma_v4_0_set_vm_pte_funcs(struct amdgpu_device *adev);
+ static void sdma_v4_0_set_irq_funcs(struct amdgpu_device *adev);
+ static void sdma_v4_0_set_ras_funcs(struct amdgpu_device *adev);
+ 
+@@ -1751,6 +1750,14 @@ static bool sdma_v4_0_fw_support_paging_queue(struct amdgpu_device *adev)
+ 	}
+ }
+ 
++static const struct amdgpu_vm_pte_funcs sdma_v4_0_vm_pte_funcs = {
++	.copy_pte_num_dw = 7,
++	.copy_pte = sdma_v4_0_vm_copy_pte,
++
++	.write_pte = sdma_v4_0_vm_write_pte,
++	.set_pte_pde = sdma_v4_0_vm_set_pte_pde,
++};
++
+ static int sdma_v4_0_early_init(struct amdgpu_ip_block *ip_block)
+ {
+ 	struct amdgpu_device *adev = ip_block->adev;
+@@ -1769,7 +1776,7 @@ static int sdma_v4_0_early_init(struct amdgpu_ip_block *ip_block)
+ 
+ 	sdma_v4_0_set_ring_funcs(adev);
+ 	sdma_v4_0_set_buffer_funcs(adev);
+-	sdma_v4_0_set_vm_pte_funcs(adev);
++	amdgpu_sdma_set_vm_pte_scheds(adev, &sdma_v4_0_vm_pte_funcs);
+ 	sdma_v4_0_set_irq_funcs(adev);
+ 	sdma_v4_0_set_ras_funcs(adev);
+ 
+@@ -2615,30 +2622,6 @@ static void sdma_v4_0_set_buffer_funcs(struct amdgpu_device *adev)
+ 		adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+ }
+ 
+-static const struct amdgpu_vm_pte_funcs sdma_v4_0_vm_pte_funcs = {
+-	.copy_pte_num_dw = 7,
+-	.copy_pte = sdma_v4_0_vm_copy_pte,
+-
+-	.write_pte = sdma_v4_0_vm_write_pte,
+-	.set_pte_pde = sdma_v4_0_vm_set_pte_pde,
+-};
+-
+-static void sdma_v4_0_set_vm_pte_funcs(struct amdgpu_device *adev)
+-{
+-	struct drm_gpu_scheduler *sched;
+-	unsigned i;
+-
+-	adev->vm_manager.vm_pte_funcs = &sdma_v4_0_vm_pte_funcs;
+-	for (i = 0; i < adev->sdma.num_instances; i++) {
+-		if (adev->sdma.has_page_queue)
+-			sched = &adev->sdma.instance[i].page.sched;
+-		else
+-			sched = &adev->sdma.instance[i].ring.sched;
+-		adev->vm_manager.vm_pte_scheds[i] = sched;
+-	}
+-	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
+-}
+-
+ static void sdma_v4_0_get_ras_error_count(uint32_t value,
+ 					uint32_t instance,
+ 					uint32_t *sec_count)
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
+index a1443990d5c6..7f77367848d4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c
+@@ -104,7 +104,6 @@ static const struct amdgpu_hwip_reg_entry sdma_reg_list_4_4_2[] = {
+ 
+ static void sdma_v4_4_2_set_ring_funcs(struct amdgpu_device *adev);
+ static void sdma_v4_4_2_set_buffer_funcs(struct amdgpu_device *adev);
+-static void sdma_v4_4_2_set_vm_pte_funcs(struct amdgpu_device *adev);
+ static void sdma_v4_4_2_set_irq_funcs(struct amdgpu_device *adev);
+ static void sdma_v4_4_2_set_ras_funcs(struct amdgpu_device *adev);
+ static void sdma_v4_4_2_update_reset_mask(struct amdgpu_device *adev);
+@@ -1347,6 +1346,14 @@ static const struct amdgpu_sdma_funcs sdma_v4_4_2_sdma_funcs = {
+ 	.soft_reset_kernel_queue = &sdma_v4_4_2_soft_reset_engine,
+ };
+ 
++static const struct amdgpu_vm_pte_funcs sdma_v4_4_2_vm_pte_funcs = {
++	.copy_pte_num_dw = 7,
++	.copy_pte = sdma_v4_4_2_vm_copy_pte,
++
++	.write_pte = sdma_v4_4_2_vm_write_pte,
++	.set_pte_pde = sdma_v4_4_2_vm_set_pte_pde,
++};
++
+ static int sdma_v4_4_2_early_init(struct amdgpu_ip_block *ip_block)
+ {
+ 	struct amdgpu_device *adev = ip_block->adev;
+@@ -1362,7 +1369,7 @@ static int sdma_v4_4_2_early_init(struct amdgpu_ip_block *ip_block)
+ 
+ 	sdma_v4_4_2_set_ring_funcs(adev);
+ 	sdma_v4_4_2_set_buffer_funcs(adev);
+-	sdma_v4_4_2_set_vm_pte_funcs(adev);
++	amdgpu_sdma_set_vm_pte_scheds(adev, &sdma_v4_4_2_vm_pte_funcs);
+ 	sdma_v4_4_2_set_irq_funcs(adev);
+ 	sdma_v4_4_2_set_ras_funcs(adev);
+ 	return 0;
+@@ -2316,30 +2323,6 @@ static void sdma_v4_4_2_set_buffer_funcs(struct amdgpu_device *adev)
+ 		adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+ }
+ 
+-static const struct amdgpu_vm_pte_funcs sdma_v4_4_2_vm_pte_funcs = {
+-	.copy_pte_num_dw = 7,
+-	.copy_pte = sdma_v4_4_2_vm_copy_pte,
+-
+-	.write_pte = sdma_v4_4_2_vm_write_pte,
+-	.set_pte_pde = sdma_v4_4_2_vm_set_pte_pde,
+-};
+-
+-static void sdma_v4_4_2_set_vm_pte_funcs(struct amdgpu_device *adev)
+-{
+-	struct drm_gpu_scheduler *sched;
+-	unsigned i;
+-
+-	adev->vm_manager.vm_pte_funcs = &sdma_v4_4_2_vm_pte_funcs;
+-	for (i = 0; i < adev->sdma.num_instances; i++) {
+-		if (adev->sdma.has_page_queue)
+-			sched = &adev->sdma.instance[i].page.sched;
+-		else
+-			sched = &adev->sdma.instance[i].ring.sched;
+-		adev->vm_manager.vm_pte_scheds[i] = sched;
+-	}
+-	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
+-}
+-
+ /**
+  * sdma_v4_4_2_update_reset_mask - update  reset mask for SDMA
+  * @adev: Pointer to the AMDGPU device structure
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
+index 8ddc4df06a1f..7ce13c5d4e61 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
+@@ -110,7 +110,6 @@ static const struct amdgpu_hwip_reg_entry sdma_reg_list_5_0[] = {
+ 
+ static void sdma_v5_0_set_ring_funcs(struct amdgpu_device *adev);
+ static void sdma_v5_0_set_buffer_funcs(struct amdgpu_device *adev);
+-static void sdma_v5_0_set_vm_pte_funcs(struct amdgpu_device *adev);
+ static void sdma_v5_0_set_irq_funcs(struct amdgpu_device *adev);
+ static int sdma_v5_0_stop_queue(struct amdgpu_ring *ring);
+ static int sdma_v5_0_restore_queue(struct amdgpu_ring *ring);
+@@ -1357,6 +1356,13 @@ static const struct amdgpu_sdma_funcs sdma_v5_0_sdma_funcs = {
+ 	.soft_reset_kernel_queue = &sdma_v5_0_soft_reset_engine,
+ };
+ 
++static const struct amdgpu_vm_pte_funcs sdma_v5_0_vm_pte_funcs = {
++	.copy_pte_num_dw = 7,
++	.copy_pte = sdma_v5_0_vm_copy_pte,
++	.write_pte = sdma_v5_0_vm_write_pte,
++	.set_pte_pde = sdma_v5_0_vm_set_pte_pde,
++};
++
+ static int sdma_v5_0_early_init(struct amdgpu_ip_block *ip_block)
+ {
+ 	struct amdgpu_device *adev = ip_block->adev;
+@@ -1368,7 +1374,7 @@ static int sdma_v5_0_early_init(struct amdgpu_ip_block *ip_block)
+ 
+ 	sdma_v5_0_set_ring_funcs(adev);
+ 	sdma_v5_0_set_buffer_funcs(adev);
+-	sdma_v5_0_set_vm_pte_funcs(adev);
++	amdgpu_sdma_set_vm_pte_scheds(adev, &sdma_v5_0_vm_pte_funcs);
+ 	sdma_v5_0_set_irq_funcs(adev);
+ 	sdma_v5_0_set_mqd_funcs(adev);
+ 
+@@ -2073,27 +2079,6 @@ static void sdma_v5_0_set_buffer_funcs(struct amdgpu_device *adev)
+ 	}
+ }
+ 
+-static const struct amdgpu_vm_pte_funcs sdma_v5_0_vm_pte_funcs = {
+-	.copy_pte_num_dw = 7,
+-	.copy_pte = sdma_v5_0_vm_copy_pte,
+-	.write_pte = sdma_v5_0_vm_write_pte,
+-	.set_pte_pde = sdma_v5_0_vm_set_pte_pde,
+-};
+-
+-static void sdma_v5_0_set_vm_pte_funcs(struct amdgpu_device *adev)
+-{
+-	unsigned i;
+-
+-	if (adev->vm_manager.vm_pte_funcs == NULL) {
+-		adev->vm_manager.vm_pte_funcs = &sdma_v5_0_vm_pte_funcs;
+-		for (i = 0; i < adev->sdma.num_instances; i++) {
+-			adev->vm_manager.vm_pte_scheds[i] =
+-				&adev->sdma.instance[i].ring.sched;
+-		}
+-		adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
+-	}
+-}
+-
+ const struct amdgpu_ip_block_version sdma_v5_0_ip_block = {
+ 	.type = AMD_IP_BLOCK_TYPE_SDMA,
+ 	.major = 5,
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+index 51101b0aa2fa..98beff18cf28 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
+@@ -111,7 +111,6 @@ static const struct amdgpu_hwip_reg_entry sdma_reg_list_5_2[] = {
+ 
+ static void sdma_v5_2_set_ring_funcs(struct amdgpu_device *adev);
+ static void sdma_v5_2_set_buffer_funcs(struct amdgpu_device *adev);
+-static void sdma_v5_2_set_vm_pte_funcs(struct amdgpu_device *adev);
+ static void sdma_v5_2_set_irq_funcs(struct amdgpu_device *adev);
+ static int sdma_v5_2_stop_queue(struct amdgpu_ring *ring);
+ static int sdma_v5_2_restore_queue(struct amdgpu_ring *ring);
+@@ -1248,6 +1247,13 @@ static void sdma_v5_2_ring_emit_reg_write_reg_wait(struct amdgpu_ring *ring,
+ 	amdgpu_ring_emit_reg_wait(ring, reg1, mask, mask);
+ }
+ 
++static const struct amdgpu_vm_pte_funcs sdma_v5_2_vm_pte_funcs = {
++	.copy_pte_num_dw = 7,
++	.copy_pte = sdma_v5_2_vm_copy_pte,
++	.write_pte = sdma_v5_2_vm_write_pte,
++	.set_pte_pde = sdma_v5_2_vm_set_pte_pde,
++};
++
+ static int sdma_v5_2_early_init(struct amdgpu_ip_block *ip_block)
+ {
+ 	struct amdgpu_device *adev = ip_block->adev;
+@@ -1259,7 +1265,7 @@ static int sdma_v5_2_early_init(struct amdgpu_ip_block *ip_block)
+ 
+ 	sdma_v5_2_set_ring_funcs(adev);
+ 	sdma_v5_2_set_buffer_funcs(adev);
+-	sdma_v5_2_set_vm_pte_funcs(adev);
++	amdgpu_sdma_set_vm_pte_scheds(adev, &sdma_v5_2_vm_pte_funcs);
+ 	sdma_v5_2_set_irq_funcs(adev);
+ 	sdma_v5_2_set_mqd_funcs(adev);
+ 
+@@ -2084,27 +2090,6 @@ static void sdma_v5_2_set_buffer_funcs(struct amdgpu_device *adev)
+ 	}
+ }
+ 
+-static const struct amdgpu_vm_pte_funcs sdma_v5_2_vm_pte_funcs = {
+-	.copy_pte_num_dw = 7,
+-	.copy_pte = sdma_v5_2_vm_copy_pte,
+-	.write_pte = sdma_v5_2_vm_write_pte,
+-	.set_pte_pde = sdma_v5_2_vm_set_pte_pde,
+-};
+-
+-static void sdma_v5_2_set_vm_pte_funcs(struct amdgpu_device *adev)
+-{
+-	unsigned i;
+-
+-	if (adev->vm_manager.vm_pte_funcs == NULL) {
+-		adev->vm_manager.vm_pte_funcs = &sdma_v5_2_vm_pte_funcs;
+-		for (i = 0; i < adev->sdma.num_instances; i++) {
+-			adev->vm_manager.vm_pte_scheds[i] =
+-				&adev->sdma.instance[i].ring.sched;
+-		}
+-		adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
+-	}
+-}
+-
+ const struct amdgpu_ip_block_version sdma_v5_2_ip_block = {
+ 	.type = AMD_IP_BLOCK_TYPE_SDMA,
+ 	.major = 5,
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
+index e3f725bc2f29..c32331b72ba0 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v6_0.c
+@@ -119,7 +119,6 @@ static const struct amdgpu_hwip_reg_entry sdma_reg_list_6_0[] = {
+ 
+ static void sdma_v6_0_set_ring_funcs(struct amdgpu_device *adev);
+ static void sdma_v6_0_set_buffer_funcs(struct amdgpu_device *adev);
+-static void sdma_v6_0_set_vm_pte_funcs(struct amdgpu_device *adev);
+ static void sdma_v6_0_set_irq_funcs(struct amdgpu_device *adev);
+ static int sdma_v6_0_start(struct amdgpu_device *adev);
+ 
+@@ -1268,6 +1267,13 @@ static void sdma_v6_0_set_ras_funcs(struct amdgpu_device *adev)
+ 	}
+ }
+ 
++static const struct amdgpu_vm_pte_funcs sdma_v6_0_vm_pte_funcs = {
++	.copy_pte_num_dw = 7,
++	.copy_pte = sdma_v6_0_vm_copy_pte,
++	.write_pte = sdma_v6_0_vm_write_pte,
++	.set_pte_pde = sdma_v6_0_vm_set_pte_pde,
++};
++
+ static int sdma_v6_0_early_init(struct amdgpu_ip_block *ip_block)
+ {
+ 	struct amdgpu_device *adev = ip_block->adev;
+@@ -1296,7 +1302,7 @@ static int sdma_v6_0_early_init(struct amdgpu_ip_block *ip_block)
+ 
+ 	sdma_v6_0_set_ring_funcs(adev);
+ 	sdma_v6_0_set_buffer_funcs(adev);
+-	sdma_v6_0_set_vm_pte_funcs(adev);
++	amdgpu_sdma_set_vm_pte_scheds(adev, &sdma_v6_0_vm_pte_funcs);
+ 	sdma_v6_0_set_irq_funcs(adev);
+ 	sdma_v6_0_set_mqd_funcs(adev);
+ 	sdma_v6_0_set_ras_funcs(adev);
+@@ -1889,25 +1895,6 @@ static void sdma_v6_0_set_buffer_funcs(struct amdgpu_device *adev)
+ 	adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+ }
+ 
+-static const struct amdgpu_vm_pte_funcs sdma_v6_0_vm_pte_funcs = {
+-	.copy_pte_num_dw = 7,
+-	.copy_pte = sdma_v6_0_vm_copy_pte,
+-	.write_pte = sdma_v6_0_vm_write_pte,
+-	.set_pte_pde = sdma_v6_0_vm_set_pte_pde,
+-};
+-
+-static void sdma_v6_0_set_vm_pte_funcs(struct amdgpu_device *adev)
+-{
+-	unsigned i;
+-
+-	adev->vm_manager.vm_pte_funcs = &sdma_v6_0_vm_pte_funcs;
+-	for (i = 0; i < adev->sdma.num_instances; i++) {
+-		adev->vm_manager.vm_pte_scheds[i] =
+-			&adev->sdma.instance[i].ring.sched;
+-	}
+-	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
+-}
+-
+ const struct amdgpu_ip_block_version sdma_v6_0_ip_block = {
+ 	.type = AMD_IP_BLOCK_TYPE_SDMA,
+ 	.major = 6,
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c
+index 7fee98d37720..9318d23eb71e 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v7_0.c
+@@ -119,7 +119,6 @@ static const struct amdgpu_hwip_reg_entry sdma_reg_list_7_0[] = {
+ 
+ static void sdma_v7_0_set_ring_funcs(struct amdgpu_device *adev);
+ static void sdma_v7_0_set_buffer_funcs(struct amdgpu_device *adev);
+-static void sdma_v7_0_set_vm_pte_funcs(struct amdgpu_device *adev);
+ static void sdma_v7_0_set_irq_funcs(struct amdgpu_device *adev);
+ static int sdma_v7_0_start(struct amdgpu_device *adev);
+ 
+@@ -1253,6 +1252,13 @@ static void sdma_v7_0_ring_emit_reg_write_reg_wait(struct amdgpu_ring *ring,
+ 	amdgpu_ring_emit_reg_wait(ring, reg1, mask, mask);
+ }
+ 
++static const struct amdgpu_vm_pte_funcs sdma_v7_0_vm_pte_funcs = {
++	.copy_pte_num_dw = 8,
++	.copy_pte = sdma_v7_0_vm_copy_pte,
++	.write_pte = sdma_v7_0_vm_write_pte,
++	.set_pte_pde = sdma_v7_0_vm_set_pte_pde,
++};
++
+ static int sdma_v7_0_early_init(struct amdgpu_ip_block *ip_block)
+ {
+ 	struct amdgpu_device *adev = ip_block->adev;
+@@ -1283,7 +1289,7 @@ static int sdma_v7_0_early_init(struct amdgpu_ip_block *ip_block)
+ 
+ 	sdma_v7_0_set_ring_funcs(adev);
+ 	sdma_v7_0_set_buffer_funcs(adev);
+-	sdma_v7_0_set_vm_pte_funcs(adev);
++	amdgpu_sdma_set_vm_pte_scheds(adev, &sdma_v7_0_vm_pte_funcs);
+ 	sdma_v7_0_set_irq_funcs(adev);
+ 	sdma_v7_0_set_mqd_funcs(adev);
+ 
+@@ -1831,25 +1837,6 @@ static void sdma_v7_0_set_buffer_funcs(struct amdgpu_device *adev)
+ 	adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+ }
+ 
+-static const struct amdgpu_vm_pte_funcs sdma_v7_0_vm_pte_funcs = {
+-	.copy_pte_num_dw = 8,
+-	.copy_pte = sdma_v7_0_vm_copy_pte,
+-	.write_pte = sdma_v7_0_vm_write_pte,
+-	.set_pte_pde = sdma_v7_0_vm_set_pte_pde,
+-};
+-
+-static void sdma_v7_0_set_vm_pte_funcs(struct amdgpu_device *adev)
+-{
+-	unsigned i;
+-
+-	adev->vm_manager.vm_pte_funcs = &sdma_v7_0_vm_pte_funcs;
+-	for (i = 0; i < adev->sdma.num_instances; i++) {
+-		adev->vm_manager.vm_pte_scheds[i] =
+-			&adev->sdma.instance[i].ring.sched;
+-	}
+-	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
+-}
+-
+ const struct amdgpu_ip_block_version sdma_v7_0_ip_block = {
+ 	.type = AMD_IP_BLOCK_TYPE_SDMA,
+ 	.major = 7,
+diff --git a/drivers/gpu/drm/amd/amdgpu/si_dma.c b/drivers/gpu/drm/amd/amdgpu/si_dma.c
+index 7f18e4875287..b85df997ed49 100644
+--- a/drivers/gpu/drm/amd/amdgpu/si_dma.c
++++ b/drivers/gpu/drm/amd/amdgpu/si_dma.c
+@@ -37,7 +37,6 @@ const u32 sdma_offsets[SDMA_MAX_INSTANCE] =
+ 
+ static void si_dma_set_ring_funcs(struct amdgpu_device *adev);
+ static void si_dma_set_buffer_funcs(struct amdgpu_device *adev);
+-static void si_dma_set_vm_pte_funcs(struct amdgpu_device *adev);
+ static void si_dma_set_irq_funcs(struct amdgpu_device *adev);
+ 
+ /**
+@@ -473,6 +472,14 @@ static void si_dma_ring_emit_wreg(struct amdgpu_ring *ring,
+ 	amdgpu_ring_write(ring, val);
+ }
+ 
++static const struct amdgpu_vm_pte_funcs si_dma_vm_pte_funcs = {
++	.copy_pte_num_dw = 5,
++	.copy_pte = si_dma_vm_copy_pte,
++
++	.write_pte = si_dma_vm_write_pte,
++	.set_pte_pde = si_dma_vm_set_pte_pde,
++};
++
+ static int si_dma_early_init(struct amdgpu_ip_block *ip_block)
+ {
+ 	struct amdgpu_device *adev = ip_block->adev;
+@@ -481,7 +488,7 @@ static int si_dma_early_init(struct amdgpu_ip_block *ip_block)
+ 
+ 	si_dma_set_ring_funcs(adev);
+ 	si_dma_set_buffer_funcs(adev);
+-	si_dma_set_vm_pte_funcs(adev);
++	amdgpu_sdma_set_vm_pte_scheds(adev, &si_dma_vm_pte_funcs);
+ 	si_dma_set_irq_funcs(adev);
+ 
+ 	return 0;
+@@ -830,26 +837,6 @@ static void si_dma_set_buffer_funcs(struct amdgpu_device *adev)
+ 	adev->mman.buffer_funcs_ring = &adev->sdma.instance[0].ring;
+ }
+ 
+-static const struct amdgpu_vm_pte_funcs si_dma_vm_pte_funcs = {
+-	.copy_pte_num_dw = 5,
+-	.copy_pte = si_dma_vm_copy_pte,
+-
+-	.write_pte = si_dma_vm_write_pte,
+-	.set_pte_pde = si_dma_vm_set_pte_pde,
+-};
+-
+-static void si_dma_set_vm_pte_funcs(struct amdgpu_device *adev)
+-{
+-	unsigned i;
+-
+-	adev->vm_manager.vm_pte_funcs = &si_dma_vm_pte_funcs;
+-	for (i = 0; i < adev->sdma.num_instances; i++) {
+-		adev->vm_manager.vm_pte_scheds[i] =
+-			&adev->sdma.instance[i].ring.sched;
+-	}
+-	adev->vm_manager.vm_pte_num_scheds = adev->sdma.num_instances;
+-}
+-
+ const struct amdgpu_ip_block_version si_dma_ip_block =
+ {
+ 	.type = AMD_IP_BLOCK_TYPE_SDMA,
 -- 
 2.43.0
 
