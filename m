@@ -2,168 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF0E5C7804F
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 09:56:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DF7C7730A
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 04:51:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F73A10E7F7;
-	Fri, 21 Nov 2025 08:56:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3194010E0C7;
+	Fri, 21 Nov 2025 03:51:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=amlogic.com header.i=@amlogic.com header.b="R7PMvT+W";
+	dkim=pass (1024-bit key; unprotected) header.d=renesas.com header.i=@renesas.com header.b="Auh7Sbx1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TYPPR03CU001.outbound.protection.outlook.com
- (mail-japaneastazon11022136.outbound.protection.outlook.com [52.101.126.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A640110E0F9
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 02:55:35 +0000 (UTC)
+Received: from OS0P286CU010.outbound.protection.outlook.com
+ (mail-japanwestazon11011049.outbound.protection.outlook.com [40.107.74.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91A5610E0C7
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 03:51:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Hc5c0lghkKOotUpRefgmU8+7JJTH3co9hVT9xpqKKWetPZVGI17J+F0lIF6ThdIzbW0c4VtZ9FdozAmHF4NSqF2q+kGL1uh02DdfMN8Sk5B4iUiaf6k5bwLJHMnkuZSN7g6lRQts4p+bpnez8+XOxn6NS4PpBpPJ/9Lc97sDiyBC9kXKN3CzJqbRBw4EQAlOhs7M6Uu0NWsI1+iTjcvWi1sobhMUUqdnsebEVO65ctudROQCD+idNIY+b2BUH5kxWOgsYLBIB958xxddiVdzxEPrGhDe24EGJzxPdqWPuniYRR34DtnLpFgbezgiCgVrS7XHSi4QcHH5GYQUcWV5Jg==
+ b=Ql5b4rVy/fv7/F9RJpSvrVBC0ncNVSUv/PfEL0UtzrcWNBlcfHOvU+WZ1nYS/0ywD1/TWZ9n+uGIacAvMUAjZnOf9pH4w8Kj3YUe+PYm+VK3OUsNlGI7UtSIrLwa5ENVWSheKSlTStT5+X6BqJWgDpATn0+UOXEMtS72tHexj6RGEamLIu0G/VLiXCYVIHAJnjfwNCPC+DS6+ETZZ06Jd7ziU3K80WLcEA3zJNHEocPlV24Sfxcv/o75XKcLdc7ZGNAGbwOuD4cTaQ6O8UztKWIlq9PgCciMZeAd8A5VI8YCzkijbwbv7rf2zeQPHoo7wFpt8KZh06+lRaTwQQyMGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b6bAiq3Ex2yizmgrTm2sbk8l0WQLVR0JX9Hc6yK9LF8=;
- b=Ndf7lMkoYXbtAb9KzR8SjA4SMzagTub3Il0Gg+DdzhcsRjGM04wYp23+BjKTQ1lj852T1teVhUK132Vvb0JdT79GNbb5wU2MnHUuqWmNGNaPNENpp8bfkd4RIC0ytgBfuqIyywjI3WT4mzSJA8L59BZ87PzhsSpvMaM/2j/UT2gkbToBqafFI8dYGNhO4oS9tlbA48Jh1iUi54fH5Mv0/NRpZMVTaCoTKuVrXv2WXU03zYqMCb/W4gA54ZbbbeMTtK6HH/PZ0zFX8zUyb0QPMd/FYSgEkDwzrMu/AMeJyo23rhW1BSLwbeWX0eRZFuT4oUKS4QWJNfBeJ2K+5WAkgA==
+ bh=HoOpVoSb0YYXB3aCakERBj80NuTW9ITd7kKentds1UU=;
+ b=k04CxYUf0DrxHQx7MJL9zaQfoiSNq7T2BtlNPT5f5uWfvPCQ4l3w4YDkO4/5kh2EtNftZ4f60T180joz7x+1XattG4eFoNCkm8pZDSQJWlNnbyf8/mVH272t4+NVYVkiwSTBgt28yoKwKc/m8exKpubJ6o38Q9zgFyVNM2lJ0GQSWid61hNOyDqZPNDIb1GdKLwHJC/+UW8MB5l/V7KzxhtgT339ATRjCH22mlt4Sx+HVl+bS6gqsxKe+x3KxJEqoySibEyw7PLND40IyjBzsM4s8zhectFleGagWWVu9kjGTqvrit9OWUcB0fQYvmz+OGtOljDoqUcNt0gomZt+9Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amlogic.com; dmarc=pass action=none header.from=amlogic.com;
- dkim=pass header.d=amlogic.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amlogic.com;
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b6bAiq3Ex2yizmgrTm2sbk8l0WQLVR0JX9Hc6yK9LF8=;
- b=R7PMvT+WYw546ngGd/XdaDWn1DBtJ7n9cx5CQrSB8jQmC+RNCwgzADyI9+9GE4EXo7adjrHnhFplKSSgBZ/Q2Slt5MM/OW/fRx8RuuRSyjdnV7HFZ0wWejwTmKt08zMNbAM6e8djMm2TDUm+wLeE3kvuS681EClGMvjDjwBQW6+m1XP9tTKdOSYOiiqkWXYQovS4ryXw1S2LBpNpIIzbd7sqKfn90AnRsA3fMpyr8C9Wc3EKss1uuvxENL8dYnD1HrivogXdq1c2zbCFnXS3OtR/5wr9W8Ws88r0/qx7HaPWp7a31lvOmfh/IlIqAon8/d2xkmdr1uPYWI7Wa1GQ1A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amlogic.com;
-Received: from TYZPR03MB7155.apcprd03.prod.outlook.com (2603:1096:400:33e::5)
- by KUZPR03MB9382.apcprd03.prod.outlook.com (2603:1096:d10:2e::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Fri, 21 Nov
- 2025 02:55:29 +0000
-Received: from TYZPR03MB7155.apcprd03.prod.outlook.com
- ([fe80::8d2f:b8cd:fdec:5724]) by TYZPR03MB7155.apcprd03.prod.outlook.com
- ([fe80::8d2f:b8cd:fdec:5724%4]) with mapi id 15.20.9320.018; Fri, 21 Nov 2025
- 02:55:29 +0000
-Message-ID: <a71f24c9-1f40-45a1-8fdb-6075bbf89930@amlogic.com>
-Date: Fri, 21 Nov 2025 10:55:26 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/11] dt-bindings: display: meson-dw-hdmi: Add compatible
- for S4 HDMI controller
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>,
- Chuan Liu <chuan.liu@amlogic.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20250110-drm-s4-v1-0-cbc2d5edaae8@amlogic.com>
- <20250110-drm-s4-v1-1-cbc2d5edaae8@amlogic.com>
- <3AC316FA-A633-4B6C-81BA-CCCA290E7F03@gmail.com>
- <8c3b9fa4-326e-4791-8154-07b268faa132@amlogic.com>
- <7703796D-35D4-4AD2-B7F8-B75D2BE0F7AD@gmail.com>
-From: Ao Xu <ao.xu@amlogic.com>
-In-Reply-To: <7703796D-35D4-4AD2-B7F8-B75D2BE0F7AD@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: TYCP286CA0258.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:455::6) To TYZPR03MB7155.apcprd03.prod.outlook.com
- (2603:1096:400:33e::5)
+ bh=HoOpVoSb0YYXB3aCakERBj80NuTW9ITd7kKentds1UU=;
+ b=Auh7Sbx1rC6jqH7yIdaKRed9goEpnmWL1V7VTTk1uD8s5YcJ1HnXgCNoivitn7SFFFQfVAIKjZL1yITJXrtOsoejn2iQpRsGtiriWYgIIcz5DMpEGdJfCZm7FfO7pKjAokoKGRHWcDhWTXem7TaLeLpQ3DmnZ1ZhOS227xyNpIQ=
+Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com (2603:1096:604:1a2::11)
+ by OSBPR01MB16290.jpnprd01.prod.outlook.com (2603:1096:604:3f7::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Fri, 21 Nov
+ 2025 03:51:41 +0000
+Received: from OS3PR01MB8319.jpnprd01.prod.outlook.com
+ ([fe80::6473:1660:bdc2:c983]) by OS3PR01MB8319.jpnprd01.prod.outlook.com
+ ([fe80::6473:1660:bdc2:c983%6]) with mapi id 15.20.9343.009; Fri, 21 Nov 2025
+ 03:51:40 +0000
+From: Chris Brandt <Chris.Brandt@renesas.com>
+To: Hugo Villeneuve <hugo@hugovil.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
+ <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+ Nghia Vo <nghia.vo.zn@renesas.com>, "linux-renesas-soc@vger.kernel.org"
+ <linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
+ <linux-clk@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+Subject: RE: [PATCH v5 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+Thread-Topic: [PATCH v5 1/2] clk: renesas: rzg2l: Remove DSI clock rate
+ restrictions
+Thread-Index: AQHcWPwxRrBR+pEeF0OW1RdaNVw7mbT5c60AgALcLIA=
+Date: Fri, 21 Nov 2025 03:51:40 +0000
+Message-ID: <OS3PR01MB8319F7BA2E53027CA274D38B8AD5A@OS3PR01MB8319.jpnprd01.prod.outlook.com>
+References: <20251119022744.1599235-1-chris.brandt@renesas.com>
+ <20251119022744.1599235-2-chris.brandt@renesas.com>
+ <20251119001030.bf900d1fcad4db5b63055e2e@hugovil.com>
+In-Reply-To: <20251119001030.bf900d1fcad4db5b63055e2e@hugovil.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS3PR01MB8319:EE_|OSBPR01MB16290:EE_
+x-ms-office365-filtering-correlation-id: e3d5a57d-d1ee-43c8-4288-08de28b1474e
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|366016|376014|7416014|1800799024|38070700021; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?0scu1N6+0/9CEu2pGlP9I2DNUOxMXmnjAHOEhyz+XLFQrnIq3/ovfkqJNBSm?=
+ =?us-ascii?Q?kZgsj035avFzoxYH3Ooh4a9Zkusxb+mjEjrGc9JnHqg59IC2pba2hHnpZD0O?=
+ =?us-ascii?Q?tmqrXRB20JISJkWtu9jZKCUxeq7Mkuogi93YYFTx7PPl2VIO2cx+97IxYvLr?=
+ =?us-ascii?Q?2efYQTn1n0yDTxcnir5AmbiuwEtTS19RYqfxhL+Knvbzu6GBqhMF0FIzrM9F?=
+ =?us-ascii?Q?OfMWAT9USnjkhBmY1SgTaOGOHg9TvEoF8p6Omv9PMShLNGvBRBrb+MDahrjG?=
+ =?us-ascii?Q?/v3CTV1oJ30a7xYKUqp5QeWQCMlVidkqSk3JM/Ljibfj8gKddUwuEYmWup3x?=
+ =?us-ascii?Q?zd0rJv/bsK94naa+xaj4BZmlGtFQhHIy3Z/DgG1NmqFsyWRlauaKkpsf+6VY?=
+ =?us-ascii?Q?24aB871l8t5rL6T6UWZ5+J5FOLhIJl50vDWp2W2JHGtMCHngJYF4DAuRQCrD?=
+ =?us-ascii?Q?ffiKx8Y/L8jG5/EDccRebIM9YCFH0a+Hu8337cdcr14VRUMun999Wwee2KiB?=
+ =?us-ascii?Q?w0+0RzXIjc5rul7aMlCOzYr9ceiCEGxE+BF/5qb+i4CroiWeb5ykSSH40/0t?=
+ =?us-ascii?Q?QSt3UQ6c8gOKMu0dUoyk7YSv2hoNQ/cnY3+dycbE82tYCLEfk9sisSTONlCk?=
+ =?us-ascii?Q?Bt2ByJkrrlV6TWPhcd+O4Hd/ZWDW6ShLLdJR1gkaRCsRC5/WT4zKHeQtN0kY?=
+ =?us-ascii?Q?0PM9cr7C6gPG3zDRgu2HAE3SWySqGnYmglKp2qRr0ErmhQBQYcYdNPzgdHoZ?=
+ =?us-ascii?Q?rQBx9t4yU8E2DavwRvuhp3jNuHHAS91QJ5+zAqVfpoH38casWoLpnkEwDGIZ?=
+ =?us-ascii?Q?Y5WwZRpMo8JB3la2r5N+6AyeHZ1Oi0ZrZ+MPUh0+73Ty902ZvF+4LHCAMr6s?=
+ =?us-ascii?Q?k9Jz4KOVIP7FxuQ9VBqveWjsz8YLmIeockRF800gxbcvsZGEfzSRXZfiETPe?=
+ =?us-ascii?Q?qs0pcHSu9aCh0JLwj9ISdWPHTbkmO5BWNlWk3IaCBIPccgVyVoetcuRDaJeb?=
+ =?us-ascii?Q?qI96XwHmpt2h09nZH7m7VrSLhIEy7pVkPJSAf1H+4zXmzI2co2x+As/DNam2?=
+ =?us-ascii?Q?PPLybLRH3wuZTNq7r2ZsKOctxUk3C5QwAjntfbAWQEkoXkivuwUGQN5DTuMe?=
+ =?us-ascii?Q?4fcf13Tvj7SsbkOuoKKJVAK3DewVQv9acpOxAQ5lb8/0nqVlqPYidTY7/C9A?=
+ =?us-ascii?Q?k8m3Kp6ftW/I2sI0uBHSyRigqN4H+6xeAVm8GF7/Q21zslhWsncMYeUVUq3Q?=
+ =?us-ascii?Q?rV/0Hma3h7BuIuBslDf28wV5QlTXsd/cOk0jcHHMiPbRkZNuRMCAJA+2Hlai?=
+ =?us-ascii?Q?5N6n5rw4LFMY8L2b0IGZjtamKNhLIMBOeSsR5nwGeYHyOsKB2uSoUhL6+8ut?=
+ =?us-ascii?Q?Qfyeic7YXOVw0F6xbNFQDwN15R3y781lqDlGizXTGNQZxrBtRWmnnwQOf9Pn?=
+ =?us-ascii?Q?Z2+gVk06UxsqPQzHxL43dkHj6Xx02Mal8Xbceuic1tDWMN0+F6gQe0uRi8bb?=
+ =?us-ascii?Q?fRAEy9Azi852YETEdsB80yIIMZBYZ3O+RUmB?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OS3PR01MB8319.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700021); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?E6XTGBSCWyC9zLIHphIaxDxlFDZPqe5hmHx2fUubqAisAAfh/UoVUDiBwyUK?=
+ =?us-ascii?Q?WzTtO9XB0aRfIyARciA+usCOlrMoDNu6tY45iUaq4IP8dScjBsEfL82VE43v?=
+ =?us-ascii?Q?/bUarK64K1+W2Iv4nFkRAGraA+lCO6NREbBcXDEnSSjjJtoG8wR40OeYgGeg?=
+ =?us-ascii?Q?6YjjF65Jt2QF6yYEKQjguwTBQalKXBxlNoZ2o/3pI7DLFxxKQXaXATIzcVPi?=
+ =?us-ascii?Q?GWsv9CiIwjHBGrwTGne0yo1WgklPIQsVNStfPKopopbeVPZklyim8yykBb1E?=
+ =?us-ascii?Q?Kj5CvNo7Ms2+rswd6ug5GH0kb3m7FKRSLFtNbUuS3HgMs+eVZmQA4D6r/gWz?=
+ =?us-ascii?Q?9tKyjc2ZOhZ6pYTKXubDKJ0wkXq+HRwl3iZxB3dIMSzLsZGcIegFSGzEPzy4?=
+ =?us-ascii?Q?kzto5QtiTl2VeBwMBH87SGdPSSNjHPsof9U+MuQIZ0E1Jcd2D/ummPxAY5AC?=
+ =?us-ascii?Q?M6vmRFDivVThSQK7PGbhi5h+yJantv2n0UZpN7HWjx+z19+pyDZWxuA1naKL?=
+ =?us-ascii?Q?O8/7Ylgzul1z/2kHricDkSMoTBLwe3TaGlVM2ZthVIIVfCFxNe5Rn05bF0Vr?=
+ =?us-ascii?Q?QUx4jyeEScDlK0xo419Y2K03toFV1JK8WEVqYfImosEhdEHmfW+PUw5kg+qB?=
+ =?us-ascii?Q?gJXBViIc9njSGkC28Kn17Fdpe8sooQwBgueCDnIKAmEYUntxMC+5BgR+eWu7?=
+ =?us-ascii?Q?tJzllTUv57RXKBaIAZ6dxMWPBq4JlJ0gNzR7MFVL9sHMu5OIeGXra81oVpRg?=
+ =?us-ascii?Q?1QISvbCCnXxC2AyewX19yLCL3efx8tvxqKLig5R3F69OEVnvSSORBIxXVccT?=
+ =?us-ascii?Q?CHyGnddmKR14CbVq7FPj3EKhZUCFJ1OkUos1M0v4zf+iyvxdtwQiBz5g9Tf8?=
+ =?us-ascii?Q?SPJjuWc744w9ZjTal5wR5jdcjSli2ogAr6pfIIhSEhQXOGzrNCUe+tngtvy7?=
+ =?us-ascii?Q?0t8iwMAifw+LaWEHFkCjMwyk7fSnzTUMhoG4QZKqT24WK/V6Ys3rpm8Ooai2?=
+ =?us-ascii?Q?T9bCmTC0RirzjuY5HlCi5hmv5tIP5c2UGmTtbrQ4R4GLzZuMZpJfOoB6dE6E?=
+ =?us-ascii?Q?7Gd1grt7J++IOL9vbdAq2l3Bvwv2KG5KHn376TfY/Bvao04ajT/S1e97y0Ya?=
+ =?us-ascii?Q?qn80eapTekrR+1BnkUll3fETzjXFontyWaCH+d2i761w9u/g7j56XurGtYL2?=
+ =?us-ascii?Q?L5nIQLEdpVMwfkuWcjjxfNhTP+OvUL8b7EaGUHWQKLv7I6MkjwiHpvpdCKCt?=
+ =?us-ascii?Q?OXg6QQHoIZZL+I7dR75Y/ThwL6yftZoYfBFU2fSx8Asp2oop357BJhO3Zy4B?=
+ =?us-ascii?Q?Pwa5vcVavNYpxzp8ofNXyNrzcspgmP6OKH0216iMQmASk3u1It/JN8CrEvUN?=
+ =?us-ascii?Q?sbNn98inMcENmgknNu6vLFiZZnwMIezNs0jIWV4ewquurm4SghRXTrk0rHqR?=
+ =?us-ascii?Q?Wmo6sZUvuEBTecrAGl3GDf3nDaA7AG9Yj4mlvTHMu0L9z5TUeMqBV5Ms/fEU?=
+ =?us-ascii?Q?Qt3gPqUiz7Y7Ll8YqDEX7y+ac5g4WU5K7YqW0yv8t10gTOwWXmQQlWwbvfJS?=
+ =?us-ascii?Q?/ZUn9R+ESQr+/baZGFkuH5GEZoR3EvjXeyGrZRsN?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR03MB7155:EE_|KUZPR03MB9382:EE_
-X-MS-Office365-Filtering-Correlation-Id: d40038ee-c9dc-46bb-2ba7-08de28a96dc2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|366016|376014|42112799006|13003099007|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WG1PTUl1cFloRFk3UFgzc21wV2ZVT1ZoSlFDRHlZOXBGVnh3UkQ5VGhxOVRC?=
- =?utf-8?B?clE0K3ZienBidjJoR2JDVjZtWG1lanUzTkMzR2RwOE8vS0c3cVp5ZG1ISmRU?=
- =?utf-8?B?a01JaFBoQVlGTXR5VTB1Mys4ZWtWalAzU2NySzBXSW1ubUdBSGJ1bUFvS3U1?=
- =?utf-8?B?am1CclZ4alRtV0ZkMnJPRVFiOUp4d2l1amVJN25ZUXNEbTJ2ZGJFL29HTHVr?=
- =?utf-8?B?OGVmSTdTSHEwUzQ5eWR5YmM3SnhVTUxWNkZ2S1V4enJjL3YrNk5HM0RkZjRC?=
- =?utf-8?B?ZXF5cWxndk1heWVIMUFOaithSFBsbGNhWXh2NXIxbDUyMU9RK3k2ZTNWREda?=
- =?utf-8?B?Q20xNFBIMEVWbFdkVEtyanJUdElnZEduMDlWdk44NXRrMWh0ZjdBWFA5RXVT?=
- =?utf-8?B?b3FaWHAwUXQweXNySFoxbk9WTFNqQytDV3NOV3c2aUErTnk5QWJhNUlvOVFR?=
- =?utf-8?B?TGFxcXFObmhPZDk2Q3ZZV295eXdmUmdLUklWeTF2UDF0OUhhcmdYMTJJY1pD?=
- =?utf-8?B?VjJjNmxXVWZDUUJBV3hXZnlPTWNPTkg3VlI0blkrMFZzc2ovbDYwYjBnQ2lW?=
- =?utf-8?B?M2xFdHJWOUxiaFAzamhrRzZUcUs3M2R4UUxBMk9aMk9tRERVSHpkUkVVWjA0?=
- =?utf-8?B?RFliRjlWdjB0cEV5dWlDcHNPQ0JYM2ZqdzlHdkp4bWdBZ1hiMXBLVmJScFJu?=
- =?utf-8?B?d1J1S3lHYWpiZTRJcXBqOUFxc1VSSTg3OXRreEV5M3ZRbndqYUZCVnhtSHd2?=
- =?utf-8?B?am9tZUtjMS8rZkxHMHQxTFBRek0rNVJNdzgyMGl4TmxyMmdYWUdSeHNZMXE2?=
- =?utf-8?B?dnE1TllTZDJudjVTaDBCRjYrYkpDWmZFSWZZOFdyeDVUaUpOQzFSd0NlT1gr?=
- =?utf-8?B?RDBnM0EwZ2JwRHVzd3ZCVlF3N2hFT2NqUVZ6UjFBMklBSjlRNkVVUzlqUFVK?=
- =?utf-8?B?M0NzK1lDcGI3Ym9leXhBU1gvNCtXUTNhWlpGSks3MGMxWHVpajNOcFF2em1Q?=
- =?utf-8?B?empyVklZVXM0eGtQWnhQQlJXd1ZBQ3pjZmEyNW1OdUJhM0lZSXcvWWxwd01j?=
- =?utf-8?B?c0lVZ3k3YmVxalNPSnJiVFpnK3Q1ZFVmSzBTZW1EZFlieEhiUEJqaEFHcXRv?=
- =?utf-8?B?bjZ2cy8wV1NOY2tic1BJUkF5cUlmTGJHTnlVYXdhZ29LeDJjVjFLVVFFTVk1?=
- =?utf-8?B?SjFzTnZ5NHNUVk1lNEg0MFpnNkZBcVF4UWllanY5Q2IrMjJIMy8yRE5VRmJZ?=
- =?utf-8?B?c3R0NVhxbS8zdGY0dG5RTTh2WVlENEJyUUg0VEc5ZUtjZ1czVE9zQnA0MWJV?=
- =?utf-8?B?T2R6Wk1sanNWeWEwa3U4NmFpZVZhOGg4U0ZWOGU2SUFGUXFkdXlQbVkvL1BZ?=
- =?utf-8?B?OU9neWlwQUhXWldqR1M5M0RYc2tpWG4wVXpmSlJpOTM1dnVsM2ZZdUhoWnF1?=
- =?utf-8?B?Rmc4UDkrcFBqRjBTSHNIK3k3SXd3ZFVlTmdsVGJJZ2c5YXE0eVNYRU9uM1FB?=
- =?utf-8?B?SXJZK1hUTkQxTWJ6cFRXNDZpbTZMcWRHZUd3VVdFYWtZU3A3QVJUaUtDY1U0?=
- =?utf-8?B?K1NjWVhuR1ppdDRLNWFldlZKOTF4UCs1eUYxeVcvRnZFTzBQVVEwVmRjZmd0?=
- =?utf-8?B?SkE0UXNSdm5KdHRONjhqZVc1YzU0M3NOdk1jM1A4Y0RPc2dYYThDck54Z2dM?=
- =?utf-8?B?TkVzaEl6TVYwZi9FQzFGRHp3R250ZDRETEZHYWRtYS9kU0ltWnZhUDJkVFE0?=
- =?utf-8?B?ZmxXRzI4c254NjJrdXJ2Vk1Tek1RNGxRcHpObzI1WUZJdk0yZ3BLSUJHRmpp?=
- =?utf-8?B?L0xGMG9JaXdSZ24rY0JBTXNlZlpjR1pQUjc2QnFKdFpzbU82dUlaMFN1bTEx?=
- =?utf-8?B?VUwxaC9wZXlXTExFQm45OUV0YzdhMWozZ0x0d3ZkOHJwZ0E9PQ==?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR03MB7155.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(366016)(376014)(42112799006)(13003099007)(7053199007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZGkrZXlBaXVTNFh5YkV3Q1BHOXkxTkdZREJaZE1vU3M5V09hdnU4eW5KeWNa?=
- =?utf-8?B?QjBJbnZxMUlwZkY4bWhXWkp2anBmbkR0N1hWSzUxS1FCdFhsZ2wwL0lENW9m?=
- =?utf-8?B?SW1BNzl4L0s3TC9SSjBrL0VIRGFBTVNUNzJmOXI0THRUWlJBRUlRKzRDci9C?=
- =?utf-8?B?OW9nRFBBYmJHN1VsL3JNd0loY0tvMWFwVFBHUVpsT0RMcXBXS3d4aWpHL3FG?=
- =?utf-8?B?bHNQWU5abURtcGFLM3dSV3NVTWgwWXJTa004eDVVYjFaU0RsVFZmMW50MEY2?=
- =?utf-8?B?R0N5RUM3RHVRTVlMeXFlZllkMDhTQ1pRUko1SUJwUzZtOStRNEYzaWdvRlU4?=
- =?utf-8?B?MWJ5aWIzSG9sQmtISG80Y1hLUS9kQ000Y2xmKzgzMm10UjhLaVNjM0hpemFD?=
- =?utf-8?B?V3lUSzJSZmxDaWI4Nk9KQ3hXbHhySTFBUGhuTUhuYnZuZ2tvbUI2d3owSWkr?=
- =?utf-8?B?SW9hL2VSMGM3eXVMUlhZNHQyV3BzaHIzOUlaVjM0Q3c2MEd0WjlPaWhXaWQ0?=
- =?utf-8?B?d0pYT2VpV01ya0kvdDVkM1JjbjJ3WnQzOGh2Y2lBU0pmdXdvMCt0bDhjVnlR?=
- =?utf-8?B?dDZSWEZJYjlRalFyZWs4STNPNTYyN3prZFIyL2Y1a3E4d3krS3R2YzlOTXB0?=
- =?utf-8?B?cFhDR2g4aGxHSmozWWFmTHQ1RUU1dEhqV0VZd0dzOFVsMWJpYzZEQW5BRHVX?=
- =?utf-8?B?eVc5eCt1cDByeFRYMVl6UitxQ1dlcGxFT2xLMW15YUhiZG9rSWd6K2o0QmFS?=
- =?utf-8?B?N3VSeDIzREVwZ2Y4MDhxbS9veFhCWmNIWjB4ZTdVTkx4Z2pFOTFEaVRrYSt4?=
- =?utf-8?B?L3NEYjhVc0NIVS9KQllWeWR1M3MwbHZwMU5MdzhoWEoxcFdRTVV2aVovS3Bh?=
- =?utf-8?B?MVlkQ2JTaHhWY1IxZTV6Y3Y0ODU3S1REc0NxMUxHYmYwM0R4ajEyemQ4Nk1C?=
- =?utf-8?B?K3dFcWhPam9zUUhBTVJPNU5BRjUydmpsbHRSL1dRSGx2QTgzRHF1NnVBTWpV?=
- =?utf-8?B?eW1KY1kyejBzWFRWNHg0V3MwY2N4Mzh2Q3pPS0QxTXJXRFpRdDVoOExKaTBm?=
- =?utf-8?B?R2pkU09CZVZxSXp5Zy9aVHk3K2JSRVlHN3lTMVM1dTZldWtKOEtPVkUyazVK?=
- =?utf-8?B?SkFuVXE1WHk3M1A1WTJPMTdMZ0FhbVVTR2VUYklIOXRLZkVNVGFXZTZsUU5B?=
- =?utf-8?B?eG5vWi9NKzdUajNzazl6ZmgzUEs0YlhONFZTaElST3hMdzVORmVmTDhOeUE1?=
- =?utf-8?B?MWZxVTMzNFBVS0VmWCtmZEZxazA2RzY4LzlMZ1I4Y2xYZWgwT1NES3ZOQnNG?=
- =?utf-8?B?Ly94QlR5eHNCaldLY21keVFNbUNPd000b2tMOThKWURlRHhkZmxRMTVtdGph?=
- =?utf-8?B?MWpkbm10UXdzWXduendMcTB4emk2VVJhWFM1Q0c5VEY5VFpMKzB6UlR0WHFh?=
- =?utf-8?B?ZmlOWWpxRmdObTV4WjhDSGpiTG1uZDVDYnNQVk53WGZDSzgxQkRyRVF1czI4?=
- =?utf-8?B?czN6aUFPSmJLQkc5SnFHNzNRRWI1K0tqQWN0NTMwMkUwb0txTlZzZGx1TWJv?=
- =?utf-8?B?czZ5bGc1Yzhzcmw4em1aR3VLVkFaOFBRSVVhdHVFYnpyK0d0OWM5SjJjb1Zn?=
- =?utf-8?B?LzZtZmliSEZkKzlmS1lDZ1ZnVmNnTzE3b2dUMnF0VzRqaEJkM1lhako2TDQ5?=
- =?utf-8?B?SXBQWk1IWUZ1ZHVGelFuYi93NlBmc3BjL2R3RnVMWU1xUi9ZVUdVZVRJNkw2?=
- =?utf-8?B?eHM5OHdNZWRadVBwZ3RFSTBuNG1JOHgxMHVOMnowSGJWUlpCK1RpMzYxc2ln?=
- =?utf-8?B?eWZEc1VQVm9HU3R3M3lSTXdwaFBOVlhUU2RtV0lMY1R5R0h6ZGM4WEd6L3Jo?=
- =?utf-8?B?RjYyT2gzS3J1Z1VBcUxOSEVFcjVobXJHMWdpMXd6c2RyMzRObXJ1MVpLVU53?=
- =?utf-8?B?b3JwcFJ0RFRrQUhpS2VQbytIVnE1bThoV1E5QkE3RE12QXU5djlpdHZuT2M3?=
- =?utf-8?B?YlRtMTNFc0JQUWpmei8rQlpHWjdWdE91SFdEWXdTTXl0TlJsNWMvdU81cjVE?=
- =?utf-8?B?MkgrT1g2VENzN0x2QWNweXJoVFFJRk03NllSQldqOG43TXRKdHNBaHN2cUZ4?=
- =?utf-8?Q?P6VmV6WdcNXAjBZsrFhdiONEo?=
-X-OriginatorOrg: amlogic.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d40038ee-c9dc-46bb-2ba7-08de28a96dc2
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB7155.apcprd03.prod.outlook.com
+X-OriginatorOrg: renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 02:55:29.1314 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0df2add9-25ca-4b3a-acb4-c99ddf0b1114
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Sv434kV8uKt/gC/SQPh4Un4sMWNBCvo75UN3KMI1BSz7xuo8jXIQkho3ByQQFBSuav/NEhi7rr3P24bla3/9Og==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KUZPR03MB9382
-X-Mailman-Approved-At: Fri, 21 Nov 2025 08:56:49 +0000
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8319.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3d5a57d-d1ee-43c8-4288-08de28b1474e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Nov 2025 03:51:40.3386 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9uFnkwf36LzLt9dxl0D1vklFNz+iXmBUXdoQqnOlCmBeCoVQzVSdfBmMhbBzgdnLUznl9w2NGyph8rVUyizqanuLPbY3/f9ujin02GcDZbg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB16290
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -179,107 +162,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Piotr，
+Hi Hugo
 
-     I will check this issue
+On Wed, Nov 19, 2025 12:11 AM, Hugo Villeneuve wrote:
 
-在 2025/11/19 18:27, Piotr Oniszczuk 写道:
-> [You don't often get email from piotr.oniszczuk@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->
-> [ EXTERNAL EMAIL ]
->
-> Pls see inline
->
->> Wiadomość napisana przez Chuan Liu <chuan.liu@amlogic.com> w dniu 19 lis 2025, o godz. 03:57:
->>
->> Hi Piotr,
->>
->>
->> On 11/18/2025 10:50 PM, Piotr Oniszczuk wrote:
->>> [You don't often get email from piotr.oniszczuk@gmail.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
->>> [ EXTERNAL EMAIL ]
->>> Ao,
->>> Is there any chance to get this s4 drm hdmi series for current 6.18?
->>> (i tried backport this series to 6.18 but have some issues with reparent vpu_0_sel to sysclk_b_sel)
->> Why do we need to reparent vpu_0_sel to sysclk_b_sel? is there any
->> background here?
-> Well - it looks it is because bug....
-> Martin Blumenstingl had perfect eye and catch typo in patch https://lore.kernel.org/all/20250110-drm-s4-v1-11-cbc2d5edaae8@amlogic.com/:
->
-> By replacing:
-> assigned-clock-parents = <&clkc_periphs CLKID_FCLK_DIV3>,
-> <0>, /* Do Nothing */
-> <&clkc_periphs CLKID_VPU_0>,
-> <&clkc_periphs CLKID_FCLK_DIV4>,
-> <0>, /* Do Nothing */
-> <&clkc_periphs CLKID_VAPB_0>;
->
-> with:
-> assigned-clock-parents = <&clkc_pll CLKID_FCLK_DIV3>,
-> <0>, /* Do Nothing */
-> <&clkc_periphs CLKID_VPU_0>,
-> <&clkc_pll CLKID_FCLK_DIV4>,
-> <0>, /* Do Nothing */
-> <&clkc_periphs CLKID_VAPB_0>;
->
-> dmesg is like this https://termbin.com/6020
->
-> So i'm getting hdmi working - but only when device boots _without_ connected hdmi at boot (and connected later)
-> If hdmi is connected at boot - boot hangs at:
->
->      0.341676] meson-dw-hdmi fe300000.hdmi-tx: Detected HDMI TX controller v2.01a with HDCP (meson_dw_hdmi_phy)
-> [    0.342750] meson-dw-hdmi fe300000.hdmi-tx: registered DesignWare HDMI I2C bus driver
-> [    0.343660] meson-drm ff000000.vpu: bound fe300000.hdmi-tx (ops meson_dw_hdmi_ops)
-> [    0.344832] [drm] Initialized meson 1.0.0 for ff000000.vpu on minor 0
->
-> FYI: It is after applying https://patchwork.kernel.org/project/linux-amlogic/cover/20250110-drm-s4-v1-0-cbc2d5edaae8@amlogic.com/ on mainline 6.18 (with some my adjustments on this series required by changes in 6.18).
-> For VPU clk changes see https://github.com/warpme/minimyth2/blob/master/script/kernel/linux-6.18/files/0312-drm-meson-add-vpu-clk-setting-for-S4.patch
-> It is 6.18 adaptation of https://patchwork.kernel.org/project/linux-amlogic/patch/20250110-drm-s4-v1-9-cbc2d5edaae8@amlogic.com/
->
-> As kernel hangs - i have limited caps to drill where root cause is.
->
-> Maybe above hang is reason of my backports or missing any pre-req required to get s4 drm working?
-> Anyway - it will be good to test with updated to 6.18 series of Add DRM support for Amlogic S4 (plus info about any pre-req required to get s4 drm working)
->
->
->> The vpu_clk on S4 doesn't support sysclk_b_sel as one of its
->> selectable clock sources, so this reparent operation will definitely
->> fail. This has nothing to do with the kernel version.
->>
->>>> Wiadomość napisana przez Ao Xu via B4 Relay <devnull+ao.xu.amlogic.com@kernel.org> w dniu 10 sty 2025, o godz. 06:39:
->>>>
->>>> From: Ao Xu <ao.xu@amlogic.com>
->>>>
->>>> Add devicetree document for S4 HDMI controller
->>>>
->>>> Signed-off-by: Ao Xu <ao.xu@amlogic.com>
->>>> ---
->>>> Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml | 1 +
->>>> 1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml b/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
->>>> index 84d68b8cfccc86fd87a6a0fd2b70af12e51eb8a4..6e0a8369eee915fab55af24d450a6c40e08def38 100644
->>>> --- a/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
->>>> +++ b/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
->>>> @@ -55,6 +55,7 @@ properties:
->>>>            - const: amlogic,meson-gx-dw-hdmi
->>>>        - enum:
->>>>            - amlogic,meson-g12a-dw-hdmi # G12A (S905X2, S905Y2, S905D2)
->>>> +          - amlogic,meson-s4-dw-hdmi # S4 (S905Y4)
->>>>
->>>>    reg:
->>>>      maxItems: 1
->>>>
->>>> --
->>>> 2.43.0
->>>>
->>>>
->>>>
->>>> _______________________________________________
->>>> linux-amlogic mailing list
->>>> linux-amlogic@lists.infradead.org
->>>> http://lists.infradead.org/mailman/listinfo/linux-amlogic
->>> _______________________________________________
->>> linux-amlogic mailing list
->>> linux-amlogic@lists.infradead.org
->>> http://lists.infradead.org/mailman/listinfo/linux-amlogic
+> > +	} else if (dsi_div_target =3D=3D PLL5_TARGET_DPI) {
+> > +		/* Fixed settings for DPI */
+> > +		priv->mux_dsi_div_params.clksrc =3D 0;
+> > +		priv->mux_dsi_div_params.dsi_div_a =3D 3; /* Divided by 8 */
+> > +		priv->mux_dsi_div_params.dsi_div_b =3D 0; /* Divided by 1 */
+> > +		dsi_div_ab_desired =3D 8;			/* (1 << a) * (b + 1) */
+>=20
+> As suggested in V4, use the new inline function:
+>=20
+>   dsi_div_ab_desired =3D rzg2l_cpg_div_ab(priv->mux_dsi_div_params.dsi_di=
+v_a,
+>                                         priv->mux_dsi_div_params.dsi_div_=
+b);
+>=20
+> You can then remove the comments re-explaining how it is computed.
+>=20
+> Then if you change a and/or b you have the new value automatically comput=
+ed and not hard coded (less error-prone).
+
+OK.
+
+
+> > +				params->pl5_fracin =3D div_u64(((u64)
+> > +						     (foutvco_rate * params->pl5_refdiv) %
+> > +						     (EXTAL_FREQ_IN_MEGA_HZ * MEGA)) << 24,
+> > +						     EXTAL_FREQ_IN_MEGA_HZ * MEGA);
+>=20
+> Something is not right here, because the pl5_fracin computation is exactl=
+y like in V2, where Geert in his comments suggested you move u64 outside of=
+ the modulo operation.
+>=20
+> It probably is because you had this code block duplicated in V3, but you =
+removed the wrong block for V4:
+
+Good catch! I totally delete the wrong block.
+It's fixed....again.
+
+
+
+> > -	priv->mux_dsi_div_params.clksrc =3D 1; /* Use clk src 1 for DSI */
+> > -	priv->mux_dsi_div_params.dsi_div_a =3D 1; /* Divided by 2 */
+> > -	priv->mux_dsi_div_params.dsi_div_b =3D 2; /* Divided by 3 */
+>=20
+> Removing those lines make the "8" below hardcoded and hard to understand.
+>=20
+> But I am confused as a=3D1 and b=3D2 should give a div_ab value of 6 and =
+not 8?
+
+According to the hardware manual, valid dividers for that mode are 1/2, 1/4=
+, 1/8
+
+Since I see customers generally use smaller parallel LCDs, I went with the =
+larger divider (1/8).
+
+
+> > +	rzg2l_cpg_dsi_div_set_divider(8, PLL5_TARGET_DPI);
+>=20
+> Maybe use an intermediate variable like this:
+>=20
+>    	u8 div_ab;
+>         ...
+> 	div_ab =3D rzg2l_cpg_div_ab(1, 2);
+> 	rzg2l_cpg_dsi_div_set_divider(div_ab, PLL5_TARGET_DPI);
+>=20
+> Keeping the lines with the comments (setting a and b) would be even more =
+clear, and simply reusing their values in rzg2l_cpg_div_ab...
+
+The hardware manual says in DPI mode, "set divider to 1/2, 1/4, or 1/8".
+So, then if you look at the code and it has:
+      rzg2l_cpg_dsi_div_set_divider(8, PLL5_TARGET_DPI);
+
+That makes sense to me. It's doing exactly what the hardware manual told yo=
+u to do at a high level.
+Other places later in the code it will figure out how to turn that into 'a'=
+ and 'b', but there is no need to worry about that yet.
+That was my thinking.
+
+Chris
+
