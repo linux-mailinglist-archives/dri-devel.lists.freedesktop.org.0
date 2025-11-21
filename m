@@ -2,104 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0D54C7AD18
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 17:24:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CBF4C7AD2D
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 17:25:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A594789F08;
-	Fri, 21 Nov 2025 16:24:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A763710E155;
+	Fri, 21 Nov 2025 16:25:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=shazbot.org header.i=@shazbot.org header.b="iVYxelnp";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="UvzaBNSi";
+	dkim=pass (2048-bit key; unprotected) header.d=shazbot.org header.i=@shazbot.org header.b="QfORGo7L";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="T4odQl0b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-b6-smtp.messagingengine.com
- (fout-b6-smtp.messagingengine.com [202.12.124.149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6819110E155
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 16:24:27 +0000 (UTC)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
- by mailfout.stl.internal (Postfix) with ESMTP id A04FF1D00156;
- Fri, 21 Nov 2025 11:24:25 -0500 (EST)
+Received: from flow-b5-smtp.messagingengine.com
+ (flow-b5-smtp.messagingengine.com [202.12.124.140])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA44E10E155
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 16:25:00 +0000 (UTC)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+ by mailflow.stl.internal (Postfix) with ESMTP id 44EFF13001EC;
+ Fri, 21 Nov 2025 11:24:59 -0500 (EST)
 Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-05.internal (MEProxy); Fri, 21 Nov 2025 11:24:26 -0500
+ by phl-compute-04.internal (MEProxy); Fri, 21 Nov 2025 11:25:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
  cc:cc:content-transfer-encoding:content-type:content-type:date
  :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm2; t=1763742265;
- x=1763828665; bh=y9sPmO9ctPmEofVcJL2ve0sLdAoEmPz/dsTzOswFhgc=; b=
- iVYxelnp6m8nPDJCJD3pghiuY0JnfpXoWiKDtyC1ZfTMF8fUQtXTaMX5yXfbLont
- ST9OiZCOgXI8ULRFc6aFOTV/tf4SKt4W5wcQbP9AJZVnFKNBeKTXaQz1YXBFdesO
- ngWnz2nFnL1qztTi6xyP0b4aSzvPm+uN9ak+bIptT2djVNAQLdqCmwibU9kE5Aby
- VpAiSzJm+BAVU4pwbqnka0BeOqzyT0bMUyCvk7dAaYRepF8yb8plimv6meD7DiWX
- p8wl94vOATtCxVWlASjaMB/2zpgiQXfFwIjaAR+tnZBqkJApVj4qwHk4EVRiCEnp
- 1g+zDY1l5gB38/tTHqvG8Q==
+ :references:reply-to:subject:subject:to:to; s=fm2; t=1763742299;
+ x=1763749499; bh=R8sbORNrVfeWd8nr6oD3a9uPzFLZbbObLNNt4scEFDk=; b=
+ QfORGo7LJM8uEqBQDQc0oWVqW7+t5I6EY95ZPkE+x9Jo975GuvpOefibl+kBo25c
+ qaUuG8Vut1p0uEtUZkr7lA5AOCAp3PNgjRyUaZHGyhch2l4SDz8WKGkMb/61ZJpu
+ F73XHBoycxqWtaJ6AHkuSAq1jEuS7FoKxW7n+Kf4I+ngjAyqmEYu+OlaE5HWp/c/
+ A+xv6hZj8UFBNBEYChe7piYXdVwgUs2FVc11qOV3830fr0MaXRqQnEaMi/PRHs27
+ tTHzucon304+ApCu5nPwX5mOF3oPWd/6qkU770403D7KaHRZ+QKeLRX2AUVtqDRO
+ xJ3glbfdgIfKkYsFTPjpsA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:content-type:date:date:feedback-id:feedback-id
  :from:from:in-reply-to:in-reply-to:message-id:mime-version
  :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1763742265; x=
- 1763828665; bh=y9sPmO9ctPmEofVcJL2ve0sLdAoEmPz/dsTzOswFhgc=; b=U
- vzaBNSi3AV9eHP0xV5OI+fIMqpbdDdLZSjxGvsQ1T9RKmeLAwjextymi2cVXU8uy
- Be6PO+J6KI0iovHc0UiFA8B7rQiJTAIxOd4DhBWcsamEOEW5kjFnqKsB7FIrhxeQ
- GuiIAMeDF55zh/ogS1yglOFCO/9flUPn1HBDtkEepyUIH7oJ3GvW0fdgq2cG3HNt
- Rreb7R/CH8xTdpLKWo0BA9gScPfpMk/xxjgIGSyYgTlnJbiy/QOWhAmLxQpYZ6V3
- 7/Vl+Dl5oQsAGlnSZbuDQqBdTTIF2o/fTw+PlG/91H2n4QIdikT7RS5D+uM/ue4F
- NdHheTOKT/rjN+6DYqXNw==
-X-ME-Sender: <xms:N5IgaVaQZaAe5t79XnH1rbSJrYlQplMMYdp0M6-Mr3uWvt823MEJDQ>
- <xme:N5IgaSsBncHkvTAX8k6pT0FvMeuYcjAGM09pjfPKAWMwiWFbRzWYD5L220C8E6Pk7
- g55i_BbOAKRyF9cw6sEpexN2O8LimadQjIefkoeLiQUv98iWdUI>
-X-ME-Received: <xmr:N5Igad-WFs5Ve-cFz6F4xXvv1f14eMC6yGbsbN7RyWZyEu__tXqKIFcs>
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1763742299; x=
+ 1763749499; bh=R8sbORNrVfeWd8nr6oD3a9uPzFLZbbObLNNt4scEFDk=; b=T
+ 4odQl0bbYP0fapPyPtcd1y0iotE3USAh1c+743hsO8cgd1nVNiI9hOwuiL2YWO8s
+ dt4WV1/vhace+UXSKbFCojCHTduC6rxMN6r8q9/9MGA4w1fcujSVXxVLSf6iopRq
+ qPZtSHDX8MCUdbh1D26v3tzWcQ59GFK6vysvWURvM7di5s+yAwaBpRmyx1WvQxrO
+ q2Sh5r9qVcvKCYZmzMgBFZ+s52IMtxjsypSXG4zccV8xW+hnyiM8Z2fF5HHrQ4yL
+ cPIJLyVWH78JBDAcAHMuFZRdVBOmmeLp2jKCjOGu/VLdgX7/ndkrnxB8vrz6fSI3
+ ZN4sb60lU2sHD/yRZQvCA==
+X-ME-Sender: <xms:WpIgadyHQYiFK5J1UwmSjK0GJR7opTygUEzQ0jyFX4RcWI_9JhFmNA>
+ <xme:WpIgaWdWgxw7eAZ1AKDk_gmYq6UdqGQY5BUwUJOcNd9vWj5_ir-rnYvgbwncxVTu9
+ E5PHF1lql_eZM7CCyhmXS62aU9yZKXHvuzDIjjQ86utWWhE9xu2>
+X-ME-Received: <xmr:WpIgabmGbbk-eU8MWhQtBvGU_k0QEl4vXMnpFd_XMBnJlpL8jIHdpwOn>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvfedtgeefucetufdoteggodetrf
  dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
- rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
- gurhepfffhvfevuffkjghfgggtgfesthejredttddtvdenucfhrhhomheptehlvgigucgh
- ihhllhhirghmshhonhcuoegrlhgvgiesshhhrgiisghothdrohhrgheqnecuggftrfgrth
- htvghrnhepteetudelgeekieegudegleeuvdffgeehleeivddtfeektdekkeehffehudet
- hffhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
- hlvgigsehshhgriigsohhtrdhorhhgpdhnsggprhgtphhtthhopeefhedpmhhouggvpehs
- mhhtphhouhhtpdhrtghpthhtoheplhgvohhnsehkvghrnhgvlhdrohhrghdprhgtphhtth
- hopegshhgvlhhgrggrshesghhoohhglhgvrdgtohhmpdhrtghpthhtoheplhhoghgrnhhg
- seguvghlthgrthgvvgdrtghomhdprhgtphhtthhopegrgigsohgvsehkvghrnhgvlhdrug
- hkpdhrtghpthhtoheprhhosghinhdrmhhurhhphhihsegrrhhmrdgtohhmpdhrtghpthht
- ohepjhhorhhoseeksgihthgvshdrohhrghdprhgtphhtthhopeifihhllheskhgvrhhnvg
- hlrdhorhhgpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgt
- ohhmpdhrtghpthhtohepjhhgghesiihivghpvgdrtggr
-X-ME-Proxy: <xmx:N5IgaQ84u-HHIf2TcQNYp-qQlqRMCjkmlLokOX6AO2UGzSJhrElRBA>
- <xmx:OJIgaXPtSD_NpuOHdtKoNjoojGX18VUQEBCkvknI_2nnhJz5NPrx0g>
- <xmx:OJIgacOkV7PC26nL5WPRH0i6onKjj8iCzVuttmRsX2N7uBq0h1DUmQ>
- <xmx:OJIgaVMFYRWTlkUhXAgJS6FxtMLkh8eI-ToaCrmBZCSefA8L7jXnYw>
- <xmx:OZIgaTGK97vls5JNSW_jGH-7CSY683IBHOHRkaC1YrXeI4xtr5m3V3e5>
+ rghilhhouhhtmecufedttdenucfrhhhishhhihhnghdqkffkrfgprhhtucdliedtjedmne
+ cujfgurhepfffhvfevuffkjghfgggtgfesthejredttddtvdenucfhrhhomheptehlvgig
+ ucghihhllhhirghmshhonhcuoegrlhgvgiesshhhrgiisghothdrohhrgheqnecuggftrf
+ grthhtvghrnhepgeevkeeiveeuheegkeetveefgfeggeejjeelvdffueelhffgleevteeg
+ fffgvefgnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpmhhsghhiugdrlhhinhhkne
+ cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghlvgig
+ sehshhgriigsohhtrdhorhhgpdhnsggprhgtphhtthhopeegtddpmhhouggvpehsmhhtph
+ houhhtpdhrtghpthhtohepjhhgghesnhhvihguihgrrdgtohhmpdhrtghpthhtoheprghg
+ ohhruggvvghvsehlihhnuhigrdhisghmrdgtohhmpdhrtghpthhtoheprghirhhlihgvug
+ esghhmrghilhdrtghomhdprhgtphhtthhopegrlhgvgidrfihilhhlihgrmhhsohhnsehr
+ vgguhhgrthdrtghomhdprhgtphhtthhopegrnhhkihhtrgesnhhvihguihgrrdgtohhmpd
+ hrtghpthhtohepsghorhhnthhrrggvghgvrheslhhinhhugidrihgsmhdrtghomhdprhgt
+ phhtthhopegsrhgvthhtrdgtrhgvvghlvgihsegrmhgurdgtohhmpdhrtghpthhtohepug
+ hrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphht
+ thhopegvrhhitgdrrghughgvrhesrhgvughhrghtrdgtohhm
+X-ME-Proxy: <xmx:WpIgaVSVoAoaVhiB9T_6MLhuMBKqbn0hkCI-zBmTpLtMUOP5VxfGGg>
+ <xmx:WpIgaadDKBxoz-K4UcMaIitoiVRYj3Kmw1p7S2niF93gJ_B26Jlbdg>
+ <xmx:WpIgaS3MkMqS7XZkgy6uqV0n9XlkDWGdRVO8bqJ9f5UZzVmE8x3PDw>
+ <xmx:WpIgabLsTdugGzrlPzP9TH7xEs2DCneALzQq3Px0YtbKmdkBLHZeMA>
+ <xmx:W5IgaWKNIJO5tlrjxf8bMjbc8KZW3xpbSFxkSWwtvqPDaZRY8aJbGsLb>
 Feedback-ID: i03f14258:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 21 Nov 2025 11:24:20 -0500 (EST)
-Date: Fri, 21 Nov 2025 09:24:17 -0700
+ 21 Nov 2025 11:24:54 -0500 (EST)
+Date: Fri, 21 Nov 2025 09:24:53 -0700
 From: Alex Williamson <alex@shazbot.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>,
- Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Ankit Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
+ David Airlie <airlied@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Ankit Agrawal <ankita@nvidia.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Brett Creeley <brett.creeley@amd.com>, dri-devel@lists.freedesktop.org,
+ Eric Auger <eric.auger@redhat.com>, Eric Farman <farman@linux.ibm.com>,
+ Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, linux-s390@vger.kernel.org,
+ Longfang Liu <liulongfang@huawei.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>,
+ Nikhil Agarwal <nikhil.agarwal@amd.com>, Nipun Gupta <nipun.gupta@amd.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, qat-linux@intel.com,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
  Shameer Kolothum <skolothumtho@nvidia.com>,
- Kevin Tian <kevin.tian@intel.com>, Krishnakant Jaju <kjaju@nvidia.com>,
- Matt Ochs <mochs@nvidia.com>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- iommu@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
- linux-hardening@vger.kernel.org, Alex Mastro <amastro@fb.com>,
- Nicolin Chen <nicolinc@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: Re: [PATCH v9 00/11] vfio/pci: Allow MMIO regions to be exported
- through dma-buf
-Message-ID: <20251121092417.7a6eaa2f.alex@shazbot.org>
-In-Reply-To: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
-References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
+ Sven Schnelle <svens@linux.ibm.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, virtualization@lists.linux.dev,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Zhenyu Wang <zhenyuw.linux@gmail.com>,
+ Zhi Wang <zhi.wang.linux@gmail.com>, Kevin Tian <kevin.tian@intel.com>,
+ patches@lists.linux.dev, Pranjal Shrivastava <praan@google.com>,
+ Mostafa Saleh <smostafa@google.com>
+Subject: Re: [PATCH v2 00/22] vfio: Give VFIO_DEVICE_GET_REGION_INFO its own op
+Message-ID: <20251121092453.6f151e0b.alex@shazbot.org>
+In-Reply-To: <0-v2-2a9e24d62f1b+e10a-vfio_get_region_info_op_jgg@nvidia.com>
+References: <0-v2-2a9e24d62f1b+e10a-vfio_get_region_info_op_jgg@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -118,19 +126,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Nov 2025 11:28:19 +0200
-Leon Romanovsky <leon@kernel.org> wrote:
+On Fri,  7 Nov 2025 13:41:16 -0400
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-> Changelog:
-> v9:
->  * Added Reviewed-by tags.
->  * Fixes to p2pdma documentation.
->  * Renamed dma_buf_map and unmap.
->  * Moved them to separate file.
->  * Used nvgrace_gpu_memregion() function instead of open-coded variant.
->  * Paired get_file_active() with fput().
+> There is alot of duplicated code in the drivers for processing
+> VFIO_DEVICE_GET_REGION_INFO. Introduce a new op get_region_info_caps()
+> which provides a struct vfio_info_cap and handles the cap chain logic
+> to write the caps back to userspace and remove all of this duplication
+> from drivers.
+> 
+> This is done in two steps, the first is a largely mechanical introduction
+> of the get_region_info(). These patches are best viewed with the diff
+> option to ignore whitespace (-b) as most of the lines are re-indending
+> things.
+> 
+> Then drivers are updated to remove the duplicate cap related code. Some
+> drivers are converted to use vfio_info_add_capability() instead of open
+> coding a version of it.
+> 
+> This is on github: https://github.com/jgunthorpe/linux/commits/vfio_get_region_info_op
+> 
+> v2:
+>  - Rename
+>     hisi_acc_vfio_get_region -> hisi_acc_vfio_ioctl_get_region
+>     vfio_fsl_mc_get_region_info -> vfio_fsl_mc_ioctl_get_region_info
+>     intel_vgpu_get_region_info -> intel_vgpu_ioctl_get_region_info
+>     mbochs_get_region_info -> mbochs_ioctl_get_region_info
+>     intel_vgpu_get_region_info -> intel_vgpu_ioctl_get_region_info
+>     vfio_ccw_mdev_get_region_info -> vfio_ccw_mdev_ioctl_get_region_info
+>     hisi_acc_vfio_get_region -> hisi_acc_vfio_ioctl_get_region
+>     vfio_fsl_mc_get_region_info -> vfio_fsl_mc_ioctl_get_region_info
+>  - Consistently free caps.buf in vfio_get_region_info()
+> v1: https://patch.msgid.link/r/0-v1-679a6fa27d31+209-vfio_get_region_info_op_jgg@nvidia.com
 
-Applied to vfio next branch with the fixes discussed for v6.19.  I also
-pushed a tag, vfio-v6.19-dma-buf-v9+, for this work.  Thanks,
+Applied to vfio next branch for v6.19.  Thanks,
 
 Alex
