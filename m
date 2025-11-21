@@ -2,155 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42114C78F33
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 13:11:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C256C78FE5
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 13:17:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7F7510E05B;
-	Fri, 21 Nov 2025 12:11:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA7F810E239;
+	Fri, 21 Nov 2025 12:17:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="C7Q6LamD";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mT508ZRs";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SXOFjQ62";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11011004.outbound.protection.outlook.com [52.101.62.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4820310E05B
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 12:11:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bfEJGEo165MX+oYUscAmITnEmSt4yl/AM0pq3ZDUfsULeSXK5mmFtSCQHiIw4VZNi5iikaqoXOYB/0lrcdoJK0f7+GWBNHit6ZbU5DN7Ha0iEEUnpMx5hefdKQoqGGxAX2a8wfeGYeZlpohkwa5jL3xYtmafH6tTbcsF7qff39iMQpLg0qP8qcsZHE9Kp951t/dIAbDMq0qF0k+ofiNAPqWbZ9uPKlaytqxsHFrgON5aqxE/qmKIzb+roA9ZAsswKSDHeH7XeuUd3DsKf1IeITpm0Se6lNkNuviAabEtg/VXVULWBZmVVjoqwTcXogIh+xP13LWygMZuIxkBctmi9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4VOEygUEA/Win0vFf+XqYiKIiG+d8RoiK1JRlqeTYcg=;
- b=w3vM2fplRl9UV3g6ETZAXpODC8rabfxeWzKR6QaXZhomPaYY9wLvKo1nga9f8p2h2thCfb+gaMmQ5yya1vNqAFG7nIbs+s56g1F3vFzD6HUyMuthtgJS1PddPsleG/YgyDYGSI4fRFStFVlXhXIz/E6rAraZ6PYHpJ60v3W33jLjXv4+Tsby67f+KlctEyx/+8aJW4NsK4wo4/v2EJZ/8SR8zQnzNtdri/+cM61V1Vb+ra3pSHxU9t78lvb8ugik1xdLbOIXpKI6wzzbhIKs3YKkKxonrmkEB7GzAuvXvx8WSVvi3mB5v/BabUw7SygNRB14jIi2iqFVQcDXmG37Vw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=suse.de smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4VOEygUEA/Win0vFf+XqYiKIiG+d8RoiK1JRlqeTYcg=;
- b=C7Q6LamDTry1o1vT3lMJKyko49Bc28CWd8tJRPBJA9lnCHTh3KCx4AbCALaYhkMHLYMG62djghM1K1QtllqIHscgX2grP+Ux5bAQbWgH3hKDHXOC5gMfr/qTJNIXOQlgW5+Nyvk1bQcHeRdd1ktZlYm01zEBytIWn8raMAyn2ME=
-Received: from BN9P222CA0006.NAMP222.PROD.OUTLOOK.COM (2603:10b6:408:10c::11)
- by BLAPR10MB4849.namprd10.prod.outlook.com (2603:10b6:208:321::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Fri, 21 Nov
- 2025 12:11:22 +0000
-Received: from BN2PEPF0000449D.namprd02.prod.outlook.com
- (2603:10b6:408:10c:cafe::9b) by BN9P222CA0006.outlook.office365.com
- (2603:10b6:408:10c::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.11 via Frontend Transport; Fri,
- 21 Nov 2025 12:11:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- BN2PEPF0000449D.mail.protection.outlook.com (10.167.243.148) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9343.9 via Frontend Transport; Fri, 21 Nov 2025 12:11:22 +0000
-Received: from DLEE205.ent.ti.com (157.170.170.85) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 21 Nov
- 2025 06:11:19 -0600
-Received: from DLEE209.ent.ti.com (157.170.170.98) by DLEE205.ent.ti.com
- (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 21 Nov
- 2025 06:11:19 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE209.ent.ti.com
- (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 21 Nov 2025 06:11:19 -0600
-Received: from [172.24.235.208] (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5ALCBCcL1246404;
- Fri, 21 Nov 2025 06:11:13 -0600
-Message-ID: <56c4fcff-4f8c-4221-a390-77bc3837321a@ti.com>
-Date: Fri, 21 Nov 2025 17:41:12 +0530
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8527810E142
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 12:17:00 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5ALBad6u2841299
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 12:16:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=QaNnVLYnlnRhWIm4jNcLz6mZ
+ ygcebyyLlqzwUaRtrnI=; b=mT508ZRsNRTqr8DnFSkjCZTkAd4GvUBjLQDw99zg
+ Tjsl919tISAJp86joL1PZInJ6CpdjjXMNTmeRjMC3rETaklabmdoLekmgOiMP750
+ SzQYbWukdIQ2Ow2mlpnuXZwTxS7IqgzgUAwzV9i275tS7T1FJ1/kkEt/DPeRyLCK
+ jXbkZGSnyHo2KlZL4faVNA13LX8EmH6ADe9wF9mZ/2Chud4Cbw/OlLcN3UnBA1Dd
+ b7mKe9ajPbvRh+vZgpPueE7FcyJd+8QtjamxyDt0kc+8hb/LCgBbmGOPHEz8YYRU
+ OnIVAkpHyFS7v7/VluOvAdCeD8K1S3BSGC8g1ROmaukgOA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ajhkvhcyw-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 12:16:59 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-8b24383b680so761300985a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 04:16:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1763727418; x=1764332218;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=QaNnVLYnlnRhWIm4jNcLz6mZygcebyyLlqzwUaRtrnI=;
+ b=SXOFjQ62eDe5mk8nC+0UbnyvX77WCBUx2qLOOXWv3J5mlDYGaO5tqZoJfRkNieD13Y
+ GXxc2PZNz5shHYmJIpLYBTc2QxLCrtBNK1WXY/Pz1mtiHmsv874ogxUzh6kp5m9u0zzC
+ GRwmqRIG5NSAt2oVIkH8I46ZFKyQDqlrO6ZcofP1H3J5lgNyXrYSnOTvigR9OcSwhaAv
+ w/mbEGuxM6pOA76gfge0hxvsgWss9/G6qe52GksRSh0XN1rEiWyOFMVKGzFYTv4i6IoW
+ TQBAvCdEwA17VXYumsbOGPgzARwWfscCHXzVjr+fFQMPZb61T+0NpAsL/mmAw19Y5EMg
+ 87Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763727418; x=1764332218;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QaNnVLYnlnRhWIm4jNcLz6mZygcebyyLlqzwUaRtrnI=;
+ b=PpVviHg0zUu8OfBFxbZ7HdVt86FOO6UW5lqGY4F76eQt5IJTkm4J7oenDAVWlPpCk6
+ QM1W4FMZTm2jRuAb3dXT+rA0KEz2qInpv70qfdaTaJiK2TZ0AXJ0NexoY1Vy9OAbmHGT
+ 4aFsgJovggccnm/2Lwtqjluk+dbpaPWbiXdUfjT/HSiFL9AXN1VOhvZdnhZVvJU1riHH
+ EVcEjZY83db2e2wmLnPlm/bkw18azScKDkI1mB47LVHdckG9RG5x9hFR+IvXaHKLDJti
+ JtZNbQG4bDdQYr6eJE81DkY7w1AdqU4I6ZuuIhWbZ4Gp2EnyZawjJiwGy2/2oosd+T+Y
+ nAdQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWjJmsJbIYGcAdh0jeWNauimjlasm3553qfb4e51FFzdeMYuGKmhFAa0eu+IdVIIFdL66zOhEeiR1U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxAAOQxKqeR8pPj6qlhfDeCwZgU5JY2Kmp2E2FSTXqvjOPuCkWA
+ FTCZuxW4/2o8Dt39dErgKmhnH2yK/665rdPjKgPF1x+Xdl2UGccoV/ZUpy/qKBj7bm/pK0wW5Bp
+ iexupkDfMEq2NYioBWgWaWK7o3e1haMIEVOJMRXqatKIf8VTycVeYk47mwGrvEQ239aMkTfE=
+X-Gm-Gg: ASbGnctrdNIWmxWl46pfcoeO1ZluGo3c52wbcnLokKpr9SQbGZRzMOHgMoslYgaGKNO
+ q/9RGfErgtRPBwm6YGczbHePVXdsoXs4qQiRvsXSJAwYbut+RA7JIGXrvXBe6+WVYKTTjT1PfHL
+ Oe4aj3WrmnAe5bK4LEUrdiBp9HZ9+XRLick7BgnMm9lPcfZ6RtQXxEQZ4mQne4nBY2DhNshIcsL
+ eLefjiE80vmCiGOb3UK3/LiGxAYR7bhprcE/LSXtaBKPhpjpjZ6yZ0lP1EqhWHF34uFXX9TzcRS
+ MA1n/1dhafq8mLIg8aOkXdbneeYj916Td8RpagPbLhjAWLpP1mynCwGgnVv8YY3T5EpeMk5yLa5
+ +CxXtX4KcnG6Qzoi7kDukXhi6/o36Md1us3uLyXaJcnNJ0CZS+W89OqPlhuJpA5umwBCZEk/REK
+ WK9RTysk6M5pTIFeRmlGtkFEs=
+X-Received: by 2002:ad4:4ea6:0:b0:86a:7c95:126f with SMTP id
+ 6a1803df08f44-8847c4c7de0mr27551526d6.27.1763727418559; 
+ Fri, 21 Nov 2025 04:16:58 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEUoX/mjzI1b4o1ytqdR+jI1yLiJw/zVz9VwmNQMbCqUbuv4Gu6bPjAqN2mH2X/VzpmYNsHKQ==
+X-Received: by 2002:ad4:4ea6:0:b0:86a:7c95:126f with SMTP id
+ 6a1803df08f44-8847c4c7de0mr27551126d6.27.1763727418121; 
+ Fri, 21 Nov 2025 04:16:58 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-37cc6a9fb2dsm10503991fa.0.2025.11.21.04.16.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Nov 2025 04:16:57 -0800 (PST)
+Date: Fri, 21 Nov 2025 14:16:55 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Teguh Sobirin <teguh@sobir.in>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/msm/dpu: Set vsync source irrespective of mdp top
+ support
+Message-ID: <52avqc3n4fxuypv6fkejuxkmuounxa67e5lsnfeynek6yxq6tm@ink6yoklpxes>
+References: <TYUPR06MB6099C539BD2C937F8630FF8EDDD5A@TYUPR06MB6099.apcprd06.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v9 5/6] cadence: cdns-mhdp8546*: Change
- drm_connector from structure to pointer
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-CC: <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
- <andrzej.hajda@intel.com>, <andy.yan@rock-chips.com>,
- <aradhya.bhatia@linux.dev>, <devarsht@ti.com>, <dianders@chromium.org>,
- <dri-devel@lists.freedesktop.org>, <javierm@redhat.com>,
- <jernej.skrabec@gmail.com>, <jonas@kwiboo.se>,
- <linux-kernel@vger.kernel.org>, <linux@treblig.org>,
- <luca.ceresoli@bootlin.com>, <lumag@kernel.org>, <lyude@redhat.com>,
- <maarten.lankhorst@linux.intel.com>, <mordan@ispras.ru>,
- <mripard@kernel.org>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <s-jain1@ti.com>, <simona@ffwll.ch>, <tzimmermann@suse.de>, <u-kumar1@ti.com>
-References: <20251120121416.660781-1-h-shenoy@ti.com>
- <20251120121416.660781-6-h-shenoy@ti.com>
- <082379e2-2d00-4f2f-82dd-cff93d2867af@ideasonboard.com>
-Content-Language: en-US
-From: Harikrishna shenoy <h-shenoy@ti.com>
-In-Reply-To: <082379e2-2d00-4f2f-82dd-cff93d2867af@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF0000449D:EE_|BLAPR10MB4849:EE_
-X-MS-Office365-Filtering-Correlation-Id: 26a2c678-968b-49a3-6fea-08de28f715da
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|1800799024|7416014|376014|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cUhJdlp3NFFXMzBGYUxCczI3NUttWHdOeTZhei9jVlAyYmVDZlcvUzBlTkJ0?=
- =?utf-8?B?d1lQRG4vVVB4T3lMR05DaVpEUkM1YzhmRngyK0IzWkR0alFlNVdtb25hTm9E?=
- =?utf-8?B?TWoxVjhoSjBFdDRhWXRNV2RkQVdScnZXWk5OdU0zQlZURkVVWmRxMXllRTBP?=
- =?utf-8?B?Uk5hQWM0YnMzT3NaME9rNTBKSm1TeFd2VWl3cnE2VDV2dmVXVk9IMHRoNnNR?=
- =?utf-8?B?V29oSTlRR3dPanlJalR4ZFdJRk9scHVxRmJ4YWpnWmVoSCtPSG0xNE92SVRP?=
- =?utf-8?B?Nm1qZHhBV05oSjd5SEVDY2dDZ203ZG9rdUJIY2ZaQlRYYlU3KzFPK3VZaUt3?=
- =?utf-8?B?REc1b2JSNzVwcEtCd2ozQkZNOE9pa1MzZEZVUXMwS2c2SUVubTN1ZUNZT0hK?=
- =?utf-8?B?Z3NLQ0JOZUdGRk9CbEFUMkZRTWJ5RVJ5K0RIaTdKdzdhQ3RlTGpXTENWSmpB?=
- =?utf-8?B?TExSenBhVUlRM0p5YjRvWGw3N1VoMlZjZW9BK2M1bDQ4YWE1V05HQkt5eXBG?=
- =?utf-8?B?RWoremMrZFRPMTZmd0NjMjU0RG03WDVWV3pURHBrQkZjZWhieFgxRzVlbEJu?=
- =?utf-8?B?cG1EZitleVYxYW0ybnY5U0hJK0J3Y0RkWXdLOFFFS3BhOWpNL29NdklFZmpB?=
- =?utf-8?B?VTRrSHZPaVU4TXVLWVplV2gySTRjZytoNytuaElDcWJBMzE4RU1SN2ZKb002?=
- =?utf-8?B?OUxHNHBVWmtCUGNnRS9GVFhoSkJJVmNrUEgzb2I3RFVpeCtaNWo2UGhLTW5O?=
- =?utf-8?B?Z2oyUC9adTYxMHdLVmxqWTRXeDhKNndHRDVkVEJKbEc3Rko0RENkOHFrbVN1?=
- =?utf-8?B?d1kvN3BYbHUzOXFvMXdhS3NubUxQRnAxcnFTcHloL2xOdGUrOFd0cWhYb1BK?=
- =?utf-8?B?c3lnVG1nVTZlY0p2RnFTZjhwWFBOSDdjcjVYZDhpVzRNR3VMK3ZZRTlEb2JQ?=
- =?utf-8?B?TUd1WGdOSCtYcVdjRmVOeWxWWmFIM0p2R1hiUTBCNEZ1WU1OTHZkQXZVaEpW?=
- =?utf-8?B?dzdSUC9xTUc3aWhTVjdSUEF1TVdVNmVrQmNTK3BramRSUm5BRzhIbHJHbjE2?=
- =?utf-8?B?TG1vUW9WbUxyVVljSlh5NHdCUnh0MHNKL0FybmZGUXFRRnJJZGZUNk1KN3E0?=
- =?utf-8?B?SGZUOXplM0lqQXFwd3VlV2hQdFh5eXBrOGFSeUd3dFRocnBWMGtzSDFTdkp6?=
- =?utf-8?B?NDBYbHQ3VU90ZExqOTMzTXR0cDlYbklEZS9mb3hwS3RQWG9vNE5XZEpibllR?=
- =?utf-8?B?TGVMQ1dBM0V0cWp4WWp0aUFtQWVja0hacVh5bVR0dExqSDREYVlMOUZPb1Jj?=
- =?utf-8?B?em5Ib3dsR09RNjdOaERHZWZKVFB2dmFWYmxHTUlEOHorY1UzeHAyOXNRNXBn?=
- =?utf-8?B?cGgvczFGeFc4ZHgxRndYNk9uNTVYMEhpRDlocWE0d0FpeWUrcFJ6UWg4K0lk?=
- =?utf-8?B?cVdWdTV5d29ySzRIYkp6K1BJZlJLa25HUkRHb2FZdU9Xc0h0c3BBRUtpRm42?=
- =?utf-8?B?bUtZTFMvTEpmYUhLWjB6dVdjUE4rV0VmQVE4N3RDTUpGR1FpY2VHenB6Qytj?=
- =?utf-8?B?UEYrYkppaWc0OS8rdTJ4aHlPTENDVnhUL3dHL1hzQldJSWgyUXJaVlNuaWpF?=
- =?utf-8?B?anZRVWlsY2VaWlZvdEJKeGEySU1TNElyVDNiYTFuTlVMNnNnSXlTK0FzQlNl?=
- =?utf-8?B?bDFaL1c1eGJPMmRqYUlZRW54eXVkeHZwYzNsdVpCRGUvNE5Idk15SVNNOS90?=
- =?utf-8?B?V2JJNDQ1M1dIZmp3MlJXbVd6Y0E3c2lTSm0ycERSOG5DVEg5NGt4WnR6MjFO?=
- =?utf-8?B?TnhkN2Z6MTZnK0RXK2dUbnFxOUpFQUNpeVpoYzdJakNQMFEvU3F3R1hBOURC?=
- =?utf-8?B?VWlDMEZPei9lRGV5V2tRMkVJVFNVaGtGUFgzVXJWdk10ZzQrdVhuNXgrR3h0?=
- =?utf-8?B?ZVd1VUdoWVdBMHJOWFRqWkxSOUVuNnVMVXNzdVhpVVA1NW1wNHdibVVCalRy?=
- =?utf-8?B?cC9xL3RWZFhyZEYyUE0xMnZSc01ka1VCQnIyRDBvdVhUenNsK3N1VjdNaUcz?=
- =?utf-8?B?SlA4NkNZMFdhemxTL1ZEM3JndGlSRGlpQkRvQzJ0bWEycHJoRzdPZjB5VmJO?=
- =?utf-8?Q?PlNs=3D?=
-X-Forefront-Antispam-Report: CIP:198.47.23.194; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:lewvzet200.ext.ti.com; PTR:InfoDomainNonexistent;
- CAT:NONE;
- SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 12:11:22.0661 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26a2c678-968b-49a3-6fea-08de28f715da
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.194];
- Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF0000449D.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4849
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYUPR06MB6099C539BD2C937F8630FF8EDDD5A@TYUPR06MB6099.apcprd06.prod.outlook.com>
+X-Proofpoint-GUID: Q-892dCFwmHIV_--EHDtl1u5BScCVV05
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDA5MiBTYWx0ZWRfX8Pzyp5j0rYGh
+ uyJRoZEGUbpIDJ3WqzixIuwxCxcJr68O+7p0CBDV2LxEPdfzG4gJy/Up8FpKYQWIO7VrM/99guf
+ Znrj1/1UG8Kw/9NmdZflT4M3xFQOqQcxypf2YCgEZHEr1A3llEh1CbT0DcSg+xJkKjqjInE2giJ
+ Kk0s5gGcuNqA6lsL26fOjCHWaTVJIveRq83tbnfBVwEnwfXHAk4Wa2HOS4V4jj3TU814BUY5GIY
+ efck7uIexXmTh6tcRTkZL+FQ4iepD6cOoW+9f/EhdN2bIFeWUW3Sa9FOevMelx43CjtcYVOnnDP
+ v63zXoLd2RTyYIkGVitD4WSxktTE98hBphe7+g8mpxORccQUT2cf7qbvZLW9hdbyumYM5R6/gV5
+ EhOFmkESbUW/v4CEa6XfVDZAext9bA==
+X-Authority-Analysis: v=2.4 cv=bpdBxUai c=1 sm=1 tr=0 ts=6920583b cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=UqCG9HQmAAAA:8 a=EUspDBNiAAAA:8 a=Weq4iwZbzhTgL2Q6ZfAA:9
+ a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-ORIG-GUID: Q-892dCFwmHIV_--EHDtl1u5BScCVV05
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-21_03,2025-11-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0 phishscore=0 lowpriorityscore=0 bulkscore=0
+ adultscore=0 impostorscore=0 suspectscore=0 spamscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511210092
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,18 +144,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Nov 21, 2025 at 02:02:08PM +0800, Teguh Sobirin wrote:
+> Since DPU 5.x the vsync source TE setup is split between MDP TOP and
+> INTF blocks.  Currently all code to setup vsync_source is only exectued
+> if MDP TOP implements the setup_vsync_source() callback. However on
+> DPU >= 8.x this callback is not implemented, making DPU driver skip all
+> vsync setup. Move the INTF part out of this condition, letting DPU
+> driver to setup TE vsync selection on all new DPU devices.
+> 
+> Signed-off-by: Teguh Sobirin <teguh@sobir.in>
+> ---
+> Changes in v2:
+> - Corrected commit message suggested by Dmitry Baryshkov.
+> - Link to v1: https://lore.kernel.org/linux-arm-msm/TYUPR06MB6099CBBE5090DB12A2C187E3DDFDA@TYUPR06MB6099.apcprd06.prod.outlook.com/
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 22 +++++++++------------
+>  1 file changed, 9 insertions(+), 13 deletions(-)
+
+Fixes: e955a3f0d86e ("drm/msm/dpu: Implement tearcheck support on INTF block")
 
 
-On 21/11/25 17:32, Tomi Valkeinen wrote:
-> Now the code looks fine, but you didn't update the description, which
-> now looks to be quite wrong for this.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Hi Tomi,
 
-mhdp->connector is still a structure before this commit and changed to 
-pointer in this commit, we had introduced a extra connector pointer and 
-variable for fix and kind of got renamed to 'connector' from 
-'connector_ptr' and added checks in HDCP , will tweak the commit message 
-describing these changes.
-
-Thanks.
+-- 
+With best wishes
+Dmitry
