@@ -2,88 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A861EC7B373
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 19:07:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663EAC7B3EB
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 19:13:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED84410E8F1;
-	Fri, 21 Nov 2025 18:07:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 520A410E113;
+	Fri, 21 Nov 2025 18:13:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="DfGHsYiq";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="aES4joUY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE3A810E8F1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 18:07:24 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-b71397df721so427662866b.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 10:07:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1763748443; x=1764353243;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=LnYve/sEJnqpERJGoSkMAg9DVj4NToFJqHLvjfOwWgg=;
- b=DfGHsYiqI6jdtBosqgbByxvt8No885yEX1OsqAdz7cTBSqxLQawN7jJQMFLdrC1B5Q
- JMO//9Pv7vAMmoQRLtk02NPeBpxkUAULODBHRRwOooNf/MgSqxBaYu4MOBH5RiPQT0cW
- Ew3MDRvRrOpkcFRzN6u/e57HOnGLfdDu7+BYQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763748443; x=1764353243;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LnYve/sEJnqpERJGoSkMAg9DVj4NToFJqHLvjfOwWgg=;
- b=MmfuOFKtPkv2WmjkFNpqWQFCiBuxVSUOeVNEteKSDyrrHp7Sdh6nxNLCUSH1ZpE0OW
- yY6RL8xW8HpFYhaikaYynDNqqTAe53pZu1hp0uZ2PNhCz4N7ogJrKeCpZuy6Z6JJj4BS
- +eD/xjQqqLj0hpzRxQ2fwrgBgkiQaISWkQa5HlFLKr+5ne/9F0bheoEcfio7y1+PmYR6
- OLqgc4TAMHEH5lj4xSBNyIVI2d2uk+CqbcULMX8ZMXQmMNnXLCFOwa+pN/a79oGA+XJv
- szR4uEGzvqP6S8S6a9Et9LbB6IcV9+e3H432J5I6k3jqDVU+IdLqED2m/SvCwtTMqqrJ
- fiUQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVGGloKOSo9fGCvTYlUn2H6Tt28KygyT0UAe3g5iM3k/X06+ztF77X9xN7Yb8U9I/hs5gyHggg5DEg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz08kzar+hNzLCwkC/8XAvTb2Q7WPIPb5NAJphxn/300qlXAlju
- wzLODlyl4lPt7FgN4TC3Cp3y2tPbg3qRwZv4tu892c0pbfxWEm5OmBT+SulCCLaCWcGXmJhJend
- 5qbpfnhJX0A==
-X-Gm-Gg: ASbGncty21f0UyOOpFsb/BBgBd6XKSEZAme/A602j0grExIZ/+jyR9/IwgSbPi+Efa6
- Oh44TyN+uOPEhvFRdX7uR0IJrfmgvJpS85ee6KhyTY7EsEuej1E/SXRzCbCWm4uN10yHXJeusE+
- oQNppJqVDqJpEle9Su4c7EtjqEQhQS/reNDqRg+UFd9E7F3ujMGPwHhuL0iFB2W6SZAXZAhhh3Z
- RpytZIZdY00VanT22He2+90Z/5CvU3Ryb67edrCgC043NsVP1EblMl4wWQ6smqIh58KxsUzx+lD
- yAHfq2/xRc1ZUjOVkjUgFpPTEqzTAA+SvdnttRecomjskifjZ/Ouw6AKY704wBs+lIGZLmCc6ee
- fq4q8C4O1cCtuWfNJHiwl3gcAywedzIxyni0meqhFa52qiPcs7Dje3GxxwhsT3zQsxQXY6gMEws
- oo4wC5zli5SlwUaRA8JE9eDRukJ1UCJqqoe6+KNPi1eVsw3Ynbi8ZbdaA+DVfwdllILVoyJV0=
-X-Google-Smtp-Source: AGHT+IEJ4wSO87f9bB+ObpauNCUei3R3clOegu7zOS4zaiZgNv+4nuTwWS8VQWDigNJo958tibcJSg==
-X-Received: by 2002:a17:906:4fcb:b0:b73:59b0:34d6 with SMTP id
- a640c23a62f3a-b767170a39cmr345973666b.33.1763748442843; 
- Fri, 21 Nov 2025 10:07:22 -0800 (PST)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com.
- [209.85.208.46]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b7654d80665sm504104166b.31.2025.11.21.10.07.20
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Nov 2025 10:07:20 -0800 (PST)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-6408f9cb1dcso3448113a12.3
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 10:07:20 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCW+V8FQmSaUO4xXFlVuGXrrANZR3VfwMOyHZyqHmy1JQbDG1xMsc5iZ7V/5PfCA8Lu8LmxDTbX7YTs=@lists.freedesktop.org
-X-Received: by 2002:a05:6402:4409:b0:641:1d64:8dce with SMTP id
- 4fb4d7f45d1cf-64554666422mr2922451a12.17.1763748440155; Fri, 21 Nov 2025
- 10:07:20 -0800 (PST)
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
+ [136.143.184.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8798110E113
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 18:13:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1763748781; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=n/iUyvI6Azcqh+y7X9+L8H1nN0ce65mYxdxvsqNVRheZFoGCRbjryqlph6y0ooi5H2e+YfMSBT0eF4sjKZTcGH9kF7Bnp/u5XwwbWpeZ/jeXzMW7e1WYeh6QRpz3TW/X3Ca+jhJySlI6ns50tuXs2xKEDiEgjpiPwDTJGm9HPu4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1763748781;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=Sh09FhzUEffXV2pEBmMLHLkRyNTGwQhUpzngcRANsTI=; 
+ b=Vcjcutyl5fZNTdAatyaBo2ZqvYLrni/Gb7/kXH/iVHKHPlMjOGSSfRs09AiLmsEPm7d+T5JIhyibofFHmUtgKENA3Q05GxmQOO9DjxFR/17tOaDip6NWSlvt+V5+ec1V2pUKaZB+k+TY+CZ+1mtKXcjB5K48oUFRIHrUM6mwPu4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763748781; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=Sh09FhzUEffXV2pEBmMLHLkRyNTGwQhUpzngcRANsTI=;
+ b=aES4joUYt3PRvkp5/mxtaLo5DNPNxONSsfgCeJTDTNkXfoXiHIj+Bv1Vub0pvCQo
+ 00ekENDrZ8TKHoT89syv0fzSpBABqYOO1Nxw7Gt2zrRPth3b0/WTR0gZprRwtHN+nYA
+ 25FQ2mLlii0qn+yeJkvl5R/2uDybkgFOmWdi7dEQ=
+Received: by mx.zohomail.com with SMTPS id 1763748779348621.0048437286547;
+ Fri, 21 Nov 2025 10:12:59 -0800 (PST)
+Message-ID: <9df778af-76bf-439b-a66e-a4e9b809176a@collabora.com>
+Date: Fri, 21 Nov 2025 21:12:56 +0300
 MIME-Version: 1.0
-References: <CAPM=9tz19=6NpVyQ0T4m_V1GGUZ9u7-6AQ7=OxSuZWkX3bU7Dg@mail.gmail.com>
-In-Reply-To: <CAPM=9tz19=6NpVyQ0T4m_V1GGUZ9u7-6AQ7=OxSuZWkX3bU7Dg@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 21 Nov 2025 10:07:04 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wiBCPL+zeKVF7zYVSiymjFRmgunCeyryUhoZNBR06sR-g@mail.gmail.com>
-X-Gm-Features: AWmQ_bmRGoaWrjvgdGC4KS-74ZYgJKt1JBGwBpjveufLlMVfT4TXFZZRm29pSUU
-Message-ID: <CAHk-=wiBCPL+zeKVF7zYVSiymjFRmgunCeyryUhoZNBR06sR-g@mail.gmail.com>
-Subject: Re: [git pull] drm fixes for 6.18-rc7
-To: Dave Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/3] drm/virtio: Add PM notifier to restore objects
+ after hibernation
+To: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "airlied@redhat.com" <airlied@redhat.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "nirmoyd@nvidia.com" <nirmoyd@nvidia.com>
+References: <20251027205323.491349-1-dongwon.kim@intel.com>
+ <20251027205323.491349-4-dongwon.kim@intel.com>
+ <90f9c416-05d6-45f4-8205-027fc36e88e0@collabora.com>
+ <55556365-4c6e-450c-89aa-9c49ede53b00@collabora.com>
+ <PH0PR11MB5112533F30F495410F5E71AEFACDA@PH0PR11MB5112.namprd11.prod.outlook.com>
+ <66183a1b-c724-41fe-ae90-4d73e5f2aa67@collabora.com>
+ <PH0PR11MB51122A5436CF812363F1C614FAD4A@PH0PR11MB5112.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <PH0PR11MB51122A5436CF812363F1C614FAD4A@PH0PR11MB5112.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,19 +76,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 21 Nov 2025 at 01:07, Dave Airlie <airlied@gmail.com> wrote:
->
-> A range of small fixes across the board, the i915 display
-> disambiguation is probably the biggest otherwise amdgpu and xe as
-> usual with tegra, nouveau, radeon and a core atomic fix.
+Hi,
 
-Pulled, but my sanity checking complains about your key having expired.
+On 11/20/25 04:41, Kim, Dongwon wrote:
+> Hi Dmitry,
+> 
+>> -----Original Message-----
+>> From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>> Sent: Friday, November 14, 2025 5:16 AM
+>> To: Kim, Dongwon <dongwon.kim@intel.com>; dri-
+>> devel@lists.freedesktop.org
+>> Cc: airlied@redhat.com; kraxel@redhat.com; nirmoyd@nvidia.com
+>> Subject: Re: [PATCH v6 3/3] drm/virtio: Add PM notifier to restore objects
+>> after hibernation
+>>
+>> On 11/13/25 23:47, Kim, Dongwon wrote:
+>>>> One option could be to explicitly destroy all stored objs upon
+>>>> hibernation, that way the restoring will always work.
+>>> Yes, we can do it to avoid that corner case. Or maybe we can just let it just
+>> run.
+>>> In this case, virtio_gpu_object_restore_all won't fail as shmem init
+>>> will still work but QEMU will justsend back errored replies as all of
+>>> those resources for BOs are still there in QEMU side but I think it
+>>> won't break anything. Do you see any issues in doing this that I might
+>>> be missing?? My assumption here is that the QEMU hasn't done any of
+>> virtio-gpu resets here as hibernation failed.
+>>
+>> Correct, QEMU will emit a ton of "resource already exists" errors on aborted
+>> hibernation. There should be no errors neither from guest, nor from host.
+>> Note that QEMU is not the only VMM using VirtIO-GPU.
+>>
+>> Two options here:
+>>
+>> 1. Destroy stored host resources upon hibernation 2. Extend hibernation
+>> core [1] with addition of PM_HIBERNATION_UNPREPARE event that will be
+>> invoked when hibernation fails, while PM_POST_HIBERNATION will be
+>> invoked only after a successful hibernation
+>>
+>> You may start with implementing the first option right away and later
+>> implement the second.
+> 
+> I am testing the first method - send unref message to QEMU so that connected
+> resources can be all removed from QEMU. But I found out there is cb that clean up
+> the object once this unref is processed and response is received. It means that
+> we can't just remove the resource/bo only in QEMU side. There is a way to do this
+> though. We can simply add one more fuction in virtgpu_vq.c that handles unref
+> but with cb = NULL. Is this what you want to try or do you have any better ideas?
+The cb certainly shall not be invoked. You only need to send the
+"DETACH" cmd to host. This should be akin to what I did in my older
+patches adding memory shmem shrinker support to virtio-gpu, please see
+[1] for inspiration.
 
-And a "gpg --refresh" doesn't find it on the keyservers I use, nor do
-you maintain a key in the kernel.org pgp key repo.
+[1]
+https://lore.kernel.org/dri-devel/20231029230205.93277-26-dmitry.osipenko@collabora.com/
 
-So I have no idea where your keys are. Mind pushing it out to all the
-common key servers (which still work sporadically)? Or at least point
-to whatever keyserver you do use...
-
-                      Linus
+-- 
+Best regards,
+Dmitry
