@@ -2,170 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24BBC7BC2A
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 22:33:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E560C7BC99
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 22:52:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DA1D10E90A;
-	Fri, 21 Nov 2025 21:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ABB810E909;
+	Fri, 21 Nov 2025 21:52:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="L3S6Z5m7";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="E0oOZYqu";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ejj8Q5Lt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E1B310E906;
- Fri, 21 Nov 2025 21:33:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763760804; x=1795296804;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=rdvolk21G4dS71euzdpLttUi/g5blXrTvJe38YfceDI=;
- b=L3S6Z5m7XaktInuiFOzOKr1AENiOuZe+rXyQWVEW7Ap1fMwtI6dRHxhc
- cKfdYFSiLBt4cKzdQM4CPaSyq2xkhje/wN15CmwYMIrJv06CVGQVOiv0s
- JRh9T2XuXIMSlhcV7E/iTCHWrlVIYD472qqA9AjPlnZcddjIR4//ZLfuj
- 25t3bQCGIuTk43y8k+j3/8kEys/1d4N02oUhjoEyp1Pb+fvNxVe7NaThC
- /XvBVCXzZvXOaiKRuxTAqAGMd2R1nhcvsXp5tDSVVrZ/z6wmRQjw5FBIo
- Vlx7MBdrZO8TUJADJAYL6AAs+uaBKgokBgE5We5Sy8P3zmQOTnMISucrr Q==;
-X-CSE-ConnectionGUID: GaC96T+kTLWFETuyUDXTCg==
-X-CSE-MsgGUID: cK4ZFws4RdmavZ9T4Eq6LA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11620"; a="69480563"
-X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; d="scan'208";a="69480563"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2025 13:33:18 -0800
-X-CSE-ConnectionGUID: cOzHpAw9RxWgjsBm/52rYA==
-X-CSE-MsgGUID: 7RBgue1fTLqs2z0Fxycvqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; d="scan'208";a="191580806"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2025 13:33:16 -0800
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 21 Nov 2025 13:33:15 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Fri, 21 Nov 2025 13:33:15 -0800
-Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.1) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 21 Nov 2025 13:33:15 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Eeg78IBgMaQHyj0baxqF8mGr3pTH40qwciLPM400DiZJCzrNlyqGoJ98mCH6wiZPnoyximLM+oY/Rn08SivdXjBFOZuYH2gqPzHRdcBiUUJIa33sa9egv/q5XI0T6575bn3PCIQDZqhv/xg7K1TWSnXPs1s25CcdPyypcikkOPbhqrOCznBvjeMg+ck1EQX91eGr7NjwdOy+Y0/JfbAOYxTnIiEaD0p8zYBT6gV95Bwj7J4aHdQWxwQvXVyC+yWGdDhBea/E1Vgq8jFselvIAujlTHqBsw9Z1dXNUueUDyI+ipTh8fJ+QvRYM/VOl508dIWBbwx1+lhIgZboZNoJdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=abOPyD6jcrCsZQgDS34bcXUeD3eLlM+cWzNnuVa/vIs=;
- b=M1S6SIo6Ddnwu9l8RTPLAYQxooyHahzMJNB84u3qPTD+NU18IUsAncxpPOXR9u6ptAcD4K+EsnblIb9iYv4dxOx0ekW7/xpUmYZsUmr/S479l4YEIOowP8Ni0g87BxBmuw+skoxMn1MbMJgp6pT+lZoD1Mh32RMGh6NIXc4dsZPQWpJU0Np+vdu763mik1ztUS0EgA4/gnWuVlh1M4qXwX+nJo+7hbncpwecmvhdHxocAlvZnsDetL0TP/00hlt0/4B27lyU9mUIHtO+zXvRdTDbtDs91pEB4xAIOKYlYHpdiKUjWej2syeMFCro74hbm+nm0vHyKti24qwDLx4jTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by SJ5PPF183C9380E.namprd11.prod.outlook.com
- (2603:10b6:a0f:fc02::815) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Fri, 21 Nov
- 2025 21:33:09 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.9343.011; Fri, 21 Nov 2025
- 21:33:09 +0000
-Date: Fri, 21 Nov 2025 13:33:06 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <niranjana.vishwanathapura@intel.com>, <christian.koenig@amd.com>,
- <pstanner@redhat.com>, <dakr@kernel.org>
-Subject: Re: [PATCH v4 8/8] drm/xe: Avoid toggling schedule state to check
- LRC timestamp in TDR
-Message-ID: <aSDakpVxNmWmeY/d@lstrano-desk.jf.intel.com>
-References: <20251119224106.3733883-1-matthew.brost@intel.com>
- <20251119224106.3733883-9-matthew.brost@intel.com>
- <aR97CAIbMmgLQ0eJ@soc-5CG1426VCC.clients.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <aR97CAIbMmgLQ0eJ@soc-5CG1426VCC.clients.intel.com>
-X-ClientProxiedBy: MW4PR03CA0318.namprd03.prod.outlook.com
- (2603:10b6:303:dd::23) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AF1D10E906
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 21:52:48 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5ALHRdW23049176
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 21:52:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=mWK+CI4HwupZHnn55PN39T
+ AW5BHeMV/LpUHSqvy4YvQ=; b=E0oOZYquK8VEh4uMIPFS+ad/6ck8+y7U2oiwtl
+ yRv+KqQH60PiIL2tIoj9zo/z32VxQzfdReM8VMPgS+ptCxqZkoQnChsl5e4r5EG+
+ 9VUt0+6VZ5ZWMdUCtuTDBnJKi3gkfwk55GpBBT3Eu9Mk9V04/jLJxf/I2WRxYCCf
+ BUGJeoZIB4ywJ17cN14TyqdeKdMZTrNQIG/bXbM15xbGYv1xCdIiuxrIAxxSKnNO
+ LNfUeMmLOr+kt2okD5P4AHbs3VPyuQB1HSS4XwWyvBL69ux14KCWrocWQ6ENztCX
+ l72y0TeNeKyqM1vVUGvZwm7OL8tv5uEGo6Lg8WSh8/x8v8oQ==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ajnhjt4bp-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 21:52:47 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id
+ d2e1a72fcca58-7ba9c366057so7623038b3a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 13:52:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1763761967; x=1764366767;
+ darn=lists.freedesktop.org; 
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=mWK+CI4HwupZHnn55PN39TAW5BHeMV/LpUHSqvy4YvQ=;
+ b=ejj8Q5Ltjf5M3/x8WTznNSVOjV+sLTLI9Trs/uWbN1b1iygFNwk962hzu6LAfgBkC7
+ icsU74Q2dwPHf7RfgR88h9WCnzFtWRXxtd4VEP9mzLZfwZAB2jtBqRM4VgHQ/kVoHzpZ
+ JMctRhgs03ClX9XEbDrH/Lr9gnDzX32Zz8HPzL2OJKHvOkQyu9aVLKSipxa9shmVqoyH
+ QfCE8RyN3F+JMyshpoe8UVtCXxBSg3XhVZNItrqCZP7/LiEfFw2XF1fMjd4OR67Mp3aC
+ WeWJdVlUcIF4/UHKyjTQwOnI8jug38slJQzcWZiLNjmveZM+uWVmwbLG0ohJYa0Gowom
+ X3Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763761967; x=1764366767;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mWK+CI4HwupZHnn55PN39TAW5BHeMV/LpUHSqvy4YvQ=;
+ b=J/wVwKn3Q/KvE3Unma8rccqNw+G1920D4NXhxtItf3v928NH0ATJnDsToiZqcFkK7B
+ QuNWWdjP7aXak0vHejZjJX2xoNGTUM5JlldS0vRhTSjkJVBHC+j1Yo1oydYbXYQnBTq1
+ Grnqct7ELisX9/3KqzK/BmrZuheQOA8fZ8cBH/MqWEEJyKE4nmrIHlTbcz4muSm9GH/1
+ bGdYqaWVmyqlmn3uC4t1NAk5qOZfMlN0uiv9bbWY22XT3edK88F43GYCsy8O6lvAfwAr
+ QBUYPjHBwWJgTRgJHnoWk7FQKt8iQLVWOI8woi7Z6pni6uJLv5Bkfm5zO8PBRGMF2DCt
+ yHvw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVAYu241nrknEescBkfXpoB7WzzfUT3wUS2ul3PYcE55IjB4omI1rN4EFeQBs9bOFYhIt8tIjnbTJs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzpczmGNnJXgxcS7m8l9IaqgefGcEIEYsDeVDK5D0qlBgeMDALR
+ p1kM70H77hj+47PqDjxUy3qqUhkonBLyF/cR+y5yl2auiBtXW4Tkjo1wPDHkijxI34ao/9RlLQi
+ lqp2YVcCGrrZBhlgb+pev6hvn+ZD8Eb2qQIFbaGNtLuEtAZ51UhhrKfvTDTaLYu3WRNHu8lI=
+X-Gm-Gg: ASbGncsg/pG6Si9fXFPV/ptfuRjyaGAoheTyPLvMS8Wf2LrdEtV1QaAKvRr3V9lIHOg
+ NPqcDh0fK1igoRtVNJyBeG8NHPDBtYPFPHmagusJuDRXr9Z2IMGoYQjQ4iGzqCkRuZQliyQke4p
+ +Rdz4dG+t9RKSrx+cEvY61UJyAobE3mMQUpjN/nhZybnb3qvipVE42OUGvqk6B8IWG4ZRvpDfp0
+ riBlgxfEV8Hu8y8K0W2/WCrfAQ7JAWKnJx6wQx4i8l0/fR/2nGYs4dcZA0dGU9iNUXNyy2izaXz
+ OwHMWBnijoziY/er9fUv0LDPucdmctxOS/yfOuOcNqh0mQ96X4WIoATNNvOHueMwZirMc6+rnht
+ q9SvpbmHtuS0yZutqsPFivzk7uv3Wmzx5fA==
+X-Received: by 2002:a05:6a20:728b:b0:358:dc7d:a2be with SMTP id
+ adf61e73a8af0-3614ebab4admr5105568637.17.1763761966654; 
+ Fri, 21 Nov 2025 13:52:46 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGnHfCt4k+6CJ+tOfjv4eYF/1fpI7D/vvqO3cnpPwlQLdA69tw6iZHE3iQ4JVF6Q6vP0IkLRg==
+X-Received: by 2002:a05:6a20:728b:b0:358:dc7d:a2be with SMTP id
+ adf61e73a8af0-3614ebab4admr5105544637.17.1763761966177; 
+ Fri, 21 Nov 2025 13:52:46 -0800 (PST)
+Received: from hu-akhilpo-hyd.qualcomm.com ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-bd75def6314sm6399270a12.7.2025.11.21.13.52.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Nov 2025 13:52:45 -0800 (PST)
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Subject: [PATCH v3 0/6] Support for Adreno 612 GPU - Respin
+Date: Sat, 22 Nov 2025 03:22:14 +0530
+Message-Id: <20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SJ5PPF183C9380E:EE_
-X-MS-Office365-Filtering-Correlation-Id: a9a803b0-80c8-4ca3-f585-08de294590f2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?pR6s5pwamiwUjeyFC7qeDcqf9NNdD2F+ARNDkoz19t6Zk80IRgMelx7TqG/y?=
- =?us-ascii?Q?zJPTXmx4NSPYSmJHKTi0QlziW/jk1Ho7oZ4T/dDWLtC8SIboZlfyA1uFqBG3?=
- =?us-ascii?Q?iSaILQGYcJ59UvPT/LGqd67w/Voqne88VjpC971Z6tyLx1V/alp7WoPcPtJF?=
- =?us-ascii?Q?mZCvw+gZU0mbqcmEp5U1b2rjuwnNyCeWVZk0XZ4i4t5bbABtSnjHC7KQecMY?=
- =?us-ascii?Q?k/tgnxsiLeEQgTihJMLAuFRAswk0RoPZFh6laHl01f34tRnOBOj009io5SCe?=
- =?us-ascii?Q?r4CwGtvEwWx51uEIad683sYxTV1ozLp1wxFY2PeX2iA8vKVoVmGBgUj0BEHR?=
- =?us-ascii?Q?4qxOxeBL8Kgfpd6JVmJxwzz1k7amHbTujdIYnoAFfnFHsGCc+XOLq9vXDP5j?=
- =?us-ascii?Q?+4ktxnQ1ZIxHyZjaLKtiltshsjzjgQ28FSQyKvaKZMdOLnVBj6X/18SUezYb?=
- =?us-ascii?Q?50xBanCs2au+8PXiuuAkNSqzBsmFvS7Rjlrm92/jETR5FuvcjrFxpda74aaH?=
- =?us-ascii?Q?LLaM2GsELZlulinghpapOtE83QB5guHJERwntKsU96LC5id4bEwb/PF4wigc?=
- =?us-ascii?Q?pV8a73h/a9MX7wSLlmdsMw+WUS+kLym986/y8fSpAPdkNu3aHuOjZsQWArvv?=
- =?us-ascii?Q?suQUJxix+Q6OdNl4X0NdADzBknw2W+VNmdv0E6ONw4m+dLrxdioYCQ6RgYtR?=
- =?us-ascii?Q?EXSv2aCM4wsqhDWv1cKVx2Ga9F/Rw25YwcJJkbS76ZdM9TCJNpQsn/ppVCeu?=
- =?us-ascii?Q?qshbNthjLZ2wK0vL4Yjf4Mv0kBFz9GIjv4vo/NTpkI9vHkBsO/XILNicm8On?=
- =?us-ascii?Q?lbrusFGdkiYU1s1kiM6mpmvzFhrE9Kxhu9Zebwn9lWDc+QttFY/VEs9f+u4H?=
- =?us-ascii?Q?ppSIMz9/gGvbYDiKsHYu9zPd2HXOQhbLG0HW1rYo/Z36+TjOgGwF739sj4Om?=
- =?us-ascii?Q?Zn9yoUHP2gIf+BxhDzETDyZgvFCXSB6LJsvhgMcspOdoBVKQJDIYqR1j/K70?=
- =?us-ascii?Q?QstqKAa5yy32xLrJVGJCF//YXHrMnh5T/v1GMpzVsHSQgP7Y6dS0y3tZGS0S?=
- =?us-ascii?Q?9l+4PPFMzYjCTi4NOFSjNr0HkG6g/ho47lL3svcCaWYLOvVXfE31m14b8fj0?=
- =?us-ascii?Q?KQzqTvA6OOfjLHez/Z/hqgDG34bHTCCUVbCqoFOdStubXlj2peM+dhIkHnoG?=
- =?us-ascii?Q?cq2JxDUIjsLScZYx1sVlbWcH4su2/Ah4ok8qcCKdh9Gqzwe9v8DJYYTAQMqm?=
- =?us-ascii?Q?zew8w9MJWeQuQY+Prsykxg2DpTfWgQVRKDLMUEbHr5kNl/kuZg8H7EOfgzFU?=
- =?us-ascii?Q?hYvpxWrpg+O7kxPPeo6utAm0Po0QpBQc6u/UX4ln/Y0a9Ko0upLnoID7Lef7?=
- =?us-ascii?Q?Ny7r/aagMN/uzuCfKJmk4QCa0FRtZrHZ+VQJekzFwOETfhiBJemrIXqn/I+H?=
- =?us-ascii?Q?EX24u/8vtQS789J+u6P9Eufr/wsuaZjh?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7Mi++ihzB862+H9MAItGvA0Jn9r8hYU7aYcSg3qqqpL+dsdyVXChEBzMOCrg?=
- =?us-ascii?Q?rx2WIpHWaWzBKL0rcpJiKg3nM12kvlg4QgwtDjKCAbCwPt8lBVpoTnMGr9Nk?=
- =?us-ascii?Q?CPMXltExxkIz3AvwQS//xxImQKZ6X52oTdkAxmMv9r43EAESvBFtOLXarJ1j?=
- =?us-ascii?Q?AWa91HY7cZVYG24LloptUSI3aB57qPKVT4ELkr7I2UF2Do8lZL22mHlQCiP8?=
- =?us-ascii?Q?cjpREOH78UzMHcRBjHWN4b1+bRl4Ymwja74KSCJ17WzVkeerIYKY+I41IZCI?=
- =?us-ascii?Q?0tw9nNkRBj1LZnUoNQeVeAV1Y+cMv7LrNtSRnvm0HmY6q5uYsRpA+5K5ITi9?=
- =?us-ascii?Q?kG1Gk5SONOmp0jNTadXuML4NHqqEOHE+dnsfM+ZHIn2CI75nnVFdgfWf91mI?=
- =?us-ascii?Q?rYumZQ5r8PFpzUU05vLk/3Ui2zqJ8O0fOa8uUgYDowXbxVARQIKczVMZCRBI?=
- =?us-ascii?Q?PSZEHERxy4vcF8vrHpaMfHpW5WaGM3bn0QuBn/Nl0pXgOS0vZ5QAoUyNCYEs?=
- =?us-ascii?Q?8xz2zTM+q4CgAJw/IO6sjFusfs9B0ldU+6h5+PCy0yWMpIdxpR9MoJhZ2yT5?=
- =?us-ascii?Q?t48ZItyK1zn3BOjlKkjCznW4kFMn2BDXJdQeZYQesk7Xq7no1+r/wVtyWHSK?=
- =?us-ascii?Q?wPEYkFDVlFYfIgRSMRx/rCs2NwlBZL6tYmbKjMYfxnSUxbPOVEbXlf9d0z+m?=
- =?us-ascii?Q?iCdkuqD4xwzWGOGpGOgeu8x2C0VttkbYhUdVHWpVhxmckU9duEbqCcwl7FXc?=
- =?us-ascii?Q?AU/2+MSdyCW9UsvFqCAcBYeSmVRLQ9x/9PAbFVhzR7usRyil25lr9ZX+T691?=
- =?us-ascii?Q?RyfO+XY3PqsJmMIN1j9OBn4iddQllcv+Jh5e+wZOnDT2IKdUp1OZbEvgz+ag?=
- =?us-ascii?Q?JnSTr5HBkAUiQybWy2bnXqwu/dfh/8pXjXPHCguJ/VDK2FAh6MKnNMlrsliS?=
- =?us-ascii?Q?Sko+kqUUJ5syB+5Hf3x2ffRn3bU1rzAb7Y8ApOZ5R+oCqsn7ZZVxV3EXqsWA?=
- =?us-ascii?Q?3zUeGVURTn3Hrz9QFtdLxrtAY6cXiq4/7GI5GXtcqdm4c9VEQWCVQu8xascG?=
- =?us-ascii?Q?CdiYc5lqpgBe9ksu5A39YnJ+0Ht+O27DMNXrSORCjC1RVs4jpKQQ/eNrfnzb?=
- =?us-ascii?Q?dU14KwtHY6eM8jzap/0xT64n8B/jz2cElqFYjxoOFiVpTPid6Be5kNBaYcxn?=
- =?us-ascii?Q?uXJEfgbDmNx2s98AwpBKaW/Bjh2NhNWoE42RZd0JGgnV20ch7rTKh0kCsPzB?=
- =?us-ascii?Q?EZoUilhak1p7xSpiqpZ7CTNeZifD2ix0Lf+A9xBo36FHYOLcr06+ESCZ1Aa6?=
- =?us-ascii?Q?N0XCVRPjIRBqzgaQGL9ZuVt/Wf5fqlbnyxu/EtO0H9xHfe0gVuGGxhSJZhVB?=
- =?us-ascii?Q?RSFm/uCqic8JZ3+w5rZrrBF9om4Bep78zpDvXdf4gZMjz+OaqPNpqL0a7cWN?=
- =?us-ascii?Q?t3UZpG+w5jCywzM83hDrTYHSQ/p03WAJPOFpRJ4nZyZPIRZZUCBEloTubDni?=
- =?us-ascii?Q?M6uclq78ehL/ll8NsgkvhNDhN6W9Ik+fldEDtLoPypKUKhv0Jnz4KqDayo5G?=
- =?us-ascii?Q?OA5FgZmMz6ZdGjKSh5ZDaTfS//pDbew6ahpQexqMK4v8UBAtisFSVthjwbrQ?=
- =?us-ascii?Q?DQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9a803b0-80c8-4ca3-f585-08de294590f2
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 21:33:09.5923 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pEa4fwbiFBTzZzmttslDLyQgiT1/Xaf3U4vucyvdOys+5D4I+qlfOAXZurmzzTnlCVBYRJDYhnOs0dQhKCLI2A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF183C9380E
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAA7fIGkC/23OTQqDMBAF4KtI1o0kqf+r3qN0kehYA9VoRsUi3
+ r0xFgptNxNe4H0zK0GwGpAUwUoszBq16Vw4nwJSNrK7A9WVy0QwEXPGYzqUmLgHe91RQaGKYsU
+ qUHmeEdfpLdR68d71dmQLw+TY8fgkSiLQ0rStHougg2WknuaCk73QaByNffp7Zu4b79Xp1+qZU
+ 0aZkjKK6ozlLL4YxHCY5GPXQzc8OIsPwtkPIhwiRZWWUa3qBJI/yLZtL4ud2UQnAQAA
+X-Change-ID: 20251015-qcs615-spin-2-ed45b0deb998
+To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Jie Zhang <jie.zhang@oss.qualcomm.com>,
+ Qingqing Zhou <quic_qqzhou@quicinc.com>,
+ Jie Zhang <quic_jiezh@quicinc.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1763761959; l=3668;
+ i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
+ bh=q1YoWf3ORQcN4tOPmLohOft5QpHgD41Hzvz1QG0Fgqc=;
+ b=n7GJeHf+8hii2Tyoce/nTIdSA3kkKOm/VH7B/k6lEYSoWYKYh8aqeS2EWDWgLs5f+qvh7lPxJ
+ obSQmr9izipCbpc6Q5wkU11+P8WrTEW6S3/oriQGLtnDgPCZG+NF+Nw
+X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
+ pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
+X-Proofpoint-ORIG-GUID: pkHPKEvutY5edSTAeKjlm1VlJag9IlKe
+X-Authority-Analysis: v=2.4 cv=SPlPlevH c=1 sm=1 tr=0 ts=6920df2f cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=vemyJuc05ARF21wryp8A:9 a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDE2NyBTYWx0ZWRfX72b0CVWbWrZs
+ Q70f3FOjf3LWJ7Y0F706PjxaERyqpU2ZN2FzbCkmIOvap8aT6+jjF1D3YaopXVmHpQWD2UGouoq
+ 0G9VRYr1eU4RY0/j8/y7H02K75U5VtTNl6IAuhf6JIM1PuctIQJSHisMe2ysFbl4TLQvZNb00hP
+ lGijZvpbswUgJuYo3zVHzPowPNBQOPzRHfCyJtmu7l8BLdW3ooITBZAN4GFI9y+btJWrS2fb0IW
+ rjKQ6erj71S1VqKZRcQYiN9Ny1NfVX/9ygdyQexdHji3ZFz6KS2eIi8fPqMjtiRL+h/968sVTa5
+ stu9QTxO9p5z79kWYHOoA9ELufGXEkHbXXfd3ztFu6WTJDL/a7xW/asvyz9nWc5Fu5NY29Zq2vc
+ vRv3ygShxr/237bQyoutBj6hJUf05Q==
+X-Proofpoint-GUID: pkHPKEvutY5edSTAeKjlm1VlJag9IlKe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-21_06,2025-11-21_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 spamscore=0 bulkscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511210167
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,142 +164,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 20, 2025 at 12:33:12PM -0800, Umesh Nerlige Ramappa wrote:
-> On Wed, Nov 19, 2025 at 02:41:06PM -0800, Matthew Brost wrote:
-> > We now have proper infrastructure to accurately check the LRC timestamp
-> > without toggling the scheduling state for non-VFs. For VFs, it is still
-> > possible to get an inaccurate view if the context is on hardware. We
-> > guard against free-running contexts on VFs by banning jobs whose
-> > timestamps are not moving. In addition, VFs have a timeslice quantum
-> > that naturally triggers context switches when more than one VF is
-> > running, thus updating the LRC timestamp.
-> > 
-> > For multi-queue, it is desirable to avoid scheduling toggling in the TDR
-> > because this scheduling state is shared among many queues. Furthermore,
-> > this change simplifies the GuC state machine. The trade-off for VF cases
-> > seems worthwhile.
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> > drivers/gpu/drm/xe/xe_guc_submit.c      | 100 ++++++------------------
-> > drivers/gpu/drm/xe/xe_sched_job.c       |   1 +
-> > drivers/gpu/drm/xe/xe_sched_job_types.h |   2 +
-> > 3 files changed, 28 insertions(+), 75 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
-> > index 1f2afad1766e..7404716e979f 100644
-> > --- a/drivers/gpu/drm/xe/xe_guc_submit.c
-> > +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-> > @@ -68,9 +68,7 @@ exec_queue_to_guc(struct xe_exec_queue *q)
-> > #define EXEC_QUEUE_STATE_KILLED			(1 << 7)
-> > #define EXEC_QUEUE_STATE_WEDGED			(1 << 8)
-> > #define EXEC_QUEUE_STATE_BANNED			(1 << 9)
-> > -#define EXEC_QUEUE_STATE_CHECK_TIMEOUT		(1 << 10)
-> > -#define EXEC_QUEUE_STATE_PENDING_RESUME		(1 << 11)
-> > -#define EXEC_QUEUE_STATE_PENDING_TDR_EXIT	(1 << 12)
-> > +#define EXEC_QUEUE_STATE_PENDING_RESUME		(1 << 10)
-> > 
-> 
-> ... snip ...
-> 
-> > static bool exec_queue_killed_or_banned_or_wedged(struct xe_exec_queue
-> > *q)
-> > {
-> > 	return (atomic_read(&q->guc->state) &
-> > @@ -996,7 +964,7 @@ static bool check_timeout(struct xe_exec_queue *q, struct xe_sched_job *job)
-> > 	u32 ctx_timestamp, ctx_job_timestamp;
-> > 	u32 timeout_ms = q->sched_props.job_timeout_ms;
-> > 	u32 diff;
-> > -	u64 running_time_ms;
-> > +	u64 running_time_ms, old_timestamp;
-> > 
-> > 	if (!xe_sched_job_started(job)) {
-> > 		xe_gt_warn(gt, "Check job timeout: seqno=%u, lrc_seqno=%u, guc_id=%d, not started",
-> > @@ -1006,7 +974,17 @@ static bool check_timeout(struct xe_exec_queue *q, struct xe_sched_job *job)
-> > 		return xe_sched_invalidate_job(job, 2);
-> > 	}
-> > 
-> > -	ctx_timestamp = lower_32_bits(xe_lrc_ctx_timestamp(q->lrc[0]));
-> > +	ctx_timestamp = lower_32_bits(xe_lrc_update_timestamp(q->lrc[0],
-> > +							      &old_timestamp));
-> 
-> Reg: xe_lrc_update_timestamp()
-> 
-> The way context utilization is using this helper is to accumulate the 'new -
-> old' values each time this function is called. In the below example, context
-> utilization will loose some ticks.
-> 
-> Example:
-> 
-> 1. This code calls xe_lrc_update_timestamp() to sample the timestamp for TDR
-> purposes. Say context/job is running, then the lrc->ctx_timestamp is updated
-> (moved forward).
-> 
-> 2. The context utilization code calls xe_lrc_update_timestamp(). Within this
-> helper
-> - old_ts is sampled as lrc->ctx_timestamp
-> - new_ts is calculated based on whether the job/context is active
-> - lrc->ctx_timestamp is updated to the new value.
-> 
-> The result is that we lost one chunk of utilization because of the previous
-> call from the TDR path. I think some refactor would be needed to fix that.
-> 
-> The other comment you already mentioned offline is locking, which I think we
-> should add to protect lrc->ctx_timestamp. I don't know if a refactor will
-> avoid the lock though.
-> 
+This is a respin of an old series [1] that aimed to add support for
+Adreno 612 GPU found in SM6150/QCS615 chipsets. In this version, we
+have consolidated the previously separate series for DT and driver
+support, along with some significant rework.
 
-I agree with you analysis here - thanks for the help.
+Regarding A612 GPU, it falls under ADRENO_6XX_GEN1 family and is a cut
+down version of A615 GPU. A612 has a new IP called Reduced Graphics
+Management Unit or RGMU, a small state machine which helps to toggle
+GX GDSC (connected to CX rail) to implement the IFPC feature. Unlike a
+full-fledged GMU, the RGMU does not support features such as clock
+control, resource voting via RPMh, HFI etc. Therefore, we require linux
+clock driver support similar to gmu-wrapper implementations to control
+gpu core clock and GX GDSC.
 
-How about - we extract the following code from
-xe_exec_queue_update_run_ticks into helper that also returns the current
-timestamp and is also protected by an queue spin lock:
+In this series, the description of RGMU hardware in devicetree is more
+complete than in previous version. However, the RGMU core is not
+initialized from the driver as there is currently no need for it. We do
+perform a dummy load of RGMU firmware (now available in linux-firmware)
+to ensure that enabling RGMU core in the future won't break backward
+compatibility for users.
 
-         new_ts = xe_lrc_update_timestamp(lrc, &old_ts);
-         q->xef->run_ticks[q->class] += (new_ts - old_ts) * q->width;
- 
-It harmless if the TDR also updates run_ticks when it samples the LRC
-timestamp, right? Also the helper just skips run_ticks if q->xef is
-NULL.
+Due to significant changes compared to the old series, all R-b tags have
+been dropped. Please review with fresh eyes.
 
-Matt
+Last 3 patches are for Bjorn and the rest are for Rob Clark for pick up.
 
-> Thanks,
-> Umesh
-> 
-> > +	if (ctx_timestamp == job->sample_timestamp) {
-> > +		xe_gt_warn(gt, "Check job timeout: seqno=%u, lrc_seqno=%u, guc_id=%d, timestamp stuck",
-> > +			   xe_sched_job_seqno(job), xe_sched_job_lrc_seqno(job),
-> > +			   q->guc->id);
-> > +
-> > +		return xe_sched_invalidate_job(job, 2);
-> > +	}
-> > +
-> > +	job->sample_timestamp = ctx_timestamp;
-> > 	ctx_job_timestamp = xe_lrc_ctx_job_timestamp(q->lrc[0]);
-> > 
-> > 	/*
-> > @@ -1135,16 +1113,17 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
-> > 	}
-> > 
-> 
-> 
-> ... snip ...
-> 
-> > diff --git a/drivers/gpu/drm/xe/xe_sched_job_types.h
-> > b/drivers/gpu/drm/xe/xe_sched_job_types.h
-> > index d26612abb4ca..ad5eee8a8cdb 100644
-> > --- a/drivers/gpu/drm/xe/xe_sched_job_types.h
-> > +++ b/drivers/gpu/drm/xe/xe_sched_job_types.h
-> > @@ -59,6 +59,8 @@ struct xe_sched_job {
-> > 	u32 lrc_seqno;
-> > 	/** @migrate_flush_flags: Additional flush flags for migration jobs */
-> > 	u32 migrate_flush_flags;
- > >+	/** @sample_timestamp: Sampling of job timestamp in TDR */
-> > +	u64 sample_timestamp;
-> > 	/** @ring_ops_flush_tlb: The ring ops need to flush TLB before payload. */
-> > 	bool ring_ops_flush_tlb;
-> > 	/** @ggtt: mapped in ggtt. */
-> > -- 
-> > 2.34.1
-> > 
+[1] Driver: https://lore.kernel.org/lkml/20241213-a612-gpu-support-v3-1-0e9b25570a69@quicinc.com/
+    Devicetree: https://lore.kernel.org/lkml/fu4rayftf3i4arf6l6bzqyzsctomglhpiniljkeuj74ftvzlpo@vklca2giwjlw/
+
+Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+---
+Changes in v3:
+- Rebased on top of next-20251121 tag
+- Drop a612 driver support patch as it got picked up
+- Rename rgmu.yaml -> qcom,adreno-rgmu.yaml (Krzysztof)
+- Remove reg-names property for rgmu node (Krzysztof)
+- Use 'gmu' instead of 'rgmu' as node name (Krzysztof)
+- Describe cx_mem and cx_dgc register ranges (Krzysztof)
+- A new patch to retrieve gmu core reg resource by id
+- Link to v2: https://lore.kernel.org/r/20251107-qcs615-spin-2-v2-0-a2d7c4fbf6e6@oss.qualcomm.com
+
+Changes in v2:
+- Rebased on next-20251105
+- Fix hwcg configuration (Dan)
+- Reuse a few gmu-wrapper routines (Konrad)
+- Split out rgmu dt schema (Krzysztof/Dmitry)
+- Fixes for GPU dt binding doc (Krzysztof)
+- Removed VDD_CX from rgmu dt node. Will post a separate series to
+address the gpucc changes (Konrad)
+- Fix the reg range size for adreno smmu node and reorder the properties (Konrad)
+- Link to v1: https://lore.kernel.org/r/20251017-qcs615-spin-2-v1-0-0baa44f80905@oss.qualcomm.com
+
+---
+Akhil P Oommen (2):
+      drm/msm/a6xx: Retrieve gmu core range by index
+      dt-bindings: display/msm: gpu: Document A612 GPU
+
+Jie Zhang (3):
+      dt-bindings: display/msm/rgmu: Document A612 RGMU
+      arm64: dts: qcom: sm6150: Add gpu and rgmu nodes
+      arm64: dts: qcom: qcs615-ride: Enable Adreno 612 GPU
+
+Qingqing Zhou (1):
+      arm64: dts: qcom: sm6150: add the GPU SMMU node
+
+ .../devicetree/bindings/display/msm/gpu.yaml       |  24 +++-
+ .../bindings/display/msm/qcom,adreno-rgmu.yaml     | 126 ++++++++++++++++++
+ MAINTAINERS                                        |   1 +
+ arch/arm64/boot/dts/qcom/qcs615-ride.dts           |   8 ++
+ arch/arm64/boot/dts/qcom/talos.dtsi                | 141 +++++++++++++++++++++
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |  14 +-
+ 6 files changed, 304 insertions(+), 10 deletions(-)
+---
+base-commit: e93f8002e4d244f0642224635f457bc8b135c98b
+change-id: 20251015-qcs615-spin-2-ed45b0deb998
+
+Best regards,
+-- 
+Akhil P Oommen <akhilpo@oss.qualcomm.com>
+
