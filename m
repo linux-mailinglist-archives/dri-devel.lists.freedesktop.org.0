@@ -2,80 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEEBC7B031
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 18:12:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 203C2C7B0B3
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 18:20:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B79E210E8EB;
-	Fri, 21 Nov 2025 17:12:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85BE010E06C;
+	Fri, 21 Nov 2025 17:20:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="QAZyvICP";
+	dkim=pass (2048-bit key; unprotected) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="wIfXWq7n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
- [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22D5910E8EB
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 17:12:45 +0000 (UTC)
-Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
- by mx07-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5ALCbilm2018168; Fri, 21 Nov 2025 17:12:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
- :content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=dk201812; bh=9
- irh16NdVLsEFe58EakSkx3HxXA9qzwBjOI2bq60wnw=; b=QAZyvICPyrHL+iBpx
- iaJA5YB+nxLZKPLlexmKWXEo+SVgxhBL3Gbzrh5pwvTQkKznF+RPQNgsxBC4f2Kv
- QpBEVv1h6mXoIemRR+LnY6LXUfc1/KTWF8CCgCWZSaMK5Y4L03ecZa7CMmwrkFxx
- NisOlTJOrCCW38M9+XdRtxM8IreyvmFjqJ8Kyvh+68zkmlxmoSeqDH0smg8cM2WD
- /gK5T3dLl3MBsWv3kqTp/Ik65HXpbbDWGuDvj0igYMasXyFrmwS1u2zj9wb7zQe5
- cPp8GczEE95d4JlzZKwuRWbtMRzw3A/sTZh+4VJwglud1EDpHeLZiQBrPAj9UIlP
- Z4QQw==
-Received: from hhmail02.hh.imgtec.org
- (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 4ajemdrhxh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 21 Nov 2025 17:12:27 +0000 (GMT)
-Received: from HHMAIL03.hh.imgtec.org (10.44.0.121) by HHMAIL02.hh.imgtec.org
- (10.100.10.20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Fri, 21 Nov
- 2025 17:12:26 +0000
-Received: from
- 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
- (172.25.4.140) by HHMAIL03.hh.imgtec.org (10.44.0.121) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Fri, 21 Nov 2025 17:12:25 +0000
-From: Matt Coster <matt.coster@imgtec.com>
-To: Frank Binns <frank.binns@imgtec.com>, Alessio Belle
- <alessio.belle@imgtec.com>, Alexandru Dadu <alexandru.dadu@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matt Coster
- <matt.coster@imgtec.com>
-CC: Stephen Rothwell <sfr@canb.auug.org.au>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-next@vger.kernel.org>
-In-Reply-To: <20251121-device-power-doc-fix-v2-1-3417779f36c7@imgtec.com>
-References: <20251121-device-power-doc-fix-v2-1-3417779f36c7@imgtec.com>
-Subject: Re: [PATCH v2] drm/imagination: Document pvr_device.power member
-Message-ID: <176374514527.8082.7413128799744861664.b4-ty@imgtec.com>
-Date: Fri, 21 Nov 2025 17:12:25 +0000
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FCA310E06C
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 17:20:39 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-42b387483bbso1579427f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 09:20:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1763745638; x=1764350438;
+ darn=lists.freedesktop.org; 
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=4L5lLINpBwoGYM4jAuahtExqQ4jfmSIRseGMfVqwqPY=;
+ b=wIfXWq7nuWxNydYa4O8V7vTJqpDt7loeECw074I9p6tAHhUb2LnFgyFazeOe0VMyOH
+ +I4CjaaOtTlZIblzjrrmYuPFwLFz6QpcNHhrzUlmYUWhxPVrFH6mYG1O7yI3ijH1v/ts
+ +J7Lw7SgarFF7Za0HJzmYEbNwkJvcIzZhWt5nYkl/KlT+ch5AwOSYtD1Zx7Rr2QVMdlX
+ 7KfM2IamB4oIrT4yiPT65TzHuoLTeUTWEpvtgaUArcdxheD6zZGi6GaPbxqV018TtMkm
+ gqJaqwubUzB0wnJ6eNJp1LRtVA27WCl+P6TfaB7zN1AgKxRNQDs2er/DJdMCYqQkHefT
+ DLuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763745638; x=1764350438;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=4L5lLINpBwoGYM4jAuahtExqQ4jfmSIRseGMfVqwqPY=;
+ b=iUwcIDOsp6sMdrx0zmhi5z8Ykyo19zIqPaqLJzfWjPYlAXD9bSi7BIFfuid2xqYq6n
+ XgTEUdVZ+6Wn+qYJ8FdvAmtbm8KD5CzMm3ST6Uu+EmuO3b0nz0ANxMKibJB/EUuJoOgk
+ KkoEqt4Og6+Zvxmu575dRdok+vMQNpk3wD5mhw3RMxqq2nz1oUP0oPXxixAKoBW4ixd4
+ lZj1oEweQYqDqio2V6OAgPRcz8gJ2UQvf0JgXHO9aHSvTVfF4IZbq1P8CA11h8Ta6cu2
+ YIUeYE/vYMeomNzRbcRld4I10a0XbK86Prhalo4+x8mz5rhArPOiG0hdlecJ8iwWnkGn
+ vkPA==
+X-Gm-Message-State: AOJu0Yz9FM7muX2SIrp/CBUP4Ltlur+1SjmfxLkuoZqXodVV7i351++y
+ 1cU2p2X3aj9G2L4EmeYUhWW1iXNuiCJKAsiwDG81bLitJZTVj6CEunZYuvljXlKlJxw=
+X-Gm-Gg: ASbGncugwv4pZJpINnwZKEj8oNf2fR2R9JnYSo77fu6x9Bmvi5doxKNP247aeGNPNz9
+ cvj2rB/APuXhQ0x7V5zx5oJcB9vGZNw9xRzDnBvQCzG+cgwZPxT8TBuJ2ZMVo2t4qXLVZIIkiMv
+ YRVGUGouuRPDQP5uCFlgzuWqdUoMJrjAdjKTfblEF1YK17GIW5k+aUkhp/S0Xo1tNHl5XWGzQAZ
+ MMvwxk/B0odIzdLHiTo1MQ130DAzPcK6j3aGetRh4fQinME2nmqrZxPssI1ilowdaUMdTp2pZsu
+ Dxr0MVXiqzh/nXzyheuWL+IC6FoSaTVzehGjaeQ57fnOM/ZXfdq5TT0IM26iUHudK+CVdDWuS7e
+ Co3C10WO/hrSRKZ8YE5zTvAr+/L/Vqv2E1BtsIs4V6vOVhTxoQ01E7WZA9zlHW/NJTBb/4MoLIf
+ BA4tgaAqUYaGWKuZGDtcNgrc24oApEWEdRhiC13pB8SCuSNub/P9T+hYhJczTNI9Xp/hE3HQ==
+X-Google-Smtp-Source: AGHT+IHkh8hFJ7NzjIss9biO8SB0aAPGS2s6f3ZJBK1SthfTTpB6JNmERBMHFk1DBGeEt0TFLqoPOg==
+X-Received: by 2002:a05:6000:2281:b0:42b:3680:3567 with SMTP id
+ ffacd0b85a97d-42cc1ced9c9mr3018477f8f.18.1763745637751; 
+ Fri, 21 Nov 2025 09:20:37 -0800 (PST)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-42cb7f363b0sm12221091f8f.13.2025.11.21.09.20.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Nov 2025 09:20:37 -0800 (PST)
+From: Daniel Thompson <daniel@riscstar.com>
+Date: Fri, 21 Nov 2025 17:23:54 +0000
+Subject: [PATCH v2] drm/edp-panel: Add touchscreen panel used by Lenovo
+ X13s
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
-X-Originating-IP: [172.25.4.140]
-X-Authority-Analysis: v=2.4 cv=Q6LfIo2a c=1 sm=1 tr=0 ts=69209d7b cx=c_pps
- a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
- a=A05BHC2L4TQA:10 a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=r_1tXGB3AAAA:8 a=FQz4N2SRXKIV2AokMrgA:9
- a=QEXdDO2ut3YA:10 a=t8nPyN_e6usw4ciXM-Pk:22
-X-Proofpoint-GUID: 6YcffAvrQeXTbm1s2EOeE_rb6RcKcnSS
-X-Proofpoint-ORIG-GUID: 6YcffAvrQeXTbm1s2EOeE_rb6RcKcnSS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDEyOCBTYWx0ZWRfX3YPw5LpFQ43W
- MJ5EASAACXfiU5KE9oNowUrjL1ThSTnsHL5ptiUO7ogAhgP/BE/EgaP6z7OK+kAMwRi3Hn604Hc
- HaGF/JrEjjuFmh5yFO4HvKkOOsq+CgbXDysExi//DywHMqiVcWHOJvEmHnHLdttz5rzPqDSbBaq
- xWcxddDbJJ76JwrMRFxqXjOydBQA+HUnKkeyKuAr0OJ1AQzFby9t6wb75tBH60XdcE28OYZC487
- iqiR4WaZ34dHQO1C0H0ErBo7YTMVuEHCphKvR9cLZlGqkuqli36RqoHWwQccNFbR+KMKOWINyzt
- BBDk12ib9AcHn9B603/WTiOl0l6/llOhdHnMcIClsA22IKOXuZVFfjjJwMb7NZgnxVlOropP997
- Ns+jvKoeRzGXBnDoOrEgkdnksLRzQw==
+Message-Id: <20251121-x13s-touchscreen-loopup-v2-1-75b03838e28f@riscstar.com>
+X-B4-Tracking: v=1; b=H4sIACmgIGkC/x3MMQqAMAxA0atIZgNNSwe9ijhIjRqQtjQqgnh3i
+ +Mb/n9AuQgr9M0DhS9RSbHCtg2EbYoro8zVYI31RJbwJqd4pDNsGgpzxD2lfGY0i3O+I8N+mqH
+ WufAi938exvf9AA3RKBlpAAAA
+X-Change-ID: 20251121-x13s-touchscreen-loopup-0f335910e5ad
+To: Douglas Anderson <dianders@chromium.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Daniel Thompson <daniel@riscstar.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2154; i=daniel@riscstar.com;
+ h=from:subject:message-id; bh=mVjUozg1LDPMZKQbzrqJ5pKyal1xh3JNfJHGC2UoHBU=;
+ b=owEBbQKS/ZANAwAKAXzjJV0594ihAcsmYgBpIKArPPCse+s3GuHASgDG4snfvrqsJ57YZ6Qoh
+ 1YriGAdyQGJAjMEAAEKAB0WIQQvNUFTUPeVarpwrPB84yVdOfeIoQUCaSCgKwAKCRB84yVdOfeI
+ oT0jD/95tf0BCV1+2++aHt7sRzzH7uxcQLlwfR9IRgwkgCePLrhLsWpnbjHXnepwiaWeXVEvRg8
+ enS+2hVXr48O7lZcu/xFx9i0HEePPcXIitp8ISQKwj0zVr/JjJSoBHI4DrVJSU6O5UMD7Wk+Hdk
+ rG9pnRur2mxkS4UdlJNjtCrqnv9UEGXMqBGz/5DXYRnv7bbV6RgQ/d+a2juNidNF1vNDUGcw74T
+ a4fVEBvRVOgYbaMuJzdfTpFuKORCN5JBxbgMP9CDv+9Oq9YmzlqiQgPFOvkBsbs77jJ4B90jPxa
+ oUpXvLl9MXS10RzxRcUqhzGz9oWxkg7KcJyc0P4HaV8/l6X089bHBjayjqRyPOepYvrwROtgzgJ
+ oIgteD8H/RgFKsZop8JMzsNs5FNVudALBkX33k5t0fnWvp2VuXnI9aZVT7gNc1OBqqPnRanSOoh
+ rxUm3GEXt+HWNtxQd3eYroRsMhswg1Gd7bwF1CiuylOt+Lx7uK3geVm/xQBAjGq7WbR6I44n7gl
+ ooyuzl4lauOWPkwlUr6B0Z7FbfZ022VUFngs3FXSO+suN6zfX60QzWT7bRx7AzXnnEmLU/gabr7
+ TwjDAhKhxmgwvbDohaOPFTZyWXdFdzPpHmrZN0ysu1rEVUry5kAe7cOsBUo8jejM2jINzN/4ndA
+ Bh0o1Lkv3QieuLw==
+X-Developer-Key: i=daniel@riscstar.com; a=openpgp;
+ fpr=E38BE19861669213F6E2661AA8A4E3BC5B7B28BE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,19 +114,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+After (checks watch) a little over two years I finally investigated the
+boot warning on my Thinkpad X13s and it was caused by the conservative
+timings warning in panel-edp.c . The X13s was sold with a variety of
+different panel versions; I have the 300 nit multi-touch variant.
 
-On Fri, 21 Nov 2025 15:20:31 +0000, Matt Coster wrote:
-> Automated testing caught this missing doc comment; add something suitable
-> (and useful).
-> 
-> 
+I have been unable to secure panel documentation so the I copied the
+timings from NV133WUM-N63.
 
-Applied, thanks!
+The raw EDID is:
 
-[1/1] drm/imagination: Document pvr_device.power member
-      commit: 83c53f1a2d6c4c8c19354b926367d0e82dcd6386
+00 ff ff ff ff ff ff 00 09 e5 84 0a 00 00 00 00
+1e 1f 01 04 a5 1d 12 78 03 5c 70 a6 51 4c 9c 26
+0e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 74 3c 80 a0 70 b0 28 40 30 20
+36 00 1e b3 10 00 00 1a 00 00 00 fd 00 28 3c 4b
+4b 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 42
+4f 45 20 48 46 0a 20 20 20 20 20 20 00 00 00 fe
+00 4e 56 31 33 33 57 55 4d 2d 54 30 31 0a 00 51
+
+Signed-off-by: Daniel Thompson <daniel@riscstar.com>
+---
+Changes in v2:
+
+- 0 1 2 3 4 5 6 7 8 9 a b c d e f ... yes, it's coming back to me now!
+  Fixed sort order (thanks Doug).
+---
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 62435e3cd9f4db00be7f1ded7c75e749e4cc14c8..140dc06f7102d3a39201cb7a1000a8e3e46d3e41 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1963,6 +1963,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a3e, &delay_200_500_e80_d50, "NV116WHM-N49"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a5d, &delay_200_500_e50, "NV116WHM-N45"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a6a, &delay_200_500_e80, "NV140WUM-N44"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a84, &delay_200_500_e50, "NV133WUM-T01"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ac5, &delay_200_500_e50, "NV116WHM-N4C"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ae8, &delay_200_500_e50_p2e80, "NV140WUM-N41"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b09, &delay_200_500_e50_po2e200, "NV140FHM-NZ"),
+
+---
+base-commit: 6a23ae0a96a600d1d12557add110e0bb6e32730c
+change-id: 20251121-x13s-touchscreen-loopup-0f335910e5ad
 
 Best regards,
 -- 
-Matt Coster <matt.coster@imgtec.com>
+Daniel Thompson <daniel@riscstar.com>
 
