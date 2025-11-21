@@ -2,68 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB820C7877B
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 11:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADBA2C78802
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 11:25:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B8CF10E849;
-	Fri, 21 Nov 2025 10:19:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D7DC10E84A;
+	Fri, 21 Nov 2025 10:25:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mGdd3on0";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fSTsMi9d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 820B210E849;
- Fri, 21 Nov 2025 10:19:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763720376; x=1795256376;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=ImYrT4ezOGbF3CP/zqe9wmHgOUPHDvbUTkb7IowfDTc=;
- b=mGdd3on0/UPJb3LIISkNAaQThucODjpGQv05nj4OpMloWD9kaGzhPJ7c
- uX9rLZXkwPZ9YooiKtg1bwqx5VfBl0Td1yoKGV5RZl0nuNl8jFA6CVsEA
- 8xyMAg++tfQZoGgINF6dFAx348y0Lx7mDNDFluExDUxcH8oYv3MbDVnee
- bUp2T52X0DwJM1B1LyxkuY+MJqHnBPGNYNoMJRZJlTFyTQv8arRgu1V5a
- ALP8wTgBJ3pTDLPmT/yUdrNteplClVfiDgT3X0xYAmuQ3SVjURbZt2Sro
- xFaVYQxmNwsBXntT8Gk01fSmAoKr9Wl1h7e42MCqYrQ4Nh8EUhfEW1F0v Q==;
-X-CSE-ConnectionGUID: wDIzIBhUQ+K8lyBidU/XFw==
-X-CSE-MsgGUID: YShc3l6bRXuJztx0HAP1JQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="65744814"
-X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; d="scan'208";a="65744814"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2025 02:19:35 -0800
-X-CSE-ConnectionGUID: qe5RUukAT6mmyZcI9/lB2w==
-X-CSE-MsgGUID: uOkXJz9ZTtKONrRjsswzDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; d="scan'208";a="191448644"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.245.9])
- ([10.245.245.9])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Nov 2025 02:19:31 -0800
-Message-ID: <ee0b6593e57360a21e76698e8e0adf6dde63cb87.camel@linux.intel.com>
-Subject: Re: [PATCH v2 02/17] drm/pagemap, drm/xe: Add refcounting to struct
- drm_pagemap
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: "Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>, 
- intel-xe@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>,
- dri-devel@lists.freedesktop.org, 	apopple@nvidia.com, airlied@gmail.com,
- Simona Vetter <simona.vetter@ffwll.ch>, 	felix.kuehling@amd.com, Christian
- =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, dakr@kernel.org,
- "Mrozek, Michal"	 <michal.mrozek@intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>
-Date: Fri, 21 Nov 2025 11:19:29 +0100
-In-Reply-To: <c02af65a-4b5c-47d6-b1b0-6216fd0e3e0c@intel.com>
-References: <20251111164408.113070-1-thomas.hellstrom@linux.intel.com>
- <20251111164408.113070-3-thomas.hellstrom@linux.intel.com>
- <c02af65a-4b5c-47d6-b1b0-6216fd0e3e0c@intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14E7510E84A
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 10:24:59 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 735441A1C71;
+ Fri, 21 Nov 2025 10:24:57 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 3F4F260719;
+ Fri, 21 Nov 2025 10:24:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 5757210372180; Fri, 21 Nov 2025 11:24:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1763720696; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=EaLMDrnSy+aZcQJAEyz1rERa0lHgFTObgsHcr4fADqM=;
+ b=fSTsMi9dDM+3LYmzZEaa7j4KQqDOO9Yl57/5Re8T8+FX8xay297sDzwkpysJqYk8fIR0dY
+ MASzUc/eVuNJHYZ+7oPi+/aZgStZi9gRcAGlWZLgjMJKcQsnJWUdFBkuy258Sh7sq+lwhf
+ 0FR1+eH1ILp/tQV1PZPuGhlxvMNdIm5cNcEqYZhVtz2YJq2zi2YRUB3C7aVCWpJ4GCiHYf
+ WgwHsQR8+zisp/dYNVFeJDRe6P0fCUGr8v7hezjHAtw/XjZm5RF7zCjpYdxCJNBMA1I93R
+ oIvat45dM6XannIl1R+kurWHDW8MQqXUCT2R85dyfHPWcMHekD+I6L78ZGUlkw==
+Date: Fri, 21 Nov 2025 11:24:50 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Cc: "Maxime Ripard" <mripard@kernel.org>, "Douglas Anderson"
+ <dianders@chromium.org>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, "Bajjuri Praneeth" <praneeth@ti.com>,
+ "Louis Chauvet" <louis.chauvet@bootlin.com>, <stable@vger.kernel.org>,
+ <thomas.petazzoni@bootlin.com>, "Jyri Sarha" <jyri.sarha@iki.fi>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>
+Subject: Re: [PATCH v3] drm/tilcdc: Fix removal actions in case of failed probe
+Message-ID: <20251121112450.070fe238@kmaincent-XPS-13-7390>
+In-Reply-To: <DECU85YFDJFQ.51DNK1JF0CQ4@bootlin.com>
+References: <20251118133850.125561-1-kory.maincent@bootlin.com>
+ <DECU85YFDJFQ.51DNK1JF0CQ4@bootlin.com>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,67 +70,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Himal!
+On Wed, 19 Nov 2025 18:12:40 +0100
+"Luca Ceresoli" <luca.ceresoli@bootlin.com> wrote:
 
-On Wed, 2025-11-12 at 11:37 +0530, Ghimiray, Himal Prasad wrote:
+> Hello K=C3=B6ry,
 >=20
+> On Tue Nov 18, 2025 at 2:38 PM CET, Kory Maincent wrote:
+> > From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
+> >
+> > The drm_kms_helper_poll_fini() and drm_atomic_helper_shutdown() helpers
+> > should only be called when the device has been successfully registered.
+> > Currently, these functions are called unconditionally in tilcdc_fini(),
+> > which causes warnings during probe deferral scenarios.
+> >
+> > [    7.972317] WARNING: CPU: 0 PID: 23 at
+> > drivers/gpu/drm/drm_atomic_state_helper.c:175
+> > drm_atomic_helper_crtc_duplicate_state+0x60/0x68 ... [    8.005820]
+> > drm_atomic_helper_crtc_duplicate_state from
+> > drm_atomic_get_crtc_state+0x68/0x108 [    8.005858]
+> > drm_atomic_get_crtc_state from drm_atomic_helper_disable_all+0x90/0x1c8=
+ [
+> >  8.005885]  drm_atomic_helper_disable_all from
+> > drm_atomic_helper_shutdown+0x90/0x144 [    8.005911]
+> > drm_atomic_helper_shutdown from tilcdc_fini+0x68/0xf8 [tilcdc] [
+> > 8.005957]  tilcdc_fini [tilcdc] from tilcdc_pdev_probe+0xb0/0x6d4 [tilc=
+dc]
+> >
+> > Fix this by rewriting the failed probe cleanup path using the standard
+> > goto error handling pattern, which ensures that cleanup functions are
+> > only called on successfully initialized resources. Additionally, remove
+> > the now-unnecessary is_registered flag.
+> >
+> > Cc: stable@vger.kernel.org
+> > Fixes: 3c4babae3c4a ("drm: Call drm_atomic_helper_shutdown() at
+> > shutdown/remove time for misc drivers") Signed-off-by: Kory Maincent
+> > (TI.com) <kory.maincent@bootlin.com> =20
 >=20
-> On 11-11-2025 22:13, Thomas Hellstr=C3=B6m wrote:
-> > With the end goal of being able to free unused pagemaps
-> > and allocate them on demand, add a refcount to struct drm_pagemap,
-> > remove the xe embedded drm_pagemap, allocating and freeing it
-> > explicitly.
-> >=20
-> > v2:
-> > - Make the drm_pagemap pointer in drm_gpusvm_pages reference-
-> > counted.
-> >=20
-> > Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > Reviewed-by: Matthew Brost <matthew.brost@intel.com> #v1
-> > ---
-> > =C2=A0 drivers/gpu/drm/drm_gpusvm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 4 ++-
-> > =C2=A0 drivers/gpu/drm/drm_pagemap.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 51
-> > ++++++++++++++++++++++++++++++
-> > =C2=A0 drivers/gpu/drm/xe/xe_svm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 26 ++++++++++-----
-> > =C2=A0 drivers/gpu/drm/xe/xe_vram_types.h |=C2=A0 2 +-
-> > =C2=A0 include/drm/drm_pagemap.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 36 +++++++++++++++++++++
-> > =C2=A0 5 files changed, 109 insertions(+), 10 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/drm_gpusvm.c
-> > b/drivers/gpu/drm/drm_gpusvm.c
-> > index 73e550c8ff8c..1f96375d1f2b 100644
-> > --- a/drivers/gpu/drm/drm_gpusvm.c
-> > +++ b/drivers/gpu/drm/drm_gpusvm.c
-> > @@ -1038,6 +1038,7 @@ static void __drm_gpusvm_unmap_pages(struct
-> > drm_gpusvm *gpusvm,
-> > =C2=A0=C2=A0		flags.has_dma_mapping =3D false;
-> > =C2=A0=C2=A0		WRITE_ONCE(svm_pages->flags.__flags,
-> > flags.__flags);
-> > =C2=A0=20
-> > +		drm_pagemap_put(svm_pages->dpagemap);
-> > =C2=A0=C2=A0		svm_pages->dpagemap =3D NULL;
-> > =C2=A0=C2=A0	}
-> > =C2=A0 }
-> > @@ -1431,7 +1432,8 @@ int drm_gpusvm_get_pages(struct drm_gpusvm
-> > *gpusvm,
-> > =C2=A0=20
-> > =C2=A0=C2=A0	if (pagemap) {
-> > =C2=A0=C2=A0		flags.has_devmem_pages =3D true;
-> > -		svm_pages->dpagemap =3D dpagemap;
-> > +		drm_pagemap_put(svm_pages->dpagemap);
+> Except for the bug reported by the kernel test robot, this patch looks
+> good to me. Just a couple thoughts, below.
 >=20
-> Dont we risk a UAF for dpagemap if svm_pages->dpagemap is same as
-> dpagemap ?
+> > @@ -372,16 +371,34 @@ static int tilcdc_init(const struct drm_driver *d=
+drv,
+> > struct device *dev)
+> >
+> >  	ret =3D drm_dev_register(ddev, 0);
+> >  	if (ret)
+> > -		goto init_failed;
+> > -	priv->is_registered =3D true;
+> > +		goto stop_poll;
+> >
+> >  	drm_client_setup_with_color_mode(ddev, bpp);
+> >
+> >  	return 0;
+> >
+> > -init_failed:
+> > -	tilcdc_fini(ddev);
+> > +stop_poll:
+> > +	drm_kms_helper_poll_fini(ddev);
+> > +	tilcdc_irq_uninstall(ddev);
+> > +unbind_component:
+> > +	if (priv->is_componentized)
+> > +		component_unbind_all(dev, ddev);
+> > +unregister_cpufreq_notif:
+> > +#ifdef CONFIG_CPU_FREQ
+> > +	cpufreq_unregister_notifier(&priv->freq_transition,
+> > +				    CPUFREQ_TRANSITION_NOTIFIER);
+> > +#endif
+> > +destroy_crtc:
+> > +	tilcdc_crtc_destroy(priv->crtc);
+> > +disable_pm:
+> > +	pm_runtime_disable(dev);
+> > +	clk_put(priv->clk);
+> > +free_wq:
+> > +	destroy_workqueue(priv->wq);
+> > +put_drm:
+> >  	platform_set_drvdata(pdev, NULL); =20
+>=20
+> I'm not 100% sure this is needed, but perhaps it is because of the
+> component framework being used.
 
-Thanks for reviewing. Here the dpagemap refcount is protected from
-dropping to zero by a page presence in the CPU address space and us
-holding the notifier lock. But agree that this looks bad from a
-reader's perspective. I'll fix that up.
+Yes not sure either but as it was already present I let it here.
+Do you think I should remove it?
 
-Thanks,
-Thomas
+>=20
+> If it is needed, then shouldn't it be present in tilcdc_fini() as well?
+>=20
+> > +	ddev->dev_private =3D NULL;
+> > +	drm_dev_put(ddev);
+> >
+> >  	return ret;
+> >  } =20
+>=20
+> About tilcdc_fini(), I think it can be itself cleaned up a lot (in another
+> patch). Basically it should do the same thing (almost) that are here below
+> the 'return 0' line, and in the same order. Now the list of actions is au=
+ite
+> different and the order is very different.
 
+Yes indeed, but this won't be a fix as there is no real issue in the remove
+AFAIK.
 
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
