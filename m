@@ -2,139 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A049C7AB79
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 17:08:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A91E4C7AB97
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 17:09:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBCF810E8D6;
-	Fri, 21 Nov 2025 16:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A89B010E8DE;
+	Fri, 21 Nov 2025 16:09:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="dQ/Xolaz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ApVxltIe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dQ/Xolaz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ApVxltIe";
+	dkim=pass (2048-bit key; secure) header.d=damsy.net header.i=@damsy.net header.b="USRTqQQg";
+	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="kfPxFMQF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 979D910E8D6
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 16:08:54 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 40CB2210B6;
- Fri, 21 Nov 2025 16:08:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1763741333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=gcxBLr3F/5lE8XqvZf0BdirjoLrn8mHqc5wXJOu33nM=;
- b=dQ/XolazWBsZXOTwxxFmnS6J2UfG5TZwyLm7Oc1CuywZ8NZb1aizpzpG4DKXOTl4N/QB/5
- kNuTjZ4Onugh8ZObLuNJTRhhbU4aE7w4wfKeFwmS8x7phnKUAa4gqmDEZFfYrNtPgoz5uu
- Isubfvu95R7fLyrxU7MqaYb4mwFauN4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1763741333;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=gcxBLr3F/5lE8XqvZf0BdirjoLrn8mHqc5wXJOu33nM=;
- b=ApVxltIeKG5SOQPJVMiBh5F+1cxWq6BN659Jeqi9RInOyHk4lD/Biv7c3jRggorEbf4yTy
- Y+LYVV3W99uTItBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1763741333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=gcxBLr3F/5lE8XqvZf0BdirjoLrn8mHqc5wXJOu33nM=;
- b=dQ/XolazWBsZXOTwxxFmnS6J2UfG5TZwyLm7Oc1CuywZ8NZb1aizpzpG4DKXOTl4N/QB/5
- kNuTjZ4Onugh8ZObLuNJTRhhbU4aE7w4wfKeFwmS8x7phnKUAa4gqmDEZFfYrNtPgoz5uu
- Isubfvu95R7fLyrxU7MqaYb4mwFauN4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1763741333;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=gcxBLr3F/5lE8XqvZf0BdirjoLrn8mHqc5wXJOu33nM=;
- b=ApVxltIeKG5SOQPJVMiBh5F+1cxWq6BN659Jeqi9RInOyHk4lD/Biv7c3jRggorEbf4yTy
- Y+LYVV3W99uTItBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D15723EA61;
- Fri, 21 Nov 2025 16:08:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 17EGMZSOIGkNdwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 21 Nov 2025 16:08:52 +0000
-Message-ID: <d080729c-6586-4b9c-b234-470977849d3d@suse.de>
-Date: Fri, 21 Nov 2025 17:08:52 +0100
+Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0B5710E8DD;
+ Fri, 21 Nov 2025 16:09:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1763741362;
+ bh=FRWvVzSKJMuGfDpQNoOIoOI
+ jcneqvZgZqTFYJp4llyw=; b=USRTqQQgB2bDrPkfrhCTf98ItEdmdzcOsiBirmxG9rWFvlos9r
+ x/aip1ntlS7fYdmwHiduXsKmC9EdtUIW5fuOf8x1NWzWuYpb2XoPus6pAL1rv3XBPxy9kj1m4Hb
+ r0RXufGSyXxyANvWbSJC9baKFbRMHnVkUrWgRpQ/VXXYj2yTB9jXydcE7wbx8jhlL5Vqyb5np/x
+ nUuDk1SPJTmvhnM86lmCf8xo8Cf1NKK8Y+V/hjaRYra1x/hgVHli7umG9jYuR3/TodmlW2nJGZZ
+ dI5N4QTTiP5GoJgO3sTRMfM/6/z1haIbIR5n+UIV4vwW3Co08f2D5q/HmpsAPQZYvLw==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net;
+ c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1763741362; bh=FRWvVzSKJMuGfDpQNoOIoOI
+ jcneqvZgZqTFYJp4llyw=; b=kfPxFMQFF3aOek76vGtBq/MP80LRBQxNzRc5UKbBG6PNVT9XoN
+ REGFzHScGXCBOWImiRf4F9P/f+8ijxBIA6Dg==;
+Message-ID: <cb1c8db1-22f9-4722-ba53-a53c3893df80@damsy.net>
+Date: Fri, 21 Nov 2025 17:09:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] arch, sysfb: Move screen and edid info into single
- place
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Javier Martinez Canillas <javierm@redhat.com>, x86@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-efi@vger.kernel.org, loongarch@lists.linux.dev,
- linux-riscv@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-fbdev@vger.kernel.org
-References: <20251121135624.494768-1-tzimmermann@suse.de>
- <96a8d591-29d5-4764-94f9-6042252e53ff@app.fastmail.com>
- <CAMj1kXF1Dh0RbuqYc0fhAPf-CM0mdYh8BhenM8-ugKVHfwnhBg@mail.gmail.com>
- <199e7538-5b4a-483b-8976-84e4a8a0f2fd@suse.de>
- <CAMj1kXE+mS1Sm5GaROU0P97J2w1pew0P_To4sKiw8h1iOMuLcg@mail.gmail.com>
+Subject: Re: [PATCH v3 10/28] drm/amdgpu: add amdgpu_device argument to ttm
+ functions that need it
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20251121101315.3585-1-pierre-eric.pelloux-prayer@amd.com>
+ <20251121101315.3585-11-pierre-eric.pelloux-prayer@amd.com>
+ <3708bb5d-6b3f-4817-a25a-5a7b90918d0c@amd.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAMj1kXE+mS1Sm5GaROU0P97J2w1pew0P_To4sKiw8h1iOMuLcg@mail.gmail.com>
+From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
+In-Reply-To: <3708bb5d-6b3f-4817-a25a-5a7b90918d0c@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[13];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url, arndb.de:email,
- imap1.dmz-prg2.suse.org:helo, suse.de:mid, suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,63 +64,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 21.11.25 um 16:56 schrieb Ard Biesheuvel:
-> On Fri, 21 Nov 2025 at 16:53, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Hi
+
+Le 21/11/2025 à 14:24, Christian König a écrit :
+> On 11/21/25 11:12, Pierre-Eric Pelloux-Prayer wrote:
+>> Instead of getting it through amdgpu_ttm_adev(bo->tbo.bdev).
+> 
+> Why should that be a good idea?
+
+IMO explicit parameters are clearer than implicit ones so if these functions 
+depends on adev, they might as well get it as an argument instead of fishing it 
+from one of their other arguments.
+
+But if you prefer to keep the existing code I can drop this patch.
+
+Pierre-Eric
+
+
+> 
+> Regards,
+> Christian.
+> 
 >>
->> Am 21.11.25 um 16:16 schrieb Ard Biesheuvel:
->>> On Fri, 21 Nov 2025 at 16:10, Arnd Bergmann <arnd@arndb.de> wrote:
->>>> On Fri, Nov 21, 2025, at 14:36, Thomas Zimmermann wrote:
->>>>> Replace screen_info and edid_info with sysfb_primary_device of type
->>>>> struct sysfb_display_info. Update all users.
->>>>>
->>>>> Sysfb DRM drivers currently fetch the global edid_info directly, when
->>>>> they should get that information together with the screen_info from their
->>>>> device. Wrapping screen_info and edid_info in sysfb_primary_display and
->>>>> passing this to drivers enables this.
->>>>>
->>>>> Replacing both with sysfb_primary_display has been motivate by the EFI
->>>>> stub. EFI wants to transfer EDID via config table in a single entry.
->>>>> Using struct sysfb_display_info this will become easily possible. Hence
->>>>> accept some churn in architecture code for the long-term improvements.
->>>> This all looks good to me,
->>>>
->>>> Acked-by: Arnd Bergmann <arnd@arndb.de>
->> Thanks
+>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+>> ---
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c |  5 +++--
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 11 ++++++-----
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h    |  6 ++++--
+>>   3 files changed, 13 insertions(+), 9 deletions(-)
 >>
->>>> It should also bring us one step closer to eventually
->>>> disconnecting the x86 boot ABI from the kernel-internal
->>>> sysfb_primary_display.
->>>>
->>> Agreed
->>>
->>> Acked-by: Ard Biesheuvel <ardb@kernel.org>
->> Thanks
->>
->>> I can take patches 1-2 right away, if that helps during the next cycle.
->>   From my sysfb-focused POV, these patches would ideally all go through
->> the same tree, say efi or generic arch, or whatever fits best. Most of
->> the other code is only renames anyway.
->>
-> I don't mind queueing all of it, but I did get a conflict on
-> drivers/pci/vgaarb.c
-
-Probably from a78835b86a44 ("PCI/VGA: Select SCREEN_INFO on X86") that I 
-have in my tree. You can fix it by replacing screen_info with 
-sysfb_primary_display.screen. The later merge conflict seems manageable.
-
-Best regards
-Thomas
-
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> index 858eb9fa061b..2ee48f76483d 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+>> @@ -725,7 +725,7 @@ int amdgpu_bo_create(struct amdgpu_device *adev,
+>>   	    bo->tbo.resource->mem_type == TTM_PL_VRAM) {
+>>   		struct dma_fence *fence;
+>>   
+>> -		r = amdgpu_ttm_clear_buffer(bo, bo->tbo.base.resv, &fence);
+>> +		r = amdgpu_ttm_clear_buffer(adev, bo, bo->tbo.base.resv, &fence);
+>>   		if (unlikely(r))
+>>   			goto fail_unreserve;
+>>   
+>> @@ -1322,7 +1322,8 @@ void amdgpu_bo_release_notify(struct ttm_buffer_object *bo)
+>>   	if (r)
+>>   		goto out;
+>>   
+>> -	r = amdgpu_fill_buffer(&adev->mman.clear_entity, abo, 0, &bo->base._resv,
+>> +	r = amdgpu_fill_buffer(adev,
+>> +			       &adev->mman.clear_entity, abo, 0, &bo->base._resv,
+>>   			       &fence, AMDGPU_KERNEL_JOB_ID_CLEAR_ON_RELEASE);
+>>   	if (WARN_ON(r))
+>>   		goto out;
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> index 1d3afad885da..57dff2df433b 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>> @@ -414,7 +414,7 @@ static int amdgpu_move_blit(struct ttm_buffer_object *bo,
+>>   	    (abo->flags & AMDGPU_GEM_CREATE_VRAM_WIPE_ON_RELEASE)) {
+>>   		struct dma_fence *wipe_fence = NULL;
+>>   
+>> -		r = amdgpu_fill_buffer(&adev->mman.move_entity,
+>> +		r = amdgpu_fill_buffer(adev, &adev->mman.move_entity,
+>>   				       abo, 0, NULL, &wipe_fence,
+>>   				       AMDGPU_KERNEL_JOB_ID_MOVE_BLIT);
+>>   		if (r) {
+>> @@ -2350,6 +2350,7 @@ static int amdgpu_ttm_fill_mem(struct amdgpu_device *adev,
+>>   
+>>   /**
+>>    * amdgpu_ttm_clear_buffer - clear memory buffers
+>> + * @adev: amdgpu device object
+>>    * @bo: amdgpu buffer object
+>>    * @resv: reservation object
+>>    * @fence: dma_fence associated with the operation
+>> @@ -2359,11 +2360,11 @@ static int amdgpu_ttm_fill_mem(struct amdgpu_device *adev,
+>>    * Returns:
+>>    * 0 for success or a negative error code on failure.
+>>    */
+>> -int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
+>> +int amdgpu_ttm_clear_buffer(struct amdgpu_device *adev,
+>> +			    struct amdgpu_bo *bo,
+>>   			    struct dma_resv *resv,
+>>   			    struct dma_fence **fence)
+>>   {
+>> -	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+>>   	struct amdgpu_res_cursor cursor;
+>>   	u64 addr;
+>>   	int r = 0;
+>> @@ -2414,14 +2415,14 @@ int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
+>>   	return r;
+>>   }
+>>   
+>> -int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
+>> +int amdgpu_fill_buffer(struct amdgpu_device *adev,
+>> +		       struct amdgpu_ttm_buffer_entity *entity,
+>>   		       struct amdgpu_bo *bo,
+>>   		       uint32_t src_data,
+>>   		       struct dma_resv *resv,
+>>   		       struct dma_fence **f,
+>>   		       u64 k_job_id)
+>>   {
+>> -	struct amdgpu_device *adev = amdgpu_ttm_adev(bo->tbo.bdev);
+>>   	struct dma_fence *fence = NULL;
+>>   	struct amdgpu_res_cursor dst;
+>>   	int r;
+>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>> index 9288599c9c46..d0f55a7edd30 100644
+>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
+>> @@ -174,10 +174,12 @@ int amdgpu_copy_buffer(struct amdgpu_device *adev,
+>>   		       struct dma_resv *resv,
+>>   		       struct dma_fence **fence,
+>>   		       bool vm_needs_flush, uint32_t copy_flags);
+>> -int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
+>> +int amdgpu_ttm_clear_buffer(struct amdgpu_device *adev,
+>> +			    struct amdgpu_bo *bo,
+>>   			    struct dma_resv *resv,
+>>   			    struct dma_fence **fence);
+>> -int amdgpu_fill_buffer(struct amdgpu_ttm_buffer_entity *entity,
+>> +int amdgpu_fill_buffer(struct amdgpu_device *adev,
+>> +		       struct amdgpu_ttm_buffer_entity *entity,
+>>   		       struct amdgpu_bo *bo,
+>>   		       uint32_t src_data,
+>>   		       struct dma_resv *resv,
