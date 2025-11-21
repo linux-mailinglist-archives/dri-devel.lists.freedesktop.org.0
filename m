@@ -2,135 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71852C7A53A
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 15:54:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F1F6C7A564
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 15:57:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0ED310E0BD;
-	Fri, 21 Nov 2025 14:54:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 263A110E0B0;
+	Fri, 21 Nov 2025 14:57:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="FGRLnuWI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bUEc4aZ1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06A4310E0B0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 14:54:38 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-47795f6f5c0so14197915e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 06:54:37 -0800 (PST)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A426910E0B0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 14:57:53 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-42b3720e58eso1690325f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 06:57:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763736876; x=1764341676; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=h3T53g7xBgvHEx7HfC5HSakwZWPWLNi811KzyB5b8Cc=;
- b=FGRLnuWIvrqlK4txYKqQBOlYEHW72tCmYQ4ZlYJhZF/tWqntU+2qA65Gaah+/r0GuQ
- y0LfNOJI2zwLGnvQiUve5CPDqVqgycFlalSma6T+hr27GjCJVdvgxsd7ni4Bm+JCPVaF
- uu9iHGCR/nxuKN67fwQtFuPtBlMg/nJGySkSHKNj61hBYKJ/32inuFxgx4wYufpc0MhL
- 1F9SdZ/zRLgXtV4sLiwmzngW01hvWTuYynWcE6sjyWUCuGZZHrehf69agaM8yGdPSLNz
- hGWjImqz32WiU6aL4qd1CBSu7+sbNOxtFui+XRymuquhqbJ8sHmng9mGWag3rzEpnLQs
- TJSw==
+ d=linaro.org; s=google; t=1763737072; x=1764341872; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=AtUE9VgWDT0up5b20u2z4HmowMp+K68a0eApx09UJwo=;
+ b=bUEc4aZ1XIAN6GoWlPn0zW8sVdX5l5gl/eO3yJH0ptYa5ZmM6VhuKW+6Rjsi8jFXuF
+ H4xQQfiITpTGvS5hdb4B8FrCGsICAzszjUkgGFiqT0SYBZTNr3LqL/Wva2pqfgyJtzGf
+ qpfd4S/BebSl3MLVTmLAwjbR+bZ1FAKiza36Thsmm3TnEVwHaBuMJ47/di9Yz7yroPSD
+ LigrWjxzEbgbdBVK9EK526qN2IzD95gfTrCoZ1CxKEgx6Mn4pz1zd/qqrbST+BJO00u2
+ j3B76hxNsvo7IV7WjOuIlBg7WJjnhOOJT+U1tJw5O395yXOZlXWdxpzsjq9dhHW4ky1e
+ QgFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763736876; x=1764341676;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=h3T53g7xBgvHEx7HfC5HSakwZWPWLNi811KzyB5b8Cc=;
- b=VuakPe+5yMd+AQ3CuF4BVa5TC4SdAhtxFN9Ig8V/Eg80SlqkryTEnzGt8RGgfYxhKy
- 2OqnU6svxVhXIlhMhg1eIw3eEqUT4mQy+6yMTofgnZcdsqqcmHqb8G9Ik6jJh3tdpE0f
- Q9W7jPuwpmpN7GoXLKJjUZ8cYES51Lk0E3CmxkPcYttfVUWeINIssxLRG0yN7lGXw2ec
- NlQBZ78bXFxGXPLu9orKaFucq5paoDuHDAr3RVxKbsijT9IRsYb685J7WuuXmudsAQQz
- PdTOSUnT/o4GRDjA8WBqpZxQ8Vvl77jH/BcRgvfOnrl2TjaO2wfA0tgjt/1XKHLiZDYx
- y7rw==
+ d=1e100.net; s=20230601; t=1763737072; x=1764341872;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=AtUE9VgWDT0up5b20u2z4HmowMp+K68a0eApx09UJwo=;
+ b=RKbf5im3hi50evU6KDgZk1I9UWt/MINjnZmEXDJxRYkVumJosPSaeNGkN1WnUXGoJj
+ FGg+C3nf5cKmr+9dUDiJLESsJfCvhen0e/i6ISDtJTktdehrhel0dsHTvthzfN4cmTOm
+ d32O2TbYkZ0HqseA/bpeknfQn3CyN3pb7XNo5ZfLe2EDnlTLF5esq9Km/Vz4AMdbROY+
+ lBWQ9Fm3bIsx4hMkH5DvkGd//irqRtOkDR0Y5+LEZtddMd3j8cAgkL7hcR62fue7/WXp
+ KWlFZGRhRz7Cgdj1Q568flb033Yg7CxI80BYBYItfB5L/2sZLdX5o8SKdVcXLYMnQGn+
+ iL+g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUXpXuaEnIzni7ezPXx6LGAtuTsofoOnGqckrJ2qCyC7jQeDdvtHlQlk8+xBXLv3W5x5GpEm3zPYyo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzn31f+YA0GN2cayQ0neF0xZx+ab5puNXPe0MXlcg0EiUjWXT47
- 3wWseRQSa1rRQi9h90ZMgGEfC6q85Bo/07jBhK2YJJukxTacXtwpSvYFzITfMX4dEGU=
-X-Gm-Gg: ASbGncti7d35ksjrDnhEsfZpUIW5yCSYycrpUR3kunNga9Vjn0toCji6ie/M/0VB0Tu
- WxjNpxtFIxYMSMvwunbCZfRe86dRkb2iZPQ8KLekLBEGsF84Z0eDUyZWd8DKltJHFHYICXIwoIk
- QO8goLPlUkYhGeiMrWkagGhlPANZ+8dhwMHc3tu4m5v15Fmobb2rVgcgM0KPU8yYhEIuemr9np3
- hCWQpGWQUB/9+MxRtHR3V1ItxmelrAfe4zUEqSZrWfti4r2r+4CQvv3uYfV1CgxVwvJd1Jt5erU
- dRYUAe073YIHUDLJ5qEY9GTOdEfm6rV5Gc6rotD/APHIAuaQMSg+Gp4MYqkARV9VQBqgRdpeqpp
- m4VjYUV3zRglwqhiOb8GQqNLyj2nB4DyTbSoTgiML+4RxJg6duli2XStw9fs9nEMNzRTXoEKTJf
- QyWiDcGS78lDb0IeSj7LnAtAHTuSTase4oJk3ebCIfj0EID7h16padE8kkXyoYFdaH7gfvsw0o8
- g==
-X-Google-Smtp-Source: AGHT+IEzj6mKlAXc/f2f5s+FD/b07AX4yw2dXdDsDHdfncbSE2QSufZD0iTF+t3WaYL5TpdOFlDOEA==
-X-Received: by 2002:a05:600c:1f8f:b0:477:a0dd:b2af with SMTP id
- 5b1f17b1804b1-477c01ea502mr22713205e9.33.1763736876159; 
- Fri, 21 Nov 2025 06:54:36 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:3d9:2080:159f:1839:bb92:1eca?
- ([2a01:e0a:3d9:2080:159f:1839:bb92:1eca])
+ AJvYcCVYwtgOQ80QYbises+cpOn4YRTLSRySRCyOFFFTrVKpBcZ9mWRQyQbqLFa5E7mS1r7qN/YsPN2GQVo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxmnIFbHccCY2wbEMpSeVjHmKIzeRjzOAwmRRVdv0kXTtrQFtN3
+ oBsnhO3tO+DupzUCUf9AZclLdIIL+h5UnA4/zrkdLGeDCl+5E1FjyvjChbsIczvEBAU=
+X-Gm-Gg: ASbGncuvWxP3fecRo54oeu/KEyOXTlZRVrO7jxGDoLnjNPHngFY2r/ap9bCNqCxp49L
+ xxRvtOEO/VvBDx5IlMEPODtsoJhdmKqlPFSdUTffPN5l1JYUMa2CTXAAYOTOZbvb3P+EB4O1hgt
+ kViM53unw/U1ol9vuuc2bggU0VeKP7qe7AYByw1r4WoF+TTzRDrXwTR4mW8AUzZ49NxeGYPU5Qa
+ slzNToXXOzy3LtVKffgVmd/kCi+rg4gmEAlKFn9WBTvYh4ETo0VpF7L8CS3goWy4E4UeFtv3fSx
+ bZRKyjds6RYc6qemMxWcS7HDECqW4i0Z8nNsuw0dwU1v5yXBPj/95cKz6ysGJWhKVUC4qmVqrfG
+ BIN02erpJ20miCiFcRnCDTiTfsjp2Be3t9VHm+Hg4ES89yeTeu8Kk6RK1COYwgRCneP+5tnRjmZ
+ piro5GwiCjNyZP6dKNp7zleTujvumrobg=
+X-Google-Smtp-Source: AGHT+IGGsc+G9i/U16taUPkam+Wa9Fw+qY9LD/Z4a3vJZqhgcrN9boVVP9pk9VKrZ9axd0FyosPCIA==
+X-Received: by 2002:a5d:64e6:0:b0:42b:3ccc:91ec with SMTP id
+ ffacd0b85a97d-42cc1ce482fmr2961149f8f.22.1763737071868; 
+ Fri, 21 Nov 2025 06:57:51 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42cc231dc6esm3409457f8f.7.2025.11.21.06.54.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Nov 2025 06:54:35 -0800 (PST)
-Message-ID: <326cd208-fcce-49d1-94ee-4913f85bffbf@linaro.org>
-Date: Fri, 21 Nov 2025 15:54:34 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+ ffacd0b85a97d-42cb7ec454csm10875217f8f.0.2025.11.21.06.57.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Nov 2025 06:57:51 -0800 (PST)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v10 07/11] phy: rockchip: phy-rockchip-typec: Add DRM AUX
- bridge
-To: Chaoyi Chen <kernel@airkyi.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>, Luca Ceresoli
- <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org
-References: <20251120022343.250-1-kernel@airkyi.com>
- <20251120022343.250-8-kernel@airkyi.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20251120022343.250-8-kernel@airkyi.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Robert Foss <rfoss@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Phong LE <ple@baylibre.com>, Dmitry <dmitry.baryshkov@oss.qualcomm.com>, 
+ Nishanth Menon <nm@ti.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Robert Nelson <robertcnelson@gmail.com>, 
+ Jason Kridner <jkridner@beagleboard.org>, Andrew Davis <afd@ti.com>, 
+ Tomi V <tomi.valkeinen@ideasonboard.com>, Devarsh <devarsht@ti.com>
+In-Reply-To: <20251029150636.3118628-1-nm@ti.com>
+References: <20251029150636.3118628-1-nm@ti.com>
+Subject: Re: [PATCH V6 0/5] drm/bridge: it66121: Add initial it66122
+ support
+Message-Id: <176373707090.380945.5826140184462252866.b4-ty@linaro.org>
+Date: Fri, 21 Nov 2025 15:57:50 +0100
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -143,67 +100,37 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/20/25 03:23, Chaoyi Chen wrote:
-> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> 
-> Using the DRM_AUX_BRIDGE helper to create the transparent DRM bridge
-> device.
-> 
-> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> ---
-> 
-> Changes in v10:
-> - Use drm_aux_bridge_register_from_node() instead.
-> 
-> (no changes since v7)
-> 
-> Changes in v6:
-> - Fix depend in Kconfig.
-> 
->   drivers/phy/rockchip/Kconfig              | 2 ++
->   drivers/phy/rockchip/phy-rockchip-typec.c | 5 +++++
->   2 files changed, 7 insertions(+)
-> 
-> diff --git a/drivers/phy/rockchip/Kconfig b/drivers/phy/rockchip/Kconfig
-> index db4adc7c53da..bcb5476222fc 100644
-> --- a/drivers/phy/rockchip/Kconfig
-> +++ b/drivers/phy/rockchip/Kconfig
-> @@ -120,6 +120,8 @@ config PHY_ROCKCHIP_TYPEC
->   	tristate "Rockchip TYPEC PHY Driver"
->   	depends on OF && (ARCH_ROCKCHIP || COMPILE_TEST)
->   	depends on TYPEC || TYPEC=n
-> +	depends on DRM || DRM=n
-> +	select DRM_AUX_BRIDGE if DRM_BRIDGE
->   	select EXTCON
->   	select GENERIC_PHY
->   	select RESET_CONTROLLER
-> diff --git a/drivers/phy/rockchip/phy-rockchip-typec.c b/drivers/phy/rockchip/phy-rockchip-typec.c
-> index 1f5b4142cbe4..e31b778c3537 100644
-> --- a/drivers/phy/rockchip/phy-rockchip-typec.c
-> +++ b/drivers/phy/rockchip/phy-rockchip-typec.c
-> @@ -56,6 +56,7 @@
->   #include <linux/phy/phy.h>
->   #include <linux/usb/typec_dp.h>
->   #include <linux/usb/typec_mux.h>
-> +#include <drm/bridge/aux-bridge.h>
->   
->   #define CMN_SSM_BANDGAP			(0x21 << 2)
->   #define CMN_SSM_BIAS			(0x22 << 2)
-> @@ -1312,6 +1313,10 @@ static int tcphy_setup_typec_mux(struct rockchip_typec_phy *tcphy)
->   	if (!of_property_read_bool(np, "mode-switch"))
->   		goto put_np;
->   
-> +	ret = drm_aux_bridge_register_from_node(tcphy->dev, np);
-> +	if (ret)
-> +		goto put_np;
-> +
->   	mux_desc.drvdata = tcphy;
->   	mux_desc.fwnode = device_get_named_child_node(tcphy->dev, "dp-port");
->   	mux_desc.set = tcphy_typec_mux_set;
+Hi,
 
-Much better now !
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+On Wed, 29 Oct 2025 10:06:31 -0500, Nishanth Menon wrote:
+> Add initial support for IT66122, which seems to be compatible to it66121
+> but probably has additional functionality.
+> 
+> BeagleY-AI uses this it66122 as the old part is no longer in production
+> as far as I understand.
+> 
+> Now, BeaglePlay uses it66121 at the moment, but at some point, it might
+> end up flipping over to the new part. Additionally, it also looks like
+> Revision D of BeagleBone Black switched over to it66122 as well.
+> 
+> [...]
+
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+
+[1/5] dt-bindings: display: bridge: it66121: Add compatible string for IT66122
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/e902d2c38a2797aa78c1e08fc1419490bb8c63dd
+[2/5] drm/bridge: it66121: Drop ftrace like dev_dbg() prints
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/1ba36afa667bf14820a9862e18b5d55ee47a67e4
+[3/5] drm/bridge: it66121: Sort the compatibles
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/a1df28b5f4d30467b8dabe861f1da324e00313fd
+[4/5] drm/bridge: it66121: Use vid/pid to detect the type of chip
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/a8811c0bb79c60bf2464e939c8e040b5d6f532ef
+[5/5] drm/bridge: it66121: Add minimal it66122 support
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/715cbb21c6fe2fe5760ea05e873f12473aa5884e
+
+-- 
+Neil
+
