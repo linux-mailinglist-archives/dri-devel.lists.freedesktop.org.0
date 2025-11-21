@@ -2,77 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EB17C79FA5
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 15:08:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5BE0C79FB4
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 15:09:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7548210E898;
-	Fri, 21 Nov 2025 14:08:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E53E10E8BF;
+	Fri, 21 Nov 2025 14:08:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LUlWfSce";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="F1eqwuVs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
- [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11CD710E898
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 14:08:53 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-5957e017378so2125891e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 06:08:52 -0800 (PST)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+ [209.85.208.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAE1010E8A7
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 14:08:57 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id
+ 38308e7fff4ca-37b983fbd45so16579051fa.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 06:08:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763734131; x=1764338931; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=m+ZjUWJm6P1oGOGSuKn7/ISLOSqUPpPqyf4Rr3+u0z0=;
- b=LUlWfSceQUiKOLkzdIpizRNW+6sxlLR/Sz+F1PYlt4Er/9cwI5GFSLOFV+DfPU1mKM
- 91rhRYFBQq1ECEfVj6u2X0VkxWeB1GMTjLkiNXscWZCiDTQ+3TFb6MdXuifbZs6AxcB5
- sxzNaqOG7WEk1u1oqBA7qd9BlG9b8YMIyo8ltCbaziGiaZl4+Ll5sfJo4nPxEjwBkljD
- jo7W0rMT/jTFUSPXNmy7Koo76PevWB11nTlPlxHjV0k4xE8okOuiANd0pU8FECUtJj48
- qB9fct4fUMA6B+sbACcmG1CJUZd2WPAM3/rqgvr9NHxSkdZagYznvXEeMWuGbT7HV/WH
- WXZQ==
+ d=linaro.org; s=google; t=1763734136; x=1764338936; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=43izIePpDRF9tBY8hZbcyu8muBvEa9BgL6xgRlQw6+k=;
+ b=F1eqwuVs5yiGpNaPsmPCcDQX7paM1Be5SXvs2MzHQ+PFGMhg3HG1pf0X4XYbk64Wnk
+ M6voGxkHeBOHC8XNoe2H2lFLDjYVFmfk6pnq2lzLDhHQM6XcqasI6wljaBQ3e3dV0t4s
+ WvDuIhZAxPqYy2kvmjg9E4MrmVmkxO8r4u/W1LgxBP4obcgMtaww5DQQMz/GLtDz7Gsj
+ ACxTq87YzuD7VMJ1XRGgq9cjDY313vEpEYyPkZcGzZfFJF0lADUMJqDjpc5DYYoY6rvm
+ fXyaja9B2KzwyTxIn4pKNvUMpwEsUw8KVIQ76D8IWZPkQNCmrUvup/E8OEi1N0Bn/Zrk
+ L/zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763734131; x=1764338931;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=m+ZjUWJm6P1oGOGSuKn7/ISLOSqUPpPqyf4Rr3+u0z0=;
- b=Lc4/D0LdkZF3drp+thv/u5E02krJlpEfyCiYn866VyTlX03oTfa37U6ZB9XR24Oo+7
- 11/GvO2iAf2kcDNuD6s1vSZlX5BOvhZd47F+OASG+XvuZ5tB/xlmSv5QWtoPA0sIqxF8
- 5EUs+cVRZHVRaxRDVTLxRxwn3DOldsPfn2qxATKTV8iQ+9oYR8gS/L9FwC9AuhIpBOmq
- vOnGjEseLSIScEFQNDbOzkIe7T9VoZEfHOmBSwSJ1DvYMPV+0liRnoBgKBG6A+aH7mQr
- 5ckY717g6XVDBRsUSGPEhIbPxCfJL+A8sfz0q6xBQkZDwutsxh20lTpIzcMpoozBA14X
- NTQQ==
-X-Gm-Message-State: AOJu0YxyFdQ9AZ4v6VoPONUdonTrzYmc5jiStMs1OTnvUJXnlYNLQisN
- BX0LFq+NY4J/Z20yQK+Tnk3pK6Nn0Yz+iUPpT5ME769sS9T7aZpJ1AIkDX6uGqCHlmB5xp4KZ5l
- /oprletBZsg==
-X-Gm-Gg: ASbGnctLUsFln4L3g0lZqi2z5XWSKWfQ9qVAHi5TRtBCZFZEXSfiq6kVU9eEIoCcwJx
- tP0ZcazoS6chSp8do+aigc8LE9Lswe1YElS5wCHkMlN9VKP/A8e23QsQrdE714d3NSeSnYQ5AtI
- 1K2TarJSxY1nHTXKnpO3jj33TNI/emkgQ4rKVW+d+2WDl4DFke4RYiq44bN3FcOZnRNydfF5mvU
- Yu2dfBxtfQhU7Ztpp5g5yq2YLd1/QbXssZ07eT93tyPSZXNSBzHrnKy7Df1FhEUipq8LtsVJx0G
- e027yA03iFYYBCuhW2E4Dw+xwjQo7OtoX9101oxQzZGrpSjNFSl17UCLfazloV5QPhNpIg53Rd9
- c2x50yvOfjR+RrBghPwO0rC2/zbAEpv1bZ7GPGah4Kzx7eX310ZwWarkV9Boprep7a4tH0QO6Ij
- U2lLtiZ+5S8LDZMmyErdsAPYamtauQCApVgw40tbn4SGRoDq7wGJgI0jI=
-X-Google-Smtp-Source: AGHT+IHTiD2eeWptx+78bN/r1/j0tHK/N89W2MgpMAdrnSKRFy5gp7i+RvTRr0KQyLU/9Z9FAUDwlg==
-X-Received: by 2002:a05:6512:15a6:b0:591:eab5:d8dc with SMTP id
- 2adb3069b0e04-596a3ee2f7dmr951571e87.35.1763734130181; 
- Fri, 21 Nov 2025 06:08:50 -0800 (PST)
+ d=1e100.net; s=20230601; t=1763734136; x=1764338936;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=43izIePpDRF9tBY8hZbcyu8muBvEa9BgL6xgRlQw6+k=;
+ b=SQkLoMCIUb7I5czhu9K7DKmzf2qGjhwise30r8pnvaSvO9HJfW7Z+p2fZDp1nIFiOD
+ zs6QbAXz1kZqM91P2cC6v0ykDR1Cs3cAlBKowVRyk08Ioz63Kjg7emPAdOjHlaSOm9If
+ q6KeWRlFHRWrUo7cm8vtSHueRFx2HA9jdoFlWQoWutJpi4/KZ+E7ckimEJQhjlPLlX+q
+ bOR3k6XEX2bJ8LEpFF0GSKTnppDoTdKHh9fukqYT1PBtWLPkH61hteSnld9qBmzQoMtj
+ S7l1tCwroYTTobum7e13ev/uOCoyA0UHwNFyg0Z7kq23DnsBiRkYHPoA53pLxjkHyfhE
+ V7vw==
+X-Gm-Message-State: AOJu0YxDTqYZn3OhyycC+1YqCxwvCk+VX/FNVtznov6I19m1XEpbZmkK
+ uvwg3G2zPuWyafxFc+UVGwVGQzVyPpvcwoEmDwqzsV0G5A7t1T+wZDiBj12na8Nda3c=
+X-Gm-Gg: ASbGncv6LtA5oiT0wslI/SNztoYWR6Yx4hLNxImQejvcKTZmp1jiEpcY38FgE1slWau
+ QfASHuYuGxYCRu3gPjaahjRktnG+YoCyVIVjrs9nu522XBYNcrraV8MRYWCZe6RDTht90ucWaGA
+ VLYwyNDApj9jFYfIB2/dCAxC2HioMP6DmMAiubgRQH7w8MUGh8nUd4Xl/zdBzX7fjPglYDsL3mn
+ /5Tz+aGWTlpeHmmy1+DEMLigT6LaOb+sCTg+pkubPGAbsuxvqplY2yhJ0pIpOqNZBuExxDNSpYC
+ MCl765Lkim6cJ9TMYcjB7/H7yF+/iK7entv4OBvTwufmBPKRQNRe/aKcEpfEqXvTzhukBwu4rNm
+ 6uSD/dJ2q0UFV1Hw2zI1mU7ktFSiYXiXXHj6toL5iPuP8NvW0uzaqMt8YCVOQZsvT/x+EZBiK+i
+ k6LO8FRnRNkaj3x+x+h3ZeNXMp+pknO7+Ru/ZlC12khZq32uNNkXlGvWk=
+X-Google-Smtp-Source: AGHT+IF2UxVhyVMW3AX/hoiGonlkOfpep4umI8fQpuWGyYEaK09IyOu8Yp1elYTOBgohXU5wXynToA==
+X-Received: by 2002:a05:6512:b1c:b0:595:81e5:7570 with SMTP id
+ 2adb3069b0e04-596a3ed98c0mr1009880e87.23.1763734135916; 
+ Fri, 21 Nov 2025 06:08:55 -0800 (PST)
 Received: from [192.168.1.2] (c-92-34-217-190.bbcust.telenor.se.
  [92.34.217.190]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5969db8718csm1668421e87.30.2025.11.21.06.08.33
+ 2adb3069b0e04-5969db8718csm1668421e87.30.2025.11.21.06.08.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Nov 2025 06:08:34 -0800 (PST)
+ Fri, 21 Nov 2025 06:08:50 -0800 (PST)
 From: Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v4 0/3] drm/atomic-helpers: Fix MCDE/R-Car DU regressions
-Date: Fri, 21 Nov 2025 15:08:30 +0100
-Message-Id: <20251121-mcde-drm-regression-thirdfix-v4-0-d89bf8c17f85@linaro.org>
+Date: Fri, 21 Nov 2025 15:08:31 +0100
+Subject: [PATCH v4 1/3] drm/atomic-helper: Export and namespace some functions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NQQqDMBBFryKz7pQkatGueo/iwphJHKimTERax
- Ls3eoIu3+Pz/gaJhCnBvdhAaOXEcc5QXQoYxn4OhOwyg1Gm1toonAZH6GRCoSCUjj0uI4vz/EF
- tVW+9rY1RLeTEWyjrM//sMo+clijf820tD/tneC1RoamsprZpbtb6x4vnXuI1SoBu3/cf8teJS
- skAAAA=
-X-Change-ID: 20251120-mcde-drm-regression-thirdfix-1b0abfb52209
+Message-Id: <20251121-mcde-drm-regression-thirdfix-v4-1-d89bf8c17f85@linaro.org>
+References: <20251121-mcde-drm-regression-thirdfix-v4-0-d89bf8c17f85@linaro.org>
+In-Reply-To: <20251121-mcde-drm-regression-thirdfix-v4-0-d89bf8c17f85@linaro.org>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
  Marek Vasut <marek.vasut+renesas@mailbox.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -85,8 +81,7 @@ To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>, 
  Dmitry Baryshkov <lumag@kernel.org>
 Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Geert Uytterhoeven <geert@linux-m68k.org>
+ Linus Walleij <linus.walleij@linaro.org>
 X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -103,59 +98,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This fixes two regressions experienced in the MCDE and
-R-Car DU DRM drivers after
-commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
-"drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
-caused a series of regressions in all panels that send
-DSI commands in their .prepare() and .unprepare()
-callbacks.
-
-This series make it possible to selectively bring back the
-old behaviour with explicit semantics and implements
-the old behaviour as modified commit tails in MCDE and
-R-Car DU.
+Export and namespace those not prefixed with drm_* so
+it becomes possible to write custom commit tail functions
+in individual drivers using the helper infrastructure.
 
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
-Changes in v4:
-- Fix a copypaste-bug in the Renesas Rcar-DU driver.
-- Actually compile this using the shmobile defconfig and make
-  sure it works.
-- Collect Geert's Tested-by.
-- Link to v3: https://lore.kernel.org/r/20251120-mcde-drm-regression-thirdfix-v3-0-24b1e9886bbf@linaro.org
+ drivers/gpu/drm/drm_atomic_helper.c | 54 +++++++++++++++++++++----------------
+ include/drm/drm_atomic_helper.h     | 19 +++++++++++++
+ 2 files changed, 50 insertions(+), 23 deletions(-)
 
-Changes in v3:
-- Switch to a new approach: export helper functions and create the
-  special helper directly in the driver instead.
-- Drop Marek's patch and write a new RFT patch with the same
-  semantic content as the MCDE patch.
-- Link to v2: https://lore.kernel.org/r/20251118-mcde-drm-regression-v2-0-4fedf10b18f6@linaro.org
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index d5ebe6ea0acb..906eb4b0852c 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -1162,8 +1162,8 @@ crtc_needs_disable(struct drm_crtc_state *old_state,
+ 	       new_state->self_refresh_active;
+ }
+ 
+-static void
+-encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *state)
++void
++drm_encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *state)
+ {
+ 	struct drm_connector *connector;
+ 	struct drm_connector_state *old_conn_state, *new_conn_state;
+@@ -1229,9 +1229,10 @@ encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *state)
+ 		}
+ 	}
+ }
++EXPORT_SYMBOL(drm_encoder_bridge_disable);
+ 
+-static void
+-crtc_disable(struct drm_device *dev, struct drm_atomic_state *state)
++void
++drm_crtc_disable(struct drm_device *dev, struct drm_atomic_state *state)
+ {
+ 	struct drm_crtc *crtc;
+ 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
+@@ -1282,9 +1283,10 @@ crtc_disable(struct drm_device *dev, struct drm_atomic_state *state)
+ 			drm_crtc_vblank_put(crtc);
+ 	}
+ }
++EXPORT_SYMBOL(drm_crtc_disable);
+ 
+-static void
+-encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *state)
++void
++drm_encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *state)
+ {
+ 	struct drm_connector *connector;
+ 	struct drm_connector_state *old_conn_state, *new_conn_state;
+@@ -1335,15 +1337,16 @@ encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *sta
+ 		drm_bridge_put(bridge);
+ 	}
+ }
++EXPORT_SYMBOL(drm_encoder_bridge_post_disable);
+ 
+ static void
+ disable_outputs(struct drm_device *dev, struct drm_atomic_state *state)
+ {
+-	encoder_bridge_disable(dev, state);
++	drm_encoder_bridge_disable(dev, state);
+ 
+-	crtc_disable(dev, state);
++	drm_crtc_disable(dev, state);
+ 
+-	encoder_bridge_post_disable(dev, state);
++	drm_encoder_bridge_post_disable(dev, state);
+ }
+ 
+ /**
+@@ -1446,8 +1449,8 @@ void drm_atomic_helper_calc_timestamping_constants(struct drm_atomic_state *stat
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_calc_timestamping_constants);
+ 
+-static void
+-crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state)
++void
++drm_crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state)
+ {
+ 	struct drm_crtc *crtc;
+ 	struct drm_crtc_state *new_crtc_state;
+@@ -1508,6 +1511,7 @@ crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state)
+ 		drm_bridge_put(bridge);
+ 	}
+ }
++EXPORT_SYMBOL(drm_crtc_set_mode);
+ 
+ /**
+  * drm_atomic_helper_commit_modeset_disables - modeset commit to disable outputs
+@@ -1531,12 +1535,12 @@ void drm_atomic_helper_commit_modeset_disables(struct drm_device *dev,
+ 	drm_atomic_helper_update_legacy_modeset_state(dev, state);
+ 	drm_atomic_helper_calc_timestamping_constants(state);
+ 
+-	crtc_set_mode(dev, state);
++	drm_crtc_set_mode(dev, state);
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_disables);
+ 
+-static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
+-						struct drm_atomic_state *state)
++void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
++					 struct drm_atomic_state *state)
+ {
+ 	struct drm_connector *connector;
+ 	struct drm_connector_state *new_conn_state;
+@@ -1555,9 +1559,10 @@ static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
+ 		}
+ 	}
+ }
++EXPORT_SYMBOL(drm_atomic_helper_commit_writebacks);
+ 
+-static void
+-encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *state)
++void
++drm_encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *state)
+ {
+ 	struct drm_connector *connector;
+ 	struct drm_connector_state *new_conn_state;
+@@ -1588,9 +1593,10 @@ encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *state
+ 		drm_bridge_put(bridge);
+ 	}
+ }
++EXPORT_SYMBOL(drm_encoder_bridge_pre_enable);
+ 
+-static void
+-crtc_enable(struct drm_device *dev, struct drm_atomic_state *state)
++void
++drm_crtc_enable(struct drm_device *dev, struct drm_atomic_state *state)
+ {
+ 	struct drm_crtc *crtc;
+ 	struct drm_crtc_state *old_crtc_state;
+@@ -1619,9 +1625,10 @@ crtc_enable(struct drm_device *dev, struct drm_atomic_state *state)
+ 		}
+ 	}
+ }
++EXPORT_SYMBOL(drm_crtc_enable);
+ 
+-static void
+-encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
++void
++drm_encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
+ {
+ 	struct drm_connector *connector;
+ 	struct drm_connector_state *new_conn_state;
+@@ -1664,6 +1671,7 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
+ 		drm_bridge_put(bridge);
+ 	}
+ }
++EXPORT_SYMBOL(drm_encoder_bridge_enable);
+ 
+ /**
+  * drm_atomic_helper_commit_modeset_enables - modeset commit to enable outputs
+@@ -1682,11 +1690,11 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
+ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
+ 					      struct drm_atomic_state *state)
+ {
+-	encoder_bridge_pre_enable(dev, state);
++	drm_encoder_bridge_pre_enable(dev, state);
+ 
+-	crtc_enable(dev, state);
++	drm_crtc_enable(dev, state);
+ 
+-	encoder_bridge_enable(dev, state);
++	drm_encoder_bridge_enable(dev, state);
+ 
+ 	drm_atomic_helper_commit_writebacks(dev, state);
+ }
+diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+index 53382fe93537..39878aa485c3 100644
+--- a/include/drm/drm_atomic_helper.h
++++ b/include/drm/drm_atomic_helper.h
+@@ -60,6 +60,11 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+ int drm_atomic_helper_check_planes(struct drm_device *dev,
+ 			       struct drm_atomic_state *state);
+ int drm_atomic_helper_check_crtc_primary_plane(struct drm_crtc_state *crtc_state);
++void drm_encoder_bridge_disable(struct drm_device *dev,
++				struct drm_atomic_state *state);
++void drm_crtc_disable(struct drm_device *dev, struct drm_atomic_state *state);
++void drm_encoder_bridge_post_disable(struct drm_device *dev,
++				     struct drm_atomic_state *state);
+ int drm_atomic_helper_check(struct drm_device *dev,
+ 			    struct drm_atomic_state *state);
+ void drm_atomic_helper_commit_tail(struct drm_atomic_state *state);
+@@ -89,8 +94,22 @@ drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
+ void
+ drm_atomic_helper_calc_timestamping_constants(struct drm_atomic_state *state);
+ 
++void drm_crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state);
++
+ void drm_atomic_helper_commit_modeset_disables(struct drm_device *dev,
+ 					       struct drm_atomic_state *state);
++
++void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
++					 struct drm_atomic_state *state);
++
++void drm_encoder_bridge_pre_enable(struct drm_device *dev,
++				   struct drm_atomic_state *state);
++
++void drm_crtc_enable(struct drm_device *dev, struct drm_atomic_state *state);
++
++void drm_encoder_bridge_enable(struct drm_device *dev,
++			       struct drm_atomic_state *state);
++
+ void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
+ 					  struct drm_atomic_state *old_state);
+ 
 
-Changes in v2:
-- Queue Marek's patch first in the series for coherency.
-- Add a patch to also preserve the late CRTC disablement
-  semantic.
-- Rename helper function to reflect the new semantic.
-- Update the MCDE patch to use the new callbacks.
-- Link to v1: https://lore.kernel.org/r/20251118-mcde-drm-regression-v1-1-ed5583efbd68@linaro.org
-
----
-Linus Walleij (3):
-      drm/atomic-helper: Export and namespace some functions
-      drm/mcde: Create custom commit tail
-      drm/rcar-du: Modify custom commit tail
-
- drivers/gpu/drm/drm_atomic_helper.c           | 54 +++++++++++++++------------
- drivers/gpu/drm/mcde/mcde_drv.c               | 37 +++++++++++++++++-
- drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 25 +++++++++++--
- include/drm/drm_atomic_helper.h               | 19 ++++++++++
- 4 files changed, 108 insertions(+), 27 deletions(-)
----
-base-commit: 6548d364a3e850326831799d7e3ea2d7bb97ba08
-change-id: 20251120-mcde-drm-regression-thirdfix-1b0abfb52209
-
-Best regards,
 -- 
-Linus Walleij <linus.walleij@linaro.org>
+2.51.1
 
