@@ -2,86 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D41F8C7A5FF
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 16:03:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0326FC7A647
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 16:06:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3839A10E895;
-	Fri, 21 Nov 2025 15:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A15110E8A5;
+	Fri, 21 Nov 2025 15:06:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="bRpp6k3t";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="AqHKfvzu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 445EB10E895
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 15:03:15 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-4779d47be12so16812785e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 07:03:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763737394; x=1764342194; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=/rMGPhIF9yY9grNNRyQ+ygeZWk0DaZMplPyvp51ZIDQ=;
- b=bRpp6k3tu1l9LilWg5BRbpJLmU/Uy7MQC0x02hpfq5QdAl0EswNFqKN0u07wzSx2uw
- MdraTp7NUnvZzuMepSyBB1NBm1HbFWCCegHDIRqOCAkA133Ikz7IjRbjsCqxILEhj77q
- Eu+dYNbbq10W2mCxP0gLIf8uATyAg98M9qMHAK/mgF+QOxFROKAZtDzFzQqM0wHvIjBC
- r15TTn/RjjRp/VReSTgIxnh47hgI7ITce9huLZiXyvj0iQgfsaTFf8BsADH9hq94MV/S
- EdZdNZ/AxFiUJHYR+Xsz3EPAzwcnft0do4bCKEIuiaLr+tmfMnqV0rdCc97fqGGusrFb
- mNxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763737394; x=1764342194;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=/rMGPhIF9yY9grNNRyQ+ygeZWk0DaZMplPyvp51ZIDQ=;
- b=vDkNvjLFP5YAqwkJ65iiXXME7oJ/YdOcymgVg2wRYZRC/qvbPUXzyuOcK5mAc0CySx
- jgtTc4dFoqIjagLa8LIiaMPbNnnM6F/JE5qZk6XG6om4AxvMIDfWp47Fx5IXQMEZ3w8V
- NvmN/tgBEu/hly46gd65QJEi/r+Z7k2+7spdAlLw2wecywl5ZjyIjszY69+xfMQSgjKn
- rKkxz8ublBcbCUP/c8ZzQYoJoP2csGzTTBPDW8dHyU3HnwCWMcAaTVPkErYNXF/wkRTU
- YeVxyaGbHnIawDsvyhQNQeCkX4JIl9dPksjc+/vt3vwUDK/QqSbgOH4g+VxF/PKu2/Uy
- fESg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUaVy25XCWjBXJIPKz62YmUczm7/bHQg/Y85b4pAQluMCBvw3duAR3MiDjmr0ZQXzupvoQeB90AgeY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwCu9PfXflBwDnbeuomGcy0R79awLeykMn9GNOMEebwB6dNVJmM
- dITpyWIXb5YkKR8/4aEg7e1q7WVD6G+vrv8KFmCo49aJDIFOERKRoVb4Y/rij3baFZNIyvX0XTt
- 6sH8Sb8M=
-X-Gm-Gg: ASbGncv4cZTX4rq8oSdYYuBX7wAcYJcOEsuwwJI1rXh44mHR1yH3XyRrabj1Zll5jFl
- rei78YFyyKs1andZoTRQ1em+ltS0PbBMG7rMHg0EaKHnJGnXLIU4oNtvspkAKtYsFQadkLAGDeD
- YGYoVYtWDd3SwJP73KwvMpxwtQUnirwsZXB9Tias0SF3UFrKOfpSA5WnjIsCudnQzLgjsgHfooV
- BkCKD73D+xiNGjZD3GBROzRPLjhp2qwuPhqNu7CFnBCks+iConb0hYl54OpopmBKGsuVBqBGjMD
- QYmBiC4eSnM+L3YsbNj6pEUkqmlxUnv+tjvOaKStYT586JCX2fAhWOvDnz0i24zJbS8NsPYwHqj
- myWGr+B7WTcRhVPedvyvaHT6xm+PNW/3L/ewm0/MkGc65zJqQ3TMo4pQK2ZQd9i0d9Z1qtxok+F
- YVgBvfaV/dthd3huZce+wnfdIkjA1Fjmk=
-X-Google-Smtp-Source: AGHT+IEvkcjCWHOGkvqunkPqZXFma+mlTZawsj4Ti6PhRG5pHSm7GPa5JtsJ4tKFSDWApDFKzbX70A==
-X-Received: by 2002:a05:600c:1c82:b0:477:73cc:82c3 with SMTP id
- 5b1f17b1804b1-477c01ee405mr27061645e9.26.1763737392148; 
- Fri, 21 Nov 2025 07:03:12 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:8261:5fff:fe11:bdda])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-477bf36f535sm49989405e9.8.2025.11.21.07.03.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Nov 2025 07:03:11 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-To: andrzej.hajda@intel.com, rfoss@kernel.org, airlied@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- dri-devel@lists.freedesktop.org, jani.nikula@intel.com, simona@ffwll.ch, 
- linux-kernel@vger.kernel.org, Devarsh Thakkar <devarsht@ti.com>
-Cc: tomi.valkeinen@ideasonboard.com, praneeth@ti.com, vigneshr@ti.com, 
- aradhya.bhatia@linux.dev, s-jain1@ti.com, s-wang12@ti.com, 
- r-donadkar@ti.com, h-shenoy@ti.com, dmitry.baryshkov@oss.qualcomm.com
-In-Reply-To: <20251030151635.3019864-1-devarsht@ti.com>
-References: <20251030151635.3019864-1-devarsht@ti.com>
-Subject: Re: [PATCH v4] drm/bridge: sii902x: Fix HDMI detection with
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
-Message-Id: <176373739119.405542.6739584381002284376.b4-ty@linaro.org>
-Date: Fri, 21 Nov 2025 16:03:11 +0100
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABDA910E8A5
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 15:06:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1763737585; x=1795273585;
+ h=from:subject:date:message-id:mime-version:
+ content-transfer-encoding:to:cc;
+ bh=5OKOBmxX26Rgs0xbx9ZdRJ+HfMTLClzJoEFjvcG4AcE=;
+ b=AqHKfvzuQUayHzT9nbfoOwlD0wrElLE3cIJ0HGAvK6wwcKK5U2d07YIH
+ jT66lzS4MzMbTJjJV8dKt+FUV/Kn4z2B9UZogQQDMpFkXfjQrbie/qu87
+ M7aTAr48qgWHH4B54zSv2jPt3kcYxtiso+wtHOaxMUjIhve6a2YTCB72T
+ WzIky56bkv/Xf0mqOYr6k4gpE0DsNEnFmna/bsKvjKegkiBRaHXjv0+bS
+ 7LbBST5hmaC56mnthUtYNomP0kCwDcA93zz9q7Jyf8kdvvXxBeJZCEsgA
+ Zu7ugaW9H7cFe2UmJwgOm9OYsgIoPnvumR4kTO0LF3U9HIwW7jCJniQyw g==;
+X-CSE-ConnectionGUID: aKGyDUYeT0auUjyru6LUFw==
+X-CSE-MsgGUID: 0QpqpqUxSZeAdq+oerucoQ==
+X-IronPort-AV: E=Sophos;i="6.20,216,1758610800"; d="scan'208";a="49513427"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Nov 2025 08:06:25 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.87.151) by
+ chn-vm-ex3.mchp-main.com (10.10.87.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.29; Fri, 21 Nov 2025 08:06:05 -0700
+Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex04.mchp-main.com
+ (10.10.85.152) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Fri, 21 Nov 2025 08:05:59 -0700
+From: Ludovic Desroches <ludovic.desroches@microchip.com>
+Subject: [PATCH 0/8] drm/atmel-hlcdc: make more use of helpers
+Date: Fri, 21 Nov 2025 16:04:32 +0100
+Message-ID: <20251121-lcd_cleanup_mainline-v1-0-2587e6fe4d67@microchip.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+X-B4-Tracking: v=1; b=H4sIAIB/IGkC/y3M0QqDMAyF4VeRXK9gC1W2VxlDYoxboMu0XYcgv
+ rtFd/kdOP8KiaNwglu1QuSfJPlogb1UQC/UJxsZisHVzlvrrAk0dBQYNU/dG0WDKJu+QaLW9x7
+ rK5TrFHmU5cjeH6cjz7nUv/9x23Zy78/iewAAAA==
+X-Change-ID: 20251121-lcd_cleanup_mainline-b6acc75b5a09
+To: Manikandan Muralidharan <manikandan.m@microchip.com>, "Dharma
+ Balasubiramani" <dharma.b@microchip.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>
+CC: <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>, 
+ <linux-kernel@vger.kernel.org>, Ludovic Desroches
+ <ludovic.desroches@microchip.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1487;
+ i=ludovic.desroches@microchip.com; h=from:subject:message-id;
+ bh=5OKOBmxX26Rgs0xbx9ZdRJ+HfMTLClzJoEFjvcG4AcE=;
+ b=owEBbQKS/ZANAwAKAT455hP3e2QtAcsmYgBpIH/V/jo0GHq7RSD6t65Y7Wb7x4XUYdRHQcceV
+ JdZU01U1c6JAjMEAAEKAB0WIQQAMEvJiWmsW41tNU0+OeYT93tkLQUCaSB/1QAKCRA+OeYT93tk
+ La3pD/957QSxYkmoTRU9HxiWluWn7V5pUbnW/fArwLbQyTTsA9MWgo4dM2oBAnkeamIl7efuRdM
+ 0q8V4yjPqLgZAce9cwRRrR++Hie2kCOlJY5yLfIP3o609gD5BIgThIrX0MWHOYuWOTskaNxUdJh
+ edklWkSKXGKnvT95FndeE+5yAPQjPuUpMKq811W+BoAUwRP+hGjzwIVsQr1ZwM4hKUl0KAw+Q3G
+ vevbFWmsbKaIVEJZ41W63qmdigjrmp6Hc4y288HInAjel2SwgQvxQoHUdIUBmM0TWfyhskFTCFo
+ RFCc626Wiv0DPIRpwCQEC96O7O+rHrg+v9l/R0tqiMZZ9a7nDyZRwPZbJxiiVwGTvUpMSi+DEVW
+ g0nQPmF6f2YTZ5wsjBO18d8vdV0aqt3f6vJdBe4E0jB6egb7ecL/VAO76go/WGgIMXpdiqA2+tB
+ UAg4YOyaHm8Kp2fQXngJbDLHrzCYOF7UI87wTqYtBlnR/9dgxm0oncStF11PE7ByBXB6ebW1Bf7
+ mdwz7ovHvGfpYMM01wdq+z8FCS9sBFDIM5eDwQWL2sVUhtvYorRhCyoVVAkp+UtnCHKpxaoZXGP
+ caMYBjakS9xe6n4OycaCIsYn5nmpaSx2dqqrBdtl3/5XZXYCIckT2Sfl78xZQvhkY7CkwnwntUP
+ Na0k/1sbfXWP3Xg==
+X-Developer-Key: i=ludovic.desroches@microchip.com; a=openpgp;
+ fpr=665BAA7297BE089A28B77696E332995F09DCC11A
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,24 +98,36 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, 30 Oct 2025 20:46:35 +0530, Devarsh Thakkar wrote:
-> The sii902x driver was caching HDMI detection state in a sink_is_hdmi field
-> and checking it in mode_set() to determine whether to set HDMI or DVI
-> output mode. This approach had two problems:
-> 
-> 1. With DRM_BRIDGE_ATTACH_NO_CONNECTOR (used by modern display drivers like
-> TIDSS), the bridge's get_modes() is never called. Instead, the
-> drm_bridge_connector helper calls the bridge's edid_read() and updates the
-> connector itself. This meant sink_is_hdmi was never populated, causing the
-> driver to default to DVI mode and breaking HDMI audio.
-> 
-> [...]
+This set of patches is mostly about using available helpers when
+possible to simplify the code and ease the maintenance.
 
-Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
+There is a dependency on "drm/panel: simple: restore connector_type
+fallback" that I just submitted, otherwise the atmel-hlcdc driver may
+fail during the probe.
 
-[1/1] drm/bridge: sii902x: Fix HDMI detection with DRM_BRIDGE_ATTACH_NO_CONNECTOR
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/d6732ef4ab252e5753be7acad87b0a91cfd06953
+Signed-off-by: Ludovic Desroches <ludovic.desroches@microchip.com>
+---
+Ludovic Desroches (8):
+      drm/atmel-hlcdc: use managed device resources for the display controller
+      drm/atmel-hlcdc: add support for the nomodeset kernel parameter
+      drm/atmel-hlcdc: use drmm_simple_encoder_alloc()
+      drm/atmel-hlcdc: use drm_crtc_mask()
+      drm/atmel-hlcdc: use devm_drm_of_get_bridge()
+      drm/atmel-hlcdc: use drmm_crtc_alloc_with_planes()
+      drm/atmel-hlcdc: use drmm_universal_plane_alloc()
+      drm/atmel-hlcdc: destroy properly the plane state in the reset callback
 
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c   | 32 ++---------
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c     | 40 +++++++------
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h     |  1 +
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_output.c | 43 ++++----------
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c  | 73 +++++++++++-------------
+ 5 files changed, 73 insertions(+), 116 deletions(-)
+---
+base-commit: 88cbd8ac379cf5ce68b7efcfd4d1484a6871ee0b
+change-id: 20251121-lcd_cleanup_mainline-b6acc75b5a09
+
+Best regards,
 -- 
-Neil
+Ludovic Desroches <ludovic.desroches@microchip.com>
 
