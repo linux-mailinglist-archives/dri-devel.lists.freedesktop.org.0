@@ -2,52 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE2FC7848C
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 11:02:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E96FC784B3
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 11:03:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3889A10E808;
-	Fri, 21 Nov 2025 10:02:10 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="KeUMymhc";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0374A10E80B;
+	Fri, 21 Nov 2025 10:03:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C21D310E808
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 10:02:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
- Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=yyHssCs9Zi8XuLJoMQlyuo6J96XQc0wQC0DibkIQBQo=; b=KeUMymhctfFna1deEigmfyhRD/
- 8oMhDIwgaWIyRnMR9zZmY8jP/YAM1sNnI9+IvrxO+7/9RtttLCqvq1aBAsH5nO/UtnPyo7lQVMyW1
- X5qDDydhdXK8mUNU6mSvz9e5ix5l/3127So086XuUEWks/XWpOXfV6sokn9OwCuk9thS1KwZjODOX
- RArxGa3RFh8UAffJ8vUbGJ0ZtK/RmropiLkFQyxvvvjNOCms4UlxbqIgiK7K2e1nVbGw2zxD43DTi
- cKEUlrsGFD1fRcD3/0I4eIMpclTlYA8CbVsnaYH7bBfKaGhF0G8EKUEEhInkvDUt18R6z9w8mFCgm
- iGowboFw==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vMNxr-003bt5-PJ; Fri, 21 Nov 2025 11:02:03 +0100
-Message-ID: <989105d9-fd72-4a9b-9517-be37d24d2603@igalia.com>
-Date: Fri, 21 Nov 2025 10:02:02 +0000
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
+ [209.85.222.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D0AB10E80B
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 10:03:25 +0000 (UTC)
+Received: by mail-ua1-f49.google.com with SMTP id
+ a1e0cc1a2514c-93c6628c266so274988241.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 02:03:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763719404; x=1764324204;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wlBMUu/EpwAnMbRqR4FueGr8bEwdrvt/wf+TDoxxT9k=;
+ b=VMfsib3DoqQt0rEl8ZbV6XSy/tZzev91yRA6V56wIieNHiIPeevzM0cP2r+TF0f06P
+ JiYVFgv+lo4SkxQx8ipe8InVJRazomh7Kc9KaJ5ZITKEQZVZLb/XkE122chW1OdHefJU
+ ZPt84AKtWuv2kOh43/Xno+jVv+/8RINHvJZ/E9zYPOJhMk8Sbd+poox5hu234bV2Rw4+
+ 39Pvan8Ka8pMn3jyy9xWWGLCSUJaWl+1aRlGopgwnD6UBWDgj7jw0O+hA+cOgD3Y0q8C
+ v1qKq7p2NWF931/Hx7frOtFNlNi4atGttR2coWVm5qtIj5ED0Pu6jU8tPuHNsXS1QA93
+ lvjg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXaHQEd/odhDAlVe6N8iNdX0lC2izekCLtt3BVw5s+vMTI4LUEVpRTS73DdHPjV9mIJf1A7ZBLm8Tk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyG5vkuoFaeq9/xf5n9omjWR3J4t9+031gvuzz3ggDEHJ/kgulK
+ UEPRMbjln/mqHBGP5W51GJoNU0u7yMphnkB9ZRZJ5crIMjWvxcThUGvpaLYLqtjN
+X-Gm-Gg: ASbGncvvjyHNNkwwh3P6+WoGy9PldAgaIP7+Lhl+aOCEi3KQs5ZorXTEQ0ptdXSnb2C
+ yVhhZkvBBtSbwczlmy1QlpXLaJp1LXXz8eoFTz28SvmjYw2oyo58x5jzADBjgK5YA2BVuugFfJg
+ as7Cy02tIbWd/R6SJVOK90PzTNst85Y0AlRMvACS0Sc5p5mqkHxsZC825lLd9TeaURqFtSD6V4B
+ FbJeFTDfDNO7w6oGzgt/8btFvL9xV7iUdcIagZVEKduO5mhWrZePpTlVWMXy67WPMOsMEUh6tb7
+ 8DRRM4wJG7y8pmcud3hpWDPt+xPLDqWVW3y5EA9Ig2G3U1ImCwu/CK2dYcXGQ5LM5oDvxxLi81o
+ 4+L5W4mZoyHelnLnDdh8/hl3mJ7gPaXOrR+O8xbcW+WosBuJmgxxYQKYe6FEfKHMyHXnhFpR6tn
+ 88DaMejgwBfH13sEIE+iBTa+ngBDvZk8rK2VyeBXUG3mNIYnSA
+X-Google-Smtp-Source: AGHT+IE4sZapR+B72DYowKEJhf6a4VACto+e0c1SSJ7Q0Ii7xm1nl6z81FQ+Q6asiow/gwdP+CTxYg==
+X-Received: by 2002:a05:6122:8b8a:b0:559:6d45:9a1c with SMTP id
+ 71dfb90a1353d-55b8d6bc669mr493168e0c.3.1763719403802; 
+ Fri, 21 Nov 2025 02:03:23 -0800 (PST)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com.
+ [209.85.222.48]) by smtp.gmail.com with ESMTPSA id
+ 71dfb90a1353d-55b7f7d2356sm2194083e0c.22.2025.11.21.02.03.23
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 21 Nov 2025 02:03:23 -0800 (PST)
+Received: by mail-ua1-f48.google.com with SMTP id
+ a1e0cc1a2514c-93516cbe2bbso528277241.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 02:03:23 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUpvnUF2vZvqVmyoD/5UAQQi2Z42nYaVCgr7WJi4yfMxHL7s8VCYVGEbJWT6KS+Gg1Nh6WA5t9FB+c=@lists.freedesktop.org
+X-Received: by 2002:a05:6102:579a:b0:5db:33f9:adce with SMTP id
+ ada2fe7eead31-5e1de3d42camr385692137.41.1763719402998; Fri, 21 Nov 2025
+ 02:03:22 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Some small TTM cleanups
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: kernel-dev@igalia.com
-References: <20250919131530.91247-1-tvrtko.ursulin@igalia.com>
- <fdbab4cb-5011-451b-bec9-f246f3949c76@igalia.com>
-Content-Language: en-GB
-In-Reply-To: <fdbab4cb-5011-451b-bec9-f246f3949c76@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20251120180233.763975-1-hsukrut3@gmail.com>
+In-Reply-To: <20251120180233.763975-1-hsukrut3@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 21 Nov 2025 11:03:11 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV3UvDHT0uu8oeiCGc9pURaLPDPmG-Fu9kC9H8DQyqRDw@mail.gmail.com>
+X-Gm-Features: AWmQ_bkayHVM_Ddsfirz9lK5uUvThJmyJwFAo8HPyX8vy-dtp3QKVrq4J4AGcFo
+Message-ID: <CAMuHMdV3UvDHT0uu8oeiCGc9pURaLPDPmG-Fu9kC9H8DQyqRDw@mail.gmail.com>
+Subject: Re: [RFC/RFT PATCH] fbdev: q40fb: request memory region
+To: Sukrut Heroorkar <hsukrut3@gmail.com>
+Cc: Helge Deller <deller@gmx.de>, 
+ "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, 
+ "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>, 
+ shuah@kernel.org, david.hunter.linux@gamil.com, 
+ linux-m68k <linux-m68k@lists.linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,42 +89,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Sukrut,
 
-A gentle ping. Two really trivial cleanups are ready to merge just need 
-maintainer acks.
+CC linux-m68k
 
-On 05/11/2025 15:33, Tvrtko Ursulin wrote:
-> 
-> + Christian & Thomas
-> 
-> On 19/09/2025 14:15, Tvrtko Ursulin wrote:
->> Some small cleanups, nothing intentionally functional. It is mostly about
->> applying some consistency to when to use a local variable to cache 
->> something,
->> when not, and making the code use the ones already there.
->>
->> Tvrtko Ursulin (4):
->>    drm/ttm: Make ttm_bo_init_validate safe against ttm_operation_ctx
->>      re-ordering
->>    drm/ttm: Resource cannot be NULL in ttm_resource_intersects
->>    drm/ttm: Tidy ttm_operation_ctx initialization
->>    drm/ttm: Tidy usage of local variables a little bit
-> 
-> I got acks for trivial cleanups patch 1 & 3 from this series. Are you 
-> okay if I push the two to drm-misc-next?
-> 
-> Regards,
-> 
-> Tvrtko
-> 
->>   drivers/gpu/drm/ttm/ttm_bo.c       | 64 +++++++++++++++---------------
->>   drivers/gpu/drm/ttm/ttm_bo_util.c  | 57 ++++++++++++--------------
->>   drivers/gpu/drm/ttm/ttm_bo_vm.c    | 12 +++---
->>   drivers/gpu/drm/ttm/ttm_device.c   |  5 +--
->>   drivers/gpu/drm/ttm/ttm_pool.c     | 26 ++++++------
->>   drivers/gpu/drm/ttm/ttm_resource.c | 14 ++-----
->>   drivers/gpu/drm/ttm/ttm_tt.c       |  2 +-
->>   7 files changed, 83 insertions(+), 97 deletions(-)
->>
-> 
+On Thu, 20 Nov 2025 at 19:03, Sukrut Heroorkar <hsukrut3@gmail.com> wrote:
+> The q40fb driver uses a fixed physical address but never reserves
+> the corresponding I/O region. Reserve the range  as suggested in
+> Documentation/gpu/todo.rst ("Request memory regions in all fbdev drivers").
+>
+> If the memory cannot be reserved, fail probe with -EBUSY to avoid
+> conflicting with another user of the same address.
+>
+> Signed-off-by: Sukrut Heroorkar <hsukrut3@gmail.com>
 
+Thanks for your patch!
+
+> ---
+> Testing: This patch is sent as RFT since Q40 hardware is unavilable and
+> QEMU does not emulated a Q40 platform. The change is therefore compile-tested
+> only.
+
+I would suggest not to apply this, unless it is tested on real
+hardware.  It wouldn't be the first time an innocent-looking change like
+this breaks a system. See e.g.
+https://lore.kernel.org/all/Y5I2oQexHNdlIbsQ@shell.armlinux.org.uk
+
+> --- a/drivers/video/fbdev/q40fb.c
+> +++ b/drivers/video/fbdev/q40fb.c
+> @@ -101,6 +101,13 @@ static int q40fb_probe(struct platform_device *dev)
+>         info->par = NULL;
+>         info->screen_base = (char *) q40fb_fix.smem_start;
+>
+> +       if (!request_mem_region(q40fb_fix.smem_start, q40fb_fix.smem_len,
+> +                               "q40fb")) {
+> +               dev_err(&dev->dev, "cannot reserve video memory at 0x%lx\n",
+> +                       q40fb_fix.smem_start);
+> +               return -EBUSY;
+> +       }
+> +
+>         if (fb_alloc_cmap(&info->cmap, 256, 0) < 0) {
+>                 framebuffer_release(info);
+>                 return -ENOMEM;
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
