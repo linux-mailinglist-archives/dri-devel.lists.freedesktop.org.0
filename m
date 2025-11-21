@@ -2,133 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C256C78FE5
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 13:17:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9BDC7906F
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 13:34:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA7F810E239;
-	Fri, 21 Nov 2025 12:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 694E010E030;
+	Fri, 21 Nov 2025 12:34:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="mT508ZRs";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SXOFjQ62";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="D+nLTCFg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8527810E142
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 12:17:00 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5ALBad6u2841299
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 12:16:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=QaNnVLYnlnRhWIm4jNcLz6mZ
- ygcebyyLlqzwUaRtrnI=; b=mT508ZRsNRTqr8DnFSkjCZTkAd4GvUBjLQDw99zg
- Tjsl919tISAJp86joL1PZInJ6CpdjjXMNTmeRjMC3rETaklabmdoLekmgOiMP750
- SzQYbWukdIQ2Ow2mlpnuXZwTxS7IqgzgUAwzV9i275tS7T1FJ1/kkEt/DPeRyLCK
- jXbkZGSnyHo2KlZL4faVNA13LX8EmH6ADe9wF9mZ/2Chud4Cbw/OlLcN3UnBA1Dd
- b7mKe9ajPbvRh+vZgpPueE7FcyJd+8QtjamxyDt0kc+8hb/LCgBbmGOPHEz8YYRU
- OnIVAkpHyFS7v7/VluOvAdCeD8K1S3BSGC8g1ROmaukgOA==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ajhkvhcyw-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 12:16:59 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-8b24383b680so761300985a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 04:16:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763727418; x=1764332218;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=QaNnVLYnlnRhWIm4jNcLz6mZygcebyyLlqzwUaRtrnI=;
- b=SXOFjQ62eDe5mk8nC+0UbnyvX77WCBUx2qLOOXWv3J5mlDYGaO5tqZoJfRkNieD13Y
- GXxc2PZNz5shHYmJIpLYBTc2QxLCrtBNK1WXY/Pz1mtiHmsv874ogxUzh6kp5m9u0zzC
- GRwmqRIG5NSAt2oVIkH8I46ZFKyQDqlrO6ZcofP1H3J5lgNyXrYSnOTvigR9OcSwhaAv
- w/mbEGuxM6pOA76gfge0hxvsgWss9/G6qe52GksRSh0XN1rEiWyOFMVKGzFYTv4i6IoW
- TQBAvCdEwA17VXYumsbOGPgzARwWfscCHXzVjr+fFQMPZb61T+0NpAsL/mmAw19Y5EMg
- 87Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763727418; x=1764332218;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QaNnVLYnlnRhWIm4jNcLz6mZygcebyyLlqzwUaRtrnI=;
- b=PpVviHg0zUu8OfBFxbZ7HdVt86FOO6UW5lqGY4F76eQt5IJTkm4J7oenDAVWlPpCk6
- QM1W4FMZTm2jRuAb3dXT+rA0KEz2qInpv70qfdaTaJiK2TZ0AXJ0NexoY1Vy9OAbmHGT
- 4aFsgJovggccnm/2Lwtqjluk+dbpaPWbiXdUfjT/HSiFL9AXN1VOhvZdnhZVvJU1riHH
- EVcEjZY83db2e2wmLnPlm/bkw18azScKDkI1mB47LVHdckG9RG5x9hFR+IvXaHKLDJti
- JtZNbQG4bDdQYr6eJE81DkY7w1AdqU4I6ZuuIhWbZ4Gp2EnyZawjJiwGy2/2oosd+T+Y
- nAdQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWjJmsJbIYGcAdh0jeWNauimjlasm3553qfb4e51FFzdeMYuGKmhFAa0eu+IdVIIFdL66zOhEeiR1U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxAAOQxKqeR8pPj6qlhfDeCwZgU5JY2Kmp2E2FSTXqvjOPuCkWA
- FTCZuxW4/2o8Dt39dErgKmhnH2yK/665rdPjKgPF1x+Xdl2UGccoV/ZUpy/qKBj7bm/pK0wW5Bp
- iexupkDfMEq2NYioBWgWaWK7o3e1haMIEVOJMRXqatKIf8VTycVeYk47mwGrvEQ239aMkTfE=
-X-Gm-Gg: ASbGnctrdNIWmxWl46pfcoeO1ZluGo3c52wbcnLokKpr9SQbGZRzMOHgMoslYgaGKNO
- q/9RGfErgtRPBwm6YGczbHePVXdsoXs4qQiRvsXSJAwYbut+RA7JIGXrvXBe6+WVYKTTjT1PfHL
- Oe4aj3WrmnAe5bK4LEUrdiBp9HZ9+XRLick7BgnMm9lPcfZ6RtQXxEQZ4mQne4nBY2DhNshIcsL
- eLefjiE80vmCiGOb3UK3/LiGxAYR7bhprcE/LSXtaBKPhpjpjZ6yZ0lP1EqhWHF34uFXX9TzcRS
- MA1n/1dhafq8mLIg8aOkXdbneeYj916Td8RpagPbLhjAWLpP1mynCwGgnVv8YY3T5EpeMk5yLa5
- +CxXtX4KcnG6Qzoi7kDukXhi6/o36Md1us3uLyXaJcnNJ0CZS+W89OqPlhuJpA5umwBCZEk/REK
- WK9RTysk6M5pTIFeRmlGtkFEs=
-X-Received: by 2002:ad4:4ea6:0:b0:86a:7c95:126f with SMTP id
- 6a1803df08f44-8847c4c7de0mr27551526d6.27.1763727418559; 
- Fri, 21 Nov 2025 04:16:58 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEUoX/mjzI1b4o1ytqdR+jI1yLiJw/zVz9VwmNQMbCqUbuv4Gu6bPjAqN2mH2X/VzpmYNsHKQ==
-X-Received: by 2002:ad4:4ea6:0:b0:86a:7c95:126f with SMTP id
- 6a1803df08f44-8847c4c7de0mr27551126d6.27.1763727418121; 
- Fri, 21 Nov 2025 04:16:58 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-37cc6a9fb2dsm10503991fa.0.2025.11.21.04.16.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Nov 2025 04:16:57 -0800 (PST)
-Date: Fri, 21 Nov 2025 14:16:55 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Teguh Sobirin <teguh@sobir.in>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/msm/dpu: Set vsync source irrespective of mdp top
- support
-Message-ID: <52avqc3n4fxuypv6fkejuxkmuounxa67e5lsnfeynek6yxq6tm@ink6yoklpxes>
-References: <TYUPR06MB6099C539BD2C937F8630FF8EDDD5A@TYUPR06MB6099.apcprd06.prod.outlook.com>
+Received: from SN4PR0501CU005.outbound.protection.outlook.com
+ (mail-southcentralusazon11011043.outbound.protection.outlook.com
+ [40.93.194.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF14710E030
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 12:34:52 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=X1/+IKZUfnyS5m+MrQuwpDWbQdjcrWStQSDp6uLDgdsFMeQt5M8+IKCnG073JbnE80pMU13Ug5Jpc/GVUgUVubQ7GWr2Q9lAOv8PLTe1WdHeVk9Yz0TO8/vxb82HbDUtE3YeAwKmOLjV8lRI7OhxnhsoHw0jQsfkY41qz39fLwX53+Vn7swfTGylvbhMj81dT5hq6B9lOfHroqmr/dCjYwSetBy7vJW8MYOyrYQaLfRflOmxYKgi8fsvDychXG83xz5whHo08tTsTBZ7vVcOeWzs08A7y/d3zdrlpQldDWw1/RQ2WZNmBEx7GCJ3/YDHf3fBKNEe+MD0DMwROv6yuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eAp2HpwPftxCbVbXXrGhgG8CHJgmE7K+DkriNsujAaQ=;
+ b=QC54y9EARb0RHNvffyK/4ZEgmXRaYE7vXLbheXZSyYjOiSDqabwfFzrlozmHncv82Prl7NyXLN9TmaKKcfQ9YhKqtCu77HnPe0nef/OuKENKAZj3fITgsjfIfqN8GhGozAMqw36lwgYY6288K09j1q7oSPB2Xi2lySzSjm1lwUIEUdmnEQfzQmztC9hDRaPXteuXFE6gMrJYq/9BKNwDWyN7rNOnZlA0whyliwHrJmxq7gi6eIYrphugCewibNxKWagHBXiw4hElpCZR0P1vWDzzM4Yda4szFwibnJR9/Xm1X5n5DWtH5iuVICUDSIBAf9Vje2uf0jm3uriTwh80CQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=cadence.com smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eAp2HpwPftxCbVbXXrGhgG8CHJgmE7K+DkriNsujAaQ=;
+ b=D+nLTCFgV+LkH2ElBkLufPOe9LqfGrAYheHliv15e7uQ/VQ4Xpao3Qy5rgf5mt29X/CoeXM0RZDdUpqPEVGOOfyRluYE6ZYfoMLR1Ivdr3ae53vxGyKkskqEQdUyI50sYXX7l9rmg5VxlT5EjNXZXt5DuKtZYL3hrWB3B12xpwY=
+Received: from SJ0PR13CA0061.namprd13.prod.outlook.com (2603:10b6:a03:2c4::6)
+ by DS0PR10MB7956.namprd10.prod.outlook.com (2603:10b6:8:1bb::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.12; Fri, 21 Nov
+ 2025 12:34:48 +0000
+Received: from SJ1PEPF00001CE3.namprd05.prod.outlook.com
+ (2603:10b6:a03:2c4:cafe::e9) by SJ0PR13CA0061.outlook.office365.com
+ (2603:10b6:a03:2c4::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.4 via Frontend Transport; Fri,
+ 21 Nov 2025 12:34:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ SJ1PEPF00001CE3.mail.protection.outlook.com (10.167.242.11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9343.9 via Frontend Transport; Fri, 21 Nov 2025 12:34:47 +0000
+Received: from DFLE205.ent.ti.com (10.64.6.63) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 21 Nov
+ 2025 06:34:44 -0600
+Received: from DFLE203.ent.ti.com (10.64.6.61) by DFLE205.ent.ti.com
+ (10.64.6.63) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 21 Nov
+ 2025 06:34:44 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE203.ent.ti.com
+ (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 21 Nov 2025 06:34:44 -0600
+Received: from hkshenoy.dhcp.ti.com (hkshenoy.dhcp.ti.com [172.24.235.208])
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5ALCYb201273539;
+ Fri, 21 Nov 2025 06:34:38 -0600
+From: Harikrishna Shenoy <h-shenoy@ti.com>
+To: <robh@kernel.org>, <Laurent.pinchart@ideasonboard.com>,
+ <airlied@gmail.com>, <andrzej.hajda@intel.com>, <conor+dt@kernel.org>,
+ <devarsht@ti.com>, <devicetree@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <h-shenoy@ti.com>,
+ <jernej.skrabec@gmail.com>, <jonas@kwiboo.se>, <krzk+dt@kernel.org>,
+ <linux-kernel@vger.kernel.org>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <s-jain1@ti.com>, <simona@ffwll.ch>, <sjakhade@cadence.com>,
+ <tzimmermann@suse.de>, <u-kumar1@ti.com>, <yamonkar@cadence.com>,
+ <pthombar@cadence.com>, <nm@ti.com>
+Subject: [PATCH v3] dt-bindings: drm/bridge: Update reg-name and reg
+ description list for cdns, mhdp8546 compatible
+Date: Fri, 21 Nov 2025 18:04:37 +0530
+Message-ID: <20251121123437.860390-1-h-shenoy@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <TYUPR06MB6099C539BD2C937F8630FF8EDDD5A@TYUPR06MB6099.apcprd06.prod.outlook.com>
-X-Proofpoint-GUID: Q-892dCFwmHIV_--EHDtl1u5BScCVV05
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDA5MiBTYWx0ZWRfX8Pzyp5j0rYGh
- uyJRoZEGUbpIDJ3WqzixIuwxCxcJr68O+7p0CBDV2LxEPdfzG4gJy/Up8FpKYQWIO7VrM/99guf
- Znrj1/1UG8Kw/9NmdZflT4M3xFQOqQcxypf2YCgEZHEr1A3llEh1CbT0DcSg+xJkKjqjInE2giJ
- Kk0s5gGcuNqA6lsL26fOjCHWaTVJIveRq83tbnfBVwEnwfXHAk4Wa2HOS4V4jj3TU814BUY5GIY
- efck7uIexXmTh6tcRTkZL+FQ4iepD6cOoW+9f/EhdN2bIFeWUW3Sa9FOevMelx43CjtcYVOnnDP
- v63zXoLd2RTyYIkGVitD4WSxktTE98hBphe7+g8mpxORccQUT2cf7qbvZLW9hdbyumYM5R6/gV5
- EhOFmkESbUW/v4CEa6XfVDZAext9bA==
-X-Authority-Analysis: v=2.4 cv=bpdBxUai c=1 sm=1 tr=0 ts=6920583b cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=UqCG9HQmAAAA:8 a=EUspDBNiAAAA:8 a=Weq4iwZbzhTgL2Q6ZfAA:9
- a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-ORIG-GUID: Q-892dCFwmHIV_--EHDtl1u5BScCVV05
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-21_03,2025-11-20_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 phishscore=0 lowpriorityscore=0 bulkscore=0
- adultscore=0 impostorscore=0 suspectscore=0 spamscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511210092
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE3:EE_|DS0PR10MB7956:EE_
+X-MS-Office365-Filtering-Correlation-Id: e85b6a97-ffa5-4602-b027-08de28fa5b80
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|1800799024|376014|7416014|82310400026|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?jSw5quqd5d5xZP44PCYpKjGihQzWoANLmlvVHF09oxykbD+1Dit3BGxxEQ6K?=
+ =?us-ascii?Q?+qWwbOKlmpmoCxEHFMvyqNbEMAFssiuQyNI/zMryw34jbLdCdHO6r8SciNWe?=
+ =?us-ascii?Q?hPYdgrxJnRCoCEqpeF+mf23BG9m6w9d180ojsACjT6FzEZX947tNCVDnhiXz?=
+ =?us-ascii?Q?Lk1MHc+bj+2VcbXJ2PE/tUMLn99He+Krr91pwFBMaTVp5j7DT5MDT6+yt+Tg?=
+ =?us-ascii?Q?s1Hs55r32LNQE3sDNh4tHCAtLVUMVDh+06v459gHxPzDtyALLBadSUgUBEQF?=
+ =?us-ascii?Q?H5J3LDCe2WfWJzbui+7PzDCzGs6BLMcsJ7QnUznMFWKCcOVgvwkb70WzNOG4?=
+ =?us-ascii?Q?pcCOekN2yOrNRRfUn5Ck5k98bhADIUEDVFB/SJmEIyVBWzw/Dg/A9+pHMNk9?=
+ =?us-ascii?Q?IR4AdmJVEd0ybaGrvSWRxroDRH2gVlBLCQA/tm9h3HkOO2PfBrE4nndct2fc?=
+ =?us-ascii?Q?vHT/mRfnMWng4bZ7vtrLA/TL+BZ2CeKB2S8lsosdNPzdkLojIpvfObEGWhMV?=
+ =?us-ascii?Q?+Dw6GIRMhLxpdXEnPefy+KrDRaHu/G7FYuUpH+pHl+BHs++EaXRyVlYtXj14?=
+ =?us-ascii?Q?RgUFPJo3q4setAFguMGJTjTm0v3mda9Csyh/aqAxCtfm33hXPZnrbFEfZNyY?=
+ =?us-ascii?Q?O9L8EsthwF9B0hkmDsUZM78iiPWO7zR6yHlJysSiIjJn0N8B8IL0TiK16TfG?=
+ =?us-ascii?Q?VLtN7XY1vABiqrQs21M3BiGKdAEq7/sSYzxR0S2onOktm6hSeZa9xr6IxJic?=
+ =?us-ascii?Q?hmqIvPkBfXgbxrYG+nk649grvoOHoj5Qhf7jTRibEO3Jiq3y7R6Pb8fAzgcu?=
+ =?us-ascii?Q?4eGjQlD0ce75hzgs68dml81ccLMv9sHcAE5BlAkFOozLNy9TVX9H0d+VPN86?=
+ =?us-ascii?Q?qWrtYKZa3PbDiGgzsiMCHJY2wDkstUp3TTH4qqS5KnxqWo0OIAEMkHOPWC/I?=
+ =?us-ascii?Q?myZAeJRk5V/Rf8deKFpn+MQb4pG4D9FrAsU3/oaWuu94IBA9alYdzjMhOGnI?=
+ =?us-ascii?Q?MbsyDIHtr55UCHmJb1wpwIwV9a5wemyXeZzFzzKS/eP5ehwJq+6/LiDX+FvE?=
+ =?us-ascii?Q?EybWpHjWEWgmvoETMyK38BWbXLp9qyL+u3fVx3bVmU3raJNZFpGd5sep4JJ2?=
+ =?us-ascii?Q?xrUNzJ5cM+Ljx5nCuMjtxELNGw6CAtB9tGFbgcv7z7DxJ8vjN2RoZvQ3Vkxz?=
+ =?us-ascii?Q?ZB047hdlxytfkPTbsW55VOSPCd6sQXMF91i96g1xwYxaaYylYrkEToYgKDnk?=
+ =?us-ascii?Q?VasvLZxIoCt5NJvFoXav8/A5wN6F555678jC2qGJeeQ3XrBQpQRVjOaqKUD2?=
+ =?us-ascii?Q?uLnXkLpTVmzlbeLJjLM1c1DklyeWIBrcx3VCfTDHmb+P1OiVipVmZUB4hLN0?=
+ =?us-ascii?Q?PgGZqvJADOEY9MjZB4tNC6gXF7QrfPyhfK2Kr/n0/i+aI9F7keP+4asAnxm6?=
+ =?us-ascii?Q?SSw0TJk1Z8bFFWaD71QHjHkP71BPsIIvnYcWpj/Ls4SK6Tc/V8LgWEH1Y4Qa?=
+ =?us-ascii?Q?W0KdpKuCtILAStNzhOFQ2CSDYWkcN1vsEcV7UbmWWdc+jple+JZ+ARiO9nHH?=
+ =?us-ascii?Q?jkpbNcKGdPY2e2UtrRJZIpVWurnHQWQ5/NSN4/QW?=
+X-Forefront-Antispam-Report: CIP:198.47.21.195; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:flwvzet201.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
+ SFS:(13230040)(36860700013)(1800799024)(376014)(7416014)(82310400026)(921020);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 12:34:47.4529 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e85b6a97-ffa5-4602-b027-08de28fa5b80
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.195];
+ Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF00001CE3.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB7956
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,29 +151,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 21, 2025 at 02:02:08PM +0800, Teguh Sobirin wrote:
-> Since DPU 5.x the vsync source TE setup is split between MDP TOP and
-> INTF blocks.  Currently all code to setup vsync_source is only exectued
-> if MDP TOP implements the setup_vsync_source() callback. However on
-> DPU >= 8.x this callback is not implemented, making DPU driver skip all
-> vsync setup. Move the INTF part out of this condition, letting DPU
-> driver to setup TE vsync selection on all new DPU devices.
-> 
-> Signed-off-by: Teguh Sobirin <teguh@sobir.in>
-> ---
-> Changes in v2:
-> - Corrected commit message suggested by Dmitry Baryshkov.
-> - Link to v1: https://lore.kernel.org/linux-arm-msm/TYUPR06MB6099CBBE5090DB12A2C187E3DDFDA@TYUPR06MB6099.apcprd06.prod.outlook.com/
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c | 22 +++++++++------------
->  1 file changed, 9 insertions(+), 13 deletions(-)
+Remove j721e-intg register name from reg-name list for cdns,mhdp8546
+compatible. The j721e-integ registers are specific to TI SoCs, so they
+are not required for compatibles other than ti,j721e-mhdp8546.
 
-Fixes: e955a3f0d86e ("drm/msm/dpu: Implement tearcheck support on INTF block")
+Update reg and reg-names top level constraints with lists according
+to compatibles.
 
+Move the register name constraints and reg description list to the
+appropriate compatibility sections to ensure the correct register
+names are used with each compatible value also adding the DSC register
+to make bindings align with what the hardware supports.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Fixes: 7169d082e7e6 ("dt-bindings: drm/bridge: MHDP8546 bridge binding changes for HDCP")
+Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
+---
 
+Links to some discussions pointing to need for a fixes patch: 
+https://lore.kernel.org/all/20250903220312.GA2903503-robh@kernel.org/
+https://lore.kernel.org/all/d2367789-6b54-4fc2-bb7c-609c0fe084d3@ti.com/
 
+Link to v2:
+<https://lore.kernel.org/all/20251119122447.514729-1-h-shenoy@ti.com/>
+
+Changelog v2 --> v3:
+-Add the reg description list and reg-name list in top level constraints
+using oneOf for either of compatible.
+Logs after testing some cases: https://gist.github.com/h-shenoy/a422f7278859cd95447e674963caabd9
+
+Link to v1:
+<https://lore.kernel.org/all/20251107131535.1841393-1-h-shenoy@ti.com/>
+
+Changelog v1 --> v2:
+-Update the reg description list for each compatible and add register space
+for dsc to make the bindings reflect what hardware supports although 
+the driver doesn't support dsc yet.
+
+Note: j721e-integ are not optional registers for ti-compatible.
+
+ .../display/bridge/cdns,mhdp8546.yaml         | 85 ++++++++++++++-----
+ 1 file changed, 66 insertions(+), 19 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+index c2b369456e4e2..632595ef32f63 100644
+--- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+@@ -17,23 +17,45 @@ properties:
+       - ti,j721e-mhdp8546
+ 
+   reg:
+-    minItems: 1
+-    items:
+-      - description:
+-          Register block of mhdptx apb registers up to PHY mapped area (AUX_CONFIG_P).
+-          The AUX and PMA registers are not part of this range, they are instead
+-          included in the associated PHY.
+-      - description:
+-          Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
+-      - description:
+-          Register block of mhdptx sapb registers.
++    oneOf:
++      - minItems: 2
++      - items:
++          - description:
++              Register block of mhdptx apb registers up to PHY mapped area (AUX_CONFIG_P).
++              The AUX and PMA registers are not part of this range, they are instead
++              included in the associated PHY.
++          - description:
++              Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
++          - description:
++              Register block of mhdptx sapb registers.
++          - description:
++              Register block for mhdptx DSC encoder registers.
++
++      - minItems: 1
++      - items:
++          - description:
++              Register block of mhdptx apb registers up to PHY mapped area (AUX_CONFIG_P).
++              The AUX and PMA registers are not part of this range, they are instead
++              included in the associated PHY.
++          - description:
++              Register block of mhdptx sapb registers.
++          - description:
++              Register block for mhdptx DSC encoder registers.
+ 
+   reg-names:
+-    minItems: 1
+-    items:
+-      - const: mhdptx
+-      - const: j721e-intg
+-      - const: mhdptx-sapb
++    oneOf:
++      - minItems: 2
++      - items:
++          - const: mhdptx
++          - const: j721e-intg
++          - const: mhdptx-sapb
++          - const: dsc
++
++      - minItems: 1
++      - items:
++          - const: mhdptx
++          - const: mhdptx-sapb
++          - const: dsc
+ 
+   clocks:
+     maxItems: 1
+@@ -100,18 +122,43 @@ allOf:
+       properties:
+         reg:
+           minItems: 2
+-          maxItems: 3
++          items:
++            - description:
++                Register block of mhdptx apb registers up to PHY mapped area (AUX_CONFIG_P).
++                The AUX and PMA registers are not part of this range, they are instead
++                included in the associated PHY.
++            - description:
++                Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
++            - description:
++                Register block of mhdptx sapb registers.
++            - description:
++                Register block for mhdptx DSC encoder registers.
+         reg-names:
+           minItems: 2
+-          maxItems: 3
++          items:
++            - const: mhdptx
++            - const: j721e-intg
++            - const: mhdptx-sapb
++            - const: dsc
+     else:
+       properties:
+         reg:
+           minItems: 1
+-          maxItems: 2
++          items:
++            - description:
++                Register block of mhdptx apb registers up to PHY mapped area (AUX_CONFIG_P).
++                The AUX and PMA registers are not part of this range, they are instead
++                included in the associated PHY.
++            - description:
++                Register block of mhdptx sapb registers.
++            - description:
++                Register block for mhdptx DSC encoder registers.
+         reg-names:
+           minItems: 1
+-          maxItems: 2
++          items:
++            - const: mhdptx
++            - const: mhdptx-sapb
++            - const: dsc
+ 
+ required:
+   - compatible
 -- 
-With best wishes
-Dmitry
+2.34.1
+
