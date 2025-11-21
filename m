@@ -2,157 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B92DBC7A966
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 16:42:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A059C7A9CF
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 16:48:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9960C10E8B5;
-	Fri, 21 Nov 2025 15:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D13710E8BE;
+	Fri, 21 Nov 2025 15:48:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="a+PQHNDv";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gArfeFEl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com
- (mail-eastus2azon11010011.outbound.protection.outlook.com [52.101.56.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B859310E8B5;
- Fri, 21 Nov 2025 15:41:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WEMtanCxQJ6WGDUPgnRv45Nt9HL0aoES51yToqbS7BtF1IdsNmYgCQOA/eLzH66V0udYGL6dmLQgxDc095oNRA1HB5a2zRlKJmFiStxNMBhQQGovyI05qoMb6+qd0L5dgnxla+xYAv9BpQzxhWmTUipHkPq4qkSx0JNMMq6X6zawHEUfode+U3tnAX7sDdJ6sX08u4ftuqAZw63DGZDHOhg0VS0p/UEQPpVnVYC2sJX1ReB1U1c9U2kzVSHNEow0uknQdVbW49RDTIEvj3viEDXE0xELRwpj+sgaQg0722gkMFAyKJZ/hEeWmwnz2tpsLf7velkwfiXKeY/LlAe6BQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DbbL/+iBkOa4/SwaxQSDUSie7gZi9xPkr8LeJgJGXWs=;
- b=lll2IFGy6sd8yKyd6sgv1xYEWv4Gm+Tfa8rOGmZlqMdkUhTekFegvRmFjA16oY22xLf0b9F9PeCWTuTiQP3s2yJQQ3wc5F3CkI9p3nadZ4fFVDvmvyAY+mbnj3GyHxxI1fr45WyylCfMEbibq+KYZkXUiLDKxB75GmsS9EN6HdRw2RpKdQKgQch1jtueENOrCd7NneCKQLBShY/I0Ucec/q2jaL7dcou8bX5t4PmZSefOmUz6F5x7kn32RQ8H5f8S9R9FnjLJq0X1F+GXaHdwttVBmEzo5rS+WcMoWd2/bDh3MZf1SMZNbKfGUpTYIKgmAAnTVcS7SZkuyr07PwMSw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DbbL/+iBkOa4/SwaxQSDUSie7gZi9xPkr8LeJgJGXWs=;
- b=a+PQHNDvGq1+1k3u64Y2a/mEYG6ik2zdzjoDMSlEbswpM+JXAqgayc36LRh/hMZ4Tui7Bo7yrsle1R5OWVIlfhmwWKJWi6sSr+lDT2h+NfnHvEreJZmzMs4m4vy5o/+05coLmz+2vNwzTZpiJeX4DlwPoaeL94VjMsAj3m+08ZQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA5PPF9BB0D8619.namprd12.prod.outlook.com
- (2603:10b6:80f:fc04::8d8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Fri, 21 Nov
- 2025 15:41:52 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9320.021; Fri, 21 Nov 2025
- 15:41:52 +0000
-Message-ID: <12dbb538-c430-4848-94cd-51329e4e04b0@amd.com>
-Date: Fri, 21 Nov 2025 16:41:42 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 23/28] drm/amdgpu: use TTM_NUM_MOVE_FENCES when
- reserving fences
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20251121101315.3585-1-pierre-eric.pelloux-prayer@amd.com>
- <20251121101315.3585-24-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20251121101315.3585-24-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SG2PR02CA0020.apcprd02.prod.outlook.com
- (2603:1096:3:17::32) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 583C510E141;
+ Fri, 21 Nov 2025 15:48:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id F011243B7A;
+ Fri, 21 Nov 2025 15:48:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58CF7C4CEF1;
+ Fri, 21 Nov 2025 15:48:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763740084;
+ bh=LP19xB2HDi68fuNxVCCeUKCjpFYJR01O9e89Ljq/vBE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=gArfeFEl7E2v8V9k8s2WjNhF4wZMdNkZzkWgc7KQY8OQ/FD5Hc+1k+raO/DlGaXWx
+ /GceRDthNXPsCEH4F2NCAVsMsVJwHJP/PlMNkiMVfx39FlHwL1/ma3z734ELDG2Oyd
+ LldNcvyOwLeV/boYVeOAYG6A4XF2fPqfz4loVZhgi7bS1Pk+ppALCIT326VJe04F44
+ ZvSW+Z7e8o710Rg/3/P64GqV2ZzTp390cBoGs83UqrDC4gnWvhssHMfEDesVbRGZGz
+ 575P6s9ja9jrdFOmW3pQeHf7jHjtrLlcjw59AcxB/MsvNzwrbd22kf8IswCoJvDDwo
+ 5/qlR1iV7lZOw==
+Date: Fri, 21 Nov 2025 16:48:02 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
+ as unsupported
+Message-ID: <eiaxss57hauegv64ek4ddi3ib5x4t4g4xwiqvuaj43b52wpctb@p63ewh6tqblk>
+References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
+ <20250909-drm-limit-infoframes-v4-1-53fd0a65a4a2@oss.qualcomm.com>
+ <20250910-furry-singing-axolotl-9aceac@houat>
+ <z333ysst5ifakomo35jtbpydj44epqwwn4da76rcnsq4are62m@32gsmgx2pcdi>
+ <20250925-didactic-spiked-lobster-fefabe@penduick>
+ <jfxtcvh4l5kzyv74llmzz3bbt6m4mhzhhwl6lh5kfeqgqhkrhi@jzfvtxpedmyf>
+ <20251003-primitive-sepia-griffin-cfca55@houat>
+ <54a06852-4897-4dae-ab9c-330d99f3bf42@oss.qualcomm.com>
+ <5cc5l2dihgdbgnwyugelwrklpaiiy5yaczqllu4bi6asvlt354@kib3flskh34g>
+ <ez6y7q4lgbwt7kpnlpausjpznckr3yyejrwtxm7o6qw6wlhqoj@6iypzdhfthzy>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA5PPF9BB0D8619:EE_
-X-MS-Office365-Filtering-Correlation-Id: c6a5e0f8-9c9f-44de-fba4-08de29147dcf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QVNZSHBENk4vZXMzUndqSkc5M0FCMUx6V2ZkM21PZnZUR05TTUp4UFJiR2dF?=
- =?utf-8?B?TFYrQVpsemFOVU1RNDRyeVhiT1llTGVYS2NTa1ZkS3MxUExCVzlzSjBhSEJo?=
- =?utf-8?B?dDFvOEg5L1c0VlFsdHFGNTltM2NjalhVTEpSVFpUV1I1cUZCR3ZSWGE1dmts?=
- =?utf-8?B?M3BsVys2Z1Y5aVM0UktMYmJyOW9RSG5leUtFNGFYWWJwaEtQekU2SUJucCt4?=
- =?utf-8?B?WUV1MkRBLzRNTitLVVhYS3JRWVFMZGJiUUdwZHhrT1BpemhrcUVCVGM3clVP?=
- =?utf-8?B?NUxSL2R0bHV1dWFpRks4T01TUWdXdit5U1VnWDk5RzRCMUhzQUZCdkhhcXdz?=
- =?utf-8?B?U3o2MDVXVXVscVQ4N1FpcC85U1h3UUx5Nkh6WDVkQ2lrTHF0TU1qWGhqUkpt?=
- =?utf-8?B?TGgzSGE3ZE9KMDhuTVN5Y1AvSFJmQmNEUUxJRGVRRkg4aURidUxzcmxkc0F0?=
- =?utf-8?B?L3FGcC91amt1QUVDL0toOWk3Szl0eXNoTUM1cU4vV2Y5WHdHTUVINzFxcnQz?=
- =?utf-8?B?ZGJkUDVRYi91ZHhjb1pScUcveW04M1JLSGMwVnpOVTVTRVlJYjE0NTBGd0lr?=
- =?utf-8?B?UU1BMW1BU1BNM1N4NVM5bncrS1drZXFoOFVlclFBVlNSNTIvV0Q5RTQrWFdn?=
- =?utf-8?B?Rk0rYTlIaUhBeitYRys4ZDc4clM0dmRZWUtwK1U4dEFZdTlVS3I1bXROU1Fy?=
- =?utf-8?B?a2lUTnc4dCs1eU9CNkxqSWlGOHpBL1J4SWw2c1VhYmtRR0g4OWc5MDFURjBo?=
- =?utf-8?B?QnZFK251cFAwb09uKzhGZisyaHE4YmdXUHFtL1RPZmNtSzMrZStZamtLRG56?=
- =?utf-8?B?NDY5Y29MK1VMWjNkRFdlM1A4anNsRlR6OTJEUTVFWGg5aHdTb2dZVmQ4Mm9E?=
- =?utf-8?B?WkhoYSs2dDk2dklUd05zRUlGelBOS05uSFE4SGFVYW5MWkRVOExTcFVFWVVo?=
- =?utf-8?B?NWVSL0NhRTRMcnVBZ1hkblRSSXpCb0tuSWRpc0loVVFaVDhmYUFjMWovaUpP?=
- =?utf-8?B?cmZYTVlJeEt1UmRxSDZ4WDIrejhOd0t1MjF5UDRZNUwwWFlaQVdCTThZeHBi?=
- =?utf-8?B?b3ZPSTQvTGRGOHVZaFpOWUhHcnFhOW92eFRNdlRsRmY1UGdUdFk2dUV4N2VL?=
- =?utf-8?B?WHFNbXZhdHdPU1hySHR1OXNmUjhsMDRUdk5YK2NBZzJTaFBrbHN1THFuUnJX?=
- =?utf-8?B?UzJITTJ2cUNsZ2o1c0tpL0RUUVFZdGM3YnNvWDdWUCsrc0orR2pnY1dVcFgv?=
- =?utf-8?B?NFEzeEpEd0ZzL2NmQ3ltcHlYRVY2NVFEb1FJTjd5d0xMOHVEQ0VTT0JCNEk4?=
- =?utf-8?B?TjY5c3dZRFl1QkxNZVFPTzFPQXNUTEJGSlVPYTBCSG1vWGFVenZTN0NkZDBk?=
- =?utf-8?B?ZHQrRWtjTDhQaEZDem5idUpobDgwd0ovbmpQZTRrZjU1UmhSQWwzZXlYUzlN?=
- =?utf-8?B?RlNWcWFkWlozbHllaEF5MDNzdHZwVlh6TE9uZDdZRTNJK3pLSDZhM2plSmxP?=
- =?utf-8?B?RmlENE1sYUdRYlZ1Y2NuaHZCRjBOdk0wNk1ITUZ2NEZoKzdtRm1Bd2c4ZktV?=
- =?utf-8?B?Zk9XNW5pRTVIVUNXbWFVT0dKVUxUZ2VzNXBwM045Zml6cGgzTVp1TnpQOUdP?=
- =?utf-8?B?cXVrSnRQR0ZGbU9yOHp0SUZ0d2lUOE00aFFzMmVnNkV3cFlKN1hTcXRUQ2NS?=
- =?utf-8?B?VWVwL3dSMzhpNGdQa20yL2toZGY5eG04MXNieCttTmh4NXB0cUFhTkQ5Rzlz?=
- =?utf-8?B?T0JCeWVQcFNvc2FjTFdqUExWalJxVVdWOTh4MENBcTZRNUF5OTZFREZ6anVC?=
- =?utf-8?B?L3BIbUZEbWVWQ3NkUkZpbXhwM1o4cW9QekkrTG53bTUzb2ZEYnVyRFlhM0xs?=
- =?utf-8?B?bmNCenlRZzEvNEdaaGpEMkJWaXNySVdmMmJWbTJPcVVRTlNTNDJFcG91WVN3?=
- =?utf-8?Q?WRq7yL9vb9bWNeY71d1aGj/kN3sz/X6j?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WkQxbVdGZzk3YmV4Um5IWldZWDdzNTROZi9oOHF4ZkkvMFFodUFlQVJOaVRG?=
- =?utf-8?B?c1hOcUdZSHZIOHpNU0orWU9wQ2ZzcHd6YWNiTE9VSWlJQ1ExbzF2bk1neHF4?=
- =?utf-8?B?a20yRXVmc0tLZnU5M3FQMHJsUituSU41V3QvWVhaOUMxMVg4WStGSGh0YW9s?=
- =?utf-8?B?WWVsclV1ZGRGOVhVYWlZU2I0UFJ3NkJidUI3SHJoN3RrdHRlczFXanFRMzJH?=
- =?utf-8?B?T0tvZ0Rwa1lZaDVjYWw0TXI2a2h4QjhYZzJzRFBhbjNMWHltRjgrV3lORlVV?=
- =?utf-8?B?Q0pnQjVSL1JaSTRuSHlKcU9TVmlJQ1NOWWtzMERxaGN1OXhKS0xkcXNhK0Ir?=
- =?utf-8?B?Wi9xdEhnZTdSeHFXcEVFK2JNQXp1ZE12dkZuNUo5WC9NWU9mUkZXamNLb05V?=
- =?utf-8?B?RWNQcEVaZGhJeEVyUm94NGxQVFVVbU11aDdoQ2orK3BaMkIyREFhVk40bC84?=
- =?utf-8?B?SnhTeTZsRVk3MjhMUkREZmNmZHp1dU5VL1A3WFpDZXRDMmhDM25tZFA0Zklj?=
- =?utf-8?B?b2lGVWt2MlJBSzdpL0RqRWZSc3VaRXljejI0T1RjaSt3cmdUbkhicCtoWHcr?=
- =?utf-8?B?cmsvL1dsMFhQMVlaNFJXUzQwSmRrQ1kyQ21FTDZkTlpDc0EydllpZHh3MThl?=
- =?utf-8?B?RGFScklnYXRDaE9GSGJnNmJkZFhtRHZKVnFSeDBZL0pvM3R3N1cvTk9KQ2pL?=
- =?utf-8?B?em12QWtHa3Y5ZytNdmdmQ1FUcloycEdxR3F5ZEdUNWt6THZWRVl3Q01kVHEv?=
- =?utf-8?B?dU5NTjlIaG8yOHJGSWNBeHlBYnFybTlpeXlPamdQZGw4MDgwUTRCWkFFSUk2?=
- =?utf-8?B?R1dUQU1jNTA5V2Y2eU1yS3ozMktFMFdpMWRPR3ZvRWJGOGxkVmVjdzRlYWpU?=
- =?utf-8?B?R01QVTErN3E0RUNVQTkxbHFlMVgzcWdtaXpxTm1CYTkvU2MyeWVxTC9rV091?=
- =?utf-8?B?Q1hNKzB5UjBseDc5V1pJU3I0V2JyaDE4REJDVitpQmR6QWhjSDlnRjR6TFJJ?=
- =?utf-8?B?WFZsK1pJRGdXeWV0WVl3UjUvYUx1NE9PVm9ydklqL2ZWdFMvUVdUNHdJdVRk?=
- =?utf-8?B?cnFmVEI2akZRQTY1MkZJL25UVUpnQlFLdlRRMUNSSGlNcnc0b0lwaVd5SHJE?=
- =?utf-8?B?VzlCTzlsU3lZTEdoeERSRW1SRzcyYkVMdTQ2R3MwRVdERWE2djBxWEhwaStX?=
- =?utf-8?B?dElXVEtSN1ByL2N1Q0sreXJmUi9zamY4dzl5dHUxNTlwenB5SXZRNEkyYzNr?=
- =?utf-8?B?cVA2Y0xwcGZDWDBIK0dKNVY5ejhWQkRIbS8wV0lyRWZGMlRNN1doNmhDTzI1?=
- =?utf-8?B?clJCeVRLWTl4WTZkVjkyek53ZW9rZHl5Rm40WURzUE9VQzROSGt6eU1zRS9z?=
- =?utf-8?B?U0xxMC8rU3Q4L1JrT3A1N0xFcHZISWQvMmM2N2R4SVRYNld2R251N3RuV1Jh?=
- =?utf-8?B?dmpsOE12OGVwT2N1bkdrTFIyK293QVp0WURSTDNnMW9FaW9SMG01eHR5WHcx?=
- =?utf-8?B?My9Wd2FBVkhDU1VjTFpoMlVZdUtZWXpiUEF4L3RNRU1pazI5eHdZMm1Yaldk?=
- =?utf-8?B?b2diSnlncjgzUlhsWHhaZmd4NlNQWG1NWUltTVMxU1BYdWMxTENBK2dYVkoy?=
- =?utf-8?B?MjVNSEpDVWl2TGQrS3dxT29QR2RNK0V2bTNld3FURFRPanE0SU9Ga2srZUVE?=
- =?utf-8?B?alNXZ25jam9hWjJ6WEl4ZktBbEJrK1NnR2JNSU5iVFVucFpuLzZkVmx0NVZU?=
- =?utf-8?B?OS9LLzFxTC9HY1JaS3JtWnVRQ20xWm83TENScXA2d2V2bGxhNngyVDFxR3Ny?=
- =?utf-8?B?c1VHeHcrTjlmQmVkTURBSElNL01jazRnRWtwVVBmUEJjMGtoQ05ENC9Ia01L?=
- =?utf-8?B?N3pHVmpHeVdsZldKTnBKSnpEaXpTZ2lXRFpLT3hJQVRkbkpZRFVYS2lDcFNM?=
- =?utf-8?B?MkJ3SnZxQ2lnbkxiUlhHeHpNYmg5ODhjWURIODVQOFRzaFErbDZmWldtV005?=
- =?utf-8?B?ZUlqOE1nUlArNXhPb2tQTGR0NTdhQkFMbHBpN0hUNkYwSkpJSFdaNldtWDB2?=
- =?utf-8?B?d0d5RE12L284ZjQvRkpFbmVzSFZXdlZuNWl0UWQwY1VFQnRpbTk4U1JvUzlh?=
- =?utf-8?Q?qcDbg4QCJ9BLWkAAy0rlusoZt?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6a5e0f8-9c9f-44de-fba4-08de29147dcf
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 15:41:52.3606 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v/yPlgrXH60X2rFCcNVTZmZ3X7kA/UhJSH9yN46P8r+4tYVxZAVa9zop8Zq2dZic
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPF9BB0D8619
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="vnfz4xpbantfwz3r"
+Content-Disposition: inline
+In-Reply-To: <ez6y7q4lgbwt7kpnlpausjpznckr3yyejrwtxm7o6qw6wlhqoj@6iypzdhfthzy>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,159 +90,175 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--vnfz4xpbantfwz3r
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
+ as unsupported
+MIME-Version: 1.0
 
-On 11/21/25 11:12, Pierre-Eric Pelloux-Prayer wrote:
-> Use TTM_NUM_MOVE_FENCES as an upperbound of how many fences
-> ttm might need to deal with moves/evictions.
-> 
-> ---
-> v2: removed drm_err calls
-> ---
-> 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-> Acked-by: Felix Kuehling <felix.kuehling@amd.com>
-> Reviewed-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c                  | 5 ++---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c                 | 2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c                | 6 ++----
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c                  | 3 ++-
->  drivers/gpu/drm/amd/amdkfd/kfd_svm.c                    | 3 +--
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c | 6 ++----
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c    | 6 ++----
->  7 files changed, 12 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> index d591dce0f3b3..5215238f8fc9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> @@ -916,9 +916,8 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
->  			goto out_free_user_pages;
->  
->  		amdgpu_bo_list_for_each_entry(e, p->bo_list) {
-> -			/* One fence for TTM and one for each CS job */
->  			r = drm_exec_prepare_obj(&p->exec, &e->bo->tbo.base,
-> -						 1 + p->gang_size);
-> +						 TTM_NUM_MOVE_FENCES + p->gang_size);
->  			drm_exec_retry_on_contention(&p->exec);
->  			if (unlikely(r))
->  				goto out_free_user_pages;
-> @@ -928,7 +927,7 @@ static int amdgpu_cs_parser_bos(struct amdgpu_cs_parser *p,
->  
->  		if (p->uf_bo) {
->  			r = drm_exec_prepare_obj(&p->exec, &p->uf_bo->tbo.base,
-> -						 1 + p->gang_size);
-> +						 TTM_NUM_MOVE_FENCES + p->gang_size);
->  			drm_exec_retry_on_contention(&p->exec);
->  			if (unlikely(r))
->  				goto out_free_user_pages;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> index f2505ae5fd65..41fd84a19d66 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> @@ -354,7 +354,7 @@ static void amdgpu_gem_object_close(struct drm_gem_object *obj,
->  
->  	drm_exec_init(&exec, DRM_EXEC_IGNORE_DUPLICATES, 0);
->  	drm_exec_until_all_locked(&exec) {
-> -		r = drm_exec_prepare_obj(&exec, &bo->tbo.base, 1);
-> +		r = drm_exec_prepare_obj(&exec, &bo->tbo.base, TTM_NUM_MOVE_FENCES);
+On Tue, Oct 14, 2025 at 07:02:03PM +0300, Dmitry Baryshkov wrote:
+> On Tue, Oct 14, 2025 at 02:43:58PM +0200, Maxime Ripard wrote:
+> > On Fri, Oct 03, 2025 at 06:41:58PM +0300, Dmitry Baryshkov wrote:
+> > > On 03/10/2025 17:23, Maxime Ripard wrote:
+> > > > On Thu, Sep 25, 2025 at 05:55:06PM +0300, Dmitry Baryshkov wrote:
+> > > > > > > As we will be getting more and more features, some of the Inf=
+oFrames
+> > > > > > > or data packets will be 'good to have, but not required'.
+> > > > > >=20
+> > > > > > And drivers would be free to ignore those.
+> > > > > >=20
+> > > > > > > > So, no, sorry. That's still a no for me. Please stop sendin=
+g that patch
+> > > > > > >=20
+> > > > > > > Oops :-)
+> > > > > > >=20
+> > > > > > > > unless we have a discussion about it and you convince me th=
+at it's
+> > > > > > > > actually something that we'd need.
+> > > > > > >=20
+> > > > > > > My main concern is that the drivers should not opt-out of the=
+ features.
+> > > > > > > E.g. if we start supporting ISRC packets or MPEG or NTSC VBI =
+InfoFrames
+> > > > > > > (yes, stupid examples), it should not be required to go throu=
+gh all the
+> > > > > > > drivers, making sure that they disable those. Instead the DRM=
+ framework
+> > > > > > > should be able to make decisions like:
+> > > > > > >=20
+> > > > > > > - The driver supports SPD and the VSDB defines SPD, enable th=
+is
+> > > > > > >    InfoFrame (BTW, this needs to be done anyway, we should no=
+t be sending
+> > > > > > >    SPD if it's not defined in VSDB, if I read it correctly).
+> > > > > > >=20
+> > > > > > > - The driver hints that the pixel data has only 10 meaninful =
+bits of
+> > > > > > >    data per component (e.g. out of 12 for DeepColor 36), the =
+Sink has
+> > > > > > >    HF-VSDB, send HF-VSIF.
+> > > > > > >=20
+> > > > > > > - The driver has enabled 3D stereo mode, but it doesn't decla=
+re support
+> > > > > > >    for HF-VSIF. Send only H14b-VSIF.
+> > > > > > >=20
+> > > > > > > Similarly (no, I don't have these on my TODO list, these are =
+just
+> > > > > > > examples):
+> > > > > > > - The driver defines support for NTSC VBI, register a VBI dev=
+ice.
+> > > > > > >=20
+> > > > > > > - The driver defines support for ISRC packets, register ISRC-=
+related
+> > > > > > >    properties.
+> > > > > > >=20
+> > > > > > > - The driver defines support for MPEG Source InfoFrame, provi=
+de a way
+> > > > > > >    for media players to report frame type and bit rate.
+> > > > > > >=20
+> > > > > > > - The driver provides limited support for Extended HDR DM Inf=
+oFrames,
+> > > > > > >    select the correct frame type according to driver capabili=
+ties.
+> > > > > > >=20
+> > > > > > > Without the 'supported' information we should change atomic_c=
+heck()
+> > > > > > > functions to set infoframe->set to false for all unsupported =
+InfoFrames
+> > > > > > > _and_ go through all the drivers again each time we add suppo=
+rt for a
+> > > > > > > feature (e.g. after adding HF-VSIF support).
+> > > > > >=20
+> > > > > >  From what you described here, I think we share a similar goal =
+and have
+> > > > > > somewhat similar concerns (thanks, btw, it wasn't obvious to me=
+ before),
+> > > > > > we just disagree on the trade-offs and ideal solution :)
+> > > > > >=20
+> > > > > > I agree that we need to sanity check the drivers, and I don't w=
+ant to go
+> > > > > > back to the situation we had before where drivers could just ig=
+nore
+> > > > > > infoframes and take the easy way out.
+> > > > > >=20
+> > > > > > It should be hard, and easy to catch during review.
+> > > > > >=20
+> > > > > > I don't think bitflag are a solution because, to me, it kind of=
+ fails
+> > > > > > both.
+> > > > > >=20
+> > > > > > What if, just like the debugfs discussion, we split write_infof=
+rame into
+> > > > > > write_avi_infoframe (mandatory), write_spd_infoframe (optional),
+> > > > > > write_audio_infoframe (checked by drm_connector_hdmi_audio_init=
+?) and
+> > > > > > write_hdr_infoframe (checked in drmm_connector_hdmi_init if max=
+_bpc > 8)
+> > > > > >=20
+> > > > > > How does that sound?
+> > > > >=20
+> > > > > I'd say, I really like the single function to be called for writi=
+ng the
+> > > > > infoframes. It makes it much harder for drivers to misbehave or t=
+o skip
+> > > > > something.
+> > > >=20
+> > > >  From a driver PoV, I believe we should still have that single func=
+tion
+> > > > indeed. It would be drm_atomic_helper_connector_hdmi_update_infofra=
+mes's
+> > > > job to fan out and call the multiple callbacks, not the drivers.
+> > >=20
+> > > I like this idea, however it stops at the drm_bridge_connector abstra=
+ction.
+> > > The only way to handle this I can foresee is to make individual bridg=
+es
+> > > provide struct drm_connector_hdmi_funcs implementation (which I'm fin=
+e with)
+> > > and store void *data or struct drm_bridge *hdmi_bridge somewhere insi=
+de
+> > > struct drm_connector_hdmi in order to let bridge drivers find their d=
+ata.
+> >=20
+> > Does it change anything? The last HDMI bridge should implement all the
+> > infoframes it supports. I don't think we should take care of one bridge
+> > with one infoframe type and some other with another?
+>=20
+> Note: I wrote about the _data_. So far the connector's write_infoframe /
+> clear_infoframe callbacks get drm_connector as an arg. The fact that
+> there is a drm_bridge which implements a callback is hidden well inside
+> drm_bridge_connector (and only it knows the bridge_hdmi pointer).
+> Otherwise, the bridge, trying to implement drm_connector_hdmi_funcs has
+> no way to go from drm_connector to drm_bridge.
+>=20
+> The only possible solution would be to introduce something like
+> drm_connector_hdmi::data (either void* or drm_bridge*) and use it
+> internally. But for me this looks like a bit loose abstraction. Though,
+> if it looks good from your POV, I agree, it would solve enough of
+> issues.
 
-This here can stay 1, we just need a single slot for the VM update fence.
+I'm not sure I understand, sorry.
 
->  		drm_exec_retry_on_contention(&exec);
->  		if (unlikely(r))
->  			goto out_unlock;
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-> index 79bad9cbe2ab..b92561eea3da 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c
-> @@ -326,11 +326,9 @@ static int amdgpu_vkms_prepare_fb(struct drm_plane *plane,
->  		return r;
->  	}
->  
-> -	r = dma_resv_reserve_fences(rbo->tbo.base.resv, 1);
-> -	if (r) {
-> -		dev_err(adev->dev, "allocating fence slot failed (%d)\n", r);
-> +	r = dma_resv_reserve_fences(rbo->tbo.base.resv, TTM_NUM_MOVE_FENCES);
-> +	if (r)
->  		goto error_unlock;
-> -	}
->  
->  	if (plane->type != DRM_PLANE_TYPE_CURSOR)
->  		domain = amdgpu_display_supported_domains(adev, rbo->flags);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 5061d5b0f875..62f37a9ca966 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -2656,7 +2656,8 @@ int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->  	}
->  
->  	amdgpu_vm_bo_base_init(&vm->root, vm, root_bo);
-> -	r = dma_resv_reserve_fences(root_bo->tbo.base.resv, 1);
-> +	r = dma_resv_reserve_fences(root_bo->tbo.base.resv,
-> +				    TTM_NUM_MOVE_FENCES);
+What prevents us from adding ~4 functions to bridge->funcs that take the
+bridge, and drm_bridge_connector would get the connector, retrieve the
+bridge instance from it, and pass it to the bridge actually implementing
+it? Like we do currently for write_infoframe and clear_infoframe
+already?
 
-Here we only need a single slot to clear the root PD during init.
+Maxime
 
-With those two removed the patch is Reviewed-by: Christian König <christian.koenig@amd.com>.
+--vnfz4xpbantfwz3r
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Fingers crossed that we haven't missed any.
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
-Christian.
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaSCJsgAKCRAnX84Zoj2+
+dh89AYC3OvDkzVUlxqCCClS0XtTSV3f+Nh4/Ge3ApQd7tPCinePMjVqIhRTX3dQG
+WVZWcbMBfitqxdp4k9BqJt3mOot50bZme9uev5F+nwaHhM+5UZP2cO8R3UKSWVxx
+o5Zr7qAz4A==
+=c8cr
+-----END PGP SIGNATURE-----
 
->  	if (r)
->  		goto error_free_root;
->  
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-> index 97c2270f278f..0f8d85ee97fc 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
-> @@ -627,9 +627,8 @@ svm_range_vram_node_new(struct kfd_node *node, struct svm_range *prange,
->  		}
->  	}
->  
-> -	r = dma_resv_reserve_fences(bo->tbo.base.resv, 1);
-> +	r = dma_resv_reserve_fences(bo->tbo.base.resv, TTM_NUM_MOVE_FENCES);
->  	if (r) {
-> -		pr_debug("failed %d to reserve bo\n", r);
->  		amdgpu_bo_unreserve(bo);
->  		goto reserve_bo_failed;
->  	}
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> index 56cb866ac6f8..ceb55dd183ed 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
-> @@ -952,11 +952,9 @@ static int amdgpu_dm_plane_helper_prepare_fb(struct drm_plane *plane,
->  		return r;
->  	}
->  
-> -	r = dma_resv_reserve_fences(rbo->tbo.base.resv, 1);
-> -	if (r) {
-> -		drm_err(adev_to_drm(adev), "reserving fence slot failed (%d)\n", r);
-> +	r = dma_resv_reserve_fences(rbo->tbo.base.resv, TTM_NUM_MOVE_FENCES);
-> +	if (r)
->  		goto error_unlock;
-> -	}
->  
->  	if (plane->type != DRM_PLANE_TYPE_CURSOR)
->  		domain = amdgpu_display_supported_domains(adev, rbo->flags);
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
-> index d9527c05fc87..110f0173eee6 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_wb.c
-> @@ -106,11 +106,9 @@ static int amdgpu_dm_wb_prepare_job(struct drm_writeback_connector *wb_connector
->  		return r;
->  	}
->  
-> -	r = dma_resv_reserve_fences(rbo->tbo.base.resv, 1);
-> -	if (r) {
-> -		drm_err(adev_to_drm(adev), "reserving fence slot failed (%d)\n", r);
-> +	r = dma_resv_reserve_fences(rbo->tbo.base.resv, TTM_NUM_MOVE_FENCES);
-> +	if (r)
->  		goto error_unlock;
-> -	}
->  
->  	domain = amdgpu_display_supported_domains(adev, rbo->flags);
->  
-
+--vnfz4xpbantfwz3r--
