@@ -2,96 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F4BC78F03
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 13:07:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42114C78F33
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 13:11:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7BF110E0CE;
-	Fri, 21 Nov 2025 12:07:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7F7510E05B;
+	Fri, 21 Nov 2025 12:11:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="r3gfstet";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="C7Q6LamD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7964F10E0CE
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 12:07:42 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21C836A6;
- Fri, 21 Nov 2025 13:05:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1763726735;
- bh=CSz7DcU4vC7vNNXvv0S58mDvdmc6kNxg9oj2/N9Le9w=;
- h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
- b=r3gfstetiWyxxWsWJLuaKMQ9+9p/YTqnYLcM8ayzbl/6E5VzSm8aUnjTIPaG0Lexv
- cOKWkxiYEH6ew1uqyQsVVSKe19jv2HotgCFeFEuqybsBenH9sVjUwshke8i19zBTVh
- yrWC4scl8vEQhpxTltQwMeyNF6x+4o4hfqMxOWq8=
-Message-ID: <22985633-f20c-4f36-96d1-ce01fe6cf6df@ideasonboard.com>
-Date: Fri, 21 Nov 2025 14:07:36 +0200
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011004.outbound.protection.outlook.com [52.101.62.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4820310E05B
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 12:11:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bfEJGEo165MX+oYUscAmITnEmSt4yl/AM0pq3ZDUfsULeSXK5mmFtSCQHiIw4VZNi5iikaqoXOYB/0lrcdoJK0f7+GWBNHit6ZbU5DN7Ha0iEEUnpMx5hefdKQoqGGxAX2a8wfeGYeZlpohkwa5jL3xYtmafH6tTbcsF7qff39iMQpLg0qP8qcsZHE9Kp951t/dIAbDMq0qF0k+ofiNAPqWbZ9uPKlaytqxsHFrgON5aqxE/qmKIzb+roA9ZAsswKSDHeH7XeuUd3DsKf1IeITpm0Se6lNkNuviAabEtg/VXVULWBZmVVjoqwTcXogIh+xP13LWygMZuIxkBctmi9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4VOEygUEA/Win0vFf+XqYiKIiG+d8RoiK1JRlqeTYcg=;
+ b=w3vM2fplRl9UV3g6ETZAXpODC8rabfxeWzKR6QaXZhomPaYY9wLvKo1nga9f8p2h2thCfb+gaMmQ5yya1vNqAFG7nIbs+s56g1F3vFzD6HUyMuthtgJS1PddPsleG/YgyDYGSI4fRFStFVlXhXIz/E6rAraZ6PYHpJ60v3W33jLjXv4+Tsby67f+KlctEyx/+8aJW4NsK4wo4/v2EJZ/8SR8zQnzNtdri/+cM61V1Vb+ra3pSHxU9t78lvb8ugik1xdLbOIXpKI6wzzbhIKs3YKkKxonrmkEB7GzAuvXvx8WSVvi3mB5v/BabUw7SygNRB14jIi2iqFVQcDXmG37Vw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=suse.de smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4VOEygUEA/Win0vFf+XqYiKIiG+d8RoiK1JRlqeTYcg=;
+ b=C7Q6LamDTry1o1vT3lMJKyko49Bc28CWd8tJRPBJA9lnCHTh3KCx4AbCALaYhkMHLYMG62djghM1K1QtllqIHscgX2grP+Ux5bAQbWgH3hKDHXOC5gMfr/qTJNIXOQlgW5+Nyvk1bQcHeRdd1ktZlYm01zEBytIWn8raMAyn2ME=
+Received: from BN9P222CA0006.NAMP222.PROD.OUTLOOK.COM (2603:10b6:408:10c::11)
+ by BLAPR10MB4849.namprd10.prod.outlook.com (2603:10b6:208:321::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.11; Fri, 21 Nov
+ 2025 12:11:22 +0000
+Received: from BN2PEPF0000449D.namprd02.prod.outlook.com
+ (2603:10b6:408:10c:cafe::9b) by BN9P222CA0006.outlook.office365.com
+ (2603:10b6:408:10c::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.11 via Frontend Transport; Fri,
+ 21 Nov 2025 12:11:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ BN2PEPF0000449D.mail.protection.outlook.com (10.167.243.148) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9343.9 via Frontend Transport; Fri, 21 Nov 2025 12:11:22 +0000
+Received: from DLEE205.ent.ti.com (157.170.170.85) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 21 Nov
+ 2025 06:11:19 -0600
+Received: from DLEE209.ent.ti.com (157.170.170.98) by DLEE205.ent.ti.com
+ (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 21 Nov
+ 2025 06:11:19 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE209.ent.ti.com
+ (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 21 Nov 2025 06:11:19 -0600
+Received: from [172.24.235.208] (hkshenoy.dhcp.ti.com [172.24.235.208])
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5ALCBCcL1246404;
+ Fri, 21 Nov 2025 06:11:13 -0600
+Message-ID: <56c4fcff-4f8c-4221-a390-77bc3837321a@ti.com>
+Date: Fri, 21 Nov 2025 17:41:12 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v9 0/6] MHDP8546 fixes related to
- DRM_BRIDGE_ATTACH_NO_CONNECTOR usecase
-To: Harikrishna Shenoy <h-shenoy@ti.com>
+Subject: Re: [PATCH RESEND v9 5/6] cadence: cdns-mhdp8546*: Change
+ drm_connector from structure to pointer
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+CC: <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
+ <andrzej.hajda@intel.com>, <andy.yan@rock-chips.com>,
+ <aradhya.bhatia@linux.dev>, <devarsht@ti.com>, <dianders@chromium.org>,
+ <dri-devel@lists.freedesktop.org>, <javierm@redhat.com>,
+ <jernej.skrabec@gmail.com>, <jonas@kwiboo.se>,
+ <linux-kernel@vger.kernel.org>, <linux@treblig.org>,
+ <luca.ceresoli@bootlin.com>, <lumag@kernel.org>, <lyude@redhat.com>,
+ <maarten.lankhorst@linux.intel.com>, <mordan@ispras.ru>,
+ <mripard@kernel.org>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <s-jain1@ti.com>, <simona@ffwll.ch>, <tzimmermann@suse.de>, <u-kumar1@ti.com>
 References: <20251120121416.660781-1-h-shenoy@ti.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+ <20251120121416.660781-6-h-shenoy@ti.com>
+ <082379e2-2d00-4f2f-82dd-cff93d2867af@ideasonboard.com>
 Content-Language: en-US
-Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
- andrzej.hajda@intel.com, andy.yan@rock-chips.com, aradhya.bhatia@linux.dev,
- devarsht@ti.com, dianders@chromium.org, dri-devel@lists.freedesktop.org,
- javierm@redhat.com, jernej.skrabec@gmail.com, jonas@kwiboo.se,
- linux-kernel@vger.kernel.org, linux@treblig.org, luca.ceresoli@bootlin.com,
- lumag@kernel.org, lyude@redhat.com, maarten.lankhorst@linux.intel.com,
- mordan@ispras.ru, mripard@kernel.org, neil.armstrong@linaro.org,
- rfoss@kernel.org, s-jain1@ti.com, simona@ffwll.ch, tzimmermann@suse.de,
- u-kumar1@ti.com
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20251120121416.660781-1-h-shenoy@ti.com>
-Content-Type: text/plain; charset=UTF-8
+From: Harikrishna shenoy <h-shenoy@ti.com>
+In-Reply-To: <082379e2-2d00-4f2f-82dd-cff93d2867af@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF0000449D:EE_|BLAPR10MB4849:EE_
+X-MS-Office365-Filtering-Correlation-Id: 26a2c678-968b-49a3-6fea-08de28f715da
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|1800799024|7416014|376014|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cUhJdlp3NFFXMzBGYUxCczI3NUttWHdOeTZhei9jVlAyYmVDZlcvUzBlTkJ0?=
+ =?utf-8?B?d1lQRG4vVVB4T3lMR05DaVpEUkM1YzhmRngyK0IzWkR0alFlNVdtb25hTm9E?=
+ =?utf-8?B?TWoxVjhoSjBFdDRhWXRNV2RkQVdScnZXWk5OdU0zQlZURkVVWmRxMXllRTBP?=
+ =?utf-8?B?Uk5hQWM0YnMzT3NaME9rNTBKSm1TeFd2VWl3cnE2VDV2dmVXVk9IMHRoNnNR?=
+ =?utf-8?B?V29oSTlRR3dPanlJalR4ZFdJRk9scHVxRmJ4YWpnWmVoSCtPSG0xNE92SVRP?=
+ =?utf-8?B?Nm1qZHhBV05oSjd5SEVDY2dDZ203ZG9rdUJIY2ZaQlRYYlU3KzFPK3VZaUt3?=
+ =?utf-8?B?REc1b2JSNzVwcEtCd2ozQkZNOE9pa1MzZEZVUXMwS2c2SUVubTN1ZUNZT0hK?=
+ =?utf-8?B?Z3NLQ0JOZUdGRk9CbEFUMkZRTWJ5RVJ5K0RIaTdKdzdhQ3RlTGpXTENWSmpB?=
+ =?utf-8?B?TExSenBhVUlRM0p5YjRvWGw3N1VoMlZjZW9BK2M1bDQ4YWE1V05HQkt5eXBG?=
+ =?utf-8?B?RWoremMrZFRPMTZmd0NjMjU0RG03WDVWV3pURHBrQkZjZWhieFgxRzVlbEJu?=
+ =?utf-8?B?cG1EZitleVYxYW0ybnY5U0hJK0J3Y0RkWXdLOFFFS3BhOWpNL29NdklFZmpB?=
+ =?utf-8?B?VTRrSHZPaVU4TXVLWVplV2gySTRjZytoNytuaElDcWJBMzE4RU1SN2ZKb002?=
+ =?utf-8?B?OUxHNHBVWmtCUGNnRS9GVFhoSkJJVmNrUEgzb2I3RFVpeCtaNWo2UGhLTW5O?=
+ =?utf-8?B?Z2oyUC9adTYxMHdLVmxqWTRXeDhKNndHRDVkVEJKbEc3Rko0RENkOHFrbVN1?=
+ =?utf-8?B?d1kvN3BYbHUzOXFvMXdhS3NubUxQRnAxcnFTcHloL2xOdGUrOFd0cWhYb1BK?=
+ =?utf-8?B?c3lnVG1nVTZlY0p2RnFTZjhwWFBOSDdjcjVYZDhpVzRNR3VMK3ZZRTlEb2JQ?=
+ =?utf-8?B?TUd1WGdOSCtYcVdjRmVOeWxWWmFIM0p2R1hiUTBCNEZ1WU1OTHZkQXZVaEpW?=
+ =?utf-8?B?dzdSUC9xTUc3aWhTVjdSUEF1TVdVNmVrQmNTK3BramRSUm5BRzhIbHJHbjE2?=
+ =?utf-8?B?TG1vUW9WbUxyVVljSlh5NHdCUnh0MHNKL0FybmZGUXFRRnJJZGZUNk1KN3E0?=
+ =?utf-8?B?SGZUOXplM0lqQXFwd3VlV2hQdFh5eXBrOGFSeUd3dFRocnBWMGtzSDFTdkp6?=
+ =?utf-8?B?NDBYbHQ3VU90ZExqOTMzTXR0cDlYbklEZS9mb3hwS3RQWG9vNE5XZEpibllR?=
+ =?utf-8?B?TGVMQ1dBM0V0cWp4WWp0aUFtQWVja0hacVh5bVR0dExqSDREYVlMOUZPb1Jj?=
+ =?utf-8?B?em5Ib3dsR09RNjdOaERHZWZKVFB2dmFWYmxHTUlEOHorY1UzeHAyOXNRNXBn?=
+ =?utf-8?B?cGgvczFGeFc4ZHgxRndYNk9uNTVYMEhpRDlocWE0d0FpeWUrcFJ6UWg4K0lk?=
+ =?utf-8?B?cVdWdTV5d29ySzRIYkp6K1BJZlJLa25HUkRHb2FZdU9Xc0h0c3BBRUtpRm42?=
+ =?utf-8?B?bUtZTFMvTEpmYUhLWjB6dVdjUE4rV0VmQVE4N3RDTUpGR1FpY2VHenB6Qytj?=
+ =?utf-8?B?UEYrYkppaWc0OS8rdTJ4aHlPTENDVnhUL3dHL1hzQldJSWgyUXJaVlNuaWpF?=
+ =?utf-8?B?anZRVWlsY2VaWlZvdEJKeGEySU1TNElyVDNiYTFuTlVMNnNnSXlTK0FzQlNl?=
+ =?utf-8?B?bDFaL1c1eGJPMmRqYUlZRW54eXVkeHZwYzNsdVpCRGUvNE5Idk15SVNNOS90?=
+ =?utf-8?B?V2JJNDQ1M1dIZmp3MlJXbVd6Y0E3c2lTSm0ycERSOG5DVEg5NGt4WnR6MjFO?=
+ =?utf-8?B?TnhkN2Z6MTZnK0RXK2dUbnFxOUpFQUNpeVpoYzdJakNQMFEvU3F3R1hBOURC?=
+ =?utf-8?B?VWlDMEZPei9lRGV5V2tRMkVJVFNVaGtGUFgzVXJWdk10ZzQrdVhuNXgrR3h0?=
+ =?utf-8?B?ZVd1VUdoWVdBMHJOWFRqWkxSOUVuNnVMVXNzdVhpVVA1NW1wNHdibVVCalRy?=
+ =?utf-8?B?cC9xL3RWZFhyZEYyUE0xMnZSc01ka1VCQnIyRDBvdVhUenNsK3N1VjdNaUcz?=
+ =?utf-8?B?SlA4NkNZMFdhemxTL1ZEM3JndGlSRGlpQkRvQzJ0bWEycHJoRzdPZjB5VmJO?=
+ =?utf-8?Q?PlNs=3D?=
+X-Forefront-Antispam-Report: CIP:198.47.23.194; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:lewvzet200.ext.ti.com; PTR:InfoDomainNonexistent;
+ CAT:NONE;
+ SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 12:11:22.0661 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26a2c678-968b-49a3-6fea-08de28f715da
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.194];
+ Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF0000449D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4849
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,137 +166,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 20/11/2025 14:14, Harikrishna Shenoy wrote:
-> With the DRM_BRIDGE_ATTACH_NO_CONNECTOR framework, the connector is 
-> no longer initialized in  bridge_attach() when the display controller 
-> sets the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag. 
-> This causes a null pointer dereference in cdns_mhdp_modeset_retry_fn() 
-> when trying to access &conn->dev->mode_config.mutex. 
-> Observed on a board where EDID read failed. 
-> (log: https://gist.github.com/Jayesh2000/233f87f9becdf1e66f1da6fd53f77429)
-> 
-> Patch 1 adds a connector_ptr which takes care of both 
-> DRM_BRIDGE_ATTACH_NO_CONNECTOR and !DRM_BRIDGE_ATTACH_NO_CONNECTOR 
-> case by setting the pointer in appropriate hooks and checking for pointer 
-> validity before accessing the connector.
-> Patch 2 adds mode validation hook to bridge fucntions.
-> Patch 3 fixes HDCP to work with both DRM_BRIDGE_ATTACH_NO_CONNECTOR 
-> and !DRM_BRIDGE_ATTACH_NO_CONNECTOR case by moving HDCP state handling 
-> into the bridge atomic check inline with the 
-> DRM_BRIDGE_ATTACH_NO_CONNECTOR model.
-> Patches 4,5 do necessary cleanup and alignment for using
-> connector pointer.
-> 
-> The rationale behind the sequence of commits is we can cleanly 
-> switch to drm_connector pointer after removal of connector helper 
-> code blocks, which are anyways not touch after 
-> DRM_BRIDGE_ATTACH_NO_CONNECTOR has been enabled in driver.
-> 
-> The last patch make smaller adjustment: lowering the log level for
-> noisy DPCD transfer errors.
-> 
-> v8 patch link:
-> <https://lore.kernel.org/all/20251014094527.3916421-1-h-shenoy@ti.com/>
-> 
-> Changelog v8-v9:
-> -Move the patch 6 in v8 related to HDCP to patch 3 and add fixes tag.
-> -Update to connector_ptr in HDCP code in patch 1.
-> -Rebased on next-20251114.
 
-Don't base on linux-next, except in some quite special circumstances.
-Base on latest major version from Linus, or -rc from Linus, or
-drm-misc-next. Usually drm-misc-next is a safe choice for DRM patches.
+On 21/11/25 17:32, Tomi Valkeinen wrote:
+> Now the code looks fine, but you didn't update the description, which
+> now looks to be quite wrong for this.
 
-And if you make changes to a series, it's not a "resend" but a new version.
+Hi Tomi,
 
- Tomi
+mhdp->connector is still a structure before this commit and changed to 
+pointer in this commit, we had introduced a extra connector pointer and 
+variable for fix and kind of got renamed to 'connector' from 
+'connector_ptr' and added checks in HDCP , will tweak the commit message 
+describing these changes.
 
-> 
-> v7 patch link:
-> <https://lore.kernel.org/all/20250929083936.1575685-1-h-shenoy@ti.com/>
-> 
-> Changelog v7-v8:
-> -Move patches with firxes tag to top of series with appropriate changes
-> to them.
-> -Add R/B tag to patch 
-> https://lore.kernel.org/all/ae3snoap64r252sbqhsshsadxfmlqdfn6b4o5fgfcmxppglkqf@2lsstfsghzwb/
-> 
-> v6 patch link:
-> <https://lore.kernel.org/all/20250909090824.1655537-1-h-shenoy@ti.com/>
-> 
-> Changelog v6-v7:
-> -Update cover letter to explain the series.
-> -Add R/B tag in PATCH 1 and drop fixes tag as suggested.
-> -Drop fixes tag in PATCH 2.
-> -Update the commit messages for clear understanding of changes done in patches.
-> 
-> v5 patch link:
-> <https://lore.kernel.org/all/20250811075904.1613519-1-h-shenoy@ti.com/>
-> 
-> Changelog v5 -> v6:
-> -Update cover letter to clarify the series in better way.
-> -Add Reviewed-by tag to relevant patches.
->  
-> v4 patch link: 
-> <https://lore.kernel.org/all/20250624054448.192801-1-j-choudhary@ti.com>
-> 
-> Changelog v4->v5:
-> - Handle HDCP state in bridge atomic check instead of connector 
-> atomic check
->  
-> v3 patch link:
-> <https://lore.kernel.org/all/20250529142517.188786-1-j-choudhary@ti.com/>
-> 
-> Changelog v3->v4:
-> - Fix kernel test robot build warning:
->   <https://lore.kernel.org/all/202505300201.2s6r12yc-lkp@intel.com/>
-> 
-> v2 patch link:
-> <https://lore.kernel.org/all/20250521073237.366463-1-j-choudhary@ti.com/>
-> 
-> Changelog v2->v3:
-> - Add mode_valid in drm_bridge_funcs to a separate patch
-> - Remove "if (mhdp->connector.dev)" conditions that were missed in v2
-> - Split out the move of drm_atomic_get_new_connector_for_encoder()
->   to a separate patch
-> - Drop "R-by" considering the changes in v2[1/3]
-> - Add Fixes tag to first 4 patches:
->   commit c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
->   This added DBANC flag in tidss while attaching bridge to the encoder
-> - Drop RFC prefix
-> 
-> v1 patch link:
-> <https://lore.kernel.org/all/20250116111636.157641-1-j-choudhary@ti.com/>
-> 
-> Changelog v1->v2:
-> - Remove !DRM_BRIDGE_ATTACH_NO_CONNECTOR entirely
-> - Add mode_valid in drm_bridge_funcs[0]
-> - Fix NULL POINTER differently since we cannot access atomic_state
-> - Reduce log level in cdns_mhdp_transfer call
-> 
-> [0]: https://lore.kernel.org/all/20240530091757.433106-1-j-choudhary@ti.com/
-> 
-> Harikrishna Shenoy (1):
->   drm/bridge: cadence: cdns-mhdp8546-core: Handle HDCP state in bridge
->     atomic check
-> 
-> Jayesh Choudhary (5):
->   drm/bridge: cadence: cdns-mhdp8546-core: Set the mhdp connector
->     earlier in atomic_enable()
->   drm/bridge: cadence: cdns-mhdp8546-core: Add mode_valid hook to
->     drm_bridge_funcs
->   drm/bridge: cadence: cdns-mhdp8546-core: Remove legacy support for
->     connector initialisation in bridge
->   drm/bridge: cadence: cdns-mhdp8546*: Change drm_connector from
->     structure to pointer
->   drm/bridge: cadence: cdns-mhdp8546-core: Reduce log level for DPCD
->     read/write
-> 
->  .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 258 +++++-------------
->  .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   2 +-
->  .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   |   8 +-
->  3 files changed, 72 insertions(+), 196 deletions(-)
-> 
-
+Thanks.
