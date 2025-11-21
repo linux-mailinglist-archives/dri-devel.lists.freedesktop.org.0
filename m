@@ -2,94 +2,105 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 561D4C7A324
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 15:36:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E648C7A534
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 15:54:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 25A2310E88D;
-	Fri, 21 Nov 2025 14:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAF4A10E069;
+	Fri, 21 Nov 2025 14:54:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VcPRlhOB";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="xE+lyu1l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A77E310E88E
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 14:36:39 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-42b3377aaf2so1216256f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 06:36:39 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 835DB10E0B0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 14:54:21 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-477b5e0323bso17372305e9.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 06:54:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763735798; x=1764340598; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1763736860; x=1764341660; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=tGloELWCAwNOjaOVPrzD6GUKQKA52qfEmJpK3JJ0W/0=;
- b=VcPRlhOBPNDTwEemfrqxO7z1YBp3HKEKtWAdvIrazUAAB1dMpalycwcWIdef5TvzAy
- Qk4281a/ZfztdUyHWvfVTYQVdXid4QnPWirrifZHwvJ5J+k3G4D+vZOgy9O1Lz+ZEnYC
- C48j1FzntdF+EulkM2q8pwBGi0wtPsdvuH4hEgOEpXaE/DVPtOtAPkehw62Xathpwnob
- wQj1OrTKwfJl70dhhRxw7h4ELy4Fqw0fBnf2fXBoihTeo9wvSZ+EJA1qJuUHIgydmNJf
- xI46Fpsc3+ulVPcbfdRMkTXbqaFhPFeMkGfilSlYkD8aAyKiG3KkN0bI0Ons2ZQNW7/7
- oCEA==
+ :reply-to; bh=ETN4gl1iZbhJeLn6OCDI+9u79qwxOMAaoq4ImqB9HJI=;
+ b=xE+lyu1lrrHHY2uQDFl7QFF5IDmMlzFGHa0BJ88f1oinUJ/wUpAcx5e8ev9qffOV26
+ jmNq34jC6PX+3Mv2wqbtlrCG+p6Bpc9oQY+zd49clKBfdtYsYVUj/HHMJglnAKfIgmdk
+ A0gUUpC4TNJiX8ZQ7yTZkvRXrENze7dPU89uNj/qHy6gWJzyevbioajfgDuSlpgqG82E
+ jjrlbC/ddg3TYAWw877us3ykkcV34NNOh465wk5vQpIw79hWSwyOcrN1JuwC+x9M+ML5
+ pvdp11XR0fvGXUFxsHFaKmSfUVe+16zZndjoyMh0U01mYtVGNCgXdrc2/PNz/H2NLsjT
+ YGgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763735798; x=1764340598;
+ d=1e100.net; s=20230601; t=1763736860; x=1764341660;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=tGloELWCAwNOjaOVPrzD6GUKQKA52qfEmJpK3JJ0W/0=;
- b=fQE4SaqK14Emd8VtYCLh09tSZ92ETHfzNDZjF9Q5zwaqWcx01P943C4T6jziPiUHT8
- yUPEZpDyIc3RPlBTNrCRC/Ug6LEdFa314M5FApvm5fj5eDJ6+EP/Em3io+uHp4kLEwCR
- MSMBh6TnIrfUcASk1j5fRs1aihbgA2iTyGNlTHNVjnVWIWbXr7n0+40HEStpAAM34G4Y
- FIu9+YZdfdbZJRUgDdTFNUWr1nT8iNykX6X4mN7QqJpv3rN+W6DjKR53jKzYvdHMLD4b
- NLFpkbG9eTLB/oQpBPVO+5HVFaNhxzlS4sssTNQczAVdTEWNqqIX23H37RxSSwIj9Gxc
- qqSQ==
+ bh=ETN4gl1iZbhJeLn6OCDI+9u79qwxOMAaoq4ImqB9HJI=;
+ b=xFePNth5ToNTdkykY4KAqWlxQypgpXxt7cI2K09PcHR5JNLnJMe0QdzfdxMBmiSG6Q
+ vV1m62vFA5TwuZC2oLQ5+fB2jsSL91aauXWO09uIt0fP0pau4pkD1xmVV+fCbAE+YaFA
+ TffOUz0ShwGHrPWFtlzgNAsjn0BUYr2fEP71BPKj/YHQu+Ad/4G2AQWB1pT/fgZ6sALl
+ EM+e7ScTmuQNN5wM06S7Jra5V9wUO5tNeVJq330ibuYYZTZxIvM4s/O1MZ66ZOHdSitQ
+ SRgN/dxiPfPpPjhT01Ij4fSLeQ56mdWCIkO5AF9/rS1vl6gUrQAK3Bc6hxd3mBdpnzYK
+ ihhQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVLuR2EIQU9gGdMFwhKbBrckkdzKGqX/FUHetsbAKxswcGgMhQCBnpe41+5e2Ih55vJ1lVw1p8Hkvc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxaf46XuywDBhYD/J3G+zkh4GmI7Gj11RZkPSUsQOqsxEm61N9r
- YLjO7G/bcaoUlagVfuMhEM9QN0Ql6CP9GYdaVIY0bvFPB/ked29yxehBc6T9lqe5krQ=
-X-Gm-Gg: ASbGncsLDuxSuO+EwIRZH3k8UdpUjbd62XTwuo6qO8iSGiBsK5nJHyMh/t4ff8Xlv+S
- Xg5hYUvGUfPkWVMuEWwmAPrcdy9CNw6z+djXbYglhZ4XgqOiA2qhFEk07RyoAJ/fdFk9rBYWxyL
- jfDq5vqF/VLTYVWhoemi20g2MffiRowfsg/i/WKuADNZXOGn33lhe0fEVLXWvryMcZrW/fN7Q21
- nDcEQnPfnjWpvWELufY/kz+k/QrZHTQbGUevl/rRm56SDKDF7h0hVKRC+VqJJr46DA0bDy9PpAG
- sanxeAtl9Ol3DdnfINeH4dPBSNJYNCfcVGJJiSPSQnC4ndCVB/mIDHPPraRsOrU9uzRdY/VlLII
- EsH1ClZFiQ6dthTGpldiB4kKhiEf+mboU8c2pyd60FtpnCEeBnu+PVO04mSNdH1oLPYM9eeSCll
- QGWPM+Q/iFycP/nWo7OIzAQx8G56LZRGEDblzKs3iiDUZkP3l6ga0SnuU3w9ALLhY=
-X-Google-Smtp-Source: AGHT+IGX6jCo5Ujy+ZFfRgTfhbHhSPg87C4QJY43bF2bspYbetMdvSgII7RsO5EeWRYFbRFDg/CPNg==
-X-Received: by 2002:a05:6000:2c09:b0:426:d54d:224d with SMTP id
- ffacd0b85a97d-42cc1d0cea3mr2595141f8f.27.1763735797644; 
- Fri, 21 Nov 2025 06:36:37 -0800 (PST)
+ AJvYcCX2KeZ7wgP5lgZHlqLpI5Iy3qdSFaU+mdwYYpmBK8G5gEJbc0cGq7vZurhLwXYqoA4Jx3zOgxsnqVI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwcfoSYqmyRFTnZ4Qrvc5mCkecjNyVxG1bnzvhyCESGO8xMDeeP
+ ZGBsYYrF6fJd8/qRuI+WmeHK/ohx8N3XyK3F/JGBEuVXNNO42TkiQW8XXCE0c9YvuNU=
+X-Gm-Gg: ASbGncsbOmDzyQG3MDb93VB2hHnkv532rNSNWg9OD9xmuXocObo2GWp7YcUW4cXwNwF
+ D4HU5L5J3qqQHkUxbnJshCqFtM0BD3LNYh7freuyaWTeJkZ595A4qhHWM5xIrMnPpyhRGOTr2j8
+ HOe2+J5t1LA9xIzWzHVdvDGtT04RySCpTUicIADWQQLvIXvMviWUoF2PQ2jdOFcsWGVZAo0JeHy
+ WdX+pcTu0eo59jLilm9p7KYTXs2SGZ1cDFfM7JtcvADFpqFP+4KoiXi7LZbAwZk9tnNCG4Mmdkh
+ 7vBt+Xr+0HgN0zgkmvz/v/M8UFH2Yu3LNXt+4PPq5H0G/JrUOdo2e5ak04sK7Et35/idtt6KORD
+ x9dy4LE7ViCxF3w2g78s0RbzBCtj7FO+WqYx9fCeXtfyn5InEIutdacgzIbYJ3LsfR7Ph5W5mG/
+ 9j/gEPsMWWHRY+dm2+omHsrqpi1o5cVOP3sm36e550F9G2+PNo4J6Vnf3BTVx7Jt8=
+X-Google-Smtp-Source: AGHT+IEGzoj+G1XJyD7HRZUpDf/Nmo3R0LQETO+OA2bCF/axjJi8k5L8RSAIauSreqKt4GiwYJQXaA==
+X-Received: by 2002:a05:600c:1d14:b0:477:9d88:2da6 with SMTP id
+ 5b1f17b1804b1-477c026ed62mr28503395e9.0.1763736859683; 
+ Fri, 21 Nov 2025 06:54:19 -0800 (PST)
 Received: from ?IPV6:2a01:e0a:3d9:2080:159f:1839:bb92:1eca?
  ([2a01:e0a:3d9:2080:159f:1839:bb92:1eca])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42cb7fa3a6bsm11383702f8f.28.2025.11.21.06.36.35
+ ffacd0b85a97d-42cb7f3635bsm11604067f8f.17.2025.11.21.06.54.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Nov 2025 06:36:37 -0800 (PST)
-Message-ID: <01cc15f4-6e62-47b8-b7dd-39f990d23801@linaro.org>
-Date: Fri, 21 Nov 2025 15:36:35 +0100
+ Fri, 21 Nov 2025 06:54:19 -0800 (PST)
+Message-ID: <cd200f33-dd6f-4eb3-b2d9-8f41d0dde992@linaro.org>
+Date: Fri, 21 Nov 2025 15:54:18 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 3/7] drm/bridge: simple: add ASL CS5263 DP-to-HDMI
- bridge
-To: Georg Gottleuber <ggo@tuxedocomputers.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH v10 04/11] drm/bridge: aux: Add
+ drm_aux_bridge_register_from_node()
+To: Chaoyi Chen <kernel@airkyi.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Peter Chen <hzpeterchen@gmail.com>, Luca Ceresoli
+ <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Robert Foss <rfoss@kernel.org>,
+ <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Ettore Chimenti <ettore.chimenti@linaro.org>,
- Srinivas Kandagatla <srini@kernel.org>, stefan.schmidt@linaro.org,
- stephan.gerhold@linaro.org, wse@tuxedocomputers.com, cs@tuxedo.de,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, Dragan Simic <dsimic@manjaro.org>,
+ Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  dri-devel@lists.freedesktop.org
-References: <20251121142623.251118-1-ggo@tuxedocomputers.com>
- <20251121142623.251118-4-ggo@tuxedocomputers.com>
+References: <20251120022343.250-1-kernel@airkyi.com>
+ <20251120022343.250-5-kernel@airkyi.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -116,7 +127,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20251121142623.251118-4-ggo@tuxedocomputers.com>
+In-Reply-To: <20251120022343.250-5-kernel@airkyi.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -135,32 +146,99 @@ Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/21/25 15:26, Georg Gottleuber wrote:
-> From: Ettore Chimenti <ettore.chimenti@linaro.org>
+On 11/20/25 03:23, Chaoyi Chen wrote:
+> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 > 
-> Add support for the transparent ASL CS5263 DP-to-HDMI bridge.
+> The drm_aux_bridge_register() uses the device->of_node as the
+> bridge->of_node.
 > 
-> Signed-off-by: Ettore Chimenti <ettore.chimenti@linaro.org>
-> Signed-off-by: Georg Gottleuber <ggo@tuxedocomputers.com>
+> This patch adds drm_aux_bridge_register_from_node() to allow
+> specifying the of_node corresponding to the bridge.
+> 
+> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 > ---
->   drivers/gpu/drm/bridge/simple-bridge.c | 5 +++++
->   1 file changed, 5 insertions(+)
+>   drivers/gpu/drm/bridge/aux-bridge.c | 24 ++++++++++++++++++++++--
+>   include/drm/bridge/aux-bridge.h     |  6 ++++++
+>   2 files changed, 28 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-> index e4d0bc2200f8..94aba5a9c9b9 100644
-> --- a/drivers/gpu/drm/bridge/simple-bridge.c
-> +++ b/drivers/gpu/drm/bridge/simple-bridge.c
-> @@ -261,6 +261,11 @@ static const struct of_device_id simple_bridge_match[] = {
->   			.timings = &default_bridge_timings,
->   			.connector_type = DRM_MODE_CONNECTOR_VGA,
->   		},
-> +	}, {
-> +		.compatible = "asl-tek,cs5263",
-> +		.data = &(const struct simple_bridge_info) {
-> +			.connector_type = DRM_MODE_CONNECTOR_HDMIA,
-> +		},
->   	}, {
->   		.compatible = "radxa,ra620",
->   		.data = &(const struct simple_bridge_info) {
+> diff --git a/drivers/gpu/drm/bridge/aux-bridge.c b/drivers/gpu/drm/bridge/aux-bridge.c
+> index b3e4cdff61d6..52dff4601c2d 100644
+> --- a/drivers/gpu/drm/bridge/aux-bridge.c
+> +++ b/drivers/gpu/drm/bridge/aux-bridge.c
+> @@ -35,6 +35,7 @@ static void drm_aux_bridge_unregister_adev(void *_adev)
+>   /**
+>    * drm_aux_bridge_register - Create a simple bridge device to link the chain
+>    * @parent: device instance providing this bridge
+> + * @np: device node pointer corresponding to this bridge instance
+>    *
+>    * Creates a simple DRM bridge that doesn't implement any drm_bridge
+>    * operations. Such bridges merely fill a place in the bridge chain linking
+> @@ -42,7 +43,7 @@ static void drm_aux_bridge_unregister_adev(void *_adev)
+>    *
+>    * Return: zero on success, negative error code on failure
+>    */
+> -int drm_aux_bridge_register(struct device *parent)
+> +int drm_aux_bridge_register_from_node(struct device *parent, struct device_node *np)
+>   {
+>   	struct auxiliary_device *adev;
+>   	int ret;
+> @@ -62,7 +63,10 @@ int drm_aux_bridge_register(struct device *parent)
+>   	adev->dev.parent = parent;
+>   	adev->dev.release = drm_aux_bridge_release;
+>   
+> -	device_set_of_node_from_dev(&adev->dev, parent);
+> +	if (np)
+> +		device_set_node(&adev->dev, of_fwnode_handle(np));
+> +	else
+> +		device_set_of_node_from_dev(&adev->dev, parent);
+>   
+>   	ret = auxiliary_device_init(adev);
+>   	if (ret) {
+> @@ -80,6 +84,22 @@ int drm_aux_bridge_register(struct device *parent)
+>   
+>   	return devm_add_action_or_reset(parent, drm_aux_bridge_unregister_adev, adev);
+>   }
+> +EXPORT_SYMBOL_GPL(drm_aux_bridge_register_from_node);
+> +
+> +/**
+> + * drm_aux_bridge_register - Create a simple bridge device to link the chain
+> + * @parent: device instance providing this bridge
+> + *
+> + * Creates a simple DRM bridge that doesn't implement any drm_bridge
+> + * operations. Such bridges merely fill a place in the bridge chain linking
+> + * surrounding DRM bridges.
+> + *
+> + * Return: zero on success, negative error code on failure
+> + */
+> +int drm_aux_bridge_register(struct device *parent)
+> +{
+> +	return drm_aux_bridge_register_from_node(parent, NULL);
+> +}
+>   EXPORT_SYMBOL_GPL(drm_aux_bridge_register);
+>   
+>   struct drm_aux_bridge_data {
+> diff --git a/include/drm/bridge/aux-bridge.h b/include/drm/bridge/aux-bridge.h
+> index c2f5a855512f..7dd1f17a1354 100644
+> --- a/include/drm/bridge/aux-bridge.h
+> +++ b/include/drm/bridge/aux-bridge.h
+> @@ -13,11 +13,17 @@ struct auxiliary_device;
+>   
+>   #if IS_ENABLED(CONFIG_DRM_AUX_BRIDGE)
+>   int drm_aux_bridge_register(struct device *parent);
+> +int drm_aux_bridge_register_from_node(struct device *parent, struct device_node *np);
+>   #else
+>   static inline int drm_aux_bridge_register(struct device *parent)
+>   {
+>   	return 0;
+>   }
+> +
+> +static inline int drm_aux_bridge_register_from_node(struct device *parent, struct device_node *np)
+> +{
+> +	return 0;
+> +}
+>   #endif
+>   
+>   #if IS_ENABLED(CONFIG_DRM_AUX_HPD_BRIDGE)
 
+Looks fine:
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
