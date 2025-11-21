@@ -2,61 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05441C779AA
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 07:49:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4AF4C779D0
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 07:53:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFFA610E7ED;
-	Fri, 21 Nov 2025 06:49:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7977E10E7EA;
+	Fri, 21 Nov 2025 06:53:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="C5Rzr+ts";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="VcUQEatU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11E5A10E119;
- Fri, 21 Nov 2025 06:49:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1763707759; x=1795243759;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=qHWu/qqZx5HDPkfy0YZtAlLypzWsswCkIHTNwrYKqk4=;
- b=C5Rzr+ts8aCDDcs6fEkhcvJJkEnPZKoUkiyFNvcDjXuPfaPLCmJyc05m
- HkgnINSpi9PmiPphlnjFkI4oGg5//GpiQpUTbb+ULdOGElmWTTwVHiUwz
- FW0otWn2Cs/KjAhHVLsmpN7Un2ynBeeQJ014fk47L4tP0sIaVk4QUWq4j
- tWZUHJSlcXdbJzCu24zX0WnHNQn+PE+M8CPHzyV/J/5LVPDNwibYGrR8B
- VgngO2Eu19LV03QvD+s+S5p+afIULGkGO2K2byNTFF+l0AWPu8ANwC83d
- B/UbRdFw6VvaHwB88+6a/zro5q9JCmMnCL6ECPt6fs3LCla4zoYcknsnY w==;
-X-CSE-ConnectionGUID: Tza9Wj4tSUWaVVxXAj34aw==
-X-CSE-MsgGUID: RcSOQi6DSeWi4ryU9ScDzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11619"; a="65882835"
-X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; d="scan'208";a="65882835"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Nov 2025 22:49:19 -0800
-X-CSE-ConnectionGUID: oxsBcn8pSXWQm+u2Gs+faw==
-X-CSE-MsgGUID: iT0XXrVUQO6mhSRDk9NCyw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,215,1758610800"; d="scan'208";a="196751125"
-Received: from rkoppura-z790i-aorus-ultra.iind.intel.com ([10.190.239.17])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Nov 2025 22:49:16 -0800
-From: Ravi Kishore Koppuravuri <ravi.kishore.koppuravuri@intel.com>
-To: igt-dev@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Ravi Kishore Koppuravuri <ravi.kishore.koppuravuri@intel.com>,
- Iddamsetty Aravind <aravind.iddamsetty@intel.com>,
- Tauro Riana <riana.tauro@intel.com>,
- Gupta Anshuman <anshuman.gupta@intel.com>,
- Vivi Rodrigo <rodrigo.vivi@intel.com>
-Subject: [PATCH v3] tools/drm_ras: tool to communicate with DRM Netlink
- Subsystem
-Date: Fri, 21 Nov 2025 12:18:51 +0530
-Message-Id: <20251121064851.537365-1-ravi.kishore.koppuravuri@intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from CH1PR05CU001.outbound.protection.outlook.com
+ (mail-northcentralusazon11010051.outbound.protection.outlook.com
+ [52.101.193.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84FFB10E119;
+ Fri, 21 Nov 2025 06:53:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PJi+pVk6EMLl0tCL1ZeA9SBu3mR1MksBZ7XfSHmxNEmO0/LMIr3A5d6tnzduyVWD6tsA3u10tLChfvFaKjTn6Tm0zoZJhb/38bk+IUHse45+12/ytEER3Vqt0rq1QUfBkJnQlTlJYKL4ER3Kv74vFpdyu68ZGamDOhOerCVpaJ2yURj8Thx/y3ilbFZwpY12cocIt5g161hwMuk0/S4kyN9W9ZqArORc4duwpGB2MIWwIQYmT8h8ZjCZzMgvNic4E4busNh5F9CHQAAol+ECX/7usGoaFR5DjYrZtsNIrCLNdnql5Rc2T8+P9XTu2UpMSrZ4vESCK9cqLK3u+5+qig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sp+2b6gLfF+iAiOl1tncvT0sm79F8rvvwf3S9b8dP10=;
+ b=aUll7QdZFsd3z9LwyxWYM98jVIlTzGNTstDI2ch+l7S8PX6C5NkpUp4g1Vc7DiDjxXBp+e3BviLy7IuxenmeYKfgmSVxjP8ouavvoarIpYN+3musR85BTOhrLxs6CFPvO+6uMSxwafl/SGZbACp7gsBjCGKVTFG1WR2BInZhQM5klvA1HLsD/5WbiIM684rf6X+oIhIoKah03iFLFC7NC8YWwa2s2yvRN/i9vMtdPQfUqqAvlxRBicM30iSuVyyblhqpQhQ9B/BdPErj92leOg3UTk02oHjT71VHAtptiOxEjkJhKZ1v/Ze5O1eQTRazrcC2f4hSMCvp21hmrPtarA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sp+2b6gLfF+iAiOl1tncvT0sm79F8rvvwf3S9b8dP10=;
+ b=VcUQEatUHbMHcuevEaKRISSYLCkxnNPiRE1W5Dmcc605P+UwREkAIvqTcA4oI74kZ3/fQBcybnb+jSG13KNVvxiocpbPlvcPQ5PnNglhrgdCtR6byGxyxkYeiRrRrrBRgWOGSZLjKe4Vf0Sg47g3B8VPRLV/iYvF+FDnrz29WdA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA0PR12MB7091.namprd12.prod.outlook.com (2603:10b6:806:2d5::17)
+ by IA1PR12MB8309.namprd12.prod.outlook.com (2603:10b6:208:3fe::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.10; Fri, 21 Nov
+ 2025 06:53:21 +0000
+Received: from SA0PR12MB7091.namprd12.prod.outlook.com
+ ([fe80::d759:a62b:f8ba:461d]) by SA0PR12MB7091.namprd12.prod.outlook.com
+ ([fe80::d759:a62b:f8ba:461d%4]) with mapi id 15.20.9343.009; Fri, 21 Nov 2025
+ 06:53:20 +0000
+Message-ID: <5f614997-41a5-432f-ab3c-ea1011c16dc4@amd.com>
+Date: Fri, 21 Nov 2025 12:23:12 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amdgpu: Fix error handling in amdgpu_atpx_detect
+To: Ma Ke <make24@iscas.ac.cn>, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ evan.quan@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+ stable@vger.kernel.org
+References: <20251121014415.37964-1-make24@iscas.ac.cn>
+Content-Language: en-US
+From: "Lazar, Lijo" <lijo.lazar@amd.com>
+In-Reply-To: <20251121014415.37964-1-make24@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0110.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:27::25) To SA0PR12MB7091.namprd12.prod.outlook.com
+ (2603:10b6:806:2d5::17)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA0PR12MB7091:EE_|IA1PR12MB8309:EE_
+X-MS-Office365-Filtering-Correlation-Id: 220551fc-ab23-4e7a-ccf6-08de28caa830
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OUJPdW9waU5NVlBLWWRQSmdWT1lVZFRrR0dVV1NIK3g4VnpFQ1puTk9KTzI1?=
+ =?utf-8?B?bEY0WUEvVGwyamR0OW5YclFtWE53bk9nQzFHSGloWnVrVUx0RTd1MlpaaFJQ?=
+ =?utf-8?B?ZFdZc255ekt3RHNjTGZTYnBFaFJoVnpDbjhCbEd3QlNTd3pueFhnY2hVRnM5?=
+ =?utf-8?B?WmxwMkxtZVE5Qmp4M2FWejVvK0YvQm5HMDZsamxqQStxZFRKaFlETTdDSlJx?=
+ =?utf-8?B?bVF6QmFMeFhvNlMvL3dGL0o1UUlsRHl3Z01MbUs2MVMyazlRb0k0M0xVbWpp?=
+ =?utf-8?B?aHdTaXVNd3duWk1GYjdPdUIwbWpIektyajcyVHRGWWx4NW9XcFMyQXpSdUVO?=
+ =?utf-8?B?UEdIR0c2NGlpMHlVdUMveXFVN2FNdmlnUFpnMkFiYVFuY0F0cUg0UmRKUjFM?=
+ =?utf-8?B?eDNRRWthcXZkdCt4YU9BYnV3N0o5WVFsVURFWE4zWTVpRXBPZ05xV1ZJd3Vw?=
+ =?utf-8?B?amlqZGx0MzI1ZjZiVTFlZWlBRko2SC9udVFYZ2pFRWtTd0kraStId0JZMVU4?=
+ =?utf-8?B?S2gxZElsVUVuSDFhQVFrTjMxSExWK2JXOGFLczBWL1pMNnBQMXhUNVJzS0xI?=
+ =?utf-8?B?V1F0a052SFR3VDdrK2VEdFM4dXZ5d1p1REpFNUl4ZWlyWWsxbHhNSUZrVUdZ?=
+ =?utf-8?B?eERlVytscDJLSnFWR2NuT2hIV0tobUNYUHB5VXZRblZvVERTQ2J4V0tVbUQ3?=
+ =?utf-8?B?VUx2T2FpMFpIK0xqVDZkeFdaNHJyYW9PY0ZOVTdkOUM3YUNRejA3NU4rbmty?=
+ =?utf-8?B?ZjdZN0dseXRhdEFwTHV3WnJ6Tk52cEdpa1l5Z2ZDbktiWkdSNVl0NUxVVXJt?=
+ =?utf-8?B?T0JJalp4b1FXYlR3UWh6ZXloblBSUlNQYm1qa1AvMEJqWXZsWXp2aEhvZ001?=
+ =?utf-8?B?TmFjeUU1UmVhdTkrUXFmOVpxWjV0aFFyRWtHZHpOQUVFT2JWQ0JGVjc5dHFm?=
+ =?utf-8?B?aGVVVkM2TUNUUCtFMkZ2TlcyVzd6WHVzaUJLbUk0WStrMTBscVJJUXhYVFI0?=
+ =?utf-8?B?aWRNaWNONGdQTy9CT0pMZ1MxeWRrU21JVDBuZmttUlZ6OHg5YlBMWUgzL0Iw?=
+ =?utf-8?B?RDZseFh6VlVOUDRraGlMRzQ1dzRmR1YwZXpTbE1PRWtpRVduT0Zlb3ZZcWEy?=
+ =?utf-8?B?ejIrVmFNU3V2VFZTbUM4a0ZwMHI3YmRuYlpoQ2ZCSDJacGdJbWNYOFNlVDlp?=
+ =?utf-8?B?VlJvZDl6Nm5rdkhUbEVRYlMwcVl6Q0tseEdqYlRLYVd2UEFaR2xUK2g3ZldB?=
+ =?utf-8?B?dHBZMWI2Y29taXNPaENnRHJRelhCNnhSVWlaK1dwV3ZXUnBzblcrSXQzOEcr?=
+ =?utf-8?B?RzFBM2IzNUxzM2ZvR3F5b2s4REIyY1JHdzk4YXljMVlJRUNOcDhxQkgrV3Uz?=
+ =?utf-8?B?ZHQ1RzY5b1JHakEwaWtsVi82STdocUtWa0Q2YUhRb1NSMFMwcFp1dXVRR3RW?=
+ =?utf-8?B?TnhtOXJRTFlXWVBlTzFsdno2WkE1TEVscXNFVGdQUDViVDhCRFduUHFKQTZR?=
+ =?utf-8?B?TmVqNERZMjRrdkkrUS8rdWdQVnlVd25jN094NFNhVmhHemhHMVY0bng4VmJT?=
+ =?utf-8?B?T2htNGx6VGd6UTQyc2JRaG9zbldXUjd6TE1YVDh2Z0RiUHQxTzljZ1dqcWE2?=
+ =?utf-8?B?S3l1Q0VLWkhzVkdScXczY0pNN1NxeU0xVU1ZRUNYMmZKZGVoY09kQmxhV2Jo?=
+ =?utf-8?B?WEZlcDQ5Y3hCcko0V0N0R3BHbW8wOTB4bnBuSmszMCtkbkdYZjdJeks0VGNa?=
+ =?utf-8?B?bE16TWJQZnFCU0JIQnlScHVJVUdmNkhZQThOSWhacE51YlgyTTMwNnZhQjk1?=
+ =?utf-8?B?ZjZtU2RKSVZRbVJ5b1paemVGb3FpcGJnZytSVWtjMC9DTUxaNlJBUVZSdm1E?=
+ =?utf-8?B?SVh5cG03N2x0MTZRdGJQWVN0WitsYkdPZjZJQWRqVEhPQmRENzMwVGFPbWEv?=
+ =?utf-8?Q?0HxZcnLipteT2l2ou+GzKCw+gI/T6um8?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SA0PR12MB7091.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TTlXaGJvdnUvYUVtcENZR0JPT1hOOGlyT1c0V0ZaZWM4UU5QMVdmOXBHcWhR?=
+ =?utf-8?B?R0FFcDNFNUMzb1hHOTVNSjBCYThLUkpTdXV2emo4dXV6akdsT3F3TklzTUhC?=
+ =?utf-8?B?VmlrUE9mcVJnRkZxVzVpYzBpblZqSVFFY3dZR3RQNmFuUTloOWpFVUN2WEZ5?=
+ =?utf-8?B?VVlhdlNGdy9acDRiaVFxT3dCMm9vWndBY0RyajFrSDcwNnFFN1Y1MFBSaHV1?=
+ =?utf-8?B?REVGUlpFNlZ4aDN2SXUrcDhtbDFOcTE2VXpaRHczZjBveUl1WXBqUWN1QWlU?=
+ =?utf-8?B?NTQ3V1ZITEQzUmppNW05amZZbnhRdk9EV01pV0drTnk2TW8xazZaVnhBMzVi?=
+ =?utf-8?B?Y2hZc2t2a3dna0h0d2ErU1NaZEVIa3ZDNnpmTmFta0lGRVAxWTE4YjZuMjZG?=
+ =?utf-8?B?NzU1MUNaU3JrZms4ZjZEVk5LUEFyUDN0YkVKM3JWaUNlM2Q3bFFJMzRubDRH?=
+ =?utf-8?B?Sk94N21DVlZYOE9rcDlrUVptcDBhOENUdHlDWTFNR0lGVXFEcjVVUVdIalN3?=
+ =?utf-8?B?Z1lhMWt3M3NKTWkzUTg5VHVORi9EMWhZTU9lUHVwUE0wenladjA0bmlEZFpw?=
+ =?utf-8?B?RGVsSGl3K2VlQlB0enY3amk4cG1IY1hJUUZiSmZHQlc3Q1pXOUZNKzBpNkR6?=
+ =?utf-8?B?Um9HYzkvTnpxQTQ0ZisreUZ6TDFYaGhjdTVicVJmQ3JoTlRSM3g0VGNVVENN?=
+ =?utf-8?B?QW5EUlp0VGxqR0x5L0szR1RCaWNlZjZRdElGTklHWmQ0MWFBenRtNjZKSXcz?=
+ =?utf-8?B?RDZ6VkNTVWpKUFR6MjJKVDlUUlp5dDJqR3RGUTcxNFpSUHlEVlVJWTM3WlhH?=
+ =?utf-8?B?L201dFFRSFRBZzZlTFpjVCtRbHBQc3RBRVJHSjlLSkd4NjZybzhLdGNva2Rr?=
+ =?utf-8?B?eG96c0VqaHZpQ2h2RWV4N1dGV3ZUR3JEdldsREpSUkhMcWt4N09yM3MrTGJZ?=
+ =?utf-8?B?U1dPNlJUNmdnSVZVbkV2eEdpa0J4NzR1SEc0dlJ2cm1pY0RTOFMrQmRvMjJO?=
+ =?utf-8?B?L2JTRXdIYzF3Zlc3d1FzY3BhZ05qNEpSOXBvamJlZTJVejB6dlVFd3dHbldh?=
+ =?utf-8?B?MW9wbGdGSWx0QUFXbHRhakJmZVA1Um82Ri94M0k3b2tmQXc0dUpEZWtiakRL?=
+ =?utf-8?B?MU9adHRxQzJQMmtPTGozNFFFV01qTWxFTzNDb2lsNU14d1RuN1JzcTlSMmMw?=
+ =?utf-8?B?TmFQemlsdCtpNEQ5MGdKL0s2djFHSFNpZ3JzeDdSUkdyMzVDVTlDWjUyTE1B?=
+ =?utf-8?B?UmNiT2ZPWDNrcjNqZ0NwdGFhUlNOdVdPS0RSSDJTcjdwN1VwUVcxQ0ViUnJm?=
+ =?utf-8?B?LzhqOHU4OTBzU2tzbHhtdzJ3Zi9CRVJ0NWxWWmRucXdQNm0xUmRDU0NQWnY4?=
+ =?utf-8?B?djc5YWxxcFZIay9iRStOZHVCMDh4dmdpa1JJTDNTeFMzblBPRHdQcFJTNFQw?=
+ =?utf-8?B?VUpkblRZSkMvVWUwb3llV0NlZGxoT29WMk0zcmRvbE52azhQQ2hUcGZmTFVE?=
+ =?utf-8?B?dWNNZDlMMUljdXlSRXNtRmJHRi9LajIvZmZoelhzUTgxM1V2MGUrUlQ0eTFG?=
+ =?utf-8?B?N1Y1ZlZxdjBjQmh0K0dWZkkrN0IzT2VMQnYwN3dvcjRpamxJRjdkR2U1dkNS?=
+ =?utf-8?B?M0JZOHV4eTFjUnBwbk03UU1OUmNRQnQ3ZG5mN3dEdXlkejFFR3RzQnhSYm5T?=
+ =?utf-8?B?eUt5OHRCVS8yWVlka01OSDhJUXFDTEdBZE9mUm90MDE3ZklRZU40bkdzNTJn?=
+ =?utf-8?B?djdvR2FJWTQ1cXpuMzdxdFB5RWoyY3AvelhaMjY4UTNMb3d5aXk3WGZXU0N4?=
+ =?utf-8?B?YndBSW16OWE4eTQyVmVCN3M5T3B2K2g4REhzRFlzY05FNHFtbjh4VzI1cmRp?=
+ =?utf-8?B?cXZpWXBnSDZGcjR3TSt2VzZoQ0NNWGpaSUE0VGFOS2I5a1hLUkV3eE1YaHYr?=
+ =?utf-8?B?NkRZRk1neW1uWGNXdzlMWUpvaHZTSmZyWU1odlk0R2k4eldDV2JxZ3lTSCta?=
+ =?utf-8?B?WnBJVDlvcHhIVTBqUnUxSTRsZXVoc0hXSFp6Umh4SFdRRmZSTEFTK1lBd0Nx?=
+ =?utf-8?B?dkhHaFAyRDhNWVNHSGxib2I1R09uVnpXOWt6cit0QnM4T3VSYWdPaktoZTVl?=
+ =?utf-8?Q?VHiFDLx+eLgnScqAziib8yyrI?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 220551fc-ab23-4e7a-ccf6-08de28caa830
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB7091.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 06:53:20.8214 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tF4JrEmSuXwWv/WjjbXGyW4Aii4VGfsez0NB+Gf2w6Q/NPp/Ba6aC3gJTOqIoDey
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8309
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,590 +166,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-User space tool for querying GPU health monitoring RAS events via
-Generic Netlink Socket interface from Kernel's DRM Netlink Subsystem.
-Available Commands are
-	- List Nodes
-	- Get Error Counters
-	- Query Error Counter
 
-Signed-off-by: Ravi Kishore Koppuravuri <ravi.kishore.koppuravuri@intel.com>
-Co-authored-by: Iddamsetty Aravind <aravind.iddamsetty@intel.com>
-Cc: Tauro Riana <riana.tauro@intel.com>
-Cc: Gupta Anshuman <anshuman.gupta@intel.com>
-Cc: Vivi Rodrigo <rodrigo.vivi@intel.com>
 
----
-V2 -> V3:
-	- Created handle_err() function to remove redundant code
-	- Handled more error scenarios while passing command line arguments
-	- Resolved formatting issues (Rodrigo)
+On 11/21/2025 7:14 AM, Ma Ke wrote:
+> amdgpu_atpx_detect() uses pci_get_class() in two while loops to
+> iterate through VGA and OTHER display class PCI devices. Each call to
+> pci_get_class() increments the reference count of the returned PCI
+> device. However, after the loops complete, there are no corresponding
+> pci_dev_put() to decrement these reference counts.
+> 
+> Add pci_dev_put() after each while loop to release reference counts
+> held by the last devices found in each class.
+> 
+> Found by code review.
 
-V1 -> V2:
-	- Removed device_id from the input parameters
-	- Updated help() function
-	- Incorporated error handling logic
----
----
- include/drm-uapi/drm_ras.h |  79 +++++++
- meson.build                |   5 +-
- tools/drm_ras.c            | 425 +++++++++++++++++++++++++++++++++++++
- tools/meson.build          |   5 +
- 4 files changed, 513 insertions(+), 1 deletion(-)
- create mode 100644 include/drm-uapi/drm_ras.h
- create mode 100644 tools/drm_ras.c
+This doesn't look correct. Below is the documented API behaviour.
 
-diff --git a/include/drm-uapi/drm_ras.h b/include/drm-uapi/drm_ras.h
-new file mode 100644
-index 000000000..af893aa36
---- /dev/null
-+++ b/include/drm-uapi/drm_ras.h
-@@ -0,0 +1,79 @@
-+/* SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause) */
-+/* Do not edit directly, auto-generated from: */
-+/*	Documentation/netlink/specs/drm_ras.yaml */
-+/* YNL-GEN uapi header */
-+
-+#ifndef _LINUX_DRM_RAS_H
-+#define _LINUX_DRM_RAS_H
-+
-+#define DRM_RAS_GENL_NAME "drm-ras"
-+#define DRM_RAS_FAMILY_VERSION	1
-+
-+/*
-+ * Type of the node. Currently, only error-counter nodes are supported, which
-+ * expose reliability counters for a hardware/software component.
-+ */
-+enum drm_ras_node_type {
-+	DRM_RAS_NODE_TYPE_ERROR_COUNTER = 1,
-+};
-+
-+enum {
-+	/* Unique identifier for the node*/
-+	DRM_RAS_NODE_ATTR_NODE_ID = 1,
-+
-+	/* Device name chosen by the driver at the time of registration */
-+	DRM_RAS_NODE_ATTR_DEVICE_NAME,
-+
-+	/* Node name chosen by the driver at registration to identify RAS node inside the device */
-+	DRM_RAS_NODE_ATTR_NODE_NAME,
-+
-+	/* Type of the node, identifying its function */
-+	DRM_RAS_NODE_ATTR_NODE_TYPE,
-+
-+	__DRM_RAS_NODE_ATTR_MAX,
-+	DRM_RAS_NODE_ATTR_MAX = (__DRM_RAS_NODE_ATTR_MAX - 1)
-+};
-+
-+enum {
-+	/* Node ID targeted by this error counter operation */
-+	DRM_RAS_ERROR_COUNTER_ATTR_NODE_ID = 1,
-+
-+	/* Unique identifier for a specific error counter within an node */
-+	DRM_RAS_ERROR_COUNTER_ATTR_ERROR_ID,
-+
-+	/* Name of the requested error counter */
-+	DRM_RAS_ERROR_COUNTER_ATTR_ERROR_NAME,
-+
-+	/* Current value of the requested error counter */
-+	DRM_RAS_ERROR_COUNTER_ATTR_ERROR_VALUE,
-+
-+	__DRM_RAS_ERROR_COUNTER_ATTR_MAX,
-+	DRM_RAS_ERROR_COUNTER_ATTR_MAX = (__DRM_RAS_ERROR_COUNTER_ATTR_MAX - 1)
-+};
-+
-+enum drm_genl_error_cmds {
-+	/**
-+	 * @DRM_RAS_CMD_LIST_NODES: Command to Retrieve the full list of currently registered
-+	 * DRM RAS nodes.Each node includes its dynamically assigned ID, name, and type.
-+	 * Obtain the Node IDs by calling this command and use it in the subsequent operations
-+	 * on the nodes.
-+	 */
-+	DRM_RAS_CMD_LIST_NODES = 1,
-+
-+	/**
-+	 * @DRM_RAS_CMD_GET_ERROR_COUNTERS: Retrieve the full list of error counters for a given
-+	 * node. The response include id, name, and current value of each counter.
-+	 */
-+	DRM_RAS_CMD_GET_ERROR_COUNTERS,
-+
-+	/**
-+	 * @DRM_RAS_CMD_QUERY_ERROR_COUNTER: Query the information of a specific error counter
-+	 * for a given node. Response contains id, name, and current value of the counter.
-+	 */
-+	DRM_RAS_CMD_QUERY_ERROR_COUNTER,
-+
-+	__DRM_RAS_CMD_MAX,
-+	DRM_RAS_CMD_MAX = (__DRM_RAS_CMD_MAX - 1)
-+};
-+
-+#endif /* _LINUX_DRM_RAS_H */
-diff --git a/meson.build b/meson.build
-index db6e09a94..f7807660e 100644
---- a/meson.build
-+++ b/meson.build
-@@ -165,10 +165,13 @@ cairo = dependency('cairo', version : '>1.12.0', required : true)
- libudev = dependency('libudev', required : true)
- glib = dependency('glib-2.0', required : true)
- 
-+libnl = dependency('libnl-3.0', required: false)
-+libnl_genl = dependency('libnl-genl-3.0', required: false)
-+libnl_cli = dependency('libnl-cli-3.0', required:false)
-+
- xmlrpc = dependency('xmlrpc', required : false)
- xmlrpc_util = dependency('xmlrpc_util', required : false)
- xmlrpc_client = dependency('xmlrpc_client', required : false)
--
- xmlrpc_cmd = find_program('xmlrpc-c-config', required : false)
- if not xmlrpc.found() and xmlrpc_cmd.found()
- 	libs_cmd = run_command(xmlrpc_cmd, 'client', '--libs', check: false)
-diff --git a/tools/drm_ras.c b/tools/drm_ras.c
-new file mode 100644
-index 000000000..9bb58bc5e
---- /dev/null
-+++ b/tools/drm_ras.c
-@@ -0,0 +1,425 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright © 2025 Intel Corporation
-+ */
-+
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/types.h>
-+#include <unistd.h>
-+#include <ctype.h>
-+#include <getopt.h>
-+#include <linux/genetlink.h>
-+#include <netlink/netlink.h>
-+#include <netlink/cache.h>
-+#include <netlink/genl/genl.h>
-+#include <netlink/genl/ctrl.h>
-+#include <netlink/cli/utils.h>
-+#include <netlink/cli/link.h>
-+#include "../include/drm-uapi/drm_ras.h"
-+#include "igt_device_scan.h"
-+
-+#define ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
-+
-+struct nl_sock *mcsock;
-+
-+enum opt_val {
-+	OPT_UNKNOWN = '?',
-+	OPT_END = -1,
-+	OPT_NODEID,
-+	OPT_ERRORID,
-+	OPT_HELP,
-+};
-+
-+enum cmd_ids {
-+	INVALID_CMD = -1,
-+	LIST_NODES = 0,
-+	GET_ERROR_COUNTERS,
-+	QUERY_ERROR_COUNTER,
-+
-+	__MAX_CMDS,
-+};
-+
-+static const char * const cmd_names[] = {
-+	"list_nodes",
-+	"get_error_counters",
-+	"query_error_counter",
-+};
-+
-+struct app_context {
-+	enum drm_genl_error_cmds command;
-+	struct nl_sock *sock;
-+	struct nl_cb *cb;
-+	uint32_t node_id;
-+	uint32_t error_id;
-+	int error_id_set;
-+	int node_id_set;
-+	int error;
-+	int family_id;
-+};
-+
-+static void help(char **argv)
-+{
-+	int i;
-+
-+	printf("Usage: %s command [<command options>]\n", argv[0]);
-+	printf("commands:\n");
-+
-+	for (i = 0; i < __MAX_CMDS; i++) {
-+		switch (i) {
-+		case LIST_NODES:
-+			printf("%s %s\n",
-+			       argv[0],
-+			       cmd_names[i]);
-+			break;
-+		case GET_ERROR_COUNTERS:
-+			printf("%s %s "
-+				"--node-id=<node-id>\n",
-+				argv[0],
-+				cmd_names[i]);
-+			break;
-+		case QUERY_ERROR_COUNTER:
-+			printf("%s %s "
-+				"--node-id=<node-id> "
-+				"--error-id=<error-id>\n",
-+				argv[0],
-+				cmd_names[i]);
-+			break;
-+		default:
-+			printf("%s is Unknown Command\n",
-+			       (i < __MAX_CMDS && cmd_names[i]) ? cmd_names[i] : "Unknown");
-+		}
-+	}
-+}
-+
-+static int list_nodes_handler(struct nl_msg *msg, void *arg)
-+{
-+	struct nlmsghdr *nlh = nlmsg_hdr(msg);
-+	struct nlattr *nla;
-+	int len, remain;
-+
-+	len = GENL_HDRLEN;
-+	nlmsg_for_each_attr(nla, nlh, len, remain) {
-+		if (nla_type(nla) > DRM_RAS_NODE_ATTR_MAX) {
-+			printf("Unknown Node attribute type: %d\n", nla_type(nla));
-+			return NL_SKIP;
-+		}
-+
-+		switch (nla_type(nla)) {
-+		case DRM_RAS_NODE_ATTR_NODE_ID:
-+			printf("%-18u\t", nla_get_u32(nla));
-+			break;
-+		case DRM_RAS_NODE_ATTR_DEVICE_NAME:
-+			printf("%-30s\t", nla_get_string(nla));
-+			break;
-+		case DRM_RAS_NODE_ATTR_NODE_NAME:
-+			printf("%-30s\t", nla_get_string(nla));
-+			break;
-+		case DRM_RAS_NODE_ATTR_NODE_TYPE:
-+			printf("%-18u\n", nla_get_u32(nla));
-+			break;
-+		default:
-+			printf("Unknown attribute type: %d\n", nla_type(nla));
-+			break;
-+		}
-+	}
-+	return NL_OK;
-+}
-+
-+static int query_error_counter(struct nl_msg *msg, void *arg)
-+{
-+	struct nlmsghdr *nlh = nlmsg_hdr(msg);
-+	struct nlattr *attrs[256];
-+	int ret;
-+
-+	ret = genlmsg_parse(nlh, 0, attrs, 256, NULL);
-+	if (ret < 0) {
-+		fprintf(stderr, "Failed to parse attributes: %s\n", nl_geterror(ret));
-+		return NL_SKIP;
-+	}
-+
-+	if (!attrs[DRM_RAS_ERROR_COUNTER_ATTR_ERROR_VALUE]) {
-+		nl_cli_fatal(NLE_FAILURE, "DRM_RAS_ERROR_COUNTER_ATTR_ERROR_VALUE attribute is missing");
-+		return NL_SKIP;
-+	}
-+
-+	printf("counter value %u\n", nla_get_u32(attrs[DRM_RAS_ERROR_COUNTER_ATTR_ERROR_VALUE]));
-+
-+	return NL_OK;
-+}
-+
-+static int get_error_counters(struct nl_msg *msg, void *arg)
-+{
-+	struct nlmsghdr *nlh = nlmsg_hdr(msg);
-+	struct nlattr *nla;
-+	int len, remain;
-+
-+	len = GENL_HDRLEN;
-+
-+	nlmsg_for_each_attr(nla, nlh, len, remain) {
-+		if (nla_type(nla) > DRM_RAS_ERROR_COUNTER_ATTR_MAX) {
-+			printf("Unknown error counter attribute type: %d\n", nla_type(nla));
-+			return NL_SKIP;
-+		}
-+
-+		switch (nla_type(nla)) {
-+		case DRM_RAS_ERROR_COUNTER_ATTR_ERROR_ID:
-+			printf("%-18u\t", nla_get_u32(nla));
-+			break;
-+		case DRM_RAS_ERROR_COUNTER_ATTR_ERROR_NAME:
-+			printf("%-30s\t", nla_get_string(nla));
-+			break;
-+		case DRM_RAS_ERROR_COUNTER_ATTR_ERROR_VALUE:
-+			printf("%-18u\n", nla_get_u32(nla));
-+			break;
-+		default:
-+			printf("Unknown attribute type: %d\n", nla_type(nla));
-+			break;
-+		}
-+	}
-+	return NL_OK;
-+}
-+
-+static int drm_genl_handle_msg(struct nl_msg *msg, void *arg)
-+{
-+	struct app_context *ctx = (struct app_context *)arg;
-+	struct nlmsghdr *nlh = nlmsg_hdr(msg);
-+	struct genlmsghdr *gnlh = genlmsg_hdr(nlh);
-+
-+	if (gnlh->cmd != ctx->command) {
-+		fprintf(stderr,
-+			"Unexpected command response: got %d, expected %d\n",
-+			gnlh->cmd,
-+			ctx->command);
-+		return NL_SKIP;
-+	}
-+
-+	switch (ctx->command) {
-+	case DRM_RAS_CMD_LIST_NODES:
-+		return list_nodes_handler(msg, arg);
-+	case DRM_RAS_CMD_GET_ERROR_COUNTERS:
-+		return get_error_counters(msg, arg);
-+	case DRM_RAS_CMD_QUERY_ERROR_COUNTER:
-+		return query_error_counter(msg, arg);
-+	default:
-+		fprintf(stderr, "Unknown command: %d\n", ctx->command);
-+		ctx->error = -EOPNOTSUPP;
-+		return NL_SKIP;
-+	}
-+}
-+
-+static void handle_err(struct nl_sock *sock, int ret, const char *err_msg)
-+{
-+	nl_close(sock);
-+	nl_socket_free(sock);
-+	nl_cli_fatal(ret, err_msg);
-+}
-+
-+static void send_cmd(int cmd, void *arg)
-+{
-+	struct app_context *ctx = (struct app_context *)arg;
-+	struct nl_msg *msg;
-+	void *msg_head;
-+	int ret;
-+
-+	msg = nlmsg_alloc();
-+	if (!msg)
-+		handle_err(ctx->sock, NLE_INVAL, "nlmsg_alloc failed\n");
-+
-+	switch (cmd) {
-+	case DRM_RAS_CMD_LIST_NODES:
-+		msg_head = genlmsg_put(msg, NL_AUTO_PORT, NL_AUTO_SEQ,
-+				       ctx->family_id, 0,
-+				       NLM_F_REQUEST | NLM_F_ACK | NLM_F_ROOT | NLM_F_MATCH,
-+				       cmd, 1);
-+		if (!msg_head)
-+			nl_cli_fatal(ENOMEM, "genlmsg_put failed\n");
-+
-+		printf("%-18s\t%-30s\t%-30s\t%-18s\n",
-+		       "node-id", "device-name", "node-name", "node-type");
-+		break;
-+	case DRM_RAS_CMD_GET_ERROR_COUNTERS:
-+		if (ctx->node_id == -1) {
-+			fprintf(stderr, "Error: --node-id is required for %s command\n",
-+				cmd_names[ctx->command - 1]);
-+			exit(EXIT_FAILURE);
-+		}
-+		msg_head = genlmsg_put(msg, NL_AUTO_PORT, NL_AUTO_SEQ,
-+				       ctx->family_id, 0,
-+				       NLM_F_REQUEST | NLM_F_ACK | NLM_F_ROOT | NLM_F_MATCH,
-+				       cmd, 1);
-+
-+		if (!msg_head)
-+			nl_cli_fatal(ENOMEM, "genlmsg_put failed\n");
-+
-+		nla_put_u32(msg, DRM_RAS_ERROR_COUNTER_ATTR_NODE_ID, ctx->node_id);
-+		printf("%-18s\t%-30s\t%-18s\n",
-+		       "error-id", "error-name", "error-value");
-+		break;
-+	case DRM_RAS_CMD_QUERY_ERROR_COUNTER:
-+		if (ctx->node_id == -1 || ctx->error_id == -1) {
-+			fprintf(stderr,
-+				"Error: --node-id and --error-id are required "
-+				"for %s command\n",
-+				cmd_names[ctx->command - 1]);
-+			exit(EXIT_FAILURE);
-+		}
-+		msg_head = genlmsg_put(msg, NL_AUTO_PORT, NL_AUTO_SEQ,
-+				       ctx->family_id, 0,
-+				       NLM_F_REQUEST | NLM_F_ACK,
-+				       cmd, 1);
-+
-+		if (!msg_head)
-+			nl_cli_fatal(ENOMEM, "genlmsg_put failed\n");
-+
-+		nla_put_u32(msg, DRM_RAS_ERROR_COUNTER_ATTR_NODE_ID, ctx->node_id);
-+		nla_put_u32(msg, DRM_RAS_ERROR_COUNTER_ATTR_ERROR_ID, ctx->error_id);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	ret = nl_send_auto(ctx->sock, msg);
-+	if (ret < 0)
-+		nl_cli_fatal(ret, "Unable to send message: %s", nl_geterror(ret));
-+
-+	ret = nl_recvmsgs_default(ctx->sock);
-+	if (ret < 0)
-+		nl_cli_fatal(ret, "Unable to receive message: %s", nl_geterror(ret));
-+
-+	nlmsg_free(msg);
-+}
-+
-+static int get_cmd(char *cmd_name)
-+{
-+	int i;
-+
-+	if (!cmd_name)
-+		return -1;
-+
-+	for (i = 0; i < __DRM_RAS_CMD_MAX; i++) {
-+		if (strcasecmp(cmd_name, cmd_names[i]) == 0)
-+			return i + 1;
-+	}
-+	return -1;
-+}
-+
-+static int check_for_help(int argc, char **argv)
-+{
-+	for (int i = 1; i < argc; i++) {
-+		if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0)
-+			return 1;
-+	}
-+	return 0;
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	char *endptr;
-+	int ret, opt, option_index = 0;
-+	struct app_context ctx = {0};
-+
-+	ctx.error_id = -1;
-+	ctx.node_id = -1;
-+
-+	if (argc < 2) {
-+		fprintf(stderr, "\nNo Arguments were passed.\n\n"
-+			"Use --help to see the correct usage.\n\n");
-+		exit(EXIT_FAILURE);
-+	}
-+	if (check_for_help(argc, argv)) {
-+		help(argv);
-+		exit(EXIT_SUCCESS);
-+	}
-+
-+	ctx.command = get_cmd(argv[1]);
-+	if (ctx.command < 0) {
-+		fprintf(stderr, "invalid command\n");
-+		help(argv);
-+		exit(EXIT_FAILURE);
-+	}
-+
-+	static struct option options[] = {
-+		{"error-id", optional_argument, NULL, OPT_ERRORID},
-+		{"node-id",  optional_argument, NULL, OPT_NODEID},
-+		{"help",     no_argument,       NULL, OPT_HELP},
-+		{0, 0, 0, 0}
-+	};
-+
-+	optind = 2;
-+	while ((opt = getopt_long(argc, argv, "h", options, &option_index)) != -1) {
-+		switch (opt) {
-+		case OPT_ERRORID:
-+			if (optarg) {
-+				ctx.error_id = strtoul(optarg, &endptr, 10);
-+				if (*endptr != '\0' || !ctx.error_id) {
-+					fprintf(stderr,
-+						"\ninvalid error-id %s\n\n"
-+						"Enter a valid error-id received "
-+						"from get_error_counters command\n\n",
-+						optarg);
-+					exit(EXIT_FAILURE);
-+				}
-+			} else {
-+				printf("error-id not specified. check --help  for correct usage\n");
-+				exit(EXIT_FAILURE);
-+			}
-+			break;
-+		case OPT_NODEID:
-+			if (optarg) {
-+				ctx.node_id = strtoul(optarg, &endptr, 10);
-+				if (*endptr != '\0' || !ctx.node_id) {
-+					fprintf(stderr,
-+						"\ninvalid node id %s\n\n"
-+						"Enter a valid node-id received "
-+						"from list_nodes command\n\n",
-+						optarg);
-+					exit(EXIT_FAILURE);
-+				}
-+			} else {
-+				printf("node-id not specified. Check --help for correct usage\n");
-+				exit(EXIT_FAILURE);
-+			}
-+			break;
-+		case OPT_HELP:
-+		case 'h':
-+			help(argv);
-+			exit(EXIT_SUCCESS);
-+			break;
-+		case '?':
-+			fprintf(stderr,
-+				"Unknown argument passed\n"
-+				"Check --help for the correct usage\n\n");
-+			exit(EXIT_FAILURE);
-+			break;
-+		default:
-+			fprintf(stderr, "Unexpected option: %c\n", opt);
-+			exit(EXIT_FAILURE);
-+			break;
-+		}
-+	}
-+
-+	ctx.sock = nl_cli_alloc_socket();
-+	if (!ctx.sock)
-+		nl_cli_fatal(NLE_NOMEM, "Cannot allocate nl_sock");
-+
-+	ret = nl_cli_connect(ctx.sock, NETLINK_GENERIC);
-+	if (ret < 0)
-+		handle_err(ctx.sock, ret, "Cannot connect handle\n");
-+
-+	ctx.family_id = genl_ctrl_resolve(ctx.sock, DRM_RAS_GENL_NAME);
-+	if (ctx.family_id < 0)
-+		handle_err(ctx.sock, NLE_INVAL, "Resolving of family name failed\n");
-+
-+	ret = nl_socket_modify_cb(ctx.sock, NL_CB_VALID, NL_CB_CUSTOM, drm_genl_handle_msg, &ctx);
-+	if (ret < 0)
-+		handle_err(ctx.sock, ret, "Unable to modify valid message callback\n");
-+
-+	send_cmd(ctx.command, &ctx);
-+
-+	nl_close(ctx.sock);
-+	nl_socket_free(ctx.sock);
-+
-+	return 0;
-+}
-diff --git a/tools/meson.build b/tools/meson.build
-index 8185ba160..74ff97713 100644
---- a/tools/meson.build
-+++ b/tools/meson.build
-@@ -70,6 +70,11 @@ if libudev.found()
- 		   install : true)
- endif
- 
-+executable('drm_ras', 'drm_ras.c',
-+			dependencies : [tool_deps, libnl, libnl_cli, libnl_genl],
-+			install_rpath : bindir_rpathdir,
-+			install : true)
-+
- executable('gputop', 'gputop.c',
-            install : true,
-            install_rpath : bindir_rpathdir,
--- 
-2.34.1
+"Iterates through the list of known PCI devices. If a PCI device is 
+found with a matching class, the reference count to the device is 
+incremented and a pointer to its device structure is returned. 
+Otherwise, NULL is returned. A new search is initiated by passing NULL 
+as the from argument. Otherwise if from is not NULL, searches continue 
+from next device on the global list. The reference count for from is 
+always decremented if it is not NULL."
+
+
+After a device is found, it goes in as the "from" device for the next 
+iteration. Then reference count of the from device is decremented. Both 
+the loops continue till pdev gets to NULL. So there is nothing to put() 
+after the loops are completed.
+
+Thanks,
+Lijo
+
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 5d30ed3c2c74 ("Revert "drm/amdgpu: simplify ATPX detection"")
+> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c
+> index 3893e6fc2f03..9eb776a2e8bb 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atpx_handler.c
+> @@ -617,6 +617,9 @@ static bool amdgpu_atpx_detect(void)
+>   		amdgpu_atpx_get_quirks(pdev);
+>   	}
+>   
+> +	pci_dev_put(pdev);
+> +	pdev = NULL;
+> +
+>   	while ((pdev = pci_get_class(PCI_CLASS_DISPLAY_OTHER << 8, pdev)) != NULL) {
+>   		vga_count++;
+>   
+> @@ -627,6 +630,8 @@ static bool amdgpu_atpx_detect(void)
+>   		amdgpu_atpx_get_quirks(pdev);
+>   	}
+>   
+> +	pci_dev_put(pdev);
+> +
+>   	if (has_atpx && vga_count == 2) {
+>   		acpi_get_name(amdgpu_atpx_priv.atpx.handle, ACPI_FULL_PATHNAME, &buffer);
+>   		pr_info("vga_switcheroo: detected switching method %s handle\n",
 
