@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5BE0C79FB4
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 15:09:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9DFC79FC0
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 15:09:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E53E10E8BF;
-	Fri, 21 Nov 2025 14:08:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BF8510E887;
+	Fri, 21 Nov 2025 14:09:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="F1eqwuVs";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="mkCFPPKn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
- [209.85.208.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAE1010E8A7
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 14:08:57 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id
- 38308e7fff4ca-37b983fbd45so16579051fa.3
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 06:08:57 -0800 (PST)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59EBC10E887
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 14:09:11 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-59583505988so2900441e87.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 06:09:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1763734136; x=1764338936; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1763734150; x=1764338950; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=43izIePpDRF9tBY8hZbcyu8muBvEa9BgL6xgRlQw6+k=;
- b=F1eqwuVs5yiGpNaPsmPCcDQX7paM1Be5SXvs2MzHQ+PFGMhg3HG1pf0X4XYbk64Wnk
- M6voGxkHeBOHC8XNoe2H2lFLDjYVFmfk6pnq2lzLDhHQM6XcqasI6wljaBQ3e3dV0t4s
- WvDuIhZAxPqYy2kvmjg9E4MrmVmkxO8r4u/W1LgxBP4obcgMtaww5DQQMz/GLtDz7Gsj
- ACxTq87YzuD7VMJ1XRGgq9cjDY313vEpEYyPkZcGzZfFJF0lADUMJqDjpc5DYYoY6rvm
- fXyaja9B2KzwyTxIn4pKNvUMpwEsUw8KVIQ76D8IWZPkQNCmrUvup/E8OEi1N0Bn/Zrk
- L/zA==
+ :reply-to; bh=ad/4om2M/AQ7PqpIcaRnNBk8hiQAbDj8O1LhlyygVkg=;
+ b=mkCFPPKnCIACKUcMj/1pNFyYMMBApg5jB3Iwfy5W8p/PU3NmHYrF5dqFIYWU7l1aCc
+ REpx36CNZGgxj4ydNeRNEDNCZYbNnrP81HxOab0Y0YAgoXuOIMqUuIAfQPokGJBomSSU
+ J/le/IU6eKgXLcqMomwhGhkMfV17vmVS8zFFZDXWTLEaYzq+/dj/YsUIRuPkg9JEZp9H
+ WPV0c1TTY2g5xTa2vpbhSIg/NfTvFKh72O3audSljnrZFfVK1Lmla1ZNnRZiwG6bnyYx
+ Cchqq66m5LFJIa6MfSsRDxX6/SwG0Bf6Q3iqXnJUWrspppJSl67yNskt2kcAO6mfmhXb
+ 7gcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763734136; x=1764338936;
+ d=1e100.net; s=20230601; t=1763734150; x=1764338950;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=43izIePpDRF9tBY8hZbcyu8muBvEa9BgL6xgRlQw6+k=;
- b=SQkLoMCIUb7I5czhu9K7DKmzf2qGjhwise30r8pnvaSvO9HJfW7Z+p2fZDp1nIFiOD
- zs6QbAXz1kZqM91P2cC6v0ykDR1Cs3cAlBKowVRyk08Ioz63Kjg7emPAdOjHlaSOm9If
- q6KeWRlFHRWrUo7cm8vtSHueRFx2HA9jdoFlWQoWutJpi4/KZ+E7ckimEJQhjlPLlX+q
- bOR3k6XEX2bJ8LEpFF0GSKTnppDoTdKHh9fukqYT1PBtWLPkH61hteSnld9qBmzQoMtj
- S7l1tCwroYTTobum7e13ev/uOCoyA0UHwNFyg0Z7kq23DnsBiRkYHPoA53pLxjkHyfhE
- V7vw==
-X-Gm-Message-State: AOJu0YxDTqYZn3OhyycC+1YqCxwvCk+VX/FNVtznov6I19m1XEpbZmkK
- uvwg3G2zPuWyafxFc+UVGwVGQzVyPpvcwoEmDwqzsV0G5A7t1T+wZDiBj12na8Nda3c=
-X-Gm-Gg: ASbGncv6LtA5oiT0wslI/SNztoYWR6Yx4hLNxImQejvcKTZmp1jiEpcY38FgE1slWau
- QfASHuYuGxYCRu3gPjaahjRktnG+YoCyVIVjrs9nu522XBYNcrraV8MRYWCZe6RDTht90ucWaGA
- VLYwyNDApj9jFYfIB2/dCAxC2HioMP6DmMAiubgRQH7w8MUGh8nUd4Xl/zdBzX7fjPglYDsL3mn
- /5Tz+aGWTlpeHmmy1+DEMLigT6LaOb+sCTg+pkubPGAbsuxvqplY2yhJ0pIpOqNZBuExxDNSpYC
- MCl765Lkim6cJ9TMYcjB7/H7yF+/iK7entv4OBvTwufmBPKRQNRe/aKcEpfEqXvTzhukBwu4rNm
- 6uSD/dJ2q0UFV1Hw2zI1mU7ktFSiYXiXXHj6toL5iPuP8NvW0uzaqMt8YCVOQZsvT/x+EZBiK+i
- k6LO8FRnRNkaj3x+x+h3ZeNXMp+pknO7+Ru/ZlC12khZq32uNNkXlGvWk=
-X-Google-Smtp-Source: AGHT+IF2UxVhyVMW3AX/hoiGonlkOfpep4umI8fQpuWGyYEaK09IyOu8Yp1elYTOBgohXU5wXynToA==
-X-Received: by 2002:a05:6512:b1c:b0:595:81e5:7570 with SMTP id
- 2adb3069b0e04-596a3ed98c0mr1009880e87.23.1763734135916; 
- Fri, 21 Nov 2025 06:08:55 -0800 (PST)
+ bh=ad/4om2M/AQ7PqpIcaRnNBk8hiQAbDj8O1LhlyygVkg=;
+ b=hgR1FgSQA4E0UM5BuihFxNTT0iBebgPpVg5hjaPntknJ9JFC5RYXo4I2qt/yvVaiY4
+ APl9LieHbkkbCwHq+VWOY7bTR3QbTsZQNhYqDKKQ6CPShYyzYKWJyxWGTEcSWX2xs/Uj
+ HctAlykPNWxi7UJZqE7vWW/G0uJtia702EENP2fWLMUUhPCmG7X/Gs22AHc4vRQw5izh
+ WSrAGY9pe4fxWsW/+46U8c39RP9afslAe2l/fxd92JmcxgiGVWWXuN5V33tjJ+lBSykP
+ UGJvqZlk/SwVKJuPQv2PHS0vt4/q7JWJhQg/1lli7pFwsORcLTn9rsv5lGGiZgh4UrQl
+ cqqQ==
+X-Gm-Message-State: AOJu0Yxmpp+CGouviNJojE6kwEs89W9DIz3gQG3TA3BrnQb7clFYqK6Q
+ 1mjWK2s9oo6pKQD88JzZ+LzXHcMVv8EGBsg3vFmZNl7RyREKPiHGGe5d9jB84NYLWVw=
+X-Gm-Gg: ASbGncvxcF8o/YP/+D0aJcL1Z0j5wXJfMDqQcFIRK91rcaWWtMLEXxUAFWYYEyxOCmt
+ qk03BRv9cbZMTVGiH9hgJFY/PgMP7fWyYd4z1h6qwx9JbwakHGgCwHHZc9/3vQ4WdKWHu2sYnR5
+ KVqFjWaFLNLyZ7uqOx3j2ectF0iSgPYKdWSqS+iDji2VSGYna1S7h7Iw5GnQ/GEfrj+8o4MMYMY
+ cDBqS3njA7BK5lteYt916BsQzq7d4N1GMTzZvbZDuqxCEinENwi2ZQXdqa3Y+m/Oj98GazfJhj2
+ jE/zatvc84QK+mzqEt3+uQXIvqjLLyjseePHRCaxHEetPpuUJ427ymCS7UDniK2jCMKQPzQDum8
+ WZ0TJN2f2g5AmGqSVustgVEKKRISLIXc2hg27VoCuPeypgvhYEzLLQQXXEnyE13oCeUzNpbmK81
+ +VhsG7RAG2XaojRv+sHaO999VBdAfSE/m+LzeyTKcqTdq1z5rlSP9I6mTfpwPyHNXFKw==
+X-Google-Smtp-Source: AGHT+IGGcDGEKQITT5/tGvcE73xIUckd+xCT0V0Qk+ljyWya35+gF4rei0wl07b04qDunpMZy60+Ew==
+X-Received: by 2002:a05:6512:ba3:b0:595:9195:338f with SMTP id
+ 2adb3069b0e04-596a37a17fbmr1051650e87.23.1763734149570; 
+ Fri, 21 Nov 2025 06:09:09 -0800 (PST)
 Received: from [192.168.1.2] (c-92-34-217-190.bbcust.telenor.se.
  [92.34.217.190]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5969db8718csm1668421e87.30.2025.11.21.06.08.50
+ 2adb3069b0e04-5969db8718csm1668421e87.30.2025.11.21.06.08.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Nov 2025 06:08:50 -0800 (PST)
+ Fri, 21 Nov 2025 06:08:56 -0800 (PST)
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 21 Nov 2025 15:08:31 +0100
-Subject: [PATCH v4 1/3] drm/atomic-helper: Export and namespace some functions
+Date: Fri, 21 Nov 2025 15:08:32 +0100
+Subject: [PATCH v4 2/3] drm/mcde: Create custom commit tail
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251121-mcde-drm-regression-thirdfix-v4-1-d89bf8c17f85@linaro.org>
+Message-Id: <20251121-mcde-drm-regression-thirdfix-v4-2-d89bf8c17f85@linaro.org>
 References: <20251121-mcde-drm-regression-thirdfix-v4-0-d89bf8c17f85@linaro.org>
 In-Reply-To: <20251121-mcde-drm-regression-thirdfix-v4-0-d89bf8c17f85@linaro.org>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
@@ -98,213 +98,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Export and namespace those not prefixed with drm_* so
-it becomes possible to write custom commit tail functions
-in individual drivers using the helper infrastructure.
+commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+"drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+caused a series of regressions in all panels that send
+DSI commands in their .prepare() and .unprepare()
+callbacks when used with MCDE.
 
+As the CRTC is no longer online at bridge_pre_enable()
+and gone at brige_post_disable() which maps to the panel
+bridge .prepare()/.unprepare() callbacks, any CRTC that
+enable/disable the DSI transmitter in it's enable/disable
+callbacks will be unable to send any DSI commands in the
+.prepare() and .unprepare() callbacks.
+
+However the MCDE driver definitely need the CRTC to be
+enabled during .prepare()/.unprepare().
+
+Solve this by implementing a custom commit tail function
+in the MCDE driver that always enables the CRTC first
+and disables it last, using the newly exported helpers.
+
+Link: https://lore.kernel.org/dri-devel/20251026-fix-mcde-drm-regression-v2-0-8d799e488cf9@linaro.org/
+Link: https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Brenesas%40mailbox.org/
+Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 54 +++++++++++++++++++++----------------
- include/drm/drm_atomic_helper.h     | 19 +++++++++++++
- 2 files changed, 50 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/mcde/mcde_drv.c | 37 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index d5ebe6ea0acb..906eb4b0852c 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1162,8 +1162,8 @@ crtc_needs_disable(struct drm_crtc_state *old_state,
- 	       new_state->self_refresh_active;
- }
+diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_drv.c
+index 5f2c462bad7e..290082c86100 100644
+--- a/drivers/gpu/drm/mcde/mcde_drv.c
++++ b/drivers/gpu/drm/mcde/mcde_drv.c
+@@ -100,13 +100,48 @@ static const struct drm_mode_config_funcs mcde_mode_config_funcs = {
+ 	.atomic_commit = drm_atomic_helper_commit,
+ };
  
--static void
--encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *state)
-+void
-+drm_encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *state)
- {
- 	struct drm_connector *connector;
- 	struct drm_connector_state *old_conn_state, *new_conn_state;
-@@ -1229,9 +1229,10 @@ encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *state)
- 		}
- 	}
- }
-+EXPORT_SYMBOL(drm_encoder_bridge_disable);
- 
--static void
--crtc_disable(struct drm_device *dev, struct drm_atomic_state *state)
-+void
-+drm_crtc_disable(struct drm_device *dev, struct drm_atomic_state *state)
- {
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *old_crtc_state, *new_crtc_state;
-@@ -1282,9 +1283,10 @@ crtc_disable(struct drm_device *dev, struct drm_atomic_state *state)
- 			drm_crtc_vblank_put(crtc);
- 	}
- }
-+EXPORT_SYMBOL(drm_crtc_disable);
- 
--static void
--encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *state)
-+void
-+drm_encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *state)
- {
- 	struct drm_connector *connector;
- 	struct drm_connector_state *old_conn_state, *new_conn_state;
-@@ -1335,15 +1337,16 @@ encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *sta
- 		drm_bridge_put(bridge);
- 	}
- }
-+EXPORT_SYMBOL(drm_encoder_bridge_post_disable);
- 
- static void
- disable_outputs(struct drm_device *dev, struct drm_atomic_state *state)
- {
--	encoder_bridge_disable(dev, state);
++/*
++ * This commit tail explicitly copies and changes the behaviour of
++ * the related core DRM atomic helper instead of trying to make
++ * the core helpers overly generic.
++ */
++static void mcde_atomic_commit_tail(struct drm_atomic_state *state)
++{
++	struct drm_device *dev = state->dev;
++
++	/* Variant of drm_atomic_helper_commit_modeset_disables() */
 +	drm_encoder_bridge_disable(dev, state);
- 
--	crtc_disable(dev, state);
-+	drm_crtc_disable(dev, state);
- 
--	encoder_bridge_post_disable(dev, state);
 +	drm_encoder_bridge_post_disable(dev, state);
- }
- 
- /**
-@@ -1446,8 +1449,8 @@ void drm_atomic_helper_calc_timestamping_constants(struct drm_atomic_state *stat
- }
- EXPORT_SYMBOL(drm_atomic_helper_calc_timestamping_constants);
- 
--static void
--crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state)
-+void
-+drm_crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state)
- {
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *new_crtc_state;
-@@ -1508,6 +1511,7 @@ crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state)
- 		drm_bridge_put(bridge);
- 	}
- }
-+EXPORT_SYMBOL(drm_crtc_set_mode);
- 
- /**
-  * drm_atomic_helper_commit_modeset_disables - modeset commit to disable outputs
-@@ -1531,12 +1535,12 @@ void drm_atomic_helper_commit_modeset_disables(struct drm_device *dev,
- 	drm_atomic_helper_update_legacy_modeset_state(dev, state);
- 	drm_atomic_helper_calc_timestamping_constants(state);
- 
--	crtc_set_mode(dev, state);
++	drm_crtc_disable(dev, state);
++	drm_atomic_helper_update_legacy_modeset_state(dev, state);
++	drm_atomic_helper_calc_timestamping_constants(state);
 +	drm_crtc_set_mode(dev, state);
- }
- EXPORT_SYMBOL(drm_atomic_helper_commit_modeset_disables);
- 
--static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
--						struct drm_atomic_state *state)
-+void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
-+					 struct drm_atomic_state *state)
- {
- 	struct drm_connector *connector;
- 	struct drm_connector_state *new_conn_state;
-@@ -1555,9 +1559,10 @@ static void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
- 		}
- 	}
- }
-+EXPORT_SYMBOL(drm_atomic_helper_commit_writebacks);
- 
--static void
--encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *state)
-+void
-+drm_encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *state)
- {
- 	struct drm_connector *connector;
- 	struct drm_connector_state *new_conn_state;
-@@ -1588,9 +1593,10 @@ encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *state
- 		drm_bridge_put(bridge);
- 	}
- }
-+EXPORT_SYMBOL(drm_encoder_bridge_pre_enable);
- 
--static void
--crtc_enable(struct drm_device *dev, struct drm_atomic_state *state)
-+void
-+drm_crtc_enable(struct drm_device *dev, struct drm_atomic_state *state)
- {
- 	struct drm_crtc *crtc;
- 	struct drm_crtc_state *old_crtc_state;
-@@ -1619,9 +1625,10 @@ crtc_enable(struct drm_device *dev, struct drm_atomic_state *state)
- 		}
- 	}
- }
-+EXPORT_SYMBOL(drm_crtc_enable);
- 
--static void
--encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
-+void
-+drm_encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
- {
- 	struct drm_connector *connector;
- 	struct drm_connector_state *new_conn_state;
-@@ -1664,6 +1671,7 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
- 		drm_bridge_put(bridge);
- 	}
- }
-+EXPORT_SYMBOL(drm_encoder_bridge_enable);
- 
- /**
-  * drm_atomic_helper_commit_modeset_enables - modeset commit to enable outputs
-@@ -1682,11 +1690,11 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
- void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
- 					      struct drm_atomic_state *state)
- {
--	encoder_bridge_pre_enable(dev, state);
-+	drm_encoder_bridge_pre_enable(dev, state);
- 
--	crtc_enable(dev, state);
++
++	/* Variant of drm_atomic_helper_commit_modeset_enables() */
 +	drm_crtc_enable(dev, state);
- 
--	encoder_bridge_enable(dev, state);
++	drm_encoder_bridge_pre_enable(dev, state);
 +	drm_encoder_bridge_enable(dev, state);
++	drm_atomic_helper_commit_writebacks(dev, state);
++
++	drm_atomic_helper_commit_planes(dev, state,
++					DRM_PLANE_COMMIT_ACTIVE_ONLY);
++
++	drm_atomic_helper_fake_vblank(state);
++
++	drm_atomic_helper_commit_hw_done(state);
++
++	drm_atomic_helper_wait_for_vblanks(dev, state);
++
++	drm_atomic_helper_cleanup_planes(dev, state);
++}
++
+ static const struct drm_mode_config_helper_funcs mcde_mode_config_helpers = {
+ 	/*
+ 	 * Using this function is necessary to commit atomic updates
+ 	 * that need the CRTC to be enabled before a commit, as is
+ 	 * the case with e.g. DSI displays.
+ 	 */
+-	.atomic_commit_tail = drm_atomic_helper_commit_tail_rpm,
++	.atomic_commit_tail = mcde_atomic_commit_tail,
+ };
  
- 	drm_atomic_helper_commit_writebacks(dev, state);
- }
-diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
-index 53382fe93537..39878aa485c3 100644
---- a/include/drm/drm_atomic_helper.h
-+++ b/include/drm/drm_atomic_helper.h
-@@ -60,6 +60,11 @@ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
- int drm_atomic_helper_check_planes(struct drm_device *dev,
- 			       struct drm_atomic_state *state);
- int drm_atomic_helper_check_crtc_primary_plane(struct drm_crtc_state *crtc_state);
-+void drm_encoder_bridge_disable(struct drm_device *dev,
-+				struct drm_atomic_state *state);
-+void drm_crtc_disable(struct drm_device *dev, struct drm_atomic_state *state);
-+void drm_encoder_bridge_post_disable(struct drm_device *dev,
-+				     struct drm_atomic_state *state);
- int drm_atomic_helper_check(struct drm_device *dev,
- 			    struct drm_atomic_state *state);
- void drm_atomic_helper_commit_tail(struct drm_atomic_state *state);
-@@ -89,8 +94,22 @@ drm_atomic_helper_update_legacy_modeset_state(struct drm_device *dev,
- void
- drm_atomic_helper_calc_timestamping_constants(struct drm_atomic_state *state);
- 
-+void drm_crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state);
-+
- void drm_atomic_helper_commit_modeset_disables(struct drm_device *dev,
- 					       struct drm_atomic_state *state);
-+
-+void drm_atomic_helper_commit_writebacks(struct drm_device *dev,
-+					 struct drm_atomic_state *state);
-+
-+void drm_encoder_bridge_pre_enable(struct drm_device *dev,
-+				   struct drm_atomic_state *state);
-+
-+void drm_crtc_enable(struct drm_device *dev, struct drm_atomic_state *state);
-+
-+void drm_encoder_bridge_enable(struct drm_device *dev,
-+			       struct drm_atomic_state *state);
-+
- void drm_atomic_helper_commit_modeset_enables(struct drm_device *dev,
- 					  struct drm_atomic_state *old_state);
- 
+ static irqreturn_t mcde_irq(int irq, void *data)
 
 -- 
 2.51.1
