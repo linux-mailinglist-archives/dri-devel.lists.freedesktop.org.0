@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39FA6C790B7
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 13:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7DFBC790CC
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 13:46:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B78A10E137;
-	Fri, 21 Nov 2025 12:43:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2CF810E243;
+	Fri, 21 Nov 2025 12:46:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="t617MyOr";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K2gZAEjK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54BFF10E137
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 12:43:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6FAD410E243
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 12:46:50 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C7BAC8E0;
- Fri, 21 Nov 2025 13:41:04 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07EEC6A6;
+ Fri, 21 Nov 2025 13:44:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1763728866;
- bh=btzhElKxuE9+jyUk5W5LBAHssWbBmt9GYzdoieFeTug=;
+ s=mail; t=1763729083;
+ bh=DfHDcWfIsJYjEzRdDjntTIUdXSxFJEPnFUAtH0wngV4=;
  h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
- b=t617MyOryS8lfGmQwdodqEYaDsK5d6nrPtI6BpBYMwFqLc/2IJxHwNlobHExDmAEJ
- MGst2v/AuuoruTHxZO8dNXL4fmJpQHDDRBp7mm2CKD41wtUJnFiRweRW8hk8OjiL1J
- zgMJeMMZ5/wNRgGOtwO9E5e7U1nq1htV4uaQ3Wdw=
-Message-ID: <8c97c5e9-7705-4368-a3a9-45e209582c3f@ideasonboard.com>
-Date: Fri, 21 Nov 2025 14:43:07 +0200
+ b=K2gZAEjKzm7DTPBeR5JYnRA4K/ROEYwdQS3BZHue9farivp7xA4iHiodnCYlPsGmO
+ qrgcNRgo1KaLX0ky4yGZeW/QuCDclxH7fri0xQsMvW4HSHs0UtPVhSSlB9HlRLSeZo
+ 9WocRhE8zlbGQoUydgUlnDjJF2q5Mp9v7F77WOrg=
+Message-ID: <b6e44d61-7704-48fa-ba03-ba1a75e8a4f8@ideasonboard.com>
+Date: Fri, 21 Nov 2025 14:46:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v9 2/6] drm/bridge: cadence: cdns-mhdp8546-core:
- Add mode_valid hook to drm_bridge_funcs
+Subject: Re: [PATCH RESEND v9 3/6] drm/bridge: cadence: cdns-mhdp8546-core:
+ Handle HDCP state in bridge atomic check
 To: Harikrishna Shenoy <h-shenoy@ti.com>
 References: <20251120121416.660781-1-h-shenoy@ti.com>
- <20251120121416.660781-3-h-shenoy@ti.com>
+ <20251120121416.660781-4-h-shenoy@ti.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
@@ -90,7 +90,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20251120121416.660781-3-h-shenoy@ti.com>
+In-Reply-To: <20251120121416.660781-4-h-shenoy@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -111,64 +111,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi,
 
 On 20/11/2025 14:14, Harikrishna Shenoy wrote:
-> From: Jayesh Choudhary <j-choudhary@ti.com>
-> 
-> Add cdns_mhdp_bridge_mode_valid() to check if specific mode is valid for
-> this bridge or not. In the legacy usecase with
-> !DRM_BRIDGE_ATTACH_NO_CONNECTOR we were using the hook from
-> drm_connector_helper_funcs but with DRM_BRIDGE_ATTACH_NO_CONNECTOR
-> we need to have mode_valid() in drm_bridge_funcs.
+> Now that we have DRM_BRIDGE_ATTACH_NO_CONNECTOR framework, handle the
+> HDCP state change inbridge atomic check as well to enable correct
 
-This looks fine, but a fix should always explain what the issue is. What
-is the behavior without this patch, if DRM_BRIDGE_ATTACH_NO_CONNECTOR is
-set?
+"in bridge's"
+
+> functioning for HDCP in both DRM_BRIDGE_ATTACH_NO_CONNECTOR and
+> !DRM_BRIDGE_ATTACH_NO_CONNECTOR case.
+
+Same thing here. What is the issue? What behavior do you see without
+this patch?
 
  Tomi
 
-> Fixes: c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> Fixes: 6a3608eae6d33 ("drm: bridge: cdns-mhdp8546: Enable HDCP")
 > Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
 > ---
->  .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 20 +++++++++++++++++++
->  1 file changed, 20 insertions(+)
+>  .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 23 +++++++++++++++++++
+>  1 file changed, 23 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> index f3076e9cdabbe..7178a01e4d4d8 100644
+> index 7178a01e4d4d8..d944095da4722 100644
 > --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
 > +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-> @@ -2162,6 +2162,25 @@ static const struct drm_edid *cdns_mhdp_bridge_edid_read(struct drm_bridge *brid
->  	return cdns_mhdp_edid_read(mhdp, connector);
->  }
+> @@ -2123,6 +2123,10 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
+>  {
+>  	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+>  	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+> +	struct drm_connector_state *old_state, *new_state;
+> +	struct drm_atomic_state *state = crtc_state->state;
+> +	struct drm_connector *conn = mhdp->connector_ptr;
+> +	u64 old_cp, new_cp;
 >  
-> +static enum drm_mode_status
-> +cdns_mhdp_bridge_mode_valid(struct drm_bridge *bridge,
-> +			    const struct drm_display_info *info,
-> +			    const struct drm_display_mode *mode)
-> +{
-> +	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+>  	mutex_lock(&mhdp->link_mutex);
+>  
+> @@ -2142,6 +2146,25 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
+>  	if (mhdp->info)
+>  		bridge_state->input_bus_cfg.flags = *mhdp->info->input_bus_flags;
+>  
+> +	if (conn && mhdp->hdcp_supported) {
+> +		old_state = drm_atomic_get_old_connector_state(state, conn);
+> +		new_state = drm_atomic_get_new_connector_state(state, conn);
+> +		old_cp = old_state->content_protection;
+> +		new_cp = new_state->content_protection;
 > +
-> +	mutex_lock(&mhdp->link_mutex);
+> +		if (old_state->hdcp_content_type != new_state->hdcp_content_type &&
+> +		    new_cp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+> +			new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
+> +			crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
+> +			crtc_state->mode_changed = true;
+> +		}
 > +
-> +	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
-> +				    mhdp->link.rate)) {
-> +		mutex_unlock(&mhdp->link_mutex);
-> +		return MODE_CLOCK_HIGH;
+> +		if (!new_state->crtc) {
+> +			if (old_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED)
+> +				new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
+> +		}
 > +	}
 > +
-> +	mutex_unlock(&mhdp->link_mutex);
-> +	return MODE_OK;
-> +}
-> +
->  static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
->  	.atomic_enable = cdns_mhdp_atomic_enable,
->  	.atomic_disable = cdns_mhdp_atomic_disable,
-> @@ -2176,6 +2195,7 @@ static const struct drm_bridge_funcs cdns_mhdp_bridge_funcs = {
->  	.edid_read = cdns_mhdp_bridge_edid_read,
->  	.hpd_enable = cdns_mhdp_bridge_hpd_enable,
->  	.hpd_disable = cdns_mhdp_bridge_hpd_disable,
-> +	.mode_valid = cdns_mhdp_bridge_mode_valid,
->  };
->  
->  static bool cdns_mhdp_detect_hpd(struct cdns_mhdp_device *mhdp, bool *hpd_pulse)
+>  	mutex_unlock(&mhdp->link_mutex);
+>  	return 0;
+>  }
 
