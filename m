@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 657E4C788E9
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 11:39:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52ADCC78C51
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 12:24:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E16610E84D;
-	Fri, 21 Nov 2025 10:39:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9DEDE10E84E;
+	Fri, 21 Nov 2025 11:24:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="VmWMSom1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eqZMuCt3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE5C910E84D
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 10:39:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
- Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=UA5zKpGj6q/iFCQeu7osXCTGE0BPTUm68ll3JOdW5QA=; b=VmWMSom1uEt/I8gLd8cCn2LcBG
- OX0DfuDfqxstH0nJC+lZQfR3sp3hLCLRcqsIoFhExb5JQWQshT+7m4pJeeoReZPAFu1alABOb26ME
- 7qebPLWj1IWRpBRwYgY0Ft+pO1xzThnWj1b/TgxABzjKAujGk631wESUfh2Y5rquBeRneOL5JjQg2
- NWlvgy1TTnEBO9eTGPDzWm++p5FBBqEW6hxUicG+0mEjBQfLqm3aPlTxcvzyzSgfXq4ePNk20vNyi
- I9PV1zUwF3o2TQjyVgMYfGCmOB3wNtb75N8BmOl0zA0eI+QcVfd0GwRN91NJS9kEvoNsNZelX5UzD
- 6w5xHY1g==;
-Received: from 179-125-79-205-dinamico.pombonet.net.br ([179.125.79.205]
- helo=quatroqueijos.cascardo.eti.br)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vMOY1-003cjT-70; Fri, 21 Nov 2025 11:39:25 +0100
-Date: Fri, 21 Nov 2025 07:39:21 -0300
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: Re: [PATCH 4/4] drm/ttm: Tidy usage of local variables a little bit
-Message-ID: <aSBBWcuqmZA_0yEY@quatroqueijos.cascardo.eti.br>
-References: <20250919131530.91247-1-tvrtko.ursulin@igalia.com>
- <20250919131530.91247-5-tvrtko.ursulin@igalia.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40FCC10E84E
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 11:24:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id F376E44059;
+ Fri, 21 Nov 2025 11:24:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D06EAC113D0;
+ Fri, 21 Nov 2025 11:24:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763724287;
+ bh=jdJtsYuqXaicdXVMWm0tMN7CbHJmNW9uyT/z2e52K9A=;
+ h=From:To:Cc:Subject:Date:From;
+ b=eqZMuCt32a7QZcHGcPht9J7OwEn7F+vWIWM1O5mls7C8jmIGhmIEsGkcBUqkG3U2P
+ ZpPowEuh+eI4FvIINX4Fi0WaIuYiL2ImTF+7RzXvVIRQreMAxsJ1JpN1ocJQKPDh1o
+ 24RXagSvQah4pNH1KAwXKcGjzY10qJrXhqOpHhOQA3U0KsfzHsPCQSqAmFr7Oi3eT5
+ 7O9cdWcZw/rdDfzrkP6fZk+OxWmgUTHj/TNNgVW/SwVarbid560GhjxPYeL6NxDyoZ
+ gcis7khhLq62uflwoQYlIlNcFG55QvpumWePXPXpsn+dk2sThOoeBQHMy9yrr/d4oi
+ bq8U9AG5vQRZA==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+ (envelope-from <johan@kernel.org>) id 1vMPFw-000000008Rv-0Pgw;
+ Fri, 21 Nov 2025 12:24:48 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+ stable@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>
+Subject: [PATCH] drm/tegra: fix device leak on probe()
+Date: Fri, 21 Nov 2025 12:24:32 +0100
+Message-ID: <20251121112432.32456-1-johan@kernel.org>
+X-Mailer: git-send-email 2.51.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250919131530.91247-5-tvrtko.ursulin@igalia.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,36 +61,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 19, 2025 at 02:15:30PM +0100, Tvrtko Ursulin wrote:
-> At the moment the TTM code has a few places which exibit sub-optimal
-> patterns regarding local variable usage:
-> 
->  * Having a local with some object cached but not always using it.
->  * Having a local for a single use object member access.
->  * Failed opportunities to use a local to cache a pointer.
-> 
-> Lets tidy this a little bit and apply some more consistency.
-> 
-> It is mostly for consistency and redability but I have also checked that
-> there are not negative code generation effects. In fact there are more
-> positives:
-> 
-> add/remove: 0/0 grow/shrink: 3/9 up/down: 12/-175 (-163)
-> Function                                     old     new   delta
-> ttm_pool_restore_and_alloc                   415     423      +8
-> ttm_bo_vunmap                                147     149      +2
-> ttm_bo_evict                                 521     523      +2
-> ttm_bo_vm_fault_reserved                     972     970      -2
-> ttm_bo_vm_dummy_page                         155     152      -3
-> ttm_bo_vm_fault                              203     196      -7
-> ttm_bo_populate                              158     150      -8
-> ttm_bo_move_memcpy                           600     592      -8
-> ttm_bo_kmap                                  667     644     -23
-> ttm_bo_shrink                                333     305     -28
-> ttm_bo_release                               750     720     -30
-> ttm_bo_swapout_cb                            691     625     -66
-> Total: Before=42717, After=42554, chg -0.38%
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Make sure to drop the reference taken when looking up the companion
+device during probe().
 
-Reviewed-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Note that holding a reference to a device does not prevent its driver
+data from going away so there is no point in keeping the reference.
+
+Fixes: f68ba6912bd2 ("drm/tegra: dc: Link DC1 to DC0 on Tegra20")
+Cc: stable@vger.kernel.org	# 4.16
+Cc: Dmitry Osipenko <digetx@gmail.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/gpu/drm/tegra/dc.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+index 59d5c1ba145a..7a6b30df6a89 100644
+--- a/drivers/gpu/drm/tegra/dc.c
++++ b/drivers/gpu/drm/tegra/dc.c
+@@ -3148,6 +3148,8 @@ static int tegra_dc_couple(struct tegra_dc *dc)
+ 		dc->client.parent = &parent->client;
+ 
+ 		dev_dbg(dc->dev, "coupled to %s\n", dev_name(companion));
++
++		put_device(companion);
+ 	}
+ 
+ 	return 0;
+-- 
+2.51.2
+
