@@ -2,148 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C0EC7AC5A
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 17:14:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B03C7ACD6
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 17:20:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA8810E8E4;
-	Fri, 21 Nov 2025 16:14:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E882F10E2C1;
+	Fri, 21 Nov 2025 16:20:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="SkiyalIQ";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="bVlZ0tov";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LVn7sgHi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D34CD10E8E6
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 16:14:03 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5ALB4KHo3911797
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 16:14:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- /jj4l4aFX3SWxUZKTjWnaJm5Qi54yPoZShI+8E7Jh7k=; b=SkiyalIQG+hp6ImX
- fwpl1meDno6UhtCuASPEZImZA2kBEoGJGLZXcnE4/489oH5LbbOpB3cz/XO9zU+h
- 2i06C8SJSzkSsmDaFi1AkpfPq6BOTsDdkIZ8xfmWdXUUlYMEGwdm/Mvr0LGIblbU
- b6Ym+PVh2qvB2/QpxUcKA9WDncLeK2FWaWfnvoBJJWFolO8U66Okx4eKBXQfnWmf
- 1HgTkAZ0zfEBzemDrGHbXVwE4vHXKPtQYZijUogAvZUfXdKI+63rS5YcZqF8VwIC
- Bs8Q6Wjc8qFmCa8Fcnwvvaxaia4JK4uEoW4Fifq/NuS5N+OgPtRd2eqz2y+bIIWO
- a9LjcA==
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ajpvsgxme-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 16:14:02 +0000 (GMT)
-Received: by mail-vk1-f199.google.com with SMTP id
- 71dfb90a1353d-5595f2366c0so4254090e0c.2
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 08:14:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763741642; x=1764346442;
- darn=lists.freedesktop.org; 
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=/jj4l4aFX3SWxUZKTjWnaJm5Qi54yPoZShI+8E7Jh7k=;
- b=bVlZ0tov2fuA5GEwxqyJvkLpYN0HowhyXxOL6Q7YGnNYjIRm1otw4zgPDlWRudjBeI
- SE0ubjmUklh4XYcwX7WVqaGOzSPZt6LVufSWVd+fPuAdKUgxJkwP28cSOruusOFaye7Z
- fQRfYLMOj7guPaaKHvx7A0eBB+Ar/xGE6EYkKSxrtdf4iKGzFi0hkL5VNzO4NwY5syfK
- znFQ3p9sVrPFmlaSdqz70DXJ3WjOe5rw0lEjDpoPFP+dn0vaTT2K2b0Tm6rJeA2lmUNw
- 1+71BAQ2uOZyqT+vrbDWOl9RHC0wJegJWw+0E+4jSKmYGNYQaXTh+B/Fo4U4IlwIfDpy
- O3jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763741642; x=1764346442;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=/jj4l4aFX3SWxUZKTjWnaJm5Qi54yPoZShI+8E7Jh7k=;
- b=YEWo6LLa87Q4H2N8nl6hxrnz/JsnCfOp9gpBpFrczBwHsP8TtjcFMA6juZPc2G5gGB
- O7xxCc3Ttrde3NI76dx+bvLf1Ie06wsF1Mxhrogr+a0jW1TJrWiaUzeIH05rhZpRD5YB
- CJ6ejt7jWB0DMmMJX88PK1URfZx6YpJBr39KO1SUssIqbNSdVsGXMoP5JGJbIpcDcsI1
- FuzuwX079XlL281gDiXrdCmavajsH2WSQcZXOR7ULGI2Dw0m0pztMw6sa3UVXySorqa1
- sF3hKmBKrD2Ca//eZMlYWpDLyVG2aGMymCmeyVGN/1pMu1Vpd7Vk3l+cD9ML2TliX335
- cLiA==
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAD8910E2C1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 16:19:59 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 0C532602DE
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 16:19:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8CC7C19423
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 16:19:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763741998;
+ bh=cET4fLR+Sx0tqItmiU0JPHurpZgDU1nqYWJPQ7uvhYs=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=LVn7sgHiTk6RLTGHtFAYvT5jt8uzinAFRBsJxMA1SfZel1bMIJ1hFT843Hnfd20C6
+ yJGuhMhYYhggX1rZbeXzTJCiyw2JtfyOjPdE+gZyUeZuHTa/3fich29WX1yfpBasMI
+ +pp3yZJV7CyDiEY2ErtONnDXBelFq5fitTil+cntXvg4ftcD+K4w6Y/2+c3n+JqRod
+ RKqEoEU/bqquH5adcQVN11faw3W7KgplzC+Js1wPpvpvsdHqhTqSANFBA4dC1xnUXv
+ TXqyK+KZNpwLWL/7XkONE899kog8Wbxb7wgM3KGd+kdA3ao++oNai2xTACQ3304AlS
+ 7mJu7ZkTqBQIg==
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-5957d7e0bf3so3076065e87.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 08:19:58 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWUSEjDfn5hBWaB/x9ps//D3fp7jKEJYwR1gwIKDCq5nn5ZHnHZwK5PDGMdsK/PVJa7C4/tHAJ9ykE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx+D2uR8n3hOo8BflQprobpb+A+jUlYNwPFU1qewip5cUMtxrk0
- 65pbgylP/q+6SN4TwANuP6dZxjNpQ5sKQerFoFHCLOuyZo+6Es5VAnxHUIgrt+HV1Dkcv0k+Eil
- rh/M8k/4UHXXO0jLAsA8oQV8GnaIwO1LoWgGeIyPWfHeQbqkQosEKcMMAP59WBrX1BZl643I=
-X-Gm-Gg: ASbGnct7Mly4wshHEiz1MBNzqn1EDz1ccoS3DufzC1INdAX7TDy4uH81/8YSWkoLYXA
- FCKqjmInetVDsiY09l2OrnfQ5mbXfD+dxoTmHKjXRPNTex19dFNMeHGU4s0I5T3YzS3EEpNgkJ6
- trru2Yk+ejsF63VonjnFHyiAmHsiyYjlj3usmKoEoNm0deVAX0rNJalLzrf1uF7ymJr4JTWn0dv
- eggZRnDk+i9VDE/yuYqV4r27nUTUGpDignEsQ7VpUgMw8LEEdr5zL2zjZeRXtbItW3GlF11bNmj
- anGDb9GdmFOZkh0zhKNn6aS2Ch6Pm6CrXdzjweNGTzzFJeq8s9i9anv9WKQIVg+1NpnYy82syPH
- BCRZsf6zUfQOEfJmzHwtYX6+9Sk+fj2Mc58oIbCo70Zn397Z03uJOKN4MO18SjwBb2lU+hGs4h1
- JVDOIwGXFmO4jKee/kPiGisR8=
-X-Received: by 2002:a05:6122:7d4:b0:559:6960:be0d with SMTP id
- 71dfb90a1353d-55b8eff05d5mr852228e0c.13.1763741642330; 
- Fri, 21 Nov 2025 08:14:02 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFnM/0HJsNeT25iNtTu/Q3YjDCZtGtx9Z+NralVtjRltw4ot5OynRvAetYDwgNqKSPGw7aNpg==
-X-Received: by 2002:a05:6122:7d4:b0:559:6960:be0d with SMTP id
- 71dfb90a1353d-55b8eff05d5mr852211e0c.13.1763741641942; 
- Fri, 21 Nov 2025 08:14:01 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5969db756d3sm1752185e87.14.2025.11.21.08.14.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 21 Nov 2025 08:14:00 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Fri, 21 Nov 2025 18:13:04 +0200
-Subject: [PATCH 2/2] drm/msm/a2xx: add A225 entry to catalog
+ AJvYcCXSGXoeg2oThxKqVV0l5S/Fhs/dK0kK5SfTTmTAGqtB1p7bBBbZBX4QKX2JVvv8pcKhRMqvkPqtgwI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzCXC2dzJMfBYo4tw0eVNmtnD9QVZpLWFpAGxYlILsU0DrO3LLh
+ 9/LcH3ncV8ANBD7WFRx/aZjPh/fywDZhwVitQnCoyj2je709qhNQl/OApVN/yYhgmwIp6Mwvye3
+ yETptfjGb1WC2Is6s/DIrfHDXLuL8CrY=
+X-Google-Smtp-Source: AGHT+IGeSY0QcKkdeUCs++wMYjj72N3cUYU9kW2Fl9IQJ23AXOiUCrIM5BGdicOeoDbtfPEdjzSeYm/zK81S5JjGD00=
+X-Received: by 2002:ac2:4e04:0:b0:595:90ce:df8e with SMTP id
+ 2adb3069b0e04-596a3740821mr1260884e87.5.1763741997082; Fri, 21 Nov 2025
+ 08:19:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251121-a225-v1-2-a1bab651d186@oss.qualcomm.com>
-References: <20251121-a225-v1-0-a1bab651d186@oss.qualcomm.com>
-In-Reply-To: <20251121-a225-v1-0-a1bab651d186@oss.qualcomm.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Jonathan Marek <jonathan@marek.ca>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1281;
- i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=4mjjExWwAmG8isEitOAb68AjLdD1g2ziYxcCmOY4EAU=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBpII/EjMk8w8VwPXYnUwkk8izbyavLfLvdeEmM3
- 9IGrsgnHQuJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaSCPxAAKCRCLPIo+Aiko
- 1ScvB/4xN5d9jbwFWqji8MhwVlGwK7iGKNh4cm7keJiLglhu2c4dhRnZWZmbP2BhqlrnIjeffa6
- lOlp3Zrf8aQOfCLhHMtdayiZQZxtfFnTOiu0V8pPMvaLkWd3epKP2uHOsQ01wAgFvihv51vQXWD
- rqUDoQCPbwD1LZmXj7GgDFqMym1CU2tbcGE276lgkfqRarq+r1/isjjv5/McYPhasINjHqTNb2u
- WLt/ONhI2vDFwnPZmkZsX/2XP8WKf7raaBTHQKAJA388CWiju1cSBA7vm58gI7x/XUC/7qOd7KV
- fm9GMx6kkg07unEICogNTLrNHlspotLcoEWK008ggaEjteVY
-X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-GUID: 3mfdhm91kUiZSQFyRwtA-v6OG7_yOln4
-X-Proofpoint-ORIG-GUID: 3mfdhm91kUiZSQFyRwtA-v6OG7_yOln4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDExOSBTYWx0ZWRfX2NIbohwYDlvZ
- YNSXnfpJiDu237H5CWZ7payPYGy/LPQ+VSZL9mNhwRYgmxDe/6QNoMoDEWwQTG72MQST5tGVAF0
- esdQMq892DAZHxAB0t5ia26QCe2kEa73IUrI5rVgVKrSBbTe0zUOigKpVBfc8Y6SkEexOEp/1C8
- UKO2CBFstFVO6y/rc7PykJDWIO+afgKU6wjscuia+pAUYZJZCxP/WeQ5By2kEwjO6RJEQSGaPnw
- JrVID6NtL+1s4BuwHOu78C+tebXNsS05QtrPWIHaVGsgxvJ/YlR4uRz9DGS5bvUJMls39DIfgpB
- uyMOCVHh/iX1d40yphFAu0m1iCm6/2AgOzYICkMnKJ7O+/GToAFghOpug3yVVv8pQvozg6TAHj3
- xP679zDRo9tDvJS5uzSaEdkNnZqShA==
-X-Authority-Analysis: v=2.4 cv=MqFfKmae c=1 sm=1 tr=0 ts=69208fcb cx=c_pps
- a=+D9SDfe9YZWTjADjLiQY5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=tn2a2yLXBXweI1urhwwA:9 a=QEXdDO2ut3YA:10
- a=vmgOmaN-Xu0dpDh8OwbV:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-21_04,2025-11-21_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 phishscore=0 clxscore=1015 spamscore=0
- lowpriorityscore=0 priorityscore=1501 bulkscore=0 adultscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511210119
+References: <20251121135624.494768-1-tzimmermann@suse.de>
+ <96a8d591-29d5-4764-94f9-6042252e53ff@app.fastmail.com>
+ <CAMj1kXF1Dh0RbuqYc0fhAPf-CM0mdYh8BhenM8-ugKVHfwnhBg@mail.gmail.com>
+ <199e7538-5b4a-483b-8976-84e4a8a0f2fd@suse.de>
+ <CAMj1kXE+mS1Sm5GaROU0P97J2w1pew0P_To4sKiw8h1iOMuLcg@mail.gmail.com>
+ <d080729c-6586-4b9c-b234-470977849d3d@suse.de>
+ <6dff8e7e-c99b-443d-a1d8-22650ca0b595@suse.de>
+In-Reply-To: <6dff8e7e-c99b-443d-a1d8-22650ca0b595@suse.de>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 21 Nov 2025 17:19:45 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGpC_162bFL65kQw=7qVP7ezYw77Q76y217dDs8pqHogw@mail.gmail.com>
+X-Gm-Features: AWmQ_bn-6TfeudJLq0R8hLHr8efLSQaLZUt3gyg8tPWks9v2PmiXguu4ImOLBA0
+Message-ID: <CAMj1kXGpC_162bFL65kQw=7qVP7ezYw77Q76y217dDs8pqHogw@mail.gmail.com>
+Subject: Re: [PATCH 0/6] arch,
+ sysfb: Move screen and edid info into single place
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, x86@kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-efi@vger.kernel.org, loongarch@lists.linux.dev, 
+ linux-riscv@lists.infradead.org, dri-devel@lists.freedesktop.org, 
+ linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,40 +82,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add catalog entry for Adreno A225.6 as present on MSM8960v3. Most of the
-pieces were already contributed by Jonathan Marek in commit 21af872cd8c6
-("drm/msm/adreno: add a2xx"), but weren't enabled because there was no
-GPU entry.
+On Fri, 21 Nov 2025 at 17:09, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+>
+>
+> Am 21.11.25 um 17:08 schrieb Thomas Zimmermann:
+> > Hi
+> >
+> > Am 21.11.25 um 16:56 schrieb Ard Biesheuvel:
+> >> On Fri, 21 Nov 2025 at 16:53, Thomas Zimmermann <tzimmermann@suse.de>
+> >> wrote:
+> >>> Hi
+> >>>
+> >>> Am 21.11.25 um 16:16 schrieb Ard Biesheuvel:
+> >>>> On Fri, 21 Nov 2025 at 16:10, Arnd Bergmann <arnd@arndb.de> wrote:
+> >>>>> On Fri, Nov 21, 2025, at 14:36, Thomas Zimmermann wrote:
+> >>>>>> Replace screen_info and edid_info with sysfb_primary_device of type
+> >>>>>> struct sysfb_display_info. Update all users.
+> >>>>>>
+> >>>>>> Sysfb DRM drivers currently fetch the global edid_info directly,
+> >>>>>> when
+> >>>>>> they should get that information together with the screen_info
+> >>>>>> from their
+> >>>>>> device. Wrapping screen_info and edid_info in
+> >>>>>> sysfb_primary_display and
+> >>>>>> passing this to drivers enables this.
+> >>>>>>
+> >>>>>> Replacing both with sysfb_primary_display has been motivate by
+> >>>>>> the EFI
+> >>>>>> stub. EFI wants to transfer EDID via config table in a single entry.
+> >>>>>> Using struct sysfb_display_info this will become easily possible.
+> >>>>>> Hence
+> >>>>>> accept some churn in architecture code for the long-term
+> >>>>>> improvements.
+> >>>>> This all looks good to me,
+> >>>>>
+> >>>>> Acked-by: Arnd Bergmann <arnd@arndb.de>
+> >>> Thanks
+> >>>
+> >>>>> It should also bring us one step closer to eventually
+> >>>>> disconnecting the x86 boot ABI from the kernel-internal
+> >>>>> sysfb_primary_display.
+> >>>>>
+> >>>> Agreed
+> >>>>
+> >>>> Acked-by: Ard Biesheuvel <ardb@kernel.org>
+> >>> Thanks
+> >>>
+> >>>> I can take patches 1-2 right away, if that helps during the next
+> >>>> cycle.
+> >>>   From my sysfb-focused POV, these patches would ideally all go through
+> >>> the same tree, say efi or generic arch, or whatever fits best. Most of
+> >>> the other code is only renames anyway.
+> >>>
+> >> I don't mind queueing all of it, but I did get a conflict on
+> >> drivers/pci/vgaarb.c
+> >
+> > Probably from a78835b86a44 ("PCI/VGA: Select SCREEN_INFO on X86")
+>
+> https://lore.kernel.org/all/20251013220829.1536292-1-superm1@kernel.org/
+>
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/adreno/a2xx_catalog.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Yes, if I merge back -rc2 first, I can apply patches 1-5 onto my
+efi/next tree. But then I hit
 
-diff --git a/drivers/gpu/drm/msm/adreno/a2xx_catalog.c b/drivers/gpu/drm/msm/adreno/a2xx_catalog.c
-index 5ddd015f930d9a7dd04e2d2035daa0b2f5ff3f27..9ee4c9c4dcf7575a4fdfe24a14cd6acc99f5de1c 100644
---- a/drivers/gpu/drm/msm/adreno/a2xx_catalog.c
-+++ b/drivers/gpu/drm/msm/adreno/a2xx_catalog.c
-@@ -42,6 +42,18 @@ static const struct adreno_info a2xx_gpus[] = {
- 		.gmem  = SZ_512K,
- 		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
- 		.init  = a2xx_gpu_init,
-+	}, {
-+		/* Only for msm8960v3, v2 required a special firmware */
-+		.chip_ids = ADRENO_CHIP_IDS(0x02020506),
-+		.family = ADRENO_2XX_GEN2,
-+		.revn  = 225,
-+		.fw = {
-+			[ADRENO_FW_PM4] = "a225_pm4.fw",
-+			[ADRENO_FW_PFP] = "a225_pfp.fw",
-+		},
-+		.gmem  = SZ_512K,
-+		.inactive_period = DRM_MSM_INACTIVE_PERIOD,
-+		.init  = a2xx_gpu_init,
- 	}
- };
- DECLARE_ADRENO_GPULIST(a2xx);
+Applying: sysfb: Move edid_info into sysfb_primary_display
+error: sha1 information is lacking or useless (drivers/gpu/drm/sysfb/efidrm.c).
+error: could not build fake ancestor
+Patch failed at 0006 sysfb: Move edid_info into sysfb_primary_display
 
--- 
-2.47.3
-
+If you prefer, you can take the whole lot via the sysfb tree instead,
+assuming it does not depend on the EDID changes I already queued up?
