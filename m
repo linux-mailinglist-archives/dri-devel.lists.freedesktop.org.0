@@ -2,122 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72BB5C79D02
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 14:56:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9EBC798C6
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 14:42:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CCDC10E8D3;
-	Fri, 21 Nov 2025 13:56:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 09A7A10E87B;
+	Fri, 21 Nov 2025 13:42:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="HO5kGCHF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1pD1z/ul";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HO5kGCHF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1pD1z/ul";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="f1Y9AuZw";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NlU69lwp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BE4310E8CE
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 13:56:45 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 68BDB21018;
- Fri, 21 Nov 2025 13:56:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1763733393; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xtghZh7eeBa0zgsffKJ3eiOL5OvyE27c0pocmVijFC4=;
- b=HO5kGCHF/D1Pc+UNPx6GzgfVmbxpF5grD3EOQWM0q0xHGH0wMn3yv3RMHjiUVNU5nico0H
- iaasSfMC/VKHi2q1hp0HDcfNhdjGaWhysg6aRDg8yirFpj3P1GVCRUE0Js3YSpD6Zm6let
- fFcLsgH15EI7B5yD5ZUd+fj6+Qavma4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1763733393;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xtghZh7eeBa0zgsffKJ3eiOL5OvyE27c0pocmVijFC4=;
- b=1pD1z/ul2RdfgYUbYvh2lclQ3zoY14m4Wxf+MQKFaqNHcVe8UwV8qBBkn5e1AgvpdONtIE
- ryP6CP5k9FLQDUDQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HO5kGCHF;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="1pD1z/ul"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1763733393; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xtghZh7eeBa0zgsffKJ3eiOL5OvyE27c0pocmVijFC4=;
- b=HO5kGCHF/D1Pc+UNPx6GzgfVmbxpF5grD3EOQWM0q0xHGH0wMn3yv3RMHjiUVNU5nico0H
- iaasSfMC/VKHi2q1hp0HDcfNhdjGaWhysg6aRDg8yirFpj3P1GVCRUE0Js3YSpD6Zm6let
- fFcLsgH15EI7B5yD5ZUd+fj6+Qavma4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1763733393;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xtghZh7eeBa0zgsffKJ3eiOL5OvyE27c0pocmVijFC4=;
- b=1pD1z/ul2RdfgYUbYvh2lclQ3zoY14m4Wxf+MQKFaqNHcVe8UwV8qBBkn5e1AgvpdONtIE
- ryP6CP5k9FLQDUDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 115AD3EA61;
- Fri, 21 Nov 2025 13:56:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 0JjBApFvIGkqdQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 21 Nov 2025 13:56:33 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: ardb@kernel.org,
-	javierm@redhat.com,
-	arnd@arndb.de
-Cc: x86@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
- loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
- dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-fbdev@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 6/6] sysfb: Move edid_info into sysfb_primary_display
-Date: Fri, 21 Nov 2025 14:36:10 +0100
-Message-ID: <20251121135624.494768-7-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251121135624.494768-1-tzimmermann@suse.de>
-References: <20251121135624.494768-1-tzimmermann@suse.de>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 11C1410E87B
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 13:42:21 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5ALBo87X2757556
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 13:42:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=yV0NrmtngChuQ5H8MoVZH4
+ MYb7NDlL9LIbeT5HsjmCI=; b=f1Y9AuZwyLRlXQACnlZExxp96Zrg8R6hPCK+hk
+ QEO2OEgNPQ9gz3AEGA+xlrWqh0BCQhtoCaVPtDyDdTMQ9WDbZX5MeGZt6dV37+ne
+ 5jRRY05thU0KVwdjcgpHQ4xdRA9VpWwIuhyxW42BFRdFH6nYKHW4yfQiZbO0vQPq
+ 4L9Myi9X9JnLxEro/dkSnrGDsD+E3fniMGtxKAgj0nTIEr5u/MK7wKM1n2Syvhhe
+ 6slA35EKVU6heBDc6gnqHLZXz+dCMIdjxvjUU7UFeRR8+SkQksESlr4Bv6mNIHqf
+ c4GzJygfzJLxAg/tU4nM0jqQbnA0zKYPqMd7nomHWJ6+7Oyg==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ajhy61jn1-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 13:42:20 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id
+ d2e1a72fcca58-7b873532cc8so2148712b3a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 05:42:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1763732540; x=1764337340;
+ darn=lists.freedesktop.org; 
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=yV0NrmtngChuQ5H8MoVZH4MYb7NDlL9LIbeT5HsjmCI=;
+ b=NlU69lwpxDnjQHreOdoIWJP1ZSCd3fkGQioqh8dwD/CYdpoUdJA0e83Ey6+O/JLrbO
+ KgqPqFyy3iaQKeLj2MI2ae1ixYECXMpjQ+0IP3SSBz2Gjjs6cBqdub0DRrV1FrdSWfe3
+ 2LCVquX1MgcX0x3e1FDIdI7W2GiXkXH2YsIvHl08PGeKOYcFsefAZ4M+nu3nToo1QsWY
+ TP9a8K8VGp8Nw9f29rev5EGkji10IcpFLJr1voH/u3jrxMxfrR0g+7oHRSf8D2XnXtSU
+ DQu381EJr5+QFPPoz07PYrwO1+ThKpftEFtUauQW2gkd6eHO4zXFTEUcQ/5QhVHnw/C3
+ cVkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763732540; x=1764337340;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=yV0NrmtngChuQ5H8MoVZH4MYb7NDlL9LIbeT5HsjmCI=;
+ b=k+gRzPWTKx4lhaNOY5+HKNIkkoXyjIm9BNJcFjajc4aZ4Uqr7cpcJsZgz5VPDKmbzZ
+ eUmtUFpfz+FkT+iOp/4ib4DsvDQ2SFp+GYO+cBj0CYZxLvbrdlOdOeGebHK1Y/rWiMA1
+ j0EE5FiUBf9jyuJwHgGtHapoByCk3p2G6V0JOmQiGeW7ykJpZHWZwIK4rdLv1CXMxNAX
+ fAmxAoxQaucwXtdVtpINhgw1XFFhypwtwRmPpJP7nq8QlB9pdO7oXcHP0AIghq5MFrdD
+ EN7TDlVIvOeaW5MEnA2JrEGXd2G5R+BfXY2lYiGrgkuBBIUz2ONlPRoWa2xUXAChCbOd
+ QRyQ==
+X-Gm-Message-State: AOJu0YxUOShTZurTk26rPOdNpLrUc93gZ/L1rpFi+Ip4zbpJOOBeaFbU
+ DOjhTXdnDijhFbQy6iprpN5j02G3YO25gNhMq22L7b7wGUc7SawubXbY3Um5b/WCt9oTFZdyUVB
+ 7VRfQBqKSb1VVBvQO3ujzkvgJ/ErTZAGSHChtdMMEs+BEO6EC0OQICEgF8hTJG3KDw6CLbAM=
+X-Gm-Gg: ASbGncuxzvF/XPd3r4469SKmwvwSFRXRbATHFRh9LCJMnk4TQrwYHItiv6xxkjHD7tC
+ +6bu2UAHzrcb/UoLdGMt7MgWPh1SVs8Xlsd/7gTWLbOPhunXaZPOfzyJCeUb8oGgE/cdQXaPUMb
+ Lw2+RjCpRVuTe+iM+zLNbPfNvMTqpKHFeshFBoggz23hlMTc1pjX6HVKhOPyPEHp7PhHyf0EzEj
+ Oqyy52rxmh3nVjwtIxeRkz2ekdoSYNNSI9F56qNoVVJEpdD7XAX+StZ63sFFnkvZsYFX1gxHRA7
+ FJCNkaaaXe+crwfQNM8Bzj8KXcmNkr/YvHbpOftonrRDzYdt2UtMCsWBBe0+ZtsVhLF31cLg5ul
+ OTF7azWX4S353SKEdn5ldxbZZYXUT0mXlkBr8BB2Bo8Ft74WDZw==
+X-Received: by 2002:a05:6a00:a90:b0:7a2:7f45:5898 with SMTP id
+ d2e1a72fcca58-7c56783d53dmr2906006b3a.3.1763732539712; 
+ Fri, 21 Nov 2025 05:42:19 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEFVKvwaqUw86dz75vO7tn42pMszdQOCtcFlEJ5jOheBLO6Iy9zzVnIXtL2AaHbKGf9g+zkEg==
+X-Received: by 2002:a05:6a00:a90:b0:7a2:7f45:5898 with SMTP id
+ d2e1a72fcca58-7c56783d53dmr2905963b3a.3.1763732539226; 
+ Fri, 21 Nov 2025 05:42:19 -0800 (PST)
+Received: from hu-botlagun-hyd.qualcomm.com ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7c3f02423f6sm6161435b3a.39.2025.11.21.05.42.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 21 Nov 2025 05:42:18 -0800 (PST)
+From: Gopi Botlagunta <venkata.botlagunta@oss.qualcomm.com>
+Date: Fri, 21 Nov 2025 19:12:06 +0530
+Subject: [PATCH] drm/bridge: lt9611uxc: Increase EDID wait time from 500ms
+ to 1000ms
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 68BDB21018
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_TRACE(0.00)[0:+];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- RCPT_COUNT_TWELVE(0.00)[14]; ARC_NA(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FROM_HAS_DN(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim]; FROM_EQ_ENVFROM(0.00)[];
- R_RATELIMIT(0.00)[to_ip_from(RLtfyjk8sg4x43ngtem9djprcp)];
- RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- TO_DN_SOME(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns, suse.de:email, suse.de:mid, suse.de:dkim]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251121-hdmibridge-v1-1-14c63890f362@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAC1sIGkC/yWMSw6DMAwFr4K8LlKcpHx6lYoFjp3iBdAmtKqEu
+ Hujspz3NLNDlqSS4VbtkOSjWdelAF4qCNO4PKRWLgzW2CuixXriWSkpl0cMWooi7IKDIjyTRP3
+ +Y/fh5CSvd2lu5wg0ZqnDOs+63apicYfYOdMg9eJ7ZmdNG4kouMahb72n6CIMx/EDC+PjEqgAA
+ AA=
+X-Change-ID: 20251121-hdmibridge-e012bfeed3c3
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ venkata.valluru@oss.qualcomm.com, jessica.zhang@oss.qualcomm.com,
+ Gopi Botlagunta <venkata.botlagunta@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1763732534; l=1155;
+ i=venkata.botlagunta@oss.qualcomm.com; s=20251110; h=from:subject:message-id; 
+ bh=2Eu4L18XG/nACcyxpzpseFmjE73THe/k1ZohJ52AAS0=;
+ b=t5QxV/3wLRPfP7xf0Tg66IKJQPY+VNNw+HnakRsw5MtrwBxPNcZbw6ks+cp+35gXa/4JE642Z
+ m/nBEXvlKRVCDD1wQv3hm48SotBixHBDN3Xk0mbeP6aNQJt/4vmp6qy
+X-Developer-Key: i=venkata.botlagunta@oss.qualcomm.com; a=ed25519;
+ pk=/SnYBwlkTzDCLnHFgEY0qFwPgKIV+aQWRbc3naiLzrk=
+X-Authority-Analysis: v=2.4 cv=Lb0xKzfi c=1 sm=1 tr=0 ts=69206c3c cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=IFM9E_ZxX31xNXM5hSwA:9
+ a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
+X-Proofpoint-ORIG-GUID: UYFZpA8VyUEu7lZMaGSbBg4yiY3Dr4Tr
+X-Proofpoint-GUID: UYFZpA8VyUEu7lZMaGSbBg4yiY3Dr4Tr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIxMDA5OSBTYWx0ZWRfX70ZNkRI081Rm
+ FJeyWju3IxIwSbdDn74Y38nd00WVYdvJY8CPbQ0WuRi0m/iEG5e/A0wa8FQsha0nrNO2Unt9Vk9
+ WzMduQr49Jg7JFlW68bmfsEV4B77PqTvXiCZ/n6MK760mTAMrUvwaIAn8lPa9NM7OQ+HR5YkJkj
+ tkyOdN4IIUU2rJ5qvScJZ8cm2ewAeR9xoHJq6LgQMh3Ivf5cLk+zZOc+Olluq8QF1jCSHz2R3hA
+ xEesnKOdRH/MC0CXs1EG8GrG7gCsSfTiJSF9+ZUUntPVpdjWPboC6/sfhKJyrjlbB+djhLTplOt
+ DFxs0NZBcsZ/pf7dHLerNLvQ3+CFHE9g254Ib4604Kz04YVtIdVceDCyPmvi+9ImiUPp30hIQ4E
+ xWUmmm5QHCtTArXKwMNU14qrs68PXw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-21_03,2025-11-21_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1011 malwarescore=0
+ lowpriorityscore=0 suspectscore=0 adultscore=0 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511210099
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,177 +152,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move x86's edid_info into sysfb_primary_display as a new field named
-edid. Adapt all users.
+EDID interrupt was coming 600-650 ms after HPD interrupt, resulting
+into EDID read timeout and default resolution of 1024x768 on display.
 
-An instance of edid_info has only been defined on x86. With the move
-into sysfb_primary_display, it becomes available on all architectures.
-Therefore remove this contraint from CONFIG_FIRMWARE_EDID.
-
-x86 fills the EDID data from boot_params.edid_info. DRM drivers pick
-up the raw data and make it available to DRM clients. Replace the
-drivers' references to edid_info and instead use the sysfb_display_info
-as passed from sysfb.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Gopi Botlagunta <venkata.botlagunta@oss.qualcomm.com>
 ---
- arch/x86/kernel/setup.c          | 6 +-----
- drivers/gpu/drm/sysfb/efidrm.c   | 5 ++---
- drivers/gpu/drm/sysfb/vesadrm.c  | 5 ++---
- drivers/video/Kconfig            | 1 -
- drivers/video/fbdev/core/fbmon.c | 8 +++++---
- include/linux/sysfb.h            | 6 ++++++
- include/video/edid.h             | 4 ----
- 7 files changed, 16 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-index 675e4b9deb1f..d9bfe2032cd9 100644
---- a/arch/x86/kernel/setup.c
-+++ b/arch/x86/kernel/setup.c
-@@ -215,10 +215,6 @@ arch_initcall(init_x86_sysctl);
- 
- struct sysfb_display_info sysfb_primary_display;
- EXPORT_SYMBOL(sysfb_primary_display);
--#if defined(CONFIG_FIRMWARE_EDID)
--struct edid_info edid_info;
--EXPORT_SYMBOL_GPL(edid_info);
--#endif
- 
- extern int root_mountflags;
- 
-@@ -530,7 +526,7 @@ static void __init parse_boot_params(void)
- 	ROOT_DEV = old_decode_dev(boot_params.hdr.root_dev);
- 	sysfb_primary_display.screen = boot_params.screen_info;
- #if defined(CONFIG_FIRMWARE_EDID)
--	edid_info = boot_params.edid_info;
-+	sysfb_primary_display.edid = boot_params.edid_info;
- #endif
- #ifdef CONFIG_X86_32
- 	apm_info.bios = boot_params.apm_bios_info;
-diff --git a/drivers/gpu/drm/sysfb/efidrm.c b/drivers/gpu/drm/sysfb/efidrm.c
-index 29533ae8fbbf..50e0aeef709c 100644
---- a/drivers/gpu/drm/sysfb/efidrm.c
-+++ b/drivers/gpu/drm/sysfb/efidrm.c
-@@ -24,7 +24,6 @@
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- 
--#include <video/edid.h>
- #include <video/pixel_format.h>
- 
- #include "drm_sysfb_helper.h"
-@@ -207,8 +206,8 @@ static struct efidrm_device *efidrm_device_create(struct drm_driver *drv,
- 		&format->format, width, height, stride);
- 
- #if defined(CONFIG_FIRMWARE_EDID)
--	if (drm_edid_header_is_valid(edid_info.dummy) == 8)
--		sysfb->edid = edid_info.dummy;
-+	if (drm_edid_header_is_valid(dpy->edid.dummy) == 8)
-+		sysfb->edid = dpy->edid.dummy;
- #endif
- 	sysfb->fb_mode = drm_sysfb_mode(width, height, 0, 0);
- 	sysfb->fb_format = format;
-diff --git a/drivers/gpu/drm/sysfb/vesadrm.c b/drivers/gpu/drm/sysfb/vesadrm.c
-index 16fc223f8c5b..0680638b8131 100644
---- a/drivers/gpu/drm/sysfb/vesadrm.c
-+++ b/drivers/gpu/drm/sysfb/vesadrm.c
-@@ -25,7 +25,6 @@
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
- 
--#include <video/edid.h>
- #include <video/pixel_format.h>
- #include <video/vga.h>
- 
-@@ -474,8 +473,8 @@ static struct vesadrm_device *vesadrm_device_create(struct drm_driver *drv,
- 	}
- 
- #if defined(CONFIG_FIRMWARE_EDID)
--	if (drm_edid_header_is_valid(edid_info.dummy) == 8)
--		sysfb->edid = edid_info.dummy;
-+	if (drm_edid_header_is_valid(dpy->edid.dummy) == 8)
-+		sysfb->edid = dpy->edid.dummy;
- #endif
- 	sysfb->fb_mode = drm_sysfb_mode(width, height, 0, 0);
- 	sysfb->fb_format = format;
-diff --git a/drivers/video/Kconfig b/drivers/video/Kconfig
-index d51777df12d1..ad55e7d62159 100644
---- a/drivers/video/Kconfig
-+++ b/drivers/video/Kconfig
-@@ -63,7 +63,6 @@ endif # HAS_IOMEM
- 
- config FIRMWARE_EDID
- 	bool "Enable firmware EDID"
--	depends on X86
- 	help
- 	  This enables access to the EDID transferred from the firmware.
- 	  On x86, this is from the VESA BIOS. DRM display drivers will
-diff --git a/drivers/video/fbdev/core/fbmon.c b/drivers/video/fbdev/core/fbmon.c
-index 0a65bef01e3c..07df7e98f8a3 100644
---- a/drivers/video/fbdev/core/fbmon.c
-+++ b/drivers/video/fbdev/core/fbmon.c
-@@ -32,11 +32,13 @@
- #include <linux/module.h>
- #include <linux/pci.h>
- #include <linux/slab.h>
--#include <video/edid.h>
-+#include <linux/string_choices.h>
-+#include <linux/sysfb.h>
-+
- #include <video/of_videomode.h>
- #include <video/videomode.h>
-+
- #include "../edid.h"
--#include <linux/string_choices.h>
- 
- /*
-  * EDID parser
-@@ -1504,7 +1506,7 @@ const unsigned char *fb_firmware_edid(struct device *device)
- 		res = &dev->resource[PCI_ROM_RESOURCE];
- 
- 	if (res && res->flags & IORESOURCE_ROM_SHADOW)
--		edid = edid_info.dummy;
-+		edid = sysfb_primary_display.edid.dummy;
- 
- 	return edid;
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index 38fb8776c0f4..6f2b72fba598 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -382,7 +382,7 @@ lt9611uxc_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connect
+ static int lt9611uxc_wait_for_edid(struct lt9611uxc *lt9611uxc)
+ {
+ 	return wait_event_interruptible_timeout(lt9611uxc->wq, lt9611uxc->edid_read,
+-			msecs_to_jiffies(500));
++			msecs_to_jiffies(1000));
  }
-diff --git a/include/linux/sysfb.h b/include/linux/sysfb.h
-index e8bde392c690..5226efde9ad4 100644
---- a/include/linux/sysfb.h
-+++ b/include/linux/sysfb.h
-@@ -12,6 +12,8 @@
- #include <linux/screen_info.h>
- #include <linux/types.h>
  
-+#include <video/edid.h>
-+
- struct device;
- struct platform_device;
- struct screen_info;
-@@ -62,6 +64,10 @@ struct efifb_dmi_info {
- 
- struct sysfb_display_info {
- 	struct screen_info screen;
-+
-+#if defined(CONFIG_FIRMWARE_EDID)
-+	struct edid_info edid;
-+#endif
- };
- 
- extern struct sysfb_display_info sysfb_primary_display;
-diff --git a/include/video/edid.h b/include/video/edid.h
-index c2b186b1933a..52aabb706032 100644
---- a/include/video/edid.h
-+++ b/include/video/edid.h
-@@ -4,8 +4,4 @@
- 
- #include <uapi/video/edid.h>
- 
--#if defined(CONFIG_FIRMWARE_EDID)
--extern struct edid_info edid_info;
--#endif
--
- #endif /* __linux_video_edid_h__ */
+ static int lt9611uxc_get_edid_block(void *data, u8 *buf, unsigned int block, size_t len)
+
+---
+base-commit: 3c3d81183061b9e49dd3207fbbbc36314744bf3f
+change-id: 20251121-hdmibridge-e012bfeed3c3
+
+Best regards,
 -- 
-2.51.1
+Gopi Botlagunta <venkata.botlagunta@oss.qualcomm.com>
 
