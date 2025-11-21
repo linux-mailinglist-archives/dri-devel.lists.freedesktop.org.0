@@ -2,86 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC354C77C6C
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 09:00:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F72C77CFE
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 09:13:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 743DB10E822;
-	Fri, 21 Nov 2025 08:00:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E8C010E1ED;
+	Fri, 21 Nov 2025 08:13:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="exu1v4zq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4awr4iVr";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bbokZlJl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NNeopXin";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="j76ldxl3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UL7ECpFF";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="j76ldxl3";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UL7ECpFF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96F3410E7F0
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 08:00:03 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D79110E1ED
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 08:13:04 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id C61B720EC5;
- Fri, 21 Nov 2025 08:00:01 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id AC25121900;
+ Fri, 21 Nov 2025 08:13:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1763712002; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1763712782; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=F+T32ts4Ys4w3XSCZ7lzkLpHAeqj+ekfTc434WzErEw=;
- b=exu1v4zqGs4p1c2fgYiMLiAmvgm55WFuW0btK81NI7ZEuPBDOneHwW0wnAU/d69k6ciHRq
- 8EIjKueHyOEVTXjQ06GhvXgp1aZJXMN9jH1hJM4fAGHXdgfXhyNXuU0AUOCSPJtuBBR70a
- xCSDIvDVSBMg5VLsiqrrnjEDH/ySqIo=
+ bh=47f3t2quGh0AzMkGBd1vq9EFL0ZXErTFAI2lHjxXT9Y=;
+ b=j76ldxl3RJ2z6jfuSLhlmbehzI8pOG5XXfb9WeHkvsRza7uzJe2qGY7nciPuRdSHx4M1uz
+ 7thdIdr8+0H+EnYi47ArlBMtxLuIGBleLBTfZl62NPaqrUaLhyNtTmAUEsz0b60eMf9ndq
+ 7QNzWwo53jiMeSLxCjktDUrmvikBTSk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1763712002;
+ s=susede2_ed25519; t=1763712782;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=F+T32ts4Ys4w3XSCZ7lzkLpHAeqj+ekfTc434WzErEw=;
- b=4awr4iVrUfhEsEntHBH5tu2CEcCCesTlJU/8CcTtU7+K6KQ83blKu6yqwBTNDQlWtCADLx
- iNhxr3eIQbrlFgDQ==
-Authentication-Results: smtp-out2.suse.de;
+ bh=47f3t2quGh0AzMkGBd1vq9EFL0ZXErTFAI2lHjxXT9Y=;
+ b=UL7ECpFFa9/WhLy8Xa7NY065ENt/7AGP+3lDf9QVuhwpzMKTUfFzK0ox2Nwvy++KWwBhnV
+ f7W8JY+BUMuAOZCg==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1763712001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1763712782; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=F+T32ts4Ys4w3XSCZ7lzkLpHAeqj+ekfTc434WzErEw=;
- b=bbokZlJlvH5VtvnOOHz4i/FSSJouMPM8vkrOmZv67Mx3pvKJFzR5mhozM6gsHtwV3EjS/K
- X4b1ZJ7cdlk5Cg60mEzhLmlHcXFMLJcxZYbfPR6Rxxq5OGnHBkoa/CCJkP6ph8Q5GDqcGm
- RojmEd1UZsUuLExVdJmzY9fokJiSoh8=
+ bh=47f3t2quGh0AzMkGBd1vq9EFL0ZXErTFAI2lHjxXT9Y=;
+ b=j76ldxl3RJ2z6jfuSLhlmbehzI8pOG5XXfb9WeHkvsRza7uzJe2qGY7nciPuRdSHx4M1uz
+ 7thdIdr8+0H+EnYi47ArlBMtxLuIGBleLBTfZl62NPaqrUaLhyNtTmAUEsz0b60eMf9ndq
+ 7QNzWwo53jiMeSLxCjktDUrmvikBTSk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1763712001;
+ s=susede2_ed25519; t=1763712782;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=F+T32ts4Ys4w3XSCZ7lzkLpHAeqj+ekfTc434WzErEw=;
- b=NNeopXinmwaDLSsUh9mdfoyLtOqe5mDdwZYksJoslhspN5w7H6b+FAmhjktAb5rGDyTDUL
- lB4n/s/2W+nuUgDA==
+ bh=47f3t2quGh0AzMkGBd1vq9EFL0ZXErTFAI2lHjxXT9Y=;
+ b=UL7ECpFFa9/WhLy8Xa7NY065ENt/7AGP+3lDf9QVuhwpzMKTUfFzK0ox2Nwvy++KWwBhnV
+ f7W8JY+BUMuAOZCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A02533EA61;
- Fri, 21 Nov 2025 08:00:01 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 898313EA61;
+ Fri, 21 Nov 2025 08:13:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id fgvQJQEcIGnuHgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 21 Nov 2025 08:00:01 +0000
-Message-ID: <23ef60cd-d17e-4070-bbf5-41dce6439fb1@suse.de>
-Date: Fri, 21 Nov 2025 09:00:01 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id GWmnHw4fIGmWKwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 21 Nov 2025 08:13:02 +0000
+Message-ID: <2766a9d5-1a8f-451e-b018-993563715629@suse.de>
+Date: Fri, 21 Nov 2025 09:13:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] PCI: Add CONFIG_PCI_ARCH_ENDIAN_AUTOSWAP
+Subject: Re: [PATCH 2/2] drm/ast: Fix framebuffer color swapping on ppc64
+ systems
 To: Timothy Pearson <tpearson@raptorengineering.com>,
  Dave Airlie <airlied@redhat.com>
 Cc: dri-devel <dri-devel@lists.freedesktop.org>,
  linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 References: <407388289.1798972.1760725035958.JavaMail.zimbra@raptorengineeringinc.com>
  <705534604.1798975.1760725076596.JavaMail.zimbra@raptorengineeringinc.com>
+ <109693647.1798978.1760725111876.JavaMail.zimbra@raptorengineeringinc.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -108,23 +110,24 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <705534604.1798975.1760725076596.JavaMail.zimbra@raptorengineeringinc.com>
+In-Reply-To: <109693647.1798978.1760725111876.JavaMail.zimbra@raptorengineeringinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Spam-Level: 
 X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; TO_DN_ALL(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
- MIME_TRACE(0.00)[0:+]; FROM_EQ_ENVFROM(0.00)[];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.com:url,
- gitlab.freedesktop.org:url, imap1.dmz-prg2.suse.org:helo,
- raptorengineering.com:email]
+ URIBL_BLOCKED(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo,suse.com:url,raptorengineering.com:email];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_THREE(0.00)[4]; RCVD_COUNT_TWO(0.00)[2];
+ TO_DN_ALL(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, imap1.dmz-prg2.suse.org:helo,
+ suse.com:url, raptorengineering.com:email]
 X-Spam-Flag: NO
 X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -142,67 +145,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi
 
-sorry for the delay in reviewing. I've wondered for some time what to 
-make of this series.
-
-Am 17.10.25 um 20:17 schrieb Timothy Pearson:
-> Certain hardware devices, such as the IBM POWER9 CPU, transparently swap PCI
-> bus MMIO data endianness when running in big endian mode.  This transparent
-> data swapping presents issues for certain types of BARs, for example little
-> endian framebuffers, where the device driver needs to be aware the PCI BAR
-> is now appearing as big endian from the host's perspective.
+Am 17.10.25 um 20:18 schrieb Timothy Pearson:
+> On certain big endian systems, such as the POWER9 operating in big endian
+> mode, PCI MMIO BAR accesses are transparently endian-swapped by hardware.
+> On the AST2xx0 series devices, this results in the little endian framebuffer
+> appearing to the host as a big endian device, resulting in unwanted color
+> swapping.
 >
-> Introduce CONFIG_PCI_ARCH_ENDIAN_AUTOSWAP and enable on ppc64 systems.
+> Furthermore, per ASpeed technical support, the big endian mode on these devices
+> is not supported and, per Raptor's internal testing, does not function at a
+> hardware level.
+>
+> Detect transparent PCI swapping via CONFIG_PCI_ARCH_ENDIAN_AUTOSWAP, and
+> expose the framebuffer as a big endian device with software swapping.
+>
+> Tested on a POWER9 Blackbird system with Debian sid/ppc64.
+>
+> Signed-off-by: Timothy Pearson <tpearson@raptorengineering.com>
+> ---
+>   drivers/gpu/drm/ast/ast_mode.c | 33 +++++++++++++++++++++++++++++++--
+>   1 file changed, 31 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+> index 30b011ed0a05..07f04668ef92 100644
+> --- a/drivers/gpu/drm/ast/ast_mode.c
+> +++ b/drivers/gpu/drm/ast/ast_mode.c
+> @@ -105,9 +105,11 @@ static void ast_crtc_fill_gamma(struct ast_device *ast,
+>   		drm_crtc_fill_palette_8(crtc, ast_set_gamma_lut);
+>   		break;
+>   	case DRM_FORMAT_RGB565:
+> +	case DRM_FORMAT_HOST_RGB565:
+>   		/* also uses 8-bit gamma ramp on low-color modes */
+>   		fallthrough;
+>   	case DRM_FORMAT_XRGB8888:
+> +	case DRM_FORMAT_HOST_XRGB8888:
+>   		drm_crtc_fill_gamma_888(crtc, ast_set_gamma_lut);
+>   		break;
+>   	default:
+> @@ -129,9 +131,11 @@ static void ast_crtc_load_gamma(struct ast_device *ast,
+>   		drm_crtc_load_palette_8(crtc, lut, ast_set_gamma_lut);
+>   		break;
+>   	case DRM_FORMAT_RGB565:
+> +	case DRM_FORMAT_HOST_RGB565:
+>   		/* also uses 8-bit gamma ramp on low-color modes */
+>   		fallthrough;
+>   	case DRM_FORMAT_XRGB8888:
+> +	case DRM_FORMAT_HOST_XRGB8888:
+>   		drm_crtc_load_gamma_888(crtc, lut, ast_set_gamma_lut);
+>   		break;
+>   	default:
+> @@ -502,8 +506,13 @@ void __iomem *ast_plane_vaddr(struct ast_plane *ast_plane)
+>    */
+>   
+>   static const uint32_t ast_primary_plane_formats[] = {
+> +#if defined(__BIG_ENDIAN) && defined(CONFIG_PCI_ARCH_ENDIAN_AUTOSWAP)
+> +	DRM_FORMAT_HOST_XRGB8888,
+> +	DRM_FORMAT_HOST_RGB565,
+> +#else
+>   	DRM_FORMAT_XRGB8888,
+>   	DRM_FORMAT_RGB565,
+> +#endif
+>   	DRM_FORMAT_C8,
+>   };
+>   
+> @@ -541,12 +550,24 @@ static int ast_primary_plane_helper_atomic_check(struct drm_plane *plane,
+>   
+>   static void ast_handle_damage(struct ast_plane *ast_plane, struct iosys_map *src,
+>   			      struct drm_framebuffer *fb,
+> -			      const struct drm_rect *clip)
+> +			      const struct drm_rect *clip,
+> +			      struct drm_format_conv_state *fmtcnv_state)
+>   {
+>   	struct iosys_map dst = IOSYS_MAP_INIT_VADDR_IOMEM(ast_plane_vaddr(ast_plane));
+>   
+>   	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
+> +#if defined(__BIG_ENDIAN) && defined(CONFIG_PCI_ARCH_ENDIAN_AUTOSWAP)
+> +	switch (fb->format->format) {
+> +		case DRM_FORMAT_HOST_XRGB8888:
+> +		case DRM_FORMAT_HOST_RGB565:
+> +			drm_fb_swab(&dst, fb->pitches, src, fb, clip, false, fmtcnv_state);
 
-I would not want a config option. In the latest version of the driver, 
-we have a struct to describe device quirks. [1] I think we should detect 
-this scenario in the driver and set the quirk if necessary. The 
-detection can be at compile time though.
-
-If this problem affects many graphics drivers, we can re-evaluate.
-
-[1] 
-https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next-2025-11-14/drivers/gpu/drm/ast/ast_drv.h?ref_type=tags#L167
+DRM formats are always little endian. I'm not sure if most user space 
+even supports anything else.  Can we just drop the whole _FORMAT_HOST_ 
+formats and do a swap here if we're on BE PPC64?
 
 Best regards
 Thomas
 
->
-> Signed-off-by: Timothy Pearson <tpearson@raptorengineering.com>
-> ---
->   arch/powerpc/Kconfig | 1 +
->   drivers/pci/Kconfig  | 4 ++++
->   2 files changed, 5 insertions(+)
->
-> diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-> index e24f4d88885a..0e75fe570389 100644
-> --- a/arch/powerpc/Kconfig
-> +++ b/arch/powerpc/Kconfig
-> @@ -314,6 +314,7 @@ config PPC
->   	select OF_EARLY_FLATTREE
->   	select OLD_SIGACTION			if PPC32
->   	select OLD_SIGSUSPEND
-> +	select PCI_ARCH_ENDIAN_AUTOSWAP		if PCI && PPC64
->   	select PCI_DOMAINS			if PCI
->   	select PCI_MSI_ARCH_FALLBACKS		if PCI_MSI
->   	select PCI_SYSCALL			if PCI
-> diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
-> index 7065a8e5f9b1..fccc01110763 100644
-> --- a/drivers/pci/Kconfig
-> +++ b/drivers/pci/Kconfig
-> @@ -40,6 +40,10 @@ config PCI_DOMAINS_GENERIC
->   config PCI_SYSCALL
->   	bool
+> +			break;
+> +		default:
+> +			drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
+> +	}
+> +#else
+>   	drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
+> +#endif
+>   }
 >   
-> +config PCI_ARCH_ENDIAN_AUTOSWAP
-> +	bool
-> +	depends on PCI
-> +
->   source "drivers/pci/pcie/Kconfig"
+>   static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+> @@ -574,7 +595,7 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
 >   
->   config PCI_MSI
+>   	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+>   	drm_atomic_for_each_plane_damage(&iter, &damage) {
+> -		ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
+> +		ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage, &shadow_plane_state->fmtcnv_state);
+>   	}
+>   
+>   	/*
+> @@ -766,10 +787,13 @@ static int ast_crtc_helper_atomic_check(struct drm_crtc *crtc,
+>   		ast_state->std_table = &vbios_stdtable[VGAModeIndex];
+>   		break;
+>   	case DRM_FORMAT_RGB565:
+> +	case DRM_FORMAT_HOST_RGB565:
+>   		ast_state->std_table = &vbios_stdtable[HiCModeIndex];
+>   		break;
+>   	case DRM_FORMAT_RGB888:
+> +	case DRM_FORMAT_BGR888:
+>   	case DRM_FORMAT_XRGB8888:
+> +	case DRM_FORMAT_HOST_XRGB8888:
+>   		ast_state->std_table = &vbios_stdtable[TrueCModeIndex];
+>   		break;
+>   	default:
+> @@ -978,7 +1002,11 @@ static const struct drm_mode_config_helper_funcs ast_mode_config_helper_funcs =
+>   static enum drm_mode_status ast_mode_config_mode_valid(struct drm_device *dev,
+>   						       const struct drm_display_mode *mode)
+>   {
+> +#if defined(__BIG_ENDIAN) && defined(CONFIG_PCI_ARCH_ENDIAN_AUTOSWAP)
+> +	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_HOST_XRGB8888);
+> +#else
+>   	const struct drm_format_info *info = drm_format_info(DRM_FORMAT_XRGB8888);
+> +#endif
+>   	struct ast_device *ast = to_ast_device(dev);
+>   	unsigned long max_fb_size = ast_fb_vram_size(ast);
+>   	u64 pitch;
+> @@ -1021,6 +1049,7 @@ int ast_mode_config_init(struct ast_device *ast)
+>   	dev->mode_config.min_width = 0;
+>   	dev->mode_config.min_height = 0;
+>   	dev->mode_config.preferred_depth = 24;
+> +	dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
+>   
+>   	if (ast->support_fullhd) {
+>   		dev->mode_config.max_width = 1920;
 
 -- 
 --
