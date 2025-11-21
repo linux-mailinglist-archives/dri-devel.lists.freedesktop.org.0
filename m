@@ -2,78 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E96FC784B3
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 11:03:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27728C7851F
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 11:06:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0374A10E80B;
-	Fri, 21 Nov 2025 10:03:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2382D10E80D;
+	Fri, 21 Nov 2025 10:06:35 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="EB7P9ZGl";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
- [209.85.222.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D0AB10E80B
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 10:03:25 +0000 (UTC)
-Received: by mail-ua1-f49.google.com with SMTP id
- a1e0cc1a2514c-93c6628c266so274988241.1
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 02:03:25 -0800 (PST)
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com
+ [209.85.221.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88AAA10E80C
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 10:06:33 +0000 (UTC)
+Received: by mail-wr1-f74.google.com with SMTP id
+ ffacd0b85a97d-429c76c8a1bso2084171f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 02:06:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1763719592; x=1764324392;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=cl2MKw8tab6Mtz1FgEqrovn666OZWtYzaeQDzUi1X/I=;
+ b=EB7P9ZGlvi9DtS2k+qj1JXCUlRE2AJzCF2PxB7H+3BIHMMrRDQRtgVLK4CiakYpOJW
+ wIZZYOKR8KARJufnj8KK8O0gwdDHFHGohzwv8zeD+qbvbx+iwjsTYMbk9hh4hjHHapR0
+ RhzOF6+tPIgAAlYRYP5ilzCk7HKNMzVMiA1FLkVJqXh4S0Uf0uuXfVtDwmAcFqj8A6Fy
+ P6l4Bbmvzsrnm2JGgogc0urBQMcyAzTW5LHP89nri0F3PzcBiENkVYOvXcwXNQ3/kMeo
+ m7Sg4iXXdaaK71e67dHtqTIVomyALy6Hh8QlYttMkbSi9FONkgrcEGzDsqJo4GxjH0P6
+ 55yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763719404; x=1764324204;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=wlBMUu/EpwAnMbRqR4FueGr8bEwdrvt/wf+TDoxxT9k=;
- b=VMfsib3DoqQt0rEl8ZbV6XSy/tZzev91yRA6V56wIieNHiIPeevzM0cP2r+TF0f06P
- JiYVFgv+lo4SkxQx8ipe8InVJRazomh7Kc9KaJ5ZITKEQZVZLb/XkE122chW1OdHefJU
- ZPt84AKtWuv2kOh43/Xno+jVv+/8RINHvJZ/E9zYPOJhMk8Sbd+poox5hu234bV2Rw4+
- 39Pvan8Ka8pMn3jyy9xWWGLCSUJaWl+1aRlGopgwnD6UBWDgj7jw0O+hA+cOgD3Y0q8C
- v1qKq7p2NWF931/Hx7frOtFNlNi4atGttR2coWVm5qtIj5ED0Pu6jU8tPuHNsXS1QA93
- lvjg==
+ d=1e100.net; s=20230601; t=1763719592; x=1764324392;
+ h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=cl2MKw8tab6Mtz1FgEqrovn666OZWtYzaeQDzUi1X/I=;
+ b=TmeKa4yXUX01ubhhvy3w5WLhESDiXQoH9hE3+uSXo87z864kj1i66+0MlLaPSxEQz7
+ uuj+49582iBOPyzRIJQMOSVwDgSkXI68HhehrWm07uqt6WmkN/YmtSQnt7PNea8auofA
+ 9+nfH3c4zsR3py3wtzCtVgZApy/yGUPnni2RplQaS7cqsMz1Hl6QA2PDK3jmZDs3zuMH
+ jqiup59uL+B+jJ5Vld5LE88eWdem5fKSOuCZyVXz/H5dEQ4Z1ClHZNg9k0HBMDOb3ofS
+ 4SjqGs2BI/99WuTL9fFicNQyLUGpnImSBIA1AacmIWmm3EEe9mADB78dvALiRxgRZSIC
+ LFsg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXaHQEd/odhDAlVe6N8iNdX0lC2izekCLtt3BVw5s+vMTI4LUEVpRTS73DdHPjV9mIJf1A7ZBLm8Tk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyG5vkuoFaeq9/xf5n9omjWR3J4t9+031gvuzz3ggDEHJ/kgulK
- UEPRMbjln/mqHBGP5W51GJoNU0u7yMphnkB9ZRZJ5crIMjWvxcThUGvpaLYLqtjN
-X-Gm-Gg: ASbGncvvjyHNNkwwh3P6+WoGy9PldAgaIP7+Lhl+aOCEi3KQs5ZorXTEQ0ptdXSnb2C
- yVhhZkvBBtSbwczlmy1QlpXLaJp1LXXz8eoFTz28SvmjYw2oyo58x5jzADBjgK5YA2BVuugFfJg
- as7Cy02tIbWd/R6SJVOK90PzTNst85Y0AlRMvACS0Sc5p5mqkHxsZC825lLd9TeaURqFtSD6V4B
- FbJeFTDfDNO7w6oGzgt/8btFvL9xV7iUdcIagZVEKduO5mhWrZePpTlVWMXy67WPMOsMEUh6tb7
- 8DRRM4wJG7y8pmcud3hpWDPt+xPLDqWVW3y5EA9Ig2G3U1ImCwu/CK2dYcXGQ5LM5oDvxxLi81o
- 4+L5W4mZoyHelnLnDdh8/hl3mJ7gPaXOrR+O8xbcW+WosBuJmgxxYQKYe6FEfKHMyHXnhFpR6tn
- 88DaMejgwBfH13sEIE+iBTa+ngBDvZk8rK2VyeBXUG3mNIYnSA
-X-Google-Smtp-Source: AGHT+IE4sZapR+B72DYowKEJhf6a4VACto+e0c1SSJ7Q0Ii7xm1nl6z81FQ+Q6asiow/gwdP+CTxYg==
-X-Received: by 2002:a05:6122:8b8a:b0:559:6d45:9a1c with SMTP id
- 71dfb90a1353d-55b8d6bc669mr493168e0c.3.1763719403802; 
- Fri, 21 Nov 2025 02:03:23 -0800 (PST)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com.
- [209.85.222.48]) by smtp.gmail.com with ESMTPSA id
- 71dfb90a1353d-55b7f7d2356sm2194083e0c.22.2025.11.21.02.03.23
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 21 Nov 2025 02:03:23 -0800 (PST)
-Received: by mail-ua1-f48.google.com with SMTP id
- a1e0cc1a2514c-93516cbe2bbso528277241.2
- for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 02:03:23 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUpvnUF2vZvqVmyoD/5UAQQi2Z42nYaVCgr7WJi4yfMxHL7s8VCYVGEbJWT6KS+Gg1Nh6WA5t9FB+c=@lists.freedesktop.org
-X-Received: by 2002:a05:6102:579a:b0:5db:33f9:adce with SMTP id
- ada2fe7eead31-5e1de3d42camr385692137.41.1763719402998; Fri, 21 Nov 2025
- 02:03:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20251120180233.763975-1-hsukrut3@gmail.com>
-In-Reply-To: <20251120180233.763975-1-hsukrut3@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 21 Nov 2025 11:03:11 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV3UvDHT0uu8oeiCGc9pURaLPDPmG-Fu9kC9H8DQyqRDw@mail.gmail.com>
-X-Gm-Features: AWmQ_bkayHVM_Ddsfirz9lK5uUvThJmyJwFAo8HPyX8vy-dtp3QKVrq4J4AGcFo
-Message-ID: <CAMuHMdV3UvDHT0uu8oeiCGc9pURaLPDPmG-Fu9kC9H8DQyqRDw@mail.gmail.com>
-Subject: Re: [RFC/RFT PATCH] fbdev: q40fb: request memory region
-To: Sukrut Heroorkar <hsukrut3@gmail.com>
-Cc: Helge Deller <deller@gmx.de>, 
- "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>, 
- "open list:FRAMEBUFFER LAYER" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>, 
- shuah@kernel.org, david.hunter.linux@gamil.com, 
- linux-m68k <linux-m68k@lists.linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
+ AJvYcCWcW1RNj5GSQBi3e5FdSljCdAuNKeVDZkt9iJP6jJkzebDy3aUbXSoHpIPSWrfvnVVnuxo4A48TCCc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw4Ot6SQtINKU6o4B3JNHLNin19Ul28OwTGytCOwO3BoHeKQpfo
+ URf0yUg8X5k1AndmLfoDTYkgiW7yEIgnQkaNuUfnskr6OmK/CXCSqltBoqsHegFdhM6ZCdEhfkM
+ /I8Ur384xUyWeC1TeLg==
+X-Google-Smtp-Source: AGHT+IFRCpnui5X/hdHVF+GN9/3IwNDrRnkzekQdAdU4QEDBAj7wm7oIR1v0hrBczQVblLlGTSnUTYy18xsQNyg=
+X-Received: from wroe1.prod.google.com ([2002:adf:ef01:0:b0:42b:b28a:6748])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a5d:5f44:0:b0:429:d350:802d with SMTP id
+ ffacd0b85a97d-42cc1d34848mr1592512f8f.45.1763719592117; 
+ Fri, 21 Nov 2025 02:06:32 -0800 (PST)
+Date: Fri, 21 Nov 2025 10:06:30 +0000
+Mime-Version: 1.0
+Message-ID: <aSA5pshsJ7TeJIbu@google.com>
+Subject: [PULL] DRM Rust changes for v6.19 (2nd)
+From: Alice Ryhl <aliceryhl@google.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Danilo Krummrich <dakr@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>, Miguel Ojeda <ojeda@kernel.org>,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dim-tools@lists.freedesktop.org
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,57 +80,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sukrut,
+Hi Dave and Sima,
 
-CC linux-m68k
+Please pull the following DRM Rust changes. This PR fixes a warning and
+broken link in the Rust documentation build when building with rustc
+prior to 1.80.0.
 
-On Thu, 20 Nov 2025 at 19:03, Sukrut Heroorkar <hsukrut3@gmail.com> wrote:
-> The q40fb driver uses a fixed physical address but never reserves
-> the corresponding I/O region. Reserve the range  as suggested in
-> Documentation/gpu/todo.rst ("Request memory regions in all fbdev drivers").
->
-> If the memory cannot be reserved, fail probe with -EBUSY to avoid
-> conflicting with another user of the same address.
->
-> Signed-off-by: Sukrut Heroorkar <hsukrut3@gmail.com>
+The commit has been in linux-next for one round.
 
-Thanks for your patch!
+- Alice
 
-> ---
-> Testing: This patch is sent as RFT since Q40 hardware is unavilable and
-> QEMU does not emulated a Q40 platform. The change is therefore compile-tested
-> only.
+The following changes since commit f0ded972d37150f9f889de75c9eecc5cb0730013:
 
-I would suggest not to apply this, unless it is tested on real
-hardware.  It wouldn't be the first time an innocent-looking change like
-this breaks a system. See e.g.
-https://lore.kernel.org/all/Y5I2oQexHNdlIbsQ@shell.armlinux.org.uk
+  Merge tag 'drm-rust-next-2025-11-18' of https://gitlab.freedesktop.org/drm/rust/kernel into drm-next (2025-11-20 10:44:50 +1000)
 
-> --- a/drivers/video/fbdev/q40fb.c
-> +++ b/drivers/video/fbdev/q40fb.c
-> @@ -101,6 +101,13 @@ static int q40fb_probe(struct platform_device *dev)
->         info->par = NULL;
->         info->screen_base = (char *) q40fb_fix.smem_start;
->
-> +       if (!request_mem_region(q40fb_fix.smem_start, q40fb_fix.smem_len,
-> +                               "q40fb")) {
-> +               dev_err(&dev->dev, "cannot reserve video memory at 0x%lx\n",
-> +                       q40fb_fix.smem_start);
-> +               return -EBUSY;
-> +       }
-> +
->         if (fb_alloc_cmap(&info->cmap, 256, 0) < 0) {
->                 framebuffer_release(info);
->                 return -ENOMEM;
+are available in the Git repository at:
 
-Gr{oetje,eeting}s,
+  https://gitlab.freedesktop.org/drm/rust/kernel.git tags/drm-rust-next-2025-11-21
 
-                        Geert
+for you to fetch changes up to 57dc2ea0b7bdb828c5d966d9135c28fe854933a4:
 
+  rust: slice: fix broken intra-doc links (2025-11-20 10:13:35 +0000)
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+----------------------------------------------------------------
+Core Changes:
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+- Fix warning in documentation builds on older rustc versions.
+
+----------------------------------------------------------------
+Miguel Ojeda (1):
+      rust: slice: fix broken intra-doc links
+
+ rust/kernel/slice.rs | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
