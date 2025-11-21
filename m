@@ -2,78 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A059C7A9CF
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 16:48:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 802F1C7AA0E
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 16:51:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D13710E8BE;
-	Fri, 21 Nov 2025 15:48:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11B3F10E8CA;
+	Fri, 21 Nov 2025 15:51:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gArfeFEl";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="on1ZFoRS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 583C510E141;
- Fri, 21 Nov 2025 15:48:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id F011243B7A;
- Fri, 21 Nov 2025 15:48:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58CF7C4CEF1;
- Fri, 21 Nov 2025 15:48:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763740084;
- bh=LP19xB2HDi68fuNxVCCeUKCjpFYJR01O9e89Ljq/vBE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gArfeFEl7E2v8V9k8s2WjNhF4wZMdNkZzkWgc7KQY8OQ/FD5Hc+1k+raO/DlGaXWx
- /GceRDthNXPsCEH4F2NCAVsMsVJwHJP/PlMNkiMVfx39FlHwL1/ma3z734ELDG2Oyd
- LldNcvyOwLeV/boYVeOAYG6A4XF2fPqfz4loVZhgi7bS1Pk+ppALCIT326VJe04F44
- ZvSW+Z7e8o710Rg/3/P64GqV2ZzTp390cBoGs83UqrDC4gnWvhssHMfEDesVbRGZGz
- 575P6s9ja9jrdFOmW3pQeHf7jHjtrLlcjw59AcxB/MsvNzwrbd22kf8IswCoJvDDwo
- 5/qlR1iV7lZOw==
-Date: Fri, 21 Nov 2025 16:48:02 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- Daniel Stone <daniels@collabora.com>
-Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
- as unsupported
-Message-ID: <eiaxss57hauegv64ek4ddi3ib5x4t4g4xwiqvuaj43b52wpctb@p63ewh6tqblk>
-References: <20250909-drm-limit-infoframes-v4-0-53fd0a65a4a2@oss.qualcomm.com>
- <20250909-drm-limit-infoframes-v4-1-53fd0a65a4a2@oss.qualcomm.com>
- <20250910-furry-singing-axolotl-9aceac@houat>
- <z333ysst5ifakomo35jtbpydj44epqwwn4da76rcnsq4are62m@32gsmgx2pcdi>
- <20250925-didactic-spiked-lobster-fefabe@penduick>
- <jfxtcvh4l5kzyv74llmzz3bbt6m4mhzhhwl6lh5kfeqgqhkrhi@jzfvtxpedmyf>
- <20251003-primitive-sepia-griffin-cfca55@houat>
- <54a06852-4897-4dae-ab9c-330d99f3bf42@oss.qualcomm.com>
- <5cc5l2dihgdbgnwyugelwrklpaiiy5yaczqllu4bi6asvlt354@kib3flskh34g>
- <ez6y7q4lgbwt7kpnlpausjpznckr3yyejrwtxm7o6qw6wlhqoj@6iypzdhfthzy>
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010021.outbound.protection.outlook.com
+ [40.93.198.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD8F610E0D4
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 15:51:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yrj+mRnDdsspCy5rcW6vvYcWKLOPqyX0G4W+ojcAjkMLK2HzSF62965yVeJs0Gy2IoxrE1/CHm4PHLRk3sv9W9i/5ZB/DPO9NYMXuVoi1Y/SLznpaVf1YNLwCbCfmlkZ66khISWm7oSoQoLZ3xC0UF0Jj7Kxs2ExW9MrtL796Eqe8rzaun9eAGkebr2p+ltSq0sZikSx2Zzk2PBWVWJsESEcBfbhCXQqwqLo/0Yo5sKn7sZ4v4oXRY+WFf8AHknGQgbguwlOHZaw0eEw2/d6GxYbRjJrOo4xHwslR1SKUu4pZN3GICNNGXf1h5G7ht9UIrWitWtEJSFQrbii1SLKoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zsvcbpvvxTtN+6YQ2IGpIE75sTjhjeyq2W7EvJeS8Vk=;
+ b=ldoCbR3tN/8KrC4iujj3B7OJBFknki6XRrbgQ/04Dr7tYL4XDR+C0CVsAXLw57XmA2xd3oFfLun5ppUwQemuZ208P9ssTqJAzKnFXrlaxyrLzjLCPHMlCLhs2VGAQo6B2G5/FjdqZppd2wQjGUv8s+XE5CPgiYKRnge30Hrn9rEcnEVXx5PIr1LhSiOVM7ohHKx0ILXbUTOhiwHgq/VR1TrvfbkBr+s09K0eIJAEBszhfT0D52Jt8NwIGwfux/YXYoHwQbKT/T4FtHKiMOcfXSQgfTl34ZfgfueeWacx86Lmkr2f+ZddUk5z9ttvwX35XrmeTmZb1rsKknPvH5/IoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zsvcbpvvxTtN+6YQ2IGpIE75sTjhjeyq2W7EvJeS8Vk=;
+ b=on1ZFoRSSmwClhcjsfGlWQyd7qWwMowqzo/IjRdiFgG/b2z4OmuZ+AfAPqpoH1rYO8IMf7+Tx9J026EPw9ld1Z2KNh6gghYasJLlZZcPJSr7MF3IkrS0QSjnpGCZ0v/hp+CWq6Tqn8fbFZ8WKa7hjWJD3BPOMnS5AfUN/p868tOJrDNki84dF5lAppbZoPg4XdmIk0nm5DL76+fV0P2Y/JuicWqfvjSrjVzneJPGmCjlP6kIjBEQ5jI4OXgw6eZcfTKHP4sDruFC6U2lJnsk7PX1DmBQOSVFG8Cow7KvpPjoEObsU39MCEyi9zPwBCf/jY+IGNzB0K5EBO261XXMow==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
+ by DS0PR12MB6439.namprd12.prod.outlook.com (2603:10b6:8:c9::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9275.15; Fri, 21 Nov 2025 15:51:08 +0000
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9343.009; Fri, 21 Nov 2025
+ 15:51:07 +0000
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alex Williamson <alex@shazbot.org>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+ Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Will Deacon <will@kernel.org>
+Cc: Kevin Tian <kevin.tian@intel.com>, Krishnakant Jaju <kjaju@nvidia.com>,
+ Leon Romanovsky <leon@kernel.org>, Matt Ochs <mochs@nvidia.com>,
+ Nicolin Chen <nicolinc@nvidia.com>, patches@lists.linux.dev,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Shuai Xue <xueshuai@linux.alibaba.com>, Xu Yilun <yilun.xu@linux.intel.com>
+Subject: [PATCH v2 0/9] Initial DMABUF support for iommufd
+Date: Fri, 21 Nov 2025 11:50:57 -0400
+Message-ID: <0-v2-b2c110338e3f+5c2-iommufd_dmabuf_jgg@nvidia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BL1PR13CA0326.namprd13.prod.outlook.com
+ (2603:10b6:208:2c1::31) To MN2PR12MB3613.namprd12.prod.outlook.com
+ (2603:10b6:208:c1::17)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="vnfz4xpbantfwz3r"
-Content-Disposition: inline
-In-Reply-To: <ez6y7q4lgbwt7kpnlpausjpznckr3yyejrwtxm7o6qw6wlhqoj@6iypzdhfthzy>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|DS0PR12MB6439:EE_
+X-MS-Office365-Filtering-Correlation-Id: f6c1ce08-28a2-4088-b29b-08de2915c8e4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|366016|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Jcqd8ZTxofG1Ivi1XuWxDRU7j44c1+uwr2mJCMNKjWZwrnHGnZMZrO0b9E30?=
+ =?us-ascii?Q?/YiaDDXbYhnucAXoWF32VZzNNT60Wp8R537UKaTedGBOe7Uy5q7iWkcdUENe?=
+ =?us-ascii?Q?pr1+1W69xLYv7jyb6ehtoaZfH0incurRUlLMixWoRMKsOgEOiBocCUBvdQlA?=
+ =?us-ascii?Q?f+OXfZcXt7D7WjjRpmIfz2c3J9Sxn122yHogadh+hkhAICivh9MbaBGsUA0W?=
+ =?us-ascii?Q?v9AgQ4WpkrX45J9pMYB+RBBevBaq+M9BgLOymoHLutwSbXYAVfkf6I4fG9nm?=
+ =?us-ascii?Q?Szl3XWQDTjyl4bFyj9mv0J5Xe4oiY8GbJ77JbRq1GSGLQSHt6pZGQjJmb3qr?=
+ =?us-ascii?Q?nfoaU/ZOMHKs62Gda8Ei/x60sHtPs4/zyCKIn0NiAZUWkPqLXVsl5lfnrh5z?=
+ =?us-ascii?Q?J/gg9rVvauheYsHZRAF8WsqX+gwUckp10k3DaLNb7wtXRNRPiZs2oOkuBzQX?=
+ =?us-ascii?Q?W6F+w01TZ+LLM5GDSctk9wnIFmeSrcafXSzaQsG3se5B1XfiV1cuI1VZWTQE?=
+ =?us-ascii?Q?QBTO3luCsLB6EZAoE5UREj1M0tsvQ2ZR4SlRHGLIjgIj7i5dpOVd1QSHgEuw?=
+ =?us-ascii?Q?FfPMbGvkldrSrA3+LxahcXNIkCSb+1U7IZIshR/iVJHCvvaD5tunuL1sHGI7?=
+ =?us-ascii?Q?hHZrdBFuSJmybodHQWa9GyafW1zqnONBSmbAUIff7c3cbGsRdZzG2Q1f+lwZ?=
+ =?us-ascii?Q?z7MBMx93p5EDegxe4F3+9MmY0mYbnNykGWgXfrJkAwe+FQrMU36c7Tq9cucS?=
+ =?us-ascii?Q?UeRUYbGn9Cp9p7a3x/zUZdieqpcxgg6w9C4FulvSGOYL8QWGAwxXRcliwene?=
+ =?us-ascii?Q?hOo+Z3kB6Y1tEZC0sKTCqCJYi1oOaMtlAkuSItAmRtvONvf6CoxX7T56pdhL?=
+ =?us-ascii?Q?uAn723SLlBVhWqR3WB4rYsTVZ1RXqlF1bsonZGzwlpyeBEEoQmp8++LhnG/N?=
+ =?us-ascii?Q?4BmKX5ChfJPJ6EtQj6It8ZGPRIU4rMvIGZf28N82R4r/pqLm0guaAMBPNEI/?=
+ =?us-ascii?Q?4d/CYcIhveGV//MhfgYP2G3BlMyIdDtKVGS0NaOWYFtAgyt4leanSc/jzVhN?=
+ =?us-ascii?Q?aVuyhnsLZyiVvwA0GSuo6AQGIABMxMFLi5BAL8YKE9Y4h5MM2R/c83FdrHGK?=
+ =?us-ascii?Q?h2lXMz+B7JdwvFOttdWnJWrnUgjKARcgTSSmJvqDbJqEoMMgb6XXvg8bn/Hb?=
+ =?us-ascii?Q?eC+l5sdHzjykB6UfSmWyjVJ8fd4xnAcFdQe+UrFgO0o8brRjzq2a0gEQGq56?=
+ =?us-ascii?Q?SlhD9y8D5LVOV+hOmn4VU70JkSPDxXQTiCS2C/9Ion4qPXG1u00xlSEEMoDX?=
+ =?us-ascii?Q?jx4H1lwrcH9X93GQLJfvgGp2dzmoYNlcQs7EeAVXtbYPzVQiv6X8NvpRzj1u?=
+ =?us-ascii?Q?mhmB6EZQoWjiaJ04pLfJ2nLEgnauzssu+h8szgMX+5dPzg9ViqOwrQuElIi4?=
+ =?us-ascii?Q?vgAR1OK0XpPDV/97vmquGHRaSjDVGXikAsV+2TiA75tAqT5XyVOG3JEgF9lj?=
+ =?us-ascii?Q?/Dlhf2RVGY00Tdlad7az0Rha7wP/QIyBMfDr?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3613.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020); DIR:OUT; SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RY3KNbk29hRqedta8J+Ql4R6lEZz0IHL8nyGSZN9NdEf89f/0XMrUuk/knk/?=
+ =?us-ascii?Q?OLctgjVSUVb874YkhkFCI/PhepyVW4ajGDtupvS1C4yWEfd4cBNXl0fPNtAj?=
+ =?us-ascii?Q?GR8CCUF9nZYzZmkWLXLP4+BPWqW6/m4aXU1QMxPOWyqX7d8XYE5a6qAK/ZTQ?=
+ =?us-ascii?Q?zO3L6vYadqBTxUGtTXCglPu5C8sVYCJhP4ekpORsMheY0HH/hL3Ubmf+xtjA?=
+ =?us-ascii?Q?d6chhRp1Pg492yS2Q+K/62OaKwtygAVuV0XTMwXdW5d/qMLkgSCW78fqsKXZ?=
+ =?us-ascii?Q?1fa9k84bKsvu3DIOrbkaQOpgrDBGonmM4nAzHdl22UHZ0tsuhL8GCDsENh7U?=
+ =?us-ascii?Q?WZr/a/eJMspSZ2ybO8zyD/WV/6QqG3jISCVlJiyf8s6fpQNlREevYzQSN7sJ?=
+ =?us-ascii?Q?NV0lX81HaA12HpHG2bBER34Qxc5I5W8fmazQ1zkOpkp8Bk93RJZCsuvCnp36?=
+ =?us-ascii?Q?v/iDv9R9vyMf5C4Yz7TuL9pCczMMvvwWxGB/FkXktI3KOh8BHlxjBVcs5JJs?=
+ =?us-ascii?Q?HR4AuI+Z4XV59hmkgrMKY50BXYfrvfIPOBge9xH/xg4bjtYzwb0L8jjzIe4e?=
+ =?us-ascii?Q?59r9SjBLlGAG0BoukMYvRJsx9s3fWW4TiUe/rnoBy9TuI72907kaaVxagv6t?=
+ =?us-ascii?Q?/ugYLDFqnlX+5fZmgn5rTze5LEJ22am8ZsHsysb8oT2d0VJoSYg8roHC0tK1?=
+ =?us-ascii?Q?qzZ4FfUm+VHVtn4jgsF/mykytyeOOfQgNt096PU9ukGyeC5n3MOfh1jlm5dh?=
+ =?us-ascii?Q?TcsUy2dxpRWAMzSnhIt4TxQcRBs+WO+EkKmlyDcvtBL2F/ICF5yefwunkVV6?=
+ =?us-ascii?Q?JW0UsmxsVmY9IjDttSeJV4IJZoCzNGyhu5ssLRi9UrUjINSVrTvfLUZcNmcL?=
+ =?us-ascii?Q?5aPh3Xw6L0FVWPQu1YigXz+N3vg7TcUDwCYQRSBxtTyv+rkbsvI7qnUM4V7g?=
+ =?us-ascii?Q?iY/91yqZec5V+R5QzlMXSXtYud8Ffomb4M2sLAYxmFwvUXjsJ9mT5n3zrpx7?=
+ =?us-ascii?Q?4bNphK/esav1R47oCIjZw1rvp9zSjxYD+4kTzX88Yz9w4WMfQpdCN7KfIDKp?=
+ =?us-ascii?Q?8092s6lC3X8MiiMp1J2GTd7fi4aLXm9slg1mbZABkAF10qnIcKxxVswZPeDO?=
+ =?us-ascii?Q?bf1eVtU2if8LAD0BIN3/WVwDmnOyA9NiTPx39OTpOf9FpEM9U4pQw+L5fjJr?=
+ =?us-ascii?Q?1qXD6k5MCzTjOP7LQcDcE4UdD/Q1ZzwGtODtjb3LcRuQixCTon9DeNLMtGDD?=
+ =?us-ascii?Q?zs6T8oA0l3SfI0cCaOH9jktZYo+BwnLX37ME8rPXLkb9ZN8XX6n4+3DbkgP+?=
+ =?us-ascii?Q?DDtxyFg3hUad5B5YNOftXMeF5AIUr406FkrUV0cIpsULRSZly1ns8/nEw8Wk?=
+ =?us-ascii?Q?wcz4UM9luqsvErr8563uWvSeQukUnIoqBOyrnYannzbAgOYyjDzJL3gVADE0?=
+ =?us-ascii?Q?kSFz+ZS/4PuXB/Ceu93srT5x6gE9k6e9x5QbJUnHM3jMAZhc9Z1wX1I05qeK?=
+ =?us-ascii?Q?fWs5mT3rNxiAD5IB9qdygl4IQ7RVlC7SyVY6Z2Wtxkdx2faaafUqhmQOPar1?=
+ =?us-ascii?Q?AJBnuZXM7J2Aop8thaY=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f6c1ce08-28a2-4088-b29b-08de2915c8e4
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2025 15:51:07.6331 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VGbfHjUu1QiBWQxcYn9b6E6eHAN3EXO4k/b6fuGhc4PFweg3F5WAaAUguNEajESe
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6439
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,176 +156,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series is the start of adding full DMABUF support to
+iommufd. Currently it is limited to only work with VFIO's DMABUF exporter.
+It sits on top of Leon's series to add a DMABUF exporter to VFIO:
 
---vnfz4xpbantfwz3r
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 01/10] drm/connector: let drivers declare infoframes
- as unsupported
-MIME-Version: 1.0
+   https://lore.kernel.org/all/20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com/
 
-On Tue, Oct 14, 2025 at 07:02:03PM +0300, Dmitry Baryshkov wrote:
-> On Tue, Oct 14, 2025 at 02:43:58PM +0200, Maxime Ripard wrote:
-> > On Fri, Oct 03, 2025 at 06:41:58PM +0300, Dmitry Baryshkov wrote:
-> > > On 03/10/2025 17:23, Maxime Ripard wrote:
-> > > > On Thu, Sep 25, 2025 at 05:55:06PM +0300, Dmitry Baryshkov wrote:
-> > > > > > > As we will be getting more and more features, some of the Inf=
-oFrames
-> > > > > > > or data packets will be 'good to have, but not required'.
-> > > > > >=20
-> > > > > > And drivers would be free to ignore those.
-> > > > > >=20
-> > > > > > > > So, no, sorry. That's still a no for me. Please stop sendin=
-g that patch
-> > > > > > >=20
-> > > > > > > Oops :-)
-> > > > > > >=20
-> > > > > > > > unless we have a discussion about it and you convince me th=
-at it's
-> > > > > > > > actually something that we'd need.
-> > > > > > >=20
-> > > > > > > My main concern is that the drivers should not opt-out of the=
- features.
-> > > > > > > E.g. if we start supporting ISRC packets or MPEG or NTSC VBI =
-InfoFrames
-> > > > > > > (yes, stupid examples), it should not be required to go throu=
-gh all the
-> > > > > > > drivers, making sure that they disable those. Instead the DRM=
- framework
-> > > > > > > should be able to make decisions like:
-> > > > > > >=20
-> > > > > > > - The driver supports SPD and the VSDB defines SPD, enable th=
-is
-> > > > > > >    InfoFrame (BTW, this needs to be done anyway, we should no=
-t be sending
-> > > > > > >    SPD if it's not defined in VSDB, if I read it correctly).
-> > > > > > >=20
-> > > > > > > - The driver hints that the pixel data has only 10 meaninful =
-bits of
-> > > > > > >    data per component (e.g. out of 12 for DeepColor 36), the =
-Sink has
-> > > > > > >    HF-VSDB, send HF-VSIF.
-> > > > > > >=20
-> > > > > > > - The driver has enabled 3D stereo mode, but it doesn't decla=
-re support
-> > > > > > >    for HF-VSIF. Send only H14b-VSIF.
-> > > > > > >=20
-> > > > > > > Similarly (no, I don't have these on my TODO list, these are =
-just
-> > > > > > > examples):
-> > > > > > > - The driver defines support for NTSC VBI, register a VBI dev=
-ice.
-> > > > > > >=20
-> > > > > > > - The driver defines support for ISRC packets, register ISRC-=
-related
-> > > > > > >    properties.
-> > > > > > >=20
-> > > > > > > - The driver defines support for MPEG Source InfoFrame, provi=
-de a way
-> > > > > > >    for media players to report frame type and bit rate.
-> > > > > > >=20
-> > > > > > > - The driver provides limited support for Extended HDR DM Inf=
-oFrames,
-> > > > > > >    select the correct frame type according to driver capabili=
-ties.
-> > > > > > >=20
-> > > > > > > Without the 'supported' information we should change atomic_c=
-heck()
-> > > > > > > functions to set infoframe->set to false for all unsupported =
-InfoFrames
-> > > > > > > _and_ go through all the drivers again each time we add suppo=
-rt for a
-> > > > > > > feature (e.g. after adding HF-VSIF support).
-> > > > > >=20
-> > > > > >  From what you described here, I think we share a similar goal =
-and have
-> > > > > > somewhat similar concerns (thanks, btw, it wasn't obvious to me=
- before),
-> > > > > > we just disagree on the trade-offs and ideal solution :)
-> > > > > >=20
-> > > > > > I agree that we need to sanity check the drivers, and I don't w=
-ant to go
-> > > > > > back to the situation we had before where drivers could just ig=
-nore
-> > > > > > infoframes and take the easy way out.
-> > > > > >=20
-> > > > > > It should be hard, and easy to catch during review.
-> > > > > >=20
-> > > > > > I don't think bitflag are a solution because, to me, it kind of=
- fails
-> > > > > > both.
-> > > > > >=20
-> > > > > > What if, just like the debugfs discussion, we split write_infof=
-rame into
-> > > > > > write_avi_infoframe (mandatory), write_spd_infoframe (optional),
-> > > > > > write_audio_infoframe (checked by drm_connector_hdmi_audio_init=
-?) and
-> > > > > > write_hdr_infoframe (checked in drmm_connector_hdmi_init if max=
-_bpc > 8)
-> > > > > >=20
-> > > > > > How does that sound?
-> > > > >=20
-> > > > > I'd say, I really like the single function to be called for writi=
-ng the
-> > > > > infoframes. It makes it much harder for drivers to misbehave or t=
-o skip
-> > > > > something.
-> > > >=20
-> > > >  From a driver PoV, I believe we should still have that single func=
-tion
-> > > > indeed. It would be drm_atomic_helper_connector_hdmi_update_infofra=
-mes's
-> > > > job to fan out and call the multiple callbacks, not the drivers.
-> > >=20
-> > > I like this idea, however it stops at the drm_bridge_connector abstra=
-ction.
-> > > The only way to handle this I can foresee is to make individual bridg=
-es
-> > > provide struct drm_connector_hdmi_funcs implementation (which I'm fin=
-e with)
-> > > and store void *data or struct drm_bridge *hdmi_bridge somewhere insi=
-de
-> > > struct drm_connector_hdmi in order to let bridge drivers find their d=
-ata.
-> >=20
-> > Does it change anything? The last HDMI bridge should implement all the
-> > infoframes it supports. I don't think we should take care of one bridge
-> > with one infoframe type and some other with another?
->=20
-> Note: I wrote about the _data_. So far the connector's write_infoframe /
-> clear_infoframe callbacks get drm_connector as an arg. The fact that
-> there is a drm_bridge which implements a callback is hidden well inside
-> drm_bridge_connector (and only it knows the bridge_hdmi pointer).
-> Otherwise, the bridge, trying to implement drm_connector_hdmi_funcs has
-> no way to go from drm_connector to drm_bridge.
->=20
-> The only possible solution would be to introduce something like
-> drm_connector_hdmi::data (either void* or drm_bridge*) and use it
-> internally. But for me this looks like a bit loose abstraction. Though,
-> if it looks good from your POV, I agree, it would solve enough of
-> issues.
+The existing IOMMU_IOAS_MAP_FILE is enhanced to detect DMABUF fd's, but
+otherwise works the same as it does today for a memfd. The user can select
+a slice of the FD to map into the ioas and if the underliyng alignment
+requirements are met it will be placed in the iommu_domain.
 
-I'm not sure I understand, sorry.
+Though limited, it is enough to allow a VMM like QEMU to connect MMIO BAR
+memory from VFIO to an iommu_domain controlled by iommufd. This is used
+for PCI Peer to Peer support in VMs, and is the last feature that the VFIO
+type 1 container has that iommufd couldn't do.
 
-What prevents us from adding ~4 functions to bridge->funcs that take the
-bridge, and drm_bridge_connector would get the connector, retrieve the
-bridge instance from it, and pass it to the bridge actually implementing
-it? Like we do currently for write_infoframe and clear_infoframe
-already?
+The VFIO type1 version extracts raw PFNs from VMAs, which has no lifetime
+control and is a use-after-free security problem.
 
-Maxime
+Instead iommufd relies on revokable DMABUFs. Whenever VFIO thinks there
+should be no access to the MMIO it can shoot down the mapping in iommufd
+which will unmap it from the iommu_domain. There is no automatic remap,
+this is a safety protocol so the kernel doesn't get stuck. Userspace is
+expected to know it is doing something that will revoke the dmabuf and
+map/unmap it around the activity. Eg when QEMU goes to issue FLR it should
+do the map/unmap to iommufd.
 
---vnfz4xpbantfwz3r
-Content-Type: application/pgp-signature; name="signature.asc"
+Since DMABUF is missing some key general features for this use case it
+relies on a "private interconnect" between VFIO and iommufd via the
+vfio_pci_dma_buf_iommufd_map() call.
 
------BEGIN PGP SIGNATURE-----
+The call confirms the DMABUF has revoke semantics and delivers a phys_addr
+for the memory suitable for use with iommu_map().
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaSCJsgAKCRAnX84Zoj2+
-dh89AYC3OvDkzVUlxqCCClS0XtTSV3f+Nh4/Ge3ApQd7tPCinePMjVqIhRTX3dQG
-WVZWcbMBfitqxdp4k9BqJt3mOot50bZme9uev5F+nwaHhM+5UZP2cO8R3UKSWVxx
-o5Zr7qAz4A==
-=c8cr
------END PGP SIGNATURE-----
+Medium term there is a desire to expand the supported DMABUFs to include
+GPU drivers to support DPDK/SPDK type use cases so future series will work
+to add a general concept of revoke and a general negotiation of
+interconnect to remove vfio_pci_dma_buf_iommufd_map().
 
---vnfz4xpbantfwz3r--
+I also plan another series to modify iommufd's vfio_compat to
+transparently pull a dmabuf out of a VFIO VMA to emulate more of the uAPI
+of type1.
+
+The latest series for interconnect negotation to exchange a phys_addr is:
+ https://lore.kernel.org/r/20251027044712.1676175-1-vivek.kasireddy@intel.com
+
+And the discussion for design of revoke is here:
+ https://lore.kernel.org/dri-devel/20250114173103.GE5556@nvidia.com/
+
+This is on github: https://github.com/jgunthorpe/linux/commits/iommufd_dmabuf
+
+v2:
+ - Rebase on Leon's v9
+ - Fix mislocking in an iopt_fill_domain() error path
+ - Revise the comments around how the sub page offset works
+ - Remove a useless WARN_ON in iopt_pages_rw_access()
+ - Fixed missed memory free in the selftest
+v1: https://patch.msgid.link/r/0-v1-64bed2430cdb+31b-iommufd_dmabuf_jgg@nvidia.com
+
+Jason Gunthorpe (9):
+  vfio/pci: Add vfio_pci_dma_buf_iommufd_map()
+  iommufd: Add DMABUF to iopt_pages
+  iommufd: Do not map/unmap revoked DMABUFs
+  iommufd: Allow a DMABUF to be revoked
+  iommufd: Allow MMIO pages in a batch
+  iommufd: Have pfn_reader process DMABUF iopt_pages
+  iommufd: Have iopt_map_file_pages convert the fd to a file
+  iommufd: Accept a DMABUF through IOMMU_IOAS_MAP_FILE
+  iommufd/selftest: Add some tests for the dmabuf flow
+
+ drivers/iommu/iommufd/io_pagetable.c          |  78 +++-
+ drivers/iommu/iommufd/io_pagetable.h          |  54 ++-
+ drivers/iommu/iommufd/ioas.c                  |   8 +-
+ drivers/iommu/iommufd/iommufd_private.h       |  14 +-
+ drivers/iommu/iommufd/iommufd_test.h          |  10 +
+ drivers/iommu/iommufd/main.c                  |  10 +
+ drivers/iommu/iommufd/pages.c                 | 414 ++++++++++++++++--
+ drivers/iommu/iommufd/selftest.c              | 143 ++++++
+ drivers/vfio/pci/vfio_pci_dmabuf.c            |  34 ++
+ include/linux/vfio_pci_core.h                 |   4 +
+ tools/testing/selftests/iommu/iommufd.c       |  43 ++
+ tools/testing/selftests/iommu/iommufd_utils.h |  44 ++
+ 12 files changed, 786 insertions(+), 70 deletions(-)
+
+
+base-commit: f836737ed56db9e2d5b047c56a31e05af0f3f116
+-- 
+2.43.0
+
