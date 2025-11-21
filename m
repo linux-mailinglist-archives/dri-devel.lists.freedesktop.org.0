@@ -2,71 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9AAC7BAB7
-	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 21:48:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87103C7BB51
+	for <lists+dri-devel@lfdr.de>; Fri, 21 Nov 2025 22:03:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 442C310E901;
-	Fri, 21 Nov 2025 20:48:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46A8510E902;
+	Fri, 21 Nov 2025 21:03:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="LJy75apl";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="rvVOlvHQ";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="A3BHKhbF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE16610E8FE;
- Fri, 21 Nov 2025 20:47:58 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4dCnNY2R6Fz9tk6;
- Fri, 21 Nov 2025 21:47:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1763758077;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aXOOBN/mtrVW7iMQyoQs66Vn5MH2mHNE5SZoKSUOyHk=;
- b=LJy75apl2bZyBU4k3+WVw/wmjrngxNROvNbFhK8C6iJgSAaClhwHvj/ZhYHQcQCuiSc3qw
- IN/eNWnGZhHAPtWCE89vZO8NN1aZ3GMy+cv5Ztbq2EKSBJOWSPKREI1IcOq49tyeTGbkvT
- kDLloXYXHM8PVZgv4hXB+/a3tXNoZfiT6bPBsv0kz1+9Ag2aJhnfB42Ke6vE/htisdAKz0
- Nh4FBI4AEuOrUMsd24VOc4peNWIjF8fjfuNdNexR3NpjMTM/t9JFzYaEkB5YjufAt6pDjb
- sOD2rOiA6uiydqp79mSJPnf7hvXJ4VnDou43+ulzDHL/rYntXTghRs4jjYNzpw==
-Message-ID: <b307fa5c-ccce-4f4b-bc38-a69c6b9d6095@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1763758075;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aXOOBN/mtrVW7iMQyoQs66Vn5MH2mHNE5SZoKSUOyHk=;
- b=rvVOlvHQMGL0Wa+gmPeaNsWZzNBJHWKRBKbga3KKR1z2CRkrjvmjWxbHzNOGP63b4AWLDx
- 8LNN491iTEuV3Q4xMNm9AqN54FAKMRtWVBgZ2Nu1bB5SeUD0A2mk4wvd2NWkqhxIAhPRjr
- troZRGlu6IkKe5yi5IEVugc2Cu3mj4V/Qum9Gi2FtbVx/7lft7CVxzQRtR1XJkobyalmvX
- qlWKfX+95GiI0dOVa2jvfDrWaPMJAf5+EVyKVhVaNIduoT1aq6ZdtANtDLxrMPROJP1ApF
- V2grGH1JZK+5Rbo4rBN8m0lERDUDWrOlLgx3Xih36XSYlxs7AoemzfGHeh9h+Q==
-Date: Fri, 21 Nov 2025 21:47:52 +0100
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
+ [136.143.184.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB73410E902
+ for <dri-devel@lists.freedesktop.org>; Fri, 21 Nov 2025 21:03:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1763759015; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Xm5hPSCReZzIWXjXbqxcj/EuVkmmMi41eT34rNdZymD27RisKyJL9iYZ4fspTTNVKGt+dXrFE3IlpG/KDkmpaXUBDmegmi1b/RI6I+baMeAEdXxCBRyb8SK26Ckd0e9MQm1JejqlXu2hYNVcyZY6Kn/m+BpfGNF18ICZ5YT+FBM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1763759015;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=cO3jzHHVM4zgTK7Lmm9UpK4asdWl+g69Wllbi4p8Z1Q=; 
+ b=NDJPyhQgQgDteYit8pSRJ0WSfDKuxRw+U5zj+DnpjKTyMW0Noyht+UgaWdI+JSM/GgTOw+aQX3jQDYdniI/SWrx2ZLy+DNFFwKUf3YZ8VEOwZwMZWM+Fh/PGzSwKBSAVkpUPL/GCdT231fSMT+zXRnu2QolOfqOYvcQnHEKh0vM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763759015; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:From:From:To:To:Cc:Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=cO3jzHHVM4zgTK7Lmm9UpK4asdWl+g69Wllbi4p8Z1Q=;
+ b=A3BHKhbFhBlBc8n0LQKiSjMdTpzqN5ynz634M+U7pzh4QBTTQayEBw7qRcmmVJQD
+ SNG6n3r7jzyyQ52Px6KqWxwgGuBW3VEyFw8dlJ1tGC+es+6wPSmZ4aN51t8OeMxpTfc
+ /egzK9Mg31KblP8wTp+NyC45hkqFq6ZaknJj/Wmw=
+Received: by mx.zohomail.com with SMTPS id 176375901351589.46675248097893;
+ Fri, 21 Nov 2025 13:03:33 -0800 (PST)
+Message-ID: <fc91634e-c6df-4486-bd91-bc3af62b2bbf@collabora.com>
+Date: Sat, 22 Nov 2025 00:03:30 +0300
 MIME-Version: 1.0
-Subject: Re: [PATCH v5 0/5] drm/etnaviv: Add support for running a PPU flop
- reset
-To: gert.wollny@collabora.com, Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel <kernel@dh-electronics.com>
-References: <20251110144625.18653-1-gert.wollny@collabora.com>
- <20251119164624.9297-1-gert.wollny@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/3] drm/virtio: Add PM notifier to restore objects
+ after hibernation
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+To: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "airlied@redhat.com" <airlied@redhat.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "nirmoyd@nvidia.com" <nirmoyd@nvidia.com>
+References: <20251027205323.491349-1-dongwon.kim@intel.com>
+ <20251027205323.491349-4-dongwon.kim@intel.com>
+ <90f9c416-05d6-45f4-8205-027fc36e88e0@collabora.com>
+ <55556365-4c6e-450c-89aa-9c49ede53b00@collabora.com>
+ <PH0PR11MB5112533F30F495410F5E71AEFACDA@PH0PR11MB5112.namprd11.prod.outlook.com>
+ <66183a1b-c724-41fe-ae90-4d73e5f2aa67@collabora.com>
+ <PH0PR11MB51122A5436CF812363F1C614FAD4A@PH0PR11MB5112.namprd11.prod.outlook.com>
+ <9df778af-76bf-439b-a66e-a4e9b809176a@collabora.com>
 Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20251119164624.9297-1-gert.wollny@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <9df778af-76bf-439b-a66e-a4e9b809176a@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: t3zykkgqxaswffweziacn9chbuyk15q3
-X-MBO-RS-ID: 6e78ed1c7b9b66b2922
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,25 +77,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/19/25 5:45 PM, gert.wollny@collabora.com wrote:
-
-Hello Gert,
-
-> this is the fifth version of the series to add PPU flop reset.
+On 11/21/25 21:12, Dmitry Osipenko wrote:
+> Hi,
 > 
-> Changes w.r.t. the previous version are:
+> On 11/20/25 04:41, Kim, Dongwon wrote:
+>> Hi Dmitry,
+>>
+>>> -----Original Message-----
+>>> From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>> Sent: Friday, November 14, 2025 5:16 AM
+>>> To: Kim, Dongwon <dongwon.kim@intel.com>; dri-
+>>> devel@lists.freedesktop.org
+>>> Cc: airlied@redhat.com; kraxel@redhat.com; nirmoyd@nvidia.com
+>>> Subject: Re: [PATCH v6 3/3] drm/virtio: Add PM notifier to restore objects
+>>> after hibernation
+>>>
+>>> On 11/13/25 23:47, Kim, Dongwon wrote:
+>>>>> One option could be to explicitly destroy all stored objs upon
+>>>>> hibernation, that way the restoring will always work.
+>>>> Yes, we can do it to avoid that corner case. Or maybe we can just let it just
+>>> run.
+>>>> In this case, virtio_gpu_object_restore_all won't fail as shmem init
+>>>> will still work but QEMU will justsend back errored replies as all of
+>>>> those resources for BOs are still there in QEMU side but I think it
+>>>> won't break anything. Do you see any issues in doing this that I might
+>>>> be missing?? My assumption here is that the QEMU hasn't done any of
+>>> virtio-gpu resets here as hibernation failed.
+>>>
+>>> Correct, QEMU will emit a ton of "resource already exists" errors on aborted
+>>> hibernation. There should be no errors neither from guest, nor from host.
+>>> Note that QEMU is not the only VMM using VirtIO-GPU.
+>>>
+>>> Two options here:
+>>>
+>>> 1. Destroy stored host resources upon hibernation 2. Extend hibernation
+>>> core [1] with addition of PM_HIBERNATION_UNPREPARE event that will be
+>>> invoked when hibernation fails, while PM_POST_HIBERNATION will be
+>>> invoked only after a successful hibernation
+>>>
+>>> You may start with implementing the first option right away and later
+>>> implement the second.
+>>
+>> I am testing the first method - send unref message to QEMU so that connected
+>> resources can be all removed from QEMU. But I found out there is cb that clean up
+>> the object once this unref is processed and response is received. It means that
+>> we can't just remove the resource/bo only in QEMU side. There is a way to do this
+>> though. We can simply add one more fuction in virtgpu_vq.c that handles unref
+>> but with cb = NULL. Is this what you want to try or do you have any better ideas?
+> The cb certainly shall not be invoked. You only need to send the
+> "DETACH" cmd to host. This should be akin to what I did in my older
+> patches adding memory shmem shrinker support to virtio-gpu, please see
+> [1] for inspiration.
 > 
->    * Apply all changes suggested by Christian Gmeiner:
->     - fix a memory leak that would occure when PPU data
->       initialization fails
->     - remove unneeded includes
->     - move includes to the files where they are actuall needed
->     - fix include style for "linux" headers
->     - fix typo in error message
-> 
->    * add Reviewed-by tags to the according commits
-For the whole series:
+> [1]
+> https://lore.kernel.org/dri-devel/20231029230205.93277-26-dmitry.osipenko@collabora.com/
 
-Tested-by: Marek Vasut <marek.vasut@mailbox.org> # STM32MP255C DHCOS DHSBC
+Actually, in your case it will be the "UNREF" cmd, not "DETACH". But the
+idea in the same, you need to destroy resource only on host on suspend.
 
-Thank you !
+-- 
+Best regards,
+Dmitry
