@@ -2,52 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA506C7C51A
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Nov 2025 04:46:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57158C7CB0A
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Nov 2025 10:03:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E73310E021;
-	Sat, 22 Nov 2025 03:46:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A06F310E009;
+	Sat, 22 Nov 2025 09:03:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="tVoIRY2w";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cRDkb9cR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEA3410E021
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 03:46:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1763783182;
- bh=wNOkLSzojhQ1ZFLrlyHfJzdv169QnCIrn+vZOSuHhWo=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=tVoIRY2wNZz7o9pEZyakifAKu9S0iCA8glZJD+XtCG1YcJgLZ+/dUVCngOwWG2NBQ
- ejFvYOdPzrARz7lmJWjp/5fDvHyjzCF/pxzCZAUg8rfoIA1tvvp+RcVH7HGHZnHfSE
- Nj+Kbxa5lveGBZMbSs9xKbvbrCd3CnOr8ei1lg1ks58kq48poEsotzqEFJePTu9v7y
- U6gAYsLGwzf8r1StFgt5gDrounJzwlOQu1Tw/uNCEOmQPocKxOJxDrtoOkOYxYkSIT
- RXOTzv4AYAMda03lG/ERFyguCSUZId4GYHhnD7wibEdfdGyuASfYf1eC8WApYVnaLc
- 9ux+0KP4AqoFg==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4dCygK2RL1z4w93;
- Sat, 22 Nov 2025 14:46:21 +1100 (AEDT)
-Date: Sat, 22 Nov 2025 14:46:19 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Matt Coster <matt.coster@imgtec.com>
-Cc: Frank Binns <frank.binns@imgtec.com>, Alessio Belle
- <alessio.belle@imgtec.com>, Alexandru Dadu <alexandru.dadu@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-next@vger.kernel.org>
-Subject: Re: [PATCH v2] drm/imagination: Document pvr_device.power member
-Message-ID: <20251122144619.73fa991d@canb.auug.org.au>
-In-Reply-To: <20251121-device-power-doc-fix-v2-1-3417779f36c7@imgtec.com>
-References: <20251121-device-power-doc-fix-v2-1-3417779f36c7@imgtec.com>
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CF5810E009
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 09:03:53 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-3436a97f092so3490775a91.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 01:03:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1763802233; x=1764407033; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gWSIc38wakQFkjPaEOd32h4AOI7qtYUllCcYDLleeHs=;
+ b=cRDkb9cR1WeBT9WPOwHtCHDdmuujnJxKI8zNc+2O9ats1fap/wOFw1Ijzm+P+0uKtE
+ XoCwk2I1QmZmbvMtteC8A7EpeE5Mjzy8jN58gxQydz95aytp+FuqdJpHvZs0n4yD/eOV
+ Ahh1RAHW8bx2qcIEHjj9eZTYqb682jFd0JLrEraIzGu4T0dotEqbAi8p6qWqhOoG4Q0F
+ M3DZ1I1zQI0QCSb9k2DWrhSIkwjk7wzxLi7G3uBK7TKIeuxv12ZyrRHBiLqWetOhzXfK
+ Tze283yjGrcOPOd16dm+9SXfT9H6H2RqX067Fo6wUSbHtAV2kCPl0Yil7NGtUSkXdX7I
+ zjOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763802233; x=1764407033;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gWSIc38wakQFkjPaEOd32h4AOI7qtYUllCcYDLleeHs=;
+ b=BIqt2fBRm3y7A/h5nJSQpllK9LJ0SQcJnOCfN+47UIgs+EWpJZCMB8NZpA7u6tdLL4
+ Fk2hZGGIn7Hi1hKztd5bajE53388e4dWOeg7s65N1lDc+mZkrLciph3awMVCfOcZKtW4
+ 4AKkS+I90NqY3U1qYsFIBoth6Qv/AiVtVVklMpCJIxAvD5z1u0vaPaq5Nslz7m08JEw2
+ EXZjECKqWcofr0uZjiJRl1dAaeFdLOXhqFPRq79IlZ80IcmUo21tpz5F0X1whl4RrCFM
+ 4aUyGNNzqdcoEU2hZHmAmV61JTW2IeN1Ai5xOwzB6fePySrqkyA/8eD6l+bUBJEgWsC5
+ 94jw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWozwGslUAfLKXyQ+89wQGo5Dh8xyVgnsaXWZozED7XQ8PAeLNi0GR5mD8ckNaXaUcGhmTH7WPu8Uk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyXMrUXNF7z63Ug4asmU79rl8Y/Yz5WnAN95m11cjrjfqV/oMAY
+ RvsdpA1L71xtcdkDjdhpNnRzI6xTWc0jEzyGYJG8etdsToB4ibDqNq6g
+X-Gm-Gg: ASbGncu/fBjEE43CIFtP3GwOxrTHzaT3Jxhsdlv+XKDFsNZWb9+qWDqzMoT3RbZX+EI
+ nNg2jzW9HXXm0/eLmqcGC3sPgME7mS5Ee2DR+7Z7rgUzuPJUTECWbOV/e7aFc/bJeLpE4gxFAZv
+ JTAZlDCeXTjcXEapySOI17kFJaH0xbBc/SHP57ccuWbb5kmb0igeaT8U1FkW71LmgVgw6QMKsHk
+ sGDBzcfyXtOWJSFqjcnA9bPHzW+FOtPCWnfxWSv7uGAnbobHCMro6YE8+H9vJZ6JOi/wPs/GD3f
+ jq9oQTDRxksHOnrcrS051OzUYlsKuT5Fbj0xv4pHW2uUarbMlWU54PLYCNAZgbac8oJ+DKur+wN
+ g8rFIotNtTw33Fi6IT8HyzAoKwbdW0MtEXT13urD/iduWkwFTMfowQP7ZGjuTFsYTSIEa/N0uN3
+ VA1sIcaunOxfu3sJG2gdVSf1vT
+X-Google-Smtp-Source: AGHT+IFEXYWimQk4DcIAFQyt9lEPKtWhsqJCLh0YYLXBxKfxO64RbGZR0X6+cGmFQNdZPcXXMZdWtg==
+X-Received: by 2002:a17:90b:540b:b0:33f:ebc2:634 with SMTP id
+ 98e67ed59e1d1-34733e78ea2mr5873399a91.9.1763802232568; 
+ Sat, 22 Nov 2025 01:03:52 -0800 (PST)
+Received: from Barrys-MBP.hub ([47.72.129.29])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-3472692e5c8sm7842401a91.11.2025.11.22.01.03.48
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Sat, 22 Nov 2025 01:03:52 -0800 (PST)
+From: Barry Song <21cnbao@gmail.com>
+To: akpm@linux-foundation.org,
+	linux-mm@kvack.org
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Barry Song <v-songbaohua@oppo.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, John Stultz <jstultz@google.com>,
+ Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH RFC] mm/vmap: map contiguous pages in batches whenever possible
+Date: Sat, 22 Nov 2025 17:03:43 +0800
+Message-Id: <20251122090343.81243-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Cm/GPoMjwyc8_m+4cR7fODW";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,51 +92,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Cm/GPoMjwyc8_m+4cR7fODW
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+From: Barry Song <v-songbaohua@oppo.com>
 
-Hi Matt,
+In many cases, the pages passed to vmap() may include
+high-order pages—for example, the systemheap often allocates
+pages in descending order: order 8, then 4, then 0. Currently,
+vmap() iterates over every page individually—even the pages
+inside a high-order block are handled one by one. This patch
+detects high-order pages and maps them as a single contiguous
+block whenever possible.
 
-On Fri, 21 Nov 2025 15:20:31 +0000 Matt Coster <matt.coster@imgtec.com> wro=
-te:
->
-> Based on the build target indicated in the report, I tried (and failed)
-> to reproduce the reported warning using:
->=20
->    make W=3D1 htmldocs
->=20
-> I was, however, able to get the reported warning (and verify that this
-> patch clears it) using:
->=20
->    scripts/kernel-doc -none drivers/gpu/drm/imagination/pvr_device.h
->=20
-> Does anyone have any ideas why my invocation of htmldocs didn't seem to
-> have the same effect? Is it just simply that the relevant doc comment
-> isn't pulled into any of the rst docs; in which case how did the
-> linux-next build catch this warning?
+Another possibility is to implement a new API, vmap_sg().
+However, that change seems to be quite large in scope.
 
-I just do "make htmldocs" on the final linux-next tree each day, so I
-have no idea what makes a difference, sorry.
+When vmapping a 128MB dma-buf using the systemheap,
+this RFC appears to make system_heap_do_vmap() 16× faster:
 
---=20
-Cheers,
-Stephen Rothwell
+W/ patch:
+[   51.363682] system_heap_do_vmap took 2474000 ns
+[   53.307044] system_heap_do_vmap took 2469008 ns
+[   55.061985] system_heap_do_vmap took 2519008 ns
+[   56.653810] system_heap_do_vmap took 2674000 ns
 
---Sig_/Cm/GPoMjwyc8_m+4cR7fODW
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+W/o patch:
+[    8.260880] system_heap_do_vmap took 39490000 ns
+[   32.513292] system_heap_do_vmap took 38784000 ns
+[   82.673374] system_heap_do_vmap took 40711008 ns
+[   84.579062] system_heap_do_vmap took 40236000 ns
 
------BEGIN PGP SIGNATURE-----
+Cc: Uladzislau Rezki <urezki@gmail.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: John Stultz <jstultz@google.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+---
+ mm/vmalloc.c | 49 +++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 43 insertions(+), 6 deletions(-)
 
-iQEyBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmkhMgsACgkQAVBC80lX
-0Gy2Vgf3et90wX9wzyf8/OHK4kFQbn0dqj9uWfZr8X7qKrJXo1N2B4RIF2izCDHo
-I1W0TrbQS4BVlMggKbiYuy9cmYDUmhCPPC5KCyf0XM39+sbEjV0dzzM3OU1yifyy
-kwiE7QesfVsCt4a4JIRiWLErnHjQICxcPcxMzIQirPYNHezHYC9LqA3emLBU7WCR
-haLhQYNRUQJ+gZugT9xAoSiRUiRchymH4YEUvfiIrgaF1DG1pwx3SbUz135YnZIW
-9UXba+CrVLwVgk5iOJUVw4ZA1v1ei26S9ysJFriJpNrSGiO+hZb0WmcSmFvwjj1u
-Xzax5hXklXMAQUUws/fTZp4qHhAg
-=hEPY
------END PGP SIGNATURE-----
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index 0832f944544c..af2e3e8c052a 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -642,6 +642,34 @@ static int vmap_small_pages_range_noflush(unsigned long addr, unsigned long end,
+ 	return err;
+ }
+ 
++static inline int get_vmap_batch_order(struct page **pages,
++		unsigned int stride,
++		int max_steps,
++		unsigned int idx)
++{
++	/*
++	 * Currently, batching is only supported in vmap_pages_range
++	 * when page_shift == PAGE_SHIFT.
++	 */
++	if (stride != 1)
++		return 0;
++
++	struct page *base = pages[idx];
++	if (!PageHead(base))
++		return 0;
++
++	int order = compound_order(base);
++	int nr_pages = 1 << order;
++
++	if (max_steps < nr_pages)
++		return 0;
++
++	for (int i = 0; i < nr_pages; i++)
++		if (pages[idx + i] != base + i)
++			return 0;
++	return order;
++}
++
+ /*
+  * vmap_pages_range_noflush is similar to vmap_pages_range, but does not
+  * flush caches.
+@@ -655,23 +683,32 @@ int __vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+ 		pgprot_t prot, struct page **pages, unsigned int page_shift)
+ {
+ 	unsigned int i, nr = (end - addr) >> PAGE_SHIFT;
++	unsigned int stride;
+ 
+ 	WARN_ON(page_shift < PAGE_SHIFT);
+ 
++	/*
++	 * Some users may allocate pages from high-order down to order 0.
++	 * We roughly check if the first page is a compound page. If so,
++	 * there is a chance to batch multiple pages together.
++	 */
+ 	if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
+-			page_shift == PAGE_SHIFT)
++			(page_shift == PAGE_SHIFT && !PageCompound(pages[0])))
+ 		return vmap_small_pages_range_noflush(addr, end, prot, pages);
+ 
+-	for (i = 0; i < nr; i += 1U << (page_shift - PAGE_SHIFT)) {
+-		int err;
++	stride = 1U << (page_shift - PAGE_SHIFT);
++	for (i = 0; i < nr; ) {
++		int err, order;
+ 
+-		err = vmap_range_noflush(addr, addr + (1UL << page_shift),
++		order = get_vmap_batch_order(pages, stride, nr - i, i);
++		err = vmap_range_noflush(addr, addr + (1UL << (page_shift + order)),
+ 					page_to_phys(pages[i]), prot,
+-					page_shift);
++					page_shift + order);
+ 		if (err)
+ 			return err;
+ 
+-		addr += 1UL << page_shift;
++		addr += 1UL  << (page_shift + order);
++		i += 1U << (order + page_shift - PAGE_SHIFT);
+ 	}
+ 
+ 	return 0;
+-- 
+2.39.3 (Apple Git-146)
 
---Sig_/Cm/GPoMjwyc8_m+4cR7fODW--
