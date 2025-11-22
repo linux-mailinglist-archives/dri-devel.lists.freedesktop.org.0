@@ -2,143 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42F01C7D1AD
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Nov 2025 14:37:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1B4C7D1BB
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Nov 2025 14:39:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 278E410E093;
-	Sat, 22 Nov 2025 13:37:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 697D710E0BB;
+	Sat, 22 Nov 2025 13:39:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="eqVWyPrd";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hpIWEmUy";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jAKXcywd";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="DqwA+qnl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0F9B10E093
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 13:37:47 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB4D310E0BB
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 13:38:59 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AMCcmLp2896521
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 13:37:46 GMT
+ 5AMDOhKS2785537
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 13:38:59 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- vpKlju2borCnF5T0A8CLiJv8yDluVEw4QY6DSS08xXM=; b=eqVWyPrdXhpla72C
- qS95Kdp6woviucvBADPP34opafepdhEddkKNmJc2d0ux66f667lXwuzlWJ+dngqe
- liLCtdnGHLmgTVYLK50AUzkNjQQ3pxGxT3mlLQFGCgkU3huC59hoAsVDJFAwmA2I
- VA4825HrQC4Rbj5nU5OhbxishIzOQL6on9EcspqMAeqFWnBnareB3dEruG0XWmvQ
- 0kKF+mPiobsobSayMKYTYvPWTZn6xb8dTT/LT+B2X5NMRyaFzz/sk23pa7vxyhFH
- 50rHMSdhOSB+1d3UVAy7SiSU02pgJh9MECVbcrI5mQ1s/hfSQuPWUE58wa5OO0sm
- +1jL2A==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ak6ff8q8m-1
+ T1kiOU7zHHRfCpTkZ1/m/6Ad+XotlTWnDzTmokj1Uqs=; b=jAKXcywd+z1jj0E7
+ cnufw1sRGGRNMz92E4JJxBl7kO1YoZ70KqpuVvC3OYLq3lRD8ZyBUV/6pAA0+qlr
+ iETqzThzad9+bhApzcezGOWDBcAimalgE0dDmtu7dR/oUQPFIojT0gGoO6NJIJjV
+ 8+iMWQEoIBOseCS1vnX1Tw1VzR/EPQFHxrlzVTshJkvscowyRPoNLCbDK+J5i731
+ 4qo6eHLu3mHnvJgvqCH4hn1OSrZ4KBKQqpWo2zPVCC5gv+S5WgXYD+LJYpytDXVs
+ iwdGVO5LQ+W4Edglz2U1cFb8m5/e6l3Kbjw8r3vEUBoDSh9ltHefOrwWmm/1XPMN
+ EmxEsw==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ak6cdrq78-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 13:37:46 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4edaa289e0dso12364981cf.3
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 05:37:46 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 13:38:58 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id
+ d75a77b69052e-4ee07f794fcso9970171cf.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 05:38:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763818666; x=1764423466;
+ d=oss.qualcomm.com; s=google; t=1763818738; x=1764423538;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=vpKlju2borCnF5T0A8CLiJv8yDluVEw4QY6DSS08xXM=;
- b=hpIWEmUybSuuJzhtIN39U+El6aunXMQRlsuqmYCNPXN4hH6+6skwR2dxAyOot1+6Pz
- 1mJdHBNO+6ZX86LAVGmNe5vqmmJOSduJmu5cz+IeNNQDjiOi4/ojrXpfgsG3URqqIbyj
- 01GzDZr+EhCuZWHXc4HgMKCMQZ0uc69cpPc2Xa8soP3KgcQCouOWp54lTAu8SGWFKKPf
- fsh4hk2TeNCHLZQKrEcyciJWMZ36GGL1giXaVexgvCTn80/U3C3U2xrhxR+Ba78f8beK
- zUl9MrD7yzscS0h462Xdejw03ghv3i7Jodj7Zt/LDg5MUTtoKdqiVgYw/03z8uqbf5Vr
- oZGQ==
+ bh=T1kiOU7zHHRfCpTkZ1/m/6Ad+XotlTWnDzTmokj1Uqs=;
+ b=DqwA+qnlJS3/Vh9SzAR0WNX1xXLt5lP00SucYQpVATUxkugjBviU1p0gRJlCTHOFet
+ Xu33vo6IviOH2X1S2mTAv0hebZzLChvWeNCXiKZoGRTzdmJ/LzSiyczF8I1of2ykl/gQ
+ 43nYrv9s+rqNop9QsaKaUovrmHiRRN1gFMFJbMTyA9uq3R612FKCqcvFJLOEfqQjVFnj
+ AZjihl3kiwj4D2i+IPpaebJ38aL7ZrF2ObnAA5Rjj8g6cuhhvXzDWhT3gTMXcil2vSIC
+ OLVmoyzGV1Ycb0VWu5BZglK+QJjQeyYKxziJK06TWctUikTACF86YmoO3GyAt8/GdLqJ
+ cqSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763818666; x=1764423466;
+ d=1e100.net; s=20230601; t=1763818738; x=1764423538;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=vpKlju2borCnF5T0A8CLiJv8yDluVEw4QY6DSS08xXM=;
- b=hNCNkWSqNj1sXxVE+1EFxSv0CH6yPT8bJPF/KbP8hs35ZSJyV5zbEqx9yBDGUqijNA
- FgU8gscXFRf/6CRUFLwfduQ/YzgcRUmWgNd6n7XrqKtEBv2xzJrd+nXDLLNckGF2wDEF
- IA0ujIjNzEeA0O7zWTnC/PXHa0qmQCF1RBjFA1Il6O5v+DZwAYcvjTNlEay/lmZMqCrU
- W+g6Ly2Sx+dkBxShzmDHNYH1dusXobJ+Rxm/vG6Y9d5vTGtis0Be0yB4IMFYHQCNyCIA
- q9fzvk+btTG8+XMNaC1pabIWqJF808Em1CfUKVqxCB/uOOa0rSSTKaFIXUNIwHY49D/x
- 4zIw==
-X-Gm-Message-State: AOJu0Ywf0+4JuciazTwA0xp2r4vBoPq7gYVHeD5XMpM4lBItgRjnwRTX
- 8jVZIZWnZ/VE3ZIw1O4wWsF/nm9f0a+xgyk1l1SKkEpOfSDTpqSCoBubkJUtcKl8kVIdz7qgbRO
- OgzF5eZf8ndl3bOictJYAPKES6xFm4NDeaNJzcPaMYqnZiGHIddkdsRZpstO7anTVjYjw1Y8=
-X-Gm-Gg: ASbGncvTvt2IjSl45CCWuG1iGlI3UZFW4373NGGv7AytLIgXxtccDNkb6qqDeQv3MkK
- 0F0zf9hWKhNla046HTQXkf5PBuIPFrhaRvG9L3WBCGC0oZb7S3QOV9ftNnmO5Uw7K0lrrEjh2Q3
- J6kLdOiFbHDXDdmMoAsXImdfhQDeoUTBQhQM8uvIF7FzcxIWFysvZMp9vCuvWb7GXNifFPJLd24
- 28SHO1pbfjjM9oKplQYPiiueBqQJ6ngU88pwLJipUuDRDgvKJpV6zVwdSsjUr07W9r/vdVxvhTe
- BuOF0jcS+Cudql85MfLnANii2OVvNl2ZjiCoK/hpAyUjCZVi++jWe9SaK2P6fLxRq/QlxZq41So
- P9KMohIfSbeBhTsBuaa2410FyKg5xVxPHur+WftIbza6rmpVLpkKyjU9bktmA7H/v/qQ=
-X-Received: by 2002:a05:622a:c3:b0:4ee:2580:9bc5 with SMTP id
- d75a77b69052e-4ee5883ae04mr61120401cf.2.1763818666105; 
- Sat, 22 Nov 2025 05:37:46 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGoep6nfGiw+VpxZkfaKHeCgO/XxMbNv1FNgkeFxXOdBWbxoTvU1FtSK/h2lVrS77kwEGBxsA==
-X-Received: by 2002:a05:622a:c3:b0:4ee:2580:9bc5 with SMTP id
- d75a77b69052e-4ee5883ae04mr61120141cf.2.1763818665629; 
- Sat, 22 Nov 2025 05:37:45 -0800 (PST)
+ bh=T1kiOU7zHHRfCpTkZ1/m/6Ad+XotlTWnDzTmokj1Uqs=;
+ b=OXhwtVqFgrHMpwcygt60bFMwLg1uGp+aRre/JzakDf0EvdDewWFmnDjBNcwJ3oEv//
+ QoxL3shFj1n3oQtaNrkHigmD2+XUzwbdtvnl+9B/4zqTSSB0WhAX2KThZB48AHjsDQxU
+ E8Bs+hpbpUqEu3ck6DRp32+DGYooX6tL7AriQQz33FsYWi8y4IrD020srAJAsH1E4Fhq
+ scCVPdE73kmEYjQN1w8bXo4fhYGUTXEJMTlK3fMDC+syw4r9X31KX8bympclQhHOAmd3
+ v7BAuAmYT62wfMe6OyjqUxYy8ZVXTkPRQ/mkEBfUD8uUGPn3b5fyaBCxGt/jRYP896pQ
+ v1Qw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXRvzae+q+sbFP5l+KKHVr4Du/NVyWsc8vbVNOm/XzLV2CaITzESWumdVOd3rS9BUJuodo/j/GwOws=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz91pYcFldz8Fz/zqAI0L5lTbAl7f6Cm3YyXlAt1+MR7IyZbjlY
+ 9EnUecGZXszLVpUgLXQlBqZ+qq/W4Iudaa+nGxoLZIWqtbm0i6PwMzUfLSgC/yVB8xZh1lV/MrH
+ gvi7uYbe8XEqw72JWmocIrupBCipNYTitu6I1XccgPDVtl5XUj6stRrUVGiFZZ2/otW3EDhE=
+X-Gm-Gg: ASbGnctlc0jIlQO8PdtdUEwxnORPVZ2iZidI6yvRDFp/RJOfw2NSuECET8bZrP3ifPI
+ GC+KOLzAVq9OTyKabOcd0S30ptjkVO7GlRNlPA/G8Z+ZiMKkeYqFzLUy38soyvF8n4nv/+fn2ne
+ GU/yNEDMixIeKMlA9oh612mEgxFvwYvgSSOLAsae/lc8eGcdL+FMq15dThwAZY/oWdnXtIgrh2+
+ g+Ea5ugA4KBeuuaOfblvvbSStEXy4wV5m+BQBr/bJ2B5sRpOxrSHXU525w+qriKGzfojeF6PkUt
+ MIp2VheCZCgAzp00UPdT6v5FNpdAOb7sJKvT2Gn+0JfJfq36ea1hmGFANUnYDSU41xPXXZgINiQ
+ G+zXjfvdvH9e0Jhi+yX3tRrOi0WR1SieOJb7KsymMbjUPV8B7lB7f9AHQcjfPHVCbfrw=
+X-Received: by 2002:ac8:7c48:0:b0:4ee:1e95:af63 with SMTP id
+ d75a77b69052e-4ee5894e4camr57436931cf.10.1763818738342; 
+ Sat, 22 Nov 2025 05:38:58 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF2lPPngRjH98213/0iV6w7rCFVvGxRvqEr5IE7cDS/Bmlf93oCCzqTQwYTweMRgaNxHpWPVg==
+X-Received: by 2002:ac8:7c48:0:b0:4ee:1e95:af63 with SMTP id
+ d75a77b69052e-4ee5894e4camr57436521cf.10.1763818737837; 
+ Sat, 22 Nov 2025 05:38:57 -0800 (PST)
 Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
  [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b7654cdabd0sm718995766b.12.2025.11.22.05.37.43
+ a640c23a62f3a-b7654fd4e51sm735525466b.42.2025.11.22.05.38.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 22 Nov 2025 05:37:45 -0800 (PST)
-Message-ID: <d6018a1f-12a6-431b-9367-65c65e1d920f@oss.qualcomm.com>
-Date: Sat, 22 Nov 2025 14:37:43 +0100
+ Sat, 22 Nov 2025 05:38:57 -0800 (PST)
+Message-ID: <9cc55934-6980-4673-8501-2d1efe2f816e@oss.qualcomm.com>
+Date: Sat, 22 Nov 2025 14:38:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/6] arm64: dts: qcom: x1e80100-vivobook-s15: add
- charge limit nvmem
-To: Maud Spierings <maud_spierings@hotmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Subject: Re: [PATCH v3 1/6] drm/msm/a6xx: Retrieve gmu core range by index
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20251116-asus_usbc_dp-v2-0-cc8f51136c9f@hotmail.com>
- <20251116-asus_usbc_dp-v2-5-cc8f51136c9f@hotmail.com>
- <378c611b-f8c6-4f89-a3b3-6d8c22445e83@oss.qualcomm.com>
- <PR3P189MB1020E7393F72B285173137A2E3C9A@PR3P189MB1020.EURP189.PROD.OUTLOOK.COM>
- <ff773af3-d843-42ff-b4dc-e5a9d85c2285@oss.qualcomm.com>
- <PR3P189MB102003218DCCE87EEB69A0E4E3C9A@PR3P189MB1020.EURP189.PROD.OUTLOOK.COM>
- <57bab427-d8fd-490d-88f6-358b79367ed1@oss.qualcomm.com>
- <AM7P189MB10093041E89777C2AFAE2CEEE3D2A@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
+ Jessica Zhang <jesszhan0024@gmail.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com>
+ <20251122-qcs615-spin-2-v3-1-9f4d4c87f51d@oss.qualcomm.com>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <AM7P189MB10093041E89777C2AFAE2CEEE3D2A@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
+In-Reply-To: <20251122-qcs615-spin-2-v3-1-9f4d4c87f51d@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 69Gf9Xaius21ZYfQMdFS5tA24IlgGYtv
-X-Proofpoint-ORIG-GUID: 69Gf9Xaius21ZYfQMdFS5tA24IlgGYtv
-X-Authority-Analysis: v=2.4 cv=OsxCCi/t c=1 sm=1 tr=0 ts=6921bcaa cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+X-Authority-Analysis: v=2.4 cv=bsdBxUai c=1 sm=1 tr=0 ts=6921bcf2 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
  a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=69EAbJreAAAA:8 a=Ufo_hXmgmYuxYTG_NCgA:9
- a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIyMDExMSBTYWx0ZWRfX8hvXdxZKvpQ5
- juT/hltIOWtdH6neo8CJrSADaVJwsW+0CcH9kfnB8evpbeW3D333n6Vy6KfA+kn6f97524S72Dv
- hN+eajtytaH8kpw77OStqMiRozMBiP2WPm6CTx67kmRRVpnxatKm12fNif4fib4v3kPR4oEsGih
- Qs+kge9A2Je88Lu4SoZR8EFJ/lY09ch9kR6FJEVOPnRI2Ty5dDNg0uf7K9FSTWljuNraHJ5K6VJ
- uMOQrtORb1VHM+al+vODZMjVUoGDzawLaz2teE7fXRExJPdQKjIu6knuSEVn0xSyDAX0jzgPuyC
- JzYXGMuzHn8v1TBYdGBau9hZcMxYpPsWBKp+9rEZJAFatIBmI9c0AtLsYVomIVqFT9LwFQA7NpX
- y9xzG8Gq0zl3GvMJtFU/5r1P+QceNw==
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=S4gWedWR7TB3ctbtemkA:9
+ a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-ORIG-GUID: FvUoTaDtTG6lkd0PwzOtgsQPh8rqQVBu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIyMDExMSBTYWx0ZWRfXyYln2ezr7j3n
+ AAqiMx/hLwcQravjcu9aa6MbODrhbejLB1k+S2lw6UFUltTopufD/zE3GbK6GqI0agQF4IDe5nw
+ p90ZDU+RryxFNwhj8S5hlk37AfOkwTan8U2psouM4yBnUqfNOxg6VA/YuZ0Ko6375hNktu1tW9y
+ SG/Hl5H5Ww+d0uWORbK7tA6n0OX3wCEXUUYeK4DPSzgHadiHdSxTXETDNRsuQhv9OBrMfM32m+d
+ IQgFCt0iQEBiZkwGaP4bWdpMd375XMVQcOJOMecADqV55GQjw1OCLRs7LtnejPeMXz8pWqtel8V
+ piuo1Bre9DL1BeQ6rUkfdl2pGijiTydPvAdioARstlDqY+aZoDrP7qILHYDp6pwPZPvPpklhXQx
+ mfk9SIG+/mqytZtrBdLYIdz1GXZ5VA==
+X-Proofpoint-GUID: FvUoTaDtTG6lkd0PwzOtgsQPh8rqQVBu
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-22_05,2025-11-21_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 suspectscore=0 adultscore=0 bulkscore=0
- malwarescore=0 phishscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0
+ malwarescore=0 priorityscore=1501 clxscore=1015 suspectscore=0 phishscore=0
+ bulkscore=0 adultscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511220111
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -156,61 +153,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/22/25 12:07 PM, Maud Spierings wrote:
-> On 11/20/25 16:36, Konrad Dybcio wrote:
->> On 11/17/25 4:44 PM, Maud Spierings wrote:
->>> On 11/17/25 16:35, Konrad Dybcio wrote:
->>>> On 11/17/25 3:13 PM, Maud Spierings wrote:
->>>>> Hi Konrad,
->>>>>
->>>>> On 11/17/25 13:59, Konrad Dybcio wrote:
->>>>>> On 11/16/25 11:52 AM, Maud Spierings via B4 Relay wrote:
->>>>>>> From: Maud Spierings <maud_spierings@hotmail.com>
->>>>>>>
->>>>>>> Add nvmem cells for getting charge control thresholds if they have
->>>>>>> been set previously.
->>>>>>>
->>>>>>> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
->>>>>>> ---
->>>>>> Have you verified that e.g.
->>>>>>
->>>>>> connecting the charger
->>>>>> setting the charge threshold
->>>>>> rebooting to windows
->>>>>> rebooting to windows once more for good measure
->>>>>> rebooting to linux
->>>>>>
->>>>>> still has the settings persist?
->>>>> Hmm I have tried several things but I can't seem to get the values to stick. I the spmi-sdam driver is compiled in, I am not quite sure if I might be missing something.
->>>> Hm, I wonder if Windows/UEFI overwrites these values or whether they're
->>>> used by something else..
->>>>
->>>> Can you set a threshold in windows and see if Linux can read back that
->>>> data?
->>> the values in /sys/class/power_supply/jada-jada/ are zero when rebooting from Windows into Linux after enabling charge limitting in the Asus application.
->>>
->>> I remember my old vivobook (x86) also forgot its settings each boot, but given the nvmem cells that should not be happing here I guess. It is odd that there seems to be no collision between Windows and Linux. Maybe the Windows mechanism is doing the old trick of writing it in there every boot?
->> Odd indeed.. Does it work if you reboot from Linux to Linux?
-> It seems not, I seem to remember testing it quite some time ago, but I cannot get it to remember any way, at least it is not popping up in sysfs, always back to 0
+On 11/21/25 10:52 PM, Akhil P Oommen wrote:
+> Some GPUs like A612 doesn't use a named register range resource. This
+> is because the reg-name property is discouraged when there is just a
+> single resource.
+> 
+> To address this, retrieve the 'gmu' register range by its index. It is
+> always guaranteed to be at index 0.
+> 
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c | 14 ++++++--------
+>  1 file changed, 6 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index 5903cd891b49..9662201cd2e9 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -2029,21 +2029,19 @@ static int cxpd_notifier_cb(struct notifier_block *nb,
+>  	return 0;
+>  }
+>  
+> -static void __iomem *a6xx_gmu_get_mmio(struct platform_device *pdev,
+> -		const char *name, resource_size_t *start)
+> +static void __iomem *a6xx_gmu_get_mmio(struct platform_device *pdev, resource_size_t *start)
 
-It seems like the driver currently only populates the sysfs start/stop
-values if the "enable" bit is set
-
-Could you check this (hacky and wrong) diff and give it another try?
-
-diff --git a/drivers/power/supply/qcom_battmgr.c b/drivers/power/supply/qcom_battmgr.c
-index c8028606bba0..9ebd8adfb8eb 100644
---- a/drivers/power/supply/qcom_battmgr.c
-+++ b/drivers/power/supply/qcom_battmgr.c
-@@ -733,7 +733,7 @@ static int qcom_battmgr_charge_control_thresholds_init(struct qcom_battmgr *batt
-        u8 en, end_soc, start_soc, delta_soc;
- 
-        ret = nvmem_cell_read_u8(battmgr->dev->parent, "charge_limit_en", &en);
--       if (!ret && en != 0) {
-+       if (!ret) {
-                ret = nvmem_cell_read_u8(battmgr->dev->parent, "charge_limit_end", &end_soc);
-                if (ret < 0)
-                        return ret;
-
+Can we drop this and just use devm_platform_get_and_ioremap_resource()?
 
 Konrad
