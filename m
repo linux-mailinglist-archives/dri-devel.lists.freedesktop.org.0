@@ -2,154 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7DD4C7CDD3
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Nov 2025 12:07:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1469C7CE46
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Nov 2025 12:28:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA00B10E05D;
-	Sat, 22 Nov 2025 11:07:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B474A10E00E;
+	Sat, 22 Nov 2025 11:28:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=hotmail.com header.i=@hotmail.com header.b="mOcI9kd4";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=szczodrzynski.pl header.i=@szczodrzynski.pl header.b="mDhTUOtY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com
- (mail-francecentralazolkn19013085.outbound.protection.outlook.com
- [52.103.46.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21F3D10E040
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 11:07:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jmmlbFoX7Qw6wZb3Zi3jDqby7cj5INqnzegrxQgi/rzo4aauazWFM6ZziGhsenoOuask1q39n352UvEeltw5pyQK5DLA6dczeeZ3gA4iKmp3TjN3wKdjL+q746+8LI4d2WfgMmcOBEoYf2VAyVevo36D86mjsM2vGbSFvoSKhv4OKAHhRPHOzXMpA670CDVUw0/3h0TTI8GGnbw6pz1NoHeoq9GoWwIUzBRiVO8bHku3+nozVHfTTECywJYvssKim5aJpYsN5Ep1jh/M0kL41TPXvayV6UaBhvWjTKzAB3A5BKLHxD1Z9XK+mhkZCy/XHOo/ytODUaKD2dLU/a7khA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2vZmmn2fgeqlK6fj8Wn5VIIqiQcg2Nv9hiTM4hrEAGY=;
- b=GXvBxAEr12PMEoUCkDFnrR9CY65oMtVlG0sGboPRq6+v9CjQBIjxxiKvK6lTc0kxA1Idi7SdPozdsUHivfXVH6LCU4zJ2yvCitku8lUtQf7pi+3C1aCk6U1vPHKIJGznEVVOGtamH932Uvp3etzRPEuq6KLVp4d/ST++stg5/fop+F87xkp6pe0HrfGH4/+KIsjfQvhvvNJ944tQswJWImXy+T4GOOw5YSuH3KOKA1guh9+w8MsQ2gKN08TVfpgd9EeSOd6mv0e1+ZPc8NgJQtUdFx7SZWnTE42YOPSiX/3I7GOoe3yYpHAUWO+9iRrPRkg6NUmV6Q8Cl9quxkSxCA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2vZmmn2fgeqlK6fj8Wn5VIIqiQcg2Nv9hiTM4hrEAGY=;
- b=mOcI9kd4qJYkADuwMPp0OB5EoTbmuSt9b3sA3+oq02bChmACb/wyMYmwO+umd+H4b93P5sGR8PVWhXHH5zDuW1Hqyw6e8MmcHZmQNdCSsl3m6LORumMorNIZxL+sbQrT0Rs8HLv6RLYiuFBcYNVRPB30ClRFqggxfPhO2qJYZXhR4X9YxZjbM7Z7BTg6Rj27dKBm+qreIVfktF95ppAreYk6YtA+Nysix/6RPhT4rgvAwAnaKVZrJIVfkTlDevJZzOXbmk35WhOEc9aqmEVZ+uOhear+NCoqPR97PXQ7YbhEFAZydWh+1W7gGNNxSB+tRTX9qy8gx1mRl1oBTx7MGg==
-Received: from AM7P189MB1009.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:175::17)
- by BESP189MB3180.EURP189.PROD.OUTLOOK.COM (2603:10a6:b10:f6::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.12; Sat, 22 Nov
- 2025 11:07:33 +0000
-Received: from AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
- ([fe80::5756:694d:1641:3b13]) by AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
- ([fe80::5756:694d:1641:3b13%5]) with mapi id 15.20.9343.011; Sat, 22 Nov 2025
- 11:07:33 +0000
-Message-ID: <AM7P189MB10093041E89777C2AFAE2CEEE3D2A@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
-Date: Sat, 22 Nov 2025 12:07:24 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/6] arm64: dts: qcom: x1e80100-vivobook-s15: add
- charge limit nvmem
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20251116-asus_usbc_dp-v2-0-cc8f51136c9f@hotmail.com>
- <20251116-asus_usbc_dp-v2-5-cc8f51136c9f@hotmail.com>
- <378c611b-f8c6-4f89-a3b3-6d8c22445e83@oss.qualcomm.com>
- <PR3P189MB1020E7393F72B285173137A2E3C9A@PR3P189MB1020.EURP189.PROD.OUTLOOK.COM>
- <ff773af3-d843-42ff-b4dc-e5a9d85c2285@oss.qualcomm.com>
- <PR3P189MB102003218DCCE87EEB69A0E4E3C9A@PR3P189MB1020.EURP189.PROD.OUTLOOK.COM>
- <57bab427-d8fd-490d-88f6-358b79367ed1@oss.qualcomm.com>
-Content-Language: en-US
-From: Maud Spierings <maud_spierings@hotmail.com>
-In-Reply-To: <57bab427-d8fd-490d-88f6-358b79367ed1@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM8P190CA0017.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:219::22) To AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:175::17)
-X-Microsoft-Original-Message-ID: <8403e09c-9e37-44e9-892e-7420d2faf286@hotmail.com>
+Received: from s2.avantea.pl (s2.avantea.pl [46.242.128.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACE1710E00E
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 11:28:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=szczodrzynski.pl; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To
+ :From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=sTIigErOKl7e8JhN8I1UwZxYBcS4CkN23s/oTFvf/Dg=; b=mDhTUOtYYD2PoSPm7+k+UOXoPV
+ lnjPFdJ7GPLaTgHd8oAnqdH61tFnFJMo+j0p8AqaYPNEXbKYIO1unFo8zP+6acOwKlUllA18AC2Gf
+ A3LNGIxH9m8Z+WUNDrZ3DS6+SYiCWrsgVk1z9kV5eM3iGuat8DQW8BMsuaLsm7kq3ON6SmhBakq6e
+ u6Ao6E7/shC+Jc/XKZDjYYbNwiSjQTtFo2mV3LsOIZTi7N9X62HQag+UoeORzEpcXhgJ9MJBNELOu
+ wbZoMRNuqZw/P2W7G/FO8V+Ys7F8+LgqjnwhflrMZheLZyW2OvPvLLCQU0sMMfMRpCQrxHRxr2v7a
+ +u5r/pXA==;
+Received: from d100-78.icpnet.pl ([77.65.100.78] helo=[192.168.0.120])
+ by s2.avantea.pl with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.98.1) (envelope-from <kuba@szczodrzynski.pl>)
+ id 1vMlml-00000007s2Y-1bfI; Sat, 22 Nov 2025 12:28:11 +0100
+Message-ID: <72fba214-010d-498e-957f-f1d042f18edc@szczodrzynski.pl>
+Date: Sat, 22 Nov 2025 12:27:04 +0100
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7P189MB1009:EE_|BESP189MB3180:EE_
-X-MS-Office365-Filtering-Correlation-Id: dc892b9c-390e-49d0-bfde-08de29b755b7
-X-MS-Exchange-SLBlob-MailProps: znQPCv1HvwUhM6k1QWx02acDuEqXpbI5WKAf76I4g/De41oWsynTQm40/I4VQyOEDhhhrH2h6ERqxW5rDOlVHvfXv7PKP7urxW4TdpnxEDj1PSir2UMFWZw7/AX9leMP2JVrX/qaZ+aXYrCwBCyZBskDj7N1W+xeMXdfr063Gc9N2X39d/lNNxPx/MDbc/3mdH9qHD9UcjfEdYJLiVExh5SNKKCueEqBePRjoZSsVI36KIj7HN3WZuqFASeRsAtcFrvy3JG0Tyt+8TCF/wAAYCb0KDWzYg58o3JB/GsAZkd4119i0tyFvQ1+wo1ebX/tuyGYcb3p0M59wtxsPS+8sLvcM/ZwaPMcp1OjQ4voswouqbpfSmT9Wrb5vHPA2FJkok15zPsM3D+mE2zjL6DrToqOjN/THDKxlaJcHy4aSW59creqZad1WeRVYe2lo315TlJPVuhHYMqVJFyCnUUyre6C0kdlBmnkz+1c8BUO8D8qYDnpcfANncmNg9Tkh1f9ktgwdJ4KzUsx6RcbK3lagcd7fDtDO4aRn2ajWf2zFW9y+XJbF/AWe7L4h4rejgFuVhF8NIMiqMfBZTB7RhYlz+1F3RS31GTiTOdL4p1nKMG7iL37UmHgP0O7yuPD4IZDa2ixlDjFik/nkYxqVB+yTcdHxARO4INnGDsuZMWEQ/UIT6sMzgtU3fCawCA8WA89sJ7yHzFdJNUxFuhBb6/jMaam0Q14zKwc650BOdBr1YdPfuhG9p4a+ky2GsY8RwBF60C5GMyW1Dw=
-X-Microsoft-Antispam: BCL:0;
- ARA:14566002|8060799015|10092599007|15080799012|19110799012|461199028|23021999003|6090799003|5072599009|51005399006|40105399003|440099028|3412199025;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WlM5ZUJnZFJzbHVmRlRIOFc3WkxLc2xoOXAraXduZmp6THllRmNPNUFiMElp?=
- =?utf-8?B?blpjSVNtNFNRU2F5WUtBYTlycVJReEpDOHZ4MUFuVUdZV0R4cGUzdk5yZ3pY?=
- =?utf-8?B?bGRIendGbUd2ZHNZbEdxTE1SSjUxZHEraWZwM04zSmxlOEF1aklrbXpRelBH?=
- =?utf-8?B?RjdBNjJhSVA2bjFYejduNUpCU3dGTFpPUFBna2szWWkzdkZQM3EzN2dZd3JD?=
- =?utf-8?B?T0FudUZvaW1TanZRNVhZK1NVcUFuZmN2ZUg1WHlyZ0pnSzUyNFR3VmVUWVk5?=
- =?utf-8?B?YTRhb1BuY210OHlZR0NhQUdBd28wb0ZoblpTM29DSVRRdGtBZm9OT2tsZ1dk?=
- =?utf-8?B?akxwT0MveGMvQVhZL2tYSWVkV0k0OTFYMUpCbVcra29OcmFvcVJINXlyYWhj?=
- =?utf-8?B?VW1yVFd0ZjRidDRYeTMyM2s1eXJkS1hrOW5KQzk4ZnBTVEx2K0lYYUY1QzRK?=
- =?utf-8?B?eWZSSjMyNG1ZVnNvUHNzekFsM0UxaGpYQzlxRUI2dE9mbVZiUGtQOHhvaDkw?=
- =?utf-8?B?b1BVMzlyRkJoUGM1ak1XTWtqQWc0WUNxWjZjeTF3M3FrV1RXdnAxQVhudFR4?=
- =?utf-8?B?bDE4dFg3WGZsUllpUVo5cjJoMUp2WGk5ZGxFcEpaK1Fjd1JSRjFoVGdhdG1B?=
- =?utf-8?B?QUpWSWdSOFNhMDZ1akk2Y3JEWnJZakMvZlB5aEFuMnVmSUJ6aHEwWDlsZlVL?=
- =?utf-8?B?MWNHZHF4RHZYS2w4UUU4aXFWc2pKSG5udVlvcFU1YlJocTA2ckhhd0dsRDFE?=
- =?utf-8?B?Q2tyUHVLUlhNZkQ4bDkvc0h6bmNtSU44aXNyaHRpTStzdEdmRDNMYXNKOHRC?=
- =?utf-8?B?TEdkangzQXJ4NnJlbU5OS2YzNjdSYVM0OVNlejBjd2xnRytLMDhyT0VVbmFt?=
- =?utf-8?B?UGpJRTBYa0tFOE9sMnVHMXBadUsvb2ljOVdBNnpuR3NkQlEvM0hkUmFSKzZa?=
- =?utf-8?B?OGxJSFBodzg5NjBUZWdRbmd5L3c0SVZzTFh1dm1XRWRKdXdFRDlrV0VPYUlv?=
- =?utf-8?B?TnJsSzlKRmtWOWdFejlIbzN5djBJMUxkZEljYitsTkFod2ZsYmNiODZaSnFk?=
- =?utf-8?B?MkZUQ3Nvd2ZWQzQ5VThYUmcyRFhTS1drQUxpN1RXMUE4V0l5b0ZFTnVWTU4y?=
- =?utf-8?B?N1E5ZS91a01EM0V6Y2ZsT1RJSjNtYlRPUzFxcG9jc0VRQm5BUjgrc3I5Smxn?=
- =?utf-8?B?UWE5MVFFd2tEN0lTZjByWEd3aGF4Y1FwNHhmZEpGYVpyUEs3NVR1bDBEY2ov?=
- =?utf-8?B?R2JCMXB6WXpUeERUeWpSS0tJamI2UE9XdFdCcGdNa1dTSDVkNVcyT2Q1cUVm?=
- =?utf-8?B?WDBDZ21SUlFrUHZweTUyNWxmMEw3TmlKR294ai9YLzFwaEFIakZ2SklTZW1J?=
- =?utf-8?B?Tzd6aUVnZnNRckRDVmZCTTc1cFRhcjlPbi9BdHBkQ0Y4YmZ3K3dsZEZTRVRH?=
- =?utf-8?B?Z1dGeEJHaU5xUlA3YmI2Z0FLLytFUlNpc1lxMGxGSWhneEpERFZsYWNBMDlD?=
- =?utf-8?B?ZDN4MCtuaHhTMHg5SnBNMmxIbEl1cnlJZmlXeWoxTWdJcUZvKzlUbkxuY0FI?=
- =?utf-8?B?UnJhVGZ5NEtLTVlLNklOd3lTTUZpVkVXWjdhQlA0NEhScVovVmlBUlJoYjhH?=
- =?utf-8?Q?BIZBSomNkDiGMIs4r174tobbYW8aGCnOWYEWOTMRONzY=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NnJXN09KclkxVUYrK0lCOWIxSEV5QStNYmVJL2twYS9UVHBlK1VFM1pqMzdE?=
- =?utf-8?B?czNTQVc2bjY0bzA0RDlyQlBMeWVLNGNRSFdDUTlGOHROV2NkZm0yM1BtTk15?=
- =?utf-8?B?QlZGNkFyUGxUZ05XTURVbUdTaElrMk53VGVueFhXYVB5NWRUR0pxbGF1NU1y?=
- =?utf-8?B?NkFZVGFIOXFWQXVDSnZ2dlBFRWlZRnlucUxzZGovY0FxZ09GZUcvVTQ3Y0N4?=
- =?utf-8?B?QUQ1ZGoxaXlVWVZxYVpQM0t1WmVpVkY0bDcyNVZydVhiMjg1aGdNamNJUVdv?=
- =?utf-8?B?Y3N0S0h2V2lKallHSjdCeEQraHBxTERNVDB1M1RqZ3pyd2xtc3BldUlSc05z?=
- =?utf-8?B?S21RVTJQZTYvZVBKQlpkSTlHeVRYTUtjQ1VrNWtGODZ6Ui9rNzA3TnNjSTBB?=
- =?utf-8?B?SGNNUXpSQ2ViTDhHQ1BpOXlMUjk3eGRSRXlmK2dOeHVkRjhEdmN0cXcrc3cy?=
- =?utf-8?B?Sm1PODE2RHhXVW4ydWpNd1RmYlZ0VWU1QUFldWhaZ2RjNDE2WXlNbG5NWEpZ?=
- =?utf-8?B?c1VUV2UzTWRhVTJuRDhsT2JheHZ3VWxvemdBYjFOclIyU1dwVTVETE1tRFAw?=
- =?utf-8?B?ODVqUVhvNk14bWdJckNFQWVnczQwZ2FDUHZYZ1JkNjd1ZDkrbkxKa1phVXVU?=
- =?utf-8?B?dWxoczdxczdFaG9HTUpKanc3VzY3ZjVhYXMxME0zOTV1N01YSitGdTJmNFVk?=
- =?utf-8?B?dXJjaVFlbDlLRVJWS2t0dUhCSW81NGxzYXZlU3lnS1dYU1A1TjFROXlzOHA2?=
- =?utf-8?B?N3BaTUlpNVY3aWpoYVhlaXhKTGFsc2tOU3FldkFnRnlHU1BKUmsvUHIxOEVY?=
- =?utf-8?B?VllHMzlsRmFaOG1WcklaNEY1Q0tHeFBtSytmNFN2Zkd0WENjQVBPRHpKYmlY?=
- =?utf-8?B?Tm40czExWVNnNVo5a2V5a1VtM2ZtbDJTLzV6T3YvWWR0ZEF5VGVBTFBJYnNx?=
- =?utf-8?B?T0JBK0ZSbC84WXFLVlo5U3Y3ZEY5UGRZU3RxWUxBdEZvTWg5b1c2SDZlaXlH?=
- =?utf-8?B?MVYvaUxkSk9YTFNndWJMNXpZT1dkQ2VDTXd2SU8weE0yd21hTTZzWHpLbTNP?=
- =?utf-8?B?ektzSnQ0aWdLS1VLL3AyNHQyYU5qWE5aZDdEOTNVTU1HdFkyTk9EakVpbE5n?=
- =?utf-8?B?c3REeko0OTRLWGJqUXJnWE44OWc4eXJyMTVaQmVjeHFxL3lmMmV0UzFiSHVx?=
- =?utf-8?B?NHZmRnV6Z1Z4bzMwQlhpWE9nd3VmSFZZT0tzVUhHVDQ4NjU2TUFmT3JQaHVk?=
- =?utf-8?B?dVlsUUlTV0Z1bGh3ZnpCTCtmb2pWbHo3cG9Kdk1NZkJYUnlLdXRmaEtIZGJY?=
- =?utf-8?B?aE1mYnJDUDZnWFVPWWIxYkFZeDErSTBPZ3FuSTRlcFF1UTdob2MyRFdUd1hw?=
- =?utf-8?B?ekFHdzJSaHBraXVESEJDTjhTbjI1T213bFlCZHY0Vi9EeTA5cVpqZ2lVN3NQ?=
- =?utf-8?B?UWhzeWg4RUtrcnk3bWRiQnZOWXRSVDlwVFdHdkdNc0ZZOE1yeENGVlRSSDRJ?=
- =?utf-8?B?Y04vYTkzRmQ1aHdMMU9oeHFCR0cza2xZa0tXVFp5eDhNbkZkOERCWTdUVEhp?=
- =?utf-8?B?Yk9zQTd4d040S0tPdVZla2pndjJUeW5mTzJLTVZLWEU3QWZabjFEUkRDVVJK?=
- =?utf-8?B?NGhwd2VTaDYzaEZwU056ak1mMXJvcWx2emdKTkRnT0lVM3UyZ0dKRkU0OTJG?=
- =?utf-8?B?bWtDcThaSk4yN3Ewc2x4b2FNTWFXTFdCMkU2ditYWFpUdzN0N0lON0gzSUty?=
- =?utf-8?Q?GT6yLtywnpnSIgsFPEOYLXyM3ssarOUmZkqTDXb?=
-X-OriginatorOrg: sct-15-20-8534-20-msonline-outlook-2ef4d.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc892b9c-390e-49d0-bfde-08de29b755b7
-X-MS-Exchange-CrossTenant-AuthSource: AM7P189MB1009.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2025 11:07:33.0874 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BESP189MB3180
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/6] phy: allwinner: phy-sun6i-mipi-dphy: Support LVDS
+ in combo D-PHY
+To: Parthiban <parthiban@linumiz.com>, Maxime Ripard <mripard@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, paulk@sys-base.io
+References: <20251116134609.447043-1-kuba@szczodrzynski.pl>
+ <20251116134724.447131-1-kuba@szczodrzynski.pl>
+ <6d421d06-c534-40f3-8732-8f80a29b6821@linumiz.com>
+Content-Language: pl
+From: =?UTF-8?Q?Kuba_Szczodrzy=C5=84ski?= <kuba@szczodrzynski.pl>
+Autocrypt: addr=kuba@szczodrzynski.pl; keydata=
+ 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
+In-Reply-To: <6d421d06-c534-40f3-8732-8f80a29b6821@linumiz.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Id: kuba@szczodrzynski.pl
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,43 +115,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/20/25 16:36, Konrad Dybcio wrote:
-> On 11/17/25 4:44 PM, Maud Spierings wrote:
->> On 11/17/25 16:35, Konrad Dybcio wrote:
->>> On 11/17/25 3:13 PM, Maud Spierings wrote:
->>>> Hi Konrad,
->>>>
->>>> On 11/17/25 13:59, Konrad Dybcio wrote:
->>>>> On 11/16/25 11:52 AM, Maud Spierings via B4 Relay wrote:
->>>>>> From: Maud Spierings <maud_spierings@hotmail.com>
->>>>>>
->>>>>> Add nvmem cells for getting charge control thresholds if they have
->>>>>> been set previously.
->>>>>>
->>>>>> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
->>>>>> ---
->>>>> Have you verified that e.g.
->>>>>
->>>>> connecting the charger
->>>>> setting the charge threshold
->>>>> rebooting to windows
->>>>> rebooting to windows once more for good measure
->>>>> rebooting to linux
->>>>>
->>>>> still has the settings persist?
->>>> Hmm I have tried several things but I can't seem to get the values to stick. I the spmi-sdam driver is compiled in, I am not quite sure if I might be missing something.
->>> Hm, I wonder if Windows/UEFI overwrites these values or whether they're
->>> used by something else..
->>>
->>> Can you set a threshold in windows and see if Linux can read back that
->>> data?
->> the values in /sys/class/power_supply/jada-jada/ are zero when rebooting from Windows into Linux after enabling charge limitting in the Asus application.
->>
->> I remember my old vivobook (x86) also forgot its settings each boot, but given the nvmem cells that should not be happing here I guess. It is odd that there seems to be no collision between Windows and Linux. Maybe the Windows mechanism is doing the old trick of writing it in there every boot?
-> Odd indeed.. Does it work if you reboot from Linux to Linux?
-It seems not, I seem to remember testing it quite some time ago, but I 
-cannot get it to remember any way, at least it is not popping up in 
-sysfs, always back to 0
+W dniu 2025-11-20 o 07:24:53, Parthiban pisze:
 
-Kind regards,
-Maud
+> Dear Kuba,
+>
+> Thanks for your efforts.
+>
+> On 11/16/25 2:47 PM, Kuba Szczodrzyński wrote:
+>> Some Allwinner chips (notably the D1s/T113 and the A100) have a "combo
+>> MIPI DSI D-PHY" which is required when using single-link LVDS0.
+>>
+>> In this mode, the DSI peripheral is not used and the PHY is not
+>> configured for DSI. Instead, the COMBO_PHY_REGx registers are set to
+>> enable LVDS operation.
+>>
+>> Enable the PHY driver to work in LVDS mode on chips with a combo D-PHY.
+>>
+>> Also change the SUN50I_COMBO_PHY_REG1 macro names to reflect the correct
+>> register name.
+>>
+>> Signed-off-by: Kuba Szczodrzyński <kuba@szczodrzynski.pl>
+>> ---
+>>   drivers/phy/allwinner/phy-sun6i-mipi-dphy.c | 70 ++++++++++++++++++++-
+>>   1 file changed, 68 insertions(+), 2 deletions(-)
+> I tried integrating your changes in A133 display pipeline and I couldn't get the LVDS working.
+> Am still narrowing down what is missing in your patch. Driver registration is success and I
+> can see /dev/fb0 as well. But nothing on the display itself.
+>
+> But with below changes from my patch,
+>
+> diff --git a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
+> index 36eab95271b2..d164b2ea5dfd 100644
+> --- a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
+> +++ b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
+> @@ -314,13 +314,11 @@ static void sun50i_a100_mipi_dphy_tx_power_on(struct sun6i_dphy *dphy)
+>          /* Disable sigma-delta modulation. */
+>          regmap_write(dphy->regs, SUN50I_DPHY_PLL_REG2, 0);
+>   
+> -       regmap_update_bits(dphy->regs, SUN6I_DPHY_ANA4_REG,
+> -                          SUN6I_DPHY_ANA4_REG_EN_MIPI,
+> -                          SUN6I_DPHY_ANA4_REG_EN_MIPI);
+> -
+>          regmap_update_bits(dphy->regs, SUN50I_COMBO_PHY_REG0,
+> +                          SUN50I_COMBO_PHY_REG0_EN_LVDS |
+>                             SUN50I_COMBO_PHY_REG0_EN_MIPI |
+>                             SUN50I_COMBO_PHY_REG0_EN_COMBOLDO,
+> +                          SUN50I_COMBO_PHY_REG0_EN_LVDS |
+>                             SUN50I_COMBO_PHY_REG0_EN_MIPI |
+>                             SUN50I_COMBO_PHY_REG0_EN_COMBOLDO);
+>   
+> @@ -528,6 +526,22 @@ static int sun6i_dphy_exit(struct phy *phy)
+>          return 0;
+>   }
+>
+> LVDS works fine.
+>
+> Could you please share the diff of your dts / dtsi?
+
+Hi,
+Here's the DTS overlay I used to enable an LVDS panel on T113. You'll need to adapt the panel specification to your particular display.
+I did not need to change the phy driver, so this extra requirement might be specific to A133.
+
+/dts-v1/;
+/plugin/;
+
+&{/} {
+	panel {
+		compatible = "panel-lvds";
+		data-mapping = "jeida-18";
+		ddc-i2c-bus = <&i2c2>;
+
+		port {
+			panel_input: endpoint {
+				remote-endpoint = <&tcon_lcd0_out_lvds>;
+			};
+		};
+	};
+};
+
+&tcon_lcd0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&lcd_lvds0_pins>;
+};
+
+&tcon_lcd0_out {
+	reg = <1>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	tcon_lcd0_out_lvds: endpoint@0 {
+		reg = <0>;
+		remote-endpoint = <&panel_input>;
+	};
+};
+
+Regards
+Kuba
+
+>
+> Thanks,
+> Parthiban
