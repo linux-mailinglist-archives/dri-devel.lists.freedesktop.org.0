@@ -2,97 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F041C7D203
-	for <lists+dri-devel@lfdr.de>; Sat, 22 Nov 2025 14:59:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E439C7D21E
+	for <lists+dri-devel@lfdr.de>; Sat, 22 Nov 2025 15:03:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B130010E092;
-	Sat, 22 Nov 2025 13:59:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18F4010E09B;
+	Sat, 22 Nov 2025 14:03:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CkHHBHDF";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="E2WMIECj";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="jSGZukAH";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="R60xNboB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7AB410E092
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 13:59:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 235CF10E09B
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 14:03:16 +0000 (UTC)
 Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AMCbkaf2444169
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 13:59:47 GMT
+ 5AMCcA4Q2445545
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 14:03:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- UPiNAw1Tt7RvkHyG8Y7Sk3PFLPISpHRMaZn89Q+0vA0=; b=CkHHBHDFmKRJetWF
- BTF5P9rQP8repvG6d0gkqwZWg0dTXYONHjh1vx3a4x0EqrffPCCl3Z91MoVbvluz
- ckzFVa1prFWXIFOAN6QGQkOb2FbpT8+e/4eN+vVglmyqwYAkS6KiSekpYCG6PwMW
- 1JXTf8KzbIUlivIeDFQnjIrTVyNaGMEChpsVq9uefFKNugW87CkYxf/tf95+NsTS
- WIM2NEFmhcNj11cX4uCuBmMnV0p09/6snnaJTo6jtH+NJGczOkySWgxgRy5kxtfk
- dFL/orxmn4e1ghReTFTHJHKh9L8z1VkMWyfjrcVlHP6r3dcA3qMbYejtAdo8k5kH
- DjX2QQ==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ak694rrds-1
+ ZFv6aFk1IpQWO3F93NnlDY2gTDZSprI4dUGFyCQW5uQ=; b=jSGZukAHy463Vhtz
+ N2Cg7cwvUe1eOdUYmEy3Bv89afj0kk6Gn7C5p7Ws9udeVH7iaqY9DdFL9UFfIpYK
+ xhZWRBV2WqifTX3URkRXdQnw/4rz3ItJV/XEtrN4s/eGEguSOsToVNTXGSXtxH0r
+ 56UAT1J3EatoYkky2qLmaHFe7wtsJYPX7a/q9jfc1YHX0F1VhlegMEbNmefRzMc1
+ cJGtxrg51Zn4dn5hKvU00E3aZURXcPriLPAy294tU6EpBqY0i063HWpFA5tU+bWF
+ X5qasBMoXVpYVawZZhZhJcftEa4l/DGVMSpS3z1eQFmfSWL1oDN+wzGdcHGyD8fr
+ qhU/7w==
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ak694rrkw-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 13:59:47 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id
- d75a77b69052e-4ee409f1880so5943721cf.1
- for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 05:59:47 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 14:03:15 +0000 (GMT)
+Received: by mail-vs1-f71.google.com with SMTP id
+ ada2fe7eead31-5de05befb05so64439137.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 22 Nov 2025 06:03:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763819986; x=1764424786;
+ d=oss.qualcomm.com; s=google; t=1763820195; x=1764424995;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=UPiNAw1Tt7RvkHyG8Y7Sk3PFLPISpHRMaZn89Q+0vA0=;
- b=E2WMIECjRxGnItR6f+PvQMgZCxKAia8+0uyA0+6W/LCy2MIwtRgC2xOoSlxNx5QxkD
- XUwFjK74dg10YiYUwFp4S/S8en6M928jyG0cn8YXQTLts+dXyD9SkXTysZGu+yh+1Azd
- gWOe/pdDYKtZnDMNR4A5Pv86s1rkEyZpwzqdd4TruvC9KHcT+Jg24dDH/Bw7i1EQ+Bfn
- ICnG3NaeY5Efodvh78y4TEgHoAPY5Gb6ps5I0sxy3sG2gzaV/txaZPVzhNnAybw7yq8L
- Fk+UB0Hs6aTe/gymqLuxevcdWKtHreFGq4GJ1LQRKO4GJWG1o5EZx/crX52f7ubsMg5U
- EmGw==
+ bh=ZFv6aFk1IpQWO3F93NnlDY2gTDZSprI4dUGFyCQW5uQ=;
+ b=R60xNboB5mxo8uwr/Xz1pl/HER2Asn2DymgyCtrUlAmVHvvZ83UPSG6wAqqh8YkAbF
+ SXu20q3jlxi5vKvxy4LGEUMrKa8Pmub8M/9CbQjpUZ1fzGxWdu1omgI5hw9X7a+s5J8S
+ v+No1NwIwmnnzcT9iMjNRvzKbzCisKbr6umS0Kp8J/P9adkm4pXCJaZY9/ptYBTrD6ET
+ s0cIyVxxGoMddCb0LnL9a6a6oV/7s2sgBjrfiVD7re0vMI/Ok5dXz45YbG3KngpMZA/7
+ rElEW35vUD+quq3/4KVdHIw2RjItRmcvRccxLyxtCSB39eTgcJueIFCQV4FBEQ4LHrrw
+ uUHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763819986; x=1764424786;
+ d=1e100.net; s=20230601; t=1763820195; x=1764424995;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=UPiNAw1Tt7RvkHyG8Y7Sk3PFLPISpHRMaZn89Q+0vA0=;
- b=v0b/Qj9GiZE64rFq61JlKjKimg11ofrhN1VTzUo1DMXFRDn+QM3qnIJ0aJdpAf9czL
- bWi81hTvA9HlwPSmFR5HXtXp/774ej9OECBm3XWmnw59v9M4AOSa3Ho4XxlB+B8XhXme
- 1wlz3MDY7hgVS/rMIEMpdmc449qDxdwonsZwwcZAU8cjeQCl/0DFMdly1+V+oV93JsYJ
- OE4wLdb/3kojqN6Rj5JmHNklFTEGXf7NTdodJhz82lZLxHR0JtsgUvMM0vmWkH7qHzhO
- wxT9QU7lRyFIND0ngPcMj+tdqsz2InV2kwe0lEOgNRwrGciRrtQ7GYVpnydWG8gaC9cU
- 2Afw==
+ bh=ZFv6aFk1IpQWO3F93NnlDY2gTDZSprI4dUGFyCQW5uQ=;
+ b=MA28/89RRO7dYVrNyiGaqgFyam8kqP9to2a0Z962KzLGWVxj1xwbI0Pgu4gyJFMNfG
+ B7tIk09TTOkvKG8Lv6JaVXMDaWEbqYeE6bO+T4ZlKCSQ726dzSs/K0/CGbY0kEHLgAbi
+ liPgW6by5nou4RmeVtZkMwwHX894y0aVT1/HHoQQjFbCK/oM2/bj24EZdQIP+OZLC2P4
+ IWvbAt1ldNUZ4Ugp8u5qd78PBoogk8ImDSg0D8Mxd5MwhI1D4QVi3oKZoaQe+QDhL2b3
+ Iu3PfZdkGbrg3EiJQ06SR6b2J+t+t0/CslvMw286FQBUIHngi0wbvoByPTjNlI+m1YeQ
+ bwjA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUa+kqZ8yMI84jDTZP2w4mQgCqun/Rf7iXjCNMkGYJaPdbksQ3xeaj2DSFDG5T56PWMH8U/7BDMzrY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWHDS69T/FevOecnA2BItuYkkNd8AKQ50+rRzrIdrLcGu5pBdU
- ILj/Tf/3XozEofMKLbdeZnuvhaQ3wUSG3IXrwqWZ0ejVwfDOCnAJEDjIaCrHXBoi2KBotAstOmQ
- buIYdAU/sZAXJfNdgBf4UgylvYtAAi66E6SOpin9Sdok9m5jBGXqqdsUewbvL2rWhI6nldjU=
-X-Gm-Gg: ASbGncvmyCSKqULhvJxeYUP4i7VgGG/qzhsLRtClNAaulW7nbDOkUfDx5QSvIrZp7Tw
- FU8f2Cvk9t2kQ/DjCzVybrd2IY10g6rDrxT6EZbnaY4eCyD9/HLHhnfCYRf2OdMA9csURmW5Bvk
- T0dnuYg1jkw1j388Y9PCVpBOD+Ulk2I6qZiut7EotxNpE6od6dztNAqi7EOGijjnTApCXW2+in2
- EyQvDwZ/9eRQJldDu0gELEubGQOYew40tq8BJHrKS4Lh3jCnIOrVBsisX/LD8r7W+St4XtO8Bw+
- mwLHfS55M/+acdFsDA1nwiciRwKiW5R3rVSwMI+4x/PzWZUGVOn7uuRE1q5IW+aWWkZG8E0ocER
- Fp5RHIjRlPc2jqvwvFZinznFd5nTvGaj6kE4lyyeVM+vqCE5hs3CLB67zuV+GWntIt1U=
-X-Received: by 2002:ac8:5a46:0:b0:4e8:a54d:cce8 with SMTP id
- d75a77b69052e-4ee5885ba39mr57660261cf.4.1763819986385; 
- Sat, 22 Nov 2025 05:59:46 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFIJN+vL5B0qzR53Fu8tdU0kJslcRoEiovdfi/oC99Dchs3yUA9islhgT15c7fVbBvVSSpozg==
-X-Received: by 2002:ac8:5a46:0:b0:4e8:a54d:cce8 with SMTP id
- d75a77b69052e-4ee5885ba39mr57660091cf.4.1763819985888; 
- Sat, 22 Nov 2025 05:59:45 -0800 (PST)
+ AJvYcCW/+kByEjqiv2ijB5JRQRDCZ43pSMV6xatjhCdDwFo7df8oXvztq5i2EMCZlYh7eTUsSchoM3cKFwU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxoSCPB7ANJu8L05FhCQf1xXAh7ivt1J0VyNmfaYG0frSxKBZe8
+ MW9AtvwKtxw/9mJV3V7e8I01NdOtGyse5dT78tOcfctQQznouICXpu7GQsg2M0SugpvwA1xyU3m
+ 2sN5at81+elwvZt178P/umCjxoJn26sJl5VzkN0T3O0+67dca56kNVxLWlIHY/ebm0w5AaIk=
+X-Gm-Gg: ASbGnct4GdT9rfqpKDH+IUC6mjmeTjBBSYHznGiUzB68NzC9Ji9NmwNzDosB6oLiXTN
+ vPTHg6BJkLYdmUPOBM7oXwloKrqU0sRR+yM7R/qzr3/HIw79eGSVQgqG/4mkWrCwpOAgfDNa3mj
+ G3TBh0Ax5g4LMmsXDSsgjPjXtESXxImlVovw+p+GfFtaHFjh+DQR8nVjIwc3Vxfk5txmGjKAX7r
+ tVUXnKD7hDhEO6vSB4xmYGkI/vhNDbA0qYBkppKjsQC4o3T4IU+1Dm/E1ZOTdntR+5AK93CLmcr
+ GygPj3OYoIt/swIGn+N/n6IFwxvcW+/0ZGIwuT+YDlVfjd5jWOXYH9tpYQELjR+wBPWZr+vlvpb
+ oGFk8w+B37AvGzR45vclXG8beNjC66hpkfx41WPviOXhy4ZjfbBc2lmmTKAebwoh4Hg0=
+X-Received: by 2002:a05:6102:f07:b0:5d5:dcc1:3bb1 with SMTP id
+ ada2fe7eead31-5e1e6ab5701mr905531137.7.1763820194463; 
+ Sat, 22 Nov 2025 06:03:14 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGOa5oUdJ8Eo4PVOAHiaccaEv2w3avq9wi2Hvan5TZ2E3W36cwP0a8YCtGpXcrKuWHN8TVK2w==
+X-Received: by 2002:a05:6102:f07:b0:5d5:dcc1:3bb1 with SMTP id
+ ada2fe7eead31-5e1e6ab5701mr905500137.7.1763820193999; 
+ Sat, 22 Nov 2025 06:03:13 -0800 (PST)
 Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
  [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b7655038011sm737185266b.62.2025.11.22.05.59.42
+ a640c23a62f3a-b7654d502fasm726258966b.17.2025.11.22.06.03.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 22 Nov 2025 05:59:45 -0800 (PST)
-Message-ID: <039dd3f2-3ea1-4dbf-81a4-ef1690c9236b@oss.qualcomm.com>
-Date: Sat, 22 Nov 2025 14:59:42 +0100
+ Sat, 22 Nov 2025 06:03:13 -0800 (PST)
+Message-ID: <8560ad26-4756-4c2a-97c3-2c5c0695172c@oss.qualcomm.com>
+Date: Sat, 22 Nov 2025 15:03:10 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/6] arm64: dts: qcom: sm6150: add the GPU SMMU node
+Subject: Re: [PATCH v3 5/6] arm64: dts: qcom: sm6150: Add gpu and rgmu nodes
 To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
  Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
  Konrad Dybcio <konradybcio@kernel.org>,
@@ -109,30 +109,29 @@ To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
 Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Qingqing Zhou <quic_qqzhou@quicinc.com>,
- Jie Zhang <jie.zhang@oss.qualcomm.com>
+ Jie Zhang <quic_jiezh@quicinc.com>
 References: <20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com>
- <20251122-qcs615-spin-2-v3-4-9f4d4c87f51d@oss.qualcomm.com>
+ <20251122-qcs615-spin-2-v3-5-9f4d4c87f51d@oss.qualcomm.com>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20251122-qcs615-spin-2-v3-4-9f4d4c87f51d@oss.qualcomm.com>
+In-Reply-To: <20251122-qcs615-spin-2-v3-5-9f4d4c87f51d@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIyMDExNCBTYWx0ZWRfXy3ADISbTD2BR
- tgn/cXxxo03NhX+URezCAD1951K4YNmhczItNaor9byB4XeUXnTJ9RNjFyDnad/bXeEU7u0MkVF
- 2i5oCyjyRH5dqH0MXMzH4JB0azr3E1PWZut54Deh0Lgto/IwQQMqwi98VmPk/ZsKz76fO6ESU30
- +PerzX8jfYE8Uup0pHbWr7foLo/X8CowTXn9Kd9Jr4XhM2+lpIaBhphDA95V0vG3hZhlzRMB5eK
- DX2YzxBiq/3jhZbwhf5M61Y47xgrA81vvMLEHB+eQpmlt1+oO/hokIfDnwgZ8z4/TKQOngWxxoT
- T4kstycJ4T6OBu8I+xqu0w9xWv1ch6CNKxC2ZyafJGtXyAY0jmJ4Y9+74AcTnAqVMakTj36D4Km
- FsxDiHXm4CG0kmiKRYPsFh9ZWnnHuw==
-X-Authority-Analysis: v=2.4 cv=YJqSCBGx c=1 sm=1 tr=0 ts=6921c1d3 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTIyMDExNSBTYWx0ZWRfX0jcPWis25wrw
+ s49ABf9r0lXVTYevArcWnKjvdDrbUSkm666vMCyc+ySQ6lEW4f1uMNlIZ1dT8T4Ok0U67vZABko
+ 9KTEN84J3MX2m5ECBDSmd1eMEbi9ACm8rvYITPrGCLf0l3S328pRwiQIDWq2RRStyHHUdqP+OwG
+ UgMKbfPwd10kMEK6uDpmL1VApzKkhBRn3EVX0NwHzLzzDK4K6Q7pG0bMl+sTE4OgAZ4enbV0B2x
+ hX9GxRcZ6S+u/AQraTFSMLJnGl0Bg4DyXeh7LIetAOS06G15bLy8257JQJZItOqlwgP5fdqQJ/V
+ 3tp6Qgrt2EtUlRoSEGtvmw18dE/j36hFdEPfXgj/h7Ct8EGFunUfgSrnVAqNGaZi3GFYNYivbig
+ XVSgD5jBN8RoQjHk4O2Kl9ZoEGK8Zg==
+X-Authority-Analysis: v=2.4 cv=YJqSCBGx c=1 sm=1 tr=0 ts=6921c2a3 cx=c_pps
+ a=P2rfLEam3zuxRRdjJWA2cw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
  a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
  a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=QDjCMyA0A8yHJihhU1wA:9 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
+ a=K5gqOp28Iz7Nk40COgAA:9 a=QEXdDO2ut3YA:10 a=ODZdjJIeia2B_SHc_B0f:22
  a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: i9iFf6FSjip-g7ZyoQf86JNTIL6K8gJ-
-X-Proofpoint-ORIG-GUID: i9iFf6FSjip-g7ZyoQf86JNTIL6K8gJ-
+X-Proofpoint-GUID: V3wTsgJ2-5GZjL6Y9jRVCtgnccaCJqjc
+X-Proofpoint-ORIG-GUID: V3wTsgJ2-5GZjL6Y9jRVCtgnccaCJqjc
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-22_05,2025-11-21_01,2025-10-01_01
@@ -140,7 +139,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501 bulkscore=0 suspectscore=0 phishscore=0 clxscore=1015
  lowpriorityscore=0 malwarescore=0 impostorscore=0 spamscore=0 adultscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511220114
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511220115
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,15 +156,51 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 11/21/25 10:52 PM, Akhil P Oommen wrote:
-> From: Qingqing Zhou <quic_qqzhou@quicinc.com>
+> From: Jie Zhang <quic_jiezh@quicinc.com>
 > 
-> Add the Adreno GPU SMMU node for QCS615 platform.
+> Add gpu and rgmu nodes for qcs615 chipset.
 > 
-> Signed-off-by: Qingqing Zhou <quic_qqzhou@quicinc.com>
-> Signed-off-by: Jie Zhang <jie.zhang@oss.qualcomm.com>
+> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
 > Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 > ---
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+[...]
+
+> +			gpu_opp_table: opp-table {
+> +				compatible = "operating-points-v2";
+> +
+> +				opp-845000000 {
+> +					opp-hz = /bits/ 64 <845000000>;
+> +					required-opps = <&rpmhpd_opp_turbo>;
+> +					opp-peak-kBps = <7050000>;
+> +				};
+
+I see another speed of 895 @ turbo_l1, perhaps that's for speedbins
+or mobile parts specifically?
+
+[...]
+
+> +
+> +				opp-745000000 {
+> +					opp-hz = /bits/ 64 <745000000>;
+> +					required-opps = <&rpmhpd_opp_nom_l1>;
+> +					opp-peak-kBps = <6075000>;
+> +				};
+> +
+> +				opp-650000000 {
+> +					opp-hz = /bits/ 64 <650000000>;
+> +					required-opps = <&rpmhpd_opp_nom>;
+> +					opp-peak-kBps = <5287500>;
+> +				};
+
+Here the freq map says 700 MHz
+
+> +				opp-500000000 {
+> +					opp-hz = /bits/ 64 <500000000>;
+> +					required-opps = <&rpmhpd_opp_svs_l1>;
+> +					opp-peak-kBps = <3975000>;
+> +				};
+
+550
 
 Konrad
