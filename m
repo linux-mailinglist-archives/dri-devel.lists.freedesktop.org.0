@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F84C7E854
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Nov 2025 23:51:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89976C7E85D
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Nov 2025 23:51:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC67F10E1A6;
-	Sun, 23 Nov 2025 22:51:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4D0710E1A8;
+	Sun, 23 Nov 2025 22:51:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hq5cVK8H";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mOqGSiuK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
- [209.85.221.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3677E10E1A2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 22:51:47 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id
- ffacd0b85a97d-42b31507ed8so3157895f8f.1
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 14:51:47 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BA2710E1A7
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 22:51:50 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-47118259fd8so31532455e9.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 14:51:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763938306; x=1764543106; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1763938309; x=1764543109; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=g6fykkTkHS7qppZkkxaQlxQiAfIqxjHL5zv+seY74S0=;
- b=Hq5cVK8HcuSjGmC+iWzEug/EngYnj0oElEultCon96DsySmcmXdTu+1UiMJcOQ4LTM
- woQhfZR74AUDt0FsvbNl9TmoHolO1eyt0xS3XWWXeWppBrUZ0xjXbZGPygxzuBD0oQ8p
- gj9ry/pEPbIX8wEw+Fso0HT5r0ocKdX9l+YmvrmxF2wBs+b+DMuP3ExSLCCR0FgTHqVX
- kbFP8XeNuaqFEUa0ggnJ/45O4FDHdhtwZXFexDtipsXUveyQWwYOOolV65XSOMDWk4RW
- I8NN2gDygNwagKUQ5x7b2VGKZhj13+Phfjy9vFmAhD/WstG3gGKuf6mfVCq1KW+uRlL6
- fGuA==
+ bh=zxuKr9/wD0hv1o+9Q16IeSgRkNQrWSlYyRysfxG3AMc=;
+ b=mOqGSiuKf2ghxEowz6r0i0GGEAHDEK1F4hTZ9e9Rx7p6LDXleQzAFly4YAGs9i1fC9
+ ZlxEFr7i+i/yPwtLczxDVtEXlEvsIowVtKWF7ffHkMIYuwoplM9nflOTasF5iiLbahXZ
+ oKFHDmQEaHZKzwtnBtSUsX6d9q4vt0bZI0JdGV1tp+0GyuasWMxO3JLKkMGzAFwA9DnS
+ jNgxmGF07BLBlDhsG1L6CLaM+ltvM+wWSR9YYkOY4RaR2oSPH8KUQ01UC43k9uF737M9
+ laii1vF9L0h1TDyuBzTMZ6vOh+b9Y0iFVhm+REt60MaltlU8ojnVCGOUbinf76EBunny
+ gmPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763938306; x=1764543106;
+ d=1e100.net; s=20230601; t=1763938309; x=1764543109;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=g6fykkTkHS7qppZkkxaQlxQiAfIqxjHL5zv+seY74S0=;
- b=YOkK4At+GU7Cvi1ltCzbq5Wbl5oUKJKwSFeW98sYpPWy5wN/Pt6B2WbfXbQMp/+3sz
- OOkHcnfgF8X9kutt2sxzWu4SIT14wXKrq2Z01A2B6RdDi/E5Q2NUI71UK0U2qYiW1ozq
- O0pkHNy8DqybtrmqoOUG5bXCqN52bjK9/hz97kToDkbXi4WGlV/h3UB1VFp/xXKpUo/c
- FjM07mIsXWDgU/cIiC5hPI80GXc+oiI22RSJ/69TvZsyaudicTF0n24jRaEXIdP3XqRk
- zGKNNujTI+Q6C4OQu8KwJjB7av/0+5FIynv1gCupCtjqRbMeT03z9DwzeFV4Ayo/ztVg
- BEsw==
+ bh=zxuKr9/wD0hv1o+9Q16IeSgRkNQrWSlYyRysfxG3AMc=;
+ b=gmjxPBrj9LOPveXCopKOv8+5XiGVTByUNiVObABf3S+ji0LGHsR4Xx+00Y0gIaTkk+
+ saOrWQ9crlB6G8DKIS4x1M8sATF2vGVV9q+SkDE29rRLV9l4MCCjn6gc9XwPQ+GNVWXX
+ imG7CAuX4MrWUpPspjsFtGQ/vApXgwQPXYpISKFZTTedSsq4h/3nTPEvgiLdJ95KZ5aA
+ 3TzV/OaUda/jE8jlAuVTZlutSp6Oc4mcTArKKn5TogtSNgZLhbXSFdXLTyE6BotbDhkj
+ SpUVxkvFWm1swJ9fF6VsVGAJDuEei/cdTfPtS/ylykZcoen38m1wn9uD0IkCNCPmPp7C
+ wxFQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXwTI8KIKUqHcTEMqFj86Vp5EmmdBRawYVb/LAqcU9EQRc3NhErzn1Fa80CyIO34dmMtNkT3y/MaR0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1mjT4KkjWw0Vc5BmmrPy2mvjmQP5GvFMn6GZiKJdq8+a3qr8V
- R6iW1VJztPt1VN6WniIqcE820Yo3Jtp/eyFSJn24OQtyCv1w3aC1naEj
-X-Gm-Gg: ASbGncs45hZIofad4axwwGt5E7ddsJRlhVZGhx9vAGA2b0gPXyRNLT1vmnzv4vnpnyY
- jhX3+Rjzxj9+Zui7paLoJcZtVVivqckA1LGJMRoc7yjU2rP6mq3zuIRq/8oKJxLkQi3qm8lv83W
- vNPy0SEZfTs54PlzAVQPcv3Bn9ThkfM15ygUKTkjVtZgSsOO0By9PmDoY7k+YT6iqzcQM3iIyHE
- 079ytvyNUEW9o0BHtYX2DkjY4VWjX9LOK8BIysXQ7OctarUIj/dbGBExLmMKF3GToBhb3IsDQ9s
- PVIHShyo/ke7trZ278w9WnKBmQsJLIwlx0rCBCgoqlcwFplFMAcuYVjmNjrAPcSnXaDbjNNFWE2
- CIzkReIlNy1pOwu1huTctbhhXHj8x8wbHmTWTSkhn0zo8tf4zO8w8/C0Msfv18UYJKhVRnrczqL
- iCZT2TX9xlp/FVJg==
-X-Google-Smtp-Source: AGHT+IG6zETWdv1uNEXL1H7qlBK8rzCntcx0G5cI2YCnUx99f9VimwWWKVBIKAVqjQPLH9huSPPJwA==
-X-Received: by 2002:a05:6000:1448:b0:429:d3e9:65b with SMTP id
- ffacd0b85a97d-42cc1d23c3emr9659226f8f.59.1763938305625; 
- Sun, 23 Nov 2025 14:51:45 -0800 (PST)
+ AJvYcCVulKX6JWGhRfKGYjrpRViqtb3jE6gDYQpQ/bycW4/GYTa6suQqWe26tJRWBfxx/1aS5cm1DTXwNUg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YymVlqBIFzQuZPa0vh1kJKVRKGSj7CAWbPU49tmdu3j4LPv+tan
+ 4phlpM+ZdrlO9F7L043IEutKoFah/pNRpbKzOo4vC5aqoAh9/ih3/0xx
+X-Gm-Gg: ASbGncvjrqgSIxRZJAaKGHiEPC0FDbn1ljc4wPil1FL2curkxD0LnOnqhreZsMIq+eV
+ XV3yxPdsN4NvBCCPQZggmZRJCK7d2O0KA/ysZypfXkMyE7SNFleEtx+Ynww8+ajiIDH9Wax4Kw5
+ +g+p67dhdny6vlUvOn6xMVL/O6aZnoL0Uuj0hGpZiSNjlUtcPkBp49WeH9mGkE7haaVW54CzmGt
+ 78VtGnxIb+mcl+VA2cWVPuV7VPKqRv4JSONxdYZ+BlNwgG3onsPyV8zQIiAULWsMdorqhGtqgZ7
+ D4W19YmjWsqD03cbiARdj3sX8wO022+rbSGiMty3DbY61Y/X2veC4ho8Hgna+KpAeRd9lJDO0RR
+ kNurRf/3bqH5eZU1/eLurHN1gDMGyFISkZAe4CSb2zRQxRDcpPuZxCck2hgX2B+FmZ2td+FrXio
+ 4r09hsBa7vll6Sdtb6L+h2zz5s
+X-Google-Smtp-Source: AGHT+IF9Tqh/ORJZEo3R5Xg7ZJWy7sWzF8MjqLc9q+tvrWwYorpVbwyCo218uq/Fj/Pad8uOgoxn1g==
+X-Received: by 2002:a05:600c:840f:b0:477:7479:f081 with SMTP id
+ 5b1f17b1804b1-477c0181443mr112383465e9.12.1763938308511; 
+ Sun, 23 Nov 2025 14:51:48 -0800 (PST)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.44
+ ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Nov 2025 14:51:44 -0800 (PST)
+ Sun, 23 Nov 2025 14:51:47 -0800 (PST)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: linux-block@vger.kernel.org,
 	io-uring@vger.kernel.org
@@ -78,9 +78,9 @@ Cc: Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
  linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org
-Subject: [RFC v2 03/11] block: move around bio flagging helpers
-Date: Sun, 23 Nov 2025 22:51:23 +0000
-Message-ID: <6cb3193d3249ab5ca54e8aecbfc24086db09b753.1763725387.git.asml.silence@gmail.com>
+Subject: [RFC v2 04/11] block: introduce dma token backed bio type
+Date: Sun, 23 Nov 2025 22:51:24 +0000
+Message-ID: <12530de6d1907afb44be3e76e7668b935f1fd441.1763725387.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1763725387.git.asml.silence@gmail.com>
 References: <cover.1763725387.git.asml.silence@gmail.com>
@@ -101,63 +101,218 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We'll need bio_flagged() earlier in bio.h in the next patch, move it
-together with all related helpers, and mark the bio_flagged()'s bio
-argument as const.
+Premapped buffers don't require a generic bio_vec since these have
+already been dma mapped. Repurpose the bi_io_vec space for the dma
+token as they are mutually exclusive, and provide setup to support
+dma tokens.
 
+In order to use this, a driver must implement the dma_map blk-mq op,
+in which case it must be aware that any given bio may be using a
+dma_tag instead of a bio_vec.
+
+Suggested-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- include/linux/bio.h | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ block/bio.c               | 21 +++++++++++++++++++++
+ block/blk-merge.c         | 23 +++++++++++++++++++++++
+ block/blk.h               |  3 ++-
+ block/fops.c              |  2 ++
+ include/linux/bio.h       | 19 ++++++++++++++++---
+ include/linux/blk_types.h |  8 +++++++-
+ 6 files changed, 71 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index ad2d57908c1c..c75a9b3672aa 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -46,6 +46,21 @@ static inline unsigned int bio_max_segs(unsigned int nr_segs)
- #define bio_data_dir(bio) \
- 	(op_is_write(bio_op(bio)) ? WRITE : READ)
+diff --git a/block/bio.c b/block/bio.c
+index 7b13bdf72de0..8793f1ee559d 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -843,6 +843,11 @@ static int __bio_clone(struct bio *bio, struct bio *bio_src, gfp_t gfp)
+ 		bio_clone_blkg_association(bio, bio_src);
+ 	}
  
-+static inline bool bio_flagged(const struct bio *bio, unsigned int bit)
-+{
-+	return bio->bi_flags & (1U << bit);
-+}
++	if (bio_flagged(bio_src, BIO_DMA_TOKEN)) {
++		bio->dma_token = bio_src->dma_token;
++		bio_set_flag(bio, BIO_DMA_TOKEN);
++	}
 +
-+static inline void bio_set_flag(struct bio *bio, unsigned int bit)
-+{
-+	bio->bi_flags |= (1U << bit);
-+}
-+
-+static inline void bio_clear_flag(struct bio *bio, unsigned int bit)
-+{
-+	bio->bi_flags &= ~(1U << bit);
-+}
-+
- /*
-  * Check whether this bio carries any data or not. A NULL bio is allowed.
-  */
-@@ -225,21 +240,6 @@ static inline void bio_cnt_set(struct bio *bio, unsigned int count)
- 	atomic_set(&bio->__bi_cnt, count);
+ 	if (bio_crypt_clone(bio, bio_src, gfp) < 0)
+ 		return -ENOMEM;
+ 	if (bio_integrity(bio_src) &&
+@@ -1167,6 +1172,18 @@ void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter)
+ 	bio_set_flag(bio, BIO_CLONED);
  }
  
--static inline bool bio_flagged(struct bio *bio, unsigned int bit)
--{
--	return bio->bi_flags & (1U << bit);
--}
--
--static inline void bio_set_flag(struct bio *bio, unsigned int bit)
--{
--	bio->bi_flags |= (1U << bit);
--}
--
--static inline void bio_clear_flag(struct bio *bio, unsigned int bit)
--{
--	bio->bi_flags &= ~(1U << bit);
--}
--
- static inline struct bio_vec *bio_first_bvec_all(struct bio *bio)
++void bio_iov_dma_token_set(struct bio *bio, struct iov_iter *iter)
++{
++	WARN_ON_ONCE(bio->bi_max_vecs);
++
++	bio->dma_token = iter->dma_token;
++	bio->bi_vcnt = 0;
++	bio->bi_iter.bi_bvec_done = iter->iov_offset;
++	bio->bi_iter.bi_size = iov_iter_count(iter);
++	bio->bi_opf |= REQ_NOMERGE;
++	bio_set_flag(bio, BIO_DMA_TOKEN);
++}
++
+ static unsigned int get_contig_folio_len(unsigned int *num_pages,
+ 					 struct page **pages, unsigned int i,
+ 					 struct folio *folio, size_t left,
+@@ -1349,6 +1366,10 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+ 		bio_iov_bvec_set(bio, iter);
+ 		iov_iter_advance(iter, bio->bi_iter.bi_size);
+ 		return 0;
++	} else if (iov_iter_is_dma_token(iter)) {
++		bio_iov_dma_token_set(bio, iter);
++		iov_iter_advance(iter, bio->bi_iter.bi_size);
++		return 0;
+ 	}
+ 
+ 	if (iov_iter_extract_will_pin(iter))
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index d3115d7469df..c02a5f9c99e6 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -328,6 +328,29 @@ int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
+ 	unsigned nsegs = 0, bytes = 0, gaps = 0;
+ 	struct bvec_iter iter;
+ 
++	if (bio_flagged(bio, BIO_DMA_TOKEN)) {
++		int offset = offset_in_page(bio->bi_iter.bi_bvec_done);
++
++		nsegs = ALIGN(bio->bi_iter.bi_size + offset, PAGE_SIZE);
++		nsegs >>= PAGE_SHIFT;
++
++		if (offset & lim->dma_alignment || bytes & len_align_mask)
++			return -EINVAL;
++
++		if (bio->bi_iter.bi_size > max_bytes) {
++			bytes = max_bytes;
++			nsegs = (bytes + offset) >> PAGE_SHIFT;
++			goto split;
++		} else if (nsegs > lim->max_segments) {
++			nsegs = lim->max_segments;
++			bytes = PAGE_SIZE * nsegs - offset;
++			goto split;
++		}
++
++		*segs = nsegs;
++		return 0;
++	}
++
+ 	bio_for_each_bvec(bv, bio, iter) {
+ 		if (bv.bv_offset & lim->dma_alignment ||
+ 		    bv.bv_len & len_align_mask)
+diff --git a/block/blk.h b/block/blk.h
+index e4c433f62dfc..2c72f2630faf 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -398,7 +398,8 @@ static inline struct bio *__bio_split_to_limits(struct bio *bio,
+ 	switch (bio_op(bio)) {
+ 	case REQ_OP_READ:
+ 	case REQ_OP_WRITE:
+-		if (bio_may_need_split(bio, lim))
++		if (bio_may_need_split(bio, lim) ||
++		    bio_flagged(bio, BIO_DMA_TOKEN))
+ 			return bio_split_rw(bio, lim, nr_segs);
+ 		*nr_segs = 1;
+ 		return bio;
+diff --git a/block/fops.c b/block/fops.c
+index 5e3db9fead77..41f8795874a9 100644
+--- a/block/fops.c
++++ b/block/fops.c
+@@ -354,6 +354,8 @@ static ssize_t __blkdev_direct_IO_async(struct kiocb *iocb,
+ 		 * bio_iov_iter_get_pages() and set the bvec directly.
+ 		 */
+ 		bio_iov_bvec_set(bio, iter);
++	} else if (iov_iter_is_dma_token(iter)) {
++		bio_iov_dma_token_set(bio, iter);
+ 	} else {
+ 		ret = blkdev_iov_iter_get_pages(bio, iter, bdev);
+ 		if (unlikely(ret))
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index c75a9b3672aa..f83342640e71 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -108,16 +108,26 @@ static inline bool bio_next_segment(const struct bio *bio,
+ #define bio_for_each_segment_all(bvl, bio, iter) \
+ 	for (bvl = bvec_init_iter_all(&iter); bio_next_segment((bio), &iter); )
+ 
++static inline void bio_advance_iter_dma_token(struct bvec_iter *iter,
++						unsigned int bytes)
++{
++	iter->bi_bvec_done += bytes;
++	iter->bi_size -= bytes;
++}
++
+ static inline void bio_advance_iter(const struct bio *bio,
+ 				    struct bvec_iter *iter, unsigned int bytes)
  {
- 	WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED));
+ 	iter->bi_sector += bytes >> 9;
+ 
+-	if (bio_no_advance_iter(bio))
++	if (bio_no_advance_iter(bio)) {
+ 		iter->bi_size -= bytes;
+-	else
++	} else if (bio_flagged(bio, BIO_DMA_TOKEN)) {
++		bio_advance_iter_dma_token(iter, bytes);
++	} else {
+ 		bvec_iter_advance(bio->bi_io_vec, iter, bytes);
+ 		/* TODO: It is reasonable to complete bio with error here. */
++	}
+ }
+ 
+ /* @bytes should be less or equal to bvec[i->bi_idx].bv_len */
+@@ -129,6 +139,8 @@ static inline void bio_advance_iter_single(const struct bio *bio,
+ 
+ 	if (bio_no_advance_iter(bio))
+ 		iter->bi_size -= bytes;
++	else if (bio_flagged(bio, BIO_DMA_TOKEN))
++		bio_advance_iter_dma_token(iter, bytes);
+ 	else
+ 		bvec_iter_advance_single(bio->bi_io_vec, iter, bytes);
+ }
+@@ -398,7 +410,7 @@ static inline void bio_wouldblock_error(struct bio *bio)
+  */
+ static inline int bio_iov_vecs_to_alloc(struct iov_iter *iter, int max_segs)
+ {
+-	if (iov_iter_is_bvec(iter))
++	if (iov_iter_is_bvec(iter) || iov_iter_is_dma_token(iter))
+ 		return 0;
+ 	return iov_iter_npages(iter, max_segs);
+ }
+@@ -452,6 +464,7 @@ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter,
+ 		unsigned len_align_mask);
+ 
+ void bio_iov_bvec_set(struct bio *bio, const struct iov_iter *iter);
++void bio_iov_dma_token_set(struct bio *bio, struct iov_iter *iter);
+ void __bio_release_pages(struct bio *bio, bool mark_dirty);
+ extern void bio_set_pages_dirty(struct bio *bio);
+ extern void bio_check_pages_dirty(struct bio *bio);
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index cbbcb9051ec3..3bc7f89d4e66 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -275,7 +275,12 @@ struct bio {
+ 
+ 	atomic_t		__bi_cnt;	/* pin count */
+ 
+-	struct bio_vec		*bi_io_vec;	/* the actual vec list */
++	union {
++		struct bio_vec		*bi_io_vec;	/* the actual vec list */
++		/* Driver specific dma map, present only with BIO_DMA_TOKEN */
++		struct dma_token	*dma_token;
++	};
++
+ 
+ 	struct bio_set		*bi_pool;
+ };
+@@ -315,6 +320,7 @@ enum {
+ 	BIO_REMAPPED,
+ 	BIO_ZONE_WRITE_PLUGGING, /* bio handled through zone write plugging */
+ 	BIO_EMULATES_ZONE_APPEND, /* bio emulates a zone append operation */
++	BIO_DMA_TOKEN, /* Using premmaped dma buffers */
+ 	BIO_FLAG_LAST
+ };
+ 
 -- 
 2.52.0
 
