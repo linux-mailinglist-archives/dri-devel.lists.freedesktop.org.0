@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAFA3C7E86A
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Nov 2025 23:52:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10466C7E86F
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Nov 2025 23:52:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD82010E1A9;
-	Sun, 23 Nov 2025 22:52:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F02110E1AA;
+	Sun, 23 Nov 2025 22:52:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EVumxTcp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="CW6PvPu8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC7F010E1A9
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 22:51:57 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-42bb288c17bso2197187f8f.2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 14:51:57 -0800 (PST)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DDAC10E1A9
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 22:51:59 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-42b3c5defb2so2333317f8f.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 14:51:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763938316; x=1764543116; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1763938318; x=1764543118; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aczXTymWXQPIGDaXnf/nBr9xYQNzFFU48NeAsCHNOPA=;
- b=EVumxTcprHq/xNPjJDhEOPH9Pn6dBVDOm6fEwx+qJ24DJkUzigEGl++KLtaos40PTg
- 5zHeNGHm6UD1effvkpv1E/QBrkWI1c8mkdsOfL2xXTwfmUUyrUaNBRgA2+RvP7bBXfua
- SrYy+hzpi/ZoaiEN8mCoWn2zFq+g+Fgm8tSzWJSXyQPxdMBymoTlirYLxiSYrDN7FG2N
- 98DRl/A4v22C9yTlKpEEOrbuK7PDhZqCfLXnNdQieaC5JeXw+3SSFWaAcEg/y7rZal0f
- 7nARn6e5RmJJKvylQx7Y1JX0b7pTHRxNU5e6WEa8jMQhDAZaX2tu8tk6R8jmnIAdgYQF
- s7xQ==
+ bh=Cr1T3mHouFLI2INVVeu1NU8Ohycgb7ruAKm6sUveqNE=;
+ b=CW6PvPu8162JyveUPoADTvLLqEYxpXybi++sIK1Tzc16FCLSkLk/YRnFGhdlrYaEaD
+ +sf97WJeNFP/y9SNZnGEk8u3+qGotHL4mUPeG9sJk6bFZJtMCDujfrRd54b+iHRoeT/Y
+ G9BO6XpGqudI6fzth0X4OuiK2e0vUUsLONxnVASD7B2fjkOZn20tr3m5KoFStYDxUDj5
+ M8wBR8cmfiusEA1gscOY2/KpDBPDSps6hywAPAIc0DxXZRBg95cGjtIsSLTtqLx0HEv0
+ I5ps2Nl3qsc7aGgh9QbAJno8GbLGoND62YYwUpRoNL3GQSNUN6n/ydu0YUQHayeLrI8Y
+ exSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763938316; x=1764543116;
+ d=1e100.net; s=20230601; t=1763938318; x=1764543118;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=aczXTymWXQPIGDaXnf/nBr9xYQNzFFU48NeAsCHNOPA=;
- b=ZOB9pZU9f7UbZlUYyE13kyDJ1XzY0eBa4yWWLyrvz01qugbE9I90RJQOT+egMjX0Wa
- 1nYXwOwV7hdrxJM5goyTGjluPhvvYclu3dQqHR6WHWRHaoJUsfqsXYaOG6xEdVpaZYgK
- zb13CKta231GkleEc7pbduOUFe763ez4yb5/esyBuqZkbkhH2v2DvSX6/amXeDdKxjVx
- /W+WUxMpuXUU7wjDeNkBWHTPgW8V2RBc27kAm4BQLvc2nkI1xsQPtr6FeRi7LihAtV3s
- w+zZPTDpA/NPMs1693j6a3skQQlOMAtcUQfUiTwQB5ItcLhza+4azmB9xmTbW01FJk00
- y3Tw==
+ bh=Cr1T3mHouFLI2INVVeu1NU8Ohycgb7ruAKm6sUveqNE=;
+ b=vUh8gP8VdSkXBy4loYibZJq/o1yjnHXw5lB4ghH25vGqu8rR65zweNSz+NqFU7LuRG
+ RRqRs9gygOp4ILrsLNihgnrZhGqRz/1or7dL16L86Wa6rV882+WH8kLB6GdL4xXcGdpL
+ r27msJGO6QH1rdUntIvtG0dGev/yZBeUrdXxNEmUbhCSYdxhEX0tOPVfAhiVRBtJS92M
+ sb7bioBEUIf57CudOb8hd31Gqr+GkQuFH4TMS6+Arrk51wBDecm6ywPXmsLQRyssA7jv
+ XhzpyIDxg68CbLMYnjfgoZepVETdW712Pf+R+YZYRGUIaXBj/n0qH6Zhowvdcfh5A1if
+ IxyQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUjfIhhlndoCCTliV/xLdHYgvCHMhcjJLMZ7ZRkflluI6WWsBI6v8OV65/HWyGn+NWMGpBqJVqRpJ0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxQpn4xdab0hwf6l6NMxSKwCXNLfW6wQBU+KXe4MDhbYVRUfU4l
- Ivb1ot/3hf3oBcWazU27+rrloUwKqptz0vjJ9FIDzHREcP5cS2DvPjG8
-X-Gm-Gg: ASbGncsPePf7VG9oVqwwN8B6/wwupdHDhNTbh8PGG5vu7OW/0MMsyx3G8LK1nVn2ZBn
- lFyRJty1rke7DoYK0ZWBJsOcq+QM+e/xG8c8K7eXdTIf9d9jh0v7uv5CO6TvUWl0T4qY4m4Aull
- 3Q32eNutQ+IrAt9XLh7o7UsEYwIE+nBfqf7zmnreFas/XAWTiMrtybc6GS52VBYycNpqVrIMRUG
- suHpEVy9h1hf5ta8CvQNzUREn6T4rREtp8N+IxInjML6hLVkR80cMURRuxF62BZJe3MOevYZDT0
- R7rl73aYKiZyjCbH/nbx/OrOOaEST0vMVV597gew1MYCVsc0H+ipyClmeuK7Xyk8EsrFBpEf4nr
- PFN4iNMTIL8j3ZR+j7r6453/nieFRTxpsz/U5r5/VxB/RY7ioL0jq99H2XD2SKav+jXOpRekpac
- 7tgUcLQRIecmBFHw==
-X-Google-Smtp-Source: AGHT+IEhsmDeavDDsXXTdPeMYswvjoeFYMEcGIVgrZUZIxbXidFIxZRmwhVPCPHioGiavOVUtI6phA==
-X-Received: by 2002:a05:6000:2893:b0:42b:55f3:6196 with SMTP id
- ffacd0b85a97d-42cc1ab89b3mr10647235f8f.4.1763938316187; 
- Sun, 23 Nov 2025 14:51:56 -0800 (PST)
+ AJvYcCVNAlOLqWL095dJ8C0lKRu5i7lLwpSmpFQLkl3mEkBTxzaKto//T0LuJeHs5IqvxManRQu33P9nGvk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyDBjzNnR5AmgCqwhbj7PH5ZVr/Af9aL+EIAYbuM8quNBilHuYx
+ s/ptZ1dNHgv/8dx8bmJp8lHwod9AYd68cz+NQ6RLPeFZwAyeQzT7I1Da
+X-Gm-Gg: ASbGncvq2yBYV8xjsx8NQTNjyeJk0Q4+wLGMUrj0jB7y53+Nl5SNR2XE26yBO6+csT0
+ f206J9iDqNNtxRwj6Jp3naqMCfwfDZS4HLZ2uYpWgivECPyVeQfMWunQNHODfRdHQOXOWsgRHfa
+ tXf5kTsXRqrAZ+LDJ5vcOviiIJZXtyjFmH3nCzeCuipjIGH9oIui9T+ko+F+MVQNaul2cqHbT8P
+ 8IAOUvq1GPO+lm9N5v0gMwX4OSjYZuUrr/f7pxhj/LyzbBLruZrFuQMlWDnoa4H4KXieysLfoFc
+ 88CHhfDmJnEs7HYKPjef4/0kpxBDUq7T+zayIPoDIm0grAUiXtsdJsi7go5Ap7TKnEsZLcpl54/
+ UuEdAGrq1WgGG7lTX6F1Slsnr7MwRe3kDBbA5F/Nq10ijTJwVLJzBXZw3ejdFT1AP8G8xg9+pyG
+ ofkRduIs8fUcsmkQ==
+X-Google-Smtp-Source: AGHT+IFWQMi7JjnPU4iNqrFrw/2a7As2OTjK90JEPF3SEC3P6oOl1QIY7pfuaXnoytjEpQNeSrnvkg==
+X-Received: by 2002:a05:6000:200c:b0:42b:4139:579e with SMTP id
+ ffacd0b85a97d-42cc1d1983fmr10129976f8f.43.1763938317609; 
+ Sun, 23 Nov 2025 14:51:57 -0800 (PST)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.53
+ ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Nov 2025 14:51:54 -0800 (PST)
+ Sun, 23 Nov 2025 14:51:56 -0800 (PST)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: linux-block@vger.kernel.org,
 	io-uring@vger.kernel.org
@@ -78,9 +78,9 @@ Cc: Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
  linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org
-Subject: [RFC v2 07/11] nvme-pci: implement dma_token backed requests
-Date: Sun, 23 Nov 2025 22:51:27 +0000
-Message-ID: <a86bbe2d8d105ed2c342749cd46ece2d1c537821.1763725388.git.asml.silence@gmail.com>
+Subject: [RFC v2 08/11] io_uring/rsrc: add imu flags
+Date: Sun, 23 Nov 2025 22:51:28 +0000
+Message-ID: <25a416c7f2673d39ae31bfe8bddcfc7eef710e71.1763725388.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1763725387.git.asml.silence@gmail.com>
 References: <cover.1763725387.git.asml.silence@gmail.com>
@@ -101,167 +101,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable BIO_DMA_TOKEN backed requests. It requires special handling to
-set up the nvme request from the prepared in advance mapping, tear it
-down and sync the buffers.
+Replace is_kbuf with a flags field in io_mapped_ubuf. There will be new
+flags shortly, and bit fields are often not as convenient to work with.
 
-Suggested-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- drivers/nvme/host/pci.c | 126 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 124 insertions(+), 2 deletions(-)
+ io_uring/rsrc.c | 12 ++++++------
+ io_uring/rsrc.h |  6 +++++-
+ io_uring/rw.c   |  3 ++-
+ 3 files changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 63e03c3dc044..ac377416b088 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -797,6 +797,123 @@ static void nvme_free_descriptors(struct request *req)
+diff --git a/io_uring/rsrc.c b/io_uring/rsrc.c
+index 3765a50329a8..21548942e80d 100644
+--- a/io_uring/rsrc.c
++++ b/io_uring/rsrc.c
+@@ -828,7 +828,7 @@ static struct io_rsrc_node *io_sqe_buffer_register(struct io_ring_ctx *ctx,
+ 	imu->folio_shift = PAGE_SHIFT;
+ 	imu->release = io_release_ubuf;
+ 	imu->priv = imu;
+-	imu->is_kbuf = false;
++	imu->flags = 0;
+ 	imu->dir = IO_IMU_DEST | IO_IMU_SOURCE;
+ 	if (coalesced)
+ 		imu->folio_shift = data.folio_shift;
+@@ -985,7 +985,7 @@ int io_buffer_register_bvec(struct io_uring_cmd *cmd, struct request *rq,
+ 	refcount_set(&imu->refs, 1);
+ 	imu->release = release;
+ 	imu->priv = rq;
+-	imu->is_kbuf = true;
++	imu->flags = IO_IMU_F_KBUF;
+ 	imu->dir = 1 << rq_data_dir(rq);
+ 
+ 	rq_for_each_bvec(bv, rq, rq_iter)
+@@ -1020,7 +1020,7 @@ int io_buffer_unregister_bvec(struct io_uring_cmd *cmd, unsigned int index,
+ 		ret = -EINVAL;
+ 		goto unlock;
  	}
- }
+-	if (!node->buf->is_kbuf) {
++	if (!(node->buf->flags & IO_IMU_F_KBUF)) {
+ 		ret = -EBUSY;
+ 		goto unlock;
+ 	}
+@@ -1086,7 +1086,7 @@ static int io_import_fixed(int ddir, struct iov_iter *iter,
  
-+static void nvme_sync_dma(struct nvme_dev *nvme_dev, struct request *req,
-+			  enum dma_data_direction dir)
-+{
-+	struct blk_mq_dma_map *map = req->dma_map;
-+	int length = blk_rq_payload_bytes(req);
-+	bool for_cpu = dir == DMA_FROM_DEVICE;
-+	struct device *dev = nvme_dev->dev;
-+	dma_addr_t *dma_list = map->private;
-+	struct bio *bio = req->bio;
-+	int offset, map_idx;
-+
-+	offset = bio->bi_iter.bi_bvec_done;
-+	map_idx = offset / NVME_CTRL_PAGE_SIZE;
-+	length += offset & (NVME_CTRL_PAGE_SIZE - 1);
-+
-+	while (length > 0) {
-+		u64 dma_addr = dma_list[map_idx++];
-+
-+		if (for_cpu)
-+			__dma_sync_single_for_cpu(dev, dma_addr,
-+						  NVME_CTRL_PAGE_SIZE, dir);
-+		else
-+			__dma_sync_single_for_device(dev, dma_addr,
-+						     NVME_CTRL_PAGE_SIZE, dir);
-+		length -= NVME_CTRL_PAGE_SIZE;
-+	}
-+}
-+
-+static void nvme_unmap_premapped_data(struct nvme_dev *dev,
-+				      struct request *req)
-+{
-+	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-+
-+	if (rq_data_dir(req) == READ)
-+		nvme_sync_dma(dev, req, DMA_FROM_DEVICE);
-+	if (!(iod->flags & IOD_SINGLE_SEGMENT))
-+		nvme_free_descriptors(req);
-+}
-+
-+static blk_status_t nvme_dma_premapped(struct request *req,
-+				       struct nvme_queue *nvmeq)
-+{
-+	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-+	int length = blk_rq_payload_bytes(req);
-+	struct blk_mq_dma_map *map = req->dma_map;
-+	u64 dma_addr, prp1_dma, prp2_dma;
-+	struct bio *bio = req->bio;
-+	dma_addr_t *dma_list;
-+	dma_addr_t prp_dma;
-+	__le64 *prp_list;
-+	int i, map_idx;
-+	int offset;
-+
-+	dma_list = map->private;
-+
-+	if (rq_data_dir(req) == WRITE)
-+		nvme_sync_dma(nvmeq->dev, req, DMA_TO_DEVICE);
-+
-+	offset = bio->bi_iter.bi_bvec_done;
-+	map_idx = offset / NVME_CTRL_PAGE_SIZE;
-+	offset &= (NVME_CTRL_PAGE_SIZE - 1);
-+
-+	prp1_dma = dma_list[map_idx++] + offset;
-+
-+	length -= (NVME_CTRL_PAGE_SIZE - offset);
-+	if (length <= 0) {
-+		prp2_dma = 0;
-+		goto done;
-+	}
-+
-+	if (length <= NVME_CTRL_PAGE_SIZE) {
-+		prp2_dma = dma_list[map_idx];
-+		goto done;
-+	}
-+
-+	if (DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE) <=
-+	    NVME_SMALL_POOL_SIZE / sizeof(__le64))
-+		iod->flags |= IOD_SMALL_DESCRIPTOR;
-+
-+	prp_list = dma_pool_alloc(nvme_dma_pool(nvmeq, iod), GFP_ATOMIC,
-+			&prp_dma);
-+	if (!prp_list)
-+		return BLK_STS_RESOURCE;
-+
-+	iod->descriptors[iod->nr_descriptors++] = prp_list;
-+	prp2_dma = prp_dma;
-+	i = 0;
-+	for (;;) {
-+		if (i == NVME_CTRL_PAGE_SIZE >> 3) {
-+			__le64 *old_prp_list = prp_list;
-+
-+			prp_list = dma_pool_alloc(nvmeq->descriptor_pools.large,
-+					GFP_ATOMIC, &prp_dma);
-+			if (!prp_list)
-+				goto free_prps;
-+			iod->descriptors[iod->nr_descriptors++] = prp_list;
-+			prp_list[0] = old_prp_list[i - 1];
-+			old_prp_list[i - 1] = cpu_to_le64(prp_dma);
-+			i = 1;
-+		}
-+
-+		dma_addr = dma_list[map_idx++];
-+		prp_list[i++] = cpu_to_le64(dma_addr);
-+
-+		length -= NVME_CTRL_PAGE_SIZE;
-+		if (length <= 0)
-+			break;
-+	}
-+done:
-+	iod->cmd.common.dptr.prp1 = cpu_to_le64(prp1_dma);
-+	iod->cmd.common.dptr.prp2 = cpu_to_le64(prp2_dma);
-+	return BLK_STS_OK;
-+free_prps:
-+	nvme_free_descriptors(req);
-+	return BLK_STS_RESOURCE;
-+}
-+
- static void nvme_free_prps(struct request *req, unsigned int attrs)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-@@ -875,6 +992,11 @@ static void nvme_unmap_data(struct request *req)
- 	struct device *dma_dev = nvmeq->dev->dev;
- 	unsigned int attrs = 0;
+ 	offset = buf_addr - imu->ubuf;
  
-+	if (req->bio && bio_flagged(req->bio, BIO_DMA_TOKEN)) {
-+		nvme_unmap_premapped_data(nvmeq->dev, req);
-+		return;
-+	}
-+
- 	if (iod->flags & IOD_SINGLE_SEGMENT) {
- 		static_assert(offsetof(union nvme_data_ptr, prp1) ==
- 				offsetof(union nvme_data_ptr, sgl.addr));
-@@ -1154,8 +1276,8 @@ static blk_status_t nvme_map_data(struct request *req)
- 	struct blk_dma_iter iter;
- 	blk_status_t ret;
- 
--	if (req->bio && bio_flagged(req->bio, BIO_DMA_TOKEN))
--		return BLK_STS_RESOURCE;
-+	if (req->dma_map)
-+		return nvme_dma_premapped(req, nvmeq);
+-	if (imu->is_kbuf)
++	if (imu->flags & IO_IMU_F_KBUF)
+ 		return io_import_kbuf(ddir, iter, imu, len, offset);
  
  	/*
- 	 * Try to skip the DMA iterator for single segment requests, as that
+@@ -1511,7 +1511,7 @@ int io_import_reg_vec(int ddir, struct iov_iter *iter,
+ 	iovec_off = vec->nr - nr_iovs;
+ 	iov = vec->iovec + iovec_off;
+ 
+-	if (imu->is_kbuf) {
++	if (imu->flags & IO_IMU_F_KBUF) {
+ 		int ret = io_kern_bvec_size(iov, nr_iovs, imu, &nr_segs);
+ 
+ 		if (unlikely(ret))
+@@ -1549,7 +1549,7 @@ int io_import_reg_vec(int ddir, struct iov_iter *iter,
+ 		req->flags |= REQ_F_NEED_CLEANUP;
+ 	}
+ 
+-	if (imu->is_kbuf)
++	if (imu->flags & IO_IMU_F_KBUF)
+ 		return io_vec_fill_kern_bvec(ddir, iter, imu, iov, nr_iovs, vec);
+ 
+ 	return io_vec_fill_bvec(ddir, iter, imu, iov, nr_iovs, vec);
+diff --git a/io_uring/rsrc.h b/io_uring/rsrc.h
+index d603f6a47f5e..7c1128a856ec 100644
+--- a/io_uring/rsrc.h
++++ b/io_uring/rsrc.h
+@@ -28,6 +28,10 @@ enum {
+ 	IO_IMU_SOURCE	= 1 << ITER_SOURCE,
+ };
+ 
++enum {
++	IO_IMU_F_KBUF			= 1,
++};
++
+ struct io_mapped_ubuf {
+ 	u64		ubuf;
+ 	unsigned int	len;
+@@ -37,7 +41,7 @@ struct io_mapped_ubuf {
+ 	unsigned long	acct_pages;
+ 	void		(*release)(void *);
+ 	void		*priv;
+-	bool		is_kbuf;
++	u8		flags;
+ 	u8		dir;
+ 	struct bio_vec	bvec[] __counted_by(nr_bvecs);
+ };
+diff --git a/io_uring/rw.c b/io_uring/rw.c
+index a7b568c3dfe8..a3eb4e7bf992 100644
+--- a/io_uring/rw.c
++++ b/io_uring/rw.c
+@@ -706,7 +706,8 @@ static ssize_t loop_rw_iter(int ddir, struct io_rw *rw, struct iov_iter *iter)
+ 	if ((kiocb->ki_flags & IOCB_NOWAIT) &&
+ 	    !(kiocb->ki_filp->f_flags & O_NONBLOCK))
+ 		return -EAGAIN;
+-	if ((req->flags & REQ_F_BUF_NODE) && req->buf_node->buf->is_kbuf)
++	if ((req->flags & REQ_F_BUF_NODE) &&
++	    (req->buf_node->buf->flags & IO_IMU_F_KBUF))
+ 		return -EFAULT;
+ 
+ 	ppos = io_kiocb_ppos(kiocb);
 -- 
 2.52.0
 
