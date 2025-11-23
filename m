@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC41FC7E04F
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Nov 2025 12:28:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BFF6C7E040
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Nov 2025 12:28:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6882210E15B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5346F10E157;
 	Sun, 23 Nov 2025 11:28:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ezxpezwd";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PmbHusHF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8E4210E126
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 09:25:46 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-29558061c68so45435105ad.0
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 01:25:46 -0800 (PST)
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+ [209.85.214.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3944910E12A
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 09:26:02 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id
+ d9443c01a7336-29586626fbeso41368165ad.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 01:26:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763889946; x=1764494746; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1763889962; x=1764494762; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BHBuqhkFJfYaNnj9M7q8FhjsYY3lIhigbe8268nPJsA=;
- b=ezxpezwdN2DzGx1iQNyEz4Gu0RDL3JppCwY897VjWNJz8D8bsnhzzradqDS2M6dGao
- hGo3VbdiEGjrvXJJg7OVhApylC6FlEyrP6gBST4c2wplWy+aKkbt+1CG0eVbiF09UKzJ
- Phrb7saKa5nMyzW0wAwzQOz//hz87S+meZbkwwsbJiN5YmzAsYnNnOCtBu087c0OiHqP
- M0xoXWSBeWvvcKk8Vax9jYjx+OJ1kbg+DeVyv20W1H7o7lkjBzVSfyY19J572kiFoV6Y
- 21L0MA+xJfbp4eWn80Z+DDDpWi4kXj15Gm4EJurb/FlAiKAika0FpqszV2kiYyk7zpzF
- 2tNA==
+ bh=dTc0MgLeOubcwcfQp1wa7TpaWq1ZdIbTR1ydG9HUjeU=;
+ b=PmbHusHFR5rbz7aWfBK6AY4CrafOxetAMlqQxX4R9IMIs9y0H6ThECrtap7s1qNBUD
+ ADNiXe5ivOXz4BrrHmgRcStIgv/VxcuBpHXjXoc+T5KConeTYKvY8SFuGgDIUfPUwZnn
+ Rq5WJYnijDNgEu1Q3nBmlaAwUPxD6d1jAxy/bOij+P+1FiY28jg/8oT/yAmmwH9EfFqx
+ 6Lbd1j8xSTGDh0OOgUMp1reuwOMPFd4K5kMbcPCaeF//a81oCkAp1Am06ils8gkeBaoj
+ yEnagjJM1+HbhRMqSZJgeShO+iotxQi+PtseN5FXD7fXzMZ9nnOZkNvRk90oSDkwLzEk
+ 9jmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763889946; x=1764494746;
+ d=1e100.net; s=20230601; t=1763889962; x=1764494762;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=BHBuqhkFJfYaNnj9M7q8FhjsYY3lIhigbe8268nPJsA=;
- b=IT0OsIV6O+jmbf7art12GRL70Bhmde0ElNXj3RpBZkZAukkkQ+lcbcyC8QBTdiy2T6
- luIg1bTPqgegzWC+iseTbNvntl0GB2DVySGUyR4Cs+oMbhj+CoKD5hohqRolnsUmElt9
- kVGSynofttjr+UIVGct/v0i6BKHPRWx3xJafCThKt5U/nnx3t9cuX3iY1QW/DGX+7CC5
- VRUJ+mHcq5sZ5o8gM1iG0ladaPX6LU1xuVqjlpYadrXFoOGg72VFt+Xz79KD3PSmTkJ1
- WsyDmB8aDaI/Yc7wQuBsrxUm/PS3qLLVNedWGfoaacA7kxOMe6hcWxbCrijQDIQu64s5
- jMBg==
+ bh=dTc0MgLeOubcwcfQp1wa7TpaWq1ZdIbTR1ydG9HUjeU=;
+ b=bjHcVTduRsFZoSJJi0qyNmDWrG8VvYSAnc/PsaZxiUy75y83dzYgt54RS0RSQfXCWn
+ z0YP5SbTyJhHyk838R+05SL5G2njNOjqmHx322jv6nnC7/MmX+g5xK0K8QwYcMPqhezH
+ mAI/kUo8iXX9xbs4Mfn7vH1RaAslD9LlNTiAd/SPEJh2AqkXW68BgM9y8ZHdf95Izj5P
+ Nl14779a2t5cRrajf1q4pHKwaqhCs9OQ4Q2i1DHAD3bQqUvTV4G/WUxgJV6slmtmLhRI
+ BfJkaalnSPepJv1K30TsXhLruh2Xo9QuuPflHlbII6Gibg3FqCEdmVMQPVwDbJP1LW99
+ i+0g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUsiSVQO8wP48QNtq9LPer0iUQxht8bhXZsyO4G30/2/mzjWRhWX0m7J+vMgHoM6rZyoPBrNjErn78=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyZVRfp8YyJvXS8bfmn1thOLMFMltSv4yS0l2QYf08rqI3iABPd
- 824pE3RYyGvEEN7u5vt87lZWsBx3cPpm0R0prvjljiOP/UKD0fs9Z/Ig
-X-Gm-Gg: ASbGncvH4JSv7p2nXnc+C4VdwWHf0O4VG6CviTlzTPdjoep6f36cyz2C3/sfU9RQdRY
- i55FqlR/sHNZZf2IuW4YguQH9EfdGH+SahXnmuCOq1Bt7DyGXkd+1QqTXsdazdInT0muFa/yz5G
- RimsawU75gMrv0U9x5/0YI3QzOfY/D5T8xlFCUGYZep0tV4ztpKvCy2wZvg3i06yY5nfdDqFk8M
- yiqwJjGw911J7+noj3nn4c44oqPMtlXCItvdQOXsUlk7ol4TbVjCuUXbj18P1CvGIW7bHig/NH+
- LQujgn7hJ84jUe2eWZvSKc9MMSwNQzAL5X6r0bXA3jb2Q4sT5y72TqiUC+/kaKJuFaqw879vRwS
- NpdMOZBUWAUGJ0TrYFs59w0iHIJNs4VFb5ExdRO1dQrWV86N/loYKSxxy8IYsdAtxalBotVJau4
- Z6FSMn5zG6JB5Q+gOiYOP7wPEc1A==
-X-Google-Smtp-Source: AGHT+IHeRFkTHVTA6Srefmm0HL5WijnlyHgpdTjb/dQ8CxktDbPnk0dZz+0OIDZ55NxQOWacfTdN2A==
-X-Received: by 2002:a17:903:947:b0:28e:a70f:e879 with SMTP id
- d9443c01a7336-29b6be8cb2dmr88701485ad.1.1763889946269; 
- Sun, 23 Nov 2025 01:25:46 -0800 (PST)
+ AJvYcCW4cS3TuYTJ2rrMPKP6DlmaMPnRznyZSwPPgwo5D+TGuEiVfqO4vAPbNQnivPLNV7roYNtYZqsoP5Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy5HVy4teFEW2SZV1lq866ETSBNUcyfrFP++WCW5Ztl+0SOYwmy
+ R1u2520fGScUbvEh6UjsUj68GbvmTYIrCXqc++B+kcBzSN8aRleK3kVj
+X-Gm-Gg: ASbGncupAP9EHGRQeL6kfrfizkDW8ywx8YnJp9ePcyC/T1HNIzEHfjzuaMbAZFXk9Yo
+ l81ouCby4Stl79WPIQqbQIaKkdFGXjSwcIn2xNgDroFgEnGJldS0CfmEpRY8yLzR4WS9hLnwXUW
+ jzp/r/6DvHaeRun/DXiXHlKqla3rE/vcn/ZhVRAP3ExSIsT/H5bvqDP23/yg8C1HqXHfY6RW2no
+ Pct6EsxgND4Hync2XiQLvLp7bDbei8e7P87ud+hjXzKYeGxO00KZ5wxOXYpgb2SmZ1ngCxw+4Uy
+ rtdZB/OIwhMf2pLXuRLBB6tlaXhSufLCx93HiStHd6do3bSdf6nr2BbCZC6Xpv9/gKyDrA9P7Br
+ ZZ7BnBzRaSghXM8FlzMaszxGq5o1C9AdfcMKLrjtjhwaaEH+4CUEJf6g7b+9FLSaKm/PPHjbGti
+ opL6f6BwZLqdld0Wh5Kd32cg6gdw==
+X-Google-Smtp-Source: AGHT+IFojSe5onG6l0184Qd+32Us2flx99qw215kwkBj86ninqiLXlY2kvADM9/iJBS4TWCcsIsZyA==
+X-Received: by 2002:a17:902:f548:b0:295:4d97:84fc with SMTP id
+ d9443c01a7336-29b6bf3bcc0mr89250955ad.32.1763889961522; 
+ Sun, 23 Nov 2025 01:26:01 -0800 (PST)
 Received: from shankari-IdeaPad.. ([103.24.60.188])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29b5b138c08sm100811105ad.25.2025.11.23.01.25.34
+ d9443c01a7336-29b5b138c08sm100811105ad.25.2025.11.23.01.25.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Nov 2025 01:25:45 -0800 (PST)
+ Sun, 23 Nov 2025 01:26:01 -0800 (PST)
 From: Shankari Anand <shankari.ak0208@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  =?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
@@ -90,10 +90,9 @@ Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  rust-for-linux@vger.kernel.org, linux-pwm@vger.kernel.org,
  Shankari Anand <shankari.ak0208@gmail.com>
-Subject: [PATCH 01/10] drivers: android: binder: Update ARef imports from
- sync::aref
-Date: Sun, 23 Nov 2025 14:54:29 +0530
-Message-Id: <20251123092438.182251-2-shankari.ak0208@gmail.com>
+Subject: [PATCH 02/10] drivers: gpu: Update ARef imports from sync::aref
+Date: Sun, 23 Nov 2025 14:54:30 +0530
+Message-Id: <20251123092438.182251-3-shankari.ak0208@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251123092438.182251-1-shankari.ak0208@gmail.com>
 References: <20251123092438.182251-1-shankari.ak0208@gmail.com>
@@ -115,8 +114,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update call sites in binder files to import `ARef`
-from `sync::aref` instead of `types`.
+Update call sites to import `ARef` from `sync::aref`
+instead of `types`.
 
 This aligns with the ongoing effort to move `ARef` and
 `AlwaysRefCounted` to sync.
@@ -125,42 +124,59 @@ Suggested-by: Benno Lossin <lossin@kernel.org>
 Link: https://github.com/Rust-for-Linux/linux/issues/1173
 Signed-off-by: Shankari Anand <shankari.ak0208@gmail.com>
 ---
- drivers/android/binder/process.rs | 2 +-
- drivers/android/binder/thread.rs  | 3 +--
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/tyr/driver.rs          | 2 +-
+ drivers/gpu/nova-core/gsp/sequencer.rs | 2 +-
+ drivers/gpu/nova-core/vbios.rs         | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/android/binder/process.rs b/drivers/android/binder/process.rs
-index e5237e9ec552..1409129ff82a 100644
---- a/drivers/android/binder/process.rs
-+++ b/drivers/android/binder/process.rs
-@@ -27,11 +27,11 @@
-     seq_print,
-     sync::poll::PollTable,
-     sync::{
-+        aref::ARef,
-         lock::{spinlock::SpinLockBackend, Guard},
-         Arc, ArcBorrow, CondVar, CondVarTimeoutResult, Mutex, SpinLock, UniqueArc,
+diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
+index 0389c558c036..264c2362237a 100644
+--- a/drivers/gpu/drm/tyr/driver.rs
++++ b/drivers/gpu/drm/tyr/driver.rs
+@@ -16,10 +16,10 @@
+ use kernel::regulator;
+ use kernel::regulator::Regulator;
+ use kernel::sizes::SZ_2M;
++use kernel::sync::aref::ARef;
+ use kernel::sync::Arc;
+ use kernel::sync::Mutex;
+ use kernel::time;
+-use kernel::types::ARef;
+ 
+ use crate::file::File;
+ use crate::gem::TyrObject;
+diff --git a/drivers/gpu/nova-core/gsp/sequencer.rs b/drivers/gpu/nova-core/gsp/sequencer.rs
+index 2d0369c49092..9c689f0b21ab 100644
+--- a/drivers/gpu/nova-core/gsp/sequencer.rs
++++ b/drivers/gpu/nova-core/gsp/sequencer.rs
+@@ -14,12 +14,12 @@
+     device,
+     io::poll::read_poll_timeout,
+     prelude::*,
++    sync::aref::ARef, //
+     time::{
+         delay::fsleep,
+         Delta, //
      },
-     task::Task,
--    types::ARef,
-     uaccess::{UserSlice, UserSliceReader},
-     uapi,
-     workqueue::{self, Work},
-diff --git a/drivers/android/binder/thread.rs b/drivers/android/binder/thread.rs
-index 7e34ccd394f8..033af3ce352e 100644
---- a/drivers/android/binder/thread.rs
-+++ b/drivers/android/binder/thread.rs
-@@ -16,9 +16,8 @@
-     seq_file::SeqFile,
-     seq_print,
-     sync::poll::{PollCondVar, PollTable},
--    sync::{Arc, SpinLock},
-+    sync::{aref::ARef, Arc, SpinLock},
-     task::Task,
--    types::ARef,
-     uaccess::UserSlice,
-     uapi,
+     transmute::FromBytes,
+-    types::ARef, //
  };
+ 
+ use crate::{
+diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
+index abf423560ff4..7c26e4a2d61c 100644
+--- a/drivers/gpu/nova-core/vbios.rs
++++ b/drivers/gpu/nova-core/vbios.rs
+@@ -11,8 +11,8 @@
+         Alignable,
+         Alignment, //
+     },
++    sync::aref::ARef,
+     transmute::FromBytes,
+-    types::ARef,
+ };
+ 
+ use crate::{
 -- 
 2.34.1
 
