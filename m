@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9D8C7E058
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Nov 2025 12:28:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3432DC7E043
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Nov 2025 12:28:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4785010E164;
-	Sun, 23 Nov 2025 11:28:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30F0D10E146;
+	Sun, 23 Nov 2025 11:28:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HDrxsLs0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RUWRlt1y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
  [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CAE510E0C0
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 09:26:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7998A10E0C0
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 09:26:28 +0000 (UTC)
 Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-2984dfae043so29918145ad.0
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 01:26:14 -0800 (PST)
+ d9443c01a7336-298250d7769so25010865ad.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 01:26:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763889973; x=1764494773; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1763889988; x=1764494788; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=c+x/h+SXCaTPKwxrPZvI12zlFOq5qesnIaQFOZDdW/8=;
- b=HDrxsLs0oqpggoznGcXVxnscqavMD9g4xnAKfGagqV6Zsmpnpyvudsm/ZUclcevLBU
- 2EBO5DiGI4rE5HS3qxmDb0GyGIhPYclzQrsAF9JxNKCWABWLMEqbOIkw0BU8jZrfZcue
- xm0Vb073muaSwnikeHoRmH0W7CTIVnkkeU7fkgW0CmB2luYXqi/VvVX0q5kzRAfawsYc
- A2/5ZSDmcYAPV5j5xlWyRhQ4ZNTjannYmTV6Y8h3pwb7KBwugK8ZpjRCc6K5KWY00aab
- KkNOt0mZRKArZNiDavLzv0gudjnEcKWACSHOUqcVpf4O/XhM22vjzD2iq6U7fbOYo6bb
- zX/w==
+ bh=xs0t3Szo5vFHo7IPg5XaI/zhW3TrAdFJK24NyqJJsf8=;
+ b=RUWRlt1y4HLc33xUwqQHxym6UrmFgjP54JnU2J0Qf5PIIdN/GsxKMuksbRD/RVgnDr
+ GaFh4wUODF0ApViNtppFoaqyLvFq1AJ/OHd+ww+ccm8K1bUe/gIWhyTYBJBG2KA9ytEE
+ Ayw6aghUtPfpdZStIQPwQDINscAvvWiUDVdS4BgED+vyNs9Qf0lt5ZVHG+ClgVEDBB86
+ TsWdonaCmjXIfNssB2xyNdhikGBth2KcX0Tj4Sysm/BjrWencxgXWJGOTnpaLbDQOdj3
+ 1iNIS6BVChHzm9UESkqblc6IIOfUW6IqFdIaQA0Fc+TtQZCH2jiru6o3c69lTrRDux1x
+ l0Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763889973; x=1764494773;
+ d=1e100.net; s=20230601; t=1763889988; x=1764494788;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=c+x/h+SXCaTPKwxrPZvI12zlFOq5qesnIaQFOZDdW/8=;
- b=KErVLl1xgZDlJbuSsFJqHv1gZPV8riJErztFZ2pjxpaYJ3zdY6d9dY0HKIKiQlGR0w
- 7Ic5IdM9fQnylJPemoP5oBvHhd6I+c+XAyxpBYyRj0kbql+90IzUrNA97z6xElgaU2j1
- pQChHzFP9u7mX2rFZ5YnMefTkIDjCk7lJefv3G6XFT5VC143B6MkggHGniHbEn8/2oLe
- eT0FOgLhR6FfAHTsOnKICWhcRELL/9yEPQOgh/JxLR6ySXPmS9dNdJL+abQl2IruUQZu
- cf2GiZHXaQGaof3TVQokrbPXRM29gLLuR+wtyuO73uo76Sx6bI3DMR4B2qCuQTcPN8B4
- qNiA==
+ bh=xs0t3Szo5vFHo7IPg5XaI/zhW3TrAdFJK24NyqJJsf8=;
+ b=vE3jE/zzQBaO1A4nQYm5Wm1XocphNDneTBZsJpMc5BuIdNgCwjgn+LA17AtS5jfX5o
+ X4F+6j7FdEscNewvoaZ2QziMxgAqllX/BmjMH356B0Xox4tEuiN+zUT39J9fzmgnoc13
+ nowQkyGQYcb3DRp/k5lQ4/5aXHGWPorcR4ntLp7dkkobruIdrCg4acNL6XhhLGyHLr70
+ +kRnoatCeIyIvgRUBhobSQpzeupf+uRz4tuYYvfYRPvFKcF01JmASXin0ezVMj6v2IRp
+ q/PUS67UzKp3gM/uBphO4Ywju+XWeUZuTL6HLJJ2V7M2j1XNHyW75W5aHaQltw8EMVJK
+ XT7A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW+J6iZFT+jLEg4Ldn/NgR4fjpBgUlm4ffNn6l0cgg1KBRMw4a1LP7R9I00E4jRxXPvVrjZJpaL6fU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxfZagcrsrcTkHt9jzfO+R64vLHE7cWdrOCy6521C5x8uVm/kw8
- N+39YQ6BXCmIUmRtKGg9s1LTwVuZwTZWIyiORFtb2loSyp5DN+lSle2w
-X-Gm-Gg: ASbGnctyJ1zGaFlIc1Y8UC4gFhPo8jiT3QctCEweREFbZjF/tvNHUlOZAqkCvmbfum8
- CLPR++K4uFghPX4GnK/BaSMtwQ/6YPle+IMrCvuariAY/I5FXzamBSInZImLb9eHIBZUaaBOM5X
- L9f4/E5Kjn/njkj8P91trxhnUxlt8Z/myJpHIQ7YB6C+qWJN98VDBVW1ZHZJQe8Q8Qg3Erq/9lv
- QvlpZwXB1ok7B7x7Kh/mr+z6QZTPxW/shcRB62GSDKGtxXjcBNPKzDrC7sBhTgBcI2oLFw7TYrg
- bVkT6RYQuHOECmEJx3GOfFdARtZf8hUUhQu8VrzOVXUishyCHgP9n+lkSG719meF28If+aR8ft2
- EVoWbrMx7EyaPW4RBkSpayKAuHOMzjLUfLdk4NM4fOwdwuBP5Wv9w8P7W3FFAh3nkNljdbShics
- bT1Ttxrfi5rA7hWBvtaojd06Omdw==
-X-Google-Smtp-Source: AGHT+IFvuN898s0PRn7IHqlJzrCusouHL8HLAX1/JMZBn/PsKfoSrrGmFHNZ/OFvx15QZ7pZgA79MQ==
-X-Received: by 2002:a17:903:3c30:b0:298:8a9:766a with SMTP id
- d9443c01a7336-29b6c6b2e57mr86965995ad.53.1763889973533; 
- Sun, 23 Nov 2025 01:26:13 -0800 (PST)
+ AJvYcCWy3NCUEq8u9Htz1Rf/sJBpYBges3QltQKLVBvRu849FXNqgg0PIt33u1r+c4k/3pyZctKxcQ8gog4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwcJuLVqIOqHCM68slXjVWTp+qAS2E1saZxwAuWo6UjESzOq8Ca
+ 8lUw/tE/Y8Jg0U7AY8jP3wNtRiR6CDpUr+EKH7py94/VG8gfxgasMf8K
+X-Gm-Gg: ASbGncsTwoJw+D8XeJRLa78FV2J2u7YmmtIDFO/ZtJymMGTdExMBwhT6kk3rkWaDzYX
+ pqnxXhI2r4/JHnsvCQZFeGIiVeESiIuUfm8wsmow7YyZ3DKJTegUKuizk4JVrMw0XcTzTF4xLCA
+ qcEM0NMiv7AEo+D2AVfU5xH5BFxQQGBAzKWlhErU9j3iAg9bXKkOgo0GQ8Lg1rnbUL/GnofCL/b
+ K75ptrNqD+xDiAO1G4ON+nkAtGcmRL8dDQMj1XmmeMXs63VvWqzcxMVnZ6RWVltD/PLLkj0VMlO
+ stW3onH1mkpLF63LEGQbCW2IEp/yT3Ie6UpayHPB8j/U1biTMo8Nf0cmnKtMIv98geQfs4sHAeU
+ /yFvvnrWgf7j54wWsKeLoipkz8XzAHjVBBHrwaS/BGpHrfWAhRpOESGvO20Hq/KKfPyHOLVZyl6
+ RHlFzN3ryeM6KLw4i6OgWCkOWjzQ==
+X-Google-Smtp-Source: AGHT+IHrOOJNJDa2GgrTIgoioCLDvBuXEfSk2IH1c+DBdbSr+pLO2PBSd1zxccfzPHswbjyfTYl0aA==
+X-Received: by 2002:a17:902:ccca:b0:297:f2e7:96f3 with SMTP id
+ d9443c01a7336-29b6c6b693cmr97059755ad.50.1763889987877; 
+ Sun, 23 Nov 2025 01:26:27 -0800 (PST)
 Received: from shankari-IdeaPad.. ([103.24.60.188])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29b5b138c08sm100811105ad.25.2025.11.23.01.26.02
+ d9443c01a7336-29b5b138c08sm100811105ad.25.2025.11.23.01.26.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Nov 2025 01:26:13 -0800 (PST)
+ Sun, 23 Nov 2025 01:26:26 -0800 (PST)
 From: Shankari Anand <shankari.ak0208@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  =?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
@@ -90,10 +90,10 @@ Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  rust-for-linux@vger.kernel.org, linux-pwm@vger.kernel.org,
  Shankari Anand <shankari.ak0208@gmail.com>
-Subject: [PATCH 03/10] rust: device: Update ARef and AlwaysRefCounted imports
- from sync::aref
-Date: Sun, 23 Nov 2025 14:54:31 +0530
-Message-Id: <20251123092438.182251-4-shankari.ak0208@gmail.com>
+Subject: [PATCH 04/10] rust: drm: Update AlwaysRefCounted imports to use
+ sync::aref
+Date: Sun, 23 Nov 2025 14:54:32 +0530
+Message-Id: <20251123092438.182251-5-shankari.ak0208@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251123092438.182251-1-shankari.ak0208@gmail.com>
 References: <20251123092438.182251-1-shankari.ak0208@gmail.com>
@@ -115,7 +115,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Update call sites to import `ARef` and `AlwaysRefCounted`
+Update call sites to import `AlwaysRefCounted`
 from `sync::aref` instead of `types`.
 
 This aligns with the ongoing effort to move `ARef` and
@@ -125,55 +125,22 @@ Suggested-by: Benno Lossin <lossin@kernel.org>
 Link: https://github.com/Rust-for-Linux/linux/issues/1173
 Signed-off-by: Shankari Anand <shankari.ak0208@gmail.com>
 ---
- rust/kernel/device.rs          | 4 ++--
- rust/kernel/device/property.rs | 5 +++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ rust/kernel/drm/gem/mod.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
-index c79be2e2bfe3..21bde8d95185 100644
---- a/rust/kernel/device.rs
-+++ b/rust/kernel/device.rs
-@@ -158,7 +158,7 @@
- /// `bindings::device::release` is valid to be called from any thread, hence `ARef<Device>` can be
- /// dropped from any thread.
- ///
--/// [`AlwaysRefCounted`]: kernel::types::AlwaysRefCounted
-+/// [`AlwaysRefCounted`]: kernel::sync::aref::AlwaysRefCounted
- /// [`impl_device_context_deref`]: kernel::impl_device_context_deref
- /// [`pci::Device`]: kernel::pci::Device
- /// [`platform::Device`]: kernel::platform::Device
-@@ -540,7 +540,7 @@ pub trait DeviceContext: private::Sealed {}
- /// [`Device<Normal>`]. It is the only [`DeviceContext`] for which it is valid to implement
- /// [`AlwaysRefCounted`] for.
- ///
--/// [`AlwaysRefCounted`]: kernel::types::AlwaysRefCounted
-+/// [`AlwaysRefCounted`]: kernel::sync::aref::AlwaysRefCounted
- pub struct Normal;
- 
- /// The [`Core`] context is the context of a bus specific device when it appears as argument of
-diff --git a/rust/kernel/device/property.rs b/rust/kernel/device/property.rs
-index 3a332a8c53a9..413221817ef1 100644
---- a/rust/kernel/device/property.rs
-+++ b/rust/kernel/device/property.rs
-@@ -14,7 +14,8 @@
-     fmt,
-     prelude::*,
-     str::{CStr, CString},
--    types::{ARef, Opaque},
-+    sync::aref::ARef,
-+    types::Opaque,
- };
- 
- /// A reference-counted fwnode_handle.
-@@ -359,7 +360,7 @@ fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+index a7f682e95c01..76e6c40d525e 100644
+--- a/rust/kernel/drm/gem/mod.rs
++++ b/rust/kernel/drm/gem/mod.rs
+@@ -253,7 +253,7 @@ extern "C" fn free_callback(obj: *mut bindings::drm_gem_object) {
  }
  
- // SAFETY: Instances of `FwNode` are always reference-counted.
--unsafe impl crate::types::AlwaysRefCounted for FwNode {
-+unsafe impl crate::sync::aref::AlwaysRefCounted for FwNode {
+ // SAFETY: Instances of `Object<T>` are always reference-counted.
+-unsafe impl<T: DriverObject> crate::types::AlwaysRefCounted for Object<T> {
++unsafe impl<T: DriverObject> crate::sync::aref::AlwaysRefCounted for Object<T> {
      fn inc_ref(&self) {
-         // SAFETY: The existence of a shared reference guarantees that the
-         // refcount is non-zero.
+         // SAFETY: The existence of a shared reference guarantees that the refcount is non-zero.
+         unsafe { bindings::drm_gem_object_get(self.as_raw()) };
 -- 
 2.34.1
 
