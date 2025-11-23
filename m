@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D093C7E84E
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Nov 2025 23:51:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F84C7E854
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Nov 2025 23:51:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B29A010E1A2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC67F10E1A6;
 	Sun, 23 Nov 2025 22:51:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bw4aSqvK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hq5cVK8H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D677910E1A2
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 22:51:45 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-42b31c610fcso3194220f8f.0
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 14:51:45 -0800 (PST)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+ [209.85.221.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3677E10E1A2
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 22:51:47 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id
+ ffacd0b85a97d-42b31507ed8so3157895f8f.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 14:51:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763938304; x=1764543104; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1763938306; x=1764543106; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Eb2Dznv7cN1HWvl69eUL3qKJ9duXd8EJVDjyGYBP64I=;
- b=bw4aSqvK5h4Wn6DOTQxh78u0MhodlmXTc4Y/9GleU9tVmFJxwwnu5ke/x35A+RqN3h
- gfZYxfsYu6EaKjl0AVSa1M85p0NoPVUzDHs6f4oOLPttHsVMe4fQCD3OoO755fZ0rTHU
- dMpdxahBGXM+0ehbO8IYo1RaDh7Ei87GfSA5QMmvXnx6GLyki0HHP/1zgZydr6ezMKa2
- 83PZqIulbvuG+uvdCUkR1qIoZVFdES6CRp1MaCOpEgeqe2flpk41XH+MkYSVpDz7E7AN
- XQMOFV/igyS+MKEa+aYBixkxBZECA07peEKlhxFcexjUTYXXg4Nak842DdHB2FfUio77
- C31A==
+ bh=g6fykkTkHS7qppZkkxaQlxQiAfIqxjHL5zv+seY74S0=;
+ b=Hq5cVK8HcuSjGmC+iWzEug/EngYnj0oElEultCon96DsySmcmXdTu+1UiMJcOQ4LTM
+ woQhfZR74AUDt0FsvbNl9TmoHolO1eyt0xS3XWWXeWppBrUZ0xjXbZGPygxzuBD0oQ8p
+ gj9ry/pEPbIX8wEw+Fso0HT5r0ocKdX9l+YmvrmxF2wBs+b+DMuP3ExSLCCR0FgTHqVX
+ kbFP8XeNuaqFEUa0ggnJ/45O4FDHdhtwZXFexDtipsXUveyQWwYOOolV65XSOMDWk4RW
+ I8NN2gDygNwagKUQ5x7b2VGKZhj13+Phfjy9vFmAhD/WstG3gGKuf6mfVCq1KW+uRlL6
+ fGuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763938304; x=1764543104;
+ d=1e100.net; s=20230601; t=1763938306; x=1764543106;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=Eb2Dznv7cN1HWvl69eUL3qKJ9duXd8EJVDjyGYBP64I=;
- b=e22OE1n9NvfKVMuM00L3Bfe7yT3YyQPf8AUIX1vGYy7HZVP0eop/Q7s+fFToIHMa6c
- xp0oc8XXZBUBMNG0APgJ4BEyTuf+RQgIyFKtDEk6rzmskn3QGvIDni7exyXh3cCRuKc5
- DmEBW0XJpEZ3UwDqspnfOCsBV4tKXqPc44Su5/phpB5hORDYziqu6wh3Vm4AZN6yzGqf
- pRLOAdeNu4O6i6kOc0YG+wdne3d0A0u+KDNoPwE2RspRolm2Du1uJvuQgnxyvJVqkXJ0
- eAJXyIZBQ7aRUSo/QOwUkDGeNoInDSaNG9Z0Ye2zaVVecO3AP6Wt3bj16Qx07T9m0xnC
- 8/wQ==
+ bh=g6fykkTkHS7qppZkkxaQlxQiAfIqxjHL5zv+seY74S0=;
+ b=YOkK4At+GU7Cvi1ltCzbq5Wbl5oUKJKwSFeW98sYpPWy5wN/Pt6B2WbfXbQMp/+3sz
+ OOkHcnfgF8X9kutt2sxzWu4SIT14wXKrq2Z01A2B6RdDi/E5Q2NUI71UK0U2qYiW1ozq
+ O0pkHNy8DqybtrmqoOUG5bXCqN52bjK9/hz97kToDkbXi4WGlV/h3UB1VFp/xXKpUo/c
+ FjM07mIsXWDgU/cIiC5hPI80GXc+oiI22RSJ/69TvZsyaudicTF0n24jRaEXIdP3XqRk
+ zGKNNujTI+Q6C4OQu8KwJjB7av/0+5FIynv1gCupCtjqRbMeT03z9DwzeFV4Ayo/ztVg
+ BEsw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXYK4KdxvMqaptu65b/zoaz2ZRAEAi2mlqcHynRHaOIsf7d64J12E5qDKOdtEpbwApo2hY4gnEwaA8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyLm/xeDbzl/rAlm/avOu7m5FxI9INoA9oFUU5GcWbIM7VIf+Nd
- 09009M9vRh3Q+k7QiHe+7kD9CH9tm3BkOqTKdtnyHtFBrZ3YrIHLjQjY
-X-Gm-Gg: ASbGncuI5j4g52XtD1CMP0ONABo2mcaFDeTxlvRHqeVTHiK01J+rXVUU18TmHpNola7
- lzLuawUmUhQnTRPUyKpgGC6xIbpsWrrxZKJlSzgx4fkWsfUmgIMTqfjOFMt3iZlsJfI5QTJJyz3
- GA8fCrxT+iOHFgco1+it+dEz2Y31d+dwIMIgr/4eSVntq0mYxiRaSqcXIVvXR9Cn6IBfZe4zPHG
- 0PkYncSGe1NVSwH9ZCC0Ewv487y4QfyXPUMH665alPiyXy9YG9mvQnVtlmceIUbjKM9KzKOOUCq
- LOH9aoR4j4ysaMx51Pw7bUk3dGoTMxz8Jlx2Txx9rpBRVu2B9Xvc2oF8+b2CUQkQ8JyyySd7LCs
- VexxZv6SnhrwWRMwqZj6bcPDBiMnBBDU+uBZctn687wKkTYyzluJj5r56F24BE/llh6szpDDFWT
- XnUXufUCDAUap8EA==
-X-Google-Smtp-Source: AGHT+IED8z7T9BZIQ3+G6TZGcukyRm9aG9PTE7rjzPMs+94mQ+eXcoj3xDrYuPfTG51yWGc4ynh5VQ==
-X-Received: by 2002:a05:6000:601:b0:42b:5592:ebd1 with SMTP id
- ffacd0b85a97d-42cc19f0b39mr11000772f8f.0.1763938304146; 
- Sun, 23 Nov 2025 14:51:44 -0800 (PST)
+ AJvYcCXwTI8KIKUqHcTEMqFj86Vp5EmmdBRawYVb/LAqcU9EQRc3NhErzn1Fa80CyIO34dmMtNkT3y/MaR0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx1mjT4KkjWw0Vc5BmmrPy2mvjmQP5GvFMn6GZiKJdq8+a3qr8V
+ R6iW1VJztPt1VN6WniIqcE820Yo3Jtp/eyFSJn24OQtyCv1w3aC1naEj
+X-Gm-Gg: ASbGncs45hZIofad4axwwGt5E7ddsJRlhVZGhx9vAGA2b0gPXyRNLT1vmnzv4vnpnyY
+ jhX3+Rjzxj9+Zui7paLoJcZtVVivqckA1LGJMRoc7yjU2rP6mq3zuIRq/8oKJxLkQi3qm8lv83W
+ vNPy0SEZfTs54PlzAVQPcv3Bn9ThkfM15ygUKTkjVtZgSsOO0By9PmDoY7k+YT6iqzcQM3iIyHE
+ 079ytvyNUEW9o0BHtYX2DkjY4VWjX9LOK8BIysXQ7OctarUIj/dbGBExLmMKF3GToBhb3IsDQ9s
+ PVIHShyo/ke7trZ278w9WnKBmQsJLIwlx0rCBCgoqlcwFplFMAcuYVjmNjrAPcSnXaDbjNNFWE2
+ CIzkReIlNy1pOwu1huTctbhhXHj8x8wbHmTWTSkhn0zo8tf4zO8w8/C0Msfv18UYJKhVRnrczqL
+ iCZT2TX9xlp/FVJg==
+X-Google-Smtp-Source: AGHT+IG6zETWdv1uNEXL1H7qlBK8rzCntcx0G5cI2YCnUx99f9VimwWWKVBIKAVqjQPLH9huSPPJwA==
+X-Received: by 2002:a05:6000:1448:b0:429:d3e9:65b with SMTP id
+ ffacd0b85a97d-42cc1d23c3emr9659226f8f.59.1763938305625; 
+ Sun, 23 Nov 2025 14:51:45 -0800 (PST)
 Received: from 127.mynet ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.41
+ ffacd0b85a97d-42cb7fb9190sm24849064f8f.33.2025.11.23.14.51.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Nov 2025 14:51:43 -0800 (PST)
+ Sun, 23 Nov 2025 14:51:44 -0800 (PST)
 From: Pavel Begunkov <asml.silence@gmail.com>
 To: linux-block@vger.kernel.org,
 	io-uring@vger.kernel.org
@@ -78,9 +78,9 @@ Cc: Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
  linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org
-Subject: [RFC v2 02/11] iov_iter: introduce iter type for pre-registered dma
-Date: Sun, 23 Nov 2025 22:51:22 +0000
-Message-ID: <f57269489c4d6f670ab1f9de4d0764030d8d080c.1763725387.git.asml.silence@gmail.com>
+Subject: [RFC v2 03/11] block: move around bio flagging helpers
+Date: Sun, 23 Nov 2025 22:51:23 +0000
+Message-ID: <6cb3193d3249ab5ca54e8aecbfc24086db09b753.1763725387.git.asml.silence@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1763725387.git.asml.silence@gmail.com>
 References: <cover.1763725387.git.asml.silence@gmail.com>
@@ -101,139 +101,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce a new iterator type backed by a pre mapped dmabuf represented
-by struct dma_token. The token is specific to the file for which it was
-created, and the user must avoid the token and the iterator to any other
-file. This limitation will be softened in the future.
+We'll need bio_flagged() earlier in bio.h in the next patch, move it
+together with all related helpers, and mark the bio_flagged()'s bio
+argument as const.
 
-Suggested-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- include/linux/uio.h | 10 ++++++++++
- lib/iov_iter.c      | 30 ++++++++++++++++++++++++------
- 2 files changed, 34 insertions(+), 6 deletions(-)
+ include/linux/bio.h | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/include/linux/uio.h b/include/linux/uio.h
-index 5b127043a151..1b22594ca35b 100644
---- a/include/linux/uio.h
-+++ b/include/linux/uio.h
-@@ -29,6 +29,7 @@ enum iter_type {
- 	ITER_FOLIOQ,
- 	ITER_XARRAY,
- 	ITER_DISCARD,
-+	ITER_DMA_TOKEN,
- };
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index ad2d57908c1c..c75a9b3672aa 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -46,6 +46,21 @@ static inline unsigned int bio_max_segs(unsigned int nr_segs)
+ #define bio_data_dir(bio) \
+ 	(op_is_write(bio_op(bio)) ? WRITE : READ)
  
- #define ITER_SOURCE	1	// == WRITE
-@@ -71,6 +72,7 @@ struct iov_iter {
- 				const struct folio_queue *folioq;
- 				struct xarray *xarray;
- 				void __user *ubuf;
-+				struct dma_token *dma_token;
- 			};
- 			size_t count;
- 		};
-@@ -155,6 +157,11 @@ static inline bool iov_iter_is_xarray(const struct iov_iter *i)
- 	return iov_iter_type(i) == ITER_XARRAY;
- }
- 
-+static inline bool iov_iter_is_dma_token(const struct iov_iter *i)
++static inline bool bio_flagged(const struct bio *bio, unsigned int bit)
 +{
-+	return iov_iter_type(i) == ITER_DMA_TOKEN;
++	return bio->bi_flags & (1U << bit);
 +}
 +
- static inline unsigned char iov_iter_rw(const struct iov_iter *i)
- {
- 	return i->data_source ? WRITE : READ;
-@@ -300,6 +307,9 @@ void iov_iter_folio_queue(struct iov_iter *i, unsigned int direction,
- 			  unsigned int first_slot, unsigned int offset, size_t count);
- void iov_iter_xarray(struct iov_iter *i, unsigned int direction, struct xarray *xarray,
- 		     loff_t start, size_t count);
-+void iov_iter_dma_token(struct iov_iter *i, unsigned int direction,
-+			struct dma_token *token,
-+			loff_t off, size_t count);
- ssize_t iov_iter_get_pages2(struct iov_iter *i, struct page **pages,
- 			size_t maxsize, unsigned maxpages, size_t *start);
- ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i, struct page ***pages,
-diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-index 2fe66a6b8789..26fa8f8f13c0 100644
---- a/lib/iov_iter.c
-+++ b/lib/iov_iter.c
-@@ -563,7 +563,8 @@ void iov_iter_advance(struct iov_iter *i, size_t size)
- {
- 	if (unlikely(i->count < size))
- 		size = i->count;
--	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i))) {
-+	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i)) ||
-+	    unlikely(iov_iter_is_dma_token(i))) {
- 		i->iov_offset += size;
- 		i->count -= size;
- 	} else if (likely(iter_is_iovec(i) || iov_iter_is_kvec(i))) {
-@@ -619,7 +620,8 @@ void iov_iter_revert(struct iov_iter *i, size_t unroll)
- 		return;
- 	}
- 	unroll -= i->iov_offset;
--	if (iov_iter_is_xarray(i) || iter_is_ubuf(i)) {
-+	if (iov_iter_is_xarray(i) || iter_is_ubuf(i) ||
-+	    iov_iter_is_dma_token(i)) {
- 		BUG(); /* We should never go beyond the start of the specified
- 			* range since we might then be straying into pages that
- 			* aren't pinned.
-@@ -763,6 +765,21 @@ void iov_iter_xarray(struct iov_iter *i, unsigned int direction,
- }
- EXPORT_SYMBOL(iov_iter_xarray);
- 
-+void iov_iter_dma_token(struct iov_iter *i, unsigned int direction,
-+			struct dma_token *token,
-+			loff_t off, size_t count)
++static inline void bio_set_flag(struct bio *bio, unsigned int bit)
 +{
-+	WARN_ON(direction & ~(READ | WRITE));
-+	*i = (struct iov_iter){
-+		.iter_type = ITER_DMA_TOKEN,
-+		.data_source = direction,
-+		.dma_token = token,
-+		.iov_offset = 0,
-+		.count = count,
-+		.iov_offset = off,
-+	};
++	bio->bi_flags |= (1U << bit);
 +}
 +
- /**
-  * iov_iter_discard - Initialise an I/O iterator that discards data
-  * @i: The iterator to initialise.
-@@ -829,7 +846,7 @@ static unsigned long iov_iter_alignment_bvec(const struct iov_iter *i)
++static inline void bio_clear_flag(struct bio *bio, unsigned int bit)
++{
++	bio->bi_flags &= ~(1U << bit);
++}
++
+ /*
+  * Check whether this bio carries any data or not. A NULL bio is allowed.
+  */
+@@ -225,21 +240,6 @@ static inline void bio_cnt_set(struct bio *bio, unsigned int count)
+ 	atomic_set(&bio->__bi_cnt, count);
+ }
  
- unsigned long iov_iter_alignment(const struct iov_iter *i)
+-static inline bool bio_flagged(struct bio *bio, unsigned int bit)
+-{
+-	return bio->bi_flags & (1U << bit);
+-}
+-
+-static inline void bio_set_flag(struct bio *bio, unsigned int bit)
+-{
+-	bio->bi_flags |= (1U << bit);
+-}
+-
+-static inline void bio_clear_flag(struct bio *bio, unsigned int bit)
+-{
+-	bio->bi_flags &= ~(1U << bit);
+-}
+-
+ static inline struct bio_vec *bio_first_bvec_all(struct bio *bio)
  {
--	if (likely(iter_is_ubuf(i))) {
-+	if (likely(iter_is_ubuf(i)) || iov_iter_is_dma_token(i)) {
- 		size_t size = i->count;
- 		if (size)
- 			return ((unsigned long)i->ubuf + i->iov_offset) | size;
-@@ -860,7 +877,7 @@ unsigned long iov_iter_gap_alignment(const struct iov_iter *i)
- 	size_t size = i->count;
- 	unsigned k;
- 
--	if (iter_is_ubuf(i))
-+	if (iter_is_ubuf(i) || iov_iter_is_dma_token(i))
- 		return 0;
- 
- 	if (WARN_ON(!iter_is_iovec(i)))
-@@ -1457,11 +1474,12 @@ EXPORT_SYMBOL_GPL(import_ubuf);
- void iov_iter_restore(struct iov_iter *i, struct iov_iter_state *state)
- {
- 	if (WARN_ON_ONCE(!iov_iter_is_bvec(i) && !iter_is_iovec(i) &&
--			 !iter_is_ubuf(i)) && !iov_iter_is_kvec(i))
-+			 !iter_is_ubuf(i) && !iov_iter_is_kvec(i) &&
-+			 !iov_iter_is_dma_token(i)))
- 		return;
- 	i->iov_offset = state->iov_offset;
- 	i->count = state->count;
--	if (iter_is_ubuf(i))
-+	if (iter_is_ubuf(i) || iov_iter_is_dma_token(i))
- 		return;
- 	/*
- 	 * For the *vec iters, nr_segs + iov is constant - if we increment
+ 	WARN_ON_ONCE(bio_flagged(bio, BIO_CLONED));
 -- 
 2.52.0
 
