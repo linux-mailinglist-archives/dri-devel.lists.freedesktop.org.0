@@ -2,104 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF81C7E052
-	for <lists+dri-devel@lfdr.de>; Sun, 23 Nov 2025 12:28:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B88EC7DF34
+	for <lists+dri-devel@lfdr.de>; Sun, 23 Nov 2025 11:00:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D0F10E14C;
-	Sun, 23 Nov 2025 11:28:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1992310E0C0;
+	Sun, 23 Nov 2025 10:00:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jljsarGb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dbNzN9G+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
- [209.85.214.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60AA810E0C0
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 09:27:46 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id
- d9443c01a7336-29586626fbeso41374665ad.0
- for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 01:27:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1763890066; x=1764494866; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YfyBoPWUbKIvicMj0KWg+NHqLc+OcZyzD61cN8gqS4k=;
- b=jljsarGb00oTxd5Qx8XDsb4D+icmyjoepUYfbcjjgbl55/0VRo+A0pU5k5BecV8pgu
- x4zkqFn8Xw4hDy+4/Usv0Zpk9y1wk1lzrsbIgDlaqp5T6A3vCt0PrfP58tIv8bdM6+b9
- zo2h9kg1bQgfE9nMjg5nAjGs46Jy6mlMtw36M4cZlOGkaaZZrkQX+XZTcDTaLRhN1K04
- zLWFnQHTfXO6ZK74mYJIPBXVD3y6damGFObwbG/KiqEoEhRcjbhLisUplFS0o2KnosJp
- pLJJjshMHZXLj6ghfBS70oIeOPImU1nYVXuhOAf5EujplyQYzznZ+fwwDgQ9kUIc+l6B
- k5zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763890066; x=1764494866;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=YfyBoPWUbKIvicMj0KWg+NHqLc+OcZyzD61cN8gqS4k=;
- b=fMiEa2oIz2UYBwKOhRlzrRr3FYeK5ssLBp4qilzzu6hk/aC2HZMDASq1mmQgmDr5Z2
- AY8E7/KhSQ8Hn8fJ5Ea3qOcG2LJxPhTp7+hslhnodjq8Afaoqw//TxLwEdEBWMKV/kwq
- L6fLPgqEHajMcXM8w7GiqzxUbWRxdPjuOaqIv17Jmm+xls3E4KTewHMuWzyWtRzrPFea
- wuiJTZ43gkFOiCLSLU4F0BR7t1PuoU3V/29krqO0e0own9Gb3HyYC/ZnXB+beXcg7Oux
- UHYVVvEUXIwqu22+sc6omkuiR0MxjG6B6OH8Dc551OnzL5KA5MuEzlQvyFnk3fWW0+PG
- rYmg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVb20v5xW09YsyhakdOYVT1DHWVu25ltEKYO0MiewGrvEvmcZRa4trmrWjE70UGAMt3iliE/1STCnA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1DTDpbb8aHZQ0eIT9vkTspTIN2tz1TKitzWCN2mAATseXLDkq
- V/My/ji1J6HhbmYI9XwhaM2xqN3r02AiIWJKw6F12YbxdNwkgiP8ZBgx
-X-Gm-Gg: ASbGncsZa3SsJQehvuH2mjSnelc802H3NlnBa6iDqqzpRTz5zt4DkTpr3/EHTkr1VTy
- oiOFMSESpFcWXg/69dySUMBTaBNuPM6Menl7o5TkznW7u/lBxnYNlbUQosNEoGc6F12yVHfWrpY
- mWeIctx3AN8RQcsrPrCirRbV8s0RxNubXYHH9IOAQMqWeKhUJnOe844PzP3LDg7xX5Ubz3VEur7
- qxAnj6m48q4RBtwr2+me5jpk0gr6ZGDTW5AwQlt1j/axGoR9k2GGZouqVk54XtwE7IImaXXiec3
- q+uYrtjhD55iMc3XASe+Xpf30524U1ZMJmmEjBYvOxixupM9ZQhuSGLEZR8RIK+upe5GpvSEB7a
- luOyFuKm63PTTA93PgXutuQDhiosD7LGRspSXFKzziF6jCu6G493YEZ1sBH9Xm/YIL6vH9t70Ih
- Nl6xV8+wWG4aSldphUSlM1OMVZIQ==
-X-Google-Smtp-Source: AGHT+IExQFsNPtBs1Xj5miLvxmintvWHhiICyxn8q5+dbslUtcud5J24RqOaI8yRZ14HHbP/D4VKng==
-X-Received: by 2002:a17:902:db0b:b0:295:28a4:f0aa with SMTP id
- d9443c01a7336-29b6bf5f036mr89773335ad.43.1763890065882; 
- Sun, 23 Nov 2025 01:27:45 -0800 (PST)
-Received: from shankari-IdeaPad.. ([103.24.60.188])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29b5b138c08sm100811105ad.25.2025.11.23.01.27.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 23 Nov 2025 01:27:45 -0800 (PST)
-From: Shankari Anand <shankari.ak0208@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
- Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Christian Brauner <brauner@kernel.org>,
- Carlos Llamas <cmllamas@google.com>,
- Suren Baghdasaryan <surenb@google.com>, Danilo Krummrich <dakr@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Alexandre Courbot <acourbot@nvidia.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Igor Korotin <igor.korotin.linux@gmail.com>,
- Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>,
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-pwm@vger.kernel.org,
- Shankari Anand <shankari.ak0208@gmail.com>
-Subject: [PATCH 10/10] rust: kernel: remove temporary re-exports of ARef and
- AlwaysRefCounted
-Date: Sun, 23 Nov 2025 14:54:38 +0530
-Message-Id: <20251123092438.182251-11-shankari.ak0208@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251123092438.182251-1-shankari.ak0208@gmail.com>
-References: <20251123092438.182251-1-shankari.ak0208@gmail.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4DE910E0C0
+ for <dri-devel@lists.freedesktop.org>; Sun, 23 Nov 2025 10:00:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id F212F40B4F;
+ Sun, 23 Nov 2025 10:00:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35581C113D0;
+ Sun, 23 Nov 2025 10:00:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763892027;
+ bh=FSwJ15t9tlE5D0OR1/lOks/3PouYtALN84vg3Jg6ULA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dbNzN9G+AZx+w8Rb8FnlVKWUPJUS61L/XSvaVBA1vII7luB9ZjHlgURYVpvoiXg44
+ FZRIR2BF653Z1kwWw/2SBQWx36HzQglTKu0EPvaVVgRmPnLYaiCZfkGPUzJB2rXVai
+ 2dY/T9fMFQ2MMmqcjh8bx8rX9y8MRvyyXxMFiCtWGJGVhPXHjysBMpHR57jLOtrMc+
+ ZEoGywukcHZ4bZSS+nNUhtbrAO6Er9GY0Kut8HT3OuWmgGU/XsQa9w/DEvDlqpN1sU
+ WHeAox9xcDP+FaCsF9NRr6hxrYN+HhJPjq9Wr1NaweCwxwjcoBwvVUnKR/kTPV3HAg
+ VPh9J43VuZtFw==
+Date: Sun, 23 Nov 2025 11:00:25 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Harikrishna Shenoy <h-shenoy@ti.com>
+Cc: robh@kernel.org, Laurent.pinchart@ideasonboard.com, airlied@gmail.com, 
+ andrzej.hajda@intel.com, conor+dt@kernel.org, devarsht@ti.com,
+ devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ krzk+dt@kernel.org, 
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, s-jain1@ti.com, simona@ffwll.ch, 
+ sjakhade@cadence.com, tzimmermann@suse.de, u-kumar1@ti.com,
+ yamonkar@cadence.com, pthombar@cadence.com, nm@ti.com
+Subject: Re: [PATCH v3] dt-bindings: drm/bridge: Update reg-name and reg
+ description list for cdns,mhdp8546 compatible
+Message-ID: <20251123-flying-sweet-raven-bf3571@kuoka>
+References: <20251121123437.860390-1-h-shenoy@ti.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 23 Nov 2025 11:28:20 +0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251121123437.860390-1-h-shenoy@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,35 +66,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the temporary re-exports of `ARef` and `AlwaysRefCounted`
-from `types.rs` now that all in-tree users have been updated to
-import them directly from `sync::aref`.
+On Fri, Nov 21, 2025 at 06:04:37PM +0530, Harikrishna Shenoy wrote:
+> Remove j721e-intg register name from reg-name list for cdns,mhdp8546
+> compatible. The j721e-integ registers are specific to TI SoCs, so they
+> are not required for compatibles other than ti,j721e-mhdp8546.
+> 
+> Update reg and reg-names top level constraints with lists according
+> to compatibles.
+> 
+> Move the register name constraints and reg description list to the
+> appropriate compatibility sections to ensure the correct register
+> names are used with each compatible value also adding the DSC register
+> to make bindings align with what the hardware supports.
+> 
+> Fixes: 7169d082e7e6 ("dt-bindings: drm/bridge: MHDP8546 bridge binding changes for HDCP")
+> Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
+> ---
+> 
+> Links to some discussions pointing to need for a fixes patch: 
+> https://lore.kernel.org/all/20250903220312.GA2903503-robh@kernel.org/
+> https://lore.kernel.org/all/d2367789-6b54-4fc2-bb7c-609c0fe084d3@ti.com/
+> 
+> Link to v2:
+> <https://lore.kernel.org/all/20251119122447.514729-1-h-shenoy@ti.com/>
+> 
+> Changelog v2 --> v3:
+> -Add the reg description list and reg-name list in top level constraints
+> using oneOf for either of compatible.
+> Logs after testing some cases: https://gist.github.com/h-shenoy/a422f7278859cd95447e674963caabd9
+> 
+> Link to v1:
+> <https://lore.kernel.org/all/20251107131535.1841393-1-h-shenoy@ti.com/>
+> 
+> Changelog v1 --> v2:
+> -Update the reg description list for each compatible and add register space
+> for dsc to make the bindings reflect what hardware supports although 
+> the driver doesn't support dsc yet.
+> 
+> Note: j721e-integ are not optional registers for ti-compatible.
+> 
+>  .../display/bridge/cdns,mhdp8546.yaml         | 85 ++++++++++++++-----
+>  1 file changed, 66 insertions(+), 19 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+> index c2b369456e4e2..632595ef32f63 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/cdns,mhdp8546.yaml
+> @@ -17,23 +17,45 @@ properties:
+>        - ti,j721e-mhdp8546
+>  
+>    reg:
+> -    minItems: 1
+> -    items:
+> -      - description:
+> -          Register block of mhdptx apb registers up to PHY mapped area (AUX_CONFIG_P).
+> -          The AUX and PMA registers are not part of this range, they are instead
+> -          included in the associated PHY.
+> -      - description:
+> -          Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
+> -      - description:
+> -          Register block of mhdptx sapb registers.
+> +    oneOf:
+> +      - minItems: 2
+> +      - items:
 
-These re-exports were originally added to avoid breaking the
-kernel build during the transition period while call sites were
-incrementally migrated. With all users updated, they are no
-longer needed.
+This is wrong syntax. You created here a list, so you now allow
+anything with minItems 2.
 
-Suggested-by: Benno Lossin <lossin@kernel.org>
-Link: https://github.com/Rust-for-Linux/linux/issues/1173
-Signed-off-by: Shankari Anand <shankari.ak0208@gmail.com>
----
- rust/kernel/types.rs | 2 --
- 1 file changed, 2 deletions(-)
+> +          - description:
+> +              Register block of mhdptx apb registers up to PHY mapped area (AUX_CONFIG_P).
+> +              The AUX and PMA registers are not part of this range, they are instead
+> +              included in the associated PHY.
+> +          - description:
+> +              Register block for DSS_EDP0_INTG_CFG_VP registers in case of TI J7 SoCs.
+> +          - description:
+> +              Register block of mhdptx sapb registers.
+> +          - description:
+> +              Register block for mhdptx DSC encoder registers.
+> +
+> +      - minItems: 1
 
-diff --git a/rust/kernel/types.rs b/rust/kernel/types.rs
-index 9c5e7dbf1632..4329d3c2c2e5 100644
---- a/rust/kernel/types.rs
-+++ b/rust/kernel/types.rs
-@@ -11,8 +11,6 @@
- };
- use pin_init::{PinInit, Wrapper, Zeroable};
- 
--pub use crate::sync::aref::{ARef, AlwaysRefCounted};
--
- /// Used to transfer ownership to and from foreign (non-Rust) languages.
- ///
- /// Ownership is transferred from Rust to a foreign language by calling [`Self::into_foreign`] and
--- 
-2.34.1
+Actually anything with minItems 1... I asked for list of TWO, not FOUR,
+items. Or if syntax is getting to complicated, just min and maxItems.
+
+
+> +      - items:
+> +          - description:
+> +              Register block of mhdptx apb registers up to PHY mapped area (AUX_CONFIG_P).
+> +              The AUX and PMA registers are not part of this range, they are instead
+> +              included in the associated PHY.
+> +          - description:
+> +              Register block of mhdptx sapb registers.
+> +          - description:
+> +              Register block for mhdptx DSC encoder registers.
+>  
+>    reg-names:
+> -    minItems: 1
+> -    items:
+> -      - const: mhdptx
+> -      - const: j721e-intg
+> -      - const: mhdptx-sapb
+> +    oneOf:
+> +      - minItems: 2
+> +      - items:
+
+Also wrong.
+
+> +          - const: mhdptx
+> +          - const: j721e-intg
+> +          - const: mhdptx-sapb
+> +          - const: dsc
+> +
+> +      - minItems: 1
+> +      - items:
+> +          - const: mhdptx
+> +          - const: mhdptx-sapb
+> +          - const: dsc
+>  
+>    clocks:
+>      maxItems: 1
+> @@ -100,18 +122,43 @@ allOf:
+>        properties:
+>          reg:
+>            minItems: 2
+> -          maxItems: 3
+
+Your commit msg says you "remove" but here you ADD one more item, thus
+growing this 3->4.
+
+How remove can result in 3 becoming 4?
+
+
+Best regards,
+Krzysztof
 
