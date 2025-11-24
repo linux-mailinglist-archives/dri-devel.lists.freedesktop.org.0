@@ -2,81 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3348EC81511
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 16:25:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065B8C81517
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 16:25:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9093410E2EC;
-	Mon, 24 Nov 2025 15:25:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5761210E2EE;
+	Mon, 24 Nov 2025 15:25:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="NMf41nul";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Cu2ATwBE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender3-op-o15.zoho.com (sender3-op-o15.zoho.com
- [136.143.184.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED4510E2EC
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 15:25:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1763997913; cv=none; 
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
+ [136.143.184.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A88F810E2EE
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 15:25:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1763997941; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=BoF2M2Wfa7fxNa63L6l9fuhGh1RijOFFOpjze+41b9gBdOXbUqdNRe3fYKzpJ93fkR8++ODjptwR7Z6gYPHqdpzTLjOYXjUL8dFIqf9dxjTwJrds0yU8tY8+ks2G2kx+1f3E/o6B5GpvpLmGnZ6YE0zkFX3VOA0KZz/KsVpi4rM=
+ b=UI1hfli3Q69C3/K6yBopCQ7ESXI2e2Nd7mDdMIRqXoDT5+UJdqOt1EljS9gT6wGIcGNsSUN6j5YpJRlRPw4Cbcccvs7aEfZjRpy8hUxTNGS6rv8tCoiwZ0P5uKsZhgd2kcOJsTK4XCJ5Pm2mpWJkSiwWeDisG2LweuEpRukD5Ts=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1763997913;
+ s=zohoarc; t=1763997941;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=Gw82Jscaoqj86UtCGprjhdJTu0e3qFarxjApT64NFMQ=; 
- b=cu2ByMmuL1BTth2U3NDPfpdmmNZZJWfuCoOmAOXFOEalZTO34kpdn1havFGg1R+vhVBrhJhSE6DTFiqf/TNnses5dbt0fqGsjqrsMO2QuRj46Lfr/STdl2CrgMoBlEhENazylWhlaMCsfi8JLomSJO5gUMTPeX5RzpOWRKES3Jw=
+ bh=zvAP0rCzyafXkjCBmJbox5x2Ji8oWWUm5n8q37B7Clk=; 
+ b=TvehLIeBHZVDTbd+PHqKKfR3oxPO18QbGPVBH8AgQPgAH5HA4z/DGFFH1+9AyRax7ZkSUhHeVZAwM4JDChUzox/GMpv04VjKelzV7LV5hyip3MQuFoOJgB0akjV7n/iLhqY3VEJgJAA18waXkOloUCToFeT+rEu9nWngQ/a0tXk=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763997913; 
- s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=Gw82Jscaoqj86UtCGprjhdJTu0e3qFarxjApT64NFMQ=;
- b=NMf41nulIwDiqe3dOLpz3Jfnns6W8DywDTAnyge+2CBYirl3ZrEosLzHfe1uTJ6/
- cvthR8xGtCu5zWq7nfvm7QctByVFVLISgQfPVdJ2xYi/jypg4rMsimYVgbas6Q2wl48
- 6YwwxVpTWq9K8Ao9gI0eozJP6HCAA0GwzIqvv/1Griv0NkY2XouQMAi10ESmllTfytd
- xCnJQ6SvvA6lrjoJmXrxQh/jP1ICwE/nTMgjyQQ6h1h7HD21OJSIYScDGP/ivL4wK3x
- 7pPUzBDTwrVgbdU89NNU6BrHehlhj+nVjPSWm9qWuDwXCMcPTm3OqWV/OY0R3UvYR6U
- JBs8bVczfA==
-Received: by mx.zohomail.com with SMTPS id 1763997911169406.72711179768885;
- Mon, 24 Nov 2025 07:25:11 -0800 (PST)
-Message-ID: <a8089e458bdf6fbad45cd6be838b4cf75396918f.camel@icenowy.me>
-Subject: Re: [PATCH v3 2/9] dt-bindings: display: add verisilicon,dc
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>, Guo Ren
- <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Philipp Zabel
- <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Michal Wilczynski
- <m.wilczynski@samsung.com>, Han Gao <rabenda.cn@gmail.com>, Yao Zi
- <ziyao@disroot.org>, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-riscv@lists.infradead.org
-Date: Mon, 24 Nov 2025 23:25:01 +0800
-In-Reply-To: <390caea1-bc75-4cde-bd6d-9bc15a12f32d@kernel.org>
-References: <20251124105226.2860845-1-uwu@icenowy.me>
- <20251124105226.2860845-3-uwu@icenowy.me>
- <d4cfe8bb-5ca2-40a9-bfe0-96e7ded5586c@kernel.org>
- <f7bbb57180866a0674fc1d72d4bd3279c7b1c1e9.camel@icenowy.me>
- <c26dabfb-c4af-428b-a1d4-d626f37ff559@kernel.org>
- <f944f0b28f62233b1874e0f00c0a130d71845417.camel@icenowy.me>
- <6ceb41bc-0597-4ea5-84be-51f53e3bc2d8@kernel.org>
- <20251124-said-overvalue-8a8f49d6c99d@spud>
- <477bbcbe-17d9-40ae-be10-be4fd107687e@kernel.org>
- <20251124-pulp-pound-a2b6d749dcfc@spud>
- <390caea1-bc75-4cde-bd6d-9bc15a12f32d@kernel.org>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763997941; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=zvAP0rCzyafXkjCBmJbox5x2Ji8oWWUm5n8q37B7Clk=;
+ b=Cu2ATwBEL/ND0jjLi5JELDGDQ54hE8CdVQxodV1a8MfUsXE/Fo2e7g0YEtNrZF/A
+ gbf1+zwdZHCQDh3xULF1XutbbaHKbcYeeRt92x5J0tY1syNIP3K3jHmiwr3HYltBW7k
+ W2PCzjV9gfLEYSywB+cU8D2UlNN/X7owyxmXD+bA=
+Received: by mx.zohomail.com with SMTPS id 1763997939655515.524856708236;
+ Mon, 24 Nov 2025 07:25:39 -0800 (PST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH v5 4/8] rust: gem: Introduce DriverObject::Args
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20251023212540.1141999-5-lyude@redhat.com>
+Date: Mon, 24 Nov 2025 12:25:23 -0300
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, Asahi Lina <lina+kernel@asahilina.net>,
+ Shankari Anand <shankari.ak0208@gmail.com>,
+ "open list:DRM DRIVER FOR NVIDIA GPUS [RUST]" <nouveau@lists.freedesktop.org>
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
-MIME-Version: 1.0
+Message-Id: <799528A2-B13E-4F32-9EDE-504CE5D97E63@collabora.com>
+References: <20251023212540.1141999-1-lyude@redhat.com>
+ <20251023212540.1141999-5-lyude@redhat.com>
+To: Lyude Paul <lyude@redhat.com>
+X-Mailer: Apple Mail (2.3826.700.81)
 X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -93,52 +77,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E5=9C=A8 2025-11-24=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 13:31 +0100=EF=BC=
-=8CKrzysztof Kozlowski=E5=86=99=E9=81=93=EF=BC=9A
-> On 24/11/2025 13:20, Conor Dooley wrote:
-> > On Mon, Nov 24, 2025 at 01:08:00PM +0100, Krzysztof Kozlowski
-> > wrote:
-> > > On 24/11/2025 13:05, Conor Dooley wrote:
-> > > >=20
-> > > > I don't really get what the fuss is with the dual signoff,
-> > > > what's the
-> > > > point having both when they represent the same person? Pretty
-> > > > sure it
-> > > > was you (Krzysztof) and Arnd that told me not to both doing the
-> > > > double
-> > > > signoff.
-> > >=20
-> > > I do not object having or not having dual signed off HERE.
-> > >=20
-> > > I never said that. Just like I never said "From" has to be
-> > > changed.
-> >=20
-> > I didn't say you objected to both being there. *I* am saying that
-> > it is
->=20
-> Ah, sure. Yes, if both identities work I would propose to skip second
-> SoB. But I also stopped objecting of having two identities listed, as
-> long as they are correct.
 
-Well it's unfortunate that some policy now requires me to list the
-second identity.
 
-Should I resend the whole patchset with the ISCAS mail?
+> On 23 Oct 2025, at 18:22, Lyude Paul <lyude@redhat.com> wrote:
+>=20
+> This is an associated type that may be used in order to specify a =
+data-type
+> to pass to gem objects when construction them, allowing for drivers to =
+more
+> easily initialize their private-data for gem objects.
+>=20
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+>=20
+> ---
+> V3:
+> * s/BaseDriverObject/DriverObject/
+> V4:
+> * Fix leftover reference to BaseObjectDriver in rustdoc for
+>  DriverObject::Args
+>=20
+> drivers/gpu/drm/nova/gem.rs |  5 +++--
+> rust/kernel/drm/gem/mod.rs  | 13 ++++++++++---
+> 2 files changed, 13 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/nova/gem.rs b/drivers/gpu/drm/nova/gem.rs
+> index 2760ba4f3450b..173077eeb2def 100644
+> --- a/drivers/gpu/drm/nova/gem.rs
+> +++ b/drivers/gpu/drm/nova/gem.rs
+> @@ -18,8 +18,9 @@ pub(crate) struct NovaObject {}
+>=20
+> impl gem::DriverObject for NovaObject {
+>     type Driver =3D NovaDriver;
+> +    type Args =3D ();
+>=20
+> -    fn new(_dev: &NovaDevice, _size: usize) -> impl PinInit<Self, =
+Error> {
+> +    fn new(_dev: &NovaDevice, _size: usize, _args: Self::Args) -> =
+impl PinInit<Self, Error> {
+>         try_pin_init!(NovaObject {})
+>     }
+> }
+> @@ -33,7 +34,7 @@ pub(crate) fn new(dev: &NovaDevice, size: usize) -> =
+Result<ARef<gem::Object<Self
+>             return Err(EINVAL);
+>         }
+>=20
+> -        gem::Object::new(dev, aligned_size)
+> +        gem::Object::new(dev, aligned_size, ())
+>     }
+>=20
+>     /// Look up a GEM object handle for a `File` and return an =
+`ObjectRef` for it.
+> diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+> index 67813cfb0db42..d448c65fe5e13 100644
+> --- a/rust/kernel/drm/gem/mod.rs
+> +++ b/rust/kernel/drm/gem/mod.rs
+> @@ -65,8 +65,15 @@ pub trait DriverObject: Sync + Send + Sized {
+>     /// Parent `Driver` for this object.
+>     type Driver: drm::Driver;
+>=20
+> +    /// The data type to use for passing arguments to =
+[`DriverObject::new`].
+> +    type Args;
+> +
+>     /// Create a new driver data object for a GEM object of a given =
+size.
+> -    fn new(dev: &drm::Device<Self::Driver>, size: usize) -> impl =
+PinInit<Self, Error>;
+> +    fn new(
+> +        dev: &drm::Device<Self::Driver>,
+> +        size: usize,
+> +        args: Self::Args,
+> +    ) -> impl PinInit<Self, Error>;
+>=20
+>     /// Open a new handle to an existing object, associated with a =
+File.
+>     fn open(_obj: &<Self::Driver as drm::Driver>::Object, _file: =
+&DriverFile<Self>) -> Result {
+> @@ -247,11 +254,11 @@ impl<T: DriverObject> Object<T> {
+>     };
+>=20
+>     /// Create a new GEM object.
+> -    pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> =
+Result<ARef<Self>> {
+> +    pub fn new(dev: &drm::Device<T::Driver>, size: usize, args: =
+T::Args) -> Result<ARef<Self>> {
+>         let obj: Pin<KBox<Self>> =3D KBox::pin_init(
+>             try_pin_init!(Self {
+>                 obj: Opaque::new(bindings::drm_gem_object::default()),
+> -                data <- T::new(dev, size),
+> +                data <- T::new(dev, size, args),
+>                 // INVARIANT: The drm subsystem guarantees that the =
+`struct drm_device` will live
+>                 // as long as the GEM object lives.
+>                 dev: dev.into(),
+> --=20
+> 2.51.0
+>=20
+>=20
 
-(The problem with it is that it forces application-specific password,
-and with git-send-email lacking a proper key store, this makes the
-password a one-time one.)
-
->=20
-> > probably not worth doing. That's especially the case when it is
-> > adding
-> > complication about correct ordering of signoffs and maybe
-> > interacting with
-> > how git-send-email decides to insert From: fields.
-> >=20
->=20
->=20
->=20
-> Best regards,
-> Krzysztof
-
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>=
