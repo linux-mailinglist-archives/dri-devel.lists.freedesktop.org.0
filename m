@@ -2,156 +2,140 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78987C80FA5
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 15:22:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23445C80FE7
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 15:27:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27AA010E241;
-	Mon, 24 Nov 2025 14:22:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 238CF10E2D3;
+	Mon, 24 Nov 2025 14:27:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="sSwwiFvt";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TjoQccNK";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Fa6Z83Tw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com
- (mail-northcentralusazon11010000.outbound.protection.outlook.com
- [52.101.193.0])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 561EB10E241
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 14:22:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NoxfIAiA6xkKrSsdshJcAQ2vRDi/iqkhnkkGTEo7XLkEp6NzEw8Lj/yVA3i87ZtPKiN78mknfpxef/l1JzqaIswQVFGa/VETSvszAr0naRNviqaupTpke1w/mqpyLWFyeizacwBHWrH3LMPvlxPKsFPXnCdCbMMGrWIWiZXtlycYdG9TRPnyA21zsSuvOC3MSMuVyZnu6p5hY4Xuq86mGmYZd1QQx0T5SRgLMKmKH0ykwvg2R2yl27MsG2Lmp2Zawgvql/aSzvLoqILrU2OuSYAw2fu0VgWwEzd77Ez3uEwQT+VnIJs5phXcm2UcS7p2H1+pA+qTELo0aXEbGxZ5yQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q5aJ5IS+9XYMptGnPWEq1XA5vrzTvqPZaRFFsNXkJUo=;
- b=cPxweY5DNSI72jfZBC+lw+Y0j3cqelCAxK+lyjRy87a5apzHgBA3i7A78RZ4wEuNd30dOb8IcoKAokUibXwXviUJzBh2Y0EMZgzPC+IeUbdYEChSR0KQ8FWSM1mHVpia56STJyfN10ahxcEqwsW3LK8OViE9fby7zCfqIGGtmVxFrrYwfAPruIz9RjyYOj4KPyKaOHyjzWOxUCNFDUT+TUbf6q2U3le9lzcDYfh7PEEa83+0HeQ1Q3e6ffRV1SSfQF93zkupsNVX8pe5cb2eyb1gSMceMVDF4KLCudnCYk7POklBy5i/XegncHkec31xo2m22nw3pgcFF+lXXBxbhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q5aJ5IS+9XYMptGnPWEq1XA5vrzTvqPZaRFFsNXkJUo=;
- b=sSwwiFvtzApXXIP2c2BN4pXfv8i6ho8B86QD0PiUMrP3U+OkOOEObNNsYnjewCtZVenVQvfjMEqh+XO2XZgtsvFFWiUu/Ju7ArAFXKA2tT770N2znzqaA2xTuuP254eMHhzFy6lYkBeB0Zt4JsbpJ2By2aZ6XYu+urFDg3atNJ4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MN0PR12MB6077.namprd12.prod.outlook.com (2603:10b6:208:3cb::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Mon, 24 Nov
- 2025 14:22:02 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9343.016; Mon, 24 Nov 2025
- 14:22:02 +0000
-Message-ID: <3a1271f3-4c56-499b-b674-32299ddc72b2@amd.com>
-Date: Mon, 24 Nov 2025 15:21:57 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: add some tracepoints to debug.
-To: Xiang Gao <gxxa03070307@gmail.com>, sumit.semwal@linaro.org,
- rostedt@goodmis.org, mhiramat@kernel.org
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- mathieu.desnoyers@efficios.com, dhowells@redhat.com, kuba@kernel.org,
- brauner@kernel.org, akpm@linux-foundation.org,
- linux-trace-kernel@vger.kernel.org, gaoxiang17 <gaoxiang17@xiaomi.com>
-References: <20251124133648.72668-1-gxxa03070307@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20251124133648.72668-1-gxxa03070307@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN9PR03CA0282.namprd03.prod.outlook.com
- (2603:10b6:408:f5::17) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC67110E2D3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 14:27:13 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AOCm2hY193642
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 14:27:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=0HW5XLCUu/d+MIz/UiAcX3
+ 6i++Er1qyFHbbeEgya9aY=; b=TjoQccNKnIPMb4XQ4/AQYLSBhgCUwdQzVxJJ93
+ CTdd2SHf6kgDaD6J4tKZv8OFwePXEmaLMRQyxZJ3gynWH1LnVu1bdlEtSWgT7vzd
+ pSWspuZPoP25MBLLnYCgdxGG3uck8q4tdJSQC6cp2Z8esY888Kvxe2QwmNfGr4jK
+ IE/d1xIYQIp2nCYTo6scYTPCqAkTQBrY4hnI694nHPIf48LcQmZa2Atv+jN/WFCA
+ lzbPhAqEE/TeW8z9/Vkc6/I8LTe5AT7ldm80I2CTEMR06/AVjtYddIOIrXcTrrF/
+ QL3+SiPvFjtPlXryxeGBtFdvfgU3c2X5EMw9MwmERM1HBBNg==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4amqpe081r-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 14:27:12 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id
+ d9443c01a7336-297f587dc2eso102427615ad.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 06:27:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1763994432; x=1764599232;
+ darn=lists.freedesktop.org; 
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0HW5XLCUu/d+MIz/UiAcX36i++Er1qyFHbbeEgya9aY=;
+ b=Fa6Z83TwmtxN87xsJPlggnQTzORKSC6RRVaD6UKChZ6WQr0R1WUbvSGnISNx1hEdEv
+ FmxRmgD8Gtl/c/Ka6wY8piRDQ93sXDVN/L8CZaM0UupwUVcP+H24Jwt/UyhM1Tfm/Y2u
+ qq1l4bv7Uo8bwv7hAHRNxLwfmwf6KcpSQFWzQdzMGpoWwSHY65Hko3KmcY5ffVEajv+D
+ PAiWGSendTkZ/FxVSfqC2aY9W5f/JZWMdMlIvC9Je7rEl7MwYFO7M3LqXbUU480S5Uv9
+ 5aJiDl8046jHKonvzNysqtFeFma3SeNkqBL2+Tmcdr992X5+XU16OTDzEm2r0s6CswWd
+ 9Uhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763994432; x=1764599232;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0HW5XLCUu/d+MIz/UiAcX36i++Er1qyFHbbeEgya9aY=;
+ b=EcxxAGwcRzXdJGc063YcnXW/3tMFArb6x2whMDCaB6akrC6dAMHTytSthyPmCK6PwE
+ X6yi+6UA1Cxi/r/dfDsdxqaMpGL9RBJkN7Ra2eNxWae4+kTuniCEHc8qt2ZT7SYBTOj1
+ IQGeSqSY3IOrYtem0MjUn28oXTJBNbPiv/CZKg3h+4mp/UHBJ6k9N7tMcI2YD/aajqqP
+ A7WoE2VCZYSXikpG7YXTVnrguVhGyC8KeOJG7LEZB8Dl/BUQ/nETJLOEF2lCBCUNUfyg
+ Ya732/wtHWtvjxRzo7cs1Xqi2L2kFFCOLAe2j3FlgquZ1VrsrwnKz9pwMDKvoAohinqn
+ AAaQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXWwnnmvFTAWH17V6W7Hstf1IahmmzWl9bb7uMl0SzWvOfnHcpOVT3BtWGuoSF438oIlUwPF1ZsSgU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy8ZxIkqHqVzvjvZJ7/zdmSBiXSRtFHCcUACWfpUId/6mwEPta8
+ LiZNWAoIuMUk0CLFEg+Xb6fQ97D+5pWAas22KGVuMiip8UD3fCyhFiMmXzPgqhVxoVzWX5mrbw9
+ H9JnBDjhmfuJB2fbBsQ+W0XNa485BNQsmd4YUGwjXYa59pXDF7rKx99bgEKOM7ukajR9AF2U=
+X-Gm-Gg: ASbGnctFHoMmeVCwKgk7MryetpHpYn+UHDgKqr8X7raH9Omqd6t+oaj3b/IMWxHdHKT
+ FzC+R4G2ZTPOytkNyyvpvGToHb+OTZDCLb0dNaVuikzMS+0yrd/jczljon+w8vQPPkDOeg8aMd/
+ k2ivhFfN3GdmcCvQSg/GJ/3XG7YXRWGzoYe28bM/TmAdNxuBP8LchDZIDMuYUpJEVCrBJzJDWra
+ MJc69DDtSpex7SXcnMHcfRR+CVpSVgbsg748lhsenNQpS3Gfbmgf31jU52ctcQibQlE14lzzCTU
+ 3lZEF0MMWy/f/kyXb+oR/HixRcsQ6ohbHRuuVsY3f6SBs/GH5/zexeDWURwVOh7ZXUXi61BpNcT
+ uFC2VnKtMi0wkt+gKDsg6PlyQqOo6dzsa3sB2
+X-Received: by 2002:a17:902:f60d:b0:298:1288:e873 with SMTP id
+ d9443c01a7336-29b6bf841fdmr150523425ad.56.1763994431913; 
+ Mon, 24 Nov 2025 06:27:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHvj5vvlpXKGpda7uqJ0yoxGLT7O0Qfxwh8v6kPITKB/su/JLICLN0aRP9xSR2chCAxHf9+KQ==
+X-Received: by 2002:a17:902:f60d:b0:298:1288:e873 with SMTP id
+ d9443c01a7336-29b6bf841fdmr150522895ad.56.1763994431266; 
+ Mon, 24 Nov 2025 06:27:11 -0800 (PST)
+Received: from hu-mahap-hyd.qualcomm.com ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29b5b25e4basm135549715ad.47.2025.11.24.06.27.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Nov 2025 06:27:10 -0800 (PST)
+From: Mahadevan P <mahadevan.p@oss.qualcomm.com>
+Date: Mon, 24 Nov 2025 19:57:01 +0530
+Subject: [PATCH] drm/msm/disp/dpu: add merge3d support for sc7280
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB6077:EE_
-X-MS-Office365-Filtering-Correlation-Id: 57089a57-364b-4ce5-bf5d-08de2b64d645
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TkxOdmhpZjdXRzcyZ2k4KzdROWc2T0IxRXE3VE9IeXFhNnpYMGYwZHhGVHhE?=
- =?utf-8?B?KzY0ZVZBVWd3dkVhNVdTYlMzcXFUTjJ0S09QeDBXSndmcFFCQXRXUDdVbS81?=
- =?utf-8?B?amJKM21RandBY0V1UDBUK0hkZW53RC8ycU8yTVAzemovTmhnU09xTWF3YUFJ?=
- =?utf-8?B?aktDakp0b3lTYnFuN3hIVCtLQU1BYytCTlE5K2FmQkJXOWhEQ05XR1hPRnF5?=
- =?utf-8?B?WVB6U3NMV3RSdkxhcWdUQmtrdTNEY3JMOGJkb3pwVEZiWDFHL3hpWEd5S0t1?=
- =?utf-8?B?T2RaL1B2aEdDS3ZQblE3b2xja1ExRG5uM01uNlhQRVhRcFBEczBlRmJpRTlO?=
- =?utf-8?B?UURUajkxYnhuZWRHNmVaRUgvNGxWTDF4aitzNmpoVVRVZGNkZ2pGRmt3Zkt0?=
- =?utf-8?B?MnJZbGpQenJmQUNTNkY4K0ZJRzgvQlpQcWVWaVBKY25IRFhjSnlYdE5BNmd4?=
- =?utf-8?B?WWVhRXpGK0FVa0tQSlVaK0tqNVZSYW9jb2JFNkVhOVg4eFUxQTEzc2dsWXQy?=
- =?utf-8?B?aUJRbWw0dWh2RDBQL1EzOEdBdmljMzk0ekduNTByb1I4OXJFckFDVUxGd3A3?=
- =?utf-8?B?UmV6Ymhocmh3eDE1cWRsVHZ3M09vSUwvMnhJa1E2VURFSHBkVDFldG1xeWg0?=
- =?utf-8?B?WXYxSXdxUHpuSXZ3YmpxcFFlWmtqcTc5MmFXeEt6b1p6dFQ0WVpicVVLVnZu?=
- =?utf-8?B?Y0s5RmtnUktoUURtK0NhRE9saTVRVnJZdjd3ZlJNeWlwVW9CcTRqWTB3MGR6?=
- =?utf-8?B?bGtETFdFVDNDSkJ6clh2ZWlhM3owWmtxbmt1dmkxdnQ0d2VOb0tmTnBPMTl1?=
- =?utf-8?B?SllCdHUyL0liOU1jaVpQVU5HQWZCOUJNTU5RS0RONTFRSUphNFpWQkN1Vjg4?=
- =?utf-8?B?VnhjN21KUW1jSnRQc1BtUHMyZ3JvREpGNVFCdmxoT3c1VkhxaVc0S0tmcE9u?=
- =?utf-8?B?dFZtM2tGNkJPQWMrVmI4T0RZa0tqN3hjSjhrV3gxOTNYMU1EMkt6ek1tZGk2?=
- =?utf-8?B?aFJxWC9mSEZLa2VhaXQ1aytwbzB2cHI4WiswV0ZWajNKZ1ZkUmpLNVd1Y1BF?=
- =?utf-8?B?bDJpWWRCdlU4YXkreWhSSjVwUU4xaUxIWi9oVnpjTG9wZyt5ZXZaUmJVVVhM?=
- =?utf-8?B?LzFQa3ZzMEh1ZENpd1NiT3o0M2ZjdFBqQzlNcEtzMmN0d3ptUDB5VCtzR093?=
- =?utf-8?B?eWpHTDk2Q2lGZnFqU2xOdWNuQkFzeWhjYXRQUHhWVGFZZGlnblVPa1dCcHVQ?=
- =?utf-8?B?TW5ZK2M5TjZ2b1podExOdkprbTlHdkNUOXVMcXR4NHc1TGVjUmF2NDJ0eHZa?=
- =?utf-8?B?a3hpMGI3VTVSOUg4ZzlldVR5RG5mMFZ5dEZWNTAwQ2pOSWRJWjdUb2ZnYzFt?=
- =?utf-8?B?ZkJJbE02aWs1YjFYZFpscnlzcmFqdVVPUEFtbkcxUHl5eEN5bTBxMkVzb09Q?=
- =?utf-8?B?TUFZajZPbm9Nb1lIZ2JIU0NaRzJwbjdJak54cGQ2bW5ESi9EWmt0SjhIRHJv?=
- =?utf-8?B?OGp3R0w5dktoS1g5eVNQaVFha01kaXVNR3NtMWRhNThmbHpmNEMwL0NSQU1l?=
- =?utf-8?B?ZnRKd2R0VG9aQkROZjFGblFHR0tnTzg3b1lJc25xWFhELythdGJBYXBoNEpu?=
- =?utf-8?B?cDBMdjZtUmhyOVdxNkxvS0xsaGdxbG84UTZLWkQzeklLMXRTTjg0dFg3bW1s?=
- =?utf-8?B?Nkh0M2pZKzZkM3hlbis1V2c5R2xDSFh0OWl3M2R1N2xaZ2NZckNZQUw2cTJ2?=
- =?utf-8?B?SEFnZnhFeUFucUR6bmhOYnZQVnJCbDloL0l6emdmS2JsN2RYYWhJNEg5a1Vk?=
- =?utf-8?B?dkI4TVd5YUZ5c2dxRE1tSldHWm1FWktOMHVqR0ZwRTVrb2VWVDl6NjhkOHRC?=
- =?utf-8?B?MkhxSkNDZDhDdGNQbHB3MVUvN2ZuclpxVTdJbWtveHEwV1F6eGhBQStSRHJU?=
- =?utf-8?Q?n1OOdGcwRNZspaafqBVcNdid8gBS/G/N?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?alRKZ25RSmxqelBrZXhtZk11c0NTUTE5WUlMRmxndi9NOHI0dC9vZ0RWR2dJ?=
- =?utf-8?B?VllBSFU1WEVqa2Vlc3JWLzlic0c2NUpTSkxPK2kydWJIQlY4N1p1dnFWVncy?=
- =?utf-8?B?VjVxa1hTYmllY1RhbWxyRjBoeWk3R2pUMzd5ZjhyTkZQTmlORXJTamlNUExi?=
- =?utf-8?B?Tk5oRlZFTUZsWklKRkhOcE0wbFdnQ1ZiKy95Nmhxd2FXUG9PZWtUVkdiVlBx?=
- =?utf-8?B?NmZsOWhRRHhTOU05UlNGVFJOTlBBWVo3UzN2bDRlQTZSS1poY1BKMXczdTRy?=
- =?utf-8?B?MGxadlU0MFFkN3pLQ0pyRnFDZGUwVnJjQ3JrZ2gvVUp6Q0ZKam0vb09vV25y?=
- =?utf-8?B?Z2NvYmVKODd2bVkwR2VKa1NkWDBmSjgrZDZ5ZXlTdzRid0llMkRRNDJ3RjAr?=
- =?utf-8?B?NTB2cGFac0h4eGdjOEhNVllxN1g5Wks0K0J6bHNHVEl2MGNRVWxOOS9kQ25r?=
- =?utf-8?B?aW5kM1JFTGVoUS9WcHJvWEloK2ZQWEMrZWdJd2R3OFZ2YVdpQkdYUE1HN3lS?=
- =?utf-8?B?ekYxZDNjV3J4OHFTN1J4S1l0QkNHSURkTGdrb3IyMG9qaEtJblZoRkdlR1dW?=
- =?utf-8?B?S0h2aXB1Nzg3MGo4UmozRHQzUS9tcVdRbG4wcHh1bEVnc1pBZ2RlUlMyb0lH?=
- =?utf-8?B?V1FBbkhJcXJTOU9iWUtwYS9teGNSVEVYRzdMdXI1MVpqejI3aHVjTWZRSG1N?=
- =?utf-8?B?ekRhMEJLNUZNWEtNVGw1Y0ZBYXVIL1B5T2toMmx2VlJPYlNYc3VObGJJb0F2?=
- =?utf-8?B?QjErc1QrYnVDU2tIWVppZmNjanFCZ1J6WWpLamNMU0ZYdDRaVzNSdnFIWVNJ?=
- =?utf-8?B?TTQxaGh0YTErKzhhS0tnN1lYZEUxL0szTjRuaTA3RmxRSEZTUHF3MFpGcTV5?=
- =?utf-8?B?bkpJWks1UHMxT25ZRTJmaTM2eU9nNnB2U0J6alZDeUdKNU5pUHRmRnF6VktX?=
- =?utf-8?B?RFpibzhOd2ZJc3BtV0kyL085cXZma2QyVWtZYmNlTThTeTZOM01adkdIRHZk?=
- =?utf-8?B?QTZaSUkrb1h0WHpVUGlOWDlVdlVBZmZRN1M0a0NiTHE1RU1NRjVlZkVuU1hI?=
- =?utf-8?B?T1NIdGFTelhQV1lSMUdJaVV5YjUxNXpzK0R2UE0yWUdaN0FHOE42d3VkMTZr?=
- =?utf-8?B?aWk5VkpaZDZQQ1J1NkVOc0xjeUdoZEtva0xMazZCVzBpT1hMNE0wcURoZHJm?=
- =?utf-8?B?dXVhOWRLWkU0MVVzQmJmYW5UTGJ0azZYenErSWRqa2gzRnRYcytnTlVLQ2hi?=
- =?utf-8?B?bzBTWFRrZ1k5OUMrUjJ3dlpGUmVSd2doM2txc3pIbnBRL05DN0JXcjRPYXlY?=
- =?utf-8?B?RjZZZTc3ZzF4dERDV3NReDBVQ2lTTGZubUJoTFVNclRjbWdXZkdxOHhpdytj?=
- =?utf-8?B?SlI3d0R1Y0I0ZnFPWnozaVlHcnByMVlYTlhIeWJycVpnVklHM0VrSGUvbklo?=
- =?utf-8?B?Zm8rUjNPNk5CZ29QNi92d3BHQVhRVW0xUGtlVVQwKzRrZ0U5UVZiT20wbThR?=
- =?utf-8?B?UE1MK1ZHNHB2dlQ5SkNFNHIwYzkzQjlIMTdJeXpBMmNGL3hxZ2JPWDVMTDBs?=
- =?utf-8?B?eFVKYmF1U0V4U1lBRy9hdlNZSGkxQmIxQ2dMaXpiWUZ5NXc4a1JySEtLRk9M?=
- =?utf-8?B?NW5aNDRBdXVod3R1V2JFNGwzVk5ydUFIN0hQQ1BRV2JCWWw5MXhqZUIvU3M5?=
- =?utf-8?B?MVNDZkJyZmZIalRpT1FVZiswcHlTb0hFV0hxTUNkR3Jjd1hETERXRW5WSGFT?=
- =?utf-8?B?SUJrMDZpTkNVV0tDUEY0TGVEZTc0TjJjOFprYitWUlhXT0dHWUNJVG9oRWYx?=
- =?utf-8?B?OHMreWFmZGRjcEtJUXJqS0hBMy9ING9abzE0ZHBTNHJRRjdMOGl6N0hxNEJQ?=
- =?utf-8?B?TWJIbmRKZmdWTXdHcE9LNEEvUlZGaW9ZQlJqLzJIV2xCOE1YRE5pRkhaK3o2?=
- =?utf-8?B?dHhzS0RneEtvVE1xaVB0TCtoTzFBRWlqeGtJbkJGMDc3RWhNbUk1WEkwc2lH?=
- =?utf-8?B?cHNYcHVkZDc0R0hoS1I0TDBRSlNRdUFKamhOY0pUM1l1aEJENjJjMFFBY3FC?=
- =?utf-8?B?bzV6azloWnpmUVJ4dVZZdU9UQ2MwU1lOYXMvNm15ZTl4c2NWVVRUemViU010?=
- =?utf-8?Q?e8AGwosWUnabuOC01rix8bt1e?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57089a57-364b-4ce5-bf5d-08de2b64d645
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 14:22:02.6511 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3y6mhYTYARPcO9Hb8X4g+bYv6Y0E2GG/30Pdo0L5uzpUTNxBiLvhifKzQ3NewFQu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6077
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251124-merge3d-sc7280-v1-1-798d94211626@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIADRrJGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDQyMT3dzUovRU4xTd4mRzIwsDXXNTo5SkxORkY9NEEyWgpoKi1LTMCrC
+ B0bG1tQAHNqsDYAAAAA==
+X-Change-ID: 20251124-merge3d-sc7280-752dbacc35a4
+To: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Mahadevan P <mahadevan.p@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1763994427; l=2380;
+ i=mahadevan.p@oss.qualcomm.com; s=20250923; h=from:subject:message-id;
+ bh=Cqakb/xfljPG9dtjKNPYMpTRNnHruMaDQIKf8YD6vOI=;
+ b=hiN+PFBJeuzG5CK/eZUy2WYBNdpKWqLzNd1hHDYTDzrg3A4OsVtpRjp7+F0vbtcvd8hr1R7JX
+ xAh5y2fgq1LDLgSqZ21crIfK0gRyYma8AbydGXwBJ/a4Ij+rncXTD+A
+X-Developer-Key: i=mahadevan.p@oss.qualcomm.com; a=ed25519;
+ pk=wed9wuAek0VbCYfkANx7ujIG4VY0XfCYrffFKPN2p0Y=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI0MDEyNiBTYWx0ZWRfX+kdUwqpDf9Gd
+ pMZJ2OukukbjGmFQydNiB5Aea5SxEDUGKKFnOLXZsmpjqRNY77jNT3S1TBiSPGzs4JIhMVjKMID
+ Duha6TARpgx/mRjRplotVZj/ncjhy5sAeM/JzhAAU1jmg0qE4ltNumaUf8RqMnLsPfnSw37F8IO
+ Vgo621ZzcumyxtLWcPTLY2H36IRTaD+iTmBxjlx6NXZB8alSHuZhLhColY7S5GN/m37wFTffUrs
+ fxmNmtaXJiLQ+NVzj7YGGRj+GtrGEqxMWM0MD7cbJe6CNkSYcuySFAMBKvL6BJfHsv3m3kSpJAW
+ ydltCHFN+TKmZL+ix+rJ/iz7HZpm6pis0yD42bS0Zmo6nKv4jG0fuGh/ycgu8+ZZ1HtzeHQrL5U
+ QvsE/TuEmp6/YJO/FxfY7wN9roYj8w==
+X-Authority-Analysis: v=2.4 cv=OYuVzxTY c=1 sm=1 tr=0 ts=69246b41 cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=5FlqbPEWv7NCXEe-mtIA:9
+ a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
+X-Proofpoint-GUID: pbo3rmOOGyerOkd2_iecNnirp3aUwps8
+X-Proofpoint-ORIG-GUID: pbo3rmOOGyerOkd2_iecNnirp3aUwps8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-24_05,2025-11-24_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0 malwarescore=0
+ spamscore=0 clxscore=1011 bulkscore=0 suspectscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511240126
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,376 +151,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/24/25 14:36, Xiang Gao wrote:
-> From: gaoxiang17 <gaoxiang17@xiaomi.com>
-> 
-> With these tracepoints, we can track dmabuf in real time.
-> 
-> For example:
->    binder:3025_3-10524   [000] .....   553.310313: dma_buf_export: exp_name=qcom,system name=(null) size=12771328 ino=2799
->    binder:3025_3-10524   [000] .....   553.310318: dma_buf_fd: exp_name=qcom,system name=(null) size=12771328 ino=2799 fd=8
->     RenderThread-9307    [000] .....   553.310869: dma_buf_get: exp_name=qcom,system name=blastBufferQueue for scaleUpDow size=12771328 ino=2799 fd=673 f_ref=4
->     RenderThread-9307    [000] .....   553.310871: dma_buf_attach: dev_name=kgsl-3d0 exp_name=qcom,system name=blastBufferQueue for scaleUpDow size=12771328 ino=2799
->     RenderThread-9307    [000] .....   553.310946: dma_buf_mmap_internal: exp_name=qcom,system name=blastBufferQueue for scaleUpDow size=12771328 ino=2799
->     RenderThread-9307    [004] .....   553.315084: dma_buf_detach: exp_name=qcom,system name=blastBufferQueue for scaleUpDow size=12771328 ino=2799
->     RenderThread-9307    [004] .....   553.315084: dma_buf_put: exp_name=qcom,system name=blastBufferQueue for scaleUpDow size=12771328 ino=2799 f_ref=5
+Add support for the merge3d block on sc7280 which will allow
+merge of streams coming from two layer mixers routed to single
+non DSC interface. This change helps to support larger buffer
+width which exceeds max_linewidth of 2400.
 
-In general quite nice to have, but this needs a bit more explanation why you need it.
+Fixes: 591e34a091d1 ("drm/msm/disp/dpu1: add support for display for SC7280 target")
+Signed-off-by: Mahadevan P <mahadevan.p@oss.qualcomm.com>
+---
+ drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-> 
-> Signed-off-by: gaoxiang17 <gaoxiang17@xiaomi.com>
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+index 8f978b9c345202d3ea1a7781e4ef2763b46c6f6e..2f8688224f3430ff6d2aa80836b72262ed5b7058 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
++++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
+@@ -13,6 +13,7 @@ static const struct dpu_caps sc7280_dpu_caps = {
+ 	.has_dim_layer = true,
+ 	.has_idle_pc = true,
+ 	.max_linewidth = 2400,
++	.has_3d_merge = true,
+ 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
+ };
+ 
+@@ -134,17 +135,24 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
+ 		.name = "pingpong_2", .id = PINGPONG_2,
+ 		.base = 0x6b000, .len = 0,
+ 		.sblk = &sc7280_pp_sblk,
+-		.merge_3d = 0,
++		.merge_3d = MERGE_3D_1,
+ 		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
+ 	}, {
+ 		.name = "pingpong_3", .id = PINGPONG_3,
+ 		.base = 0x6c000, .len = 0,
+ 		.sblk = &sc7280_pp_sblk,
+-		.merge_3d = 0,
++		.merge_3d = MERGE_3D_1,
+ 		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
+ 	},
+ };
+ 
++static const struct dpu_merge_3d_cfg sc7280_merge_3d[] = {
++	{
++		.name = "merge_3d_1", .id = MERGE_3D_1,
++		.base = 0x4f000, .len = 0x8,
++	},
++};
++
+ /* NOTE: sc7280 only has one DSC hard slice encoder */
+ static const struct dpu_dsc_cfg sc7280_dsc[] = {
+ 	{
+@@ -247,6 +255,8 @@ const struct dpu_mdss_cfg dpu_sc7280_cfg = {
+ 	.mixer = sc7280_lm,
+ 	.pingpong_count = ARRAY_SIZE(sc7280_pp),
+ 	.pingpong = sc7280_pp,
++	.merge_3d_count = ARRAY_SIZE(sc7280_merge_3d),
++	.merge_3d = sc7280_merge_3d,
+ 	.dsc_count = ARRAY_SIZE(sc7280_dsc),
+ 	.dsc = sc7280_dsc,
+ 	.wb_count = ARRAY_SIZE(sc7280_wb),
 
-I have strongly doubts that this is your legal name :)
+---
+base-commit: d724c6f85e80a23ed46b7ebc6e38b527c09d64f5
+change-id: 20251124-merge3d-sc7280-752dbacc35a4
 
-Please google the requirements for a Signed-off-by line.
-
-> ---
->  drivers/dma-buf/dma-buf.c      |  19 +++
->  include/trace/events/dma_buf.h | 245 +++++++++++++++++++++++++++++++++
->  2 files changed, 264 insertions(+)
->  create mode 100644 include/trace/events/dma_buf.h
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 2bcf9ceca997..8b5af73f0218 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -35,6 +35,9 @@
->  
->  #include "dma-buf-sysfs-stats.h"
->  
-> +#define CREATE_TRACE_POINTS
-> +#include <trace/events/dma_buf.h>
-> +
->  static inline int is_dma_buf_file(struct file *);
->  
->  static DEFINE_MUTEX(dmabuf_list_mutex);
-> @@ -220,6 +223,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
->  	    dmabuf->size >> PAGE_SHIFT)
->  		return -EINVAL;
->  
-> +	trace_dma_buf_mmap_internal(dmabuf);
-> +
->  	return dmabuf->ops->mmap(dmabuf, vma);
->  }
->  
-> @@ -745,6 +750,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->  
->  	__dma_buf_list_add(dmabuf);
->  
-> +	trace_dma_buf_export(dmabuf);
-> +
->  	return dmabuf;
->  
->  err_dmabuf:
-> @@ -779,6 +786,8 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
->  
->  	fd_install(fd, dmabuf->file);
->  
-> +	trace_dma_buf_fd(dmabuf, fd);
-> +
->  	return fd;
->  }
->  EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
-> @@ -805,6 +814,8 @@ struct dma_buf *dma_buf_get(int fd)
->  		return ERR_PTR(-EINVAL);
->  	}
->  
-> +	trace_dma_buf_get(fd, file);
-> +
->  	return file->private_data;
->  }
->  EXPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
-> @@ -825,6 +836,8 @@ void dma_buf_put(struct dma_buf *dmabuf)
->  		return;
->  
->  	fput(dmabuf->file);
-> +
-> +	trace_dma_buf_put(dmabuf);
->  }
->  EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
->  
-> @@ -998,6 +1011,8 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_dynamic_attach, "DMA_BUF");
->  struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
->  					  struct device *dev)
->  {
-> +	trace_dma_buf_attach(dmabuf, dev);
-> +
->  	return dma_buf_dynamic_attach(dmabuf, dev, NULL, NULL);
->  }
->  EXPORT_SYMBOL_NS_GPL(dma_buf_attach, "DMA_BUF");
-> @@ -1024,6 +1039,8 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
->  		dmabuf->ops->detach(dmabuf, attach);
->  
->  	kfree(attach);
-> +
-> +	trace_dma_buf_detach(dmabuf);
->  }
->  EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
->  
-> @@ -1488,6 +1505,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
->  	vma_set_file(vma, dmabuf->file);
->  	vma->vm_pgoff = pgoff;
->  
-> +	trace_dma_buf_mmap(dmabuf);
-> +
->  	return dmabuf->ops->mmap(dmabuf, vma);
->  }
->  EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, "DMA_BUF");
-> diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
-> new file mode 100644
-> index 000000000000..796ae444f6ae
-> --- /dev/null
-> +++ b/include/trace/events/dma_buf.h
-> @@ -0,0 +1,245 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#undef TRACE_SYSTEM
-> +#define TRACE_SYSTEM dma_buf
-> +
-> +#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
-> +#define _TRACE_DMA_BUF_H
-> +
-> +#include <linux/dma-buf.h>
-> +#include <linux/tracepoint.h>
-> +
-> +TRACE_EVENT(dma_buf_export,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf),
-> +
-> +	TP_ARGS(dmabuf),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__string(name, dmabuf->name)
-
-dmabuf->name can't be accessed without holding the appropriate lock, same of all other cases.
-
-Regards,
-Christian.
-
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		__assign_str(name);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +	),
-> +
-> +	TP_printk("exp_name=%s name=%s size=%zu ino=%lu",
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino)
-> +);
-> +
-> +TRACE_EVENT(dma_buf_fd,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf, int fd),
-> +
-> +	TP_ARGS(dmabuf, fd),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__string(name, dmabuf->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +		__field(int, fd)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		__assign_str(name);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +		__entry->fd = fd;
-> +	),
-> +
-> +	TP_printk("exp_name=%s name=%s size=%zu ino=%lu fd=%d",
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino,
-> +		  __entry->fd)
-> +);
-> +
-> +TRACE_EVENT(dma_buf_mmap_internal,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf),
-> +
-> +	TP_ARGS(dmabuf),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__string(name, dmabuf->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		__assign_str(name);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +	),
-> +
-> +	TP_printk("exp_name=%s name=%s size=%zu ino=%lu",
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino)
-> +);
-> +
-> +TRACE_EVENT(dma_buf_mmap,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf),
-> +
-> +	TP_ARGS(dmabuf),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__string(name, dmabuf->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		__assign_str(name);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +	),
-> +
-> +	TP_printk("exp_name=%s name=%s size=%zu ino=%lu",
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino)
-> +);
-> +
-> +TRACE_EVENT(dma_buf_attach,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf, struct device *dev),
-> +
-> +	TP_ARGS(dmabuf, dev),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(dname, dev_name(dev))
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__string(name, dmabuf->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(dname);
-> +		__assign_str(exp_name);
-> +		__assign_str(name);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +	),
-> +
-> +	TP_printk("dev_name=%s exp_name=%s name=%s size=%zu ino=%lu",
-> +		  __get_str(dname),
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino)
-> +);
-> +
-> +TRACE_EVENT(dma_buf_detach,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf),
-> +
-> +	TP_ARGS(dmabuf),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__string(name, dmabuf->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		__assign_str(name);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +	),
-> +
-> +	TP_printk("exp_name=%s name=%s size=%zu ino=%lu",
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino)
-> +);
-> +
-> +TRACE_EVENT(dma_buf_get,
-> +
-> +	TP_PROTO(int fd, struct file *file),
-> +
-> +	TP_ARGS(fd, file),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, ((struct dma_buf *)file->private_data)->exp_name)
-> +		__string(name, ((struct dma_buf *)file->private_data)->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +		__field(int, fd)
-> +		__field(long, f_ref)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		__assign_str(name);
-> +		__entry->size = ((struct dma_buf *)file->private_data)->size;
-> +		__entry->ino = ((struct dma_buf *)file->private_data)->file->f_inode->i_ino;
-> +		__entry->fd = fd;
-> +		__entry->f_ref = file_ref_get(&file->f_ref);
-> +	),
-> +
-> +	TP_printk("exp_name=%s name=%s size=%zu ino=%lu fd=%d f_ref=%ld",
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino,
-> +		  __entry->fd,
-> +		  __entry->f_ref)
-> +);
-> +
-> +TRACE_EVENT(dma_buf_put,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf),
-> +
-> +	TP_ARGS(dmabuf),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__string(name, dmabuf->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +		__field(long, f_ref)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		__assign_str(name);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +		__entry->f_ref = file_ref_get(&dmabuf->file->f_ref);
-> +	),
-> +
-> +	TP_printk("exp_name=%s name=%s size=%zu ino=%lu f_ref=%ld",
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino,
-> +		  __entry->f_ref)
-> +);
-> +
-> +#endif /* _TRACE_DMA_BUF_H */
-> +
-> +/* This part must be outside protection */
-> +#include <trace/define_trace.h>
+Best regards,
+-- 
+Mahadevan P <mahadevan.p@oss.qualcomm.com>
 
