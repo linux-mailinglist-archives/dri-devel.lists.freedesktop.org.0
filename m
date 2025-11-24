@@ -2,47 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351CBC7EE61
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 04:33:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9296AC7EE98
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 04:48:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8BA10E1C6;
-	Mon, 24 Nov 2025 03:33:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F053C10E0B8;
+	Mon, 24 Nov 2025 03:48:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="qyG2ReSE";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="dODsilFe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78CFC10E1C5
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 03:33:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=Fb4uAKe98doAxEpq379jRK9y8558ix6zV32BDPkIjNQ=; b=qyG2ReSENhBuAs84PLUTcEhtoq
- Jl0dsxKEtZGDF1i6zbr+WJVcvvC5VdgCklxFJNx+ia6jk8e40AFctqcpLUpixqG0TNKtB9/N7LNUv
- DEj1QJMN5dhKyzRadAbmpfk5Mtrzcd0oz0LRVdRJcYJ7IfRLN4P97HZbv9NRY+tZIDCqat5ScoliD
- xdEK3CdOSjWLMSEzR0z0xulBwaAhYauIw3w939UEP9Q+ofj3ooEDNw2GmIoKClu/R41+YiwK0QMVm
- N69+87c0lJIR2bmyJEfRRg90ABE/ZzfXEmKE+LOH2fu5bqCLKWYaSeTf+pBvjQ5t1r94pITD1MTml
- smTcEYIg==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
- id 1vNNKF-0000000B2B7-0dhP; Mon, 24 Nov 2025 03:33:15 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Zack Rusin <zack.rusin@broadcom.com>,
- bcm-kernel-feedback-list@broadcom.com,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH] drm/vmwgfx: fix kernel-doc warnings in vmwgfx_drv.h
-Date: Sun, 23 Nov 2025 19:33:14 -0800
-Message-ID: <20251124033314.2987196-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.52.0
+Received: from PH7PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11010065.outbound.protection.outlook.com [52.101.201.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AE0510E0B8;
+ Mon, 24 Nov 2025 03:48:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hZAw7w0HtPJUhf8oY6SmidAHWCTxpfrOtAOJPriWc9+7EVAzQ02f+3onSl7nPNaVHCoAB7ZdRccXGeSmD1FYIEvgEHHeJPSGPFXedJrIezJRdJBrU0D692vIsENDFgR3SavAEtsUv8ubSp5FC2qB/nc2D3sbWsND+LZIu+X2d5AILQ7SPvP5SFJCc3tIR7jrHXTKEAPl4YAQ7PPylDAwLHql6lerSfuVGvVd9D79q/Z1k4pIXelz4OxlEZ6KIA+nD8VYOuWrDdJOGJYPwq1bhzu6uFMxNt9QK+DvesfT8E+BjUNrU2QEpojkA9EV/qQ4u5iEAtzm7Papveg4Po9e2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uDlcEHngXxMxt+syJlISMtr1QNvTSzw9a+1gv7jXIdM=;
+ b=nBca3p/jfVL2YVIo00fGXH9u3Gl5SP1TOrJ2iydl9Np3SkG5H3F4vDde26cejx4YGGiVHWp+8qHQNgRTu61e2CxhBRnFj+Ld5NIKM3jqUfCEWfOvrcVQnSmg2Vzn2Mr/Q5EI6IeHu0+kLnOg0qsDb1tDMnzVciMS/OMR4ogIHwyL48SGkpZ0BwXMabKqXiuQczKzpiq7YP5b0larLDf/GKtt9GdgRuI+bs9aQ6bvruRgLyJh0ukrXude7ivWtzW4Zv/g/qBOkw/cGFFRelA75pLFKVYqph8kV+cmfrTc45gFDMQpXzFBiyf7QEHDhK8nCDrw8srZ4b/a3uMZZ9Gmzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uDlcEHngXxMxt+syJlISMtr1QNvTSzw9a+1gv7jXIdM=;
+ b=dODsilFeMgnd4eApeB8bV5QE7rWr/ppG0/S92x+vWkIXNMSduJmUrNvtBu7AzlnQO+UOPMn/jP0RbqkOdNedyunmne3s+ueP5iMOIo+NX7IrNOyErAYS6Dc1nt7Q286QQ4sINZByxSxJ192S3iAR8i9pgs2qmBS93CsVWNz+E5yHMd0pgxlO+5jKxOAzmrmU0tl59xIF6GIcOL8M72lG0yFgbX5SdCc+lLxl6WjRzrlRwdwao9C4pGV7XCPUojRDfg9xxm8GemeeQRolzFtpgyhJ+sqFkwfzEg5UQwb4AVntU8gccNi/emlA2CoxJOKqxHeSdpDRFyuFteaZHabw6A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by SN7PR12MB8148.namprd12.prod.outlook.com (2603:10b6:806:351::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Mon, 24 Nov
+ 2025 03:47:58 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9343.016; Mon, 24 Nov 2025
+ 03:47:57 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 24 Nov 2025 12:47:53 +0900
+Message-Id: <DEGM8P88O2MV.3D4XL17AMWHJ4@nvidia.com>
+Cc: <acourbot@nvidia.com>, <apopple@nvidia.com>, <ojeda@kernel.org>,
+ <alex.gaynor@gmail.com>, <boqun.feng@gmail.com>, <gary@garyguo.net>,
+ <bjorn3_gh@protonmail.com>, <lossin@kernel.org>, <a.hindborg@kernel.org>,
+ <aliceryhl@google.com>, <tmgross@umich.edu>, <simona@ffwll.ch>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <jhubbard@nvidia.com>, <ttabi@nvidia.com>,
+ <joel@joelfernandes.org>, <elle@weathered-steel.dev>,
+ <daniel.almeida@collabora.com>, <arighi@nvidia.com>, <phasta@kernel.org>,
+ <nouveau@lists.freedesktop.org>, "Nouveau"
+ <nouveau-bounces@lists.freedesktop.org>
+Subject: Re: [PATCH v2 2/3] rust: clist: Add basic list infrastructure and
+ head iterator
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <dakr@kernel.org>, <airlied@gmail.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20251111171315.2196103-1-joelagnelf@nvidia.com>
+ <20251111171315.2196103-2-joelagnelf@nvidia.com>
+In-Reply-To: <20251111171315.2196103-2-joelagnelf@nvidia.com>
+X-ClientProxiedBy: TY4P301CA0053.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:36b::17) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|SN7PR12MB8148:EE_
+X-MS-Office365-Filtering-Correlation-Id: 65bba69e-9d7f-47e4-dca6-08de2b0c413a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|7416014|10070799003|376014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Y0tJcC9WMHhoUjArdUlwK3BHTTZYU2pqLzdpMVFpaEtXOHZwb0tKNHE0UVpT?=
+ =?utf-8?B?WENKU1pWWllkQ3NyaE9BcHdFZEQvSkJ4QWhWMW1Wb1RnWTVsdzl2dnIxeWpz?=
+ =?utf-8?B?QjJWQmFydFNYQS9BeGl1Rk94T1NaSDVxVEtCOWQxaTRvbElxK1lmcHBoWXhz?=
+ =?utf-8?B?YkphRFJwTHpPV0dXM3RKcHhSaWNvd2xPUXlXN2NBb0ZGS0NnN3NscWdnM3p2?=
+ =?utf-8?B?SHZyQ3VSQ3I1YmRjTkVmUlZvZ0lITWpQTm5xeTdjbW9MTGxURWQ5QmhQWkU5?=
+ =?utf-8?B?Z1psUVpNM0taZThnM0JJWXkrMU9CYXQwa2U4RThoVjU4dFp1NVNQREVMZDk3?=
+ =?utf-8?B?S3E5TFRsVHdCZjNDRzNONlhGZmdOZHc4dGk5T2R4MnJocURTSE9NSVRuMWp4?=
+ =?utf-8?B?b015UWM5OEd2dXRrRG5BWURTZG9EMGQySnZnaXJCZzl5VnQ0azNsbCsxTmVC?=
+ =?utf-8?B?Y29tcHhJS2dGSzM3TzM1Z1dDZENQVGV0Tk5HOHdqL2c1bWgweVoyc21Ba2RM?=
+ =?utf-8?B?VjNWMDFEM1N6QTZEYm9UUDYwOFNHQzB0NDhjYTFSQzVLZitTMVpQZ1hkdCto?=
+ =?utf-8?B?dTVydkNYR0tmbWdjdnVueE5Zd2hPSW8wRVY2RmtGUXV3M3lRK0dPL292NTJl?=
+ =?utf-8?B?ZkRWckdGUDU4QVoyQVRBWTdGNUxqSm5lNWVJNmViU0swZXdsYmZkTXlCaXU0?=
+ =?utf-8?B?a0JmSzFwY2grOExBdE5JblAvR05GSVNkTXZXNGgvL3hiOGtJcUN5NnF0bmpt?=
+ =?utf-8?B?WHo1N2lUT2xEenpjVEFXNTlzb0VMWVdaRENoNGNmTUhXdHlKbzRIZzNLdysx?=
+ =?utf-8?B?dzl6QUZXS2dOSVJQTWorMS9qV0UxdDRwQ0ZlRlN0V1NqZlZkM0dLdlJaZE1I?=
+ =?utf-8?B?UVpic2podEkzRUhtWGQ0akUxOUI4SDA3M054WUpMa2I3U09yOHFGbmZLcm5y?=
+ =?utf-8?B?WHc5THRpUTRvazY2UHk3UGxxeWprV0ZVclBIYk42RHNVVWUvQWJ0YVJwcGVE?=
+ =?utf-8?B?WGs2TkJPOHVvTWRiaTNlbVFUa3lwdFowL0lYdHFWLzdOam4rYk12LzdDRjZE?=
+ =?utf-8?B?aEV1alRXbE1Ub3F3N3ZVbHc5VTdXSUFBVDFxRHR0TGhWWlF1ZTY5NFhEVHB4?=
+ =?utf-8?B?SXBNZUt2QkFYbVVsUFJFOWpwdWo5M0RudXRFSG5PalpiYXNyVGcyQjBHaXkv?=
+ =?utf-8?B?ZkMrUzhGRWhCVC9Jb3JWcVl6dUdmREtsaDRwN2RNR3dNejFzekxZeXlPS2xF?=
+ =?utf-8?B?QU9rRHZHSFlNLzlBV0E0WDZSVDI5cDE3cDk3SmFBRUIvUVZIMzhMYTZnQzEv?=
+ =?utf-8?B?T1BVVG1ZWExYMGsrZVhrYzNweGVmb2lNcFlKV3NrcGZFaTNNSDlpRXpGd1JX?=
+ =?utf-8?B?aGJBSWQxbWJKZ1dXWTl3R01XblpWcVI5UmY5MjFzVG9yS2JXYjBjbXkySERB?=
+ =?utf-8?B?ZW1QOWZZV0o3NWNtMXo2alZmQlAvN2lCU0J0MjNTY1NVM1ZxWXh4dkg1NFRM?=
+ =?utf-8?B?QzZLeStPc0N5UFd2L2w2bjM2R2J4eEMvRW4wQW9XTHM2N21XdXE3YXdaQm93?=
+ =?utf-8?B?WGVBNXlrUHdjblp0bnpHZnlHMjgrQ1h6TnpzR2h2cklEaGZnTWoyMXIvWEh3?=
+ =?utf-8?B?MEl3aE1iN3o1Q28wdTFDRjBqdmFuMkh3SWlQU2ErbU9mbXF1R3JDZTZKVC90?=
+ =?utf-8?B?VnA1NE10N0VJeStGczBIWTdOdjEzcGZqZzdxekVVdnJmV2FNR21XQTNWTlho?=
+ =?utf-8?B?Vk5NeVpFRUVINmpMWmxoZ21WK2M0R1BpSkl2L1VucnJJbld4dFdNei9YVDdh?=
+ =?utf-8?B?a2ZZSmNOVEtzSm1pZ3FFbGljNk9NZ2JtZ0dxQm5iWkExbUo5TDAzWUpyYVVp?=
+ =?utf-8?B?R3c1RUlLbThKSHo4RVV6eXpQd1NzYVZsdS93aG1kaU4yTDZMVlk5Y1pJZlFM?=
+ =?utf-8?Q?T9hi7rANj29Lj10u6x8E2GNtAjReG632?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(10070799003)(376014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QUdLOVFvNDd5MHJNZER0eElseUNZZ2hrOXk1RHhuQkNkdmlsS2o5MHB5dkc4?=
+ =?utf-8?B?aklEMDEwNkZDblVOSFFRTVgxTHluZ3NENFROZ1YvYTZuQXE1cmc0ZFBjUUNC?=
+ =?utf-8?B?QTU5UHFkdHo2bDc2cy9rbGg4MlhKdHJKa2NOS3hxa2Vta2N5NjcrUWNNdld4?=
+ =?utf-8?B?bVdQQStlNFJFN05Ib2YrZlFoelhScmNPbGsxaDdxYXNmR0NHc2pqcVhlL3Z6?=
+ =?utf-8?B?bFVucGx1NGdBOUhuTlF4WWRuZUkrcnM0QmYyK09MS292cEc2ZS9hRHEwYmFx?=
+ =?utf-8?B?emkvOUY3VDhzYTNQa2RyUEV4eVh6bWEwQVlwNHMxQ3c2Z21FNitrRDRkZld5?=
+ =?utf-8?B?dFpFR3VwY0tMNjk4akZhYjh0UXBvdmtiNjhuaG9uTGtzTU5uZ2I0ZDRFYUlM?=
+ =?utf-8?B?VWNPTFdGdndEQ2JUQzZZYWtoK3Fkczlzd2lRMUNPNnhNNlZGZERmT0RJeG9z?=
+ =?utf-8?B?KzE1eEpEL3lESVg0QlVLcFgwL1Q1akM2N2NTTUpvSW44YTV6NTU0Zy81M3Vz?=
+ =?utf-8?B?OU52aUVoemZiMTliSnQycGlEWVNTWlUzbEtHWlZXVjRlVHpkeEF2OHEvTGh4?=
+ =?utf-8?B?TEZuQTZGNnlSTXo0THFSNVpoQTh1SVUrejJncC8xZ3BGR21oNWlzanpuV1Uy?=
+ =?utf-8?B?YzlIWkkwMnZ0SFBPS0UwNWR6NU41WkxiOVE1Wm9VRitsb3V2ekhIaHBOZ1FC?=
+ =?utf-8?B?Y0p6c1FNQ3I3SGc1dmFLeHB1V2dZVENIV1lsK3k2RzZQd0tyY3pLeHVnZEg3?=
+ =?utf-8?B?ZmlBU2w0UjNIYVZ3bTdTc0tIYVNqMjZxdHNZekhLbFB0RlllemtpRXp1K1Fi?=
+ =?utf-8?B?b09WRUFXL2RTVnBobm43VmdCQldSV1ZoOFYzOWp3OWIyS0tnL3hzWWlFZytv?=
+ =?utf-8?B?UUFGNkhONnR0Skd1VExGbW1HUFRyUTNFSkxlc241NXFRa3FhTXVrQStYMy9K?=
+ =?utf-8?B?MTlXcU5wT01oOTlYT2NsdmtPR0lRa1d6TjNCMU1heGhYOUk3M2s3V0c4UkdQ?=
+ =?utf-8?B?N2pSZXk0VzAyL1MvNTllWmN2V3VWT0NuOXVmMXEvWmpkMFhYSG5xMjRVNzQv?=
+ =?utf-8?B?R1J5YjVrU2xTS2xtSUV1YXdGVlFjQ3ZMWXFQdnZ5c01ZVUtYUmhOdW5laU9R?=
+ =?utf-8?B?N04zTWhJR1crNTduQUQ3dVRBcFJlNWxwWjdGdkNoY0Rqa1lsQ1JCV0MzS2Ry?=
+ =?utf-8?B?MzZGdVhhYm5UcjZuOXM1bEl2cDBXMVZvY3FPdWhUL050Z01sREplY2cwRElE?=
+ =?utf-8?B?bS9QQkxEQ3NCL0Q5djZrMTFld096YzZZSXBMRG0wNjNvTjZjNDdabUptMTN6?=
+ =?utf-8?B?R0NVbndQcWxic1JGcFk1Z3pWTURZR0syUXk2ZHBPK1NObmRFK1paY0FxSUx4?=
+ =?utf-8?B?dzlPVVc2SUhZZjhOb0NiU0wvcytxMlVxWXlLcmtkR2psbk54NTFLTlcxUXJ1?=
+ =?utf-8?B?V2FVaFl4WGo5Z2Z6TnV3SGZyL2gveEQzTkliR0h6bTRIRlNFbGNrcWVUcS82?=
+ =?utf-8?B?TklNckxRMyt2Zk9BeEVpb2g3K3FvWGZrMlVDM1h0Yk5pV0FhNEtUTkZVRjNO?=
+ =?utf-8?B?Zzg3SnppTnNESVhQV0Y1em81U1R3M3lZUnovSVAxdVBPeU4rQ0VSd3N5N2lF?=
+ =?utf-8?B?aldXNFppYUZTSHpFWDhjbFA0TlJTVzdGaGhQTVNDYzJWazc4OVZpaGNpMVlB?=
+ =?utf-8?B?ZWxyZHNjVVZQRWwyTHZKczNhMFNjNGVTRzFKdnFOb3lKNEU0MjRuYXpIRGNG?=
+ =?utf-8?B?SCtwamQ2SDZKUVpFbXlQZ0RDdmlYdUdYd1E0YXhVSGNHSHZVS3ZEQ0dBSTY1?=
+ =?utf-8?B?aXZXN0NSbmUxeUJIZUFPU0hwM2ltTlg0cTk1S2dpQ0lmMWtwV1g5RXpNM1RU?=
+ =?utf-8?B?NGlPVFVsbzdXbUJPSFd1WDd2Z0xNOW9NTENJYUQ4elV4eERtM1YvTFMrenha?=
+ =?utf-8?B?R1YyK0YyRmpDK0pGYkJwVDgrZVZkYVRxQlFWNkIwcjJoQ3RKVTJhUm0vVTBp?=
+ =?utf-8?B?Z3ZsRTZsQ0dYNUdiNXVwUnhtSUVXTHN5MXYwNldNVllySHRwMVNGMjZ0TWNO?=
+ =?utf-8?B?VUxJQ05JK1ZYNmR2T3lvNmVxYVVvQ2pPcXhNeCsvbWdDaTljblhNWUVIVnVQ?=
+ =?utf-8?B?aWNuK0MxeDhHOUlkTFRVV1dFUFFQNUdITjMrUU9BQWhLVFgwek9KbHRBOXlt?=
+ =?utf-8?Q?2CWVnlY8uMpDw/+SmpMpRWnO4o0reTtHT3w27FSUoR6F?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65bba69e-9d7f-47e4-dca6-08de2b0c413a
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 03:47:57.2463 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: m1VCKsepVl5q6D9386lj15wSAWpcmdkycyLzTL58ECuGTJUYrYseMQYjALuhtbCbD9TQ2orml3GTky2kRbAnNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8148
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,413 +177,278 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix 45+ kernel-doc warnings in vmwgfx_drv.h:
-- spell a struct name correctly
-- don't have structs between kernel-doc and its struct
-- end description of struct members with ':'
-- start all kernel-doc lines with " *"
-- mark private struct member and enum value with "private:"
-- add kernel-doc for enum vmw_dma_map_mode
-- add missing struct member comments
-- add missing function parameter comments
-- convert "/**" to "/*" for non-kernel-doc comments
-- add missing "Returns:" comments for several functions
-- correct a function parameter name
+Hi Joel,
 
-to eliminate kernel-doc warnings (examples):
+This low-level layer looks mostly ok to me, I will have more comments on
+the higher layer though.
 
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:128 struct vmw_bo; error:
- Cannot parse struct or union!
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:151 struct member 'used_prio'
- not described in 'vmw_resource'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:151 struct member 'mob_node'
- not described in 'vmw_resource'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:199 bad line: SM4 device.
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:270 struct member 'private'
- not described in 'vmw_res_cache_entry'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:280 Enum value
- 'vmw_dma_alloc_coherent' not described in enum 'vmw_dma_map_mode'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:280 Enum value
- 'vmw_dma_map_bind' not described in enum 'vmw_dma_map_mode'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:295 struct member 'addrs'
- not described in 'vmw_sg_table'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:295 struct member 'mode'
- not described in 'vmw_sg_table'
-vmwgfx_drv.h:309: warning: Excess struct member 'num_regions' description
- in 'vmw_sg_table'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:402 struct member 'filp'
- not described in 'vmw_sw_context'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:732 This comment starts with
- '/**', but isn't a kernel-doc comment.
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:742 This comment starts with
- '/**', but isn't a kernel-doc comment.
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:762 This comment starts with
- '/**', but isn't a kernel-doc comment.
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:887 No description found for
- return value of 'vmw_fifo_caps'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:901 No description found for
- return value of 'vmw_is_cursor_bypass3_enabled'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:906 This comment starts with
- '/**', but isn't a kernel-doc comment.
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:961 This comment starts with
- '/**', but isn't a kernel-doc comment.
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:996 This comment starts with
- '/**', but isn't a kernel-doc comment.
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1082 cannot understand
- function prototype: 'const struct dma_buf_ops vmw_prime_dmabuf_ops;'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1303 struct member 'do_cpy'
- not described in 'vmw_diff_cpy'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1385 function parameter 'fmt'
- not described in 'VMW_DEBUG_KMS'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1389 This comment starts with
- '/**', but isn't a kernel-doc comment.
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1426 function parameter 'vmw'
- not described in 'vmw_fifo_mem_read'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1426 No description found for
- return value of 'vmw_fifo_mem_read'
-Warning: drivers/gpu/drm/vmwgfx/vmwgfx_drv.h:1441 function parameter
- 'fifo_reg' not described in 'vmw_fifo_mem_write'
+On Wed Nov 12, 2025 at 2:13 AM JST, Joel Fernandes wrote:
+> Add foundational types for working with C's doubly circular linked
+> lists (list_head). Provide low-level iteration over list nodes.
+>
+> Typed iteration over actual items will be added in a follow-up
+> commit using the FromListHead trait and ClistLink mechanism.
+>
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> ---
+>  rust/kernel/clist.rs | 190 +++++++++++++++++++++++++++++++++++++++++++
+>  rust/kernel/lib.rs   |   1 +
+>  2 files changed, 191 insertions(+)
+>  create mode 100644 rust/kernel/clist.rs
+>
+> diff --git a/rust/kernel/clist.rs b/rust/kernel/clist.rs
+> new file mode 100644
+> index 000000000000..5ea505d463ad
+> --- /dev/null
+> +++ b/rust/kernel/clist.rs
+> @@ -0,0 +1,190 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +//! A C doubly circular intrusive linked list interface for rust code.
+> +//!
+> +//! TODO: Doctest example will be added in later commit in series due to=
+ dependencies.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Zack Rusin <zack.rusin@broadcom.com>
-Cc: <bcm-kernel-feedback-list@broadcom.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h |   93 +++++++++++++++-----------
- 1 file changed, 57 insertions(+), 36 deletions(-)
+Since it is added in the following patch, I guess we can do without this
+very temporary TODO. :)
 
---- linux-next-20251121.orig/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ linux-next-20251121/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -96,12 +96,17 @@ struct vmwgfx_hash_item {
- 
- struct vmw_res_func;
- 
-+struct vmw_bo;
-+struct vmw_bo;
-+struct vmw_resource_dirty;
-+
- /**
-- * struct vmw-resource - base class for hardware resources
-+ * struct vmw_resource - base class for hardware resources
-  *
-  * @kref: For refcounting.
-  * @dev_priv: Pointer to the device private for this resource. Immutable.
-  * @id: Device id. Protected by @dev_priv::resource_lock.
-+ * @used_prio: Priority for this resource.
-  * @guest_memory_size: Guest memory buffer size. Immutable.
-  * @res_dirty: Resource contains data not yet in the guest memory buffer.
-  * Protected by resource reserved.
-@@ -117,18 +122,16 @@ struct vmw_res_func;
-  * pin-count greater than zero. It is not on the resource LRU lists and its
-  * guest memory buffer is pinned. Hence it can't be evicted.
-  * @func: Method vtable for this resource. Immutable.
-- * @mob_node; Node for the MOB guest memory rbtree. Protected by
-+ * @mob_node: Node for the MOB guest memory rbtree. Protected by
-  * @guest_memory_bo reserved.
-  * @lru_head: List head for the LRU list. Protected by @dev_priv::resource_lock.
-  * @binding_head: List head for the context binding list. Protected by
-  * the @dev_priv::binding_mutex
-+ * @dirty: resource's dirty tracker
-  * @res_free: The resource destructor.
-  * @hw_destroy: Callback to destroy the resource on the device, as part of
-  * resource destruction.
-  */
--struct vmw_bo;
--struct vmw_bo;
--struct vmw_resource_dirty;
- struct vmw_resource {
- 	struct kref kref;
- 	struct vmw_private *dev_priv;
-@@ -196,8 +199,8 @@ struct vmw_surface_offset;
-  * @quality_level: Quality level.
-  * @autogen_filter: Filter for automatically generated mipmaps.
-  * @array_size: Number of array elements for a 1D/2D texture. For cubemap
--                texture number of faces * array_size. This should be 0 for pre
--		SM4 device.
-+ *              texture number of faces * array_size. This should be 0 for pre
-+ *		SM4 device.
-  * @buffer_byte_stride: Buffer byte stride.
-  * @num_sizes: Size of @sizes. For GB surface this should always be 1.
-  * @base_size: Surface dimension.
-@@ -265,18 +268,24 @@ struct vmw_fifo_state {
- struct vmw_res_cache_entry {
- 	uint32_t handle;
- 	struct vmw_resource *res;
-+	/* private: */
- 	void *private;
-+	/* public: */
- 	unsigned short valid_handle;
- 	unsigned short valid;
- };
- 
- /**
-  * enum vmw_dma_map_mode - indicate how to perform TTM page dma mappings.
-+ * @vmw_dma_alloc_coherent: Use TTM coherent pages
-+ * @vmw_dma_map_populate: Unmap from DMA just after unpopulate
-+ * @vmw_dma_map_bind: Unmap from DMA just before unbind
-  */
- enum vmw_dma_map_mode {
--	vmw_dma_alloc_coherent, /* Use TTM coherent pages */
--	vmw_dma_map_populate,   /* Unmap from DMA just after unpopulate */
--	vmw_dma_map_bind,       /* Unmap from DMA just before unbind */
-+	vmw_dma_alloc_coherent,
-+	vmw_dma_map_populate,
-+	vmw_dma_map_bind,
-+	/* private: */
- 	vmw_dma_map_max
- };
- 
-@@ -284,8 +293,11 @@ enum vmw_dma_map_mode {
-  * struct vmw_sg_table - Scatter/gather table for binding, with additional
-  * device-specific information.
-  *
-+ * @mode: which page mapping mode to use
-+ * @pages: Array of page pointers to the pages.
-+ * @addrs: DMA addresses to the pages if coherent pages are used.
-  * @sgt: Pointer to a struct sg_table with binding information
-- * @num_regions: Number of regions with device-address contiguous pages
-+ * @num_pages: Number of @pages
-  */
- struct vmw_sg_table {
- 	enum vmw_dma_map_mode mode;
-@@ -353,6 +365,7 @@ struct vmw_ctx_validation_info;
-  * than from user-space
-  * @fp: If @kernel is false, points to the file of the client. Otherwise
-  * NULL
-+ * @filp: DRM state for this file
-  * @cmd_bounce: Command bounce buffer used for command validation before
-  * copying to fifo space
-  * @cmd_bounce_size: Current command bounce buffer size
-@@ -729,7 +742,7 @@ extern void vmw_svga_disable(struct vmw_
- bool vmwgfx_supported(struct vmw_private *vmw);
- 
- 
--/**
-+/*
-  * GMR utilities - vmwgfx_gmr.c
-  */
- 
-@@ -739,7 +752,7 @@ extern int vmw_gmr_bind(struct vmw_priva
- 			int gmr_id);
- extern void vmw_gmr_unbind(struct vmw_private *dev_priv, int gmr_id);
- 
--/**
-+/*
-  * User handles
-  */
- struct vmw_user_object {
-@@ -759,7 +772,7 @@ void *vmw_user_object_map_size(struct vm
- void vmw_user_object_unmap(struct vmw_user_object *uo);
- bool vmw_user_object_is_mapped(struct vmw_user_object *uo);
- 
--/**
-+/*
-  * Resource utilities - vmwgfx_resource.c
-  */
- struct vmw_user_resource_conv;
-@@ -819,7 +832,7 @@ static inline bool vmw_resource_mob_atta
- 	return !RB_EMPTY_NODE(&res->mob_node);
- }
- 
--/**
-+/*
-  * GEM related functionality - vmwgfx_gem.c
-  */
- struct vmw_bo_params;
-@@ -833,7 +846,7 @@ extern int vmw_gem_object_create_ioctl(s
- 				       struct drm_file *filp);
- extern void vmw_debugfs_gem_init(struct vmw_private *vdev);
- 
--/**
-+/*
-  * Misc Ioctl functionality - vmwgfx_ioctl.c
-  */
- 
-@@ -846,7 +859,7 @@ extern int vmw_present_ioctl(struct drm_
- extern int vmw_present_readback_ioctl(struct drm_device *dev, void *data,
- 				      struct drm_file *file_priv);
- 
--/**
-+/*
-  * Fifo utilities - vmwgfx_fifo.c
-  */
- 
-@@ -880,9 +893,11 @@ extern int vmw_cmd_flush(struct vmw_priv
- 
- 
- /**
-- * vmw_fifo_caps - Returns the capabilities of the FIFO command
-+ * vmw_fifo_caps - Get the capabilities of the FIFO command
-  * queue or 0 if fifo memory isn't present.
-  * @dev_priv: The device private context
-+ *
-+ * Returns: capabilities of the FIFO command or %0 if fifo memory not present
-  */
- static inline uint32_t vmw_fifo_caps(const struct vmw_private *dev_priv)
- {
-@@ -893,9 +908,11 @@ static inline uint32_t vmw_fifo_caps(con
- 
- 
- /**
-- * vmw_is_cursor_bypass3_enabled - Returns TRUE iff Cursor Bypass 3
-- * is enabled in the FIFO.
-+ * vmw_is_cursor_bypass3_enabled - check Cursor Bypass 3 enabled setting
-+ * in the FIFO.
-  * @dev_priv: The device private context
-+ *
-+ * Returns: %true iff Cursor Bypass 3 is enabled in the FIFO
-  */
- static inline bool
- vmw_is_cursor_bypass3_enabled(const struct vmw_private *dev_priv)
-@@ -903,7 +920,7 @@ vmw_is_cursor_bypass3_enabled(const stru
- 	return (vmw_fifo_caps(dev_priv) & SVGA_FIFO_CAP_CURSOR_BYPASS_3) != 0;
- }
- 
--/**
-+/*
-  * TTM buffer object driver - vmwgfx_ttm_buffer.c
-  */
- 
-@@ -927,7 +944,7 @@ extern void vmw_piter_start(struct vmw_p
-  *
-  * @viter: Pointer to the iterator to advance.
-  *
-- * Returns false if past the list of pages, true otherwise.
-+ * Returns: false if past the list of pages, true otherwise.
-  */
- static inline bool vmw_piter_next(struct vmw_piter *viter)
- {
-@@ -939,7 +956,7 @@ static inline bool vmw_piter_next(struct
-  *
-  * @viter: Pointer to the iterator
-  *
-- * Returns the DMA address of the page pointed to by @viter.
-+ * Returns: the DMA address of the page pointed to by @viter.
-  */
- static inline dma_addr_t vmw_piter_dma_addr(struct vmw_piter *viter)
- {
-@@ -951,14 +968,14 @@ static inline dma_addr_t vmw_piter_dma_a
-  *
-  * @viter: Pointer to the iterator
-  *
-- * Returns the DMA address of the page pointed to by @viter.
-+ * Returns: the DMA address of the page pointed to by @viter.
-  */
- static inline struct page *vmw_piter_page(struct vmw_piter *viter)
- {
- 	return viter->pages[viter->i];
- }
- 
--/**
-+/*
-  * Command submission - vmwgfx_execbuf.c
-  */
- 
-@@ -993,7 +1010,7 @@ extern int vmw_execbuf_copy_fence_user(s
- 					int32_t out_fence_fd);
- bool vmw_cmd_describe(const void *buf, u32 *size, char const **cmd);
- 
--/**
-+/*
-  * IRQs and wating - vmwgfx_irq.c
-  */
- 
-@@ -1016,7 +1033,7 @@ bool vmw_generic_waiter_add(struct vmw_p
- bool vmw_generic_waiter_remove(struct vmw_private *dev_priv,
- 			       u32 flag, int *waiter_count);
- 
--/**
-+/*
-  * Kernel modesetting - vmwgfx_kms.c
-  */
- 
-@@ -1048,7 +1065,7 @@ extern int vmw_resource_pin(struct vmw_r
- extern void vmw_resource_unpin(struct vmw_resource *res);
- extern enum vmw_res_type vmw_res_type(const struct vmw_resource *res);
- 
--/**
-+/*
-  * Overlay control - vmwgfx_overlay.c
-  */
- 
-@@ -1063,20 +1080,20 @@ int vmw_overlay_unref(struct vmw_private
- int vmw_overlay_num_overlays(struct vmw_private *dev_priv);
- int vmw_overlay_num_free_overlays(struct vmw_private *dev_priv);
- 
--/**
-+/*
-  * GMR Id manager
-  */
- 
- int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type);
- void vmw_gmrid_man_fini(struct vmw_private *dev_priv, int type);
- 
--/**
-+/*
-  * System memory manager
-  */
- int vmw_sys_man_init(struct vmw_private *dev_priv);
- void vmw_sys_man_fini(struct vmw_private *dev_priv);
- 
--/**
-+/*
-  * Prime - vmwgfx_prime.c
-  */
- 
-@@ -1292,7 +1309,7 @@ extern void vmw_cmdbuf_irqthread(struct
-  * @line: The current line of the blit.
-  * @line_offset: Offset of the current line segment.
-  * @cpp: Bytes per pixel (granularity information).
-- * @memcpy: Which memcpy function to use.
-+ * @do_cpy: Which memcpy function to use.
-  */
- struct vmw_diff_cpy {
- 	struct drm_rect rect;
-@@ -1380,13 +1397,14 @@ vm_fault_t vmw_bo_vm_mkwrite(struct vm_f
- 
- /**
-  * VMW_DEBUG_KMS - Debug output for kernel mode-setting
-+ * @fmt: format string for the args
-  *
-  * This macro is for debugging vmwgfx mode-setting code.
-  */
- #define VMW_DEBUG_KMS(fmt, ...)                                               \
- 	DRM_DEBUG_DRIVER(fmt, ##__VA_ARGS__)
- 
--/**
-+/*
-  * Inline helper functions
-  */
- 
-@@ -1417,11 +1435,13 @@ static inline void vmw_fifo_resource_dec
- 
- /**
-  * vmw_fifo_mem_read - Perform a MMIO read from the fifo memory
-- *
-+ * @vmw: The device private structure
-  * @fifo_reg: The fifo register to read from
-  *
-  * This function is intended to be equivalent to ioread32() on
-  * memremap'd memory, but without byteswapping.
-+ *
-+ * Returns: the value read
-  */
- static inline u32 vmw_fifo_mem_read(struct vmw_private *vmw, uint32 fifo_reg)
- {
-@@ -1431,8 +1451,9 @@ static inline u32 vmw_fifo_mem_read(stru
- 
- /**
-  * vmw_fifo_mem_write - Perform a MMIO write to volatile memory
-- *
-- * @addr: The fifo register to write to
-+ * @vmw: The device private structure
-+ * @fifo_reg: The fifo register to write to
-+ * @value: The value to write
-  *
-  * This function is intended to be equivalent to iowrite32 on
-  * memremap'd memory, but without byteswapping.
+> +
+> +use crate::{
+> +    bindings,
+> +    types::Opaque, //
+> +};
+> +
+> +/// A C linked list with a sentinel head
+
+Nit: '.' at end of sentence.
+
+> +///
+> +/// A sentinel head is one which is not embedded in an item. It represen=
+ts the entire
+> +/// linked list and can be used for add, remove, empty operations etc.
+> +///
+> +/// # Invariants
+> +///
+> +/// - `Clist` wraps an allocated and valid C list_head structure that is=
+ the sentinel of a list.
+> +/// - All the `list_head` nodes in the list are allocated and have valid=
+ next/prev pointers.
+> +/// - The underlying `list_head` (and entire list) is not modified by C.
+
+These last two ones look more like safety requirements to maintain for
+the life of a Clist than invariants.
+
+> +#[repr(transparent)]
+> +pub struct Clist(ClistHead);
+
+`ClistHead`'s definition should come before `Clist` for clarity.
+
+> +
+> +// SAFETY: `Clist` can be sent to any thread.
+> +unsafe impl Send for Clist {}
+> +// SAFETY: `Clist` can be shared among threads as it is not modified by =
+C per type invariants.
+> +unsafe impl Sync for Clist {}
+
+These explicit impls should not be needed - as `ClistHead` implements
+`Send` and `Sync`, they will be automatically derived for `Clist` which
+just wraps it.
+
+> +
+> +impl Clist {
+> +    /// Create a `&Clist` from a raw sentinel `list_head` pointer.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// `ptr` must be a valid pointer to an allocated and initialized `l=
+ist_head` structure
+> +    /// representing a list sentinel, and it must remain valid for the l=
+ifetime `'a`.
+> +    #[inline]
+> +    pub unsafe fn from_raw<'a>(ptr: *mut bindings::list_head) -> &'a Sel=
+f {
+> +        // SAFETY:
+> +        // - `ClistHead` has same layout as `list_head`.
+> +        // - `ptr` is valid for 'a.
+> +        unsafe { &*ptr.cast() }
+
+Let's reuse `ClistHead::from_raw` here.
+
+> +    }
+> +
+> +    /// Get the raw sentinel `list_head` pointer.
+> +    #[inline]
+> +    pub fn as_raw(&self) -> *mut bindings::list_head {
+> +        self.0.as_raw()
+> +    }
+> +
+> +    /// Access the underlying `ClistHead`.
+> +    #[inline]
+> +    pub fn head(&self) -> &ClistHead {
+> +        &self.0
+> +    }
+> +
+> +    /// Check if the list is empty.
+> +    #[inline]
+> +    pub fn is_empty(&self) -> bool {
+> +        self.0.is_empty()
+> +    }
+> +
+> +    /// Create a low-level iterator over `ClistHead` nodes. Caller conve=
+rts the returned
+> +    /// heads into items.
+> +    #[inline]
+> +    pub fn iter_heads(&self) -> ClistHeadIter<'_> {
+> +        ClistHeadIter {
+> +            current: &self.0,
+> +            head: &self.0,
+> +        }
+> +    }
+> +}
+> +
+> +/// Wraps a non-sentinel C `list_head` node for use in intrusive linked =
+lists.
+
+This says "non-sentinel", but `Clist` embeds a `ClistHead` which wraps a
+sentinel node, so that statement does not seem to be true.
+
+> +///
+> +/// # Invariants
+> +///
+> +/// - `ClistHead` represents an allocated and valid non-sentinel `list_h=
+ead` structure.
+> +/// - The underlying `list_head` (and entire list) is not modified by C.
+> +#[repr(transparent)]
+> +pub struct ClistHead(Opaque<bindings::list_head>);
+> +
+> +// SAFETY: `ClistHead` can be sent to any thread.
+> +unsafe impl Send for ClistHead {}
+> +// SAFETY: `ClistHead` can be shared among threads as it is not modified=
+ by C per type invariants.
+> +unsafe impl Sync for ClistHead {}
+> +
+> +impl ClistHead {
+> +    /// Create a `&ClistHead` reference from a raw `list_head` pointer.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// `ptr` must be a valid pointer to an allocated and initialized `l=
+ist_head` structure,
+> +    /// and it must remain valid for the lifetime `'a`.
+> +    #[inline]
+> +    pub unsafe fn from_raw<'a>(ptr: *mut bindings::list_head) -> &'a Sel=
+f {
+> +        // SAFETY:
+> +        // - `ClistHead` has same layout as `list_head`.
+> +        // - `ptr` is valid for 'a.
+> +        unsafe { &*ptr.cast() }
+> +    }
+> +
+> +    /// Get the raw `list_head` pointer.
+> +    #[inline]
+> +    pub fn as_raw(&self) -> *mut bindings::list_head {
+> +        self.0.get()
+> +    }
+> +
+> +    /// Get the next `ClistHead` in the list.
+> +    #[inline]
+> +    pub fn next(&self) -> &Self {
+> +        // SAFETY:
+> +        // - `self.as_raw()` is valid per type invariants.
+> +        // - The `next` pointer is guaranteed to be non-NULL.
+> +        unsafe {
+> +            let raw =3D self.as_raw();
+
+This line doesn't need to be in the `unsafe` block (also applies to
+other methods).
+
+> +            Self::from_raw((*raw).next)
+> +        }
+> +    }
+> +
+> +    /// Get the previous `ClistHead` in the list.
+> +    #[inline]
+> +    pub fn prev(&self) -> &Self {
+> +        // SAFETY:
+> +        // - self.as_raw() is valid per type invariants.
+> +        // - The `prev` pointer is guaranteed to be non-NULL.
+> +        unsafe {
+> +            let raw =3D self.as_raw();
+> +            Self::from_raw((*raw).prev)
+> +        }
+> +    }
+> +
+> +    /// Check if this node is linked in a list (not isolated).
+> +    #[inline]
+> +    pub fn is_in_list(&self) -> bool {
+> +        // SAFETY: self.as_raw() is valid per type invariants.
+> +        unsafe {
+> +            let raw =3D self.as_raw();
+> +            (*raw).next !=3D raw && (*raw).prev !=3D raw
+> +        }
+> +    }
+> +
+> +    /// Check if the list is empty.
+> +    #[inline]
+> +    pub fn is_empty(&self) -> bool {
+> +        // SAFETY: self.as_raw() is valid per type invariants.
+> +        unsafe {
+> +            let raw =3D self.as_raw();
+> +            (*raw).next =3D=3D raw
+> +        }
+> +    }
+
+Does this method also apply to non-sentinel nodes? If not, should we
+move it to `Clist`?
+
+I am also wondering what the difference is with `is_in_list`. If
+`raw.next =3D=3D raw`, then on a valid list `raw.prev =3D=3D raw` as well, =
+so
+it seems to be that `is_in_list()` is equivalent to `!is_empty()`.
+
+> +}
+> +
+> +/// Low-level iterator over `list_head` nodes.
+> +///
+> +/// An iterator used to iterate over a C intrusive linked list (`list_he=
+ad`). Caller has to
+> +/// perform conversion of returned `ClistHead` to an item (typically usi=
+ng `container_of` macro).
+> +///
+> +/// # Invariants
+> +///
+> +/// `ClistHeadIter` is iterating over an allocated, initialized and vali=
+d `Clist`.
+> +pub struct ClistHeadIter<'a> {
+> +    current: &'a ClistHead,
+> +    head: &'a ClistHead,
+
+IIUC `head` should probably be a `Clist`?
+
+> +}
+> +
+> +// SAFETY: ClistHeadIter gives out immutable references to ClistHead,
+> +// which is Send.
+> +unsafe impl Send for ClistHeadIter<'_> {}
+> +
+> +// SAFETY: ClistHeadIter gives out immutable references to ClistHead,
+> +// which is Sync.
+> +unsafe impl Sync for ClistHeadIter<'_> {}
+
+`Send` and `Sync` will also be auto-implemented here.
+
+> +
+> +impl<'a> Iterator for ClistHeadIter<'a> {
+> +    type Item =3D &'a ClistHead;
+> +
+> +    #[inline]
+> +    fn next(&mut self) -> Option<Self::Item> {
+> +        // Advance to next node.
+> +        self.current =3D self.current.next();
+> +
+> +        // Check if we've circled back to HEAD.
+> +        if self.current.as_raw() =3D=3D self.head.as_raw() {
+
+Maybe derive/implement `PartialEq` so we can avoid calling `as_raw`
+when comparing nodes.
+
