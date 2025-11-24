@@ -2,82 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 038AAC8178A
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 17:03:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C25C83E0B
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 09:04:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A002A10E2F9;
-	Mon, 24 Nov 2025 16:03:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9985F10E376;
+	Tue, 25 Nov 2025 08:04:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="cc20tveb";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=exactco.de header.i=@exactco.de header.b="IBujdKQp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32DCC10E2F9
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 16:03:17 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 635361A1D26;
- Mon, 24 Nov 2025 16:03:15 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 2CA36606FC;
- Mon, 24 Nov 2025 16:03:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id B4CDF10371A40; Mon, 24 Nov 2025 17:03:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1764000193; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=p+QBWKtawqpPzZu9LPDyPm5gsgmOzV7hJRZ5Ebshggc=;
- b=cc20tvebhyskRFsehgbMDtN58mFWJzw3+meTYMQYXrWdpw5VV3uKvGIpPD9HS8R83EmRZH
- qALe8e5UUI6C7MJXNERyWBLmNk5WfzKKvn8Wss/BPa1OVvmct7arm5zW27QDKgInGVcz6k
- oi6j2QLmL3GbqobdqI1pyE5V0TLsDjFvq2MBjZC1AlbLsk1PMdr+v727PXLGHuuUayjymh
- vV+Lgfi2eIyHigvvg8KiU75iRe8JFjVl6qwYhTFrQuO5g/Z240s/dFBsN/mdGefIWxxz3z
- LHntkwUmsv/8hiteqTu/SKAu006LhE9TFbOO34cMGYjkq2/kVuVeteyUjoVDQw==
+X-Greylist: delayed 1462 seconds by postgrey-1.36 at gabe;
+ Mon, 24 Nov 2025 16:32:06 UTC
+Received: from exactco.de (exactco.de [176.9.10.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9873C10E2FF;
+ Mon, 24 Nov 2025 16:32:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=exactco.de; 
+ s=x;
+ h=Content-Transfer-Encoding:Content-Type:Mime-Version:From:Subject:Cc:To
+ :Message-Id:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
+ References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
+ List-Owner:List-Archive; bh=us4cXwZibrCp/4pn/5nhOL8E5dr825vqUhsBdb3WS3c=; b=I
+ BujdKQpU+dQjcSm06fPp0Aef0Zrx/quTQSpqgd5NhfOvz6HhVa84HYaH6PGq4AyiaI8obcF6xt3Ul
+ WHp0x4ObX7YIaz0NsaqOqfTw51peAFkRxSvdLk+YBoV81CClHqR5VaFAErRbvV7CqDXnXIQ0QgVMB
+ +RVjPXK4QknKYS6AqV2Fv71aAC0rkuCC/O6vEeMO+INtadeNs41S3ZXJQV8s2Oh5HQ41NwpW5KlQa
+ dSMVmBV0pT2Zxj48iyCulBcLKjftTnLAvTzZ/kZpIk686dv3N7V0ylD+BJEwU9ZhMMGLMVjev4V1M
+ 4dI4eyBJh8DSrIqDxx2UkfZGnNMAa1c4Q==;
+Date: Mon, 24 Nov 2025 17:07:57 +0100 (CET)
+Message-Id: <20251124.170757.190260467597677715.rene@exactco.de>
+To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Lyude Paul
+ <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH] drm/nouveau: fix circular dep oops from vendored i2c encoder
+From: =?iso-8859-1?Q?Ren=E9?= Rebe <rene@exactco.de>
+X-Mailer: Mew version 6.10 on Emacs 30.2
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 24 Nov 2025 17:03:00 +0100
-Message-Id: <DEH1VJUEJ8HQ.MIS45UOLCPXL@bootlin.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH 01/26] drm/bridge: add drm_of_find_bridge()
-Cc: "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>, "Alexey Brodkin"
- <abrodkin@synopsys.com>, "Phong LE" <ple@baylibre.com>, "Liu Ying"
- <victor.liu@nxp.com>, "Shawn Guo" <shawnguo@kernel.org>, "Sascha Hauer"
- <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
- <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Adrien
- Grassein" <adrien.grassein@gmail.com>, "Laurent Pinchart"
- <laurent.pinchart+renesas@ideasonboard.com>, "Tomi Valkeinen"
- <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
- <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
- <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Kevin
- Hilman" <khilman@baylibre.com>, "Jerome Brunet" <jbrunet@baylibre.com>,
- "Martin Blumenstingl" <martin.blumenstingl@googlemail.com>, "Chun-Kuang Hu"
- <chunkuang.hu@kernel.org>, "Philipp Zabel" <p.zabel@pengutronix.de>,
- "Matthias Brugger" <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
- <angelogioacchino.delregno@collabora.com>, "Anitha Chrisanthus"
- <anitha.chrisanthus@intel.com>, "Edmund Dea" <edmund.j.dea@intel.com>,
- "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
- <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
- "Krzysztof Kozlowski" <krzk@kernel.org>, "Alim Akhtar"
- <alim.akhtar@samsung.com>, "Hui Pu" <Hui.Pu@gehealthcare.com>, "Thomas
- Petazzoni" <thomas.petazzoni@bootlin.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <imx@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-renesas-soc@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
- <linux-mediatek@lists.infradead.org>, <linux-samsung-soc@vger.kernel.org>
-To: "Maxime Ripard" <mripard@kernel.org>
-X-Mailer: aerc 0.20.1
-References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
- <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-1-0db98a7fe474@bootlin.com>
- <pv56bl4p7lfflloocozxaeufd6udkk3jhehrtne65cidrvlfwn@wvrkw6mjmhwp>
-In-Reply-To: <pv56bl4p7lfflloocozxaeufd6udkk3jhehrtne65cidrvlfwn@wvrkw6mjmhwp>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: Text/Plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 25 Nov 2025 08:03:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,46 +56,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Maxime,
+Since a73583107af9 ("drm/nouveau: vendor in drm_encoder_slave API")
+nouveau appears to be broken for all dispnv04 GPUs (before NV50).
+Depending on the kernel version, either having no display output and
+hanging in kernel for a long time, or even oopsing in the cleanup
+path like:
 
-On Mon Nov 24, 2025 at 11:15 AM CET, Maxime Ripard wrote:
-> Hi,
->
-> On Wed, Nov 19, 2025 at 02:05:32PM +0100, Luca Ceresoli wrote:
->>  #ifdef CONFIG_OF
->> +/**
->> + * drm_of_find_bridge - find the bridge corresponding to the device nod=
-e in
->> + *			the global bridge list
->> + * @np: device node
->> + *
->> + * The refcount of the returned bridge is incremented. Use drm_bridge_p=
-ut()
->> + * when done with it.
->> + *
->> + * RETURNS:
->> + * drm_bridge control struct on success, NULL on failure
->> + */
->> +struct drm_bridge *drm_of_find_bridge(struct device_node *np)
->
-> So the convention we've mostly had was that the first argument would
-> define the prefix, ie. if we pass a drm_* pointer, the prefix is drm, if
-> we pass a device_node pointer, then the prefix is of.
->
-> Considering that convention, of_drm_find_bridge would be the ideal
-> candidate, but we can't use that obviously. What about
-> of_drm_find_and_get_bridge, or of_drm_get_bridge?
+Hardware name: PowerMac11,2 PPC970MP 0x440101 PowerMac
+...
+nouveau 0000:0a:00.0: drm: 0x14C5: Parsing digital output script table
+BUG: Unable to handle kernel data access on read at 0x00041520
+Faulting instruction address: 0xc0003d0001be0844
+Oops: Kernel access of bad area, sig: 11 [#1]
+BE PAGE_SIZE=4K MMU=Hash  SMP NR_CPUS=8 NUMA PowerMac
+Modules linked in: windfarm_cpufreq_clamp windfarm_smu_sensors windfarm_smu_controls windfarm_pm112 snd_aoa_codec_onyx snd_aoa_fabric_layout snd_aoa windfarm_pid jo
+ apple_mfi_fastcharge rndis_host cdc_ether usbnet mii snd_aoa_i2sbus snd_aoa_soundbus snd_pcm snd_timer snd soundcore rack_meter windfarm_smu_sat windfarm_max6690_s
+m75_sensor windfarm_core gpu_sched drm_gpuvm drm_exec drm_client_lib drm_ttm_helper ttm drm_display_helper drm_kms_helper drm drm_panel_orientation_quirks syscopyar
+_sys_fops i2c_algo_bit backlight uio_pdrv_genirq uio uninorth_agp agpgart zram dm_mod dax ipv6 nfsv4 dns_resolver nfs lockd grace sunrpc offb cfbfillrect cfbimgblt
+ont input_leds sr_mod cdrom sd_mod uas ata_generic hid_apple hid_generic usbhid hid usb_storage pata_macio sata_svw libata firewire_ohci scsi_mod firewire_core ohci
+ehci_pci ehci_hcd tg3 ohci_hcd libphy usbcore usb_common nls_base
+ led_class
+CPU: 0 UID: 0 PID: 245 Comm: (udev-worker) Not tainted 6.14.0-09584-g7d06015d936c #7 PREEMPTLAZY
+Hardware name: PowerMac11,2 PPC970MP 0x440101 PowerMac
+NIP:  c0003d0001be0844 LR: c0003d0001be0830 CTR: 0000000000000000
+REGS: c0000000053f70e0 TRAP: 0300   Not tainted  (6.14.0-09584-g7d06015d936c)
+MSR:  9000000000009032 <SF,HV,EE,ME,IR,DR,RI>  CR: 24222220  XER: 00000000
+DAR: 0000000000041520 DSISR: 40000000 IRQMASK: 0 \x0aGPR00: c0003d0001be0830 c0000000053f7380 c0003d0000911900 c000000007bc6800 \x0aGPR04: 0000000000000000 0000000000000000 c000000007bc6e70 0000000000000001 \x0aGPR08: 01f3040000000000 0000000000041520 0000000000000000 c0003d0000813958 \x0aGPR12: c000000000071a48 c000000000e28000 0000000000000020 0000000000000000 \x0aGPR16: 0000000000000000 0000000000f52630 0000000000000000 0000000000000000 \x0aGPR20: 0000000000000000 0000000000000000 0000000000000001 c0003d0000928528 \x0aGPR24: c0003d0000928598 0000000000000000 c000000007025480 c000000007025480 \x0aGPR28: c0000000010b4000 0000000000000000 c000000007bc1800 c000000007bc6800
+NIP [c0003d0001be0844] nv_crtc_destroy+0x44/0xd4 [nouveau]
+LR [c0003d0001be0830] nv_crtc_destroy+0x30/0xd4 [nouveau]
+Call Trace:
+[c0000000053f7380] [c0003d0001be0830] nv_crtc_destroy+0x30/0xd4 [nouveau] (unreliable)
+[c0000000053f73c0] [c0003d00007f7bf4] drm_mode_config_cleanup+0x27c/0x30c [drm]
+[c0000000053f7490] [c0003d0001bdea50] nouveau_display_create+0x1cc/0x550 [nouveau]
+[c0000000053f7500] [c0003d0001bcc29c] nouveau_drm_device_init+0x1c8/0x844 [nouveau]
+[c0000000053f75e0] [c0003d0001bcc9ec] nouveau_drm_probe+0xd4/0x1e0 [nouveau]
+[c0000000053f7670] [c000000000557d24] local_pci_probe+0x50/0xa8
+[c0000000053f76f0] [c000000000557fa8] pci_device_probe+0x22c/0x240
+[c0000000053f7760] [c0000000005fff3c] really_probe+0x188/0x31c
+[c0000000053f77e0] [c000000000600204] __driver_probe_device+0x134/0x13c
+[c0000000053f7860] [c0000000006002c0] driver_probe_device+0x3c/0xb4
+[c0000000053f78a0] [c000000000600534] __driver_attach+0x118/0x128
+[c0000000053f78e0] [c0000000005fe038] bus_for_each_dev+0xa8/0xf4
+[c0000000053f7950] [c0000000005ff460] driver_attach+0x2c/0x40
+[c0000000053f7970] [c0000000005fea68] bus_add_driver+0x130/0x278
+[c0000000053f7a00] [c00000000060117c] driver_register+0x9c/0x1a0
+[c0000000053f7a80] [c00000000055623c] __pci_register_driver+0x5c/0x70
+[c0000000053f7aa0] [c0003d0001c058a0] nouveau_drm_init+0x254/0x278 [nouveau]
+[c0000000053f7b10] [c00000000000e9bc] do_one_initcall+0x84/0x268
+[c0000000053f7bf0] [c0000000001a0ba0] do_init_module+0x70/0x2d8
+[c0000000053f7c70] [c0000000001a42bc] init_module_from_file+0xb4/0x108
+[c0000000053f7d50] [c0000000001a4504] sys_finit_module+0x1ac/0x478
+[c0000000053f7e10] [c000000000023230] system_call_exception+0x1a4/0x20c
+[c0000000053f7e50] [c00000000000c554] system_call_common+0xf4/0x258
+ --- interrupt: c00 at 0xfd5f988
+NIP:  000000000fd5f988 LR: 000000000ff9b148 CTR: 0000000000000000
+REGS: c0000000053f7e80 TRAP: 0c00   Not tainted  (6.14.0-09584-g7d06015d936c)
+MSR:  100000000000d032 <HV,EE,PR,ME,IR,DR,RI>  CR: 28222244  XER: 00000000
+IRQMASK: 0 \x0aGPR00: 0000000000000161 00000000ffcdc2d0 00000000405db160 0000000000000020 \x0aGPR04: 000000000ffa2c9c 0000000000000000 000000000000001f 0000000000000045 \x0aGPR08: 0000000011a13770 0000000000000000 0000000000000000 0000000000000000 \x0aGPR12: 0000000000000000 0000000010249d8c 0000000000000020 0000000000000000 \x0aGPR16: 0000000000000000 0000000000f52630 0000000000000000 0000000000000000 \x0aGPR20: 0000000000000000 0000000000000000 0000000000000000 0000000011a11a70 \x0aGPR24: 0000000011a13580 0000000011a11950 0000000011a11a70 0000000000020000 \x0aGPR28: 000000000ffa2c9c 0000000000000000 000000000ffafc40 0000000011a11a70
+NIP [000000000fd5f988] 0xfd5f988
+LR [000000000ff9b148] 0xff9b148
+ --- interrupt: c00
+Code: f821ffc1 418200ac e93f0000 e9290038 e9291468 eba90000 48026c0d e8410018 e93f06aa 3d290001 392982a4 79291f24 <7fdd482a> 2c3e0000 41820030 7fc3f378
+ ---[ end trace 0000000000000000 ]---
 
-Ah, it sounded the other way around during the old discussion [0]. :-) But
-no problem in using a different name of course. of_drm_get_bridge() looks
-like the best to me, so I'll rename that way in v2.
+This is caused by the i2c encoder modules vendored into nouveau/ now
+depending on the equally vendored nouveau_i2c_encoder_destroy
+function. Trying to auto-load this modules hangs on nouveau
+initialization until timeout, and nouveau continues without i2c video
+encoders.
 
-[0] https://lore.kernel.org/dri-devel/20250319-stylish-lime-mongoose-0a18ad=
-@houat/
+Fix by avoiding nouveau dependency by __always_inlining that helper
+functions into those i2c video encoder modules.
 
-Luca
+Fixes: a73583107af9 ("drm/nouveau: vendor in drm_encoder_slave API")
+Signed-off-by: René Rebe <rene@exactco.de>
+---
+Tested on NV43 [GeForce 6600], PPC64 PowerMac11,2 runing T2/Linux 
+---
+ .../nouveau/dispnv04/nouveau_i2c_encoder.c    | 20 -------------------
+ .../include/dispnv04/i2c/encoder_i2c.h        | 19 +++++++++++++++++-
+ 2 files changed, 18 insertions(+), 21 deletions(-)
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/drivers/gpu/drm/nouveau/dispnv04/nouveau_i2c_encoder.c b/drivers/gpu/drm/nouveau/dispnv04/nouveau_i2c_encoder.c
+index e2bf99c43336..a60209097a20 100644
+--- a/drivers/gpu/drm/nouveau/dispnv04/nouveau_i2c_encoder.c
++++ b/drivers/gpu/drm/nouveau/dispnv04/nouveau_i2c_encoder.c
+@@ -94,26 +94,6 @@ int nouveau_i2c_encoder_init(struct drm_device *dev,
+ 	return err;
+ }
+ 
+-/**
+- * nouveau_i2c_encoder_destroy - Unregister the I2C device backing an encoder
+- * @drm_encoder:	Encoder to be unregistered.
+- *
+- * This should be called from the @destroy method of an I2C slave
+- * encoder driver once I2C access is no longer needed.
+- */
+-void nouveau_i2c_encoder_destroy(struct drm_encoder *drm_encoder)
+-{
+-	struct nouveau_i2c_encoder *encoder = to_encoder_i2c(drm_encoder);
+-	struct i2c_client *client = nouveau_i2c_encoder_get_client(drm_encoder);
+-	struct module *module = client->dev.driver->owner;
+-
+-	i2c_unregister_device(client);
+-	encoder->i2c_client = NULL;
+-
+-	module_put(module);
+-}
+-EXPORT_SYMBOL(nouveau_i2c_encoder_destroy);
+-
+ /*
+  * Wrapper fxns which can be plugged in to drm_encoder_helper_funcs:
+  */
+diff --git a/drivers/gpu/drm/nouveau/include/dispnv04/i2c/encoder_i2c.h b/drivers/gpu/drm/nouveau/include/dispnv04/i2c/encoder_i2c.h
+index 31334aa90781..869820701a56 100644
+--- a/drivers/gpu/drm/nouveau/include/dispnv04/i2c/encoder_i2c.h
++++ b/drivers/gpu/drm/nouveau/include/dispnv04/i2c/encoder_i2c.h
+@@ -202,7 +202,24 @@ static inline struct i2c_client *nouveau_i2c_encoder_get_client(struct drm_encod
+ 	return to_encoder_i2c(encoder)->i2c_client;
+ }
+ 
+-void nouveau_i2c_encoder_destroy(struct drm_encoder *encoder);
++/**
++ * nouveau_i2c_encoder_destroy - Unregister the I2C device backing an encoder
++ * @drm_encoder:        Encoder to be unregistered.
++ *
++ * This should be called from the @destroy method of an I2C slave
++ * encoder driver once I2C access is no longer needed.
++ */
++static __always_inline void nouveau_i2c_encoder_destroy(struct drm_encoder *drm_encoder)
++{
++	struct nouveau_i2c_encoder *encoder = to_encoder_i2c(drm_encoder);
++	struct i2c_client *client = nouveau_i2c_encoder_get_client(drm_encoder);
++	struct module *module = client->dev.driver->owner;
++
++	i2c_unregister_device(client);
++	encoder->i2c_client = NULL;
++
++	module_put(module);
++}
+ 
+ /*
+  * Wrapper fxns which can be plugged in to drm_encoder_helper_funcs:
+-- 
+2.46.0
+
+-- 
+René Rebe, ExactCODE GmbH, Berlin, Germany
+https://exactco.de • https://t2linux.com • https://patreon.com/renerebe
