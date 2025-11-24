@@ -2,59 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418E3C81EF0
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 18:38:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 894E6C81F0B
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 18:39:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E36FA10E102;
-	Mon, 24 Nov 2025 17:37:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71DA889622;
+	Mon, 24 Nov 2025 17:39:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ubUPd37M";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fIoO1afY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CABF10E102
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 17:37:47 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id C7F921A1D1F;
- Mon, 24 Nov 2025 17:37:45 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 942EA606FC;
- Mon, 24 Nov 2025 17:37:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 4583F10370C40; Mon, 24 Nov 2025 18:37:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1764005864; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=IT1k2H6nrgHdtTlroFgbSFcgluBiGKWIfAWb5Ws5984=;
- b=ubUPd37M6gqGwXbG3ZXcDx3/9vSdW9lcF8F4LpNK4RQE6RVEUXJg7MnjaDbln140VyXmu3
- hQKzrnfwtKXQBiM4x73nEcn0Dz5XoX9uR5ey1yoAGc0hYzQxqUJ/oqtHx/t+fdopicSCjB
- kCKKlQ8Z/NVNPi5MSa1LGnMluQp1hmGWStzzh9ONmUtbultpcQxjg7v84HMTwvUKG7TGRa
- 7AgDQBZo5tH0+CoWC/7VU3eKD/M2FPf6001Y5ect548hs5wnWXoH7EyPyoATSILVROKyGA
- BPmbgTAAwdTx5C7tvbpNTXn76y4lJdpFRgszvD4jzf82h+9sZVQlvyttA1i4ig==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 374CA89622
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 17:39:43 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 3ECD46016B;
+ Mon, 24 Nov 2025 17:39:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37583C4CEF1;
+ Mon, 24 Nov 2025 17:39:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764005981;
+ bh=a/dt3SO0IBMPj/ZOG+botHjprn85wxhaFe5Ue9Kxg1M=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=fIoO1afYA8NKsyxJwtO2RCIaR4mTKYx07g+3YPaDFb3cghv5WctAgyUiQq4WevK8L
+ 3XcoWIem/vQObIj81EEWaoALnsF/Ice6yZ35tKRLWsq+/9/DOPMCCA6kgcdjbxLNsv
+ ggVDrbei64+ecVzOOFEPiI8aSyXtZk/Asshh+kmz9VxYcpnNuSpBhpREZI5AvJMzU7
+ pHdYgV/FMuidVydA+sYtM9HwA/1pLW5CxYPF3dhmzwWyw+yFc1mfL8DeFPmD714VsX
+ ktvWf5mtpM9U+k7rucyVAHtMaxGxMlHSaPd0LbzwtyHlsEacjGU+aMB/7IEHL8myiI
+ 8LW5U8kWOZung==
+Message-ID: <d578fc15-261b-456d-9887-f15417084943@kernel.org>
+Date: Mon, 24 Nov 2025 18:39:34 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/9] Verisilicon DC8200 driver (and adaption to TH1520)
+To: Icenowy Zheng <uwu@icenowy.me>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+References: <20251124105226.2860845-1-uwu@icenowy.me>
+ <374aa38b-c16f-46da-985e-266fdfb4c717@kernel.org>
+ <24a3104c9879519c70554510766aba98afd663e7.camel@icenowy.me>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <24a3104c9879519c70554510766aba98afd663e7.camel@icenowy.me>
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 24 Nov 2025 18:37:39 +0100
-Message-Id: <DEH3W0I9EBRB.16EYRXFT7K0ZS@bootlin.com>
-Subject: Re: [PATCH v3] drm/tilcdc: Fix removal actions in case of failed probe
-Cc: "Maxime Ripard" <mripard@kernel.org>, "Douglas Anderson"
- <dianders@chromium.org>, "Tomi Valkeinen"
- <tomi.valkeinen@ideasonboard.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, "Bajjuri Praneeth" <praneeth@ti.com>,
- "Louis Chauvet" <louis.chauvet@bootlin.com>, <stable@vger.kernel.org>,
- <thomas.petazzoni@bootlin.com>, "Jyri Sarha" <jyri.sarha@iki.fi>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>
-To: "Kory Maincent" <kory.maincent@bootlin.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20251118133850.125561-1-kory.maincent@bootlin.com>
- <DECU85YFDJFQ.51DNK1JF0CQ4@bootlin.com>
- <20251121112450.070fe238@kmaincent-XPS-13-7390>
-In-Reply-To: <20251121112450.070fe238@kmaincent-XPS-13-7390>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,125 +117,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi K=C3=B6ry,
-
-On Fri Nov 21, 2025 at 11:24 AM CET, Kory Maincent wrote:
-> On Wed, 19 Nov 2025 18:12:40 +0100
-> "Luca Ceresoli" <luca.ceresoli@bootlin.com> wrote:
->
->> Hello K=C3=B6ry,
+On 24/11/2025 16:23, Icenowy Zheng wrote:
+> 在 2025-11-24星期一的 11:57 +0100，Krzysztof Kozlowski写道：
+>> On 24/11/2025 11:52, Icenowy Zheng wrote:
+>>> This patchset tries to add a driver for Verisilicon DC8200 driver,
+>>> and
+>>> demonstrates the driver on T-Head TH1520 with its HDMI output.
+>>>
+>>> This display controller IP is used on StarFive JH7110 too, but as
+>>> the
+>>> HDMI controller used there isn't as common as the DesignWare one, I
+>>> choose to use TH1520 in this patchset.
 >>
->> On Tue Nov 18, 2025 at 2:38 PM CET, Kory Maincent wrote:
->> > From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
->> >
->> > The drm_kms_helper_poll_fini() and drm_atomic_helper_shutdown() helper=
-s
->> > should only be called when the device has been successfully registered=
-.
->> > Currently, these functions are called unconditionally in tilcdc_fini()=
-,
->> > which causes warnings during probe deferral scenarios.
->> >
->> > [    7.972317] WARNING: CPU: 0 PID: 23 at
->> > drivers/gpu/drm/drm_atomic_state_helper.c:175
->> > drm_atomic_helper_crtc_duplicate_state+0x60/0x68 ... [    8.005820]
->> > drm_atomic_helper_crtc_duplicate_state from
->> > drm_atomic_get_crtc_state+0x68/0x108 [    8.005858]
->> > drm_atomic_get_crtc_state from drm_atomic_helper_disable_all+0x90/0x1c=
-8 [
->> >  8.005885]  drm_atomic_helper_disable_all from
->> > drm_atomic_helper_shutdown+0x90/0x144 [    8.005911]
->> > drm_atomic_helper_shutdown from tilcdc_fini+0x68/0xf8 [tilcdc] [
->> > 8.005957]  tilcdc_fini [tilcdc] from tilcdc_pdev_probe+0xb0/0x6d4 [til=
-cdc]
->> >
->> > Fix this by rewriting the failed probe cleanup path using the standard
->> > goto error handling pattern, which ensures that cleanup functions are
->> > only called on successfully initialized resources. Additionally, remov=
-e
->> > the now-unnecessary is_registered flag.
->> >
->> > Cc: stable@vger.kernel.org
->> > Fixes: 3c4babae3c4a ("drm: Call drm_atomic_helper_shutdown() at
->> > shutdown/remove time for misc drivers") Signed-off-by: Kory Maincent
->> > (TI.com) <kory.maincent@bootlin.com>
 >>
->> Except for the bug reported by the kernel test robot, this patch looks
->> good to me. Just a couple thoughts, below.
->>
->> > @@ -372,16 +371,34 @@ static int tilcdc_init(const struct drm_driver *=
-ddrv,
->> > struct device *dev)
->> >
->> >  	ret =3D drm_dev_register(ddev, 0);
->> >  	if (ret)
->> > -		goto init_failed;
->> > -	priv->is_registered =3D true;
->> > +		goto stop_poll;
->> >
->> >  	drm_client_setup_with_color_mode(ddev, bpp);
->> >
->> >  	return 0;
->> >
->> > -init_failed:
->> > -	tilcdc_fini(ddev);
->> > +stop_poll:
->> > +	drm_kms_helper_poll_fini(ddev);
->> > +	tilcdc_irq_uninstall(ddev);
->> > +unbind_component:
->> > +	if (priv->is_componentized)
->> > +		component_unbind_all(dev, ddev);
->> > +unregister_cpufreq_notif:
->> > +#ifdef CONFIG_CPU_FREQ
->> > +	cpufreq_unregister_notifier(&priv->freq_transition,
->> > +				    CPUFREQ_TRANSITION_NOTIFIER);
->> > +#endif
->> > +destroy_crtc:
->> > +	tilcdc_crtc_destroy(priv->crtc);
->> > +disable_pm:
->> > +	pm_runtime_disable(dev);
->> > +	clk_put(priv->clk);
->> > +free_wq:
->> > +	destroy_workqueue(priv->wq);
->> > +put_drm:
->> >  	platform_set_drvdata(pdev, NULL);
->>
->> I'm not 100% sure this is needed, but perhaps it is because of the
->> component framework being used.
->
-> Yes not sure either but as it was already present I let it here.
-> Do you think I should remove it?
+>> That's a v3, so please kindly always write changelog.
+> 
+> Well I list changes in all individual commits.
+> 
+> Should I merge them to the cover letter the next time?
 
-At a quick look at the component framework, it does not seem to
-care. However you are fixing a bug, so it's fine if you leave
-platform_set_drvdata() untouched out of caution.
+No, it's perfectly fine, I don't know why I did not see them. Sorry for
+the noise.
 
->> If it is needed, then shouldn't it be present in tilcdc_fini() as well?
->>
->> > +	ddev->dev_private =3D NULL;
->> > +	drm_dev_put(ddev);
->> >
->> >  	return ret;
->> >  }
->>
->> About tilcdc_fini(), I think it can be itself cleaned up a lot (in anoth=
-er
->> patch). Basically it should do the same thing (almost) that are here bel=
-ow
->> the 'return 0' line, and in the same order. Now the list of actions is a=
-uite
->> different and the order is very different.
->
-> Yes indeed, but this won't be a fix as there is no real issue in the remo=
-ve
-> AFAIK.
-
-Sure! Cleaning up tilcdc_fini() would be a cleanup, not a bugfix, so you
-can do it in a separate series without affecting this bugfix patch.
-
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Best regards,
+Krzysztof
