@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6918C83DD2
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 09:03:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B24C83DF0
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 09:03:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77CE310E37B;
-	Tue, 25 Nov 2025 08:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8369E10E370;
+	Tue, 25 Nov 2025 08:03:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=phytec.de header.i=@phytec.de header.b="S6VPJWSB";
+	dkim=pass (2048-bit key; unprotected) header.d=phytec.de header.i=@phytec.de header.b="hAD2lZ1a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com
- (mail-northeuropeazon11020105.outbound.protection.outlook.com
- [52.101.84.105])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58F2E10E2B8
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 12:40:02 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com
+ (mail-swedencentralazon11023111.outbound.protection.outlook.com
+ [52.101.83.111])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3BCA10E2B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 12:40:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tblMDLZeo+nnRQynwCp1mB8PHRR3HurLj2F1O78gxUfc2vTRC+5LBv/NbiWeQS+TkOm4FjH+cdBIHYAZQOrAUSNTvUt3h5gU/Fmm3GHEj7z7iWVwSKs+5zROoEYQAS9BPJ3zEnASXdF0jfEGY73IZonrtJTS8YON2IaqA4ijigzBjjLnkHf9uTUn7CtqMO/AHBPbZIIB5sOO0+ckPNjuzMJvSSdIdjxupJ9AtNY0QYWftcXix9Qkb32nGbID9jph26Bi2ZJCeRFXuWB+TQiO1WXTPMrfiUaGxNeNmOhVzRBFBO76tBLM555jeRWvGoAOhHLCoAVgXJ9ppvEbAIUo6Q==
+ b=DLvJ5BOY49Jtja3dJkhNLr1tN3+M4U+VuQ0jWE+wJaob5N6x2+ZLp22oTv+92mBDOrGoM7XEZyUb05DOKcrcyg6obFKbymMmHU4AIXj36gE1ZLcPWEpxkE3VELw2NsW9zOy3vV1UHRbDmaz+KsW5tmq6vgTIZUmanfZnPRgGgo3i6jGp8/BDHJuNeHXSxJsJBTQ7IlU0CzG548OF/3RgJG0GHkAs7I9BIXHfmephCAINEbPg5dNsLKORhSxHJX8ewY+uxbxFnZyLv6fIWXCs86ssTka6Mr0kdSnaNTkOU3nm/V8iX/y6yE3bH1m3hCf+iUbtFLire4XQu1hQPVPk/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GYaa1Cl5anKKhLEecREbrmn81aSd/+hK+Muze5bmNwc=;
- b=CkJW498KkkmXWQeXkfr21SeaX/KHZU+jVM6Fy5iyPNgOR1KszMkjQGKkEAVCqDMphGu3hxeUMZCyl9vYHqLwfN8GNg4A9pY20u2kBuFBxOOIodEEOR08gGAw9EGSs72lgL6VE7PbLQFvZ+40bWU/IBv2hywkQp55vhE3zHA8981u4oRQqjueDiuhzI/fLnFAgUSJLT6x1XbLSHvtoj5RMycC9K0wtPDmXmjxQtfMLh4F8lXw3CNZ9r/qZcXyssiQiHUt4YQYt/uFWtcrf6tOsaDIgfwoBbKIgqgbnkStpyYf+cCJvkZYk4kPr7K25nkqqkmg6f7eE6UjeWoFEtSi1Q==
+ bh=y6YCS070f0HECMbg5D/uMVn/e9fyRfWtYhycBfvkLrQ=;
+ b=CAHx5X7ck3UhTMiFFIRWwVfC6coAcRe7DqjtsLzrfaCDOBEKweBCzaFpydoheOD27CaB1oLRdaw4ysR1LI79VV5Qd2dmX8x3POr6vU5l1+jYHjsuXF/KmOQa92AB+oNXzbJGb0a5NS+hxlqHSJSQznIeSiJqE31rE0yV/x+vJO+gPEHyyu0K/ugXyhVPd4Wds9+rTp5AiJzmIWyOaliiidC5rbAf759yCYgdgMl9k/v6V7pGHuYxPKOxOfLPPH32n2hZdO/K1SZ00sUXfOeM1jheaphfpD14X312Op96Hm5sdTuAEPa5hBKUdpO5LCTxobXzOSXmCfJukT5RWKy/Dw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
  is 91.26.50.189) smtp.rcpttodomain=linaro.org smtp.mailfrom=phytec.de;
  dmarc=fail (p=quarantine sp=quarantine pct=100) action=quarantine
  header.from=phytec.de; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GYaa1Cl5anKKhLEecREbrmn81aSd/+hK+Muze5bmNwc=;
- b=S6VPJWSBvpsaNwATgRdEKHYMlAJ+ZxpA7JJT2VVDrhY0AvZVracG+lNW8VF7oml7z1QX6zIoDxD7gOOpa3YDP8UQ1rX8ztoD1yXVrtHoN0DGKrOOWcEpvbOvyckuWIvhqFm+Y/FWw0PgnnXutWBNG4q8LcxyXop9/9Gx2PU5SDtx6zVlsxf7aUvhUcTpdvA2ScXLL8Qx1v2PvWNdrs5x1jqRlEs1NmjyGpd9oCghng/BIpZFtLLfTDyph9yTZWaaqsWhIAbbvEtuYQUrg+x3/DItP6VU2c5L0gq/12rHkPTcnxW6NhEZzfJAqJGLJDYB6NJSHUEH1wPaJil/dJdDPQ==
-Received: from DU6P191CA0040.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:53f::15)
- by FRWP195MB2940.EURP195.PROD.OUTLOOK.COM (2603:10a6:d10:185::12) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=y6YCS070f0HECMbg5D/uMVn/e9fyRfWtYhycBfvkLrQ=;
+ b=hAD2lZ1a1JzwwLqMiN2mCG/eW7HohNGIevU+DJ7h7TQPe9nuoXX+M/rSEzhbDw0mqFYsF5r5sAr5eFoLm/ojZC4JTibDnZyG4Urw9CMvAEttNxZAaCxdNA15gx0fLtKOy07x2LFQdf/d2CIt699eW1/1ib0x41d00TqUMn5fn3nDYgtkF+NQZl4ubZfX5JMuP1VcQWEqsSbwlVGEBazChKWk9PRW1KZJXtmSWTN2jQqUN62HDpVLDdcsuVPLvlzuVNZtSaO/I/4+f6v7OALqd6ZQXOC0IJSHWT8lPmq4uR4Te6I3T66+TKJXHpjA5lOz6a4/tv2/m/eJNvNiB4c7MA==
+Received: from DU2PR04CA0268.eurprd04.prod.outlook.com (2603:10a6:10:28e::33)
+ by DU7PPF971B7265A.EURP195.PROD.OUTLOOK.COM (2603:10a6:18:3::bdd)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Mon, 24 Nov
- 2025 12:39:58 +0000
-Received: from DB3PEPF00008859.eurprd02.prod.outlook.com
- (2603:10a6:10:53f:cafe::22) by DU6P191CA0040.outlook.office365.com
- (2603:10a6:10:53f::15) with Microsoft SMTP Server (version=TLS1_3,
+ 2025 12:40:03 +0000
+Received: from DB3PEPF0000885D.eurprd02.prod.outlook.com
+ (2603:10a6:10:28e:cafe::a2) by DU2PR04CA0268.outlook.office365.com
+ (2603:10a6:10:28e::33) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.17 via Frontend Transport; Mon,
- 24 Nov 2025 12:39:53 +0000
+ 24 Nov 2025 12:39:27 +0000
 X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 91.26.50.189)
  smtp.mailfrom=phytec.de;
  dkim=none (message not signed)
@@ -49,13 +49,13 @@ X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 91.26.50.189)
 Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
  phytec.de discourages use of 91.26.50.189 as permitted sender)
 Received: from Postix.phytec.de (91.26.50.189) by
- DB3PEPF00008859.mail.protection.outlook.com (10.167.242.4) with Microsoft
+ DB3PEPF0000885D.mail.protection.outlook.com (10.167.242.8) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.7 via Frontend Transport; Mon, 24 Nov 2025 12:39:58 +0000
+ 15.20.9366.7 via Frontend Transport; Mon, 24 Nov 2025 12:40:02 +0000
 Received: from ls-radium.phytec (172.25.39.17) by Postix.phytec.de
  (172.25.0.11) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Mon, 24 Nov
- 2025 13:39:54 +0100
+ 2025 13:39:58 +0100
 From: Daniel Schultz <d.schultz@phytec.de>
 To: <neil.armstrong@linaro.org>, <jessica.zhang@oss.qualcomm.com>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -65,10 +65,12 @@ To: <neil.armstrong@linaro.org>, <jessica.zhang@oss.qualcomm.com>,
  <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>
 CC: <upstream@lists.phytec.de>, Daniel Schultz <d.schultz@phytec.de>
-Subject: [PATCH 1/2] drm/panel: panel-simple: Add Sharp LQ070Y3LG05
-Date: Mon, 24 Nov 2025 04:39:37 -0800
-Message-ID: <20251124123938.936521-1-d.schultz@phytec.de>
+Subject: [PATCH 2/2] dt-bindings: display: simple: Add Sharp LQ070Y3LG05
+Date: Mon, 24 Nov 2025 04:39:38 -0800
+Message-ID: <20251124123938.936521-2-d.schultz@phytec.de>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20251124123938.936521-1-d.schultz@phytec.de>
+References: <20251124123938.936521-1-d.schultz@phytec.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -77,53 +79,53 @@ X-ClientProxiedBy: Postix.phytec.de (172.25.0.11) To Postix.phytec.de
  (172.25.0.11)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB3PEPF00008859:EE_|FRWP195MB2940:EE_
-X-MS-Office365-Filtering-Correlation-Id: 997e8ed3-620f-415f-f5c5-08de2b5693ea
+X-MS-TrafficTypeDiagnostic: DB3PEPF0000885D:EE_|DU7PPF971B7265A:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6dcb206f-d59f-4d52-79cd-08de2b5696b6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|82310400026|36860700013|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?XxRnF0h+KU9ALKy5q96QjWLzB9W51Ri4I6KvHfClK5BOe+HdpXRaph/OwHCA?=
- =?us-ascii?Q?t4OaMHdWPyksccQH7FwLdibKUC47LdbI50IOeUFTiP6dIl7zoNRKt+JKGDKu?=
- =?us-ascii?Q?YHdXF4f6/sC9UjjoJpA1k36vi3zZo99UDKpgjXo0J+XxMg54zaJGy5WKk/Fw?=
- =?us-ascii?Q?oMDquBe7wA1t79/jCKXmslywPSnZEtNxJFi1ZNsFKpm817gl255YiXi2Bgk7?=
- =?us-ascii?Q?geX0xXIuef8qcAgcHe2BHfqFDjerAzsFeBDDvz7FJwBxt0WAvzuhH/xLJsnn?=
- =?us-ascii?Q?HogSmjrOGTLdHJ018OtXig3225vZlIg5qokvOsC2o2CxuABgh/UP5yA8NnJA?=
- =?us-ascii?Q?DWkUdwY44MWn6AQOAotWHGL5VctSkY0yzPLrOwm+C3Gnbzk6hrOqlhITRohd?=
- =?us-ascii?Q?dUgjwsI/jaDjlXguEd8lVAMD+wAabMye2HIM2G7KVvDNZpEopuqFsvba8la9?=
- =?us-ascii?Q?q1cIeDkx/5K4nMlA+C9+ZbA1/NRfzd1BxrDU+lMSkT7EMGntzVkTA0GnfFPx?=
- =?us-ascii?Q?cecUnr0HQ9A4GoBCa53DjpEXXNScyR0hZNqwKZvCMcvM/MCdcrlptq1orCf+?=
- =?us-ascii?Q?IB9gnk87RsGpCEOqO4sFRITyHx5KcI+ifUnokzB5K0GTltLZh2tpQdbMK+3E?=
- =?us-ascii?Q?JqT0x8+8eDfwtL8SBanPQTrb5jcfMnSOOpyyFzzJhz4wkOtbtqxawl6OdfPi?=
- =?us-ascii?Q?TZambCySW0e53m/RjsL0s+4ERV+8rJYHFFAIXnE+0wsBHCSIxX7hYqXJqlWW?=
- =?us-ascii?Q?YPcFbBiuaCm4NqQ8IFW422AVenIoPixQoLMtYBS0qgBUQ7N5gfZuDcQ9k+oK?=
- =?us-ascii?Q?FcCx6Ro7/R1S85z95cS0I5uZLPvWfeovk0HrLCIskOyW0WoDscM41CQogb+/?=
- =?us-ascii?Q?s4TqJDLF2ZUfhWk5WIcVrKSgBnO1pJxXiBxJLh/+vIm5DdNboJfvFZdJeQl7?=
- =?us-ascii?Q?OpvL4Xs+E48DvxIQ2ailn+GoW5VE8itssgIGIJ8tINgzYBaw8Gjk0z/OnNgN?=
- =?us-ascii?Q?6+Cy9KaEKP4c5OzdWZQLu4guxcpjiiFI44sBDH0dbmsisIb14eJkEZ/Nsomu?=
- =?us-ascii?Q?suADRUcq+gPAb8aCCY0fTJFXmOfRz4RHR3sMgbtjcDLdoQh1X0UUTyjTWLdN?=
- =?us-ascii?Q?/qrxoS9J5IA51JStucIFlMMJML9fsxryAbdGvU6Ch4h+hUl2zDzHSNSUXlRh?=
- =?us-ascii?Q?fSPtunUkxyHEq5/+WpkDIERizc8PFImmkCpL7xWXj3blPPUGvcZYPAYec9t2?=
- =?us-ascii?Q?sPFZZod/eHDRZ8TG42AcTbliSmDxjHw5nGFuAQpdezoVyRf6vdD06qPqv5P3?=
- =?us-ascii?Q?TIaHqElocR2AnOTFooweWRiyJxQh30Ft2t1GgnYXQahRX34yOVcDv0WCtQtT?=
- =?us-ascii?Q?TEENnzHM6ol0YuqMyw/nL7PBT0EwxnCg+no/X2c4EZXpAYwg5SqLvCWM72cU?=
- =?us-ascii?Q?oNuFiPMQ40B7Pl6V9eBfQxJGb70urS/3yagLVHk5on+FOJ7fuLPe7cxGrvCU?=
- =?us-ascii?Q?c8heodVWJ3EuG0RDfmynEOqZViiZrNJhJjw/O29skHrGTfXpEzqlPwR68Zps?=
- =?us-ascii?Q?avOGi2R8W99hRBLsFRu9R4BUqgYHEtJcjbgG29ML?=
+ ARA:13230040|36860700013|82310400026|7416014|376014|1800799024|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?xdGr6H+FFVy+ySES6sUyyDBrX7m+bc9HHIKn7oVsBcMw5urypdnRDj7Mz6cK?=
+ =?us-ascii?Q?bkvzi0T03nXkepoZwp4gUx2Fin6Fp9qzq1hQwWzXASkNfdLZnOBc1XAEv3HP?=
+ =?us-ascii?Q?McWsOcn6XmVn8ADx9GHldmO8Wilq+t2gBa5FN85XwKlZV6QE6tf5t7ZdODWN?=
+ =?us-ascii?Q?rYa/OKvlXsZ1Sb68bqCzCO9NGMmUXJkuFaWrARJ4ULMUg5QhdMG37eNozEjr?=
+ =?us-ascii?Q?7H6D5kS59OBPWXCwi0siqOIfgNHZ6ucTofttSuzm82grslsbqRRfgnaBUUdP?=
+ =?us-ascii?Q?kIe2m3bXG08WOFvjchWWyvbaPfEcbfs5Jl899J5Swt97ClBSgsyUMcQMVlZ/?=
+ =?us-ascii?Q?NM+fDgLS6ahVGveVG0GQJoiphn5RSzP6nCFgmh26iUWPMJpTkQHQq41MJluP?=
+ =?us-ascii?Q?fBNiJK4z7Qys0lmVAskc7IkP1arC0B6UTfUiGkYGzOVtiwN7va7rVC0yz49A?=
+ =?us-ascii?Q?SzTXAUfenhM/jlFF+neAPbJaCMDisoEkcLgmYHEcxP3A98/ezP4K86T2S5fY?=
+ =?us-ascii?Q?zKig3yb5P5PcjiAdMUI0N2LcGe6C8aspRI6iV7CF9sEmVqA3ipuT5oceRea9?=
+ =?us-ascii?Q?4SL8WbLAfEOONCZ/mPzQc16s+x2Sj92GDzi5fkLmNPpt6W/xxdswO8eOtLZa?=
+ =?us-ascii?Q?DTq5gWZUyRZLMGJa71S3n9IGOIDDxlzFI8fRjoYEMGkSdfJm96BEhsLPcQQ8?=
+ =?us-ascii?Q?wIZcxbQ07mm98nz8etNk+Q9kPnVkrjNeER3Y4LqMNZGqJ8+T6avPfWYz25zh?=
+ =?us-ascii?Q?Uz9eal2afezySAUfPgjPnz9gMhuSUn1H+86GaakfcfCPJ+wTF41KchA/yah8?=
+ =?us-ascii?Q?9sfausRr/M6S+8GjBl5AGkOyBlB9wEBxzQKtz8QfAON8gSJL4E9m/0ZakhzF?=
+ =?us-ascii?Q?vkPxBhmEgcjMB8IxF+oVLRm6TVmLlEsk/bDxh0QOHGiWkXo//YzCJqSFEfkP?=
+ =?us-ascii?Q?f0sgNB7ZiWOZMQ9VyWA6sCLdTY6IGCMc9GD1dJMrcnAs4aZ491hiKbjfxVZ3?=
+ =?us-ascii?Q?+EG3M5h98+HGrBljJ3vyKunDLXAoriKnBeuiVMeyxNAI0Xefh9zkS/jUsDhJ?=
+ =?us-ascii?Q?bN6G4yAdAWPTevU2wsWDbCzKgTdu9yBeZUma5Tm2g1PClT/Nqf4LCRka4z6F?=
+ =?us-ascii?Q?e6ONlBVfQnfP38b57oLr5zQlxnFO4L65/SMp9nzE2F0YE/3ObQ2sKiuJEcKk?=
+ =?us-ascii?Q?wxwfJJHHWEOsriIrQqitWUMPk/pleKgM169uDO0kMXplKNQQL/pCm+D/z+Du?=
+ =?us-ascii?Q?eCZp47nZLtt9K54ocOkO0eo332hoaPN8y7M//EVOw5adr/BCuZOkZ7ivfBQC?=
+ =?us-ascii?Q?+6jF+8AA+pnbnDfnebg21fJnFxiZI206tPbpDS+Vpg9Z6OdaBPf+ek1f338z?=
+ =?us-ascii?Q?3VQWuFa6s2vz6BaoqUwy/4FgUtc04f9QipNlj1Z8RCQ515gBPqRdKUqfnkQL?=
+ =?us-ascii?Q?t3/qlmFAi9qypghK6OyAtOS77iYer6F22MMs5nGKekTpugLutCN/N2oD9u0H?=
+ =?us-ascii?Q?bA2Zw2PP3oAAWjNffs7hsN+vukEGoauMEuAbS0l39zoVqd780/hIqrMB3Axf?=
+ =?us-ascii?Q?jaItnWjUOND+34D/Iv4QcfLYc8CcWqXyzMKd/iUH?=
 X-Forefront-Antispam-Report: CIP:91.26.50.189; CTRY:DE; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:Postix.phytec.de; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(82310400026)(36860700013)(1800799024)(921020);
+ SFS:(13230040)(36860700013)(82310400026)(7416014)(376014)(1800799024)(921020);
  DIR:OUT; SFP:1102; 
 X-OriginatorOrg: phytec.de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 12:39:58.1298 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 997e8ed3-620f-415f-f5c5-08de2b5693ea
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 12:40:02.8218 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6dcb206f-d59f-4d52-79cd-08de2b5696b6
 X-MS-Exchange-CrossTenant-Id: e609157c-80e2-446d-9be3-9c99c2399d29
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e609157c-80e2-446d-9be3-9c99c2399d29; Ip=[91.26.50.189];
  Helo=[Postix.phytec.de]
-X-MS-Exchange-CrossTenant-AuthSource: DB3PEPF00008859.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DB3PEPF0000885D.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRWP195MB2940
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU7PPF971B7265A
 X-Mailman-Approved-At: Tue, 25 Nov 2025 08:03:45 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -144,55 +146,22 @@ Add the Sharp LQ070Y3LG05 7" WVGA lanscape LVDS RGB TFT-LCD panel.
 
 Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 0019de93be1b..9ad6beeb9952 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -4266,6 +4266,31 @@ static const struct panel_desc sharp_lq070y3dg3b = {
- 		     DRM_BUS_FLAG_SYNC_DRIVE_POSEDGE,
- };
- 
-+static const struct display_timing sharp_lq070y3lg05_timing = {
-+	.pixelclock = { 28000000, 33000000, 40000000 },
-+	.hactive = { 800, 800, 800 },
-+	.hfront_porch = { 40, 40, 40 },
-+	.hback_porch = { 40, 40, 40 },
-+	.hsync_len = { 48, 48, 48 },
-+	.vactive = { 480, 480, 480 },
-+	.vfront_porch = { 13, 13, 13 },
-+	.vback_porch = { 29, 29, 29 },
-+	.vsync_len = { 3, 3, 3 },
-+	.flags = DISPLAY_FLAGS_PIXDATA_POSEDGE,
-+};
-+
-+static const struct panel_desc sharp_lq070y3lg05 = {
-+	.timings = &sharp_lq070y3lg05_timing,
-+	.num_timings = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 154,	/* 153.6mm */
-+		.height = 87,	/* 86.6mm */
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-+};
-+
- static const struct drm_display_mode sharp_lq035q7db03_mode = {
- 	.clock = 5500,
- 	.hdisplay = 240,
-@@ -5367,6 +5392,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "sharp,lq070y3dg3b",
- 		.data = &sharp_lq070y3dg3b,
-+	}, {
-+		.compatible = "sharp,lq070y3lg05",
-+		.data = &sharp_lq070y3lg05,
- 	}, {
- 		.compatible = "sharp,lq101k1ly04",
- 		.data = &sharp_lq101k1ly04,
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 2017428d8828..3a55829f960b 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -284,6 +284,8 @@ properties:
+       - sharp,lq035q7db03
+         # Sharp LQ070Y3DG3B 7.0" WVGA landscape TFT LCD panel
+       - sharp,lq070y3dg3b
++        # Sharp LQ070Y3LG05 7.0" WVGA langscape LVDS TFT LCD panel
++      - sharp,lq070y3lg05
+         # Sharp Display Corp. LQ101K1LY04 10.07" WXGA TFT LCD panel
+       - sharp,lq101k1ly04
+         # Sharp LS020B1DD01D 2.0" HQVGA TFT LCD panel
 -- 
 2.25.1
 
