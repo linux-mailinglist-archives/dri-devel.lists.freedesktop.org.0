@@ -2,80 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3532C7EC0F
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 02:40:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A45C7EC18
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 02:40:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 32EE210E1B6;
-	Mon, 24 Nov 2025 01:40:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5109110E19B;
+	Mon, 24 Nov 2025 01:40:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=huawei.com header.i=@huawei.com header.b="bbDJ6jpD";
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="bbDJ6jpD";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="f4+mCPYd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F08C10E07A;
- Mon, 24 Nov 2025 01:40:08 +0000 (UTC)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
- c=relaxed/relaxed; q=dns/txt; h=From;
- bh=hnm9pRQxiCRqBNWTAp9RAPNEqoXGWQJUekQPmyavL7I=;
- b=bbDJ6jpDeUZG5QVe2227oxIrO4p439oDPRvMaLZT4N5q03GC+mFYiMAhvwUWD0cFuCTT2SV0c
- m7qrS3Z7zX5DNSRPTVPU4TjSrlwpm0IN2iW07NY6FohM7elXzd//8s8R72w5i047LFe8VkNfLso
- jQ3ypNi5F3foMB29Y4R/asM=
-Received: from canpmsgout01.his.huawei.com (unknown [172.19.92.178])
- by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4dF7ls2nzjz1BGLY;
- Mon, 24 Nov 2025 09:39:21 +0800 (CST)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
- c=relaxed/relaxed; q=dns/txt; h=From;
- bh=hnm9pRQxiCRqBNWTAp9RAPNEqoXGWQJUekQPmyavL7I=;
- b=bbDJ6jpDeUZG5QVe2227oxIrO4p439oDPRvMaLZT4N5q03GC+mFYiMAhvwUWD0cFuCTT2SV0c
- m7qrS3Z7zX5DNSRPTVPU4TjSrlwpm0IN2iW07NY6FohM7elXzd//8s8R72w5i047LFe8VkNfLso
- jQ3ypNi5F3foMB29Y4R/asM=
-Received: from mail.maildlp.com (unknown [172.19.163.48])
- by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4dF7kj6kgpz1T4Jf;
- Mon, 24 Nov 2025 09:38:21 +0800 (CST)
-Received: from dggpemf500015.china.huawei.com (unknown [7.185.36.143])
- by mail.maildlp.com (Postfix) with ESMTPS id 73F7F18047D;
- Mon, 24 Nov 2025 09:40:01 +0800 (CST)
-Received: from [10.67.121.110] (10.67.121.110) by
- dggpemf500015.china.huawei.com (7.185.36.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 24 Nov 2025 09:39:59 +0800
-Subject: Re: [PATCH v2 02/22] vfio/hisi: Convert to the get_region_info op
-To: Jason Gunthorpe <jgg@nvidia.com>, Alexander Gordeev
- <agordeev@linux.ibm.com>, David Airlie <airlied@gmail.com>, Alex Williamson
- <alex.williamson@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, Christian
- Borntraeger <borntraeger@linux.ibm.com>, Brett Creeley
- <brett.creeley@amd.com>, <dri-devel@lists.freedesktop.org>, Eric Auger
- <eric.auger@redhat.com>, Eric Farman <farman@linux.ibm.com>, Giovanni Cabiddu
- <giovanni.cabiddu@intel.com>, Vasily Gorbik <gor@linux.ibm.com>, Heiko
- Carstens <hca@linux.ibm.com>, <intel-gfx@lists.freedesktop.org>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, <kvm@vger.kernel.org>, Kirti Wankhede
- <kwankhede@nvidia.com>, <linux-s390@vger.kernel.org>, Matthew Rosato
- <mjrosato@linux.ibm.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>, Nipun
- Gupta <nipun.gupta@amd.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, <qat-linux@intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>, Shameer Kolothum
- <skolothumtho@nvidia.com>, Sven Schnelle <svens@linux.ibm.com>, Tvrtko
- Ursulin <tursulin@ursulin.net>, <virtualization@lists.linux.dev>, Vineeth
- Vijayan <vneethv@linux.ibm.com>, Yishai Hadas <yishaih@nvidia.com>, Zhenyu
- Wang <zhenyuw.linux@gmail.com>, Zhi Wang <zhi.wang.linux@gmail.com>
-CC: Kevin Tian <kevin.tian@intel.com>, <patches@lists.linux.dev>, Pranjal
- Shrivastava <praan@google.com>, Mostafa Saleh <smostafa@google.com>
-References: <2-v2-2a9e24d62f1b+e10a-vfio_get_region_info_op_jgg@nvidia.com>
-From: liulongfang <liulongfang@huawei.com>
-Message-ID: <b5ffda6e-d8e9-5f02-69b3-e9f1a0901f90@huawei.com>
-Date: Mon, 24 Nov 2025 09:39:58 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Received: from mail-m32113.qiye.163.com (mail-m32113.qiye.163.com
+ [220.197.32.113])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D440810E1B8
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 01:40:12 +0000 (UTC)
+Received: from [172.16.12.51] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 2a998c2ff;
+ Mon, 24 Nov 2025 09:40:05 +0800 (GMT+08:00)
+Message-ID: <462ad1bd-7eec-4f26-b383-96b049e14559@rock-chips.com>
+Date: Mon, 24 Nov 2025 09:40:03 +0800
 MIME-Version: 1.0
-In-Reply-To: <2-v2-2a9e24d62f1b+e10a-vfio_get_region_info_op_jgg@nvidia.com>
-Content-Type: text/plain; charset="gbk"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 01/11] usb: typec: Add notifier functions
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chaoyi Chen <kernel@airkyi.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Peter Chen <hzpeterchen@gmail.com>, Luca Ceresoli
+ <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
+ Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+References: <20251120022343.250-1-kernel@airkyi.com>
+ <20251120022343.250-2-kernel@airkyi.com>
+ <2025112102-laurel-mulch-58e4@gregkh>
+Content-Language: en-US
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <2025112102-laurel-mulch-58e4@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.121.110]
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- dggpemf500015.china.huawei.com (7.185.36.143)
+X-HM-Tid: 0a9ab384a1c703abkunmfa83b8ab38c240
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0JKGVYfGEpIS04dQkgeQhlWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+ xVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=f4+mCPYdv+riXF8Aoj4wUW+oYifKZiJ/TjuUgPWTmNFL8Iz3GvYFWK2QMaTCMdPv2zqbWK5Zjj+81aUzEy5KEuDCOVR74l6uME4OFfDsttmHKoAszBI6HwlYyNszsCtMJETC/7YZJqFTDoTE0Ag2zR+1xxAQDZ/fwtcF0T2b1t4=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=7neti7dpAmDFcPilq2Bt0Tzsj7xXGZOIwTb6sK9LseA=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,105 +84,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025/11/8 1:41, Jason Gunthorpe wrote:
-> Change the function signature of hisi_acc_vfio_pci_ioctl()
-> and re-indent it.
-> 
-> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-> Acked-by: Pranjal Shrivastava <praan@google.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  .../vfio/pci/hisilicon/hisi_acc_vfio_pci.c    | 57 +++++++++----------
->  1 file changed, 27 insertions(+), 30 deletions(-)
-> 
-> diff --git a/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c b/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-> index fde33f54e99ec5..899db4d742a010 100644
-> --- a/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-> +++ b/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-> @@ -1324,43 +1324,39 @@ static ssize_t hisi_acc_vfio_pci_read(struct vfio_device *core_vdev,
->  	return vfio_pci_core_read(core_vdev, buf, new_count, ppos);
->  }
->  
-> -static long hisi_acc_vfio_pci_ioctl(struct vfio_device *core_vdev, unsigned int cmd,
-> -				    unsigned long arg)
-> +static int hisi_acc_vfio_ioctl_get_region(struct vfio_device *core_vdev,
-> +					  struct vfio_region_info __user *arg)
->  {
-> -	if (cmd == VFIO_DEVICE_GET_REGION_INFO) {
-> -		struct vfio_pci_core_device *vdev =
-> -			container_of(core_vdev, struct vfio_pci_core_device, vdev);
-> -		struct pci_dev *pdev = vdev->pdev;
-> -		struct vfio_region_info info;
-> -		unsigned long minsz;
-> +	struct vfio_pci_core_device *vdev =
-> +		container_of(core_vdev, struct vfio_pci_core_device, vdev);
-> +	struct pci_dev *pdev = vdev->pdev;
-> +	struct vfio_region_info info;
-> +	unsigned long minsz;
->  
-> -		minsz = offsetofend(struct vfio_region_info, offset);
-> +	minsz = offsetofend(struct vfio_region_info, offset);
->  
-> -		if (copy_from_user(&info, (void __user *)arg, minsz))
-> -			return -EFAULT;
-> +	if (copy_from_user(&info, arg, minsz))
-> +		return -EFAULT;
->  
-> -		if (info.argsz < minsz)
-> -			return -EINVAL;
-> +	if (info.argsz < minsz)
-> +		return -EINVAL;
->  
-> -		if (info.index == VFIO_PCI_BAR2_REGION_INDEX) {
-> -			info.offset = VFIO_PCI_INDEX_TO_OFFSET(info.index);
-> +	if (info.index != VFIO_PCI_BAR2_REGION_INDEX)
-> +		return vfio_pci_ioctl_get_region_info(core_vdev, arg);
->  
-> -			/*
-> -			 * ACC VF dev BAR2 region consists of both functional
-> -			 * register space and migration control register space.
-> -			 * Report only the functional region to Guest.
-> -			 */
-> -			info.size = pci_resource_len(pdev, info.index) / 2;
-> +	info.offset = VFIO_PCI_INDEX_TO_OFFSET(info.index);
+Hi Greg,
+
+On 11/21/2025 10:07 PM, Greg Kroah-Hartman wrote:
+> On Thu, Nov 20, 2025 at 10:23:33AM +0800, Chaoyi Chen wrote:
+>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>>
+>> Some other part of kernel may want to know the event of typec bus.
+> Be specific, WHAT part of the kernel will need to know this?
+
+For now, it is DRM.
+
+
 >
+> And why a new notifier, why not just use the existing notifiers that you
+> already have?  And what is this going to be used for?
 
-Please adapt based on the latest code in the Next branch.
-Code updates have already been made here.
+We have discussed this before, but the current bus notifier cannot achieve the expected notification [0].
 
-Thanks
-Longfang.
+[0] https://lore.kernel.org/all/aPsuLREPS_FEV3DS@kuha.fi.intel.com/
 
-> -			info.flags = VFIO_REGION_INFO_FLAG_READ |
-> -					VFIO_REGION_INFO_FLAG_WRITE |
-> -					VFIO_REGION_INFO_FLAG_MMAP;
-> +	/*
-> +	 * ACC VF dev BAR2 region consists of both functional
-> +	 * register space and migration control register space.
-> +	 * Report only the functional region to Guest.
-> +	 */
-> +	info.size = pci_resource_len(pdev, info.index) / 2;
->  
-> -			return copy_to_user((void __user *)arg, &info, minsz) ?
-> -					    -EFAULT : 0;
-> -		}
-> -	}
-> -	return vfio_pci_core_ioctl(core_vdev, cmd, arg);
-> +	info.flags = VFIO_REGION_INFO_FLAG_READ | VFIO_REGION_INFO_FLAG_WRITE |
-> +		     VFIO_REGION_INFO_FLAG_MMAP;
-> +
-> +	return copy_to_user(arg, &info, minsz) ? -EFAULT : 0;
->  }
->  
->  static int hisi_acc_vf_debug_check(struct seq_file *seq, struct vfio_device *vdev)
-> @@ -1557,7 +1553,8 @@ static const struct vfio_device_ops hisi_acc_vfio_pci_migrn_ops = {
->  	.release = vfio_pci_core_release_dev,
->  	.open_device = hisi_acc_vfio_pci_open_device,
->  	.close_device = hisi_acc_vfio_pci_close_device,
-> -	.ioctl = hisi_acc_vfio_pci_ioctl,
-> +	.ioctl = vfio_pci_core_ioctl,
-> +	.get_region_info = hisi_acc_vfio_ioctl_get_region,
->  	.device_feature = vfio_pci_core_ioctl_feature,
->  	.read = hisi_acc_vfio_pci_read,
->  	.write = hisi_acc_vfio_pci_write,
-> 
+
+>
+> Notifiers are a pain, and should almost never be added.  Use real
+> function calls instead.
+
+In v6, I used direct function calls, but had to switch to notifiers because couldn't resolve the dependencies between DRM and Type-C [1]. Do you have any good ideas? Thank you.
+
+[1] https://lore.kernel.org/all/aPYImGmesrZWwyqh@kuha.fi.intel.com/
+
+
+>
+> thanks,
+>
+> greg k-h
+>
+>
+-- 
+Best,
+Chaoyi
+
