@@ -2,155 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71AB7C8040F
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 12:46:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E59BC80445
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 12:50:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6988810E225;
-	Mon, 24 Nov 2025 11:46:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5E75610E226;
+	Mon, 24 Nov 2025 11:50:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="bdaTPU8o";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XKKZhE3l";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dkhRgbH/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012028.outbound.protection.outlook.com [52.101.43.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D80FD10E225
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 11:46:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=h19Z7ryfOf5TFU5kr85L30nKs6Lv3D7bHAfCqXWfVwjUXS09tMzj0x7G/4MkCtNfl70vUOxoD0XXEZPKrkAdDIVN/NZX2S1UVsODDDkBgQRDQn+q0dZq4JpX/KK8bPMSJCTzK6CSVlQybpFOmnPI+Bhh0B5XGT5i6DZWw1LL2G4PAGFBgf/k3scB6H2d1weigzz5cE19i/ZNeq+q/Ylzte+o7AFyLMNj+w1wJuxTNsRMiIYpU64bMFy2cvxbuN5yHr51QPr5MhP7FkNbG3nem2vIhU51CRqvQkqxTZLioI5BWQ4kKqEdsMhi7QYL7C6nFxdAqBgZ7Jsbg798Ep2/TQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tT0CpqoF2wseuvW3kgadVuuhHHn9DeDn+MWBui82UUo=;
- b=a9jePk7detI5j/1xrIHL+s2ZBTUNAtjOrN+yeBfLv2oCvkG14rGLgMCiS6432DPXTNzPuNlYDiXGEg1DkUYBCUBdJlg6za4EhtQkFOuOao+BuJQn6T0Tg7VH8W0lu2/hNF5fdaaq7GxP0DzyfbwtJTpM1Y+EYTo7FKnWrjcP1nf32vyV9tqGliQCzOsCB/CthsfVohYkT4/+tKnLKv38BB3n0fvHlPhde1w8HJXXrNyJARL2F/zJNCicUkdTua1Em4IvjC0ATtPs4ahu6bW/a3SjhsP5z+dOmLvZOrsv3SPxZAYakbg/RpxypOIn36F4kSvN+BdYJgkTMlII+qgeQA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=suse.de smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tT0CpqoF2wseuvW3kgadVuuhHHn9DeDn+MWBui82UUo=;
- b=bdaTPU8oMKXlPmxjFBFbmQNcNY8Uwt/HiMpj30fUCg7Q6JjylaVIQ10LzHSkHYw3Yr1bpF+7IgYZyJX9BeW4B7q3ORqx7b0vh+VnrwIGSxbi8pbbqsaIaXxxPgJ0G/CMVS+f24D4hPM43TtpKWmcaRcoQi25b05RTxsl4w4elmg=
-Received: from SJ0PR05CA0156.namprd05.prod.outlook.com (2603:10b6:a03:339::11)
- by DM4PR10MB6840.namprd10.prod.outlook.com (2603:10b6:8:104::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Mon, 24 Nov
- 2025 11:46:46 +0000
-Received: from SJ5PEPF000001F5.namprd05.prod.outlook.com
- (2603:10b6:a03:339:cafe::3) by SJ0PR05CA0156.outlook.office365.com
- (2603:10b6:a03:339::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.9 via Frontend Transport; Mon,
- 24 Nov 2025 11:46:45 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- SJ5PEPF000001F5.mail.protection.outlook.com (10.167.242.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.7 via Frontend Transport; Mon, 24 Nov 2025 11:46:45 +0000
-Received: from DLEE213.ent.ti.com (157.170.170.116) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 24 Nov
- 2025 05:46:39 -0600
-Received: from DLEE209.ent.ti.com (157.170.170.98) by DLEE213.ent.ti.com
- (157.170.170.116) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 24 Nov
- 2025 05:46:39 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE209.ent.ti.com
- (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 24 Nov 2025 05:46:39 -0600
-Received: from [172.24.235.208] (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AOBkWCL1850038;
- Mon, 24 Nov 2025 05:46:33 -0600
-Message-ID: <0fdcd88c-7940-45f4-98e1-39ad84f63389@ti.com>
-Date: Mon, 24 Nov 2025 17:16:32 +0530
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73E3710E226
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 11:50:21 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AOB5rTY4003314
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 11:50:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 3SZ7ZZ386czpSOQVUmKzDyOQh599YOzYaYs+/zwG1h4=; b=XKKZhE3llSXa1Gm/
+ 7Yp+REN2mq2CqgZkBnv4Y0EfAj0fvh0/KoypqlhZG8GHERKOF63CKIZDf8Tc8lOc
+ BuLKy1X4zDCJYjbfzaOZ2QrLXCH1jjIvwVXe1VzxSwzKKhT065oik5yc8lYvCodI
+ 2spf4bTKj26mKf2PZ//KY1T1iD/YNpgsIQbz6qBmh10cxYRGoL08bRLh1PnRUKJO
+ +ilDVrWx524xztAVJvob441DfizBRbx81+syFoTF7AIqE55c40K+/8XeLnKRut9E
+ LbkLMLgBK3uJ5/QQV90Vsd6bCnFOPpeCqS3toeJPhDOZT48nJE8hxn46k4dwC3A9
+ MQKzRw==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4amp6h03jb-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 11:50:20 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id
+ d75a77b69052e-4ede0bd2154so15630821cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 03:50:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1763985020; x=1764589820;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3SZ7ZZ386czpSOQVUmKzDyOQh599YOzYaYs+/zwG1h4=;
+ b=dkhRgbH//ZQkG3+o34D1EkzMWNGblaW9MQ/oINH6fizmycboyO4ZCRwgogatYK/6wY
+ qre6K4fvR0bJfcvPyJiS3qSzkEu2Sl9/qrdvFnai0hM1dQ+jeOdkrvb1gQr4vswSxqOS
+ PMFzHe+NfoOeEwgQg+abRrIZDcTO05sAjrjMBQm0T5QGa/uoO+zPcG/gQFGLRUMO/lVo
+ noPe7hvfIqhQDZ9ZckdYtV4u7xIw1ZFm2QoVk9hnTSPyzQ0FA/SGG0CHz/5ZDZ/Ep2VJ
+ oGUC0Wf5fUdtJ9veC+e56U+6oganDg/Vr0icMKc6pP+Vvkx7Qc5diG1Kg0Ywz4cXzraU
+ 7SKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763985020; x=1764589820;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=3SZ7ZZ386czpSOQVUmKzDyOQh599YOzYaYs+/zwG1h4=;
+ b=pDMj3eZPzE3Dut+OJhWABkbqAxfI0Bmr27HY7WigDdoxgmi3jt3rt6IJnf1y8xUL4O
+ 7NnOlfvt4PtM2E1yWP6xOFIAmzKCrK8dyWCCywRF8Nu1CHGkpbBgsALPJuSJoAWV+4UF
+ 61fPDpSmxNR4ZRYKEo8g8sx7DpuCwixRg8D+F+UXQWTeo3N6uH50YXQBDTHgWFfsByb6
+ igmfFqqaBR7UEg18k6eGpTG8hPk8EHFndOVc0gs1x+wolulUgY9vxHwwBV+WJZ1neyN4
+ 2juUb/KPKc8AKkt6a+Gep4tUuLjmWkxikF+rMtQgrhnL6RF7+YOT3lG3ZuuK+U2yQsum
+ 4cfg==
+X-Gm-Message-State: AOJu0YwNEqfb3kCW5ZKPtPQ3kk8E5WSm7O0dzhCA9mtyLbySRaZAuOns
+ luK1bWzWFHOP0T8CT25vrny0izQC+kK8I9cjOr2E5sLrygguV+P4i9uX9u7OpKCMaAHbY1326yD
+ GZuxl3ZflAhLPHnlFAQKYTCS1jPvdF4b08pPDzngts0UNA536CpEiFPVsLYWcz0KkQ21rvR4=
+X-Gm-Gg: ASbGncvQxmxrBVQCb52YcJYSC7muRw06lnQv7qCmw+cx0eo8QVVy6Gs2H//0wfXnMar
+ 3BOYl5KMionxd741Y1VrHSHE8aJvwlEbPjiyyHxGThtWLkkxNn5RaMr4fsoA5JC1qadr/NVchFc
+ bmxKkbtoRNREaPyIgNsjTdjFmNA49kEFV3GK62aakK9Uqze0XHU3mTIiKX7KzYve6dvghlMlqU3
+ CmpqaMD9cbmorxJmPPCgS6yobONWyAM+jlMpezBVtUtZF0ouyc0iXT3IS5CjFYEFF46PXRuMG4Q
+ A6pW/VJAGumWqxVSfiKEFJx+qiFMT0v+5yIMcENYy7dFkuqWROXbREhEJq6vNoy7r9F/pR7ersT
+ UNaI++XrJKnFvGaxRnrcoq2pirWMA8D4Q8UMM44O8G0BpmFuLWSGboOGH1E+6mgiLJ+4=
+X-Received: by 2002:a05:622a:508:b0:4ed:67c4:b7b9 with SMTP id
+ d75a77b69052e-4ee5883b027mr117948541cf.1.1763985019914; 
+ Mon, 24 Nov 2025 03:50:19 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFE3hRkWmJEOyRnNOZZEZAnqlcqwW4OAL2/F0nzRAv2dxmHvVXnDv1yESoMj2ty1Q56BsWPlg==
+X-Received: by 2002:a05:622a:508:b0:4ed:67c4:b7b9 with SMTP id
+ d75a77b69052e-4ee5883b027mr117948311cf.1.1763985019541; 
+ Mon, 24 Nov 2025 03:50:19 -0800 (PST)
+Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b7654d54cf2sm1265048966b.18.2025.11.24.03.50.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Nov 2025 03:50:19 -0800 (PST)
+Message-ID: <6be43c27-dea5-4607-ab22-431e3d99492c@oss.qualcomm.com>
+Date: Mon, 24 Nov 2025 12:50:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v9 3/6] drm/bridge: cadence: cdns-mhdp8546-core:
- Handle HDCP state in bridge atomic check
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-CC: <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
- <andrzej.hajda@intel.com>, <andy.yan@rock-chips.com>,
- <aradhya.bhatia@linux.dev>, <devarsht@ti.com>, <dianders@chromium.org>,
- <dri-devel@lists.freedesktop.org>, <javierm@redhat.com>,
- <jernej.skrabec@gmail.com>, <jonas@kwiboo.se>,
- <linux-kernel@vger.kernel.org>, <linux@treblig.org>,
- <luca.ceresoli@bootlin.com>, <lumag@kernel.org>, <lyude@redhat.com>,
- <maarten.lankhorst@linux.intel.com>, <mordan@ispras.ru>,
- <mripard@kernel.org>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <s-jain1@ti.com>, <simona@ffwll.ch>, <tzimmermann@suse.de>, <u-kumar1@ti.com>
-References: <20251120121416.660781-1-h-shenoy@ti.com>
- <20251120121416.660781-4-h-shenoy@ti.com>
- <b6e44d61-7704-48fa-ba03-ba1a75e8a4f8@ideasonboard.com>
+Subject: Re: [PATCH v2 4/6] arm64: dts: qcom: x1e80100-vivobook-s15: add HDMI
+ port
+To: maud_spierings@hotmail.com, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <20251116-asus_usbc_dp-v2-0-cc8f51136c9f@hotmail.com>
+ <20251116-asus_usbc_dp-v2-4-cc8f51136c9f@hotmail.com>
 Content-Language: en-US
-From: Harikrishna shenoy <h-shenoy@ti.com>
-In-Reply-To: <b6e44d61-7704-48fa-ba03-ba1a75e8a4f8@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251116-asus_usbc_dp-v2-4-cc8f51136c9f@hotmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F5:EE_|DM4PR10MB6840:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5ba14959-15fc-493d-be7f-08de2b4f252c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|376014|7416014|82310400026|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bGtGVERaYkhsUjJ1SnIzNG9sTVRQL3pyNEZVNnhaKzNNTGVvUEpCMzhIdkRQ?=
- =?utf-8?B?c1p6R1JhS3dIMDhqaFRlcGRHNThCNGx6S0ZmTmpiSEhBQW9ZOS9zUFZYcXEw?=
- =?utf-8?B?VHU0NWtWN2pMK1ZGNXNzODh4SXk2a09aVExvY2dIdnhvaktXemxQKzFrTnRi?=
- =?utf-8?B?MW42MGZBUWl5ck1wcnJpTm4rYW9ubVdxdDV3dTBINnFJdkVYeVU5U3NlMFVV?=
- =?utf-8?B?N0tqNVc3bDc2Vy9pUmNmcE0vT2xlWGhiWk8yYVRScm1WZ1R5MngzRnJhUW9Z?=
- =?utf-8?B?MFBSYU1janB5NnQ5MVNmSmxiOWphQldBK0xKeVdjbkJZT2lMaVMvZ1lZNWFr?=
- =?utf-8?B?UVlKZmxMNzRNTmZSbklyZ3JpRk5YSWRrYnRXLzd6QkI4aXBqVlFuZzBRb0JR?=
- =?utf-8?B?ZUxvOXhyNmpaSTJwVGVwNG01K1FKNGpydXkxaFBHV1g0R1NucDdnZUl3MFhG?=
- =?utf-8?B?bVowdjE4ZFJyZzBidm9XdUZtczFIUXJwVldBWXdoNDdRK2pjdmpLTEp0bmU4?=
- =?utf-8?B?THFKOHVJeXdkT2M4a1lMUnBrMmcxZnJkbWR1L1paNW8rOFI0azlvaThESEo0?=
- =?utf-8?B?cnZBY3hWcGI2T09Gd0hpT3ZzQVpwdDRtQXdUMm5QYVRkY3FrWnB4clRya1pO?=
- =?utf-8?B?ZXBmMVc2enZ0a3RhMkl3U2R3c3hyck4yTDB4cXdaL0xZbjRFYzdLcVJkTEJX?=
- =?utf-8?B?QWE5UWlYVHNscGsxb0tWa04wS1prTXd5cEQ0aVpMUHVYb3pYYmpYRXBNVDlu?=
- =?utf-8?B?V29uUW9KOFArR1FIT0FVV2J3c0xtLzUyVStQUGdOcnFvVXN6QUVaUnZ6RVNi?=
- =?utf-8?B?c3o4eVVFVTdxRkQ4VUR1bVZuSTNra0w1VjhSdSszakQxUDVkUjJDMWkzK1FG?=
- =?utf-8?B?R3JGZ0t0ZG81TjdiTC9oL3k3Ly9pd0VZSDlWeTJhK2RHcXVoTGY5OVpzbDRy?=
- =?utf-8?B?M3VEMWJmME1idnB2MW9uVEtyVG83WEo3WWE1bmxERmJlWThHNHl1dFNWbFpD?=
- =?utf-8?B?Y3duVlIxTjhxS1pzVHB2cU5QSWM1SmMxS1U2dVZCS2JUVVE0YTFGMFBacnRv?=
- =?utf-8?B?a0wybWh2ekxWTTNjUVNyQjl2NHBkNmlkS2M2SklRVnJBR0ZzMnA4V3FreW5r?=
- =?utf-8?B?WXJ0eFB4OG52QU0yQXRpU0tLNG10dXgxTmxaVXg5eWxUc0s4dHl1YWw0VWc3?=
- =?utf-8?B?cDNuUi9wWnlLRW1NK0ZBelpWazhwc2UzOHJCYnpxVXF6VXQzZDFsWkkxdFpY?=
- =?utf-8?B?SUtHWG9saXI2b3pCZVJwOVZTRk9PT2wwaXBsMUF0U2ZZNTJDQzRlNjJKcVpr?=
- =?utf-8?B?SWtGOWQyNEhJci9DbzB5bUkxZklnbUtjSDhxUFVpNERVVFFQZHJPbm1CV3VR?=
- =?utf-8?B?RTltTjQrK0tLOVMzOEd3RU1KOGxES05EaVY5N0NIWHk4WjJuTGpIakU0b0Zn?=
- =?utf-8?B?TUtUckVTT2d1UkthTjhLUzA3TGMyN3l4N2FPcHpTTWk2UGxqVUFDbHBsUDZh?=
- =?utf-8?B?MFhkb0FQejdqWUM1S3FBbmd0TnB4SE5hYXc0M0MvTzlodUF3WkpCQmE5MS9p?=
- =?utf-8?B?UHl5YTZkYkdxenZReTVaL3pQQVFMS3Q2bktiTE00YUduMnVrSE1DcGV4OW1B?=
- =?utf-8?B?aUtxL0hEbGhodlFYdnlXRzY4UmV0TWhFU0liOXp0ZjJDUXdoNE9jZ2NnMmZy?=
- =?utf-8?B?Z0dUQkJKV0g0K2J5N1BlWWhZMTFhYy9kaE5odThwRGhOaVpMbSszMHEvWXNa?=
- =?utf-8?B?Z1UyazRaakVWeVFqS1FTQ1k2ZVZaYjlPRVdTWUVpRFJtdFFra0VZZDBab0Z3?=
- =?utf-8?B?d3lEalJyd1NLNXU5NHFTWUNreHJ2MnhveVhJdk9ETVVXNHF3R3pTU1FlWEFx?=
- =?utf-8?B?NDVjdDEwaEZDY0pzTnJYQ2YzbXZ6NHJRMXROWkQ2eFUxZTloNk5zRW8wcFNr?=
- =?utf-8?B?WUw2SDhRUkNSMXp2cm9RWDF2WVA0UGFCL0Jla216dDRwaUV4SllMYjFjd3lE?=
- =?utf-8?B?ak85WE5Mai9GeTZZTEVOTVJxQlV0YUMxd2NLNzM1MU5BSmNMRzVqRWZ1djJ1?=
- =?utf-8?B?NjkrelhubXdGbE5ZN3JrNytCK0xMS3JabllLRUVCa1VnVThTdCtVRHcvSldM?=
- =?utf-8?Q?8ILU=3D?=
-X-Forefront-Antispam-Report: CIP:198.47.23.195; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:lewvzet201.ext.ti.com; PTR:InfoDomainNonexistent;
- CAT:NONE;
- SFS:(13230040)(36860700013)(376014)(7416014)(82310400026)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 11:46:45.8278 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ba14959-15fc-493d-be7f-08de2b4f252c
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.195];
- Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001F5.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB6840
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI0MDEwNCBTYWx0ZWRfXzdvdT8w6LF86
+ xtpb8S0VKxMGMKXD7resMhmS0ICWEh3mePxqzoGXCH4EXa1/6/UBkDRlbBFKZdrd2xsExYBOxYG
+ wZOx5EMcs1Z5DiIpW15l7GqqHp1YDDZIhuBwbAn3AUSxlMqNDiGThvWNs9MyYgXfj/K/STnYNcE
+ +vtOtFv9mw96V59Bm5lYHnBwW5v9pjT0gTLd3NObUyAsBTjqHDvNAAV4gDfmED68mhDkhSvo+Yn
+ W/yDzJs2E0zLnKSgXM1p3AQ3Ar+rXzMppLH3Joe3XYLwV0i7DzNWqwYkoXhx8RMX/C/QOZYi5GI
+ 5yzhabg8DdB4Ayd1apRtKe0eQCUwqRONwv4/mCzyco8ndtja+JkvM5sLGgkJfWsE0d2+ploIjwQ
+ TjrVWMNVa2o72cAUuf5j+qzZ0FpF4g==
+X-Proofpoint-GUID: GlrK7wbbgJRBAik3oaBpRJgFKsEaEByv
+X-Proofpoint-ORIG-GUID: GlrK7wbbgJRBAik3oaBpRJgFKsEaEByv
+X-Authority-Analysis: v=2.4 cv=GoFPO01C c=1 sm=1 tr=0 ts=6924467c cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=69EAbJreAAAA:8 a=EUspDBNiAAAA:8
+ a=ucDlCoAaIB5v6D95Jc0A:9 a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-24_04,2025-11-21_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 impostorscore=0 bulkscore=0 adultscore=0
+ phishscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511240104
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,78 +149,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 11/16/25 11:52 AM, Maud Spierings via B4 Relay wrote:
+> From: Maud Spierings <maud_spierings@hotmail.com>
+> 
+> Enable the HDMI port on left side of the laptop.
+> 
+> The display signal is routed through a simple Displayport to HDMI
+> bridge.
+> 
+> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
+> ---
 
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-On 21/11/25 18:16, Tomi Valkeinen wrote:
-> Hi,
-> 
-> On 20/11/2025 14:14, Harikrishna Shenoy wrote:
->> Now that we have DRM_BRIDGE_ATTACH_NO_CONNECTOR framework, handle the
->> HDCP state change inbridge atomic check as well to enable correct
-> 
-> "in bridge's"
-> 
->> functioning for HDCP in both DRM_BRIDGE_ATTACH_NO_CONNECTOR and
->> !DRM_BRIDGE_ATTACH_NO_CONNECTOR case.
-> 
-> Same thing here. What is the issue? What behavior do you see without
-> this patch?
-> 
->   Tomi
-> 
-Hi Tomi,
-
-This patch update the HDCP state in bridge hooks, as connector hooks
-are not used with DBANC, so essentially helps correct functioning of 
-HDCP by updating its state.
-
-Regards.
->> Fixes: 6a3608eae6d33 ("drm: bridge: cdns-mhdp8546: Enable HDCP")
->> Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
->> ---
->>   .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 23 +++++++++++++++++++
->>   1 file changed, 23 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->> index 7178a01e4d4d8..d944095da4722 100644
->> --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->> +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
->> @@ -2123,6 +2123,10 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
->>   {
->>   	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
->>   	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
->> +	struct drm_connector_state *old_state, *new_state;
->> +	struct drm_atomic_state *state = crtc_state->state;
->> +	struct drm_connector *conn = mhdp->connector_ptr;
->> +	u64 old_cp, new_cp;
->>   
->>   	mutex_lock(&mhdp->link_mutex);
->>   
->> @@ -2142,6 +2146,25 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
->>   	if (mhdp->info)
->>   		bridge_state->input_bus_cfg.flags = *mhdp->info->input_bus_flags;
->>   
->> +	if (conn && mhdp->hdcp_supported) {
->> +		old_state = drm_atomic_get_old_connector_state(state, conn);
->> +		new_state = drm_atomic_get_new_connector_state(state, conn);
->> +		old_cp = old_state->content_protection;
->> +		new_cp = new_state->content_protection;
->> +
->> +		if (old_state->hdcp_content_type != new_state->hdcp_content_type &&
->> +		    new_cp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
->> +			new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
->> +			crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
->> +			crtc_state->mode_changed = true;
->> +		}
->> +
->> +		if (!new_state->crtc) {
->> +			if (old_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED)
->> +				new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
->> +		}
->> +	}
->> +
->>   	mutex_unlock(&mhdp->link_mutex);
->>   	return 0;
->>   }
-> 
-
+Konrad
