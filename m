@@ -2,130 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C0B0C819BE
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 17:37:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1EBDC81ABC
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 17:51:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9CE810E24C;
-	Mon, 24 Nov 2025 16:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D17910E303;
+	Mon, 24 Nov 2025 16:51:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="mMikRWu9";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="pcEULTFv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FAkKWU22";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pcEULTFv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FAkKWU22";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SN4PR0501CU005.outbound.protection.outlook.com
- (mail-southcentralusazon11011019.outbound.protection.outlook.com
- [40.93.194.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD06C10E24C;
- Mon, 24 Nov 2025 16:37:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=roWb+5ivqYmR/wX6XtS4LEMOEgFlDshO95oWYYLJoWKVhHQIvz3ng48AhQs5CDvoseJHc69A/Rl53AH/xXQrkBVXR+WwpXRYB7oFZfdAGtwu7nt0KIaiKeItK9HVOS26bNbiRIOybv9CdtrWpr30FoT0RezhzCdYN3FiTAmBGzEQV601o6BxMkwlWu9SLAVQJMaFCa9ez9C6OQrbTUvo2QaPAVNf/EB9qC/Yj7Nn9ZlftiibZ30fqTNJmAObcBkgMyQ9B/XUUGkyJr3nz7dCvAksS3TxJv881vfWa8ltH+lMs3hgES4PaZZNs3x5S9BEWMbeXhJasqV2ME/hSHpO5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BHZeYL0pg3OrNwHJ/ksLJ7sr668Uj67wvjzZTS5aikc=;
- b=wQDzBD9Ft7fJFMXiEJeKbcPj/bHUXwfqjhCd7wky5/AaTueVbBJWzEJbkwzA+aP1gMfitvhMt+9aKZx3nobktN0HYHLHh/Bg23wETdVtIsTm/tfsB7M2rRzyfDLvNepNywL6JYjqaBHTg6ymTtAAuSpL6S2cI3AxrsPnBfKUrrq3hvcb24WXSKyXftv4c7g8scRUZs5HhA4jpTrOcoAPzInJK0xOtmFArFIXb7kqFD9MKeK7I/HL2567nHk67YW+/88P35+k0anVZe91e2o2Z6CGMxX1gERH3vUuTSFeSTd1SokmKrWjn2BeriRqBveMit1bJpws36Ldz3Q6HRRETA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BHZeYL0pg3OrNwHJ/ksLJ7sr668Uj67wvjzZTS5aikc=;
- b=mMikRWu9HtJ+o8dAaqlE27KlVYdZFQDPkSiJABHji7fCEFw15n1Yrf8qKxcqcbb69fX07pnFoSAxB/zD/6HKu6aY8F0Wa7hd/U7HmJLcHDQE0jJFkQlKAtttN+vAb90pFDWxFuulgNgH72aSxSZGGkYa5kyHujYAu4YVpzb5l3s=
-Received: from BN9PR03CA0656.namprd03.prod.outlook.com (2603:10b6:408:13b::31)
- by DS4PR12MB999077.namprd12.prod.outlook.com (2603:10b6:8:2f9::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Mon, 24 Nov
- 2025 16:37:16 +0000
-Received: from BL6PEPF0001AB54.namprd02.prod.outlook.com
- (2603:10b6:408:13b:cafe::8b) by BN9PR03CA0656.outlook.office365.com
- (2603:10b6:408:13b::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.17 via Frontend Transport; Mon,
- 24 Nov 2025 16:36:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BL6PEPF0001AB54.mail.protection.outlook.com (10.167.241.6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.7 via Frontend Transport; Mon, 24 Nov 2025 16:37:15 +0000
-Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Mon, 24 Nov 2025 10:37:13 -0600
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "David (Ming Qiang) Wu"
- <David.Wu3@amd.com>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v1 2/2] drm/amdgpu: free job fences on failure in
- amdgpu_job_alloc_with_ib
-Date: Mon, 24 Nov 2025 17:36:14 +0100
-Message-ID: <20251124163615.6388-2-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251124163615.6388-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20251124163615.6388-1-pierre-eric.pelloux-prayer@amd.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65DFF10E303
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 16:51:26 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9A19D21FE7;
+ Mon, 24 Nov 2025 16:51:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1764003084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=nvlNT7/03lgKc0UqqVACl/eVo2J+fynx71RItOnRGt4=;
+ b=pcEULTFvf9YsJFrVufj1W0iUwwsreYnCfkn2g0j1eZ/l2nbMGiVmNI9ekGYIXluTqRBG1p
+ Qlpv3Glm5Klqq1IaTGamxXu8VbMMJd4yGHEBiEU6MU++rcBO53JYkeSgLovgLHN38Aanso
+ jvtrUDfFyu5SkrPS+IeloYbwofhc5Q0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1764003084;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=nvlNT7/03lgKc0UqqVACl/eVo2J+fynx71RItOnRGt4=;
+ b=FAkKWU22NH4zBfsWhA5Z8UEG7Kegt4AjWDxMgB9dfSfSU+5Q5QQAfScMcgKdGzaXpqlmhD
+ lmGcYab+z9V51LBA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pcEULTFv;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FAkKWU22
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1764003084; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=nvlNT7/03lgKc0UqqVACl/eVo2J+fynx71RItOnRGt4=;
+ b=pcEULTFvf9YsJFrVufj1W0iUwwsreYnCfkn2g0j1eZ/l2nbMGiVmNI9ekGYIXluTqRBG1p
+ Qlpv3Glm5Klqq1IaTGamxXu8VbMMJd4yGHEBiEU6MU++rcBO53JYkeSgLovgLHN38Aanso
+ jvtrUDfFyu5SkrPS+IeloYbwofhc5Q0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1764003084;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=nvlNT7/03lgKc0UqqVACl/eVo2J+fynx71RItOnRGt4=;
+ b=FAkKWU22NH4zBfsWhA5Z8UEG7Kegt4AjWDxMgB9dfSfSU+5Q5QQAfScMcgKdGzaXpqlmhD
+ lmGcYab+z9V51LBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 319EA3EA63;
+ Mon, 24 Nov 2025 16:51:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id sH6tCgyNJGm3GgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 24 Nov 2025 16:51:24 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: ardb@kernel.org, javierm@redhat.com, arnd@arndb.de, richard.lyu@suse.com
+Cc: x86@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 00/10] arch,sysfb,efi: Support EDID on non-x86 EFI systems
+Date: Mon, 24 Nov 2025 17:40:12 +0100
+Message-ID: <20251124165116.502813-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB54:EE_|DS4PR12MB999077:EE_
-X-MS-Office365-Filtering-Correlation-Id: e0bc9004-6b7d-4ff2-77f2-08de2b77ba13
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|1800799024|376014|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?v+3kSJVAe6TSeobPgRHbWQVij2JJHfooTkz8jHOpHjTbhcWn/p+2G0Vs4dlC?=
- =?us-ascii?Q?4XxgtFNxmV4e0u9Yzb8APevvVtte4HDtDmbCQWNqzaSSdkycHwA8GcF0ySx8?=
- =?us-ascii?Q?08ksOPdiuMlUdo56kM2Sh0uvCidSNO/bNiuZHz85axXQ2/6UNO+4dd7bwOi5?=
- =?us-ascii?Q?xqdr2gvMLczizCgNsnsOw5iSVzdkPNGlbro9uWEUWPXloBpEc8u9SofCphTZ?=
- =?us-ascii?Q?ZTUt9fHTGOpsMDGqiJ5LtO8fovZu53LkEUh6hx2qiSTT/lh6aBy1ubjR9PEv?=
- =?us-ascii?Q?ttbJKnziZxWMavbJSPgOrDKuysDK9DiP45kykSvl6Uw2TRX56hd52dkN6BZn?=
- =?us-ascii?Q?cuiZTJDCzFqF2FluMykRyukzoWpFkVUds49IIZiZAeq2qe5kzQ84mCbGQjfq?=
- =?us-ascii?Q?x3fYrbl1flvQeQbj2NvNW7w71cwDtfzVpBVyanlr+U00bqOVPolHbwaVsQ4C?=
- =?us-ascii?Q?xTNXkdaYDutgBbhCvrXzBu1QgK2+w3KRQHYTBoPcvWM7wqWXhjXI5vel1K+a?=
- =?us-ascii?Q?Jfdo1Hss1z+8Ewf7+/mCtQlGUG07NhAxfdC+7IJoEPIeJE79QjBXcw1UITeY?=
- =?us-ascii?Q?k8LisY0496rjd+mJQJ9aDh23O+Gao7dGfX6HpiVuw9IHlq6jYm3KrX/XywSB?=
- =?us-ascii?Q?5R5gn7+j3ngEeUK/ry2WUX0EI9C2kgz19r/V5VpwG6HSVDN1qK+TXKpdRFuC?=
- =?us-ascii?Q?NVBp3nGbsVzQoI5DqLl/0P/1bKiGlaCo6JCVWvhjPvcwVkwXxWD53L2fUERR?=
- =?us-ascii?Q?GT4RKP6nBqhNRwNBx0ieiIjPll6Ud5i9qyfFtd5/LmcdC3OA38w28irNN4Ps?=
- =?us-ascii?Q?Wa9PyF+XNhcWPAj3lvajv9+3fg0URgaTTYVo/beVPJplDDMH6cjGknkAaoQ8?=
- =?us-ascii?Q?wkjQFS2zpVsq6cmMFi8oNazFQGEYMFOtD0mjlNqOpA62QqFyN9+k4aFtEe8q?=
- =?us-ascii?Q?oKKV+5yVwnY0SNcs5alzMfDLvmo0DU8vNzI08uB4q08JfH6idTs/RG53dV06?=
- =?us-ascii?Q?jpcf8KwyO7dUpyninc64V9/KEkkBGxPg3pH/9cBiJg9n7oWFh6W/RdGM5VmB?=
- =?us-ascii?Q?EawhPuNAw57/lOD/yRMwZ+GqdGEiNEDn1VOX3flwYnH0haBdYntiD8/ibV0b?=
- =?us-ascii?Q?Hgg0uL8QGUgxhBWvoBFiMGO/WOesqQNF7a113S8/nN6LCnITOprABb6UvfmF?=
- =?us-ascii?Q?dCUi3Kl9eT+E9xL9imuYr2V7123+Vq3yZHX3D+Owp6WyooGpPDLGcb048o2Q?=
- =?us-ascii?Q?SwLiK62pUuQniMSP22Rf2JD7E/ptsfKBN40W35Ky5FuLBc6Fry1R0QB1jn6d?=
- =?us-ascii?Q?ud67DX+gDh00xiQv8M+RsKJVrxa34VyQDJsrWRUyeCFfS9Cw+OSH6OtcgB9u?=
- =?us-ascii?Q?qswr1yBV8Yw5j6ZXQrTv9Vs4PCJmUtXa6/+7rxlyYcmDjX/0SGdAcsqx1DfV?=
- =?us-ascii?Q?jZttt9sD+R7y46ZEGRXT2FXKHNk3cWVk65TFEiqFfP+JM8r4MYYCfk8xoYE4?=
- =?us-ascii?Q?hPXk6/YsYOH7MCn70aKuiwbHh9U7/CU5UaKVJxV0Dh5T6dMXNWn3UErzKP59?=
- =?us-ascii?Q?ObsHPVdBMHKLaawYq3s=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 16:37:15.5700 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0bc9004-6b7d-4ff2-77f2-08de2b77ba13
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB54.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB999077
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 9A19D21FE7
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ ARC_NA(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_TWELVE(0.00)[15];
+ MIME_TRACE(0.00)[0:+]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCVD_COUNT_TWO(0.00)[2]; RCVD_TLS_ALL(0.00)[];
+ TO_DN_SOME(0.00)[]; DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,27 +117,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Otherwise we're leaking memory.
+Replace screen_info and edid_info with sysfb_primary_device of type
+struct sysfb_display_info. Update all users. Then implement EDID support
+in EFI's libstub.
 
-Fixes: a35c520c1611 ("drm/amdgpu: clean up and unify hw fence handling")
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 2 ++
- 1 file changed, 2 insertions(+)
+Sysfb DRM drivers currently fetch the global edid_info directly, when
+they should get that information together with the screen_info from their
+device. Wrapping screen_info and edid_info in sysfb_primary_display and
+passing this to drivers enables this.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-index 2fc3d9da0fe7..91f1232b7d41 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-@@ -246,6 +246,8 @@ int amdgpu_job_alloc_with_ib(struct amdgpu_device *adev,
- 	if (r) {
- 		if (entity)
- 			drm_sched_job_cleanup(&(*job)->base);
-+		kfree((*job)->hw_vm_fence);
-+		kfree((*job)->hw_fence);
- 		kfree(*job);
- 		*job = NULL;
- 	}
+Replacing both with sysfb_primary_display has been motivate by the EFI
+stub. EFI wants to transfer EDID via config table in a single entry.
+Using struct sysfb_display_info this will become easily possible. Hence
+accept some churn in architecture code for the long-term improvements.
+
+Add a new UUID to transfer sysfb_primary_display via EFI's config table.
+Then implement support in the kernel and EFI's libstub.
+
+Patches 1 and 2 reduce the exposure of screen_info in EFI-related code.
+
+Patch 3 adds struct sysfb_display_info.
+
+Patch 4 replaces scren_info with sysfb_primary_display. This results in
+several changes throught the kernel, but is really just a refactoring.
+
+Patch 5 updates sysfb to transfer sysfb_primary_display to the related
+drivers.
+
+Patch 6 moves edid_info into sysfb_primary_display. This resolves some
+drivers' reference to the global edid_info, but also makes the EDID data
+available on non-x86 architectures.
+
+Patches 7 and 8 add kernel-side support for EDID transfers on non-x86
+EFI systems.
+
+Patches 9 implements EDID support in libstub. Patch 10 cleans up the
+config-table allocation to be easier to understand.
+
+This is v2 of the series. It combines v1 of the series at [1] plus
+changes from [2] and [3].
+
+[1] https://lore.kernel.org/dri-devel/20251121135624.494768-1-tzimmermann@suse.de/
+[2] https://lore.kernel.org/dri-devel/20251015160816.525825-1-tzimmermann@suse.de/
+[3] https://lore.kernel.org/linux-efi/20251119123011.1187249-5-ardb+git@google.com/
+
+Thomas Zimmermann (10):
+  efi: earlycon: Reduce number of references to global screen_info
+  efi: sysfb_efi: Reduce number of references to global screen_info
+  sysfb: Add struct sysfb_display_info
+  sysfb: Replace screen_info with sysfb_primary_display
+  sysfb: Pass sysfb_primary_display to devices
+  sysfb: Move edid_info into sysfb_primary_display
+  efi: Refactor init_primary_display() helpers
+  efi: Support EDID information
+  efi: libstub: Transfer EDID to kernel
+  efi: libstub: Simplify interfaces for primary_display
+
+ arch/arm64/kernel/image-vars.h                |  2 +-
+ arch/loongarch/kernel/efi.c                   | 47 +++++++----
+ arch/loongarch/kernel/image-vars.h            |  2 +-
+ arch/riscv/kernel/image-vars.h                |  2 +-
+ arch/x86/kernel/kexec-bzimage64.c             |  4 +-
+ arch/x86/kernel/setup.c                       | 16 ++--
+ arch/x86/video/video-common.c                 |  4 +-
+ drivers/firmware/efi/earlycon.c               | 42 +++++-----
+ drivers/firmware/efi/efi-init.c               | 47 +++++++----
+ drivers/firmware/efi/efi.c                    |  2 +
+ drivers/firmware/efi/libstub/Makefile         |  2 +-
+ drivers/firmware/efi/libstub/efi-stub-entry.c | 36 +++++++--
+ drivers/firmware/efi/libstub/efi-stub.c       | 49 +++++++----
+ drivers/firmware/efi/libstub/efistub.h        |  7 +-
+ .../firmware/efi/libstub/primary_display.c    | 41 ++++++++++
+ drivers/firmware/efi/libstub/screen_info.c    | 53 ------------
+ drivers/firmware/efi/libstub/zboot.c          |  6 +-
+ drivers/firmware/efi/sysfb_efi.c              | 81 ++++++++++---------
+ drivers/firmware/sysfb.c                      | 13 +--
+ drivers/firmware/sysfb_simplefb.c             |  2 +-
+ drivers/gpu/drm/sysfb/efidrm.c                | 14 ++--
+ drivers/gpu/drm/sysfb/vesadrm.c               | 14 ++--
+ drivers/hv/vmbus_drv.c                        |  6 +-
+ drivers/pci/vgaarb.c                          |  4 +-
+ drivers/video/Kconfig                         |  8 +-
+ drivers/video/fbdev/core/fbmon.c              |  8 +-
+ drivers/video/fbdev/efifb.c                   | 10 ++-
+ drivers/video/fbdev/vesafb.c                  | 10 ++-
+ drivers/video/fbdev/vga16fb.c                 |  8 +-
+ drivers/video/screen_info_pci.c               |  5 +-
+ include/linux/efi.h                           |  8 +-
+ include/linux/screen_info.h                   |  2 -
+ include/linux/sysfb.h                         | 23 ++++--
+ include/video/edid.h                          |  4 -
+ 34 files changed, 337 insertions(+), 245 deletions(-)
+ create mode 100644 drivers/firmware/efi/libstub/primary_display.c
+ delete mode 100644 drivers/firmware/efi/libstub/screen_info.c
+
+
+base-commit: d724c6f85e80a23ed46b7ebc6e38b527c09d64f5
 -- 
-2.43.0
+2.51.1
 
