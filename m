@@ -2,74 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7776AC81969
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 17:33:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E7DC819B1
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 17:37:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA52410E2FF;
-	Mon, 24 Nov 2025 16:33:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFCD410E2CB;
+	Mon, 24 Nov 2025 16:37:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="g+47ol/x";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="QkZ9pHli";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7D1510E2FF
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 16:33:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8E38D60173;
- Mon, 24 Nov 2025 16:33:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2D80C116C6;
- Mon, 24 Nov 2025 16:33:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1764002010;
- bh=b0HsFdIr9UYeg1Jbb+ezqHtOK4AZhADd9B70yMMGZFc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=g+47ol/xVPKvHq8mO+c2fpgR8DW18YAaKTmijBBG2VtkLGfdTcX8n57jEGZgYFtXt
- DF01gZjsrt73ZFaL90qrJ9go9zBaa62onSiMzWQEv3i/waUjE3nOD4/TVDH9cmjl4K
- 53oeGgUWsOdxH3qnIhbrSMDif3kOexD/8BLXzSs0=
-Date: Mon, 24 Nov 2025 17:33:27 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v10 01/11] usb: typec: Add notifier functions
-Message-ID: <2025112448-brush-porcupine-c851@gregkh>
-References: <20251120022343.250-1-kernel@airkyi.com>
- <20251120022343.250-2-kernel@airkyi.com>
- <2025112102-laurel-mulch-58e4@gregkh>
- <462ad1bd-7eec-4f26-b383-96b049e14559@rock-chips.com>
- <2025112402-unopposed-polio-e6e9@gregkh>
- <a80483de-518d-45d5-b46a-9b70cca5b236@rock-chips.com>
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010042.outbound.protection.outlook.com [52.101.61.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAF6F10E24C;
+ Mon, 24 Nov 2025 16:37:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zIBY2DSOWeawm0n8GiGcmAZraIOSn3vOHUAy03NaWicd0p7MyygKAlsoMCaupxUOI1Xr0Vch+QoPoDwn3z33lMwbkGDUETqQha6D/IYcqFWUArqLsmKjr5RPr8Hs8UhabLwTI5GcOsRAYhSaT68zWyEsXwLY1TOFbHjdqXJLa3Asf9ZmVvRWLH0O8D2WJTLYqiryMzH3iqWu5wmqRFpXz4MhiYKQdLe7sySMiDRK6nNb8mPPpJsSqCxfQQ82l1QfSiFaZPUCTQ14+NIcP3o2GOA7HMfedxrbkUFtJHb4RpWkNWhImv5SUs4H8VZqij2EQfDQiLpNSDqUXLkCIUBtFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3X/YNAxntdAAF8GX4mr9m5NoXT0Ou76/Dsoc0f+xZCk=;
+ b=eQjtHmfLw4angeq6mim9XPr1nzIRuF4x7ONrBa+G4KSi4H+QLPe7xqtqzuVkDSmh2p6HbmDMVpADx8I8N1zYw5a/8CLoZWs0wrbkcSm8kCOPdBDtGXNZoZC50xrPwoicq7RqrBhYAfF1/zAW7qDRinfURlyZMpcLRYpGDfMjKc+DQZS/6KM8B7fQ2z2lGlgGfhpYHdv/ls9GkBH3qtMm28nAHqmA7TbM8eUnLWlZJ4R1RO7R3J166mW4K/c92ct0Y+7v7K2ynZ1j96C+Uf8Ii+pnZ7PgcSOR3QF6bDB8yVYRIvzZfghKLuPPYSQvJhWTJA7OxPsBsE2IfPWzaR1JXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3X/YNAxntdAAF8GX4mr9m5NoXT0Ou76/Dsoc0f+xZCk=;
+ b=QkZ9pHlilsZhxvvYgoeiZBFEzZU/jafohAhUiSwXSKnQRnKQAu0NheZf8NY0Pgau6GVurUSIIxvPqGhqyToIb5P4j9kDZJWeB6NaoM5EPzcjUCgzbahe+OsAcPwpyzqxLqMfvdQkbcyhIlLVZhD5NakTtuypZ9WrImNHxAPChcI=
+Received: from BN9PR03CA0245.namprd03.prod.outlook.com (2603:10b6:408:ff::10)
+ by DS4PR12MB9706.namprd12.prod.outlook.com (2603:10b6:8:277::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Mon, 24 Nov
+ 2025 16:37:04 +0000
+Received: from BL6PEPF0001AB57.namprd02.prod.outlook.com
+ (2603:10b6:408:ff:cafe::8e) by BN9PR03CA0245.outlook.office365.com
+ (2603:10b6:408:ff::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.17 via Frontend Transport; Mon,
+ 24 Nov 2025 16:36:48 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BL6PEPF0001AB57.mail.protection.outlook.com (10.167.241.9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9366.7 via Frontend Transport; Mon, 24 Nov 2025 16:37:03 +0000
+Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
+ satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Mon, 24 Nov 2025 10:36:59 -0600
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "David (Ming Qiang) Wu"
+ <David.Wu3@amd.com>
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: [PATCH v1 1/2] drm/amdgpu: clear job on failure in
+ amdgpu_job_alloc(_with_ib)
+Date: Mon, 24 Nov 2025 17:36:13 +0100
+Message-ID: <20251124163615.6388-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a80483de-518d-45d5-b46a-9b70cca5b236@rock-chips.com>
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB57:EE_|DS4PR12MB9706:EE_
+X-MS-Office365-Filtering-Correlation-Id: 046f0a6c-f937-4d5b-85fc-08de2b77b329
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|82310400026|376014|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?vOAlRuNBt1YyV8pFLXuAAqg+my/+WIrowSiI26SwdoekjEO6Chld+9BcTUt/?=
+ =?us-ascii?Q?6diePAvxQnph+lJu+fpxcpdF38XkTsYFsgpseVkU6eo4oVn3IBLPbdw3voAc?=
+ =?us-ascii?Q?r2j83OUNp87FQyh0yzRhwKSfWbEXJ+SNMQKjxAVtZkuquQjEicFkG5ZN/BkY?=
+ =?us-ascii?Q?QoqND1EZXwNazqQfchbxOku1ySPUmJEZP43kyFfbWAmIognZsfwtTA+NAkDl?=
+ =?us-ascii?Q?Crmlh6HHplZNpn3q1bJvvQ3X20rmvb/GKqJAQPVkILXbDh4sbbUWzcdeTFZX?=
+ =?us-ascii?Q?QgjoKLBf6S7gSzHJuTCY8wlY7COezrHRTez7tC9wjChrBqEn11/LupQEv3mU?=
+ =?us-ascii?Q?ACaBo/L4FTg6A9eJDUUkDawgiF7FtdEQfrhojo63aDqMLwQwn46sy5KK+jpG?=
+ =?us-ascii?Q?rbIUt+twrWUd48+k96A2VfXQIhwXR7+PAQxQdoDOjgQxPxRvIMddtidwdFVR?=
+ =?us-ascii?Q?AUx9OtFNbRBuw/IPefKgVR4QcK9Z+6YcXoBnBdV1ivT7mi3U8PCB31iBv3BK?=
+ =?us-ascii?Q?gStTyt1qBjqMODjPrJrM7mqN1iIVZyUhRpeCPfajK0BmFTIMLdXnHyPYVS6E?=
+ =?us-ascii?Q?kk3vBdz4BtOqV3isl87RyLtlVRsJI5Axw1zMtmHsYyJ6EJEqxIKlkBWFBu9M?=
+ =?us-ascii?Q?hRbmTwWxWvJQXO0LrHN9QKBxVqZrNgcNfLkBZ+e2iRVaxhRF8ow4PlQWNHMe?=
+ =?us-ascii?Q?iFrfbBWNPj3+h4Fgn6nBWokhTpUDv+2wu0QXrE0YkPpZQjt40wRso09jeStc?=
+ =?us-ascii?Q?uQrjiHeIxalubs5pcs7NEEgnuH2NGATpXZ2At6RKhuzC3V7ifZgI5lKPwGzW?=
+ =?us-ascii?Q?AbpxUF46ZmadtqeDti8H+uxoXHH6IlBnzmkdiAcIgMYUSpSlo608cUHDKcAM?=
+ =?us-ascii?Q?9mUP4zfkZ4JpdlNY8kdo2+0mVT8POCa7dajsk0JEmeU85oP+Oc8d8AyqZvp/?=
+ =?us-ascii?Q?cLdRjGXjwKN1QC7o0Sgw1Ec6Ta40vyozY6u1pGrtPMsK4eilBPzKyrGH5YLr?=
+ =?us-ascii?Q?5tHdNPycnKHU1uctIgOwW2NKcJeJxBYYWzOoTB0KYOtMxrM4h2aWlk6Kj6d2?=
+ =?us-ascii?Q?vBgxPorpNBWAOyOwvUH0fAah73TZWYRZjs5p0rQIIhTGVLrLNkzB2hsMWgGg?=
+ =?us-ascii?Q?nH6DimFtKXBl3xFObLTLeGIf5uXg0DwrHJLiHqsCmy+lrUoGGXnuP523rrH5?=
+ =?us-ascii?Q?Q70evTU7vApfZDCq39QUyoK1x3UpN6ewgellaAeR8uRAowy/yvJdw0PpxT7b?=
+ =?us-ascii?Q?aVwkn3PdYt3g6f+qZCEAElKQyW6YcGsnhwblF4zadkDUFqjNRtgce0qbtqCk?=
+ =?us-ascii?Q?OQmX03/RubWy48p9Z7uIV7Md9WkEWErd4gzKK3oA14pFzW/vgkDSGhs3XAFe?=
+ =?us-ascii?Q?JzRwduCByuG1N3TqLC+asdryKlYoAbJwrPsZGa4Q5l0W8MIddziSerLHxEFy?=
+ =?us-ascii?Q?4p29X7mtQinQEaYUT4YJkX+bkJqt1ZRlBL2A7hQDMDWZxUFUBaEfXuauN9jM?=
+ =?us-ascii?Q?7jqM2TwHN2NxR5WxthfQGZU0NqM/mMiFUTXdgMNVw0Z5VGwfigFDv4bziDqt?=
+ =?us-ascii?Q?i9amYixLPLAhRi6QVgY=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 16:37:03.9687 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 046f0a6c-f937-4d5b-85fc-08de2b77b329
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB57.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9706
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,99 +138,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 24, 2025 at 04:05:53PM +0800, Chaoyi Chen wrote:
-> Hi Greg,
-> 
-> On 11/24/2025 3:10 PM, Greg Kroah-Hartman wrote:
-> 
-> > On Mon, Nov 24, 2025 at 09:40:03AM +0800, Chaoyi Chen wrote:
-> > > Hi Greg,
-> > > 
-> > > On 11/21/2025 10:07 PM, Greg Kroah-Hartman wrote:
-> > > > On Thu, Nov 20, 2025 at 10:23:33AM +0800, Chaoyi Chen wrote:
-> > > > > From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> > > > > 
-> > > > > Some other part of kernel may want to know the event of typec bus.
-> > > > Be specific, WHAT part of the kernel will need to know this?
-> > > For now, it is DRM.
-> > Then say this.
-> 
-> Okay, please refer to the discussion below.
-> 
-> > 
-> > > > And why a new notifier, why not just use the existing notifiers that you
-> > > > already have?  And what is this going to be used for?
-> > > We have discussed this before, but the current bus notifier cannot achieve the expected notification [0].
-> > > 
-> > > [0] https://lore.kernel.org/all/aPsuLREPS_FEV3DS@kuha.fi.intel.com/
-> > Then you need to document the heck out of this in the changelog text.
-> > But I'm still not quite understanding why the bus notifier does not work
-> > here, as you only want this information if the usb device is bound to
-> > the bus there, you do not want to know this if it did not complete.
-> > 
-> > That thread says you want this not "too late", but why?  What is the
-> > problem there, and how will you handle your code getting loaded after
-> > the typec code is loaded?  Notifier callbacks don't work for that
-> > situation, right?
-> 
-> In fact, the typec_register_altmode() function generates two
-> registered events. The first one is the registered event of the port
-> device, and the second one is the registered event of the partner
-> device. The second one event only occurs after a Type-C device is
-> inserted.
-> The bus notifier event does not actually take effect for the port
-> device, because it only sets the bus for the partner device:
-> 
->     /* The partners are bind to drivers */
->     if (is_typec_partner(parent))
->         alt->adev.dev.bus = &typec_bus;
+If memory is freed we need to nullify the pointer or the caller
+might call kfree again (eg: amdgpu_cs_parser_fini calls kfree on
+all non-null job pointers).
 
-Setting the bus is correct, then it needs to be registered with the
-driver core so the bus link shows up (and a driver is bound to it.)
-That is when the bus notifier can happen, right?
+Fixes: a35c520c1611 ("drm/amdgpu: clean up and unify hw fence handling")
+Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> I hope it's not too late. In fact, the notifier here will notify DRM to establish a bridge chain.
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index efa3281145f6..2fc3d9da0fe7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -225,6 +225,7 @@ int amdgpu_job_alloc(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+ 	kfree((*job)->hw_fence);
+ err_job:
+ 	kfree(*job);
++	*job = NULL;
+ 
+ 	return r;
+ }
+@@ -246,6 +247,7 @@ int amdgpu_job_alloc_with_ib(struct amdgpu_device *adev,
+ 		if (entity)
+ 			drm_sched_job_cleanup(&(*job)->base);
+ 		kfree(*job);
++		*job = NULL;
+ 	}
+ 
+ 	return r;
+-- 
+2.43.0
 
-What is a "bridge chain"?
-
-> The downstream DP controller driver hopes to obtain the fwnode of the last-level Type-C device
-> through this bridge chain to create a DRM connector. And when a device is inserted,
-> drivers/usb/typec/altmodes/displayport.c can notify the HPD (Hot Plug Detect) event.
-
-But aren't you just the driver for the "partner device"?
-
-If not, why isn't a real device being created that you then bind to,
-what "fake" type of thing are you attempting to do here that would
-require you to do this out-of-band?
-
-> If relying on the second event, the bridge chain may never be established, and the operations of the DP driver will be
-> always deferred. Furthermore, other parts of the display controller driver will also be deferred accordingly.
-
-What operations?  What exactly is delayed?  You should not be touching a
-device before you have it on your bus, right?
-
-> > > > Notifiers are a pain, and should almost never be added.  Use real
-> > > > function calls instead.
-> > > In v6, I used direct function calls, but had to switch to notifiers because couldn't resolve the dependencies between DRM and Type-C [1]. Do you have any good ideas? Thank you.
-> > Only allow this DRM code to be built if typec code is enabled, do NOT
-> > use a select, use a depends in the drm code.
-> 
-> Sorry, I didn't get your point. Does this mean that the current notifiers approach still needs to be changed to direct function calls?
-
-If you somehow convince me that the existing bus notifiers will not
-work, yes :)
-
-> If so, then based on the previous discussion, typec should not depend
-> on any DRM components. Does this mean that we should add the if
-> (IS_REACHABLE(CONFIG_DRM_AUX_BRIDGE)) before the direct function call?
-
-No, do it properly like any other function call to another subsystem.
-
-> Additionally, the current version of CONFIG_DRM_AUX_BRIDGE is selected
-> by the DP driver in patch9.
-
-Don't do "select" if at all possible, always try to do "depends on".
-
-thanks,
-
-greg k-h
