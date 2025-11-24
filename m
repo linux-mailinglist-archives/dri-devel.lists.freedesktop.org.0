@@ -2,71 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A21EEC814ED
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 16:23:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4343C814F9
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 16:24:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0397710E2E9;
-	Mon, 24 Nov 2025 15:23:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E0AE10E2DF;
+	Mon, 24 Nov 2025 15:24:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="PRcWDjSR";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="baC3qx5R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender3-op-o12.zoho.com (sender3-op-o12.zoho.com
- [136.143.184.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A691E10E2EC
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 15:23:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1763997792; cv=none; 
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
+ [136.143.184.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F7E410E2DF
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 15:24:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1763997849; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=iNB7BxoqiLAq10HGNy7UNMt+FVvadPlofhvAdncbXm5RVwtSJIsWMy8F/UjgIlRwJ0NVzhVKP93MBcbF5Xjr2AcHs8LmY6hy31oRC39SSk0XK5qqsgTVXB3/8tHFDYT/G3ek0UB7xYV3vpwdZZ1viTrChvOYhEq45Vd/7TRWnx0=
+ b=fKcG7yqSD60UQf6/NxIdqIodGmP/daHMrMjr8g3DCD9LzXxB6DInn3/MI9X77b36Jmb4XqrPRTQNOzV19Yr66je0BmbnEnPlaa0ir8/TbeX/P4e6yPlmZiwITTB7Due2nYCwqXiNzAbfMJz2OR71DqjbKwjwYCMw/8w1D24bAtE=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1763997792;
+ s=zohoarc; t=1763997849;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=Ed8aM3uE6K2wq2P/cGnFcTZ4sC7TrbmDm4/XKpy1kbU=; 
- b=OyBKSWBa8ciG2bXtDOnJjGzxu+Kn6PqYA3WGzZ6DcxQup0fDF5H5wSFwJa4hXt/mE3KABehj/C7y/rpB834sHe6X9uxsayqI++QRJp5elRS2DkVl5ISehdY68H+hp+RwYEt6FmoZF6pRzPHUVAyl6XzOPafsdmfqgklVBqZLM9g=
+ bh=6iEf7VMHNEASOG8Vh3StuVEOElqIX2Ewj+ACldc5thQ=; 
+ b=cq9BL3EjPHETFSq+l8REYUjl9EN1h4h8ZXkmI9RSGIkvOFSoZwbLNWKh6YmRoDrdia/BbgqfLJmBE2xlo+J7+sWVvcVFPflzc/j0Aqml3a4OPOkmir/nI+4FNXtxaFqeJlFb52IyCz9atW9Yk69Y2lgryalb9CvfxMnf2DnZWK8=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763997792; 
- s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=Ed8aM3uE6K2wq2P/cGnFcTZ4sC7TrbmDm4/XKpy1kbU=;
- b=PRcWDjSR64CsYv0s1t2Wf6bNKMc9RQlLGOlTNXqNQW3b3RquFKp8Zh1Viq5LgJy+
- VaW7DZS4Fg9s11NZpuDBlokGYhxfu83Sm/Ou0EfsVGcAMSCY1ny1tzNpkN2W3rd5ERN
- KSZjDxVCgqkla6JEweKfsIYaAdeRyyE99adaW0G4iKBm4hUG/oHMcUvXZQ7UC3XuChw
- bD9sCVSzqS34PWNJwdU0l6BMEIjfWq81v6zdby+4OqpxdyQqUCp1/3hCcp6S63OTDIS
- io87bLHe+n9+9KarbPqDkPURtsrJRFVS0ULz/DgOCrHDvog9DaV/CeiryDlKc5SQmmG
- wlS0DwPlHQ==
-Received: by mx.zohomail.com with SMTPS id 1763997790359486.0877922892978;
- Mon, 24 Nov 2025 07:23:10 -0800 (PST)
-Message-ID: <24a3104c9879519c70554510766aba98afd663e7.camel@icenowy.me>
-Subject: Re: [PATCH v3 0/9] Verisilicon DC8200 driver (and adaption to TH1520)
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Drew
- Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei
- <wefu@redhat.com>, Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner
- <heiko@sntech.de>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>,  Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Michal
- Wilczynski <m.wilczynski@samsung.com>
-Cc: Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Date: Mon, 24 Nov 2025 23:23:01 +0800
-In-Reply-To: <374aa38b-c16f-46da-985e-266fdfb4c717@kernel.org>
-References: <20251124105226.2860845-1-uwu@icenowy.me>
- <374aa38b-c16f-46da-985e-266fdfb4c717@kernel.org>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763997849; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=6iEf7VMHNEASOG8Vh3StuVEOElqIX2Ewj+ACldc5thQ=;
+ b=baC3qx5RKVZ7xlE/2VKu4YesxTU8qcmS6WgRm6Ye8PFHYJPgvTs0LAbP0Qd62PB4
+ rq7pjaRUVRT2GlTVi5xPP/JDP0/2qqXQL3d3ppnoyKZZYh1QGu6fXKpWA21YtLwt7qe
+ rKAYpDPqiaFwCV277gCXnz88QvM1Kd0hmK5fCEsU=
+Received: by mx.zohomail.com with SMTPS id 1763997846696691.7351681305079;
+ Mon, 24 Nov 2025 07:24:06 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH v5 1/8] rust/drm: Add gem::impl_aref_for_gem_obj!
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20251023212540.1141999-2-lyude@redhat.com>
+Date: Mon, 24 Nov 2025 12:23:51 -0300
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, Asahi Lina <lina+kernel@asahilina.net>,
+ Shankari Anand <shankari.ak0208@gmail.com>
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
-MIME-Version: 1.0
+Message-Id: <1E5BE820-90BA-4135-82A8-05777B738BD5@collabora.com>
+References: <20251023212540.1141999-1-lyude@redhat.com>
+ <20251023212540.1141999-2-lyude@redhat.com>
+To: Lyude Paul <lyude@redhat.com>
+X-Mailer: Apple Mail (2.3826.700.81)
 X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,26 +76,134 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E5=9C=A8 2025-11-24=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 11:57 +0100=EF=BC=
-=8CKrzysztof Kozlowski=E5=86=99=E9=81=93=EF=BC=9A
-> On 24/11/2025 11:52, Icenowy Zheng wrote:
-> > This patchset tries to add a driver for Verisilicon DC8200 driver,
-> > and
-> > demonstrates the driver on T-Head TH1520 with its HDMI output.
-> >=20
-> > This display controller IP is used on StarFive JH7110 too, but as
-> > the
-> > HDMI controller used there isn't as common as the DesignWare one, I
-> > choose to use TH1520 in this patchset.
+Hi Lyude,
+
+> On 23 Oct 2025, at 18:22, Lyude Paul <lyude@redhat.com> wrote:
+>=20
+> In the future we're going to be introducing more GEM object types in =
+rust
+> then just gem::Object<T>. Since all types of GEM objects have =
+refcounting,
+> let's introduce a macro that we can use in the gem crate in order to =
+copy
+> this boilerplate implementation for each type: =
+impl_aref_for_gem_obj!().
+>=20
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
+>=20
+> ---
+> V5:
+> * Move .as_raw() call to `let obj` in dec_ref, to ensure that the =
+reference
+>  to object is not live by the time that we call drm_gem_object_put().
+> * Add missing #[macro_export] annotation
+>=20
+> rust/kernel/drm/gem/mod.rs | 54 +++++++++++++++++++++++++++-----------
+> 1 file changed, 39 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+> index 20c2769a8c9d6..32bff2e8463f4 100644
+> --- a/rust/kernel/drm/gem/mod.rs
+> +++ b/rust/kernel/drm/gem/mod.rs
+> @@ -15,6 +15,44 @@
+> };
+> use core::{ops::Deref, ptr::NonNull};
+>=20
+> +/// A macro for implementing [`AlwaysRefCounted`] for any GEM object =
+type.
+> +///
+> +/// Since all GEM objects use the same refcounting scheme.
+> +#[macro_export]
+> +macro_rules! impl_aref_for_gem_obj {
+> +    (
+> +        impl $( <$( $tparam_id:ident ),+> )? for $type:ty
+> +        $(
+> +            where
+> +                $( $bind_param:path : $bind_trait:path ),+
+
+Don=E2=80=99t we have to match on some type here?
+
+e.g.:
+
+            where
+                Self: IntoGemObject + // or whatever the right trait is
+                $( $bind_param:path : $bind_trait:path ),+
+
+> +        )?
+> +    ) =3D> {
+> +        // SAFETY: All gem objects are refcounted
+> +        unsafe impl $( <$( $tparam_id ),+> )? =
+$crate::types::AlwaysRefCounted for $type
+> +        $(
+> +            where
+> +                $( $bind_param : $bind_trait ),+
+> +        )?
+> +        {
+> +            fn inc_ref(&self) {
+> +                // SAFETY: The existence of a shared reference =
+guarantees that the refcount is
+> +                // non-zero.
+> +                unsafe { bindings::drm_gem_object_get(self.as_raw()) =
+};
+
+=E2=80=A6so that we=E2=80=99re sure that things like self.as_raw() =
+exist?
+
+> +            }
+> +
+> +            unsafe fn dec_ref(obj: core::ptr::NonNull<Self>) {
+> +                // SAFETY: `obj` is a valid pointer to an =
+`Object<T>`.
+> +                let obj =3D unsafe { obj.as_ref() }.as_raw();
+> +
+> +                // SAFETY: The safety requirements guarantee that the =
+refcount is non-zero.
+> +                unsafe { bindings::drm_gem_object_put(obj) };
+> +            }
+> +        }
+> +    };
+> +}
+> +
+> +pub(crate) use impl_aref_for_gem_obj;
+> +
+> /// A type alias for retrieving a [`Driver`]s [`DriverFile`] =
+implementation from its
+> /// [`DriverObject`] implementation.
+> ///
+> @@ -253,21 +291,7 @@ extern "C" fn free_callback(obj: *mut =
+bindings::drm_gem_object) {
+>     }
+> }
+>=20
+> -// SAFETY: Instances of `Object<T>` are always reference-counted.
+> -unsafe impl<T: DriverObject> crate::types::AlwaysRefCounted for =
+Object<T> {
+> -    fn inc_ref(&self) {
+> -        // SAFETY: The existence of a shared reference guarantees =
+that the refcount is non-zero.
+> -        unsafe { bindings::drm_gem_object_get(self.as_raw()) };
+> -    }
+> -
+> -    unsafe fn dec_ref(obj: NonNull<Self>) {
+> -        // SAFETY: `obj` is a valid pointer to an `Object<T>`.
+> -        let obj =3D unsafe { obj.as_ref() };
+> -
+> -        // SAFETY: The safety requirements guarantee that the =
+refcount is non-zero.
+> -        unsafe { bindings::drm_gem_object_put(obj.as_raw()) }
+> -    }
+> -}
+> +impl_aref_for_gem_obj!(impl<T> for Object<T> where T: DriverObject);
+>=20
+> impl<T: DriverObject> super::private::Sealed for Object<T> {}
+>=20
+> --=20
+> 2.51.0
 >=20
 >=20
-> That's a v3, so please kindly always write changelog.
 
-Well I list changes in all individual commits.
+Perhaps worth it to look at the comment above, but as we only expect two
+invocations of this macro, I=E2=80=99d say this is also fine as is.
 
-Should I merge them to the cover letter the next time?
-
->=20
-> Best regards,
-> Krzysztof
+Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 
