@@ -2,140 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23445C80FE7
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 15:27:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7F15C81020
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 15:28:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 238CF10E2D3;
-	Mon, 24 Nov 2025 14:27:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0ADF310E2D6;
+	Mon, 24 Nov 2025 14:28:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TjoQccNK";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Fa6Z83Tw";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NT6UkIwQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC67110E2D3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 14:27:13 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AOCm2hY193642
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 14:27:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=0HW5XLCUu/d+MIz/UiAcX3
- 6i++Er1qyFHbbeEgya9aY=; b=TjoQccNKnIPMb4XQ4/AQYLSBhgCUwdQzVxJJ93
- CTdd2SHf6kgDaD6J4tKZv8OFwePXEmaLMRQyxZJ3gynWH1LnVu1bdlEtSWgT7vzd
- pSWspuZPoP25MBLLnYCgdxGG3uck8q4tdJSQC6cp2Z8esY888Kvxe2QwmNfGr4jK
- IE/d1xIYQIp2nCYTo6scYTPCqAkTQBrY4hnI694nHPIf48LcQmZa2Atv+jN/WFCA
- lzbPhAqEE/TeW8z9/Vkc6/I8LTe5AT7ldm80I2CTEMR06/AVjtYddIOIrXcTrrF/
- QL3+SiPvFjtPlXryxeGBtFdvfgU3c2X5EMw9MwmERM1HBBNg==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4amqpe081r-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 14:27:12 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id
- d9443c01a7336-297f587dc2eso102427615ad.2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 06:27:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763994432; x=1764599232;
- darn=lists.freedesktop.org; 
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=0HW5XLCUu/d+MIz/UiAcX36i++Er1qyFHbbeEgya9aY=;
- b=Fa6Z83TwmtxN87xsJPlggnQTzORKSC6RRVaD6UKChZ6WQr0R1WUbvSGnISNx1hEdEv
- FmxRmgD8Gtl/c/Ka6wY8piRDQ93sXDVN/L8CZaM0UupwUVcP+H24Jwt/UyhM1Tfm/Y2u
- qq1l4bv7Uo8bwv7hAHRNxLwfmwf6KcpSQFWzQdzMGpoWwSHY65Hko3KmcY5ffVEajv+D
- PAiWGSendTkZ/FxVSfqC2aY9W5f/JZWMdMlIvC9Je7rEl7MwYFO7M3LqXbUU480S5Uv9
- 5aJiDl8046jHKonvzNysqtFeFma3SeNkqBL2+Tmcdr992X5+XU16OTDzEm2r0s6CswWd
- 9Uhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763994432; x=1764599232;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0HW5XLCUu/d+MIz/UiAcX36i++Er1qyFHbbeEgya9aY=;
- b=EcxxAGwcRzXdJGc063YcnXW/3tMFArb6x2whMDCaB6akrC6dAMHTytSthyPmCK6PwE
- X6yi+6UA1Cxi/r/dfDsdxqaMpGL9RBJkN7Ra2eNxWae4+kTuniCEHc8qt2ZT7SYBTOj1
- IQGeSqSY3IOrYtem0MjUn28oXTJBNbPiv/CZKg3h+4mp/UHBJ6k9N7tMcI2YD/aajqqP
- A7WoE2VCZYSXikpG7YXTVnrguVhGyC8KeOJG7LEZB8Dl/BUQ/nETJLOEF2lCBCUNUfyg
- Ya732/wtHWtvjxRzo7cs1Xqi2L2kFFCOLAe2j3FlgquZ1VrsrwnKz9pwMDKvoAohinqn
- AAaQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXWwnnmvFTAWH17V6W7Hstf1IahmmzWl9bb7uMl0SzWvOfnHcpOVT3BtWGuoSF438oIlUwPF1ZsSgU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy8ZxIkqHqVzvjvZJ7/zdmSBiXSRtFHCcUACWfpUId/6mwEPta8
- LiZNWAoIuMUk0CLFEg+Xb6fQ97D+5pWAas22KGVuMiip8UD3fCyhFiMmXzPgqhVxoVzWX5mrbw9
- H9JnBDjhmfuJB2fbBsQ+W0XNa485BNQsmd4YUGwjXYa59pXDF7rKx99bgEKOM7ukajR9AF2U=
-X-Gm-Gg: ASbGnctFHoMmeVCwKgk7MryetpHpYn+UHDgKqr8X7raH9Omqd6t+oaj3b/IMWxHdHKT
- FzC+R4G2ZTPOytkNyyvpvGToHb+OTZDCLb0dNaVuikzMS+0yrd/jczljon+w8vQPPkDOeg8aMd/
- k2ivhFfN3GdmcCvQSg/GJ/3XG7YXRWGzoYe28bM/TmAdNxuBP8LchDZIDMuYUpJEVCrBJzJDWra
- MJc69DDtSpex7SXcnMHcfRR+CVpSVgbsg748lhsenNQpS3Gfbmgf31jU52ctcQibQlE14lzzCTU
- 3lZEF0MMWy/f/kyXb+oR/HixRcsQ6ohbHRuuVsY3f6SBs/GH5/zexeDWURwVOh7ZXUXi61BpNcT
- uFC2VnKtMi0wkt+gKDsg6PlyQqOo6dzsa3sB2
-X-Received: by 2002:a17:902:f60d:b0:298:1288:e873 with SMTP id
- d9443c01a7336-29b6bf841fdmr150523425ad.56.1763994431913; 
- Mon, 24 Nov 2025 06:27:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHvj5vvlpXKGpda7uqJ0yoxGLT7O0Qfxwh8v6kPITKB/su/JLICLN0aRP9xSR2chCAxHf9+KQ==
-X-Received: by 2002:a17:902:f60d:b0:298:1288:e873 with SMTP id
- d9443c01a7336-29b6bf841fdmr150522895ad.56.1763994431266; 
- Mon, 24 Nov 2025 06:27:11 -0800 (PST)
-Received: from hu-mahap-hyd.qualcomm.com ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29b5b25e4basm135549715ad.47.2025.11.24.06.27.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 24 Nov 2025 06:27:10 -0800 (PST)
-From: Mahadevan P <mahadevan.p@oss.qualcomm.com>
-Date: Mon, 24 Nov 2025 19:57:01 +0530
-Subject: [PATCH] drm/msm/disp/dpu: add merge3d support for sc7280
-MIME-Version: 1.0
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60BDA10E2D6;
+ Mon, 24 Nov 2025 14:28:43 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 13D3C43E75;
+ Mon, 24 Nov 2025 14:28:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBC4AC116D0;
+ Mon, 24 Nov 2025 14:28:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763994523;
+ bh=IkhDMrDr0BAzrfYI2t03yhO42TtyLpU3vVZ0p4zaEnA=;
+ h=From:Date:Cc:To:In-Reply-To:References:Subject:From;
+ b=NT6UkIwQzHmcu/1edaia0yvod5417Q5NLAiHAUvu4kDFo+aiBKYqZELpWyOoBzC1a
+ lE84bVAgrCdStxsnAociF+ghnDPcqHAx772v4Arrt2rJB0taGA7lAyX9Rp2CNsQ1kG
+ a0ajyVS7scRTeqUCrixfhFmRGePtO9yFYsM+IQO/gacY6j9936tBoaLlqiRrCLdX6a
+ fAOsao9Ke9mrwGNuk3GsTWI6+6Sdhi1A5D4g0YAmVMFPATLiuKF4cZQ3k7BdKg8FIU
+ 9xNdnTvzV0nIfVzlk/f3EGdcvH31666iwUKY+YYTwO0QChY9wSY6cgzvjLfL5dfAWA
+ qouNrrhGjK20g==
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 24 Nov 2025 08:28:41 -0600
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251124-merge3d-sc7280-v1-1-798d94211626@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIADRrJGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1NDQyMT3dzUovRU4xTd4mRzIwsDXXNTo5SkxORkY9NEEyWgpoKi1LTMCrC
- B0bG1tQAHNqsDYAAAAA==
-X-Change-ID: 20251124-merge3d-sc7280-752dbacc35a4
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Mahadevan P <mahadevan.p@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1763994427; l=2380;
- i=mahadevan.p@oss.qualcomm.com; s=20250923; h=from:subject:message-id;
- bh=Cqakb/xfljPG9dtjKNPYMpTRNnHruMaDQIKf8YD6vOI=;
- b=hiN+PFBJeuzG5CK/eZUy2WYBNdpKWqLzNd1hHDYTDzrg3A4OsVtpRjp7+F0vbtcvd8hr1R7JX
- xAh5y2fgq1LDLgSqZ21crIfK0gRyYma8AbydGXwBJ/a4Ij+rncXTD+A
-X-Developer-Key: i=mahadevan.p@oss.qualcomm.com; a=ed25519;
- pk=wed9wuAek0VbCYfkANx7ujIG4VY0XfCYrffFKPN2p0Y=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI0MDEyNiBTYWx0ZWRfX+kdUwqpDf9Gd
- pMZJ2OukukbjGmFQydNiB5Aea5SxEDUGKKFnOLXZsmpjqRNY77jNT3S1TBiSPGzs4JIhMVjKMID
- Duha6TARpgx/mRjRplotVZj/ncjhy5sAeM/JzhAAU1jmg0qE4ltNumaUf8RqMnLsPfnSw37F8IO
- Vgo621ZzcumyxtLWcPTLY2H36IRTaD+iTmBxjlx6NXZB8alSHuZhLhColY7S5GN/m37wFTffUrs
- fxmNmtaXJiLQ+NVzj7YGGRj+GtrGEqxMWM0MD7cbJe6CNkSYcuySFAMBKvL6BJfHsv3m3kSpJAW
- ydltCHFN+TKmZL+ix+rJ/iz7HZpm6pis0yD42bS0Zmo6nKv4jG0fuGh/ycgu8+ZZ1HtzeHQrL5U
- QvsE/TuEmp6/YJO/FxfY7wN9roYj8w==
-X-Authority-Analysis: v=2.4 cv=OYuVzxTY c=1 sm=1 tr=0 ts=69246b41 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=5FlqbPEWv7NCXEe-mtIA:9
- a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-GUID: pbo3rmOOGyerOkd2_iecNnirp3aUwps8
-X-Proofpoint-ORIG-GUID: pbo3rmOOGyerOkd2_iecNnirp3aUwps8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-24_05,2025-11-24_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 lowpriorityscore=0 impostorscore=0 phishscore=0 malwarescore=0
- spamscore=0 clxscore=1011 bulkscore=0 suspectscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511240126
+Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Cc: Jie Zhang <jie.zhang@oss.qualcomm.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Conor Dooley <conor+dt@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ linux-arm-msm@vger.kernel.org, Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Sean Paul <sean@poorly.run>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Jie Zhang <quic_jiezh@quicinc.com>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Maxime Ripard <mripard@kernel.org>, Qingqing Zhou <quic_qqzhou@quicinc.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Dan Carpenter <dan.carpenter@linaro.org>, freedreno@lists.freedesktop.org
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+In-Reply-To: <20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com>
+References: <20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com>
+Message-Id: <176399402060.138883.16966313752531744933.robh@kernel.org>
+Subject: Re: [PATCH v3 0/6] Support for Adreno 612 GPU - Respin
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,71 +71,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the merge3d block on sc7280 which will allow
-merge of streams coming from two layer mixers routed to single
-non DSC interface. This change helps to support larger buffer
-width which exceeds max_linewidth of 2400.
 
-Fixes: 591e34a091d1 ("drm/msm/disp/dpu1: add support for display for SC7280 target")
-Signed-off-by: Mahadevan P <mahadevan.p@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+On Sat, 22 Nov 2025 03:22:14 +0530, Akhil P Oommen wrote:
+> This is a respin of an old series [1] that aimed to add support for
+> Adreno 612 GPU found in SM6150/QCS615 chipsets. In this version, we
+> have consolidated the previously separate series for DT and driver
+> support, along with some significant rework.
+> 
+> Regarding A612 GPU, it falls under ADRENO_6XX_GEN1 family and is a cut
+> down version of A615 GPU. A612 has a new IP called Reduced Graphics
+> Management Unit or RGMU, a small state machine which helps to toggle
+> GX GDSC (connected to CX rail) to implement the IFPC feature. Unlike a
+> full-fledged GMU, the RGMU does not support features such as clock
+> control, resource voting via RPMh, HFI etc. Therefore, we require linux
+> clock driver support similar to gmu-wrapper implementations to control
+> gpu core clock and GX GDSC.
+> 
+> In this series, the description of RGMU hardware in devicetree is more
+> complete than in previous version. However, the RGMU core is not
+> initialized from the driver as there is currently no need for it. We do
+> perform a dummy load of RGMU firmware (now available in linux-firmware)
+> to ensure that enabling RGMU core in the future won't break backward
+> compatibility for users.
+> 
+> Due to significant changes compared to the old series, all R-b tags have
+> been dropped. Please review with fresh eyes.
+> 
+> Last 3 patches are for Bjorn and the rest are for Rob Clark for pick up.
+> 
+> [1] Driver: https://lore.kernel.org/lkml/20241213-a612-gpu-support-v3-1-0e9b25570a69@quicinc.com/
+>     Devicetree: https://lore.kernel.org/lkml/fu4rayftf3i4arf6l6bzqyzsctomglhpiniljkeuj74ftvzlpo@vklca2giwjlw/
+> 
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> ---
+> Changes in v3:
+> - Rebased on top of next-20251121 tag
+> - Drop a612 driver support patch as it got picked up
+> - Rename rgmu.yaml -> qcom,adreno-rgmu.yaml (Krzysztof)
+> - Remove reg-names property for rgmu node (Krzysztof)
+> - Use 'gmu' instead of 'rgmu' as node name (Krzysztof)
+> - Describe cx_mem and cx_dgc register ranges (Krzysztof)
+> - A new patch to retrieve gmu core reg resource by id
+> - Link to v2: https://lore.kernel.org/r/20251107-qcs615-spin-2-v2-0-a2d7c4fbf6e6@oss.qualcomm.com
+> 
+> Changes in v2:
+> - Rebased on next-20251105
+> - Fix hwcg configuration (Dan)
+> - Reuse a few gmu-wrapper routines (Konrad)
+> - Split out rgmu dt schema (Krzysztof/Dmitry)
+> - Fixes for GPU dt binding doc (Krzysztof)
+> - Removed VDD_CX from rgmu dt node. Will post a separate series to
+> address the gpucc changes (Konrad)
+> - Fix the reg range size for adreno smmu node and reorder the properties (Konrad)
+> - Link to v1: https://lore.kernel.org/r/20251017-qcs615-spin-2-v1-0-0baa44f80905@oss.qualcomm.com
+> 
+> ---
+> Akhil P Oommen (2):
+>       drm/msm/a6xx: Retrieve gmu core range by index
+>       dt-bindings: display/msm: gpu: Document A612 GPU
+> 
+> Jie Zhang (3):
+>       dt-bindings: display/msm/rgmu: Document A612 RGMU
+>       arm64: dts: qcom: sm6150: Add gpu and rgmu nodes
+>       arm64: dts: qcom: qcs615-ride: Enable Adreno 612 GPU
+> 
+> Qingqing Zhou (1):
+>       arm64: dts: qcom: sm6150: add the GPU SMMU node
+> 
+>  .../devicetree/bindings/display/msm/gpu.yaml       |  24 +++-
+>  .../bindings/display/msm/qcom,adreno-rgmu.yaml     | 126 ++++++++++++++++++
+>  MAINTAINERS                                        |   1 +
+>  arch/arm64/boot/dts/qcom/qcs615-ride.dts           |   8 ++
+>  arch/arm64/boot/dts/qcom/talos.dtsi                | 141 +++++++++++++++++++++
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c              |  14 +-
+>  6 files changed, 304 insertions(+), 10 deletions(-)
+> ---
+> base-commit: e93f8002e4d244f0642224635f457bc8b135c98b
+> change-id: 20251015-qcs615-spin-2-ed45b0deb998
+> 
+> Best regards,
+> --
+> Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> 
+> 
+> 
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-index 8f978b9c345202d3ea1a7781e4ef2763b46c6f6e..2f8688224f3430ff6d2aa80836b72262ed5b7058 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_7_2_sc7280.h
-@@ -13,6 +13,7 @@ static const struct dpu_caps sc7280_dpu_caps = {
- 	.has_dim_layer = true,
- 	.has_idle_pc = true,
- 	.max_linewidth = 2400,
-+	.has_3d_merge = true,
- 	.pixel_ram_size = DEFAULT_PIXEL_RAM_SIZE,
- };
- 
-@@ -134,17 +135,24 @@ static const struct dpu_pingpong_cfg sc7280_pp[] = {
- 		.name = "pingpong_2", .id = PINGPONG_2,
- 		.base = 0x6b000, .len = 0,
- 		.sblk = &sc7280_pp_sblk,
--		.merge_3d = 0,
-+		.merge_3d = MERGE_3D_1,
- 		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 10),
- 	}, {
- 		.name = "pingpong_3", .id = PINGPONG_3,
- 		.base = 0x6c000, .len = 0,
- 		.sblk = &sc7280_pp_sblk,
--		.merge_3d = 0,
-+		.merge_3d = MERGE_3D_1,
- 		.intr_done = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 11),
- 	},
- };
- 
-+static const struct dpu_merge_3d_cfg sc7280_merge_3d[] = {
-+	{
-+		.name = "merge_3d_1", .id = MERGE_3D_1,
-+		.base = 0x4f000, .len = 0x8,
-+	},
-+};
-+
- /* NOTE: sc7280 only has one DSC hard slice encoder */
- static const struct dpu_dsc_cfg sc7280_dsc[] = {
- 	{
-@@ -247,6 +255,8 @@ const struct dpu_mdss_cfg dpu_sc7280_cfg = {
- 	.mixer = sc7280_lm,
- 	.pingpong_count = ARRAY_SIZE(sc7280_pp),
- 	.pingpong = sc7280_pp,
-+	.merge_3d_count = ARRAY_SIZE(sc7280_merge_3d),
-+	.merge_3d = sc7280_merge_3d,
- 	.dsc_count = ARRAY_SIZE(sc7280_dsc),
- 	.dsc = sc7280_dsc,
- 	.wb_count = ARRAY_SIZE(sc7280_wb),
 
----
-base-commit: d724c6f85e80a23ed46b7ebc6e38b527c09d64f5
-change-id: 20251124-merge3d-sc7280-752dbacc35a4
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-Best regards,
--- 
-Mahadevan P <mahadevan.p@oss.qualcomm.com>
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+This patch series was applied (using b4) to base:
+ Base: base-commit e93f8002e4d244f0642224635f457bc8b135c98b not known, ignoring
+ Base: attempting to guess base-commit...
+ Base: tags/next-20251120 (best guess, 4/5 blobs matched)
+ Base: tags/next-20251120 (use --merge-base to override)
+
+If this is not the correct base, please add 'base-commit' tag
+(or use b4 which does this automatically)
+
+New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/qcom/' for 20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com:
+
+arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
+	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+arch/arm64/boot/dts/qcom/sm6115p-lenovo-j606f.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow [[89, 13], [89, 4], [2, 150], [2, 76], [89, 7], [89, 10]]
+	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: gpu@5900000 (qcom,adreno-07000200): False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
+	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: gpu@5900000 (qcom,adreno-07000200): False schema does not allow [[90, 8], [90, 0], [31, 19], [31, 87], [90, 3], [90, 6]]
+	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+arch/arm64/boot/dts/qcom/qrb4210-rb2.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
+	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+arch/arm64/boot/dts/qcom/qrb4210-rb2.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow [[111, 13], [111, 4], [48, 150], [48, 76], [111, 7], [111, 10]]
+	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
+	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow [[101, 13], [101, 4], [2, 150], [2, 76], [101, 7], [101, 10]]
+	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow ['core', 'iface', 'mem_iface', 'alt_mem_iface', 'gmu', 'xo']
+	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+arch/arm64/boot/dts/qcom/sm4250-oneplus-billie2.dtb: gpu@5900000 (qcom,adreno-610.0): False schema does not allow [[87, 13], [87, 4], [44, 150], [44, 76], [87, 7], [87, 10]]
+	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml
+
+
+
+
 
