@@ -2,108 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3CB8C80325
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 12:27:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33AB1C80352
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 12:30:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 496AD10E20B;
-	Mon, 24 Nov 2025 11:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 163E310E220;
+	Mon, 24 Nov 2025 11:30:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lJkFZB65";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LbNxNmIS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAB5D10E21E
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 11:27:18 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A25FC601CE;
- Mon, 24 Nov 2025 11:27:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B437AC4CEFB;
- Mon, 24 Nov 2025 11:27:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763983637;
- bh=1JEFzMHLZ+LdUNBaFXPJzk4rpLUaWj6ad4he7Tqi0nk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lJkFZB65k1HGnd6RFqN4M7p0Q1zNHNK3K2O4RP15zqMR6EqH847aLgXWjJCA1FCy5
- X8JkIaOK1afTBHT1Ofs7vHIhIwXVriOlrq+W5MZkf23lgetrOQt4106wx3EqM0FPf5
- zgOpbvSMzFEEQdZzA6X/dLtG0p4ZC1jtFB3NtUdQlZ7wWfJBfLRV3DVgWJ/o0juhp0
- MMmCufEyNCTKCeyhUgZan6O7UF/Fu+fqPexTw/BUo2lYmJtUhrjQy7U89XU6MsRQEa
- yFQ9df1Kga/4la2QORlXsaxtsyLRGZS6uDNPidLrpqJN2A5Z2dxETAUp6zkWT4EJnC
- 1jEPxFI/6Hx+Q==
-Message-ID: <6ceb41bc-0597-4ea5-84be-51f53e3bc2d8@kernel.org>
-Date: Mon, 24 Nov 2025 12:27:09 +0100
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 12C6010E21E
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 11:30:09 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-47774d3536dso32166435e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 03:30:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1763983807; x=1764588607; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FIrNcMo3OIORc59oYq11M7V6LWyQ4cuR88/fqcwGDYI=;
+ b=LbNxNmISzrlaydsD9uyHGyJQC3MLC0NqM0hOAdFqi/BI1S0PkHvksOIh4dsbh8VPae
+ QWOzIpcas1oLGfnzZGEO07ZC6Hntz8pKyCcXjEFSJmrOG/6llarkekEAn+ax76y2YiHd
+ po4AyHjxqTNBHuH30jzi/6qbCOuxCtd2G3jlcGKp6SFtie9llisS5CeX9uSxAg9nT1ZC
+ HcIAOfTWRrWax9W613CMKYZHxCHh8d/j2y35jhh2ewuz8EViX00uxMlHkngaNpcrNxWH
+ OTIgu0kV/EG7+1tp9NfvqBAzsLuxdd96KX69g0GOtNCtlL/PgnDCbG7+j0VQ7oGKOkSg
+ c5hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1763983807; x=1764588607;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FIrNcMo3OIORc59oYq11M7V6LWyQ4cuR88/fqcwGDYI=;
+ b=N9pZgeg5zbxAL0suwtcNhpOkO0PGbQQdkacpYXMAjsdVJG75CsuwUQu8XKd88xFlTW
+ 3StssDMWFmeqifZDcqpdKzB5mihXeE6iK090J0azwu4DXtQxtQeXGnb7XJTs/INBOAD9
+ w0QVbaHwHMa5GAhEto0j5eb1FhGXtxuTEvid5/U4pqUSVxWLTFU+9NXxZOif04b4nvJg
+ f7YtsbXg4rjegTgRaHPx3jdpQt+IIyWtwHwPLaFTmfHyxXQN1U9LSBuRAxMW/wTHwOA6
+ EFqnLXdJcmLt+ld+stu7MgAh0ywe9TcQcbgBIEpXybbcbTXylvBe7bnArxHVwLS3DQ8j
+ Ewdg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVUgKxnhE0TN/BWR8xvh0+Vh15ALccH0Nxa6qudT2kzY4knq9IxDdvpUFY5bgyTeZ+8iJ8KeJuyh+k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz6QK3HZFOeACsxzKs6KqAiSlj002rAeVWyGR0gfcA1hIW+1hDU
+ vZcVSq1nx2YcUTRRhKqeUSh+G2ct7QeKoYf9vadE6qLYkq68Y4HdoMAs
+X-Gm-Gg: ASbGnctJF62owh1Xd4uwF6lu8lB3PdrIOWw5AKihjFhyDMdAgfIfO+utn84ATPzUtGr
+ EVaRMa/dpwubwm9ab37VelsGJ027/9GLJAEZfE0q+oLT79M3vss5SSDSCvB90GkgHICMGmVZHx4
+ zV7S0qf1mEkC0guqnVUslPegAkd05IpdwgvhlZsCpQ71Hqv6CfBiOJ4Leh1ulvtwA5nmIQ7OKbc
+ ywytH988MU6d3MZJY7knyB/31bqCrDJefRC/GAyxuWmbZkV8/pcK1sbClFVV5403Cluobb2PEYa
+ lJ7q/PJwGxdlrVtFbBV42NkqWqsHngAiH7qhjheKccDRPNyvVz/+MjumL9H6kYZaP7lEyI6WXgX
+ /VyllvI66tPpDM7gzBMFouxMnUlpQ9h7ljpXr3zx801KXC4uCRCxUrRB5sRIUprFhpYfyA7NRL6
+ O3iBK0g/jfYOC2EU5thwgv2fZzdn1/tHoUt/wtwydFN6u65RXn0oZV2hla311gEkSIjQfszQSV
+X-Google-Smtp-Source: AGHT+IH4rhfkRALzBtaC9gdxzf7gjncNKNUbJLJsQNk7iBQd1pjAZr0TQJP790c1nQt2gF0ktavqUA==
+X-Received: by 2002:a05:600c:1d14:b0:477:9d88:2da6 with SMTP id
+ 5b1f17b1804b1-477c026ed62mr113061345e9.0.1763983807185; 
+ Mon, 24 Nov 2025 03:30:07 -0800 (PST)
+Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c?
+ ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-42cb7f2e432sm27351895f8f.9.2025.11.24.03.30.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 24 Nov 2025 03:30:06 -0800 (PST)
+Message-ID: <905ff009-0e02-4a5b-aa8d-236bfc1a404e@gmail.com>
+Date: Mon, 24 Nov 2025 11:30:01 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/9] dt-bindings: display: add verisilicon,dc
-To: Icenowy Zheng <uwu@icenowy.me>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
- Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-References: <20251124105226.2860845-1-uwu@icenowy.me>
- <20251124105226.2860845-3-uwu@icenowy.me>
- <d4cfe8bb-5ca2-40a9-bfe0-96e7ded5586c@kernel.org>
- <f7bbb57180866a0674fc1d72d4bd3279c7b1c1e9.camel@icenowy.me>
- <c26dabfb-c4af-428b-a1d4-d626f37ff559@kernel.org>
- <f944f0b28f62233b1874e0f00c0a130d71845417.camel@icenowy.me>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [RFC v2 00/11] Add dmabuf read/write via io_uring
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org, io-uring@vger.kernel.org
+Cc: Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <cover.1763725387.git.asml.silence@gmail.com>
+ <fd10fe48-f278-4ed0-b96b-c4f5a91b7f95@amd.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <f944f0b28f62233b1874e0f00c0a130d71845417.camel@icenowy.me>
-Content-Type: text/plain; charset=UTF-8
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <fd10fe48-f278-4ed0-b96b-c4f5a91b7f95@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -120,62 +104,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/11/2025 12:13, Icenowy Zheng wrote:
-> 在 2025-11-24星期一的 12:09 +0100，Krzysztof Kozlowski写道：
->> On 24/11/2025 12:04, Icenowy Zheng wrote:
->>> 在 2025-11-24星期一的 12:01 +0100，Krzysztof Kozlowski写道：
->>>> On 24/11/2025 11:52, Icenowy Zheng wrote:
->>>>> Verisilicon has a series of display controllers prefixed with
->>>>> DC
->>>>> and
->>>>> with self-identification facility like their GC series GPUs.
->>>>>
->>>>> Add a device tree binding for it.
->>>>>
->>>>> Depends on the specific DC model, it can have either one or two
->>>>> display
->>>>> outputs, and each display output could be set to DPI signal or
->>>>> "DP"
->>>>> signal (which seems to be some plain parallel bus to HDMI
->>>>> controllers).
->>>>>> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
->>>>> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
->>>>
->>>> Wrong DCO chain order. You send it as icenowy.me, so this must be
->>>> last
->>>> SoB. This identity is the last one certifying DCO. Please kindly
->>>> read
->>>> submitting patches, so you know what you are certifying here.
->>>
->>> Well I mapped the @iscas.ac.cn mail to the @icenowy.me one in the
->>> last
->>> patch.
->>>
->>> Or maybe I should make it the first patch?
->>
->> .mailmap has effect on b4 and git send-email, so maybe that's the
->> answer. The problem is that:
->> 1. This email has sender address @icenowy.me
->> 2. It's SoB is not the last one.
+On 11/24/25 10:33, Christian König wrote:
+> On 11/23/25 23:51, Pavel Begunkov wrote:
+>> Picking up the work on supporting dmabuf in the read/write path.
 > 
-> Well, I think a patch that is already sent shouldn't have the From
-> field changing when bumping revision, and a patch modified by one
-> identity should have the modifying one's SoB added.
+> IIRC that work was completely stopped because it violated core dma_fence and DMA-buf rules and after some private discussion was considered not doable in general.
 > 
-> So here I am using the @icenowy.me mail (which can represent the
-> @iscas.ac.cn mail according to the mailmap) to send the patch that is
-> processed by @iscas.ac.cn mail.
-> 
-> Sending the patch with @iscas.ac.cn mail needs some extra setup
-> (because of some weird security requirement).
+> Or am I mixing something up here?
 
-I did not ask you to change from. Please read carefully "You send it as
-icenowy.me, so this must be last sob"
+The time gap is purely due to me being busy. I wasn't CC'ed to those private
+discussions you mentioned, but the v1 feedback was to use dynamic attachments
+and avoid passing dma address arrays directly.
 
-and later I re-iterated.
+https://lore.kernel.org/all/cover.1751035820.git.asml.silence@gmail.com/
 
-If you insist on not fixing the chain, that's a NAK from me because you
-must follow the DCO process.
+I'm lost on what part is not doable. Can you elaborate on the core
+dma-fence dma-buf rules?
 
-Best regards,
-Krzysztof
+> Since I don't see any dma_fence implementation at all that might actually be the case.
+
+See Patch 5, struct blk_mq_dma_fence. It's used in the move_notify
+callback and is signaled when all inflight IO using the current
+mapping are complete. All new IO requests will try to recreate the
+mapping, and hence potentially wait with dma_resv_wait_timeout().
+
+> On the other hand we have direct I/O from DMA-buf working for quite a while, just not upstream and without io_uring support.
+
+Have any reference?
+
+-- 
+Pavel Begunkov
+
