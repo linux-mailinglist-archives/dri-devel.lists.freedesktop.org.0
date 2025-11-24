@@ -2,60 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81472C7EB98
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 01:53:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3532C7EC0F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 02:40:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04DCA10E00D;
-	Mon, 24 Nov 2025 00:53:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 32EE210E1B6;
+	Mon, 24 Nov 2025 01:40:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="ccQtoVBJ";
+	dkim=pass (1024-bit key; unprotected) header.d=huawei.com header.i=@huawei.com header.b="bbDJ6jpD";
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="bbDJ6jpD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7EC7210E00D
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 00:53:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
- Message-ID; bh=1ojNoYcSRgOUItS36fhXAjSvyt7+UNGNmIcHggvRc3w=; b=c
- cQtoVBJuCsQ92yBqd5UX1B0lyf0g+pDfzW/dD/Yi8EJYfFOB2sa+bwy/hF/qTVrD
- 2KjU10veZsWvO1H6xjD7U1n1yLoVTjK8aIPPp+LNcLYvAPU9Vv4DJGx/Vy7RmvYn
- wu0w+y6PxYjH2AfoV6eM5nmem3hCL627qDvjV4HTdY=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-144 (Coremail) ; Mon, 24 Nov 2025 08:52:47 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Mon, 24 Nov 2025 08:52:47 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Heiko Stuebner" <heiko@sntech.de>
-Cc: dmitry.baryshkov@oss.qualcomm.com, neil.armstrong@linaro.org,
- andrzej.hajda@intel.com, mripard@kernel.org,
- jernej.skrabec@gmail.com, jonas@kwiboo.se,
- Laurent.pinchart@ideasonboard.com, maarten.lankhorst@linux.intel.com,
- rfoss@kernel.org, simona@ffwll.ch, tzimmermann@suse.de,
- knaerzche@gmail.com, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- "Andy Yan" <andy.yan@rock-chips.com>, m.wilczynski@samsung.com
-Subject: Re:Re: [PATCH v8 1/2] drm/rockchip: inno-hdmi: Convert to drm bridge
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20250723(a044bf12) Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <8913609.MhkbZ0Pkbq@phil>
-References: <20251016083843.76675-1-andyshrk@163.com>
- <20251016083843.76675-2-andyshrk@163.com> <8913609.MhkbZ0Pkbq@phil>
-X-CM-CTRLMSGS: ARNM03BsdXM9MTc2Mzk0NTU2Nzc2MF9mMWFkMThkZGU5MGVhNWVjOWMxY2Q4N
- TIyODc1ODVlYw==
-X-NTES-SC: AL_Qu2dAfWfuk0t4SecYOkfmUgWjuw/WsG1v/Ul1YBSP556jC3r1gsLcEV5OV7n7/K1KhiBjx+mVR1uxOl/e7Rgbog6ztD4kGMVyG9OqD90thYGFw==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F08C10E07A;
+ Mon, 24 Nov 2025 01:40:08 +0000 (UTC)
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+ c=relaxed/relaxed; q=dns/txt; h=From;
+ bh=hnm9pRQxiCRqBNWTAp9RAPNEqoXGWQJUekQPmyavL7I=;
+ b=bbDJ6jpDeUZG5QVe2227oxIrO4p439oDPRvMaLZT4N5q03GC+mFYiMAhvwUWD0cFuCTT2SV0c
+ m7qrS3Z7zX5DNSRPTVPU4TjSrlwpm0IN2iW07NY6FohM7elXzd//8s8R72w5i047LFe8VkNfLso
+ jQ3ypNi5F3foMB29Y4R/asM=
+Received: from canpmsgout01.his.huawei.com (unknown [172.19.92.178])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4dF7ls2nzjz1BGLY;
+ Mon, 24 Nov 2025 09:39:21 +0800 (CST)
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+ c=relaxed/relaxed; q=dns/txt; h=From;
+ bh=hnm9pRQxiCRqBNWTAp9RAPNEqoXGWQJUekQPmyavL7I=;
+ b=bbDJ6jpDeUZG5QVe2227oxIrO4p439oDPRvMaLZT4N5q03GC+mFYiMAhvwUWD0cFuCTT2SV0c
+ m7qrS3Z7zX5DNSRPTVPU4TjSrlwpm0IN2iW07NY6FohM7elXzd//8s8R72w5i047LFe8VkNfLso
+ jQ3ypNi5F3foMB29Y4R/asM=
+Received: from mail.maildlp.com (unknown [172.19.163.48])
+ by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4dF7kj6kgpz1T4Jf;
+ Mon, 24 Nov 2025 09:38:21 +0800 (CST)
+Received: from dggpemf500015.china.huawei.com (unknown [7.185.36.143])
+ by mail.maildlp.com (Postfix) with ESMTPS id 73F7F18047D;
+ Mon, 24 Nov 2025 09:40:01 +0800 (CST)
+Received: from [10.67.121.110] (10.67.121.110) by
+ dggpemf500015.china.huawei.com (7.185.36.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 24 Nov 2025 09:39:59 +0800
+Subject: Re: [PATCH v2 02/22] vfio/hisi: Convert to the get_region_info op
+To: Jason Gunthorpe <jgg@nvidia.com>, Alexander Gordeev
+ <agordeev@linux.ibm.com>, David Airlie <airlied@gmail.com>, Alex Williamson
+ <alex.williamson@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Brett Creeley
+ <brett.creeley@amd.com>, <dri-devel@lists.freedesktop.org>, Eric Auger
+ <eric.auger@redhat.com>, Eric Farman <farman@linux.ibm.com>, Giovanni Cabiddu
+ <giovanni.cabiddu@intel.com>, Vasily Gorbik <gor@linux.ibm.com>, Heiko
+ Carstens <hca@linux.ibm.com>, <intel-gfx@lists.freedesktop.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, <kvm@vger.kernel.org>, Kirti Wankhede
+ <kwankhede@nvidia.com>, <linux-s390@vger.kernel.org>, Matthew Rosato
+ <mjrosato@linux.ibm.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>, Nipun
+ Gupta <nipun.gupta@amd.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, <qat-linux@intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>, Shameer Kolothum
+ <skolothumtho@nvidia.com>, Sven Schnelle <svens@linux.ibm.com>, Tvrtko
+ Ursulin <tursulin@ursulin.net>, <virtualization@lists.linux.dev>, Vineeth
+ Vijayan <vneethv@linux.ibm.com>, Yishai Hadas <yishaih@nvidia.com>, Zhenyu
+ Wang <zhenyuw.linux@gmail.com>, Zhi Wang <zhi.wang.linux@gmail.com>
+CC: Kevin Tian <kevin.tian@intel.com>, <patches@lists.linux.dev>, Pranjal
+ Shrivastava <praan@google.com>, Mostafa Saleh <smostafa@google.com>
+References: <2-v2-2a9e24d62f1b+e10a-vfio_get_region_info_op_jgg@nvidia.com>
+From: liulongfang <liulongfang@huawei.com>
+Message-ID: <b5ffda6e-d8e9-5f02-69b3-e9f1a0901f90@huawei.com>
+Date: Mon, 24 Nov 2025 09:39:58 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Message-ID: <7cc43fc7.843.19ab3595609.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: kCgvCgDnUTxfrCNpAWAoAA--.919W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbCxR9lw2kjrF+srwAA3G
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+In-Reply-To: <2-v2-2a9e24d62f1b+e10a-vfio_get_region_info_op_jgg@nvidia.com>
+Content-Type: text/plain; charset="gbk"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.121.110]
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ dggpemf500015.china.huawei.com (7.185.36.143)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,17 +91,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpwaW5nLi4uLgoKQXQgMjAyNS0xMC0yMCAyMDo0NTozNCwgIkhlaWtvIFN0dWVibmVyIiA8aGVp
-a29Ac250ZWNoLmRlPiB3cm90ZToKPkFtIERvbm5lcnN0YWcsIDE2LiBPa3RvYmVyIDIwMjUsIDEw
-OjM4OjMxIE1pdHRlbGV1cm9ww6Rpc2NoZSBTb21tZXJ6ZWl0IHNjaHJpZWIgQW5keSBZYW46Cj4+
-IEZyb206IEFuZHkgWWFuIDxhbmR5LnlhbkByb2NrLWNoaXBzLmNvbT4KPj4gCj4+IENvbnZlcnQg
-aXQgdG8gZHJtIGJyaWRnZSBkcml2ZXIsIGl0IHdpbGwgYmUgY29udmVuaWVudCBmb3IgdXMgdG8K
-Pj4gbWlncmF0ZSB0aGUgY29ubmVjdG9yIHBhcnQgdG8gdGhlIGRpc3BsYXkgZHJpdmVyIGxhdGVy
-Lgo+PiAKPj4gU2lnbmVkLW9mZi1ieTogQW5keSBZYW4gPGFuZHkueWFuQHJvY2stY2hpcHMuY29t
-Pgo+Cj5SZXZpZXdlZC1ieTogSGVpa28gU3R1ZWJuZXIgPGhlaWtvQHNudGVjaC5kZT4KPgo+QnV0
-IG9mIGNvdXJzZSBJIHdvdWxkIGJlIHJlYWxseSBoYXBweSBpZiBzb21lb25lIHdpdGggbW9yZSBl
-eHBlcmllbmNlCj5vbiBnZW5lcmFsIGJyaWRnZXMgY291bGQgYWxzbyB0YWtlIGEgbG9vay4KPgo+
-Cj5IZWlrbwo+Cj4KPgo+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18KPkxpbnV4LXJvY2tjaGlwIG1haWxpbmcgbGlzdAo+TGludXgtcm9ja2NoaXBAbGlzdHMu
-aW5mcmFkZWFkLm9yZwo+aHR0cDovL2xpc3RzLmluZnJhZGVhZC5vcmcvbWFpbG1hbi9saXN0aW5m
-by9saW51eC1yb2NrY2hpcAo=
+On 2025/11/8 1:41, Jason Gunthorpe wrote:
+> Change the function signature of hisi_acc_vfio_pci_ioctl()
+> and re-indent it.
+> 
+> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+> Acked-by: Pranjal Shrivastava <praan@google.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  .../vfio/pci/hisilicon/hisi_acc_vfio_pci.c    | 57 +++++++++----------
+>  1 file changed, 27 insertions(+), 30 deletions(-)
+> 
+> diff --git a/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c b/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
+> index fde33f54e99ec5..899db4d742a010 100644
+> --- a/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
+> +++ b/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
+> @@ -1324,43 +1324,39 @@ static ssize_t hisi_acc_vfio_pci_read(struct vfio_device *core_vdev,
+>  	return vfio_pci_core_read(core_vdev, buf, new_count, ppos);
+>  }
+>  
+> -static long hisi_acc_vfio_pci_ioctl(struct vfio_device *core_vdev, unsigned int cmd,
+> -				    unsigned long arg)
+> +static int hisi_acc_vfio_ioctl_get_region(struct vfio_device *core_vdev,
+> +					  struct vfio_region_info __user *arg)
+>  {
+> -	if (cmd == VFIO_DEVICE_GET_REGION_INFO) {
+> -		struct vfio_pci_core_device *vdev =
+> -			container_of(core_vdev, struct vfio_pci_core_device, vdev);
+> -		struct pci_dev *pdev = vdev->pdev;
+> -		struct vfio_region_info info;
+> -		unsigned long minsz;
+> +	struct vfio_pci_core_device *vdev =
+> +		container_of(core_vdev, struct vfio_pci_core_device, vdev);
+> +	struct pci_dev *pdev = vdev->pdev;
+> +	struct vfio_region_info info;
+> +	unsigned long minsz;
+>  
+> -		minsz = offsetofend(struct vfio_region_info, offset);
+> +	minsz = offsetofend(struct vfio_region_info, offset);
+>  
+> -		if (copy_from_user(&info, (void __user *)arg, minsz))
+> -			return -EFAULT;
+> +	if (copy_from_user(&info, arg, minsz))
+> +		return -EFAULT;
+>  
+> -		if (info.argsz < minsz)
+> -			return -EINVAL;
+> +	if (info.argsz < minsz)
+> +		return -EINVAL;
+>  
+> -		if (info.index == VFIO_PCI_BAR2_REGION_INDEX) {
+> -			info.offset = VFIO_PCI_INDEX_TO_OFFSET(info.index);
+> +	if (info.index != VFIO_PCI_BAR2_REGION_INDEX)
+> +		return vfio_pci_ioctl_get_region_info(core_vdev, arg);
+>  
+> -			/*
+> -			 * ACC VF dev BAR2 region consists of both functional
+> -			 * register space and migration control register space.
+> -			 * Report only the functional region to Guest.
+> -			 */
+> -			info.size = pci_resource_len(pdev, info.index) / 2;
+> +	info.offset = VFIO_PCI_INDEX_TO_OFFSET(info.index);
+>
+
+Please adapt based on the latest code in the Next branch.
+Code updates have already been made here.
+
+Thanks
+Longfang.
+
+> -			info.flags = VFIO_REGION_INFO_FLAG_READ |
+> -					VFIO_REGION_INFO_FLAG_WRITE |
+> -					VFIO_REGION_INFO_FLAG_MMAP;
+> +	/*
+> +	 * ACC VF dev BAR2 region consists of both functional
+> +	 * register space and migration control register space.
+> +	 * Report only the functional region to Guest.
+> +	 */
+> +	info.size = pci_resource_len(pdev, info.index) / 2;
+>  
+> -			return copy_to_user((void __user *)arg, &info, minsz) ?
+> -					    -EFAULT : 0;
+> -		}
+> -	}
+> -	return vfio_pci_core_ioctl(core_vdev, cmd, arg);
+> +	info.flags = VFIO_REGION_INFO_FLAG_READ | VFIO_REGION_INFO_FLAG_WRITE |
+> +		     VFIO_REGION_INFO_FLAG_MMAP;
+> +
+> +	return copy_to_user(arg, &info, minsz) ? -EFAULT : 0;
+>  }
+>  
+>  static int hisi_acc_vf_debug_check(struct seq_file *seq, struct vfio_device *vdev)
+> @@ -1557,7 +1553,8 @@ static const struct vfio_device_ops hisi_acc_vfio_pci_migrn_ops = {
+>  	.release = vfio_pci_core_release_dev,
+>  	.open_device = hisi_acc_vfio_pci_open_device,
+>  	.close_device = hisi_acc_vfio_pci_close_device,
+> -	.ioctl = hisi_acc_vfio_pci_ioctl,
+> +	.ioctl = vfio_pci_core_ioctl,
+> +	.get_region_info = hisi_acc_vfio_ioctl_get_region,
+>  	.device_feature = vfio_pci_core_ioctl_feature,
+>  	.read = hisi_acc_vfio_pci_read,
+>  	.write = hisi_acc_vfio_pci_write,
+> 
