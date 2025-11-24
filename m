@@ -2,55 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0978C81F14
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 18:41:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C617C81F35
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 18:43:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44DF110E2E3;
-	Mon, 24 Nov 2025 17:41:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69A1A10E319;
+	Mon, 24 Nov 2025 17:42:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LbrBvBXB";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="bUM4wSpa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 589CC10E2E3
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 17:41:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E0C1C435B6;
- Mon, 24 Nov 2025 17:41:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CA6EC4CEF1;
- Mon, 24 Nov 2025 17:40:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764006062;
- bh=zoUtfR4SGz2BKH5rplabaIYt5wL/apUOQkw2wk/1OPE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=LbrBvBXB7UWI52i0M3DMRx/Wji5wN5f77e8Kd1eSTD9uFjyDa76CcLwRNr/NyKVVF
- 5eyYHftmnNui+FbyEWO7FEpbRP4kSo6ROJYwFiaGSsPlGBL/1mZv6jyVoMQ8HgBJRk
- LjhpKlXkjh7hkrx9hwpsCzyUA8bkkA4zyk1OyOaXn0wsD9J3L5yo1/fGRppwXZFQw+
- u45t6xpTknFIvovZbxiWtyF+SZ3D97PzA1Lb2bcG0ZjX+b60cFgnILfU/6f7PK+9l2
- M5AjZKYHhpnOyNpgeQBdBDGRxy/XLGQFsJljINK9K7NG6H9XIB5mvMA7hHNErxBLLg
- VFA/0X+hK/5ZQ==
-Message-ID: <ee1e4f94-ff9a-4227-b705-74a7eb806ff0@kernel.org>
-Date: Mon, 24 Nov 2025 18:40:55 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Received: from sender3-op-o15.zoho.com (sender3-op-o15.zoho.com
+ [136.143.184.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DF0A10E319
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 17:42:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1764006172; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=mRcQ5ve7JHZHinstf9NI2Oj36spdkoBiQzNiEcGdBBjdZ86V2mfBVZEWDFczaRGnMEvPE1oJW0pluSaWkt59CpnjujmiyYWgHh9fR6yVHcUYc9V3CMp8RaOmxRlF9MRBHwryTq5lBww1LDX9xTYVwt5e+MIKxMN20xDh6GpYUtw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1764006172;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=yHr20q7gZmlTABXvQBRAafWej6u9u+HA61XCNH7omz8=; 
+ b=baFxRBuUVTDioclaCIGhUX48wGAmFUYVSBbGGhkQ7trMtubU2EkTRg4Vh5/WxqTEjj3nCeAgH2m/3rdbiM6socREZcKA9sFNNLW2l36qqqT8ADuPnvClw0Il4uQc2issZYtk/oj+eyDboP7JbRz3SbhjQPtF2dzdqRZ5QGmm5bc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764006172; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=yHr20q7gZmlTABXvQBRAafWej6u9u+HA61XCNH7omz8=;
+ b=bUM4wSpao8IwcIBLAsnlh+VQiF6ZdfyOs1a4mlAFAh+2RXMmh6zPsyZEjEU0crZD
+ 4L6oahLGTkkjji5UMRujwKTU4YQcKZW5vJoIuScQOSR+nGrw9hn1+gBS8Nd2M1XNZqn
+ TEBnSmNaO8R9lG1hcua83TyNOCKlkuJpS7PxmiPBT0Hfw+sZ8oZGzajlSzIbKpvntQ0
+ 2u5wgOz+NecxFhAJOz+EIqjvJm+pEympFizvUGj97Hn287baDkzPDDAj2QKJbPuzfgs
+ L+CV+OarPZq91gseemZ9Nf4G0JyDmqeRDhi0kPcr/TOQvCiXdgd+ajUoKfMIuFwMwsJ
+ bM1dP5C5ng==
+Received: by mx.zohomail.com with SMTPS id 1764006170521583.7022266150989;
+ Mon, 24 Nov 2025 09:42:50 -0800 (PST)
+Message-ID: <920b6864f30777640ebaceee1808e96978e6161a.camel@icenowy.me>
 Subject: Re: [PATCH v3 2/9] dt-bindings: display: add verisilicon,dc
-To: Icenowy Zheng <uwu@icenowy.me>, Conor Dooley <conor@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
- Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Michal Wilczynski <m.wilczynski@samsung.com>, Han Gao
- <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>, Guo Ren
+ <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Michal Wilczynski
+ <m.wilczynski@samsung.com>, Han Gao <rabenda.cn@gmail.com>, Yao Zi
+ <ziyao@disroot.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org
+Date: Tue, 25 Nov 2025 01:42:41 +0800
+In-Reply-To: <ee1e4f94-ff9a-4227-b705-74a7eb806ff0@kernel.org>
 References: <20251124105226.2860845-1-uwu@icenowy.me>
  <20251124105226.2860845-3-uwu@icenowy.me>
  <d4cfe8bb-5ca2-40a9-bfe0-96e7ded5586c@kernel.org>
@@ -63,54 +73,13 @@ References: <20251124105226.2860845-1-uwu@icenowy.me>
  <20251124-pulp-pound-a2b6d749dcfc@spud>
  <390caea1-bc75-4cde-bd6d-9bc15a12f32d@kernel.org>
  <a8089e458bdf6fbad45cd6be838b4cf75396918f.camel@icenowy.me>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <a8089e458bdf6fbad45cd6be838b4cf75396918f.camel@icenowy.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ <ee1e4f94-ff9a-4227-b705-74a7eb806ff0@kernel.org>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
+MIME-Version: 1.0
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,45 +95,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/11/2025 16:25, Icenowy Zheng wrote:
-> 在 2025-11-24星期一的 13:31 +0100，Krzysztof Kozlowski写道：
->> On 24/11/2025 13:20, Conor Dooley wrote:
->>> On Mon, Nov 24, 2025 at 01:08:00PM +0100, Krzysztof Kozlowski
->>> wrote:
->>>> On 24/11/2025 13:05, Conor Dooley wrote:
->>>>>
->>>>> I don't really get what the fuss is with the dual signoff,
->>>>> what's the
->>>>> point having both when they represent the same person? Pretty
->>>>> sure it
->>>>> was you (Krzysztof) and Arnd that told me not to both doing the
->>>>> double
->>>>> signoff.
->>>>
->>>> I do not object having or not having dual signed off HERE.
->>>>
->>>> I never said that. Just like I never said "From" has to be
->>>> changed.
->>>
->>> I didn't say you objected to both being there. *I* am saying that
->>> it is
->>
->> Ah, sure. Yes, if both identities work I would propose to skip second
->> SoB. But I also stopped objecting of having two identities listed, as
->> long as they are correct.
-> 
-> Well it's unfortunate that some policy now requires me to list the
-> second identity.
+=E5=9C=A8 2025-11-24=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 18:40 +0100=EF=BC=
+=8CKrzysztof Kozlowski=E5=86=99=E9=81=93=EF=BC=9A
+> On 24/11/2025 16:25, Icenowy Zheng wrote:
+> > =E5=9C=A8 2025-11-24=E6=98=9F=E6=9C=9F=E4=B8=80=E7=9A=84 13:31 +0100=EF=
+=BC=8CKrzysztof Kozlowski=E5=86=99=E9=81=93=EF=BC=9A
+> > > On 24/11/2025 13:20, Conor Dooley wrote:
+> > > > On Mon, Nov 24, 2025 at 01:08:00PM +0100, Krzysztof Kozlowski
+> > > > wrote:
+> > > > > On 24/11/2025 13:05, Conor Dooley wrote:
+> > > > > >=20
+> > > > > > I don't really get what the fuss is with the dual signoff,
+> > > > > > what's the
+> > > > > > point having both when they represent the same person?
+> > > > > > Pretty
+> > > > > > sure it
+> > > > > > was you (Krzysztof) and Arnd that told me not to both doing
+> > > > > > the
+> > > > > > double
+> > > > > > signoff.
+> > > > >=20
+> > > > > I do not object having or not having dual signed off HERE.
+> > > > >=20
+> > > > > I never said that. Just like I never said "From" has to be
+> > > > > changed.
+> > > >=20
+> > > > I didn't say you objected to both being there. *I* am saying
+> > > > that
+> > > > it is
+> > >=20
+> > > Ah, sure. Yes, if both identities work I would propose to skip
+> > > second
+> > > SoB. But I also stopped objecting of having two identities
+> > > listed, as
+> > > long as they are correct.
+> >=20
+> > Well it's unfortunate that some policy now requires me to list the
+> > second identity.
+>=20
+> No policy asked you...
 
-No policy asked you...
+Local policy here, sigh...
 
-> 
-> Should I resend the whole patchset with the ISCAS mail?
+>=20
+> >=20
+> > Should I resend the whole patchset with the ISCAS mail?
+>=20
+> You can, it probably would solve the issue, unless you change the
+> author, but why you cannot do what I asked at the beginning - set
+> correct order of SoBs, so the @icenowy.me being the last?
 
-You can, it probably would solve the issue, unless you change the
-author, but why you cannot do what I asked at the beginning - set
-correct order of SoBs, so the @icenowy.me being the last?
+Well because previous revisions of the patch comes with only
+@icenowy.me SoB, and I think SoB is append-only...
 
+>=20
+>=20
+> Best regards,
+> Krzysztof
 
-Best regards,
-Krzysztof
