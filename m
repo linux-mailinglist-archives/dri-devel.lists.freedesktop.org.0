@@ -2,45 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C25C83E0B
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 09:04:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CE2C817ED
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 17:10:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9985F10E376;
-	Tue, 25 Nov 2025 08:04:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03B8710E2FA;
+	Mon, 24 Nov 2025 16:10:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=exactco.de header.i=@exactco.de header.b="IBujdKQp";
+	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="RWYcdLj/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1462 seconds by postgrey-1.36 at gabe;
- Mon, 24 Nov 2025 16:32:06 UTC
-Received: from exactco.de (exactco.de [176.9.10.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9873C10E2FF;
- Mon, 24 Nov 2025 16:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=exactco.de; 
- s=x;
- h=Content-Transfer-Encoding:Content-Type:Mime-Version:From:Subject:Cc:To
- :Message-Id:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:
- References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:
- List-Owner:List-Archive; bh=us4cXwZibrCp/4pn/5nhOL8E5dr825vqUhsBdb3WS3c=; b=I
- BujdKQpU+dQjcSm06fPp0Aef0Zrx/quTQSpqgd5NhfOvz6HhVa84HYaH6PGq4AyiaI8obcF6xt3Ul
- WHp0x4ObX7YIaz0NsaqOqfTw51peAFkRxSvdLk+YBoV81CClHqR5VaFAErRbvV7CqDXnXIQ0QgVMB
- +RVjPXK4QknKYS6AqV2Fv71aAC0rkuCC/O6vEeMO+INtadeNs41S3ZXJQV8s2Oh5HQ41NwpW5KlQa
- dSMVmBV0pT2Zxj48iyCulBcLKjftTnLAvTzZ/kZpIk686dv3N7V0ylD+BJEwU9ZhMMGLMVjev4V1M
- 4dI4eyBJh8DSrIqDxx2UkfZGnNMAa1c4Q==;
-Date: Mon, 24 Nov 2025 17:07:57 +0100 (CET)
-Message-Id: <20251124.170757.190260467597677715.rene@exactco.de>
-To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Lyude Paul
- <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH] drm/nouveau: fix circular dep oops from vendored i2c encoder
-From: =?iso-8859-1?Q?Ren=E9?= Rebe <rene@exactco.de>
-X-Mailer: Mew version 6.10 on Emacs 30.2
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 25 Nov 2025 08:03:45 +0000
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com
+ [209.85.218.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEBB210E2FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 16:10:53 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id
+ a640c23a62f3a-b7380f66a8bso669199366b.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 08:10:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1764000652; x=1764605452;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=PNJKw8p/bVC9DDihKlO6wvtRyoc2CqJVoOEDDkEFruo=;
+ b=RWYcdLj//yFWygD48UVpWnbIZdrxvrsx4h/7cHRY6X8MiubxLaFMxVeNoNQXYPAFc3
+ oLFohKvuXp4OiAsWN9KJ5ZJrz4cdZVmdqUvV6AnuSfmH97RpwgJ7fKOby2lBA/n41rHU
+ Oa9O6SLhaur24/JEmtBinCWLlk+lC+5HZObVWX1wM0s71RoMtG6lMFHTzXojJFRQ705O
+ uuHg/o2L4T5y3HxBjKODigBQ89qsAiSXOhktmUtsRRStUsdVCtYZzzb6TFmm61tfn94U
+ UUEh/+eubCF2XF/uCfusY4tCZZ6gFxlPPxh6HVauEE8xRRX1baUnWbjuM7yRenwdOZ5W
+ tzmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764000652; x=1764605452;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PNJKw8p/bVC9DDihKlO6wvtRyoc2CqJVoOEDDkEFruo=;
+ b=TOvdgnFGqQlk5N1UhSAZSHeafFx9yo+9Bn+HbbIqjM+8nTkTtanG+RZukytppw3IAG
+ mvTMpAVaunSlco6fLoExDmYxYFzruKyGjuNl9EWKtITtSSI4IfVb1GLgjWL2Ujgm186v
+ SDF58GeaxrhHf8D8LCUopB+PG8cqkrsHp6wFradmzSRIljXpfDIvzyac2dD5JuLDMkJT
+ Ml218Ui5xRtxhpW/XbZPMYZTkZ1KwqsRfgR8tTOKKVR/6UH/x3TpQRNomEVmGGU0HKcQ
+ ou6KX/bSOGbtdL/OKOrvzlJI2LB5a2X+GnrkzRCYAHqbsmBRkuLMwfVgg5vWFYXZKMIy
+ Qelg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWmlNpyZcE6LftbhejRT7TP/E4E8YiyZ13HlIjo0gpJyyRcangs/Gfn0yHFlMHqFGG+icqLMS78EE8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyj7sjaKNIYtDZ5beKCaaMPJsumUzBDu3KBfER647e13dqqXp6O
+ hMPOrWhbciyoSYqjIzNYxIhVIx7h7ewUtGnylKA0XLj9vAPWAeLlz43Y9svXAHm5z+8=
+X-Gm-Gg: ASbGncu1WY5oL4yq+lq/OcwbsgXaGrELGfu/TGMqmvXw442wrulcSbNLXXYCapEUTul
+ cKnLbGnmtL7oOlMsLaKxbJQDZO9P8Uxgg1y4TQSZLEHN9PQZV9ClCRXp/+EQb+5NDCFvOc25NJd
+ eWNzV8jmvDLC14arsUY9PvyJBDt5bg8raz8G/plrNvmrOEtPQuQn75REHMtRClecmDfssuMx7Ci
+ gz970A4QKwfZUu+g2CEd5m9mfKVCwu+gTA7UqTwSNiIse/dJ+k1Q6S0Prj2o09YBbX+iw7W0G1O
+ asaglEUBCTU9PCVSGReA2WAsHfTspQ5HksDngKLV2+VlTz/C9uJwAguHVACyh2Gga1s6iNYqAPP
+ 5ubD8B++2yIgiLvAfd8ncK/1NlrSwMqthQMHqtTr+Gqi3O1BiLCCYpyIz33iWxLTz8Sfl6l5gcy
+ rS5hsWRWl6li7OEkVOvjFPh0AkQNmRKM6g8A216GbkjxqEJ5fHnM/a2XpQbAa/jE/zyp2bdZm+w
+ X269M7hsZJW
+X-Google-Smtp-Source: AGHT+IGXZ9dwCsIFtfklKslD3fowlXA1qqiWl8NPh9/JTYvgg+1dn1ZwzOk8abK9I8dlvbUb861r3Q==
+X-Received: by 2002:a17:906:b52:b0:b76:b76e:112a with SMTP id
+ a640c23a62f3a-b76b76e11d8mr159583366b.11.1764000651916; 
+ Mon, 24 Nov 2025 08:10:51 -0800 (PST)
+Received: from localhost
+ (p200300f65f0267087d3c06a64089a115.dip0.t-ipconnect.de.
+ [2003:f6:5f02:6708:7d3c:6a6:4089:a115])
+ by smtp.gmail.com with UTF8SMTPSA id
+ a640c23a62f3a-b766d386665sm1040566666b.53.2025.11.24.08.10.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 24 Nov 2025 08:10:51 -0800 (PST)
+Date: Mon, 24 Nov 2025 17:10:50 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Shankari Anand <shankari.ak0208@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Christian Brauner <brauner@kernel.org>,
+ Carlos Llamas <cmllamas@google.com>, Suren Baghdasaryan <surenb@google.com>, 
+ Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Alexandre Courbot <acourbot@nvidia.com>, 
+ "Rafael J . Wysocki" <rafael@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Igor Korotin <igor.korotin.linux@gmail.com>, 
+ Michal Wilczynski <m.wilczynski@samsung.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 06/10] rust: kernel: Update ARef and AlwaysRefCounted
+ imports to use sync::aref
+Message-ID: <44gv3fhqppn4fyg5fnxkhhanlbbxr2slqq7k3kr3owx7frpnxw@idgwxlcv4otn>
+References: <20251123092438.182251-1-shankari.ak0208@gmail.com>
+ <20251123092438.182251-7-shankari.ak0208@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="neqw6trvue47vu5n"
+Content-Disposition: inline
+In-Reply-To: <20251123092438.182251-7-shankari.ak0208@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,151 +118,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since a73583107af9 ("drm/nouveau: vendor in drm_encoder_slave API")
-nouveau appears to be broken for all dispnv04 GPUs (before NV50).
-Depending on the kernel version, either having no display output and
-hanging in kernel for a long time, or even oopsing in the cleanup
-path like:
 
-Hardware name: PowerMac11,2 PPC970MP 0x440101 PowerMac
-...
-nouveau 0000:0a:00.0: drm: 0x14C5: Parsing digital output script table
-BUG: Unable to handle kernel data access on read at 0x00041520
-Faulting instruction address: 0xc0003d0001be0844
-Oops: Kernel access of bad area, sig: 11 [#1]
-BE PAGE_SIZE=4K MMU=Hash  SMP NR_CPUS=8 NUMA PowerMac
-Modules linked in: windfarm_cpufreq_clamp windfarm_smu_sensors windfarm_smu_controls windfarm_pm112 snd_aoa_codec_onyx snd_aoa_fabric_layout snd_aoa windfarm_pid jo
- apple_mfi_fastcharge rndis_host cdc_ether usbnet mii snd_aoa_i2sbus snd_aoa_soundbus snd_pcm snd_timer snd soundcore rack_meter windfarm_smu_sat windfarm_max6690_s
-m75_sensor windfarm_core gpu_sched drm_gpuvm drm_exec drm_client_lib drm_ttm_helper ttm drm_display_helper drm_kms_helper drm drm_panel_orientation_quirks syscopyar
-_sys_fops i2c_algo_bit backlight uio_pdrv_genirq uio uninorth_agp agpgart zram dm_mod dax ipv6 nfsv4 dns_resolver nfs lockd grace sunrpc offb cfbfillrect cfbimgblt
-ont input_leds sr_mod cdrom sd_mod uas ata_generic hid_apple hid_generic usbhid hid usb_storage pata_macio sata_svw libata firewire_ohci scsi_mod firewire_core ohci
-ehci_pci ehci_hcd tg3 ohci_hcd libphy usbcore usb_common nls_base
- led_class
-CPU: 0 UID: 0 PID: 245 Comm: (udev-worker) Not tainted 6.14.0-09584-g7d06015d936c #7 PREEMPTLAZY
-Hardware name: PowerMac11,2 PPC970MP 0x440101 PowerMac
-NIP:  c0003d0001be0844 LR: c0003d0001be0830 CTR: 0000000000000000
-REGS: c0000000053f70e0 TRAP: 0300   Not tainted  (6.14.0-09584-g7d06015d936c)
-MSR:  9000000000009032 <SF,HV,EE,ME,IR,DR,RI>  CR: 24222220  XER: 00000000
-DAR: 0000000000041520 DSISR: 40000000 IRQMASK: 0 \x0aGPR00: c0003d0001be0830 c0000000053f7380 c0003d0000911900 c000000007bc6800 \x0aGPR04: 0000000000000000 0000000000000000 c000000007bc6e70 0000000000000001 \x0aGPR08: 01f3040000000000 0000000000041520 0000000000000000 c0003d0000813958 \x0aGPR12: c000000000071a48 c000000000e28000 0000000000000020 0000000000000000 \x0aGPR16: 0000000000000000 0000000000f52630 0000000000000000 0000000000000000 \x0aGPR20: 0000000000000000 0000000000000000 0000000000000001 c0003d0000928528 \x0aGPR24: c0003d0000928598 0000000000000000 c000000007025480 c000000007025480 \x0aGPR28: c0000000010b4000 0000000000000000 c000000007bc1800 c000000007bc6800
-NIP [c0003d0001be0844] nv_crtc_destroy+0x44/0xd4 [nouveau]
-LR [c0003d0001be0830] nv_crtc_destroy+0x30/0xd4 [nouveau]
-Call Trace:
-[c0000000053f7380] [c0003d0001be0830] nv_crtc_destroy+0x30/0xd4 [nouveau] (unreliable)
-[c0000000053f73c0] [c0003d00007f7bf4] drm_mode_config_cleanup+0x27c/0x30c [drm]
-[c0000000053f7490] [c0003d0001bdea50] nouveau_display_create+0x1cc/0x550 [nouveau]
-[c0000000053f7500] [c0003d0001bcc29c] nouveau_drm_device_init+0x1c8/0x844 [nouveau]
-[c0000000053f75e0] [c0003d0001bcc9ec] nouveau_drm_probe+0xd4/0x1e0 [nouveau]
-[c0000000053f7670] [c000000000557d24] local_pci_probe+0x50/0xa8
-[c0000000053f76f0] [c000000000557fa8] pci_device_probe+0x22c/0x240
-[c0000000053f7760] [c0000000005fff3c] really_probe+0x188/0x31c
-[c0000000053f77e0] [c000000000600204] __driver_probe_device+0x134/0x13c
-[c0000000053f7860] [c0000000006002c0] driver_probe_device+0x3c/0xb4
-[c0000000053f78a0] [c000000000600534] __driver_attach+0x118/0x128
-[c0000000053f78e0] [c0000000005fe038] bus_for_each_dev+0xa8/0xf4
-[c0000000053f7950] [c0000000005ff460] driver_attach+0x2c/0x40
-[c0000000053f7970] [c0000000005fea68] bus_add_driver+0x130/0x278
-[c0000000053f7a00] [c00000000060117c] driver_register+0x9c/0x1a0
-[c0000000053f7a80] [c00000000055623c] __pci_register_driver+0x5c/0x70
-[c0000000053f7aa0] [c0003d0001c058a0] nouveau_drm_init+0x254/0x278 [nouveau]
-[c0000000053f7b10] [c00000000000e9bc] do_one_initcall+0x84/0x268
-[c0000000053f7bf0] [c0000000001a0ba0] do_init_module+0x70/0x2d8
-[c0000000053f7c70] [c0000000001a42bc] init_module_from_file+0xb4/0x108
-[c0000000053f7d50] [c0000000001a4504] sys_finit_module+0x1ac/0x478
-[c0000000053f7e10] [c000000000023230] system_call_exception+0x1a4/0x20c
-[c0000000053f7e50] [c00000000000c554] system_call_common+0xf4/0x258
- --- interrupt: c00 at 0xfd5f988
-NIP:  000000000fd5f988 LR: 000000000ff9b148 CTR: 0000000000000000
-REGS: c0000000053f7e80 TRAP: 0c00   Not tainted  (6.14.0-09584-g7d06015d936c)
-MSR:  100000000000d032 <HV,EE,PR,ME,IR,DR,RI>  CR: 28222244  XER: 00000000
-IRQMASK: 0 \x0aGPR00: 0000000000000161 00000000ffcdc2d0 00000000405db160 0000000000000020 \x0aGPR04: 000000000ffa2c9c 0000000000000000 000000000000001f 0000000000000045 \x0aGPR08: 0000000011a13770 0000000000000000 0000000000000000 0000000000000000 \x0aGPR12: 0000000000000000 0000000010249d8c 0000000000000020 0000000000000000 \x0aGPR16: 0000000000000000 0000000000f52630 0000000000000000 0000000000000000 \x0aGPR20: 0000000000000000 0000000000000000 0000000000000000 0000000011a11a70 \x0aGPR24: 0000000011a13580 0000000011a11950 0000000011a11a70 0000000000020000 \x0aGPR28: 000000000ffa2c9c 0000000000000000 000000000ffafc40 0000000011a11a70
-NIP [000000000fd5f988] 0xfd5f988
-LR [000000000ff9b148] 0xff9b148
- --- interrupt: c00
-Code: f821ffc1 418200ac e93f0000 e9290038 e9291468 eba90000 48026c0d e8410018 e93f06aa 3d290001 392982a4 79291f24 <7fdd482a> 2c3e0000 41820030 7fc3f378
- ---[ end trace 0000000000000000 ]---
+--neqw6trvue47vu5n
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 06/10] rust: kernel: Update ARef and AlwaysRefCounted
+ imports to use sync::aref
+MIME-Version: 1.0
 
-This is caused by the i2c encoder modules vendored into nouveau/ now
-depending on the equally vendored nouveau_i2c_encoder_destroy
-function. Trying to auto-load this modules hangs on nouveau
-initialization until timeout, and nouveau continues without i2c video
-encoders.
+Hello,
 
-Fix by avoiding nouveau dependency by __always_inlining that helper
-functions into those i2c video encoder modules.
+I suggest $Subject ~=3D s/kernel/pwm/.
 
-Fixes: a73583107af9 ("drm/nouveau: vendor in drm_encoder_slave API")
-Signed-off-by: René Rebe <rene@exactco.de>
----
-Tested on NV43 [GeForce 6600], PPC64 PowerMac11,2 runing T2/Linux 
----
- .../nouveau/dispnv04/nouveau_i2c_encoder.c    | 20 -------------------
- .../include/dispnv04/i2c/encoder_i2c.h        | 19 +++++++++++++++++-
- 2 files changed, 18 insertions(+), 21 deletions(-)
+On Sun, Nov 23, 2025 at 02:54:34PM +0530, Shankari Anand wrote:
+> Update call sites in `pwm.rs` to import `ARef`
+> and `AlwaysRefCounted` from `sync::aref`
+> instead of `types`.
+>=20
+> This aligns with the ongoing effort to move `ARef` and
+> `AlwaysRefCounted` to sync.
+>=20
+> Suggested-by: Benno Lossin <lossin@kernel.org>
+> Link: https://github.com/Rust-for-Linux/linux/issues/1173
+> Signed-off-by: Shankari Anand <shankari.ak0208@gmail.com>
+> ---
+>  rust/kernel/pwm.rs | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/rust/kernel/pwm.rs b/rust/kernel/pwm.rs
+> index cb00f8a8765c..1605d13d5d64 100644
+> --- a/rust/kernel/pwm.rs
+> +++ b/rust/kernel/pwm.rs
+> @@ -13,7 +13,8 @@
+>      devres,
+>      error::{self, to_result},
+>      prelude::*,
+> -    types::{ARef, AlwaysRefCounted, Opaque}, //
+> +    sync::aref::{ARef, AlwaysRefCounted},
+> +    types::Opaque, //
+>  };
+>  use core::{marker::PhantomData, ptr::NonNull};
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv04/nouveau_i2c_encoder.c b/drivers/gpu/drm/nouveau/dispnv04/nouveau_i2c_encoder.c
-index e2bf99c43336..a60209097a20 100644
---- a/drivers/gpu/drm/nouveau/dispnv04/nouveau_i2c_encoder.c
-+++ b/drivers/gpu/drm/nouveau/dispnv04/nouveau_i2c_encoder.c
-@@ -94,26 +94,6 @@ int nouveau_i2c_encoder_init(struct drm_device *dev,
- 	return err;
- }
- 
--/**
-- * nouveau_i2c_encoder_destroy - Unregister the I2C device backing an encoder
-- * @drm_encoder:	Encoder to be unregistered.
-- *
-- * This should be called from the @destroy method of an I2C slave
-- * encoder driver once I2C access is no longer needed.
-- */
--void nouveau_i2c_encoder_destroy(struct drm_encoder *drm_encoder)
--{
--	struct nouveau_i2c_encoder *encoder = to_encoder_i2c(drm_encoder);
--	struct i2c_client *client = nouveau_i2c_encoder_get_client(drm_encoder);
--	struct module *module = client->dev.driver->owner;
--
--	i2c_unregister_device(client);
--	encoder->i2c_client = NULL;
--
--	module_put(module);
--}
--EXPORT_SYMBOL(nouveau_i2c_encoder_destroy);
--
- /*
-  * Wrapper fxns which can be plugged in to drm_encoder_helper_funcs:
-  */
-diff --git a/drivers/gpu/drm/nouveau/include/dispnv04/i2c/encoder_i2c.h b/drivers/gpu/drm/nouveau/include/dispnv04/i2c/encoder_i2c.h
-index 31334aa90781..869820701a56 100644
---- a/drivers/gpu/drm/nouveau/include/dispnv04/i2c/encoder_i2c.h
-+++ b/drivers/gpu/drm/nouveau/include/dispnv04/i2c/encoder_i2c.h
-@@ -202,7 +202,24 @@ static inline struct i2c_client *nouveau_i2c_encoder_get_client(struct drm_encod
- 	return to_encoder_i2c(encoder)->i2c_client;
- }
- 
--void nouveau_i2c_encoder_destroy(struct drm_encoder *encoder);
-+/**
-+ * nouveau_i2c_encoder_destroy - Unregister the I2C device backing an encoder
-+ * @drm_encoder:        Encoder to be unregistered.
-+ *
-+ * This should be called from the @destroy method of an I2C slave
-+ * encoder driver once I2C access is no longer needed.
-+ */
-+static __always_inline void nouveau_i2c_encoder_destroy(struct drm_encoder *drm_encoder)
-+{
-+	struct nouveau_i2c_encoder *encoder = to_encoder_i2c(drm_encoder);
-+	struct i2c_client *client = nouveau_i2c_encoder_get_client(drm_encoder);
-+	struct module *module = client->dev.driver->owner;
-+
-+	i2c_unregister_device(client);
-+	encoder->i2c_client = NULL;
-+
-+	module_put(module);
-+}
- 
- /*
-  * Wrapper fxns which can be plugged in to drm_encoder_helper_funcs:
--- 
-2.46.0
+having no clue about Rust:
 
--- 
-René Rebe, ExactCODE GmbH, Berlin, Germany
-https://exactco.de • https://t2linux.com • https://patreon.com/renerebe
+Can this patch be applied independent of the others via the pwm tree? If
+I understand correctly it's only patch #10 that depends on the previous
+patches, right?
+
+Is there already a merge plan for this series?
+
+Best regards
+Uwe
+
+--neqw6trvue47vu5n
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmkkg4gACgkQj4D7WH0S
+/k4ZxggAnWhK6xpYiLeXmCfK1Sb7HgBa2AsbKye0MnHsSah6DHwnqx7klhUaZs6e
+21hOZ4ecYKPAdKbbwZUE4xMwMLKlAEMhJbkWsmUow5Q9+c+jvw0hfGAhiscylqP/
+yKADT4IOvjkjPQ0ty4go/b0bd0qvcWDcxJXhvKi5Z+AQokSHyF4QDqRLz3Jq+mE8
+T20JB7XDuIOEG7dN8qebw7XS5c4FCeCpSrCm7jeCHdfPuJj2iXz+L1IOedk3+a32
+6PdlPCZxmch7aH4fUMWHtsO81LM5JVhulRuGu1ItMrklyXvDV18T7HpvvOaWJaQY
+KYI/KdOn48adECwq4ltKA6NkZMhc4Q==
+=9ZGw
+-----END PGP SIGNATURE-----
+
+--neqw6trvue47vu5n--
