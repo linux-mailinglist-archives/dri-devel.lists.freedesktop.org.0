@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11ECFC7FD81
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 11:21:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A362C7FDB4
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 11:22:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E05A510E1FB;
-	Mon, 24 Nov 2025 10:21:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84C3510E1FD;
+	Mon, 24 Nov 2025 10:22:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MCFjtwHQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DMsA3xuF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2170810E1FB
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 10:21:11 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 68C6F10E1FD
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 10:22:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D5898601D0;
- Mon, 24 Nov 2025 10:21:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07A31C4CEF1;
- Mon, 24 Nov 2025 10:21:09 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 212044171B;
+ Mon, 24 Nov 2025 10:22:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78505C4CEF1;
+ Mon, 24 Nov 2025 10:22:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1763979669;
- bh=OBgvU/HewE7AURcZkSTPDenefoBU8HiGHjgeE2JDZV4=;
+ s=k20201202; t=1763979739;
+ bh=vG8b+2CQzdRnuQXiRJDw26mPA9qaScPOG3Xzi0JGSIg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=MCFjtwHQ3V/pAkrHapvA+lllHrksyj0zfU/WZePoxPbbd8/fOMCfLEoE8Sfr/Hl5x
- wE+ZWjH5UoGzuGsysGziP14rgy2tPRwbBEGMpIiuY4WDYaq71697kYXYU/Dezdyx5i
- FlfICETC6R5HjGYmjb9NQIpIFNapyvhxh/gRBgDJyfQ/o0LNxUZAGksWZs8wUa2piR
- UVlMvWDFyhQNfYgK74HS9fmGGYBT1gGraQpnKezQdx6EzdrajqwclHxsp44VnlHxqh
- hUhG0Hx6fQTUyCMELPvKav+U9kKEbdIkhbLMfYRkBhzVqUYTbaCpfg+K7XXgykZQo2
- qfheB/yQc+XVQ==
-Date: Mon, 24 Nov 2025 11:21:06 +0100
+ b=DMsA3xuF9whWsJmvFblKZ1a0SMk6HmlWL2PGt3P6I9UB9gKlBKJvxNQIqyImbB2+w
+ UHDqEe8FqstWPN+9wTomzyjfG/nJt4TJRiJoekst0kKECYRqRT7jtRIkk8hFzL5cpW
+ WjcNOLNfM+LqBrGYTCzeS06j67jahMW/oKuKHQQs2f8ax3g/uzePWvclNEv14OFg42
+ fuB/Gi6exKUefjU9AyuIIPG5FeqOkqe3c2NJJnqQ4vFoHWKQW7HTlitlhXDHtFvS14
+ zpA8tVRznNgsQhntyQDCPgEk4XiqTStdNb8uRAn/ORwmSfnDh7kQZOkLH5EmZgV0iM
+ Ia9THk/Lp5cuw==
+Date: Mon, 24 Nov 2025 11:22:16 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -70,16 +70,16 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
  linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
  linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 03/26] drm/todo: add entry about converting to
+Subject: Re: [PATCH 04/26] drm/bridge: make of_drm_find_bridge() a wrapper of
  drm_of_find_bridge()
-Message-ID: <lpu5lms6rk53xfgot2dltkcoa4m7gdckjow5khr7hppvpfieq6@fs5zzomieuzd>
+Message-ID: <wxxjp7fmsnh2k4huvg2thmfi6kcszdphrag3zosrnykn7abeua@cdlywqj32jd7>
 References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
- <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-3-0db98a7fe474@bootlin.com>
+ <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-4-0db98a7fe474@bootlin.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="4r6yluq4gkkddnih"
+ protocol="application/pgp-signature"; boundary="dmizbp3zdogu4qw3"
 Content-Disposition: inline
-In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-3-0db98a7fe474@bootlin.com>
+In-Reply-To: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-4-0db98a7fe474@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,70 +96,66 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---4r6yluq4gkkddnih
+--dmizbp3zdogu4qw3
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 03/26] drm/todo: add entry about converting to
+Subject: Re: [PATCH 04/26] drm/bridge: make of_drm_find_bridge() a wrapper of
  drm_of_find_bridge()
 MIME-Version: 1.0
 
-On Wed, Nov 19, 2025 at 02:05:34PM +0100, Luca Ceresoli wrote:
-> of_drm_find_bridge() is deprecated, but converting some users is very
-> complex and should be reasonably doable only after the DRM panel bridge
-> lifetime rework. Add a TODO to track this.
->=20
-> Suggested-by: Maxime Ripard <mripard@kernel.org>
-> Link: https://lore.kernel.org/dri-devel/20250319-stylish-lime-mongoose-0a=
-18ad@houat/
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
->  Documentation/gpu/todo.rst | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->=20
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 9013ced318cb..1a4a11dee036 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -506,6 +506,22 @@ Contact: Maxime Ripard <mripard@kernel.org>,
-> =20
->  Level: Intermediate
-> =20
-> +Convert users of of_drm_find_bridge() to drm_of_find_bridge()
-> +-------------------------------------------------------------
-> +
-> +Taking a struct drm_bridge pointer requires getting a reference and putt=
-ing
-> +it after disposing of the pointer. Most functions returning a struct
-> +drm_bridge pointer already call drm_bridge_get() to increment the refcou=
-nt
-> +and their users have been updated to call drm_bridge_put() when
-> +appropriate. of_drm_find_bridge() does not get a reference and it has be=
-en
-> +deprecated in favor of drm_of_find_bridge() which does, but some users
-> +still need to be converted.
-> +
-> +Contact: Maxime Ripard <mripard@kernel.org>,
-> +         Luca Ceresoli <luca.ceresoli@bootlin.com>
-> +
-> +Level: Intermediate
-> +
+Hi,
 
-My understanding is that there's no users left after this series, so do
-we really need a todo?
+On Wed, Nov 19, 2025 at 02:05:35PM +0100, Luca Ceresoli wrote:
+> of_drm_find_bridge() is identical to drm_of_find_bridge() except it does
+> not increment the refcount. Rewrite it as a wrapper and put the bridge
+> being returned so the behaviour is still the same.
+>=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
+Kind of the same comment than on the TODO. Is it worth doing that patch
+when we could just remove it at the end of the series?
+
+> ---
+>  drivers/gpu/drm/drm_bridge.c | 14 +++-----------
+>  1 file changed, 3 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 6debbf20aaa8..09ad825f9cb8 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -1460,19 +1460,11 @@ EXPORT_SYMBOL(drm_of_find_bridge);
+>   */
+>  struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+>  {
+> -	struct drm_bridge *bridge;
+> -
+> -	mutex_lock(&bridge_lock);
+> +	struct drm_bridge *bridge =3D drm_of_find_bridge(np);
+> =20
+> -	list_for_each_entry(bridge, &bridge_list, list) {
+> -		if (bridge->of_node =3D=3D np) {
+> -			mutex_unlock(&bridge_lock);
+> -			return bridge;
+> -		}
+> -	}
+> +	drm_bridge_put(bridge);
+
+And if it does make sense to keep that patch, we should add a comment
+here to document why we are doing this.
 
 Maxime
 
---4r6yluq4gkkddnih
+--dmizbp3zdogu4qw3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaSQxkgAKCRAnX84Zoj2+
-duD+AX9u2+TlkBeWYDhuk1Qks7O5LoJ/GJqUOWRWKucMSXXG0m3tGsfi6Epgaucu
-bMpMP0gBgNzc3zm3QAihjM2NTWEx34nH5O6aoFpidyWNuv3rPcavDF7sK9120U7j
-b/qTCRAFUQ==
-=KQqV
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaSQx1wAKCRAnX84Zoj2+
+droMAX9AwjzNkiVVp54sB5cGjanhNIfAXN/GCN6vMwvaW4WE5QK8yK5sEqljCQtu
+qmElUSYBfiVitl5ixznQWTkWrB9qwjh7e/qpBdL40CpZ/bCkdh6quqMRu/qv6niz
+cBIXzVbHng==
+=8fBn
 -----END PGP SIGNATURE-----
 
---4r6yluq4gkkddnih--
+--dmizbp3zdogu4qw3--
