@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F66C81C37
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 18:01:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4FAC81C88
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 18:04:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2277010E317;
-	Mon, 24 Nov 2025 17:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC0BD10E326;
+	Mon, 24 Nov 2025 17:04:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U8OEeO+J";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="im4OP44f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3522110E317
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 17:01:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22DDC10E31F
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 17:04:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 07521443E7
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 17:01:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDC6AC19424
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 17:01:56 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id F35CA4423E
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 17:04:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1946C19422
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 17:04:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764003716;
- bh=XDhGPvCTlOtAm8SqKxFXp1SKGN8a8Hpm3y1hfKtziVA=;
+ s=k20201202; t=1764003890;
+ bh=ni6ryahXA4WhKdPgeajWMOfblZG+42XfxR7yeQeGziE=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=U8OEeO+JkfOGH5Xq80jJj8ongj248qQq4KDLFDZr+ra01ZAKF3NQQ0AjoLpklqfbK
- 933o5DoRBDrZuAZGCtalqQOXNHi50TgYYfQ6EKZufnH0J/42C2ApOPfI62LwyC4fYZ
- iXQntbnq5i9wEkk87O8yq/EcPlR04VhYfPWByrm9lsGptvSSg8J4ck7P8JdQ4XWBX7
- O3T+K2GnrGm8ohkBE9z8isa3bwMKEKPUF6uL6wGhuA+pfxs+FZcWVogUIvGeRDvXXc
- IqXbHoNmRp2GAJoDcScctUbJT6YRFUbDyEeHybJfNy1h3FxXbKkyo01QAOmJXgr8Sm
- WGJ8a9zXruGZQ==
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-5957db5bdedso4665839e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 09:01:56 -0800 (PST)
+ b=im4OP44fxcV8oBiXqMZXwaFtVS4yC5hoDr6iH4M/56YLQZOOKaRle7OQov/Qnlgpc
+ pweOpV/Qx9+TaPNP1i64KV9t0z1kwKpRZHEl/J3XlJC+cR+wqtv3oO8T3HsjEmhsrU
+ ZtVBinn//9N8lupqgYuMpHVTmkr/1WpTaxJqeZFFs5ZzEB/cnxrzd6v+Cv9nfPUHID
+ p7UIXEGSLpaf/Q67sQEMT1wDqa7UVI7zjqvecNs5hfGGIYGz+6abqQqYBsgMSYc7qn
+ XhyxLD1u4+AfK9rfCUrFTgWqsCPefTxj02aekr97RvlQqXNTGyPfxQk2KneFbFI/b6
+ uJjshK0d7lslQ==
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-594330147efso4738547e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 09:04:50 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXpqkb/+egW6XFLdiVoUj2/+EI8eNWIfq8QlicQSDTuJ+Y363/VykLy5OGC1C1yB2AanQQdXIObxXA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzbOpiJetnMuCFmZvYvVXoMdTgA07+Gt4bb5xYyfHSnAK1+bMyc
- K7KjX/RbnQD/u2zBuuT2vw9SExHJA3jTm7dPl68Nq3GHeK2mOVQYPYkti9lIXU/DeZTkXGEz9j/
- QgkpgEXJ4DbZ29+5HWVbHPSzrWrLnhm4=
-X-Google-Smtp-Source: AGHT+IEkrNgd288Aqd1i1HDm93x0vAhowPn36mtRKqLj65b7gv3inzfOeHOQeeyCnEde8qAor/6mFb9m0iGrYzU8Hgo=
-X-Received: by 2002:a05:6512:3096:b0:57c:2474:371f with SMTP id
- 2adb3069b0e04-596a3ee5d4amr4443842e87.45.1764003715146; Mon, 24 Nov 2025
- 09:01:55 -0800 (PST)
+ AJvYcCUPXtHnXj5H0mGUNLrHNddB5iPufiFe8UxRDVOw1K646INeMzLzL31sok1h63qPQnswLTJL5ntMDhE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzh0BTFCIBtmO+E6eDDWCvplTdM8VUkTUfLs1eTxp5mxkWQsGrs
+ 5sZ/DeYrETiRWD3XSxyG1Dl2DEqVLwZXzgP1AXWZlNoK93tyE/Yec4Seb+iKf+isOjG6l2O7KB3
+ iStTZ3jaCBOugPGn1zji9ppUl1Qeg0ZA=
+X-Google-Smtp-Source: AGHT+IGGU4X2n28nXl03AZEGYJ2qP+YdFmcNyxyi9o9xFWaX9qXe+5YYYmW9XiGzz0iE7mMdFpmgf1MgItGyyi+uahA=
+X-Received: by 2002:a05:6512:1282:b0:594:4c90:8415 with SMTP id
+ 2adb3069b0e04-596a3edab39mr4528817e87.27.1764003889213; Mon, 24 Nov 2025
+ 09:04:49 -0800 (PST)
 MIME-Version: 1.0
 References: <20251124165116.502813-1-tzimmermann@suse.de>
  <20251124165116.502813-9-tzimmermann@suse.de>
-In-Reply-To: <20251124165116.502813-9-tzimmermann@suse.de>
+ <CAMj1kXFu4=L=ROVAaRORG5HMmYWHb6OXQf6pJ3yAZpeDmfmSeg@mail.gmail.com>
+In-Reply-To: <CAMj1kXFu4=L=ROVAaRORG5HMmYWHb6OXQf6pJ3yAZpeDmfmSeg@mail.gmail.com>
 From: Ard Biesheuvel <ardb@kernel.org>
-Date: Mon, 24 Nov 2025 18:01:43 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXFu4=L=ROVAaRORG5HMmYWHb6OXQf6pJ3yAZpeDmfmSeg@mail.gmail.com>
-X-Gm-Features: AWmQ_bnUH2gOYPeFmtZhOt2fEadNyKSus8BJC5fWuG0lZCUM3RmsKIXfaGHDqcM
-Message-ID: <CAMj1kXFu4=L=ROVAaRORG5HMmYWHb6OXQf6pJ3yAZpeDmfmSeg@mail.gmail.com>
+Date: Mon, 24 Nov 2025 18:04:36 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXFtsneE3dFgUx6Hd=iBhD8YpvjfTSi-KZpuNaXfX07KyA@mail.gmail.com>
+X-Gm-Features: AWmQ_bkKMcK7WGWFCCrQ1b9TEIPkREY9pqhPyguPzmrEL1z0shGOixam-7jvNpI
+Message-ID: <CAMj1kXFtsneE3dFgUx6Hd=iBhD8YpvjfTSi-KZpuNaXfX07KyA@mail.gmail.com>
 Subject: Re: [PATCH v2 08/10] efi: Support EDID information
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: javierm@redhat.com, arnd@arndb.de, richard.lyu@suse.com, x86@kernel.org, 
@@ -75,159 +76,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 24 Nov 2025 at 17:52, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+On Mon, 24 Nov 2025 at 18:01, Ard Biesheuvel <ardb@kernel.org> wrote:
 >
-> Add LINUX_EFI_PRIMARY_DISPLAY_TABLE_GUID to the list of config-table
-> UUIDs. Read sysfb_primary_display from the entry. The UUID has been
-> generated with uuidgen.
+> On Mon, 24 Nov 2025 at 17:52, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> >
+> > Add LINUX_EFI_PRIMARY_DISPLAY_TABLE_GUID to the list of config-table
+> > UUIDs. Read sysfb_primary_display from the entry. The UUID has been
+> > generated with uuidgen.
+> >
+> > Still support LINUX_EFI_SCREEN_INFO_TABLE_GUID as fallback in case an
+> > older boot loader invokes the kernel.
+> >
+> > If CONFIG_FIRMWARE_EDID=n, EDID information is disabled.
+> >
+> > Make the Kconfig symbol CONFIG_FIRMWARE_EDID available with EFI. Setting
+> > the value to 'n' disables EDID support.
+> >
+> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 >
-> Still support LINUX_EFI_SCREEN_INFO_TABLE_GUID as fallback in case an
-> older boot loader invokes the kernel.
+> Why are we adding a new config table again?
 >
-> If CONFIG_FIRMWARE_EDID=n, EDID information is disabled.
 >
-> Make the Kconfig symbol CONFIG_FIRMWARE_EDID available with EFI. Setting
-> the value to 'n' disables EDID support.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Why are we adding a new config table again?
-
-
-> ---
->  arch/loongarch/kernel/efi.c     | 14 +++++++++++++-
->  drivers/firmware/efi/efi-init.c | 14 +++++++++++++-
->  drivers/firmware/efi/efi.c      |  2 ++
->  drivers/video/Kconfig           |  8 +++++---
->  include/linux/efi.h             |  8 +++++---
->  5 files changed, 38 insertions(+), 8 deletions(-)
->
-> diff --git a/arch/loongarch/kernel/efi.c b/arch/loongarch/kernel/efi.c
-> index 1ef38036e8ae..2d90758e5037 100644
-> --- a/arch/loongarch/kernel/efi.c
-> +++ b/arch/loongarch/kernel/efi.c
-> @@ -72,6 +72,7 @@ bool efi_poweroff_required(void)
->                 (acpi_gbl_reduced_hardware || acpi_no_s5);
->  }
->
-> +unsigned long __initdata primary_display_table = EFI_INVALID_TABLE_ADDR;
->  unsigned long __initdata screen_info_table = EFI_INVALID_TABLE_ADDR;
->
->  #if defined(CONFIG_SYSFB) || defined(CONFIG_EFI_EARLYCON)
-> @@ -81,7 +82,18 @@ EXPORT_SYMBOL_GPL(sysfb_primary_display);
->
->  static void __init init_primary_display(void)
->  {
-> -       if (screen_info_table == EFI_INVALID_TABLE_ADDR) {
-> +       if (primary_display_table != EFI_INVALID_TABLE_ADDR) {
-> +               struct sysfb_display_info *dpy =
-> +                       early_memremap(primary_display_table, sizeof(*dpy));
-> +
-> +               if (!dpy) {
-> +                       pr_err("Could not map primary_display config table\n");
-> +                       return;
-> +               }
-> +               sysfb_primary_display = *dpy;
-> +               memset(dpy, 0, sizeof(*dpy));
-> +               early_memunmap(dpy, sizeof(*dpy));
-> +       } else if (screen_info_table != EFI_INVALID_TABLE_ADDR) {
->                 struct screen_info *si = early_memremap(screen_info_table, sizeof(*si));
->
->                 if (!si) {
-> diff --git a/drivers/firmware/efi/efi-init.c b/drivers/firmware/efi/efi-init.c
-> index ca697d485116..0f167c0e058e 100644
-> --- a/drivers/firmware/efi/efi-init.c
-> +++ b/drivers/firmware/efi/efi-init.c
-> @@ -23,6 +23,7 @@
->
->  #include <asm/efi.h>
->
-> +unsigned long __initdata primary_display_table = EFI_INVALID_TABLE_ADDR;
->  unsigned long __initdata screen_info_table = EFI_INVALID_TABLE_ADDR;
->
->  static int __init is_memory(efi_memory_desc_t *md)
-> @@ -67,7 +68,18 @@ EXPORT_SYMBOL_GPL(sysfb_primary_display);
->
->  static void __init init_primary_display(void)
->  {
-> -       if (screen_info_table != EFI_INVALID_TABLE_ADDR) {
-> +       if (primary_display_table != EFI_INVALID_TABLE_ADDR) {
-> +               struct sysfb_display_info *dpy =
-> +                       early_memremap(primary_display_table, sizeof(*dpy));
-> +
-> +               if (!dpy) {
-> +                       pr_err("Could not map primary_display config table\n");
-> +                       return;
-> +               }
-> +               sysfb_primary_display = *dpy;
-> +               memset(dpy, 0, sizeof(*dpy));
-> +               early_memunmap(dpy, sizeof(*dpy));
-> +       } else if (screen_info_table != EFI_INVALID_TABLE_ADDR) {
->                 struct screen_info *si = early_memremap(screen_info_table, sizeof(*si));
->
->                 if (!si) {
-> diff --git a/drivers/firmware/efi/efi.c b/drivers/firmware/efi/efi.c
-> index a9070d00b833..c07f0878a4d6 100644
-> --- a/drivers/firmware/efi/efi.c
-> +++ b/drivers/firmware/efi/efi.c
-> @@ -63,6 +63,7 @@ static unsigned long __initdata mem_reserve = EFI_INVALID_TABLE_ADDR;
->  static unsigned long __initdata rt_prop = EFI_INVALID_TABLE_ADDR;
->  static unsigned long __initdata initrd = EFI_INVALID_TABLE_ADDR;
->
-> +extern unsigned long primary_display_table;
->  extern unsigned long screen_info_table;
->
->  struct mm_struct efi_mm = {
-> @@ -641,6 +642,7 @@ static const efi_config_table_type_t common_tables[] __initconst = {
->         {LINUX_EFI_UNACCEPTED_MEM_TABLE_GUID,   &efi.unaccepted,        "Unaccepted"    },
->  #endif
->  #ifdef CONFIG_EFI_GENERIC_STUB
-> +       {LINUX_EFI_PRIMARY_DISPLAY_TABLE_GUID,  &primary_display_table                  },
->         {LINUX_EFI_SCREEN_INFO_TABLE_GUID,      &screen_info_table                      },
->  #endif
->         {},
-> diff --git a/drivers/video/Kconfig b/drivers/video/Kconfig
-> index d51777df12d1..f452fac90a9f 100644
-> --- a/drivers/video/Kconfig
-> +++ b/drivers/video/Kconfig
-> @@ -63,11 +63,13 @@ endif # HAS_IOMEM
->
->  config FIRMWARE_EDID
->         bool "Enable firmware EDID"
-> -       depends on X86
-> +       depends on EFI || X86
->         help
->           This enables access to the EDID transferred from the firmware.
-> -         On x86, this is from the VESA BIOS. DRM display drivers will
-> -         be able to export the information to userspace.
-> +         On EFI systems, the EDID comes from the same device as the
-> +         primary GOP. On x86 with BIOS, it comes from the VESA BIOS.
-> +         DRM display drivers will be able to export the information
-> +         to userspace.
->
->           Also enable this if DDC/I2C transfers do not work for your driver
->           and if you are using nvidiafb, i810fb or savagefb.
-> diff --git a/include/linux/efi.h b/include/linux/efi.h
-> index 2a43094e23f7..f645bcc66ee2 100644
-> --- a/include/linux/efi.h
-> +++ b/include/linux/efi.h
-> @@ -406,11 +406,13 @@ void efi_native_runtime_setup(void);
->  #define EFI_CC_FINAL_EVENTS_TABLE_GUID         EFI_GUID(0xdd4a4648, 0x2de7, 0x4665, 0x96, 0x4d, 0x21, 0xd9, 0xef, 0x5f, 0xb4, 0x46)
->
->  /*
-> - * This GUID is used to pass to the kernel proper the struct screen_info
-> - * structure that was populated by the stub based on the GOP protocol instance
-> - * associated with ConOut
-> + * These GUIDs are used to pass to the kernel proper the info
-> + * structures that were populated by the stub based on the GOP
-> + * instance associated with ConOut.
->   */
-> +#define LINUX_EFI_PRIMARY_DISPLAY_TABLE_GUID   EFI_GUID(0x8700a405, 0xcda4, 0x46d4,  0xb8, 0xc3, 0x04, 0xe5, 0xcd, 0xb4, 0x30, 0x21)
->  #define LINUX_EFI_SCREEN_INFO_TABLE_GUID       EFI_GUID(0xe03fc20a, 0x85dc, 0x406e,  0xb9, 0x0e, 0x4a, 0xb5, 0x02, 0x37, 0x1d, 0x95)
-> +
->  #define LINUX_EFI_ARM_CPU_STATE_TABLE_GUID     EFI_GUID(0xef79e4aa, 0x3c3d, 0x4989,  0xb9, 0x02, 0x07, 0xa9, 0x43, 0xe5, 0x50, 0xd2)
->  #define LINUX_EFI_LOADER_ENTRY_GUID            EFI_GUID(0x4a67b082, 0x0a4c, 0x41cf,  0xb6, 0xc7, 0x44, 0x0b, 0x29, 0xbb, 0x8c, 0x4f)
->  #define LINUX_EFI_RANDOM_SEED_TABLE_GUID       EFI_GUID(0x1ce1e5bc, 0x7ceb, 0x42f2,  0x81, 0xe5, 0x8a, 0xad, 0xf1, 0x80, 0xf5, 0x7b)
-> --
-> 2.51.1
->
+Note that LINUX_EFI_SCREEN_INFO_TABLE_GUID is internal ABI only
+between the EFI stub and the core kernel.
