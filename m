@@ -2,107 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F86CC7FF3A
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 11:41:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 785BBC7FC69
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 10:58:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 131C810E203;
-	Mon, 24 Nov 2025 10:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9390888735;
+	Mon, 24 Nov 2025 09:57:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.b="P87gnIuA";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="xh4mqRbQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 2815 seconds by postgrey-1.36 at gabe;
- Mon, 24 Nov 2025 10:41:15 UTC
-Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CDE410E203;
- Mon, 24 Nov 2025 10:41:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
- from:content-type:reply-to; bh=B05uJapQfRMGohKkgF1xNVyERBHmagh8Bd3xg1q2NeI=; 
- b=P87gnIuANW/TJp73uiT1mmsGlTWnBuH0H7vh23lNqSWq4OBDSGmsQEtkmAFMHotC7U4wL6z8BsM
- xZhrA2DnJ6Byz1eNq9hCgsl0YlQqjChTspvActJHQABJusXSSyN3NViM7BAWMow9uYLi6/azgr/1S
- bPNPkqeI4K++8lXngyxVPKygWdoefLDaHUV8R9vP4h+Voyby/LgDfyG/U2ZiZD9XFH7HpGmBTtoYh
- gxxkqEEHWY1my7y2fTHFr9TydDJrVMgiVb3KBgJmEGPf57jfBn092eZeVh0rkWj5FfVDm/r5gwJdx
- bl004005PGTqWH4a9OI+Nq6nG2BqQ4oMU7WA==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
- by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
- id 1vNTCh-005XNj-0w; Mon, 24 Nov 2025 17:49:52 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation);
- Mon, 24 Nov 2025 17:49:51 +0800
-Date: Mon, 24 Nov 2025 17:49:51 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: david.laight.linux@gmail.com
-Cc: linux-kernel@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Alexei Starovoitov <ast@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- Andreas Dilger <adilger.kernel@dilger.ca>, Andrew Lunn <andrew@lunn.ch>,
- Andrew Morton <akpm@linux-foundation.org>,
- Andrii Nakryiko <andrii@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Ard Biesheuvel <ardb@kernel.org>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Borislav Petkov <bp@alien8.de>,
- Christian Brauner <brauner@kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Christoph Hellwig <hch@lst.de>, Daniel Borkmann <daniel@iogearbox.net>,
- Dan Williams <dan.j.williams@intel.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Dave Jiang <dave.jiang@intel.com>, David Ahern <dsahern@kernel.org>,
- David Hildenbrand <david@redhat.com>, Davidlohr Bueso <dave@stgolabs.net>,
- "David S. Miller" <davem@davemloft.net>,
- Dennis Zhou <dennis@kernel.org>, Eric Dumazet <edumazet@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Ingo Molnar <mingo@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- Jakub Sitnicki <jakub@cloudflare.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Jarkko Sakkinen <jarkko@kernel.org>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Jens Axboe <axboe@kernel.dk>, Jiri Slaby <jirislaby@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, John Allen <john.allen@amd.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Juergen Gross <jgross@suse.com>, Kees Cook <kees@kernel.org>,
- KP Singh <kpsingh@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>,
- Mika Westerberg <westeri@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Namhyung Kim <namhyung@kernel.org>,
- Neal Cardwell <ncardwell@google.com>, nic_swsd@realtek.com,
- OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
- Olivia Mackall <olivia@selenic.com>, Paolo Abeni <pabeni@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Huewe <peterhuewe@gmx.de>,
- Peter Zijlstra <peterz@infradead.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Sean Christopherson <seanjc@google.com>,
- Srinivas Kandagatla <srini@kernel.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
- Theodore Ts'o <tytso@mit.edu>, Thomas Gleixner <tglx@linutronix.de>,
- Tom Lendacky <thomas.lendacky@amd.com>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, x86@kernel.org,
- Yury Norov <yury.norov@gmail.com>, amd-gfx@lists.freedesktop.org,
- bpf@vger.kernel.org, cgroups@vger.kernel.org,
- dri-devel@lists.freedesktop.org, io-uring@vger.kernel.org,
- kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-block@vger.kernel.org, linux-crypto@vger.kernel.org,
- linux-cxl@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-mm@kvack.org,
- linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, mptcp@lists.linux.dev,
- netdev@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
-Subject: Re: [PATCH 00/44] Change a lot of min_t() that might mask high bits
-Message-ID: <aSQqP6nlqGYOGqcJ@gondor.apana.org.au>
-References: <20251119224140.8616-1-david.laight.linux@gmail.com>
+Received: from DM1PR04CU001.outbound.protection.outlook.com
+ (mail-centralusazon11010007.outbound.protection.outlook.com [52.101.61.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7FDC88735
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 09:57:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aRsjNBbGoyw2W1/vQVyTqlvTxYeYLaTY+Q10IMtOe8Tu0c6vcjlGmmkx6HX0N66cAReAMFD2lrqDnuddyiJbzVdlZ2ZeZ4ViebDpf/oL0OXtWRLzcg4dYlcHbEdiUyGQTz1HChJCIhlkGEccs57afgWPxb/3awC2Q9CBY8G4ypmqHrGHoooo7L5+MMrlMaIMYht4PJz/Y4qtlttZKLZkag3m0+gJ6Ocet0pc6eX3lSs4E10Z0S/tyRrgQMAq6/VsFMUB/z0CUB4kNhxtLUcK19xH1HXXb/qRLq7PIqJ51DOIcE+z1wZIauO+JjLzkS5hKxXDD3P3c3nGmK88/pe6vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k+hdNtiOG4NNMKeJcqBAhH1ZUfHuuaqbLTcQM5EMbYI=;
+ b=BdKq957T5KG4uA9+ULnPMzVqH5dUAS7CepcCEto4Hz0qB1OyTeSF447dLFa+lkzcVl4wsNq5jn6tenvJ6jiBxFXlNyDO29AnLa7tH+ivBQNPMPdGRkNIMxO8O0vf1jeZwnuQhjevOYkV11EK5C6R+nOhGTY35326Bgyzw436uxi6nt0UEjWBRVYYeucC9VltmYbZkCgQw4j5ZiQ84uLb545c7jK/sKwIN0NepMj61ceqDf6KPnS0CSS/FtFHFDmPi6SkMNBwkvCYVwo60S4r1khVcgy9jlnOpcIemdtiWEMnPpqWNbUtVmWUYaKVUfTtxZ0+d4ESOfAdf8Z/GMtz8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=suse.de smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k+hdNtiOG4NNMKeJcqBAhH1ZUfHuuaqbLTcQM5EMbYI=;
+ b=xh4mqRbQcFXL4loR8BYxYpaaO/rBVijKiaWLToHumxtHTY+xYjfSVMbyidso2L3s6RZrbQherMaeSbaJpdcAhxwyoOR3gw+JqPhZKZtg9MCXS+VK93/HLqXIIFkPtol1XIPxEYeXmgc90p/S3uCTnA4eOvJa1eftb9vWbpcVXEQ=
+Received: from BL0PR02CA0132.namprd02.prod.outlook.com (2603:10b6:208:35::37)
+ by IA1PR10MB6831.namprd10.prod.outlook.com (2603:10b6:208:425::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Mon, 24 Nov
+ 2025 09:57:53 +0000
+Received: from BL02EPF0001A104.namprd05.prod.outlook.com
+ (2603:10b6:208:35:cafe::9c) by BL0PR02CA0132.outlook.office365.com
+ (2603:10b6:208:35::37) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.17 via Frontend Transport; Mon,
+ 24 Nov 2025 09:57:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ BL02EPF0001A104.mail.protection.outlook.com (10.167.241.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9366.7 via Frontend Transport; Mon, 24 Nov 2025 09:57:52 +0000
+Received: from DFLE208.ent.ti.com (10.64.6.66) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 24 Nov
+ 2025 03:57:45 -0600
+Received: from DFLE204.ent.ti.com (10.64.6.62) by DFLE208.ent.ti.com
+ (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 24 Nov
+ 2025 03:57:45 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE204.ent.ti.com
+ (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Mon, 24 Nov 2025 03:57:45 -0600
+Received: from [172.24.235.208] (hkshenoy.dhcp.ti.com [172.24.235.208])
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AO9vcUp1757116;
+ Mon, 24 Nov 2025 03:57:39 -0600
+Message-ID: <982fa530-35ec-44e8-b95a-fe040efc5db5@ti.com>
+Date: Mon, 24 Nov 2025 15:27:38 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251119224140.8616-1-david.laight.linux@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v9 0/6] MHDP8546 fixes related to
+ DRM_BRIDGE_ATTACH_NO_CONNECTOR usecase
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+CC: <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
+ <andrzej.hajda@intel.com>, <andy.yan@rock-chips.com>,
+ <aradhya.bhatia@linux.dev>, <devarsht@ti.com>, <dianders@chromium.org>,
+ <dri-devel@lists.freedesktop.org>, <javierm@redhat.com>,
+ <jernej.skrabec@gmail.com>, <jonas@kwiboo.se>,
+ <linux-kernel@vger.kernel.org>, <linux@treblig.org>,
+ <luca.ceresoli@bootlin.com>, <lumag@kernel.org>, <lyude@redhat.com>,
+ <maarten.lankhorst@linux.intel.com>, <mordan@ispras.ru>,
+ <mripard@kernel.org>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
+ <s-jain1@ti.com>, <simona@ffwll.ch>, <tzimmermann@suse.de>, <u-kumar1@ti.com>
+References: <20251120121416.660781-1-h-shenoy@ti.com>
+ <22985633-f20c-4f36-96d1-ce01fe6cf6df@ideasonboard.com>
+Content-Language: en-US
+From: Harikrishna shenoy <h-shenoy@ti.com>
+In-Reply-To: <22985633-f20c-4f36-96d1-ce01fe6cf6df@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0001A104:EE_|IA1PR10MB6831:EE_
+X-MS-Office365-Filtering-Correlation-Id: 58aa8bc8-7f11-4965-37a1-08de2b3feec8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|376014|7416014|1800799024|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?cjd2WnNoUUpvdzh5TXJFOTFyeXg1cG9xQ2ZlSXM1VjNndHB6b2lzanlINmFl?=
+ =?utf-8?B?NWVDcGtOWU9hMmRRNEU1OW9wOEUwdTVKL1k4QWhKWFUrL1doSXNWZGo2K2M0?=
+ =?utf-8?B?WWxVcllTeHlMclh0b25mREV1bEkxbXRIcitLaXAyWXZFUjlqU2RjZUxEVXVE?=
+ =?utf-8?B?c3J2dGNZWERyOTNaZkJ3Z2JnRTl4NGhBT0pyWnRxTFRtSkloZEJhVkRGWG1Y?=
+ =?utf-8?B?NG9MbXAwUVM2M0pWNVE1dElLK1Q4RGxaRFhzVzBlR2NsY0EwSE1WbkJQQjlZ?=
+ =?utf-8?B?Vk5WSEl2dThYSHJ0QWJCeDZnTGpKdkZEd2JTbmkyWWR6SEwzOG5IM3FOWXoz?=
+ =?utf-8?B?Yk9mVkFCU0lwKy9UcGFYdi91Vi9ScHkxSllHWHJDUHByNnN5TzFzUmgzd0lS?=
+ =?utf-8?B?SE5ZbkF6NnYxNFpiQ1M5K0kzTE9WcHF1NnlyTUFaWjNPSXNrSU41OHRUUVYw?=
+ =?utf-8?B?TExycjVOcTNxRlVaUHpka2FacXFxbzFxQ2REeDEzNmxTUnNpcyt2WWFNanpY?=
+ =?utf-8?B?cld2blk2TXVDQW9HVElNNjI4RytrRDhROTF2aWhOTDI2WUxjeldLbzFMOUYr?=
+ =?utf-8?B?WnZ1K1ZJaTJHSGcvR1BRaHcrakhDV2NkN2E2TE92RlFXWU5JcEwvWEp3SDVY?=
+ =?utf-8?B?WTVlTkI1MGpxSTUyVXRJZkMwUm5FeENWbTdSdmZOMWFzWnVlRVlYYzJNTUVi?=
+ =?utf-8?B?VzJLOWFkeXk0Um9WVWZ5ZmRZMlo0MHpvTDJKZnZMZ0VDdGpYRmNtcG14eWhx?=
+ =?utf-8?B?N1h2bWJadHFtRks5eTBaR2twRUdoNTA2ZzFMWnJYay9zWGNEMEpWbTNWT0dw?=
+ =?utf-8?B?YlRYMHp6VEJGdnZxZ3J4NFRXK0xMQW1DUDl6WENLcGc5WDk5VTR0a0k1Mnhj?=
+ =?utf-8?B?RWgvdjc1WHE0WUhTWnFidUc4RzFYaW8vdHpoZHpsL0ltZitOOVNEQW5iNXE3?=
+ =?utf-8?B?bGIwVUk2OFQ5UnR1c0FIU0FISlJVZlJneGd6aFljS3ZyWnFjODRJU2tzUGlo?=
+ =?utf-8?B?U3VTN1AveU5UTkpNaHJoQUV6Ump0VC9EZ0JWb21hZmVkUVptNVpZc3Zsckh3?=
+ =?utf-8?B?WTlYaGZkOEI4YStEVmtvTGF5N29ZSUI1RXV4VjRSNkliRXk2aUFaOW9KQms0?=
+ =?utf-8?B?c1FzUjQxWjl3QUhObEVZNjJ5WTZIYTVCeVdCby9US1NyK1B0dWw2T3VpMDB0?=
+ =?utf-8?B?aHJmVzRDQ0pCbXIxYkNCbWtlaVZGMXNwUEJOcURrdmc0TTZXL1FUU09rUFFJ?=
+ =?utf-8?B?Nnlha243L29vRmxYRXcrZmdUWm4vb2xxUE9OcjZxRVQ1a3BqL1hKZXNjUmVl?=
+ =?utf-8?B?Wk1kdEJFdlNSVnAzNW9kMGdnTFRDNWREN2UvcnlHZ2J4MUNSajRTRVZiZ1Rt?=
+ =?utf-8?B?cmRRVE82eXFCTGNaMndRbkJnSE1DWGpUTWZKdmEzN2RYRXNXb0ZSOTVtUTJz?=
+ =?utf-8?B?MXQyWERkZXZMSTdkWHZ2eVRoM2lPMFZ2b2lCd0Z3Ny9TU01vMmJlMFZ5Nytk?=
+ =?utf-8?B?NGZaWGg2SEdWNGpScXVmcWQ0c016VVI1SW9zb1EvUEdOUEZucTBoNjZqRmJ6?=
+ =?utf-8?B?UjZublF2OUh5SW0rczN0ZHZYUGhsVHJzb29jR2ZSclNXaDVEZW5nZWhuL0hz?=
+ =?utf-8?B?NlRuS2lERjNkaXFrYkVZNVp5d2ZyZWplZFVOQllTb2hMZS84aVhtbms0T1Np?=
+ =?utf-8?B?dHM0dFZKKyszdjBSU0RaYkZidWlCUGZNaElNZFBRdjdFZisvSFBtS3dxRk5K?=
+ =?utf-8?B?R0dJUE9KRGp5OVhoVm1GK0lwOHBhb2FqZVJVR285L2JNT3RMdDRDajBuK0dq?=
+ =?utf-8?B?cThCdFpFaVBoUTBmaFZYODBmL0t6dVdESWhTWnZHQ25wazFHVkQ1YStPRFN0?=
+ =?utf-8?B?aWQvRUFVVFNVNDhQaTlqa0R0SysvV0I1dmEva0Z5R3VyTzd5a3htTUdqYmxj?=
+ =?utf-8?B?VHY2eFBzbmpDSXAwWGxVR3F4bFBNenY0WWxPTkIzR1RMY1BtRU9EUi9Gd09V?=
+ =?utf-8?Q?tMr8Rz7F/9XY8dBzwgCOewuK9YK734=3D?=
+X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
+ SFS:(13230040)(82310400026)(376014)(7416014)(1800799024)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 09:57:52.0980 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58aa8bc8-7f11-4965-37a1-08de2b3feec8
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
+ Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A104.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB6831
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,178 +162,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 19, 2025 at 10:40:56PM +0000, david.laight.linux@gmail.com wrote:
-> From: David Laight <david.laight.linux@gmail.com>
-> 
-> It in not uncommon for code to use min_t(uint, a, b) when one of a or b
-> is 64bit and can have a value that is larger than 2^32;
-> This is particularly prevelant with:
-> 	uint_var = min_t(uint, uint_var, uint64_expression);
-> 
-> Casts to u8 and u16 are very likely to discard significant bits.
-> 
-> These can be detected at compile time by changing min_t(), for example:
-> #define CHECK_SIZE(fn, type, val) \
-> 	BUILD_BUG_ON_MSG(sizeof (val) > sizeof (type) && \
-> 		!statically_true(((val) >> 8 * (sizeof (type) - 1)) < 256), \
-> 		fn "() significant bits of '" #val "' may be discarded")
-> 
-> #define min_t(type, x, y) ({ \
-> 	CHECK_SIZE("min_t", type, x); \
-> 	CHECK_SIZE("min_t", type, y); \
-> 	__cmp_once(min, type, x, y); })
-> 
-> (and similar changes to max_t() and clamp_t().)
-> 
-> This shows up some real bugs, some unlikely bugs and some false positives.
-> In most cases both arguments are unsigned type (just different ones)
-> and min_t() can just be replaced by min().
-> 
-> The patches are all independant and are most of the ones needed to
-> get the x86-64 kernel I build to compile.
-> I've not tried building an allyesconfig or allmodconfig kernel.
-> I've also not included the patch to minmax.h itself.
-> 
-> I've tried to put the patches that actually fix things first.
-> The last one is 0009.
-> 
-> I gave up on fixing sched/fair.c - it is too broken for a single patch!
-> The patch for net/ipv4/tcp.c is also absent because do_tcp_getsockopt()
-> needs multiple/larger changes to make it 'sane'.
-> 
-> I've had to trim the 124 maintainers/lists that get_maintainer.pl finds
-> from 124 to under 100 to be able to send the cover letter.
-> The individual patches only go to the addresses found for the associated files.
-> That reduces the number of emails to a less unsane number.
-> 
-> David Laight (44):
->   x86/asm/bitops: Change the return type of variable__ffs() to unsigned
->     int
->   ext4: Fix saturation of 64bit inode times for old filesystems
->   perf: Fix branch stack callchain limit
->   io_uring/net: Change some dubious min_t()
->   ipc/msg: Fix saturation of percpu counts in msgctl_info()
->   bpf: Verifier, remove some unusual uses of min_t() and max_t()
->   net/core/flow_dissector: Fix cap of __skb_flow_dissect() return value.
->   net: ethtool: Use min3() instead of nested min_t(u16,...)
->   ipv6: __ip6_append_data() don't abuse max_t() casts
->   x86/crypto: ctr_crypt() use min() instead of min_t()
->   arch/x96/kvm: use min() instead of min_t()
->   block: use min() instead of min_t()
->   drivers/acpi: use min() instead of min_t()
->   drivers/char/hw_random: use min3() instead of nested min_t()
->   drivers/char/tpm: use min() instead of min_t()
->   drivers/crypto/ccp: use min() instead of min_t()
->   drivers/cxl: use min() instead of min_t()
->   drivers/gpio: use min() instead of min_t()
->   drivers/gpu/drm/amd: use min() instead of min_t()
->   drivers/i2c/busses: use min() instead of min_t()
->   drivers/net/ethernet/realtek: use min() instead of min_t()
->   drivers/nvme: use min() instead of min_t()
->   arch/x86/mm: use min() instead of min_t()
->   drivers/nvmem: use min() instead of min_t()
->   drivers/pci: use min() instead of min_t()
->   drivers/scsi: use min() instead of min_t()
->   drivers/tty/vt: use umin() instead of min_t(u16, ...) for row/col
->     limits
->   drivers/usb/storage: use min() instead of min_t()
->   drivers/xen: use min() instead of min_t()
->   fs: use min() or umin() instead of min_t()
->   block: bvec.h: use min() instead of min_t()
->   nodemask: use min() instead of min_t()
->   ipc: use min() instead of min_t()
->   bpf: use min() instead of min_t()
->   bpf_trace: use min() instead of min_t()
->   lib/bucket_locks: use min() instead of min_t()
->   lib/crypto/mpi: use min() instead of min_t()
->   lib/dynamic_queue_limits: use max() instead of max_t()
->   mm: use min() instead of min_t()
->   net: Don't pass bitfields to max_t()
->   net/core: Change loop conditions so min() can be used
->   net: use min() instead of min_t()
->   net/netlink: Use umin() to avoid min_t(int, ...) discarding high bits
->   net/mptcp: Change some dubious min_t(int, ...) to min()
-> 
->  arch/x86/crypto/aesni-intel_glue.c            |  3 +-
->  arch/x86/include/asm/bitops.h                 | 18 +++++-------
->  arch/x86/kvm/emulate.c                        |  3 +-
->  arch/x86/kvm/lapic.c                          |  2 +-
->  arch/x86/kvm/mmu/mmu.c                        |  2 +-
->  arch/x86/mm/pat/set_memory.c                  | 12 ++++----
->  block/blk-iocost.c                            |  6 ++--
->  block/blk-settings.c                          |  2 +-
->  block/partitions/efi.c                        |  3 +-
->  drivers/acpi/property.c                       |  2 +-
->  drivers/char/hw_random/core.c                 |  2 +-
->  drivers/char/tpm/tpm1-cmd.c                   |  2 +-
->  drivers/char/tpm/tpm_tis_core.c               |  4 +--
->  drivers/crypto/ccp/ccp-dev.c                  |  2 +-
->  drivers/cxl/core/mbox.c                       |  2 +-
->  drivers/gpio/gpiolib-acpi-core.c              |  2 +-
->  .../gpu/drm/amd/amdgpu/amdgpu_doorbell_mgr.c  |  4 +--
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        |  2 +-
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 +-
->  drivers/i2c/busses/i2c-designware-master.c    |  2 +-
->  drivers/net/ethernet/realtek/r8169_main.c     |  3 +-
->  drivers/nvme/host/pci.c                       |  3 +-
->  drivers/nvme/host/zns.c                       |  3 +-
->  drivers/nvmem/core.c                          |  2 +-
->  drivers/pci/probe.c                           |  3 +-
->  drivers/scsi/hosts.c                          |  2 +-
->  drivers/tty/vt/selection.c                    |  9 +++---
->  drivers/usb/storage/protocol.c                |  3 +-
->  drivers/xen/grant-table.c                     |  2 +-
->  fs/buffer.c                                   |  2 +-
->  fs/exec.c                                     |  2 +-
->  fs/ext4/ext4.h                                |  2 +-
->  fs/ext4/mballoc.c                             |  3 +-
->  fs/ext4/resize.c                              |  2 +-
->  fs/ext4/super.c                               |  2 +-
->  fs/fat/dir.c                                  |  4 +--
->  fs/fat/file.c                                 |  3 +-
->  fs/fuse/dev.c                                 |  2 +-
->  fs/fuse/file.c                                |  8 ++---
->  fs/splice.c                                   |  2 +-
->  include/linux/bvec.h                          |  3 +-
->  include/linux/nodemask.h                      |  9 +++---
->  include/linux/perf_event.h                    |  2 +-
->  include/net/tcp_ecn.h                         |  5 ++--
->  io_uring/net.c                                |  6 ++--
->  ipc/mqueue.c                                  |  4 +--
->  ipc/msg.c                                     |  6 ++--
->  kernel/bpf/core.c                             |  4 +--
->  kernel/bpf/log.c                              |  2 +-
->  kernel/bpf/verifier.c                         | 29 +++++++------------
->  kernel/trace/bpf_trace.c                      |  2 +-
->  lib/bucket_locks.c                            |  2 +-
->  lib/crypto/mpi/mpicoder.c                     |  2 +-
->  lib/dynamic_queue_limits.c                    |  2 +-
->  mm/gup.c                                      |  4 +--
->  mm/memblock.c                                 |  2 +-
->  mm/memory.c                                   |  2 +-
->  mm/percpu.c                                   |  2 +-
->  mm/truncate.c                                 |  3 +-
->  mm/vmscan.c                                   |  2 +-
->  net/core/datagram.c                           |  6 ++--
->  net/core/flow_dissector.c                     |  7 ++---
->  net/core/net-sysfs.c                          |  3 +-
->  net/core/skmsg.c                              |  4 +--
->  net/ethtool/cmis_cdb.c                        |  7 ++---
->  net/ipv4/fib_trie.c                           |  2 +-
->  net/ipv4/tcp_input.c                          |  4 +--
->  net/ipv4/tcp_output.c                         |  5 ++--
->  net/ipv4/tcp_timer.c                          |  4 +--
->  net/ipv6/addrconf.c                           |  8 ++---
->  net/ipv6/ip6_output.c                         |  7 +++--
->  net/ipv6/ndisc.c                              |  5 ++--
->  net/mptcp/protocol.c                          |  8 ++---
->  net/netlink/genetlink.c                       |  9 +++---
->  net/packet/af_packet.c                        |  2 +-
->  net/unix/af_unix.c                            |  4 +--
->  76 files changed, 141 insertions(+), 176 deletions(-)
 
-Patches 10,14,16,37 applied.  Thanks.
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+
+On 21/11/25 17:37, Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 20/11/2025 14:14, Harikrishna Shenoy wrote:
+>> With the DRM_BRIDGE_ATTACH_NO_CONNECTOR framework, the connector is
+>> no longer initialized in  bridge_attach() when the display controller
+>> sets the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
+>> This causes a null pointer dereference in cdns_mhdp_modeset_retry_fn()
+>> when trying to access &conn->dev->mode_config.mutex.
+>> Observed on a board where EDID read failed.
+>> (log: https://gist.github.com/Jayesh2000/233f87f9becdf1e66f1da6fd53f77429)
+>>
+>> Patch 1 adds a connector_ptr which takes care of both
+>> DRM_BRIDGE_ATTACH_NO_CONNECTOR and !DRM_BRIDGE_ATTACH_NO_CONNECTOR
+>> case by setting the pointer in appropriate hooks and checking for pointer
+>> validity before accessing the connector.
+>> Patch 2 adds mode validation hook to bridge fucntions.
+>> Patch 3 fixes HDCP to work with both DRM_BRIDGE_ATTACH_NO_CONNECTOR
+>> and !DRM_BRIDGE_ATTACH_NO_CONNECTOR case by moving HDCP state handling
+>> into the bridge atomic check inline with the
+>> DRM_BRIDGE_ATTACH_NO_CONNECTOR model.
+>> Patches 4,5 do necessary cleanup and alignment for using
+>> connector pointer.
+>>
+>> The rationale behind the sequence of commits is we can cleanly
+>> switch to drm_connector pointer after removal of connector helper
+>> code blocks, which are anyways not touch after
+>> DRM_BRIDGE_ATTACH_NO_CONNECTOR has been enabled in driver.
+>>
+>> The last patch make smaller adjustment: lowering the log level for
+>> noisy DPCD transfer errors.
+>>
+>> v8 patch link:
+>> <https://lore.kernel.org/all/20251014094527.3916421-1-h-shenoy@ti.com/>
+>>
+>> Changelog v8-v9:
+>> -Move the patch 6 in v8 related to HDCP to patch 3 and add fixes tag.
+>> -Update to connector_ptr in HDCP code in patch 1.
+>> -Rebased on next-20251114.
+> 
+> Don't base on linux-next, except in some quite special circumstances.
+> Base on latest major version from Linus, or -rc from Linus, or
+> drm-misc-next. Usually drm-misc-next is a safe choice for DRM patches.
+> 
+> And if you make changes to a series, it's not a "resend" but a new version.
+> 
+>   Tomi
+> 
+Hi Tomi,
+
+Thanks for pointing it out, will re-spin next version v10 and base it on 
+drm-misc-next.
+
+Regards.
+
+>>
+>> v7 patch link:
+>> <https://lore.kernel.org/all/20250929083936.1575685-1-h-shenoy@ti.com/>
+>>
+>> Changelog v7-v8:
+>> -Move patches with firxes tag to top of series with appropriate changes
+>> to them.
+>> -Add R/B tag to patch
+>> https://lore.kernel.org/all/ae3snoap64r252sbqhsshsadxfmlqdfn6b4o5fgfcmxppglkqf@2lsstfsghzwb/
+>>
+>> v6 patch link:
+>> <https://lore.kernel.org/all/20250909090824.1655537-1-h-shenoy@ti.com/>
+>>
+>> Changelog v6-v7:
+>> -Update cover letter to explain the series.
+>> -Add R/B tag in PATCH 1 and drop fixes tag as suggested.
+>> -Drop fixes tag in PATCH 2.
+>> -Update the commit messages for clear understanding of changes done in patches.
+>>
+>> v5 patch link:
+>> <https://lore.kernel.org/all/20250811075904.1613519-1-h-shenoy@ti.com/>
+>>
+>> Changelog v5 -> v6:
+>> -Update cover letter to clarify the series in better way.
+>> -Add Reviewed-by tag to relevant patches.
+>>   
+>> v4 patch link:
+>> <https://lore.kernel.org/all/20250624054448.192801-1-j-choudhary@ti.com>
+>>
+>> Changelog v4->v5:
+>> - Handle HDCP state in bridge atomic check instead of connector
+>> atomic check
+>>   
+>> v3 patch link:
+>> <https://lore.kernel.org/all/20250529142517.188786-1-j-choudhary@ti.com/>
+>>
+>> Changelog v3->v4:
+>> - Fix kernel test robot build warning:
+>>    <https://lore.kernel.org/all/202505300201.2s6r12yc-lkp@intel.com/>
+>>
+>> v2 patch link:
+>> <https://lore.kernel.org/all/20250521073237.366463-1-j-choudhary@ti.com/>
+>>
+>> Changelog v2->v3:
+>> - Add mode_valid in drm_bridge_funcs to a separate patch
+>> - Remove "if (mhdp->connector.dev)" conditions that were missed in v2
+>> - Split out the move of drm_atomic_get_new_connector_for_encoder()
+>>    to a separate patch
+>> - Drop "R-by" considering the changes in v2[1/3]
+>> - Add Fixes tag to first 4 patches:
+>>    commit c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
+>>    This added DBANC flag in tidss while attaching bridge to the encoder
+>> - Drop RFC prefix
+>>
+>> v1 patch link:
+>> <https://lore.kernel.org/all/20250116111636.157641-1-j-choudhary@ti.com/>
+>>
+>> Changelog v1->v2:
+>> - Remove !DRM_BRIDGE_ATTACH_NO_CONNECTOR entirely
+>> - Add mode_valid in drm_bridge_funcs[0]
+>> - Fix NULL POINTER differently since we cannot access atomic_state
+>> - Reduce log level in cdns_mhdp_transfer call
+>>
+>> [0]: https://lore.kernel.org/all/20240530091757.433106-1-j-choudhary@ti.com/
+>>
+>> Harikrishna Shenoy (1):
+>>    drm/bridge: cadence: cdns-mhdp8546-core: Handle HDCP state in bridge
+>>      atomic check
+>>
+>> Jayesh Choudhary (5):
+>>    drm/bridge: cadence: cdns-mhdp8546-core: Set the mhdp connector
+>>      earlier in atomic_enable()
+>>    drm/bridge: cadence: cdns-mhdp8546-core: Add mode_valid hook to
+>>      drm_bridge_funcs
+>>    drm/bridge: cadence: cdns-mhdp8546-core: Remove legacy support for
+>>      connector initialisation in bridge
+>>    drm/bridge: cadence: cdns-mhdp8546*: Change drm_connector from
+>>      structure to pointer
+>>    drm/bridge: cadence: cdns-mhdp8546-core: Reduce log level for DPCD
+>>      read/write
+>>
+>>   .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 258 +++++-------------
+>>   .../drm/bridge/cadence/cdns-mhdp8546-core.h   |   2 +-
+>>   .../drm/bridge/cadence/cdns-mhdp8546-hdcp.c   |   8 +-
+>>   3 files changed, 72 insertions(+), 196 deletions(-)
+>>
+> 
+
