@@ -2,148 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64966C800DE
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 12:01:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31066C800F0
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 12:02:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B313E10E210;
-	Mon, 24 Nov 2025 11:01:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FD4510E20C;
+	Mon, 24 Nov 2025 11:02:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="h8hXWE6p";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OZ1OVsvT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ClvydOwc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66B2F10E210
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 11:01:22 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AO7THjb3112198
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 11:01:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- kmWnFKuFNtcDWt9VYmAJ6yQ/jTKnqbkS2w3UokWd2XA=; b=h8hXWE6p1UNJGR2w
- bJenDEb4N0liD4ovo5hL8e4kHmedUtZrPntvj9Lnp15Y748baQBPo/H/LLT6CCE3
- 92+yxV6MA27NodhuYQM3WE/hWJwG+oWl6g+1dEBTJGSoj0sZKQCzILJgzqYyPp/y
- f0zBFNmvJFexj9BHEbi6SA4nuSMfolpuhxaJ05M4llT6ko5aQQAkWmkZHXyPtsq1
- h16o0RvHEwIeiAPLIIqvFtm4iLPMGLx41pDQZZBlNYiSztzQ1zmtGAwGcCDgU4hS
- Vi6zCNlEmDgRqxRp7T/AK1qK/eDFIsl+mFWQbPY3Dj7kllYqWNh8jiEjcJCmMVlr
- oWyMeg==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4amk10gmte-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 11:01:21 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id
- d75a77b69052e-4ee409f1880so9414761cf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 03:01:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1763982081; x=1764586881;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kmWnFKuFNtcDWt9VYmAJ6yQ/jTKnqbkS2w3UokWd2XA=;
- b=OZ1OVsvT3kJywysOE46g+sRD1il+UjX9K75p+DQLw+K2Lmk+yO4ubNQds+DgdGtegL
- dJkIeReVeJuruQOGS3PHWWi4JcGtLglAauhvUyPrHZuCRPx6X7HyeFnqPWDRHq9eh7im
- rbsFtIgsRVSYz856pqZDU+9ib1TBHT7PpQV+BYjURtcw3kr7Qt+ZeBqwslJlHsbA2SUD
- GYSJrxDEqu6TwMtHFiBHuRKDAbsf6hdyx73WuM1fnE5aatyDUvalOdroMnoI7JyD0vtu
- Xn9Z6C0/arFO46efs5Ytn7FSA4b++jrgdnTo/TJR/O2W3R5Cw95ETpH2UjijzBFX8heU
- OEfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1763982081; x=1764586881;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kmWnFKuFNtcDWt9VYmAJ6yQ/jTKnqbkS2w3UokWd2XA=;
- b=cxQK7D8r/LqXsXyiF9J/sFQkAlt2HsgRBVqNY0h8MDQsIhsAe9x6kZJx7QMP8/lMXH
- mlPFk1zhmUkmSbdF0AHv0qb1dzUkCTeI7kgRzK50F9DW8z99giqAiJ/OsWpgrpfwCMlO
- Er1Mf1LtBmzTeMQEw0vkEIfRNGB+xPhckrDyrODr06xE1FtelZEhb84jRaGpA0OkOpd9
- oFi+qHMV6eMS3j0+cxAC0QwDmHLO+gWEEZuUJx5i5p77kEa5AnkAtILEXXzDTvSKd3Y2
- CS57au+OCUBY9gSKiKyjSydi5mKio0lgKmLJSaIYTT2b2LrWBNUdYrF6oAwUvyTCA7Zo
- mJUQ==
-X-Gm-Message-State: AOJu0Yw+kKAjF9WR4CvpfH4W6Z4NBjXQneZkHZFY3bkDjBP599YF0CiF
- 3fA8717x2PqzEG4PixPnTzR/uUf5nF2X6RFxieoGfUCW4ccgcwCutzbw6BYj/nyE9p3yk0lIuYz
- e0zJXeSRKzPA/XBUDoD/ptIIACg3v4NkHR45KGf9NjKGPpO3yzngXN1vR9CZnivZNAvneggs=
-X-Gm-Gg: ASbGncvce+QQp/Q9bKl23wxBUbB5aYJPPha1/rTcB+hqhkfzoBPnYYXYxty4FTjGJ3f
- K2YBeHA1Wn6kkTTayiC+sx3eEtzEeoWmHw43QDV+ADZ6fjORro+Vb+jB8MfvdDTdxlRlnMSSmYe
- 70/gidfW8xVDUAWf0oHv2FHMVSf6uqISGYB+azLSvaZBVZsxN9+HQhcpiN/KAQEIP8HLL7XMBfI
- p1s1xby4GO1y7RUce0MJOBnUfhLgcGhOd3e9ZY0XWLL2VaTMagbSgasjN7NSG3r3P7QeVJ/KDkd
- JF3O/5QDEfPJEtI4JOY8e5d6e1lTK4xzdXyEIEY1BZSp0Zvl07t76j2TmKoFYIi2BCx8i9Y3sqp
- Zsxpt0BsVlS888JipNvpSDbpu+Y7bPTHNSZGzLFWeYjZMpN0w7T2MAQxdbL2zSv+H3Tk=
-X-Received: by 2002:a05:622a:151:b0:4ee:1924:c6fc with SMTP id
- d75a77b69052e-4ee5883a43cmr108927931cf.1.1763982080612; 
- Mon, 24 Nov 2025 03:01:20 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGL5sXsmRBw0D0XCsDUFrVI+NEx70UqgwcK6a92gGa0RVxZdcHmClSbnmd1vrTkeOCIyt+AMw==
-X-Received: by 2002:a05:622a:151:b0:4ee:1924:c6fc with SMTP id
- d75a77b69052e-4ee5883a43cmr108927301cf.1.1763982080014; 
- Mon, 24 Nov 2025 03:01:20 -0800 (PST)
-Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b7654d502fasm1245441466b.17.2025.11.24.03.01.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 24 Nov 2025 03:01:19 -0800 (PST)
-Message-ID: <4ec493de-10d9-4a0d-b00c-d6e0f3d92b34@oss.qualcomm.com>
-Date: Mon, 24 Nov 2025 12:01:15 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07BE010E20C
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 11:02:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 36D1060138;
+ Mon, 24 Nov 2025 11:02:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BC77C4CEF1;
+ Mon, 24 Nov 2025 11:01:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1763982120;
+ bh=5yQwGr1/pbPjCyfg6TPiWd9jFRt4jfCH8hsUv6oL3yE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ClvydOwcxIZ/QmFPbloxmstWi9B5ijiLtxK7AN9a1kls7Ki4WZr+rhTC1doL+c1U2
+ W/OSWae2uHBHL7pnrKGfSSSvx7ZbdTsDnyI6bwbH7tlNzoB+5gWMdjxj7qtXRCfY3I
+ n3dbPTKMiOBKHmOw0KdecqSVrlnztU9gwGmiNTRaYAEIhIjlC9CEqzMAmOs4jLRlW2
+ OwpDbc8nwyYvgEAfIDHbeE4n3jyxmETfGKaAqbdRaBAx1dvvrahw/gqOVF1/xlvUJS
+ GKqwl5AbRcZNX2S6vuby5RcNTj8wrWiCEzmmYWufZUrI1mw+pr/o//kjsFGHP85TWI
+ uoY3NJRPbkVPw==
+Message-ID: <d4cfe8bb-5ca2-40a9-bfe0-96e7ded5586c@kernel.org>
+Date: Mon, 24 Nov 2025 12:01:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/6] arm64: dts: qcom: x1e80100-vivobook-s15: add
- charge limit nvmem
-To: Maud Spierings <maud_spierings@hotmail.com>,
+Subject: Re: [PATCH v3 2/9] dt-bindings: display: add verisilicon,dc
+To: Icenowy Zheng <uwu@icenowy.me>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
  Andrzej Hajda <andrzej.hajda@intel.com>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20251116-asus_usbc_dp-v2-0-cc8f51136c9f@hotmail.com>
- <20251116-asus_usbc_dp-v2-5-cc8f51136c9f@hotmail.com>
- <378c611b-f8c6-4f89-a3b3-6d8c22445e83@oss.qualcomm.com>
- <PR3P189MB1020E7393F72B285173137A2E3C9A@PR3P189MB1020.EURP189.PROD.OUTLOOK.COM>
- <ff773af3-d843-42ff-b4dc-e5a9d85c2285@oss.qualcomm.com>
- <PR3P189MB102003218DCCE87EEB69A0E4E3C9A@PR3P189MB1020.EURP189.PROD.OUTLOOK.COM>
- <57bab427-d8fd-490d-88f6-358b79367ed1@oss.qualcomm.com>
- <AM7P189MB10093041E89777C2AFAE2CEEE3D2A@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
- <d6018a1f-12a6-431b-9367-65c65e1d920f@oss.qualcomm.com>
- <AM7P189MB10097E44F277EEC068E4B847E3D3A@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
+ Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Icenowy Zheng <zhengxingda@iscas.ac.cn>
+References: <20251124105226.2860845-1-uwu@icenowy.me>
+ <20251124105226.2860845-3-uwu@icenowy.me>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <AM7P189MB10097E44F277EEC068E4B847E3D3A@AM7P189MB1009.EURP189.PROD.OUTLOOK.COM>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251124105226.2860845-3-uwu@icenowy.me>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 733nTB_8ZlAF4dmVR0nJ1oJpafd_MoC7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI0MDA5NyBTYWx0ZWRfX61rSeRW+cV1B
- 6D4SVNsrZS1PyNmAo3408isutiKsPfQhCXEcA5h0lP0jQ6edMT4AssumFVczrOd9O62NyBgcjLn
- d7L+9KIzrjy19gReedP2x9Zbkv9Ku50+0J19v/qHUylDbC9/htTclfh7nhaTAm0Fasotm6QTfEy
- gHc0WusSaTM2UAqp25B8t4xpVO4I2QcFi6mjQmc/QBzgvAh7PFH2IdU14lOzwwQJ7N0HWdgadSl
- NIb9qtl0Wo0LjMwOLIZPQXybMmeMrdhhU4vDWKSH5kb78Jz7CFnFlbpjckGWsI2b6dUFyFOtNoP
- kWulGqmDz+ONHhHMIcLsZeJ3xmRgbiGj3gO/5Vd5SAkMDSD65voN5bG+KDT7QRxro1yR1+emDHF
- HPrloPYGsSsXLniKOzhVIU6yKzVomw==
-X-Proofpoint-ORIG-GUID: 733nTB_8ZlAF4dmVR0nJ1oJpafd_MoC7
-X-Authority-Analysis: v=2.4 cv=SP9PlevH c=1 sm=1 tr=0 ts=69243b01 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=69EAbJreAAAA:8 a=EUspDBNiAAAA:8
- a=b1RjkcaNCWOaYSfdytUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-24_04,2025-11-21_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 bulkscore=0 adultscore=0 suspectscore=0
- phishscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511240097
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,71 +117,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/23/25 12:03 PM, Maud Spierings wrote:
-> On 11/22/25 14:37, Konrad Dybcio wrote:
->> On 11/22/25 12:07 PM, Maud Spierings wrote:
->>> On 11/20/25 16:36, Konrad Dybcio wrote:
->>>> On 11/17/25 4:44 PM, Maud Spierings wrote:
->>>>> On 11/17/25 16:35, Konrad Dybcio wrote:
->>>>>> On 11/17/25 3:13 PM, Maud Spierings wrote:
->>>>>>> Hi Konrad,
->>>>>>>
->>>>>>> On 11/17/25 13:59, Konrad Dybcio wrote:
->>>>>>>> On 11/16/25 11:52 AM, Maud Spierings via B4 Relay wrote:
->>>>>>>>> From: Maud Spierings <maud_spierings@hotmail.com>
->>>>>>>>>
->>>>>>>>> Add nvmem cells for getting charge control thresholds if they have
->>>>>>>>> been set previously.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Maud Spierings <maud_spierings@hotmail.com>
->>>>>>>>> ---
->>>>>>>> Have you verified that e.g.
->>>>>>>>
->>>>>>>> connecting the charger
->>>>>>>> setting the charge threshold
->>>>>>>> rebooting to windows
->>>>>>>> rebooting to windows once more for good measure
->>>>>>>> rebooting to linux
->>>>>>>>
->>>>>>>> still has the settings persist?
->>>>>>> Hmm I have tried several things but I can't seem to get the values to stick. I the spmi-sdam driver is compiled in, I am not quite sure if I might be missing something.
->>>>>> Hm, I wonder if Windows/UEFI overwrites these values or whether they're
->>>>>> used by something else..
->>>>>>
->>>>>> Can you set a threshold in windows and see if Linux can read back that
->>>>>> data?
->>>>> the values in /sys/class/power_supply/jada-jada/ are zero when rebooting from Windows into Linux after enabling charge limitting in the Asus application.
->>>>>
->>>>> I remember my old vivobook (x86) also forgot its settings each boot, but given the nvmem cells that should not be happing here I guess. It is odd that there seems to be no collision between Windows and Linux. Maybe the Windows mechanism is doing the old trick of writing it in there every boot?
->>>> Odd indeed.. Does it work if you reboot from Linux to Linux?
->>> It seems not, I seem to remember testing it quite some time ago, but I cannot get it to remember any way, at least it is not popping up in sysfs, always back to 0
->> It seems like the driver currently only populates the sysfs start/stop
->> values if the "enable" bit is set
->>
->> Could you check this (hacky and wrong) diff and give it another try?
->>
->> diff --git a/drivers/power/supply/qcom_battmgr.c b/drivers/power/supply/qcom_battmgr.c
->> index c8028606bba0..9ebd8adfb8eb 100644
->> --- a/drivers/power/supply/qcom_battmgr.c
->> +++ b/drivers/power/supply/qcom_battmgr.c
->> @@ -733,7 +733,7 @@ static int qcom_battmgr_charge_control_thresholds_init(struct qcom_battmgr *batt
->>          u8 en, end_soc, start_soc, delta_soc;
->>            ret = nvmem_cell_read_u8(battmgr->dev->parent, "charge_limit_en", &en);
->> -       if (!ret && en != 0) {
->> +       if (!ret) {
->>                  ret = nvmem_cell_read_u8(battmgr->dev->parent, "charge_limit_end", &end_soc);
->>                  if (ret < 0)
->>                          return ret;
->>
->>
-> Nope still nothing, there is one err about "failed to send synthetic uevent: -11" during startup, but I don't know how relevant that is.
+On 24/11/2025 11:52, Icenowy Zheng wrote:
+> Verisilicon has a series of display controllers prefixed with DC and
+> with self-identification facility like their GC series GPUs.
+> 
+> Add a device tree binding for it.
+> 
+> Depends on the specific DC model, it can have either one or two display
+> outputs, and each display output could be set to DPI signal or "DP"
+> signal (which seems to be some plain parallel bus to HDMI controllers).
+> > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 
-Hm, I'm a little puzzled.. It may be that ASUS customized the charge control
-functionality, but I doubt that
+Wrong DCO chain order. You send it as icenowy.me, so this must be last
+SoB. This identity is the last one certifying DCO. Please kindly read
+submitting patches, so you know what you are certifying here.
 
-In any case, this patch should let you limit the charging bounds within a
-single boot on Linux, so that's already useful..
+> ---
+> Changes in v3:
+> - Added SoC-specific compatible string, and arm the binding with clock /
+>   port checking for the specific SoC (with a 2-output DC).
+> 
+> Changes in v2:
+> - Fixed misspelt "versilicon" in title.
+> - Moved minItems in clock properties to be earlier than items.
+> - Re-aligned multi-line clocks and resets in example.
+> 
+>  .../bindings/display/verisilicon,dc.yaml      | 146 ++++++++++++++++++
+>  1 file changed, 146 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/verisilicon,dc.yaml b/Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+> new file mode 100644
+> index 0000000000000..522a544498bea
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/verisilicon,dc.yaml
+> @@ -0,0 +1,146 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/verisilicon,dc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Verisilicon DC-series display controllers
+> +
+> +maintainers:
+> +  - Icenowy Zheng <uwu@icenowy.me>
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^display@[0-9a-f]+$"
+> +
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - thead,th1520-dc8200
+> +      - const: verisilicon,dc
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+I do not see any explanation of exception for generic compatibles, maybe
+except "self-identification" remark. Rob already pointed this out, so be
+explicit in commit msg why you are using a generic compatible.
 
-Konrad
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 4
+
+This is not flexible. Device either has or has not these clocks.
+
+> +    items:
+> +      - description: DC Core clock
+> +      - description: DMA AXI bus clock
+> +      - description: Configuration AHB bus clock
+> +      - description: Pixel clock of output 0
+> +      - description: Pixel clock of output 1
+> +
+
+
+
+Best regards,
+Krzysztof
