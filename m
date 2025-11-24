@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894E6C81F0B
-	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 18:39:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0978C81F14
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 18:41:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71DA889622;
-	Mon, 24 Nov 2025 17:39:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44DF110E2E3;
+	Mon, 24 Nov 2025 17:41:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fIoO1afY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="LbrBvBXB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 374CA89622
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 17:39:43 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 589CC10E2E3
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 17:41:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 3ECD46016B;
- Mon, 24 Nov 2025 17:39:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37583C4CEF1;
- Mon, 24 Nov 2025 17:39:36 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E0C1C435B6;
+ Mon, 24 Nov 2025 17:41:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CA6EC4CEF1;
+ Mon, 24 Nov 2025 17:40:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764005981;
- bh=a/dt3SO0IBMPj/ZOG+botHjprn85wxhaFe5Ue9Kxg1M=;
+ s=k20201202; t=1764006062;
+ bh=zoUtfR4SGz2BKH5rplabaIYt5wL/apUOQkw2wk/1OPE=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=fIoO1afYA8NKsyxJwtO2RCIaR4mTKYx07g+3YPaDFb3cghv5WctAgyUiQq4WevK8L
- 3XcoWIem/vQObIj81EEWaoALnsF/Ice6yZ35tKRLWsq+/9/DOPMCCA6kgcdjbxLNsv
- ggVDrbei64+ecVzOOFEPiI8aSyXtZk/Asshh+kmz9VxYcpnNuSpBhpREZI5AvJMzU7
- pHdYgV/FMuidVydA+sYtM9HwA/1pLW5CxYPF3dhmzwWyw+yFc1mfL8DeFPmD714VsX
- ktvWf5mtpM9U+k7rucyVAHtMaxGxMlHSaPd0LbzwtyHlsEacjGU+aMB/7IEHL8myiI
- 8LW5U8kWOZung==
-Message-ID: <d578fc15-261b-456d-9887-f15417084943@kernel.org>
-Date: Mon, 24 Nov 2025 18:39:34 +0100
+ b=LbrBvBXB7UWI52i0M3DMRx/Wji5wN5f77e8Kd1eSTD9uFjyDa76CcLwRNr/NyKVVF
+ 5eyYHftmnNui+FbyEWO7FEpbRP4kSo6ROJYwFiaGSsPlGBL/1mZv6jyVoMQ8HgBJRk
+ LjhpKlXkjh7hkrx9hwpsCzyUA8bkkA4zyk1OyOaXn0wsD9J3L5yo1/fGRppwXZFQw+
+ u45t6xpTknFIvovZbxiWtyF+SZ3D97PzA1Lb2bcG0ZjX+b60cFgnILfU/6f7PK+9l2
+ M5AjZKYHhpnOyNpgeQBdBDGRxy/XLGQFsJljINK9K7NG6H9XIB5mvMA7hHNErxBLLg
+ VFA/0X+hK/5ZQ==
+Message-ID: <ee1e4f94-ff9a-4227-b705-74a7eb806ff0@kernel.org>
+Date: Mon, 24 Nov 2025 18:40:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/9] Verisilicon DC8200 driver (and adaption to TH1520)
-To: Icenowy Zheng <uwu@icenowy.me>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Subject: Re: [PATCH v3 2/9] dt-bindings: display: add verisilicon,dc
+To: Icenowy Zheng <uwu@icenowy.me>, Conor Dooley <conor@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -47,13 +47,22 @@ To: Icenowy Zheng <uwu@icenowy.me>,
  Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
+ Michal Wilczynski <m.wilczynski@samsung.com>, Han Gao
+ <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
 References: <20251124105226.2860845-1-uwu@icenowy.me>
- <374aa38b-c16f-46da-985e-266fdfb4c717@kernel.org>
- <24a3104c9879519c70554510766aba98afd663e7.camel@icenowy.me>
+ <20251124105226.2860845-3-uwu@icenowy.me>
+ <d4cfe8bb-5ca2-40a9-bfe0-96e7ded5586c@kernel.org>
+ <f7bbb57180866a0674fc1d72d4bd3279c7b1c1e9.camel@icenowy.me>
+ <c26dabfb-c4af-428b-a1d4-d626f37ff559@kernel.org>
+ <f944f0b28f62233b1874e0f00c0a130d71845417.camel@icenowy.me>
+ <6ceb41bc-0597-4ea5-84be-51f53e3bc2d8@kernel.org>
+ <20251124-said-overvalue-8a8f49d6c99d@spud>
+ <477bbcbe-17d9-40ae-be10-be4fd107687e@kernel.org>
+ <20251124-pulp-pound-a2b6d749dcfc@spud>
+ <390caea1-bc75-4cde-bd6d-9bc15a12f32d@kernel.org>
+ <a8089e458bdf6fbad45cd6be838b4cf75396918f.camel@icenowy.me>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -99,7 +108,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <24a3104c9879519c70554510766aba98afd663e7.camel@icenowy.me>
+In-Reply-To: <a8089e458bdf6fbad45cd6be838b4cf75396918f.camel@icenowy.me>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -117,27 +126,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 24/11/2025 16:23, Icenowy Zheng wrote:
-> 在 2025-11-24星期一的 11:57 +0100，Krzysztof Kozlowski写道：
->> On 24/11/2025 11:52, Icenowy Zheng wrote:
->>> This patchset tries to add a driver for Verisilicon DC8200 driver,
->>> and
->>> demonstrates the driver on T-Head TH1520 with its HDMI output.
+On 24/11/2025 16:25, Icenowy Zheng wrote:
+> 在 2025-11-24星期一的 13:31 +0100，Krzysztof Kozlowski写道：
+>> On 24/11/2025 13:20, Conor Dooley wrote:
+>>> On Mon, Nov 24, 2025 at 01:08:00PM +0100, Krzysztof Kozlowski
+>>> wrote:
+>>>> On 24/11/2025 13:05, Conor Dooley wrote:
+>>>>>
+>>>>> I don't really get what the fuss is with the dual signoff,
+>>>>> what's the
+>>>>> point having both when they represent the same person? Pretty
+>>>>> sure it
+>>>>> was you (Krzysztof) and Arnd that told me not to both doing the
+>>>>> double
+>>>>> signoff.
+>>>>
+>>>> I do not object having or not having dual signed off HERE.
+>>>>
+>>>> I never said that. Just like I never said "From" has to be
+>>>> changed.
 >>>
->>> This display controller IP is used on StarFive JH7110 too, but as
->>> the
->>> HDMI controller used there isn't as common as the DesignWare one, I
->>> choose to use TH1520 in this patchset.
+>>> I didn't say you objected to both being there. *I* am saying that
+>>> it is
 >>
->>
->> That's a v3, so please kindly always write changelog.
+>> Ah, sure. Yes, if both identities work I would propose to skip second
+>> SoB. But I also stopped objecting of having two identities listed, as
+>> long as they are correct.
 > 
-> Well I list changes in all individual commits.
-> 
-> Should I merge them to the cover letter the next time?
+> Well it's unfortunate that some policy now requires me to list the
+> second identity.
 
-No, it's perfectly fine, I don't know why I did not see them. Sorry for
-the noise.
+No policy asked you...
+
+> 
+> Should I resend the whole patchset with the ISCAS mail?
+
+You can, it probably would solve the issue, unless you change the
+author, but why you cannot do what I asked at the beginning - set
+correct order of SoBs, so the @icenowy.me being the last?
+
 
 Best regards,
 Krzysztof
