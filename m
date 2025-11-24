@@ -2,160 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE1A0C83DFD
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 09:04:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A54CC80E1F
+	for <lists+dri-devel@lfdr.de>; Mon, 24 Nov 2025 14:58:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C58410E372;
-	Tue, 25 Nov 2025 08:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D5010E23F;
+	Mon, 24 Nov 2025 13:58:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=phytec.de header.i=@phytec.de header.b="fISjMhKK";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="ZWaaGI05";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from AM0PR83CU005.outbound.protection.outlook.com
- (mail-westeuropeazon11020086.outbound.protection.outlook.com [52.101.69.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF2B910E2CA
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 13:53:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SyGckkGt2oJUx74K1Pg8RXK6Il86HtH2rv4wE6NZpXqgQzwSVRlRP0Pn3KHeo5id1DCfXrn3TgmSXM+G4pDexbjM16Eh62N7JOOJWwfuFYN0vUQ2ZUL834p9dLzsNPwEb5Kg21BZXRjRGTi0PYjL2iOnl9f/57YwIUWmVVcZyIgqVhIO/+GVc7eZDcRCSRFIVS8hF3wbhnf53WKQk/1yxehyrjPu8sn9e+rtWdAlS0XVQaCwBJsNhiIXiiW04Rwgeo22GV1zhFGsjxwOjSKt659uy0MQgGh1+n+Gu+RaJnBfW/lkX7oQ7+ERRMjGgjCoh5v7Lja8sE7VPisa3uhxWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Pha3D0NL1I0s4/g39R4LRQQdwIegOSw+fG2QqS761mQ=;
- b=nQCB7LJ4og/Y7fkCQ1JTyj0RK4Dr7r9rY54SRLUCiHTPqOZ0auQqrQjl13/mQrv3utfQVr9Tk84CuMhnRESZTEe6+wnUZQVR6Y/35dkHqumo75ubQL4sQQPspPczrRO3Eie1XFpbLrzlEm0uPp5uG8dPJbF6R2vUz794VoN5VsaVtYf/cKMDNZ+/MCpw44407WYCzVgRXe45mUTlPlFarRFPX4O6526hkAYwIW15SdCP7TFTFd+fSYP5zHhAYua0jVniDvWjnLPW3J1Aj+RbLi3mt/oI3vOuKxwsWH8wg1KlkQpBIaNMYx3kZ5qnoR8NEZ0xSm8i+o6LjVoeIbTzcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=phytec.de; dmarc=pass action=none header.from=phytec.de;
- dkim=pass header.d=phytec.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Pha3D0NL1I0s4/g39R4LRQQdwIegOSw+fG2QqS761mQ=;
- b=fISjMhKKXJ7gwQnbW+IVFB/royzaRoGIR76eRC1PH7BHMBhCCdYsWhpVYy3P34TVaLF9iNJoPFq9lLbpQm3WPROzFJgBD76NWlzSr5uDtTMZdy0Kb5R/A1kkr9ZvlnvHVjhI+hnsLM3aa88zs2+pd9YUpghi30/YadZMBdKbBeB9brANAuvF5dgPGNLSVN4NLCqUaFikrNuoZsYL1nsZqgIaTK9+IHrUqf94KbWPNckYjWwiRLfwcOX8L2eQjNTbbx8iSpS/2VB+oUo6FQ8mv1H2Lct3jQyExRAGdofzKe7qe8Y4PdwFP+4upuekGjMvZws7WTRdTy9haV/e74q4Kw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=phytec.de;
-Received: from VI0P195MB2484.EURP195.PROD.OUTLOOK.COM (2603:10a6:800:248::6)
- by GVXP195MB2670.EURP195.PROD.OUTLOOK.COM (2603:10a6:150:1ff::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Mon, 24 Nov
- 2025 13:53:23 +0000
-Received: from VI0P195MB2484.EURP195.PROD.OUTLOOK.COM
- ([fe80::24f:8371:2871:5981]) by VI0P195MB2484.EURP195.PROD.OUTLOOK.COM
- ([fe80::24f:8371:2871:5981%5]) with mapi id 15.20.9343.016; Mon, 24 Nov 2025
- 13:53:23 +0000
-Message-ID: <4989e0fa-7251-4f2b-b1b1-0bd534a585b1@phytec.de>
-Date: Mon, 24 Nov 2025 14:53:10 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] drm/panel: panel-simple: Add Sharp LQ070Y3LG05
-To: Maxime Ripard <mripard@kernel.org>
-Cc: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
- maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- thierry.reding@gmail.com, sam@ravnborg.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- upstream@lists.phytec.de
-References: <20251124123938.936521-1-d.schultz@phytec.de>
- <ehhdijawntxsaguhygczk5vrb2quqg3ep5eer25auh7rrq5f3x@pvcaxa7n5ybm>
-Content-Language: en-US
-From: Daniel Schultz <d.schultz@phytec.de>
-In-Reply-To: <ehhdijawntxsaguhygczk5vrb2quqg3ep5eer25auh7rrq5f3x@pvcaxa7n5ybm>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0142.namprd04.prod.outlook.com
- (2603:10b6:303:84::27) To VI0P195MB2484.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:800:248::6)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI0P195MB2484:EE_|GVXP195MB2670:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3eb08784-846b-41d9-de6a-08de2b60d505
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|10070799003|376014|7416014|366016; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TDlUdUJ2aFl2TGN3b0h6NGhxZEFLSFNXTVBGS2hjQXVvcHF0eFp1YkhZLzUx?=
- =?utf-8?B?Sk9PbDg2ME9GWFduaU5lajdwNEJwOXRkNzdWMC8wRmgzeHAyMWJKVFhOUHE2?=
- =?utf-8?B?Y1Ywa3pxZ1RNRmM4OUg1cjE4RjJoRW9GT1MvcGFHVDlvQURUWUw3MHdUS3RX?=
- =?utf-8?B?cmw5MzZqd2hiN2t5YThTKzh4bG9nMnZBNWZmQmZDQU9uMzlUaEZxV29EY3o4?=
- =?utf-8?B?V0VJSUtCaktMZzlQMHJlekQ4RzZMR2dqS0VFV0R5R3h3VUs0dWZhN1JqRCtj?=
- =?utf-8?B?Z29pM09IY2pnQmVqR1lwbk52QXhZLzVkVDBHMzdBc1kyMmhmbEpncUlDUmxH?=
- =?utf-8?B?TnRvTEt0eG9jUkVZR3JKbTByWlBSRlhBczE1LzVVYjQzYU81MVBLUnVYczho?=
- =?utf-8?B?ZHZwMzRxaDNTZ0l0OFVJWnFGdkZBY1RYcjNaa05JRFBhNGdSdWp1aXc1dUJJ?=
- =?utf-8?B?VTRnSE1YRU1zaEM0UWUrcmlFZnczbkRFT2YvOWlkOHIxVUtUQ0MvUklhM1Bw?=
- =?utf-8?B?ak5nWGY4WnI4NkRMS1psUlU3Zkx5Rm5VUGtrdVp0UjdOOUNzMG1YckNSOENU?=
- =?utf-8?B?Q1lXNjZmaHZxcXo5enk1QTdFenZQYmo4SStKdzk0bmI5ZkJzMUV2UWh2YXFx?=
- =?utf-8?B?dVJIa2pLTktMMlBJeDU0aXMwcm4rUVZKQUxJdGZQWXNyYzZjMk5xVHVWbE5q?=
- =?utf-8?B?KzVtVmhyL0lCT3NNb1l5T0ZIaXBVMkIrWTB0WElWc21lNUdieDlsVWNxemFU?=
- =?utf-8?B?QldHMVRwMWV6SG9lOVR2OFhUV0RFTzJ4MzhVbzJhNUJyVE8zaHg4MlhEeWQ3?=
- =?utf-8?B?ZTJTc0hDbHU4aElxZEJKTlhGTzZQTjk4V3ZtdUhJbDNHU0xucDVKdmorM3U2?=
- =?utf-8?B?bkI0QkdvU2xiWHdDMzdsTTJZakFnaGRUQmRINUU4c1licWpKQWpibWowbktQ?=
- =?utf-8?B?RVJkSytRRE44cGN5L2xEc3V0NVFjcWdob1ZyY1pVYzJORktUUW1NSm00ck03?=
- =?utf-8?B?NzMwdVFDNnkzaDVFNnhuZWZBL3pNTDJYbnVRdStpdjlMbSsyUlkwWUpHWG02?=
- =?utf-8?B?aUhRa3A2Rmh3VUVUSWNtYUZtLytuTHV2VzJBV2hoKzU3V3QzK1BLVHpaaWNX?=
- =?utf-8?B?QTE2YzBQenFzUCtiK0R4SVhYcjVuKzc3Y0pIZHA5bjhNVjRubzRTV3RYQjMv?=
- =?utf-8?B?U3RwcmRwcDl2VTlXcEZYZEx3QUkyR21OdTVjYTFkSzVzV3FpeHBXdmpXdWQ0?=
- =?utf-8?B?TTR3QlNIc3ZQK293OHdOTHBWWjFkZXozajIzMmVwMnN4cVVFZVpBV0NYQ2hx?=
- =?utf-8?B?UWNibjI2VXlzd1VLUWVIVW5jTzZETS9CK2Nsbms1bUR2aVZsR3Z5SlZ2VWhB?=
- =?utf-8?B?VzZKS1d4SGFrTzFkT0JBUktrWTVBcjJpa1p4bi90ZlBNUys4VXJYdUlpekJD?=
- =?utf-8?B?clNpM2RxTGtLYUpMZVgxNi8rUkoyYys5QlYzQ2pxTEs0cFNPOTBCcENyT2x0?=
- =?utf-8?B?UnhpM3ZaMVFWalNTYUJjWVhUZmdMZHROZXZvY25UOXFhUmw3VmlvbS9oN291?=
- =?utf-8?B?em8va3NRZzVkSVIrbWV1ekhHdEtlZWRQMjZOV0lxWlZKazQ0cjZEVVhZeFQ3?=
- =?utf-8?B?K0crTWc2N2Z2Tmpid2psaUpCaU02WnExME9vcUVrUUFTZGF1c01KaEJLV0R5?=
- =?utf-8?B?azl6QkhNbDJ3MkUybXI4T1pKdnU3dWcrTjZlcUtmTWt1NU5GN0FxdzY1MVhQ?=
- =?utf-8?B?TXBjZ0UrcHFNYTFMSS9IdmVpa2VXaUhWQURnaHl0U2k1RWxKd1BIVGRrVXIw?=
- =?utf-8?B?MmFqTDZvUGJHYzVFSmUrblp1c2NpeHRpNVUyNWRtZXhtZStLMEg3NlRodU53?=
- =?utf-8?B?VEpwRVdpbHpoOWJNRWZtNzUva1BsNTNUYXo4UlNNeXlRNWZGWlFJNlRhS2pU?=
- =?utf-8?Q?FpT1dTkUP/6Xo0D5vGWFpLaAlJ46o8mk?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI0P195MB2484.EURP195.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(10070799003)(376014)(7416014)(366016); DIR:OUT;
- SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dWY4Z2VTb0xKTTlmS0JXM1ArK2srNXdaWnRMMjV4R29jS1dHNWUrT1JYY3RZ?=
- =?utf-8?B?ZzVmaDRZQWdZUWt0QlJoS0h6U0pBaFlPQkdETXNKaFFuK0dKZjBudG0zY0Ft?=
- =?utf-8?B?aUV1aEtEbTRIMUFNWEFwZzZ2S1dDRWVNZTQ2WUFWTTR0UFUzUWx0U1pNeThL?=
- =?utf-8?B?aEp5dUNJdWxMTElqMWluaTBWSXIrSkdCZWdxcFVGNk92NjhYSGE0NjhJc1pi?=
- =?utf-8?B?VUVad2doQ3pQT0oxejJ0OEFlWjVRZitPZm1NOFVGeENhRGxibTZMZzZJSVdC?=
- =?utf-8?B?VUVMQTJybUpZT2pzUHhkN21CVjNvT014VUpLcmN0MC9xU3lSWFh4bnk3UjFw?=
- =?utf-8?B?NzhVclRBd2puRUtLdHgrRGtWdEttUldiNExQVU53cE9kYW00U2FyU2ZzZmo5?=
- =?utf-8?B?TXh3Mk9Bd2FVS3REd2MyeExkTHdocEpISWRTZE80eTVOOEx0SlM5ay9RUk9O?=
- =?utf-8?B?djBOTjhYQ3JUUTJDZ0tVTEg4SVh5ZUtmeDdQK0VmYmhtT2pPSmc2dnJYUmZh?=
- =?utf-8?B?WU4zSVB0QXJoN1h2TDBzYy9lNlI4RGs3WWlwZGVyb2UrMlJUUnBZZUhJbDhE?=
- =?utf-8?B?R1JqVTBGeHhKdHNJUWpobDFlNjZXQzVaRDFSQTBpMGIvUy9FUXJyMTE2eHZ2?=
- =?utf-8?B?R0tCVitDUk12UXVsSUdYWHIxTjlQbkVtUmJPclFwZThyaWJRaUdrYjM2eUJr?=
- =?utf-8?B?RStZYi92b0tadzNIaDlYQ0QrYjFGQ1UxR3JBWTY5ZkNsQjU0TlhTejNEZlRj?=
- =?utf-8?B?ZW9xNGZnMDhxL05YNFUwMXQ5cll3NGVQTk5qN3ZMdUcyZHBZc0EvMi9abTQ1?=
- =?utf-8?B?Sk5YSHl4UDRhWGljY3BVM21aS3o1aEk0NElyUTZHVGdzZkUyMkhIcWZuYmZD?=
- =?utf-8?B?dXZuQzFZNHhwTFY5cm8rSm5TVGdpci9rNy9HcVJkc3djL1BrdTNlZk9GQVA2?=
- =?utf-8?B?MElteHJmNDJNVEtTbGZzMzBRak9wSWtOTk9ZTXpWMHV5dW91NmVITlRtRjV5?=
- =?utf-8?B?QlBFdUJTZ2tENWFkMHhvOWtuc2tDOE03ZDMxeURzNmQzeWZsbFVJaDJadHpO?=
- =?utf-8?B?VTBXTTNvSXJDbTZ5RHdRa1lEbUswc1hIbEVlZ0xpQWF3OVVNTmYvdk5DNnN1?=
- =?utf-8?B?T3RsZFVaeWRaRjZPM1FHK3d2bDh5djF2VysraTREdFRHZ2FzbDkweHBFeTM1?=
- =?utf-8?B?bzFnR1FqcWlZZit0WVEzcVd3TGpETVdvUmxQQzdLaVpIdUtjaHQxTyszc0RQ?=
- =?utf-8?B?WWxmOVp2dHZtQ2ZFUWxMd0lteGtBcjJVekd1c2NCWkJ6QWZ5T0FNaGNQVmpa?=
- =?utf-8?B?RnpxVUdGS0N4Mytob2NySjRTS0NOY1BIQW04TzFtaXhUYVloY2FNNnFJcUpz?=
- =?utf-8?B?Mm9qckVRVzMwQWNhbi9pVDlQdHUrRHhyb0VtNTlKdzRqME5CMjR5dzBDc0Zv?=
- =?utf-8?B?eDlPT1JtdStjbVUzMytmNFM1VjI0SkpRWHNpc0FBL05oYTJ3amdCcVU1YnRt?=
- =?utf-8?B?aFRqcEd5cTNFUStHa0gzaDFOVVlaUVkyd1JqYllZZy9HTGZ1THovS0dwQjgr?=
- =?utf-8?B?NGtKdTVZdEhLdlFyKzA3U1FQTFV1cjNIcGlkc2lIZGN2M3c3UmdaQ09LN0tT?=
- =?utf-8?B?b0pyN2xBZ29FeTBNYjNORnV3QXZOMnBEdzIrRm43ZFBmUlVEcnJjb1dlc1Y2?=
- =?utf-8?B?UDRMOWtFR0xodytWc25icUJNbW5tcmk2S2ZFWnpGZitLcTRoUnpaOUJlVGtk?=
- =?utf-8?B?OWdkZXRYQjUxUVIzSnhwZVBjZW1EWTFLOStuOThxRGdzODlnMEVvamtMSk1I?=
- =?utf-8?B?b3RnUzRQZUlOMFZZKzBGTmc4cFdRbWtYcGo4KzRrNFl2V1Z1MEdqd29UdGl2?=
- =?utf-8?B?ZXBRMEx6SEkxclJseTM3S2RBVU1hdmlra2JMcUM0TlJGRWxrbGdXOEhrWDJa?=
- =?utf-8?B?dFFFbUpCSHR2YXBOSjU3OE5hRFo0cTNoSXFyYlc0Q0tRYmRoYnRYTkpKM3Mx?=
- =?utf-8?B?SDE4WEN1MnVpTDhmTWRuUERsLy8yMzFnSUt2WGxMajVOb080ZHFqSzRIc3J4?=
- =?utf-8?B?ZHJHM21OR3paKzlJaHp2QXJnT0E3K1JiemhjeUJGcXVJRTBwK05vcWxIZ0lo?=
- =?utf-8?B?WVhJWi9sZWZhaVVJVzFNVkZXYWRmVDBLTXJWTHdoSDR5akZCSVVjRkZjMURH?=
- =?utf-8?Q?Rjq5sJlO4oXbcAwwvGlYmXikf4OqanjMsGq9BdQBBKwH?=
-X-OriginatorOrg: phytec.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3eb08784-846b-41d9-de6a-08de2b60d505
-X-MS-Exchange-CrossTenant-AuthSource: VI0P195MB2484.EURP195.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2025 13:53:22.7463 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e609157c-80e2-446d-9be3-9c99c2399d29
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AuXUf/QCOfxcUYr8/Plq+JArgvBajn8o2XKEFcg3w0qVQ0TSent89HwqUigMLNxh85pdEiNn0LkCfe16CHp23Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP195MB2670
-X-Mailman-Approved-At: Tue, 25 Nov 2025 08:03:45 +0000
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
+ [136.143.184.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B77210E23F
+ for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 13:58:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1763992699; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=LFQevnWTTuwYP7I73N75RoQDk5bKnfZVE8BJ9tWasIHq2POGp0z+Qz02J1vO8OvEPdOk/Et/mntXGedR4OjUstAgagG9XdItdli5qQiFofPKUnCSKbmpNzZU3OQ2QuY4jMw8Ov0TtbEBuzpQkQS/a+JPNNzjsFLRl5e+uIh2MSA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1763992699;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=v0HpScnDKLS/JWg2rjXzrDHf3Lv5ooD9uMQMEOiyib4=; 
+ b=QzUGzrB43NWQZ67s/RbHWKk43HAvm9BPGsNmaxrsjEqK0MrfUuSK56SqxbVOpZerjaihwYZz80hqqWeKKIEMNDJRpIS70dc4kmpQqIM6uKFaf8PMhaclzEQgTEU4t98r/8jwRMynVwu1dQ19wQGKKc4asq57iLe7khsT4ZkGAtU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1763992699; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=v0HpScnDKLS/JWg2rjXzrDHf3Lv5ooD9uMQMEOiyib4=;
+ b=ZWaaGI059xuflUaKJQvlcciO153FGhPY3GBN6ePQLTkbvPUn450hrRqX2MMbP+tt
+ aWOpo1Ho5eh8ozSnNMvw8ZHmlwbn3CDvCWZfjTaF28dPB8o9Ipr/T8Nm6RAlNyEsGO/
+ dB2QbModq8IEv3PmZZ8sFAoi2WHyaDcJb2B2qOgk=
+Received: by mx.zohomail.com with SMTPS id 1763992696644205.88471331621827;
+ Mon, 24 Nov 2025 05:58:16 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [RFC WIP 3/3] rust/drm: Add initial jobqueue sceleton
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20251118132520.266179-5-phasta@kernel.org>
+Date: Mon, 24 Nov 2025 10:58:01 -0300
+Cc: Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Dave Airlie <airlied@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Peter Colberg <pcolberg@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <EBE34576-438E-4B87-89B9-A729260158F2@collabora.com>
+References: <20251118132520.266179-2-phasta@kernel.org>
+ <20251118132520.266179-5-phasta@kernel.org>
+To: Philipp Stanner <phasta@kernel.org>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,24 +74,633 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/24/25 13:51, Maxime Ripard wrote:
-> On Mon, Nov 24, 2025 at 04:39:37AM -0800, Daniel Schultz wrote:
->> Add the Sharp LQ070Y3LG05 7" WVGA lanscape LVDS RGB TFT-LCD panel.
->>
->> Signed-off-by: Daniel Schultz <d.schultz@phytec.de>
->> ---
->>   drivers/gpu/drm/panel/panel-simple.c | 28 ++++++++++++++++++++++++++++
->>   1 file changed, 28 insertions(+)
-> Any reason to use panel-simple over panel-lvds?
+Hi Phillip,
 
-I didn't know panel-lvds exist. I just convert these timings to 
-panel-lvds and works fine, too. Thanks!
+> On 18 Nov 2025, at 10:25, Philipp Stanner <phasta@kernel.org> wrote:
+>=20
+> DRM jobqueue is intended to become a load balancer, dependency manager
+> and timeout handler for GPU drivers with firmware scheduling.
+>=20
+> The presented code shall give the reader an overview over the intended
+> architecture, notably over the API functions, DmaFence callbacks, job
+> lists and job control flow.
+>=20
+> This code compiles (with warnings) but is incomplete. Notable missing
+> features are:
+> - Actually registering the fence callbacks
+> - workqueue
+> - timeout handling
+> - actually calling the driver callback for job submissions
+>=20
+> Moreover, the implementation of the waiting_jobs and running_jobs =
+lists
+> is currently not operational because I've got trouble with getting it =
+to
+> work with generic Job data. Verifyable by commenting in the push_job()
+> call in the submit_job() function.
+>=20
+> Some WIP code is commented out, but is probably worth reading
+> nevertheless since it completes the picture.
+>=20
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
+> rust/kernel/drm/jq.rs  | 398 +++++++++++++++++++++++++++++++++++++++++
+> rust/kernel/drm/mod.rs |   2 +
+> 2 files changed, 400 insertions(+)
+> create mode 100644 rust/kernel/drm/jq.rs
+>=20
+> diff --git a/rust/kernel/drm/jq.rs b/rust/kernel/drm/jq.rs
+> new file mode 100644
+> index 000000000000..b3f7ab4655cf
+> --- /dev/null
+> +++ b/rust/kernel/drm/jq.rs
+> @@ -0,0 +1,398 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +//
+> +// Copyright (C) 2025 Red Hat Inc.:
+> +//   - Philipp Stanner <pstanner@redhat.com>
+> +//   - Danilo Krummrich <dakr@redhat.com>
+> +//   - David Airlie <airlied@redhat.com>
+> +
+> +//! DrmJobqueue. A load balancer, dependency manager and timeout =
+handler for
+> +//! GPU job submissions.
+> +
+> +use crate::{
+> +    prelude::*,
+> +    types::ARef,
+> +};
+> +use kernel::sync::{Arc, SpinLock, new_spinlock, DmaFence, =
+DmaFenceCtx, DmaFenceCb, DmaFenceCbFunc};
+> +use kernel::list::*;
+> +use kernel::revocable::Revocable;
+> +
+> +
+> +#[pin_data]
+> +pub struct Job<T: ?Sized> {
+> +    credits: u32,
+> +//    dependencies: List, // TODO implement dependency list
 
-I don't plan to send my device-tree with the new timings included in the 
-near future. Should or can I already add this panel as compatible to 
-panel-simple.yaml?
+I am assuming that this will be a list of callbacks?
 
-- Daniel
+> +    #[pin]
+> +    data: T,
+> +}
+> +
+> +impl<T> Job<T> {
+> +    /// Create a new job that can be submitted to [`Jobqueue`].
+> +    ///
+> +    /// Jobs contain driver data that will later be made available to =
+the driver's
+> +    /// run_job() callback in which the job gets pushed to the GPU.
+> +    pub fn new(credits: u32, data: impl PinInit<T>) -> =
+Result<Pin<KBox<Self>>> {
+> +        let job =3D pin_init!(Self {
+> +            credits,
+> +            data <- data,
+> +        });
+> +
+> +        KBox::pin_init(job, GFP_KERNEL)
+> +    }
+> +
+> +    /// Add a callback to the job. When the job gets submitted, all =
+added callbacks will be
+> +    /// registered on the [`DmaFence`] the jobqueue returns for that =
+job.
+> +    pub fn add_callback() -> Result {
 
->
-> Maxime
+Can=E2=80=99t we take all the callbacks at submission time?
+> +        Ok(())
+> +    }
+> +
+> +    /// Add a [`DmaFence`] or a [`DoneFence`] as this job's =
+dependency. The job
+> +    /// will only be executed after that dependency has been =
+finished.
+> +    pub fn add_dependency() -> Result {
+
+Which would let us remove this ^
+
+> +        // TODO: Enqueue passed DmaFence into the job's dependency =
+list.
+> +        Ok(())
+> +    }
+> +
+> +    /// Check if there are dependencies for this job. Register the =
+jobqueue
+> +    /// waker if yes.
+> +    fn arm_deps() -> Result {
+
+I wonder if =E2=80=9Ccheck_dependencies=E2=80=9D would be a better name? =
+Or something
+along these lines.
+
+> +        // TODO: Register DependencyWaker here if applicable.
+> +        Ok(())
+> +    }
+> +}
+> +
+> +// Dummy trait for the linked list.
+> +trait JobData {
+
+> +    fn access_data(&self) -> i32;
+
+Can=E2=80=99t we dereference to the data?
+
+> +}
+> +
+> +#[pin_data]
+> +struct EnqueuedJob<T: ?Sized> {
+> +    inner: Pin<KBox<Job<T>>>,
+> +    #[pin]
+> +    links: ListLinksSelfPtr<EnqueuedJob<dyn JobData>>,
+
+Why not a KVec? A queue type can hold a KVec of enqueued jobs, and this =
+can
+hold an Arc of the queue type. By extension, ensures that the queue does =
+not
+die while we have enqueued jobs.
+
+
+> +    done_fence: ARef<DmaFence<i32>>, // i32 is just dummy data. TODO: =
+allow for replacing with `()`
+> +    // The hardware_fence can by definition only be set at an unknown =
+point in
+> +    // time.
+> +    // TODO: Think about replacing this with a `struct RunningJob` =
+which consumes
+> +    // an `EnqueuedJob`.
+> +    hardware_fence: Option<ARef<DmaFence<i32>>>, // i32 is dummy data =
+until there's DmaFence
+> +                                                 // without data.
+> +    nr_of_deps: u32,
+> +}
+> +
+> +impl<T> EnqueuedJob<T> {
+> +    fn new(inner: Pin<KBox<Job<T>>>, fctx: &Arc<DmaFenceCtx>) -> =
+Result<ListArc<Self>> {
+> +        let pseudo_data: i32 =3D 42;
+> +        let done_fence =3D =
+fctx.as_arc_borrow().new_fence(pseudo_data)?;
+> +
+> +        ListArc::pin_init(try_pin_init!(Self {
+> +            inner,
+> +            links <- ListLinksSelfPtr::new(),
+> +            done_fence,
+> +            hardware_fence: None,
+> +            nr_of_deps: 0, // TODO implement
+> +        }), GFP_KERNEL)
+> +    }
+> +}
+> +
+> +impl_list_arc_safe! {
+> +    impl{T: ?Sized} ListArcSafe<0> for EnqueuedJob<T> { untracked; }
+> +}
+> +
+> +impl_list_item! {
+> +    impl ListItem<0> for EnqueuedJob<dyn JobData> { using =
+ListLinksSelfPtr { self.links }; }
+> +}
+> +
+> +// Callback item for the hardware fences to wake / progress the =
+jobqueue.
+> +struct HwFenceWaker<T> {
+> +    jobq: Arc<Revocable<SpinLock<InnerJobqueue>>>,
+
+Instead of a Revocable, why not keep an Arc of InnerJobQueue (which =
+should
+perhaps be called JobQueueInner)?
+
+This way, the user can have this:
+
+struct JobQueue(Arc<JobqueueInner>);
+
+When the user drops the JobQueue, it will schedule whatever teardown
+operations, but the inner queue will not go out of scope, guaranteeing =
+that
+there is no UAF at least at this level.
+
+You can create circular references to keep the JobQueueInner alive for =
+as long
+as the teardown operation is taking place:
+
+struct SomeStructUsedForCleanup {
+  Arc<JobQueueInner> queue;
+  // ... more stuff
+}
+
+struct JobQueueInner {
+ KVec<Arc<SomeStructUsedForCleanup>> cleanups;
+}
+
+Given this cycle, both the queue and whatever structs you need for =
+cleanup will
+remain alive indefinitely. At some point, once whatever cleanup =
+completes, you
+can break the cycle:
+
+impl Drop for SomeStructUsedForCleanup {
+  fn drop(...) {
+    self.queue.cleanups.remove(self)
+  }
+}
+
+Once all the cleanups complete, the JobQueueInner will drop.
+
+Note that I'd expect this struct I =E2=80=9Cinvented" to be a DmaFenceCb =
+representing a
+pending dependency or a job that is already on the ring.
+
+> +    job: ListArc<EnqueuedJob<T>>,
+> +}
+> +
+> +impl<T> DmaFenceCbFunc for HwFenceWaker<T> {
+> +     fn callback(cb: Pin<KBox<DmaFenceCb<Self>>>) where Self: Sized {
+> +         // This prevents against deadlock. See Jobqueue's drop() for =
+details.
+> +         let jq_guard =3D cb.data.jobq.try_access();
+> +         if jq_guard.is_none() {
+> +             return;
+> +         }
+> +         let jq_guard =3D jq_guard.unwrap();
+> +
+> +         // Take Jobqueue lock.
+> +         let jq =3D jq_guard.lock();
+> +         // Remove job from running list.
+> +         //let _ =3D unsafe { cb.data.job.remove() };
+> +         // Signal done_fence.
+> +         // TODO: It's more robust if the JQ makes sure that fences =
+get signalled
+> +         // in order, even if the driver should signal them =
+chaotically.
+> +         let _ =3D cb.data.job.done_fence.signal();
+> +         // Run more ready jobs if there's capacity.
+> +         //jq.start_submit_worker();
+> +     }
+> +}
+> +
+> +// Callback item for the dependency fences to wake / progress the =
+jobqueue.
+> +struct DependencyWaker<T> {
+> +    jobq: Arc<Revocable<SpinLock<InnerJobqueue>>>,
+> +    job: ListArc<EnqueuedJob<T>>,
+> +}
+> +
+> +impl<T> DmaFenceCbFunc for DependencyWaker<T> {
+> +    fn callback(cb: Pin<KBox<DmaFenceCb<Self>>>) where Self: Sized {
+> +        // This prevents against deadlock. See Jobqueue's drop() for =
+details.
+> +        let jq_guard =3D cb.data.jobq.try_access();
+> +        if jq_guard.is_none() {
+> +            return;
+> +        }
+> +        let jq_guard =3D jq_guard.unwrap();
+> +
+> +        // Take Jobqueue lock.
+> +        let jq =3D jq_guard.lock();
+> +
+> +        // TODO: Lock Contention
+> +        //
+> +        // Alright, so the Jobqueue is currently designed around a =
+big central
+> +        // lock, which also protects the jobs. submit_job(), the JQ's =
+cb on the
+> +        // hw_fences and its cbs on the (external) dependency fences =
+compete for
+> +        // the lock. The first two should ever only run sequentially, =
+so likely
+> +        // aren't a problem.
+> +        //
+> +        // Dependency callbacks, however, could be registered and =
+then signalled
+> +        // by the thousands and then all compete for the lock =
+possibly for nothing.
+> +        //
+> +        // That can likely be improved. Maybe by just making the =
+nr_of_deps
+> +        // counter atomic?
+> +
+> +        // Decrement dep counter.
+> +        // cb.data.job.nr_of_deps -=3D 1; // TODO needs to be =
+DerefMut
+> +        // If counter =3D=3D 0, a new job somewhere in the queue just =
+got ready.
+> +        // Check if it was the head job and if yes, run all jobs =
+possible.
+> +        if cb.data.job.nr_of_deps =3D=3D 0 {
+> +//            jq.start_submit_worker();
+> +        }
+> +    }
+> +}
+> +
+> +struct InnerJobqueue {
+> +    capacity: u32,
+> +    waiting_jobs: List<EnqueuedJob<dyn JobData>>,
+> +    running_jobs: List<EnqueuedJob<dyn JobData>>,
+> +    submit_worker_active: bool,
+> +}
+> +
+> +impl InnerJobqueue {
+> +    fn new(capacity: u32) -> Self {
+> +        let waiting_jobs =3D List::<EnqueuedJob<dyn JobData>>::new();
+> +        let running_jobs =3D List::<EnqueuedJob<dyn JobData>>::new();
+> +
+> +        Self {
+> +            capacity,
+> +            waiting_jobs,
+> +            running_jobs,
+> +            submit_worker_active: false,
+> +        }
+> +    }
+> +
+> +    fn has_waiting_jobs(&self) -> bool {
+> +        !self.waiting_jobs.is_empty()
+> +    }
+> +
+> +    fn has_capacity_left(&self, cost: u32) -> bool {
+> +        let cost =3D cost as i64;
+> +        let capacity =3D self.capacity as i64;
+> +
+> +        if capacity - cost >=3D 0 {
+> +            return true;
+> +        }
+> +
+> +        false
+> +    }
+> +
+> +    fn update_capacity(&mut self, cost: u32) {
+> +        self.capacity -=3D cost;
+> +    }
+> +
+> +
+> +    // Called by the hw_fence callbacks, dependency callbacks, and =
+submit_job().
+> +    // TODO: does submit_job() ever have to call it?
+
+Hm, yeah, I=E2=80=99d say so.
+
+> +    fn start_submit_worker(&mut self) {
+> +        if self.submit_worker_active {
+> +            return;
+> +        }
+> +
+> +        // TODO run submit work item
+> +
+> +        self.submit_worker_active =3D true;
+> +    }
+> +
+> +    /*
+> +
+> +    /// Push a job immediately.
+> +    ///
+> +    /// Returns true if the job ran immediately, false otherwise.
+> +    fn run_job(&mut self, job: &EnqueuedJob) -> bool {
+> +        // TODO remove job from waiting list.
+> +
+> +        // TODO Call the driver's run_job() callback.
+> +        let hardware_fence =3D run_job(&job);
+> +        job.hardware_fence =3D Some(hardware_fence);
+> +
+> +        // TODO check whether hardware_fence raced and is already =
+signalled.
+> +
+> +        self.running_jobs.push_back(job);
+> +
+> +        // TODO Register HwFenceWaker on the hw_fence.
+> +    }
+> +
+> +    // Submits all ready jobs as long as there's capacity.
+> +    fn run_all_ready_jobs(&mut self) {
+> +        for job in self.waiting_jobs.reverse() {
+> +            if job.nr_of_deps > 0 {
+> +                return;
+> +            }
+> +
+> +            if self.has_capacity_left(job.credits) {
+> +                if !self.run_job(&job) {
+> +                    // run_job() didn't run the job immediately =
+(because the
+> +                    // hw_fence did not race). Subtract the credits.
+> +                    self.update_capacity(job.credits);
+> +                }
+> +            } else {
+> +                return;
+> +            }
+> +        }
+> +    }
+> +    */
+> +}
+> +
+> +//#[pin_data]
+> +pub struct Jobqueue {
+> +    inner: Arc<Revocable<SpinLock<InnerJobqueue>>>,
+> +    fctx: Arc<DmaFenceCtx>, // TODO currently has a separate lock =
+shared with fences
+> +//    #[pin]
+> +//    data: T,
+> +}
+> +
+> +impl Jobqueue {
+> +    /// Create a new [`Jobqueue`] with `capacity` space for jobs. =
+`run_job` is
+> +    /// your driver's callback which the jobqueue will call to push a =
+submitted
+> +    /// job to the hardware.
+> +    pub fn new<T, V>(capacity: u32, _run_job: fn(&Pin<KBox<Job<T>>>) =
+-> ARef<DmaFence<V>>) -> Result<Self> {
+> +        let inner =3D =
+Arc::pin_init(Revocable::new(new_spinlock!(InnerJobqueue::new(capacity))),=
+ GFP_KERNEL)?;
+> +        let fctx =3D DmaFenceCtx::new()?;
+> +
+> +        Ok (Self {
+> +            inner,
+> +            fctx,
+> +        })
+> +    }
+> +
+> +    /// Submit a job to the jobqueue.
+> +    ///
+> +    /// The jobqueue takes ownership over the job and later passes it =
+back to the
+> +    /// driver by reference through the driver's run_job callback. =
+Jobs are
+> +    /// passed back by reference instead of by value partially to =
+allow for later
+> +    /// adding a job resubmission mechanism to be added to =
+[`Jobqueue`].
+> +    ///
+> +    /// Jobs get run and their done_fences get signalled in =
+submission order.
+> +    ///
+> +    /// Returns the "done_fence" on success, which gets signalled =
+once the
+> +    /// hardware has completed the job and once the jobqueue is done =
+with a job.
+> +    pub fn submit_job<U>(&self, job: Pin<KBox<Job<U>>>) -> =
+Result<ARef<DmaFence<i32>>> {
+> +        let job_cost =3D job.credits;
+> +        // TODO: It would be nice if the done_fence's seqno actually =
+matches the
+> +        // submission order. To do that, however, we'd need to =
+protect job
+> +        // creation with InnerJobqueue's spinlock. Is that worth it?
+
+Can you guarantee that the seqno will not go backwards?
+
+> +        let enq =3D EnqueuedJob::new(job, &self.fctx)?;
+> +        let done_fence =3D enq.done_fence.clone(); // Get the fence =
+for the user.
+> +
+> +        // TODO register job's callbacks on done_fence.
+> +
+> +        let guard =3D self.inner.try_access();
+> +        if guard.is_none() {
+> +            // Can never happen. JQ gets only revoked when it drops.
+> +            return Err(ENODEV);
+> +        }
+> +        let jobq =3D guard.unwrap();
+> +
+> +        let jobq =3D jobq.lock();
+> +
+> +        // Check if there are dependencies and, if yes, register =
+rewake
+> +        // callbacks on their fences. Must be done under the JQ =
+lock's protection
+> +        // since the callbacks will access JQ data.
+> +        //job.arm_deps();
+> +        //jobq.waiting_jobs.push_back(job);
+> +
+> +        if jobq.has_waiting_jobs() {
+> +            // Jobs waiting means that there is either currently no =
+capacity
+> +            // for more jobs, or the jobqueue is blocked by a job =
+with
+> +            // unfullfilled dependencies. Either the hardware fences' =
+callbacks
+> +            // or those of the dependency fences will pull in more =
+jobs once
+> +            // there is capacity.
+> +            return Ok(done_fence);
+> +        } else if !jobq.submit_worker_active && =
+jobq.has_capacity_left(job_cost) {
+> +            // This is the first waiting job. No one (i.e., no =
+hw_fence) has
+> +            // woken the worker yet, but there is space. Awake it =
+manually.
+> +            //jobq.start_submit_worker();
+> +        }
+> +
+> +        // If there was no capacity for the job, the callbacks =
+registered on the
+> +        // already running jobs' hardware fences will check if =
+there's space for
+> +        // the next job, guaranteeing progress.
+> +        //
+> +        // If no jobs were running, there was by definition still =
+space and the
+> +        // job will get pushed by the worker.
+> +        //
+> +        // If a job couldn't be pushed because there were unfinished =
+dependencies,
+> +        // then the hardware fences' callbacks mentioned above will =
+detect that
+> +        // and not yet push the job.
+> +        //
+> +        // Each dependency's fence has its own callback which checks:
+> +        //   a) whether all other callbacks are fullfilled and if =
+yes:
+> +        //   b) whether there is now enough credits available.
+> +        //
+> +        // If a) and b) are fullfilled, the job gets pushed.
+> +        //
+> +        // If there are no jobs currently running, credits must be =
+available by
+> +        // definition.
+> +
+> +        Ok(done_fence)
+> +
+> +    }
+> +}
+> +
+> +impl Drop for Jobqueue {
+> +    fn drop(&mut self) {
+> +        // The hardware fences might outlive the jobqueue. So =
+hw_fence callbacks
+> +        // could very well still call into job queue code, resulting =
+in
+> +        // data UAF or, should the jobqueue code be unloaded, even =
+code UAF.
+
+Not if they reference JobQueueInner as I proposed above.
+
+> +        //
+> +        // Thus, the jobqueue needs to be cleanly decoupled from the =
+hardware
+> +        // fences when it drops, in other words, it needs to =
+deregister all its
+> +        // hw_fence callbacks.
+> +        //
+> +        // This, however, could easily deadlock when a hw_fence =
+signals:
+> +        //
+> +        // Step     |   Jobqueue step               |   hw_fence step
+> +        // =
+------------------------------------------------------------------
+> +        // 1        |   JQ starts drop              |   fence signals
+> +        // 2        |   JQ lock taken               |   fence lock =
+taken
+> +        // 3        |   Tries to take fence lock    |   Tries to take =
+JQ lock
+> +        // 4        |   ***DEADLOCK***              |   =
+***DEADLOCK***
+> +        //
+> +        // In order to prevent deadlock, we first have to revoke =
+access to the
+> +        // JQ so that all fence callbacks can't try to take the lock =
+anymore,
+> +        // and then deregister all JQ callbacks.
+> +        self.inner.revoke();
+> +
+> +        /*
+> +        let guard =3D self.inner.lock();
+> +        for job in self.inner.waiting_jobs {
+> +            job.deregister_dep_fences();
+> +        }
+> +        for job in self.inner.running_jobs {
+> +            job.deregister_hw_fence();
+> +        }
+> +        */
+
+Under my proposal above, you can also wait on dependencies if you want: =
+the
+drop() thread will not be blocked.
+
+> +    }
+> +}
+> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
+> index 1b82b6945edf..803bed36231b 100644
+> --- a/rust/kernel/drm/mod.rs
+> +++ b/rust/kernel/drm/mod.rs
+> @@ -7,12 +7,14 @@
+> pub mod file;
+> pub mod gem;
+> pub mod ioctl;
+> +pub mod jq;
+>=20
+> pub use self::device::Device;
+> pub use self::driver::Driver;
+> pub use self::driver::DriverInfo;
+> pub use self::driver::Registration;
+> pub use self::file::File;
+> +pub use self::jq::Jobqueue;
+>=20
+> pub(crate) mod private {
+>     pub trait Sealed {}
+> --=20
+> 2.49.0
+>=20
+>=20
+
+=E2=80=94 Daniel
+
