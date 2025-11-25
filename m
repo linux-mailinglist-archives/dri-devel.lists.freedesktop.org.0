@@ -2,61 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4807CC84F20
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 13:20:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2EE7C84F44
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 13:24:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B339C10E1E7;
-	Tue, 25 Nov 2025 12:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C03F10E3B0;
+	Tue, 25 Nov 2025 12:24:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="k2fdrdh8";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Q8HktAHL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBCE310E1E7
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 12:20:19 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dG1wv6NwJz9tjW;
- Tue, 25 Nov 2025 13:20:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1764073215; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hLDFyfT9EndJf8AcTn74PgSt5lki+wkE1OitiOol2XM=;
- b=k2fdrdh8Rt70JoeGm5ThW5lpNrdHDeS3XeA6UVPe00SqtN7mpRO77jCQ9pEdQC4Zvh5WPS
- V0pOAikY9eg5LNDbgGD+wgCedIe1YJMRuHwGPUxJGlNVcTBeeiOs7yqcln7Tafq9lGdHNt
- Yfaik6oG+vMcq5XRKkIe8WBeBv7pmsQFOQ8STV0r8FVeMzFr90O0rJnNNdT99qfbEsGrVm
- La7vlEjh3T15etQ+j8fKpukGvQtk7+OvYEXutZZAznxKWXuWJWITaGVe5S9b2xPsAwMEAC
- WGXGZE7eHX5v8GGV0vJu9VrHH7Uj4WwH3dCJkYMDA7MqD9kEc31ccTt7IcTtKA==
-Message-ID: <682a788c21c6513e30c5eb1020191f31f7aec612.camel@mailbox.org>
-Subject: Re: [RFC WIP 2/3] rust: sync: Add dma_fence abstractions
-From: Philipp Stanner <phasta@mailbox.org>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: phasta@kernel.org, Daniel Almeida <daniel.almeida@collabora.com>, Alice
- Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Alexandre Courbot <acourbot@nvidia.com>, Dave
- Airlie <airlied@redhat.com>, Lyude Paul <lyude@redhat.com>, Peter Colberg
- <pcolberg@redhat.com>,  dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,  rust-for-linux@vger.kernel.org
-Date: Tue, 25 Nov 2025 13:20:03 +0100
-In-Reply-To: <20251125115829.24e6caf7@fedora>
-References: <20251118132520.266179-2-phasta@kernel.org>
- <20251118132520.266179-4-phasta@kernel.org>
- <E55D72FC-AEF6-4D2D-973F-123306E4EB4C@collabora.com>
- <bc4f01ec5172d29abd64429e3017cc53c0522e01.camel@mailbox.org>
- <20251125115829.24e6caf7@fedora>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MBO-RS-META: erwifug3wftbwfeeisezhppdzb6oqbux
-X-MBO-RS-ID: 8dd4f54f3d9fb97adb0
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com
+ [209.85.221.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2576A10E3B4
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 12:24:44 +0000 (UTC)
+Received: by mail-wr1-f74.google.com with SMTP id
+ ffacd0b85a97d-42b2b9c7ab6so2652815f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 04:24:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1764073483; x=1764678283;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=UWqCGf4yniNYnv+0gGu8q0Azun9cQVkGzauYt4WzdGE=;
+ b=Q8HktAHLTk3TQAvd8Si3ddHbdhkGGX69x1Q1rX5qx2GksYyBXEEt7tzGdUGBy3ea3G
+ V9jwxOOmwxAkME+RC6f9QGAsod7co6dMEV8jX64tmhCmQ2pH1SWXNal1i8U3mXURnEDr
+ VWa4OpuvTyCRRy8UXot45x0yZ9vtsAP0rZHB0yK4ZNs90BRYLFEgv2onBQtKZO+KFQcp
+ nOBPBNDFq76F2zyMCiLDIdzneWuAGfoWxXigNX6EHzrj5ATH3blhZooNEKN1MFPJY2pT
+ b+dbvEvc9b7aMp8AzG0vCqBMYJfNIVBnSbQ5F609lxxPIUPuPNSqWaqr59WP0rBvZZC0
+ SPEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764073483; x=1764678283;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UWqCGf4yniNYnv+0gGu8q0Azun9cQVkGzauYt4WzdGE=;
+ b=A8mZAnYY3mlZoJuIpMmEGNL4tibAcVz/Kdece+kUF6LBTLJ+uytF7VC/z1w0HhT5FR
+ urb7EClYsz/Nb1eYm9ta/VcokvAKmTkzaJT3wboNgKVrJ/7L4WdR+Gszago+GoS0SU7c
+ Ccxh2139XY8Eit885/CpuC+m+pNZVMwioHZJI4ga2076o1944R8tUfFQxJXZCo56NsOf
+ XXot1UsayPnn1O8daPE9BpCH1R8MvidWN90wmpJhEuE2t8Bu2EHldMjRu14kMYfxN4+W
+ wcDHnW4hlqvT0tyYk/3qiRiXa2+QdUmPJ1DdtVcwy9cRy/pZak1rlQNkkKDCBsupvY+d
+ +88w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW9s5D1K1TWxsA4/xPTjqbQsusOY2qEn7b6i2bffg7RGZekZ0m12gdowyW0Dk0Y5Qp0s8WfaiI4Ncc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YztzH7/8sqOXtosj+tfoUxYNBt5WVJIOcq2Vysa3wbO9zCk6+D6
+ gZNzzLxaMtpmBVpuo6UAfZopVTe6p1DQBoqVrpgdKRIU00AbPDhq7bicBEiJdYPh3QejhZFK7Wt
+ lRP5InlC3xcEMWLJYQw==
+X-Google-Smtp-Source: AGHT+IG2G97KKRtl5QTLxOePIordMgMh99WR16j540538wZ8wcvVCkUBTwb1GuKCnER5wu5hmB/vT2jtUiJeEds=
+X-Received: from wrrt17.prod.google.com ([2002:a5d:42d1:0:b0:42b:29df:cc2c])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a5d:5d02:0:b0:42b:3339:c7ff with SMTP id
+ ffacd0b85a97d-42cc1d19a16mr16939785f8f.43.1764073482439; 
+ Tue, 25 Nov 2025 04:24:42 -0800 (PST)
+Date: Tue, 25 Nov 2025 12:24:41 +0000
+In-Reply-To: <20251123092438.182251-2-shankari.ak0208@gmail.com>
+Mime-Version: 1.0
+References: <20251123092438.182251-1-shankari.ak0208@gmail.com>
+ <20251123092438.182251-2-shankari.ak0208@gmail.com>
+Message-ID: <aSWgCT0beyqaD4jE@google.com>
+Subject: Re: [PATCH 01/10] drivers: android: binder: Update ARef imports from
+ sync::aref
+From: Alice Ryhl <aliceryhl@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Shankari Anand <shankari.ak0208@gmail.com>, 
+ "Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Christian Brauner <brauner@kernel.org>,
+ Carlos Llamas <cmllamas@google.com>, Suren Baghdasaryan <surenb@google.com>, 
+ Danilo Krummrich <dakr@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Alexandre Courbot <acourbot@nvidia.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Igor Korotin <igor.korotin.linux@gmail.com>, 
+ Michal Wilczynski <m.wilczynski@samsung.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, 
+ "=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org, linux-pwm@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,104 +99,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-11-25 at 11:58 +0100, Boris Brezillon wrote:
-> On Tue, 25 Nov 2025 10:48:12 +0100
-> Philipp Stanner <phasta@mailbox.org> wrote:
->=20
-> > > > +impl ArcBorrow<'_, DmaFenceCtx> {
-> > > > +=C2=A0=C2=A0=C2=A0 /// Create a new fence, consuming `data`.
-> > > > +=C2=A0=C2=A0=C2=A0 ///
-> > > > +=C2=A0=C2=A0=C2=A0 /// The fence will increment the refcount of th=
-e fence context associated with this
-> > > > +=C2=A0=C2=A0=C2=A0 /// [`DmaFenceCtx`].
-> > > > +=C2=A0=C2=A0=C2=A0 pub fn new_fence<T>(
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &mut self,
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data: impl PinInit<T>,
-> > > > +=C2=A0=C2=A0=C2=A0 ) -> Result<ARef<DmaFence<T>>> {
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fctx: Arc<DmaFenceC=
-tx> =3D (*self).into();
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let seqno: u64 =3D fctx=
-.get_new_fence_seqno();
-> > > > +
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // TODO: Should we rese=
-t seqno in case of failure?=C2=A0=20
-> > >=20
-> > > I think we should go back to the old value, yeah.=C2=A0=20
-> >=20
-> > It would be trivial to implement that (just atomic.decrement()).
-> >=20
-> > The thing why the TODO even exists is that I'm a bit unsure about
-> > races. It seems we have to choose between either a gap in the seqnos or
-> > the possiblity of seqnos being out of order.
-> >=20
-> > If the user / driver creates fences with >1 thread on a fence context,
-> > I mean.
-> >=20
-> > We're pretty free in our choices, however. The shared fence-fctx
-> > spinlock will be removed anyways, so one could later easily replace the
-> > fctx atomic with a lock if that's desirable.
-> >=20
-> > I can implement a seqno-decrement for now.
->=20
-> I don't think we need to return unused seqnos in case of failure. I
-> mean, we could have something like the following pseudo-code:
->=20
-> 	atomic_cmpxchg(ctx.seqno, fence.seqno + 1, fence.seqno)
+On Sun, Nov 23, 2025 at 02:54:29PM +0530, Shankari Anand wrote:
+> Update call sites in binder files to import `ARef`
+> from `sync::aref` instead of `types`.
+> 
+> This aligns with the ongoing effort to move `ARef` and
+> `AlwaysRefCounted` to sync.
+> 
+> Suggested-by: Benno Lossin <lossin@kernel.org>
+> Link: https://github.com/Rust-for-Linux/linux/issues/1173
+> Signed-off-by: Shankari Anand <shankari.ak0208@gmail.com>
 
-The code above is the code that creates fence.seqno in the first place,
-obtaining the next seqno from the fctx (timeline).
+Greg, please go ahead and pick up this one, thanks!
 
->=20
-> but it wouldn't cover the case where fences are not returned in the
-> order they were assigned, and seqnos are pretty cheap anyway (if a u64
-> is enough to count things in nanoseconds for hundreds of years, they are
-> more than enough for a fence timeline on which fences are emitted at a
-> way lower rate, even in case of recurring failures). The guarantee we
-> really care about is seqnos not going backward, because that would mess
-> up with the assumption that fences on a given timeline/ctx are signalled
-> in order (this assumption is used to coalesce fences in a
-> fence_array/resv IIRC).
+Acked-by: Alice Ryhl <aliceryhl@google.com>
 
-Agreed, everything should signal according to the seqno.
-
-The question we are facing with Rust (or rather, my design here) is
-rather to what degree the infrastructure shall enforce this. As you
-know, in C there isn't even a real "fence context", it's just an
-abstract concept, represented by an integer maintained by the driver.
-
-In Rust we can model it more exactly. For instance, we could enforce
-ordered signaling by creating a function as the only way to signal
-fences:
-
-fctx.signal_all_fences_up_to_seqno(9042);
-
-which then iterates over the fences, signaling all in order.
-
-
-With some other APIs, such as jobqueue.submit_job(), which creates a
-fence with the code above, it's trivial as long as the driver only
-calls submit_job() with 1 thread.
-
-If the driver came up with the idea of using >=3D2 threads firing on
-submit_job(), then you by design have ordering issues, independently
-from the fence context using this or that atomic operation or even full
-locking.
-
-If the driver scrambles calls to submit_job() or new_fence(), then it
-can certainly happen that done_fences are signaled by JQ out of order =E2=
-=80=93
-though I'm not sure how horrible that would actually be, considering
-that this does not imply that anything gets executed before all
-dependencies are fullfiled. AFAICS it's more "nice to have / would be
-the cleanest possible design".
-
-I think I have a TODO in jobqueue where we could solve that by only
-signaling pending done_fence's once all preceding fences have been
-signaled.
-
-
-P.
