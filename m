@@ -2,53 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1EB7C8475F
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 11:25:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 555A4C84765
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 11:25:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45A1E10E3A6;
-	Tue, 25 Nov 2025 10:25:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5EF010E3A7;
+	Tue, 25 Nov 2025 10:25:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="K114tsiJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XoezXV1m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E261E10E3A6
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 10:25:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A2A3710E3A7
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 10:25:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764066330; x=1795602330;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=3Ef1xRoMVaYQGzG+WQOln+uZnUtDw8QzskLhnAWf6jo=;
- b=K114tsiJqXybQwvyEvx4zws15A4erF/08qT2sEzibrZKfjjB8q0cq3aU
- 4tdAPkqeCYnt6MCS7A2MXfAuMthkp7IuOaFPDT9H+Vi60WzLiZWa2b/iO
- 61jB2xWEg9kIaQvCDvbQi4LJONJiNQxDiIb3e0xIlb4ovAK1jqOSVDAjY
- B3AvBzaSocOqHpgOEz9FWc2mNPiJCrRhjMUdWPtRJvJGWaNlJTlSMWN13
- HY7DIzbR4NA7XBXbVAwVebHWIfo9ftTT+hvR/DlH60UmrDV+LHx0Wcg7W
- OnQhz32CHiJ5nFDX2ieub6uJGHlOBryFwKxxs8wPb9D1JdImHFaAwBaRs Q==;
-X-CSE-ConnectionGUID: M0c+aWYlS4isnkEqYW2ANw==
-X-CSE-MsgGUID: jZBltZ76QsSOuW7eUiTdFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="66123683"
-X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; d="scan'208";a="66123683"
+ t=1764066333; x=1795602333;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=RcXOZ6f5YvzXegbPptRJBHLwVJRwQC+1Fs2NjEA60CM=;
+ b=XoezXV1mBhltD1ngYfcuInN/DLFp5/D/1tCXYp91y+oYwivYoQLq4dJw
+ RjYijC7VvVLbVEoz6iZNt5lnxRM6uVET4B7nRANSVmvIUyOu3w6h76bnM
+ dxJtBAiyJP5uQPqK92f0cRKqKe7KC+gKCLFjhgbkJqCQVjk/WR8kozE3/
+ TCvd81DtbIo7FdpXhs8ROZhi3mhG2P67oA/5nPwSEV6n0zRb8ICNkX8qD
+ LE/m8jLjUge99OwgPAZIJJSVghWGZj/rME5mzdeLt0OHk1UxovAbFhJ87
+ 6vJI3mXxLPvjR5zIdEF+uZgq1LYx6fmnbU3dH+hC4MFxN0gs6wAXNo64W Q==;
+X-CSE-ConnectionGUID: QOiZGL/cSBa+nGZ8naECKQ==
+X-CSE-MsgGUID: kXn9dJzhSj6asDKx/De8qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="66123686"
+X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; d="scan'208";a="66123686"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2025 02:25:29 -0800
-X-CSE-ConnectionGUID: 0M5vtwoHRyaVH6Gw6cnspw==
-X-CSE-MsgGUID: eTGoqkjGRUqAwXmeG+F+Aw==
+ 25 Nov 2025 02:25:32 -0800
+X-CSE-ConnectionGUID: nXhX/n12QD6QRoQd62jSng==
+X-CSE-MsgGUID: 4XRYJlOWTuylXzQXWQ4SLQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; d="scan'208";a="197081576"
+X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; d="scan'208";a="197081579"
 Received: from jsokolow-alderlakeclientplatform.igk.intel.com ([172.28.176.71])
  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2025 02:25:28 -0800
+ 25 Nov 2025 02:25:29 -0800
 From: Jan Sokolowski <jan.sokolowski@intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: Jan Sokolowski <jan.sokolowski@intel.com>
-Subject: [PATCH 0/1] Potential id mismatch when trying to change gem
-Date: Tue, 25 Nov 2025 11:28:44 +0100
-Message-ID: <20251125102847.904357-1-jan.sokolowski@intel.com>
+Cc: Jan Sokolowski <jan.sokolowski@intel.com>,
+ David Francis <David.Francis@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Felix Kuehling <felix.kuehling@amd.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [PATCH 1/1] drm: disallow setting 0 as new handle in
+ DRM_IOCTL_GEM_CHANGE_HANDLE
+Date: Tue, 25 Nov 2025 11:28:45 +0100
+Message-ID: <20251125102847.904357-2-jan.sokolowski@intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251125102847.904357-1-jan.sokolowski@intel.com>
+References: <20251125102847.904357-1-jan.sokolowski@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,211 +77,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Kernel fuzzing found a potential WARN when trying to change handle to 0.
+drm_file's object_idr uses 1 as base value, which can cause id
+mismatch when trying to use DRM_IOCTL_GEM_CHANGE_HANDLE
+to change id from 1 to 0.
 
-To reproduce: gcc reproducer code, modprobe xe, then run a.out.
+Disallow 0 as new handle in that ioctl.
 
-Reproducer code:
-
-// autogenerated by syzkaller (https://github.com/google/syzkaller)
-
-//#define _GNU_SOURCE 
-
-//as git considers hashes to be comments, i had to comment them out.
-//#include <endian.h>
-//#include <stdint.h>
-//#include <stdio.h>
-//#include <stdlib.h>
-//#include <string.h>
-//#include <sys/syscall.h>
-//#include <sys/types.h>
-//#include <unistd.h>
-
-uint64_t r[2] = {0xffffffffffffffff, 0x0};
-
-int main(void)
-{
-		syscall(__NR_mmap, /*addr=*/0x1ffffffff000ul, /*len=*/0x1000ul, /*prot=*/0ul, /*flags=MAP_FIXED|MAP_ANONYMOUS|MAP_PRIVATE*/0x32ul, /*fd=*/(intptr_t)-1, /*offset=*/0ul);
-	syscall(__NR_mmap, /*addr=*/0x200000000000ul, /*len=*/0x1000000ul, /*prot=PROT_WRITE|PROT_READ|PROT_EXEC*/7ul, /*flags=MAP_FIXED|MAP_ANONYMOUS|MAP_PRIVATE*/0x32ul, /*fd=*/(intptr_t)-1, /*offset=*/0ul);
-	syscall(__NR_mmap, /*addr=*/0x200001000000ul, /*len=*/0x1000ul, /*prot=*/0ul, /*flags=MAP_FIXED|MAP_ANONYMOUS|MAP_PRIVATE*/0x32ul, /*fd=*/(intptr_t)-1, /*offset=*/0ul);
-	const char* reason;
-	(void)reason;
-				intptr_t res = 0;
-	if (write(1, "executing program\n", sizeof("executing program\n") - 1)) {}
-//  openat$xe_render arguments: [
-//    fd: const = 0xffffffffffffff9c (8 bytes)
-//    file: ptr[in, buffer] {
-//      buffer: {2f 64 65 76 2f 64 72 69 2f 72 65 6e 64 65 72 44 31 32 38 00} (length 0x14)
-//    }
-//    flags: open_flags = 0x2000 (4 bytes)
-//    mode: const = 0x0 (2 bytes)
-//  ]
-//  returns fd_xe
-memcpy((void*)0x200000000040, "/dev/dri/renderD128\000", 20);
-	res = syscall(__NR_openat, /*fd=*/0xffffffffffffff9cul, /*file=*/0x200000000040ul, /*flags=FASYNC*/0x2000, /*mode=*/0);
-	if (res != -1)
-		r[0] = res;
-//  ioctl$DRM_IOCTL_XE_GEM_CREATE arguments: [
-//    fd: fd_xe (resource)
-//    cmd: const = 0xc0386441 (4 bytes)
-//    arg: ptr[inout, drm_xe_gem_create] {
-//      drm_xe_gem_create {
-//        extensions: nil
-//        size: int64 = 0x8000 (8 bytes)
-//        placement: int32 = 0x2 (4 bytes)
-//        flags: xe_gem_create_flags = 0x1 (4 bytes)
-//        vm_id: xe_vm_id (resource)
-//        handle: xe_gem_handle (resource)
-//        cpu_caching: xe_gem_create_cpu_caching = 0x2 (2 bytes)
-//        pad: buffer: {00 00 00 00 00 00} (length 0x6)
-//        reserved: buffer: {00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00} (length 0x10)
-//      }
-//    }
-//  ]
-*(uint64_t*)0x200000000180 = 0;
-*(uint64_t*)0x200000000188 = 0x8000;
-*(uint32_t*)0x200000000190 = 2;
-*(uint32_t*)0x200000000194 = 1;
-*(uint32_t*)0x200000000198 = 0;
-*(uint16_t*)0x2000000001a0 = 2;
-memset((void*)0x2000000001a2, 0, 6);
-memset((void*)0x2000000001a8, 0, 16);
-	res = syscall(__NR_ioctl, /*fd=*/r[0], /*cmd=*/0xc0386441, /*arg=*/0x200000000180ul);
-	if (res != -1)
-r[1] = *(uint32_t*)0x20000000019c;
-//  ioctl$DRM_IOCTL_PRIME_HANDLE_TO_FD$xe arguments: [
-//    fd: fd_xe (resource)
-//    cmd: const = 0xc00c642d (4 bytes)
-//    arg: ptr[inout, drm_prime_handle_xe$handle_to_fd] {
-//      drm_prime_handle_xe$handle_to_fd {
-//        handle: xe_gem_handle (resource)
-//        flags: dup_flags = 0x80000 (4 bytes)
-//        fd: xe_prime_fd (resource)
-//      }
-//    }
-//  ]
-*(uint32_t*)0x2000000001c0 = r[1];
-*(uint32_t*)0x2000000001c4 = 0x80000;
-	syscall(__NR_ioctl, /*fd=*/r[0], /*cmd=*/0xc00c642d, /*arg=*/0x2000000001c0ul);
-//  ioctl$DRM_IOCTL_GEM_CLOSE$xe arguments: [
-//    fd: fd_xe (resource)
-//    cmd: const = 0x400864d2 (4 bytes)
-//    arg: ptr[in, drm_gem_close_xe] {
-//      drm_gem_close_xe {
-//        handle: xe_gem_handle (resource)
-//        pad: const = 0x0 (4 bytes)
-//      }
-//    }
-//  ]
-*(uint32_t*)0x200000000000 = r[1];
-*(uint32_t*)0x200000000004 = 0;
-	syscall(__NR_ioctl, /*fd=*/r[0], /*cmd=*/0x400864d2, /*arg=*/0x200000000000ul);
-	return 0;
-}
-
-
-Warning:
-
-[   24.293816] WARNING: CPU: 0 PID: 1221 at drivers/gpu/drm/drm_prime.c:223 drm_prime_destroy_file_private+0x43/0x60
-[   24.296087] Modules linked in:
-[   24.296730] CPU: 0 UID: 0 PID: 1221 Comm: syz.3.17 Not tainted 6.17.0-xe-fuzz-gdba1fd9754c6-dirty #1 PREEMPT(voluntary) 
-[   24.298658] Hardware name: QEMU Ubuntu 24.04 PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-[   24.300461] RIP: 0010:drm_prime_destroy_file_private+0x43/0x60
-[   24.301258] Code: 00 00 fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 75 21 48 8b 83 90 00 00 00 48 85 c0 75 06 5b e9 d3 97 e7 fe e8 ce 97 e7 fe 90 <0f> 0b 90 5b e9 c4 97 e7 fe e8 4f 18 22 ff eb d8 66 66 2e 0f 1f 84
-[   24.303214] RSP: 0018:ffff8881044e7d20 EFLAGS: 00010293
-[   24.303752] RAX: 0000000000000000 RBX: ffff888104a3d380 RCX: ffffffff8b4bfb82
-[   24.304470] RDX: ffff888104731bc0 RSI: 0000000000000000 RDI: ffff888104a3d410
-[   24.305190] RBP: ffff888105180000 R08: 0000000000000001 R09: 0000000000000000
-[   24.305897] R10: 0000000000000001 R11: 00000000000002c2 R12: ffff888104a3d2b0
-[   24.306592] R13: ffffffff8b5ddd60 R14: 0000000000000020 R15: dffffc0000000000
-[   24.307296] FS:  0000555579200500(0000) GS:ffff88818c6c9000(0000) knlGS:0000000000000000
-[   24.308093] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   24.308667] CR2: 0000001b2cf63fff CR3: 000000010e141005 CR4: 0000000000f70ef0
-[   24.309370] PKRU: 00000000
-[   24.309654] Call Trace:
-[   24.309912]  <TASK>
-[   24.310134]  drm_file_free.part.0+0x727/0xba0
-[   24.310576]  ? __pfx_drm_release_noglobal+0x10/0x10
-[   24.311072]  drm_close_helper.isra.0+0x11b/0x160
-[   24.311536]  drm_release_noglobal+0x85/0xf0
-[   24.311965]  __fput+0x3ff/0xb70
-[   24.312292]  task_work_run+0x14d/0x240
-[   24.312679]  ? __pfx_task_work_run+0x10/0x10
-[   24.313114]  ? __pfx___do_sys_close_range+0x10/0x10
-[   24.313604]  exit_to_user_mode_loop+0xca/0xd0
-[   24.314062]  do_syscall_64+0x26c/0x380
-[   24.314444]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-[   24.314962] RIP: 0033:0x7fb973d5fba9
-[   24.315324] Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-[   24.317116] RSP: 002b:00007fff6fae9a98 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
-[   24.317863] RAX: 0000000000000000 RBX: 0000000000005e36 RCX: 00007fb973d5fba9
-[   24.318559] RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
-[   24.319264] RBP: 0000000000000000 R08: 0000000000000001 R09: 000000046fae9d8f
-[   24.319972] R10: 0000001b2c320000 R11: 0000000000000246 R12: 00007fb973fa5fac
-[   24.320672] R13: 00007fb973fa5fa0 R14: ffffffffffffffff R15: 0000000000000003
-[   24.321374]  </TASK>
-[   24.321603] irq event stamp: 4197
-[   24.321950] hardirqs last  enabled at (4207): [<ffffffff8a140fa6>] __up_console_sem+0x76/0x80
-[   24.322786] hardirqs last disabled at (4216): [<ffffffff8a140f8b>] __up_console_sem+0x5b/0x80
-[   24.323623] softirqs last  enabled at (3882): [<ffffffff89fb7776>] handle_softirqs+0x526/0x770
-[   24.324462] softirqs last disabled at (3873): [<ffffffff89fb7aee>] __irq_exit_rcu+0xbe/0xf0
-[   24.325281] ---[ end trace 0000000000000000 ]---
-[   24.293816] WARNING: CPU: 0 PID: 1221 at drivers/gpu/drm/drm_prime.c:223 drm_prime_destroy_file_private+0x43/0x60
-[   24.296087] Modules linked in:
-[   24.296730] CPU: 0 UID: 0 PID: 1221 Comm: syz.3.17 Not tainted 6.17.0-xe-fuzz-gdba1fd9754c6-dirty #1 PREEMPT(voluntary) 
-[   24.298658] Hardware name: QEMU Ubuntu 24.04 PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-[   24.300461] RIP: 0010:drm_prime_destroy_file_private+0x43/0x60
-[   24.301258] Code: 00 00 fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 75 21 48 8b 83 90 00 00 00 48 85 c0 75 06 5b e9 d3 97 e7 fe e8 ce 97 e7 fe 90 <0f> 0b 90 5b e9 c4 97 e7 fe e8 4f 18 22 ff eb d8 66 66 2e 0f 1f 84
-[   24.303214] RSP: 0018:ffff8881044e7d20 EFLAGS: 00010293
-[   24.303752] RAX: 0000000000000000 RBX: ffff888104a3d380 RCX: ffffffff8b4bfb82
-[   24.304470] RDX: ffff888104731bc0 RSI: 0000000000000000 RDI: ffff888104a3d410
-[   24.305190] RBP: ffff888105180000 R08: 0000000000000001 R09: 0000000000000000
-[   24.305897] R10: 0000000000000001 R11: 00000000000002c2 R12: ffff888104a3d2b0
-[   24.306592] R13: ffffffff8b5ddd60 R14: 0000000000000020 R15: dffffc0000000000
-[   24.307296] FS:  0000555579200500(0000) GS:ffff88818c6c9000(0000) knlGS:0000000000000000
-[   24.308093] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   24.308667] CR2: 0000001b2cf63fff CR3: 000000010e141005 CR4: 0000000000f70ef0
-[   24.309370] PKRU: 00000000
-[   24.309654] Call Trace:
-[   24.309912]  <TASK>
-[   24.310134]  drm_file_free.part.0+0x727/0xba0
-[   24.310576]  ? __pfx_drm_release_noglobal+0x10/0x10
-[   24.311072]  drm_close_helper.isra.0+0x11b/0x160
-[   24.311536]  drm_release_noglobal+0x85/0xf0
-[   24.311965]  __fput+0x3ff/0xb70
-[   24.312292]  task_work_run+0x14d/0x240
-[   24.312679]  ? __pfx_task_work_run+0x10/0x10
-[   24.313114]  ? __pfx___do_sys_close_range+0x10/0x10
-[   24.313604]  exit_to_user_mode_loop+0xca/0xd0
-[   24.314062]  do_syscall_64+0x26c/0x380
-[   24.314444]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-[   24.314962] RIP: 0033:0x7fb973d5fba9
-[   24.315324] Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-[   24.317116] RSP: 002b:00007fff6fae9a98 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
-[   24.317863] RAX: 0000000000000000 RBX: 0000000000005e36 RCX: 00007fb973d5fba9
-[   24.318559] RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
-[   24.319264] RBP: 0000000000000000 R08: 0000000000000001 R09: 000000046fae9d8f
-[   24.319972] R10: 0000001b2c320000 R11: 0000000000000246 R12: 00007fb973fa5fac
-[   24.320672] R13: 00007fb973fa5fa0 R14: ffffffffffffffff R15: 0000000000000003
-[   24.321374]  </TASK>
-[   24.321603] irq event stamp: 4197
-[   24.321950] hardirqs last  enabled at (4207): [<ffffffff8a140fa6>] __up_console_sem+0x76/0x80
-[   24.322786] hardirqs last disabled at (4216): [<ffffffff8a140f8b>] __up_console_sem+0x5b/0x80
-[   24.323623] softirqs last  enabled at (3882): [<ffffffff89fb7776>] handle_softirqs+0x526/0x770
-[   24.324462] softirqs last disabled at (3873): [<ffffffff89fb7aee>] __irq_exit_rcu+0xbe/0xf0
-[   24.325281] ---[ end trace 0000000000000000 ]---
-
-Link: https://gitlab.freedesktop.org/drm/xe/kernel/-/issues/6449
+Fixes: 53096728b891 ("drm: Add DRM prime interface to reassign GEM handle")
+Signed-off-by: Jan Sokolowski <jan.sokolowski@intel.com>
+Cc: David Francis <David.Francis@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Felix Kuehling <felix.kuehling@amd.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
-
-Jan Sokolowski (1):
-  drm: disallow setting 0 as new handle in DRM_IOCTL_GEM_CHANGE_HANDLE
-
  drivers/gpu/drm/drm_gem.c | 4 ++++
  1 file changed, 4 insertions(+)
 
-
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 68168d58a7c8..2a49a8e396fa 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -975,6 +975,10 @@ int drm_gem_change_handle_ioctl(struct drm_device *dev, void *data,
+ 	if (args->handle == args->new_handle)
+ 		return 0;
+ 
++	/* As the idr base is 1, trying to set handle 0 will create id mismatch */
++	if (args->new_handle == 0)
++		return 0;
++
+ 	mutex_lock(&file_priv->prime.lock);
+ 
+ 	spin_lock(&file_priv->table_lock);
 -- 
 2.43.0
-
 
