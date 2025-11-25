@@ -2,162 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55929C8555D
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 15:11:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0899FC855EB
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 15:21:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1131210E0E0;
-	Tue, 25 Nov 2025 14:11:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FAFC10E2A2;
+	Tue, 25 Nov 2025 14:21:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="CHfbcKN2";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="jEE/H3ZN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from DM5PR21CU001.outbound.protection.outlook.com
- (mail-centralusazon11011008.outbound.protection.outlook.com [52.101.62.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66DB210E29D
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 14:11:27 +0000 (UTC)
+ (mail-centralusazon11011053.outbound.protection.outlook.com [52.101.62.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0752010E2A2
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 14:21:21 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=etsX5DNKzzKW7rySCzoNd9p/isUxC8uLd+JfyQlxF7yeWDkDbEFl+W9L1M1p6ONUP04UhEFRh+GobZThCRCKdM56bZP0WCTWgJrdsNgjH4OQ2hM7Q9TDjxaoev/JungzrRMyd44ScXAtj+oked3bveoLkzJqdOUHe8DZwjldYV5wqExVr3nQeIj3Y5/6+kJHElpjYqTmsj5mJur2P9wP8/npvVJMa2kUeP3Wd4sAASnY1+QOWy9x7G2WNg+fd56URa1s5nMcBAd9xNAk4ZXla3ngwRUb+aDJoxT+EY0BI4IqMZkCU9mpOJ9R4Vmy0O18QXwk8jTOYMy8zV2dmwJn6Q==
+ b=c8IWdS7D1z393SIIUawlLp61Jep2pDHkpSxBgcN4fKpYqd8/f7YF8bpeFyLQjAowSnpQ/wqcA3Amty9INK/6cqZvVJlWX+m1kP4X651MOR6qaINLEtx8zR0I8s42R2M2xg7aZyR/6DLA4PFgid+CnT/AlapKzNQrrWWR32mXXR3P2uLWv9TsGSO/Y0Lg+tNnGEpXtXbg397WMU1cztZhrltDzi2uOyuLn3LuYgVEje8d404ZO0OdNI81u0pdwkhfIRxTXbLYKtTSW8/f1Z2riQDkyXxSKlFVFikb7H5O1R8QmHiYZZsTHZNmvihHfSp9iJpDh9J6CHKi4y+eA3z5cw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Dx5KYb1pk73oVBAgNjsjqycY7Q/1YEADqb5/KRpQO88=;
- b=i5nIfs4MLkBJ4afeSjRiqdr2lUEFLkaVj81j+H7lpoXj3sjz8A/uFNUy95Lou94sg+gSod1EFLefl8JSy6Gac0Q9P3hkrTSqEJIVCYbq/dfjF07WHHnV8mLNSxsttIYM/yfiJyL9BplCWFSnhGAv8TM9rQCDSiF6vmbtcHtICvRG/h6y1yQAa59k9G06iXQqvNPRa6J7F54xmVM2dwt+ZKhLmw5y/9wHPapVmk1FbP9VDjfUkDIWs43JwY7L9XH1fvQEdJsXQZLZZNfmv//HkT2xFOj11WyCSgXDcK9u6SFno0HGZWX1rin2T+M+6HXWP14UjfQBlILo3WRD4Z23hA==
+ bh=36P11SchtSlHOV7zYur3o47CDU2LEDK+lg7mc0Eornk=;
+ b=oxvb8z0uZUXTQsT08Ly0dbG+lky6RIbuy6YhZmBWpKDMFOTLFyucqYcpbbUGZ+TdPH+klSVcTauiUXu++QIFPdP8TeMOngu8w/Tp1xXMcuiAkUMVGbsuJKtYyybpfGR+9DQUqX0VgzPJdWqwsSBmYmHj81JknEpgnaTHNqFoB4k2Kw67C4wIRV/vInTiHYB3KmudH268t/aZe1hnDTWJhxg45uDc1RcGCzOkK3PqD8qnRD7nFjgjrf9kIMdzTgz466Vh0mq28KDp2lS2V9foVdXWW53fR6K7E5m9Ja4Wt4M2I7BU4ZLs/+jIKEZpGUJGj5zl0euH9fRt0E7ZjMGQQA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Dx5KYb1pk73oVBAgNjsjqycY7Q/1YEADqb5/KRpQO88=;
- b=CHfbcKN248SHEjbxn/CzNPT3m5y0qvHP6FmDwzlD8tPAOEf2RDPvhZzCP32pBeINxxwMeZDUWcsiEg2XaB99BpNl9BXsYAODJ9EisQfxKNrN5TmbaeaNHQPWI/3D6lD0RdcOdx8UN05geDRD9CvzkxJDILueu2wkcl+CgJvqy40=
+ bh=36P11SchtSlHOV7zYur3o47CDU2LEDK+lg7mc0Eornk=;
+ b=jEE/H3ZNeyIc/P3Pd9T7YQAf98ZVG29f/d8f8LTSaIdfFNE2HlWjzWYCNtoRzrUxR7ExmtTyC02dPFgZIAz9vCUw7GhnMWSoBTiQ2nHavgnabtG4vz3nGHi9khfN2nio9GiNtoAD52Hh65QyihoTMUT/xN3kpPGF12DN4T5Mwec=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY8PR12MB8241.namprd12.prod.outlook.com (2603:10b6:930:76::10)
+ by CY5PR12MB6033.namprd12.prod.outlook.com (2603:10b6:930:2f::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Tue, 25 Nov
- 2025 14:11:21 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.11; Tue, 25 Nov
+ 2025 14:21:16 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9366.009; Tue, 25 Nov 2025
- 14:11:21 +0000
-Message-ID: <6aec16e4-6b63-4aa3-a430-2e981c94bfd7@amd.com>
-Date: Tue, 25 Nov 2025 15:11:15 +0100
+ 14:21:15 +0000
+Message-ID: <0d0d2a6a-a90c-409c-8d60-b17bad32af94@amd.com>
+Date: Tue, 25 Nov 2025 15:21:07 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] drm: disallow setting 0 as new handle in
- DRM_IOCTL_GEM_CHANGE_HANDLE
-To: "Sokolowski, Jan" <jan.sokolowski@intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: David Francis <David.Francis@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Felix Kuehling <felix.kuehling@amd.com>,
- "De Marchi, Lucas" <lucas.demarchi@intel.com>
-References: <20251125102847.904357-1-jan.sokolowski@intel.com>
- <20251125102847.904357-2-jan.sokolowski@intel.com>
- <28441359-4625-4d3e-8c1a-852a1868bde8@amd.com>
- <IA4PR11MB9251D04B84D7129BB1DA449099D1A@IA4PR11MB9251.namprd11.prod.outlook.com>
- <10bd3353-c3cc-414b-8033-7f3b8edb5968@amd.com>
- <IA4PR11MB92511EB3B943B4F2BEB0A1D199D1A@IA4PR11MB9251.namprd11.prod.outlook.com>
+Subject: Re: [RFC v2 00/11] Add dmabuf read/write via io_uring
+To: Pavel Begunkov <asml.silence@gmail.com>, linux-block@vger.kernel.org,
+ io-uring@vger.kernel.org
+Cc: Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <cover.1763725387.git.asml.silence@gmail.com>
+ <fd10fe48-f278-4ed0-b96b-c4f5a91b7f95@amd.com>
+ <905ff009-0e02-4a5b-aa8d-236bfc1a404e@gmail.com>
+ <53be1078-4d67-470f-b1af-1d9ac985fbe2@amd.com>
+ <a80a1e7d-e387-448f-8095-0aa22a07af17@gmail.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <IA4PR11MB92511EB3B943B4F2BEB0A1D199D1A@IA4PR11MB9251.namprd11.prod.outlook.com>
+In-Reply-To: <a80a1e7d-e387-448f-8095-0aa22a07af17@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BN9PR03CA0073.namprd03.prod.outlook.com
- (2603:10b6:408:fc::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: BN9P222CA0002.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:408:10c::7) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB8241:EE_
-X-MS-Office365-Filtering-Correlation-Id: d1889144-30a4-49a6-af41-08de2c2c8247
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6033:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a7ac453-0888-4eab-5fea-08de2c2de4d5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MFZQdnFqSCtsNXpvM3JYbTU2SWJnU3NCRzdBQ0FCU0llM1l4ZDR5Z3FnZ1NO?=
- =?utf-8?B?VUc3aXhXWVNYeHJ6L0tPdVZBOG9sTVhJTzBlU0xDVVJNdFBleDliR3BhOHpI?=
- =?utf-8?B?bGsvK0p4OVlLV0F6ZlJXa21vNDd3ODlzY2VSVjdJaE5ncnk5RUp1LzNIOEtC?=
- =?utf-8?B?Qi9WeGtRcjJudXVodnl4ZnQ4diticzBMNFZRdG5JNmdJSFZBZ3BGanNaWEZL?=
- =?utf-8?B?cTJTc01CTUlIWXl2V1ExSlo3ZkdOTWNUY3hzSnVSU0pVTE5ld1grSVhIUHRZ?=
- =?utf-8?B?TjNpS2hGTDVBTDBRVGxrM3EycE1SVkVjcmVGbXJsbjdIRm10RXM2K3ZQQ3Q3?=
- =?utf-8?B?cW5RalZGdXpSTjJ5NnZ4aHFoVVJhMjBtYUpYTlNvZS9jQTUrallLRHFFa25F?=
- =?utf-8?B?Ymc0U09TMnVZRHludDBvV2JnUGZYeDFDSEZ0Sm1QYkhyUC9BOXkrNHFBVHRW?=
- =?utf-8?B?ZW81bDBkK0xQZUJkK2JFZUFTS1RvVXZoVkFFSDdzVy9uME1lYzQwd1VCLzdw?=
- =?utf-8?B?YUUzKzFNL3FlcXUrRC9WUXVPMlFCU25sK0VMSFlYbnFKRTllK2trMlpVcmFa?=
- =?utf-8?B?TjdrWUE5VDI4eUFCb2VpNExSNXBSdmtMRmM3V0Z0UGRaS2NyRkdOcVpGY3Jr?=
- =?utf-8?B?VjdLNUhOU1gwQ0dzWGM3TFlIV3JRTWRYc0lINjYyWERwT3g0eE1Gc0JtRkxq?=
- =?utf-8?B?QkJVZ1FQZkRJUnVTZVVkc1BBMmo5YWNtZURnbzF1WUZkdTViUW1vZjhyeE5z?=
- =?utf-8?B?NW1sbStmOThxSHJhUlQyallnUXF6bVQ2WFhBMHN6bkFMSlkvTEVZSzFZZ3dO?=
- =?utf-8?B?QlAydGx6U1l3dStBelhTeGN3Rjh6bjlmdUJRdlJubkdhckZGNEZXK1I5VHU3?=
- =?utf-8?B?NzJQTktxa3VUQk1wVzNZS3MvWDBGY2NQMkltWjBZdzBPcktqSCtwWTNlQXFk?=
- =?utf-8?B?UTMydTFrbVcxVzRVYmRES1B2eXhySG5Wb3drL3NRcHFyY3UwcFI3eTlDeFVj?=
- =?utf-8?B?UlU0ZklleXZVR0FqWklDdHRJcTU1alg4VjJXeEw2TWZHa1k1ZkxvZ011MXJQ?=
- =?utf-8?B?NUZzKzF5bEJXQVlFb0RBNTNHUU0xTGI0UE50VE9GcjRObFVHL0MyY3kyWDBt?=
- =?utf-8?B?VVZEQllXNHZPVmhhMFVtNnFVUHVhMmFDT3FobE9aaUIwVThGNVNicHFGc3pq?=
- =?utf-8?B?bG1LYWNJSHlPcUFMWFhQZ3JhY1JXVlBMS3FTVGF0dHBzT09aM2kxa3JtOFcy?=
- =?utf-8?B?MDA5RTdEbCtjcFBNaW9tYSt3U29YUE8vZ2FWWHY3cVgyUmZnQkhBM3VZc1ox?=
- =?utf-8?B?VTlBSWtFUVlPcGVIZ2dnQjZ5WURGL204dDVvalZoSUZJMUVHWVVHSlZPSjBz?=
- =?utf-8?B?RmNIRW9SUTdRMmZQcXI5cGd0bjk3Qm5DMTRQc2RrSTRseWVjL0xDd0pkVVhy?=
- =?utf-8?B?L2FQNG9IZUtzZXNwMkR1Q2tYRktHREM1T2xYWEFvMDB0NnVKWk1wbVdteVJm?=
- =?utf-8?B?bXNPZG82N29OSzRIaW5JMlVTU3VNc0ZKK1NrYlVXY0REYkZiVWhnNlBJOHVv?=
- =?utf-8?B?RUszSmY0TVQzWmUrRTRJUDVQUk1sU29ubjJSTlY1OWF3amFtM2JML2dWWHRE?=
- =?utf-8?B?aW5CUk1oV3VHZHQ3WkxsdzNiU1d1ZlphWjU4S0YxZmxtNmo0MkM5ZEliWVdW?=
- =?utf-8?B?eTVnYXJGU1FzaFRRcU8yVSszbjVidXh3ckovK1BoaDRaTTZ2RUIwTTRad21S?=
- =?utf-8?B?TVZoUHM2K1J1WHpBcGtlYWVBaURWTFpZQnNwUXk2bzVrSlBwVENhT2E4emVP?=
- =?utf-8?B?K2V3ditBQlErVk8yaFZBVVN0a2FYMWk4blJJMThnWUhZcFNMSVo1N0k1aFBn?=
- =?utf-8?B?QTdoL1hPb0IzUG1UdnBmeGVSU09adjB6NU1wcFI5cjFFYVhhZ1l1a2xUbXBR?=
- =?utf-8?Q?O136oCgtFSx+nrlyCfZbeKOskSAMnzsR?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|7416014|376014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?M2g0eWMvTy9EbnJudTljaVk0QlA5S0FwdGY5WSsrRFpnQjBLUVRUMzR1Rm0y?=
+ =?utf-8?B?MEw1R0daZjR3bXBmTmdHRmRBMFpScjI5cVNRWW9rb2pZbTU4OE94dVFobDUz?=
+ =?utf-8?B?bGpxMjVac0xUK2NVQTljd1M0b1ZNUVkrWTdjdXZwY2c4MjlCTDBjZHQ0c1ll?=
+ =?utf-8?B?dW9DWnY4Wmx4U0lKSGZIRlhKRjRjcG1GSFB4N1F2ZlJwcnZVSXMrNllXUTBj?=
+ =?utf-8?B?TFRreG1jelpEalhvTnFFNERoaStjeXFGL0QxTmxjTzVya2tkaUgySWwvS05N?=
+ =?utf-8?B?TVZsRy9IWXJpT29SeDNXc1cyQkZkbVBqTCtvbVNpNGEwRllPNVFGdE1UQmI1?=
+ =?utf-8?B?L21keGxBZThpcVhYN2lsNXA0bjh5QlhSMFl0SkR6cWFEUFgrTFRZMGphdEY5?=
+ =?utf-8?B?Z1RGV0JKMCtpSWU3TGxPeGpEWTlBWHNjeW5VK2dQTXA5R2NnYW5zOEkxZXo1?=
+ =?utf-8?B?ME5OaEoybi91anlUaUJCc0JhWnFVM3Q0QkFsRVVHcEZ0SGV4dFg0Y0V3UXE2?=
+ =?utf-8?B?OFVEVlVERldrczl5YUdCRGFiTm1PNHZXcjJiNnBEL1BxQWlsc2RtaDFNdUtk?=
+ =?utf-8?B?SHd6NEZXTHZVR0hCbjE0Vm9yVjk4KzhBdG03R2tveHR0aXR2S2xZTXpUbmZD?=
+ =?utf-8?B?eDMzekEwV1NmbVZJeWluWDA4eDNTN005TlNCc0JoNVRZbmhzSmdFeWxtWWpv?=
+ =?utf-8?B?R0xqY2ZpbTg0ZnBVZTN3MGVYR3ZzK0JXZDA5Ylg5b21abDdyU0hkS0RlQUhW?=
+ =?utf-8?B?eDJPZnVBeHViRVJYRFZabU5yU0lrK0dxeEQ1dGR0dlpWVk95TnUxOGQyMkov?=
+ =?utf-8?B?dkt2QXZsM3FSbS9BZ204R29VU3pNUnFSaVB1Wlg4T3lTTkJCUkVWSEs3eDVy?=
+ =?utf-8?B?SGh2TUtycUplcGVabzc5MHhFTk9KdWYydGkxRGd4UVVMWXQ1MmtFaGxRUmRy?=
+ =?utf-8?B?RFZ3R0VhR3grMWtLU0wrcmhsU2xQTVBHMDEzTlN3R09ZdFUyaTJZb3dxM1cy?=
+ =?utf-8?B?Z0pZNC9qcUsvcmVNVW9vV0VwQ1ptanFhWVJuNDhYdXQxb0NzRWRHam91blJY?=
+ =?utf-8?B?TjhTd2ZRYUIyeXhVVTJMdVNmbFAwc3hFSCtsVHE1YW1QaWN1ZzUwcFFIcTJ0?=
+ =?utf-8?B?blVDM0VjVmdpRUVCQjNHbVZiZnZnTTJnVzJ6NFZ5OCtrREhRa1RXaEQ3Y3Ny?=
+ =?utf-8?B?TVJvckpkQm96S1pwdExhMkdlWGZmcStpVUkwQWNHeHl4d2VYMGZBRnlKb0Fp?=
+ =?utf-8?B?ckF1SHhvZHhta2ZYdHJuT0JQZUd5WXJaa0hKQ2JsM3AzWHdmdndOdWFxK2FE?=
+ =?utf-8?B?RWR6WEFuY3p1a0l0WklITnB0bFdDbVc1K0YrN1NyV3Z1ZXIvd0RCZmFvbUVU?=
+ =?utf-8?B?NEIrS0ErWG1NMEhnaDRPc2MzbXFKcXozSjVubTlHMTBGOGR1MHc0YkZkN1g2?=
+ =?utf-8?B?SVlyWkNzVkFyTnVBdUErcVQzNXNOY3REUE12SHE0Sy81YldPeFBscFVGQUsz?=
+ =?utf-8?B?aC9hcitzYkI0SWowSkRkMnpnZGZXck1lM3h1VnJyWU9nYWNjVFYvUndaSlp4?=
+ =?utf-8?B?c1lZOWt2S3VZeGVmU1Jnam51UFdiazcrWGJLUnE5aWdEQUxHMEtsMXorWENX?=
+ =?utf-8?B?ZlZZbHdMNTZpL3VVWnZsbUNPMG9qRUFkL3VKQ0c3bStGanViRUtQY1hSbnZR?=
+ =?utf-8?B?Wk1JYnB0NWlST2pDSVpta2hSN2JtRjY2WlY2RG92VU9xVEdoSkZtMzhFd2ZX?=
+ =?utf-8?B?RDVFUGxjbnZmRnJSa1hHUis2Ny9MNFVTNWIxL1N4RHZ3TnRxYjR0NVptM1dB?=
+ =?utf-8?B?T2dLMVpmWTJvUUh4UHBCcklrY1M2MWZVVXRsU1FnRkkydnJpa1hqWmNUSHNi?=
+ =?utf-8?B?ZVFGUFlGa2lKZ1ZzaTA3RHJES2RvNUNSZmVOTjFhUlE4ZmFxSkRrUHpnYklX?=
+ =?utf-8?B?ZG9OTEpvS2pwdVl6L3QvTEh2bFk5TGxIUnhKTVc5WFo4MmFDWjJFeGV5cG5M?=
+ =?utf-8?B?OEh3YVg1N1BnPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007); DIR:OUT;
+ SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MVJ6M1F1ZjQ2eUVDcGdES094VWhGTE5KUmhxWXlqMnVhNXExd1AySTdTbTU1?=
- =?utf-8?B?YjRPTzkxWWJ0bjdIZG4rQURRam55dy8rZkQ0bnZIOHVlQU9oVU5sVEtLV0pi?=
- =?utf-8?B?YlZFcUNGN2xaYWRKSnZnbVU0a3ppdEtWSnF0U1pCRFpFem5QQlFicXFvQkdz?=
- =?utf-8?B?VmR0a3F6L3J0OUZhVmVueWJkTU9iTVUxSzl2RUllZm8vSjJhbjlHbWhGWVcx?=
- =?utf-8?B?TUtBZlMxYzUyMXFkVmZHellOSm9rMk55VDhTeG0yRERjcXF4L2xHTHVzUkpS?=
- =?utf-8?B?Rmp6N3VIekpYM2R5K1FLR3huSHlzRE43a1MveWViM1pGMzV4eVhPVzFOVEhp?=
- =?utf-8?B?SVYreDNEdGFjNlhNTVhmR0J3Wk1nYzZXb25RZGpnTFByTUtoQXdhTDRFbUZU?=
- =?utf-8?B?VzRVNmV1ZFQvdjRYMERNTHBTVTRrZHlHSWFkcUtFWW1KbVk5V0tCakRjM2s5?=
- =?utf-8?B?VFRJZUxoWDQvbkNJcW5aUXBYMEliZGxMeE9mSUFXY2hBcVlhalB5MXgvNEpS?=
- =?utf-8?B?ZmxZMHFIZ2FOZ2hvWkZFWG5rQkxoK0MvYlh4eTVhMFE3a1g4THlUNEdzUTFI?=
- =?utf-8?B?NVE5WjIwTmloNXBYVVJwdFRoOU5jbnYxdTVNbWo3TjhSOXpZSDN0TUhrVE43?=
- =?utf-8?B?MUI2cWpDcTN2NkFRcE1oeUE5S1JJeTVrRmpBOEtKT2x6MStoSHhFa25RaTFq?=
- =?utf-8?B?cEJXVnQ5Ly8yTUhGUEVtVHJGd1FkYnNvSFo4aWx4eFZCUklhRFpMQ3RpcWoy?=
- =?utf-8?B?VS9iWmlod3ZxV0ZDK0Nyci9SaFJGeU54WWwyVkVLeWd4cStTQkVJdDltcDFE?=
- =?utf-8?B?alZXSmY0M245T2pLRHVVZVFLb3MyRTk3NFdYUG5xeXN6RGtBTUtTT2h3a1ZL?=
- =?utf-8?B?YTNPZnN5Y2xSTFR3QkNjMm50c3g3VTZCK2gvMXdTYklwR0pySGRDOWZqNWRo?=
- =?utf-8?B?cExneFI0cWgramo5b0VRcmtJaDUrQW9QRkxETjR6ejA4RHpkcWNKRXFRUm9P?=
- =?utf-8?B?ZFE4b1Q3K1ZhZUZzNlByb1IxVjVYMHY4WUtsZnc1YW42UmtuTlRqa2hsZnAr?=
- =?utf-8?B?dDM1S3ZRRklKN1R2eFFXeG5QNUpoNlI3Q2J6VFc2RC9UelVONUJKYTYzTEJC?=
- =?utf-8?B?bGthMkFyYVJBVEc3TUFOV1BPcG5xUlJVQ0pJR0d6eFVMZ1RrbCtKaEVKMHk2?=
- =?utf-8?B?QjJlNnQwN0VpVS9QRU1Wa3A2OHZNTGREQ2hQa1lMbjdEa1NjWVVaYjRWWEJO?=
- =?utf-8?B?RTUzKzQ2dXBndngxaUhGRytvN05ybnJGRWpnM0ZVNkltZzZSeVNXNDU0WGxI?=
- =?utf-8?B?Y1VxaUFKdURLVFpJVVBCVEtyWTQ0MnpGelBMd2xqOTJraGdML2lzWWE1eFpV?=
- =?utf-8?B?YzdBNno0QVRDTmtwbng5eXkrVU45RnBLV3UxODJoZXJMVGJnRUE0bGxQTERv?=
- =?utf-8?B?eHYvbC9tUncxbTdvMHZmRHNZdU5ybXd2TUM1alQzN25WOGg4NzF1M3ptLzQ2?=
- =?utf-8?B?Q1FnMVpvdTA2a2ZPbFVTd08zeGJnMllZVjBYYWY0bkozY1dWR256VnJYVWR1?=
- =?utf-8?B?SlBybEErTnUvMjFtOG8rRlVCdU9tVTBmQWQxZUVFSEs2d1hlTGNSeVNsL0xR?=
- =?utf-8?B?bSsvbm1QWWpnVUEra3VhVWF2UThKOGxKbTRtU1JUektXOG44dUljbzhzc25m?=
- =?utf-8?B?MDBuZnZORTJ1VGJDUHkxSkFsODA4SVhJRmZEMGEvcVBZTFNNU0NZWVN0bmpX?=
- =?utf-8?B?SlJEVS82azd5Nkk0RHE0SmJRejhkeVE3RzNybWwzaENUUW9vcnkxNXJqSFRz?=
- =?utf-8?B?M0d5OER4T3VRekMreExEVmNTS2pMUXFPeU94dHM4L2w5VTgwMW5OdjcvbVhN?=
- =?utf-8?B?dk1tNkxEQnJVeG9scElQbjdCcGYyenVmdVZDT2kzMnJkVnFOWHdZelhsMnVH?=
- =?utf-8?B?bkNId3ZPWEdjTlFqai9XVjNkQWxNcG1FNHBSNmxwZzdzRzIxeFYyZ0ZiR1dR?=
- =?utf-8?B?WmtubHJEQm9qYmtvOGVMZit6ZGlvVmh4ZHVIcHJ4azVWQnNtQ2ltRFdaeXI2?=
- =?utf-8?B?VnEvOWR0OFlHNTUvK04wMkFuTWYwMlBpS2QwUmkvbW04Ly8rY01kMnpuWnY4?=
- =?utf-8?Q?1ziMZ4AZp6MzQ5HwDb4A4ar8d?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UlI3Nng3YXFQNk5iY1lIOVhETGxIR2pNandvU2ZNTFA4R08zem9kOE9PREcy?=
+ =?utf-8?B?b1ZMeWZhdWpNbStwVE9OYkxMcDVlc0gxdnFOQjFvNjNiTVp5alhqZmV4emR6?=
+ =?utf-8?B?Tyt5YVZycmYxcFVwcFh3UUJ0SjUwOHdMTFlFTURWWWxxTmRUL0F3M1FnUmN6?=
+ =?utf-8?B?UWorRFNveUsybXU2RkJRdkJXelkwbldDbTc5NUp1OXJJKzdLTExIdU1GYmV4?=
+ =?utf-8?B?OWJsRG5pRHJndGg1N2hQRUlkdXpEc0JaZHdhRmdOSjgyVHdFd3lJbU5OVytr?=
+ =?utf-8?B?RU5nQlE4OTIvcTk5dHgxWXhrV1V5elRJYm12aDNKRmI0VlcrcmZPeWJLL2FZ?=
+ =?utf-8?B?ZXBPYy9JQ1Y1UFVxYjc3OWJpWTh4ZnN2NlZyaXBVOTRNVHBpTC9HL3JOMkY0?=
+ =?utf-8?B?VURXNVVyUjB2Qjg2RTd1eHpKaDIzSlZCN2sxR21jVVZ5Y0NtcFloeXo1L1l6?=
+ =?utf-8?B?VlFYaC96OHRQYUhLS0ZjV0Y5a0RPbFRoZ2lwSGlzTkFzc2pxejY4T1A0UmRu?=
+ =?utf-8?B?ZHdDaVJUUUp1eE56K1BCeUNMb3Mrb0JkVGZJS081UFdxSlgrY2dkZW8xOHp5?=
+ =?utf-8?B?VHhoS0lHRDd2UGtqeWZvelZOSldTNldWME9qK0xpTWx2YVd4OVUvbW9JeVVj?=
+ =?utf-8?B?MXhVZkZPeDh3d0l0Q3Y3cVhsdFluWENxd1J5UXhqbjlDNkpQMTFkcm1mR0lq?=
+ =?utf-8?B?b2lxdjJkWkJzeHp4TENyYTZIcG9Pemg0UkE5SjFXRklOdFhuUVgxVEpmZ2Ev?=
+ =?utf-8?B?YVZQeDlzRUFTSmFpRDZYOFJPZ00yT1VOUnh4NXl2Y3dLc0IvZXNOL1FHZXNG?=
+ =?utf-8?B?YVhsNTRXSDA3OCtISG50S0g1d2JLSXU0OEVIVUFLVEVQeHJsT2dCQmxxYVhG?=
+ =?utf-8?B?bDdlSE1DL1JDYUJIdHk2T0JUdGhZbHBPbnBBbm1YdXFHYzUySkhNYmQ5Ukds?=
+ =?utf-8?B?UDFDU1B1VlZ6cUY4b2VKcytWTlYrcC92SFdqM1Y2dzlwWjBKZitNZ1lBRzg5?=
+ =?utf-8?B?NnVkNEFSYTBBdFFxOTRtMjRpTzY2bjVWaWVYNUVRMmxUMkNQQWI3MVFqK0FJ?=
+ =?utf-8?B?Y2RvRng1WjZQYjRIUWdOK3ZYQzUxZjFuY1JGYXN0L0lETldwNG9WV2d6QS8x?=
+ =?utf-8?B?RkxmdnF0NE5ZUWlLaVZnMEZweWRQbFE2TUM5dTgrY2JlN3k5c1FudlJveUJp?=
+ =?utf-8?B?MmtmVVpGSFBoN0pjWVM4QmN1R09mb2Q1aWxpWnFaTkNIYm5YckNUMXN3ZWJE?=
+ =?utf-8?B?RFRhZ3dBOUJrZHVHS243TWlROHhOdktjRkZWMmMyRUVFelZ3bGZzZU9oTG5n?=
+ =?utf-8?B?N2NCWlZOVDFvbVhacWF5aU5mOFBmcTYyT2ZqWndBYnAxeTlDNkJWb2Z5Z2VQ?=
+ =?utf-8?B?alppemFsSmMzU3RSQkNwdVMyMVJzVWxEYUd0M2tjbm1lM0hiTTZjQy8zdW5K?=
+ =?utf-8?B?K0NRVVFkTDY1aFVqSk5LOW9MR0ZaSE9VZ0JaYkJqUHd6VzZXVzBKSXhCVTVt?=
+ =?utf-8?B?alBweGc4dXFMbGNHTHpiMXE5YlZpWjZ6SExOdFh0VS9yTFUwKzBJL25OVllq?=
+ =?utf-8?B?bkR0cUtsak1oSVhaMUUxZkJVQUh5ZElma1Fmc2FFMDAzRFJ2QXloVXhiVHcz?=
+ =?utf-8?B?TlkwVDhLdldHWDhkNm9iV2xHSFJuWEJVeGh0bGRLMzhXbjB2U2xUU0NGcnN4?=
+ =?utf-8?B?cVkxNFNFOTVJeWR5TXhYQUtmYmp0aUFaRW5aTlFBK2tDd2NtWUR1MWl2eks3?=
+ =?utf-8?B?TUo0SzdTTDZtcjFra1IwTzZQRUVTeGJLMTZzbWZSdWgrTit4bXBoTGNhbFlD?=
+ =?utf-8?B?WjFRZnRqUG1jLzY1elFGZjM5M1Z2ZUthUWdQOFlDbS9PZ29aLzRyWERxOC8y?=
+ =?utf-8?B?eFBsUjJsbHJqZmpJSUwxUkk4UFZGelk2eGdGdXArUDA0bVVuUkp3THhkbk1I?=
+ =?utf-8?B?K2ZwK2p6SHN2QXkwcTVYcWdZL0tpcGs4WXVDNmFJb3NDUzYzY3dVTkR5MXlt?=
+ =?utf-8?B?a0IvU29vekoxblh0VEc0cGpqdTI3enBNQS9BZVhXYlN4ZTNvL1NhTXRlZnA4?=
+ =?utf-8?B?dEdJbHYrS0VBT1czMXFsTmZkTTY5czJLRzRsUVk5SkhCa3o0bitmVEE5NTFr?=
+ =?utf-8?Q?40hHZbeq6tDx9bzVZ8ve9H1Gc?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1889144-30a4-49a6-af41-08de2c2c8247
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a7ac453-0888-4eab-5fea-08de2c2de4d5
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 14:11:21.0235 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 14:21:15.8810 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8onljX13VEFjST4B/BcizF2QAR/cxLhx9KPuguyWRTkeMqbstme80RX9ewcY1Lix
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8241
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8ilSXVNQYVonfkvo8lDQ7Sh2BytcQTUXmuRbB251iTaNLHXVIVzwJtuz+0pZyO/l
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6033
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,131 +178,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/25/25 14:39, Sokolowski, Jan wrote:
-> 
-> 
->> -----Original Message-----
->> From: Christian König <christian.koenig@amd.com>
->> Sent: Tuesday, November 25, 2025 2:23 PM
->> To: Sokolowski, Jan <jan.sokolowski@intel.com>; dri-
->> devel@lists.freedesktop.org
->> Cc: David Francis <David.Francis@amd.com>; Maarten Lankhorst
->> <maarten.lankhorst@linux.intel.com>; Maxime Ripard
->> <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>;
->> David Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>; Felix
->> Kuehling <felix.kuehling@amd.com>; De Marchi, Lucas
->> <lucas.demarchi@intel.com>
->> Subject: Re: [PATCH 1/1] drm: disallow setting 0 as new handle in
->> DRM_IOCTL_GEM_CHANGE_HANDLE
+On 11/25/25 14:52, Pavel Begunkov wrote:
+> On 11/24/25 14:17, Christian König wrote:
+>> On 11/24/25 12:30, Pavel Begunkov wrote:
+>>> On 11/24/25 10:33, Christian König wrote:
+>>>> On 11/23/25 23:51, Pavel Begunkov wrote:
+>>>>> Picking up the work on supporting dmabuf in the read/write path.
+>>>>
+>>>> IIRC that work was completely stopped because it violated core dma_fence and DMA-buf rules and after some private discussion was considered not doable in general.
+>>>>
+>>>> Or am I mixing something up here?
+>>>
+>>> The time gap is purely due to me being busy. I wasn't CC'ed to those private
+>>> discussions you mentioned, but the v1 feedback was to use dynamic attachments
+>>> and avoid passing dma address arrays directly.
+>>>
+>>> https://lore.kernel.org/all/cover.1751035820.git.asml.silence@gmail.com/
+>>>
+>>> I'm lost on what part is not doable. Can you elaborate on the core
+>>> dma-fence dma-buf rules?
 >>
->> On 11/25/25 14:02, Sokolowski, Jan wrote:
->>>> -----Original Message-----
->>>> From: Christian König <christian.koenig@amd.com>
->>>> Sent: Tuesday, November 25, 2025 1:54 PM
->>>> To: Sokolowski, Jan <jan.sokolowski@intel.com>; dri-
->>>> devel@lists.freedesktop.org
->>>> Cc: David Francis <David.Francis@amd.com>; Maarten Lankhorst
->>>> <maarten.lankhorst@linux.intel.com>; Maxime Ripard
->>>> <mripard@kernel.org>; Thomas Zimmermann <tzimmermann@suse.de>;
->>>> David Airlie <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>; Felix
->>>> Kuehling <felix.kuehling@amd.com>; De Marchi, Lucas
->>>> <lucas.demarchi@intel.com>
->>>> Subject: Re: [PATCH 1/1] drm: disallow setting 0 as new handle in
->>>> DRM_IOCTL_GEM_CHANGE_HANDLE
->>>>
->>>> On 11/25/25 11:28, Jan Sokolowski wrote:
->>>>> drm_file's object_idr uses 1 as base value, which can cause id
->>>>> mismatch when trying to use DRM_IOCTL_GEM_CHANGE_HANDLE
->>>>> to change id from 1 to 0.
->>>>>
->>>>> Disallow 0 as new handle in that ioctl.
->>>>>
->>>>> Fixes: 53096728b891 ("drm: Add DRM prime interface to reassign GEM
->>>> handle")
->>>>> Signed-off-by: Jan Sokolowski <jan.sokolowski@intel.com>
->>>>> Cc: David Francis <David.Francis@amd.com>
->>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>>> Cc: Maxime Ripard <mripard@kernel.org>
->>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>>> Cc: David Airlie <airlied@gmail.com>
->>>>> Cc: Simona Vetter <simona@ffwll.ch>
->>>>> Cc: "Christian König" <christian.koenig@amd.com>
->>>>> Cc: Felix Kuehling <felix.kuehling@amd.com>
->>>>> Cc: Lucas De Marchi <lucas.demarchi@intel.com>
->>>>> ---
->>>>>  drivers/gpu/drm/drm_gem.c | 4 ++++
->>>>>  1 file changed, 4 insertions(+)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
->>>>> index 68168d58a7c8..2a49a8e396fa 100644
->>>>> --- a/drivers/gpu/drm/drm_gem.c
->>>>> +++ b/drivers/gpu/drm/drm_gem.c
->>>>> @@ -975,6 +975,10 @@ int drm_gem_change_handle_ioctl(struct
->>>> drm_device *dev, void *data,
->>>>>  	if (args->handle == args->new_handle)
->>>>>  		return 0;
->>>>>
->>>>> +	/* As the idr base is 1, trying to set handle 0 will create id mismatch
->>>> */
->>>>> +	if (args->new_handle == 0)
->>>>> +		return 0;
->>>>
->>>> That would need to return -EINVAl or some other error code.
->>>
->>> Ok, will change that in next version.
->>>
->>>>
->>>> But I'm wondering why that is necessary at all? Doesn't idr_alloc() return
->> an
->>>> error when you try to allocate handle 0?
->>>
->>> It appears that idr_alloc doesn't return any errors in this scenario,
->> otherwise we'd goto out_unlock straight away.
+>> I most likely mixed that up, in other words that was a different discussion.
 >>
->> Mhm, that is a bit misleading. We intentionally initialized the idr so that it
->> starts at 1. Maybe idr_alloc() should be fixed instead.
+>> When you use dma_fences to indicate async completion of events you need to be super duper careful that you only do this for in flight events, have the fence creation in the right order etc...
 > 
-> I've checked what idr_alloc does, and it looks like it'll return 2 in this case,
+> I'm curious, what can happen if there is new IO using a
+> move_notify()ed mapping, but let's say it's guaranteed to complete
+> strictly before dma_buf_unmap_attachment() and the fence is signaled?
+> Is there some loss of data or corruption that can happen?
 
-Well that would absolute clearly be a bug in idr.
+The problem is that you can't guarantee that because you run into deadlocks.
 
-The start parameter is documented as the minimum (inclusive) value returned and the end parameter is documented as the maximum (exclusive) value returned.
+As soon as a dma_fence() is created and published by calling add_fence it can be memory management loops back and depends on that fence.
 
-So if you ask for value 0 and get 2 instead that is clearly not the documented behavior.
+So you actually can't issue any new IO which might block the unmap operation.
 
-Something fishy is going on here. Please investigate what is actually happening and why.
+> 
+> sg_table = map_attach()         |
+> move_notify()                   |
+>   -> add_fence(fence)           |
+>                                 | issue_IO(sg_table)
+>                                 | // IO completed
+> unmap_attachment(sg_table)      |
+> signal_fence(fence)             |
+> 
+>> For example once the fence is created you can't make any memory allocations any more, that's why we have this dance of reserving fence slots, creating the fence and then adding it.
+> 
+> Looks I have some terminology gap here. By "memory allocations" you
+> don't mean kmalloc, right? I assume it's about new users of the
+> mapping.
 
-My educated guess is that the base is just ignored by idr_alloc(), that's a bit surprising but at least not otherwise documented.
+kmalloc() as well as get_free_page() is exactly what is meant here.
+
+You can't make any memory allocation any more after creating/publishing a dma_fence.
+
+The usually flow is the following:
+
+1. Lock dma_resv object
+2. Prepare I/O operation, make all memory allocations etc...
+3. Allocate dma_fence object
+4. Push I/O operation to the HW, making sure that you don't allocate memory any more.
+5. Call dma_resv_add_fence(with fence allocate in #3).
+6. Unlock dma_resv object
+
+If you stride from that you most likely end up in a deadlock sooner or later.
 
 Regards,
 Christian.
 
-> which is the next reserved id (0 is reserved, so it goes to 1) + base (1).
-> Maybe the solution would be, if idr_alloc returns a value other than args->new_handle, then
-> a) bail out
-> b) new_handle = idr_alloc, and inform user that the assignment was changed to another handle.
-> 
-> As idr is used in many other places, I don't think that's feasible or easy to fix that.
-> 
->>
->> But that is clearly a much larger change, with the return code fixed feel free
->> to add Reviewed-by: Christian König <christian.koenig@amd.com> to this
->> patch here.
->>
->> Adding a CC: stable tag sound appropriate as well.
->>
->> Regards,
->> Christian.
->>
+>>>> Since I don't see any dma_fence implementation at all that might actually be the case.
 >>>
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>> +
->>>>>  	mutex_lock(&file_priv->prime.lock);
->>>>>
->>>>>  	spin_lock(&file_priv->table_lock);
+>>> See Patch 5, struct blk_mq_dma_fence. It's used in the move_notify
+>>> callback and is signaled when all inflight IO using the current
+>>> mapping are complete. All new IO requests will try to recreate the
+>>> mapping, and hence potentially wait with dma_resv_wait_timeout().
+>>
+>> Without looking at the code that approach sounds more or less correct to me.
+>>
+>>>> On the other hand we have direct I/O from DMA-buf working for quite a while, just not upstream and without io_uring support.
 >>>
+>>> Have any reference?
+>>
+>> There is a WIP feature in AMDs GPU driver package for ROCm.
+>>
+>> But that can't be used as general purpose DMA-buf approach, because it makes use of internal knowledge about how the GPU driver is using the backing store.
+> 
+> Got it
+> 
+>> BTW when you use DMA addresses from DMA-buf always keep in mind that this memory can be written by others at the same time, e.g. you can't do things like compute a CRC first, then write to backing store and finally compare CRC.
+> 
+> Right. The direct IO path also works with user pages, so the
+> constraints are similar in this regard.
 > 
 
