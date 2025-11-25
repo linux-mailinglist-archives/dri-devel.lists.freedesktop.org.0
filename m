@@ -2,147 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D4A7C85F25
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 17:22:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2482C85F70
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 17:25:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6576910E433;
-	Tue, 25 Nov 2025 16:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F48D10E446;
+	Tue, 25 Nov 2025 16:25:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="rxcHTUOS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yRvSJNwe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jxlKsqOZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pWGSpGSf";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TDvL7Y2H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C44D10E41E
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 16:22:10 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id CE0FC2279F;
- Tue, 25 Nov 2025 16:22:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764087728; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1qVWteth2CW4grxymKBfkcAQ2Y6lgyq+8fjlcjGvCdE=;
- b=rxcHTUOSMi91yqyshLu0nXlrTbfin/DxFYxy68+9o5Lz//U3hZZcdjlKLHiUcks2sNFb5d
- Nw+OBrAf2kdZEY8eaQrFByd0uhfsWG/FmvucIqTas+/tk5AXRhRPH5vvcJNRiCAVeu9sDs
- JlbSW7nQ5++eYnulUKTb2Pilge3qSMY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764087728;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1qVWteth2CW4grxymKBfkcAQ2Y6lgyq+8fjlcjGvCdE=;
- b=yRvSJNwewWvQZN6EMbe+ZH57h9Ype/yn78RFRv+PNLYJCaiiGwSN/MWsLEvYlaOy7wnyVS
- T9xIEZPg7AUb66CQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jxlKsqOZ;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pWGSpGSf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764087727; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1qVWteth2CW4grxymKBfkcAQ2Y6lgyq+8fjlcjGvCdE=;
- b=jxlKsqOZGQElJHBq1oPDmP5F6Jc54BuJNQY4M+S+XFJq6L493Mk0ifEe6vzy3vj9uOD1ch
- wsFa7Y9EcZSUiTHev6F14FH0ph+/SrIXnp6rmwNQ7esC+lj+GftEOWXVg/kanV0b1RaN86
- fPmOiadBoSqJP+lckHT6VBqAWLCafpE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764087727;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=1qVWteth2CW4grxymKBfkcAQ2Y6lgyq+8fjlcjGvCdE=;
- b=pWGSpGSfBZkjXtE6lj76qjxTTU7v28kiwiq9wRoAZ3aAPRRV+Fhr40paxglFA656gZ53M4
- 1DSAyAx8WxL2H+AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4CE7F3EA63;
- Tue, 25 Nov 2025 16:22:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id hQZWEa/XJWm8VQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 25 Nov 2025 16:22:07 +0000
-Message-ID: <65622142-c3b0-4ef3-9a74-09420bc2220d@suse.de>
-Date: Tue, 25 Nov 2025 17:22:06 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A8FD10E41B;
+ Tue, 25 Nov 2025 16:25:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764087922; x=1795623922;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=mwMReEFfjgYT5suXeYsf7XYdkUSkEwVQEG86tVjRXIk=;
+ b=TDvL7Y2HnDo2JHcNgpvQOfB6UZDLfuTF+WBF1y3nPpGgS8EY7++u7Sce
+ kqpMB/4S+SpAoairX2YlZCfdCJ/Dht31bmql9XVqT/exadPZUetVHmW42
+ Wd8Kubq6GEDv/rBMCf9IgKrBB1UX3b6WbpjgNTJYZfKeALJewH/+xhSJ6
+ B7HooR9TE9Ai6OCTh5MtazsKwyGqizoBjZ5ctCYKZDpTH26ATuGiPk+w6
+ WFMIxEEbVAds+Az0ZugVA0KTUyInxKJAyhjpwe4vdgZXc1HfGEJCA7aiU
+ D5KKDFSyDCc1WC3Aei76sIQdv5YxwYJhAebwFbXH+S+NZnc5jm3H2ZSc0 w==;
+X-CSE-ConnectionGUID: B8dFFxE+TmCJcLcnFfYAvw==
+X-CSE-MsgGUID: jmu+F+kwSAC/uytwsjfYog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="66058988"
+X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; d="scan'208";a="66058988"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2025 08:25:21 -0800
+X-CSE-ConnectionGUID: sZ58Iv88QgKEvL0F3kBQ5A==
+X-CSE-MsgGUID: rS5XkubTRMyJj/5QVcZMzA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,226,1758610800"; d="scan'208";a="223652821"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO [10.245.245.34])
+ ([10.245.245.34])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2025 08:25:17 -0800
+Message-ID: <82ed9798-9237-4404-9b32-9430bfb82b26@linux.intel.com>
+Date: Tue, 25 Nov 2025 17:25:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/5] drm: Remove remaining support for kdb
-To: Doug Anderson <dianders@chromium.org>
-Cc: simona@ffwll.ch, airlied@gmail.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, lyude@redhat.com, dakr@kernel.org, deller@gmx.de,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com,
- jason.wessel@windriver.com, danielt@kernel.org,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+To: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
+ airlied@gmail.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ lyude@redhat.com, dakr@kernel.org, deller@gmx.de, mripard@kernel.org,
+ jason.wessel@windriver.com, danielt@kernel.org, dianders@chromium.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Nir Lichtman <nir@lichtman.org>
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20251125130634.1080966-1-tzimmermann@suse.de>
- <CAD=FV=X_-t2AF5osp7Hamoe7WYE_2YWJZCaPaOj=9seSbnwwVA@mail.gmail.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <CAD=FV=X_-t2AF5osp7Hamoe7WYE_2YWJZCaPaOj=9seSbnwwVA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: CE0FC2279F
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[19];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_TLS_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- MID_RHS_MATCH_FROM(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[ffwll.ch,gmail.com,amd.com,redhat.com,kernel.org,gmx.de,linux.intel.com,windriver.com,lists.freedesktop.org,vger.kernel.org,lichtman.org];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:url,suse.de:email,suse.de:mid,suse.de:dkim];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20251125130634.1080966-1-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,71 +75,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hey,
 
-Am 25.11.25 um 16:26 schrieb Doug Anderson:
-> Hi,
->
-> On Tue, Nov 25, 2025 at 5:06 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->> Remove the rest of the kbd support from DRM. Driver support has been
->> broken for years without anyone complaining.
->>
->> Kdb cannot use regular DRM mode setting, so DRM drivers have to
->> implement an additional hook to make it work (in theory). As outlined
->> by Sima in commit 9c79e0b1d096 ("drm/fb-helper: Give up on kgdb for
->> atomic drivers") from 2017, kdb is not compatible with DRM atomic mode
->> setting. Non-atomic mode setting meanwhile has become rare.
->>
->> Only 3 DRM drivers implement the hooks for kdb support. Amdgpu and
->> nouveau use non-atomic mode setting on older devices. But both drivers
->> have switched to generic fbdev emulation, which isn't compatible with
->> kdb. Radeon still runs kdb, but it doesn't work in practice. See the
->> commits in this series for details
->>
->> Therefore remove the remaining support for kdb from the DRM drivers
->> and from DRM fbdev emulation. Also remove the hooks from fbdev, as
->> there are no fbdev drivers with kdb support.
->>
->> If we ever want to address kdb support within DRM drivers, a place to
->> start would be the scanout buffers used by DRM's panic screen. These
->> use the current display mode. They can be written and flushed without
->> mode setting involved.
->>
->> Note: kdb over serial lines is not affected by this series and continues
->> to work as before.
->>
->> Thomas Zimmermann (5):
->>    drm/amdgpu: Do not implement mode_set_base_atomic callback
->>    drm/nouveau: Do not implement mode_set_base_atomic callback
->>    drm/radeon: Do not implement mode_set_base_atomic callback
->>    drm/fbdev-helper: Remove drm_fb_helper_debug_enter/_leave()
->>    fbcon: Remove fb_debug_enter/_leave from struct fb_ops
-> Personally, I've never worked with kdb over anything other than
-> serial, so this won't bother any of my normal workflows. That being
-> said, at least as of a year ago someone on the lists was talking about
-> using kdb with a keyboard and (presumably) a display. You can see a
-> thread here:
->
-> http://lore.kernel.org/r/20241031192350.GA26688@lichtman.org
+I'm glad to see the old kdb handler gone.
 
-I wonder which driver or kernel that person was using. None of the 
-current drivers would be working.
+Could we perhaps extend the drm panic handler somehow for this to work?
+Restore could potentially be simply duplicating and committing the current state.
 
-Best regards
-Thomas
+Kind regards,
+~Maarten Lankhorst
 
->
-> Daniel may also have comments here?
->
-> -Doug
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+Den 2025-11-25 kl. 13:52, skrev Thomas Zimmermann:
+> Remove the rest of the kbd support from DRM. Driver support has been
+> broken for years without anyone complaining.
+> 
+> Kdb cannot use regular DRM mode setting, so DRM drivers have to
+> implement an additional hook to make it work (in theory). As outlined
+> by Sima in commit 9c79e0b1d096 ("drm/fb-helper: Give up on kgdb for
+> atomic drivers") from 2017, kdb is not compatible with DRM atomic mode
+> setting. Non-atomic mode setting meanwhile has become rare.
+> 
+> Only 3 DRM drivers implement the hooks for kdb support. Amdgpu and
+> nouveau use non-atomic mode setting on older devices. But both drivers
+> have switched to generic fbdev emulation, which isn't compatible with
+> kdb. Radeon still runs kdb, but it doesn't work in practice. See the
+> commits in this series for details
+> 
+> Therefore remove the remaining support for kdb from the DRM drivers
+> and from DRM fbdev emulation. Also remove the hooks from fbdev, as
+> there are no fbdev drivers with kdb support.
+> 
+> If we ever want to address kdb support within DRM drivers, a place to
+> start would be the scanout buffers used by DRM's panic screen. These
+> use the current display mode. They can be written and flushed without
+> mode setting involved.
+> 
+> Note: kdb over serial lines is not affected by this series and continues
+> to work as before.
+> 
+> Thomas Zimmermann (5):
+>   drm/amdgpu: Do not implement mode_set_base_atomic callback
+>   drm/nouveau: Do not implement mode_set_base_atomic callback
+>   drm/radeon: Do not implement mode_set_base_atomic callback
+>   drm/fbdev-helper: Remove drm_fb_helper_debug_enter/_leave()
+>   fbcon: Remove fb_debug_enter/_leave from struct fb_ops
+> 
+>  Documentation/process/debugging/kgdb.rst    |  28 -----
+>  drivers/gpu/drm/amd/amdgpu/dce_v10_0.c      |  35 ++-----
+>  drivers/gpu/drm/amd/amdgpu/dce_v6_0.c       |  35 ++-----
+>  drivers/gpu/drm/amd/amdgpu/dce_v8_0.c       |  35 ++-----
+>  drivers/gpu/drm/drm_fb_helper.c             | 108 --------------------
+>  drivers/gpu/drm/nouveau/dispnv04/crtc.c     |  24 +----
+>  drivers/gpu/drm/radeon/atombios_crtc.c      |  74 ++++----------
+>  drivers/gpu/drm/radeon/radeon_legacy_crtc.c |  23 ++---
+>  drivers/gpu/drm/radeon/radeon_mode.h        |  10 +-
+>  drivers/video/fbdev/core/fbcon.c            |  24 -----
+>  drivers/video/fbdev/core/fbcon.h            |   1 -
+>  include/drm/drm_fb_helper.h                 |  21 ----
+>  include/drm/drm_modeset_helper_vtables.h    |  23 -----
+>  include/linux/fb.h                          |   4 -
+>  14 files changed, 63 insertions(+), 382 deletions(-)
+> 
+> 
+> base-commit: 0a21e96e0b6840d2a4e0b45a957679eeddeb4362
 
