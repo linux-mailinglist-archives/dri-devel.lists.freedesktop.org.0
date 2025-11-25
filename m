@@ -2,56 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39EA8C84230
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 10:06:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1F1C84269
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 10:08:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1CB410E398;
-	Tue, 25 Nov 2025 09:06:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76EEA10E390;
+	Tue, 25 Nov 2025 09:08:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GtNHZDjy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="UeA2lhDr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB63010E390
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 09:06:03 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 35B5E1A1D30;
- Tue, 25 Nov 2025 09:05:56 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 0690660705;
- Tue, 25 Nov 2025 09:05:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id D323A10371616; Tue, 25 Nov 2025 10:05:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1764061555; h=from:subject:date:message-id:to:cc:mime-version:
- content-transfer-encoding; bh=EnzzFaoxZT2moKRMTZsQDsdt2u8wjYq4N0N97zM8DBg=;
- b=GtNHZDjyEMK9SYW8TzeBNrhCQkE+Xyk+fCtvTs+Mf0Ey1TbK+IXutOS3EM6jDTSM85qRf4
- WQMywkVBEwYTs7Sf7cjhf9H2/BoqC+egvCX5f2PWTx+iyqZPpSzkvkdKJLtmrXy7CFc05W
- Y/+KYbls7GD56om3QY5tRdvQITenHI+6psgW+wKb2vRRVEGfu5EZ0GwJlkJFBLsTcY96qu
- plpMDrNIK2XctZtXXWl/Jyl0NAoqApc4wdc051RTGnLha82QSf9UQ2m8ZWeIfVnJ2WD8uF
- JWh8Ktnai/2qnOS+xHasUCknyl/emsB8rGEIjPgQjdlSHyfHiDZxGUGdgd+R3g==
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maxime Ripard <mripard@kernel.org>,
- Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Bajjuri Praneeth <praneeth@ti.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>,
- stable@vger.kernel.org, thomas.petazzoni@bootlin.com,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH v4] drm/tilcdc: Fix removal actions in case of failed probe
-Date: Tue, 25 Nov 2025 10:05:44 +0100
-Message-ID: <20251125090546.137193-1-kory.maincent@bootlin.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
+ [209.85.219.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1310210E38B
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 09:08:51 +0000 (UTC)
+Received: by mail-qv1-f54.google.com with SMTP id
+ 6a1803df08f44-8823dfa84c5so59387966d6.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 01:08:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764061730; x=1764666530; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jCdO90en+FjhKk4ix5gedxAx+9JnP8FYLniKGNGpn2c=;
+ b=UeA2lhDrvdiWVxKTAVOJxc+OC5kTBc4YDbg2MMgnZRTrMM9gOP4PEA/Zcu6xSDcN0O
+ UQL4ah1CObf7Q9kEOhSCLMaE4Tqvij7tgTWEudttAbomJJOw1v21uCkGuV38LtPbI8ST
+ hkBzo/XRftkWyw2nXGvAcImv+BGSEytirKK2h8W1LFtiSZcmZocjo/1doszKUiDtzoE9
+ nKP5Msgc/Pm5Po8JY8FZuIFhvEw24YDSCaUx+jL+bvPGaFAMIFtw5NKJl5LofnLW25lZ
+ FThWdc7bZHsqA4/DyvBIso1Z3MuUEu88macghUACMWWPOjbEY8banKYtJsKh2j6W8kSf
+ X4qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764061730; x=1764666530;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=jCdO90en+FjhKk4ix5gedxAx+9JnP8FYLniKGNGpn2c=;
+ b=Yg5kJCAJXaxQFojNFKx6fTyvUKEUDT7ddYC1/ft96qbVGBZbnzPxH4xT5u6BwkRt2/
+ DcodkTT2aWsOR4u15lORKTUPtRye969Tp2f0mFxys2yOPl6UQTEM74XJ1VVSoGzKv2PF
+ Aw36PevDS1kXHH3v060ZVSHtmJq8D9JQ0XWogOTpysEoEKWwtURlhKjxrAEfxin08+H6
+ CLFLsuUR3A5HNk+VE1hj8BUteRBtPrTYtym1T4GEAw9LBCbIH4TOqUaw0HMvaD53KU4h
+ l5sPf6I5cItu8hZBsB1dKUKjlwpgAL3Q9lzA3/ovifp/ANWF/qtnhtq7WGRBX8BPP7ev
+ uxRA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUDACbvAXxHuolW7/pHvCCPZsE0vC2njTemkyhjKNpkHm+42OD3gbRmrwgWNoLc09G+vbkw9XRI69s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzAI94TQyPKnnT3oBcbdNaAxg83rQStJ3sn0X+6t9ZUDDlCL6yb
+ XVZRC0Sh/IH2N5jKmTBOToHY453BDdLsFxu5WIqPerxek1hQIKu8//7YGn3tBqNdQMY3bgAm/HL
+ kjPYtvrQBMUCQI0So3sWws8v7+74OUuU=
+X-Gm-Gg: ASbGncv6KBUkOVFHTWovMnb6Aqq8Xx+bvJ2xhDQGyk5vrga+Ef/lumRQ7i7ulQyJg7z
+ dJtNGk39X2DyP/CoyWXcbbGoMrzXtZpHLkvxes4XhIlL6otHQSIrjPl0sE3TwyNpQNZGEYcdzQM
+ 4Jn06YpDAFA8xw0U1nCy60eQ/A3RiHpMmR/VuKbkISZINYcUVbSbBnPGq6iX5L0zQEit65lGF3Y
+ mzQDCNJZmnYROz3WSPBQZJG9ZR4ekCkBB2rZa1mDC540xyqLAkL6ksMx/0ntdg6kK1nzw==
+X-Google-Smtp-Source: AGHT+IGTFbY486YnNQWkoWlEaQzvsvasZFyHoZ9KTpGkdm47RfNT3iuxVdTNRpkeEmLfhER+Qz0gUPpksmHAUXp+rAI=
+X-Received: by 2002:a05:620a:4092:b0:8b2:4b6:22e0 with SMTP id
+ af79cd13be357-8b33d468064mr1952580085a.60.1764061729682; Tue, 25 Nov 2025
+ 01:08:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20251124234432.1988476-1-joelagnelf@nvidia.com>
+ <f73e4536-ec89-4625-96d4-6fa42018e4e4@amd.com>
+ <CAPM=9twe3xcVBgrNCT+1_pGECPL-ry_aA2dxBwbKVeai4+S7AQ@mail.gmail.com>
+ <24d4f02b-8ecd-4512-a1f0-ba41684ede1d@amd.com>
+ <dfc50417-66ce-44ce-b607-917d678c5631@nvidia.com>
+ <9f433dee-7ad9-4d0f-8ac1-e67deb409b70@amd.com>
+In-Reply-To: <9f433dee-7ad9-4d0f-8ac1-e67deb409b70@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Tue, 25 Nov 2025 19:08:37 +1000
+X-Gm-Features: AWmQ_bm6tlLng_0bNMM-_zVqLKGasd2tHLj_Nv0hY-yBLivUiNyEs9A42o3KV94
+Message-ID: <CAPM=9tyN_A3oEyQZCOWaLO1orO6oKX0ZukJHR7cFy12Go+7d=A@mail.gmail.com>
+Subject: Re: [PATCH] gpu: Move DRM buddy allocator one level up
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, Joel Fernandes <joelagnelf@nvidia.com>,
+ linux-kernel@vger.kernel.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>, 
+ Matthew Auld <matthew.auld@intel.com>, Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+ Helge Deller <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, Alistair Popple <apopple@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, 
+ Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
+ nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,226 +115,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
+On Tue, 25 Nov 2025 at 18:11, Christian K=C3=B6nig <christian.koenig@amd.co=
+m> wrote:
+>
+> On 11/25/25 08:59, John Hubbard wrote:
+> > On 11/24/25 11:54 PM, Christian K=C3=B6nig wrote:
+> >> On 11/25/25 08:49, Dave Airlie wrote:
+> >>> On Tue, 25 Nov 2025 at 17:45, Christian K=C3=B6nig <christian.koenig@=
+amd.com> wrote:
+> > ...
+> >> My question is why exactly is nova separated into nova-core and nova-d=
+rm? That doesn't seem to be necessary in the first place.
+> >>
+> > The idea is that nova-core allows building up a separate software stack=
+ for
+> > VFIO, without pulling in any DRM-specific code that a hypervisor (for e=
+xample)
+> > wouldn't need. That makes for a smaller, more security-auditable set of=
+ code
+> > for that case.
+>
+> Well that is the same argument used by some AMD team to maintain a separa=
+te out of tree hypervisor for nearly a decade.
+>
+> Additional to that the same argument has also been used to justify the KF=
+D node as alternative API to DRM for compute.
+>
+> Both cases have proven to be extremely bad ideas.
+>
+> Background is that except for all the legacy stuff the DRM API is actuall=
+y very well thought through and it is actually quite hard to come up with s=
+omething similarly well.
+>
 
-The drm_kms_helper_poll_fini() and drm_atomic_helper_shutdown() helpers
-should only be called when the device has been successfully registered.
-Currently, these functions are called unconditionally in tilcdc_fini(),
-which causes warnings during probe deferral scenarios.
+Well you just answered your own question, why is AMD maintaining GIM
+instead of solving this upstream with a split model? the nova-core/drm
+split would be perfect for GIM.
 
-[    7.972317] WARNING: CPU: 0 PID: 23 at drivers/gpu/drm/drm_atomic_state_helper.c:175 drm_atomic_helper_crtc_duplicate_state+0x60/0x68
-...
-[    8.005820]  drm_atomic_helper_crtc_duplicate_state from drm_atomic_get_crtc_state+0x68/0x108
-[    8.005858]  drm_atomic_get_crtc_state from drm_atomic_helper_disable_all+0x90/0x1c8
-[    8.005885]  drm_atomic_helper_disable_all from drm_atomic_helper_shutdown+0x90/0x144
-[    8.005911]  drm_atomic_helper_shutdown from tilcdc_fini+0x68/0xf8 [tilcdc]
-[    8.005957]  tilcdc_fini [tilcdc] from tilcdc_pdev_probe+0xb0/0x6d4 [tilcdc]
+kfd was a terrible idea, and we don't intend to offer userspace
+multiple APIs with nova, nova-drm will be the primary userspace API
+provider. nova-core will not provide userspace API, it will provide an
+API to nova-drm and an API to the vgpu driver which will provide it's
+own userspace API without graphics or compute, just enough to setup
+VFs.
 
-Fix this by rewriting the failed probe cleanup path using the standard
-goto error handling pattern, which ensures that cleanup functions are
-only called on successfully initialized resources. Additionally, remove
-the now-unnecessary is_registered flag.
-
-Cc: stable@vger.kernel.org
-Fixes: 3c4babae3c4a ("drm: Call drm_atomic_helper_shutdown() at shutdown/remove time for misc drivers")
-Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
----
-
-I'm working on removing the usage of deprecated functions as well as
-general improvements to this driver, but it will take some time so for
-now this is a simple fix to a functional bug.
-
-Change in v4:
-- Fix an unused label warning reported by the kernel test robot.
-
-Change in v3:
-- Rewrite the failed probe clean up path using goto
-- Remove the is_registered flag
-
-Change in v2:
-- Add missing cc: stable tag
-- Add Swamil reviewed-by
----
- drivers/gpu/drm/tilcdc/tilcdc_crtc.c |  2 +-
- drivers/gpu/drm/tilcdc/tilcdc_drv.c  | 53 ++++++++++++++++++----------
- drivers/gpu/drm/tilcdc/tilcdc_drv.h  |  2 +-
- 3 files changed, 37 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-index 5718d9d83a49f..52c95131af5af 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-@@ -586,7 +586,7 @@ static void tilcdc_crtc_recover_work(struct work_struct *work)
- 	drm_modeset_unlock(&crtc->mutex);
- }
- 
--static void tilcdc_crtc_destroy(struct drm_crtc *crtc)
-+void tilcdc_crtc_destroy(struct drm_crtc *crtc)
- {
- 	struct tilcdc_drm_private *priv = crtc->dev->dev_private;
- 
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-index 7caec4d38ddf0..3dcbec312bacb 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-@@ -172,8 +172,7 @@ static void tilcdc_fini(struct drm_device *dev)
- 	if (priv->crtc)
- 		tilcdc_crtc_shutdown(priv->crtc);
- 
--	if (priv->is_registered)
--		drm_dev_unregister(dev);
-+	drm_dev_unregister(dev);
- 
- 	drm_kms_helper_poll_fini(dev);
- 	drm_atomic_helper_shutdown(dev);
-@@ -220,21 +219,21 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
- 	priv->wq = alloc_ordered_workqueue("tilcdc", 0);
- 	if (!priv->wq) {
- 		ret = -ENOMEM;
--		goto init_failed;
-+		goto put_drm;
- 	}
- 
- 	priv->mmio = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(priv->mmio)) {
- 		dev_err(dev, "failed to request / ioremap\n");
- 		ret = PTR_ERR(priv->mmio);
--		goto init_failed;
-+		goto free_wq;
- 	}
- 
- 	priv->clk = clk_get(dev, "fck");
- 	if (IS_ERR(priv->clk)) {
- 		dev_err(dev, "failed to get functional clock\n");
- 		ret = -ENODEV;
--		goto init_failed;
-+		goto free_wq;
- 	}
- 
- 	pm_runtime_enable(dev);
-@@ -313,7 +312,7 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
- 	ret = tilcdc_crtc_create(ddev);
- 	if (ret < 0) {
- 		dev_err(dev, "failed to create crtc\n");
--		goto init_failed;
-+		goto disable_pm;
- 	}
- 	modeset_init(ddev);
- 
-@@ -324,46 +323,46 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
- 	if (ret) {
- 		dev_err(dev, "failed to register cpufreq notifier\n");
- 		priv->freq_transition.notifier_call = NULL;
--		goto init_failed;
-+		goto destroy_crtc;
- 	}
- #endif
- 
- 	if (priv->is_componentized) {
- 		ret = component_bind_all(dev, ddev);
- 		if (ret < 0)
--			goto init_failed;
-+			goto unregister_cpufreq_notif;
- 
- 		ret = tilcdc_add_component_encoder(ddev);
- 		if (ret < 0)
--			goto init_failed;
-+			goto unbind_component;
- 	} else {
- 		ret = tilcdc_attach_external_device(ddev);
- 		if (ret)
--			goto init_failed;
-+			goto unregister_cpufreq_notif;
- 	}
- 
- 	if (!priv->external_connector &&
- 	    ((priv->num_encoders == 0) || (priv->num_connectors == 0))) {
- 		dev_err(dev, "no encoders/connectors found\n");
- 		ret = -EPROBE_DEFER;
--		goto init_failed;
-+		goto unbind_component;
- 	}
- 
- 	ret = drm_vblank_init(ddev, 1);
- 	if (ret < 0) {
- 		dev_err(dev, "failed to initialize vblank\n");
--		goto init_failed;
-+		goto unbind_component;
- 	}
- 
- 	ret = platform_get_irq(pdev, 0);
- 	if (ret < 0)
--		goto init_failed;
-+		goto unbind_component;
- 	priv->irq = ret;
- 
- 	ret = tilcdc_irq_install(ddev, priv->irq);
- 	if (ret < 0) {
- 		dev_err(dev, "failed to install IRQ handler\n");
--		goto init_failed;
-+		goto unbind_component;
- 	}
- 
- 	drm_mode_config_reset(ddev);
-@@ -372,16 +371,34 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
- 
- 	ret = drm_dev_register(ddev, 0);
- 	if (ret)
--		goto init_failed;
--	priv->is_registered = true;
-+		goto stop_poll;
- 
- 	drm_client_setup_with_color_mode(ddev, bpp);
- 
- 	return 0;
- 
--init_failed:
--	tilcdc_fini(ddev);
-+stop_poll:
-+	drm_kms_helper_poll_fini(ddev);
-+	tilcdc_irq_uninstall(ddev);
-+unbind_component:
-+	if (priv->is_componentized)
-+		component_unbind_all(dev, ddev);
-+unregister_cpufreq_notif:
-+#ifdef CONFIG_CPU_FREQ
-+	cpufreq_unregister_notifier(&priv->freq_transition,
-+				    CPUFREQ_TRANSITION_NOTIFIER);
-+destroy_crtc:
-+#endif
-+	tilcdc_crtc_destroy(priv->crtc);
-+disable_pm:
-+	pm_runtime_disable(dev);
-+	clk_put(priv->clk);
-+free_wq:
-+	destroy_workqueue(priv->wq);
-+put_drm:
- 	platform_set_drvdata(pdev, NULL);
-+	ddev->dev_private = NULL;
-+	drm_dev_put(ddev);
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.h b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-index b818448c83f61..58b276f82a669 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-@@ -82,7 +82,6 @@ struct tilcdc_drm_private {
- 	struct drm_encoder *external_encoder;
- 	struct drm_connector *external_connector;
- 
--	bool is_registered;
- 	bool is_componentized;
- 	bool irq_enabled;
- };
-@@ -164,6 +163,7 @@ void tilcdc_crtc_set_panel_info(struct drm_crtc *crtc,
- void tilcdc_crtc_set_simulate_vesa_sync(struct drm_crtc *crtc,
- 					bool simulate_vesa_sync);
- void tilcdc_crtc_shutdown(struct drm_crtc *crtc);
-+void tilcdc_crtc_destroy(struct drm_crtc *crtc);
- int tilcdc_crtc_update_fb(struct drm_crtc *crtc,
- 		struct drm_framebuffer *fb,
- 		struct drm_pending_vblank_event *event);
--- 
-2.43.0
-
+Dave.
