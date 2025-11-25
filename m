@@ -2,57 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CD9C83E85
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 09:13:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA1F4C83EE1
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 09:16:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDC9110E37C;
-	Tue, 25 Nov 2025 08:13:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A1BF10E37E;
+	Tue, 25 Nov 2025 08:16:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="VU0Tnnas";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SFNGgIq0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA5F10E37C
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 08:13:52 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dFwSY13Y4z9stq;
- Tue, 25 Nov 2025 09:13:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1764058429; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5DTyfjOQLlqZtEXU84+xhptlPYxXJdG6pHm5CHYR47I=;
- b=VU0TnnasyfJHZJA0H6JLleUSqwwMw1HIGJ4pp/G0Om8mt7NgooJdnNuHsH1VVoPlpMe7WS
- 29EPgd8D5VBAwSrjFMg4qYsjERgS4bSzWVGIEPPLOZJQ6FdAieIDYunWlqjhwRCUQWZRXc
- 2gv4zXbgll0iETv30P1pZz9TUCqOrgJ//eFN+vcbQS++S+vafxqc5uVKr7cg/MKLqNACXA
- tRNGWxLDYlf8vR/nWtU9Tw7jh9zNIkjBd9veEAsAr3W6Epu9Hf2mlpF/BEQGSS2wUka1Ee
- hw8CKcCSNHCgW+ylWRL+Ql2tBP+y0oKaJW8AU0AJW+SG8RVud6aHR+E+lUedkA==
-Message-ID: <1c1a14d42d0a4a25ebce26a2af0a61dc1b7813fc.camel@mailbox.org>
-Subject: Re: [PATCH 1/4] dma-buf/fence: give some reasonable maximum
- signaling timeout
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- phasta@kernel.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch, 
- faith@gfxstrand.net, sumit.semwal@linaro.org
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org
-Date: Tue, 25 Nov 2025 09:13:45 +0100
-In-Reply-To: <b46913b6-fe61-48cd-a9ca-aa2fe3a12b63@amd.com>
-References: <20251120150018.27385-1-christian.koenig@amd.com>
- <20251120150018.27385-2-christian.koenig@amd.com>
- <380012b9d6f0e9ee3c2f125cfe2f37f65c1979e0.camel@mailbox.org>
- <b46913b6-fe61-48cd-a9ca-aa2fe3a12b63@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6F0B10E37E;
+ Tue, 25 Nov 2025 08:16:38 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 9D9DA4033A;
+ Tue, 25 Nov 2025 08:16:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEC43C4CEF1;
+ Tue, 25 Nov 2025 08:16:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764058598;
+ bh=5wgdcTj1KJbTC2xHzImYJ8OdikbVyCwSxzZIfn0r8dY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=SFNGgIq04QJ8z6YGNma2DNonyRTX2+UAFFTiUgZl368UW6s4cDQzv2RosteXWXXur
+ 8lDoh8dNq9JM/Xk+oGPZN56rccV4WcFo4ZtEWLYlwxt6qsmMGDEC8A7wwh2NW0Ux2+
+ hefjKOBpsBjFWy4yElsfMGEDti1cu5wbCq1xZKsjnjB2aTgir7Pmb2iPKo/yGqSWuo
+ am0xkjdU+A5VVeG0SQ/wXkP1tRJHKOnt2DQkIRGTZ/dbQ12d7CWSc1uXdRtiprMn4x
+ Y7W3DcV4OyvuvvzNJ+9kIVCvbjhv4HEpN1HhtImieBrvsMWnzpw038KD4pj8JCKpAP
+ OgfmtxVfxN1YA==
+Message-ID: <774e5c50-f470-40b8-8b06-ee7806401d09@kernel.org>
+Date: Tue, 25 Nov 2025 09:16:31 +0100
 MIME-Version: 1.0
-X-MBO-RS-META: uoy7696snxohobny3j5j35jjpiz6apoo
-X-MBO-RS-ID: b616c6980f2dea44785
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/10] dt-bindings: display/msm: dsi-phy-7nm: Add
+ Kaanapali DSI PHY
+To: yuanjie yang <yuanjie.yang@oss.qualcomm.com>,
+ robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
+ sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, quic_mkrishn@quicinc.com, jonathan@marek.ca,
+ quic_khsieh@quicinc.com, neil.armstrong@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ tingwei.zhang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com
+References: <20251125064758.7207-1-yuanjie.yang@oss.qualcomm.com>
+ <20251125064758.7207-3-yuanjie.yang@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251125064758.7207-3-yuanjie.yang@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,61 +108,35 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-11-25 at 09:03 +0100, Christian K=C3=B6nig wrote:
-> On 11/25/25 08:55, Philipp Stanner wrote:
-> > > =C2=A0
-> > > +/**
-> > > + * define DMA_FENCE_MAX_REASONABLE_TIMEOUT - max reasonable signalin=
-g timeout
-> > > + *
-> > > + * The dma_fence object has a deep inter dependency with core memory
-> > > + * management, for a detailed explanation see section DMA Fences und=
-er
-> > > + * Documentation/driver-api/dma-buf.rst.
-> > > + *
-> > > + * Because of this all dma_fence implementations must guarantee that=
- each fence
-> > > + * completes in a finite time. This define here now gives a reasonab=
-le value for
-> > > + * the timeout to use. It is possible to use a longer timeout in an
-> > > + * implementation but that should taint the kernel.
-> > > + */
-> > > +#define DMA_FENCE_MAX_REASONABLE_TIMEOUT (2*HZ)
-> >=20
-> > HZ can change depending on the config. Is that really a good choice? I
-> > could see racy situations arising in some configs vs others
->=20
-> 2*HZ is always two seconds expressed in number of jiffies, I can use msec=
-s_to_jiffies(2000) to make that more obvious.
-
-On AMD64 maybe. What about the other architectures?
-
->=20
-> The GPU scheduler has a very similar define, MAX_WAIT_SCHED_ENTITY_Q_EMPT=
-Y which is currently just 1 second.
->=20
-> The real question is what is the maximum amount of time we can wait for t=
-he HW before we should trigger a timeout?
-
-That's a question only the drivers can answer, which is why I like to
-think that setting global constants constraining all parties is not the
-right thing to do.
-
-What is even your motivation? What problem does this solve? Is the OOM
-killer currently hanging for anyone? Can you link a bug report?
-
->=20
-> Some AMD internal team is pushing for 10 seconds, but that also means tha=
-t for example we wait 10 seconds for the OOM killer to do something. That s=
-ounds like way to long.
->=20
-
-Nouveau has timeout =3D 10 seconds. AFAIK we've never seen bugs because
-of that. Have you seen some?
+On 25/11/2025 07:47, yuanjie yang wrote:
+> From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
+> 
+> The DSI PHY registers on the Kaanapali platform differ from those
+> on SM8750. So add DSI PHY for Kaanapali to compatible these changes.
+> 
 
 
-P.
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
+
+Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, instead use mainline) or work on fork of kernel
+(don't, instead use mainline). Just use b4 and everything should be
+fine, although remember about `b4 prep --auto-to-cc` if you added new
+patches to the patchset.
+
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time.
+
+Please kindly resend and include all necessary To/Cc entries.
+
+
+Best regards,
+Krzysztof
