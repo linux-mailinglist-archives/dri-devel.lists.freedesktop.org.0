@@ -2,40 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77630C8413A
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 09:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39EA8C84230
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 10:06:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D426510E049;
-	Tue, 25 Nov 2025 08:54:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1CB410E398;
+	Tue, 25 Nov 2025 09:06:05 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GtNHZDjy";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-173.mail.aliyun.com (out28-173.mail.aliyun.com
- [115.124.28.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A93CE10E049;
- Tue, 25 Nov 2025 08:54:45 +0000 (UTC)
-Received: from 172.38.10.120(mailfrom:zhangzhijie@bosc.ac.cn
- fp:SMTPD_---.fVUNjrr_1764060881 cluster:ay29) by smtp.aliyun-inc.com;
- Tue, 25 Nov 2025 16:54:42 +0800
-Message-ID: <9bcca124-e4da-4f68-9ec6-ba76b88d26dc@bosc.ac.cn>
-Date: Tue, 25 Nov 2025 16:54:40 +0800
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB63010E390
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 09:06:03 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 35B5E1A1D30;
+ Tue, 25 Nov 2025 09:05:56 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 0690660705;
+ Tue, 25 Nov 2025 09:05:56 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id D323A10371616; Tue, 25 Nov 2025 10:05:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1764061555; h=from:subject:date:message-id:to:cc:mime-version:
+ content-transfer-encoding; bh=EnzzFaoxZT2moKRMTZsQDsdt2u8wjYq4N0N97zM8DBg=;
+ b=GtNHZDjyEMK9SYW8TzeBNrhCQkE+Xyk+fCtvTs+Mf0Ey1TbK+IXutOS3EM6jDTSM85qRf4
+ WQMywkVBEwYTs7Sf7cjhf9H2/BoqC+egvCX5f2PWTx+iyqZPpSzkvkdKJLtmrXy7CFc05W
+ Y/+KYbls7GD56om3QY5tRdvQITenHI+6psgW+wKb2vRRVEGfu5EZ0GwJlkJFBLsTcY96qu
+ plpMDrNIK2XctZtXXWl/Jyl0NAoqApc4wdc051RTGnLha82QSf9UQ2m8ZWeIfVnJ2WD8uF
+ JWh8Ktnai/2qnOS+xHasUCknyl/emsB8rGEIjPgQjdlSHyfHiDZxGUGdgd+R3g==
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Bajjuri Praneeth <praneeth@ti.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>,
+ stable@vger.kernel.org, thomas.petazzoni@bootlin.com,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Subject: [PATCH v4] drm/tilcdc: Fix removal actions in case of failed probe
+Date: Tue, 25 Nov 2025 10:05:44 +0100
+Message-ID: <20251125090546.137193-1-kory.maincent@bootlin.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2/2] i915: Support Intel GPU porting on any non-x86
- system.
-To: Jani Nikula <jani.nikula@linux.intel.com>, jeff@jeffgeerling.com,
- wangran@bosc.ac.cn, zhangjian@bosc.ac.cn, daniel@ffwll.ch,
- rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, airlied@gmail.com, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, guoyaxing@bosc.ac.cn,
- ville.syrjala@linux.intel.com
-References: <20251125033420.2265288-1-zhangzhijie@bosc.ac.cn>
- <98262d9d2ea7c02858aafae680a3ca0ff0a9dc9a@intel.com>
-Content-Language: en-US
-From: ZhangZhiJie <zhangzhijie@bosc.ac.cn>
-In-Reply-To: <98262d9d2ea7c02858aafae680a3ca0ff0a9dc9a@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,102 +67,226 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
 
-Hi. Jani
+The drm_kms_helper_poll_fini() and drm_atomic_helper_shutdown() helpers
+should only be called when the device has been successfully registered.
+Currently, these functions are called unconditionally in tilcdc_fini(),
+which causes warnings during probe deferral scenarios.
 
-On 2025/11/25 16:38, Jani Nikula wrote:
-> On Tue, 25 Nov 2025, zhangzhijie <zhangzhijie@bosc.ac.cn> wrote:
->> inb/outb speccial wire not support on other ARCH.
->> Should detect whether arch platform support or not.
-> 
-> I would rather finish the discussion on the previous version before
-> seeing a new version.
-> 
-> You mentioned risc-v in the previous thread, but it needs to be part of
-> the commit message too. And I still don't know what "speccial wire" is
-> supposed to mean here.
-> 
-I using RISCV to bootingup A380, This arch not support  VGA_SEQ_* 
-ioports. and i don't know if other arch(such as aarch64) has VGA_SEQ_*.
-> You still use likely/unlikely, and I told you not to.
-> 
-Ok, Next patch will fixed.
-> There's no patch changelog.
-> 
-> The version in the subject is "v2/2", but there has already been two
-> "v2" posted previously.
-> 
-After sending emails using V2, I realized that I had used V2 before, so 
-I started using V2/2. Can I use V3 to continue with subsequent 
-patch-modified commits?
-> 
-> BR,
-> Jani.
-> 
-> 
->>
->> Signed-off-by: zhangzhijie <zhangzhijie@bosc.ac.cn>
->> ---
->>   drivers/gpu/drm/i915/display/intel_vga.c | 33 +++++++++++++++++-------
->>   1 file changed, 23 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/display/intel_vga.c b/drivers/gpu/drm/i915/display/intel_vga.c
->> index 6e125564db34..d85622ba10fc 100644
->> --- a/drivers/gpu/drm/i915/display/intel_vga.c
->> +++ b/drivers/gpu/drm/i915/display/intel_vga.c
->> @@ -41,6 +41,15 @@ static bool has_vga_pipe_sel(struct intel_display *display)
->>   	return DISPLAY_VER(display) < 7;
->>   }
->>   
->> +static bool intel_arch_support_vga_pm(struct intel_display *display)
->> +{
->> +#if defined(CONFIG_X86) || defined(CONFIG_X86_64)
->> +	return true;
->> +#else
->> +	return false;
->> +#endif
->> +}
->> +
->>   /* Disable the VGA plane that we never use */
->>   void intel_vga_disable(struct intel_display *display)
->>   {
->> @@ -64,13 +73,15 @@ void intel_vga_disable(struct intel_display *display)
->>   	drm_dbg_kms(display->drm, "Disabling VGA plane on pipe %c\n",
->>   		    pipe_name(pipe));
->>   
->> -	/* WaEnableVGAAccessThroughIOPort:ctg,elk,ilk,snb,ivb,vlv,hsw */
->> -	vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
->> -	outb(0x01, VGA_SEQ_I);
->> -	sr1 = inb(VGA_SEQ_D);
->> -	outb(sr1 | VGA_SR01_SCREEN_OFF, VGA_SEQ_D);
->> -	vga_put(pdev, VGA_RSRC_LEGACY_IO);
->> -	udelay(300);
->> +	if (likely(intel_arch_support_vga_pm(display))) {
->> +		/* WaEnableVGAAccessThroughIOPort:ctg,elk,ilk,snb,ivb,vlv,hsw */
->> +		vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
->> +		outb(0x01, VGA_SEQ_I);
->> +		sr1 = inb(VGA_SEQ_D);
->> +		outb(sr1 | VGA_SR01_SCREEN_OFF, VGA_SEQ_D);
->> +		vga_put(pdev, VGA_RSRC_LEGACY_IO);
->> +		udelay(300);
->> +	}
->>   
->>   	intel_de_write(display, vga_reg, VGA_DISP_DISABLE);
->>   	intel_de_posting_read(display, vga_reg);
->> @@ -90,9 +101,11 @@ void intel_vga_reset_io_mem(struct intel_display *display)
->>   	 * sure vgacon can keep working normally without triggering interrupts
->>   	 * and error messages.
->>   	 */
->> -	vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
->> -	outb(inb(VGA_MIS_R), VGA_MIS_W);
->> -	vga_put(pdev, VGA_RSRC_LEGACY_IO);
->> +	if (likely(intel_arch_support_vga_pm(display))) {
->> +		vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
->> +		outb(inb(VGA_MIS_R), VGA_MIS_W);
->> +		vga_put(pdev, VGA_RSRC_LEGACY_IO);
->> +	}
->>   }
->>   
->>   int intel_vga_register(struct intel_display *display)
-> 
+[    7.972317] WARNING: CPU: 0 PID: 23 at drivers/gpu/drm/drm_atomic_state_helper.c:175 drm_atomic_helper_crtc_duplicate_state+0x60/0x68
+...
+[    8.005820]  drm_atomic_helper_crtc_duplicate_state from drm_atomic_get_crtc_state+0x68/0x108
+[    8.005858]  drm_atomic_get_crtc_state from drm_atomic_helper_disable_all+0x90/0x1c8
+[    8.005885]  drm_atomic_helper_disable_all from drm_atomic_helper_shutdown+0x90/0x144
+[    8.005911]  drm_atomic_helper_shutdown from tilcdc_fini+0x68/0xf8 [tilcdc]
+[    8.005957]  tilcdc_fini [tilcdc] from tilcdc_pdev_probe+0xb0/0x6d4 [tilcdc]
+
+Fix this by rewriting the failed probe cleanup path using the standard
+goto error handling pattern, which ensures that cleanup functions are
+only called on successfully initialized resources. Additionally, remove
+the now-unnecessary is_registered flag.
+
+Cc: stable@vger.kernel.org
+Fixes: 3c4babae3c4a ("drm: Call drm_atomic_helper_shutdown() at shutdown/remove time for misc drivers")
+Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
+---
+
+I'm working on removing the usage of deprecated functions as well as
+general improvements to this driver, but it will take some time so for
+now this is a simple fix to a functional bug.
+
+Change in v4:
+- Fix an unused label warning reported by the kernel test robot.
+
+Change in v3:
+- Rewrite the failed probe clean up path using goto
+- Remove the is_registered flag
+
+Change in v2:
+- Add missing cc: stable tag
+- Add Swamil reviewed-by
+---
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c |  2 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c  | 53 ++++++++++++++++++----------
+ drivers/gpu/drm/tilcdc/tilcdc_drv.h  |  2 +-
+ 3 files changed, 37 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+index 5718d9d83a49f..52c95131af5af 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
+@@ -586,7 +586,7 @@ static void tilcdc_crtc_recover_work(struct work_struct *work)
+ 	drm_modeset_unlock(&crtc->mutex);
+ }
+ 
+-static void tilcdc_crtc_destroy(struct drm_crtc *crtc)
++void tilcdc_crtc_destroy(struct drm_crtc *crtc)
+ {
+ 	struct tilcdc_drm_private *priv = crtc->dev->dev_private;
+ 
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+index 7caec4d38ddf0..3dcbec312bacb 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+@@ -172,8 +172,7 @@ static void tilcdc_fini(struct drm_device *dev)
+ 	if (priv->crtc)
+ 		tilcdc_crtc_shutdown(priv->crtc);
+ 
+-	if (priv->is_registered)
+-		drm_dev_unregister(dev);
++	drm_dev_unregister(dev);
+ 
+ 	drm_kms_helper_poll_fini(dev);
+ 	drm_atomic_helper_shutdown(dev);
+@@ -220,21 +219,21 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+ 	priv->wq = alloc_ordered_workqueue("tilcdc", 0);
+ 	if (!priv->wq) {
+ 		ret = -ENOMEM;
+-		goto init_failed;
++		goto put_drm;
+ 	}
+ 
+ 	priv->mmio = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(priv->mmio)) {
+ 		dev_err(dev, "failed to request / ioremap\n");
+ 		ret = PTR_ERR(priv->mmio);
+-		goto init_failed;
++		goto free_wq;
+ 	}
+ 
+ 	priv->clk = clk_get(dev, "fck");
+ 	if (IS_ERR(priv->clk)) {
+ 		dev_err(dev, "failed to get functional clock\n");
+ 		ret = -ENODEV;
+-		goto init_failed;
++		goto free_wq;
+ 	}
+ 
+ 	pm_runtime_enable(dev);
+@@ -313,7 +312,7 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+ 	ret = tilcdc_crtc_create(ddev);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to create crtc\n");
+-		goto init_failed;
++		goto disable_pm;
+ 	}
+ 	modeset_init(ddev);
+ 
+@@ -324,46 +323,46 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+ 	if (ret) {
+ 		dev_err(dev, "failed to register cpufreq notifier\n");
+ 		priv->freq_transition.notifier_call = NULL;
+-		goto init_failed;
++		goto destroy_crtc;
+ 	}
+ #endif
+ 
+ 	if (priv->is_componentized) {
+ 		ret = component_bind_all(dev, ddev);
+ 		if (ret < 0)
+-			goto init_failed;
++			goto unregister_cpufreq_notif;
+ 
+ 		ret = tilcdc_add_component_encoder(ddev);
+ 		if (ret < 0)
+-			goto init_failed;
++			goto unbind_component;
+ 	} else {
+ 		ret = tilcdc_attach_external_device(ddev);
+ 		if (ret)
+-			goto init_failed;
++			goto unregister_cpufreq_notif;
+ 	}
+ 
+ 	if (!priv->external_connector &&
+ 	    ((priv->num_encoders == 0) || (priv->num_connectors == 0))) {
+ 		dev_err(dev, "no encoders/connectors found\n");
+ 		ret = -EPROBE_DEFER;
+-		goto init_failed;
++		goto unbind_component;
+ 	}
+ 
+ 	ret = drm_vblank_init(ddev, 1);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to initialize vblank\n");
+-		goto init_failed;
++		goto unbind_component;
+ 	}
+ 
+ 	ret = platform_get_irq(pdev, 0);
+ 	if (ret < 0)
+-		goto init_failed;
++		goto unbind_component;
+ 	priv->irq = ret;
+ 
+ 	ret = tilcdc_irq_install(ddev, priv->irq);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to install IRQ handler\n");
+-		goto init_failed;
++		goto unbind_component;
+ 	}
+ 
+ 	drm_mode_config_reset(ddev);
+@@ -372,16 +371,34 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+ 
+ 	ret = drm_dev_register(ddev, 0);
+ 	if (ret)
+-		goto init_failed;
+-	priv->is_registered = true;
++		goto stop_poll;
+ 
+ 	drm_client_setup_with_color_mode(ddev, bpp);
+ 
+ 	return 0;
+ 
+-init_failed:
+-	tilcdc_fini(ddev);
++stop_poll:
++	drm_kms_helper_poll_fini(ddev);
++	tilcdc_irq_uninstall(ddev);
++unbind_component:
++	if (priv->is_componentized)
++		component_unbind_all(dev, ddev);
++unregister_cpufreq_notif:
++#ifdef CONFIG_CPU_FREQ
++	cpufreq_unregister_notifier(&priv->freq_transition,
++				    CPUFREQ_TRANSITION_NOTIFIER);
++destroy_crtc:
++#endif
++	tilcdc_crtc_destroy(priv->crtc);
++disable_pm:
++	pm_runtime_disable(dev);
++	clk_put(priv->clk);
++free_wq:
++	destroy_workqueue(priv->wq);
++put_drm:
+ 	platform_set_drvdata(pdev, NULL);
++	ddev->dev_private = NULL;
++	drm_dev_put(ddev);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.h b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
+index b818448c83f61..58b276f82a669 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.h
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
+@@ -82,7 +82,6 @@ struct tilcdc_drm_private {
+ 	struct drm_encoder *external_encoder;
+ 	struct drm_connector *external_connector;
+ 
+-	bool is_registered;
+ 	bool is_componentized;
+ 	bool irq_enabled;
+ };
+@@ -164,6 +163,7 @@ void tilcdc_crtc_set_panel_info(struct drm_crtc *crtc,
+ void tilcdc_crtc_set_simulate_vesa_sync(struct drm_crtc *crtc,
+ 					bool simulate_vesa_sync);
+ void tilcdc_crtc_shutdown(struct drm_crtc *crtc);
++void tilcdc_crtc_destroy(struct drm_crtc *crtc);
+ int tilcdc_crtc_update_fb(struct drm_crtc *crtc,
+ 		struct drm_framebuffer *fb,
+ 		struct drm_pending_vblank_event *event);
+-- 
+2.43.0
 
