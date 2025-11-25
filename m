@@ -2,99 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0E1DC85D39
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 16:48:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6AEBC85DBE
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 17:03:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18C6F10E44F;
-	Tue, 25 Nov 2025 15:48:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A41510E445;
+	Tue, 25 Nov 2025 16:03:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UQj4oe93";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="KI3zLOWv";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="BaAIK6VN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FE0010E44A
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 15:48:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1764085711;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2983610E43A
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 16:03:40 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dG6td0nK0z9sp0;
+ Tue, 25 Nov 2025 17:03:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1764086617; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LbsJw3XVyMCXF2nJOSiyaSbV+wPkyDhX4KT6TGCRgss=;
- b=UQj4oe93nmNBdopKBoskZA4rQ2BwtHV3kjQiQJBxda6/qNo0jt2/lArA02sV+rQRm151Id
- 5N8btrWFYKBHJM04I/e58zdd5P6g4p09tpcWXkECn6kBD/JrjDoTtRhzh5/uU2moGu8BNT
- 4oHwFx3QtrjcTbFUkJaaL01ggqgJjFM=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-685-wT98yaCOMsaoeD4elA9CFQ-1; Tue, 25 Nov 2025 10:48:28 -0500
-X-MC-Unique: wT98yaCOMsaoeD4elA9CFQ-1
-X-Mimecast-MFC-AGG-ID: wT98yaCOMsaoeD4elA9CFQ_1764085707
-Received: by mail-pl1-f200.google.com with SMTP id
- d9443c01a7336-295592eb5dbso119458445ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 07:48:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764085707; x=1764690507;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=k9b09Krqnfah1Efwew759eb1g6delm/Yd1AUWIG5UK4=;
- b=QxrdM6WbF0EqCPzaIB1eGJ/EDS2VFX8FUz6iXwU2UQguXAcJMl3fC+xE5gfYuib1i0
- nVzpKXtO+smuLPh0mpDIcjxbniaQrpQFzJDgvbNgcUIjpIE1mxjekQY7bdIGaY6H9PAP
- mAuha5DRRawbikbEOM68qRDi7UKryct4/PKxZXE80Gsm8/s0sXaf6H3953L+mCv4iSf8
- u39Kg1T+Ci/IZzL+y6tlYFuL6/8Y1Ypz+Z2gMWhhJp+VX+l493F8yFeeumN+8FeetL0X
- Sixt85roN+OvVSd1oaE5V8fS7H7beBgtttsjEmqN6nkTGSdwhYq3hIzr4MfMk5s3W3+K
- EpLA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUpYQ34e6VSkQHoQvXOA0KNb9UW11Xv9pVE24WWL+S423p4q/NIb1sBIr2AD7LpBZURtl5hIcj+kNU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyxjvdiwM/4Gv7cqKZy9Qjv1mPyJtvj9dsxNibKjjTPcaitvYse
- EtWCcSLEaFLp+KT5MeGvr0DA8y/DVNcrTtUBo/8BTTwvstNWFwUL7l3wWF+P2csQS3sLXo/qKkA
- JugBe99P5kpKTxpc13Q3Z+RXD6Vy+DX2rYZqqrhDjmC2H25XjttWaMvfmtK88g91/9+6HvQ==
-X-Gm-Gg: ASbGncvCNzjpuq6n4ffS65Hi6MqBj5BMCPcyCgKd/1pQzxSKHA7h9lY2kvtIJEeapVG
- nIuhU882FUH60xpOXABEViz9c9HdddQr7SqGLW0gGaCIpWaam0viMV3UikCbqAOrsvzcstMN/Ab
- HlAjgYKwMw91Eq30h7qIXIAwBH07PMXJEXhG6H50UPsmjv42/TvNPPRUVnst/bPXURz6NRSAO46
- uqCJuAJEuQrFzArLaDp9oGlpNzP4xunClW9RewUkYlfd9phhINy2X+TO4n61EkRQR+zs1Iqa7Yl
- WenbcPB+UdmZXHQcMYnvP+vDmVcup5syvhrHyyVy3EW8qniXczHlueRpYBUijjB+1YnbCqsy+ea
- 91AbBJl3ySDZdaB7kJZogQQ==
-X-Received: by 2002:a17:903:b86:b0:295:4d97:8503 with SMTP id
- d9443c01a7336-29b6c575180mr187671365ad.30.1764085707031; 
- Tue, 25 Nov 2025 07:48:27 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHKvgNQbyrXYYI1Dt7FHL145Gwg3yi+vBGB1qCw8Ugy59NPU8GBaC78JFLtZrJ3YPzGWPblAA==
-X-Received: by 2002:a17:903:b86:b0:295:4d97:8503 with SMTP id
- d9443c01a7336-29b6c575180mr187671005ad.30.1764085706489; 
- Tue, 25 Nov 2025 07:48:26 -0800 (PST)
-Received: from [10.200.68.138] (nat-pool-muc-u.redhat.com. [149.14.88.27])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29b5b107774sm168940565ad.9.2025.11.25.07.48.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Nov 2025 07:48:25 -0800 (PST)
-Message-ID: <414bc2c721bfc60b8b8a1b7d069ff0fc9b3e5283.camel@redhat.com>
-Subject: Re: [PATCH v9 02/13] PCI: Add devres helpers for iomap table
- [resulting in backtraces on HPPA]
-From: Philipp Stanner <pstanner@redhat.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Hans de Goede <hdegoede@redhat.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Bjorn Helgaas <bhelgaas@google.com>, Sam
- Ravnborg <sam@ravnborg.org>, dakr@redhat.com, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-pci@vger.kernel.org, linux-parisc@vger.kernel.org, Helge Deller
- <deller@gmx.de>
-Date: Tue, 25 Nov 2025 16:48:11 +0100
-In-Reply-To: <16cd212f-6ea0-471d-bf32-34f55d7292fe@roeck-us.net>
-References: <20240613115032.29098-1-pstanner@redhat.com>
- <20240613115032.29098-3-pstanner@redhat.com>
- <16cd212f-6ea0-471d-bf32-34f55d7292fe@roeck-us.net>
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: QKnN0l3g8UrE9QuVQkLDFIG3tF-snEwgebc4RJmpzkc_1764085707
-X-Mimecast-Originator: redhat.com
+ bh=SuWwgUjth81uOhn7rCZx8VvaOoeSO1XhSQIqEV3fd5Y=;
+ b=KI3zLOWvJMl4nT+ITStoohjRWUAvDjEsLS3AhlVTkg8uADH5eqmSNZKO6f9gDnOkL1VIAz
+ YsehdpHtEQZicVvZflMoKxpfR03Q7colEa5NmEmI25Lx+QPCqhL+aApLk2VPmg2zAZxNQB
+ WNX1Co/cpMgY+k6XQdIo4Z6j0TjyQwnR0ne3iHn33b/XwU3piG4CyJw2lLCJYHRlJPt5nh
+ lasXadTgEbR6g1/QJ5S68jDdn/PZyuLoeAYy7qV8COdTZ/jUcszHToCU70ULBWHxavxoIi
+ SkKdz3Bbw9Rf7SNLWn+bOJDkiqwY5a5GLtVmulPvfHR3YA2YQ8bY7zJzrQAAQg==
+Message-ID: <fe25a7fe229c0a150c54a80dd83ac83fc0daa3af.camel@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1764086613; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SuWwgUjth81uOhn7rCZx8VvaOoeSO1XhSQIqEV3fd5Y=;
+ b=BaAIK6VNean2TBqarCzND1ApOOx4AOsOH45FoozocDO7vKx08VtSvgz8gG1Ww1fPCiO001
+ 07ay3WAWRl57IPzYpgzAzJ2YnkmOE6tqj6GOoWZG7EgbBxm+PY6EWC/3t1aZfHPTx4hMVC
+ JyWUuTzeZfH0o3oTUa0TdD18QoPwvrIGHaIOzYERjm3758rB5MMufwWwpkqWSND4cpfbLK
+ qnuzP5CnoO3ii6FS0jcHq+oPVQzBsqMXG+Qrvu6smFdYDRodPm+2izA9jmlp1QUbmNItl3
+ G4rSd2r6/WFo6NyECpLdypSANB7O/xA2/nnX4plIkgjQahnPSu85Hx6EVakqHg==
+Subject: Re: [PATCH 1/4] dma-buf/fence: give some reasonable maximum
+ signaling timeout
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ phasta@kernel.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch, 
+ faith@gfxstrand.net, sumit.semwal@linaro.org
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org, Michel
+ =?ISO-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>
+Date: Tue, 25 Nov 2025 17:03:29 +0100
+In-Reply-To: <52d484c5-6dfb-4e2f-9caa-a61cf1d94801@amd.com>
+References: <20251120150018.27385-1-christian.koenig@amd.com>
+ <20251120150018.27385-2-christian.koenig@amd.com>
+ <380012b9d6f0e9ee3c2f125cfe2f37f65c1979e0.camel@mailbox.org>
+ <b46913b6-fe61-48cd-a9ca-aa2fe3a12b63@amd.com>
+ <1c1a14d42d0a4a25ebce26a2af0a61dc1b7813fc.camel@mailbox.org>
+ <508ff709-0f05-4982-8e15-5fea3bbd12e7@amd.com>
+ <c2b571a7e74f86c6cb95bebd11274447c3080df9.camel@mailbox.org>
+ <52d484c5-6dfb-4e2f-9caa-a61cf1d94801@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MBO-RS-META: xobz763nh974ckm85ey379t35kmq378h
+X-MBO-RS-ID: cc866405691828f7a82
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,166 +84,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 2025-11-23 at 08:42 -0800, Guenter Roeck wrote:
-> Hi,
->=20
-> On Thu, Jun 13, 2024 at 01:50:15PM +0200, Philipp Stanner wrote:
-> > The pcim_iomap_devres.table administrated by pcim_iomap_table() has its
-> > entries set and unset at several places throughout devres.c using manua=
-l
-> > iterations which are effectively code duplications.
++Cc Michel
+
+On Tue, 2025-11-25 at 15:26 +0100, Christian K=C3=B6nig wrote:
+> On 11/25/25 11:56, Philipp Stanner wrote:
+> > > > >=20
+> > > > > The GPU scheduler has a very similar define, MAX_WAIT_SCHED_ENTIT=
+Y_Q_EMPTY which is currently just 1 second.
+> > > > >=20
+> > > > > The real question is what is the maximum amount of time we can wa=
+it for the HW before we should trigger a timeout?
+> > > >=20
+> > > > That's a question only the drivers can answer, which is why I like =
+to
+> > > > think that setting global constants constraining all parties is not=
+ the
+> > > > right thing to do.
+> > >=20
+> > > Exactly that's the reason why I bring that up. I think that drivers s=
+hould be in charge of timeouts is the wrong approach.
+> > >=20
+> > > See the reason why we have the timeout (and documented that it is a m=
+ust have) is because we have both core memory management as well a desktop =
+responsiveness depend on it.
 > >=20
-> > Add pcim_add_mapping_to_legacy_table() and
-> > pcim_remove_mapping_from_legacy_table() helper functions and use them w=
-here
-> > possible.
+> > Good and well, but then patch 4 becomes even more problematic:
 > >=20
-> > Link: https://lore.kernel.org/r/20240605081605.18769-4-pstanner@redhat.=
-com
-> > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> > [bhelgaas: s/short bar/int bar/ for consistency]
-> > Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-> > ---
-> > =C2=A0drivers/pci/devres.c | 77 +++++++++++++++++++++++++++++++++------=
------
-> > =C2=A01 file changed, 58 insertions(+), 19 deletions(-)
+> > So we'd just have drivers fire warnings, and then they would still have
+> > the freedom to set timeouts for drm/sched, as long as those timeouts
+> > are smaller than your new global constant.
 > >=20
-> > diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-> > index f13edd4a3873..845d6fab0ce7 100644
-> > --- a/drivers/pci/devres.c
-> > +++ b/drivers/pci/devres.c
-> > @@ -297,6 +297,52 @@ void __iomem * const *pcim_iomap_table(struct pci_=
-dev *pdev)
-> > =C2=A0}
-> > =C2=A0EXPORT_SYMBOL(pcim_iomap_table);
-> > =C2=A0
-> > +/*
-> > + * Fill the legacy mapping-table, so that drivers using the old API ca=
-n
-> > + * still get a BAR's mapping address through pcim_iomap_table().
-> > + */
-> > +static int pcim_add_mapping_to_legacy_table(struct pci_dev *pdev,
-> > +=09=09=09=09=09=C2=A0=C2=A0=C2=A0 void __iomem *mapping, int bar)
-> > +{
-> > +=09void __iomem **legacy_iomap_table;
-> > +
-> > +=09if (bar >=3D PCI_STD_NUM_BARS)
-> > +=09=09return -EINVAL;
-> > +
-> > +=09legacy_iomap_table =3D (void __iomem **)pcim_iomap_table(pdev);
-> > +=09if (!legacy_iomap_table)
-> > +=09=09return -ENOMEM;
-> > +
-> > +=09/* The legacy mechanism doesn't allow for duplicate mappings. */
-> > +=09WARN_ON(legacy_iomap_table[bar]);
-> > +
+> > Why then not remove drm/sched's timeout parameter API completely and
+> > always use your maximum value internally in drm/sched? Or maybe
+> > truncate it with a warning?
 >=20
-> Ever since this patch has been applied, I see this warning on all hppa
-> (parisc) systems.
+> I have considered that as well, but then thought that we should at least =
+give end users the possibility to override the timeout while still tainting=
+ the kernel so that we know about this in bug reports, core dumps etc...
 >=20
-> [=C2=A0=C2=A0=C2=A0 0.978177] WARNING: CPU: 0 PID: 1 at drivers/pci/devre=
-s.c:473 pcim_add_mapping_to_legacy_table.part.0+0x54/0x80
-> [=C2=A0=C2=A0=C2=A0 0.978850] Modules linked in:
-> [=C2=A0=C2=A0=C2=A0 0.979277] CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not ta=
-inted 6.18.0-rc6-64bit+ #1 NONE
-> [=C2=A0=C2=A0=C2=A0 0.979519] Hardware name: 9000/785/C3700
-> [=C2=A0=C2=A0=C2=A0 0.979715]
-> [=C2=A0=C2=A0=C2=A0 0.979768]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 YZrvWESTHLNXB=
-CVMcbcbcbcbOGFRQPDI
-> [=C2=A0=C2=A0=C2=A0 0.979886] PSW: 00001000000001000000000000001111 Not t=
-ainted
-> [=C2=A0=C2=A0=C2=A0 0.980006] r00-03=C2=A0 000000000804000f 00000000414e1=
-0a0 0000000040acb300 00000000434b1440
-> [=C2=A0=C2=A0=C2=A0 0.980167] r04-07=C2=A0 00000000414a78a0 0000000000029=
-000 0000000000000000 0000000043522000
-> [=C2=A0=C2=A0=C2=A0 0.980314] r08-11=C2=A0 0000000000000000 0000000000000=
-008 0000000000000000 00000000434b0de8
-> [=C2=A0=C2=A0=C2=A0 0.980461] r12-15=C2=A0 00000000434b11b0 000000004156a=
-8a0 0000000043c655a0 0000000000000000
-> [=C2=A0=C2=A0=C2=A0 0.980608] r16-19=C2=A0 000000004016e080 000000004019e=
-7d8 0000000000000030 0000000043549780
-> [=C2=A0=C2=A0=C2=A0 0.981106] r20-23=C2=A0 0000000020000000 0000000000000=
-000 000000000800000e 0000000000000000
-> [=C2=A0=C2=A0=C2=A0 0.981317] r24-27=C2=A0 0000000000000000 0000000008000=
-00f 0000000043522260 00000000414a78a0
-> [=C2=A0=C2=A0=C2=A0 0.981480] r28-31=C2=A0 00000000436af480 00000000434b1=
-680 00000000434b14d0 0000000000027000
-> [=C2=A0=C2=A0=C2=A0 0.981641] sr00-03=C2=A0 0000000000000000 000000000000=
-0000 0000000000000000 0000000000000000
-> [=C2=A0=C2=A0=C2=A0 0.981805] sr04-07=C2=A0 0000000000000000 000000000000=
-0000 0000000000000000 0000000000000000
-> [=C2=A0=C2=A0=C2=A0 0.981972]
-> [=C2=A0=C2=A0=C2=A0 0.982024] IASQ: 0000000000000000 0000000000000000 IAO=
-Q: 0000000040acb31c 0000000040acb320
-> [=C2=A0=C2=A0=C2=A0 0.982185]=C2=A0 IIR: 03ffe01f=C2=A0=C2=A0=C2=A0 ISR: =
-0000000000000000=C2=A0 IOR: 00000000436af410
-> [=C2=A0=C2=A0=C2=A0 0.982322]=C2=A0 CPU:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 0=C2=A0=C2=A0 CR30: 0000000043549780 CR31: 0000000000000000
-> [=C2=A0=C2=A0=C2=A0 0.982458]=C2=A0 ORIG_R28: 00000000434b16b0
-> [=C2=A0=C2=A0=C2=A0 0.982548]=C2=A0 IAOQ[0]: pcim_add_mapping_to_legacy_t=
-able.part.0+0x54/0x80
-> [=C2=A0=C2=A0=C2=A0 0.982733]=C2=A0 IAOQ[1]: pcim_add_mapping_to_legacy_t=
-able.part.0+0x58/0x80
-> [=C2=A0=C2=A0=C2=A0 0.982871]=C2=A0 RP(r2): pcim_add_mapping_to_legacy_ta=
-ble.part.0+0x38/0x80
-> [=C2=A0=C2=A0=C2=A0 0.983100] Backtrace:
-> [=C2=A0=C2=A0=C2=A0 0.983439]=C2=A0 [<0000000040acba1c>] pcim_iomap+0xc4/=
-0x170
-> [=C2=A0=C2=A0=C2=A0 0.983577]=C2=A0 [<0000000040ba3e4c>] serial8250_pci_s=
-etup_port+0x8c/0x168
-> [=C2=A0=C2=A0=C2=A0 0.983725]=C2=A0 [<0000000040ba7588>] setup_port+0x38/=
-0x50
-> [=C2=A0=C2=A0=C2=A0 0.983837]=C2=A0 [<0000000040ba7d94>] pci_hp_diva_setu=
-p+0x8c/0xd8
-> [=C2=A0=C2=A0=C2=A0 0.983957]=C2=A0 [<0000000040baa47c>] pciserial_init_p=
-orts+0x2c4/0x358
-> [=C2=A0=C2=A0=C2=A0 0.984088]=C2=A0 [<0000000040baa8bc>] pciserial_init_o=
-ne+0x31c/0x330
-> [=C2=A0=C2=A0=C2=A0 0.984214]=C2=A0 [<0000000040abfab4>] pci_device_probe=
-+0x194/0x270
+> > "Maximum timeout parameter exceeded, truncating to %ld.\n"
+> >=20
+> > I suppose some drivers want even higher responsiveness than those 2
+> > seconds.
 >=20
-> Looking into serial8250_pci_setup_port():
+> As far as I know some medical use cases for example have timeouts like 10=
+0-200ms. But again that is the use case and not the driver.
 >=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pci_resource_flags(dev, ba=
-r) & IORESOURCE_MEM) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 if (!pcim_iomap(dev, bar, 0) && !pcim_iomap_table(dev))
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -=
-ENOMEM;
+> > I do believe that more of the driver folks should be made aware of this
+> > intended change.
+>=20
+> I have no real intention of actually pushing those patches, at least not =
+as they are. I just wanted to kick of some discussion.
 
-Strange. From the code I see here the WARN_ON in
-pcim_add_mapping_to_legacy_table() should not fire. I suspect that it's
-actually triggered somewhere else.
+Can you then please use --rfc when creating such patches in the future?
+That way you won't cause my heart rate to increase, searching for
+immediate danger :D
 
 >=20
-> This suggests that the failure is expected. I can see that pcim_iomap_tab=
-le()
-> is deprecated, and that one is supposed to use pcim_iomap() instead. Howe=
-ver,
-> pcim_iomap() _is_ alrady used, and I don't see a function which lets the
-> caller replicate what is done above (attach multiple serial ports to the
-> same PCI bar).
+> > >=20
+> > > > What is even your motivation? What problem does this solve? Is the =
+OOM
+> > > > killer currently hanging for anyone? Can you link a bug report?
+> > >=20
+> > > I'm not sure if we have an external bug report (we have an internal o=
+ne), but for amdgpu there were customer complains that 10 seconds is to lon=
+g.
+> > >=20
+> > > So we changed it to 2 seconds for amdgpu, and now there are complains=
+ from internal AMD teams that 2 seconds is to short.
+> > >=20
+> > > While working on that I realized that the timeout is actually not dri=
+ver dependent at all.
+> > >=20
+> > > What can maybe argued is that a desktop system should have a shorter =
+timeout than some server, but that one driver needs a different timeout tha=
+n another driver doesn't really makes sense to me.
+> > >=20
+> > > I mean what is actually HW dependent on the requirement that I need a=
+ responsive desktop system?
+> >=20
+> > I suppose some drivers are indeed only used for server hardware. And
+> > for compute you might not care about responsiveness as long as your
+> > result drops off at some point. But there's cloud gaming, too..
+>=20
+> Good point with the cloud gaming.
+>=20
+> > I agree that distinguishing the use case that way is not ideal.
+> > However, who has the knowledge of how the hardware is being used by
+> > customers / users, if not the driver?
+>=20
+> Well the end user.
+>=20
+> Maybe we should move the whole timeout topic into the DRM layer or the sc=
+heduler component.
 
-Is serial8250_pci_setup_port() invoked in a loop somewhere? Where does
-the "attach multiple" happen?
+Who's the "user"? The entire system? One process sitting on top of its
+ioctl and file descriptor?
+
+That question plays into answering how and where timeouts should be
+configured.
+
+
+One might ask himself if then a kernel parameter would be the right way
+to configure it. I'm not very experienced with the desires of
+userspace.
+
+I sumond Michel D=C3=A4nzer to share his wisdom!
+
 
 >=20
-> How would you suggest to fix the problem ?
+> Something like 2 seconds default (which BTW is the default on Windows as =
+well), which can be overridden on a global, per device, per queue name basi=
+s.
 
-I suggest you try to remove the `&& pcim_iomap_table(dev)` from above
-to see if that's really the cause. pcim_iomap() already creates the
-table, and if it succeeds the table has been created with absolute
-certainty. The entries will also be present. So the table-check is
-surplus.
+I mean, the drivers can already set it per device. It seems to me that
+what you actually want is finer control?
 
-Report back please if that helps, I'd want to understand what's
-happening here.
+For Nouveau with its firmware scheduler having a timeout at all just
+doesn't make much sense anywayys.
+
+ * If a fw ring hangs, it hangs, and a shorter timeout will just have
+   your app crash sooner.
+ * If it's laggy and slow, it's laggy and slow, but with a high timeout
+   at least still usable.
+ * And if it's compute and slow, you at least get your results at some
+   point.
+
+But having a lower timeout wouldn't really repair anything, or am I
+mistaken?
+
+>=20
+> And 10 seconds maximum with only a warning that a not default timeout is =
+used and everything above 10 seconds taints the kernel and should really on=
+ly be used for testing/debugging.
+>=20
+> Thoughts?
 
 
-Regards
+The most important thing for me regarding your RFC is that we don't add
+shiny warnings by declaring driver behavior invalid that was
+operational for years.
+
+The most conservative way would be to send patches to the respective
+drivers, setting their timeouts to the new desired defaults, and then
+adding warnings so that future drivers become aware.
+
+
 P.
-
