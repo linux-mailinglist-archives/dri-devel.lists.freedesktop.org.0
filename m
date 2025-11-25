@@ -2,74 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E617DC8517D
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 14:06:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB8F7C8518F
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 14:06:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA31C10E3DD;
-	Tue, 25 Nov 2025 13:06:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6F6D10E3EA;
+	Tue, 25 Nov 2025 13:06:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="FGCFp5HQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hj+bWIsv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FGCFp5HQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hj+bWIsv";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="SO4GhwQa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lHrPBMIh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SO4GhwQa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lHrPBMIh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3EDD10E3DD
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 13:06:47 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E793610E3EB
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 13:06:50 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9569E5BD12;
- Tue, 25 Nov 2025 13:06:42 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 291A222805;
+ Tue, 25 Nov 2025 13:06:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764076002; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1764076003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+U4vrIbgsgliUNxgUtxijRtJqOxydX2VEPK/MIi84Fo=;
- b=FGCFp5HQ63OodYpyDIJt2551sLCB1Scd6uNRs6OdqP4fT1OcV2jbLC4iw+IdIsUZr0FxaX
- 2uHqAjTxai3rSexI1uEscKuVSqD8IaKkRfsE9vHy8KpeA+/6eveo6Ii8Flx69/mkoP68sT
- B5Zo0HM8KyJi18dQ79nHW/CQOoKd0ro=
+ bh=kYYk9pHjgnzOJbsyaUeeXQ7iuT+IrWDkYOQgKfcyCoY=;
+ b=SO4GhwQaYT+nw6VUdYmuRsnm0ZM1sBIlRZE/mfY3xfgMbHbqwHmqGUyOzKVQMC0PTbY4XK
+ akmQQfGZSLStfvBOEg6mXq8k8LVp1etoUJQCVv26al0Z2HDYe6qgp+Z1epnl80thW/WRzD
+ E8/2bVEXy5LvK0pnsNNcIulI81eXmhA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764076002;
+ s=susede2_ed25519; t=1764076003;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+U4vrIbgsgliUNxgUtxijRtJqOxydX2VEPK/MIi84Fo=;
- b=hj+bWIsv2zq+rBDW+akfq9R91Et4iwN9vh95lhyiecqFlP/NT9NHZU8PZSQBE0V1ZK1NS/
- Cl2PxTttZSALhXBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
+ bh=kYYk9pHjgnzOJbsyaUeeXQ7iuT+IrWDkYOQgKfcyCoY=;
+ b=lHrPBMIhF7XIHQkpRvn26+YK4oBByrFfckLdR3Jj8N7gQLKGuHVWDtED6ujEGmK8VIyj+C
+ cgwig7dJi3uJ1aAA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=SO4GhwQa;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lHrPBMIh
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764076002; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1764076003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+U4vrIbgsgliUNxgUtxijRtJqOxydX2VEPK/MIi84Fo=;
- b=FGCFp5HQ63OodYpyDIJt2551sLCB1Scd6uNRs6OdqP4fT1OcV2jbLC4iw+IdIsUZr0FxaX
- 2uHqAjTxai3rSexI1uEscKuVSqD8IaKkRfsE9vHy8KpeA+/6eveo6Ii8Flx69/mkoP68sT
- B5Zo0HM8KyJi18dQ79nHW/CQOoKd0ro=
+ bh=kYYk9pHjgnzOJbsyaUeeXQ7iuT+IrWDkYOQgKfcyCoY=;
+ b=SO4GhwQaYT+nw6VUdYmuRsnm0ZM1sBIlRZE/mfY3xfgMbHbqwHmqGUyOzKVQMC0PTbY4XK
+ akmQQfGZSLStfvBOEg6mXq8k8LVp1etoUJQCVv26al0Z2HDYe6qgp+Z1epnl80thW/WRzD
+ E8/2bVEXy5LvK0pnsNNcIulI81eXmhA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764076002;
+ s=susede2_ed25519; t=1764076003;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+U4vrIbgsgliUNxgUtxijRtJqOxydX2VEPK/MIi84Fo=;
- b=hj+bWIsv2zq+rBDW+akfq9R91Et4iwN9vh95lhyiecqFlP/NT9NHZU8PZSQBE0V1ZK1NS/
- Cl2PxTttZSALhXBg==
+ bh=kYYk9pHjgnzOJbsyaUeeXQ7iuT+IrWDkYOQgKfcyCoY=;
+ b=lHrPBMIhF7XIHQkpRvn26+YK4oBByrFfckLdR3Jj8N7gQLKGuHVWDtED6ujEGmK8VIyj+C
+ cgwig7dJi3uJ1aAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 150173EA65;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9CC4E3EA63;
  Tue, 25 Nov 2025 13:06:42 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id oMS1A+KpJWkDFAAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id YKDVJOKpJWkDFAAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Tue, 25 Nov 2025 13:06:42 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: simona@ffwll.ch, airlied@gmail.com, alexander.deucher@amd.com,
@@ -80,32 +82,41 @@ Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 3/5] drm/radeon: Do not implement mode_set_base_atomic callback
-Date: Tue, 25 Nov 2025 13:52:15 +0100
-Message-ID: <20251125130634.1080966-4-tzimmermann@suse.de>
+Subject: [PATCH 4/5] drm/fbdev-helper: Remove
+ drm_fb_helper_debug_enter/_leave()
+Date: Tue, 25 Nov 2025 13:52:16 +0100
+Message-ID: <20251125130634.1080966-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251125130634.1080966-1-tzimmermann@suse.de>
 References: <20251125130634.1080966-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
- R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
- MIME_GOOD(-0.10)[text/plain]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FROM_HAS_DN(0.00)[]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_DN_SOME(0.00)[]; RCPT_COUNT_TWELVE(0.00)[19];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; FROM_EQ_ENVFROM(0.00)[];
- RCVD_COUNT_TWO(0.00)[2];
- FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,amd.com,redhat.com,kernel.org,gmx.de,linux.intel.com,windriver.com,chromium.org];
- RCVD_TLS_ALL(0.00)[];
- R_RATELIMIT(0.00)[to_ip_from(RLq3cifbxyhc6qbbynzfc6amns)];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
 X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 291A222805
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCPT_COUNT_TWELVE(0.00)[19];
+ FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,amd.com,redhat.com,kernel.org,gmx.de,linux.intel.com,windriver.com,chromium.org];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ R_RATELIMIT(0.00)[to_ip_from(RLgosu6qu4h11rje89ht7rjgg5)];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,307 +132,261 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the implementation of the CRTC helper mode_set_base_atomic
-from radeon. It pretends to provide mode setting for kdb debugging,
-but has been broken for some time.
+Remove the debug_enter/debug_leave helpers, as there are no DRM
+drivers supporting debugging with kgdb. Remove code to keep track
+of existing fbdev-emulation state. None of this required any longer.
 
-Kdb output has been supported only for non-atomic mode setting since
-commit 9c79e0b1d096 ("drm/fb-helper: Give up on kgdb for atomic drivers")
-from 2017.
-
-While radeon provides non-atomic mode setting, kdb assumes that the GEM
-buffer object is at a fixed location in video memory. This assumption
-currently blocks radeon from converting to generic fbdev emulation.
-Fbdev-ttm helpers use a shadow buffer with a movable GEM buffer object.
-Triggering kdb does therefore not update the display.
-
-Another problem is that the current implementation does not handle
-USB keyboard input. Therefore a serial terminal is required. Then when
-continuing from the debugger, radeon fails with an error:
-
-[7]kdb> go
-[   40.345523][    C7] BUG: scheduling while atomic: bash/1580/0x00110003
-[...]
-[   40.345613][    C7]  schedule+0x27/0xd0
-[   40.345615][    C7]  schedule_timeout+0x7b/0x100
-[   40.345617][    C7]  ? __pfx_process_timeout+0x10/0x10
-[   40.345619][    C7]  msleep+0x31/0x50
-[   40.345621][    C7]  radeon_crtc_load_lut+0x2e4/0xcb0 [radeon 31c1ee785de120fcfd0babcc09babb3770252b4e]
-[   40.345698][    C7]  radeon_crtc_gamma_set+0xe/0x20 [radeon 31c1ee785de120fcfd0babcc09babb3770252b4e]
-[   40.345760][    C7]  drm_fb_helper_debug_leave+0xd8/0x130
-[   40.345763][    C7]  kgdboc_post_exp_handler+0x54/0x70
-[...]
-
-and the system hangs.
-
-Support for kdb feels pretty much broken. Hence remove the whole kdb
-support from radeon.
+Also remove mode_set_base_atomic from struct drm_crtc_helper_funcs,
+which has no callers or implementations.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/radeon/atombios_crtc.c      | 74 ++++++---------------
- drivers/gpu/drm/radeon/radeon_legacy_crtc.c | 23 ++-----
- drivers/gpu/drm/radeon/radeon_mode.h        | 10 +--
- 3 files changed, 26 insertions(+), 81 deletions(-)
+ drivers/gpu/drm/drm_fb_helper.c          | 108 -----------------------
+ include/drm/drm_fb_helper.h              |  21 -----
+ include/drm/drm_modeset_helper_vtables.h |  23 -----
+ 3 files changed, 152 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/atombios_crtc.c b/drivers/gpu/drm/radeon/atombios_crtc.c
-index 9b3a3a9d60e2..2fc0334e0d6c 100644
---- a/drivers/gpu/drm/radeon/atombios_crtc.c
-+++ b/drivers/gpu/drm/radeon/atombios_crtc.c
-@@ -1133,7 +1133,7 @@ static void atombios_crtc_set_pll(struct drm_crtc *crtc, struct drm_display_mode
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 4a7f72044ab8..29c3c7bb7d67 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -75,9 +75,6 @@ MODULE_PARM_DESC(drm_leak_fbdev_smem,
+ 		 "Allow unsafe leaking fbdev physical smem address [default=false]");
+ #endif
  
- static int dce4_crtc_do_set_base(struct drm_crtc *crtc,
- 				 struct drm_framebuffer *fb,
--				 int x, int y, int atomic)
-+				 int x, int y)
- {
- 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
- 	struct drm_device *dev = crtc->dev;
-@@ -1150,33 +1150,23 @@ static int dce4_crtc_do_set_base(struct drm_crtc *crtc,
- 	bool bypass_lut = false;
+-static LIST_HEAD(kernel_fb_helper_list);
+-static DEFINE_MUTEX(kernel_fb_helper_lock);
+-
+ /**
+  * DOC: fbdev helpers
+  *
+@@ -115,101 +112,6 @@ static DEFINE_MUTEX(kernel_fb_helper_lock);
+  * mmap page writes.
+  */
  
- 	/* no fb bound */
--	if (!atomic && !crtc->primary->fb) {
-+	if (!crtc->primary->fb) {
- 		DRM_DEBUG_KMS("No FB bound\n");
- 		return 0;
- 	}
- 
--	if (atomic)
--		target_fb = fb;
--	else
--		target_fb = crtc->primary->fb;
-+	target_fb = crtc->primary->fb;
- 
--	/* If atomic, assume fb object is pinned & idle & fenced and
--	 * just update base pointers
--	 */
- 	obj = target_fb->obj[0];
- 	rbo = gem_to_radeon_bo(obj);
- 	r = radeon_bo_reserve(rbo, false);
- 	if (unlikely(r != 0))
- 		return r;
- 
--	if (atomic)
--		fb_location = radeon_bo_gpu_offset(rbo);
--	else {
--		r = radeon_bo_pin(rbo, RADEON_GEM_DOMAIN_VRAM, &fb_location);
--		if (unlikely(r != 0)) {
--			radeon_bo_unreserve(rbo);
--			return -EINVAL;
--		}
-+	r = radeon_bo_pin(rbo, RADEON_GEM_DOMAIN_VRAM, &fb_location);
-+	if (unlikely(r != 0)) {
-+		radeon_bo_unreserve(rbo);
-+		return -EINVAL;
- 	}
- 
- 	radeon_bo_get_tiling_flags(rbo, &tiling_flags, NULL);
-@@ -1437,7 +1427,7 @@ static int dce4_crtc_do_set_base(struct drm_crtc *crtc,
- 	/* set pageflip to happen anywhere in vblank interval */
- 	WREG32(EVERGREEN_MASTER_UPDATE_MODE + radeon_crtc->crtc_offset, 0);
- 
--	if (!atomic && fb && fb != crtc->primary->fb) {
-+	if (fb && fb != crtc->primary->fb) {
- 		rbo = gem_to_radeon_bo(fb->obj[0]);
- 		r = radeon_bo_reserve(rbo, false);
- 		if (unlikely(r != 0))
-@@ -1454,7 +1444,7 @@ static int dce4_crtc_do_set_base(struct drm_crtc *crtc,
- 
- static int avivo_crtc_do_set_base(struct drm_crtc *crtc,
- 				  struct drm_framebuffer *fb,
--				  int x, int y, int atomic)
-+				  int x, int y)
- {
- 	struct radeon_crtc *radeon_crtc = to_radeon_crtc(crtc);
- 	struct drm_device *dev = crtc->dev;
-@@ -1470,15 +1460,12 @@ static int avivo_crtc_do_set_base(struct drm_crtc *crtc,
- 	bool bypass_lut = false;
- 
- 	/* no fb bound */
--	if (!atomic && !crtc->primary->fb) {
-+	if (!crtc->primary->fb) {
- 		DRM_DEBUG_KMS("No FB bound\n");
- 		return 0;
- 	}
- 
--	if (atomic)
--		target_fb = fb;
--	else
--		target_fb = crtc->primary->fb;
-+	target_fb = crtc->primary->fb;
- 
- 	obj = target_fb->obj[0];
- 	rbo = gem_to_radeon_bo(obj);
-@@ -1486,17 +1473,10 @@ static int avivo_crtc_do_set_base(struct drm_crtc *crtc,
- 	if (unlikely(r != 0))
- 		return r;
- 
--	/* If atomic, assume fb object is pinned & idle & fenced and
--	 * just update base pointers
--	 */
--	if (atomic)
--		fb_location = radeon_bo_gpu_offset(rbo);
--	else {
--		r = radeon_bo_pin(rbo, RADEON_GEM_DOMAIN_VRAM, &fb_location);
--		if (unlikely(r != 0)) {
--			radeon_bo_unreserve(rbo);
--			return -EINVAL;
--		}
-+	r = radeon_bo_pin(rbo, RADEON_GEM_DOMAIN_VRAM, &fb_location);
-+	if (unlikely(r != 0)) {
-+		radeon_bo_unreserve(rbo);
-+		return -EINVAL;
- 	}
- 	radeon_bo_get_tiling_flags(rbo, &tiling_flags, NULL);
- 	radeon_bo_unreserve(rbo);
-@@ -1645,7 +1625,7 @@ static int avivo_crtc_do_set_base(struct drm_crtc *crtc,
- 	/* set pageflip to happen only at start of vblank interval (front porch) */
- 	WREG32(AVIVO_D1MODE_MASTER_UPDATE_MODE + radeon_crtc->crtc_offset, 3);
- 
--	if (!atomic && fb && fb != crtc->primary->fb) {
-+	if (fb && fb != crtc->primary->fb) {
- 		rbo = gem_to_radeon_bo(fb->obj[0]);
- 		r = radeon_bo_reserve(rbo, false);
- 		if (unlikely(r != 0))
-@@ -1667,26 +1647,11 @@ int atombios_crtc_set_base(struct drm_crtc *crtc, int x, int y,
- 	struct radeon_device *rdev = dev->dev_private;
- 
- 	if (ASIC_IS_DCE4(rdev))
--		return dce4_crtc_do_set_base(crtc, old_fb, x, y, 0);
--	else if (ASIC_IS_AVIVO(rdev))
--		return avivo_crtc_do_set_base(crtc, old_fb, x, y, 0);
--	else
--		return radeon_crtc_do_set_base(crtc, old_fb, x, y, 0);
+-static void drm_fb_helper_restore_lut_atomic(struct drm_crtc *crtc)
+-{
+-	uint16_t *r_base, *g_base, *b_base;
+-
+-	if (crtc->funcs->gamma_set == NULL)
+-		return;
+-
+-	r_base = crtc->gamma_store;
+-	g_base = r_base + crtc->gamma_size;
+-	b_base = g_base + crtc->gamma_size;
+-
+-	crtc->funcs->gamma_set(crtc, r_base, g_base, b_base,
+-			       crtc->gamma_size, NULL);
 -}
 -
--int atombios_crtc_set_base_atomic(struct drm_crtc *crtc,
--				  struct drm_framebuffer *fb,
--				  int x, int y, enum mode_set_atomic state)
+-/**
+- * drm_fb_helper_debug_enter - implementation for &fb_ops.fb_debug_enter
+- * @info: fbdev registered by the helper
+- */
+-int drm_fb_helper_debug_enter(struct fb_info *info)
 -{
--	struct drm_device *dev = crtc->dev;
--	struct radeon_device *rdev = dev->dev_private;
+-	struct drm_fb_helper *helper = info->par;
+-	const struct drm_crtc_helper_funcs *funcs;
+-	struct drm_mode_set *mode_set;
 -
--	if (ASIC_IS_DCE4(rdev))
--		return dce4_crtc_do_set_base(crtc, fb, x, y, 1);
-+		return dce4_crtc_do_set_base(crtc, old_fb, x, y);
- 	else if (ASIC_IS_AVIVO(rdev))
--		return avivo_crtc_do_set_base(crtc, fb, x, y, 1);
-+		return avivo_crtc_do_set_base(crtc, old_fb, x, y);
- 	else
--		return radeon_crtc_do_set_base(crtc, fb, x, y, 1);
-+		return radeon_crtc_do_set_base(crtc, old_fb, x, y);
- }
+-	list_for_each_entry(helper, &kernel_fb_helper_list, kernel_fb_list) {
+-		mutex_lock(&helper->client.modeset_mutex);
+-		drm_client_for_each_modeset(mode_set, &helper->client) {
+-			if (!mode_set->crtc->enabled)
+-				continue;
+-
+-			funcs =	mode_set->crtc->helper_private;
+-			if (funcs->mode_set_base_atomic == NULL)
+-				continue;
+-
+-			if (drm_drv_uses_atomic_modeset(mode_set->crtc->dev))
+-				continue;
+-
+-			funcs->mode_set_base_atomic(mode_set->crtc,
+-						    mode_set->fb,
+-						    mode_set->x,
+-						    mode_set->y,
+-						    ENTER_ATOMIC_MODE_SET);
+-		}
+-		mutex_unlock(&helper->client.modeset_mutex);
+-	}
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL(drm_fb_helper_debug_enter);
+-
+-/**
+- * drm_fb_helper_debug_leave - implementation for &fb_ops.fb_debug_leave
+- * @info: fbdev registered by the helper
+- */
+-int drm_fb_helper_debug_leave(struct fb_info *info)
+-{
+-	struct drm_fb_helper *helper = info->par;
+-	struct drm_client_dev *client = &helper->client;
+-	struct drm_device *dev = helper->dev;
+-	struct drm_crtc *crtc;
+-	const struct drm_crtc_helper_funcs *funcs;
+-	struct drm_mode_set *mode_set;
+-	struct drm_framebuffer *fb;
+-
+-	mutex_lock(&client->modeset_mutex);
+-	drm_client_for_each_modeset(mode_set, client) {
+-		crtc = mode_set->crtc;
+-		if (drm_drv_uses_atomic_modeset(crtc->dev))
+-			continue;
+-
+-		funcs = crtc->helper_private;
+-		fb = crtc->primary->fb;
+-
+-		if (!crtc->enabled)
+-			continue;
+-
+-		if (!fb) {
+-			drm_err(dev, "no fb to restore?\n");
+-			continue;
+-		}
+-
+-		if (funcs->mode_set_base_atomic == NULL)
+-			continue;
+-
+-		drm_fb_helper_restore_lut_atomic(mode_set->crtc);
+-		funcs->mode_set_base_atomic(mode_set->crtc, fb, crtc->x,
+-					    crtc->y, LEAVE_ATOMIC_MODE_SET);
+-	}
+-	mutex_unlock(&client->modeset_mutex);
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL(drm_fb_helper_debug_leave);
+-
+ static int
+ __drm_fb_helper_restore_fbdev_mode_unlocked(struct drm_fb_helper *fb_helper,
+ 					    bool force)
+@@ -397,7 +299,6 @@ void drm_fb_helper_prepare(struct drm_device *dev, struct drm_fb_helper *helper,
+ 	if (!preferred_bpp)
+ 		preferred_bpp = 32;
  
- /* properly set additional regs when using atombios */
-@@ -2215,7 +2180,6 @@ static const struct drm_crtc_helper_funcs atombios_helper_funcs = {
- 	.mode_fixup = atombios_crtc_mode_fixup,
- 	.mode_set = atombios_crtc_mode_set,
- 	.mode_set_base = atombios_crtc_set_base,
--	.mode_set_base_atomic = atombios_crtc_set_base_atomic,
- 	.prepare = atombios_crtc_prepare,
- 	.commit = atombios_crtc_commit,
- 	.disable = atombios_crtc_disable,
-diff --git a/drivers/gpu/drm/radeon/radeon_legacy_crtc.c b/drivers/gpu/drm/radeon/radeon_legacy_crtc.c
-index 825b351ff53c..a1054c8094d4 100644
---- a/drivers/gpu/drm/radeon/radeon_legacy_crtc.c
-+++ b/drivers/gpu/drm/radeon/radeon_legacy_crtc.c
-@@ -360,19 +360,12 @@ static void radeon_crtc_dpms(struct drm_crtc *crtc, int mode)
- int radeon_crtc_set_base(struct drm_crtc *crtc, int x, int y,
- 			 struct drm_framebuffer *old_fb)
+-	INIT_LIST_HEAD(&helper->kernel_fb_list);
+ 	spin_lock_init(&helper->damage_lock);
+ 	INIT_WORK(&helper->resume_work, drm_fb_helper_resume_worker);
+ 	INIT_WORK(&helper->damage_work, drm_fb_helper_damage_work);
+@@ -534,11 +435,6 @@ void drm_fb_helper_fini(struct drm_fb_helper *fb_helper)
+ 
+ 	drm_fb_helper_release_info(fb_helper);
+ 
+-	mutex_lock(&kernel_fb_helper_lock);
+-	if (!list_empty(&fb_helper->kernel_fb_list))
+-		list_del(&fb_helper->kernel_fb_list);
+-	mutex_unlock(&kernel_fb_helper_lock);
+-
+ 	if (!fb_helper->client.funcs)
+ 		drm_client_release(&fb_helper->client);
+ }
+@@ -1766,10 +1662,6 @@ __drm_fb_helper_initial_config_and_unlock(struct drm_fb_helper *fb_helper)
+ 	drm_info(dev, "fb%d: %s frame buffer device\n",
+ 		 info->node, info->fix.id);
+ 
+-	mutex_lock(&kernel_fb_helper_lock);
+-	list_add(&fb_helper->kernel_fb_list, &kernel_fb_helper_list);
+-	mutex_unlock(&kernel_fb_helper_lock);
+-
+ 	return 0;
+ 
+ err_drm_fb_helper_release_info:
+diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h
+index dd9a18f8de5a..05cca77b7249 100644
+--- a/include/drm/drm_fb_helper.h
++++ b/include/drm/drm_fb_helper.h
+@@ -166,13 +166,6 @@ struct drm_fb_helper {
+ 	 */
+ 	struct mutex lock;
+ 
+-	/**
+-	 * @kernel_fb_list:
+-	 *
+-	 * Entry on the global kernel_fb_helper_list, used for kgdb entry/exit.
+-	 */
+-	struct list_head kernel_fb_list;
+-
+ 	/**
+ 	 * @delayed_hotplug:
+ 	 *
+@@ -236,8 +229,6 @@ drm_fb_helper_from_client(struct drm_client_dev *client)
+ 	.fb_setcmap	= drm_fb_helper_setcmap, \
+ 	.fb_blank	= drm_fb_helper_blank, \
+ 	.fb_pan_display	= drm_fb_helper_pan_display, \
+-	.fb_debug_enter = drm_fb_helper_debug_enter, \
+-	.fb_debug_leave = drm_fb_helper_debug_leave, \
+ 	.fb_ioctl	= drm_fb_helper_ioctl
+ 
+ #ifdef CONFIG_DRM_FBDEV_EMULATION
+@@ -280,8 +271,6 @@ int drm_fb_helper_ioctl(struct fb_info *info, unsigned int cmd,
+ 
+ int drm_fb_helper_hotplug_event(struct drm_fb_helper *fb_helper);
+ int drm_fb_helper_initial_config(struct drm_fb_helper *fb_helper);
+-int drm_fb_helper_debug_enter(struct fb_info *info);
+-int drm_fb_helper_debug_leave(struct fb_info *info);
+ #else
+ static inline void drm_fb_helper_prepare(struct drm_device *dev,
+ 					 struct drm_fb_helper *helper,
+@@ -387,16 +376,6 @@ static inline int drm_fb_helper_initial_config(struct drm_fb_helper *fb_helper)
  {
--	return radeon_crtc_do_set_base(crtc, old_fb, x, y, 0);
+ 	return 0;
+ }
+-
+-static inline int drm_fb_helper_debug_enter(struct fb_info *info)
+-{
+-	return 0;
 -}
 -
--int radeon_crtc_set_base_atomic(struct drm_crtc *crtc,
--				struct drm_framebuffer *fb,
--				int x, int y, enum mode_set_atomic state)
+-static inline int drm_fb_helper_debug_leave(struct fb_info *info)
 -{
--	return radeon_crtc_do_set_base(crtc, fb, x, y, 1);
-+	return radeon_crtc_do_set_base(crtc, old_fb, x, y);
- }
+-	return 0;
+-}
+ #endif
  
- int radeon_crtc_do_set_base(struct drm_crtc *crtc,
- 			 struct drm_framebuffer *fb,
--			 int x, int y, int atomic)
-+			 int x, int y)
- {
- 	struct drm_device *dev = crtc->dev;
- 	struct radeon_device *rdev = dev->dev_private;
-@@ -390,15 +383,12 @@ int radeon_crtc_do_set_base(struct drm_crtc *crtc,
+ #endif
+diff --git a/include/drm/drm_modeset_helper_vtables.h b/include/drm/drm_modeset_helper_vtables.h
+index fe32854b7ffe..3e68213958dd 100644
+--- a/include/drm/drm_modeset_helper_vtables.h
++++ b/include/drm/drm_modeset_helper_vtables.h
+@@ -52,11 +52,6 @@ struct drm_scanout_buffer;
+ struct drm_writeback_connector;
+ struct drm_writeback_job;
  
- 	DRM_DEBUG_KMS("\n");
- 	/* no fb bound */
--	if (!atomic && !crtc->primary->fb) {
-+	if (!crtc->primary->fb) {
- 		DRM_DEBUG_KMS("No FB bound\n");
- 		return 0;
- 	}
+-enum mode_set_atomic {
+-	LEAVE_ATOMIC_MODE_SET,
+-	ENTER_ATOMIC_MODE_SET,
+-};
+-
+ /**
+  * struct drm_crtc_helper_funcs - helper operations for CRTCs
+  *
+@@ -253,24 +248,6 @@ struct drm_crtc_helper_funcs {
+ 	int (*mode_set_base)(struct drm_crtc *crtc, int x, int y,
+ 			     struct drm_framebuffer *old_fb);
  
--	if (atomic)
--		target_fb = fb;
--	else
--		target_fb = crtc->primary->fb;
-+	target_fb = crtc->primary->fb;
- 
- 	switch (target_fb->format->cpp[0] * 8) {
- 	case 8:
-@@ -445,7 +435,7 @@ int radeon_crtc_do_set_base(struct drm_crtc *crtc,
- 		 * We don't shutdown the display controller because new buffer
- 		 * will end up in same spot.
- 		 */
--		if (!atomic && fb && fb != crtc->primary->fb) {
-+		if (fb && fb != crtc->primary->fb) {
- 			struct radeon_bo *old_rbo;
- 			unsigned long nsize, osize;
- 
-@@ -555,7 +545,7 @@ int radeon_crtc_do_set_base(struct drm_crtc *crtc,
- 	WREG32(RADEON_CRTC_OFFSET + radeon_crtc->crtc_offset, crtc_offset);
- 	WREG32(RADEON_CRTC_PITCH + radeon_crtc->crtc_offset, crtc_pitch);
- 
--	if (!atomic && fb && fb != crtc->primary->fb) {
-+	if (fb && fb != crtc->primary->fb) {
- 		rbo = gem_to_radeon_bo(fb->obj[0]);
- 		r = radeon_bo_reserve(rbo, false);
- 		if (unlikely(r != 0))
-@@ -1108,7 +1098,6 @@ static const struct drm_crtc_helper_funcs legacy_helper_funcs = {
- 	.mode_fixup = radeon_crtc_mode_fixup,
- 	.mode_set = radeon_crtc_mode_set,
- 	.mode_set_base = radeon_crtc_set_base,
--	.mode_set_base_atomic = radeon_crtc_set_base_atomic,
- 	.prepare = radeon_crtc_prepare,
- 	.commit = radeon_crtc_commit,
- 	.disable = radeon_crtc_disable,
-diff --git a/drivers/gpu/drm/radeon/radeon_mode.h b/drivers/gpu/drm/radeon/radeon_mode.h
-index 9e34da2cacef..088af85902f7 100644
---- a/drivers/gpu/drm/radeon/radeon_mode.h
-+++ b/drivers/gpu/drm/radeon/radeon_mode.h
-@@ -804,10 +804,6 @@ extern bool radeon_encoder_is_digital(struct drm_encoder *encoder);
- extern void radeon_crtc_load_lut(struct drm_crtc *crtc);
- extern int atombios_crtc_set_base(struct drm_crtc *crtc, int x, int y,
- 				   struct drm_framebuffer *old_fb);
--extern int atombios_crtc_set_base_atomic(struct drm_crtc *crtc,
--					 struct drm_framebuffer *fb,
--					 int x, int y,
--					 enum mode_set_atomic state);
- extern int atombios_crtc_mode_set(struct drm_crtc *crtc,
- 				   struct drm_display_mode *mode,
- 				   struct drm_display_mode *adjusted_mode,
-@@ -817,13 +813,9 @@ extern void atombios_crtc_dpms(struct drm_crtc *crtc, int mode);
- 
- extern int radeon_crtc_set_base(struct drm_crtc *crtc, int x, int y,
- 				 struct drm_framebuffer *old_fb);
--extern int radeon_crtc_set_base_atomic(struct drm_crtc *crtc,
--				       struct drm_framebuffer *fb,
--				       int x, int y,
--				       enum mode_set_atomic state);
- extern int radeon_crtc_do_set_base(struct drm_crtc *crtc,
- 				   struct drm_framebuffer *fb,
--				   int x, int y, int atomic);
-+				   int x, int y);
- extern int radeon_crtc_cursor_set2(struct drm_crtc *crtc,
- 				   struct drm_file *file_priv,
- 				   uint32_t handle,
+-	/**
+-	 * @mode_set_base_atomic:
+-	 *
+-	 * This callback is used by the fbdev helpers to set a new framebuffer
+-	 * and scanout without sleeping, i.e. from an atomic calling context. It
+-	 * is only used to implement kgdb support.
+-	 *
+-	 * This callback is optional and only needed for kgdb support in the fbdev
+-	 * helpers.
+-	 *
+-	 * RETURNS:
+-	 *
+-	 * 0 on success or a negative error code on failure.
+-	 */
+-	int (*mode_set_base_atomic)(struct drm_crtc *crtc,
+-				    struct drm_framebuffer *fb, int x, int y,
+-				    enum mode_set_atomic);
+-
+ 	/**
+ 	 * @disable:
+ 	 *
 -- 
 2.51.1
 
