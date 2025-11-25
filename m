@@ -2,78 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA77C84939
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 11:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E328C84972
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 11:56:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC2FB10E3AB;
-	Tue, 25 Nov 2025 10:54:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8266F10E3C6;
+	Tue, 25 Nov 2025 10:56:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="JmPSKE0n";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="C2cAxbGn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m1973193.qiye.163.com (mail-m1973193.qiye.163.com
- [220.197.31.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 436D010E3AB
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 10:54:45 +0000 (UTC)
-Received: from [127.0.0.1] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 2ad58d4a7;
- Tue, 25 Nov 2025 18:54:38 +0800 (GMT+08:00)
-Message-ID: <d970873f-eb76-432e-a881-72b2c5cb2a9c@rock-chips.com>
-Date: Tue, 25 Nov 2025 18:54:37 +0800
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD92810E3BB;
+ Tue, 25 Nov 2025 10:56:39 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AP9ePiq1741109; Tue, 25 Nov 2025 10:56:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=37RRWhWvxz6mmCraG+qSG55VsHuZOALnVv2
+ 2qCpauS0=; b=C2cAxbGnnrUJbzQ/E4MGwx1s0a80cS+5ZTWcTiEDTgillIedn53
+ eBnmNiJNbkwka8kPOrNije8iM3fewdHUDY/YFWERVo7AImkzp1+X3nbS5DxECiRJ
+ KBUNgIYbjKSNGwW/vjMsaVXookPfAPIyzxiySj6KGiUeI2CydmXB7789NDEENDSt
+ uS6ZOJ8y7XJrZiQhFAOmAYJWm3CudKrSDHViwZ1lpJY/emRqcoskmoGGtWA7Vr4E
+ s1I5sWcuruqGJDRUb5Mj1SitG11KRMyBT7QBBmYYhLKw25/WMZJwnJDQnA4KGSKK
+ 2eQUh3JWeMja562/Ld96kzBzCQLLMli2BFA==
+Received: from apblrppmta02.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4amtebb1xv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Nov 2025 10:56:31 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5APAuSdr009130; 
+ Tue, 25 Nov 2025 10:56:28 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4ak68n435q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Nov 2025 10:56:28 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5APAuRFf009098;
+ Tue, 25 Nov 2025 10:56:27 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-mkuntuma-hyd.qualcomm.com
+ [10.213.97.145])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 5APAuR6e009095
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Nov 2025 10:56:27 +0000
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4582077)
+ id D1416465; Tue, 25 Nov 2025 16:26:26 +0530 (+0530)
+From: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>
+To: dmitry.baryshkov@oss.qualcomm.com, marijn.suijten@somainline.org,
+ swboyd@chromium.org, mripard@kernel.org, abel.vesa@linaro.org,
+ andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, robin.clark@oss.qualcomm.com,
+ jessica.zhang@oss.qualcomm.com, abhinav.kumar@linux.dev,
+ sean@poorly.run, airlied@gmail.com, simona@ffwll.ch,
+ alex.vinarskis@gmail.com
+Cc: Mani Chandana Ballary Kuntumalla <quic_mkuntuma@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ quic_rajeevny@quicinc.com, quic_vproddut@quicinc.com,
+ quic_riteshk@quicinc.com, quic_amitsi@quicinc.com
+Subject: [PATCH v2 0/3] Enable mdss1 Display Port for Qualcomm lemans-ride
+ platform
+Date: Tue, 25 Nov 2025 16:26:19 +0530
+Message-Id: <20251125105622.1755651-1-quic_mkuntuma@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 01/11] usb: typec: Add notifier functions
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chaoyi Chen <kernel@airkyi.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>, Luca Ceresoli
- <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20251120022343.250-1-kernel@airkyi.com>
- <20251120022343.250-2-kernel@airkyi.com>
- <2025112102-laurel-mulch-58e4@gregkh>
- <462ad1bd-7eec-4f26-b383-96b049e14559@rock-chips.com>
- <2025112402-unopposed-polio-e6e9@gregkh>
- <a80483de-518d-45d5-b46a-9b70cca5b236@rock-chips.com>
- <2025112448-brush-porcupine-c851@gregkh>
- <c9cb7b79-37c8-4fef-97a6-7d6b8898f9c4@rock-chips.com> <aSV_lQYJPxN7oBM-@kuha>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <aSV_lQYJPxN7oBM-@kuha>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9abaa6b39603abkunmf8a5d99d4f8c0e
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQh1JGFYeTUJCGUIfHkxKSUpWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
- xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=JmPSKE0naaEWonVAqnH+ebFcZ8I+ZaubhDn1Lu1sJwZYovoWm9xlCD0EbQr1LZQl4bFixizGQ6l3gHP2TxaD3Zhphb10gZrS7e/ZMixDHMMTdbLuAApeD/UMfz1ch2jrJqkFmLpsQJTb1gQD3kuOJC3jC94P065Hy9hGENQlW/s=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=yI/hAgt1yN84sa7TO1laWAMsbF2HgT2Td6qWpvlvHjM=;
- h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: Rdln7rj5V51-nygwn-P2VNvBd-uIzk9o
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI1MDA4OSBTYWx0ZWRfXy3Dpd9kIp2TZ
+ m4XB0xm4/Yy7UB7hj8BWCZ7mlFUhDgqxQSG16vWXRYcqvRq5De2CS5dpw+9mkBkYkRxWCPGSrXB
+ hG5d4lDegPWQDfF6kFVYqtFwI5nrwPZuB3YOIuMGpayx1Kqxy9XPPDSFRTatkqkTBOV+gtOAje2
+ 9/zoh+v+9qTknrFXF5bwRmE4Atiu2X1culMGgQFVypDUGDZRuO/ZWe4CXPU3sVDZ7AWTqtx72wy
+ rwQsy579EtvtrHzPTY3GMIrUpqbzPV7YfVHY0tYFu+15Gq/DC1CLPtXFfc/9cW4fBBi+eINKmt1
+ 8DVtxejYFNzqnbqrFn3fjzotyIQ2GOnFKMsmxFYTv90e/GgGF8oUFKz6JT7TQLIf4TGYbKWF3Tb
+ 2ZDcfn/+n6xXzbDRjeC1R0912luh9w==
+X-Proofpoint-ORIG-GUID: Rdln7rj5V51-nygwn-P2VNvBd-uIzk9o
+X-Authority-Analysis: v=2.4 cv=d7f4CBjE c=1 sm=1 tr=0 ts=69258b5f cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=COk6AnOGAAAA:8 a=kpoA4S6LcSF1uKdZkzAA:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-25_02,2025-11-24_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 spamscore=0 clxscore=1015 bulkscore=0 suspectscore=0
+ adultscore=0 phishscore=0 malwarescore=0 priorityscore=1501 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511250089
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,167 +114,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/25/2025 6:06 PM, Heikki Krogerus wrote:
-> Tue, Nov 25, 2025 at 10:23:02AM +0800, Chaoyi Chen kirjoitti:
->> On 11/25/2025 12:33 AM, Greg Kroah-Hartman wrote:
->>> On Mon, Nov 24, 2025 at 04:05:53PM +0800, Chaoyi Chen wrote:
->>>> Hi Greg,
->>>>
->>>> On 11/24/2025 3:10 PM, Greg Kroah-Hartman wrote:
->>>>
->>>>> On Mon, Nov 24, 2025 at 09:40:03AM +0800, Chaoyi Chen wrote:
->>>>>> Hi Greg,
->>>>>>
->>>>>> On 11/21/2025 10:07 PM, Greg Kroah-Hartman wrote:
->>>>>>> On Thu, Nov 20, 2025 at 10:23:33AM +0800, Chaoyi Chen wrote:
->>>>>>>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>>>>>>>
->>>>>>>> Some other part of kernel may want to know the event of typec bus.
->>>>>>> Be specific, WHAT part of the kernel will need to know this?
->>>>>> For now, it is DRM.
->>>>> Then say this.
->>>> Okay, please refer to the discussion below.
->>>>
->>>>>>> And why a new notifier, why not just use the existing notifiers that you
->>>>>>> already have?  And what is this going to be used for?
->>>>>> We have discussed this before, but the current bus notifier cannot achieve the expected notification [0].
->>>>>>
->>>>>> [0] https://lore.kernel.org/all/aPsuLREPS_FEV3DS@kuha.fi.intel.com/
->>>>> Then you need to document the heck out of this in the changelog text.
->>>>> But I'm still not quite understanding why the bus notifier does not work
->>>>> here, as you only want this information if the usb device is bound to
->>>>> the bus there, you do not want to know this if it did not complete.
->>>>>
->>>>> That thread says you want this not "too late", but why?  What is the
->>>>> problem there, and how will you handle your code getting loaded after
->>>>> the typec code is loaded?  Notifier callbacks don't work for that
->>>>> situation, right?
->>>> In fact, the typec_register_altmode() function generates two
->>>> registered events. The first one is the registered event of the port
->>>> device, and the second one is the registered event of the partner
->>>> device. The second one event only occurs after a Type-C device is
->>>> inserted.
->>>> The bus notifier event does not actually take effect for the port
->>>> device, because it only sets the bus for the partner device:
->>>>
->>>>      /* The partners are bind to drivers */
->>>>      if (is_typec_partner(parent))
->>>>          alt->adev.dev.bus = &typec_bus;
->>> Setting the bus is correct, then it needs to be registered with the
->>> driver core so the bus link shows up (and a driver is bound to it.)
->>> That is when the bus notifier can happen, right?
->> Yes, this is valid for the partner device. But for the port device, since the bus is not specified here, the corresponding bus notifier will not take effect.
-> 
-> Perhaps we should just fix this part and make also the port altmodes
-> part of the bus.
-> 
-> Some background, in case this is not clear; the port alternate mode
-> devices represent the capability of the ports to support specific
-> alternate modes. The partner alternate mode devices do the same
-> for the partner devices attached to the ports, but on top of the
-> showing the capability, they are also used for the alternate mode
-> specific communication using the USB Power Delivery VDM (vendor
-> defined messages). That's why only the partner altmodes are bound
-> to the generic alternate mode drivers.
-> 
-> And that's why the hack where the port altmodes are not added to the
-> bus. But maybe it's not needed.
-> 
-> Chaoyi, can you try the attached patch?
-> 
+This series adds the DPTX0 and DPTX1 nodes, as a part of mdss1
+on Qualcomm lemans SoC. It also enables Display Port on Qualcomm
+lemans-ride platform.
 
-Thank you for providing the background information. Maybe this is what
-we really want. I will try this in v11 :)
+---
+This series is dependent on below series:
+https://lore.kernel.org/all/20251104114327.27842-1-riteshk@qti.qualcomm.com/
 
->>>> I hope it's not too late. In fact, the notifier here will notify DRM to establish a bridge chain.
->>> What is a "bridge chain"?
->> In DRM, the bridge chain is often used to describe the chain connection relationship
->> of the output of multi level display conversion chips. The bridge chain we are referring to here
->> is actually a chain  structure formed by connecting various devices using a simple transparent bridge [0].
->>
->> For example, the schematic diagram of a bridge chain is as follows:
->>
->> DP controller bridge -> DP PHY bridge -> onnn,nb7vpq904m retimer bridge -> fsa4480 analog audio switch bridge -> fusb302 HPD bridge
->>
->> Here, apart from the DP controller bridge, the rest are transparent DRM bridges, which are used solely to
->> describe the link relationships between various devices.
->>
->>
->> [0] https://patchwork.freedesktop.org/patch/msgid/20231203114333.1305826-2-dmitry.baryshkov@linaro.org
->>>
->>>> The downstream DP controller driver hopes to obtain the fwnode of the last-level Type-C device
->>>> through this bridge chain to create a DRM connector. And when a device is inserted,
->>>> drivers/usb/typec/altmodes/displayport.c can notify the HPD (Hot Plug Detect) event.
->>> But aren't you just the driver for the "partner device"?
->>>
->>> If not, why isn't a real device being created that you then bind to,
->>> what "fake" type of thing are you attempting to do here that would
->>> require you to do this out-of-band?
->> The HPD event is pass by drm_connector_oob_hotplug_event(), which does not use the device in Type-C.
->> This function will find the corresponding DRM connector device, and the lookup of the DRM connector is
->> done through the fwnode.
->>
->> And the partner device and the port device have the same fwnode.
->>
->>>
->>>> If relying on the second event, the bridge chain may never be established, and the operations of the DP driver will be
->>>> always deferred. Furthermore, other parts of the display controller driver will also be deferred accordingly.
->>> What operations?  What exactly is delayed?  You should not be touching a
->>> device before you have it on your bus, right?
->> To complete the HPD operation, it is necessary to create a drm connector device that
->> has the appropriate fwnode. This operation will be carried out by the DP controller driver.
->>
->> As you can see, since it cross multiple devices, we need to set the fwnode to the last device fusb302.
->> This requires relying on the bridge chain. We can register bridges for multiple devices and then connect
->> them to form a chain. The connection process is completed through drm_bridge_attach().
->>
->> A brief example of the process of establishing a bridge chain is as follows, starting from the last bridge:
->>
->> step1: fusb302 HPD bridge
->> step2: fsa4480 analog audio switch bridge -> fusb302 HPD bridge
->> step3: onnn,nb7vpq904m retimer bridge -> fsa4480 analog audio switch bridge -> fusb302 HPD bridge
->> step4: DP PHY bridge -> onnn,nb7vpq904m retimer bridge -> fsa4480 analog audio switch bridge -> fusb302 HPD bridge
->> step5: DP controller bridge -> DP PHY bridge -> onnn,nb7vpq904m retimer bridge -> fsa4480 analog audio switch bridge -> fusb302 HPD bridge
->>
->> Step 1 is the most crucial, because essentially, regardless of whether we use notifiers or not, what we ultimately want to achieve is to create an HPD bridge.
->> The DP controller needs to wait for the subsequent bridge chain to be established because it needs to know the connection relationships of the devices.
->>
->> The question now is when to create the HPD bridge, during the registration of the port device or during the registration of the partner device.
->> If it's the latter, then the delay occurs here.
->>
->> And I don't think I'm touching the Type-C device here. I'm just using the bridge chain to get a suitable fwnode and create a suitable DRM connector device.
->> The subsequent Type-C HPD events will be on the DRM connector device.
->>
->> This solution is somewhat complex, and I apologize once again for any confusion caused earlier.
->>
->>>
->>>>>>> Notifiers are a pain, and should almost never be added.  Use real
->>>>>>> function calls instead.
->>>>>> In v6, I used direct function calls, but had to switch to notifiers because couldn't resolve the dependencies between DRM and Type-C [1]. Do you have any good ideas? Thank you.
->>>>> Only allow this DRM code to be built if typec code is enabled, do NOT
->>>>> use a select, use a depends in the drm code.
->>>> Sorry, I didn't get your point. Does this mean that the current notifiers approach still needs to be changed to direct function calls?
->>> If you somehow convince me that the existing bus notifiers will not
->>> work, yes :)
->>>
->>>> If so, then based on the previous discussion, typec should not depend
->>>> on any DRM components. Does this mean that we should add the if
->>>> (IS_REACHABLE(CONFIG_DRM_AUX_BRIDGE)) before the direct function call?
->>> No, do it properly like any other function call to another subsystem.
->>>
->>>> Additionally, the current version of CONFIG_DRM_AUX_BRIDGE is selected
->>>> by the DP driver in patch9.
->>> Don't do "select" if at all possible, always try to do "depends on".
->> Thank you for clarifying this. However, CONFIG_DRM_AUX_BRIDGE is not exposed in the menu, and it is not intended for the end user to select it by design. Therefore, I think there still needs to be some place to select it?
-> 
-> You don't "select TYPEC", you already "depend on TYPEC", so you are
-> all set with this one.
-> 
-> thanks,
-> 
+Change in v2:
+- Added fixes tag for the DP driver patch [Dmitry]
+- Included below patch in this series after addressing comments [Dmitry and Konrad]
+  https://lore.kernel.org/all/20250925-lemans_dual-v1-1-9c371803198d@oss.qualcomm.com/
+	- Removed the misleading comment: "same path used twice" [Konrad]
+	- Removed unused label in 'display-controller' [Dmitry]
+- Removed extra zeroes in dispcc1 node [Konrad]
+- Enbaled dispcc1 by default in main dtsi file [Dmitry]
+- Added EDP ref clock and updated dependency series.
+- Link to v1: https://lore.kernel.org/all/20250926085956.2346179-1-quic_mkuntuma@quicinc.com/
 
-Ah, it is.
+---
+Mani Chandana Ballary Kuntumalla (3):
+  drm/msm/dp: Update msm_dp_controller IDs for sa8775p
+  arm64: dts: qcom: lemans: add mdss1 display device nodes
+  arm64: dts: qcom: lemans-ride: Enable mdss1 display Port
+
+ .../boot/dts/qcom/lemans-ride-common.dtsi     |  80 +++++
+ arch/arm64/boot/dts/qcom/lemans.dtsi          | 338 +++++++++++++++++-
+ drivers/gpu/drm/msm/dp/dp_display.c           |   4 +-
+ 3 files changed, 418 insertions(+), 4 deletions(-)
 
 -- 
-Best, 
-Chaoyi
+2.34.1
+
