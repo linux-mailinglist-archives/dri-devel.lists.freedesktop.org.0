@@ -2,61 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D77C853F4
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 14:50:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1ED8C85418
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 14:52:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36A2510E1C1;
-	Tue, 25 Nov 2025 13:50:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 414CA10E02B;
+	Tue, 25 Nov 2025 13:52:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ackB2UHY";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Eycvsb8I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5C1010E02B
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 13:50:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764078646;
- bh=ZVZoBL5PnZxHR2oNWFu2Nx+Kvgx0aO5702hIJ36xBiY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=ackB2UHYZMx2MIHmMBZ9SViDQcFg0oVqYUTtZ80rPFkFAdsJu0siB0S75n0E5/9AZ
- MP6a42PT+KqKNwLc3AfdkNDJKztnBPWVIXeLCShG+f+Y/vLcCvbnaRuNxPfzh1+sJr
- zEQghgkL5GitLE8lZyLCaBkJ96Wh7XNruM13F5i0pjcrDNOvbTBjA/xYewsoeZZbJg
- QMtynjNef9nuO1WBY7E3/UQpuEQyCoZUKjNNVXFq65Zt08+N9QmoSMhgi2AMWbc97U
- msXIrfIXxToHhDByOSX8DRw0Af/ovBTTDcBu9xty1Ns+hH+PEay7VmzNbDjmnbXCp7
- O52dQwe72A7+Q==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id CD88B17E12D2;
- Tue, 25 Nov 2025 14:50:45 +0100 (CET)
-Date: Tue, 25 Nov 2025 14:50:40 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Philipp Stanner <phasta@mailbox.org>
-Cc: phasta@kernel.org, Daniel Almeida <daniel.almeida@collabora.com>, Alice
- Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>, Christian
- =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Alexandre Courbot <acourbot@nvidia.com>, Dave
- Airlie <airlied@redhat.com>, Lyude Paul <lyude@redhat.com>, Peter Colberg
- <pcolberg@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [RFC WIP 2/3] rust: sync: Add dma_fence abstractions
-Message-ID: <20251125145040.350e54a9@fedora>
-In-Reply-To: <682a788c21c6513e30c5eb1020191f31f7aec612.camel@mailbox.org>
-References: <20251118132520.266179-2-phasta@kernel.org>
- <20251118132520.266179-4-phasta@kernel.org>
- <E55D72FC-AEF6-4D2D-973F-123306E4EB4C@collabora.com>
- <bc4f01ec5172d29abd64429e3017cc53c0522e01.camel@mailbox.org>
- <20251125115829.24e6caf7@fedora>
- <682a788c21c6513e30c5eb1020191f31f7aec612.camel@mailbox.org>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3046A10E02B
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 13:52:23 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-477b91680f8so43907485e9.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 05:52:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764078741; x=1764683541; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=kHOesweq24KF358s0vEumPsOYuhj+3ibk2FmOjZUv+4=;
+ b=Eycvsb8IwbHlkaoTVEhUGFr1Wuj1zje+9kriAbOKaf2NcjDdpGrA4uAzcLHvMGnIVK
+ kW59jiZJS7b2K3jRe8Ci+H8AsvXBnW1ZXaRyEGd3IhHi+E+HaHEuhx734B4sexxANuWq
+ 4MzkFBtxyi+Ot9dxvJzCcJXQA8MoeSRpsOYK4kNrLE7W41Cj975piNO2c/89CWlIJgz/
+ 7KVxmZU+EF79OFjtTDw0+kNoeRwe4N1Qd8Q/Zb+gNKmgZEQuG/tmTdjUqajfFTz0RA62
+ sswEX8SlL60PfXs4Wmk7eGcl3AgXjLFM+pLF1DmjgkSfDmH/caP0crwamBlMicsGFwFr
+ cA2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764078741; x=1764683541;
+ h=content-transfer-encoding:in-reply-to:content-language:references
+ :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kHOesweq24KF358s0vEumPsOYuhj+3ibk2FmOjZUv+4=;
+ b=fWAV5iOYNyp1ENHDz2Q1wXzSdfDUh/U3fpdE5YIZccLKRRBVOsNPOHNuygz9hlMQP+
+ BWr/RpCYV4M6NbtVKahRGnI8S84HhtIDRoWgjdcqGJfOoOQ/6RBKVEGlBZuurEQVq3Uo
+ BVpQ7/ekH9N8O3Jb0ekcEjUJpUK8pJYHSdKxnT1Mo9iiKAHDnlsOvQ+QSEDMIuzg3M6U
+ RCCPjtqgW5bPTFMbOyjWUdsK8HIqPaET07eemi9TvgfpLPdQPUk0XFO4ZB2EMjsmu36R
+ +IQCeYvJpZaBSUtpKpD6TnoravninLem23PsKUAW44pYGtFAOxtWxAwQIu8kPC+GSvmp
+ tE5A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVjUOEQtaAge0hI9TYvmIYVlNThmuINA7aP51YyQDazr8YRPQPmlKu4YeSMd7esagHoAWcN4n44Wvk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzakI1rizZh2ekeN5b0MLJumADUnDShrjB+18luETYisdOVycSw
+ jxZheGLfadPxkoCliIOIQMnK9xoz5aGAdxKxXE2xT1qUMab2EWX0vxrn
+X-Gm-Gg: ASbGncsuHgddrxKieT/huvbOcGYoF3i1k1Y4mc9Nk8PF/T1chZXEWylQ3399PygihGP
+ vXgql/o3LPsXgmaz+T7N+xDC/lyU6bM+t4a/l/YuEOFR9+U3GWGIe99aVfe9QM8kZ70/RTrc0Js
+ cwyr2jhYTkqHW8bUVMpQBUZ5+5AP8/Y4WuStj3JAr5t2nsh8WT/7XYxawpNazR2XuVyYj0kkGMs
+ RSqaRHk4qzfpUt+h/PRXX4X4Uq9yIrsAaVAIR0vSjPXTY9Db5XHvzAOmR74Vc+T3IeMrT5di5QL
+ /1noN1K+fNRpi8EQ2fCFcthmdIEMpyvOeWuocLeYbQrO0MwC+gsraWeSj3ViX47N81jE/jJkKnW
+ +mw6Fo+7rUiaSA9zSbYzrEsULLH/x+2tKMAMydpC3RA5cOGizUr41LlmreIZs+7ZVWyS+uLxbZ6
+ oMUbGpSNYYc4gNUmXr/lNSeBQT7rJYqxmyHk99bN2iFeM0ijmyibxupDRJAfSobvVXRofaqd8g
+X-Google-Smtp-Source: AGHT+IFKl0FSWbmMlOH9ZWfAZWRSmX8BD6ohJLnDHz1PIktPZZElxLDCt4b4SkoYMkjbJJn+KqrIYg==
+X-Received: by 2002:a5d:5d81:0:b0:42b:3ded:298d with SMTP id
+ ffacd0b85a97d-42cc1d2d5ebmr16251211f8f.32.1764078741365; 
+ Tue, 25 Nov 2025 05:52:21 -0800 (PST)
+Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c?
+ ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-42cb7fa3a81sm35280457f8f.26.2025.11.25.05.52.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 25 Nov 2025 05:52:20 -0800 (PST)
+Message-ID: <a80a1e7d-e387-448f-8095-0aa22a07af17@gmail.com>
+Date: Tue, 25 Nov 2025 13:52:18 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Pavel Begunkov <asml.silence@gmail.com>
+Subject: Re: [RFC v2 00/11] Add dmabuf read/write via io_uring
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-block@vger.kernel.org, io-uring@vger.kernel.org
+Cc: Vishal Verma <vishal1.verma@intel.com>, tushar.gohad@intel.com,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-kernel@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <cover.1763725387.git.asml.silence@gmail.com>
+ <fd10fe48-f278-4ed0-b96b-c4f5a91b7f95@amd.com>
+ <905ff009-0e02-4a5b-aa8d-236bfc1a404e@gmail.com>
+ <53be1078-4d67-470f-b1af-1d9ac985fbe2@amd.com>
+Content-Language: en-US
+In-Reply-To: <53be1078-4d67-470f-b1af-1d9ac985fbe2@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,144 +105,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Nov 2025 13:20:03 +0100
-Philipp Stanner <phasta@mailbox.org> wrote:
+On 11/24/25 14:17, Christian König wrote:
+> On 11/24/25 12:30, Pavel Begunkov wrote:
+>> On 11/24/25 10:33, Christian König wrote:
+>>> On 11/23/25 23:51, Pavel Begunkov wrote:
+>>>> Picking up the work on supporting dmabuf in the read/write path.
+>>>
+>>> IIRC that work was completely stopped because it violated core dma_fence and DMA-buf rules and after some private discussion was considered not doable in general.
+>>>
+>>> Or am I mixing something up here?
+>>
+>> The time gap is purely due to me being busy. I wasn't CC'ed to those private
+>> discussions you mentioned, but the v1 feedback was to use dynamic attachments
+>> and avoid passing dma address arrays directly.
+>>
+>> https://lore.kernel.org/all/cover.1751035820.git.asml.silence@gmail.com/
+>>
+>> I'm lost on what part is not doable. Can you elaborate on the core
+>> dma-fence dma-buf rules?
+> 
+> I most likely mixed that up, in other words that was a different discussion.
+> 
+> When you use dma_fences to indicate async completion of events you need to be super duper careful that you only do this for in flight events, have the fence creation in the right order etc...
 
-> On Tue, 2025-11-25 at 11:58 +0100, Boris Brezillon wrote:
-> > On Tue, 25 Nov 2025 10:48:12 +0100
-> > Philipp Stanner <phasta@mailbox.org> wrote:
-> >  =20
-> > > > > +impl ArcBorrow<'_, DmaFenceCtx> {
-> > > > > +=C2=A0=C2=A0=C2=A0 /// Create a new fence, consuming `data`.
-> > > > > +=C2=A0=C2=A0=C2=A0 ///
-> > > > > +=C2=A0=C2=A0=C2=A0 /// The fence will increment the refcount of =
-the fence context associated with this
-> > > > > +=C2=A0=C2=A0=C2=A0 /// [`DmaFenceCtx`].
-> > > > > +=C2=A0=C2=A0=C2=A0 pub fn new_fence<T>(
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &mut self,
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data: impl PinInit<T>,
-> > > > > +=C2=A0=C2=A0=C2=A0 ) -> Result<ARef<DmaFence<T>>> {
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fctx: Arc<DmaFenc=
-eCtx> =3D (*self).into();
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let seqno: u64 =3D fc=
-tx.get_new_fence_seqno();
-> > > > > +
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // TODO: Should we re=
-set seqno in case of failure?=C2=A0  =20
-> > > >=20
-> > > > I think we should go back to the old value, yeah.=C2=A0  =20
-> > >=20
-> > > It would be trivial to implement that (just atomic.decrement()).
-> > >=20
-> > > The thing why the TODO even exists is that I'm a bit unsure about
-> > > races. It seems we have to choose between either a gap in the seqnos =
-or
-> > > the possiblity of seqnos being out of order.
-> > >=20
-> > > If the user / driver creates fences with >1 thread on a fence context,
-> > > I mean.
-> > >=20
-> > > We're pretty free in our choices, however. The shared fence-fctx
-> > > spinlock will be removed anyways, so one could later easily replace t=
-he
-> > > fctx atomic with a lock if that's desirable.
-> > >=20
-> > > I can implement a seqno-decrement for now. =20
-> >=20
-> > I don't think we need to return unused seqnos in case of failure. I
-> > mean, we could have something like the following pseudo-code:
-> >=20
-> > 	atomic_cmpxchg(ctx.seqno, fence.seqno + 1, fence.seqno) =20
->=20
-> The code above is the code that creates fence.seqno in the first place,
-> obtaining the next seqno from the fctx (timeline).
+I'm curious, what can happen if there is new IO using a
+move_notify()ed mapping, but let's say it's guaranteed to complete
+strictly before dma_buf_unmap_attachment() and the fence is signaled?
+Is there some loss of data or corruption that can happen?
 
-Not sure I follow, but the pseudo-code I pasted is actually meant to
-be the reciprocal of the seqno allocation (decrement if the current ctx
-seqno is exactly returned_seqno + 1).
+sg_table = map_attach()         |
+move_notify()                   |
+   -> add_fence(fence)           |
+                                 | issue_IO(sg_table)
+                                 | // IO completed
+unmap_attachment(sg_table)      |
+signal_fence(fence)             |
 
->=20
-> >=20
-> > but it wouldn't cover the case where fences are not returned in the
-> > order they were assigned, and seqnos are pretty cheap anyway (if a u64
-> > is enough to count things in nanoseconds for hundreds of years, they are
-> > more than enough for a fence timeline on which fences are emitted at a
-> > way lower rate, even in case of recurring failures). The guarantee we
-> > really care about is seqnos not going backward, because that would mess
-> > up with the assumption that fences on a given timeline/ctx are signalled
-> > in order (this assumption is used to coalesce fences in a
-> > fence_array/resv IIRC). =20
->=20
-> Agreed, everything should signal according to the seqno.
->=20
-> The question we are facing with Rust (or rather, my design here) is
-> rather to what degree the infrastructure shall enforce this. As you
-> know, in C there isn't even a real "fence context", it's just an
-> abstract concept, represented by an integer maintained by the driver.
->=20
-> In Rust we can model it more exactly. For instance, we could enforce
-> ordered signaling by creating a function as the only way to signal
-> fences:
->=20
-> fctx.signal_all_fences_up_to_seqno(9042);
->=20
-> which then iterates over the fences, signaling all in order.
+> For example once the fence is created you can't make any memory allocations any more, that's why we have this dance of reserving fence slots, creating the fence and then adding it.
 
-Up to you, but then it implies keeping a list of currently active
-fences attached to the context, plus some locks to protect this list.
-Another option would be to track the last signalled seqno at the
-context level, and complain if a fence with a lower seqno is signalled.
+Looks I have some terminology gap here. By "memory allocations" you
+don't mean kmalloc, right? I assume it's about new users of the
+mapping.
 
->=20
->=20
-> With some other APIs, such as jobqueue.submit_job(), which creates a
-> fence with the code above, it's trivial as long as the driver only
-> calls submit_job() with 1 thread.
+>>> Since I don't see any dma_fence implementation at all that might actually be the case.
+>>
+>> See Patch 5, struct blk_mq_dma_fence. It's used in the move_notify
+>> callback and is signaled when all inflight IO using the current
+>> mapping are complete. All new IO requests will try to recreate the
+>> mapping, and hence potentially wait with dma_resv_wait_timeout().
+> 
+> Without looking at the code that approach sounds more or less correct to me.
+> 
+>>> On the other hand we have direct I/O from DMA-buf working for quite a while, just not upstream and without io_uring support.
+>>
+>> Have any reference?
+> 
+> There is a WIP feature in AMDs GPU driver package for ROCm.
+> 
+> But that can't be used as general purpose DMA-buf approach, because it makes use of internal knowledge about how the GPU driver is using the backing store.
 
-As I was explaining to Daniel yesterday, you need some sort of
-serialization when you submit to the same context anyway. In Tyr,
-things will be serialized through the GPUVM resv, which guarantees that
-no more than one thread can allocate seqnos on a given context inside
-this critical section.
+Got it
 
->=20
-> If the driver came up with the idea of using >=3D2 threads firing on
-> submit_job(), then you by design have ordering issues, independently
-> from the fence context using this or that atomic operation or even full
-> locking.
+> BTW when you use DMA addresses from DMA-buf always keep in mind that this memory can be written by others at the same time, e.g. you can't do things like compute a CRC first, then write to backing store and finally compare CRC.
 
-In practice you don't, because submission to a given context are
-serialized one way or another (see above). Maybe what we should assume
-is that only one thread gets a mutable ref to this FenceCtx/JobQueue,
-and seqno allocation is something requiring mutability. The locking is
-something that's provided by the layer giving a mutable ref to this
-fence context.
+Right. The direct IO path also works with user pages, so the
+constraints are similar in this regard.
 
->=20
-> If the driver scrambles calls to submit_job() or new_fence(), then it
-> can certainly happen that done_fences are signaled by JQ out of order =E2=
-=80=93
-> though I'm not sure how horrible that would actually be, considering
-> that this does not imply that anything gets executed before all
-> dependencies are fullfiled. AFAICS it's more "nice to have / would be
-> the cleanest possible design".
+-- 
+Pavel Begunkov
 
-A fence context should really be bound to a GPU queue, and jobs on a
-GPU queue are expected to be executed in order. So long as the jobs are
-queued in order, they should be executed and signalled in order. Of
-course, this implies some locking when you prepare/queue jobs because
-preparation and queuing are two distinct steps, and if you let 2
-threads do that concurrently, the queuing won't be ordered. That's
-already stuff drivers have to deal with today, so I'm not sure we
-should make a difference for rust drivers, other than making this
-explicit by requiring mutable JobQueue/FenceCtx references in
-situations where we expect some higher-level locking to be in place.
-
->=20
-> I think I have a TODO in jobqueue where we could solve that by only
-> signaling pending done_fence's once all preceding fences have been
-> signaled.
-
-I believe this is something we want to enforce, not fix. If signalling
-is done out of order, that's probably a driver bug, and it should be
-reported as such IMHO.
