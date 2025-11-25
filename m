@@ -2,144 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9759BC83F48
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 09:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B659DC843FC
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 10:35:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A34D10E384;
-	Tue, 25 Nov 2025 08:22:28 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="l8SXRchO";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hn5+AnWx";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id E848D10E27F;
+	Tue, 25 Nov 2025 09:35:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52E2410E384
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 08:22:26 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AP2ggbt1939627
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 08:22:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=qcppdkim1; bh=YRjpKsqoY99+JF5M3oGMFE
- Bu2vsC0vfO0ibxsB+T3/Q=; b=l8SXRchOnF7TCQ9kqERONX+G5/lFAuL0hV2Zql
- thJufKpP9ueAgi1A7JMVX21KIe7GyPlYdQgAzA81R8wzNk4sks/IYV+3JEu2M+sp
- JVxJfMVEsjQK96f93f5517OmFNr4Uii91jwVhbM+IllVQ5+xaJsITLRnwxZ5hTdY
- iUmu5IQsK7gHXRhBSdHmKs9kDsig5p77z0BRNovGm5Md8MccPyWqk3Wn/wZ+jrJc
- UHTh75Nlnq4z03INALaN37cQVgAlVACKkh/JQt+U7swZi3OAwWT93KD6peaWRDFf
- nzZu/EniSdwOIJ8FpJOYNFV5WwU3zyxUpm4uA5keTNJdrdGg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4amsst2m20-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 08:22:25 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-8b24383b680so1829923785a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 00:22:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1764058945; x=1764663745;
- darn=lists.freedesktop.org; 
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=YRjpKsqoY99+JF5M3oGMFEBu2vsC0vfO0ibxsB+T3/Q=;
- b=hn5+AnWxTivgFFkmBqQIK72sxgtZm4u3hQ/LbGaL1yLZBn3ljlfaCRPuhG33ZwcLx6
- QjdMOujKIGSgizXliGfETt+ZCuYILm5NLNUugD0fciGL3aimf6MlyX1wwo6r2yQ0CTuw
- 5vl8TCDqE5nRydMdk2+V/nehvmTa1w0WCFr97QG/BW+7t8ko83sG31l0vnrXtMv+V1qc
- etTN5dld4ZYXjPhEtUumVMqJpFt6jpDNtxNRXzNS1V+mYVWfcVSOa/3TMss5PwP8PVyG
- rb2/JAfJIA5fwM6EfT8fQqk0PWXc6l7pYqZfnaIxu3FkMHpKxmxkF2q+waXTRW/poEnl
- 3glg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764058945; x=1764663745;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YRjpKsqoY99+JF5M3oGMFEBu2vsC0vfO0ibxsB+T3/Q=;
- b=bAjP2qpPVkxfQN5RxPdW1r+NOVMPMDIT5KxdDEQ5xjT9bEkPG+TYccyT5MiyUdrQhj
- M9xjUPQEVrj3rvE36RUYoBfOdbJ74/WkEMENzGr9KHQG8RLYvFJo6ikSnPmUVtRnAJjE
- vIhKn74iCbWvGBhuP/aHTrcRfGyZabvSx0kY/plFCX14xgKG7RYmHGAtxqBcDg1DCs/x
- F1lO/9+YywVGrec/TVNTwf3gz9Y//Bsug4zcdz6nFj+iqP0Gp0oOJyofL1h2yG6J7Hs3
- t2MrTlFUWSeTtadDvY19QSXlx4CP68R5fbsn8BorlPc9UP7E7bKwscQPgYWAgLo2WDRJ
- w7ng==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVqqJLqaL2ug5W7o86jsn/5LwqbeSCQYKTQTwV41W1UB9E0BpvTIkYrrAedDoCviDCLTW6QlhgnlCI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw8i8W+FTy0z6Ui4UEApB0t0ySEyBclgX+G7mM7AFWbrPxwJJ7H
- CEhWVJXb6eChxjSfkZG+jjUDUnc2PS7znEis3JqhBfceDGOxYf0zrKtkdyxsbW9W/oVvMvuZFj3
- Nh98HfQDnHe2JpEgzAY/k6ZvixGRv8vptPNFqr1HxBRpox07kzms2uuSwIiVNL3pazeuQfe8=
-X-Gm-Gg: ASbGncvPOzgh8IjD84Pk96G1j/fqw3AsvDZFjAJ2PuttQZDPQqVq9cenabykhqqsNTP
- g65fVJ/ORB0A3QDGWNZLOPpTWQJxhtqKRd8a8Eg67hXIPIqjhrX+QC63bWoXYOEZpDDcBv43xM4
- 19ExFag/jkF7zjuw5vdwQa8NhgVbwDgdtjsZDHWxRFzwnb8Hc73pqwl2cLR9pknpOx9j6BzEgMk
- siTaaJc3zEBJhK74gl3lQTTboH54LojB0rYYGdGhJ2VqPLC2xiTQVTkkma1LflFa0z4mmUjSVVg
- D2mRJxk+rGHyR+H0Mzg4OZdYDmM2cQ4QcLQnvXb5XBZPcaTm43QL3rnAPCcjhHe+Z5vepL1rvBJ
- /5HVuIga++MoEcYWmV/QA2b9IDxL/7OdSNILH0Eeq43AY8NfqCtyPT4XX1Lxw1fXILauA5h8mrh
- k=
-X-Received: by 2002:a05:620a:44ca:b0:8b2:e4f0:74d2 with SMTP id
- af79cd13be357-8b33d5e0708mr2088684185a.88.1764058944614; 
- Tue, 25 Nov 2025 00:22:24 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEgbw5+t2RFxd5vwgHS2/xP58ds7tCi3xfgDuWhOL9/5kLj/9xSxrzjaWShPdduWP/LVNaZPg==
-X-Received: by 2002:a05:620a:44ca:b0:8b2:e4f0:74d2 with SMTP id
- af79cd13be357-8b33d5e0708mr2088681185a.88.1764058944092; 
- Tue, 25 Nov 2025 00:22:24 -0800 (PST)
-Received: from yongmou2.ap.qualcomm.com (Global_NAT1_IAD_FW.qualcomm.com.
- [129.46.232.65]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4ee48d6aab4sm103530771cf.15.2025.11.25.00.22.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Nov 2025 00:22:23 -0800 (PST)
-From: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Date: Tue, 25 Nov 2025 16:22:12 +0800
-Subject: [PATCH v4] drm/msm/dp: fix the intf_type of MST interfaces
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE6C510E38D
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 08:24:43 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mgr@pengutronix.de>)
+ id 1vNoLb-0001ew-KH; Tue, 25 Nov 2025 09:24:27 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <mgr@pengutronix.de>) id 1vNoLb-002MCy-0J;
+ Tue, 25 Nov 2025 09:24:27 +0100
+Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+ (envelope-from <mgr@pengutronix.de>) id 1vNoLa-005ooi-3B;
+ Tue, 25 Nov 2025 09:24:26 +0100
+Date: Tue, 25 Nov 2025 09:24:26 +0100
+From: Michael Grzeschik <mgr@pengutronix.de>
+To: Daniel Thompson <danielt@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>, linux-pwm@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, Jingoo Han <jingoohan1@gmail.com>,
+ Helge Deller <deller@gmx.de>, Lee Jones <lee@kernel.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Uwe =?iso-8859-15?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+ Pengutronix <kernel@pengutronix.de>
+Subject: Re: [PATCH] backlight: pwm_bl: apply the initial backlight state
+ with sane defaults
+Message-ID: <aSVnulk0yfAd4UCx@pengutronix.de>
+References: <20250731-blpwm-v1-1-0171fd31bff9@pengutronix.de>
+ <f492d4d3-751c-40a3-bb93-0e1bb192cde7@sirena.org.uk>
+ <aRxr_sR0ksklFsw-@aspen.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251125-mdss_catalog-v4-1-df651fba2702@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIADNnJWkC/yXM2QrCMBCF4Vcpc20gmS6JfRUpkmWmBuxiUkUof
- XeDvfwPnG+HTClShr7aIdEn5rjMJZpLBf5h55FEDKUBJbZKYSumkPPd280+l1HUlo027Dr2Dsp
- lTcTx++duw9mJXu+ibucIzmYSfpmmuPVVFzTp4gZZ89UwdoxEMnBA5Zy0sjHSotIGhuP4AQ+Z2
- RuqAAAA
-X-Change-ID: 20251125-mdss_catalog-3af878fb6fcb
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Yongxing Mou <yongxing.mou@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1764058938; l=5994;
- i=yongxing.mou@oss.qualcomm.com; s=20250910; h=from:subject:message-id;
- bh=T4+veceh43Iz1HC9uB499V8TtofoUBw/GEaYL11J+pk=;
- b=gJUYv20WEI5ukHHHm1d/Hca0uVR3M5CdBme19aSpBo0+vWXjKk2qdxhhWSGVE1YlGSQEUNfa7
- Leti51tE9+XDypwOYKNC0lxZzQfg/JyqJA4B59QQLLKLiFeZRAHXaDz
-X-Developer-Key: i=yongxing.mou@oss.qualcomm.com; a=ed25519;
- pk=rAy5J1eP+V7OXqH5FJ7ngMCtUrnHhut30ZTldOj52UM=
-X-Authority-Analysis: v=2.4 cv=bM0b4f+Z c=1 sm=1 tr=0 ts=69256741 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
- a=3SrrOXIG8BVLCHsxiMcA:9 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: Pj7uqd1hNLvzR_drEz7o96UnqnRHQh6v
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI1MDA2OCBTYWx0ZWRfXz4i9+qtiPBJI
- pd/SX22PKFFVjy3z2N1V7zCNlW/92mYrFFtZ0svorDsNutr+rOqnYVhKj1moNqZhqAQKLohIAIl
- ntKGHgKM7Zc8XENqK+tlOIN0k+9247Kq2K4wkyRb5Z7CDA/RGxlvChDC89/PaK/BX80pyDZD//W
- 70j7owtHuKsFRyCZBS/YO/mEthXEt5OmaCqX/yrhKVkDKkNf88npOIr56INnzaayqsMre/T1IVn
- hmKVIQb41utmrlcHPys4qDH+4Y0AdQVwxqM61v+FxpaSpJQta9rEgJEoObacDhM8OhVveEmSBGg
- VWsuwzAEGEp1+9sCtVWEf3RzmTOoP+2xwiR8XCCCwjU0MHe5oms2SzqsAqK48nWsYFUNagGAP5Q
- VUUH9/F8kf7jsrHFizCcQ6sWeznMhg==
-X-Proofpoint-ORIG-GUID: Pj7uqd1hNLvzR_drEz7o96UnqnRHQh6v
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-25_02,2025-11-24_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0 impostorscore=0
- bulkscore=0 priorityscore=1501 phishscore=0 suspectscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511250068
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="5lR1y+xZyNcXp5Ry"
+Content-Disposition: inline
+In-Reply-To: <aRxr_sR0ksklFsw-@aspen.lan>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+X-Mailman-Approved-At: Tue, 25 Nov 2025 09:35:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,146 +71,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Abhinav Kumar <quic_abhinavk@quicinc.com>
 
-Interface type of MST interfaces is currently INTF_NONE. Update this to
-INTF_DP. And correct the intf_6 intr_underrun/intr_vsync index for
-dpu_8_4_sa8775p.
+--5lR1y+xZyNcXp5Ry
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
-This patch was split out from the MST V3 patch series:
-https://lore.kernel.org/all/20250825-msm-dp-mst-v3-0-01faacfcdedd@oss.qualcomm.com/
----
-Changes in v4:
-- Splite chagne out from the MST V3 series.
-- Link to v3: https://lore.kernel.org/all/20250825-msm-dp-mst-v3-37-01faacfcdedd@oss.qualcomm.com/
+On Tue, Nov 18, 2025 at 12:52:14PM +0000, Daniel Thompson wrote:
+>On Fri, Nov 14, 2025 at 02:09:56PM +0000, Mark Brown wrote:
+>> On Thu, Jul 31, 2025 at 10:47:18AM +0200, Michael Grzeschik wrote:
+>> > Currently when calling pwm_apply_might_sleep in the probe routine
+>> > the pwm will be configured with an not fully defined state.
+>> >
+>> > The duty_cycle is not yet set in that moment. There is a final
+>> > backlight_update_status call that will have a properly setup state.
+>> > However this change in the backlight can create a short flicker if the
+>> > backlight was already preinitialised.
+>>
+>> I'm seeing the libre.computer Renegade Elite producing warnings during
+>> boot in -next which bisect to this patch.  The warnings are:
+>>
+>> [   24.175095] input: adc-keys as /devices/platform/adc-keys/input/input1
+>> [   24.176612] ------------[ cut here ]------------
+>> [   24.177048] WARNING: CPU: 0 PID: 0 at kernel/context_tracking.c:127 c=
+t_kernel_exit.constprop.0+0x98/0xa0
+>>
+>> ...
+>>
+>> [   24.190106] Call trace:
+>> [   24.190325]  ct_kernel_exit.constprop.0+0x98/0xa0 (P)
+>> [   24.190775]  ct_idle_enter+0x10/0x20
+>> [   24.191096]  cpuidle_enter_state+0x1fc/0x320
+>> [   24.191476]  cpuidle_enter+0x38/0x50
+>> [   24.191802]  do_idle+0x1e4/0x260
+>> [   24.192094]  cpu_startup_entry+0x34/0x3c
+>> [   24.192444]  rest_init+0xdc/0xe0
+>> [   24.192734]  console_on_rootfs+0x0/0x6c
+>> [   24.193082]  __primary_switched+0x88/0x90
+>> [   24.193445] ---[ end trace 0000000000000000 ]---
+>>
+>> which seems a little surprising but there is some console stuff there
+>> that looks relevant.
+>>
+>> Full log:
+>>
+>>     https://lava.sirena.org.uk/scheduler/job/2086528#L897
+>
+>Michael, reading these logs it looks to me like the underlying oops
+>is this backtrace (which makes a lot more sense given the code you
+>altered):
+>
+>[   24.133631] Call trace:
+>[   24.133853]  pwm_backlight_probe+0x830/0x868 [pwm_bl] (P)
+>[   24.134341]  platform_probe+0x5c/0xa4
+>[   24.134679]  really_probe+0xbc/0x2c0
+>[   24.135001]  __driver_probe_device+0x78/0x120
+>[   24.135391]  driver_probe_device+0x3c/0x154
+>[   24.135765]  __driver_attach+0x90/0x1a0
+>[   24.136111]  bus_for_each_dev+0x7c/0xdc
+>[   24.136462]  driver_attach+0x24/0x38
+>[   24.136785]  bus_add_driver+0xe4/0x208
+>[   24.137124]  driver_register+0x68/0x130
+>[   24.137468]  __platform_driver_register+0x24/0x30
+>[   24.137888]  pwm_backlight_driver_init+0x20/0x1000 [pwm_bl]
+>[   24.138389]  do_one_initcall+0x60/0x1d4
+>[   24.138735]  do_init_module+0x54/0x23c
+>[   24.139073]  load_module+0x1760/0x1cf0
+>[   24.139407]  init_module_from_file+0x88/0xcc
+>[   24.139787]  __arm64_sys_finit_module+0x1bc/0x338
+>[   24.140207]  invoke_syscall+0x48/0x104
+>[   24.140549]  el0_svc_common.constprop.0+0x40/0xe0
+>[   24.140970]  do_el0_svc+0x1c/0x28
+>[   24.141268]  el0_svc+0x34/0xec
+>[   24.141548]  el0t_64_sync_handler+0xa0/0xf0
+>[   24.141920]  el0t_64_sync+0x198/0x19c
+>
+>Should we back out the patch for now?
 
-Changes in v3:
-- Fix through the whole catalog
-- Link to v2: https://lore.kernel.org/all/20250609-msm-dp-mst-v2-37-a54d8902a23d@quicinc.com/
+I would be fine with that. But actually I would like to see the
+proof that without the patch, this backtrace will not trigger.
+Looking through the codepath, I could not directly find a case
+where this should happen.
 
-Changes in v2:
-- Change the patch order in the series.
-- Link to v1: https://lore.kernel.org/all/20241205-dp_mst-v1-3-f8618d42a99a@quicinc.com/
----
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h |  6 +++---
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h  | 12 ++++++------
- drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h |  6 +++---
- 3 files changed, 12 insertions(+), 12 deletions(-)
+Mark, is there a way to rerun this without my patch?
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-index 303d33dc7783..ea2329f0b5e9 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_0_sc8280xp.h
-@@ -319,7 +319,7 @@ static const struct dpu_intf_cfg sc8280xp_intf[] = {
- 	}, {
- 		.name = "intf_3", .id = INTF_3,
- 		.base = 0x37000, .len = 0x280,
--		.type = INTF_NONE,
-+		.type = INTF_DP,
- 		.controller_id = MSM_DP_CONTROLLER_0,
- 		.prog_fetch_lines_worst_case = 24,
- 		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
-@@ -351,7 +351,7 @@ static const struct dpu_intf_cfg sc8280xp_intf[] = {
- 	}, {
- 		.name = "intf_7", .id = INTF_7,
- 		.base = 0x3b000, .len = 0x280,
--		.type = INTF_NONE,
-+		.type = INTF_DP,
- 		.controller_id = MSM_DP_CONTROLLER_2,
- 		.prog_fetch_lines_worst_case = 24,
- 		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 18),
-@@ -359,7 +359,7 @@ static const struct dpu_intf_cfg sc8280xp_intf[] = {
- 	}, {
- 		.name = "intf_8", .id = INTF_8,
- 		.base = 0x3c000, .len = 0x280,
--		.type = INTF_NONE,
-+		.type = INTF_DP,
- 		.controller_id = MSM_DP_CONTROLLER_1,
- 		.prog_fetch_lines_worst_case = 24,
- 		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
-index 0f7b4a224e4c..00fd0c8cc115 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_8_4_sa8775p.h
-@@ -347,7 +347,7 @@ static const struct dpu_intf_cfg sa8775p_intf[] = {
- 	}, {
- 		.name = "intf_3", .id = INTF_3,
- 		.base = 0x37000, .len = 0x280,
--		.type = INTF_NONE,
-+		.type = INTF_DP,
- 		.controller_id = MSM_DP_CONTROLLER_0,	/* pair with intf_0 for DP MST */
- 		.prog_fetch_lines_worst_case = 24,
- 		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
-@@ -363,15 +363,15 @@ static const struct dpu_intf_cfg sa8775p_intf[] = {
- 	}, {
- 		.name = "intf_6", .id = INTF_6,
- 		.base = 0x3A000, .len = 0x280,
--		.type = INTF_NONE,
-+		.type = INTF_DP,
- 		.controller_id = MSM_DP_CONTROLLER_0,	/* pair with intf_0 for DP MST */
- 		.prog_fetch_lines_worst_case = 24,
--		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 17),
--		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 16),
-+		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 16),
-+		.intr_vsync = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 17),
- 	}, {
- 		.name = "intf_7", .id = INTF_7,
- 		.base = 0x3b000, .len = 0x280,
--		.type = INTF_NONE,
-+		.type = INTF_DP,
- 		.controller_id = MSM_DP_CONTROLLER_0,	/* pair with intf_0 for DP MST */
- 		.prog_fetch_lines_worst_case = 24,
- 		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 18),
-@@ -379,7 +379,7 @@ static const struct dpu_intf_cfg sa8775p_intf[] = {
- 	}, {
- 		.name = "intf_8", .id = INTF_8,
- 		.base = 0x3c000, .len = 0x280,
--		.type = INTF_NONE,
-+		.type = INTF_DP,
- 		.controller_id = MSM_DP_CONTROLLER_1,	/* pair with intf_4 for DP MST */
- 		.prog_fetch_lines_worst_case = 24,
- 		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12),
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-index 7243eebb85f3..826f65adb18b 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-+++ b/drivers/gpu/drm/msm/disp/dpu1/catalog/dpu_9_2_x1e80100.h
-@@ -335,7 +335,7 @@ static const struct dpu_intf_cfg x1e80100_intf[] = {
- 	}, {
- 		.name = "intf_3", .id = INTF_3,
- 		.base = 0x37000, .len = 0x280,
--		.type = INTF_NONE,
-+		.type = INTF_DP,
- 		.controller_id = MSM_DP_CONTROLLER_0,	/* pair with intf_0 for DP MST */
- 		.prog_fetch_lines_worst_case = 24,
- 		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 30),
-@@ -367,7 +367,7 @@ static const struct dpu_intf_cfg x1e80100_intf[] = {
- 	}, {
- 		.name = "intf_7", .id = INTF_7,
- 		.base = 0x3b000, .len = 0x280,
--		.type = INTF_NONE,
-+		.type = INTF_DP,
- 		.controller_id = MSM_DP_CONTROLLER_2,	/* pair with intf_6 for DP MST */
- 		.prog_fetch_lines_worst_case = 24,
- 		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 18),
-@@ -375,7 +375,7 @@ static const struct dpu_intf_cfg x1e80100_intf[] = {
- 	}, {
- 		.name = "intf_8", .id = INTF_8,
- 		.base = 0x3c000, .len = 0x280,
--		.type = INTF_NONE,
-+		.type = INTF_DP,
- 		.controller_id = MSM_DP_CONTROLLER_1,	/* pair with intf_4 for DP MST */
- 		.prog_fetch_lines_worst_case = 24,
- 		.intr_underrun = DPU_IRQ_IDX(MDP_SSPP_TOP0_INTR, 12),
+Michael
 
----
-base-commit: 6d7e7251d03f98f26f2ee0dfd21bb0a0480a2178
-change-id: 20251125-mdss_catalog-3af878fb6fcb
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
-Best regards,
--- 
-Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+--5lR1y+xZyNcXp5Ry
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmklZ7YACgkQC+njFXoe
+LGS72w/6AoHVwozXjyve4l+1qlupkgIh4y0b5i8qAkJeX6oKbvwx7jqGUCUY1W3e
+/L14o/GoYDwISuEsU4C8resSkGoLlp/QEotyIq+lbeBSAFl6O57NYg1EO+2pV9b6
+vzvaWopThDGJY9ZSSvl/UecGpu4UcaRP8wMmal93yUIQ0AH6kiDS0JH2ZCXAFFvU
+Al+Plxsne/zsm/3DhXFbCfHOMLITnaVedqwQd4gsOrc6u00JS2fEWQLVLHofGCLp
+f9m1xxpEzb5naXDI/gQGlzKqmZ7ko0UDTSXukh13PMuHRR/nBzPKhuQb15+jR1I7
+KBjkCVDV0NcV7oAFSvdUYLcVAVUNQLahsFXwCtxid3MUfluWcCmyM9fg1/Uzw8DH
+W7NtR2nzlsLE4sNoHVLVHW60GYvO63IGmgiTBCgfFOt5WVuk2XopiBKRnMKc6UHw
+yY+0xOH0GEChfTEnOnQbZlGG+xTRdthTpIWf5gQ5lF4wdcFiJF3zS9fq/GHaRrRq
+qK3napeB52Lzw/BfZ9NPG1qLysv5QlT6WSJuGdl2/C7/lXRcIsi1xpNgzXZyPUNT
+4VULTw9scsCtl9ZnD0+sijC3GYZjHKCgK7t/FZ7wBCL10g/wZPojLz9zh3v4VNeh
+LleDOHxGk2ioCks2UMm0zJBJoTXKQREw13zHZ4W6B7Pm4uptXRc=
+=R0Gw
+-----END PGP SIGNATURE-----
+
+--5lR1y+xZyNcXp5Ry--
