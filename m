@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBF58C84984
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 11:57:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0567C849BA
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 11:58:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49FD510E3BA;
-	Tue, 25 Nov 2025 10:56:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1851710E3BB;
+	Tue, 25 Nov 2025 10:58:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="M3NlxZip";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="I0oFNr9c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C89510E3B4
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 10:56:56 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D83B810E3B6
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 10:58:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1764068314;
+ bh=8X/qwjuwikxSf/pIi2QQ28vbvxJoO9Gtn/+n3x/9S9w=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=I0oFNr9cBrN0DjOqWXN3qSW9snKBefQxZ2mweWg0aoXfeE+yTpem633EkeaAr9by3
+ +91+rwOQLrnzn1SM8PhKg2+tfvkQK3nGUhhO5GdcYJmUhfGTPHNd1E4d8zxplM9ief
+ E7Lg6rO2xEibAFuNN9m0wmO5HKRgcxN7hxHZKKYhHdquwmxwusxhyN8OndzRemLf7W
+ iyyrYnAJK8RroKoUP3SePmVRLkqqCRmLZzOWgSHJLAoNgvbFmxUzAiOC2WuWkelTtg
+ f3jhDv1+eys5WrM6d0lcE/wbwHrlqqvJl3VcTXVqU4DkmAXB+SFRPvk0ZUPwmqp5tK
+ rLsOiXaGCt8EQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dG04j1pT6z9sCb;
- Tue, 25 Nov 2025 11:56:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1764068213; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+O5zZ+LqqrhBUh4ai6db4CiF8tuUSJP4/Ddj1attmxw=;
- b=M3NlxZipx3kGc+a1SZogWZCbG96ZLWsLB42MOUsyZckznRYvC3Axd6be59sVbLyU5C33G2
- JQUC8lOv5anaAOpYtMHrCHxdzp95XP6R6esRq0DxHfAr5EuW9/MLnbYvenGe5LeazcVvLW
- 86vs9w0Az1gvrGLMLX77HgCSOCmKUE/7mlGUuPoc7U7JcO6CQWDWZaMtS+G6mhZxWohObr
- 9yTEoPmelC6r9J20BuDWbOV4fAlD69Wmlp0qMgyzeEZL62Qyx46SuAadv3YtlLcnz3dHrR
- w/sWEivMLzz6BySkhLjz/bwsqKaMJrsqomwL/rgBkpebHTEwtEZVyxvoykMF1w==
-Message-ID: <c2b571a7e74f86c6cb95bebd11274447c3080df9.camel@mailbox.org>
-Subject: Re: [PATCH 1/4] dma-buf/fence: give some reasonable maximum
- signaling timeout
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- phasta@kernel.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch, 
- faith@gfxstrand.net, sumit.semwal@linaro.org
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org
-Date: Tue, 25 Nov 2025 11:56:49 +0100
-In-Reply-To: <508ff709-0f05-4982-8e15-5fea3bbd12e7@amd.com>
-References: <20251120150018.27385-1-christian.koenig@amd.com>
- <20251120150018.27385-2-christian.koenig@amd.com>
- <380012b9d6f0e9ee3c2f125cfe2f37f65c1979e0.camel@mailbox.org>
- <b46913b6-fe61-48cd-a9ca-aa2fe3a12b63@amd.com>
- <1c1a14d42d0a4a25ebce26a2af0a61dc1b7813fc.camel@mailbox.org>
- <508ff709-0f05-4982-8e15-5fea3bbd12e7@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B42AF17E0610;
+ Tue, 25 Nov 2025 11:58:33 +0100 (CET)
+Date: Tue, 25 Nov 2025 11:58:29 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Philipp Stanner <phasta@mailbox.org>
+Cc: phasta@kernel.org, Daniel Almeida <daniel.almeida@collabora.com>, Alice
+ Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>, Christian
+ =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Alexandre Courbot <acourbot@nvidia.com>, Dave
+ Airlie <airlied@redhat.com>, Lyude Paul <lyude@redhat.com>, Peter Colberg
+ <pcolberg@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [RFC WIP 2/3] rust: sync: Add dma_fence abstractions
+Message-ID: <20251125115829.24e6caf7@fedora>
+In-Reply-To: <bc4f01ec5172d29abd64429e3017cc53c0522e01.camel@mailbox.org>
+References: <20251118132520.266179-2-phasta@kernel.org>
+ <20251118132520.266179-4-phasta@kernel.org>
+ <E55D72FC-AEF6-4D2D-973F-123306E4EB4C@collabora.com>
+ <bc4f01ec5172d29abd64429e3017cc53c0522e01.camel@mailbox.org>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MBO-RS-ID: 8e8338e975b5ed4736f
-X-MBO-RS-META: jpuqkyws15mjiz69i1t7se4x1bg3xkbg
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,106 +67,58 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-11-25 at 09:48 +0100, Christian K=C3=B6nig wrote:
-> On 11/25/25 09:13, Philipp Stanner wrote:
-> > On Tue, 2025-11-25 at 09:03 +0100, Christian K=C3=B6nig wrote:
-> > > On 11/25/25 08:55, Philipp Stanner wrote:
-> > > > > =C2=A0
-> > > > >=20
+On Tue, 25 Nov 2025 10:48:12 +0100
+Philipp Stanner <phasta@mailbox.org> wrote:
 
-[=E2=80=A6]
-
-> > > >=20
-> > > > HZ can change depending on the config. Is that really a good choice=
-? I
-> > > > could see racy situations arising in some configs vs others
-> > >=20
-> > > 2*HZ is always two seconds expressed in number of jiffies, I can use =
-msecs_to_jiffies(2000) to make that more obvious.
+> > > +impl ArcBorrow<'_, DmaFenceCtx> {
+> > > +=C2=A0=C2=A0=C2=A0 /// Create a new fence, consuming `data`.
+> > > +=C2=A0=C2=A0=C2=A0 ///
+> > > +=C2=A0=C2=A0=C2=A0 /// The fence will increment the refcount of the =
+fence context associated with this
+> > > +=C2=A0=C2=A0=C2=A0 /// [`DmaFenceCtx`].
+> > > +=C2=A0=C2=A0=C2=A0 pub fn new_fence<T>(
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &mut self,
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data: impl PinInit<T>,
+> > > +=C2=A0=C2=A0=C2=A0 ) -> Result<ARef<DmaFence<T>>> {
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fctx: Arc<DmaFenceCtx=
+> =3D (*self).into();
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let seqno: u64 =3D fctx.g=
+et_new_fence_seqno();
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // TODO: Should we reset =
+seqno in case of failure? =20
 > >=20
-> > On AMD64 maybe. What about the other architectures?
+> > I think we should go back to the old value, yeah. =20
 >=20
-> HZ is defined as jiffies per second, So even if it changes to 10,100 or 1=
-000 depending on the architecture 2*HZ is always two seconds expressed in j=
-iffies.
+> It would be trivial to implement that (just atomic.decrement()).
 >=20
-> The HZ define is actually there to make it architecture independent.
-
-<german English> Again what learned </german Enlgish>
-
-Although the amount of documentation for such a central feature is a
-bit thin. Anyways. msecs_to_jiffies() is more readable, yes. Many
-drivers prefer it, too
-
-
+> The thing why the TODO even exists is that I'm a bit unsure about
+> races. It seems we have to choose between either a gap in the seqnos or
+> the possiblity of seqnos being out of order.
 >=20
-> > >=20
-> > > The GPU scheduler has a very similar define, MAX_WAIT_SCHED_ENTITY_Q_=
-EMPTY which is currently just 1 second.
-> > >=20
-> > > The real question is what is the maximum amount of time we can wait f=
-or the HW before we should trigger a timeout?
-> >=20
-> > That's a question only the drivers can answer, which is why I like to
-> > think that setting global constants constraining all parties is not the
-> > right thing to do.
+> If the user / driver creates fences with >1 thread on a fence context,
+> I mean.
 >=20
-> Exactly that's the reason why I bring that up. I think that drivers shoul=
-d be in charge of timeouts is the wrong approach.
+> We're pretty free in our choices, however. The shared fence-fctx
+> spinlock will be removed anyways, so one could later easily replace the
+> fctx atomic with a lock if that's desirable.
 >=20
-> See the reason why we have the timeout (and documented that it is a must =
-have) is because we have both core memory management as well a desktop resp=
-onsiveness depend on it.
+> I can implement a seqno-decrement for now.
 
-Good and well, but then patch 4 becomes even more problematic:
+I don't think we need to return unused seqnos in case of failure. I
+mean, we could have something like the following pseudo-code:
 
-So we'd just have drivers fire warnings, and then they would still have
-the freedom to set timeouts for drm/sched, as long as those timeouts
-are smaller than your new global constant.
+	atomic_cmpxchg(ctx.seqno, fence.seqno + 1, fence.seqno)
 
-Why then not remove drm/sched's timeout parameter API completely and
-always use your maximum value internally in drm/sched? Or maybe
-truncate it with a warning?
-
-"Maximum timeout parameter exceeded, truncating to %ld.\n"
-
-I suppose some drivers want even higher responsiveness than those 2
-seconds.
-
-I do believe that more of the driver folks should be made aware of this
-intended change.
-
->=20
-> > What is even your motivation? What problem does this solve? Is the OOM
-> > killer currently hanging for anyone? Can you link a bug report?
->=20
-> I'm not sure if we have an external bug report (we have an internal one),=
- but for amdgpu there were customer complains that 10 seconds is to long.
->=20
-> So we changed it to 2 seconds for amdgpu, and now there are complains fro=
-m internal AMD teams that 2 seconds is to short.
->=20
-> While working on that I realized that the timeout is actually not driver =
-dependent at all.
->=20
-> What can maybe argued is that a desktop system should have a shorter time=
-out than some server, but that one driver needs a different timeout than an=
-other driver doesn't really makes sense to me.
->=20
-> I mean what is actually HW dependent on the requirement that I need a res=
-ponsive desktop system?
-
-I suppose some drivers are indeed only used for server hardware. And
-for compute you might not care about responsiveness as long as your
-result drops off at some point. But there's cloud gaming, too..
-
-I agree that distinguishing the use case that way is not ideal.
-However, who has the knowledge of how the hardware is being used by
-customers / users, if not the driver?
-
-
-P.
+but it wouldn't cover the case where fences are not returned in the
+order they were assigned, and seqnos are pretty cheap anyway (if a u64
+is enough to count things in nanoseconds for hundreds of years, they are
+more than enough for a fence timeline on which fences are emitted at a
+way lower rate, even in case of recurring failures). The guarantee we
+really care about is seqnos not going backward, because that would mess
+up with the assumption that fences on a given timeline/ctx are signalled
+in order (this assumption is used to coalesce fences in a
+fence_array/resv IIRC).
