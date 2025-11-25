@@ -2,60 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFCEC86F6C
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 21:13:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A26C86F72
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 21:13:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 185E110E03B;
-	Tue, 25 Nov 2025 20:13:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DFD710E458;
+	Tue, 25 Nov 2025 20:13:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="lrPAHpiF";
+	dkim=pass (2048-bit key; unprotected) header.d=shazbot.org header.i=@shazbot.org header.b="xWis5iHp";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="1WgIpRu1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCA6F10E03B
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 20:13:09 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4dGDQV3nJqz9tSw;
- Tue, 25 Nov 2025 21:13:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1764101586;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EsVOLzBSeKtoAQQQH0qiBRV/hPqVXnOfBSVioSqYRf4=;
- b=lrPAHpiFnx9xOq019X6ifzEa8ROVfvrQYX+VhwpRI20YreNVIsWtNMbWwOsSavDBX0ysyG
- /zwpYQGWqoQCYzkePZgsg8/LHAirvSh1+HG+7lw8uXfS4NWJGrVMd+2CsVIaIwXIOdOhZR
- op2zRGFgpdmiaUqZOkcYburIj6L6oj5ZAjwFx/rwryleB13NTnOkraGIe4NtkPzOYiR5HJ
- 64ofJibih44ENRlI3mTQN4gT5EDR7GB5xXi1LpBd6nf1iPi1BflB42FciK2wpRVrE77Jax
- vzOTgTDT18bLxVTA1tpGIcF+b8fwq9KhUUbd2vnYylHiVStSNwmPm9pituwsCA==
-Message-ID: <f92e90f1-2bc3-49c2-a6e4-40dcf63cb0e1@mailbox.org>
-Date: Tue, 25 Nov 2025 21:13:02 +0100
+Received: from fout-b4-smtp.messagingengine.com
+ (fout-b4-smtp.messagingengine.com [202.12.124.147])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19F7610E459;
+ Tue, 25 Nov 2025 20:13:20 +0000 (UTC)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+ by mailfout.stl.internal (Postfix) with ESMTP id 2A1031D00189;
+ Tue, 25 Nov 2025 15:13:19 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+ by phl-compute-02.internal (MEProxy); Tue, 25 Nov 2025 15:13:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+ cc:cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm3; t=1764101599;
+ x=1764187999; bh=SxBzS6wxsA9DU/wrcG08wVM8JozAfkjt6DeecCIzneM=; b=
+ xWis5iHprTUKC6s7veQqbuYlIsiGvFjWVZ/ncVbfj/kEkDoww2qZjckaxKdbwpOS
+ fJRcWTDv/zBudS40kGTvSd7x2/gZ/xexrNsAkXxFdo+nsGjq4gTOKB0QXnasYV97
+ KQ3FiUxLCBHaVWzEsKDy5SX9O71Ripd+BRcZq+LSd/KyMRO1CVzlQMqh3ejJBI2j
+ kdFl1MVvdcsVY5bcVdv6FUQVuhjs57ua/i0HBNFKzKYVjSWcff34g03pk9xgo/Th
+ uxPY+4qrqoLputQtxu0IR86JR2wGtwVODJONsralwcG3OCC1gWZhKAt0PSXKKyJ+
+ pbu/60K6xj5Xnyft5SiFZg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1764101599; x=
+ 1764187999; bh=SxBzS6wxsA9DU/wrcG08wVM8JozAfkjt6DeecCIzneM=; b=1
+ WgIpRu17/CGPtlIdUy5fftZ7tplpJ7JytkmZ0175np73ki83mNji1nkOmaVQP+i/
+ MtLu9DcVIQwD3WN0oH3l1OI4HEfpW2LkXXrIKw/SpdjTRAMgTksrLE4szPcl0SrQ
+ GfqVBLipASmJSoUf6MZP2B0H5KwZLfofSyqlQSknfeydOHo0D1aqi9DaN/g2mfx3
+ jlk9bSa9PVTYEn4QAtlZCcHWbbtcawYoe/VNnnTjFS5dbyEXaIe6VRw5akFBaLHZ
+ iaEkZ/DHhDZR23lYDwo4ff9PDRQrTnbvlOyixGydJghiWVBkRlagzS38UarJ7fst
+ zNlV9lelt5k8TfuJ6gzyw==
+X-ME-Sender: <xms:3g0maU4fw47TisN_W1o-i0kLbHCfFWmgWwZl119Xd_VUeRCgimeoSA>
+ <xme:3g0maWUvibJsF9iLcfpVi_kCe3pIqp6oBhVHaQPvHibCiwcmrI22GCDmMTJK43fT4
+ t7wDh7aHnVp-njdglEsjLMCttZ1_86gh8Bv7Q_zExRbSNSn4EClMw>
+X-ME-Received: <xmr:3g0maY4v2GCi9oMzl_tFJBzLqOX479SoH2_CMpqhpEpk7O_VckukHBsR>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvgedvgedtucetufdoteggodetrf
+ dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+ rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+ gurhepfffhvfevuffkjghfgggtgfesthhqredttddtjeenucfhrhhomheptehlvgigucgh
+ ihhllhhirghmshhonhcuoegrlhgvgiesshhhrgiisghothdrohhrgheqnecuggftrfgrth
+ htvghrnhepgfffvdefjeejueevfeetudfhgeetfeeuheetfeekjedvuddvueehffdtgeej
+ keetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+ hlvgigsehshhgriigsohhtrdhorhhgpdhnsggprhgtphhtthhopedvuddpmhhouggvpehs
+ mhhtphhouhhtpdhrtghpthhtohepmhhitghhrghlrdifihhnihgrrhhskhhisehinhhtvg
+ hlrdgtohhmpdhrtghpthhtoheplhhutggrshdruggvmhgrrhgthhhisehinhhtvghlrdgt
+ ohhmpdhrtghpthhtohepthhhohhmrghsrdhhvghllhhsthhrohhmsehlihhnuhigrdhinh
+ htvghlrdgtohhmpdhrtghpthhtoheprhhoughrihhgohdrvhhivhhisehinhhtvghlrdgt
+ ohhmpdhrtghpthhtohepjhhgghesiihivghpvgdrtggrpdhrtghpthhtohephihishhhrg
+ hihhesnhhvihguihgrrdgtohhmpdhrtghpthhtohepkhgvvhhinhdrthhirghnsehinhht
+ vghlrdgtohhmpdhrtghpthhtohepshhkohhlohhthhhumhhthhhosehnvhhiughirgdrtg
+ homhdprhgtphhtthhopehinhhtvghlqdigvgeslhhishhtshdrfhhrvggvuggvshhkthho
+ phdrohhrgh
+X-ME-Proxy: <xmx:3g0maXEq5ofT8QQr-mpV7rNXW5VqYmxVP4fkg7679KM-n_JTajGtfA>
+ <xmx:3g0mab8QBb2EtiqGTSLfZwISvRnUQ02VfvHCwF-kAJ92_zKQPG8dNg>
+ <xmx:3g0maZXCEDDKqaKX8nE4kgcUnJsB-NLGwyLZhx7gF4F-iC0jL2V6UQ>
+ <xmx:3g0madGcEoSKfZhKbIyhL-h0o8oF61rz0tNxfGnca9R8VxPJt9BJEA>
+ <xmx:3w0maVfPtYIDUbwzNoblR8K0XZ7sAGHjEdm_at5Nr0TOmVOgjRGwo6za>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 25 Nov 2025 15:13:16 -0500 (EST)
+Date: Tue, 25 Nov 2025 13:13:15 -0700
+From: Alex Williamson <alex@shazbot.org>
+To: =?UTF-8?B?TWljaGHFgg==?= Winiarski <michal.winiarski@intel.com>
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0?=
+ =?UTF-8?B?csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>, Yishai Hadas
+ <yishaih@nvidia.com>, Kevin Tian <kevin.tian@intel.com>, Shameer Kolothum
+ <skolothumtho@nvidia.com>, <intel-xe@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>, Matthew Brost
+ <matthew.brost@intel.com>, "Michal Wajdeczko" <michal.wajdeczko@intel.com>,
+ <dri-devel@lists.freedesktop.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Lukasz
+ Laguna" <lukasz.laguna@intel.com>, Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH v6 0/4] vfio/xe: Add driver variant for Xe VF migration
+Message-ID: <20251125131315.60aa0614.alex@shazbot.org>
+In-Reply-To: <20251124230841.613894-1-michal.winiarski@intel.com>
+References: <20251124230841.613894-1-michal.winiarski@intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/rcar-du: dsi: Handle both DRM_MODE_FLAG_N.SYNC and
- !DRM_MODE_FLAG_P.SYNC
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20251107230419.471866-1-marek.vasut+renesas@mailbox.org>
- <20251107232329.GI5558@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20251107232329.GI5558@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-META: ts8k8bwp1efza9rj18i4ba15i8a3zj56
-X-MBO-RS-ID: e53d64192f6dd2becd5
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,48 +112,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/8/25 12:23 AM, Laurent Pinchart wrote:
-> On Sat, Nov 08, 2025 at 12:04:10AM +0100, Marek Vasut wrote:
->> Since commit 94fe479fae96 ("drm/rcar-du: dsi: Clean up handling of DRM mode flags")
->> the driver does not set TXVMVPRMSET0R_VSPOL_LOW and TXVMVPRMSET0R_HSPOL_LOW
->> for modes which set neither DRM_MODE_FLAG_[PN].SYNC.
-> 
-> Could you please explain what broke ?
+On Tue, 25 Nov 2025 00:08:37 +0100
+Micha=C5=82 Winiarski <michal.winiarski@intel.com> wrote:
 
-Consider mode->flags, V-ones for simplicity:
+> Hi,
+>=20
+> We're now at v6, thanks for all the review feedback.
+>=20
+> First 24 patches are now already merged through drm-tip tree, and I hope
+> we can get the remaining ones through the VFIO tree.
 
-Before 94fe479fae96 :
+Are all those dependencies in a topic branch somewhere?  Otherwise to
+go in through vfio would mean we need to rebase our next branch after
+drm is merged.  LPC is happening during this merge window, so we may
+not be able to achieve that leniency in ordering.  Is the better
+approach to get acks on the variant driver and funnel the whole thing
+through the drm tree?  Thanks,
 
-DRM_MODE_FLAG_PVSYNC => vprmset0r |= 0
-DRM_MODE_FLAG_NVSYNC => vprmset0r |= TXVMVPRMSET0R_VSPOL_LOW
-Neither DRM_MODE_FLAG_[PN]VSYNC => vprmset0r |= TXVMVPRMSET0R_VSPOL_LOW
-
-After 94fe479fae96 :
-
-DRM_MODE_FLAG_PVSYNC => vprmset0r |= 0
-DRM_MODE_FLAG_NVSYNC => vprmset0r |= TXVMVPRMSET0R_VSPOL_LOW
-Neither DRM_MODE_FLAG_[PN]VSYNC => vprmset0r |= 0 <---------- This broke
-
-The "Neither" case behavior is different. I did not realize that:
-
-DRM_MODE_FLAG_N[HV]SYNC is not equivalent !DRM_MODE_FLAG_P[HV]SYNC
-
-They really are not equivalent .
-
-[...]
-
->>   	/* Configuration for Video Parameters, input is always RGB888 */
->>   	vprmset0r = TXVMVPRMSET0R_BPP_24;
->> -	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
->> +	if ((mode->flags & DRM_MODE_FLAG_NVSYNC) ||
->> +	    !(mode->flags & DRM_MODE_FLAG_PVSYNC))
->>   		vprmset0r |= TXVMVPRMSET0R_VSPOL_LOW;
-> 
-> I don't think this restores the previous behaviour. You would need to
-> write
-> 
-> 	if (!(mode->flags & DRM_MODE_FLAG_PVSYNC))
-> 		vprmset0r |= TXVMVPRMSET0R_VSPOL_LOW;
-This patch covers both the N[HV]SYNC and !P[HV]SYNC , so that should 
-restore the behavior to "Before" and explicitly be clear that N[HV]SYNC 
-and !P[HV]SYNC are not the same thing.
+Alex
