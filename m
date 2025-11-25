@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC333C8709D
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 21:29:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC3BC870A6
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 21:29:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1FEF10E463;
-	Tue, 25 Nov 2025 20:29:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7451B10E2B4;
+	Tue, 25 Nov 2025 20:29:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ALARG1TR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rx9YTvrc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEE8189823
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1FEF10E0A3
  for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 20:29:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 821C344469;
+ by sea.source.kernel.org (Postfix) with ESMTP id 84B1B4446A;
  Tue, 25 Nov 2025 20:29:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 41E64C16AAE;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4E3BDC116B1;
  Tue, 25 Nov 2025 20:29:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1764102580;
- bh=57iFOlJjHz5ySUzY0KG71UVGjXVyk+k7qQ/D/GZ+w9Q=;
+ bh=xmOtbEbdnDZUK8n8UPV79lS8HJNc9fONfq/FhvbrZXo=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=ALARG1TRG9czMdZsHKmrdix52spMY3jRCtJCl9fpJXTHJKJZSy/gq6zrj093l+MHa
- l37xc8CrqtegACZ+2XUcdJlEbm42Al3xl/C39ZJUXrMVH5LKGX8342lHGoSKV2eagQ
- LB8ElAeQnXfbt6hr+r2eJcTG1Stl9tLW0QUiqGLN/KBF4CASytoHKjRwr4Qaaxuufi
- UCsT7njIF4onVazOoli4CgU5y5pWXSDfhcRgV1W9r/CjfRES7lRTsQ+btnvhY5Y2e2
- a63vy2gLc7xMG9+z2uqR9aAZUB8ZVIY1Q0QTJ09vNlTeC+k73QO9P6mJy4qspJ3997
- GVRORdNh3uljQ==
+ b=rx9YTvrcFRkXn8Pb9zlPixzc2NOKkqj1uZIftYNshh9evio+1MMJwt3yVNW/aiDWk
+ bkuqoCeYG1HbqTBexCeAIUe6n09r99Gfag6KDfEmx8Mnwc+bQzHUDA+NJIzKCg39Q/
+ 31M9Qhl/MletXnU8wnftkjd/WdO7/MKZEc/WqRwhQc3UAdQ+6xdLNMjTmqakkhbIer
+ 9awsBVtF0+3L4JLhX4ZP6d8iyEBhcrFkrenW/z+aBzZW3BnXh6QhkmYq2CmnZJ/Xxs
+ 4zJr/26x+NfiM0pAwIEdmy7H0228B7KHcyCm7QU6vRDO4q/cjD5cAro5obYG9VQD+z
+ lGULRcq4jQzow==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 2BB8ED0EE25;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 3CD32D0EE24;
  Tue, 25 Nov 2025 20:29:40 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Tue, 25 Nov 2025 21:29:37 +0100
-Subject: [PATCH v4 2/8] dt-bindings: panel: sw43408: adjust to reflect the
- DDIC and panel used
+Date: Tue, 25 Nov 2025 21:29:38 +0100
+Subject: [PATCH v4 3/8] drm/panel: sw43408: Introduce LH546WF1-ED01 panel
+ compatible
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251125-pixel-3-v4-2-3b706f8dcc96@ixit.cz>
+Message-Id: <20251125-pixel-3-v4-3-3b706f8dcc96@ixit.cz>
 References: <20251125-pixel-3-v4-0-3b706f8dcc96@ixit.cz>
 In-Reply-To: <20251125-pixel-3-v4-0-3b706f8dcc96@ixit.cz>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -61,21 +61,21 @@ Cc: phodina@protonmail.com, linux-arm-msm@vger.kernel.org,
  phone-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1875; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1680; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=NUtDhdxgm27JmLpy0LMIV+8SFYDHd5eqrKtd8gdhaI0=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpJhGxa2kozTUZUMHAbh33k98FWegntz/YxT2q8
- RDgtZMm88WJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaSYRsQAKCRBgAj/E00kg
- cql0EACzbJ7MRU5M/6U505fHRfvpRGxyfS9ImojQvXzjptKh6eHWy8N6ojZ50qxeoUMEE+XK6TE
- FEQYLma4Rj0pmaIJmwuI/J9+LuJ+wROdCMyG4f1GK2PZJwivSO5n+YdJX0XEbh9pm/NrAQ4xtIt
- YZNW5SIOGwG3jsw8Wo6jMPdHzmDv0qqtuku91wtwPAPSRtBgZK6tANumSRPKsVG7BJ8IMyYPP62
- m+Lc2DskktcooHk6y8gTAJs00BLLziJWCSw+RnLx2dj892Nor1S4I9+qoUKV5iKl4YCVMTLwqry
- awR9Ch1fIIZo54cIq2PhsDIYsY6cUzpVocf6rA/RZ4LYRuyAVJncxE0BEP9xW6mMqVk3V9UArfx
- 8qZBgQwKRNLOzOMEtHE3n0X0eWuKEkSVXdG0PaC8fBa3mDLc0umYtIlLxcKktVp0kCiHofBX6hl
- F/9J+POci51fxUaSCtmVroAIITkzzuFBDMY+2mpavahYndEoIQPe13/uj/SJoHM//M8b52X6RJE
- +wRmELkKGZrHujsaBJxe32+ado4rW8qA7tOwtjIek+pm6ib5sTnlcRZAp7cDyHREUnx2Bi49VkI
- LQRG/cIetrMjrSXVRURsISnMTnL0LauA8GWAJorF4saXLUFEumaOJDKK7yfDYHJPZAqc0yYAYYd
- 41r+0fSUKOs+x0w==
+ bh=9TAk0DAPWxZVYTBz3bFgNgm0xGew8ziZCJQS5XGU65g=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpJhGxRm6sRwZPo41Mwxyodut3ZK3FkRghiKnCj
+ Bz8/Dg7lIqJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaSYRsQAKCRBgAj/E00kg
+ ckEKEACl9YEzwbH/NPMBTBmhqqST4/0mcBKw0oU2FxWl5UP35HBdt/cuj99YzuZv5UOaqwrQcaQ
+ F2G60gHfObfkf7VTJKnKnl9iEEGbEEtslgkCCKiFnoCNP3Rrq6YSRC8cZy/RP6t2ee3f9SE7xsa
+ Bu+/4njAMjkJgdn4RC52J7/GTamfr5obbRQlCVn7lEDmkwPKcTeybpyyBhl3l1MYyefuzvYRXNs
+ HM64dP3YFCOVkrMSOKsG3HegrzySIhE+0Ufcb7JoPAibjMOGucNNV5PJBY0lHx3ow4K0Jw4pZZP
+ J9P8j1ZqggAJsw8/32SfZ+PXPs0uZwocVX4opQBNKDBKLdG2MRT2BOsGVnppGxjcDLGdut5BIKH
+ 3OUML8BViKjwH5fqbdc4YvlmBe4ZrTLUJej6VZIrHTSVcvplVCkWht3dNzHUO8YrvpLu5o5pSF6
+ YxNTnZ0tlCW1nPcON5j0e4vjmQpCKa3UAMx7edxy16DOAnwjqYWlP0EDbbhxMKPEf7ta//7gM6t
+ qnuwCJ7B2BhHNLumKm/zPCVN5CJ1MzCUyqwLpnFkWX5pEW2h0GqkUfF/xjuTgXffvbnvyIstP0U
+ mRXrIEXmjbX4TZlVhD1J/Xi4tC49q4yQkfF1rToVtUBdjBHiMi+6lxPHSj1NBBsMPE39sA0+7/j
+ rSjpl6WXO5wWNng==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -98,58 +98,49 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Heidelberg <david@ixit.cz>
 
-Add compatible for used LG panel.
-SW43408 is not panel, but DDIC. The panel itself is the
-LG LH546WF1-ED01, so introduce combined compatible for it.
+The supported panel is LH546WF1-ED01, add compatible and adjust the
+struct name to reflect that.
+
+The standalone compatible lg,sw43408 will continue to work, even thou
+there are no users yet.
 
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- .../devicetree/bindings/display/panel/lg,sw43408.yaml       | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/panel/panel-lg-sw43408.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml b/Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml
-index 2219d3d4ac43b..f641efaeb8b36 100644
---- a/Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/lg,sw43408.yaml
-@@ -4,14 +4,16 @@
- $id: http://devicetree.org/schemas/display/panel/lg,sw43408.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/gpu/drm/panel/panel-lg-sw43408.c b/drivers/gpu/drm/panel/panel-lg-sw43408.c
+index 46a56ea92ad9f..dcca7873acf8e 100644
+--- a/drivers/gpu/drm/panel/panel-lg-sw43408.c
++++ b/drivers/gpu/drm/panel/panel-lg-sw43408.c
+@@ -149,7 +149,7 @@ static int sw43408_prepare(struct drm_panel *panel)
+ 	return ret;
+ }
  
--title: LG SW43408 1080x2160 DSI panel
-+title: LG SW43408 AMOLED DDIC
+-static const struct drm_display_mode sw43408_mode = {
++static const struct drm_display_mode lh546wf1_ed01_mode = {
+ 	.clock = (1080 + 20 + 32 + 20) * (2160 + 20 + 4 + 20) * 60 / 1000,
  
- maintainers:
-   - Casey Connolly <casey.connolly@linaro.org>
+ 	.hdisplay = 1080,
+@@ -171,7 +171,7 @@ static const struct drm_display_mode sw43408_mode = {
+ static int sw43408_get_modes(struct drm_panel *panel,
+ 			     struct drm_connector *connector)
+ {
+-	return drm_connector_helper_get_modes_fixed(connector, &sw43408_mode);
++	return drm_connector_helper_get_modes_fixed(connector, &lh546wf1_ed01_mode);
+ }
  
- description:
--  This panel is used on the Pixel 3, it is a 60hz OLED panel which
--  required DSC (Display Stream Compression) and has rounded corners.
-+  The SW43408 is display driver IC with connected panel.
-+
-+  LG LH546WF1-ED01 panel is used on the Pixel 3, it is a 60hz OLED panel
-+  which required DSC (Display Stream Compression) and has rounded corners.
+ static int sw43408_backlight_update_status(struct backlight_device *bl)
+@@ -214,7 +214,8 @@ static const struct drm_panel_funcs sw43408_funcs = {
+ };
  
- allOf:
-   - $ref: panel-common.yaml#
-@@ -19,6 +21,9 @@ allOf:
- properties:
-   compatible:
-     items:
-+      - enum:
-+            # LG 5.46 inch, 1080x2160 pixels, 18:9 ratio
-+          - lg,sw43408-lh546wf1-ed01
-       - const: lg,sw43408
- 
-   reg:
-@@ -46,7 +51,7 @@ examples:
-         #size-cells = <0>;
- 
-         panel@0 {
--            compatible = "lg,sw43408";
-+            compatible = "lg,sw43408-lh546wf1-ed01", "lg,sw43408";
-             reg = <0>;
- 
-             vddi-supply = <&vreg_l14a_1p88>;
+ static const struct of_device_id sw43408_of_match[] = {
+-	{ .compatible = "lg,sw43408", },
++	{ .compatible = "lg,sw43408", }, /* legacy */
++	{ .compatible = "lg,sw43408-lh546wf1-ed01", },
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, sw43408_of_match);
 
 -- 
 2.51.0
