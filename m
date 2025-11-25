@@ -2,62 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE6FC8404B
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 09:38:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E31C840CB
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 09:48:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFD6810E387;
-	Tue, 25 Nov 2025 08:38:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 499C410E2E4;
+	Tue, 25 Nov 2025 08:48:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="W1CeM/U4";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="HgSXdZfp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1601D10E1B5;
- Tue, 25 Nov 2025 08:38:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764059891; x=1795595891;
- h=from:to:subject:in-reply-to:references:date:message-id:
- mime-version; bh=4hPbvwObn922jRZBV2FDZK1+G0Cd3qDpcAe+yyEEais=;
- b=W1CeM/U4VibBv3SnYQ+nVzFGxuNe5uBC5UXqyq7HeXFvfcldp5cykTmy
- v7RgW8+He2UsUdxFAQCToDfEXO33Fi7YAkkQ1BWO8pU161y7RDJfxA9+L
- E9rYYGqNCCDu4GmD4d91pvqW8XK8Pv/ropdL0bmoA/P3zof6PBe04HGfz
- nsD+CI4cfh9iiVDcZKPsvyPab3qiZEAu2LEwUDf4sHONQyYIcKW/H0sAq
- 03tfzm4FVAcY5RRtyRcZUjY0x++oFslrL/6birMAMHhYlJmXmoBee5T+T
- LWbyciMWcJih9wuMBeU1zdNqa1lxj51vayObSmn1oP7fKMwbW2FQ3Ra89 A==;
-X-CSE-ConnectionGUID: WBEhwZjlQAKdAE47P6Xh6A==
-X-CSE-MsgGUID: CpVzYqhdSXCSoyaW8H6l+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="66016463"
-X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; d="scan'208";a="66016463"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2025 00:38:10 -0800
-X-CSE-ConnectionGUID: gbstitpnRhSiOx4K8cKupA==
-X-CSE-MsgGUID: ONNzabv0SdO53OtAwTJbow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; d="scan'208";a="197689402"
-Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.213])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2025 00:38:04 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: zhangzhijie <zhangzhijie@bosc.ac.cn>, jeff@jeffgeerling.com,
- zhangzhijie@bosc.ac.cn, wangran@bosc.ac.cn, zhangjian@bosc.ac.cn,
- daniel@ffwll.ch, rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, airlied@gmail.com, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, guoyaxing@bosc.ac.cn,
- ville.syrjala@linux.intel.com
-Subject: Re: [PATCH v2/2] i915: Support Intel GPU porting on any non-x86
- system.
-In-Reply-To: <20251125033420.2265288-1-zhangzhijie@bosc.ac.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251125033420.2265288-1-zhangzhijie@bosc.ac.cn>
-Date: Tue, 25 Nov 2025 10:38:01 +0200
-Message-ID: <98262d9d2ea7c02858aafae680a3ca0ff0a9dc9a@intel.com>
+Received: from CY3PR05CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11013030.outbound.protection.outlook.com
+ [40.93.201.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2656E10E2E4
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 08:48:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=l0/QkSmvaC/k1NPFOu7N96glws/ANiR3lv3gyrN2+F53NroUnJ4NuBh73cCpdkYC8U5eKhEinXWnKbMOfHaZEzBPeYqaaYDhvnlEqjbyXDGJyJm2LeUscamUD5blW4o11UnISXTULcs6D8/LkzNm52NvLaI+KWjGTJGbhDUtcBJ1/5bPWA7hUT24Zl/1Ix9vSwzp1n28tbMx1MyzGKixU9sxblFUTmE4NrprXfgMcaGtHV1lqq4idCrgXu/iSoD884ZX+mM6c0C7t1vCoAuAhJ5OUeV/M6J3gF7+fyI2RwJNiy9LaOs8EJBSK3x5T/2Ac/9fMielX5pF+e4YRdAMqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7YYjSquFC+baB3/zs7XyWYDbyUAP/grNrM/dylAF2wY=;
+ b=m9LS3IqYkPRZeo7bxxhJl7N1wKr1X/6DRdD8LF+5Zx7guEQesdumVNuBDIL9Xjw4UvQdRRU6kOZsWodwgk7SH6TSL+Cl1iLhaNHIL/p83Y1ffD/wL7ElEe71V+9xz9/BD2BQepCQQTnMxrBxlIe7Vw7eW4Xn2TkRDtOJ2a80cCFQ3eqE4tc/x+QP/zs3R3NVHF7nxVZkSfIQmFgHy0kDBxrWmvXDNU1mrbY765/ZejE1c0uG6wxlYCpM0KyIUiQIwBKNKmSsWAYrbMVRoc22B/HLzRHWLIOZdJrnTHv+v5Lpf7EeNSvh6xUaCb/bor7Pr48NwYRTyL9Ix/7GFNwJmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7YYjSquFC+baB3/zs7XyWYDbyUAP/grNrM/dylAF2wY=;
+ b=HgSXdZfpl/4NSosgbKjURYaGiZOMG+LQ7yStbJGHmRMkChLL14NQkAYH8wOt9H27poGiQDDOaay6MWr0Yd/znoMpu+GSlW46nyktskVQjDRl1OpURS0e1efjbKK2rGw899K45AgUymOLZ9B/wbodHQawLTQwTSBb8l/FlAP5MvA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by IA1PR12MB9737.namprd12.prod.outlook.com (2603:10b6:208:465::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.16; Tue, 25 Nov
+ 2025 08:48:40 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9343.016; Tue, 25 Nov 2025
+ 08:48:39 +0000
+Message-ID: <508ff709-0f05-4982-8e15-5fea3bbd12e7@amd.com>
+Date: Tue, 25 Nov 2025 09:48:35 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] dma-buf/fence: give some reasonable maximum signaling
+ timeout
+To: phasta@kernel.org, alexdeucher@gmail.com, simona.vetter@ffwll.ch,
+ faith@gfxstrand.net, sumit.semwal@linaro.org
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org
+References: <20251120150018.27385-1-christian.koenig@amd.com>
+ <20251120150018.27385-2-christian.koenig@amd.com>
+ <380012b9d6f0e9ee3c2f125cfe2f37f65c1979e0.camel@mailbox.org>
+ <b46913b6-fe61-48cd-a9ca-aa2fe3a12b63@amd.com>
+ <1c1a14d42d0a4a25ebce26a2af0a61dc1b7813fc.camel@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <1c1a14d42d0a4a25ebce26a2af0a61dc1b7813fc.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0101.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9c::7) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB9737:EE_
+X-MS-Office365-Filtering-Correlation-Id: 69654086-f6ae-4b47-0d2c-08de2bff6e1d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Wm1qT3QwbGtHQTFUdkxEU09BVXJ1MW83cWkwdW5oTTdlaTBkQjhvVTJLSVI4?=
+ =?utf-8?B?U0NSQkpTT295NGNFdVZ4QlFVQzNEZnovbVRzZ3NRSjFRQUpFTzhFU0RqMDVP?=
+ =?utf-8?B?bHVCb1dzMWFUZWFtTEFRU3RQMGJyN2tydWRjbDIvOGR2ejF2MGIvOVlHdW9F?=
+ =?utf-8?B?Vk56b1ZqRDJYOEZuZ2crNHFZNjR5K3dFVHR4ZFFQMjdObzhUckxMNG9jWWJR?=
+ =?utf-8?B?Y2IyUUpOQitHTkN3MFRxV3ZXNWtNOFFTLzNUWldhRWY1ekkrMENGdHlFa2hB?=
+ =?utf-8?B?Wml4eDR0b0R2K29JOWZ2bWNaYjFkakV6Rm11UFNRTWhHQjVNUWhDTnRCZGUr?=
+ =?utf-8?B?aXpYMmNJbUFhcFhUdUJXdkpzS2NQWkZ5YnNXd2ovMmMxUTJZYW1valRGUFpQ?=
+ =?utf-8?B?MjhaUm1iR013Tk1peDN3YkNVN1VkRktxMmI2bW5CQ01oZjl5Mk14ZVRRbHN4?=
+ =?utf-8?B?ZVV4ZWlGYW5HVTUvMVo0UE1EeFpCUU5HczQyMUpsNWw4ZU9yVkQwWWFBeWZ2?=
+ =?utf-8?B?MmJBSEthMjJ5cWxQajQzYnY4dXE3eExUSHI0Lyt5N3ZDUkNaOWp1MlVXcFRr?=
+ =?utf-8?B?NDMvRFBCK2grUlQ1UEQrMHhWaWh3ZW1oYVN1K2dKR09QY1ppWjBlSndrOVBM?=
+ =?utf-8?B?RVhEMGs1NDRNWGVTYXpYYm0yK0JpQ3ZDdW1PY1pQSnlVL3BvNDhPNmwrOW5O?=
+ =?utf-8?B?SXI3cC9FUnMxNEVjNHY1QUE2RDJUY29hK3B6eEVoYlBnMUZqbmpPK2dKRkVU?=
+ =?utf-8?B?TEtRb3Y4NEpYSWdjQkoxRDZia1l4OWltU0pJcXIxT2k1dFhuUzlmeWw0cjFV?=
+ =?utf-8?B?alB5akdJOFRxaW1JckRhWVdoeDllZUlQcWVBdG92YkxzNG1RTUVTQVpnOUMy?=
+ =?utf-8?B?cFRKZ0Q5aHNNelNZejlvQ1A4b3VMSFFxQ0dmc0ZZV2NCYTcxRVNTQnpiRWRF?=
+ =?utf-8?B?UmhwallCUW5UWEJ1djN0OHNrRFA4SDFuQmxrUDEvcmFLZlovenI0OUI4M2Jx?=
+ =?utf-8?B?dFgvRExCNzNFVFdmK0FmSmFaWWxrdjQ4V2RLc05DZ0IzOWV4ZFZRVjZDZkNw?=
+ =?utf-8?B?eEpLZlF1cEgyMUd6ODNFN2F3NzlOSUlmYXpPQ2tnemFxMjZyUzlHSSsrVDZv?=
+ =?utf-8?B?NHg4Zm9PdSt3cUJMeThGeEduVEd0TGJaS1dEdjJZdURDZFlOWGtNaldWdUc5?=
+ =?utf-8?B?blRNME5ydUNUNmc3eU5XdS9pM0dURXU1WkVCSjVybkN1VzJoNTJzeEFUZGVr?=
+ =?utf-8?B?TXNjSVpoc2luY3MzSnJvUHZSUWpveXRtVDhYS202V3dobkFENW41cmJwcjNn?=
+ =?utf-8?B?RFUyQkRBaU9lTkdEVi96TWRLY2NtZ0hJTFp2U25OTkh6Rk91bXB2MnovQ0xw?=
+ =?utf-8?B?UkFmcmxhYzBicmw3WDNuVzZKaTBWUy8rLytUS1psY2VaSWFnMFlHeXpwQk1i?=
+ =?utf-8?B?UnRQODMwQjk2b0JrZnlsNFE5WmRUUWJadkl3MThZd2xPcm44NWp2blpvWEp2?=
+ =?utf-8?B?MXBwYTJTUGNTRlEvUTdCcUZQOGkyUjljNDFjaTIyNjNUM2N1UzlCNkVmbjBE?=
+ =?utf-8?B?QjdNOTdiQ1NhbUNJdTBrRkUxY0FLVEtYbm5xT3RabVprS3g1KzNIakdZYlBI?=
+ =?utf-8?B?WE40SnlKdWw2cXREb1lCaDlnTDJCeWZiRUcweCtmZ1R6ZG02R2RCUnd2UlVZ?=
+ =?utf-8?B?Z0tmYXE3d0p0OGFYUXdlVVphT29CbXVuZHUvQXdTU1lHZ0Y1U25KMTd3NUo4?=
+ =?utf-8?B?Y2lTdlREd3BJWkUyVDBvUXg5TWRBZHR3VzNoWEVza0prRGdWcUZVYWt6TDRN?=
+ =?utf-8?B?TldaUHdVcjJXNjhqWGNLNkY1L005Z3FsZ0xKd2F1NXlqdlJGSGVJK0NueGlE?=
+ =?utf-8?B?emt0Zm5mTVV0Rnd0bWtOT1ljVUh5QnhTVm9PRThaLzZHU1dWNnREc3NHYnND?=
+ =?utf-8?Q?b6x+duTZa785/j5OwSxBFjsdEJAAfAIs?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWkwbVEveVQwaWpzM3ZrS1AvNnFkVlUvaFV6dlJFUkFrN1hIZXQ0OGthUEt6?=
+ =?utf-8?B?NGY0YTZ1dUZ1Tm5wY3BHSjJwTkUxY0M0NzNiR1ZQZUZrdUtwazJiWUZOYjU3?=
+ =?utf-8?B?dzNNUGZyWXUzZzgzZWdjajkrNndTSWQzWTdEMGRVUENKNWNia1g2Y3c4L0NY?=
+ =?utf-8?B?SVFZNlRnbnljdFNCcFFma1drSFYvWEhjWjhZaW9qcG40U1M3YkFwM3Y1NzRJ?=
+ =?utf-8?B?RXBQUWo3eUk1ZnM2YmtHMGt2K3F3QXhtenRaQU5JUlA1V0lOUVZ1MVc5bmxE?=
+ =?utf-8?B?K1VreWFhSGZBT0F5N2hKWC9Hb3BiZHQ4eHQyV2cwVTlkTU5yT2lOMlJGZVNU?=
+ =?utf-8?B?dkFSNVFDMDd2OUc1cXpjeHRIcTBhWi8yaXRoYnpBVVdYUGdSRk4xVU0wN09K?=
+ =?utf-8?B?RUNvc0dJWVNVMEpQTnc5VGdTMVVMQWVKTXhEVlNaZy8xYnFHYlRITS90R2dJ?=
+ =?utf-8?B?eWpMMmRpdkFwNVhKWlgrdWJEL0x2RjN5NW5BZXFQNXNkdWlzNHY3STd4bGdT?=
+ =?utf-8?B?VEdqKzhLbFJJRTdnNWQ4MEtXK1NKamFPcFd5NnFiWHRoSStIKzdZWWNZREZw?=
+ =?utf-8?B?SEg3S2l5ZDhBaU1iMGlSUlJJeGo0S0tzKzdBZzhQL1NIbHdiUnJXajFJbmxG?=
+ =?utf-8?B?Kzh1OGtRdlR6NkxhZGx4UTVjeStEdUVvV0ZadnRrNkM4QWk2eVpNY3BwTjkv?=
+ =?utf-8?B?TmE2MklTRmwvOUtUcnlwOEFhTDgvYTY0OElHOEt2RmZNVTk0ejQ4MVE0cUxk?=
+ =?utf-8?B?OUhwNmUwQWs1OGJ1MFNlR0ZZMjdrRVBCb2ZkdzFSQmRmQVFBMEhXVDcxSlpJ?=
+ =?utf-8?B?MVdDOHByZ1pmQXBydlZyeWVsTVgxbUdYbG96OHZ3TjRDK3lza0VpbUIvQkpN?=
+ =?utf-8?B?OTBNS1JiOFJTMEVucFduS1Nad1c1em8xVUNla3B3c2dPd0YyTE5DQk9oZndx?=
+ =?utf-8?B?YzBScmVZZnZ6Um1yOThJbzBTYzRIalhpYzVSVnYzMmp4WTYyc05uL0ovZzY5?=
+ =?utf-8?B?Yno0b0Zja09tSnhzZ1F0TkUxZkdFZE13aEZWWlhBei9EajVDSFBiTDJ3S3Va?=
+ =?utf-8?B?S0krNWEvU3h0Q2pXQVU1SCtCNGY1YzVXQ3dXVDRuRm1SQm5GamRYVmh1VGQw?=
+ =?utf-8?B?YjR6YkgyWDNSa2tCMm1uMmdRR2hPT3NZazNuZ0Q2Wjk3UGZwSkxlOTlGMllu?=
+ =?utf-8?B?V015VEdacnhsWmhKMmZzcXJBY0FpdE5RbFNRdTU3bmhpdmJnK1JOMHJ5OU1p?=
+ =?utf-8?B?SkJUMFZXK1hnNjYyMUtGSllNcXhNUWgxSHIvL3MwVStIWG9xSmJGcTNvL3Ja?=
+ =?utf-8?B?ZlFMNmtsdndIV0RJUXo1R21QTHRyUjZ3dldaakl2VmJ5Vy9YdlBSUHdZMExQ?=
+ =?utf-8?B?c3QySTdDc3ZUSHhqd0NjOEt6Tlk4MndVM1hNblA3TWtBbCtzK1hJYm4rUGxw?=
+ =?utf-8?B?L0dNdzBSUmsweVlSUDJ4Y05zdlBibFUzTVNjS0ZEWmZyRDVBM0ZMN3VNamJT?=
+ =?utf-8?B?R2N2QjVVNFE4N2JscFdONUl1bEhHS1FaV2dscUZGeXRVM3F1T0ZuaVN5dE1i?=
+ =?utf-8?B?aEVsMXhwMDZsRzkyd2JaNWE0UnhGTkVqZHM4dUdXcHBQM3BQRGJXZXRvN1or?=
+ =?utf-8?B?SkVaUDNmaGcwK3NPYUptOCsxeE04Sk45S1ZpZlB6cDkxNFkrdVIwWjFxeDJh?=
+ =?utf-8?B?WlpOZ29TVXhDSkNWZGpWWFliV3RvKzB3czVFc012K21BU3pTS0ExcExKY3NL?=
+ =?utf-8?B?N1N6SGhSUlFnK2dnMzQ1NmRJcVZneXlCQUhqaWVsMm9nSTczeHRYc1VmYkZD?=
+ =?utf-8?B?K2MwaXRZeE8waWxKc0ZRRVZuNVM0dEprRXh6V2VhU0VoakJ5ZkhUTEkxUDRa?=
+ =?utf-8?B?MDJKSFNKazZZa1lTK0hZVE5VeXd5eGc2RXIzQTlOV1Z0SXlIK2RBOE40WEJm?=
+ =?utf-8?B?VDA1RTFBOHVpSWd2MjNWSnRGRU5SQW9sUDRFeWhFZVc3Um9rZG4zWVZuNlBO?=
+ =?utf-8?B?ZkJ4ajdkS1ZjWU5GMTdGSVlFYVRvQndGYXp5Y1pFUkpQQ0pITk8yM2ppRXl5?=
+ =?utf-8?B?dHlXbHVwUGF1RmlsZzlKWlJMRlViZGhHVjFEN25DTTIzdjNRMHdFaGNOZXVh?=
+ =?utf-8?Q?cpb3l4ZhQ9B6AVGVntCtemy81?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69654086-f6ae-4b47-0d2c-08de2bff6e1d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 08:48:39.8405 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QZt9LvPbI9FnwQTh5LPDqoHO3vaSm+5z0pbNBoVpGDgXGg43z+x2i+tXjGp9sUnv
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9737
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,93 +168,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Nov 2025, zhangzhijie <zhangzhijie@bosc.ac.cn> wrote:
-> inb/outb speccial wire not support on other ARCH.
-> Should detect whether arch platform support or not.
+On 11/25/25 09:13, Philipp Stanner wrote:
+> On Tue, 2025-11-25 at 09:03 +0100, Christian König wrote:
+>> On 11/25/25 08:55, Philipp Stanner wrote:
+>>>>  
+>>>> +/**
+>>>> + * define DMA_FENCE_MAX_REASONABLE_TIMEOUT - max reasonable signaling timeout
+>>>> + *
+>>>> + * The dma_fence object has a deep inter dependency with core memory
+>>>> + * management, for a detailed explanation see section DMA Fences under
+>>>> + * Documentation/driver-api/dma-buf.rst.
+>>>> + *
+>>>> + * Because of this all dma_fence implementations must guarantee that each fence
+>>>> + * completes in a finite time. This define here now gives a reasonable value for
+>>>> + * the timeout to use. It is possible to use a longer timeout in an
+>>>> + * implementation but that should taint the kernel.
+>>>> + */
+>>>> +#define DMA_FENCE_MAX_REASONABLE_TIMEOUT (2*HZ)
+>>>
+>>> HZ can change depending on the config. Is that really a good choice? I
+>>> could see racy situations arising in some configs vs others
+>>
+>> 2*HZ is always two seconds expressed in number of jiffies, I can use msecs_to_jiffies(2000) to make that more obvious.
+> 
+> On AMD64 maybe. What about the other architectures?
 
-I would rather finish the discussion on the previous version before
-seeing a new version.
+HZ is defined as jiffies per second, So even if it changes to 10,100 or 1000 depending on the architecture 2*HZ is always two seconds expressed in jiffies.
 
-You mentioned risc-v in the previous thread, but it needs to be part of
-the commit message too. And I still don't know what "speccial wire" is
-supposed to mean here.
+The HZ define is actually there to make it architecture independent.
 
-You still use likely/unlikely, and I told you not to.
+>>
+>> The GPU scheduler has a very similar define, MAX_WAIT_SCHED_ENTITY_Q_EMPTY which is currently just 1 second.
+>>
+>> The real question is what is the maximum amount of time we can wait for the HW before we should trigger a timeout?
+> 
+> That's a question only the drivers can answer, which is why I like to
+> think that setting global constants constraining all parties is not the
+> right thing to do.
 
-There's no patch changelog.
+Exactly that's the reason why I bring that up. I think that drivers should be in charge of timeouts is the wrong approach.
 
-The version in the subject is "v2/2", but there has already been two
-"v2" posted previously.
+See the reason why we have the timeout (and documented that it is a must have) is because we have both core memory management as well a desktop responsiveness depend on it.
 
+> What is even your motivation? What problem does this solve? Is the OOM
+> killer currently hanging for anyone? Can you link a bug report?
 
-BR,
-Jani.
+I'm not sure if we have an external bug report (we have an internal one), but for amdgpu there were customer complains that 10 seconds is to long.
 
+So we changed it to 2 seconds for amdgpu, and now there are complains from internal AMD teams that 2 seconds is to short.
 
->
-> Signed-off-by: zhangzhijie <zhangzhijie@bosc.ac.cn>
-> ---
->  drivers/gpu/drm/i915/display/intel_vga.c | 33 +++++++++++++++++-------
->  1 file changed, 23 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_vga.c b/drivers/gpu/drm/i915/display/intel_vga.c
-> index 6e125564db34..d85622ba10fc 100644
-> --- a/drivers/gpu/drm/i915/display/intel_vga.c
-> +++ b/drivers/gpu/drm/i915/display/intel_vga.c
-> @@ -41,6 +41,15 @@ static bool has_vga_pipe_sel(struct intel_display *display)
->  	return DISPLAY_VER(display) < 7;
->  }
->  
-> +static bool intel_arch_support_vga_pm(struct intel_display *display)
-> +{
-> +#if defined(CONFIG_X86) || defined(CONFIG_X86_64)
-> +	return true;
-> +#else
-> +	return false;
-> +#endif
-> +}
-> +
->  /* Disable the VGA plane that we never use */
->  void intel_vga_disable(struct intel_display *display)
->  {
-> @@ -64,13 +73,15 @@ void intel_vga_disable(struct intel_display *display)
->  	drm_dbg_kms(display->drm, "Disabling VGA plane on pipe %c\n",
->  		    pipe_name(pipe));
->  
-> -	/* WaEnableVGAAccessThroughIOPort:ctg,elk,ilk,snb,ivb,vlv,hsw */
-> -	vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-> -	outb(0x01, VGA_SEQ_I);
-> -	sr1 = inb(VGA_SEQ_D);
-> -	outb(sr1 | VGA_SR01_SCREEN_OFF, VGA_SEQ_D);
-> -	vga_put(pdev, VGA_RSRC_LEGACY_IO);
-> -	udelay(300);
-> +	if (likely(intel_arch_support_vga_pm(display))) {
-> +		/* WaEnableVGAAccessThroughIOPort:ctg,elk,ilk,snb,ivb,vlv,hsw */
-> +		vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-> +		outb(0x01, VGA_SEQ_I);
-> +		sr1 = inb(VGA_SEQ_D);
-> +		outb(sr1 | VGA_SR01_SCREEN_OFF, VGA_SEQ_D);
-> +		vga_put(pdev, VGA_RSRC_LEGACY_IO);
-> +		udelay(300);
-> +	}
->  
->  	intel_de_write(display, vga_reg, VGA_DISP_DISABLE);
->  	intel_de_posting_read(display, vga_reg);
-> @@ -90,9 +101,11 @@ void intel_vga_reset_io_mem(struct intel_display *display)
->  	 * sure vgacon can keep working normally without triggering interrupts
->  	 * and error messages.
->  	 */
-> -	vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-> -	outb(inb(VGA_MIS_R), VGA_MIS_W);
-> -	vga_put(pdev, VGA_RSRC_LEGACY_IO);
-> +	if (likely(intel_arch_support_vga_pm(display))) {
-> +		vga_get_uninterruptible(pdev, VGA_RSRC_LEGACY_IO);
-> +		outb(inb(VGA_MIS_R), VGA_MIS_W);
-> +		vga_put(pdev, VGA_RSRC_LEGACY_IO);
-> +	}
->  }
->  
->  int intel_vga_register(struct intel_display *display)
+While working on that I realized that the timeout is actually not driver dependent at all.
 
--- 
-Jani Nikula, Intel
+What can maybe argued is that a desktop system should have a shorter timeout than some server, but that one driver needs a different timeout than another driver doesn't really makes sense to me.
+
+I mean what is actually HW dependent on the requirement that I need a responsive desktop system?
+
+>>
+>> Some AMD internal team is pushing for 10 seconds, but that also means that for example we wait 10 seconds for the OOM killer to do something. That sounds like way to long.
+>>
+> 
+> Nouveau has timeout = 10 seconds. AFAIK we've never seen bugs because
+> of that. Have you seen some?
+
+Thanks for that info. And to answer the question, yes certainly.
+
+Regards,
+Christian.
+
+> 
+> 
+> P.
+
