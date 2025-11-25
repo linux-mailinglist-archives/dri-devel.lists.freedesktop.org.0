@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA1F4C83EE1
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 09:16:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F26C83F0D
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 09:18:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A1BF10E37E;
-	Tue, 25 Nov 2025 08:16:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DF6910E37F;
+	Tue, 25 Nov 2025 08:17:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SFNGgIq0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HsMspT7m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6F0B10E37E;
- Tue, 25 Nov 2025 08:16:38 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53D8710E37F;
+ Tue, 25 Nov 2025 08:17:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9D9DA4033A;
- Tue, 25 Nov 2025 08:16:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEC43C4CEF1;
- Tue, 25 Nov 2025 08:16:33 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 84E3E60185;
+ Tue, 25 Nov 2025 08:17:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17E92C4CEF1;
+ Tue, 25 Nov 2025 08:17:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764058598;
- bh=5wgdcTj1KJbTC2xHzImYJ8OdikbVyCwSxzZIfn0r8dY=;
+ s=k20201202; t=1764058677;
+ bh=ke5TeaqU7+VGjiCrRGBI5uJypjLqehjyXNatwA4MnwQ=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SFNGgIq04QJ8z6YGNma2DNonyRTX2+UAFFTiUgZl368UW6s4cDQzv2RosteXWXXur
- 8lDoh8dNq9JM/Xk+oGPZN56rccV4WcFo4ZtEWLYlwxt6qsmMGDEC8A7wwh2NW0Ux2+
- hefjKOBpsBjFWy4yElsfMGEDti1cu5wbCq1xZKsjnjB2aTgir7Pmb2iPKo/yGqSWuo
- am0xkjdU+A5VVeG0SQ/wXkP1tRJHKOnt2DQkIRGTZ/dbQ12d7CWSc1uXdRtiprMn4x
- Y7W3DcV4OyvuvvzNJ+9kIVCvbjhv4HEpN1HhtImieBrvsMWnzpw038KD4pj8JCKpAP
- OgfmtxVfxN1YA==
-Message-ID: <774e5c50-f470-40b8-8b06-ee7806401d09@kernel.org>
-Date: Tue, 25 Nov 2025 09:16:31 +0100
+ b=HsMspT7mPP8EUweXqgeiszG/diR7embr0wkBftKDKjeDagHMa3vxtYVT9KYo9RTp9
+ 6QeWanwZt7f/9vyDryjB15yOeXPDZ8PMTV6tt9fZ5wvtJpqpSyMHj4cwZgQCD0vOiJ
+ 0xmxdVs829AexVZIEQeD31GXUNK2+xNVzcoICvf0JQq+pBCt412lHQOukvz3X+qzPh
+ 8YfwKzZFJDZ4MDvxztC/7vroheNoFQSdFBWFqVdPPjk6vABmT5imtvC1Uk/gHWsIbM
+ lWSMgYPBh/B3oPcdQcBVcUdzizAFENKmfRo+5D90IyGpZFQG4UDKk7rNc+RInZVO+7
+ Nilqe89M/ok4A==
+Message-ID: <2f7aa593-6b11-4dbd-a0e6-f60eee16d7b5@kernel.org>
+Date: Tue, 25 Nov 2025 09:17:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/10] dt-bindings: display/msm: dsi-phy-7nm: Add
- Kaanapali DSI PHY
+Subject: Re: [PATCH v2 04/10] dt-bindings: display/msm: qcom,kaanapali-mdss:
+ Add Kaanapali
 To: yuanjie yang <yuanjie.yang@oss.qualcomm.com>,
  robin.clark@oss.qualcomm.com, lumag@kernel.org, abhinav.kumar@linux.dev,
  sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
@@ -45,9 +45,10 @@ To: yuanjie yang <yuanjie.yang@oss.qualcomm.com>,
  quic_khsieh@quicinc.com, neil.armstrong@linaro.org
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- tingwei.zhang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com
+ tingwei.zhang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+ Yongxing Mou <yongxing.mou@oss.qualcomm.com>
 References: <20251125064758.7207-1-yuanjie.yang@oss.qualcomm.com>
- <20251125064758.7207-3-yuanjie.yang@oss.qualcomm.com>
+ <20251125064758.7207-5-yuanjie.yang@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,7 +94,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251125064758.7207-3-yuanjie.yang@oss.qualcomm.com>
+In-Reply-To: <20251125064758.7207-5-yuanjie.yang@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -114,10 +115,20 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 25/11/2025 07:47, yuanjie yang wrote:
 > From: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 > 
-> The DSI PHY registers on the Kaanapali platform differ from those
-> on SM8750. So add DSI PHY for Kaanapali to compatible these changes.
+> Kaanapali introduces DPU 13.0.0 and DSI 2.10. Compared to SM8750,
+> Kaanapali has significant register changes, making it incompatible
+> with SM8750. So add MDSS/MDP display subsystem for Qualcomm Kaanapali.
 > 
+> Co-developed-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+> Signed-off-by: Yongxing Mou <yongxing.mou@oss.qualcomm.com>
+> Signed-off-by: Yuanjie Yang <yuanjie.yang@oss.qualcomm.com>
 
+
+I don't understand why you have random four quicinc or qualcomm.com
+addresses not related to kernel development, but you did not include
+necessary addresses.
+
+Please trim your list to only necessary addresses.
 
 Please use scripts/get_maintainers.pl to get a list of necessary people
 and lists to CC. It might happen, that command when run on an older
@@ -136,7 +147,6 @@ tested by automated tooling. Performing review on untested code might be
 a waste of time.
 
 Please kindly resend and include all necessary To/Cc entries.
-
 
 Best regards,
 Krzysztof
