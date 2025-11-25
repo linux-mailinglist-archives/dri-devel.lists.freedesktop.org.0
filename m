@@ -2,89 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C212BC85004
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 13:39:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 943E9C85156
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 14:06:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ECBB10E3CC;
-	Tue, 25 Nov 2025 12:39:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DD5610E3AD;
+	Tue, 25 Nov 2025 13:06:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="bPXYu7Cp";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="DEmLhryJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CF8N5+gN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0xC0HYNL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BAvExWgx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com
- [209.85.128.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4D110E3CE
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 12:39:50 +0000 (UTC)
-Received: by mail-wm1-f74.google.com with SMTP id
- 5b1f17b1804b1-477a0ddd1d4so54133755e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 04:39:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1764074389; x=1764679189;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=ojWe1b8r/UImKNNJCHWtNLHUmExFFE68AIjW9wlYavw=;
- b=bPXYu7Cp1PP2vrLBIGLHjP575h/MTqFcGyljrmJl2Ug2YfOrmqEEdbgndq/qDiqKk5
- QZ1JOyzkCFq5rdQYTyHA5QaZ5Jj03x94wE1ebPqUEsJutHWpaKKL8WEsXI6+fe7YwywW
- nr0WHDBA+F10hZPAapgQrg2xvgZVhvbhmH5sQOfiBQlelsfP1XN6Gt9K7U7fqzmTM65L
- jTaXBj4ybtMXbZl6I56vOr4g7/9ocRgYmYQj9r5sODoW+dvY4yE2aoL6mXt3B4Mu6Y0N
- wySQe6JoALEi8cHtDj+f+ivNs+pBRxMHHaMXpecQEnaFKCC7r3SnuRES3taO24bY6UgZ
- j3nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764074389; x=1764679189;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ojWe1b8r/UImKNNJCHWtNLHUmExFFE68AIjW9wlYavw=;
- b=WEO0JmH9US3FpZqi8fTfwEA/mJdFb+e8zeDuWsHtEN7guGLHTddLU/CUesWEMtlAKV
- NMYqgHBiJ8pP5ao9SXrymq9dJl2hfFbpMRgXLZANvMMQIHFwY0kOgX2dnSikud3fB+i3
- /rwJ9n7FsIR1JmBu4gZqyHJfqHXVM1E8nunq+6pp0EEAbznY/2DgPLPtfvkmu3wTbHGH
- 3ZZva0s1HO8KhAsJPhVfx2w9hqzTUEigYO4tKMd/uvzL6dYvu5dc87izmpmaWW/0tSJ6
- NZr1JVGiwS5GJ7wXSIxe27QL/VhOK4SMYUOEkysEh1MHoGLOu3j2MSI4Qc/MJtLEHYhG
- p+Og==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVhGiLB08+pe965f+yhoWS+oKIlgClrcUhetzx7GjeKg4IXMRQ/Tqb7bQoDeB455cjNWQUqvHSx/Co=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yznj9kaWgsdsxjV1dq12M9MliUQNKfEz2QTBzDxpBGCn6zChcqO
- ceThndApJN8pYYZYQADPkZMSV/wPp3QrKms5oGWoioI4CIuW3r2Zmj+sRYWNGxsgplER3/6ZkGO
- PY0gtw0G5YdURNwPGJQ==
-X-Google-Smtp-Source: AGHT+IGGYXbl3NW70HoCq1BUicduv2r9uYzD+uC5Jcg7P8rx3FquzssE0TqvF8nfpxyfE19H4MBFZ8Ly+NNtPC0=
-X-Received: from wmbc14.prod.google.com ([2002:a7b:c00e:0:b0:477:a4d4:607a])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:8b35:b0:475:d8b3:a9d5 with SMTP id
- 5b1f17b1804b1-477c10d6fdamr159756165e9.10.1764074388898; 
- Tue, 25 Nov 2025 04:39:48 -0800 (PST)
-Date: Tue, 25 Nov 2025 12:39:48 +0000
-In-Reply-To: <20251123092438.182251-1-shankari.ak0208@gmail.com>
-Mime-Version: 1.0
-References: <20251123092438.182251-1-shankari.ak0208@gmail.com>
-Message-ID: <aSWjlJFD6SVGXBqE@google.com>
-Subject: Re: [PATCH 00/10] rust: refactor ARef and AlwaysRefCounted imports
-From: Alice Ryhl <aliceryhl@google.com>
-To: Shankari Anand <shankari.ak0208@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>,
- Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
- Joel Fernandes <joelagnelf@nvidia.com>, Christian Brauner <brauner@kernel.org>,
- Carlos Llamas <cmllamas@google.com>, Suren Baghdasaryan <surenb@google.com>, 
- Danilo Krummrich <dakr@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Alexandre Courbot <acourbot@nvidia.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>,
- Igor Korotin <igor.korotin.linux@gmail.com>, 
- Michal Wilczynski <m.wilczynski@samsung.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, 
- "=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- rust-for-linux@vger.kernel.org, linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69A5910E3D9
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 13:06:42 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E5AAC22801;
+ Tue, 25 Nov 2025 13:06:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1764076001; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=sxdR3rVrh6wveW6JDQWCYI6rLyZ66pqvN39rkmuwDMc=;
+ b=DEmLhryJkcavwhqHsOOps64DkM2US43sMEQ6DggXt56OtW1PmGNFxbEHitmBxUUo7CpB9e
+ kcna+usc9dglz4sYLDY7zHNVRgR0//YL3k/jgIHGPhFgtLi/BdJ/acOt0YwxTprRHklxYR
+ 5PS/PSW683sL6s7z0nw6lISW2b2yyy4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1764076001;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=sxdR3rVrh6wveW6JDQWCYI6rLyZ66pqvN39rkmuwDMc=;
+ b=CF8N5+gNraQ/EIvZnNAR3GZLJAL3cJMetQw7U6xFcDxGYK+7ZifCXrdDA7Du32dWdflvCH
+ XKH0TbfjRdFWQxDQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0xC0HYNL;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BAvExWgx
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1764076000; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=sxdR3rVrh6wveW6JDQWCYI6rLyZ66pqvN39rkmuwDMc=;
+ b=0xC0HYNLrlQBR5fNFxyIyT91xgOCfn6tMYtHAQEmD/BIKskV/2LzO3vY4qmjU8CSLCbJ1d
+ g3heZQpg77of9mFpeEcs/BChCaeoF5BRIbPMVkDX7s8L9mxAZWc1j6BCsR1pxxGjr/lvLP
+ o5ywDq0Vm6PjEucLNhO5i3Y4FL5BgwA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1764076000;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=sxdR3rVrh6wveW6JDQWCYI6rLyZ66pqvN39rkmuwDMc=;
+ b=BAvExWgxlU8sWtmJQ8B3fft1o4R3+fIuG+sbSliN6uAoi8eZz6owx8ivdBqeJnUlqdgwql
+ JVg1IDWu77DOHyCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6423D3EA63;
+ Tue, 25 Nov 2025 13:06:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id IdsOF+CpJWkDFAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 25 Nov 2025 13:06:40 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: simona@ffwll.ch, airlied@gmail.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, lyude@redhat.com, dakr@kernel.org, deller@gmx.de,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ jason.wessel@windriver.com, danielt@kernel.org, dianders@chromium.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/5] drm: Remove remaining support for kdb
+Date: Tue, 25 Nov 2025 13:52:12 +0100
+Message-ID: <20251125130634.1080966-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: E5AAC22801
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
+ FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,amd.com,redhat.com,kernel.org,gmx.de,linux.intel.com,windriver.com,chromium.org];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ RCPT_COUNT_TWELVE(0.00)[19]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_HAS_DN(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ FROM_EQ_ENVFROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,56 +119,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 23, 2025 at 02:54:28PM +0530, Shankari Anand wrote:
-> This series updates the import sites of `ARef` and
-> `AlwaysRefCounted` in the Rust kernel code to use `sync::aref` instead
-> of the previous `types` module.
-> 
-> The refactor to `sync::aref` from `types::` was introduced in the commit: 
-> commit 07dad44aa9a9 
-> ("rust: kernel: move ARef and AlwaysRefCounted to sync::aref")
-> link [1]
-> 
-> The goal of this series is to complete the migration of these
-> types to `sync`, as discussed with Miguel Ojeda [2].
-> The last commit in this series removes the temporary re-exports
-> from `types.rs` that were originally added to avoid breaking the
-> build during the transition.
-> 
-> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=07dad44aa9a93b16af19e8609a10b241c352b440
-> [2]: https://lore.kernel.org/lkml/CANiq72=hSTpAj7w8bvcwoJkivxD_FPKnx9jD6iNvhsENnnXBzg@mail.gmail.com/
-> 
-> Shankari Anand (10):
->   drivers: android: binder: Update ARef imports from sync::aref
->   drivers: gpu: Update ARef imports from sync::aref
->   rust: device: Update ARef and AlwaysRefCounted imports from sync::aref
->   rust: drm: Update AlwaysRefCounted imports to use sync::aref
->   rust: kernel: Update ARef and AlwaysRefCounted imports to use
->     sync::aref
->   rust: kernel: Update ARef and AlwaysRefCounted imports to use
->     sync::aref
->   rust: kernel: Update ARef imports to use sync::aref
->   rust: kernel: Update AlwaysRefCounted imports to use sync::aref
->   samples: rust: Update ARef imports to use sync::aref
->   rust: kernel: remove temporary re-exports of ARef and AlwaysRefCounted
-> 
->  drivers/android/binder/process.rs      |  2 +-
->  drivers/android/binder/thread.rs       |  3 +--
->  drivers/gpu/drm/tyr/driver.rs          |  2 +-
->  drivers/gpu/nova-core/gsp/sequencer.rs |  2 +-
->  drivers/gpu/nova-core/vbios.rs         |  2 +-
->  rust/kernel/device.rs                  |  4 ++--
->  rust/kernel/device/property.rs         |  5 +++--
->  rust/kernel/drm/gem/mod.rs             |  2 +-
->  rust/kernel/i2c.rs                     | 10 ++++------
->  rust/kernel/pwm.rs                     |  3 ++-
->  rust/kernel/scatterlist.rs             |  3 ++-
->  rust/kernel/types.rs                   |  2 --
->  rust/kernel/usb.rs                     |  3 ++-
->  samples/rust/rust_debugfs.rs           |  2 +-
->  14 files changed, 22 insertions(+), 23 deletions(-)
+Remove the rest of the kbd support from DRM. Driver support has been
+broken for years without anyone complaining.
 
-I will pick up the DRM ones (patch 2 & 4) once the branch re-opens on
-Dec 15th.
+Kdb cannot use regular DRM mode setting, so DRM drivers have to
+implement an additional hook to make it work (in theory). As outlined
+by Sima in commit 9c79e0b1d096 ("drm/fb-helper: Give up on kgdb for
+atomic drivers") from 2017, kdb is not compatible with DRM atomic mode
+setting. Non-atomic mode setting meanwhile has become rare.
 
-Alice
+Only 3 DRM drivers implement the hooks for kdb support. Amdgpu and
+nouveau use non-atomic mode setting on older devices. But both drivers
+have switched to generic fbdev emulation, which isn't compatible with
+kdb. Radeon still runs kdb, but it doesn't work in practice. See the
+commits in this series for details
+
+Therefore remove the remaining support for kdb from the DRM drivers
+and from DRM fbdev emulation. Also remove the hooks from fbdev, as
+there are no fbdev drivers with kdb support.
+
+If we ever want to address kdb support within DRM drivers, a place to
+start would be the scanout buffers used by DRM's panic screen. These
+use the current display mode. They can be written and flushed without
+mode setting involved.
+
+Note: kdb over serial lines is not affected by this series and continues
+to work as before.
+
+Thomas Zimmermann (5):
+  drm/amdgpu: Do not implement mode_set_base_atomic callback
+  drm/nouveau: Do not implement mode_set_base_atomic callback
+  drm/radeon: Do not implement mode_set_base_atomic callback
+  drm/fbdev-helper: Remove drm_fb_helper_debug_enter/_leave()
+  fbcon: Remove fb_debug_enter/_leave from struct fb_ops
+
+ Documentation/process/debugging/kgdb.rst    |  28 -----
+ drivers/gpu/drm/amd/amdgpu/dce_v10_0.c      |  35 ++-----
+ drivers/gpu/drm/amd/amdgpu/dce_v6_0.c       |  35 ++-----
+ drivers/gpu/drm/amd/amdgpu/dce_v8_0.c       |  35 ++-----
+ drivers/gpu/drm/drm_fb_helper.c             | 108 --------------------
+ drivers/gpu/drm/nouveau/dispnv04/crtc.c     |  24 +----
+ drivers/gpu/drm/radeon/atombios_crtc.c      |  74 ++++----------
+ drivers/gpu/drm/radeon/radeon_legacy_crtc.c |  23 ++---
+ drivers/gpu/drm/radeon/radeon_mode.h        |  10 +-
+ drivers/video/fbdev/core/fbcon.c            |  24 -----
+ drivers/video/fbdev/core/fbcon.h            |   1 -
+ include/drm/drm_fb_helper.h                 |  21 ----
+ include/drm/drm_modeset_helper_vtables.h    |  23 -----
+ include/linux/fb.h                          |   4 -
+ 14 files changed, 63 insertions(+), 382 deletions(-)
+
+
+base-commit: 0a21e96e0b6840d2a4e0b45a957679eeddeb4362
+-- 
+2.51.1
+
