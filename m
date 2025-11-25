@@ -2,87 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B9BC8525C
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 14:20:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21668C8527A
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 14:21:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4856310E405;
-	Tue, 25 Nov 2025 13:20:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78ABC10E3BD;
+	Tue, 25 Nov 2025 13:21:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="k/pXfk/2";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="XFNayzlL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
- [209.85.128.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF41B10E3FE
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 13:20:08 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id
- 5b1f17b1804b1-47774d3536dso42895775e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 05:20:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1764076807; x=1764681607; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aprKDYKlrTiFqlYRX/ECW07g4Q7VGo6Tvic7fnoqVWQ=;
- b=k/pXfk/2qMUxur1kLPsBWI5GFqANSpHFZBse/XaZID1J/Vrbo+GviYP3aaITE+1qsH
- cacg90exGk8QasySKHVJsbFP5bujmKZUmvvgEEegKFnnqnj77OZwHNIqXPdDxINIHY8/
- AI8PWam6AdzBd1EyhEnSKak48ofpWn8xNSzaS/TRHI2R7h1uCdrEdVmvDTB0eTRuNFep
- SwxmgGN1ceYQDchCcQBt9kNFKjnmai4ZDPD3/9g8wfzwxhLlAo0yI4l50e3MV9FqmKXh
- EDN04I3bF33HwDHNc8eRmGyfa70AiHyNRQUOcheINqJ/A1NqACepkpwrWsYVtDzhmmbA
- TRsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764076807; x=1764681607;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=aprKDYKlrTiFqlYRX/ECW07g4Q7VGo6Tvic7fnoqVWQ=;
- b=EM95NgPezjgJhEMzx2QWFe6tLyguUMD+NWVYAHdtGgYCIsBbhOJCcQKnNfsdMIUAso
- Q5BokqH+PNA1x6fqcWJSwAwAxmKuSZHdlhqNHE1C32sJ6uw0JQh+5szMt/ZlM2CZKl8U
- T/3734SMsXJTe2ytpzGSbm+NsZBtBMij++NTDDMWrSPWkjihIRXmi5iP1CeoCH2WIa5i
- KvMWTxGQ1r/CIN83qRikUhSERlKmdOGnCzpaOauZWneF2fcXIXkkgiG6ydYkf3PJMm4S
- JdIGAg8XcETe4ZC4aaoCyR8a7GUMVlh1eDltkRpR0AnMk4AmKfjNWTi24ylcHZ6lbARI
- a2rQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVGkZTh1ipHSmQWmWTwl+vFANExb9pIock9wIxVkOeKvw/fqXiujv3hhUPa95lWYxkT+1wGpR6q5nc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YziJwO6HUEQyH5S2iurBNn0myJRTZq0PyVdC9Mdv/DM/Tdwc4kL
- x3QH0g1GmOD0e3Ap22qTuAk0EnDVdNwD8f6CXddJgtj72U0aL9O44O/YbJCKwoLWg0w=
-X-Gm-Gg: ASbGncv3L4ZgZkIQaUEV7g3QkU5OjTlw4IS/WJaCqYNtuW5tpaf+eOPxtCh3AlVaySK
- oe39cN9Hm5kzkP/T9n2a+1E9oDG4CFFAokrECMyPJ3c8miIXlIlM6jmcZAESnrd/Pz87TWYrnli
- wSjc4ITACVQkC/xQIQPOhCgX94MPHhCwSh4XjNGy+HuQlMx2mD4mIabypcGo6fmtG1JGzVR8Nho
- qiMtTBY5+xHcpgWqfygHm/XmonAI9TUgrgCptdcvmD8IUFv1770jkfAMf04r7Rci6OccS9wb/V9
- EbrIryTtxH+mNw7zCsz1s98U0uoHcTYf13m3RJoTS/zjmZAhRPnhiSlab28QFrFuh6vFRuhNHPs
- E87NVtjxajOzMYt19LgQP83LT/P6zkOaT57eY7kAmtrnYbYoxPOz6pZvauysIgVE933Pc5eWYmH
- TLn+KrteV1owRAW0VTnlhiLn7mY1dSsruv
-X-Google-Smtp-Source: AGHT+IHQEznJBdhJdN1tPju1HTTqm2y8/XXE3XsJpkME6k/iECmmqiOWumbCD4N2hJu6XfqgUDRWEA==
-X-Received: by 2002:a05:600c:c0c3:20b0:477:a71c:d200 with SMTP id
- 5b1f17b1804b1-477b9ee4fdbmr151348115e9.11.1764076807041; 
- Tue, 25 Nov 2025 05:20:07 -0800 (PST)
-Received: from [192.168.0.101] ([90.240.106.137])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-477bf198a67sm264938725e9.0.2025.11.25.05.20.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 25 Nov 2025 05:20:06 -0800 (PST)
-Message-ID: <44d30056-612f-4563-ad9f-92696c5a803a@ursulin.net>
-Date: Tue, 25 Nov 2025 13:20:06 +0000
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4B9B10E3BD
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 13:21:00 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dG3Gx2nvQz9t2t;
+ Tue, 25 Nov 2025 14:20:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1764076857; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ilSlMQEULSwICZFlGiuc3EYoxMvwHCOfzrHzSRTMUJA=;
+ b=XFNayzlLKqf/lGQuukZCnaMv7g0zCupomGSG7esrfkFYvD7iN5PWH2PDZgK2v4GpHExTq4
+ S+kCEXQxzC80/488GKLGiEkoKXfo9VAsVAnEV3oPEAqxPHmdRUCrY2bFV0rP6xRRKx/lTq
+ /MpmvYjItZjnbVpN8tRk6M7Fkx3ZNql1fEOoguGEWO4smUlpKlrZoEP3VuDtGPo5hAPFg5
+ Wpi5S8T1JYF2+u4dwxwPF1veSiYl2vrLK6I9P1Q7cagq2HIITdeSVkaa6vFqvKLRnsum1B
+ iNeubbM3OejlnPiaiDRlFt0D19cN76zPcYKMEs8xprVquU8Ccc8OKIINAmbB+g==
+Message-ID: <30d48cd600c1aab81d5495c13930af926ecc2380.camel@mailbox.org>
+Subject: Re: [RFC WIP 3/3] rust/drm: Add initial jobqueue sceleton
+From: Philipp Stanner <phasta@mailbox.org>
+To: Daniel Almeida <daniel.almeida@collabora.com>, Philipp Stanner
+ <phasta@kernel.org>
+Cc: Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>, 
+ Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,  Alexandre Courbot
+ <acourbot@nvidia.com>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Dave Airlie <airlied@redhat.com>, Lyude Paul <lyude@redhat.com>, Peter
+ Colberg <pcolberg@redhat.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Date: Tue, 25 Nov 2025 14:20:52 +0100
+In-Reply-To: <EBE34576-438E-4B87-89B9-A729260158F2@collabora.com>
+References: <20251118132520.266179-2-phasta@kernel.org>
+ <20251118132520.266179-5-phasta@kernel.org>
+ <EBE34576-438E-4B87-89B9-A729260158F2@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dma-buf/dma-fence: Unify return codes for signalled
- fences
-To: Philipp Stanner <phasta@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Daniel Almeida <daniel.almeida@collabora.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20251125104443.82974-2-phasta@kernel.org>
- <20251125104443.82974-3-phasta@kernel.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251125104443.82974-3-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 83068b9e12947127776
+X-MBO-RS-META: 3muiiyrsnoh7ti84gs9cftbjcoubi4ik
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,51 +69,492 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, 2025-11-24 at 10:58 -0300, Daniel Almeida wrote:
+> Hi Phillip,
+>=20
+> > On 18 Nov 2025, at 10:25, Philipp Stanner <phasta@kernel.org> wrote:
+> >=20
+> >=20
 
-On 25/11/2025 10:44, Philipp Stanner wrote:
-> Almost all users of dma_fence_signal() ignore the return code which
-> would indicate that the fence was already signaled. The same return code
-> by dma_fence_add_callback() cannot be ignored, however, because it's
-> needed to detect races.
-> 
-> For an already signaled fence, dma_fence_signal() returns -EINVAL,
-> whereas dma_fence_add_callback() returns -ENOENT.
-> 
-> Unify the error codes by having dma_fence_signal() return -ENOENT, too.
-> 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
->   drivers/dma-buf/dma-fence.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 3a48896ded62..09d97624e647 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -373,7 +373,7 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->   	lockdep_assert_held(fence->lock);
->   
->   	if (unlikely(__dma_fence_is_signaled(fence)))
-> -		return -EINVAL;
-> +		return -ENOENT;
->   
->   	/* Stash the cb_list before replacing it with the timestamp */
->   	list_replace(&fence->cb_list, &cb_list);
+[=E2=80=A6]
 
-Story checks out AFAICT - only two callers fetch the error, xe and kfd, 
-and neither does anything with it. So I'd say it makes sense to unify 
-the errno.
+> > +use crate::{
+> > +=C2=A0=C2=A0=C2=A0 prelude::*,
+> > +=C2=A0=C2=A0=C2=A0 types::ARef,
+> > +};
+> > +use kernel::sync::{Arc, SpinLock, new_spinlock, DmaFence, DmaFenceCtx,=
+ DmaFenceCb, DmaFenceCbFunc};
+> > +use kernel::list::*;
+> > +use kernel::revocable::Revocable;
+> > +
+> > +
+> > +#[pin_data]
+> > +pub struct Job<T: ?Sized> {
+> > +=C2=A0=C2=A0=C2=A0 credits: u32,
+> > +//=C2=A0=C2=A0=C2=A0 dependencies: List, // TODO implement dependency =
+list
+>=20
+> I am assuming that this will be a list of callbacks?
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+That's supposed to become the list of DmaFence's which are to be
+treated as dependencies of this job.
 
-Regards,
+Only once all fences in this list are signaled the JQ will push that
+job.
 
-Tvrtko
+>=20
+> > +=C2=A0=C2=A0=C2=A0 #[pin]
+> > +=C2=A0=C2=A0=C2=A0 data: T,
+> > +}
+> > +
+> > +impl<T> Job<T> {
+> > +=C2=A0=C2=A0=C2=A0 /// Create a new job that can be submitted to [`Job=
+queue`].
+> > +=C2=A0=C2=A0=C2=A0 ///
+> > +=C2=A0=C2=A0=C2=A0 /// Jobs contain driver data that will later be mad=
+e available to the driver's
+> > +=C2=A0=C2=A0=C2=A0 /// run_job() callback in which the job gets pushed=
+ to the GPU.
+> > +=C2=A0=C2=A0=C2=A0 pub fn new(credits: u32, data: impl PinInit<T>) -> =
+Result<Pin<KBox<Self>>> {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let job =3D pin_init!(Self =
+{
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cre=
+dits,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dat=
+a <- data,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 });
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 KBox::pin_init(job, GFP_KER=
+NEL)
+> > +=C2=A0=C2=A0=C2=A0 }
+> > +
+> > +=C2=A0=C2=A0=C2=A0 /// Add a callback to the job. When the job gets su=
+bmitted, all added callbacks will be
+> > +=C2=A0=C2=A0=C2=A0 /// registered on the [`DmaFence`] the jobqueue ret=
+urns for that job.
+> > +=C2=A0=C2=A0=C2=A0 pub fn add_callback() -> Result {
+>=20
+> Can=E2=80=99t we take all the callbacks at submission time?
 
-P.S. Just not sure of the 1/2 on which this one ends depending on. I 
-*think* I suggested the helper in the context of some discussion long 
-long time ago but what it was? And what about all the drivers which look 
-at the signaled bit directly?
+To clarify the terminology, a "callback" here would be callbacks which
+the JQ shall register on the done_fence returned by
+DmaFence::submit_job().
+
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ok(())
+> > +=C2=A0=C2=A0=C2=A0 }
+> > +
+> > +=C2=A0=C2=A0=C2=A0 /// Add a [`DmaFence`] or a [`DoneFence`] as this j=
+ob's dependency. The job
+> > +=C2=A0=C2=A0=C2=A0 /// will only be executed after that dependency has=
+ been finished.
+> > +=C2=A0=C2=A0=C2=A0 pub fn add_dependency() -> Result {
+>=20
+> Which would let us remove this ^
+
+It would allow for removing this function, but you'd then just have an
+optional (some jobs have no dependencies) function parameter in
+DmaFence::submit_job().
+
+The current idea looks like this:
+
+```
+let jobq =3D JobQueue::new(=E2=80=A6);
+let job =3D Job::new(driver_data);
+
+job.add_dependency(done_fence_of_shader_in_another_context); // optional
+job.add_callback(cb_that_will_wake_userspace_or_sth); // optional
+
+let done_fence =3D jobq.submit_job(job)?;
+```
+
+The JQ eats the job (ownership transfer), so by design you have to set
+all dependencies and specify everything that shall be done when the job
+finishes _before_ submitting the job.
+
+I think an API in this form makes the order of events very obvious to
+the user?
+
+
+What happens then behind the scenes is that the JQ registers all the
+callbacks on the done_fence returned above. I'm not super sure about
+this design idea; it's certainly optional. However, it has the
+advantage of freeing the JQ user from dealing with races of done_fence.
+
+Otherwise one would have to do something like
+
+```
+let done_fence =3D jobq.submit_job(job)?;
+
+let err =3D done_fence.register_callback(my_drivers_cb);
+if err.was_race_and_is_already_signaled() {
+execute_cb_code_myself_now();
+}
+```
+
+
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // TODO: Enqueue passed Dma=
+Fence into the job's dependency list.
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ok(())
+> > +=C2=A0=C2=A0=C2=A0 }
+> > +
+> > +=C2=A0=C2=A0=C2=A0 /// Check if there are dependencies for this job. R=
+egister the jobqueue
+> > +=C2=A0=C2=A0=C2=A0 /// waker if yes.
+> > +=C2=A0=C2=A0=C2=A0 fn arm_deps() -> Result {
+>=20
+> I wonder if =E2=80=9Ccheck_dependencies=E2=80=9D would be a better name? =
+Or something
+> along these lines.
+
+ACK.
+
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // TODO: Register Dependenc=
+yWaker here if applicable.
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ok(())
+> > +=C2=A0=C2=A0=C2=A0 }
+> > +}
+> > +
+> > +// Dummy trait for the linked list.
+> > +trait JobData {
+>=20
+> > +=C2=A0=C2=A0=C2=A0 fn access_data(&self) -> i32;
+>=20
+> Can=E2=80=99t we dereference to the data?
+
+That's dummy code that only exists because I so far am failing with
+even getting the basic List to work.
+
+>=20
+> > +}
+> > +
+> > +#[pin_data]
+> > +struct EnqueuedJob<T: ?Sized> {
+> > +=C2=A0=C2=A0=C2=A0 inner: Pin<KBox<Job<T>>>,
+> > +=C2=A0=C2=A0=C2=A0 #[pin]
+> > +=C2=A0=C2=A0=C2=A0 links: ListLinksSelfPtr<EnqueuedJob<dyn JobData>>,
+>=20
+> Why not a KVec? A queue type can hold a KVec of enqueued jobs, and this c=
+an
+> hold an Arc of the queue type.
+
+My understanding is that KVec is not intended to be the data structure
+for this?
+
+KVec is basically like a realloc() in C, an array of same sized
+elements.
+
+The JQ, hypothetically, can hold an infinite amount of members in its
+waiting_list, only the running_list is limited by the credit count.
+
+
+>  By extension, ensures that the queue does not
+> die while we have enqueued jobs.
+
+See below.
+
+>=20
+>=20
+> > +=C2=A0=C2=A0=C2=A0 done_fence: ARef<DmaFence<i32>>, // i32 is just dum=
+my data. TODO: allow for replacing with `()`
+> > +=C2=A0=C2=A0=C2=A0 // The hardware_fence can by definition only be set=
+ at an unknown point in
+> > +=C2=A0=C2=A0=C2=A0 // time.
+> > +=C2=A0=C2=A0=C2=A0 // TODO: Think about replacing this with a `struct =
+RunningJob` which consumes
+> > +=C2=A0=C2=A0=C2=A0 // an `EnqueuedJob`.
+> > +=C2=A0=C2=A0=C2=A0 hardware_fence: Option<ARef<DmaFence<i32>>>, // i32=
+ is dummy data until there's DmaFence
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // wi=
+thout data.
+> > +=C2=A0=C2=A0=C2=A0 nr_of_deps: u32,
+> > +}
+> > +
+> > +impl<T> EnqueuedJob<T> {
+> > +=C2=A0=C2=A0=C2=A0 fn new(inner: Pin<KBox<Job<T>>>, fctx: &Arc<DmaFenc=
+eCtx>) -> Result<ListArc<Self>> {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let pseudo_data: i32 =3D 42=
+;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let done_fence =3D fctx.as_=
+arc_borrow().new_fence(pseudo_data)?;
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ListArc::pin_init(try_pin_i=
+nit!(Self {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inn=
+er,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 lin=
+ks <- ListLinksSelfPtr::new(),
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 don=
+e_fence,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 har=
+dware_fence: None,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nr_=
+of_deps: 0, // TODO implement
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }), GFP_KERNEL)
+> > +=C2=A0=C2=A0=C2=A0 }
+> > +}
+> > +
+> > +impl_list_arc_safe! {
+> > +=C2=A0=C2=A0=C2=A0 impl{T: ?Sized} ListArcSafe<0> for EnqueuedJob<T> {=
+ untracked; }
+> > +}
+> > +
+> > +impl_list_item! {
+> > +=C2=A0=C2=A0=C2=A0 impl ListItem<0> for EnqueuedJob<dyn JobData> { usi=
+ng ListLinksSelfPtr { self.links }; }
+> > +}
+> > +
+> > +// Callback item for the hardware fences to wake / progress the jobque=
+ue.
+> > +struct HwFenceWaker<T> {
+> > +=C2=A0=C2=A0=C2=A0 jobq: Arc<Revocable<SpinLock<InnerJobqueue>>>,
+>=20
+> Instead of a Revocable, why not keep an Arc of InnerJobQueue (which shoul=
+d
+> perhaps be called JobQueueInner)?
+>=20
+> This way, the user can have this:
+>=20
+> struct JobQueue(Arc<JobqueueInner>);
+>=20
+> When the user drops the JobQueue, it will schedule whatever teardown
+> operations,
+>=20
+
+What kind of operation would that be? Completing all running_jobs?
+Completing all waiting_jobs? Completing all running_jobs and canceling
+all waiting_jobs? etc.
+
+
+>  but the inner queue will not go out of scope, guaranteeing that
+> there is no UAF at least at this level.
+>=20
+> You can create circular references to keep the JobQueueInner alive for as=
+ long
+> as the teardown operation is taking place:
+>=20
+> struct SomeStructUsedForCleanup {
+> =C2=A0 Arc<JobQueueInner> queue;
+> =C2=A0 // ... more stuff
+> }
+>=20
+> struct JobQueueInner {
+> =C2=A0KVec<Arc<SomeStructUsedForCleanup>> cleanups;
+> }
+>=20
+> Given this cycle, both the queue and whatever structs you need for cleanu=
+p will
+> remain alive indefinitely. At some point, once whatever cleanup completes=
+, you
+> can break the cycle:
+>=20
+> impl Drop for SomeStructUsedForCleanup {
+> =C2=A0 fn drop(...) {
+> =C2=A0=C2=A0=C2=A0 self.queue.cleanups.remove(self)
+> =C2=A0 }
+> }
+>=20
+> Once all the cleanups complete, the JobQueueInner will drop.
+
+Whether your design approach has advantages depends on the above
+question of what "cleanup" means to you?
+
+>=20
+> Note that I'd expect this struct I =E2=80=9Cinvented" to be a DmaFenceCb =
+representing a
+> pending dependency or a job that is already on the ring.
+>=20
+> > +=C2=A0=C2=A0=C2=A0 job: ListArc<EnqueuedJob<T>>,
+> > +}
+> >=20
+
+[=E2=80=A6]
+
+> > +=C2=A0=C2=A0=C2=A0 fn update_capacity(&mut self, cost: u32) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.capacity -=3D cost;
+> > +=C2=A0=C2=A0=C2=A0 }
+> > +
+> > +
+> > +=C2=A0=C2=A0=C2=A0 // Called by the hw_fence callbacks, dependency cal=
+lbacks, and submit_job().
+> > +=C2=A0=C2=A0=C2=A0 // TODO: does submit_job() ever have to call it?
+>=20
+> Hm, yeah, I=E2=80=99d say so.
+
+Yup. That comment is a relict.
+
+>=20
+> > +=C2=A0=C2=A0=C2=A0 fn start_submit_worker(&mut self) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if self.submit_worker_activ=
+e {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
+urn;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // TODO run submit work ite=
+m
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.submit_worker_active =
+=3D true;
+> > +=C2=A0=C2=A0=C2=A0 }
+> >=20
+
+[=E2=80=A6]
+
+> > +=C2=A0=C2=A0=C2=A0 /// Submit a job to the jobqueue.
+> > +=C2=A0=C2=A0=C2=A0 ///
+> > +=C2=A0=C2=A0=C2=A0 /// The jobqueue takes ownership over the job and l=
+ater passes it back to the
+> > +=C2=A0=C2=A0=C2=A0 /// driver by reference through the driver's run_jo=
+b callback. Jobs are
+> > +=C2=A0=C2=A0=C2=A0 /// passed back by reference instead of by value pa=
+rtially to allow for later
+> > +=C2=A0=C2=A0=C2=A0 /// adding a job resubmission mechanism to be added=
+ to [`Jobqueue`].
+> > +=C2=A0=C2=A0=C2=A0 ///
+> > +=C2=A0=C2=A0=C2=A0 /// Jobs get run and their done_fences get signalle=
+d in submission order.
+> > +=C2=A0=C2=A0=C2=A0 ///
+> > +=C2=A0=C2=A0=C2=A0 /// Returns the "done_fence" on success, which gets=
+ signalled once the
+> > +=C2=A0=C2=A0=C2=A0 /// hardware has completed the job and once the job=
+queue is done with a job.
+> > +=C2=A0=C2=A0=C2=A0 pub fn submit_job<U>(&self, job: Pin<KBox<Job<U>>>)=
+ -> Result<ARef<DmaFence<i32>>> {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let job_cost =3D job.credit=
+s;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // TODO: It would be nice i=
+f the done_fence's seqno actually matches the
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // submission order. To do =
+that, however, we'd need to protect job
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // creation with InnerJobqu=
+eue's spinlock. Is that worth it?
+>=20
+> Can you guarantee that the seqno will not go backwards?
+
+As pointed out in the other thread, that could currently happen if a
+driver calls submit_job() with >1 thread.
+
+IOW, *done_fence* seqnos could end up being enqueued like this
+
+42 43 45 44 46
+
+By taking the lock that could be prevented. However, that's only a
+virtual or tiny win, because jobs could then actually be submitted in
+an order not desired by the driver, but with correct done_fence seqno
+order.
+
+JQ executes jobs in the order they were submitted to. The fundamental
+question is really: should the JQ care and what should it do if a
+driver spams submit_job() asynchronously?
+
+I tend to think that there is not really much we can do about that.
+
+
+> > +impl Drop for Jobqueue {
+> > +=C2=A0=C2=A0=C2=A0 fn drop(&mut self) {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // The hardware fences migh=
+t outlive the jobqueue. So hw_fence callbacks
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // could very well still ca=
+ll into job queue code, resulting in
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // data UAF or, should the =
+jobqueue code be unloaded, even code UAF.
+>=20
+> Not if they reference JobQueueInner as I proposed above.
+>=20
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Thus, the jobqueue needs=
+ to be cleanly decoupled from the hardware
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // fences when it drops, in=
+ other words, it needs to deregister all its
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // hw_fence callbacks.
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // This, however, could eas=
+ily deadlock when a hw_fence signals:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Step=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0=C2=A0 Jobqueue step=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 hw_fence step
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // ------------------------=
+------------------------------------------
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // 1=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 JQ starts drop=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 fence =
+signals
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // 2=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 JQ lock taken=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 =
+fence lock taken
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // 3=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 Tries to take fence lock=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0 Tries to take JQ lock
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // 4=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 ***DEADLOCK***=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 ***DEA=
+DLOCK***
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // In order to prevent dead=
+lock, we first have to revoke access to the
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // JQ so that all fence cal=
+lbacks can't try to take the lock anymore,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // and then deregister all =
+JQ callbacks.
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.inner.revoke();
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let guard =3D self.inner.lo=
+ck();
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for job in self.inner.waiti=
+ng_jobs {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 job=
+.deregister_dep_fences();
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for job in self.inner.runni=
+ng_jobs {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 job=
+.deregister_hw_fence();
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>=20
+> Under my proposal above, you can also wait on dependencies if you want: t=
+he
+> drop() thread will not be blocked.
+
+Maybe (I'd have to look deeper into the idea)
+
+But what for? When someone drops his jobqueue, one would like to think
+that he doesn't care about all pending jobs anymore anyways. So the
+main thing you need to guarantee is that userspace gets unblocked by
+signaling all fences.
+
+
+Note that we had very similar discussions when solving the memory leaks
+in drm_sched_fini(). The TL;DR of those discussions was:
+
+ * Refcounting drm_sched so that it can outlive drm_sched_fini() means
+   that it will continue calling into the driver with the driver
+   callbacks -> UAF
+ * Waiting could cause you to block SIGKILL
+ * The sanest way to go was deemed to be to signal everything in the
+   pending_list synchronously. Once you've done this, you know for sure
+   that everything is done and clean.
+
+
+AFAICS, your proposal might still have the problem of JQ continuously
+calling into driver code?
+
+I think the proposed solution is very clean: when you drop, decouple JQ
+and driver by 100%, stop everything, tear everything down. At least
+that's what drm_sched_fini() should have been from the beginning.
+
+
+P.
