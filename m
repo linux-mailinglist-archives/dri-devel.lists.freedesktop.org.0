@@ -2,209 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 721A0C853C7
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 14:48:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D77C853F4
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 14:50:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFFA210E3CD;
-	Tue, 25 Nov 2025 13:48:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36A2510E1C1;
+	Tue, 25 Nov 2025 13:50:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="NpQnFnNR";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="NpQnFnNR";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ackB2UHY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com
- (mail-francecentralazon11013056.outbound.protection.outlook.com
- [40.107.162.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AC9110E3CD
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 13:48:35 +0000 (UTC)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=o6jN8f0rT8te80QY/2mi1mEIwLGPWw7sNGSsAwKlZJBs2ysLCSP0jXH6EBLmDkTt8xQlnFbrEl+uo3k3+bc6pUXZrjjekrhcNbkefhzOUMzWOPwcmlqKDTKThdnQB32je2SDNmsKN3tw/sZn0K09EnEe3MQKTrtu8bYhEfrFJpbdYOJcoNdJFMSkwW77GUvhZtGE2d3V6hezBr6Vc7qhberFS2rDLXxHEgvEEN0azRmOZPlZW7izR2Mq1/ITqeAc3deF1xM/Rsq5xHN+hUtGrUbvI79kntgvOibnZIId1mHlXmyiezMWOwiHUjJvH4c4n6tac2P12FiuCSAwHe2vHQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W22L7Bm5nls1zevbVXyuNphSFEovkFw7vsf6zxiVllg=;
- b=JNUYodnhU44X1PAYcagiD5Y+e9kckScroy6OTEwYGOgHltOK/IXKrwW6PWxoRYEDnk2i9wlrZxDyLazjwlg66OgjveoY1bhNq8mHFuRdiGEYQcbxXjGsHxeGf1f9HK8zxb9zIMc4TV3LP1BlO4hnqKcpSZHZK38q/VZBm0tvyI89Aqt0fPErB7sbNUZwbsJmC9TzEOgqPd7C5JKQMtVKaSCpdNvZOGUqE7KFfjoxXZpSADJfpFnKJmDM8a8WfBd9NL/heMDP0QuAPTApBrsBrcwZ93L+Ekim3MwTvmnk4xSBb1DprMuNX0yjPwKt7pfg0p7fCFCTC0tRpuND1mTyRg==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W22L7Bm5nls1zevbVXyuNphSFEovkFw7vsf6zxiVllg=;
- b=NpQnFnNRo5bk78xj6rymfFpHuTFvJTE8sh4ocTPz/7GMwMFDOhWSX3Q97c5c5Hhj1hgwHEdYhw5ixVw8D+dJIfADeIdWXH4lYKvzBQfiMtWPmiwZ/pJiglOV/yvFB4GLhKw2ev3SkhBQ8ceS0g4VrLiB1/lJYR7OxQ+cHOf1gh0=
-Received: from AS4P192CA0020.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:5e1::6)
- by VE1PR08MB5614.eurprd08.prod.outlook.com (2603:10a6:800:1a8::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.18; Tue, 25 Nov
- 2025 13:48:29 +0000
-Received: from AMS0EPF000001A7.eurprd05.prod.outlook.com
- (2603:10a6:20b:5e1:cafe::67) by AS4P192CA0020.outlook.office365.com
- (2603:10a6:20b:5e1::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.11 via Frontend Transport; Tue,
- 25 Nov 2025 13:48:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS0EPF000001A7.mail.protection.outlook.com (10.167.16.234) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.7
- via Frontend Transport; Tue, 25 Nov 2025 13:48:28 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Slpd6uva5CJKQ+Yim+tRhCwTbkjZluwwAsfrxVdkh9TQH1NOY9XLi5HGeYUmlmtYKWOSkCMPtAa4Z/ZT+xXbqtU+8arFlIWkXOUABoEW26CqC8+9qvGgrAZOuMdQ9Ihs+uYb/n0sB20ZAvWvOWsBvZ2EnZjvBIapm8trZNLHvgZM+4h+WQ2aqewHDY88d0mhg67VOKGwnqP6hAbBOkdYycYZV9lhXRbCAJ2jrqIEiAgxDWMwNXq3fwr8TbSAZEDO+BnOEAs9sqZImDLTOh9jDT+9z/Hj85JWUBvyhC8+JiZDV54f+Ao0CYrgay1WlEAXyszAy024n96yLXhtvCmI5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W22L7Bm5nls1zevbVXyuNphSFEovkFw7vsf6zxiVllg=;
- b=vAAHOrbh3PKZbfHDwwQXHdF1/8f02fg4D8wARdCDU80b3Cui8syDWNcJtPL0wc+JTbXQvCg/QBN+oFHpxXYQ/Kz/ehM0H3MRaGhDTqFBY1vDLwbQNi8QFTkCrUILEnhmGlZWV7lUOaySVL78kxSTPagpoKfYXZ8sBDHkgYI7tzC9ez7vBPMj/werkJP+To202CrCqfFJR/RkPwYZkm5oNArLsWF4nLKXIKkhhpVyRJAkL5HAE6MaOkpvYIGHPmzP+/wrGtYxOC8OsPh8ajkrSnc1BxZn2wC88gLNA1rHWKQMhmSt6ZrpENDd96Nr3F9zrFZSnqr2QxdNbW1pO72Ttg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W22L7Bm5nls1zevbVXyuNphSFEovkFw7vsf6zxiVllg=;
- b=NpQnFnNRo5bk78xj6rymfFpHuTFvJTE8sh4ocTPz/7GMwMFDOhWSX3Q97c5c5Hhj1hgwHEdYhw5ixVw8D+dJIfADeIdWXH4lYKvzBQfiMtWPmiwZ/pJiglOV/yvFB4GLhKw2ev3SkhBQ8ceS0g4VrLiB1/lJYR7OxQ+cHOf1gh0=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
- (2603:10a6:800:257::18) by PA4PR08MB6111.eurprd08.prod.outlook.com
- (2603:10a6:102:e3::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.11; Tue, 25 Nov
- 2025 13:47:56 +0000
-Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
- ([fe80::d594:64a:dfc:db74]) by VI0PR08MB11200.eurprd08.prod.outlook.com
- ([fe80::d594:64a:dfc:db74%7]) with mapi id 15.20.9343.016; Tue, 25 Nov 2025
- 13:47:56 +0000
-Message-ID: <c80da36c-84e5-4a1c-a467-3cc9c46bf956@arm.com>
-Date: Tue, 25 Nov 2025 13:47:55 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/8] drm/panthor: Add support for Mali-G1 GPUs
-Content-Language: en-GB
-To: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org
-Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-References: <20251107142440.1134528-1-karunika.choo@arm.com>
- <b28a4dfd-035e-429d-848c-dd67adfb8fa7@arm.com>
-In-Reply-To: <b28a4dfd-035e-429d-848c-dd67adfb8fa7@arm.com>
-From: Karunika Choo <karunika.choo@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0296.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:a5::20) To VI0PR08MB11200.eurprd08.prod.outlook.com
- (2603:10a6:800:257::18)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5C1010E02B
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 13:50:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1764078646;
+ bh=ZVZoBL5PnZxHR2oNWFu2Nx+Kvgx0aO5702hIJ36xBiY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ackB2UHYZMx2MIHmMBZ9SViDQcFg0oVqYUTtZ80rPFkFAdsJu0siB0S75n0E5/9AZ
+ MP6a42PT+KqKNwLc3AfdkNDJKztnBPWVIXeLCShG+f+Y/vLcCvbnaRuNxPfzh1+sJr
+ zEQghgkL5GitLE8lZyLCaBkJ96Wh7XNruM13F5i0pjcrDNOvbTBjA/xYewsoeZZbJg
+ QMtynjNef9nuO1WBY7E3/UQpuEQyCoZUKjNNVXFq65Zt08+N9QmoSMhgi2AMWbc97U
+ msXIrfIXxToHhDByOSX8DRw0Af/ovBTTDcBu9xty1Ns+hH+PEay7VmzNbDjmnbXCp7
+ O52dQwe72A7+Q==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id CD88B17E12D2;
+ Tue, 25 Nov 2025 14:50:45 +0100 (CET)
+Date: Tue, 25 Nov 2025 14:50:40 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Philipp Stanner <phasta@mailbox.org>
+Cc: phasta@kernel.org, Daniel Almeida <daniel.almeida@collabora.com>, Alice
+ Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>, Christian
+ =?UTF-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Alexandre Courbot <acourbot@nvidia.com>, Dave
+ Airlie <airlied@redhat.com>, Lyude Paul <lyude@redhat.com>, Peter Colberg
+ <pcolberg@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [RFC WIP 2/3] rust: sync: Add dma_fence abstractions
+Message-ID: <20251125145040.350e54a9@fedora>
+In-Reply-To: <682a788c21c6513e30c5eb1020191f31f7aec612.camel@mailbox.org>
+References: <20251118132520.266179-2-phasta@kernel.org>
+ <20251118132520.266179-4-phasta@kernel.org>
+ <E55D72FC-AEF6-4D2D-973F-123306E4EB4C@collabora.com>
+ <bc4f01ec5172d29abd64429e3017cc53c0522e01.camel@mailbox.org>
+ <20251125115829.24e6caf7@fedora>
+ <682a788c21c6513e30c5eb1020191f31f7aec612.camel@mailbox.org>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|PA4PR08MB6111:EE_|AMS0EPF000001A7:EE_|VE1PR08MB5614:EE_
-X-MS-Office365-Filtering-Correlation-Id: a586ee8b-c2dd-4893-5465-08de2c295089
-X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?WWg0anE0TXpYSVhhcGxsRktzTlYvSUl6RG1ZUG96WTR1K0lJUStqd0UydzFF?=
- =?utf-8?B?ZkhTUUFpdDJTMk4vRVBlU0NUTXo3VXd0UU4zcEIxeGpHTFB5ZUJIV0xDcXpI?=
- =?utf-8?B?d3p3Ymd2eG55cWhSRENEa05rSHBQQXdHWVU5Y3craHpKMWRZNEhRbFRkK0l1?=
- =?utf-8?B?bHEyT0E3cEhKTDNVSmtKOXZpVGc0em9PdEhvQVY4Z0lPSVlrdDMwME50QkxK?=
- =?utf-8?B?Q0NjWnkyWkZzbUVlN1NkakpMbDVvZWhuMzBmSjN5NUQzQWd6bjdsRE9jUklo?=
- =?utf-8?B?Z0lvM0tUbzdacmoyNE5Ga293VlNoTlFZYjdkRFRzWUtRUnNlVzlkMEJ4WFdw?=
- =?utf-8?B?QXJOWExJN2JVZWNFa0htZjd3WDBmRzJCTHZkN1ZVY0pQZkdYUTkvZ3ZkYnU1?=
- =?utf-8?B?QnAzdUk3UW16T0JHd2ljTStQdGIrYnhidGdDV01LajluQXlkYm81ak4rbHNX?=
- =?utf-8?B?eFdGSzF3blgwYWNKd2phWDMySkRlaVZZTGVoMEphVEdvL2I2WlBSbUkvMFhV?=
- =?utf-8?B?U3BvNE9Ma0pES3lRVGpXTmtneDgvNnNsVi8rcW11TlNtQTJIWFJvczEvSWl4?=
- =?utf-8?B?T0l1Mm9Db3hFQ0pCdk1NZGkvSGlRZVpubWhaOS9LcEswWkdjQmh4eWF1OGtS?=
- =?utf-8?B?NldRdnRWZ1dqZU1Tdzk3b0cxckZmYVJqaHZGVHptYzJLb3JKVkp4Q0hkTDUy?=
- =?utf-8?B?YkJBUUJ5SlJzWDAwZWNlWTIrUlBwVDNiWXhlQWlMUWxkeXlUTkRBOUZ6Wmkw?=
- =?utf-8?B?K05YTnM5aUlGM1Z3QVc5QmFXZkJqWG84dG12Wnp0RnllUmRoMW5uaUVDY3Ju?=
- =?utf-8?B?WjVzODcwemhDdHpiNzErVS9TMFFHaGhKUC85d3VTaE51cTAxUFl6Z1JEL3NZ?=
- =?utf-8?B?ZnI5aEFkTFJhSnFvUUVuUEJMS0tDTHV1WVgwR1lqcHYzMmdTTkxodnY5MGcz?=
- =?utf-8?B?RzFSUmJGRUw0QlJ3bUhqbklYMlhIdDE3ZGJGZWNQaUZOZWM2UVA5ZGNhdXg2?=
- =?utf-8?B?amMvanlKdDNVQXMrNy9vblQxbGFDRkFZajYrQkdWR1Y5ODNOSWYzbWhqcXNV?=
- =?utf-8?B?YVh0U2hiVXlBTmh1eVkwK0gxTDRHTXpodjdFRDdzY3VxM2xFZkdqTzkwLzBh?=
- =?utf-8?B?TlVDb09jZTdSZ0VnQW5yQkdzNlNqbllZMUJ2aTFHM0FkSUlkWlVoUmhKcllJ?=
- =?utf-8?B?UUxpYk8rUTY1dDloTWQvSTBXbWtOV0NNSVB4ZUEvRkJDN1A3VnROYmdKQXIv?=
- =?utf-8?B?Vm96WUxiWm54RjUwaVhvaW9lNFdncmdXVnB0RE9OWiszYU9tekorUURINEpx?=
- =?utf-8?B?dDV4OFNGek8zQXhPLytsNUdhUUs1LzNkMzNOWUI5NU45MHpHRTVROFJTaTVn?=
- =?utf-8?B?RXpOWlZoVm9CNVVKUUpERWpBM29NS0tvMEtuN284dHZHNEJjS0dXbml3anJP?=
- =?utf-8?B?eDNXc0pKVWpuQ2NSVUlkSTlISzhmK1dVQXl1SER1NE1FUzJTdWU5TDNmTUEz?=
- =?utf-8?B?clN0cTF2QUs5ZDJaM0U1Y00wL09nY2hiL3FuQ3pSbURVYlpHb0tMVlRzOEkw?=
- =?utf-8?B?c0dYdzZlWGpFQSsvTjJWY0NPbmZoc2RTN0dVTWZGM3BBWTE0T2lGN2RNTVRG?=
- =?utf-8?B?TjZrVUJCcUhrZTR5WDVEVVB1VTdaSExMK1RLMHBCNjkrWWpjckw5VE5RYWcx?=
- =?utf-8?B?Y3haUUVPSEhUcWFEaXZxQi95TVpNMXVPdG1DcDhLTDVJVmgwZkJTdWkzMkN6?=
- =?utf-8?B?bXZkUUM0NEkrYUxuSkYrZ0VnV1BPMjY2d3pTZnkxZUtodWd0bzd4bGwrMDVW?=
- =?utf-8?B?SVZhdSt1emtjR0EwT3lBaUdud0ZQblFKK256MU8yc3dpZm5QcENsVzJCVnNH?=
- =?utf-8?B?c2RmT2czV2M0eFNyRURadVRKMFRsVVQ4SG00aTVKbDg2MTdYS2R3RURFVUh6?=
- =?utf-8?B?ZG1SUU5EYVBIVmUxOUdTOUhjMUFiRjJuR1RLK3lyVDlaaGR1dTFnYWYydEJQ?=
- =?utf-8?B?YnBRc29xQ0h3PT0=?=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI0PR08MB11200.eurprd08.prod.outlook.com;
- PTR:; CAT:NONE; SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6111
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AMS0EPF000001A7.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: f90571eb-0f89-4411-9d44-08de2c293d0f
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|82310400026|14060799003|35042699022|36860700013;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?L09RczlpZis3TXd5dVhKU0lYZkFRM25YZ2c3Q05QNDAwT2RucTU3eGR3Syto?=
- =?utf-8?B?Rm5VUG1GRVZweWVadmt4T0c2NFFNcnVRNWNLUkhlWTZ5K3dCQWhHd29RZytI?=
- =?utf-8?B?TGxBSzdMektKUHY0eUhCY0RpblRZSkdqa3BUazMyTzRNM2QwMTcrbHVlamtX?=
- =?utf-8?B?dkhxOHdBQTg3OVpTUkpOSmJRckpBZWtrYXFMNk5JdGhrMHRNR3VzVmpMOThL?=
- =?utf-8?B?amlrWHZ3b05sSDMvaERnMGJKT3JFOHlZT01nVmljeHYwRWdVNDVMRHJ2eHkz?=
- =?utf-8?B?c3VGdVFRWk9uZDd5RENaeTYycCs4bjQzd0ZpN2Z2NTRPMUhZeW5jL29RSGsw?=
- =?utf-8?B?TXc3Mlh3UUcwT1VrMFBjSVJMdUFnNy9mRnVSTkFIdDNKTko1dEJkK1dQcklv?=
- =?utf-8?B?UHE1eUhlRjh6UWhiZG5NcXVBWHFYVzc1RjU4YksvYmtLUEYzTEpBYWFHejNu?=
- =?utf-8?B?dlNQcUdlOEhrMDJYN296T0FSMWZiLy84Z2FIL3UxeERBZ0FNYkZ4NzhEVU5X?=
- =?utf-8?B?RjBUbG8zQ2toT0I1L2hYdTVXYVdYK3plc3kwTys2ZGhta29hVHhLd0pUTG1P?=
- =?utf-8?B?Ykw0SGpCaUFtS0g2MVYwTWhCeXdRcllwaVV1VnJZVEx3TEFmMmJ2UlJFK1Yv?=
- =?utf-8?B?QXpEZWZoanFxdTlGZWhrQWdFZWlQbzZ5RTM2emYyZzFYTUQxRGlYM09zVnA1?=
- =?utf-8?B?SmpsbjluY2grZDNnRjQ3Q2Vrci94SEM3VVlVRzM0SFFsVFpqQWxqU1luTTN3?=
- =?utf-8?B?bEVMT3FjZnF0VVBYa1ZNQU5KQUp5d0dnRWozdDM0M0RNU0V5dzhHV2p2YktU?=
- =?utf-8?B?bkl5a1RJYkNiMW5CcHpRbEJzVFdqR0xBcGlNcFNuU0trWk91NHFrNDNDTlhk?=
- =?utf-8?B?RUUvYUdvbFcrVWl4dlBKZDU4eFcxTXg4b0pacWQyT0lXU0JHOTJlejUvT0tQ?=
- =?utf-8?B?eGhsRTNHOGN1UE1ud29WSXF3SHFTblZKNHFyN3BpSW9WK3lCaWF5R3NGTUlz?=
- =?utf-8?B?OXhMZkFHRUdZa1NhWC9uUjFMTG9CQ0VqcUZNZlR6cEwwZ1MrdGxIeXNSOUNa?=
- =?utf-8?B?ZlFDbnAyTjlzL0ZGMmxOSDNVK1J4WWIrWVpVRm5mZlJZaDlyU0pzTFNDK3NC?=
- =?utf-8?B?NnplRWdxVkZ5aWRLUmV1bXV1MlRoSXhtUTVobksrZzRUcURNblVQNE5JWG5N?=
- =?utf-8?B?Q2tqTzZkaHJiTDhwNkhXRlBZODlwQmNlYWdwZ0hJVVRVOEpRUjZPYVh2VkYx?=
- =?utf-8?B?Z2ZIQzdvODB1ckcrbTBieVErOEFyS2hOQW9zb0NITGlkT2RzSnQvblVSVTdk?=
- =?utf-8?B?eHlmYjRETUVxbkxNeEtsSm5FR0xJNE1PQ05tOW85Wk96QW1XdWZhZTV1ZkQ4?=
- =?utf-8?B?V0FHcVF1d01nb0Z6eFBDb2JvbXJSNjJXQm85S0wzS3VUTGYxTG1pa2VRQzVF?=
- =?utf-8?B?Ykw5bUdMcGxCR0dhRVV4NEs4MXJlZEs2aTNrdFI2Z1FQbnBOSjdaOGpVbFp4?=
- =?utf-8?B?TnRKSXNjd0IyQ254dUVjUHBxL3FxQWNMdG93eXprSnJZcFk2UDdRMnppMk1i?=
- =?utf-8?B?bnMvQncvZjFIT0o5K05ESjM4b3JON0xaUEdjSmI5ZFJzNjhSTzJid2swT3hP?=
- =?utf-8?B?S01KWTUzbTJ4Y1lYNWJTcElkdEJ1Z0Z3Z2FReGIxQmROMXBOUTlxbDNldGVa?=
- =?utf-8?B?QzNNY2NzRGR4eFJ6N0FXTllkdEpXRVhyUW83RXZtM01lZ1dnWnE5MEFPWUZX?=
- =?utf-8?B?dHVVL3RldktsSFdVQ3RnMUZFWTZyRFlTWnVyQnRYSmRsd3VrZWdJQlUzUzlx?=
- =?utf-8?B?N0hvWFQwbzNvTG5vcFVRWmpPdUI3bVpLN3M1NnM1NXQvOHNyNGJNRFNGOFVt?=
- =?utf-8?B?WGEwT09vcmVsdi9BcWJTbnFrR29hekx4dmhTb0J5dzR2dmFld283Y0JhYmln?=
- =?utf-8?B?RHJzMFRvVEF6MmFDYlQvWG9QemhjdWw0aFFlejNJeTZXd05KSERNOExFc2RL?=
- =?utf-8?B?K2liaTM3ZEtQWUt0OHp2Nzk4aHhZd2twUmZjRlV3NFlGeU56a1BaRHJyNFRD?=
- =?utf-8?B?bjNoR2ZxeDZnZU9XZUpoMVh3MHUrTHZJLytVclF0bDJpNlVETmRkcytLNEFE?=
- =?utf-8?Q?qQOkOQnLBP2Iza5Rj8dFOzHro?=
-X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
- PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(82310400026)(14060799003)(35042699022)(36860700013);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 13:48:28.8724 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a586ee8b-c2dd-4893-5465-08de2c295089
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
- Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: AMS0EPF000001A7.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5614
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -220,110 +72,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 14/11/2025 16:33, Steven Price wrote:
-> Hi Karunika,
-> 
-> This series doesn't seem to cleanly apply on drm-misc-next (and I can't
-> figure out what base you used). Would you mind doing a rebase and resend?
-> 
-> Thanks,
-> Steve
-> 
+On Tue, 25 Nov 2025 13:20:03 +0100
+Philipp Stanner <phasta@mailbox.org> wrote:
 
-Hi Steve,
+> On Tue, 2025-11-25 at 11:58 +0100, Boris Brezillon wrote:
+> > On Tue, 25 Nov 2025 10:48:12 +0100
+> > Philipp Stanner <phasta@mailbox.org> wrote:
+> >  =20
+> > > > > +impl ArcBorrow<'_, DmaFenceCtx> {
+> > > > > +=C2=A0=C2=A0=C2=A0 /// Create a new fence, consuming `data`.
+> > > > > +=C2=A0=C2=A0=C2=A0 ///
+> > > > > +=C2=A0=C2=A0=C2=A0 /// The fence will increment the refcount of =
+the fence context associated with this
+> > > > > +=C2=A0=C2=A0=C2=A0 /// [`DmaFenceCtx`].
+> > > > > +=C2=A0=C2=A0=C2=A0 pub fn new_fence<T>(
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &mut self,
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data: impl PinInit<T>,
+> > > > > +=C2=A0=C2=A0=C2=A0 ) -> Result<ARef<DmaFence<T>>> {
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fctx: Arc<DmaFenc=
+eCtx> =3D (*self).into();
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let seqno: u64 =3D fc=
+tx.get_new_fence_seqno();
+> > > > > +
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // TODO: Should we re=
+set seqno in case of failure?=C2=A0  =20
+> > > >=20
+> > > > I think we should go back to the old value, yeah.=C2=A0  =20
+> > >=20
+> > > It would be trivial to implement that (just atomic.decrement()).
+> > >=20
+> > > The thing why the TODO even exists is that I'm a bit unsure about
+> > > races. It seems we have to choose between either a gap in the seqnos =
+or
+> > > the possiblity of seqnos being out of order.
+> > >=20
+> > > If the user / driver creates fences with >1 thread on a fence context,
+> > > I mean.
+> > >=20
+> > > We're pretty free in our choices, however. The shared fence-fctx
+> > > spinlock will be removed anyways, so one could later easily replace t=
+he
+> > > fctx atomic with a lock if that's desirable.
+> > >=20
+> > > I can implement a seqno-decrement for now. =20
+> >=20
+> > I don't think we need to return unused seqnos in case of failure. I
+> > mean, we could have something like the following pseudo-code:
+> >=20
+> > 	atomic_cmpxchg(ctx.seqno, fence.seqno + 1, fence.seqno) =20
+>=20
+> The code above is the code that creates fence.seqno in the first place,
+> obtaining the next seqno from the fctx (timeline).
 
-I've rebased on top of ac364014 and sent out a v5.
-Hopefully it works.
+Not sure I follow, but the pseudo-code I pasted is actually meant to
+be the reciprocal of the seqno allocation (decrement if the current ctx
+seqno is exactly returned_seqno + 1).
 
-v5: https://lore.kernel.org/all/20251125125548.3282320-1-karunika.choo@arm.com/
+>=20
+> >=20
+> > but it wouldn't cover the case where fences are not returned in the
+> > order they were assigned, and seqnos are pretty cheap anyway (if a u64
+> > is enough to count things in nanoseconds for hundreds of years, they are
+> > more than enough for a fence timeline on which fences are emitted at a
+> > way lower rate, even in case of recurring failures). The guarantee we
+> > really care about is seqnos not going backward, because that would mess
+> > up with the assumption that fences on a given timeline/ctx are signalled
+> > in order (this assumption is used to coalesce fences in a
+> > fence_array/resv IIRC). =20
+>=20
+> Agreed, everything should signal according to the seqno.
+>=20
+> The question we are facing with Rust (or rather, my design here) is
+> rather to what degree the infrastructure shall enforce this. As you
+> know, in C there isn't even a real "fence context", it's just an
+> abstract concept, represented by an integer maintained by the driver.
+>=20
+> In Rust we can model it more exactly. For instance, we could enforce
+> ordered signaling by creating a function as the only way to signal
+> fences:
+>=20
+> fctx.signal_all_fences_up_to_seqno(9042);
+>=20
+> which then iterates over the fences, signaling all in order.
 
-Kind regards,
-karunika Choo
+Up to you, but then it implies keeping a list of currently active
+fences attached to the context, plus some locks to protect this list.
+Another option would be to track the last signalled seqno at the
+context level, and complain if a fence with a lower seqno is signalled.
 
-> On 07/11/2025 14:24, Karunika Choo wrote:
->> This patch series extends the Panthor driver with basic support for
->> Mali-G1 GPUs.
->>
->> The v14 architecture introduces several hardware and register-level
->> changes compared to prior GPUs. This series adds the necessary
->> architecture-specific support infrastructure, power control and reset
->> handling for Mali-G1 GPUs.
->>
->> Patch Breakdown:
->> [Patch 1-2]:  Refactor panthor_hw to introduce architecture-specific
->>               hooks and abstractions to support the v14 architecture.
->>               These patches introduce architecture-specific HW binding
->>               for function pointers.
->> [Patch 3-5]:  Adds basic L2 power on/off and soft reset support for the
->>               PWR_CONTROL block introduced in v14.
->> [Patch 6]:    Update MCU halt and warm boot operations to reflect the
->>               GLB_REQ.STATE changes in v14. This ensures that the MCU is
->>               properly halted and the correct operations are performed
->>               on warm boot depending on the FW version.
->> [Patch 7]:    Align endpoint_req with changes introduced in v14, where
->>               the register is widened to 64-bit and shifed down by
->>               4-bytes. This patch adds the necessary infrastructure to
->>               discern the correct endpoint_req register to use.
->> [Patch 8]:    Enables Mali-G1 support on Panthor by adding HW bindings
->>               for v14 architecture, product names and path to FW binary.
->>
->> v4:
->>  * Fixed include and forward declaration issues.
->>  * Addressed code format issues.
->>  * Picked up R-bs from Steve.
->>  * Link to v3: https://lore.kernel.org/all/20251027161334.854650-1-karunika.choo@arm.com/
->> v3:
->>  * Updated include logic to enable static inline functions in
->>    panthor_hw.h for function pointers and feature checks.
->>  * Fixed missed replacement of CSF_IFACE_VERSION check with
->>    panthor_fw_has_glb_state() check.
->>  * Link to v2: https://lore.kernel.org/all/20251024202117.3241292-1-karunika.choo@arm.com/
->> v2:
->>  * Merged GPU_ID refactoring patch with the arch-specific panthor_hw
->>    binding patch (formerly PATCH 01/10 and PATCH 02/10).
->>  * Dropped panthor_hw feature bitmap patch in favor of functions that
->>    performs the relevant architecture version checks.
->>  * Fixed kernel test bot warnings.
->>  * Replaced function pointer accessor MACROs with static inline
->>    functions.
->>  * Refined power control logic, removed unnecessary checks and redundant
->>    stubs.
->>  * Replaced explicit CSG_IFACE_VERSION checks with functions describing
->>    the feature being checked for.
->>  * General readability improvements, more consistent error handling,
->>    behaviour clarifications, and formatting fixes.
->>  * Link to v1: https://lore.kernel.org/all/20251014094337.1009601-1-karunika.choo@arm.com/
->>
->>
->> Karunika Choo (8):
->>   drm/panthor: Add arch-specific panthor_hw binding
->>   drm/panthor: Add architecture-specific function operations
->>   drm/panthor: Introduce panthor_pwr API and power control framework
->>   drm/panthor: Implement L2 power on/off via PWR_CONTROL
->>   drm/panthor: Implement soft reset via PWR_CONTROL
->>   drm/panthor: Support GLB_REQ.STATE field for Mali-G1 GPUs
->>   drm/panthor: Support 64-bit endpoint_req register for Mali-G1
->>   drm/panthor: Add support for Mali-G1 GPUs
->>
->>  drivers/gpu/drm/panthor/Makefile         |   1 +
->>  drivers/gpu/drm/panthor/panthor_device.c |  18 +-
->>  drivers/gpu/drm/panthor/panthor_device.h |   8 +
->>  drivers/gpu/drm/panthor/panthor_fw.c     | 131 +++++-
->>  drivers/gpu/drm/panthor/panthor_fw.h     |  32 +-
->>  drivers/gpu/drm/panthor/panthor_gpu.c    |  12 +-
->>  drivers/gpu/drm/panthor/panthor_gpu.h    |   1 +
->>  drivers/gpu/drm/panthor/panthor_hw.c     | 107 ++++-
->>  drivers/gpu/drm/panthor/panthor_hw.h     |  47 +-
->>  drivers/gpu/drm/panthor/panthor_pwr.c    | 549 +++++++++++++++++++++++
->>  drivers/gpu/drm/panthor/panthor_pwr.h    |  23 +
->>  drivers/gpu/drm/panthor/panthor_regs.h   |  79 ++++
->>  drivers/gpu/drm/panthor/panthor_sched.c  |  21 +-
->>  13 files changed, 989 insertions(+), 40 deletions(-)
->>  create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.c
->>  create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.h
->>
->> --
->> 2.49.0
->>
-> 
+>=20
+>=20
+> With some other APIs, such as jobqueue.submit_job(), which creates a
+> fence with the code above, it's trivial as long as the driver only
+> calls submit_job() with 1 thread.
 
+As I was explaining to Daniel yesterday, you need some sort of
+serialization when you submit to the same context anyway. In Tyr,
+things will be serialized through the GPUVM resv, which guarantees that
+no more than one thread can allocate seqnos on a given context inside
+this critical section.
+
+>=20
+> If the driver came up with the idea of using >=3D2 threads firing on
+> submit_job(), then you by design have ordering issues, independently
+> from the fence context using this or that atomic operation or even full
+> locking.
+
+In practice you don't, because submission to a given context are
+serialized one way or another (see above). Maybe what we should assume
+is that only one thread gets a mutable ref to this FenceCtx/JobQueue,
+and seqno allocation is something requiring mutability. The locking is
+something that's provided by the layer giving a mutable ref to this
+fence context.
+
+>=20
+> If the driver scrambles calls to submit_job() or new_fence(), then it
+> can certainly happen that done_fences are signaled by JQ out of order =E2=
+=80=93
+> though I'm not sure how horrible that would actually be, considering
+> that this does not imply that anything gets executed before all
+> dependencies are fullfiled. AFAICS it's more "nice to have / would be
+> the cleanest possible design".
+
+A fence context should really be bound to a GPU queue, and jobs on a
+GPU queue are expected to be executed in order. So long as the jobs are
+queued in order, they should be executed and signalled in order. Of
+course, this implies some locking when you prepare/queue jobs because
+preparation and queuing are two distinct steps, and if you let 2
+threads do that concurrently, the queuing won't be ordered. That's
+already stuff drivers have to deal with today, so I'm not sure we
+should make a difference for rust drivers, other than making this
+explicit by requiring mutable JobQueue/FenceCtx references in
+situations where we expect some higher-level locking to be in place.
+
+>=20
+> I think I have a TODO in jobqueue where we could solve that by only
+> signaling pending done_fence's once all preceding fences have been
+> signaled.
+
+I believe this is something we want to enforce, not fix. If signalling
+is done out of order, that's probably a driver bug, and it should be
+reported as such IMHO.
