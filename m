@@ -2,81 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E8AC86DC2
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 20:50:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CA8BC86108
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 18:00:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACF6810E452;
-	Tue, 25 Nov 2025 19:50:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31CDE10E553;
+	Tue, 25 Nov 2025 17:00:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cKIjjIs6";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="VC9lf38r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB0AA10E441
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 16:29:58 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-7b9215e55e6so3878256b3a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 08:29:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764088198; x=1764692998; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=WwtB7x9jbnj3BkBVwjT6kHA5QLKT/sBvVzDGMwM9kMs=;
- b=cKIjjIs6g88gL+tt4m4SK1WOGQqZAVmLVQ9IRRk4PYlPiTYQ/D0mmuR6w+jegTT/WP
- Y4c8uGta5wnodoYeaTzUiacOn3M6R3+mIMicLFvUaNU6oZD4s3r5G/tJQu2CbmqGYOuN
- BnKI6zSwb5XIGuMykRP0HHtLZEM3PWSPm1mKRQw0QVxa5a0zmr8kgnHEvRK15Wy//W+F
- RJsooPP42xVULRhyBrGok/x/5UiKHsk3+oYq7DYD1HG+8U2ZE6O5u8IDth/tSraIP8fw
- cHA4PI27JGTAt8imelRd+B9QoAH4GAITzIOLlJjcl5QOXvRvfCXkHvyRsXEnRosmQFwW
- opNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764088198; x=1764692998;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WwtB7x9jbnj3BkBVwjT6kHA5QLKT/sBvVzDGMwM9kMs=;
- b=ANCXbbFfzdA2aI5TRC493l4aL5e74ynlQLQb5LBxgN14E7368nDHiMY+ApxpRVrWuv
- lUfDBBMx/GClg1Wt+lmh+197wf++o+UkeBvtZ8UtVh+Bf3qmZPIZaek9yUFhJ3ICxsYJ
- Lm1yq8+6kz2Xi8cgbFACJa8QTmpUZiDlM+IR01WYJeSPgIZsq7cVz+n4Fp8Tszd0V/2H
- dJs61eOtZEJ8e3xbJsfQEYymRXdbgFIKmKY0ndkyGF430isInC7ivfPgtYHswkODYrf+
- +YvR7lx1RXJYm/S8xuBP1PFK/qN8bhp2AIjTlVMEkxc4bLXQPkgkrmI91+I3A/L+Ij7q
- ezpg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVo3Rpq3Vcg7a45ZwhwTmonF02HsH6TRZFbQdTcUQPiDKPdIZsfBbwCRO2OaSa+I8aPFrq0lNpHm0g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwIASOl3DonzYP+kjFggogxMtF52+3xfCkLipQm4/87JYCjAkfw
- VfPUk/2I/9s/QbLNS5GLUlx789jp0kuWqdrWJGnOGDkL0nC5SebJpRLp
-X-Gm-Gg: ASbGnctheyYDJYr7goW033FbSFlfGwle2ZExOYOK6dLuXoJNx2vBw5PrOmSC3KdC+l0
- zJ1FwYt6qFEUJYXphgoPyxdZsZ10rYUqQLAVqHgwRF2NRbFM4pZd3dJ4d/dAH4Br1go+uqWdTSx
- dyY3wjKVDbrgJhrhwXf0H3RdfPO6H5fEO+puK0lapAZDIPZdnBg5QpQBlRLoNvtDcDNrK8t6nav
- J5TX8DyqJMhTLhRj/IUpsQzOaEVXog8rVLMaz50VlarWR5wGlJNjCeLIekUM5Y/rsrnk2jTqRh5
- bL7VlNnJHw3su9tp1K547LMtw0vFDCo3RvmEJjlJg1aQ32//0fXHx+v5TLn/eytKqbqN7fmuwpP
- 4lhS1dANjPOWa0Qp3xwy4AqH9dQmXZpeY8qi9j6FVm6Ks85Dhh0vtAK04ShCK2+cey2iKNyUUpX
- AdrpqeMw==
-X-Google-Smtp-Source: AGHT+IH5VsEgKVWLFjZB0z7fH5JXEPDjqE0RvxYdxUOT95d5pZGo+nIy5F29wx/dgZIyyG1Bi/NSdA==
-X-Received: by 2002:a05:6a20:2583:b0:35d:53dc:cb57 with SMTP id
- adf61e73a8af0-3637e0a58c8mr3790560637.49.1764088197837; 
- Tue, 25 Nov 2025 08:29:57 -0800 (PST)
-Received: from xiao.mioffice.cn ([43.224.245.230])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7c3f174d2c0sm18544900b3a.66.2025.11.25.08.29.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 25 Nov 2025 08:29:56 -0800 (PST)
-From: Xiang Gao <gxxa03070307@gmail.com>
-To: sumit.semwal@linaro.org, christian.koenig@amd.com, rostedt@goodmis.org,
- mhiramat@kernel.org
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- mathieu.desnoyers@efficios.com, dhowells@redhat.com, kuba@kernel.org,
- brauner@kernel.org, akpm@linux-foundation.org,
- linux-trace-kernel@vger.kernel.org, gaoxiang17 <gaoxiang17@xiaomi.com>
-Subject: [PATCH v2] dma-buf: add some tracepoints to debug.
-Date: Wed, 26 Nov 2025 00:29:49 +0800
-Message-Id: <20251125162949.220488-1-gxxa03070307@gmail.com>
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011053.outbound.protection.outlook.com [52.101.62.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1071210E553
+ for <dri-devel@lists.freedesktop.org>; Tue, 25 Nov 2025 16:59:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fWP3KTpyv3XQ+ATFMKT0CFm6h7rMlfGb3feZDMo8xy+vOG3/u8fsKqd0hSZqzPGIGyorU/yXJYu3Vdhw50Q3Db0B9D4tLhZzpLRdGF3sGPUtNZjFElMydi28HP0MrJ1DHyx+mUang9Vjd+loRDPOrcgzuEZs76DhxJ7ElWQe+cmG3NdqO2RQCswJ9npUNSQVA0R78qIStAd8Cma1pu/A2im4Q0CfP5aqXqV4eDc1VCa9E1/+6GOfQW/jeLOIT8/3neXQZh9p5W6RPR++Y1M4ye2xr256cmmUIiicrDQeaRUUCU39ffUXFAgGl1m9YkMhn7wWWAHk8WtGDD64ovsziw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mXHgeqPdOgYbm+wn3/32J5zIsSivZJ5CH2jUorvlzzQ=;
+ b=ZZ59Ahyph04ahNla498Z+12cPelpwbhbxdig047oHqck6BkRXTx7mV6BF2IlslQkX1hnsjt+GweJNGjHxkVwjOI1olh7JFw4KPggQSV4qjirDwA4169BT+7c49SRP1Ea+fCCSeAHpMHpltn8g1lppmptQf+8brnlBltMS4ou3Odqmsy3DyfytoNFsZKhL5xYrJWZW4CbqWhxI2JgvHuGxg6ihE4hO0+yNOEOmpwDTZN5eJqcvOkNb7PiXxgLmI3ZVmjNEEOLXsT31NzbRwtzjMnkLFf7adUTQzyDq3oq+Qswuby3L++Qi0iAZOUazSAHlQd73u+lO1uShA11GP/kAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mXHgeqPdOgYbm+wn3/32J5zIsSivZJ5CH2jUorvlzzQ=;
+ b=VC9lf38rG2wZAeiK3TrJQL10f5SGdBayDPkWsxYjNRwjlBV+v+TfNj22Vb7dUpYeyx8ELaYr0dYXV0/POasm9P9Axdvu4tyfr/RZNwF1oXQv45p/6xOBZEJO9jcTFyI/E12UBfKHpqdaMjDXMmDA8lsl0nz65IVzYMjVZaxcqXc=
+Received: from MN2PR20CA0023.namprd20.prod.outlook.com (2603:10b6:208:e8::36)
+ by CH3PR10MB7742.namprd10.prod.outlook.com (2603:10b6:610:1ae::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Tue, 25 Nov
+ 2025 16:59:53 +0000
+Received: from BL6PEPF00020E62.namprd04.prod.outlook.com
+ (2603:10b6:208:e8:cafe::d7) by MN2PR20CA0023.outlook.office365.com
+ (2603:10b6:208:e8::36) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.18 via Frontend Transport; Tue,
+ 25 Nov 2025 16:59:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ BL6PEPF00020E62.mail.protection.outlook.com (10.167.249.23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9366.7 via Frontend Transport; Tue, 25 Nov 2025 16:59:51 +0000
+Received: from DFLE200.ent.ti.com (10.64.6.58) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 25 Nov
+ 2025 10:59:48 -0600
+Received: from DFLE205.ent.ti.com (10.64.6.63) by DFLE200.ent.ti.com
+ (10.64.6.58) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 25 Nov
+ 2025 10:59:47 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE205.ent.ti.com
+ (10.64.6.63) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 25 Nov 2025 10:59:47 -0600
+Received: from a0512632.dhcp.ti.com (a0512632.dhcp.ti.com [172.24.233.20])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5APGxgbR3987080;
+ Tue, 25 Nov 2025 10:59:43 -0600
+From: Swamil Jain <s-jain1@ti.com>
+To: <jyri.sarha@iki.fi>, <tomi.valkeinen@ideasonboard.com>,
+ <airlied@gmail.com>, <simona@ffwll.ch>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>, <robh@kernel.org>,
+ <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <aradhya.bhatia@linux.dev>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <devarsht@ti.com>, <praneeth@ti.com>,
+ <h-shenoy@ti.com>, <u-kumar1@ti.com>, <s-jain1@ti.com>
+Subject: [PATCH v2 0/3] Add Display support for AM62P SoC
+Date: Tue, 25 Nov 2025 22:29:39 +0530
+Message-ID: <20251125165942.2586341-1-s-jain1@ti.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 25 Nov 2025 19:50:03 +0000
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF00020E62:EE_|CH3PR10MB7742:EE_
+X-MS-Office365-Filtering-Correlation-Id: 71ce2a7f-757d-40e8-a8b3-08de2c440caf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|1800799024|376014|7416014|36860700013|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?VGsm6ibU+6lhvweorcFs5sM/rkWbrk5xPGueJAI+KTf5T2yhmk4anU/z86G9?=
+ =?us-ascii?Q?lz2TNEXdwZMtG9bfcuQCWERZEPhY0Mcsvtego1mFbyFPVrIuSXYeSfRY/SMZ?=
+ =?us-ascii?Q?h3q8InXH59IFFrzDR7iMvNRuRBLuZbnuuCn9m6yPy5ECPokc9UVBcTRh4lWA?=
+ =?us-ascii?Q?oJpnBlMq5SLUO807jJ7djWwNShmgE3MoCS3R0QyLDcx3F3ihVNGDxYnPQevA?=
+ =?us-ascii?Q?nG0/DknGpLxqS7rlU4GHXx6WCIAbIjNjY1z/4OsfA5KEloFNpe0c7+y+Mcmg?=
+ =?us-ascii?Q?1VeXCYuZEIkrFk9Ld3LVg6ReYfIboXHoaqLpHU8q3v0tofN6gDDT50LxPDuG?=
+ =?us-ascii?Q?YnB1o8ZuLHNAGEnluJahx4vVvIXZ3xgi/PCS70KEBNuEtakEnX5YaofIQEmm?=
+ =?us-ascii?Q?iOKi9cfy+sg2ldrP84HYByLeSEHqIhE8ytGFxJmJzZFMHRHg3XM81iSiEVUp?=
+ =?us-ascii?Q?xbqAfoDcOmj2EHhGcfPKnaq6djthL2M02JOE/TO7mSFox9m+0I9LaRzuB24w?=
+ =?us-ascii?Q?nEU38PBbNSpQ3EHtWTmbcu0YrdlKrcIFCh8eNPS6nk+5SMt+bogDmX+fy6i9?=
+ =?us-ascii?Q?IMsU1tDganjfPpniPjAM7lnzwCHbsSzyDAKdvCyFOOsvMLIiwx7E8pk3l/4n?=
+ =?us-ascii?Q?LNYn1F5S37Fr0Bipjmbzx4mZhsuNkElns3RKpJOx+XYdOhP9uuqKUT+Stapw?=
+ =?us-ascii?Q?/ZC0KOH2GvSZNH01/7Xpco99w8et8r6YJlpl8jcFYSOgqnACNEm5KUU7acIj?=
+ =?us-ascii?Q?byuEES74gvtI3Z8kD1pzeRjUBTuOJZlbixhQb/JRxhsXKf60ABna1Sboo6aW?=
+ =?us-ascii?Q?z9PNcKpemmtSexJbJnh8Jmk2/JAozMeGqibYLmScLG04ZOjUsrkxHj2fGpGE?=
+ =?us-ascii?Q?ZSks5wA8CUI/AnnYa12MJsjvylctNaAbhmZwp5iGwAFgWF7pN8Fio9sjzDwk?=
+ =?us-ascii?Q?OF4kxBqotiQ1w2AK434cLnmv6c6MGcAXtGPPJhekj2w938rZ9Evg8mpYU0V4?=
+ =?us-ascii?Q?PSWq1TZHvkIsvkjELOCqpSqZ4fgI+v/oKyI27sgLW+fArsAQCPAOdRWZf3Ro?=
+ =?us-ascii?Q?72OHV55gzv2QmGfBJWvZjuAt32Fzf0Jduq+AjwmkuP1Fp8EEd2y8mop919jn?=
+ =?us-ascii?Q?hCTUndDzaOTgOrLtRLXTX7ZpU0stjfPIwQ4C2HHg7YXoMYXklPTeOKoQIRGf?=
+ =?us-ascii?Q?AczX/H/8i56CpPkGnJzhncT7cAIRAh//myVOVdko+7m+UFgxlK0Xc+n7UVB2?=
+ =?us-ascii?Q?T/BzOH/vtunRpSPOf8MJzhNpzznsMq4KTY70CkFWDg2Rc7YCNuOU2zUYo1II?=
+ =?us-ascii?Q?9nQzaoDbvr9rmZQIIW7rHlSnlOxhSfTrtl2nZRIYuvmg0OaU6ZMu3PI7yMk6?=
+ =?us-ascii?Q?0WBjl2JOh8tszIudpZ8N6Ayvdb4Q1pX34ZBL2QKw+dzF1Vqn7BFZN78Ohsy8?=
+ =?us-ascii?Q?N+iwpwjk8+7GezH65G6+ADgxva/6pbmED0yGjy94xqWipn5+419+sRmrIb0G?=
+ =?us-ascii?Q?fqOJobSR3/K/FmQFnsTi3mkzt5btqxZNC5STiQZ2SQmVYn6aH3kiqLk84Tz6?=
+ =?us-ascii?Q?qakGAEzpb27eSq/LMHQBsA0cooUY6ZcyQ/FJDJut?=
+X-Forefront-Antispam-Report: CIP:198.47.21.195; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:flwvzet201.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
+ SFS:(13230040)(82310400026)(1800799024)(376014)(7416014)(36860700013)(921020);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 16:59:51.4175 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71ce2a7f-757d-40e8-a8b3-08de2c440caf
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.195];
+ Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF00020E62.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7742
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,400 +146,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: gaoxiang17 <gaoxiang17@xiaomi.com>
+Display Controller Overview:
+TI's AM62P[1] SoC has two instances of TI's Display Subsystem (DSS).
+Each instance contains two video ports. Combined, both instances support
+up to three independent video streams: OLDI, DPI, and DSI.
 
-I want to track the status of dmabuf in real time in the production environment. 
-But now we can only check it by traversing the fd in the process or dmabuf_list.
+This series:
+  1. Updates bindings (PATCH 1/3)
+    - Adds "ti,am62p-dss" compatible string
+    - Modifies power-domain requirements
+  2. Updates driver (PATCH 2/3 and 3/3)
+    - Adds power management for attached PM domains
+    - Enables AM62P DSS support by adding compatible to the driver
 
-For example:
-    <...>-8342    [006] .....   199.626433: dma_buf_export: exp_name=system name=(null) size=32768 ino=2337 f_refcnt=2
-    <...>-8342    [006] .....   199.626436: dma_buf_fd: exp_name=system name=(null) size=32768 ino=2337 fd=853 f_refcnt=2
-    <...>-8342    [006] .....   199.626472: dma_buf_mmap_internal: exp_name=system name=system size=32768 ino=2337 f_refcnt=6
-    <...>-3199    [006] .....   200.719182: dma_buf_get: exp_name=qcom,system name=acb size=184320 ino=2331 fd=111 f_refcnt=6
-    <...>-894     [006] .....   199.632342: dma_buf_put: exp_name=system name=system size=32768 ino=2337 f_refcnt=2
-    <...>-3199    [003] .....   213.402200: dma_buf_attach: dev_name=soc:qcom,xxx exp_name=qcom,system name=acb size=184320 ino=2331 f_refcnt=7
-    <...>-1229    [004] .....   213.850270: dma_buf_detach: exp_name=qcom,system name=acb size=184320 ino=2331 f_refcnt=6
+Note:
+  - Device-tree changes will be submitted after this series is merged.  
+  - The device-tree patches are available here[2]
 
-Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
+[1]: https://www.ti.com/product/AM62P
+[2]: https://github.com/swamiljain/linux-next/tree/AM62P_J722S_DSS_v1
 ---
- drivers/dma-buf/dma-buf.c      |  19 +++
- include/trace/events/dma_buf.h | 281 +++++++++++++++++++++++++++++++++
- 2 files changed, 300 insertions(+)
- create mode 100644 include/trace/events/dma_buf.h
+Changelog:
+v1->v2:
+  - PATCH 1/3: - Remove unnecessary example
+               - Use "am62p-dss" compatible check for multiple
+                 power-domains
+  - PATCH 2/3:   Add Signed-off-by tag
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 2bcf9ceca997..8b5af73f0218 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -35,6 +35,9 @@
- 
- #include "dma-buf-sysfs-stats.h"
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/dma_buf.h>
-+
- static inline int is_dma_buf_file(struct file *);
- 
- static DEFINE_MUTEX(dmabuf_list_mutex);
-@@ -220,6 +223,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- 	    dmabuf->size >> PAGE_SHIFT)
- 		return -EINVAL;
- 
-+	trace_dma_buf_mmap_internal(dmabuf);
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- 
-@@ -745,6 +750,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 
- 	__dma_buf_list_add(dmabuf);
- 
-+	trace_dma_buf_export(dmabuf);
-+
- 	return dmabuf;
- 
- err_dmabuf:
-@@ -779,6 +786,8 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
- 
- 	fd_install(fd, dmabuf->file);
- 
-+	trace_dma_buf_fd(dmabuf, fd);
-+
- 	return fd;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
-@@ -805,6 +814,8 @@ struct dma_buf *dma_buf_get(int fd)
- 		return ERR_PTR(-EINVAL);
- 	}
- 
-+	trace_dma_buf_get(fd, file);
-+
- 	return file->private_data;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
-@@ -825,6 +836,8 @@ void dma_buf_put(struct dma_buf *dmabuf)
- 		return;
- 
- 	fput(dmabuf->file);
-+
-+	trace_dma_buf_put(dmabuf);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
- 
-@@ -998,6 +1011,8 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_dynamic_attach, "DMA_BUF");
- struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
- 					  struct device *dev)
- {
-+	trace_dma_buf_attach(dmabuf, dev);
-+
- 	return dma_buf_dynamic_attach(dmabuf, dev, NULL, NULL);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_attach, "DMA_BUF");
-@@ -1024,6 +1039,8 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
- 		dmabuf->ops->detach(dmabuf, attach);
- 
- 	kfree(attach);
-+
-+	trace_dma_buf_detach(dmabuf);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
- 
-@@ -1488,6 +1505,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 	vma_set_file(vma, dmabuf->file);
- 	vma->vm_pgoff = pgoff;
- 
-+	trace_dma_buf_mmap(dmabuf);
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, "DMA_BUF");
-diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
-new file mode 100644
-index 000000000000..ab593dea4617
---- /dev/null
-+++ b/include/trace/events/dma_buf.h
-@@ -0,0 +1,281 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM dma_buf
-+
-+#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_DMA_BUF_H
-+
-+#include <linux/dma-buf.h>
-+#include <linux/tracepoint.h>
-+
-+TRACE_EVENT(dma_buf_export,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf),
-+
-+	TP_STRUCT__entry(
-+		__string(exp_name, dmabuf->exp_name)
-+		__string(name, dmabuf->name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+		__field(long, f_refcnt)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		spin_lock(&dmabuf->name_lock);
-+		__assign_str(name);
-+		spin_unlock(&dmabuf->name_lock);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+		__entry->f_refcnt = file_count(dmabuf->file);
-+	),
-+
-+	TP_printk("exp_name=%s name=%s size=%zu ino=%lu f_refcnt=%ld",
-+		  __get_str(exp_name),
-+		  __get_str(name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->f_refcnt)
-+);
-+
-+TRACE_EVENT(dma_buf_fd,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd),
-+
-+	TP_STRUCT__entry(
-+		__string(exp_name, dmabuf->exp_name)
-+		__string(name, dmabuf->name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+		__field(int, fd)
-+		__field(long, f_refcnt)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		spin_lock(&dmabuf->name_lock);
-+		__assign_str(name);
-+		spin_unlock(&dmabuf->name_lock);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+		__entry->fd = fd;
-+		__entry->f_refcnt = file_count(dmabuf->file);
-+	),
-+
-+	TP_printk("exp_name=%s name=%s size=%zu ino=%lu fd=%d f_refcnt=%ld",
-+		  __get_str(exp_name),
-+		  __get_str(name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->fd,
-+		  __entry->f_refcnt)
-+);
-+
-+TRACE_EVENT(dma_buf_mmap_internal,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf),
-+
-+	TP_STRUCT__entry(
-+		__string(exp_name, dmabuf->exp_name)
-+		__string(name, dmabuf->name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+		__field(long, f_refcnt)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		spin_lock(&dmabuf->name_lock);
-+		__assign_str(name);
-+		spin_unlock(&dmabuf->name_lock);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+		__entry->f_refcnt = file_count(dmabuf->file);
-+	),
-+
-+	TP_printk("exp_name=%s name=%s size=%zu ino=%lu f_refcnt=%ld",
-+		  __get_str(exp_name),
-+		  __get_str(name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->f_refcnt)
-+);
-+
-+TRACE_EVENT(dma_buf_mmap,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf),
-+
-+	TP_STRUCT__entry(
-+		__string(exp_name, dmabuf->exp_name)
-+		__string(name, dmabuf->name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+		__field(long, f_refcnt)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		spin_lock(&dmabuf->name_lock);
-+		__assign_str(name);
-+		spin_unlock(&dmabuf->name_lock);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+		__entry->f_refcnt = file_count(dmabuf->file);
-+	),
-+
-+	TP_printk("exp_name=%s name=%s size=%zu ino=%lu f_refcnt=%ld",
-+		  __get_str(exp_name),
-+		  __get_str(name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->f_refcnt)
-+);
-+
-+TRACE_EVENT(dma_buf_attach,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct device *dev),
-+
-+	TP_ARGS(dmabuf, dev),
-+
-+	TP_STRUCT__entry(
-+		__string(dname, dev_name(dev))
-+		__string(exp_name, dmabuf->exp_name)
-+		__string(name, dmabuf->name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+		__field(long, f_refcnt)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(dname);
-+		__assign_str(exp_name);
-+		spin_lock(&dmabuf->name_lock);
-+		__assign_str(name);
-+		spin_unlock(&dmabuf->name_lock);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+		__entry->f_refcnt = file_count(dmabuf->file);
-+	),
-+
-+	TP_printk("dev_name=%s exp_name=%s name=%s size=%zu ino=%lu f_refcnt=%ld",
-+		  __get_str(dname),
-+		  __get_str(exp_name),
-+		  __get_str(name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->f_refcnt)
-+);
-+
-+TRACE_EVENT(dma_buf_detach,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf),
-+
-+	TP_STRUCT__entry(
-+		__string(exp_name, dmabuf->exp_name)
-+		__string(name, dmabuf->name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+		__field(long, f_refcnt)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		spin_lock(&dmabuf->name_lock);
-+		__assign_str(name);
-+		spin_unlock(&dmabuf->name_lock);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+		__entry->f_refcnt = file_count(dmabuf->file);
-+	),
-+
-+	TP_printk("exp_name=%s name=%s size=%zu ino=%lu f_refcnt=%ld",
-+		  __get_str(exp_name),
-+		  __get_str(name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->f_refcnt)
-+);
-+
-+TRACE_EVENT(dma_buf_get,
-+
-+	TP_PROTO(int fd, struct file *file),
-+
-+	TP_ARGS(fd, file),
-+
-+	TP_STRUCT__entry(
-+		__string(exp_name, ((struct dma_buf *)file->private_data)->exp_name)
-+		__string(name, ((struct dma_buf *)file->private_data)->name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+		__field(int, fd)
-+		__field(long, f_refcnt)
-+	),
-+
-+	TP_fast_assign(
-+		struct dma_buf *dmabuf = (struct dma_buf *)file->private_data;
-+
-+		__assign_str(exp_name);
-+		spin_lock(&dmabuf->name_lock);
-+		__assign_str(name);
-+		spin_unlock(&dmabuf->name_lock);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+		__entry->fd = fd;
-+		__entry->f_refcnt = file_count(file);
-+	),
-+
-+	TP_printk("exp_name=%s name=%s size=%zu ino=%lu fd=%d f_refcnt=%ld",
-+		  __get_str(exp_name),
-+		  __get_str(name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->fd,
-+		  __entry->f_refcnt)
-+);
-+
-+TRACE_EVENT(dma_buf_put,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf),
-+
-+	TP_STRUCT__entry(
-+		__string(exp_name, dmabuf->exp_name)
-+		__string(name, dmabuf->name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+		__field(long, f_refcnt)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		spin_lock(&dmabuf->name_lock);
-+		__assign_str(name);
-+		spin_unlock(&dmabuf->name_lock);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+		__entry->f_refcnt = file_count(dmabuf->file);
-+	),
-+
-+	TP_printk("exp_name=%s name=%s size=%zu ino=%lu f_refcnt=%ld",
-+		  __get_str(exp_name),
-+		  __get_str(name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->f_refcnt)
-+);
-+
-+#endif /* _TRACE_DMA_BUF_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
--- 
-2.34.1
+Link to v1:
+https://lore.kernel.org/all/20251114064336.3683731-1-s-jain1@ti.com/
+---
+Devarsh Thakkar (1):
+  drm/tidss: Power up attached PM domains on probe
+
+Swamil Jain (2):
+  dt-bindings: display: ti,am65x-dss: Add am62p dss compatible
+  drm: tidss: tidss_drv: Add support for AM62P display subsystem
+
+ .../bindings/display/ti/ti,am65x-dss.yaml     | 25 ++++++
+ drivers/gpu/drm/tidss/tidss_drv.c             | 89 ++++++++++++++++++-
+ drivers/gpu/drm/tidss/tidss_drv.h             |  4 +
+ 3 files changed, 115 insertions(+), 3 deletions(-)
 
