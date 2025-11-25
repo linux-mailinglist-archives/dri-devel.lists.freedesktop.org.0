@@ -2,51 +2,187 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03841C82E4D
-	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 00:56:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFB77C82FA9
+	for <lists+dri-devel@lfdr.de>; Tue, 25 Nov 2025 02:06:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6584F10E283;
-	Mon, 24 Nov 2025 23:56:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC66910E334;
+	Tue, 25 Nov 2025 01:06:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s07pCpBi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gMGCiqge";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C9D010E283
- for <dri-devel@lists.freedesktop.org>; Mon, 24 Nov 2025 23:56:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 56E3843B3C;
- Mon, 24 Nov 2025 23:56:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1609FC4CEF1;
- Mon, 24 Nov 2025 23:56:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764028602;
- bh=9OI9BzMb+379+qU/6B8MhkXYTc+//SCm5y10SzP6500=;
- h=Date:From:To:Cc:Subject:In-Reply-To:From;
- b=s07pCpBiCEtwBouTffBc5x2CMXd3A7kQKzgCyytInIBGCTewEyBdbpfqoIJqHjOir
- tIw5jbIe0uAYv9afxwVFS4xyU0nkkk4tQZ9nPHCNRtziDkuRT7mxbS/jxRBTIJHF2E
- pKPHfvz6GXQgaNF38uHmT3VIpEybzGOYURa0xIBoDf2p/4l/HM83/mQk2+TD7vpXDG
- /Ywvo4f5r6Ajf1ri05Q3FA1Ax2QFs6nLlHureHOAfMSFIaUIP4zwbVlHj7jxRKbL2Z
- W7U1rvp/cEr1gVM7MCPs5aMc7wq888lyLA/Lmi1jyp3la2b/Ux10YeRr58P/nEGPfc
- IJXXhh7llwRNQ==
-Date: Mon, 24 Nov 2025 17:56:40 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: ardb@kernel.org, javierm@redhat.com, arnd@arndb.de,
- richard.lyu@suse.com, x86@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-efi@vger.kernel.org, loongarch@lists.linux.dev,
- linux-riscv@lists.infradead.org, dri-devel@lists.freedesktop.org,
- linux-hyperv@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v2 04/10] sysfb: Replace screen_info with
- sysfb_primary_display
-Message-ID: <20251124235640.GA2726595@bhelgaas>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD4F10E334;
+ Tue, 25 Nov 2025 01:06:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764032802; x=1795568802;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=FMeFEDmoctS89V/WvmwejXjQIBaqzODvwKi6ji/qIUk=;
+ b=gMGCiqgexr3uGnTTO5V3Xp7mJWq3QW6ipgOOXFejowKjDPk/HNF1rr5g
+ z6lgiUFzsxBtIPwoD5fk1CJqe9zPx7aakv5MNVfB43WIffpIUlBuQ79l7
+ 2yuZ8w290TSlzdq8tFKmk9PbwY47ecfmh5njrd5Oc4wOxVi77ZPybEP0J
+ JYugTKAIZIopwkzc/aAHdmePGSnKTOPJ3wDJadCgdMjx/E5PGGPq4vXsU
+ A8cIq8DcCEtZekVMZDaz/X85wyUWXE4zqcSRtzt1Qw+f2/1f8d4n87uT4
+ zeTsefeb3dKE+h7yT27m0j6cZTmBnTnbYVEGd4nxaOwoybxOhaLQ1FnuN Q==;
+X-CSE-ConnectionGUID: sNPc4NLrR0GOr3Zg2RbquQ==
+X-CSE-MsgGUID: aY2Bo4hZRS2vOlGmJXI3mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="77519709"
+X-IronPort-AV: E=Sophos;i="6.20,224,1758610800"; d="scan'208";a="77519709"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2025 17:06:41 -0800
+X-CSE-ConnectionGUID: Oj//N2xFRqW0YwNVvcmsWA==
+X-CSE-MsgGUID: O3BSCoz6SO6PqYb9heszuw==
+X-ExtLoop1: 1
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+ by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Nov 2025 17:06:40 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Mon, 24 Nov 2025 17:06:40 -0800
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Mon, 24 Nov 2025 17:06:40 -0800
+Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.36) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 24 Nov 2025 17:06:39 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=X+JsfHS+3w0rmKZu/ySuhaCqHK0MA9XN1vLv7shvsZECp0KGc1LJwom+wHv7IH204ijOz3/eRzJxXq7cS23AkvkLmae+bxPSrdJBvo6O/OcYHfgubS6h2OIw2JQxNJGIQ+DzZvJFWgpNkc/1hpOfgGqa09PJ7owIi77O+CNgmfMHkKJ/Oe302hRjPb6DOvDtHkREaFds7mUPKJpPVDxAO9cY1LjjzCIaYimmpnRq1yTKpH3Oicm5PjQPQrqpYMs3BQvSlAiN/J67a1ToFqFU+rZnUDCMqvp6psh7iJrdFkmWcnflXnEALnRey1u4SvV2XmeuKcerl4nHcMrB04iOVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ysoztzb1hGlTr+//wRVT2DY1lw3v7+KUUAsACGF1bGs=;
+ b=WMhE0fLPWKX31pMzLZJnOvC2Q7lvmDvNKLqffzK9M0lW1l27CmW03nrcabBVxK5eMKgPQS4aPPKWyJmgJ8Bp2dDT99vPUtVrf0ickpLjif8nDzgnU25dfWl8zADrXshZahjKw74U2JHKBvuf4XhmNgAiQ7nfcU2fRb5eL6+AeSXq2Iq9R4pdoR0YKIIq7Pgb9EWSsTLDA88rRvgQ1s5t5RMicXriGHmuamRpSkHoi+3S8zdq5YUhRmpw0hiIGDGwA30GktNnKPuqMMGdo4pm/l90scsPs+DWAKkHT6hSgqeTRRCQPTyBx7V6c8nPzVjondfytpMkBeLJ1lSNNftOtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7408.namprd11.prod.outlook.com (2603:10b6:8:136::15)
+ by IA1PR11MB6441.namprd11.prod.outlook.com (2603:10b6:208:3aa::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.14; Tue, 25 Nov
+ 2025 01:06:36 +0000
+Received: from DS0PR11MB7408.namprd11.prod.outlook.com
+ ([fe80::6387:4b73:8906:7543]) by DS0PR11MB7408.namprd11.prod.outlook.com
+ ([fe80::6387:4b73:8906:7543%7]) with mapi id 15.20.9343.016; Tue, 25 Nov 2025
+ 01:06:36 +0000
+Date: Mon, 24 Nov 2025 17:06:30 -0800
+From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <niranjana.vishwanathapura@intel.com>, <christian.koenig@amd.com>,
+ <pstanner@redhat.com>, <dakr@kernel.org>
+Subject: Re: [PATCH v4 8/8] drm/xe: Avoid toggling schedule state to check
+ LRC timestamp in TDR
+Message-ID: <aSUBFmZDeyfpyJd3@soc-5CG1426VCC.clients.intel.com>
+References: <20251119224106.3733883-1-matthew.brost@intel.com>
+ <20251119224106.3733883-9-matthew.brost@intel.com>
+ <aR97CAIbMmgLQ0eJ@soc-5CG1426VCC.clients.intel.com>
+ <aSDakpVxNmWmeY/d@lstrano-desk.jf.intel.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20251124165116.502813-5-tzimmermann@suse.de>
+In-Reply-To: <aSDakpVxNmWmeY/d@lstrano-desk.jf.intel.com>
+X-ClientProxiedBy: MW4PR03CA0169.namprd03.prod.outlook.com
+ (2603:10b6:303:8d::24) To DS0PR11MB7408.namprd11.prod.outlook.com
+ (2603:10b6:8:136::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7408:EE_|IA1PR11MB6441:EE_
+X-MS-Office365-Filtering-Correlation-Id: fcde5aaf-c121-4add-64bc-08de2bbee170
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QXJ2dGprWG44NlV6di92ZUk2enlkQThyL2FHOHp3M3E3MVo0bGlEWXV3RkNp?=
+ =?utf-8?B?U1RZK3FBY1dFVlRtVTFHdDNhVXlhSE4rU1ljMkIvWlhwTXJmY2tsM3U5SDUr?=
+ =?utf-8?B?WkFsbGVockQ4RlhtWi8xRk5pT2ZBYTEydXBONEFqaGJxSDE2T1N6djN0SnUr?=
+ =?utf-8?B?c2dNRlcvWFdvT1dVNzhXNnMwV0U3VkZIT3NUZGt2eGtQakg5SjFwY1NHNksv?=
+ =?utf-8?B?WURCQ0hCK0dOYWRYelBFWXlJQ0JFand2RkhrWFJmODJna0RTSGZOVlh1dGlP?=
+ =?utf-8?B?NktUcVhHWmZhQnlZUG5ucmVIQ3NaMkxCc0hwTm5FK1YxWHN4K2hlZ0dCeXVR?=
+ =?utf-8?B?UGNGNTVlNFBZMC9BdUY4MUpLK3QzcUs0aFAyZXBWaW9vTDBzTTRmbkhvcSs1?=
+ =?utf-8?B?WkUzOWJJbDJiaktaTFpLcGgxbExUcXBZM2p0SThHY3dtbFFvUXVFdGpYdjhC?=
+ =?utf-8?B?clBtZCtSWExtSGhwejI4RGVaYi9uQ0dCVmJhdlVUQXVnSWdhOXp4dklMMTd3?=
+ =?utf-8?B?bFREMVdPRGhzeHBoZGxaOVBjVUsvWXZPeVJkcGV5dExVQlFRSUUvUDVKSGI1?=
+ =?utf-8?B?c3VLVG81bGhJL2pTK0Y1RnltYjBjR2VEMTlGU3hsUmpxZG0vT1N3cXJYQkxn?=
+ =?utf-8?B?NlFXemF5aDdIVDEyUjNpWThKb204dlVYTm82L1l0WFZLUCs1aUMzRzErd1Zq?=
+ =?utf-8?B?NkhqeDd5K2h5cE9NbnVmUTQzRDhiUGtJYmZqRWlLNnl5QUc4TTF4cWtxMHZB?=
+ =?utf-8?B?dUU3V3JlVVk3TDVkZUZNRmEvdEVCWGRjdnMyUElRRmVIdmZjTVBuTEtvQU9F?=
+ =?utf-8?B?MWxMckNSMW1vRzRrZWpsTS85YVNZUG1keVZvbGlYbGhFcCtJQU04NHFhSEpt?=
+ =?utf-8?B?cVNoL01VdHBaOVE1RlVnSEtaeFBNOHppWk04ODVXZzAxTy9BYjJBMzRnOHcx?=
+ =?utf-8?B?VFFLQ3N1QWhXUTFqRFk1TVhwQmFTS3JCQllqNm1WUDhxNTZPeHIvZnVDVHB2?=
+ =?utf-8?B?L09obUkwSmlKYjlBR0RVSlppN25BaEJKdjc4MEhnbkVoU1I3a1lVOGhJODJL?=
+ =?utf-8?B?azR0M1JUMGZnOWJFbEhiNDAxdHNrN2ZEL1hjbW94UXFFZWJRV1NYbkZIZ0Fq?=
+ =?utf-8?B?NzQxdDJrTUg5d0dJVmxmdXZyZXphMkNIZjZ1R1R5dUMxM0FUclIwZmw5VnNQ?=
+ =?utf-8?B?bllhakwzVVVxRDNoZmkwK3prb3FHWkxmY2EvdGNxaUI4bkVPN3NuYVZyMW92?=
+ =?utf-8?B?S3QrcUx1M3JrWjEvTmI5b0F1SHpTMmNZWCsySVcvZHluVlJDcm5QOFBrMzVI?=
+ =?utf-8?B?NHBHSURHdlAzNXBtaE85dStycmI5TlBjY2l2UjV2OGpPaXliUkZTMnlDTHNO?=
+ =?utf-8?B?Y1o4SXR5VitWZFRSTG9NRTZvbWt4aUl3VFJQOS8wZ1FBMlE0Yy9WWVJaaWZP?=
+ =?utf-8?B?N0lIUHR6RnhOY25uQzA1b05YQWVyYXRybXlodUJOV3p5dGd3USs1RHNmT2hx?=
+ =?utf-8?B?M0xYTU41M21JcjdqbVFzMktVbWlxRUJ0MTJJbUF1OC9GS1FHclJuUFZiVUFy?=
+ =?utf-8?B?VGxRWkY1cDl3Z29DL2xJS3RoMGdOU2x6RGtJR1NnalhKU0hMdlYrZlF0TTJ5?=
+ =?utf-8?B?ekkxNFJkamNXV3p6MFlrU1Zkam1SOFNxUE11WTBKOWJyRnZUZUx3Zi9NYTBJ?=
+ =?utf-8?B?cGRORExOU2RmbytHTzh4YWgybGtaUEM2U3FkdGRVTnJJbjM2eVprUi9DVUJI?=
+ =?utf-8?B?aVF2ckpyMWR2VHBnUExrcEwrTmhiNWZzc0JxZjd5bjlMUEZ3ODYvNXJHVDMy?=
+ =?utf-8?B?UUxZVXNiRjJ6Yk9EWkFOanJlZzBHMnJ2Y011ZDFnRzNkZ3FXc29BNHNObi8r?=
+ =?utf-8?B?N3ROTmtRbmhNWEV2c3kxZ214TW96em14aFJYaGRPTnZGM3VYdnpQTkRiaDhJ?=
+ =?utf-8?Q?Nu8vhZu1d0QsD/snmsEOK1jVuvSh6nAW?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB7408.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RllJSHdncWJENjUwQUhRemdDSkZRTVRXS01XWGk0azE5ellUdHRqMG85YU5J?=
+ =?utf-8?B?ZkNWNnNmWUdlQ1k5bDhaLzl4QWFxTDh1Wk5WQkczWmwxaU9ITU1rRVA3enRl?=
+ =?utf-8?B?bGhxd2NlaHRwckxLb2NkMlRacVhqYTVRZkE3SUkwdHpWcmhvTnVKM2JuamdB?=
+ =?utf-8?B?WktxLzlweWFseThJV25pbWt4cUZ0ZU1rNktLc09mT2p1QnptMnNtNW9wdmVh?=
+ =?utf-8?B?b1hwNUhobGdNTzIzMm4xMFduQnFLaFAwRGRMQmNqOXNIYU1GRmNOcC9WcE85?=
+ =?utf-8?B?R2RqRXhyTmpjWjY1Rjd4cDZZeTl3RUp2UXZLam1USUN4VWtXd3EzeWJGb2F3?=
+ =?utf-8?B?MXJUOEVrVXF1QlNEZ1daVG5TK25RdlRLdGVCSGZBeVlzVXVIcndybC9TVVdG?=
+ =?utf-8?B?UWxxZVdwSFEyVHJLTklINzB2cGhwU3lrcm10cHRXOG1DRGJGclN4KzhwT3Yy?=
+ =?utf-8?B?TDNHRHRia3ZOeFdlYjNQdHJiK0Zjbm0zMmFUYmovTC96NVBOM253UnRMR05k?=
+ =?utf-8?B?K1ZxcDBSRFVOYkV4ejJad3lxd2dtdmkwaVBndUtENDBFUmNNd1JTdFBHbzht?=
+ =?utf-8?B?OXBrTkZ5ZWFWZFpON25CN2tGSUJJcHhwYjN3SmliSllUK3BlbGprOFZEMmx5?=
+ =?utf-8?B?TldLWlJaYVUzTnRVdkpRTVhhMXU2MngvRVJaNnJDbVM3cDFnZFFZWkltSGhS?=
+ =?utf-8?B?UVpJSGpuOFNMbUp0MWxOMUhIQ1ZHOGE2QkRBRVVnejZLSzZSV0lJcFNZYXg3?=
+ =?utf-8?B?TFIra3YydWdCdTAxQVR2WlBranRFbWhLV3JqQTNXMEw2dEJQUm9tT2J0QkJH?=
+ =?utf-8?B?bGZJdGNtbEJkd1dRM3gwQVlQd09ZY3B2Skd2Y1lWKy85ZXZGVWlRaWIzeTdC?=
+ =?utf-8?B?QklYbXdtbmdEWWdHM0xNeXY2LzM0MkZiTnlUSUJ0Z1RCbU9rNzgvb3ZpdFNL?=
+ =?utf-8?B?RnBWVm1GbGVuSVBENllqWEpIZEdINjlIYUQ1bDlpK0JJY1pQRldraU9xREpT?=
+ =?utf-8?B?TFNaOHpyOTJrVVlnUkV0bDlLT0VsU2JJZjRudVB0d3NBeTZEbGhnU2E2YzdO?=
+ =?utf-8?B?MGJrSVRzdVZnQVFkaE9UL21iNng4VjE3cnJzUVJiUlZRa1hvdnNRekZ0WFdv?=
+ =?utf-8?B?QTdFaS93QVZCTzFkMDlJNGRrMU95cnQrY3dkWGpKTXdBejZkbFdGTW5ieUtW?=
+ =?utf-8?B?cExYUXNYTlNFeVlFVTlnSDNyNktzVkJLQUtXcXBXeDRZaEZlSTlNV2JjSTEw?=
+ =?utf-8?B?cm96RzVKeEdvN3JRNCsrZEJaMTFKT0k5MHZxakduWkQzTGtuMXh0NHJRVTZC?=
+ =?utf-8?B?ZjRqMHlkZzdkVUhzYlliZ1EzM1lMWUJlUmhwcWtyVEFuVm9YNkUvTUFGMGZn?=
+ =?utf-8?B?VDc0bFVJYWV2allPc3BjSjd1dnlKQW9tbUZMQmE2TEZKOUNKT3JmMFNqcW9p?=
+ =?utf-8?B?NzMzdGtsN3ROS1BuSUJvOGtPL2NscDdiU21iNG1VUjFsNTFaUlJhbEFiN1Fr?=
+ =?utf-8?B?NUkrVjJPa0FrK3Y3dFhnM29aRDRQSm92UDRQM3plRFVVVXRjSWpmWUhVRkxp?=
+ =?utf-8?B?Z21vUko0MS9FUUVxeTdwVmFKT3FPY2FGWDNMRTByTGZEakFQRjJsc3ZTdU5i?=
+ =?utf-8?B?THE3MFd6WnFTL09yTG1Kc3BKMlBqZXlqUmRsbEg2Tm9uOXBrUHFmd3JTUTJF?=
+ =?utf-8?B?YmNHMXI2MzR2R3BXN2sxcWNSVGtKMEdkbUltVlBCTUhMS2JBNE1TREwwM2dM?=
+ =?utf-8?B?bkZGT1lCcUNIZHBSeUFMcCt2Q05wNTc2REpzOEVYMUxPYmt3dTVCTTlZQ2JQ?=
+ =?utf-8?B?aGpETlRyRE9oanNvYndnbnBJNGhFM2l1d1BQeUQ0ZDRwSmlhUnNPbVRPdU5B?=
+ =?utf-8?B?VytPR004MTk2TW5rd2dmdFpDQUU3bGxLemgyRWFlbU9qcW1BdWk3SGNaeUND?=
+ =?utf-8?B?aVE2RGwrRm9GSE1qOS8xcFM2c0o1Vkl4UGRNbkxEWWxrQ2tXOURJd2s1N2ZQ?=
+ =?utf-8?B?Q0VpVVZIWUJGaU4yWGxFWmRKRExualEwRkdpUWpyUGtjZ1ZSQUhreGlKYktD?=
+ =?utf-8?B?WHBvVDVNR0JsUmZsSkFkdElpSXMwNUd6a1FGdlpKdDBrSDVydkpZY2xsMHdm?=
+ =?utf-8?B?YUhXNEVJdi9IcTFremRYOGhTbWxpVVM0ZVlUb0dIOW04OVJYYi9TNDg0OVNH?=
+ =?utf-8?Q?bhR105OgxHarDta9ycbc+Oo=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: fcde5aaf-c121-4add-64bc-08de2bbee170
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7408.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 01:06:36.1948 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pczIweBYuggftmBp39W0xOM2EjKz6nNNiXmzM2FjEuOi0XIWNzZEqYO5OudCi+QVs1aaMyDiPMUlWGKXawRkiGbOXUTCxMMTfibu6FXvRxs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6441
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,542 +198,215 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Nov 24, 2025 at 05:40:16PM +0100, Thomas Zimmermann wrote:
-> Replace the global screen_info with sysfb_primary_display of type
-> struct sysfb_display_info. Adapt all users of screen_info.
-> 
-> Instances of screen_info are defined for x86, loongarch and EFI,
-> with only one instance compiled into a specific build. Replace all
-> of them with sysfb_primary_display.
-> 
-> All existing users of screen_info are updated by pointing them to
-> sysfb_primary_display.screen instead. This introduces some churn to
-> the code, but has no impact on functionality.
-> 
-> Boot parameters and EFI config tables are unchanged. They transfer
-> screen_info as before. The logic in EFI's alloc_screen_info() changes
-> slightly, as it now returns the screen field of sysfb_primary_display.
-> 
-> v2:
-> - update comment
-> - rename init_screen_info() to init_primary_display()
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
-> Acked-by: Ard Biesheuvel <ardb@kernel.org>
+On Fri, Nov 21, 2025 at 01:33:06PM -0800, Matthew Brost wrote:
+>On Thu, Nov 20, 2025 at 12:33:12PM -0800, Umesh Nerlige Ramappa wrote:
+>> On Wed, Nov 19, 2025 at 02:41:06PM -0800, Matthew Brost wrote:
+>> > We now have proper infrastructure to accurately check the LRC timestamp
+>> > without toggling the scheduling state for non-VFs. For VFs, it is still
+>> > possible to get an inaccurate view if the context is on hardware. We
+>> > guard against free-running contexts on VFs by banning jobs whose
+>> > timestamps are not moving. In addition, VFs have a timeslice quantum
+>> > that naturally triggers context switches when more than one VF is
+>> > running, thus updating the LRC timestamp.
+>> >
+>> > For multi-queue, it is desirable to avoid scheduling toggling in the TDR
+>> > because this scheduling state is shared among many queues. Furthermore,
+>> > this change simplifies the GuC state machine. The trade-off for VF cases
+>> > seems worthwhile.
+>> >
+>> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> > ---
+>> > drivers/gpu/drm/xe/xe_guc_submit.c      | 100 ++++++------------------
+>> > drivers/gpu/drm/xe/xe_sched_job.c       |   1 +
+>> > drivers/gpu/drm/xe/xe_sched_job_types.h |   2 +
+>> > 3 files changed, 28 insertions(+), 75 deletions(-)
+>> >
+>> > diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
+>> > index 1f2afad1766e..7404716e979f 100644
+>> > --- a/drivers/gpu/drm/xe/xe_guc_submit.c
+>> > +++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+>> > @@ -68,9 +68,7 @@ exec_queue_to_guc(struct xe_exec_queue *q)
+>> > #define EXEC_QUEUE_STATE_KILLED			(1 << 7)
+>> > #define EXEC_QUEUE_STATE_WEDGED			(1 << 8)
+>> > #define EXEC_QUEUE_STATE_BANNED			(1 << 9)
+>> > -#define EXEC_QUEUE_STATE_CHECK_TIMEOUT		(1 << 10)
+>> > -#define EXEC_QUEUE_STATE_PENDING_RESUME		(1 << 11)
+>> > -#define EXEC_QUEUE_STATE_PENDING_TDR_EXIT	(1 << 12)
+>> > +#define EXEC_QUEUE_STATE_PENDING_RESUME		(1 << 10)
+>> >
+>>
+>> ... snip ...
+>>
+>> > static bool exec_queue_killed_or_banned_or_wedged(struct xe_exec_queue
+>> > *q)
+>> > {
+>> > 	return (atomic_read(&q->guc->state) &
+>> > @@ -996,7 +964,7 @@ static bool check_timeout(struct xe_exec_queue *q, struct xe_sched_job *job)
+>> > 	u32 ctx_timestamp, ctx_job_timestamp;
+>> > 	u32 timeout_ms = q->sched_props.job_timeout_ms;
+>> > 	u32 diff;
+>> > -	u64 running_time_ms;
+>> > +	u64 running_time_ms, old_timestamp;
+>> >
+>> > 	if (!xe_sched_job_started(job)) {
+>> > 		xe_gt_warn(gt, "Check job timeout: seqno=%u, lrc_seqno=%u, guc_id=%d, not started",
+>> > @@ -1006,7 +974,17 @@ static bool check_timeout(struct xe_exec_queue *q, struct xe_sched_job *job)
+>> > 		return xe_sched_invalidate_job(job, 2);
+>> > 	}
+>> >
+>> > -	ctx_timestamp = lower_32_bits(xe_lrc_ctx_timestamp(q->lrc[0]));
+>> > +	ctx_timestamp = lower_32_bits(xe_lrc_update_timestamp(q->lrc[0],
+>> > +							      &old_timestamp));
+>>
+>> Reg: xe_lrc_update_timestamp()
+>>
+>> The way context utilization is using this helper is to accumulate the 'new -
+>> old' values each time this function is called. In the below example, context
+>> utilization will loose some ticks.
+>>
+>> Example:
+>>
+>> 1. This code calls xe_lrc_update_timestamp() to sample the timestamp for TDR
+>> purposes. Say context/job is running, then the lrc->ctx_timestamp is updated
+>> (moved forward).
+>>
+>> 2. The context utilization code calls xe_lrc_update_timestamp(). Within this
+>> helper
+>> - old_ts is sampled as lrc->ctx_timestamp
+>> - new_ts is calculated based on whether the job/context is active
+>> - lrc->ctx_timestamp is updated to the new value.
+>>
+>> The result is that we lost one chunk of utilization because of the previous
+>> call from the TDR path. I think some refactor would be needed to fix that.
+>>
+>> The other comment you already mentioned offline is locking, which I think we
+>> should add to protect lrc->ctx_timestamp. I don't know if a refactor will
+>> avoid the lock though.
+>>
+>
+>I agree with you analysis here - thanks for the help.
+>
+>How about - we extract the following code from
+>xe_exec_queue_update_run_ticks into helper that also returns the current
+>timestamp and is also protected by an queue spin lock:
+>
+>         new_ts = xe_lrc_update_timestamp(lrc, &old_ts);
+>         q->xef->run_ticks[q->class] += (new_ts - old_ts) * q->width;
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>  # drivers/pci/
+I was thinking something like below.
 
-> ---
->  arch/arm64/kernel/image-vars.h                |  2 +-
->  arch/loongarch/kernel/efi.c                   | 15 +++++++------
->  arch/loongarch/kernel/image-vars.h            |  2 +-
->  arch/riscv/kernel/image-vars.h                |  2 +-
->  arch/x86/kernel/kexec-bzimage64.c             |  4 +++-
->  arch/x86/kernel/setup.c                       | 10 +++++----
->  arch/x86/video/video-common.c                 |  4 ++--
->  drivers/firmware/efi/earlycon.c               |  8 +++----
->  drivers/firmware/efi/efi-init.c               | 22 +++++++++----------
->  drivers/firmware/efi/libstub/efi-stub-entry.c | 18 ++++++++++-----
->  drivers/firmware/efi/sysfb_efi.c              |  4 ++--
->  drivers/firmware/sysfb.c                      |  6 ++---
->  drivers/hv/vmbus_drv.c                        |  6 ++---
->  drivers/pci/vgaarb.c                          |  4 ++--
->  drivers/video/screen_info_pci.c               |  5 +++--
->  include/linux/screen_info.h                   |  2 --
->  include/linux/sysfb.h                         |  5 +++--
->  17 files changed, 66 insertions(+), 53 deletions(-)
-> 
-> diff --git a/arch/arm64/kernel/image-vars.h b/arch/arm64/kernel/image-vars.h
-> index 85bc629270bd..d7b0d12b1015 100644
-> --- a/arch/arm64/kernel/image-vars.h
-> +++ b/arch/arm64/kernel/image-vars.h
-> @@ -38,7 +38,7 @@ PROVIDE(__efistub__end			= _end);
->  PROVIDE(__efistub___inittext_end       	= __inittext_end);
->  PROVIDE(__efistub__edata		= _edata);
->  #if defined(CONFIG_EFI_EARLYCON) || defined(CONFIG_SYSFB)
-> -PROVIDE(__efistub_screen_info		= screen_info);
-> +PROVIDE(__efistub_sysfb_primary_display	= sysfb_primary_display);
->  #endif
->  PROVIDE(__efistub__ctype		= _ctype);
->  
-> diff --git a/arch/loongarch/kernel/efi.c b/arch/loongarch/kernel/efi.c
-> index 860a3bc030e0..638a392d2cd2 100644
-> --- a/arch/loongarch/kernel/efi.c
-> +++ b/arch/loongarch/kernel/efi.c
-> @@ -18,7 +18,7 @@
->  #include <linux/kobject.h>
->  #include <linux/memblock.h>
->  #include <linux/reboot.h>
-> -#include <linux/screen_info.h>
-> +#include <linux/sysfb.h>
->  #include <linux/uaccess.h>
->  
->  #include <asm/early_ioremap.h>
-> @@ -75,11 +75,11 @@ bool efi_poweroff_required(void)
->  unsigned long __initdata screen_info_table = EFI_INVALID_TABLE_ADDR;
->  
->  #if defined(CONFIG_SYSFB) || defined(CONFIG_EFI_EARLYCON)
-> -struct screen_info screen_info __section(".data");
-> -EXPORT_SYMBOL_GPL(screen_info);
-> +struct sysfb_display_info sysfb_primary_display __section(".data");
-> +EXPORT_SYMBOL_GPL(sysfb_primary_display);
->  #endif
->  
-> -static void __init init_screen_info(void)
-> +static void __init init_primary_display(void)
->  {
->  	struct screen_info *si;
->  
-> @@ -91,11 +91,12 @@ static void __init init_screen_info(void)
->  		pr_err("Could not map screen_info config table\n");
->  		return;
->  	}
-> -	screen_info = *si;
-> +	sysfb_primary_display.screen = *si;
->  	memset(si, 0, sizeof(*si));
->  	early_memunmap(si, sizeof(*si));
->  
-> -	memblock_reserve(__screen_info_lfb_base(&screen_info), screen_info.lfb_size);
-> +	memblock_reserve(__screen_info_lfb_base(&sysfb_primary_display.screen),
-> +			 sysfb_primary_display.screen.lfb_size);
->  }
->  
->  void __init efi_init(void)
-> @@ -127,7 +128,7 @@ void __init efi_init(void)
->  	set_bit(EFI_CONFIG_TABLES, &efi.flags);
->  
->  	if (IS_ENABLED(CONFIG_EFI_EARLYCON) || IS_ENABLED(CONFIG_SYSFB))
-> -		init_screen_info();
-> +		init_primary_display();
->  
->  	if (boot_memmap == EFI_INVALID_TABLE_ADDR)
->  		return;
-> diff --git a/arch/loongarch/kernel/image-vars.h b/arch/loongarch/kernel/image-vars.h
-> index 41ddcf56d21c..e557ebd46c2b 100644
-> --- a/arch/loongarch/kernel/image-vars.h
-> +++ b/arch/loongarch/kernel/image-vars.h
-> @@ -12,7 +12,7 @@ __efistub_kernel_entry		= kernel_entry;
->  __efistub_kernel_asize		= kernel_asize;
->  __efistub_kernel_fsize		= kernel_fsize;
->  #if defined(CONFIG_EFI_EARLYCON) || defined(CONFIG_SYSFB)
-> -__efistub_screen_info		= screen_info;
-> +__efistub_sysfb_primary_display	= sysfb_primary_display;
->  #endif
->  
->  #endif
-> diff --git a/arch/riscv/kernel/image-vars.h b/arch/riscv/kernel/image-vars.h
-> index 3df30dd1c458..3bd9d06a8b8f 100644
-> --- a/arch/riscv/kernel/image-vars.h
-> +++ b/arch/riscv/kernel/image-vars.h
-> @@ -29,7 +29,7 @@ __efistub__end			= _end;
->  __efistub__edata		= _edata;
->  __efistub___init_text_end	= __init_text_end;
->  #if defined(CONFIG_EFI_EARLYCON) || defined(CONFIG_SYSFB)
-> -__efistub_screen_info		= screen_info;
-> +__efistub_sysfb_primary_display	= sysfb_primary_display;
->  #endif
->  
->  #endif
-> diff --git a/arch/x86/kernel/kexec-bzimage64.c b/arch/x86/kernel/kexec-bzimage64.c
-> index c3244ac680d1..7508d0ccc740 100644
-> --- a/arch/x86/kernel/kexec-bzimage64.c
-> +++ b/arch/x86/kernel/kexec-bzimage64.c
-> @@ -20,6 +20,7 @@
->  #include <linux/of_fdt.h>
->  #include <linux/efi.h>
->  #include <linux/random.h>
-> +#include <linux/sysfb.h>
->  
->  #include <asm/bootparam.h>
->  #include <asm/setup.h>
-> @@ -303,7 +304,8 @@ setup_boot_parameters(struct kimage *image, struct boot_params *params,
->  	params->hdr.hardware_subarch = boot_params.hdr.hardware_subarch;
->  
->  	/* Copying screen_info will do? */
-> -	memcpy(&params->screen_info, &screen_info, sizeof(struct screen_info));
-> +	memcpy(&params->screen_info, &sysfb_primary_display.screen,
-> +	       sizeof(sysfb_primary_display.screen));
->  
->  	/* Fill in memsize later */
->  	params->screen_info.ext_mem_k = 0;
-> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> index 1b2edd07a3e1..675e4b9deb1f 100644
-> --- a/arch/x86/kernel/setup.c
-> +++ b/arch/x86/kernel/setup.c
-> @@ -22,6 +22,7 @@
->  #include <linux/random.h>
->  #include <linux/root_dev.h>
->  #include <linux/static_call.h>
-> +#include <linux/sysfb.h>
->  #include <linux/swiotlb.h>
->  #include <linux/tboot.h>
->  #include <linux/usb/xhci-dbgp.h>
-> @@ -211,8 +212,9 @@ arch_initcall(init_x86_sysctl);
->  /*
->   * Setup options
->   */
-> -struct screen_info screen_info;
-> -EXPORT_SYMBOL(screen_info);
-> +
-> +struct sysfb_display_info sysfb_primary_display;
-> +EXPORT_SYMBOL(sysfb_primary_display);
->  #if defined(CONFIG_FIRMWARE_EDID)
->  struct edid_info edid_info;
->  EXPORT_SYMBOL_GPL(edid_info);
-> @@ -526,7 +528,7 @@ static void __init parse_setup_data(void)
->  static void __init parse_boot_params(void)
->  {
->  	ROOT_DEV = old_decode_dev(boot_params.hdr.root_dev);
-> -	screen_info = boot_params.screen_info;
-> +	sysfb_primary_display.screen = boot_params.screen_info;
->  #if defined(CONFIG_FIRMWARE_EDID)
->  	edid_info = boot_params.edid_info;
->  #endif
-> @@ -1254,7 +1256,7 @@ void __init setup_arch(char **cmdline_p)
->  #ifdef CONFIG_VT
->  #if defined(CONFIG_VGA_CONSOLE)
->  	if (!efi_enabled(EFI_BOOT) || (efi_mem_type(0xa0000) != EFI_CONVENTIONAL_MEMORY))
-> -		vgacon_register_screen(&screen_info);
-> +		vgacon_register_screen(&sysfb_primary_display.screen);
->  #endif
->  #endif
->  	x86_init.oem.banner();
-> diff --git a/arch/x86/video/video-common.c b/arch/x86/video/video-common.c
-> index e0aeee99bc99..152789f00fcd 100644
-> --- a/arch/x86/video/video-common.c
-> +++ b/arch/x86/video/video-common.c
-> @@ -9,7 +9,7 @@
->  
->  #include <linux/module.h>
->  #include <linux/pci.h>
-> -#include <linux/screen_info.h>
-> +#include <linux/sysfb.h>
->  #include <linux/vgaarb.h>
->  
->  #include <asm/video.h>
-> @@ -29,7 +29,7 @@ EXPORT_SYMBOL(pgprot_framebuffer);
->  bool video_is_primary_device(struct device *dev)
->  {
->  #ifdef CONFIG_SCREEN_INFO
-> -	struct screen_info *si = &screen_info;
-> +	struct screen_info *si = &sysfb_primary_display.screen;
->  	struct resource res[SCREEN_INFO_MAX_RESOURCES];
->  	ssize_t i, numres;
->  #endif
-> diff --git a/drivers/firmware/efi/earlycon.c b/drivers/firmware/efi/earlycon.c
-> index 42e3a173dac1..3d060d59968c 100644
-> --- a/drivers/firmware/efi/earlycon.c
-> +++ b/drivers/firmware/efi/earlycon.c
-> @@ -9,7 +9,7 @@
->  #include <linux/io.h>
->  #include <linux/kernel.h>
->  #include <linux/serial_core.h>
-> -#include <linux/screen_info.h>
-> +#include <linux/sysfb.h>
->  #include <linux/string.h>
->  
->  #include <asm/early_ioremap.h>
-> @@ -32,7 +32,7 @@ static void *efi_fb;
->   */
->  static int __init efi_earlycon_remap_fb(void)
->  {
-> -	const struct screen_info *si = &screen_info;
-> +	const struct screen_info *si = &sysfb_primary_display.screen;
->  
->  	/* bail if there is no bootconsole or it was unregistered already */
->  	if (!earlycon_console || !console_is_registered(earlycon_console))
-> @@ -147,7 +147,7 @@ static void efi_earlycon_write_char(u32 *dst, unsigned char c, unsigned int h,
->  static void
->  efi_earlycon_write(struct console *con, const char *str, unsigned int num)
->  {
-> -	const struct screen_info *si = &screen_info;
-> +	const struct screen_info *si = &sysfb_primary_display.screen;
->  	u32 cur_efi_x = efi_x;
->  	unsigned int len;
->  	const char *s;
-> @@ -227,7 +227,7 @@ void __init efi_earlycon_reprobe(void)
->  static int __init efi_earlycon_setup(struct earlycon_device *device,
->  				     const char *opt)
->  {
-> -	const struct screen_info *si = &screen_info;
-> +	const struct screen_info *si = &sysfb_primary_display.screen;
->  	u16 xres, yres;
->  	u32 i;
->  
-> diff --git a/drivers/firmware/efi/efi-init.c b/drivers/firmware/efi/efi-init.c
-> index a65c2d5b9e7b..d1d418a34407 100644
-> --- a/drivers/firmware/efi/efi-init.c
-> +++ b/drivers/firmware/efi/efi-init.c
-> @@ -19,7 +19,7 @@
->  #include <linux/of_address.h>
->  #include <linux/of_fdt.h>
->  #include <linux/platform_device.h>
-> -#include <linux/screen_info.h>
-> +#include <linux/sysfb.h>
->  
->  #include <asm/efi.h>
->  
-> @@ -57,15 +57,15 @@ static phys_addr_t __init efi_to_phys(unsigned long addr)
->  extern __weak const efi_config_table_type_t efi_arch_tables[];
->  
->  /*
-> - * x86 defines its own screen_info and uses it even without EFI,
-> - * everything else can get it from here.
-> + * x86 defines its own instance of sysfb_primary_display and uses
-> + * it even without EFI, everything else can get them from here.
->   */
->  #if !defined(CONFIG_X86) && (defined(CONFIG_SYSFB) || defined(CONFIG_EFI_EARLYCON))
-> -struct screen_info screen_info __section(".data");
-> -EXPORT_SYMBOL_GPL(screen_info);
-> +struct sysfb_display_info sysfb_primary_display __section(".data");
-> +EXPORT_SYMBOL_GPL(sysfb_primary_display);
->  #endif
->  
-> -static void __init init_screen_info(void)
-> +static void __init init_primary_display(void)
->  {
->  	struct screen_info *si;
->  
-> @@ -75,13 +75,13 @@ static void __init init_screen_info(void)
->  			pr_err("Could not map screen_info config table\n");
->  			return;
->  		}
-> -		screen_info = *si;
-> +		sysfb_primary_display.screen = *si;
->  		memset(si, 0, sizeof(*si));
->  		early_memunmap(si, sizeof(*si));
->  
-> -		if (memblock_is_map_memory(screen_info.lfb_base))
-> -			memblock_mark_nomap(screen_info.lfb_base,
-> -					    screen_info.lfb_size);
-> +		if (memblock_is_map_memory(sysfb_primary_display.screen.lfb_base))
-> +			memblock_mark_nomap(sysfb_primary_display.screen.lfb_base,
-> +					    sysfb_primary_display.screen.lfb_size);
->  
->  		if (IS_ENABLED(CONFIG_EFI_EARLYCON))
->  			efi_earlycon_reprobe();
-> @@ -274,5 +274,5 @@ void __init efi_init(void)
->  	if (IS_ENABLED(CONFIG_X86) ||
->  	    IS_ENABLED(CONFIG_SYSFB) ||
->  	    IS_ENABLED(CONFIG_EFI_EARLYCON))
-> -		init_screen_info();
-> +		init_primary_display();
->  }
-> diff --git a/drivers/firmware/efi/libstub/efi-stub-entry.c b/drivers/firmware/efi/libstub/efi-stub-entry.c
-> index a6c049835190..401ecbbdf331 100644
-> --- a/drivers/firmware/efi/libstub/efi-stub-entry.c
-> +++ b/drivers/firmware/efi/libstub/efi-stub-entry.c
-> @@ -1,13 +1,18 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  
->  #include <linux/efi.h>
-> -#include <linux/screen_info.h>
-> +#include <linux/sysfb.h>
->  
->  #include <asm/efi.h>
->  
->  #include "efistub.h"
->  
-> -static unsigned long screen_info_offset;
-> +static unsigned long kernel_image_offset;
-> +
-> +static void *kernel_image_addr(void *addr)
-> +{
-> +	return addr + kernel_image_offset;
-> +}
->  
->  struct screen_info *alloc_screen_info(void)
->  {
-> @@ -16,8 +21,11 @@ struct screen_info *alloc_screen_info(void)
->  
->  	if (IS_ENABLED(CONFIG_X86) ||
->  	    IS_ENABLED(CONFIG_EFI_EARLYCON) ||
-> -	    IS_ENABLED(CONFIG_SYSFB))
-> -		return (void *)&screen_info + screen_info_offset;
-> +	    IS_ENABLED(CONFIG_SYSFB)) {
-> +		struct sysfb_display_info *dpy = kernel_image_addr(&sysfb_primary_display);
-> +
-> +		return &dpy->screen;
-> +	}
->  
->  	return NULL;
->  }
-> @@ -73,7 +81,7 @@ efi_status_t __efiapi efi_pe_entry(efi_handle_t handle,
->  		return status;
->  	}
->  
-> -	screen_info_offset = image_addr - (unsigned long)image->image_base;
-> +	kernel_image_offset = image_addr - (unsigned long)image->image_base;
->  
->  	status = efi_stub_common(handle, image, image_addr, cmdline_ptr);
->  
-> diff --git a/drivers/firmware/efi/sysfb_efi.c b/drivers/firmware/efi/sysfb_efi.c
-> index 8e0f9d08397f..46ad95084b50 100644
-> --- a/drivers/firmware/efi/sysfb_efi.c
-> +++ b/drivers/firmware/efi/sysfb_efi.c
-> @@ -176,7 +176,7 @@ static int __init efifb_set_system(struct screen_info *si, const struct dmi_syst
->  
->  static int __init efifb_set_system_callback(const struct dmi_system_id *id)
->  {
-> -	return efifb_set_system(&screen_info, id);
-> +	return efifb_set_system(&sysfb_primary_display.screen, id);
->  }
->  
->  #define EFIFB_DMI_SYSTEM_ID(vendor, name, enumid)		\
-> @@ -316,7 +316,7 @@ static struct device_node *find_pci_overlap_node(void)
->  		}
->  
->  		for_each_of_pci_range(&parser, &range)
-> -			if (efifb_overlaps_pci_range(&screen_info, &range))
-> +			if (efifb_overlaps_pci_range(&sysfb_primary_display.screen, &range))
->  				return np;
->  	}
->  	return NULL;
-> diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
-> index 916b28538a29..1f671f9219b0 100644
-> --- a/drivers/firmware/sysfb.c
-> +++ b/drivers/firmware/sysfb.c
-> @@ -66,7 +66,7 @@ static bool sysfb_unregister(void)
->   */
->  void sysfb_disable(struct device *dev)
->  {
-> -	struct screen_info *si = &screen_info;
-> +	struct screen_info *si = &sysfb_primary_display.screen;
->  	struct device *parent;
->  
->  	mutex_lock(&disable_lock);
-> @@ -92,7 +92,7 @@ EXPORT_SYMBOL_GPL(sysfb_disable);
->   */
->  bool sysfb_handles_screen_info(void)
->  {
-> -	const struct screen_info *si = &screen_info;
-> +	const struct screen_info *si = &sysfb_primary_display.screen;
->  
->  	return !!screen_info_video_type(si);
->  }
-> @@ -141,7 +141,7 @@ static struct device *sysfb_parent_dev(const struct screen_info *si)
->  
->  static __init int sysfb_init(void)
->  {
-> -	struct screen_info *si = &screen_info;
-> +	struct screen_info *si = &sysfb_primary_display.screen;
->  	struct device *parent;
->  	unsigned int type;
->  	struct simplefb_platform_data mode;
-> diff --git a/drivers/hv/vmbus_drv.c b/drivers/hv/vmbus_drv.c
-> index a53af6fe81a6..9c937190be81 100644
-> --- a/drivers/hv/vmbus_drv.c
-> +++ b/drivers/hv/vmbus_drv.c
-> @@ -29,7 +29,7 @@
->  #include <linux/delay.h>
->  #include <linux/panic_notifier.h>
->  #include <linux/ptrace.h>
-> -#include <linux/screen_info.h>
-> +#include <linux/sysfb.h>
->  #include <linux/efi.h>
->  #include <linux/random.h>
->  #include <linux/kernel.h>
-> @@ -2340,8 +2340,8 @@ static void __maybe_unused vmbus_reserve_fb(void)
->  	if (efi_enabled(EFI_BOOT)) {
->  		/* Gen2 VM: get FB base from EFI framebuffer */
->  		if (IS_ENABLED(CONFIG_SYSFB)) {
-> -			start = screen_info.lfb_base;
-> -			size = max_t(__u32, screen_info.lfb_size, 0x800000);
-> +			start = sysfb_primary_display.screen.lfb_base;
-> +			size = max_t(__u32, sysfb_primary_display.screen.lfb_size, 0x800000);
->  		}
->  	} else {
->  		/* Gen1 VM: get FB base from PCI */
-> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-> index 436fa7f4c387..805be9ea4a34 100644
-> --- a/drivers/pci/vgaarb.c
-> +++ b/drivers/pci/vgaarb.c
-> @@ -26,7 +26,7 @@
->  #include <linux/poll.h>
->  #include <linux/miscdevice.h>
->  #include <linux/slab.h>
-> -#include <linux/screen_info.h>
-> +#include <linux/sysfb.h>
->  #include <linux/vt.h>
->  #include <linux/console.h>
->  #include <linux/acpi.h>
-> @@ -557,7 +557,7 @@ EXPORT_SYMBOL(vga_put);
->  static bool vga_is_firmware_default(struct pci_dev *pdev)
->  {
->  #if defined CONFIG_X86
-> -	return pdev == screen_info_pci_dev(&screen_info);
-> +	return pdev == screen_info_pci_dev(&sysfb_primary_display.screen);
->  #else
->  	return false;
->  #endif
-> diff --git a/drivers/video/screen_info_pci.c b/drivers/video/screen_info_pci.c
-> index 66bfc1d0a6dc..8f34d8a74f09 100644
-> --- a/drivers/video/screen_info_pci.c
-> +++ b/drivers/video/screen_info_pci.c
-> @@ -4,6 +4,7 @@
->  #include <linux/printk.h>
->  #include <linux/screen_info.h>
->  #include <linux/string.h>
-> +#include <linux/sysfb.h>
->  
->  static struct pci_dev *screen_info_lfb_pdev;
->  static size_t screen_info_lfb_bar;
-> @@ -26,7 +27,7 @@ static bool __screen_info_relocation_is_valid(const struct screen_info *si, stru
->  
->  void screen_info_apply_fixups(void)
->  {
-> -	struct screen_info *si = &screen_info;
-> +	struct screen_info *si = &sysfb_primary_display.screen;
->  
->  	if (screen_info_lfb_pdev) {
->  		struct resource *pr = &screen_info_lfb_pdev->resource[screen_info_lfb_bar];
-> @@ -75,7 +76,7 @@ static void screen_info_fixup_lfb(struct pci_dev *pdev)
->  		.flags = IORESOURCE_MEM,
->  	};
->  	const struct resource *pr;
-> -	const struct screen_info *si = &screen_info;
-> +	const struct screen_info *si = &sysfb_primary_display.screen;
->  
->  	if (screen_info_lfb_pdev)
->  		return; // already found
-> diff --git a/include/linux/screen_info.h b/include/linux/screen_info.h
-> index 1690706206e8..c022403c599a 100644
-> --- a/include/linux/screen_info.h
-> +++ b/include/linux/screen_info.h
-> @@ -151,6 +151,4 @@ static inline struct pci_dev *screen_info_pci_dev(const struct screen_info *si)
->  }
->  #endif
->  
-> -extern struct screen_info screen_info;
-> -
->  #endif /* _SCREEN_INFO_H */
-> diff --git a/include/linux/sysfb.h b/include/linux/sysfb.h
-> index 8b37247528bf..e8bde392c690 100644
-> --- a/include/linux/sysfb.h
-> +++ b/include/linux/sysfb.h
-> @@ -8,11 +8,10 @@
->   */
->  
->  #include <linux/err.h>
-> +#include <linux/platform_data/simplefb.h>
->  #include <linux/screen_info.h>
->  #include <linux/types.h>
->  
-> -#include <linux/platform_data/simplefb.h>
-> -
->  struct device;
->  struct platform_device;
->  struct screen_info;
-> @@ -65,6 +64,8 @@ struct sysfb_display_info {
->  	struct screen_info screen;
->  };
->  
-> +extern struct sysfb_display_info sysfb_primary_display;
-> +
->  #ifdef CONFIG_SYSFB
->  
->  void sysfb_disable(struct device *dev);
-> -- 
-> 2.51.1
-> 
+/**
+  * xe_lrc_timestamp() - Current ctx timestamp
+  * @lrc: Pointer to the lrc.
+  *
+  * Return latest ctx timestamp.
+  *
+  * Returns: New ctx timestamp value
+  */
+u64 xe_lrc_timestamp(struct xe_lrc *lrc)
+{
+         u64 lrc_ts, reg_ts, new_ts;
+         u32 engine_id;
+
+         lrc_ts = xe_lrc_ctx_timestamp(lrc);
+         /* CTX_TIMESTAMP mmio read is invalid on VF, so return the LRC value */
+         if (IS_SRIOV_VF(lrc_to_xe(lrc))) {
+                 new_ts = lrc_ts;
+                 goto done;
+         }
+
+         if (lrc_ts == CONTEXT_ACTIVE) {
+                 engine_id = xe_lrc_engine_id(lrc);
+                 if (!get_ctx_timestamp(lrc, engine_id, &reg_ts))
+                         new_ts = reg_ts;
+
+                 /* read lrc again to ensure context is still active */
+                 lrc_ts = xe_lrc_ctx_timestamp(lrc);
+         }
+
+         /*
+          * If context switched out, just use the lrc_ts. Note that this needs to
+          * be a separate if condition.
+          */
+         if (lrc_ts != CONTEXT_ACTIVE)
+                 new_ts = lrc_ts;
+
+done:
+         return new_ts;
+}
+
+/**
+  * xe_lrc_update_timestamp() - Update ctx timestamp
+  * @lrc: Pointer to the lrc.
+  * @old_ts: Old timestamp value
+  *
+  * Populate @old_ts current saved ctx timestamp, read new ctx timestamp and
+  * update saved value. With support for active contexts, the calculation may be
+  * slightly racy, so follow a read-again logic to ensure that the context is
+  * still active before returning the right timestamp.
+  *
+  * Returns: New ctx timestamp value
+  */
+u64 xe_lrc_update_timestamp(struct xe_lrc *lrc, u64 *old_ts)
+{
+         *old_ts = lrc->ctx_timestamp;
+         lrc->ctx_timestamp = xe_lrc_timestamp(lrc);
+
+         trace_xe_lrc_update_timestamp(lrc, *old_ts);
+
+         return lrc->ctx_timestamp;
+}
+
+TDR logic could just use xe_lrc_timestamp() since it does not care about 
+old_ts anyways. We could avoid the lock since xe_lrc_update_timestamp() 
+is the only place where lrc->ctx_timestamp gets updated.
+
+Thanks,
+Umesh
+
+>
+>It harmless if the TDR also updates run_ticks when it samples the LRC
+>timestamp, right? Also the helper just skips run_ticks if q->xef is
+>NULL.
+>
+>Matt
+>
+>> Thanks,
+>> Umesh
+>>
+>> > +	if (ctx_timestamp == job->sample_timestamp) {
+>> > +		xe_gt_warn(gt, "Check job timeout: seqno=%u, lrc_seqno=%u, guc_id=%d, timestamp stuck",
+>> > +			   xe_sched_job_seqno(job), xe_sched_job_lrc_seqno(job),
+>> > +			   q->guc->id);
+>> > +
+>> > +		return xe_sched_invalidate_job(job, 2);
+>> > +	}
+>> > +
+>> > +	job->sample_timestamp = ctx_timestamp;
+>> > 	ctx_job_timestamp = xe_lrc_ctx_job_timestamp(q->lrc[0]);
+>> >
+>> > 	/*
+>> > @@ -1135,16 +1113,17 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
+>> > 	}
+>> >
+>>
+>>
+>> ... snip ...
+>>
+>> > diff --git a/drivers/gpu/drm/xe/xe_sched_job_types.h
+>> > b/drivers/gpu/drm/xe/xe_sched_job_types.h
+>> > index d26612abb4ca..ad5eee8a8cdb 100644
+>> > --- a/drivers/gpu/drm/xe/xe_sched_job_types.h
+>> > +++ b/drivers/gpu/drm/xe/xe_sched_job_types.h
+>> > @@ -59,6 +59,8 @@ struct xe_sched_job {
+>> > 	u32 lrc_seqno;
+>> > 	/** @migrate_flush_flags: Additional flush flags for migration jobs */
+>> > 	u32 migrate_flush_flags;
+> > >+	/** @sample_timestamp: Sampling of job timestamp in TDR */
+>> > +	u64 sample_timestamp;
+>> > 	/** @ring_ops_flush_tlb: The ring ops need to flush TLB before payload. */
+>> > 	bool ring_ops_flush_tlb;
+>> > 	/** @ggtt: mapped in ggtt. */
+>> > --
+>> > 2.34.1
+>> >
