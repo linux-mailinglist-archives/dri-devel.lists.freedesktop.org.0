@@ -2,93 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D659C8A483
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 15:20:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACDACC8A48F
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 15:20:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7655E10E635;
-	Wed, 26 Nov 2025 14:20:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F39FB10E636;
+	Wed, 26 Nov 2025 14:20:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="fX2GVEgg";
+	dkim=pass (2048-bit key; secure) header.d=0la.ch header.i=@0la.ch header.b="QDd/fNfn";
+	dkim=permerror (0-bit key) header.d=0la.ch header.i=@0la.ch header.b="MZmte5jT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EF5210E636
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 14:20:27 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-42b3c965df5so3690752f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 06:20:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1764166825; x=1764771625;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=K+mX3K4EZWXpumEvNCBx9+WunDYcwtTk4SgV9tqSlww=;
- b=fX2GVEggeIWwyylfupsU7FBjTHVurzr+2/wLA4JYqFyPpSdW1ACtsnasbEzEGi/+jk
- GV3cul1rsJwyoKSR8BbeMDO3kO1ZojVFkZguyRs0TvQRlvuXstL6CEWgPmDJiFLccD4k
- 0ZEz63OjmIoeQ3osSloCV0wOVvYm1UheVQnx+cjwEmm9Hd//8Uchq6MLQ3w/3MhqzLRn
- A8Eec3RLNi80SWAiMY0hhSxw9uT3sVu0NosVmJWV2RLKFtR7pEcgSuvmpiMJlvHTmgIi
- g826fUMFIU6hTK8jSn8gLtiDO2++fSxMjw4J+yjimXdl93p8FN7Ex1Rrc0/FieleWm8d
- nuWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764166825; x=1764771625;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=K+mX3K4EZWXpumEvNCBx9+WunDYcwtTk4SgV9tqSlww=;
- b=MNUxNsaGrVx1bVMDlRvCScQvZdjw4VozcRQXbJphSx59LjtOf/vzK7RyQHe6KPb2Ef
- s7Zs0pj5q4YfPYVuzR+ZzDiOaDUzS3YQE7MSknKol2OEpL2foxfE/ftIpai3sb+UKc4P
- SvdoATQKppnUdQ6IgAW1U8Gh4gBG/K1zP90oMHC4w2OABVKU03doHAMo8/IaH6AfUgM1
- 1iv4KOqCkiE9ZTzruR0Ri9PhJIlqFWX6nRy9lLXFxDOMcainSqPxZOpGPfR7jFC+/Btz
- TYKhtdQyl8SxXvjRcoGO9cJUhXEVXr1KU7RlLAWP6nQZbvOHGMPhd6vb7GrR1cB7FcIT
- CBjw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVZvDfGI82LAr0pOaQSVMAp+nM73/iz8tRx+h7+Wmd1uAaDqFtsuVBC5/xJ2zVuYziE42sqWGgqiw0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz0yQwzDqOd7K0oU18Sp3OaHoiaXyAPwMaIJqOmj+0FteoZUMk/
- 8bYwoPwDx5RhILF+pdujUDOTo4SIK9PplSvlwjfX9PvmFaEqX4MckYxietQUfksBKJ8=
-X-Gm-Gg: ASbGncvPnxPbQuoFP/Nu9pl3odHlg+G88m/1adcbET/iyjoMfmWlF2/+JUiiiX4hG+b
- qanwm0OfTnn27z8PkMMHo4hu6pajbHZhhjApNtxlYfcRyCQSP+qlVVznIIwCIE6kRbc37jIo6zw
- oWH1T9YI8mQe+nCRZeFSc5rL7f9j3dSARBKrnacEBeNrmlDBZ1wmsvRd4oPA80nlJus/IRmgz6/
- WPGXUecSgOCvQnbJ2qCQ9LyKBeQRfyIRHARoa8/OrqJyKD6rG9DCRD5rEjnQylxGeQZOmHYquPn
- sqzqMVKy0F2pBvw34wwtFcXNUeVtp2prkXr+OKBJzKL1r2KNxrlwBi+yVzORvJ12wKE2daDDAVY
- P1/iP8gFfxQFhZyXegWEJmbCN5/xLt4/OmwgR/6E3jWaMRh8UbCEY4jQ9rj74Tk8CMwgX1xmbp4
- T+W2MyCw/9hPNX991W9f3YcILTx0QWNZSzQHxpcImTQX7e+Tf5dSkXqjj5w4cY1bhVMiiIEQ==
-X-Google-Smtp-Source: AGHT+IHetDpaeSCLD158eeBfnLMa77d0GWcu9KkUU/dpWWOreiarVBFn16/gIezMUQj2z9CZm6a8yQ==
-X-Received: by 2002:a05:6000:40c9:b0:42b:3806:2bb7 with SMTP id
- ffacd0b85a97d-42e0f1e35c2mr7360017f8f.6.1764166825367; 
- Wed, 26 Nov 2025 06:20:25 -0800 (PST)
-Received: from aspen.lan
- (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42cb7fba20esm40814603f8f.37.2025.11.26.06.20.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Nov 2025 06:20:24 -0800 (PST)
-Date: Wed, 26 Nov 2025 14:20:22 +0000
-From: Daniel Thompson <daniel@riscstar.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Daniel Thompson <danielt@kernel.org>,
- Doug Anderson <dianders@chromium.org>, simona@ffwll.ch,
- airlied@gmail.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, lyude@redhat.com, dakr@kernel.org,
- deller@gmx.de, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, jason.wessel@windriver.com,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Nir Lichtman <nir@lichtman.org>
-Subject: Re: [PATCH 0/5] drm: Remove remaining support for kdb
-Message-ID: <aScMprMh6Eh4JU5D@aspen.lan>
-References: <20251125130634.1080966-1-tzimmermann@suse.de>
- <CAD=FV=X_-t2AF5osp7Hamoe7WYE_2YWJZCaPaOj=9seSbnwwVA@mail.gmail.com>
- <aSbwWLTLe0bMhOKV@aspen.lan>
- <054f60ca-b898-488f-81f4-14eed0a1360b@suse.de>
+Received: from mail.0la.ch (mail.0la.ch [78.47.82.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 742B310E634;
+ Wed, 26 Nov 2025 14:20:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202502r; d=0la.ch; c=relaxed/relaxed;
+ h=From:To:Subject:Date:Message-ID; t=1764166829; bh=9NPqufXmH+v5no653bp7rtF
+ bFJjcd2x8PjDZ4TYoMhY=; b=QDd/fNfn+Ewa3kyiRuJKr9Sc6stQ31nGnRBRnzbKGiMq3WqcU2
+ qERpSerJ6b0sn22Ut5GB5CDwhbT/MTtFbG1HwA4mx0sCBqXYjubee/XS3bTt2pcd+fQXZN8ylys
+ QiGU59fea2hRixn2cmJRXzDwkJi/HqdCjR+TWG1XDQgw+cAEW8crmU7QBQvGZMtzr+34dTi7UNY
+ Rj4zS7kljhwjvroUwSCFdzcyur1GinDScG4K3vDkpsAV9QQuQ8i3q/e78Y5e8SgX6+o0JLZoXgH
+ byckx1Roy6UM3pogEol6/amEViHsVbmpQ4NNrNRMVyyhswtBORCBtosHYOFbbw0KQPg==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202502e; d=0la.ch; c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1764166829;
+ bh=9NPqufXmH+v5no653bp7rtF
+ bFJjcd2x8PjDZ4TYoMhY=; b=MZmte5jTfDUtb617XosbOhSOMVVL9TH5UhNqJrbwi5B6ob4Ju0
+ 6atJtBjzMLqSuUwbZPMIXr0Z7w5Nq76J4gDQ==;
+Message-ID: <41fbf5af-559a-4810-82c1-5c2e8a497e5b@0la.ch>
+Date: Wed, 26 Nov 2025 15:20:28 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <054f60ca-b898-488f-81f4-14eed0a1360b@suse.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/7] drm/edid: prepare for VESA vendor-specific data
+ block extension
+To: Jani Nikula <jani.nikula@linux.intel.com>, Yaroslav Bolyukin
+ <iam@lach.pw>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20251126065126.54016-1-iam@lach.pw>
+ <20251126065126.54016-3-iam@lach.pw>
+ <68c55e772424f8e001898cdd1edcf4856820461e@intel.com>
+Content-Language: en-US
+From: Yaroslav <iam@0la.ch>
+In-Reply-To: <68c55e772424f8e001898cdd1edcf4856820461e@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,62 +69,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 26, 2025 at 02:32:32PM +0100, Thomas Zimmermann wrote:
-> Hi
->
-> Am 26.11.25 um 13:19 schrieb Daniel Thompson:
-> > On Tue, Nov 25, 2025 at 07:26:33AM -0800, Doug Anderson wrote:
-> > > On Tue, Nov 25, 2025 at 5:06 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > > <snip>
-> > > > Therefore remove the remaining support for kdb from the DRM drivers
-> > > > and from DRM fbdev emulation. Also remove the hooks from fbdev, as
-> > > > there are no fbdev drivers with kdb support.
-> > > >
-> > > > If we ever want to address kdb support within DRM drivers, a place to
-> > > > start would be the scanout buffers used by DRM's panic screen. These
-> > > > use the current display mode. They can be written and flushed without
-> > > > mode setting involved.
-> > > >
-> > > > Note: kdb over serial lines is not affected by this series and continues
-> > > > to work as before.
-> > > >
-> > > > Thomas Zimmermann (5):
-> > > >    drm/amdgpu: Do not implement mode_set_base_atomic callback
-> > > >    drm/nouveau: Do not implement mode_set_base_atomic callback
-> > > >    drm/radeon: Do not implement mode_set_base_atomic callback
-> > > >    drm/fbdev-helper: Remove drm_fb_helper_debug_enter/_leave()
-> > > >    fbcon: Remove fb_debug_enter/_leave from struct fb_ops
-> > > Personally, I've never worked with kdb over anything other than
-> > > serial, so this won't bother any of my normal workflows. That being
-> > > said, at least as of a year ago someone on the lists was talking about
-> > > using kdb with a keyboard and (presumably) a display. You can see a
-> > > thread here:
-> > >
-> > > http://lore.kernel.org/r/20241031192350.GA26688@lichtman.org
-> > >
-> > > Daniel may also have comments here?
-> > TL;DR - I'm pretty relaxed about these changes... but I'd like
-> >          to know how to test the changes.
-> >
-> > Like Doug I only really use kdb via serial but, since I'm maintain
-> > the thing I do occasionally test kdb works on the qemu console. I don't
-> > do it very often though because it's a manual test!
-> >
-> > I'd assume that will still work since it won't involve any of the
-> > drivers above. I'm afraid I can't double check that since patch 4
-> > doesn't apply cleanly in v6.18-rc7 (nor to linux-next... and neither
-> > does the base-commit appear in linux-next).
->
-> To test its effects, ignore this series and simply clear the two calbacks at
-> [1]. This is where the debugger invokes fbcon. The series removes their
-> implementation in the final patch.
->
-> [1] https://elixir.bootlin.com/linux/v6.17.9/source/drivers/video/fbdev/core/fbcon.c#L3202
-
-Thanks. Explanation in original cover letter was great and there's
-certainly been no harm to QEMU.
-
-Acked-by: Daniel Thompson (RISCstar) <danielt@kernel.org>
 
 
-Daniel.
+On 2025-11-26 10:13, Jani Nikula wrote:
+> On Wed, 26 Nov 2025, Yaroslav Bolyukin <iam@lach.pw> wrote:
+>> Current VESA vendor-specific block parsing expects real block size to be
+>> the same as the defined struct size, use real offsets in conditionals
+>> instead to add struct fields in future commits.
+>>
+>> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
+> 
+> I think this is something we want to backport, since MSO would break
+> with bigger vendor-specific blocks, and that leads to black screens on
+> MSO displays.
+> 
+
+Not sure why would we want to backport that if we don't backport the 
+other changes, old kernels will just have the broken implementation, 
+which in reality affects almost no body, given that there were no bug 
+reports
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+> 
+>> ---
+>>   drivers/gpu/drm/drm_edid.c | 28 ++++++++++++----------------
+>>   1 file changed, 12 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> index 64f7a94dd9e4..a52fd6de9327 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -6544,7 +6544,7 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
+>>   	if (oui(vesa->oui[0], vesa->oui[1], vesa->oui[2]) != VESA_IEEE_OUI)
+>>   		return;
+>>   
+>> -	if (sizeof(*vesa) != sizeof(*block) + block->num_bytes) {
+>> +	if (block->num_bytes < 5) {
+>>   		drm_dbg_kms(connector->dev,
+>>   			    "[CONNECTOR:%d:%s] Unexpected VESA vendor block size\n",
+>>   			    connector->base.id, connector->name);
+>> @@ -6567,24 +6567,20 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
+>>   		break;
+>>   	}
+>>   
+>> -	if (!info->mso_stream_count) {
+>> -		info->mso_pixel_overlap = 0;
+>> -		return;
+>> -	}
+>> -
+>> -	info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
+>> -	if (info->mso_pixel_overlap > 8) {
+>> +	if (info->mso_stream_count) {
+>> +		info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
+>> +		if (info->mso_pixel_overlap > 8) {
+>> +			drm_dbg_kms(connector->dev,
+>> +				    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
+>> +				    connector->base.id, connector->name,
+>> +				    info->mso_pixel_overlap);
+>> +			info->mso_pixel_overlap = 8;
+>> +		}
+>>   		drm_dbg_kms(connector->dev,
+>> -			    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
+>> +			    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
+>>   			    connector->base.id, connector->name,
+>> -			    info->mso_pixel_overlap);
+>> -		info->mso_pixel_overlap = 8;
+>> +			    info->mso_stream_count, info->mso_pixel_overlap);
+>>   	}
+>> -
+>> -	drm_dbg_kms(connector->dev,
+>> -		    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
+>> -		    connector->base.id, connector->name,
+>> -		    info->mso_stream_count, info->mso_pixel_overlap);
+>>   }
+>>   
+>>   static void drm_update_vesa_specific_block(struct drm_connector *connector,
+> 
