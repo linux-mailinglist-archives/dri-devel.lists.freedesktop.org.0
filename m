@@ -2,63 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EBFFC89CCD
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 13:37:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53879C89D27
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 13:45:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A303E10E5C0;
-	Wed, 26 Nov 2025 12:37:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AFD910E539;
+	Wed, 26 Nov 2025 12:45:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="UTsTz0LB";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="n+WCDfPl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6247010E5CC
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 12:37:29 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 458E910E539;
+ Wed, 26 Nov 2025 12:45:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1764161107;
+ bh=grs1ax7qR/C6sfUCImiEhPSGMofWWl8art4/baMp+io=;
+ h=From:To:Cc:Subject:Date:From;
+ b=n+WCDfPljwqwYw3nwsNRNK+wXmyf2ZhrMyDflIXNNPEmxzC51MaybTZjnvBlRZfOz
+ QfMZpTWqC2eMv6IpAeho58BmBwEWnh3lYK69LLWQZXivTU71OLVfSPIGxh2rqcAR2N
+ k88ZIqyOtSw/Lu5/G7iVJauVo/jIncdbKqhb0qCG+/K9kAfj0NwogFWYrrpO3/Rhz1
+ 9SJKlZfM8hjE3s8+c3u5PQZntubgzIwLiAqtatph3sVNCOhbyFUwbHqbceDZ/JXZhw
+ SeZzoP+ReCCWipElCYyEghP4/1vBi60LTW4XSa4Ne1ifHwmqMKcWaGJ8xLq0HHVptN
+ gM7brXU+sCBSA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dGfGG15tlz9sxb;
- Wed, 26 Nov 2025 13:37:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1764160646; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XTqvEmDLXDWaVJsy42dF2/13XtKO/BqCr4Q3wJ/2+zk=;
- b=UTsTz0LB3fPPb1pdo0H+ZA2PtJmWwrixoKEk4LQLRGjjib7ugHXCNcywF2px2sJ2wStBu4
- iJbUCEIaBCYXvD/QeZKzjpIHvGWvDCkY+83LOu2V1Ilq6fqAYqW2JCttj8Jf/NlGxzRkfr
- 32HDGc0VyCIvdz/Uldhme7bN7S4qBnPn3Sz98ZkmG8L+dRr3QZA4qw3GuOUA2CIS0CBJlH
- Oc/3Iin171AmfePQJ9Gz/yFbGFwhBiibDW381Wy92iPafOTiEO/gdlFDXFIMU2h6cM36u3
- qvS2U3/L3DvInWM9Dfk9DcCi0xr0IOvK2ZZLigzfYk7rzQiQKd6kY/esoenc0A==
-Message-ID: <54d6e863fc606d22f245e30012bb5120d5bee7ee.camel@mailbox.org>
-Subject: Re: [PATCH 1/4] dma-buf/fence: give some reasonable maximum
- signaling timeout
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Lucas
- Stach <l.stach@pengutronix.de>, phasta@kernel.org, alexdeucher@gmail.com, 
- simona.vetter@ffwll.ch, faith@gfxstrand.net, sumit.semwal@linaro.org
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org
-Date: Wed, 26 Nov 2025 13:37:19 +0100
-In-Reply-To: <207d50fe-eef3-4baa-97a7-567598e56b55@amd.com>
-References: <20251120150018.27385-1-christian.koenig@amd.com>
- <20251120150018.27385-2-christian.koenig@amd.com>
- <380012b9d6f0e9ee3c2f125cfe2f37f65c1979e0.camel@mailbox.org>
- <b46913b6-fe61-48cd-a9ca-aa2fe3a12b63@amd.com>
- <1c1a14d42d0a4a25ebce26a2af0a61dc1b7813fc.camel@mailbox.org>
- <508ff709-0f05-4982-8e15-5fea3bbd12e7@amd.com>
- <c2b571a7e74f86c6cb95bebd11274447c3080df9.camel@mailbox.org>
- <52d484c5-6dfb-4e2f-9caa-a61cf1d94801@amd.com>
- <e2c006ca81081ee1afa00b1b52a035c28a267e0f.camel@pengutronix.de>
- <207d50fe-eef3-4baa-97a7-567598e56b55@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E3F7117E10F6;
+ Wed, 26 Nov 2025 13:45:06 +0100 (CET)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
+Subject: [PATCH v6 00/16] drm/panfrost,
+ panthor: Cached maps and explicit flushing
+Date: Wed, 26 Nov 2025 13:44:39 +0100
+Message-ID: <20251126124455.3656651-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-X-MBO-RS-ID: 5b026a59b27b9369507
-X-MBO-RS-META: 1wt699yqo3ojb57bdc5grummqbbk5w5w
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,91 +77,101 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-11-26 at 13:31 +0100, Christian K=C3=B6nig wrote:
-> On 11/25/25 18:02, Lucas Stach wrote:
-> > > > I agree that distinguishing the use case that way is not ideal.
-> > > > However, who has the knowledge of how the hardware is being used by
-> > > > customers / users, if not the driver?
-> > >=20
-> > > Well the end user.
-> > >=20
-> > > Maybe we should move the whole timeout topic into the DRM layer or th=
-e scheduler component.
-> > >=20
-> > > Something like 2 seconds default (which BTW is the default on Windows=
- as well), which can be overridden on a global, per device, per queue name =
-basis.
-> > >=20
-> > > And 10 seconds maximum with only a warning that a not default timeout=
- is used and everything above 10 seconds taints the kernel and should reall=
-y only be used for testing/debugging.
-> >=20
-> > The question really is what you want to do after you hit the (lowered)
-> > timeout? Users get grumpy if you block things for 10 seconds, but they
-> > get equally if not more grumpy when you kick out a valid workload that
-> > just happens to need a lot of GPU time.
->=20
-> Yeah, exactly that summarizes the problem pretty well.
->=20
-> > Fences are only defined to signal eventually, with no real concept of a
-> > timeout. IMO all timeouts waiting for fences should be long enough to
-> > only be considered last resort. You may want to give the user some
-> > indication of a failed fence wait instead of stalling indefinitely, but
-> > you really only want to do this after a quite long timeout, not in a
-> > sense of "Sorry, I ran out of patience after 2 seconds".
-> >=20
-> > Sure memory management depends on fences making forward progress, but
-> > mm also depends on scheduled writeback making forward progress. You
-> > don't kick out writeback requests after an arbitrary timeout just
-> > because the backing storage happens to be loaded heavily.
-> >=20
-> > This BTW is also why etnaviv has always had a quite short timeout of
-> > 500ms, with the option to extend the timeout when the GPU is still
-> > making progress. We don't ever want to shoot down valid workloads (we
-> > have some that need a few seconds to upload textures, etc on our wimpy
-> > GPU), but you also don't want to wait multiple seconds until you detect
-> > a real GPU hang.
->=20
-> That is a really good point. We considered that as well, but then abandon=
-ed the idea, see below for the background.
->=20
-> What we could also do is setting a flag on the fence when a process is ki=
-lled and then waiting for that fence to signal so that it can clean up. Goi=
-ng to prototype that.
->=20
-> > So we use the short scheduler timeout to check in on the GPU and see if
-> > it is still making progress (for graphics workloads by looking at the
-> > frontend position within the command buffer and current primitive ID).
-> > If we can deduce that the GPU is stuck we do the usual reset/recovery
-> > dance within a reasonable reaction time, acceptable to users hitting a
-> > real GPU hang. But if the GPU is making progress we will give an
-> > infinite number of timeout extensions with no global timeout at all,
-> > only fulfilling the eventual signaling guarantee of the fence.
->=20
-> Well the question is how do you detect *reliable* that there is still for=
-ward progress?
+This series implements cached maps and explicit flushing for both panfrost
+and panthor. To avoid code/bug duplication, the tricky guts of the cache
+flushing ioctl which walk the sg list are broken into a new common shmem
+helper which can be used by any driver.
 
-My understanding is that that's impossible since the internals of
-command submissions are only really understood by userspace, who
-submits them.
+The PanVK MR to use this lives here:
 
-I think the long-term solution can only be fully fledged GPU scheduling
-with preemption. That's why we don't need such a timeout mechanism for
-userspace processes: the scheduler simply interrupts and lets someone
-else run.
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36385
 
-My hope would be that in the mid-term future we'd get firmware rings
-that can be preempted through a firmware call for all major hardware.
-Then a huge share of our problems would disappear.
+The questions about the DMA-API based CPU-cache-flush mechanism used
+in this patchset have been dropped. After briefly discussing it with
+Sima and Robin, it seems there's a consensus on the fact we should
+probably expose CPU cache maintenance without going through the DMA
+API (extending drm_cache? providing MM helpers for CPU cache
+flush/invalidation? It's not clear yet how, but this will be discussed
+in a separate thread). In the meantime, we can rely on dma_sync because
+that's good enough for our usecase.
 
+Changes in v2:
+- Expose the coherency so userspace can know when it should skip cache
+  maintenance
+- Hook things up at drm_gem_object_funcs level to dma-buf cpu_prep hooks
+  can be implemented generically
+- Revisit the semantics of the flags passed to gem_sync()
+- Add BO_QUERY_INFO ioctls to query BO flags on imported objects and
+  let the UMD know when cache maintenance is needed on those
 
-With the current situation, IDK either. My impression so far is that
-letting the drivers and driver programmers decide is the least bad
-choice.
+Changes in v3:
+- New patch to fix panthor_gpu_coherency_set()
+- No other major changes, check each patch changelog for more details
 
+Changes in v4:
+- Two trivial fixes, check each patch changelog for more details
 
-P.
+Changes in v5:
+- Add a way to overload dma_buf_ops while still relying on the drm_prime
+  boilerplate
+- Add default shmem implementation for
+  dma_buf_ops::{begin,end}_cpu_access()
+- Provide custom dma_buf_ops to deal with CPU cache flushes around CPU
+  accesses when the BO is CPU-cacheable
+- Go back to a version of drm_gem_shmem_sync() that only deals with
+  cache maintenance, and adjust the semantics to make it clear this is
+  the only thing it cares about
+- Adjust the BO_SYNC ioctls according to the new drm_gem_shmem_sync()
+  semantics
+
+Changes in v6:
+- No major changes, check the changelog in each patch for more details
+
+Boris Brezillon (10):
+  drm/prime: Simplify life of drivers needing custom dma_buf_ops
+  drm/shmem: Provide a generic {begin,end}_cpu_access() implementation
+  drm/panthor: Provide a custom dma_buf implementation
+  drm/panthor: Fix panthor_gpu_coherency_set()
+  drm/panthor: Expose the selected coherency protocol to the UMD
+  drm/panthor: Add a PANTHOR_BO_SYNC ioctl
+  drm/panthor: Add an ioctl to query BO flags
+  drm/panfrost: Provide a custom dma_buf implementation
+  drm/panfrost: Expose the selected coherency protocol to the UMD
+  drm/panfrost: Add an ioctl to query BO flags
+
+Faith Ekstrand (5):
+  drm/shmem: Add a drm_gem_shmem_sync() helper
+  drm/panthor: Bump the driver version to 1.6
+  drm/panfrost: Add a PANFROST_SYNC_BO ioctl
+  drm/panfrost: Add flag to map GEM object Write-Back Cacheable
+  drm/panfrost: Bump the driver version to 1.6
+
+Loïc Molinari (1):
+  drm/panthor: Add flag to map GEM object Write-Back Cacheable
+
+ drivers/gpu/drm/drm_gem_shmem_helper.c     | 207 +++++++++++++++++++++
+ drivers/gpu/drm/drm_prime.c                |  10 +-
+ drivers/gpu/drm/panfrost/panfrost_device.h |   1 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c    | 101 +++++++++-
+ drivers/gpu/drm/panfrost/panfrost_gem.c    |  67 +++++++
+ drivers/gpu/drm/panfrost/panfrost_gem.h    |   9 +
+ drivers/gpu/drm/panfrost/panfrost_gpu.c    |  26 ++-
+ drivers/gpu/drm/panfrost/panfrost_regs.h   |  10 +-
+ drivers/gpu/drm/panthor/panthor_device.c   |  10 +-
+ drivers/gpu/drm/panthor/panthor_drv.c      |  79 +++++++-
+ drivers/gpu/drm/panthor/panthor_gem.c      |  71 ++++++-
+ drivers/gpu/drm/panthor/panthor_gem.h      |   4 +
+ drivers/gpu/drm/panthor/panthor_gpu.c      |   2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c    |  18 +-
+ include/drm/drm_drv.h                      |   8 +
+ include/drm/drm_gem_shmem_helper.h         |  24 +++
+ include/uapi/drm/panfrost_drm.h            |  76 +++++++-
+ include/uapi/drm/panthor_drm.h             | 157 +++++++++++++++-
+ 18 files changed, 857 insertions(+), 23 deletions(-)
+
+-- 
+2.51.1
+
