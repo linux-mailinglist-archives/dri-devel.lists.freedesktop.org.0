@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D1E1C88545
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 07:56:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A4DC8866A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 08:21:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 616FE10E004;
-	Wed, 26 Nov 2025 06:56:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E74D10E110;
+	Wed, 26 Nov 2025 07:21:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Bwqvo+Fy";
+	dkim=pass (2048-bit key; secure) header.d=0la.ch header.i=@0la.ch header.b="icbgvA5f";
+	dkim=permerror (0-bit key) header.d=0la.ch header.i=@0la.ch header.b="oAVQCppr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B128410E004
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 06:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764140212; x=1795676212;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=mu/A6WTwOPzOFtjJtzxiGOLlJpJakjKpzGHoz5XkpY4=;
- b=Bwqvo+Fy3LrvkWdZy2XYSj/faMA4orGSKSJvgwVW/x06axBby2B3o6f+
- 4ZEws5m8Ksg7p1zEHLZjPmjgawun8WamnN6wyCRhTDnhbfLDDV8enggzz
- zDI27is0mNvN8D3soNE0i42jz13m75l+dgRLoOTtVUxWOW58wt6Elq/6t
- XvywcntXXekJh2ZWETzv3dNdZt5PC4id5fiCLCMsRL6+hdzqx4ty/DpO5
- CLpjnIOvkWlrqxUwKRtT3gAk9Ey8Pfk5QgzqvpSsPjqDqDuDmtt1zpIbT
- P2oAXIGTofEg4qvaVqOXybAN7o2O6r1UjpUZd5CkOnzb+nqqrYQMSkjGA g==;
-X-CSE-ConnectionGUID: OClCturSQ1GkVhgbgcoO1Q==
-X-CSE-MsgGUID: eS9GN1EfSQGCvqT1vMtE6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="77279928"
-X-IronPort-AV: E=Sophos;i="6.20,227,1758610800"; d="scan'208";a="77279928"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2025 22:56:52 -0800
-X-CSE-ConnectionGUID: o31zWgfrRUqmgMMDa8YZVQ==
-X-CSE-MsgGUID: I2GaolsOQWKolPUqR1HrYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,227,1758610800"; d="scan'208";a="230118861"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d)
- ([10.211.93.152])
- by orviesa001.jf.intel.com with ESMTP; 25 Nov 2025 22:56:50 -0800
-Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vO9SJ-000000000ej-1a9N;
- Wed, 26 Nov 2025 06:56:47 +0000
-Date: Wed, 26 Nov 2025 07:55:50 +0100
-From: kernel test robot <lkp@intel.com>
-To: ssrane_b23@ee.vjti.ac.in, Zsolt Kajtar <soci@c64.rulez.org>,
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev, Shaurya Rane <ssrane_b23@ee.vjti.ac.in>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org,
- syzbot+5a40432dfe8f86ee657a@syzkaller.appspotmail.com
-Subject: Re: [PATCH] fbdev: core: Fix vmalloc-out-of-bounds in fb_imageblit
-Message-ID: <202511260749.KJgv3MyF-lkp@intel.com>
-References: <20251119133821.89998-1-ssranevjti@gmail.com>
+X-Greylist: delayed 439 seconds by postgrey-1.36 at gabe;
+ Wed, 26 Nov 2025 07:21:03 UTC
+Received: from mail.0la.ch (mail.0la.ch [78.47.82.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 682DC10E110;
+ Wed, 26 Nov 2025 07:21:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; s=202502r; d=0la.ch; c=relaxed/relaxed;
+ h=From:To:Subject:Date:Message-ID; t=1764141195; bh=wXhsAr3ieb0W3Cah8oO1/Xj
+ +ChvfB7Qelr4XyRutCGk=; b=icbgvA5f0BCAl7HzKG8Ae0wafUOR54RJj6/KwVkQT6mfx6qVUB
+ aU0gjyTVG1q0VCeuzcJkp8S2oCqgvrDGeJR6uo55uTy5OEghzmCO/UfUx0JLwCW9eDR90t/CYDD
+ nX7BZ5dg8tDBpDh4WzKttNhP5anl4nMqfTKoX4UWzYk+iJI0ciELPSjfJxhZm7kmptzn6LLT6/5
+ O6900wuKkcE4a0oHUaSHYNSKhpzPVvGte4/sVyBCxrahwB7GfnIa5+5NIsUxCwx9p3oqwAmBmI9
+ cyDkfN1iSbIA8xooqPy8g3QDxeFpUIujCGe9lF2u5V20V6BmJZvTvvpePaOs8WgRj3Q==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202502e; d=0la.ch; c=relaxed/relaxed; 
+ h=From:To:Subject:Date:Message-ID; t=1764141195;
+ bh=wXhsAr3ieb0W3Cah8oO1/Xj
+ +ChvfB7Qelr4XyRutCGk=; b=oAVQCpprY+bahJ2+Atop5sdYeq7zLHzYEPTyWXIz5SnAdKs5OE
+ i9/a6reRg40KwJ5IUKJTrPf4rdhN9tA/94DA==;
+Message-ID: <2fe15b45-879a-4a63-a278-69b0e7faf311@0la.ch>
+Date: Wed, 26 Nov 2025 08:13:14 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251119133821.89998-1-ssranevjti@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/7] VESA DisplayID spec allows the device to force its
+ DSC bits per pixel value.
+To: Yaroslav Bolyukin <iam@lach.pw>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20251126065126.54016-1-iam@lach.pw>
+Content-Language: en-US
+From: Yaroslav <iam@0la.ch>
+In-Reply-To: <20251126065126.54016-1-iam@lach.pw>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,52 +68,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Sorry, I have updated/included the wrong cover message
 
-kernel test robot noticed the following build warnings:
+On 2025-11-26 07:51, Yaroslav Bolyukin wrote:
+ > For example, the HTC Vive Pro 2 VR headset uses this value in
+ > high-resolution modes (3680x1836@90-120, 4896x2448@90-120), and when the
+ > kernel doesn't respect this parameter, garbage is displayed on the HMD
+ > instead.
+ >
+ > Me and other users have successfully tested the old (v3) version of this
+ > patch (which was applying DSC BPP value unconditionally, thus incorrect:
+ > https://lkml.org/lkml/2023/2/26/116) on Vive Pro 2 and
+ > Bigscreen Beyond VR headsets, and have been using it daily, it is known
+ > to work and doesn't seem to break anything else since 2022.
+ >
+ > Previously, I didn't have enough dedication to get it merged, I hope
+ > this time I will manage to get it to v6.19 :D
+ >
+ > Regarding driver support - I have looked at amdgpu and Nvidia's
+ > open-gpu-kernel-modules, and both seem to have some indication for this
+ > value; however, in Linux, it is unused in both.
+ >
+ > First patch implements parsing of DSC BPP values and display mode VII
+ > timings flag which mandates that the DSC BPP value should actually be
+ > used for this display mode.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.18-rc7 next-20251126]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This patch was split into 1-6
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ssrane_b23-ee-vjti-ac-in/fbdev-core-Fix-vmalloc-out-of-bounds-in-fb_imageblit/20251119-215054
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20251119133821.89998-1-ssranevjti%40gmail.com
-patch subject: [PATCH] fbdev: core: Fix vmalloc-out-of-bounds in fb_imageblit
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251126/202511260749.KJgv3MyF-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260749.KJgv3MyF-lkp@intel.com/reproduce)
+ > The second patch implements handling of this value for AMDGPU driver.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511260749.KJgv3MyF-lkp@intel.com/
+This is the 7th patch
 
-All warnings (new ones prefixed by >>):
+ > The only thing that I don't like in the current implementation, is how
+ > the value of `dsc_passthrough_timings_support` flag is propagated from
+ > the connector display modes to the mode created in 
+`DRM_IOCTL_MODE_SETCRTC`
+ > handler (which is used for VR display initialization in Monado and
+ > StreamVR), it feels like this flag should be initialized by the kernel
+ > itself, but as far as I can see there is no correct way to do this, as
+ > the timing constraints calculation belongs to the individual drivers.
 
-   In file included from drivers/video/fbdev/core/cfbimgblt.c:17:
-   drivers/video/fbdev/core/fb_imageblit.h: In function 'fb_imageblit':
->> drivers/video/fbdev/core/fb_imageblit.h:490:23: warning: unused variable 'max_offset_bytes' [-Wunused-variable]
-     490 |         unsigned long max_offset_bytes;
-         |                       ^~~~~~~~~~~~~~~~
+This is somewhat improved, now there is a matching for correct mode in
+amdgpu driver. I don't like that individual drivers need to repeat this
+logic by themselves either, but I don't see a better solution with the
+given spec and given how it is implemented in devices. It works more
+like a quirk, and the implementation follows. It might be improved if
+the future changes in DisplayID spec declare something else DSC related
+and the logic would be extended appropriately.
 
+Still, the latest implementation should be easy and descriptive enough
+to be easily implementable by the drivers, and given that this part of
+spec is only used by ~3 devices on the market right now with both being
+VR related, I think this is acceptable.
 
-vim +/max_offset_bytes +490 drivers/video/fbdev/core/fb_imageblit.h
+I have a patch somewhat ready for i915, which I decided to not include
+in the current patchset, and I don't think there is more drm drivers
+that need this implementation right now (Doesn't seem like anyone runs
+VR on nouveau).
 
-   480	
-   481	static inline void fb_imageblit(struct fb_info *p, const struct fb_image *image)
-   482	{
-   483		int bpp = p->var.bits_per_pixel;
-   484		unsigned int bits_per_line = BYTES_TO_BITS(p->fix.line_length);
-   485		struct fb_address dst = fb_address_init(p);
-   486		struct fb_reverse reverse = fb_reverse_init(p);
-   487		const u32 *palette = fb_palette(p);
-   488		struct fb_image clipped_image;
-   489		u32 max_x, max_y;
- > 490		unsigned long max_offset_bytes;
+Since the first version of the patchset was published, nivida open
+drivers have implemented this part by themselves, using their own edid
+parser.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ > Another problem with how this flag is set, is that there is no hard
+ > connection between modes creaded in `SETCRTC` and the modes actually
+ > defined by connector, so the current implementation searches for the
+ > resolution and refresh rate that match exactly declared to obtain
+ > this flag value. This might not be correct, as device might not support
+ > the other mode at all, but the situation won't be any worse for the
+ > existing devices, as the currently they don't work at all, and there
+ > is no other known devices on the market to check their assumption in
+ > regard to this part of specs, and the spec does not describe how that
+ > should work.
+ >
+ > Both of those downsides are due to the fact my understanding of DRM
+ > subsystem is not that high. If another implementation would be proposed
+ > by AMDGPU maintainers - I will gladly implement it here.
+ >
+ > v5->v6:
+ >   * amdgpu: only apply dsc bpp to modes that match exactly the declared
+ >     modes with this flag set.
+ > v4->v5:
+ >   * The patch was split into multiple
+ >   * Disabled MSO parsing for eDP displays
+ >   * Disabled MSO logs if not used
+ >   * Minor codestyle changes: lines moved around, naming, passing of
+ >     function arguments
+ > v3->v4:
+ >   * This patch now parses timings support flag on type VII block, instead
+ >     of applying it unconditionally. Previously I didn't understand the
+ >     spec properly.
+ >   * Now it also is not being applied for non-supported and/or non-VII
+ >     blocks in amdgpu driver.
+ >
+ > Regards,
+ >
+ > Lach
+ >
+ > Yaroslav Bolyukin (7):
+ >    drm/edid: rename VESA block parsing functions to more generic name
+ >    drm/edid: prepare for VESA vendor-specific data block extension
+ >    drm/edid: MSO should only be used for non-eDP displays
+ >    drm/edid: parse DSC DPP passthru support flag for mode VII timings
+ >    drm/edid: for consistency, use mask everywhere for block rev parsing
+ >    drm/edid: parse DRM VESA dsc bpp target
+ >    drm/amd: use fixed dsc bits-per-pixel from edid
+ >
+ >   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  16 +++
+ >   drivers/gpu/drm/drm_displayid_internal.h      |  11 ++
+ >   drivers/gpu/drm/drm_edid.c                    | 101 +++++++++++-------
+ >   include/drm/drm_connector.h                   |   6 ++
+ >   include/drm/drm_modes.h                       |  10 ++
+ >   5 files changed, 107 insertions(+), 37 deletions(-)
+ >
