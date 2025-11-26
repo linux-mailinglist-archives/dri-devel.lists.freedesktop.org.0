@@ -2,48 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA79EC891CC
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 10:52:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55839C8927E
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 11:00:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3185010E58D;
-	Wed, 26 Nov 2025 09:52:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D82A10E59A;
+	Wed, 26 Nov 2025 10:00:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="guzeQBhY";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XrK5tO9g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C08010E58D
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 09:52:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A98B710E59A
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 10:00:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764150744;
- bh=p2d6tWiC7zJzhOcMVqKqokGiR5sva9dnTCaqBmrZg6k=;
+ s=mail; t=1764151217;
+ bh=3PJIv2VojYXCHqK8RJT6KaPs+wNhcxpo8rr8OzTtaV0=;
  h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=guzeQBhYYJS6oLt8RemQSyjvUDmqWMMxZVveDxXXqA2oX2ywGomIoTcG4+7kNvvCO
- TqV8TWYVXNPbyqHLmydv+A52hlan6YIk2Xd8FEg5dBTXkX/BafdSv+wreb/80Vg38z
- ZFF2Z3ZIPCPiejulD0apQ39ierN4+vyOJOXnSS/6KYCKoblvTPfwfvlhGx0EHCpI4n
- VUXgmPYVJNVEihuxKi2f20wEYvCIpcE2JK7aXD4dh8e1ta3Ep/v1xakvketfi5jAGa
- PMTqTQ0dqZRBX55SlFOTNA0WCtUVBy/+ozktek0RIezCsUnslQJbd//cdEHjuQV1Jy
- zMeyRXJmufxzg==
+ b=XrK5tO9geKCGopPSDgZyPVo1xYv5Xpp+DjOQiHwjNo+vSzGucjX8S9pAPQkqEE6K7
+ diktT3B1Gk3GCaiS993f8hGIxFyhTkM1Rcaq10k2KMpNSMVgRDOIHX3FAWpYTqVNWK
+ obVGG0lYuE9FqEqJyU8bfgJ7eFrtsiWgxo8bZqV6pM142g+ZfKvMGlFtrbP/LeA++D
+ iVmtwnAVctdW32nnqZcIDYPG69iSHePYH+VFMhm9L+k5IWtxbEFvELY5iLJicLmS+I
+ XcxUq5T2qXgWfymOdr79WPQ0tMLcvI+thTYPRrv9JBTVeXN548rCHXiSK/wuNT148t
+ 3Sp0jzboKK74A==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
  server-digest SHA256) (No client certificate requested)
  (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 72B1117E04D6;
- Wed, 26 Nov 2025 10:52:24 +0100 (CET)
-Date: Wed, 26 Nov 2025 10:52:19 +0100
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B8B1217E04D6;
+ Wed, 26 Nov 2025 11:00:16 +0100 (CET)
+Date: Wed, 26 Nov 2025 11:00:13 +0100
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Akash Goel <akash.goel@arm.com>
-Cc: liviu.dudau@arm.com, steven.price@arm.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
-Subject: Re: [PATCH v2] drm/panthor: Avoid adding of kernel BOs to extobj list
-Message-ID: <20251126105219.3a51430c@fedora>
-In-Reply-To: <20251120172118.2741724-1-akash.goel@arm.com>
-References: <20251120172118.2741724-1-akash.goel@arm.com>
+To: Karunika Choo <karunika.choo@arm.com>
+Cc: dri-devel@lists.freedesktop.org, nd@arm.com, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/8] drm/panthor: Add support for Mali-G1 GPUs
+Message-ID: <20251126110013.444560d8@fedora>
+In-Reply-To: <20251125125548.3282320-1-karunika.choo@arm.com>
+References: <20251125125548.3282320-1-karunika.choo@arm.com>
 Organization: Collabora
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -64,59 +66,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 20 Nov 2025 17:21:18 +0000
-Akash Goel <akash.goel@arm.com> wrote:
+On Tue, 25 Nov 2025 12:55:40 +0000
+Karunika Choo <karunika.choo@arm.com> wrote:
 
-> The kernel BOs unnecessarily got added to the external objects list
-> of drm_gpuvm, when mapping to GPU, which would have resulted in few
-> extra CPU cycles being spent at the time of job submission as
-> drm_exec_until_all_locked() loop iterates over all external objects.
+> This patch series extends the Panthor driver with basic support for
+> Mali-G1 GPUs.
 > 
-> Kernel BOs are private to a VM and so they share the dma_resv object of
-> the dummy GEM object created for a VM. Use of DRM_EXEC_IGNORE_DUPLICATES
-> flag ensured the recursive locking of the dummy GEM object was ignored.
-> Also no extra space got allocated to add fences to the dma_resv object
-> of dummy GEM object. So no other impact apart from few extra CPU cycles.
+> The v14 architecture introduces several hardware and register-level
+> changes compared to prior GPUs. This series adds the necessary
+> architecture-specific support infrastructure, power control and reset
+> handling for Mali-G1 GPUs.
 > 
-> This commit sets the pointer to dma_resv object of GEM object of
-> kernel BOs before they are mapped to GPU, to prevent them from
-> being added to external objects list.
+> Patch Breakdown:
+> [Patch 1-2]:  Refactor panthor_hw to introduce architecture-specific
+>               hooks and abstractions to support the v14 architecture.
+>               These patches introduce architecture-specific HW binding
+>               for function pointers.
+> [Patch 3-5]:  Adds basic L2 power on/off and soft reset support for the
+>               PWR_CONTROL block introduced in v14.
+> [Patch 6]:    Update MCU halt and warm boot operations to reflect the
+>               GLB_REQ.STATE changes in v14. This ensures that the MCU is
+>               properly halted and the correct operations are performed
+>               on warm boot depending on the FW version.
+> [Patch 7]:    Align endpoint_req with changes introduced in v14, where
+>               the register is widened to 64-bit and shifed down by
+>               4-bytes. This patch adds the necessary infrastructure to
+>               discern the correct endpoint_req register to use.
+> [Patch 8]:    Enables Mali-G1 support on Panthor by adding HW bindings
+>               for v14 architecture, product names and path to FW binary.
 > 
-> v2: Add R-bs and fixes tags
+> v5:
+>  * Rebased patch series on more recent drm-misc-next (ac364014)
+>  * Picked up R-bs from Steve.
+>  * Link to v4: https://lore.kernel.org/all/20251107142440.1134528-1-karunika.choo@arm.com/
+> v4:
+>  * Fixed include and forward declaration issues.
+>  * Addressed code format issues.
+>  * Picked up R-bs from Steve.
+>  * Link to v3: https://lore.kernel.org/all/20251027161334.854650-1-karunika.choo@arm.com/
+> v3:
+>  * Updated include logic to enable static inline functions in
+>    panthor_hw.h for function pointers and feature checks.
+>  * Fixed missed replacement of CSF_IFACE_VERSION check with
+>    panthor_fw_has_glb_state() check.
+>  * Link to v2: https://lore.kernel.org/all/20251024202117.3241292-1-karunika.choo@arm.com/
+> v2:
+>  * Merged GPU_ID refactoring patch with the arch-specific panthor_hw
+>    binding patch (formerly PATCH 01/10 and PATCH 02/10).
+>  * Dropped panthor_hw feature bitmap patch in favor of functions that
+>    performs the relevant architecture version checks.
+>  * Fixed kernel test bot warnings.
+>  * Replaced function pointer accessor MACROs with static inline
+>    functions.
+>  * Refined power control logic, removed unnecessary checks and redundant
+>    stubs.
+>  * Replaced explicit CSG_IFACE_VERSION checks with functions describing
+>    the feature being checked for.
+>  * General readability improvements, more consistent error handling,
+>    behaviour clarifications, and formatting fixes.
+>  * Link to v1: https://lore.kernel.org/all/20251014094337.1009601-1-karunika.choo@arm.com/
 > 
-> Fixes: 8a1cc07578bf ("drm/panthor: Add GEM logical block")
-> Signed-off-by: Akash Goel <akash.goel@arm.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Steven Price <steven.price@arm.com>
+> 
+> Karunika Choo (8):
+>   drm/panthor: Add arch-specific panthor_hw binding
+>   drm/panthor: Add architecture-specific function operations
+>   drm/panthor: Introduce panthor_pwr API and power control framework
+>   drm/panthor: Implement L2 power on/off via PWR_CONTROL
+>   drm/panthor: Implement soft reset via PWR_CONTROL
+>   drm/panthor: Support GLB_REQ.STATE field for Mali-G1 GPUs
+>   drm/panthor: Support 64-bit endpoint_req register for Mali-G1
+>   drm/panthor: Add support for Mali-G1 GPUs
 
 Queued to drm-misc-next.
 
-> ---
->  drivers/gpu/drm/panthor/panthor_gem.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+Thanks,
+
+Boris
+
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index f369cc3e2a5f..10d255cccc09 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -145,6 +145,9 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  	bo = to_panthor_bo(&obj->base);
->  	kbo->obj = &obj->base;
->  	bo->flags = bo_flags;
-> +	bo->exclusive_vm_root_gem = panthor_vm_root_gem(vm);
-> +	drm_gem_object_get(bo->exclusive_vm_root_gem);
-> +	bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
->  
->  	if (vm == panthor_fw_vm(ptdev))
->  		debug_flags |= PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED;
-> @@ -168,9 +171,6 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  		goto err_free_va;
->  
->  	kbo->vm = panthor_vm_get(vm);
-> -	bo->exclusive_vm_root_gem = panthor_vm_root_gem(vm);
-> -	drm_gem_object_get(bo->exclusive_vm_root_gem);
-> -	bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
->  	return kbo;
->  
->  err_free_va:
+>  drivers/gpu/drm/panthor/Makefile         |   1 +
+>  drivers/gpu/drm/panthor/panthor_device.c |  18 +-
+>  drivers/gpu/drm/panthor/panthor_device.h |   8 +
+>  drivers/gpu/drm/panthor/panthor_fw.c     | 131 +++++-
+>  drivers/gpu/drm/panthor/panthor_fw.h     |  32 +-
+>  drivers/gpu/drm/panthor/panthor_gpu.c    |  12 +-
+>  drivers/gpu/drm/panthor/panthor_gpu.h    |   1 +
+>  drivers/gpu/drm/panthor/panthor_hw.c     | 107 ++++-
+>  drivers/gpu/drm/panthor/panthor_hw.h     |  47 +-
+>  drivers/gpu/drm/panthor/panthor_pwr.c    | 549 +++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_pwr.h    |  23 +
+>  drivers/gpu/drm/panthor/panthor_regs.h   |  79 ++++
+>  drivers/gpu/drm/panthor/panthor_sched.c  |  21 +-
+>  13 files changed, 989 insertions(+), 40 deletions(-)
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.h
+> 
+> --
+> 2.49.0
+> 
 
