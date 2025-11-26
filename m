@@ -2,52 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DDAEC88560
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 07:59:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1E1C88545
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 07:56:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E169810E43C;
-	Wed, 26 Nov 2025 06:59:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 616FE10E004;
+	Wed, 26 Nov 2025 06:56:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=lach.pw header.i=@lach.pw header.b="PDKZMoa8";
-	dkim=permerror (0-bit key) header.d=lach.pw header.i=@lach.pw header.b="iP0Uvxxy";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Bwqvo+Fy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.0la.ch (mail.0la.ch [78.47.82.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2B410E0E1;
- Wed, 26 Nov 2025 06:59:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202502r; d=lach.pw; c=relaxed/relaxed;
- h=Message-ID:Date:Subject:To:From; t=1764139914; bh=xBHAbfvs3M52TAGHXMuwouD
- KJD5Hy5FqWvdsrTLN97w=; b=PDKZMoa8q/NuKWDviDdRo682mMMyHRWY/WMZVJvoUcsgiBbDmf
- XiR3qt5APE2cAfU/V/tezlVM+VYEBgNRMKvGo0JMyQcF5Mk9dWTaeOkIZ28n0dPnaVTJ4mNQsff
- ZmlYsL4M2BWs8MK5NFYbbxkT7BmOwj17HFNyxWnEukffBL/dRGv3cXTnuHBwo1Z5PLWlLuEtNXb
- qdTUJ0GTR574atCJ87wziLgdCNUbUsAEfnxcV7mLVFKPLRCqIloPixV6pDqF24dOTpwJD6yHBr9
- f5RLf6QvIsBCioYDZo38wx+PXniTuRDwHv2XjClNlOUDcA2+9CuAVU7mtN5gXMwZMTg==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202502e; d=lach.pw; c=relaxed/relaxed;
- h=Message-ID:Date:Subject:To:From; t=1764139914; bh=xBHAbfvs3M52TAGHXMuwouD
- KJD5Hy5FqWvdsrTLN97w=; b=iP0UvxxyHoAGWMnLEAT4DoO+3yOQ3OEc98OJ39jeXI/cPFpSZv
- +YZab2VhY79iH5MkpRlWYKJuKUd1LCRk57AQ==;
-From: Yaroslav Bolyukin <iam@lach.pw>
-To: =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Yaroslav Bolyukin <iam@lach.pw>
-Subject: [PATCH v6 7/7] drm/amd: use fixed dsc bits-per-pixel from edid
-Date: Wed, 26 Nov 2025 07:51:26 +0100
-Message-ID: <20251126065126.54016-8-iam@lach.pw>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251126065126.54016-1-iam@lach.pw>
-References: <20251126065126.54016-1-iam@lach.pw>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B128410E004
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 06:56:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764140212; x=1795676212;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=mu/A6WTwOPzOFtjJtzxiGOLlJpJakjKpzGHoz5XkpY4=;
+ b=Bwqvo+Fy3LrvkWdZy2XYSj/faMA4orGSKSJvgwVW/x06axBby2B3o6f+
+ 4ZEws5m8Ksg7p1zEHLZjPmjgawun8WamnN6wyCRhTDnhbfLDDV8enggzz
+ zDI27is0mNvN8D3soNE0i42jz13m75l+dgRLoOTtVUxWOW58wt6Elq/6t
+ XvywcntXXekJh2ZWETzv3dNdZt5PC4id5fiCLCMsRL6+hdzqx4ty/DpO5
+ CLpjnIOvkWlrqxUwKRtT3gAk9Ey8Pfk5QgzqvpSsPjqDqDuDmtt1zpIbT
+ P2oAXIGTofEg4qvaVqOXybAN7o2O6r1UjpUZd5CkOnzb+nqqrYQMSkjGA g==;
+X-CSE-ConnectionGUID: OClCturSQ1GkVhgbgcoO1Q==
+X-CSE-MsgGUID: eS9GN1EfSQGCvqT1vMtE6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="77279928"
+X-IronPort-AV: E=Sophos;i="6.20,227,1758610800"; d="scan'208";a="77279928"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2025 22:56:52 -0800
+X-CSE-ConnectionGUID: o31zWgfrRUqmgMMDa8YZVQ==
+X-CSE-MsgGUID: I2GaolsOQWKolPUqR1HrYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,227,1758610800"; d="scan'208";a="230118861"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1f7de368ad0d)
+ ([10.211.93.152])
+ by orviesa001.jf.intel.com with ESMTP; 25 Nov 2025 22:56:50 -0800
+Received: from kbuild by 1f7de368ad0d with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vO9SJ-000000000ej-1a9N;
+ Wed, 26 Nov 2025 06:56:47 +0000
+Date: Wed, 26 Nov 2025 07:55:50 +0100
+From: kernel test robot <lkp@intel.com>
+To: ssrane_b23@ee.vjti.ac.in, Zsolt Kajtar <soci@c64.rulez.org>,
+ Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>
+Cc: oe-kbuild-all@lists.linux.dev, Shaurya Rane <ssrane_b23@ee.vjti.ac.in>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+5a40432dfe8f86ee657a@syzkaller.appspotmail.com
+Subject: Re: [PATCH] fbdev: core: Fix vmalloc-out-of-bounds in fb_imageblit
+Message-ID: <202511260749.KJgv3MyF-lkp@intel.com>
+References: <20251119133821.89998-1-ssranevjti@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251119133821.89998-1-ssranevjti@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,55 +74,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-VESA vendor header from DisplayID spec may contain fixed bit per pixel
-rate, it should be used by drm driver for the modes that declare
-they are only supported with the declared fixed bits per pixel value.
+Hi,
 
-Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
----
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c    | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index e6728fd12eeb..32370279283f 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6613,6 +6613,11 @@ static void fill_stream_properties_from_drm_display_mode(
- 
- 	stream->output_color_space = get_output_color_space(timing_out, connector_state);
- 	stream->content_type = get_output_content_type(connector_state);
-+
-+	/* DisplayID Type VII pass-through timings. */
-+	if (mode_in->dsc_passthrough_timings_support && info->dp_dsc_bpp_x16 != 0) {
-+		stream->timing.dsc_fixed_bits_per_pixel_x16 = info->dp_dsc_bpp_x16;
-+	}
- }
- 
- static void fill_audio_info(struct audio_info *audio_info,
-@@ -7071,6 +7076,7 @@ create_stream_for_sink(struct drm_connector *connector,
- 	struct drm_display_mode mode;
- 	struct drm_display_mode saved_mode;
- 	struct drm_display_mode *freesync_mode = NULL;
-+	struct drm_display_mode *dsc_passthru_mode = NULL;
- 	bool native_mode_found = false;
- 	bool recalculate_timing = false;
- 	bool scale = dm_state->scaling != RMX_OFF;
-@@ -7162,6 +7168,16 @@ create_stream_for_sink(struct drm_connector *connector,
- 		}
- 	}
- 
-+	list_for_each_entry(dsc_passthru_mode, &connector->modes, head) {
-+		if (dsc_passthru_mode->hdisplay == mode.hdisplay &&
-+		    dsc_passthru_mode->vdisplay == mode.vdisplay &&
-+		    drm_mode_vrefresh(dsc_passthru_mode) == mode_refresh) {
-+			mode.dsc_passthrough_timings_support =
-+				dsc_passthru_mode->dsc_passthrough_timings_support;
-+			break;
-+		}
-+	}
-+
- 	if (recalculate_timing)
- 		drm_mode_set_crtcinfo(&saved_mode, 0);
- 
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.18-rc7 next-20251126]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ssrane_b23-ee-vjti-ac-in/fbdev-core-Fix-vmalloc-out-of-bounds-in-fb_imageblit/20251119-215054
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20251119133821.89998-1-ssranevjti%40gmail.com
+patch subject: [PATCH] fbdev: core: Fix vmalloc-out-of-bounds in fb_imageblit
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251126/202511260749.KJgv3MyF-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251126/202511260749.KJgv3MyF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511260749.KJgv3MyF-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/video/fbdev/core/cfbimgblt.c:17:
+   drivers/video/fbdev/core/fb_imageblit.h: In function 'fb_imageblit':
+>> drivers/video/fbdev/core/fb_imageblit.h:490:23: warning: unused variable 'max_offset_bytes' [-Wunused-variable]
+     490 |         unsigned long max_offset_bytes;
+         |                       ^~~~~~~~~~~~~~~~
+
+
+vim +/max_offset_bytes +490 drivers/video/fbdev/core/fb_imageblit.h
+
+   480	
+   481	static inline void fb_imageblit(struct fb_info *p, const struct fb_image *image)
+   482	{
+   483		int bpp = p->var.bits_per_pixel;
+   484		unsigned int bits_per_line = BYTES_TO_BITS(p->fix.line_length);
+   485		struct fb_address dst = fb_address_init(p);
+   486		struct fb_reverse reverse = fb_reverse_init(p);
+   487		const u32 *palette = fb_palette(p);
+   488		struct fb_image clipped_image;
+   489		u32 max_x, max_y;
+ > 490		unsigned long max_offset_bytes;
+
 -- 
-2.51.2
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
