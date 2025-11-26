@@ -2,102 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CF70C890C7
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 10:46:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEFDAC89178
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 10:50:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7011E10E57C;
-	Wed, 26 Nov 2025 09:46:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE27610E58C;
+	Wed, 26 Nov 2025 09:50:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ogb4jR2P";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="KN1y1i6+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BE8710E580
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 09:46:08 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AQ6XnB03890136; Wed, 26 Nov 2025 09:46:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=UZmGnEpLxik
- yfu2bMubaIvq0Ha00pQMY9vR0yQBa/v8=; b=ogb4jR2P6RSPtXkLkfGFwMbCeVN
- 4xydsTMKWCMeOaltLqGdqnoAPJ+mxJLFzzlzDSJu2WiL/m87neFG9LCpFi/hIygq
- hCugffpobMIUNjzHkWlivOlsWEWkVoKwt3iVFZaJoNqUES5hotlAKGptBIXcx8a3
- 0rtULpdHuEdDjZVR3NrX9hagz20+4rhbKC/twHEGeLqq+tLQhmBIPKLDeJraCUEo
- jWPZev+FsozI/lkv6I9Fz5r6kiRJl8q/7u3WpFmgrTILpvvlNxzunT16EaURQ+xh
- djWU/uzADD5cMseOqUS/AwycRKBroErq7bGKf4qBUG+Gsd5vujFao6BJ7Ug==
-Received: from apblrppmta02.qualcomm.com
- (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4angmeab2q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Nov 2025 09:46:02 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5AQ9jxc8010181; 
- Wed, 26 Nov 2025 09:45:59 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4anw4ssw9m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Nov 2025 09:45:59 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5AQ9jxuk010176;
- Wed, 26 Nov 2025 09:45:59 GMT
-Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-kpallavi-hyd.qualcomm.com
- [10.147.243.7])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 5AQ9jxrA010175
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Nov 2025 09:45:59 +0000
-Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4720299)
- id 6BD52515; Wed, 26 Nov 2025 15:15:58 +0530 (+0530)
-From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-To: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
- arnd@arndb.de, gregkh@linuxfoundation.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>, quic_bkumar@quicinc.com, 
- ekansh.gupta@oss.qualcomm.com, linux-kernel@vger.kernel.org,
- quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- jingyi.wang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
- ktadakam@qti.qualcomm.com
-Subject: [PATCH v4 4/4] misc: fastrpc: Update dma_bits for CDSP support on
- Kaanapali SoC
-Date: Wed, 26 Nov 2025 15:15:45 +0530
-Message-Id: <20251126094545.2139376-5-kumari.pallavi@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251126094545.2139376-1-kumari.pallavi@oss.qualcomm.com>
-References: <20251126094545.2139376-1-kumari.pallavi@oss.qualcomm.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE5210E58B
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 09:50:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1764150638;
+ bh=SgDKDjfiTyNkD9VaYZzx00vNyUhSBKqCBdyy+ZCy5bs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=KN1y1i6+zIJ5VPfm8ZF5KBVHMSty4vo4A4XGXsuUu32ML2G2SAqbsSjrxBrtN7Hj5
+ InzX7XSw4bMLioYsmyre0ZRHdZXjqR/zg+X+ou1iHNZjiCtph7W3pLJW+uPYjh5fJe
+ MJm3Dr5dFUi0e62nrFIMJHKKn6j+ElLNYEgLdrhYs9QES5UfyUMDEN1NHM8wREdG0x
+ eKtt70rCrka9+WotQkWypk/OYdLVao9y/cVCgd9LwTR5IhjFN9brRRR+CYqcczsycH
+ fIywbwHwZ4yz1bfbTzfk8ya7EyQ/Ab5BaR4afIg/wsWPEhtiP0T9RRTKda6t9ygs7+
+ 84rgtrgJz72bA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 6519717E129C;
+ Wed, 26 Nov 2025 10:50:38 +0100 (CET)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>,
+ Karunika Choo <karunika.choo@arm.com>, kernel@collabora.com
+Subject: [PATCH v3 0/6] drm/panthor: Misc fixes
+Date: Wed, 26 Nov 2025 10:50:23 +0100
+Message-ID: <20251126095029.3579267-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Authority-Analysis: v=2.4 cv=PJgCOPqC c=1 sm=1 tr=0 ts=6926cc5a cx=c_pps
- a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=pfE1wiWnY1F2L3mdSfMA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDA3OSBTYWx0ZWRfX4Da1mBD7q295
- O6/5MK7hqmQWDD6WQnHGFZJ2FS2VuawEZZKdWIGQ28uZP7iV/5LeyDJ9oTQnnYnRhoY+xxtpN9G
- BGB6YvlP+jOdjFsHoHZj9jE3usVR5Mz7HsuodOP3iVjGQcOLDRn4qjuJH+aASwLbMOl6i6gsymD
- kIiI7MjcS7NHSc3gJJ1fHv/RxX2EYsALXgbgoee30wEQedLox1hEdFHlpYyDRLVTR7HhXYh/3VV
- /KA5MX7aJlUp86Wz2+bcPKMoycJLLohDrJghFMWsCQpccGFGOqEBVeCb2iKtmHObs3ajSiqYZbC
- LuGlz6Loz2uH3rztgqYIkKy9dGi8joKFfc/F6qgwh+v7qfaF8WI9YriAXyr+P2hJV2Yab/QsdUT
- UA3Yg2bp2/2T4k0mtiKU98xQAP/BEQ==
-X-Proofpoint-GUID: nRKMuyXgp3gczPnUYLR2u7l-KTHgL_yx
-X-Proofpoint-ORIG-GUID: nRKMuyXgp3gczPnUYLR2u7l-KTHgL_yx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-25_02,2025-11-25_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 lowpriorityscore=0 suspectscore=0
- adultscore=0 spamscore=0 malwarescore=0 clxscore=1015 phishscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511260079
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,84 +59,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DSP currently supports 32-bit IOVA (32-bit PA + 4-bit SID) for
-both Q6 and user DMA (uDMA) access. This is being upgraded to
-34-bit PA + 4-bit SID due to a hardware revision in CDSP for
-Kaanapali SoC, which expands the DMA addressable range.
-Update DMA bits configuration in the driver to support CDSP on
-Kaanapali SoC. Set the default `dma_bits` to 32-bit and update
-it to 34-bit based on CDSP and OF matching on the fastrpc node.
+Hello,
 
-Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
----
- drivers/misc/fastrpc.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+This is a set of fixes for bugs I ran into while looking at [1].
+Hopefully that's enough to recover from AS_ACTIVE bit stuck
+situations, but it'd be good to understand why the MMU block is
+completely blocked in some cases and try to come up with better
+mitigations than a full GPU reset.
 
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index 9c3860f5716c..b1315e20f121 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -269,6 +269,8 @@ struct fastrpc_session_ctx {
- 
- struct fastrpc_soc_data {
- 	u32 sid_pos;
-+	u32 dma_addr_bits_extended;
-+	u32 dma_addr_bits_default;
- };
- 
- struct fastrpc_channel_ctx {
-@@ -2189,6 +2191,7 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
- 	int i, sessions = 0;
- 	unsigned long flags;
- 	int rc;
-+	u32 dma_bits;
- 
- 	cctx = dev_get_drvdata(dev->parent);
- 	if (!cctx)
-@@ -2202,12 +2205,16 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
- 		spin_unlock_irqrestore(&cctx->lock, flags);
- 		return -ENOSPC;
- 	}
-+	dma_bits = cctx->soc_data->dma_addr_bits_default;
- 	sess = &cctx->session[cctx->sesscount++];
- 	sess->used = false;
- 	sess->valid = true;
- 	sess->dev = dev;
- 	dev_set_drvdata(dev, sess);
- 
-+	if (cctx->domain_id == CDSP_DOMAIN_ID)
-+		dma_bits = cctx->soc_data->dma_addr_bits_extended;
-+
- 	if (of_property_read_u32(dev->of_node, "reg", &sess->sid))
- 		dev_info(dev, "FastRPC Session ID not specified in DT\n");
- 
-@@ -2222,9 +2229,9 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
- 		}
- 	}
- 	spin_unlock_irqrestore(&cctx->lock, flags);
--	rc = dma_set_mask(dev, DMA_BIT_MASK(32));
-+	rc = dma_set_mask(dev, DMA_BIT_MASK(dma_bits));
- 	if (rc) {
--		dev_err(dev, "32-bit DMA enable failed\n");
-+		dev_err(dev, "%u-bit DMA enable failed\n", dma_bits);
- 		return rc;
- 	}
- 
-@@ -2311,10 +2318,14 @@ static int fastrpc_get_domain_id(const char *domain)
- 
- static const struct fastrpc_soc_data kaanapali_soc_data = {
- 	.sid_pos = 56,
-+	.dma_addr_bits_extended = 34,
-+	.dma_addr_bits_default = 32,
- };
- 
- static const struct fastrpc_soc_data default_soc_data = {
- 	.sid_pos = 32,
-+	.dma_addr_bits_extended = 32,
-+	.dma_addr_bits_default = 32,
- };
- 
- static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+Check each patch for a detailed changelog.
+
+Regards,
+
+Boris
+
+[1]https://gitlab.freedesktop.org/panfrost/linux/-/issues/57
+
+Boris Brezillon (6):
+  drm/panthor: Always wait after sending a command to an AS
+  drm/panthor: Kill lock_region()
+  drm/panthor: Recover from panthor_gpu_flush_caches() failures
+  drm/panthor: Add support for atomic page table updates
+  drm/panthor: Make panthor_vm_[un]map_pages() more robust
+  drm/panthor: Relax a check in panthor_sched_pre_reset()
+
+ drivers/gpu/drm/panthor/panthor_gpu.c   |  19 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c   | 280 +++++++++++++-----------
+ drivers/gpu/drm/panthor/panthor_sched.c |   2 -
+ 3 files changed, 166 insertions(+), 135 deletions(-)
+
 -- 
-2.34.1
+2.51.1
 
