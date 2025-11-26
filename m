@@ -2,170 +2,181 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 768BAC8B7AA
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 19:50:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CB4C8B7B0
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 19:50:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EB3810E6DB;
-	Wed, 26 Nov 2025 18:50:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C209710E6E4;
+	Wed, 26 Nov 2025 18:50:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CFh988Kx";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="t8Q/pacy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E127010E677;
- Wed, 26 Nov 2025 18:50:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764183016; x=1795719016;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=U3gb35IbVMYRr+VgFSkrG2K/Cb4CFpXIwWkRlPOy+ac=;
- b=CFh988KxO6K8k3BRBJwa8iXv5VNpFwH99PF/R+jyQSg6tDyIXdJlmIFc
- PmHHTSFFVvACBUZr9TjjjLIV9iXSpULvn/NB64lhMgoM+6U0HMct46ps9
- JjcMvIKpoDq8QeCswaD7fGUUTGPRz+QN2ffMcfELQNm92yZKZocry3ZY0
- c8kbfWi2lLicS5Ivr8f4XjGa1rBp5Qa8kXUpd4HFCbHsI9M0/4lPTg4NB
- gx7EzD6P5iAaa/GF+LlyGqXYX68nL4DZH3yx+YPYM5vd1DoQUbhWh9StX
- kCtUwJZ/SU2hGW6mA7NnxjAMIwJNbeDFg1Bsva+UqyQEOSBh1+BqOq83T w==;
-X-CSE-ConnectionGUID: RfkrkpYvQi2X+ER1veT6EA==
-X-CSE-MsgGUID: I2/TDgA4QVKQMzFkY6hj7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="76915948"
-X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; d="scan'208";a="76915948"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2025 10:50:16 -0800
-X-CSE-ConnectionGUID: ynyV7BY0SzyerKw+7KKCtA==
-X-CSE-MsgGUID: b4Ks0R3FQ6yOSTT7B+VTEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; d="scan'208";a="223725773"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2025 10:50:15 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 26 Nov 2025 10:50:14 -0800
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Wed, 26 Nov 2025 10:50:14 -0800
-Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.53) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 26 Nov 2025 10:50:14 -0800
+Received: from PH0PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11011059.outbound.protection.outlook.com [40.107.208.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD58810E677;
+ Wed, 26 Nov 2025 18:50:39 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XhFJZpgBo1ELNPQ6K13sgC43vS8j2OJCiQAY64UMiMvmfMaa9BSlYWg6vbiyVWtkGlTRbzBMGlKYMi0/0jnCeHw75THa0dRUY3Eo/4hG8buGA+9ongYnohDMSneAU0pYej3D1PiUq4V0vXBdCvEBwlmfR5gpshMmRA42BRCwoIF2X8VH85DDdBwaD7UJX5TLoazBv+90EbNklEC3cb41YzqpAl7taYcM28sSnZZaC4bUNPaoO/FiYH5vBZASM0gbmtuU9X3SPqtlCVo976/arTK5tSPaUsjncZKzwdKhIA8rrVe53uj6hv4UUwSFD9um2EDTuiKUp2C473V5Svg9aA==
+ b=kfFbwpVD2L1c6XykHPZ6T8C5DdqUN+az9fGjKOkas3RdWPACQgTj1ArMysT0b4eJAvicMvEj7lIZn8jUIXr5IApgbNdydByAPYcBA/UtsqlPA9HHm+1z9gKVUQ9izRhgZt0qivYZo0yF1zBjNGfKgJjrZKTetW/OswwRleyNFl12NnE49+1BMKnse+N15ib+HJnt4AbdRLCAki85tlyARnECS6QwsA1vNLHoL76j+vkHcq27bUR9pQWC6WYJ56hnZId8yc5KuD24VS3Dkqv7W6CyvzJXT95wFPTnN3tsnkvlEeN0mxRvj3RQfhhh+NYKk0GYYG2bDd+uz7vHab47mA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9+7VouzhyVyXnC2mZm606YWhOEZ6+EhtqJeN5H6oTQg=;
- b=YFExZSETRWXvQ1cKMS9pki1hDK5BGa+QP/lbtDYxR1VHICPKRT92xGZoeduVIU82bk085/XIvZUtpFxQR/bslD/JkT4zZQsYCDGVT8qEShJN3msoeU/G3MyQfAq8RdCTZdY7Ywa2TLkG+YWgKFoajx5ejO9ShzB9vFVLpuU8xUmFq4x9uraxgM5tTmgIFc/b8c7VMnWD6FdxX5vIFrudNYiiYW3u1ZNa0yi5dH/m23gu2bd6VFySnvAckPKilRQA310EP/azYsoIjwPEMN+NfS8PnvVRdDWzt8ITrlTUn/Tg5keht++/bVWOpZQtL2H28qVRhGpJuH9Ct89HfTPb6Q==
+ bh=zWhrKJmHn6SEnfdAWQ3JlWrazLNYJ0W4lPgr3lM2H6Y=;
+ b=PZrgH9t31fzLuE7Mk+imEf9Rd/+ZKW6c9JBEO51/dsP8mstCYc3I3EHqbaxqxJdTNCo2UlHFSFeQEVohO9fwTRBRXDlqp2ZqoRaCctEBltonToaHeZ9Wz6MUizZkt/L+QmxEJ0m7buluWkYUevspl4uhI7odC7m6XzPzhTq56MXgYbro4WOZTt0tdorwimzmIvLigE0tK8Kgz7cAgXZfr5ccur9YaoiBPEb89jconYa6It7IkgWnd2WFBun2eEcU3XwuJCrxtb8/MhwCmf8dHtBGkDB0ezJdGqXUvSNvHqW2vgj81KylvEDwOlzL7O9Io6gaF8BWGi+rALojqxPkZg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
- by DS4PPFBA72E12AE.namprd11.prod.outlook.com (2603:10b6:f:fc02::48)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.12; Wed, 26 Nov
- 2025 18:50:13 +0000
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563%6]) with mapi id 15.20.9343.016; Wed, 26 Nov 2025
- 18:50:12 +0000
-Date: Wed, 26 Nov 2025 13:50:04 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Ravi Kishore Koppuravuri <ravi.kishore.koppuravuri@intel.com>
-CC: <igt-dev@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- Iddamsetty Aravind <aravind.iddamsetty@intel.com>, Tauro Riana
- <riana.tauro@intel.com>, Gupta Anshuman <anshuman.gupta@intel.com>
-Subject: Re: [PATCH v3] tools/drm_ras: tool to communicate with DRM Netlink
- Subsystem
-Message-ID: <aSdL3D8o3GnjOzSt@intel.com>
-References: <20251121064851.537365-1-ravi.kishore.koppuravuri@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251121064851.537365-1-ravi.kishore.koppuravuri@intel.com>
-X-ClientProxiedBy: BYAPR11CA0037.namprd11.prod.outlook.com
- (2603:10b6:a03:80::14) To CYYPR11MB8430.namprd11.prod.outlook.com
- (2603:10b6:930:c6::19)
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zWhrKJmHn6SEnfdAWQ3JlWrazLNYJ0W4lPgr3lM2H6Y=;
+ b=t8Q/pacyyB+UQ3lE5VmcSXqaD5i784b7glH+Ocd2hFeh2XiHD3yoNgJPJa8hiPJ3NN8nVeKOAvUAwl/OfXLQHuX5r2+BjUxaV9zeK1f8tsvgxvYUBFYb29TzSnVnG14Y1lfC4iIO/ynJ3yUPisg52VabWixKzKqw76U1tw8hnz3+G0RLFSCqqa0sk8Jw8UOnDp4O6Gxus2uYMVFeaz4js0ImOzRD1Q2xGG4+MGzfaABBbLW/ZWcURg+LHir4OisWJrkFnAtvfhOcSWtzoL7mzPGYj9zk7NK3dMaRnq6W86rCDNnhDBBE9jrSV+z3HjEcGbSw8WPnked+k2MjR/OZOA==
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by IA0PPFA19DE7612.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdd) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.13; Wed, 26 Nov
+ 2025 18:50:34 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9366.009; Wed, 26 Nov 2025
+ 18:50:34 +0000
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: Alexandre Courbot <acourbot@nvidia.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "dakr@kernel.org" <dakr@kernel.org>, "airlied@gmail.com" <airlied@gmail.com>, 
+ Alistair Popple <apopple@nvidia.com>, "ojeda@kernel.org" <ojeda@kernel.org>,
+ "alex.gaynor@gmail.com" <alex.gaynor@gmail.com>, "boqun.feng@gmail.com"
+ <boqun.feng@gmail.com>, "gary@garyguo.net" <gary@garyguo.net>,
+ "bjorn3_gh@protonmail.com" <bjorn3_gh@protonmail.com>, "lossin@kernel.org"
+ <lossin@kernel.org>, "a.hindborg@kernel.org" <a.hindborg@kernel.org>,
+ "aliceryhl@google.com" <aliceryhl@google.com>, "tmgross@umich.edu"
+ <tmgross@umich.edu>, "simona@ffwll.ch" <simona@ffwll.ch>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>, John Hubbard <jhubbard@nvidia.com>, Timur Tabi
+ <ttabi@nvidia.com>, "joel@joelfernandes.org" <joel@joelfernandes.org>,
+ "elle@weathered-steel.dev" <elle@weathered-steel.dev>,
+ "daniel.almeida@collabora.com" <daniel.almeida@collabora.com>, Andrea Righi
+ <arighi@nvidia.com>, "phasta@kernel.org" <phasta@kernel.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>, Nouveau
+ <nouveau-bounces@lists.freedesktop.org>, Alexandre Courbot
+ <acourbot@nvidia.com>
+Subject: Re: [PATCH v2 1/3] rust: helpers: Add list helpers for C linked list
+ operations
+Thread-Topic: [PATCH v2 1/3] rust: helpers: Add list helpers for C linked list
+ operations
+Thread-Index: AQHcUy58YAKhaa3SYEu72qT54gYYALUDj+0AgAA481eAAHVaAIABJoGj
+Date: Wed, 26 Nov 2025 18:50:34 +0000
+Message-ID: <F3A7E1BB-883C-4EF4-B245-8E9DD329131F@nvidia.com>
+References: <20251111171315.2196103-1-joelagnelf@nvidia.com>
+ <DEHV08MPF9CH.1GZAWEGC4AVF3@nvidia.com>
+ <095D38BD-A8AA-4BC3-8C24-9454964EB8F8@nvidia.com>
+ <DEI89VUEYXAJ.1IQQPC3QRLITP@nvidia.com>
+In-Reply-To: <DEI89VUEYXAJ.1IQQPC3QRLITP@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR12MB8059:EE_|IA0PPFA19DE7612:EE_
+x-ms-office365-filtering-correlation-id: b2c9b445-de24-4fa1-1aa0-08de2d1caea0
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|366016|38070700021; 
+x-microsoft-antispam-message-info: =?utf-8?B?LzBSL0VGazBWTGNDN1J3TC9aOWpJSkI3Wk1veUJLL0NWM2R4a09GV095RnIr?=
+ =?utf-8?B?NmVPT2ZXdlU5cUtZS0VWYlU1TWlzd3duOGxuT0dnZzEvUXFlUU8vaG5lYmhZ?=
+ =?utf-8?B?Tkc2WTVoUmJ3bnRacG9DVzZSRTByc0pabVVwSzBhQ0hpbXFUMWxrQlQ0RUtq?=
+ =?utf-8?B?Ynphb09BYXRCZmpsdFkyb3Q5aURPYmoxRlBpVVdkWUFOcTJ2ck9Ra3pWRGRk?=
+ =?utf-8?B?TzI3TEZDSEYva1FpazF1K1VVTTJTRFlNRTUzdlNOYlY5bEJpbmY5aS84cUVF?=
+ =?utf-8?B?Y0h4OURVcTk3REUrU292K2E3TVRPeEZjZjJ0blJLa21xK2ZydlpsdmxsYzdW?=
+ =?utf-8?B?NUREVDIvSm5lRjIvSTBhWXlFc0tVQjFaQk9IVFZVZnFKdHMzdXFKWkdSY2FC?=
+ =?utf-8?B?Q2xZRzVaQ3N3cmxjQlVUZXNoT1dKNU9FMEFnY1pQUVhqQWp0dmwyemdsbTNR?=
+ =?utf-8?B?aDdHSWsrb3BoTkpLcmtGRmV5TkE1M0t3V1BNeHl5dHVQaU5wTWFCWGNuTEZS?=
+ =?utf-8?B?bWx3bjdrZDhCZ0YzMnNzeVdiS3E0Q1VxR1l2VFZ4V0dHSGlYNDQ4UDNRTWFo?=
+ =?utf-8?B?OFByVkNIbDFKbFE5NlBIR3J3M1JRaCtnQVhkK01aSVFDck5FYWN4NWdqTFA1?=
+ =?utf-8?B?bFpjdnJXaVVYdDRNVWcyTUtFZXlBUlBTb25EaDNuMkFQckpUbWR5c3dzdm5u?=
+ =?utf-8?B?ZUtOajhSc0ROTXNqWmxYV21QQ3RRVW82cktraFBISGJoNXI2RThrZXhrWExs?=
+ =?utf-8?B?M0NQVnBEMmZFQmxYaktwems2UDZMOTZsTGRhbVcwTFdpM2dYU0paQmJyT3Ny?=
+ =?utf-8?B?bjdHTmdQdnBIcG5oL1RNMzVVUUJxTW5OLzJTaFdWQWZTOVBCTWVqNXVsUzlK?=
+ =?utf-8?B?dUUwZE9QUHZmT0o5ZWhMZU9UYTVlZjhQNW1rcjF4TlpBRHRiMnpDWWJGRTVE?=
+ =?utf-8?B?TkorZ29PR1lTUUhjTE83WFBNcFBaYytXSEprb1k0RE9HZDdVWTlsa2xRTDFK?=
+ =?utf-8?B?Z3RxcEQxRS81ZFB4RFE3RXNYRU9xMzN4SUJucERCcll0MTkvMFN0VC9wQzVG?=
+ =?utf-8?B?WFJWaWU0WkxHbDdvWmloTWJFZmdOWms5N0V1STdVaFl5TEVJazRHMGJZNGtL?=
+ =?utf-8?B?eXJNWnJGZWl1aWpoeHZpcTBQQ0FVZkNvczB0ajR3WE5YTm9SaEFLbGZPQUdx?=
+ =?utf-8?B?RE1YVEh1ejNjWUFHcVp4R1RURnFVQ0cyY2cyM3ZUQWxZM2dtdUdOQ1dsamdT?=
+ =?utf-8?B?U2JDT2tnYjJYV1FVRUNDZXI3clpZY0ZMR1BYZHJsTEZDcFJnd1ZZZGdaSmVx?=
+ =?utf-8?B?NDhWVGJVeDc4UUdPeVdCL2dPQWwrQnc0MVZoMlQycDBWekFLeFd0bGgvM2Vh?=
+ =?utf-8?B?SGNhQmZlZEx5a3dNam1FQ0VCL2xLMDBUeHNTTGhoTTh6aHdGaEUrWk1MNzdL?=
+ =?utf-8?B?QThkaWtIWlg1cHVEK0FWVU9KZmo4K2xvaFVtUGtxdHh2a2FnSnpndGZ5UWha?=
+ =?utf-8?B?bmxRU3hYUVBsSE5rVjhWazlvdmxXVlpPMnF4Ujg3VGsvZ1hCZ1M5VDMxS3BJ?=
+ =?utf-8?B?L3A4UnI5eUxtK3IyRkhsNDBhN1RPOExtWlM1VE5kM1ptUVFrMHpOa3JlblMw?=
+ =?utf-8?B?MVZTSWs0bUFES2owZHVnZkZDUUNTSS8zWFJCd1BmSTEyd0NFcUdwcmdvaURF?=
+ =?utf-8?B?MGtSVFovNk04NDhvdXAyUThieHNXRm1jdlRkMjl4bWRCTlZOMWRnNGFId09p?=
+ =?utf-8?B?QjQyL1ZVQzdVbUZKMkVlaGJwWEpPSkhQaEI0a0hDNCtrTnJ1YllDTlF3YVZx?=
+ =?utf-8?B?RTJJOSswM3h5cXY2SGYrZHF0WUlsMGlXYXcyTS9keVQrNWFrQkZsN2F6bThK?=
+ =?utf-8?B?TTR5V0kwbHY0blN4bjNhR3NPMzl1VS8xOXA2aGluUU9GbytBczBWR3JLZDhG?=
+ =?utf-8?B?VDhITjBCMHZ3WGN5WlZTdjVoTlQza2tFZzJ4d0p1MmhWR0NXYWdhM3RBWEpZ?=
+ =?utf-8?B?T3ZoU1hOVlJncnFuVHlMRmFaaFhJYkJLUEVsREtBempJYURoS00rWjRZOFJi?=
+ =?utf-8?Q?hRk8i/?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700021); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TG5kRXpNQTU1OXFhTEVLbXJPcFV3QU5lNnZWTWVudVMvZmpzUEk1UDFtbG15?=
+ =?utf-8?B?aGY3STBZNlBVRnVaZXBVV2s5bkdmZUR3Sm4ySkdpdkZBakFnb1A1NEh5TG5P?=
+ =?utf-8?B?VGJ1Vm9UZGl6elcycFZSOW1GQWp4bC9KeGVhdHprU2VJQ2FFSm9nWUkxUkxR?=
+ =?utf-8?B?dVQzUDZTMU40cUs5U2x3cG9wUnNhanhuOEgwcXNCZ29BL3FEYmVYOVhJTElm?=
+ =?utf-8?B?QTQxZGxTalY0cGFhQTlGejMwc1FFQ3ZFd0Z1ejh4TSszOWI0a3FJdFlacEJi?=
+ =?utf-8?B?UWxsWEtZbk1OaVNMZFlDUnlwV3Bxc0loYXNJaytIYzE0U0l1Y0VZcitEYVVl?=
+ =?utf-8?B?OUhsdndYMzRwbDFyZnkxcmZudzRJRjFPY0QxREZoeG5Jb3NsbjJBMVFIaCts?=
+ =?utf-8?B?M2NMM0o3RDhjRTlCNXVOYy83VE9nUkZVT1dwY2dra3lmenBRUzFTSTg3N2Yz?=
+ =?utf-8?B?T09sNUtOcUliRHhEdmdGZlQzMW1teDRrNnBOK1dqcGwyNlBnMWljK3QraTRt?=
+ =?utf-8?B?MXRoZDhYR3RFTGlKTDMrdmpxQWFvU29FbE0rNE90ZXc0N0ZMU3FhYmE0SWFX?=
+ =?utf-8?B?SGZWVzBSRHJWSFRkYWxyZXplRFhQaG55azI0dU4vYzlEYU5xRU5hSlNwT3Ay?=
+ =?utf-8?B?ZmdLcUlvWGY5alljS2tLVzhyRWZCalQzNlBsUHZOWlpoOC9BV1RzeWxCQWht?=
+ =?utf-8?B?clVTNlJHNUtHOVhnRWczUTNmYitKdjYvNzdQWW5QazdIeXRkZHRKWS9CV2lk?=
+ =?utf-8?B?MUlQcHFEdGFSWEdTSklwbUszTFlTNTNzNUlYY0NhbFRjRDcwa1ZXLzhoRWZP?=
+ =?utf-8?B?TDkvZUUwZlZvVTJRUWI1cEtqVUNQUnlNc0ttOVZOaUdvQzI2RWkzQUtLb3F1?=
+ =?utf-8?B?MlM4UDJ5ejk0WldFS04vSlpyZEZoZk5GbE0xcUpmVW1qbWFnK2d4OEZCZVY4?=
+ =?utf-8?B?VU1uY0d0RDd5WlFQVXg1QzdRaFlBZ1p0WS9GV1ZsSEdiMEM2czJDclBtOGtv?=
+ =?utf-8?B?MlBNaDlRZ1pXeEJqZ1YydWtJNXR6UzlmTHZFQTBxTkdWYld3d2EzSURyU0Zl?=
+ =?utf-8?B?WDZ0V1lhSllmWU01ZkgvZGpVeUg1QytiL3JTMVFOR2t5YVlVNFo4M3M2ZDlM?=
+ =?utf-8?B?VTcvVXJiR1lUSFdpZW9NTTlob1NKYktKS0ZVdTNtTjRFNTBFWGpVNEF3dkl5?=
+ =?utf-8?B?T0F5bWFwN2w1TlljeURNZ2RWc3Zmc3ZYQzVOQUFVb29GVDFUTHJhRjBQVUJJ?=
+ =?utf-8?B?enNtU2dPeGR4VHZXQ3dadGNqU05ydzFxcmRWMGZEeERpQU50YThnRXJXenNr?=
+ =?utf-8?B?eUFKTng4K2NGVENVWW1LNWl2eDNUcDFKVmJPM0kxN3BFcHAzQkRPeE4zWUJJ?=
+ =?utf-8?B?ZzVvcWNhdTlUUVRYUDdBamJtTTIzLzRiWVBOVVlMd3NCOVZTa21zcGJKUFpK?=
+ =?utf-8?B?czJzbmVWbkVZRlM2OWVaOVgrT1BISUlTYXZPWGRFOFlzdDdKR3J5OEtKWFh0?=
+ =?utf-8?B?bkNsK0xzVmVnVXZoSEhQaDV3TWwrS0tqOFVRVVFPWnZOWVRqRWk1dkxnVldz?=
+ =?utf-8?B?OEVURHpRQVJiNGs1UGNoMlgvaitGVGxjZlEzdSsvWXhKVGp6YWhZeFVoaFVV?=
+ =?utf-8?B?VUdYS2dRMkppZFVwd3JQRlNKTDdHRFp0MG0yOHZtY0lFK3pmZUw4elNtYjJL?=
+ =?utf-8?B?dUpLTWN1TFBkWTlFbCtkdkFUNms0aVNNZGZ5SjRPWGloY0xXaTV4cGZrKzdy?=
+ =?utf-8?B?RFJob2F0YlRKUmx6eno3WjhZWFN6bjNkZm0wbWtnaVNvbkxaQTNEUVJteVRY?=
+ =?utf-8?B?SzMrSjArSjN4Q2M0enlmSm9MNDlrd1NyZGloMnRHaTdVenV5THpJTGJVaGk4?=
+ =?utf-8?B?VFh1aEIrUm1xeDV4RGRqdGg5NklOcTlwU0gwRDQ5amJkR2w4cEozTHpERWUv?=
+ =?utf-8?B?ZVcxc3MwdHNiTkhUaEtWQkFCM21zMmh0ZTdMRVJ0OUJWSXlXblBmd1gvSGxh?=
+ =?utf-8?B?SGV2MlhIdXVpc3FSaWI3cG5Mb25uOWRBVzZxWE04QXIrMXpCbk1GdFA4dm9M?=
+ =?utf-8?B?VXk3VW5Fc0lnMERDWEoyUDVoSkpIOWNpamxCSUJab2loQjJvamZLeVM1SkpB?=
+ =?utf-8?Q?OSPxY392fOLJzyfUYzd3JD1T0?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|DS4PPFBA72E12AE:EE_
-X-MS-Office365-Filtering-Correlation-Id: f347a688-10b5-44a1-c92d-08de2d1ca178
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?GTvysofXcA+2oynWHAvOCg1KW8WkpEaZTLiUnJm4j7vTbDUC67lzo11rns?=
- =?iso-8859-1?Q?qT8pOmDR+5BWt/xgkar+DvH6tGQeI1EdauLVAsDiYFumMrUb1Bd5eZxOjV?=
- =?iso-8859-1?Q?wiHAgE5hD5Y03EQjl2ccvw2O1C0rF6x21p+g4c0MqfsDanP/sQnfZTmpd1?=
- =?iso-8859-1?Q?WLsx/d0pffnDyW7sQA+bjG288jSpg+vhKL/UryFum4RDeyddbze8JNnnDc?=
- =?iso-8859-1?Q?hYEwbu/mHUh6ufoUsGSFho32i4x7I9ehMZCkLi04uQFdsXzNeNT5JG1FEN?=
- =?iso-8859-1?Q?3GoqAlHm40QTXB5nijdIT3YgMjL4KFvbFChDFL7+CGVAdeAj7XfTAkk3QM?=
- =?iso-8859-1?Q?IzeIj3c9I+JSSow2MB81XPoxp8XX23aO8eFxGH8vYfpzwIdU8JI4VbB2jF?=
- =?iso-8859-1?Q?9D3oiwHIr8i3Y88PF8mmcI7XtEJiWB05l9BOC7Y4CCaFe5EK3xrcwv/rzj?=
- =?iso-8859-1?Q?1v4jRsP+QdXpY87Lpm/2YSnDj4yVzps3g1t2tpEQQQ4MRoLNGF+UctccWl?=
- =?iso-8859-1?Q?2on4p/AKEGtdh3Oy4uJNZaQL3AmJsmzA//xj8y82PNe6KcC9YsEmEEvVPf?=
- =?iso-8859-1?Q?FATFiI8cCgRbma7K5mHLDkMcpZK82mwe7q2hW9oRNfMtPcn+V/GBKpK8sB?=
- =?iso-8859-1?Q?wf+n9tHwIWEYyMqgpoLhiskO+t1+YRUfmaDAMu0ZdkRAbnh3TIzXcOmvoA?=
- =?iso-8859-1?Q?5RE6nN9FMvliEiYQlt2dDYPNqA2zNpHAdytkbRLXWNln7CvvUTUy8FM0rj?=
- =?iso-8859-1?Q?ygMmD6HekIimPmlI8QiqgIHhBPrw8kDIw9ov30lPBSZvV4yBAHZeN7OzyH?=
- =?iso-8859-1?Q?0mc+UzrRDl3XVyjhG55xuokXAdxWLtmchcquj5eoJqnrxuSJ47u5wIVM1c?=
- =?iso-8859-1?Q?m8btPjquIcz4Aqzs/VZ5C6ULMbcOR6mKCYbMEaUvsjpA+zBjvQ8mmhU5QM?=
- =?iso-8859-1?Q?P4IGWVHQdpXi2cXk7O2vOC/J1MCfb6Gfka+dvklaGHEXFOZwajppvG2O/h?=
- =?iso-8859-1?Q?skJGfo8Lms6NWz0wUWCghmjHXRBL3qFE0VSkI1RR6Q7cSgDUa0/uTrELxt?=
- =?iso-8859-1?Q?/MFMDl/srZ2dB2OZFobw2+gKlr5d8SAXZzaaN31NXz5RQfs9BMBtMVzRFE?=
- =?iso-8859-1?Q?VoWuYFqt60Kk7l8czzVvZeLmLRg4tC/cFnDD9RlmkIjiyw+8RNlbOIsl/i?=
- =?iso-8859-1?Q?6/bOJyQnEClZBNUvxASQNOBKLtX1TtyI1/P4epG2G48GaBzPTh5IvXoNmZ?=
- =?iso-8859-1?Q?NFP2TEhhdVZklFeYbqIEn+I6e6lxnPQR6T3gNrNuRQUgeXxYMo+4hmvIGI?=
- =?iso-8859-1?Q?kJ+U6xTe5iUcZ3Fnn8y3S5bt2oq2ZNxQq7ceaZAPenAjfFKLIO1VHJUDfe?=
- =?iso-8859-1?Q?848JvU6aBeHRiOXadu8tVL0BHSTdJHDueLDVwPlxVn/67dcRQkdeTbFBjr?=
- =?iso-8859-1?Q?QTvgyyIAL/mHUKZluJlo5pk2ymHWGxI5iSJQyH0h9hH/NVTmHt7M9kgxC2?=
- =?iso-8859-1?Q?hKBSppkMFh05mSlt6sJoqK?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?QIw53vT5T1ygz2nZVqFkMSE0Ude4Z/48I0NYLs6c0E+xacR6q/8Fvyo4a7?=
- =?iso-8859-1?Q?nCrMciZKOcMmb+l4FwybNbIvdr7e8KRxSqDeMqvW8kneISSwe1wIAjVmhu?=
- =?iso-8859-1?Q?wehtM51MiWRqvuEsg/4cM1qjKkb05hf20cGE0Z0fKSr9nWs6iPAar/Df9o?=
- =?iso-8859-1?Q?iU1HsZuRznAnxblnLANmXgPpJzL/bgL4tjqIcekeOBdJD5xoSSmZvRFutb?=
- =?iso-8859-1?Q?1eHd1v98OPBEuSjd/MFYu6EJP75ZTWVhBMZLUn0A9dMtAKyASBBICUykqy?=
- =?iso-8859-1?Q?qkJmare7I4IIqqc+knhmDaC5FgU4sjOz6qVc0Oh4NOVuR62tFEdQp3hxEA?=
- =?iso-8859-1?Q?bv9SH7uLHNCCSJKI7dPX8zIQOmwjlX4Ym208qtrzHL4fW7yB+tiaPdR0XR?=
- =?iso-8859-1?Q?ew6TiMl5bd1Q6cI9T7QVdiO8i5m1fT/o8ywpKwQvg0zMKmrak0+KXZD6P6?=
- =?iso-8859-1?Q?zFBVVYO+xEU2xvQOfeeKujIyagVERLE6KMBmomA/LeIlMoyhmDW3olAGwu?=
- =?iso-8859-1?Q?PdYA9H3jpv8ektaAyXxlXgzgfnSerYGwzvv2Bbmi6UtlGN5Gm+jJgsljKi?=
- =?iso-8859-1?Q?IRCb/PIhEeptHszTFoD5ITRqKyssWiCNRW8Iksy6erNir54FaqdZkz8lht?=
- =?iso-8859-1?Q?wC94jvk5dHLHtNht/ggb7il2OUPzuMghKsjw/Z5m09auYsGmDKmpEp0mH3?=
- =?iso-8859-1?Q?qLSEjpCxjflrZVSEEowfLNrew4GCnH9UO8ykl/9KXUsDhpuiUE+44EgO3H?=
- =?iso-8859-1?Q?TiFbwoZuVaZ7+t+G2PFFJc3hi1dJe8zkjnb9eZXe4e+o7MiUIpm7LByAIr?=
- =?iso-8859-1?Q?b4GWg/OL1J2ZZOH7kqxEwSmXrCJQTggg8QU6D/61JWt2U8l/TNLxMxLSHc?=
- =?iso-8859-1?Q?ld6zM+kislOPWj2oyXw3Y+tEa6iId5IF7j1wOqxhBjrFzRvJuThJBtLKWf?=
- =?iso-8859-1?Q?kez7X7432Mtm+Tjx8eLRNB9AEKoIOQCqUP5v7ffZoE3wB3Ng7Haau4NOS3?=
- =?iso-8859-1?Q?b3sGItXKBiO7szWjSnqUctH44VKkxFKVXYqPCwuLrgjKI8ZaZttzIb7iH0?=
- =?iso-8859-1?Q?WHxxmjOyRnTnfHntFKT3s+aBgaldHRCIdIS2EutIxvj6kjT4TlT7jB64K1?=
- =?iso-8859-1?Q?gYUnOAno1axqEeyyx/zuM26mO+CZMwuRVYCq8adpxcZJkmVq+HzjS2cXaU?=
- =?iso-8859-1?Q?QQVKv3HUjgGeTCURB1MQfsJ0KrqYE9r7b+luCR94CrCTYrGrfqPqOKDWtd?=
- =?iso-8859-1?Q?YuQI3y2BgafA53mci713Q4GrCwBqaWN8BSWrG5LNpeU+klyBCfjH9+fbpu?=
- =?iso-8859-1?Q?E8OhLP1OnhPtI4/wXLdNeId/Sc8kDDUNsu/hNL5Onzy4TfIU43WmhZJ8c8?=
- =?iso-8859-1?Q?kAqZgdloY2HmszKl78Zgzjrvcgm/J2uqOBF5KbVHUzad7o0raVdgQmmlu2?=
- =?iso-8859-1?Q?UpM0v5PFPBchWLO/0VMwwHiXU0wTzN/Wjs/+p9nn/97SIXFLz7iSDtW1rH?=
- =?iso-8859-1?Q?Meg61O7hv4Lo3KbzZHPNlSwm4ZHMmYr1HEBxuKGYOkzMBgU7hydhzfcy38?=
- =?iso-8859-1?Q?pLgln+2++Hcm9ThsiApDgIb/BnkD7SfZISoQNiyAwk+3KtW0/EWbx45hz9?=
- =?iso-8859-1?Q?7oE84Ej4KTCt/653YFOApFwgas/Yg7jjhQ?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f347a688-10b5-44a1-c92d-08de2d1ca178
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-OriginatorOrg: Nvidia.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 18:50:12.8469 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vZpMlXx96Oa+s7x7LkqNRCQ6KCR3/I7c2BcojqHxp0R0BCyShk3CnJZcKF9SEDCSmRUdFkkFNJkqfG1KdEgaDA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFBA72E12AE
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2c9b445-de24-4fa1-1aa0-08de2d1caea0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Nov 2025 18:50:34.4666 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JzRMjrKx7I62wzabH6VMw9UBDtOMHJb1kCCREXm7RSw4S+dcL7wWQeF6JvUtD5pHIXWeuBvCApVuNup7KTaFEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPFA19DE7612
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,599 +192,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 21, 2025 at 12:18:51PM +0530, Ravi Kishore Koppuravuri wrote:
-> User space tool for querying GPU health monitoring RAS events via
-> Generic Netlink Socket interface from Kernel's DRM Netlink Subsystem.
-> Available Commands are
-> 	- List Nodes
-> 	- Get Error Counters
-> 	- Query Error Counter
-> 
-> Signed-off-by: Ravi Kishore Koppuravuri <ravi.kishore.koppuravuri@intel.com>
-> Co-authored-by: Iddamsetty Aravind <aravind.iddamsetty@intel.com>
-> Cc: Tauro Riana <riana.tauro@intel.com>
-> Cc: Gupta Anshuman <anshuman.gupta@intel.com>
-> Cc: Vivi Rodrigo <rodrigo.vivi@intel.com>
-> 
-> ---
-> V2 -> V3:
-> 	- Created handle_err() function to remove redundant code
-> 	- Handled more error scenarios while passing command line arguments
-> 	- Resolved formatting issues (Rodrigo)
-> 
-> V1 -> V2:
-> 	- Removed device_id from the input parameters
-> 	- Updated help() function
-> 	- Incorporated error handling logic
-> ---
-> ---
->  include/drm-uapi/drm_ras.h |  79 +++++++
-
-Please sync up with Riana and make this work with her updated series.
-But ensuring you have both error id and error string coming from the uapi
-header.
-
-Thanks,
-Rodrigo.
-
->  meson.build                |   5 +-
->  tools/drm_ras.c            | 425 +++++++++++++++++++++++++++++++++++++
->  tools/meson.build          |   5 +
->  4 files changed, 513 insertions(+), 1 deletion(-)
->  create mode 100644 include/drm-uapi/drm_ras.h
->  create mode 100644 tools/drm_ras.c
-> 
-> diff --git a/include/drm-uapi/drm_ras.h b/include/drm-uapi/drm_ras.h
-> new file mode 100644
-> index 000000000..af893aa36
-> --- /dev/null
-> +++ b/include/drm-uapi/drm_ras.h
-> @@ -0,0 +1,79 @@
-> +/* SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause) */
-> +/* Do not edit directly, auto-generated from: */
-> +/*	Documentation/netlink/specs/drm_ras.yaml */
-> +/* YNL-GEN uapi header */
-> +
-> +#ifndef _LINUX_DRM_RAS_H
-> +#define _LINUX_DRM_RAS_H
-> +
-> +#define DRM_RAS_GENL_NAME "drm-ras"
-> +#define DRM_RAS_FAMILY_VERSION	1
-> +
-> +/*
-> + * Type of the node. Currently, only error-counter nodes are supported, which
-> + * expose reliability counters for a hardware/software component.
-> + */
-> +enum drm_ras_node_type {
-> +	DRM_RAS_NODE_TYPE_ERROR_COUNTER = 1,
-> +};
-> +
-> +enum {
-> +	/* Unique identifier for the node*/
-> +	DRM_RAS_NODE_ATTR_NODE_ID = 1,
-> +
-> +	/* Device name chosen by the driver at the time of registration */
-> +	DRM_RAS_NODE_ATTR_DEVICE_NAME,
-> +
-> +	/* Node name chosen by the driver at registration to identify RAS node inside the device */
-> +	DRM_RAS_NODE_ATTR_NODE_NAME,
-> +
-> +	/* Type of the node, identifying its function */
-> +	DRM_RAS_NODE_ATTR_NODE_TYPE,
-> +
-> +	__DRM_RAS_NODE_ATTR_MAX,
-> +	DRM_RAS_NODE_ATTR_MAX = (__DRM_RAS_NODE_ATTR_MAX - 1)
-> +};
-> +
-> +enum {
-> +	/* Node ID targeted by this error counter operation */
-> +	DRM_RAS_ERROR_COUNTER_ATTR_NODE_ID = 1,
-> +
-> +	/* Unique identifier for a specific error counter within an node */
-> +	DRM_RAS_ERROR_COUNTER_ATTR_ERROR_ID,
-> +
-> +	/* Name of the requested error counter */
-> +	DRM_RAS_ERROR_COUNTER_ATTR_ERROR_NAME,
-> +
-> +	/* Current value of the requested error counter */
-> +	DRM_RAS_ERROR_COUNTER_ATTR_ERROR_VALUE,
-> +
-> +	__DRM_RAS_ERROR_COUNTER_ATTR_MAX,
-> +	DRM_RAS_ERROR_COUNTER_ATTR_MAX = (__DRM_RAS_ERROR_COUNTER_ATTR_MAX - 1)
-> +};
-> +
-> +enum drm_genl_error_cmds {
-> +	/**
-> +	 * @DRM_RAS_CMD_LIST_NODES: Command to Retrieve the full list of currently registered
-> +	 * DRM RAS nodes.Each node includes its dynamically assigned ID, name, and type.
-> +	 * Obtain the Node IDs by calling this command and use it in the subsequent operations
-> +	 * on the nodes.
-> +	 */
-> +	DRM_RAS_CMD_LIST_NODES = 1,
-> +
-> +	/**
-> +	 * @DRM_RAS_CMD_GET_ERROR_COUNTERS: Retrieve the full list of error counters for a given
-> +	 * node. The response include id, name, and current value of each counter.
-> +	 */
-> +	DRM_RAS_CMD_GET_ERROR_COUNTERS,
-> +
-> +	/**
-> +	 * @DRM_RAS_CMD_QUERY_ERROR_COUNTER: Query the information of a specific error counter
-> +	 * for a given node. Response contains id, name, and current value of the counter.
-> +	 */
-> +	DRM_RAS_CMD_QUERY_ERROR_COUNTER,
-> +
-> +	__DRM_RAS_CMD_MAX,
-> +	DRM_RAS_CMD_MAX = (__DRM_RAS_CMD_MAX - 1)
-> +};
-> +
-> +#endif /* _LINUX_DRM_RAS_H */
-> diff --git a/meson.build b/meson.build
-> index db6e09a94..f7807660e 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -165,10 +165,13 @@ cairo = dependency('cairo', version : '>1.12.0', required : true)
->  libudev = dependency('libudev', required : true)
->  glib = dependency('glib-2.0', required : true)
->  
-> +libnl = dependency('libnl-3.0', required: false)
-> +libnl_genl = dependency('libnl-genl-3.0', required: false)
-> +libnl_cli = dependency('libnl-cli-3.0', required:false)
-> +
->  xmlrpc = dependency('xmlrpc', required : false)
->  xmlrpc_util = dependency('xmlrpc_util', required : false)
->  xmlrpc_client = dependency('xmlrpc_client', required : false)
-> -
->  xmlrpc_cmd = find_program('xmlrpc-c-config', required : false)
->  if not xmlrpc.found() and xmlrpc_cmd.found()
->  	libs_cmd = run_command(xmlrpc_cmd, 'client', '--libs', check: false)
-> diff --git a/tools/drm_ras.c b/tools/drm_ras.c
-> new file mode 100644
-> index 000000000..9bb58bc5e
-> --- /dev/null
-> +++ b/tools/drm_ras.c
-> @@ -0,0 +1,425 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2025 Intel Corporation
-> + */
-> +
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <sys/types.h>
-> +#include <unistd.h>
-> +#include <ctype.h>
-> +#include <getopt.h>
-> +#include <linux/genetlink.h>
-> +#include <netlink/netlink.h>
-> +#include <netlink/cache.h>
-> +#include <netlink/genl/genl.h>
-> +#include <netlink/genl/ctrl.h>
-> +#include <netlink/cli/utils.h>
-> +#include <netlink/cli/link.h>
-> +#include "../include/drm-uapi/drm_ras.h"
-> +#include "igt_device_scan.h"
-> +
-> +#define ARRAY_SIZE(array) (sizeof(array) / sizeof((array)[0]))
-> +
-> +struct nl_sock *mcsock;
-> +
-> +enum opt_val {
-> +	OPT_UNKNOWN = '?',
-> +	OPT_END = -1,
-> +	OPT_NODEID,
-> +	OPT_ERRORID,
-> +	OPT_HELP,
-> +};
-> +
-> +enum cmd_ids {
-> +	INVALID_CMD = -1,
-> +	LIST_NODES = 0,
-> +	GET_ERROR_COUNTERS,
-> +	QUERY_ERROR_COUNTER,
-> +
-> +	__MAX_CMDS,
-> +};
-> +
-> +static const char * const cmd_names[] = {
-> +	"list_nodes",
-> +	"get_error_counters",
-> +	"query_error_counter",
-> +};
-> +
-> +struct app_context {
-> +	enum drm_genl_error_cmds command;
-> +	struct nl_sock *sock;
-> +	struct nl_cb *cb;
-> +	uint32_t node_id;
-> +	uint32_t error_id;
-> +	int error_id_set;
-> +	int node_id_set;
-> +	int error;
-> +	int family_id;
-> +};
-> +
-> +static void help(char **argv)
-> +{
-> +	int i;
-> +
-> +	printf("Usage: %s command [<command options>]\n", argv[0]);
-> +	printf("commands:\n");
-> +
-> +	for (i = 0; i < __MAX_CMDS; i++) {
-> +		switch (i) {
-> +		case LIST_NODES:
-> +			printf("%s %s\n",
-> +			       argv[0],
-> +			       cmd_names[i]);
-> +			break;
-> +		case GET_ERROR_COUNTERS:
-> +			printf("%s %s "
-> +				"--node-id=<node-id>\n",
-> +				argv[0],
-> +				cmd_names[i]);
-> +			break;
-> +		case QUERY_ERROR_COUNTER:
-> +			printf("%s %s "
-> +				"--node-id=<node-id> "
-> +				"--error-id=<error-id>\n",
-> +				argv[0],
-> +				cmd_names[i]);
-> +			break;
-> +		default:
-> +			printf("%s is Unknown Command\n",
-> +			       (i < __MAX_CMDS && cmd_names[i]) ? cmd_names[i] : "Unknown");
-> +		}
-> +	}
-> +}
-> +
-> +static int list_nodes_handler(struct nl_msg *msg, void *arg)
-> +{
-> +	struct nlmsghdr *nlh = nlmsg_hdr(msg);
-> +	struct nlattr *nla;
-> +	int len, remain;
-> +
-> +	len = GENL_HDRLEN;
-> +	nlmsg_for_each_attr(nla, nlh, len, remain) {
-> +		if (nla_type(nla) > DRM_RAS_NODE_ATTR_MAX) {
-> +			printf("Unknown Node attribute type: %d\n", nla_type(nla));
-> +			return NL_SKIP;
-> +		}
-> +
-> +		switch (nla_type(nla)) {
-> +		case DRM_RAS_NODE_ATTR_NODE_ID:
-> +			printf("%-18u\t", nla_get_u32(nla));
-> +			break;
-> +		case DRM_RAS_NODE_ATTR_DEVICE_NAME:
-> +			printf("%-30s\t", nla_get_string(nla));
-> +			break;
-> +		case DRM_RAS_NODE_ATTR_NODE_NAME:
-> +			printf("%-30s\t", nla_get_string(nla));
-> +			break;
-> +		case DRM_RAS_NODE_ATTR_NODE_TYPE:
-> +			printf("%-18u\n", nla_get_u32(nla));
-> +			break;
-> +		default:
-> +			printf("Unknown attribute type: %d\n", nla_type(nla));
-> +			break;
-> +		}
-> +	}
-> +	return NL_OK;
-> +}
-> +
-> +static int query_error_counter(struct nl_msg *msg, void *arg)
-> +{
-> +	struct nlmsghdr *nlh = nlmsg_hdr(msg);
-> +	struct nlattr *attrs[256];
-> +	int ret;
-> +
-> +	ret = genlmsg_parse(nlh, 0, attrs, 256, NULL);
-> +	if (ret < 0) {
-> +		fprintf(stderr, "Failed to parse attributes: %s\n", nl_geterror(ret));
-> +		return NL_SKIP;
-> +	}
-> +
-> +	if (!attrs[DRM_RAS_ERROR_COUNTER_ATTR_ERROR_VALUE]) {
-> +		nl_cli_fatal(NLE_FAILURE, "DRM_RAS_ERROR_COUNTER_ATTR_ERROR_VALUE attribute is missing");
-> +		return NL_SKIP;
-> +	}
-> +
-> +	printf("counter value %u\n", nla_get_u32(attrs[DRM_RAS_ERROR_COUNTER_ATTR_ERROR_VALUE]));
-> +
-> +	return NL_OK;
-> +}
-> +
-> +static int get_error_counters(struct nl_msg *msg, void *arg)
-> +{
-> +	struct nlmsghdr *nlh = nlmsg_hdr(msg);
-> +	struct nlattr *nla;
-> +	int len, remain;
-> +
-> +	len = GENL_HDRLEN;
-> +
-> +	nlmsg_for_each_attr(nla, nlh, len, remain) {
-> +		if (nla_type(nla) > DRM_RAS_ERROR_COUNTER_ATTR_MAX) {
-> +			printf("Unknown error counter attribute type: %d\n", nla_type(nla));
-> +			return NL_SKIP;
-> +		}
-> +
-> +		switch (nla_type(nla)) {
-> +		case DRM_RAS_ERROR_COUNTER_ATTR_ERROR_ID:
-> +			printf("%-18u\t", nla_get_u32(nla));
-> +			break;
-> +		case DRM_RAS_ERROR_COUNTER_ATTR_ERROR_NAME:
-> +			printf("%-30s\t", nla_get_string(nla));
-> +			break;
-> +		case DRM_RAS_ERROR_COUNTER_ATTR_ERROR_VALUE:
-> +			printf("%-18u\n", nla_get_u32(nla));
-> +			break;
-> +		default:
-> +			printf("Unknown attribute type: %d\n", nla_type(nla));
-> +			break;
-> +		}
-> +	}
-> +	return NL_OK;
-> +}
-> +
-> +static int drm_genl_handle_msg(struct nl_msg *msg, void *arg)
-> +{
-> +	struct app_context *ctx = (struct app_context *)arg;
-> +	struct nlmsghdr *nlh = nlmsg_hdr(msg);
-> +	struct genlmsghdr *gnlh = genlmsg_hdr(nlh);
-> +
-> +	if (gnlh->cmd != ctx->command) {
-> +		fprintf(stderr,
-> +			"Unexpected command response: got %d, expected %d\n",
-> +			gnlh->cmd,
-> +			ctx->command);
-> +		return NL_SKIP;
-> +	}
-> +
-> +	switch (ctx->command) {
-> +	case DRM_RAS_CMD_LIST_NODES:
-> +		return list_nodes_handler(msg, arg);
-> +	case DRM_RAS_CMD_GET_ERROR_COUNTERS:
-> +		return get_error_counters(msg, arg);
-> +	case DRM_RAS_CMD_QUERY_ERROR_COUNTER:
-> +		return query_error_counter(msg, arg);
-> +	default:
-> +		fprintf(stderr, "Unknown command: %d\n", ctx->command);
-> +		ctx->error = -EOPNOTSUPP;
-> +		return NL_SKIP;
-> +	}
-> +}
-> +
-> +static void handle_err(struct nl_sock *sock, int ret, const char *err_msg)
-> +{
-> +	nl_close(sock);
-> +	nl_socket_free(sock);
-> +	nl_cli_fatal(ret, err_msg);
-> +}
-> +
-> +static void send_cmd(int cmd, void *arg)
-> +{
-> +	struct app_context *ctx = (struct app_context *)arg;
-> +	struct nl_msg *msg;
-> +	void *msg_head;
-> +	int ret;
-> +
-> +	msg = nlmsg_alloc();
-> +	if (!msg)
-> +		handle_err(ctx->sock, NLE_INVAL, "nlmsg_alloc failed\n");
-> +
-> +	switch (cmd) {
-> +	case DRM_RAS_CMD_LIST_NODES:
-> +		msg_head = genlmsg_put(msg, NL_AUTO_PORT, NL_AUTO_SEQ,
-> +				       ctx->family_id, 0,
-> +				       NLM_F_REQUEST | NLM_F_ACK | NLM_F_ROOT | NLM_F_MATCH,
-> +				       cmd, 1);
-> +		if (!msg_head)
-> +			nl_cli_fatal(ENOMEM, "genlmsg_put failed\n");
-> +
-> +		printf("%-18s\t%-30s\t%-30s\t%-18s\n",
-> +		       "node-id", "device-name", "node-name", "node-type");
-> +		break;
-> +	case DRM_RAS_CMD_GET_ERROR_COUNTERS:
-> +		if (ctx->node_id == -1) {
-> +			fprintf(stderr, "Error: --node-id is required for %s command\n",
-> +				cmd_names[ctx->command - 1]);
-> +			exit(EXIT_FAILURE);
-> +		}
-> +		msg_head = genlmsg_put(msg, NL_AUTO_PORT, NL_AUTO_SEQ,
-> +				       ctx->family_id, 0,
-> +				       NLM_F_REQUEST | NLM_F_ACK | NLM_F_ROOT | NLM_F_MATCH,
-> +				       cmd, 1);
-> +
-> +		if (!msg_head)
-> +			nl_cli_fatal(ENOMEM, "genlmsg_put failed\n");
-> +
-> +		nla_put_u32(msg, DRM_RAS_ERROR_COUNTER_ATTR_NODE_ID, ctx->node_id);
-> +		printf("%-18s\t%-30s\t%-18s\n",
-> +		       "error-id", "error-name", "error-value");
-> +		break;
-> +	case DRM_RAS_CMD_QUERY_ERROR_COUNTER:
-> +		if (ctx->node_id == -1 || ctx->error_id == -1) {
-> +			fprintf(stderr,
-> +				"Error: --node-id and --error-id are required "
-> +				"for %s command\n",
-> +				cmd_names[ctx->command - 1]);
-> +			exit(EXIT_FAILURE);
-> +		}
-> +		msg_head = genlmsg_put(msg, NL_AUTO_PORT, NL_AUTO_SEQ,
-> +				       ctx->family_id, 0,
-> +				       NLM_F_REQUEST | NLM_F_ACK,
-> +				       cmd, 1);
-> +
-> +		if (!msg_head)
-> +			nl_cli_fatal(ENOMEM, "genlmsg_put failed\n");
-> +
-> +		nla_put_u32(msg, DRM_RAS_ERROR_COUNTER_ATTR_NODE_ID, ctx->node_id);
-> +		nla_put_u32(msg, DRM_RAS_ERROR_COUNTER_ATTR_ERROR_ID, ctx->error_id);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	ret = nl_send_auto(ctx->sock, msg);
-> +	if (ret < 0)
-> +		nl_cli_fatal(ret, "Unable to send message: %s", nl_geterror(ret));
-> +
-> +	ret = nl_recvmsgs_default(ctx->sock);
-> +	if (ret < 0)
-> +		nl_cli_fatal(ret, "Unable to receive message: %s", nl_geterror(ret));
-> +
-> +	nlmsg_free(msg);
-> +}
-> +
-> +static int get_cmd(char *cmd_name)
-> +{
-> +	int i;
-> +
-> +	if (!cmd_name)
-> +		return -1;
-> +
-> +	for (i = 0; i < __DRM_RAS_CMD_MAX; i++) {
-> +		if (strcasecmp(cmd_name, cmd_names[i]) == 0)
-> +			return i + 1;
-> +	}
-> +	return -1;
-> +}
-> +
-> +static int check_for_help(int argc, char **argv)
-> +{
-> +	for (int i = 1; i < argc; i++) {
-> +		if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0)
-> +			return 1;
-> +	}
-> +	return 0;
-> +}
-> +
-> +int main(int argc, char **argv)
-> +{
-> +	char *endptr;
-> +	int ret, opt, option_index = 0;
-> +	struct app_context ctx = {0};
-> +
-> +	ctx.error_id = -1;
-> +	ctx.node_id = -1;
-> +
-> +	if (argc < 2) {
-> +		fprintf(stderr, "\nNo Arguments were passed.\n\n"
-> +			"Use --help to see the correct usage.\n\n");
-> +		exit(EXIT_FAILURE);
-> +	}
-> +	if (check_for_help(argc, argv)) {
-> +		help(argv);
-> +		exit(EXIT_SUCCESS);
-> +	}
-> +
-> +	ctx.command = get_cmd(argv[1]);
-> +	if (ctx.command < 0) {
-> +		fprintf(stderr, "invalid command\n");
-> +		help(argv);
-> +		exit(EXIT_FAILURE);
-> +	}
-> +
-> +	static struct option options[] = {
-> +		{"error-id", optional_argument, NULL, OPT_ERRORID},
-> +		{"node-id",  optional_argument, NULL, OPT_NODEID},
-> +		{"help",     no_argument,       NULL, OPT_HELP},
-> +		{0, 0, 0, 0}
-> +	};
-> +
-> +	optind = 2;
-> +	while ((opt = getopt_long(argc, argv, "h", options, &option_index)) != -1) {
-> +		switch (opt) {
-> +		case OPT_ERRORID:
-> +			if (optarg) {
-> +				ctx.error_id = strtoul(optarg, &endptr, 10);
-> +				if (*endptr != '\0' || !ctx.error_id) {
-> +					fprintf(stderr,
-> +						"\ninvalid error-id %s\n\n"
-> +						"Enter a valid error-id received "
-> +						"from get_error_counters command\n\n",
-> +						optarg);
-> +					exit(EXIT_FAILURE);
-> +				}
-> +			} else {
-> +				printf("error-id not specified. check --help  for correct usage\n");
-> +				exit(EXIT_FAILURE);
-> +			}
-> +			break;
-> +		case OPT_NODEID:
-> +			if (optarg) {
-> +				ctx.node_id = strtoul(optarg, &endptr, 10);
-> +				if (*endptr != '\0' || !ctx.node_id) {
-> +					fprintf(stderr,
-> +						"\ninvalid node id %s\n\n"
-> +						"Enter a valid node-id received "
-> +						"from list_nodes command\n\n",
-> +						optarg);
-> +					exit(EXIT_FAILURE);
-> +				}
-> +			} else {
-> +				printf("node-id not specified. Check --help for correct usage\n");
-> +				exit(EXIT_FAILURE);
-> +			}
-> +			break;
-> +		case OPT_HELP:
-> +		case 'h':
-> +			help(argv);
-> +			exit(EXIT_SUCCESS);
-> +			break;
-> +		case '?':
-> +			fprintf(stderr,
-> +				"Unknown argument passed\n"
-> +				"Check --help for the correct usage\n\n");
-> +			exit(EXIT_FAILURE);
-> +			break;
-> +		default:
-> +			fprintf(stderr, "Unexpected option: %c\n", opt);
-> +			exit(EXIT_FAILURE);
-> +			break;
-> +		}
-> +	}
-> +
-> +	ctx.sock = nl_cli_alloc_socket();
-> +	if (!ctx.sock)
-> +		nl_cli_fatal(NLE_NOMEM, "Cannot allocate nl_sock");
-> +
-> +	ret = nl_cli_connect(ctx.sock, NETLINK_GENERIC);
-> +	if (ret < 0)
-> +		handle_err(ctx.sock, ret, "Cannot connect handle\n");
-> +
-> +	ctx.family_id = genl_ctrl_resolve(ctx.sock, DRM_RAS_GENL_NAME);
-> +	if (ctx.family_id < 0)
-> +		handle_err(ctx.sock, NLE_INVAL, "Resolving of family name failed\n");
-> +
-> +	ret = nl_socket_modify_cb(ctx.sock, NL_CB_VALID, NL_CB_CUSTOM, drm_genl_handle_msg, &ctx);
-> +	if (ret < 0)
-> +		handle_err(ctx.sock, ret, "Unable to modify valid message callback\n");
-> +
-> +	send_cmd(ctx.command, &ctx);
-> +
-> +	nl_close(ctx.sock);
-> +	nl_socket_free(ctx.sock);
-> +
-> +	return 0;
-> +}
-> diff --git a/tools/meson.build b/tools/meson.build
-> index 8185ba160..74ff97713 100644
-> --- a/tools/meson.build
-> +++ b/tools/meson.build
-> @@ -70,6 +70,11 @@ if libudev.found()
->  		   install : true)
->  endif
->  
-> +executable('drm_ras', 'drm_ras.c',
-> +			dependencies : [tool_deps, libnl, libnl_cli, libnl_genl],
-> +			install_rpath : bindir_rpathdir,
-> +			install : true)
-> +
->  executable('gputop', 'gputop.c',
->             install : true,
->             install_rpath : bindir_rpathdir,
-> -- 
-> 2.34.1
-> 
+DQoNCj4gT24gTm92IDI1LCAyMDI1LCBhdCA4OjE24oCvUE0sIEFsZXhhbmRyZSBDb3VyYm90IDxh
+Y291cmJvdEBudmlkaWEuY29tPiB3cm90ZToNCj4gDQo+IO+7v09uIFdlZCBOb3YgMjYsIDIwMjUg
+YXQgMzoxNiBBTSBKU1QsIEpvZWwgRmVybmFuZGVzIHdyb3RlOg0KPj4gDQo+PiANCj4+Pj4gT24g
+Tm92IDI1LCAyMDI1LCBhdCA5OjUy4oCvQU0sIEFsZXhhbmRyZSBDb3VyYm90IDxhY291cmJvdEBu
+dmlkaWEuY29tPiB3cm90ZToNCj4+PiANCj4+PiDvu79PbiBXZWQgTm92IDEyLCAyMDI1IGF0IDI6
+MTMgQU0gSlNULCBKb2VsIEZlcm5hbmRlcyB3cm90ZToNCj4+Pj4gQWRkIFJ1c3QgaGVscGVyIGZ1
+bmN0aW9ucyBmb3IgY29tbW9uIEMgbGlua2VkIGxpc3Qgb3BlcmF0aW9ucw0KPj4+PiB0aGF0IGFy
+ZSBpbXBsZW1lbnRlZCBhcyBtYWNyb3Mgb3IgaW5saW5lIGZ1bmN0aW9ucyBhbmQgdGh1cyBub3QN
+Cj4+Pj4gZGlyZWN0bHkgYWNjZXNzaWJsZSBmcm9tIFJ1c3QuDQo+Pj4+IA0KPj4+PiBTaWduZWQt
+b2ZmLWJ5OiBKb2VsIEZlcm5hbmRlcyA8am9lbGFnbmVsZkBudmlkaWEuY29tPg0KPj4+PiAtLS0N
+Cj4+Pj4gcnVzdC9oZWxwZXJzL2hlbHBlcnMuYyB8ICAxICsNCj4+Pj4gcnVzdC9oZWxwZXJzL2xp
+c3QuYyAgICB8IDMyICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+Pj4+IDIgZmls
+ZXMgY2hhbmdlZCwgMzMgaW5zZXJ0aW9ucygrKQ0KPj4+PiBjcmVhdGUgbW9kZSAxMDA2NDQgcnVz
+dC9oZWxwZXJzL2xpc3QuYw0KPj4+PiANCj4+Pj4gZGlmZiAtLWdpdCBhL3J1c3QvaGVscGVycy9o
+ZWxwZXJzLmMgYi9ydXN0L2hlbHBlcnMvaGVscGVycy5jDQo+Pj4+IGluZGV4IDc5YzcyNzYyYWQ5
+Yy4uNjM0ZmEyMzg2YmJiIDEwMDY0NA0KPj4+PiAtLS0gYS9ydXN0L2hlbHBlcnMvaGVscGVycy5j
+DQo+Pj4+ICsrKyBiL3J1c3QvaGVscGVycy9oZWxwZXJzLmMNCj4+Pj4gQEAgLTMyLDYgKzMyLDcg
+QEANCj4+Pj4gI2luY2x1ZGUgImlvLmMiDQo+Pj4+ICNpbmNsdWRlICJqdW1wX2xhYmVsLmMiDQo+
+Pj4+ICNpbmNsdWRlICJrdW5pdC5jIg0KPj4+PiArI2luY2x1ZGUgImxpc3QuYyINCj4+Pj4gI2lu
+Y2x1ZGUgIm1hcGxlX3RyZWUuYyINCj4+Pj4gI2luY2x1ZGUgIm1tLmMiDQo+Pj4+ICNpbmNsdWRl
+ICJtdXRleC5jIg0KPj4+PiBkaWZmIC0tZ2l0IGEvcnVzdC9oZWxwZXJzL2xpc3QuYyBiL3J1c3Qv
+aGVscGVycy9saXN0LmMNCj4+Pj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4+Pj4gaW5kZXggMDAw
+MDAwMDAwMDAwLi5mZWEyYTE4NjIxZGENCj4+Pj4gLS0tIC9kZXYvbnVsbA0KPj4+PiArKysgYi9y
+dXN0L2hlbHBlcnMvbGlzdC5jDQo+Pj4+IEBAIC0wLDAgKzEsMzIgQEANCj4+Pj4gKy8vIFNQRFgt
+TGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wDQo+Pj4+ICsNCj4+Pj4gKy8qDQo+Pj4+ICsgKiBI
+ZWxwZXJzIGZvciBDIENpcmN1bGFyIGRvdWJseSBsaW5rZWQgbGlzdCBpbXBsZW1lbnRhdGlvbi4N
+Cj4+Pj4gKyAqLw0KPj4+PiArDQo+Pj4+ICsjaW5jbHVkZSA8bGludXgvbGlzdC5oPg0KPj4+PiAr
+DQo+Pj4+ICtib29sIHJ1c3RfaGVscGVyX2xpc3RfZW1wdHkoY29uc3Qgc3RydWN0IGxpc3RfaGVh
+ZCAqaGVhZCkNCj4+Pj4gK3sNCj4+Pj4gKyAgICByZXR1cm4gbGlzdF9lbXB0eShoZWFkKTsNCj4+
+Pj4gK30NCj4+Pj4gKw0KPj4+PiArdm9pZCBydXN0X2hlbHBlcl9saXN0X2RlbChzdHJ1Y3QgbGlz
+dF9oZWFkICplbnRyeSkNCj4+Pj4gK3sNCj4+Pj4gKyAgICBsaXN0X2RlbChlbnRyeSk7DQo+Pj4+
+ICt9DQo+Pj4+ICsNCj4+Pj4gK3ZvaWQgcnVzdF9oZWxwZXJfSU5JVF9MSVNUX0hFQUQoc3RydWN0
+IGxpc3RfaGVhZCAqbGlzdCkNCj4+Pj4gK3sNCj4+Pj4gKyAgICBJTklUX0xJU1RfSEVBRChsaXN0
+KTsNCj4+Pj4gK30NCj4+Pj4gKw0KPj4+PiArdm9pZCBydXN0X2hlbHBlcl9saXN0X2FkZChzdHJ1
+Y3QgbGlzdF9oZWFkICpuZXcsIHN0cnVjdCBsaXN0X2hlYWQgKmhlYWQpDQo+Pj4+ICt7DQo+Pj4+
+ICsgICAgbGlzdF9hZGQobmV3LCBoZWFkKTsNCj4+Pj4gK30NCj4+Pj4gKw0KPj4+PiArdm9pZCBy
+dXN0X2hlbHBlcl9saXN0X2FkZF90YWlsKHN0cnVjdCBsaXN0X2hlYWQgKm5ldywgc3RydWN0IGxp
+c3RfaGVhZCAqaGVhZCkNCj4+Pj4gK3sNCj4+Pj4gKyAgICBsaXN0X2FkZF90YWlsKG5ldywgaGVh
+ZCk7DQo+Pj4+ICt9DQo+Pj4gDQo+Pj4gSnVzdCBub3RpY2VkLCBidXQgb2YgdGhlc2UgaGVscGVy
+cyBvbmx5IGBJTklUX0xJU1RfSEVBRGAgYW5kDQo+Pj4gYGxpc3RfYWRkX3RhaWxgIHNlZW0gdG8g
+YmUgdXNlZCAoaW4gZG9jY29tbWVudHMpLg0KPj4gDQo+PiBDb3JyZWN0LCBidXQgaXQgbWFrZXMg
+c2Vuc2UgdG8gYWRkIHRoZSBtb3N0IG9idmlvdXMvY29tbW9uIG9uZXMgKGFsc28gdG8gbWFrZSBp
+dCBjbGVhciB0aGF0IHVzaW5nIHRoZXNlIGFyZSBzdXBwb3J0ZWQpLg0KPiANCj4gIkl0IG1ha2Vz
+IHNlbnNlIiBpcyBzdWJqZWN0aXZlLCBhbmQgaW4gdGhpcyBjYXNlIEkgYW0gY29uZmlkZW50IGl0
+IGlzDQo+IG5vdCB0aGUgcmlnaHQgaW50dWl0aW9uIHRvIGFkZCBkZWFkIGNvZGUganVzdCBmb3Ig
+dGhlIHNha2Ugb2YgaXQuDQo+IA0KPiBFYWNoIG9mIHRoZXNlIGhlbHBlcnMgYWRkcyBhIHBvdGVu
+dGlhbCBicmVha2FnZSBwb2ludCBmcm9tIHRoZSBDIEFQSQ0KPiBzaG91bGQgdGhlIGxhdHRlciBj
+aGFuZ2UsIHNvIHdlIHNob3VsZCBvbmx5IGFkZCB0aGVtIGlmIHRoZXkgYXJlIGluZGVlZA0KPiBu
+ZWNlc3NhcnkuDQo+IA0KPiBBY3R1YWxseSwgc29tZSBvZiB0aGVzZSBoZWxwZXJzIGFyZSBub3Qg
+dXNlZCB3aGVuIHRoZXkgY291bGQgaGF2ZSBiZWVuIC0NCj4geW91IGhhdmUgYSBgaXNfZW1wdHlg
+IG1ldGhvZCB0aGF0IHJld3JpdGVzIHRoZSBDIGZ1bmN0aW9uIGluc3RlYWQgb2YNCj4gY2FsbGlu
+ZyB0aGUgaGVscGVyLiBUaGUgb25seSBoZWxwZXJzIHRoYXQgYXJlIHVuanVzdGlmaWVkIGFzIG9m
+IG5vdyBhcw0KPiBgbGlzdF9hZGRgIGFuZCBgbGlzdF9kZWxgLCBhbmQgdGhlc2UgYXJlIGVhc3kg
+dG8gYWRkIHdoZW4gdGhleSBiZWNvbWUNCj4gbmVjZXNzYXJ5Lg0KPiANCj4gQnV0IHRoaXMgcmFp
+c2VzIGFuIGludGVyZXN0aW5nIGRpbGVtbWE6IHRoZXNlIGhlbHBlcnMgY2Fubm90IGJlIGlubGlu
+ZWQNCj4gYW5kIGFkZCB0aGUgb3ZlcmhlYWQgb2YgYSBmdW5jdGlvbiBjYWxsLiBPbiB0aGUgb3Ro
+ZXIgaGFuZCwgdGhlDQo+IGRlZmluaXRpb24gb2YgYGxpc3RfaGVhZGAgaXMgc28gZXhjZXNzaXZl
+bHkgc2ltcGxlIHRoYXQgbWFuaXB1bGF0aW5nIGl0DQo+IGRpcmVjdGx5IGlzIHZpcnR1YWxseSBh
+cyBpbnR1aXRpdmUgYXMgaW52b2tpbmcgdGhlIGhlbHBlciAtIGFuZCBkb2Vzbid0DQo+IGJlYXIg
+dGhlIG92ZXJoZWFkLiBTbyBzaG91bGQgd2UgZG91YmxlLWRvd24gb24gdGhlc2UgaGVscGVycywg
+b3IganVzdA0KPiBkcm9wIHRoZW0gY29tcGxldGVseSBhbmQgcmUtaW1wbGVtZW50IHRoZSBsaXN0
+IGZ1bmN0aW9uYWxpdHkgd2UgbmVlZCBmb3INCj4gaW5jcmVhc2VkIHBlcmZvcm1hbmNlPw0KDQpZ
+b3UgZG8gaGF2ZSBhIHBvaW50IHRoYXQgd2UgaGF2ZSBhbiBhYnN0cmFjdGlvbiBsZWFrIGFueXdh
+eSwgc28gdGhlIHF1ZXN0aW9uIGlzIGRvIHdlIG5lZWQgaGVscGVycyBhdCBhbGwuDQoNCkkgYW0g
+dG9ybiBvbiB0aGlzLiBPbiB0aGUgb25lIGhhbmQsIGlmIHNvbWVvbmUgY2hhbmdlcyBob3cgbGlz
+dF9oZWFkIGFwaSB3b3JrcywgdGhlbiB0aGUgcnVzdCBzaWRlIGJyZWFrcyAodGhvdWdoIHRoYXQg
+aXMgZWFzeSB0byBmbGFnIHRob3VnaCB2aWEgZG9jIHRlc3RzKS4gT24gdGhlIG90aGVyIGhhbmQs
+IHdlIGhhdmUgdGhlIGZ1bmN0aW9uIGNhbGwgb3ZlcmhlYWQgeW91IHBvaW50ZWQgYW5kIHdlIGFy
+ZSBkZWFsaW5nIHdpdGggdGhlIHBvaW50ZXJzIGluIHJ1c3QgZGlyZWN0bHkgYW55d2F5IGluIHNv
+bWUgY2FzZXMuDQoNClBsdXMgbW9yZSBvZnRlbiB0aGFuIG5vdCwgbmV3IHNlcGFyYXRlIGxpc3Qg
+dmFyaWF0aW9ucyAobGlrZSBobGlzdCkgYXJlIGFkZGVkIGZvciBuZXcgdXNlIGNhc2UgdGhhbiBt
+b2RpZnlpbmcgZXhpc3Rpbmcgb25lcywgc28gaXQgaXMganVzdCBhIHNtYWxsIHJpc2sgdG8gZGly
+ZWN0bHkgcmVpbXBsZW1lbnQgbGlzdCBoZWxwZXJzIGluIHJ1c3QuDQoNCkkgZG8gbGlrZSB5b3Vy
+IGlkZWEgdGhvdWdoIGJlY2F1c2UgaXQgbWFrZXMgaXQgYSBiaXQgZWFzaWVyIHRvIGFkZCBzdXBw
+b3J0IGZvciBvdGhlciBsaXN0IHZhcmlhbnRzIGlmIG5lZWRlZCAoaGxpc3QsIGxsaXN0LCBSQ1Ug
+bGlzdHMgZXRjKSBzaW5jZSB3ZSBkb27igJl0IG5lZWQgd3JhcHBlcnMgcGVyLXNlLg0KDQpPayBJ
+IGd1ZXNzIEkgd2lsbCBkcm9wIGFsbCB0aGUgaGVscGVycyB0aGVuIHVubGVzcyB0aGVyZSBpcyBh
+IGdvb2QgcmVhc29uIHRvIHN0aWxsIGtlZXAgdGhlbSBhbmQgc2VlIHdoYXQgaXQgbG9va3MgbGlr
+ZS4gU29tZSBvZiB0aGVtIG1pZ2h0IGhhdmUgZGVidWdnaW5nIGNvZGUgdGhhdOKAmXMgb24gdGhl
+IHNpZGUgQyB0aGF0IHdlIG1heSBub3Qgd2FudCB0byBza2lwLiBUaGUgUkNVIGxpc3QgYXBpIGNl
+cnRhaW5seSBkb2VzLg0KDQpUaGFua3MuDQoNCg0KDQoNCg0K
