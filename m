@@ -2,43 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32AABC87B82
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 02:40:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E50BC87BCD
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 02:46:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92A5510E4EC;
-	Wed, 26 Nov 2025 01:39:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18D7D10E4ED;
+	Wed, 26 Nov 2025 01:46:29 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="ATpEd2pe";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out28-50.mail.aliyun.com (out28-50.mail.aliyun.com
- [115.124.28.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6C6F10E070;
- Wed, 26 Nov 2025 01:39:42 +0000 (UTC)
-Received: from 172.38.10.120(mailfrom:zhangzhijie@bosc.ac.cn
- fp:SMTPD_---.fVyAjhI_1764121178 cluster:ay29) by smtp.aliyun-inc.com;
- Wed, 26 Nov 2025 09:39:39 +0800
-Message-ID: <0d2e6a53-11f8-403c-a4e8-b9c367ed96a8@bosc.ac.cn>
-Date: Wed, 26 Nov 2025 09:39:37 +0800
+Received: from mail-m3282.qiye.163.com (mail-m3282.qiye.163.com
+ [220.197.32.82])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7EA510E4ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 01:46:27 +0000 (UTC)
+Received: from [127.0.0.1] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 2ae663690;
+ Wed, 26 Nov 2025 09:46:21 +0800 (GMT+08:00)
+Message-ID: <cbb38c08-6937-4b7d-a0b0-d5ca6c17f466@rock-chips.com>
+Date: Wed, 26 Nov 2025 09:46:19 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] i915: Support Intel GPU porting on any non-x86 system.
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, jeff@jeffgeerling.com,
- wangran@bosc.ac.cn, zhangjian@bosc.ac.cn, daniel@ffwll.ch,
- rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
- tursulin@ursulin.net, airlied@gmail.com, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, guoyaxing@bosc.ac.cn
-References: <20251124065645.1920632-1-zhangzhijie@bosc.ac.cn>
- <bac7a05b799309fe2c269232e70e82f86a8e2811@intel.com>
- <1657dccb-3d03-420a-9ffa-5601ae212fd9@bosc.ac.cn>
- <58728a8ae8f0a3e92be203a9296d120fd12da8d5@intel.com>
- <14954d6d-67bc-49f4-b394-3da4e1f80af1@bosc.ac.cn>
- <743pqjv2sefs3bhsyyoezv2nzf6tcbc6fo5nshczsc3s36j3qy@2xla3yxhbhpd>
+Subject: Re: [PATCH v10 01/11] usb: typec: Add notifier functions
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Chaoyi Chen <kernel@airkyi.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Peter Chen <hzpeterchen@gmail.com>, Luca Ceresoli
+ <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
+ Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+References: <20251120022343.250-1-kernel@airkyi.com>
+ <20251120022343.250-2-kernel@airkyi.com>
+ <2025112102-laurel-mulch-58e4@gregkh>
+ <462ad1bd-7eec-4f26-b383-96b049e14559@rock-chips.com>
+ <2025112402-unopposed-polio-e6e9@gregkh>
+ <a80483de-518d-45d5-b46a-9b70cca5b236@rock-chips.com>
+ <2025112448-brush-porcupine-c851@gregkh>
+ <c9cb7b79-37c8-4fef-97a6-7d6b8898f9c4@rock-chips.com> <aSV_lQYJPxN7oBM-@kuha>
+ <2025112554-uncaring-curator-642a@gregkh>
 Content-Language: en-US
-From: ZhangZhiJie <zhangzhijie@bosc.ac.cn>
-In-Reply-To: <743pqjv2sefs3bhsyyoezv2nzf6tcbc6fo5nshczsc3s36j3qy@2xla3yxhbhpd>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <2025112554-uncaring-curator-642a@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-HM-Tid: 0a9abdd7181603abkunm097aa0cf565eb1
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0hNTVZMHUtOSR1DTx8ZHRhWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+ xVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=ATpEd2peqV8kESMPjbf3DLHuOAl6CsCl20ltOYkox2RRSvunRK2u2jypMEBLL1VzgX6l9RPhBrbLO0wxxiKsmnmH148nSqotcKB1UTdgbjcic/vs7pkvSKUSgo5tanCci8foVksqRSRVq1sBJmUE4CKTJrgx7g/63nwCaXSG/4U=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=N0tG8/Nj0kl8vFA6L4W6Z+Hthet7cKPX1ZaAwkiqFD4=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,69 +90,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 11/25/2025 7:49 PM, Greg Kroah-Hartman wrote:
+>> +static umode_t typec_is_visible(struct kobject *kobj, struct attribute *attr, int n)
+>> +{
+>> +	if (is_typec_port(kobj_to_dev(kobj)->parent))
+> 
+> Why look at the parent?  Doesn't the device have a type that should show
+> this?
+> 
+> Otherwise, looks good to me.
 
+They have same deivce type "typec_altmode_dev_type".
+The parent device has a different device type to distinguish between
+port device and partner device.
 
-On 2025/11/26 05:54, Lucas De Marchi wrote:
-> On Tue, Nov 25, 2025 at 06:20:00PM +0800, ZhangZhiJie wrote:
->>
->>
->> On 2025/11/25 18:13, Jani Nikula wrote:
->>> On Tue, 25 Nov 2025, ZhangZhiJie <zhangzhijie@bosc.ac.cn> wrote:
->>>> On 2025/11/24 20:24, Jani Nikula wrote:
->>>>> On Mon, 24 Nov 2025, zhangzhijie <zhangzhijie@bosc.ac.cn> wrote:
->>>>>> inb/outb speccial wire not support on other ARCH.
->>>>>> Should detect whether arch platform support or not.
->>>>>
->>>>> Seems to me it inb/outb depend on CONFIG_HAS_IOPORT. Which arch are 
->>>>> you
->>>>> talking about specifically?
->>>>
->>>> riscv , has CONFIG_HAS_IOPORT.  is using for serial, GPIO., etc.
->>>
->>> What is the actual failure mode you see?
->>>
->>> Does it build?
->>>
->>> BR,
->>> Jani.
->>>
->> Yes, i compiled Xe driver, and it's occured load access fault when not 
->> disable  VGA_SEQ_*.
->>
->> can found this link https://github.com/geerlingguy/raspberry-pi-pcie- 
->> devices/issues/510#issuecomment-3383284831
 > 
-> and this is what I tested with rpi:
-> https://lore.kernel.org/intel-xe/20251119-ioport-v1-1- 
-> ec43f1e12c49@intel.com/
+> thanks,
 > 
-Yep. agree like this patch.
+> greg k-h
+> 
+> 
 
-In my mind. if machine not implement VGA_SEQ_* ioport.
-should avoid access ioports about VGA_SEQ_* .
-
-Can you give  log for bootting on non-x86 arch?
-
-> not sure why you are changing the intel_vga_disable() function: out of
-> reset that bit is disabled and the function does nothing:
-> 
->      tmp = intel_de_read(display, vga_reg);
->      if (tmp & VGA_DISP_DISABLE)
->          return;
-> 
-> If there's no VGA, no bios, then there isn't anything enabling that and
-> we don't need to disable it.
-> 
-> I have a patch that moves the vga access to a separate function,
-> intel_vga_set_screen_off(), but that's mostly for clarity, not to fix
-> anything. If later we want to add an ifdef then we'd probably have to
-> implement the alternative.
-> 
-> Also note that not having CONFIG_HAS_IOPORT doesn't mean inb()/outb()
-> are not implemented. See arch/{arm,powerpc,sparc}/include/asm/io.h
-> for a few variants.
-> 
-> Lucas De Marchi
-
-BR.
-ZhiJie
+-- 
+Best, 
+Chaoyi
