@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D927C88A6A
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 09:31:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAEB8C88A5E
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 09:31:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8A1810E119;
-	Wed, 26 Nov 2025 08:31:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E13A010E532;
+	Wed, 26 Nov 2025 08:31:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E15F10E13F
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 05:00:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 798B810E0DE
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 05:00:44 +0000 (UTC)
 Received: from edelgard.fodlan.icenowy.me (unknown [112.94.101.155])
- by APP-05 (Coremail) with SMTP id zQCowADn4mOUhyZpi2gbAg--.38374S8;
- Wed, 26 Nov 2025 12:52:57 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowADn4mOUhyZpi2gbAg--.38374S9;
+ Wed, 26 Nov 2025 12:52:59 +0800 (CST)
 From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -33,19 +33,18 @@ Cc: Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  Icenowy Zheng <uwu@icenowy.me>, Icenowy Zheng <zhengxingda@iscas.ac.cn>
-Subject: [PATCH RESEND v3 6/9] riscv: dts: thead: add DPU and HDMI device tree
- nodes
-Date: Wed, 26 Nov 2025 12:52:30 +0800
-Message-ID: <20251126045233.218286-7-zhengxingda@iscas.ac.cn>
+Subject: [PATCH RESEND v3 7/9] riscv: dts: thead: lichee-pi-4a: enable HDMI
+Date: Wed, 26 Nov 2025 12:52:31 +0800
+Message-ID: <20251126045233.218286-8-zhengxingda@iscas.ac.cn>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251126045233.218286-1-zhengxingda@iscas.ac.cn>
 References: <20251126045233.218286-1-zhengxingda@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: zQCowADn4mOUhyZpi2gbAg--.38374S8
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZF47Gw43GFyxZF4DArWkZwb_yoW5JF4rp3
- WIkF4ftFWvk3WS9a13JryIqrWrGFn5AFy8WwnxtryUCay3WrW7X3yIyr95JFykJFy7Zwnx
- AF1jvr10k3W3tw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: zQCowADn4mOUhyZpi2gbAg--.38374S9
+X-Coremail-Antispam: 1UD129KBjvJXoW7WFy8Kw1kKF4kZr1fKr4DJwb_yoW8Gr4kpa
+ 17JrZaqFyDursxu3W3Aa48Grn8tFs5ZF9xKw43ua4UJrsxWFWkt3yfK39YgF1UXFZ3Xw43
+ AFn5XF4Uur1jyw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnRJUUUmq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
  rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
  kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
@@ -80,103 +79,63 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Icenowy Zheng <uwu@icenowy.me>
 
-T-Head TH1520 SoC contains a Verisilicon DC8200 display controller
-(called DPU in manual) and a Synopsys DesignWare HDMI TX controller.
+Lichee Pi 4A board features a HDMI Type-A connector connected to the
+HDMI TX controller of TH1520 SoC.
 
-Add device tree nodes to them.
+Add a device tree node describing the connector, connect it to the HDMI
+controller, and enable everything on this display pipeline.
 
 Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 ---
-Changes in v3:
-- Adapting to the changed binding.
+No changes in v2, v3.
 
-No changes in v2.
+ .../boot/dts/thead/th1520-lichee-pi-4a.dts    | 25 +++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
- arch/riscv/boot/dts/thead/th1520.dtsi | 70 +++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
-
-diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/thead/th1520.dtsi
-index e680d1a7c821f..1dcb52b78bc69 100644
---- a/arch/riscv/boot/dts/thead/th1520.dtsi
-+++ b/arch/riscv/boot/dts/thead/th1520.dtsi
-@@ -536,6 +536,76 @@ clk_vo: clock-controller@ffef528050 {
- 			#clock-cells = <1>;
- 		};
+diff --git a/arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dts b/arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dts
+index 4020c727f09e8..3e99f905dc316 100644
+--- a/arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dts
++++ b/arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dts
+@@ -28,6 +28,17 @@ aliases {
+ 	chosen {
+ 		stdout-path = "serial0:115200n8";
+ 	};
++
++	hdmi-connector {
++		compatible = "hdmi-connector";
++		type = "a";
++
++		port {
++			hdmi_con_in: endpoint {
++				remote-endpoint = <&hdmi_out_con>;
++			};
++		};
++	};
+ };
  
-+		hdmi: hdmi@ffef540000 {
-+			compatible = "thead,th1520-dw-hdmi";
-+			reg = <0xff 0xef540000 0x0 0x40000>;
-+			reg-io-width = <4>;
-+			interrupts = <111 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clk_vo CLK_HDMI_PCLK>,
-+				 <&clk_vo CLK_HDMI_SFR>,
-+				 <&clk_vo CLK_HDMI_CEC>,
-+				 <&clk_vo CLK_HDMI_PIXCLK>;
-+			clock-names = "iahb", "isfr", "cec", "pix";
-+			resets = <&rst TH1520_RESET_ID_HDMI>,
-+				 <&rst TH1520_RESET_ID_HDMI_APB>;
-+			reset-names = "main", "apb";
-+			status = "disabled";
+ &padctrl0_apsys {
+@@ -54,6 +65,20 @@ rx-pins {
+ 	};
+ };
+ 
++&dpu {
++	status = "okay";
++};
 +
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
++&hdmi {
++	status = "okay";
++};
 +
-+				port@0 {
-+					reg = <0>;
++&hdmi_out_port {
++	hdmi_out_con: endpoint {
++		remote-endpoint = <&hdmi_con_in>;
++	};
++};
 +
-+					hdmi_in: endpoint {
-+						remote-endpoint = <&dpu_out_dp1>;
-+					};
-+				};
-+
-+				hdmi_out_port: port@1 {
-+					reg = <1>;
-+				};
-+			};
-+		};
-+
-+		dpu: display@ffef600000 {
-+			compatible = "thead,th1520-dc8200", "verisilicon,dc";
-+			reg = <0xff 0xef600000 0x0 0x100000>;
-+			interrupts = <93 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clk_vo CLK_DPU_CCLK>,
-+				 <&clk_vo CLK_DPU_ACLK>,
-+				 <&clk_vo CLK_DPU_HCLK>,
-+				 <&clk_vo CLK_DPU_PIXELCLK0>,
-+				 <&clk_vo CLK_DPU_PIXELCLK1>;
-+			clock-names = "core", "axi", "ahb", "pix0", "pix1";
-+			resets = <&rst TH1520_RESET_ID_DPU_CORE>,
-+				 <&rst TH1520_RESET_ID_DPU_AXI>,
-+				 <&rst TH1520_RESET_ID_DPU_AHB>;
-+			reset-names = "core", "axi", "ahb";
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				dpu_port0: port@0 {
-+					reg = <0>;
-+				};
-+
-+				dpu_port1: port@1 {
-+					reg = <1>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					dpu_out_dp1: endpoint@1 {
-+						reg = <1>;
-+						remote-endpoint = <&hdmi_in>;
-+					};
-+				};
-+			};
-+		};
-+
- 		dmac0: dma-controller@ffefc00000 {
- 			compatible = "snps,axi-dma-1.01a";
- 			reg = <0xff 0xefc00000 0x0 0x1000>;
+ &uart0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart0_pins>;
 -- 
 2.52.0
 
