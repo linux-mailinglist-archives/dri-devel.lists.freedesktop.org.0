@@ -2,55 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55839C8927E
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 11:00:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4EC7C892E8
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 11:07:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D82A10E59A;
-	Wed, 26 Nov 2025 10:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B34210E599;
+	Wed, 26 Nov 2025 10:07:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XrK5tO9g";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ox4nF6vF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A98B710E59A
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 10:00:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764151217;
- bh=3PJIv2VojYXCHqK8RJT6KaPs+wNhcxpo8rr8OzTtaV0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=XrK5tO9geKCGopPSDgZyPVo1xYv5Xpp+DjOQiHwjNo+vSzGucjX8S9pAPQkqEE6K7
- diktT3B1Gk3GCaiS993f8hGIxFyhTkM1Rcaq10k2KMpNSMVgRDOIHX3FAWpYTqVNWK
- obVGG0lYuE9FqEqJyU8bfgJ7eFrtsiWgxo8bZqV6pM142g+ZfKvMGlFtrbP/LeA++D
- iVmtwnAVctdW32nnqZcIDYPG69iSHePYH+VFMhm9L+k5IWtxbEFvELY5iLJicLmS+I
- XcxUq5T2qXgWfymOdr79WPQ0tMLcvI+thTYPRrv9JBTVeXN548rCHXiSK/wuNT148t
- 3Sp0jzboKK74A==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B8B1217E04D6;
- Wed, 26 Nov 2025 11:00:16 +0100 (CET)
-Date: Wed, 26 Nov 2025 11:00:13 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Karunika Choo <karunika.choo@arm.com>
-Cc: dri-devel@lists.freedesktop.org, nd@arm.com, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/8] drm/panthor: Add support for Mali-G1 GPUs
-Message-ID: <20251126110013.444560d8@fedora>
-In-Reply-To: <20251125125548.3282320-1-karunika.choo@arm.com>
-References: <20251125125548.3282320-1-karunika.choo@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 997A710E59E
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 10:07:02 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id
+ 41be03b00d2f7-b8b33cdf470so188178a12.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 02:07:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764151622; x=1764756422; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=e2P97JqJJgrSTofOE6L0Vqzh5vWI3dfXbDRlEdNGUic=;
+ b=Ox4nF6vFIU1SFiA+ulQbztcjUdRgx6ug80zflZQ7zXolKc/UvudWlp2TKkva14enYK
+ cAH18rKKK6a7h2RWr0jw45uZHpPs2/RGRpJGiS9wjC5l5awiE8xadJsNReINvw9DDS07
+ nRsM7ilyTwg+UQZVopmoV0kJVU4ujKhUW6MRKot7uRrtyMGhmDSf78jqKXtXXCQio5It
+ aueLzGTKy+i4jKf5ZHbp80ZvzuMnNIPeARb8LII1oi+J/H9HExTI6lxgk0RTiCn0zKwJ
+ CR6vdFZriDFbKojUggbbPzVUNa6En2xyZeJKf3BmQqs31XJhYLFQRPlsEochLszwJKJ2
+ OXnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764151622; x=1764756422;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=e2P97JqJJgrSTofOE6L0Vqzh5vWI3dfXbDRlEdNGUic=;
+ b=MptaHpPCDBeHUXreWSCAkPnOEdgKeMY8J/YoddB9KqDxusfpkpOhg5zZ9t0lyuYYju
+ +Z7n0v8FZM7Jb11rbKBMuN9TaxYsVGQl50x8yivXu2AiwUoNBT1Axg/tQc4SfrdqQViF
+ f+joJ8ej2HAc8lzwD6qKYuKFgbZGfTR/cilruaDQngsBIwks4tXseBVnK2/5oA9YYtz7
+ 3ORnIQiyKJbWsGKTR8Ce7EEF5bReSL3YZE4FYIIzAMcAb+KT7ZYy4/sJztamzYq7BDGW
+ bMhQIyxfJdgQefEgXwnirBj1KhjE57cRIsSgNGiCJk4/jJGgWMKv+8QswQqENr1XKd95
+ WFqg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX/QyGiuCwjbmKH1VuTgb4K2pBYj0n1+xXaByGq0Jza6yr+aZOHYKoP5xMV/+/j2pDGnBERhoe5x/o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz5IG4WWWxe/4sktB7LixvVN3v9GX7AV0+QdG5G/j7jIwAyl4G/
+ otqfdcCqAUe0fRls5fzy8dGkfR5MqJ3nF9DTeTGDKgJsBv1eM5QNDk1fbouLTLF/wzlzA8fn7/M
+ 5ZoR3nJCgjuHB2WaGkjtCvf8a1ONL+OU=
+X-Gm-Gg: ASbGnct5L+9Glxj0NDLmtdTYot3KpUmwXWHOdGN2+cEKBLNWQfacgbbQRNDnFion/3W
+ EK31BBJ2WA8/6uNimLGvpdxKTGhVMxEHADM1TRZvpECCaAVpXUAfqzfq0gBJzvAwJgS7P6/pN27
+ J0zknJnryvyZ1mw7QJOEgNUmaMpzwtBR/+Wflc//xQ8wy/Tx/Iv61p32BMJvk39Raz062hVBzwb
+ UfJPC4SSJc4zuV8pWx9Ya5vaGzpqXm0K9z+jGFZgBhfh/fdZjmB0iz+9qT1GfGJ/WvN+rFr9Px2
+ nCV9usxE5KVL52+1TrHTlBxqGVftxldvJ9H8Sq5Br5LCJ5RXGSiwvJ63Pv1BnhrcX0rQRzQxmTm
+ WWs1wPTB4I27+7g==
+X-Google-Smtp-Source: AGHT+IH2u/p6uuejiQdBn2FdTVRunkAVdZufiIm+sEmpf2szKbImscQ5SyGn12xniGpqStrNxFPmWHVbL4VJexNgqJw=
+X-Received: by 2002:a05:7300:ec16:b0:2a4:5129:fe99 with SMTP id
+ 5a478bee46e88-2a724bc5450mr11325693eec.2.1764151622004; Wed, 26 Nov 2025
+ 02:07:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20251111171315.2196103-1-joelagnelf@nvidia.com>
+ <DEHV08MPF9CH.1GZAWEGC4AVF3@nvidia.com>
+ <095D38BD-A8AA-4BC3-8C24-9454964EB8F8@nvidia.com>
+ <DEI89VUEYXAJ.1IQQPC3QRLITP@nvidia.com>
+ <540391dc-caaf-4ca9-9729-e3147bed3100@nvidia.com>
+In-Reply-To: <540391dc-caaf-4ca9-9729-e3147bed3100@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 26 Nov 2025 11:06:49 +0100
+X-Gm-Features: AWmQ_bkhJWTAVJBxKsZu1t81P67sTZ90hu6KhDzqOUDEKCI0FkxUuBERQ_mEKds
+Message-ID: <CANiq72n0mW6wSWvk4=R41BK=RWbpeXXjea-c1FZMs8y3sE6bug@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] rust: helpers: Add list helpers for C linked list
+ operations
+To: John Hubbard <jhubbard@nvidia.com>
+Cc: Alexandre Courbot <acourbot@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "dakr@kernel.org" <dakr@kernel.org>, 
+ "airlied@gmail.com" <airlied@gmail.com>, Alistair Popple <apopple@nvidia.com>, 
+ "ojeda@kernel.org" <ojeda@kernel.org>,
+ "alex.gaynor@gmail.com" <alex.gaynor@gmail.com>, 
+ "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
+ "gary@garyguo.net" <gary@garyguo.net>, 
+ "bjorn3_gh@protonmail.com" <bjorn3_gh@protonmail.com>,
+ "lossin@kernel.org" <lossin@kernel.org>, 
+ "a.hindborg@kernel.org" <a.hindborg@kernel.org>,
+ "aliceryhl@google.com" <aliceryhl@google.com>, 
+ "tmgross@umich.edu" <tmgross@umich.edu>, "simona@ffwll.ch" <simona@ffwll.ch>, 
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, Timur Tabi <ttabi@nvidia.com>, 
+ "joel@joelfernandes.org" <joel@joelfernandes.org>, 
+ "elle@weathered-steel.dev" <elle@weathered-steel.dev>, 
+ "daniel.almeida@collabora.com" <daniel.almeida@collabora.com>,
+ Andrea Righi <arighi@nvidia.com>, 
+ "phasta@kernel.org" <phasta@kernel.org>, 
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>, 
+ Nouveau <nouveau-bounces@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,102 +115,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 25 Nov 2025 12:55:40 +0000
-Karunika Choo <karunika.choo@arm.com> wrote:
+On Wed, Nov 26, 2025 at 2:39=E2=80=AFAM John Hubbard <jhubbard@nvidia.com> =
+wrote:
+>
+> Yes. I am increasingly uneasy with the Rust for Linux approach, and
+> now the Nova approach, of adding in "things we might need".
 
-> This patch series extends the Panthor driver with basic support for
-> Mali-G1 GPUs.
-> 
-> The v14 architecture introduces several hardware and register-level
-> changes compared to prior GPUs. This series adds the necessary
-> architecture-specific support infrastructure, power control and reset
-> handling for Mali-G1 GPUs.
-> 
-> Patch Breakdown:
-> [Patch 1-2]:  Refactor panthor_hw to introduce architecture-specific
->               hooks and abstractions to support the v14 architecture.
->               These patches introduce architecture-specific HW binding
->               for function pointers.
-> [Patch 3-5]:  Adds basic L2 power on/off and soft reset support for the
->               PWR_CONTROL block introduced in v14.
-> [Patch 6]:    Update MCU halt and warm boot operations to reflect the
->               GLB_REQ.STATE changes in v14. This ensures that the MCU is
->               properly halted and the correct operations are performed
->               on warm boot depending on the FW version.
-> [Patch 7]:    Align endpoint_req with changes introduced in v14, where
->               the register is widened to 64-bit and shifed down by
->               4-bytes. This patch adds the necessary infrastructure to
->               discern the correct endpoint_req register to use.
-> [Patch 8]:    Enables Mali-G1 support on Panthor by adding HW bindings
->               for v14 architecture, product names and path to FW binary.
-> 
-> v5:
->  * Rebased patch series on more recent drm-misc-next (ac364014)
->  * Picked up R-bs from Steve.
->  * Link to v4: https://lore.kernel.org/all/20251107142440.1134528-1-karunika.choo@arm.com/
-> v4:
->  * Fixed include and forward declaration issues.
->  * Addressed code format issues.
->  * Picked up R-bs from Steve.
->  * Link to v3: https://lore.kernel.org/all/20251027161334.854650-1-karunika.choo@arm.com/
-> v3:
->  * Updated include logic to enable static inline functions in
->    panthor_hw.h for function pointers and feature checks.
->  * Fixed missed replacement of CSF_IFACE_VERSION check with
->    panthor_fw_has_glb_state() check.
->  * Link to v2: https://lore.kernel.org/all/20251024202117.3241292-1-karunika.choo@arm.com/
-> v2:
->  * Merged GPU_ID refactoring patch with the arch-specific panthor_hw
->    binding patch (formerly PATCH 01/10 and PATCH 02/10).
->  * Dropped panthor_hw feature bitmap patch in favor of functions that
->    performs the relevant architecture version checks.
->  * Fixed kernel test bot warnings.
->  * Replaced function pointer accessor MACROs with static inline
->    functions.
->  * Refined power control logic, removed unnecessary checks and redundant
->    stubs.
->  * Replaced explicit CSG_IFACE_VERSION checks with functions describing
->    the feature being checked for.
->  * General readability improvements, more consistent error handling,
->    behaviour clarifications, and formatting fixes.
->  * Link to v1: https://lore.kernel.org/all/20251014094337.1009601-1-karunika.choo@arm.com/
-> 
-> 
-> Karunika Choo (8):
->   drm/panthor: Add arch-specific panthor_hw binding
->   drm/panthor: Add architecture-specific function operations
->   drm/panthor: Introduce panthor_pwr API and power control framework
->   drm/panthor: Implement L2 power on/off via PWR_CONTROL
->   drm/panthor: Implement soft reset via PWR_CONTROL
->   drm/panthor: Support GLB_REQ.STATE field for Mali-G1 GPUs
->   drm/panthor: Support 64-bit endpoint_req register for Mali-G1
->   drm/panthor: Add support for Mali-G1 GPUs
+Excuse me, what "Rust for Linux approach"?
 
-Queued to drm-misc-next.
+No, we do not add dead code unless justified, just like everywhere
+else in the Linux kernel.
 
-Thanks,
+Yes, there are a few exceptional cases, but it is just that, exceptional.
 
-Boris
-
-> 
->  drivers/gpu/drm/panthor/Makefile         |   1 +
->  drivers/gpu/drm/panthor/panthor_device.c |  18 +-
->  drivers/gpu/drm/panthor/panthor_device.h |   8 +
->  drivers/gpu/drm/panthor/panthor_fw.c     | 131 +++++-
->  drivers/gpu/drm/panthor/panthor_fw.h     |  32 +-
->  drivers/gpu/drm/panthor/panthor_gpu.c    |  12 +-
->  drivers/gpu/drm/panthor/panthor_gpu.h    |   1 +
->  drivers/gpu/drm/panthor/panthor_hw.c     | 107 ++++-
->  drivers/gpu/drm/panthor/panthor_hw.h     |  47 +-
->  drivers/gpu/drm/panthor/panthor_pwr.c    | 549 +++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_pwr.h    |  23 +
->  drivers/gpu/drm/panthor/panthor_regs.h   |  79 ++++
->  drivers/gpu/drm/panthor/panthor_sched.c  |  21 +-
->  13 files changed, 989 insertions(+), 40 deletions(-)
->  create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.c
->  create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.h
-> 
-> --
-> 2.49.0
-> 
-
+Cheers,
+Miguel
