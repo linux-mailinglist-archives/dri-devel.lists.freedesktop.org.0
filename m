@@ -2,57 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C61C8BCC2
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 21:19:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4402BC8BE94
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 21:49:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A84A10E6E9;
-	Wed, 26 Nov 2025 20:19:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E2BB10E008;
+	Wed, 26 Nov 2025 20:49:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TpaHmIXB";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="BN9l9jlW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C13C610E68E;
- Wed, 26 Nov 2025 20:19:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764188362; x=1795724362;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Yxqg/qFMBE6d2jUPFot7ylJUXjc9gGJKEyzPkDu1v94=;
- b=TpaHmIXB/56qT3BPxTUINYvNy/tGH2jiYRlTEjC+YkobtZnogGqGXB7T
- +uhE6IRUn+9WHf2eLpglrFvUAcwVGp7liNV9o0QUoym7brMa4st/XdiED
- JM3IYrqJpuDkKTOaBlRbu55tcjs4fjZiIhlZlTProlLpNFNUfK4ATuGqm
- BJRYGBZt+CKKImagtDCYgJf7HhrDX1LqbiITdQmMVZedjDC1x2spWns+M
- doBF1bQxghJn61vJuzbH+l1U+IG4OjJqyO0MmDcJQREp3d66qfs5pdCBT
- t5epObYbKc6V/skVDcefvEEVVsY7KiH2qAsn4To0WpHq0HjSOuEfzqQwu Q==;
-X-CSE-ConnectionGUID: YF6N6VYPQBi38lb+55QbXA==
-X-CSE-MsgGUID: l6H3yYAXTTiDDBAHH5JWZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="76864169"
-X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; d="scan'208";a="76864169"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2025 12:19:21 -0800
-X-CSE-ConnectionGUID: eAi+U897Qu2bP7/Qj7Rjzw==
-X-CSE-MsgGUID: 9i7wk2MHTtuS0/vLPbMg7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; d="scan'208";a="193137301"
-Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2025 12:19:20 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 8/8] drm/xe: Avoid toggling schedule state to check LRC
- timestamp in TDR
-Date: Wed, 26 Nov 2025 12:19:16 -0800
-Message-Id: <20251126201916.618996-9-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251126201916.618996-1-matthew.brost@intel.com>
-References: <20251126201916.618996-1-matthew.brost@intel.com>
+Received: from CH5PR02CU005.outbound.protection.outlook.com
+ (mail-northcentralusazon11012063.outbound.protection.outlook.com
+ [40.107.200.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB33110E008;
+ Wed, 26 Nov 2025 20:49:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YdScFKxnU03foDR7lqkVUZbR1MiQ5nOkl9i3WlwRnsGyerPEGJHeidfDx762556jEV52MCZgb1Pk5qgJzCGrFuILblfKy9fzRe//XpQpD2EMgrZmwnEpeml4/CO25s5TZC2cwPYl+H8jHru3mAPifoPdLaJUZjIhsIK/rkFkOdarYhq1KMqgyP8pAWgpqdnuzxX3HSoimAp59G1uH6BCE/F94CBxLJmYahcG0zqO4Xnp76HIUrEmPgNzRj3VPGYm27tim/V5Ozx8kh6XntI0CNP5MG/16nlL910R4soU1poDoJ3ZtmI9tZ8cvuUlNdj2VjW4ZYqm+tmKviqhM+ePGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PfLnj/QiyUx0GRkRGtE1B10zWwHc4gk8I7hs3e8odp4=;
+ b=KQyH+6Xpo0cpU1twTtzNnZafE4zRg+mgc2VIQPtO4OJAfDbWT6zeGcJSoUFySNaWaOasGmKw4B9TueZ/PPPuzyYKRFIqB6v/eK9W1rvTpE2suwerxkEIUGNRAedw3PFWyclTBvbKshk5vufZQ8SW5yu14ytlw4IWxSw/Ewf+ZEv8VS1DS0ct5Yu/d9HesXheSEAP/jDcyqDQnfeIy4yDlo4O38nG93CQvfXxyaPUHdp3GAomCfHTIUrGPsF4TU6iTtrpIB3j3tUTyZzAJjmiczj2s887KEAknpWSrN4p562KcClviVyhx5+sv70QTNrqdQZk8lBbwMhTUWwNs2d5yA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PfLnj/QiyUx0GRkRGtE1B10zWwHc4gk8I7hs3e8odp4=;
+ b=BN9l9jlWrGhrmo4FslmVVnGkxW/xr3SuS59L6vbYwbN7uX9hnrD5jMhrt4ONEOQFKm6ItRUDFLMMvMrjJ+Kc0QDnhTtHOQ4Oq/4TmOifnWKOOXyeK1xKlc+oIY3jRAQ+OQZs7vIGevOod8o37sX4xoRP6ufbJZ5aQ8RdUpPXC0A=
+Received: from CH2PR18CA0015.namprd18.prod.outlook.com (2603:10b6:610:4f::25)
+ by IA1PR12MB7710.namprd12.prod.outlook.com (2603:10b6:208:422::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.11; Wed, 26 Nov
+ 2025 20:49:43 +0000
+Received: from DS2PEPF00003447.namprd04.prod.outlook.com
+ (2603:10b6:610:4f:cafe::b2) by CH2PR18CA0015.outlook.office365.com
+ (2603:10b6:610:4f::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.12 via Frontend Transport; Wed,
+ 26 Nov 2025 20:49:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ DS2PEPF00003447.mail.protection.outlook.com (10.167.17.74) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9366.7 via Frontend Transport; Wed, 26 Nov 2025 20:49:42 +0000
+Received: from tr4.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 26 Nov
+ 2025 14:49:41 -0600
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <simona.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu drm-fixes-6.18
+Date: Wed, 26 Nov 2025 15:49:25 -0500
+Message-ID: <20251126204925.3316684-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PEPF00003447:EE_|IA1PR12MB7710:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f36231d-2538-420b-8d50-08de2d2d5321
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|36860700013|82310400026|13003099007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?2zCujD4wkeuXt9xRgQpFCMzrjXFs8W88IO+qe/QxB2mtPfNVnl/Igd0lVKP0?=
+ =?us-ascii?Q?XeD0GvUCXP1ngknPgcuGcjn8FLsG+wqaEOEOhj0HZmjDcARxU1oCUFKYH7sW?=
+ =?us-ascii?Q?btfCbMtj/JVHNCq3vFUUa9NqMFul3mlfW03bRQwrN97+g6mOImTfEfgyjulA?=
+ =?us-ascii?Q?5Bc/41AxAl1uVQVGSTmPYSJpHdmGgrH/caOHffebjkdA0+axFhD0Xdq6g+Nh?=
+ =?us-ascii?Q?6hgfXBq4oxhcWaN3baOfUBZFCbhNrmt3UYO3843taP+Ei0MOhzaxny3hfg9n?=
+ =?us-ascii?Q?pWuM3SzVx9lP+2vojSwsxuXblC1U+K28KgamAtFhAhCWoM7vAXpQQ0MaQqbf?=
+ =?us-ascii?Q?EPiT5A7wDv/dkt79U5EP+MviekAJ1I1dekvjjvabYvTVAWA5X1i/rmvQCJTE?=
+ =?us-ascii?Q?js4EiT5APSYHKXCGA0tq9naGNkKBHBN7c2UhtMUvuOaGr0/3G5fhz+scnIfZ?=
+ =?us-ascii?Q?vOiIanFLLCZmo0yziJA3P/m6n1iuHO1VdHEKUNwSoezie/r1I1bbsuvmvYW4?=
+ =?us-ascii?Q?HD4N2Jr620czvVsSIg2CgFIEB8XCQx/DL5WV4fv2FXVRf9TZKLxyKKOv6rkj?=
+ =?us-ascii?Q?/pRHCo0z2DcLCq7a+M4+uIuXNV6wclCkcOdPZwftBpse1Jd35Lggg9pXPPdF?=
+ =?us-ascii?Q?RxAhgPkOGdgLc0YO1J6phegjUK08QK2x4QEenXQwNToBTqCmjNiWbRM9BxkS?=
+ =?us-ascii?Q?89ZBVbjRaokLoP3YFyDzrwjBUKPejfOMvGF3QzwM9lAojc8rIvPAweI2w+Ii?=
+ =?us-ascii?Q?c8QFoq+KrMF9NbV271Qbzf6949I7inYBq/IKESfzCP2rwvq+lyh9Cdkez6r/?=
+ =?us-ascii?Q?sU/tvTkhT7CLFCMLjzG3ZizqlbLLsV3+WQWrfxpTBHtGbEh5a3rFmT2oUAjF?=
+ =?us-ascii?Q?hxweETu7xTHv0YU/lmb91qgJAj/t6+f1zzq1qpk6QqRtweJqGTmfjg/IFJv/?=
+ =?us-ascii?Q?1NXTpgE8OxRcAjxnmj82Z2yX00DOQLgd0VSuvHICRiBs86sbSd8opE1Smozr?=
+ =?us-ascii?Q?FgwA3S66cYcMsFTWlqHifCyTo7lBV4MgCJtzneHPR2D1ZJ81T5AiIuwfwyNk?=
+ =?us-ascii?Q?HV+QYK+34BC/c2o9qf5vdGoQhv38BYSo1MjXbZ+2Nai5lcoGsVsVQXRWIUvS?=
+ =?us-ascii?Q?nS5Z3Cllnxp0UnYJRmNLxkAR3rvPTegbsItnxtqKCmaaZAXFQnjyO5Xw/fvD?=
+ =?us-ascii?Q?W2f0RleqZ8dQyZn9AN6p1gVv0ESAPz4iHEPVjhpLLXycJHZODXYH5zNycZCm?=
+ =?us-ascii?Q?GrKodri++iz2XLswu/xDczRBVuSjrHHOWbN4ydz6oOF2fNu3PIBbbTg31Bn/?=
+ =?us-ascii?Q?t0aQH7jjgaN9O0Voy0ynY0K6GW4xMqPnJCiWrIBARTaOicBD534w/uHUuDc5?=
+ =?us-ascii?Q?vDY+jVltO9sKluOmqgGj3OflfVo9xEzDfDV4IE+CqmozMddlUaP39WCi6uF9?=
+ =?us-ascii?Q?PRpSHMr8UZsGNGX4PZGygmavpcZQ578eABQMcZ/49ixXESZx4VGRw7G+zsGe?=
+ =?us-ascii?Q?Ea5S0QHadTjljfo=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026)(13003099007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 20:49:42.3886 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f36231d-2538-420b-8d50-08de2d2d5321
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF00003447.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7710
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,396 +133,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We now have proper infrastructure to accurately check the LRC timestamp
-without toggling the scheduling state for non-VFs. For VFs, it is still
-possible to get an inaccurate view if the context is on hardware. We
-guard against free-running contexts on VFs by banning jobs whose
-timestamps are not moving. In addition, VFs have a timeslice quantum
-that naturally triggers context switches when more than one VF is
-running, thus updating the LRC timestamp.
+Hi Dave, Simona,
 
-For multi-queue, it is desirable to avoid scheduling toggling in the TDR
-because this scheduling state is shared among many queues. Furthermore,
-this change simplifies the GuC state machine. The trade-off for VF cases
-seems worthwhile.
+Fixes for 6.18.
 
-v5:
- - Add xe_lrc_timestamp helper (Umesh)
+The following changes since commit ac3fd01e4c1efce8f2c054cdeb2ddd2fc0fb150d:
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/xe/xe_guc_submit.c      | 97 ++++++-------------------
- drivers/gpu/drm/xe/xe_lrc.c             | 42 +++++++----
- drivers/gpu/drm/xe/xe_lrc.h             |  3 +-
- drivers/gpu/drm/xe/xe_sched_job.c       |  1 +
- drivers/gpu/drm/xe/xe_sched_job_types.h |  2 +
- 5 files changed, 56 insertions(+), 89 deletions(-)
+  Linux 6.18-rc7 (2025-11-23 14:53:16 -0800)
 
-diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
-index db3c57d758c6..b8022826795b 100644
---- a/drivers/gpu/drm/xe/xe_guc_submit.c
-+++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-@@ -68,9 +68,7 @@ exec_queue_to_guc(struct xe_exec_queue *q)
- #define EXEC_QUEUE_STATE_KILLED			(1 << 7)
- #define EXEC_QUEUE_STATE_WEDGED			(1 << 8)
- #define EXEC_QUEUE_STATE_BANNED			(1 << 9)
--#define EXEC_QUEUE_STATE_CHECK_TIMEOUT		(1 << 10)
--#define EXEC_QUEUE_STATE_PENDING_RESUME		(1 << 11)
--#define EXEC_QUEUE_STATE_PENDING_TDR_EXIT	(1 << 12)
-+#define EXEC_QUEUE_STATE_PENDING_RESUME		(1 << 10)
- 
- static bool exec_queue_registered(struct xe_exec_queue *q)
- {
-@@ -202,21 +200,6 @@ static void set_exec_queue_wedged(struct xe_exec_queue *q)
- 	atomic_or(EXEC_QUEUE_STATE_WEDGED, &q->guc->state);
- }
- 
--static bool exec_queue_check_timeout(struct xe_exec_queue *q)
--{
--	return atomic_read(&q->guc->state) & EXEC_QUEUE_STATE_CHECK_TIMEOUT;
--}
--
--static void set_exec_queue_check_timeout(struct xe_exec_queue *q)
--{
--	atomic_or(EXEC_QUEUE_STATE_CHECK_TIMEOUT, &q->guc->state);
--}
--
--static void clear_exec_queue_check_timeout(struct xe_exec_queue *q)
--{
--	atomic_and(~EXEC_QUEUE_STATE_CHECK_TIMEOUT, &q->guc->state);
--}
--
- static bool exec_queue_pending_resume(struct xe_exec_queue *q)
- {
- 	return atomic_read(&q->guc->state) & EXEC_QUEUE_STATE_PENDING_RESUME;
-@@ -232,21 +215,6 @@ static void clear_exec_queue_pending_resume(struct xe_exec_queue *q)
- 	atomic_and(~EXEC_QUEUE_STATE_PENDING_RESUME, &q->guc->state);
- }
- 
--static bool exec_queue_pending_tdr_exit(struct xe_exec_queue *q)
--{
--	return atomic_read(&q->guc->state) & EXEC_QUEUE_STATE_PENDING_TDR_EXIT;
--}
--
--static void set_exec_queue_pending_tdr_exit(struct xe_exec_queue *q)
--{
--	atomic_or(EXEC_QUEUE_STATE_PENDING_TDR_EXIT, &q->guc->state);
--}
--
--static void clear_exec_queue_pending_tdr_exit(struct xe_exec_queue *q)
--{
--	atomic_and(~EXEC_QUEUE_STATE_PENDING_TDR_EXIT, &q->guc->state);
--}
--
- static bool exec_queue_killed_or_banned_or_wedged(struct xe_exec_queue *q)
- {
- 	return (atomic_read(&q->guc->state) &
-@@ -1006,7 +974,16 @@ static bool check_timeout(struct xe_exec_queue *q, struct xe_sched_job *job)
- 		return xe_sched_invalidate_job(job, 2);
- 	}
- 
--	ctx_timestamp = lower_32_bits(xe_lrc_ctx_timestamp(q->lrc[0]));
-+	ctx_timestamp = lower_32_bits(xe_lrc_timestamp(q->lrc[0]));
-+	if (ctx_timestamp == job->sample_timestamp) {
-+		xe_gt_warn(gt, "Check job timeout: seqno=%u, lrc_seqno=%u, guc_id=%d, timestamp stuck",
-+			   xe_sched_job_seqno(job), xe_sched_job_lrc_seqno(job),
-+			   q->guc->id);
-+
-+		return xe_sched_invalidate_job(job, 2);
-+	}
-+
-+	job->sample_timestamp = ctx_timestamp;
- 	ctx_job_timestamp = xe_lrc_ctx_job_timestamp(q->lrc[0]);
- 
- 	/*
-@@ -1132,16 +1109,17 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
- 	}
- 
- 	/*
--	 * XXX: Sampling timeout doesn't work in wedged mode as we have to
--	 * modify scheduling state to read timestamp. We could read the
--	 * timestamp from a register to accumulate current running time but this
--	 * doesn't work for SRIOV. For now assuming timeouts in wedged mode are
--	 * genuine timeouts.
-+	 * Check if job is actually timed out, if so restart job execution and TDR
- 	 */
-+	if (!skip_timeout_check && !check_timeout(q, job))
-+		goto rearm;
-+
- 	if (!exec_queue_killed(q))
- 		wedged = guc_submit_hint_wedged(exec_queue_to_guc(q));
- 
--	/* Engine state now stable, disable scheduling to check timestamp */
-+	set_exec_queue_banned(q);
-+
-+	/* Kick job / queue off hardware */
- 	if (!wedged && (exec_queue_enabled(q) || exec_queue_pending_disable(q))) {
- 		int ret;
- 
-@@ -1163,13 +1141,6 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
- 			if (!ret || xe_guc_read_stopped(guc))
- 				goto trigger_reset;
- 
--			/*
--			 * Flag communicates to G2H handler that schedule
--			 * disable originated from a timeout check. The G2H then
--			 * avoid triggering cleanup or deregistering the exec
--			 * queue.
--			 */
--			set_exec_queue_check_timeout(q);
- 			disable_scheduling(q, skip_timeout_check);
- 		}
- 
-@@ -1198,22 +1169,12 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
- 			xe_devcoredump(q, job,
- 				       "Schedule disable failed to respond, guc_id=%d, ret=%d, guc_read=%d",
- 				       q->guc->id, ret, xe_guc_read_stopped(guc));
--			set_exec_queue_banned(q);
- 			xe_gt_reset_async(q->gt);
- 			xe_sched_tdr_queue_imm(sched);
- 			goto rearm;
- 		}
- 	}
- 
--	/*
--	 * Check if job is actually timed out, if so restart job execution and TDR
--	 */
--	if (!wedged && !skip_timeout_check && !check_timeout(q, job) &&
--	    !exec_queue_reset(q) && exec_queue_registered(q)) {
--		clear_exec_queue_check_timeout(q);
--		goto sched_enable;
--	}
--
- 	if (q->vm && q->vm->xef) {
- 		process_name = q->vm->xef->process_name;
- 		pid = q->vm->xef->pid;
-@@ -1244,14 +1205,11 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
- 	if (!wedged && (q->flags & EXEC_QUEUE_FLAG_KERNEL ||
- 			(q->flags & EXEC_QUEUE_FLAG_VM && !exec_queue_killed(q)))) {
- 		if (!xe_sched_invalidate_job(job, 2)) {
--			clear_exec_queue_check_timeout(q);
- 			xe_gt_reset_async(q->gt);
- 			goto rearm;
- 		}
- 	}
- 
--	set_exec_queue_banned(q);
--
- 	/* Mark all outstanding jobs as bad, thus completing them */
- 	xe_sched_job_set_error(job, err);
- 	drm_sched_for_each_pending_job(tmp_job, &sched->base, NULL)
-@@ -1266,9 +1224,6 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
- 	 */
- 	return DRM_GPU_SCHED_STAT_NO_HANG;
- 
--sched_enable:
--	set_exec_queue_pending_tdr_exit(q);
--	enable_scheduling(q);
- rearm:
- 	/*
- 	 * XXX: Ideally want to adjust timeout based on current execution time
-@@ -1898,8 +1853,7 @@ static void guc_exec_queue_revert_pending_state_change(struct xe_guc *guc,
- 			  q->guc->id);
- 	}
- 
--	if (pending_enable && !pending_resume &&
--	    !exec_queue_pending_tdr_exit(q)) {
-+	if (pending_enable && !pending_resume) {
- 		clear_exec_queue_registered(q);
- 		xe_gt_dbg(guc_to_gt(guc), "Replay REGISTER - guc_id=%d",
- 			  q->guc->id);
-@@ -1908,7 +1862,6 @@ static void guc_exec_queue_revert_pending_state_change(struct xe_guc *guc,
- 	if (pending_enable) {
- 		clear_exec_queue_enabled(q);
- 		clear_exec_queue_pending_resume(q);
--		clear_exec_queue_pending_tdr_exit(q);
- 		clear_exec_queue_pending_enable(q);
- 		xe_gt_dbg(guc_to_gt(guc), "Replay ENABLE - guc_id=%d",
- 			  q->guc->id);
-@@ -1934,7 +1887,6 @@ static void guc_exec_queue_revert_pending_state_change(struct xe_guc *guc,
- 		if (!pending_enable)
- 			set_exec_queue_enabled(q);
- 		clear_exec_queue_pending_disable(q);
--		clear_exec_queue_check_timeout(q);
- 		xe_gt_dbg(guc_to_gt(guc), "Replay DISABLE - guc_id=%d",
- 			  q->guc->id);
- 	}
-@@ -2274,13 +2226,10 @@ static void handle_sched_done(struct xe_guc *guc, struct xe_exec_queue *q,
- 
- 		q->guc->resume_time = ktime_get();
- 		clear_exec_queue_pending_resume(q);
--		clear_exec_queue_pending_tdr_exit(q);
- 		clear_exec_queue_pending_enable(q);
- 		smp_wmb();
- 		wake_up_all(&guc->ct.wq);
- 	} else {
--		bool check_timeout = exec_queue_check_timeout(q);
--
- 		xe_gt_assert(guc_to_gt(guc), runnable_state == 0);
- 		xe_gt_assert(guc_to_gt(guc), exec_queue_pending_disable(q));
- 
-@@ -2288,11 +2237,11 @@ static void handle_sched_done(struct xe_guc *guc, struct xe_exec_queue *q,
- 			suspend_fence_signal(q);
- 			clear_exec_queue_pending_disable(q);
- 		} else {
--			if (exec_queue_banned(q) || check_timeout) {
-+			if (exec_queue_banned(q)) {
- 				smp_wmb();
- 				wake_up_all(&guc->ct.wq);
- 			}
--			if (!check_timeout && exec_queue_destroyed(q)) {
-+			if (exec_queue_destroyed(q)) {
- 				/*
- 				 * Make sure to clear the pending_disable only
- 				 * after sampling the destroyed state. We want
-@@ -2402,7 +2351,7 @@ int xe_guc_exec_queue_reset_handler(struct xe_guc *guc, u32 *msg, u32 len)
- 	 * guc_exec_queue_timedout_job.
- 	 */
- 	set_exec_queue_reset(q);
--	if (!exec_queue_banned(q) && !exec_queue_check_timeout(q))
-+	if (!exec_queue_banned(q))
- 		xe_guc_exec_queue_trigger_cleanup(q);
- 
- 	return 0;
-@@ -2483,7 +2432,7 @@ int xe_guc_exec_queue_memory_cat_error_handler(struct xe_guc *guc, u32 *msg,
- 
- 	/* Treat the same as engine reset */
- 	set_exec_queue_reset(q);
--	if (!exec_queue_banned(q) && !exec_queue_check_timeout(q))
-+	if (!exec_queue_banned(q))
- 		xe_guc_exec_queue_trigger_cleanup(q);
- 
- 	return 0;
-diff --git a/drivers/gpu/drm/xe/xe_lrc.c b/drivers/gpu/drm/xe/xe_lrc.c
-index b5083c99dd50..c9bfd11a8d5e 100644
---- a/drivers/gpu/drm/xe/xe_lrc.c
-+++ b/drivers/gpu/drm/xe/xe_lrc.c
-@@ -839,7 +839,7 @@ u32 xe_lrc_ctx_timestamp_udw_ggtt_addr(struct xe_lrc *lrc)
-  *
-  * Returns: ctx timestamp value
-  */
--u64 xe_lrc_ctx_timestamp(struct xe_lrc *lrc)
-+static u64 xe_lrc_ctx_timestamp(struct xe_lrc *lrc)
- {
- 	struct xe_device *xe = lrc_to_xe(lrc);
- 	struct iosys_map map;
-@@ -2353,35 +2353,29 @@ static int get_ctx_timestamp(struct xe_lrc *lrc, u32 engine_id, u64 *reg_ctx_ts)
- }
- 
- /**
-- * xe_lrc_update_timestamp() - Update ctx timestamp
-+ * xe_lrc_timestamp() - Current ctx timestamp
-  * @lrc: Pointer to the lrc.
-- * @old_ts: Old timestamp value
-  *
-- * Populate @old_ts current saved ctx timestamp, read new ctx timestamp and
-- * update saved value. With support for active contexts, the calculation may be
-- * slightly racy, so follow a read-again logic to ensure that the context is
-- * still active before returning the right timestamp.
-+ * Return latest ctx timestamp.
-  *
-  * Returns: New ctx timestamp value
-  */
--u64 xe_lrc_update_timestamp(struct xe_lrc *lrc, u64 *old_ts)
-+u64 xe_lrc_timestamp(struct xe_lrc *lrc)
- {
--	u64 lrc_ts, reg_ts;
-+	u64 lrc_ts, reg_ts, new_ts;
- 	u32 engine_id;
- 
--	*old_ts = lrc->ctx_timestamp;
--
- 	lrc_ts = xe_lrc_ctx_timestamp(lrc);
- 	/* CTX_TIMESTAMP mmio read is invalid on VF, so return the LRC value */
- 	if (IS_SRIOV_VF(lrc_to_xe(lrc))) {
--		lrc->ctx_timestamp = lrc_ts;
-+		new_ts = lrc_ts;
- 		goto done;
- 	}
- 
- 	if (lrc_ts == CONTEXT_ACTIVE) {
- 		engine_id = xe_lrc_engine_id(lrc);
- 		if (!get_ctx_timestamp(lrc, engine_id, &reg_ts))
--			lrc->ctx_timestamp = reg_ts;
-+			new_ts = reg_ts;
- 
- 		/* read lrc again to ensure context is still active */
- 		lrc_ts = xe_lrc_ctx_timestamp(lrc);
-@@ -2392,9 +2386,29 @@ u64 xe_lrc_update_timestamp(struct xe_lrc *lrc, u64 *old_ts)
- 	 * be a separate if condition.
- 	 */
- 	if (lrc_ts != CONTEXT_ACTIVE)
--		lrc->ctx_timestamp = lrc_ts;
-+		new_ts = lrc_ts;
- 
- done:
-+	return new_ts;
-+}
-+
-+/**
-+ * xe_lrc_update_timestamp() - Update ctx timestamp
-+ * @lrc: Pointer to the lrc.
-+ * @old_ts: Old timestamp value
-+ *
-+ * Populate @old_ts current saved ctx timestamp, read new ctx timestamp and
-+ * update saved value. With support for active contexts, the calculation may be
-+ * slightly racy, so follow a read-again logic to ensure that the context is
-+ * still active before returning the right timestamp.
-+ *
-+ * Returns: New ctx timestamp value
-+ */
-+u64 xe_lrc_update_timestamp(struct xe_lrc *lrc, u64 *old_ts)
-+{
-+	*old_ts = lrc->ctx_timestamp;
-+	lrc->ctx_timestamp = xe_lrc_timestamp(lrc);
-+
- 	trace_xe_lrc_update_timestamp(lrc, *old_ts);
- 
- 	return lrc->ctx_timestamp;
-diff --git a/drivers/gpu/drm/xe/xe_lrc.h b/drivers/gpu/drm/xe/xe_lrc.h
-index 2fb628da5c43..86b7174f424a 100644
---- a/drivers/gpu/drm/xe/xe_lrc.h
-+++ b/drivers/gpu/drm/xe/xe_lrc.h
-@@ -140,7 +140,6 @@ void xe_lrc_snapshot_free(struct xe_lrc_snapshot *snapshot);
- 
- u32 xe_lrc_ctx_timestamp_ggtt_addr(struct xe_lrc *lrc);
- u32 xe_lrc_ctx_timestamp_udw_ggtt_addr(struct xe_lrc *lrc);
--u64 xe_lrc_ctx_timestamp(struct xe_lrc *lrc);
- u32 xe_lrc_ctx_job_timestamp_ggtt_addr(struct xe_lrc *lrc);
- u32 xe_lrc_ctx_job_timestamp(struct xe_lrc *lrc);
- int xe_lrc_setup_wa_bb_with_scratch(struct xe_lrc *lrc, struct xe_hw_engine *hwe,
-@@ -160,4 +159,6 @@ int xe_lrc_setup_wa_bb_with_scratch(struct xe_lrc *lrc, struct xe_hw_engine *hwe
-  */
- u64 xe_lrc_update_timestamp(struct xe_lrc *lrc, u64 *old_ts);
- 
-+u64 xe_lrc_timestamp(struct xe_lrc *lrc);
-+
- #endif
-diff --git a/drivers/gpu/drm/xe/xe_sched_job.c b/drivers/gpu/drm/xe/xe_sched_job.c
-index cb674a322113..39aec7f6d86d 100644
---- a/drivers/gpu/drm/xe/xe_sched_job.c
-+++ b/drivers/gpu/drm/xe/xe_sched_job.c
-@@ -110,6 +110,7 @@ struct xe_sched_job *xe_sched_job_create(struct xe_exec_queue *q,
- 		return ERR_PTR(-ENOMEM);
- 
- 	job->q = q;
-+	job->sample_timestamp = U64_MAX;
- 	kref_init(&job->refcount);
- 	xe_exec_queue_get(job->q);
- 
-diff --git a/drivers/gpu/drm/xe/xe_sched_job_types.h b/drivers/gpu/drm/xe/xe_sched_job_types.h
-index 7c4c54fe920a..13c2970e81a8 100644
---- a/drivers/gpu/drm/xe/xe_sched_job_types.h
-+++ b/drivers/gpu/drm/xe/xe_sched_job_types.h
-@@ -59,6 +59,8 @@ struct xe_sched_job {
- 	u32 lrc_seqno;
- 	/** @migrate_flush_flags: Additional flush flags for migration jobs */
- 	u32 migrate_flush_flags;
-+	/** @sample_timestamp: Sampling of job timestamp in TDR */
-+	u64 sample_timestamp;
- 	/** @ring_ops_flush_tlb: The ring ops need to flush TLB before payload. */
- 	bool ring_ops_flush_tlb;
- 	/** @ggtt: mapped in ggtt. */
--- 
-2.34.1
+are available in the Git repository at:
 
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.18-2025-11-26
+
+for you to fetch changes up to 7fa666ab07ba9e08f52f357cb8e1aad753e83ac6:
+
+  drm/amdgpu: fix cyan_skillfish2 gpu info fw handling (2025-11-26 12:34:16 -0500)
+
+----------------------------------------------------------------
+amd-drm-fixes-6.18-2025-11-26:
+
+amdgpu:
+- Unified MES fix
+- HDMI fix
+- Cursor fix
+- Bightness fix
+- EDID reading improvement
+- UserQ fix
+- Cyan Skillfish IP discovery fix
+
+----------------------------------------------------------------
+Alex Deucher (2):
+      Revert "drm/amd/display: Move setup_stream_attribute"
+      drm/amdgpu: fix cyan_skillfish2 gpu info fw handling
+
+Alex Hung (1):
+      drm/amd/display: Check NULL before accessing
+
+Mario Limonciello (AMD) (2):
+      drm/amd/display: Don't change brightness for disabled connectors
+      drm/amd/display: Increase EDID read retries
+
+Michael Chen (1):
+      drm/amd/amdgpu: reserve vm invalidation engine for uni_mes
+
+Prike Liang (1):
+      drm/amdgpu: attach tlb fence to the PTs update
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c                |  2 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c                   |  3 +++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c                    |  2 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c         | 15 +++++++++++++++
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  8 ++++----
+ drivers/gpu/drm/amd/display/dc/core/dc_stream.c           | 11 ++++++++---
+ drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c |  1 -
+ drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c   |  2 --
+ drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c |  2 --
+ drivers/gpu/drm/amd/display/dc/link/link_dpms.c           |  3 +++
+ .../drm/amd/display/dc/virtual/virtual_stream_encoder.c   |  7 -------
+ 11 files changed, 36 insertions(+), 20 deletions(-)
