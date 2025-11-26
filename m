@@ -2,165 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FFEC8775A
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 00:29:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C65C87914
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 01:18:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A04C10E073;
-	Tue, 25 Nov 2025 23:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6488510E0BE;
+	Wed, 26 Nov 2025 00:18:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="iTJKLit2";
+	dkim=pass (2048-bit key; unprotected) header.d=fb.com header.i=@fb.com header.b="W+AKvPIc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com
- (mail-southcentralusazon11013048.outbound.protection.outlook.com
- [40.93.196.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3544C10E073;
- Tue, 25 Nov 2025 23:29:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hJ+F+VwYAvUBwMOTDRDMi6DPh3GYU92GHFOhiCGWDhJaYGuqIR18k5jQ4wzSuFB0B4FNRNDAruFUBHO/ThgHTHk/Is0ZGkdAWTWJ3ZmN3h+LJQLcFI1oXuzrF+L0iIi7g4fhCbAc2NYXlXogUzTArWex01BGouhi+2eWhrYNnCG5SP0uXWtk03oiA2vTF3F6ttaN1QVzMbdZKLOZAs2EQIbftb6KJazsKFVpNNT0++KM/9x4FKYZSsLacufwfzhVHu9yL6RaE4NJL0cTiWXQN4k2fMhPHLUi2EH6HjNLcIupKFK9tyoM/BDFd3k+RvuoUAl6/SIB1k+1HgWc8yvOGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZPhC7xWfMfr1sd8nqRsWf/2UMDBG6/QlOayCT4FguKQ=;
- b=AEq7aSLXOMZ0TiDrvquKq6ivkqGGE1CdjajRbbmCWbUdrKa6rNoUtEPUW0yulhdt0u00wRWHZquZvGN4dT3G7GWQBa54NfJo4UihCz3aXxrlBIH322eOHOQGgTsgwPiWJkLd4aMzzC9w7bR5Sn7ZGcR8l2oJWnWClSqj7ogVhb+kY5gYk2HQ2a5Vs6SNkBAnVo4YG2qzDl0FiNcbX9Fk1Jh1T1Sj3qFhVVyhd0UyfkhH6SmHGzkCfY7d8CFS7fJRdHI/na9pOOGO6FyYEFPR6wNKbyPCdPy9nCL0A3t5Gr6uB4v1SykdcWm/U0GTvDgebTv2YX29fD+EvkNZTbBgPg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZPhC7xWfMfr1sd8nqRsWf/2UMDBG6/QlOayCT4FguKQ=;
- b=iTJKLit28b9EdAHWnY4nywI3NugjjNSi/nOtjDd7ADrf4k//I2Vy71Vo/2796VLhzNJx0cs0+8z4dDoHpwOuS5ks/kFr65B9HCNzUjjeCsWIsn2Nc+wKUHXnUC9skO+62BBmFhH3UGUZ59Qt3DPeq+ShIbLaEeLyNxQVr7t3xpHhZP/jMALZOlVDrABcsagBt4CouJtwiriPk/ksaleRJAuH68Vw6a+2okpQwufbSi7Urm+fTChKsPk6Ck44xRYuLF7eP4tpOoAbOY0ixslflcteQAbfpVuLzwXK3veusD8Snl1+jEdW+C4eLEu+v8fur0HHQSv0QPWcmfkQnA9a5w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by DS2PR12MB9661.namprd12.prod.outlook.com (2603:10b6:8:27b::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.11; Tue, 25 Nov
- 2025 23:29:33 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9343.016; Tue, 25 Nov 2025
- 23:29:32 +0000
-Message-ID: <04b9f849-94fc-4bfd-94d7-7337a8cffdf3@nvidia.com>
-Date: Tue, 25 Nov 2025 18:29:28 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] rust: clist: Add typed iteration with FromListHead
- trait
-To: Alexandre Courbot <acourbot@nvidia.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- dakr@kernel.org, airlied@gmail.com
-Cc: apopple@nvidia.com, ojeda@kernel.org, alex.gaynor@gmail.com,
- boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, jhubbard@nvidia.com,
- ttabi@nvidia.com, joel@joelfernandes.org, elle@weathered-steel.dev,
- daniel.almeida@collabora.com, arighi@nvidia.com, phasta@kernel.org,
- nouveau@lists.freedesktop.org,
- Nouveau <nouveau-bounces@lists.freedesktop.org>
-References: <20251111171315.2196103-1-joelagnelf@nvidia.com>
- <20251111171315.2196103-3-joelagnelf@nvidia.com>
- <DEGQCMSX1SGZ.2NQDPG5KUNA9D@nvidia.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <DEGQCMSX1SGZ.2NQDPG5KUNA9D@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL6PEPF0001640E.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:22e:400:0:1004:0:15) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com
+ [67.231.145.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B053510E0BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 00:18:44 +0000 (UTC)
+Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5APKA97n1087396; Tue, 25 Nov 2025 16:18:10 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=cc
+ :content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=s2048-2025-q2;
+ bh=qGBFfom64ubwAcHLmi0kGY4idgptPgMMsGDiFpmxSnI=; b=W+AKvPIcq+Gs
+ i3tYYc6MNSXntK0NmrX6mDMiJh2f1He+waI1tJUFw9eep8toqFOiXcXgv1d9N8HG
+ PGdbn6/fGl6qS46R20vtpCyrMHLj0wH4JK9pXWvIXkrNgijhiczlYtlomrwOthSj
+ zml1ieuFYLYIUzuWZ91PR3D7DWCyaUSc0LCurvPCQxAzzat402xRMP4oyeWdz0ty
+ 1EYyma4UMfnDB7SWN7UNyv49rng7qo94JM/vlLrbdULgh6NjCeHD1lakMZtk49rg
+ EGdIyMsuzoL8EN2ERVeIEmaZ0+aXHHcjPKQINfA5NEORkyA0TfReyUgtpSsOkjBL
+ M3cSvkYsxQ==
+Received: from mail.thefacebook.com ([163.114.134.16])
+ by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4ank8qsk46-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Tue, 25 Nov 2025 16:18:10 -0800 (PST)
+Received: from devgpu015.cco6.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.29; Wed, 26 Nov 2025 00:18:08 +0000
+Date: Tue, 25 Nov 2025 16:18:03 -0800
+From: Alex Mastro <amastro@fb.com>
+To: Leon Romanovsky <leon@kernel.org>
+CC: Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe
+ <logang@deltatee.com>, Jens Axboe <axboe@kernel.dk>, Robin Murphy
+ <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
+ <will@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Kees Cook
+ <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, Ankit
+ Agrawal <ankita@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>, Shameer
+ Kolothum <skolothumtho@nvidia.com>, Kevin Tian <kevin.tian@intel.com>, Alex
+ Williamson <alex@shazbot.org>,
+ Krishnakant Jaju <kjaju@nvidia.com>, Matt Ochs <mochs@nvidia.com>,
+ <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-block@vger.kernel.org>, <iommu@lists.linux.dev>,
+ <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <kvm@vger.kernel.org>,
+ <linux-hardening@vger.kernel.org>, Nicolin Chen <nicolinc@nvidia.com>,
+ Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v9 06/11] dma-buf: provide phys_vec to scatter-gather
+ mapping routine
+Message-ID: <aSZHO6otK0Heh+Qj@devgpu015.cco6.facebook.com>
+References: <20251120-dmabuf-vfio-v9-0-d7f71607f371@nvidia.com>
+ <20251120-dmabuf-vfio-v9-6-d7f71607f371@nvidia.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|DS2PR12MB9661:EE_
-X-MS-Office365-Filtering-Correlation-Id: 29e630fa-62e8-443f-5bf4-08de2c7a7cf8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bVo1Wi8zOWk2eDF4VTdEZFJ3ME5iK29uQ2NwWmw5bjQ2QXMwTFBaMFdKRm1y?=
- =?utf-8?B?ZnlEL0RueFNJQkw4a3paZi9xdFYyREtlY2FFSmx2TVFLZnVtdEwrcjZsNHV1?=
- =?utf-8?B?cjhjL1FxSkRaVFgzdktoTHV1ZU1aRnFEbEVTZmlReTNRTTljM2oxNUhzMWpq?=
- =?utf-8?B?RW9DeUlNWUtrTUZ4cFBsdThpWGpYdHJqMXVBTmtlVWFENW96QllUTkwveGds?=
- =?utf-8?B?M09nam1QRlZFVlQ2d1IwMCtXVGpVR2lVVndyV1VjK00wV0pHZ1NpZmpXQXhu?=
- =?utf-8?B?M0craGlPKzVFbzh5bDdST1liOVFHUmkxSzFrUjdhM1JxalZhMXJvYTJ2RmZw?=
- =?utf-8?B?ZGF1c1NrSXptM2VERmZ1Ri90WTNIVHZkTzFCVlJHa0R2emluOHZmaDBxRDZu?=
- =?utf-8?B?Y2hwVHVISXhiRUs5eUJvbG55SjNKMmtJS2VkR3krYlk1cHNMZUNoWWhjU1JS?=
- =?utf-8?B?RG5jQVRpR0wzRmh2dkhDcHFTYVZza0lXY2ZTZHhiTGVXcDlBZStEaFc5eWlw?=
- =?utf-8?B?Vmg3NDNLT280VzBWQnVaalE3c3E1NG55SGk0MXQ0cXhxdUNvaXhsRy9wak9w?=
- =?utf-8?B?QTBTeHRzWStwSGdzVUtBa0pDYkllbE9aQXVUMWp5OUQzdHRsSGVXc1BONkVq?=
- =?utf-8?B?ZXNDM3JOVHFDR0lYWjluQUkxNmVMOU5Iby9TSUMwQ05TU3JGUkJ5cTBVYWZX?=
- =?utf-8?B?c3FTYjhmSTMzVXpGSElEYXd4b2ZTdmxNam1xUjcvem9vV1N1ZUFlNWNyb1Fv?=
- =?utf-8?B?NnlYUXVWc2ltem1TNk9qMUdlS1RqTkQzU1Y5ZEFEcHViZGtxUmsySFNaOFFa?=
- =?utf-8?B?RUlrT0xtNzNFTUhKaGYvSUxSVm9Gd2hzWHpkSy9UQm5WOTdmaFd1OEp4TG1K?=
- =?utf-8?B?b0dwYlJtbVBoZEVYZ2N4VHkzTlNxdkdwVi80dkFxM05LOS9RV2hTK2FZS1N6?=
- =?utf-8?B?dWdkK3VBTys4QnBhRmNCSVZSckZVY3M5eDA1SExVN3drZUg0RTJSWUxDblNW?=
- =?utf-8?B?S1QxcG1scHJLR0dsMDNpQnZzeE1WYWovdEx4ZThtS0ZmT0tOWjVWd2c0U0xu?=
- =?utf-8?B?a1cyRTRsU0VicTNsanlBZmFGc1R5aUVSRjhsOUxIWlJCOFNPRW1CS3poU05s?=
- =?utf-8?B?RXp0NkN6N3NPcGVPcmtnUVAyeU5KTUlBdlBIMFIxWGZQY0cwN0VxZDE1RnRo?=
- =?utf-8?B?Y3U4aGFsMjhDSi8xUm9icHRBYmVQTTl1S0RUaUZhelFPb0hXM29UZnVnUi9I?=
- =?utf-8?B?WDJubVVGemZsVHprOHNyNWRQd0pzSWdtbmRyWWZHbE1Wb0hjRHlwYkM4bjR6?=
- =?utf-8?B?VVA5Z2E5VDJiZXI1cVN5ZEhNK3hsazNOUGxkb0ZZV1NWMEFjN2xSZVh6YUJj?=
- =?utf-8?B?VEFJTTZJNHJuODc5U0ZhcjBqVXRMM2wzSUFJVHNEWDBzamxHMWliZDVpL1BM?=
- =?utf-8?B?cjcxSDBaZWY4cmNmdDlBV1ZuM2ZqQUtQTTBPZnRaZFUyMFRhWkhwUHd2Y1Bh?=
- =?utf-8?B?TFBEZnBMYmpoMlN2SWt3VFJzakxnUXBzekhUcnhkMmhoeGpQWGsrN2d0WnJ6?=
- =?utf-8?B?T0poYVNyQkp2OTRoZGE5VzYrUEo1RjRzVHllMzhURFcxanZvY2ZURE8rZEg1?=
- =?utf-8?B?SE9ObEh6Uy9IM0tmVU1vUEQwamZOQkE1T1l6TDROT3FsbXFGRXZjWDJnWHpw?=
- =?utf-8?B?S1FFbEJSTEs3anliQ29SSGx2WWlsaUVMQU1maDVLLzVIRFdQL0REaGV5L3My?=
- =?utf-8?B?S3J1ZVF5TWRHQmtVS3IzNmxCSWgzOE1OOXQ1V2Y3c1RteTV3UnVaMngwSXhr?=
- =?utf-8?B?ZUU1ODBSbUZTVDFCL3AyOXRLeGdZc2VJME42T1YxY2xyOXViRENWckJDOFlR?=
- =?utf-8?B?M09hYTYyR2dlUlR1VEtLTHNkSDNZM3YycGp5NGN6MEx5Vzdoczg4dkVkN1Fi?=
- =?utf-8?Q?J39FSeCnYpcUif/ksmaBetE7ZoHL2EpU?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R01zZVovblpSSGowaVkzQzRHVndzSWZobk9jWWtURGtqLzFxdUlNTGhoVDlO?=
- =?utf-8?B?bnE1TWRGcStVSlB6S3d5UG9SWDYzQU1vZ0kzVEIxZkRicEliZDUrQ0RrQVEz?=
- =?utf-8?B?cmZDZE11WEZmeXVBUlZiVStnNTUyaDZwRU9Bakc1aUhhSDhob0VmZlAxVmFt?=
- =?utf-8?B?UjBJOGF2SWZJVk05NUdxQUN5OWhZa1lYVFNPL1lNaFRrd01ZSXJJK1dMWXRN?=
- =?utf-8?B?QVVqbW1GelljUWpaTFRLblJGTXMvWDVNcTV2UUM5OEFYc1laWnVDclc5QmVM?=
- =?utf-8?B?U0RJcjdjWGNTZmJaOVlFVEorUXdxOXVxcUdERlZxRkR3L1daSGo3TituZ0tQ?=
- =?utf-8?B?ZGFDTEZmUSsvOStJazVkMVE3SDZsTzdpQWJDRHpndFRENDlLZWVkMVNNYVYy?=
- =?utf-8?B?bFQzaVNBSEg5YXlDb2h6YVZxWWM0aFVrUnRQUm9GSkxDM25hbllTMFB3TUdq?=
- =?utf-8?B?TUFnMlYwZnJqNXVrTDk2MVhDQVdMNGZoNXkrNjBtOUFwdHQxUGJSTUwzTUJY?=
- =?utf-8?B?dUcwVUFrWUx2QUVPYzNuZ3lpN1JqbnlBK291M1I5V2NqRzVHYlNVYTZ3c3du?=
- =?utf-8?B?SlhldHpjbDVvRS9FSjF6aGljalErWWtQcnJUUStTUHlRTzJaOWpqdjd4K1Ja?=
- =?utf-8?B?aVg0dTF2Y1dYTkswY2JFbHlqbmZ3UDN2eGhZZGlYWlFZbnJwQWtVMXZ6YUM4?=
- =?utf-8?B?SW9XN1ZsdzdHNloycHdCU3E2T1I3cHlyd2dzUEpjbmNyUldBdWxBaGY4UkhM?=
- =?utf-8?B?MWlGMHEwaHNrYlNGVXVDNmJWQ08vd3lpajR2TVBPTHpzSk8zZ1BoZFI4WG15?=
- =?utf-8?B?OXM2TzJrOFhKY1NkVk10MlpSdzh0dUFhMHNubXo3c2FySjRraWF5ZU1ZM1hQ?=
- =?utf-8?B?akpnaGliQW9Sc3hSVVByTlExV0hXMWl1aExuaTk4UE9vc2lMOHBhVHhGbHVK?=
- =?utf-8?B?cVorM0pPb3RXenhxdXAwVFVrTUFFM29mc0F6VCtmcFloTG8zenVFZlYyeXZE?=
- =?utf-8?B?dnBnUzBpTVNHM29DK0hWVXUrWHlHOElrc3MvdGcxYlVET1huR2tvTlFLZ3I1?=
- =?utf-8?B?NlltcTkzdHVLcC9jUXgvd3dsSndzcDcrWHRSeFY3dVFHMnFQTDIvZUNOQUlZ?=
- =?utf-8?B?bm5HVjZCd2p4SlVCNkxSUVFMdUhuV2pycE5RaWl6R2xtM084R3JXRmhKOFhP?=
- =?utf-8?B?NnlrWUVWUXZ2NHhaM2p4Q3orSlFJdldqVlFieTNuNkFtTnM0Ly9TRjIrbEcz?=
- =?utf-8?B?WVBJcyt6UXN6UkE1dzV3RzZHRUlYYlZYTndLQUQ1UmQzWHQ4UWZlZEhjU3A3?=
- =?utf-8?B?QnVDd29HRlY3ZktJSTJjU0VhUnJqc1BUUkZINjQ2NWxkd2pwSjhSMXRSWXVl?=
- =?utf-8?B?M3BlRGdFc1VpV1c3RXEwUjhxVkhzYUdQM2RPN0tEa29xSXptWHhZMW9Xajly?=
- =?utf-8?B?eExzV2dwaDA3bHZya3dORloyRElDbFV1TEVrd2MxWXI2TUJERXZWSXBRN0Nk?=
- =?utf-8?B?UnJOVG8raFpXUW5EYXVkakZ3eTNJRGYzckJlWmZyRXhRbWhHTlBoNEFRcXAr?=
- =?utf-8?B?NWJEd0E4UHc5UE81MStsVVUyUTY2VDJoVlVFenpJVHJEVEg5cExpWUZ0c1Z3?=
- =?utf-8?B?SWRmQVJNbGtHYWl6VDR2UGJIQU5GWEt0WUFZNzVtS2NNUHh6YTVuUFZIVlZO?=
- =?utf-8?B?NXprcm5SMXVLWVBTZzRLWDdzTzBWWE5NS0xaUEFKbDdFZExzVWhqTE5KdDVB?=
- =?utf-8?B?VVpEcGxCSFNSVWZlUks0TjNsTFNzNDRnVG4wZGk4cks4YkNWUVFkNXhPYUdX?=
- =?utf-8?B?TjZlRmZiT3pmaTVVSVhwdkhOaWc3SmZJQzFPQ2hkNlNDOTNsQlhsMERTR1VJ?=
- =?utf-8?B?SUZVcVRaN2JRQ1dBczlrbEtBZU9YcWMxNFZtc2JrcW5iUDFqT05VdGFLMSt4?=
- =?utf-8?B?QVF0Q3YwLzNqT1ZyUzc1ZjQzclhSbTVObG5SMkFJYWlzS3dRcXJOVHd5cDds?=
- =?utf-8?B?b0tOM2xSY1UwcXVlOTdFbVlmakJiYjM2dGhKQ3FKSU1SQ1VJQ1F6aHdKNTgx?=
- =?utf-8?B?YSs4akQzdUV0Vi8rZ0FzaGwxY1MyYmozVTkzZS9hT3Byek1vejcrSUJLL2Mr?=
- =?utf-8?Q?dwoWf0sgBM3+IXqfASjDAc45Q?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29e630fa-62e8-443f-5bf4-08de2c7a7cf8
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2025 23:29:32.8497 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KQgdpkQrlazq18wAqApTeNZd3s7Amz1mI4ghQUxu2oOcZ0OW6MSsIHQdc3c6zS9gz2Ij/MCWy/aZdVB2GOEegQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9661
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251120-dmabuf-vfio-v9-6-d7f71607f371@nvidia.com>
+X-Originating-IP: [2620:10d:c085:108::4]
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDAwMCBTYWx0ZWRfX4aU+4yoxvGRI
+ fn5uIgo4phoyJLcsXRpkIiEbPHjmDvXjee+0hL5hZTnMf7KiIbVFpuPgNNxmzJnPoXlqYrYFVCb
+ EPyFD9HoNuq9bFWOWGD9jm+tH6jYX1bWvVVFfP7wmtxUCfM6nyWp9RhEW4F3WyT2gvOl06d0Lit
+ II5EZrklZ4kZ6ZccZ6uI5fnA2fhf1sXF7BU/xkJ1DrQkkrbuth2BkU2ET85sZ92FJE5mmeSgTwT
+ 8QOBncjhE4/DUMlusLJDyljY4I1YOkD69BDnY6LZhPAqbK1Ws3OXJ/OhGSqPOvK63g6mktQG9A/
+ 4TjZvhvYG6pYNypXlNsc0JrFDrM/97nZlDYVEtn7wlUXLxFDOXnHdS+vQBslO6M76Dlb+/Whxi6
+ 97TQYdVHP7oL0xprhG3cL4XfcOc0nA==
+X-Proofpoint-ORIG-GUID: 5DCeEKEPh0Lq0c0QeLIVINEpDK6-Nmfl
+X-Proofpoint-GUID: 5DCeEKEPh0Lq0c0QeLIVINEpDK6-Nmfl
+X-Authority-Analysis: v=2.4 cv=VfT6/Vp9 c=1 sm=1 tr=0 ts=69264742 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=3j4BkbkPAAAA:8 a=qThf3vN7FU90BnacfoAA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-25_02,2025-11-25_01,2025-10-01_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,85 +102,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex,
+On Thu, Nov 20, 2025 at 11:28:25AM +0200, Leon Romanovsky wrote:
+> +static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
+> +					 dma_addr_t addr)
+> +{
+> +	unsigned int len, nents;
+> +	int i;
+> +
+> +	nents = DIV_ROUND_UP(length, UINT_MAX);
+> +	for (i = 0; i < nents; i++) {
+> +		len = min_t(size_t, length, UINT_MAX);
+> +		length -= len;
+> +		/*
+> +		 * DMABUF abuses scatterlist to create a scatterlist
+> +		 * that does not have any CPU list, only the DMA list.
+> +		 * Always set the page related values to NULL to ensure
+> +		 * importers can't use it. The phys_addr based DMA API
+> +		 * does not require the CPU list for mapping or unmapping.
+> +		 */
+> +		sg_set_page(sgl, NULL, 0, 0);
+> +		sg_dma_address(sgl) = addr + i * UINT_MAX;
 
-On 11/24/2025 2:01 AM, Alexandre Courbot wrote:
->>  ///
->>  /// # Invariants
->>  ///
->> @@ -69,6 +156,15 @@ pub fn iter_heads(&self) -> ClistHeadIter<'_> {
->>              head: &self.0,
->>          }
->>      }
->> +
->> +    /// Create a high-level iterator over typed items.
->> +    #[inline]
->> +    pub fn iter<L: ClistLink>(&self) -> ClistIter<'_, L> {
->> +        ClistIter {
->> +            head_iter: self.iter_heads(),
->> +            _phantom: PhantomData,
->> +        }
->> +    }
-> This looks very dangerous, as it gives any caller the freedom to specify
-> the type they want to upcast the `Clist` to, without using unsafe code.
-> One could easily invoke this with the wrong type and get no build error
-> or warning whatsoever.
-> 
-> A safer version would have the `Clist` generic over the kind of
-> conversion that needs to be performed, using e.g. a closure:
-> 
->   pub struct Clist<'a, T, C: Fn(*mut bindings::list_head) -> *mut T> {
->       head: &'a ClistHead,
->       conv: C,
->   }
-> 
-> `from_raw` would also take the closure as argument, which forces the
-> creator of the list to both specify what that list is for, and use an
-> `unsafe` statement for unsafe code. Here is a dummy example:
-> 
->     let head: bindings::list_head = ...;
-> 
->     // SAFETY: list_head always corresponds to the `list` member of
->     // `type_embedding_list_head`.
->     let conv = |head: *mut bindings::list_head| unsafe {
->         crate::container_of!(head, type_embedding_list_head, list)
->     };
-> 
->     // SAFETY: ...
->     unsafe { Clist::from_raw(head, conv) }
-> 
-> Then `conv` would be passed down to the `ClistIter` so it can return
-> references to the correct type.
-> 
-> By doing so you can remove the `ClinkList` and `FromListHead` traits,
-> the `impl_from_list_head` and `clist_iterate` macros, as well as the
-> hidden ad-hoc types these create. And importantly, all unsafe code must
-> be explicitly specified in an `unsafe` block, nothing is hidden by
-> macros.
-> 
-> This approach works better imho because each `list_head` is unique in
-> how it has to be iterated: there is no benefit in implementing things
-> using types and traits that will only ever be used in a single place
-> anyway. And if there was, we could always create a newtype for that.
+(i * UINT_MAX) happens in 32-bit before being promoted to dma_addr_t for
+addition with addr. Overflows for i >=2 when length >= 8 GiB. Needs a cast:
 
-I agree with your safety concerns, indeed it is possible without any safety
-comments to build iterators yielding objects of random type. I think the conv
-function is a good idea and with the addition of unsafe blocks within the conv.
+		sg_dma_address(sgl) = addr + (dma_addr_t)i * UINT_MAX;
 
-One thing I am concerned is with the user interface. I would like to keep the
-user interface as simple as possible. I am hoping that with implementing your
-idea here on this with the closure, we can still keep it simple, perhaps getting
-the assistance of macros. I will give it a try.
+Discovered this while debugging why dma-buf import was failing for
+an 8 GiB dma-buf using my earlier toy program [1]. It was surfaced by
+ib_umem_find_best_pgsz() returning 0 due to malformed scatterlist, which bubbles
+up as an EINVAL.
 
-> Also as I suspected in v1 `Clist` appears to do very little apart from
-> providing an iterator, so I'm more convinced that the front type for
-> this should be `ClistHead`.
+$ ./test_dmabuf 0000:05:00.0 3 4 0 0x200000000
+opening 0000:05:00.0 via /dev/vfio/56
+allocating dma_buf bar_idx=4, bar_offset=0x0, size=0x200000000
+allocated dma_buf fd=6
+discovered 4 ibv devices: mlx5_0 mlx5_1 mlx5_2 mlx5_3
+opened ibv device 3: mlx5_3
+test_dmabuf.c:154 Condition failed: 'mr' (errno=22: Invalid argument)
 
-This part I don't agree with. I prefer to keep it as `Clist` which wraps a
-sentinel list head. A random `ClistHead` is not necessarily a sentinel.
+$ sudo retsnoop -e mlx5_ib_reg_user_mr_dmabuf -a 'mlx5*' -a 'ib_umem*' -a '*umr*' -a 'vfio_pci*' -a 'dma_buf_*' -x EINVAL -T
+Receiving data...
+13:56:22.257907 -> 13:56:22.258275 TID/PID 948895/948895 (test_dmabuf/test_dmabuf):
+FUNCTION CALLS                                 RESULT                 DURATION
+--------------------------------------------   --------------------  ---------
+→ mlx5_ib_reg_user_mr_dmabuf
+    ↔ mlx5r_umr_resource_init                  [0]                     2.224us
+    → ib_umem_dmabuf_get
+        → ib_umem_dmabuf_get_with_dma_device
+            ↔ dma_buf_get                      [0xff11012a6a098c00]    0.972us
+            → dma_buf_dynamic_attach
+                ↔ vfio_pci_dma_buf_attach      [0]                     2.003us
+            ← dma_buf_dynamic_attach           [0xff1100012793e400]   10.566us
+        ← ib_umem_dmabuf_get_with_dma_device   [0xff110127a6c74480]   15.794us
+    ← ib_umem_dmabuf_get                       [0xff110127a6c74480]   25.258us
+    → mlx5_ib_init_dmabuf_mr
+        → ib_umem_dmabuf_map_pages
+            → dma_buf_map_attachment
+                → vfio_pci_dma_buf_map
+                    ↔ dma_buf_map              [0xff1100012977f700]    4.918us
+                ← vfio_pci_dma_buf_map         [0xff1100012977f700]    8.362us
+            ← dma_buf_map_attachment           [0xff1100012977f700]   10.956us
+        ← ib_umem_dmabuf_map_pages             [0]                    17.336us
+        ↔ ib_umem_find_best_pgsz               [0]                     6.280us
+        → ib_umem_dmabuf_unmap_pages
+            → dma_buf_unmap_attachment
+                → vfio_pci_dma_buf_unmap
+                    ↔ dma_buf_unmap            [void]                  2.023us
+                ← vfio_pci_dma_buf_unmap       [void]                  6.700us
+            ← dma_buf_unmap_attachment         [void]                  8.142us
+        ← ib_umem_dmabuf_unmap_pages           [void]                 14.953us
+    ← mlx5_ib_init_dmabuf_mr                   [-EINVAL]              67.272us
+    → mlx5r_umr_revoke_mr
+        → mlx5r_umr_post_send_wait
+            → mlx5r_umr_post_send
+                ↔ mlx5r_begin_wqe              [0]                     1.703us
+                ↔ mlx5r_finish_wqe             [void]                  1.633us
+                ↔ mlx5r_ring_db                [void]                  1.312us
+            ← mlx5r_umr_post_send              [0]                    27.451us
+        ← mlx5r_umr_post_send_wait             [0]                   126.541us
+    ← mlx5r_umr_revoke_mr                      [0]                   141.925us
+    → ib_umem_release
+        → ib_umem_dmabuf_release
+            ↔ ib_umem_dmabuf_revoke            [void]                  1.582us
+            ↔ dma_buf_detach                   [void]                  3.765us
+            ↔ dma_buf_put                      [void]                  0.531us
+        ← ib_umem_dmabuf_release               [void]                 23.315us
+    ← ib_umem_release                          [void]                 40.301us
+← mlx5_ib_reg_user_mr_dmabuf                   [-EINVAL]             363.280us
 
-thanks,
+[1] https://lore.kernel.org/all/aQkLcAxEn4qmF3c4@devgpu015.cco6.facebook.com/
 
- - Joel
-
-
+Alex
