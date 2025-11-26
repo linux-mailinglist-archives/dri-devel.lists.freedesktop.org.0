@@ -2,81 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1839C8AB0D
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 16:37:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB04C8AB31
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 16:40:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03DFA10E663;
-	Wed, 26 Nov 2025 15:37:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D12810E0B0;
+	Wed, 26 Nov 2025 15:40:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jflzTg0C";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="l72X4SaL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com
- [209.85.128.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2B5710E670
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 15:37:37 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id
- 00721157ae682-78802ac22abso75251567b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 07:37:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764171456; x=1764776256; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=WHDPCwxv0SQBBSmUAXCLvcU1eX9cIYvAgH4jmfdmmRY=;
- b=jflzTg0CptwRhwavy/vhHvf76pDEG0PT/sJdBWUQeJKQNEWZJE0pM73igJowFa1IEP
- dtODcdJ8s916Ng/S6BfGTG8/vd99fOoQ1IpahaNSHh4K1xdzC52qRDMu9AOpzCcSQNdL
- pwpMbUB63BzXQjEm1Sx4ZWm4elgjyyTdYMkbJzgeydWZTxYrQy/DaxlDWX969ckQei+f
- GW4400mxjkkZw4KZCqWvlZOy4+Ip7xc+4g5a9bphe0nRSiD06a6TisrRaRlicOQDFVIj
- OmFJ5GWVcO0cFVyEi7PHpDm69gYE1HjgGH0jhbTIhxVPT4K+Iab95F1UHDbPrzQEgicn
- vqzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764171456; x=1764776256;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=WHDPCwxv0SQBBSmUAXCLvcU1eX9cIYvAgH4jmfdmmRY=;
- b=v1Uu+lETHMfNcwUPvvEvnOH22/nv5xav2ahZzkf9stsbDAfEvaC/9JD1jwgBpz/9aN
- uyTCHgUmUr2HAiVanjxchROEODPuMPTcL3nJk8bft+NDvWMwseDkXTov4Z3Y2bzIZxR1
- SEsfkgjX3eqo16BgqrMDPfaPpvUr2gxsDG6MuQrKkFK4dvEZL+OqPxYz+nh7eotEEqlh
- ViKYR0Qug1PQV5mr+yTZQ2yuPIzJ9sdtIbP5/3f558MqgWotOr3ta6zDGDXFsG3r8mZy
- RC99o5UjhA7fWEU6HehvJW3sdaRxCs/KZgrJVM6CduX2p9HEO2fPEU9tezv7r2YHCfw+
- 29Gw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXGm6AnDn7p/IVj0KZPrn316ZAPL0PW4mnIcWyxo2a1mcbTzlDkfdU/CjusguEwZznmBjRWydE4zRU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzVfI+03dF2lsYDx6UjSFYBn/nUWDpQwWX7SXj50lb1hYzR6PkY
- kNYwXFfTmDWkjNl8m6oOlU5pAwXPbwEhL9qS6nIOVa9uB/qxHMjhIQSMcnY72fghDu03gvfMhfU
- MxJIOGjO3Vt3IIvybYd4BU9Ri0Miq+0Y=
-X-Gm-Gg: ASbGncuMQGIDTX0sDFGPvvuGOSTo7b5peOH4Zn3KI1uPaKLrkBJ9v3NqSRmje5xKFJr
- QCD8iJQ8QGYmkVWK8Fw6UpPuMY8RYHrmf3D/gSQCng35ElZoiEFKaL15zc5O9My/mQQg+9ebpLu
- ldb11y6rbk3OAd8PTj3iZn4KfCmwgrA+D67//69jq0yahuu3p53V1zwew0PaX8OWPNgMd75mO1O
- Y/3ZJmOlCqcp8qetWaEqSDMPwmkeT1iuznJg0HP4YvNZdwDda/5X3Xx6FRD6YaOB7m0+gU=
-X-Google-Smtp-Source: AGHT+IE57n3zZx3X1tBPU2cgzpzzXSpf60tCKJP9Fy10vwoAwNJLXV3IlLnaSAZG4w2wBiXVSoYCdVWNh2cUXTgRb24=
-X-Received: by 2002:a05:690c:3349:b0:787:fbe3:fc6a with SMTP id
- 00721157ae682-78ab6f6ec1fmr72744287b3.52.1764171456610; Wed, 26 Nov 2025
- 07:37:36 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C883E10E046
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 15:40:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764171605; x=1795707605;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=eiOyf4PPCC5BPzh21IyIWJ2IEXjl5NsUns4X8e/v5V0=;
+ b=l72X4SaL12D1V29CSdkWKqKDG58gh+LP+whMdI69tJjV2TAw1QnO6oZa
+ hWW8bGZaODJ71XbvHO4KvDS0D/jl6zh6QQOdldwPh7dq0KhBg/HZAvXOf
+ /rQ9KJVCUvfSNDUBlQijfAm1It41e20uddX4EMnR+L9lXYBV+JnCre27w
+ iHP6iLCS70WX4LpgihK1P1oIMfu21UmVPMOGRihjV5GHHgE+RaK1rCYI4
+ 5C4lCEBof8D/htFowYXVFaMe351KkwxdVpbRAZlImmlG/47jmDooJM5Wo
+ tcY3iczCzF4RpOc5mKnFvQ0XuWW2QaeBtYtc5gLxz92H+ZOPckGj5wNkC w==;
+X-CSE-ConnectionGUID: 0acPdFyqT5G7YTZ07CIM5g==
+X-CSE-MsgGUID: NUA7F72EQeeSp11CLIpwvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="76840489"
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="76840489"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 07:40:05 -0800
+X-CSE-ConnectionGUID: KGSGpFdFQomTJy7tMtg9oA==
+X-CSE-MsgGUID: QYRJHGmORaC+kHZXBk8FHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="193065802"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.245.178])
+ ([10.245.245.178])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 07:40:02 -0800
+Message-ID: <847eb5a7-7464-40f2-81ea-7bf2ff009a31@linux.intel.com>
+Date: Wed, 26 Nov 2025 16:39:59 +0100
 MIME-Version: 1.0
-References: <20251031-st7920-v4-0-35291f8076b2@gmail.com>
- <20251031-st7920-v4-2-35291f8076b2@gmail.com>
- <50a4b4a9-afd4-42a3-9740-5e48de312f1d@kernel.org>
-In-Reply-To: <50a4b4a9-afd4-42a3-9740-5e48de312f1d@kernel.org>
-From: Iker Pedrosa <ikerpedrosam@gmail.com>
-Date: Wed, 26 Nov 2025 16:37:24 +0100
-X-Gm-Features: AWmQ_blVQHa4PiJ8hAKBeF36S0QXp1xd_fGzp-lJeY4oF5YsrsYNf8QrcaFoPio
-Message-ID: <CABdCQ=MiuMqrf1LpLP=q0by3v9RZNagkrJnJoWOmwSCKGPVO+w@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] drm: Add driver for Sitronix ST7920 LCD displays
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 19/28] drm/ttm: rework pipelined eviction fence handling
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20251121101315.3585-1-pierre-eric.pelloux-prayer@amd.com>
+ <20251121101315.3585-20-pierre-eric.pelloux-prayer@amd.com>
+ <414584f0-3fdb-41e2-aa26-3776dc514184@amd.com>
+ <7346d42b-3ad7-4170-900f-73d8ed356f71@linux.intel.com>
+ <cc43a512-b979-4c11-a413-ab5108dab466@amd.com>
+Content-Language: en-US
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <cc43a512-b979-4c11-a413-ab5108dab466@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,87 +80,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-El lun, 17 nov 2025 a las 11:57, Krzysztof Kozlowski
-(<krzk@kernel.org>) escribi=C3=B3:
->
-> On 31/10/2025 10:05, Iker Pedrosa wrote:
-> > +
-> > +static void st7920_hw_reset(struct st7920_device *st7920)
-> > +{
-> > +     if (!st7920->reset_gpio)
-> > +             return;
-> > +
-> > +     gpiod_set_value_cansleep(st7920->reset_gpio, 0);
-> > +     usleep_range(15, 20);
-> > +     gpiod_set_value_cansleep(st7920->reset_gpio, 1);
->
-> This is odd. Why are you keeping device in reset state?
->
-> I don't think you tested your driver with DTS.
->
-> > +     msleep(40);
-> > +}
-> > +
->
-> > +
-> > +     regmap =3D devm_regmap_init_spi(spi, &st7920_spi_regmap_config);
-> > +     if (IS_ERR(regmap))
-> > +             return PTR_ERR(regmap);
-> > +
-> > +     st7920 =3D devm_drm_dev_alloc(dev, &st7920_drm_driver,
-> > +                                 struct st7920_device, drm);
-> > +     if (IS_ERR(st7920))
-> > +             return PTR_ERR(st7920);
-> > +
-> > +     drm =3D &st7920->drm;
-> > +
-> > +     st7920->dev =3D dev;
-> > +     st7920->regmap =3D regmap;
-> > +     st7920->spi =3D spi;
-> > +     st7920->device_info =3D device_get_match_data(dev);
-> > +     st7920->width =3D st7920->device_info->default_width;
-> > +     st7920->height =3D st7920->device_info->default_height;
-> > +
-> > +     st7920->reset_gpio =3D devm_gpiod_get_optional(dev, "reset", GPIO=
-D_OUT_HIGH);
->
-> So you keep device in reset state, then why do you toggle it in
-> st7920_hw_reset()? Remember that this is the logical, not line level.
+Hey,
 
-You are right. I was confused between the logical state and the
-physical line level regarding gpiod.
+Den 2025-11-26 kl. 16:36, skrev Christian König:
+> On 11/26/25 16:34, Maarten Lankhorst wrote:
+>> Hey,
+>>
+>> Den 2025-11-21 kl. 16:12, skrev Christian König:
+>>> On 11/21/25 11:12, Pierre-Eric Pelloux-Prayer wrote:
+>>>> Until now ttm stored a single pipelined eviction fence which means
+>>>> drivers had to use a single entity for these evictions.
+>>>>
+>>>> To lift this requirement, this commit allows up to 8 entities to
+>>>> be used.
+>>>>
+>>>> Ideally a dma_resv object would have been used as a container of
+>>>> the eviction fences, but the locking rules makes it complex.
+>>>> dma_resv all have the same ww_class, which means "Attempting to
+>>>> lock more mutexes after ww_acquire_done." is an error.
+>>>>
+>>>> One alternative considered was to introduced a 2nd ww_class for
+>>>> specific resv to hold a single "transient" lock (= the resv lock
+>>>> would only be held for a short period, without taking any other
+>>>> locks).
+>>>>
+>>>> The other option, is to statically reserve a fence array, and
+>>>> extend the existing code to deal with N fences, instead of 1.
+>>>>
+>>>> The driver is still responsible to reserve the correct number
+>>>> of fence slots.
+>>>>
+>>>> ---
+>>>> v2:
+>>>> - simplified code
+>>>> - dropped n_fences
+>>>> - name changes
+>>>> v3: use ttm_resource_manager_cleanup
+>>>> ---
+>>>>
+>>>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+>>>
+>>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>>>
+>>> Going to push separately to drm-misc-next on Monday.
+>>>
+>> Pushing this broke drm-tip, the amd driver fails to build, as it's not using the eviction_fences array.
+> 
+> Thanks for the note! But hui? We changed amdgpu to not touch the move fence.
+> 
+> Give me a second.commit 13bec21f5f4cdabdf06725e5a8dee0b9b56ff671 (HEAD -> drm-tip, drm-tip/drm-tip, drm-tip/HEAD)
 
-I have fixed the logic in st7920_hw_reset() to correctly assert the
-reset (logical 1) and then de-assert it (logical 0). Accordingly, I
-have also changed the probe initialization to GPIOD_OUT_LOW to ensure
-the device starts in a non-reset state.
+Author: Christian König <christian.koenig@amd.com>
+Date:   Wed Nov 26 13:13:03 2025 +0100
 
-I have also addressed the other comments. These fixes will be
-available in the next version which I will submit shortly.
+    drm-tip: 2025y-11m-26d-12h-12m-41s UTC integration manifest
 
->
-> > +     if (IS_ERR(st7920->reset_gpio)) {
-> > +             ret =3D PTR_ERR(st7920->reset_gpio);
-> > +             dev_err(dev, "Unable to retrieve reset GPIO: %d\n", ret);
->
-> return dev_err_probe, didn't you get comment on that?
->
-> > +             return ret;
-> > +     }
-> > +
-> > +     spi_set_drvdata(spi, st7920);
-> > +
-> > +     ret =3D st7920_init_modeset(st7920);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     ret =3D drm_dev_register(drm, 0);
-> > +     if (ret)
-> > +             return dev_err_probe(dev, ret, "DRM device register faile=
-d\n");
-> > +
-> > +     drm_client_setup(drm, NULL);
-> > +
->
-> Best regards,
-> Krzysztof
+drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:2188:34: error: ‘struct ttm_resource_manager’ has no member named ‘move’
+ 2188 |                 dma_fence_put(man->move);
+      |                                  ^~
+drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:2189:20: error: ‘struct ttm_resource_manager’ has no member named ‘move’
+ 2189 |                 man->move = NULL;
+      |                    ^~
+
+Is what I see.
+
+Kind regards,
+~Maarten Lankhorst
