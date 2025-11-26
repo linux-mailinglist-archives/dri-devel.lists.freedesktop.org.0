@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E884C890B3
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 10:46:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 407FAC890B8
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 10:46:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5386710E11B;
-	Wed, 26 Nov 2025 09:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9EF0810E57F;
+	Wed, 26 Nov 2025 09:46:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pFr4kcLx";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cjnt9siS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D51A110E57F
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 09:45:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E274210E57C
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 09:46:00 +0000 (UTC)
 Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AQ92fNk3255839; Wed, 26 Nov 2025 09:45:54 GMT
+ 5AQ8NiOK3255846; Wed, 26 Nov 2025 09:45:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=c1QJlbfWy/2dtf1n3VIQWCFVj/DL0FwuReC
- BFuuqKyk=; b=pFr4kcLxskeztk9kDLFUiMmyfEEfOuclv0dLTXRQbEUN+Xk3L2L
- ic+zlrUUljCTZbqtJLivhtbwMoJQnft8KgiqyAZKKipHKjOzaJq4jRQp09AO1KzI
- nemi9hns+F2c2jbkcpdsAce7lL+S8c28T0NtcTL9b2TCTcH1zk8mIsazTJ0zWWUt
- V+f490gQp3VkzSWqJa7Vzv1TweNkW1nNezrF3aleqDp8R8sUthvuZ+hWpQnVOVN1
- Pwgptlil2cDSD0vfVGyJ6DQuFgm7OLCY+ZiYfpqP94PrpAEJFeU1cXwv7iN9z5LR
- iB+khhIosurkFfgfwUwnLa0BzndzDSeM1jA==
+ cc:content-transfer-encoding:date:from:in-reply-to:message-id
+ :mime-version:references:subject:to; s=qcppdkim1; bh=e0A0fs5Kye1
+ YOUiW2hC9Caz9yTBWD34IHk27eVjW2YU=; b=cjnt9siSKNnL6j99XuAQp0NLGIt
+ bKucdg7CrLtt/S4RGG/aDVM2trT8c/xBS1T5Pwb3ngZRm+8lO+TVmkNdKykhOyNU
+ xOQ1x7NaXpD0oXjqmlOI29Zd+lMIb5z+ajEOUvDhXUuRxZMWCtNvrYAkYzbaytpy
+ ZEE2DFgjv2YW3Q+RUO/lhFQdKbSUt77XASBVkyNsuO6x6lyWx47QwOB6b7vExB4S
+ 4lQykOYBl8s/ctggOPMCpRFA2L62nc/GVWgvp7GpJcgp55ojgLQMt+Tary+Lonhk
+ hDgG4fhLy1mduxMuHdtwo50rV4uS87cfmo5tUVHOMW72TIvFXm2OuopAwIQ==
 Received: from apblrppmta02.qualcomm.com
  (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4anb9c3cau-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4anb9c3cb0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Nov 2025 09:45:53 +0000 (GMT)
+ Wed, 26 Nov 2025 09:45:56 +0000 (GMT)
 Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5AQ9joYY010071; 
- Wed, 26 Nov 2025 09:45:50 GMT
+ by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5AQ9joYZ010071; 
+ Wed, 26 Nov 2025 09:45:53 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4anw4ssw7s-1
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4anw4ssw8a-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Nov 2025 09:45:50 +0000
+ Wed, 26 Nov 2025 09:45:53 +0000
 Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
  [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5AQ9jolf010065;
- Wed, 26 Nov 2025 09:45:50 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5AQ9jrYJ010091;
+ Wed, 26 Nov 2025 09:45:53 GMT
 Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-kpallavi-hyd.qualcomm.com
  [10.147.243.7])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 5AQ9jo4c010054
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 5AQ9jqrV010085
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Nov 2025 09:45:50 +0000
+ Wed, 26 Nov 2025 09:45:53 +0000
 Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4720299)
- id 09E8B515; Wed, 26 Nov 2025 15:15:49 +0530 (+0530)
+ id D2C61515; Wed, 26 Nov 2025 15:15:51 +0530 (+0530)
 From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
 To: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
  arnd@arndb.de, gregkh@linuxfoundation.org, robh@kernel.org,
@@ -61,10 +61,13 @@ Cc: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>, quic_bkumar@quicinc.com,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  jingyi.wang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
  ktadakam@qti.qualcomm.com
-Subject: [PATCH v4 0/4] Add ADSP and CDSP support on Kaanapali SoC
-Date: Wed, 26 Nov 2025 15:15:41 +0530
-Message-Id: <20251126094545.2139376-1-kumari.pallavi@oss.qualcomm.com>
+Subject: [PATCH v4 1/4] dt-bindings: misc: qcom,
+ fastrpc: Add compatible for Kaanapali
+Date: Wed, 26 Nov 2025 15:15:42 +0530
+Message-Id: <20251126094545.2139376-2-kumari.pallavi@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251126094545.2139376-1-kumari.pallavi@oss.qualcomm.com>
+References: <20251126094545.2139376-1-kumari.pallavi@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QCInternal: smtphost
@@ -73,19 +76,19 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: pMI0LeOUcywE4L9706-QNIOlLkZNJlAI
-X-Proofpoint-ORIG-GUID: pMI0LeOUcywE4L9706-QNIOlLkZNJlAI
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDA3OSBTYWx0ZWRfX0N/R9/A/9Uls
- r0PYF5WwPe3i4/60cX1M8JSX255Q8eum0q5UBkvB2riKaRYsjgPVPZ1Tuf0X+AGzMS9uN29q1Ms
- E90I5OdkO7fvMhmPRW/MlfmfcMGnud0xs+uR3XvXfupSBNtrjTh0xa1lOUw8XcQ9MIRe+871YSP
- Wcs3WGl6csm73uLEV5TJPytBl/MvZIvTvrtnZK3aWlL1ZmT7AjXa1jLVyQTidMg9rNmEY6TaARL
- cJq6U7JnjAREKOffUtvDEBiX6AbLVfzfEIpuFvFHt6gTZlVnXpNkjcNvIs9+l1YEAUHfWdcn8eZ
- RJDEd4QwzBobv7TMs4zzUZ/0tXG1MV8nnEFH1wQtUjQhUFGwaJZKkYn9wvm9LERJW31sFrwalIw
- ARDRDHipWYuQHNn48x9et4JRUYhHbA==
-X-Authority-Analysis: v=2.4 cv=VKbQXtPX c=1 sm=1 tr=0 ts=6926cc51 cx=c_pps
+X-Proofpoint-GUID: Edlru1hAkUZ0PSADdVCmoTV1xKVz68nO
+X-Proofpoint-ORIG-GUID: Edlru1hAkUZ0PSADdVCmoTV1xKVz68nO
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDA3OSBTYWx0ZWRfX8GcA59AzHPye
+ lEh7Bpjk/b0uU72bcZiiuW4THEFnCQyxpDbIPUuz790igIjOFfgyC/R7QPMjQffqeZMAd/rLHLA
+ JkXi2hEQWkHYXOgxCtydF2LluZnVWAdtIEP1LGqrKpND4FpzlqBbJSQ4t5wppjbezjApshQJ3sA
+ X9RkXrhTCpG72Yrn2ocqA++5T+a/YnHggegaGRS4GIvplpruIfY5VmsdNIyg/ilPH0N4u/T6cYh
+ xR/a5Nb6vdsKeVCsOYFGzUOrlx840NQWR2S6Pia1q9DN5J/c5NDEDIe84bRHwxu7u8KgfTfnJsc
+ lYPeGNpQbqlA/qyrv7jqpwhmvLpd1Bs7MF5NHIVG7nOMinBzTRAU5WyOAU8VMl5h+C8iBPROlbz
+ oxPOffCH85NuGfWlxaHk+OR1yZd5fw==
+X-Authority-Analysis: v=2.4 cv=VKbQXtPX c=1 sm=1 tr=0 ts=6926cc54 cx=c_pps
  a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
- a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=mRQkYbyLXEYurZiQm2UA:9
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
+ a=N3xeVU3HB1sJGbtnMtcA:9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-25_02,2025-11-25_01,2025-10-01_01
@@ -109,39 +112,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduces support for new DSP IOVA formatting and hardware-specific
-configuration required to enable ADSP and CDSP functionality on the
-Kaanapali SoC.
+Add a new compatible string "qcom,kaanapali-fastrpc" to support
+for Kaanapali SoC.
 
-Add support for a new IOVA formatting scheme by adding a sid_pos to the DSP
-driver. Sid_pos standardizes the placement of the stream ID (SID) within the
-physical address, which is required for DSPs to operate correctly on
-Kaanapali. DSP currently supports 32-bit IOVA (32-bit PA + 4-bit SID) for
-both Q6 and user DMA (uDMA) access.
-This is being upgraded to 34-bit PA + 4-bit SID due to a hardware revision
-in CDSP for Kaanapali SoC, which expands the DMA addressable range.
-To support CDSP operation, this series updates the DMA mask configuration
-to reflect the expanded DMA addressable range.
+Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+---
+ Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Patch [v3]:https://lore.kernel.org/all/20251015045702.3022060-1-kumari.pallavi@oss.qualcomm.com/
-
-Changes in v4:
-  - Resolve warnings reported by make dt_bindings_check
-  - Convert the data type of the dma_addr to dma_addr_t
-  - Replace the macro with an inline function for more readability
-  - Rename the cdsp_dma_bits to dma_addr_bits_extended and default_dma_bits
-    to the dma_addr_bits_default for more clarity 
-
-Kumari Pallavi (4):
-  dt-bindings: misc: qcom,fastrpc: Add compatible for Kaanapali
-  misc: fastrpc: Rename phys to dma_addr for clarity
-  misc: fastrpc: Add support for new DSP IOVA formatting
-  misc: fastrpc: Update dma_bits for CDSP support on Kaanapali SoC
-
- .../bindings/misc/qcom,fastrpc.yaml           |   5 +-
- drivers/misc/fastrpc.c                        | 130 ++++++++++++------
- 2 files changed, 94 insertions(+), 41 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
+index 3f6199fc9ae6..6c19217d63a6 100644
+--- a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
++++ b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
+@@ -18,7 +18,10 @@ description: |
+ 
+ properties:
+   compatible:
+-    const: qcom,fastrpc
++    items:
++      - enum:
++          - qcom,kaanapali-fastrpc
++          - qcom,fastrpc
+ 
+   label:
+     enum:
 -- 
 2.34.1
 
