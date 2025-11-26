@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C8EC8B38F
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 18:36:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61ED0C8B395
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 18:37:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A737010E6B5;
-	Wed, 26 Nov 2025 17:36:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBF6210E6C1;
+	Wed, 26 Nov 2025 17:37:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="oAhKwQJb";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="kdjWgvyT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A86D10E6B5
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 17:36:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B0FE10E6C1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 17:36:59 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 270AF1A1D86;
- Wed, 26 Nov 2025 17:36:55 +0000 (UTC)
+ by smtpout-02.galae.net (Postfix) with ESMTPS id 2E1AC1A1D88;
+ Wed, 26 Nov 2025 17:36:58 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id EE4BB60721;
- Wed, 26 Nov 2025 17:36:54 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 0326A60721;
+ Wed, 26 Nov 2025 17:36:58 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 484F2102F1D8D; Wed, 26 Nov 2025 18:36:51 +0100 (CET)
+ with ESMTPSA id DBCB6102F221D; Wed, 26 Nov 2025 18:36:53 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1764178613; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1764178616; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=i06U48V1QlfdC71Az6GT0AOQaJkHqXg7US8ufDzb8no=;
- b=oAhKwQJbXv1B8OIDDEkR/Pl5h1rjaKwT0MbKkEtkULn2G/7yxDc7yOGnNLXZN3Xs7Fptjq
- tunuXn4gCrA3lX64/cG3BjB9z6L/rklyyo1Bo7QcJMUAhDyqV2HQqA8dz9XtvMR+2Wx33m
- lgeiU788HZYm8Q7XQUkwg7jeMlWbx2g313bGuC/el00k3X4ZsC2n/k/Wx1pVTcaqlcEzRQ
- N38WyJ94yc4AslbZJ/D2TKdVLQcY/jBmcofuhVhsqQ16xARbMkwdKNAJpl6SiSFeXE8YGA
- gdSKgIeSjfoQE0xBo1Aly43VYA8Jg5PdaYzQcdayRqmGTHVItN/VHwqX/2n2qg==
+ bh=/0rPK6beH6AckUJmL2vrwOQlS80WMvwhCKTP9WHJs4k=;
+ b=kdjWgvyTz00gcyMZ6nHqPphHqp8JXUsfKKrV8SynMj3/cweCesoFg5Y3Uu2GEpEuMK68Z+
+ +7K0nb55DueYUOtLI3SvfbOgqcfcf9keAfKvszVCp7Cas6SHnuzNkcRFwBVBTrpSu+351Q
+ xNI+SR4KfG0DHb6u9ycsBmXONtaetbrrD4oar1sH0+A0Gy23dMORwJ6NrYrBO9oAiqQpeV
+ KKvA8dO5TvEhhf59Moiu4cSqi3ByZy9TF+0mC2i0OCdRrjAzNj6QgSRZmbXORo6avc7K+j
+ OYv5XrrOq4nbwg8XefASzfwdAy6LoalgC6iBe1eacbjBr6gZdHboGNjSNn3KLQ==
 From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-Date: Wed, 26 Nov 2025 18:35:45 +0100
-Subject: [PATCH 03/21] drm/tilcdc: Remove simulate_vesa_sync flag
+Date: Wed, 26 Nov 2025 18:35:46 +0100
+Subject: [PATCH 04/21] drm/tilcdc: Add support for DRM bus flags and
+ simplify panel config
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251126-feature_tilcdc-v1-3-49b9ef2e3aa0@bootlin.com>
+Message-Id: <20251126-feature_tilcdc-v1-4-49b9ef2e3aa0@bootlin.com>
 References: <20251126-feature_tilcdc-v1-0-49b9ef2e3aa0@bootlin.com>
 In-Reply-To: <20251126-feature_tilcdc-v1-0-49b9ef2e3aa0@bootlin.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -79,105 +80,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The tilcdc hardware does not generate VESA-compliant sync signals. It
-aligns the vertical sync (VS) on the second edge of the horizontal sync
-(HS) instead of the first edge. To compensate for this hardware
-behavior, the driver applies a timing adjustment in mode_fixup().
+Migrate CRTC mode configuration to use standard DRM bus flags in
+preparation for removing the tilcdc_panel driver and its custom
+tilcdc_panel_info structure.
 
-Previously, this adjustment was conditional based on the simulate_vesa_sync
-flag, which was only set when using external encoders. This appears
-problematic because:
+Add support for DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE and
+DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE flags to control pixel clock and sync
+signal edge polarity, while maintaining backward compatibility with the
+existing tilcdc panel info structure.
 
-1. The timing adjustment seems needed for the hardware behavior regardless
-   of whether an external encoder is used
-2. The external encoder infrastructure is driver-specific and being
-   removed due to design issues
-3. Boards using tilcdc without bridges (e.g., am335x-evm, am335x-evmsk)
-   may not be getting the necessary timing adjustments
+Simplify several hardware parameters by setting them to fixed defaults
+based on common usage across existing device trees:
+- DMA burst size: 16 (previously configurable via switch statement)
+- AC bias frequency: 255 (previously panel-specific)
+- FIFO DMA request delay: 128 (previously panel-specific)
 
-Remove the simulate_vesa_sync flag and apply the VESA sync timing
-adjustment unconditionally, ensuring consistent behavior across all
-configurations. While it's unclear if the previous conditional behavior
-was causing actual issues, the unconditional adjustment better reflects
-the hardware's characteristics.
+These parameters show no variation in real-world usage, so hardcoding
+them simplifies the driver without losing functionality.
+
+Preserve FIFO threshold configurability by adding a new "fifo-threshold"
+device tree property at the display controller level, as this parameter
+varies across different display configurations in existing device trees.
 
 Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
 ---
-
-Only few board currently use tilcdc not associated to a bridge like the
-am335x_evm or the am335x-evmsk.
----
- drivers/gpu/drm/tilcdc/tilcdc_crtc.c     | 16 ----------------
- drivers/gpu/drm/tilcdc/tilcdc_drv.h      |  2 --
- drivers/gpu/drm/tilcdc/tilcdc_external.c |  1 -
- 3 files changed, 19 deletions(-)
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c | 48 ++++++++++++++----------------------
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c  |  2 ++
+ drivers/gpu/drm/tilcdc/tilcdc_drv.h  |  2 ++
+ 3 files changed, 22 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-index 52c95131af5af..b06b1453db2dd 100644
+index b06b1453db2dd..1b5475c48f6ad 100644
 --- a/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
 +++ b/drivers/gpu/drm/tilcdc/tilcdc_crtc.c
-@@ -47,9 +47,6 @@ struct tilcdc_crtc {
+@@ -285,27 +285,15 @@ static void tilcdc_crtc_set_mode(struct drm_crtc *crtc)
  
- 	struct drm_framebuffer *next_fb;
+ 	/* Configure the Burst Size and fifo threshold of DMA: */
+ 	reg = tilcdc_read(dev, LCDC_DMA_CTRL_REG) & ~0x00000770;
+-	switch (info->dma_burst_sz) {
+-	case 1:
+-		reg |= LCDC_DMA_BURST_SIZE(LCDC_DMA_BURST_1);
+-		break;
+-	case 2:
+-		reg |= LCDC_DMA_BURST_SIZE(LCDC_DMA_BURST_2);
+-		break;
+-	case 4:
+-		reg |= LCDC_DMA_BURST_SIZE(LCDC_DMA_BURST_4);
+-		break;
+-	case 8:
+-		reg |= LCDC_DMA_BURST_SIZE(LCDC_DMA_BURST_8);
+-		break;
+-	case 16:
+-		reg |= LCDC_DMA_BURST_SIZE(LCDC_DMA_BURST_16);
+-		break;
+-	default:
+-		dev_err(dev->dev, "invalid burst size\n");
+-		return;
++	/* Use 16 bit DMA burst size by default */
++	reg |= LCDC_DMA_BURST_SIZE(LCDC_DMA_BURST_16);
++	if (priv->fifo_th) {
++		int fifo_th_val = const_ilog2(priv->fifo_th) - 3;
++
++		reg |= (fifo_th_val << 8);
++	} else {
++		reg |= (info->fifo_th << 8);
+ 	}
+-	reg |= (info->fifo_th << 8);
+ 	tilcdc_write(dev, LCDC_DMA_CTRL_REG, reg);
  
--	/* Only set if an external encoder is connected */
--	bool simulate_vesa_sync;
--
- 	int sync_lost_count;
- 	bool frame_intact;
- 	struct work_struct recover_work;
-@@ -642,11 +639,6 @@ static bool tilcdc_crtc_mode_fixup(struct drm_crtc *crtc,
- 		const struct drm_display_mode *mode,
- 		struct drm_display_mode *adjusted_mode)
- {
--	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
--
--	if (!tilcdc_crtc->simulate_vesa_sync)
--		return true;
--
+ 	/* Configure timings: */
+@@ -321,8 +309,8 @@ static void tilcdc_crtc_set_mode(struct drm_crtc *crtc)
+ 
+ 	/* Set AC Bias Period and Number of Transitions per Interrupt: */
+ 	reg = tilcdc_read(dev, LCDC_RASTER_TIMING_2_REG) & ~0x000fff00;
+-	reg |= LCDC_AC_BIAS_FREQUENCY(info->ac_bias) |
+-		LCDC_AC_BIAS_TRANSITIONS_PER_INT(info->ac_bias_intrpt);
++	/* Use 255 AC Bias Pin Frequency by default */
++	reg |= LCDC_AC_BIAS_FREQUENCY(255);
+ 
  	/*
- 	 * tilcdc does not generate VESA-compliant sync but aligns
- 	 * VS on the second edge of HS instead of first edge.
-@@ -866,14 +858,6 @@ void tilcdc_crtc_set_panel_info(struct drm_crtc *crtc,
- 	tilcdc_crtc->info = info;
- }
+ 	 * subtract one from hfp, hbp, hsw because the hardware uses
+@@ -392,20 +380,20 @@ static void tilcdc_crtc_set_mode(struct drm_crtc *crtc)
+ 			return;
+ 		}
+ 	}
+-	reg |= info->fdd << 12;
++	/* Use 128 FIFO DMA Request Delay by default */
++	reg |= 128 << 12;
+ 	tilcdc_write(dev, LCDC_RASTER_CTRL_REG, reg);
  
--void tilcdc_crtc_set_simulate_vesa_sync(struct drm_crtc *crtc,
--					bool simulate_vesa_sync)
--{
--	struct tilcdc_crtc *tilcdc_crtc = to_tilcdc_crtc(crtc);
+-	if (info->invert_pxl_clk)
++	if (info->invert_pxl_clk ||
++	    mode->flags == DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
++
+ 		tilcdc_set(dev, LCDC_RASTER_TIMING_2_REG, LCDC_INVERT_PIXEL_CLOCK);
+ 	else
+ 		tilcdc_clear(dev, LCDC_RASTER_TIMING_2_REG, LCDC_INVERT_PIXEL_CLOCK);
+ 
+-	if (info->sync_ctrl)
+-		tilcdc_set(dev, LCDC_RASTER_TIMING_2_REG, LCDC_SYNC_CTRL);
+-	else
+-		tilcdc_clear(dev, LCDC_RASTER_TIMING_2_REG, LCDC_SYNC_CTRL);
 -
--	tilcdc_crtc->simulate_vesa_sync = simulate_vesa_sync;
--}
--
- void tilcdc_crtc_update_clk(struct drm_crtc *crtc)
- {
- 	struct drm_device *dev = crtc->dev;
+-	if (info->sync_edge)
++	tilcdc_set(dev, LCDC_RASTER_TIMING_2_REG, LCDC_SYNC_CTRL);
++	if (info->sync_edge ||
++	    mode->flags == DRM_BUS_FLAG_SYNC_DRIVE_NEGEDGE)
+ 		tilcdc_set(dev, LCDC_RASTER_TIMING_2_REG, LCDC_SYNC_EDGE);
+ 	else
+ 		tilcdc_clear(dev, LCDC_RASTER_TIMING_2_REG, LCDC_SYNC_EDGE);
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+index 3dcbec312bacb..76eb336b5d4e7 100644
+--- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
++++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
+@@ -309,6 +309,8 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
+ 
+ 	DBG("Maximum Pixel Clock Value %dKHz", priv->max_pixelclock);
+ 
++	of_property_read_u32(node, "fifo-threshold", &priv->fifo_th);
++
+ 	ret = tilcdc_crtc_create(ddev);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to create crtc\n");
 diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.h b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-index 58b276f82a669..3aba3a1155ba0 100644
+index 3aba3a1155ba0..79078b4ae7393 100644
 --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.h
 +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-@@ -160,8 +160,6 @@ irqreturn_t tilcdc_crtc_irq(struct drm_crtc *crtc);
- void tilcdc_crtc_update_clk(struct drm_crtc *crtc);
- void tilcdc_crtc_set_panel_info(struct drm_crtc *crtc,
- 		const struct tilcdc_panel_info *info);
--void tilcdc_crtc_set_simulate_vesa_sync(struct drm_crtc *crtc,
--					bool simulate_vesa_sync);
- void tilcdc_crtc_shutdown(struct drm_crtc *crtc);
- void tilcdc_crtc_destroy(struct drm_crtc *crtc);
- int tilcdc_crtc_update_fb(struct drm_crtc *crtc,
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_external.c b/drivers/gpu/drm/tilcdc/tilcdc_external.c
-index 3b86d002ef62e..da755a411d9ff 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_external.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_external.c
-@@ -80,7 +80,6 @@ int tilcdc_add_component_encoder(struct drm_device *ddev)
- 		return -ENODEV;
+@@ -61,6 +61,8 @@ struct tilcdc_drm_private {
+ 	 */
+ 	uint32_t max_width;
  
- 	/* Only tda998x is supported at the moment. */
--	tilcdc_crtc_set_simulate_vesa_sync(priv->crtc, true);
- 	tilcdc_crtc_set_panel_info(priv->crtc, &panel_info_tda998x);
- 
- 	return 0;
++	u32 fifo_th;
++
+ 	/* Supported pixel formats */
+ 	const uint32_t *pixelformats;
+ 	uint32_t num_pixelformats;
 
 -- 
 2.43.0
