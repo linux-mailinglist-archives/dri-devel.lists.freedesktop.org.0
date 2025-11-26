@@ -2,58 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBF6FC8A4DA
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 15:23:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C17B4C8A500
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 15:25:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E28DF10E634;
-	Wed, 26 Nov 2025 14:22:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6687E10E027;
+	Wed, 26 Nov 2025 14:25:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=0la.ch header.i=@0la.ch header.b="j9ZdxPzb";
-	dkim=permerror (0-bit key) header.d=0la.ch header.i=@0la.ch header.b="40tjysnj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="NWbLLPM8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.0la.ch (mail.0la.ch [78.47.82.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 338E410E638;
- Wed, 26 Nov 2025 14:22:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202502r; d=0la.ch; c=relaxed/relaxed;
- h=From:To:Subject:Date:Message-ID; t=1764166955; bh=qzZi8Zl7w7hJ8UjBr4t5gMo
- sY5NWA7XOv6/9K3vMpFc=; b=j9ZdxPzblw5PSJR00nSTBdeKLRPa02vNo9pfaptUBm58VFbc+K
- CzgJ+yrOH4EGP7cq9GTFRhczxb6JAqeSMfZ9/+9oTG90br/Yk6vRxiSbLRbxGgCa76Sxz2RYTfk
- Xu3Z5vhSw2y5zSKZuUULjn/gvDuVsrGzsh+3102dO4317WfEJcA1R+aMNRknW3gKdKxTDRWXPcR
- iwVg/J06/c7ki6tcOZ+1hjVoR5JyjPIe+27JBf7VVdyTHqYSh7o5BVHjFbrIUgny5rktJ30Qbos
- 4kNrZ/w8ml7PN3qQFjD597P4mqbtz2FaK2UekF/rquCg3otOpsjcNweCZ+578kJN5Uw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202502e; d=0la.ch; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1764166955;
- bh=qzZi8Zl7w7hJ8UjBr4t5gMo
- sY5NWA7XOv6/9K3vMpFc=; b=40tjysnjgfuzo92hWADmIBdACEOCZ+iQRECy9WjsAym0q+6gLj
- +/7btkBTY/2kqShcf1W50yf7qFfuPwco8rCw==;
-Message-ID: <1f671fbb-233d-45e5-80f5-bb66049cadf6@0la.ch>
-Date: Wed, 26 Nov 2025 15:22:34 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/7] drm/edid: MSO should only be used for non-eDP
- displays
-To: Jani Nikula <jani.nikula@linux.intel.com>, Yaroslav Bolyukin
- <iam@lach.pw>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4858B10E027;
+ Wed, 26 Nov 2025 14:25:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764167137; x=1795703137;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=UZp20RWyt90iT4wGD7kBTAWs/BTAPHpIARfCd9Mr16I=;
+ b=NWbLLPM8J6YeZK9eY2Bm0PfCC9HnA5uxMxL57b5IPvCkgRBkaEo87wvH
+ U83kpwRpt65FN3j6rLM6boba560bzT9clHh4BJe7HElb7VTBhniAyOwRh
+ 1Wkj482+2M8TFAJTz1z/uDd5FJrziLJtB5lccjcG5QvYZOVOyYWUZeElh
+ eX7ZUvqUPA+inxmnS54EZZkmq4AzzTls0rfGXiliIrH1K1ksIALSHRlcp
+ y92vOovt3QPxyuqf9/GY4G9yf16eVszyDrvBWZwXIxeGute5bOhTYOw05
+ 1YoDbW6eJa9cyQGqupHtDtEn7OEWfTI04AGj1vdSfTjUej0J+DO8cnl9k Q==;
+X-CSE-ConnectionGUID: o16a9q1KQqSn6sMOIDU7Xg==
+X-CSE-MsgGUID: zmCI//nuQjiNdAzy1dhZ3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="66089606"
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="66089606"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 06:25:37 -0800
+X-CSE-ConnectionGUID: 86eM2oubToCfcRsQimW3/w==
+X-CSE-MsgGUID: 0Qgsz+1ORxGtQPkaQldmOA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="192970242"
+Received: from lfiedoro-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.1])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 06:25:31 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Yaroslav Bolyukin <iam@lach.pw>, Ville =?utf-8?B?U3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
 Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>,
  Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Yaroslav
+ Bolyukin <iam@lach.pw>
+Subject: Re: [PATCH v6 6/7] drm/edid: parse DRM VESA dsc bpp target
+In-Reply-To: <20251126065126.54016-7-iam@lach.pw>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20251126065126.54016-1-iam@lach.pw>
- <20251126065126.54016-4-iam@lach.pw>
- <5be6faede273533b88e592bd25776b639d2eeb9f@intel.com>
-Content-Language: en-US
-From: Yaroslav <iam@0la.ch>
-In-Reply-To: <5be6faede273533b88e592bd25776b639d2eeb9f@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ <20251126065126.54016-7-iam@lach.pw>
+Date: Wed, 26 Nov 2025 16:25:27 +0200
+Message-ID: <0e7d2fa46cf76c9f8ed3632c4b00a4eabbbf5590@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,104 +79,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, 26 Nov 2025, Yaroslav Bolyukin <iam@lach.pw> wrote:
+> As per DisplayID v2.1a spec "DSC pass-through timing support",
+> VESA vendor-specific data block may contain target DSC bits per pixel
+> fields, that should be always used for the VII modes that declare they
+> only support working with this value (Pass-through Timing Support for
+> Target DSC Bits per Pixel).
+>
+> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
+> ---
+>  drivers/gpu/drm/drm_displayid_internal.h |  4 ++++
+>  drivers/gpu/drm/drm_edid.c               | 16 ++++++++++++++++
+>  include/drm/drm_connector.h              |  6 ++++++
+>  3 files changed, 26 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_displayid_internal.h b/drivers/gpu/drm/drm_displayid_internal.h
+> index 55f972d32847..8f1a2f33ca1a 100644
+> --- a/drivers/gpu/drm/drm_displayid_internal.h
+> +++ b/drivers/gpu/drm/drm_displayid_internal.h
+> @@ -148,6 +148,8 @@ struct displayid_formula_timing_block {
+>  #define DISPLAYID_VESA_DP_TYPE		GENMASK(2, 0)
+>  #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
+>  #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
+> +#define DISPLAYID_VESA_DSC_BPP_INT	GENMASK(5, 0)
+> +#define DISPLAYID_VESA_DSC_BPP_FRACT	GENMASK(3, 0)
+>  
+>  #define DISPLAYID_VESA_DP_TYPE_EDP	0
+>  #define DISPLAYID_VESA_DP_TYPE_DP	1
+> @@ -157,6 +159,8 @@ struct displayid_vesa_vendor_specific_block {
+>  	u8 oui[3];
+>  	u8 data_structure_type;
+>  	u8 mso;
+> +	u8 dsc_bpp_int;
+> +	u8 dsc_bpp_fract;
+>  } __packed;
+>  
+>  /*
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 7bdc99d5084a..b2502be2e807 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -6591,6 +6591,21 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
+>  			    connector->base.id, connector->name,
+>  			    info->mso_stream_count, info->mso_pixel_overlap);
+>  	}
+> +
+> +	if (block->num_bytes < 7) {
+> +		/* DSC bpp is optional */
+> +		return;
+> +	}
+> +
+> +	info->dp_dsc_bpp_x16 = FIELD_GET(DISPLAYID_VESA_DSC_BPP_INT, vesa->dsc_bpp_int) << 4 |
+> +			       FIELD_GET(DISPLAYID_VESA_DSC_BPP_FRACT, vesa->dsc_bpp_fract);
+> +
+> +	if (info->dp_dsc_bpp_x16 > 0) {
+> +		drm_dbg_kms(connector->dev,
+> +			    "[CONNECTOR:%d:%s] DSC bits per pixel x16 %u\n",
+> +			    connector->base.id, connector->name,
+> +			    info->dp_dsc_bpp_x16);
+
+Use drm_fixed.h, and do something like this:
+
+	drm_dbg_kms(connector->dev,
+		    "[CONNECTOR:%d:%s] DSC bits per pixel " FXP_Q4_FMT "\n",
+		    connector->base.id, connector->name,
+		    FXP_Q4_ARGS(info->dp_dsc_bpp_x16));
+
+and you'll get the actual x.y in the output.
 
 
-On 2025-11-26 15:10, Jani Nikula wrote:
-> On Wed, 26 Nov 2025, Yaroslav Bolyukin <iam@lach.pw> wrote:
->> As per DisplayID v2.1a spec:
->> If Offset 06h[2:0] is programmed to 001b (External DisplayPort), this
->> field shall be cleared to 00b (Not supported).
->>
->> Link: https://lore.kernel.org/lkml/3abc1087618c822e5676e67a3ec2e64e506dc5ec@intel.com/
->> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
->> ---
->>   drivers/gpu/drm/drm_displayid_internal.h |  4 +++
->>   drivers/gpu/drm/drm_edid.c               | 36 +++++++++++++++---------
->>   2 files changed, 27 insertions(+), 13 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_displayid_internal.h b/drivers/gpu/drm/drm_displayid_internal.h
->> index 5b1b32f73516..72f107ae832f 100644
->> --- a/drivers/gpu/drm/drm_displayid_internal.h
->> +++ b/drivers/gpu/drm/drm_displayid_internal.h
->> @@ -142,9 +142,13 @@ struct displayid_formula_timing_block {
->>   	struct displayid_formula_timings_9 timings[];
->>   } __packed;
->>   
->> +#define DISPLAYID_VESA_DP_TYPE		GENMASK(2, 0)
->>   #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
->>   #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
->>   
->> +#define DISPLAYID_VESA_DP_TYPE_EDP	0
->> +#define DISPLAYID_VESA_DP_TYPE_DP	1
->> +
->>   struct displayid_vesa_vendor_specific_block {
->>   	struct displayid_block base;
->>   	u8 oui[3];
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->> index a52fd6de9327..348aa31aea1b 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -6533,6 +6533,7 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
->>   	struct displayid_vesa_vendor_specific_block *vesa =
->>   		(struct displayid_vesa_vendor_specific_block *)block;
->>   	struct drm_display_info *info = &connector->display_info;
->> +	int dp_type;
->>   
->>   	if (block->num_bytes < 3) {
->>   		drm_dbg_kms(connector->dev,
->> @@ -6551,20 +6552,29 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
->>   		return;
->>   	}
->>   
->> -	switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
->> -	default:
->> -		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved MSO mode value\n",
->> +	dp_type = FIELD_GET(DISPLAYID_VESA_DP_TYPE, vesa->data_structure_type);
->> +	if (dp_type > 1) {
->> +		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved dp type value\n",
->>   			    connector->base.id, connector->name);
->> -		fallthrough;
->> -	case 0:
->> -		info->mso_stream_count = 0;
->> -		break;
->> -	case 1:
->> -		info->mso_stream_count = 2; /* 2 or 4 links */
->> -		break;
->> -	case 2:
->> -		info->mso_stream_count = 4; /* 4 links */
->> -		break;
->> +	}
->> +
->> +	/* MSO is not supported for eDP */
->> +	if (dp_type != DISPLAYID_VESA_DP_TYPE_EDP) {
-> 
-> MSO is *only* supported on eDP, not the other way round!
-> 
-> BR,
-> Jani.
-> 
+> +	}
+>  }
+>  
+>  static void drm_update_vesa_specific_block(struct drm_connector *connector,
+> @@ -6639,6 +6654,7 @@ static void drm_reset_display_info(struct drm_connector *connector)
+>  	info->mso_stream_count = 0;
+>  	info->mso_pixel_overlap = 0;
+>  	info->max_dsc_bpp = 0;
+> +	info->dp_dsc_bpp_x16 = 0;
+>  
+>  	kfree(info->vics);
+>  	info->vics = NULL;
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 8f34f4b8183d..7decfc288aa3 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -837,6 +837,12 @@ struct drm_display_info {
+>  	 */
+>  	u32 max_dsc_bpp;
+>  
+> +	/**
+> +	 * @dp_dsc_bpp: DP Display-Stream-Compression (DSC) timing's target
+> +	 * DSC bits per pixel in 6.4 fixed point format. 0 means undefined.
+> +	 */
+> +	u16 dp_dsc_bpp_x16;
+> +
+>  	/**
+>  	 * @vics: Array of vics_len VICs. Internal to EDID parsing.
+>  	 */
 
-Oh, yes. For some reason I thought that MSO == MST, and it made no sense 
-for me why would MST be only supported on eDP, I see now that this is a 
-separate thing. I should probably don't include this patch in the 
-patchset, since this is the only part that I don't have hardware to test
-
->> +		switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
->> +		default:
->> +			drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved MSO mode value\n",
->> +				    connector->base.id, connector->name);
->> +			fallthrough;
->> +		case 0:
->> +			info->mso_stream_count = 0;
->> +			break;
->> +		case 1:
->> +			info->mso_stream_count = 2; /* 2 or 4 links */
->> +			break;
->> +		case 2:
->> +			info->mso_stream_count = 4; /* 4 links */
->> +			break;
->> +		}
->>   	}
->>   
->>   	if (info->mso_stream_count) {
-> 
+-- 
+Jani Nikula, Intel
