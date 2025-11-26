@@ -2,98 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53CCC88748
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 08:40:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96745C88784
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 08:44:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4086810E51C;
-	Wed, 26 Nov 2025 07:40:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF19310E523;
+	Wed, 26 Nov 2025 07:44:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="nxsdbyPw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+VLEA8R0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nxsdbyPw";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+VLEA8R0";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ybhOim0S";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yABW/xyo";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="UCUavnyk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Nm7xnp8F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB2D10E523
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 07:40:12 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC38B10E523
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 07:44:10 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5C6CA22C7B;
- Wed, 26 Nov 2025 07:40:10 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2CE8E5BDB6;
+ Wed, 26 Nov 2025 07:44:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764142810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1764143049; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=N/IKV4NTtJDFriBCvdPujoI7Ss0dmnp2XYDv3sBK7Do=;
- b=nxsdbyPwMPWjnG5L8rQDkkJKR+yuEw2QDk1AxcRidFERWys4o+v8VAgfQvHrM26PCj9Wyv
- Wnt1aYIPzuKMZ0jTkgOT4WQxIQkuGEz/laT1YlcwTWqRpIvuMC8IFT/HOkyuE2Fw4hheDM
- J2zRAnG9B9cfHlTTelwwpCOfrUZQQW0=
+ bh=drklKyV2RPFla2Q7/A/lp8Rvp/WaNYg8cDw0mMQv3ac=;
+ b=ybhOim0S7I6Let02rcOFQ9JLXVbOlScNzfGLueqP9Zlw5YUBun1q12IgIf848jaJX+bSAe
+ IIZ1Yrqe3xipE8FGu1WBy04HgXL/rvq0ZwL5H7MURFcrGZsFZw6ROFgmK6B0wvROgl+TEy
+ 2TM7EARxF8gFVbHb4sd2ekvb0Gp0hk0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764142810;
+ s=susede2_ed25519; t=1764143049;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=N/IKV4NTtJDFriBCvdPujoI7Ss0dmnp2XYDv3sBK7Do=;
- b=+VLEA8R0mOGMJCFmnuWFparRdoUKNmXgpZ7YnSUkRUbCju5PQ8EpYFuuIW0TdhGD0Ajpz1
- EExCAwui7CyMDZCg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nxsdbyPw;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+VLEA8R0
+ bh=drklKyV2RPFla2Q7/A/lp8Rvp/WaNYg8cDw0mMQv3ac=;
+ b=yABW/xyoPVkXjNeRmgFQT71lSKB5Fdd+5kuTYOzRZD/LesA6aO1BbBuOpOL5VYCr5z4O7m
+ lySg7DYaLEYilvDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764142810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1764143048; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=N/IKV4NTtJDFriBCvdPujoI7Ss0dmnp2XYDv3sBK7Do=;
- b=nxsdbyPwMPWjnG5L8rQDkkJKR+yuEw2QDk1AxcRidFERWys4o+v8VAgfQvHrM26PCj9Wyv
- Wnt1aYIPzuKMZ0jTkgOT4WQxIQkuGEz/laT1YlcwTWqRpIvuMC8IFT/HOkyuE2Fw4hheDM
- J2zRAnG9B9cfHlTTelwwpCOfrUZQQW0=
+ bh=drklKyV2RPFla2Q7/A/lp8Rvp/WaNYg8cDw0mMQv3ac=;
+ b=UCUavnyk+e/uOj+YykZnXOPhdx5863ygS+CA9P9ptUJtjb/6J4yiu+guDlVNmWXfwanmWn
+ cZQzKFKrFAni3iT8byQyjGnclSkcexz6EC68COXiRUiEryduFvfuA5cZ8edEM7ZZmgH5Ky
+ YuVwHfBZuMV6Uojom1oG1dcIgb5go2E=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764142810;
+ s=susede2_ed25519; t=1764143048;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=N/IKV4NTtJDFriBCvdPujoI7Ss0dmnp2XYDv3sBK7Do=;
- b=+VLEA8R0mOGMJCFmnuWFparRdoUKNmXgpZ7YnSUkRUbCju5PQ8EpYFuuIW0TdhGD0Ajpz1
- EExCAwui7CyMDZCg==
+ bh=drklKyV2RPFla2Q7/A/lp8Rvp/WaNYg8cDw0mMQv3ac=;
+ b=Nm7xnp8FwfJv6zoaVtqeeVxqi86LFnHwP/Thn+695VgWnwv7/hQiEaQ6UwpCuktecvkuSe
+ 0+9p+Xjxwg0/qyDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C9E573EA63;
- Wed, 26 Nov 2025 07:40:09 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A45B23EA63;
+ Wed, 26 Nov 2025 07:44:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id pmTZL9muJmmfKgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 26 Nov 2025 07:40:09 +0000
-Message-ID: <58b768ad-00fb-4fe5-924c-9cf6ec12f75c@suse.de>
-Date: Wed, 26 Nov 2025 08:40:09 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 3yIaJsevJmn9LQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Nov 2025 07:44:07 +0000
+Message-ID: <38dcc504-5fa7-49ff-a74c-9a877fd267d5@suse.de>
+Date: Wed, 26 Nov 2025 08:44:07 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 03/25] drm/gem-dma: Compute dumb-buffer sizes with
- drm_mode_size_dumb()
-To: Ludovic.Desroches@microchip.com, simona@ffwll.ch, airlied@gmail.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com, geert@linux-m68k.org,
- tomi.valkeinen@ideasonboard.com
-Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
- nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
- spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
- intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org
-References: <20250821081918.79786-1-tzimmermann@suse.de>
- <20250821081918.79786-4-tzimmermann@suse.de>
- <52600bf4-2c1c-49a6-82c5-b31818141a43@microchip.com>
- <a11c195d-197c-45a4-962a-e2336c7360c2@suse.de>
- <2fbe0d43-67c5-4816-aff0-c23ac1507ec5@microchip.com>
+Subject: Re: [PATCH 0/5] drm: Remove remaining support for kdb
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, simona@ffwll.ch,
+ airlied@gmail.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ lyude@redhat.com, dakr@kernel.org, deller@gmx.de, mripard@kernel.org,
+ jason.wessel@windriver.com, danielt@kernel.org, dianders@chromium.org
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251125130634.1080966-1-tzimmermann@suse.de>
+ <82ed9798-9237-4404-9b32-9430bfb82b26@linux.intel.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -120,31 +111,25 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <2fbe0d43-67c5-4816-aff0-c23ac1507ec5@microchip.com>
+In-Reply-To: <82ed9798-9237-4404-9b32-9430bfb82b26@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 5C6CA22C7B
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_TO(0.00)[microchip.com,ffwll.ch,gmail.com,kernel.org,linux.intel.com,linux-m68k.org,ideasonboard.com];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,suse.com:url];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCPT_COUNT_TWELVE(0.00)[21];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- TO_DN_NONE(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
 X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ ARC_NA(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ MIME_TRACE(0.00)[0:+]; RCPT_COUNT_TWELVE(0.00)[18];
+ FREEMAIL_TO(0.00)[linux.intel.com,ffwll.ch,gmail.com,amd.com,redhat.com,kernel.org,gmx.de,windriver.com,chromium.org];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:url]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -162,151 +147,79 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 26.11.25 um 07:24 schrieb Ludovic.Desroches@microchip.com:
-> On 11/25/25 16:03, Thomas Zimmermann wrote:
->> EXTERNAL EMAIL: Do not click links or open attachments unless you know
->> the content is safe
->>
->> Hi
->>
->> Am 25.11.25 um 15:39 schrieb Ludovic.Desroches@microchip.com:
->>> On 8/21/25 10:17, Thomas Zimmermann wrote:
->>>> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
->>>> buffer size. Align the pitch to a multiple of 8.
->> I missed a chance to explain it here. :/
-> I was wondering if it was 8-bits or 8-bytes.
+Am 25.11.25 um 17:25 schrieb Maarten Lankhorst:
+> Hey,
 >
->>>> Push the current calculation into the only direct caller imx. Imx's
->>>> hardware requires the framebuffer width to be aligned to 8. The
->>>> driver's current approach is actually incorrect, as it only guarantees
->>>> this implicitly and requires bpp to be a multiple of 8 already. A
->>>> later commit will fix this problem by aligning the scanline pitch
->>>> such that an aligned width still fits into each scanline's memory.
->>>>
->>>> A number of other drivers are build on top of gem-dma helpers and
->>>> implement their own dumb-buffer allocation. These drivers invoke
->>>> drm_gem_dma_dumb_create_internal(), which is not affected by this
->>>> commit.
->>>>
->>>> v5:
->>>> - avoid reset of arguments (Tomi)
->>>>
->>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->>>> ---
->>>>     drivers/gpu/drm/drm_gem_dma_helper.c     | 7 +++++--
->>>>     drivers/gpu/drm/imx/ipuv3/imx-drm-core.c | 4 +++-
->>>>     2 files changed, 8 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/
->>>> drm_gem_dma_helper.c
->>>> index 4f0320df858f..ab1a70b1d6f1 100644
->>>> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
->>>> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
->>>> @@ -20,6 +20,7 @@
->>>>     #include <drm/drm.h>
->>>>     #include <drm/drm_device.h>
->>>>     #include <drm/drm_drv.h>
->>>> +#include <drm/drm_dumb_buffers.h>
->>>>     #include <drm/drm_gem_dma_helper.h>
->>>>     #include <drm/drm_vma_manager.h>
->>>>
->>>> @@ -304,9 +305,11 @@ int drm_gem_dma_dumb_create(struct drm_file
->>>> *file_priv,
->>>>                           struct drm_mode_create_dumb *args)
->>>>     {
->>>>       struct drm_gem_dma_object *dma_obj;
->>>> +    int ret;
->>>>
->>>> -    args->pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
->>>> -    args->size = args->pitch * args->height;
->>>> +    ret = drm_mode_size_dumb(drm, args, SZ_8, 0);
->>>> +    if (ret)
->>>> +            return ret;
->>> Hi,
->>>
->>> Was it intentional for this change to alter the pitch?
->> Most hardware does not need the pitch to be of a certain alignment. But
->> these buffers are possibly shared with other hardware, which sometimes
->> needs alignment to certain values. Using SZ_8 improves compatible with
->> that hardware.
->>
->>> The alignment requirement has been updated—from 8-bit alignment to
->>> 64-bit alignment. Since the pitch is expressed in bytes, we should pass
->>> SZ_1 instead of SZ_8 for hw_patch_align.
->>>
->>> For example, for an 850×480 framebuffer at 16 bpp, the pitch should be
->>> 1700 bytes. With the new alignment, the pitch becomes 1704 bytes.
->> Many display modes have an 8-byte alignment in their width. 850 pixels
->> is somewhat of an exception.
-> Indeed, but overlay-type planes are often used to display windows that
-> are not the same size as the screen, and therefore potentially not on
-> 8-bytes aligned.
+> I'm glad to see the old kdb handler gone.
 >
->>> Please let me know if you’d like me to submit a fix.
->> Do you see a bug with your hardware? Unless this creates a real problem,
->> I'd like to keep it as it is now.
-> Yes, that’s how I noticed this change. I have an application that
-> requests a framebuffer larger than my screen, in this case 850x480 in
-> RGB565 for an 800x480 display. So I have a pitch of 1700 bytes. Now it’s
-> using a pitch of 1704, which shifts my lines.
+> Could we perhaps extend the drm panic handler somehow for this to work?
+> Restore could potentially be simply duplicating and committing the current state.
 
-Honestly, your application is broken. The ioctl returns the pitch value 
-to user space and that's what the program should use. Some hardware has 
-hard constraints on the pitch, so you will sooner or later run into the 
-same problem again.
-
-Anyway, feel free to submit a patch to call drm_mode_size_dumb() without 
-SZ_8. The best value would be 0, so that the function picks a default by 
-itself. Since you're at it, maybe also look at patches 4 and 5 of this 
-series. They have similar code for other memory managers.
+Yeah, I briefly outlined this in the cover letter. If we wanted to 
+support kdb, we could get the scanout buffer and use the buffer's simple 
+display update for showing the debugger. I think this still requires 
+quite some work, but would avoid all the issues with the current approach.
 
 Best regards
 Thomas
 
 >
-> Regards,
-> Ludovic
+> Kind regards,
+> ~Maarten Lankhorst
 >
->> Best regards
->> Thomas
+> Den 2025-11-25 kl. 13:52, skrev Thomas Zimmermann:
+>> Remove the rest of the kbd support from DRM. Driver support has been
+>> broken for years without anyone complaining.
 >>
->>> Regards,
->>> Ludovic
->>>
->>>
->>>>       dma_obj = drm_gem_dma_create_with_handle(file_priv, drm, args-
->>>>> size,
->>>>                                                &args->handle);
->>>> diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c b/drivers/gpu/
->>>> drm/imx/ipuv3/imx-drm-core.c
->>>> index ec5fd9a01f1e..af4a30311e18 100644
->>>> --- a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
->>>> +++ b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
->>>> @@ -145,8 +145,10 @@ static int imx_drm_dumb_create(struct drm_file
->>>> *file_priv,
->>>>       int ret;
->>>>
->>>>       args->width = ALIGN(width, 8);
->>>> +    args->pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
->>>> +    args->size = args->pitch * args->height;
->>>>
->>>> -    ret = drm_gem_dma_dumb_create(file_priv, drm, args);
->>>> +    ret = drm_gem_dma_dumb_create_internal(file_priv, drm, args);
->>>>       if (ret)
->>>>               return ret;
->>>>
->> -- 
->> -- 
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
->> GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG
->> Nürnberg)
+>> Kdb cannot use regular DRM mode setting, so DRM drivers have to
+>> implement an additional hook to make it work (in theory). As outlined
+>> by Sima in commit 9c79e0b1d096 ("drm/fb-helper: Give up on kgdb for
+>> atomic drivers") from 2017, kdb is not compatible with DRM atomic mode
+>> setting. Non-atomic mode setting meanwhile has become rare.
+>>
+>> Only 3 DRM drivers implement the hooks for kdb support. Amdgpu and
+>> nouveau use non-atomic mode setting on older devices. But both drivers
+>> have switched to generic fbdev emulation, which isn't compatible with
+>> kdb. Radeon still runs kdb, but it doesn't work in practice. See the
+>> commits in this series for details
+>>
+>> Therefore remove the remaining support for kdb from the DRM drivers
+>> and from DRM fbdev emulation. Also remove the hooks from fbdev, as
+>> there are no fbdev drivers with kdb support.
+>>
+>> If we ever want to address kdb support within DRM drivers, a place to
+>> start would be the scanout buffers used by DRM's panic screen. These
+>> use the current display mode. They can be written and flushed without
+>> mode setting involved.
+>>
+>> Note: kdb over serial lines is not affected by this series and continues
+>> to work as before.
+>>
+>> Thomas Zimmermann (5):
+>>    drm/amdgpu: Do not implement mode_set_base_atomic callback
+>>    drm/nouveau: Do not implement mode_set_base_atomic callback
+>>    drm/radeon: Do not implement mode_set_base_atomic callback
+>>    drm/fbdev-helper: Remove drm_fb_helper_debug_enter/_leave()
+>>    fbcon: Remove fb_debug_enter/_leave from struct fb_ops
+>>
+>>   Documentation/process/debugging/kgdb.rst    |  28 -----
+>>   drivers/gpu/drm/amd/amdgpu/dce_v10_0.c      |  35 ++-----
+>>   drivers/gpu/drm/amd/amdgpu/dce_v6_0.c       |  35 ++-----
+>>   drivers/gpu/drm/amd/amdgpu/dce_v8_0.c       |  35 ++-----
+>>   drivers/gpu/drm/drm_fb_helper.c             | 108 --------------------
+>>   drivers/gpu/drm/nouveau/dispnv04/crtc.c     |  24 +----
+>>   drivers/gpu/drm/radeon/atombios_crtc.c      |  74 ++++----------
+>>   drivers/gpu/drm/radeon/radeon_legacy_crtc.c |  23 ++---
+>>   drivers/gpu/drm/radeon/radeon_mode.h        |  10 +-
+>>   drivers/video/fbdev/core/fbcon.c            |  24 -----
+>>   drivers/video/fbdev/core/fbcon.h            |   1 -
+>>   include/drm/drm_fb_helper.h                 |  21 ----
+>>   include/drm/drm_modeset_helper_vtables.h    |  23 -----
+>>   include/linux/fb.h                          |   4 -
+>>   14 files changed, 63 insertions(+), 382 deletions(-)
 >>
 >>
->
+>> base-commit: 0a21e96e0b6840d2a4e0b45a957679eeddeb4362
 
 -- 
 --
