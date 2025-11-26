@@ -2,98 +2,183 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE33C8C618
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 00:46:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24AFFC8C64B
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 00:56:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA39D10E68B;
-	Wed, 26 Nov 2025 23:46:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A55E210E6FA;
+	Wed, 26 Nov 2025 23:56:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bA65R0xi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SI8SKfGn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com
- [209.85.218.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4667A10E68B
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 23:46:48 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id
- a640c23a62f3a-b7291af7190so47037166b.3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 15:46:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764200807; x=1764805607; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=HYiCKKVIUJRRsSJx+hmkaDzcH/aYJ+uF7elvDJfPKu8=;
- b=bA65R0xihv6fKRyPenWVpWp+zud8cszRIzcGAZja46o/gMeUxHh90vIEiU5CTcE73m
- qvp27jNprWqnWPJtoPEiUiOIqzAoSTw9ZMDO6jsy+a/PM8v+bPnyayOUN9bWZ1Db/zIm
- lXWfimqsPrSeL+RJF/i3YgDdZSEXBMlpcZp6FRnhYDFRK6yWTCXHNSZgcLaZqDZE/Gq3
- Fe3GWaZ3qJzkTY1T6+k37eDxsAa+YOWZ+zivU7T4wP09emUfvdToUY4N9AY1/Jw2jPCf
- FhTHVQatlnCeJdbKkU49U1h++OEh/mxE71Tump3+I0FX0ywgAuToE3hyObsQg8ZhcLAI
- fp+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764200807; x=1764805607;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HYiCKKVIUJRRsSJx+hmkaDzcH/aYJ+uF7elvDJfPKu8=;
- b=uXp7B4IY1Ff2GVtM6I3VWK2ZNCKaZh398TzZmqfZp5Zefre/qEkHI7dSe8I+wWjywU
- svnDTH8rLsYsaRhTGCd0Zh5/0FLoOPhob9/5LIQlFG2SViDeJTtAg5FgOdqSpDRObmvG
- 0Ncn7H8yol+97VInBHWINpKs88rqDgZbYmFf5MUB8cqNhNxYbgDqT3/Fa/qmIJjXBZlR
- EE4+4pGTmDWH6I6q57CC6Z+8ZBG0SR2Fv7XXJMvRBZ5jjNqd8BhOkAKYGheuK1V1q8cX
- HX2qRL8nFqt6YFE6cG6dFIQ6B1ki+GD2grLqLXhoJzQvtuiURqPF1ZhR5g4Fn0QS6oeU
- yMNQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUB1Fhen4xb10fJ44o+kHtFY9wm1b0N+2lEW4iDh71iPimCb16bU7uvxUuxFY0ATG+oiy7F61aNY9E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxYEzK/uGl56+AyrDnKEajFOk050JTJ6DM9wVtL51AdCJZgDhLT
- fGOpCIsSh1flTK0qpI7KblEZinVdMdslZ3bIie0590mCzxJXecqXSbs=
-X-Gm-Gg: ASbGncu80LQ6K20XFTlI3UI+7lzkUY8evXTd8jZ/8FhBNsWuJcSb7EnbWapqGByKeMs
- OcGmmMkUZ8Bf2d+vE+BWeABi47g+JsYQ4JjtuzL8hsf/YONueAOe/yVm0Embfo5TOmbIcuNVIEz
- wreFJvNeoSixRlAlm+He6cNuURZSO0iL4wOzkpVMDKXSLtY2nVgsi2zSpO89ndtB8xMoG5WnWDt
- cppt2NOiUqyGf5zcR4OVwsRgvjvSUFXZI2qbw+obVm01NSNOcQwclYAY8HGjA8CbbC/bjnQv0ia
- 73BEE/9ySJ47CleIfgXOvyd13U0YHZ3l5dCK5hUn6yRbLauzZEqOYZfgntvYWwsxhm80xF000m8
- fy0wY41R0M+utltiqkOzXt+96M0YF6kJAf3Il3UfHGQgV2UXO/It4Pz0kqww5sKZev0IlNdPtMd
- ri1w5MzyDy8xnQJlLzTMfq+5C9O03pt/i1LwiB1UAdjbIDRdChNLIf5VavXTQ7An+/M0AxViOlP
- Q==
-X-Google-Smtp-Source: AGHT+IHSv+xwHaW3WdJrzF3qjqXq4H/1YmjW/KFfDQWUhTni7lpoZB1RWVQtEvLTuFG6aVovHBd0Ug==
-X-Received: by 2002:a17:907:1b0c:b0:b76:3dbe:7bf0 with SMTP id
- a640c23a62f3a-b767150b850mr1933919866b.2.1764200806391; 
- Wed, 26 Nov 2025 15:46:46 -0800 (PST)
-Received: from [192.168.1.17] (host-87-16-172-206.retail.telecomitalia.it.
- [87.16.172.206]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b76f59e8fdasm3658366b.51.2025.11.26.15.46.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 26 Nov 2025 15:46:45 -0800 (PST)
-From: Anna Maniscalco <anna.maniscalco2000@gmail.com>
-Date: Thu, 27 Nov 2025 00:46:24 +0100
-Subject: [PATCH] drm/msm: Fix a7xx per pipe register programming
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BC3F210E674;
+ Wed, 26 Nov 2025 23:56:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764201399; x=1795737399;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=QUQ2KK290uKhGm1gUSaA8wi1HFdZunmQMewtvc+ENQI=;
+ b=SI8SKfGnhvydpFLSofmdB+ZLlUyM95CGfuSL8b0xJMSo/jg+Pkh4tPS6
+ ef099qIl9FMkgyklT6CcaorLWuCtspBGsSV153Lsp9FCja60EN/Q8Mece
+ JzwR6mwftrcb6VCQ8y7ruuXjDrcamPRJ2cuxMmjKdKq8wuXaqL2m7mubF
+ nWuKUuuan84WXGHMK+qbTSep0Chh07Pj73UyHfT6nd5ApvBfVKXAUavUa
+ c+17AZ4KU6DOAwqqyr+GDuMUySdfi3iHIrlJYD2G2HoIoi8tYJa76SpBT
+ 1xnVay8Utb2/skcbExVETPozxhSCv6bJW4CGwQDe2tYJa21fy33dUe+Yr g==;
+X-CSE-ConnectionGUID: k4jKG1ZGSX6211q7aFle1g==
+X-CSE-MsgGUID: ChZNc4WhRZG/X0bhi6Iw6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="69869677"
+X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; d="scan'208";a="69869677"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 15:56:39 -0800
+X-CSE-ConnectionGUID: SiwNzYeWTGuvVU08l6D2Sg==
+X-CSE-MsgGUID: C7C8D0LoT7Sry7nPcgd3NQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; d="scan'208";a="230355014"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 15:56:39 -0800
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Wed, 26 Nov 2025 15:56:38 -0800
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Wed, 26 Nov 2025 15:56:38 -0800
+Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.11) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Wed, 26 Nov 2025 15:56:38 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=h2VPHBm8ZaWidBS5GhxRVFKxwXYLN9ff3wfrES5FUPneiU27CEqUcuTbCtZYkbYGuN4VubS9l0tzJvgQwU2lwzQzRbJl375bVV9GyK8HfhACRiwF9s2QcTZ28ZdflcJqDjjpUpuZ9kY2zv0Sp4u64hipcEgZYU5XCZuT/rpi3+LbXotqDG3jibDh8elMjjri6tUd69kGtsWHbcExDWBRqN+RyJZ+ujVfsRaL7PS/zxWNvCF49tXsldH7nF/cNeuCN62SvUWX6KOpwDOJwjZ4BnPj5p7tn9nPE9Ve2ie2HxapcAI6Dg9hrcUaq54w6zmVmwmbTh+p7ws2IZTDqP35Kg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=73y+pZa2e4N9HKv0LTqEJOc54RuhhPPMLajbtwv8prQ=;
+ b=EhnWWjnPJ43qFN/1jmqg0u6Z+QEhpE0atnZb+uSZvDYJzBIPPMjp0W9xfnoOWzBlvGVwhH9/rqt/6zJQhTWw0rncCgufvRyHsFyf3LQq/uDDiiSoGQyy6EXBLwRV5tapglAOBo8R8IYeZ1dTCLwJHDzqLWpiNR0gp5BDk0cgW95OmG9wKug1MD4IrfY4u/w/lI50kG7kRFiNdPP2Q2/3iXjMQ+NlXDFPxILtc3aERMBYcg4Q7eEKlQ2HZ5LpSYzPYFc2G08Pw9I9QgrjTmT2bkYgcs00LIsrCY5EXKSYl+yCUoO/FxdQ4RrgB/lL9oH1YPZCr17BJvG50702R2QiYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by PH8PR11MB8105.namprd11.prod.outlook.com (2603:10b6:510:254::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Wed, 26 Nov
+ 2025 23:56:36 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9366.009; Wed, 26 Nov 2025
+ 23:56:35 +0000
+Date: Wed, 26 Nov 2025 15:56:32 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Andi Shyti <andi.shyti@kernel.org>
+CC: Philipp Stanner <phasta@kernel.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>, Christian
+ =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Felix Kuehling
+ <Felix.Kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>, "David
+ Airlie" <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ "Matthew Auld" <matthew.auld@intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+ <linux-kernel@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH 3/6] drm/gpu/xe: Ignore dma_fenc_signal() return code
+Message-ID: <aSeTsINKklqqJyIs@lstrano-desk.jf.intel.com>
+References: <20251126131914.149445-2-phasta@kernel.org>
+ <20251126131914.149445-5-phasta@kernel.org>
+ <nrrk4kug6a42fztx7ryuz5bk6uy7roiszjhiivlvtrw3uvunps@wn44moyetzff>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <nrrk4kug6a42fztx7ryuz5bk6uy7roiszjhiivlvtrw3uvunps@wn44moyetzff>
+X-ClientProxiedBy: MW4P222CA0017.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:303:114::22) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251127-gras_nc_mode_fix-v1-1-5c0cf616401f@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAE+RJ2kC/x2MQQqAIBAAvxJ7TtAtjfpKhEhutocsFCKQ/p50n
- IGZApkSU4apKZDo5sxnrKDaBtbdxUCCfWVAiVopNCIkl21c7XF6shs/YkDsibQ0rhuhZleiqv/
- lvLzvBxemawJiAAAA
-X-Change-ID: 20251126-gras_nc_mode_fix-7224ee506a39
-To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Akhil P Oommen <akhilpo@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Antonino Maniscalco <antomani103@gmail.com>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Anna Maniscalco <anna.maniscalco2000@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1764200804; l=8226;
- i=anna.maniscalco2000@gmail.com; s=20240815; h=from:subject:message-id;
- bh=CUsN1ZM0ctblYOw27O5ENwSWwK7lA+SL6xwiBfqPCig=;
- b=Cbydz9b1aksd/5cLd44/od4UHeAxbOVHmx/Dzm4NUkxMw2+DTzukC2QtbwvroKLI/tTZvPtc1
- 3JWGbHNPAH7C8lDp1IR2WIngAOhsV3Sd3OvQ2fqWNqMUt2BfpiWwGw3
-X-Developer-Key: i=anna.maniscalco2000@gmail.com; a=ed25519;
- pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH8PR11MB8105:EE_
+X-MS-Office365-Filtering-Correlation-Id: 724dad7e-3641-4d53-a184-08de2d476ec2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?pS1xDnB3XsOp8KYNPtvU72l6CDHkAPrbGQDgRV2/FgwYHII69ZI5/hD8KmvJ?=
+ =?us-ascii?Q?egPLluGkMc28EByFJhyJlGIEAhwGxW2L/QTB1NnuHhyJ90D9UZtISDXV0zhc?=
+ =?us-ascii?Q?DzhGbusaEgioZEaD0sjss1VWRxT4z1f1RueNcYVk1W1dywNkn9urK0vJIzWi?=
+ =?us-ascii?Q?NJBZh111lCjZvINM2M14fxtfuogSJ8LY0w8yV1ioMyUirqDjgiHB+PufNAUv?=
+ =?us-ascii?Q?2Qt7w39LdKUEYROVmDLvQdLzWKmcpUF4OdsOnnzrKgoG7YSZuUjQnD2tfPyv?=
+ =?us-ascii?Q?zlKtazRyMkbFg1xqS6kmDh3SgkmYRSP3ULtLA0P3mPBJx+41wNWptzcL5QrE?=
+ =?us-ascii?Q?SszGfnEibleT+XlQGfU0HL0AUGNvZLhybPcXonDThAcjm+2U8nK4vx7qRWJw?=
+ =?us-ascii?Q?jForqTNC0iXJIHp7esQW3HZTOeE8CLMWdGzPLc2VT93BIS0wnpQGgGlLkpCa?=
+ =?us-ascii?Q?gTX9uXBxVREwU/NuzK4TOTApsgA89UlpcJfYk2BXdjin8kjFyhaZvj5DMaH2?=
+ =?us-ascii?Q?+fVliRMsaZl3A/5IfrYAuSXn2BHElkedobZmmJyMsMnpvGqeEWmw5QO3TIYT?=
+ =?us-ascii?Q?gOm3Ant0HprYtr7+P5A+omk87pvGjPkHKYgUIhUqI03V5gBGHXAgNT/85ROn?=
+ =?us-ascii?Q?0L19AYN90TKN/J4qCO7rzgwnmIhw8T4vULiysuzgs+mTZnyLJU69GQpUaLZ+?=
+ =?us-ascii?Q?U+BZWj74uGWXxPE9SaPr8rM38vLOIRhf8pPDmlpi/oqBfU5ldfNRjbo6MDfL?=
+ =?us-ascii?Q?sG6WXanUGd2fgb1DUWCDSe8a0O3wVmbAj9D9rbxhvgWlSjzLBRpiY6pobaAC?=
+ =?us-ascii?Q?mpjBwmzFreixU5Vc7/SeYrnG7H96LmSxKXH/MMyJJvtIPKMO6W5o0e3yBP4d?=
+ =?us-ascii?Q?O1mm7nYVFx2gmtf93NzrHFczgk1YX99rPKfPuolLYSU8fR2Mq1A2+Gja7gjj?=
+ =?us-ascii?Q?gPner593q06S65YCMs6VjSMCWiWCazuAgLaFpSw0eeMRcxul7bpzcRY4NxvS?=
+ =?us-ascii?Q?WjaxXlfg3tLJOFTRAlhsyxdlSoAJZnHupfUrXkIq7lkZ2p2xjDJrhdBBWuKI?=
+ =?us-ascii?Q?1wCxwA1na5VG1VfSAUux6Yk9of1r6mgKYB/tMydozPYv6Po9g216DHvplGFg?=
+ =?us-ascii?Q?oxEFRdMFoMv5lNG5n500Pi07hDFnfeAhtGX4q9Svs2HzQ6KutFzGlhwq/lOa?=
+ =?us-ascii?Q?iEFCYyDXIUasRH7wcAHtIsXSeoAnnkaxMRQWZGwHp2h0Y+ohajH6r9+vE7pk?=
+ =?us-ascii?Q?GNzzTnE5RBjSi5eOddGqqZF/V+eKKGTOoupEbf/INP5Wc+08XeJiMTqUAXhY?=
+ =?us-ascii?Q?lpp8o/9bl4IwvhaEhHEUUIHE8PBi+ZeUqDx4amX9j1zwou712V4x1Yap5DaE?=
+ =?us-ascii?Q?h8N6z6KBD6LHx4J8cNRROeP6gy4CgxZ3/S/N6rkgFn6mY3k6VNQhCOU/9hRd?=
+ =?us-ascii?Q?1+7vth+DuXpbjjBr2MQ5WRFoMrtXwsvT?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EFCSRSvQzfx6i4i0rMTakbbArWEwRKQGvfpyNYhWXAdyzQ86HPxgrNXq1Hy2?=
+ =?us-ascii?Q?Gb2KgqAbbCbuDB6ftAcOpkm17gpdHZPtkfpr1u4GtAI42jCgcv/1aFUGRBN7?=
+ =?us-ascii?Q?LvnmqL4AXQ4bUvzkZ4iaOZqZpatyyhNU+yAnu4gAhSTXUkzHtBqpIKmbCQFl?=
+ =?us-ascii?Q?ZZA8ZDX7SGyNU4sbaCG7R33Xwf0jo2fPP0AcCOlRgkeJ9k35Qud2pXv9XgtF?=
+ =?us-ascii?Q?zq3C1dMura4p0YnbjorpGE06xlCx5qJRqLZYPXL509VFP6sZ8Pn1yb1xA70t?=
+ =?us-ascii?Q?WO10Bwxjic8WTI1HIDzKONYwfLqrTbiue3alAxWflszTBj8sK6HKy0XG5j2N?=
+ =?us-ascii?Q?ABHCl5Ba4km8O4zXYiAZ8GNZkkGDO7biaey7oxkSGTsaoxRxYq3tDfeIs8J3?=
+ =?us-ascii?Q?divTjZkBS1Yx1ns8nExaWd8LBD1RaUnE8Ph5F4cFacuup8p+M6I5GphG3m90?=
+ =?us-ascii?Q?eLNH/JAUEk8cu8KpRQYQtj5kAEkF/BRh1RBcafnOyh0Aax6yQjjsDbs33ore?=
+ =?us-ascii?Q?EMUtAeilMspNTKVkcOgK0r4IkUYzOswVmo0cvtVqxtBBmoLG+zRWlJMLvSXT?=
+ =?us-ascii?Q?NY7dhFfkvJUjKaZ5dJRPtFKnuA5YAD+3Ousf/W35wtV4WZRBoBGUOhpYNlpk?=
+ =?us-ascii?Q?UYHfzTV86KGdHwRCnpZEXAFCIgLJy9XJ5fONphO5wQx2/HaJBaGkqdHxNMm1?=
+ =?us-ascii?Q?x5Qd/9bwUpthAQ7XqqdQgTBMPy7af0WevgxTv+4mDfE0eLhCELrYdG43f785?=
+ =?us-ascii?Q?LBf5BoQrHuq2CVeKC4TRM8xDTGhFESD71LiHcjuNxaQ/L3GWb2LBgq27NI4t?=
+ =?us-ascii?Q?T6xditbojWjgIHW1UQyqzZ9MJsUj0ijCtQEDt+ZszivMSh4FVOi0mLxSuLa2?=
+ =?us-ascii?Q?XRBxlxZGhzjbAr2PBKwbQ7X2GvNOrxprigBWGMBfWlWqQQe3oQ0wzwf0uwrJ?=
+ =?us-ascii?Q?upvZRTvcGEm2NLPkDov6cy0fZErIQ/jMzyalZccEjtJcLGiVANbBGo5hZIPg?=
+ =?us-ascii?Q?PorIeIi64LaadBtnF6ittLJh2xr8D8fokj3jD9zj+14HxiCFDdzW390PKxKf?=
+ =?us-ascii?Q?O8fWk5GHUvEC4zXhm8AaDBfLkjzVqyc9nZqy0+ocDKrSDJvU6D3cKC5SeOkM?=
+ =?us-ascii?Q?Uqymy6w5l8StJh/S8WfHN3cHZVPhIDw57HysNjJjGicPiHpb/KfOgEY5+gso?=
+ =?us-ascii?Q?vTFoIATSO062bCFaDhncgVz+sQEli+I4OsdpxeoGu3dABa3EITvOCfOte3ea?=
+ =?us-ascii?Q?wtXan6VIviunAwOW6UYmVb1MBTcEDvSEKm6iQkLgkW/6E3yPqoZ9cNbHcuu4?=
+ =?us-ascii?Q?uoEivBMxP+K0Wm4QkKQqOlf8XwRZyKcihxCXrNfay6n0dzBftwz7+5daEtE7?=
+ =?us-ascii?Q?gHRRC7jkoVfwFBS0nRQNFy5Hyr3xSUfHuL29b3ylelvvbeo0M0imbG2gLXmu?=
+ =?us-ascii?Q?NlQR/hEqZVAO0MqKW+UGZrjXNPkaOJPyaJPMBNIHBMMvwCXHGgl2sUZ33HCu?=
+ =?us-ascii?Q?mgh1bK7tjKWXrnfrgLZKh46ZdsdSjRPa2dFT7rMIWv1u++wUV9SanNt1ICHY?=
+ =?us-ascii?Q?FthMbo9VPzvYr+q6YtABo3CWMj8yXDFauu73iGS1vWhAh/2KgMrviBGqSeyl?=
+ =?us-ascii?Q?pg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 724dad7e-3641-4d53-a184-08de2d476ec2
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 23:56:35.8807 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wSDe0OF4NypabCwOEfS+K51f0leyoniHbec65FefVr/Bl7ra1g+WFlvuVdRWwHQLU/p8ifk43++Gw3Tb39TpMA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB8105
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,237 +194,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-GEN7_GRAS_NC_MODE_CNTL was only programmed for BR and not for BV pipe
-but it needs to be programmed for both.
+On Wed, Nov 26, 2025 at 11:56:57PM +0100, Andi Shyti wrote:
+> Hi Philipp,
+> 
+> in the subject /dma_fenc_signal/dma_fence_signal/
+> 
+> > @@ -85,7 +85,6 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
+> >  {
+> >  	struct xe_hw_fence *fence, *next;
+> >  	unsigned long flags;
+> > -	int err;
+> >  	bool tmp;
+> >  
+> >  	if (XE_WARN_ON(!list_empty(&irq->pending))) {
+> > @@ -93,9 +92,9 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
+> >  		spin_lock_irqsave(&irq->lock, flags);
+> >  		list_for_each_entry_safe(fence, next, &irq->pending, irq_link) {
+> >  			list_del_init(&fence->irq_link);
+> > -			err = dma_fence_signal_locked(&fence->dma);
+> 
+> why don't we do
+> 
+> XE_WARN_ON(dma_fence_signal_locked(..))
+> 
 
-Program both pipes in hw_init and introducea separate reglist for it in
-order to add this register to the dynamic reglist which supports
-restoring registers per pipe.
+IIRC the above statement can compile out. So the patch looks correct to me.
 
-Fixes: 91389b4e3263 ("drm/msm/a6xx: Add a pwrup_list field to a6xx_info")
-Signed-off-by: Anna Maniscalco <anna.maniscalco2000@gmail.com>
----
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c |  9 ++-
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 91 +++++++++++++++++++++++++++++--
- drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  1 +
- drivers/gpu/drm/msm/adreno/adreno_gpu.h   | 13 +++++
- 4 files changed, 109 insertions(+), 5 deletions(-)
+Matt
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-index 29107b362346..c8d0b1d59b68 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-@@ -1376,7 +1376,6 @@ static const uint32_t a7xx_pwrup_reglist_regs[] = {
- 	REG_A6XX_UCHE_MODE_CNTL,
- 	REG_A6XX_RB_NC_MODE_CNTL,
- 	REG_A6XX_RB_CMP_DBG_ECO_CNTL,
--	REG_A7XX_GRAS_NC_MODE_CNTL,
- 	REG_A6XX_RB_CONTEXT_SWITCH_GMEM_SAVE_RESTORE_ENABLE,
- 	REG_A6XX_UCHE_GBIF_GX_CONFIG,
- 	REG_A6XX_UCHE_CLIENT_PF,
-@@ -1448,6 +1447,12 @@ static const u32 a750_ifpc_reglist_regs[] = {
- 
- DECLARE_ADRENO_REGLIST_LIST(a750_ifpc_reglist);
- 
-+static const struct adreno_reglist_pipe a750_reglist_pipe_regs[] = {
-+	{ REG_A7XX_GRAS_NC_MODE_CNTL, 0, BIT(PIPE_BV) | BIT(PIPE_BR) },
-+};
-+
-+DECLARE_ADRENO_REGLIST_PIPE_LIST(a750_reglist_pipe);
-+
- static const struct adreno_info a7xx_gpus[] = {
- 	{
- 		.chip_ids = ADRENO_CHIP_IDS(0x07000200),
-@@ -1548,6 +1553,7 @@ static const struct adreno_info a7xx_gpus[] = {
- 			.protect = &a730_protect,
- 			.pwrup_reglist = &a7xx_pwrup_reglist,
- 			.ifpc_reglist = &a750_ifpc_reglist,
-+			.pipe_reglist = &a750_reglist_pipe,
- 			.gbif_cx = a640_gbif,
- 			.gmu_chipid = 0x7050001,
- 			.gmu_cgc_mode = 0x00020202,
-@@ -1590,6 +1596,7 @@ static const struct adreno_info a7xx_gpus[] = {
- 			.protect = &a730_protect,
- 			.pwrup_reglist = &a7xx_pwrup_reglist,
- 			.ifpc_reglist = &a750_ifpc_reglist,
-+			.pipe_reglist = &a750_reglist_pipe,
- 			.gbif_cx = a640_gbif,
- 			.gmu_chipid = 0x7090100,
- 			.gmu_cgc_mode = 0x00020202,
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index 0200a7e71cdf..b98f3e93d0a8 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -16,6 +16,72 @@
- 
- #define GPU_PAS_ID 13
- 
-+static void a7xx_aperture_slice_set(struct msm_gpu *gpu, enum adreno_pipe pipe)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+	u32 val;
-+
-+	val = A7XX_CP_APERTURE_CNTL_HOST_PIPE(pipe);
-+
-+	if (a6xx_gpu->cached_aperture == val)
-+		return;
-+
-+	gpu_write(gpu, REG_A7XX_CP_APERTURE_CNTL_HOST, val);
-+
-+	a6xx_gpu->cached_aperture = val;
-+}
-+
-+static void a7xx_aperture_acquire(struct msm_gpu *gpu, enum adreno_pipe pipe, unsigned long *flags)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+
-+	spin_lock_irqsave(&a6xx_gpu->aperture_lock, *flags);
-+
-+	a7xx_aperture_slice_set(gpu, pipe);
-+}
-+
-+static void a7xx_aperture_release(struct msm_gpu *gpu, unsigned long flags)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+
-+	spin_unlock_irqrestore(&a6xx_gpu->aperture_lock, flags);
-+}
-+
-+static void a7xx_aperture_clear(struct msm_gpu *gpu)
-+{
-+	unsigned long flags;
-+
-+	a7xx_aperture_acquire(gpu, PIPE_NONE, &flags);
-+	a7xx_aperture_release(gpu, flags);
-+}
-+
-+static void a7xx_write_pipe(struct msm_gpu *gpu, enum adreno_pipe pipe, u32 offset, u32 data)
-+{
-+	unsigned long flags;
-+
-+	a7xx_aperture_acquire(gpu, pipe, &flags);
-+	gpu_write(gpu, offset, data);
-+	a7xx_aperture_release(gpu, flags);
-+}
-+
-+static u32 a7xx_read_pipe(struct msm_gpu *gpu, enum adreno_pipe pipe, u32 offset)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+	unsigned long flags;
-+	u32 val;
-+
-+	spin_lock_irqsave(&a6xx_gpu->aperture_lock, flags);
-+	a7xx_aperture_slice_set(gpu, pipe);
-+	val = gpu_read(gpu, offset);
-+	spin_unlock_irqrestore(&a6xx_gpu->aperture_lock, flags);
-+
-+	return val;
-+}
-+
- static u64 read_gmu_ao_counter(struct a6xx_gpu *a6xx_gpu)
- {
- 	u64 count_hi, count_lo, temp;
-@@ -849,9 +915,12 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
- 		  min_acc_len_64b << 3 |
- 		  hbb_lo << 1 | ubwc_mode);
- 
--	if (adreno_is_a7xx(adreno_gpu))
--		gpu_write(gpu, REG_A7XX_GRAS_NC_MODE_CNTL,
--			  FIELD_PREP(GENMASK(8, 5), hbb_lo));
-+	if (adreno_is_a7xx(adreno_gpu)) {
-+		for (u32 pipe_id = PIPE_BR; pipe_id <= PIPE_BV; pipe_id++)
-+			a7xx_write_pipe(gpu, pipe_id, REG_A7XX_GRAS_NC_MODE_CNTL,
-+					FIELD_PREP(GENMASK(8, 5), hbb_lo));
-+		a7xx_aperture_clear(gpu);
-+	}
- 
- 	gpu_write(gpu, REG_A6XX_UCHE_MODE_CNTL,
- 		  min_acc_len_64b << 23 | hbb_lo << 21);
-@@ -865,9 +934,11 @@ static void a7xx_patch_pwrup_reglist(struct msm_gpu *gpu)
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
- 	const struct adreno_reglist_list *reglist;
-+	const struct adreno_reglist_pipe_list *pipe_reglist;
- 	void *ptr = a6xx_gpu->pwrup_reglist_ptr;
- 	struct cpu_gpu_lock *lock = ptr;
- 	u32 *dest = (u32 *)&lock->regs[0];
-+	u32 pipe_reglist_count = 0;
- 	int i;
- 
- 	lock->gpu_req = lock->cpu_req = lock->turn = 0;
-@@ -907,7 +978,19 @@ static void a7xx_patch_pwrup_reglist(struct msm_gpu *gpu)
- 	 * (<aperture, shifted 12 bits> <address> <data>), and the length is
- 	 * stored as number for triplets in dynamic_list_len.
- 	 */
--	lock->dynamic_list_len = 0;
-+	pipe_reglist = adreno_gpu->info->a6xx->pipe_reglist;
-+	for (u32 pipe_id = PIPE_BR; pipe_id <= PIPE_BV; pipe_id++) {
-+		for (i = 0; i < pipe_reglist->count; i++) {
-+			if (pipe_reglist->regs[i].pipe & BIT(pipe_id) == 0)
-+				continue;
-+			*dest++ = A7XX_CP_APERTURE_CNTL_HOST_PIPE(pipe_id);
-+			*dest++ = pipe_reglist->regs[i].offset;
-+			*dest++ = a7xx_read_pipe(gpu, pipe_id,
-+						 pipe_reglist->regs[i].offset);
-+			pipe_reglist_count++;
-+		}
-+	}
-+	lock->dynamic_list_len = pipe_reglist_count;
- }
- 
- static int a7xx_preempt_start(struct msm_gpu *gpu)
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-index 6820216ec5fc..0a1d6acbc638 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-@@ -46,6 +46,7 @@ struct a6xx_info {
- 	const struct adreno_protect *protect;
- 	const struct adreno_reglist_list *pwrup_reglist;
- 	const struct adreno_reglist_list *ifpc_reglist;
-+	const struct adreno_reglist_pipe_list *pipe_reglist;
- 	const struct adreno_reglist *gbif_cx;
- 	const struct adreno_reglist_pipe *nonctxt_reglist;
- 	u32 max_slices;
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-index 0f8d3de97636..cd1846c1375e 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-@@ -182,12 +182,25 @@ struct adreno_reglist_list {
- 	u32 count;
- };
- 
-+struct adreno_reglist_pipe_list {
-+	/** @reg: List of register **/
-+	const struct adreno_reglist_pipe *regs;
-+	/** @count: Number of registers in the list **/
-+	u32 count;
-+};
-+
- #define DECLARE_ADRENO_REGLIST_LIST(name)	\
- static const struct adreno_reglist_list name = {		\
- 	.regs = name ## _regs,				\
- 	.count = ARRAY_SIZE(name ## _regs),		\
- };
- 
-+#define DECLARE_ADRENO_REGLIST_PIPE_LIST(name)	\
-+static const struct adreno_reglist_pipe_list name = {		\
-+	.regs = name ## _regs,				\
-+	.count = ARRAY_SIZE(name ## _regs),		\
-+};
-+
- struct adreno_gpu {
- 	struct msm_gpu base;
- 	const struct adreno_info *info;
-
----
-base-commit: 7bc29d5fb6faff2f547323c9ee8d3a0790cd2530
-change-id: 20251126-gras_nc_mode_fix-7224ee506a39
-
-Best regards,
--- 
-Anna Maniscalco <anna.maniscalco2000@gmail.com>
-
+> instead?
+> 
+> Andi
+> 
+> > +			XE_WARN_ON(dma_fence_test_signaled_flag(&fence->dma));
+> > +			dma_fence_signal_locked(&fence->dma);
+> >  			dma_fence_put(&fence->dma);
+> > -			XE_WARN_ON(err);
+> >  		}
+> >  		spin_unlock_irqrestore(&irq->lock, flags);
+> >  		dma_fence_end_signalling(tmp);
+> > -- 
+> > 2.49.0
+> > 
