@@ -2,27 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D6CC8AF36
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 17:25:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE39FC8AF6E
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 17:27:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCA3C10E67D;
-	Wed, 26 Nov 2025 16:25:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2657510E679;
+	Wed, 26 Nov 2025 16:27:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D329810E679;
- Wed, 26 Nov 2025 16:25:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2D61010E684;
+ Wed, 26 Nov 2025 16:27:55 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D145C168F;
- Wed, 26 Nov 2025 08:25:07 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 50FCE168F;
+ Wed, 26 Nov 2025 08:27:47 -0800 (PST)
 Received: from [10.1.30.35] (e122027.cambridge.arm.com [10.1.30.35])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 39CB23F73B;
- Wed, 26 Nov 2025 08:25:10 -0800 (PST)
-Message-ID: <f81703a1-ecc8-4d31-bcf8-64fa9fa44e40@arm.com>
-Date: Wed, 26 Nov 2025 16:25:08 +0000
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 55B333F73B;
+ Wed, 26 Nov 2025 08:27:49 -0800 (PST)
+Message-ID: <91454324-a414-4f43-8aca-6d24444b2275@arm.com>
+Date: Wed, 26 Nov 2025 16:27:47 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 07/16] drm/panthor: Add a PANTHOR_BO_SYNC ioctl
+Subject: Re: [PATCH v6 09/16] drm/panthor: Add flag to map GEM object
+ Write-Back Cacheable
 To: Boris Brezillon <boris.brezillon@collabora.com>
 Cc: dri-devel@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -42,14 +43,15 @@ Cc: dri-devel@lists.freedesktop.org,
  Marijn Suijten <marijn.suijten@somainline.org>,
  Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, kernel@collabora.com
+ amd-gfx@lists.freedesktop.org, =?UTF-8?Q?Lo=C3=AFc_Molinari?=
+ <loic.molinari@collabora.com>, kernel@collabora.com
 References: <20251126124455.3656651-1-boris.brezillon@collabora.com>
- <20251126124455.3656651-8-boris.brezillon@collabora.com>
+ <20251126124455.3656651-10-boris.brezillon@collabora.com>
 From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-In-Reply-To: <20251126124455.3656651-8-boris.brezillon@collabora.com>
+In-Reply-To: <20251126124455.3656651-10-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,226 +68,202 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 26/11/2025 12:44, Boris Brezillon wrote:
-> This will be used by the UMD to synchronize CPU-cached mappings when
-> the UMD can't do it directly (no usermode cache maintenance instruction
-> on Arm32).
+> From: Loïc Molinari <loic.molinari@collabora.com>
+> 
+> Will be used by the UMD to optimize CPU accesses to buffers
+> that are frequently read by the CPU, or on which the access
+> pattern makes non-cacheable mappings inefficient.
+> 
+> Mapping buffers CPU-cached implies taking care of the CPU
+> cache maintenance in the UMD, unless the GPU is IO coherent.
 > 
 > v2:
-> - Change the flags so they better match the drm_gem_shmem_sync()
->   semantics
+> - Add more to the commit message
+> - Tweak the doc
+> - Make sure we sync the section of the BO pointing to the CS
+>   syncobj before we read its seqno
 > 
 > v3:
-> - Add Steve's R-b
+> - Fix formatting/spelling issues
 > 
 > v4:
-> - No changes
+> - Add Steve's R-b
 > 
 > v5:
-> - Drop Steve's R-b (the semantics changes call for a new review)
+> - Drop Steve's R-b (changes in the ioctl semantics requiring
+>   new review)
 > 
 > v6:
-> - Drop ret initialization in panthor_ioctl_bo_sync()
-> - Bail out early in panthor_ioctl_bo_sync() if ops.count is zero
-> - Drop unused PANTHOR_BO_SYNC_OP_FLAGS definition
+> - Fix the uAPI doc
+> - Fix inverted logic in some comment
 > 
-> Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
+> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
 Reviewed-by: Steven Price <steven.price@arm.com>
 
 > ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 41 ++++++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_gem.c | 21 +++++++++++
->  drivers/gpu/drm/panthor/panthor_gem.h |  2 ++
->  include/uapi/drm/panthor_drm.h        | 52 +++++++++++++++++++++++++++
->  4 files changed, 115 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/panthor/panthor_drv.c   |  7 ++++-
+>  drivers/gpu/drm/panthor/panthor_gem.c   | 37 +++++++++++++++++++++++--
+>  drivers/gpu/drm/panthor/panthor_sched.c | 18 ++++++++++--
+>  include/uapi/drm/panthor_drm.h          |  9 ++++++
+>  4 files changed, 66 insertions(+), 5 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index cf2cf09335a4..7aba9e5d2579 100644
+> index 5df874538e88..662be9649f92 100644
 > --- a/drivers/gpu/drm/panthor/panthor_drv.c
 > +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -177,7 +177,8 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
-> -		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs))
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_bo_sync_op, size))
->  
->  /**
->   * PANTHOR_UOBJ_SET() - Copy a kernel object to a user object.
-> @@ -1396,6 +1397,43 @@ static int panthor_ioctl_set_user_mmio_offset(struct drm_device *ddev,
->  	return 0;
+> @@ -902,7 +902,8 @@ static int panthor_ioctl_vm_destroy(struct drm_device *ddev, void *data,
+>  	return panthor_vm_pool_destroy_vm(pfile->vms, args->id);
 >  }
 >  
-> +static int panthor_ioctl_bo_sync(struct drm_device *ddev, void *data,
-> +				 struct drm_file *file)
-> +{
-> +	struct drm_panthor_bo_sync *args = data;
-> +	struct drm_panthor_bo_sync_op *ops;
-> +	struct drm_gem_object *obj;
-> +	int ret;
-> +
-> +	if (!args->ops.count)
-> +		return 0;
-> +
-> +	ret = PANTHOR_UOBJ_GET_ARRAY(ops, &args->ops);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (u32 i = 0; i < args->ops.count; i++) {
-> +		obj = drm_gem_object_lookup(file, ops[i].handle);
-> +		if (!obj) {
-> +			ret = -ENOENT;
-> +			goto err_ops;
-> +		}
-> +
-> +		ret = panthor_gem_sync(obj, ops[i].type, ops[i].offset,
-> +				       ops[i].size);
-> +
-> +		drm_gem_object_put(obj);
-> +
-> +		if (ret)
-> +			goto err_ops;
-> +	}
-> +
-> +err_ops:
-> +	kvfree(ops);
-> +
-> +	return ret;
-> +}
-> +
->  static int
->  panthor_open(struct drm_device *ddev, struct drm_file *file)
->  {
-> @@ -1470,6 +1508,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
->  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
->  	PANTHOR_IOCTL(BO_SET_LABEL, bo_set_label, DRM_RENDER_ALLOW),
->  	PANTHOR_IOCTL(SET_USER_MMIO_OFFSET, set_user_mmio_offset, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(BO_SYNC, bo_sync, DRM_RENDER_ALLOW),
->  };
+> -#define PANTHOR_BO_FLAGS		DRM_PANTHOR_BO_NO_MMAP
+> +#define PANTHOR_BO_FLAGS		(DRM_PANTHOR_BO_NO_MMAP | \
+> +					 DRM_PANTHOR_BO_WB_MMAP)
 >  
->  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
+>  static int panthor_ioctl_bo_create(struct drm_device *ddev, void *data,
+>  				   struct drm_file *file)
+> @@ -921,6 +922,10 @@ static int panthor_ioctl_bo_create(struct drm_device *ddev, void *data,
+>  		goto out_dev_exit;
+>  	}
+>  
+> +	if ((args->flags & DRM_PANTHOR_BO_NO_MMAP) &&
+> +	    (args->flags & DRM_PANTHOR_BO_WB_MMAP))
+> +		return -EINVAL;
+> +
+>  	if (args->exclusive_vm_id) {
+>  		vm = panthor_vm_pool_get_vm(pfile->vms, args->exclusive_vm_id);
+>  		if (!vm) {
 > diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index 3100a895513e..1a3c1afaf88d 100644
+> index 1a3c1afaf88d..21d7a4bb2af5 100644
 > --- a/drivers/gpu/drm/panthor/panthor_gem.c
 > +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -344,6 +344,27 @@ panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
->  	panthor_gem_bo_set_label(bo->obj, str);
->  }
+> @@ -59,6 +59,39 @@ static void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u
+>  static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo) {}
+>  #endif
 >  
-> +int
-> +panthor_gem_sync(struct drm_gem_object *obj, u32 type,
-> +		 u64 offset, u64 size)
+> +static bool
+> +should_map_wc(struct panthor_gem_object *bo, struct panthor_vm *exclusive_vm)
 > +{
-> +	enum drm_gem_shmem_sync_type shmem_sync_type;
-> +	struct panthor_gem_object *bo = to_panthor_bo(obj);
+> +	struct panthor_device *ptdev = container_of(bo->base.base.dev, struct panthor_device, base);
 > +
-> +	switch (type) {
-> +	case DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH:
-> +		shmem_sync_type = DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH;
-> +		break;
-> +	case DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE:
-> +		shmem_sync_type = DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
+> +	/* We can't do uncached mappings if the device is coherent,
+> +	 * because the zeroing done by the shmem layer at page allocation
+> +	 * time happens on a cached mapping which isn't CPU-flushed (at least
+> +	 * not on Arm64 where the flush is deferred to PTE setup time, and
+> +	 * only done conditionally based on the mapping permissions). We can't
+> +	 * rely on dma_map_sgtable()/dma_sync_sgtable_for_xxx() either to flush
+> +	 * those, because they are NOPed if dma_dev_coherent() returns true.
+> +	 *
+> +	 * FIXME: Note that this problem is going to pop up again when we
+> +	 * decide to support mapping buffers with the NO_MMAP flag as
+> +	 * non-shareable (AKA buffers accessed only by the GPU), because we
+> +	 * need the same CPU flush to happen after page allocation, otherwise
+> +	 * there's a risk of data leak or late corruption caused by a dirty
+> +	 * cacheline being evicted. At this point we'll need a way to force
+> +	 * CPU cache maintenance regardless of whether the device is coherent
+> +	 * or not.
+> +	 */
+> +	if (ptdev->coherent)
+> +		return false;
 > +
-> +	return drm_gem_shmem_sync(&bo->base, offset, size, shmem_sync_type);
+> +	/* Cached mappings are explicitly requested, so no write-combine. */
+> +	if (bo->flags & DRM_PANTHOR_BO_WB_MMAP)
+> +		return false;
+> +
+> +	/* The default is write-combine. */
+> +	return true;
 > +}
 > +
->  #ifdef CONFIG_DEBUG_FS
->  struct gem_size_totals {
->  	size_t size;
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> index 27e565650374..1d9733373d74 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -146,6 +146,8 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>  static void panthor_gem_free_object(struct drm_gem_object *obj)
+>  {
+>  	struct panthor_gem_object *bo = to_panthor_bo(obj);
+> @@ -145,6 +178,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>  	bo = to_panthor_bo(&obj->base);
+>  	kbo->obj = &obj->base;
+>  	bo->flags = bo_flags;
+> +	bo->base.map_wc = should_map_wc(bo, vm);
+>  	bo->exclusive_vm_root_gem = panthor_vm_root_gem(vm);
+>  	drm_gem_object_get(bo->exclusive_vm_root_gem);
+>  	bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
+> @@ -242,7 +276,6 @@ static const struct drm_gem_object_funcs panthor_gem_funcs = {
+>   */
+>  struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size)
+>  {
+> -	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
+>  	struct panthor_gem_object *obj;
 >  
->  void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
->  void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
-> +int panthor_gem_sync(struct drm_gem_object *obj,
-> +		     u32 type, u64 offset, u64 size);
+>  	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
+> @@ -250,7 +283,6 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
+>  		return ERR_PTR(-ENOMEM);
 >  
->  extern const struct dma_buf_ops panthor_dma_buf_ops;
+>  	obj->base.base.funcs = &panthor_gem_funcs;
+> -	obj->base.map_wc = !ptdev->coherent;
+>  	mutex_init(&obj->label.lock);
 >  
+>  	panthor_gem_debugfs_bo_init(obj);
+> @@ -285,6 +317,7 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>  
+>  	bo = to_panthor_bo(&shmem->base);
+>  	bo->flags = flags;
+> +	bo->base.map_wc = should_map_wc(bo, exclusive_vm);
+>  
+>  	if (exclusive_vm) {
+>  		bo->exclusive_vm_root_gem = panthor_vm_root_gem(exclusive_vm);
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index b834123a6560..45843fb4d5ca 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -872,8 +872,11 @@ panthor_queue_get_syncwait_obj(struct panthor_group *group, struct panthor_queue
+>  	struct iosys_map map;
+>  	int ret;
+>  
+> -	if (queue->syncwait.kmap)
+> -		return queue->syncwait.kmap + queue->syncwait.offset;
+> +	if (queue->syncwait.kmap) {
+> +		bo = container_of(queue->syncwait.obj,
+> +				  struct panthor_gem_object, base.base);
+> +		goto out_sync;
+> +	}
+>  
+>  	bo = panthor_vm_get_bo_for_va(group->vm,
+>  				      queue->syncwait.gpu_va,
+> @@ -890,6 +893,17 @@ panthor_queue_get_syncwait_obj(struct panthor_group *group, struct panthor_queue
+>  	if (drm_WARN_ON(&ptdev->base, !queue->syncwait.kmap))
+>  		goto err_put_syncwait_obj;
+>  
+> +out_sync:
+> +	/* Make sure the CPU caches are invalidated before the seqno is read.
+> +	 * drm_gem_shmem_sync() is a NOP if map_wc=true, so no need to check
+> +	 * it here.
+> +	 */
+> +	drm_gem_shmem_sync(&bo->base, queue->syncwait.offset,
+> +			   queue->syncwait.sync64 ?
+> +				   sizeof(struct panthor_syncobj_64b) :
+> +				   sizeof(struct panthor_syncobj_32b),
+> +			   DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE);
+> +
+>  	return queue->syncwait.kmap + queue->syncwait.offset;
+>  
+>  err_put_syncwait_obj:
 > diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index f0f637e0631d..bb12760abe99 100644
+> index 7eec9f922183..20c6707e0f6e 100644
 > --- a/include/uapi/drm/panthor_drm.h
 > +++ b/include/uapi/drm/panthor_drm.h
-> @@ -144,6 +144,9 @@ enum drm_panthor_ioctl_id {
->  	 * pgoff_t size.
->  	 */
->  	DRM_PANTHOR_SET_USER_MMIO_OFFSET,
+> @@ -681,6 +681,15 @@ struct drm_panthor_vm_get_state {
+>  enum drm_panthor_bo_flags {
+>  	/** @DRM_PANTHOR_BO_NO_MMAP: The buffer object will never be CPU-mapped in userspace. */
+>  	DRM_PANTHOR_BO_NO_MMAP = (1 << 0),
 > +
-> +	/** @DRM_PANTHOR_BO_SYNC: Sync BO data to/from the device */
-> +	DRM_PANTHOR_BO_SYNC,
+> +	/**
+> +	 * @DRM_PANTHOR_BO_WB_MMAP: Force "Write-Back Cacheable" CPU mapping.
+> +	 *
+> +	 * CPU map the buffer object in userspace by forcing the "Write-Back
+> +	 * Cacheable" cacheability attribute. The mapping otherwise uses the
+> +	 * "Non-Cacheable" attribute if the GPU is not IO coherent.
+> +	 */
+> +	DRM_PANTHOR_BO_WB_MMAP = (1 << 1),
 >  };
 >  
 >  /**
-> @@ -1073,6 +1076,53 @@ struct drm_panthor_set_user_mmio_offset {
->  	__u64 offset;
->  };
->  
-> +/**
-> + * enum drm_panthor_bo_sync_op_type - BO sync type
-> + */
-> +enum drm_panthor_bo_sync_op_type {
-> +	/** @DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH: Flush CPU caches. */
-> +	DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH = 0,
-> +
-> +	/** @DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE: Flush and invalidate CPU caches. */
-> +	DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE = 1,
-> +};
-> +
-> +/**
-> + * struct drm_panthor_bo_sync_op - BO map sync op
-> + */
-> +struct drm_panthor_bo_sync_op {
-> +	/** @handle: Handle of the buffer object to sync. */
-> +	__u32 handle;
-> +
-> +	/** @type: Type of operation. */
-> +	__u32 type;
-> +
-> +	/**
-> +	 * @offset: Offset into the BO at which the sync range starts.
-> +	 *
-> +	 * This will be rounded down to the nearest cache line as needed.
-> +	 */
-> +	__u64 offset;
-> +
-> +	/**
-> +	 * @size: Size of the range to sync
-> +	 *
-> +	 * @size + @offset will be rounded up to the nearest cache line as
-> +	 * needed.
-> +	 */
-> +	__u64 size;
-> +};
-> +
-> +/**
-> + * struct drm_panthor_bo_sync - BO map sync request
-> + */
-> +struct drm_panthor_bo_sync {
-> +	/**
-> +	 * @ops: Array of struct drm_panthor_bo_sync_op sync operations.
-> +	 */
-> +	struct drm_panthor_obj_array ops;
-> +};
-> +
->  /**
->   * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
->   * @__access: Access type. Must be R, W or RW.
-> @@ -1119,6 +1169,8 @@ enum {
->  		DRM_IOCTL_PANTHOR(WR, BO_SET_LABEL, bo_set_label),
->  	DRM_IOCTL_PANTHOR_SET_USER_MMIO_OFFSET =
->  		DRM_IOCTL_PANTHOR(WR, SET_USER_MMIO_OFFSET, set_user_mmio_offset),
-> +	DRM_IOCTL_PANTHOR_BO_SYNC =
-> +		DRM_IOCTL_PANTHOR(WR, BO_SYNC, bo_sync),
->  };
->  
->  #if defined(__cplusplus)
 
