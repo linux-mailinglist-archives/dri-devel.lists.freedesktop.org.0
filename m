@@ -2,54 +2,186 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB67C8B0A0
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 17:47:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E953AC8B0C1
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 17:48:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 694F210E684;
-	Wed, 26 Nov 2025 16:47:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C2AE10E693;
+	Wed, 26 Nov 2025 16:48:44 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VT5/RKJr";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id B5A8C10E2BD;
- Wed, 26 Nov 2025 16:47:17 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CA52D168F;
- Wed, 26 Nov 2025 08:47:09 -0800 (PST)
-Received: from [10.1.30.35] (e122027.cambridge.arm.com [10.1.30.35])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 131C93F73B;
- Wed, 26 Nov 2025 08:47:11 -0800 (PST)
-Message-ID: <3980ca36-787e-4ea3-96a2-9c5df2a48e95@arm.com>
-Date: Wed, 26 Nov 2025 16:47:09 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8BD610E662;
+ Wed, 26 Nov 2025 16:48:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764175722; x=1795711722;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=YfjJCs4z7Xh4N0qCO136wilFLY7XT5d3wac5WutMQuM=;
+ b=VT5/RKJrl1Qzz9wIhjCovjT3ToPg4QdNN6HbRLL+bx62pk+/WwfFoDMg
+ RWhm5xpqsW4YccCOdnfB+Bd8mGou4FYz3j2qQCfIepjGPU5OfUdngtNNp
+ SJo5hJDE6p9bBUrn5IRObzzM0lGTcdJ69lMM3Zkp+2E/jia/DGwMlFUnE
+ rENl2jrPO2SKukZCT4jWvR+StMjaPoAkJvwAU3oy9qlQcM9zqAGmhrqFj
+ gw/iPb7liO3CzgVRayClDcOqEGv03L6OA6syh2HfiwfA7VqdhTfm0lr6I
+ MAZL+vzcy7ajIOCU0YJis7BtAG6mCnTGRLkSXq1PbuH9i2sWNyDR7NN4F Q==;
+X-CSE-ConnectionGUID: xLK4RkwgQ26Jbqvf6sw8FA==
+X-CSE-MsgGUID: 45TT6cGFS9W+sisQlGQvUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="77692114"
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="77692114"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 08:48:41 -0800
+X-CSE-ConnectionGUID: IXBH7IcAQpeX/o3mXvPheg==
+X-CSE-MsgGUID: EIZwJ7DWQyWoF1ZinUH3xw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="192874509"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 08:48:40 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Wed, 26 Nov 2025 08:48:39 -0800
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Wed, 26 Nov 2025 08:48:39 -0800
+Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.57) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Wed, 26 Nov 2025 08:48:38 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pvMl4YgO//tdhDRAmgFnKFTuHAksHdlYJGByGtdn8qQ//LuBw5ofHZ/itiXKrAEwn2e8k/AiH/4K0PRuPK2fJUhWaZUzWGSWHZ04dE0LQzRtI+m62MPWaDeEH/9EEjBWrdJK10Azz3wctHIrHNxknFHYVOtQ/5XNm7aUsjW/OLebnTWEgDFMsRWtYsAGe0YBpKfBqa2GyGuyM5U3ygTXKgH4r1jAIKhW7KtKTnG6b39Ooww3jGTw/XMFrv+zUMiaUM4bJWGQ/0NLjXeB17Nj4ACk+Rr/B3OjEkVWC8W8TXY/rMUFfWOXGKi9nNp+6K1sz4EQJUq5fc1eQsH66pRSIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C8mXEJXRTrc/AkwhJ4Ibj6kFSYhtiMKB59stjIohEck=;
+ b=hIy/HN8XEy6G6isVPiOOChYAoJBDmJWV+aGJRTGlwFt9pVsDrS0TH2FhEd8DWqJWHfuNppcPzC90aPJ9yOD7th61w9VDPL92Nx1M2lSIRxzJCM4Q9WHlZEoa04lUVtA+n/EAop6dWV3HbC8a1mBTK0ncWo6ZiA0+TTMNReXO1IyqTRSgHWckEcLjnXPcN6d9UVyJk7sQCv19D2JLJCNZJYQLVtqGdHYilK/iTXxJyt7b6VYzV6W+ZkNe/cedbinytxpqbc0xaIyxOYRQd/9IvreZ60ch80q4kiWrb2LhlG9es/SvAQBg2SYu7l7cl/JUG1CFX0Niv6bev+gx2gvFog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by SA2PR11MB5115.namprd11.prod.outlook.com (2603:10b6:806:118::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.13; Wed, 26 Nov
+ 2025 16:48:37 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9366.009; Wed, 26 Nov 2025
+ 16:48:37 +0000
+Date: Wed, 26 Nov 2025 08:48:33 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Philipp Stanner <phasta@kernel.org>
+CC: Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>, "Alex
+ Deucher" <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
+ <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+ <linux-kernel@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH 3/6] drm/gpu/xe: Ignore dma_fenc_signal() return code
+Message-ID: <aScvYd0zEXpn87S/@lstrano-desk.jf.intel.com>
+References: <20251126131914.149445-2-phasta@kernel.org>
+ <20251126131914.149445-5-phasta@kernel.org>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251126131914.149445-5-phasta@kernel.org>
+X-ClientProxiedBy: MW4PR04CA0284.namprd04.prod.outlook.com
+ (2603:10b6:303:89::19) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 13/16] drm/panfrost: Add a PANFROST_SYNC_BO ioctl
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Frank Binns <frank.binns@imgtec.com>,
- Matt Coster <matt.coster@imgtec.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, kernel@collabora.com
-References: <20251126124455.3656651-1-boris.brezillon@collabora.com>
- <20251126124455.3656651-14-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251126124455.3656651-14-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|SA2PR11MB5115:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3b9df1f9-58ac-472c-2949-08de2d0ba4f7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|1800799024|376014|7416014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?KJBh8C8cn6bNhey7ogNXkj0F7ni0x3FotbPluzE4Ul4MFQZXj+knUUDLnu?=
+ =?iso-8859-1?Q?wGn5M5v5ENn7lthW7j2FMeYcgficf7ZwHg+3Ot/TAheBk6fInU08J3kVCr?=
+ =?iso-8859-1?Q?iHt8zeYIqXHkD/oVtUrt9cyr1VRpzCxcr1Mc65ztTBg2RXT8Y+PGZLPeiP?=
+ =?iso-8859-1?Q?GzC8Wl9PjJrVJQ7blIKTg6LLfjS5iKyccyqYH5EU3fY5iJapTQTaOylP0b?=
+ =?iso-8859-1?Q?+z7bhNipV99GCGwEihovdVcDPQSGw/BQyZt+iCPa4cnd2SkRp92XNYQ1qC?=
+ =?iso-8859-1?Q?Kx1Ng6CDyziBdpBT4IfjC/QAucdnxyFEkM30MIn0ZljRaQtO2awbNSiFYL?=
+ =?iso-8859-1?Q?gt5djsURc6/KhSjufbgt5QYebx3Zd/kXPscDpXZLw22C3KtDSviQthEBId?=
+ =?iso-8859-1?Q?dGWLSKszBSdUi6AwxUWuaJ67sQe91vYb2E97eYYKRQw3lCrZ99LvHEshxn?=
+ =?iso-8859-1?Q?OwktF4RktwG2av+Ty14HMJBRrUnqjM0BE/M6+6zya/NaYaahyNQ6iV9BGg?=
+ =?iso-8859-1?Q?MmVlMmkvjDGZuoXq5VBr9Xj7lqIAbYQxDYZv28g3/Amfq44stCuR2Bl68a?=
+ =?iso-8859-1?Q?ajqyYRdpGp/M469iWbOp8YIloLepx/D3Z6tmyyLd0ZzdY7hBn5VyNVYSCW?=
+ =?iso-8859-1?Q?sHXliur4KqKvZl/iRqfRFgcbOz3b/knBvxPAkeaUn62I7iXwD4tkph02HZ?=
+ =?iso-8859-1?Q?vZ7eiETGMTHAfPG368lUCeyo3Je2vqQzYbbSPmM90NYCm3tT/T/NH7z3Kc?=
+ =?iso-8859-1?Q?PSfdWIE9p4EoKxhBcQpsPvQxswXUNlMXj3U/WP1tomp/lRv1D79BGuGZaI?=
+ =?iso-8859-1?Q?aLL1iUCR8FmD79Rv6qkbIIjamt0pEvOZ8xKigwkJvAyQD3jhpjp+X+29UN?=
+ =?iso-8859-1?Q?k3IFzUeQ+iO30qMdn0sE7/lll+oX/tKMony6OSd5k61JhB+AsVcawUwxrA?=
+ =?iso-8859-1?Q?JCpjwG+dMW1Ot1DYkyKQea4P63xj5ou6wsyNHVVtSAp2dRvgH7b/YSVjy3?=
+ =?iso-8859-1?Q?2IFmMsfuxbM7/idMkp+sGMY32FWvqMCX4kqazN7l8UPwbzscrjcs/0CcBv?=
+ =?iso-8859-1?Q?X5pOqGf13OYrO+Wn3GfJR3Qe1GOVbogFj29NKLn9yVkHMAmrpGjM0jqC2u?=
+ =?iso-8859-1?Q?NlGfOE05X+yhKQMRu5A2mMAtTsf6O+sfovtpXSRFjJIXM3U2aXOF5UHDQ/?=
+ =?iso-8859-1?Q?5tXZjUMAfwd127O88U6ldWcweJaADEzLWVxo4Mo/eWdZU4hSzcDDgDjwyY?=
+ =?iso-8859-1?Q?ps+zzfMESM1mh4XIH7/vMwEdagCZwGUzsq6OPcUFCxfBqEtn1nwmJhdC9R?=
+ =?iso-8859-1?Q?VjSu/f9yUTiDjIShcSWJKAWXaLwVpcefaNwEudCKumRlCLhqJZW+LcFZTh?=
+ =?iso-8859-1?Q?AExyKYALEtykCp0mk+4HFp8H80X5UIMeLJ2isLQK7U3oZeItrybFT+7Huj?=
+ =?iso-8859-1?Q?TIH4gwAv2mh8140wx82ydHN6Rp620QY6usoYzPJEwwVWPbaBlZ2O7hnug5?=
+ =?iso-8859-1?Q?DPXTy4ow+Ff7PrAVFb3z/b?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?SDCRUIYe+wkJin6G5KLVyDcrg7Dyv9vXrxoFAoslGdIaq92fgxbFkWuqgN?=
+ =?iso-8859-1?Q?vNqM3cAiOTRKod8ndiTYeTQLJeZ5SMBdl55SsBm4FSotpzW+LK2Q5iLnHd?=
+ =?iso-8859-1?Q?NBHGkRGzvRrvB9YWs0C3wIYp+bc7F8rJcbxwPRo/qXRajKLMJNG5iICM+F?=
+ =?iso-8859-1?Q?uYOJnUZxc3ZUEBl0YDa71nWuCXAWw4hW3dhhf6yYxOwkdGxGql+wjKONwB?=
+ =?iso-8859-1?Q?vSXN2bq+dUpa7IP+UaT8YbRXZGJxtZ0FEzObG8JlrsrNkMgJY2B5QHHJt6?=
+ =?iso-8859-1?Q?jX56m9pLIMgtatzhN118pPYtsPyRulkXwnufrokSV7Ju5gORnNdSpF+a3G?=
+ =?iso-8859-1?Q?m9LkBRqizUC/b1rFcPu4tEF+27D+18IyRPd3Cl93rQ1Co6aWBXVwXMyTb2?=
+ =?iso-8859-1?Q?j5ohfMQLkaADhAY+7bBtjiCmhc+Zor3VoX8pORfYnb3YjB0LsFbzRSuZlZ?=
+ =?iso-8859-1?Q?6+T3NRi27UW8UIevMcATO1hbJujlMwwwOQKqOsbvMcvjQVLNG5f8ce8QEL?=
+ =?iso-8859-1?Q?sB2Z7cZrQjtTv6QVvSMNe554chU5ycTX3QhfULeJcVvi3LUUXZ8JvN5iRF?=
+ =?iso-8859-1?Q?U/1v+0dRA0R8YAvOxP+6rOdxNmhB1swk1c/QKKeDZmHFEkkmE6O7P9qq5D?=
+ =?iso-8859-1?Q?SMzbTZiKKAcc2gqB0pZCzkqAe3iRRScNA6iyOeILjp9vOsp4pAyCqCo+7U?=
+ =?iso-8859-1?Q?okw/VbQgACWDlFULPMbj34Ebt6YZjE7rE78g3oldEkD+GTYMdDVDOttDJz?=
+ =?iso-8859-1?Q?fHifGsV2y3XzrWiSTcy7JbyAd43SLHbYi76mmAxkv8+B9Um5d29PjGXm/c?=
+ =?iso-8859-1?Q?UfSFVNcwvQaxAc1cWFSditFsWhcRVZllma1tupOKsduq5rJggP7Ja7TS3n?=
+ =?iso-8859-1?Q?q2NbVnEyOnOCQtvm9+TpAEdb3cFR2bu3RenqUSyVzcnzT7negmSOkgc2Um?=
+ =?iso-8859-1?Q?UJvPw9zdJNsS2mzuTJzoS/rxXvjav13I061BGOBdTIR2wnvWGiDb5//tJf?=
+ =?iso-8859-1?Q?f8zIcCuhqpJpyA5beyydP2Z0apTnDgZS1jcAMoRJz/SkQHIlnekvsFwROK?=
+ =?iso-8859-1?Q?jl9EUzrs7OnubP+G/kdl3baVzjbtiU2zFWz5Yre2bMsM/bnvxByjvCdALR?=
+ =?iso-8859-1?Q?go4zO1IjgLAMM4OKZq3Dk5NcnndUbnTUstm3mAMA+MoxT8U+hCKTgwm9S7?=
+ =?iso-8859-1?Q?lU8oecF99rkB0muSAkl38B0VZisIFpgMkACUVIbSnKKll/6DnCFtVn8q1M?=
+ =?iso-8859-1?Q?MRvGKbq7rlY/yiXUCCsNsDPEg2SEQ6BAdZp1a8W1k8c6LXqqOeseEpwbP8?=
+ =?iso-8859-1?Q?JtGZiH0m+JJMk+/4d025w4cLtX5lfk9b1JM8qFooCRC0UCsweD+8EX0EgK?=
+ =?iso-8859-1?Q?YZayAXFWh3ew7fsNuIpABwAePA80xlHRITZ6crMstxOEuCrR+VD9Lqi5ud?=
+ =?iso-8859-1?Q?+d5hb6a91uPYjR9hs2S56Agj73Bsv4lI0SKXj6GYiLMOiviPInuej5XuxZ?=
+ =?iso-8859-1?Q?+DY+U2eyXt16j+T6SwO3sD8EDBfOXNsWtEs+dN4yU03vpeJ1nTvNsZwlGW?=
+ =?iso-8859-1?Q?Ey3sFMii8tBnLabRyGtI4lleXnp4UwzZqXlNbvZtm+8z1a9dqq2eT5jge8?=
+ =?iso-8859-1?Q?wxpJwF8+R45R9Vkg0pf/mBY2ErkSazZFrA7afYWU5RSG7eWu54kIWM1w?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b9df1f9-58ac-472c-2949-08de2d0ba4f7
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 16:48:36.9850 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QneGtOH5yjZg8q/aPgK2SX65ZGqiRpxD/7vmF1yR4BOaCAXQApJcWREQytsMYuvqlQuVXfBeE+Q9KKcn/rWIFg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5115
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,231 +197,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/11/2025 12:44, Boris Brezillon wrote:
-> From: Faith Ekstrand <faith.ekstrand@collabora.com>
+On Wed, Nov 26, 2025 at 02:19:12PM +0100, Philipp Stanner wrote:
+> The return code of dma_fence_signal() is not really useful as there is
+> nothing reasonable to do if a fence was already signaled. That return
+> code shall be removed from the kernel.
 > 
-> This will be used by the UMD to synchronize CPU-cached mappings when
-> the UMD can't do it directly (no usermode cache maintenance instruction
-> on Arm32).
+> Ignore dma_fence_signal()'s return code.
 > 
-> v2:
-> - Add more to the commit message
-> - Change the flags to better match the drm_gem_shmem_sync semantics
-> 
-> v3:
-> - Add Steve's R-b
-> 
-> v4:
-> - No changes
-> 
-> v5:
-> - Drop Steve's R-b (semantics changes requiring a new review)
-> 
-> v6:
-> - Bail out early in panfrost_ioctl_sync_bo() if op_count is zero
-> 
-> Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
+> Suggested-by: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
 > ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 51 +++++++++++++++++++++++++
->  drivers/gpu/drm/panfrost/panfrost_gem.c | 21 ++++++++++
->  drivers/gpu/drm/panfrost/panfrost_gem.h |  2 +
->  include/uapi/drm/panfrost_drm.h         | 45 ++++++++++++++++++++++
->  4 files changed, 119 insertions(+)
+>  drivers/gpu/drm/xe/xe_hw_fence.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 54ac9d2ececf..85ae2eefca04 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -580,6 +580,56 @@ static int panfrost_ioctl_jm_ctx_destroy(struct drm_device *dev, void *data,
->  	return panfrost_jm_ctx_destroy(file, args->handle);
->  }
->  
-> +static int panfrost_ioctl_sync_bo(struct drm_device *ddev, void *data,
-> +				  struct drm_file *file)
-> +{
-> +	struct drm_panfrost_sync_bo *args = data;
-> +	struct drm_panfrost_bo_sync_op *ops;
-> +	struct drm_gem_object *obj;
-> +	int ret;
-> +	u32 i;
-> +
-> +	if (args->pad)
-> +		return -EINVAL;
-> +
-> +	if (!args->op_count)
-> +		return 0;
-> +
-> +	ops = kvmalloc_array(args->op_count, sizeof(*ops), GFP_KERNEL);
-> +	if (!ops) {
-> +		DRM_DEBUG("Failed to allocate incoming BO sync ops array\n");
-> +		return -ENOMEM;
-> +	}
-> +
-> +	if (copy_from_user(ops, (void __user *)(uintptr_t)args->ops,
-> +			   args->op_count * sizeof(*ops))) {
-> +		DRM_DEBUG("Failed to copy in BO sync ops\n");
-> +		ret = -EFAULT;
-> +		goto err_ops;
-> +	}
-
-NIT: there's a helper vmemdup_array_user() which does this, but we do
-already have similar code in panfrost_copy_in_sync(), so it's fine by me
-whichever way.
-
-Thanks,
-Steve
-
-> +
-> +	for (i = 0; i < args->op_count; i++) {
-> +		obj = drm_gem_object_lookup(file, ops[i].handle);
-> +		if (!obj) {
-> +			ret = -ENOENT;
-> +			goto err_ops;
-> +		}
-> +
-> +		ret = panfrost_gem_sync(obj, ops[i].type,
-> +					ops[i].offset, ops[i].size);
-> +
-> +		drm_gem_object_put(obj);
-> +
-> +		if (ret)
-> +			goto err_ops;
-> +	}
-> +
-> +err_ops:
-> +	kvfree(ops);
-> +
-> +	return ret;
-> +}
-> +
->  int panfrost_unstable_ioctl_check(void)
+> diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
+> index b2a0c46dfcd4..959b30dde724 100644
+> --- a/drivers/gpu/drm/xe/xe_hw_fence.c
+> +++ b/drivers/gpu/drm/xe/xe_hw_fence.c
+> @@ -85,7 +85,6 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
 >  {
->  	if (!unstable_ioctls)
-> @@ -649,6 +699,7 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
->  	PANFROST_IOCTL(SET_LABEL_BO,	set_label_bo,	DRM_RENDER_ALLOW),
->  	PANFROST_IOCTL(JM_CTX_CREATE,	jm_ctx_create,	DRM_RENDER_ALLOW),
->  	PANFROST_IOCTL(JM_CTX_DESTROY,	jm_ctx_destroy,	DRM_RENDER_ALLOW),
-> +	PANFROST_IOCTL(SYNC_BO,		sync_bo,	DRM_RENDER_ALLOW),
->  };
+>  	struct xe_hw_fence *fence, *next;
+>  	unsigned long flags;
+> -	int err;
+>  	bool tmp;
 >  
->  static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index 292f3ce6287f..ca884bf216d6 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -379,6 +379,27 @@ panfrost_gem_set_label(struct drm_gem_object *obj, const char *label)
->  	kfree_const(old_label);
->  }
->  
-> +int
-> +panfrost_gem_sync(struct drm_gem_object *obj, u32 type,
-> +		  u32 offset, u32 size)
-> +{
-> +	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
-> +	enum drm_gem_shmem_sync_type shmem_sync_type;
-> +
-> +	switch (type) {
-> +	case PANFROST_BO_SYNC_CPU_CACHE_FLUSH:
-> +		shmem_sync_type = DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH;
-> +		break;
-> +	case PANFROST_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE:
-> +		shmem_sync_type = DRM_GEM_SHMEM_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return drm_gem_shmem_sync(&bo->base, offset, size, shmem_sync_type);
-> +}
-> +
->  void
->  panfrost_gem_internal_set_label(struct drm_gem_object *obj, const char *label)
->  {
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> index 9ad35e2d99fc..30438ad335de 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> @@ -150,6 +150,8 @@ int panfrost_gem_shrinker_init(struct drm_device *dev);
->  void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
->  
->  void panfrost_gem_set_label(struct drm_gem_object *obj, const char *label);
-> +int panfrost_gem_sync(struct drm_gem_object *obj, u32 type,
-> +		      u32 offset, u32 size);
->  void panfrost_gem_internal_set_label(struct drm_gem_object *obj, const char *label);
->  
->  #ifdef CONFIG_DEBUG_FS
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index 0c59714ae42b..e194e087a0c8 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -24,6 +24,7 @@ extern "C" {
->  #define DRM_PANFROST_SET_LABEL_BO		0x09
->  #define DRM_PANFROST_JM_CTX_CREATE		0x0a
->  #define DRM_PANFROST_JM_CTX_DESTROY		0x0b
-> +#define DRM_PANFROST_SYNC_BO			0x0c
->  
->  #define DRM_IOCTL_PANFROST_SUBMIT		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_SUBMIT, struct drm_panfrost_submit)
->  #define DRM_IOCTL_PANFROST_WAIT_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_WAIT_BO, struct drm_panfrost_wait_bo)
-> @@ -35,6 +36,7 @@ extern "C" {
->  #define DRM_IOCTL_PANFROST_SET_LABEL_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_SET_LABEL_BO, struct drm_panfrost_set_label_bo)
->  #define DRM_IOCTL_PANFROST_JM_CTX_CREATE	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_JM_CTX_CREATE, struct drm_panfrost_jm_ctx_create)
->  #define DRM_IOCTL_PANFROST_JM_CTX_DESTROY	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_JM_CTX_DESTROY, struct drm_panfrost_jm_ctx_destroy)
-> +#define DRM_IOCTL_PANFROST_SYNC_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_SYNC_BO, struct drm_panfrost_sync_bo)
->  
->  /*
->   * Unstable ioctl(s): only exposed when the unsafe unstable_ioctls module
-> @@ -308,6 +310,49 @@ struct drm_panfrost_set_label_bo {
->  	__u64 label;
->  };
->  
-> +/* Valid flags to pass to drm_panfrost_bo_sync_op */
-> +#define PANFROST_BO_SYNC_CPU_CACHE_FLUSH			0
-> +#define PANFROST_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE		1
-> +
-> +/**
-> + * struct drm_panthor_bo_flush_map_op - BO map sync op
-> + */
-> +struct drm_panfrost_bo_sync_op {
-> +	/** @handle: Handle of the buffer object to sync. */
-> +	__u32 handle;
-> +
-> +	/** @type: Type of sync operation. */
-> +	__u32 type;
-> +
-> +	/**
-> +	 * @offset: Offset into the BO at which the sync range starts.
-> +	 *
-> +	 * This will be rounded down to the nearest cache line as needed.
-> +	 */
-> +	__u32 offset;
-> +
-> +	/**
-> +	 * @size: Size of the range to sync
-> +	 *
-> +	 * @size + @offset will be rounded up to the nearest cache line as
-> +	 * needed.
-> +	 */
-> +	__u32 size;
-> +};
-> +
-> +/**
-> + * struct drm_panfrost_sync_bo - ioctl argument for syncing BO maps
-> + */
-> +struct drm_panfrost_sync_bo {
-> +	/** Array of struct drm_panfrost_bo_sync_op */
-> +	__u64 ops;
-> +
-> +	/** Number of BO sync ops */
-> +	__u32 op_count;
-> +
-> +	__u32 pad;
-> +};
-> +
->  /* Definitions for coredump decoding in user space */
->  #define PANFROSTDUMP_MAJOR 1
->  #define PANFROSTDUMP_MINOR 0
+>  	if (XE_WARN_ON(!list_empty(&irq->pending))) {
+> @@ -93,9 +92,9 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
+>  		spin_lock_irqsave(&irq->lock, flags);
+>  		list_for_each_entry_safe(fence, next, &irq->pending, irq_link) {
+>  			list_del_init(&fence->irq_link);
+> -			err = dma_fence_signal_locked(&fence->dma);
+> +			XE_WARN_ON(dma_fence_test_signaled_flag(&fence->dma));
+> +			dma_fence_signal_locked(&fence->dma);
 
+If you also want fix Xe to use dma_fence_test_signaled_flag in all
+places where we manually check DMA_FENCE_FLAG_SIGNALED_BIT, I'm not
+going to complain. Ofc I can also do this in follow if patch when patch
+#1 merges too.
+
+Anyways this patch LGTM:
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+
+>  			dma_fence_put(&fence->dma);
+> -			XE_WARN_ON(err);
+>  		}
+>  		spin_unlock_irqrestore(&irq->lock, flags);
+>  		dma_fence_end_signalling(tmp);
+> -- 
+> 2.49.0
+> 
