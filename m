@@ -2,167 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4C9C886AC
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 08:27:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D53CCC88748
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 08:40:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B9BE10E0FA;
-	Wed, 26 Nov 2025 07:27:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4086810E51C;
+	Wed, 26 Nov 2025 07:40:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="I+xnn898";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="nxsdbyPw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+VLEA8R0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nxsdbyPw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+VLEA8R0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012055.outbound.protection.outlook.com [52.101.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81F0910E0FA
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 07:27:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=os/Cqac+xbDoBHzHWzFrN/PU4idDr2zXLq7B1RKjOjNpKlwH4FqVDK8ZWbKONTGW1cfNT17fT54YZ44DunZ65QYGIeKoiTSWT6JD27QC1jJ512VR/zWIroINtzvJG0U7NMt6t8Wx7lbDkLsLLA+QAKiO1WTyRWhcXaEYzYL26BMAd+uZFRNdBqkK4qxoXuZurUOk8A7VHmwXnrHTm8cAcDDQAi48iyw43tdcrer0GXZM+4O0aKmaCe2M0a6QKKNLyCD9xAKrjvp7kNV+jLvgXTSLK1zKNTnSfN1GfH21YL+wpyNvVvGqtWH573IUKLrGEFyWaZ5oWz2oMUMImlztSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=55bVrV35YDRQ3e47gol2zf1d1NAA+sGVf1Ze4yLWBOM=;
- b=hrqKfty44d1Bqai2BcNnfYO9eGevYDs5KgF4USc4bgs365JPbUpTHpXZYeJw/gP7oDLRycO5uDNoB2Xkgeduo0LPf98A9BcuklNjY9n/adUkaDmJrejgY0wGT03Ifk/ZKn8vlswYtiRArkYINB065852nPmWrRAb6uYz7dZVsnWbsKcxt0F+ii4n/neRNu54OrWJBojFiiPCDlC82Rewe2lojtScewMBa+/GIwoysmak3nRJbfNUifTNPEHFoh1AUpTqwlGFWeHhHyh/ZRXW0bUHD9QIZDdJ7/xGuHDFanLEUf2XqqteECNCP0bbpeVtt2ZzNS2P0cDgKim4P/fp6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=55bVrV35YDRQ3e47gol2zf1d1NAA+sGVf1Ze4yLWBOM=;
- b=I+xnn898n96cki5bG7IFQNUUhi6vF7ymhOB2UtRIDQuh42QLN83I1oziJlTNQ2abj/VJS4dpq+wYkH/nueDNdha6vrOPEz6HdxoLEY29RamlKD2/V/PrmI6M7UPAnfrf/hmsra2GQ6BM0ePDZZ3c74QB2YkkSFULmmIDzBF3vB1XmkCUBUyErOEebUX6bBEzD6eWXW41om8bmSdYd7kDxUl6GQQHpdOXNlMdJwGRCzlZTg1N2gz4eTNYdJ3fO7HyPl9LSV4TS7nXV8/HZvDTVscrXK09NGuvre8JBvNxDt6A/ufdfTdH3AStOZS5K6YqDMWtckaYP4nxa09okLoJEQ==
-Received: from IA0PR11MB7257.namprd11.prod.outlook.com (2603:10b6:208:43e::21)
- by LV1PR11MB8851.namprd11.prod.outlook.com (2603:10b6:408:2b2::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Wed, 26 Nov
- 2025 07:27:17 +0000
-Received: from IA0PR11MB7257.namprd11.prod.outlook.com
- ([fe80::a3f:c748:c7a6:d2e3]) by IA0PR11MB7257.namprd11.prod.outlook.com
- ([fe80::a3f:c748:c7a6:d2e3%5]) with mapi id 15.20.9343.016; Wed, 26 Nov 2025
- 07:27:17 +0000
-From: <Ludovic.Desroches@microchip.com>
-To: <dmitry.baryshkov@oss.qualcomm.com>
-CC: <neil.armstrong@linaro.org>, <jesszhan0024@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <asrivats@redhat.com>, <luca.ceresoli@bootlin.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <stable@vger.kernel.org>
-Subject: Re: [PATCH REGRESSION] drm/panel: simple: restore connector_type
- fallback
-Thread-Topic: [PATCH REGRESSION] drm/panel: simple: restore connector_type
- fallback
-Thread-Index: AQHcWum2DSf3TE7cx0+PFtJJqLfeFrT9vUcAgAbZFgA=
-Date: Wed, 26 Nov 2025 07:27:17 +0000
-Message-ID: <3fc2574a-be4c-4273-82b5-317d822b3767@microchip.com>
-References: <20251121-lcd_panel_connector_type_fix-v1-1-fdbbef34a1a4@microchip.com>
- <4am5nvb4ldzvvaavkdu2o36viltoxxyxwybrmj3h35wtdhfcpa@53t4zahc3y6c>
-In-Reply-To: <4am5nvb4ldzvvaavkdu2o36viltoxxyxwybrmj3h35wtdhfcpa@53t4zahc3y6c>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PR11MB7257:EE_|LV1PR11MB8851:EE_
-x-ms-office365-filtering-correlation-id: d09c46ee-edc7-4c28-15df-08de2cbd3a4d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|38070700021; 
-x-microsoft-antispam-message-info: =?utf-8?B?UmJYQi9Ea0VhZHZnZjlzRWJDd3RtOXFzeHBXUXpPdjdDYXk2UkhXbTBTVW9X?=
- =?utf-8?B?Si8zK0VCSkR0N1c4MmlMZERiYisvT1p6amxVRFFSek5ma3d2d2tiS2k0ekdT?=
- =?utf-8?B?b2ptaDNtbGR0Rk5HMjVyb0ZTcGtFRzZzdG9wVElTZldlUVo3cFVBTXZSNjNI?=
- =?utf-8?B?MjhUOGZYTENpSGlKUGJvZDMvSHU1SmV4ZkpIa2xvQjRHNU5XK1AvNzRGbFRJ?=
- =?utf-8?B?SVBjUld4UzN5ZHhOeGdxRzgzb3RWVlVkNGlJTllzQ0pHT2RNNUwvdHBVQStG?=
- =?utf-8?B?V0JyejJLcU5pWU9BV1FkSWJGU0loSW1Cb2g1SGxHREIzRzhNbVFRMkdUZ2hK?=
- =?utf-8?B?Uk44NkxQVHVFUGcxcEJJaTZlOGRHUnMxQlpaREpiWW01dWo5VGwwVkNxWDFl?=
- =?utf-8?B?aStsVlB2OHVLTTYwbkMweXJweUpleU9QdFI5UlVXcm1DY2N6QUJCcEVubVl0?=
- =?utf-8?B?QnptK05xQkJtQ015SEpRbi9QeXdpemlZM2xHYlFPUTV2M1JyekdLZzRTeEZP?=
- =?utf-8?B?YktmMWxVNmVvdjMwdnFnWmVGeHJNNUZrSkU4TjdYQ1NMbENkN3dCUEQxdUZ2?=
- =?utf-8?B?L09VY2drOEhQNFE5QlRONFVkaXhvWlJPZ2tUcTlhdi9pa01Icm00eTFhNG9I?=
- =?utf-8?B?RlRwZU1wZUR5eTZzVEhFRHU3QUEzYk96R3UwOWtycit1d00xYkRBUTBmVHZF?=
- =?utf-8?B?a2wxTE9WVXBFcGxuZlhIYW1wOFVWbW5sYkRTN1N2MnNTbVBSYUVXQlZhUTZI?=
- =?utf-8?B?UzBnUklvMHBXMWRWeDc3TGNmeFljeDdHN3JhWjF1Mi9YOGpSZndRUWZkM2Vv?=
- =?utf-8?B?d1lLdC9aMmE4dEZMbjhDTEdWNmFJenJxTkNDMXYzRGFtVjB5WTRUQm5BemlS?=
- =?utf-8?B?WDVPSnJHT1dVeWFCa3drbHJlVitPbHJEQ1JIN1BoVWhCRWZGT2Y0ODBmNDRN?=
- =?utf-8?B?MDV1dnQ1VzZYek1ObUVHSEdCZ2dqdFgweHNFUm9MNm4xZjdTZm1yRjVEK2pk?=
- =?utf-8?B?aEQ2aDJwaDdxRGlCTGdiU1Y1ZFNBOXRFN281SElpdnUvWDlFTXB2d3RyMjRH?=
- =?utf-8?B?cFdoNDhjTnJsQ2toN3l6SlMxU3ZJbjg4VE80MkRra1JjWURQTEFlTGdCY2tF?=
- =?utf-8?B?aUgyNGc1dlFhdFJKUCsyOExHdkNVeC9SQU1YTVJraTlmWWhkVXpnOHRySllT?=
- =?utf-8?B?V3lHM3FWNzlidnE2QmNxTHNQS0NiMVk1bzFVU3hQLzhoUTZHaFp3Nk9OaTM5?=
- =?utf-8?B?Zms5Tm9CdHhkcVc3d1RabU1BVlRrTzI4aUM1RTlHNFk1TzBZbDh6TVJrYjI2?=
- =?utf-8?B?VE4xbWl2Q25FaVFqOERkSElJQ3hDdUs4TDRYL1QrRkJkcmp2TWRpNit4cHVt?=
- =?utf-8?B?MjgvYXhqYnJXU3NhdXBNZ2d5Z3VBeW16TktmbHdoNDdqdDhzUERTZkNPQzZD?=
- =?utf-8?B?VnhoQ1JEclJ6K21iRFRKYk1LaEJsbkFiZUxXYkxrNm5hZmU5K0RTdnh3eDM1?=
- =?utf-8?B?dFFXN0luMjVJMlExbmdGTWpxZHJqNXlENkIwaGVHWHNSMFF1V2MvWStJMVcx?=
- =?utf-8?B?TVJiNkpmUERxcUM2SnF3UjNqL25PRHlGYko5cjZYeVBJdjhYYjQ4bTI2bWpT?=
- =?utf-8?B?NERVTGIraUZHeEtwcTVRVnk4L1NwTFJRUVpTNUU2YituWXl1U3Erc3M1L2d5?=
- =?utf-8?B?NDdyNE91TjNhb2lYR25iTVBMcXo4akNZTmZlbVJmdkdTWmIrWDZuUTF1dS9O?=
- =?utf-8?B?ZzhRSHEvbWFjOEp5YmRVYnlKSzd5b2NseVRsUThUTFVGMTRPaHE5NFRHUjVM?=
- =?utf-8?B?Znh5blNqYmZLbDBocDFYeWNOMEF4WDREOXY5bHBMMXNJSk9BT1ZnSDYxTXlZ?=
- =?utf-8?B?Z2tsMk5mTEhsZ2pTM3ZNWlhXL2RrQVhKVFBlOGRWUFJXMDVNM1RQbHdCSnVU?=
- =?utf-8?B?K2hXbEd6QmtCQmJkbzlOKzNKSUFHWitQYml1a2VGUXRTYTNpR21uOVhwRkk4?=
- =?utf-8?B?S0FZemdva2Y0OWM3VmFiWEphcmg0VDY3Y09WT1pQV2dSdHkvQVNHMU5qazBC?=
- =?utf-8?Q?YnVRNA?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7257.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aG9Kek5OUFhONUJTT2tOdGxnc3BHK3orZjB4bmJqaWp0V3FxdnJOeGoxVnZH?=
- =?utf-8?B?YWNuMlQ0enpUTHhJdE12eGRFVFJ1cFNOR09CRWY2YXZHRExZN281TDdrQVhR?=
- =?utf-8?B?TXZQMHJNS1R0bTE0TmJyYk5KSnNGNWJvTTYxcHYzK3ViVUQxVEEvb0JsZkN6?=
- =?utf-8?B?dFM5emdsNHkvalpZWnAvN1EwTjdFNDdDc29lWTJJdWs5RXJyUXg2L25Rc3FU?=
- =?utf-8?B?TUpLVUtPbk4yTWNudTRXZk1BczhPSjdpK2tYRG12LytGYU1tK1lTaC9jNDJW?=
- =?utf-8?B?VC80ZUEyczVMZGxVbFlvc2t6SVU0ZHhmaGJkUUdIdGt2ZzlKTC96SjlKb3o3?=
- =?utf-8?B?aVNCdUtFQ1BRTXdLUnBTaTAxQkRpMG1UQUMwbE5hdzZ0SEd6cE1PQlA5NnBX?=
- =?utf-8?B?UDVQYzZGSldBejc2bStrVnZYcGtZaFNtcjVMb0JTS1dKT21JMUNFa2NWQnZL?=
- =?utf-8?B?d05MUkJNQ0VMVXQ2dDVub0hKRG9JbnFZeGpndFhnSStvS2VvL0JTSUgyeE9B?=
- =?utf-8?B?S05TT2pQWnhQYmIwbzRJS1ppc0plYjFMdXhSRFNCZFlSVG9FM2NlaHVvNWpM?=
- =?utf-8?B?M28zK2d3c0hNUGxNWWJEWmZ3bzA1K2YxYjIzMXN0K1QydmpuQ2JaamdIeGNE?=
- =?utf-8?B?U1VCSGVyamlpU3ozQWVTZllhUEdjTXFTSXNpM1hWMzZwWjdzNUZ4dC92Lytt?=
- =?utf-8?B?a0RML0RVSTZFbTZVMW9zQ0NwVDB3RXdzZVhyRCtUK0x4Szh3ZWhRYnMwd1B2?=
- =?utf-8?B?YnQxd25MS1U4eWpUdUpZZ2MxT004bXczRUpJQWhJOHRpYVVEcjBFM0dkVHdN?=
- =?utf-8?B?cmVtZDhPNU1xekZZRjNEc3RqZFNwT0EwRi9TWXk4ektJcmlUcUtXL1dIV0Na?=
- =?utf-8?B?aXhSRlNwRm1sUk93SERVRUNSSW1GdkFPTHFGa0Jyd0hZUGlaYlhjMjZjWXZO?=
- =?utf-8?B?TS80K3NhYit3OGtoeCs1c21kNmVSamdTNGJmQkhuWElMekM0TWJKOGxrTkdK?=
- =?utf-8?B?NDBVTXdrOEJ1TEN0SmVEcXE2K0kzM3FGdnJMN3FxcW9tKzFWejlVWEt4L29n?=
- =?utf-8?B?S3h6emRCVzFQNjE1bXg1ZC9DM3g2bVp4VThhTEhxWUUrZHl0YVBKcDB1V2d6?=
- =?utf-8?B?bDMyd0JzUE50S3Y2YVlIekNJRXFEaEd0TzVJZklrVGxhTTZIalFneWt4U2h3?=
- =?utf-8?B?TVdhRUVnckdNK2lHMWw3NW9LWnZmbThselNUbkhlajhnQzdQbTdsOHBBbXFu?=
- =?utf-8?B?eFAzVlIvS2loMU95YnZUdTFFUWxXcVhOV2hGanNvS2VoWjVrUVlNTEN3UURn?=
- =?utf-8?B?ZkV6U0lPeGZwV2FaMGdjU0hTYmh3YnhsOTF6RGxOVm5lM0pTMzQ3RnB3Q09t?=
- =?utf-8?B?TE1MajgzVFhtT0lWU0FLa0l5Q0hGd1lsMGpKNTFqM2JlWjRHcG1JRDVRTjZF?=
- =?utf-8?B?WlprZXBiQ29TRXAvcDM3UERjelVJMVVGN3R4cUV2QmloT2RhQTk3K2J1TkJK?=
- =?utf-8?B?N2xpYWN4djhZbzhDUVl5VzV2YTN3UlNJTVFWWnpLNEFWZjdRT0pxdXlGamla?=
- =?utf-8?B?TjNueENWMWxqOHVuMW1xZUVsejZqZFNKSUM4QkN0NTNNdGFqMUJMTFkxa1du?=
- =?utf-8?B?RUs5SVFDcnMrM2wyZ1lUWjVXRVZxSmc3b1QydHRYL0tNY3VFS2YyVDVSRjU5?=
- =?utf-8?B?clNydEk5KzhqSjRRU1J5a2FaWXdyRnBwZi9mOTR1ZWowREpGVk9VTksza29J?=
- =?utf-8?B?bCs4aGM3bG5zaDRjQmdlVGV4d1Q1cnhWNlJtODdZQ0VDNThWSDhvTS96OTNh?=
- =?utf-8?B?SzlMNW8zckZqVGs0SFBxalNQaTE3aElrd1p3eEhqanlLYmpwTVN3bW9TV2ZK?=
- =?utf-8?B?NzhMN1lCVVVvdU9HZG9qMEc3clBiMkZadXVqZnV2dWtJVXRpQXNXVUVoWHpo?=
- =?utf-8?B?RUJVQnQ0WjJHK2tVeUpSaTYwWXpPRG4vcHEwc0hMaFFsVSs2d1pPNHJEZzh1?=
- =?utf-8?B?RnQ4YkY0YWhmNDhKdS91eitnaCszMWZSU24yc1l6VkhIUC8xVDB1L2VsSnFu?=
- =?utf-8?B?MCs2Unp3T00yWjk1bTBRcWxha0RKQlpEYk5nekppZUdFM2JWMEp1OU8xZjdM?=
- =?utf-8?B?SDN6ejhLbmZLanlOZ1Z1RWc4ek9XNjYreEgyeUNGa1ZNZTRYOWR5NjZ0a0wx?=
- =?utf-8?B?UHc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BEF2C62FBAF4BA44AA2D059F289FFF89@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FB2D10E523
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 07:40:12 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5C6CA22C7B;
+ Wed, 26 Nov 2025 07:40:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1764142810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=N/IKV4NTtJDFriBCvdPujoI7Ss0dmnp2XYDv3sBK7Do=;
+ b=nxsdbyPwMPWjnG5L8rQDkkJKR+yuEw2QDk1AxcRidFERWys4o+v8VAgfQvHrM26PCj9Wyv
+ Wnt1aYIPzuKMZ0jTkgOT4WQxIQkuGEz/laT1YlcwTWqRpIvuMC8IFT/HOkyuE2Fw4hheDM
+ J2zRAnG9B9cfHlTTelwwpCOfrUZQQW0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1764142810;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=N/IKV4NTtJDFriBCvdPujoI7Ss0dmnp2XYDv3sBK7Do=;
+ b=+VLEA8R0mOGMJCFmnuWFparRdoUKNmXgpZ7YnSUkRUbCju5PQ8EpYFuuIW0TdhGD0Ajpz1
+ EExCAwui7CyMDZCg==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nxsdbyPw;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=+VLEA8R0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1764142810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=N/IKV4NTtJDFriBCvdPujoI7Ss0dmnp2XYDv3sBK7Do=;
+ b=nxsdbyPwMPWjnG5L8rQDkkJKR+yuEw2QDk1AxcRidFERWys4o+v8VAgfQvHrM26PCj9Wyv
+ Wnt1aYIPzuKMZ0jTkgOT4WQxIQkuGEz/laT1YlcwTWqRpIvuMC8IFT/HOkyuE2Fw4hheDM
+ J2zRAnG9B9cfHlTTelwwpCOfrUZQQW0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1764142810;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=N/IKV4NTtJDFriBCvdPujoI7Ss0dmnp2XYDv3sBK7Do=;
+ b=+VLEA8R0mOGMJCFmnuWFparRdoUKNmXgpZ7YnSUkRUbCju5PQ8EpYFuuIW0TdhGD0Ajpz1
+ EExCAwui7CyMDZCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C9E573EA63;
+ Wed, 26 Nov 2025 07:40:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id pmTZL9muJmmfKgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Nov 2025 07:40:09 +0000
+Message-ID: <58b768ad-00fb-4fe5-924c-9cf6ec12f75c@suse.de>
+Date: Wed, 26 Nov 2025 08:40:09 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: microchip.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7257.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d09c46ee-edc7-4c28-15df-08de2cbd3a4d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Nov 2025 07:27:17.1630 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: t/CDX/AJNhxHh1DNLjCsvrSqYZqPn7hJ7+3F4L7rVwEv216SzwQh5pzWSMiNVkamDlbsPJixkHdZeJm6iY+qYBf0XXYU6Y2j2wWaa2aN7sA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV1PR11MB8851
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 03/25] drm/gem-dma: Compute dumb-buffer sizes with
+ drm_mode_size_dumb()
+To: Ludovic.Desroches@microchip.com, simona@ffwll.ch, airlied@gmail.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com, geert@linux-m68k.org,
+ tomi.valkeinen@ideasonboard.com
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ nouveau@lists.freedesktop.org, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-tegra@vger.kernel.org,
+ intel-xe@lists.freedesktop.org, xen-devel@lists.xenproject.org
+References: <20250821081918.79786-1-tzimmermann@suse.de>
+ <20250821081918.79786-4-tzimmermann@suse.de>
+ <52600bf4-2c1c-49a6-82c5-b31818141a43@microchip.com>
+ <a11c195d-197c-45a4-962a-e2336c7360c2@suse.de>
+ <2fbe0d43-67c5-4816-aff0-c23ac1507ec5@microchip.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <2fbe0d43-67c5-4816-aff0-c23ac1507ec5@microchip.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 5C6CA22C7B
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ FREEMAIL_TO(0.00)[microchip.com,ffwll.ch,gmail.com,kernel.org,linux.intel.com,linux-m68k.org,ideasonboard.com];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,suse.com:url];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCPT_COUNT_TWELVE(0.00)[21];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ TO_DN_NONE(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -178,35 +160,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTEvMjEvMjUgMjM6NTIsIERtaXRyeSBCYXJ5c2hrb3Ygd3JvdGU6DQo+IEVYVEVSTkFMIEVN
-QUlMOiBEbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IGtu
-b3cgdGhlIGNvbnRlbnQgaXMgc2FmZQ0KPiANCj4gT24gRnJpLCBOb3YgMjEsIDIwMjUgYXQgMDI6
-MjA6NDhQTSArMDEwMCwgTHVkb3ZpYyBEZXNyb2NoZXMgd3JvdGU6DQo+PiBUaGUgc3dpdGNoIGZy
-b20gZGV2bV9remFsbG9jKCkgKyBkcm1fcGFuZWxfaW5pdCgpIHRvDQo+PiBkZXZtX2RybV9wYW5l
-bF9hbGxvYygpIGludHJvZHVjZWQgYSByZWdyZXNzaW9uLg0KPj4NCj4+IFNldmVyYWwgcGFuZWwg
-ZGVzY3JpcHRvcnMgZG8gbm90IHNldCBjb25uZWN0b3JfdHlwZS4gRm9yIHRob3NlIHBhbmVscywN
-Cj4+IHBhbmVsX3NpbXBsZV9wcm9iZSgpIHVzZWQgdG8gY29tcHV0ZSBhIGNvbm5lY3RvciB0eXBl
-IChjdXJyZW50bHkgRFBJIGFzIGENCj4+IGZhbGxiYWNrKSBhbmQgcGFzcyB0aGF0IHZhbHVlIHRv
-IGRybV9wYW5lbF9pbml0KCkuIEFmdGVyIHRoZSBjb252ZXJzaW9uDQo+PiB0byBkZXZtX2RybV9w
-YW5lbF9hbGxvYygpLCB0aGUgY2FsbCB1bmNvbmRpdGlvbmFsbHkgdXNlZA0KPj4gZGVzYy0+Y29u
-bmVjdG9yX3R5cGUgaW5zdGVhZCwgaWdub3JpbmcgdGhlIGNvbXB1dGVkIGZhbGxiYWNrIGFuZA0K
-Pj4gcG90ZW50aWFsbHkgcGFzc2luZyBEUk1fTU9ERV9DT05ORUNUT1JfVW5rbm93biwgd2hpY2gN
-Cj4+IGRybV9wYW5lbF9icmlkZ2VfYWRkKCkgZG9lcyBub3QgYWxsb3cuDQo+Pg0KPj4gTW92ZSB0
-aGUgY29ubmVjdG9yX3R5cGUgdmFsaWRhdGlvbiAvIGZhbGxiYWNrIGxvZ2ljIGJlZm9yZSB0aGUN
-Cj4+IGRldm1fZHJtX3BhbmVsX2FsbG9jKCkgY2FsbCBhbmQgcGFzcyB0aGUgY29tcHV0ZWQgY29u
-bmVjdG9yX3R5cGUgdG8NCj4+IGRldm1fZHJtX3BhbmVsX2FsbG9jKCksIHNvIHBhbmVscyB3aXRo
-b3V0IGFuIGV4cGxpY2l0IGNvbm5lY3Rvcl90eXBlDQo+PiBvbmNlIGFnYWluIGdldCB0aGUgRFBJ
-IGRlZmF1bHQuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogTHVkb3ZpYyBEZXNyb2NoZXMgPGx1ZG92
-aWMuZGVzcm9jaGVzQG1pY3JvY2hpcC5jb20+DQo+PiBGaXhlczogZGUwNGJiMDA4OWE5ICgiZHJt
-L3BhbmVsL3BhbmVsLXNpbXBsZTogVXNlIHRoZSBuZXcgYWxsb2NhdGlvbiBpbiBwbGFjZSBvZiBk
-ZXZtX2t6YWxsb2MoKSIpDQo+PiAtLS0NCj4+IEhpLA0KPj4NCj4+IEkgYW0gbm90IHN1cmUgd2hl
-dGhlciB0aGlzIHJlZ3Jlc3Npb24gaGFzIGFscmVhZHkgYmVlbiByZXBvcnRlZCBvcg0KPj4gYWRk
-cmVzc2VkLiBJZiBpdCBoYXMsIHBsZWFzZSBmZWVsIGZyZWUgdG8gZHJvcCB0aGlzIHBhdGNoLg0K
-PiANCj4gV291bGQgaXQgYmUgYmV0dGVyIHRvIGZpeCB0aG9zZSBwYW5lbHMgaW5zdGVhZD8gSW4g
-dGhlIGVuZCwgdGhlIHBhbmVsDQo+IHVzdWFsbHkgaGFzIG9ubHkgb25lIGJ1cy4NCg0KSSBkb27i
-gJl0IGhhdmUgYSBzdHJvbmcgb3BpbmlvbiBvbiB0aGlzIHBvaW50LiBJIGRvbuKAmXQga25vdyBp
-ZiB0aGVyZSBhcmUgDQphbnkgaGlzdG9yaWNhbCByZWFzb25zIGJlaGluZCBhbGwgdGhpcy4NCg0K
-UmVnYXJkcywNCkx1ZG92aWMNCg0KPiANCj4+IC0tLQ0KPj4gICBkcml2ZXJzL2dwdS9kcm0vcGFu
-ZWwvcGFuZWwtc2ltcGxlLmMgfCA4NiArKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0t
-LS0NCj4+ICAgMSBmaWxlIGNoYW5nZWQsIDQzIGluc2VydGlvbnMoKyksIDQzIGRlbGV0aW9ucygt
-KQ0KPiANCj4gLS0NCj4gV2l0aCBiZXN0IHdpc2hlcw0KPiBEbWl0cnkNCg0K
+Hi
+
+Am 26.11.25 um 07:24 schrieb Ludovic.Desroches@microchip.com:
+> On 11/25/25 16:03, Thomas Zimmermann wrote:
+>> EXTERNAL EMAIL: Do not click links or open attachments unless you know
+>> the content is safe
+>>
+>> Hi
+>>
+>> Am 25.11.25 um 15:39 schrieb Ludovic.Desroches@microchip.com:
+>>> On 8/21/25 10:17, Thomas Zimmermann wrote:
+>>>> Call drm_mode_size_dumb() to compute dumb-buffer scanline pitch and
+>>>> buffer size. Align the pitch to a multiple of 8.
+>> I missed a chance to explain it here. :/
+> I was wondering if it was 8-bits or 8-bytes.
+>
+>>>> Push the current calculation into the only direct caller imx. Imx's
+>>>> hardware requires the framebuffer width to be aligned to 8. The
+>>>> driver's current approach is actually incorrect, as it only guarantees
+>>>> this implicitly and requires bpp to be a multiple of 8 already. A
+>>>> later commit will fix this problem by aligning the scanline pitch
+>>>> such that an aligned width still fits into each scanline's memory.
+>>>>
+>>>> A number of other drivers are build on top of gem-dma helpers and
+>>>> implement their own dumb-buffer allocation. These drivers invoke
+>>>> drm_gem_dma_dumb_create_internal(), which is not affected by this
+>>>> commit.
+>>>>
+>>>> v5:
+>>>> - avoid reset of arguments (Tomi)
+>>>>
+>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>>>> ---
+>>>>     drivers/gpu/drm/drm_gem_dma_helper.c     | 7 +++++--
+>>>>     drivers/gpu/drm/imx/ipuv3/imx-drm-core.c | 4 +++-
+>>>>     2 files changed, 8 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/
+>>>> drm_gem_dma_helper.c
+>>>> index 4f0320df858f..ab1a70b1d6f1 100644
+>>>> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
+>>>> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
+>>>> @@ -20,6 +20,7 @@
+>>>>     #include <drm/drm.h>
+>>>>     #include <drm/drm_device.h>
+>>>>     #include <drm/drm_drv.h>
+>>>> +#include <drm/drm_dumb_buffers.h>
+>>>>     #include <drm/drm_gem_dma_helper.h>
+>>>>     #include <drm/drm_vma_manager.h>
+>>>>
+>>>> @@ -304,9 +305,11 @@ int drm_gem_dma_dumb_create(struct drm_file
+>>>> *file_priv,
+>>>>                           struct drm_mode_create_dumb *args)
+>>>>     {
+>>>>       struct drm_gem_dma_object *dma_obj;
+>>>> +    int ret;
+>>>>
+>>>> -    args->pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
+>>>> -    args->size = args->pitch * args->height;
+>>>> +    ret = drm_mode_size_dumb(drm, args, SZ_8, 0);
+>>>> +    if (ret)
+>>>> +            return ret;
+>>> Hi,
+>>>
+>>> Was it intentional for this change to alter the pitch?
+>> Most hardware does not need the pitch to be of a certain alignment. But
+>> these buffers are possibly shared with other hardware, which sometimes
+>> needs alignment to certain values. Using SZ_8 improves compatible with
+>> that hardware.
+>>
+>>> The alignment requirement has been updated—from 8-bit alignment to
+>>> 64-bit alignment. Since the pitch is expressed in bytes, we should pass
+>>> SZ_1 instead of SZ_8 for hw_patch_align.
+>>>
+>>> For example, for an 850×480 framebuffer at 16 bpp, the pitch should be
+>>> 1700 bytes. With the new alignment, the pitch becomes 1704 bytes.
+>> Many display modes have an 8-byte alignment in their width. 850 pixels
+>> is somewhat of an exception.
+> Indeed, but overlay-type planes are often used to display windows that
+> are not the same size as the screen, and therefore potentially not on
+> 8-bytes aligned.
+>
+>>> Please let me know if you’d like me to submit a fix.
+>> Do you see a bug with your hardware? Unless this creates a real problem,
+>> I'd like to keep it as it is now.
+> Yes, that’s how I noticed this change. I have an application that
+> requests a framebuffer larger than my screen, in this case 850x480 in
+> RGB565 for an 800x480 display. So I have a pitch of 1700 bytes. Now it’s
+> using a pitch of 1704, which shifts my lines.
+
+Honestly, your application is broken. The ioctl returns the pitch value 
+to user space and that's what the program should use. Some hardware has 
+hard constraints on the pitch, so you will sooner or later run into the 
+same problem again.
+
+Anyway, feel free to submit a patch to call drm_mode_size_dumb() without 
+SZ_8. The best value would be 0, so that the function picks a default by 
+itself. Since you're at it, maybe also look at patches 4 and 5 of this 
+series. They have similar code for other memory managers.
+
+Best regards
+Thomas
+
+>
+> Regards,
+> Ludovic
+>
+>> Best regards
+>> Thomas
+>>
+>>> Regards,
+>>> Ludovic
+>>>
+>>>
+>>>>       dma_obj = drm_gem_dma_create_with_handle(file_priv, drm, args-
+>>>>> size,
+>>>>                                                &args->handle);
+>>>> diff --git a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c b/drivers/gpu/
+>>>> drm/imx/ipuv3/imx-drm-core.c
+>>>> index ec5fd9a01f1e..af4a30311e18 100644
+>>>> --- a/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
+>>>> +++ b/drivers/gpu/drm/imx/ipuv3/imx-drm-core.c
+>>>> @@ -145,8 +145,10 @@ static int imx_drm_dumb_create(struct drm_file
+>>>> *file_priv,
+>>>>       int ret;
+>>>>
+>>>>       args->width = ALIGN(width, 8);
+>>>> +    args->pitch = DIV_ROUND_UP(args->width * args->bpp, 8);
+>>>> +    args->size = args->pitch * args->height;
+>>>>
+>>>> -    ret = drm_gem_dma_dumb_create(file_priv, drm, args);
+>>>> +    ret = drm_gem_dma_dumb_create_internal(file_priv, drm, args);
+>>>>       if (ret)
+>>>>               return ret;
+>>>>
+>> -- 
+>> -- 
+>> Thomas Zimmermann
+>> Graphics Driver Developer
+>> SUSE Software Solutions Germany GmbH
+>> Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+>> GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG
+>> Nürnberg)
+>>
+>>
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
