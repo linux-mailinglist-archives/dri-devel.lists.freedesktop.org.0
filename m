@@ -2,50 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63896C89C8F
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 13:33:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EBFFC89CCD
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 13:37:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68AB510E5BA;
-	Wed, 26 Nov 2025 12:33:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A303E10E5C0;
+	Wed, 26 Nov 2025 12:37:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s2r7N7ky";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="UTsTz0LB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F231810E5BA
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 12:33:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B427040180;
- Wed, 26 Nov 2025 12:33:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF495C113D0;
- Wed, 26 Nov 2025 12:33:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764160422;
- bh=WlUVaShN9mH14jqFXquyf1gKUl8dks8bpJbxLKEl6qk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=s2r7N7kyyi4co3v569XomNC7tcLFiWTQdGkehyrtCqFmicHOw0ojaoMcAHVK/sd1s
- 5Oyd0Uquzy4MoCNJkS4O8kNhdTSehll91vqyB9mmQVBdTFHsbeYu7BZaWpQVVAJbqf
- uYATE4Uug2cXlv3wWzMuWWfPmzMwg8bPKS986x2tRYh71EW0kbSWHl9GUU/9UKo8zI
- CqJYXb/o4ToCrPTGZ8ZaWjDZKlQnrlYq0LHlcfyklJHSufAv5987qW90EsR9QZZKFL
- 52yulW8Ocv0nNrhjkJ9HTj5ku1V5isCBR2c6XT5JflD/8vXwK42c1zTqA6EJWhXp49
- Mf2xT7MeHUHtg==
-Date: Wed, 26 Nov 2025 12:33:38 +0000
-From: Daniel Thompson <danielt@kernel.org>
-To: petri.karhula@novatron.fi
-Cc: Thomas Richard <thomas.richard@bootlin.com>, Lee Jones <lee@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] backlight: Add Congatec Board Controller (CGBC)
- backlight support
-Message-ID: <aSbzomGqb4g98ADZ@aspen.lan>
-References: <20251125-cgbc-backlight-v3-0-18ae42689411@novatron.fi>
- <20251125-cgbc-backlight-v3-1-18ae42689411@novatron.fi>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6247010E5CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 12:37:29 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dGfGG15tlz9sxb;
+ Wed, 26 Nov 2025 13:37:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1764160646; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XTqvEmDLXDWaVJsy42dF2/13XtKO/BqCr4Q3wJ/2+zk=;
+ b=UTsTz0LB3fPPb1pdo0H+ZA2PtJmWwrixoKEk4LQLRGjjib7ugHXCNcywF2px2sJ2wStBu4
+ iJbUCEIaBCYXvD/QeZKzjpIHvGWvDCkY+83LOu2V1Ilq6fqAYqW2JCttj8Jf/NlGxzRkfr
+ 32HDGc0VyCIvdz/Uldhme7bN7S4qBnPn3Sz98ZkmG8L+dRr3QZA4qw3GuOUA2CIS0CBJlH
+ Oc/3Iin171AmfePQJ9Gz/yFbGFwhBiibDW381Wy92iPafOTiEO/gdlFDXFIMU2h6cM36u3
+ qvS2U3/L3DvInWM9Dfk9DcCi0xr0IOvK2ZZLigzfYk7rzQiQKd6kY/esoenc0A==
+Message-ID: <54d6e863fc606d22f245e30012bb5120d5bee7ee.camel@mailbox.org>
+Subject: Re: [PATCH 1/4] dma-buf/fence: give some reasonable maximum
+ signaling timeout
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Lucas
+ Stach <l.stach@pengutronix.de>, phasta@kernel.org, alexdeucher@gmail.com, 
+ simona.vetter@ffwll.ch, faith@gfxstrand.net, sumit.semwal@linaro.org
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org
+Date: Wed, 26 Nov 2025 13:37:19 +0100
+In-Reply-To: <207d50fe-eef3-4baa-97a7-567598e56b55@amd.com>
+References: <20251120150018.27385-1-christian.koenig@amd.com>
+ <20251120150018.27385-2-christian.koenig@amd.com>
+ <380012b9d6f0e9ee3c2f125cfe2f37f65c1979e0.camel@mailbox.org>
+ <b46913b6-fe61-48cd-a9ca-aa2fe3a12b63@amd.com>
+ <1c1a14d42d0a4a25ebce26a2af0a61dc1b7813fc.camel@mailbox.org>
+ <508ff709-0f05-4982-8e15-5fea3bbd12e7@amd.com>
+ <c2b571a7e74f86c6cb95bebd11274447c3080df9.camel@mailbox.org>
+ <52d484c5-6dfb-4e2f-9caa-a61cf1d94801@amd.com>
+ <e2c006ca81081ee1afa00b1b52a035c28a267e0f.camel@pengutronix.de>
+ <207d50fe-eef3-4baa-97a7-567598e56b55@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251125-cgbc-backlight-v3-1-18ae42689411@novatron.fi>
+X-MBO-RS-ID: 5b026a59b27b9369507
+X-MBO-RS-META: 1wt699yqo3ojb57bdc5grummqbbk5w5w
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,85 +71,91 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 25, 2025 at 03:29:39PM +0000, Petri Karhula via B4 Relay wrote:
-> From: Petri Karhula <petri.karhula@novatron.fi>
->
-> This driver provides backlight brightness control through the Linux
-> backlight subsystem. It communicates with the board controller to
-> adjust LCD backlight using PWM signals. Communication is done
-> through Congatec Board Controller core driver.
->
-> Signed-off-by: Petri Karhula <petri.karhula@novatron.fi>
-> ---
->  drivers/video/backlight/Kconfig   |  11 +++
->  drivers/video/backlight/Makefile  |   1 +
->  drivers/video/backlight/cgbc_bl.c | 177 ++++++++++++++++++++++++++++++++++++++
->  3 files changed, 189 insertions(+)
+On Wed, 2025-11-26 at 13:31 +0100, Christian K=C3=B6nig wrote:
+> On 11/25/25 18:02, Lucas Stach wrote:
+> > > > I agree that distinguishing the use case that way is not ideal.
+> > > > However, who has the knowledge of how the hardware is being used by
+> > > > customers / users, if not the driver?
+> > >=20
+> > > Well the end user.
+> > >=20
+> > > Maybe we should move the whole timeout topic into the DRM layer or th=
+e scheduler component.
+> > >=20
+> > > Something like 2 seconds default (which BTW is the default on Windows=
+ as well), which can be overridden on a global, per device, per queue name =
+basis.
+> > >=20
+> > > And 10 seconds maximum with only a warning that a not default timeout=
+ is used and everything above 10 seconds taints the kernel and should reall=
+y only be used for testing/debugging.
+> >=20
+> > The question really is what you want to do after you hit the (lowered)
+> > timeout? Users get grumpy if you block things for 10 seconds, but they
+> > get equally if not more grumpy when you kick out a valid workload that
+> > just happens to need a lot of GPU time.
+>=20
+> Yeah, exactly that summarizes the problem pretty well.
+>=20
+> > Fences are only defined to signal eventually, with no real concept of a
+> > timeout. IMO all timeouts waiting for fences should be long enough to
+> > only be considered last resort. You may want to give the user some
+> > indication of a failed fence wait instead of stalling indefinitely, but
+> > you really only want to do this after a quite long timeout, not in a
+> > sense of "Sorry, I ran out of patience after 2 seconds".
+> >=20
+> > Sure memory management depends on fences making forward progress, but
+> > mm also depends on scheduled writeback making forward progress. You
+> > don't kick out writeback requests after an arbitrary timeout just
+> > because the backing storage happens to be loaded heavily.
+> >=20
+> > This BTW is also why etnaviv has always had a quite short timeout of
+> > 500ms, with the option to extend the timeout when the GPU is still
+> > making progress. We don't ever want to shoot down valid workloads (we
+> > have some that need a few seconds to upload textures, etc on our wimpy
+> > GPU), but you also don't want to wait multiple seconds until you detect
+> > a real GPU hang.
+>=20
+> That is a really good point. We considered that as well, but then abandon=
+ed the idea, see below for the background.
+>=20
+> What we could also do is setting a flag on the fence when a process is ki=
+lled and then waiting for that fence to signal so that it can clean up. Goi=
+ng to prototype that.
+>=20
+> > So we use the short scheduler timeout to check in on the GPU and see if
+> > it is still making progress (for graphics workloads by looking at the
+> > frontend position within the command buffer and current primitive ID).
+> > If we can deduce that the GPU is stuck we do the usual reset/recovery
+> > dance within a reasonable reaction time, acceptable to users hitting a
+> > real GPU hang. But if the GPU is making progress we will give an
+> > infinite number of timeout extensions with no global timeout at all,
+> > only fulfilling the eventual signaling guarantee of the fence.
+>=20
+> Well the question is how do you detect *reliable* that there is still for=
+ward progress?
+
+My understanding is that that's impossible since the internals of
+command submissions are only really understood by userspace, who
+submits them.
+
+I think the long-term solution can only be fully fledged GPU scheduling
+with preemption. That's why we don't need such a timeout mechanism for
+userspace processes: the scheduler simply interrupts and lets someone
+else run.
+
+My hope would be that in the mid-term future we'd get firmware rings
+that can be preempted through a firmware call for all major hardware.
+Then a huge share of our problems would disappear.
 
 
-> +static int cgbc_bl_probe(struct platform_device *pdev)
-> +{
-> +	struct cgbc_device_data *cgbc = dev_get_drvdata(pdev->dev.parent);
-> +	struct backlight_properties props = { };
-> +	u8 cmd_buf[4] = { CGBC_CMD_BLT0_PWM };
-> +	struct backlight_device *bl_dev;
-> +	struct cgbc_bl_data *bl_data;
-> +	u8 reply_buf[3];
-> +	int ret;
-> +
-> +	bl_data = devm_kzalloc(&pdev->dev, sizeof(*bl_data), GFP_KERNEL);
-> +	if (!bl_data)
-> +		return -ENOMEM;
-> +
-> +	bl_data->dev = &pdev->dev;
-> +	bl_data->cgbc = cgbc;
-> +
-> +	ret = cgbc_command(bl_data->cgbc, cmd_buf, sizeof(cmd_buf), reply_buf,
-> +			   sizeof(reply_buf), NULL);
-> +	if (ret < 0)
-> +		return dev_err_probe(&pdev->dev, ret,
-> +				     "Failed to read initial brightness\n");
-> +
-> +	/*
-> +	 * Get only PWM duty factor percentage,
-> +	 * ignore polarity inversion bit (bit 7)
-> +	 */
-> +	bl_data->current_brightness = FIELD_GET(BLT_PWM_DUTY_MASK, reply_buf[0]);
-
-It would good to common this up with cgbc_bl_get_brightness() by
-providing a helper that takes struct cgbc_bl_data * and calling it
-from both places.
+With the current situation, IDK either. My impression so far is that
+letting the drivers and driver programmers decide is the least bad
+choice.
 
 
-> +
-> +	props.type = BACKLIGHT_PLATFORM;
-> +	props.max_brightness = CGBC_BL_MAX_BRIGHTNESS;
-> +	props.brightness = bl_data->current_brightness;
-
-New drivers should always set props.scale .
-> +
-
-> +	bl_dev = devm_backlight_device_register(&pdev->dev, "cgbc-backlight",
-> +						&pdev->dev, bl_data,
-> +						&cgbc_bl_ops, &props);
-> +	if (IS_ERR(bl_dev))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(bl_dev),
-> +			     "Failed to register backlight device\n");
-> +
-> +	platform_set_drvdata(pdev, bl_data);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct platform_driver cgbc_bl_driver = {
-> +	.driver = {
-> +		.name = "cgbc-backlight",
-> +	},
-> +	.probe = cgbc_bl_probe,
-> +};
-
-
-Daniel.
+P.
