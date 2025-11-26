@@ -2,66 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71517C89FA5
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 14:20:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D219C89FE4
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 14:22:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B577810E5F6;
-	Wed, 26 Nov 2025 13:20:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FA9810E5F0;
+	Wed, 26 Nov 2025 13:22:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ixu2iZTZ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KqbCaXdT";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VQkJxWAE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C471D10E5F1;
- Wed, 26 Nov 2025 13:20:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id AAFEF44381;
- Wed, 26 Nov 2025 13:20:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 732D8C116B1;
- Wed, 26 Nov 2025 13:20:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764163240;
- bh=2pw/MJl6LY/oCnTL3+ZydHGGLHEVdvEQCODhNg8b1NQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ixu2iZTZtYLH17YMkWe3wgu1khWIu1Btj2ZXZ0yppvuSfVrDVJwz4hvsSE5lbhvLv
- v+ExMAHWV1q4rJG+OCiWwImm3OoF+GHOxZCug5HdXMdNdSxwXRx+cQJ3rHZMTZ/vLH
- 2nWKlIQOPYQfdFZ3Wu8eot2tUTBqKV7TKLo+zR2DwReVr051qui5adYQ12uI9mEjmM
- 8CcZyLymsWhgqA7HdvfILFC+ahuAbLzJLvxgL1mlD1MUhHZUMNCf/hHgiqmZEIe+Io
- gEuLpALwLvhJStMxBEKR4CYPvoexnFADl4gwHHolqjWk7HyVtuXg3BuMihjZi8waxF
- Ww+QKUEf7OKaw==
-From: Philipp Stanner <phasta@kernel.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A1D110E5F0
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 13:22:46 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AQ968b13667836
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 13:22:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=ntiK3ZzgUgZBhzToS3gLUQ
+ 81nCFCtGA9upCFWDeoYpw=; b=KqbCaXdTidNd/cejTL49x1xgM4Jbiy0MJoDzGP
+ Vr5N7ZkhmLikv8E9tnnD3zKamvTTyUeNVZLYHOhEtPfG+IocqR8YoMMZhCAuOFu6
+ X2xN3vobd/Nt5hALhuTwaBXZfmWQI/rBLnuuzNYx0GxPbqkOpDW1rs2IvPOuus/Z
+ xf2K1rZsCVRFfsK+uSOdI0BrZo0+a6pDNBGAHz7Qn0mNsAlqG0d5yShkxMsLsrme
+ 5mUv06rGjf6xp7UiyEDQAgSESlPp4CMOCC9mKpd/NcIXTBgWCbcMnLfmy6RiuRlr
+ o9vfc63oECr4BaYTEXGZ4/Yd61wm+WkMf8PGLrPjUaa8eORw==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4anmemt7wf-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 13:22:45 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-2980ef53fc5so188131945ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 05:22:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1764163365; x=1764768165;
+ darn=lists.freedesktop.org; 
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=ntiK3ZzgUgZBhzToS3gLUQ81nCFCtGA9upCFWDeoYpw=;
+ b=VQkJxWAEL8yNMWKkisYYEFHR48XR9EypeA/ajdyDv1wxIlBo6rX2dJCBx5AFawpb+x
+ PbjcAXpRfWdjU1H2IbAP/ZlTV9T6GBBdd15agPEJBa7eXR1AA3xmK0LYm7xE5JU3QfgW
+ 0gBm0oe+WVu+HnNm9Ldbu2aIL9KUVNlI/ot/wLoV58WmKCg4BB/i9Czw+md2wCbKy3qw
+ jln/BK2Kl127mFev/x41d65aE7lHa8WQK4XmB5JkBgclPkFh4XhKlPO91oOif5E02lgG
+ a0UFleIzLC50bJgugSzHZgjeV+rKAyK2dogL76qKL0c8KtR6CrTEsFR9wajH79BgoxMz
+ HEKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764163365; x=1764768165;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ntiK3ZzgUgZBhzToS3gLUQ81nCFCtGA9upCFWDeoYpw=;
+ b=KQIqTYO1U4PVdW5lAMSOCk/q3R2EiqZhRcbiHB9ZTg1h9MWhEbY6mcYHlcYKRhWrKV
+ bymUmmT2fiG/4xiEvZJKbkEPBYmZ/5w1F5sRV6X56hJLViTAoTTdJAXVXzmRG/Hz0UIQ
+ CCVS/4IxXSUSDdUZsIwd3ooP27ewf87fcJUTTCZBCAwKCtGhfhJT3DJdPjgnQQObqDFG
+ CWwOLfGXI0+tREIH6E12HZ3AhI7bmdzCrS4DC3a1IrPEFvsmO9+PrwXF9AEYDiLcvB7m
+ fHR1cauf6ZRcbHcRZOQtggcZWkZEXqZ2NpFwE7DC8kJ3aYpoLaI+7Y5ilKEpyCXL6M3U
+ aRbw==
+X-Gm-Message-State: AOJu0YwedlqljmK0Ba2svadwEJFzfetaTS2nDqNuHgr0PXV/ZNhAx0HZ
+ jDV0/5gjuH6kZOCCK3c8bDONEBgmOiJILPTjB/stvuOp67186F4E0DAbXG5+qVzMZttm/66zePG
+ 1cXYEny9RVPQNXwKpOJLen7MJnA85Ph9JnS2OpGCY+3sFxT02E1jwjkLMBXprc41oaQa2Rn/IQT
+ olyA==
+X-Gm-Gg: ASbGncuET+Ri2xeMDDCj84wsTJQkAG7C08EKBrlEnPrIv5YZyUjQojYeqB5teQlLoBu
+ n7iPhRFuU87ULuCwUtscPqEq+Kkq7c/R0wSqR7Hi85/NxJiF1Q9ErgoOXzWiceVyeaLZraYHICy
+ nUsREy1VxsljLTL0lePXeAbDdYxkdoB2GOUY/WkgS2hm+7yqF39w+fKr4v0E00VFFV/pq/vU2XK
+ B5CcrIqrlaQVC3Keu3JMrq2biV8kdNVXqX/ZC3KL+jpFDpHccthxGg4hCk7Rozzcg89u1J03Ng4
+ LRZZ70HrTFqpKSmbHGB2mLxMbwE8IWUyKWclNt3v4ZwCHcONJT/2zXrjLgmWtlIhWNKDtshVgy5
+ Qq50/xBE8WN4FMttvkAaKQuDWZO04KCpn9vU=
+X-Received: by 2002:a17:903:1663:b0:295:ac6f:c899 with SMTP id
+ d9443c01a7336-29b6c6ad89bmr233572645ad.47.1764163364692; 
+ Wed, 26 Nov 2025 05:22:44 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IER+H9+/FZZpOC8JY5k8npl9hA3+YsqLAonaw9kODMfZj5yPVlh7Kd5UbO3IUvud9SYFG0UKw==
+X-Received: by 2002:a17:903:1663:b0:295:ac6f:c899 with SMTP id
+ d9443c01a7336-29b6c6ad89bmr233572245ad.47.1764163364198; 
+ Wed, 26 Nov 2025 05:22:44 -0800 (PST)
+Received: from hu-nlaad-hyd.qualcomm.com ([202.46.22.19])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29b5b1070c3sm201155025ad.12.2025.11.26.05.22.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Nov 2025 05:22:43 -0800 (PST)
+From: Nilesh Laad <nilesh.laad@oss.qualcomm.com>
+Date: Wed, 26 Nov 2025 18:52:37 +0530
+Subject: [PATCH v2] drm/bridge: lt9611uxc: add support for 4K@30 resolution
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251126-lt9611uxc-4k30-v2-1-3de0ea58c24e@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIABz/JmkC/13MQQ6CMBCF4auQWTukU2q1rryHcVHLVBqBaguGh
+ HB3Gxcu3LzkW7x/hcwpcIZTtULid8ghjgVyV4Hr7HhnDG0xSCH3RFJjPxlNNC8O1aMR2BivlKX
+ WCc1QTs/EPizf4OVa7FMccOoS219GHKT5z7wJCZ119qaPqvGmPcec69dsexeHoS4D2/YBmeYZ9
+ K0AAAA=
+X-Change-ID: 20251126-lt9611uxc-4k30-39f44a1dc06e
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH 6/6] dma-buf/dma-fence: Remove return code of
- signaling-functions
-Date: Wed, 26 Nov 2025 14:19:15 +0100
-Message-ID: <20251126131914.149445-8-phasta@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20251126131914.149445-2-phasta@kernel.org>
-References: <20251126131914.149445-2-phasta@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ venkata.valluru@oss.qualcomm.com, jessica.zhang@oss.qualcomm.com,
+ Nilesh Laad <nilesh.laad@oss.qualcomm.com>
+X-Mailer: b4 0.15-dev-a9b2a
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1764163359; l=962;
+ i=nilesh.laad@oss.qualcomm.com; s=20250718; h=from:subject:message-id;
+ bh=zg5ZN0OgrLOFZOMaQ2yLJzDpMcHB4pvyLOBXH58Cjq4=;
+ b=a8At2RKgyJupEwd4vq9VvPoawQeGtviI0jOgtRnvVe882kJ/aAT8HHqJeCpsIH1+wO8OUQzkq
+ 7SdgDhY3Gn8BNTdPBtPKQSnh7BFSCbqFUrcTgBXS2FQiRMcDjPr+8kY
+X-Developer-Key: i=nilesh.laad@oss.qualcomm.com; a=ed25519;
+ pk=MjLHvGipC16awutyYh0FnLpT1nPxL/Cs1dCevHMrrD4=
+X-Proofpoint-ORIG-GUID: INSsmi1hmOjDjWozf5iTYjJJ8doAzGsq
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDEwOSBTYWx0ZWRfX6GnMZYX1/pzq
+ pGUHOPxp2vPiXP3bGZFaY9zI2oV4Fk/qxTrLZwTgThqK8/OB4gx4jz9Zqg+IMAC6qeLiC9sDMAJ
+ 5DqxuArkbMbXrMCFLDQDcJKdlKRImAu8SyhZmsi8eMAT/S75lYif4t3DgklkB0sVTsHeiFxkeSE
+ GVli35BPLMATLlzQTELebrGoEziVLJ027A0EBwne+5wWwPkKqa1u4B7Ag52Ld1Ix/V/m0aMq8xo
+ eSt0/84/QH11571b1+0E7PD5Zf8wrIDkRhulf7VvVZzEB89PF+8EjqE8+84XxTvRsZ/gj4wnHMD
+ rMApJrLlhMnFZWUYQWmiZ94DkhKzR/3R4l1jTtvxwK/vkTu+AUyu0ZNYAFXaUWUCnJf7JvnW32R
+ lcJwzlP2i7me4qlSbeERjWgWpsWdJQ==
+X-Proofpoint-GUID: INSsmi1hmOjDjWozf5iTYjJJ8doAzGsq
+X-Authority-Analysis: v=2.4 cv=bZBmkePB c=1 sm=1 tr=0 ts=6926ff25 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=VfO1_MhE9zHharwcnMoA:9
+ a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-25_02,2025-11-25_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 clxscore=1015 priorityscore=1501 adultscore=0
+ phishscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511260109
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,151 +152,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All functions used for signaling a fence return an error code whose sole
-purpose is to tell whether a fence was already signaled.
+Add 3840x2160@30 mode in lt9611uxc modes to add support for
+4K@30 resolution.
 
-This is racy and has been used by almost no party in the kernel, and the
-few users have been removed in preceding cleanup commits.
-
-Turn all signaling-functions into void-functions.
-
-Suggested-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
+Signed-off-by: Nilesh Laad <nilesh.laad@oss.qualcomm.com>
 ---
- drivers/dma-buf/dma-fence.c | 40 ++++++++++---------------------------
- include/linux/dma-fence.h   |  9 ++++-----
- 2 files changed, 14 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 25117a906846..bed8d0c27217 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -360,11 +360,8 @@ void __dma_fence_might_wait(void)
-  *
-  * Unlike dma_fence_signal_timestamp(), this function must be called with
-  * &dma_fence.lock held.
-- *
-- * Returns 0 on success and a negative error value when @fence has been
-- * signalled already.
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index cfe389b4c25c..ac53da6c9711 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -100,6 +100,7 @@ struct lt9611uxc_mode {
+  * Enumerate them here to check whether the mode is supported.
   */
--int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
-+void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
- 				      ktime_t timestamp)
- {
- 	struct dma_fence_cb *cur, *tmp;
-@@ -373,7 +370,7 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
- 	lockdep_assert_held(fence->lock);
- 
- 	if (unlikely(dma_fence_test_signaled_flag(fence)))
--		return -EINVAL;
-+		return;
- 
- 	/* Stash the cb_list before replacing it with the timestamp */
- 	list_replace(&fence->cb_list, &cb_list);
-@@ -386,8 +383,6 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
- 		INIT_LIST_HEAD(&cur->node);
- 		cur->func(fence, cur);
- 	}
--
--	return 0;
- }
- EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
- 
-@@ -402,23 +397,17 @@ EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
-  * can only go from the unsignaled to the signaled state and not back, it will
-  * only be effective the first time. Set the timestamp provided as the fence
-  * signal timestamp.
-- *
-- * Returns 0 on success and a negative error value when @fence has been
-- * signalled already.
-  */
--int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp)
-+void dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp)
- {
- 	unsigned long flags;
--	int ret;
- 
- 	if (WARN_ON(!fence))
--		return -EINVAL;
-+		return;
- 
- 	spin_lock_irqsave(fence->lock, flags);
--	ret = dma_fence_signal_timestamp_locked(fence, timestamp);
-+	dma_fence_signal_timestamp_locked(fence, timestamp);
- 	spin_unlock_irqrestore(fence->lock, flags);
--
--	return ret;
- }
- EXPORT_SYMBOL(dma_fence_signal_timestamp);
- 
-@@ -434,13 +423,10 @@ EXPORT_SYMBOL(dma_fence_signal_timestamp);
-  *
-  * Unlike dma_fence_signal(), this function must be called with &dma_fence.lock
-  * held.
-- *
-- * Returns 0 on success and a negative error value when @fence has been
-- * signalled already.
-  */
--int dma_fence_signal_locked(struct dma_fence *fence)
-+void dma_fence_signal_locked(struct dma_fence *fence)
- {
--	return dma_fence_signal_timestamp_locked(fence, ktime_get());
-+	dma_fence_signal_timestamp_locked(fence, ktime_get());
- }
- EXPORT_SYMBOL(dma_fence_signal_locked);
- 
-@@ -453,28 +439,22 @@ EXPORT_SYMBOL(dma_fence_signal_locked);
-  * dma_fence_add_callback(). Can be called multiple times, but since a fence
-  * can only go from the unsignaled to the signaled state and not back, it will
-  * only be effective the first time.
-- *
-- * Returns 0 on success and a negative error value when @fence has been
-- * signalled already.
-  */
--int dma_fence_signal(struct dma_fence *fence)
-+void dma_fence_signal(struct dma_fence *fence)
- {
- 	unsigned long flags;
--	int ret;
- 	bool tmp;
- 
- 	if (WARN_ON(!fence))
--		return -EINVAL;
-+		return;
- 
- 	tmp = dma_fence_begin_signalling();
- 
- 	spin_lock_irqsave(fence->lock, flags);
--	ret = dma_fence_signal_timestamp_locked(fence, ktime_get());
-+	dma_fence_signal_timestamp_locked(fence, ktime_get());
- 	spin_unlock_irqrestore(fence->lock, flags);
- 
- 	dma_fence_end_signalling(tmp);
--
--	return ret;
- }
- EXPORT_SYMBOL(dma_fence_signal);
- 
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 19972f5d176f..188f7641050f 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -364,11 +364,10 @@ static inline void dma_fence_end_signalling(bool cookie) {}
- static inline void __dma_fence_might_wait(void) {}
- #endif
- 
--int dma_fence_signal(struct dma_fence *fence);
--int dma_fence_signal_locked(struct dma_fence *fence);
--int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
--int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
--				      ktime_t timestamp);
-+void dma_fence_signal(struct dma_fence *fence);
-+void dma_fence_signal_locked(struct dma_fence *fence);
-+void dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
-+void dma_fence_signal_timestamp_locked(struct dma_fence *fence, ktime_t timestamp);
- signed long dma_fence_default_wait(struct dma_fence *fence,
- 				   bool intr, signed long timeout);
- int dma_fence_add_callback(struct dma_fence *fence,
--- 
-2.49.0
+ static struct lt9611uxc_mode lt9611uxc_modes[] = {
++	{ 3840, 4400, 2160, 2250, 30 },
+ 	{ 1920, 2200, 1080, 1125, 60 },
+ 	{ 1920, 2200, 1080, 1125, 30 },
+ 	{ 1920, 2640, 1080, 1125, 25 },
+
+---
+base-commit: 74fa9bb7c620b3771412bb8b14fd0b5a83296f06
+change-id: 20251126-lt9611uxc-4k30-39f44a1dc06e
+
+Best regards,
+--  
+Nilesh Laad <nilesh.laad@oss.qualcomm.com>
 
