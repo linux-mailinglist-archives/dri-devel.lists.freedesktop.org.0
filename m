@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5D6C8A28A
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 15:08:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A09C8A2D2
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 15:09:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A34C610E61A;
-	Wed, 26 Nov 2025 14:08:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63C1310E61B;
+	Wed, 26 Nov 2025 14:09:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HF4kTSjG";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="PE/GCtNF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5693410E614;
- Wed, 26 Nov 2025 14:08:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764166110; x=1795702110;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=AmaT3Gb9NOlj1cOluwUUUjqyOU1ZdDgY/WGIcTaKdAQ=;
- b=HF4kTSjGCaDiaCQmUiAlb4Z/szon4D7ImXm/tFJC2KMMkO7CWV7uIj0o
- MwUwTcviTAc+kTfBrxUk1F0GCq9p1CuG5MWjaLsfcVWelSA3vHPht6qqj
- 4qZjBeuNoicfZ0T0mf98oVDwUD9ucLbLo5VIoRBV1FZssjG3pPwSap2xS
- 6r6SJFc+hYrYBr4sy/SX2BD7goVNJvEf6hfMgz0+Vkg6DSr/njqtyNjK3
- UcRNvnHr+OPqYNGLudXDk58581KH5zOq7yNFUktqW++e65gpwNLLbbyeu
- DpI/Q6//sN8FTmkwD0E+9tD47bLLOCbaj/nd1l/TJwmAO7S2ceuaapEyp Q==;
-X-CSE-ConnectionGUID: b0RHSUCST9632Ro38eW+0A==
-X-CSE-MsgGUID: VSAc7X+GTpapjEPQwQRAGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="88850605"
-X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="88850605"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2025 06:08:29 -0800
-X-CSE-ConnectionGUID: mpe+xcdkTSaPTfAYWHmupg==
-X-CSE-MsgGUID: irjUSLqXTRqR24NpdsZHuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="192967334"
-Received: from lfiedoro-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.246.1])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2025 06:08:24 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Yaroslav Bolyukin <iam@lach.pw>, Ville =?utf-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, Maarten Lankhorst
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9224B10E61B;
+ Wed, 26 Nov 2025 14:09:41 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dGhJf3tP1z9tcd;
+ Wed, 26 Nov 2025 15:09:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1764166178; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DmRHcXHYF1BHpb8VfMZZq6dar989WGMZcrYiKm4u1P4=;
+ b=PE/GCtNFXUhbjzXJdWR/gD4m00NSINuH49EL55fKe7aGFUYC4Ge/PJf2Ma4cBbhjTKNffz
+ 2+z9XS0g/j0UO8gNWoHsABYoMxn+fw4dgv2jLNU0+IMV7GNFw0sMUVA0ts9KFjzP5/Ax58
+ +GOEkRpMlv5VeHhX6w+bpMlRzQyW74iUlKtsK55fUO/oBriC4hYyV6B2dHx8sBN7GynYxv
+ tRCctxkqNU0DvqURQ+i6raZDUFihHqWeJQd7mQLFA5VG4mqWgUaK9vo9gNqwrpzEYZL7QA
+ BI+K9rzzkLvUQbN8xFGbt4lovABNKLUakNT+E9q9ZNwqWxClbUY8RPelnfWfWw==
+Message-ID: <f74664fdf1cf0adba9a8b19b00db4823ee3f7f1b.camel@mailbox.org>
+Subject: Re: [PATCH 0/6] dma-fence: Remove return code of dma_fence_signal()
+ et al.
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
+ Stanner <phasta@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>, Felix Kuehling
+ <Felix.Kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,  Matthew Brost
+ <matthew.brost@intel.com>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Yaroslav
- Bolyukin <iam@lach.pw>
-Subject: Re: [PATCH v6 2/7] drm/edid: prepare for VESA vendor-specific data
- block extension
-In-Reply-To: <68c55e772424f8e001898cdd1edcf4856820461e@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251126065126.54016-1-iam@lach.pw>
- <20251126065126.54016-3-iam@lach.pw>
- <68c55e772424f8e001898cdd1edcf4856820461e@intel.com>
-Date: Wed, 26 Nov 2025 16:08:20 +0200
-Message-ID: <b7191ab7c3030a8be0b149d28ae6fa032b64a4d8@intel.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+Date: Wed, 26 Nov 2025 15:09:26 +0100
+In-Reply-To: <48352d7e-5e43-4683-9f00-b77ae571d8f6@amd.com>
+References: <20251126131914.149445-2-phasta@kernel.org>
+ <48352d7e-5e43-4683-9f00-b77ae571d8f6@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain
+X-MBO-RS-ID: 9184d60e51ec9d03be1
+X-MBO-RS-META: ppa4nssdwpc8dthds1b9du1r4cc734jt
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,85 +78,69 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Nov 2025, Jani Nikula <jani.nikula@linux.intel.com> wrote:
-> On Wed, 26 Nov 2025, Yaroslav Bolyukin <iam@lach.pw> wrote:
->> Current VESA vendor-specific block parsing expects real block size to be
->> the same as the defined struct size, use real offsets in conditionals
->> instead to add struct fields in future commits.
->>
->> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
->
-> I think this is something we want to backport, since MSO would break
-> with bigger vendor-specific blocks, and that leads to black screens on
-> MSO displays.
->
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+On Wed, 2025-11-26 at 15:02 +0100, Christian K=C3=B6nig wrote:
+> On 11/26/25 14:19, Philipp Stanner wrote:
+> > Barely anyone uses dma_fence_signal()'s (and similar functions') return
+> > code. Checking it is pretty much useless anyways, because what are you
+> > going to do if a fence was already signal it? Unsignal it and signal it
+> > again? ;p
+>=20
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com> for the enti=
+re series.
+>=20
+> Please push to drm-misc-next or leave me a note when I should pick it up.
 
-Oops, I'll take that back.
+Thx! I can push it. Let's wait a while to see if some of the other
+folks have sth to say.
 
->
->> ---
->>  drivers/gpu/drm/drm_edid.c | 28 ++++++++++++----------------
->>  1 file changed, 12 insertions(+), 16 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->> index 64f7a94dd9e4..a52fd6de9327 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -6544,7 +6544,7 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
->>  	if (oui(vesa->oui[0], vesa->oui[1], vesa->oui[2]) != VESA_IEEE_OUI)
->>  		return;
->>  
->> -	if (sizeof(*vesa) != sizeof(*block) + block->num_bytes) {
->> +	if (block->num_bytes < 5) {
->>  		drm_dbg_kms(connector->dev,
->>  			    "[CONNECTOR:%d:%s] Unexpected VESA vendor block size\n",
->>  			    connector->base.id, connector->name);
->> @@ -6567,24 +6567,20 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
->>  		break;
->>  	}
->>  
->> -	if (!info->mso_stream_count) {
->> -		info->mso_pixel_overlap = 0;
+>=20
+> > Removing the return code simplifies the API and makes it easier for me
+> > to sit on top with Rust DmaFence.
+>=20
+> BTW, I have an rb for embedding the lock and I'm now writing test cases.
+>=20
+> When that is done you should be able to base the Rust DmaFence abstractio=
+n on that as well.
 
-This is no longer cleared for !info->mso_stream_count.
+Yeah, thank you, that will actually help since I was in the process of
+solving the same life time issues in Rust.
 
-Perhaps the code could be reorganized to handle it better.
+I will give your series a review ~tomorrow, too. Or should I wait for
+v4 with the tests?
 
->> -		return;
->> -	}
->> -
->> -	info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
->> -	if (info->mso_pixel_overlap > 8) {
->> +	if (info->mso_stream_count) {
->> +		info->mso_pixel_overlap = FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP, vesa->mso);
->> +		if (info->mso_pixel_overlap > 8) {
->> +			drm_dbg_kms(connector->dev,
->> +				    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
->> +				    connector->base.id, connector->name,
->> +				    info->mso_pixel_overlap);
->> +			info->mso_pixel_overlap = 8;
->> +		}
->>  		drm_dbg_kms(connector->dev,
->> -			    "[CONNECTOR:%d:%s] Reserved MSO pixel overlap value %u\n",
->> +			    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
->>  			    connector->base.id, connector->name,
->> -			    info->mso_pixel_overlap);
->> -		info->mso_pixel_overlap = 8;
->> +			    info->mso_stream_count, info->mso_pixel_overlap);
->>  	}
->> -
->> -	drm_dbg_kms(connector->dev,
->> -		    "[CONNECTOR:%d:%s] MSO stream count %u, pixel overlap %u\n",
->> -		    connector->base.id, connector->name,
->> -		    info->mso_stream_count, info->mso_pixel_overlap);
->>  }
->>  
->>  static void drm_update_vesa_specific_block(struct drm_connector *connector,
+P.
 
--- 
-Jani Nikula, Intel
+>=20
+> Regards,
+> Christian.
+>=20
+> >=20
+> > Philipp Stanner (6):
+> > =C2=A0 dma-buf/dma-fence: Add dma_fence_test_signaled_flag()
+> > =C2=A0 amd/amdkfd: Ignore return code of dma_fence_signal()
+> > =C2=A0 drm/gpu/xe: Ignore dma_fenc_signal() return code
+> > =C2=A0 dma-buf: Don't misuse dma_fence_signal()
+> > =C2=A0 drm/ttm: Remove return check of dma_fence_signal()
+> > =C2=A0 dma-buf/dma-fence: Remove return code of signaling-functions
+> >=20
+> > =C2=A0drivers/dma-buf/dma-fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | =
+59 ++++++-------------
+> > =C2=A0drivers/dma-buf/st-dma-fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 +--
+> > =C2=A0drivers/gpu/drm/amd/amdkfd/kfd_process.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 5 +-
+> > =C2=A0.../gpu/drm/ttm/tests/ttm_bo_validate_test.c=C2=A0 |=C2=A0 3 +-
+> > =C2=A0drivers/gpu/drm/xe/xe_hw_fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +-
+> > =C2=A0include/linux/dma-fence.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 33 ++++++++---
+> > =C2=A06 files changed, 53 insertions(+), 59 deletions(-)
+> >=20
+>=20
+
