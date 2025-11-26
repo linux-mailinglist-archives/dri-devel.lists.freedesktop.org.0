@@ -2,54 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B848C8AC87
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 16:59:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90676C8AD4D
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 17:09:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A87DF10E2BE;
-	Wed, 26 Nov 2025 15:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED1B810E664;
+	Wed, 26 Nov 2025 16:09:02 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ezr4vDnI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4GbyUUUq";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ezr4vDnI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4GbyUUUq";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63C0510E0C8
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 15:59:47 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1vOHvh-0006xd-H3; Wed, 26 Nov 2025 16:59:41 +0100
-Message-ID: <12a822ffedb4d1c4901c2bfd1c493034c8ed3f90.camel@pengutronix.de>
-Subject: Re: [PATCH 1/4] dma-buf/fence: give some reasonable maximum
- signaling timeout
-From: Lucas Stach <l.stach@pengutronix.de>
-To: phasta@kernel.org, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, alexdeucher@gmail.com, simona.vetter@ffwll.ch, 
- faith@gfxstrand.net, sumit.semwal@linaro.org
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org
-Date: Wed, 26 Nov 2025 16:59:39 +0100
-In-Reply-To: <ff4e03cf5281bf54d36c69b4ae0dd5a19723178d.camel@mailbox.org>
-References: <20251120150018.27385-1-christian.koenig@amd.com>
- <20251120150018.27385-2-christian.koenig@amd.com>
- <380012b9d6f0e9ee3c2f125cfe2f37f65c1979e0.camel@mailbox.org>
- <b46913b6-fe61-48cd-a9ca-aa2fe3a12b63@amd.com>
- <1c1a14d42d0a4a25ebce26a2af0a61dc1b7813fc.camel@mailbox.org>
- <508ff709-0f05-4982-8e15-5fea3bbd12e7@amd.com>
- <c2b571a7e74f86c6cb95bebd11274447c3080df9.camel@mailbox.org>
- <52d484c5-6dfb-4e2f-9caa-a61cf1d94801@amd.com>
- <e2c006ca81081ee1afa00b1b52a035c28a267e0f.camel@pengutronix.de>
- <207d50fe-eef3-4baa-97a7-567598e56b55@amd.com>
- <54d6e863fc606d22f245e30012bb5120d5bee7ee.camel@mailbox.org>
- <6151e7c5-1de2-4857-ae64-1e2fd6cb7513@amd.com>
- <ff4e03cf5281bf54d36c69b4ae0dd5a19723178d.camel@mailbox.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2601710E652
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 16:09:01 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 748EC5BE77;
+ Wed, 26 Nov 2025 16:08:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1764173339; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=YbYJIoS8CSkYSEky1xzQmHacWnGGr8CQaD7k/OTeboQ=;
+ b=ezr4vDnI9BlOLnc26FkABd8no3L8/SawwvPCTI6IVIlvPOhxdDOyv8d39UuPjMNL8Mmfx5
+ 3jkxeMZmGZWaT2voSsFqhEkuiv5g54zsRyY+5P9CG5e4TZNyO8fPgdKuAaBnCuxgXxFgPP
+ jaadOykargHYJDRdfNNzH3GLgzyOzGk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1764173339;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=YbYJIoS8CSkYSEky1xzQmHacWnGGr8CQaD7k/OTeboQ=;
+ b=4GbyUUUqAKT4zSGNS8PWVY06FymL7ZhyflSM/4I6eu0Khvd0nJ9Pjkq868uBdTDOPVn0Cb
+ 7qh/+SPNAeDd9HDA==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ezr4vDnI;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4GbyUUUq
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1764173339; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=YbYJIoS8CSkYSEky1xzQmHacWnGGr8CQaD7k/OTeboQ=;
+ b=ezr4vDnI9BlOLnc26FkABd8no3L8/SawwvPCTI6IVIlvPOhxdDOyv8d39UuPjMNL8Mmfx5
+ 3jkxeMZmGZWaT2voSsFqhEkuiv5g54zsRyY+5P9CG5e4TZNyO8fPgdKuAaBnCuxgXxFgPP
+ jaadOykargHYJDRdfNNzH3GLgzyOzGk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1764173339;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=YbYJIoS8CSkYSEky1xzQmHacWnGGr8CQaD7k/OTeboQ=;
+ b=4GbyUUUqAKT4zSGNS8PWVY06FymL7ZhyflSM/4I6eu0Khvd0nJ9Pjkq868uBdTDOPVn0Cb
+ 7qh/+SPNAeDd9HDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 05E093EA63;
+ Wed, 26 Nov 2025 16:08:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id DH6WOxomJ2lnIgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Nov 2025 16:08:58 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: ardb@kernel.org, javierm@redhat.com, arnd@arndb.de, richard.lyu@suse.com,
+ helgaas@kernel.org
+Cc: x86@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-efi@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, linux-hyperv@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 0/9] arch,sysfb,efi: Support EDID on non-x86 EFI systems
+Date: Wed, 26 Nov 2025 17:03:17 +0100
+Message-ID: <20251126160854.553077-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
+ RCPT_COUNT_TWELVE(0.00)[16]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 748EC5BE77
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,57 +119,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mittwoch, dem 26.11.2025 um 16:44 +0100 schrieb Philipp Stanner:
-> On Wed, 2025-11-26 at 16:03 +0100, Christian K=C3=B6nig wrote:
-> >=20
-> >=20
-> > On 11/26/25 13:37, Philipp Stanner wrote:
-> > > On Wed, 2025-11-26 at 13:31 +0100, Christian K=C3=B6nig wrote:
-> > > >=20
->=20
-> [=E2=80=A6]
->=20
-> > > > Well the question is how do you detect *reliable* that there is
-> > > > still forward progress?
-> > >=20
-> > > My understanding is that that's impossible since the internals of
-> > > command submissions are only really understood by userspace, who
-> > > submits them.
-> >=20
-> > Right, but we can still try to do our best in the kernel to mitigate
-> > the situation.
-> >=20
-> > I think for now amdgpu will implement something like checking if the
-> > HW still makes progress after a timeout but only a limited number of
-> > re-tries until we say that's it and reset anyway.
->=20
-> Oh oh, isn't that our dear hang_limit? :)
+Replace screen_info and edid_info with sysfb_primary_device of type
+struct sysfb_display_info. Update all users. Then implement EDID support
+in the kernel EFI code.
 
-Not really. The hang limit is the limit on how many times a hanging
-submit might be retried.
+Sysfb DRM drivers currently fetch the global edid_info directly, when
+they should get that information together with the screen_info from their
+device. Wrapping screen_info and edid_info in sysfb_primary_display and
+passing this to drivers enables this.
 
-Limiting the number of timeout extensions is more of a safety net
-against a workloads which might appear to make progress to the kernel
-driver but in reality are stuck. After all, the kernel driver can only
-have limited knowledge of the GPU state and any progress check will
-have limited precision with false positives/negatives being a part of
-reality we have to deal with.
+Replacing both with sysfb_primary_display has been motivate by the EFI
+stub. EFI wants to transfer EDID via config table in a single entry.
+Using struct sysfb_display_info this will become easily possible. Hence
+accept some churn in architecture code for the long-term improvements.
 
->=20
-> We agree that you can never really now whether userspace just submitted
-> a while(true) job, don't we? Even if some GPU register still indicates
-> "progress".
+Patches 1 and 2 reduce the exposure of screen_info in EFI-related code.
 
-Yea, this is really hardware dependent on what you can read at
-runtime.=C2=A0
+Patch 3 adds struct sysfb_display_info.
 
-For etnaviv we define "progress" as the command frontend moving towards
-the end of the command buffer. As a single draw call in valid workloads
-can blow through our timeout we also use debug registers to look at the
-current primitive ID within a draw call.
-If userspace submits a workload that requires more than 500ms per
-primitive to finish we consider this an invalid workload and go through
-the reset/recovery motions.
+Patch 4 replaces scren_info with sysfb_primary_display. This results in
+several changes throught the kernel, but is really just a refactoring.
 
-Regards,
-Lucas
+Patch 5 updates sysfb to transfer sysfb_primary_display to the related
+drivers.
+
+Patch 6 moves edid_info into sysfb_primary_display. This resolves some
+drivers' reference to the global edid_info, but also makes the EDID data
+available on non-x86 architectures.
+
+Patches 7 and 8 add support for EDID transfers on non-x86 EFI systems.
+
+Patch 9 cleans up the config-table allocation to be easier to understand.
+
+v3:
+- replace SCREEN_INFO table entry (Ard)
+- merge libstub patch into kernel patch
+v2:
+- combine v1 of the series at [1] plus changes from [2] and [3].
+
+[1] https://lore.kernel.org/dri-devel/20251121135624.494768-1-tzimmermann@suse.de/
+[2] https://lore.kernel.org/dri-devel/20251015160816.525825-1-tzimmermann@suse.de/
+[3] https://lore.kernel.org/linux-efi/20251119123011.1187249-5-ardb+git@google.com/
+
+Thomas Zimmermann (9):
+  efi: earlycon: Reduce number of references to global screen_info
+  efi: sysfb_efi: Reduce number of references to global screen_info
+  sysfb: Add struct sysfb_display_info
+  sysfb: Replace screen_info with sysfb_primary_display
+  sysfb: Pass sysfb_primary_display to devices
+  sysfb: Move edid_info into sysfb_primary_display
+  efi: Refactor init_primary_display() helpers
+  efi: Support EDID information
+  efi: libstub: Simplify interfaces for primary_display
+
+ arch/arm64/kernel/image-vars.h                |  2 +-
+ arch/loongarch/kernel/efi.c                   | 38 ++++-----
+ arch/loongarch/kernel/image-vars.h            |  2 +-
+ arch/riscv/kernel/image-vars.h                |  2 +-
+ arch/x86/kernel/kexec-bzimage64.c             |  4 +-
+ arch/x86/kernel/setup.c                       | 16 ++--
+ arch/x86/video/video-common.c                 |  4 +-
+ drivers/firmware/efi/earlycon.c               | 42 +++++-----
+ drivers/firmware/efi/efi-init.c               | 46 ++++++-----
+ drivers/firmware/efi/efi.c                    |  4 +-
+ drivers/firmware/efi/libstub/Makefile         |  2 +-
+ drivers/firmware/efi/libstub/efi-stub-entry.c | 36 +++++++--
+ drivers/firmware/efi/libstub/efi-stub.c       | 49 +++++++----
+ drivers/firmware/efi/libstub/efistub.h        |  7 +-
+ .../firmware/efi/libstub/primary_display.c    | 41 ++++++++++
+ drivers/firmware/efi/libstub/screen_info.c    | 53 ------------
+ drivers/firmware/efi/libstub/zboot.c          |  6 +-
+ drivers/firmware/efi/sysfb_efi.c              | 81 ++++++++++---------
+ drivers/firmware/sysfb.c                      | 13 +--
+ drivers/firmware/sysfb_simplefb.c             |  2 +-
+ drivers/gpu/drm/sysfb/efidrm.c                | 14 ++--
+ drivers/gpu/drm/sysfb/vesadrm.c               | 14 ++--
+ drivers/hv/vmbus_drv.c                        |  6 +-
+ drivers/pci/vgaarb.c                          |  4 +-
+ drivers/video/Kconfig                         |  8 +-
+ drivers/video/fbdev/core/fbmon.c              |  8 +-
+ drivers/video/fbdev/efifb.c                   | 10 ++-
+ drivers/video/fbdev/vesafb.c                  | 10 ++-
+ drivers/video/fbdev/vga16fb.c                 |  8 +-
+ drivers/video/screen_info_pci.c               |  5 +-
+ include/linux/efi.h                           |  9 ++-
+ include/linux/screen_info.h                   |  2 -
+ include/linux/sysfb.h                         | 23 ++++--
+ include/video/edid.h                          |  4 -
+ 34 files changed, 321 insertions(+), 254 deletions(-)
+ create mode 100644 drivers/firmware/efi/libstub/primary_display.c
+ delete mode 100644 drivers/firmware/efi/libstub/screen_info.c
+
+
+base-commit: d724c6f85e80a23ed46b7ebc6e38b527c09d64f5
+-- 
+2.51.1
+
