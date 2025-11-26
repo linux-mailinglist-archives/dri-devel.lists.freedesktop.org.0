@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A09C8A2D2
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 15:09:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C55C8A323
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 15:10:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63C1310E61B;
-	Wed, 26 Nov 2025 14:09:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F35610E62D;
+	Wed, 26 Nov 2025 14:10:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="PE/GCtNF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fSz0k17e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9224B10E61B;
- Wed, 26 Nov 2025 14:09:41 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dGhJf3tP1z9tcd;
- Wed, 26 Nov 2025 15:09:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1764166178; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DmRHcXHYF1BHpb8VfMZZq6dar989WGMZcrYiKm4u1P4=;
- b=PE/GCtNFXUhbjzXJdWR/gD4m00NSINuH49EL55fKe7aGFUYC4Ge/PJf2Ma4cBbhjTKNffz
- 2+z9XS0g/j0UO8gNWoHsABYoMxn+fw4dgv2jLNU0+IMV7GNFw0sMUVA0ts9KFjzP5/Ax58
- +GOEkRpMlv5VeHhX6w+bpMlRzQyW74iUlKtsK55fUO/oBriC4hYyV6B2dHx8sBN7GynYxv
- tRCctxkqNU0DvqURQ+i6raZDUFihHqWeJQd7mQLFA5VG4mqWgUaK9vo9gNqwrpzEYZL7QA
- BI+K9rzzkLvUQbN8xFGbt4lovABNKLUakNT+E9q9ZNwqWxClbUY8RPelnfWfWw==
-Message-ID: <f74664fdf1cf0adba9a8b19b00db4823ee3f7f1b.camel@mailbox.org>
-Subject: Re: [PATCH 0/6] dma-fence: Remove return code of dma_fence_signal()
- et al.
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
- Stanner <phasta@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>, Felix Kuehling
- <Felix.Kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,  Matthew Brost
- <matthew.brost@intel.com>, Maarten Lankhorst
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF3C210E63B;
+ Wed, 26 Nov 2025 14:10:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764166250; x=1795702250;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=Asm1GznwhdVlsrqK/wFWsxglofT/i1OMsFr8cBgK0EA=;
+ b=fSz0k17e2omuuziciUv2krr48V4eJpJq6TZYBPUuxeFGu481OLAhV9mV
+ Zr8er/iMRT0mXHKvCl0KGBKgAKVncYv1wFUX3fs7pp+RCAiGYayiKVJ8S
+ GqWHejg/BBPqtDF2KFMfeMGiF+NloJmR6RFtIAWEEB9g8v5eK3OsF3WMZ
+ EXX3uGD372TCGtvtW0p5myzubBQZ460kx/5/9f5BZu/61klE4NBp3E78f
+ 8S0FtAdNjSA3q8Nz8sK1HQNY/AFpGkoJLr43beENgeWU+exprbLFP7o0q
+ XJk+8WGrZQ2amZ2Tba5VS/JTVkuhBwpb5oPuj2TNJHlDBNKsOkmOQfi5C w==;
+X-CSE-ConnectionGUID: SLIO4fXkSwGoPFm1KEg/jw==
+X-CSE-MsgGUID: Ksjx1Ec4QIyPCd+XUtEPFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="66161648"
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="66161648"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 06:10:49 -0800
+X-CSE-ConnectionGUID: /trZjtZET7S4p6h7tjLDaQ==
+X-CSE-MsgGUID: yStiTBEASl+QDOxHp2Wp0A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="193379508"
+Received: from lfiedoro-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.1])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 06:10:37 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Yaroslav Bolyukin <iam@lach.pw>, Ville =?utf-8?B?U3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-Date: Wed, 26 Nov 2025 15:09:26 +0100
-In-Reply-To: <48352d7e-5e43-4683-9f00-b77ae571d8f6@amd.com>
-References: <20251126131914.149445-2-phasta@kernel.org>
- <48352d7e-5e43-4683-9f00-b77ae571d8f6@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+ Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Yaroslav
+ Bolyukin <iam@lach.pw>
+Subject: Re: [PATCH v6 3/7] drm/edid: MSO should only be used for non-eDP
+ displays
+In-Reply-To: <20251126065126.54016-4-iam@lach.pw>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251126065126.54016-1-iam@lach.pw>
+ <20251126065126.54016-4-iam@lach.pw>
+Date: Wed, 26 Nov 2025 16:10:34 +0200
+Message-ID: <5be6faede273533b88e592bd25776b639d2eeb9f@intel.com>
 MIME-Version: 1.0
-X-MBO-RS-ID: 9184d60e51ec9d03be1
-X-MBO-RS-META: ppa4nssdwpc8dthds1b9du1r4cc734jt
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,69 +77,100 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-11-26 at 15:02 +0100, Christian K=C3=B6nig wrote:
-> On 11/26/25 14:19, Philipp Stanner wrote:
-> > Barely anyone uses dma_fence_signal()'s (and similar functions') return
-> > code. Checking it is pretty much useless anyways, because what are you
-> > going to do if a fence was already signal it? Unsignal it and signal it
-> > again? ;p
->=20
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com> for the enti=
-re series.
->=20
-> Please push to drm-misc-next or leave me a note when I should pick it up.
+On Wed, 26 Nov 2025, Yaroslav Bolyukin <iam@lach.pw> wrote:
+> As per DisplayID v2.1a spec:
+> If Offset 06h[2:0] is programmed to 001b (External DisplayPort), this
+> field shall be cleared to 00b (Not supported).
+>
+> Link: https://lore.kernel.org/lkml/3abc1087618c822e5676e67a3ec2e64e506dc5ec@intel.com/
+> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
+> ---
+>  drivers/gpu/drm/drm_displayid_internal.h |  4 +++
+>  drivers/gpu/drm/drm_edid.c               | 36 +++++++++++++++---------
+>  2 files changed, 27 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_displayid_internal.h b/drivers/gpu/drm/drm_displayid_internal.h
+> index 5b1b32f73516..72f107ae832f 100644
+> --- a/drivers/gpu/drm/drm_displayid_internal.h
+> +++ b/drivers/gpu/drm/drm_displayid_internal.h
+> @@ -142,9 +142,13 @@ struct displayid_formula_timing_block {
+>  	struct displayid_formula_timings_9 timings[];
+>  } __packed;
+>  
+> +#define DISPLAYID_VESA_DP_TYPE		GENMASK(2, 0)
+>  #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
+>  #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
+>  
+> +#define DISPLAYID_VESA_DP_TYPE_EDP	0
+> +#define DISPLAYID_VESA_DP_TYPE_DP	1
+> +
+>  struct displayid_vesa_vendor_specific_block {
+>  	struct displayid_block base;
+>  	u8 oui[3];
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index a52fd6de9327..348aa31aea1b 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -6533,6 +6533,7 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
+>  	struct displayid_vesa_vendor_specific_block *vesa =
+>  		(struct displayid_vesa_vendor_specific_block *)block;
+>  	struct drm_display_info *info = &connector->display_info;
+> +	int dp_type;
+>  
+>  	if (block->num_bytes < 3) {
+>  		drm_dbg_kms(connector->dev,
+> @@ -6551,20 +6552,29 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
+>  		return;
+>  	}
+>  
+> -	switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
+> -	default:
+> -		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved MSO mode value\n",
+> +	dp_type = FIELD_GET(DISPLAYID_VESA_DP_TYPE, vesa->data_structure_type);
+> +	if (dp_type > 1) {
+> +		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved dp type value\n",
+>  			    connector->base.id, connector->name);
+> -		fallthrough;
+> -	case 0:
+> -		info->mso_stream_count = 0;
+> -		break;
+> -	case 1:
+> -		info->mso_stream_count = 2; /* 2 or 4 links */
+> -		break;
+> -	case 2:
+> -		info->mso_stream_count = 4; /* 4 links */
+> -		break;
+> +	}
+> +
+> +	/* MSO is not supported for eDP */
+> +	if (dp_type != DISPLAYID_VESA_DP_TYPE_EDP) {
 
-Thx! I can push it. Let's wait a while to see if some of the other
-folks have sth to say.
+MSO is *only* supported on eDP, not the other way round!
 
->=20
-> > Removing the return code simplifies the API and makes it easier for me
-> > to sit on top with Rust DmaFence.
->=20
-> BTW, I have an rb for embedding the lock and I'm now writing test cases.
->=20
-> When that is done you should be able to base the Rust DmaFence abstractio=
-n on that as well.
+BR,
+Jani.
 
-Yeah, thank you, that will actually help since I was in the process of
-solving the same life time issues in Rust.
+> +		switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
+> +		default:
+> +			drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved MSO mode value\n",
+> +				    connector->base.id, connector->name);
+> +			fallthrough;
+> +		case 0:
+> +			info->mso_stream_count = 0;
+> +			break;
+> +		case 1:
+> +			info->mso_stream_count = 2; /* 2 or 4 links */
+> +			break;
+> +		case 2:
+> +			info->mso_stream_count = 4; /* 4 links */
+> +			break;
+> +		}
+>  	}
+>  
+>  	if (info->mso_stream_count) {
 
-I will give your series a review ~tomorrow, too. Or should I wait for
-v4 with the tests?
-
-P.
-
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > Philipp Stanner (6):
-> > =C2=A0 dma-buf/dma-fence: Add dma_fence_test_signaled_flag()
-> > =C2=A0 amd/amdkfd: Ignore return code of dma_fence_signal()
-> > =C2=A0 drm/gpu/xe: Ignore dma_fenc_signal() return code
-> > =C2=A0 dma-buf: Don't misuse dma_fence_signal()
-> > =C2=A0 drm/ttm: Remove return check of dma_fence_signal()
-> > =C2=A0 dma-buf/dma-fence: Remove return code of signaling-functions
-> >=20
-> > =C2=A0drivers/dma-buf/dma-fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | =
-59 ++++++-------------
-> > =C2=A0drivers/dma-buf/st-dma-fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 +--
-> > =C2=A0drivers/gpu/drm/amd/amdkfd/kfd_process.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 5 +-
-> > =C2=A0.../gpu/drm/ttm/tests/ttm_bo_validate_test.c=C2=A0 |=C2=A0 3 +-
-> > =C2=A0drivers/gpu/drm/xe/xe_hw_fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 5 +-
-> > =C2=A0include/linux/dma-fence.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 33 ++++++++---
-> > =C2=A06 files changed, 53 insertions(+), 59 deletions(-)
-> >=20
->=20
-
+-- 
+Jani Nikula, Intel
