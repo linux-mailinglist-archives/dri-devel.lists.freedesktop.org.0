@@ -2,75 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E982FC89432
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 11:24:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C52C894C8
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 11:29:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F3E189238;
-	Wed, 26 Nov 2025 10:24:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E858510E565;
+	Wed, 26 Nov 2025 10:29:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="kS0+3EoI";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BkgK468r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender3-op-o12.zoho.com (sender3-op-o12.zoho.com
- [136.143.184.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 559AD10E565
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 10:24:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1764152676; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=GjpN7+0mJ4VallUL9S0o2idcDIIb4RYr7NdY3+Sux97oXTaNHiODNMh7AulUDRcr4khwPlZMS8u7xWMRTnux1eSUG/oBHvhdhBu9xgZp11nqH+kjRmnXqvGrxhH+gxfFohIbKwVC5H5FSywGOmdx0eiGfhIa1PgDBLYTY/PACok=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1764152676;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=CmdPaoLtlgzN/ALPtVg3jWDe/4Z13eJZhKpYdSPlSEA=; 
- b=bj1v56HDVk/YZs7ORWExKkPlUr4hJE8fstR5iWgDFxyqjoSfSYvHg5kGMHw99n/GeISX/melW2lfPlJ84IeLIXOdxgPUJw+yXwOF1+W3BIN0xgRgNRjO+eimytYlQLqQ2u196Hna34fQOeWv3zb9z2LlXQYtiEZCE3bSZa2Fz1g=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=icenowy.me;
- spf=pass  smtp.mailfrom=uwu@icenowy.me;
- dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764152676; 
- s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
- h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
- bh=CmdPaoLtlgzN/ALPtVg3jWDe/4Z13eJZhKpYdSPlSEA=;
- b=kS0+3EoIO5eOIKrS4MrbD02t/bQzAirAhx/2dMGekxHGKnZDndv/KMZ8A5PdTmUA
- M6vPXqRD0ww1laogJKDhESW12lJjxG8spp4M97biXbXpvrPUrG1Yy7NBEG8TweoC5nl
- 5+7FBTTwO4E5i6I0st9V/Z9PBgJXZ3a6VEHz3+4Jrejos5hcY/YGCKUj6NPqXpL/69i
- uIb9tydZpiz0azY/a96DdRCL4smcrov9Sy5jHK1XZuuUaBZlJH6JapeYunlKI2wzttH
- F6DYkJYTS+TfSHYOPqhnbLeSTDHsn5uVa+pQaLBjA+GMeY0zvk5ZR3EVevNCQ1EJqFX
- btTAIuF0VA==
-Received: by mx.zohomail.com with SMTPS id 1764152673442929.6477168746331;
- Wed, 26 Nov 2025 02:24:33 -0800 (PST)
-Message-ID: <d4f07dbc7edb55d996d4d251acb9631f33e48f5e.camel@icenowy.me>
-Subject: Re: [PATCH v3 2/9] dt-bindings: display: add verisilicon,dc
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Drew
- Fustini <fustini@kernel.org>, Guo Ren <guoren@kernel.org>, Fu Wei
- <wefu@redhat.com>, Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner
- <heiko@sntech.de>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>,  Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Michal
- Wilczynski <m.wilczynski@samsung.com>
-Cc: Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Date: Wed, 26 Nov 2025 18:24:22 +0800
-In-Reply-To: <0b7ba974-d8d5-4417-8182-3e9299315058@kernel.org>
-References: <20251124105226.2860845-1-uwu@icenowy.me>
- <20251124105226.2860845-3-uwu@icenowy.me>
- <d4cfe8bb-5ca2-40a9-bfe0-96e7ded5586c@kernel.org>
- <544ae21cc1b5f488d03a5650d9275ff22b237d63.camel@icenowy.me>
- <0b7ba974-d8d5-4417-8182-3e9299315058@kernel.org>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 813E110E565
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 10:29:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id B226C6016D;
+ Wed, 26 Nov 2025 10:29:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E56DAC116D0;
+ Wed, 26 Nov 2025 10:28:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764152944;
+ bh=o4xoOR3FYDcnfcSB/1tq22yzXJeODAX9bkdlETyAHEY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=BkgK468rzrfZlNiOSrreq1w6DnQplV4+t6t7/BA2XqweG84izVeTMvMy/T3emezfN
+ T/JXctASsoWjI7YCiawD+RcXB4pB3L+mYhL0kl+SmqVBMvASoM1M4vKl0Y/FSuDZuq
+ aE1EBQXzXPOyXXuUn2iG1IUqJQJ8pjMmwRSlps3ZhsX72k5cDptFjRu374t4bpw49X
+ cGV4w05ETwMTo0m7M9AsefeupsKL+tInlSuW6yQuznKT+mSNdLG3f05u2KvFsgUBSx
+ HTjbyleQa3P5LMeWNtYlj5672aAaQOUk+7IzWhTv1k4oT3wxT9+g23Y6TTJwKC1GoM
+ r+O5Zny9zTW2Q==
+Message-ID: <86c4b848-a94a-4ccb-80a1-59a5c91e8cce@kernel.org>
+Date: Wed, 26 Nov 2025 11:28:57 +0100
 MIME-Version: 1.0
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v3 2/9] dt-bindings: display: add verisilicon,dc
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Michal Wilczynski <m.wilczynski@samsung.com>, Han Gao
+ <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+References: <20251126045233.218286-1-zhengxingda@iscas.ac.cn>
+ <20251126045233.218286-3-zhengxingda@iscas.ac.cn>
+ <20251126-gifted-zircon-ibex-a9f1d8@kuoka>
+ <e2b72b8ef4c2911c4ea44a80f42182bbc78d5626.camel@icenowy.me>
+ <b57207ab-a69e-4dad-98ca-f4923cebdf81@kernel.org>
+ <001154b743b9f8364e96b3ebf791ef9920bbfa03.camel@icenowy.me>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <001154b743b9f8364e96b3ebf791ef9920bbfa03.camel@icenowy.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,90 +120,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=E5=9C=A8 2025-11-26=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 11:22 +0100=EF=BC=
-=8CKrzysztof Kozlowski=E5=86=99=E9=81=93=EF=BC=9A
-> On 26/11/2025 10:50, Icenowy Zheng wrote:
-> > > > +maintainers:
-> > > > +=C2=A0 - Icenowy Zheng <uwu@icenowy.me>
-> > > > +
-> > > > +properties:
-> > > > +=C2=A0 $nodename:
-> > > > +=C2=A0=C2=A0=C2=A0 pattern: "^display@[0-9a-f]+$"
-> > > > +
-> > > > +=C2=A0 compatible:
-> > > > +=C2=A0=C2=A0=C2=A0 items:
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - enum:
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - thead,th1=
-520-dc8200
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: verisilicon,dc
-> > >=20
-> > > I do not see any explanation of exception for generic
-> > > compatibles,
-> > > maybe
-> > > except "self-identification" remark. Rob already pointed this
-> > > out, so
-> > > be
-> > > explicit in commit msg why you are using a generic compatible.
-> >=20
-> > Well I only get the meaning of "a SoC specific compatible is
-> > required"
-> > in his review message.
-> >=20
-> > I think my binding now requires both a SoC-specific compatible and
-> > a
-> > generic compatible, which should be okay to satisfy Rob's original
-> > review.
->=20
-> You will get then the same questions for me - what justifies generic
-> compatible. You should be on this explicit, because otherwise people
-> misinterpret some commits and patches, and they think the generic
-> compatible is allowed for them as well.
->=20
-> >=20
-> > >=20
-> > > > +
-> > > > +=C2=A0 reg:
-> > > > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > > > +
-> > > > +=C2=A0 interrupts:
-> > > > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > > > +
-> > > > +=C2=A0 clocks:
-> > > > +=C2=A0=C2=A0=C2=A0 minItems: 4
-> > >=20
-> > > This is not flexible. Device either has or has not these clocks.
-> >=20
-> > The existence of all these clocks are verified by diagrams in
-> > manuals
->=20
-> So not flexible, then:
->=20
-> > of two different SoCs with DC8200 (T-Head TH1520 and StarFive
-> > JH7110).
-> >=20
-> > Maybe a explicit `maxItems: 5` is needed here, but as my DT passes
-> > dtbs_check, I don't think it's necessary?
->=20
-> No, drop minItems only.
+On 26/11/2025 10:41, Icenowy Zheng wrote:
+> 在 2025-11-26星期三的 10:37 +0100，Krzysztof Kozlowski写道：
+>> On 26/11/2025 09:57, Icenowy Zheng wrote:
+>>> 在 2025-11-26星期三的 09:51 +0100，Krzysztof Kozlowski写道：
+>>>> On Wed, Nov 26, 2025 at 12:52:26PM +0800, Icenowy Zheng wrote:
+>>>>> From: Icenowy Zheng <uwu@icenowy.me>
+>>>>>
+>>>>> Verisilicon has a series of display controllers prefixed with
+>>>>> DC
+>>>>> and
+>>>>> with self-identification facility like their GC series GPUs.
+>>>>>
+>>>>> Add a device tree binding for it.
+>>>>>
+>>>>> Depends on the specific DC model, it can have either one or two
+>>>>> display
+>>>>> outputs, and each display output could be set to DPI signal or
+>>>>> "DP"
+>>>>> signal (which seems to be some plain parallel bus to HDMI
+>>>>> controllers).
+>>>>>
+>>>>> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+>>>>> Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+>>>>> ---
+>>>>
+>>>> You already received review on this. Don't send the same. Read
+>>>> the
+>>>> review.
+>>>
+>>> Please see the sender (mail header From) of this time.
+>>
+>> This improved. I am speaking about the rest of review.
+> 
+> Well this is why this is a v3 resend, not v4.
+> 
+> I will address these issues in v4.
 
-Well, okay, sounds reasonable.
+You received review. Do not ever make a resend ignoring the review, even
+if only parts. Make a posting after addressing COMPLETE review.
 
->=20
-> >=20
-> > Or maybe I should drop the flexibility now and use a `minItems: 5`
-> > here
-> > (and leave DC8000 support as another story)? (The Eswin EIC7700
-> > manual
-> > does not have a diagram showing external connections of the DC,
-> > like
-> > the two SoCs I mentioned above).
->=20
-> You document here only the devices explicitly mentioned in the
-> binding.
-> You cannot add here constraints or clocks for some device which is
-> not
-> in the binding and I see only th1520 in the binding.
->=20
-> Best regards,
-> Krzysztof
+Otherwise this hides the original review and no one will ever find it.
+It also is quite disrespectful to my time spent on that review.
 
+Best regards,
+Krzysztof
