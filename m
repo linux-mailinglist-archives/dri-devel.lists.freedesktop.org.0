@@ -2,83 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CBF9C89703
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 12:07:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB29EC89714
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 12:08:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8992B10E5AE;
-	Wed, 26 Nov 2025 11:07:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B5C710E52C;
+	Wed, 26 Nov 2025 11:08:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=fooishbar.org header.i=@fooishbar.org header.b="abG9m7Kt";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a4k+8xR9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com
- [209.85.222.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0CD110E5C3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 11:07:40 +0000 (UTC)
-Received: by mail-qk1-f172.google.com with SMTP id
- af79cd13be357-8b2dec4d115so667611285a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 03:07:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fooishbar.org; s=google; t=1764155260; x=1764760060;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ySJZVvPVAtkVNPz6NA10TcVQSbkBmCkSCgqEWvBqTZ0=;
- b=abG9m7Kt8F8NjgnXFzzkXLbnECsSf+ZnJ9V3v5vPcDszzatZqekJ0sNpbTsAgmID1v
- IJt2sJ1zpV/ZDoq+tR5cxA4NiFhhXbeHRxOctLaqkpaaolUOyo7gO+OPiZ/DKZvevF8j
- mP00SDVpfxDZMf0SSP4SWZGECG2sSrBP9oJYlPwnKVBfX9m9U1BlU8pemx9vHStjzOjQ
- 8hiWGYLIt330NUkbzdyVog+0rpzun2MhPK2p46ibN7fw0iiKCdzY0SsLw7+OsexjwHIg
- 7BbOuc/O/eiKBECO2qYfK7kmCza4xKj5r3adTGnH9SsnTyGKovLlqTFB8P6gBq7+q06V
- OsWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764155260; x=1764760060;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ySJZVvPVAtkVNPz6NA10TcVQSbkBmCkSCgqEWvBqTZ0=;
- b=b2GG21Ge85yHo/gbkIqxhpqbcFi76eSk2GMK+ZSU5lEgPVHZQ5MAsLUmpHdbU2+zAk
- g2ZcWPuFtZos2oEvIXSccLMiI4+CDpBn9/WXQ5k9tj/UHY0oRmOCIynt7xu2EsySUlVp
- 9mfz34s+f3XObwcWLQ4lr9si6xfP+zLg2Yai0cHyOn/6S84zESkMx0jWb1xWr3xrJveg
- rsDCx4qK/bK5fM3Gcqk6UDFVzKAPrdsA8loMrzklTIKKCrR9iMNa3IGgaC2TQzhaHNvA
- hceaYmAVuP/rWxiofKDE+AxSTI19pkF0AJGppEqJVGYFXTp7FW1wvNZGI4YBAeEcDbjQ
- dsRw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVOan2uGXq+uG6dGJajuFf6+RGC2fOWil97l0Ou3cfvMBhMwF4v5VQQajdHuM0unx4a7AKlyK40/qs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzXJwonYvfWALUGqZhjkMZG/446CZ/ChgUiOS0nfyhCUfExLLn2
- zsGOszuRpSk1Cn3wAXXx9zR1Xx3RzAoXowEAY3gourriacY4X2zZvH/Dmmc0ltSLmMReBgKoGcB
- HIOi4ADOoEDBWx3XFYbuZYVx3VljiyNnwf80BkBwdoQ==
-X-Gm-Gg: ASbGncvjb7ossq46nu16ehguJP3/0CYSzz3TnA34m4sna/7K0ITFqYN21F7rutn+wG8
- RChJ5VwCZNxmpy7D8fM95oTsJF0uIfzFBl9oaO+VlneQ5qQRzGIA/yFtLe3VdO2fQF4h7tSyBRm
- UZTS/RAOe2L2awoFHTVvBBOQSHwTyU/vfFLdF7SEM5Hw+DzPlEpVxRIQXSUcYv5AzjCTDv1qyWv
- JNJNy3uxsp3WwJ1bOIjXFfvbRfmbwjEZp/1/hYF7f2fXwOvUiBi95HN1I6rpEXwALmr
-X-Google-Smtp-Source: AGHT+IFEMRhUJ5DgUF4M36O1+CotSLgmr1pmxYhcDMz2eQI19J/ZEulHKQDG2upEFzMe0pelGzx7DUfPzYgkEkrs7pQ=
-X-Received: by 2002:a05:620a:45ab:b0:8b2:f8c6:7ce6 with SMTP id
- af79cd13be357-8b33d5fcea1mr2587147985a.79.1764155259826; Wed, 26 Nov 2025
- 03:07:39 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64B4B10E52C
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 11:08:25 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 28E4D6DE;
+ Wed, 26 Nov 2025 12:06:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1764155175;
+ bh=BWd7iEYCAHCUTTAZhr3xVFJU01s/oxKDr/lA/4ceT48=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=a4k+8xR98Hzv5kv5sJ3jV+4cxFXMZLZz1DR3SYfCAQgBXD3bsMvRJoSSJVILOmQtg
+ kPMQG7O0ZVPf+De+9DqHfIIk01GE8qPRkMfpV+10dv+8s3kamIA/qYaStg31fbGM4F
+ wNI0jR7QQzOz7l6nctM38BMOqqTxMZ/Tn950bGrw=
+Message-ID: <198ea639-1129-4ba4-9a1f-129c8ac076e3@ideasonboard.com>
+Date: Wed, 26 Nov 2025 13:08:20 +0200
 MIME-Version: 1.0
-References: <20251115000237.3561250-1-alex.hung@amd.com>
- <cbe00ac4-a535-47d3-813a-e2eda7e9b991@amd.com>
-In-Reply-To: <cbe00ac4-a535-47d3-813a-e2eda7e9b991@amd.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Wed, 26 Nov 2025 11:07:27 +0000
-X-Gm-Features: AWmQ_bk-XY4uko7oWn1VM70Ld-snMR_1TXIzQmZl4NZVeR2M8i3me13S5kT5F4I
-Message-ID: <CAPj87rPoadOOTk0LbVb_VKFOOkSq0xG-PU8fRsLaaqO1kKFuDg@mail.gmail.com>
-Subject: Re: [PATCH V13 00/51][FINAL] Color Pipeline API w/ VKMS
-To: Harry Wentland <harry.wentland@amd.com>
-Cc: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, xaver.hugl@gmail.com, 
- wayland-devel@lists.freedesktop.org, leo.liu@amd.com, 
- ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com, 
- contact@emersion.fr, mwen@igalia.com, jadahl@redhat.com, 
- sebastian.wick@redhat.com, shashank.sharma@amd.com, agoins@nvidia.com, 
- joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org, 
- victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com, 
- quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com, 
- marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com, 
- chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com, mcanal@igalia.com, 
- nfraprado@collabora.com, arthurgrillo@riseup.net
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/3] drm/atomic-helpers: Fix MCDE/R-Car DU regressions
+To: Linus Walleij <linusw@kernel.org>, Linus Walleij <linus.walleij@linaro.org>
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20251121-mcde-drm-regression-thirdfix-v4-0-d89bf8c17f85@linaro.org>
+ <CAD++jL=_wTX6H1uKEHRf7Ud1EKUEhTxmTRqZtUKZzergx-8knw@mail.gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <CAD++jL=_wTX6H1uKEHRf7Ud1EKUEhTxmTRqZtUKZzergx-8knw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,21 +111,33 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, 20 Nov 2025 at 20:13, Harry Wentland <harry.wentland@amd.com> wrote:
-> On 2025-11-14 19:01, Alex Hung wrote:
-> > Both kernel patches and IGT patches are reviewed and the API is stable
-> > for a few revisions. Does anyone have concerns if kernel and IGT patches
-> > are to be merged?
->
-> Xaver, are the kwin patches ready to be merged?
+On 25/11/2025 18:13, Linus Walleij wrote:
+> On Fri, Nov 21, 2025 at 3:08 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> 
+>> This fixes two regressions experienced in the MCDE and
+>> R-Car DU DRM drivers after
+>> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+>> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+>> caused a series of regressions in all panels that send
+>> DSI commands in their .prepare() and .unprepare()
+>> callbacks.
+>>
+>> This series make it possible to selectively bring back the
+>> old behaviour with explicit semantics and implements
+>> the old behaviour as modified commit tails in MCDE and
+>> R-Car DU.
+> 
+> So what's the take on this patch series?
+> 
+> Maxime: is this what you had in mind? Acked-by?
+> 
+> Marek: do you think you have an opportunity to test this on the R-Car DU?
+> 
+> I am happy to develop a fifth version using the approach outlined by
+> Tomi (special codepaths in the helpers) if there is some consensus
+> that this is better in the long run.
+I'm ok with this, it looks quite clean solution to a messy problem. My
+only comment was about the missing kernel docs.
 
-The Weston patches are ready - they have been for some time now - and
-will be merged as soon as this series is.
+ Tomi
 
-It would've been nice if we could have had an MTK implementation to go
-with AMD and VKMS, but that's still being worked on. I'd expect to see
-that and another implementation early next year though, plus whatever
-happens with Intel's.
-
-Cheers,
-Daniel
