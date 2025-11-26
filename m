@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64B4C89D39
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 13:45:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 071B5C89D2A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 13:45:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0A310E5C8;
-	Wed, 26 Nov 2025 12:45:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CEE510E5BD;
+	Wed, 26 Nov 2025 12:45:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="LFNxncxB";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mdRwdCgj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CA1610E539;
- Wed, 26 Nov 2025 12:45:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 461C210E5BD;
+ Wed, 26 Nov 2025 12:45:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764161108;
- bh=/bcpxfFJyMk/A8Ikt79/1FBbR61xjBEbBox3s8voHyU=;
+ s=mail; t=1764161109;
+ bh=/2whq5t8+SX7LIo+m3o4R6hi5r8Ag9UhivEUf22nAyg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LFNxncxBKM2K0XhWR5Vh7hlKV7CabXAgAaskO1C9gaOWKDuc6CFKkG0yLxx0exdd4
- QOnd/mJ84THz2CFlKqy5mBtXnhh3cqkEJFYRQpcRiUBGSoEjAaox+6YoprEvYSgNta
- oxydNiB+0Dd1Lce8rlzmthPJd5Vg4CZjLZG9esd/01ibSQLFaf7Wwz8NCMIIFj7tIz
- dU9nfL0cJF7+AS0mcdQftRfxSkYPMpBaBLDIxgW+XzNDliK+rAgA3RhqpAxyyAX0IZ
- 1NO2ndTOGikBToh2ellEAuair9L3zYRuDxIsBt2DFz6fSjdq0d2fiaFgC8owyyvBcz
- +PPz6TzL1lODg==
+ b=mdRwdCgjV+pYid65Yo/w2TBQ8kaN7y/WBx1Z7cF8dgFTiDR5Pt/arjexSCsFIaeqC
+ WBnIC6iOL50pfaj91giFJphNTVIwg0xdZEG/GfFZylhWw9DcHwfh2PkX4l5vxkTPJl
+ x6JtLJfc4JhiTOs4DexIL2HNvU8KBcXNLANhc9D+jSdUCozv5L0ypZd6gBkfhE3Mhy
+ CkBPT8wJ8YWJnLMKAWlqO1tvDABtWymB1NVYBEGHVEjD8zL9ZvQFwePHyZPJLw4OUc
+ vTZM/p/+D9BBxTuuUZqu/q8q4TC9VTeTfNOCLH16P0i5f/rjqlLBycs/ZyI/fvTam8
+ 8KWixF4K/1STw==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id F2E9617E110C;
- Wed, 26 Nov 2025 13:45:07 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 086C717E129C;
+ Wed, 26 Nov 2025 13:45:09 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
 Cc: dri-devel@lists.freedesktop.org,
@@ -57,10 +57,10 @@ Cc: dri-devel@lists.freedesktop.org,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  amd-gfx@lists.freedesktop.org,
  Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
-Subject: [PATCH v6 01/16] drm/prime: Simplify life of drivers needing custom
- dma_buf_ops
-Date: Wed, 26 Nov 2025 13:44:40 +0100
-Message-ID: <20251126124455.3656651-2-boris.brezillon@collabora.com>
+Subject: [PATCH v6 02/16] drm/shmem: Provide a generic {begin,
+ end}_cpu_access() implementation
+Date: Wed, 26 Nov 2025 13:44:41 +0100
+Message-ID: <20251126124455.3656651-3-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251126124455.3656651-1-boris.brezillon@collabora.com>
 References: <20251126124455.3656651-1-boris.brezillon@collabora.com>
@@ -81,79 +81,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_gem_is_prime_exported_dma_buf() checks the dma_buf->ops against
-drm_gem_prime_dmabuf_ops, which makes it impossible to use if the
-driver implements custom dma_buf_ops. Instead of duplicating a bunch
-of helpers to work around it, let's provide a way for drivers to
-expose their custom dma_buf_ops so the core prime helpers can rely on
-that instead of hardcoding &drm_gem_prime_dmabuf_ops.
+The default implementation simply takes care of invalidating/flushing
+caches around CPU accesses. It takes care of both the exporter and
+the importers, which forces us to overload the default
+::[un]map_dma_buf() implementation provided by drm_gem.c to store the
+sgt.
 
 v5:
 - New patch
 
 v6:
-- Pass custom dma_buf_ops directly instead of through a getter
+- Fix doc
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/drm_prime.c | 10 ++++++++--
- include/drm/drm_drv.h       |  8 ++++++++
- 2 files changed, 16 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 114 +++++++++++++++++++++++++
+ include/drm/drm_gem_shmem_helper.h     |  10 +++
+ 2 files changed, 124 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-index 21809a82187b..86fd95f0c105 100644
---- a/drivers/gpu/drm/drm_prime.c
-+++ b/drivers/gpu/drm/drm_prime.c
-@@ -904,6 +904,12 @@ unsigned long drm_prime_get_contiguous_size(struct sg_table *sgt)
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index dc94a27710e5..c91608d9d4d7 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -893,6 +893,120 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
  }
- EXPORT_SYMBOL(drm_prime_get_contiguous_size);
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_import_no_map);
  
-+static const struct dma_buf_ops *
-+drm_gem_prime_get_dma_buf_ops(struct drm_device *dev)
++/**
++ * drm_gem_shmem_prime_unmap_dma_buf - Default unmap_dma_buf() for exported buffers
++ * @attach: attachment
++ * @sgt: SG table to unmap
++ * @dir: type of access done by this attachment
++ *
++ * Default implementation for dma_buf_ops::map_dma_buf(). This is just a wrapper
++ * around drm_gem_map_dma_buf() that lets us set the dma_buf_attachment::priv
++ * to the sgt so that drm_gem_shmem_prime_{begin,end}_cpu_access() can sync
++ * around CPU accesses.
++ */
++struct sg_table *
++drm_gem_shmem_prime_map_dma_buf(struct dma_buf_attachment *attach,
++				enum dma_data_direction dir)
 +{
-+	return dev->driver->dma_buf_ops ?: &drm_gem_prime_dmabuf_ops;
++	struct sg_table *sgt = drm_gem_map_dma_buf(attach, dir);
++
++	if (!IS_ERR(sgt))
++		attach->priv = sgt;
++
++	return sgt;
 +}
++EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_map_dma_buf);
 +
++/**
++ * drm_gem_shmem_prime_unmap_dma_buf - Default unmap_dma_buf() for exported buffers
++ * @attach: attachment
++ * @sgt: SG table to unmap
++ * @dir: type of access done by this attachment
++ *
++ * Default implementation for dma_buf_ops::unmap_dma_buf(). This is just a wrapper
++ * around drm_gem_unmap_dma_buf() that lets us reset the dma_buf_attachment::priv
++ * field so that drm_gem_shmem_prime_{begin,end}_cpu_access() don't consider it
++ * as a mapped attachment to sync against.
++ */
++void drm_gem_shmem_prime_unmap_dma_buf(struct dma_buf_attachment *attach,
++				       struct sg_table *sgt,
++				       enum dma_data_direction dir)
++{
++	attach->priv = NULL;
++	drm_gem_unmap_dma_buf(attach, sgt, dir);
++}
++EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_unmap_dma_buf);
++
++/**
++ * drm_gem_shmem_prime_begin_cpu_access - Default begin_cpu_access() for exported buffers
++ * @dma_buf: The exported DMA buffer this acts on
++ * @dir: direction of the access
++ *
++ * Default implementation for dma_buf_ops::begin_cpu_access(). This only takes care of
++ * cache maintenance.
++ */
++int drm_gem_shmem_prime_begin_cpu_access(struct dma_buf *dma_buf,
++					 enum dma_data_direction dir)
++{
++	struct drm_gem_object *obj = dma_buf->priv;
++	struct drm_device *dev = obj->dev;
++	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
++	struct dma_buf_attachment *attach;
++
++	dma_resv_lock(obj->resv, NULL);
++	if (shmem->sgt)
++		dma_sync_sgtable_for_cpu(dev->dev, shmem->sgt, dir);
++
++	if (shmem->vaddr)
++		invalidate_kernel_vmap_range(shmem->vaddr, shmem->base.size);
++
++	list_for_each_entry(attach, &dma_buf->attachments, node) {
++		struct sg_table *sgt = attach->priv;
++
++		if (sgt)
++			dma_sync_sgtable_for_cpu(attach->dev, sgt, dir);
++	}
++	dma_resv_unlock(obj->resv);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_begin_cpu_access);
++
++/**
++ * drm_gem_shmem_prime_end_cpu_access - Default end_cpu_access() for exported buffers
++ * @dma_buf: The exported DMA buffer this acts on
++ * @dir: direction of the access
++ *
++ * Default implementation for dma_buf_ops::end_cpu_access(). This only takes care of
++ * cache maintenance.
++ */
++int drm_gem_shmem_prime_end_cpu_access(struct dma_buf *dma_buf,
++				       enum dma_data_direction dir)
++{
++	struct drm_gem_object *obj = dma_buf->priv;
++	struct drm_device *dev = obj->dev;
++	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
++	struct dma_buf_attachment *attach;
++
++	dma_resv_lock(obj->resv, NULL);
++	list_for_each_entry(attach, &dma_buf->attachments, node) {
++		struct sg_table *sgt = attach->priv;
++
++		if (sgt)
++			dma_sync_sgtable_for_device(attach->dev, sgt, dir);
++	}
++
++	if (shmem->vaddr)
++		flush_kernel_vmap_range(shmem->vaddr, shmem->base.size);
++
++	if (shmem->sgt)
++		dma_sync_sgtable_for_device(dev->dev, shmem->sgt, dir);
++
++	dma_resv_unlock(obj->resv);
++	return 0;
++}
++EXPORT_SYMBOL_GPL(drm_gem_shmem_prime_end_cpu_access);
++
+ MODULE_DESCRIPTION("DRM SHMEM memory-management helpers");
+ MODULE_IMPORT_NS("DMA_BUF");
+ MODULE_LICENSE("GPL v2");
+diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+index 589f7bfe7506..075275d6b2fd 100644
+--- a/include/drm/drm_gem_shmem_helper.h
++++ b/include/drm/drm_gem_shmem_helper.h
+@@ -291,6 +291,16 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 			      struct drm_mode_create_dumb *args);
+ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
+ 							 struct dma_buf *buf);
++struct sg_table *
++drm_gem_shmem_prime_map_dma_buf(struct dma_buf_attachment *attach,
++				enum dma_data_direction dir);
++void drm_gem_shmem_prime_unmap_dma_buf(struct dma_buf_attachment *attach,
++				       struct sg_table *sgt,
++				       enum dma_data_direction dir);
++int drm_gem_shmem_prime_begin_cpu_access(struct dma_buf *dma_buf,
++					 enum dma_data_direction dir);
++int drm_gem_shmem_prime_end_cpu_access(struct dma_buf *dma_buf,
++				       enum dma_data_direction dir);
+ 
  /**
-  * drm_gem_prime_export - helper library implementation of the export callback
-  * @obj: GEM object to export
-@@ -920,7 +926,7 @@ struct dma_buf *drm_gem_prime_export(struct drm_gem_object *obj,
- 	struct dma_buf_export_info exp_info = {
- 		.exp_name = KBUILD_MODNAME, /* white lie for debug */
- 		.owner = dev->driver->fops->owner,
--		.ops = &drm_gem_prime_dmabuf_ops,
-+		.ops = drm_gem_prime_get_dma_buf_ops(dev),
- 		.size = obj->size,
- 		.flags = flags,
- 		.priv = obj,
-@@ -947,7 +953,7 @@ bool drm_gem_is_prime_exported_dma_buf(struct drm_device *dev,
- {
- 	struct drm_gem_object *obj = dma_buf->priv;
- 
--	return (dma_buf->ops == &drm_gem_prime_dmabuf_ops) && (obj->dev == dev);
-+	return dma_buf->ops == drm_gem_prime_get_dma_buf_ops(dev) && obj->dev == dev;
- }
- EXPORT_SYMBOL(drm_gem_is_prime_exported_dma_buf);
- 
-diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-index 42fc085f986d..1c6dae60d523 100644
---- a/include/drm/drm_drv.h
-+++ b/include/drm/drm_drv.h
-@@ -431,6 +431,14 @@ struct drm_driver {
- 	 * some examples.
- 	 */
- 	const struct file_operations *fops;
-+
-+	/**
-+	 * @dma_buf_ops:
-+	 *
-+	 * dma_buf_ops to use for buffers exported by this driver. When NULL,
-+	 * the drm_prime logic defaults to &drm_gem_prime_dmabuf_ops.
-+	 */
-+	const struct dma_buf_ops *dma_buf_ops;
- };
- 
- void *__devm_drm_dev_alloc(struct device *parent,
+  * DRM_GEM_SHMEM_DRIVER_OPS - Default shmem GEM operations
 -- 
 2.51.1
 
