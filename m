@@ -2,68 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 962D8C8A008
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 14:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B8D1C8A0CB
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 14:32:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F6E510E0F6;
-	Wed, 26 Nov 2025 13:25:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E96410E60B;
+	Wed, 26 Nov 2025 13:32:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="f7JiM0Be";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="yu9UUo97";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yhK5dapJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fRzFy2U2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4/+ETEnE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 279F210E030;
- Wed, 26 Nov 2025 13:25:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764163510;
- bh=H6BI2X3mzMvCYJOwFD15MG+bOvi+S6gKpcz/Xq+78H0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=f7JiM0BewEFZ7dwK7mR03OYqFOEXV4FzefG+C1DNlv8YP25qXbTjHBhQKCCpzrCW8
- kERCKjUNUZ3aEpy1Irs4abgg1mc8ou+fSbTa6MZBqqM20YPeXT72xxd7VI5SgjfuPH
- Mk/KDEPJmE6oQX3+82fVwgTFwPUOo9yfm4M28gf4LdiGRH4FCR/g2vR9ik+/32efmr
- PYqXQdEoNC1jXiPaEV4EXHEJWxGJwCOXamp828uSi9tUdwgF8vvH/iN98ELc2CiBjQ
- k9MhAfBm9ZHMmM86RxSkTByaDxHDnZyLEZdLdAY5ZEy229xxrHbyY18Vld73yzRj+M
- trYdpQTBqSMFQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF1E310E60B
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 13:32:36 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id A09FB17E110C;
- Wed, 26 Nov 2025 14:25:09 +0100 (CET)
-Date: Wed, 26 Nov 2025 14:25:04 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: dri-devel@lists.freedesktop.org, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Faith Ekstrand
- <faith.ekstrand@collabora.com>, Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang
- <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, amd-gfx@lists.freedesktop.org,
- kernel@collabora.com
-Subject: Re: [PATCH v6 06/16] drm/panthor: Expose the selected coherency
- protocol to the UMD
-Message-ID: <20251126142504.5654962f@fedora>
-In-Reply-To: <20251126124455.3656651-7-boris.brezillon@collabora.com>
-References: <20251126124455.3656651-1-boris.brezillon@collabora.com>
- <20251126124455.3656651-7-boris.brezillon@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id ED5A233689;
+ Wed, 26 Nov 2025 13:32:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1764163955; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hIZg0NrBErhJe7J0VcGIQwXQFyhWuMVsY6KJ1KKoZJo=;
+ b=yu9UUo9701WVs7WPgMR1/R7ip+y1tzC5EIAMWiNRoKNN8CVjg6yOvQg+0jsBx26lKHWwgF
+ pFAiykqu54AqiBlZcHC/LGAhyF9y5G5tXQbv00lvZljEtf7Vgjv9SA9P53fh8y6CjNLuue
+ axEWmNV+2p+Yo62adhdFm0K3M1LXTVM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1764163955;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hIZg0NrBErhJe7J0VcGIQwXQFyhWuMVsY6KJ1KKoZJo=;
+ b=yhK5dapJY20S8BiN1WG0Db7vKHTy5iK465l6GWvq/8W2s4xXfzfUo4iT7l0zkAyUTMnO9B
+ JVKUUtSviQnZySBQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fRzFy2U2;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="4/+ETEnE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1764163954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hIZg0NrBErhJe7J0VcGIQwXQFyhWuMVsY6KJ1KKoZJo=;
+ b=fRzFy2U2RL4r3Ye9td70s1YnUwVGh9x+Dwrwl/HhJHr8lQswRgePYhxbFEFVh/c+avHf1d
+ sECx7cbU1NVVNFYmXUtOZCkPfJL8Ei0Vd5V1Hrm+JBrzuVL2bckOL2yG9SWn9wJOTyu8M9
+ OW/EBXPu/IBjVJahKZLd61x+MyAO4P8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1764163954;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=hIZg0NrBErhJe7J0VcGIQwXQFyhWuMVsY6KJ1KKoZJo=;
+ b=4/+ETEnEFvDi03gyIpr9+BPhTRn6YhY4FV7tF5EoKo1NfmkTHZV4kyteispDmmTSb83Lyx
+ +5NndoTVIifx+uAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6F4B53EA63;
+ Wed, 26 Nov 2025 13:32:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id +a+/GXEBJ2lZBwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 26 Nov 2025 13:32:33 +0000
+Message-ID: <054f60ca-b898-488f-81f4-14eed0a1360b@suse.de>
+Date: Wed, 26 Nov 2025 14:32:32 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] drm: Remove remaining support for kdb
+To: Daniel Thompson <danielt@kernel.org>, Doug Anderson <dianders@chromium.org>
+Cc: simona@ffwll.ch, airlied@gmail.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com, lyude@redhat.com, dakr@kernel.org, deller@gmx.de,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ jason.wessel@windriver.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Nir Lichtman <nir@lichtman.org>
+References: <20251125130634.1080966-1-tzimmermann@suse.de>
+ <CAD=FV=X_-t2AF5osp7Hamoe7WYE_2YWJZCaPaOj=9seSbnwwVA@mail.gmail.com>
+ <aSbwWLTLe0bMhOKV@aspen.lan>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <aSbwWLTLe0bMhOKV@aspen.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCVD_TLS_ALL(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; RCPT_COUNT_TWELVE(0.00)[19];
+ MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[ffwll.ch,gmail.com,amd.com,redhat.com,kernel.org,gmx.de,linux.intel.com,windriver.com,lists.freedesktop.org,vger.kernel.org,lichtman.org];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,suse.de:dkim,suse.com:url];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: ED5A233689
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,149 +156,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Nov 2025 13:44:45 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+Hi
 
-> If we want to be able to skip CPU cache maintenance operations on
-> CPU-cached mappings, the UMD needs to know the kind of coherency
-> in place. Add a field to drm_panthor_gpu_info to do that. We can re-use
-> a padding field for that since this object is write-only from the
-> KMD perspective, and the UMD should just ignore it.
-> 
-> v2:
-> - New commit
-> 
-> v3:
-> - Make coherency protocol a real enum, not a bitmask
-> - Add BUILD_BUG_ON()s to make sure the values in panthor_regs.h and
->   those exposed through the uAPI match
-> 
-> v4:
-> - Add Steve's R-b
-> 
-> v5:
-> - No changes
-> 
-> v6:
-> - No changes
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c | 10 +++++-
->  drivers/gpu/drm/panthor/panthor_gpu.c    |  2 +-
->  include/uapi/drm/panthor_drm.h           | 39 ++++++++++++++++++++++--
->  3 files changed, 46 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index e133b1e0ad6d..a66fc66999c2 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -27,6 +27,12 @@
->  
->  static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
->  {
-> +	BUILD_BUG_ON(GPU_COHERENCY_NONE != DRM_PANTHOR_GPU_COHERENCY_NONE);
-> +	BUILD_BUG_ON(GPU_COHERENCY_ACE_LITE != DRM_PANTHOR_GPU_COHERENCY_ACE_LITE);
-> +	BUILD_BUG_ON(GPU_COHERENCY_ACE != DRM_PANTHOR_GPU_COHERENCY_ACE);
-> +
-> +	/* Start with no coherency, and update it if the device is flagged coherent. */
-> +	ptdev->gpu_info.selected_coherency = GPU_COHERENCY_NONE;
->  	ptdev->coherent = device_get_dma_attr(ptdev->base.dev) == DEV_DMA_COHERENT;
->  
->  	if (!ptdev->coherent)
-> @@ -36,8 +42,10 @@ static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
->  	 * ACE protocol has never been supported for command stream frontend GPUs.
->  	 */
->  	if ((gpu_read(ptdev, GPU_COHERENCY_FEATURES) &
-> -		      GPU_COHERENCY_PROT_BIT(ACE_LITE)))
-> +		      GPU_COHERENCY_PROT_BIT(ACE_LITE))) {
-> +		ptdev->gpu_info.selected_coherency = GPU_COHERENCY_ACE_LITE;
->  		return 0;
-> +	}
->  
->  	drm_err(&ptdev->base, "Coherency not supported by the device");
->  	return -ENOTSUPP;
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index cd38da5ad26c..b7c64be0b6e2 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -51,7 +51,7 @@ struct panthor_gpu {
->  static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
->  {
->  	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
-> -		  ptdev->coherent ? GPU_COHERENCY_ACE_LITE : GPU_COHERENCY_NONE);
-> +		  ptdev->gpu_info.selected_coherency);
->  }
->  
->  static void panthor_gpu_l2_config_set(struct panthor_device *ptdev)
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index 467d365ed7ba..f0f637e0631d 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -245,6 +245,26 @@ enum drm_panthor_dev_query_type {
->  	DRM_PANTHOR_DEV_QUERY_GROUP_PRIORITIES_INFO,
->  };
->  
-> +/**
-> + * enum drm_panthor_gpu_coherency: Type of GPU coherency
-> + */
-> +enum drm_panthor_gpu_coherency {
-> +	/**
-> +	 * @DRM_PANTHOR_GPU_COHERENCY_ACE_LITE: ACE Lite coherency.
-> +	 */
-> +	DRM_PANTHOR_GPU_COHERENCY_ACE_LITE = 0,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_GPU_COHERENCY_ACE_LITE: ACE coherency.
+Am 26.11.25 um 13:19 schrieb Daniel Thompson:
+> On Tue, Nov 25, 2025 at 07:26:33AM -0800, Doug Anderson wrote:
+>> On Tue, Nov 25, 2025 at 5:06 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>>> <snip>
+>>> Therefore remove the remaining support for kdb from the DRM drivers
+>>> and from DRM fbdev emulation. Also remove the hooks from fbdev, as
+>>> there are no fbdev drivers with kdb support.
+>>>
+>>> If we ever want to address kdb support within DRM drivers, a place to
+>>> start would be the scanout buffers used by DRM's panic screen. These
+>>> use the current display mode. They can be written and flushed without
+>>> mode setting involved.
+>>>
+>>> Note: kdb over serial lines is not affected by this series and continues
+>>> to work as before.
+>>>
+>>> Thomas Zimmermann (5):
+>>>    drm/amdgpu: Do not implement mode_set_base_atomic callback
+>>>    drm/nouveau: Do not implement mode_set_base_atomic callback
+>>>    drm/radeon: Do not implement mode_set_base_atomic callback
+>>>    drm/fbdev-helper: Remove drm_fb_helper_debug_enter/_leave()
+>>>    fbcon: Remove fb_debug_enter/_leave from struct fb_ops
+>> Personally, I've never worked with kdb over anything other than
+>> serial, so this won't bother any of my normal workflows. That being
+>> said, at least as of a year ago someone on the lists was talking about
+>> using kdb with a keyboard and (presumably) a display. You can see a
+>> thread here:
+>>
+>> http://lore.kernel.org/r/20241031192350.GA26688@lichtman.org
+>>
+>> Daniel may also have comments here?
+> TL;DR - I'm pretty relaxed about these changes... but I'd like
+>          to know how to test the changes.
+>
+> Like Doug I only really use kdb via serial but, since I'm maintain
+> the thing I do occasionally test kdb works on the qemu console. I don't
+> do it very often though because it's a manual test!
+>
+> I'd assume that will still work since it won't involve any of the
+> drivers above. I'm afraid I can't double check that since patch 4
+> doesn't apply cleanly in v6.18-rc7 (nor to linux-next... and neither
+> does the base-commit appear in linux-next).
 
-Forgot to fix:
+To test its effects, ignore this series and simply clear the two 
+calbacks at [1]. This is where the debugger invokes fbcon. The series 
+removes their implementation in the final patch.
 
-	 * @DRM_PANTHOR_GPU_COHERENCY_ACE: ACE coherency.
+[1] 
+https://elixir.bootlin.com/linux/v6.17.9/source/drivers/video/fbdev/core/fbcon.c#L3202
 
-> +	 */
-> +	DRM_PANTHOR_GPU_COHERENCY_ACE = 1,
-> +
-> +	/**
-> +	 * @DRM_PANTHOR_GPU_COHERENCY_NONE: No coherency.
-> +	 */
-> +	DRM_PANTHOR_GPU_COHERENCY_NONE = 31,
-> +};
-> +
->  /**
->   * struct drm_panthor_gpu_info - GPU information
->   *
-> @@ -301,7 +321,16 @@ struct drm_panthor_gpu_info {
->  	 */
->  	__u32 thread_max_barrier_size;
->  
-> -	/** @coherency_features: Coherency features. */
-> +	/**
-> +	 * @coherency_features: Coherency features.
-> +	 *
-> +	 * Combination of drm_panthor_gpu_coherency flags.
-> +	 *
-> +	 * Note that this is just what the coherency protocols supported by the
-> +	 * GPU, but the actual coherency in place depends on the SoC
-> +	 * integration and is reflected by
-> +	 * drm_panthor_gpu_info::selected_coherency.
-> +	 */
->  	__u32 coherency_features;
->  
->  	/** @texture_features: Texture features. */
-> @@ -310,8 +339,12 @@ struct drm_panthor_gpu_info {
->  	/** @as_present: Bitmask encoding the number of address-space exposed by the MMU. */
->  	__u32 as_present;
->  
-> -	/** @pad0: MBZ. */
-> -	__u32 pad0;
-> +	/**
-> +	 * @select_coherency: Coherency selected for this device.
-> +	 *
-> +	 * One of drm_panthor_gpu_coherency.
-> +	 */
-> +	__u32 selected_coherency;
->  
->  	/** @shader_present: Bitmask encoding the shader cores exposed by the GPU. */
->  	__u64 shader_present;
+Best regards
+Thomas
+
+>
+> Anyhow, the only testing I do for kgdboc=kms,kdb is to boot an x86-64
+> defconfig+kgdb+kdb kernel in qemu with something like the following
+> command line, which FWIW does still work:
+>
+>      qemu-system-x86_64 -enable-kvm -m 1G -smp 2 \
+>        -kernel arch/x86/boot/bzImage \
+>        -monitor none -chardev stdio,id=mon,mux=on,signal=off \
+>        -serial chardev:mon \
+>        -initrd rootfs.cpio.gz \
+>        -append " console=tty0 console=ttyS0,115200 kgdboc=kms,kbd,ttyS0 kgdbwait"
+>
+> The reason I'm fairly relaxed about changes here is that the kbd driver
+> only works on PCs with legacy keyboard interfaces. If the kernel is
+> talking to the keyboard using USB or I2C (which almost all PCs do) then
+> kdb cannot be used anyway.
+>
+> So... it would be a "cool project"[1] to get kdb running on
+> a special interrupt-free I2C mode and with the DRM panic code so you
+> can do live analysis if your laptop/chomebook crashes. However it is
+> simply not "real enough" to justify slowing down other developers.
+>
+>
+> Daniel.
+>
+>
+> [1] ... but not quite cool enough that I see myself spending time on it
+>      though!
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
