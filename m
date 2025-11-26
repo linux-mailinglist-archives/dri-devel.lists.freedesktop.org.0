@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5DAC89F87
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 14:20:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179C3C89F8A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 14:20:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9581710E5E6;
-	Wed, 26 Nov 2025 13:20:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CEAD10E5EA;
+	Wed, 26 Nov 2025 13:20:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R6nsMVaK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KLN6C2Wx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDE8510E5C6;
- Wed, 26 Nov 2025 13:20:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 572D510E5EA;
+ Wed, 26 Nov 2025 13:20:21 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id C2AD24439E;
+ by sea.source.kernel.org (Postfix) with ESMTP id 3CB1044346;
+ Wed, 26 Nov 2025 13:20:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D077C113D0;
  Wed, 26 Nov 2025 13:20:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC226C116C6;
- Wed, 26 Nov 2025 13:20:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764163214;
- bh=ltdOJycY3sDDX0uPBNfRJ/CZ9LopyY+2sk6yZsVKKWQ=;
+ s=k20201202; t=1764163221;
+ bh=MN344wm2Ixu5X6Egt125oaRBPXXL6wOJJ8cpucZ04iA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=R6nsMVaKLj1Y2h5Ioo+V9XAsLOzvKmNbMLQ0j3D2jrrzIzb0TDhhOI/B4NIt5txT2
- 3RvDpCssxHjcZwqL1cwsyYUsScnL2b6bir3kVh4XMRms0Sa6w7LYpVyjQaB5I32zhd
- WXB9sJhr4m7EaQkVjZXI/Y3zCbWLisj54C1CyG6fyXzz+mIUpSbTaIHiJeccZ105H9
- 5N7cA9lI9CuUL0hXYElx9TpWe86JRCBbmEQpC0+UxQGxRohhECN/otmgwoycbH5sLG
- PxtJvcM3npDalTTZdtJENGNZ3y3zfy5qTUglAcdgefDlZUx1KFYFLclOX1DDbd8Ic4
- 5l6r0aJjXAolg==
+ b=KLN6C2WxyaGLUphoRIvUajESUcR/xNOR+7fMO/ABWSP+mXxmpoAAqQVtXfRLExvTc
+ SHrYcieFx+oJIAIIpPsikBV7AlKohQDi3P3L9XlfRc/R0rQyx3hXhfkOxgi1TVkpGR
+ vu3+lvtFLZrjiqNSZ3DSkk7SvXT2C7IGLmlY7IAE/e2YBZHik2G2uG86XzNj3goi7q
+ oFQqGbp0EeUdB7hxktU5GTHGrf4Ugn2d6Z/GlxFvP8yVotOajkcvYV+PercoshxZqo
+ QMnkU/DrukJ2Zqfh5CB4FFW5NbPNqCHSZez5AxeD+gRPeP6pPbCCSHSjlPCt/IGkrw
+ 38tlRKl6OYtRA==
 From: Philipp Stanner <phasta@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>,
  Gustavo Padovan <gustavo@padovan.org>,
@@ -52,9 +52,9 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
  Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH 2/6] amd/amdkfd: Ignore return code of dma_fence_signal()
-Date: Wed, 26 Nov 2025 14:19:11 +0100
-Message-ID: <20251126131914.149445-4-phasta@kernel.org>
+Subject: [PATCH 3/6] drm/gpu/xe: Ignore dma_fenc_signal() return code
+Date: Wed, 26 Nov 2025 14:19:12 +0100
+Message-ID: <20251126131914.149445-5-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251126131914.149445-2-phasta@kernel.org>
 References: <20251126131914.149445-2-phasta@kernel.org>
@@ -85,34 +85,33 @@ Ignore dma_fence_signal()'s return code.
 Suggested-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_process.c | 5 ++---
+ drivers/gpu/drm/xe/xe_hw_fence.c | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-index ddfe30c13e9d..950fafa4b3c3 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-@@ -1986,7 +1986,6 @@ kfd_process_gpuid_from_node(struct kfd_process *p, struct kfd_node *node,
- static int signal_eviction_fence(struct kfd_process *p)
+diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
+index b2a0c46dfcd4..959b30dde724 100644
+--- a/drivers/gpu/drm/xe/xe_hw_fence.c
++++ b/drivers/gpu/drm/xe/xe_hw_fence.c
+@@ -85,7 +85,6 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
  {
- 	struct dma_fence *ef;
--	int ret;
+ 	struct xe_hw_fence *fence, *next;
+ 	unsigned long flags;
+-	int err;
+ 	bool tmp;
  
- 	rcu_read_lock();
- 	ef = dma_fence_get_rcu_safe(&p->ef);
-@@ -1994,10 +1993,10 @@ static int signal_eviction_fence(struct kfd_process *p)
- 	if (!ef)
- 		return -EINVAL;
- 
--	ret = dma_fence_signal(ef);
-+	dma_fence_signal(ef);
- 	dma_fence_put(ef);
- 
--	return ret;
-+	return 0;
- }
- 
- static void evict_process_worker(struct work_struct *work)
+ 	if (XE_WARN_ON(!list_empty(&irq->pending))) {
+@@ -93,9 +92,9 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
+ 		spin_lock_irqsave(&irq->lock, flags);
+ 		list_for_each_entry_safe(fence, next, &irq->pending, irq_link) {
+ 			list_del_init(&fence->irq_link);
+-			err = dma_fence_signal_locked(&fence->dma);
++			XE_WARN_ON(dma_fence_test_signaled_flag(&fence->dma));
++			dma_fence_signal_locked(&fence->dma);
+ 			dma_fence_put(&fence->dma);
+-			XE_WARN_ON(err);
+ 		}
+ 		spin_unlock_irqrestore(&irq->lock, flags);
+ 		dma_fence_end_signalling(tmp);
 -- 
 2.49.0
 
