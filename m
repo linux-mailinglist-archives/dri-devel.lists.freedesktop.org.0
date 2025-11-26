@@ -2,48 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 868A5C87B64
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 02:38:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32AABC87B82
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 02:40:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E374910E06F;
-	Wed, 26 Nov 2025 01:38:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 92A5510E4EC;
+	Wed, 26 Nov 2025 01:39:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com
- [216.40.44.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D38210E070
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 01:38:46 +0000 (UTC)
-Received: from omf09.hostedemail.com (a10.router.float.18 [10.200.18.1])
- by unirelay02.hostedemail.com (Postfix) with ESMTP id D871F13ADCA;
- Wed, 26 Nov 2025 01:38:43 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by
- omf09.hostedemail.com (Postfix) with ESMTPA id D182320025; 
- Wed, 26 Nov 2025 01:38:40 +0000 (UTC)
-Date: Tue, 25 Nov 2025 20:39:24 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Xiang Gao <gxxa03070307@gmail.com>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, mhiramat@kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- mathieu.desnoyers@efficios.com, dhowells@redhat.com, kuba@kernel.org,
- brauner@kernel.org, akpm@linux-foundation.org,
- linux-trace-kernel@vger.kernel.org, gaoxiang17 <gaoxiang17@xiaomi.com>
-Subject: Re: [PATCH v2] dma-buf: add some tracepoints to debug.
-Message-ID: <20251125203924.3bd59b2c@gandalf.local.home>
-In-Reply-To: <20251125162949.220488-1-gxxa03070307@gmail.com>
-References: <20251125162949.220488-1-gxxa03070307@gmail.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from out28-50.mail.aliyun.com (out28-50.mail.aliyun.com
+ [115.124.28.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6C6F10E070;
+ Wed, 26 Nov 2025 01:39:42 +0000 (UTC)
+Received: from 172.38.10.120(mailfrom:zhangzhijie@bosc.ac.cn
+ fp:SMTPD_---.fVyAjhI_1764121178 cluster:ay29) by smtp.aliyun-inc.com;
+ Wed, 26 Nov 2025 09:39:39 +0800
+Message-ID: <0d2e6a53-11f8-403c-a4e8-b9c367ed96a8@bosc.ac.cn>
+Date: Wed, 26 Nov 2025 09:39:37 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: D182320025
-X-Stat-Signature: wayw5miybq35f7m8uxpd3ngttpjrb3gw
-X-Spam-Status: No, score=-0.12
-X-Rspamd-Server: rspamout08
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19vpd68vxmtNTdWxmMcQSSct/9/ajf8E4I=
-X-HE-Tag: 1764121120-98615
-X-HE-Meta: U2FsdGVkX18h4EAVllEURvlPrEQAWiGdg5Rzdx39bGekUaY1J1t/YJRFzEaYdhawLg/KlSqRN5mRr4NBH6Ky27JMAVmrJ9ItCPoks+A9WoK1Ep6ONWgg9MV8UVdQHiWryeSUUDsov6fk87uAoXEbr5sqfieXmx7hyUMoDBYZB1RLbqtuqvGwvcIuyG72l1GmYAQPIxgHY4mJZmOv/OvKlGxA49CXEM5WzRAsZIAJn7uvspoPJz6MyGgsf21JsuBjn1NjBHKMDNQTNUufAgIaZGsjYd87M03DaNE9J9bwOcuWB25V/nxYrhAPmRqQR6GH18jbQaFXuk4vLqCvSNI7u57mjRJKpbqP
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] i915: Support Intel GPU porting on any non-x86 system.
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, jeff@jeffgeerling.com,
+ wangran@bosc.ac.cn, zhangjian@bosc.ac.cn, daniel@ffwll.ch,
+ rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com,
+ tursulin@ursulin.net, airlied@gmail.com, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, guoyaxing@bosc.ac.cn
+References: <20251124065645.1920632-1-zhangzhijie@bosc.ac.cn>
+ <bac7a05b799309fe2c269232e70e82f86a8e2811@intel.com>
+ <1657dccb-3d03-420a-9ffa-5601ae212fd9@bosc.ac.cn>
+ <58728a8ae8f0a3e92be203a9296d120fd12da8d5@intel.com>
+ <14954d6d-67bc-49f4-b394-3da4e1f80af1@bosc.ac.cn>
+ <743pqjv2sefs3bhsyyoezv2nzf6tcbc6fo5nshczsc3s36j3qy@2xla3yxhbhpd>
+Content-Language: en-US
+From: ZhangZhiJie <zhangzhijie@bosc.ac.cn>
+In-Reply-To: <743pqjv2sefs3bhsyyoezv2nzf6tcbc6fo5nshczsc3s36j3qy@2xla3yxhbhpd>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,345 +54,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Nov 2025 00:29:49 +0800
-Xiang Gao <gxxa03070307@gmail.com> wrote:
-
-> +++ b/include/trace/events/dma_buf.h
-> @@ -0,0 +1,281 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#undef TRACE_SYSTEM
-> +#define TRACE_SYSTEM dma_buf
-> +
-> +#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
-> +#define _TRACE_DMA_BUF_H
-> +
-> +#include <linux/dma-buf.h>
-> +#include <linux/tracepoint.h>
-> +
-> +TRACE_EVENT(dma_buf_export,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf),
-> +
-> +	TP_ARGS(dmabuf),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__string(name, dmabuf->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +		__field(long, f_refcnt)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		spin_lock(&dmabuf->name_lock);
-> +		__assign_str(name);
-> +		spin_unlock(&dmabuf->name_lock);
-
-The above isn't doing what you think it's doing. The name is assigned
-before this by the above __string(name, dmabuf->name).
-
-You really shouldn't be taking any locks in a tracepoint. A tracepoint is a
-callback, that isn't called most of the time. You could be hiding very
-hard to find deadlocks by taking a lock in a tracepoint callback.
-
-You need to take the lock around the tracepoint call itself where it is
-called in the code. Not in the TRACE_EVENT.
-
-You may need to have something like:
-
-@@ -220,6 +223,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- 	    dmabuf->size >> PAGE_SHIFT)
- 		return -EINVAL;
-
-+	if (trace_dma_buf_mmap_internal_enabled()) {
-+		guard(spinlock)(&dmabuf->namelock);
-+		trace_dma_buf_mmap_internal(dmabuf);
-+	}
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
 
 
-The "trace_dma_buf_mmap_internal_enabled()" is a static branch, where it is
-either a nop or a jump to the tracing code. It's not a normal conditional
-branch. It acts the same as tracepoints themselves do.
+On 2025/11/26 05:54, Lucas De Marchi wrote:
+> On Tue, Nov 25, 2025 at 06:20:00PM +0800, ZhangZhiJie wrote:
+>>
+>>
+>> On 2025/11/25 18:13, Jani Nikula wrote:
+>>> On Tue, 25 Nov 2025, ZhangZhiJie <zhangzhijie@bosc.ac.cn> wrote:
+>>>> On 2025/11/24 20:24, Jani Nikula wrote:
+>>>>> On Mon, 24 Nov 2025, zhangzhijie <zhangzhijie@bosc.ac.cn> wrote:
+>>>>>> inb/outb speccial wire not support on other ARCH.
+>>>>>> Should detect whether arch platform support or not.
+>>>>>
+>>>>> Seems to me it inb/outb depend on CONFIG_HAS_IOPORT. Which arch are 
+>>>>> you
+>>>>> talking about specifically?
+>>>>
+>>>> riscv , has CONFIG_HAS_IOPORT.  is using for serial, GPIO., etc.
+>>>
+>>> What is the actual failure mode you see?
+>>>
+>>> Does it build?
+>>>
+>>> BR,
+>>> Jani.
+>>>
+>> Yes, i compiled Xe driver, and it's occured load access fault when not 
+>> disable  VGA_SEQ_*.
+>>
+>> can found this link https://github.com/geerlingguy/raspberry-pi-pcie- 
+>> devices/issues/510#issuecomment-3383284831
+> 
+> and this is what I tested with rpi:
+> https://lore.kernel.org/intel-xe/20251119-ioport-v1-1- 
+> ec43f1e12c49@intel.com/
+> 
+Yep. agree like this patch.
 
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +		__entry->f_refcnt = file_count(dmabuf->file);
-> +	),
-> +
-> +	TP_printk("exp_name=%s name=%s size=%zu ino=%lu f_refcnt=%ld",
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino,
-> +		  __entry->f_refcnt)
-> +);
+In my mind. if machine not implement VGA_SEQ_* ioport.
+should avoid access ioports about VGA_SEQ_* .
 
-Below seems to be a lot of very similar TRACE_EVENT()s. A TRACE_EVENT() is
-literally defined as:
+Can you give  log for bootting on non-x86 arch?
 
-#define TRACE_EVENT(name, proto, args, tstruct, assign, print) \
-	DECLARE_EVENT_CLASS(name,			       \
-			     PARAMS(proto),		       \
-			     PARAMS(args),		       \
-			     PARAMS(tstruct),		       \
-			     PARAMS(assign),		       \
-			     PARAMS(print));		       \
-	DEFINE_EVENT(name, name, PARAMS(proto), PARAMS(args));
+> not sure why you are changing the intel_vga_disable() function: out of
+> reset that bit is disabled and the function does nothing:
+> 
+>      tmp = intel_de_read(display, vga_reg);
+>      if (tmp & VGA_DISP_DISABLE)
+>          return;
+> 
+> If there's no VGA, no bios, then there isn't anything enabling that and
+> we don't need to disable it.
+> 
+> I have a patch that moves the vga access to a separate function,
+> intel_vga_set_screen_off(), but that's mostly for clarity, not to fix
+> anything. If later we want to add an ifdef then we'd probably have to
+> implement the alternative.
+> 
+> Also note that not having CONFIG_HAS_IOPORT doesn't mean inb()/outb()
+> are not implemented. See arch/{arm,powerpc,sparc}/include/asm/io.h
+> for a few variants.
+> 
+> Lucas De Marchi
 
-That is, it is both a DECLARE_EVENT_CLASS() and a DEFINE_EVENT(). You can
-make one DECLARE_EVENT_CLASS() and use many DEFINE_EVENT()s with it.
-
-Each DECLARE_EVENT_CLASS() takes up around 4 to 5 kilobytes of memory. Each
-DEFINE_EVENT() takes around 300 bytes to 1K of memory. The more
-DEFINE_EVENT()s you use with a single DECLARE_EVENT_CLASS(), the more
-memory you save. Please try to do that.
-
--- Steve
-
-
-
-> +
-> +TRACE_EVENT(dma_buf_fd,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf, int fd),
-> +
-> +	TP_ARGS(dmabuf, fd),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__string(name, dmabuf->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +		__field(int, fd)
-> +		__field(long, f_refcnt)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		spin_lock(&dmabuf->name_lock);
-> +		__assign_str(name);
-> +		spin_unlock(&dmabuf->name_lock);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +		__entry->fd = fd;
-> +		__entry->f_refcnt = file_count(dmabuf->file);
-> +	),
-> +
-> +	TP_printk("exp_name=%s name=%s size=%zu ino=%lu fd=%d f_refcnt=%ld",
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino,
-> +		  __entry->fd,
-> +		  __entry->f_refcnt)
-> +);
-> +
-> +TRACE_EVENT(dma_buf_mmap_internal,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf),
-> +
-> +	TP_ARGS(dmabuf),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__string(name, dmabuf->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +		__field(long, f_refcnt)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		spin_lock(&dmabuf->name_lock);
-> +		__assign_str(name);
-> +		spin_unlock(&dmabuf->name_lock);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +		__entry->f_refcnt = file_count(dmabuf->file);
-> +	),
-> +
-> +	TP_printk("exp_name=%s name=%s size=%zu ino=%lu f_refcnt=%ld",
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino,
-> +		  __entry->f_refcnt)
-> +);
-> +
-> +TRACE_EVENT(dma_buf_mmap,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf),
-> +
-> +	TP_ARGS(dmabuf),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__string(name, dmabuf->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +		__field(long, f_refcnt)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		spin_lock(&dmabuf->name_lock);
-> +		__assign_str(name);
-> +		spin_unlock(&dmabuf->name_lock);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +		__entry->f_refcnt = file_count(dmabuf->file);
-> +	),
-> +
-> +	TP_printk("exp_name=%s name=%s size=%zu ino=%lu f_refcnt=%ld",
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino,
-> +		  __entry->f_refcnt)
-> +);
-> +
-> +TRACE_EVENT(dma_buf_attach,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf, struct device *dev),
-> +
-> +	TP_ARGS(dmabuf, dev),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(dname, dev_name(dev))
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__string(name, dmabuf->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +		__field(long, f_refcnt)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(dname);
-> +		__assign_str(exp_name);
-> +		spin_lock(&dmabuf->name_lock);
-> +		__assign_str(name);
-> +		spin_unlock(&dmabuf->name_lock);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +		__entry->f_refcnt = file_count(dmabuf->file);
-> +	),
-> +
-> +	TP_printk("dev_name=%s exp_name=%s name=%s size=%zu ino=%lu f_refcnt=%ld",
-> +		  __get_str(dname),
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino,
-> +		  __entry->f_refcnt)
-> +);
-> +
-> +TRACE_EVENT(dma_buf_detach,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf),
-> +
-> +	TP_ARGS(dmabuf),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__string(name, dmabuf->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +		__field(long, f_refcnt)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		spin_lock(&dmabuf->name_lock);
-> +		__assign_str(name);
-> +		spin_unlock(&dmabuf->name_lock);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +		__entry->f_refcnt = file_count(dmabuf->file);
-> +	),
-> +
-> +	TP_printk("exp_name=%s name=%s size=%zu ino=%lu f_refcnt=%ld",
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino,
-> +		  __entry->f_refcnt)
-> +);
-> +
-> +TRACE_EVENT(dma_buf_get,
-> +
-> +	TP_PROTO(int fd, struct file *file),
-> +
-> +	TP_ARGS(fd, file),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, ((struct dma_buf *)file->private_data)->exp_name)
-> +		__string(name, ((struct dma_buf *)file->private_data)->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +		__field(int, fd)
-> +		__field(long, f_refcnt)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		struct dma_buf *dmabuf = (struct dma_buf *)file->private_data;
-> +
-> +		__assign_str(exp_name);
-> +		spin_lock(&dmabuf->name_lock);
-> +		__assign_str(name);
-> +		spin_unlock(&dmabuf->name_lock);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +		__entry->fd = fd;
-> +		__entry->f_refcnt = file_count(file);
-> +	),
-> +
-> +	TP_printk("exp_name=%s name=%s size=%zu ino=%lu fd=%d f_refcnt=%ld",
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino,
-> +		  __entry->fd,
-> +		  __entry->f_refcnt)
-> +);
-> +
-> +TRACE_EVENT(dma_buf_put,
-> +
-> +	TP_PROTO(struct dma_buf *dmabuf),
-> +
-> +	TP_ARGS(dmabuf),
-> +
-> +	TP_STRUCT__entry(
-> +		__string(exp_name, dmabuf->exp_name)
-> +		__string(name, dmabuf->name)
-> +		__field(size_t, size)
-> +		__field(ino_t, ino)
-> +		__field(long, f_refcnt)
-> +	),
-> +
-> +	TP_fast_assign(
-> +		__assign_str(exp_name);
-> +		spin_lock(&dmabuf->name_lock);
-> +		__assign_str(name);
-> +		spin_unlock(&dmabuf->name_lock);
-> +		__entry->size = dmabuf->size;
-> +		__entry->ino = dmabuf->file->f_inode->i_ino;
-> +		__entry->f_refcnt = file_count(dmabuf->file);
-> +	),
-> +
-> +	TP_printk("exp_name=%s name=%s size=%zu ino=%lu f_refcnt=%ld",
-> +		  __get_str(exp_name),
-> +		  __get_str(name),
-> +		  __entry->size,
-> +		  __entry->ino,
-> +		  __entry->f_refcnt)
-> +);
-> +
-> +#endif /* _TRACE_DMA_BUF_H */
-> +
-> +/* This part must be outside protection */
-> +#include <trace/define_trace.h>
-
+BR.
+ZhiJie
