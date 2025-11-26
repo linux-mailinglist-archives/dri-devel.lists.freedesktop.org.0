@@ -2,89 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A18C89073
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 10:43:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E884C890B3
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 10:46:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38A3D10E584;
-	Wed, 26 Nov 2025 09:43:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5386710E11B;
+	Wed, 26 Nov 2025 09:45:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gSys7Fau";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pFr4kcLx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01AFD10E587
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 09:43:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764150194; x=1795686194;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=CCg+lZSEq+WcXEQmJQne7xQ4oE1yxypysTDuDghy64Q=;
- b=gSys7Fauj7ok4vYIN6dzvRbxvg/YFpi+zM8Z7GzZbI2rLLajnuIjHCc/
- CuKYkfdK/t8BKo72dTs53HHeaRydsrH1qhhy3BAforCWRM3IW+7/eCkLH
- 8F0n/MY5l1Fh/9/FSF9NajteszX9i7J/hDkB1IHaP96Zzt9U1sbC6Ham8
- dNnetUvCQgOZoeuwHBm2eiJN8VGCOZNWQt3Q/zlQE4UosDly1JZU+/F3H
- sGCuAiMXJcK2UvadISKGSbblCwoyIXIspLFPRg6QD/zdAJ8UTmlv1w1KG
- cTExckpHSbnHPoF6v0Ari5Xk1sDr3G1C5BRkKZg93TX+PtpZ6Emcp0rhu A==;
-X-CSE-ConnectionGUID: NyyRLON+RgKVMGA1fQNK7g==
-X-CSE-MsgGUID: h8KNte2KSJ2rbQ8Q69NQbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="65371591"
-X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="65371591"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2025 01:43:14 -0800
-X-CSE-ConnectionGUID: B+T8YiSeRD+/P6Odm3S47w==
-X-CSE-MsgGUID: B/YD/UVbQWaORjBCGIUAVA==
-X-ExtLoop1: 1
-Received: from iherna2-mobl4.amr.corp.intel.com (HELO kuha) ([10.124.223.25])
- by fmviesa003.fm.intel.com with SMTP; 26 Nov 2025 01:42:55 -0800
-Received: by kuha (sSMTP sendmail emulation); Wed, 26 Nov 2025 11:42:43 +0200
-Date: Wed, 26 Nov 2025 11:42:43 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chaoyi Chen <kernel@airkyi.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v10 01/11] usb: typec: Add notifier functions
-Message-ID: <aSbLkwPG0dUzZvql@kuha>
-References: <20251120022343.250-2-kernel@airkyi.com>
- <2025112102-laurel-mulch-58e4@gregkh>
- <462ad1bd-7eec-4f26-b383-96b049e14559@rock-chips.com>
- <2025112402-unopposed-polio-e6e9@gregkh>
- <a80483de-518d-45d5-b46a-9b70cca5b236@rock-chips.com>
- <2025112448-brush-porcupine-c851@gregkh>
- <c9cb7b79-37c8-4fef-97a6-7d6b8898f9c4@rock-chips.com>
- <aSV_lQYJPxN7oBM-@kuha> <2025112554-uncaring-curator-642a@gregkh>
- <cbb38c08-6937-4b7d-a0b0-d5ca6c17f466@rock-chips.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D51A110E57F
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 09:45:58 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AQ92fNk3255839; Wed, 26 Nov 2025 09:45:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=c1QJlbfWy/2dtf1n3VIQWCFVj/DL0FwuReC
+ BFuuqKyk=; b=pFr4kcLxskeztk9kDLFUiMmyfEEfOuclv0dLTXRQbEUN+Xk3L2L
+ ic+zlrUUljCTZbqtJLivhtbwMoJQnft8KgiqyAZKKipHKjOzaJq4jRQp09AO1KzI
+ nemi9hns+F2c2jbkcpdsAce7lL+S8c28T0NtcTL9b2TCTcH1zk8mIsazTJ0zWWUt
+ V+f490gQp3VkzSWqJa7Vzv1TweNkW1nNezrF3aleqDp8R8sUthvuZ+hWpQnVOVN1
+ Pwgptlil2cDSD0vfVGyJ6DQuFgm7OLCY+ZiYfpqP94PrpAEJFeU1cXwv7iN9z5LR
+ iB+khhIosurkFfgfwUwnLa0BzndzDSeM1jA==
+Received: from apblrppmta02.qualcomm.com
+ (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4anb9c3cau-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Nov 2025 09:45:53 +0000 (GMT)
+Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5AQ9joYY010071; 
+ Wed, 26 Nov 2025 09:45:50 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4anw4ssw7s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Nov 2025 09:45:50 +0000
+Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5AQ9jolf010065;
+ Wed, 26 Nov 2025 09:45:50 GMT
+Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-kpallavi-hyd.qualcomm.com
+ [10.147.243.7])
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 5AQ9jo4c010054
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 26 Nov 2025 09:45:50 +0000
+Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4720299)
+ id 09E8B515; Wed, 26 Nov 2025 15:15:49 +0530 (+0530)
+From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+To: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
+ arnd@arndb.de, gregkh@linuxfoundation.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>, quic_bkumar@quicinc.com, 
+ ekansh.gupta@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ jingyi.wang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+ ktadakam@qti.qualcomm.com
+Subject: [PATCH v4 0/4] Add ADSP and CDSP support on Kaanapali SoC
+Date: Wed, 26 Nov 2025 15:15:41 +0530
+Message-Id: <20251126094545.2139376-1-kumari.pallavi@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cbb38c08-6937-4b7d-a0b0-d5ca6c17f466@rock-chips.com>
+Content-Transfer-Encoding: 8bit
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: pMI0LeOUcywE4L9706-QNIOlLkZNJlAI
+X-Proofpoint-ORIG-GUID: pMI0LeOUcywE4L9706-QNIOlLkZNJlAI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDA3OSBTYWx0ZWRfX0N/R9/A/9Uls
+ r0PYF5WwPe3i4/60cX1M8JSX255Q8eum0q5UBkvB2riKaRYsjgPVPZ1Tuf0X+AGzMS9uN29q1Ms
+ E90I5OdkO7fvMhmPRW/MlfmfcMGnud0xs+uR3XvXfupSBNtrjTh0xa1lOUw8XcQ9MIRe+871YSP
+ Wcs3WGl6csm73uLEV5TJPytBl/MvZIvTvrtnZK3aWlL1ZmT7AjXa1jLVyQTidMg9rNmEY6TaARL
+ cJq6U7JnjAREKOffUtvDEBiX6AbLVfzfEIpuFvFHt6gTZlVnXpNkjcNvIs9+l1YEAUHfWdcn8eZ
+ RJDEd4QwzBobv7TMs4zzUZ/0tXG1MV8nnEFH1wQtUjQhUFGwaJZKkYn9wvm9LERJW31sFrwalIw
+ ARDRDHipWYuQHNn48x9et4JRUYhHbA==
+X-Authority-Analysis: v=2.4 cv=VKbQXtPX c=1 sm=1 tr=0 ts=6926cc51 cx=c_pps
+ a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=mRQkYbyLXEYurZiQm2UA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-25_02,2025-11-25_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 bulkscore=0 adultscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 impostorscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511260079
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,42 +109,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Wed, Nov 26, 2025 at 09:46:19AM +0800, Chaoyi Chen kirjoitti:
-> On 11/25/2025 7:49 PM, Greg Kroah-Hartman wrote:
-> >> +static umode_t typec_is_visible(struct kobject *kobj, struct attribute *attr, int n)
-> >> +{
-> >> +	if (is_typec_port(kobj_to_dev(kobj)->parent))
-> > 
-> > Why look at the parent?  Doesn't the device have a type that should show
-> > this?
-> > 
-> > Otherwise, looks good to me.
-> 
-> They have same deivce type "typec_altmode_dev_type".
-> The parent device has a different device type to distinguish between
-> port device and partner device.
+Introduces support for new DSP IOVA formatting and hardware-specific
+configuration required to enable ADSP and CDSP functionality on the
+Kaanapali SoC.
 
-I was already wondering would it make sense to provide separate device
-types for the port, and also plug, alternate modes, but I'm not sure
-if that's the right thing to do.
+Add support for a new IOVA formatting scheme by adding a sid_pos to the DSP
+driver. Sid_pos standardizes the placement of the stream ID (SID) within the
+physical address, which is required for DSPs to operate correctly on
+Kaanapali. DSP currently supports 32-bit IOVA (32-bit PA + 4-bit SID) for
+both Q6 and user DMA (uDMA) access.
+This is being upgraded to 34-bit PA + 4-bit SID due to a hardware revision
+in CDSP for Kaanapali SoC, which expands the DMA addressable range.
+To support CDSP operation, this series updates the DMA mask configuration
+to reflect the expanded DMA addressable range.
 
-There is a plan to register an "altmode" also for the USB4 mode,
-which of course is not an alternate mode. So USB4 will definitely need a
-separate device type.
+Patch [v3]:https://lore.kernel.org/all/20251015045702.3022060-1-kumari.pallavi@oss.qualcomm.com/
 
-So if we supply separate device types for the port, plug and partner
-alternate modes, we need to supply separate device types for port, plug
-and partner USB4 mode as well.
+Changes in v4:
+  - Resolve warnings reported by make dt_bindings_check
+  - Convert the data type of the dma_addr to dma_addr_t
+  - Replace the macro with an inline function for more readability
+  - Rename the cdsp_dma_bits to dma_addr_bits_extended and default_dma_bits
+    to the dma_addr_bits_default for more clarity 
 
-We certainly can still do that, but I'm just not sure if it makes
-sense?
+Kumari Pallavi (4):
+  dt-bindings: misc: qcom,fastrpc: Add compatible for Kaanapali
+  misc: fastrpc: Rename phys to dma_addr for clarity
+  misc: fastrpc: Add support for new DSP IOVA formatting
+  misc: fastrpc: Update dma_bits for CDSP support on Kaanapali SoC
 
-I'll prepare a new version for this and include a separate patch where
-instead of defining separate device types for the port and plug
-alternate modes I'll just supply helpers is_port_alternate_mode() and
-is_plug_alternate_mode().
-
-thanks,
+ .../bindings/misc/qcom,fastrpc.yaml           |   5 +-
+ drivers/misc/fastrpc.c                        | 130 ++++++++++++------
+ 2 files changed, 94 insertions(+), 41 deletions(-)
 
 -- 
-heikki
+2.34.1
+
