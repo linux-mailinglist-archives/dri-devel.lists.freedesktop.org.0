@@ -2,72 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CA0C89908
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 12:39:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75746C8994D
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 12:44:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C609210E5AD;
-	Wed, 26 Nov 2025 11:39:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C72110E545;
+	Wed, 26 Nov 2025 11:44:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="figlf+6+";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EX6HFDp6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35BDB10E545;
- Wed, 26 Nov 2025 11:39:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764157182; x=1795693182;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=JLe5APvz+evuFEy3wjsLvK0Hbz/XcpRv+H+6jR3KGXY=;
- b=figlf+6+4sglnSYS3dtHh35D9ynmQMEwIyDSI2YUJfBaxzAFioEAIEwC
- TFJGGu8Bhsq8PwfYADSWcHleRuwmZSlF6ca+qDJw5kDW7DniGmwA18Pvu
- TXCgtmS2Mu8VdU3NM6B6CmGz26n/JIRb2Dj11mj8yDG2zhPgFhP0ed54b
- J/fB9NOukjcmMkxMeZ7plbRFsMNJjPsnPMlZ3YEXjB59dMLl+l+5NRto6
- Radj941pT8riXV9N68LQWDHcoef5gzou+EQmc0FC/6TEu+n8Werw2+AbP
- tPo6pr/+dZrR2N7IIaso5bMi9K5F7RvVMe0O09MvV3kPIYbHXC4GcXXT0 w==;
-X-CSE-ConnectionGUID: OLHQWe2ZQV6Ixjjj1kWP9Q==
-X-CSE-MsgGUID: NIEaP0UiQruWIUFrlzMwsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="66139273"
-X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="66139273"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2025 03:39:41 -0800
-X-CSE-ConnectionGUID: /uDktke5SmqHYYSFiF6NmQ==
-X-CSE-MsgGUID: Zn55xgyiTfWsw5cJenD7bg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="223879744"
-Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.245.127])
- ([10.245.245.127])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2025 03:39:36 -0800
-Message-ID: <4ebdc75ce1052735eb90b4cb062be98efc6ca5ce.camel@linux.intel.com>
-Subject: Re: [PATCH v6 0/4] vfio/xe: Add driver variant for Xe VF migration
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>, Alex Williamson <alex@shazbot.org>
-Cc: =?UTF-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>, Lucas De
- Marchi <lucas.demarchi@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Jason Gunthorpe	 <jgg@ziepe.ca>, Yishai Hadas <yishaih@nvidia.com>, Kevin
- Tian	 <kevin.tian@intel.com>, Shameer Kolothum <skolothumtho@nvidia.com>, 
- intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- kvm@vger.kernel.org, Michal Wajdeczko <michal.wajdeczko@intel.com>, 
- dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie	 <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Lukasz Laguna	 <lukasz.laguna@intel.com>, Christoph
- Hellwig <hch@infradead.org>
-Date: Wed, 26 Nov 2025 12:39:34 +0100
-In-Reply-To: <c5f1344daeec43e5b5d9e6536c8c8b8a13323f7a.camel@linux.intel.com>
-References: <20251124230841.613894-1-michal.winiarski@intel.com>
- <20251125131315.60aa0614.alex@shazbot.org>
- <aSZVybx3cgPw6HQh@lstrano-desk.jf.intel.com>
- <c5f1344daeec43e5b5d9e6536c8c8b8a13323f7a.camel@linux.intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08D3010E545
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 11:44:34 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id EFBA8601D7;
+ Wed, 26 Nov 2025 11:44:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C877C113D0;
+ Wed, 26 Nov 2025 11:44:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1764157473;
+ bh=dQ3LNp2DPvCHpByC5YJ/LPjNqcR3n3ZIP831X7vWn8k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EX6HFDp6M+6sFCHy11l719FEszcZCnX/arPyanWY59AmUz7HdftavnC1U4UCkzvV0
+ uMiLKf9hkOEIYyVgWL4ByFWeBVROb9xMXOMOAFmxeygWsa7rhDrNnpXdbZ/kbBuZPA
+ mFQJCkSC9jrSiqVsHgOTzV+V4tdIrre3rw2MorAU=
+Date: Wed, 26 Nov 2025 12:44:17 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Chaoyi Chen <chaoyi.chen@rock-chips.com>, Chaoyi Chen <kernel@airkyi.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Peter Chen <hzpeterchen@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v10 01/11] usb: typec: Add notifier functions
+Message-ID: <2025112656-dreamland-retreat-2a65@gregkh>
+References: <2025112102-laurel-mulch-58e4@gregkh>
+ <462ad1bd-7eec-4f26-b383-96b049e14559@rock-chips.com>
+ <2025112402-unopposed-polio-e6e9@gregkh>
+ <a80483de-518d-45d5-b46a-9b70cca5b236@rock-chips.com>
+ <2025112448-brush-porcupine-c851@gregkh>
+ <c9cb7b79-37c8-4fef-97a6-7d6b8898f9c4@rock-chips.com>
+ <aSV_lQYJPxN7oBM-@kuha> <2025112554-uncaring-curator-642a@gregkh>
+ <cbb38c08-6937-4b7d-a0b0-d5ca6c17f466@rock-chips.com>
+ <aSbLkwPG0dUzZvql@kuha>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aSbLkwPG0dUzZvql@kuha>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,67 +86,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-11-26 at 12:38 +0100, Thomas Hellstr=C3=B6m wrote:
-> On Tue, 2025-11-25 at 17:20 -0800, Matthew Brost wrote:
-> > On Tue, Nov 25, 2025 at 01:13:15PM -0700, Alex Williamson wrote:
-> > > On Tue, 25 Nov 2025 00:08:37 +0100
-> > > Micha=C5=82 Winiarski <michal.winiarski@intel.com> wrote:
-> > >=20
-> > > > Hi,
-> > > >=20
-> > > > We're now at v6, thanks for all the review feedback.
-> > > >=20
-> > > > First 24 patches are now already merged through drm-tip tree,
-> > > > and
-> > > > I hope
-> > > > we can get the remaining ones through the VFIO tree.
-> > >=20
-> > > Are all those dependencies in a topic branch somewhere?=C2=A0
-> > > Otherwise
-> > > to
-> > > go in through vfio would mean we need to rebase our next branch
-> > > after
-> > > drm is merged.=C2=A0 LPC is happening during this merge window, so we
-> > > may
-> > > not be able to achieve that leniency in ordering.=C2=A0 Is the better
-> > > approach to get acks on the variant driver and funnel the whole
-> > > thing
-> > > through the drm tree?=C2=A0 Thanks,
-> >=20
-> > +1 on merging through drm if VFIO maintainers are ok with this.
-> > I've
-> > done this for various drm external changes in the past with
-> > maintainers
-> > acks.
-> >=20
-> > Matt
->=20
-> @Michal Winiarski
->=20
-> Are these patches depending on any other VFIO changes that are queued
-> for 6.19?=20
->=20
-> If not and with proper VFIO acks, I could ask Dave / Sima to allow
-> this
-> for drm-xe-next-fixes pull. Then I also would need a strong
-> justification for it being in 6.19 rather in 7.0.
->=20
-> Otherwise we'd need to have the VFIO changes it depends on in a topic
-> branch, or target this for 7.0 and hold off the merge until we can
-> backmerge 6.9-rc1.
+On Wed, Nov 26, 2025 at 11:42:43AM +0200, Heikki Krogerus wrote:
+> Wed, Nov 26, 2025 at 09:46:19AM +0800, Chaoyi Chen kirjoitti:
+> > On 11/25/2025 7:49 PM, Greg Kroah-Hartman wrote:
+> > >> +static umode_t typec_is_visible(struct kobject *kobj, struct attribute *attr, int n)
+> > >> +{
+> > >> +	if (is_typec_port(kobj_to_dev(kobj)->parent))
+> > > 
+> > > Why look at the parent?  Doesn't the device have a type that should show
+> > > this?
+> > > 
+> > > Otherwise, looks good to me.
+> > 
+> > They have same deivce type "typec_altmode_dev_type".
+> > The parent device has a different device type to distinguish between
+> > port device and partner device.
+> 
+> I was already wondering would it make sense to provide separate device
+> types for the port, and also plug, alternate modes, but I'm not sure
+> if that's the right thing to do.
+> 
+> There is a plan to register an "altmode" also for the USB4 mode,
+> which of course is not an alternate mode. So USB4 will definitely need a
+> separate device type.
+> 
+> So if we supply separate device types for the port, plug and partner
+> alternate modes, we need to supply separate device types for port, plug
+> and partner USB4 mode as well.
+> 
+> We certainly can still do that, but I'm just not sure if it makes
+> sense?
+> 
+> I'll prepare a new version for this and include a separate patch where
+> instead of defining separate device types for the port and plug
+> alternate modes I'll just supply helpers is_port_alternate_mode() and
+> is_plug_alternate_mode().
 
-6.19-rc1
+That feels like it would be better in the long run as it would be
+easier to "match" on the device type.
 
-/Thomas
+thanks,
 
-
->=20
-> Thanks,
-> Thomas
->=20
->=20
-> >=20
-> > >=20
-> > > Alex
->=20
-
+greg k-h
