@@ -2,69 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 611B3C89311
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 11:10:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B123C8941A
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 11:22:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0451810E57B;
-	Wed, 26 Nov 2025 10:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AAE310E59E;
+	Wed, 26 Nov 2025 10:22:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BTGwNJiY";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tq5AOqx9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C338A10E57B;
- Wed, 26 Nov 2025 10:10:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764151849;
- bh=ecJ1vGlyPj6hsCofjHA7b6XDNSRT7xhJLj2BkLxAf6M=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=BTGwNJiYhH0pw6GB3bsWRZFrAfxZlQsY1XcuEL3zlNWjVHArUqmwi2Hmr9H0spuYR
- ZZLN8ys30zhBHkvnwuv0MKYs3j2MayURZg1nfvQj5Y4SfOLRj6Pez/y7IfBn1pylM1
- cJqj73uPzEbF1Bw70LjOzOLA1MpiTPezmO1B5FvasUQqo+0u9dm8piYmTyL/ParorP
- Bsp8pqlHveaqQfQR8+cI2S2sRFvucsZrCuUUbiIE0g79lQfF7L74VOl3eJ0IHL+lNs
- X2GqZWDiZ+gtHSazhxFkL8ABfWHWgkf5YvUXT39/hblLTtJvYreeuprfcmj/tGpnHI
- /WoTfM4zP4pHA==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id E4EC417E10E9;
- Wed, 26 Nov 2025 11:10:47 +0100 (CET)
-Date: Wed, 26 Nov 2025 11:10:43 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Rob Herring <robh@kernel.org>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mcanal@igalia.com>, Hugh Dickins <hughd@google.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?B?TWlrb8WCYWo=?= Wasiak
- <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>, Nitin
- Gote <nitin.r.gote@intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Christopher Healy <healych@amazon.com>,
- Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v9 09/11] drm/panthor: Improve IOMMU map/unmap debugging
- logs
-Message-ID: <20251126111043.145e1aa2@fedora>
-In-Reply-To: <20251114170303.2800-10-loic.molinari@collabora.com>
-References: <20251114170303.2800-1-loic.molinari@collabora.com>
- <20251114170303.2800-10-loic.molinari@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7961810E59E
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 10:22:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 3B98643EB6;
+ Wed, 26 Nov 2025 10:22:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11C9FC113D0;
+ Wed, 26 Nov 2025 10:22:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764152573;
+ bh=yApvlgYFAq8V1I0DJfjfzUtWA2HTkUFR9FtEgwOym40=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=tq5AOqx9UHeBxhDK48rQ2ZO6G4cleQjzcs8UeBfn9vu2joql4xBcRe1OiYkX1IwgV
+ 3gVt+8mazMAPIGODasAJwMIJ9GwD4ZSCMP3YdQFYw7PYr3g+1ulSqm6NDA/j0+sp3m
+ LuQy3+1eL6uR8V8wrWlmG8TWAAXwEAdjTTtBCxNpi+vhqUZdaesVsO0Khb9RSqbfnQ
+ 93BWGXRF7nagFTOovb+Dt+I/0iEem+r6eEqoRxocxGf/llGMw+eLJDWPK4Bdsav6QT
+ L42XWmcTGAEFWjhYDe6N0ZtGsp9H7gaabwQQH+eGe2Nhm6601zjzsIHdRkMlxtvl7o
+ 6IrdzQJbSzESw==
+Message-ID: <0b7ba974-d8d5-4417-8182-3e9299315058@kernel.org>
+Date: Wed, 26 Nov 2025 11:22:45 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/9] dt-bindings: display: add verisilicon,dc
+To: Icenowy Zheng <uwu@icenowy.me>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: Han Gao <rabenda.cn@gmail.com>, Yao Zi <ziyao@disroot.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+References: <20251124105226.2860845-1-uwu@icenowy.me>
+ <20251124105226.2860845-3-uwu@icenowy.me>
+ <d4cfe8bb-5ca2-40a9-bfe0-96e7ded5586c@kernel.org>
+ <544ae21cc1b5f488d03a5650d9275ff22b237d63.camel@icenowy.me>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <544ae21cc1b5f488d03a5650d9275ff22b237d63.camel@icenowy.me>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,91 +118,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 14 Nov 2025 18:03:00 +0100
-Lo=C3=AFc Molinari <loic.molinari@collabora.com> wrote:
+On 26/11/2025 10:50, Icenowy Zheng wrote:
+>>> +maintainers:
+>>> +  - Icenowy Zheng <uwu@icenowy.me>
+>>> +
+>>> +properties:
+>>> +  $nodename:
+>>> +    pattern: "^display@[0-9a-f]+$"
+>>> +
+>>> +  compatible:
+>>> +    items:
+>>> +      - enum:
+>>> +          - thead,th1520-dc8200
+>>> +      - const: verisilicon,dc
+>>
+>> I do not see any explanation of exception for generic compatibles,
+>> maybe
+>> except "self-identification" remark. Rob already pointed this out, so
+>> be
+>> explicit in commit msg why you are using a generic compatible.
+> 
+> Well I only get the meaning of "a SoC specific compatible is required"
+> in his review message.
+> 
+> I think my binding now requires both a SoC-specific compatible and a
+> generic compatible, which should be okay to satisfy Rob's original
+> review.
 
-> Log the number of pages and their sizes actually mapped/unmapped by
-> the IOMMU page table driver. Since a map/unmap op is often split in
-> several ops depending on the underlying scatter/gather table, add the
-> start address and the total size to the debugging logs in order to
-> help understand which batch an op is part of.
->=20
-> Signed-off-by: Lo=C3=AFc Molinari <loic.molinari@collabora.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+You will get then the same questions for me - what justifies generic
+compatible. You should be on this explicit, because otherwise people
+misinterpret some commits and patches, and they think the generic
+compatible is allowed for them as well.
 
-Just queued this specific patch to drm-misc-next since it had no
-external deps. Make sure you rebase before preparing your v10.
+> 
+>>
+>>> +
+>>> +  reg:
+>>> +    maxItems: 1
+>>> +
+>>> +  interrupts:
+>>> +    maxItems: 1
+>>> +
+>>> +  clocks:
+>>> +    minItems: 4
+>>
+>> This is not flexible. Device either has or has not these clocks.
+> 
+> The existence of all these clocks are verified by diagrams in manuals
 
-> ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 19 ++++++++++++++-----
->  1 file changed, 14 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/pant=
-hor/panthor_mmu.c
-> index 58fead90533a..32410713c61c 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -918,10 +918,9 @@ static int panthor_vm_unmap_pages(struct panthor_vm =
-*vm, u64 iova, u64 size)
->  {
->  	struct panthor_device *ptdev =3D vm->ptdev;
->  	struct io_pgtable_ops *ops =3D vm->pgtbl_ops;
-> +	u64 start_iova =3D iova;
->  	u64 offset =3D 0;
-> =20
-> -	drm_dbg(&ptdev->base, "unmap: as=3D%d, iova=3D%llx, len=3D%llx", vm->as=
-.id, iova, size);
-> -
->  	while (offset < size) {
->  		size_t unmapped_sz =3D 0, pgcount;
->  		size_t pgsize =3D get_pgsize(iova + offset, size - offset, &pgcount);
-> @@ -936,6 +935,12 @@ static int panthor_vm_unmap_pages(struct panthor_vm =
-*vm, u64 iova, u64 size)
->  			panthor_vm_flush_range(vm, iova, offset + unmapped_sz);
->  			return  -EINVAL;
->  		}
-> +
-> +		drm_dbg(&ptdev->base,
-> +			"unmap: as=3D%d, iova=3D0x%llx, sz=3D%llu, va=3D0x%llx, pgcnt=3D%zu, =
-pgsz=3D%zu",
-> +			vm->as.id, start_iova, size, iova + offset,
-> +			unmapped_sz / pgsize, pgsize);
-> +
->  		offset +=3D unmapped_sz;
->  	}
-> =20
-> @@ -951,6 +956,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova,=
- int prot,
->  	struct scatterlist *sgl;
->  	struct io_pgtable_ops *ops =3D vm->pgtbl_ops;
->  	u64 start_iova =3D iova;
-> +	u64 start_size =3D size;
->  	int ret;
-> =20
->  	if (!size)
-> @@ -970,15 +976,18 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iov=
-a, int prot,
->  		len =3D min_t(size_t, len, size);
->  		size -=3D len;
-> =20
-> -		drm_dbg(&ptdev->base, "map: as=3D%d, iova=3D%llx, paddr=3D%pad, len=3D=
-%zx",
-> -			vm->as.id, iova, &paddr, len);
-> -
->  		while (len) {
->  			size_t pgcount, mapped =3D 0;
->  			size_t pgsize =3D get_pgsize(iova | paddr, len, &pgcount);
-> =20
->  			ret =3D ops->map_pages(ops, iova, paddr, pgsize, pgcount, prot,
->  					     GFP_KERNEL, &mapped);
-> +
-> +			drm_dbg(&ptdev->base,
-> +				"map: as=3D%d, iova=3D0x%llx, sz=3D%llu, va=3D0x%llx, pa=3D%pad, pgc=
-nt=3D%zu, pgsz=3D%zu",
-> +				vm->as.id, start_iova, start_size, iova, &paddr,
-> +				mapped / pgsize, pgsize);
-> +
->  			iova +=3D mapped;
->  			paddr +=3D mapped;
->  			len -=3D mapped;
+So not flexible, then:
 
+> of two different SoCs with DC8200 (T-Head TH1520 and StarFive JH7110).
+> 
+> Maybe a explicit `maxItems: 5` is needed here, but as my DT passes
+> dtbs_check, I don't think it's necessary?
+
+No, drop minItems only.
+
+> 
+> Or maybe I should drop the flexibility now and use a `minItems: 5` here
+> (and leave DC8000 support as another story)? (The Eswin EIC7700 manual
+> does not have a diagram showing external connections of the DC, like
+> the two SoCs I mentioned above).
+
+You document here only the devices explicitly mentioned in the binding.
+You cannot add here constraints or clocks for some device which is not
+in the binding and I see only th1520 in the binding.
+
+Best regards,
+Krzysztof
