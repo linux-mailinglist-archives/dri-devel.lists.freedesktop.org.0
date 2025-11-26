@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0048C8A5C2
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 15:35:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69CF7C8A26F
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 15:08:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1A1A10E048;
-	Wed, 26 Nov 2025 14:35:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 769BA10E2B2;
+	Wed, 26 Nov 2025 14:08:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=0la.ch header.i=@0la.ch header.b="SfNLWLkG";
-	dkim=permerror (0-bit key) header.d=0la.ch header.i=@0la.ch header.b="9SLWDPan";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DKlgAPVn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.0la.ch (mail.0la.ch [78.47.82.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B0C810E048;
- Wed, 26 Nov 2025 14:35:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; s=202502r; d=0la.ch; c=relaxed/relaxed;
- h=From:To:Subject:Date:Message-ID; t=1764167712; bh=5S/xRtuoNCPIoEQwMLK9Oka
- 86PCxoQbNPvfdNfWtG50=; b=SfNLWLkG/e1nQ97bZdkA92EWpeiMgbQaHcPDENX9yeVlbseDKS
- 4jYuPLJ3CV9FvJwB8pqK1cQ9Sw2dsGFXoYng5koy6JhKg7qj1MpMbOAotS+gBC+DFbsZxRu0qle
- GM2I+uL9LuMALxMddvHdRepQRkBeKOQaJ4ZV6UWfnT5ECXjt807k3FtEV0UHtGwIJI4KZS3/5XJ
- q5s5JU7acgdKn/S6qs+yog3TU2Lw6PY3muGtUz/zdg5YfTVN8cX40QZrUSE3RXwUPYsP6EK3844
- cPJOumAwpChzoxSigfW1PEA0iNK8OO6N89M6xtmG6wi2WMaXdgH20+vj91A1q4swLmQ==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202502e; d=0la.ch; c=relaxed/relaxed; 
- h=From:To:Subject:Date:Message-ID; t=1764167712;
- bh=5S/xRtuoNCPIoEQwMLK9Oka
- 86PCxoQbNPvfdNfWtG50=; b=9SLWDPan7vEZQASG2iT9zqRS1bfi7JPzlAfA/jR2MsDbyc9hw1
- hT+RRMDKa+BhIODa7hb5BbD07iYn8Dw7HgAw==;
-Message-ID: <c32eb9e4-41fa-4d17-a214-d7f594f34d82@0la.ch>
-Date: Wed, 26 Nov 2025 15:35:11 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CDF310E2B2;
+ Wed, 26 Nov 2025 14:08:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764166086; x=1795702086;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=n0BTz/KDiWpJkZ53qVb1PFbXEJ0IG+HQvXpbEvJMUZ0=;
+ b=DKlgAPVnDgPOtwKOSWmlgRCImesVvzwxBjhzsQDROmHCeqQdHdVILsKW
+ yOpd/uz1WIWDKNJSrPw1do152bb+wIa+iEr73Qwd6g3XU9MSQ+AcOUxIp
+ p0qXlB1nWA/mKP1ms4KXZaDVct0BHZccnuCXLmkG4VfvwpPJ1ZiIimnEr
+ 4fnxe69/4UOVyiveUAWiDR8/U3fyC1SwRszL2VWLRGmdNarVSvyhUs7qE
+ yZW6Gwd4mpMJNJwVHMltYU9c4k0krnNofNazFIqh/wXPeqcRx2ni5KiXc
+ YKC5bYDR8FuxtuoFPk6otuf4jl3nEvXSeJ/26EqMQJlks3sqr3bveKsQX A==;
+X-CSE-ConnectionGUID: JYSaR94RQAedNlYSSEg4Iw==
+X-CSE-MsgGUID: 8sq0nNPtQLGvxfIJ3iDdxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="66365868"
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="66365868"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 06:08:06 -0800
+X-CSE-ConnectionGUID: R5cls438STyxEQFHyLG2mQ==
+X-CSE-MsgGUID: O1WDIFgLQVGUx0xZHjcBig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="192740283"
+Received: from rtauro-desk.iind.intel.com ([10.190.238.50])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 06:08:03 -0800
+From: Riana Tauro <riana.tauro@intel.com>
+To: intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+ rodrigo.vivi@intel.com, joonas.lahtinen@linux.intel.com, lukas@wunner.de,
+ simona.vetter@ffwll.ch, airlied@gmail.com, lucas.demarchi@intel.com,
+ Riana Tauro <riana.tauro@intel.com>
+Subject: [PATCH v2 0/4] Introduce DRM_RAS using generic netlink for RAS
+Date: Wed, 26 Nov 2025 20:06:43 +0530
+Message-ID: <20251126143652.2843242-6-riana.tauro@intel.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/7] drm/edid: parse DSC DPP passthru support flag for
- mode VII timings
-To: Jani Nikula <jani.nikula@linux.intel.com>, Yaroslav Bolyukin
- <iam@lach.pw>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20251126065126.54016-1-iam@lach.pw>
- <20251126065126.54016-5-iam@lach.pw>
- <6f88c0111ce7f2a74010ff43a77bdd03f669ffb6@intel.com>
-Content-Language: en-US
-From: Yaroslav <iam@0la.ch>
-In-Reply-To: <6f88c0111ce7f2a74010ff43a77bdd03f669ffb6@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,117 +69,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This work is a continuation of the great work started by Aravind ([1] and [2])
+in order to fulfill the RAS requirements and proposal as previously discussed
+and agreed in the Linux Plumbers accelerator's bof of 2022 [3].
+
+[1]: https://lore.kernel.org/dri-devel/20250730064956.1385855-1-aravind.iddamsetty@linux.intel.com/
+[2]: https://lore.kernel.org/all/4cbdfcc5-5020-a942-740e-a602d4c00cc2@linux.intel.com/
+[3]: https://airlied.blogspot.com/2022/09/accelerators-bof-outcomes-summary.html
+
+During the past review round, Lukas pointed out that netlink had evolved
+in parallel during these years and that now, any new usage of netlink families
+would require the usage of the YAML description and scripts.
+
+With this new requirement in place, the family name is hardcoded in the yaml file,
+so we are forced to have a single family name for the entire drm, and then we now
+we are forced to have a registration.
+
+So, while doing the registration, we now created the concept of drm-ras-node.
+For now the only node type supported is the agreed error-counter. But that could
+be expanded for other cases like telemetry, requested by Zack for the qualcomm accel
+driver.
+
+In this first version, only querying counter is supported. But also this is expandable
+to future introduction of multicast notification and also clearing the counters.
+
+This design with multiple nodes per device is already flexible enough for driver
+to decide if it wants to handle error per device, or per IP block, or per error
+category. I believe this fully attend to the requested AMD feedback in the earlier
+reviews.
+
+So, my proposal is to start simple with this case as is, and then iterate over
+with the drm-ras in tree so we evolve together according to various driver's RAS
+needs.
+
+I have provided a documentation and the first Xe implementation of the counter
+as reference.
+
+Also, it is worth to mention that we have a in-tree pyynl/cli.py tool that entirely
+exercises this new API, hence I hope this can be the reference code for the uAPI
+usage, while we continue with the plan of introducing IGT tests and tools for this
+and adjusting the internal vendor tools to open with open source developments and
+changing them to support these flows.
+
+Example:
+
+$ sudo ynl --family drm_ras  --dump list-nodes
+[{'device-name': '0000:03:00.0',
+  'node-id': 0,
+  'node-name': 'correctable-errors',
+  'node-type': 'error-counter'},
+ {'device-name': '0000:03:00.0',
+  'node-id': 1,
+  'node-name': 'nonfatal-errors',
+  'node-type': 'error-counter'},
+ {'device-name': '0000:03:00.0',
+  'node-id': 2,
+  'node-name': 'fatal-errors',
+  'node-type': 'error-counter'}]
+
+$ sudo ynl --family drm_ras  --dump get-error-counters --json '{"node-id":2}'
+[{'error-id': 1, 'error-name': 'GT Error', 'error-value': 2},
+ {'error-id': 2, 'error-name': 'SOC Error', 'error-value': 0}]
 
 
-On 2025-11-26 15:19, Jani Nikula wrote:
-> On Wed, 26 Nov 2025, Yaroslav Bolyukin <iam@lach.pw> wrote:
-> 
-> The commit message goes here.
-> 
->> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
->> ---
->>   drivers/gpu/drm/drm_displayid_internal.h |  2 ++
->>   drivers/gpu/drm/drm_edid.c               | 12 ++++++++----
->>   include/drm/drm_modes.h                  | 10 ++++++++++
->>   3 files changed, 20 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_displayid_internal.h b/drivers/gpu/drm/drm_displayid_internal.h
->> index 72f107ae832f..724174b429f2 100644
->> --- a/drivers/gpu/drm/drm_displayid_internal.h
->> +++ b/drivers/gpu/drm/drm_displayid_internal.h
->> @@ -97,6 +97,7 @@ struct displayid_header {
->>   	u8 ext_count;
->>   } __packed;
->>   
->> +#define DISPLAYID_BLOCK_REV	GENMASK(2, 0)
->>   struct displayid_block {
->>   	u8 tag;
->>   	u8 rev;
->> @@ -125,6 +126,7 @@ struct displayid_detailed_timings_1 {
->>   	__le16 vsw;
->>   } __packed;
->>   
->> +#define DISPLAYID_BLOCK_PASSTHROUGH_TIMINGS_SUPPORT	BIT(3)
->>   struct displayid_detailed_timing_block {
->>   	struct displayid_block base;
->>   	struct displayid_detailed_timings_1 timings[];
->> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
->> index 348aa31aea1b..72a94b1713e2 100644
->> --- a/drivers/gpu/drm/drm_edid.c
->> +++ b/drivers/gpu/drm/drm_edid.c
->> @@ -6792,8 +6792,8 @@ static void update_display_info(struct drm_connector *connector,
->>   }
->>   
->>   static struct drm_display_mode *drm_mode_displayid_detailed(struct drm_device *dev,
->> -							    const struct displayid_detailed_timings_1 *timings,
->> -							    bool type_7)
->> +							    const struct displayid_block *block,
->> +							    const struct displayid_detailed_timings_1 *timings)
->>   {
->>   	struct drm_display_mode *mode;
->>   	unsigned int pixel_clock = (timings->pixel_clock[0] |
->> @@ -6809,11 +6809,16 @@ static struct drm_display_mode *drm_mode_displayid_detailed(struct drm_device *d
->>   	unsigned int vsync_width = le16_to_cpu(timings->vsw) + 1;
->>   	bool hsync_positive = le16_to_cpu(timings->hsync) & (1 << 15);
->>   	bool vsync_positive = le16_to_cpu(timings->vsync) & (1 << 15);
->> +	bool type_7 = block->tag == DATA_BLOCK_2_TYPE_7_DETAILED_TIMING;
->>   
->>   	mode = drm_mode_create(dev);
->>   	if (!mode)
->>   		return NULL;
->>   
->> +	if (type_7 && FIELD_GET(DISPLAYID_BLOCK_REV, block->rev) >= 1)
->> +		mode->dsc_passthrough_timings_support =
->> +			!!(block->rev & DISPLAYID_BLOCK_PASSTHROUGH_TIMINGS_SUPPORT);
-> 
-> The !! and parentheses are superfluous.
-> 
+$ sudo ynl --family drm_ras --do query-error-counter  --json '{"node-id":2, "error-id":1}'
+{'error-id': 1, 'error-name': 'GT Error', 'error-value': 2}
 
-Most of the other instances of bitflag parsing logic in kernel seem to 
-cast integers to booleans explicitly this way.
+IGT : https://patchwork.freedesktop.org/patch/689729/?series=157409&rev=3
 
-I'm fine with simplifying that, I was only doing what everyone else does.
+Rev2: Fix review comments
+      Add support for GT and SOC errors
 
->> +
->>   	/* resolution is kHz for type VII, and 10 kHz for type I */
->>   	mode->clock = type_7 ? pixel_clock : pixel_clock * 10;
->>   	mode->hdisplay = hactive;
->> @@ -6846,7 +6851,6 @@ static int add_displayid_detailed_1_modes(struct drm_connector *connector,
->>   	int num_timings;
->>   	struct drm_display_mode *newmode;
->>   	int num_modes = 0;
->> -	bool type_7 = block->tag == DATA_BLOCK_2_TYPE_7_DETAILED_TIMING;
->>   	/* blocks must be multiple of 20 bytes length */
->>   	if (block->num_bytes % 20)
->>   		return 0;
->> @@ -6855,7 +6859,7 @@ static int add_displayid_detailed_1_modes(struct drm_connector *connector,
->>   	for (i = 0; i < num_timings; i++) {
->>   		struct displayid_detailed_timings_1 *timings = &det->timings[i];
->>   
->> -		newmode = drm_mode_displayid_detailed(connector->dev, timings, type_7);
->> +		newmode = drm_mode_displayid_detailed(connector->dev, block, timings);
->>   		if (!newmode)
->>   			continue;
->>   
->> diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
->> index b9bb92e4b029..312e5c03af9a 100644
->> --- a/include/drm/drm_modes.h
->> +++ b/include/drm/drm_modes.h
->> @@ -417,6 +417,16 @@ struct drm_display_mode {
->>   	 */
->>   	enum hdmi_picture_aspect picture_aspect_ratio;
->>   
->> +	/**
->> +	 * @dsc_passthrough_timing_support:
->> +	 *
->> +	 * Indicates whether this mode timing descriptor is supported
->> +	 * with specific target DSC bits per pixel only.
->> +	 *
->> +	 * VESA vendor-specific data block shall exist with the relevant
->> +	 * DSC bits per pixel declaration when this flag is set to true.
->> +	 */
->> +	bool dsc_passthrough_timings_support;
->>   };
->>   
->>   /**
-> 
+Riana Tauro (3):
+  drm/xe/xe_drm_ras: Add support for drm ras
+  drm/xe/xe_hw_error: Add support for GT hardware errors
+  drm/xe/xe_hw_error: Add support for PVC SOC errors
+
+Rodrigo Vivi (1):
+  drm/ras: Introduce the DRM RAS infrastructure over generic netlink
+
+ Documentation/gpu/drm-ras.rst              | 107 ++++++
+ Documentation/netlink/specs/drm_ras.yaml   | 130 +++++++
+ drivers/gpu/drm/Kconfig                    |   9 +
+ drivers/gpu/drm/Makefile                   |   1 +
+ drivers/gpu/drm/drm_drv.c                  |   6 +
+ drivers/gpu/drm/drm_ras.c                  | 351 +++++++++++++++++
+ drivers/gpu/drm/drm_ras_genl_family.c      |  42 +++
+ drivers/gpu/drm/drm_ras_nl.c               |  54 +++
+ drivers/gpu/drm/xe/Makefile                |   1 +
+ drivers/gpu/drm/xe/regs/xe_hw_error_regs.h |  68 ++++
+ drivers/gpu/drm/xe/xe_device_types.h       |   4 +
+ drivers/gpu/drm/xe/xe_drm_ras.c            | 222 +++++++++++
+ drivers/gpu/drm/xe/xe_drm_ras.h            |  12 +
+ drivers/gpu/drm/xe/xe_drm_ras_types.h      |  54 +++
+ drivers/gpu/drm/xe/xe_hw_error.c           | 413 +++++++++++++++++++--
+ include/drm/drm_ras.h                      |  76 ++++
+ include/drm/drm_ras_genl_family.h          |  17 +
+ include/drm/drm_ras_nl.h                   |  24 ++
+ include/uapi/drm/drm_ras.h                 |  49 +++
+ include/uapi/drm/xe_drm.h                  |   6 +
+ 20 files changed, 1620 insertions(+), 26 deletions(-)
+ create mode 100644 Documentation/gpu/drm-ras.rst
+ create mode 100644 Documentation/netlink/specs/drm_ras.yaml
+ create mode 100644 drivers/gpu/drm/drm_ras.c
+ create mode 100644 drivers/gpu/drm/drm_ras_genl_family.c
+ create mode 100644 drivers/gpu/drm/drm_ras_nl.c
+ create mode 100644 drivers/gpu/drm/xe/xe_drm_ras.c
+ create mode 100644 drivers/gpu/drm/xe/xe_drm_ras.h
+ create mode 100644 drivers/gpu/drm/xe/xe_drm_ras_types.h
+ create mode 100644 include/drm/drm_ras.h
+ create mode 100644 include/drm/drm_ras_genl_family.h
+ create mode 100644 include/drm/drm_ras_nl.h
+ create mode 100644 include/uapi/drm/drm_ras.h
+
+-- 
+2.47.1
+
