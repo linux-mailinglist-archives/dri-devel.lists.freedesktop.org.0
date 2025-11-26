@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 407FAC890B8
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 10:46:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0517C890C4
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 10:46:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EF0810E57F;
-	Wed, 26 Nov 2025 09:46:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ECDCA10E580;
+	Wed, 26 Nov 2025 09:46:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cjnt9siS";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="AYPlxIvv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E274210E57C
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 09:46:00 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6319D10E57F
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 09:46:04 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AQ8NiOK3255846; Wed, 26 Nov 2025 09:45:56 GMT
+ 5AQ1bwsx3317507; Wed, 26 Nov 2025 09:45:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=e0A0fs5Kye1
- YOUiW2hC9Caz9yTBWD34IHk27eVjW2YU=; b=cjnt9siSKNnL6j99XuAQp0NLGIt
- bKucdg7CrLtt/S4RGG/aDVM2trT8c/xBS1T5Pwb3ngZRm+8lO+TVmkNdKykhOyNU
- xOQ1x7NaXpD0oXjqmlOI29Zd+lMIb5z+ajEOUvDhXUuRxZMWCtNvrYAkYzbaytpy
- ZEE2DFgjv2YW3Q+RUO/lhFQdKbSUt77XASBVkyNsuO6x6lyWx47QwOB6b7vExB4S
- 4lQykOYBl8s/ctggOPMCpRFA2L62nc/GVWgvp7GpJcgp55ojgLQMt+Tary+Lonhk
- hDgG4fhLy1mduxMuHdtwo50rV4uS87cfmo5tUVHOMW72TIvFXm2OuopAwIQ==
+ :mime-version:references:subject:to; s=qcppdkim1; bh=H1g556cNtTW
+ 42JspEnZaRtanEf3YtgTNglolB0fRoDY=; b=AYPlxIvvb/e4wQrnDnEV4gc41qg
+ 8YN4wkRX6IEcIt9a5vaFodQPCqa//68kz0Oh1rm+vv6XxL8Bvk7tZr1QtjnjBNAc
+ I45mDZPNcieABnRRVwIpqdg6wOD3Gi9+MMiemWnzX15mfFSJ9IkIHc4qLXNqFIh7
+ etRAEOqkcBQIOeWnXe7MN2STNj0wV44BgHafvqBQuqinh3/q0sDre/rZRQlbg0ob
+ 0+cDME+WxqBImBFgY+LIhDY+GduJLV3S3rY2LQPQjK87Gx0xMZ3qpkts29MY5Zrw
+ HXC5aNRcM7Vz7dVclfWGlEedBPhRciZMiaMldCP5A3LWldOaz8Sr6E88T3Q==
 Received: from apblrppmta02.qualcomm.com
  (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4anb9c3cb0-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4and2qk31k-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Nov 2025 09:45:56 +0000 (GMT)
+ Wed, 26 Nov 2025 09:45:58 +0000 (GMT)
 Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5AQ9joYZ010071; 
- Wed, 26 Nov 2025 09:45:53 GMT
+ by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 5AQ9jtUK010139; 
+ Wed, 26 Nov 2025 09:45:55 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4anw4ssw8a-1
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 4anw4ssw8t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Nov 2025 09:45:53 +0000
+ Wed, 26 Nov 2025 09:45:55 +0000
 Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com
  [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5AQ9jrYJ010091;
- Wed, 26 Nov 2025 09:45:53 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5AQ9jt9A010134;
+ Wed, 26 Nov 2025 09:45:55 GMT
 Received: from hu-devc-hyd-u22-c.qualcomm.com (hu-kpallavi-hyd.qualcomm.com
  [10.147.243.7])
- by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 5AQ9jqrV010085
+ by APBLRPPMTA02.qualcomm.com (PPS) with ESMTPS id 5AQ9jsDZ010125
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 26 Nov 2025 09:45:53 +0000
+ Wed, 26 Nov 2025 09:45:55 +0000
 Received: by hu-devc-hyd-u22-c.qualcomm.com (Postfix, from userid 4720299)
- id D2C61515; Wed, 26 Nov 2025 15:15:51 +0530 (+0530)
+ id DDD5F515; Wed, 26 Nov 2025 15:15:53 +0530 (+0530)
 From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
 To: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
  arnd@arndb.de, gregkh@linuxfoundation.org, robh@kernel.org,
@@ -61,10 +61,9 @@ Cc: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>, quic_bkumar@quicinc.com,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  jingyi.wang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
  ktadakam@qti.qualcomm.com
-Subject: [PATCH v4 1/4] dt-bindings: misc: qcom,
- fastrpc: Add compatible for Kaanapali
-Date: Wed, 26 Nov 2025 15:15:42 +0530
-Message-Id: <20251126094545.2139376-2-kumari.pallavi@oss.qualcomm.com>
+Subject: [PATCH v4 2/4] misc: fastrpc: Rename phys to dma_addr for clarity
+Date: Wed, 26 Nov 2025 15:15:43 +0530
+Message-Id: <20251126094545.2139376-3-kumari.pallavi@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251126094545.2139376-1-kumari.pallavi@oss.qualcomm.com>
 References: <20251126094545.2139376-1-kumari.pallavi@oss.qualcomm.com>
@@ -76,27 +75,28 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
  signatures=585085
-X-Proofpoint-GUID: Edlru1hAkUZ0PSADdVCmoTV1xKVz68nO
-X-Proofpoint-ORIG-GUID: Edlru1hAkUZ0PSADdVCmoTV1xKVz68nO
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDA3OSBTYWx0ZWRfX8GcA59AzHPye
- lEh7Bpjk/b0uU72bcZiiuW4THEFnCQyxpDbIPUuz790igIjOFfgyC/R7QPMjQffqeZMAd/rLHLA
- JkXi2hEQWkHYXOgxCtydF2LluZnVWAdtIEP1LGqrKpND4FpzlqBbJSQ4t5wppjbezjApshQJ3sA
- X9RkXrhTCpG72Yrn2ocqA++5T+a/YnHggegaGRS4GIvplpruIfY5VmsdNIyg/ilPH0N4u/T6cYh
- xR/a5Nb6vdsKeVCsOYFGzUOrlx840NQWR2S6Pia1q9DN5J/c5NDEDIe84bRHwxu7u8KgfTfnJsc
- lYPeGNpQbqlA/qyrv7jqpwhmvLpd1Bs7MF5NHIVG7nOMinBzTRAU5WyOAU8VMl5h+C8iBPROlbz
- oxPOffCH85NuGfWlxaHk+OR1yZd5fw==
-X-Authority-Analysis: v=2.4 cv=VKbQXtPX c=1 sm=1 tr=0 ts=6926cc54 cx=c_pps
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI2MDA3OSBTYWx0ZWRfXwyF+z2y7pRYf
+ 9Jdso+aiNGZXmEpICjUx2dGE5KdnFgFDDRSJ1zsMI4+ND7+3x4sbcoSrxyyi7jD5gXIfKQcFmD6
+ Pgfl5sNHnWtv9KlIpi1cmDqguknatnL0fQV8oae821h478a+KhQ1mZhfFg4JNZzWX1nwhd8nYfL
+ KfRPBjYTzipIv6iig6lmgwBBfrfyePQRRzR+vhM5w/x4qrYvYJdtXJ3I5xeNJGG4qDMNxOUtQAX
+ EPJzqTi1U7+cHWYEc06uI72B5KU/FlasF1hdrKEiSmhNrt3X7S9Nl7jWoRiAi3m5u/AXnJ3VqK5
+ b7WA7Es4Z1dMIaZvNlv+4vvh+CmoMvzulXASS6jgsRTu/yINx5/ez6GPFg7JakpzwyRBoo2mixw
+ QYfaBkeZB5QFAVtK6+5G9m9Qbl2oPg==
+X-Authority-Analysis: v=2.4 cv=dZyNHHXe c=1 sm=1 tr=0 ts=6926cc56 cx=c_pps
  a=Ou0eQOY4+eZoSc0qltEV5Q==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
  a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8
- a=N3xeVU3HB1sJGbtnMtcA:9
+ a=UZbHtQxcIr1JeRqDSmcA:9
+X-Proofpoint-ORIG-GUID: sdSfjmhGkmBiv6tOK-hcBQfUCCJilpvd
+X-Proofpoint-GUID: sdSfjmhGkmBiv6tOK-hcBQfUCCJilpvd
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-11-25_02,2025-11-25_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 spamscore=0 bulkscore=0 adultscore=0
- malwarescore=0 suspectscore=0 phishscore=0 impostorscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2511260079
+ priorityscore=1501 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ adultscore=0 spamscore=0 clxscore=1015 bulkscore=0 phishscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511260079
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,30 +112,275 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new compatible string "qcom,kaanapali-fastrpc" to support
-for Kaanapali SoC.
+pdate all references of buf->phys and map->phys to buf->dma_addr and
+map->dma_addr to accurately represent that these fields store DMA
+addresses, not physical addresses. This change improves code clarity
+and aligns with kernel conventions for dma_addr_t usage.
 
 Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
 ---
- Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/misc/fastrpc.c | 77 ++++++++++++++++++++++--------------------
+ 1 file changed, 41 insertions(+), 36 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-index 3f6199fc9ae6..6c19217d63a6 100644
---- a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-+++ b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-@@ -18,7 +18,10 @@ description: |
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index ee652ef01534..c7ebfb095c4d 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -106,7 +106,7 @@
+ #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
  
- properties:
-   compatible:
--    const: qcom,fastrpc
-+    items:
-+      - enum:
-+          - qcom,kaanapali-fastrpc
-+          - qcom,fastrpc
+ struct fastrpc_phy_page {
+-	u64 addr;		/* physical address */
++	dma_addr_t addr;	/* dma address */
+ 	u64 size;		/* size of contiguous region */
+ };
  
-   label:
-     enum:
+@@ -171,7 +171,7 @@ struct fastrpc_msg {
+ 	u64 ctx;		/* invoke caller context */
+ 	u32 handle;	/* handle to invoke */
+ 	u32 sc;		/* scalars structure describing the data */
+-	u64 addr;		/* physical address */
++	dma_addr_t addr;	/* dma address */
+ 	u64 size;		/* size of contiguous region */
+ };
+ 
+@@ -194,7 +194,7 @@ struct fastrpc_buf {
+ 	struct dma_buf *dmabuf;
+ 	struct device *dev;
+ 	void *virt;
+-	u64 phys;
++	dma_addr_t dma_addr;
+ 	u64 size;
+ 	/* Lock for dma buf attachments */
+ 	struct mutex lock;
+@@ -217,7 +217,7 @@ struct fastrpc_map {
+ 	struct dma_buf *buf;
+ 	struct sg_table *table;
+ 	struct dma_buf_attachment *attach;
+-	u64 phys;
++	dma_addr_t dma_addr;
+ 	u64 size;
+ 	void *va;
+ 	u64 len;
+@@ -320,11 +320,12 @@ static void fastrpc_free_map(struct kref *ref)
+ 
+ 			perm.vmid = QCOM_SCM_VMID_HLOS;
+ 			perm.perm = QCOM_SCM_PERM_RWX;
+-			err = qcom_scm_assign_mem(map->phys, map->len,
++			err = qcom_scm_assign_mem(map->dma_addr, map->len,
+ 				&src_perms, &perm, 1);
+ 			if (err) {
+-				dev_err(map->fl->sctx->dev, "Failed to assign memory phys 0x%llx size 0x%llx err %d\n",
+-						map->phys, map->len, err);
++				dev_err(map->fl->sctx->dev,
++					"Failed to assign memory dma_addr 0x%llx size 0x%llx err %d\n",
++					map->dma_addr, map->len, err);
+ 				return;
+ 			}
+ 		}
+@@ -389,7 +390,7 @@ static int fastrpc_map_lookup(struct fastrpc_user *fl, int fd,
+ static void fastrpc_buf_free(struct fastrpc_buf *buf)
+ {
+ 	dma_free_coherent(buf->dev, buf->size, buf->virt,
+-			  FASTRPC_PHYS(buf->phys));
++			  FASTRPC_PHYS(buf->dma_addr));
+ 	kfree(buf);
+ }
+ 
+@@ -408,12 +409,12 @@ static int __fastrpc_buf_alloc(struct fastrpc_user *fl, struct device *dev,
+ 
+ 	buf->fl = fl;
+ 	buf->virt = NULL;
+-	buf->phys = 0;
++	buf->dma_addr = 0;
+ 	buf->size = size;
+ 	buf->dev = dev;
+ 	buf->raddr = 0;
+ 
+-	buf->virt = dma_alloc_coherent(dev, buf->size, (dma_addr_t *)&buf->phys,
++	buf->virt = dma_alloc_coherent(dev, buf->size, &buf->dma_addr,
+ 				       GFP_KERNEL);
+ 	if (!buf->virt) {
+ 		mutex_destroy(&buf->lock);
+@@ -439,7 +440,7 @@ static int fastrpc_buf_alloc(struct fastrpc_user *fl, struct device *dev,
+ 	buf = *obuf;
+ 
+ 	if (fl->sctx && fl->sctx->sid)
+-		buf->phys += ((u64)fl->sctx->sid << 32);
++		buf->dma_addr += ((u64)fl->sctx->sid << 32);
+ 
+ 	return 0;
+ }
+@@ -684,7 +685,7 @@ static int fastrpc_dma_buf_attach(struct dma_buf *dmabuf,
+ 		return -ENOMEM;
+ 
+ 	ret = dma_get_sgtable(buffer->dev, &a->sgt, buffer->virt,
+-			      FASTRPC_PHYS(buffer->phys), buffer->size);
++			      FASTRPC_PHYS(buffer->dma_addr), buffer->size);
+ 	if (ret < 0) {
+ 		dev_err(buffer->dev, "failed to get scatterlist from DMA API\n");
+ 		kfree(a);
+@@ -733,7 +734,7 @@ static int fastrpc_mmap(struct dma_buf *dmabuf,
+ 	dma_resv_assert_held(dmabuf->resv);
+ 
+ 	return dma_mmap_coherent(buf->dev, vma, buf->virt,
+-				 FASTRPC_PHYS(buf->phys), size);
++				 FASTRPC_PHYS(buf->dma_addr), size);
+ }
+ 
+ static const struct dma_buf_ops fastrpc_dma_buf_ops = {
+@@ -785,10 +786,10 @@ static int fastrpc_map_attach(struct fastrpc_user *fl, int fd,
+ 	map->table = table;
+ 
+ 	if (attr & FASTRPC_ATTR_SECUREMAP) {
+-		map->phys = sg_phys(map->table->sgl);
++		map->dma_addr = sg_phys(map->table->sgl);
+ 	} else {
+-		map->phys = sg_dma_address(map->table->sgl);
+-		map->phys += ((u64)fl->sctx->sid << 32);
++		map->dma_addr = sg_dma_address(map->table->sgl);
++		map->dma_addr += ((u64)fl->sctx->sid << 32);
+ 	}
+ 	for_each_sg(map->table->sgl, sgl, map->table->nents,
+ 		sgl_index)
+@@ -815,10 +816,11 @@ static int fastrpc_map_attach(struct fastrpc_user *fl, int fd,
+ 		dst_perms[1].vmid = fl->cctx->vmperms[0].vmid;
+ 		dst_perms[1].perm = QCOM_SCM_PERM_RWX;
+ 		map->attr = attr;
+-		err = qcom_scm_assign_mem(map->phys, (u64)map->len, &src_perms, dst_perms, 2);
++		err = qcom_scm_assign_mem(map->dma_addr, (u64)map->len, &src_perms, dst_perms, 2);
+ 		if (err) {
+-			dev_err(sess->dev, "Failed to assign memory with phys 0x%llx size 0x%llx err %d\n",
+-					map->phys, map->len, err);
++			dev_err(sess->dev,
++				"Failed to assign memory with dma_addr 0x%llx size 0x%llx err %d\n",
++				map->dma_addr, map->len, err);
+ 			goto map_err;
+ 		}
+ 	}
+@@ -1009,7 +1011,7 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
+ 			struct vm_area_struct *vma = NULL;
+ 
+ 			rpra[i].buf.pv = (u64) ctx->args[i].ptr;
+-			pages[i].addr = ctx->maps[i]->phys;
++			pages[i].addr = ctx->maps[i]->dma_addr;
+ 
+ 			mmap_read_lock(current->mm);
+ 			vma = find_vma(current->mm, ctx->args[i].ptr);
+@@ -1036,7 +1038,7 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
+ 				goto bail;
+ 
+ 			rpra[i].buf.pv = args - ctx->olaps[oix].offset;
+-			pages[i].addr = ctx->buf->phys -
++			pages[i].addr = ctx->buf->dma_addr -
+ 					ctx->olaps[oix].offset +
+ 					(pkt_size - rlen);
+ 			pages[i].addr = pages[i].addr &	PAGE_MASK;
+@@ -1068,7 +1070,7 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
+ 		list[i].num = ctx->args[i].length ? 1 : 0;
+ 		list[i].pgidx = i;
+ 		if (ctx->maps[i]) {
+-			pages[i].addr = ctx->maps[i]->phys;
++			pages[i].addr = ctx->maps[i]->dma_addr;
+ 			pages[i].size = ctx->maps[i]->size;
+ 		}
+ 		rpra[i].dma.fd = ctx->args[i].fd;
+@@ -1150,7 +1152,7 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
+ 	msg->ctx = ctx->ctxid | fl->pd;
+ 	msg->handle = handle;
+ 	msg->sc = ctx->sc;
+-	msg->addr = ctx->buf ? ctx->buf->phys : 0;
++	msg->addr = ctx->buf ? ctx->buf->dma_addr : 0;
+ 	msg->size = roundup(ctx->msg_sz, PAGE_SIZE);
+ 	fastrpc_context_get(ctx);
+ 
+@@ -1306,13 +1308,15 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+ 		if (fl->cctx->vmcount) {
+ 			u64 src_perms = BIT(QCOM_SCM_VMID_HLOS);
+ 
+-			err = qcom_scm_assign_mem(fl->cctx->remote_heap->phys,
++			err = qcom_scm_assign_mem(fl->cctx->remote_heap->dma_addr,
+ 							(u64)fl->cctx->remote_heap->size,
+ 							&src_perms,
+ 							fl->cctx->vmperms, fl->cctx->vmcount);
+ 			if (err) {
+-				dev_err(fl->sctx->dev, "Failed to assign memory with phys 0x%llx size 0x%llx err %d\n",
+-					fl->cctx->remote_heap->phys, fl->cctx->remote_heap->size, err);
++				dev_err(fl->sctx->dev,
++					"Failed to assign memory with dma_addr 0x%llx size 0x%llx err %d\n",
++					fl->cctx->remote_heap->dma_addr,
++					fl->cctx->remote_heap->size, err);
+ 				goto err_map;
+ 			}
+ 			scm_done = true;
+@@ -1332,7 +1336,7 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+ 	args[1].length = inbuf.namelen;
+ 	args[1].fd = -1;
+ 
+-	pages[0].addr = fl->cctx->remote_heap->phys;
++	pages[0].addr = fl->cctx->remote_heap->dma_addr;
+ 	pages[0].size = fl->cctx->remote_heap->size;
+ 
+ 	args[2].ptr = (u64)(uintptr_t) pages;
+@@ -1361,12 +1365,12 @@ static int fastrpc_init_create_static_process(struct fastrpc_user *fl,
+ 
+ 		dst_perms.vmid = QCOM_SCM_VMID_HLOS;
+ 		dst_perms.perm = QCOM_SCM_PERM_RWX;
+-		err = qcom_scm_assign_mem(fl->cctx->remote_heap->phys,
++		err = qcom_scm_assign_mem(fl->cctx->remote_heap->dma_addr,
+ 						(u64)fl->cctx->remote_heap->size,
+ 						&src_perms, &dst_perms, 1);
+ 		if (err)
+-			dev_err(fl->sctx->dev, "Failed to assign memory phys 0x%llx size 0x%llx err %d\n",
+-				fl->cctx->remote_heap->phys, fl->cctx->remote_heap->size, err);
++			dev_err(fl->sctx->dev, "Failed to assign memory dma_addr 0x%llx size 0x%llx err %d\n",
++				fl->cctx->remote_heap->dma_addr, fl->cctx->remote_heap->size, err);
+ 	}
+ err_map:
+ 	fastrpc_buf_free(fl->cctx->remote_heap);
+@@ -1455,7 +1459,7 @@ static int fastrpc_init_create_process(struct fastrpc_user *fl,
+ 	args[2].length = inbuf.filelen;
+ 	args[2].fd = init.filefd;
+ 
+-	pages[0].addr = imem->phys;
++	pages[0].addr = imem->dma_addr;
+ 	pages[0].size = imem->size;
+ 
+ 	args[3].ptr = (u64)(uintptr_t) pages;
+@@ -1913,7 +1917,7 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
+ 	args[0].ptr = (u64) (uintptr_t) &req_msg;
+ 	args[0].length = sizeof(req_msg);
+ 
+-	pages.addr = buf->phys;
++	pages.addr = buf->dma_addr;
+ 	pages.size = buf->size;
+ 
+ 	args[1].ptr = (u64) (uintptr_t) &pages;
+@@ -1941,11 +1945,12 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
+ 	if (req.flags == ADSP_MMAP_REMOTE_HEAP_ADDR && fl->cctx->vmcount) {
+ 		u64 src_perms = BIT(QCOM_SCM_VMID_HLOS);
+ 
+-		err = qcom_scm_assign_mem(buf->phys, (u64)buf->size,
++		err = qcom_scm_assign_mem(buf->dma_addr, (u64)buf->size,
+ 			&src_perms, fl->cctx->vmperms, fl->cctx->vmcount);
+ 		if (err) {
+-			dev_err(fl->sctx->dev, "Failed to assign memory phys 0x%llx size 0x%llx err %d",
+-					buf->phys, buf->size, err);
++			dev_err(fl->sctx->dev,
++				"Failed to assign memory dma_addr 0x%llx size 0x%llx err %d",
++				buf->dma_addr, buf->size, err);
+ 			goto err_assign;
+ 		}
+ 	}
+@@ -2059,7 +2064,7 @@ static int fastrpc_req_mem_map(struct fastrpc_user *fl, char __user *argp)
+ 	args[0].ptr = (u64) (uintptr_t) &req_msg;
+ 	args[0].length = sizeof(req_msg);
+ 
+-	pages.addr = map->phys;
++	pages.addr = map->dma_addr;
+ 	pages.size = map->len;
+ 
+ 	args[1].ptr = (u64) (uintptr_t) &pages;
 -- 
 2.34.1
 
