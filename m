@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD9CC87A10
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 01:55:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A1FC87A19
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 01:56:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5141110E4C9;
-	Wed, 26 Nov 2025 00:55:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9965B10E4D5;
+	Wed, 26 Nov 2025 00:56:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PSob4i2c";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Qat+EwPq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 49F7310E4C1;
- Wed, 26 Nov 2025 00:55:47 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BFEC10E4D4;
+ Wed, 26 Nov 2025 00:56:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764118547; x=1795654547;
+ t=1764118587; x=1795654587;
  h=date:from:to:cc:subject:message-id:references:
  content-transfer-encoding:in-reply-to:mime-version;
- bh=qk2KzzzkHpYoc2AypIN8vRu2YigGXTfgXUpLXTvE5E4=;
- b=PSob4i2co4cuhyHE0r8Jz5r7c9ALqElKsDZxETSHmk8m/QwQDeia6JN4
- O0EZxgR9kP6kZkd/Y9KYVERILhNeTqaS11F3zG5ZO0hXcVyAWG3EIs2U4
- Z96OBngEayOv1ICp87JVW744hBS9ulfsvmK4SaXs/JeN7b1RogA+qV8/+
- TJyhghhCmFwUe7FvMctUKJO3Rplr0Y+DouycmrFWFeFU+8p3gyPN0kGQY
- 4dfdhlZ2+4z3MGhDQINRluBscfzgzI8dCGaBBU4BDLtYXVAbQmCbP19j7
- AAw24laJZxB9ZeA0ZnrZwu3NYp87/oJ8XeUBYA3KQTon28k+j1ya6mcJY w==;
-X-CSE-ConnectionGUID: NuJqIUHiQi2NYgI7sYO5EQ==
-X-CSE-MsgGUID: p2xm1fK+T1qZJoxmHhXiRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="66190256"
-X-IronPort-AV: E=Sophos;i="6.20,227,1758610800"; d="scan'208";a="66190256"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2025 16:55:06 -0800
-X-CSE-ConnectionGUID: 9xmyogC7SS+vUPlzG+D+rw==
-X-CSE-MsgGUID: CfWQXB4zT/ev/ea8fmj6xw==
+ bh=NuZkHRDuMl6WSLodG1p/VoUXjuC6y5iSGo3RpvL7z28=;
+ b=Qat+EwPqp5N1Ss9z+2bD31yA2pgvgyYeXlegxPdXpPtlh4O9Pzem438A
+ xr9WjrKm7rnYnnPcZO0e7KWK9BN4Mfbx8w7dUy0IH9oDJyG9YHaZEA/st
+ NLC1pmYnTL5Unsga2Id5uuHn8Vlw3YXMdtDY+UT/oqMPRu1GUJDvQIAbf
+ DQ7uO0oyGPbyIKjfNZJFHlxdkgLNNpqOO/5E7C0Gd+izPyU7djRV583ev
+ X4/7SlGSmdoM3wezeb9aULAuV+7DO1CIVHcC8wODBChnh1lg80yxmBBbG
+ 1rnbrASzqRmNhzQFUulx0fl3sK8OSCoTD/a6vT05k8RXIDvHeVi6a2yyo w==;
+X-CSE-ConnectionGUID: uucmF4MHSLWQyYxdus/GxA==
+X-CSE-MsgGUID: FyF+76yjRDufztBQVRxhbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="66228174"
+X-IronPort-AV: E=Sophos;i="6.20,227,1758610800"; d="scan'208";a="66228174"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2025 16:56:27 -0800
+X-CSE-ConnectionGUID: l9uDqqc5Tdigv99DzlFDxw==
+X-CSE-MsgGUID: HvW1cbK5T8C21tUqZMhcIg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,227,1758610800"; d="scan'208";a="192808933"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Nov 2025 16:55:07 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.20,227,1758610800"; d="scan'208";a="192884559"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+ by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Nov 2025 16:56:26 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 25 Nov 2025 16:55:06 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.2.2562.29; Tue, 25 Nov 2025 16:56:25 -0800
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Tue, 25 Nov 2025 16:55:06 -0800
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.2) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ 15.2.2562.29 via Frontend Transport; Tue, 25 Nov 2025 16:56:25 -0800
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.47) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 25 Nov 2025 16:55:05 -0800
+ 15.2.2562.29; Tue, 25 Nov 2025 16:56:25 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f2LtKmO/ee4+aaSuif+biu4s0e0eOLrpOgUN8Ep2iYBpqBD55YYL/NPEad1Uwl/4UcroeCqvk83dmBHebS7OjqZBRuAITuvJmalYL9m1X5WgvuePPznZ4Wijt+3ES93fxvS0TR7q+1Eje3NwMf7hExuVAInon4GpBxcbR8rzIueyS+V9yIhsGnlhuiMXTaH7/8V3Fq5FsmR5EHTPjS0HptcmOecYGVsNCLoyOBmYuil/zzSIIZRzqtUptZhzVrKNFUrKBSM7Bpzka8blomYPwfnnhZuOYiAdcgvxbxyCWfoq1jK8WVBbu3QxX7hA0fWkgP0hgMNKc1S3VvfXGmEPeA==
+ b=XgrJ/i9OYab4ladSXPbDVo6+ETMSvrrw4oSOSbNchltfJTAL5CMCAI7NAitMysEl1MWFZtXeNntjepywufU0r4mijCoYV3p601naDwIjhiXd/37BqrvqkhP+1IQESOKFOkWO0aOrxD6iJjllsMwD9jO+kOqvvLV4e4/5kXOw51Uapo0kNsauIGnU1ZTyATeVM+DxwTdepJ21UlJml8TdGevn6YOh0nYyMaoTDCC/IiOGjCFJK6wRRoVyrjMZUfB6uS+L2Dzrfyw3B8tU2FT6cyBUCAnZFWVVLDZhTqwMbSR+ybQrsNliRAvxkzc9JPUWvl1egi5h6pXHNkZbY/kClw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hnd/hS6h8YuFqdVwiq2X0oAH7WcZ6p0mCguTcNOfQOo=;
- b=BlX+oSUMT5pSkMPeipqSzoiJSKT57fVhfhJ42khWl94tZSiLkuBRap5txl6h+F7DxTL37b1JnyF7oJVsx4kHZjVrL5Uznp8I0fQ2YsImaW61JY3HF1hjVqoWYydtF2krqAlLmmcEbIE3sIlqETiHYNeiCQz/Tcs9jmSeuFvqoESJNsyqyJP5jGcXTzpbrHHEyHdtOAyCZUd/bwhjHwWwofCpr9SyT5vkp/OQsaeeCmDERIhoXzKSXflpptUOlqwZ8YzQzl+xQNZqTW49nyIHBdlxHSoSmdQyq6ILyeXPBR9DeNbHx4l7mPPCDVohzZm5Wyce8WopfiLvgkHnAaB+Gw==
+ bh=5crCpwCo3DKu/qJzEoPMMskM2GncCwlZmMtlKmOyHqY=;
+ b=RgLD5wF6g0YXnkSb9Lw6qngMokZPYCF9LbLvmC6YnkS29EV6lk0NPAGi2kaeKltiMRuaedOf4WcviMDp038Qk+iadoGhwYGKzK2APQhd5cdBOwHowekXw7dfTahss9VoukAvbFFKnQe2iZaVBMbNTU66ykMkLti6olRyfdbZygpCJqO0MlqORVb6gVyIdabAlgEA0g7Wy/wVC9Jn/Mu9BNtHjp0NcnwOUddj4t67e+W+HPrnWBujhSwe/SrGLX8u7SxV21+i1qeNmk33/MYjJiF5uGtgoSJeFeZZcxfb9ICH6BroQu4T+CGUE6pZeDygii1kI9a9y+IibJHCrdQZqg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -69,12 +69,12 @@ Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
  by DM4PR11MB6502.namprd11.prod.outlook.com (2603:10b6:8:89::7) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9343.17; Wed, 26 Nov 2025 00:55:03 +0000
+ 15.20.9343.17; Wed, 26 Nov 2025 00:56:22 +0000
 Received: from PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
  ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9343.016; Wed, 26 Nov 2025
- 00:55:03 +0000
-Date: Tue, 25 Nov 2025 16:55:00 -0800
+ 00:56:22 +0000
+Date: Tue, 25 Nov 2025 16:56:19 -0800
 From: Matthew Brost <matthew.brost@intel.com>
 To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
 CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
@@ -83,94 +83,94 @@ CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, <dakr@kernel.org>,
  "Mrozek, Michal" <michal.mrozek@intel.com>, Joonas Lahtinen
  <joonas.lahtinen@linux.intel.com>
-Subject: Re: [PATCH v2 09/17] drm/xe: Use the drm_pagemap_util helper to get
- a svm pagemap owner
-Message-ID: <aSZP5HK+i27nG7RH@lstrano-desk.jf.intel.com>
+Subject: Re: [PATCH v2 14/17] drm/xe: Support pcie p2p dma as a fast
+ interconnect
+Message-ID: <aSZQMxy4N4f0Cnp7@lstrano-desk.jf.intel.com>
 References: <20251111164408.113070-1-thomas.hellstrom@linux.intel.com>
- <20251111164408.113070-10-thomas.hellstrom@linux.intel.com>
+ <20251111164408.113070-15-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251111164408.113070-10-thomas.hellstrom@linux.intel.com>
-X-ClientProxiedBy: MW4PR04CA0267.namprd04.prod.outlook.com
- (2603:10b6:303:88::32) To PH7PR11MB6522.namprd11.prod.outlook.com
+In-Reply-To: <20251111164408.113070-15-thomas.hellstrom@linux.intel.com>
+X-ClientProxiedBy: MW4PR03CA0231.namprd03.prod.outlook.com
+ (2603:10b6:303:b9::26) To PH7PR11MB6522.namprd11.prod.outlook.com
  (2603:10b6:510:212::12)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DM4PR11MB6502:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9b04ce96-1ab8-40f5-0782-08de2c866f23
+X-MS-Office365-Filtering-Correlation-Id: 8632efc3-b8d7-4643-b57f-08de2c869e30
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|7416014|376014|366016|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?JjEW/EczGenn9R8NcWHDej+noNJmHo3ahFAhyUrlHtGzE6Bkmr+e0PgOwc?=
- =?iso-8859-1?Q?ZrdODfAQpyUaMf48Rz5EgI9WPYUtvAyVqgM6wMsIzb4q/5NIXYJb9QNlLw?=
- =?iso-8859-1?Q?FKeqmghxczqD5q7l52bE7hV+hoybUlnkLkDfXLEPPwYrxSwmxCblj1gNR3?=
- =?iso-8859-1?Q?PC/ORJ5BANou/22ijCVY4Ne572/5NXEralnk4rQ4wE4kOG5tdaR7od3TLK?=
- =?iso-8859-1?Q?9zloTkglWVupfUvlIPF3j7zh8rfQOKIZYqLJB+J7/99SpnDa0i1UFeg8Xi?=
- =?iso-8859-1?Q?PCrV1vjRrSRe580FLLWwPBxtaztoeensOPNblKNnatvZlcGjOUR5ejHRSu?=
- =?iso-8859-1?Q?SjWGPedoeR8kSeDO6UCClJz5Z5ljos5ukHgxH06S6JOVFRvJv9NRQ5Zqyn?=
- =?iso-8859-1?Q?rI0MlsIkA7zvyGzQLqd/LLQRrE1XUq67DgPkCyyDUT9Qaq74Abm+Mzq4bS?=
- =?iso-8859-1?Q?zGUWpoY+CE3CmuYK/8C2HZ8xoSrVXma9pOxH7zKPQWBtaPpuwDODCGwWzP?=
- =?iso-8859-1?Q?ZgoKUw1jXC8z2sd4DBYi7Eml0Y4lEQ627XdD3xiaTI+mZCwISHUwPZXv+5?=
- =?iso-8859-1?Q?Xaivp4U8qf0fm+38yPa8iKU5VWJLsj0tuz0fLEbtuED8Ed3utbb1RwTMzN?=
- =?iso-8859-1?Q?beV2q17Y0WuYAagjI8nmwFFtH63M0D4ITdLCBDoPnLkZXZEnZRcH3K+8Ui?=
- =?iso-8859-1?Q?Pjf3RO/ZHoVs0/0nxMSSHyx9R5GV/18l7zUafVu+/8UxrBLsjzh+EoyxbZ?=
- =?iso-8859-1?Q?ZeZl5+8HNxNX/pXOmlHkqzNoOJsSOBk/q8gVu+vpNfazehhIuGywwCW3xw?=
- =?iso-8859-1?Q?yyBDdcc0+Y/Ds//A6fhUjZqIM8yCj2Hrh/BuK8TgyzwSOZQQLnSd8Wgico?=
- =?iso-8859-1?Q?ZvZ5H8SSkHFEsteNCITXTqJOI6RLqEEIqePfIyU52oAtzjyM4qDoTSKAiU?=
- =?iso-8859-1?Q?XD5H22KMZKE/DUIy+F5exYtHKipMZ5lXQ5tEY+MaiJe+fK2laqPSru/46X?=
- =?iso-8859-1?Q?2H/QWIFl96J87eMOhadVhnthLx7Qn7iWE4pTPIG1ym5JT84hyy2l71trFD?=
- =?iso-8859-1?Q?u/XAa1cCjVdg1Y4b6w95JPvBaIGwED40pPQWAfTvgJ2C0J2ed+ywUCVLFN?=
- =?iso-8859-1?Q?2ooeGOSCnGEOunYNMdGk9ySKlhTBRppva/Mw7nHzGBqixOO7UHCTaj3juG?=
- =?iso-8859-1?Q?2u/IltqLOskiToZfdtVSCceWm4PSBCUTnpyRwCbFzYzpd4r99lJMJ0ErpM?=
- =?iso-8859-1?Q?AnlahpEJ/vSR8wIwxA6simd1VF3Qg+5LEuqG9LRWy3MhSuZTAAaVm1LZ4G?=
- =?iso-8859-1?Q?+jhvzxommYfP5ZIpzDecMOpbwqHqHR4CIdK18oafb+RKlRmE1kW+RQi/tG?=
- =?iso-8859-1?Q?NvRoCN4cBj11l/lDej6G4HomJkcFSjBgI5Yah/u3hO3xYDFpZ/1WMxchXt?=
- =?iso-8859-1?Q?eO+PM6qL18vpzCFGWZ6Ky5FyMtdxKSeWnF44qF9QLTwEVb4BJZjoHFj/Rf?=
- =?iso-8859-1?Q?qC8FjjepPKcQ5it+LKJyYt?=
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?vqGH99qUjmDaVGgEuWHx1EKKS6blPaiC335et8BF68lrinVZxwfutpeeqT?=
+ =?iso-8859-1?Q?yHOve6A3bn4P7ZVm9ddSIObc4drCxg44HOOP5LzQgJkLDFQTyIy00G17RI?=
+ =?iso-8859-1?Q?+98bl4V3Tacp6GGGAcv/fkmfTpPoEIxwIzIFKhkNWvNv+3F2TifG66ARUU?=
+ =?iso-8859-1?Q?1A2A1ltm1tjy7QTHGoyyn7NlrJV2ysspAFnrTZt05xF0J5RCYMu0Di118t?=
+ =?iso-8859-1?Q?1Tte76wgwADOwvCigFBxQYsXDcE0ZW+1U0TDCiSKPgLWSWNjhrPZ3eTPWa?=
+ =?iso-8859-1?Q?N6lWjP6v3BiX8cuQGCr1T4tIJv5pA3uwC8JXG9Epb3B4dw5eEj3YiucVcS?=
+ =?iso-8859-1?Q?nzneLrL5OzRCR45DL1Q5c4KypZsZYaaFBqSphi2YXifVE/5Ep+Oi48GzTs?=
+ =?iso-8859-1?Q?ich9uboF/O54OsK3iADadyGhS7bWB2afdl9KlE+O/XT8BKXHVB4D+1Ob3X?=
+ =?iso-8859-1?Q?iPe/3NK1F7xXDm2f4s2XpojDD0tbMJOqn6NVxtL+dWjVtD5DAV+g3HoUO+?=
+ =?iso-8859-1?Q?HdCDiasoFM+1LsX6N8a8pbW++vYxGBJxGHkBjB+w9nB0+/GVLO0rr83JCa?=
+ =?iso-8859-1?Q?8tzFZMDed6hO7KpykTqtFVjyfKIIRyDjnlULdUYn7QE+EAHk1SBKpFq/tv?=
+ =?iso-8859-1?Q?XraAnxpAjo79TTd5t4rKoXTRIuSw5aBWtOZDFU3ieVDE4vx8pPkpQ97MHK?=
+ =?iso-8859-1?Q?hv/svTkSqed3jhjkK9Dz7gOqmc9P6/5zLUJQlAnXrephEJ0uRL4flT9NSL?=
+ =?iso-8859-1?Q?icQorSirpqsZYVIsmrodw2oHnoM0p85kg42GWYijfC+f0y6lgQyws/DJ0O?=
+ =?iso-8859-1?Q?Jac+ExeTzgXSui2L6Iq2crwqzk7Woxpu2It9pUpXq7Dp0hn61b3OgWDg8u?=
+ =?iso-8859-1?Q?hIpPMhM+aIMZdjGHwlgdorQ4VRXH0qR5eOfvy++wNJNPx04D3I+wWG8Com?=
+ =?iso-8859-1?Q?yul9toTgIHdtCyvMIsEibO9b4113iyf697qTqk7cYTtdheMCf3mkLl+Xg8?=
+ =?iso-8859-1?Q?7L9wVIVXIQNmlFczn4Yab/Pv7BHVdF3tuDhdA4z/AL1e0UaD9670Q1BpWN?=
+ =?iso-8859-1?Q?7j8Ldm2U0d5EM+uZWZEPR3bcAvs2xm3+uh4b8SuyDxZOtcr9ShYNuJkQtY?=
+ =?iso-8859-1?Q?sDGYMrmPfhzBdSlWJn1FK4HsSW43iUeu2vjozGCNMUn8MVz2ccnSjAhn5T?=
+ =?iso-8859-1?Q?XVZTlMCEcWjz/CU+y3R6ilF1QvQSTe6k6aQS+XBeDxrMaScOsTZS600RJG?=
+ =?iso-8859-1?Q?3I4K6QGZ0zdp2+NphnnHGJkErZYT9kX6xI2evKQILHX8tiNiw/8vGMIbWg?=
+ =?iso-8859-1?Q?N8mvOhdYb9TCQkUkINXcGtB4a7SJVuqo7xmgmClcBdwjOB7wcKBNsnERlB?=
+ =?iso-8859-1?Q?AHavDnRoJForhpngk2c8zUkHjA4wqOIAXoDpfKpg8QdCQ8jytN5bEH8IJ3?=
+ =?iso-8859-1?Q?OwJQuInCTWnYGX/BYnBuzrjw18wubpJ4GGZVnEeIAvzFDXlJSOJN4cFsXn?=
+ =?iso-8859-1?Q?yvh+dawIEZuR1Q4+jUobv7?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007); DIR:OUT;
  SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?+7ld34Vi1Ls7CJAvWBYYeyqnOO9pms7dhkcraklR0Qj0YubsSU64e60YOO?=
- =?iso-8859-1?Q?XEKEHXifjE10dGk7YVZiW0dmoIfHDj1wXbHFJyD76lasNRuA47g5rdOy+N?=
- =?iso-8859-1?Q?zf0B2O2BbJZQJZrFs1P6kGatbyR4Fb4BsULTNykKvddYL6LCpN9JMq0+y2?=
- =?iso-8859-1?Q?hAAF5EEM3NDBfI4TG+Cyrcsw4C46Fz/o3Zz5fDGGRXHDmM6uDDLVtYjlN7?=
- =?iso-8859-1?Q?W4SzkkLF2mYWZhzQtzj4ppasWesbVoEUjp2RAM3iR6veFGYJ8t/OkKXrcL?=
- =?iso-8859-1?Q?tjTJCgUj7LdKs4OxLlNonIN9/G0N7rcEB9l/qkheYrsa0lUMIyn+tNtXny?=
- =?iso-8859-1?Q?HHL8zW0l/TbVw9yEtKYt4JwDAeaF+FyMl4dE5GHL5k5q2o3UG5O2Ve4xh+?=
- =?iso-8859-1?Q?caUazNoec81RjN+YZAJUPtGDHbFzNd0CB4IlE8ujmNeHs9mxRx4a0Rj+SQ?=
- =?iso-8859-1?Q?kPjeJPVT95kosdl8bJcfCx5b0/lLQEJhy3JyGSYs1oHVbzJSaK15wP6Wsa?=
- =?iso-8859-1?Q?NTVGdP6wKnPFYRDx5sWDu0HkbN+1Hl2wLnj2axILaYLkX8AaEGQGPSPjca?=
- =?iso-8859-1?Q?kvd1MVl3jB0NIcr+cqAup4tmbJBACSW+mRa1Q8c1hzrsqMl1SLsxZKieXr?=
- =?iso-8859-1?Q?qHPNYmuU3WPZmNTcTRIajFg9pKE1HMhdIiRP7exapvdxizo6ewKD4aDQhW?=
- =?iso-8859-1?Q?5/rNpKH2p2z/ySopy9H1H33iaLNZtWDXHtLMaICG0XWXVlrc1hSTqD7BVr?=
- =?iso-8859-1?Q?W1FEkwHxO6pHq6oxmS27Y7hpA7GQaLdOtUj4VnCvZ+ATRw6Ef/5cg5FEPN?=
- =?iso-8859-1?Q?9t4yngDev+ooa00o331BfRZ4JVa9hT4KfLtWEZyanas0id54ZEyfKOFyEF?=
- =?iso-8859-1?Q?7NQB/s/M5qU3Ne7mzIJFooRXxtzYK9GcY28rUHgg5+eAAfj8Dym4J6Mcvw?=
- =?iso-8859-1?Q?QCxqnETMGMYgkouKMTzk5fewL1KPzREeQj/4aYO+heyz3Y5eCBsMKaXjrM?=
- =?iso-8859-1?Q?JDwM0zzLcAbS7B1tTimJuKPh4nJ8SRndAaByFrRwFOi2OrKXZLqPBfABFg?=
- =?iso-8859-1?Q?T3QMFgY5hgZpDBFxSpWkI2E/HSmP8zO/Z/kbXmEiDGyBm03uaEgQcu9OEa?=
- =?iso-8859-1?Q?uNdMMjr2juaHQu90pVd6YRXKDAZ4cLboEqLAfcoYaDVcKKVfGAPNnPux9E?=
- =?iso-8859-1?Q?TlyW8z5b6CEhh6c8WfYtOQ2hmuyoxW3xvHQ+hyhoroA7MNmqYog4YN1LQD?=
- =?iso-8859-1?Q?HAyIA3uhPzlS7eDYE+e6EzlGQJ4asc4kWNsP63ZdWQBpnQRvELFm7U4bF7?=
- =?iso-8859-1?Q?4PhQ6BFNMzqKb+x4kMs9nDD527VIwbn6Vz934By2BZbRyba+j8fddcOj0u?=
- =?iso-8859-1?Q?JGWDcbesZLPYrER7zULB99BQGaC8DhGU2GvaQ7T8EZ0jz/UYm6Tvz3oAEq?=
- =?iso-8859-1?Q?XUQ0tOEUbGv2QzFMQK0KCJqIX+rvSbc2V3qgCeYUoCiVYPpQRJE5neU6N2?=
- =?iso-8859-1?Q?AVO/h3Qz6xgkfaqMH7eIPNb/tXt8EiDZtGNYE9AfGzaM9YrqVQfaUc5YEY?=
- =?iso-8859-1?Q?d20EWihPEf+RDtnVTRLEu4kVMU9+eYvlQsw2R0BfwbSX1WJIS59MrKW0Dt?=
- =?iso-8859-1?Q?JOcJZNoojuTU2Z/MGCu5eNK+wYDrp9CuIuK69vC8iQsVuXiLsCvKu1rg?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?Lh0W3cOGWbKShYynnkSyp5Bdq7dL2sp/9CSqoHB0dyihMlzq26FazZFRoJ?=
+ =?iso-8859-1?Q?Wng7aqgYYdQ3oNeOAOfL1BUv64v7eJZ3O5pSHfKmt7gO9qA3dUiobV7/MZ?=
+ =?iso-8859-1?Q?uotpsl9KjFWchwX8oJ3Y0MNEgX+mv/fpb0eexoP9Gf11yApKLmnEBqY19m?=
+ =?iso-8859-1?Q?GGoRdmzpsYQIoSAS1YWsEdPWjF8tGSsz82uP/Ub+tcK8a76rv+dDe9nZZi?=
+ =?iso-8859-1?Q?yeF66nBmA7GevkLcC3U6bTK0CO/1m2d3CGK4fsEnC9JfSNDeeQH2n1q9v7?=
+ =?iso-8859-1?Q?0rZ695ii2MqfGPpGgMbvFf7vbHenPy+EFm4KfA9m8YMn/oHuYhcoH0Po96?=
+ =?iso-8859-1?Q?sdjfXVtC1ul7ZmSW6sTx9FUwwKZTayNjIR7NjnxXQ8FkDldeYj1dCysd0B?=
+ =?iso-8859-1?Q?5HdNXAeMetpCroLDWWlMOOZR3vA8m4iuSv9RC2HLp6mY2EzXAjfDvA0egr?=
+ =?iso-8859-1?Q?CodoUmlu/vKFlsTblLt2RM/EmrVmMmC1xJRcEcuerE/yt7kIpz9Tg9mhB7?=
+ =?iso-8859-1?Q?DxB9gYPBjcWD4Eb1JcjN19rWJ6Z5nZTvC8SMvI0JrLJgejrkxzc9wIMc5d?=
+ =?iso-8859-1?Q?oe89yxi3Era9GfdEY3WjNwRSbuYgav6PkdHjij342UMw4VhtWtbOQlAbMb?=
+ =?iso-8859-1?Q?EsvoJKzGuGkP/j/Fj4TggIdAQBoitJtn/t0PZBBuQcy5b77e0585Q8sank?=
+ =?iso-8859-1?Q?79fXdeg9uHqGXED0UfeMY+zQyL/Bz3oLr2EmckXN0swfH/xrpeD4hX6Nmm?=
+ =?iso-8859-1?Q?bucU5l4fDykidQaj2Y5evvqZi20MJucTuN280hUi8rN8SRAaogCbTEP7Jg?=
+ =?iso-8859-1?Q?Rx9KGKBOBJ0no2Nx1fklOK6PsMANyneuvT9tSwDDKhBz5FHGFmHuWfNZJI?=
+ =?iso-8859-1?Q?8a1XQgkmhMGWLh1VN03uek9r9IQMOXUxcv6yheiUITA6YxfGCbmhO7k8dy?=
+ =?iso-8859-1?Q?ork2tJgsnHbYnEIoAACip50MuOGTL9ZRIQGgqdhUTlmfmfzDzEPPxuLLu8?=
+ =?iso-8859-1?Q?HdD1DMJyYXGnqqHeQD4eg7a22QP0hXPa2Gw0zQVlLscgUE2LlZ7BxilPGx?=
+ =?iso-8859-1?Q?8yIBcQUsoAOvuMMwls3kaX4Qb9ly+vjO2bza/PidcO8RqElRHMnXSlLbNO?=
+ =?iso-8859-1?Q?keBJOpnFSVTyILpX2mEX7nZHEj7du2dLI8kpJlgfMhNf8Afo561KUm7bu/?=
+ =?iso-8859-1?Q?nrpoZtQDO5tJC3OyRLH1owQ5fr9t+BdmxuzKeiNsgY7bbzWPHwxdMfjjfQ?=
+ =?iso-8859-1?Q?zeGd9a7dw1FkEf4MqEdRPDJ73nD5trqUctZDLx+hHrZrF0JZL92ttyW2xx?=
+ =?iso-8859-1?Q?RmVNqMLoPsnfU7NKiWyevnoM0HLwrDq9tbQHUGoxMF0N2u5r5tFJDm56wd?=
+ =?iso-8859-1?Q?qO1vLL+3iXNlkOZ+5U+FvA426d1FK75jEKjq8UmAf9v/82xQeDJSO2jIjL?=
+ =?iso-8859-1?Q?qclIsXU7+l7ZEnYD9Maa1lF+07MgZkaspRv2D5ETCEB7KLZYKRVr7U6Ngy?=
+ =?iso-8859-1?Q?hiRSFqGGmsTyH8ZnozmqHjQ6Tn9tNmhUQixzyMOmCf56CVGU3f6m7uFkRf?=
+ =?iso-8859-1?Q?2vwapLC1n40vyjyxqBFPNdtEDZ0uurtW7KYDgdYCt1co8VVnYWE4tHTjRF?=
+ =?iso-8859-1?Q?JSxZIBYa7pvJtyPbNMAWKJqmncC/sN7BV8AFsI7aAb/GjPadS2NZ0hWA?=
  =?iso-8859-1?Q?=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b04ce96-1ab8-40f5-0782-08de2c866f23
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8632efc3-b8d7-4643-b57f-08de2c869e30
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 00:55:03.6215 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 00:56:22.5611 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iqKj1Y/dDu56O9v1Q8GQx5GuOETwNBfjR8jlRRn1c6CR1LSuzFKo+irIySohZB46dfIpPXh0k2oMEAzkwlnxOg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: gRt5qHy6ejsuOMg0lR+89DoeZx8RjAxA67edtChRmGHoG+O4Z4yZPB9SjM4OC9nm3I781griHqUntfTBhY3qbg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6502
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -188,304 +188,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 11, 2025 at 05:43:59PM +0100, Thomas Hellström wrote:
-> Register a driver-wide owner list, provide a callback to identify
-> fast interconnects and use the drm_pagemap_util helper to allocate
-> or reuse a suitable owner struct. For now we consider pagemaps on
-> different tiles on the same device as having fast interconnect and
-> thus the same owner.
+On Tue, Nov 11, 2025 at 05:44:04PM +0100, Thomas Hellström wrote:
+> Mimic the dma-buf method using dma_[map|unmap]_resource to map
+> for pcie-p2p dma.
+> 
+> There's an ongoing area of work upstream to sort out how this best
+> should be done. One method proposed is to add an additional
+> pci_p2p_dma_pagemap aliasing the device_private pagemap and use
+> the corresponding pci_p2p_dma_pagemap page as input for
+> dma_map_page(). However, that would incur double the amount of
+> memory and latency to set up the drm_pagemap and given the huge
+> amount of memory present on modern GPUs, that would really not work.
+> Hence the simple approach used in this patch.
 > 
 > v2:
-> - Fix up the error onion unwind in xe_pagemap_create(). (Matt Brost)
+> - Simplify xe_page_to_pcie(). (Matt Brost)
 > 
 > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
 Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
 > ---
->  drivers/gpu/drm/xe/xe_svm.c      | 64 ++++++++++++++++++++++++++++----
->  drivers/gpu/drm/xe/xe_svm.h      | 24 +++++-------
->  drivers/gpu/drm/xe/xe_userptr.c  |  2 +-
->  drivers/gpu/drm/xe/xe_vm.c       |  2 +-
->  drivers/gpu/drm/xe/xe_vm_types.h |  3 ++
->  5 files changed, 71 insertions(+), 24 deletions(-)
+>  drivers/gpu/drm/xe/xe_svm.c | 34 +++++++++++++++++++++++++++++++---
+>  drivers/gpu/drm/xe/xe_svm.h |  1 +
+>  2 files changed, 32 insertions(+), 3 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-> index 025c0a3aed8b..7db9eafec66b 100644
+> index c0b17b548a00..86d7b0882b60 100644
 > --- a/drivers/gpu/drm/xe/xe_svm.c
 > +++ b/drivers/gpu/drm/xe/xe_svm.c
-> @@ -22,8 +22,17 @@
->  #include "xe_vm_types.h"
->  #include "xe_vram_types.h"
+> @@ -3,6 +3,8 @@
+>   * Copyright © 2024 Intel Corporation
+>   */
 >  
-> +/* Identifies subclasses of struct drm_pagemap_peer */
-> +#define XE_PEER_PAGEMAP ((void *)0ul)
-> +#define XE_PEER_VM ((void *)1ul)
+> +#include <linux/pci-p2pdma.h>
 > +
->  static int xe_svm_get_pagemaps(struct xe_vm *vm);
->  
-> +void *xe_svm_private_page_owner(struct xe_vm *vm, bool force_smem)
-> +{
-> +	return force_smem ? NULL : vm->svm.peer.owner;
-> +}
-> +
->  static bool xe_svm_range_in_vram(struct xe_svm_range *range)
->  {
->  	/*
-> @@ -769,6 +778,25 @@ static void xe_svm_put_pagemaps(struct xe_vm *vm)
->  	}
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_managed.h>
+>  #include <drm/drm_pagemap.h>
+> @@ -441,6 +443,14 @@ static u64 xe_page_to_dpa(struct page *page)
+>  	return dpa;
 >  }
 >  
-> +static struct device *xe_peer_to_dev(struct drm_pagemap_peer *peer)
+> +static u64 xe_page_to_pcie(struct page *page)
 > +{
-> +	if (peer->private == XE_PEER_PAGEMAP)
-> +		return container_of(peer, struct xe_pagemap, peer)->dpagemap.drm->dev;
+> +	struct xe_pagemap *xpagemap = xe_page_to_pagemap(page);
+> +	struct xe_vram_region *vr = xe_pagemap_to_vr(xpagemap);
 > +
-> +	return container_of(peer, struct xe_vm, svm.peer)->xe->drm.dev;
+> +	return xe_page_to_dpa(page) - vr->dpa_base + vr->io_start;
 > +}
 > +
-> +static bool xe_has_interconnect(struct drm_pagemap_peer *peer1,
-> +				struct drm_pagemap_peer *peer2)
-> +{
-> +	struct device *dev1 = xe_peer_to_dev(peer1);
-> +	struct device *dev2 = xe_peer_to_dev(peer2);
-> +
-> +	return dev1 == dev2;
-> +}
-> +
-> +static DRM_PAGEMAP_OWNER_LIST_DEFINE(xe_owner_list);
-> +
->  /**
->   * xe_svm_init() - SVM initialize
->   * @vm: The VM.
-> @@ -787,10 +815,18 @@ int xe_svm_init(struct xe_vm *vm)
->  		INIT_WORK(&vm->svm.garbage_collector.work,
->  			  xe_svm_garbage_collector_work_func);
+>  enum xe_svm_copy_dir {
+>  	XE_SVM_COPY_TO_VRAM,
+>  	XE_SVM_COPY_TO_SRAM,
+> @@ -792,7 +802,10 @@ static bool xe_has_interconnect(struct drm_pagemap_peer *peer1,
+>  	struct device *dev1 = xe_peer_to_dev(peer1);
+>  	struct device *dev2 = xe_peer_to_dev(peer2);
 >  
-> -		err = xe_svm_get_pagemaps(vm);
-> +		vm->svm.peer.private = XE_PEER_VM;
-> +		err = drm_pagemap_acquire_owner(&vm->svm.peer, &xe_owner_list,
-> +						xe_has_interconnect);
->  		if (err)
->  			return err;
->  
-> +		err = xe_svm_get_pagemaps(vm);
-> +		if (err) {
-> +			drm_pagemap_release_owner(&vm->svm.peer);
-> +			return err;
-> +		}
+> -	return dev1 == dev2;
+> +	if (dev1 == dev2)
+> +		return true;
 > +
->  		err = drm_gpusvm_init(&vm->svm.gpusvm, "Xe SVM", &vm->xe->drm,
->  				      current->mm, 0, vm->size,
->  				      xe_modparam.svm_notifier_size * SZ_1M,
-> @@ -800,6 +836,7 @@ int xe_svm_init(struct xe_vm *vm)
+> +	return pci_p2pdma_distance(to_pci_dev(dev1), dev2, true) >= 0;
+>  }
 >  
->  		if (err) {
->  			xe_svm_put_pagemaps(vm);
-> +			drm_pagemap_release_owner(&vm->svm.peer);
->  			return err;
->  		}
+>  static DRM_PAGEMAP_OWNER_LIST_DEFINE(xe_owner_list);
+> @@ -1552,13 +1565,27 @@ xe_drm_pagemap_device_map(struct drm_pagemap *dpagemap,
+>  		addr = xe_page_to_dpa(page);
+>  		prot = XE_INTERCONNECT_VRAM;
 >  	} else {
-> @@ -822,6 +859,7 @@ void xe_svm_close(struct xe_vm *vm)
->  	xe_assert(vm->xe, xe_vm_is_closed(vm));
->  	flush_work(&vm->svm.garbage_collector.work);
->  	xe_svm_put_pagemaps(vm);
-> +	drm_pagemap_release_owner(&vm->svm.peer);
+> -		addr = DMA_MAPPING_ERROR;
+> -		prot = 0;
+> +		addr = dma_map_resource(dev,
+> +					xe_page_to_pcie(page),
+> +					PAGE_SIZE << order, dir,
+> +					DMA_ATTR_SKIP_CPU_SYNC);
+> +		prot = XE_INTERCONNECT_P2P;
+>  	}
+>  
+>  	return drm_pagemap_addr_encode(addr, prot, order, dir);
 >  }
 >  
->  /**
-> @@ -956,7 +994,7 @@ static int xe_drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
->  		xe_pm_runtime_get_noresume(xe);
->  		err = drm_pagemap_migrate_to_devmem(&bo->devmem_allocation, mm,
->  						    start, end, timeslice_ms,
-> -						    xe_svm_devm_owner(xe));
-> +						    xpagemap->pagemap.owner);
->  		if (err)
->  			xe_svm_devmem_release(&bo->devmem_allocation);
->  		xe_bo_unlock(bo);
-> @@ -1071,7 +1109,6 @@ static int __xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
->  		.devmem_only = need_vram && devmem_possible,
->  		.timeslice_ms = need_vram && devmem_possible ?
->  			vm->xe->atomic_svm_timeslice_ms : 0,
-> -		.device_private_page_owner = xe_svm_devm_owner(vm->xe),
->  	};
->  	struct xe_validation_ctx vctx;
->  	struct drm_exec exec;
-> @@ -1095,8 +1132,8 @@ static int __xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
->  		return err;
->  
->  	dpagemap = xe_vma_resolve_pagemap(vma, tile);
-> -	if (!dpagemap && !ctx.devmem_only)
-> -		ctx.device_private_page_owner = NULL;
-> +	ctx.device_private_page_owner =
-> +		xe_svm_private_page_owner(vm, !dpagemap && !ctx.devmem_only);
->  	range = xe_svm_range_find_or_insert(vm, fault_addr, vma, &ctx);
->  
->  	if (IS_ERR(range))
-> @@ -1520,6 +1557,8 @@ static void xe_pagemap_destroy_work(struct work_struct *work)
->  					pagemap->range.end - pagemap->range.start + 1);
->  		drm_dev_exit(idx);
->  	}
+> +static void xe_drm_pagemap_device_unmap(struct drm_pagemap *dpagemap,
+> +					struct device *dev,
+> +					struct drm_pagemap_addr addr)
+> +{
+> +	if (addr.proto != XE_INTERCONNECT_P2P)
+> +		return;
 > +
-> +	drm_pagemap_release_owner(&xpagemap->peer);
->  	kfree(xpagemap);
->  }
->  
-> @@ -1570,6 +1609,7 @@ static struct xe_pagemap *xe_pagemap_create(struct xe_device *xe, struct xe_vram
->  	dpagemap = &xpagemap->dpagemap;
->  	INIT_WORK(&xpagemap->destroy_work, xe_pagemap_destroy_work);
->  	xpagemap->vr = vr;
-> +	xpagemap->peer.private = XE_PEER_PAGEMAP;
->  
->  	err = drm_pagemap_init(dpagemap, pagemap, &xe->drm, &xe_drm_pagemap_ops);
->  	if (err)
-> @@ -1582,21 +1622,29 @@ static struct xe_pagemap *xe_pagemap_create(struct xe_device *xe, struct xe_vram
->  		goto out_err;
->  	}
->  
-> +	err = drm_pagemap_acquire_owner(&xpagemap->peer, &xe_owner_list,
-> +					xe_has_interconnect);
-> +	if (err)
-> +		goto out_no_owner;
+> +	dma_unmap_resource(dev, addr.addr, PAGE_SIZE << addr.order,
+> +			   addr.dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +}
 > +
->  	pagemap->type = MEMORY_DEVICE_PRIVATE;
->  	pagemap->range.start = res->start;
->  	pagemap->range.end = res->end;
->  	pagemap->nr_range = 1;
-> -	pagemap->owner = xe_svm_devm_owner(xe);
-> +	pagemap->owner = xpagemap->peer.owner;
->  	pagemap->ops = drm_pagemap_pagemap_ops_get();
->  	addr = devm_memremap_pages(dev, pagemap);
->  	if (IS_ERR(addr)) {
->  		err = PTR_ERR(addr);
-> -		devm_release_mem_region(dev, res->start, res->end - res->start + 1);
-> -		goto out_err;
-> +		goto out_no_pages;
->  	}
->  	xpagemap->hpa_base = res->start;
->  	return xpagemap;
+>  static void xe_pagemap_destroy_work(struct work_struct *work)
+>  {
+>  	struct xe_pagemap *xpagemap = container_of(work, typeof(*xpagemap), destroy_work);
+> @@ -1595,6 +1622,7 @@ static void xe_pagemap_destroy(struct drm_pagemap *dpagemap, bool from_atomic_or
 >  
-> +out_no_pages:
-> +	drm_pagemap_release_owner(&xpagemap->peer);
-> +out_no_owner:
-> +	devm_release_mem_region(dev, res->start, res->end - res->start + 1);
->  out_err:
->  	drm_pagemap_put(dpagemap);
->  	return ERR_PTR(err);
+>  static const struct drm_pagemap_ops xe_drm_pagemap_ops = {
+>  	.device_map = xe_drm_pagemap_device_map,
+> +	.device_unmap = xe_drm_pagemap_device_unmap,
+>  	.populate_mm = xe_drm_pagemap_populate_mm,
+>  	.destroy = xe_pagemap_destroy,
+>  };
 > diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-> index 6166f5358d6d..e99d483e82c2 100644
+> index 60eae01a4220..64971c9b2a1a 100644
 > --- a/drivers/gpu/drm/xe/xe_svm.h
 > +++ b/drivers/gpu/drm/xe/xe_svm.h
-> @@ -6,24 +6,11 @@
->  #ifndef _XE_SVM_H_
->  #define _XE_SVM_H_
->  
-> -struct xe_device;
-> -
-> -/**
-> - * xe_svm_devm_owner() - Return the owner of device private memory
-> - * @xe: The xe device.
-> - *
-> - * Return: The owner of this device's device private memory to use in
-> - * hmm_range_fault()-
-> - */
-> -static inline void *xe_svm_devm_owner(struct xe_device *xe)
-> -{
-> -	return xe;
-> -}
-> -
->  #if IS_ENABLED(CONFIG_DRM_XE_GPUSVM)
->  
->  #include <drm/drm_pagemap.h>
->  #include <drm/drm_gpusvm.h>
-> +#include <drm/drm_pagemap_util.h>
+> @@ -13,6 +13,7 @@
+>  #include <drm/drm_pagemap_util.h>
 >  
 >  #define XE_INTERCONNECT_VRAM DRM_INTERCONNECT_DRIVER
+> +#define XE_INTERCONNECT_P2P (XE_INTERCONNECT_VRAM + 1)
 >  
-> @@ -65,6 +52,7 @@ struct xe_svm_range {
->   * @pagemap: The struct dev_pagemap providing the struct pages.
->   * @dpagemap: The drm_pagemap managing allocation and migration.
->   * @destroy_work: Handles asnynchronous destruction and caching.
-> + * @peer: Used for pagemap owner computation.
->   * @hpa_base: The host physical address base for the managemd memory.
->   * @vr: Backpointer to the xe_vram region.
->   */
-> @@ -72,6 +60,7 @@ struct xe_pagemap {
->  	struct dev_pagemap pagemap;
->  	struct drm_pagemap dpagemap;
->  	struct work_struct destroy_work;
-> +	struct drm_pagemap_peer peer;
->  	resource_size_t hpa_base;
->  	struct xe_vram_region *vr;
->  };
-> @@ -131,6 +120,8 @@ u8 xe_svm_ranges_zap_ptes_in_range(struct xe_vm *vm, u64 start, u64 end);
->  
->  struct drm_pagemap *xe_vma_resolve_pagemap(struct xe_vma *vma, struct xe_tile *tile);
->  
-> +void *xe_svm_private_page_owner(struct xe_vm *vm, bool force_smem);
-> +
->  /**
->   * xe_svm_range_has_dma_mapping() - SVM range has DMA mapping
->   * @range: SVM range
-> @@ -368,6 +359,11 @@ struct drm_pagemap *xe_vma_resolve_pagemap(struct xe_vma *vma, struct xe_tile *t
->  	return NULL;
->  }
->  
-> +static inline void *xe_svm_private_page_owner(struct xe_vm *vm, bool force_smem)
-> +{
-> +	return NULL;
-> +}
-> +
->  static inline void xe_svm_flush(struct xe_vm *vm)
->  {
->  }
-> diff --git a/drivers/gpu/drm/xe/xe_userptr.c b/drivers/gpu/drm/xe/xe_userptr.c
-> index 0d9130b1958a..e120323c43bc 100644
-> --- a/drivers/gpu/drm/xe/xe_userptr.c
-> +++ b/drivers/gpu/drm/xe/xe_userptr.c
-> @@ -55,7 +55,7 @@ int xe_vma_userptr_pin_pages(struct xe_userptr_vma *uvma)
->  	struct xe_device *xe = vm->xe;
->  	struct drm_gpusvm_ctx ctx = {
->  		.read_only = xe_vma_read_only(vma),
-> -		.device_private_page_owner = xe_svm_devm_owner(xe),
-> +		.device_private_page_owner = xe_svm_private_page_owner(vm, false),
->  		.allow_mixed = true,
->  	};
->  
-> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-> index 8fb5cc6a69ec..2321e7c8ae76 100644
-> --- a/drivers/gpu/drm/xe/xe_vm.c
-> +++ b/drivers/gpu/drm/xe/xe_vm.c
-> @@ -2888,7 +2888,7 @@ static int prefetch_ranges(struct xe_vm *vm, struct xe_vma_op *op)
->  	ctx.read_only = xe_vma_read_only(vma);
->  	ctx.devmem_possible = devmem_possible;
->  	ctx.check_pages_threshold = devmem_possible ? SZ_64K : 0;
-> -	ctx.device_private_page_owner = xe_svm_devm_owner(vm->xe);
-> +	ctx.device_private_page_owner = xe_svm_private_page_owner(vm, !tile);
->  
->  	/* TODO: Threading the migration */
->  	xa_for_each(&op->prefetch_range.range, i, svm_range) {
-> diff --git a/drivers/gpu/drm/xe/xe_vm_types.h b/drivers/gpu/drm/xe/xe_vm_types.h
-> index fd9308426ac4..0d09a322199d 100644
-> --- a/drivers/gpu/drm/xe/xe_vm_types.h
-> +++ b/drivers/gpu/drm/xe/xe_vm_types.h
-> @@ -8,6 +8,7 @@
->  
->  #include <drm/drm_gpusvm.h>
->  #include <drm/drm_gpuvm.h>
-> +#include <drm/drm_pagemap_util.h>
->  
->  #include <linux/dma-resv.h>
->  #include <linux/kref.h>
-> @@ -192,6 +193,8 @@ struct xe_vm {
->  			struct work_struct work;
->  		} garbage_collector;
->  		struct xe_pagemap *pagemaps[XE_MAX_TILES_PER_DEVICE];
-> +		/** @svm.peer: Used for pagemap connectivity computations. */
-> +		struct drm_pagemap_peer peer;
->  	} svm;
->  
->  	struct xe_device *xe;
+>  struct drm_device;
+>  struct drm_file;
 > -- 
 > 2.51.1
 > 
