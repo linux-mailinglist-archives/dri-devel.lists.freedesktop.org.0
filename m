@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA9BFC89D3C
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 13:45:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0157C89D3F
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 13:45:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7071810E5D0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D7AF10E5CC;
 	Wed, 26 Nov 2025 12:45:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="iQc5IwgO";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="GEGiBZhl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FB5B10E5C1;
- Wed, 26 Nov 2025 12:45:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 680AD10E5C5;
+ Wed, 26 Nov 2025 12:45:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764161112;
- bh=YMcTBNP0yNyf9p9VorZCaW7kCFXGVnVtWLTX9qseNws=;
+ s=mail; t=1764161113;
+ bh=eX3YTGY4Im5A0K8cJNwFCHqDXZvjuHqWb+S/x2dceHQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iQc5IwgOE2KhZz3uw6MiYckiCyp5j8SrjMucXaznWAUNC6+2v8SgMapm3TV5qT9b8
- VuU0XwtqpZrRYImXkzjMhs8tcYp9rzs0ANwwDulhlwY0maGUza59JNB/GZ8+tDhsGP
- NS77FGWBBGoTlGHaTacg/P7QbDvXGtuTUQ9wQC9dyX4puESSgtnz4ngRMcmLTq02W6
- tjmHv2sk+UbWmLkh55PMgY6+37Dt17xEuskMXuHI4wPJn26GiT2cC4Rhn0SPhATUH4
- Suy/tXwZaVU1DQqVaFP8j0iCVCNdFFJM7680Xe6e6kffOYROAlZw34cuH2yN6Xjjaf
- P/2VB7Rh5ebtw==
+ b=GEGiBZhlvVT36OataYpyKc6Y5HUn0Y/b5BTLKOfB5thjvG6lLI85P8PrkNvAewOHV
+ T60leidTPQMpqPTKOVPwn0YFWjThDnHvkhxtQkvTvL8/kiK+h5e9mKUW4PsNZxVVg1
+ PjXVJoXV+8Ns8T86OzlBNtVGOwznh72N0A+nhtMOkhKgu2uU8odKV7o7IVJDi+L72y
+ JWKIz7QMUnnPXgiglPJyb87N5y44St89j9i6BktqBEQlh9aZdZCJ9tRXrRjg77sAQc
+ LPPdXsQJiG0S0+UYNv/kJLV8ZnN00IJ+LET0uw55svGV4JEAbva3GBpvHvT5TC+iEo
+ TnZlsSRJ0cBIQ==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 19DB617E13E0;
- Wed, 26 Nov 2025 13:45:11 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 21BF817E13F2;
+ Wed, 26 Nov 2025 13:45:12 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
 Cc: dri-devel@lists.freedesktop.org,
@@ -56,10 +56,11 @@ Cc: dri-devel@lists.freedesktop.org,
  Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  amd-gfx@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
-Subject: [PATCH v6 04/16] drm/panthor: Provide a custom dma_buf implementation
-Date: Wed, 26 Nov 2025 13:44:43 +0100
-Message-ID: <20251126124455.3656651-5-boris.brezillon@collabora.com>
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
+ Akash Goel <akash.goel@arm.com>
+Subject: [PATCH v6 05/16] drm/panthor: Fix panthor_gpu_coherency_set()
+Date: Wed, 26 Nov 2025 13:44:44 +0100
+Message-ID: <20251126124455.3656651-6-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251126124455.3656651-1-boris.brezillon@collabora.com>
 References: <20251126124455.3656651-1-boris.brezillon@collabora.com>
@@ -80,75 +81,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Before we introduce cached CPU mappings, we want a dma_buf
-implementation satisfying synchronization requests around CPU
-accesses coming from a dma_buf exported by our driver. Let's
-provide our own implementation relying on the default
-gem_shmem_prime helpers designed for that purpose.
+GPU_COHERENCY_PROTOCOL takes one of GPU_COHERENCY_xx
+not BIT(GPU_COHERENCY_xx).
+
+v3:
+- New commit
+
+v4:
+- Add Steve's R-b
 
 v5:
-- New patch
+- No changes
 
 v6:
-- Collect R-b
+- No changes
 
+Cc: Akash Goel <akash.goel@arm.com>
+Fixes: dd7db8d911a1 ("drm/panthor: Explicitly set the coherency mode")
+Reported-by: Steven Price <steven.price@arm.com>
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_drv.c |  1 +
- drivers/gpu/drm/panthor/panthor_gem.c | 13 +++++++++++++
- drivers/gpu/drm/panthor/panthor_gem.h |  2 ++
- 3 files changed, 16 insertions(+)
+ drivers/gpu/drm/panthor/panthor_gpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index d1d4c50da5bf..cf2cf09335a4 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1621,6 +1621,7 @@ static const struct drm_driver panthor_drm_driver = {
- 
- 	.gem_create_object = panthor_gem_create_object,
- 	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-+	.dma_buf_ops = &panthor_dma_buf_ops,
- #ifdef CONFIG_DEBUG_FS
- 	.debugfs_init = panthor_debugfs_init,
- #endif
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index 10d255cccc09..3100a895513e 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -184,6 +184,19 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
- 	return ERR_PTR(ret);
+diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+index 06b231b2460a..cd38da5ad26c 100644
+--- a/drivers/gpu/drm/panthor/panthor_gpu.c
++++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+@@ -51,7 +51,7 @@ struct panthor_gpu {
+ static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
+ {
+ 	gpu_write(ptdev, GPU_COHERENCY_PROTOCOL,
+-		ptdev->coherent ? GPU_COHERENCY_PROT_BIT(ACE_LITE) : GPU_COHERENCY_NONE);
++		  ptdev->coherent ? GPU_COHERENCY_ACE_LITE : GPU_COHERENCY_NONE);
  }
  
-+const struct dma_buf_ops panthor_dma_buf_ops = {
-+	.attach = drm_gem_map_attach,
-+	.detach = drm_gem_map_detach,
-+	.map_dma_buf = drm_gem_shmem_prime_map_dma_buf,
-+	.unmap_dma_buf = drm_gem_shmem_prime_unmap_dma_buf,
-+	.release = drm_gem_dmabuf_release,
-+	.mmap = drm_gem_dmabuf_mmap,
-+	.vmap = drm_gem_dmabuf_vmap,
-+	.vunmap = drm_gem_dmabuf_vunmap,
-+	.begin_cpu_access = drm_gem_shmem_prime_begin_cpu_access,
-+	.end_cpu_access = drm_gem_shmem_prime_end_cpu_access,
-+};
-+
- static struct dma_buf *
- panthor_gem_prime_export(struct drm_gem_object *obj, int flags)
- {
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-index 80c6e24112d0..27e565650374 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.h
-+++ b/drivers/gpu/drm/panthor/panthor_gem.h
-@@ -147,6 +147,8 @@ panthor_gem_create_with_handle(struct drm_file *file,
- void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
- void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
- 
-+extern const struct dma_buf_ops panthor_dma_buf_ops;
-+
- static inline u64
- panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
- {
+ static void panthor_gpu_l2_config_set(struct panthor_device *ptdev)
 -- 
 2.51.1
 
