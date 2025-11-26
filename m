@@ -2,106 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8815FC890DC
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 10:46:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B743EC89046
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 10:41:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D671010E58A;
-	Wed, 26 Nov 2025 09:46:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 681E810E237;
+	Wed, 26 Nov 2025 09:41:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="gX/SWhx8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iS9cY2ar";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gX/SWhx8";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iS9cY2ar";
+	dkim=pass (2048-bit key; unprotected) header.d=icenowy.me header.i=uwu@icenowy.me header.b="GuoOtMI5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A527810E58B
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 09:46:42 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id A6F5B5BE1A;
- Wed, 26 Nov 2025 09:46:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764150397; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=701fttiNb4uFhysg4zn6c/ks8lyiP5hk/A97SA+iBQo=;
- b=gX/SWhx8lYDDgyyVjq0MvsxIWakQBiMdDYhHLx0VIm+lVdctpnXaNgRV/Qc0Rry6/bnvGZ
- 9w6XKa6UWYeyVFbWzPX/pdOJHvnP+S4qGzEbo5lQAwC1p3lQ0TNBSL2u1rjLE3I5bYbW+R
- ob6Jskuxd8UJO6Pm9h2Dgcu0LqZdsDo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764150397;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=701fttiNb4uFhysg4zn6c/ks8lyiP5hk/A97SA+iBQo=;
- b=iS9cY2arbKKVjCpfxBEk6HLoYRJkh/zz0d275oyn/aCOzcoAIN1J1tHHwjlnTIHDKPk1pp
- hfUiUbuJS/6K7wCA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764150397; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=701fttiNb4uFhysg4zn6c/ks8lyiP5hk/A97SA+iBQo=;
- b=gX/SWhx8lYDDgyyVjq0MvsxIWakQBiMdDYhHLx0VIm+lVdctpnXaNgRV/Qc0Rry6/bnvGZ
- 9w6XKa6UWYeyVFbWzPX/pdOJHvnP+S4qGzEbo5lQAwC1p3lQ0TNBSL2u1rjLE3I5bYbW+R
- ob6Jskuxd8UJO6Pm9h2Dgcu0LqZdsDo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764150397;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=701fttiNb4uFhysg4zn6c/ks8lyiP5hk/A97SA+iBQo=;
- b=iS9cY2arbKKVjCpfxBEk6HLoYRJkh/zz0d275oyn/aCOzcoAIN1J1tHHwjlnTIHDKPk1pp
- hfUiUbuJS/6K7wCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 840E63EA65;
- Wed, 26 Nov 2025 09:46:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id YLcKH33MJmnQJQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 26 Nov 2025 09:46:37 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: jfalempe@redhat.com,
-	airlied@redhat.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 3/3] drm/ast: Wrap cursor framebuffer access in
- drm_gem_fb_begin/end_cpu_access()
-Date: Wed, 26 Nov 2025 10:40:10 +0100
-Message-ID: <20251126094626.41985-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251126094626.41985-1-tzimmermann@suse.de>
-References: <20251126094626.41985-1-tzimmermann@suse.de>
+Received: from sender3-op-o12.zoho.com (sender3-op-o12.zoho.com
+ [136.143.184.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2727A10E237
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 09:41:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1764150109; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=fQBxAXM9o4uD7mKSWOWobL1/ZdnY+XQbfKv1vZ6rTRPzjKDaHeZrpkSXPAta7rI9UYfGQfYaiHGcm4zZzsrJUbe/YSv/5/XIoWELyYGcOmBNRhNSlBMXdzGVs7ID9Fwlm/Gmk670rXZs1jAA7w8NAEfUsWFf7lN/oVTsDlYTkQA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1764150109;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=HCrXWcCJcuxzIq0iHhld0Os9jJmomNGWdXQFSCiiukQ=; 
+ b=Qu4Gvhj4dSxRhdg16XEqh7T7j0fa2PB0tz1AJgQr0Iwk/5pTheiSzmGdIPnfuafXccBrNls+KYdd/rq9EEY9loOUdD0EjMZ2Wn/WsNTvAcWu4KSMbuUrxu2rveia68Kyf5hRFWjIkSv3iI5CIHtssCyjxAhq7TLoQrIS6Xtf/lg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=icenowy.me;
+ spf=pass  smtp.mailfrom=uwu@icenowy.me;
+ dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764150109; 
+ s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+ h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+ bh=HCrXWcCJcuxzIq0iHhld0Os9jJmomNGWdXQFSCiiukQ=;
+ b=GuoOtMI51ArFwAwWNXFwtknkxYHunWqeynp9ETTHYp93VhUqA9PlnMkRwE+ZPI70
+ Jqj886oyv3UKkPNNm+Bdd+QUpH152ZDSKh1X4CVwc0RY/gSkMb7JgkMcniXFlTjPETi
+ miDWY/w0OktfRSomKQBXXwS0vv/NRpMETejhKD7ZbNFaCr+j/J6ROTSEoZ61vvXVZ5O
+ yuDeCAQhkg5E0spxe0MSeK27T+pRSRGgqIs4bJIvv9EhFlrwEQfZIOof7ji/eMGJQXW
+ c4j7Zpwu9UH6htZENs6EeD6v/lcKR+6w/5yeHVt5xHOP7By+Fmz+T0+vOLH5CwZ6dMB
+ 1w86gnl0JA==
+Received: by mx.zohomail.com with SMTPS id 1764150105282785.1586241129531;
+ Wed, 26 Nov 2025 01:41:45 -0800 (PST)
+Message-ID: <001154b743b9f8364e96b3ebf791ef9920bbfa03.camel@icenowy.me>
+Subject: Re: [PATCH RESEND v3 2/9] dt-bindings: display: add verisilicon,dc
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Drew Fustini <fustini@kernel.org>, Guo Ren
+ <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Heiko Stuebner <heiko@sntech.de>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Michal Wilczynski
+ <m.wilczynski@samsung.com>, Han Gao <rabenda.cn@gmail.com>, Yao Zi
+ <ziyao@disroot.org>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org
+Date: Wed, 26 Nov 2025 17:41:35 +0800
+In-Reply-To: <b57207ab-a69e-4dad-98ca-f4923cebdf81@kernel.org>
+References: <20251126045233.218286-1-zhengxingda@iscas.ac.cn>
+ <20251126045233.218286-3-zhengxingda@iscas.ac.cn>
+ <20251126-gifted-zircon-ibex-a9f1d8@kuoka>
+ <e2b72b8ef4c2911c4ea44a80f42182bbc78d5626.camel@icenowy.me>
+ <b57207ab-a69e-4dad-98ca-f4923cebdf81@kernel.org>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
- BAYES_HAM(-3.00)[100.00%]; NEURAL_HAM_LONG(-1.00)[-1.000];
- MID_CONTAINS_FROM(1.00)[]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_COUNT_TWO(0.00)[2]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
- URIBL_BLOCKED(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
- FROM_EQ_ENVFROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCPT_COUNT_THREE(0.00)[4]; RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -6.80
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,112 +87,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Call drm_gem_fb_begin_cpu_access() and drm_gem_fb_end_cpu_access()
-around cursor image updates. Imported buffers might have to be
-synchronized for CPU access before they can be used.
+=E5=9C=A8 2025-11-26=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 10:37 +0100=EF=BC=
+=8CKrzysztof Kozlowski=E5=86=99=E9=81=93=EF=BC=9A
+> On 26/11/2025 09:57, Icenowy Zheng wrote:
+> > =E5=9C=A8 2025-11-26=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 09:51 +0100=EF=
+=BC=8CKrzysztof Kozlowski=E5=86=99=E9=81=93=EF=BC=9A
+> > > On Wed, Nov 26, 2025 at 12:52:26PM +0800, Icenowy Zheng wrote:
+> > > > From: Icenowy Zheng <uwu@icenowy.me>
+> > > >=20
+> > > > Verisilicon has a series of display controllers prefixed with
+> > > > DC
+> > > > and
+> > > > with self-identification facility like their GC series GPUs.
+> > > >=20
+> > > > Add a device tree binding for it.
+> > > >=20
+> > > > Depends on the specific DC model, it can have either one or two
+> > > > display
+> > > > outputs, and each display output could be set to DPI signal or
+> > > > "DP"
+> > > > signal (which seems to be some plain parallel bus to HDMI
+> > > > controllers).
+> > > >=20
+> > > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> > > > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+> > > > ---
+> > >=20
+> > > You already received review on this. Don't send the same. Read
+> > > the
+> > > review.
+> >=20
+> > Please see the sender (mail header From) of this time.
+>=20
+> This improved. I am speaking about the rest of review.
 
-Ignore errors from drm_gem_fb_begin_cpu_access(). These errors can
-often be transitory. The cursor image will be updated on the next
-frame. Meanwhile display a white square where the cursor would be.
+Well this is why this is a v3 resend, not v4.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/ast/ast_cursor.c | 74 +++++++++++++++++++-------------
- 1 file changed, 43 insertions(+), 31 deletions(-)
+I will address these issues in v4.
 
-diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
-index 8d473ed2738c..30b62d3f0151 100644
---- a/drivers/gpu/drm/ast/ast_cursor.c
-+++ b/drivers/gpu/drm/ast/ast_cursor.c
-@@ -28,6 +28,7 @@
- #include <drm/drm_damage_helper.h>
- #include <drm/drm_format_helper.h>
- #include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_print.h>
- 
- #include "ast_drv.h"
-@@ -189,38 +190,49 @@ static const u8 *ast_cursor_plane_get_argb4444(struct ast_cursor_plane *ast_curs
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	u8 *argb4444 = NULL;
- 
--	switch (fb->format->format) {
--	case DRM_FORMAT_ARGB4444:
--		if (shadow_plane_state->data[0].is_iomem) {
--			struct iosys_map argb4444_dst[DRM_FORMAT_MAX_PLANES] = {
--				IOSYS_MAP_INIT_VADDR(ast_cursor_plane->argb4444),
--			};
--			unsigned int argb4444_dst_pitch[DRM_FORMAT_MAX_PLANES] = {
--				AST_HWC_PITCH,
--			};
--
--			drm_fb_memcpy(argb4444_dst, argb4444_dst_pitch,
--				      shadow_plane_state->data, fb, clip);
--			argb4444 = argb4444_dst[0].vaddr;
--		} else {
--			argb4444 = shadow_plane_state->data[0].vaddr;
-+	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE) == 0) {
-+		switch (fb->format->format) {
-+		case DRM_FORMAT_ARGB4444:
-+			if (shadow_plane_state->data[0].is_iomem) {
-+				struct iosys_map argb4444_dst[DRM_FORMAT_MAX_PLANES] = {
-+					IOSYS_MAP_INIT_VADDR(ast_cursor_plane->argb4444),
-+				};
-+				unsigned int argb4444_dst_pitch[DRM_FORMAT_MAX_PLANES] = {
-+					AST_HWC_PITCH,
-+				};
-+
-+				drm_fb_memcpy(argb4444_dst, argb4444_dst_pitch,
-+					      shadow_plane_state->data, fb, clip);
-+				argb4444 = argb4444_dst[0].vaddr;
-+			} else {
-+				argb4444 = shadow_plane_state->data[0].vaddr;
-+			}
-+			break;
-+		case DRM_FORMAT_ARGB8888:
-+			{
-+				struct iosys_map argb4444_dst[DRM_FORMAT_MAX_PLANES] = {
-+					IOSYS_MAP_INIT_VADDR(ast_cursor_plane->argb4444),
-+				};
-+				unsigned int argb4444_dst_pitch[DRM_FORMAT_MAX_PLANES] = {
-+					AST_HWC_PITCH,
-+				};
-+
-+				drm_fb_argb8888_to_argb4444(argb4444_dst, argb4444_dst_pitch,
-+							    shadow_plane_state->data, fb, clip,
-+							    &shadow_plane_state->fmtcnv_state);
-+				argb4444 = argb4444_dst[0].vaddr;
-+			}
-+			break;
- 		}
--		break;
--	case DRM_FORMAT_ARGB8888:
--		{
--			struct iosys_map argb4444_dst[DRM_FORMAT_MAX_PLANES] = {
--				IOSYS_MAP_INIT_VADDR(ast_cursor_plane->argb4444),
--			};
--			unsigned int argb4444_dst_pitch[DRM_FORMAT_MAX_PLANES] = {
--				AST_HWC_PITCH,
--			};
--
--			drm_fb_argb8888_to_argb4444(argb4444_dst, argb4444_dst_pitch,
--						    shadow_plane_state->data, fb, clip,
--						    &shadow_plane_state->fmtcnv_state);
--			argb4444 = argb4444_dst[0].vaddr;
--		}
--		break;
-+
-+		drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
-+	} else {
-+		/*
-+		 * Fall back to white square if GEM object is not ready. Gives
-+		 * the user an indication where the cursor is located.
-+		 */
-+		memset(ast_cursor_plane->argb4444, 0xff, sizeof(ast_cursor_plane->argb4444));
-+		argb4444 = ast_cursor_plane->argb4444;
- 	}
- 
- 	return argb4444;
--- 
-2.51.1
+>=20
+> Best regards,
+> Krzysztof
 
