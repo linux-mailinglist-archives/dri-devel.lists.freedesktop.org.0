@@ -2,90 +2,161 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A164EC89BFE
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 13:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64162C89C67
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 13:31:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8934510E0CE;
-	Wed, 26 Nov 2025 12:27:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 12FA710E5AF;
+	Wed, 26 Nov 2025 12:31:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jnTMA2J+";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="sd42DJhm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C89C910E0CE
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 12:27:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764160027; x=1795696027;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=FGV3mO1dmDC36Y5ZwJqqYtuXmf3eRjhooAAD+j9O3po=;
- b=jnTMA2J+7M20jvqW4n7qgIClK+umYvYgokX40KitZouhoD6qhLHixJQF
- DMOJIm3HqgKoCqCm62H4gdMiqX0rDIH4FD4DbmVTZgmXr/xkF3ZQ1iHOk
- v7sjvkxYdWx8JIkkRDdbDUnZbN4R8aSq4McF4LibmAE+k0gDSISvlhDW4
- C40tZI8aD9tZ2A4rYkBCGocQLSOOCwftM3E+kar0omxPJF6zAt1OVLbna
- vP2L9XdypqqbY7uaMRBBxMzg9g3coksWpjVWGWzK8zCXvj0BSK9LCx6ID
- aRQ1jm6W66v+Ml3HYnCCckKMk+TbuqanDIbuiAD5sY486u0jdnh9kKQ+2 w==;
-X-CSE-ConnectionGUID: bTbke/VySg+6K9ucoL8Osw==
-X-CSE-MsgGUID: GWJnEfZnRgq702tCejbNOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="70060098"
-X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208,223";a="70060098"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2025 04:27:07 -0800
-X-CSE-ConnectionGUID: GtkyTZb0R9CO0SOLOOs9hw==
-X-CSE-MsgGUID: X2b1Mji4QRK81e4yBy06JQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; 
- d="scan'208,223";a="192068877"
-Received: from iherna2-mobl4.amr.corp.intel.com (HELO kuha) ([10.124.223.27])
- by orviesa006.jf.intel.com with SMTP; 26 Nov 2025 04:26:56 -0800
-Received: by kuha (sSMTP sendmail emulation); Wed, 26 Nov 2025 14:26:49 +0200
-Date: Wed, 26 Nov 2025 14:26:49 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chaoyi Chen <kernel@airkyi.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v10 01/11] usb: typec: Add notifier functions
-Message-ID: <aSbyCR-vFo3mvZ3u@kuha>
-References: <2025112402-unopposed-polio-e6e9@gregkh>
- <a80483de-518d-45d5-b46a-9b70cca5b236@rock-chips.com>
- <2025112448-brush-porcupine-c851@gregkh>
- <c9cb7b79-37c8-4fef-97a6-7d6b8898f9c4@rock-chips.com>
- <aSV_lQYJPxN7oBM-@kuha> <2025112554-uncaring-curator-642a@gregkh>
- <cbb38c08-6937-4b7d-a0b0-d5ca6c17f466@rock-chips.com>
- <aSbLkwPG0dUzZvql@kuha> <2025112656-dreamland-retreat-2a65@gregkh>
- <e48e1918-8ee0-4ffe-93d5-e096af241f77@rock-chips.com>
+Received: from DM5PR21CU001.outbound.protection.outlook.com
+ (mail-centralusazon11011024.outbound.protection.outlook.com [52.101.62.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DE76310E5AF
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 12:31:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=w3H5s/JTVxHoGM8o5UwRleJq0RD80vPBso2/gGE/wqbK8YjMvJJgMhjwmXKgQBa0hwE5G7rZk/e0o/9HUEzeUd6hytHUyB1Ur+wfq49gHkQyZc2cJQWJW42R9rU2pZ2roPKH3vy2l9b2rmhOL3EwDtTKFNMceHG/p7th/A0wn6iefqYSJ5BDfZqWYTgXSE9x838GcOE9XGG/hgv2mSyybNNb+njMvGXgpjkc9cHt7MsygIX6JyZhpYWKAoydm1iY0GnTb6jEH3TOVTgH5s3WV+pnQO5hndIXpGn6piT+Nz8OUlSkgDpS6VXkdUbDCrTWSk8jU3ak13gtIVn1re+OfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jnf3hDC4TQZSjTLu2WaYZXNbBR1/F+a8GMm7QLrJbv8=;
+ b=AIyWbhfUMXFRl4XS5Sx6YH1mY5qHItavTHPeKEUyIdUXnRox0gGeJonOhHKOqutLZAHE2/rC3ngzSUD7O8lDndIFR/ZbrOnCtDqipgg7EFRALp2NKZb5Yz8K3UXtf0R15+0i0ocDIJ1peCfE4mKSv1pm5QA8r49XkUzPCQRH2Xy9TfBZS1TzpphH5glI0/JvFGi/+0eBEstGI1Gl/usojD/cLn1tJtAha358zwKUu6AzkvZZt34uaTwDzfVFH5fRT6gcbse6n7AhBLNuXO9OOG849TL3IJ6Ip5SbEvoz3xcbQ8+m7JyW0xji0DpE2lvERFEm8BzrjnEL31ZMxK1DEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jnf3hDC4TQZSjTLu2WaYZXNbBR1/F+a8GMm7QLrJbv8=;
+ b=sd42DJhmQKzXHGPvK2t03KwjRUPIrCC+Ir3NQPiNKZHnonNqCS9tqZzIR7ReHu008lYht9W+fHPeaxe2p1Vkp69dRaWXIMENtzWBP4eJrgJGNHyu/AFgRBkGVNLuU8M1dP5Dif9mKkohLP1YM9muGEiofnJb9eviV5Ej6KynnfY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH8PR12MB7278.namprd12.prod.outlook.com (2603:10b6:510:222::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.12; Wed, 26 Nov
+ 2025 12:31:28 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9366.009; Wed, 26 Nov 2025
+ 12:31:27 +0000
+Message-ID: <207d50fe-eef3-4baa-97a7-567598e56b55@amd.com>
+Date: Wed, 26 Nov 2025 13:31:24 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] dma-buf/fence: give some reasonable maximum signaling
+ timeout
+To: Lucas Stach <l.stach@pengutronix.de>, phasta@kernel.org,
+ alexdeucher@gmail.com, simona.vetter@ffwll.ch, faith@gfxstrand.net,
+ sumit.semwal@linaro.org
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org
+References: <20251120150018.27385-1-christian.koenig@amd.com>
+ <20251120150018.27385-2-christian.koenig@amd.com>
+ <380012b9d6f0e9ee3c2f125cfe2f37f65c1979e0.camel@mailbox.org>
+ <b46913b6-fe61-48cd-a9ca-aa2fe3a12b63@amd.com>
+ <1c1a14d42d0a4a25ebce26a2af0a61dc1b7813fc.camel@mailbox.org>
+ <508ff709-0f05-4982-8e15-5fea3bbd12e7@amd.com>
+ <c2b571a7e74f86c6cb95bebd11274447c3080df9.camel@mailbox.org>
+ <52d484c5-6dfb-4e2f-9caa-a61cf1d94801@amd.com>
+ <e2c006ca81081ee1afa00b1b52a035c28a267e0f.camel@pengutronix.de>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <e2c006ca81081ee1afa00b1b52a035c28a267e0f.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0385.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f7::10) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="G9XrtC05Z7lpB1j2"
-Content-Disposition: inline
-In-Reply-To: <e48e1918-8ee0-4ffe-93d5-e096af241f77@rock-chips.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB7278:EE_
+X-MS-Office365-Filtering-Correlation-Id: 520fe055-8a83-4c91-fe13-08de2ce7b87e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Zi9WdVRzSUlVQlJ1ZHJOczV3Nk9lRDgvQTRVZmpPTmhwNGl2YThWNE5MMVUv?=
+ =?utf-8?B?bUNCY3RHdVdWaG96NkRlait4OTlCRTNzaWd4ck1Bck1LNWZ6WXFueE9ybTBv?=
+ =?utf-8?B?VjV0Q1J1dFJsMG5hUHR1SjNXUWY1NnlhUEE2aHR2MlhCOFhNemZya01yRFkz?=
+ =?utf-8?B?dmRYTFBkbmgyVFI3U2ttam80U00wUSt4ZFd3VEpPamdCQzNlUkdmNUxEcjJO?=
+ =?utf-8?B?UDVja095VGQ4NFBQZ3dtbWY2SFNNQi9pSURPTUlJVWFHZWhFV2lETzVQd0do?=
+ =?utf-8?B?MlE3M3MzUUM2Q2l1RUhML0VTWTU5ZGxhVndaR0FNb0lndk5vMENMczZwdjh2?=
+ =?utf-8?B?SHMxVHNtb3VLQ3pCckdKVGRKaGZWaEpQRXkzMElLazNFR2wvK3EvVzdUcGM2?=
+ =?utf-8?B?WitYU01veVhiSjFzKzFQM21nOG1BRWpMWVpkRjlBeWZHWWtIT0wrL3MxaXZz?=
+ =?utf-8?B?bGpsQnZhbHNqV1RseksyMXdzNEdNcmxTZml4bGRRYUVhK2FvNVg0V2VDQnkx?=
+ =?utf-8?B?WFlEY2o2ekNiQkJyV1RucFR3amtRMkw1dDI4VFl6VWlTMHU5T1U1dVhrbXk3?=
+ =?utf-8?B?VUp4TkZMV1RuRFdVUEJ6aHJ5NTgyVm1XcXRKdWY1c0ZPT3hVWlcxb1pDT3Bz?=
+ =?utf-8?B?YnNqdytJWWpDTVhCbFp3d1RuSjlhSThMU0V4ODlkOUFodE1HUTltblpnYjdo?=
+ =?utf-8?B?Z3JhTS9LUVlRRHlpazNHTksyWHJGWnh1V2oxNnBJM3pCNU13R0xRYTVteXNq?=
+ =?utf-8?B?djBwR0dodlBKUnY2YVYwYTRZMVliYUF4Z01HdzNKUEhCV1lsM2JYYnFlakJ3?=
+ =?utf-8?B?TTJ0WFVpSUJ4cUpIU3Y0Qkk5eDVBNldLS3Zsc3R5T2dlUGYrODB3cVdad3Bh?=
+ =?utf-8?B?SzRUZmV4bkQ1NEt0dFRKc0FQbUFiSHlVSkU1Zko5Y3VnS0Y3b05sNlRPbmdX?=
+ =?utf-8?B?TC9mN010Qk4xdjZ1WTI3eXV2cG9WenNpTVFWVU9maWcweWpKVkdWRW9xVlA3?=
+ =?utf-8?B?R2s4d0NKSWtUekxXc2l4cStOUzJ5ZUZjWWQwSStFc1ZpMlVocU8rcFBUNm9B?=
+ =?utf-8?B?WVVqYVY2VmhXeVZjcWhtaHY1OGpLcjQxZ1R0YmFBeGxCSWtuYjFxZENtQlhV?=
+ =?utf-8?B?SnpEdGFQUGNBT0FtYmo3ZzZrNEpKOUFhVTRydUdRTXFQYmdvYWtXZDRVYjMx?=
+ =?utf-8?B?dEdwZ0J5MjNiUTQxNGJpcHdvb1hHeTBlcVBleFRoMFY2bWRzbXlFeldNN0dR?=
+ =?utf-8?B?WmFZa1h5bHlDSHV3YjJldjh1K1BpVWxtUnRsMkZJNGRQZy9oQzYwNXRmM29S?=
+ =?utf-8?B?T01XNHlyTXkzRUJxazFiaG9pbG41NnlxWks2ci9jQnJIekw5ZG8rekF1cUhr?=
+ =?utf-8?B?c0pTMDlmWmE0YWREUTEzWmw4cEhHcHV0dnlnMVNXTm94TGhDMHlzZGp3YWs2?=
+ =?utf-8?B?aHdZWWcxUmplTm82dWdhNDQ5SDNtUEVqdTRYKy9kc0FuNTlJV0RqbkNIYzU4?=
+ =?utf-8?B?V0xNZGNtaVZEQmd1U283TGx3TVMwek1WNWJlYmRJSnp0Z3NIdHJJQkt4dTJ5?=
+ =?utf-8?B?anJ4cWk5eGV6Vi9qOGN0REV6NkV1NXUyeFhXKzI0ZTN1M0djOGFqMEZBZ09Q?=
+ =?utf-8?B?S1h2aUxGci82ZjJLTDZzNWVEbWF5d3FWOWRhT1VaVlBoZ3hIczNJVkpJdEJO?=
+ =?utf-8?B?S2ZoU1prdlVEejhRN3JhQUpIRE1FMUhSVDl4SGZTYzQ5bHBjaHNwaW5FQVN1?=
+ =?utf-8?B?OWZtT1h3enI4akhMcU84QVpyTFErdkZnOUxYL3crYlozU3VseUpMOHN4blc5?=
+ =?utf-8?B?SzdwKzJOdTBYRlZtcUc5S1Y0NTRKdVljVnNMS0hJVU1QNWlWczVMYkRWekl6?=
+ =?utf-8?B?Rkw1TldaNzZ5ZVZhZ1dMYzRXNm5mQjhaNjZiakpPRGtUNlRJQ1RyZDRTM3li?=
+ =?utf-8?Q?zltleejAlJuKdEavpONrqsQE+zR4welQ?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eW1UQnBzNm5qZEFPUFFXZ3dFYnR5OEJ1aXBmYU1NUmRMdVQ3VHErUVhjRGJO?=
+ =?utf-8?B?TzlKQUc1YVI3NmNqTTRwazIvKytWbWZEZzVXU3IyQUM0TjNBSkVpbTdUMVRh?=
+ =?utf-8?B?b29wQnJnWGZRZWNSRDBlek5RcHRDNlNObGxvOGwzSDlpdUZ6amNCOWMzVWFO?=
+ =?utf-8?B?WTRsWHB0Z1psZVNyMEFZWDlQMSt0U2ZJU2VDcGZpT056QnJwdlA4eU5BbWtV?=
+ =?utf-8?B?cjdaT0R5a0ZSUkxqNGQzOVhkaWFQVExPWkhpMS9lbWlSK0VMd1FpbmdoNTNj?=
+ =?utf-8?B?a256RFJ3aUp3dzFsUkx0eEw1V3dsdjNXSFRMbEREd3Q3Z2d6eWVLMjhHZWEz?=
+ =?utf-8?B?QXNCc05OQ1dFR2dyRklwZE9CUU9lYXd4RXFSQ01RWXVEMGQzb21aS1Q1Mm8z?=
+ =?utf-8?B?WEQ3MjBmYzB5QlkraUtyUCtHcTMzT2dOdzdqMy93WWl2NEZsV1BKc0lacXYx?=
+ =?utf-8?B?UklHdDMyaVBad01RQ0N4Z0VZajdTbjl0SGl1aDFXMDJodzlxTkJtenIvcTB2?=
+ =?utf-8?B?d3NJL0ljUzYza1JkZ3RFRDZlUFZacElreVBzbWFwQVhTdmdhLzVFSkpMbzNy?=
+ =?utf-8?B?NFhGY3ZuOGQyMGNzYm5zdDAvWm5PTmhHd0s4ODdKcjhKd2hlV0J2cmlyMU5G?=
+ =?utf-8?B?MzNlOVlhYnZoZzFIcXc3R1Z6L05wUUF0cFp0ellMM3V6a0MwK1YyRUo2dU12?=
+ =?utf-8?B?UUZFNWwzYWxJRjN6ZXc3N25kbHREcEpEeUpOSVAvbTljdVBjQk9zUnFZUEFO?=
+ =?utf-8?B?Ujg3OVptampOTE0xNnh3M2x1ditzNmFLL3c2WFd6UTFYVVNNUFFlSWxJMlY4?=
+ =?utf-8?B?SGlJR1JZV2tkMVZmNzY2OUhlVkR4NDFEY2pKRjFkUnZWaWlLUUQ2ZEErT0hs?=
+ =?utf-8?B?ZUFXb05Cc25PYmtEMXN5djg5Mnk4ZzlEYjVFQjM5TUgyWWtWMm03TUZsdGt5?=
+ =?utf-8?B?Wm8rZE5HRWFrWVRnUHgxcDlYZm0yTmZ1YXR0ZzV6N1hFdXJFMjA4SWFONDJl?=
+ =?utf-8?B?YW1mdzhBYjRNVFQvUHc1Q0xVd1pPMlJ5VUhqY1Blc1Y3UGFKTVEwQTEwUS9h?=
+ =?utf-8?B?ZnBMNnBGOS9pZTcwNzFOdVhtVGhpeUpITE43K2tKZGhzVzJMS1NKZlRSYzZC?=
+ =?utf-8?B?YmJuQ2FGM3RnZUgzcWlLQ0RiV2xXRlA5dVJ2TUlzcjY4L20xNGJuK2xOQnVS?=
+ =?utf-8?B?eXlLTWZtdzJsTWN5VkwyV1NxUm1hcjBiZGM5QXRwNnU1V21mT0dGaDZmK3Va?=
+ =?utf-8?B?OXNTb041ejNycTB1THVkenI5WWFtdGFRSlRwSzZZSEM4UzZEVGpNY29yRCtJ?=
+ =?utf-8?B?Q0oybUhuNmt3aEVmT1A4d1Y0YjI3STNhcWJFRDZoYXhjT1ozNytIQ1dpeVhz?=
+ =?utf-8?B?Tjc5VU03WTRtLzFDUWtic2lxUVNiM0ZwNWoyWkhMZUovcWlVak9lcmc0WFd5?=
+ =?utf-8?B?anRMc01PdDlrdUFqV1hjUzBmdzdiRXN5M0dvNWVQWStjSHpvaDJyWVZRaGdl?=
+ =?utf-8?B?U0ZBd2pxRkdGeWRyKzFiUXFYblZOc3hhaS9ydzFSbkpXT1NyeGxxRUZ3N2lJ?=
+ =?utf-8?B?SFhyR0RPbS9VRTAxWllhWHFMZlcrZ0tkeWMwNFcwVHVhNzBldE56K3o2WTF5?=
+ =?utf-8?B?WFFqYTdqbXlacVZyakF4aG9zcXFuQW5WQ1Fpdk52Z2RHc0Qrd2thaVZNbTBZ?=
+ =?utf-8?B?SWp2MEVmZVFVb3JYL00yNlZXRTJoV2dDVWxtQWY3NXJDR2FaaG5CSTZUS2VJ?=
+ =?utf-8?B?bmFkcTgwT2c4OTF0M3B4cWVVVGFlQWhZL1ZLcXZXbjlHK0pJcjN1dUM4MEl0?=
+ =?utf-8?B?ckl3UHFYTUN5ek1uTC9OcXJiR2IzazBjZ1dsTEMweExBSzQ5aHpzNGVGNnFB?=
+ =?utf-8?B?a3loMGxPdXFRN2svK0tXQzEwN08zc3Z0VmVLVjF6dS9oQk1ZSjU2UVdOVzh6?=
+ =?utf-8?B?UmdGTW11MlhXSVY3Nk1hVDdkeTJseGsrQm5VNSt4aG9laVA4MUsxVVN1bU1I?=
+ =?utf-8?B?RWF5QU15VE5xU1hZMGZhTlZmYUJnaVRXTG1YRkVNYXZBa0JPTHdjQStURVVk?=
+ =?utf-8?B?cjU2UllZOFlqZjNVT04vWno2Z1BmUVdZQkpDS0RJWXd5NWMxWUQrZUdHWFZF?=
+ =?utf-8?Q?DXDyWPJh6TVxhD/T8xw3tkJY1?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 520fe055-8a83-4c91-fe13-08de2ce7b87e
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2025 12:31:27.9113 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tmWgvtC53e9uvP1k2NpLAduIIuT7TGAJCG3MMFxQhtcrJb8448yGuubtQZ+1rmwh
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7278
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,256 +172,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---G9XrtC05Z7lpB1j2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Wed, Nov 26, 2025 at 07:51:33PM +0800, Chaoyi Chen kirjoitti:
-> On 11/26/2025 7:44 PM, Greg Kroah-Hartman wrote:
-> > On Wed, Nov 26, 2025 at 11:42:43AM +0200, Heikki Krogerus wrote:
-> >> Wed, Nov 26, 2025 at 09:46:19AM +0800, Chaoyi Chen kirjoitti:
-> >>> On 11/25/2025 7:49 PM, Greg Kroah-Hartman wrote:
-> >>>>> +static umode_t typec_is_visible(struct kobject *kobj, struct attribute *attr, int n)
-> >>>>> +{
-> >>>>> +	if (is_typec_port(kobj_to_dev(kobj)->parent))
-> >>>>
-> >>>> Why look at the parent?  Doesn't the device have a type that should show
-> >>>> this?
-> >>>>
-> >>>> Otherwise, looks good to me.
-> >>>
-> >>> They have same deivce type "typec_altmode_dev_type".
-> >>> The parent device has a different device type to distinguish between
-> >>> port device and partner device.
-> >>
-> >> I was already wondering would it make sense to provide separate device
-> >> types for the port, and also plug, alternate modes, but I'm not sure
-> >> if that's the right thing to do.
-> >>
-> >> There is a plan to register an "altmode" also for the USB4 mode,
-> >> which of course is not an alternate mode. So USB4 will definitely need a
-> >> separate device type.
-> >>
-> >> So if we supply separate device types for the port, plug and partner
-> >> alternate modes, we need to supply separate device types for port, plug
-> >> and partner USB4 mode as well.
-> >>
-> >> We certainly can still do that, but I'm just not sure if it makes
-> >> sense?
-> >>
-> >> I'll prepare a new version for this and include a separate patch where
-> >> instead of defining separate device types for the port and plug
-> >> alternate modes I'll just supply helpers is_port_alternate_mode() and
-> >> is_plug_alternate_mode().
-> > 
-> > That feels like it would be better in the long run as it would be
-> > easier to "match" on the device type.
-> >
+On 11/25/25 18:02, Lucas Stach wrote:
+>>> I agree that distinguishing the use case that way is not ideal.
+>>> However, who has the knowledge of how the hardware is being used by
+>>> customers / users, if not the driver?
+>>
+>> Well the end user.
+>>
+>> Maybe we should move the whole timeout topic into the DRM layer or the scheduler component.
+>>
+>> Something like 2 seconds default (which BTW is the default on Windows as well), which can be overridden on a global, per device, per queue name basis.
+>>
+>> And 10 seconds maximum with only a warning that a not default timeout is used and everything above 10 seconds taints the kernel and should really only be used for testing/debugging.
 > 
-> It make sense. But now can we first use the current "match" device type
-> operation and then modify them later?
+> The question really is what you want to do after you hit the (lowered)
+> timeout? Users get grumpy if you block things for 10 seconds, but they
+> get equally if not more grumpy when you kick out a valid workload that
+> just happens to need a lot of GPU time.
 
-Let's do this right from the beginning. Here's a version with the
-dedicated device types.
+Yeah, exactly that summarizes the problem pretty well.
 
--- 
-heikki
+> Fences are only defined to signal eventually, with no real concept of a
+> timeout. IMO all timeouts waiting for fences should be long enough to
+> only be considered last resort. You may want to give the user some
+> indication of a failed fence wait instead of stalling indefinitely, but
+> you really only want to do this after a quite long timeout, not in a
+> sense of "Sorry, I ran out of patience after 2 seconds".
+> 
+> Sure memory management depends on fences making forward progress, but
+> mm also depends on scheduled writeback making forward progress. You
+> don't kick out writeback requests after an arbitrary timeout just
+> because the backing storage happens to be loaded heavily.
+> 
+> This BTW is also why etnaviv has always had a quite short timeout of
+> 500ms, with the option to extend the timeout when the GPU is still
+> making progress. We don't ever want to shoot down valid workloads (we
+> have some that need a few seconds to upload textures, etc on our wimpy
+> GPU), but you also don't want to wait multiple seconds until you detect
+> a real GPU hang.
 
---G9XrtC05Z7lpB1j2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment;
-	filename=0001-usb-typec-Set-the-bus-also-for-the-port-and-plug-alt.patch
+That is a really good point. We considered that as well, but then abandoned the idea, see below for the background.
 
-From c0b2afa035cff0788c68869bf454c43eab2b201f Mon Sep 17 00:00:00 2001
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Date: Tue, 25 Nov 2025 10:38:04 +0100
-Subject: [PATCH v2] usb: typec: Set the bus also for the port and plug altmodes
+What we could also do is setting a flag on the fence when a process is killed and then waiting for that fence to signal so that it can clean up. Going to prototype that.
 
-The port and plug altmodes can't be bound to the altmode
-drivers because the altmode drivers are meant for partner
-communication using the VDM (vendor defined messages), but
-they can still be part of the bus. The bus will make sure
-that the normal bus notifications are available also with
-the port altmodes.
+> So we use the short scheduler timeout to check in on the GPU and see if
+> it is still making progress (for graphics workloads by looking at the
+> frontend position within the command buffer and current primitive ID).
+> If we can deduce that the GPU is stuck we do the usual reset/recovery
+> dance within a reasonable reaction time, acceptable to users hitting a
+> real GPU hang. But if the GPU is making progress we will give an
+> infinite number of timeout extensions with no global timeout at all,
+> only fulfilling the eventual signaling guarantee of the fence.
 
-The previously used common device type for all alternate
-modes is replaced with separate dedicated device types for
-port, plug, and partner alternate modes.
+Well the question is how do you detect *reliable* that there is still forward progress?
 
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
+I mean with the DMA engines we can trivially submit work which copies petabytes and needs hours or even a day to complete.
 
-v2: Added the dedicated device types.
+Without a global timeout that is a really nice deny of service attack against the system if you don't catch that.
 
----
- drivers/usb/typec/bus.c   | 24 +++++++++++++++++++++++-
- drivers/usb/typec/bus.h   |  8 ++++++--
- drivers/usb/typec/class.c | 33 ++++++++++++++++++++++-----------
- 3 files changed, 51 insertions(+), 14 deletions(-)
+Thanks,
+Christian.
 
-diff --git a/drivers/usb/typec/bus.c b/drivers/usb/typec/bus.c
-index a884cec9ab7e..048c0edf6ca4 100644
---- a/drivers/usb/typec/bus.c
-+++ b/drivers/usb/typec/bus.c
-@@ -445,7 +445,23 @@ static struct attribute *typec_attrs[] = {
- 	&dev_attr_description.attr,
- 	NULL
- };
--ATTRIBUTE_GROUPS(typec);
-+
-+static umode_t typec_is_visible(struct kobject *kobj, struct attribute *attr, int n)
-+{
-+	if (is_typec_partner_altmode(kobj_to_dev(kobj)))
-+		return attr->mode;
-+	return 0;
-+}
-+
-+static const struct attribute_group typec_group = {
-+	.is_visible = typec_is_visible,
-+	.attrs = typec_attrs,
-+};
-+
-+static const struct attribute_group *typec_groups[] = {
-+	&typec_group,
-+	NULL
-+};
- 
- static int typec_match(struct device *dev, const struct device_driver *driver)
- {
-@@ -453,6 +469,9 @@ static int typec_match(struct device *dev, const struct device_driver *driver)
- 	struct typec_altmode *altmode = to_typec_altmode(dev);
- 	const struct typec_device_id *id;
- 
-+	if (!is_typec_partner_altmode(dev))
-+		return 0;
-+
- 	for (id = drv->id_table; id->svid; id++)
- 		if (id->svid == altmode->svid)
- 			return 1;
-@@ -469,6 +488,9 @@ static int typec_uevent(const struct device *dev, struct kobj_uevent_env *env)
- 	if (add_uevent_var(env, "MODE=%u", altmode->mode))
- 		return -ENOMEM;
- 
-+	if (!is_typec_partner_altmode(dev))
-+		return 0;
-+
- 	return add_uevent_var(env, "MODALIAS=typec:id%04X", altmode->svid);
- }
- 
-diff --git a/drivers/usb/typec/bus.h b/drivers/usb/typec/bus.h
-index 643b8c81786d..b58e131450d1 100644
---- a/drivers/usb/typec/bus.h
-+++ b/drivers/usb/typec/bus.h
-@@ -29,8 +29,12 @@ struct altmode {
- #define to_altmode(d) container_of(d, struct altmode, adev)
- 
- extern const struct bus_type typec_bus;
--extern const struct device_type typec_altmode_dev_type;
-+extern const struct device_type typec_port_altmode_dev_type;
-+extern const struct device_type typec_plug_altmode_dev_type;
-+extern const struct device_type typec_partner_altmode_dev_type;
- 
--#define is_typec_altmode(_dev_) (_dev_->type == &typec_altmode_dev_type)
-+#define is_typec_port_altmode(dev) ((dev)->type == &typec_port_altmode_dev_type)
-+#define is_typec_plug_altmode(dev) ((dev)->type == &typec_plug_altmode_dev_type)
-+#define is_typec_partner_altmode(dev) ((dev)->type == &typec_partner_altmode_dev_type)
- 
- #endif /* __USB_TYPEC_ALTMODE_H__ */
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 9b2647cb199b..d6b88317f8a4 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -235,7 +235,7 @@ static int altmode_match(struct device *dev, const void *data)
- 	struct typec_altmode *adev = to_typec_altmode(dev);
- 	const struct typec_device_id *id = data;
- 
--	if (!is_typec_altmode(dev))
-+	if (!is_typec_port_altmode(dev))
- 		return 0;
- 
- 	return (adev->svid == id->svid);
-@@ -532,15 +532,28 @@ static void typec_altmode_release(struct device *dev)
- 	kfree(alt);
- }
- 
--const struct device_type typec_altmode_dev_type = {
--	.name = "typec_alternate_mode",
-+const struct device_type typec_port_altmode_dev_type = {
-+	.name = "typec_port_alternate_mode",
-+	.groups = typec_altmode_groups,
-+	.release = typec_altmode_release,
-+};
-+
-+const struct device_type typec_plug_altmode_dev_type = {
-+	.name = "typec_plug_alternate_mode",
-+	.groups = typec_altmode_groups,
-+	.release = typec_altmode_release,
-+};
-+
-+const struct device_type typec_partner_altmode_dev_type = {
-+	.name = "typec_partner_alternate_mode",
- 	.groups = typec_altmode_groups,
- 	.release = typec_altmode_release,
- };
- 
- static struct typec_altmode *
- typec_register_altmode(struct device *parent,
--		       const struct typec_altmode_desc *desc)
-+		       const struct typec_altmode_desc *desc,
-+		       const struct device_type *type)
- {
- 	unsigned int id = altmode_id_get(parent);
- 	bool is_port = is_typec_port(parent);
-@@ -575,7 +588,7 @@ typec_register_altmode(struct device *parent,
- 
- 	alt->adev.dev.parent = parent;
- 	alt->adev.dev.groups = alt->groups;
--	alt->adev.dev.type = &typec_altmode_dev_type;
-+	alt->adev.dev.type = type;
- 	dev_set_name(&alt->adev.dev, "%s.%u", dev_name(parent), id);
- 
- 	get_device(alt->adev.dev.parent);
-@@ -584,9 +597,7 @@ typec_register_altmode(struct device *parent,
- 	if (!is_port)
- 		typec_altmode_set_partner(alt);
- 
--	/* The partners are bind to drivers */
--	if (is_typec_partner(parent))
--		alt->adev.dev.bus = &typec_bus;
-+	alt->adev.dev.bus = &typec_bus;
- 
- 	/* Plug alt modes need a class to generate udev events. */
- 	if (is_typec_plug(parent))
-@@ -963,7 +974,7 @@ struct typec_altmode *
- typec_partner_register_altmode(struct typec_partner *partner,
- 			       const struct typec_altmode_desc *desc)
- {
--	return typec_register_altmode(&partner->dev, desc);
-+	return typec_register_altmode(&partner->dev, desc, &typec_partner_altmode_dev_type);
- }
- EXPORT_SYMBOL_GPL(typec_partner_register_altmode);
- 
-@@ -1193,7 +1204,7 @@ struct typec_altmode *
- typec_plug_register_altmode(struct typec_plug *plug,
- 			    const struct typec_altmode_desc *desc)
- {
--	return typec_register_altmode(&plug->dev, desc);
-+	return typec_register_altmode(&plug->dev, desc, &typec_plug_altmode_dev_type);
- }
- EXPORT_SYMBOL_GPL(typec_plug_register_altmode);
- 
-@@ -2493,7 +2504,7 @@ typec_port_register_altmode(struct typec_port *port,
- 		return ERR_CAST(retimer);
- 	}
- 
--	adev = typec_register_altmode(&port->dev, desc);
-+	adev = typec_register_altmode(&port->dev, desc, &typec_port_altmode_dev_type);
- 	if (IS_ERR(adev)) {
- 		typec_retimer_put(retimer);
- 		typec_mux_put(mux);
--- 
-2.50.1
+> 
+> Regards,
+> Lucas
 
-
---G9XrtC05Z7lpB1j2--
