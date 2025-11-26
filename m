@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C51DC8B3B0
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 18:37:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DADC8B3BC
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 18:37:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C544110E6C3;
-	Wed, 26 Nov 2025 17:37:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 827F510E6CD;
+	Wed, 26 Nov 2025 17:37:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Vu2M24bu";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="DTkMC8rK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2334D10E6C3
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 17:37:23 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA70C10E6C4
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 17:37:24 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 168A61A1D86;
- Wed, 26 Nov 2025 17:37:22 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id D27D44E418F9;
+ Wed, 26 Nov 2025 17:37:23 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id D8FE360721;
- Wed, 26 Nov 2025 17:37:21 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id A81C760721;
+ Wed, 26 Nov 2025 17:37:23 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id BC482102F22D9; Wed, 26 Nov 2025 18:37:17 +0100 (CET)
+ with ESMTPSA id 82D0B102F22BB; Wed, 26 Nov 2025 18:37:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1764178640; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1764178642; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=XFYO1hMjh+ojxn3ao9UYcbfORVs++O50xYESXZqfA2o=;
- b=Vu2M24bufGaGBUUkltDHs5AS5qHb5HuV/7MU/SkmdjHjG23HSFmAOyn1cL57gCnDS1FuNA
- dFQLvtfNzqE7/JTGA9PzLdQMMDLQa6HRrVxAy1j5znw78pyX3QNkaWwNsyd9w1/nTozxW5
- WnWd4UHE6jLn6KyZsHSQNMAuxCqMMFV9lxMmlL7CUcq86GvCIY+FvgWuO8lIVB+k+y6Vco
- nW9ZuvpQHgxny6Jswnn+/mSZpdcm+rFohVOeHqEvt7U8pr5mLHK3csPTxLF+lGjR7Cfzbg
- rH25wz99piFoZ1zCUXeQ5rurLrZ4c44tjDYpX7P8L4IK7Z2fdZepjP3z9m9S2A==
+ bh=jv/tMgJORKOZeErWxYOUBa4RQnz6B0uyWtmN83wIYFo=;
+ b=DTkMC8rKsqL28ACfOOkf8eZEuvCPpT0z4PzH5iMpYJ68nownGSMco7NwjPdb8PacDsOIwo
+ qj89dGGrYHzkrSmmif1JdLZkBs4oCWbYJqthscfzSe8BL/sWtSecACM1Ky97/q8Q2Nrw1X
+ saeLflINw9xfmwWgzrDWcb8Oz4pupWNi66yQkh2ziGMlZCHHI+DMghFXLdVCThCOIExZFT
+ +U/ZaLYUfW8Uf8kjuPWfYA7c5Zr/ILAb/AIk1KYsTZKnrMPaZIPUHIwQeEa9SFDfUGDXgf
+ 58HHZYZCUZygDlrLkZDVYaipw5AyD47YDIoGkPP/7m3RFpIwiT4JrQ5Ll0cjvg==
 From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-Date: Wed, 26 Nov 2025 18:35:54 +0100
-Subject: [PATCH 12/21] drm/tilcdc: Rename external_encoder and
- external_connector to encoder and connector
+Date: Wed, 26 Nov 2025 18:35:55 +0100
+Subject: [PATCH 13/21] drm/tilcdc: Rename tilcdc_external to tilcdc_encoder
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251126-feature_tilcdc-v1-12-49b9ef2e3aa0@bootlin.com>
+Message-Id: <20251126-feature_tilcdc-v1-13-49b9ef2e3aa0@bootlin.com>
 References: <20251126-feature_tilcdc-v1-0-49b9ef2e3aa0@bootlin.com>
 In-Reply-To: <20251126-feature_tilcdc-v1-0-49b9ef2e3aa0@bootlin.com>
 To: Jyri Sarha <jyri.sarha@iki.fi>, 
@@ -80,125 +79,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove the "external_" prefix from encoder and connector members in the
-tilcdc driver. These are internal driver structures and the "external"
-naming is misleading. The simpler names better reflect that these are
-the primary encoder and connector managed by this driver.
-
-Also rename tilcdc_attach_external_device() to tilcdc_encoder_create()
-for consistency and to better describe the function's purpose.
+The tilcdc_external module describes the encoder part of the tilcdc
+driver. Rename it to tilcdc_encoder for better clarity and to make
+the naming more consistent with DRM subsystem conventions, where
+encoder-related files typically use "encoder" in their names.
 
 Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
 ---
- drivers/gpu/drm/tilcdc/tilcdc_drv.c      |  4 ++--
- drivers/gpu/drm/tilcdc/tilcdc_drv.h      |  4 ++--
- drivers/gpu/drm/tilcdc/tilcdc_external.c | 24 ++++++++++++------------
- drivers/gpu/drm/tilcdc/tilcdc_external.h |  2 +-
- 4 files changed, 17 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/tilcdc/Makefile                                | 2 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c                            | 2 +-
+ drivers/gpu/drm/tilcdc/{tilcdc_external.c => tilcdc_encoder.c} | 2 +-
+ drivers/gpu/drm/tilcdc/{tilcdc_external.h => tilcdc_encoder.h} | 0
+ 4 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/gpu/drm/tilcdc/Makefile b/drivers/gpu/drm/tilcdc/Makefile
+index b24122bea2596..25ed8b6f8c5ee 100644
+--- a/drivers/gpu/drm/tilcdc/Makefile
++++ b/drivers/gpu/drm/tilcdc/Makefile
+@@ -6,7 +6,7 @@ endif
+ tilcdc-y := \
+ 	tilcdc_plane.o \
+ 	tilcdc_crtc.o \
+-	tilcdc_external.o \
++	tilcdc_encoder.o \
+ 	tilcdc_drv.o
+ 
+ obj-$(CONFIG_DRM_TILCDC)	+= tilcdc.o
 diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-index c9d4f462ec1bb..8a4fb75f660fe 100644
+index 8a4fb75f660fe..254cc22ad7711 100644
 --- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
 +++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-@@ -324,11 +324,11 @@ static int tilcdc_init(const struct drm_driver *ddrv, struct device *dev)
- 	}
- #endif
+@@ -26,7 +26,7 @@
  
--	ret = tilcdc_attach_external_device(ddev);
-+	ret = tilcdc_encoder_create(ddev);
- 	if (ret)
- 		goto unregister_cpufreq_notif;
  
--	if (!priv->external_connector) {
-+	if (!priv->connector) {
- 		dev_err(dev, "no encoders/connectors found\n");
- 		ret = -EPROBE_DEFER;
- 		goto unregister_cpufreq_notif;
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.h b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-index 717529a331009..dafb00908d1d4 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.h
-@@ -75,8 +75,8 @@ struct tilcdc_drm_private {
+ #include "tilcdc_drv.h"
+-#include "tilcdc_external.h"
++#include "tilcdc_encoder.h"
+ #include "tilcdc_regs.h"
  
- 	struct drm_crtc *crtc;
- 
--	struct drm_encoder *external_encoder;
--	struct drm_connector *external_connector;
-+	struct drm_encoder *encoder;
-+	struct drm_connector *connector;
- 
- 	bool irq_enabled;
- };
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_external.c b/drivers/gpu/drm/tilcdc/tilcdc_external.c
-index 81c90c2754c6c..0c18d05dc7101 100644
+ static LIST_HEAD(module_list);
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_external.c b/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
+similarity index 98%
+rename from drivers/gpu/drm/tilcdc/tilcdc_external.c
+rename to drivers/gpu/drm/tilcdc/tilcdc_encoder.c
+index 0c18d05dc7101..bca91226351dd 100644
 --- a/drivers/gpu/drm/tilcdc/tilcdc_external.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_external.c
-@@ -37,21 +37,21 @@ int tilcdc_attach_bridge(struct drm_device *ddev, struct drm_bridge *bridge)
- 	struct tilcdc_drm_private *priv = ddev->dev_private;
- 	int ret;
++++ b/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
+@@ -12,7 +12,7 @@
+ #include <drm/drm_simple_kms_helper.h>
  
--	priv->external_encoder->possible_crtcs = BIT(0);
-+	priv->encoder->possible_crtcs = BIT(0);
+ #include "tilcdc_drv.h"
+-#include "tilcdc_external.h"
++#include "tilcdc_encoder.h"
  
--	ret = drm_bridge_attach(priv->external_encoder, bridge, NULL, 0);
-+	ret = drm_bridge_attach(priv->encoder, bridge, NULL, 0);
- 	if (ret)
- 		return ret;
- 
--	priv->external_connector =
--		tilcdc_encoder_find_connector(ddev, priv->external_encoder);
--	if (!priv->external_connector)
-+	priv->connector =
-+		tilcdc_encoder_find_connector(ddev, priv->encoder);
-+	if (!priv->connector)
- 		return -ENODEV;
- 
- 	return 0;
- }
- 
--int tilcdc_attach_external_device(struct drm_device *ddev)
-+int tilcdc_encoder_create(struct drm_device *ddev)
- {
- 	struct tilcdc_drm_private *priv = ddev->dev_private;
- 	struct drm_bridge *bridge;
-@@ -65,13 +65,13 @@ int tilcdc_attach_external_device(struct drm_device *ddev)
- 	else if (ret)
- 		return ret;
- 
--	priv->external_encoder = devm_kzalloc(ddev->dev,
--					      sizeof(*priv->external_encoder),
--					      GFP_KERNEL);
--	if (!priv->external_encoder)
-+	priv->encoder = devm_kzalloc(ddev->dev,
-+				     sizeof(*priv->encoder),
-+				     GFP_KERNEL);
-+	if (!priv->encoder)
- 		return -ENOMEM;
- 
--	ret = drm_simple_encoder_init(ddev, priv->external_encoder,
-+	ret = drm_simple_encoder_init(ddev, priv->encoder,
- 				      DRM_MODE_ENCODER_NONE);
- 	if (ret) {
- 		dev_err(ddev->dev, "drm_encoder_init() failed %d\n", ret);
-@@ -94,6 +94,6 @@ int tilcdc_attach_external_device(struct drm_device *ddev)
- 	return 0;
- 
- err_encoder_cleanup:
--	drm_encoder_cleanup(priv->external_encoder);
-+	drm_encoder_cleanup(priv->encoder);
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_external.h b/drivers/gpu/drm/tilcdc/tilcdc_external.h
-index 285a132f3035d..c8f87f59024e6 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_external.h
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_external.h
-@@ -7,5 +7,5 @@
- #ifndef __TILCDC_EXTERNAL_H__
- #define __TILCDC_EXTERNAL_H__
- 
--int tilcdc_attach_external_device(struct drm_device *ddev);
-+int tilcdc_encoder_create(struct drm_device *ddev);
- #endif /* __TILCDC_SLAVE_H__ */
+ static
+ struct drm_connector *tilcdc_encoder_find_connector(struct drm_device *ddev,
+diff --git a/drivers/gpu/drm/tilcdc/tilcdc_external.h b/drivers/gpu/drm/tilcdc/tilcdc_encoder.h
+similarity index 100%
+rename from drivers/gpu/drm/tilcdc/tilcdc_external.h
+rename to drivers/gpu/drm/tilcdc/tilcdc_encoder.h
 
 -- 
 2.43.0
