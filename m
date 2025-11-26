@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C55C8A323
-	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 15:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E89C8A465
+	for <lists+dri-devel@lfdr.de>; Wed, 26 Nov 2025 15:19:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F35610E62D;
-	Wed, 26 Nov 2025 14:10:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B822A10E632;
+	Wed, 26 Nov 2025 14:19:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fSz0k17e";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GFDxoLcA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF3C210E63B;
- Wed, 26 Nov 2025 14:10:49 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C861E10E632;
+ Wed, 26 Nov 2025 14:19:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764166250; x=1795702250;
+ t=1764166751; x=1795702751;
  h=from:to:cc:subject:in-reply-to:references:date:
  message-id:mime-version;
- bh=Asm1GznwhdVlsrqK/wFWsxglofT/i1OMsFr8cBgK0EA=;
- b=fSz0k17e2omuuziciUv2krr48V4eJpJq6TZYBPUuxeFGu481OLAhV9mV
- Zr8er/iMRT0mXHKvCl0KGBKgAKVncYv1wFUX3fs7pp+RCAiGYayiKVJ8S
- GqWHejg/BBPqtDF2KFMfeMGiF+NloJmR6RFtIAWEEB9g8v5eK3OsF3WMZ
- EXX3uGD372TCGtvtW0p5myzubBQZ460kx/5/9f5BZu/61klE4NBp3E78f
- 8S0FtAdNjSA3q8Nz8sK1HQNY/AFpGkoJLr43beENgeWU+exprbLFP7o0q
- XJk+8WGrZQ2amZ2Tba5VS/JTVkuhBwpb5oPuj2TNJHlDBNKsOkmOQfi5C w==;
-X-CSE-ConnectionGUID: SLIO4fXkSwGoPFm1KEg/jw==
-X-CSE-MsgGUID: Ksjx1Ec4QIyPCd+XUtEPFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="66161648"
-X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="66161648"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2025 06:10:49 -0800
-X-CSE-ConnectionGUID: /trZjtZET7S4p6h7tjLDaQ==
-X-CSE-MsgGUID: yStiTBEASl+QDOxHp2Wp0A==
+ bh=j7PcOtoN96E/M6QjgMqFl9rqp/XCoIQCS07wrWuQSow=;
+ b=GFDxoLcA5tx/GZV6rFu/gXvWf5FST5MyydmskWI3AJOarH7Zh9QGxjws
+ PfA3ZCY6MqJrr3QhMdSb2oU7BVYvqL4qiN/IOheCTNIla5RyuLK7sLs3d
+ zqjk11EqPebAQGVVb/8SCY0laWUZxqFL3SyRYlYV2ljZDNk9NfRbej8fo
+ VC8+kjN7zKG1Dh0tn9ZoViyIrVXfyDHwFRZB6tk3KcMw6+Ry8dVqLz5dQ
+ ayy1Wc3fUltbAQd4yenFu+nVVYAMR8cS7BrJi5dXlh1msQRPeBIf+ugRY
+ 1alBrr/hov1hkxw0jtszzsbLRK+EaC2HEhhLFXActQj0NMR+1SiWvOX4G Q==;
+X-CSE-ConnectionGUID: sZUZXI5JQvSVhZQ1z6zs6A==
+X-CSE-MsgGUID: G5rwjzZJTDiiamkhh/j+FQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11624"; a="83597608"
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="83597608"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 06:19:10 -0800
+X-CSE-ConnectionGUID: dabGSDQDRVuZ/CDhmtx9pg==
+X-CSE-MsgGUID: uzKZ8J/+RZKuiQIlEjQUxg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="193379508"
+X-IronPort-AV: E=Sophos;i="6.20,228,1758610800"; d="scan'208";a="198060096"
 Received: from lfiedoro-mobl.ger.corp.intel.com (HELO localhost)
  ([10.245.246.1])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2025 06:10:37 -0800
+ by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 06:19:05 -0800
 From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Yaroslav Bolyukin <iam@lach.pw>, Ville =?utf-8?B?U3lyasOkbMOk?=
  <ville.syrjala@linux.intel.com>, Maarten Lankhorst
@@ -55,14 +55,14 @@ Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Yaroslav
  Bolyukin <iam@lach.pw>
-Subject: Re: [PATCH v6 3/7] drm/edid: MSO should only be used for non-eDP
- displays
-In-Reply-To: <20251126065126.54016-4-iam@lach.pw>
+Subject: Re: [PATCH v6 4/7] drm/edid: parse DSC DPP passthru support flag
+ for mode VII timings
+In-Reply-To: <20251126065126.54016-5-iam@lach.pw>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20251126065126.54016-1-iam@lach.pw>
- <20251126065126.54016-4-iam@lach.pw>
-Date: Wed, 26 Nov 2025 16:10:34 +0200
-Message-ID: <5be6faede273533b88e592bd25776b639d2eeb9f@intel.com>
+ <20251126065126.54016-5-iam@lach.pw>
+Date: Wed, 26 Nov 2025 16:19:02 +0200
+Message-ID: <6f88c0111ce7f2a74010ff43a77bdd03f669ffb6@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,96 +81,109 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Wed, 26 Nov 2025, Yaroslav Bolyukin <iam@lach.pw> wrote:
-> As per DisplayID v2.1a spec:
-> If Offset 06h[2:0] is programmed to 001b (External DisplayPort), this
-> field shall be cleared to 00b (Not supported).
->
-> Link: https://lore.kernel.org/lkml/3abc1087618c822e5676e67a3ec2e64e506dc5ec@intel.com/
+
+The commit message goes here.
+
 > Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
 > ---
->  drivers/gpu/drm/drm_displayid_internal.h |  4 +++
->  drivers/gpu/drm/drm_edid.c               | 36 +++++++++++++++---------
->  2 files changed, 27 insertions(+), 13 deletions(-)
+>  drivers/gpu/drm/drm_displayid_internal.h |  2 ++
+>  drivers/gpu/drm/drm_edid.c               | 12 ++++++++----
+>  include/drm/drm_modes.h                  | 10 ++++++++++
+>  3 files changed, 20 insertions(+), 4 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/drm_displayid_internal.h b/drivers/gpu/drm/drm_displayid_internal.h
-> index 5b1b32f73516..72f107ae832f 100644
+> index 72f107ae832f..724174b429f2 100644
 > --- a/drivers/gpu/drm/drm_displayid_internal.h
 > +++ b/drivers/gpu/drm/drm_displayid_internal.h
-> @@ -142,9 +142,13 @@ struct displayid_formula_timing_block {
->  	struct displayid_formula_timings_9 timings[];
+> @@ -97,6 +97,7 @@ struct displayid_header {
+>  	u8 ext_count;
 >  } __packed;
 >  
-> +#define DISPLAYID_VESA_DP_TYPE		GENMASK(2, 0)
->  #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
->  #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
+> +#define DISPLAYID_BLOCK_REV	GENMASK(2, 0)
+>  struct displayid_block {
+>  	u8 tag;
+>  	u8 rev;
+> @@ -125,6 +126,7 @@ struct displayid_detailed_timings_1 {
+>  	__le16 vsw;
+>  } __packed;
 >  
-> +#define DISPLAYID_VESA_DP_TYPE_EDP	0
-> +#define DISPLAYID_VESA_DP_TYPE_DP	1
-> +
->  struct displayid_vesa_vendor_specific_block {
+> +#define DISPLAYID_BLOCK_PASSTHROUGH_TIMINGS_SUPPORT	BIT(3)
+>  struct displayid_detailed_timing_block {
 >  	struct displayid_block base;
->  	u8 oui[3];
+>  	struct displayid_detailed_timings_1 timings[];
 > diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index a52fd6de9327..348aa31aea1b 100644
+> index 348aa31aea1b..72a94b1713e2 100644
 > --- a/drivers/gpu/drm/drm_edid.c
 > +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -6533,6 +6533,7 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
->  	struct displayid_vesa_vendor_specific_block *vesa =
->  		(struct displayid_vesa_vendor_specific_block *)block;
->  	struct drm_display_info *info = &connector->display_info;
-> +	int dp_type;
+> @@ -6792,8 +6792,8 @@ static void update_display_info(struct drm_connector *connector,
+>  }
 >  
->  	if (block->num_bytes < 3) {
->  		drm_dbg_kms(connector->dev,
-> @@ -6551,20 +6552,29 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
->  		return;
->  	}
+>  static struct drm_display_mode *drm_mode_displayid_detailed(struct drm_device *dev,
+> -							    const struct displayid_detailed_timings_1 *timings,
+> -							    bool type_7)
+> +							    const struct displayid_block *block,
+> +							    const struct displayid_detailed_timings_1 *timings)
+>  {
+>  	struct drm_display_mode *mode;
+>  	unsigned int pixel_clock = (timings->pixel_clock[0] |
+> @@ -6809,11 +6809,16 @@ static struct drm_display_mode *drm_mode_displayid_detailed(struct drm_device *d
+>  	unsigned int vsync_width = le16_to_cpu(timings->vsw) + 1;
+>  	bool hsync_positive = le16_to_cpu(timings->hsync) & (1 << 15);
+>  	bool vsync_positive = le16_to_cpu(timings->vsync) & (1 << 15);
+> +	bool type_7 = block->tag == DATA_BLOCK_2_TYPE_7_DETAILED_TIMING;
 >  
-> -	switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
-> -	default:
-> -		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved MSO mode value\n",
-> +	dp_type = FIELD_GET(DISPLAYID_VESA_DP_TYPE, vesa->data_structure_type);
-> +	if (dp_type > 1) {
-> +		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved dp type value\n",
->  			    connector->base.id, connector->name);
-> -		fallthrough;
-> -	case 0:
-> -		info->mso_stream_count = 0;
-> -		break;
-> -	case 1:
-> -		info->mso_stream_count = 2; /* 2 or 4 links */
-> -		break;
-> -	case 2:
-> -		info->mso_stream_count = 4; /* 4 links */
-> -		break;
-> +	}
+>  	mode = drm_mode_create(dev);
+>  	if (!mode)
+>  		return NULL;
+>  
+> +	if (type_7 && FIELD_GET(DISPLAYID_BLOCK_REV, block->rev) >= 1)
+> +		mode->dsc_passthrough_timings_support =
+> +			!!(block->rev & DISPLAYID_BLOCK_PASSTHROUGH_TIMINGS_SUPPORT);
+
+The !! and parentheses are superfluous.
+
 > +
-> +	/* MSO is not supported for eDP */
-> +	if (dp_type != DISPLAYID_VESA_DP_TYPE_EDP) {
-
-MSO is *only* supported on eDP, not the other way round!
-
-BR,
-Jani.
-
-> +		switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
-> +		default:
-> +			drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved MSO mode value\n",
-> +				    connector->base.id, connector->name);
-> +			fallthrough;
-> +		case 0:
-> +			info->mso_stream_count = 0;
-> +			break;
-> +		case 1:
-> +			info->mso_stream_count = 2; /* 2 or 4 links */
-> +			break;
-> +		case 2:
-> +			info->mso_stream_count = 4; /* 4 links */
-> +			break;
-> +		}
->  	}
+>  	/* resolution is kHz for type VII, and 10 kHz for type I */
+>  	mode->clock = type_7 ? pixel_clock : pixel_clock * 10;
+>  	mode->hdisplay = hactive;
+> @@ -6846,7 +6851,6 @@ static int add_displayid_detailed_1_modes(struct drm_connector *connector,
+>  	int num_timings;
+>  	struct drm_display_mode *newmode;
+>  	int num_modes = 0;
+> -	bool type_7 = block->tag == DATA_BLOCK_2_TYPE_7_DETAILED_TIMING;
+>  	/* blocks must be multiple of 20 bytes length */
+>  	if (block->num_bytes % 20)
+>  		return 0;
+> @@ -6855,7 +6859,7 @@ static int add_displayid_detailed_1_modes(struct drm_connector *connector,
+>  	for (i = 0; i < num_timings; i++) {
+>  		struct displayid_detailed_timings_1 *timings = &det->timings[i];
 >  
->  	if (info->mso_stream_count) {
+> -		newmode = drm_mode_displayid_detailed(connector->dev, timings, type_7);
+> +		newmode = drm_mode_displayid_detailed(connector->dev, block, timings);
+>  		if (!newmode)
+>  			continue;
+>  
+> diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
+> index b9bb92e4b029..312e5c03af9a 100644
+> --- a/include/drm/drm_modes.h
+> +++ b/include/drm/drm_modes.h
+> @@ -417,6 +417,16 @@ struct drm_display_mode {
+>  	 */
+>  	enum hdmi_picture_aspect picture_aspect_ratio;
+>  
+> +	/**
+> +	 * @dsc_passthrough_timing_support:
+> +	 *
+> +	 * Indicates whether this mode timing descriptor is supported
+> +	 * with specific target DSC bits per pixel only.
+> +	 *
+> +	 * VESA vendor-specific data block shall exist with the relevant
+> +	 * DSC bits per pixel declaration when this flag is set to true.
+> +	 */
+> +	bool dsc_passthrough_timings_support;
+>  };
+>  
+>  /**
 
 -- 
 Jani Nikula, Intel
