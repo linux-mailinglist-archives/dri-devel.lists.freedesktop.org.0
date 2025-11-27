@@ -2,62 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38919C8EC39
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 15:32:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 040C9C8ECF0
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 15:44:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 460AA10E75C;
-	Thu, 27 Nov 2025 14:32:09 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dV+imn4a";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9A5510E81A;
+	Thu, 27 Nov 2025 14:44:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F6D810E75C;
- Thu, 27 Nov 2025 14:32:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764253928; x=1795789928;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=MeqofkMO/FGbbwnByjSvkmN22VGurYbg+mFWzPJkLHE=;
- b=dV+imn4aEqNuLPqrNxs6YgufyYjWrbfl7I1eHFcYt7efhVM0ktrh0Gw0
- 5fON543o6F/UcK/kiRIVi4BnnJsk/ukuefcEwzYCrgKq472seFeji6mNX
- rg/4rcXCzKhGawz8wgzmC22l8MiCq6+5eUfZevSJNNMR+gnFfKIJ6nL5Q
- xwdB7DK7/1Tco2F49wgfvKgAuYeLchOBjA+uojXaie4IGKk0Y+a92r9SC
- 5PUrVBYHyTkJZGqXV0mcaqTywKjSYYFUdVcHCUCdkkCsPTSn5mq5fqO0s
- 15ZALhs/U0w61db1xxJbSBwU6HLedGXJmBEN5j16KqYkXnIjHBnfh+0Ze Q==;
-X-CSE-ConnectionGUID: 81/MlTj8RcKxJ+DtcuESkg==
-X-CSE-MsgGUID: 7JXT4BjVTLK24cLqHZoOEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="83911081"
-X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="83911081"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2025 06:32:07 -0800
-X-CSE-ConnectionGUID: Qt+EYYhrSNG9TDBAjpHoMg==
-X-CSE-MsgGUID: /abgAvmqQiebHxtUzVcTew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="223942766"
-Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.43])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2025 06:32:05 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Dave Airlie <airlied@gmail.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, Lucas De Marchi
- <lucas.demarchi@intel.com>
-Subject: Re: [PATCH] MAINTAINERS: Remove myself from xe maintainers
-In-Reply-To: <20251126224357.2482051-2-lucas.demarchi@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251126224357.2482051-2-lucas.demarchi@intel.com>
-Date: Thu, 27 Nov 2025 16:32:01 +0200
-Message-ID: <f6119d24b52423a1b5c5e7fd3b673d3d3737d132@intel.com>
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAF9310E804
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 14:44:00 +0000 (UTC)
+Received: from [192.168.2.104] (213.87.138.55) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 27 Nov
+ 2025 17:43:56 +0300
+Message-ID: <8753beda-f74c-41b5-b9ad-823fdf227215@omp.ru>
+Date: Thu, 27 Nov 2025 17:43:55 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: [PATCH] drm/rockchip: vop: avoid division by 0 in scl_cal_scale*()
+To: Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
+ <linux-rockchip@lists.infradead.org>
+CC: Mark Yao <markyao0591@gmail.com>, <linux-arm-kernel@lists.infradead.org>, 
+ Karina Yankevich <k.yankevich@omp.ru>, <lvc-project@linuxtesting.org>
+Content-Language: en-US
+Organization: Open Mobile Platform
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [213.87.138.55]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.1, Database issued on: 11/27/2025 14:27:21
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 0
+X-KSE-AntiSpam-Info: Lua profiles 198483 [Nov 27 2025]
+X-KSE-AntiSpam-Info: Version: 6.1.1.20
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 81 0.3.81
+ 2adfceff315e7344370a427642ad41a4cfd99e1f
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: omp.ru:7.1.1; 127.0.0.199:7.1.2;
+ d41d8cd98f00b204e9800998ecf8427e.com:7.1.1; lore.kernel.org:7.1.1
+X-KSE-AntiSpam-Info: {Tracking_ip_hunter}
+X-KSE-AntiSpam-Info: FromAlignment: s
+X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.138.55
+X-KSE-AntiSpam-Info: Rate: 0
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 11/27/2025 14:30:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 11/27/2025 9:47:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,44 +85,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Nov 2025, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
-> As I'm leaving Intel soon, drop myself from the list of Xe maintainers.
-> Also update the mailmap to switch to my kernel.org address.
->
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+In scl_cal_scale*(), if the dst parameter equals 1, then division by 0
+will happen. We'll have to add a check for the destination rectangle's
+width/height being < 2 in vop_plane_atomic_check(), just like the VOP2
+driver has to check for the width/height being < 4...
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+Found by Linux Verification Center (linuxtesting.org) with the Svace static
+analysis tool.
 
-> ---
->  .mailmap    | 1 +
->  MAINTAINERS | 1 -
->  2 files changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/.mailmap b/.mailmap
-> index af6e4fce9bfe1..716c0573db214 100644
-> --- a/.mailmap
-> +++ b/.mailmap
-> @@ -476,6 +476,7 @@ Lorenzo Pieralisi <lpieralisi@kernel.org> <lorenzo.pi=
-eralisi@arm.com>
->  Lorenzo Stoakes <lorenzo.stoakes@oracle.com> <lstoakes@gmail.com>
->  Luca Ceresoli <luca.ceresoli@bootlin.com> <luca@lucaceresoli.net>
->  Luca Weiss <luca@lucaweiss.eu> <luca@z3ntu.xyz>
-> +Lucas De Marchi <demarchi@kernel.org> <lucas.demarchi@intel.com>
->  Lukasz Luba <lukasz.luba@arm.com> <l.luba@partner.samsung.com>
->  Luo Jie <quic_luoj@quicinc.com> <luoj@codeaurora.org>
->  Lance Yang <lance.yang@linux.dev> <ioworker0@gmail.com>
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index acc951f122eaf..c3fe83ea713cf 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12517,7 +12517,6 @@ F:	include/drm/intel/
->  F:	include/uapi/drm/i915_drm.h
->=20=20
->  INTEL DRM XE DRIVER (Lunar Lake and newer)
-> -M:	Lucas De Marchi <lucas.demarchi@intel.com>
->  M:	Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
->  M:	Rodrigo Vivi <rodrigo.vivi@intel.com>
->  L:	intel-xe@lists.freedesktop.org
+Fixes: 4c156c21c794 ("drm/rockchip: vop: support plane scale")
+Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc: stable@vger.kernel.org
 
---=20
-Jani Nikula, Intel
+---
+The patch is against the drm-misc-fixes branch of the DRM kernel.git repo
+on gitlab.freedesktop.org.  It replaces [1] for which I've got no neither
+feedback nor testing...
+
+[1] https://lore.kernel.org/all/40da59f8-10e9-49b0-9f25-1474067625f6@omp.ru/
+
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+Index: kernel/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+===================================================================
+--- kernel.orig/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ kernel/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -817,6 +817,7 @@ static int vop_plane_atomic_check(struct
+ 	struct drm_framebuffer *fb = new_plane_state->fb;
+ 	struct vop_win *vop_win = to_vop_win(plane);
+ 	const struct vop_win_data *win = vop_win->data;
++	struct drm_rect *dest = &new_plane_state->dst;
+ 	int ret;
+ 	int min_scale = win->phy->scl ? FRAC_16_16(1, 8) :
+ 					DRM_PLANE_NO_SCALING;
+@@ -844,6 +845,16 @@ static int vop_plane_atomic_check(struct
+ 	if (ret < 0)
+ 		return ret;
+ 
++	if (win->phy->scl) {
++		/* Disallow width/height < 2 to avoid division by 0. */
++		if (drm_rect_width(dest) < 2 || drm_rect_height(dest) < 2) {
++			DRM_DEBUG_KMS("Invalid dest size: %dx%d, min size is 2x2\n",
++				      drm_rect_width(dest), drm_rect_height(dest));
++			new_plane_state->visible = false;
++			return 0;
++		}
++	}
++
+ 	/*
+ 	 * Src.x1 can be odd when do clip, but yuv plane start point
+ 	 * need align with 2 pixel.
