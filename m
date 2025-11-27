@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB76C90160
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 21:07:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6953EC901C5
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 21:29:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20BE510E889;
-	Thu, 27 Nov 2025 20:07:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F07710E81D;
+	Thu, 27 Nov 2025 20:29:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=w_armin@gmx.de header.b="MC9NUiiw";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=w_armin@gmx.de header.b="rTJnv/Na";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBC0010E81D;
- Thu, 27 Nov 2025 20:07:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AE3110E81D;
+ Thu, 27 Nov 2025 20:29:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1764274009; x=1764878809; i=w_armin@gmx.de;
- bh=WUU4mZbFVrnnf2LiPJ1TJXYw/lX0h1Ny7ZDtLDeojvI=;
+ s=s31663417; t=1764275362; x=1764880162; i=w_armin@gmx.de;
+ bh=Yd13Nfp4oksgRJLK18sDWP0myaxbW5mj/m/FYQoCxqg=;
  h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
  References:From:In-Reply-To:Content-Type:
  Content-Transfer-Encoding:cc:content-transfer-encoding:
  content-type:date:from:message-id:mime-version:reply-to:subject:
  to;
- b=MC9NUiiwcmT6gTK3GZXM5pUNHJ9QsxL4kNixBRuaA2WDsHhKEJeLzA5R/UPjHFgi
- CEoAKdYSliF82rA5vJI6ycV7vvU+r4rh2g+6r0mRQpZOj7PkIp3NLfGk1O/UoTCma
- 1XgI2z7UbCEp0YVGRaOSIB4ADLoVaZbnJ3bI3ybI7bDUqMnS1FUieCoWzNiTd5Bfx
- PQfN41Xsa+h1Mbao7DiI8Kxid0oCU3DPpiQbxgNjxRQg3ROgK8WF9JBpJuBfPanyT
- eJGXLPL3YTel6aIyV45PwxwWlj+pYuuHSQSG4wXlUCfo2TFRfbnJFZ2qD/SiPqU7n
- 5Wm7DMlbKA6lewgAUA==
+ b=rTJnv/NaVpg2R5keG7D8J5cSpYaN4U9bOtgfHX5mvkcguQlWmQdQuqk6dfU6AhNG
+ 59FQWFhB4NyrAnwcmeQwN7v21qAWh1574dK0+dyVi/OO7sPniSXY4ao7Vu71Kwa6k
+ jUNJpd1xWwJ6vtDEmUrQnWr0+02OA/mD1F0QcHTUyGCW9iTeukWzQJcZ0jrkIQof4
+ Ob0jgbiHF77i2HkIIP1RNgUYS5r/B8bsUeA84OCG4FMbTM/YpvoDFwJoi9v3DdwTH
+ HsUojQr/3+8iVuK/XCUg8fRt1HEaler3P0++tFQqXAuwyKEvVnM3c4K3KSzSWKtEU
+ zvzTVbwOHe8nLm1tWg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from [192.168.0.69] ([93.202.247.91]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MK3Rm-1vfobm3ICs-00VeXg; Thu, 27
- Nov 2025 21:06:49 +0100
-Message-ID: <e360b9b3-ada4-4cd1-8971-097484cf3f5f@gmx.de>
-Date: Thu, 27 Nov 2025 21:06:44 +0100
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N6KYb-1w950F1mY5-00s55S; Thu, 27
+ Nov 2025 21:29:22 +0100
+Message-ID: <cf86344b-d9f1-4d3c-9fe9-deeb4ade9304@gmx.de>
+Date: Thu, 27 Nov 2025 21:29:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH RFC RESEND 0/8] thermal: core: Allow setting the parent
@@ -56,91 +56,91 @@ Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
 References: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
  <CAJZ5v0jOPrBcozzJMsB1eE12MuZRWDAV-+=jfrhJbi=S0p5J9Q@mail.gmail.com>
  <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
- <CAJZ5v0iJVV=kf-aJBx8F8dtGfaZpGVyhfi6DBWEg4j3c_nH8_A@mail.gmail.com>
+ <CAJZ5v0hdqY-=O5Ai6c5qjMr_pRFc+SDyV1QruM=ZeHH9Z=guSg@mail.gmail.com>
 Content-Language: en-US
 From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <CAJZ5v0iJVV=kf-aJBx8F8dtGfaZpGVyhfi6DBWEg4j3c_nH8_A@mail.gmail.com>
+In-Reply-To: <CAJZ5v0hdqY-=O5Ai6c5qjMr_pRFc+SDyV1QruM=ZeHH9Z=guSg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qrki6SOqEIGLFWPBMhPwnNJPJELXsbzR7Mzi70IAb7Hal0cIpzD
- 86osgu5I5WgLE9eEK5yTzGT6IrUhTR33bDmHS28/7MzijGxJgwNlSLE2vnSoJaTCXZnFQ3+
- tTM2X8QdFOEHbNO1cWBfDkuu6uOwwUAp0Uan56yjcEO5W8xK9JmFKqyr6CMz+zZ3jiePJtS
- Nk4ECuwZE0m4704Ww5xjw==
+X-Provags-ID: V03:K1:ze+2vo8ED78xoOrvJ36miC1oEQfJjNTUlWuWjASXtJHjsrUA405
+ YZDMIbIrWzGit90P9Czhl0GttAUpo1b392W4Ymvc5mXeA8zW+l1CJc6HzQ+E3iBdUMok7pZ
+ QDWa0aCmsN6V1X7AxbYNlL/KNIB46dtMpZQ7sakxcltUWF7mpHpZ5XlckY+5ozbWDBX1v4H
+ 4rvQFhr2LYkgKymN5+Ucg==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:OkEAKy+/qnQ=;/CjZRdJUeTV5qr5KByOdmRF/uS1
- 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
- N1Pk3q0vecj2iKehtXK7HNcJhJV1o
+UI-OutboundReport: notjunk:1;M01:P0:F6q/9h+YC/0=;971bq6CGsSOcPgES6YNWNdeOwg+
+ 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
+ 0gcrLdnv8iX/IozjTfxNPakm5wgdn
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,7 +156,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 27.11.25 um 18:41 schrieb Rafael J. Wysocki:
+Am 27.11.25 um 19:22 schrieb Rafael J. Wysocki:
 
 > On Sat, Nov 22, 2025 at 3:18=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrot=
 e:
@@ -164,324 +164,179 @@ e:
 >>
 >>> On Thu, Nov 20, 2025 at 4:41=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> wr=
 ote:
->>>> Drivers registering thermal zone/cooling devices are currently unable
->>>> to tell the thermal core what parent device the new thermal zone/
->>>> cooling device should have, potentially causing issues with suspend
->>>> ordering
->>> This is one potential class of problems that may arise, but I would
->>> like to see a real example of this.
+> [...]
+>
+>>>> ---
+>>>> Armin Wolf (8):
+>>>>         thermal: core: Allow setting the parent device of cooling dev=
+ices
+>>>>         thermal: core: Set parent device in thermal_of_cooling_device=
+_register()
+>>>>         ACPI: processor: Stop creating "device" sysfs link
+>>> That link is not to the cooling devices' parent, but to the ACPI
+>>> device object (a struct acpi_device) that corresponds to the parent.
+>>> The parent of the cooling device should be the processor device, not
+>>> its ACPI companion, so I'm not sure why there would be a conflict.
+>>   From the perspective of the Linux device core, a parent device does n=
+ot have to be
+>> a "physical" device. In the case of the ACPI processor driver, the ACPI=
+ device is used,
+>> so the cooling device registered by said driver belongs to the ACPI dev=
+ice.
+> Well, that's a problem.  A struct acpi_device should not be a parent
+> of anything other than a struct acpi_device.
+
+Understandable, in this case we should indeed use the the CPU device, espe=
+cially since the fwnode
+associated with it already points to the correct ACPI processor object (at=
+ least on my machine).
+
+>> I agree that using the Linux processor device would make more sense, bu=
+t this will require
+>> changes inside the ACPI processor driver.
+> So be it.
+
+OK.
+
+>> As for the "device" symlink: The conflict would be a naming conflict, a=
+s both "device" symlinks
+>> (the one created by the ACPI processor driver and the one created by th=
+e device core) will
+>> be created in the same directory (which is the directory of the cooling=
+ device).
+> I see.
+>
+> But why is the new symlink needed in the first place?  If the device
+> has a parent, it will appear under that parent in /sys/devices/, won't
+> it?
+>
+> Currently, all of the thermal class devices appear under
+> /sys/devices/virtual/thermal/ because they have no parents and they
+> all get a class parent kobject under /sys/devices/virtual/, as that's
+> what get_device_parent() does.
+>
+> If they have real parents, they will appear under those parents, so
+> why will the parents need to be pointed to additionally?
+
+The "device" smylink is a comfort feature provided by the device core itse=
+lf to allow user space
+application to traverse the device tree from bottom to top, like a double-=
+linked list. We cannot
+disable the creation of this symlink, nor should we.
+
+> BTW, this means that the layout of /sys/devices/ will change when
+> thermal devices get real parents.  I'm not sure if this is a problem,
+> but certainly something to note.
+
+I know, most applications likely use /sys/class/thermal/, so they are not =
+impacted by this. I will
+note this in the cover letter of the next revision.
+
+>>>>         ACPI: fan: Stop creating "device" sysfs link
+>>>>         ACPI: video: Stop creating "device" sysfs link
+>>> Analogously in the above two cases AFAICS.
 >>>
->>> As it stands today, thermal_class has no PM callbacks, so there are no
->>> callback execution ordering issues with devices in that class and what
->>> other suspend/resume ordering issues are there?
->> Correct, that is why i said "potentially".
+>>> The parent of a cooling device should be a "physical" device object,
+>>> like a platform device or a PCI device or similar, not a struct
+>>> acpi_device (which in fact is not a device even).
+>>   From the perspective of the Linux device core, a ACPI device is a per=
+fectly valid device.
+> The driver core is irrelevant here.
+>
+> As I said before, a struct acpi_device object should not be a parent
+> of anything other than a struct acpi_device object.  Those things are
+> not devices and they cannot be used for representing PM dependencies,
+> for example.
+>
+>> I agree that using a platform device or PCI device is better, but this =
+already happens
+>> inside the ACPI fan driver (platform device).
+> So it should not happen there.
+
+I meant that the ACPI fan driver already uses the platform device as the p=
+arent device of the
+cooling device, so the ACPI device is only used for interacting with the A=
+CPI control methods
+(and registering sysfs attributes i think).
+
+>> Only the ACPI video driver created a "device" sysfs link that points to=
+ the ACPI device
+>> instead of the PCI device. I just noticed that i accidentally changed t=
+his by using the
+>> PCI device as the parent device for the cooling device.
 >>
->>> Also, the suspend and resume of thermal zones is handled via PM
->>> notifiers.  Is there a problem with this?
->> The problem with PM notifiers is that thermal zones stop working even b=
-efore
->> user space is frozen. Freezing user space might take a lot of time, so =
-having
->> no thermal management during this period is less than ideal.
-> This can be addressed by doing thermal zone suspend after freezing
-> tasks and before starting to suspend devices.  Accordingly, thermal
-> zones could be resumed after resuming devices and before thawing
-> tasks.  That should not be an overly complex change to make.
+>> If you want then we can keep this change.
+> The PCI device should be its parent.
 
-AFAIK this is only possible by using dev_pm_ops, the PM notifier is trigge=
-red before
-tasks are frozen during suspend and after they are thawed during resume.
+Alright, i will note this in the patch description.
 
-Using dev_pm_ops would also ensure that thermal zone devices are resumed a=
-fter their
-parent devices, so no additional changes inside the pm core would be neede=
-d.
-
->> This problem would not occur when using dev_pm_ops, as thermal zones wo=
-uld be
->> suspended after user space has been frozen successfully. Additionally, =
-when using
->> dev_pm_ops we can get rid of thermal_pm_suspended, as the device core a=
-lready mandates
->> that no new devices (including thermal zones and cooling devices) be re=
-gistered during
->> a suspend/resume cycle.
+>>>>         thermal: core: Set parent device in thermal_cooling_device_re=
+gister()
+>>>>         ACPI: thermal: Stop creating "device" sysfs link
+>>> And this link is to the struct acpi_device representing the thermal zo=
+ne itself.
+>> Correct, the ACPI thermal zone driver is a ACPI driver, meaning that he=
+ binds to
+>> ACPI devices. Because of this all (thermal zone) devices created by an =
+instance of
+>> said driver are descendants of the ACPI device said instance is bound t=
+o.
 >>
->> Replacing the PM notifiers with dev_pm_ops would of course be a optimiz=
-ation with
->> its own patch series.
-> Honestly, I don't see much benefit from using dev_pm_ops for thermal
-> zone devices and cooling devices.  Moreover, I actually think that
-> they could be "no PM" devices that are not even put on the
-> suspend-resume device list.  Technically, they are just interfaces on
-> top of some other devices allowing the user space to interact with the
-> latter and combining different pieces described by the platform
-> firmware.  They by themselves have no PM capabilities.
+>> We can of course convert the ACPI thermal zone driver into a platform d=
+river, but
+>> this would be a separate patch series.
+> If you want parents, this needs to be done first, but I'm still not
+> sure what the parent of a thermal zone would represent.
+>
+> In the ACPI case it is kind of easy - it would be the (platform)
+> device corresponding to a given ThermalZone object in the ACPI
+> namespace - but it only has a practical meaning if that device has a
+> specific parent.  For example, if the corresponding ThermalZone object
+> is present in the \_SB scope, the presence of the thermal zone parent
+> won't provide any additional information.
 
-Correct, thermal zone devices are virtual devices representing thermal man=
-agement
-aspects of the underlying parent device. This however does not mean that t=
-hermal zone
-devices have no PM capabilities, because they contain state. Some part of =
-this state
-(namely TZ_STATE_FLAG_SUSPENDED and TZ_STATE_FLAG_RESUMING) is affected by=
- power management,
-so we should tell the device core about this by using dev_pm_ops instead o=
-f the PM notifier.
+To the device core it will, as the platform device will need to be suspend=
+ed
+after the thermal zone device has been suspended, among other things.
 
->>>> and making it impossible for user space applications to
->>>> associate a given thermal zone device with its parent device.
->>> Why does user space need to know the parent of a given cooling device
->>> or thermal zone?
->> Lets say that we have two thermal zones registered by two instances of =
+> Unfortunately, the language in the specification isn't particularly
+> helpful here: "Thermal zone objects should appear in the namespace
+> under the portion of the system that comprises the thermal zone. For
+> example, a thermal zone that is isolated to a docking station should
+> be defined within the scope of the docking station device."  To me
+> "the portion of the system" is not too meaningful unless it is just
+> one device without children.  That's why _TZD has been added AFAICS.
+
+I think you are confusing the parent device of the ThermalZone ACPI device
+with the parent device of the struct thermal_zone_device.
+
+I begin to wonder if mentioning the ACPI ThermalZone device together with =
 the
->> Intel Wifi driver. User space is currently unable to find out which the=
-rmal zone
->> belongs to which Wifi adapter, as both thermal zones have the (nearly) =
-same type string ("iwlwifi[0-X]").
-> But the "belong" part is not quite well defined here.  I think that
-> what user space needs to know is what devices are located in a given
-> thermal zone, isn't it?  Knowing the parent doesn't necessarily
-> address this.
+struct thermal_zone_device was a bad idea on my side xd.
 
-The device exposing a given thermal zone device is not always a member of =
-the thermal zone itself.
-In case of the Intel Wifi adapters, the individual Wifi adapters are indee=
-d members of the thermal zone
-associated with their thermal zone device. But thermal zones created thru =
-a system management controller
-for example might only cover devices like the CPUs and GPUs, not the syste=
-m management controller device itself.
-
-The parent device of a child device is the upstream device of the child de=
-vice. The connection between parent
-and child can be physical (SMBus controller (parent) -> i2c device (child)=
-) or purely logical
-(PCI device (parent) -> thermal zone device (child)). There exists a paren=
-t-child dependency between a parent
-and a child device (the child device cannot function without its parent be=
-ing operational), and user space
-might want to be able to discover such dependencies.
-
->> This problem would be solved once we populate the parent device pointer=
- inside the thermal zone
->> device, as user space can simply look at the "device" symlink to determ=
-ine the parent device behind
->> a given thermal zone device.
-> I'm not convinced about this.
+>>>>         thermal: core: Allow setting the parent device of thermal zon=
+e devices
+>>> I'm not sure if this is a good idea, at least until it is clear what
+>>> the role of a thermal zone parent device should be.
+>> Take a look at my explanation with the Intel Wifi driver.
+> I did and I think that you want the parent to be a device somehow
+> associated with the thermal zone, but how exactly?  What should that
+> be in the Wifi driver case, the PCI device or something else?
 >
->> Additionally, being able to access the acpi_handle of the parent device=
- will be necessary for the
->> ACPI thermal zone driver to support cooling devices other than ACPI fan=
-s and ACPI processors.
-> I guess by the "parent" you mean the device represented in the ACPI
-> namespace by a ThermalZone object, right?  But this is not the same as
-> the "parent" in the Wifi driver context, is it?
-
-In the context of a ACPI ThermalZone, the parent device of the thermal coo=
-ling device would currently
-be the ACPI device bound to the "thermal" ACPI driver. In the context of t=
-he Intel Wifi card, the parent
-device would be PCI device bound to the corresponding Intel Wifi driver.
-
-I think you misunderstood what kind of parent device i was referring to. Y=
-ou likely though that i was referring
-to the parent device of the ACPI ThermalZone, right? That however is not t=
-he case , with "parent device" i was
-referring to the device responsible for creating a given struct thermal_zo=
-ne_device instance.
-
->>>> This patch series aims to fix this issue by extending the functions
->>>> used to register thermal zone/cooling devices to also accept a parent
->>>> device pointer. The first six patches convert all functions used for
->>>> registering cooling devices, while the functions used for registering
->>>> thermal zone devices are converted by the remaining two patches.
->>>>
->>>> I tested this series on various devices containing (among others):
->>>> - ACPI thermal zones
->>>> - ACPI processor devices
->>>> - PCIe cooling devices
->>>> - Intel Wifi card
->>>> - Intel powerclamp
->>>> - Intel TCC cooling
->>> What exactly did you do to test it?
->> I tested:
->> - the thermal zone temperature readout
->> - correctness of the new sysfs links
->> - suspend/resume
->>
->> I also verified that ACPI thermal zones still bind with the ACPI fans.
-> I see, thanks.
+> And what if the thermal zone affects multiple devices?  Which of them
+> (if any) would be its parent?  And would it be consistent with the
+> ACPI case described above?
 >
->>>> I also compile-tested the remaining affected drivers, however i would
->>>> still be happy if the relevant maintainers (especially those of the
->>>> mellanox ethernet switch driver) could take a quick glance at the
->>>> code and verify that i am using the correct device as the parent
->>>> device.
->>> I think that the above paragraph is not relevant any more?
->> You are right, however i originally meant to CC the mellanox maintainer=
-s as
->> i was a bit unsure about the changes i made to their driver. I will rew=
-ork
->> this section in the next revision and CC the mellanox maintainers.
->>
->>>> This work is also necessary for extending the ACPI thermal zone drive=
-r
->>>> to support the _TZD ACPI object in the future.
->>> I'm still unsure why _TZD support requires the ability to set a
->>> thermal zone parent device.
->> _TZD allows the ACPI thermal zone to bind to cooling devices other than=
- ACPI fans
->> and ACPI processors, like ACPI batteries.
-> No, it is not for cooling devices if my reading of the specification
-> is correct.  It says:
->
-> "_TZD (Thermal Zone Devices)
->
-> This optional object evaluates to a package of device names. Each name
-> corresponds to a device in the ACPI namespace that is associated with
-> the thermal zone. The temperature reported by the thermal zone is
-> roughly correspondent to that of each of the devices."
->
-> And then
->
-> "The list of devices returned by the control method need not be a
-> complete and absolute list of devices affected by the thermal zone.
-> However, the package should at least contain the devices that would
-> uniquely identify where this thermal zone is located in the machine.
-> For example, a thermal zone in a docking station should include a
-> device in the docking station, a thermal zone for the CD-ROM bay,
-> should include the CD-ROM."
->
-> So IIUC this is a list of devices allowing the location of the thermal
-> zone to be figured out.  There's nothing about cooling in this
-> definition.
+> All of that needs consideration IMV.
 
-Using _TZD to figure out the location of a given thermal zone is another u=
-sage
-of this ACPI control method, but lets take a look at section 11.6:
+I agree, but there is a difference between "this struct thermal_zone_devic=
+e depends on
+device X to be operational" and "this thermal zone affects device X, devic=
+e Y and device Z".
 
-- If _PSV is defined then either the _PSL or _TZD objects must exist. The =
-_PSL and _TZD objects may both exist.
-- If _PSV is defined and _PSL is not defined then at least one device in t=
-hermal zone, as indicated by either the
-   _TZD device list or devices=E2=80=99 _TZM objects, must support device =
-performance states.
-
-So according to my understanding, _TZD can also be used to discover additi=
-onal cooling devices used for passive cooling.
-This makes sense as _PSL is defined to only contain processor objects (see=
- section 11.4.10), so _TZD can act like an
-extension of _PSL for things like ACPI control method batteries (see 10.2.=
-2.12).
-
-Microsoft also follows this approach (see https://learn.microsoft.com/en-u=
-s/windows-hardware/design/device-experiences/design-guide
-section "Thermally managed devices" paragraph "Processor aggregator").
-
->> This however will currently not work as
->> the ACPI thermal zone driver uses the private drvdata of the cooling de=
-vice to
->> determine if said cooling device should bind. This only works for ACPI =
-fans and
->> processors due to the fact that those drivers store a ACPI device point=
-er inside
->> drvdata, something the ACPI thermal zone expects.
-> I'm not sure I understand the above.
->
-> There is a list of ACPI device handles per trip point, as returned by
-> either _PSL or _ALx.  Devices whose handles are in that list will be
-> bound to the thermal zone, so long as there are struct acpi_device
-> objects representing them which is verified with the help of the
-> devdata field in struct thermal_cooling_device.
-
-AFAIK devdata is meant to be used by the thermal zone device callbacks to =
-access the state
-container struct of the associated device driver instance. Assuming that a=
- given device driver
-will populate devdata with a pointer to is ACPI companion device is an imp=
-lementation-specific
-detail that does not apply to all cooling device implementations. It just =
-so happens that the
-ACPI processor and fan driver do this, likely because they where designed =
-specifically to work
-with the ACPI thermal zone driver.
-
-The documentation of thermal_cooling_device_register() even describes devd=
-ata as "device private data", so any meaning of devdata purely depends on =
-the=20
-given device driver.
-
-> IOW, cooling device drivers that create struct thermal_cooling_device
-> objects representing them are expected to set devdata in those objects
-> to point to struct acpi_device objects corresponding to their ACPI
-> handles, but in principle acpi_thermal_should_bind_cdev() might as
-> well just use the handles themselves.  It just needs to know that
-> there is a cooling driver on the other side of the ACPI handle.
->
-> The point is that a cooling device to be bound to an ACPI thermal zone
-> needs an ACPI handle in the first place to be listed in _PSL or _ALx.
-
-Correct, i merely change the way the ACPI thermal zone driver retrieves th=
-e
-ACPI handle associated with a given cooling device.
-
->> As we cannot require all cooling devices to store an ACPI device pointe=
-r inside
->> their drvdata field in order to support ACPI,
-> Cooling devices don't store ACPI device pointers in struct
-> thermal_cooling_device objects, ACPI cooling drivers do, and there are
-> two reasons to do that: (1) to associate a given struct
-> thermal_cooling_device with an ACPI handle and (2) to let
-> acpi_thermal_should_bind_cdev() know that the cooling device is
-> present and functional.
->
-> This can be changed to store an ACPI handle in struct
-> thermal_cooling_device and acpi_thermal_should_bind_cdev() may just
-> verify that the device is there by itself.
-
-I can of course extend thermal_cooling_device_register() to accept a fwnod=
-e_handle that
-can be used for both ACPI and OF based cooling device identification, if t=
-his is what you
-prefer.
-
-This patch series would then turn into a cleanup series, focusing on prope=
-rly adding
-thermal zone devices and cooling devices into the global device hierarchy.
-
->> we must use a more generic approach.
-> I'm not sure what use case you are talking about.
->
-> Surely, devices with no representation in the ACPI namespace cannot be
-> bound to ACPI thermal zones.  For devices that have a representation
-> in the ACPI namespace, storing an ACPI handle in devdata should not be
-> a problem.
-
-See my above explanations for details, drvdata is defined to hold device p=
-rivate data,
-nothing more.
-
->> I was thinking about using the acpi_handle of the parent device instead=
- of messing
->> with the drvdata field, but this only works if the parent device pointe=
-r of the
->> cooling device is populated.
->>
->> (Cooling devices without a parent device would then be ignored by the A=
-CPI thermal
->> zone driver, as such cooling devices cannot be linked to ACPI).
-> It can be arranged this way, but what's the practical difference?
-> Anyone who creates a struct thermal_cooling_device and can set its
-> parent pointer to a device with an ACPI companion, may as well set its
-> devdata to point to that companion directly - or to its ACPI handle if
-> that's preferred.
-
-Yes, but this would require explicit support for ACPI in every driver that=
- registers cooling devices.
-Using the parent device to retrieve the acpi_handle or allowing all driver=
-s to just submit a fwnode_handle
-of their choice when creating a cooling device will fix this.
+This patch series exclusively deals with telling the driver core that "thi=
+s struct thermal_zone_device
+depends on device X to be operational".
 
 Thanks,
 Armin Wolf
