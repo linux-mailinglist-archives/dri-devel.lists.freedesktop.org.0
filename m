@@ -2,53 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6BA1C8F8D9
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 17:52:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DEFFC904B9
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 23:28:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B2C210E831;
-	Thu, 27 Nov 2025 16:52:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC04810E085;
+	Thu, 27 Nov 2025 22:28:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WD7Gcdvp";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NGd1KbwZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21D8910E831
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 16:52:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764262369;
- bh=9Wk/LOORMxz5YmWzkq/tH6kFDa3gDiX1h7VECY5oaHY=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=WD7GcdvphRIsxYuP0hAcKS5ZqW7up3VgoS/84uXoCsc/2tuQUR2KL0qMmgQpDQ8Ib
- cz91cNz9IpmmKElkOgeMGYSpAK4oXCSa3T3p3AAXt/8tGrbKQv7XXD2bHP5MJ4Gw/a
- 3vrLNVI48V+I1HXRu2qe9n3FpjP1t2lwBFlxZxeikrwzQVpagZWGrfgQVBIapM5nSD
- 2uJrildBBIE5urINQNe5w4B6Kh+xw0d/I/OLhSl9l5njJUJa4NWw2Y9UoesCCHZm+C
- BLfJ57aExa5MF86bTqGn0KH+EIkmUEFMjHKFOjNsdWRhBD72J8zFYqholbtHyR+FOL
- Rv9rew3dgfqSw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3A7A717E1122;
- Thu, 27 Nov 2025 17:52:49 +0100 (CET)
-Date: Thu, 27 Nov 2025 17:52:47 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Akash Goel <akash.goel@arm.com>
-Cc: liviu.dudau@arm.com, steven.price@arm.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
-Subject: Re: [PATCH v2] drm/panthor: Prevent potential UAF in group creation
-Message-ID: <20251127175247.2d64d82e@fedora>
-In-Reply-To: <20251127164912.3788155-1-akash.goel@arm.com>
-References: <20251127164912.3788155-1-akash.goel@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B751010E834
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 16:53:17 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-5957c929a5eso1577148e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 08:53:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764262396; x=1764867196; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:date:from:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=P4drWKEd4RAmd7MBRAIQVZy+ZqrpPhSLkolh9dDZECE=;
+ b=NGd1KbwZGHwcB1Ff6xAsWKzrRA9A4/iH06JkLCIs6jG8rdLZYXVa7DDvzw7xsiAp89
+ 73xhwADHyD2nSvpxlPjeTAg7FC9VJCcB9MDHgKR9Vnts0hmsSmxW+fQA2FHhqbHWOSOS
+ EKjA0e3MWRn85kZJ2cW4wg7RnFodO5SXQByroUFts0gLpzbXF9MN5rtgbU4yvFEtZcXw
+ l8Yblua2FVxbhE42zvCZrFoSWkuUAksBaS7fyvl4tR0I4uV+uXWd1x4FlUSK7bpyw6BM
+ 7GmkesguMurdqZghgNKZIbY7VvqUMhp8KClfQRdmOC/6bnymT/vG4D/SMYA2kidMWZOz
+ JB2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764262396; x=1764867196;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=P4drWKEd4RAmd7MBRAIQVZy+ZqrpPhSLkolh9dDZECE=;
+ b=FiYhZJPxMKccoJrcVRy+cGbPUwWcRMmy+TQi4ruJIFeCboF00M9O8SeVtJsjRy9I9A
+ tfgbdXpmrtALe7b9RfSHT/oFfbyF4bW67AITJDDGsOjJ1l/sHcSkzenoR3epJGweEcGn
+ cR+ApPWrWgZWdOe3kRVGKhD493WBtXcByuxMC2lbDEE5d7GS1peMQVt4POk7bvRbc8xf
+ CfgI8ir4pBVpkNmskUd5YURn3/i+5Ej8hmmbuXXSMjXUBO6/0oCv3iZNKHXRLYVNL6Ly
+ yF04aLL3aEWhbvHfGHmAW8sgc6meGTVmONLo+nh2EqBrnUdbEgoCavQPVmCU0/y+lD7U
+ CA4g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVk0mIQ9uVj+EmmPUNvanv8ibEX8gsM3bVlc+tASjcT9T4VCnaRrvGf72QqWZbVgnOXFlC5XVQrWog=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJECUtLBqUpbs5+yOXfUwGgb6tV+ArevGTd5zE5HCGU7x+8p+k
+ 4UAtJwTMYau45JcSh9ueFQdTz7zs5KdgPuNJqzgoSTM4XHqikZ0HBqb1
+X-Gm-Gg: ASbGncsIWCYyXjnMfwFzyBrsJIvhg47BHb4sXZRwH865fT6LVrZgo1qRAWK5fo6YWVg
+ 9PXfyAQioRe3qD4DYPPdM9Zd9hrbqCsNSIrTosV6Jg7FezxU7g3eUawb1XRXRIh0XS8QRvFAVfd
+ TbFoZcEfBpdiflnmEW/Z6xIH5pslAQE3bsJ1enaQEbbNXVXsJheK9cmwIZEfqQJjFVAJpuV40UV
+ /qosMcILdnfHJz4bMSYqV84qApOwVB++nNW4gpc0sLg6qjc/RRAa2PcKp0yH6vgsmdAlaDgB2pz
+ Pf1yLEITGoPAn5k/2Rpi0I9dcbaon8Nr8kl/fovcbvOpJktPa+VyBr057Gd2IzWDeubq5mgIOWj
+ AK6sjTpTzcHAO3m6CIBdUsjU+5iKbqNkJMEFKi3k0drUrhAV1IM/Cmg==
+X-Google-Smtp-Source: AGHT+IH8j638xjzoDHoozqoJ+ZLnXS1T0OqZepwP8h1W2O745wvjvCM314d3621pAOHVbu+pSPoujA==
+X-Received: by 2002:a05:6512:6d1:b0:595:9d26:f551 with SMTP id
+ 2adb3069b0e04-596b529c014mr4240034e87.48.1764262395589; 
+ Thu, 27 Nov 2025 08:53:15 -0800 (PST)
+Received: from milan ([2001:9b1:d5a0:a500::24b])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-596bfa44058sm530323e87.60.2025.11.27.08.53.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Nov 2025 08:53:14 -0800 (PST)
+From: Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@milan>
+Date: Thu, 27 Nov 2025 17:53:13 +0100
+To: Barry Song <21cnbao@gmail.com>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Barry Song <v-songbaohua@oppo.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, John Stultz <jstultz@google.com>,
+ Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH RFC] mm/vmap: map contiguous pages in batches whenever
+ possible
+Message-ID: <aSiB-UsunuE7u295@milan>
+References: <20251122090343.81243-1-21cnbao@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251122090343.81243-1-21cnbao@gmail.com>
+X-Mailman-Approved-At: Thu, 27 Nov 2025 22:28:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,105 +97,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Nov 2025 16:49:12 +0000
-Akash Goel <akash.goel@arm.com> wrote:
-
-> This commit prevents the possibility of a use after free issue in the
-> GROUP_CREATE ioctl function, which arose as pointer to the group is
-> accessed in that ioctl function after storing it in the Xarray.
-> A malicious userspace can second guess the handle of a group and try
-> to call GROUP_DESTROY ioctl from another thread around the same time
-> as GROUP_CREATE ioctl.
+On Sat, Nov 22, 2025 at 05:03:43PM +0800, Barry Song wrote:
+> From: Barry Song <v-songbaohua@oppo.com>
 > 
-> To prevent the use after free exploit, this commit uses a mark on an
-> entry of group pool Xarray which is added just before returning from
-> the GROUP_CREATE ioctl function. The mark is checked for all ioctls
-> that specify the group handle and so userspace won't be abe to delete
-> a group that isn't marked yet.
+> In many cases, the pages passed to vmap() may include
+> high-order pages—for example, the systemheap often allocates
+> pages in descending order: order 8, then 4, then 0. Currently,
+> vmap() iterates over every page individually—even the pages
+> inside a high-order block are handled one by one. This patch
+> detects high-order pages and maps them as a single contiguous
+> block whenever possible.
 > 
-> v2: Add R-bs and fixes tags
+> Another possibility is to implement a new API, vmap_sg().
+> However, that change seems to be quite large in scope.
 > 
-> Fixes: de85488138247 ("drm/panthor: Add the scheduler logical block")
-> Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-to please checkpacth.
-
-> Signed-off-by: Akash Goel <akash.goel@arm.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Steven Price <steven.price@arm.com>
+> When vmapping a 128MB dma-buf using the systemheap,
+> this RFC appears to make system_heap_do_vmap() 16× faster:
+> 
+> W/ patch:
+> [   51.363682] system_heap_do_vmap took 2474000 ns
+> [   53.307044] system_heap_do_vmap took 2469008 ns
+> [   55.061985] system_heap_do_vmap took 2519008 ns
+> [   56.653810] system_heap_do_vmap took 2674000 ns
+> 
+> W/o patch:
+> [    8.260880] system_heap_do_vmap took 39490000 ns
+> [   32.513292] system_heap_do_vmap took 38784000 ns
+> [   82.673374] system_heap_do_vmap took 40711008 ns
+> [   84.579062] system_heap_do_vmap took 40236000 ns
+> 
+> Cc: Uladzislau Rezki <urezki@gmail.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: John Stultz <jstultz@google.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 19 +++++++++++++++----
->  1 file changed, 15 insertions(+), 4 deletions(-)
+>  mm/vmalloc.c | 49 +++++++++++++++++++++++++++++++++++++++++++------
+>  1 file changed, 43 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index b834123a6560..a6b8024e1a3c 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -779,6 +779,12 @@ struct panthor_job_profiling_data {
->   */
->  #define MAX_GROUPS_PER_POOL 128
->  
-> +/*
-> + * Mark added on an entry of group pool Xarray to identify if the group has
-> + * been fully initialized and can be accessed elsewhere in the driver code.
-> + */
-> +#define GROUP_REGISTERED XA_MARK_1
-> +
->  /**
->   * struct panthor_group_pool - Group pool
->   *
-> @@ -3007,7 +3013,7 @@ void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
->  		return;
->  
->  	xa_lock(&gpool->xa);
-> -	xa_for_each(&gpool->xa, i, group) {
-> +	xa_for_each_marked(&gpool->xa, i, group, GROUP_REGISTERED) {
->  		guard(spinlock)(&group->fdinfo.lock);
->  		pfile->stats.cycles += group->fdinfo.data.cycles;
->  		pfile->stats.time += group->fdinfo.data.time;
-> @@ -3727,6 +3733,8 @@ int panthor_group_create(struct panthor_file *pfile,
->  
->  	group_init_task_info(group);
->  
-> +	xa_set_mark(&gpool->xa, gid, GROUP_REGISTERED);
-> +
->  	return gid;
->  
->  err_erase_gid:
-> @@ -3744,6 +3752,9 @@ int panthor_group_destroy(struct panthor_file *pfile, u32 group_handle)
->  	struct panthor_scheduler *sched = ptdev->scheduler;
->  	struct panthor_group *group;
->  
-> +	if (!xa_get_mark(&gpool->xa, group_handle, GROUP_REGISTERED))
-> +		return -EINVAL;
-> +
->  	group = xa_erase(&gpool->xa, group_handle);
->  	if (!group)
->  		return -EINVAL;
-> @@ -3769,12 +3780,12 @@ int panthor_group_destroy(struct panthor_file *pfile, u32 group_handle)
+> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> index 0832f944544c..af2e3e8c052a 100644
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -642,6 +642,34 @@ static int vmap_small_pages_range_noflush(unsigned long addr, unsigned long end,
+>  	return err;
 >  }
 >  
->  static struct panthor_group *group_from_handle(struct panthor_group_pool *pool,
-> -					       u32 group_handle)
-> +					       unsigned long group_handle)
+> +static inline int get_vmap_batch_order(struct page **pages,
+> +		unsigned int stride,
+> +		int max_steps,
+> +		unsigned int idx)
+> +{
+> +	/*
+> +	 * Currently, batching is only supported in vmap_pages_range
+> +	 * when page_shift == PAGE_SHIFT.
+> +	 */
+> +	if (stride != 1)
+> +		return 0;
+> +
+> +	struct page *base = pages[idx];
+> +	if (!PageHead(base))
+> +		return 0;
+> +
+> +	int order = compound_order(base);
+> +	int nr_pages = 1 << order;
+> +
+> +	if (max_steps < nr_pages)
+> +		return 0;
+> +
+> +	for (int i = 0; i < nr_pages; i++)
+> +		if (pages[idx + i] != base + i)
+> +			return 0;
+> +	return order;
+> +}
+> +
+>  /*
+>   * vmap_pages_range_noflush is similar to vmap_pages_range, but does not
+>   * flush caches.
+> @@ -655,23 +683,32 @@ int __vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+>  		pgprot_t prot, struct page **pages, unsigned int page_shift)
 >  {
->  	struct panthor_group *group;
+>  	unsigned int i, nr = (end - addr) >> PAGE_SHIFT;
+> +	unsigned int stride;
 >  
->  	xa_lock(&pool->xa);
-> -	group = group_get(xa_load(&pool->xa, group_handle));
-> +	group = group_get(xa_find(&pool->xa, &group_handle, group_handle, GROUP_REGISTERED));
->  	xa_unlock(&pool->xa);
+>  	WARN_ON(page_shift < PAGE_SHIFT);
 >  
->  	return group;
-> @@ -3861,7 +3872,7 @@ panthor_fdinfo_gather_group_mem_info(struct panthor_file *pfile,
->  		return;
->  
->  	xa_lock(&gpool->xa);
-> -	xa_for_each(&gpool->xa, i, group) {
-> +	xa_for_each_marked(&gpool->xa, i, group, GROUP_REGISTERED) {
->  		stats->resident += group->fdinfo.kbo_sizes;
->  		if (group->csg_id >= 0)
->  			stats->active += group->fdinfo.kbo_sizes;
+> +	/*
+> +	 * Some users may allocate pages from high-order down to order 0.
+> +	 * We roughly check if the first page is a compound page. If so,
+> +	 * there is a chance to batch multiple pages together.
+> +	 */
+>  	if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
+> -			page_shift == PAGE_SHIFT)
+> +			(page_shift == PAGE_SHIFT && !PageCompound(pages[0])))
+>
+Do we support __GFP_COMP as vmalloc/vmap flag? As i see from latest:
 
+/*
+ * See __vmalloc_node_range() for a clear list of supported vmalloc flags.
+ * This gfp lists all flags currently passed through vmalloc. Currently,
+ * __GFP_ZERO is used by BPF and __GFP_NORETRY is used by percpu. Both drm
+ * and BPF also use GFP_USER. Additionally, various users pass
+ * GFP_KERNEL_ACCOUNT. Xfs uses __GFP_NOLOCKDEP.
+ */
+#define GFP_VMALLOC_SUPPORTED (GFP_KERNEL | GFP_ATOMIC | GFP_NOWAIT |\
+                               __GFP_NOFAIL |  __GFP_ZERO | __GFP_NORETRY |\
+                               GFP_NOFS | GFP_NOIO | GFP_KERNEL_ACCOUNT |\
+                               GFP_USER | __GFP_NOLOCKDEP)
+
+Could you please clarify when PageCompound(pages[0]) returns true?
+
+>  		return vmap_small_pages_range_noflush(addr, end, prot, pages);
+>  
+> -	for (i = 0; i < nr; i += 1U << (page_shift - PAGE_SHIFT)) {
+> -		int err;
+> +	stride = 1U << (page_shift - PAGE_SHIFT);
+> +	for (i = 0; i < nr; ) {
+> +		int err, order;
+>  
+> -		err = vmap_range_noflush(addr, addr + (1UL << page_shift),
+> +		order = get_vmap_batch_order(pages, stride, nr - i, i);
+> +		err = vmap_range_noflush(addr, addr + (1UL << (page_shift + order)),
+>  					page_to_phys(pages[i]), prot,
+> -					page_shift);
+> +					page_shift + order);
+>  		if (err)
+>  			return err;
+>  
+> -		addr += 1UL << page_shift;
+> +		addr += 1UL  << (page_shift + order);
+> +		i += 1U << (order + page_shift - PAGE_SHIFT);
+>  	}
+>  
+>  	return 0;
+> -- 
+> 2.39.3 (Apple Git-146)
+> 
