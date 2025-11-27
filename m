@@ -2,48 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48A4DC8D277
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 08:44:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6B2C8D28F
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 08:45:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9717610E77B;
-	Thu, 27 Nov 2025 07:44:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 351F810E779;
+	Thu, 27 Nov 2025 07:45:29 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sL6otSG/";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B38DA10E77B
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 07:44:29 +0000 (UTC)
-Received: by mail-il1-f200.google.com with SMTP id
- e9e14a558f8ab-4337cb921c2so5784815ab.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 23:44:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764229469; x=1764834269;
- h=to:from:subject:message-id:date:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qkTLGcEQFb7CBU7iVzOpz9j8HbrxL4R0fAwWkup7l20=;
- b=BbwW/0pxdtqWyTCEkcJRmq3ut6N+bSet/OGLo8469iRWqiTYK8j+Wbw+6tMximTqzO
- Mwu1Uhq8OkuU5dGJoe1hYLpa65Tp+JdecuTI4w6cPwkx+ILfSdPxzZVJ1wUX/pb3ZCTh
- sCkyp7La29CFSVuQMEXBU9X/+tZ72/1veIvFOIkv0xC55NxS8gognRr0mxY1hDN1piEY
- uI7iABjjudaGgKht+RKxop3D7O8Fs5BW3tzJ0m+8o038H0K6Cge497NtQ95KpS+bEyv9
- qUzg7NLL5uhyzjr7LI7X+TMfV9eNsSe2vrcvahXiTNzeE8V3MIumU0llyKQ9icgzBdPv
- BPtQ==
-X-Gm-Message-State: AOJu0YxtPMbROhH6UvofhBRdIOcjYQldiAk1HXxcDjW1AcZvmF9wVWtl
- AHYHnYfSrSGfHinsT3xT6VZ28uMf2w6tv6+QJsObVUEL0pA6IS1mOkLIpaUdRPTGNR0lxqcY6LK
- 1BKY8P9zkFmZIbcIqwY0yuATAdRPFdILk1t1ojITinFvsA6Jhkr82BvYhOWs=
-X-Google-Smtp-Source: AGHT+IFReJtVuYg4OOtSp5Ocmq5OvG54gPFhxKjN5yyBeahZdgeOu0WIPtNRygxnNg+TZ3F3eaX4xO1gNL2xrlg6YdD7fzhvnfUH
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F71410E779
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 07:45:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 42F366020E;
+ Thu, 27 Nov 2025 07:45:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D565C113D0;
+ Thu, 27 Nov 2025 07:45:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764229526;
+ bh=SQkbKg+mYENU74Dce0PVRLxFiBMp0l2CgZfktdP5n+4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sL6otSG/IWUVfR+94s9WVDUSq+wccI1m26tGr6odY6hgE2jFrU29SymECwAaXyFlt
+ lIzDK3Rq7gTmREKJzFpSuGQ7D1BVNV6r1AqHXxUJlKio+XVh4oOXjiJKF5Rpp15+O7
+ W5oGlw2g8b7aG6Hn0JsEz0fcSK8qD666PEVqDBd6RfoYj0iAihoAJCzsad4htHKXAe
+ oMTAO+7e6jiLEVbIqf6ucyNc6vY/U1LGNSNlHKhmNw5oIQ+ez1CbC92T2208JDpZko
+ blVdhRmYkCt9dVDR8gBIFQeQKazj1YoYKb1+h0PKcF1CkkJ6vZDEvE9PgnaE1wyRIr
+ PXw5J4DfmhIsQ==
+Date: Thu, 27 Nov 2025 08:45:24 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Swamil Jain <s-jain1@ti.com>
+Cc: jyri.sarha@iki.fi, tomi.valkeinen@ideasonboard.com, airlied@gmail.com, 
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ aradhya.bhatia@linux.dev, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devarsht@ti.com, praneeth@ti.com, h-shenoy@ti.com,
+ u-kumar1@ti.com
+Subject: Re: [PATCH v2 1/3] dt-bindings: display: ti, am65x-dss: Add am62p dss
+ compatible
+Message-ID: <20251127-quizzical-mussel-of-discourse-bfeaab@kuoka>
+References: <20251125165942.2586341-1-s-jain1@ti.com>
+ <20251125165942.2586341-2-s-jain1@ti.com>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1c2f:b0:433:7a2f:a414 with SMTP id
- e9e14a558f8ab-435b8eb45e1mr169255225ab.25.1764229468759; Wed, 26 Nov 2025
- 23:44:28 -0800 (PST)
-Date: Wed, 26 Nov 2025 23:44:28 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6928015c.a70a0220.d98e3.00f4.GAE@google.com>
-Subject: [syzbot] Monthly dri report (Nov 2025)
-From: syzbot <syzbot+list1a64f90de686a280963e@syzkaller.appspotmail.com>
-To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251125165942.2586341-2-s-jain1@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,36 +64,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello dri maintainers/developers,
+On Tue, Nov 25, 2025 at 10:29:40PM +0530, Swamil Jain wrote:
+> TI's AM62P SoC contains two instances of the TI Keystone Display
+> SubSystem (DSS), each with two video ports and two video planes. These
+> instances support up to three independent video streams through OLDI,
+> DPI, and DSI interfaces.
+> 
+> DSS0 (first instance) supports:
+>  - Two OLDI transmitters on video port 1, configurable in dual-link or
+>    single-link mode.
+>  - DPI output on video port 2.
+> 
+> DSS1 (second instance) supports:
+>  - One OLDI transmitter on video port 1 (single-link mode only).
+>  - DSI controller output on video port 2.
+> 
+> The two OLDI transmitters can be configured in clone mode to drive a
+> pair of identical OLDI single-link displays. DPI outputs from
+> DSS0 VP2, DSS1 VP1, and DSS1 VP2 are multiplexed, allowing only one
+> DPI output at a time.
+> 
+> Add the compatible string "ti,am62p-dss" and update related
+> description accordingly.
+> 
+> AM62P has different power domains for DSS and OLDI compared to other
+> Keystone SoCs. Therefore, add 'minItems' and set to 1 and 'maxItems'
+> field in the power-domains property to 3 for the "ti,am62p-dss"
+> compatible entry to reflect this hardware difference.
+> 
+> Signed-off-by: Swamil Jain <s-jain1@ti.com>
+> ---
+>  .../bindings/display/ti/ti,am65x-dss.yaml     | 25 +++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> index 361e9cae6896..3945ae048b8f 100644
+> --- a/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> +++ b/Documentation/devicetree/bindings/display/ti/ti,am65x-dss.yaml
+> @@ -24,6 +24,19 @@ description: |
+>    DPI signals are also routed internally to DSI Tx controller present within the
+>    SoC. Due to clocking limitations only one of the interface i.e. either DSI or
+>    DPI can be used at once.
+> +  The AM62P has two instances of TI Keystone Display SubSystem, each with two
+> +  video ports and two video planes. These instances can support up to 3
+> +  independent video streams through OLDI, DPI, and DSI interfaces.
+> +  DSS0 (first instance) supports:
+> +    - Two OLDI TXes on video port 1, configurable in dual-link or
+> +      single link clone mode
+> +    - DPI output on video port 2
+> +  DSS1 (second instance) supports:
+> +    - One OLDI TX on video port 1 (single-link mode only)
+> +    - DSI controller output on video port 2
+> +  The two OLDI TXes can be configured in clone mode to drive a pair of
+> +  identical OLDI single-link displays. DPI outputs from DSS0 VP2, DSS1 VP1,
+> +  and DSS1 VP2 are muxed, allowing only one DPI output at a time.
+>  
+>  properties:
+>    compatible:
+> @@ -31,6 +44,7 @@ properties:
+>        - ti,am625-dss
+>        - ti,am62a7-dss
+>        - ti,am62l-dss
+> +      - ti,am62p-dss
+>        - ti,am65x-dss
+>  
+>    reg:
+> @@ -197,6 +211,17 @@ allOf:
+>                properties:
+>                  endpoint@1: false
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: ti,am62p-dss
+> +    then:
+> +      properties:
+> +        power-domains:
+> +          minItems: 1
+> +          maxItems: 3
 
-This is a 31-day syzbot report for the dri subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/dri
+This is conflicting with top-level constraints. You need to update these
+and then narrow each variants. See also writing schema (Property Schema
+chapter).
 
-During the period, 0 new issues were detected and 0 were fixed.
-In total, 7 issues are still open and 33 have already been fixed.
+Best regards,
+Krzysztof
 
-Some of the still happening issues:
-
-Ref Crashes Repro Title
-<1> 2563    Yes   WARNING in drm_syncobj_array_find
-                  https://syzkaller.appspot.com/bug?extid=95416f957d84e858b377
-<2> 522     Yes   WARNING in vkms_get_vblank_timestamp (2)
-                  https://syzkaller.appspot.com/bug?extid=93bd128a383695391534
-<3> 475     Yes   WARNING in drm_prime_destroy_file_private (2)
-                  https://syzkaller.appspot.com/bug?extid=59dcc2e7283a6f5f5ba1
-<4> 43      Yes   KASAN: slab-use-after-free Read in drm_atomic_helper_wait_for_vblanks (2)
-                  https://syzkaller.appspot.com/bug?extid=0f999d26a4fd79c3a23b
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
