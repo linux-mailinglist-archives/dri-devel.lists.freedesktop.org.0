@@ -2,139 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F415C90422
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 22:57:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB836C9046D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 23:14:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38ED210E853;
-	Thu, 27 Nov 2025 21:57:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 732A710E86B;
+	Thu, 27 Nov 2025 22:14:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="T+jWBKs5";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZQnStf/b";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mxXJsiNx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDF6110E853
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 21:57:31 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AR9bDUU785227
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 21:57:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 9pI+nNCxm6OA7uNJyiyjjUs/+UrmghoHh3cuApsI018=; b=T+jWBKs55M7CEQ/+
- 48g/5nOxxftuDMVHBohvlh2CRaVfmH0OooE+3uMpY+HExtdTwe2NFFgyFgiTtvKL
- DZ9hDx/f2E2Q7cwWfvGhPH6TH+eYz7sfc1aFbBbN2S8zln9GZSRh2zPW7j/zVtwK
- BrBYe0J0frykh3s1ZZ5YXXJOidXZqL77V1IQLl7tKaDQw3UNAFWvZg5M/vHTrflF
- n8MPe3zPaxLqBcaMmSEXqZxdBFC7TuPlzrX/WclZcrFpMrOvR8bHPU+551R1abhb
- 2SFPph7ryp3jYh5QNHNmBg9Ab4G3K1rmmN4GsgPHIcj7yBR7ZDoDPbk9Xq6B216D
- 09DK4g==
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4apm61sj5t-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 21:57:30 +0000 (GMT)
-Received: by mail-pf1-f197.google.com with SMTP id
- d2e1a72fcca58-7b9208e1976so1878583b3a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 13:57:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1764280650; x=1764885450;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=9pI+nNCxm6OA7uNJyiyjjUs/+UrmghoHh3cuApsI018=;
- b=ZQnStf/bFKv+vCx+KM6wpqHT5ZBYRcfo6AGFwt5i0euTZlwpt+Tm4PNVtyUnkO849x
- IKwjDJ/mHVyqzyBTJl2V3BXFnOap9FwNaogegS9eHpLoLBGPRmElNCh/fSQtlEaNorun
- KtmPGg7//12mpOn5YW8TqugzhrxZq/t7UTlnJyUNxMKxe7KmOXTIG01OxP5Lvm8J/rxP
- E7L5SeQOCpBP+Lbas6vmVKr4Ur35Xfm+Kopm58+b08+vxhSi1RgpryhWosMO5zuHZh2D
- hk5q0hu92L61UmvrcOav1EXHlSyZ+ydHky0d90Xb0NqjG06AkFYO7djk8+3dHSRXEf6/
- jwXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764280650; x=1764885450;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9pI+nNCxm6OA7uNJyiyjjUs/+UrmghoHh3cuApsI018=;
- b=TXcDvI41hU9GHBM7PB7r2IlXQZpEyMjXLieRZamTM461DGbf7jgt8cuowUGuV4fq8H
- WvlX4Y1rHrCqwxbyx8tK1n/i5oBSUY1pSVPbJT+qA+0w6S9CYrqlOw9EPI9s77QUsfQA
- SDeW4tozmzXso3Eqz57JG4jqAZjgDVZ2kT2O2LG5CqHdyYjAoL1uu4Ln7crlyjun7uYm
- Vj0JnnMoM9p211xKy82Sz7OJblsfJXjJKOKmbUkv5NB/kDJaYaJ6l3oZanSgc24ZZv7i
- zqjudfXj8Ag4PgH/Oe02aTgei6Gf+7zS2dncw0K5TsWJGD4CnV2jX+DSod7+4ASAhaK4
- jPCA==
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC11510E86B
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 22:14:40 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id A5B2C44008
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 22:14:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E538C16AAE
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 22:14:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764281680;
+ bh=eBS0CUizpUI0IUV5eENk604ryPB8tzKxAgoT6Iv/rNI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=mxXJsiNxhN1S4+aaL4NbV6VQmJPpBrqirZIT11lmoiHRFXWYqOdHgLT8nO/dex4lu
+ b7GrvOOExqharqQdAnDFbOwJ2/6KIKAoGI8Ov0Jz1/eH7uCa4i3sUatetNWNmLla/b
+ gmKseYf9lrbt/ekwpRBQ+j5p9AvkGXK0MueOr/uY+Bcmk8YsZ3jw+EmPr5EM9Xyyal
+ w1SmZZ/DOWEfb+N8J8aZQSBGaoJh/eg6OzG5nfJN1KPSC3nC0ViYIRVVicAehr2FDP
+ LCDRlTMMeoJ5ENTrtfXzS6KAU7rPSkbbhwwkQO9+40ZZb5aHdlQzERXU+RPoNg/4Gr
+ IufmTo+X4LXXQ==
+Received: by mail-oo1-f44.google.com with SMTP id
+ 006d021491bc7-65791c35134so551976eaf.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 14:14:40 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWqFzODiXPMKqYeU9vheDuHjT93luNMAIzS6rATHlEcEQeq+nf3mTHen5hp5YOzZjdenZGn7Q2Hw+4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzVjE98VKll27M5FZfaPJ+IEJuQxdOjYCLLw3pdKB8Kh4prF8lI
- MclGnJnz/MI+33g5DSa9wZlWuw7fekC7OMqWkJyNtLk/P+oIX98//7pKUkeWXVm0Ss78msehvLs
- y1gU+SxNLt+l7PDu8fUnXVUHQZ+zCm7ENwPKDfJmEhBhXqH426eGX8cwdsSPNDDf6ZbdcsO4=
-X-Gm-Gg: ASbGncuJqYJ8Au4aQicci6+ARURDR/negp73j3CNgA7W84ovElgwOInWwV26cKZqtHY
- OI/sIkeUK2V3wGRO3+1yUR/2L/ybS8cXgglUxiPOyWyS9J5eFHb5vgouYDx/yVGjpCHwQ8jC3sB
- MM4rY9JhIUmbYLjHGZ6TpgZxQ9oPTCacDRgU5SYrXH2QmmFbe5dlpoUy6GiP8mXE9t+c8FK3EMn
- BR+8Plgqo4PQWkfez2gEFWt4bq7/YIjXHvwToKhXCQ+tEJbjT5Cws1PH7L6SS4sO8Tg4msBjVrz
- Z5BIVju3een3YooiVgfLSvBbKa9PkpH6nGJV48ZaGDAJPgT+dLbUHsmPe4d0/VJaACOgExrZi4R
- N///hSqA3i9doE1UK0IpCIvC53IqIwoiD4Uxb22Fk+x9KT2a+s2YvEmCZ3mx9AoUUnkFtzyM=
-X-Received: by 2002:a05:6a00:2f08:b0:7bf:5011:d1e0 with SMTP id
- d2e1a72fcca58-7c58c4a7988mr19309541b3a.2.1764280649746; 
- Thu, 27 Nov 2025 13:57:29 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE3Ps9FT/iS+6D58IplXxo7cJi3GSOPO+Imc8jcDmYahmP/facOrbWXg8BxLWofhF4dMg0T/A==
-X-Received: by 2002:a05:6a00:2f08:b0:7bf:5011:d1e0 with SMTP id
- d2e1a72fcca58-7c58c4a7988mr19309527b3a.2.1764280649145; 
- Thu, 27 Nov 2025 13:57:29 -0800 (PST)
-Received: from ?IPV6:2401:4900:1c27:6704:8849:8c0d:18ec:2263?
- ([2401:4900:1c27:6704:8849:8c0d:18ec:2263])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7d150c5e611sm2853839b3a.6.2025.11.27.13.57.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Nov 2025 13:57:28 -0800 (PST)
-Message-ID: <bf66095e-9f25-4e0f-876a-00f637a7c696@oss.qualcomm.com>
-Date: Fri, 28 Nov 2025 03:27:22 +0530
+ AJvYcCX1gV2iojcOr6RsJy2nwttpOkDknvf96kDR1Zsid+O1lNQz1Z33kwznKv8IrrwPMfKJRf7XqNlx4SA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxQLHSZ0itz9iFxEG8z+um2TDPkEhZKGPo/WTpy0WQViP9wgURr
+ 3YB0yFmEuM45T/hTfhP0zvOBwmukmT1rQnhoDrdx0eCkdpzeKRn1vIoRDkNhp7HnzlpvEYsKUcE
+ UDaJRaScbyEYE7Eifym6eNWSm+iEx1bk=
+X-Google-Smtp-Source: AGHT+IFwPll0f82sEFyAgxPzXsJ3Sz08LKmddouqPj3T99a8UMq1Mqm0U4kLPk1yoT7JDPl2CGsyiJV/R33trqfiRI4=
+X-Received: by 2002:a05:6820:2982:b0:657:60b8:b07c with SMTP id
+ 006d021491bc7-657bdae7b8bmr3877565eaf.2.1764281679535; Thu, 27 Nov 2025
+ 14:14:39 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm: Fix a7xx per pipe register programming
-To: Anna Maniscalco <anna.maniscalco2000@gmail.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Antonino Maniscalco <antomani103@gmail.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20251127-gras_nc_mode_fix-v1-1-5c0cf616401f@gmail.com>
-Content-Language: en-US
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-In-Reply-To: <20251127-gras_nc_mode_fix-v1-1-5c0cf616401f@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: OpDtZfEh5SpVpqBF4zLgs4LU_NX3fMlz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI3MDE2NSBTYWx0ZWRfXxF9jgtwJ6sRs
- EMOm8QxLKqhnC6qkxsNUru+LikITc9ZvDGgXfPrKoQjqPSoFaW5tjexKtPJg0Buy8v/re8mDlmL
- 1U+TGU5MAdz9F0OnandW6uhoB38tabUmtCvFoUpQMSaJyvyBvx2H6ArBbOG8kq9C4EQeDOPt+L+
- qe5jCJInoKc37lhmekVyE6KVzd4iqxtc16OtMnAHidA+c8uY7aC3BtOfw4weGIpFaoqdGBDGkk6
- xGZY6NlgF+/Ccjdpl3+au09QdyaKyGdAcm4SIjdvkzLuZExxR6KkvcWB1EEvJwgr4RVlf7BBW03
- 8R9T7B5NYTql/sV5KJiZ7lZuuA3pzKhdzkTC2M86Wzgy7UW7sma5MbCp1/9J6BgCUJrWjuMzIch
- B76hjjB8cdtfeNvPOn2kfS8PYgDgmA==
-X-Proofpoint-ORIG-GUID: OpDtZfEh5SpVpqBF4zLgs4LU_NX3fMlz
-X-Authority-Analysis: v=2.4 cv=IciKmGqa c=1 sm=1 tr=0 ts=6928c94a cx=c_pps
- a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=pGLkceISAAAA:8 a=euEQxmOE86r8TiHOpTIA:9 a=QEXdDO2ut3YA:10
- a=2VI0MkxyNR6bbpdq8BZq:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-25_02,2025-11-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0
- priorityscore=1501 bulkscore=0 adultscore=0 spamscore=0 malwarescore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511270165
+References: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
+ <CAJZ5v0jOPrBcozzJMsB1eE12MuZRWDAV-+=jfrhJbi=S0p5J9Q@mail.gmail.com>
+ <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
+ <CAJZ5v0hdqY-=O5Ai6c5qjMr_pRFc+SDyV1QruM=ZeHH9Z=guSg@mail.gmail.com>
+ <cf86344b-d9f1-4d3c-9fe9-deeb4ade9304@gmx.de>
+In-Reply-To: <cf86344b-d9f1-4d3c-9fe9-deeb4ade9304@gmx.de>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 27 Nov 2025 23:14:27 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0iH8jkqJaSNtqaTHxt_305DeiEq0AqQCo4Eho5hMKkU4Q@mail.gmail.com>
+X-Gm-Features: AWmQ_bnDEMFFW397UhskjKnrkd8ZW685Q6DyeE8xXCdq63xxksrcXk6fCdtHXQ8
+Message-ID: <CAJZ5v0iH8jkqJaSNtqaTHxt_305DeiEq0AqQCo4Eho5hMKkU4Q@mail.gmail.com>
+Subject: Re: [PATCH RFC RESEND 0/8] thermal: core: Allow setting the parent
+ device of thermal zone/cooling devices
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Len Brown <lenb@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Ido Schimmel <idosch@nvidia.com>,
+ Petr Machata <petrm@nvidia.com>, 
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
+ linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
+ ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
+ linux-pci@vger.kernel.org, imx@lists.linux.dev, 
+ linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,247 +89,204 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/27/2025 5:16 AM, Anna Maniscalco wrote:
-> GEN7_GRAS_NC_MODE_CNTL was only programmed for BR and not for BV pipe
-> but it needs to be programmed for both.
-> 
-> Program both pipes in hw_init and introducea separate reglist for it in
-> order to add this register to the dynamic reglist which supports
-> restoring registers per pipe.
-> 
-> Fixes: 91389b4e3263 ("drm/msm/a6xx: Add a pwrup_list field to a6xx_info")
-> Signed-off-by: Anna Maniscalco <anna.maniscalco2000@gmail.com>
-> ---
->  drivers/gpu/drm/msm/adreno/a6xx_catalog.c |  9 ++-
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 91 +++++++++++++++++++++++++++++--
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  1 +
->  drivers/gpu/drm/msm/adreno/adreno_gpu.h   | 13 +++++
->  4 files changed, 109 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> index 29107b362346..c8d0b1d59b68 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> @@ -1376,7 +1376,6 @@ static const uint32_t a7xx_pwrup_reglist_regs[] = {
->  	REG_A6XX_UCHE_MODE_CNTL,
->  	REG_A6XX_RB_NC_MODE_CNTL,
->  	REG_A6XX_RB_CMP_DBG_ECO_CNTL,
-> -	REG_A7XX_GRAS_NC_MODE_CNTL,
->  	REG_A6XX_RB_CONTEXT_SWITCH_GMEM_SAVE_RESTORE_ENABLE,
->  	REG_A6XX_UCHE_GBIF_GX_CONFIG,
->  	REG_A6XX_UCHE_CLIENT_PF,
-> @@ -1448,6 +1447,12 @@ static const u32 a750_ifpc_reglist_regs[] = {
->  
->  DECLARE_ADRENO_REGLIST_LIST(a750_ifpc_reglist);
->  
-> +static const struct adreno_reglist_pipe a750_reglist_pipe_regs[] = {
-> +	{ REG_A7XX_GRAS_NC_MODE_CNTL, 0, BIT(PIPE_BV) | BIT(PIPE_BR) },
-> +};
-> +
-> +DECLARE_ADRENO_REGLIST_PIPE_LIST(a750_reglist_pipe);
-> +
->  static const struct adreno_info a7xx_gpus[] = {
->  	{
->  		.chip_ids = ADRENO_CHIP_IDS(0x07000200),
-> @@ -1548,6 +1553,7 @@ static const struct adreno_info a7xx_gpus[] = {
->  			.protect = &a730_protect,
->  			.pwrup_reglist = &a7xx_pwrup_reglist,
->  			.ifpc_reglist = &a750_ifpc_reglist,
-> +			.pipe_reglist = &a750_reglist_pipe,
->  			.gbif_cx = a640_gbif,
->  			.gmu_chipid = 0x7050001,
->  			.gmu_cgc_mode = 0x00020202,
-> @@ -1590,6 +1596,7 @@ static const struct adreno_info a7xx_gpus[] = {
->  			.protect = &a730_protect,
->  			.pwrup_reglist = &a7xx_pwrup_reglist,
->  			.ifpc_reglist = &a750_ifpc_reglist,
-> +			.pipe_reglist = &a750_reglist_pipe,
->  			.gbif_cx = a640_gbif,
->  			.gmu_chipid = 0x7090100,
->  			.gmu_cgc_mode = 0x00020202,
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> index 0200a7e71cdf..b98f3e93d0a8 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-> @@ -16,6 +16,72 @@
->  
->  #define GPU_PAS_ID 13
->  
-> +static void a7xx_aperture_slice_set(struct msm_gpu *gpu, enum adreno_pipe pipe)
-> +{
-> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-> +	u32 val;
-> +
-> +	val = A7XX_CP_APERTURE_CNTL_HOST_PIPE(pipe);
-> +
-> +	if (a6xx_gpu->cached_aperture == val)
-> +		return;
-> +
-> +	gpu_write(gpu, REG_A7XX_CP_APERTURE_CNTL_HOST, val);
-> +
-> +	a6xx_gpu->cached_aperture = val;
-> +}
-> +
-> +static void a7xx_aperture_acquire(struct msm_gpu *gpu, enum adreno_pipe pipe, unsigned long *flags)
-> +{
-> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-> +
-> +	spin_lock_irqsave(&a6xx_gpu->aperture_lock, *flags);
-> +
-> +	a7xx_aperture_slice_set(gpu, pipe);
-> +}
-> +
-> +static void a7xx_aperture_release(struct msm_gpu *gpu, unsigned long flags)
-> +{
-> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-> +
-> +	spin_unlock_irqrestore(&a6xx_gpu->aperture_lock, flags);
-> +}
-> +
-> +static void a7xx_aperture_clear(struct msm_gpu *gpu)
-> +{
-> +	unsigned long flags;
-> +
-> +	a7xx_aperture_acquire(gpu, PIPE_NONE, &flags);
-> +	a7xx_aperture_release(gpu, flags);
-> +}
-> +
-> +static void a7xx_write_pipe(struct msm_gpu *gpu, enum adreno_pipe pipe, u32 offset, u32 data)
-> +{
-> +	unsigned long flags;
-> +
-> +	a7xx_aperture_acquire(gpu, pipe, &flags);
-> +	gpu_write(gpu, offset, data);
-> +	a7xx_aperture_release(gpu, flags);
-> +}
-> +
-> +static u32 a7xx_read_pipe(struct msm_gpu *gpu, enum adreno_pipe pipe, u32 offset)
-> +{
-> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-> +	unsigned long flags;
-> +	u32 val;
-> +
-> +	spin_lock_irqsave(&a6xx_gpu->aperture_lock, flags);
-> +	a7xx_aperture_slice_set(gpu, pipe);
-> +	val = gpu_read(gpu, offset);
-> +	spin_unlock_irqrestore(&a6xx_gpu->aperture_lock, flags);
-> +
-> +	return val;
-> +}
-> +
+On Thu, Nov 27, 2025 at 9:29=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrote:
+>
+> Am 27.11.25 um 19:22 schrieb Rafael J. Wysocki:
+>
+> > On Sat, Nov 22, 2025 at 3:18=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wro=
+te:
+> >> Am 21.11.25 um 21:35 schrieb Rafael J. Wysocki:
+> >>
+> >>> On Thu, Nov 20, 2025 at 4:41=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> w=
+rote:
+> > [...]
+> >
+> >>>> ---
+> >>>> Armin Wolf (8):
+> >>>>         thermal: core: Allow setting the parent device of cooling de=
+vices
+> >>>>         thermal: core: Set parent device in thermal_of_cooling_devic=
+e_register()
+> >>>>         ACPI: processor: Stop creating "device" sysfs link
+> >>> That link is not to the cooling devices' parent, but to the ACPI
+> >>> device object (a struct acpi_device) that corresponds to the parent.
+> >>> The parent of the cooling device should be the processor device, not
+> >>> its ACPI companion, so I'm not sure why there would be a conflict.
+> >>   From the perspective of the Linux device core, a parent device does =
+not have to be
+> >> a "physical" device. In the case of the ACPI processor driver, the ACP=
+I device is used,
+> >> so the cooling device registered by said driver belongs to the ACPI de=
+vice.
+> > Well, that's a problem.  A struct acpi_device should not be a parent
+> > of anything other than a struct acpi_device.
+>
+> Understandable, in this case we should indeed use the the CPU device, esp=
+ecially since the fwnode
+> associated with it already points to the correct ACPI processor object (a=
+t least on my machine).
+>
+> >> I agree that using the Linux processor device would make more sense, b=
+ut this will require
+> >> changes inside the ACPI processor driver.
+> > So be it.
+>
+> OK.
+>
+> >> As for the "device" symlink: The conflict would be a naming conflict, =
+as both "device" symlinks
+> >> (the one created by the ACPI processor driver and the one created by t=
+he device core) will
+> >> be created in the same directory (which is the directory of the coolin=
+g device).
+> > I see.
+> >
+> > But why is the new symlink needed in the first place?  If the device
+> > has a parent, it will appear under that parent in /sys/devices/, won't
+> > it?
+> >
+> > Currently, all of the thermal class devices appear under
+> > /sys/devices/virtual/thermal/ because they have no parents and they
+> > all get a class parent kobject under /sys/devices/virtual/, as that's
+> > what get_device_parent() does.
+> >
+> > If they have real parents, they will appear under those parents, so
+> > why will the parents need to be pointed to additionally?
+>
+> The "device" smylink is a comfort feature provided by the device core its=
+elf to allow user space
+> application to traverse the device tree from bottom to top, like a double=
+-linked list. We cannot
+> disable the creation of this symlink, nor should we.
 
-All of the above helper routines are unncessary because we access only a
-single register under the aperture in a7x hw_init(). Lets drop these and
-program the aperture register directly below.
+I think you mean device_add_class_symlinks(), but that's just for
+class devices.  Of course, thermal devices are class devices, so
+they'll get those links if they get parents.  Fair enough.
 
+> > BTW, this means that the layout of /sys/devices/ will change when
+> > thermal devices get real parents.  I'm not sure if this is a problem,
+> > but certainly something to note.
+>
+> I know, most applications likely use /sys/class/thermal/, so they are not=
+ impacted by this. I will
+> note this in the cover letter of the next revision.
+>
+> >>>>         ACPI: fan: Stop creating "device" sysfs link
+> >>>>         ACPI: video: Stop creating "device" sysfs link
+> >>> Analogously in the above two cases AFAICS.
+> >>>
+> >>> The parent of a cooling device should be a "physical" device object,
+> >>> like a platform device or a PCI device or similar, not a struct
+> >>> acpi_device (which in fact is not a device even).
+> >>   From the perspective of the Linux device core, a ACPI device is a pe=
+rfectly valid device.
+> > The driver core is irrelevant here.
+> >
+> > As I said before, a struct acpi_device object should not be a parent
+> > of anything other than a struct acpi_device object.  Those things are
+> > not devices and they cannot be used for representing PM dependencies,
+> > for example.
+> >
+> >> I agree that using a platform device or PCI device is better, but this=
+ already happens
+> >> inside the ACPI fan driver (platform device).
+> > So it should not happen there.
+>
+> I meant that the ACPI fan driver already uses the platform device as the =
+parent device of the
+> cooling device, so the ACPI device is only used for interacting with the =
+ACPI control methods
+> (and registering sysfs attributes i think).
 
->  static u64 read_gmu_ao_counter(struct a6xx_gpu *a6xx_gpu)
->  {
->  	u64 count_hi, count_lo, temp;
-> @@ -849,9 +915,12 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
->  		  min_acc_len_64b << 3 |
->  		  hbb_lo << 1 | ubwc_mode);
->  
-> -	if (adreno_is_a7xx(adreno_gpu))
-> -		gpu_write(gpu, REG_A7XX_GRAS_NC_MODE_CNTL,
-> -			  FIELD_PREP(GENMASK(8, 5), hbb_lo));
-> +	if (adreno_is_a7xx(adreno_gpu)) {
-> +		for (u32 pipe_id = PIPE_BR; pipe_id <= PIPE_BV; pipe_id++)
-> +			a7xx_write_pipe(gpu, pipe_id, REG_A7XX_GRAS_NC_MODE_CNTL,
-> +					FIELD_PREP(GENMASK(8, 5), hbb_lo));
-> +		a7xx_aperture_clear(gpu);
-> +	}
->  
->  	gpu_write(gpu, REG_A6XX_UCHE_MODE_CNTL,
->  		  min_acc_len_64b << 23 | hbb_lo << 21);
-> @@ -865,9 +934,11 @@ static void a7xx_patch_pwrup_reglist(struct msm_gpu *gpu)
->  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
->  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
->  	const struct adreno_reglist_list *reglist;
-> +	const struct adreno_reglist_pipe_list *pipe_reglist;
->  	void *ptr = a6xx_gpu->pwrup_reglist_ptr;
->  	struct cpu_gpu_lock *lock = ptr;
->  	u32 *dest = (u32 *)&lock->regs[0];
-> +	u32 pipe_reglist_count = 0;
->  	int i;
->  
->  	lock->gpu_req = lock->cpu_req = lock->turn = 0;
-> @@ -907,7 +978,19 @@ static void a7xx_patch_pwrup_reglist(struct msm_gpu *gpu)
->  	 * (<aperture, shifted 12 bits> <address> <data>), and the length is
->  	 * stored as number for triplets in dynamic_list_len.
->  	 */
-> -	lock->dynamic_list_len = 0;
-> +	pipe_reglist = adreno_gpu->info->a6xx->pipe_reglist;
-> +	for (u32 pipe_id = PIPE_BR; pipe_id <= PIPE_BV; pipe_id++) {
-> +		for (i = 0; i < pipe_reglist->count; i++) {
-> +			if (pipe_reglist->regs[i].pipe & BIT(pipe_id) == 0)
-> +				continue;
-> +			*dest++ = A7XX_CP_APERTURE_CNTL_HOST_PIPE(pipe_id);
-> +			*dest++ = pipe_reglist->regs[i].offset;
-> +			*dest++ = a7xx_read_pipe(gpu, pipe_id,
-> +						 pipe_reglist->regs[i].offset);
-> +			pipe_reglist_count++;
-> +		}
-> +	}
-> +	lock->dynamic_list_len = pipe_reglist_count;
->  }
->  
->  static int a7xx_preempt_start(struct msm_gpu *gpu)
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> index 6820216ec5fc..0a1d6acbc638 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
-> @@ -46,6 +46,7 @@ struct a6xx_info {
->  	const struct adreno_protect *protect;
->  	const struct adreno_reglist_list *pwrup_reglist;
->  	const struct adreno_reglist_list *ifpc_reglist;
-> +	const struct adreno_reglist_pipe_list *pipe_reglist;
->  	const struct adreno_reglist *gbif_cx;
->  	const struct adreno_reglist_pipe *nonctxt_reglist;
->  	u32 max_slices;
-> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> index 0f8d3de97636..cd1846c1375e 100644
-> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
-> @@ -182,12 +182,25 @@ struct adreno_reglist_list {
->  	u32 count;
->  };
->  
-> +struct adreno_reglist_pipe_list {
-> +	/** @reg: List of register **/
-> +	const struct adreno_reglist_pipe *regs;
-> +	/** @count: Number of registers in the list **/
-> +	u32 count;
-> +};
-> +
+OK
 
-Please move this chunk down, just above the DECLARE_ADRENO_REGLIST_PIPE_LIST
+> >> Only the ACPI video driver created a "device" sysfs link that points t=
+o the ACPI device
+> >> instead of the PCI device. I just noticed that i accidentally changed =
+this by using the
+> >> PCI device as the parent device for the cooling device.
+> >>
+> >> If you want then we can keep this change.
+> > The PCI device should be its parent.
+>
+> Alright, i will note this in the patch description.
+>
+> >>>>         thermal: core: Set parent device in thermal_cooling_device_r=
+egister()
+> >>>>         ACPI: thermal: Stop creating "device" sysfs link
+> >>> And this link is to the struct acpi_device representing the thermal z=
+one itself.
+> >> Correct, the ACPI thermal zone driver is a ACPI driver, meaning that h=
+e binds to
+> >> ACPI devices. Because of this all (thermal zone) devices created by an=
+ instance of
+> >> said driver are descendants of the ACPI device said instance is bound =
+to.
+> >>
+> >> We can of course convert the ACPI thermal zone driver into a platform =
+driver, but
+> >> this would be a separate patch series.
+> > If you want parents, this needs to be done first, but I'm still not
+> > sure what the parent of a thermal zone would represent.
+> >
+> > In the ACPI case it is kind of easy - it would be the (platform)
+> > device corresponding to a given ThermalZone object in the ACPI
+> > namespace - but it only has a practical meaning if that device has a
+> > specific parent.  For example, if the corresponding ThermalZone object
+> > is present in the \_SB scope, the presence of the thermal zone parent
+> > won't provide any additional information.
+>
+> To the device core it will, as the platform device will need to be suspen=
+ded
+> after the thermal zone device has been suspended, among other things.
 
--Akhil
+Let's set suspend aside for now, I think I've explained my viewpoint
+on this enough elsewhere.
 
->  #define DECLARE_ADRENO_REGLIST_LIST(name)	\
->  static const struct adreno_reglist_list name = {		\
->  	.regs = name ## _regs,				\
->  	.count = ARRAY_SIZE(name ## _regs),		\
->  };
->  
-> +#define DECLARE_ADRENO_REGLIST_PIPE_LIST(name)	\
-> +static const struct adreno_reglist_pipe_list name = {		\
-> +	.regs = name ## _regs,				\
-> +	.count = ARRAY_SIZE(name ## _regs),		\
-> +};
-> +
->  struct adreno_gpu {
->  	struct msm_gpu base;
->  	const struct adreno_info *info;
-> 
-> ---
-> base-commit: 7bc29d5fb6faff2f547323c9ee8d3a0790cd2530
-> change-id: 20251126-gras_nc_mode_fix-7224ee506a39
-> 
-> Best regards,
+> > Unfortunately, the language in the specification isn't particularly
+> > helpful here: "Thermal zone objects should appear in the namespace
+> > under the portion of the system that comprises the thermal zone. For
+> > example, a thermal zone that is isolated to a docking station should
+> > be defined within the scope of the docking station device."  To me
+> > "the portion of the system" is not too meaningful unless it is just
+> > one device without children.  That's why _TZD has been added AFAICS.
+>
+> I think you are confusing the parent device of the ThermalZone ACPI devic=
+e
+> with the parent device of the struct thermal_zone_device.
 
+No, I'm not.
+
+> I begin to wonder if mentioning the ACPI ThermalZone device together with=
+ the
+> struct thermal_zone_device was a bad idea on my side xd.
+
+Maybe.
+
+> >>>>         thermal: core: Allow setting the parent device of thermal zo=
+ne devices
+> >>> I'm not sure if this is a good idea, at least until it is clear what
+> >>> the role of a thermal zone parent device should be.
+> >> Take a look at my explanation with the Intel Wifi driver.
+> > I did and I think that you want the parent to be a device somehow
+> > associated with the thermal zone, but how exactly?  What should that
+> > be in the Wifi driver case, the PCI device or something else?
+> >
+> > And what if the thermal zone affects multiple devices?  Which of them
+> > (if any) would be its parent?  And would it be consistent with the
+> > ACPI case described above?
+> >
+> > All of that needs consideration IMV.
+>
+> I agree, but there is a difference between "this struct thermal_zone_devi=
+ce depends on
+> device X to be operational" and "this thermal zone affects device X, devi=
+ce Y and device Z".
+
+Yes, there is.
+
+> This patch series exclusively deals with telling the driver core that "th=
+is struct thermal_zone_device
+> depends on device X to be operational".
+
+Maybe let's take care of cooling devices first and get back to this later?
