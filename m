@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3C9BC8FD40
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 18:59:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647A9C8FD7D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 19:01:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26F7610E83B;
-	Thu, 27 Nov 2025 17:59:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03AD510E845;
+	Thu, 27 Nov 2025 18:01:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Hu4hC3Gi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hZBFbmT1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C77010E83B
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 17:59:22 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB2F410E845
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 18:01:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2C66E6014D;
- Thu, 27 Nov 2025 17:59:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D172C4CEF8;
- Thu, 27 Nov 2025 17:59:19 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 8CB9F43DA9;
+ Thu, 27 Nov 2025 18:01:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F02AAC4CEF8;
+ Thu, 27 Nov 2025 18:01:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764266360;
- bh=P5NP+AMrzLXEuSLMeScxNJqTKmSYfjh1JJJiVnin2z0=;
+ s=k20201202; t=1764266474;
+ bh=U7xUd/700hfi+Eb66XLB48sYWJGPiDoz1Cn7ILjaGdI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Hu4hC3GieK5BZk4r0g1ObTX2XhAXlN7WLNdYvFc6lF1FOeZtWv/VslWLeGwJy3DrK
- 2POmEF1LqO5UXVV/PW+tAcY3/X0eAKj6Dqt9KSkMCCW/F6JIuWrqFhIB16nObYfx3J
- cbbfgGHp45CauOqyy+iRIXXjXGrQcKcsc0GQxe3qt4M1b3MFiO0Lh1+EZ8asEorfeu
- Eigyb2s8re0YjB4ogh60qpw+qFS0bTwkU+lM0tipwkhI26TtdvoNJC6J9xZbs4PNiL
- L4cZvZwC5i/Dv6atrFFu552iliXQL7ZOy69dDgXR40WL3tOjjhevuqlUzFooF6rmT6
- GD5a//rmCTPAg==
-Date: Thu, 27 Nov 2025 18:59:16 +0100
+ b=hZBFbmT1JkjRs2aVb44ZpQNuz8hYZ0vPnx1zVimYbDiE6hIciSUP2ehr4sD2NYPev
+ Jq3LQxhkG04dyXPPYLme8Yvd46f9V6hqQkKJnf3WCHyI3kbqqrNuq3wVZE5mvVFLxW
+ 00WYF3qnsTybvUaSVrXdMNeqaa93rOjmJv72e/pbucCF1Kg4EwMLd3a8uW+JXDyWU5
+ bh7a24VFZSvK6jG5IQSfxDFVaIzm3ykE2iD0WwzYiJofP3jabRRsURhSK6GOSXiSU1
+ 6lIhg/ojidU4GDwfBk486a/+ztBBCV/EH58f5LWtK3sIi+aY8EIhOk5Jwqvw9YXL8q
+ wu+vO4Ma7wcZA==
+Date: Thu, 27 Nov 2025 19:01:10 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: Linus Walleij <linus.walleij@linaro.org>
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
@@ -45,16 +45,15 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  Magnus Damm <magnus.damm@gmail.com>, 
  Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>, 
  dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] drm/atomic-helper: Export and namespace some
- functions
-Message-ID: <zkmtvm37dizdohaffyvg5oouhtzgki3xy4mbo5epgihgg7yitj@7jcxcctryzhu>
+Subject: Re: [PATCH v4 2/3] drm/mcde: Create custom commit tail
+Message-ID: <ltb52hd55qqvx7zgpjmrzk67mii6fyjgrnspbreqymffs3ri6p@tje4bog4xkg2>
 References: <20251121-mcde-drm-regression-thirdfix-v4-0-d89bf8c17f85@linaro.org>
- <20251121-mcde-drm-regression-thirdfix-v4-1-d89bf8c17f85@linaro.org>
+ <20251121-mcde-drm-regression-thirdfix-v4-2-d89bf8c17f85@linaro.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="rb3nteomg2rqcwfq"
+ protocol="application/pgp-signature"; boundary="hpmiitbfpy5j5brk"
 Content-Disposition: inline
-In-Reply-To: <20251121-mcde-drm-regression-thirdfix-v4-1-d89bf8c17f85@linaro.org>
+In-Reply-To: <20251121-mcde-drm-regression-thirdfix-v4-2-d89bf8c17f85@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,65 +70,100 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---rb3nteomg2rqcwfq
+--hpmiitbfpy5j5brk
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 1/3] drm/atomic-helper: Export and namespace some
- functions
+Subject: Re: [PATCH v4 2/3] drm/mcde: Create custom commit tail
 MIME-Version: 1.0
 
-Hi Linus,
-
-Thanks for following-up on that
-
-On Fri, Nov 21, 2025 at 03:08:31PM +0100, Linus Walleij wrote:
-> Export and namespace those not prefixed with drm_* so
-> it becomes possible to write custom commit tail functions
-> in individual drivers using the helper infrastructure.
+On Fri, Nov 21, 2025 at 03:08:32PM +0100, Linus Walleij wrote:
+> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+> caused a series of regressions in all panels that send
+> DSI commands in their .prepare() and .unprepare()
+> callbacks when used with MCDE.
 >=20
+> As the CRTC is no longer online at bridge_pre_enable()
+> and gone at brige_post_disable() which maps to the panel
+> bridge .prepare()/.unprepare() callbacks, any CRTC that
+> enable/disable the DSI transmitter in it's enable/disable
+> callbacks will be unable to send any DSI commands in the
+> .prepare() and .unprepare() callbacks.
+>=20
+> However the MCDE driver definitely need the CRTC to be
+> enabled during .prepare()/.unprepare().
+>=20
+> Solve this by implementing a custom commit tail function
+> in the MCDE driver that always enables the CRTC first
+> and disables it last, using the newly exported helpers.
+>=20
+> Link: https://lore.kernel.org/dri-devel/20251026-fix-mcde-drm-regression-=
+v2-0-8d799e488cf9@linaro.org/
+> Link: https://lore.kernel.org/all/20251107230517.471894-1-marek.vasut%2Br=
+enesas%40mailbox.org/
+> Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable=
+ and post-disable")
 > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 > ---
->  drivers/gpu/drm/drm_atomic_helper.c | 54 +++++++++++++++++++++----------=
-------
->  include/drm/drm_atomic_helper.h     | 19 +++++++++++++
->  2 files changed, 50 insertions(+), 23 deletions(-)
+>  drivers/gpu/drm/mcde/mcde_drv.c | 37 +++++++++++++++++++++++++++++++++++=
++-
+>  1 file changed, 36 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_at=
-omic_helper.c
-> index d5ebe6ea0acb..906eb4b0852c 100644
-> --- a/drivers/gpu/drm/drm_atomic_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_helper.c
-> @@ -1162,8 +1162,8 @@ crtc_needs_disable(struct drm_crtc_state *old_state,
->  	       new_state->self_refresh_active;
->  }
+> diff --git a/drivers/gpu/drm/mcde/mcde_drv.c b/drivers/gpu/drm/mcde/mcde_=
+drv.c
+> index 5f2c462bad7e..290082c86100 100644
+> --- a/drivers/gpu/drm/mcde/mcde_drv.c
+> +++ b/drivers/gpu/drm/mcde/mcde_drv.c
+> @@ -100,13 +100,48 @@ static const struct drm_mode_config_funcs mcde_mode=
+_config_funcs =3D {
+>  	.atomic_commit =3D drm_atomic_helper_commit,
+>  };
 > =20
-> -static void
-> -encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *=
-state)
-> +void
-> +drm_encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_sta=
-te *state)
+> +/*
+> + * This commit tail explicitly copies and changes the behaviour of
+> + * the related core DRM atomic helper instead of trying to make
+> + * the core helpers overly generic.
+> + */
+> +static void mcde_atomic_commit_tail(struct drm_atomic_state *state)
+> +{
+> +	struct drm_device *dev =3D state->dev;
+> +
+> +	/* Variant of drm_atomic_helper_commit_modeset_disables() */
+> +	drm_encoder_bridge_disable(dev, state);
+> +	drm_encoder_bridge_post_disable(dev, state);
+> +	drm_crtc_disable(dev, state);
+> +	drm_atomic_helper_update_legacy_modeset_state(dev, state);
+> +	drm_atomic_helper_calc_timestamping_constants(state);
+> +	drm_crtc_set_mode(dev, state);
+> +
+> +	/* Variant of drm_atomic_helper_commit_modeset_enables() */
+> +	drm_crtc_enable(dev, state);
+> +	drm_encoder_bridge_pre_enable(dev, state);
+> +	drm_encoder_bridge_enable(dev, state);
+> +	drm_atomic_helper_commit_writebacks(dev, state);
 
-I think the prefix should rather be drm_atomic_helper_commit_* to remain
-consistent, so drm_atomic_helper_commit_encoder_bridge_disable in this
-particular case.
+I'd like to have a mention of *what* changes here too, not only that it
+changes.
 
-This applies to the other functions here too, but it looks good to me
-otherwise.
+This also applies to the other patch.
+
+But aside from these two comments, the prefix change on the first patch,
+and the doc comment Tomi had, I think it's very reasonable and looks
+good overall.
 
 Maxime
 
---rb3nteomg2rqcwfq
+--hpmiitbfpy5j5brk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaSiRcwAKCRAnX84Zoj2+
-dtoWAYD33K7Z+FuVrKq4nxWsDeMGW8xIsJOcvOcOp76w9ugYP0FcA/eWxRiHm49r
-AZIMMXsBgNGZeqCrMcViFq9mok28Y9hQTO4ebkCWQws1aoKS607HUQyIICawfZd8
-M7rQyG8MKg==
-=mP+o
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaSiR5gAKCRAnX84Zoj2+
+diX9AX9koPaU95KzTGgg9Dj11IkN9i6RBMqraCnN8MvcU9+j4/b0WGO//Nx0qvGI
+6x2/zIwBgOsj9H9qyIKa2eemQul1x/ZYQBu3c/MywNMot9u8DTebVG+9g8BT8dIU
+qexk7TESAA==
+=rOX4
 -----END PGP SIGNATURE-----
 
---rb3nteomg2rqcwfq--
+--hpmiitbfpy5j5brk--
