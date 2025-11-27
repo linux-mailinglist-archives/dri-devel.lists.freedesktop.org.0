@@ -2,86 +2,194 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DEFFC904B9
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 23:28:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C31C8F95F
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 18:05:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC04810E085;
-	Thu, 27 Nov 2025 22:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2556610E0AA;
+	Thu, 27 Nov 2025 17:05:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NGd1KbwZ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XAF5bRbX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B751010E834
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 16:53:17 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-5957c929a5eso1577148e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 08:53:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764262396; x=1764867196; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:date:from:from:to
- :cc:subject:date:message-id:reply-to;
- bh=P4drWKEd4RAmd7MBRAIQVZy+ZqrpPhSLkolh9dDZECE=;
- b=NGd1KbwZGHwcB1Ff6xAsWKzrRA9A4/iH06JkLCIs6jG8rdLZYXVa7DDvzw7xsiAp89
- 73xhwADHyD2nSvpxlPjeTAg7FC9VJCcB9MDHgKR9Vnts0hmsSmxW+fQA2FHhqbHWOSOS
- EKjA0e3MWRn85kZJ2cW4wg7RnFodO5SXQByroUFts0gLpzbXF9MN5rtgbU4yvFEtZcXw
- l8Yblua2FVxbhE42zvCZrFoSWkuUAksBaS7fyvl4tR0I4uV+uXWd1x4FlUSK7bpyw6BM
- 7GmkesguMurdqZghgNKZIbY7VvqUMhp8KClfQRdmOC/6bnymT/vG4D/SMYA2kidMWZOz
- JB2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764262396; x=1764867196;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=P4drWKEd4RAmd7MBRAIQVZy+ZqrpPhSLkolh9dDZECE=;
- b=FiYhZJPxMKccoJrcVRy+cGbPUwWcRMmy+TQi4ruJIFeCboF00M9O8SeVtJsjRy9I9A
- tfgbdXpmrtALe7b9RfSHT/oFfbyF4bW67AITJDDGsOjJ1l/sHcSkzenoR3epJGweEcGn
- cR+ApPWrWgZWdOe3kRVGKhD493WBtXcByuxMC2lbDEE5d7GS1peMQVt4POk7bvRbc8xf
- CfgI8ir4pBVpkNmskUd5YURn3/i+5Ej8hmmbuXXSMjXUBO6/0oCv3iZNKHXRLYVNL6Ly
- yF04aLL3aEWhbvHfGHmAW8sgc6meGTVmONLo+nh2EqBrnUdbEgoCavQPVmCU0/y+lD7U
- CA4g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVk0mIQ9uVj+EmmPUNvanv8ibEX8gsM3bVlc+tASjcT9T4VCnaRrvGf72QqWZbVgnOXFlC5XVQrWog=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwJECUtLBqUpbs5+yOXfUwGgb6tV+ArevGTd5zE5HCGU7x+8p+k
- 4UAtJwTMYau45JcSh9ueFQdTz7zs5KdgPuNJqzgoSTM4XHqikZ0HBqb1
-X-Gm-Gg: ASbGncsIWCYyXjnMfwFzyBrsJIvhg47BHb4sXZRwH865fT6LVrZgo1qRAWK5fo6YWVg
- 9PXfyAQioRe3qD4DYPPdM9Zd9hrbqCsNSIrTosV6Jg7FezxU7g3eUawb1XRXRIh0XS8QRvFAVfd
- TbFoZcEfBpdiflnmEW/Z6xIH5pslAQE3bsJ1enaQEbbNXVXsJheK9cmwIZEfqQJjFVAJpuV40UV
- /qosMcILdnfHJz4bMSYqV84qApOwVB++nNW4gpc0sLg6qjc/RRAa2PcKp0yH6vgsmdAlaDgB2pz
- Pf1yLEITGoPAn5k/2Rpi0I9dcbaon8Nr8kl/fovcbvOpJktPa+VyBr057Gd2IzWDeubq5mgIOWj
- AK6sjTpTzcHAO3m6CIBdUsjU+5iKbqNkJMEFKi3k0drUrhAV1IM/Cmg==
-X-Google-Smtp-Source: AGHT+IH8j638xjzoDHoozqoJ+ZLnXS1T0OqZepwP8h1W2O745wvjvCM314d3621pAOHVbu+pSPoujA==
-X-Received: by 2002:a05:6512:6d1:b0:595:9d26:f551 with SMTP id
- 2adb3069b0e04-596b529c014mr4240034e87.48.1764262395589; 
- Thu, 27 Nov 2025 08:53:15 -0800 (PST)
-Received: from milan ([2001:9b1:d5a0:a500::24b])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-596bfa44058sm530323e87.60.2025.11.27.08.53.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Nov 2025 08:53:14 -0800 (PST)
-From: Uladzislau Rezki <urezki@gmail.com>
-X-Google-Original-From: Uladzislau Rezki <urezki@milan>
-Date: Thu, 27 Nov 2025 17:53:13 +0100
-To: Barry Song <21cnbao@gmail.com>
-Cc: akpm@linux-foundation.org, linux-mm@kvack.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Barry Song <v-songbaohua@oppo.com>, Uladzislau Rezki <urezki@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, John Stultz <jstultz@google.com>,
- Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH RFC] mm/vmap: map contiguous pages in batches whenever
- possible
-Message-ID: <aSiB-UsunuE7u295@milan>
-References: <20251122090343.81243-1-21cnbao@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0363F10E0AA;
+ Thu, 27 Nov 2025 17:05:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764263127; x=1795799127;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=F9dPNxcMxdqdCMNBjaxa/qiIgSKe8jc5q+qUuJR5upQ=;
+ b=XAF5bRbXmLH85NQDo5tQfdSDHjNpYoqHzNVORMdsQfQeI4nepPbNeIbH
+ jc2eK7nQc2dqt56+cc+zu0RcnA8/9Jp+CIu4FDw3LQJ1dEf75UyLImu4+
+ 9FAhpCbGDWRjkr0zhMaTd32sbRBZbWZGkQs+Ql+jwz/WGwlzraXweU0py
+ f+JmZCs/DL8CdbITNeDFst67h4KWcxCgMhx+RcvKC2frK9aaSmzESwQDF
+ Vqvrcc5f4C9T93FEjlVRc9kgJDgnz+GBEz101jLBwGXYWK5CH+6/+r/a0
+ fCCGa+763hJg7qpmtrYhgH1W2bBTJfExE93QiaJKI8VLRvKYGU8hO8ixm w==;
+X-CSE-ConnectionGUID: dlqCUNsoRTWPAdSx3iIWGw==
+X-CSE-MsgGUID: xJwXaov2SwaUj3ya8j0diA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="70178274"
+X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="70178274"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2025 09:05:26 -0800
+X-CSE-ConnectionGUID: r6nE71YdRceP5xgpMG8RIw==
+X-CSE-MsgGUID: zZX/G3o9QjKUNggS3BV4Pw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="224229182"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+ by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2025 09:05:26 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Thu, 27 Nov 2025 09:05:25 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Thu, 27 Nov 2025 09:05:25 -0800
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.52)
+ by edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Thu, 27 Nov 2025 09:05:25 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Or39PnK+FGJOYB9ZH3uqEl+h2s39E/HVMtzxZzeplhWoAfFOUOlpC0Yu+VDoXIhtOCVNy6kcrIuRsm31W6X0Ok+h66+ajUsIn0R2iJ4fLMGAiUmu/VZjsZRjkmqD2CohWVh42XYWqz4gn0TTr3JwnYOfpCiF4g5Z6MHfVjxoMVrYLkzd8oShvUTHWF0qliYeKWOHrrUe+tvUhgifuCmoIJanOutGXub2KrDNXzdPwDEZDSdvxEn8gE1lqgJP+kefZBUOMEybXg4oj+5BbpzT1whzllQRGCBrNfgfY/Ho381MKSwjsIFV5O70LnY1YGOHQAOScsy+MkRtfL9vs5qlng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wF5hVXQwdypldz1Yni9OtYcHQuX/AHv9Q7y7aanftTQ=;
+ b=mo1WlVJxWgx9f0x3eSZ9KpQxbeOBcZAZBTPMTbRVjLetGDUacjTHCXQ86K7WMqsJD0HzTKf4fcRyPHvFG1bbENCSoLS4Zv52WUvsgwmVSYii9EBuFaBT1J744vxjUHZOJZWTNMyJuh/sdiO4/W5Z9d8XMS28Vsy47jY9wtR4X5Cod1aph6wvzMAScyxVLGvHLE4cDQLp3112nwG3YjBqi5OV6F63c9O7MGArpElg1OvUmOTzuyeSpcDRB72S++JTh6AW01LtYQn6y2Rdh1XHnmx9u9/TA1W9I0Yfwxbk5MezL/ySoW4rH+pokRSq0cwUsdRvHk8oKmFrg15DDpZggw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB8019.namprd11.prod.outlook.com (2603:10b6:8:12e::18)
+ by IA3PR11MB8939.namprd11.prod.outlook.com (2603:10b6:208:580::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.14; Thu, 27 Nov
+ 2025 17:05:23 +0000
+Received: from DS0PR11MB8019.namprd11.prod.outlook.com
+ ([fe80::d2ab:ff8b:3430:b695]) by DS0PR11MB8019.namprd11.prod.outlook.com
+ ([fe80::d2ab:ff8b:3430:b695%4]) with mapi id 15.20.9366.012; Thu, 27 Nov 2025
+ 17:05:22 +0000
+Date: Thu, 27 Nov 2025 18:05:09 +0100
+From: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+CC: Jani Nikula <jani.nikula@linux.intel.com>,
+ <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <stable@vger.kernel.org>, =?utf-8?B?6rmA6rCV66+8?= <km.kim1503@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, Chris Wilson
+ <chris.p.wilson@linux.intel.com>, Andi Shyti <andi.shyti@linux.intel.com>,
+ Krzysztof Karas <krzysztof.karas@intel.com>, Sebastian Brzezinka
+ <sebastian.brzezinka@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>
+Subject: Re: [PATCH] drm/i915/gem: NULL-initialize the eb->vma[].vma pointers
+ in gem_do_execbuffer
+Message-ID: <j47pzyagx5i2frcdxwfkz7ybq2x75imk7dru7n7f5s5rzyrhjs@r7ewkhdmwgtr>
+References: <20251125133337.26483-2-krzysztof.niemiec@intel.com>
+ <1835827.4herOUoSWf@jkrzyszt-mobl2.ger.corp.intel.com>
+ <24917431ff16a8464b89b1314e02201172cc3fde@intel.com>
+ <4085794.qgXdJBQaxk@jkrzyszt-mobl2.ger.corp.intel.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251122090343.81243-1-21cnbao@gmail.com>
-X-Mailman-Approved-At: Thu, 27 Nov 2025 22:28:39 +0000
+In-Reply-To: <4085794.qgXdJBQaxk@jkrzyszt-mobl2.ger.corp.intel.com>
+X-ClientProxiedBy: VE1PR03CA0005.eurprd03.prod.outlook.com
+ (2603:10a6:802:a0::17) To DS0PR11MB8019.namprd11.prod.outlook.com
+ (2603:10b6:8:12e::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB8019:EE_|IA3PR11MB8939:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0bf2d85f-7efe-4f43-43aa-08de2dd72664
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|366016|7416014|376014|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aFMvTU13NmsrQk9JRnc0ZGJiZ1FNUUJUY1VaSm5XN3FIVk5UYVlGZTJVVnpj?=
+ =?utf-8?B?dmxBeWZzVlZhdnYvYmNCTWpNMnY5czJkLzVQRVFLUU4yQVVxRVpBM3ZjVkla?=
+ =?utf-8?B?YWZMSDhJdXFzWSt5ckN5Q2NWSlhud1prcDc1T243Sk1iT0FvZkJBMTJNRW9q?=
+ =?utf-8?B?dlpYdkhrM051aXd4RzdieGR3OWVLaEdWMzVSS0llM1d5b3IvZ0MyWGJ0TmZj?=
+ =?utf-8?B?RjRJMnZ6bk9mZzhMUmRtUkxEWGVlZTIvWHBwZC9iU1l0aFRFSG1UeFpGbEFO?=
+ =?utf-8?B?T3RETHRjbG01NHJONWdpVXFkQWlNSS95V2UwdnhNVjA5YzZWc1hHU2tsSmNp?=
+ =?utf-8?B?ODJJcWkxWEd2alV2WmFtbUY2ZWNQVkJaV2o2SzhORTNyZ0U1dnhGWm1UNytw?=
+ =?utf-8?B?ZEhkMTJzT3BJYnVuUjRIV2VMT0IzWnBxM0NucHJURitFVDZjYmpFRUs5SER5?=
+ =?utf-8?B?alR1a2djWE95ekl0ZXhHK3dubTJQbHhvZWQ1WVBrQzVMbFF1ellwUmVMZUxC?=
+ =?utf-8?B?Ti8vUENzc3V2SjhkRXI2dGNIN1hLVitBbjgzYm45Y0l2cnVFZGw2a25VdFRn?=
+ =?utf-8?B?RytwbUJoak5ZSWFQMmZ6QXJId0xsZTd0ZTloUkZZYk03RXZNcjlOMDI5Vnlx?=
+ =?utf-8?B?VU1UY0xJUnVBUnEvZkNxa3JNNkQ1ejRVbytPb0dSZzhOVnVwQkV3U0JsWUxm?=
+ =?utf-8?B?akZtUVJ2L092U3VuTFFGL0NOL0xLVG5PaGIrY2podFpTYU5ZOHdHVkx1STEr?=
+ =?utf-8?B?emxVaHVpZnZHNm94S0RpYWtXNCtuS2RQeE1PaEN5ZUJ3LytCQVVMMk5KL2dx?=
+ =?utf-8?B?U3dRdEZIVFhTMWxSS1FrcHhwUUp1bCt3eSszZ05pSnRYRWhrcHVwaXFkWWR1?=
+ =?utf-8?B?K2tFeldQVjNNWEhCdzhyUFJObU5QRWZ0Z1NuTHMyNjRQaENIODNSWWl5QTVG?=
+ =?utf-8?B?aGZCWlBWR3dONUo3YXhIRlBYb2orVmtvRStudWpuUzdLRjdpRVkyZXFRekdS?=
+ =?utf-8?B?aGVCRzdWSUd6ejRoUEFaUHBOYkw1UnRDcjVTMEM2SldUMFRNcUZYM0l5Qkh4?=
+ =?utf-8?B?Ky94WC80OEcxT21vRVNXaXpnYmZlK1ozWE53TGpwd0FmRW1VSEd4bkNPSUhy?=
+ =?utf-8?B?eWU2M1lNZjQvTEQ5TldkdEY1Y1VpOUhhdVdzMDZtWWVKaDREODVMd3pvOFJY?=
+ =?utf-8?B?VmJOS2N5b01vQlZYWllUMkJEcTAraG9NMVhUTmIxWitraldZRFlrTlU0a0RK?=
+ =?utf-8?B?ZmpHOTdxVWZOWFdRZnZKSmQ3cnIzYyt4TW8vL1VzL09mdko3WUxsUjNSU3Rl?=
+ =?utf-8?B?OVAyaWFZSGhGV0djYytzTjAxNUp2WjJMZWZhMmlFcmN0dit2NmxSREZHMEVw?=
+ =?utf-8?B?a3RhY09pQzdiWUZKVnMxSnZXRFhVUHVUVFM3S0duWkRER0ZUSy9Ua3dGMTdC?=
+ =?utf-8?B?Qm11VmEyak5OVzZTcG1MeEc2QlFTWWRNTDk5T1Y1YkNpMXJWRTdrL1JUV1ox?=
+ =?utf-8?B?NUo5VUt6RThiakRiTjFLOEo1Z0RKYnRMSktGTjVjb3VSdG42VUduajlleDFw?=
+ =?utf-8?B?VWlTTElEeXAwdG9oSndmZHNVVDVTZHgvaWxaRHA3dDVESFVDTEhQcUl5K0Zu?=
+ =?utf-8?B?NVBMRzJFaUQ4bVh5KzJXNllNajhxSVE1YS9BM2pEdDc4WUxuRkcxVXcrOFg3?=
+ =?utf-8?B?S0xEUXd3RU5RVXhpcHlVU3lpbDdQazQxNnFXZ2ZMdDc3cDRTSEFwNjYxVUNl?=
+ =?utf-8?B?cXBTa2hLb3c0Nk5hSGxqdDhLOGZBclB4MnNHbHBEQkRPalpaQ094dTlaTnNu?=
+ =?utf-8?B?eWdtS0ZZSHZ3NjIza1pUVzB5cGFxcFVYZmlDSWhpd01Ha2NMN2NjNVB0NGw5?=
+ =?utf-8?B?UGw5ZG5aWktzZ013dUpLZTBpYmpRZ09xaUVLOU9FUnpNNE9NeHhITnlKaCt1?=
+ =?utf-8?Q?El8JvIU5T3NIWlBKajeCpVRxZw/+xU4o?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB8019.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(7416014)(376014)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R1FVL0RkbkFNRVZkbHp4VTIxQXQvM3EzM3BGN2pvb2RyTk9yc05YY1NlcjIw?=
+ =?utf-8?B?T3dqemVRcUMxbVVSSVUvYU1mRHVLa29LUnlJa0kzNmkzdnUrSzgzNHljUGxp?=
+ =?utf-8?B?YkxzbXBsMmNYTFhVK2F3cGlTTW5NSEc1aGtLWTFmWjFWdTdiRFplbysrOTlB?=
+ =?utf-8?B?V1hYR2RNcVgzYTBtZWJrY2JoS3V4RWJBMnRxbStmMU1LM2hlK2pYaEZNS1ZG?=
+ =?utf-8?B?YThuUTVJb3NTOVNoV0UrZ292MTN1OVlLcCthNldTNDl1S1FzVVIwUmptWjFE?=
+ =?utf-8?B?cDloNFduNTJrV0NRZFdFRnJETVdOdk5JTzlSMHFKV0tsOFNhZWRRczY2UTRU?=
+ =?utf-8?B?eEVIME1rckpPVy9LbjRxTEFxa05NclZkT3BIdTZkV0R1S2U1MG1VbXhyd2Rk?=
+ =?utf-8?B?VmxkOTk5V04veDdjUnhDZXZHcTF1NUlHQzg3VHRkWFgzQ0tMT0JJUlhvSk14?=
+ =?utf-8?B?TFVrQU8vNm5lVHpvQTVjbzdGWmpFYWY3dFF3VDB2MmZGWDVIUjREcS9nZDBp?=
+ =?utf-8?B?cGFQWTJUV2o4cGUxNWFTNTh0RE5Db1JlSTFXMWRJMW9FV2NCelVwdkxsbDNO?=
+ =?utf-8?B?Y1l2Q3NMTWNqZnNvSXVkazNQSXV1eitETTBTYXFOdWMwVW9FejNndyt6SGVH?=
+ =?utf-8?B?MkRLa3hoUmd1bDArdDBLZE4vYnZBMlgzOU5tc2Nzb2daRGdJYnVaSGU5SWRp?=
+ =?utf-8?B?WFREMlZoallBa0dIWEpZMkx2SEZKVU9BSjluSzNlZlNFZHBYWmlwRER5aENF?=
+ =?utf-8?B?TFA4N3FYTFNOTzFlOEZoTkpjM1lMMjl4NFZ1SXlwZm83dEYrZVlSdXpCVUpo?=
+ =?utf-8?B?WFZFU2UxMTA5SGh3QWFKOTd5VnRjYk0vRzU1bjdSMjVxZldLb2NUZDA1R3pY?=
+ =?utf-8?B?NlJxcmxHckJINW1Nd2NPcFlMV0k0cEM5QVVmYW1uNnpyeXBvNFNVS3FEVk9Q?=
+ =?utf-8?B?WndTODFyV0RMNDQ3cmxTMnBVYVh6KzIyRVowWXU3M1ZhZ1EwZ2lDVGhYcWx5?=
+ =?utf-8?B?NWN2b2tISlFOUnVwd3p2aUN4TXZZeXRqM01UekIrc1Zrb3hRVHBRbFVhcjRF?=
+ =?utf-8?B?cHo5b0gvNzlhOHZrSm1sRFpFTGFuMEUxL1hKdGlkS3pUcGFZNE5IM0hhQjU2?=
+ =?utf-8?B?Y2dJNkc0d3hGT3F1NG1EVWFDaS8xZFFMR1VLQytuNmd2dkxGdmNKQWt1UW0v?=
+ =?utf-8?B?Y0k5cVVXbTFUQlN4eWhJQS8zekRiRzlrSFdIMm1nYllWaFppL0tPRnp0T0RL?=
+ =?utf-8?B?VmI0UzQrdyswWXBVWU9pRFNoOEQvNTJvSW5tZzc1UW1CR1EyNTBWRVlqVWVn?=
+ =?utf-8?B?ak1UcnRPbkUwcUUvRk5EQ2Z0cEowVnU5UnFXWDNCTUtSV0VLcCs2NmNsSnFR?=
+ =?utf-8?B?SUVYSWpjbEtQTW5SWHRQZmlhSkZieUZaZElPdHV1YXBRME1HR2Q0bTFIdXRr?=
+ =?utf-8?B?Q0l0VDVzTVA0RUFoZUNlTkRWREZIcmFHYXVGK3Q1WEFvZ3lzN1Vob2pKZFRX?=
+ =?utf-8?B?bXpTcUtaMG91Y3I5MVI0MTl0OUJ2dGtGNkV6clQvWUZqU28xMlp3RHVrZnkx?=
+ =?utf-8?B?dFdjakVSaTR0MHB3RUUyMzl1YmEvQjZza0l2VzNNc3ZCenBoaXF1RlV4K3N4?=
+ =?utf-8?B?czdVaUhDeVZNRHJWZzYySEhNSUNmZElQWFN5KzBMdHdrZEdPc1I5ZXY1UkdX?=
+ =?utf-8?B?eEdZcnNlWW5YSGZHTHBvUTBYU0tVaXRvbHZuUE1uQ3dCZzJZa3B1c054MC9Y?=
+ =?utf-8?B?aDh3NGk4QUdwdDZTTllObFA2aDhjVkZ0SmxPemUxTHpzVnc3Vld3aXRjN01v?=
+ =?utf-8?B?ZWhycFR5dVZyNnRjUUYveGVDS0JydEp3WFBMZnVINUdKMU1aM0lXTWx3N08v?=
+ =?utf-8?B?Mzl3bll5a2dndnVvaVBqUzZONFQ0bmVabjJya3ZtWVhJbWcvK0hseHpOaWZP?=
+ =?utf-8?B?RHdVVWJPRC82WUd6OEdrMThjVDlSRGV5ZHBOemplazd1UGZFejU2NXFpTGEv?=
+ =?utf-8?B?MUZyZVZ3SXFVMXZqOW9IM2NlbWFEbHZrT1g3N0JkQzVXd1ZLUEZycW1nOTBy?=
+ =?utf-8?B?eWY3VjRDZWtTd0phMUprWjBHem9GRzNOLzBNcWhFZllpbVJ3OTFoLzYweU5a?=
+ =?utf-8?B?aUV6UXpBVmhrVlE3SFNrL3h1NHdNdjNOS01MZXQxTi90MDVPNUVDYXZKN29C?=
+ =?utf-8?B?aUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0bf2d85f-7efe-4f43-43aa-08de2dd72664
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8019.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2025 17:05:22.0058 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EhudyVYifr9pm/siSZcmzr2CgB2Ff1WcYizO2Q/WrNAlgWrRO0AbtAIIFr5LGAhD7VkcVLziAlNG7PvZw28bWbx5qin3uCSdiGTfu670x84=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB8939
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,139 +205,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 22, 2025 at 05:03:43PM +0800, Barry Song wrote:
-> From: Barry Song <v-songbaohua@oppo.com>
+On 2025-11-27 at 12:21:11 GMT, Janusz Krzysztofik wrote:
+> On Thursday, 27 November 2025 11:46:05 CET Jani Nikula wrote:
+> > On Thu, 27 Nov 2025, Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com> wrote:
+> > > To my taste, zeroing on allocation would be a more clean solution.
+> > 
+> > IIUC there are micro optimizations to not clear on allocation when you
+> > don't strictly have to...
+> > 
+> > I'm not advocating one or the other approach, just stating what I
+> > believe is the reason.
 > 
-> In many cases, the pages passed to vmap() may include
-> high-order pages—for example, the systemheap often allocates
-> pages in descending order: order 8, then 4, then 0. Currently,
-> vmap() iterates over every page individually—even the pages
-> inside a high-order block are handled one by one. This patch
-> detects high-order pages and maps them as a single contiguous
-> block whenever possible.
+> OK, good to hear there is still someone who is able to recall what the reason 
+> could be when no hints can be found in git history nor inline comments.
 > 
-> Another possibility is to implement a new API, vmap_sg().
-> However, that change seems to be quite large in scope.
-> 
-> When vmapping a 128MB dma-buf using the systemheap,
-> this RFC appears to make system_heap_do_vmap() 16× faster:
-> 
-> W/ patch:
-> [   51.363682] system_heap_do_vmap took 2474000 ns
-> [   53.307044] system_heap_do_vmap took 2469008 ns
-> [   55.061985] system_heap_do_vmap took 2519008 ns
-> [   56.653810] system_heap_do_vmap took 2674000 ns
-> 
-> W/o patch:
-> [    8.260880] system_heap_do_vmap took 39490000 ns
-> [   32.513292] system_heap_do_vmap took 38784000 ns
-> [   82.673374] system_heap_do_vmap took 40711008 ns
-> [   84.579062] system_heap_do_vmap took 40236000 ns
-> 
-> Cc: Uladzislau Rezki <urezki@gmail.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: John Stultz <jstultz@google.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
-> ---
->  mm/vmalloc.c | 49 +++++++++++++++++++++++++++++++++++++++++++------
->  1 file changed, 43 insertions(+), 6 deletions(-)
-> 
-> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-> index 0832f944544c..af2e3e8c052a 100644
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -642,6 +642,34 @@ static int vmap_small_pages_range_noflush(unsigned long addr, unsigned long end,
->  	return err;
->  }
->  
-> +static inline int get_vmap_batch_order(struct page **pages,
-> +		unsigned int stride,
-> +		int max_steps,
-> +		unsigned int idx)
-> +{
-> +	/*
-> +	 * Currently, batching is only supported in vmap_pages_range
-> +	 * when page_shift == PAGE_SHIFT.
-> +	 */
-> +	if (stride != 1)
-> +		return 0;
-> +
-> +	struct page *base = pages[idx];
-> +	if (!PageHead(base))
-> +		return 0;
-> +
-> +	int order = compound_order(base);
-> +	int nr_pages = 1 << order;
-> +
-> +	if (max_steps < nr_pages)
-> +		return 0;
-> +
-> +	for (int i = 0; i < nr_pages; i++)
-> +		if (pages[idx + i] != base + i)
-> +			return 0;
-> +	return order;
-> +}
-> +
->  /*
->   * vmap_pages_range_noflush is similar to vmap_pages_range, but does not
->   * flush caches.
-> @@ -655,23 +683,32 @@ int __vmap_pages_range_noflush(unsigned long addr, unsigned long end,
->  		pgprot_t prot, struct page **pages, unsigned int page_shift)
->  {
->  	unsigned int i, nr = (end - addr) >> PAGE_SHIFT;
-> +	unsigned int stride;
->  
->  	WARN_ON(page_shift < PAGE_SHIFT);
->  
-> +	/*
-> +	 * Some users may allocate pages from high-order down to order 0.
-> +	 * We roughly check if the first page is a compound page. If so,
-> +	 * there is a chance to batch multiple pages together.
-> +	 */
->  	if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
-> -			page_shift == PAGE_SHIFT)
-> +			(page_shift == PAGE_SHIFT && !PageCompound(pages[0])))
->
-Do we support __GFP_COMP as vmalloc/vmap flag? As i see from latest:
 
-/*
- * See __vmalloc_node_range() for a clear list of supported vmalloc flags.
- * This gfp lists all flags currently passed through vmalloc. Currently,
- * __GFP_ZERO is used by BPF and __GFP_NORETRY is used by percpu. Both drm
- * and BPF also use GFP_USER. Additionally, various users pass
- * GFP_KERNEL_ACCOUNT. Xfs uses __GFP_NOLOCKDEP.
- */
-#define GFP_VMALLOC_SUPPORTED (GFP_KERNEL | GFP_ATOMIC | GFP_NOWAIT |\
-                               __GFP_NOFAIL |  __GFP_ZERO | __GFP_NORETRY |\
-                               GFP_NOFS | GFP_NOIO | GFP_KERNEL_ACCOUNT |\
-                               GFP_USER | __GFP_NOLOCKDEP)
+Both approaches are suboptimal in a way - if we zero on allocation,
+there's redundant writes to the eb_list2 part of the array, but if we
+don't, then we need to make an additional call to memset() (which of
+course is the better way to do compared to a for loop). I have no
+earthly idea which would be faster though, unless some obvious
+observation eludes me. I vote for the additional memset() for the
+clarity of intent.
 
-Could you please clarify when PageCompound(pages[0]) returns true?
+> If that's the case, but we agree on pre-zeroing only the sub-area dedicated to 
+> the vma table rather than doing that on failure and limited to one element 
+> that follows the one that failed, as Krzysztof initially proposed, then I'd 
+> vote for restoring memset() that was dropped with commit 170fa29b14fad ("drm/
+> i915: Simplify eb_lookup_vmas()").  In any case, a clarification (in commit 
+> description or inline comment) on why we chose one solutions and not the 
+> another wouldn't hurt.
+> 
 
->  		return vmap_small_pages_range_noflush(addr, end, prot, pages);
->  
-> -	for (i = 0; i < nr; i += 1U << (page_shift - PAGE_SHIFT)) {
-> -		int err;
-> +	stride = 1U << (page_shift - PAGE_SHIFT);
-> +	for (i = 0; i < nr; ) {
-> +		int err, order;
->  
-> -		err = vmap_range_noflush(addr, addr + (1UL << page_shift),
-> +		order = get_vmap_batch_order(pages, stride, nr - i, i);
-> +		err = vmap_range_noflush(addr, addr + (1UL << (page_shift + order)),
->  					page_to_phys(pages[i]), prot,
-> -					page_shift);
-> +					page_shift + order);
->  		if (err)
->  			return err;
->  
-> -		addr += 1UL << page_shift;
-> +		addr += 1UL  << (page_shift + order);
-> +		i += 1U << (order + page_shift - PAGE_SHIFT);
->  	}
->  
->  	return 0;
-> -- 
-> 2.39.3 (Apple Git-146)
+The way I see it done now given the comments:
+- keep the kvmalloc()
+- zero the array like in the mentioned commit (e.g. memset())
+- add comments to the new code so no one gets lost in the future (I'd
+  prefer putting explanations in comments instead of the commit log)
+
+Thanks
+Krzysztof
+
+> Thanks,
+> Janusz
+> 
+> > 
+> > 
+> > BR,
+> > Jani.
+> > 
+> > 
+> 
+> 
+> 
 > 
