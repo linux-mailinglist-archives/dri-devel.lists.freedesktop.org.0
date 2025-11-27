@@ -2,81 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F23C904BC
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 23:28:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DBABC8F71C
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 17:08:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5C8B10E86E;
-	Thu, 27 Nov 2025 22:28:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9A9B10E087;
+	Thu, 27 Nov 2025 16:08:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cnzZhl3f";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Z7MhA283";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A81DB10E7AA
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 16:14:37 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-343ff854297so1283118a91.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 08:14:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764260077; x=1764864877; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=OelpnF6/6m3NZuiNGWSozOU3js9WsWkx5++wwJ6A4bM=;
- b=cnzZhl3f5GQFyB1T1PsFkIi+fTzz6fkwXuNlmmD83pBpj8e7cGChBlAj9mn/rMmR+a
- F1kGgoc5tWKnGNC+y5EoKgcOQDUJgJjjpqCJMZ6L+5mckzfTz0l4DLsUuKXf5rJhqxjI
- CKq7HSPA/uN6z1L4oUSWTyjXG5/6F9Ks+XDTuDoVn/ZKgT2019yK6he3c+LdOF0ToHqC
- ffH3NLN/79yXGswL0OcFMEZUXDUX9Ax/qAZwI64IkgpQPPh1Tob+1jZ7ii8OMWNMvTEl
- cBF63A0UPijyBp3Y2ypbdEp9/OdxPgEpYKEMiYvto7lWZrpJ8aZc+VU0yI8k1NYLjuP2
- QZIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764260077; x=1764864877;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OelpnF6/6m3NZuiNGWSozOU3js9WsWkx5++wwJ6A4bM=;
- b=M/N4UBe6p4Nnv3bcLPQrd/LCA9gwqqNoKsiMjhhq7vDVzMmF7LhBafy0qSviyfZ+Jy
- oxy1/Sh/lzlRAEDV+0Az2Qw0AwIa90iJY6aRFZcn10cxcIN8iqlLCQ9V3wYJUUGCClbB
- FCUGroltkpjf9L5YF+GUl+M4/MFwcXrh0JWs1IVVRfOy7ZU3NkwETtoj0WrBSqHDxQng
- lqU9f9Z3G19r/0dFf5eGqv6xVOccPnlaJqM83mHyKUtbIULW0pV9HW2CF7DEDmTqYxsl
- +p3rOG33gPhI/BExsX/4klL4qRYLB4oFD8TCeM8PTkOfqzp0DBKwjQxvKzmxzG6peTud
- GK5A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUwh3PS68JDWSXE/D3L13Lb00tHmn8I6zPDFvvoyRC06wFgV9rdzjczl3ZksVIYY+PoNBOZax7tdN4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxnOBPKL7dpiW2vWvTUEeHixdob7WKck/SpKgfrZ7lxGR51VKNP
- BRo7CC+jThPpoJvXMGRtobcqtAasQ+fUKmXqmaOhoHVL6b4rWg/Ty1jF
-X-Gm-Gg: ASbGncsstji+38jL9ZZdvUS9G4v7moLz1U8k4Wxx9kqrqLjfYulxhLlsMXOqxgobcOM
- c9nW1MS+HqCfCct8vi0VHI1slUG6Q95xJogzECVyvdQ1KP3a495p7o2Hje0Q84uUh0eXs/tEdfq
- prF5oo8h1hNP+83MUMUPMAJii00lV83ycyj78gj9L+6XEmqhCqgHuKAq9UNQTOh2t/KPDXRvS7I
- rP/1IrcBt641kQQJ6JrfRz9JoUrPhXF7ijDZF28w1txU9SXHUfh9GVCXx40tALRedMVV5mkVu7S
- 2OgmODvtEtQ2A3tgzSr8Lu5tb+Ahn6fAmCIWJjs1l6ceJUgWH04wA35TDsmLG2KUmpRYMbE0g20
- FGWfCuw352p0tGKQigEdDz5IkVePJcdCTxA9M1v1H60ot2ml5gs3C5m1JmP94uc6VLz7WM+hHQh
- S4wVHF6TLseqmTJV1Q/hUotbyn/9+zNxD2bSgd4aVeYqs=
-X-Google-Smtp-Source: AGHT+IGsHMSsa9YYu1+Xj4wZvo0IRPv2BNsi7Z1fmIKI0IC6FpsgAkLZzLRs9YLWAa44UmaSoqDozA==
-X-Received: by 2002:a17:90b:17c2:b0:330:a454:c31a with SMTP id
- 98e67ed59e1d1-34733f40ebfmr21016635a91.32.1764260077100; 
- Thu, 27 Nov 2025 08:14:37 -0800 (PST)
-Received: from fedoraemon.neon-universe.ts.net
- ([2406:7400:11d:3b80:1fdf:dd16:5535:2781])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3477b1cbdc0sm2293025a91.2.2025.11.27.08.14.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Nov 2025 08:14:36 -0800 (PST)
-From: Avinal Kumar <avinal.xlvii@gmail.com>
-To: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 785D710E109
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 16:08:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1764259721;
+ bh=fKB78e3lsISybq6xiwMBy2evTO5QQdBxRjQx5Vhczbs=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=Z7MhA283kW1kWrisAQVBYbAqR/L1cA0VY98cM0dfM172qy/Q2uP8Wns4vqPoob3ci
+ kdA26FGtNBUK4INp0oS2yJ6MIGBn5wjuMaEaLfJxoOHfWHsZDeEYhScGwz6OuZ4o7p
+ 41k9npqjqIfr9sU533loCbDfv+MvbNDv+3GVCkYyXYaNSj56d5DY5hcJDenIlq6nRd
+ q78OHkET6QYeao7XlmL0ETnLY9ea11Q40iJl37H/33gfz6NQz7ys+JIJ6WRqD74VIW
+ PlxRcOB8QJ4eWkgJJq6diw6qbJFb2hm0TofPinj2GXBBhKRFKMMBYI7LCJuBXIpsE+
+ TyHs+L+NWmUtw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 8831017E1122;
+ Thu, 27 Nov 2025 17:08:40 +0100 (CET)
+Date: Thu, 27 Nov 2025 17:08:36 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Akash Goel <akash.goel@arm.com>, liviu.dudau@arm.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Avinal Kumar <avinal.xlvii@gmail.com>
-Subject: [PATCH] drm/panel: panasonic-vvx10f034n00: transition to mipi_dsi
- wrapped functions
-Date: Thu, 27 Nov 2025 21:38:29 +0530
-Message-ID: <20251127161337.396531-1-avinal.xlvii@gmail.com>
-X-Mailer: git-send-email 2.52.0
+ airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
+Subject: Re: [PATCH] drm/panthor: Prevent potential UAF in group creation
+Message-ID: <20251127170836.0921f02e@fedora>
+In-Reply-To: <f0b4ad5b-e202-4981-b4f2-01d78b3dc41f@arm.com>
+References: <20251127081239.3744766-1-akash.goel@arm.com>
+ <f0b4ad5b-e202-4981-b4f2-01d78b3dc41f@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 27 Nov 2025 22:28:39 +0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,36 +65,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes the panasonic-vvx10f034n00 panel to multi
-style functions for improved error handling.
+On Thu, 27 Nov 2025 16:02:15 +0000
+Steven Price <steven.price@arm.com> wrote:
 
-Signed-off-by: Avinal Kumar <avinal.xlvii@gmail.com>
----
-Here is the todo list for reference: https://www.kernel.org/doc/html/latest/gpu/todo.html#transition-away-from-using-deprecated-mipi-dsi-functions
+> On 27/11/2025 08:12, Akash Goel wrote:
+> > This commit prevents the possibility of a use after free issue in the
+> > GROUP_CREATE ioctl function, which arose as pointer to the group is
+> > accessed in that ioctl function after storing it in the Xarray.
+> > A malicious userspace can second guess the handle of a group and try
+> > to call GROUP_DESTROY ioctl from another thread around the same time
+> > as GROUP_CREATE ioctl.
+> > 
+> > To prevent the use after free exploit, this commit uses a mark on an
+> > entry of group pool Xarray which is added just before returning from
+> > the GROUP_CREATE ioctl function. The mark is checked for all ioctls
+> > that specify the group handle and so userspace won't be abe to delete
+> > a group that isn't marked yet.
+> > 
+> > Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > Signed-off-by: Akash Goel <akash.goel@arm.com>  
+> 
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> 
+> I *think* this should have a...
+> 
+> Fixes: d2624d90a0b7 ("drm/panthor: assign unique names to queues")
+> 
+> ... as I don't believe it was a problem before the rearrangement that
+> happened there.
 
-This is my first patch in Linux Kernel :)
+Oh, yeah, I didn't notice the commit was missing a Fixes tag, and
+you're correct about the offending commit.
 
- drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-index 3c3308fc55df..03c87c02fb57 100644
---- a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-+++ b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-@@ -44,7 +44,12 @@ static inline struct wuxga_nt_panel *to_wuxga_nt_panel(struct drm_panel *panel)
- 
- static int wuxga_nt_panel_on(struct wuxga_nt_panel *wuxga_nt)
- {
--	return mipi_dsi_turn_on_peripheral(wuxga_nt->dsi);
-+	struct mipi_dsi_multi_context dsi_ctx = {
-+		.dsi = wuxga_nt->dsi
-+	};
-+
-+	mipi_dsi_turn_on_peripheral_multi(&dsi_ctx);
-+	return dsi_ctx.accum_err;
- }
- 
- static int wuxga_nt_panel_disable(struct drm_panel *panel)
--- 
-2.52.0
+> 
+> Thanks,
+> Steve
+> 
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_sched.c | 19 +++++++++++++++----
+> >  1 file changed, 15 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> > index b834123a6560..a6b8024e1a3c 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> > @@ -779,6 +779,12 @@ struct panthor_job_profiling_data {
+> >   */
+> >  #define MAX_GROUPS_PER_POOL 128
+> >  
+> > +/*
+> > + * Mark added on an entry of group pool Xarray to identify if the group has
+> > + * been fully initialized and can be accessed elsewhere in the driver code.
+> > + */
+> > +#define GROUP_REGISTERED XA_MARK_1
+> > +
+> >  /**
+> >   * struct panthor_group_pool - Group pool
+> >   *
+> > @@ -3007,7 +3013,7 @@ void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
+> >  		return;
+> >  
+> >  	xa_lock(&gpool->xa);
+> > -	xa_for_each(&gpool->xa, i, group) {
+> > +	xa_for_each_marked(&gpool->xa, i, group, GROUP_REGISTERED) {
+> >  		guard(spinlock)(&group->fdinfo.lock);
+> >  		pfile->stats.cycles += group->fdinfo.data.cycles;
+> >  		pfile->stats.time += group->fdinfo.data.time;
+> > @@ -3727,6 +3733,8 @@ int panthor_group_create(struct panthor_file *pfile,
+> >  
+> >  	group_init_task_info(group);
+> >  
+> > +	xa_set_mark(&gpool->xa, gid, GROUP_REGISTERED);
+> > +
+> >  	return gid;
+> >  
+> >  err_erase_gid:
+> > @@ -3744,6 +3752,9 @@ int panthor_group_destroy(struct panthor_file *pfile, u32 group_handle)
+> >  	struct panthor_scheduler *sched = ptdev->scheduler;
+> >  	struct panthor_group *group;
+> >  
+> > +	if (!xa_get_mark(&gpool->xa, group_handle, GROUP_REGISTERED))
+> > +		return -EINVAL;
+> > +
+> >  	group = xa_erase(&gpool->xa, group_handle);
+> >  	if (!group)
+> >  		return -EINVAL;
+> > @@ -3769,12 +3780,12 @@ int panthor_group_destroy(struct panthor_file *pfile, u32 group_handle)
+> >  }
+> >  
+> >  static struct panthor_group *group_from_handle(struct panthor_group_pool *pool,
+> > -					       u32 group_handle)
+> > +					       unsigned long group_handle)
+> >  {
+> >  	struct panthor_group *group;
+> >  
+> >  	xa_lock(&pool->xa);
+> > -	group = group_get(xa_load(&pool->xa, group_handle));
+> > +	group = group_get(xa_find(&pool->xa, &group_handle, group_handle, GROUP_REGISTERED));
+> >  	xa_unlock(&pool->xa);
+> >  
+> >  	return group;
+> > @@ -3861,7 +3872,7 @@ panthor_fdinfo_gather_group_mem_info(struct panthor_file *pfile,
+> >  		return;
+> >  
+> >  	xa_lock(&gpool->xa);
+> > -	xa_for_each(&gpool->xa, i, group) {
+> > +	xa_for_each_marked(&gpool->xa, i, group, GROUP_REGISTERED) {
+> >  		stats->resident += group->fdinfo.kbo_sizes;
+> >  		if (group->csg_id >= 0)
+> >  			stats->active += group->fdinfo.kbo_sizes;  
+> 
 
