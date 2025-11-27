@@ -2,77 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F67BC8E396
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 13:16:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E67C8E3CA
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 13:23:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 037AA10E673;
-	Thu, 27 Nov 2025 12:16:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CCAF10E040;
+	Thu, 27 Nov 2025 12:23:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="Cyp54ggS";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SGA8J0aY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37E7210E673
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 12:16:09 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-2984dfae043so7089595ad.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 04:16:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
- t=1764245769; x=1764850569; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=o3hxwctHNUdCarFW6P5wDgmvCHnQslCanT7sActyeKM=;
- b=Cyp54ggSgL3cSmjmcxhO84L1UG78faNvKmcF6NSYiFuQvYiSOhJZgtE2TxE9UTDJsS
- eKfF8Z4TmeA8X2wivqMAdFj0rry9/1b6R/flJraIBNkNupIimLp5+5uqZ4FG5u3jTNgF
- tLra7ctXuIc2h5T96lCcdL/wND6eXBpPhT1ygrR1cv1YDIhMlprbil1ktWGtp/Ir4GRl
- 1Cc/XS8j+xV+z7OCMq1A+gXZi5if/rFT068hMN5B3vyuDXf83SIDK+K+oK2EIPfZSwrg
- 4KY4ASdm7h/frW7qUis3i3NAYSahuM3GGvJsnNWmM6K7GTUmfPxgM/KiEoaeZD+NzhMk
- 9BWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764245769; x=1764850569;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=o3hxwctHNUdCarFW6P5wDgmvCHnQslCanT7sActyeKM=;
- b=I9QBOaTGtrmYvcEjpcgfLO/avqDzhYmD60Xhgh54hVisksswRO0sN8OtAeYfR3KnY3
- jz7VLIbdHvH7M5D0L2ZaO41zNyAt3ILYtwyf39o+tCf7887VeUZhhtg5FFTPPLBP5kjz
- XvEepZrDPFopXKkC1V+1crAoht+pABMF5oaP6jlqdKIUZSzSSsNwCLjzOJTapmQPTPZa
- FfikDLH6SEZ04Z451Ugy9oatTwgYEk5J7C3PKksD1S7jVr0vdLwT2kCvSlsbj/0Xu0Y6
- UBTiHu916nctHM8RKJZMlIZg4JT2O04HhLSu9qdxfCvT88onyrIanuRfYWn7+npUk3DB
- U4Dw==
-X-Gm-Message-State: AOJu0YzOq7XfJ8tUajQS0XgkKlCiFSLkx7ODoFfbPa8QxCp0KyW1dDkP
- 95GkldQ7jMaP3BEjN9O8IZHOrYUnzcGUvZeqKLUFbSGlie7m7VMZ+iR51Q6wDk1pgv4=
-X-Gm-Gg: ASbGncsFkRisFhZOgFWtPQRuV/iA/hvAHITpgieI5KPzKeCVpsI+E+8iJF2tOd2AZj2
- pnQyC3PMtO0ST8ZYpMbycuIzfbL6MftVBSoDRi5JvxBpiXFCJwkoCa/CgyNxQ3LK5Ggpp7Zc1xS
- vHI7xIFE3GcKTddQcY2qYhYGCzxdRYGsqwdr3PxzQqGqMmB9rHG69CvKVKWGbsZNaEPgDgogDjv
- 75BBL0TmwI8olikZVLu0YtrK/VHjsIbbxjm8KC33GpWDFd/9jcQeCwvtKOZoB35RMR8z+qXBykc
- lBv8g0VqeAttGCbRNHmx1QZrBm30UU8XlDinWvNCG3QCxCeDqux6V+iRmAv6YovpF8tHOqR8rQw
- n8ovH0LR819Rg/cwCwWe5eht2QsZN71Ug5wVO41RE8eGHkwTz6MF8x8+m4ZzztjiD6MlCTtlsQT
- J103fchmEcHAPC6uJ4JwRGGVWtLc/tdc3m0AepjbPKSonUjum/2jZUYSEPYg==
-X-Google-Smtp-Source: AGHT+IH3crpbJjkunYtle/ef5kNW9hHmsi9e1weF9nYXS6bBnR63NKI39K06U1UJvcvRPrrmLp8HPQ==
-X-Received: by 2002:a17:902:cccf:b0:295:7b8c:6622 with SMTP id
- d9443c01a7336-29b6c3c2908mr274549205ad.11.1764245768661; 
- Thu, 27 Nov 2025 04:16:08 -0800 (PST)
-Received: from dgp100339560-01.huaqin.com ([103.117.77.121])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29bce4142f4sm17363475ad.10.2025.11.27.04.16.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Nov 2025 04:16:08 -0800 (PST)
-From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-To: dianders@chromium.org, neil.armstrong@linaro.org, jesszhan0024@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Subject: [PATCH] drm/panel-edp: Add CSW MNE007QB3-1
-Date: Thu, 27 Nov 2025 20:16:01 +0800
-Message-Id: <20251127121601.1608379-1-yelangyan@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06CF610E698
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 12:23:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764246205; x=1795782205;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=SgrqE/lksvcXyQ4h0VxOiyfuc1N3ILpvkWKXV5myEvo=;
+ b=SGA8J0aYHKuDTQJRRLzA7sGc+uZrozQ5aeZQzNL3vqHpwITRBZjvaqp7
+ gXZjROv8cU6kjM3/2bim3rZKMobtVldpX2+1x/v8j2lI0ZEKB0zP5MG5K
+ j4S9Kv/Y8oqiNBbSMUkEjH8kWjHR1JFKfjl7lIjWsmABOoNw227fz0acI
+ dn7cBgb4CdQ8TPYYo/0Tfm3vvEtkFQop/crdVQyQtgVaP4T/lvl0EYeEb
+ 20JJ6ll9C74WzZUzM138BzAbVkzbGxXvasWeXNfDpoWb9zdV7Ttuj9Wg+
+ PDQp7BZUUYkECOnJ7bhx1UmbLyHwODZhlYbrvSGdV4XUUOTQI/1XxMm1R A==;
+X-CSE-ConnectionGUID: shZqjKPtSE+1axwKeYMiWA==
+X-CSE-MsgGUID: BmydehlHQVadzLGNrOprSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="77395314"
+X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="77395314"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2025 04:23:25 -0800
+X-CSE-ConnectionGUID: wAxvX7otSbuq2mt7gsmwGg==
+X-CSE-MsgGUID: O1FISIMcR2eTtsgE21vy6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="193023023"
+Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.43])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2025 04:23:22 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Javier Martinez Canillas
+ <javierm@redhat.com>
+Subject: Re: [PATCH] drm/panic: Report invalid or unsupported panic modes
+In-Reply-To: <20251127090349.92717-1-tvrtko.ursulin@igalia.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251127090349.92717-1-tvrtko.ursulin@igalia.com>
+Date: Thu, 27 Nov 2025 14:23:20 +0200
+Message-ID: <baca752c83558cac83be9008e1da072588f6997d@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,44 +70,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the CSW MNE007QB3-1, pleace the EDID here for
-subsequent reference.
+On Thu, 27 Nov 2025, Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
+> Currently the user can write anything into the drm.panic_screen modparam,
+> either at runtime via sysfs, or as a kernel boot time argument. Invalid
+> strings will be silently accepted and ignored at use time by defaulting to
+> the 'user' panic mode.
+>
+> Let instead add some validation in order to have immediate feedback when
+> something has been mistyped, or not compiled in.
+>
+> For example during kernel boot:
+>
+>  Booting kernel: `bsod' invalid for parameter `drm.panic_screen'
+>
+> Or at runtime:
+>
+>  # echo -n bsod > /sys/module/drm/parameters/panic_screen
+>  -bash: echo: write error: Invalid argument
+>
+> Change of behavior is that when invalid mode is attempted to be
+> configured, currently the code will default to the 'user' mode, while with
+> this change the code will ignore it, and default to the mode set at kernel
+> build time via CONFIG_DRM_PANIC_SCREEN.
+>
+> While at it lets also fix the module parameter description to include all
+> compiled in modes.
 
-00 ff ff ff ff ff ff 00 0e 77 7c 14 00 00 00 00
-00 23 01 04 a5 1e 13 78 07 ee 95 a3 54 4c 99 26
-0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 35 3c 80 a0 70 b0 23 40 30 20
-36 00 2d bc 10 00 00 18 2b 30 80 a0 70 b0 23 40
-30 20 36 00 2d bc 10 00 00 18 00 00 00 fd 00 28
-3c 4a 4a 0f 01 0a 20 20 20 20 20 20 00 00 00 fc
-00 4d 4e 45 30 30 37 51 42 33 2d 31 0a 20 01 5b
+I've tried to add a convenient way to use enum module parameters on two
+occasions [1][2] but it went nowhere. Maybe I should've pushed harder.
 
-70 20 79 02 00 21 00 1d c8 0b 5d 07 80 07 b0 04
-00 3d 8a 54 cd a4 99 66 62 0f 02 45 54 40 5e 40
-5e 00 44 12 78 2e 00 06 00 44 40 5e 40 5e 81 00
-20 74 1a 00 00 03 01 28 3c 00 00 00 00 00 00 3c
-00 00 00 00 8d 00 e3 05 04 00 e6 06 01 00 60 60
-ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-00 00 00 00 00 00 00 00 00 00 00 00 00 00 68 90
+In a perfect world we'd use device specific parameters, here too, but in
+the imperfect world we still use module parameters. And use cases like
+this would be a soooo nice with that.
 
-Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
----
- drivers/gpu/drm/panel/panel-edp.c | 1 +
- 1 file changed, 1 insertion(+)
+Want to take over and fight the fight? ;)
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 415b894890ad..023fbbb10eb4 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -2033,6 +2033,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1462, &delay_200_500_e50, "MNE007QS5-2"),
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1468, &delay_200_500_e50, "MNE007QB2-2"),
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x146e, &delay_80_500_e50_d50, "MNE007QB3-1"),
-+	EDP_PANEL_ENTRY('C', 'S', 'W', 0x147c, &delay_200_500_e50_d100, "MNE007QB3-1"),
- 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1519, &delay_200_500_e80_d50, "MNF601BS1-3"),
- 
- 	EDP_PANEL_ENTRY('E', 'T', 'C', 0x0000, &delay_50_500_e200_d200_po2e335, "LP079QX1-SP0V"),
+
+BR,
+Jani.
+
+
+[1] https://lore.kernel.org/r/20190611141701.7432-1-jani.nikula@intel.com
+[2] https://lore.kernel.org/r/20220414123033.654198-1-jani.nikula@intel.com
+
+
+>
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Jocelyn Falempe <jfalempe@redhat.com>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_panic.c | 77 ++++++++++++++++++++++++++++++-------
+>  1 file changed, 63 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+> index d4b6ea42db0f..f42be7f1d8c2 100644
+> --- a/drivers/gpu/drm/drm_panic.c
+> +++ b/drivers/gpu/drm/drm_panic.c
+> @@ -39,12 +39,6 @@ MODULE_AUTHOR("Jocelyn Falempe");
+>  MODULE_DESCRIPTION("DRM panic handler");
+>  MODULE_LICENSE("GPL");
+>  
+> -static char drm_panic_screen[16] = CONFIG_DRM_PANIC_SCREEN;
+> -module_param_string(panic_screen, drm_panic_screen, sizeof(drm_panic_screen), 0644);
+> -MODULE_PARM_DESC(panic_screen,
+> -		 "Choose what will be displayed by drm_panic, 'user' or 'kmsg' [default="
+> -		 CONFIG_DRM_PANIC_SCREEN "]");
+> -
+>  /**
+>   * DOC: overview
+>   *
+> @@ -813,15 +807,60 @@ static void draw_panic_static_qr_code(struct drm_scanout_buffer *sb)
+>  		draw_panic_static_user(sb);
+>  }
+>  #else
+> -static void draw_panic_static_qr_code(struct drm_scanout_buffer *sb)
+> -{
+> -	draw_panic_static_user(sb);
+> -}
+> -
+>  static void drm_panic_qr_init(void) {};
+>  static void drm_panic_qr_exit(void) {};
+>  #endif
+>  
+> +enum drm_panic_type {
+> +	DRM_PANIC_TYPE_KMSG,
+> +	DRM_PANIC_TYPE_USER,
+> +	DRM_PANIC_TYPE_QR,
+> +};
+> +
+> +static enum drm_panic_type drm_panic_type = -1;
+> +
+> +static const char *drm_panic_type_map[] = {
+> +	[DRM_PANIC_TYPE_KMSG] = "kmsg",
+> +	[DRM_PANIC_TYPE_USER] = "user",
+> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
+> +	[DRM_PANIC_TYPE_QR] = "qr",
+> +#endif
+> +};
+> +
+> +static int drm_panic_type_set(const char *val, const struct kernel_param *kp)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(drm_panic_type_map); i++) {
+> +		if (!strcmp(val, drm_panic_type_map[i])) {
+> +			drm_panic_type = i;
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int drm_panic_type_get(char *buffer, const struct kernel_param *kp)
+> +{
+> +	return scnprintf(buffer, PAGE_SIZE, "%s\n",
+> +			 drm_panic_type_map[drm_panic_type]);
+> +}
+> +
+> +static const struct kernel_param_ops drm_panic_ops = {
+> +	.set = drm_panic_type_set,
+> +	.get = drm_panic_type_get,
+> +};
+> +
+> +module_param_cb(panic_screen, &drm_panic_ops, NULL, 0644);
+> +MODULE_PARM_DESC(panic_screen,
+> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
+> +		 "Choose what will be displayed by drm_panic, 'user', 'kmsg' or 'qr' [default="
+> +#else
+> +		 "Choose what will be displayed by drm_panic, 'user' or 'kmsg' [default="
+> +#endif
+> +		 CONFIG_DRM_PANIC_SCREEN "]");
+> +
+>  /*
+>   * drm_panic_is_format_supported()
+>   * @format: a fourcc color code
+> @@ -838,11 +877,19 @@ static bool drm_panic_is_format_supported(const struct drm_format_info *format)
+>  
+>  static void draw_panic_dispatch(struct drm_scanout_buffer *sb)
+>  {
+> -	if (!strcmp(drm_panic_screen, "kmsg")) {
+> +	switch (drm_panic_type) {
+> +	case DRM_PANIC_TYPE_KMSG:
+>  		draw_panic_static_kmsg(sb);
+> -	} else if (!strcmp(drm_panic_screen, "qr_code")) {
+> +		break;
+> +
+> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
+> +	case DRM_PANIC_TYPE_QR:
+>  		draw_panic_static_qr_code(sb);
+> -	} else {
+> +		break;
+> +#endif
+> +
+> +	case DRM_PANIC_TYPE_USER:
+> +	default:
+>  		draw_panic_static_user(sb);
+>  	}
+>  }
+> @@ -1025,6 +1072,8 @@ void drm_panic_unregister(struct drm_device *dev)
+>   */
+>  void __init drm_panic_init(void)
+>  {
+> +	if (drm_panic_type == -1)
+> +		drm_panic_type_set(CONFIG_DRM_PANIC_SCREEN, NULL);
+>  	drm_panic_qr_init();
+>  }
+
 -- 
-2.34.1
-
+Jani Nikula, Intel
