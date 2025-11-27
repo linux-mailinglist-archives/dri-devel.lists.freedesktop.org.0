@@ -2,65 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCF74C8E923
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 14:48:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40ED7C8E9A3
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 14:51:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38ED310E6E0;
-	Thu, 27 Nov 2025 13:48:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 786B910E721;
+	Thu, 27 Nov 2025 13:51:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="eaNSWJ+B";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="AE7unJJ9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
- [136.143.184.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 24A6210E6E0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 13:48:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1764251309; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=LqPqbHEkly0jpMdBadNxShd0ol37SIGAeTBs2JLI3wU1Vrekcb/mdwW+Jwf6b708a+YiwaP1BMG1DH6oM80cNDEHITF9uy0gO6PR3x1/EBGxtJiOK1L90wBLxuknNk6iq5Jha6aoAm09j1hIUjbveeiOLeqL7mfsUwMBv9GV8jE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1764251309;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=P2VdRqL1KlL0MJaXaQrAmhdLve9Li0HIxSSQ9BDhuuI=; 
- b=N8F/Lxatz152KJJNVRK4TOrmpON8ocdeFWJkXNJtCjOUQz8fN7M3n7OBVH27LFJES4dh63neCwdxVDlqI+mtUgxvIOMV/3jzBjRHlALYpGpl9JltCaTSwZSg79It1WuxncFXNHVl9rMJaQljuHU+tdNJqexLVqIMHKoFJha1pd0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764251309; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=P2VdRqL1KlL0MJaXaQrAmhdLve9Li0HIxSSQ9BDhuuI=;
- b=eaNSWJ+Bcil2a1bixndv9D2TE9VZZp4mdEkabLPHFPbNf1BcJdaoRcwEMZ86Rf6D
- Q4bqlJKj/PcFUoA6YzxfaYIQgge/3/MRm/XckmYFNBQEB4hZnnVi8MBbgaG5vmsvVLQ
- Bo9R6wvfQCBPDJH6SFd5+opujpOyWwjv0UfuI7iI=
-Received: by mx.zohomail.com with SMTPS id 1764251305830980.9182361397502;
- Thu, 27 Nov 2025 05:48:25 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [RFC WIP 2/3] rust: sync: Add dma_fence abstractions
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <bc4f01ec5172d29abd64429e3017cc53c0522e01.camel@mailbox.org>
-Date: Thu, 27 Nov 2025 10:48:10 -0300
-Cc: Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Alexandre Courbot <acourbot@nvidia.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Dave Airlie <airlied@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Peter Colberg <pcolberg@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B96E10E721;
+ Thu, 27 Nov 2025 13:51:52 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dHHsd1yj1z9tHd;
+ Thu, 27 Nov 2025 14:51:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1764251509; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aAh7JsuhDwTA6puzFjLHmry2BMuVgc6R6juTrQrgIDM=;
+ b=AE7unJJ9EOQPnAi6TAazDIz1H8bRe3kpfr2AeFzAgESqZiwAEGdMEwcmGwd9lP9QIprYgh
+ +PMh8zg92MzpeUgxSx28dQ927sQ6NE4O47T8ZF3lEEBHHwgmkPlI2p8kwblFme8QlvxLdI
+ Iz8kanTYpfmMBM6qMw9no4nwu2B0knIA9nw2FbiExLcEylLQ5ehjP826FrDzY8tJWsfLyj
+ LlDOWYm9sCS7rYd5IcfyPmlQjaVxaXhYJipYOYd1Zx97lZVEH+jb12tn+HBH2J7TWr1/n4
+ fUYiUEHM8WA6v1LZOWZnMGPjFLvi/mg2i2OBErArYZulsdATYMJGDtjk8NFB1g==
+Message-ID: <63274dd281ac94f2680a4aa91f541de82435fda5.camel@mailbox.org>
+Subject: Re: [PATCH 3/6] drm/gpu/xe: Ignore dma_fenc_signal() return code
+From: Philipp Stanner <phasta@mailbox.org>
+To: Andi Shyti <andi.shyti@kernel.org>, Matthew Brost <matthew.brost@intel.com>
+Cc: Philipp Stanner <phasta@kernel.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>,  Gustavo Padovan <gustavo@padovan.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Felix
+ Kuehling <Felix.Kuehling@amd.com>, Alex Deucher
+ <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, Simona
+ Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>,  Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
+ <ray.huang@amd.com>,  Matthew Auld <matthew.auld@intel.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Lucas De
+ Marchi <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org
+Date: Thu, 27 Nov 2025 14:51:39 +0100
+In-Reply-To: <q2kvwmnxomqlcx7zgvlvyhupduytfubcu5vghuf6ztrdaq55pb@gq4tg7qughun>
+References: <20251126131914.149445-2-phasta@kernel.org>
+ <20251126131914.149445-5-phasta@kernel.org>
+ <nrrk4kug6a42fztx7ryuz5bk6uy7roiszjhiivlvtrw3uvunps@wn44moyetzff>
+ <aSeTsINKklqqJyIs@lstrano-desk.jf.intel.com>
+ <q2kvwmnxomqlcx7zgvlvyhupduytfubcu5vghuf6ztrdaq55pb@gq4tg7qughun>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <8F85F97A-F411-48E1-9942-64B692E8CD79@collabora.com>
-References: <20251118132520.266179-2-phasta@kernel.org>
- <20251118132520.266179-4-phasta@kernel.org>
- <E55D72FC-AEF6-4D2D-973F-123306E4EB4C@collabora.com>
- <bc4f01ec5172d29abd64429e3017cc53c0522e01.camel@mailbox.org>
-To: phasta@kernel.org
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+MIME-Version: 1.0
+X-MBO-RS-ID: 63157739c600c3e8b1c
+X-MBO-RS-META: 86chu8ma6etgk766suyxb85nfygh4osp
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,75 +80,50 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Phillipp,
+On Thu, 2025-11-27 at 14:37 +0100, Andi Shyti wrote:
+> Hi Matt,
+>=20
+> On Wed, Nov 26, 2025 at 03:56:32PM -0800, Matthew Brost wrote:
+> > On Wed, Nov 26, 2025 at 11:56:57PM +0100, Andi Shyti wrote:
+> > > > @@ -85,7 +85,6 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_ir=
+q *irq)
+> > > > @@ -93,9 +92,9 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_ir=
+q *irq)
+> > > > =C2=A0		spin_lock_irqsave(&irq->lock, flags);
+> > > > =C2=A0		list_for_each_entry_safe(fence, next, &irq->pending, irq_li=
+nk) {
+> > > > =C2=A0			list_del_init(&fence->irq_link);
+> > > > -			err =3D dma_fence_signal_locked(&fence->dma);
+> > >=20
+> > > why don't we do
+> > >=20
+> > > XE_WARN_ON(dma_fence_signal_locked(..))
 
-[=E2=80=A6]
+because it's impossible because the series is about removing the return
+codes from the dma_fence_signal_* functions.
 
+> > >=20
+> >=20
+> > IIRC the above statement can compile out. So the patch looks correct to=
+ me.
 >=20
->>=20
->>> +                // among all the fences. This can't become a UAF =
-because each fence takes a
->>> +                // reference of the fence context.
->>> +                unsafe { bindings::dma_fence_init(slot, &Self::OPS, =
-Opaque::cast_into(lock_ptr), context, seqno) };
->>> +            }),
->>> +            data <- data,
->>> +            signalling: false,
->>> +            signalling_cookie: false,
->>> +            fctx: fctx,
->>> +        });
->>> +
->>> +        let b =3D KBox::pin_init(fence, GFP_KERNEL)?;
->>> +
->>> +        // SAFETY: We don't move the contents of `b` anywhere here. =
-After unwrapping it, ARef will
->>> +        // take care of preventing memory moves.
->>> +        let rawptr =3D KBox::into_raw(unsafe { =
-Pin::into_inner_unchecked(b) });
->>> +
->>> +        // SAFETY: `rawptr` was created validly above.
->>> +        let aref =3D unsafe { =
-ARef::from_raw(NonNull::new_unchecked(rawptr)) };
->>> +
->>> +        Ok(aref)
->>> +    }
->>> +
->>> +    /// Mark the beginning of a DmaFence signalling critical =
-section. Should be called once a fence
->>> +    /// gets published.
->>> +    ///
->>> +    /// The signalling critical section is marked as finished =
-automatically once the fence signals.
->>> +    pub fn begin_signalling(&mut self) {
->>> +        // FIXME: this needs to be mutable, obviously, but we can't =
-borrow mutably. *sigh*
->>=20
->> Is AtomicBool going away? Otherwise can you expand?
+> you have defined XE_WARN_ON as WARN_ON that should always
+> evaluate the content and, depending on the configuration, it
+> prints the logs or not.
 >=20
-> The AtomicBool is just used in the example demo code.
->=20
-> The issue here is that begin_signalling() should set a "this fence is
-> currently in the signalling section"-flag. So the fence needs to be
-> mutable. Then, however, Rust complains because self.signalling is not
-> protected by any lock.
->=20
-> So one needs some sort of synchronization. Stuffing a DmaFence into a
-> SpinLock would be overkill, however, considering that the C code
-> already takes care of properly taking all locks.
->=20
-> I've asked about that problem on Zulip once:
-> =
-https://rust-for-linux.zulipchat.com/#narrow/channel/288089-General/topic/=
-.E2.9C.94.20ARef.20without.20locking/near/539747635
->=20
-> Haven't looked deeper into solving it since, because those lockdep
-> guards are kind of nice-to-have at the moment.
->=20
-> I think the solution will be to make self.signalling an AtomicBool (I
-> think you meant that above?)
+> What I don't like from this patch is that we end up checking
+> twice for the DMA_FENCE_FLAG_SIGNALED_BIT bit.
 
-Yes, that=E2=80=99s what I meant, i.e.: making self.signalling an =
-AtomicBool.=
+Depends on what you mean by "we". The Xe code checks it only once, with
+dma_fence_test_signaled_flag(). The dma_fence backend checks it yet
+again, as it always does, to avoid signaling a signaled fence.
+
+That's not racy here, however, because the fence lock is already being
+held, as evidenced by the current usage of dma_fence_signal_locked().
+
+
+P.
