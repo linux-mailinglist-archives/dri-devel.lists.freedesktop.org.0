@@ -2,60 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 691B8C8F9B9
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 18:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77528C8FA44
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 18:19:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1F1F10E84C;
-	Thu, 27 Nov 2025 17:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7697B10E838;
+	Thu, 27 Nov 2025 17:19:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=hugovil.com header.i=@hugovil.com header.b="iwzzQqzO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c0KfnE/y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.hugovil.com (mail.hugovil.com [162.243.120.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8997F10E845
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 17:10:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hugovil.com
- ; s=x;
- h=Subject:Content-Transfer-Encoding:Mime-Version:Message-Id:Cc:To:From
- :Date:subject:date:message-id:reply-to;
- bh=n87dfCOB/sV/NxbQvE2VCIrqwhRsH/0aVGUnSpGKyME=; b=iwzzQqzO/nCXw2HZbCqPIHWqXK
- VlRldf7lDrc7vClkjyYglUY6+4p5BmEk0x/EsTMU8FgpxxnnRV8BWRDashEoqDtQMX/HtMB3htgxw
- Jv/5zWBVrvGAPhKR99sn81kRhbumdow6PCSXqpQJ9Ap8gUmAxMNL/RNMcPDYW+wjWS5E=;
-Received: from modemcable168.174-80-70.mc.videotron.ca ([70.80.174.168]:37198
- helo=pettiford) by mail.hugovil.com with esmtpa (Exim 4.92)
- (envelope-from <hugo@hugovil.com>)
- id 1vOfVx-00034g-Cz; Thu, 27 Nov 2025 12:10:41 -0500
-Date: Thu, 27 Nov 2025 12:10:40 -0500
-From: Hugo Villeneuve <hugo@hugovil.com>
-To: Chris Brandt <chris.brandt@renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Biju Das
- <biju.das.jz@bp.renesas.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
- Nghia Vo <nghia.vo.zn@renesas.com>, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org
-Message-Id: <20251127121040.910aadd3bd8bac9578a40431@hugovil.com>
-In-Reply-To: <20251124131003.992554-3-chris.brandt@renesas.com>
-References: <20251124131003.992554-1-chris.brandt@renesas.com>
- <20251124131003.992554-3-chris.brandt@renesas.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 70.80.174.168
-X-SA-Exim-Mail-From: hugo@hugovil.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.hugovil.com
-X-Spam-Level: 
-X-Spam-Report: * -1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
- * -0.5 NICE_REPLY_A Looks like a legit reply (A)
-X-Spam-Status: No, score=-1.4 required=5.0 tests=ALL_TRUSTED,NICE_REPLY_A
- autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: [PATCH v6 2/2] drm: renesas: rz-du: mipi_dsi: Set DSI divider
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.hugovil.com)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E93510E16F;
+ Thu, 27 Nov 2025 17:19:31 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id E8C8840645;
+ Thu, 27 Nov 2025 17:19:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECF0EC113D0;
+ Thu, 27 Nov 2025 17:19:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764263970;
+ bh=+8mv6i8YDqflMNXf6rSyL0ngsI4DSuUXQc+IAsMcIoc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=c0KfnE/yW9mBtNrtCv44gXHVw6SA0/m6sGRU7msy3eAgPWadTZyvHIkYKGNDUnM7W
+ 28ftgpbYM2BNqaIQH038Kl27gGXNVq7FV/E7oQRx3VLgZ6RFLtdff8s2iwtizMjgcg
+ xeQzJCXOCOTb0EatsXDdloTWKGrDRCysTipTKHEftdjOa1ssf4m16kgkv0UgbXYc+4
+ odbVSb8qMOxIkoimUTTcrsI13GEY0gYhIUAaRjZPomLyF0JlNFjl6w6aanfeYFQfA2
+ lkq/9R63TZDx3yK+SxPvcsaAr1pNoICpg/TmokPgvFqSNd8ZcRbmaDKmPvRKVOfZ9s
+ rAI1CjOpXsKAA==
+Date: Thu, 27 Nov 2025 18:19:27 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: phasta@kernel.org
+Cc: Matthew Brost <matthew.brost@intel.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>, 
+ Matthew Auld <matthew.auld@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 3/6] drm/gpu/xe: Ignore dma_fenc_signal() return code
+Message-ID: <enlnwawk3qtcbgfm7dmuyefb4tx3hxsrmzozkabpeixxsi3y24@pukuuth2zlke>
+References: <20251126131914.149445-2-phasta@kernel.org>
+ <20251126131914.149445-5-phasta@kernel.org>
+ <nrrk4kug6a42fztx7ryuz5bk6uy7roiszjhiivlvtrw3uvunps@wn44moyetzff>
+ <aSeTsINKklqqJyIs@lstrano-desk.jf.intel.com>
+ <q2kvwmnxomqlcx7zgvlvyhupduytfubcu5vghuf6ztrdaq55pb@gq4tg7qughun>
+ <63274dd281ac94f2680a4aa91f541de82435fda5.camel@mailbox.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <63274dd281ac94f2680a4aa91f541de82435fda5.camel@mailbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,100 +80,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chris,
+On Thu, Nov 27, 2025 at 02:51:39PM +0100, Philipp Stanner wrote:
+> On Thu, 2025-11-27 at 14:37 +0100, Andi Shyti wrote:
+> > On Wed, Nov 26, 2025 at 03:56:32PM -0800, Matthew Brost wrote:
+> > > On Wed, Nov 26, 2025 at 11:56:57PM +0100, Andi Shyti wrote:
+> > > > > @@ -85,7 +85,6 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
+> > > > > @@ -93,9 +92,9 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
+> > > > >  		spin_lock_irqsave(&irq->lock, flags);
+> > > > >  		list_for_each_entry_safe(fence, next, &irq->pending, irq_link) {
+> > > > >  			list_del_init(&fence->irq_link);
+> > > > > -			err = dma_fence_signal_locked(&fence->dma);
+> > > > 
+> > > > why don't we do
+> > > > 
+> > > > XE_WARN_ON(dma_fence_signal_locked(..))
+> 
+> because it's impossible because the series is about removing the return
+> codes from the dma_fence_signal_* functions.
 
-On Mon, 24 Nov 2025 08:10:03 -0500
-Chris Brandt <chris.brandt@renesas.com> wrote:
+oh yes, the last patch. Sorry, I went on reviewing and lost the
+final target from sight.
 
-> Before the MIPI DSI clock source can be configured, the target divide
-> ratio needs to be known.
+> > > > 
+> > > 
+> > > IIRC the above statement can compile out. So the patch looks correct to me.
+> > 
+> > you have defined XE_WARN_ON as WARN_ON that should always
+> > evaluate the content and, depending on the configuration, it
+> > prints the logs or not.
+> > 
+> > What I don't like from this patch is that we end up checking
+> > twice for the DMA_FENCE_FLAG_SIGNALED_BIT bit.
 > 
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Depends on what you mean by "we". The Xe code checks it only once, with
+> dma_fence_test_signaled_flag(). The dma_fence backend checks it yet
+> again, as it always does, to avoid signaling a signaled fence.
+> 
+> That's not racy here, however, because the fence lock is already being
+> held, as evidenced by the current usage of dma_fence_signal_locked().
 
-Reviewed-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
-Tested-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+I haven't said it's racy, I just didn't like that we are testing
+for the DMA_FENCE_FLAG_SIGNALED_BIT twice. On the other hand,
+with dma_fence_signal_locked() being void, I wouldn't know how to
+do it better. So that I guess it's fine.
 
-> 
-> ---
-> v1->v2:
-> - Add spaces around '/' in comments
-> - Add target argument in new API
-> 
-> v2->v3:
-> - Add missing period in comment (Hugo)
-> - Changed '1' to 'PLL5_TARGET_DSI' (Hugo)
-> - Added Reviewed-by and Tested-by (Biju)
-> 
-> v3->v4:
-> - Fixed up the comments
-> - Fixed the match for the divider to set (was missing a * 2)
-> 
-> v4->v5:
-> - Rename patch title (Hugo)
-> - Add bpp varable for easy reuse (Hugo)
-> 
-> v5->v6:
-> - Remove clock diagram that was wrong (Chris)
-> ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> index 3b52dfc0ea1e..bee2cc711afd 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -7,6 +7,7 @@
->  
->  #include <linux/bitfield.h>
->  #include <linux/clk.h>
-> +#include <linux/clk/renesas.h>
->  #include <linux/delay.h>
->  #include <linux/dma-mapping.h>
->  #include <linux/io.h>
-> @@ -692,6 +693,7 @@ static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
->  				      struct mipi_dsi_device *device)
->  {
->  	struct rzg2l_mipi_dsi *dsi = host_to_rzg2l_mipi_dsi(host);
-> +	int bpp;
->  	int ret;
->  
->  	if (device->lanes > dsi->num_data_lanes) {
-> @@ -701,7 +703,8 @@ static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
->  		return -EINVAL;
->  	}
->  
-> -	switch (mipi_dsi_pixel_format_to_bpp(device->format)) {
-> +	bpp = mipi_dsi_pixel_format_to_bpp(device->format);
-> +	switch (bpp) {
->  	case 24:
->  		break;
->  	case 18:
-> @@ -732,6 +735,18 @@ static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
->  
->  	drm_bridge_add(&dsi->bridge);
->  
-> +	/*
-> +	 * Report the required division ratio setting for the MIPI clock dividers.
-> +	 *
-> +	 * vclk * bpp = hsclk * 8 * num_lanes
-> +	 *
-> +	 * vclk * DSI_AB_divider = hsclk * 16
-> +	 *
-> +	 *   which simplifies to...
-> +	 * DSI_AB_divider = bpp * 2 / num_lanes
-> +	 */
-> +	rzg2l_cpg_dsi_div_set_divider(bpp * 2 / dsi->lanes, PLL5_TARGET_DSI);
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.50.1
-> 
-> 
-
-
--- 
-Hugo Villeneuve
+Andi
