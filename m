@@ -2,59 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E67C8E3CA
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 13:23:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8202C8E3D6
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 13:24:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CCAF10E040;
-	Thu, 27 Nov 2025 12:23:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F063810E193;
+	Thu, 27 Nov 2025 12:24:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SGA8J0aY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ST2IUyE0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06CF610E698
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 12:23:25 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 916E010E193
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 12:24:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764246205; x=1795782205;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=SgrqE/lksvcXyQ4h0VxOiyfuc1N3ILpvkWKXV5myEvo=;
- b=SGA8J0aYHKuDTQJRRLzA7sGc+uZrozQ5aeZQzNL3vqHpwITRBZjvaqp7
- gXZjROv8cU6kjM3/2bim3rZKMobtVldpX2+1x/v8j2lI0ZEKB0zP5MG5K
- j4S9Kv/Y8oqiNBbSMUkEjH8kWjHR1JFKfjl7lIjWsmABOoNw227fz0acI
- dn7cBgb4CdQ8TPYYo/0Tfm3vvEtkFQop/crdVQyQtgVaP4T/lvl0EYeEb
- 20JJ6ll9C74WzZUzM138BzAbVkzbGxXvasWeXNfDpoWb9zdV7Ttuj9Wg+
- PDQp7BZUUYkECOnJ7bhx1UmbLyHwODZhlYbrvSGdV4XUUOTQI/1XxMm1R A==;
-X-CSE-ConnectionGUID: shZqjKPtSE+1axwKeYMiWA==
-X-CSE-MsgGUID: BmydehlHQVadzLGNrOprSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="77395314"
-X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="77395314"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2025 04:23:25 -0800
-X-CSE-ConnectionGUID: wAxvX7otSbuq2mt7gsmwGg==
-X-CSE-MsgGUID: O1FISIMcR2eTtsgE21vy6g==
+ t=1764246282; x=1795782282;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=iFmA0gfBLZi3VRH7c1aQ06IjGcorTM9TWDyCB6dTNtE=;
+ b=ST2IUyE0iTz5Tr/jEdJhuczzn1uQR6jxHidA11ahBZgSlDbX06yyjiT9
+ 3rRZ1sMl0fyTJwig+3EeCySSA0KSQ5LVcj8Kr7QcWTuUAheg65KiX77E8
+ RVvUtqQMw6rAD60NGTEMi8h8Nr01KfrLm5UD/no5BWiGMmglbtX+nZoMT
+ /krrHdDuy+vUQvuwIlh3RCub+hFWNj179LL+OCadjduR65GRmdx2+gBUb
+ xQg0CRuT26rqn/HSVLGrls21qBprcQks8YR8rZhvQQw4U+GBXddhRLfkh
+ howRKTpltJSQKUia7OToH4wKEBaY2I6NRJwUHX8YFY9OjEqnVALo4LMO/ Q==;
+X-CSE-ConnectionGUID: u8tOBgPNSkeBM1cKwBOVxQ==
+X-CSE-MsgGUID: f1k1W/HMQEqcWm96n7puaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="83685492"
+X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="83685492"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2025 04:24:41 -0800
+X-CSE-ConnectionGUID: +S3LMCMKQKKCeX7JLBZV4A==
+X-CSE-MsgGUID: OkMQesF8QauVnnjuq5hlyg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="193023023"
-Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.43])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2025 04:23:22 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, Javier Martinez Canillas
- <javierm@redhat.com>
-Subject: Re: [PATCH] drm/panic: Report invalid or unsupported panic modes
-In-Reply-To: <20251127090349.92717-1-tvrtko.ursulin@igalia.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251127090349.92717-1-tvrtko.ursulin@igalia.com>
-Date: Thu, 27 Nov 2025 14:23:20 +0200
-Message-ID: <baca752c83558cac83be9008e1da072588f6997d@intel.com>
+X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="192474715"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+ by orviesa010.jf.intel.com with ESMTP; 27 Nov 2025 04:24:36 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vOb33-000000004k1-2N6M;
+ Thu, 27 Nov 2025 12:24:33 +0000
+Date: Thu, 27 Nov 2025 20:23:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>,
+ kpallavi@qti.qualcomm.com, srini@kernel.org,
+ amahesh@qti.qualcomm.com, arnd@arndb.de, gregkh@linuxfoundation.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>,
+ quic_bkumar@quicinc.com, ekansh.gupta@oss.qualcomm.com,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, jingyi.wang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, ktadakam@qti.qualcomm.com
+Subject: Re: [PATCH v4 2/4] misc: fastrpc: Rename phys to dma_addr for clarity
+Message-ID: <202511272058.teHG4sdy-lkp@intel.com>
+References: <20251126094545.2139376-3-kumari.pallavi@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251126094545.2139376-3-kumari.pallavi@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,172 +78,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Nov 2025, Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
-> Currently the user can write anything into the drm.panic_screen modparam,
-> either at runtime via sysfs, or as a kernel boot time argument. Invalid
-> strings will be silently accepted and ignored at use time by defaulting to
-> the 'user' panic mode.
->
-> Let instead add some validation in order to have immediate feedback when
-> something has been mistyped, or not compiled in.
->
-> For example during kernel boot:
->
->  Booting kernel: `bsod' invalid for parameter `drm.panic_screen'
->
-> Or at runtime:
->
->  # echo -n bsod > /sys/module/drm/parameters/panic_screen
->  -bash: echo: write error: Invalid argument
->
-> Change of behavior is that when invalid mode is attempted to be
-> configured, currently the code will default to the 'user' mode, while with
-> this change the code will ignore it, and default to the mode set at kernel
-> build time via CONFIG_DRM_PANIC_SCREEN.
->
-> While at it lets also fix the module parameter description to include all
-> compiled in modes.
+Hi Kumari,
 
-I've tried to add a convenient way to use enum module parameters on two
-occasions [1][2] but it went nowhere. Maybe I should've pushed harder.
+kernel test robot noticed the following build warnings:
 
-In a perfect world we'd use device specific parameters, here too, but in
-the imperfect world we still use module parameters. And use cases like
-this would be a soooo nice with that.
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus robh/for-next soc/for-next linus/master v6.18-rc7 next-20251127]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Want to take over and fight the fight? ;)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kumari-Pallavi/dt-bindings-misc-qcom-fastrpc-Add-compatible-for-Kaanapali/20251126-175106
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20251126094545.2139376-3-kumari.pallavi%40oss.qualcomm.com
+patch subject: [PATCH v4 2/4] misc: fastrpc: Rename phys to dma_addr for clarity
+config: arm-randconfig-002-20251127 (https://download.01.org/0day-ci/archive/20251127/202511272058.teHG4sdy-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511272058.teHG4sdy-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511272058.teHG4sdy-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/misc/fastrpc.c:328:6: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
+     327 |                                         "Failed to assign memory dma_addr 0x%llx size 0x%llx err %d\n",
+         |                                                                             ~~~~
+         |                                                                             %x
+     328 |                                         map->dma_addr, map->len, err);
+         |                                         ^~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/misc/fastrpc.c:823:5: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
+     822 |                                 "Failed to assign memory with dma_addr 0x%llx size 0x%llx err %d\n",
+         |                                                                          ~~~~
+         |                                                                          %x
+     823 |                                 map->dma_addr, map->len, err);
+         |                                 ^~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/misc/fastrpc.c:1318:6: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
+    1317 |                                         "Failed to assign memory with dma_addr 0x%llx size 0x%llx err %d\n",
+         |                                                                                  ~~~~
+         |                                                                                  %x
+    1318 |                                         fl->cctx->remote_heap->dma_addr,
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/misc/fastrpc.c:1373:5: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
+    1372 |                         dev_err(fl->sctx->dev, "Failed to assign memory dma_addr 0x%llx size 0x%llx err %d\n",
+         |                                                                                    ~~~~
+         |                                                                                    %x
+    1373 |                                 fl->cctx->remote_heap->dma_addr, fl->cctx->remote_heap->size, err);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/misc/fastrpc.c:1953:5: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
+    1952 |                                 "Failed to assign memory dma_addr 0x%llx size 0x%llx err %d",
+         |                                                                     ~~~~
+         |                                                                     %x
+    1953 |                                 buf->dma_addr, buf->size, err);
+         |                                 ^~~~~~~~~~~~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   5 warnings generated.
 
 
-BR,
-Jani.
+vim +328 drivers/misc/fastrpc.c
 
-
-[1] https://lore.kernel.org/r/20190611141701.7432-1-jani.nikula@intel.com
-[2] https://lore.kernel.org/r/20220414123033.654198-1-jani.nikula@intel.com
-
-
->
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> ---
->  drivers/gpu/drm/drm_panic.c | 77 ++++++++++++++++++++++++++++++-------
->  1 file changed, 63 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> index d4b6ea42db0f..f42be7f1d8c2 100644
-> --- a/drivers/gpu/drm/drm_panic.c
-> +++ b/drivers/gpu/drm/drm_panic.c
-> @@ -39,12 +39,6 @@ MODULE_AUTHOR("Jocelyn Falempe");
->  MODULE_DESCRIPTION("DRM panic handler");
->  MODULE_LICENSE("GPL");
->  
-> -static char drm_panic_screen[16] = CONFIG_DRM_PANIC_SCREEN;
-> -module_param_string(panic_screen, drm_panic_screen, sizeof(drm_panic_screen), 0644);
-> -MODULE_PARM_DESC(panic_screen,
-> -		 "Choose what will be displayed by drm_panic, 'user' or 'kmsg' [default="
-> -		 CONFIG_DRM_PANIC_SCREEN "]");
-> -
->  /**
->   * DOC: overview
->   *
-> @@ -813,15 +807,60 @@ static void draw_panic_static_qr_code(struct drm_scanout_buffer *sb)
->  		draw_panic_static_user(sb);
->  }
->  #else
-> -static void draw_panic_static_qr_code(struct drm_scanout_buffer *sb)
-> -{
-> -	draw_panic_static_user(sb);
-> -}
-> -
->  static void drm_panic_qr_init(void) {};
->  static void drm_panic_qr_exit(void) {};
->  #endif
->  
-> +enum drm_panic_type {
-> +	DRM_PANIC_TYPE_KMSG,
-> +	DRM_PANIC_TYPE_USER,
-> +	DRM_PANIC_TYPE_QR,
-> +};
-> +
-> +static enum drm_panic_type drm_panic_type = -1;
-> +
-> +static const char *drm_panic_type_map[] = {
-> +	[DRM_PANIC_TYPE_KMSG] = "kmsg",
-> +	[DRM_PANIC_TYPE_USER] = "user",
-> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
-> +	[DRM_PANIC_TYPE_QR] = "qr",
-> +#endif
-> +};
-> +
-> +static int drm_panic_type_set(const char *val, const struct kernel_param *kp)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(drm_panic_type_map); i++) {
-> +		if (!strcmp(val, drm_panic_type_map[i])) {
-> +			drm_panic_type = i;
-> +			return 0;
-> +		}
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static int drm_panic_type_get(char *buffer, const struct kernel_param *kp)
-> +{
-> +	return scnprintf(buffer, PAGE_SIZE, "%s\n",
-> +			 drm_panic_type_map[drm_panic_type]);
-> +}
-> +
-> +static const struct kernel_param_ops drm_panic_ops = {
-> +	.set = drm_panic_type_set,
-> +	.get = drm_panic_type_get,
-> +};
-> +
-> +module_param_cb(panic_screen, &drm_panic_ops, NULL, 0644);
-> +MODULE_PARM_DESC(panic_screen,
-> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
-> +		 "Choose what will be displayed by drm_panic, 'user', 'kmsg' or 'qr' [default="
-> +#else
-> +		 "Choose what will be displayed by drm_panic, 'user' or 'kmsg' [default="
-> +#endif
-> +		 CONFIG_DRM_PANIC_SCREEN "]");
-> +
->  /*
->   * drm_panic_is_format_supported()
->   * @format: a fourcc color code
-> @@ -838,11 +877,19 @@ static bool drm_panic_is_format_supported(const struct drm_format_info *format)
->  
->  static void draw_panic_dispatch(struct drm_scanout_buffer *sb)
->  {
-> -	if (!strcmp(drm_panic_screen, "kmsg")) {
-> +	switch (drm_panic_type) {
-> +	case DRM_PANIC_TYPE_KMSG:
->  		draw_panic_static_kmsg(sb);
-> -	} else if (!strcmp(drm_panic_screen, "qr_code")) {
-> +		break;
-> +
-> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
-> +	case DRM_PANIC_TYPE_QR:
->  		draw_panic_static_qr_code(sb);
-> -	} else {
-> +		break;
-> +#endif
-> +
-> +	case DRM_PANIC_TYPE_USER:
-> +	default:
->  		draw_panic_static_user(sb);
->  	}
->  }
-> @@ -1025,6 +1072,8 @@ void drm_panic_unregister(struct drm_device *dev)
->   */
->  void __init drm_panic_init(void)
->  {
-> +	if (drm_panic_type == -1)
-> +		drm_panic_type_set(CONFIG_DRM_PANIC_SCREEN, NULL);
->  	drm_panic_qr_init();
->  }
+   307	
+   308	static void fastrpc_free_map(struct kref *ref)
+   309	{
+   310		struct fastrpc_map *map;
+   311	
+   312		map = container_of(ref, struct fastrpc_map, refcount);
+   313	
+   314		if (map->table) {
+   315			if (map->attr & FASTRPC_ATTR_SECUREMAP) {
+   316				struct qcom_scm_vmperm perm;
+   317				int vmid = map->fl->cctx->vmperms[0].vmid;
+   318				u64 src_perms = BIT(QCOM_SCM_VMID_HLOS) | BIT(vmid);
+   319				int err = 0;
+   320	
+   321				perm.vmid = QCOM_SCM_VMID_HLOS;
+   322				perm.perm = QCOM_SCM_PERM_RWX;
+   323				err = qcom_scm_assign_mem(map->dma_addr, map->len,
+   324					&src_perms, &perm, 1);
+   325				if (err) {
+   326					dev_err(map->fl->sctx->dev,
+   327						"Failed to assign memory dma_addr 0x%llx size 0x%llx err %d\n",
+ > 328						map->dma_addr, map->len, err);
+   329					return;
+   330				}
+   331			}
+   332			dma_buf_unmap_attachment_unlocked(map->attach, map->table,
+   333							  DMA_BIDIRECTIONAL);
+   334			dma_buf_detach(map->buf, map->attach);
+   335			dma_buf_put(map->buf);
+   336		}
+   337	
+   338		if (map->fl) {
+   339			spin_lock(&map->fl->lock);
+   340			list_del(&map->node);
+   341			spin_unlock(&map->fl->lock);
+   342			map->fl = NULL;
+   343		}
+   344	
+   345		kfree(map);
+   346	}
+   347	
 
 -- 
-Jani Nikula, Intel
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
