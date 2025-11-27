@@ -2,92 +2,174 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DACC8DA39
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 10:52:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D25C8DA6C
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 10:55:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76E0B10E7FA;
-	Thu, 27 Nov 2025 09:52:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6D6710E7A8;
+	Thu, 27 Nov 2025 09:55:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dozxOrKm";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="NRW6bkX6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2740910E7FA
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 09:52:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1764237144;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vufRYKNXRMt+DGgz/o9bUWvnqxaQN076/DcK8yEYraE=;
- b=dozxOrKm+7Ue+mH/md7x2eRl+nNe/wjYGwTPFfokDBDsky+6QSf/YWk5v31pqQaBms5pUm
- uCaG/nIEkvWcw65BcAunYNosCUG8qdd7GhTGOJZwRW6AUVYFO2wApTPbG1cuRs5S5C+lbZ
- dQpYhawrZm4v86M7AlKJ+uHcBi9ZEh0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-668-6I1EQqXwPsW1Ug2ZUsdF7g-1; Thu, 27 Nov 2025 04:52:22 -0500
-X-MC-Unique: 6I1EQqXwPsW1Ug2ZUsdF7g-1
-X-Mimecast-MFC-AGG-ID: 6I1EQqXwPsW1Ug2ZUsdF7g_1764237141
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-42b2ad29140so339821f8f.0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 01:52:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764237141; x=1764841941;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=vufRYKNXRMt+DGgz/o9bUWvnqxaQN076/DcK8yEYraE=;
- b=Zd5TWcsrJyaa3Lzr2BfN0xw8T7JfeV3uO9VxqAOvbxIn2LPhFy39TMB7cVr/rsZGwe
- Naln6wywnEuDWtS6tnYPASSP30IXSF85Q15dRJpn2FAFwyOvcq/kmJgHcEOyzdOQo+11
- X/Ubq9BymhKEnUSdn/sp2EcC3wcNlvWehhBhGFbMd0F0RnEoHkfSAO4Q5/FM65NNHV5n
- SwXFqGskHIXFz9LgPaYxzrJ05Fa5UqSK/f9su1I2/RLLLJUV0p83DGCl87ZzST6zaMC8
- ctFs9gluYSzGbxagvNA2wOCmZdLQS/xSyEcm77D1Wm8vmdD9r6ov3pC2wWbeSKr9ammx
- 4I4Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUlaXrnI139LvFsUg/qK5W5oMAC7kG50wEyP6HT4c9AXDY8CQNf7ceu/9nRKRAp/gIK37UqwvjJwhM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+W+9LAQECMCl3jKoJdf9LLR+B/LmoVYBK1yotU8GyrUbHNT8n
- vGg/NqIwo4cutw1iEAlcXGsyjPz6ntAN7fHT1gXWfS9aeBgk1mHEE5KUEvWU0oCXkDfn2xKprkL
- IjnGWS650p+iWkMJ1pX4TMu9UupLW4a+Vps1a1EJIsFrw0EDJ3RjueHJmevP4omK2gF7n0A==
-X-Gm-Gg: ASbGncuAJb+OSznP0QEWOWrUFBa2gAdfrVMh+/OduleYXmxROpkYPfz2tLXyHkPakZy
- EntQXwNLEWuhAUUAf5QCNmhLE9ZiT7S9egcjPVBXKTOlziwYfb250gG9E+kndxgwm73MXuHplJD
- A/mx+/XsLOC47cp3XfVvcYr3VLnCOr+ZyoHR8pS4XC/PD1KDkYwXiPTtVTXui7SIbJXLJJ1SXb6
- jAg0B8vORWiINHUkImmAOFsIQrBKmv5cbHTsJ1whmrN/74/w5Dc1Xke9XKJm4Xq87E/oYjtPStN
- AcHfIzW40reESrbY2Fr4+U2e05v7SBSmDhzbQ74z3OvmMWX17Q4rgNhttvTQ+zL/Mrzl7oMoN87
- JBsgRIT6NczhqZbsgOcJkltzsTG5dm2GHHGYuNjyl1wmYvAedSg==
-X-Received: by 2002:a05:6000:1846:b0:42b:3b45:7197 with SMTP id
- ffacd0b85a97d-42cc1d0c89dmr21314130f8f.42.1764237141178; 
- Thu, 27 Nov 2025 01:52:21 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGBqRJ6kPTQcvdatOqB/l5axzN2B8V7nmJUwdaDZSx33HQh0jFYG2CmSI4i45ekabuiAVRHSg==
-X-Received: by 2002:a05:6000:1846:b0:42b:3b45:7197 with SMTP id
- ffacd0b85a97d-42cc1d0c89dmr21314100f8f.42.1764237140765; 
- Thu, 27 Nov 2025 01:52:20 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42e1ca7880asm2557603f8f.31.2025.11.27.01.52.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 27 Nov 2025 01:52:20 -0800 (PST)
-Message-ID: <d695dca7-fde1-40f6-8d1b-5aca90eb98f4@redhat.com>
-Date: Thu, 27 Nov 2025 10:52:16 +0100
-MIME-Version: 1.0
+Received: from SN4PR0501CU005.outbound.protection.outlook.com
+ (mail-southcentralusazon11011030.outbound.protection.outlook.com
+ [40.93.194.30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E70D410E166;
+ Thu, 27 Nov 2025 09:55:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Emmqsr40lZ5ngQNbRt8qOYwhit7VVswlVRWvHuRFaIUdxUrOQeTMJPjgmxs+CsaUBc0hZ1q37jAVXAtj9kx9a55rT/e0ce5s5uAQureJUAqCV9ZDF9bBQy1jh5acOqTy4TFhWKl/xhhkVItuUqalLoMUcx27XiDPaOhVOcSihB/cuB0SC7N6Yfg15Xgd5ZWbvoih1yTueqlpWKrTFlLAOl2LPBTHaGmoDDjPOFtZuiZyPCyjc/FgVFD0P40iSU93FNs9eT84/3MSjHpiwg4U9fnrYDHMFBOH2E5PUmlrPaCaJJ9z7ZTP4MGH3SSyvWN9ryXxcerZaOhG3rY7ixYBjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=faMmN97KwlTQYGSR+Vu5fEPJMt30fUDHuL+nwgE4SIk=;
+ b=E8n89q0b1PLICDGljXjtiACZndxF2W8Rec+A5wiE7JjppVFRI3qddkjIYBscLzlaiH3mKIvKcT+W0OTqhfFmGch0iDLqd+9uw9cXmUg6r+91H/qXVsPgOqkOn3y5N4jNrVbHIxHg32UjfRT2ELWqj92QLvoMF701+1sXMSuNH0TxDb258QJidFAssUTTFYNG7VC7xTgBnrPZRoNH1ynbyY92W113vDvieYbcoWYMS5laHErjggos7a7+tDHJmYbJZlftntf7P57QhuCF9t+MytJsJ2C1+mM+cdXZYe0u2UCLNnjedPo6/FqoAxpmdy8nCVk+YAjDrCVZa7kR9d1CUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=faMmN97KwlTQYGSR+Vu5fEPJMt30fUDHuL+nwgE4SIk=;
+ b=NRW6bkX61KD8PfpaYRlpOlNOpSzLdu+y4/34Y+XIwnPc6o0hYp6p1rpcYHQAQqfczYt0NwzkLe4OXsR6eQn6pAr3q/pVJJgx54+0X2im5iDEfYmog11ErOI5OZLjl1D3y4P74pf8h/qPAX9gl/daADcGBZCY9KdDkllxx066DRE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH7PR12MB5781.namprd12.prod.outlook.com (2603:10b6:510:1d0::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.13; Thu, 27 Nov
+ 2025 09:55:34 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9366.012; Thu, 27 Nov 2025
+ 09:55:34 +0000
+Message-ID: <b1c3dd51-1ba9-4036-b964-8e9f4350bbee@amd.com>
+Date: Thu, 27 Nov 2025 10:55:25 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panic: Report invalid or unsupported panic modes
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Javier Martinez Canillas <javierm@redhat.com>
-References: <20251127090349.92717-1-tvrtko.ursulin@igalia.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20251127090349.92717-1-tvrtko.ursulin@igalia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: L7oSy6LCVsWFg0KLfAReaCaXw6ZBfBR4let40B0IIyg_1764237141
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 2/6] amd/amdkfd: Ignore return code of dma_fence_signal()
+To: phasta@kernel.org, "Kuehling, Felix" <felix.kuehling@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, Alex Deucher <alexander.deucher@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+References: <20251126131914.149445-2-phasta@kernel.org>
+ <20251126131914.149445-4-phasta@kernel.org>
+ <cef83fed-5994-4c77-962c-9c7aac9f7306@amd.com>
+ <d46f753e660694ab46c65409a5e43f050b7eb2d9.camel@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <d46f753e660694ab46c65409a5e43f050b7eb2d9.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BN0PR04CA0087.namprd04.prod.outlook.com
+ (2603:10b6:408:ea::32) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB5781:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a7ce4ea-a86b-4751-0cd9-08de2d9b1bed
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|376014|366016|7416014|921020|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?L3krSEM1NThpdzdydlMzb0YwZWJZdnA4RmNSYmwzOFJkaFVmMm13Zm9UMVZa?=
+ =?utf-8?B?RHZxUGVtb3ZNVmZJV05tOGIyc1JJK3JPRkdlL1BoSi9UelhDcmphdlNYbi9v?=
+ =?utf-8?B?N2w0Y2NEWDlWUWVmMmptbERSWnFtdno5L2xRdDZJRjFJREIrQWhneHp1QXN0?=
+ =?utf-8?B?ZzBUd09ieHZyZG5aYUxqSHJvM01LbllObHFXOGQ2V1BBUDdJcFpKVnNrTWhm?=
+ =?utf-8?B?bWNWQXhDNlUzMzR1YzVzUEkvWVlZdU5VTEFXTGo5emN1WVlTY3dWNDQ5T0pa?=
+ =?utf-8?B?ZGJVbzNxa3F0NEdlZ1VLeWJIL3dpd0haYUd6dlg3OVMrWEphQ1AvQmh6QmM4?=
+ =?utf-8?B?cU5TUUU2ZVZRaHNmcmpGem1mb2o4UC9ZWWcyZGk2UUVwbE8yejJkSUw5dzdR?=
+ =?utf-8?B?aHYzYmlRa0lIME1RSmRHZmY0RVMwZzhTa2IvYlFRaDU4WWZnUzNkM05URm9q?=
+ =?utf-8?B?dWpMOGczL1o4SlhzWFBxOWlkNEIyUTNhM2JLZ1k2K3I4TFlPb3JkR2E1bWdS?=
+ =?utf-8?B?a3FNdWpBVlVMVVlJbk9zeVhDdUp4cVRpTWdMN0ltdkc5SnFUSVRYQnBRcTBG?=
+ =?utf-8?B?YXFmdE5ic0pmbTFSRmtMbisrYUcrSGhkKzkyaDR1K3YzQUxlMmpXTzFGTjl3?=
+ =?utf-8?B?NnZzaWZreUZFMGxQaE9LdVZ2aUNPUnZIWXBpckdRWkI0ZmVoRVhvdkQ2eWky?=
+ =?utf-8?B?NElmazRDWUgyT2xXeTdOcGtCYnZlWlQwTE5HRWJibVpBUTBONGFUOG8ySHJF?=
+ =?utf-8?B?bjJTQ3ZJT3phck9UaGl6cEdJSkFJZmQ4Vm1IRDA0amVqMi9naFRHQlh6UEJN?=
+ =?utf-8?B?MThKVG9xN0EweFNuTkg2OVpMYXNhck9rL0FMWCtVdnJIZUR5UDl5bjJiZTBx?=
+ =?utf-8?B?OFZLZUNQNk1XSHFCeHhhUUZQOE9QZ3lUSkVOQ09MOXExVDNIODRYR1pjckc0?=
+ =?utf-8?B?Mk9VT1FwZEYvYURjaytxTFQ5K1NiWGNPbjNmZFdOcldEdTdIVUFDdmpJSUtS?=
+ =?utf-8?B?WTRLY1V5aHp4QnRHdFRKd3R5QlFSVDljNUdyQkJtOHZaUG04RktCb3dTTm53?=
+ =?utf-8?B?MDc5RC8rSmlVazFSYUNZaDBlU0NuTytraHI2S3laSGdvWlBCcThqVGJaenl0?=
+ =?utf-8?B?alVnYUQwR0E4UFIvY2JCaCtsR1dtb1hYZ1crTXMvYXREb1RGN0RWa0tkd1Vz?=
+ =?utf-8?B?OGU4cFFabkpwVHkvTENnUjJsMUw0dWZsU3cwQ0RCczE4RzN5TmVldk53Nkpr?=
+ =?utf-8?B?dlpFc0dwbTJUbFJja1k5ZFpjQTh3cDExMDJXUFRXRm4zbVJ1K092d3lZaUEz?=
+ =?utf-8?B?aFUwNXJrSCtFQkl1Vlo3NVkzRWdpUzBiRzhHZnk1a3lITHhqamhoTXcraG1W?=
+ =?utf-8?B?dDNybGMxMjRzZ3pNL0toMkxrNHhmMG4vTVVmUUkvV1V0cExwQzJvL1VHcDJK?=
+ =?utf-8?B?akxseTFnN3NPWmNPU3dNMHJ6T3ZrYnZmU0d6ZDJLZXJHZVVIT0dsdW5lZVRx?=
+ =?utf-8?B?bmpjVnRYWGhjZGJYM0lIV2NhazNkbXVyLzVxdHpkL2lCNHF0NWFxZ2pvRGsz?=
+ =?utf-8?B?azc0WjUxUTBGU0Z0RDh3T2FtNjdBc0svUndUQXVNZWVSTmRBRnFjeWtsRkxG?=
+ =?utf-8?B?d3ZDQS9hMnZyclpDZk4xaWN2c0p1ZWsxL21qTDBxclBGMkVyUjhCVTE1Wm13?=
+ =?utf-8?B?MExaVjEvTEZEN2c3MXdqYk44MkxCd0k5WjE3K01IZEVEZDJpVkV1Y2ZSREpV?=
+ =?utf-8?B?UFY3ek5DZC9ORnJic0h3LzJTSlJnVUZ6T0xMRFNUTlE0bEVNMmRiUXgxQVpq?=
+ =?utf-8?B?VEdWbEhRYVJ1U1FTU3gvWlZhSC8wNTZ1RVIzZlFFeEY4N2Y3M2t3NFArS3lS?=
+ =?utf-8?B?YWxoRU9qQW4yMU1TWWR6UExwdUZaeFF2c3NJR1c3Y3IxWmY3TjVBME1lckxk?=
+ =?utf-8?B?NE5QWjJ3Zi9wMDQrNjdIVzhRZmJUTGpMU2VvQTBHVkJOeHJ6U28yMUtxOGll?=
+ =?utf-8?B?NndOdlJZcUNsQ1c0MllIMkJVbUhqbm9WU2ZCWHQxSGZBUC90MDZQVGYyWmpB?=
+ =?utf-8?Q?qhNB97?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(7416014)(921020)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RUVzOUZDeHRhQjFXclpSWW55TjR4ejFjOXhSVjNoQkpMZXRVbHplRWFCVyts?=
+ =?utf-8?B?NFJmc3k2a1VMNmpWdzk3aW1aNENzWnFWa0s2V2FrYm1mVWVQeDhUaTRuRmJV?=
+ =?utf-8?B?Q0s5UGxkU2ZuV2NZaU95dlNWSlNSMUVFaE5PK2NRL1NvR0k0SVg0bXc3Q3BJ?=
+ =?utf-8?B?MW5LNUFYSVVXakkzLzBzWWxjczZZSXVOSDhtNlRNcVJNbGdTMmZ5Qkk4dW1I?=
+ =?utf-8?B?RElROHRQZ2dBbHZtK0tGM29kQldEbkVkR280WC9FcnRuY3lqaXc4WkE1cGtr?=
+ =?utf-8?B?bEU5QmlIbStsTS9TU0o4NUVHRzJ2MjN0dzl5UEVKVSs4Sis0SEFuL2lMTDhC?=
+ =?utf-8?B?RHF2TUptMGNvYzRXNk1oZUZQUWgzMmVoalFOVkMzN2kyMThtS1VkaFZvQUF1?=
+ =?utf-8?B?OUZVbC9qNXlhMnVXTGhoNnFEVjJoTXRwSGxiQ1F3SWpLZGlBMTgyUFdyZEgy?=
+ =?utf-8?B?bno5RlREZ3hxNkdkUXJQVlY0S3E5Q3BXRnpzeUU2aHNsYWs0b1AyY1U1eGZw?=
+ =?utf-8?B?MXZ4U215bVJ3NEg0c3YvSjRJMkxielFSWXdHazVVMU01ZUcwemI0UWdOZUJv?=
+ =?utf-8?B?SXFCVEtmTHIvQ3ZFZXo1cVpZSGg2TDJMOVdCQk5Gakw0RkpRREpFMzJKQTc2?=
+ =?utf-8?B?OVdZQmdnN00rRC95L3VDNzkvMnF4S1pxN3pVakNCRlRIK2NwSDFOSkZOTVgz?=
+ =?utf-8?B?Y0h3Q1pSblZ3c1NERHRsWFhVTTU2UytHNC9TSWJ6RWVnWDM5TnBZR1R6SkdB?=
+ =?utf-8?B?Z0F0QlAvY1g5M3VxUUcvWDJmMHdXSU5HdFhWcklKa0VEREEwNEVpRS9wY3VB?=
+ =?utf-8?B?RUZTL3B6RGd4enkvYXp5S2hTYzNYd2VaK3ZCTnAwS2xFS1hzdi9SZllTWWRk?=
+ =?utf-8?B?Y0lrT2NMVEFlaE51Q2h2cGxYWDNobXBGT0krNFhkTnNDWFp5anVNM3h1WDVo?=
+ =?utf-8?B?VlYvcUZ4cjhrRTRMbXEzZDhYZVdLaC9kSU5XUlEvU2duYVZTNDI1Rm1tVkYx?=
+ =?utf-8?B?MmJJT0dKYnJkaGZobGZIdHJWVFNXYS91U25KVEYvRXA4dzZObTJ1Qk44QXlk?=
+ =?utf-8?B?bGI1TmVlTkVERGt0c3RTWDBZVitaYkFhWlp3ZGZ0eityMGNsMDQ3M1EyaUtN?=
+ =?utf-8?B?Y2hpVkZ6UGdlUDJwOWJlZmZZUVdtbG50VHIxVXhsQVJwOUxZaVp2bVhCQm1M?=
+ =?utf-8?B?Y2FaN0xjMkVod282aXdLVGtTTU43akRsWXc0RTBiWGMvbTljMkFHMVM1Z0dK?=
+ =?utf-8?B?SWdDK1BVbzJPSUs1dmtyRFZJaHN6SEVMOUhSLzMvZFRHYlc0SGRGeGJiTlc0?=
+ =?utf-8?B?Z1lpZVdwRkpWbVR1QkhxUTFYWDlhRjB5RE5ROWg4eXV6Mk1ESVlIVmlGK1dm?=
+ =?utf-8?B?RHIrcFliUFRVQ3k3UHRoaDJyck4zUXRDOFRqb0hnWFo5TkVrREU4bXdQNFN6?=
+ =?utf-8?B?QmZCZEN5aDRZS2tlbXllNHZDVGY0cVcwNTR3b2lOVlFkSzNTWmYwOTBidTlj?=
+ =?utf-8?B?eHk4dmZNNXplYm5uWnROY29WcCtWbXV1ejNlMUszZXFOZitSc2FuOWd6OS8x?=
+ =?utf-8?B?QXJzbjVXK081ZmMzNHk3aC9ITmdLVUI1WmxBTGd1YmFLUmNxNTFOUU1QeThy?=
+ =?utf-8?B?dkhLditGSVpOK0J6UHdjakFtNGpsUjZEWkJ3b3lPNVh5d0p1RW1zNlk2cFJM?=
+ =?utf-8?B?NWp4dmpNcjIrM2UwbHNaWmY3SWIxeFNXUTNUdjJIYjYvTFArS3J3RTlZaFR3?=
+ =?utf-8?B?OFF4VFNtVVJWUlRrenk3KzVGMnRveWNCMXRISlQzeHBocWhISDFtR2kyUi9O?=
+ =?utf-8?B?QWwyL2tEZ1llejZGUVlEZ3BzUjEzbVFUblIwTjBQSk1xRHptak9DR3BBekxK?=
+ =?utf-8?B?RVVORGxlaUxEc3ROTUJCVVl3YTVoRUxoK1JnNUgzQzZvbGRDNGhXNDdFSUM4?=
+ =?utf-8?B?Y2duRVdMVWRwb1ZUZ2dVeDA2RTFCMVdZckdLMXl6d01XaVpTV1NtakRlVmNp?=
+ =?utf-8?B?TUZ0TThWRkd2VHVSU2NqWStuZ1R1c1podmRtOTFYbllVNWg3dVhhRzh3aTFZ?=
+ =?utf-8?B?NWJEenUrV2xwRU1RSWJsa2MweDFVVVdWaTJSL21COEZXN0kxTDBoazhNZitC?=
+ =?utf-8?Q?cFAySgBiuYpKTwoO4acbbjJqu?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a7ce4ea-a86b-4751-0cd9-08de2d9b1bed
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2025 09:55:34.6150 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: j2TC7tc41puHELQj9xOUuU5lbGurlG2r2jR1owjHjJCXQuASDeIBwGx8LVNoOioM
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5781
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,157 +185,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/11/2025 10:03, Tvrtko Ursulin wrote:
-> Currently the user can write anything into the drm.panic_screen modparam,
-> either at runtime via sysfs, or as a kernel boot time argument. Invalid
-> strings will be silently accepted and ignored at use time by defaulting to
-> the 'user' panic mode.
+On 11/27/25 10:48, Philipp Stanner wrote:
+> On Wed, 2025-11-26 at 16:24 -0500, Kuehling, Felix wrote:
+>>
+>> On 2025-11-26 08:19, Philipp Stanner wrote:
+>>> The return code of dma_fence_signal() is not really useful as there is
+>>> nothing reasonable to do if a fence was already signaled. That return
+>>> code shall be removed from the kernel.
+>>>
+>>> Ignore dma_fence_signal()'s return code.
+>>
+>> I think this is not correct. Looking at the comment in 
+>> evict_process_worker, we use the return value to decide a race 
+>> conditions where multiple threads are trying to signal the eviction 
+>> fence. Only one of them should schedule the restore work. And the other 
+>> ones need to increment the reference count to keep evictions balanced.
 > 
-> Let instead add some validation in order to have immediate feedback when
-> something has been mistyped, or not compiled in.
+> Thank you for pointing that out. Seems then amdkfd is the only user who
+> actually relies on the feature. See below
 > 
-> For example during kernel boot:
+>>
+>> Regards,
+>>    Felix
+>>
+>>
+>>>
+>>> Suggested-by: Christian König <christian.koenig@amd.com>
+>>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+>>> ---
+>>>   drivers/gpu/drm/amd/amdkfd/kfd_process.c | 5 ++---
+>>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+>>> index ddfe30c13e9d..950fafa4b3c3 100644
+>>> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+>>> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
+>>> @@ -1986,7 +1986,6 @@ kfd_process_gpuid_from_node(struct kfd_process *p, struct kfd_node *node,
+>>>   static int signal_eviction_fence(struct kfd_process *p)
+>>>   {
+>>>   	struct dma_fence *ef;
+>>> -	int ret;
+>>>   
+>>>   	rcu_read_lock();
+>>>   	ef = dma_fence_get_rcu_safe(&p->ef);
+>>> @@ -1994,10 +1993,10 @@ static int signal_eviction_fence(struct kfd_process *p)
+>>>   	if (!ef)
+>>>   		return -EINVAL;
+>>>   
+>>> -	ret = dma_fence_signal(ef);
+>>> +	dma_fence_signal(ef);
 > 
->   Booting kernel: `bsod' invalid for parameter `drm.panic_screen'
+> The issue now is that dma_fence_signal()'s return code is actually non-
+> racy, because check + bit-set are protected by lock.
 > 
-> Or at runtime:
+> Christian's new spinlock series would add a lock function for fences:
+> https://lore.kernel.org/dri-devel/20251113145332.16805-5-christian.koenig@amd.com/
 > 
->   # echo -n bsod > /sys/module/drm/parameters/panic_screen
->   -bash: echo: write error: Invalid argument
 > 
-> Change of behavior is that when invalid mode is attempted to be
-> configured, currently the code will default to the 'user' mode, while with
-> this change the code will ignore it, and default to the mode set at kernel
-> build time via CONFIG_DRM_PANIC_SCREEN.
+> So I suppose this should work:
 > 
-> While at it lets also fix the module parameter description to include all
-> compiled in modes.
+> dma_fence_lock_irqsave(ef, flags);
+> if (dma_fence_test_signaled_flag(ef)) {
+> 	dma_fence_unlock_irqrestore(ef, flags);
+> 	return true;
+> }
+> dma_fence_signal_locked(ef);
+> dma_fence_unlock_irqrestore(ef, flags);
+> 
+> return false;
+> 
+> 
+> + some cosmetic adjustments for the boolean of course.
+> 
+> 
+> Would that fly and be reasonable? @Felix, Christian.
 
-Thanks, I agree that's better than the current implementation.
+I was just about to reply with the same idea when your mail arrived.
 
-Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+So yes looks totally reasonable to me.
+
+Regards,
+Christian.
 
 > 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Jocelyn Falempe <jfalempe@redhat.com>
-> Cc: Javier Martinez Canillas <javierm@redhat.com>
-> ---
->   drivers/gpu/drm/drm_panic.c | 77 ++++++++++++++++++++++++++++++-------
->   1 file changed, 63 insertions(+), 14 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
-> index d4b6ea42db0f..f42be7f1d8c2 100644
-> --- a/drivers/gpu/drm/drm_panic.c
-> +++ b/drivers/gpu/drm/drm_panic.c
-> @@ -39,12 +39,6 @@ MODULE_AUTHOR("Jocelyn Falempe");
->   MODULE_DESCRIPTION("DRM panic handler");
->   MODULE_LICENSE("GPL");
->   
-> -static char drm_panic_screen[16] = CONFIG_DRM_PANIC_SCREEN;
-> -module_param_string(panic_screen, drm_panic_screen, sizeof(drm_panic_screen), 0644);
-> -MODULE_PARM_DESC(panic_screen,
-> -		 "Choose what will be displayed by drm_panic, 'user' or 'kmsg' [default="
-> -		 CONFIG_DRM_PANIC_SCREEN "]");
-> -
->   /**
->    * DOC: overview
->    *
-> @@ -813,15 +807,60 @@ static void draw_panic_static_qr_code(struct drm_scanout_buffer *sb)
->   		draw_panic_static_user(sb);
->   }
->   #else
-> -static void draw_panic_static_qr_code(struct drm_scanout_buffer *sb)
-> -{
-> -	draw_panic_static_user(sb);
-> -}
-> -
->   static void drm_panic_qr_init(void) {};
->   static void drm_panic_qr_exit(void) {};
->   #endif
->   
-> +enum drm_panic_type {
-> +	DRM_PANIC_TYPE_KMSG,
-> +	DRM_PANIC_TYPE_USER,
-> +	DRM_PANIC_TYPE_QR,
-> +};
-> +
-> +static enum drm_panic_type drm_panic_type = -1;
-> +
-> +static const char *drm_panic_type_map[] = {
-> +	[DRM_PANIC_TYPE_KMSG] = "kmsg",
-> +	[DRM_PANIC_TYPE_USER] = "user",
-> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
-> +	[DRM_PANIC_TYPE_QR] = "qr",
-> +#endif
-> +};
-> +
-> +static int drm_panic_type_set(const char *val, const struct kernel_param *kp)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(drm_panic_type_map); i++) {
-> +		if (!strcmp(val, drm_panic_type_map[i])) {
-> +			drm_panic_type = i;
-> +			return 0;
-> +		}
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static int drm_panic_type_get(char *buffer, const struct kernel_param *kp)
-> +{
-> +	return scnprintf(buffer, PAGE_SIZE, "%s\n",
-> +			 drm_panic_type_map[drm_panic_type]);
-> +}
-> +
-> +static const struct kernel_param_ops drm_panic_ops = {
-> +	.set = drm_panic_type_set,
-> +	.get = drm_panic_type_get,
-> +};
-> +
-> +module_param_cb(panic_screen, &drm_panic_ops, NULL, 0644);
-> +MODULE_PARM_DESC(panic_screen,
-> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
-> +		 "Choose what will be displayed by drm_panic, 'user', 'kmsg' or 'qr' [default="
-> +#else
-> +		 "Choose what will be displayed by drm_panic, 'user' or 'kmsg' [default="
-> +#endif
-> +		 CONFIG_DRM_PANIC_SCREEN "]");
-> +
->   /*
->    * drm_panic_is_format_supported()
->    * @format: a fourcc color code
-> @@ -838,11 +877,19 @@ static bool drm_panic_is_format_supported(const struct drm_format_info *format)
->   
->   static void draw_panic_dispatch(struct drm_scanout_buffer *sb)
->   {
-> -	if (!strcmp(drm_panic_screen, "kmsg")) {
-> +	switch (drm_panic_type) {
-> +	case DRM_PANIC_TYPE_KMSG:
->   		draw_panic_static_kmsg(sb);
-> -	} else if (!strcmp(drm_panic_screen, "qr_code")) {
-> +		break;
-> +
-> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
-> +	case DRM_PANIC_TYPE_QR:
->   		draw_panic_static_qr_code(sb);
-> -	} else {
-> +		break;
-> +#endif
-> +
-> +	case DRM_PANIC_TYPE_USER:
-> +	default:
->   		draw_panic_static_user(sb);
->   	}
->   }
-> @@ -1025,6 +1072,8 @@ void drm_panic_unregister(struct drm_device *dev)
->    */
->   void __init drm_panic_init(void)
->   {
-> +	if (drm_panic_type == -1)
-> +		drm_panic_type_set(CONFIG_DRM_PANIC_SCREEN, NULL);
->   	drm_panic_qr_init();
->   }
->   
+> P.
 
