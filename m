@@ -2,54 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C61C8D1C6
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 08:32:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31FE6C8D247
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 08:41:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1DF710E76B;
-	Thu, 27 Nov 2025 07:32:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B59810E776;
+	Thu, 27 Nov 2025 07:41:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aNfbPY9J";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="VkNHvwYR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62E2310E76B
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 07:32:38 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 940E360172;
- Thu, 27 Nov 2025 07:32:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6770C4CEF8;
- Thu, 27 Nov 2025 07:32:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764228757;
- bh=YjYMuJ4WwkDAUrkkzpqXIur0vkDiZXPtn4Yire7fP+g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=aNfbPY9J53ReZwX208tcTNE2ncueZ+5f5z+43rwRjadX6lt3lW0Y4fXwSHUqfiMTR
- eqKEgkpvhaHud+M8Dx1r/vG0o9QCWhFtfkqTfz4iZQGUcwhPd1V3xbgzTb38/HmLvI
- 6rBbLWWJ0eTIwhKAZ0qdmIoaLmr8xapcCcdUPwloU7MD/ovLgWbSR8QEz2waZZ6mqB
- BNEXzgm4L4FA4w5T75Ketl8vkRViH70/xvc/r1Htl6oTonSqfECHQXyku2pFbhOZpj
- YaBznN9w0NVhAPg3veh/hyPXTMNQa7lQ+H4HQjUvcAhjFFKKRj5UJXq8Il4N/Wcevz
- qqNrWgskreIcg==
-Date: Thu, 27 Nov 2025 08:32:34 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-Cc: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com, 
- arnd@arndb.de, gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, quic_bkumar@quicinc.com, ekansh.gupta@oss.qualcomm.com, 
- linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org, 
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- jingyi.wang@oss.qualcomm.com, 
- aiqun.yu@oss.qualcomm.com, ktadakam@qti.qualcomm.com
-Subject: Re: [PATCH v4 3/4] misc: fastrpc: Add support for new DSP IOVA
- formatting
-Message-ID: <20251127-liberal-azure-turtle-194a9b@kuoka>
-References: <20251126094545.2139376-1-kumari.pallavi@oss.qualcomm.com>
- <20251126094545.2139376-4-kumari.pallavi@oss.qualcomm.com>
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66CF110E776
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 07:41:09 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-297ec50477aso2581335ad.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 23:41:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1764229269; x=1764834069; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=6TQCT7eTDg2XHHUkD6C/L3ICqZT3KdP+WG9DmEyMuo0=;
+ b=VkNHvwYRakBiqPHXtgTcgtflgSyyBDIoOqrBR9etEh7LmejWmRZG8lAiz7Tikb9yhW
+ m75srcE6H19hVuJy1PxlVW8Y9FiHYmUNhxJ9sh9wdZxf/0QHdkwqWxn7CBE1+GY0HhDa
+ yl+xCu0p70XpYJPEKSM6EiKCkK/rDBExG1JGsuxOaj63InESRYVS6XLAk047yaU3A/bj
+ mCpLJvi/k9/yRw9k2/2H/k4Nh/HhCUmRbaVotLTHMCVJanPapKDW+atsw5rzdqvFQ6FJ
+ GAdoIh48KY/yn399AGQEAEYoeepmzM9djjDwslFnj/OA1v3l5XAzwPMUrHDY2FD/xvsh
+ UXBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764229269; x=1764834069;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6TQCT7eTDg2XHHUkD6C/L3ICqZT3KdP+WG9DmEyMuo0=;
+ b=XGl4Fxs3lTR8l6nXMs1sOQTDtbdlzzSL2fToFHUBkFVfx6DFDiWmYCcROwOhHV4+Um
+ lR+riUuFGBlkgbblxYyIxGtIZWVXB0WnDMtYtX+5ZBIbJOsjeU4yeEqsi7siYzvpQBcg
+ czRdYO93VWJgQO56a94C0NB9P8SVxyVbcHJJsjW1YNhVt2YDWhJZ/88lQeSsLWar771Z
+ KzHyDBPvK6S0cTLKgKJo4sqcXMrmPUzDPgUDoXvpC8NdePCJEUrIHah4LkWubqLA7oSt
+ TCRnoMpO5dA00CoA3Ujl7i8dnCSu4Hc2KsOKkNL9VWyNsbB/w5jASu4KXz/Y3qfo0Egm
+ +uqw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVTfGNgbzNoW2C+tuPLFkYdFz+H7wxE4dd6YJDhBeVE8zyEZNv9odvLzWmzT3x+oNaKn55gTLDTe4k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz5OfBc7Y9vka8rUDLAT4NY3LnRTL1cSA8ADWAJ0GCOzYF481se
+ RDGa89faOPc4gv5e0gQUc4mF7HcRdUObBPlZrfkFBatQk80K6XveMplXsy1TWZae63M=
+X-Gm-Gg: ASbGncvy3X8g7LgLTaLjYdts+7bpRCShdeagJmZkA2hKFvZbRigH/UhuhBRAbHSvM58
+ 4GGGLXRNHbKVDY0N/aPNybnkoI6OXl0c4kiI7or1s4Xv6HFPzS3wvvZne56lJvALMaYuprIF3Yv
+ /XCngEhKO7seHJwOJLRDCjJb/BUvI23PaHytdP0ec+EJ75dm1slRZaa3f4nC+xBBh/670q+CIIx
+ AE+E0le9Y6ucEmFv2HIUazBNwOBhccDEms/3A1noMufCjFnzAgw71T8sqlleXk29e7GpRwJ2Osm
+ 2p9Ch4xAHpbAVPPK56TrZTwWk8tfCRMiBfXErDFt7qDQDXq9fuuYOE8THJw4uPUksGNrbcVIkEA
+ ETlNQrrMKWnnCxVvkZ50ggHKvTips0LeSZTjpkqH9HwMXi5YKvEJ/37tmAUeuChswJ5jCyGzLD5
+ 5a1Q1eb6CRazM=
+X-Google-Smtp-Source: AGHT+IEBlmzvPfpPZSYziqgyCSQiiLlC/euU1UMGI4AMImrD/tBfX/XLDOjeV/TfCVGjyrfd8/xH/Q==
+X-Received: by 2002:a17:903:3c67:b0:29a:69d:acdc with SMTP id
+ d9443c01a7336-29b6bffd87amr213892395ad.25.1764229268696; 
+ Wed, 26 Nov 2025 23:41:08 -0800 (PST)
+Received: from localhost ([122.172.86.94]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29bceb54454sm7966145ad.84.2025.11.26.23.41.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Nov 2025 23:41:08 -0800 (PST)
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Viresh Kumar <viresh.kumar@linaro.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] dma-buf: add no-op stubs when CONFIG_DMA_SHARED_BUFFER is
+ disabled
+Date: Thu, 27 Nov 2025 13:10:55 +0530
+Message-Id: <6202945f4af2d10e0fb6602b25ff9cb454c1ee85.1764229204.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251126094545.2139376-4-kumari.pallavi@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,89 +89,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 26, 2025 at 03:15:44PM +0530, Kumari Pallavi wrote:
-> @@ -685,7 +701,8 @@ static int fastrpc_dma_buf_attach(struct dma_buf *dmabuf,
->  		return -ENOMEM;
->  
->  	ret = dma_get_sgtable(buffer->dev, &a->sgt, buffer->virt,
-> -			      FASTRPC_PHYS(buffer->dma_addr), buffer->size);
-> +			      IPA_TO_DMA_ADDR(buffer->dma_addr,
-> +			      buffer->fl->cctx->soc_data->sid_pos), buffer->size);
->  	if (ret < 0) {
->  		dev_err(buffer->dev, "failed to get scatterlist from DMA API\n");
->  		kfree(a);
-> @@ -734,7 +751,8 @@ static int fastrpc_mmap(struct dma_buf *dmabuf,
->  	dma_resv_assert_held(dmabuf->resv);
->  
->  	return dma_mmap_coherent(buf->dev, vma, buf->virt,
-> -				 FASTRPC_PHYS(buf->dma_addr), size);
-> +				 IPA_TO_DMA_ADDR(buf->dma_addr,
-> +				 buf->fl->cctx->soc_data->sid_pos), size);
+Move several dma-buf function declarations under
+CONFIG_DMA_SHARED_BUFFER and provide static inline no-op implementations
+for the disabled case to allow the callers to build when the feature is
+not compiled in.
 
-Some odd alignment here. Are you sure you run checkpatch --strict?
+Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+---
+ include/linux/dma-buf.h | 116 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 116 insertions(+)
 
+diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+index d58e329ac0e7..06e494d8f6b0 100644
+--- a/include/linux/dma-buf.h
++++ b/include/linux/dma-buf.h
+@@ -568,6 +568,7 @@ static inline bool dma_buf_is_dynamic(struct dma_buf *dmabuf)
+ 	return !!dmabuf->ops->pin;
+ }
+ 
++#ifdef CONFIG_DMA_SHARED_BUFFER
+ struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+ 					  struct device *dev);
+ struct dma_buf_attachment *
+@@ -609,4 +610,119 @@ int dma_buf_vmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map);
+ void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf, struct iosys_map *map);
+ struct dma_buf *dma_buf_iter_begin(void);
+ struct dma_buf *dma_buf_iter_next(struct dma_buf *dmbuf);
++
++#else
++static inline struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
++							struct device *dev)
++{
++	return NULL;
++}
++
++static inline struct dma_buf_attachment *
++dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
++		       const struct dma_buf_attach_ops *importer_ops,
++		       void *importer_priv)
++{
++	return NULL;
++}
++
++static inline void dma_buf_detach(struct dma_buf *dmabuf,
++				  struct dma_buf_attachment *attach) { }
++
++static inline int dma_buf_pin(struct dma_buf_attachment *attach)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline void dma_buf_unpin(struct dma_buf_attachment *attach) { }
++
++static inline struct dma_buf *
++dma_buf_export(const struct dma_buf_export_info *exp_info)
++{
++	return NULL;
++}
++
++
++static inline int dma_buf_fd(struct dma_buf *dmabuf, int flags)
++{
++	return -EOPNOTSUPP;
++}
++
++
++static inline struct dma_buf *dma_buf_get(int fd)
++{
++	return NULL;
++}
++
++static inline void dma_buf_put(struct dma_buf *dmabuf) { }
++
++static inline struct sg_table *
++dma_buf_map_attachment(struct dma_buf_attachment *, enum dma_data_direction)
++{
++	return NULL;
++}
++
++static inline void dma_buf_unmap_attachment(struct dma_buf_attachment *,
++					    struct sg_table *,
++					    enum dma_data_direction) { }
++
++static inline void dma_buf_move_notify(struct dma_buf *dma_buf) { }
++
++static inline int dma_buf_begin_cpu_access(struct dma_buf *dma_buf,
++					   enum dma_data_direction dir)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int dma_buf_end_cpu_access(struct dma_buf *dma_buf,
++					 enum dma_data_direction dir)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline struct sg_table *
++dma_buf_map_attachment_unlocked(struct dma_buf_attachment *attach,
++				enum dma_data_direction direction)
++{
++	return NULL;
++}
++
++static inline void
++dma_buf_unmap_attachment_unlocked(struct dma_buf_attachment *attach,
++				  struct sg_table *sg_table,
++				  enum dma_data_direction direction) { }
++
++static inline int dma_buf_mmap(struct dma_buf *, struct vm_area_struct *,
++			       unsigned long)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline int dma_buf_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline void dma_buf_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
++{ }
++
++static inline int dma_buf_vmap_unlocked(struct dma_buf *dmabuf,
++					struct iosys_map *map)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline void dma_buf_vunmap_unlocked(struct dma_buf *dmabuf,
++					   struct iosys_map *map) { }
++
++static inline struct dma_buf *dma_buf_iter_begin(void)
++{
++	return NULL;
++}
++
++static inline struct dma_buf *dma_buf_iter_next(struct dma_buf *dmbuf)
++{
++	return NULL;
++}
++#endif /* CONFIG_DMA_SHARED_BUFFER */
+ #endif /* __DMA_BUF_H__ */
+-- 
+2.31.1.272.g89b43f80a514
 
->  }
->  
->  static const struct dma_buf_ops fastrpc_dma_buf_ops = {
-> @@ -789,7 +807,8 @@ static int fastrpc_map_attach(struct fastrpc_user *fl, int fd,
->  		map->dma_addr = sg_phys(map->table->sgl);
->  	} else {
->  		map->dma_addr = sg_dma_address(map->table->sgl);
-> -		map->dma_addr += ((u64)fl->sctx->sid << 32);
-> +		map->dma_addr += fastrpc_compute_sid_offset((u64)fl->sctx->sid,
-> +				 fl->cctx->soc_data->sid_pos);
->  	}
->  	for_each_sg(map->table->sgl, sgl, map->table->nents,
->  		sgl_index)
-> @@ -2290,6 +2309,14 @@ static int fastrpc_get_domain_id(const char *domain)
->  	return -EINVAL;
->  }
->  
-> +static const struct fastrpc_soc_data kaanapali_soc_data = {
-> +	.sid_pos = 56,
-> +};
-> +
-> +static const struct fastrpc_soc_data default_soc_data = {
-> +	.sid_pos = 32,
-> +};
-> +
->  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  {
->  	struct device *rdev = &rpdev->dev;
-> @@ -2298,6 +2325,11 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  	const char *domain;
->  	bool secure_dsp;
->  	unsigned int vmids[FASTRPC_MAX_VMIDS];
-> +	const struct fastrpc_soc_data *soc_data = NULL;
-
-Drop assignment, not helpful.
-
-> +
-> +	soc_data = device_get_match_data(rdev);
-> +	if (!soc_data)
-> +		soc_data = &default_soc_data;
->  
->  	err = of_property_read_string(rdev->of_node, "label", &domain);
->  	if (err) {
-> @@ -2350,6 +2382,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  
->  	secure_dsp = !(of_property_read_bool(rdev->of_node, "qcom,non-secure-domain"));
->  	data->secure = secure_dsp;
-> +	data->soc_data = soc_data;
->  
->  	switch (domain_id) {
->  	case ADSP_DOMAIN_ID:
-> @@ -2487,7 +2520,8 @@ static int fastrpc_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
->  }
->  
->  static const struct of_device_id fastrpc_rpmsg_of_match[] = {
-> -	{ .compatible = "qcom,fastrpc" },
-> +	{ .compatible = "qcom,kaanapali-fastrpc", .data = &kaanapali_soc_data },
-> +	{ .compatible = "qcom,fastrpc", .data = &default_soc_data },
->  	{ },
->  };
->  MODULE_DEVICE_TABLE(of, fastrpc_rpmsg_of_match);
-> -- 
-> 2.34.1
-> 
