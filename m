@@ -2,165 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 034ECC8EB39
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 15:08:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E82C8EB96
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 15:13:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F24010E08F;
-	Thu, 27 Nov 2025 14:08:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 110E310E77E;
+	Thu, 27 Nov 2025 14:13:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="eyDtKb0C";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="bDkmatkg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010071.outbound.protection.outlook.com [52.101.46.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 953A110E759
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 14:08:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kepFJ4eTPmuTyHp+mdivwiVUUNSQ9db24fN81OSdyz8AFmXfCL82NdqCOE9CSri2jpXMxDvBIa0SnnRQzVHB2JR3w9PuThJrdYiXnx/fWrSyD/JTVg23tEllWyAMpq0/pGekkWnptIXqVL4bpcIlvJjTX89gGfOYAf0ga3zz3N92DfMLF2ANF4DZ65hzFdnODOvDrcA+JAuBqNyD13Gz9P2X5dR4aQ9MUBfrPvGW+qeatBeeqyl4VwS94iHvhDsmXQU6xj8JJk9Bn7GDV2JnLAPxdnzG3SHqNPqbymMlCDGtOqmxELS62vqJ0dVUKgCb+We+JhqIZyl5HqIe3cVl/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nliGhFJXtz6ZDW7+1nMySvkq8dMPzK8UfaYuhhQCJU0=;
- b=hcb/fOxJ0+27kTk36WFE7xOnCqmXcY5qVHdlzxNLmWf72lQD8f712xK2pDpkozVfKHtSgmyieFeh57UZ0f+ls2XPuFyazL5rwONHiYJe5G5OlQ5NDLAQSMLFor9zEEh6upMkZQlgSRE/ggDbNFYFov+JdKCciHnsvMH113Bg3eRjra5kQLf+iGEmgDJCF9wafTOqh5GJs9CTSw4J8dvx3gdaXBcRcZs6Iamty65tC1yuKA2ld++FVK7v8zL+yDFcBbqeSwzuK2d2hYp174ibr+panP07s/E6qmkrQvBN+H1MtyBM76Nr9y/Vi8d8V1gHe0OHoLC4gfvHtseSUPsvCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nliGhFJXtz6ZDW7+1nMySvkq8dMPzK8UfaYuhhQCJU0=;
- b=eyDtKb0C7TPLFGc1Fuf6DrcyGH88V/N02SujRsQHbUKYveAJ0KzKfDalQRS5WUxQW8cp+LzO7oKKO/PGK1BmWKCKMKPA+NSnoigqQ5BYPtYqgpPibAujC9HEggVIdtWY02YFTuBuypoK/kl4hhcKdj9Io7sxQKWJzXtGoSGjaVc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY8PR12MB7682.namprd12.prod.outlook.com (2603:10b6:930:85::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.12; Thu, 27 Nov
- 2025 14:08:38 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9366.012; Thu, 27 Nov 2025
- 14:08:38 +0000
-Message-ID: <0f970282-e439-4036-bded-68fb8733d1f0@amd.com>
-Date: Thu, 27 Nov 2025 15:08:32 +0100
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOetlOWkjTogW0V4dGVybmFsIE1haWxdUmU6IFtQQVRDSCB2M10g?=
- =?UTF-8?Q?dma-buf=3A_add_some_tracepoints_to_debug=2E?=
-To: =?UTF-8?B?6auY57+U?= <gaoxiang17@xiaomi.com>,
- Xiang Gao <gxxa03070307@gmail.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "mhiramat@kernel.org" <mhiramat@kernel.org>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "mathieu.desnoyers@efficios.com" <mathieu.desnoyers@efficios.com>,
- "dhowells@redhat.com" <dhowells@redhat.com>,
- "kuba@kernel.org" <kuba@kernel.org>, "brauner@kernel.org"
- <brauner@kernel.org>, "akpm@linux-foundation.org"
- <akpm@linux-foundation.org>,
- "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>
-References: <20251127004352.376307-1-gxxa03070307@gmail.com>
- <c82698b0-f153-4e97-849a-d32e71dad1ab@amd.com>
- <f8233e36f4d74643a424180d1bd66d47@xiaomi.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <f8233e36f4d74643a424180d1bd66d47@xiaomi.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-ClientProxiedBy: FR2P281CA0042.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:92::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY8PR12MB7682:EE_
-X-MS-Office365-Filtering-Correlation-Id: 23693703-3b25-4d42-5088-08de2dbe75e5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YUtkcEM2NzJLa2VMSFZtcEdua0pPODljQU1KYlJDVzJleU9GS1Q0RklybTZU?=
- =?utf-8?B?QThqcG5RWVdaWVVVREl2bDMvZlVPVEN0L3ArTkRtVU9DTVZMR3lOdDdONnAy?=
- =?utf-8?B?anpPZVhLMlJLcU1ZNFpEbXJsT095amt0MGdZRkhhTmd3ejB1Q052T2U3L3Fh?=
- =?utf-8?B?RG91cjNuRG4xOFVGU1hYZTJZaTgzMGgrQ0k1YVZPb2dPZVQ3Vncyd1FKcHNw?=
- =?utf-8?B?akxvclhyU0JJN0s3QkxWYm1oZndQZmFleVkvaVBDV1hobGlNTnFscnU0SXMy?=
- =?utf-8?B?ZklrNXVSdi94dDF6a0ZzTERhOUlBRHphNmxDSzAydnlYc2d3MHdyVDRzUGN5?=
- =?utf-8?B?TDE1L1ZjSm9FSHRFdklzZkFleFV3MS9NZ2Q5bE1DcFNIaXNPSEl6OFpDdFpS?=
- =?utf-8?B?STNSOCsxeEc4OUdTUzVWUTZpV1hhUnZTKzdjZ3JvclViRWsrdUtGUkcvdFdq?=
- =?utf-8?B?RVk0Nm5XRTdWUWZMVUkydFhjNVpRYzQrTERjbUJKdk8xUlRsMGhCY1NzclVB?=
- =?utf-8?B?NGJXbHNlZTh5dC9WU2gvdnBuRTd6MWU0YzQ1VmF3YjlGbTFwZnU5RVdWUW03?=
- =?utf-8?B?R1liSUk2Sk4zVmhuOU1EdDFJRTdrK2NnL3UyN1NyYndTN2pHYWJ5SXdXcDkr?=
- =?utf-8?B?c0J2Mk9tZ21HRnNpTStNejQ2WkxOVHcxY0xuUTJ5bVlLdUFXRXJUbWV1MURs?=
- =?utf-8?B?UUhIQWxneTl3ODBqUy9oWGhsN2hJLzdBNTBxRW95SjBEN3JCUzhTdGxjdnhF?=
- =?utf-8?B?WGxacFlvNjlQeWgwbWYwQ1pUNWNIcEV4ck8rZmh4cXhZZERRVDUwU29zWDRz?=
- =?utf-8?B?dllFY25UbFl6VEU4ZEdTM3BqZzIwMS9lMmJ0RUpockw4YW1INi9HOW1ZUWZ2?=
- =?utf-8?B?Z2JwQzVvcWR3a01qQWNYTWNzWVUxRzh1ejl1TVptcTlrejlQNmVYYy96bDA0?=
- =?utf-8?B?UVIrNHZUaXZ4M0F2TzY4RitFcTMyQUwvaUVqTHVrVTIxTWlDcFVTRStEN3lD?=
- =?utf-8?B?d3FEbTZMRzhzb1RualdPSjBGMCtManRCckRINXk4L0QvRjd1UWZGVHduc2dw?=
- =?utf-8?B?MlJnVGVkLy95NEswNE9MaUU5Rmord3FaVTI1WmRkeW0xa1Y5Vy9jRnoySmZL?=
- =?utf-8?B?V0pnVU1Vc0Z0czFsYjBxK0pjaWxKN3FOTTZIMTVUZ3gyVXZaQ3Y1ZG5nek5o?=
- =?utf-8?B?akVZN2lXMXNWbVFaSW1LWWZZUndkT0tqeFNnbUlDUXhmeWFGTXlPWmdLK1RU?=
- =?utf-8?B?d3g0R2ZLMkxGVmlmZ0ZxdURiRWRMMXZyaUxibXowOU04Vk5OWnZPMWw1QkUy?=
- =?utf-8?B?czJ0V1BBMHpsdTBsdTNKak9zMFc0VThrelNvWDRXRGJkN3BveTMvU1QvNEpK?=
- =?utf-8?B?ckNhdzhJakRmMlhJR0VCb0F0bmxiZDRtMDF0SWdkR09ML2xxbEpxNmZveklj?=
- =?utf-8?B?aVI1MW1NQzQ0Wk5kejF4ejRoczlLU0htaWQ2eFVGZGlJMFBZY1pVWnh4Ti9q?=
- =?utf-8?B?c2g5N1Fma2ZOWDJwcVdvbHp5SFY1NEp2bjF6V3I0WStyVkp3VE1zTFRLQmlF?=
- =?utf-8?B?czQxbjhWaTdEMDRkRkVuSlRZbzQwNzloUCtUNUpCMGI1M0h5MnNJNzBzclZX?=
- =?utf-8?B?STJKQ3hnYWR2bis1N0tTMHN5M2ttN3pXSEk0U3cxYlhGbTlJZWdTQXBnTER2?=
- =?utf-8?B?RW5iUEtYZ0hNQlNPRVpySEdJcUVaT1pSNXBiR0dmMGtUY1lybHFsK0FlSjBp?=
- =?utf-8?B?WHVTTHVQRDJLUnFLRkVGTXRmWWY3cHdzYXpEbW1pTWpFOFF3VFRSaXpzVUpm?=
- =?utf-8?B?OW9kUlNXRGNZejhRa29ob2dZelJXQVNZeUtJUmtzVSswZVBCSElDcEt4SndK?=
- =?utf-8?B?RXdSUWpXOEF3T0Z3bjZhUXpDVVdyNUl0Z0lHSUFHNmgrMnA5M01yeVdINlAx?=
- =?utf-8?Q?Uswz7/r4KnS1ek5giflJiKzBbFhva4/Q?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MHg1RkdhWnRueU9HZjh3eGRCb3IxVm4xU0pmUFQzNW90MEY1RURNOHU4ZUoy?=
- =?utf-8?B?K29FQUMyOEppcjNRUHAyMmlXNUdHS1ptYm1XVzYxRFk5R1RUOU1CQlFjWmZU?=
- =?utf-8?B?U2ZtWjRoR1BqR3MwMVJ2Y1hFT0lNb0ZwWk9zT3RVbys5dDk3MkZHNkw0THkv?=
- =?utf-8?B?dEVyMUtFQ1A5TGhkQ1dZQXV0bm83Sis5WW1rNUhKazhoTUYyRUFyeTc5Z0lG?=
- =?utf-8?B?MU91Y29sODBkQ0RGL0tQNFZhTGhJU1dvV0JRWnJWQk9iMllZeVgySzFhT245?=
- =?utf-8?B?aFZpTzh0OUw2WG9LcDBQaVQyazRVN21veVpRc1kvaVRWdWpoMitQbFl5QU9r?=
- =?utf-8?B?MkxvNDQ0NDVLWVBDM1RYazhNcVMxSWpIQ2pOSjVEVGdCNGNPN3oxZHhpbUQx?=
- =?utf-8?B?aGRGNXJuVFJ1dmhwZDBMMTkyZ0k2a01zaWdGaHdoN3dLOVRDQzIzMUUrK3lE?=
- =?utf-8?B?MzNJMEc0dFZocEdDTjRNWDNrSGlKeHlkZTdibzBKcU9oZW9Nd2wvWHMzR0Zq?=
- =?utf-8?B?aExzTFpteDVDRDh4YWQ4RVU3b29STEs2VjFVU0l3NE8yUUpBUCtpdHU0bEJu?=
- =?utf-8?B?T3FkN3drV01KMFJ6dG5UMGZyOUViUUlVZ3NTZy9HU1lYZ0paekp2c3d0bTZG?=
- =?utf-8?B?Q3loSWxTS3c4aDZnOW1SNHRkQnFWL3RXay85NVIwdlFHYXRxR1A0cUV5Vmtn?=
- =?utf-8?B?dmNFektPSkFhbW92bmZWVW9nR0t6VXNKU0ZsdTlUNkdtWnIrVTh2enJhYUhK?=
- =?utf-8?B?dFhvSVRpVzBlTEIyZ2tKT1MzUFBOV2U0dnZMRFkwaVpnN3VKSjFYVSs0b3Y3?=
- =?utf-8?B?aHl2ZE1aWWdSd3ljWW9uaElRTDNVZmJsdVpZTGFqenhVcFc1Ny80NHg3azc4?=
- =?utf-8?B?UXdRSG4vMERsS3NLUXkrbDRscE1ZbUN3dloxQ2crMzA3QkE5aXhoRHd5LzBQ?=
- =?utf-8?B?NmlnOW04Zm8zM01KSnpkaU4rWTNGWk9xckMyazNRdVZJQ2hXNXNFcjVtcks2?=
- =?utf-8?B?b25JZE5QVHhEZnNUcVNoU1lMWEVmV0tWY0FNbncwanF5RUJhWFFTMFNDQzhk?=
- =?utf-8?B?enBHWld2NG45ZmJWMDZXUnV5NUlZQUxuUWhwbDYxWVBXcG1oU01HcG1hR0sr?=
- =?utf-8?B?a2ttdU1QWVFlVG5oM2lUMGJVRTNMMFBxVDY5M0YvS01OL3pyTkpQd2R1OTds?=
- =?utf-8?B?TWRnaVZOSWpXakZkTUd0NW9rbjdROGxaaVlnak8rSHdlZkJ1c0Zva2w2Skdi?=
- =?utf-8?B?ZUEyYkUwZFZDZVg4V3dqOVhxUnJNVVVBZ3R2UWRTbmpuTDFtZUkzUUgzb3Zw?=
- =?utf-8?B?eGgrdWMzM0ZWaEZKWlZSMkhmNlpCY0tkTjdOQU1ENEM2NDVwbWhTRm5keTdH?=
- =?utf-8?B?ZXYwYXA5bnNweElWUElCQi9wMk5McFNMZFY1cVBEd0FaWGx6SjhKbVBtTStD?=
- =?utf-8?B?VGNpaTZodkppR2hodmFESDR2N2RuR3hzVGVJVVArNnlrREtucVpKVEt0bCtt?=
- =?utf-8?B?RXl4UW1XU1d5eGdGSDdTUGNKUGl4LzRMTUhQWXdtbTJJMnN4aXVCbVJhU0xp?=
- =?utf-8?B?ekR0ZmxJajNoTUcwQTJ0aTdqQ2xkMlNDc0p2MVRPdDhPcllQbGRWbUh6ZDFN?=
- =?utf-8?B?SkNzTGpMQmY5Tk90WkRQVGxEaGRoWEkrNmo0VHI4Qm9VM1NBU0FHK2NMa3lj?=
- =?utf-8?B?dlpBU1hwNkI5RVErdUkwT2daYkp3dDd6elJ2dmNrSXpVKzNuYmRuMEhnNTZy?=
- =?utf-8?B?WFhlOUZCVHUvRFBwaXgwSnhXbGdTc1ZCelRXTGJqbFYreEFiYTdBZTEzcTYz?=
- =?utf-8?B?dnpjKzF5aW5YRjlxT0I3elZRKzlhbGJzTWZUMlFRWG1RUDBsTkRjd2cxMTlX?=
- =?utf-8?B?WFh2SGp2SkkyUHVMa2VQUmVGQTdUUWl6Zy83WWV2eGZ6UUFrc042Z2NqYUQw?=
- =?utf-8?B?V2p4SXhXTUdlM1VNRXV6dzk1T2V5MDJuOXlGcTUyZEUzcGM1Ujh1V2VXZUEy?=
- =?utf-8?B?Z1JNZHo3cTlLdWhKSFM4N3RXSElVaEpSVy9SckVEY2ZLTzdDN2lsckJ4NWVH?=
- =?utf-8?B?WXhITGlWWHR6cHg2aGpHZStHQ2VuQXo0VURkMUROVURrV3dNZUZ0a3hXNW1C?=
- =?utf-8?Q?YMchYkvyczUxiZwkZXwPu8xU1?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23693703-3b25-4d42-5088-08de2dbe75e5
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2025 14:08:37.9664 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FGWUYSRjVPIBB/H/msvmnlzBhqahIpjntwQlvXH91RgfD8GsEMBSrwzIwjrtv+DX
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7682
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
+ [136.143.184.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E272E10E7D8
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 14:13:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1764252823; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Y9yY78YWpYWcAoPCjRk6JEtcOPQAEjCKlyF3lT9VI3IzkJqZu/tefRx0K+Ctne9ra3vrKrx6lvmzZ1rSscuGrugic70+IjdlGZfvoO2OfFWp3znovBsDEyrG4knZvBLh9ZFzlh3iAUJcb/IKKZJ0OTyHJ8cvcOZAg9KyBVHY/Ow=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1764252823;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=6nBAkeIMkLVFacGcEQeBS4H0IgcYZZHP6xjmwpDO6YE=; 
+ b=Qb32B3seMFFWKTAM1FIWrLPs/uc19dYUkIbfsrF7sXcBjm+8kZAO+ClXFzqT5EgqhbwQjzgc4P7zudK2UrX0zOK0/8Sqh2xlFNESdswAcpo+ua31t/Vyds6mapCatiyniNhCe6ANUEihHZlvUN6EmyzUz5AwnhdiVJbrS/RjdUA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764252822; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=6nBAkeIMkLVFacGcEQeBS4H0IgcYZZHP6xjmwpDO6YE=;
+ b=bDkmatkgO+K3Cax7ewHnog6gz5q5oY8+6a01oUBToAUzqLCLEi+FUlaW6yHVb0rR
+ D74IulvY19DGupQ3anR8LTwqsTKm4i/yKT3SeKvVfHfvt7HYCOM1VLYBVayNbcrumeG
+ KTO1S/L10dOQOtHI8agEClCvZisUgTv9XYGPVPwE=
+Received: by mx.zohomail.com with SMTPS id 1764252820952471.0341912814464;
+ Thu, 27 Nov 2025 06:13:40 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [RFC WIP 3/3] rust/drm: Add initial jobqueue sceleton
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <30d48cd600c1aab81d5495c13930af926ecc2380.camel@mailbox.org>
+Date: Thu, 27 Nov 2025 11:13:26 -0300
+Cc: Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Alexandre Courbot <acourbot@nvidia.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Dave Airlie <airlied@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Peter Colberg <pcolberg@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <8525DF22-3F12-4709-A9F5-A831AE9D3B57@collabora.com>
+References: <20251118132520.266179-2-phasta@kernel.org>
+ <20251118132520.266179-5-phasta@kernel.org>
+ <EBE34576-438E-4B87-89B9-A729260158F2@collabora.com>
+ <30d48cd600c1aab81d5495c13930af926ecc2380.camel@mailbox.org>
+To: phasta@kernel.org
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,274 +76,550 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gMTEvMjcvMjUgMTU6MDUsIOmrmOe/lCB3cm90ZToNCj4+wqBFeHBvcnRpbmcgdGhlIHRyYWNl
-cG9pbnRzIGlzIHVuZWNlc3NhcnkgYXMgZmFyIGFzIEkgY2FuIHNlZQ0KPiANCj4gYW5kcm9pZCBt
-dXN0IGV4cG9ydCBzeW1ib2xzIGJlZm9yZSBhZGRpbmcgYSB3aGl0ZWxpc3QuDQoNCkh1aT8gV2h5
-IHdvdWxkIHlvdSBhZGQgdGhvc2Ugc3ltYm9scyB0byBhbnkgd2hpdGVsaXN0Pw0KDQo+IA0KPiAN
-Cj4+wqBJIGNhbid0IGNvbWUgdXAgd2l0aCBhIHJlYXNvbiB3aHkgd2Ugc2hvdWxkIGhhdmUgdGhl
-IGZpbGUgcmVmY291bnQgaW4gdGhlIHRyYWNlIGxvZ3MuDQo+PsKgU2FtZSBmb3IgbW9zdCBvdGhl
-ciBwbGFjZXMuDQo+IEnCoGNhbiBkaXJlY3RseSBvYnNlcnZlIGhvdyByZWZjbnQgaXMgY2hhbmdp
-bmcuwqAgVGhlbiBpdCBjYW4gYmUga25vd24gd2hlcmUgdGhlIGRtYWJ1ZiB3YXMgZmluYWxseSBy
-ZWxlYXNlZC4NCg0KVGhlIHJlZmNudCBpcyBtYW5pcHVsYXRlZCBvdXRzaWRlIG9mIHRoZSBETUEt
-YnVmIGNvZGUgYnkgdGhlIGZpbGVzeXN0ZW0gbGF5ZXIuDQoNCkFzIGZhciBhcyBJIGNhbiBzZWUg
-aXQgaXMgbWVhbmluZ2xlc3MgaGVyZS4NCg0KUmVnYXJkcywNCkNocmlzdGlhbi4NCg0KPiANCj4g
-DQo+PsKgUHJpbnQgdGhlIGRldl9uYW1lIGxhc3QsIGl0J3MgdGhlIGV4dGVybmFsIGRldmljZSB3
-aGljaCBhdHRhY2hlcyB0byB0aGUgRE1BLWJ1Zi4NCj4gb2suDQo+IA0KPiANCj4+wqBBZGRpdGlv
-bmFsIHRvIHRoYXQgaXQgd291bGQgYmUgbmljZSB0byBrbm93IGlmIHRoZSBhdHRhY2htZW50IGlz
-IGR5bmFtaWMgb3Igbm90Lg0KPiBvay4NCj4gDQo+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiAq
-5Y+R5Lu25Lq6OiogQ2hyaXN0aWFuIEvDtm5pZyA8Y2hyaXN0aWFuLmtvZW5pZ0BhbWQuY29tPg0K
-PiAq5Y+R6YCB5pe26Ze0OiogMjAyNeW5tDEx5pyIMjfml6UgMTc6NDk6MDkNCj4gKuaUtuS7tuS6
-ujoqIFhpYW5nIEdhbzsgc3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc7IHJvc3RlZHRAZ29vZG1pcy5v
-cmc7IG1oaXJhbWF0QGtlcm5lbC5vcmcNCj4gKuaKhOmAgToqIGxpbnV4LW1lZGlhQHZnZXIua2Vy
-bmVsLm9yZzsgZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgbGludXgta2VybmVsQHZn
-ZXIua2VybmVsLm9yZzsgbWF0aGlldS5kZXNub3llcnNAZWZmaWNpb3MuY29tOyBkaG93ZWxsc0By
-ZWRoYXQuY29tOyBrdWJhQGtlcm5lbC5vcmc7IGJyYXVuZXJAa2VybmVsLm9yZzsgYWtwbUBsaW51
-eC1mb3VuZGF0aW9uLm9yZzsgbGludXgtdHJhY2Uta2VybmVsQHZnZXIua2VybmVsLm9yZzsg6auY
-57+UDQo+ICrkuLvpopg6KiBbRXh0ZXJuYWwgTWFpbF1SZTogW1BBVENIIHYzXSBkbWEtYnVmOiBh
-ZGQgc29tZSB0cmFjZXBvaW50cyB0byBkZWJ1Zy4NCj4gwqANCj4gW+WklumDqOmCruS7tl0g5q2k
-6YKu5Lu25p2l5rqQ5LqO5bCP57Gz5YWs5Y+45aSW6YOo77yM6K+36LCo5oWO5aSE55CG44CC6Iul
-5a+56YKu5Lu25a6J5YWo5oCn5a2Y55aR77yM6K+35bCG6YKu5Lu26L2s5Y+R57uZbWlzZWNAeGlh
-b21pLmNvbei/m+ihjOWPjemmiA0KPiANCj4gT24gMTEvMjcvMjUgMDE6NDMsIFhpYW5nIEdhbyB3
-cm90ZToNCj4+IEZyb206IGdhb3hpYW5nMTcgPGdhb3hpYW5nMTdAeGlhb21pLmNvbT4NCj4+DQo+
-PiBJIHdhbnQgdG8gdHJhY2sgdGhlIHN0YXR1cyBvZiBkbWFidWYgaW4gcmVhbCB0aW1lIGluIHRo
-ZSBwcm9kdWN0aW9uIGVudmlyb25tZW50Lg0KPj4gQnV0IG5vdyB3ZSBjYW4gb25seSBjaGVjayBp
-dCBieSB0cmF2ZXJzaW5nIHRoZSBmZCBpbiB0aGUgcHJvY2VzcyBvciBkbWFidWZfbGlzdC4NCj4+
-DQo+PiBGb3IgZXhhbXBsZToNCj4+wqDCoMKgIGJpbmRlcjoyOTYyXzItMjk2MsKgwqDCoCBbMDA1
-XSAuLi4xLsKgwqAgMjA4LjQ1Mzk0MDogZG1hX2J1Zl9leHBvcnQ6IGV4cF9uYW1lPXFjb20sc3lz
-dGVtIG5hbWU9KG51bGwpIHNpemU9Mjg2NzIgaW5vPTI1ODAgZl9yZWZjbnQ9Mg0KPj7CoMKgwqAg
-YmluZGVyOjI5NjJfMi0yOTYywqDCoMKgIFswMDVdIC4uLjEuwqDCoCAyMDguNDUzOTQzOiBkbWFf
-YnVmX2ZkOiBleHBfbmFtZT1xY29tLHN5c3RlbSBuYW1lPShudWxsKSBzaXplPTI4NjcyIGlubz0y
-NTgwIGZkPTkgZl9yZWZjbnQ9Mg0KPj7CoMKgwqAgYmluZGVyOjI5NjJfMi0yOTYywqDCoMKgIFsw
-MDVdIC4uLjEuwqDCoCAyMDguNDUzOTc3OiBkbWFfYnVmX21tYXBfaW50ZXJuYWw6IGV4cF9uYW1l
-PXFjb20sc3lzdGVtIG5hbWU9cWNvbSxzeXN0ZW0gc2l6ZT0yODY3MiBpbm89MjU4MCBmX3JlZmNu
-dD00DQo+PsKgwqDCoMKgwqAga3dvcmtlci81OjItMTk0wqDCoMKgwqAgWzAwNV0gLi4uMS7CoMKg
-IDIwOC40NjA1ODA6IGRtYV9idWZfcHV0OiBleHBfbmFtZT1xY29tLHN5c3RlbSBuYW1lPWFiIHBp
-ZCBbODE3Nl0gc2l6ZT0yODY3MiBpbm89MjU4MCBmX3JlZmNudD0zDQo+PsKgwqDCoMKgIFJlbmRl
-clRocmVhZC0xMTMwNcKgwqAgWzAwN10gLi4uMS7CoMKgIDIwOC41OTkwOTQ6IGRtYV9idWZfZ2V0
-OiBleHBfbmFtZT1xY29tLHN5c3RlbSBuYW1lPWFiIHBpZCBbODE3Nl0gc2l6ZT0yMTcwODggaW5v
-PTI1NzkgZmQ9MTExNCBmX3JlZmNudD03DQo+PsKgwqDCoMKgIFJlbmRlclRocmVhZC0xMTMwNcKg
-wqAgWzAwN10gLi4uMS7CoMKgIDIwOC41OTkwOTg6IGRtYV9idWZfYXR0YWNoOiBkZXZfbmFtZT1r
-Z3NsLTNkMCBleHBfbmFtZT1xY29tLHN5c3RlbSBuYW1lPWFiIHBpZCBbODE3Nl0gc2l6ZT0yMTcw
-ODggaW5vPTI1NzkgZl9yZWZjbnQ9Nw0KPj7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIDwuLi4+LTE0
-wqDCoMKgwqDCoCBbMDAxXSAuLi4xLsKgwqAgMjA4LjcyNjM1OTogZG1hX2J1Zl9kZXRhY2g6IGRl
-dl9uYW1lPWtnc2wtM2QwIGV4cF9uYW1lPXFjb20sc3lzdGVtIG5hbWU9YWIgcGlkIFszMzE3XSBz
-aXplPTIxNzA4OCBpbm89MjU4MSBmX3JlZmNudD0zDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogWGlh
-bmcgR2FvIDxnYW94aWFuZzE3QHhpYW9taS5jb20+DQo+PiAtLS0NCj4+wqAgZHJpdmVycy9kbWEt
-YnVmL2RtYS1idWYuY8KgwqDCoMKgwqAgfMKgIDU3ICsrKysrKysrKystDQo+PsKgIGluY2x1ZGUv
-dHJhY2UvZXZlbnRzL2RtYV9idWYuaCB8IDE2NiArKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysNCj4+wqAgMiBmaWxlcyBjaGFuZ2VkLCAyMjIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlv
-bigtKQ0KPj7CoCBjcmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS90cmFjZS9ldmVudHMvZG1hX2J1
-Zi5oDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgYi9kcml2
-ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jDQo+PiBpbmRleCAyYmNmOWNlY2E5OTcuLjdjZWY4MTZkZGNh
-YyAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMNCj4+ICsrKyBiL2Ry
-aXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMNCj4+IEBAIC0zNSw2ICszNSwxOCBAQA0KPj4NCj4+wqAg
-I2luY2x1ZGUgImRtYS1idWYtc3lzZnMtc3RhdHMuaCINCj4+DQo+PiArI2RlZmluZSBDUkVBVEVf
-VFJBQ0VfUE9JTlRTDQo+PiArI2luY2x1ZGUgPHRyYWNlL2V2ZW50cy9kbWFfYnVmLmg+DQo+PiAr
-DQo+PiArRVhQT1JUX1RSQUNFUE9JTlRfU1lNQk9MKGRtYV9idWZfZXhwb3J0KTsNCj4+ICtFWFBP
-UlRfVFJBQ0VQT0lOVF9TWU1CT0woZG1hX2J1Zl9tbWFwX2ludGVybmFsKTsNCj4+ICtFWFBPUlRf
-VFJBQ0VQT0lOVF9TWU1CT0woZG1hX2J1Zl9tbWFwKTsNCj4+ICtFWFBPUlRfVFJBQ0VQT0lOVF9T
-WU1CT0woZG1hX2J1Zl9wdXQpOw0KPj4gK0VYUE9SVF9UUkFDRVBPSU5UX1NZTUJPTChkbWFfYnVm
-X2F0dGFjaCk7DQo+PiArRVhQT1JUX1RSQUNFUE9JTlRfU1lNQk9MKGRtYV9idWZfZGV0YWNoKTsN
-Cj4+ICtFWFBPUlRfVFJBQ0VQT0lOVF9TWU1CT0woZG1hX2J1Zl9mZCk7DQo+PiArRVhQT1JUX1RS
-QUNFUE9JTlRfU1lNQk9MKGRtYV9idWZfZ2V0KTsNCj4gDQo+IEV4cG9ydGluZyB0aGUgdHJhY2Vw
-b2ludHMgaXMgdW5lY2Vzc2FyeSBhcyBmYXIgYXMgSSBjYW4gc2VlDQo+IA0KPj4gKw0KPj7CoCBz
-dGF0aWMgaW5saW5lIGludCBpc19kbWFfYnVmX2ZpbGUoc3RydWN0IGZpbGUgKik7DQo+Pg0KPj7C
-oCBzdGF0aWMgREVGSU5FX01VVEVYKGRtYWJ1Zl9saXN0X211dGV4KTsNCj4+IEBAIC0yMjAsNiAr
-MjMyLDExIEBAIHN0YXRpYyBpbnQgZG1hX2J1Zl9tbWFwX2ludGVybmFsKHN0cnVjdCBmaWxlICpm
-aWxlLCBzdHJ1Y3Qgdm1fYXJlYV9zdHJ1Y3QgKnZtYSkNCj4+wqDCoMKgwqDCoMKgwqDCoMKgwqAg
-ZG1hYnVmLT5zaXplID4+IFBBR0VfU0hJRlQpDQo+PsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgcmV0dXJuIC1FSU5WQUw7DQo+Pg0KPj4gK8KgwqDCoMKgIGlmICh0cmFjZV9kbWFfYnVmX21t
-YXBfaW50ZXJuYWxfZW5hYmxlZCgpKSB7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGd1
-YXJkKHNwaW5sb2NrKSgmZG1hYnVmLT5uYW1lX2xvY2spOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCB0cmFjZV9kbWFfYnVmX21tYXBfaW50ZXJuYWwoZG1hYnVmKTsNCj4+ICvCoMKgwqDC
-oCB9DQo+PiArDQo+PsKgwqDCoMKgwqDCoCByZXR1cm4gZG1hYnVmLT5vcHMtPm1tYXAoZG1hYnVm
-LCB2bWEpOw0KPj7CoCB9DQo+Pg0KPj4gQEAgLTc0NSw2ICs3NjIsMTEgQEAgc3RydWN0IGRtYV9i
-dWYgKmRtYV9idWZfZXhwb3J0KGNvbnN0IHN0cnVjdCBkbWFfYnVmX2V4cG9ydF9pbmZvICpleHBf
-aW5mbykNCj4+DQo+PsKgwqDCoMKgwqDCoCBfX2RtYV9idWZfbGlzdF9hZGQoZG1hYnVmKTsNCj4+
-DQo+PiArwqDCoMKgwqAgaWYgKHRyYWNlX2RtYV9idWZfZXhwb3J0X2VuYWJsZWQoKSkgew0KPj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBndWFyZChzcGlubG9jaykoJmRtYWJ1Zi0+bmFtZV9s
-b2NrKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdHJhY2VfZG1hX2J1Zl9leHBvcnQo
-ZG1hYnVmKTsNCj4+ICvCoMKgwqDCoCB9DQo+PiArDQo+PsKgwqDCoMKgwqDCoCByZXR1cm4gZG1h
-YnVmOw0KPj4NCj4+wqAgZXJyX2RtYWJ1ZjoNCj4+IEBAIC03NzksNiArODAxLDExIEBAIGludCBk
-bWFfYnVmX2ZkKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIGludCBmbGFncykNCj4+DQo+PsKgwqDC
-oMKgwqDCoCBmZF9pbnN0YWxsKGZkLCBkbWFidWYtPmZpbGUpOw0KPj4NCj4+ICvCoMKgwqDCoCBp
-ZiAodHJhY2VfZG1hX2J1Zl9mZF9lbmFibGVkKCkpIHsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgZ3VhcmQoc3BpbmxvY2spKCZkbWFidWYtPm5hbWVfbG9jayk7DQo+PiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIHRyYWNlX2RtYV9idWZfZmQoZG1hYnVmLCBmZCk7DQo+PiArwqDCoMKg
-wqAgfQ0KPj4gKw0KPj7CoMKgwqDCoMKgwqAgcmV0dXJuIGZkOw0KPj7CoCB9DQo+PsKgIEVYUE9S
-VF9TWU1CT0xfTlNfR1BMKGRtYV9idWZfZmQsICJETUFfQlVGIik7DQo+PiBAQCAtNzk0LDYgKzgy
-MSw3IEBAIEVYUE9SVF9TWU1CT0xfTlNfR1BMKGRtYV9idWZfZmQsICJETUFfQlVGIik7DQo+PsKg
-IHN0cnVjdCBkbWFfYnVmICpkbWFfYnVmX2dldChpbnQgZmQpDQo+PsKgIHsNCj4+wqDCoMKgwqDC
-oMKgIHN0cnVjdCBmaWxlICpmaWxlOw0KPj4gK8KgwqDCoMKgIHN0cnVjdCBkbWFfYnVmICpkbWFi
-dWY7DQo+Pg0KPj7CoMKgwqDCoMKgwqAgZmlsZSA9IGZnZXQoZmQpOw0KPj4NCj4+IEBAIC04MDUs
-NyArODMzLDE0IEBAIHN0cnVjdCBkbWFfYnVmICpkbWFfYnVmX2dldChpbnQgZmQpDQo+PsKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7DQo+PsKgwqDC
-oMKgwqDCoCB9DQo+Pg0KPj4gLcKgwqDCoMKgIHJldHVybiBmaWxlLT5wcml2YXRlX2RhdGE7DQo+
-PiArwqDCoMKgwqAgZG1hYnVmID0gZmlsZS0+cHJpdmF0ZV9kYXRhOw0KPj4gKw0KPj4gK8KgwqDC
-oMKgIGlmICh0cmFjZV9kbWFfYnVmX2dldF9lbmFibGVkKCkpIHsNCj4+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgZ3VhcmQoc3BpbmxvY2spKCZkbWFidWYtPm5hbWVfbG9jayk7DQo+PiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHRyYWNlX2RtYV9idWZfZ2V0KGRtYWJ1ZiwgZmQpOw0KPj4g
-K8KgwqDCoMKgIH0NCj4+ICsNCj4+ICvCoMKgwqDCoCByZXR1cm4gZG1hYnVmOw0KPj7CoCB9DQo+
-PsKgIEVYUE9SVF9TWU1CT0xfTlNfR1BMKGRtYV9idWZfZ2V0LCAiRE1BX0JVRiIpOw0KPj4NCj4+
-IEBAIC04MjUsNiArODYwLDExIEBAIHZvaWQgZG1hX2J1Zl9wdXQoc3RydWN0IGRtYV9idWYgKmRt
-YWJ1ZikNCj4+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm47DQo+Pg0KPj7CoMKg
-wqDCoMKgwqAgZnB1dChkbWFidWYtPmZpbGUpOw0KPj4gKw0KPj4gK8KgwqDCoMKgIGlmICh0cmFj
-ZV9kbWFfYnVmX3B1dF9lbmFibGVkKCkpIHsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-Z3VhcmQoc3BpbmxvY2spKCZkbWFidWYtPm5hbWVfbG9jayk7DQo+PiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIHRyYWNlX2RtYV9idWZfcHV0KGRtYWJ1Zik7DQo+PiArwqDCoMKgwqAgfQ0KPj7C
-oCB9DQo+PsKgIEVYUE9SVF9TWU1CT0xfTlNfR1BMKGRtYV9idWZfcHV0LCAiRE1BX0JVRiIpOw0K
-Pj4NCj4+IEBAIC05OTgsNiArMTAzOCwxMSBAQCBFWFBPUlRfU1lNQk9MX05TX0dQTChkbWFfYnVm
-X2R5bmFtaWNfYXR0YWNoLCAiRE1BX0JVRiIpOw0KPj7CoCBzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2ht
-ZW50ICpkbWFfYnVmX2F0dGFjaChzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmLA0KPj7CoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBzdHJ1Y3QgZGV2aWNlICpkZXYpDQo+PsKgIHsNCj4+ICvCoMKgwqDCoCBp
-ZiAodHJhY2VfZG1hX2J1Zl9hdHRhY2hfZW5hYmxlZCgpKSB7DQo+PiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIGd1YXJkKHNwaW5sb2NrKSgmZG1hYnVmLT5uYW1lX2xvY2spOw0KPj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB0cmFjZV9kbWFfYnVmX2F0dGFjaChkbWFidWYsIGRldik7DQo+
-PiArwqDCoMKgwqAgfQ0KPj4gKw0KPj7CoMKgwqDCoMKgwqAgcmV0dXJuIGRtYV9idWZfZHluYW1p
-Y19hdHRhY2goZG1hYnVmLCBkZXYsIE5VTEwsIE5VTEwpOw0KPj7CoCB9DQo+PsKgIEVYUE9SVF9T
-WU1CT0xfTlNfR1BMKGRtYV9idWZfYXR0YWNoLCAiRE1BX0JVRiIpOw0KPj4gQEAgLTEwMjMsNiAr
-MTA2OCwxMSBAQCB2b2lkIGRtYV9idWZfZGV0YWNoKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIHN0
-cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaCkNCj4+wqDCoMKgwqDCoMKgIGlmIChkbWFi
-dWYtPm9wcy0+ZGV0YWNoKQ0KPj7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGRtYWJ1Zi0+
-b3BzLT5kZXRhY2goZG1hYnVmLCBhdHRhY2gpOw0KPj4NCj4+ICvCoMKgwqDCoCBpZiAodHJhY2Vf
-ZG1hX2J1Zl9kZXRhY2hfZW5hYmxlZCgpKSB7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IGd1YXJkKHNwaW5sb2NrKSgmZG1hYnVmLT5uYW1lX2xvY2spOw0KPj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCB0cmFjZV9kbWFfYnVmX2RldGFjaChkbWFidWYsIGF0dGFjaC0+ZGV2KTsNCj4+
-ICvCoMKgwqDCoCB9DQo+PiArDQo+PsKgwqDCoMKgwqDCoCBrZnJlZShhdHRhY2gpOw0KPj7CoCB9
-DQo+PsKgIEVYUE9SVF9TWU1CT0xfTlNfR1BMKGRtYV9idWZfZGV0YWNoLCAiRE1BX0JVRiIpOw0K
-Pj4gQEAgLTE0ODgsNiArMTUzOCwxMSBAQCBpbnQgZG1hX2J1Zl9tbWFwKHN0cnVjdCBkbWFfYnVm
-ICpkbWFidWYsIHN0cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLA0KPj7CoMKgwqDCoMKgwqAgdm1h
-X3NldF9maWxlKHZtYSwgZG1hYnVmLT5maWxlKTsNCj4+wqDCoMKgwqDCoMKgIHZtYS0+dm1fcGdv
-ZmYgPSBwZ29mZjsNCj4+DQo+PiArwqDCoMKgwqAgaWYgKHRyYWNlX2RtYV9idWZfbW1hcF9lbmFi
-bGVkKCkpIHsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ3VhcmQoc3BpbmxvY2spKCZk
-bWFidWYtPm5hbWVfbG9jayk7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHRyYWNlX2Rt
-YV9idWZfbW1hcChkbWFidWYpOw0KPj4gK8KgwqDCoMKgIH0NCj4+ICsNCj4+wqDCoMKgwqDCoMKg
-IHJldHVybiBkbWFidWYtPm9wcy0+bW1hcChkbWFidWYsIHZtYSk7DQo+PsKgIH0NCj4+wqAgRVhQ
-T1JUX1NZTUJPTF9OU19HUEwoZG1hX2J1Zl9tbWFwLCAiRE1BX0JVRiIpOw0KPj4gZGlmZiAtLWdp
-dCBhL2luY2x1ZGUvdHJhY2UvZXZlbnRzL2RtYV9idWYuaCBiL2luY2x1ZGUvdHJhY2UvZXZlbnRz
-L2RtYV9idWYuaA0KPj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4+IGluZGV4IDAwMDAwMDAwMDAw
-MC4uZmU5ZGE4OWJhY2QwDQo+PiAtLS0gL2Rldi9udWxsDQo+PiArKysgYi9pbmNsdWRlL3RyYWNl
-L2V2ZW50cy9kbWFfYnVmLmgNCj4+IEBAIC0wLDAgKzEsMTY2IEBADQo+PiArLyogU1BEWC1MaWNl
-bnNlLUlkZW50aWZpZXI6IEdQTC0yLjAgKi8NCj4+ICsjdW5kZWYgVFJBQ0VfU1lTVEVNDQo+PiAr
-I2RlZmluZSBUUkFDRV9TWVNURU0gZG1hX2J1Zg0KPj4gKw0KPj4gKyNpZiAhZGVmaW5lZChfVFJB
-Q0VfRE1BX0JVRl9IKSB8fCBkZWZpbmVkKFRSQUNFX0hFQURFUl9NVUxUSV9SRUFEKQ0KPj4gKyNk
-ZWZpbmUgX1RSQUNFX0RNQV9CVUZfSA0KPj4gKw0KPj4gKyNpbmNsdWRlIDxsaW51eC9kbWEtYnVm
-Lmg+DQo+PiArI2luY2x1ZGUgPGxpbnV4L3RyYWNlcG9pbnQuaD4NCj4+ICsNCj4+ICtERUNMQVJF
-X0VWRU5UX0NMQVNTKGRtYV9idWYsDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfUFJPVE8oc3RydWN0
-IGRtYV9idWYgKmRtYWJ1ZiksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfQVJHUyhkbWFidWYpLA0K
-Pj4gKw0KPj4gK8KgwqDCoMKgIFRQX1NUUlVDVF9fZW50cnkoDQo+PiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIF9fc3RyaW5nKGV4cF9uYW1lLCBkbWFidWYtPmV4cF9uYW1lKQ0KPj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBfX3N0cmluZyhuYW1lLCBkbWFidWYtPm5hbWUpDQo+PiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZmllbGQoc2l6ZV90LCBzaXplKQ0KPj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBfX2ZpZWxkKGlub190LCBpbm8pDQo+PiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIF9fZmllbGQobG9uZywgZl9yZWZjbnQpDQo+PiArwqDCoMKgwqAgKSwNCj4+ICsN
-Cj4+ICvCoMKgwqDCoCBUUF9mYXN0X2Fzc2lnbigNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgX19hc3NpZ25fc3RyKGV4cF9uYW1lKTsNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-X19hc3NpZ25fc3RyKG5hbWUpOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2VudHJ5
-LT5zaXplID0gZG1hYnVmLT5zaXplOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2Vu
-dHJ5LT5pbm8gPSBkbWFidWYtPmZpbGUtPmZfaW5vZGUtPmlfaW5vOw0KPj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBfX2VudHJ5LT5mX3JlZmNudCA9IGZpbGVfY291bnQoZG1hYnVmLT5maWxl
-KTsNCj4+ICvCoMKgwqDCoCApLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX3ByaW50aygiZXhwX25h
-bWU9JXMgbmFtZT0lcyBzaXplPSV6dSBpbm89JWx1IGZfcmVmY250PSVsZCIsDQo+PiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2dldF9zdHIoZXhwX25hbWUpLA0KPj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgX19nZXRfc3RyKG5hbWUpLA0KPj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+c2l6ZSwNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIF9fZW50cnktPmlubywNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9f
-ZW50cnktPmZfcmVmY250KQ0KPiANCj4gSSBjYW4ndCBjb21lIHVwIHdpdGggYSByZWFzb24gd2h5
-IHdlIHNob3VsZCBoYXZlIHRoZSBmaWxlIHJlZmNvdW50IGluIHRoZSB0cmFjZSBsb2dzLg0KPiAN
-Cj4gU2FtZSBmb3IgbW9zdCBvdGhlciBwbGFjZXMuDQo+IA0KPj4gKyk7DQo+PiArDQo+PiArREVD
-TEFSRV9FVkVOVF9DTEFTUyhkbWFfYnVmX2F0dGFjaF9kZXYsDQo+PiArDQo+PiArwqDCoMKgwqAg
-VFBfUFJPVE8oc3RydWN0IGRtYV9idWYgKmRtYWJ1Ziwgc3RydWN0IGRldmljZSAqZGV2KSwNCj4+
-ICsNCj4+ICvCoMKgwqDCoCBUUF9BUkdTKGRtYWJ1ZiwgZGV2KSwNCj4+ICsNCj4+ICvCoMKgwqDC
-oCBUUF9TVFJVQ1RfX2VudHJ5KA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX3N0cmlu
-ZyhkbmFtZSwgZGV2X25hbWUoZGV2KSkNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19z
-dHJpbmcoZXhwX25hbWUsIGRtYWJ1Zi0+ZXhwX25hbWUpDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIF9fc3RyaW5nKG5hbWUsIGRtYWJ1Zi0+bmFtZSkNCj4+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgX19maWVsZChzaXplX3QsIHNpemUpDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIF9fZmllbGQoaW5vX3QsIGlubykNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19m
-aWVsZChsb25nLCBmX3JlZmNudCkNCj4+ICvCoMKgwqDCoCApLA0KPj4gKw0KPj4gK8KgwqDCoMKg
-IFRQX2Zhc3RfYXNzaWduKA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2Fzc2lnbl9z
-dHIoZG5hbWUpOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2Fzc2lnbl9zdHIoZXhw
-X25hbWUpOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2Fzc2lnbl9zdHIobmFtZSk7
-DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZW50cnktPnNpemUgPSBkbWFidWYtPnNp
-emU7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZW50cnktPmlubyA9IGRtYWJ1Zi0+
-ZmlsZS0+Zl9pbm9kZS0+aV9pbm87DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZW50
-cnktPmZfcmVmY250ID0gZmlsZV9jb3VudChkbWFidWYtPmZpbGUpOw0KPj4gK8KgwqDCoMKgICks
-DQo+PiArDQo+PiArwqDCoMKgwqAgVFBfcHJpbnRrKCJkZXZfbmFtZT0lcyBleHBfbmFtZT0lcyBu
-YW1lPSVzIHNpemU9JXp1IGlubz0lbHUgZl9yZWZjbnQ9JWxkIiwNCj4+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIF9fZ2V0X3N0cihkbmFtZSksDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBfX2dldF9zdHIoZXhwX25hbWUpLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgX19nZXRfc3RyKG5hbWUpLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgX19lbnRyeS0+c2l6ZSwNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZW50
-cnktPmlubywNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZW50cnktPmZfcmVm
-Y250KQ0KPiANCj4gUHJpbnQgdGhlIGRldl9uYW1lIGxhc3QsIGl0J3MgdGhlIGV4dGVybmFsIGRl
-dmljZSB3aGljaCBhdHRhY2hlcyB0byB0aGUgRE1BLWJ1Zi4NCj4gDQo+IEFkZGl0aW9uYWwgdG8g
-dGhhdCBpdCB3b3VsZCBiZSBuaWNlIHRvIGtub3cgaWYgdGhlIGF0dGFjaG1lbnQgaXMgZHluYW1p
-YyBvciBub3QuDQo+IA0KPiBSZWdhcmRzLA0KPiBDaHJpc3RpYW4uDQo+IA0KPj4gKyk7DQo+PiAr
-DQo+PiArREVDTEFSRV9FVkVOVF9DTEFTUyhkbWFfYnVmX2ZkLA0KPj4gKw0KPj4gK8KgwqDCoMKg
-IFRQX1BST1RPKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIGludCBmZCksDQo+PiArDQo+PiArwqDC
-oMKgwqAgVFBfQVJHUyhkbWFidWYsIGZkKSwNCj4+ICsNCj4+ICvCoMKgwqDCoCBUUF9TVFJVQ1Rf
-X2VudHJ5KA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX3N0cmluZyhleHBfbmFtZSwg
-ZG1hYnVmLT5leHBfbmFtZSkNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19zdHJpbmco
-bmFtZSwgZG1hYnVmLT5uYW1lKQ0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2ZpZWxk
-KHNpemVfdCwgc2l6ZSkNCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19maWVsZChpbm9f
-dCwgaW5vKQ0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2ZpZWxkKGludCwgZmQpDQo+
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZmllbGQobG9uZywgZl9yZWZjbnQpDQo+PiAr
-wqDCoMKgwqAgKSwNCj4+ICsNCj4+ICvCoMKgwqDCoCBUUF9mYXN0X2Fzc2lnbigNCj4+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgX19hc3NpZ25fc3RyKGV4cF9uYW1lKTsNCj4+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgX19hc3NpZ25fc3RyKG5hbWUpOw0KPj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCBfX2VudHJ5LT5zaXplID0gZG1hYnVmLT5zaXplOw0KPj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBfX2VudHJ5LT5pbm8gPSBkbWFidWYtPmZpbGUtPmZfaW5vZGUtPmlfaW5v
-Ow0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2VudHJ5LT5mZCA9IGZkOw0KPj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2VudHJ5LT5mX3JlZmNudCA9IGZpbGVfY291bnQoZG1h
-YnVmLT5maWxlKTsNCj4+ICvCoMKgwqDCoCApLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX3ByaW50
-aygiZXhwX25hbWU9JXMgbmFtZT0lcyBzaXplPSV6dSBpbm89JWx1IGZkPSVkIGZfcmVmY250PSVs
-ZCIsDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBfX2dldF9zdHIoZXhwX25hbWUp
-LA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19nZXRfc3RyKG5hbWUpLA0KPj4g
-K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgX19lbnRyeS0+c2l6ZSwNCj4+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9fZW50cnktPmlubywNCj4+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIF9fZW50cnktPmZkLA0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgX19lbnRyeS0+Zl9yZWZjbnQpDQo+PiArKTsNCj4+ICsNCj4+ICtERUZJTkVfRVZFTlQoZG1h
-X2J1ZiwgZG1hX2J1Zl9leHBvcnQsDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfUFJPVE8oc3RydWN0
-IGRtYV9idWYgKmRtYWJ1ZiksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfQVJHUyhkbWFidWYpDQo+
-PiArKTsNCj4+ICsNCj4+ICtERUZJTkVfRVZFTlQoZG1hX2J1ZiwgZG1hX2J1Zl9tbWFwX2ludGVy
-bmFsLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX1BST1RPKHN0cnVjdCBkbWFfYnVmICpkbWFidWYp
-LA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX0FSR1MoZG1hYnVmKQ0KPj4gKyk7DQo+PiArDQo+PiAr
-REVGSU5FX0VWRU5UKGRtYV9idWYsIGRtYV9idWZfbW1hcCwNCj4+ICsNCj4+ICvCoMKgwqDCoCBU
-UF9QUk9UTyhzdHJ1Y3QgZG1hX2J1ZiAqZG1hYnVmKSwNCj4+ICsNCj4+ICvCoMKgwqDCoCBUUF9B
-UkdTKGRtYWJ1ZikNCj4+ICspOw0KPj4gKw0KPj4gK0RFRklORV9FVkVOVChkbWFfYnVmLCBkbWFf
-YnVmX3B1dCwNCj4+ICsNCj4+ICvCoMKgwqDCoCBUUF9QUk9UTyhzdHJ1Y3QgZG1hX2J1ZiAqZG1h
-YnVmKSwNCj4+ICsNCj4+ICvCoMKgwqDCoCBUUF9BUkdTKGRtYWJ1ZikNCj4+ICspOw0KPj4gKw0K
-Pj4gK0RFRklORV9FVkVOVChkbWFfYnVmX2F0dGFjaF9kZXYsIGRtYV9idWZfYXR0YWNoLA0KPj4g
-Kw0KPj4gK8KgwqDCoMKgIFRQX1BST1RPKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIHN0cnVjdCBk
-ZXZpY2UgKmRldiksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfQVJHUyhkbWFidWYsIGRldikNCj4+
-ICspOw0KPj4gKw0KPj4gK0RFRklORV9FVkVOVChkbWFfYnVmX2F0dGFjaF9kZXYsIGRtYV9idWZf
-ZGV0YWNoLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX1BST1RPKHN0cnVjdCBkbWFfYnVmICpkbWFi
-dWYsIHN0cnVjdCBkZXZpY2UgKmRldiksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfQVJHUyhkbWFi
-dWYsIGRldikNCj4+ICspOw0KPj4gKw0KPj4gK0RFRklORV9FVkVOVChkbWFfYnVmX2ZkLCBkbWFf
-YnVmX2ZkLA0KPj4gKw0KPj4gK8KgwqDCoMKgIFRQX1BST1RPKHN0cnVjdCBkbWFfYnVmICpkbWFi
-dWYsIGludCBmZCksDQo+PiArDQo+PiArwqDCoMKgwqAgVFBfQVJHUyhkbWFidWYsIGZkKQ0KPj4g
-Kyk7DQo+PiArDQo+PiArREVGSU5FX0VWRU5UKGRtYV9idWZfZmQsIGRtYV9idWZfZ2V0LA0KPj4g
-Kw0KPj4gK8KgwqDCoMKgIFRQX1BST1RPKHN0cnVjdCBkbWFfYnVmICpkbWFidWYsIGludCBmZCks
-DQo+PiArDQo+PiArwqDCoMKgwqAgVFBfQVJHUyhkbWFidWYsIGZkKQ0KPj4gKyk7DQo+PiArDQo+
-PiArI2VuZGlmIC8qIF9UUkFDRV9ETUFfQlVGX0ggKi8NCj4+ICsNCj4+ICsvKiBUaGlzIHBhcnQg
-bXVzdCBiZSBvdXRzaWRlIHByb3RlY3Rpb24gKi8NCj4+ICsjaW5jbHVkZSA8dHJhY2UvZGVmaW5l
-X3RyYWNlLmg+DQo+IA0KDQo=
+
+
+> On 25 Nov 2025, at 10:20, Philipp Stanner <phasta@mailbox.org> wrote:
+>=20
+> On Mon, 2025-11-24 at 10:58 -0300, Daniel Almeida wrote:
+>> Hi Phillip,
+>>=20
+>>> On 18 Nov 2025, at 10:25, Philipp Stanner <phasta@kernel.org> wrote:
+>>>=20
+>>>=20
+>=20
+> [=E2=80=A6]
+>=20
+>>> +use crate::{
+>>> +    prelude::*,
+>>> +    types::ARef,
+>>> +};
+>>> +use kernel::sync::{Arc, SpinLock, new_spinlock, DmaFence, =
+DmaFenceCtx, DmaFenceCb, DmaFenceCbFunc};
+>>> +use kernel::list::*;
+>>> +use kernel::revocable::Revocable;
+>>> +
+>>> +
+>>> +#[pin_data]
+>>> +pub struct Job<T: ?Sized> {
+>>> +    credits: u32,
+>>> +//    dependencies: List, // TODO implement dependency list
+>>=20
+>> I am assuming that this will be a list of callbacks?
+>=20
+> That's supposed to become the list of DmaFence's which are to be
+> treated as dependencies of this job.
+>=20
+> Only once all fences in this list are signaled the JQ will push that
+> job.
+
+Ok, I was approaching this from the current DRM scheduler design, which =
+(IIRC)
+uses callbacks to represent dependencies. IOW: if you managed to =
+register a
+callback on a dependency, it means that it hasn=E2=80=99t signaled yet.
+
+In any case, that was just me trying to understand this better. IMHO, =
+feel free
+to use anything you think it=E2=80=99s best here, like the whole =
+DmaFence struct.
+
+>=20
+>>=20
+>>> +    #[pin]
+>>> +    data: T,
+>>> +}
+>>> +
+>>> +impl<T> Job<T> {
+>>> +    /// Create a new job that can be submitted to [`Jobqueue`].
+>>> +    ///
+>>> +    /// Jobs contain driver data that will later be made available =
+to the driver's
+>>> +    /// run_job() callback in which the job gets pushed to the GPU.
+>>> +    pub fn new(credits: u32, data: impl PinInit<T>) -> =
+Result<Pin<KBox<Self>>> {
+>>> +        let job =3D pin_init!(Self {
+>>> +            credits,
+>>> +            data <- data,
+>>> +        });
+>>> +
+>>> +        KBox::pin_init(job, GFP_KERNEL)
+>>> +    }
+>>> +
+>>> +    /// Add a callback to the job. When the job gets submitted, all =
+added callbacks will be
+>>> +    /// registered on the [`DmaFence`] the jobqueue returns for =
+that job.
+>>> +    pub fn add_callback() -> Result {
+>>=20
+>> Can=E2=80=99t we take all the callbacks at submission time?
+>=20
+> To clarify the terminology, a "callback" here would be callbacks which
+> the JQ shall register on the done_fence returned by
+> DmaFence::submit_job()
+
+Ack.
+
+> .
+>=20
+>>> +        Ok(())
+>>> +    }
+>>> +
+>>> +    /// Add a [`DmaFence`] or a [`DoneFence`] as this job's =
+dependency. The job
+>>> +    /// will only be executed after that dependency has been =
+finished.
+>>> +    pub fn add_dependency() -> Result {
+>>=20
+>> Which would let us remove this ^
+>=20
+> It would allow for removing this function, but you'd then just have an
+> optional (some jobs have no dependencies) function parameter in
+> DmaFence::submit_job().
+
+>=20
+> The current idea looks like this:
+>=20
+> ```
+> let jobq =3D JobQueue::new(=E2=80=A6);
+> let job =3D Job::new(driver_data);
+>=20
+> job.add_dependency(done_fence_of_shader_in_another_context); // =
+optional
+> job.add_callback(cb_that_will_wake_userspace_or_sth); // optional
+>=20
+> let done_fence =3D jobq.submit_job(job)?;
+> ```
+>=20
+> The JQ eats the job (ownership transfer), so by design you have to set
+> all dependencies and specify everything that shall be done when the =
+job
+> finishes _before_ submitting the job.
+>=20
+> I think an API in this form makes the order of events very obvious to
+> the user?
+>=20
+
+
+You=E2=80=99d pass a
+
+fn submit(=E2=80=A6, dependencies: &[DmaFence], callbacks: &[Callback])
+
+This way a user cannot submit a job without being explicit about =
+dependencies
+and callbacks, i.e.: it cannot be forgotten, while still being optional.=20=
+
+
+> What happens then behind the scenes is that the JQ registers all the
+> callbacks on the done_fence returned above. I'm not super sure about
+> this design idea; it's certainly optional. However, it has the
+> advantage of freeing the JQ user from dealing with races of =
+done_fence.
+>=20
+> Otherwise one would have to do something like
+>=20
+> ```
+> let done_fence =3D jobq.submit_job(job)?;
+>=20
+> let err =3D done_fence.register_callback(my_drivers_cb);
+> if err.was_race_and_is_already_signaled() {
+> execute_cb_code_myself_now();
+> }
+> ```
+>=20
+>=20
+>>=20
+>>> +        // TODO: Enqueue passed DmaFence into the job's dependency =
+list.
+>>> +        Ok(())
+>>> +    }
+>>> +
+>>> +    /// Check if there are dependencies for this job. Register the =
+jobqueue
+>>> +    /// waker if yes.
+>>> +    fn arm_deps() -> Result {
+>>=20
+>> I wonder if =E2=80=9Ccheck_dependencies=E2=80=9D would be a better =
+name? Or something
+>> along these lines.
+>=20
+> ACK.
+>=20
+>>=20
+>>> +        // TODO: Register DependencyWaker here if applicable.
+>>> +        Ok(())
+>>> +    }
+>>> +}
+>>> +
+>>> +// Dummy trait for the linked list.
+>>> +trait JobData {
+>>=20
+>>> +    fn access_data(&self) -> i32;
+>>=20
+>> Can=E2=80=99t we dereference to the data?
+>=20
+> That's dummy code that only exists because I so far am failing with
+> even getting the basic List to work.
+>=20
+>>=20
+>>> +}
+>>> +
+>>> +#[pin_data]
+>>> +struct EnqueuedJob<T: ?Sized> {
+>>> +    inner: Pin<KBox<Job<T>>>,
+>>> +    #[pin]
+>>> +    links: ListLinksSelfPtr<EnqueuedJob<dyn JobData>>,
+>>=20
+>> Why not a KVec? A queue type can hold a KVec of enqueued jobs, and =
+this can
+>> hold an Arc of the queue type.
+>=20
+> My understanding is that KVec is not intended to be the data structure
+> for this?
+>=20
+> KVec is basically like a realloc() in C, an array of same sized
+> elements.
+>=20
+> The JQ, hypothetically, can hold an infinite amount of members in its
+> waiting_list, only the running_list is limited by the credit count.
+
+Then I'd pre-allocate or realloc() as needed. You can reuse the empty =
+slots, so
+there won't be a unbounded growth. realloc() also looks fine, because it =
+will
+happen outside of the signaling path.
+
+My point is that writing your own data structure adds complexity. Your =
+call,
+though.
+
+>=20
+>=20
+>> By extension, ensures that the queue does not
+>> die while we have enqueued jobs.
+>=20
+> See below.
+>=20
+>>=20
+>>=20
+>>> +    done_fence: ARef<DmaFence<i32>>, // i32 is just dummy data. =
+TODO: allow for replacing with `()`
+>>> +    // The hardware_fence can by definition only be set at an =
+unknown point in
+>>> +    // time.
+>>> +    // TODO: Think about replacing this with a `struct RunningJob` =
+which consumes
+>>> +    // an `EnqueuedJob`.
+>>> +    hardware_fence: Option<ARef<DmaFence<i32>>>, // i32 is dummy =
+data until there's DmaFence
+>>> +                                                 // without data.
+>>> +    nr_of_deps: u32,
+>>> +}
+>>> +
+>>> +impl<T> EnqueuedJob<T> {
+>>> +    fn new(inner: Pin<KBox<Job<T>>>, fctx: &Arc<DmaFenceCtx>) -> =
+Result<ListArc<Self>> {
+>>> +        let pseudo_data: i32 =3D 42;
+>>> +        let done_fence =3D =
+fctx.as_arc_borrow().new_fence(pseudo_data)?;
+>>> +
+>>> +        ListArc::pin_init(try_pin_init!(Self {
+>>> +            inner,
+>>> +            links <- ListLinksSelfPtr::new(),
+>>> +            done_fence,
+>>> +            hardware_fence: None,
+>>> +            nr_of_deps: 0, // TODO implement
+>>> +        }), GFP_KERNEL)
+>>> +    }
+>>> +}
+>>> +
+>>> +impl_list_arc_safe! {
+>>> +    impl{T: ?Sized} ListArcSafe<0> for EnqueuedJob<T> { untracked; =
+}
+>>> +}
+>>> +
+>>> +impl_list_item! {
+>>> +    impl ListItem<0> for EnqueuedJob<dyn JobData> { using =
+ListLinksSelfPtr { self.links }; }
+>>> +}
+>>> +
+>>> +// Callback item for the hardware fences to wake / progress the =
+jobqueue.
+>>> +struct HwFenceWaker<T> {
+>>> +    jobq: Arc<Revocable<SpinLock<InnerJobqueue>>>,
+>>=20
+>> Instead of a Revocable, why not keep an Arc of InnerJobQueue (which =
+should
+>> perhaps be called JobQueueInner)?
+>>=20
+>> This way, the user can have this:
+>>=20
+>> struct JobQueue(Arc<JobqueueInner>);
+>>=20
+>> When the user drops the JobQueue, it will schedule whatever teardown
+>> operations,
+>>=20
+>=20
+> What kind of operation would that be? Completing all running_jobs?
+> Completing all waiting_jobs? Completing all running_jobs and canceling
+> all waiting_jobs? etc.
+>=20
+
+The same as the current DRM scheduler, i.e.:
+
+static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+					  struct dma_fence_cb *cb)
+
+My understanding is that the JobQueue will follow a similar pattern?
+
+>=20
+>> but the inner queue will not go out of scope, guaranteeing that
+>> there is no UAF at least at this level.
+>>=20
+>> You can create circular references to keep the JobQueueInner alive =
+for as long
+>> as the teardown operation is taking place:
+>>=20
+>> struct SomeStructUsedForCleanup {
+>>   Arc<JobQueueInner> queue;
+>>   // ... more stuff
+>> }
+>>=20
+>> struct JobQueueInner {
+>>  KVec<Arc<SomeStructUsedForCleanup>> cleanups;
+>> }
+>>=20
+>> Given this cycle, both the queue and whatever structs you need for =
+cleanup will
+>> remain alive indefinitely. At some point, once whatever cleanup =
+completes, you
+>> can break the cycle:
+>>=20
+>> impl Drop for SomeStructUsedForCleanup {
+>>   fn drop(...) {
+>>     self.queue.cleanups.remove(self)
+>>   }
+>> }
+>>=20
+>> Once all the cleanups complete, the JobQueueInner will drop.
+>=20
+> Whether your design approach has advantages depends on the above
+> question of what "cleanup" means to you?
+>=20
+>>=20
+>> Note that I'd expect this struct I =E2=80=9Cinvented" to be a =
+DmaFenceCb representing a
+>> pending dependency or a job that is already on the ring.
+>>=20
+>>> +    job: ListArc<EnqueuedJob<T>>,
+>>> +}
+>>>=20
+>=20
+> [=E2=80=A6]
+>=20
+>>> +    fn update_capacity(&mut self, cost: u32) {
+>>> +        self.capacity -=3D cost;
+>>> +    }
+>>> +
+>>> +
+>>> +    // Called by the hw_fence callbacks, dependency callbacks, and =
+submit_job().
+>>> +    // TODO: does submit_job() ever have to call it?
+>>=20
+>> Hm, yeah, I=E2=80=99d say so.
+>=20
+> Yup. That comment is a relict.
+>=20
+>>=20
+>>> +    fn start_submit_worker(&mut self) {
+>>> +        if self.submit_worker_active {
+>>> +            return;
+>>> +        }
+>>> +
+>>> +        // TODO run submit work item
+>>> +
+>>> +        self.submit_worker_active =3D true;
+>>> +    }
+>>>=20
+>=20
+> [=E2=80=A6]
+>=20
+>>> +    /// Submit a job to the jobqueue.
+>>> +    ///
+>>> +    /// The jobqueue takes ownership over the job and later passes =
+it back to the
+>>> +    /// driver by reference through the driver's run_job callback. =
+Jobs are
+>>> +    /// passed back by reference instead of by value partially to =
+allow for later
+>>> +    /// adding a job resubmission mechanism to be added to =
+[`Jobqueue`].
+>>> +    ///
+>>> +    /// Jobs get run and their done_fences get signalled in =
+submission order.
+>>> +    ///
+>>> +    /// Returns the "done_fence" on success, which gets signalled =
+once the
+>>> +    /// hardware has completed the job and once the jobqueue is =
+done with a job.
+>>> +    pub fn submit_job<U>(&self, job: Pin<KBox<Job<U>>>) -> =
+Result<ARef<DmaFence<i32>>> {
+>>> +        let job_cost =3D job.credits;
+>>> +        // TODO: It would be nice if the done_fence's seqno =
+actually matches the
+>>> +        // submission order. To do that, however, we'd need to =
+protect job
+>>> +        // creation with InnerJobqueue's spinlock. Is that worth =
+it?
+>>=20
+>> Can you guarantee that the seqno will not go backwards?
+>=20
+> As pointed out in the other thread, that could currently happen if a
+> driver calls submit_job() with >1 thread.
+>=20
+> IOW, *done_fence* seqnos could end up being enqueued like this
+>=20
+> 42 43 45 44 46
+>=20
+> By taking the lock that could be prevented. However, that's only a
+> virtual or tiny win, because jobs could then actually be submitted in
+> an order not desired by the driver, but with correct done_fence seqno
+> order.
+>=20
+> JQ executes jobs in the order they were submitted to. The fundamental
+> question is really: should the JQ care and what should it do if a
+> driver spams submit_job() asynchronously?
+>=20
+> I tend to think that there is not really much we can do about that.
+
+Ack
+
+>=20
+>=20
+>>> +impl Drop for Jobqueue {
+>>> +    fn drop(&mut self) {
+>>> +        // The hardware fences might outlive the jobqueue. So =
+hw_fence callbacks
+>>> +        // could very well still call into job queue code, =
+resulting in
+>>> +        // data UAF or, should the jobqueue code be unloaded, even =
+code UAF.
+>>=20
+>> Not if they reference JobQueueInner as I proposed above.
+>>=20
+>>> +        //
+>>> +        // Thus, the jobqueue needs to be cleanly decoupled from =
+the hardware
+>>> +        // fences when it drops, in other words, it needs to =
+deregister all its
+>>> +        // hw_fence callbacks.
+>>> +        //
+>>> +        // This, however, could easily deadlock when a hw_fence =
+signals:
+>>> +        //
+>>> +        // Step     |   Jobqueue step               |   hw_fence =
+step
+>>> +        // =
+------------------------------------------------------------------
+>>> +        // 1        |   JQ starts drop              |   fence =
+signals
+>>> +        // 2        |   JQ lock taken               |   fence lock =
+taken
+>>> +        // 3        |   Tries to take fence lock    |   Tries to =
+take JQ lock
+>>> +        // 4        |   ***DEADLOCK***              |   =
+***DEADLOCK***
+>>> +        //
+>>> +        // In order to prevent deadlock, we first have to revoke =
+access to the
+>>> +        // JQ so that all fence callbacks can't try to take the =
+lock anymore,
+>>> +        // and then deregister all JQ callbacks.
+>>> +        self.inner.revoke();
+>>> +
+>>> +        /*
+>>> +        let guard =3D self.inner.lock();
+>>> +        for job in self.inner.waiting_jobs {
+>>> +            job.deregister_dep_fences();
+>>> +        }
+>>> +        for job in self.inner.running_jobs {
+>>> +            job.deregister_hw_fence();
+>>> +        }
+>>> +        */
+>>=20
+>> Under my proposal above, you can also wait on dependencies if you =
+want: the
+>> drop() thread will not be blocked.
+>=20
+> Maybe (I'd have to look deeper into the idea)
+>=20
+> But what for? When someone drops his jobqueue, one would like to think
+> that he doesn't care about all pending jobs anymore anyways. So the
+> main thing you need to guarantee is that userspace gets unblocked by
+> signaling all fences.
+
+I was basically trying to recreate this:
+
+static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+					  struct dma_fence_cb *cb)
+{
+	struct drm_sched_job *job =3D container_of(cb, struct =
+drm_sched_job,
+						 finish_cb);
+	unsigned long index;
+
+	dma_fence_put(f);
+
+	/* Wait for all dependencies to avoid data corruptions */
+	xa_for_each(&job->dependencies, index, f) {
+
+>=20
+>=20
+> Note that we had very similar discussions when solving the memory =
+leaks
+> in drm_sched_fini(). The TL;DR of those discussions was:
+>=20
+> * Refcounting drm_sched so that it can outlive drm_sched_fini() means
+>   that it will continue calling into the driver with the driver
+>   callbacks -> UAF
+> * Waiting could cause you to block SIGKILL
+> * The sanest way to go was deemed to be to signal everything in the
+>   pending_list synchronously. Once you've done this, you know for sure
+>   that everything is done and clean.
+>=20
+>=20
+> AFAICS, your proposal might still have the problem of JQ continuously
+> calling into driver code?
+
+You=E2=80=99re basically calling wait() and signal(), but not run(). On =
+top of
+that, I don=E2=80=99t think the callbacks can actually reach the driver =
+without
+taking an extra refcount on some driver structure (iow:  we should =
+require the
+callbacks to be =E2=80=99static). So, IIUC, no, this would not call into =
+the
+driver.
+
+
+
+>=20
+> I think the proposed solution is very clean: when you drop, decouple =
+JQ
+> and driver by 100%, stop everything, tear everything down. At least
+> that's what drm_sched_fini() should have been from the beginning.
+>=20
+>=20
+> P.
+>=20
+
+Sure, I am not saying what I proposed is superior. It's just an =
+alternative
+approach that you should consider. I also agree that revoking the queue =
+looks
+clean, but again, my question is how do you then wait asynchronously =
+like
+drm_sched_entity_kill_jobs_cb does, if that=E2=80=99s needed at all.
+
+
+
+=E2=80=94 Daniel=
