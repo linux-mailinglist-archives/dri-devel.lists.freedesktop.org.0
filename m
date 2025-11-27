@@ -2,65 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9DCC8CDF0
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 06:29:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3810EC8CE9A
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 07:25:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81C4B10E752;
-	Thu, 27 Nov 2025 05:28:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 597EF10E16A;
+	Thu, 27 Nov 2025 06:25:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VI5f66Ja";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dVjoN0WF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 296C310E74C;
- Thu, 27 Nov 2025 05:28:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764221329; x=1795757329;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=atXJCj6/py3h7ZAKpMvIUMy5JxUpLWKJU+BPTsKDbIs=;
- b=VI5f66Jatxv8OIZlcm2fepaC9gJ981XCx4fKHML1GYH3F0Q5/pd87oKU
- k19Jkd3+PlpItH04/bbmLdKHddEl2njYyEwjb4h0ILNHOJ5LktGV2uvMz
- vcBYnHbreeVjTEhMPRJEhFTlr0wCI5MiT6Km0n3cObpk+6Ll6wC0grJ8H
- pD7Df9S4EGwrPwAae7LoRU6WD3iK00ZrYRV4q+a5JUpzTv8ZODl87rku6
- 3+WlJ+gFXmZ3oZcspELF8ze01N/M4IRHZaks/SlSkPhtDLdlgadUeruqS
- aQboyB4fOhBWhHJyjtnhXISL4M2iSSX3uluK+g0gXvFKpC/gT2HFFB8zs Q==;
-X-CSE-ConnectionGUID: L7Om9gWDSMezNrQEdKqTxA==
-X-CSE-MsgGUID: Ktdv5IxXTZmhphaQns9waw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="77628326"
-X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; d="scan'208";a="77628326"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Nov 2025 21:28:49 -0800
-X-CSE-ConnectionGUID: dasVMTU/RiWOTolc8XWOIQ==
-X-CSE-MsgGUID: jIyTH9k4QcO4/SgDIaMa5w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; d="scan'208";a="198088018"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
- by fmviesa004.fm.intel.com with ESMTP; 26 Nov 2025 21:28:45 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vOUYd-000000003kd-1CSn;
- Thu, 27 Nov 2025 05:28:43 +0000
-Date: Thu, 27 Nov 2025 13:28:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Riana Tauro <riana.tauro@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, aravind.iddamsetty@linux.intel.com,
- anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
- joonas.lahtinen@linux.intel.com, lukas@wunner.de,
- simona.vetter@ffwll.ch, airlied@gmail.com, lucas.demarchi@intel.com,
- Riana Tauro <riana.tauro@intel.com>,
- Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Subject: Re: [PATCH v2 3/4] drm/xe/xe_hw_error: Add support for GT hardware
- errors
-Message-ID: <202511271357.7pA8zqx0-lkp@intel.com>
-References: <20251126143652.2843242-9-riana.tauro@intel.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEC4910E16A;
+ Thu, 27 Nov 2025 06:25:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id E8C52401EF;
+ Thu, 27 Nov 2025 06:25:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F896C4CEF8;
+ Thu, 27 Nov 2025 06:25:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764224704;
+ bh=R4j/+SfWFPfTOjJJhvG8UmzZTElqDhpfnL+sCjoX5ro=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dVjoN0WFXDayuYp5cxV3lmaSDCsS8/DR5DXmZxjr9SYfUo89CcCyb9A2VkkqU19Ix
+ 1Vo+7H73aAIS4dtrRkZXC+Mk1Hp5Kc4We+YumTsTsmsLoJEDy6g5zkpHsUmNrGfh9V
+ YCEH90Z8IupSR1i57GG1/6cs/aNl3egSRW/hmZJJjNN7mjwD8c84+PULfyEOwCZZci
+ XExXDRNf4g/P9T2Z2OLviian/+3PnoJVBmeNY+2XZz4rN5BkN0lXCJBwSFGHCPdhjv
+ Z/GCJFQsCylPBvzz0QV/WQPqFSuEQS9Fju60FfTIxkw4ouRgZHQqOh3NNLKCAGyY50
+ v+ubILpjzZjLQ==
+Date: Thu, 27 Nov 2025 07:25:01 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+ Shankari Anand <shankari.ak0208@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>,
+ Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Christian Brauner <brauner@kernel.org>,
+ Carlos Llamas <cmllamas@google.com>, Suren Baghdasaryan <surenb@google.com>, 
+ Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Alexandre Courbot <acourbot@nvidia.com>, 
+ "Rafael J . Wysocki" <rafael@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Igor Korotin <igor.korotin.linux@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
+ Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 
+ nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-pwm@vger.kernel.org
+Subject: Re: [PATCH 06/10] rust: kernel: Update ARef and AlwaysRefCounted
+ imports to use sync::aref
+Message-ID: <5p3nstyadh6txzo22eoerryjhegzuoeods7mscr663ipo4bi5u@ixpxt25lv5qc>
+References: <20251123092438.182251-1-shankari.ak0208@gmail.com>
+ <20251123092438.182251-7-shankari.ak0208@gmail.com>
+ <44gv3fhqppn4fyg5fnxkhhanlbbxr2slqq7k3kr3owx7frpnxw@idgwxlcv4otn>
+ <CGME20251125123134eucas1p230415281df788e787f4b71e4d7b3ac3f@eucas1p2.samsung.com>
+ <CANiq72mQ4cu9wehGKxS92EK2H3kcX8XPpRmv2DdYmn6Ve9iDAw@mail.gmail.com>
+ <cca5c7e8-d9c4-4e28-8da2-62dd521ceea3@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="vfuv755wwcx3lvvj"
 Content-Disposition: inline
-In-Reply-To: <20251126143652.2843242-9-riana.tauro@intel.com>
+In-Reply-To: <cca5c7e8-d9c4-4e28-8da2-62dd521ceea3@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,76 +87,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Riana,
 
-kernel test robot noticed the following build errors:
+--vfuv755wwcx3lvvj
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 06/10] rust: kernel: Update ARef and AlwaysRefCounted
+ imports to use sync::aref
+MIME-Version: 1.0
 
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master drm-exynos/exynos-drm-next v6.18-rc7 next-20251127]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Hello,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Riana-Tauro/drm-ras-Introduce-the-DRM-RAS-infrastructure-over-generic-netlink/20251126-220942
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20251126143652.2843242-9-riana.tauro%40intel.com
-patch subject: [PATCH v2 3/4] drm/xe/xe_hw_error: Add support for GT hardware errors
-config: riscv-randconfig-r061-20251127 (https://download.01.org/0day-ci/archive/20251127/202511271357.7pA8zqx0-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511271357.7pA8zqx0-lkp@intel.com/reproduce)
+On Wed, Nov 26, 2025 at 12:34:23PM +0100, Michal Wilczynski wrote:
+> On 11/25/25 13:31, Miguel Ojeda wrote:
+> > On Mon, Nov 24, 2025 at 5:10=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+> > <u.kleine-koenig@baylibre.com> wrote:
+> >>
+> >> having no clue about Rust:
+> >>
+> >> Can this patch be applied independent of the others via the pwm tree? =
+If
+> >> I understand correctly it's only patch #10 that depends on the previous
+> >> patches, right?
+> >>
+> >> Is there already a merge plan for this series?
+> >=20
+> > Yeah, if subsystems pick the independent patches at their own pace,
+> > then that is great, so please do!
+> >=20
+> > Then, after 1 or 2 cycles, we can do the flag day change on the Rust
+> > tree (with any last changes needed Ack'd, but ideally there will be
+> > none remaining).
+> >=20
+> > It is what did in similar cases for renaming (or moving across the
+> > path hierarchy) things in Rust. For simple things that get Ack'd quick
+> > enough by everyone, sometimes we may be able to take everything in the
+> > Rust tree.
+>=20
+> I think code wise it's fine, provided the subject is fixed like Uwe sugge=
+sted.
+>=20
+> Acked-by: Michal Wilczynski <m.wilczynski@samsung.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511271357.7pA8zqx0-lkp@intel.com/
+OK, I applied it to
 
-All errors (new ones prefixed by >>):
+	https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for=
+-nexxt
 
-   In file included from arch/riscv/include/asm/bitops.h:19,
-                    from include/linux/bitops.h:67,
-                    from include/linux/thread_info.h:27,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/riscv/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/kref.h:16,
-                    from include/linux/configfs.h:25,
-                    from include/linux/fault-inject.h:14,
-                    from drivers/gpu/drm/xe/xe_hw_error.c:6:
->> include/asm-generic/bitops/__ffs.h:45:21: error: nonconstant array index in initializer
-      45 | #define __ffs(word) generic___ffs(word)
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_hw_error.c:31:10: note: in expansion of macro '__ffs'
-      31 |         [__ffs(_bit)] = index
-         |          ^~~~~
-   drivers/gpu/drm/xe/xe_hw_error.c:34:9: note: in expansion of macro 'ERR_INDEX'
-      34 |         ERR_INDEX(XE_GT_ERROR, DRM_XE_GENL_CORE_COMPUTE),
-         |         ^~~~~~~~~
-   include/asm-generic/bitops/__ffs.h:45:21: note: (near initialization for 'xe_hw_error_map')
-      45 | #define __ffs(word) generic___ffs(word)
-         |                     ^~~~~~~~~~~~~
-   drivers/gpu/drm/xe/xe_hw_error.c:31:10: note: in expansion of macro '__ffs'
-      31 |         [__ffs(_bit)] = index
-         |          ^~~~~
-   drivers/gpu/drm/xe/xe_hw_error.c:34:9: note: in expansion of macro 'ERR_INDEX'
-      34 |         ERR_INDEX(XE_GT_ERROR, DRM_XE_GENL_CORE_COMPUTE),
-         |         ^~~~~~~~~
+=2E I will rebase this branch to v6.19-rc1 once that's released and then
+send it to Linus for v6.20-rc1 (assuming he has so many fingers and toes
+to not switch to 7.0 before :-).
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ARCH_HAS_ELF_CORE_EFLAGS
-   Depends on [n]: BINFMT_ELF [=y] && ELF_CORE [=n]
-   Selected by [y]:
-   - RISCV [=y]
+If it turns out to go in via the rust tree, tell me, then I'll drop it.
+In that case take my
 
+Acked-by: Uwe Kleine-K=C3=B6nig <ukleinek@kernel.org>
 
-vim +45 include/asm-generic/bitops/__ffs.h
+Best regards and thanks for the patch and the reviews,
+Uwe
 
-c1226a005ec400 Akinobu Mita 2006-03-26  43  
-cb4ede926134a6 Xiao Wang    2023-11-12  44  #ifndef __HAVE_ARCH___FFS
-cb4ede926134a6 Xiao Wang    2023-11-12 @45  #define __ffs(word) generic___ffs(word)
-cb4ede926134a6 Xiao Wang    2023-11-12  46  #endif
-cb4ede926134a6 Xiao Wang    2023-11-12  47  
+--vfuv755wwcx3lvvj
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmkn7roACgkQj4D7WH0S
+/k6ZHwf+Noz5chJYLoR5w2W8NQkWrDZTPRSGfLRgyvS2Ips8wejkfM7vURYuz3d4
+uxK4jTwvI8zJhG3Y6yDSgjZqAjPq1wX5xOy1AGKOJvBUNn+T6P4vgxkhbNOG8o1R
+NU5jowT5s1Kg15tbR7yBxCkHUiJlBSgMHHYiRNZyl/i/RtjgUzDKELZq7bF2WyF0
+LTdzLQrDUm1MwnMAEjJLOsavVruTRiSuPhx/DeknD56cASrCzieJENj0nrFlYQac
+whEs9Yey9+fXN1xV/LJFqQnWKnzBERchqxNNjSA7NuV1eQcNpBO8Oiobtm5nCmR0
+G3b2Qc7jMdTphZ2eYtG/GoiFK1RPMA==
+=OFiN
+-----END PGP SIGNATURE-----
+
+--vfuv755wwcx3lvvj--
