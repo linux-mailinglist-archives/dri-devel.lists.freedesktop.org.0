@@ -2,69 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77528C8FA44
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 18:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CE7C8FBBA
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 18:41:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7697B10E838;
-	Thu, 27 Nov 2025 17:19:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F104710E83D;
+	Thu, 27 Nov 2025 17:41:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="c0KfnE/y";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ec6sY7Po";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E93510E16F;
- Thu, 27 Nov 2025 17:19:31 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E8C8840645;
- Thu, 27 Nov 2025 17:19:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECF0EC113D0;
- Thu, 27 Nov 2025 17:19:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764263970;
- bh=+8mv6i8YDqflMNXf6rSyL0ngsI4DSuUXQc+IAsMcIoc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=c0KfnE/yW9mBtNrtCv44gXHVw6SA0/m6sGRU7msy3eAgPWadTZyvHIkYKGNDUnM7W
- 28ftgpbYM2BNqaIQH038Kl27gGXNVq7FV/E7oQRx3VLgZ6RFLtdff8s2iwtizMjgcg
- xeQzJCXOCOTb0EatsXDdloTWKGrDRCysTipTKHEftdjOa1ssf4m16kgkv0UgbXYc+4
- odbVSb8qMOxIkoimUTTcrsI13GEY0gYhIUAaRjZPomLyF0JlNFjl6w6aanfeYFQfA2
- lkq/9R63TZDx3yK+SxPvcsaAr1pNoICpg/TmokPgvFqSNd8ZcRbmaDKmPvRKVOfZ9s
- rAI1CjOpXsKAA==
-Date: Thu, 27 Nov 2025 18:19:27 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: phasta@kernel.org
-Cc: Matthew Brost <matthew.brost@intel.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>, 
- Matthew Auld <matthew.auld@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 3/6] drm/gpu/xe: Ignore dma_fenc_signal() return code
-Message-ID: <enlnwawk3qtcbgfm7dmuyefb4tx3hxsrmzozkabpeixxsi3y24@pukuuth2zlke>
-References: <20251126131914.149445-2-phasta@kernel.org>
- <20251126131914.149445-5-phasta@kernel.org>
- <nrrk4kug6a42fztx7ryuz5bk6uy7roiszjhiivlvtrw3uvunps@wn44moyetzff>
- <aSeTsINKklqqJyIs@lstrano-desk.jf.intel.com>
- <q2kvwmnxomqlcx7zgvlvyhupduytfubcu5vghuf6ztrdaq55pb@gq4tg7qughun>
- <63274dd281ac94f2680a4aa91f541de82435fda5.camel@mailbox.org>
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BA8710E83D
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 17:41:42 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-29844c68068so12301545ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 09:41:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764265302; x=1764870102; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gJqmdOIxEw8eLWLXbkfWEh7lb6XZW8BGJO73kS58WvE=;
+ b=Ec6sY7PopncIE5Vu1yxdDSTcKXH0TnyCguyEqH+p+dqZ3GnYuNbTI5NUYPIkB7Ai6g
+ sbexpOey9OTOFfSrgXq5IMslwf9iXvOcXJTdPD37enccytbKWc0ouIe6LYh/Kjb2TEcN
+ R5LVb0enbV1DRCyvN14JTYHKQGFvOHhzRQSRyVMeY8Jv3kUx1I7ykLZr26olTuAPqvFo
+ dFUe9rrAz2/CVkNsTnqnmrheUzbDYOJmxs1o80hQFV+peP5S7k5nQFiSt6Dugx6+v6T/
+ VXudOx7UxguUeUvd1QwuGJzdb4sGGG5fHHVRToJx9KcEkzMZ/i0YdT1KWuoU+aVKkJL/
+ kBQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764265302; x=1764870102;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gJqmdOIxEw8eLWLXbkfWEh7lb6XZW8BGJO73kS58WvE=;
+ b=jP/4He0EHGkOYs9p6kP4uTHsvd6Swhc3rnxOK6BP6Yzs56Vk/LKE6SGmZ8PK8jMo8J
+ dB/N/9z7ObkSaKl6l9/Ww8t+HuXCoKld5jnDQisxZKoTFkWRRfWizJqZSRzPL1yTmupj
+ cxrS3BLXvBA/bSxg/OE9llX4msl/w806uvdUSW+KzirhZd8urWqv9EdCkgBKDcQhOvtz
+ ZX6+LDjcxTGnHR7Ek6YvFlqlZyW1x3bpwjQfYbQhzWRXIHa+ZRxz7K0WXDwju60zcRmT
+ RYZK8NQDCQ+Wl9ujo8njUEUWj6g9nab7BO+yBzdpE7jmT0nDFFQ/7z9TrCnhzdqBtc2a
+ Y65Q==
+X-Gm-Message-State: AOJu0YxrPsncL1IFYBYS9xtYL2NQqfMOqnjxmh4Nr+GWSpG/++n+SlsK
+ QEBj2riYMCqnA54SFtQVUchqhSXmpeykMgVWAbLsPrp9tKSjR9Pn+n23
+X-Gm-Gg: ASbGnctc9pQ/Lr76K01JzMCAOFrfoaVl5n6iM4iMmybcZysn3SshweZkjwXLjpj4R7G
+ M0fJEk6OAKJL1lsaN417nrVwnjsCBZUJX2KC2p9cEIZNEvZ9tp77iG6wXJwkpTKVmKIamcP3gFV
+ RUuGQjULvU3A5qzeSAX4aCkwps3R92nmnZ9z2QwKaUhkevY1NqxXIxpuUWnk82kch2Qe8+feaOU
+ HqXloF1QDhTNm2nqKWFHkwTt5NGxNZR1K6ib9UETXQ2SPksoIbe3uvs0ssCn06MAAdFjObY2pPd
+ yBuYgK/gwjttitHtYaQLhoUGAJCnWfttwdBc/lL4ra5euG96WsLHeWjV+37vxYfNfHFFxtXZYU0
+ E9Cmyjm8uVYX2Pdd1pWDj52570eEx5t1SuxOuuyGRdTfAHyT1MGvUku1bw5C/wrKeSZMCiEPECQ
+ H5kWpOqNi8Jy7YRPxPIQ==
+X-Google-Smtp-Source: AGHT+IHZoue3eEn27vi/t77L35UHlVlZsPeaZ47NWPrQr+Bw35P2nBh78meTbRj1N70iv3TUbjgvfw==
+X-Received: by 2002:a17:903:1b0b:b0:295:59ef:809e with SMTP id
+ d9443c01a7336-29b6bed1317mr288255705ad.24.1764265301924; 
+ Thu, 27 Nov 2025 09:41:41 -0800 (PST)
+Received: from archlinux ([2409:40d6:115a:9b42:5333:be07:7e9e:384a])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29bceb28019sm23233865ad.58.2025.11.27.09.41.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Nov 2025 09:41:41 -0800 (PST)
+From: Madhur Kumar <madhurkumar004@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ syzbot+95416f957d84e858b377@syzkaller.appspotmail.com,
+ Madhur Kumar <madhurkumar004@gmail.com>
+Subject: [PATCH] drm/syncobj: Validate count_handles to prevent large
+ allocations in array_find()
+Date: Thu, 27 Nov 2025 23:05:34 +0530
+Message-ID: <20251127173534.236250-1-madhurkumar004@gmail.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <63274dd281ac94f2680a4aa91f541de82435fda5.camel@mailbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,48 +88,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 27, 2025 at 02:51:39PM +0100, Philipp Stanner wrote:
-> On Thu, 2025-11-27 at 14:37 +0100, Andi Shyti wrote:
-> > On Wed, Nov 26, 2025 at 03:56:32PM -0800, Matthew Brost wrote:
-> > > On Wed, Nov 26, 2025 at 11:56:57PM +0100, Andi Shyti wrote:
-> > > > > @@ -85,7 +85,6 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
-> > > > > @@ -93,9 +92,9 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
-> > > > >  		spin_lock_irqsave(&irq->lock, flags);
-> > > > >  		list_for_each_entry_safe(fence, next, &irq->pending, irq_link) {
-> > > > >  			list_del_init(&fence->irq_link);
-> > > > > -			err = dma_fence_signal_locked(&fence->dma);
-> > > > 
-> > > > why don't we do
-> > > > 
-> > > > XE_WARN_ON(dma_fence_signal_locked(..))
-> 
-> because it's impossible because the series is about removing the return
-> codes from the dma_fence_signal_* functions.
+The DRM_IOCTL_SYNCOBJ_WAIT ioctl reads `count_handles` from userspace and
+uses it directly when allocating memory in array_find(). and
+kmalloc_array() allows userspace to request very large allocations,
+which syzkaller was able to trigger.
 
-oh yes, the last patch. Sorry, I went on reviewing and lost the
-final target from sight.
+Such unbounded values can lead to excessive memory requests, allocation
+failures, warnings, or resource exhaustion paths. Add explicit bounds
+validation to prevent excessively large allocations coming from
+userspace-provided values.
 
-> > > > 
-> > > 
-> > > IIRC the above statement can compile out. So the patch looks correct to me.
-> > 
-> > you have defined XE_WARN_ON as WARN_ON that should always
-> > evaluate the content and, depending on the configuration, it
-> > prints the logs or not.
-> > 
-> > What I don't like from this patch is that we end up checking
-> > twice for the DMA_FENCE_FLAG_SIGNALED_BIT bit.
-> 
-> Depends on what you mean by "we". The Xe code checks it only once, with
-> dma_fence_test_signaled_flag(). The dma_fence backend checks it yet
-> again, as it always does, to avoid signaling a signaled fence.
-> 
-> That's not racy here, however, because the fence lock is already being
-> held, as evidenced by the current usage of dma_fence_signal_locked().
+Reported-by: syzbot+95416f957d84e858b377@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=95416f957d84e858b377
+Fixes: 3e6fb72d6cef6 ("drm/syncobj: Add a syncobj_array_find helper")
+Tested-by: syzbot+95416f957d84e858b377@syzkaller.appspotmail.com
+Signed-off-by: Madhur Kumar <madhurkumar004@gmail.com>
+---
+ drivers/gpu/drm/drm_syncobj.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-I haven't said it's racy, I just didn't like that we are testing
-for the DMA_FENCE_FLAG_SIGNALED_BIT twice. On the other hand,
-with dma_fence_signal_locked() being void, I wouldn't know how to
-do it better. So that I guess it's fine.
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index e1b0fa4000cd..f322b38ec251 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -1293,6 +1293,13 @@ static int drm_syncobj_array_find(struct drm_file *file_private,
+ 	uint32_t i, *handles;
+ 	struct drm_syncobj **syncobjs;
+ 	int ret;
++	size_t size;
++
++	if (check_mul_overflow(count_handles, sizeof(*handles), &size))
++		return -EOVERFLOW;
++
++	if (size > KMALLOC_MAX_SIZE)
++		return -ERANGE;
+ 
+ 	handles = kmalloc_array(count_handles, sizeof(*handles), GFP_KERNEL);
+ 	if (handles == NULL)
+-- 
+2.52.0
 
-Andi
