@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4936CC8FC44
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 18:50:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31430C8FC47
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 18:51:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5B7110E841;
-	Thu, 27 Nov 2025 17:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB3A110E84F;
+	Thu, 27 Nov 2025 17:50:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Nx2dWzvJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="COSaSHU1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A73B210E772;
- Thu, 27 Nov 2025 17:50:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3550E10E84B;
+ Thu, 27 Nov 2025 17:50:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764265854; x=1795801854;
+ t=1764265855; x=1795801855;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=ufXUTzk5vxuybp4PtqK1ueXKCyYqJIkQik6YTW86VH8=;
- b=Nx2dWzvJfUd7qDUXMLVeNrGl5gekus2cbU3uoIj6NiN0Nfg+jnpddr/O
- t6MB/hmEN8vLGmw7X598S5W/gNlxCX2GvABwzkB8i9aiYQX8cftMG+r25
- y9tiZaNTePEi5xVwbdPbAdEQctRmkGhDlEeI1L8kLpe2EX3iq6BSQ5EOv
- 8ldQ5KwTBnZKqzs+aIwIoE4+oiAdqQmqT/1lsrYSd2LwFQ+tBD/KfndHJ
- IukX0oYZIj2KNBxIiMA+j9WlA/OOmogRB/yCsmU9er6MusevRuM2O3ds2
- D4Hetrg66uezo3BKdQLoN6kYie4L2ITHTRU2URdNpIYfho2l+f/KqZbKn w==;
-X-CSE-ConnectionGUID: f18qHkk3TkS+WXjDaEKYBg==
-X-CSE-MsgGUID: 7HLVTlAuR6GTG4RpuJNa7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="77002935"
-X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="77002935"
+ bh=lMo4b9VLd1Xv5tdE9sBfIYv4Aorpx+KJ4xd8jtloGLE=;
+ b=COSaSHU1MD9n1WZcGhGfCv7la1mh/8mWML+2/n/RfHA5D5PaKY9/N0pf
+ iiBFlAwDZ33lCsMPFoR+kfDd4lGizz0dAqn9aoI5YPhofKIyoMiK9nWoz
+ 6dE7uXO6D9p4fdX+ugsd88olx/hlNBW/uM/EzP4YBQ+c/IQsavaxFQd9C
+ FIRQ4X68uKWuyi7pZw8FUsP4LmV7yyjaLmRoJflk/v9MTfJKtep9L2PQx
+ 1O7x1Gn7FB7YYrgsOSKr8yCkfJKYfu9ueOB6Ll2KjtCVUZ3FVt8HmodCq
+ PIMSUyOyOQenCZ8Hq4uXE5sjqMUGsPp8JMvBizVKwfVFzdLEbHCDI8Tb3 g==;
+X-CSE-ConnectionGUID: MoOwZ0XcRuuurgc9KN0VqA==
+X-CSE-MsgGUID: Y1w6/wxOR7inipcuAVIKeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="77002936"
+X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="77002936"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2025 09:50:54 -0800
-X-CSE-ConnectionGUID: 4m5DQLMAQ5KJS9Q/07vgHg==
-X-CSE-MsgGUID: ry9LntTXRMOyqF5P5ctwlw==
+ 27 Nov 2025 09:50:55 -0800
+X-CSE-ConnectionGUID: E9BQRmuZSjeC4edf6IG33Q==
+X-CSE-MsgGUID: 8kOMRNnfTEKoIuq3eFSkrA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="197453496"
+X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="197453507"
 Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2025 09:50:54 -0800
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ 27 Nov 2025 09:50:55 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
  fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Thu, 27 Nov 2025 09:50:52 -0800
+ 15.2.2562.29; Thu, 27 Nov 2025 09:50:54 -0800
 Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Thu, 27 Nov 2025 09:50:52 -0800
-Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.48) by
+ 15.2.2562.29 via Frontend Transport; Thu, 27 Nov 2025 09:50:54 -0800
+Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.20) by
  edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Thu, 27 Nov 2025 09:50:52 -0800
+ 15.2.2562.29; Thu, 27 Nov 2025 09:50:54 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AxXXK5eltzLqWG4cUZNIlgVPUzZnTlbDUB69igTimocVkWaoN5EAYUGjsoeFvThS/O6lT+t/ZV9muyA857Mb201dmtKILDyyOmA3xKwV6Hq5JgcnXaeU8x4sKZB68gq0cDiPgP+1jEipyLe/O9YJB8FihjGtJfk/EisXSoWYxwGjoRQNMSyQ1GAiZ9tTgw82ULS5vyncW50/0gDlIFupAHJNCIJRPZ+ObZKheinSJUwHjNvacMeEXQ4wG3jBfa9dQ6euoKj2N1xLiIOdb81iatl8wC1Rvo1HWhdOa7gVVakd5ThKOIWInCX2aToSq5dq8CThpzYoN1kPHLOejr06og==
+ b=Yzw7QcmhVz/3WP/U4s8dGwHOck8qevA6Es+Xc9D0VW++p4QJNFKF9S4fUhz3R7GdQGNDBoHi6GJqyM65NSrqFkjkdGWdPJSfTn08E8Quk767iRarYA3NKRtqKKqw1ESRRkYUKndZjKxcIzsSqlSGibMzPlMYoxQ6ZJqOS6dR6n24KS8txpqQ4Rypll8PVouNZN8PgIHt+CF6cQTPRMsj2X3yGriR6s/EjsNVVrU5yE9d9uqiQV41kHufBVrHX+3aDDur30HcENH0jXr8CM/V3vx4WlVTismXB1AQASEN8N8h81ozd9Hy6MxapdivkfLE8rzYou6VK20uejm7kdOVfg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gkQy9RN/cvs0uO6v8i1WgPrIahkWWSV5uSMJNhAfJbs=;
- b=qNfRlMBPxN0c1gs5wQdM0rPcUzypED9NSaog7lKQvR6F7s+Vixs78PdSA5sCS3lgV0Qf0UjZK445zHF4T6hIJXFB3MInloiRv7wT/02Au8wBjnpecPoXq0BeTTuVoRQ8hYeoYKgvZ/y8qou2h7XisaZ/btJ2ATZFhDzan5d54utdRNKpk+Gksss0/J4wc9rM/OPZEhAZDb/VXFbxR3awhDIG5ZppPk31iba5ePfcJvagHMQ+zKfPyScYcQEvAL8sHfMDUh3rV8nbmeXdY5o0CA9s1lScQRaVdbcjn7jAHbgR/JpmCxIWonZw0vLnVEnnzrAqWBACov2L63NBK9kdNw==
+ bh=SDr/44rttBbLYE/CoYJdzB4KHAEEZgjk4c+B+Pvo6yQ=;
+ b=SA0AMVSaUTBqnIJW/uWz577caPHcFdN+DqiYuSV4NgVwwo38IHc+lALVus2cOBE3HrMdSj9bmfbObW3X4T5IzqaY6Akc1K5ZztMOZkS4ZVgfBpp8xBv8G83GlvH0i5fjf2wAzm1xcF7mn4UjcNy1MdUPSCrAd1+L5MNpQPgOXYgSjd8KgGbQVAHqhU38TGyaFuNq3TGNM+SGKgMuADDQ0lUtnFlM8CiFo7K72f99Me4VmAEEs+qIZM7xt5eko3RBAF5qvgDJkdfWwycUJiXRNYji+6Ba8gtKh3PWiLlg1Z9JXeuE3U/ZzLMfI3O0ZdN6eakQQvqqW1O2/7vNGKuX3Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -69,17 +69,17 @@ Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
  by IA4PR11MB9035.namprd11.prod.outlook.com (2603:10b6:208:55e::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.13; Thu, 27 Nov
- 2025 17:50:51 +0000
+ 2025 17:50:52 +0000
 Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
  ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
  ([fe80::8900:d137:e757:ac9f%3]) with mapi id 15.20.9366.012; Thu, 27 Nov 2025
- 17:50:51 +0000
+ 17:50:52 +0000
 From: Imre Deak <imre.deak@intel.com>
 To: <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>
 CC: <dri-devel@lists.freedesktop.org>
-Subject: [PATCH 02/50] drm/dp: Add drm_dp_dsc_sink_slice_count_mask()
-Date: Thu, 27 Nov 2025 19:49:35 +0200
-Message-ID: <20251127175023.1522538-3-imre.deak@intel.com>
+Subject: [PATCH 03/50] drm/i915/dp: Fix DSC sink's slice count capability check
+Date: Thu, 27 Nov 2025 19:49:36 +0200
+Message-ID: <20251127175023.1522538-4-imre.deak@intel.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20251127175023.1522538-1-imre.deak@intel.com>
 References: <20251127175023.1522538-1-imre.deak@intel.com>
@@ -91,75 +91,75 @@ X-ClientProxiedBy: LO4P265CA0255.GBRP265.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|IA4PR11MB9035:EE_
-X-MS-Office365-Filtering-Correlation-Id: 449c1776-d133-4148-c7f5-08de2ddd8103
+X-MS-Office365-Filtering-Correlation-Id: ffa52de2-7acd-42b9-19de-08de2ddd81dd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0; ARA:13230040|10070799003|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?NIDYWWpJ/NccvEmIvwj7nUsY+GohnD7KnzubMNwgU3mWjjHOcko5V8BpnT7g?=
- =?us-ascii?Q?QA7iEOXx+lwXyZOMt0DDVTyvWilM0aSEFBZnY1MwVrkCU7RIieFaTRnxqHAa?=
- =?us-ascii?Q?w9S8pTWInMHMEM4AN62lVaEx66S9F4l9WG+VvWrV5fwIGlTulGKZ9AiXmsxm?=
- =?us-ascii?Q?Ls5g1MIQMWZK5NHyJRFhiOrxHtMTuIe60vwIle00Diy+9SeHZTJo8qQIdKz7?=
- =?us-ascii?Q?J+NkBHnNtrWEto4Lt5PX4ont6K/RWZnZhEEWPD40O+NojhBWTOd3sbURcbxE?=
- =?us-ascii?Q?NQeFUbqCCfFKnFL/IwrYcngcZmb0Xm4InBoPvjwFjZvZ1nTV6M9D5X8Ovp+e?=
- =?us-ascii?Q?E4YRCMUJGfT8ZBstrDzqB5vN25slhvuhw9ElQ5I1NJTLgMRzvTjSftMBFxWh?=
- =?us-ascii?Q?AoYa+7ryGN1J+FORCNRJMRVzw8nfRchCe+5ul3xPr1nWKH6MidJkqO6UyIFK?=
- =?us-ascii?Q?goeomgDLK2n2jEmRVH6v0V+4wDqyFJBrVWn8Hfty61zy33vctI7pmXrWU6Uc?=
- =?us-ascii?Q?56QAkEZXIGi5jKd0HpEH68ZPXdok8UZZPyKgkIJNmNrZ4oUVoF2nuv6y3fzL?=
- =?us-ascii?Q?yJg/ZX8KnSmV7FW5Iwh50qF5mdoZEepohQwttN/5qx2STRLrxJKmrDjiSYF/?=
- =?us-ascii?Q?UAYFZmsfN4MLTWbS1W3zsEyiMWtHTMrBzNmxc3ABz+pN1di1VZTLIibHmuDe?=
- =?us-ascii?Q?lp3cwbQ3ZTLjGrE27uWHhAN6F0K+n1A+SbG1ktss0qjtYfyyBhEEvAb7lLMY?=
- =?us-ascii?Q?1kuiF0T+NSU+O02HiXdC9Y2koxPhBlaFl88vHV0SZz/D5561x5RbCeyLQMPN?=
- =?us-ascii?Q?HIbP7e/Ny3WizyzV9ifTXDCAuPm/NBqUtowAxAlgw6mdFxYjCp1rTTg3N4qE?=
- =?us-ascii?Q?LY+IY18K/1JW/F1HJyMHV6CBvmFfAOsEsrt6HDKQID0K0VVEFD1lmP4penie?=
- =?us-ascii?Q?ScnA6CmHUPM/kL5OGwtsLUwFakhDu8W8Bby/ehTAGGQFMOV497sgh3imbLzH?=
- =?us-ascii?Q?uY7mwSAKcl5qxm4dEzU3/VpkbkQf3h3KvTKorWFKVe3CyM7+/F5PCR/pgiy6?=
- =?us-ascii?Q?Jqx3ExZrj6eIBbC/sViEXlYOAMPcbdnrNv++NtaFPmaWHKLVpSM+ylkQln1Q?=
- =?us-ascii?Q?Y671RefC/DZe6qacnz0pckYCuy+CIU+JL9C/3UbCHp2R7+rmiq2xYdQ35BAj?=
- =?us-ascii?Q?18ibcx5O0XJIwvwmY5OjQkLxJiRmwtwS5ATxhmXpbBRCdC7OhadroUaOhCpG?=
- =?us-ascii?Q?lizp32MddxljHhEVYEh61DHdMmiqSyjT8+g/++iIr0Q2bpZFGXgaXbqLl+3p?=
- =?us-ascii?Q?fuqjdK3SNQfhwYg5JcNNOKN1RII/osXgb1Cd48qdNZ6mbIPEFlEEqUg/aSg4?=
- =?us-ascii?Q?CHYjtuFni/4GcS1j5fTO28Jscr8+0ZcV0Et1Y/c5cDOU5iTbVaXEs3UmrRhd?=
- =?us-ascii?Q?IrARmyZCYxXP5katWNkRSmXa9LoenVv8?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ncCwVa5AU89IcK63IoHgujiYfnvpp2hqPSBOhtCE/QCaPjbk32zE61b8LyZ7?=
+ =?us-ascii?Q?qHGP9ZuEdiuoPmJXq4Co/q9lM+5mBTUw0VSV9ieAwHIHITu7eEdBLmCkGSeL?=
+ =?us-ascii?Q?Q6iTU1X8h/aaahEIo06BkhY/o61MausbUWD3xO4uAkb6x1PD3jccXGE0Oand?=
+ =?us-ascii?Q?tpX3LjPODm/8vZijvYtfKua7kIOjQyS5E6Q6PT+co9vabL6sWidGxjmlZttn?=
+ =?us-ascii?Q?zI4Qz+zPt1SzaSxiycYEi+xKEGOEIm5+boQjVE6j7Y7Ttd+JCA2/NfSrQh9o?=
+ =?us-ascii?Q?6cefH6y8VhwAOmcFgYI1ehkMouH1AydCer0W7ErzRTEXwX/Qv+MXWiVeK+XI?=
+ =?us-ascii?Q?3fYD2C53DS2QG8UBhTV5hGY02SFDW2zI7gINqyE2tKz94R/ZosCmLjVLEHbo?=
+ =?us-ascii?Q?t1DRl39BFARP9htIh15zvNUQAy77oGOQOmfElqTra2A/TCV21SO7Ul2qHSrO?=
+ =?us-ascii?Q?MngReohlXZ7EJK4eVTh2s1c+NpAfD5NFgfGRjftbXM2Wm8CgbLHqTo2LJp4z?=
+ =?us-ascii?Q?ShGRkOTG8DEu9q7fl5YNycfZsmSA/8IdVryfSOFsbyjVUcBoGs3vqHD0Cc5u?=
+ =?us-ascii?Q?yng0h3w1vg/2QJIgbqVX/oyMVvXyzqxtAy2zDfDuDz7FEtnKqVzA6xq6U8+X?=
+ =?us-ascii?Q?nZ/t/+tKSCJMUtK+K+Ok1p6TojzNWfSz+KefBSEjyEe6nDPdNAyYf78a/YgE?=
+ =?us-ascii?Q?nUz7xVJY6xhNyKTp/IOxij/NbC3nqTB1YI8VjdV5bPRb7lChhnJFbfCi+9Qo?=
+ =?us-ascii?Q?rz3bxOOHuqIwuj/RhlHfPQuuVq5lJ6h2UoSDcpRJzYhVkLJCF6NOCLGU3Kcy?=
+ =?us-ascii?Q?8M23RnHNQuQ9LcOCIkAizfwG5+wE6Nw9/zxgybT7GSShFDBLrAyKSblmXT85?=
+ =?us-ascii?Q?gd+I27d4SkEX9HGbdwZsp1kIN5Vnui3+PmJ+zwan5K1f6c+MPzrOBi82+G4O?=
+ =?us-ascii?Q?P1hCCsLEEelQ3PMatg1BAbOy9Gog7+U0vIvk+CqFWIlOq9qB7hSBxOU66SVl?=
+ =?us-ascii?Q?iSw8NnaZL9F0hhvkqfTwAJeo8pz5Z/2g8iaN5jZv7gxDQa+BUNS9/MydNMH/?=
+ =?us-ascii?Q?LllD3wy3iBVuhSEq71x9bzff+1ee/JbP2CMUWbkrNka+QOUJ6AdI/4IOXt7X?=
+ =?us-ascii?Q?MY2v8capiB9Q6zWDGPjYuNIzzbJh2PMZ7al2iLP49pQJON/oI+blr3g9vYI8?=
+ =?us-ascii?Q?fTY1MyeZH/m/kI8Z3KUDEwtmOI+QRbUZt0JJoZNvyZBvFcxvy+KUinxPeSco?=
+ =?us-ascii?Q?2Cd98yAFOTcarRrhj9UqUBsMafuDI1hOJdt/tCp5ExG3WeEdZtJ8r/jov4FD?=
+ =?us-ascii?Q?QKEc1j/OqgL/IPU13BqZD/1teOH0CFpOXJ1s43FkQv1Qp0EWnZxotiB464/7?=
+ =?us-ascii?Q?za/q0LdRPb34ABISbwTNfKJk5Y3ecNNjCzEDxvro3b1rO6ROd4/4lw4duls5?=
+ =?us-ascii?Q?J/nVfsDtsnZe994exKV+EFwYrXA5XV2s?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(10070799003)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WfF6ghU3IfEtjR5I8m5oqBGbqNiXhQ0VSwBIhBoD1gUCGTV3oYoFr6aZlOsP?=
- =?us-ascii?Q?skrh7KXaFqTrHj7s9HR1muXvw1Nc+T6LcjDxXimioXyZRUVxzhpe5pufMYag?=
- =?us-ascii?Q?V4S5XhgW/UtYbcnUOSDCaBCl62iaPIxHGLCY2U+5W6adO+465i7/vMPTAEbR?=
- =?us-ascii?Q?n3bCf7vsZFVk7G7zwD1u4QsNd4YlXuXitMKNFRnLGHUkjdCapLvb9RoeN3v3?=
- =?us-ascii?Q?grniGy6C/oX8oeJD/wfAec0fUGtKlW2EdTDfDRgRrjHauJGZK4LcuZfPRKys?=
- =?us-ascii?Q?DRI2nEhO2KzTE4ZtReKylUnpsG5FRcyw9vPd+k3aVLrSQdz7gVeqvW4uOELi?=
- =?us-ascii?Q?FzQQVVLNHM6/KdEFdk1tkS5uYw6wPYqsdBoLBVehoS980JsKHMKTZG0kI2Nc?=
- =?us-ascii?Q?YH/J450MN5efV+A+e5GRsytT5K4NouWPOx4fNTJN9sy/hW+JDJRCVlJT7Cfb?=
- =?us-ascii?Q?TMbR1k27r5qnfIfILylkHU3l4si4R2Z+b3EjPl/6xrgCX43a4XL9SHXccyMe?=
- =?us-ascii?Q?K1BteTBmeVh2Tk3DOX4czFlmpr6dYYEREg6z+3AhLvdMyiSPVlr7wGVTxtgv?=
- =?us-ascii?Q?QQ9q/jAw61PChf3BnA6kWhlvH5ojerDlG1euvnW0LoaZ2a0edQGBUk9984fV?=
- =?us-ascii?Q?HBJr0gXp38zcMsd/TFcLd66uEWPWB6/CvexLye8jC9FzrFYEGBYinjBjBeQi?=
- =?us-ascii?Q?sPFiXmEJrjCNbgtMGkhZ5TK8kjSbmXwZkW6QtYuGm6fCtZymroPVUaiUnw5w?=
- =?us-ascii?Q?tPrGMxA+jEBnq1JQM09fqpDJV7HwmkfkFOd0khA0Hf/BJNPyg+pHgnF9paBB?=
- =?us-ascii?Q?3/tgzaxEmQd3FU6XES5qESIN3b41+vZ6lwSaSu/R9gGtYsjDDuDm3yJCglw3?=
- =?us-ascii?Q?M2eRyx08mwECFowHXdznYEhUeaYi7ldmjxOMRGUoRzcqWzDL1hQlhl8n9h13?=
- =?us-ascii?Q?pGcXpRp92YUzdGn7ESijfuBApmoao3xp/937b1sPQ5SdCMvGeivDNALQ2Azn?=
- =?us-ascii?Q?EE3g3ZPiwg25gnuVRFv/vNaaf9fF8CQ06EPByqDdPJIA+CfKwQ29WN/vicuS?=
- =?us-ascii?Q?/OghdjeYYjqzp2bvZMx87jscqfpnt36z4Kn5PYW6y8eAjrgm82xp1JZDNz8G?=
- =?us-ascii?Q?s7gZgglsOjUxlkuM/RbS05UIC7OGQCMPijsFYjhsm9leqkxCZIxHZeRct2G8?=
- =?us-ascii?Q?zveg8ePaB89HwG/9XIVzh+snX0YU9/1b/oaDBfRBdW3mY42WmAC4iaTKAvfD?=
- =?us-ascii?Q?F+fF20SY/MAY6s1PQ4zW69px9CSZyo5B35YeIXvo2L+bbLhiIvbwTKPVjLmT?=
- =?us-ascii?Q?g6pi2L7CDwTdi+XEcIfQy4irpztyv364i5vdFIp+gZIXwh2nY9OHSFIwEgPF?=
- =?us-ascii?Q?YsoxCY2+g5Agzc+Oyh3TlDn/sG35XgkRoxJEJOGQI3Zv2xAntHrRb1bQ/noH?=
- =?us-ascii?Q?NpFhuSK31pbTqn2w8IyPgVDJkbM7brYhRQrUcrHa9rYL/gZt9gEJry0hSi+y?=
- =?us-ascii?Q?TM+1jczhF4+LKZermmo4ZhHIIcOkkl6LpRTaq0i50VggkIdt8N4SCRXKLKWE?=
- =?us-ascii?Q?aPZ3+XFXN5zN4xJ9go1SqM71eUkzu3romVLY5xTG8nWvfEJs6OLyLZjNmAv3?=
- =?us-ascii?Q?CxPeh1aQpuNjx0Gm7iy6mw8JdpNRlfHNOdRRnQS2JDwB?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 449c1776-d133-4148-c7f5-08de2ddd8103
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8VShlqBeA9czVPJRwWnQP4MptBmtAbLgXz8dmFtENeKX63mBiA5qkVboIYZN?=
+ =?us-ascii?Q?D4cFv2Z9V+gj52XehVQU7U+8e26UyO7lOGmZPQUr+l62dPm6IWy82kMpfVBP?=
+ =?us-ascii?Q?YE27sNVVGpums7wk7WgIF4FU5y3oCPX9rqfSijYp5zBH6LfRS3OwbyLlO6k7?=
+ =?us-ascii?Q?iDOxYsxstmgzsNVX64gh0CFEP9TItE2ggVk0+s8qnZdVEULCCFuuRtU3xg5m?=
+ =?us-ascii?Q?Dx3jKDL23aXfE5xsj/2NhvQswoQivY/PvMO/T+ybcsg9XNK3mQCvuXuR2ITz?=
+ =?us-ascii?Q?nlyA2yOY/RreWVFo1/+YLv63B+qBqRQ8NnIIGrmU/AUBI9OlcAoaY8uBuO+z?=
+ =?us-ascii?Q?43eGZcIh4Ne+VB38wo/vOR5F3GgUfh/KxUTsr6FD2R6+Hxc4UX4SlGD5VMh/?=
+ =?us-ascii?Q?r0asjnkKk/Ofshn8RJGonhFQdKLQRT0xvtlVyx7n/DEdxg7pEJakHV4Teiu5?=
+ =?us-ascii?Q?p5jusDXQrwRlbwSDU1yV6EJ8ecnUM01ZNMzN9WP7i6v5buijCdhbWsGKVQqi?=
+ =?us-ascii?Q?rnELRDr3C1nSjUNTddVKZ+zq6OtrtFr0kgBjA9u+N4XhDl+LRu11YtJOihKu?=
+ =?us-ascii?Q?dMG0VGpQHBUCxNVupPTaYYvpOWKqz2DRW4qc9xXU6ulhTXPnqn3KI56Abryi?=
+ =?us-ascii?Q?iXcuJ8kt7iEU8l5SrtyoxbPu4tUSDHfyFxiA5PH7SqeuLQ57x9JxW46KoJ4j?=
+ =?us-ascii?Q?34oITJ8qKXPODBNiqtWTmTEYpFNhE7lmfNKgbt3f60GYr9T1cmpeU+Ivo95z?=
+ =?us-ascii?Q?8XGxlUNkyanLgwwEanmW1J+14qPzm691T72rBaOgokfOEUpzcMPmV4JyWvwt?=
+ =?us-ascii?Q?OTvTxCaVNyshikkQE+gQln2ga4IB7ygWP+Vgd8NzG088pMv6BtwicJaxoQLY?=
+ =?us-ascii?Q?9pbuopMVSM05azAq6cq51D6Nlxs1y6EG0NAAKzsSdrEzuEZwvOpY+Y7IBDxY?=
+ =?us-ascii?Q?Sa5nzazFRHsNbjVU9Xdv2xlCrKxxzYFFYMLx8EmaGfNBqDcKrZ9fDvZuGm8c?=
+ =?us-ascii?Q?TBs5fGsqpk1qLhDoJuunVY+NNeCkCF+WoHqU+Zy+mK5ZoguLmTx0xkS7gRxK?=
+ =?us-ascii?Q?MmLLroyt6Jsxz9t1EtdVPTKkGoVDlIyQlNR6/RCSmEbAA7920hXJfuND+5ak?=
+ =?us-ascii?Q?hOZG4domR5eSJa4BcbGhNOHVX1jX+UIAcbKSw8OB5zygmotlpo6Fpr/MD0cl?=
+ =?us-ascii?Q?kG75AezxCxN7xfyKTlXEOy+MbZqpADnV8ZaIe7cgU0pQrWWAD0t/yaC8ksrq?=
+ =?us-ascii?Q?Rbo9LU0ws16XUMmu0/bBrQejzT7f/FmivcxSdEF9bDFzVkQtFgTrhClB6oHy?=
+ =?us-ascii?Q?LbfZLYoOoC3gYG6UWpdIyCIeUvH3J6HxKaii+anYVtfZ6D9dDga6PGEYjxhy?=
+ =?us-ascii?Q?k7qGQqPt5SZThPe53Jm515i0JVG+KrZwCKlF6duCDUMRwPt19+9tILLsBoDF?=
+ =?us-ascii?Q?fr2RXecH7LyAp7QK8R580xR/cuFcfT8rz9Md7TUGXS4E0wojgylPoig8pj1P?=
+ =?us-ascii?Q?B/Xz+BYNL4SVmiH4b3fyfuFFd+4PVWFYBGXmrIV46XaDZwrGpfg5AUbs9VX+?=
+ =?us-ascii?Q?ALZaVO7u7tYr2/B5KoogSJ3pDZ1Lf3uO+vsMDnB3FngC/Xojn2QFWzb1K65u?=
+ =?us-ascii?Q?oGd+GOWeSjftQAtP9WzeNlTn0yiae8FVsxjEiTFfe4UJ?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ffa52de2-7acd-42b9-19de-08de2ddd81dd
 X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2025 17:50:51.0216 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2025 17:50:52.4199 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4ogE4jqOQNJEFPBiP3NpR4ExCBOLudwNhvS5TtGknTsaIbY7NKvWlsVi24zkHEjUVn+DMZhV6BBWi2NlA7BpiQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: DWcY5FBUUVaIQBDCJxops6duX1G4ypmdYLQqJshXrnQQL79D0iYIDpZU+tSVZ/VAdcjNjwLiAip/eQIWNUbFCg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9035
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -179,149 +179,58 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 A DSC sink supporting DSC slice count N, not necessarily supports slice
 counts less than N. Hence the driver should check the sink's support for
-a particular slice count before using that slice count. Add the helper
-functions required for this.
+a particular slice count before using that slice count, fix
+intel_dp_dsc_get_slice_count() accordingly.
 
 Cc: dri-devel@lists.freedesktop.org
 Signed-off-by: Imre Deak <imre.deak@intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_helper.c | 82 +++++++++++++++++--------
- include/drm/display/drm_dp_helper.h     |  3 +
- 2 files changed, 61 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/i915/display/intel_dp.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index 19564c1afba6c..a697cc227e289 100644
---- a/drivers/gpu/drm/display/drm_dp_helper.c
-+++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -2705,56 +2705,90 @@ u8 drm_dp_dsc_sink_bpp_incr(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE])
- EXPORT_SYMBOL(drm_dp_dsc_sink_bpp_incr);
- 
- /**
-- * drm_dp_dsc_sink_max_slice_count() - Get the max slice count
-- * supported by the DSC sink.
-- * @dsc_dpcd: DSC capabilities from DPCD
-- * @is_edp: true if its eDP, false for DP
-+ * drm_dp_dsc_slice_count_to_mask() - Convert a slice count to a slice count mask
-+ * @slice_count: slice count
-  *
-- * Read the slice capabilities DPCD register from DSC sink to get
-- * the maximum slice count supported. This is used to populate
-- * the DSC parameters in the &struct drm_dsc_config by the driver.
-- * Driver creates an infoframe using these parameters to populate
-- * &struct drm_dsc_pps_infoframe. These are sent to the sink using DSC
-- * infoframe using the helper function drm_dsc_pps_infoframe_pack()
-+ * Convert @slice_count to a slice count mask.
-+ *
-+ * Returns the slice count mask.
-+ */
-+u32 drm_dp_dsc_slice_count_to_mask(int slice_count)
-+{
-+	return BIT(slice_count - 1);
-+}
-+EXPORT_SYMBOL(drm_dp_dsc_slice_count_to_mask);
-+
-+/**
-+ * drm_dp_dsc_sink_slice_count_mask() - Get the mask of valid DSC sink slice counts
-+ * @dsc_dpcd: the sink's DSC DPCD capabilities
-+ * @is_edp: %true for an eDP sink
-+ *
-+ * Get the mask of supported slice counts from the sink's DSC DPCD register.
-  *
-  * Returns:
-- * Maximum slice count supported by DSC sink or 0 its invalid
-+ * Mask of slice counts supported by the DSC sink:
-+ * - > 0: bit#0,1,3,5..,23 set if the sink supports 1,2,4,6..,24 slices
-+ * - 0:   if the sink doesn't support any slices
-  */
--u8 drm_dp_dsc_sink_max_slice_count(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE],
--				   bool is_edp)
-+u32 drm_dp_dsc_sink_slice_count_mask(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE],
-+				     bool is_edp)
+diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+index 0ec82fcbcf48e..6d232c15a0b5a 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp.c
++++ b/drivers/gpu/drm/i915/display/intel_dp.c
+@@ -1013,6 +1013,8 @@ u8 intel_dp_dsc_get_slice_count(const struct intel_connector *connector,
+ 				int num_joined_pipes)
  {
- 	u8 slice_cap1 = dsc_dpcd[DP_DSC_SLICE_CAP_1 - DP_DSC_SUPPORT];
-+	u32 mask = 0;
+ 	struct intel_display *display = to_intel_display(connector);
++	u32 sink_slice_count_mask =
++		drm_dp_dsc_sink_slice_count_mask(connector->dp.dsc_dpcd, false);
+ 	u8 min_slice_count, i;
+ 	int max_slice_width;
+ 	int tp_rgb_yuv444;
+@@ -1084,9 +1086,9 @@ u8 intel_dp_dsc_get_slice_count(const struct intel_connector *connector,
+ 		    (!HAS_DSC_3ENGINES(display) || num_joined_pipes != 4))
+ 			continue;
  
- 	if (!is_edp) {
- 		/* For DP, use values from DSC_SLICE_CAP_1 and DSC_SLICE_CAP2 */
- 		u8 slice_cap2 = dsc_dpcd[DP_DSC_SLICE_CAP_2 - DP_DSC_SUPPORT];
+-		if (test_slice_count >
+-		    drm_dp_dsc_sink_max_slice_count(connector->dp.dsc_dpcd, false))
+-			break;
++		if (!(drm_dp_dsc_slice_count_to_mask(test_slice_count) &
++		      sink_slice_count_mask))
++			continue;
  
- 		if (slice_cap2 & DP_DSC_24_PER_DP_DSC_SINK)
--			return 24;
-+			mask |= drm_dp_dsc_slice_count_to_mask(24);
- 		if (slice_cap2 & DP_DSC_20_PER_DP_DSC_SINK)
--			return 20;
-+			mask |= drm_dp_dsc_slice_count_to_mask(20);
- 		if (slice_cap2 & DP_DSC_16_PER_DP_DSC_SINK)
--			return 16;
-+			mask |= drm_dp_dsc_slice_count_to_mask(16);
+ 		 /*
+ 		  * Bigjoiner needs small joiner to be enabled.
+@@ -1103,8 +1105,14 @@ u8 intel_dp_dsc_get_slice_count(const struct intel_connector *connector,
+ 			return test_slice_count;
  	}
  
- 	/* DP, eDP v1.5+ */
- 	if (slice_cap1 & DP_DSC_12_PER_DP_DSC_SINK)
--		return 12;
-+		mask |= drm_dp_dsc_slice_count_to_mask(12);
- 	if (slice_cap1 & DP_DSC_10_PER_DP_DSC_SINK)
--		return 10;
-+		mask |= drm_dp_dsc_slice_count_to_mask(10);
- 	if (slice_cap1 & DP_DSC_8_PER_DP_DSC_SINK)
--		return 8;
-+		mask |= drm_dp_dsc_slice_count_to_mask(8);
- 	if (slice_cap1 & DP_DSC_6_PER_DP_DSC_SINK)
--		return 6;
-+		mask |= drm_dp_dsc_slice_count_to_mask(6);
- 	/* DP, eDP v1.4+ */
- 	if (slice_cap1 & DP_DSC_4_PER_DP_DSC_SINK)
--		return 4;
-+		mask |= drm_dp_dsc_slice_count_to_mask(4);
- 	if (slice_cap1 & DP_DSC_2_PER_DP_DSC_SINK)
--		return 2;
-+		mask |= drm_dp_dsc_slice_count_to_mask(2);
- 	if (slice_cap1 & DP_DSC_1_PER_DP_DSC_SINK)
--		return 1;
-+		mask |= drm_dp_dsc_slice_count_to_mask(1);
- 
--	return 0;
-+	return mask;
-+}
-+EXPORT_SYMBOL(drm_dp_dsc_sink_slice_count_mask);
+-	drm_dbg_kms(display->drm, "Unsupported Slice Count %d\n",
+-		    min_slice_count);
++	/* Print slice count 1,2,4,..24 if bit#0,1,3,..23 is set in the mask. */
++	sink_slice_count_mask <<= 1;
++	drm_dbg_kms(display->drm,
++		    "[CONNECTOR:%d:%s] Unsupported slice count (min: %d, sink supported: %*pbl)\n",
++		    connector->base.base.id, connector->base.name,
++		    min_slice_count,
++		    (int)BITS_PER_TYPE(sink_slice_count_mask), &sink_slice_count_mask);
 +
-+/**
-+ * drm_dp_dsc_sink_max_slice_count() - Get the max slice count
-+ * supported by the DSC sink.
-+ * @dsc_dpcd: DSC capabilities from DPCD
-+ * @is_edp: true if its eDP, false for DP
-+ *
-+ * Read the slice capabilities DPCD register from DSC sink to get
-+ * the maximum slice count supported. This is used to populate
-+ * the DSC parameters in the &struct drm_dsc_config by the driver.
-+ * Driver creates an infoframe using these parameters to populate
-+ * &struct drm_dsc_pps_infoframe. These are sent to the sink using DSC
-+ * infoframe using the helper function drm_dsc_pps_infoframe_pack()
-+ *
-+ * Returns:
-+ * Maximum slice count supported by DSC sink or 0 its invalid
-+ */
-+u8 drm_dp_dsc_sink_max_slice_count(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE],
-+				   bool is_edp)
-+{
-+	return fls(drm_dp_dsc_sink_slice_count_mask(dsc_dpcd, is_edp));
+ 	return 0;
  }
- EXPORT_SYMBOL(drm_dp_dsc_sink_max_slice_count);
  
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index df2f24b950e4c..85e868238e287 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -206,6 +206,9 @@ drm_dp_is_branch(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
- 
- /* DP/eDP DSC support */
- u8 drm_dp_dsc_sink_bpp_incr(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE]);
-+u32 drm_dp_dsc_slice_count_to_mask(int slice_count);
-+u32 drm_dp_dsc_sink_slice_count_mask(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE],
-+				     bool is_edp);
- u8 drm_dp_dsc_sink_max_slice_count(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE],
- 				   bool is_edp);
- u8 drm_dp_dsc_sink_line_buf_depth(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE]);
 -- 
 2.49.1
 
