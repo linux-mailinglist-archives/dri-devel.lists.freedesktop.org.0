@@ -2,78 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A224FC903D5
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 22:47:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F415C90422
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 22:57:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BAFD310E04F;
-	Thu, 27 Nov 2025 21:47:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38ED210E853;
+	Thu, 27 Nov 2025 21:57:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iq+L3smq";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="T+jWBKs5";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZQnStf/b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC8F610E8E0
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 21:47:09 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9CD2C442C9
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 21:47:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D01FC16AAE
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 21:47:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764280029;
- bh=0hbwTH5W/JlWKv9bNMjq36XQT6ojFwR3MpjzfawHYAo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=iq+L3smqUYdeNudiBtdYdT2RzYy3Np9HmKuBwTHMb1oosvKvcQ0ozV9ftXBCSeAEL
- IfV+Rj2P4WVx2i1yREbklfsDBYCjUY+VFSOLu8Wiy8IKr9O48AR+Z8FJLzTwG3s6ca
- 0HtEWWtVVtEUppn+fgwqRkmmlnNKus+WLA4/3KrfimZoBIv09hrbkI25NUeH1YlolV
- 8UM5kZVv86d1KGXEnlCBZzTAXWnfjY8aG40zhSQ2aNc0z0+ESVU5Hdpf20zvM0IpkV
- cBTzGT1RXEjAXiy8WBwH3VdstalR5W7zlFj950ohYJpoy5LQfDSIJFzj+JjlQlrf+j
- iVGjWYXCD2oxg==
-Received: by mail-oi1-f172.google.com with SMTP id
- 5614622812f47-450063be247so433726b6e.2
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 13:47:09 -0800 (PST)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDF6110E853
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 21:57:31 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5AR9bDUU785227
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 21:57:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 9pI+nNCxm6OA7uNJyiyjjUs/+UrmghoHh3cuApsI018=; b=T+jWBKs55M7CEQ/+
+ 48g/5nOxxftuDMVHBohvlh2CRaVfmH0OooE+3uMpY+HExtdTwe2NFFgyFgiTtvKL
+ DZ9hDx/f2E2Q7cwWfvGhPH6TH+eYz7sfc1aFbBbN2S8zln9GZSRh2zPW7j/zVtwK
+ BrBYe0J0frykh3s1ZZ5YXXJOidXZqL77V1IQLl7tKaDQw3UNAFWvZg5M/vHTrflF
+ n8MPe3zPaxLqBcaMmSEXqZxdBFC7TuPlzrX/WclZcrFpMrOvR8bHPU+551R1abhb
+ 2SFPph7ryp3jYh5QNHNmBg9Ab4G3K1rmmN4GsgPHIcj7yBR7ZDoDPbk9Xq6B216D
+ 09DK4g==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4apm61sj5t-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 21:57:30 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id
+ d2e1a72fcca58-7b9208e1976so1878583b3a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 13:57:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1764280650; x=1764885450;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=9pI+nNCxm6OA7uNJyiyjjUs/+UrmghoHh3cuApsI018=;
+ b=ZQnStf/bFKv+vCx+KM6wpqHT5ZBYRcfo6AGFwt5i0euTZlwpt+Tm4PNVtyUnkO849x
+ IKwjDJ/mHVyqzyBTJl2V3BXFnOap9FwNaogegS9eHpLoLBGPRmElNCh/fSQtlEaNorun
+ KtmPGg7//12mpOn5YW8TqugzhrxZq/t7UTlnJyUNxMKxe7KmOXTIG01OxP5Lvm8J/rxP
+ E7L5SeQOCpBP+Lbas6vmVKr4Ur35Xfm+Kopm58+b08+vxhSi1RgpryhWosMO5zuHZh2D
+ hk5q0hu92L61UmvrcOav1EXHlSyZ+ydHky0d90Xb0NqjG06AkFYO7djk8+3dHSRXEf6/
+ jwXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764280650; x=1764885450;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9pI+nNCxm6OA7uNJyiyjjUs/+UrmghoHh3cuApsI018=;
+ b=TXcDvI41hU9GHBM7PB7r2IlXQZpEyMjXLieRZamTM461DGbf7jgt8cuowUGuV4fq8H
+ WvlX4Y1rHrCqwxbyx8tK1n/i5oBSUY1pSVPbJT+qA+0w6S9CYrqlOw9EPI9s77QUsfQA
+ SDeW4tozmzXso3Eqz57JG4jqAZjgDVZ2kT2O2LG5CqHdyYjAoL1uu4Ln7crlyjun7uYm
+ Vj0JnnMoM9p211xKy82Sz7OJblsfJXjJKOKmbUkv5NB/kDJaYaJ6l3oZanSgc24ZZv7i
+ zqjudfXj8Ag4PgH/Oe02aTgei6Gf+7zS2dncw0K5TsWJGD4CnV2jX+DSod7+4ASAhaK4
+ jPCA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWoSOwpPQlcKgf5rVnIpzQu0wayuhuM2fvvB584EHnCAhgewHbh9AX/oUxOvRHvHS77+UsVlShlItA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzBT5A1lKFJYYVM1VZlMwwL7O25gMT3mVIwn1wX+5AsICUUNggq
- CEUYqlvwDWislspOzr8oeQtcAvvUBxX9A4Cmw9uLstQ1bsVeFxjUQZeFdGUWpp7ybZcUrjSRaZw
- +ciwKAzIyTcLTEA9/0WYZcQO8mW5FlYY=
-X-Google-Smtp-Source: AGHT+IFmxxeOGUZ3As3e5BufQf4xNzGTm7a385xAZ3Y0cZ1X4zoOX5pvKGR4+1mZPCbutdUHj673OdSkeTXc9RZYPJo=
-X-Received: by 2002:a05:6808:1507:b0:44f:fc93:f612 with SMTP id
- 5614622812f47-4514e79dd05mr4974594b6e.32.1764280028352; Thu, 27 Nov 2025
- 13:47:08 -0800 (PST)
+ AJvYcCWqFzODiXPMKqYeU9vheDuHjT93luNMAIzS6rATHlEcEQeq+nf3mTHen5hp5YOzZjdenZGn7Q2Hw+4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzVjE98VKll27M5FZfaPJ+IEJuQxdOjYCLLw3pdKB8Kh4prF8lI
+ MclGnJnz/MI+33g5DSa9wZlWuw7fekC7OMqWkJyNtLk/P+oIX98//7pKUkeWXVm0Ss78msehvLs
+ y1gU+SxNLt+l7PDu8fUnXVUHQZ+zCm7ENwPKDfJmEhBhXqH426eGX8cwdsSPNDDf6ZbdcsO4=
+X-Gm-Gg: ASbGncuJqYJ8Au4aQicci6+ARURDR/negp73j3CNgA7W84ovElgwOInWwV26cKZqtHY
+ OI/sIkeUK2V3wGRO3+1yUR/2L/ybS8cXgglUxiPOyWyS9J5eFHb5vgouYDx/yVGjpCHwQ8jC3sB
+ MM4rY9JhIUmbYLjHGZ6TpgZxQ9oPTCacDRgU5SYrXH2QmmFbe5dlpoUy6GiP8mXE9t+c8FK3EMn
+ BR+8Plgqo4PQWkfez2gEFWt4bq7/YIjXHvwToKhXCQ+tEJbjT5Cws1PH7L6SS4sO8Tg4msBjVrz
+ Z5BIVju3een3YooiVgfLSvBbKa9PkpH6nGJV48ZaGDAJPgT+dLbUHsmPe4d0/VJaACOgExrZi4R
+ N///hSqA3i9doE1UK0IpCIvC53IqIwoiD4Uxb22Fk+x9KT2a+s2YvEmCZ3mx9AoUUnkFtzyM=
+X-Received: by 2002:a05:6a00:2f08:b0:7bf:5011:d1e0 with SMTP id
+ d2e1a72fcca58-7c58c4a7988mr19309541b3a.2.1764280649746; 
+ Thu, 27 Nov 2025 13:57:29 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE3Ps9FT/iS+6D58IplXxo7cJi3GSOPO+Imc8jcDmYahmP/facOrbWXg8BxLWofhF4dMg0T/A==
+X-Received: by 2002:a05:6a00:2f08:b0:7bf:5011:d1e0 with SMTP id
+ d2e1a72fcca58-7c58c4a7988mr19309527b3a.2.1764280649145; 
+ Thu, 27 Nov 2025 13:57:29 -0800 (PST)
+Received: from ?IPV6:2401:4900:1c27:6704:8849:8c0d:18ec:2263?
+ ([2401:4900:1c27:6704:8849:8c0d:18ec:2263])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7d150c5e611sm2853839b3a.6.2025.11.27.13.57.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 27 Nov 2025 13:57:28 -0800 (PST)
+Message-ID: <bf66095e-9f25-4e0f-876a-00f637a7c696@oss.qualcomm.com>
+Date: Fri, 28 Nov 2025 03:27:22 +0530
 MIME-Version: 1.0
-References: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
- <CAJZ5v0jOPrBcozzJMsB1eE12MuZRWDAV-+=jfrhJbi=S0p5J9Q@mail.gmail.com>
- <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
- <CAJZ5v0iJVV=kf-aJBx8F8dtGfaZpGVyhfi6DBWEg4j3c_nH8_A@mail.gmail.com>
- <e360b9b3-ada4-4cd1-8971-097484cf3f5f@gmx.de>
-In-Reply-To: <e360b9b3-ada4-4cd1-8971-097484cf3f5f@gmx.de>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 27 Nov 2025 22:46:57 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0ij_Frdrya3=FaekbU2DFHUyBJnBq-oe9jRsB9eqXDisA@mail.gmail.com>
-X-Gm-Features: AWmQ_bnaSW9x-ggzFC_V23fXty6wAm5053FuGqaNQc77lPfLojGlov-ebGjIlT8
-Message-ID: <CAJZ5v0ij_Frdrya3=FaekbU2DFHUyBJnBq-oe9jRsB9eqXDisA@mail.gmail.com>
-Subject: Re: [PATCH RFC RESEND 0/8] thermal: core: Allow setting the parent
- device of thermal zone/cooling devices
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, 
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
- Len Brown <lenb@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Ido Schimmel <idosch@nvidia.com>,
- Petr Machata <petrm@nvidia.com>, 
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
- linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
- linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
- ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
- linux-pci@vger.kernel.org, imx@lists.linux.dev, 
- linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/msm: Fix a7xx per pipe register programming
+To: Anna Maniscalco <anna.maniscalco2000@gmail.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Antonino Maniscalco <antomani103@gmail.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20251127-gras_nc_mode_fix-v1-1-5c0cf616401f@gmail.com>
+Content-Language: en-US
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+In-Reply-To: <20251127-gras_nc_mode_fix-v1-1-5c0cf616401f@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: OpDtZfEh5SpVpqBF4zLgs4LU_NX3fMlz
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI3MDE2NSBTYWx0ZWRfXxF9jgtwJ6sRs
+ EMOm8QxLKqhnC6qkxsNUru+LikITc9ZvDGgXfPrKoQjqPSoFaW5tjexKtPJg0Buy8v/re8mDlmL
+ 1U+TGU5MAdz9F0OnandW6uhoB38tabUmtCvFoUpQMSaJyvyBvx2H6ArBbOG8kq9C4EQeDOPt+L+
+ qe5jCJInoKc37lhmekVyE6KVzd4iqxtc16OtMnAHidA+c8uY7aC3BtOfw4weGIpFaoqdGBDGkk6
+ xGZY6NlgF+/Ccjdpl3+au09QdyaKyGdAcm4SIjdvkzLuZExxR6KkvcWB1EEvJwgr4RVlf7BBW03
+ 8R9T7B5NYTql/sV5KJiZ7lZuuA3pzKhdzkTC2M86Wzgy7UW7sma5MbCp1/9J6BgCUJrWjuMzIch
+ B76hjjB8cdtfeNvPOn2kfS8PYgDgmA==
+X-Proofpoint-ORIG-GUID: OpDtZfEh5SpVpqBF4zLgs4LU_NX3fMlz
+X-Authority-Analysis: v=2.4 cv=IciKmGqa c=1 sm=1 tr=0 ts=6928c94a cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=pGLkceISAAAA:8 a=euEQxmOE86r8TiHOpTIA:9 a=QEXdDO2ut3YA:10
+ a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-11-25_02,2025-11-27_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0
+ priorityscore=1501 bulkscore=0 adultscore=0 spamscore=0 malwarescore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2511270165
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,453 +150,247 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 27, 2025 at 9:06=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrote:
->
-> Am 27.11.25 um 18:41 schrieb Rafael J. Wysocki:
->
-> > On Sat, Nov 22, 2025 at 3:18=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wro=
-te:
-> >> Am 21.11.25 um 21:35 schrieb Rafael J. Wysocki:
-> >>
-> >>> On Thu, Nov 20, 2025 at 4:41=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> w=
-rote:
-> >>>> Drivers registering thermal zone/cooling devices are currently unabl=
-e
-> >>>> to tell the thermal core what parent device the new thermal zone/
-> >>>> cooling device should have, potentially causing issues with suspend
-> >>>> ordering
-> >>> This is one potential class of problems that may arise, but I would
-> >>> like to see a real example of this.
-> >>>
-> >>> As it stands today, thermal_class has no PM callbacks, so there are n=
-o
-> >>> callback execution ordering issues with devices in that class and wha=
-t
-> >>> other suspend/resume ordering issues are there?
-> >> Correct, that is why i said "potentially".
-> >>
-> >>> Also, the suspend and resume of thermal zones is handled via PM
-> >>> notifiers.  Is there a problem with this?
-> >> The problem with PM notifiers is that thermal zones stop working even =
-before
-> >> user space is frozen. Freezing user space might take a lot of time, so=
- having
-> >> no thermal management during this period is less than ideal.
-> > This can be addressed by doing thermal zone suspend after freezing
-> > tasks and before starting to suspend devices.  Accordingly, thermal
-> > zones could be resumed after resuming devices and before thawing
-> > tasks.  That should not be an overly complex change to make.
->
-> AFAIK this is only possible by using dev_pm_ops,
+On 11/27/2025 5:16 AM, Anna Maniscalco wrote:
+> GEN7_GRAS_NC_MODE_CNTL was only programmed for BR and not for BV pipe
+> but it needs to be programmed for both.
+> 
+> Program both pipes in hw_init and introducea separate reglist for it in
+> order to add this register to the dynamic reglist which supports
+> restoring registers per pipe.
+> 
+> Fixes: 91389b4e3263 ("drm/msm/a6xx: Add a pwrup_list field to a6xx_info")
+> Signed-off-by: Anna Maniscalco <anna.maniscalco2000@gmail.com>
+> ---
+>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c |  9 ++-
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 91 +++++++++++++++++++++++++++++--
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h     |  1 +
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.h   | 13 +++++
+>  4 files changed, 109 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> index 29107b362346..c8d0b1d59b68 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> @@ -1376,7 +1376,6 @@ static const uint32_t a7xx_pwrup_reglist_regs[] = {
+>  	REG_A6XX_UCHE_MODE_CNTL,
+>  	REG_A6XX_RB_NC_MODE_CNTL,
+>  	REG_A6XX_RB_CMP_DBG_ECO_CNTL,
+> -	REG_A7XX_GRAS_NC_MODE_CNTL,
+>  	REG_A6XX_RB_CONTEXT_SWITCH_GMEM_SAVE_RESTORE_ENABLE,
+>  	REG_A6XX_UCHE_GBIF_GX_CONFIG,
+>  	REG_A6XX_UCHE_CLIENT_PF,
+> @@ -1448,6 +1447,12 @@ static const u32 a750_ifpc_reglist_regs[] = {
+>  
+>  DECLARE_ADRENO_REGLIST_LIST(a750_ifpc_reglist);
+>  
+> +static const struct adreno_reglist_pipe a750_reglist_pipe_regs[] = {
+> +	{ REG_A7XX_GRAS_NC_MODE_CNTL, 0, BIT(PIPE_BV) | BIT(PIPE_BR) },
+> +};
+> +
+> +DECLARE_ADRENO_REGLIST_PIPE_LIST(a750_reglist_pipe);
+> +
+>  static const struct adreno_info a7xx_gpus[] = {
+>  	{
+>  		.chip_ids = ADRENO_CHIP_IDS(0x07000200),
+> @@ -1548,6 +1553,7 @@ static const struct adreno_info a7xx_gpus[] = {
+>  			.protect = &a730_protect,
+>  			.pwrup_reglist = &a7xx_pwrup_reglist,
+>  			.ifpc_reglist = &a750_ifpc_reglist,
+> +			.pipe_reglist = &a750_reglist_pipe,
+>  			.gbif_cx = a640_gbif,
+>  			.gmu_chipid = 0x7050001,
+>  			.gmu_cgc_mode = 0x00020202,
+> @@ -1590,6 +1596,7 @@ static const struct adreno_info a7xx_gpus[] = {
+>  			.protect = &a730_protect,
+>  			.pwrup_reglist = &a7xx_pwrup_reglist,
+>  			.ifpc_reglist = &a750_ifpc_reglist,
+> +			.pipe_reglist = &a750_reglist_pipe,
+>  			.gbif_cx = a640_gbif,
+>  			.gmu_chipid = 0x7090100,
+>  			.gmu_cgc_mode = 0x00020202,
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index 0200a7e71cdf..b98f3e93d0a8 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -16,6 +16,72 @@
+>  
+>  #define GPU_PAS_ID 13
+>  
+> +static void a7xx_aperture_slice_set(struct msm_gpu *gpu, enum adreno_pipe pipe)
+> +{
+> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> +	u32 val;
+> +
+> +	val = A7XX_CP_APERTURE_CNTL_HOST_PIPE(pipe);
+> +
+> +	if (a6xx_gpu->cached_aperture == val)
+> +		return;
+> +
+> +	gpu_write(gpu, REG_A7XX_CP_APERTURE_CNTL_HOST, val);
+> +
+> +	a6xx_gpu->cached_aperture = val;
+> +}
+> +
+> +static void a7xx_aperture_acquire(struct msm_gpu *gpu, enum adreno_pipe pipe, unsigned long *flags)
+> +{
+> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> +
+> +	spin_lock_irqsave(&a6xx_gpu->aperture_lock, *flags);
+> +
+> +	a7xx_aperture_slice_set(gpu, pipe);
+> +}
+> +
+> +static void a7xx_aperture_release(struct msm_gpu *gpu, unsigned long flags)
+> +{
+> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> +
+> +	spin_unlock_irqrestore(&a6xx_gpu->aperture_lock, flags);
+> +}
+> +
+> +static void a7xx_aperture_clear(struct msm_gpu *gpu)
+> +{
+> +	unsigned long flags;
+> +
+> +	a7xx_aperture_acquire(gpu, PIPE_NONE, &flags);
+> +	a7xx_aperture_release(gpu, flags);
+> +}
+> +
+> +static void a7xx_write_pipe(struct msm_gpu *gpu, enum adreno_pipe pipe, u32 offset, u32 data)
+> +{
+> +	unsigned long flags;
+> +
+> +	a7xx_aperture_acquire(gpu, pipe, &flags);
+> +	gpu_write(gpu, offset, data);
+> +	a7xx_aperture_release(gpu, flags);
+> +}
+> +
+> +static u32 a7xx_read_pipe(struct msm_gpu *gpu, enum adreno_pipe pipe, u32 offset)
+> +{
+> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> +	unsigned long flags;
+> +	u32 val;
+> +
+> +	spin_lock_irqsave(&a6xx_gpu->aperture_lock, flags);
+> +	a7xx_aperture_slice_set(gpu, pipe);
+> +	val = gpu_read(gpu, offset);
+> +	spin_unlock_irqrestore(&a6xx_gpu->aperture_lock, flags);
+> +
+> +	return val;
+> +}
+> +
 
-Of course it is not the case.
+All of the above helper routines are unncessary because we access only a
+single register under the aperture in a7x hw_init(). Lets drop these and
+program the aperture register directly below.
 
-For example, thermal_pm_notify_prepare() could be called directly from
-dpm_prepare() and thermal_pm_notify_complete() could be called
-directly from dpm_complete() (which would require switching over
-thermal to a non-freezable workqueue).
 
-> the PM notifier is triggered before tasks are frozen during suspend and a=
-fter they are thawed during resume.
+>  static u64 read_gmu_ao_counter(struct a6xx_gpu *a6xx_gpu)
+>  {
+>  	u64 count_hi, count_lo, temp;
+> @@ -849,9 +915,12 @@ static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
+>  		  min_acc_len_64b << 3 |
+>  		  hbb_lo << 1 | ubwc_mode);
+>  
+> -	if (adreno_is_a7xx(adreno_gpu))
+> -		gpu_write(gpu, REG_A7XX_GRAS_NC_MODE_CNTL,
+> -			  FIELD_PREP(GENMASK(8, 5), hbb_lo));
+> +	if (adreno_is_a7xx(adreno_gpu)) {
+> +		for (u32 pipe_id = PIPE_BR; pipe_id <= PIPE_BV; pipe_id++)
+> +			a7xx_write_pipe(gpu, pipe_id, REG_A7XX_GRAS_NC_MODE_CNTL,
+> +					FIELD_PREP(GENMASK(8, 5), hbb_lo));
+> +		a7xx_aperture_clear(gpu);
+> +	}
+>  
+>  	gpu_write(gpu, REG_A6XX_UCHE_MODE_CNTL,
+>  		  min_acc_len_64b << 23 | hbb_lo << 21);
+> @@ -865,9 +934,11 @@ static void a7xx_patch_pwrup_reglist(struct msm_gpu *gpu)
+>  	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>  	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+>  	const struct adreno_reglist_list *reglist;
+> +	const struct adreno_reglist_pipe_list *pipe_reglist;
+>  	void *ptr = a6xx_gpu->pwrup_reglist_ptr;
+>  	struct cpu_gpu_lock *lock = ptr;
+>  	u32 *dest = (u32 *)&lock->regs[0];
+> +	u32 pipe_reglist_count = 0;
+>  	int i;
+>  
+>  	lock->gpu_req = lock->cpu_req = lock->turn = 0;
+> @@ -907,7 +978,19 @@ static void a7xx_patch_pwrup_reglist(struct msm_gpu *gpu)
+>  	 * (<aperture, shifted 12 bits> <address> <data>), and the length is
+>  	 * stored as number for triplets in dynamic_list_len.
+>  	 */
+> -	lock->dynamic_list_len = 0;
+> +	pipe_reglist = adreno_gpu->info->a6xx->pipe_reglist;
+> +	for (u32 pipe_id = PIPE_BR; pipe_id <= PIPE_BV; pipe_id++) {
+> +		for (i = 0; i < pipe_reglist->count; i++) {
+> +			if (pipe_reglist->regs[i].pipe & BIT(pipe_id) == 0)
+> +				continue;
+> +			*dest++ = A7XX_CP_APERTURE_CNTL_HOST_PIPE(pipe_id);
+> +			*dest++ = pipe_reglist->regs[i].offset;
+> +			*dest++ = a7xx_read_pipe(gpu, pipe_id,
+> +						 pipe_reglist->regs[i].offset);
+> +			pipe_reglist_count++;
+> +		}
+> +	}
+> +	lock->dynamic_list_len = pipe_reglist_count;
+>  }
+>  
+>  static int a7xx_preempt_start(struct msm_gpu *gpu)
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> index 6820216ec5fc..0a1d6acbc638 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.h
+> @@ -46,6 +46,7 @@ struct a6xx_info {
+>  	const struct adreno_protect *protect;
+>  	const struct adreno_reglist_list *pwrup_reglist;
+>  	const struct adreno_reglist_list *ifpc_reglist;
+> +	const struct adreno_reglist_pipe_list *pipe_reglist;
+>  	const struct adreno_reglist *gbif_cx;
+>  	const struct adreno_reglist_pipe *nonctxt_reglist;
+>  	u32 max_slices;
+> diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> index 0f8d3de97636..cd1846c1375e 100644
+> --- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> +++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+> @@ -182,12 +182,25 @@ struct adreno_reglist_list {
+>  	u32 count;
+>  };
+>  
+> +struct adreno_reglist_pipe_list {
+> +	/** @reg: List of register **/
+> +	const struct adreno_reglist_pipe *regs;
+> +	/** @count: Number of registers in the list **/
+> +	u32 count;
+> +};
+> +
 
-I know that.
+Please move this chunk down, just above the DECLARE_ADRENO_REGLIST_PIPE_LIST
 
-> Using dev_pm_ops would also ensure that thermal zone devices are resumed =
-after their
-> parent devices, so no additional changes inside the pm core would be need=
-ed.
+-Akhil
 
-Not really.  thermal_pm_suspended needs to be set and cleared from somewher=
-e.
+>  #define DECLARE_ADRENO_REGLIST_LIST(name)	\
+>  static const struct adreno_reglist_list name = {		\
+>  	.regs = name ## _regs,				\
+>  	.count = ARRAY_SIZE(name ## _regs),		\
+>  };
+>  
+> +#define DECLARE_ADRENO_REGLIST_PIPE_LIST(name)	\
+> +static const struct adreno_reglist_pipe_list name = {		\
+> +	.regs = name ## _regs,				\
+> +	.count = ARRAY_SIZE(name ## _regs),		\
+> +};
+> +
+>  struct adreno_gpu {
+>  	struct msm_gpu base;
+>  	const struct adreno_info *info;
+> 
+> ---
+> base-commit: 7bc29d5fb6faff2f547323c9ee8d3a0790cd2530
+> change-id: 20251126-gras_nc_mode_fix-7224ee506a39
+> 
+> Best regards,
 
-> >> This problem would not occur when using dev_pm_ops, as thermal zones w=
-ould be
-> >> suspended after user space has been frozen successfully. Additionally,=
- when using
-> >> dev_pm_ops we can get rid of thermal_pm_suspended, as the device core =
-already mandates
-> >> that no new devices (including thermal zones and cooling devices) be r=
-egistered during
-> >> a suspend/resume cycle.
-> >>
-> >> Replacing the PM notifiers with dev_pm_ops would of course be a optimi=
-zation with
-> >> its own patch series.
-> >
-> > Honestly, I don't see much benefit from using dev_pm_ops for thermal
-> > zone devices and cooling devices.  Moreover, I actually think that
-> > they could be "no PM" devices that are not even put on the
-> > suspend-resume device list.  Technically, they are just interfaces on
-> > top of some other devices allowing the user space to interact with the
-> > latter and combining different pieces described by the platform
-> > firmware.  They by themselves have no PM capabilities.
->
-> Correct, thermal zone devices are virtual devices representing thermal ma=
-nagement
-> aspects of the underlying parent device. This however does not mean that =
-thermal zone
-> devices have no PM capabilities, because they contain state. Some part of=
- this state
-> (namely TZ_STATE_FLAG_SUSPENDED and TZ_STATE_FLAG_RESUMING) is affected b=
-y power management,
-> so we should tell the device core about this by using dev_pm_ops instead =
-of the PM notifier.
-
-Changing the zone state to anything different from TZ_STATE_READY
-causes __thermal_zone_device_update() to do nothing and this is the
-whole "suspend".  It does not need to be done from a PM callback and I
-see no reason why doing it from a PM callback would be desirable.
-Sorry.
-
-Apart from the above, TZ_STATE_FLAG_SUSPENDED and
-TZ_STATE_FLAG_RESUMING are only used for coordination between
-thermal_zone_pm_prepare(), thermal_zone_device_resume() and
-thermal_zone_pm_complete(), so this is not a state anything other then
-the specific thermal zone in question cares about.
-
-Moreover, resuming a thermal zone before resuming any cooling devices
-bound to it would almost certainly break things and I'm not sure how
-you would make that work with dev_pm_ops.  BTW, using device links for
-this is not an option as far as I'm concerned.
-
-> >>>> and making it impossible for user space applications to
-> >>>> associate a given thermal zone device with its parent device.
-> >>> Why does user space need to know the parent of a given cooling device
-> >>> or thermal zone?
-> >> Lets say that we have two thermal zones registered by two instances of=
- the
-> >> Intel Wifi driver. User space is currently unable to find out which th=
-ermal zone
-> >> belongs to which Wifi adapter, as both thermal zones have the (nearly)=
- same type string ("iwlwifi[0-X]").
-> > But the "belong" part is not quite well defined here.  I think that
-> > what user space needs to know is what devices are located in a given
-> > thermal zone, isn't it?  Knowing the parent doesn't necessarily
-> > address this.
->
-> The device exposing a given thermal zone device is not always a member of=
- the thermal zone itself.
-> In case of the Intel Wifi adapters, the individual Wifi adapters are inde=
-ed members of the thermal zone
-> associated with their thermal zone device. But thermal zones created thru=
- a system management controller
-> for example might only cover devices like the CPUs and GPUs, not the syst=
-em management controller device itself.
-
-Well, exactly.
-
-> The parent device of a child device is the upstream device of the child d=
-evice. The connection between parent
-> and child can be physical (SMBus controller (parent) -> i2c device (child=
-)) or purely logical
-> (PCI device (parent) -> thermal zone device (child)). There exists a pare=
-nt-child dependency between a parent
-> and a child device (the child device cannot function without its parent b=
-eing operational), and user space
-> might want to be able to discover such dependencies.
-
-But this needs to be consistent.
-
-If the parent of one thermal zone represents the device affected by it
-and the parent of another thermal zone represents something else, user
-space will need platform-specific knowledge to figure this out, which
-is the case today.  Without consistency, this is just not useful.
-
-> >> This problem would be solved once we populate the parent device pointe=
-r inside the thermal zone
-> >> device, as user space can simply look at the "device" symlink to deter=
-mine the parent device behind
-> >> a given thermal zone device.
-> > I'm not convinced about this.
-> >
-> >> Additionally, being able to access the acpi_handle of the parent devic=
-e will be necessary for the
-> >> ACPI thermal zone driver to support cooling devices other than ACPI fa=
-ns and ACPI processors.
-> > I guess by the "parent" you mean the device represented in the ACPI
-> > namespace by a ThermalZone object, right?  But this is not the same as
-> > the "parent" in the Wifi driver context, is it?
->
-> In the context of a ACPI ThermalZone, the parent device of the thermal co=
-oling device would currently
-> be the ACPI device bound to the "thermal" ACPI driver. In the context of =
-the Intel Wifi card, the parent
-> device would be PCI device bound to the corresponding Intel Wifi driver.
->
-> I think you misunderstood what kind of parent device i was referring to. =
-You likely though that i was referring
-> to the parent device of the ACPI ThermalZone, right?
-
-No.  I thought that you were referring to the ACPI ThermalZone itself.
-Or rather, a platform device associated with the ACPI ThermalZone
-(that is, the device the ACPI ThermalZone in the ACPI_COMPAION() of).
-
-> That however is not the case , with "parent device" i was
-> referring to the device responsible for creating a given struct thermal_z=
-one_device instance.
-
-So I was not confused.
-
-> >>>> This patch series aims to fix this issue by extending the functions
-> >>>> used to register thermal zone/cooling devices to also accept a paren=
-t
-> >>>> device pointer. The first six patches convert all functions used for
-> >>>> registering cooling devices, while the functions used for registerin=
-g
-> >>>> thermal zone devices are converted by the remaining two patches.
-> >>>>
-> >>>> I tested this series on various devices containing (among others):
-> >>>> - ACPI thermal zones
-> >>>> - ACPI processor devices
-> >>>> - PCIe cooling devices
-> >>>> - Intel Wifi card
-> >>>> - Intel powerclamp
-> >>>> - Intel TCC cooling
-> >>> What exactly did you do to test it?
-> >> I tested:
-> >> - the thermal zone temperature readout
-> >> - correctness of the new sysfs links
-> >> - suspend/resume
-> >>
-> >> I also verified that ACPI thermal zones still bind with the ACPI fans.
-> > I see, thanks.
-> >
-> >>>> I also compile-tested the remaining affected drivers, however i woul=
-d
-> >>>> still be happy if the relevant maintainers (especially those of the
-> >>>> mellanox ethernet switch driver) could take a quick glance at the
-> >>>> code and verify that i am using the correct device as the parent
-> >>>> device.
-> >>> I think that the above paragraph is not relevant any more?
-> >> You are right, however i originally meant to CC the mellanox maintaine=
-rs as
-> >> i was a bit unsure about the changes i made to their driver. I will re=
-work
-> >> this section in the next revision and CC the mellanox maintainers.
-> >>
-> >>>> This work is also necessary for extending the ACPI thermal zone driv=
-er
-> >>>> to support the _TZD ACPI object in the future.
-> >>> I'm still unsure why _TZD support requires the ability to set a
-> >>> thermal zone parent device.
-> >> _TZD allows the ACPI thermal zone to bind to cooling devices other tha=
-n ACPI fans
-> >> and ACPI processors, like ACPI batteries.
-> > No, it is not for cooling devices if my reading of the specification
-> > is correct.  It says:
-> >
-> > "_TZD (Thermal Zone Devices)
-> >
-> > This optional object evaluates to a package of device names. Each name
-> > corresponds to a device in the ACPI namespace that is associated with
-> > the thermal zone. The temperature reported by the thermal zone is
-> > roughly correspondent to that of each of the devices."
-> >
-> > And then
-> >
-> > "The list of devices returned by the control method need not be a
-> > complete and absolute list of devices affected by the thermal zone.
-> > However, the package should at least contain the devices that would
-> > uniquely identify where this thermal zone is located in the machine.
-> > For example, a thermal zone in a docking station should include a
-> > device in the docking station, a thermal zone for the CD-ROM bay,
-> > should include the CD-ROM."
-> >
-> > So IIUC this is a list of devices allowing the location of the thermal
-> > zone to be figured out.  There's nothing about cooling in this
-> > definition.
->
-> Using _TZD to figure out the location of a given thermal zone is another =
-usage
-> of this ACPI control method, but lets take a look at section 11.6:
->
-> - If _PSV is defined then either the _PSL or _TZD objects must exist. The=
- _PSL and _TZD objects may both exist.
-> - If _PSV is defined and _PSL is not defined then at least one device in =
-thermal zone, as indicated by either the
->    _TZD device list or devices=E2=80=99 _TZM objects, must support device=
- performance states.
->
-> So according to my understanding, _TZD can also be used to discover addit=
-ional cooling devices used for passive cooling.
-
-But it doesn't actually say how those "device performance states" are
-supposed to be used for cooling, does it?
-
-> This makes sense as _PSL is defined to only contain processor objects (se=
-e section 11.4.10), so _TZD can act like an
-> extension of _PSL for things like ACPI control method batteries (see 10.2=
-.2.12).
-
-But not everything in _TZD needs to be a potential "cooling device"
-and how you'll decide which one is?
-
-> Microsoft also follows this approach (see https://learn.microsoft.com/en-=
-us/windows-hardware/design/device-experiences/design-guide
-> section "Thermally managed devices" paragraph "Processor aggregator").
-
-Interesting.
-
-I agree that it would make sense to follow them because there will be
-platform dependencies on that, if there aren't already.
-
-> >> This however will currently not work as
-> >> the ACPI thermal zone driver uses the private drvdata of the cooling d=
-evice to
-> >> determine if said cooling device should bind. This only works for ACPI=
- fans and
-> >> processors due to the fact that those drivers store a ACPI device poin=
-ter inside
-> >> drvdata, something the ACPI thermal zone expects.
-> > I'm not sure I understand the above.
-> >
-> > There is a list of ACPI device handles per trip point, as returned by
-> > either _PSL or _ALx.  Devices whose handles are in that list will be
-> > bound to the thermal zone, so long as there are struct acpi_device
-> > objects representing them which is verified with the help of the
-> > devdata field in struct thermal_cooling_device.
->
-> AFAIK devdata is meant to be used by the thermal zone device callbacks to=
- access the state
-> container struct of the associated device driver instance. Assuming that =
-a given device driver
-> will populate devdata with a pointer to is ACPI companion device is an im=
-plementation-specific
-> detail that does not apply to all cooling device implementations. It just=
- so happens that the
-> ACPI processor and fan driver do this, likely because they where designed=
- specifically to work
-> with the ACPI thermal zone driver.
->
-> The documentation of thermal_cooling_device_register() even describes dev=
-data as "device private data", so any meaning of devdata purely depends on =
-the
-> given device driver.
-
-Yes, and these particular drivers decide to store a pointer to struct
-acpi_device in it.
-
-But this is not super important, they might as well set the
-ACPI_COMPANION() of the cooling device to the corresponding struct
-acpi_device and the ACPI thermal driver might use that information.
-
-I'm not opposed to using parents for this purpose, but it doesn't
-change the big picture that the ACPI thermal driver will need to know
-the ACPI handle corresponding to each cooling device.
-
-If you want to use _TZD instead of or in addition to _PSL for this, it
-doesn't change much here, it's just another list of ACPI handles, so
-saying that parents are needed for supporting this is not exactly
-accurate IMV.
-
-> > IOW, cooling device drivers that create struct thermal_cooling_device
-> > objects representing them are expected to set devdata in those objects
-> > to point to struct acpi_device objects corresponding to their ACPI
-> > handles, but in principle acpi_thermal_should_bind_cdev() might as
-> > well just use the handles themselves.  It just needs to know that
-> > there is a cooling driver on the other side of the ACPI handle.
-> >
-> > The point is that a cooling device to be bound to an ACPI thermal zone
-> > needs an ACPI handle in the first place to be listed in _PSL or _ALx.
->
-> Correct, i merely change the way the ACPI thermal zone driver retrieves t=
-he
-> ACPI handle associated with a given cooling device.
-
-Right.
-
-> >> As we cannot require all cooling devices to store an ACPI device point=
-er inside
-> >> their drvdata field in order to support ACPI,
-> > Cooling devices don't store ACPI device pointers in struct
-> > thermal_cooling_device objects, ACPI cooling drivers do, and there are
-> > two reasons to do that: (1) to associate a given struct
-> > thermal_cooling_device with an ACPI handle and (2) to let
-> > acpi_thermal_should_bind_cdev() know that the cooling device is
-> > present and functional.
-> >
-> > This can be changed to store an ACPI handle in struct
-> > thermal_cooling_device and acpi_thermal_should_bind_cdev() may just
-> > verify that the device is there by itself.
->
-> I can of course extend thermal_cooling_device_register() to accept a fwno=
-de_handle that
-> can be used for both ACPI and OF based cooling device identification, if =
-this is what you
-> prefer.
-
-I'm not sure about this ATM and see below.
-
-> This patch series would then turn into a cleanup series, focusing on prop=
-erly adding
-> thermal zone devices and cooling devices into the global device hierarchy=
-.
-
-I'd prefer to do one thing at a time though.
-
-If you want cooling devices to get parents, fine.  I'm not
-fundamentally opposed to that idea, but let's have clear rules for
-device drivers on how to set those parents for the sake of
-consistency.
-
-As for the ACPI case, one rule that I want to be followed (as already
-stated multiple times) is that a struct acpi_device can only be a
-parent of another struct acpi_device.  This means that the parent of a
-cooling device needs to be a platform device or similar representing
-the actual device that will be used for implementing the cooling.
-
-A separate question is how acpi_thermal_should_bind_cdev() will match
-cooling devices with the ACPI handles coming from _PSL, _ALx, _TZD
-etc. and the rule can be that it will look at the ACPI_COMPANION() of
-the parent of the given cooling device.
-
-> >> we must use a more generic approach.
-> > I'm not sure what use case you are talking about.
-> >
-> > Surely, devices with no representation in the ACPI namespace cannot be
-> > bound to ACPI thermal zones.  For devices that have a representation
-> > in the ACPI namespace, storing an ACPI handle in devdata should not be
-> > a problem.
->
-> See my above explanations for details, drvdata is defined to hold device =
-private data,
-> nothing more.
-
-This is related to the discussion below.
-
-> >> I was thinking about using the acpi_handle of the parent device instea=
-d of messing
-> >> with the drvdata field, but this only works if the parent device point=
-er of the
-> >> cooling device is populated.
-> >>
-> >> (Cooling devices without a parent device would then be ignored by the =
-ACPI thermal
-> >> zone driver, as such cooling devices cannot be linked to ACPI).
-> > It can be arranged this way, but what's the practical difference?
-> > Anyone who creates a struct thermal_cooling_device and can set its
-> > parent pointer to a device with an ACPI companion, may as well set its
-> > devdata to point to that companion directly - or to its ACPI handle if
-> > that's preferred.
->
-> Yes, but this would require explicit support for ACPI in every driver tha=
-t registers cooling devices.
-
-So you want to have generic drivers that may work on ACPI platforms
-and on DT platforms to be able to create cooling devices for use with
-ACPI thermal zones.  Well, had you started the whole discussion with
-this statement, it would have been much easier to understand your
-point.
-
-> Using the parent device to retrieve the acpi_handle or allowing all drive=
-rs to just submit a fwnode_handle
-> of their choice when creating a cooling device will fix this.
-
-If you go the parents route, this is an important consideration for
-the rules on how to set those parents.  Namely, they would need to be
-set so that the fwnode_handle of the parent could be used for binding
-the cooling device to a thermal zone either on ACPI or on DT systems.
-
-Of course, there are also cooling devices whose parents will not have
-an fwnode_handle and they would still need to work in this brave new
-world.
