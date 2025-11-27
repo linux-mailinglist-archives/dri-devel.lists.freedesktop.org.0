@@ -2,145 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6953EC901C5
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 21:29:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E39E6C90219
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 21:40:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F07710E81D;
-	Thu, 27 Nov 2025 20:29:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB16710E87B;
+	Thu, 27 Nov 2025 20:40:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=w_armin@gmx.de header.b="rTJnv/Na";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="F/+r/G8T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AE3110E81D;
- Thu, 27 Nov 2025 20:29:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1764275362; x=1764880162; i=w_armin@gmx.de;
- bh=Yd13Nfp4oksgRJLK18sDWP0myaxbW5mj/m/FYQoCxqg=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=rTJnv/NaVpg2R5keG7D8J5cSpYaN4U9bOtgfHX5mvkcguQlWmQdQuqk6dfU6AhNG
- 59FQWFhB4NyrAnwcmeQwN7v21qAWh1574dK0+dyVi/OO7sPniSXY4ao7Vu71Kwa6k
- jUNJpd1xWwJ6vtDEmUrQnWr0+02OA/mD1F0QcHTUyGCW9iTeukWzQJcZ0jrkIQof4
- Ob0jgbiHF77i2HkIIP1RNgUYS5r/B8bsUeA84OCG4FMbTM/YpvoDFwJoi9v3DdwTH
- HsUojQr/3+8iVuK/XCUg8fRt1HEaler3P0++tFQqXAuwyKEvVnM3c4K3KSzSWKtEU
- zvzTVbwOHe8nLm1tWg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.69] ([93.202.247.91]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N6KYb-1w950F1mY5-00s55S; Thu, 27
- Nov 2025 21:29:22 +0100
-Message-ID: <cf86344b-d9f1-4d3c-9fe9-deeb4ade9304@gmx.de>
-Date: Thu, 27 Nov 2025 21:29:15 +0100
-MIME-Version: 1.0
+Received: from CO1PR03CU002.outbound.protection.outlook.com
+ (mail-westus2azon11010057.outbound.protection.outlook.com [52.101.46.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C0EB10E843;
+ Thu, 27 Nov 2025 20:40:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AKhp/N2ISTlo2CqW6/b2+fYyUBkzRkho4REFSwGP7EDDAIXmrAsjzHW2ub3lfmTXy1U3aeMUkai1+W++217JrhFO4fEY6+qWheMPdsyjLGmQjBBILjlY1vaMpmNux6J/xzoGSqNSbXryvDvXrB0ZWWfECgagPW6hZGEiVqEF2FyBgSj4lgPSXxiYM7xA5ugkSdQFrSdFZ0ydx08BHIRS0WuWt9fDrib2ZpKQR9oTPBQQH5QO93ytfD2t+zL8UdtMcMPdoVTdUT7W0QO7xHzzZHu7ucBh6yqySyZb0X6E1YGlHApTsXMs+rQnSJ1QBMwyv+IYNUzBXdipbsy8RF+gjQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RceAqitR7wdDgutO6izU2dohMJiEpAlxU9EkMhm7FsQ=;
+ b=Xno+bFK3vbxQk1W8Hie5oLQ5ANjRbwRbcxwxK2ifXkcODv1YdTDvFiAh+Al1JRednfiMriNFUiV0H2QC6K9RUxe0LnPHGz3ki+AB+l5byei84jjhYOkC9I89FBqGhRjhUXGpzdXXAw2dLllrJNBtCaLy9OoOXDQN+ww7wYLB+4lRHXFW176TroPsBKD7yQ2VdDWTLSSopdEWLhONs8LqSk51+UPPwix9oLjDlGn/Cd+ezdIpA+xFyroV7Nqt1gOTc9EPVf5yrr4MX1xyyYF0Oi2tl/S35wjVD0DxQ9uNtMsmwPU5Hr6qtgIlHnXlqgxy5DnH7BHE3Eq39Z3PpWJ+og==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RceAqitR7wdDgutO6izU2dohMJiEpAlxU9EkMhm7FsQ=;
+ b=F/+r/G8TkvnDdRRp/eX1i0nYopEaHJ9JtOQGHru+ecWH3iLW0VjXoIJfugEuG2e/49Q58w1S9JcKcq7ADD6dEcBjtDQneUzX1LqvE5FGZ18oo9CMQCNl9nRLiQvKHVJfdlKQqwQuxC7eCyVMWnomBlrH89Gz9Kct9gHV14JgvVQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by SA5PPFDC35F96D4.namprd12.prod.outlook.com (2603:10b6:80f:fc04::8e5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.12; Thu, 27 Nov
+ 2025 20:40:00 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::9e93:67dd:49ac:bc14]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::9e93:67dd:49ac:bc14%6]) with mapi id 15.20.9366.012; Thu, 27 Nov 2025
+ 20:40:00 +0000
+Message-ID: <2a918940-700d-4b24-90ae-4d9d4f9b457d@amd.com>
+Date: Thu, 27 Nov 2025 15:39:54 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC RESEND 0/8] thermal: core: Allow setting the parent
- device of thermal zone/cooling devices
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
- Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, ath10k@lists.infradead.org,
- ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org,
- linux-pci@vger.kernel.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org
-References: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
- <CAJZ5v0jOPrBcozzJMsB1eE12MuZRWDAV-+=jfrhJbi=S0p5J9Q@mail.gmail.com>
- <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
- <CAJZ5v0hdqY-=O5Ai6c5qjMr_pRFc+SDyV1QruM=ZeHH9Z=guSg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: use DCN10 CM helper for plane shaper
+ func translation in DCN32
+To: Melissa Wen <mwen@igalia.com>, sunpeng.li@amd.com, siqueira@igalia.com,
+ alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com
+References: <20251126005608.37513-1-mwen@igalia.com>
 Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <CAJZ5v0hdqY-=O5Ai6c5qjMr_pRFc+SDyV1QruM=ZeHH9Z=guSg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ze+2vo8ED78xoOrvJ36miC1oEQfJjNTUlWuWjASXtJHjsrUA405
- YZDMIbIrWzGit90P9Czhl0GttAUpo1b392W4Ymvc5mXeA8zW+l1CJc6HzQ+E3iBdUMok7pZ
- QDWa0aCmsN6V1X7AxbYNlL/KNIB46dtMpZQ7sakxcltUWF7mpHpZ5XlckY+5ozbWDBX1v4H
- 4rvQFhr2LYkgKymN5+Ucg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:F6q/9h+YC/0=;971bq6CGsSOcPgES6YNWNdeOwg+
- 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
- 0gcrLdnv8iX/IozjTfxNPakm5wgdn
+From: Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20251126005608.37513-1-mwen@igalia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQZPR01CA0137.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:87::17) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|SA5PPFDC35F96D4:EE_
+X-MS-Office365-Filtering-Correlation-Id: 13c3cdd8-8b49-4947-f7f1-08de2df52211
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?YVdhTnp3WjBsMmVZM21kRnpqa1N3Nk5Ia290bnR6Wm5wZGd1RGJ4amZ2T3pt?=
+ =?utf-8?B?THhHb2M0M2ZWMVFpdk1McGFTbE9OM0oySzU1a1J1Szc5SlJKaXlwM24vTmlG?=
+ =?utf-8?B?Q3VuS2VPSGh6R3RoWUNPdzhzWkF1bVdsd0tkNjVRRnZOZ2lTTmx3c0NmU3RU?=
+ =?utf-8?B?TmtOeXBjMGJxT2pFWjlVdmp0RVRKbURFejg2UWlDbjNSVTA0TVBrWmpKM0lr?=
+ =?utf-8?B?Z1hmalI4bHR3dS9lYklmdWU4UXBpeE9CQWtHL3lPRG1kc0Y4S0NOVUpwRVJI?=
+ =?utf-8?B?Tm53YmRYR3o1dmhxL1Q0aFM4YTh5NlZjQk5JTFRWY0tNMUhSYnZxRzF3aWY3?=
+ =?utf-8?B?SHgreTFWMU9NR216VWdoM09HanBKbGNxRmRwZ1ZZNUZpMURlQXh1RmhjSXYr?=
+ =?utf-8?B?cnNOS2FIckRrd09yL1FXbFdqdU9taFlwVDFYcE1WcFFBTW1VM242NzEwRURv?=
+ =?utf-8?B?UlJoVFlFSXlvejI5cHc5enQrOGR1R2hWR2lnWEsyK2JGN3E1WmZiNjlobjE5?=
+ =?utf-8?B?SHBSbjIrNDEzdEoyZ0pYYW9nYVpZdWhiNGNld0pDK3BVM0xTcUJRRmh0Ykpl?=
+ =?utf-8?B?eG9MUWRNRDdXWVVXQlNuUTlFS2RxaFZIZXh6bWRDYng2Y2p1Sy8rY3lhZ3dO?=
+ =?utf-8?B?OVNlYWc5R0dZVVh0UktRNm95L1Q0TkkwSkFWTEZaYVFhajh3cHlkWmpNQXlD?=
+ =?utf-8?B?WlI4aDJzazNVUm5JdnpoR1pRVFdNVW9NVGc5SzEyQmVUbGg2YUt1dzJQMjdq?=
+ =?utf-8?B?SUpMV2tYT21sbTU2WEpDcUhFekZFa0RmeUN2U3FxdXNyNFBTbVh4MmVyNmh4?=
+ =?utf-8?B?Z1B4cnFKbHpWdzZuelkreWlyVVh0NXh4TkR6OC9nUkF6NE1KU2xkUjltZWcw?=
+ =?utf-8?B?SUMwaEpySFpra08yNTJKRWg5b3l4WmFJaUZrdXpTM3dLaE5CNXFaREJya2VC?=
+ =?utf-8?B?NDRoRTBaUXRjTjFsb1Q5WEwxUHg1aTMwRVdvZ2tKalR6U0UyV2hYK2E3MmNL?=
+ =?utf-8?B?cXdTZkZBbVFwQm9rK1JsWnlrazlVZGpoenU2c3BuZjZwanRKOWYvcjZYb3BG?=
+ =?utf-8?B?YlF0Y2Q2ZDVJemlTQUk2MisybUdjTjVLR2tuUUJHbmNFSndwZGxmTDdZL1Vu?=
+ =?utf-8?B?VTg5UzhYdUZMZHZKTUlBbE1hUXYzT3ZQODRrWEZqSURQMm9sRTY2a1ViTEVq?=
+ =?utf-8?B?azExT2FHMzFYZDJPdVEvdW9tVndJQVphVzQ4VUxqcHY4SUx2dy9JZXRHb0Nk?=
+ =?utf-8?B?ZHBZNzN5YmswNjhXWm1ZZ2NDQnRqeDl1YTJGK3pNYU11OXU5VjM1ZDBuelYz?=
+ =?utf-8?B?NjRqdnZKTmVma0tONkZDY25aR1pBdjNLMlk5dVVxSTY3c0RDdWhjZmNsbjJl?=
+ =?utf-8?B?SWsrNzA3UnpiNnJpUzhqOElvWDBTZTJzTnlFaVpZZGd0a3RoMUtacHQ0Z0Fq?=
+ =?utf-8?B?bjlpN0hjbEZMVXNQK3YzVUdqRWtQRFFCU0gzQjdQNG5sRWhFK1FnSHd3NjUw?=
+ =?utf-8?B?cUNRNHgzd1drc1lPT1pPR1JkOGl1WnNrVUFUYmZablpuMnFrVTA1N1RHVENY?=
+ =?utf-8?B?Mkp6K3BPdG9MeVJzaTZtakhYQmMyLzZkSGorLzdGSnEwZlFDc3ZEd3JBQVhO?=
+ =?utf-8?B?bENlem9NL2pOZDRJZENlZ1VQT2MrQlBLQjVDbXVHTi9sekZiR054T2NPZTY1?=
+ =?utf-8?B?SFBzeWI4YnJSRVhHamdTMGdDc0haSVU3ZTZDN09wdm0zL0pndEw2bUJMN3F2?=
+ =?utf-8?B?WkxCMmRXNzcyRUJvbmdYV1RPbUtGNG0zdzVNZmpodXJJZEtkQlMvTW5paC9T?=
+ =?utf-8?B?Y2s0R0RMV3ZxbEZsbWFTVHNnR0Q3Nit6OXRSbGQ5alBscEx4RnNSK3JjRUJM?=
+ =?utf-8?B?ckpzcjd2QTZFZ2h6YXk3REFFeWNMMm1aejJNK1Y1NmVmMTJTN0RxZUlYcXlP?=
+ =?utf-8?Q?/5dgm3cUIPsOfuQ4iUCWmFyF2061zgts?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aDllSFE3bExhazVqNDY4TGhIRVBGaHRPb2FQNUs0RDhGN0FHSVppV3I3cGlI?=
+ =?utf-8?B?S1BDTGFIOEVpUlhrSWxkQXhpOUxxZHVoejQ3RWg4STRETFNtRFJSY041a3NU?=
+ =?utf-8?B?ZkZ2MThXYzRLYWt3T3lOOVYyeEZqRTFxSXhQWCtRT2p5ME5uYnVNcHlIem9V?=
+ =?utf-8?B?TytEZWYzVWZwY3hudW1EQlVWd1dML0ZubTBnMmdPNlNqVWVuTXp3d293bXVp?=
+ =?utf-8?B?cVAycHJkTGV1aTRyMmdMQWJwcUVNbGhNdGpaRzFDblk5OTVYL25uaGhEbDdi?=
+ =?utf-8?B?aXNjRlFic3NmN1h5blgyelM0YlVUa2Q1dVdwZFo5TDBDd3FXaTlPZCtGNGpM?=
+ =?utf-8?B?QjQ1eEpEamFlSmxUTmJIYlYrekFQZDRad3MzWXVaSkJEdEJ4WDdPbEs3Z053?=
+ =?utf-8?B?K2hrVFdHNU5xTTBhc3pDc0U4TDBXRFNkWiszMlpVeHM0WGlHU1BFbkZrU1J4?=
+ =?utf-8?B?dnIyRUs3aCtNL1JMR0FIYkd0amJqNktwQ2ZOeEZsTkluRnFqT3YzWS9mTU80?=
+ =?utf-8?B?eFJGakpuMCt6bUJMeVkzTEFJa0xmRTlFMGVCdFJJMVNpNmttYndaZ0pVOWRm?=
+ =?utf-8?B?UncxcW5EMjdyblFETWZuUnBGYi9OTDl1NEpYZUFVUkhYeHc1L2hIaEdEL0RF?=
+ =?utf-8?B?VlNZSVpyZm16a2I4di9uSW9vMjlWYTBPbkFSMzVZMXVZUlE0SG5JRTZJMXpv?=
+ =?utf-8?B?Wk5XbkdBamdGNGxYLzBoWGZYbGd0eXF1aE5vOUVQTnQ0Zm9YNjQza3I0YndB?=
+ =?utf-8?B?NUNCbUpOQXZ3V0c1ZG83dXFXbENweWRQOHRmazBVNmN4b1h6S1ZOdXMxQ0pa?=
+ =?utf-8?B?ekN0c0ZjTmlpMXMrcnlDNE5JbkI5b0QxOTFLZWlicDRGaEFHZmhjQzVTaFp3?=
+ =?utf-8?B?Q3ZSYlYyVlRYMWFRbjhXSlo1SnppbVJ1TFNobnVHTTIxWTR0WE5LY3EwRXZn?=
+ =?utf-8?B?dHRET2FDUE9FRmpnSko5RlIxb2h1R0tWaitHamRpRkZkbktLT09rMU1aVUpz?=
+ =?utf-8?B?cERSSFZNYWZrSVFqQUxLRXpxQ3F6bDdWam1GNU1PMGpiM3ErUFZINm1hTlZ2?=
+ =?utf-8?B?QURaa2ZBTTI0dk1XNjNESy84MEJIR1FCV2JZNlU5Vm9icktvd2V1OTVRMnk2?=
+ =?utf-8?B?aEdoc3ZJaTNDK3FvNjk3cVZJdzl6aVVkb09oQmE0ODRTTHRvdmpIbWhOeVZ2?=
+ =?utf-8?B?Y002Mld0L1o4UENsQkZXQXNRK2ZnNWFxT0NJb1ZUUjdHemNxWnhSdVovK3Jv?=
+ =?utf-8?B?NHRxTDFFa1krMVdDVHFzMUw5dGpaKy9PZHRrQUozV1NUb1NxaFdtNjd1ZHV5?=
+ =?utf-8?B?OVl4Q1NGSjJ6b3V6OWhPZTV2K2VFVDZDU3A1TEJuVzJsMkV2N0hpSWtrNTl1?=
+ =?utf-8?B?V3Z6SVpnU1daMFlEeEo4a2o4ZWJUdzJpT29NbEpIalU5ZitOK3NoOXZneGpX?=
+ =?utf-8?B?Nkl3N3lKY09XdWhzWC9SUytMbjBxNWVyUzFDQ3pRbUphSjJHZmdpd2RYLzVq?=
+ =?utf-8?B?TS9jS1dSTlJEZ05jbEMvKzg2MlRBR0JTTDI1NjJhNEhHYUh0bGRMM2NLZWw3?=
+ =?utf-8?B?K0x2cTQ5OUZGb3JOdFljRzM5QldVK2pVY1ZaTnpXSUw1dkNWK3lHRHF2eWZH?=
+ =?utf-8?B?OWdWYUNBMS95cEN6aktlWkJQdlVjVU9tRk9yVG5BaW9TV3B3TUZobGxZTHQ5?=
+ =?utf-8?B?cEFuL0tZUVp2RXUzbytjZlpwVGQ5VUNEVVdEVXFFOHpubU1EZmRJcEhNckZJ?=
+ =?utf-8?B?VHBIZE1DN04zbllIeCt5NGZ3aWJ5TDc2KzhLQVFOSHV5WStndmhjU2xlSlRw?=
+ =?utf-8?B?R01WUVZVSDd5SDFQMktDU0x1aGs1K3BiWHpib0tzV0ZVRkpDN3FURDA5NHJh?=
+ =?utf-8?B?L3YydmxQd1hKK0JYVmZyYUZ5Wko5YklVZkljUlRQZElzdlhvejBIL3J5MExZ?=
+ =?utf-8?B?RDB6SndRZHovcXd1aDI5TkRGcE9xVTM5N0dpZVZEaUhjcFpwMHAvUTd3ajlh?=
+ =?utf-8?B?a1FqMTd6aWdCMU1QWDBPU243MWhxdW9LVjhhZ2FTYWhTbUlYVzhQS2pmYWVQ?=
+ =?utf-8?B?Z1dxbDVldXBhMVk5YWFHMmJoZy95VHpwemYwUlR4ZEdML2QxY2dKUElLdEJQ?=
+ =?utf-8?Q?V351I3hR9FOpK8Av11Ri92q/j?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13c3cdd8-8b49-4947-f7f1-08de2df52211
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2025 20:39:59.7575 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jUnoHEb8TQ+NgDmYfB9ahLmj8KCzyA9BcrfhyRc4wfszj3PxEEeaZi7Aw7N67C53zkTCHCOY6+7VH8oihM83DA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPFDC35F96D4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,188 +165,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 27.11.25 um 19:22 schrieb Rafael J. Wysocki:
 
-> On Sat, Nov 22, 2025 at 3:18=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrot=
-e:
->> Am 21.11.25 um 21:35 schrieb Rafael J. Wysocki:
->>
->>> On Thu, Nov 20, 2025 at 4:41=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> wr=
-ote:
-> [...]
->
->>>> ---
->>>> Armin Wolf (8):
->>>>         thermal: core: Allow setting the parent device of cooling dev=
-ices
->>>>         thermal: core: Set parent device in thermal_of_cooling_device=
-_register()
->>>>         ACPI: processor: Stop creating "device" sysfs link
->>> That link is not to the cooling devices' parent, but to the ACPI
->>> device object (a struct acpi_device) that corresponds to the parent.
->>> The parent of the cooling device should be the processor device, not
->>> its ACPI companion, so I'm not sure why there would be a conflict.
->>   From the perspective of the Linux device core, a parent device does n=
-ot have to be
->> a "physical" device. In the case of the ACPI processor driver, the ACPI=
- device is used,
->> so the cooling device registered by said driver belongs to the ACPI dev=
-ice.
-> Well, that's a problem.  A struct acpi_device should not be a parent
-> of anything other than a struct acpi_device.
 
-Understandable, in this case we should indeed use the the CPU device, espe=
-cially since the fwnode
-associated with it already points to the correct ACPI processor object (at=
- least on my machine).
+On 2025-11-25 19:45, Melissa Wen wrote:
+> The usage of DCN30 CM helper creates some unexpected shimmer points on
+> PQ shaper TF in the steamOS HDR color pipeline. Fix it by using the same
+> DCN10 color mgmt helper of previous hw versions to translate plane
+> shaper func to hw format in DCN32 hw family.
+> 
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
+> ---
+> 
+> Hi,
+> 
+> Commit a953cd8cac6b ("drm/amd/display: Fix MPCC 1DLUT programming")
+> mentions some visible artifacts when using DCN10 CM helper on DCN32
+> shaper and blend LUTs. On the other hand, using DCN30 CM helper creates
+> some shimmer points on steamOS HDR pipeline. We didn't noticed any
+> visible artifacts so far, but I'd like to know more about what kind of
+> artifacts were visible at the time this helper for shaper func was
+> switched in the afore-mentioned commit for further investigation.
+> 
 
->> I agree that using the Linux processor device would make more sense, bu=
-t this will require
->> changes inside the ACPI processor driver.
-> So be it.
+Thanks for the debug.
 
-OK.
+Do you have more info on the unexpected shimmer points with SteamOS?
+Ideally a video and a description on what to look for and why it's
+wrong, or a comparison to a GFX-transformed example that shows the
+correct visuals?
 
->> As for the "device" symlink: The conflict would be a naming conflict, a=
-s both "device" symlinks
->> (the one created by the ACPI processor driver and the one created by th=
-e device core) will
->> be created in the same directory (which is the directory of the cooling=
- device).
-> I see.
->
-> But why is the new symlink needed in the first place?  If the device
-> has a parent, it will appear under that parent in /sys/devices/, won't
-> it?
->
-> Currently, all of the thermal class devices appear under
-> /sys/devices/virtual/thermal/ because they have no parents and they
-> all get a class parent kobject under /sys/devices/virtual/, as that's
-> what get_device_parent() does.
->
-> If they have real parents, they will appear under those parents, so
-> why will the parents need to be pointed to additionally?
+Obviously we don't want to simply switch back to DCN10 helpers
+without understand why, and potentially regressing other use-cases.
+At least we should look at what the differences are between the
+two versions of that function, and which part of the curve programming
+causes the undesirable results.
 
-The "device" smylink is a comfort feature provided by the device core itse=
-lf to allow user space
-application to traverse the device tree from bottom to top, like a double-=
-linked list. We cannot
-disable the creation of this symlink, nor should we.
+The original bug that was solved by that commit was a regression that
+sent bright values in an HDR video to black or red, so basically
+something really messed up bright PQ values. At least I suspect
+it was a PQ HDR video. The ticket doesn't state that.
 
-> BTW, this means that the layout of /sys/devices/ will change when
-> thermal devices get real parents.  I'm not sure if this is a problem,
-> but certainly something to note.
+When looking at the diff between the two functions I notice that
+the cm3_ version is missing the dc_fixpt_clamp_u0d10 for the
+delta_<color>_reg assignments, toward the bottom of the function.
+I remember I had to add that to the cm_ version since it caused
+issues with SteamOS HDR. Can we try that on the cm3_ function?
 
-I know, most applications likely use /sys/class/thermal/, so they are not =
-impacted by this. I will
-note this in the cover letter of the next revision.
+Cheers,
+Harry
 
->>>>         ACPI: fan: Stop creating "device" sysfs link
->>>>         ACPI: video: Stop creating "device" sysfs link
->>> Analogously in the above two cases AFAICS.
->>>
->>> The parent of a cooling device should be a "physical" device object,
->>> like a platform device or a PCI device or similar, not a struct
->>> acpi_device (which in fact is not a device even).
->>   From the perspective of the Linux device core, a ACPI device is a per=
-fectly valid device.
-> The driver core is irrelevant here.
->
-> As I said before, a struct acpi_device object should not be a parent
-> of anything other than a struct acpi_device object.  Those things are
-> not devices and they cannot be used for representing PM dependencies,
-> for example.
->
->> I agree that using a platform device or PCI device is better, but this =
-already happens
->> inside the ACPI fan driver (platform device).
-> So it should not happen there.
-
-I meant that the ACPI fan driver already uses the platform device as the p=
-arent device of the
-cooling device, so the ACPI device is only used for interacting with the A=
-CPI control methods
-(and registering sysfs attributes i think).
-
->> Only the ACPI video driver created a "device" sysfs link that points to=
- the ACPI device
->> instead of the PCI device. I just noticed that i accidentally changed t=
-his by using the
->> PCI device as the parent device for the cooling device.
->>
->> If you want then we can keep this change.
-> The PCI device should be its parent.
-
-Alright, i will note this in the patch description.
-
->>>>         thermal: core: Set parent device in thermal_cooling_device_re=
-gister()
->>>>         ACPI: thermal: Stop creating "device" sysfs link
->>> And this link is to the struct acpi_device representing the thermal zo=
-ne itself.
->> Correct, the ACPI thermal zone driver is a ACPI driver, meaning that he=
- binds to
->> ACPI devices. Because of this all (thermal zone) devices created by an =
-instance of
->> said driver are descendants of the ACPI device said instance is bound t=
-o.
->>
->> We can of course convert the ACPI thermal zone driver into a platform d=
-river, but
->> this would be a separate patch series.
-> If you want parents, this needs to be done first, but I'm still not
-> sure what the parent of a thermal zone would represent.
->
-> In the ACPI case it is kind of easy - it would be the (platform)
-> device corresponding to a given ThermalZone object in the ACPI
-> namespace - but it only has a practical meaning if that device has a
-> specific parent.  For example, if the corresponding ThermalZone object
-> is present in the \_SB scope, the presence of the thermal zone parent
-> won't provide any additional information.
-
-To the device core it will, as the platform device will need to be suspend=
-ed
-after the thermal zone device has been suspended, among other things.
-
-> Unfortunately, the language in the specification isn't particularly
-> helpful here: "Thermal zone objects should appear in the namespace
-> under the portion of the system that comprises the thermal zone. For
-> example, a thermal zone that is isolated to a docking station should
-> be defined within the scope of the docking station device."  To me
-> "the portion of the system" is not too meaningful unless it is just
-> one device without children.  That's why _TZD has been added AFAICS.
-
-I think you are confusing the parent device of the ThermalZone ACPI device
-with the parent device of the struct thermal_zone_device.
-
-I begin to wonder if mentioning the ACPI ThermalZone device together with =
-the
-struct thermal_zone_device was a bad idea on my side xd.
-
->>>>         thermal: core: Allow setting the parent device of thermal zon=
-e devices
->>> I'm not sure if this is a good idea, at least until it is clear what
->>> the role of a thermal zone parent device should be.
->> Take a look at my explanation with the Intel Wifi driver.
-> I did and I think that you want the parent to be a device somehow
-> associated with the thermal zone, but how exactly?  What should that
-> be in the Wifi driver case, the PCI device or something else?
->
-> And what if the thermal zone affects multiple devices?  Which of them
-> (if any) would be its parent?  And would it be consistent with the
-> ACPI case described above?
->
-> All of that needs consideration IMV.
-
-I agree, but there is a difference between "this struct thermal_zone_devic=
-e depends on
-device X to be operational" and "this thermal zone affects device X, devic=
-e Y and device Z".
-
-This patch series exclusively deals with telling the driver core that "thi=
-s struct thermal_zone_device
-depends on device X to be operational".
-
-Thanks,
-Armin Wolf
+> Thanks in advance,
+> 
+> Melissa
+> 
+> 
+>  drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+> index bf19ba65d09a..a28560caa1c0 100644
+> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+> @@ -501,9 +501,9 @@ bool dcn32_set_mcm_luts(
+>  		lut_params = &plane_state->in_shaper_func.pwl;
+>  	else if (plane_state->in_shaper_func.type == TF_TYPE_DISTRIBUTED_POINTS) {
+>  		// TODO: dpp_base replace
+> -		ASSERT(false);
+> -		cm3_helper_translate_curve_to_hw_format(&plane_state->in_shaper_func,
+> -				&dpp_base->shaper_params, true);
+> +		cm_helper_translate_curve_to_hw_format(plane_state->ctx,
+> +						       &plane_state->in_shaper_func,
+> +						       &dpp_base->shaper_params, true);
+>  		lut_params = &dpp_base->shaper_params;
+>  	}
+>  
 
