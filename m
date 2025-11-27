@@ -2,57 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC85AC8E1D0
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 12:51:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F67BC8E396
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 13:16:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D97A10E02E;
-	Thu, 27 Nov 2025 11:51:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 037AA10E673;
+	Thu, 27 Nov 2025 12:16:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ashley.smith@collabora.com header.b="Xqw9IEkB";
+	dkim=pass (2048-bit key; unprotected) header.d=huaqin-corp-partner-google-com.20230601.gappssmtp.com header.i=@huaqin-corp-partner-google-com.20230601.gappssmtp.com header.b="Cyp54ggS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FB9D10E02E
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 11:51:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1764244255; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=YwpvSo6UhPSaMsvemgD6kZI/1TzE/bArUgbMutyf8vBL/lHHi5lVcvbAKsMm1WwwXQC9p27opmHF/+fxJRXtxeSqseMCsara3E6yOOjBKpSdoqc9ePC8/t8gkaSSZOvW5wLrdHjkA14WdfvVI9cabFcRV77KTg+D1ImbcyWTtZc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1764244255;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=x85sTg3IrTtkcAGJIzvzOSxqMIyYPsqGLG1Rv3c8LGQ=; 
- b=Envwa080PIC98QSFvYzNdbDDYx9SnjhdcO1beiPGYrHK5+RfG9lie5XKibe9n5fY9C2Qaqt6o5XNOLikIDGrAbPQDuOOCIbAab2jxTFA7ahJB3RBmZSFHXLTz+K7N4B8aVc1AU6gAqG93/h5buzg70/OSqSr2bcC5OPcBkAFJXI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=ashley.smith@collabora.com;
- dmarc=pass header.from=<ashley.smith@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764244255; 
- s=zohomail; d=collabora.com; i=ashley.smith@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=x85sTg3IrTtkcAGJIzvzOSxqMIyYPsqGLG1Rv3c8LGQ=;
- b=Xqw9IEkB0VgSUXpVOVozc15I56WMiQtAaGpm4RONj6qqH71aMXTsT7wMgzstl0kB
- OunJHqMU7Z8rNihMoShlGnb9hUug7xtvqITVqsPxqij9cFTcqB18loep7hBhoYq9TsG
- i3UZUBuSFR91LRZROxkvwCLr8ehjPfnRz1R+DvRA=
-Received: by mx.zohomail.com with SMTPS id 1764244253149304.5178677468157;
- Thu, 27 Nov 2025 03:50:53 -0800 (PST)
-From: Ashley Smith <ashley.smith@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: kernel@collabora.com, Ashley Smith <ashley.smith@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/panthor: Enable timestamp propagation
-Date: Thu, 27 Nov 2025 11:44:02 +0000
-Message-ID: <20251127115019.2113040-1-ashley.smith@collabora.com>
-X-Mailer: git-send-email 2.43.0
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+ [209.85.214.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37E7210E673
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 12:16:09 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id
+ d9443c01a7336-2984dfae043so7089595ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 04:16:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=huaqin-corp-partner-google-com.20230601.gappssmtp.com; s=20230601;
+ t=1764245769; x=1764850569; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=o3hxwctHNUdCarFW6P5wDgmvCHnQslCanT7sActyeKM=;
+ b=Cyp54ggSgL3cSmjmcxhO84L1UG78faNvKmcF6NSYiFuQvYiSOhJZgtE2TxE9UTDJsS
+ eKfF8Z4TmeA8X2wivqMAdFj0rry9/1b6R/flJraIBNkNupIimLp5+5uqZ4FG5u3jTNgF
+ tLra7ctXuIc2h5T96lCcdL/wND6eXBpPhT1ygrR1cv1YDIhMlprbil1ktWGtp/Ir4GRl
+ 1Cc/XS8j+xV+z7OCMq1A+gXZi5if/rFT068hMN5B3vyuDXf83SIDK+K+oK2EIPfZSwrg
+ 4KY4ASdm7h/frW7qUis3i3NAYSahuM3GGvJsnNWmM6K7GTUmfPxgM/KiEoaeZD+NzhMk
+ 9BWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764245769; x=1764850569;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=o3hxwctHNUdCarFW6P5wDgmvCHnQslCanT7sActyeKM=;
+ b=I9QBOaTGtrmYvcEjpcgfLO/avqDzhYmD60Xhgh54hVisksswRO0sN8OtAeYfR3KnY3
+ jz7VLIbdHvH7M5D0L2ZaO41zNyAt3ILYtwyf39o+tCf7887VeUZhhtg5FFTPPLBP5kjz
+ XvEepZrDPFopXKkC1V+1crAoht+pABMF5oaP6jlqdKIUZSzSSsNwCLjzOJTapmQPTPZa
+ FfikDLH6SEZ04Z451Ugy9oatTwgYEk5J7C3PKksD1S7jVr0vdLwT2kCvSlsbj/0Xu0Y6
+ UBTiHu916nctHM8RKJZMlIZg4JT2O04HhLSu9qdxfCvT88onyrIanuRfYWn7+npUk3DB
+ U4Dw==
+X-Gm-Message-State: AOJu0YzOq7XfJ8tUajQS0XgkKlCiFSLkx7ODoFfbPa8QxCp0KyW1dDkP
+ 95GkldQ7jMaP3BEjN9O8IZHOrYUnzcGUvZeqKLUFbSGlie7m7VMZ+iR51Q6wDk1pgv4=
+X-Gm-Gg: ASbGncsFkRisFhZOgFWtPQRuV/iA/hvAHITpgieI5KPzKeCVpsI+E+8iJF2tOd2AZj2
+ pnQyC3PMtO0ST8ZYpMbycuIzfbL6MftVBSoDRi5JvxBpiXFCJwkoCa/CgyNxQ3LK5Ggpp7Zc1xS
+ vHI7xIFE3GcKTddQcY2qYhYGCzxdRYGsqwdr3PxzQqGqMmB9rHG69CvKVKWGbsZNaEPgDgogDjv
+ 75BBL0TmwI8olikZVLu0YtrK/VHjsIbbxjm8KC33GpWDFd/9jcQeCwvtKOZoB35RMR8z+qXBykc
+ lBv8g0VqeAttGCbRNHmx1QZrBm30UU8XlDinWvNCG3QCxCeDqux6V+iRmAv6YovpF8tHOqR8rQw
+ n8ovH0LR819Rg/cwCwWe5eht2QsZN71Ug5wVO41RE8eGHkwTz6MF8x8+m4ZzztjiD6MlCTtlsQT
+ J103fchmEcHAPC6uJ4JwRGGVWtLc/tdc3m0AepjbPKSonUjum/2jZUYSEPYg==
+X-Google-Smtp-Source: AGHT+IH3crpbJjkunYtle/ef5kNW9hHmsi9e1weF9nYXS6bBnR63NKI39K06U1UJvcvRPrrmLp8HPQ==
+X-Received: by 2002:a17:902:cccf:b0:295:7b8c:6622 with SMTP id
+ d9443c01a7336-29b6c3c2908mr274549205ad.11.1764245768661; 
+ Thu, 27 Nov 2025 04:16:08 -0800 (PST)
+Received: from dgp100339560-01.huaqin.com ([103.117.77.121])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29bce4142f4sm17363475ad.10.2025.11.27.04.16.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 27 Nov 2025 04:16:08 -0800 (PST)
+From: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+To: dianders@chromium.org, neil.armstrong@linaro.org, jesszhan0024@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Subject: [PATCH] drm/panel-edp: Add CSW MNE007QB3-1
+Date: Thu, 27 Nov 2025 20:16:01 +0800
+Message-Id: <20251127121601.1608379-1-yelangyan@huaqin.corp-partner.google.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,59 +88,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set the GLB_COUNTER_EN bit to enable coherent propagation of GPU
-timestamp values to shader cores. This is a prerequisite for exposing
-device-coherent timestamp queries.
+Add support for the CSW MNE007QB3-1, pleace the EDID here for
+subsequent reference.
 
-Bump the version to 1.6 so userspace can detect support.
+00 ff ff ff ff ff ff 00 0e 77 7c 14 00 00 00 00
+00 23 01 04 a5 1e 13 78 07 ee 95 a3 54 4c 99 26
+0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 35 3c 80 a0 70 b0 23 40 30 20
+36 00 2d bc 10 00 00 18 2b 30 80 a0 70 b0 23 40
+30 20 36 00 2d bc 10 00 00 18 00 00 00 fd 00 28
+3c 4a 4a 0f 01 0a 20 20 20 20 20 20 00 00 00 fc
+00 4d 4e 45 30 30 37 51 42 33 2d 31 0a 20 01 5b
 
-v2:
-- GLB_COUNTER_EN is not a toggle bit move to panthor_fw_update_reqs
+70 20 79 02 00 21 00 1d c8 0b 5d 07 80 07 b0 04
+00 3d 8a 54 cd a4 99 66 62 0f 02 45 54 40 5e 40
+5e 00 44 12 78 2e 00 06 00 44 40 5e 40 5e 81 00
+20 74 1a 00 00 03 01 28 3c 00 00 00 00 00 00 3c
+00 00 00 00 8d 00 e3 05 04 00 e6 06 01 00 60 60
+ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 68 90
 
-Signed-off-by: Ashley Smith <ashley.smith@collabora.com>
+Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
 ---
- drivers/gpu/drm/panthor/panthor_drv.c | 3 ++-
- drivers/gpu/drm/panthor/panthor_fw.c  | 4 +++-
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index d1d4c50da5bf..0b0ec3b978c6 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1604,6 +1604,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
-  * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
-  * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
-  * - 1.5 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
-+ * - 1.6 - enables GLB_COUNTER_EN
-  */
- static const struct drm_driver panthor_drm_driver = {
- 	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-@@ -1617,7 +1618,7 @@ static const struct drm_driver panthor_drm_driver = {
- 	.name = "panthor",
- 	.desc = "Panthor DRM driver",
- 	.major = 1,
--	.minor = 5,
-+	.minor = 6,
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 415b894890ad..023fbbb10eb4 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -2033,6 +2033,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1462, &delay_200_500_e50, "MNE007QS5-2"),
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1468, &delay_200_500_e50, "MNE007QB2-2"),
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x146e, &delay_80_500_e50_d50, "MNE007QB3-1"),
++	EDP_PANEL_ENTRY('C', 'S', 'W', 0x147c, &delay_200_500_e50_d100, "MNE007QB3-1"),
+ 	EDP_PANEL_ENTRY('C', 'S', 'W', 0x1519, &delay_200_500_e80_d50, "MNF601BS1-3"),
  
- 	.gem_create_object = panthor_gem_create_object,
- 	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-index 38d87ab92eda..a55731e95884 100644
---- a/drivers/gpu/drm/panthor/panthor_fw.c
-+++ b/drivers/gpu/drm/panthor/panthor_fw.c
-@@ -996,7 +996,9 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
- 					 GLB_IDLE_EN |
- 					 GLB_IDLE;
- 
--	panthor_fw_update_reqs(glb_iface, req, GLB_IDLE_EN, GLB_IDLE_EN);
-+	panthor_fw_update_reqs(glb_iface, req,
-+			       GLB_IDLE_EN | GLB_COUNTER_EN,
-+			       GLB_IDLE_EN | GLB_COUNTER_EN);
- 	panthor_fw_toggle_reqs(glb_iface, req, ack,
- 			       GLB_CFG_ALLOC_EN |
- 			       GLB_CFG_POWEROFF_TIMER |
-
-base-commit: 92c49b3f4df8f9acfa95551ef38fc00c675319fd
+ 	EDP_PANEL_ENTRY('E', 'T', 'C', 0x0000, &delay_50_500_e200_d200_po2e335, "LP079QX1-SP0V"),
 -- 
-2.43.0
+2.34.1
 
