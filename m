@@ -2,147 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C022C90608
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 00:53:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A793EC9061A
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 00:58:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50E1010E8CF;
-	Thu, 27 Nov 2025 23:53:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6019D10E87E;
+	Thu, 27 Nov 2025 23:58:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=w_armin@gmx.de header.b="b4FpeI0G";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="lrroeNFT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E57710E894;
- Thu, 27 Nov 2025 23:53:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
- s=s31663417; t=1764287573; x=1764892373; i=w_armin@gmx.de;
- bh=XH4L8vJd3Pgpkz5I5/5j7PvlshtX9zs5NurfTRvHPhc=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=b4FpeI0GdvrvQyS6l8P2lezwX5ckkF2u6ginTiTt37wA7LMBOLrv99J5QRQLj1Uy
- k1kVy5Oj/I91rUSmge7JLM0p7+0n7z0nRY2slB89KPqIRcz+63YNBV35lZhUHtDLB
- B0nbHZV4srXiazlOU6gZFpZ1WpHHAuSZ4RXeQAxk8h7uY+8/nAMeMUCIGQTPClhJO
- wMYI5wzlQv37qSl4LjiG9hg+6LS1+0vOOp/LxW2pTEoJ9jrOncwKijg9H613lgbvv
- FsjHxgfNDzoUFgPlljajXeDpxQnNclRPEhc1GV2uswTdLk+EEhQVGFwyDBEoXm6j5
- Fhl5h/Gw7BO8d+uanQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.69] ([93.202.247.91]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N7QxL-1wA7ku0qHF-0156NT; Fri, 28
- Nov 2025 00:52:53 +0100
-Message-ID: <a2ef1a42-6c06-4186-83ef-e13414fb818a@gmx.de>
-Date: Fri, 28 Nov 2025 00:52:47 +0100
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010044.outbound.protection.outlook.com
+ [40.93.198.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E0AF10E877;
+ Thu, 27 Nov 2025 23:58:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MO4qniDYIgCREtPH9XPf8fhw6r9BXPZnWQYfRGI3H45I87nSmbnq3EZ2zruMJu1fQ3LaEQ5iDWIYA+kO2cgMERJK4UfDVJRTQjvoHk5tgXQHi3BPSKhxNouA0QSBUafjwZgQbAQmS89UosrPZMVl23wDfagImNjT7d2EiUTQOOh5fJiaRhCwUMdpoGIBzhsAmWSF3yV2rvuGIr4FYYFnJ8lP/mORc944spqRsYZqm5945TnKvprRojcVnZSWHnKR3JbxLj4CcTGU9LnJKvwUz32hJQMbgeuTBvtowY/us3Wu4s2XZXewlpwaZ2ZaMJn25mB5dTXEGXjsSIgW0UCOhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aoDT34ftPQAeSWx56k0XE0bVgMRF8ugW9TZTNV5ywIg=;
+ b=faU9oqkDlCJ6H+nzIron1GCoerER4mv6Juum8lYwLwwTcN4krVoLZULzdmqH3NfdUkCwPQk3cRHix0pbt/K3zwaFS1KL+aTaksvr7Dn7MeylsB5r3ZadBnSHA9TU02QA10kX7Ggmt8k6JLxzDn2FmRuW+ItInLKlcxI5g9216r6EJB5nIU2qZrjizYRGqE4TEw9FbSrfVA3sNLFtOJo+9tskFX2dpnNyocuXJDENHNhFTklwP65NGLKgvP3ySk3R1/RSp8DE2mSwkC0aMiV3scvrSQZnd+mUWfErlguZgbGdP8gWaqF1s+Ll8fl9kez4sgVhdipTyQVd3i/Ha589Ww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aoDT34ftPQAeSWx56k0XE0bVgMRF8ugW9TZTNV5ywIg=;
+ b=lrroeNFTw5muG3T2X3LTYXh25NCNC3LOmpW9YUP3pU9RWYHG1Y6S0vSkfLVZI8709enEt37+LAHnNSeDngNhuIMTffNUouw092Bn2/ACfhQ7BHq3sqtbXMwJ9o0il2mJrrH8c1Kc592ezoIPrm1cVmfC4cIpDBOadfS7KZPFT6E=
+Received: from BYAPR08CA0013.namprd08.prod.outlook.com (2603:10b6:a03:100::26)
+ by CY8PR12MB8244.namprd12.prod.outlook.com (2603:10b6:930:72::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.14; Thu, 27 Nov
+ 2025 23:58:21 +0000
+Received: from SJ1PEPF000026C7.namprd04.prod.outlook.com
+ (2603:10b6:a03:100:cafe::93) by BYAPR08CA0013.outlook.office365.com
+ (2603:10b6:a03:100::26) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.13 via Frontend Transport; Thu,
+ 27 Nov 2025 23:58:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ SJ1PEPF000026C7.mail.protection.outlook.com (10.167.244.104) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9366.7 via Frontend Transport; Thu, 27 Nov 2025 23:58:20 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 27 Nov
+ 2025 17:58:19 -0600
+Received: from thonkpad (10.180.168.240) by satlexmb07.amd.com (10.181.42.216)
+ with Microsoft SMTP Server id 15.2.2562.17 via Frontend Transport;
+ Thu, 27 Nov 2025 15:58:19 -0800
+From: <sunpeng.li@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+CC: <Harry.Wentland@amd.com>, <Nicholas.Kazlauskas@amd.com>,
+ <simona@ffwll.ch>, <airlied@gmail.com>, Leo Li <sunpeng.li@amd.com>
+Subject: [PATCH 1/2] drm: Introduce drm_crtc_vblank_prepare()
+Date: Thu, 27 Nov 2025 18:57:59 -0500
+Message-ID: <20251127235800.831297-1-sunpeng.li@amd.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC RESEND 0/8] thermal: core: Allow setting the parent
- device of thermal zone/cooling devices
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
- Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, ath10k@lists.infradead.org,
- ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org,
- linux-pci@vger.kernel.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org
-References: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
- <CAJZ5v0jOPrBcozzJMsB1eE12MuZRWDAV-+=jfrhJbi=S0p5J9Q@mail.gmail.com>
- <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
- <CAJZ5v0hdqY-=O5Ai6c5qjMr_pRFc+SDyV1QruM=ZeHH9Z=guSg@mail.gmail.com>
- <cf86344b-d9f1-4d3c-9fe9-deeb4ade9304@gmx.de>
- <CAJZ5v0iH8jkqJaSNtqaTHxt_305DeiEq0AqQCo4Eho5hMKkU4Q@mail.gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <CAJZ5v0iH8jkqJaSNtqaTHxt_305DeiEq0AqQCo4Eho5hMKkU4Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:D6Q5pBOhq7j59tqn32AlaC7zNQxXY6IiWSrkHAM6P3gKJlbj6J6
- uTxSkHZHP7Jrt8LS6M31wBcEB910kNJD6DwnAUq6LpINXEEK63L9fmub3s1O8nU0ES+qChr
- O97vvWnAxbDtjA1N9QuygQJuv/Ks2U1ByUKDErVnqBHvBEKF+SSKyPhz2w1uTWQeFAg5N+n
- SOOeHBClzmSGO95ACdnBg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:MOyX3V+VNO8=;uFxfjrT42UHTZLKfvOt2xMNe9rm
- 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
- 8RvIZEcv5bZF5XQUwLjDfTq6sEgl3
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000026C7:EE_|CY8PR12MB8244:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5088a0a0-fd49-4527-bcd8-08de2e10d7b4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|1800799024|82310400026|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7AQ/YDN3HpWTDre17qRVV1l+6Y4aojeuSqvPeqzHqUDa2DKUwU8/mh+Ppj60?=
+ =?us-ascii?Q?2ykKVwA5/D2lYs2MbcXkIWJ4HYDhNikgoCmqo2L3aaImZytZ0cHXmpI/VkfX?=
+ =?us-ascii?Q?TXoQyCVXf36Xyxxgv4jURA1gDUkvMb4T6gFXglgRxw/F4C3+r/GGBCB3rGzq?=
+ =?us-ascii?Q?KsX9spmK1VpEHZgAsJwSxovUb/ADt7135ww0UFfs/PaegpqhmYU0qxOa2GI3?=
+ =?us-ascii?Q?z2sK8HFMPOr+uLHgkwxGRLgNgUUeiDZAPGEV7Br+RA+ppJ58cq3Mw3gRMYSd?=
+ =?us-ascii?Q?MIC5RgNpp4uArJ/b9CLUypNT7MMkLWRKV95K+kRydYvqSCwJfdMcsWr04bAK?=
+ =?us-ascii?Q?9PEVBP+oLsLfjN6FPT7CH4XgCSzQyDvfBeDIePySqIkSeeUYQ256QVqzRKmv?=
+ =?us-ascii?Q?nNO/9jCKzfkHlGmBYVbXMama+G2D6ZCvulpy6Gg9YBXuPG/DExyxdZWMJ5bN?=
+ =?us-ascii?Q?ZAadOQblamzDPk8htUkjoN29uJkVdsAfLTCSqbVZ8jSG4JWwNIPyFaxaRzAN?=
+ =?us-ascii?Q?Olsj+m2CvrXYaAC3jDaHL3RHjqDAE9oG+26nFxApwtg6tpr3mB7diLKq/j73?=
+ =?us-ascii?Q?PTyuPIJm9DekwaV3Dy8jCbRD8ujHufcCoOWLrYGQUYf6q6XNKPJzWegROiwB?=
+ =?us-ascii?Q?xkW+cUOswDdIWHqrCB/crnAqY/wuCx0YsWVxEBBPhMizqXmqqwRtKxLgqxrZ?=
+ =?us-ascii?Q?vhRVSmU6PWWrcOjF2ymIiADCEX+VT70q0i9EPnKxECjiR/g4LdmB+t66egMt?=
+ =?us-ascii?Q?yj+YXsKh7dZ+n5Ipl10BkyqzA0msGr/9ZLvLmqr6Vevg2j9bArhOONGjNDiu?=
+ =?us-ascii?Q?yCnGQ9ewu7610gtxQ1r8oM3FKl8eRPm1juO1lPych8A8IRle3FZp8+qeD/DK?=
+ =?us-ascii?Q?TSy7UVBm4OYPocYxcbkEi2198GLks2/b9VffkMKEw94Diu5a8wkhsjgM299/?=
+ =?us-ascii?Q?7K9SfQf5WieDl0/MmpQHuTANgEGU+0iezPvVgp5QloI+z8qW/C1jUwOuWScm?=
+ =?us-ascii?Q?DTPO6VuEagCIrJPDk8Jo0pl2kFqvbSSFoKAGhPLMwBJc6cYAB/S8uAJyrY7s?=
+ =?us-ascii?Q?G1GzqeTOCY80eG4wkLu8yJ57G3teI0ABZR+mgsEVRLX5mcCUhxG1CeQiD7n2?=
+ =?us-ascii?Q?G0nbRrh5T1P8PwhGEpZQ4qjSAa3It745HBM+Up/OV43MuzXZ9r/uJZPTo0ph?=
+ =?us-ascii?Q?NsQu/5jUnYjADzN4QiFfNeppJuDwdLPgP3LtYD4RK57DM6QSu+VQo9sPQrKM?=
+ =?us-ascii?Q?mfLDe8Cf+3VDPnxibdRNVXQpBSvADxbQ4qiTFjqtrasWtPW5OrFYxfftjsyS?=
+ =?us-ascii?Q?Fw3vEe20qHmNb0MZZSgojCyBfPz/stFLvN+9819gNGomam9IlQjQamxA5Bfm?=
+ =?us-ascii?Q?JFUGILWDzfTPfi1x4a44yloMWlIln7EILqDB5/iNWpSRBxYiRgy/MNF1fLHA?=
+ =?us-ascii?Q?sGXV3urXghPnVN3f9sv3qhf4bRPA5MX5esHAMI7tzLVSep8x7BNt7MCDSobm?=
+ =?us-ascii?Q?9jGPEtgoPTSM0/+vojD3AOLDxYzJHaG+3+00C7sLI0lGj+R+5AZ5kwlUjRGp?=
+ =?us-ascii?Q?4AZrnPLKK73wLCwbOQE=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2025 23:58:20.5155 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5088a0a0-fd49-4527-bcd8-08de2e10d7b4
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF000026C7.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8244
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,196 +134,286 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 27.11.25 um 23:14 schrieb Rafael J. Wysocki:
+From: Leo Li <sunpeng.li@amd.com>
 
-> On Thu, Nov 27, 2025 at 9:29=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrot=
-e:
->> Am 27.11.25 um 19:22 schrieb Rafael J. Wysocki:
->>
->>> On Sat, Nov 22, 2025 at 3:18=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wr=
-ote:
->>>> Am 21.11.25 um 21:35 schrieb Rafael J. Wysocki:
->>>>
->>>>> On Thu, Nov 20, 2025 at 4:41=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> =
-wrote:
->>> [...]
->>>
->>>>>> ---
->>>>>> Armin Wolf (8):
->>>>>>          thermal: core: Allow setting the parent device of cooling =
-devices
->>>>>>          thermal: core: Set parent device in thermal_of_cooling_dev=
-ice_register()
->>>>>>          ACPI: processor: Stop creating "device" sysfs link
->>>>> That link is not to the cooling devices' parent, but to the ACPI
->>>>> device object (a struct acpi_device) that corresponds to the parent.
->>>>> The parent of the cooling device should be the processor device, not
->>>>> its ACPI companion, so I'm not sure why there would be a conflict.
->>>>    From the perspective of the Linux device core, a parent device doe=
-s not have to be
->>>> a "physical" device. In the case of the ACPI processor driver, the AC=
-PI device is used,
->>>> so the cooling device registered by said driver belongs to the ACPI d=
-evice.
->>> Well, that's a problem.  A struct acpi_device should not be a parent
->>> of anything other than a struct acpi_device.
->> Understandable, in this case we should indeed use the the CPU device, e=
-specially since the fwnode
->> associated with it already points to the correct ACPI processor object =
-(at least on my machine).
->>
->>>> I agree that using the Linux processor device would make more sense, =
-but this will require
->>>> changes inside the ACPI processor driver.
->>> So be it.
->> OK.
->>
->>>> As for the "device" symlink: The conflict would be a naming conflict,=
- as both "device" symlinks
->>>> (the one created by the ACPI processor driver and the one created by =
-the device core) will
->>>> be created in the same directory (which is the directory of the cooli=
-ng device).
->>> I see.
->>>
->>> But why is the new symlink needed in the first place?  If the device
->>> has a parent, it will appear under that parent in /sys/devices/, won't
->>> it?
->>>
->>> Currently, all of the thermal class devices appear under
->>> /sys/devices/virtual/thermal/ because they have no parents and they
->>> all get a class parent kobject under /sys/devices/virtual/, as that's
->>> what get_device_parent() does.
->>>
->>> If they have real parents, they will appear under those parents, so
->>> why will the parents need to be pointed to additionally?
->> The "device" smylink is a comfort feature provided by the device core i=
-tself to allow user space
->> application to traverse the device tree from bottom to top, like a doub=
-le-linked list. We cannot
->> disable the creation of this symlink, nor should we.
-> I think you mean device_add_class_symlinks(), but that's just for
-> class devices.  Of course, thermal devices are class devices, so
-> they'll get those links if they get parents.  Fair enough.
->
->>> BTW, this means that the layout of /sys/devices/ will change when
->>> thermal devices get real parents.  I'm not sure if this is a problem,
->>> but certainly something to note.
->> I know, most applications likely use /sys/class/thermal/, so they are n=
-ot impacted by this. I will
->> note this in the cover letter of the next revision.
->>
->>>>>>          ACPI: fan: Stop creating "device" sysfs link
->>>>>>          ACPI: video: Stop creating "device" sysfs link
->>>>> Analogously in the above two cases AFAICS.
->>>>>
->>>>> The parent of a cooling device should be a "physical" device object,
->>>>> like a platform device or a PCI device or similar, not a struct
->>>>> acpi_device (which in fact is not a device even).
->>>>    From the perspective of the Linux device core, a ACPI device is a =
-perfectly valid device.
->>> The driver core is irrelevant here.
->>>
->>> As I said before, a struct acpi_device object should not be a parent
->>> of anything other than a struct acpi_device object.  Those things are
->>> not devices and they cannot be used for representing PM dependencies,
->>> for example.
->>>
->>>> I agree that using a platform device or PCI device is better, but thi=
-s already happens
->>>> inside the ACPI fan driver (platform device).
->>> So it should not happen there.
->> I meant that the ACPI fan driver already uses the platform device as th=
-e parent device of the
->> cooling device, so the ACPI device is only used for interacting with th=
-e ACPI control methods
->> (and registering sysfs attributes i think).
-> OK
->
->>>> Only the ACPI video driver created a "device" sysfs link that points =
-to the ACPI device
->>>> instead of the PCI device. I just noticed that i accidentally changed=
- this by using the
->>>> PCI device as the parent device for the cooling device.
->>>>
->>>> If you want then we can keep this change.
->>> The PCI device should be its parent.
->> Alright, i will note this in the patch description.
->>
->>>>>>          thermal: core: Set parent device in thermal_cooling_device=
-_register()
->>>>>>          ACPI: thermal: Stop creating "device" sysfs link
->>>>> And this link is to the struct acpi_device representing the thermal =
-zone itself.
->>>> Correct, the ACPI thermal zone driver is a ACPI driver, meaning that =
-he binds to
->>>> ACPI devices. Because of this all (thermal zone) devices created by a=
-n instance of
->>>> said driver are descendants of the ACPI device said instance is bound=
- to.
->>>>
->>>> We can of course convert the ACPI thermal zone driver into a platform=
- driver, but
->>>> this would be a separate patch series.
->>> If you want parents, this needs to be done first, but I'm still not
->>> sure what the parent of a thermal zone would represent.
->>>
->>> In the ACPI case it is kind of easy - it would be the (platform)
->>> device corresponding to a given ThermalZone object in the ACPI
->>> namespace - but it only has a practical meaning if that device has a
->>> specific parent.  For example, if the corresponding ThermalZone object
->>> is present in the \_SB scope, the presence of the thermal zone parent
->>> won't provide any additional information.
->> To the device core it will, as the platform device will need to be susp=
-ended
->> after the thermal zone device has been suspended, among other things.
-> Let's set suspend aside for now, I think I've explained my viewpoint
-> on this enough elsewhere.
->
-Agreed.
+Some drivers need to perform blocking operations prior to enabling
+vblank interrupts. A display hardware spin-up from a low-power state
+that requires synchronization with the rest of the driver via a mutex,
+for example.
 
->>> Unfortunately, the language in the specification isn't particularly
->>> helpful here: "Thermal zone objects should appear in the namespace
->>> under the portion of the system that comprises the thermal zone. For
->>> example, a thermal zone that is isolated to a docking station should
->>> be defined within the scope of the docking station device."  To me
->>> "the portion of the system" is not too meaningful unless it is just
->>> one device without children.  That's why _TZD has been added AFAICS.
->> I think you are confusing the parent device of the ThermalZone ACPI dev=
-ice
->> with the parent device of the struct thermal_zone_device.
-> No, I'm not.
->
->> I begin to wonder if mentioning the ACPI ThermalZone device together wi=
-th the
->> struct thermal_zone_device was a bad idea on my side xd.
-> Maybe.
->
->>>>>>          thermal: core: Allow setting the parent device of thermal =
-zone devices
->>>>> I'm not sure if this is a good idea, at least until it is clear what
->>>>> the role of a thermal zone parent device should be.
->>>> Take a look at my explanation with the Intel Wifi driver.
->>> I did and I think that you want the parent to be a device somehow
->>> associated with the thermal zone, but how exactly?  What should that
->>> be in the Wifi driver case, the PCI device or something else?
->>>
->>> And what if the thermal zone affects multiple devices?  Which of them
->>> (if any) would be its parent?  And would it be consistent with the
->>> ACPI case described above?
->>>
->>> All of that needs consideration IMV.
->> I agree, but there is a difference between "this struct thermal_zone_de=
-vice depends on
->> device X to be operational" and "this thermal zone affects device X, de=
-vice Y and device Z".
-> Yes, there is.
->
->> This patch series exclusively deals with telling the driver core that "=
-this struct thermal_zone_device
->> depends on device X to be operational".
-> Maybe let's take care of cooling devices first and get back to this late=
-r?
->
-Agreed.
+To support this, introduce a new drm_crtc_vblank_prepare() helper that
+calls back into the driver -- if implemented -- for the driver to do
+such preparation work.
+
+In DRM core, call this helper before drm_vblank_get(). Drivers can
+choose to call this if they implement the callback in the future.
+
+Signed-off-by: Leo Li <sunpeng.li@amd.com>
+---
+ drivers/gpu/drm/drm_atomic_helper.c |  8 ++++
+ drivers/gpu/drm/drm_fb_helper.c     |  4 ++
+ drivers/gpu/drm/drm_plane.c         |  4 ++
+ drivers/gpu/drm/drm_vblank.c        | 69 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_vblank_work.c   |  8 ++++
+ include/drm/drm_crtc.h              | 27 +++++++++++
+ include/drm/drm_vblank.h            |  1 +
+ 7 files changed, 121 insertions(+)
+
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index ef56b474acf59..e52dd41f83117 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -1264,6 +1264,10 @@ crtc_disable(struct drm_device *dev, struct drm_atomic_state *state)
+ 		if (!drm_dev_has_vblank(dev))
+ 			continue;
+ 
++		ret = drm_crtc_vblank_prepare(crtc);
++		if (ret)
++			continue;
++
+ 		ret = drm_crtc_vblank_get(crtc);
+ 		/*
+ 		 * Self-refresh is not a true "disable"; ensure vblank remains
+@@ -1815,6 +1819,10 @@ drm_atomic_helper_wait_for_vblanks(struct drm_device *dev,
+ 		if (!new_crtc_state->active)
+ 			continue;
+ 
++		ret = drm_crtc_vblank_prepare(crtc);
++		if (ret != 0)
++			continue;
++
+ 		ret = drm_crtc_vblank_get(crtc);
+ 		if (ret != 0)
+ 			continue;
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index 11a5b60cb9ce4..7400942fd7d1d 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -1103,6 +1103,10 @@ int drm_fb_helper_ioctl(struct fb_info *info, unsigned int cmd,
+ 		 * enabled, otherwise just don't do anythintg,
+ 		 * not even report an error.
+ 		 */
++		ret = drm_crtc_vblank_prepare(crtc);
++		if (ret)
++			break;
++
+ 		ret = drm_crtc_vblank_get(crtc);
+ 		if (!ret) {
+ 			drm_crtc_wait_one_vblank(crtc);
+diff --git a/drivers/gpu/drm/drm_plane.c b/drivers/gpu/drm/drm_plane.c
+index 38f82391bfda5..f2e40eaa385e6 100644
+--- a/drivers/gpu/drm/drm_plane.c
++++ b/drivers/gpu/drm/drm_plane.c
+@@ -1421,6 +1421,10 @@ int drm_mode_page_flip_ioctl(struct drm_device *dev,
+ 		u32 current_vblank;
+ 		int r;
+ 
++		r = drm_crtc_vblank_prepare(crtc);
++		if (r)
++			return r;
++
+ 		r = drm_crtc_vblank_get(crtc);
+ 		if (r)
+ 			return r;
+diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+index 46f59883183d9..4dac3228c021f 100644
+--- a/drivers/gpu/drm/drm_vblank.c
++++ b/drivers/gpu/drm/drm_vblank.c
+@@ -1194,6 +1194,30 @@ static int drm_vblank_enable(struct drm_device *dev, unsigned int pipe)
+ 	return ret;
+ }
+ 
++/**
++ * drm_crtc_vblank_prepare - prepare to enable vblank interrupts
++ *
++ * @crtc: which CRTC to prepare
++ *
++ * Some drivers may need to run blocking operations to prepare for enabling
++ * vblank interrupts. This function calls the prepare_enable_vblank callback, if
++ * available, to allow drivers to do that.
++ *
++ * The spin-up may call blocking functions, such as mutex_lock(). Therefore,
++ * this must be called from process context, where sleeping is allowed.
++ *
++ * Also see &drm_crtc_funcs.prepare_enable_vblank.
++ *
++ * Returns: Zero on success or a negative error code on failure.
++ */
++int drm_crtc_vblank_prepare(struct drm_crtc *crtc)
++{
++	if (crtc->funcs->prepare_enable_vblank)
++		return crtc->funcs->prepare_enable_vblank(crtc);
++	return 0;
++}
++EXPORT_SYMBOL(drm_crtc_vblank_prepare);
++
+ int drm_vblank_get(struct drm_device *dev, unsigned int pipe)
+ {
+ 	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
+@@ -1288,12 +1312,22 @@ EXPORT_SYMBOL(drm_crtc_vblank_put);
+ void drm_wait_one_vblank(struct drm_device *dev, unsigned int pipe)
+ {
+ 	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
++	struct drm_crtc *crtc = drm_crtc_from_index(dev, pipe);
+ 	int ret;
+ 	u64 last;
+ 
+ 	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
+ 		return;
+ 
++	crtc = drm_crtc_from_index(dev, pipe);
++	if (crtc) {
++		ret = drm_crtc_vblank_prepare(crtc);
++		if (drm_WARN(dev, ret,
++			     "prepare vblank failed on crtc %i, ret=%i\n",
++			     pipe, ret))
++			return;
++	}
++
+ 	ret = drm_vblank_get(dev, pipe);
+ 	if (drm_WARN(dev, ret, "vblank not available on crtc %i, ret=%i\n",
+ 		     pipe, ret))
+@@ -1485,10 +1519,18 @@ void drm_crtc_vblank_on_config(struct drm_crtc *crtc,
+ 	struct drm_device *dev = crtc->dev;
+ 	unsigned int pipe = drm_crtc_index(crtc);
+ 	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
++	int ret;
+ 
+ 	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
+ 		return;
+ 
++	if (crtc) {
++		ret = drm_crtc_vblank_prepare(crtc);
++		drm_WARN_ON(dev, ret);
++		if (ret)
++			return;
++	}
++
+ 	spin_lock_irq(&dev->vbl_lock);
+ 	drm_dbg_vbl(dev, "crtc %d, vblank enabled %d, inmodeset %d\n",
+ 		    pipe, vblank->enabled, vblank->inmodeset);
+@@ -1796,6 +1838,17 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
+ 		return 0;
+ 	}
+ 
++	crtc = drm_crtc_from_index(dev, vblank->pipe);
++	if (crtc) {
++		ret = drm_crtc_vblank_prepare(crtc);
++		if (ret) {
++			drm_dbg_core(dev,
++				     "prepare vblank failed on crtc %i, ret=%i\n",
++				     pipe, ret);
++			return ret;
++		}
++	}
++
+ 	ret = drm_vblank_get(dev, pipe);
+ 	if (ret) {
+ 		drm_dbg_core(dev,
+@@ -2031,6 +2084,14 @@ int drm_crtc_get_sequence_ioctl(struct drm_device *dev, void *data,
+ 		READ_ONCE(vblank->enabled);
+ 
+ 	if (!vblank_enabled) {
++		ret = drm_crtc_vblank_prepare(crtc);
++		if (ret) {
++			drm_dbg_core(dev,
++				     "prepare vblank failed on crtc %i, ret=%i\n",
++				     pipe, ret);
++			return ret;
++		}
++
+ 		ret = drm_crtc_vblank_get(crtc);
+ 		if (ret) {
+ 			drm_dbg_core(dev,
+@@ -2098,6 +2159,14 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
+ 	if (e == NULL)
+ 		return -ENOMEM;
+ 
++	ret = drm_crtc_vblank_prepare(crtc);
++	if (ret) {
++		drm_dbg_core(dev,
++			     "prepare vblank failed on crtc %i, ret=%i\n",
++			     pipe, ret);
++		return ret;
++	}
++
+ 	ret = drm_crtc_vblank_get(crtc);
+ 	if (ret) {
+ 		drm_dbg_core(dev,
+diff --git a/drivers/gpu/drm/drm_vblank_work.c b/drivers/gpu/drm/drm_vblank_work.c
+index e4e1873f0e1e1..582ee7fd94adf 100644
+--- a/drivers/gpu/drm/drm_vblank_work.c
++++ b/drivers/gpu/drm/drm_vblank_work.c
+@@ -113,11 +113,19 @@ int drm_vblank_work_schedule(struct drm_vblank_work *work,
+ {
+ 	struct drm_vblank_crtc *vblank = work->vblank;
+ 	struct drm_device *dev = vblank->dev;
++	struct drm_crtc *crtc;
+ 	u64 cur_vbl;
+ 	unsigned long irqflags;
+ 	bool passed, inmodeset, rescheduling = false, wake = false;
+ 	int ret = 0;
+ 
++	crtc = drm_crtc_from_index(dev, vblank->pipe);
++	if (crtc) {
++		ret = drm_crtc_vblank_prepare(crtc);
++		if (ret)
++			return ret;
++	}
++
+ 	spin_lock_irqsave(&dev->event_lock, irqflags);
+ 	if (work->cancelling)
+ 		goto out;
+diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+index caa56e039da2a..456cf9ba0143a 100644
+--- a/include/drm/drm_crtc.h
++++ b/include/drm/drm_crtc.h
+@@ -860,6 +860,33 @@ struct drm_crtc_funcs {
+ 	 */
+ 	u32 (*get_vblank_counter)(struct drm_crtc *crtc);
+ 
++	/**
++	 * @prepare_enable_vblank:
++	 *
++	 * An optional callback for preparing to enable vblank interrupts. It
++	 * allows drivers to perform blocking operations, and thus is called
++	 * without any vblank spinlocks. Consequently, this callback is not
++	 * synchronized with the rest of drm_vblank management; drivers are
++	 * responsible for ensuring it won't race with drm_vblank and it's other
++	 * driver callbacks.
++	 *
++	 * For example, drivers may use this to spin-up hardware from a low
++	 * power state -- which may require blocking operations -- such that
++	 * hardware registers are available to read/write. However, the driver
++	 * must be careful as to when to reenter low-power state, such that it
++	 * won't race with enable_vblank.
++	 *
++	 * It is called unconditionally, regardless of whether vblank interrupts
++	 * are already enabled or not.
++	 *
++	 * This callback is optional. If not set, no preparation is performed.
++	 *
++	 * Returns:
++	 *
++	 * Zero on success, negative errno on failure.
++	 */
++	int (*prepare_enable_vblank)(struct drm_crtc *crtc);
++
+ 	/**
+ 	 * @enable_vblank:
+ 	 *
+diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
+index 151ab1e85b1b7..5abc367aa4376 100644
+--- a/include/drm/drm_vblank.h
++++ b/include/drm/drm_vblank.h
+@@ -272,6 +272,7 @@ void drm_vblank_set_event(struct drm_pending_vblank_event *e,
+ 			  ktime_t *now);
+ bool drm_handle_vblank(struct drm_device *dev, unsigned int pipe);
+ bool drm_crtc_handle_vblank(struct drm_crtc *crtc);
++int drm_crtc_vblank_prepare(struct drm_crtc *crtc);
+ int drm_crtc_vblank_get(struct drm_crtc *crtc);
+ void drm_crtc_vblank_put(struct drm_crtc *crtc);
+ void drm_wait_one_vblank(struct drm_device *dev, unsigned int pipe);
+-- 
+2.51.0
 
