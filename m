@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70901C8D196
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 08:31:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C61C8D1C6
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 08:32:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A28C510E180;
-	Thu, 27 Nov 2025 07:31:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1DF710E76B;
+	Thu, 27 Nov 2025 07:32:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bSwmYIP9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aNfbPY9J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EA8510E180
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 07:31:01 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62E2310E76B
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 07:32:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 121E5441B5;
- Thu, 27 Nov 2025 07:31:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 650D2C116B1;
- Thu, 27 Nov 2025 07:31:00 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 940E360172;
+ Thu, 27 Nov 2025 07:32:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6770C4CEF8;
+ Thu, 27 Nov 2025 07:32:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764228661;
- bh=BzSSbRUngkZLCHPiK66chBRHs0psXmRouSqUaQ+VoLM=;
+ s=k20201202; t=1764228757;
+ bh=YjYMuJ4WwkDAUrkkzpqXIur0vkDiZXPtn4Yire7fP+g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bSwmYIP9ynLIkEl3xQ6dmCibhUeC4ELNOwSg13QX8NMq6+dVofv3xfSBhFiSxdE63
- jUFnuZslfO44Brd3yBXW5EzR2kElhkieD4Z6B+zvLRDuWKRlYkjfkTHfvXRay09/Eh
- L9WEyaZEM6nt48XKsntmaLk1SSSzWwoF7l7OGN23kz33Q0TeksXy9V3od0j9ZLNTcg
- pLnHbmfgEzCI/RZuqt4AU8+xJwHUdGtDm32qC9CCZHvsjlaEfGVWwYFFSahaR3dV3C
- pD9tnUbdu78C3fyVR2lZGZ1vSPp8iyh8AL1OfUyvsRmcIEKz9+Ndxe03lW7IXcb6Sy
- 07ej9zMGISwZQ==
-Date: Thu, 27 Nov 2025 08:30:58 +0100
+ b=aNfbPY9J53ReZwX208tcTNE2ncueZ+5f5z+43rwRjadX6lt3lW0Y4fXwSHUqfiMTR
+ eqKEgkpvhaHud+M8Dx1r/vG0o9QCWhFtfkqTfz4iZQGUcwhPd1V3xbgzTb38/HmLvI
+ 6rBbLWWJ0eTIwhKAZ0qdmIoaLmr8xapcCcdUPwloU7MD/ovLgWbSR8QEz2waZZ6mqB
+ BNEXzgm4L4FA4w5T75Ketl8vkRViH70/xvc/r1Htl6oTonSqfECHQXyku2pFbhOZpj
+ YaBznN9w0NVhAPg3veh/hyPXTMNQa7lQ+H4HQjUvcAhjFFKKRj5UJXq8Il4N/Wcevz
+ qqNrWgskreIcg==
+Date: Thu, 27 Nov 2025 08:32:34 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
 Cc: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com, 
@@ -41,15 +41,15 @@ Cc: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  jingyi.wang@oss.qualcomm.com, 
  aiqun.yu@oss.qualcomm.com, ktadakam@qti.qualcomm.com
-Subject: Re: [PATCH v4 1/4] dt-bindings: misc: qcom,fastrpc: Add compatible
- for Kaanapali
-Message-ID: <20251127-prehistoric-sponge-of-faith-efde44@kuoka>
+Subject: Re: [PATCH v4 3/4] misc: fastrpc: Add support for new DSP IOVA
+ formatting
+Message-ID: <20251127-liberal-azure-turtle-194a9b@kuoka>
 References: <20251126094545.2139376-1-kumari.pallavi@oss.qualcomm.com>
- <20251126094545.2139376-2-kumari.pallavi@oss.qualcomm.com>
+ <20251126094545.2139376-4-kumari.pallavi@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251126094545.2139376-2-kumari.pallavi@oss.qualcomm.com>
+In-Reply-To: <20251126094545.2139376-4-kumari.pallavi@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,42 +65,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 26, 2025 at 03:15:42PM +0530, Kumari Pallavi wrote:
-> Add a new compatible string "qcom,kaanapali-fastrpc" to support
-> for Kaanapali SoC.
-
-... and here you write WHY or provide background about hardware
-differences, instead of writing what you did. We see what you did easily
-- we can read the diff. Additionally your subject already said this, so
-basically your commit msg is redundant...
-
-I still do not know why Kaanapali needs this.
-
-> 
-> Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-> ---
->  Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-> index 3f6199fc9ae6..6c19217d63a6 100644
-> --- a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-> +++ b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
-> @@ -18,7 +18,10 @@ description: |
+On Wed, Nov 26, 2025 at 03:15:44PM +0530, Kumari Pallavi wrote:
+> @@ -685,7 +701,8 @@ static int fastrpc_dma_buf_attach(struct dma_buf *dmabuf,
+>  		return -ENOMEM;
 >  
->  properties:
->    compatible:
-> -    const: qcom,fastrpc
-> +    items:
-
-No need to introduce items, wasn't here before. Just enum directly.
-
-> +      - enum:
-> +          - qcom,kaanapali-fastrpc
-> +          - qcom,fastrpc
+>  	ret = dma_get_sgtable(buffer->dev, &a->sgt, buffer->virt,
+> -			      FASTRPC_PHYS(buffer->dma_addr), buffer->size);
+> +			      IPA_TO_DMA_ADDR(buffer->dma_addr,
+> +			      buffer->fl->cctx->soc_data->sid_pos), buffer->size);
+>  	if (ret < 0) {
+>  		dev_err(buffer->dev, "failed to get scatterlist from DMA API\n");
+>  		kfree(a);
+> @@ -734,7 +751,8 @@ static int fastrpc_mmap(struct dma_buf *dmabuf,
+>  	dma_resv_assert_held(dmabuf->resv);
 >  
->    label:
->      enum:
+>  	return dma_mmap_coherent(buf->dev, vma, buf->virt,
+> -				 FASTRPC_PHYS(buf->dma_addr), size);
+> +				 IPA_TO_DMA_ADDR(buf->dma_addr,
+> +				 buf->fl->cctx->soc_data->sid_pos), size);
+
+Some odd alignment here. Are you sure you run checkpatch --strict?
+
+
+>  }
+>  
+>  static const struct dma_buf_ops fastrpc_dma_buf_ops = {
+> @@ -789,7 +807,8 @@ static int fastrpc_map_attach(struct fastrpc_user *fl, int fd,
+>  		map->dma_addr = sg_phys(map->table->sgl);
+>  	} else {
+>  		map->dma_addr = sg_dma_address(map->table->sgl);
+> -		map->dma_addr += ((u64)fl->sctx->sid << 32);
+> +		map->dma_addr += fastrpc_compute_sid_offset((u64)fl->sctx->sid,
+> +				 fl->cctx->soc_data->sid_pos);
+>  	}
+>  	for_each_sg(map->table->sgl, sgl, map->table->nents,
+>  		sgl_index)
+> @@ -2290,6 +2309,14 @@ static int fastrpc_get_domain_id(const char *domain)
+>  	return -EINVAL;
+>  }
+>  
+> +static const struct fastrpc_soc_data kaanapali_soc_data = {
+> +	.sid_pos = 56,
+> +};
+> +
+> +static const struct fastrpc_soc_data default_soc_data = {
+> +	.sid_pos = 32,
+> +};
+> +
+>  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  {
+>  	struct device *rdev = &rpdev->dev;
+> @@ -2298,6 +2325,11 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  	const char *domain;
+>  	bool secure_dsp;
+>  	unsigned int vmids[FASTRPC_MAX_VMIDS];
+> +	const struct fastrpc_soc_data *soc_data = NULL;
+
+Drop assignment, not helpful.
+
+> +
+> +	soc_data = device_get_match_data(rdev);
+> +	if (!soc_data)
+> +		soc_data = &default_soc_data;
+>  
+>  	err = of_property_read_string(rdev->of_node, "label", &domain);
+>  	if (err) {
+> @@ -2350,6 +2382,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  
+>  	secure_dsp = !(of_property_read_bool(rdev->of_node, "qcom,non-secure-domain"));
+>  	data->secure = secure_dsp;
+> +	data->soc_data = soc_data;
+>  
+>  	switch (domain_id) {
+>  	case ADSP_DOMAIN_ID:
+> @@ -2487,7 +2520,8 @@ static int fastrpc_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
+>  }
+>  
+>  static const struct of_device_id fastrpc_rpmsg_of_match[] = {
+> -	{ .compatible = "qcom,fastrpc" },
+> +	{ .compatible = "qcom,kaanapali-fastrpc", .data = &kaanapali_soc_data },
+> +	{ .compatible = "qcom,fastrpc", .data = &default_soc_data },
+>  	{ },
+>  };
+>  MODULE_DEVICE_TABLE(of, fastrpc_rpmsg_of_match);
 > -- 
 > 2.34.1
 > 
