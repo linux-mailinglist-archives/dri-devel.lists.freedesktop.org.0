@@ -2,71 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71A6C8E5FA
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 14:06:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD40AC8E6BC
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 14:19:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C308610E6AF;
-	Thu, 27 Nov 2025 13:06:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E18A210E08E;
+	Thu, 27 Nov 2025 13:19:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fm1l/+ac";
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="JwNpLTrB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3637F10E6AA;
- Thu, 27 Nov 2025 13:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764248762;
- bh=41OLpYl/PugRZwukM9OKk+cqupT6RmS2hPyl9hBWZOU=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=fm1l/+acdiKSDrc/PGmpXpRz1pXS4NNX3KTJgKhNlT9DQuBvktstKmlfUk//A3+JB
- KN+SGkEBgKl0U+YFdqe/m7UhV3WMkDVeaADid153zgglHGNfdvirwkshcMihHI6F1D
- 81TAYU4Ol2eKTCJQEXHd5DSp5jRjTghU88sQ0kR/6LHz5bYgl0XnYwDIeDdBXzKrQx
- 6RUKjDTLIRDv84nR7Znp5mzbSM74OwTsnK6yyXWyt58+0jT3dQorMQi5S7uLHSG0nq
- Txumyue9wwwPgUVuswYPE32DzAYgk5yhrrT6ujaTKAB5CYo+75jXVxa6i8yd4v3x0f
- GZHimb9cS1Bmw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B06BF17E1203;
- Thu, 27 Nov 2025 14:06:01 +0100 (CET)
-Date: Thu, 27 Nov 2025 14:05:57 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Faith Ekstrand <faith.ekstrand@collabora.com>, Thierry
- Reding <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mcanal@igalia.com>, Lucas De Marchi <lucas.demarchi@intel.com>, Thomas
- =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Rodrigo
- Vivi <rodrigo.vivi@intel.com>, Frank Binns <frank.binns@imgtec.com>, Matt
- Coster <matt.coster@imgtec.com>, Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
- <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, kernel@collabora.com
-Subject: Re: [PATCH v6 01/16] drm/prime: Simplify life of drivers needing
- custom dma_buf_ops
-Message-ID: <20251127140557.577f74e5@fedora>
-In-Reply-To: <20251127133230.4740dbc9@fedora>
-References: <20251126124455.3656651-1-boris.brezillon@collabora.com>
- <20251126124455.3656651-2-boris.brezillon@collabora.com>
- <2e789ff6-b79f-4577-bc69-f74dfed6acfa@suse.de>
- <daaf256e-8662-4f9a-b702-1a6656117448@suse.de>
- <0d1fe2cf-dbda-4e64-bc3b-a2c9c0887820@suse.de>
- <20251127114440.7a1d9e16@fedora> <20251127133230.4740dbc9@fedora>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0660310E08E
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 13:19:22 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-5957753e0efso949694e87.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 05:19:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1764249561; x=1764854361;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Qa5rSgxsMBgNnzr8BR11LLdhDyhOIcF98vMIluiI9sA=;
+ b=JwNpLTrBXIKHgMaPfM4vIPsOJJarR829w7UKiNObkiL1AQ5jRBG7n2icTJOTmIpvRU
+ tRtoAFxayKYwQPTRisVk2F0PoyMsdrMTze8+BsLynj3hJ5hGuwtXA6w3tfh3mupuHYaa
+ ZP1ll796kYKjBD0IZFVmeWNCGV+QTSPUT4NpTgCDinyz2BoFxbWiIm6m+R2Rh+t1ZB7K
+ lYUrq7ed3A00q3IVp0eGSWNAj1LUCEL/H6yrcR0RJ8AYgsjzpFOrgd1hA7gqj5O+liF9
+ g3psCxHilpvEIy9bwQJqkrQDcSuAtySs55eGg2pqB6bXIZTX/OECXMeHI3Gz5YxBqBRI
+ j/hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764249561; x=1764854361;
+ h=cc:to:subject:message-id:date:references:mime-version:in-reply-to
+ :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Qa5rSgxsMBgNnzr8BR11LLdhDyhOIcF98vMIluiI9sA=;
+ b=ep0PVi1U/hPt+7w1oYkWcCNeBMnsVcFwe4UZktyp/op0llg051VrQb8iwBEJudSqXi
+ a1cLwGZpwuwFfzknR5gU0db0ECXFg+qBalwUSDaGG+QrXA8BMJ5diaoXaekkrrgzf9Lp
+ zXrIM4X5B8SE6Xze3ebbQa85TtutZUhgkLp1rYSqp7hkej9tG6ou4MyczlU2TqiWIH4i
+ nq32/icLjsW9KOy4WBrBu+Hi/FPs36EwuO+Dco+YzoM4FPITxTVCYUhF3+eiaHrkzVlF
+ ZfFOVglItcJWZy1Y056qxnWy4DRLxhLzP7qI+/ZGTNqdnoHHfAQzXq9f6XQ1Rme2Bo4a
+ x0OA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVf3/NrNdDzQ7CPwit6XV7IXdEb2EfaV0CODdlUHnsdu0WRewerDGSzK1fcHTBdXwspHsQfuFoayLI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwoKiHNoPwCQT472qHoorWENHudc95SLvhEF3RNEqsFfjzpxqYN
+ Gvu4fL8A1CBnAqOip/jabwAh86nty56zCM5FTICfreGJzwqw9goBU3Jx4I8RJJ8Ua/tnG7mQ9f2
+ c/PL500ImKOsma+acROnp+ESZcd5UtoCqYsFdJOEAbA==
+X-Gm-Gg: ASbGncshn+M812VlmLoU6upvkkEUZ8Znlqz/GbQ67G3HgN3adK24SUUNpNMAp0Pj9cd
+ lqFocXjcZFNyIHUlN87fzSuyEwZ52Koq1E+HqNRdLKL/gMRzVMjwqcDXfZ84RSkBpbznUEhQUft
+ DaHhMJ/Bm5/OLrdiEbaeCTQcxDAhMYRnAAUR4cWkQNrbrmi4nAgUf7ttxXGyTccNQIvuXnDeRO/
+ P6AonkR+gayMh+0FRH75WFQ+1VUdupKXCvsvfAlUawA44ddLK/Xi0zXMnO0H8iNeTwNnYGQncCG
+ baOn6t8frp7mazmXTygjPCF2XyI=
+X-Google-Smtp-Source: AGHT+IFv4GnkzKuW5eP3thzxCRyJsfT/CIvGgglFh+tmFfX0OqQYKRle07uF9vIrb6qOFN7GsZbNvxi1KoK9iGxUlqI=
+X-Received: by 2002:a05:6512:238e:b0:595:9dbc:2ed0 with SMTP id
+ 2adb3069b0e04-596a3ea6664mr9117003e87.4.1764249561056; Thu, 27 Nov 2025
+ 05:19:21 -0800 (PST)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 27 Nov 2025 05:19:19 -0800
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 27 Nov 2025 05:19:19 -0800
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+In-Reply-To: <2025112705-registrar-drivable-2341@gregkh>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20231127051414.3783108-1-victor.liu@nxp.com>
+ <20231127051414.3783108-2-victor.liu@nxp.com>
+ <v6rthnruba5xaxazsn4jsptn6catso5qwuyf5xxbf4ml25b6eo@snttjo7oqlod>
+ <2023112739-willing-sighing-6bdd@gregkh>
+ <CAMRc=Mc3T1u1sa0P+78dfhtoyBPc+9zsJ5sGP=ZLR+S=h16vZg@mail.gmail.com>
+ <2025112705-registrar-drivable-2341@gregkh>
+Date: Thu, 27 Nov 2025 05:19:19 -0800
+X-Gm-Features: AWmQ_bnopX1NwnmSAB4rxhi5_XdHwE8aFqWlc4JptCLwfFW0D9DDoUsJLxqpKZ4
+Message-ID: <CAMRc=Meb0-Q7UCPhbfQ+pLybS2Jp=QpwxXGXNfQ+Ti64okoqYw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] driver core: Export device_is_dependent() to
+ modules
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ rafael@kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-next@vger.kernel.org, sfr@canb.auug.org.au, andrzej.hajda@intel.com, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, 
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com, 
+ daniel@ffwll.ch, angelogioacchino.delregno@collabora.com, 
+ ulf.hansson@linaro.org, linus.walleij@linaro.org, 
+ Liu Ying <victor.liu@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,188 +102,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 27 Nov 2025 13:32:30 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+On Thu, 27 Nov 2025 09:29:03 +0100, Greg KH <gregkh@linuxfoundation.org> said:
+> On Wed, Nov 26, 2025 at 02:13:03PM +0100, Bartosz Golaszewski wrote:
+>> The logical thing to do would be to use "device_is_dependent()" but
+>> this thread makes me think that won't fly.
+>>
+>> What should I do? What's the "correct" way of checking if two devices
+>> are linked? I assume that fiddling with the supplier/consumer lists in
+>> struct device is not it.
+>
+> fiddling with those lists is what device_is_dependent() does, but no,
+> you really don't want to be doing that either manually or by calling
+> this function.
+>
+> Who is creating this "link"?  Can't that caller tell the gpio core this
+> relationship at the same time as you are wanting to keep track of it
+> too?
+>
 
-> Hi Thomas,
->=20
-> On Thu, 27 Nov 2025 11:44:40 +0100
-> Boris Brezillon <boris.brezillon@collabora.com> wrote:
->=20
-> > On Thu, 27 Nov 2025 09:58:55 +0100
-> > Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >  =20
-> > > Hi
-> > >=20
-> > > Am 27.11.25 um 09:42 schrieb Thomas Zimmermann:   =20
-> > > > Hi
-> > > >
-> > > > Am 27.11.25 um 09:34 schrieb Thomas Zimmermann:     =20
-> > > >> Hi
-> > > >>
-> > > >> Am 26.11.25 um 13:44 schrieb Boris Brezillon:     =20
-> > > >>> drm_gem_is_prime_exported_dma_buf() checks the dma_buf->ops again=
-st
-> > > >>> drm_gem_prime_dmabuf_ops, which makes it impossible to use if the
-> > > >>> driver implements custom dma_buf_ops. Instead of duplicating a bu=
-nch
-> > > >>> of helpers to work around it, let's provide a way for drivers to
-> > > >>> expose their custom dma_buf_ops so the core prime helpers can rel=
-y on
-> > > >>> that instead of hardcoding &drm_gem_prime_dmabuf_ops.     =20
-> > > >>
-> > > >> This can't go in as-is. I've spent an awful amount of patches on=20
-> > > >> removing buffer callbacks from struct drm_driver. Let's please not=
- go=20
-> > > >> back to that.
-> > > >>     =20
-> > > >>>
-> > > >>> v5:
-> > > >>> - New patch
-> > > >>>
-> > > >>> v6:
-> > > >>> - Pass custom dma_buf_ops directly instead of through a getter
-> > > >>>
-> > > >>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > >>> ---
-> > > >>> =C2=A0 drivers/gpu/drm/drm_prime.c | 10 ++++++++--
-> > > >>> =C2=A0 include/drm/drm_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0 8 ++++++++
-> > > >>> =C2=A0 2 files changed, 16 insertions(+), 2 deletions(-)
-> > > >>>
-> > > >>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_pr=
-ime.c
-> > > >>> index 21809a82187b..86fd95f0c105 100644
-> > > >>> --- a/drivers/gpu/drm/drm_prime.c
-> > > >>> +++ b/drivers/gpu/drm/drm_prime.c
-> > > >>> @@ -904,6 +904,12 @@ unsigned long=20
-> > > >>> drm_prime_get_contiguous_size(struct sg_table *sgt)
-> > > >>> =C2=A0 }
-> > > >>> =C2=A0 EXPORT_SYMBOL(drm_prime_get_contiguous_size);
-> > > >>> =C2=A0 +static const struct dma_buf_ops *
-> > > >>> +drm_gem_prime_get_dma_buf_ops(struct drm_device *dev)
-> > > >>> +{
-> > > >>> +=C2=A0=C2=A0=C2=A0 return dev->driver->dma_buf_ops ?: &drm_gem_p=
-rime_dmabuf_ops;
-> > > >>> +}
-> > > >>> +
-> > > >>> =C2=A0 /**
-> > > >>> =C2=A0=C2=A0 * drm_gem_prime_export - helper library implementati=
-on of the=20
-> > > >>> export callback
-> > > >>> =C2=A0=C2=A0 * @obj: GEM object to export
-> > > >>> @@ -920,7 +926,7 @@ struct dma_buf *drm_gem_prime_export(struct=20
-> > > >>> drm_gem_object *obj,
-> > > >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_buf_export_info exp_inf=
-o =3D {
-> > > >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .exp_name =
-=3D KBUILD_MODNAME, /* white lie for debug */
-> > > >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .owner =3D=
- dev->driver->fops->owner,
-> > > >>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ops =3D &drm_gem_pri=
-me_dmabuf_ops,
-> > > >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ops =3D drm_gem_prim=
-e_get_dma_buf_ops(dev),     =20
-> > > >>
-> > > >> Rather provide a new function drm_gem_prime_export_with_ops() that=
-=20
-> > > >> takes an additional dma_ops instance. The current=20
-> > > >> drm_gem_prime_export() would call it with &drm_gem_prime_dmabuf_op=
-s.
-> > > >>
-> > > >> If this really does not work, you could add a pointer to dma_buf_o=
-ps=20
-> > > >> to drm_gem_object_funcs and fetch that from drm_gem_prime_export()=
-.=20
-> > > >> We already vm_ops there.
-> > > >>
-> > > >> Other drivers, such as amdgpu, would also benefit from such a chan=
-ge
-> > > >>     =20
-> > > >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .size =3D =
-obj->size,
-> > > >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .flags =3D=
- flags,
-> > > >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .priv =3D =
-obj,
-> > > >>> @@ -947,7 +953,7 @@ bool drm_gem_is_prime_exported_dma_buf(struct=
-=20
-> > > >>> drm_device *dev,
-> > > >>> =C2=A0 {
-> > > >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_gem_object *obj =3D dma=
-_buf->priv;
-> > > >>> =C2=A0 -=C2=A0=C2=A0=C2=A0 return (dma_buf->ops =3D=3D &drm_gem_p=
-rime_dmabuf_ops) &&=20
-> > > >>> (obj->dev =3D=3D dev);
-> > > >>> +=C2=A0=C2=A0=C2=A0 return dma_buf->ops =3D=3D drm_gem_prime_get_=
-dma_buf_ops(dev) &&=20
-> > > >>> obj->dev =3D=3D dev;     =20
-> > > >
-> > > > On a second thought, we probably cannot be sure that dma_buf->priv=
-=20
-> > > > really is a GEM object until we tested the ops field. :/=C2=A0 IIRC=
- that's=20
-> > > > why the ops test goes first and the test for obj->dev goes second. =
-So=20
-> > > > neither solution works.     =20
-> > >=20
-> > > I think, instead of looking at the ops field, the test could look at=
-=20
-> > > dma_buf->owner =3D=3D dev->driver->fops->owner.=C2=A0 This will tell =
-if the=20
-> > > dma_buf comes from the same driver and hence is a GEM object. In the=
-=20
-> > > next step, do obj->dev =3D=3D dev as before.=C2=A0 This will also all=
-ow drivers=20
-> > > like amdgpu to use the helper for testing. See [1].   =20
-> >=20
-> > Except this doesn't work when the driver is linked statically (not
-> > enabled as a module), because THIS_MODULE is NULL in that case. =20
->=20
-> Couple more alternatives, if someone is interested in pursing in that
-> path:
->=20
-> - Have a drm_device::dmabuf_ops and a drm_dev_set_dmabuf_ops() helper
->   to attach the driver dma_buf_ops to the device and allow a direct:
->=20
-> 	dmabuf->ops =3D=3D dev->dmabuf_ops
->=20
->   test
-> - Have a dev field (struct device *) added to dma_buf, and have a
->=20
-> 	dmabuf->dev =3D=3D drm_dev_dma_dev(dev)
->=20
->   test
->=20
-> On my side, I'll just drop all the drm_gem[_shmem] changes in this
-> series and duplicate the logic in panthor/panfrost for now, because it
-> seems there's no consensus on this code-sharing proposal, and I want the
-> cached CPU mapping stuff merged.
->=20
-> Just to be clear, I still think the proposed code sharing is
-> valuable to
->=20
-> - avoid simple mistakes in drivers (it's very easy to get something
->   wrong in the import/export sequence)
-> - ease propagation of fixes (all drivers using the common bits get the
->   fix automatically)
-> - ease refactoring of code (it's easier to patch one common helper than
->   a half a dozen drivers)
->=20
-> Let alone the fact it could remove a bunch of boilerplate code in
-> various drivers. This being said, I'm not willing to spend time on
-> something that's likely to be rejected because of postures on
-> philosophical design decisions (which I understand, but not necessarily
-> agree with ;-)).
+The link would be created in reset core.
 
-Quick update based on the discussion that happened on IRC between Thomas
-and I. Thomas suggestion would be to add an optional
+Let's consider the following:
 
-	bool (*gem_prime_dev_is_exporter)(struct drm_device *dev,
-					  struct dma_buf *dmabuf);
+GPIO Consumer A ---> reset-gpio ---> |
+                                     | GPIO Controller pin X
+GPIO Consumer B -------------------> |
 
-callback instead of the drm_driver::dma_buf_ops field added in this patch.
-This means driver would simply have to provide their own ops, and
-implement their own drm_gem_object_funcs::export().
+The GPIO core will scan the device tree and realize that A and B share the
+same pin. The reset-gpio device is not described in firmware, it will be
+created only when A requests a reset control. When it, on behalf of consumer A,
+requests pin X, GPIO core can not associate the link between consumer A and
+pin X with the link between reset-gpio and pin X because there's no such
+reference in firmware nodes between consumer A and reset-gpio. To GPIO, these
+are two separate references to the same pin. Only reset core knows about A
+being the consumer of reset-gpio.
 
-Christian, would you be happy with that?
+We could add a function in reset like:
+
+  struct device *reset_gpio_to_reset_device(struct device *dev);
+
+which would return the actual consumer of pin X for a device we identified as
+reset-gpio (for instance: with device_is_compatible(dev, "reset-gpio")) but
+that would be adding a symbol for a corner case and a single user and for
+which the relevant information already exists and could easily be retrieved
+from existing device links.
+
+I hope that explains it better.
+
+To answer your question: the caller can't tell GPIO about this relationship,
+GPIO would have to ask reset about it but having a dedicated symbol for this
+doesn't really sound like the best approach.
+
+Bartosz
