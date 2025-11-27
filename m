@@ -2,60 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAEA5C8CC63
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 04:50:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16AB3C8D501
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 09:19:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47C5B10E748;
-	Thu, 27 Nov 2025 03:50:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EAE810E79B;
+	Thu, 27 Nov 2025 08:19:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="D4oBTfB6";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lem1Ozhk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
- [136.143.184.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84CF310E748
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 03:50:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1764215435; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=aOD87E7jC9dcuOGiMAb8hjpmA2QDVE/ZAUPC15wJbPmP6g3ZBHLK8coQ39k0m5CUNWKy7UF7r7F3+f5BY4f0rGQOVxq2mK031RcjPspmZZ5WjoHKwavLWExShGt9P/PLgMSwUUyxdS89nvmT0Ej600HQRDV/nONjz7hFaij2i+Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1764215435;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=+lmb5v+FP/fnNt8vPmqnG/P5zFtUDYlZGk/OvxAYLd4=; 
- b=nSQZh6e5OliMElZ0N3P48epRpwcexxp4QcTUIMrsJjX9PVN/QkF+M+LS+tC4cqy0YUTaF0cpRY3de8+qZ6e9yYwwVayTSWo5KHgCH/8nWmcUMB0+0sJSDPFOZaakg5J+Pp8D3NbARVOn/IH085/+FFziOt+jwV17m1s4caPmaSI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764215435; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=+lmb5v+FP/fnNt8vPmqnG/P5zFtUDYlZGk/OvxAYLd4=;
- b=D4oBTfB67bL7iYMWZrD8jaLEuKiXHTxWojntI/hQ++FTkc71dmiQ4WPtm0WSKiGG
- YQpzo+gApSymVfnJCqnc++JbFgUNPZyWHABdAahH/vh4oO836cQbayleEX4Yzr0N9+J
- XJkGtxq+G3P4S3BKZmy/k6OPoZnwHhmtuWufP33U=
-Received: by mx.zohomail.com with SMTPS id 176421543432152.11821338160519;
- Wed, 26 Nov 2025 19:50:34 -0800 (PST)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: linux-kernel@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Subject: [PATCH v2 1/1] drm/panthor: Support partial unmaps of huge pages
-Date: Thu, 27 Nov 2025 03:50:13 +0000
-Message-ID: <20251127035021.624045-2-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251127035021.624045-1-adrian.larumbe@collabora.com>
-References: <20251127035021.624045-1-adrian.larumbe@collabora.com>
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5311E10E15F
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 04:44:10 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-7aa9be9f03aso350262b3a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 20:44:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764218650; x=1764823450; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=x7BjBMa+JRnqZfeT1IW4v+bUgZq+0v2oxPOk5e1+Mak=;
+ b=lem1OzhkBAiWKL7o9KfeSHO0pJok02NzV9I8Lo0P5xhkB5CU1zMnWwHdTNHBUntidA
+ nkFqV2jkN9QDLlwCYl/lkKLoV+6DnGTsBZTBLTc/NsWyc7kkEo0RJo0+oUQr2kA/1B2u
+ 9nQyOz9XOKm5jPlLfMlTSL32q+LSOL7F9mXAFnKEJPZs9o98xwNmy7QcQH+Fq9f3YDFn
+ 7DAQcWKFcPfLV0VaRUkhAplPq6Yo75e6SvQnqmGadOkyRAs+BoLtXe4VDMGvxrgyOIZI
+ OKX5t4dLVdGCGcMxs0fKdumDfxqOqmgnhUE3h2/zr0kui14GArbpw5BJrz/5DQFURfjW
+ RJGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764218650; x=1764823450;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=x7BjBMa+JRnqZfeT1IW4v+bUgZq+0v2oxPOk5e1+Mak=;
+ b=eQWd58so0bRltIsInNQ95EZmBv7hDfg7ITfa++2YTF3UajonTAVk9WpvkkAN/v9I49
+ t49/UZ5BgjkcIginGO5poWyerkbQVnYZ8VOkUasggZWgHqRCNLm0YTsNBToz8mcxHrWw
+ YiaQkFAfkuI+SaJrqQ9X0sxHcKmf/FsgU9y1n2n4LJohOdj1yH/0mKUAT8piZvke+G0m
+ 561V/k7zjUV6DlvVni7WuRFJiDPnnwRAOuL3CHWfhnU+65B4rjP6gsUn8gtQV2vH7ITJ
+ 65YPUVE6L1UYVrtuJnFzZk4l5j8R+8u7T3tZMQe9gQ/21b1Nh0LcXR1hEOuPOw5njKs+
+ hRAg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVNji3TP75ajRbtcsfLSnZ6W4Yh5vLuibFHWJrUYLZd+jBbzNrQAO1jFmZZA5JjFgR6Xx2jgP47cvU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw2Vv5VQacByrunNtcVjiO59vtconu6Ii6Nk7ftG2Q+PnV1RSY8
+ JQgcs9o3JQB8oGC4pHnLMLVV6Ms4roKsieXkB0DbIFIXhBopwRpaRpUe
+X-Gm-Gg: ASbGncto/x8xoxpNc1YnbIWwuEwRHsuz3yjoq3xfcy/+virBB1I573wmSey9izD/yDm
+ oakUn61Za3UlIuqd1R35Nkee5rMuX1OuZINniaDu/Tgry8ddVNuM/FKhZYFtNSjXryc0Us0ltrn
+ sPwy/RzfrlodJ5B5Jl1TAhIjnKkJH85tp5Yd7AwLtiJYVoepl8HAr5kKfeD5ZV9euyG8iG7EBr9
+ 2/INhS3liT+pDJO3ss/ut8HTKfx4ZRL5wBHtyUqCYmacfP3gsLdpm59/WtrYuoGfw222lGuQgCI
+ b4UAE9ydQq1cA6clJBdYWUK6wzDepgJ6FaA4kZeMh3t/8qYbdCqBvoYg/z6v6kt+MvGQiX7KETr
+ wTjdGlPtv3tuMO3tf1McmKraZornmFPRRfPT/O3hvtqzUqm5HmqzyBdiN0FQWUH7cEl4rY5EJeE
+ XCxhp4eEYxwc7SD+oOcCogw+PjBre9yTFG/oJDQ+ta
+X-Google-Smtp-Source: AGHT+IGzwx8XxKIfrZDVhykQGzSqr62sGMg9gUipriPRuelgVcksceVllUvwkK7+tgeHc5shxjATTQ==
+X-Received: by 2002:a05:6a00:2e9e:b0:7b2:1fb0:6da0 with SMTP id
+ d2e1a72fcca58-7c58e602d9dmr26604730b3a.28.1764218649685; 
+ Wed, 26 Nov 2025 20:44:09 -0800 (PST)
+Received: from localhost (211-75-139-220.hinet-ip.hinet.net. [211.75.139.220])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7d150b6853bsm313375b3a.14.2025.11.26.20.44.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 26 Nov 2025 20:44:09 -0800 (PST)
+From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/i915/dp: Add byte-by-byte fallback for broken USB-C
+ adapters
+Date: Thu, 27 Nov 2025 12:44:06 +0800
+Message-ID: <20251127044406.618543-1-acelan.kao@canonical.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 27 Nov 2025 08:19:06 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,135 +93,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 33729a5fc0ca ("iommu/io-pgtable-arm: Remove split on unmap
-behavior") did away with the treatment of partial unmaps of huge IOPTEs.
+Some USB-C hubs and adapters have buggy firmware where multi-byte AUX
+reads from DPCD address 0x00000 consistently timeout, while single-byte
+reads from the same address work correctly.
 
-In the case of Panthor, that means an attempt to run a VM_BIND unmap
-operation on a memory region whose start address and size aren't 2MiB
-aligned, in the event it intersects with a huge page, would lead to ARM
-IOMMU management code to fail and a warning being raised.
+Known affected devices that exhibit this issue:
+- Lenovo USB-C to VGA adapter (VIA VL817 chipset)
+  idVendor=17ef, idProduct=7217
+- Dell DA310 USB-C mobile adapter hub
+  idVendor=413c, idProduct=c010
 
-Presently, and for lack of a better alternative, it's best to have
-Panthor handle partial unmaps at the driver level, by unmapping entire
-huge pages and remapping the difference between them and the requested
-unmap region.
+Analysis of the failure pattern shows:
+- Single-byte probes to 0xf0000 (LTTPR) succeed
+- Single-byte probes to 0x00102 (TRAINING_AUX_RD_INTERVAL) succeed
+- 15-byte reads from 0x00000 (DPCD capabilities) timeout with -ETIMEDOUT
+- Retrying does not help - the failure is consistent across all attempts
 
-This could change in the future when the VM_BIND uAPI is expanded to
-enforce huge page alignment and map/unmap operational constraints that
-render this code unnecessary.
+The issue appears to be a firmware bug in the AUX transaction handling
+that specifically affects multi-byte reads from the base DPCD address.
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+Add a fallback mechanism that attempts byte-by-byte reading when the
+normal multi-byte drm_dp_read_dpcd_caps() fails. This workaround only
+activates for adapters that fail the standard read path, ensuring no
+impact on correctly functioning hardware.
+
+The byte-by-byte read uses drm_dp_dpcd_readb() to read each of the 15
+DPCD capability bytes individually, working around the firmware bug
+while maintaining compatibility with all other adapters.
+
+Tested with:
+- Lenovo USB-C to VGA adapter (VIA VL817) - now works with fallback
+- Dell DA310 USB-C hub - now works with fallback
+- Dell/Analogix Slimport adapter - continues to work with normal path
+
+Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
 ---
- drivers/gpu/drm/panthor/panthor_mmu.c | 76 +++++++++++++++++++++++++++
- 1 file changed, 76 insertions(+)
+ .../drm/i915/display/intel_dp_link_training.c | 21 ++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index 183da30fa500..41d7974c95ea 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -2110,6 +2110,57 @@ static int panthor_gpuva_sm_step_map(struct drm_gpuva_op *op, void *priv)
- 	return 0;
- }
- 
-+static bool
-+is_huge_page(const struct panthor_vma *unmap_vma, u64 addr)
-+{
-+	const struct page *pg;
-+	pgoff_t bo_offset;
-+
-+	bo_offset = addr - unmap_vma->base.va.addr + unmap_vma->base.gem.offset;
-+	pg = to_panthor_bo(unmap_vma->base.gem.obj)->base.pages[bo_offset >> PAGE_SHIFT];
-+
-+	return (folio_order(page_folio(pg)) >= PMD_ORDER);
-+}
-+
-+struct remap_params {
-+	u64 prev_remap_start, prev_remap_range;
-+	u64 next_remap_start, next_remap_range;
-+};
-+
-+static struct remap_params
-+get_map_unmap_intervals(const struct drm_gpuva_op_remap *op,
-+			const struct panthor_vma *unmap_vma,
-+			u64 *unmap_start, u64 *unmap_range)
-+{
-+	u64 aligned_unmap_start, aligned_unmap_end, unmap_end;
-+	struct remap_params params = {0};
-+
-+	drm_gpuva_op_remap_to_unmap_range(op, unmap_start, unmap_range);
-+	unmap_end = *unmap_start + *unmap_range;
-+
-+	aligned_unmap_start = ALIGN_DOWN(*unmap_start, SZ_2M);
-+
-+	if (aligned_unmap_start < *unmap_start &&
-+	    unmap_vma->base.va.addr <= aligned_unmap_start &&
-+	    is_huge_page(unmap_vma, *unmap_start)) {
-+		params.prev_remap_start = aligned_unmap_start;
-+		params.prev_remap_range = *unmap_start & (SZ_2M - 1);
-+		*unmap_range += *unmap_start - aligned_unmap_start;
-+		*unmap_start = aligned_unmap_start;
-+	}
-+
-+	aligned_unmap_end = ALIGN(unmap_end, SZ_2M);
-+
-+	if (aligned_unmap_end > unmap_end &&
-+	    (unmap_vma->base.va.addr + unmap_vma->base.va.range >= aligned_unmap_end) &&
-+	    is_huge_page(unmap_vma, unmap_end - 1)) {
-+		*unmap_range += params.next_remap_range = aligned_unmap_end - unmap_end;
-+		params.next_remap_start = unmap_end;
-+	}
-+
-+	return params;
-+}
-+
- static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
- 				       void *priv)
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+index aad5fe14962f..738a5bb4adb3 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+@@ -213,6 +213,7 @@ static int intel_dp_init_lttpr(struct intel_dp *intel_dp, const u8 dpcd[DP_RECEI
+ int intel_dp_read_dprx_caps(struct intel_dp *intel_dp, u8 dpcd[DP_RECEIVER_CAP_SIZE])
  {
-@@ -2118,19 +2169,44 @@ static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
- 	struct panthor_vm_op_ctx *op_ctx = vm->op_ctx;
- 	struct panthor_vma *prev_vma = NULL, *next_vma = NULL;
- 	u64 unmap_start, unmap_range;
-+	struct remap_params params;
- 	int ret;
+ 	struct intel_display *display = to_intel_display(intel_dp);
++	int ret, i;
  
- 	drm_gpuva_op_remap_to_unmap_range(&op->remap, &unmap_start, &unmap_range);
+ 	if (intel_dp_is_edp(intel_dp))
+ 		return 0;
+@@ -226,7 +227,25 @@ int intel_dp_read_dprx_caps(struct intel_dp *intel_dp, u8 dpcd[DP_RECEIVER_CAP_S
+ 				      DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV))
+ 			return -EIO;
+ 
+-	if (drm_dp_read_dpcd_caps(&intel_dp->aux, dpcd))
++	ret = drm_dp_read_dpcd_caps(&intel_dp->aux, dpcd);
++	if (ret == 0)
++		return 0;
 +
 +	/*
-+	 * ARM IOMMU page table management code disallows partial unmaps of huge pages,
-+	 * so when a partial unmap is requested, we must first unmap the entire huge
-+	 * page and then remap the difference between the huge page minus the requested
-+	 * unmap region. Calculating the right offsets and ranges for the different unmap
-+	 * and map operations is the responsibility of the following function.
++	 * Workaround for USB-C hubs/adapters with buggy firmware that fail
++	 * multi-byte AUX reads from DPCD address 0x00000 but work with
++	 * single-byte reads. Known affected devices:
++	 * - Lenovo USB-C to VGA adapter (VIA VL817, idVendor=17ef, idProduct=7217)
++	 * - Dell DA310 USB-C hub (idVendor=413c, idProduct=c010)
++	 * Read the DPCD capabilities byte-by-byte as a fallback.
 +	 */
-+	params = get_map_unmap_intervals(&op->remap, unmap_vma, &unmap_start, &unmap_range);
++	for (i = 0; i < DP_RECEIVER_CAP_SIZE; i++) {
++		ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_DPCD_REV + i, &dpcd[i]);
++		if (ret < 0)
++			return -EIO;
++	}
 +
- 	ret = panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
- 	if (ret)
- 		return ret;
++	if (dpcd[DP_DPCD_REV] == 0)
+ 		return -EIO;
  
- 	if (op->remap.prev) {
-+		ret = panthor_vm_map_pages(vm, params.prev_remap_start,
-+					   flags_to_prot(unmap_vma->flags),
-+					   to_drm_gem_shmem_obj(op->remap.prev->gem.obj)->sgt,
-+					   op->remap.prev->gem.offset, params.prev_remap_range);
-+		if (ret)
-+			return ret;
-+
- 		prev_vma = panthor_vm_op_ctx_get_vma(op_ctx);
- 		panthor_vma_init(prev_vma, unmap_vma->flags);
- 	}
- 
- 	if (op->remap.next) {
-+		ret = panthor_vm_map_pages(vm, params.next_remap_start,
-+					   flags_to_prot(unmap_vma->flags),
-+					   to_drm_gem_shmem_obj(op->remap.next->gem.obj)->sgt,
-+					   op->remap.next->gem.offset, params.next_remap_range);
-+		if (ret)
-+			return ret;
-+
- 		next_vma = panthor_vm_op_ctx_get_vma(op_ctx);
- 		panthor_vma_init(next_vma, unmap_vma->flags);
- 	}
+ 	return 0;
 -- 
-2.51.2
+2.43.0
 
