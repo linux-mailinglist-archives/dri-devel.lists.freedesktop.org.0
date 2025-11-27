@@ -2,55 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6586BC90434
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 23:04:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0205BC90330
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 22:41:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5993310E817;
-	Thu, 27 Nov 2025 22:04:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2921910E8BF;
+	Thu, 27 Nov 2025 21:41:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b="WA+L2L20";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Gov4Gva5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1802 seconds by postgrey-1.36 at gabe;
- Thu, 27 Nov 2025 22:04:12 UTC
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com
- [136.143.188.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5474610E817
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 22:04:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1764278344; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ZrU8wAZ3QAqHlQnoVgf4mpY6hkN3gJ3NxsEtlKBqkeXFpsMzlR4nxSJTXF/Qu6JHyDP9AecmV9fxn5FHG/4WeijXWD/jNvU927Uu7M0h7RBpLxtrAKMEZlBzcv79PdGpIyRxg9WnVmNc3LqbBBgWTzqr6vnJYfYrTeyJX98hHOA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1764278344;
- h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=CDmXMFFIi9M1Uo3efFpvPOwqq+qj7RzbBIEIQ1D57kU=; 
- b=BU01zz6VJVzbH9bAwjJGIoFDUuaLRCZPdfUq4sVtDxEi9zWlr9BD7UC+APfyB4nXTllsuIJqfYq1RyxxYq5VgACcxW7HVzxpkwrqk7QAlPj9nM8Y9Rz3p9BxIbZHH5UwOLVeTOO0KHfcUiQ7QI9ub81uM8+JOvRyrq4nVS6Bxsw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
- dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764278344; 
- s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=CDmXMFFIi9M1Uo3efFpvPOwqq+qj7RzbBIEIQ1D57kU=;
- b=WA+L2L202YrF9tfg8oj56+CXwFeb4l8do7MlrIYVI1vQfirW1Yjq6ouEOSSGEUKz
- vbJ7ZLjzTUdrn2HKEtrsQ3IHhpuztnAbwNY7W40DpUEveQkQ96xIiNVVR2Wsu3ySkjq
- TGVahMuJw5zr1VXLKInMwKX0doT0+fXyFf31hEMc=
-Received: by mx.zohomail.com with SMTPS id 1764278343231532.5505947730755;
- Thu, 27 Nov 2025 13:19:03 -0800 (PST)
-From: Deborah Brouwer <deborah.brouwer@collabora.com>
-To: dri-devel@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org
-Cc: daniel.almeida@collabora.com, aliceryhl@google.com,
- boris.brezillon@collabora.com,
- Deborah Brouwer <deborah.brouwer@collabora.com>
-Subject: [PATCH] rust: drm: tyr: use generated bindings for GpuInfo
-Date: Thu, 27 Nov 2025 13:18:43 -0800
-Message-ID: <20251127211843.46258-1-deborah.brouwer@collabora.com>
-X-Mailer: git-send-email 2.51.1
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A50FA10E853;
+ Thu, 27 Nov 2025 21:41:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764279660; x=1795815660;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=WnN83mCaafJox+zBKDVGUYk7Inwux9T4I2nQLsrJr5U=;
+ b=Gov4Gva57JBXwKxLWFVETkEPli7qLcwho3qXUQITaWf6cZJ2l3TUg7Yj
+ nZZ1IkGAO5LcXEvpksS4FzGdlvRZjnNPCasRNbCmTPiIxHvMqn8WQtQ/+
+ xuDm/2thnsQIug+T2W0ctvTVzk5favQ+Sd6Iy8OcQRmR0JC9BQ17xysda
+ XNIdln3Ja8OTayZg/2rF9x8F3eFDKYATxc/VGH+9b4VBUoxm2bWH+lBnu
+ jecQq+4QMdacNHW4eogcjeUok3IaZfTXM3TmbMMdVUNUDmCZpB+UnWCz+
+ bcBd6/Oiertwk5sDgfARouXvUprhyyswOApojdmliogBbHdYpQgpuNjw+ Q==;
+X-CSE-ConnectionGUID: dsE3diVgT2KvSGAmMKtYAw==
+X-CSE-MsgGUID: 6rb8kzHgQ0y6VPMda3ZC9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="66285056"
+X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; d="scan'208";a="66285056"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2025 13:41:00 -0800
+X-CSE-ConnectionGUID: Uv65/nuDSWisXOcygyCIKw==
+X-CSE-MsgGUID: Ok4RRYFYTAecC+KLOTwRaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; d="scan'208";a="192439915"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.244.140])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2025 13:40:57 -0800
+Date: Thu, 27 Nov 2025 23:40:54 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/i915/dp: Add byte-by-byte fallback for broken USB-C
+ adapters
+Message-ID: <aSjFZhZQLVb7czsh@intel.com>
+References: <20251127044406.618543-1-acelan.kao@canonical.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251127044406.618543-1-acelan.kao@canonical.com>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,109 +78,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently Tyr's struct GpuInfo is manually copied and updated from
-include/uapi/drm/panthor_drm.h. But an auto generated struct is available,
-so use that instead to avoid copy/paste errors and to stay up-to-date with
-the panthor uapi.
+On Thu, Nov 27, 2025 at 12:44:06PM +0800, Chia-Lin Kao (AceLan) wrote:
+> Some USB-C hubs and adapters have buggy firmware where multi-byte AUX
+> reads from DPCD address 0x00000 consistently timeout, while single-byte
+> reads from the same address work correctly.
+> 
+> Known affected devices that exhibit this issue:
+> - Lenovo USB-C to VGA adapter (VIA VL817 chipset)
+>   idVendor=17ef, idProduct=7217
+> - Dell DA310 USB-C mobile adapter hub
+>   idVendor=413c, idProduct=c010
+> 
+> Analysis of the failure pattern shows:
+> - Single-byte probes to 0xf0000 (LTTPR) succeed
+> - Single-byte probes to 0x00102 (TRAINING_AUX_RD_INTERVAL) succeed
+> - 15-byte reads from 0x00000 (DPCD capabilities) timeout with -ETIMEDOUT
+> - Retrying does not help - the failure is consistent across all attempts
 
-Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
----
- drivers/gpu/drm/tyr/gpu.rs | 48 ++++++++++++++++++--------------------
- 1 file changed, 23 insertions(+), 25 deletions(-)
+I thought we changed that to the more sensible 16 bytes.
+Anyone know what happened to that patch?
 
-diff --git a/drivers/gpu/drm/tyr/gpu.rs b/drivers/gpu/drm/tyr/gpu.rs
-index 6c582910dd5d..3072562e36e5 100644
---- a/drivers/gpu/drm/tyr/gpu.rs
-+++ b/drivers/gpu/drm/tyr/gpu.rs
-@@ -1,5 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0 or MIT
- 
-+use core::ops::Deref;
-+use core::ops::DerefMut;
- use kernel::bits::genmask_u32;
- use kernel::device::Bound;
- use kernel::device::Device;
-@@ -8,6 +10,7 @@
- use kernel::prelude::*;
- use kernel::time;
- use kernel::transmute::AsBytes;
-+use kernel::uapi;
- 
- use crate::driver::IoMem;
- use crate::regs;
-@@ -18,29 +21,9 @@
- /// # Invariants
- ///
- /// - The layout of this struct identical to the C `struct drm_panthor_gpu_info`.
--#[repr(C)]
--pub(crate) struct GpuInfo {
--    pub(crate) gpu_id: u32,
--    pub(crate) gpu_rev: u32,
--    pub(crate) csf_id: u32,
--    pub(crate) l2_features: u32,
--    pub(crate) tiler_features: u32,
--    pub(crate) mem_features: u32,
--    pub(crate) mmu_features: u32,
--    pub(crate) thread_features: u32,
--    pub(crate) max_threads: u32,
--    pub(crate) thread_max_workgroup_size: u32,
--    pub(crate) thread_max_barrier_size: u32,
--    pub(crate) coherency_features: u32,
--    pub(crate) texture_features: [u32; 4],
--    pub(crate) as_present: u32,
--    pub(crate) pad0: u32,
--    pub(crate) shader_present: u64,
--    pub(crate) l2_present: u64,
--    pub(crate) tiler_present: u64,
--    pub(crate) core_features: u32,
--    pub(crate) pad: u32,
--}
-+#[repr(transparent)]
-+#[derive(Clone, Copy)]
-+pub(crate) struct GpuInfo(pub(crate) uapi::drm_panthor_gpu_info);
- 
- impl GpuInfo {
-     pub(crate) fn new(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result<Self> {
-@@ -73,7 +56,7 @@ pub(crate) fn new(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result<Self> {
-         let l2_present = u64::from(regs::GPU_L2_PRESENT_LO.read(dev, iomem)?);
-         let l2_present = l2_present | u64::from(regs::GPU_L2_PRESENT_HI.read(dev, iomem)?) << 32;
- 
--        Ok(Self {
-+        Ok(Self(uapi::drm_panthor_gpu_info {
-             gpu_id,
-             gpu_rev,
-             csf_id,
-@@ -95,7 +78,8 @@ pub(crate) fn new(dev: &Device<Bound>, iomem: &Devres<IoMem>) -> Result<Self> {
-             tiler_present,
-             core_features,
-             pad: 0,
--        })
-+            gpu_features: 0,
-+        }))
-     }
- 
-     pub(crate) fn log(&self, pdev: &platform::Device) {
-@@ -154,6 +138,20 @@ pub(crate) fn pa_bits(&self) -> u32 {
-     }
- }
- 
-+impl Deref for GpuInfo {
-+    type Target = uapi::drm_panthor_gpu_info;
-+
-+    fn deref(&self) -> &Self::Target {
-+        &self.0
-+    }
-+}
-+
-+impl DerefMut for GpuInfo {
-+    fn deref_mut(&mut self) -> &mut Self::Target {
-+        &mut self.0
-+    }
-+}
-+
- // SAFETY: `GpuInfo`'s invariant guarantees that it is the same type that is
- // already exposed to userspace by the C driver. This implies that it fulfills
- // the requirements for `AsBytes`.
+Anyways, does 16 bytes work better than 15 bytes?
+
+> 
+> The issue appears to be a firmware bug in the AUX transaction handling
+> that specifically affects multi-byte reads from the base DPCD address.
+> 
+> Add a fallback mechanism that attempts byte-by-byte reading when the
+> normal multi-byte drm_dp_read_dpcd_caps() fails. This workaround only
+> activates for adapters that fail the standard read path, ensuring no
+> impact on correctly functioning hardware.
+> 
+> The byte-by-byte read uses drm_dp_dpcd_readb() to read each of the 15
+> DPCD capability bytes individually, working around the firmware bug
+> while maintaining compatibility with all other adapters.
+> 
+> Tested with:
+> - Lenovo USB-C to VGA adapter (VIA VL817) - now works with fallback
+> - Dell DA310 USB-C hub - now works with fallback
+> - Dell/Analogix Slimport adapter - continues to work with normal path
+> 
+> Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+> ---
+>  .../drm/i915/display/intel_dp_link_training.c | 21 ++++++++++++++++++-
+>  1 file changed, 20 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> index aad5fe14962f..738a5bb4adb3 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> @@ -213,6 +213,7 @@ static int intel_dp_init_lttpr(struct intel_dp *intel_dp, const u8 dpcd[DP_RECEI
+>  int intel_dp_read_dprx_caps(struct intel_dp *intel_dp, u8 dpcd[DP_RECEIVER_CAP_SIZE])
+>  {
+>  	struct intel_display *display = to_intel_display(intel_dp);
+> +	int ret, i;
+>  
+>  	if (intel_dp_is_edp(intel_dp))
+>  		return 0;
+> @@ -226,7 +227,25 @@ int intel_dp_read_dprx_caps(struct intel_dp *intel_dp, u8 dpcd[DP_RECEIVER_CAP_S
+>  				      DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV))
+>  			return -EIO;
+>  
+> -	if (drm_dp_read_dpcd_caps(&intel_dp->aux, dpcd))
+> +	ret = drm_dp_read_dpcd_caps(&intel_dp->aux, dpcd);
+> +	if (ret == 0)
+> +		return 0;
+> +
+> +	/*
+> +	 * Workaround for USB-C hubs/adapters with buggy firmware that fail
+> +	 * multi-byte AUX reads from DPCD address 0x00000 but work with
+> +	 * single-byte reads. Known affected devices:
+> +	 * - Lenovo USB-C to VGA adapter (VIA VL817, idVendor=17ef, idProduct=7217)
+> +	 * - Dell DA310 USB-C hub (idVendor=413c, idProduct=c010)
+> +	 * Read the DPCD capabilities byte-by-byte as a fallback.
+> +	 */
+> +	for (i = 0; i < DP_RECEIVER_CAP_SIZE; i++) {
+> +		ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_DPCD_REV + i, &dpcd[i]);
+> +		if (ret < 0)
+> +			return -EIO;
+> +	}
+
+Doing this in i915 specific code doesn't make sense.
+
+> +
+> +	if (dpcd[DP_DPCD_REV] == 0)
+>  		return -EIO;
+>  
+>  	return 0;
+> -- 
+> 2.43.0
+
 -- 
-2.51.1
-
+Ville Syrjälä
+Intel
