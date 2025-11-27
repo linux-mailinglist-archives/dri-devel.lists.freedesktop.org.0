@@ -2,98 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C67C8FE83
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 19:22:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D70C2C8FE68
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 19:22:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C6AB10E840;
-	Thu, 27 Nov 2025 18:22:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEA8810E872;
+	Thu, 27 Nov 2025 18:22:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EXOD7XUp";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t5If9gO+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1D7010E883
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 18:22:54 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-640c1fda178so2193813a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 10:22:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764267773; x=1764872573; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=YKWiD1wozDvJbxoMDBeh7eVh+Lppci2WxPgnJe7OyQ4=;
- b=EXOD7XUpocYkMoxiudNaGP7C7D3VvnwBoGUsPEjwxm/6vcFLUhgVr7V+FdQ6YXpLC4
- hYRLcyq5iQj7PRFASGvPJUTLUXp6Q3ea0BAYjCH+CtjCZol2sKwTuj6jQiWwc3m8YYcN
- YWVzaoJChbl0yRRLqPDIPx5SAh95tqsIRwIrXGkpnI9olqmOBnWRSP+pwkCya0tsdhhP
- ggZXvx/RRang5SHChQZ9wK1Peqrr9IyRpJzXy4e44+ioju70oquPpME+r4WWZ2XLtyes
- eqv1ify2N6hrrS/wFbcmRjlDeaDRe7u1Ag2pJafVF76A44nRcEYNSpPnVX6VI8A1z0HT
- OQzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764267773; x=1764872573;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=YKWiD1wozDvJbxoMDBeh7eVh+Lppci2WxPgnJe7OyQ4=;
- b=FBBMIL1Ci8GCjgCNRO2iCWjjMhaZ/ngah6wRxVxgs2UpKv8ToqkVtAd/AVDALgzTtZ
- 4EjJiHLyzfrgSewMKu+HLPsCdUfvphaHSTOqXNDmC2AkrSEXVr4x+o9+s7c1PaOLInhv
- +zoKmVl+39V/A65N9IXFOVpJGh/aJwJMdIXRTlWZh36shRPv9F393IhYLDLyM0v61GH9
- DWSSK5NX2fDNSlgKshqaxzni6CpXZDrkEVrL7dqo34wqzEc+QGkHZzSFyi5jvjdrI/JM
- lKUHr5RQYHQJvJ+Ym07qUTp6O+qU6YZlGOQhzAXPfpMDDGbuPqyjTQVMDIfxSfAa6dEW
- 2Xlw==
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EAC110E883
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 18:22:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 7F7E744335
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 18:22:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62351C2BC9E
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 18:22:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764267769;
+ bh=2zh5IckA93jcXpcP2jg/bB2AVaYgRYS+ot7BWC5MT2A=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=t5If9gO++OOilnxFrwBrkBC309GX2ZWoD+KuNyiD5dUztBFiu96epD55nIlqdm2bE
+ I629s/i5ebpTIV1f8i9y5LxYTw1ElYOyDOS7zh8yoLRb12SJMkNSTl/k5UVdiV9Wcx
+ 4pI9IStlpgObJIRTRBZMtk1aAK13fAJZM4p9nuCNWNYZMgi9MXm7gEip+9kip1t60N
+ fsKjao8brX5y0iEjBEnKN0hZgNGxRVvpYBmlN4f60tM41YnF3OOyz3ScwQfNNPuO1O
+ tD5BH4EMod/AgIyuDOrhBKsWuQJMKPloN85ij5AbiVt3+3bxe8+vH/r2iPJ0jTChzF
+ Psdd0ZmiQoKyA==
+Received: by mail-ot1-f43.google.com with SMTP id
+ 46e09a7af769-7c6da42fbd4so410047a34.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 10:22:49 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCXSVIgi2CT92J78VfP1OqEWKbpkqcuF8RPgIjx9DBC4wHNylxOljJeATMbszq37zVskXNTcoJidpBk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yws5KhQ1cTW5aDLd6Yb4MgWXUwmYu7TMePFntjddJjBTikZPL96
- /B9zPyORWlXKUZgb8N2VEZDnJ6TynDCw0LL1FT9nYmhUP6wVXyDz25c=
-X-Gm-Gg: ASbGnctO7J/vgvTTHZ3Y+5mlt+C/NumbepcxSCY0XWpqr3B53ySd3IZdemEW/WXXaDR
- uqDVmZS6Sy9JNiV4MWSjO6VMDn3796vpjyPFzQCn+gpJ3lJgAqU6WF3wHjfxYY4JdEQsvedpYZJ
- h9IE8G3LysouQLIxoX7yV/hIq4hsmEh1KzIzgzMWatPebL0yQWQ53hoXx7IwiWZ3fuNiZ9xsk7T
- T2Ju7e48bJWm7d1LiruBvjoJbcCsKjbFQeejyrCYu/KAtdBineIARY7qBxgP+6Ubdv+2cIIRQ+1
- Xj0yn3Z2oAQBREWRXinYeXrrrCg+uCRKW8Q4lJmEFqMWKriStxf/D0CUu4p9iWTthQ/HXoBOiWG
- osos99Xlt+/beMDOfraUIJkZgP7+LMhTb1dX6VY/DIsQTRQsIqIZ/XvvNw3cfBLTtdFvHimFpiM
- 534illIWDeRtxtfacNDASJ/VMzI7eFq+3Ii4fQXffoX23aHztu5CqVniGte7Lrl5TPZI1Cocc=
-X-Google-Smtp-Source: AGHT+IHNZkrjfXQZeYu8VRMJ9sEdJ6dPxPLJBwgMuvhZaJF8dEZYgh3svLCKmEeVHuVu5VStsfQfAw==
-X-Received: by 2002:a17:907:7f08:b0:b72:6b3c:1f0d with SMTP id
- a640c23a62f3a-b7671a469e7mr2207490166b.35.1764267773073; 
- Thu, 27 Nov 2025 10:22:53 -0800 (PST)
-Received: from [192.168.1.17] (host-79-53-175-79.retail.telecomitalia.it.
- [79.53.175.79]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b76f5a25fcasm225084266b.61.2025.11.27.10.22.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 27 Nov 2025 10:22:52 -0800 (PST)
-From: Anna Maniscalco <anna.maniscalco2000@gmail.com>
-Date: Thu, 27 Nov 2025 19:22:35 +0100
-Subject: [PATCH v3] drm/msm: add PERFCTR_CNTL to ifpc_reglist
+ AJvYcCU+0MT1gwMXjiIdzz6FWuPgAPLnu5BchTz2LoNwe3gAKMEe0/zjNuDIGy4P3AILnBmcehUOw4I7pmE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxRkncfI4Q4xE2PzNDXZ2S6ODggO72JsCs8Ge7kh2zT1YZ76UoL
+ 9tr5DOQ9iwYporYkO3yd7N+elX+wBULTtgvvlYPI6MbKrIaMvEojZrvpPJc5dUa8rP6h1yC1keE
+ REHSqRvOmwPZXUMgp5Qyv6cBLOzvIGjY=
+X-Google-Smtp-Source: AGHT+IH1bZuq2107Z9vV3tIssGfEt3HKcvXwJtichyRCHN4NG+9zrGINSBUFfZp8A6sCqAX7wGBoKCjmIoVGx2W+fiQ=
+X-Received: by 2002:a05:6808:1803:b0:44d:a972:f48d with SMTP id
+ 5614622812f47-45115ade7bcmr8045952b6e.51.1764267768535; Thu, 27 Nov 2025
+ 10:22:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251127-ifpc_counters-v3-1-fac0a126bc88@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAOqWKGkC/32MQQ6CMBAAv2L2bA3dUkFP/sMYA2ULmwglLTYaw
- t8tnLzocSaZmSGQZwpw3s3gKXJgNyRQ+x2YrhpaEtwkBsxQS4lHwXY0d+Oew0Q+CCobrWylUCN
- BakZPll/b73pL3HGYnH9v+yhX++sUpZDCYqOpyPIyU3hp+4ofB+N6WE8R/9aY6ro4lbXJlSJrv
- +tlWT494fwF6AAAAA==
-X-Change-ID: 20251126-ifpc_counters-e8d53fa3252e
-To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Akhil P Oommen <akhilpo@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Anna Maniscalco <anna.maniscalco2000@gmail.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1764267771; l=1513;
- i=anna.maniscalco2000@gmail.com; s=20240815; h=from:subject:message-id;
- bh=BYc9eG/7xNHRelEgOLZ8MfPdhDrlPnZeSwZLNF9pGgs=;
- b=osGbVboLLrVEabJOeT/IL8VrAcnOO/dmBJlLk38onTJZtWhhFZdcyojrab0K/BeIKlw776AVd
- vA0TxRCOXw6Dsyn0X1nHS+E3J8/x+O8k446JL/SfY02EMi4OxNZY32Q
-X-Developer-Key: i=anna.maniscalco2000@gmail.com; a=ed25519;
- pk=0zicFb38tVla+iHRo4kWpOMsmtUrpGBEa7LkFF81lyY=
+References: <20251120-thermal-device-v1-0-bbdad594d57a@gmx.de>
+ <CAJZ5v0jOPrBcozzJMsB1eE12MuZRWDAV-+=jfrhJbi=S0p5J9Q@mail.gmail.com>
+ <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
+In-Reply-To: <5f3ef610-4024-4ca0-a934-2649f5d25f40@gmx.de>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 27 Nov 2025 19:22:37 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0hdqY-=O5Ai6c5qjMr_pRFc+SDyV1QruM=ZeHH9Z=guSg@mail.gmail.com>
+X-Gm-Features: AWmQ_bmQtAcoPswZk2AImBNuJ-60z5nmzzYc3vdfnDFN0Jddf0LEskGxktPDRCM
+Message-ID: <CAJZ5v0hdqY-=O5Ai6c5qjMr_pRFc+SDyV1QruM=ZeHH9Z=guSg@mail.gmail.com>
+Subject: Re: [PATCH RFC RESEND 0/8] thermal: core: Allow setting the parent
+ device of thermal zone/cooling devices
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, 
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Len Brown <lenb@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Ido Schimmel <idosch@nvidia.com>,
+ Petr Machata <petrm@nvidia.com>, 
+ linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-tegra@vger.kernel.org, linux-acpi@vger.kernel.org, 
+ linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
+ ath11k@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, platform-driver-x86@vger.kernel.org, 
+ linux-pci@vger.kernel.org, imx@lists.linux.dev, 
+ linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,45 +87,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously this register would become 0 after IFPC took place which
-broke all usages of counters.
+On Sat, Nov 22, 2025 at 3:18=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrote:
+>
+> Am 21.11.25 um 21:35 schrieb Rafael J. Wysocki:
+>
+> > On Thu, Nov 20, 2025 at 4:41=E2=80=AFAM Armin Wolf <W_Armin@gmx.de> wro=
+te:
 
-Fixes: a6a0157cc68e ("drm/msm/a6xx: Enable IFPC on Adreno X1-85")
-Cc: stable@vger.kernel.org
-Signed-off-by: Anna Maniscalco <anna.maniscalco2000@gmail.com>
-Reviewed-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
-Changes in v3:
-- Added missing Cc: stable to commit
-- Collected Rb tags
-- Link to v2: https://lore.kernel.org/r/20251126-ifpc_counters-v2-1-b798bc433eff@gmail.com
+[...]
 
-Changes in v2:
-- Added Fixes tag
-- Link to v1: https://lore.kernel.org/r/20251126-ifpc_counters-v1-1-f2d5e7048032@gmail.com
----
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 1 +
- 1 file changed, 1 insertion(+)
+> >> ---
+> >> Armin Wolf (8):
+> >>        thermal: core: Allow setting the parent device of cooling devic=
+es
+> >>        thermal: core: Set parent device in thermal_of_cooling_device_r=
+egister()
+> >>        ACPI: processor: Stop creating "device" sysfs link
+> >
+> > That link is not to the cooling devices' parent, but to the ACPI
+> > device object (a struct acpi_device) that corresponds to the parent.
+> > The parent of the cooling device should be the processor device, not
+> > its ACPI companion, so I'm not sure why there would be a conflict.
+>
+>  From the perspective of the Linux device core, a parent device does not =
+have to be
+> a "physical" device. In the case of the ACPI processor driver, the ACPI d=
+evice is used,
+> so the cooling device registered by said driver belongs to the ACPI devic=
+e.
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-index 29107b362346..b731491dc522 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-@@ -1392,6 +1392,7 @@ static const u32 a750_ifpc_reglist_regs[] = {
- 	REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE(2),
- 	REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE(3),
- 	REG_A6XX_TPL1_BICUBIC_WEIGHTS_TABLE(4),
-+	REG_A6XX_RBBM_PERFCTR_CNTL,
- 	REG_A6XX_TPL1_NC_MODE_CNTL,
- 	REG_A6XX_SP_NC_MODE_CNTL,
- 	REG_A6XX_CP_DBG_ECO_CNTL,
+Well, that's a problem.  A struct acpi_device should not be a parent
+of anything other than a struct acpi_device.
 
----
-base-commit: 7bc29d5fb6faff2f547323c9ee8d3a0790cd2530
-change-id: 20251126-ifpc_counters-e8d53fa3252e
+> I agree that using the Linux processor device would make more sense, but =
+this will require
+> changes inside the ACPI processor driver.
 
-Best regards,
--- 
-Anna Maniscalco <anna.maniscalco2000@gmail.com>
+So be it.
 
+> As for the "device" symlink: The conflict would be a naming conflict, as =
+both "device" symlinks
+> (the one created by the ACPI processor driver and the one created by the =
+device core) will
+> be created in the same directory (which is the directory of the cooling d=
+evice).
+
+I see.
+
+But why is the new symlink needed in the first place?  If the device
+has a parent, it will appear under that parent in /sys/devices/, won't
+it?
+
+Currently, all of the thermal class devices appear under
+/sys/devices/virtual/thermal/ because they have no parents and they
+all get a class parent kobject under /sys/devices/virtual/, as that's
+what get_device_parent() does.
+
+If they have real parents, they will appear under those parents, so
+why will the parents need to be pointed to additionally?
+
+BTW, this means that the layout of /sys/devices/ will change when
+thermal devices get real parents.  I'm not sure if this is a problem,
+but certainly something to note.
+
+> >>        ACPI: fan: Stop creating "device" sysfs link
+> >>        ACPI: video: Stop creating "device" sysfs link
+> > Analogously in the above two cases AFAICS.
+> >
+> > The parent of a cooling device should be a "physical" device object,
+> > like a platform device or a PCI device or similar, not a struct
+> > acpi_device (which in fact is not a device even).
+>
+>  From the perspective of the Linux device core, a ACPI device is a perfec=
+tly valid device.
+
+The driver core is irrelevant here.
+
+As I said before, a struct acpi_device object should not be a parent
+of anything other than a struct acpi_device object.  Those things are
+not devices and they cannot be used for representing PM dependencies,
+for example.
+
+> I agree that using a platform device or PCI device is better, but this al=
+ready happens
+> inside the ACPI fan driver (platform device).
+
+So it should not happen there.
+
+> Only the ACPI video driver created a "device" sysfs link that points to t=
+he ACPI device
+> instead of the PCI device. I just noticed that i accidentally changed thi=
+s by using the
+> PCI device as the parent device for the cooling device.
+>
+> If you want then we can keep this change.
+
+The PCI device should be its parent.
+
+> >>        thermal: core: Set parent device in thermal_cooling_device_regi=
+ster()
+> >>        ACPI: thermal: Stop creating "device" sysfs link
+> > And this link is to the struct acpi_device representing the thermal zon=
+e itself.
+>
+> Correct, the ACPI thermal zone driver is a ACPI driver, meaning that he b=
+inds to
+> ACPI devices. Because of this all (thermal zone) devices created by an in=
+stance of
+> said driver are descendants of the ACPI device said instance is bound to.
+>
+> We can of course convert the ACPI thermal zone driver into a platform dri=
+ver, but
+> this would be a separate patch series.
+
+If you want parents, this needs to be done first, but I'm still not
+sure what the parent of a thermal zone would represent.
+
+In the ACPI case it is kind of easy - it would be the (platform)
+device corresponding to a given ThermalZone object in the ACPI
+namespace - but it only has a practical meaning if that device has a
+specific parent.  For example, if the corresponding ThermalZone object
+is present in the \_SB scope, the presence of the thermal zone parent
+won't provide any additional information.
+
+Unfortunately, the language in the specification isn't particularly
+helpful here: "Thermal zone objects should appear in the namespace
+under the portion of the system that comprises the thermal zone. For
+example, a thermal zone that is isolated to a docking station should
+be defined within the scope of the docking station device."  To me
+"the portion of the system" is not too meaningful unless it is just
+one device without children.  That's why _TZD has been added AFAICS.
+
+> >>        thermal: core: Allow setting the parent device of thermal zone =
+devices
+> >
+> > I'm not sure if this is a good idea, at least until it is clear what
+> > the role of a thermal zone parent device should be.
+>
+> Take a look at my explanation with the Intel Wifi driver.
+
+I did and I think that you want the parent to be a device somehow
+associated with the thermal zone, but how exactly?  What should that
+be in the Wifi driver case, the PCI device or something else?
+
+And what if the thermal zone affects multiple devices?  Which of them
+(if any) would be its parent?  And would it be consistent with the
+ACPI case described above?
+
+All of that needs consideration IMV.
