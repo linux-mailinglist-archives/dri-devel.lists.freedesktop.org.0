@@ -2,134 +2,196 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 772E5C8CF57
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 07:52:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED20C8D160
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 08:26:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1D2010E763;
-	Thu, 27 Nov 2025 06:52:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07C4410E061;
+	Thu, 27 Nov 2025 07:26:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="C2+H4WyY";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aQ/Qy2Tw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="J59eYf/v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EB2F10E763
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 06:52:20 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5AQMBQJB2123187
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 06:52:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Nl5hGWDbw+B20VdcDwgTCvBmMMckgQpybd0ircyNRZk=; b=C2+H4WyYmF478myo
- YHa/+8kcjAFkbxS1uJDxEybsWoNXG1w7JCidzBdYhshKDW+hR/ogxTQ6ulRlj5OR
- tc06vNRK1MJopU6nL6DRLgNO5PWA0RV3fSvsRiFQmMRrDgc5QyPNCDjf5GQisE/8
- 0mrVRxABEFeiMD7toA2gzcyklUL0eeoWzB99QRy5xA5xrV6c6SfzEBTb0KdLNCIQ
- 0sHt44d2mE7zMYNKGGpUOUsczfWZYs5r9QpBbOTPL0LRQkhzv+UhLqbu9YnEFscK
- FxBQAScWYDpkvlgC51PF5u2TyBSPyc+8Bk9nYZ/LalCc8KYULpqfQsZJhZgNNqvl
- 0HjjSg==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ap0b32rwb-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 06:52:19 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id
- d9443c01a7336-2958a134514so8416755ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 26 Nov 2025 22:52:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1764226337; x=1764831137;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Nl5hGWDbw+B20VdcDwgTCvBmMMckgQpybd0ircyNRZk=;
- b=aQ/Qy2TwtXFhUXOupltkd7hpBGZyxGPHjWTGq0Mx2PPy6wq529C63jONqFoROhRSsY
- gLXvVYg+jcKWCFPYjvs+yPR3Gna8JSnMQrCRw7urS9BGXXczOTGWGTpU9h/a1hMOhzCM
- Bt9gy4imuAmFNp+0LwJsLgOxSdF1JWg9o2T6iyQQw9lDSVPNkej04qu45lNSWQ8gt+48
- tEFP6e5QCSQEnfiD/IoP+crljk67ERYwLFUecKUolg/p6z9GBUqJizCm+0cbj6xCVGxE
- J0wpnbhd/aro+x/f99t8SZt7M0x5JraNYDpRfpBnA9YjdREhkh1lGT/F9IyivWOlRq5j
- /yjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764226337; x=1764831137;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Nl5hGWDbw+B20VdcDwgTCvBmMMckgQpybd0ircyNRZk=;
- b=ZuFTA8lhECOvCpO91rtKoDs/2n3wyoX6uWCoeGZGuH++oVr740bHA3dDapTGI8tajs
- vd8oIn+jE7w7XPA5n+B2m/0EBy/gNgVGYnHBx3GaTajIQnYE0BkfwObSEJmx8ing9omm
- xH+GcnIFQmFpG2X8fyZB50RcBX4eAoQSe062Lvz7xQuY7G1rEbbIl75CCxx9dT55otlP
- WBzAzFZcVXs7JJXAfGKaeX2SUa/iR8rn+FWkYUhAW9XTWtPNC18FK8vzxj5HhpnLQIIE
- wgPcg98QkFVOIhGlgrGS2UZ6Yzs0qtvFt2ZROm4XDuznJOHvjnPg3P5llY4nUK2oMeJh
- Kaiw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXt+QhgALhQTWaxq2+n4Cyd7IXuNNNlUI1EvhECyPLnSuyNexn7/9IjMPMH7JrUfrdJfSftsIDnPN0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxWL9BB7mTMErl8jIC2i+EjKiL2mSgMFxYhLFgJ6zNJcpYVUh2F
- SfpfpDgh8L+TmbFsrs24xBLBD8GNdDzq49KHYps4ylNg+IwB9E7IRjLH50TH+9iUKrEDGVHu5ik
- PkulYgS2SyO5WKeG4ADgT9WDRyJiz3/K2hZOasNml4QeKJVyhiJD3j3lhsNT1mP/S0NHRkrQ=
-X-Gm-Gg: ASbGnct/pz5pNvXukRHshMsDRtJdfjKKQtNhNBrLXVbk1fJdncXL33Z/Qyj4QA1JQsM
- 4h0ZDnFpKyUTURKRc+BRJKYhfcxn3+KoqnH/AX0HEpvEdS5tfBsrKVlZQ9dL3rN6cHqHi/ckS5U
- 1RPHfHb4MzM1e3JfQs4r5FDqBB/3GsP9Q1UYJ+M2Ibdg/uugCueh/jYvUxyWvEqz4h8rEL9UDg2
- yEdI7UJUujIRVbKoZLYepFyanmd5nPE5MXDj/r12aeErhhuIrjjnfU5NNySmkjJUxTrQ2iomL8L
- 87Rjnq4HqPj4m1MUm6q+INyJ5wAxeFJtJZ7amMkpdTvyAgDDk3VA48Eo1cMDYW2sw0fMsjT1iXj
- Np2+3tfQqIIgF6/s1T1CKRFGjHDZ8VKy58uNmaC6a
-X-Received: by 2002:a17:903:acf:b0:298:2637:8029 with SMTP id
- d9443c01a7336-29bab2e52e3mr98795115ad.55.1764226337215; 
- Wed, 26 Nov 2025 22:52:17 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHzzHNuVpLYCgpOOf3ktsnI6mESDza7cusfY6IV2b5RSnZNS9XI6nJu9nqS/SYzjksLhohdJg==
-X-Received: by 2002:a17:903:acf:b0:298:2637:8029 with SMTP id
- d9443c01a7336-29bab2e52e3mr98794795ad.55.1764226336657; 
- Wed, 26 Nov 2025 22:52:16 -0800 (PST)
-Received: from [10.206.107.125] ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29bceb277f9sm6295465ad.46.2025.11.26.22.52.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 26 Nov 2025 22:52:15 -0800 (PST)
-Message-ID: <60ee82fc-db30-43f1-b2fa-49e6d211c6df@oss.qualcomm.com>
-Date: Thu, 27 Nov 2025 12:22:12 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] misc: fastrpc: Add polling mode support for
- fastRPC driver
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: srini@kernel.org, linux-arm-msm@vger.kernel.org,
- gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
- linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org, arnd@arndb.de
-References: <20251113064111.2426325-1-ekansh.gupta@oss.qualcomm.com>
- <20251113064111.2426325-4-ekansh.gupta@oss.qualcomm.com>
- <a4tz73rrghpsqpcwrdr4w63rki66ron35t4gi5thwkdbuefuhe@ocktiwt4u6qq>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 437F510E061;
+ Thu, 27 Nov 2025 07:26:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764228407; x=1795764407;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=WQJxNc/b/CGBzaxOK8akO7unb1jzTYxj+3hxSyoljgE=;
+ b=J59eYf/vwIcnvaNaHMRcS2pWClELAWxv/oauVGWBRVepWx6lrygFq6q5
+ IDyNKNLuISuH41J1vOrrJPAgxGStpuvw91ivhOpUScLQaPKSo9nE8hUZE
+ Lx/IgIzJ2+Jto1dfyIap2muhrvPBv43WWl4ENrZlD2fwO9SOeHf//E2pB
+ wg1D1RD8plGS1os7LIIq1erG9dthxIWyAUUtNc6PJgvgC6u2xnAC+/+ad
+ fHyddmBqK1Q5M6VUO6dg5BcxO2buMyg33oA8iscnHOckeJZk67FP6FO9E
+ KZc2thNCklvdLiGIHd7YXRnC+gcUajlAJFOGHu46ZrZwuyCrxPLOHVkIv Q==;
+X-CSE-ConnectionGUID: ecaA5R4dSkSJok7KaLQskQ==
+X-CSE-MsgGUID: ugJUHjWoQZuwQj/omIYpeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="70138534"
+X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; d="scan'208";a="70138534"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 23:26:46 -0800
+X-CSE-ConnectionGUID: AssLi6UhR82W/Zj8H4qPCA==
+X-CSE-MsgGUID: qWr1yDWpSe+90p9dBxJeZg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; d="scan'208";a="216512728"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+ by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Nov 2025 23:26:45 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Wed, 26 Nov 2025 23:26:45 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Wed, 26 Nov 2025 23:26:45 -0800
+Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.2) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Wed, 26 Nov 2025 23:26:44 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mPX6jDlENcHkI6py29bvOmfKM9kewQF3iajzhGzPcnlW9deb/DfG7pJ3NxjlYKqLK9AtQK9JFHYXRMBgAjODb/1wsZIn7IyvOrqFiclGTy3fe7UVxlwc2gqqaFlC1MkfHPsEGpcTVunAtxgZKDv3lEkBiIQGSNqf5RUsex3ZiCNVoE2MiW9Qk3GhRgorN9lCxjaff6bd2p/dO5BTDVfl55qHNIzDNUAEsT7nYss5kel57IWEqqFMd75/7JUXUcXRalaakvhhduV5r3408XEKIGO7eoMgEMTy6eP+ZeZkk8Af/XxxkCDU15Lf73aC6kbUmouK4MDuT9hLUqcSyA1zcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WQJxNc/b/CGBzaxOK8akO7unb1jzTYxj+3hxSyoljgE=;
+ b=FWbPHls3XDxxtaKzetScHs26UyALLXpYP2pYgP4PtE1QAA6gwZPEv3sYI+GsYp0ZvSMNSxBeayofJ1rLJt+HPbUOza3bD2/XJ/KsxMD3+xtgg2K2XDBG1NF+c9t2rZwM/RnJnlPGVaMOn1MVh2HYgunWtfVIF/8clkAyONuEP7pI2hYToW6GwhEnxjIgy7QZE4dL8vfan1qX8Mgiluwld+JlvYSi48kmvMwwSgWEfeGIY2emXzkhhC54CKa8v+0/f46vRa5lM3TkJkwghVwlnGEE7n3uasiu8TJMoXFcTtSBuHEJfHDgt8mxed4Mx4UfPljgWPzwLPALMouykWIIOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB6019.namprd11.prod.outlook.com (2603:10b6:8:60::5) by
+ SJ5PPFBBB839A03.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::84d)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.12; Thu, 27 Nov
+ 2025 07:26:43 +0000
+Received: from DM4PR11MB6019.namprd11.prod.outlook.com
+ ([fe80::fc1:e80f:134c:5ed2]) by DM4PR11MB6019.namprd11.prod.outlook.com
+ ([fe80::fc1:e80f:134c:5ed2%5]) with mapi id 15.20.9366.012; Thu, 27 Nov 2025
+ 07:26:43 +0000
+From: "Hogander, Jouni" <jouni.hogander@intel.com>
+To: "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+CC: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH 2/3] drm/i915: Expose the IN_FORMATS_ASYNC blob for all
+ planes
+Thread-Topic: [PATCH 2/3] drm/i915: Expose the IN_FORMATS_ASYNC blob for all
+ planes
+Thread-Index: AQHcVCxsa5Hgecoc4keyVK4PRA7jK7UGNgCA
+Date: Thu, 27 Nov 2025 07:26:43 +0000
+Message-ID: <3d19cee37e2af9b6310b23660d41b81ed15e55da.camel@intel.com>
+References: <20251112233030.24117-1-ville.syrjala@linux.intel.com>
+ <20251112233030.24117-3-ville.syrjala@linux.intel.com>
+In-Reply-To: <20251112233030.24117-3-ville.syrjala@linux.intel.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <a4tz73rrghpsqpcwrdr4w63rki66ron35t4gi5thwkdbuefuhe@ocktiwt4u6qq>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=E+XAZKdl c=1 sm=1 tr=0 ts=6927f523 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
- a=5DFYxTXXmBTTg87Ck3YA:9 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTI3MDA0OSBTYWx0ZWRfXyYh29Txq5KkC
- FAQMapAQ5/pJSf9h83PkZvEP21GbEtsRvPlkoF6GpCCHV/280LxubxQheNr5HEsZER1f0MbBL//
- HithqjWDSpK4/pJaCiNCNunIFpqZPAWS3Huz3FDbOB5qC5BqwzINfN9Zj5HH5SwJ+DusJxxYr5S
- EZc0KQezeL8JyOYKBhEyvB/YOy0nvOK1QWwT0KG8oh0D8WV6VCV+t/LzaJXbzmFydJjz8ovxQLX
- YB/UePQ+OqZ6N8V+sO37j7R4jKQgbnw5frO8IKA9J9I2DeA6ZwBwRAa5tUSqhdF36S1jfEW4IiM
- 6cTv/v55vepwCq/bxvEqodWxrb+ltzr12nw0qZVaD7sn2sP9Zf+PNZFGOWWbcaexDO1ZBKAeq67
- Ag+HEqvGSvifTE8uzZsd+mJM29La5Q==
-X-Proofpoint-ORIG-GUID: yjkhFbdJl8ckPjCviQ3dQpV1n5c2dN2w
-X-Proofpoint-GUID: yjkhFbdJl8ckPjCviQ3dQpV1n5c2dN2w
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-25_02,2025-11-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 lowpriorityscore=0 priorityscore=1501 impostorscore=0
- spamscore=0 clxscore=1015 phishscore=0 bulkscore=0 adultscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2511270049
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB6019:EE_|SJ5PPFBBB839A03:EE_
+x-ms-office365-filtering-correlation-id: 4ae8107f-776e-4a9a-1d8e-08de2d865094
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|376014|1800799024|366016|10070799003|38070700021; 
+x-microsoft-antispam-message-info: =?utf-8?B?SlAzMG9EV3lDWkF3emdxTGpjNDJvR1p4bFE2ZGgyeS9CR3FBczFlL2J1N2hT?=
+ =?utf-8?B?RDdiYkVOMTkrRHNsb3lqandReDZ3U2hJVlhLNW5mbXk0SGxaZVFnZXdMRmNH?=
+ =?utf-8?B?R0pKQUkwTC9SdGFESGhncm00NW5qaWdvNEtIc3hyVzE4MHpKM3d0dTNOMHZB?=
+ =?utf-8?B?NlNMd3JOaGc5SkVrT0ZCNUo5ejNpTHhqRWxDVGhmczhVWTBxSUgrakZBY1Iy?=
+ =?utf-8?B?SlRHdGZjUDByS3ptLzBqWVFZZ215Vlk1dHc0SThFR1MzdHZvcThFa2FaL2dh?=
+ =?utf-8?B?YTVtUEo4N1gzeFlFL0F6RVhTWEp0a0ZLK0JJV1loM3dUSzRudlpOZks0cEgx?=
+ =?utf-8?B?Zmxxb2srRFMxTkhVQklzSklqeGtxMyt4YndLRk9LQ05rVlFqNC9aMmNnQ0Vk?=
+ =?utf-8?B?OUxJUzhSTFJ0Mk5WazJRZW1PNHNnaFJwVU9RdDQwZUxtbXZzY0lmNHp5UjJo?=
+ =?utf-8?B?QjQ3WXJOcVZqWkVpSXJpS25KSm5aV2lmMitnS2JUamhMQ1VERDdJR2RHSGlR?=
+ =?utf-8?B?Vm1hNDVLVjR0REY5dkpWazg4U0J0ZkxCR2cxUnlFNnRpMnV3NW1jOEk5NVRk?=
+ =?utf-8?B?SzVaT0tTdzgvYld1UHdHandlcDljbDlZdm1CUkZZNlNXeFBKeGZMZ1lEbjQ3?=
+ =?utf-8?B?N0ZsM3JNSjU2NkFiU3EvMDI0MWdMSTU3c2gzN0tiUDcwaDNKMisxOENLWFRz?=
+ =?utf-8?B?R1B2dWhJdm55c2xLYnIrMGZSRnZ0anUxQVVYd29DOWFrNmZpanN3aUErUFdN?=
+ =?utf-8?B?a0U2RzE4eEtYWGhwRlNhZWFQY1UzWndqTVBIWW15d3lEa2l2KytpbThkMmNR?=
+ =?utf-8?B?cE5raURiNHd4T2J1TjdaaVlNZC9ML3UyZnc4QVhNRFVNejhFZ2tuZXpQQTVy?=
+ =?utf-8?B?SjJpR0N6bS9DRnJvWG83MldzeEFVRkR2d2RTTmNkckE5cWJ4K0JHdXlockow?=
+ =?utf-8?B?aHd0UEQ4VlQyaTRYNW9xN2xQbEhuR0Nza2E0QjlqL3F2V0k1dVlISG1rM01C?=
+ =?utf-8?B?aVRhMlFERHRlZGxIbXNDS2prTVRNZVVsL2M1OExxSVM4ZUlNakJDL0lSWERO?=
+ =?utf-8?B?L0U4UUdEOHRGeVpnYmx5VGJiMUloeFR6ZXNtUnU3QUpQMnhGSmQyWjBtZ2pT?=
+ =?utf-8?B?VzR5cmMxL2ovTEdBK252WjY1M1NZb0JoWE0wRmUwYk9YV3RoblhYQWJWSE5n?=
+ =?utf-8?B?TWg1bDBNb2ltWXhWKy9rcjFyL0tWd01tREd1UmpXQ0lxQnE1eTdoMzFOejhQ?=
+ =?utf-8?B?NEZsc2dyM0FnMmRreS9EZmMxb2NvczAxMkNCSFlzTDdPYWJPZ2Z5SkNOZnV2?=
+ =?utf-8?B?RjdCMkszWEwyc3F2Qi9mSmc0U3RnVm01aFQxVVdlNTAvdnMyM0l1MGNWeXhD?=
+ =?utf-8?B?UTJPMEl4MUxpU2d1UWJnWldrSGJLUzBRRzlDOUlQTWIrZkZGTG55WDMvNUhL?=
+ =?utf-8?B?K2IzTHhKaitJaE04bEE0ZXdaT0pWbjNHRjVOWWxzT1BjR3VOeFpNVElsOFZM?=
+ =?utf-8?B?TEJwWXNpQ2F4K1BvUXFaaXhQOTcrcTQwZ09ocWoxcU1rbk5GSElrTzBQUThh?=
+ =?utf-8?B?elhkVU1NMy9aRzVCYUcybW9YbkZKVEpQSzBjVGlJTzB2VldlR3E3L0dmZWcw?=
+ =?utf-8?B?cS9JMjhLaHNKUnBkRTBLNk5HamxQTnlra05pb211Smh2YkV0cUhMN1NNem5p?=
+ =?utf-8?B?b3BsQ2FjMnBXNlJjQ0JTVWpjNTlDdlE0QnZQRmRlV1FJSTBscDFLSVJ1eENy?=
+ =?utf-8?B?VnJjMUdxTGVMRWZkZUtCSkw1SElJUHN2dVd6ZGZtbG9Hays5dy8zeEFWRklm?=
+ =?utf-8?B?ODVyT1E0dVYzUXc5T1hFU1ZxaUY4S3Vna2NDMm1DWFBocFY5T29aNEN6TW4x?=
+ =?utf-8?B?bzZXQjlrRmpDL1dGdVV4TGpCOFJ4T2Rwd3R4RHdYTjBsd0hUYStBbmxaSTlr?=
+ =?utf-8?B?bHVmNndDTGwrNXVrSzNvVmJaTXBUcmlCQzZ6SS9uNlgvM01xSnYxdDEwVzkw?=
+ =?utf-8?B?NmpDeTlreUttc0tjL0YxRGkwdGlmekdPdForMXQ1SjVBbkJTV1RXWWp6UE5k?=
+ =?utf-8?Q?nzI0nO?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB6019.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016)(10070799003)(38070700021); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?VHM5WmNockxuYm1TWit3bUYxR0IwM2txa3hFSnlpR0ZEbi9xaFA2Y1lTQkxw?=
+ =?utf-8?B?eVFnVVR4WVNxQnlOTlNsMUFVanNnbm0xK2FSRktGUnZ6WE41TzI2Uno4RlNo?=
+ =?utf-8?B?R0p0Y3ZudE5ROVMwSEZMT0pHMGNkczFiZGNmUXRNTi9ad1o5UERheENoS3Jh?=
+ =?utf-8?B?blIvNGNJdzZQL2pPdTltVXJsd3NoVCtKZ0RuNVM1aU4xK3prc1oyK3B2VFhy?=
+ =?utf-8?B?RVBXdjFMVnppVHF6WFpjdjRhOW9qeXpCKzhBbkZBNHA3YUh2enpGd00vS0FD?=
+ =?utf-8?B?eTVUTlRvYS82VXdaemtBQlBUbVJ1Q3J5c0pUQm5tdHE0ODVLeTBtUXhEZkds?=
+ =?utf-8?B?K2xWeWp3Wk1wbjB6Y0ViMmhoUUZ2Y0IyaWp3ZktLck50NS9QRlN3YWVlYXVu?=
+ =?utf-8?B?OEFicFVMeWFHd1Q5YnBQK1JSTldWNVhrYjBQRjR3aWhqY0tFUVArUGhvMnRW?=
+ =?utf-8?B?N2wxaHE3a09XVGJwS01tWVdYdnJtSWc5c0ZSeUVPdXdkRFFjUlY2YThqcEFD?=
+ =?utf-8?B?bHlmUnE2Z05qNEhKK2FZdzBOZ3kwdXBNdG9NbEdLWmJoN010eERFQ1BVTUpV?=
+ =?utf-8?B?QXRqNFpuNVR6eGZQMW9ZU09NbmtSZVpVS2dxZHdHcmVqaWZaVFVvc0ZtWFFa?=
+ =?utf-8?B?K2FmYitEODAvUksxdVFCQlZ4dkJVczhmOG9tUHo2L0R0eUswWHFBdWsxRXJm?=
+ =?utf-8?B?eExLYnJ1YWJyY2tQRnpIRFJwYkJvV1FULzN2UGxUem1pdnBSZVF0em9mSk1n?=
+ =?utf-8?B?akJ0TCtVVWgvOFk4Mit5aS9qYUZPWCt3SHI0MTNyN3I0QWxwVzdUdlUyY1pY?=
+ =?utf-8?B?WVMvWk04RFVlUUhnR20ycjE5ajlBN1I0RzRTcFBvSHJBelByMGd1aGZnMVpl?=
+ =?utf-8?B?VklFVVFmWHp6Ly9JeWlkVVMrKzR4bTlXbExHQXhNM3JQckgwNXU1ckF3cXFI?=
+ =?utf-8?B?bEx5R3pJbEEwSDRMV1ZoUlJHUW8zbm5XeFJaK3VYdXhpd1hyRDFxeTNGZ2NE?=
+ =?utf-8?B?ZjZ4U1hUR1BqTnBTRVlSSHNyUUMxTi9TN2NYZ0Nzb204a3pVUUl0bXZoSkg5?=
+ =?utf-8?B?WnlKVGFVNUROMzhNazg2eXB0WENqdDZtbHY3TDIrbzJGcjN6d2pQUVJOaUFP?=
+ =?utf-8?B?dklSOW51dlpoNDJvbUxWNi9YYTBXZEhIOXhDblVtaUNKVmx5bTBUTlY1Wko5?=
+ =?utf-8?B?b1owZXN1cUlUYUtnczhVZGUyTHd5VS82NUpPanpjcm9QZXlmZUhWckVkd3Zv?=
+ =?utf-8?B?UVEyeXYrZ0xYdzhsaVV1a2FVMEkwYzBNT2pITldNbTV4NDZaaTJBL3hQNHVi?=
+ =?utf-8?B?cElNdVo4Q09RaTErcndJc2VTUXVzRWtiOFROYmR1b2ROOWZ4UmV2YkZITnlK?=
+ =?utf-8?B?dng4QzJPb045NUZVSDR6YkkramI5MTIvZTVENEJzWTZsd2sxNDJzd3J5dDAr?=
+ =?utf-8?B?emVwYTFSZ1pyVlpNaEtoblBaSGJMU3k0ODZiSVBXZk81Z3pjamN2TUJzTFlQ?=
+ =?utf-8?B?aEJKMG9UVDdUOTlHTHQ0bGFWQlo0RGh1aHVMNU1kNHF0enhiYStUandrSm4r?=
+ =?utf-8?B?cTF5WldTUjdnbWJ4dGpyR2thK2VEeGk3NDQ4RDNHNzYzV1pJVnoybFArL2pP?=
+ =?utf-8?B?S2x0UjFYeGpyNFJxbmM5QVh1N2lOQzBwMTNHSzQyYzhMUUNycXFyRitnRkxT?=
+ =?utf-8?B?b3kzME1EYVRTMXpwV0U5cFVjMGFibXhrbnl6K2kyL3IzdXN1eG5tekU3aTlE?=
+ =?utf-8?B?bUtCd3VBZDJObnRCd2RTVXNzT3R6bDJRMkFQdnhpeUR4VDloUWpGVTdaYmlJ?=
+ =?utf-8?B?QVNzNjFhM0g2Q0RxN1NYTEZSc3BFNURyR1VZUFZzODhBZEw2UXo0Y1RseU1J?=
+ =?utf-8?B?YlZMemdRU2tFUEVtcGYzY2IvU2hPNFBUd2k4M0JjeHhSS0N6OElLL3hqVjcx?=
+ =?utf-8?B?V2NFb01jdFhZK3VxYmY5L1hpOGRoY1Jnc21SUHZqQmlaandHdXlhaTlQeE5K?=
+ =?utf-8?B?OFg4N1AyUHk0ZE1ab1VQYXkvQ0VGZUdlN05lV2VyUmlvbWhZYlZsZTdpcjRq?=
+ =?utf-8?B?RjNOMlI1WHhzc292eklTOWhiaWtUVWJtZVlqRTgyaTJKZnZWOENmOU5PL2c3?=
+ =?utf-8?B?eGhhdWl5a3h1QXd6OGFzZ0lFY1lxOVUveTNiajRsL3o3MW11cWsvM1hDclJN?=
+ =?utf-8?B?cHQwamtqRkk1LzFDY2g4TXlRWFNtbEorZVNwV0h1aVJHUGtOTGlLK0MwRGNz?=
+ =?utf-8?B?ZllOZWRsUGJlSUFGS1pxaXZ2Tmt3PT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <ABD3FE1BCE63FB4D9092B6BF0F64BFDB@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6019.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ae8107f-776e-4a9a-1d8e-08de2d865094
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Nov 2025 07:26:43.3847 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bTHI0r6dUOE7zUnmW5+DYewLH69kHDdPEkr85brMbpLXerHFcFYxIlZ9Ax/jiHlJr79ue4flF4e4DGHT6vp5s9rVFpl31NmFvceoxNNftLE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPFBBB839A03
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,312 +207,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 11/19/2025 2:26 PM, Dmitry Baryshkov wrote:
-> On Thu, Nov 13, 2025 at 12:11:11PM +0530, Ekansh Gupta wrote:
->> For any remote call to DSP, after sending an invocation message,
->> fastRPC driver waits for glink response and during this time the
->> CPU can go into low power modes. This adds latency to overall fastrpc
->> call as CPU wakeup and scheduling latencies are included. Add polling
->> mode support with which fastRPC driver will poll continuously on a
->> memory after sending a message to remote subsystem which will eliminate
->> CPU wakeup and scheduling latencies and reduce fastRPC overhead. Poll
->> mode can be enabled by user by making a remote_handle64_control request.
-> Which request?? I thought it's enabled by making an IOCTL.
-Yes, it should be set_options IOCTL, I added user library API details. I'll modify this.
->
->> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
->> ---
->>  drivers/misc/fastrpc.c      | 138 ++++++++++++++++++++++++++++++++++--
->>  include/uapi/misc/fastrpc.h |   9 +++
->>  2 files changed, 140 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->> index ccba3b6dfdfa..60de9dcb9815 100644
->> --- a/drivers/misc/fastrpc.c
->> +++ b/drivers/misc/fastrpc.c
->> @@ -22,6 +22,8 @@
->>  #include <linux/firmware/qcom/qcom_scm.h>
->>  #include <uapi/misc/fastrpc.h>
->>  #include <linux/of_reserved_mem.h>
->> +#include <linux/compiler.h>
->> +#include <linux/iopoll.h>
->>  
->>  #define ADSP_DOMAIN_ID (0)
->>  #define MDSP_DOMAIN_ID (1)
->> @@ -37,6 +39,7 @@
->>  #define FASTRPC_CTX_MAX (256)
->>  #define FASTRPC_INIT_HANDLE	1
->>  #define FASTRPC_DSP_UTILITIES_HANDLE	2
->> +#define FASTRPC_MAX_STATIC_HANDLE (20)
->>  #define FASTRPC_CTXID_MASK (0xFF00)
->>  #define FASTRPC_CTXID_POS (8)
->>  #define INIT_FILELEN_MAX (2 * 1024 * 1024)
->> @@ -106,6 +109,12 @@
->>  
->>  #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
->>  
->> +/* Poll response number from remote processor for call completion */
->> +#define FASTRPC_POLL_RESPONSE (0xdecaf)
->> +
->> +/* Polling mode timeout limit */
->> +#define FASTRPC_POLL_MAX_TIMEOUT_US (10000)
->> +
->>  struct fastrpc_phy_page {
->>  	u64 addr;		/* physical address */
->>  	u64 size;		/* size of contiguous region */
->> @@ -236,8 +245,14 @@ struct fastrpc_invoke_ctx {
->>  	u32 sc;
->>  	u64 *fdlist;
->>  	u32 *crc;
->> +	/* Poll memory that DSP updates */
->> +	u32 *poll;
->>  	u64 ctxid;
->>  	u64 msg_sz;
->> +	/* work done status flag */
->> +	bool is_work_done;
->> +	/* process updates poll memory instead of glink response */
->> +	bool is_polled;
->>  	struct kref refcount;
->>  	struct list_head node; /* list of ctxs */
->>  	struct completion work;
->> @@ -301,6 +316,8 @@ struct fastrpc_user {
->>  	int client_id;
->>  	int pd;
->>  	bool is_secure_dev;
->> +	/* Flags poll mode state */
->> +	bool poll_mode;
->>  	/* Lock for lists */
->>  	spinlock_t lock;
->>  	/* lock for allocations */
->> @@ -894,7 +911,8 @@ static int fastrpc_get_meta_size(struct fastrpc_invoke_ctx *ctx)
->>  		sizeof(struct fastrpc_invoke_buf) +
->>  		sizeof(struct fastrpc_phy_page)) * ctx->nscalars +
->>  		sizeof(u64) * FASTRPC_MAX_FDLIST +
->> -		sizeof(u32) * FASTRPC_MAX_CRCLIST;
->> +		sizeof(u32) * FASTRPC_MAX_CRCLIST +
->> +		sizeof(u32);
->>  
->>  	return size;
->>  }
->> @@ -990,6 +1008,7 @@ static int fastrpc_get_args(u32 kernel, struct fastrpc_invoke_ctx *ctx)
->>  	list = fastrpc_invoke_buf_start(rpra, ctx->nscalars);
->>  	pages = fastrpc_phy_page_start(list, ctx->nscalars);
->>  	ctx->fdlist = (u64 *)(pages + ctx->nscalars);
->> +	ctx->poll = (u32 *)(ctx->fdlist + FASTRPC_MAX_FDLIST + FASTRPC_MAX_CRCLIST);
->>  	args = (uintptr_t)ctx->buf->virt + metalen;
->>  	rlen = pkt_size - metalen;
->>  	ctx->rpra = rpra;
->> @@ -1158,6 +1177,75 @@ static int fastrpc_invoke_send(struct fastrpc_session_ctx *sctx,
->>  
->>  }
->>  
->> +static inline u32 fastrpc_poll_op(void *p)
->> +{
->> +	struct fastrpc_invoke_ctx *ctx = p;
->> +
->> +	dma_rmb();
->> +	return READ_ONCE(*ctx->poll);
-> How does this work with caches? Does it require dma-coherent fastrpc
-> devices?
-I'm assuming it will work the same way any normal RPC call works on platform with
-no cache coherency. Is there any other change/check expected for this?
->
->> +}
->> +
->> +static int poll_for_remote_response(struct fastrpc_invoke_ctx *ctx)
->> +{
->> +	u32 val;
->> +	int ret;
->> +
->> +	/*
->> +	 * Poll until DSP writes FASTRPC_POLL_RESPONSE into *ctx->poll
->> +	 * or until another path marks the work done.
->> +	 */
->> +	ret = read_poll_timeout_atomic(fastrpc_poll_op, val,
->> +				       (val == FASTRPC_POLL_RESPONSE) ||
->> +				       ctx->is_work_done, 1,
->> +				       FASTRPC_POLL_MAX_TIMEOUT_US, false, ctx);
->> +
->> +	if (!ret && val == FASTRPC_POLL_RESPONSE) {
->> +		ctx->is_work_done = true;
->> +		ctx->retval = 0;
->> +	}
->> +
->> +	if (ret == -ETIMEDOUT)
->> +		ret = -EIO;
->> +
->> +	return ret;
->> +}
->> +
->> +static inline int fastrpc_wait_for_response(struct fastrpc_invoke_ctx *ctx,
->> +					    u32 kernel)
->> +{
->> +	int err = 0;
->> +
->> +	if (kernel) {
->> +		if (!wait_for_completion_timeout(&ctx->work, 10 * HZ))
->> +			err = -ETIMEDOUT;
->> +	} else {
->> +		err = wait_for_completion_interruptible(&ctx->work);
->> +	}
->> +
->> +	return err;
->> +}
->> +
->> +static int fastrpc_wait_for_completion(struct fastrpc_invoke_ctx *ctx,
->> +				       u32 kernel)
->> +{
->> +	int err;
->> +
->> +	do {
->> +		if (ctx->is_polled) {
->> +			err = poll_for_remote_response(ctx);
->> +			/* If polling timed out, move to normal response mode */
->> +			if (err)
->> +				ctx->is_polled = false;
->> +		} else {
->> +			err = fastrpc_wait_for_response(ctx, kernel);
->> +			if (err)
->> +				return err;
->> +		}
->> +	} while (!ctx->is_work_done);
->> +
->> +	return err;
->> +}
->> +
->>  static int fastrpc_internal_invoke(struct fastrpc_user *fl,  u32 kernel,
->>  				   u32 handle, u32 sc,
->>  				   struct fastrpc_invoke_args *args)
->> @@ -1193,16 +1281,25 @@ static int fastrpc_internal_invoke(struct fastrpc_user *fl,  u32 kernel,
->>  	if (err)
->>  		goto bail;
->>  
->> -	if (kernel) {
->> -		if (!wait_for_completion_timeout(&ctx->work, 10 * HZ))
->> -			err = -ETIMEDOUT;
->> -	} else {
->> -		err = wait_for_completion_interruptible(&ctx->work);
->> -	}
->> +	/*
->> +	 * Set message context as polled if the call is for a user PD
->> +	 * dynamic module and user has enabled poll mode.
->> +	 */
->> +	if (handle > FASTRPC_MAX_STATIC_HANDLE && fl->pd == USER_PD &&
->> +	    fl->poll_mode)
->> +		ctx->is_polled = true;
->> +
->> +	err = fastrpc_wait_for_completion(ctx, kernel);
->>  
->>  	if (err)
->>  		goto bail;
->>  
->> +	if (!ctx->is_work_done) {
->> +		err = -ETIMEDOUT;
->> +		dev_dbg(fl->sctx->dev, "Invalid workdone state for handle 0x%x, sc 0x%x\n",
->> +			handle, sc);
->> +		goto bail;
->> +	}
->>  	/* make sure that all memory writes by DSP are seen by CPU */
->>  	dma_rmb();
->>  	/* populate all the output buffers with results */
->> @@ -1780,6 +1877,29 @@ static int fastrpc_get_info_from_kernel(struct fastrpc_ioctl_capability *cap,
->>  	return 0;
->>  }
->>  
->> +static int fastrpc_set_option(struct fastrpc_user *fl, char __user *argp)
->> +{
->> +	struct fastrpc_ioctl_set_option opt = {0};
->> +	int i;
->> +
->> +	if (copy_from_user(&opt, argp, sizeof(opt)))
->> +		return -EFAULT;
->> +
->> +	for (i = 0; i < ARRAY_SIZE(opt.reserved); i++) {
->> +		if (opt.reserved[i] != 0)
->> +			return -EINVAL;
->> +	}
-> Empty line.
-Ack.
->
->> +	if (opt.req != FASTRPC_POLL_MODE)
->> +		return -EINVAL;
->> +
->> +	if (opt.enable)
->> +		fl->poll_mode = true;
->> +	else
->> +		fl->poll_mode = false;
->> +
->> +	return 0;
->> +}
->> +
->>  static int fastrpc_get_dsp_info(struct fastrpc_user *fl, char __user *argp)
->>  {
->>  	struct fastrpc_ioctl_capability cap = {0};
->> @@ -2134,6 +2254,9 @@ static long fastrpc_device_ioctl(struct file *file, unsigned int cmd,
->>  	case FASTRPC_IOCTL_MEM_UNMAP:
->>  		err = fastrpc_req_mem_unmap(fl, argp);
->>  		break;
->> +	case FASTRPC_IOCTL_SET_OPTION:
->> +		err = fastrpc_set_option(fl, argp);
->> +		break;
->>  	case FASTRPC_IOCTL_GET_DSP_INFO:
->>  		err = fastrpc_get_dsp_info(fl, argp);
->>  		break;
->> @@ -2465,6 +2588,7 @@ static int fastrpc_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
->>  
->>  	ctx->retval = rsp->retval;
->>  	complete(&ctx->work);
->> +	ctx->is_work_done = true;
->>  
->>  	/*
->>  	 * The DMA buffer associated with the context cannot be freed in
->> diff --git a/include/uapi/misc/fastrpc.h b/include/uapi/misc/fastrpc.h
->> index c6e2925f47e6..6c1375ba0042 100644
->> --- a/include/uapi/misc/fastrpc.h
->> +++ b/include/uapi/misc/fastrpc.h
->> @@ -16,6 +16,7 @@
->>  #define FASTRPC_IOCTL_INIT_CREATE_STATIC _IOWR('R', 9, struct fastrpc_init_create_static)
->>  #define FASTRPC_IOCTL_MEM_MAP		_IOWR('R', 10, struct fastrpc_mem_map)
->>  #define FASTRPC_IOCTL_MEM_UNMAP		_IOWR('R', 11, struct fastrpc_mem_unmap)
->> +#define FASTRPC_IOCTL_SET_OPTION	_IOWR('R', 12, struct fastrpc_ioctl_set_option)
->>  #define FASTRPC_IOCTL_GET_DSP_INFO	_IOWR('R', 13, struct fastrpc_ioctl_capability)
->>  
->>  /**
->> @@ -66,6 +67,8 @@ enum fastrpc_proc_attr {
->>  
->>  /* Fastrpc attribute for memory protection of buffers */
->>  #define FASTRPC_ATTR_SECUREMAP	(1)
->> +/* Set option request ID to enable poll mode */
->> +#define FASTRPC_POLL_MODE	(1)
->>  
->>  struct fastrpc_invoke_args {
->>  	__u64 ptr;
->> @@ -133,6 +136,12 @@ struct fastrpc_mem_unmap {
->>  	__s32 reserved[5];
->>  };
->>  
->> +struct fastrpc_ioctl_set_option {
->> +	__u32 req;		/* request id */
->> +	__u32 enable;	/* enable flag */
-> s/enable/value/ ?
-Ack.
->
->> +	__s32 reserved[6];
-> I think you got feedback from Greg regarding handling of reserved fields
-> few months ago. Please drop them.
-I remember the comment asking to add proper checks for reserved bit[1]. I have added the
-necessary checks. Please correct me if you are pointing to some other discussion.
-
-[1] https://lore.kernel.org/all/2023092840-rental-ascension-b062@gregkh/
->
->> +};
->> +
->>  struct fastrpc_ioctl_capability {
->>  	__u32 unused; /* deprecated, ignored by the kernel */
->>  	__u32 attribute_id;
->> -- 
->> 2.34.1
->>
-
+T24gVGh1LCAyMDI1LTExLTEzIGF0IDAxOjMwICswMjAwLCBWaWxsZSBTeXJqYWxhIHdyb3RlOg0K
+PiBGcm9tOiBWaWxsZSBTeXJqw6Rsw6QgPHZpbGxlLnN5cmphbGFAbGludXguaW50ZWwuY29tPg0K
+PiANCj4gU2luY2Ugb2xkIGtlcm5lbCB2ZXJzaW9ucyB3b3VsZG4ndCBleHBvc2UgdGhlIElOX0ZP
+Uk1BVFNfQVNZTkMgYmxvYiwNCj4gdXNlcnNwYWNlIGNhbid0IHJlYWxseSB1c2UgdGhlIGFic2Vu
+Y2Ugb2YgdGhlIGJsb2IgdG8gZGV0ZXJtaW5lDQo+IHRoYXQgYXN5bmMgZmxpcHMgYXJlbid0IHN1
+cHBvcnRlZC4gVGh1cyBpdCBzZWVtcyBiZXR0ZXIgdG8gYWx3YXlzDQo+IGV4cG9zZSB0aGUgYmxv
+YiBvbiBhbGwgcGxhbmVzLCB3aGV0aGVyIHRoZXkgc3VwcG9ydCBhc3luYyBmbGlwcw0KPiBvciBu
+b3QuIFRoZSBibG9iIHdpbGwgc2ltcGx5IG5vdCBpbmRpY2F0ZSBhbnkgZm9ybWF0K21vZGlmaWVy
+DQo+IGNvbWJpbmF0aW9ucyBhcyBzdXBwb3J0ZWQgb24gcGxhbmVzIHRoYXQgYXJlbid0IGFzeW5j
+IGZsaXAgY2FwYWJsZS4NCj4gDQo+IEN1cnJlbnRseSB3ZSBleHBvc2UgdGhlIGJsb2IgZm9yIGFs
+bCBza2wrIHVuaXZlcnNhbCBwbGFuZXMgKGV2ZW4NCj4gdGhvdWdoIHdlIGltcGxlbWVudCBhc3lu
+YyBmbGlwcyBvbmx5IGZvciB0aGUgZmlyc3QgcGxhbmUgb24gZWFjaA0KPiBwaXBlKSwgYW5kIGk5
+eHggcHJpbWFyeSBwbGFuZXMgKGZvciBpbGsrIHdlIGhhdmUgYXN5bmMgZmxpcHMgc3VwcG9ydCwN
+Cj4gZm9yIHByZS1pbGsgd2UgZG8gbm90KS4gQ29tcGxldGUgdGhlIGZ1bGwgc2V0IGJ5IGFsc28g
+ZXhwc29zaW5nDQo+IHRoZSBibG9iIG9uIHByZS1za2wgc3ByaXRlIHBsYW5lcywgYW5kIGN1cnNv
+cnMuDQoNClJldmlld2VkLWJ5OiBKb3VuaSBIw7ZnYW5kZXIgPGpvdW5pLmhvZ2FuZGVyQGludGVs
+LmNvbT4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFZpbGxlIFN5cmrDpGzDpCA8dmlsbGUuc3lyamFs
+YUBsaW51eC5pbnRlbC5jb20+DQo+IC0tLQ0KPiDCoGRyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3Bs
+YXkvaW50ZWxfY3Vyc29yLmMgfCAxICsNCj4gwqBkcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5
+L2ludGVsX3Nwcml0ZS5jIHwgMyArKysNCj4gwqAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9u
+cygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50
+ZWxfY3Vyc29yLmMNCj4gYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2N1cnNv
+ci5jDQo+IGluZGV4IGExMGIyNDI1Yjk0ZC4uNjNlNmE0NzY3YWE5IDEwMDY0NA0KPiAtLS0gYS9k
+cml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVsX2N1cnNvci5jDQo+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfY3Vyc29yLmMNCj4gQEAgLTk3NCw2ICs5NzQs
+NyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRybV9wbGFuZV9mdW5jcw0KPiBpbnRlbF9jdXJzb3Jf
+cGxhbmVfZnVuY3MgPSB7DQo+IMKgCS5hdG9taWNfZHVwbGljYXRlX3N0YXRlID0gaW50ZWxfcGxh
+bmVfZHVwbGljYXRlX3N0YXRlLA0KPiDCoAkuYXRvbWljX2Rlc3Ryb3lfc3RhdGUgPSBpbnRlbF9w
+bGFuZV9kZXN0cm95X3N0YXRlLA0KPiDCoAkuZm9ybWF0X21vZF9zdXBwb3J0ZWQgPSBpbnRlbF9j
+dXJzb3JfZm9ybWF0X21vZF9zdXBwb3J0ZWQsDQo+ICsJLmZvcm1hdF9tb2Rfc3VwcG9ydGVkX2Fz
+eW5jID0NCj4gaW50ZWxfcGxhbmVfZm9ybWF0X21vZF9zdXBwb3J0ZWRfYXN5bmMsDQo+IMKgfTsN
+Cj4gwqANCj4gwqBzdGF0aWMgdm9pZCBpbnRlbF9jdXJzb3JfYWRkX3NpemVfaGludHNfcHJvcGVy
+dHkoc3RydWN0IGludGVsX3BsYW5lDQo+ICpwbGFuZSkNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfc3ByaXRlLmMNCj4gYi9kcml2ZXJzL2dwdS9kcm0v
+aTkxNS9kaXNwbGF5L2ludGVsX3Nwcml0ZS5jDQo+IGluZGV4IDY5YjY4NzNhNjA0NC4uOTg4OGEy
+YTQzZmM1IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vaTkxNS9kaXNwbGF5L2ludGVs
+X3Nwcml0ZS5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2Rpc3BsYXkvaW50ZWxfc3By
+aXRlLmMNCj4gQEAgLTE1NjcsNiArMTU2Nyw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX3Bs
+YW5lX2Z1bmNzDQo+IGc0eF9zcHJpdGVfZnVuY3MgPSB7DQo+IMKgCS5hdG9taWNfZHVwbGljYXRl
+X3N0YXRlID0gaW50ZWxfcGxhbmVfZHVwbGljYXRlX3N0YXRlLA0KPiDCoAkuYXRvbWljX2Rlc3Ry
+b3lfc3RhdGUgPSBpbnRlbF9wbGFuZV9kZXN0cm95X3N0YXRlLA0KPiDCoAkuZm9ybWF0X21vZF9z
+dXBwb3J0ZWQgPSBnNHhfc3ByaXRlX2Zvcm1hdF9tb2Rfc3VwcG9ydGVkLA0KPiArCS5mb3JtYXRf
+bW9kX3N1cHBvcnRlZF9hc3luYyA9DQo+IGludGVsX3BsYW5lX2Zvcm1hdF9tb2Rfc3VwcG9ydGVk
+X2FzeW5jLA0KPiDCoH07DQo+IMKgDQo+IMKgc3RhdGljIGNvbnN0IHN0cnVjdCBkcm1fcGxhbmVf
+ZnVuY3Mgc25iX3Nwcml0ZV9mdW5jcyA9IHsNCj4gQEAgLTE1NzYsNiArMTU3Nyw3IEBAIHN0YXRp
+YyBjb25zdCBzdHJ1Y3QgZHJtX3BsYW5lX2Z1bmNzDQo+IHNuYl9zcHJpdGVfZnVuY3MgPSB7DQo+
+IMKgCS5hdG9taWNfZHVwbGljYXRlX3N0YXRlID0gaW50ZWxfcGxhbmVfZHVwbGljYXRlX3N0YXRl
+LA0KPiDCoAkuYXRvbWljX2Rlc3Ryb3lfc3RhdGUgPSBpbnRlbF9wbGFuZV9kZXN0cm95X3N0YXRl
+LA0KPiDCoAkuZm9ybWF0X21vZF9zdXBwb3J0ZWQgPSBzbmJfc3ByaXRlX2Zvcm1hdF9tb2Rfc3Vw
+cG9ydGVkLA0KPiArCS5mb3JtYXRfbW9kX3N1cHBvcnRlZF9hc3luYyA9DQo+IGludGVsX3BsYW5l
+X2Zvcm1hdF9tb2Rfc3VwcG9ydGVkX2FzeW5jLA0KPiDCoH07DQo+IMKgDQo+IMKgc3RhdGljIGNv
+bnN0IHN0cnVjdCBkcm1fcGxhbmVfZnVuY3Mgdmx2X3Nwcml0ZV9mdW5jcyA9IHsNCj4gQEAgLTE1
+ODUsNiArMTU4Nyw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZHJtX3BsYW5lX2Z1bmNzDQo+IHZs
+dl9zcHJpdGVfZnVuY3MgPSB7DQo+IMKgCS5hdG9taWNfZHVwbGljYXRlX3N0YXRlID0gaW50ZWxf
+cGxhbmVfZHVwbGljYXRlX3N0YXRlLA0KPiDCoAkuYXRvbWljX2Rlc3Ryb3lfc3RhdGUgPSBpbnRl
+bF9wbGFuZV9kZXN0cm95X3N0YXRlLA0KPiDCoAkuZm9ybWF0X21vZF9zdXBwb3J0ZWQgPSB2bHZf
+c3ByaXRlX2Zvcm1hdF9tb2Rfc3VwcG9ydGVkLA0KPiArCS5mb3JtYXRfbW9kX3N1cHBvcnRlZF9h
+c3luYyA9DQo+IGludGVsX3BsYW5lX2Zvcm1hdF9tb2Rfc3VwcG9ydGVkX2FzeW5jLA0KPiDCoH07
+DQo+IMKgDQo+IMKgc3RydWN0IGludGVsX3BsYW5lICoNCg0K
