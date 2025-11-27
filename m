@@ -2,55 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 986ADC8DC1C
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 11:29:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62D5C8DC86
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 11:34:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4CCC10E704;
-	Thu, 27 Nov 2025 10:29:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2836810E7F8;
+	Thu, 27 Nov 2025 10:34:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="fSIwiwA6";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="aDkLTVaD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AF7510E7ED;
- Thu, 27 Nov 2025 10:29:39 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C70210E825;
+ Thu, 27 Nov 2025 10:34:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1764239645;
+ bh=DHUeJy6RiFmbP61vJmBG5ZpHikoItVr2PujZhZ6Oa6I=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=aDkLTVaDbqdNjUwZGLcqcMRUsKcCTPGobPXaBfK1wqJx7O7sFgYKUDkU3X0vL+o5D
+ CcE3UQzCAuESwDeodVwI7UIJpoTlSrYrBaL/6tKwWb/hy7xjbWZiR0SqK5q6Rlcj0U
+ HGqtXTn1dZtTNSikPKQyOKzhYAxGJnYrGP/Vg1UEzXSm+I8M59bXO/M1/1AOTA8GJK
+ T+6Y/HmgZzmNUJaZjCNc4QB3bZECacbhc77rxNMgY47VE1LffAJY04EQ+hQhg2V8KH
+ NEJMSK/GPnASKPFhBJt9IHo/8Wao/yghRIUNYksS0x78yJJB1DesuOulWbfBVhPNOx
+ 9uhVuyFyXVM6Q==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dHCNH4kq6z9ssn;
- Thu, 27 Nov 2025 11:29:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1764239375; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CttLpGvt+BQI7FK1pMA6SKCpI/oMH9d0l5Icob0Xv4I=;
- b=fSIwiwA6qpIYUorjY8LpQXqNrz6Urb6q/aFKVfNSMud+gZT7ABBG5H2IzwfDsbNLSdpPqC
- feLZZUSyaf0sYn4mO1hnNbFz8/BBUsI8Ktz6JFVBGGCcs/HxceYSr4YJSuEWZUhF4LTY3Z
- 9Sj6vD0EVIILmuO+H4TRPTrfZ4mOgyc9Ehgq9KAFNQlPLUzxSNKhF07qvKu5c/qk+nkLZX
- 93VegSuldr//XgUG6JFfea0vw7teupZqey2RnELwQ/gEfQBqyKilSFViFGNmVdIJ+EUuTi
- JU6vOjtAfryT8arQzBmy1nNlkIMqOc8o+1yxuZiRM8jx08BZWwCyWitqEhulyg==
-Message-ID: <7821929c041b973712968a4f90bd6e81e8051c81.camel@mailbox.org>
-Subject: Re: [PATCH 03/18] dma-buf: detach fence ops on signal v2
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- alexdeucher@gmail.com, simona.vetter@ffwll.ch, tursulin@ursulin.net, 
- matthew.brost@intel.com, dri-devel@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- sumit.semwal@linaro.org
-Date: Thu, 27 Nov 2025 11:29:32 +0100
-In-Reply-To: <20251113145332.16805-4-christian.koenig@amd.com>
-References: <20251113145332.16805-1-christian.koenig@amd.com>
- <20251113145332.16805-4-christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 0368F17E0360;
+ Thu, 27 Nov 2025 11:34:04 +0100 (CET)
+Date: Thu, 27 Nov 2025 11:34:00 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Faith Ekstrand <faith.ekstrand@collabora.com>, Thierry
+ Reding <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mcanal@igalia.com>, Lucas De Marchi <lucas.demarchi@intel.com>, Thomas
+ =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Rodrigo
+ Vivi <rodrigo.vivi@intel.com>, Frank Binns <frank.binns@imgtec.com>, Matt
+ Coster <matt.coster@imgtec.com>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, kernel@collabora.com
+Subject: Re: [PATCH v6 01/16] drm/prime: Simplify life of drivers needing
+ custom dma_buf_ops
+Message-ID: <20251127113400.0e522211@fedora>
+In-Reply-To: <daaf256e-8662-4f9a-b702-1a6656117448@suse.de>
+References: <20251126124455.3656651-1-boris.brezillon@collabora.com>
+ <20251126124455.3656651-2-boris.brezillon@collabora.com>
+ <2e789ff6-b79f-4577-bc69-f74dfed6acfa@suse.de>
+ <daaf256e-8662-4f9a-b702-1a6656117448@suse.de>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MBO-RS-ID: 4b0056efd151b94d99d
-X-MBO-RS-META: jz8qzc3tzot1mnufrpciosqww3ci6q6u
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,108 +77,114 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-11-13 at 15:51 +0100, Christian K=C3=B6nig wrote:
-> When neither a release nor a wait backend ops is specified it is possible
-> to let the dma_fence live on independently of the module who issued it.
->=20
-> This makes it possible to unload drivers and only wait for all their
-> fences to signal.
->=20
-> v2: fix typo in comment
->=20
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+On Thu, 27 Nov 2025 09:42:52 +0100
+Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
-Reviewed-by: Philipp Stanner <phasta@kernel.org>
-
-
-> ---
-> =C2=A0drivers/dma-buf/dma-fence.c | 16 ++++++++++++----
-> =C2=A0include/linux/dma-fence.h=C2=A0=C2=A0 |=C2=A0 4 ++--
-> =C2=A02 files changed, 14 insertions(+), 6 deletions(-)
+> Hi
 >=20
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index ec21be9b089a..7074347f506d 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -374,6 +374,14 @@ int dma_fence_signal_timestamp_locked(struct dma_fen=
-ce *fence,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &fence->flags)))
-> =C2=A0		return -EINVAL;
-> =C2=A0
-> +	/*
-> +	 * When neither a release nor a wait operation is specified set the ops
-> +	 * pointer to NULL to allow the fence structure to become independent
-> +	 * from who originally issued it.
-> +	 */
-> +	if (!fence->ops->release && !fence->ops->wait)
-> +		RCU_INIT_POINTER(fence->ops, NULL);
-> +
-> =C2=A0	/* Stash the cb_list before replacing it with the timestamp */
-> =C2=A0	list_replace(&fence->cb_list, &cb_list);
-> =C2=A0
-> @@ -513,7 +521,7 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool =
-intr, signed long timeout)
-> =C2=A0	rcu_read_lock();
-> =C2=A0	ops =3D rcu_dereference(fence->ops);
-> =C2=A0	trace_dma_fence_wait_start(fence);
-> -	if (ops->wait) {
-> +	if (ops && ops->wait) {
-> =C2=A0		/*
-> =C2=A0		 * Implementing the wait ops is deprecated and not supported for
-> =C2=A0		 * issuer independent fences, so it is ok to use the ops outside
-> @@ -578,7 +586,7 @@ void dma_fence_release(struct kref *kref)
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	ops =3D rcu_dereference(fence->ops);
-> -	if (ops->release)
-> +	if (ops && ops->release)
-> =C2=A0		ops->release(fence);
-> =C2=A0	else
-> =C2=A0		dma_fence_free(fence);
-> @@ -614,7 +622,7 @@ static bool __dma_fence_enable_signaling(struct dma_f=
-ence *fence)
-> =C2=A0
-> =C2=A0	rcu_read_lock();
-> =C2=A0	ops =3D rcu_dereference(fence->ops);
-> -	if (!was_set && ops->enable_signaling) {
-> +	if (!was_set && ops && ops->enable_signaling) {
-> =C2=A0		trace_dma_fence_enable_signal(fence);
-> =C2=A0
-> =C2=A0		if (!ops->enable_signaling(fence)) {
-> @@ -1000,7 +1008,7 @@ void dma_fence_set_deadline(struct dma_fence *fence=
-, ktime_t deadline)
-> =C2=A0
-> =C2=A0	rcu_read_lock();
-> =C2=A0	ops =3D rcu_dereference(fence->ops);
-> -	if (ops->set_deadline && !dma_fence_is_signaled(fence))
-> +	if (ops && ops->set_deadline && !dma_fence_is_signaled(fence))
-> =C2=A0		ops->set_deadline(fence, deadline);
-> =C2=A0	rcu_read_unlock();
-> =C2=A0}
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 77f07735f556..eb57bcc8712f 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -436,7 +436,7 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
-> =C2=A0
-> =C2=A0	rcu_read_lock();
-> =C2=A0	ops =3D rcu_dereference(fence->ops);
-> -	if (ops->signaled && ops->signaled(fence)) {
-> +	if (ops && ops->signaled && ops->signaled(fence)) {
-> =C2=A0		rcu_read_unlock();
-> =C2=A0		dma_fence_signal_locked(fence);
-> =C2=A0		return true;
-> @@ -472,7 +472,7 @@ dma_fence_is_signaled(struct dma_fence *fence)
-> =C2=A0
-> =C2=A0	rcu_read_lock();
-> =C2=A0	ops =3D rcu_dereference(fence->ops);
-> -	if (ops->signaled && ops->signaled(fence)) {
-> +	if (ops && ops->signaled && ops->signaled(fence)) {
-> =C2=A0		rcu_read_unlock();
-> =C2=A0		dma_fence_signal(fence);
-> =C2=A0		return true;
+> Am 27.11.25 um 09:34 schrieb Thomas Zimmermann:
+> > Hi
+> >
+> > Am 26.11.25 um 13:44 schrieb Boris Brezillon: =20
+> >> drm_gem_is_prime_exported_dma_buf() checks the dma_buf->ops against
+> >> drm_gem_prime_dmabuf_ops, which makes it impossible to use if the
+> >> driver implements custom dma_buf_ops. Instead of duplicating a bunch
+> >> of helpers to work around it, let's provide a way for drivers to
+> >> expose their custom dma_buf_ops so the core prime helpers can rely on
+> >> that instead of hardcoding &drm_gem_prime_dmabuf_ops. =20
+> >
+> > This can't go in as-is. I've spent an awful amount of patches on=20
+> > removing buffer callbacks from struct drm_driver. Let's please not go=20
+> > back to that.
+> > =20
+> >>
+> >> v5:
+> >> - New patch
+> >>
+> >> v6:
+> >> - Pass custom dma_buf_ops directly instead of through a getter
+> >>
+> >> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> >> ---
+> >> =C2=A0 drivers/gpu/drm/drm_prime.c | 10 ++++++++--
+> >> =C2=A0 include/drm/drm_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 8 ++++++++
+> >> =C2=A0 2 files changed, 16 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> >> index 21809a82187b..86fd95f0c105 100644
+> >> --- a/drivers/gpu/drm/drm_prime.c
+> >> +++ b/drivers/gpu/drm/drm_prime.c
+> >> @@ -904,6 +904,12 @@ unsigned long=20
+> >> drm_prime_get_contiguous_size(struct sg_table *sgt)
+> >> =C2=A0 }
+> >> =C2=A0 EXPORT_SYMBOL(drm_prime_get_contiguous_size);
+> >> =C2=A0 +static const struct dma_buf_ops *
+> >> +drm_gem_prime_get_dma_buf_ops(struct drm_device *dev)
+> >> +{
+> >> +=C2=A0=C2=A0=C2=A0 return dev->driver->dma_buf_ops ?: &drm_gem_prime_=
+dmabuf_ops;
+> >> +}
+> >> +
+> >> =C2=A0 /**
+> >> =C2=A0=C2=A0 * drm_gem_prime_export - helper library implementation of=
+ the=20
+> >> export callback
+> >> =C2=A0=C2=A0 * @obj: GEM object to export
+> >> @@ -920,7 +926,7 @@ struct dma_buf *drm_gem_prime_export(struct=20
+> >> drm_gem_object *obj,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_buf_export_info exp_info =3D=
+ {
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .exp_name =3D K=
+BUILD_MODNAME, /* white lie for debug */
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .owner =3D dev-=
+>driver->fops->owner,
+> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ops =3D &drm_gem_prime_dm=
+abuf_ops,
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ops =3D drm_gem_prime_get=
+_dma_buf_ops(dev), =20
+> >
+> > Rather provide a new function drm_gem_prime_export_with_ops() that=20
+> > takes an additional dma_ops instance. The current=20
+> > drm_gem_prime_export() would call it with &drm_gem_prime_dmabuf_ops.
+> >
+> > If this really does not work, you could add a pointer to dma_buf_ops=20
+> > to drm_gem_object_funcs and fetch that from drm_gem_prime_export(). We=
+=20
+> > already vm_ops there.
+> >
+> > Other drivers, such as amdgpu, would also benefit from such a change
+> > =20
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .size =3D obj->=
+size,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .flags =3D flag=
+s,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .priv =3D obj,
+> >> @@ -947,7 +953,7 @@ bool drm_gem_is_prime_exported_dma_buf(struct=20
+> >> drm_device *dev,
+> >> =C2=A0 {
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_gem_object *obj =3D dma_buf-=
+>priv;
+> >> =C2=A0 -=C2=A0=C2=A0=C2=A0 return (dma_buf->ops =3D=3D &drm_gem_prime_=
+dmabuf_ops) &&=20
+> >> (obj->dev =3D=3D dev);
+> >> +=C2=A0=C2=A0=C2=A0 return dma_buf->ops =3D=3D drm_gem_prime_get_dma_b=
+uf_ops(dev) &&=20
+> >> obj->dev =3D=3D dev; =20
+>=20
+> On a second thought, we probably cannot be sure that dma_buf->priv=20
+> really is a GEM object until we tested the ops field. :/=C2=A0 IIRC that'=
+s=20
+> why the ops test goes first and the test for obj->dev goes second. So=20
+> neither solution works.
 
+Hm, What do you mean by neither solution works? The original proposal
+never dereferences obj until it's sure it's a drm_gem_object, that's
+what
+
+	dma_buf->ops =3D=3D drm_gem_prime_get_dma_buf_ops(dev)
+
+is for.
