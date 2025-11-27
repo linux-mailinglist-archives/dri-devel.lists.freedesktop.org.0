@@ -2,67 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8202C8E3D6
-	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 13:24:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA309C8E42D
+	for <lists+dri-devel@lfdr.de>; Thu, 27 Nov 2025 13:32:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F063810E193;
-	Thu, 27 Nov 2025 12:24:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18DEA10E00E;
+	Thu, 27 Nov 2025 12:32:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ST2IUyE0";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="THBeq4LM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 916E010E193
- for <dri-devel@lists.freedesktop.org>; Thu, 27 Nov 2025 12:24:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764246282; x=1795782282;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=iFmA0gfBLZi3VRH7c1aQ06IjGcorTM9TWDyCB6dTNtE=;
- b=ST2IUyE0iTz5Tr/jEdJhuczzn1uQR6jxHidA11ahBZgSlDbX06yyjiT9
- 3rRZ1sMl0fyTJwig+3EeCySSA0KSQ5LVcj8Kr7QcWTuUAheg65KiX77E8
- RVvUtqQMw6rAD60NGTEMi8h8Nr01KfrLm5UD/no5BWiGMmglbtX+nZoMT
- /krrHdDuy+vUQvuwIlh3RCub+hFWNj179LL+OCadjduR65GRmdx2+gBUb
- xQg0CRuT26rqn/HSVLGrls21qBprcQks8YR8rZhvQQw4U+GBXddhRLfkh
- howRKTpltJSQKUia7OToH4wKEBaY2I6NRJwUHX8YFY9OjEqnVALo4LMO/ Q==;
-X-CSE-ConnectionGUID: u8tOBgPNSkeBM1cKwBOVxQ==
-X-CSE-MsgGUID: f1k1W/HMQEqcWm96n7puaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="83685492"
-X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="83685492"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2025 04:24:41 -0800
-X-CSE-ConnectionGUID: +S3LMCMKQKKCeX7JLBZV4A==
-X-CSE-MsgGUID: OkMQesF8QauVnnjuq5hlyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,231,1758610800"; d="scan'208";a="192474715"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
- by orviesa010.jf.intel.com with ESMTP; 27 Nov 2025 04:24:36 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vOb33-000000004k1-2N6M;
- Thu, 27 Nov 2025 12:24:33 +0000
-Date: Thu, 27 Nov 2025 20:23:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>,
- kpallavi@qti.qualcomm.com, srini@kernel.org,
- amahesh@qti.qualcomm.com, arnd@arndb.de, gregkh@linuxfoundation.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>,
- quic_bkumar@quicinc.com, ekansh.gupta@oss.qualcomm.com,
- linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, jingyi.wang@oss.qualcomm.com,
- aiqun.yu@oss.qualcomm.com, ktadakam@qti.qualcomm.com
-Subject: Re: [PATCH v4 2/4] misc: fastrpc: Rename phys to dma_addr for clarity
-Message-ID: <202511272058.teHG4sdy-lkp@intel.com>
-References: <20251126094545.2139376-3-kumari.pallavi@oss.qualcomm.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6848210E00E;
+ Thu, 27 Nov 2025 12:32:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1764246756;
+ bh=5QAIL10A8+bhuvZ058xMxfdtqnZWg1fIcUoLmJo8AIk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=THBeq4LMkdcPYf97mmcvP1lmaTmvkkheD5VUP2eZnQp877cTcN+cCWpC2mrQcRDd8
+ e+P6Fu05+ASHM6Vt4msUh5F7uSXNZ6i4o7L+DjA0BgGzopD6wPFFvdR4yzC9+hMrpP
+ W6gYHHomdPirRmlEIN9jxNuAtTaCuFP+EnKciEH3GFj5dX+pDarMK9Mji8zZOrYIdp
+ 4kooUF6Q6cJOnGgYzm42dZvGpIs9qCCiwLDMaRI8q3sobu+NbWU5kHWjEV+2e8p7ol
+ qBC2n0k70rZAh0MTJT8FLVKmAGNrrTl4iXcFhZdhnRplOSL0QMF7cv+1FVW+67qBwx
+ 8aYFiOOfZs0Lw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B7F8917E1122;
+ Thu, 27 Nov 2025 13:32:35 +0100 (CET)
+Date: Thu, 27 Nov 2025 13:32:30 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Steven Price <steven.price@arm.com>, dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Faith Ekstrand <faith.ekstrand@collabora.com>, Thierry
+ Reding <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Melissa Wen <mwen@igalia.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mcanal@igalia.com>, Lucas De Marchi <lucas.demarchi@intel.com>, Thomas
+ =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>, Rodrigo
+ Vivi <rodrigo.vivi@intel.com>, Frank Binns <frank.binns@imgtec.com>, Matt
+ Coster <matt.coster@imgtec.com>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, kernel@collabora.com
+Subject: Re: [PATCH v6 01/16] drm/prime: Simplify life of drivers needing
+ custom dma_buf_ops
+Message-ID: <20251127133230.4740dbc9@fedora>
+In-Reply-To: <20251127114440.7a1d9e16@fedora>
+References: <20251126124455.3656651-1-boris.brezillon@collabora.com>
+ <20251126124455.3656651-2-boris.brezillon@collabora.com>
+ <2e789ff6-b79f-4577-bc69-f74dfed6acfa@suse.de>
+ <daaf256e-8662-4f9a-b702-1a6656117448@suse.de>
+ <0d1fe2cf-dbda-4e64-bc3b-a2c9c0887820@suse.de>
+ <20251127114440.7a1d9e16@fedora>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251126094545.2139376-3-kumari.pallavi@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,138 +82,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kumari,
+Hi Thomas,
 
-kernel test robot noticed the following build warnings:
+On Thu, 27 Nov 2025 11:44:40 +0100
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus robh/for-next soc/for-next linus/master v6.18-rc7 next-20251127]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> On Thu, 27 Nov 2025 09:58:55 +0100
+> Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>=20
+> > Hi
+> >=20
+> > Am 27.11.25 um 09:42 schrieb Thomas Zimmermann: =20
+> > > Hi
+> > >
+> > > Am 27.11.25 um 09:34 schrieb Thomas Zimmermann:   =20
+> > >> Hi
+> > >>
+> > >> Am 26.11.25 um 13:44 schrieb Boris Brezillon:   =20
+> > >>> drm_gem_is_prime_exported_dma_buf() checks the dma_buf->ops against
+> > >>> drm_gem_prime_dmabuf_ops, which makes it impossible to use if the
+> > >>> driver implements custom dma_buf_ops. Instead of duplicating a bunch
+> > >>> of helpers to work around it, let's provide a way for drivers to
+> > >>> expose their custom dma_buf_ops so the core prime helpers can rely =
+on
+> > >>> that instead of hardcoding &drm_gem_prime_dmabuf_ops.   =20
+> > >>
+> > >> This can't go in as-is. I've spent an awful amount of patches on=20
+> > >> removing buffer callbacks from struct drm_driver. Let's please not g=
+o=20
+> > >> back to that.
+> > >>   =20
+> > >>>
+> > >>> v5:
+> > >>> - New patch
+> > >>>
+> > >>> v6:
+> > >>> - Pass custom dma_buf_ops directly instead of through a getter
+> > >>>
+> > >>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> > >>> ---
+> > >>> =C2=A0 drivers/gpu/drm/drm_prime.c | 10 ++++++++--
+> > >>> =C2=A0 include/drm/drm_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 8 ++++++++
+> > >>> =C2=A0 2 files changed, 16 insertions(+), 2 deletions(-)
+> > >>>
+> > >>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prim=
+e.c
+> > >>> index 21809a82187b..86fd95f0c105 100644
+> > >>> --- a/drivers/gpu/drm/drm_prime.c
+> > >>> +++ b/drivers/gpu/drm/drm_prime.c
+> > >>> @@ -904,6 +904,12 @@ unsigned long=20
+> > >>> drm_prime_get_contiguous_size(struct sg_table *sgt)
+> > >>> =C2=A0 }
+> > >>> =C2=A0 EXPORT_SYMBOL(drm_prime_get_contiguous_size);
+> > >>> =C2=A0 +static const struct dma_buf_ops *
+> > >>> +drm_gem_prime_get_dma_buf_ops(struct drm_device *dev)
+> > >>> +{
+> > >>> +=C2=A0=C2=A0=C2=A0 return dev->driver->dma_buf_ops ?: &drm_gem_pri=
+me_dmabuf_ops;
+> > >>> +}
+> > >>> +
+> > >>> =C2=A0 /**
+> > >>> =C2=A0=C2=A0 * drm_gem_prime_export - helper library implementation=
+ of the=20
+> > >>> export callback
+> > >>> =C2=A0=C2=A0 * @obj: GEM object to export
+> > >>> @@ -920,7 +926,7 @@ struct dma_buf *drm_gem_prime_export(struct=20
+> > >>> drm_gem_object *obj,
+> > >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_buf_export_info exp_info =
+=3D {
+> > >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .exp_name =
+=3D KBUILD_MODNAME, /* white lie for debug */
+> > >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .owner =3D d=
+ev->driver->fops->owner,
+> > >>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ops =3D &drm_gem_prime=
+_dmabuf_ops,
+> > >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ops =3D drm_gem_prime_=
+get_dma_buf_ops(dev),   =20
+> > >>
+> > >> Rather provide a new function drm_gem_prime_export_with_ops() that=20
+> > >> takes an additional dma_ops instance. The current=20
+> > >> drm_gem_prime_export() would call it with &drm_gem_prime_dmabuf_ops.
+> > >>
+> > >> If this really does not work, you could add a pointer to dma_buf_ops=
+=20
+> > >> to drm_gem_object_funcs and fetch that from drm_gem_prime_export().=
+=20
+> > >> We already vm_ops there.
+> > >>
+> > >> Other drivers, such as amdgpu, would also benefit from such a change
+> > >>   =20
+> > >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .size =3D ob=
+j->size,
+> > >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .flags =3D f=
+lags,
+> > >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .priv =3D ob=
+j,
+> > >>> @@ -947,7 +953,7 @@ bool drm_gem_is_prime_exported_dma_buf(struct=20
+> > >>> drm_device *dev,
+> > >>> =C2=A0 {
+> > >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_gem_object *obj =3D dma_b=
+uf->priv;
+> > >>> =C2=A0 -=C2=A0=C2=A0=C2=A0 return (dma_buf->ops =3D=3D &drm_gem_pri=
+me_dmabuf_ops) &&=20
+> > >>> (obj->dev =3D=3D dev);
+> > >>> +=C2=A0=C2=A0=C2=A0 return dma_buf->ops =3D=3D drm_gem_prime_get_dm=
+a_buf_ops(dev) &&=20
+> > >>> obj->dev =3D=3D dev;   =20
+> > >
+> > > On a second thought, we probably cannot be sure that dma_buf->priv=20
+> > > really is a GEM object until we tested the ops field. :/=C2=A0 IIRC t=
+hat's=20
+> > > why the ops test goes first and the test for obj->dev goes second. So=
+=20
+> > > neither solution works.   =20
+> >=20
+> > I think, instead of looking at the ops field, the test could look at=20
+> > dma_buf->owner =3D=3D dev->driver->fops->owner.=C2=A0 This will tell if=
+ the=20
+> > dma_buf comes from the same driver and hence is a GEM object. In the=20
+> > next step, do obj->dev =3D=3D dev as before.=C2=A0 This will also allow=
+ drivers=20
+> > like amdgpu to use the helper for testing. See [1]. =20
+>=20
+> Except this doesn't work when the driver is linked statically (not
+> enabled as a module), because THIS_MODULE is NULL in that case.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kumari-Pallavi/dt-bindings-misc-qcom-fastrpc-Add-compatible-for-Kaanapali/20251126-175106
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20251126094545.2139376-3-kumari.pallavi%40oss.qualcomm.com
-patch subject: [PATCH v4 2/4] misc: fastrpc: Rename phys to dma_addr for clarity
-config: arm-randconfig-002-20251127 (https://download.01.org/0day-ci/archive/20251127/202511272058.teHG4sdy-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e9fe08b16ea2c4d9867fb4974edf2a3776d6ece)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251127/202511272058.teHG4sdy-lkp@intel.com/reproduce)
+Couple more alternatives, if someone is interested in pursing in that
+path:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511272058.teHG4sdy-lkp@intel.com/
+- Have a drm_device::dmabuf_ops and a drm_dev_set_dmabuf_ops() helper
+  to attach the driver dma_buf_ops to the device and allow a direct:
 
-All warnings (new ones prefixed by >>):
+	dmabuf->ops =3D=3D dev->dmabuf_ops
 
->> drivers/misc/fastrpc.c:328:6: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
-     327 |                                         "Failed to assign memory dma_addr 0x%llx size 0x%llx err %d\n",
-         |                                                                             ~~~~
-         |                                                                             %x
-     328 |                                         map->dma_addr, map->len, err);
-         |                                         ^~~~~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/misc/fastrpc.c:823:5: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
-     822 |                                 "Failed to assign memory with dma_addr 0x%llx size 0x%llx err %d\n",
-         |                                                                          ~~~~
-         |                                                                          %x
-     823 |                                 map->dma_addr, map->len, err);
-         |                                 ^~~~~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/misc/fastrpc.c:1318:6: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
-    1317 |                                         "Failed to assign memory with dma_addr 0x%llx size 0x%llx err %d\n",
-         |                                                                                  ~~~~
-         |                                                                                  %x
-    1318 |                                         fl->cctx->remote_heap->dma_addr,
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/misc/fastrpc.c:1373:5: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
-    1372 |                         dev_err(fl->sctx->dev, "Failed to assign memory dma_addr 0x%llx size 0x%llx err %d\n",
-         |                                                                                    ~~~~
-         |                                                                                    %x
-    1373 |                                 fl->cctx->remote_heap->dma_addr, fl->cctx->remote_heap->size, err);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/misc/fastrpc.c:1953:5: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
-    1952 |                                 "Failed to assign memory dma_addr 0x%llx size 0x%llx err %d",
-         |                                                                     ~~~~
-         |                                                                     %x
-    1953 |                                 buf->dma_addr, buf->size, err);
-         |                                 ^~~~~~~~~~~~~
-   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   5 warnings generated.
+  test
+- Have a dev field (struct device *) added to dma_buf, and have a
 
+	dmabuf->dev =3D=3D drm_dev_dma_dev(dev)
 
-vim +328 drivers/misc/fastrpc.c
+  test
 
-   307	
-   308	static void fastrpc_free_map(struct kref *ref)
-   309	{
-   310		struct fastrpc_map *map;
-   311	
-   312		map = container_of(ref, struct fastrpc_map, refcount);
-   313	
-   314		if (map->table) {
-   315			if (map->attr & FASTRPC_ATTR_SECUREMAP) {
-   316				struct qcom_scm_vmperm perm;
-   317				int vmid = map->fl->cctx->vmperms[0].vmid;
-   318				u64 src_perms = BIT(QCOM_SCM_VMID_HLOS) | BIT(vmid);
-   319				int err = 0;
-   320	
-   321				perm.vmid = QCOM_SCM_VMID_HLOS;
-   322				perm.perm = QCOM_SCM_PERM_RWX;
-   323				err = qcom_scm_assign_mem(map->dma_addr, map->len,
-   324					&src_perms, &perm, 1);
-   325				if (err) {
-   326					dev_err(map->fl->sctx->dev,
-   327						"Failed to assign memory dma_addr 0x%llx size 0x%llx err %d\n",
- > 328						map->dma_addr, map->len, err);
-   329					return;
-   330				}
-   331			}
-   332			dma_buf_unmap_attachment_unlocked(map->attach, map->table,
-   333							  DMA_BIDIRECTIONAL);
-   334			dma_buf_detach(map->buf, map->attach);
-   335			dma_buf_put(map->buf);
-   336		}
-   337	
-   338		if (map->fl) {
-   339			spin_lock(&map->fl->lock);
-   340			list_del(&map->node);
-   341			spin_unlock(&map->fl->lock);
-   342			map->fl = NULL;
-   343		}
-   344	
-   345		kfree(map);
-   346	}
-   347	
+On my side, I'll just drop all the drm_gem[_shmem] changes in this
+series and duplicate the logic in panthor/panfrost for now, because it
+seems there's no consensus on this code-sharing proposal, and I want the
+cached CPU mapping stuff merged.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Just to be clear, I still think the proposed code sharing is
+valuable to
+
+- avoid simple mistakes in drivers (it's very easy to get something
+  wrong in the import/export sequence)
+- ease propagation of fixes (all drivers using the common bits get the
+  fix automatically)
+- ease refactoring of code (it's easier to patch one common helper than
+  a half a dozen drivers)
+
+Let alone the fact it could remove a bunch of boilerplate code in
+various drivers. This being said, I'm not willing to spend time on
+something that's likely to be rejected because of postures on
+philosophical design decisions (which I understand, but not necessarily
+agree with ;-)).
+
+Regards,
+
+Boris
