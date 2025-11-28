@@ -2,70 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39003C90A87
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 03:53:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE02C90BDC
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 04:17:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38FF910E812;
-	Fri, 28 Nov 2025 02:52:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EB0A10E08C;
+	Fri, 28 Nov 2025 03:17:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jwuXKnvl";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R1Ec+14Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1434E10E08C;
- Fri, 28 Nov 2025 02:52:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764298376; x=1795834376;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=kN8f8ocFg/9iq69/nMOZcevqnWg1yZnJ/G3yn1vCZBg=;
- b=jwuXKnvlSlYpwdsuRSo+7bN42FuZxdo8v1XcRvX+LAUqP2Z5DOoKwUWY
- ft2QcllrmyWPSe1Q0v542t4ySUaih99I6R4ozr/2bxZ0sh5XG35FlZzlq
- PSuPO0PATYv8StFflhzaJqGto1fMjB56d/8yXlixH0qhGs6VEz12HDFQI
- rnn/7G8ir8zeEBuLWw0kp0TAoKhBzuJzfYFirBE8/NuR2l5brVzavcHAP
- kzaKO/ilA8FEVdV4jeZX2XS9xpQBOik53rxOwIGXW0Nj8NALLQmRCD92X
- 0EopTGl/PnPkoZPJID0aKj0wg+Um61PY18EW94lwosBgnSGfKvwvGKsTg Q==;
-X-CSE-ConnectionGUID: djrcfU+yRKaCqoEM7mFfYQ==
-X-CSE-MsgGUID: 2OelRxrsQ1W37KBRZ30NBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="66281697"
-X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; d="scan'208";a="66281697"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Nov 2025 18:52:55 -0800
-X-CSE-ConnectionGUID: kHmaFFJtSrCUNitANqQ8Mg==
-X-CSE-MsgGUID: OVGbIM/SSGC2110517cZ5w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; d="scan'208";a="193159342"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
- by orviesa009.jf.intel.com with ESMTP; 27 Nov 2025 18:52:51 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vOobI-000000005xN-3R8H;
- Fri, 28 Nov 2025 02:52:48 +0000
-Date: Fri, 28 Nov 2025 10:52:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anna Maniscalco <anna.maniscalco2000@gmail.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Antonino Maniscalco <antomani103@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Anna Maniscalco <anna.maniscalco2000@gmail.com>
-Subject: Re: [PATCH] drm/msm: Fix a7xx per pipe register programming
-Message-ID: <202511281253.rIkrIiqt-lkp@intel.com>
-References: <20251127-gras_nc_mode_fix-v1-1-5c0cf616401f@gmail.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 789BF10E08C
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 03:17:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 8655D6013C;
+ Fri, 28 Nov 2025 03:17:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04DF0C4CEF8;
+ Fri, 28 Nov 2025 03:17:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764299847;
+ bh=ryPXwfuMaZzBXoYMo/9eVTKnHFtI3lVtoZXMBixOIc4=;
+ h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+ b=R1Ec+14ZjpPF5TvGD5MwhTACaQKRf4CPFDQlWnS3iKcnA8nYJoHgtULZac5QL0R8e
+ ONuNr0QhVzGQQpBd9bAMc1HDkJTHGmkM+T4u3EYEry/bXjqhlfnzkJ148xc96GDTWS
+ 9m44RRHE9/pa6qqT19+hA/3uKMQ2VlMa/O1lNQSYr2D7vVq8xL5+nhR0SPDO0iTntq
+ f/ldas7ZXnM+NMMiIVPZ0xtlmSLav22QSnLLOw/JE1y6uSSXurk3KHRR9Zrbm1mnqz
+ R9TMfNxqW8aiwae9iBkcsN7xtjhBhTn7smCfb7sO/wYSYR0TxnNyu3olV+kHpfMGwO
+ 8NTnuNSIdcdtA==
+Date: Thu, 27 Nov 2025 21:17:25 -0600
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251127-gras_nc_mode_fix-v1-1-5c0cf616401f@gmail.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Sandy Huang <hjc@rock-chips.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Diederik de Haas <didi.debian@cknow.org>, Dragan Simic <dsimic@manjaro.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ linux-phy@lists.infradead.org, Andy Yan <andy.yan@rock-chips.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Johan Jonker <jbx6244@gmail.com>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Robert Foss <rfoss@kernel.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Heiko Stuebner <heiko@sntech.de>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ linux-rockchip@lists.infradead.org, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Amit Sunil Dhamne <amitsd@google.com>, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Conor Dooley <conor+dt@kernel.org>, 
+ Vinod Koul <vkoul@kernel.org>, Peter Chen <hzpeterchen@gmail.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Peter Robinson <pbrobinson@gmail.com>, 
+ Yubing Zhang <yubing.zhang@rock-chips.com>, Simona Vetter <simona@ffwll.ch>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Frank Wang <frank.wang@rock-chips.com>, linux-usb@vger.kernel.org, 
+ devicetree@vger.kernel.org, Andrzej Hajda <andrzej.hajda@intel.com>
+To: Chaoyi Chen <kernel@airkyi.com>
+In-Reply-To: <20251128020405.90-6-kernel@airkyi.com>
+References: <20251128020405.90-1-kernel@airkyi.com>
+ <20251128020405.90-6-kernel@airkyi.com>
+Message-Id: <176429984551.1030074.10716294618988682110.robh@kernel.org>
+Subject: Re: [PATCH v11 05/11] dt-bindings: phy: rockchip:
+ rk3399-typec-phy: Support mode-switch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,107 +84,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Anna,
 
-kernel test robot noticed the following build warnings:
+On Fri, 28 Nov 2025 10:03:59 +0800, Chaoyi Chen wrote:
+> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> 
+> The RK3399 SoC integrates two USB/DP combo PHYs, each of which
+> supports software-configurable pin mapping and DisplayPort lane
+> assignment. These capabilities enable the PHY itself to handle both
+> mode switching and orientation switching, based on the Type-C plug
+> orientation and USB PD negotiation results.
+> 
+> While an external Type-C controller is still required to detect cable
+> attachment and report USB PD events, the actual mode and orientation
+> switching is performed internally by the PHY through software
+> configuration. This allows the PHY to act as a Type-C multiplexer for
+> both data role and DP altmode configuration.
+> 
+> To reflect this hardware design, this patch introduces a new
+> "mode-switch" property for the dp-port node in the device tree bindings.
+> This property indicates that the connected PHY is capable of handling
+> Type-C mode switching itself.
+> 
+> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+> 
+> (no changes since v5)
+> 
+> Changes in v4:
+> - Remove "|" in description.
+> 
+> Changes in v3:
+> - Add more descriptions to clarify the role of the PHY in switching.
+> 
+> Changes in v2:
+> - Reuse dp-port/usb3-port in rk3399-typec-phy binding.
+> 
+>  .../devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml  | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-[auto build test WARNING on 7bc29d5fb6faff2f547323c9ee8d3a0790cd2530]
+My bot found errors running 'make dt_binding_check' on your patch:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anna-Maniscalco/drm-msm-Fix-a7xx-per-pipe-register-programming/20251127-074833
-base:   7bc29d5fb6faff2f547323c9ee8d3a0790cd2530
-patch link:    https://lore.kernel.org/r/20251127-gras_nc_mode_fix-v1-1-5c0cf616401f%40gmail.com
-patch subject: [PATCH] drm/msm: Fix a7xx per pipe register programming
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251128/202511281253.rIkrIiqt-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511281253.rIkrIiqt-lkp@intel.com/reproduce)
+yamllint warnings/errors:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511281253.rIkrIiqt-lkp@intel.com/
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/slimbus/slimbus.example.dtb: slim@28080000 (qcom,slim-ngd-v1.5.0): 'audio-codec@1,0' does not match any of the regexes: '^pinctrl-[0-9]+$', '^slim@[0-9a-f]+$'
+	from schema $id: http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/slimbus/slimbus.example.dtb: slim@28080000 (qcom,slim-ngd-v1.5.0): #address-cells: 1 was expected
+	from schema $id: http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/slimbus/slimbus.example.dtb: slim@28080000 (qcom,slim-ngd-v1.5.0): 'dmas' is a required property
+	from schema $id: http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/slimbus/slimbus.example.dtb: slim@28080000 (qcom,slim-ngd-v1.5.0): 'dma-names' is a required property
+	from schema $id: http://devicetree.org/schemas/slimbus/qcom,slim-ngd.yaml
+Documentation/devicetree/bindings/thermal/thermal-sensor.example.dtb: /example-0/soc/thermal-sensor@c263000: failed to match any schema with compatible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
+Documentation/devicetree/bindings/thermal/thermal-sensor.example.dtb: /example-0/soc/thermal-sensor@c263000: failed to match any schema with compatible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
+Documentation/devicetree/bindings/thermal/thermal-sensor.example.dtb: /example-0/soc/thermal-sensor@c265000: failed to match any schema with compatible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
+Documentation/devicetree/bindings/thermal/thermal-sensor.example.dtb: /example-0/soc/thermal-sensor@c265000: failed to match any schema with compatible: ['qcom,sdm845-tsens', 'qcom,tsens-v2']
 
-All warnings (new ones prefixed by >>):
+doc reference errors (make refcheckdocs):
 
->> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:984:35: warning: & has lower precedence than ==; == will be evaluated first [-Wparentheses]
-     984 |                         if (pipe_reglist->regs[i].pipe & BIT(pipe_id) == 0)
-         |                                                        ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:984:35: note: place parentheses around the '==' expression to silence this warning
-     984 |                         if (pipe_reglist->regs[i].pipe & BIT(pipe_id) == 0)
-         |                                                        ^ ~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:984:35: note: place parentheses around the & expression to evaluate it first
-     984 |                         if (pipe_reglist->regs[i].pipe & BIT(pipe_id) == 0)
-         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
-   1 warning generated.
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20251128020405.90-6-kernel@airkyi.com
 
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-vim +984 drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-   931	
-   932	static void a7xx_patch_pwrup_reglist(struct msm_gpu *gpu)
-   933	{
-   934		struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-   935		struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-   936		const struct adreno_reglist_list *reglist;
-   937		const struct adreno_reglist_pipe_list *pipe_reglist;
-   938		void *ptr = a6xx_gpu->pwrup_reglist_ptr;
-   939		struct cpu_gpu_lock *lock = ptr;
-   940		u32 *dest = (u32 *)&lock->regs[0];
-   941		u32 pipe_reglist_count = 0;
-   942		int i;
-   943	
-   944		lock->gpu_req = lock->cpu_req = lock->turn = 0;
-   945	
-   946		reglist = adreno_gpu->info->a6xx->ifpc_reglist;
-   947		lock->ifpc_list_len = reglist->count;
-   948	
-   949		/*
-   950		 * For each entry in each of the lists, write the offset and the current
-   951		 * register value into the GPU buffer
-   952		 */
-   953		for (i = 0; i < reglist->count; i++) {
-   954			*dest++ = reglist->regs[i];
-   955			*dest++ = gpu_read(gpu, reglist->regs[i]);
-   956		}
-   957	
-   958		reglist = adreno_gpu->info->a6xx->pwrup_reglist;
-   959		lock->preemption_list_len = reglist->count;
-   960	
-   961		for (i = 0; i < reglist->count; i++) {
-   962			*dest++ = reglist->regs[i];
-   963			*dest++ = gpu_read(gpu, reglist->regs[i]);
-   964		}
-   965	
-   966		/*
-   967		 * The overall register list is composed of
-   968		 * 1. Static IFPC-only registers
-   969		 * 2. Static IFPC + preemption registers
-   970		 * 3. Dynamic IFPC + preemption registers (ex: perfcounter selects)
-   971		 *
-   972		 * The first two lists are static. Size of these lists are stored as
-   973		 * number of pairs in ifpc_list_len and preemption_list_len
-   974		 * respectively. With concurrent binning, Some of the perfcounter
-   975		 * registers being virtualized, CP needs to know the pipe id to program
-   976		 * the aperture inorder to restore the same. Thus, third list is a
-   977		 * dynamic list with triplets as
-   978		 * (<aperture, shifted 12 bits> <address> <data>), and the length is
-   979		 * stored as number for triplets in dynamic_list_len.
-   980		 */
-   981		pipe_reglist = adreno_gpu->info->a6xx->pipe_reglist;
-   982		for (u32 pipe_id = PIPE_BR; pipe_id <= PIPE_BV; pipe_id++) {
-   983			for (i = 0; i < pipe_reglist->count; i++) {
- > 984				if (pipe_reglist->regs[i].pipe & BIT(pipe_id) == 0)
-   985					continue;
-   986				*dest++ = A7XX_CP_APERTURE_CNTL_HOST_PIPE(pipe_id);
-   987				*dest++ = pipe_reglist->regs[i].offset;
-   988				*dest++ = a7xx_read_pipe(gpu, pipe_id,
-   989							 pipe_reglist->regs[i].offset);
-   990				pipe_reglist_count++;
-   991			}
-   992		}
-   993		lock->dynamic_list_len = pipe_reglist_count;
-   994	}
-   995	
+pip3 install dtschema --upgrade
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
