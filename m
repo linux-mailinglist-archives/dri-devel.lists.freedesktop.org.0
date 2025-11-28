@@ -2,88 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19FE0C92D6F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 18:51:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92384C92E0E
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 19:07:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C8E410E195;
-	Fri, 28 Nov 2025 17:51:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD8F710E847;
+	Fri, 28 Nov 2025 18:07:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=ziepe.ca header.i=@ziepe.ca header.b="UPqTOA1b";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="cQMWT3gX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com
- [209.85.222.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10EE110E195
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 17:51:10 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id
- af79cd13be357-8b1bfd4b3deso154598985a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 09:51:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ziepe.ca; s=google; t=1764352270; x=1764957070; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=onvIyaErE1aWYQFo6OqnWugBaON3BpZ7ThoIRVAF+KQ=;
- b=UPqTOA1bzLElwe6ux2Nv3OW2j5Ee/hej3TabuxSKzA23Ygkyyo1+Qaz2YPgTJHi0FR
- O3+3Qcu2BBGhswetGL7lCvjiU3HnaVsKSDyvTalNkl2mRzlpR6FNpBjJEyoE+if/J1NP
- LhOSHmkPEzEZwTpPxNVnn2dR3OHKvGQxu5y3tIjrJlqJvU4bTnh6g8o33hsEejJyk3KF
- gMYr0Qb16uLPvBpVfQv6YsV3alI+Sw/TzPx0pntCwi4bhYswR0oUYvUYIlvwARZ1GPmZ
- 6r96cSg/N7kwp/nKn2L9FcX/qCNE+ohfbIwllHskNxFJnz0eOZtTlGhonZA1ziZ6uP3h
- oQ0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764352270; x=1764957070;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=onvIyaErE1aWYQFo6OqnWugBaON3BpZ7ThoIRVAF+KQ=;
- b=S3pEkhPLGzd5OqhpazMcZt7CkupVVuBcPWjMyR9zKBmtoHG4C3RiVJLuMd3+bqRt+n
- XFpLnjWIITUtwZmv9yZdbNIXjRNkpW0sYt3mmPQ6TxY76DjoKY52WKlRdmbYqqzztMfG
- tuqvionn3JIcJpTDGEuqGzLVcoV1HmYPq2NtJK+6UgjWN18rogICAQRODFYyd9QF3VSg
- /BvnZN0MsKagLk7Lon9lq+2alAk1v2eyrhcAot6NRBaHd6w2QauwsCP+q2trjimvc60B
- DoaJZwQsN9bypA/nV8Olg2pbcZVgvHYlbhsE9S6Ha6C05Oy+WNaKNGuXcyWzN5dw8X2V
- mIMQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVR88ZHIWRTGPYX1MvfeFY4VTXMyx2lTBsQGNtVRmi8q7/4TjjrSzuYaayVYZPIPMXDMmlRTTuEvO8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzsSF6aQmTUqQld7qMhf3So9E/MdAL/R9C+GM6x018Lw+qZzHIX
- WXH4naK+jk6Qz1VTLYePLcebgbI/IobChMBysUrPyE2NTfNKcufSJng5Tx6v8cPh1T8=
-X-Gm-Gg: ASbGncvGfzEFNbnFo3jKqAZyP4l2Dm88yKlhXBrHfoXh7E3vhf+R/+5yw7CcTQZNHuw
- sVBzmgysPLtKKwN16XfxwSVSLJkW6gzpsbvAbDIPhoKIOfzehLOCBsspKPXLAgX/KxhfMqQkkJT
- zbI0xphiLIfQvHjVa0DHF+qVN+vaPg/+vAIFxUUvYyXmkAguXGSZ2rPh6ZQHdML+Dt+Ubm5EQyU
- mg7xrR6jl1SqQ+xYJiqcJKUWEeXdPy3gLmmwkOneKdxRbP01Tern0eUlud7zvmJ78Bj5o8JGQcO
- stHngN2PLapZjNrmNNjwFQLx9VWkWbDozJ/vuzeUTmyXrM2x3FqCFXVR2MsusW7JKQxm72NIakO
- HupsDEvmXh+3jviNgi9Eq1NPsB/4uIxXP4gWvQqguUTMijq3PMQqO25ybEKFTEQi1kqBxY0ZUOJ
- q/PhPV8ybTWBKQ4Rd3Q5xBl7BwD/5Sqn1A0Llu4NlgAFwmMLQ+yFlEORLW
-X-Google-Smtp-Source: AGHT+IHclx5WylmmMrcpXz3ZKtKlEIx7+f5j0jNJSK6KrFbXt341r2JXB7z5MW1Se7zpnvrWbmNCuw==
-X-Received: by 2002:a05:620a:45ab:b0:8b2:ef70:64f5 with SMTP id
- af79cd13be357-8b33d269cc2mr3759648085a.48.1764352269876; 
- Fri, 28 Nov 2025 09:51:09 -0800 (PST)
-Received: from ziepe.ca
- (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [47.55.120.4]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8b52a1b7d99sm342498985a.28.2025.11.28.09.51.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 28 Nov 2025 09:51:09 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
- (envelope-from <jgg@ziepe.ca>) id 1vP2ce-00000003Vf9-1jsT;
- Fri, 28 Nov 2025 13:51:08 -0400
-Date: Fri, 28 Nov 2025 13:51:08 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Jordan Niethe <jniethe@nvidia.com>
-Cc: linux-mm@kvack.org, balbirs@nvidia.com, matthew.brost@intel.com,
- akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, david@redhat.com, ziy@nvidia.com,
- apopple@nvidia.com, lorenzo.stoakes@oracle.com, lyude@redhat.com,
- dakr@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- rcampbell@nvidia.com, mpenttil@redhat.com, willy@infradead.org
-Subject: Re: [RFC PATCH 6/6] mm: Remove device private pages from the
- physical address space
-Message-ID: <20251128175108.GG812105@ziepe.ca>
-References: <20251128044146.80050-1-jniethe@nvidia.com>
- <20251128044146.80050-7-jniethe@nvidia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251128044146.80050-7-jniethe@nvidia.com>
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
+ [136.143.184.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71D6510E847
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 18:07:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1764353224; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=RtG3ndtV6UjdVmNEugxfkY/hNqTZyTalZN9NIiBwE13LjiiQGrfVvqMIlCMsp2cR2P2V3BZjxj7axPKgJYr0fDdbSPxN1GTBWASZjGJdnONZS/yezjkw7I+//rihzgbrikAiSqC0HZUafMyQak5Jd2CE5YoCDUpLUmhT/Bwk/ls=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1764353224;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=7hCtVdIpYmvpIaG2Tepwl9t2OZhg+JztbnabjHdsDXw=; 
+ b=j1uXW3P5csnn5xBO8uGG/CYg16oq3me8gSQnLQlVJw5JE02U+XwW4CcPu0JMcCgNqtIU2mo2h22ckClb0Jn1u9EElgTUDqT6AtpOVux93CVzTAVQxFiCCkw700f5K+85rR3/6OM9haHQvh01rQ+nxQr11SX9m5R4Brfuh/mGa0Q=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764353224; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=7hCtVdIpYmvpIaG2Tepwl9t2OZhg+JztbnabjHdsDXw=;
+ b=cQMWT3gX69SgMPgVmoZ3O2F61xD0U8uLT41OSthjMpSgkT6ymH/aampfZQsduSSJ
+ Mnh+iUhoZu+90ceDRcdZMCKNINIP8yBhJvbThj8X8Y41Uz621+skz9GV68ZLyGGmayr
+ QO5jhfvm8In7Rn6Yhul0L9K3CuiAYR5Tg8wuvLZg=
+Received: by mx.zohomail.com with SMTPS id 1764353222335519.628984308173;
+ Fri, 28 Nov 2025 10:07:02 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH v13 4/4] rust: Add `OwnableRefCounted`
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20251117-unique-ref-v13-4-b5b243df1250@pm.me>
+Date: Fri, 28 Nov 2025 15:06:42 -0300
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Benno Lossin <lossin@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+ Leon Romanovsky <leon@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ =?utf-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>,
+ Asahi Lina <lina+kernel@asahilina.net>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-security-module@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <A5A7C4C9-1504-439C-B4FF-C28482AF7444@collabora.com>
+References: <20251117-unique-ref-v13-0-b5b243df1250@pm.me>
+ <20251117-unique-ref-v13-4-b5b243df1250@pm.me>
+To: Oliver Mangold <oliver.mangold@pm.me>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,29 +91,316 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Nov 28, 2025 at 03:41:46PM +1100, Jordan Niethe wrote:
-> Introduce helpers:
-> 
->   - device_private_page_to_offset()
->   - device_private_folio_to_offset()
-> 
-> to take a given device private page / folio and return its offset within
-> the device private address space (this is essentially a PFN within the
-> device private address space).
+Hi Oliver,
 
-It would be nice if we rarely/never needed to see number space outside
-the pte itself or the internal helpers..
+> On 17 Nov 2025, at 07:08, Oliver Mangold <oliver.mangold@pm.me> wrote:
+>=20
+> Types implementing one of these traits can safely convert between an
+> `ARef<T>` and an `Owned<T>`.
+>=20
+> This is useful for types which generally are accessed through an =
+`ARef`
+> but have methods which can only safely be called when the reference is
+> unique, like e.g. `block::mq::Request::end_ok()`.
+>=20
+> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
+> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Reviewed-by: Andreas Hindborg <a.hindborg@kernel.org>
+> ---
+> rust/kernel/owned.rs     | 138 =
+++++++++++++++++++++++++++++++++++++++++++++---
+> rust/kernel/sync/aref.rs |  11 +++-
+> rust/kernel/types.rs     |   2 +-
+> 3 files changed, 141 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/rust/kernel/owned.rs b/rust/kernel/owned.rs
+> index a26747cbc13b..26ab2b00ada0 100644
+> --- a/rust/kernel/owned.rs
+> +++ b/rust/kernel/owned.rs
+> @@ -5,6 +5,7 @@
+> //! These pointer types are useful for C-allocated objects which by =
+API-contract
+> //! are owned by Rust, but need to be freed through the C API.
+>=20
+> +use crate::sync::aref::{ARef, RefCounted};
+> use core::{
+>     mem::ManuallyDrop,
+>     ops::{Deref, DerefMut},
+> @@ -14,14 +15,16 @@
+>=20
+> /// Type allocated and destroyed on the C side, but owned by Rust.
+> ///
+> -/// Implementing this trait allows types to be referenced via the =
+[`Owned<Self>`] pointer type. This
+> -/// is useful when it is desirable to tie the lifetime of the =
+reference to an owned object, rather
+> -/// than pass around a bare reference. [`Ownable`] types can define =
+custom drop logic that is
+> -/// executed when the owned reference [`Owned<Self>`] pointing to the =
+object is dropped.
+> +/// Implementing this trait allows types to be referenced via the =
+[`Owned<Self>`] pointer type.
+> +///  - This is useful when it is desirable to tie the lifetime of an =
+object reference to an owned
+> +///    object, rather than pass around a bare reference.
+> +///  - [`Ownable`] types can define custom drop logic that is =
+executed when the owned reference
+> +///    of type [`Owned<_>`] pointing to the object is dropped.
+> ///
+> /// Note: The underlying object is not required to provide internal =
+reference counting, because it
+> /// represents a unique, owned reference. If reference counting (on =
+the Rust side) is required,
+> -/// [`RefCounted`](crate::types::RefCounted) should be implemented.
+> +/// [`RefCounted`] should be implemented. [`OwnableRefCounted`] =
+should be implemented if conversion
+> +/// between unique and shared (reference counted) ownership is =
+needed.
+> ///
+> /// # Safety
+> ///
+> @@ -143,9 +146,7 @@ impl<T: Ownable> Owned<T> {
+>     ///   mutable reference requirements. That is, the kernel will not =
+mutate or free the underlying
+>     ///   object and is okay with it being modified by Rust code.
+>     pub unsafe fn from_raw(ptr: NonNull<T>) -> Self {
+> -        Self {
+> -            ptr,
+> -        }
+> +        Self { ptr }
+>     }
 
-Like, I don't think there should be stuff like this:
+Unrelated change?
 
->  					entry = make_writable_migration_device_private_entry(
-> -								page_to_pfn(page));
-> +								device_private_page_to_offset(page));
+>=20
+>     /// Consumes the [`Owned`], returning a raw pointer.
+> @@ -193,3 +194,124 @@ fn drop(&mut self) {
+>         unsafe { T::release(self.ptr) };
+>     }
+> }
+> +
+> +/// A trait for objects that can be wrapped in either one of the =
+reference types [`Owned`] and
+> +/// [`ARef`].
+> +///
+> +/// # Examples
+> +///
+> +/// A minimal example implementation of [`OwnableRefCounted`], =
+[`Ownable`] and its usage with
+> +/// [`ARef`] and [`Owned`] looks like this:
+> +///
+> +/// ```
+> +/// # #![expect(clippy::disallowed_names)]
+> +/// # use core::cell::Cell;
+> +/// # use core::ptr::NonNull;
+> +/// # use kernel::alloc::{flags, kbox::KBox, AllocError};
+> +/// # use kernel::sync::aref::{ARef, RefCounted};
+> +/// # use kernel::types::{Owned, Ownable, OwnableRefCounted};
+> +///
+> +/// // Example internally refcounted struct.
 
-make_writable_migration_device_private_entry() should accept the
-struct page as the handle?
+nit: IMHO the wording could improve ^
 
-If it really is needed I think it should have its own dedicated type
-and not be intermixed with normal pfns..
+> +/// //
+> +/// // # Invariants
+> +/// //
+> +/// // - `refcount` is always non-zero for a valid object.
+> +/// // - `refcount` is >1 if there are more than 1 Rust reference to =
+it.
+> +/// //
+> +/// struct Foo {
+> +///     refcount: Cell<usize>,
+> +/// }
+> +///
+> +/// impl Foo {
+> +///     fn new() -> Result<Owned<Self>, AllocError> {
+> +///         // We are just using a `KBox` here to handle the actual =
+allocation, as our `Foo` is
+> +///         // not actually a C-allocated object.
+> +///         let result =3D KBox::new(
+> +///             Foo {
+> +///                 refcount: Cell::new(1),
+> +///             },
+> +///             flags::GFP_KERNEL,
+> +///         )?;
+> +///         let result =3D NonNull::new(KBox::into_raw(result))
+> +///             .expect("Raw pointer to newly allocation KBox is =
+null, this should never happen.");
+> +///         // SAFETY: We just allocated the `Self`, thus it is valid =
+and there cannot be any other
+> +///         // Rust references. Calling `into_raw()` makes us =
+responsible for ownership and
+> +///         // we won't use the raw pointer anymore, thus we can =
+transfer ownership to the `Owned`.
+> +///         Ok(unsafe { Owned::from_raw(result) })
+> +///     }
+> +/// }
+> +///
+> +/// // SAFETY: We increment and decrement each time the respective =
+function is called and only free
+> +/// // the `Foo` when the refcount reaches zero.
+> +/// unsafe impl RefCounted for Foo {
+> +///     fn inc_ref(&self) {
+> +///         self.refcount.replace(self.refcount.get() + 1);
+> +///     }
+> +///
+> +///     unsafe fn dec_ref(this: NonNull<Self>) {
+> +///         // SAFETY: By requirement on calling this function, the =
+refcount is non-zero,
+> +///         // implying the underlying object is valid.
+> +///         let refcount =3D unsafe { &this.as_ref().refcount };
+> +///         let new_refcount =3D refcount.get() - 1;
+> +///         if new_refcount =3D=3D 0 {
+> +///             // The `Foo` will be dropped when `KBox` goes out of =
+scope.
+> +///             // SAFETY: The [`KBox<Foo>`] is still alive as the =
+old refcount is 1. We can pass
+> +///             // ownership to the [`KBox`] as by requirement on =
+calling this function,
+> +///             // the `Self` will no longer be used by the caller.
+> +///             unsafe { KBox::from_raw(this.as_ptr()) };
+> +///         } else {
+> +///             refcount.replace(new_refcount);
+> +///         }
+> +///     }
+> +/// }
+> +///
+> +/// impl OwnableRefCounted for Foo {
+> +///     fn try_from_shared(this: ARef<Self>) -> Result<Owned<Self>, =
+ARef<Self>> {
+> +///         if this.refcount.get() =3D=3D 1 {
+> +///             // SAFETY: The `Foo` is still alive and has no other =
+Rust references as the refcount
+> +///             // is 1.
+> +///             Ok(unsafe { Owned::from_raw(ARef::into_raw(this)) })
+> +///         } else {
+> +///             Err(this)
+> +///         }
+> +///     }
+> +/// }
+> +///
 
-Jason
+We wouldn=E2=80=99t need this implementation if we added a =
+=E2=80=9Crefcount()=E2=80=9D
+member to this trait. This lets you abstract away this logic for all
+implementors, which has the massive upside of making sure we hardcode =
+(and thus
+enforce) the refcount =3D=3D 1 check.
+
+
+> +/// // SAFETY: This implementation of `release()` is safe for any =
+valid `Self`.
+> +/// unsafe impl Ownable for Foo {
+> +///     unsafe fn release(this: NonNull<Self>) {
+> +///         // SAFETY: Using `dec_ref()` from [`RefCounted`] to =
+release is okay, as the refcount is
+> +///         // always 1 for an [`Owned<Foo>`].
+> +///         unsafe{ Foo::dec_ref(this) };
+> +///     }
+> +/// }
+> +///
+> +/// let foo =3D Foo::new().expect("Failed to allocate a Foo. This =
+shouldn't happen");
+
+All these =E2=80=9Cexpects()=E2=80=9D and custom error strings would go =
+away if you
+place this behind a fictional function that returns Result.
+
+> +/// let mut foo =3D ARef::from(foo);
+> +/// {
+> +///     let bar =3D foo.clone();
+> +///     assert!(Owned::try_from(bar).is_err());
+> +/// }
+> +/// assert!(Owned::try_from(foo).is_ok());
+> +/// ```
+> +pub trait OwnableRefCounted: RefCounted + Ownable + Sized {
+> +    /// Checks if the [`ARef`] is unique and convert it to an =
+[`Owned`] it that is that case.
+> +    /// Otherwise it returns again an [`ARef`] to the same underlying =
+object.
+> +    fn try_from_shared(this: ARef<Self>) -> Result<Owned<Self>, =
+ARef<Self>>;
+
+Again, this method can go way if we add a method to expose the refcount.
+
+> +
+> +    /// Converts the [`Owned`] into an [`ARef`].
+> +    fn into_shared(this: Owned<Self>) -> ARef<Self> {
+> +        // SAFETY: Safe by the requirements on implementing the =
+trait.
+> +        unsafe { ARef::from_raw(Owned::into_raw(this)) }
+> +    }
+> +}
+> +
+> +impl<T: OwnableRefCounted> TryFrom<ARef<T>> for Owned<T> {
+> +    type Error =3D ARef<T>;
+> +    /// Tries to convert the [`ARef`] to an [`Owned`] by calling
+> +    /// [`try_from_shared()`](OwnableRefCounted::try_from_shared). In =
+case the [`ARef`] is not
+> +    /// unique, it returns again an [`ARef`] to the same underlying =
+object.
+> +    fn try_from(b: ARef<T>) -> Result<Owned<T>, Self::Error> {
+> +        T::try_from_shared(b)
+> +    }
+> +}
+> diff --git a/rust/kernel/sync/aref.rs b/rust/kernel/sync/aref.rs
+> index 937dcf6ed5de..2dbffe2ed1b8 100644
+> --- a/rust/kernel/sync/aref.rs
+> +++ b/rust/kernel/sync/aref.rs
+> @@ -30,7 +30,10 @@
+> /// Note: Implementing this trait allows types to be wrapped in an =
+[`ARef<Self>`]. It requires an
+> /// internal reference count and provides only shared references. If =
+unique references are required
+> /// [`Ownable`](crate::types::Ownable) should be implemented which =
+allows types to be wrapped in an
+> -/// [`Owned<Self>`](crate::types::Owned).
+> +/// [`Owned<Self>`](crate::types::Owned). Implementing the trait
+> +/// [`OwnableRefCounted`](crate::types::OwnableRefCounted) allows to =
+convert between unique and
+> +/// shared references (i.e. [`Owned<Self>`](crate::types::Owned) and
+> +/// [`ARef<Self>`](crate::types::Owned)).
+> ///
+> /// # Safety
+> ///
+> @@ -180,6 +183,12 @@ fn from(b: &T) -> Self {
+>     }
+> }
+>=20
+> +impl<T: crate::types::OwnableRefCounted> From<crate::types::Owned<T>> =
+for ARef<T> {
+> +    fn from(b: crate::types::Owned<T>) -> Self {
+> +        T::into_shared(b)
+> +    }
+> +}
+> +
+
+Not sure why we=E2=80=99re using fully-qualified names here if we can =
+import them, but your call.
+
+> impl<T: RefCounted> Drop for ARef<T> {
+>     fn drop(&mut self) {
+>         // SAFETY: The type invariants guarantee that the `ARef` owns =
+the reference we're about to
+> diff --git a/rust/kernel/types.rs b/rust/kernel/types.rs
+> index 8ef01393352b..a9b72709d0d3 100644
+> --- a/rust/kernel/types.rs
+> +++ b/rust/kernel/types.rs
+> @@ -11,7 +11,7 @@
+> };
+> use pin_init::{PinInit, Wrapper, Zeroable};
+>=20
+> -pub use crate::owned::{Ownable, Owned};
+> +pub use crate::owned::{Ownable, OwnableRefCounted, Owned};
+>=20
+> pub use crate::sync::aref::{ARef, AlwaysRefCounted, RefCounted};
+>=20
+>=20
+> --=20
+> 2.51.2
+>=20
+>=20
+>=20
+
+=E2=80=94 Daniel=
