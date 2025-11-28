@@ -2,53 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ECE0C91679
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 10:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CA11C91719
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 10:29:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A267B10E124;
-	Fri, 28 Nov 2025 09:19:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B92F10E1B0;
+	Fri, 28 Nov 2025 09:29:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="qY97IO6i";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="4HO99erj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7790510E124
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 09:19:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764321592;
- bh=2S3pOsGZI0odBMmyw6CAXiyo+2PeM56OXSnZaaOdcEc=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=qY97IO6iPvTV7jwrFJpaPavLIwNSxV6FIbGKQeou9Qg81/dj6CPsAuSQ+UQP8T/11
- KFOlarpWFS656sJdUUmomFgAwXCw0YrI4vnFuRu58f5+i1PozEaOGQaac+PzrYDQC/
- cw6SuHkWA3u0KDYbzZMSigaAuq4TdgSfO5sB2Gy982khlt5owbvFVbnhLU1KNJFh9y
- 1hrdsb8GOBOgN5RzSt91ra9gSRlNPexkw6B4SdC+rE1+N5Y0e8vrgJg9t5eugifh6K
- iYHsjBiZlNDRYbLXiweybH2r+tojgN/QWupE5sQpKRZZPzfO/Vi6xuo0qreWfVNcuQ
- B58LkjwxUfC9A==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id B05C917E0117;
- Fri, 28 Nov 2025 10:19:51 +0100 (CET)
-Date: Fri, 28 Nov 2025 10:19:47 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRy?=
- =?UTF-8?B?acOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>,
- Karunika Choo <karunika.choo@arm.com>, kernel@collabora.com
-Subject: Re: [PATCH v4 0/6] drm/panthor: Misc fixes
-Message-ID: <20251128101947.3475c841@fedora>
-In-Reply-To: <20251128084841.3804658-1-boris.brezillon@collabora.com>
-References: <20251128084841.3804658-1-boris.brezillon@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com
+ [209.85.128.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D422810E1B0
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 09:29:46 +0000 (UTC)
+Received: by mail-wm1-f73.google.com with SMTP id
+ 5b1f17b1804b1-477b8a667bcso16011585e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 01:29:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1764322185; x=1764926985;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=kz4odsY9az8NKfblDAsTmnF718nRgG5QxRoVjCQoF0Q=;
+ b=4HO99erjNJ+GmnLVSEdrNYFh/8/Unesd005QaB3iq75NiIEFPcPyVWweze2ynwJ0zj
+ tIBVoHHOXGrAQrtMGse2dnGkORm8a9JW1r0tT32pxXUIzuRQ1y4VPr5nGiaO0AXKNNKg
+ ctX/xJucummM2pImiRm8ujjfnTsXq8Lmp3AaWV13hCxAm/rJMjW+nBa8KUwKza/u/Ujz
+ fSsP3lDLIVkic05E8ElPhEKa/0+HCk23cEcL9rVobxS5u/i7gFTWq85qZ3C1TfhnxUa3
+ ndXf3sp3mKBdVBUNNPuqzur6daAE+kM9mbSM+xnPkBCwetC7iiUcYGQuUZy21KE/FQEw
+ xbBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764322185; x=1764926985;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kz4odsY9az8NKfblDAsTmnF718nRgG5QxRoVjCQoF0Q=;
+ b=UJgS7jBNx6DtBP13Ek9bksMUDZISAYjoZ6Axo5WqwIIY8/8aozE4tQrwkESoe1JSTB
+ yyzb3pQTIenhpqSI45UFTw5ZejT1R8WKW5CRNsCyr6Sb7vJTQKx7R4qjOu5PRJUlCgh3
+ cVtS3UpfQf3KjVkEJZHmYvPL1rvmaBCpXH22AuLwoHpo+IfWgks+ZfQo+CbT32iunfsD
+ U4d1GfCqCl1pqIXqoJ9PPpEixw1hUz5r3qScAApWevNnvreepXv2UW3u19imXVl90T2f
+ YqoWHwMwmkbDEcfV0si22ak46qwFZRstJzq5JIatKHQ8Ndf/ggTpByF+aMLRs0MbDyKE
+ MPPA==
+X-Gm-Message-State: AOJu0YxgFC+awn2uvldon5MxCkDbtpJ+Wbh/hUDH8O7FZFnj7aymx+ex
+ rT+9DzEKqlcvT9cwNBWDpC061SW6mmMp/UG/6eg7h9VpfFtYHkXzy/jqHHIVWF8Ru1iHKG9NHp9
+ gwo/mVJ6/v214KXnkBw==
+X-Google-Smtp-Source: AGHT+IEGr+RPs42E0FQu4piPGms3EvqaIxP+0rfbrSCad6KhByZX+KpeKxsk4YrEGc87+/LJciZbG4DOXLS5/dA=
+X-Received: from wmfv21.prod.google.com ([2002:a05:600c:15d5:b0:477:93dd:bbb1])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:19ce:b0:477:79c7:8994 with SMTP id
+ 5b1f17b1804b1-47904b25e63mr144378965e9.30.1764322185489; 
+ Fri, 28 Nov 2025 01:29:45 -0800 (PST)
+Date: Fri, 28 Nov 2025 09:29:44 +0000
+In-Reply-To: <20251127211843.46258-1-deborah.brouwer@collabora.com>
+Mime-Version: 1.0
+References: <20251127211843.46258-1-deborah.brouwer@collabora.com>
+Message-ID: <aSlriGna43AyfdBX@google.com>
+Subject: Re: [PATCH] rust: drm: tyr: use generated bindings for GpuInfo
+From: Alice Ryhl <aliceryhl@google.com>
+To: Deborah Brouwer <deborah.brouwer@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ daniel.almeida@collabora.com, boris.brezillon@collabora.com
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,40 +77,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Nov 2025 09:48:34 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+On Thu, Nov 27, 2025 at 01:18:43PM -0800, Deborah Brouwer wrote:
+> Currently Tyr's struct GpuInfo is manually copied and updated from
+> include/uapi/drm/panthor_drm.h. But an auto generated struct is available,
+> so use that instead to avoid copy/paste errors and to stay up-to-date with
+> the panthor uapi.
+> 
+> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 
-> Hello,
-> 
-> This is a set of fixes for bugs I ran into while looking at [1].
-> Hopefully that's enough to recover from AS_ACTIVE bit stuck
-> situations, but it'd be good to understand why the MMU block is
-> completely blocked in some cases and try to come up with better
-> mitigations than a full GPU reset.
-> 
-> This v4 is here to address a conflict caused by other panthor
-> patches being merged before this one.
-> 
-> Regards,
-> 
-> Boris
-> 
-> [1]https://gitlab.freedesktop.org/panfrost/linux/-/issues/57
-> 
-> Boris Brezillon (6):
->   drm/panthor: Always wait after sending a command to an AS
->   drm/panthor: Kill lock_region()
->   drm/panthor: Recover from panthor_gpu_flush_caches() failures
->   drm/panthor: Add support for atomic page table updates
->   drm/panthor: Make panthor_vm_[un]map_pages() more robust
->   drm/panthor: Relax a check in panthor_sched_pre_reset()
-
-Queued to drm-misc-next.
-
-> 
->  drivers/gpu/drm/panthor/panthor_gpu.c   |  19 +-
->  drivers/gpu/drm/panthor/panthor_mmu.c   | 280 +++++++++++++-----------
->  drivers/gpu/drm/panthor/panthor_sched.c |   2 -
->  3 files changed, 166 insertions(+), 135 deletions(-)
-> 
-
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
