@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EAD6C914D0
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 09:49:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CBEC914CA
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 09:49:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FED410E848;
-	Fri, 28 Nov 2025 08:49:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C839310E836;
+	Fri, 28 Nov 2025 08:49:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="VjgVQgoC";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="D0vdq3wf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB6F310E836
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 08:48:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D46710E836
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 08:48:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1764319736;
- bh=Dmi5js4+b+3He+j4BD8/o9pAZzaABgzX7b7ceyKuopw=;
+ bh=VV2futg7JlyownwaSPavWMOBq/+M1jPn93CCvMlb/9c=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VjgVQgoCsFI8r8kFYA6WpcP8vh6IQi9Kb4WpoiZKlrz+v3NZMW1jEDeEJzqs2jpy5
- tKdBoaKjPljf83H4aT8LodMfCjwuRA2OZBh9iCAj4f/ZmVqH7/XVDoY93Rs/6cS6fj
- TRX4jT8GQk+Y0lOmxLzuVgAfsbiMLMW2yCNPDZAgS+AJ/Bqha91N9CDm7QdwfNgwAd
- c6rRIqR+Ob1NsQx3/sLPhJHQjNUTlrXWemLnmhMNRteKgR18eXAm4dQX8ESvYBKpuE
- bMwnGJ/YUg5U8RHSLOMi+681FF2CjwuVTFlMD0d/XYTUYCY3GcjYrNJmpKopy8j21l
- tDT8m7gey9jMQ==
+ b=D0vdq3wfAdHP985ut9EuyOV3qU9uFZYYLBl3krfpUyOXqzGKwhh49l+NMU12BJQ0G
+ 0QS+uC39dGhRk47UJ4xxQYKwgAArz9XTn81iIj9J05+Yuu19eCI1pnud/DPUz12EPT
+ S2QUylyW1IoSluXBMBMUi7tBfA0Mhotul8H6MhmC5gDI5k0cInVUSVTf+hytV76bU6
+ 5TgihFCTJea9idXp2LgnjfLL5jbBKXGFVVxWv7KU8Z/xHsYD3p3/OqbM18GvFC748l
+ sW3f6S8e8OU/fu2kqbvW2i4rFh62JeJXJMYwUg7QyXmpkThQ4ITGydwxZGRjtQQc6H
+ dlaorpr0uvqdQ==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 078BA17E13C1;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 7CCDD17E13D5;
  Fri, 28 Nov 2025 09:48:56 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -38,10 +38,9 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>,
  Karunika Choo <karunika.choo@arm.com>, kernel@collabora.com
-Subject: [PATCH v4 5/6] drm/panthor: Make panthor_vm_[un]map_pages() more
- robust
-Date: Fri, 28 Nov 2025 09:48:39 +0100
-Message-ID: <20251128084841.3804658-6-boris.brezillon@collabora.com>
+Subject: [PATCH v4 6/6] drm/panthor: Relax a check in panthor_sched_pre_reset()
+Date: Fri, 28 Nov 2025 09:48:40 +0100
+Message-ID: <20251128084841.3804658-7-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251128084841.3804658-1-boris.brezillon@collabora.com>
 References: <20251128084841.3804658-1-boris.brezillon@collabora.com>
@@ -62,23 +61,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There's no reason for panthor_vm_[un]map_pages() to fail unless the
-drm_gpuvm state and the page table are out of sync, so let's reflect that
-by making panthor_vm_unmap_pages() a void function and adding
-WARN_ON()s in various places. We also try to recover from those
-unexpected mismatch by checking for already unmapped ranges and skipping
-them. But there's only so much we can do to try and cope with such
-SW bugs, so when we see a mismatch, we flag the VM unusable and disable
-the AS to avoid further GPU accesses to the memory.
-
-It could be that the as_disable() call fails because the MMU unit is
-stuck, in which case the whole GPU is frozen, and only a GPU reset can
-unblock things. Ater the reset, the VM will be seen as unusable and
-any attempt to re-use it will fail, so we should be covered for any
-use-after-unmap issues.
+Groups are only moved out of the runnable lists when
+panthor_group_stop() is called or when they run out of jobs.
+What should not happen though is having one group added to one of
+the runnable list after reset.in_progress has been set to true, but
+that's not something we can easily check, so let's just drop the
+WARN_ON() in panthor_sched_pre_reset().
 
 v2:
-- Fix double unlock
+- Adjust explanation in commit message
 
 v3:
 - Collect R-b
@@ -87,158 +78,25 @@ v4:
 - No changes
 
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/panthor/panthor_mmu.c | 81 ++++++++++++++++++---------
- 1 file changed, 54 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/panthor/panthor_sched.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index f39e6e799c74..8ba5259e3d28 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -842,13 +842,33 @@ static size_t get_pgsize(u64 addr, size_t size, size_t *count)
- 	return SZ_2M;
- }
- 
--static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
-+static void panthor_vm_declare_unusable(struct panthor_vm *vm)
-+{
-+	struct panthor_device *ptdev = vm->ptdev;
-+	int cookie;
-+
-+	if (vm->unusable)
-+		return;
-+
-+	vm->unusable = true;
-+	mutex_lock(&ptdev->mmu->as.slots_lock);
-+	if (vm->as.id >= 0 && drm_dev_enter(&ptdev->base, &cookie)) {
-+		panthor_mmu_as_disable(ptdev, vm->as.id);
-+		drm_dev_exit(cookie);
-+	}
-+	mutex_unlock(&ptdev->mmu->as.slots_lock);
-+}
-+
-+static void panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
- {
- 	struct panthor_device *ptdev = vm->ptdev;
- 	struct io_pgtable_ops *ops = vm->pgtbl_ops;
- 	u64 start_iova = iova;
- 	u64 offset = 0;
- 
-+	if (!size)
-+		return;
-+
- 	drm_WARN_ON(&ptdev->base,
- 		    (iova < vm->locked_region.start) ||
- 		    (iova + size > vm->locked_region.start + vm->locked_region.size));
-@@ -858,13 +878,28 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
- 		size_t pgsize = get_pgsize(iova + offset, size - offset, &pgcount);
- 
- 		unmapped_sz = ops->unmap_pages(ops, iova + offset, pgsize, pgcount, NULL);
-+		if (drm_WARN_ON_ONCE(&ptdev->base, unmapped_sz != pgsize * pgcount)) {
-+			/* Gracefully handle sparsely unmapped regions to avoid leaving
-+			 * page table pages behind when the drm_gpuvm and VM page table
-+			 * are out-of-sync. This is not supposed to happen, hence the
-+			 * above WARN_ON().
-+			 */
-+			while (!ops->iova_to_phys(ops, iova + unmapped_sz) &&
-+			       unmapped_sz < pgsize * pgcount)
-+				unmapped_sz += SZ_4K;
- 
--		if (drm_WARN_ON(&ptdev->base, unmapped_sz != pgsize * pgcount)) {
--			drm_err(&ptdev->base, "failed to unmap range %llx-%llx (requested range %llx-%llx)\n",
--				iova + offset + unmapped_sz,
--				iova + offset + pgsize * pgcount,
--				iova, iova + size);
--			return  -EINVAL;
-+			/* We're passed the point where we can try to fix things,
-+			 * so flag the VM unusable to make sure it's not going
-+			 * to be used anymore.
-+			 */
-+			panthor_vm_declare_unusable(vm);
-+
-+			/* If we don't make progress, we're screwed. That also means
-+			 * something else prevents us from unmapping the region, but
-+			 * there's not much we can do here: time for debugging.
-+			 */
-+			if (drm_WARN_ON_ONCE(&ptdev->base, !unmapped_sz))
-+				return;
- 		}
- 
- 		drm_dbg(&ptdev->base,
-@@ -874,8 +909,6 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
- 
- 		offset += unmapped_sz;
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index b834123a6560..1beddc175722 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -2937,8 +2937,6 @@ void panthor_sched_pre_reset(struct panthor_device *ptdev)
+ 	 * new jobs while we're resetting.
+ 	 */
+ 	for (i = 0; i < ARRAY_SIZE(sched->groups.runnable); i++) {
+-		/* All groups should be in the idle lists. */
+-		drm_WARN_ON(&ptdev->base, !list_empty(&sched->groups.runnable[i]));
+ 		list_for_each_entry_safe(group, group_tmp, &sched->groups.runnable[i], run_node)
+ 			panthor_group_stop(group);
  	}
--
--	return 0;
- }
- 
- static int
-@@ -927,16 +960,17 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
- 			paddr += mapped;
- 			len -= mapped;
- 
--			if (drm_WARN_ON(&ptdev->base, !ret && !mapped))
-+			/* If nothing was mapped, consider it an ENOMEM. */
-+			if (!ret && !mapped)
- 				ret = -ENOMEM;
- 
--			if (ret) {
--				/* If something failed, unmap what we've already mapped before
--				 * returning. The unmap call is not supposed to fail.
-+			/* If something fails, we stop there, and flag the VM unusable. */
-+			if (drm_WARN_ON_ONCE(&ptdev->base, ret)) {
-+				/* Unmap what we've already mapped to avoid leaving page
-+				 * table pages behind.
- 				 */
--				drm_WARN_ON(&ptdev->base,
--					    panthor_vm_unmap_pages(vm, start_iova,
--								   iova - start_iova));
-+				panthor_vm_unmap_pages(vm, start_iova, iova - start_iova);
-+				panthor_vm_declare_unusable(vm);
- 				return ret;
- 			}
- 		}
-@@ -2120,12 +2154,9 @@ static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
- 	struct panthor_vm_op_ctx *op_ctx = vm->op_ctx;
- 	struct panthor_vma *prev_vma = NULL, *next_vma = NULL;
- 	u64 unmap_start, unmap_range;
--	int ret;
- 
- 	drm_gpuva_op_remap_to_unmap_range(&op->remap, &unmap_start, &unmap_range);
--	ret = panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
--	if (ret)
--		return ret;
-+	panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
- 
- 	if (op->remap.prev) {
- 		prev_vma = panthor_vm_op_ctx_get_vma(op_ctx);
-@@ -2165,13 +2196,9 @@ static int panthor_gpuva_sm_step_unmap(struct drm_gpuva_op *op,
- {
- 	struct panthor_vma *unmap_vma = container_of(op->unmap.va, struct panthor_vma, base);
- 	struct panthor_vm *vm = priv;
--	int ret;
--
--	ret = panthor_vm_unmap_pages(vm, unmap_vma->base.va.addr,
--				     unmap_vma->base.va.range);
--	if (drm_WARN_ON(&vm->ptdev->base, ret))
--		return ret;
- 
-+	panthor_vm_unmap_pages(vm, unmap_vma->base.va.addr,
-+			       unmap_vma->base.va.range);
- 	drm_gpuva_unmap(&op->unmap);
- 	panthor_vma_unlink(vm, unmap_vma);
- 	return 0;
-@@ -2251,7 +2278,7 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
- 
- out:
- 	if (ret && flag_vm_unusable_on_failure)
--		vm->unusable = true;
-+		panthor_vm_declare_unusable(vm);
- 
- 	vm->op_ctx = NULL;
- 	mutex_unlock(&vm->op_lock);
 -- 
 2.51.1
 
