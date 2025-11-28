@@ -2,97 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758B8C9281C
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 17:07:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E1EBC929F2
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 17:52:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5672D10E735;
-	Fri, 28 Nov 2025 16:07:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAB6410E17F;
+	Fri, 28 Nov 2025 16:51:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="E1u8bpBH";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="VUX78Sy4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 155CB10E735
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 16:07:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1764346028;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bZy7R+pUhNnAxYbDd9Nal/7PKahT9rfxVvsH8RmVk6k=;
- b=E1u8bpBHJthQVD97W/PH5rtWn+/N9A3t83hQD0tky+/yP1LagGrtLMs20yUFJ7pXS+DbgL
- L1u9l5DMKiV8GbGkx4iCg46bixYz1oqA3n1KhKbkS3o8S6kwgFK4OFJot8d7q/atSa3dMh
- eAwvSNTBMPo6gfSD8Z/fIKimET9EiiU=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-373-fqY0_V3GPjOF1pLxt8HxJQ-1; Fri, 28 Nov 2025 11:07:07 -0500
-X-MC-Unique: fqY0_V3GPjOF1pLxt8HxJQ-1
-X-Mimecast-MFC-AGG-ID: fqY0_V3GPjOF1pLxt8HxJQ_1764346026
-Received: by mail-lj1-f198.google.com with SMTP id
- 38308e7fff4ca-37bab6de7f8so6271601fa.0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 08:07:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764346026; x=1764950826;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=bZy7R+pUhNnAxYbDd9Nal/7PKahT9rfxVvsH8RmVk6k=;
- b=BF23xPgZm5yjp2fQlhfG0HW6rPj+T5Z23MF7lHaPMVEC8mlkzurioHXU95NZUWhWem
- SElhcgc71EBxA9INwMz0zuctKWWasROHnJxz0KLFvHIFAbWIXbLQPqU///t039eGUK/S
- 0lscdyAUBwmWZoyfIAjzXpVbEB8zpeGQHkFXgMk5aufPcgAaQAXqyUTwR+UZHa23BXmg
- XNIo19Ir+P1ejfHGT7YxYLKs8WUUy+yKcXKmCtONqPdTOViafoobRC4vTRxUaaLApaeQ
- FHnXx0186qDWPP/FcPBWpoZZy/GR8ijJPaz7JItxn82WGD2Bt/7A8qZwaposDnT9FHeH
- D1Jg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWTzEO2OLnM9AVJvhW3p0KW8sgXFAVZkODrPjFlFsxV298YlfDLO1ZcQN7dzpucvePFjE1eamJrQlE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyCL2u96OvJexs52NdyTWPQiAiuSpwCQ+IZFsjrrNBMu+Kl64CE
- GPkc4tx9uwMOTnC91IIv3fBnHNekBhIgnSlgu2z35PpStZVESKBInQmkIlrBaQTJqDxmYkdkLBI
- TF6vA8iSyXn6+x7v3lrB0M0a5q/RvBP3aN1S/ROSiCN1Tb6l4WVy7F83DGSnrN98Bovql
-X-Gm-Gg: ASbGnctiU6E601IOcVdMQjliRxxvH46bpyS+sNqimHGCeG7cdo4kLECw+MEaEwO09ta
- yJj/sJZX0kzs/aRpMtb/DDUs2mJLywsJvIiU00z7iWHygXihZ4GTWoHvg+3qPxK5ZOXwvPJJM0K
- BjWk91VeN2iyVcXM1yvKLf1pIsWsFGS8gcvJ/+mtCVhr2aEA/SIiyKwfMQPn1EJg/0rJtwDDVZa
- /9HFhGQo0daGDVFc6QKrMDWlxEqQ03NBpH8e+b9pbvt1HIGZ7sWPNrWmsdR2oaSHYXKPwAl3nVI
- FYAePeyScBnZfx5rKLsaEQEsB4baYStLYxh/JwTLh2SGG7MWcjfLS/KqeJrZyFgUzxrN8VO5Vh3
- uqYqHa4cacGp6rGyzMLZAlevjaZdi1x0BQh4=
-X-Received: by 2002:a05:651c:31c5:b0:36d:114b:52e2 with SMTP id
- 38308e7fff4ca-37d0790d453mr40868351fa.34.1764346025778; 
- Fri, 28 Nov 2025 08:07:05 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHaeDrW3aE2rJtyHnJXLuP6JMIkjJMIi3csdxl+Xm82rf0LDd0NXyBgcu2qlQnEwf+K3Fttpw==
-X-Received: by 2002:a05:651c:31c5:b0:36d:114b:52e2 with SMTP id
- 38308e7fff4ca-37d0790d453mr40868151fa.34.1764346025292; 
- Fri, 28 Nov 2025 08:07:05 -0800 (PST)
-Received: from [192.168.1.86] (85-23-51-1.bb.dnainternet.fi. [85.23.51.1])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-37d240ec1fasm11118901fa.36.2025.11.28.08.07.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 28 Nov 2025 08:07:04 -0800 (PST)
-Message-ID: <584671b7-f1a5-4e9b-af94-3e284b3edcf3@redhat.com>
-Date: Fri, 28 Nov 2025 18:07:01 +0200
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 652A310E8D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 16:51:55 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-03.galae.net (Postfix) with ESMTPS id BFB2E4E4194E;
+ Fri, 28 Nov 2025 16:51:53 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 83CD460706;
+ Fri, 28 Nov 2025 16:51:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id 3B46510B02155; Fri, 28 Nov 2025 17:51:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1764348710; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding; bh=4LXnxBJlqd2UazTmBhwXwFStb/3+5cf3TPNAlsU5TvA=;
+ b=VUX78Sy4XiyC9MPlVpttqJ9SQIQnLJGEto9dm/Wz9ym7T7bN/CgnVlY9YH1bFcC0CgzUQe
+ cZofZ4OEZUrrcGm7JEzsnL/etiRVBFwZzGGetbM0bgfGQ8fhKl1CmChVPekpLxS7jOlSK/
+ B1kea5ki5mVy1By5DwWomHJRAzf/5aB3po6F7XpWKHUzRNA/KlBEfcw2dr1S/BoUKwTmTY
+ jTevGUZnNFJkK/0JxyFshBgnAEB0h6+hbX3C2stg8aS1MNDCf/acKsU6YDTC4b6Xv/aXH9
+ y6s8LhEMqH9Ez7UYbhzo3zb3DijYvmvDN8X+0amDd5uaA6wuXX7uEGzIbnqiwg==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v2 00/26] drm/bridge: add drm_of_find_bridge(), deprecate
+ of_drm_find_bridge()
+Date: Fri, 28 Nov 2025 17:50:10 +0100
+Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/6] Remove device private pages from physical address
- space
-To: Jordan Niethe <jniethe@nvidia.com>, linux-mm@kvack.org
-Cc: balbirs@nvidia.com, matthew.brost@intel.com, akpm@linux-foundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- david@redhat.com, ziy@nvidia.com, apopple@nvidia.com,
- lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com, jgg@nvidia.com,
- willy@infradead.org
-References: <20251128044146.80050-1-jniethe@nvidia.com>
-From: =?UTF-8?Q?Mika_Penttil=C3=A4?= <mpenttil@redhat.com>
-In-Reply-To: <20251128044146.80050-1-jniethe@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 4pAEBc2ZLHVr_fRmcnX9eAHVS2vaLm5ujfbGQFC8lHk_1764346026
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMLSKWkC/5WNQQ6DIBQFr2JYlwaQFu2q92iMUQH9ifINUNPGe
+ PeiaQ/Q5cxL3qwkGA8mkFu2Em8WCIAugThlpBsa1xsKOjERTFw454pqP9HWg05LM47Y0d7E+Rl
+ 3X6OtLThdf3clS5bnVyVloUk6nL2x8DpijyrxACGifx/the/2lyn/ySycMsp0WxaNskYqeW8R4
+ wju3OFEqm3bPvDOx3LmAAAA
+X-Change-ID: 20251117-drm-bridge-alloc-getput-drm_of_find_bridge-74903367448d
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>, 
+ Phong LE <ple@baylibre.com>, Liu Ying <victor.liu@nxp.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Adrien Grassein <adrien.grassein@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Kevin Hilman <khilman@baylibre.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,18 +98,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jordan!
+This series deprecated of_drm_find_bridge(), adds a replacement which
+handles bridge refcounting, and converts most of the direct users.
 
-On 11/28/25 06:41, Jordan Niethe wrote:
+This is part of the work to support hotplug of DRM bridges. The grand plan
+was discussed in [0].
 
-> Today, when creating these device private struct pages, the first step
-> is to use request_free_mem_region() to get a range of physical address
-> space large enough to represent the devices memory. This allocated
-> physical address range is then remapped as device private memory using
-> memremap_pages.
->
-I just did a quick read thru, and liked how it turned out to be, nice work!
+Here's the work breakdown (➜ marks the current series):
 
---Mika
+ 1. ➜ add refcounting to DRM bridges struct drm_bridge,
+      based on devm_drm_bridge_alloc()
+    A. ✔ add new alloc API and refcounting (v6.16)
+    B. ✔ convert all bridge drivers to new API (v6.17)
+    C. ✔ kunit tests (v6.17)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (v6.17)
+    E. ➜ add get/put on drm_bridge accessors
+       1. ✔ drm_bridge_chain_get_first_bridge(), add cleanup action (v6.18)
+       2. ✔ drm_bridge_get_prev_bridge() (v6.18)
+       3. ✔ drm_bridge_get_next_bridge() (v6.19)
+       4. ✔ drm_for_each_bridge_in_chain() (v6.19)
+       5. ✔ drm_bridge_connector_init (v6.19)
+       6. … protect encoder bridge chain with a mutex
+       7. ➜ of_drm_find_bridge()
+          a. ➜ add of_drm_get_bridge(), convert most direct users
+	  b. convert other direct users
+	  c. convert bridge-only drm_of_find_panel_or_bridge() users
+       8. drm_of_find_panel_or_bridge, *_of_get_bridge
+       9. ✔ enforce drm_bridge_add before drm_bridge_attach (v6.19)
+    F. ✔ debugfs improvements
+       1. ✔ add top-level 'bridges' file (v6.16)
+       2. ✔ show refcount and list lingering bridges (v6.19)
+ 2. … handle gracefully atomic updates during bridge removal
+    A. … Add drm_dev_enter/exit() to protect device resources
+    B. … protect private_obj removal from list
+ 3. … DSI host-device driver interaction
+ 4. ✔ removing the need for the "always-disconnected" connector
+ 5. finish the hotplug bridge work, moving code to the core and potentially
+    removing the hotplug-bridge itself (this needs to be clarified as
+    points 1-3 are developed)
 
+[0] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/#t
+
+Almost all the functions returning a struct drm_bridge pointer have been
+modified to drm_bridge_get() the returned bridge, and their users updated
+to drm_bridge_put() it. See items 1.E.{1-6} above.
+
+of_drm_find_bridge() could be modified easily in the same way, but it has a
+lot of (direct + indirect) callers, and most notably
+drm_of_find_panel_or_bridge() which is very hard to adapt without reowrking
+the panel_bridge lifetime.
+
+This has been discussed in [1] and Maxime proposed an incremental approach:
+
+> So maybe we can just create drm_of_find_bridge() that takes a reference,
+> make of_drm_find_bridge() deprecated in favour of drm_of_find_bridge(),
+> add a TODO, and call it a day. People will gradually switch to the new
+> API over time.
+
+That proposal is implemented by this series. Most of the direct callers are
+also converted: they are all trivial conversions except for one, which is
+handled by the last 3 patches.
+
+Follow-up series will:
+- convert remaining direct callers of of_drm_find_bridge()
+- convert simple cases of drm_of_find_panel_or_bridge()
+
+[1] https://lore.kernel.org/dri-devel/20250319-stylish-lime-mongoose-0a18ad@houat/
+
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v2:
+- All patches: renamed drm_of_find_bridge() -> of_drm_get_bridge()
+- Various fixes and improvements to patches 1-6, see individual patches
+  changelog
+- Removed bouncing recipient: Edmund Dea <edmund.j.dea@intel.com>
+- Link to v1: https://lore.kernel.org/r/20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com
+
+---
+Luca Ceresoli (26):
+      drm/bridge: add of_drm_get_bridge()
+      drm/bridge: deprecate of_drm_find_bridge()
+      drm/todo: add entry about converting to of_drm_get_bridge()
+      drm/bridge: make of_drm_find_bridge() a wrapper of of_drm_get_bridge()
+      drm/arcpgu: convert to of_drm_get_bridge()
+      drm/bridge: add devm_of_drm_get_bridge
+      drm/bridge: ite-it66121: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: imx8qxp-pixel-combiner: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: simple-bridge: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: tpd12s015: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: thc63lvd1024: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: imx8qxp-pxl2dpi: use devm_of_drm_get_bridge() to put the next and companion bridges
+      drm/bridge: lt8912b: use devm_of_drm_get_bridge() to put the hdmi bridge
+      drm/bridge: tfp410: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: imx8qxp-ldb: use devm_of_drm_get_bridge() to put the companion bridge
+      drm/rcar-du: lvds: use devm_of_drm_get_bridge() to put the next bridge
+      drm/meson: encoder_*: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: sii902x: use devm_of_drm_get_bridge() to put the next bridge
+      drm/mediatek: use devm_of_drm_get_bridge() to put the next bridge
+      drm/kmb: dsi: use devm_of_drm_get_bridge() to put the next bridge
+      drm/imx/ipuv3: use devm_of_drm_get_bridge() to put the next bridge
+      drm/exynos: hdmi: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: dw-hdmi: use devm_of_drm_get_bridge() to put the next bridge
+      drm/bridge: imx8qxp-pixel-link: simplify logic to find next bridge
+      drm/bridge: imx8qxp-pixel-link: simplify freeing of the remote device_node
+      drm/bridge: imx8qxp-pixel-link: convert to of_drm_get_bridge()
+
+ Documentation/gpu/todo.rst                         | 16 ++++
+ drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c           |  2 +-
+ .../gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c    |  2 +-
+ drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c    | 37 +++++----
+ drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c       |  4 +-
+ drivers/gpu/drm/bridge/ite-it66121.c               |  2 +-
+ drivers/gpu/drm/bridge/lontium-lt8912b.c           |  2 +-
+ drivers/gpu/drm/bridge/sii902x.c                   |  2 +-
+ drivers/gpu/drm/bridge/simple-bridge.c             |  2 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |  2 +-
+ drivers/gpu/drm/bridge/thc63lvd1024.c              |  2 +-
+ drivers/gpu/drm/bridge/ti-tfp410.c                 |  2 +-
+ drivers/gpu/drm/bridge/ti-tpd12s015.c              |  2 +-
+ drivers/gpu/drm/drm_bridge.c                       | 91 ++++++++++++++++++----
+ drivers/gpu/drm/exynos/exynos_hdmi.c               |  2 +-
+ drivers/gpu/drm/imx/ipuv3/dw_hdmi-imx.c            |  2 +-
+ drivers/gpu/drm/kmb/kmb_dsi.c                      |  2 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                |  2 +-
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c         |  2 +-
+ drivers/gpu/drm/meson/meson_encoder_dsi.c          |  2 +-
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c         |  2 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c        |  2 +-
+ drivers/gpu/drm/tiny/arcpgu.c                      |  4 +-
+ include/drm/drm_bridge.h                           | 10 +++
+ 24 files changed, 143 insertions(+), 55 deletions(-)
+---
+base-commit: e85e9ccf3f8404007f62dff9a02273fcdeb44206
+change-id: 20251117-drm-bridge-alloc-getput-drm_of_find_bridge-74903367448d
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
