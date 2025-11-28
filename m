@@ -2,77 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CEF9C91533
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 09:56:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B5AC91606
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 10:12:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEB7B89233;
-	Fri, 28 Nov 2025 08:56:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 835E010E199;
+	Fri, 28 Nov 2025 09:12:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="V4SkDCCK";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="e7EWkZDG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4283F10E04A
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 08:56:12 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-29806bd47b5so9684065ad.3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 00:56:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764320172; x=1764924972; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=BicHEO9yB+ZrA4DGF/bkdwHRmihVkvB8t3Qtxc4SJfQ=;
- b=V4SkDCCKkr96WP8/L7SdUN3EGlIatd8p/N2jjovtTYHCzDJidVFy1zR20cDhAC425o
- Y258CZwyLLBv8BH3EPT/di/Ubv2Og2hXe4cNUV7gZc12YzIoQRukdD2ijmaNn0TZKtOg
- lNT4P+Y0B3Dm2ZOhOKf36lsTTgGQEAL2fhO04z1Yirp7KCDhF74JapCJ9czz9Jb6xUNk
- JfSjKOyP8iHwFY/M4q/U/oXBI214GQAMS/a7JPAsCnf8skqputcQxZNKWQqKz+19+jcY
- Nn93H7doJ08iLYDweSUvMqMNWVr3DAn0SLK5ZTaSncuyics1q4HJqzCCItxsl4qrQTuT
- tcyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764320172; x=1764924972;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BicHEO9yB+ZrA4DGF/bkdwHRmihVkvB8t3Qtxc4SJfQ=;
- b=egT0SreN6lKBIobSvH2QzyZBBXooqCTMEVlXAizU+mpwGSZ0WWhxbK1CqQrhg7NeiS
- qXDSU3PAomJOskkzysaF1czSQuPhs0qR40ZblcDDNsS2S4O4wnKCc3rxW4F8sNWZHK2S
- AoVUhSbzS3BVYPoUWJfdaBTObzhd6MyGjGVskkN7VRj1jHU2SozujSpQ7knXUfE4SA0J
- J1RiaqHRvHXTGPuNtum6RNEnjr/2YBqwvTgBXCN59aLUg29YpyXGVQd7YCUbboBqD7Oc
- uulXcDqKBotV7l/55nMNDUgJ1CY1+ILQqEBey2/yg50+yd1f/GhCOboY/j/4u3gd+kkG
- yJvQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVkVh5aGja3NtgqDf+cMqmZQk5mBcMnSWuFgE1B4lE9vbF1eO4DTaAXzrUbETgaFbXIEr3IoBWUzc4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzgwYc/hhB4DnIMblViLLsEbxPuD7YTExEB5VAxCPrswvEau7jy
- aEYdCPQ0HuLhH+/89hG6ek+Zv4ZAjxF/q3E5gGuWGR1+7UC/p/79oN/Sh/w9iA2u3JavJeo59af
- 9QoMh89HDM04GHZ0wzzQPdyBVBQhOBts=
-X-Gm-Gg: ASbGncsK41eg9HKAVWH8FXgDfnPVSVek2OKipAZbdXcVM7T+UxadLacsmo9sNsoAKeK
- 1jAdASUaLoYXVKI4WA40XI6NsGajEyGwmwexo3vbfyJoT/Ab40tCicE85uMWitsQ/MPzfStfnST
- 5DF/rpG0DlZHzAPhtJxgzjM2g5FiQRNhj7jPD/kx2OGZextBdVmVHGeDaN/btqIlyi+rYAba95n
- jdkKojkV4Ea5kWDsSYoYAjy/qIQfODnKmuV66IX0s6Ax9oG/b608Y1v6LTFQ08TeqYpNQ==
-X-Google-Smtp-Source: AGHT+IHNhRsEr4FO14uIsHMXAR8P2Aw8fJAJHGkc6a6WpQ8MYzAeSAAuhAAE6JSTL4lOjXrU8dgxoKAcVI+fXDhCcFk=
-X-Received: by 2002:a17:903:1211:b0:297:dabf:9900 with SMTP id
- d9443c01a7336-29b6c0aec00mr317029755ad.0.1764320171673; Fri, 28 Nov 2025
- 00:56:11 -0800 (PST)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9984910E199
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 09:12:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1764321157;
+ bh=i9WIxtKeAnQZjeiBu8Z/ozSyDBBD7LXEf3gyMC9C//g=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=e7EWkZDGBbcA4AZmQLOdhzhbcguA1QwdC+M19P1/asPZxOM8QQnw5sOAD/iOGQMuk
+ ZlxKo4pvY0Z+SgXzzo8fpbJ0cIymD1HATRTguVeNu9tuSxwkwQEgPWCzck25nmBGED
+ glJX3IoYI/0Jz5X3+YPlCLQCOVGt1lpvPBhFQJMU4c/A48gPcueY2ZGnf1FXs3bKs5
+ jv6yeOmxSztnqYgWtaSY67n5cnYcboEWst+os4QxvSPZZD4KTFhMl0awMci2UMlexR
+ P05MOb+RRgFJqwo6u3iL94jOQMM8vtf4hGGJrtF5AZWdhS7D9OYUw3Z4d5E1VdIE3T
+ JncNjmi/mAs2g==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id BA8AF17E10F6;
+ Fri, 28 Nov 2025 10:12:36 +0100 (CET)
+Date: Fri, 28 Nov 2025 10:12:32 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Akash Goel <akash.goel@arm.com>
+Cc: liviu.dudau@arm.com, steven.price@arm.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, daniel@ffwll.ch, nd@arm.com
+Subject: Re: [PATCH v2] drm/panthor: Prevent potential UAF in group creation
+Message-ID: <20251128101232.5c18ae0b@fedora>
+In-Reply-To: <20251127164912.3788155-1-akash.goel@arm.com>
+References: <20251127164912.3788155-1-akash.goel@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20251110144625.18653-1-gert.wollny@collabora.com>
- <20251119164624.9297-1-gert.wollny@collabora.com>
- <20251119164624.9297-3-gert.wollny@collabora.com>
-In-Reply-To: <20251119164624.9297-3-gert.wollny@collabora.com>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Fri, 28 Nov 2025 09:56:00 +0100
-X-Gm-Features: AWmQ_bnJ-ulLzXOSf5Cl4jir609PyeoShkt0HBJuh1QGD5SFdy2lKdE5ahYpmB8
-Message-ID: <CAH9NwWe5oD7YRnnP5jKY8L+YoeVYsU5NLKUyerXpZrFU16So4g@mail.gmail.com>
-Subject: Re: [PATCH v5 2/5] drm/etnaviv: move some functions to a header to be
- able to use them externally
-To: gert.wollny@collabora.com
-Cc: Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
- Marek Vasut <marek.vasut+renesas@mailbox.org>, etnaviv@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,210 +64,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Mi., 19. Nov. 2025 um 17:43 Uhr schrieb <gert.wollny@collabora.com>:
->
-> From: Gert Wollny <gert.wollny@collabora.com>
->
-> v2: Add license info to header
->
-> v3: remove unused headers (Christian Gmainer)
->
-> Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
+On Thu, 27 Nov 2025 16:49:12 +0000
+Akash Goel <akash.goel@arm.com> wrote:
+
+> This commit prevents the possibility of a use after free issue in the
+> GROUP_CREATE ioctl function, which arose as pointer to the group is
+> accessed in that ioctl function after storing it in the Xarray.
+> A malicious userspace can second guess the handle of a group and try
+> to call GROUP_DESTROY ioctl from another thread around the same time
+> as GROUP_CREATE ioctl.
+> 
+> To prevent the use after free exploit, this commit uses a mark on an
+> entry of group pool Xarray which is added just before returning from
+> the GROUP_CREATE ioctl function. The mark is checked for all ioctls
+> that specify the group handle and so userspace won't be abe to delete
+> a group that isn't marked yet.
+> 
+> v2: Add R-bs and fixes tags
+> 
+> Fixes: de85488138247 ("drm/panthor: Add the scheduler logical block")
+> Co-developed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Akash Goel <akash.goel@arm.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Reviewed-by: Steven Price <steven.price@arm.com>
+
+Queued to drm-misc-next-fixes.
+
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 71 +--------------------
->  drivers/gpu/drm/etnaviv/etnaviv_buffer.h | 79 ++++++++++++++++++++++++
->  2 files changed, 80 insertions(+), 70 deletions(-)
->  create mode 100644 drivers/gpu/drm/etnaviv/etnaviv_buffer.h
->
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> index 384df1659..829f8497d 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> @@ -9,6 +9,7 @@
->  #include "etnaviv_gpu.h"
->  #include "etnaviv_gem.h"
->  #include "etnaviv_mmu.h"
-> +#include "etnaviv_buffer.h"
->
->  #include "common.xml.h"
->  #include "state.xml.h"
-> @@ -17,76 +18,6 @@
->  #include "state_3d.xml.h"
->  #include "cmdstream.xml.h"
->
-> -/*
-> - * Command Buffer helper:
-> - */
-> -
-> -
-> -static inline void OUT(struct etnaviv_cmdbuf *buffer, u32 data)
-> -{
-> -       u32 *vaddr = (u32 *)buffer->vaddr;
-> -
-> -       BUG_ON(buffer->user_size >= buffer->size);
-> -
-> -       vaddr[buffer->user_size / 4] = data;
-> -       buffer->user_size += 4;
-> -}
-> -
-> -static inline void CMD_LOAD_STATE(struct etnaviv_cmdbuf *buffer,
-> -       u32 reg, u32 value)
-> -{
-> -       u32 index = reg >> VIV_FE_LOAD_STATE_HEADER_OFFSET__SHR;
-> -
-> -       buffer->user_size = ALIGN(buffer->user_size, 8);
-> -
-> -       /* write a register via cmd stream */
-> -       OUT(buffer, VIV_FE_LOAD_STATE_HEADER_OP_LOAD_STATE |
-> -                   VIV_FE_LOAD_STATE_HEADER_COUNT(1) |
-> -                   VIV_FE_LOAD_STATE_HEADER_OFFSET(index));
-> -       OUT(buffer, value);
-> -}
-> -
-> -static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
-> -{
-> -       buffer->user_size = ALIGN(buffer->user_size, 8);
-> -
-> -       OUT(buffer, VIV_FE_END_HEADER_OP_END);
-> -}
-> -
-> -static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer,
-> -                           unsigned int waitcycles)
-> -{
-> -       buffer->user_size = ALIGN(buffer->user_size, 8);
-> -
-> -       OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | waitcycles);
-> -}
-> -
-> -static inline void CMD_LINK(struct etnaviv_cmdbuf *buffer,
-> -       u16 prefetch, u32 address)
-> -{
-> -       buffer->user_size = ALIGN(buffer->user_size, 8);
-> -
-> -       OUT(buffer, VIV_FE_LINK_HEADER_OP_LINK |
-> -                   VIV_FE_LINK_HEADER_PREFETCH(prefetch));
-> -       OUT(buffer, address);
-> -}
-> -
-> -static inline void CMD_STALL(struct etnaviv_cmdbuf *buffer,
-> -       u32 from, u32 to)
-> -{
-> -       buffer->user_size = ALIGN(buffer->user_size, 8);
-> -
-> -       OUT(buffer, VIV_FE_STALL_HEADER_OP_STALL);
-> -       OUT(buffer, VIV_FE_STALL_TOKEN_FROM(from) | VIV_FE_STALL_TOKEN_TO(to));
-> -}
-> -
-> -static inline void CMD_SEM(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
-> -{
-> -       CMD_LOAD_STATE(buffer, VIVS_GL_SEMAPHORE_TOKEN,
-> -                      VIVS_GL_SEMAPHORE_TOKEN_FROM(from) |
-> -                      VIVS_GL_SEMAPHORE_TOKEN_TO(to));
-> -}
-> -
->  static void etnaviv_cmd_select_pipe(struct etnaviv_gpu *gpu,
->         struct etnaviv_cmdbuf *buffer, u8 pipe)
->  {
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.h b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
-> new file mode 100644
-> index 000000000..4cf77cdee
-> --- /dev/null
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
-> @@ -0,0 +1,79 @@
-> +// SPDX-License-Identifier: GPL-2.0
+>  drivers/gpu/drm/panthor/panthor_sched.c | 19 +++++++++++++++----
+>  1 file changed, 15 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index b834123a6560..a6b8024e1a3c 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -779,6 +779,12 @@ struct panthor_job_profiling_data {
+>   */
+>  #define MAX_GROUPS_PER_POOL 128
+>  
 > +/*
-> + * Copyright (C) 2014-2025 Etnaviv Project
+> + * Mark added on an entry of group pool Xarray to identify if the group has
+> + * been fully initialized and can be accessed elsewhere in the driver code.
 > + */
+> +#define GROUP_REGISTERED XA_MARK_1
 > +
-> +#ifndef etnaviv_buffer_h
-> +#define etnaviv_buffer_h
+>  /**
+>   * struct panthor_group_pool - Group pool
+>   *
+> @@ -3007,7 +3013,7 @@ void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
+>  		return;
+>  
+>  	xa_lock(&gpool->xa);
+> -	xa_for_each(&gpool->xa, i, group) {
+> +	xa_for_each_marked(&gpool->xa, i, group, GROUP_REGISTERED) {
+>  		guard(spinlock)(&group->fdinfo.lock);
+>  		pfile->stats.cycles += group->fdinfo.data.cycles;
+>  		pfile->stats.time += group->fdinfo.data.time;
+> @@ -3727,6 +3733,8 @@ int panthor_group_create(struct panthor_file *pfile,
+>  
+>  	group_init_task_info(group);
+>  
+> +	xa_set_mark(&gpool->xa, gid, GROUP_REGISTERED);
 > +
+>  	return gid;
+>  
+>  err_erase_gid:
+> @@ -3744,6 +3752,9 @@ int panthor_group_destroy(struct panthor_file *pfile, u32 group_handle)
+>  	struct panthor_scheduler *sched = ptdev->scheduler;
+>  	struct panthor_group *group;
+>  
+> +	if (!xa_get_mark(&gpool->xa, group_handle, GROUP_REGISTERED))
+> +		return -EINVAL;
+> +
+>  	group = xa_erase(&gpool->xa, group_handle);
+>  	if (!group)
+>  		return -EINVAL;
+> @@ -3769,12 +3780,12 @@ int panthor_group_destroy(struct panthor_file *pfile, u32 group_handle)
+>  }
+>  
+>  static struct panthor_group *group_from_handle(struct panthor_group_pool *pool,
+> -					       u32 group_handle)
+> +					       unsigned long group_handle)
+>  {
+>  	struct panthor_group *group;
+>  
+>  	xa_lock(&pool->xa);
+> -	group = group_get(xa_load(&pool->xa, group_handle));
+> +	group = group_get(xa_find(&pool->xa, &group_handle, group_handle, GROUP_REGISTERED));
+>  	xa_unlock(&pool->xa);
+>  
+>  	return group;
+> @@ -3861,7 +3872,7 @@ panthor_fdinfo_gather_group_mem_info(struct panthor_file *pfile,
+>  		return;
+>  
+>  	xa_lock(&gpool->xa);
+> -	xa_for_each(&gpool->xa, i, group) {
+> +	xa_for_each_marked(&gpool->xa, i, group, GROUP_REGISTERED) {
+>  		stats->resident += group->fdinfo.kbo_sizes;
+>  		if (group->csg_id >= 0)
+>  			stats->active += group->fdinfo.kbo_sizes;
 
-You missed my comment from the previous review.
-
-> +#include "etnaviv_cmdbuf.h"
-> +
-> +#include "common.xml.h"
-> +#include "state.xml.h"
-> +#include "cmdstream.xml.h"
-> +
-> +static inline void OUT(struct etnaviv_cmdbuf *buffer, u32 data)
-> +{
-> +       u32 *vaddr = (u32 *)buffer->vaddr;
-> +
-> +       BUG_ON(buffer->user_size >= buffer->size);
-> +
-> +       vaddr[buffer->user_size / 4] = data;
-> +       buffer->user_size += 4;
-> +}
-> +
-> +static inline void CMD_LOAD_STATE(struct etnaviv_cmdbuf *buffer, u32 reg,
-> +                                 u32 value)
-> +{
-> +       u32 index = reg >> VIV_FE_LOAD_STATE_HEADER_OFFSET__SHR;
-> +
-> +       buffer->user_size = ALIGN(buffer->user_size, 8);
-> +
-> +       /* write a register via cmd stream */
-> +       OUT(buffer, VIV_FE_LOAD_STATE_HEADER_OP_LOAD_STATE |
-> +                           VIV_FE_LOAD_STATE_HEADER_COUNT(1) |
-> +                           VIV_FE_LOAD_STATE_HEADER_OFFSET(index));
-> +       OUT(buffer, value);
-> +}
-> +
-> +static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
-> +{
-> +       buffer->user_size = ALIGN(buffer->user_size, 8);
-> +
-> +       OUT(buffer, VIV_FE_END_HEADER_OP_END);
-> +}
-> +
-> +static inline void CMD_WAIT(struct etnaviv_cmdbuf *buffer,
-> +                           unsigned int waitcycles)
-> +{
-> +       buffer->user_size = ALIGN(buffer->user_size, 8);
-> +
-> +       OUT(buffer, VIV_FE_WAIT_HEADER_OP_WAIT | waitcycles);
-> +}
-> +
-> +static inline void CMD_LINK(struct etnaviv_cmdbuf *buffer, u16 prefetch,
-> +                           u32 address)
-> +{
-> +       buffer->user_size = ALIGN(buffer->user_size, 8);
-> +
-> +       OUT(buffer,
-> +           VIV_FE_LINK_HEADER_OP_LINK | VIV_FE_LINK_HEADER_PREFETCH(prefetch));
-> +       OUT(buffer, address);
-> +}
-> +
-> +static inline void CMD_STALL(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
-> +{
-> +       buffer->user_size = ALIGN(buffer->user_size, 8);
-> +
-> +       OUT(buffer, VIV_FE_STALL_HEADER_OP_STALL);
-> +       OUT(buffer, VIV_FE_STALL_TOKEN_FROM(from) | VIV_FE_STALL_TOKEN_TO(to));
-> +}
-> +
-> +static inline void CMD_SEM(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
-> +{
-> +       CMD_LOAD_STATE(buffer, VIVS_GL_SEMAPHORE_TOKEN,
-> +                      VIVS_GL_SEMAPHORE_TOKEN_FROM(from) |
-> +                              VIVS_GL_SEMAPHORE_TOKEN_TO(to));
-> +}
-> +
-> +#endif
-> --
-> 2.51.0
->
-
-In order to save you from doing another round, I will fix the
-last nit, if that is okay for you.
-
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
-
--- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
