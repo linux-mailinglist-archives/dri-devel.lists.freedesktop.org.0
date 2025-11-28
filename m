@@ -2,59 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF989C91485
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 09:46:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B75C4C914BE
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 09:49:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4949310E0FD;
-	Fri, 28 Nov 2025 08:46:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCDCC10E73B;
+	Fri, 28 Nov 2025 08:48:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="EkSe98ZC";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="KxS6v2xG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m3295.qiye.163.com (mail-m3295.qiye.163.com
- [220.197.32.95])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CEF710E0FD
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 08:46:53 +0000 (UTC)
-Received: from [172.16.12.51] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 2b402a864;
- Fri, 28 Nov 2025 16:46:46 +0800 (GMT+08:00)
-Message-ID: <0ed71b8d-5a2e-4213-bd2f-7ba317d1e4cb@rock-chips.com>
-Date: Fri, 28 Nov 2025 16:46:46 +0800
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A3F810E5CB
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 08:48:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1764319733;
+ bh=FIoYKNBRaCtheQlZwXnnlvt6RkRz4aFY3XiW39L5WGc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=KxS6v2xGhxLHrJCmIyQW7jrNEzx8CqU0I8cb/f+lE8kXEdCGI4ca47nttbrLOKI3Z
+ NxSfGS4I30iD7udpkJb0WnvGYBnbFYqotCU1MmlW0SVZ/aSThiy9xYy7sN7V1ryFCb
+ HY39AESzq+zIuqWIOjaBF91rac4MLXe0v06PwbSTwHxq1YQ/ijjbtDt6jPRMv7qYNn
+ nKbqFhWAY/JuiLe11UEWsjr0WjIsHpQdprAOnpuJtn1In3iTaHTzrP9YUslezbSDEb
+ rOYDc48ganpSY+V7e8eiQypXeG/CvPm+ja8BFRc/NHtpNtvAtVeZsF89UqKYBvc4yD
+ WOdk7KrSfWDAQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 980C217E0EDB;
+ Fri, 28 Nov 2025 09:48:53 +0100 (CET)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>,
+ Karunika Choo <karunika.choo@arm.com>, kernel@collabora.com
+Subject: [PATCH v4 0/6] drm/panthor: Misc fixes
+Date: Fri, 28 Nov 2025 09:48:34 +0100
+Message-ID: <20251128084841.3804658-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] drm/rockchip: vop2: Support setting custom
- background color
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>
-Cc: Robert Mader <robert.mader@collabora.com>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
-References: <20251118-rk3588-bgcolor-v3-0-a2cc909428ea@collabora.com>
- <20251118-rk3588-bgcolor-v3-4-a2cc909428ea@collabora.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <20251118-rk3588-bgcolor-v3-4-a2cc909428ea@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9ac9a4b85703abkunm11421f537af6fa
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGU5LT1ZLTEkYQ05MT0NNGktWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=EkSe98ZCaMWUeYJWp7XkH1NrLpxTWcBUuZ5/ZMa2t6hgO7fIBoBI7bhabX0N7JKE+CGGs15C9bG4dNFtrOGp1A4uPgc3UwN7O1zAxrxJvwTAbjSgobcIVchpTCb2zb7Gk7oqG5zxYWUxQc99Wdsk9g823t58tn/7Lv5rHHw84ao=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=NXIQw8wTklQzICYSBWsCIghl/AUSAsiExXTZ+MWpvQM=;
- h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,93 +59,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Cristian,
+Hello,
 
-On 11/18/2025 7:52 AM, Cristian Ciocaltea wrote:
-> The Rockchip VOP2 display controller allows configuring the background
-> color of each video output port.
-> 
-> Since a previous patch introduced the BACKGROUND_COLOR CRTC property,
-> which defaults to solid black, make use of it when programming the
-> hardware.
-> 
-> Note the maximum precision allowed by the display controller is 10bpc,
-> while the alpha component is not supported, hence ignored.
-> 
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 13 ++++++++++++-
->  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  4 ++++
->  2 files changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> index 498df0ce4680..87110beba366 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-> @@ -1554,6 +1554,7 @@ static void vop2_post_config(struct drm_crtc *crtc)
->  	struct vop2_video_port *vp = to_vop2_video_port(crtc);
->  	struct vop2 *vop2 = vp->vop2;
->  	struct drm_display_mode *mode = &crtc->state->adjusted_mode;
-> +	u64 bgcolor = crtc->state->background_color;
->  	u16 vtotal = mode->crtc_vtotal;
->  	u16 hdisplay = mode->crtc_hdisplay;
->  	u16 hact_st = mode->crtc_htotal - mode->crtc_hsync_start;
-> @@ -1599,7 +1600,11 @@ static void vop2_post_config(struct drm_crtc *crtc)
->  		vop2_vp_write(vp, RK3568_VP_POST_DSP_VACT_INFO_F1, val);
->  	}
->  
-> -	vop2_vp_write(vp, RK3568_VP_DSP_BG, 0);
-> +	/* Background color is programmed with 10 bits of precision */
-> +	val = FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_RED, DRM_ARGB64_GETR_BPC(bgcolor, 10));
-> +	val |= FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_GREEN, DRM_ARGB64_GETG_BPC(bgcolor, 10));
-> +	val |= FIELD_PREP(RK3568_VP_DSP_BG__DSP_BG_BLUE, DRM_ARGB64_GETB_BPC(bgcolor, 10));
+This is a set of fixes for bugs I ran into while looking at [1].
+Hopefully that's enough to recover from AS_ACTIVE bit stuck
+situations, but it'd be good to understand why the MMU block is
+completely blocked in some cases and try to come up with better
+mitigations than a full GPU reset.
 
-Division is expensive. If we convert a 16 bpc value to 10 bpc using
-direct bit-shifts, that is "DRM_ARGB64_GETX(bgcolor) >> 6" will
-keep the relative error within 1 compared to DIV_ROUND_CLOSEST().
+This v4 is here to address a conflict caused by other panthor
+patches being merged before this one.
 
-Should we be concerned about the precision problem here?
+Regards,
 
-> +	vop2_vp_write(vp, RK3568_VP_DSP_BG, val);
->  }
->  
->  static int us_to_vertical_line(struct drm_display_mode *mode, int us)
-> @@ -1984,6 +1989,10 @@ static int vop2_crtc_state_dump(struct drm_crtc *crtc, struct seq_file *s)
->  		   drm_get_bus_format_name(vcstate->bus_format));
->  	seq_printf(s, "\toutput_mode[%x]", vcstate->output_mode);
->  	seq_printf(s, " color_space[%d]\n", vcstate->color_space);
-> +	seq_printf(s, "\tbackground color (10bpc): r=0x%x g=0x%x b=0x%x\n",
-> +		   DRM_ARGB64_GETR_BPC(cstate->background_color, 10),
-> +		   DRM_ARGB64_GETG_BPC(cstate->background_color, 10),
-> +		   DRM_ARGB64_GETB_BPC(cstate->background_color, 10));
->  	seq_printf(s, "    Display mode: %dx%d%s%d\n",
->  		   mode->hdisplay, mode->vdisplay, interlaced ? "i" : "p",
->  		   drm_mode_vrefresh(mode));
-> @@ -2473,6 +2482,8 @@ static int vop2_create_crtcs(struct vop2 *vop2)
->  			return dev_err_probe(drm->dev, ret,
->  					     "crtc init for video_port%d failed\n", i);
->  
-> +		drm_crtc_attach_background_color_property(&vp->crtc);
-> +
->  		drm_crtc_helper_add(&vp->crtc, &vop2_crtc_helper_funcs);
->  		if (vop2->lut_regs) {
->  			const struct vop2_video_port_data *vp_data = &vop2_data->vp[vp->id];
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> index 9124191899ba..37722652844a 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
-> @@ -658,6 +658,10 @@ enum dst_factor_mode {
->  #define RK3588_VP_CLK_CTRL__DCLK_OUT_DIV		GENMASK(3, 2)
->  #define RK3588_VP_CLK_CTRL__DCLK_CORE_DIV		GENMASK(1, 0)
->  
-> +#define RK3568_VP_DSP_BG__DSP_BG_RED			GENMASK(29, 20)
-> +#define RK3568_VP_DSP_BG__DSP_BG_GREEN			GENMASK(19, 10)
-> +#define RK3568_VP_DSP_BG__DSP_BG_BLUE			GENMASK(9, 0)
-> +
->  #define RK3568_VP_POST_SCL_CTRL__VSCALEDOWN		BIT(1)
->  #define RK3568_VP_POST_SCL_CTRL__HSCALEDOWN		BIT(0)
->  
+Boris
+
+[1]https://gitlab.freedesktop.org/panfrost/linux/-/issues/57
+
+Boris Brezillon (6):
+  drm/panthor: Always wait after sending a command to an AS
+  drm/panthor: Kill lock_region()
+  drm/panthor: Recover from panthor_gpu_flush_caches() failures
+  drm/panthor: Add support for atomic page table updates
+  drm/panthor: Make panthor_vm_[un]map_pages() more robust
+  drm/panthor: Relax a check in panthor_sched_pre_reset()
+
+ drivers/gpu/drm/panthor/panthor_gpu.c   |  19 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c   | 280 +++++++++++++-----------
+ drivers/gpu/drm/panthor/panthor_sched.c |   2 -
+ 3 files changed, 166 insertions(+), 135 deletions(-)
 
 -- 
-Best, 
-Chaoyi
+2.51.1
+
