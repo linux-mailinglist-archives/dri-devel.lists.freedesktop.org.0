@@ -2,156 +2,183 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78255C93332
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 22:37:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB636C93356
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 22:49:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC5F510E94C;
-	Fri, 28 Nov 2025 21:37:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 95ECC10E94F;
+	Fri, 28 Nov 2025 21:49:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="rbCJVwIp";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="KKfFl4Gm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012027.outbound.protection.outlook.com [52.101.43.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C01210E94B;
- Fri, 28 Nov 2025 21:37:19 +0000 (UTC)
+Received: from CY7PR03CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11010057.outbound.protection.outlook.com
+ [40.93.198.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE36910E14B;
+ Fri, 28 Nov 2025 21:49:51 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SIqXXV3OzdaPWidvKpQ8yhc+ps7LPoNVxXqeQse84ChamauxaFFTSRbs3FF/ejPZ4L9DJGRoxTgXgCugk95B84ODponUDLcBf7DEvJok3XlAqbN9UXLOhjSGk2E0sEqUFvMvtJQV/oyTlftiAglL8VB9JlhDWOma9dV3r1v+0Yrr+2gy4kuWl1sSBb1DFIVy8cNwFn3IQoRxU9Ip7ts2NLZosEMrUSphbYP5NKkv1deuXDzh1xCg/uKfQHCh124LOve4ZcFpGvj1AR7+3KgUnhK34lzZa8bQPwt3hvavUibQ/1UX82bP5d8onaPoIp9O60KuEAsIRZAVdhA1+0vA8A==
+ b=Be6bCVWCsNKo/l1wtEzpWerDaWhY/wEdoTHzSjPXZeTaekiMOLduUTBNbcRQ7QCKf4Bax8VpB+AxYgbuhx3zTbaiL64QTTCMQWK15jvpVygq0uB504JHVWeYRU4nWSIC92JhOGXtf4R9yGjWzVqHaT93fJK6V2XXnteI4DIgenijQAORzi0x0R3IiKyH9aWYUm0bRvEi5H6eRDEZUHqKbHHK+vRx6Lb+McPzXmbNEL57PJLKu4k+QsOfOVIg01H6y4uulLoRtdmOKyrmnuXYTZkck0VtIOEM1TIatbN67NWrq91rJ1lqAHFfitqfmkXADk87C8GlyM6s8J/LlQ05lA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T8SLdcZTmEykIb8j46yUhJQTxVauQF4HUAI3HjXnkBI=;
- b=Q/AOylHj4tVPZbLwkUxg7WRfH6srM/82XfpVns1LrckdMjbU8qqFDl0nSdebg/91x8W6WT4ADu8oAPJD1M98lMNyNtxu0GbRThBJVm7XqNYGdPXHpkpfjIoid4x+fBWFAPpOOs25Dot/l++WQ8nVwtGF1TBrfkvKdYTiHhIJcwsrK8AFjLepmOhibE3FdYSfhSrzpROnR3h8FZULtNoksAZBv7kVg2P9dZgiI5CHGJvedTeXeJkc8IGYDkXIeoxyEQi8IUsMusrMsfyXYt1Xzs0EB8jr5ndo8AUWoB19Xq6w2tNjsLOKuVzXlauTcDBdnRK0b70f9kzRtSYwP3W+uw==
+ bh=1PRqLoRYb44hslnXQTmiHn+nb+DtUErQxm92xthowNQ=;
+ b=QhlyMWAIjKPFBXZ+zL0u19wLVeqIV88ZRANBrSyqLf/s66zYqQ2c3qg/eTOg80exO9Wfp6c0fSbtTbRCVXaptrIhAOBqwe9gU5iDCydm3S4xjspt13qNRbywNgUjTbQrkM8Ac5tu51aquR+D+DqxDKF6AX9ZAjn3unzyUq5PsOnOu5mS0pI9JqATtANwJ+w8TVZa4YkB4U/Y+0CCthaeT8BtPxl0d+Qb6bbxNb5pWKg+RnveMH1l6jSKMKAxhJxdhP0MViey3eXhYd6PIe5dZxwQJHGcTdRDKeZnhW0JTtgMRAOpL/k6hb92QwmYu78GK7JGI2pEKzCGp2Yi62PW5A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T8SLdcZTmEykIb8j46yUhJQTxVauQF4HUAI3HjXnkBI=;
- b=rbCJVwIpXHDsSFVsz937/1dcSOjpYKRGusjKU75PUhO5MZLpLNQ283gHcmTqBUehQZ/+bsQOafU7BTPuD4YIUdY/eftxspScsRCrOTk7SOznfn3m38ZCC/GWoleTzKwm2zguD/U13KpWrYdoaF++1bqQfQezBKws+1AAjjaOnWs=
+ bh=1PRqLoRYb44hslnXQTmiHn+nb+DtUErQxm92xthowNQ=;
+ b=KKfFl4GmpHfDrfhDBhK4yVzoDEcUSMClt6dWtJ3QbkP/4vvV5jgA16+HyO5S8FGcEvQlsfpY6rTKlo4/E4lsDwzJEs3LieqCyLGaKg1hfsIlNAimkZSfHrlphxuZjO2/H8NUMfQfqsvnfr/k1tkw3FXvfX/wQy91hD9g622YZt1HhG02UB9z0fx/opOaS5sAKH0g9udr1oIi6Q4MIA5/0mIMiz+mjyE3uDyMs/zBp4AbbAWF80uSe51M3S9GX4nASVbFi9s2uQgEfaMPm06/Cm3kBU6um55fe6wdT6TBXIEnwQEoH4YfQ4KpaV9Szu8u7fZez3gp4g/sABweXkfYuQ==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by BN5PR12MB9485.namprd12.prod.outlook.com (2603:10b6:408:2a8::11) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB8056.namprd12.prod.outlook.com (2603:10b6:510:269::21)
+ by DM3PR12MB9436.namprd12.prod.outlook.com (2603:10b6:8:1af::20) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.14; Fri, 28 Nov
- 2025 21:37:17 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::9e93:67dd:49ac:bc14]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::9e93:67dd:49ac:bc14%6]) with mapi id 15.20.9366.012; Fri, 28 Nov 2025
- 21:37:16 +0000
-Message-ID: <2ddb06d0-70e5-4a1f-850d-3753f9fb3d0a@amd.com>
-Date: Fri, 28 Nov 2025 16:36:58 -0500
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9343.17; Fri, 28 Nov
+ 2025 21:49:48 +0000
+Received: from PH7PR12MB8056.namprd12.prod.outlook.com
+ ([fe80::5682:7bec:7be0:cbd6]) by PH7PR12MB8056.namprd12.prod.outlook.com
+ ([fe80::5682:7bec:7be0:cbd6%4]) with mapi id 15.20.9366.012; Fri, 28 Nov 2025
+ 21:49:48 +0000
+Message-ID: <7627f224-5fe9-456d-8981-8b3799e332e1@nvidia.com>
+Date: Fri, 28 Nov 2025 16:49:43 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: use DCN10 CM helper for plane shaper
- func translation in DCN32
-To: Melissa Wen <mwen@igalia.com>, sunpeng.li@amd.com, siqueira@igalia.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com
-References: <20251126005608.37513-1-mwen@igalia.com>
- <2a918940-700d-4b24-90ae-4d9d4f9b457d@amd.com>
- <f832ec8c-cce1-45e0-975b-ed7000bed891@igalia.com>
+Subject: Re: [PATCH v2 1/3] rust: helpers: Add list helpers for C linked list
+ operations
+To: Alexandre Courbot <acourbot@nvidia.com>, John Hubbard <jhubbard@nvidia.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "dakr@kernel.org" <dakr@kernel.org>, "airlied@gmail.com"
+ <airlied@gmail.com>, Alistair Popple <apopple@nvidia.com>,
+ "ojeda@kernel.org" <ojeda@kernel.org>,
+ "alex.gaynor@gmail.com" <alex.gaynor@gmail.com>,
+ "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
+ "gary@garyguo.net" <gary@garyguo.net>,
+ "bjorn3_gh@protonmail.com" <bjorn3_gh@protonmail.com>,
+ "lossin@kernel.org" <lossin@kernel.org>,
+ "a.hindborg@kernel.org" <a.hindborg@kernel.org>,
+ "aliceryhl@google.com" <aliceryhl@google.com>,
+ "tmgross@umich.edu" <tmgross@umich.edu>, "simona@ffwll.ch"
+ <simona@ffwll.ch>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>,
+ "tzimmermann@suse.de" <tzimmermann@suse.de>, Timur Tabi <ttabi@nvidia.com>,
+ "joel@joelfernandes.org" <joel@joelfernandes.org>,
+ "elle@weathered-steel.dev" <elle@weathered-steel.dev>,
+ "daniel.almeida@collabora.com" <daniel.almeida@collabora.com>,
+ Andrea Righi <arighi@nvidia.com>, "phasta@kernel.org" <phasta@kernel.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ Nouveau <nouveau-bounces@lists.freedesktop.org>
+References: <20251111171315.2196103-1-joelagnelf@nvidia.com>
+ <DEHV08MPF9CH.1GZAWEGC4AVF3@nvidia.com>
+ <095D38BD-A8AA-4BC3-8C24-9454964EB8F8@nvidia.com>
+ <DEI89VUEYXAJ.1IQQPC3QRLITP@nvidia.com>
+ <F3A7E1BB-883C-4EF4-B245-8E9DD329131F@nvidia.com>
+ <03003f10-00c0-44dd-b9df-5763cc1e715f@nvidia.com>
+ <7529a7b1-b204-44cb-bb34-57161e6b7b8c@nvidia.com>
+ <DEJIUDQ3ZGPA.2UIPTGU4WT7RW@nvidia.com>
 Content-Language: en-US
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <f832ec8c-cce1-45e0-975b-ed7000bed891@igalia.com>
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <DEJIUDQ3ZGPA.2UIPTGU4WT7RW@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT4PR01CA0433.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10d::13) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL1PR13CA0250.namprd13.prod.outlook.com
+ (2603:10b6:208:2ba::15) To PH7PR12MB8056.namprd12.prod.outlook.com
+ (2603:10b6:510:269::21)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|BN5PR12MB9485:EE_
-X-MS-Office365-Filtering-Correlation-Id: cad37487-ee5c-48cf-025c-08de2ec64d2f
+X-MS-TrafficTypeDiagnostic: PH7PR12MB8056:EE_|DM3PR12MB9436:EE_
+X-MS-Office365-Filtering-Correlation-Id: c43bde0f-ba99-4e66-b063-08de2ec80d30
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?S3puWHc3OVZTQlBYQVBqdUNsTTNtc3RWM0ZPN3p6aDNickthMy9teEV1Ukpo?=
- =?utf-8?B?elRJbUc1Yjl5bGE3ZmpqWUdYTnNuK2pYZjljZkVxcXVCb2VmNGFyd0xmdE1t?=
- =?utf-8?B?UWpvdGZKczZQOTQ0N0JuTXNSNDFDQWMySkpPOEMvenNaSFNaODMyakpJTHZD?=
- =?utf-8?B?d3MrekZTTThoZEhZcjd5MUYxRjMvQmxKaytZVk54NDVrV3FUVkl4UEMzSXgw?=
- =?utf-8?B?UCt1WjdYeGN2UHp2S2hoSWRmTnYvM2xIWHBpdGp5NW5UOWRka3FNQUVPY0RG?=
- =?utf-8?B?WkNtK3pPWnkybGlnVTUzbXdhMktaSVhnZjg1eXl5OGxUVC9Vb1BiOGpwTllZ?=
- =?utf-8?B?b05PRS81dnZhcUx2VWk0eFV5L2VmdktnYVhCOTF3SS8wMnlTWURkREkwYjZS?=
- =?utf-8?B?bExrRmtKbzlDeHhkcDdnT05QR09ocjNjUWdYaGhKRGZ4U2l0ek5uTzBvSWxP?=
- =?utf-8?B?QlpnWFdBUjZsNno4UFhWK0FGWWcrUGFpcTFtMDdFMjRMbFFkUzdlakRZNmxi?=
- =?utf-8?B?K3o2TXpNeHE2M0ZYeXVDdjJWblhBRGpBMXhHUC9lV1J2cHFBazJRWU4ybGRY?=
- =?utf-8?B?eVJNeGxnVURISmljeTV6S25yekZTbklDbUYydG9yTGkwTEg4MXZFQVFIUHBn?=
- =?utf-8?B?WnhmeXlMbHQxcVVKdHp6M2piWGxBbHNZWTlaZ0hiL2NvZ2s3K29wZWw4TlJt?=
- =?utf-8?B?V2JGZThBSm9oc0RFVXlLNUtyOWVJeUgwSFlKZXY1RFB1T0EvM3VvRG44enc0?=
- =?utf-8?B?dmRHMjRGRWU2WDVYYVJoelFQOXZPdDczcW11cXNYeEFnenppaXBqSXRqRTZz?=
- =?utf-8?B?K0Y1QWR5UWdrRytRcm9CTWV1ZzlkZjFZL2F5bDFVRVA1cTAwdGxRajhtd2lr?=
- =?utf-8?B?SWhvUFVxNnJtYWJodUFxbDl3TllUQmlQVDBwRW9DUkZxMjhoeHpNU1cyY2VM?=
- =?utf-8?B?WW5hMFdBUWQxa2R0UXU2elFvc05qUE8rMTVGWGhnNm9xZ2xKQW14RUUvWm9E?=
- =?utf-8?B?T012YndxQTV5amszeDEvUloyeTl2QnliakxMaER6NDgwbGxaRFdCaW4zQlFR?=
- =?utf-8?B?YUFyL1dWa0lPMzBzWE10UDdibG9sWDcwUGlKMEZrMG1jeVFTVjZ3ZWNLWEx3?=
- =?utf-8?B?OG95MEVXTnJCM24yRmJnNHJiUTEwYi9QaHM2R1pxQmtGNzcxWTlrUFMxUGJn?=
- =?utf-8?B?SE1FTllhWjFHekNQdzJBUFdPUldodmw4bEtaK1dVYTNuSDZtRXA4bHFFYlda?=
- =?utf-8?B?ZEVHVlQvNytMN3UwUURNQXltTlQ0cTRqZkhaSGcrMG9jVXQ0aC9FcTFsOUxB?=
- =?utf-8?B?eGQ5Nm9oZ0VmYStuL3d4UWlnRzBQRVJldHRTdTRUTE5uclVLVVNSZEtjcXlm?=
- =?utf-8?B?VFdTcVg0NUZ2Z0VTVW5rcGhGbU9SUVIvK1ZOYmc5aWIwaHdFTXQ0RXFZbzdS?=
- =?utf-8?B?U2JXYlU4ZW5NZkFPNUUyRDZBRS9jaTU3clRMUGI1M2swZEF6TXVTV21mYUNr?=
- =?utf-8?B?QmVCU3pzZkd2VW9Walk3Qy8ralFUVE1vRWx0NHQ1MFkzNFBScmk5R0FnbnFu?=
- =?utf-8?B?c3VTVm5lWkY3eU9iV29jNjJ2NEtrelR1Y1I3bW9YeXhZU1A4M3UzeE9VZHVW?=
- =?utf-8?B?a1BWTkhmQU9RTTV0UCtjRTArdUk4ckMxUEFJWXcxK093dzJYL2gwbGovOTZh?=
- =?utf-8?B?bnVucUVsZlE0ankvWDFRemlPWW05cjR5Rjlzd0QycE5BQXUwYTg1TmNKNzlk?=
- =?utf-8?B?Vzc0cXdqY0t5cTR2eWNZT1VoTTkvMFFKRTcvTkJxcEdwM3FsN3oxV0pqRmcy?=
- =?utf-8?B?TnBncHZRS3VpazlUTXBmaFZPOVg4b1B3STcrbFVSU1JyTmRBeHZLOGwwdGRE?=
- =?utf-8?B?U01Kdk1tZTBnOWpOUGw1NDlHZTB3ZUtCc2JPQytYYjJxS3p6SmtHUUNtZXRI?=
- =?utf-8?Q?SziFlAEDVZ40Vcga6s2f09zLrRqgvviA?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?T09FUmc0OEdEMTdJNlNNanY3U1ZidHBTSDZGODdJWTM5ZEhDYWtpWTRsdVdH?=
+ =?utf-8?B?cGV2ZFZ0aWd4RTdVcEZhQUV1NWpMM1BWREVaVytSOUFhNlRPSlFwbHNxVDcw?=
+ =?utf-8?B?bG1zMjJ6NWlUOHlPVmxDWVk1UnFnZitlRzVGN1NYU3BTd3g1Y1ZBZlBQWS9N?=
+ =?utf-8?B?bFZhRDJBVDBzVU9uejZPMnM5NDNOUys3RGduYlZvM0pxU1RtMXNMdk9zakFZ?=
+ =?utf-8?B?elJaWGs5WTZEczJZR1l3amo5aUZXMndYU00zZklyLzBLNFJ2ODN0MXFrTFg3?=
+ =?utf-8?B?UGFzZm5pSVI5Zmt6ajlZMmhTZTd3UkYwSVlUMXY4alJHTEpBOGhQcTd6cloz?=
+ =?utf-8?B?MDIvelR1TGxoMEMyL2c5WkRpRnM1WGpnTTlXTTZjK1U3bWJEekNoNzdUSU5X?=
+ =?utf-8?B?aGRKaHdINVhzZDZvMmxEMUljdXBpWm1aa1c2bHN4bWxoVy9YRWFuczRWMURU?=
+ =?utf-8?B?U2w1VFdQTjdQcXJDZ01tZVRybno5dy9FTTM4a2VUdlpzQ25HSFdHQnFsKzI1?=
+ =?utf-8?B?Y2R4Z2lyaGthNWV1cTFaREx4QkdvVC9ZYzcwY21Lcjl2Rmk4YWpnT1JXN1pG?=
+ =?utf-8?B?eHVLTm5CTWVtQVZQelJNZ2VyNXRxMG04OFZhNDVWbGh1ZjM3TjlMSzhHMjFp?=
+ =?utf-8?B?NnpJaFZlUGVvR2hOdkkvUzF4REF0bWY2ZXVJbW5GTmFpZmZJa1BDL0VrUHE4?=
+ =?utf-8?B?SmsrL1cxOGxlQ2dFQkpuN21wR3FBR2ovSUkyRHNWdW1PYlRsbXByRVhYN0Z1?=
+ =?utf-8?B?WUUvSHR2elF0TDJnNkcxQW15UlZaZnViK3NITkxYVG5SWmNLOVpSaUQrVFVF?=
+ =?utf-8?B?akNNRGo0K2RtQnhBU3JmUGJSL3E1UU9ESlZpT2FVZllWNkxtSmFkTXR0Z1VE?=
+ =?utf-8?B?SldUUnpUT1RWVmFlcngyMytlS0xyTzd5S2NPK3NEN1JMUlBjRGtkaHBrdDls?=
+ =?utf-8?B?b3FZZmVsVXFsLzJSVXpYaE5tWGtNa2dBRERQb3FxNjJ5N0dIUjdoWk5tQXlY?=
+ =?utf-8?B?ZmJ0R3JWUzlZdFlwdkNGN3lyRHd0STF2Y2c4Vm4xOWhxTE9mcXI2U0tDZmlw?=
+ =?utf-8?B?R1JRNmVDcWNBQnUzMHorQWUvWUJrM3NPbFVwSkUrQzY2b1BBcThzUExYS1VL?=
+ =?utf-8?B?TkhxMzQ3bVpmaVlMSU5COFd5QjIwNHkreHhPOHZ5Um5jSjRISU9NdGt3QU4w?=
+ =?utf-8?B?Vy8vWjdjN1BIMUM4UzhDU2p4UkNHbWdWb29ja0pOQzVQNWdXSTlLNElZTmRq?=
+ =?utf-8?B?MkRTN1lRTW9adnlFcWRBbVlGOHZMTUdGVXErWnYrUXNEc0VUc1FJQ0UvcEV3?=
+ =?utf-8?B?MG9UbFo1emhsZm9YSzdLWWFnb28yMUpKcjNqY0lKUm9Hb3c3bXcvNDFZMzhv?=
+ =?utf-8?B?WkwyYnlsS2dUQWNRYXZSZUJ2Sk9TTlZzR1QrMUkySkQ3ZFJVNVRJR3kwaDR0?=
+ =?utf-8?B?eHA5OXdpK1NNSkNVR2tSZXZwZHZwOEZUdEZpWm5BeWdneHBHTGhCeE9HY09H?=
+ =?utf-8?B?b2pxVlp0RmdsdS9waUN5OVd5bHNSWFpibnMwbVJTdzN2dy9TTGRXRUZYT0Vk?=
+ =?utf-8?B?UFZ0amRWTEVtcFZ1enp4UkgxeVVuaDNVNytFS1R5NGEyV3dhVlF2Qkw0c2Nv?=
+ =?utf-8?B?WXpVKy94QzRSdDdTWHFaemcxbW40VUxmTzRFREgvMC83WlhMQ1FBNThHMVRR?=
+ =?utf-8?B?cC9ReFIvclYvYm5VN1Q1aHI1dUc5UGtYazVVN1N5NWxFWnMxQVErSUN2MFg2?=
+ =?utf-8?B?ZUNta1ZaZ0EweFpCb29HTUgxaG1maXVSNkc2eERQcitNa3hSbXlOVWFXbkNi?=
+ =?utf-8?B?Y2JGdTZCYzJacXZ4VXhNNTA5ZFpjaWdBOGxEb21id2lycXNnZG9JZ3FReHd5?=
+ =?utf-8?B?ZEU4SXZuQUFDWm9Wa2JBOWJXcElRLzdKUm4zbkVjZ1E0SmxhZlI0ZlB3ZlV0?=
+ =?utf-8?Q?JNL3uWsPIT0XdnGqm7hwqXXXCWAv7LQJ?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB8056.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Rzdhd2VjZ2kzcWJPVDBoLzEwdUJXSkllWVg2bWRHYmtrYm5VMWlqQ09oNFVD?=
- =?utf-8?B?MjhJTm5jU2swWHR1REdUSkliK3h6Nkw4OWVWTDhvdFcydStrSitnMDVZd0Fi?=
- =?utf-8?B?TXI1ejlRNWJ1QmFIbFN6WUVYVnNaRThSNU1kTDdWUklRcjYxVkp3U1hOdzZI?=
- =?utf-8?B?Y1BmTEhoV2Zxb0J2OGVTR0dkSkMwV3R6bEFUVVVNVWxudDMrdm1YSXhVVUV6?=
- =?utf-8?B?KzNUYTVSY1A4enNPNkFZeG5ya1ZGZVVNd0xLYnNncDNEcjRvSktPKy9FRXpl?=
- =?utf-8?B?b1MweVBKYUJTdElhTDR1UmhQZWhwQ0JXa054bkgrbXVpbWxwQkZaQXNLUm9x?=
- =?utf-8?B?aVdhdUVHc1UrS3g2N3B3S2FxdE1jZENJWXR1WVUxaWV5U2lJK3dVanRlTVVz?=
- =?utf-8?B?YTN4M25GV0VBeTNLZ3Z6ZVpKWlo3S092K3l6TkVPYkpiMlJhMHJVd3ZXeEth?=
- =?utf-8?B?UmhjTXlnTDExWFJmcEh1Vit5cGZHSzVwQ0JmT1hxWUdKZ25kWjZycmV1OS9s?=
- =?utf-8?B?K3NEZlAzL09oRElMLzRuTktpMXgrT0xXclREbjZTblVNc3NlTW9YVEpOb0VK?=
- =?utf-8?B?RW1qbGdFYklYb3kzNzJpR3RUVlBoQkVJNjMxNTVlYlVnTVZuT2NVdVl1Q2tm?=
- =?utf-8?B?YUNpVnduTUhnQVJZbnREQk9LckxENFd0eGwraFptRTg5dkdERzFaZ1Vlc1ZD?=
- =?utf-8?B?ZzZwd2xvSHNIWDZVQ3Q4TGNFMDdrZmI4ZFVDZ3UyR0tlRGNVb0I5aXRkZzk5?=
- =?utf-8?B?UmRPMTZTU0krbWtEUHNINTJjRnBlMTdFVmtNWlNuMVRwWTY3RFV0ZERrYXNG?=
- =?utf-8?B?d2FtdkU4Tm92UzBCbExIWWM3SUdyaGpiU1Rhd0ZhWUwyaFFYaGtwcUxJRXBX?=
- =?utf-8?B?YUVJbmxNK3ZEdFZKTEpaV216dlhEVTN2L01NckEzYXdnUkxjSHRiK2txWWtG?=
- =?utf-8?B?cytOam53bFZBUHdLS1NTbzVXK2g0T3ZEUkQxSC9nclg2VTVQNlZtUWw0YjJJ?=
- =?utf-8?B?R3c4cGYzaXhkWENCY0pndzIzOFZOdmNZL016RHVUY1ZuZjE0RE5LcFlMVklP?=
- =?utf-8?B?dkErcjBDb3NhcVpITGVjK3pvTnFWWEdORWF4NWp0T3ZFN0ZyMUx4YmlpZSty?=
- =?utf-8?B?QU5xVmdiL0VLQXVvWnBwYWdyZ0RjdmpWT0Y2R0pwblNPSklORGs4ZExkRnNj?=
- =?utf-8?B?c2FTbXJrOHZSS0hhZXFXUTV1dUhMOVdtZ2s1REoxaFlpaUxCM0JUNkFjWXdh?=
- =?utf-8?B?QS9sUjU3b0xBMUlMY1Bsc0U2K3Z0M1JqS0JHcmk4QmllbDdjWlloK0JnaXky?=
- =?utf-8?B?MUtnZGo2S3gydVgwYkprTE1HRWFYQW9Gd0J3SzZYeGdPb1p2cm1WdjlCNGt0?=
- =?utf-8?B?dlpaWGVFeFZkbmVkdWdBZFlvVGVvNTJ6YmtlT3dYSUFoY3M0bXBRMzJMVkti?=
- =?utf-8?B?Z3dPR0VIcG9pN2U5c1ZObU9MY1B3STNicHpPSHA5TjZUOU9VOHJxTHhjTW1U?=
- =?utf-8?B?YzNSYStCNUVKNEswWHIvNjhGQkZ4c0JZaUp0ZW5yQWxHUVYwcXVjOVBMc29R?=
- =?utf-8?B?UkJ6NHhKN2dDZldtWWR4WEQ5UEZJMW13SFBqWDM3NGR1MHlWVWhROWZsOHhH?=
- =?utf-8?B?aGM4Y1BFeVNWQ3BDME0zaHZOVUtsSHl3cTEwUEhLeGR0SzlsRU1YZjBacjlC?=
- =?utf-8?B?dVhQd1ZXdkRJRjB2T1pOaHVrdnFzd2Q5YzV2RmU5SE0rSlBJTHR3UXNUTHYx?=
- =?utf-8?B?WkdmMW1WWDFRTTFPUzhrRTFNbERoUGxwUVFmdkRRSFc1T01lczhOZDlPNFJv?=
- =?utf-8?B?WS8zMmpibkx4dEwvZDN4UVBpblNBd2IzbkdpTUlxQ3hIK3NpZHU2bGhMS1lL?=
- =?utf-8?B?R2tHWWNBZUEzQUFCTUZ3ZDdxOTJnSUxKY1YzMDVPL1VDSkhuZm9lK0dJOEpN?=
- =?utf-8?B?bUltTnk1SnloQjBMWXkyTFRrTWxmRzY5NmV3NkhOQnZRNm8yejZYR2drZXBy?=
- =?utf-8?B?Zk5qczBpNnhkVVJlSTN1Wk9hV3Zqak5wVUUyNjlNcEZHL2ZzbS9ub0hjaWJx?=
- =?utf-8?B?SmM2eENVenZWd1RVa0hCQ0xLcUsvZ0s2cS94cXdYZ040SmgxS09sRVpsQ3Jl?=
- =?utf-8?Q?sZLvYMT7TScEKa1FKyEoEYXTf?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cad37487-ee5c-48cf-025c-08de2ec64d2f
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eW9GakFkaUk3V211V1BzN2ZpQjBMN3U2WHVIMXZTRTVKYWNRSU83bFJBdXpX?=
+ =?utf-8?B?bkxxbk9qem83RkJwclBMVDhEOHl3cU9nbVNWTE9EbTl2L1d3V1ZmQ2lpclJN?=
+ =?utf-8?B?MUovMkZ5R2liUGt1R0lGNVArTG5CMHFzN05Wc29uaWxWcUVkb2dXL3l2THVK?=
+ =?utf-8?B?ay84RUFvYjZuTDFiMDlEK2dlWkRtNk9nbGp3VnVmaE91Nks2QXQyWWVmTGpv?=
+ =?utf-8?B?Um94SmhlMVpXTnJBYW1KZTMrc1pIQlJMZzVwSGI1WWZ5ZG1zVWlvZ05kb1Qw?=
+ =?utf-8?B?emU5VWJTbURqVmxacWxHTXBQdXd4aVJjUFp1TytITVNsbDNpbFUwZi8xN1FK?=
+ =?utf-8?B?cFhVNW9JTWs2SWw3SWtmL0tYdFhRQUFVblJaN080cDZsYkNpWXZDNXUxdm5v?=
+ =?utf-8?B?M1Y0dTNLN0JQUnR3dW5NQVZxR002Y29kU0dqTkkwZXZHSFM4STlqOWt4ZUNW?=
+ =?utf-8?B?S2JvMVV0b045SU5xRHFjSXd1cS9hWGtJaDNQTmFNZXY0Q2hDL0Y0MGFzTDFV?=
+ =?utf-8?B?aE1MUy9ubGovckFtemxpU1hnT3NaYXcwK3hMQW9IZnBMdHZoMExhckNtVGVF?=
+ =?utf-8?B?dmFDREZhTjNYaWpLVVV5NXpWdC9VZ3dEYm42dXZOZndkZExuNlFlT3pCWU5t?=
+ =?utf-8?B?RzRJZXhBalFvUWJhVi9mS2ViYzRIdnFUSE5Sb0xJcXh1NmlqT2FLUWY0R1Nq?=
+ =?utf-8?B?MTR2Si9LanludElPMzE3Y2ROVXlDaFF0NnNqK0srcm5MMWloK29LT2tCVXg0?=
+ =?utf-8?B?QWFBZ0g4U3c2eHBjUHRiQk1rK09OTTZGekk2a1Z1RkN6MjRVajRkZ1JPLzVq?=
+ =?utf-8?B?ZWk3bDErVmFUYm9KT0ptTVlJRENKSGhMM2t6dUxIbW9vSXpyczhOTnppVUw3?=
+ =?utf-8?B?amlHV0R3SDNqdEN5YjdFSlBUQlUxc0Y2UWYzNndvV0dZQTBxeDUvMjloVW04?=
+ =?utf-8?B?Qlg2SE9sR3VDdlZvUVhsU0pxamduUU9MOWN4bXJqbkI4dytUVW5ZVzA0OEtr?=
+ =?utf-8?B?Tmt3QlBqdkVHTDdxOXJ0bUdMUFNBUG9WSW02QlIxNDVIWjlyYmxSQlZHaUlJ?=
+ =?utf-8?B?ODBHMkwzeFQya3MyUHVxMVVmRENMU3pxeWJHTVo2OHFQUFZabDl6WGVKZzJ2?=
+ =?utf-8?B?MXBaY1dkSlVKRHpUL1YzTmY4WFN1VzZocWlZYlRRQ0VVdXkxbGEzQzYrcFdH?=
+ =?utf-8?B?eGh1UVVSY25PVzh1YWtYNWRpeDRZdGswclV5L1JqQjZSeFgzU1hZNFRtc2pQ?=
+ =?utf-8?B?YXROVWRGTkNHeTJzWnl0Z1Jrd3V3RnNPMnZzalpMZUx5bERCOXBaVm9SalU5?=
+ =?utf-8?B?S3BkdlhqL2NzQzRia0dNci9uamNmRUpxNUd1cGQ4cEF5TTFBWkl5T3EwRXZ2?=
+ =?utf-8?B?cis1UTYyMnJxdlhaMkVVMVdKQTRBUUJvNVZRQkVKNXVmd29hR0hFdTZjcFFI?=
+ =?utf-8?B?c0Zva2Z2ZmN0RUw2VVJRbXZIeFF6TFU1SEJFN05sZkl3Z210Ymo2RXNOaFJu?=
+ =?utf-8?B?dWFOMU1PN21SMlowbkhIb0p4QmxWVVFocHVJZkI0N3pNRVhLQmlxZ0lTdGhR?=
+ =?utf-8?B?dEdIVHhpYWJ4QU5RSzh0M3FQNmNuWkQ3c0xsNUhCRXdqek9NblBBM04wZHdh?=
+ =?utf-8?B?Yk9hbFhJRkdFZ3c1ZWpKcUJyUDVQL0JJS1VqYmo4UGVkMWdhb3M5RTlvSGhY?=
+ =?utf-8?B?ekFxRlNtU09nTEJaV0xzVTB1MTYzYUVIL2NkQXc4cjViTVRBRU9MSTZuQ2VH?=
+ =?utf-8?B?aGgxNjFwLytNYmNPN3N6Qjc1T0RmY2pPREFmWEN6NnFEZkpBL0NmSWZyVlhF?=
+ =?utf-8?B?REs3VmhJUVRxOEhaYnhib2RtQktpMmUyN244QnBiTGpmcHo3VFZRTlV3Mk9P?=
+ =?utf-8?B?MTNLd1pHSFlYdW9paGE2bkxKNGlXS3dhdForN3hVbTV5cXI4a1pjeUVUb3ND?=
+ =?utf-8?B?dlNEeFdPbGFkY3RoT2RJYm5LMUN4dnVnTEl4LzZLWitLSEZzbE1JYW1mcGdY?=
+ =?utf-8?B?UWdGRGVFYUZYVHk4SXQrZEtlQ25pWlBhdTVyenlRR2c5aGkzUHovYnI1R3Q2?=
+ =?utf-8?B?ZXlMU0xiZzlrb2ZSbWI5ZjBaNkhqQkovNW9kT0pCbmZPZk1pWTV6cWJ6VEdB?=
+ =?utf-8?Q?ncVTcM86y5zzBoPhCcItiBSvZ?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c43bde0f-ba99-4e66-b063-08de2ec80d30
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB8056.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2025 21:37:16.8098 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2025 21:49:48.4070 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5073+2kN1vsZPlDn3cuPBxLzpcsSTmZF4vvD9+MlQTD56Mfi+g7Jw6GDDcyk/1HpoCpYtDzuofwTdr3go5sTSQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR12MB9485
+X-MS-Exchange-CrossTenant-UserPrincipalName: POYQeS6gvlB1X11ndI0R5KAo/rTQHym7/2QbZSxK/V2Wc0Wj6KjAkZDDCgygyZ6jgSeYM/CzTcdwSQdpGBl+Zg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9436
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -169,145 +196,44 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 2025-11-28 14:09, Melissa Wen wrote:
-> 
-> 
-> On 27/11/2025 17:39, Harry Wentland wrote:
+On 11/27/2025 8:46 AM, Alexandre Courbot wrote:
+> On Thu Nov 27, 2025 at 2:10 PM JST, Joel Fernandes wrote:
 >>
->> On 2025-11-25 19:45, Melissa Wen wrote:
->>> The usage of DCN30 CM helper creates some unexpected shimmer points on
->>> PQ shaper TF in the steamOS HDR color pipeline. Fix it by using the same
->>> DCN10 color mgmt helper of previous hw versions to translate plane
->>> shaper func to hw format in DCN32 hw family.
->>>
->>> Signed-off-by: Melissa Wen <mwen@igalia.com>
->>> ---
->>>
->>> Hi,
->>>
->>> Commit a953cd8cac6b ("drm/amd/display: Fix MPCC 1DLUT programming")
->>> mentions some visible artifacts when using DCN10 CM helper on DCN32
->>> shaper and blend LUTs. On the other hand, using DCN30 CM helper creates
->>> some shimmer points on steamOS HDR pipeline. We didn't noticed any
->>> visible artifacts so far, but I'd like to know more about what kind of
->>> artifacts were visible at the time this helper for shaper func was
->>> switched in the afore-mentioned commit for further investigation.
->>>
->> Thanks for the debug.
 >>
->> Do you have more info on the unexpected shimmer points with SteamOS?
->> Ideally a video and a description on what to look for and why it's
->> wrong, or a comparison to a GFX-transformed example that shows the
->> correct visuals?
-> Hi Harry,
-> 
-> I took some pictures of clear unexpected scenes in HDR games.
-> 
-> 1. https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-split-fiction-game-black-loading-bkg.jpg
-> 
-> Just loading Split Fiction after having turning on HDR in this game options (Options > Graphics > HDR).
-> We expected a black background with the Loading <icon> in the bottom right, this background is full of bright spots.
-> Friend pass is enough to reproduce the issue without having the game.
-> 
-> 2. https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-menu.jpg
-> 
-> Colorful-bright points around the margin/corner of the God of War Ragnarok game menu.
-> 
-> 3. God of War Ragnarok game intro:
-> 
-> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro1.jpg
-> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro2.jpg
-> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro3.jpg
-> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-PS-logo.jpg
-> 
-> Same random shimmer distortions.
-> I think those images are good examples, but still pending screenshot/GFX examples for comparison.
-> I'll take it and reply here later.
-> 
-
-Thanks, that would still be helpful, but even as-is these images
-quite highlight the issue. It's more severe than I expected.
-
->>
->> Obviously we don't want to simply switch back to DCN10 helpers
->> without understand why, and potentially regressing other use-cases.
->> At least we should look at what the differences are between the
->> two versions of that function, and which part of the curve programming
->> causes the undesirable results.
->>
->> The original bug that was solved by that commit was a regression that
->> sent bright values in an HDR video to black or red, so basically
->> something really messed up bright PQ values. At least I suspect
->> it was a PQ HDR video. The ticket doesn't state that.
-> I see. Looks like now we have somehow the same problem but in reverse (?) like black values mapped into bright values (?)
-
-Yeah, if I understand your screenshots the issue seems to happen
-(mainly) with dark values?
-
->>
->> When looking at the diff between the two functions I notice that
->> the cm3_ version is missing the dc_fixpt_clamp_u0d10 for the
->> delta_<color>_reg assignments, toward the bottom of the function.
->> I remember I had to add that to the cm_ version since it caused
->> issues with SteamOS HDR. Can we try that on the cm3_ function?
-> Yes, I remember this issue.
-> 
-> I've already tried the same changes from this commit (https://gitlab.freedesktop.org/agd5f/linux/-/commit/27fc10d1095f) to cm3_helper, but it doesn't help... probably because the commit was addressing a different behaviors.
-> 
-> I also noticed on cm3_ they consider a different range of hw points, as in this comment:
-> "
->     // DCN3+ have 257 pts in lieu of no separate slope registers
->     // Prior HW had 256 base+slope pairs
-> "
-> 
-> Can it be related to this problem?
-> 
-
-Possibly. The point distribution is one potential culprit.
-
-How I would debug this is to look at the diff between the two
-functions and try each diff one at a time to see whether one
-(or two) small changes fixes this. Then look at what that change
-was and what it does. That can then give us a guide on how to
-properly fix it without affecting other use-cases.
-
-The other thing to understand is why we didn't see issues with
-the Color Pipeline API tests in IGT.
-
-Harry
-
-> Thanks,
-> 
-> Melissa
-> 
->>
->> Cheers,
->> Harry
->>
->>> Thanks in advance,
+>> On 11/26/2025 3:57 PM, John Hubbard wrote:
+>>>  
+>>>> I am torn on this. On the one hand, if someone changes how list_head api works, then the rust side breaks 
+>>> OK, this is not going to happen, at list not without a truly epic, long-term
+>>> effort, accompanied by *lots* of publicity. The list_head API is just too
+>>> foundational to change easily.
 >>>
->>> Melissa
+>>> It's been stable since *at least* 2006. The only change since then has been
+>>> to add WRITE_ONCE() wrappers to the INIT_LIST_HEAD implementation--and that
+>>> is not an API change.
 >>>
+>>> Anything is possible, but this is sufficiently far out there that it should
+>>> not count for much here.
 >>>
->>>   drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c | 6 +++---
->>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>> (though that is easy to flag though via doc tests). On the other hand, we have the function call overhead you pointed and we are dealing with the pointers in rust directly anyway in some cases.
 >>>
->>> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
->>> index bf19ba65d09a..a28560caa1c0 100644
->>> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
->>> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
->>> @@ -501,9 +501,9 @@ bool dcn32_set_mcm_luts(
->>>           lut_params = &plane_state->in_shaper_func.pwl;
->>>       else if (plane_state->in_shaper_func.type == TF_TYPE_DISTRIBUTED_POINTS) {
->>>           // TODO: dpp_base replace
->>> -        ASSERT(false);
->>> -        cm3_helper_translate_curve_to_hw_format(&plane_state->in_shaper_func,
->>> -                &dpp_base->shaper_params, true);
->>> +        cm_helper_translate_curve_to_hw_format(plane_state->ctx,
->>> +                               &plane_state->in_shaper_func,
->>> +                               &dpp_base->shaper_params, true);
->>>           lut_params = &dpp_base->shaper_params;
->>>       }
->>>   
+>>> Whereas this is very significant! We really, really do not want to accept
+>>> a performance loss vs. C, without an excellent justification.
+>>>
+>>> So I think you've made the right decision. The above is just to help
+>>> solidify the reasons why.
+>>
+>> Yeah, these are good points. Thanks John.
 > 
+> There is also at least one precedent: the Rust `page_align()` does not
+> call a C helper that wraps `PAGE_ALIGN()`, it just reimplements it. I
+> think `list_head` is a quite similar situation, but ultimately that's
+> for the core team to say.
+
+I don't think a one size/rule fits all will apply for this. We need carefully do
+it on a case-by-case basis, for example - if we implement list_add directly in
+rust, we'd miss out on CONFIG_LIST_HARDENED. So for that, I will still use the
+bindings. For INIT_LIST_HEAD and iteration, it should be Ok, though. So I'll add
+that directly in Rust without bindings.
+
+Thanks.
 
