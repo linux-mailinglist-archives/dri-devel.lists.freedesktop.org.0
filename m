@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54F2C9183F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 10:49:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C27C91832
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 10:49:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9E1110E8A2;
-	Fri, 28 Nov 2025 09:49:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6213910E855;
+	Fri, 28 Nov 2025 09:49:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kBBpFd+P";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="HHInl7KV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5CD210E04A
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 09:48:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5164510E04A
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 09:48:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764323331;
- bh=0+ELiCgH1VUkiSKc1ttJOD01pR45Gkc1MPKrEOrfj4I=;
+ s=mail; t=1764323332;
+ bh=w1F01KmNxT0Y0Eq5HSw3wBfvJES2gP9JKbYbP08zWxs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kBBpFd+P1a9aAgenQG7Bpg2e/yhEC+BwHENTbJOqhRtXZoFVdMn4VELNrs5wRTMet
- 3q62TwPVf377NinTAflrgIAqp7DSdpKdj6xIRP6Cp8qd1XBXJcQMgi3ryAZwj0h9DZ
- Im8LPNK6bMb3dqROkxM6+KyMGHNlyhR1mCBWJADgqwzc8/E7Qt2Y1XSML4bCP8j9jv
- TmIkBUUUzOKMdIhEbhB0o0nl0EvDL09bKsf2WrKjx/V3wWN+7/z6t509N5vFGXEhvP
- QWvDOBBJfK8Ai1+DNCrczmUj+bN2Ve36VQ0Hlm84eRTOtM42NKU4LbXajupzlVhfk9
- 0hC/bY2xNCg2g==
+ b=HHInl7KVICzdjSPu12YWKav6sru2DogdxwEGDAHVkRgkM5J3SKZNbtuaV3rP/cjUR
+ GB79DPxZ82Nt2/X+fxY+fwVv+eg8rM8KJxbSjq5dITDB2ZXRCiAX1uloX1NMYHaBq+
+ j7MmgY6ylmGcu5wDrv6AeqKhHQlUJZwvK3oDGH/ftixnvpibzznFWZHoveKQtZVBgA
+ 0bNFnOUO44q9yv8DYbstPGns/3rAYn9uGjRxuQj7AuDuFdjdxtnnYG64qpRs9LEAFj
+ vmryx1XmKkR1XHmU+XLZd08yfzPvMzSRbkIR1VQ46gB4VMGWqeh1ucHyRGcqo6POOt
+ 2B5NMxMz8Eq6g==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2988C17E1339;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A3B1717E13C1;
  Fri, 28 Nov 2025 10:48:51 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -39,9 +39,9 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
 Cc: dri-devel@lists.freedesktop.org, Florent Tomasin <florent.tomasin@arm.com>,
  Heinrich Fink <hfink@snap.com>, Chia-I Wu <olvaffe@gmail.com>,
  kernel@collabora.com
-Subject: [PATCH v3 2/8] drm/panthor: Don't try to enable extract events
-Date: Fri, 28 Nov 2025 10:48:33 +0100
-Message-ID: <20251128094839.3856402-3-boris.brezillon@collabora.com>
+Subject: [PATCH v3 3/8] drm/panthor: Fix the full_tick check
+Date: Fri, 28 Nov 2025 10:48:34 +0100
+Message-ID: <20251128094839.3856402-4-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251128094839.3856402-1-boris.brezillon@collabora.com>
 References: <20251128094839.3856402-1-boris.brezillon@collabora.com>
@@ -62,12 +62,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Not only this only works once, because of how extract events work
-(event is enabled if the req and ack bit differ, and it's signalled
-by the FW by setting identical req and ack, to re-enable the event,
-we need to toggle the bit, which we never do). But more importantly,
-we never do anything with this event, so we're better off dropping it
-when programming the CS slot.
+We have a full tick when the remaining time to the next tick is zero,
+not the other way around. Declare a full_tick variable so we don't get
+that test wrong in other places.
 
 v2:
 - Add R-b
@@ -75,32 +72,46 @@ v2:
 v3:
 - Collect R-b
 
+Fixes: de8548813824 ("drm/panthor: Add the scheduler logical block")
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Steven Price <steven.price@arm.com>
 Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
 ---
- drivers/gpu/drm/panthor/panthor_sched.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/panthor/panthor_sched.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index 5b2ab963ac99..5ec553818c28 100644
+index 5ec553818c28..5d280d9c8225 100644
 --- a/drivers/gpu/drm/panthor/panthor_sched.c
 +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -1180,12 +1180,10 @@ cs_slot_prog_locked(struct panthor_device *ptdev, u32 csg_id, u32 cs_id)
- 	panthor_fw_update_reqs(cs_iface, req,
- 			       CS_IDLE_SYNC_WAIT |
- 			       CS_IDLE_EMPTY |
--			       CS_STATE_START |
--			       CS_EXTRACT_EVENT,
-+			       CS_STATE_START,
- 			       CS_IDLE_SYNC_WAIT |
- 			       CS_IDLE_EMPTY |
--			       CS_STATE_MASK |
--			       CS_EXTRACT_EVENT);
-+			       CS_STATE_MASK);
- 	if (queue->iface.input->insert != queue->iface.input->extract)
- 		queue_resume_timeout(queue);
- }
+@@ -2448,6 +2448,7 @@ static void tick_work(struct work_struct *work)
+ 	u64 remaining_jiffies = 0, resched_delay;
+ 	u64 now = get_jiffies_64();
+ 	int prio, ret, cookie;
++	bool full_tick;
+ 
+ 	if (!drm_dev_enter(&ptdev->base, &cookie))
+ 		return;
+@@ -2459,15 +2460,17 @@ static void tick_work(struct work_struct *work)
+ 	if (time_before64(now, sched->resched_target))
+ 		remaining_jiffies = sched->resched_target - now;
+ 
++	full_tick = remaining_jiffies == 0;
++
+ 	mutex_lock(&sched->lock);
+ 	if (panthor_device_reset_is_pending(sched->ptdev))
+ 		goto out_unlock;
+ 
+-	tick_ctx_init(sched, &ctx, remaining_jiffies != 0);
++	tick_ctx_init(sched, &ctx, full_tick);
+ 	if (ctx.csg_upd_failed_mask)
+ 		goto out_cleanup_ctx;
+ 
+-	if (remaining_jiffies) {
++	if (!full_tick) {
+ 		/* Scheduling forced in the middle of a tick. Only RT groups
+ 		 * can preempt non-RT ones. Currently running RT groups can't be
+ 		 * preempted.
 -- 
 2.51.1
 
