@@ -2,60 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA7AC91833
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 10:49:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46FC3C918BA
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 10:58:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 411FC10E880;
-	Fri, 28 Nov 2025 09:49:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C11EB10E8C5;
+	Fri, 28 Nov 2025 09:58:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aCO1Il0J";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="oxOtPzNy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C3F510E04A;
- Fri, 28 Nov 2025 09:49:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764323341; x=1795859341;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=ipY2BYyjF/FdjUJ0sYnsOtnwuR3Nds/Rs9/C2QJdddc=;
- b=aCO1Il0JQWeuPuQPL74ORdKb+91jWqvIb2SPKSLr7kh32QH2mBiNg43B
- 5N9NbI+Wz5LtdhWO5+VN4NzpaGSZMZeghSrDITQ3BZY46879i+XkT4huL
- RSgbZ9+X+Lwx02dfCipolEsADNe1bIIL0cP1VjkG87QA6Ue/9Id6cCoTJ
- k8o4RzspH+dHk6cm22IAHf1hnhbUGn4JKvrsEExoMt/ULRjkPt7VY986v
- rGbNeJi4iAXeFzq5hhcqaVUHuFYNLgeB6ftX0YQZFCdhiQbll+Av3oQXs
- 5ZUsnCx1wX9apuWLy7FXNMPK3QwY4SY+nykY8LsvMr57vtYxrITecXLy0 g==;
-X-CSE-ConnectionGUID: Fq44WTX6TWuPKH0SKrwUkQ==
-X-CSE-MsgGUID: u8UzAZUMSlmow1T69mlJQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="70220802"
-X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; d="scan'208";a="70220802"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
- by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2025 01:49:01 -0800
-X-CSE-ConnectionGUID: NjqTxRXjTTGNLWt/0QNhhw==
-X-CSE-MsgGUID: 3R2N7D0wQ4G7l80m/MnrSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; d="scan'208";a="193643642"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.83])
- by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2025 01:48:58 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, airlied@gmail.com, simona.vetter@ffwll.ch
-Cc: Alex Deucher <alexander.deucher@amd.com>, "Borah, Chaitanya Kumar"
- <chaitanya.kumar.borah@intel.com>
-Subject: Re: [pull] amdgpu drm-fixes-6.18
-In-Reply-To: <20251126204925.3316684-1-alexander.deucher@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251126204925.3316684-1-alexander.deucher@amd.com>
-Date: Fri, 28 Nov 2025 11:48:55 +0200
-Message-ID: <5f6bfc9e529566dc408a95a8aa748ff703254879@intel.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD8D410E8D4
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 09:58:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1764323895;
+ bh=1zM3SCuINYRGOt7LJKgt6Miofu1D6I9LW/+uEdWjLWI=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=oxOtPzNyF9kFhG2PY3GVFNWrneJbFqjKsIwELWNP4C4pq/Ktt/M+ZMYbexxkcnXtb
+ ayv1EAhfLx51q1cUxMnQZiGYCUuRWsc7b4adqZYe3rYg40u6PrZNEl7+OZspZNjlhb
+ 6oc6r4GXkzwCm5RjOdO0UMN2+8XiHrq5bkI2GJjEFb6oRvsLO8SYhqDE2wuiPuYus5
+ x6Wat5enKMXSdqBXrImT8Mfzhp60gvJzyC9qmRMUMHzzkzr5x8Hq6t1ySGpqj+iM6B
+ 40XOPt1CRGDmyVuhNR43+L6azG71+h0es57UdCO8JiL9HEl/I4LlVAzlnB7xygcLrX
+ 2RMAwb3ft66Aw==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id F3ABC17E10E7;
+ Fri, 28 Nov 2025 10:58:14 +0100 (CET)
+Date: Fri, 28 Nov 2025 10:58:10 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRy?=
+ =?UTF-8?B?acOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, Florent Tomasin
+ <florent.tomasin@arm.com>, Heinrich Fink <hfink@snap.com>, Chia-I Wu
+ <olvaffe@gmail.com>, kernel@collabora.com
+Subject: Re: [PATCH v3 0/8] drm/panthor: Misc scheduler fixes
+Message-ID: <20251128105804.1905728e@fedora>
+In-Reply-To: <20251128094839.3856402-1-boris.brezillon@collabora.com>
+References: <20251128094839.3856402-1-boris.brezillon@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,85 +65,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 26 Nov 2025, Alex Deucher <alexander.deucher@amd.com> wrote:
-> Hi Dave, Simona,
->
-> Fixes for 6.18.
->
-> The following changes since commit ac3fd01e4c1efce8f2c054cdeb2ddd2fc0fb15=
-0d:
->
->   Linux 6.18-rc7 (2025-11-23 14:53:16 -0800)
->
-> are available in the Git repository at:
->
->   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-6.18-=
-2025-11-26
->
-> for you to fetch changes up to 7fa666ab07ba9e08f52f357cb8e1aad753e83ac6:
->
->   drm/amdgpu: fix cyan_skillfish2 gpu info fw handling (2025-11-26 12:34:=
-16 -0500)
->
-> ----------------------------------------------------------------
-> amd-drm-fixes-6.18-2025-11-26:
->
-> amdgpu:
-> - Unified MES fix
-> - HDMI fix
-> - Cursor fix
-> - Bightness fix
-> - EDID reading improvement
-> - UserQ fix
-> - Cyan Skillfish IP discovery fix
->
-> ----------------------------------------------------------------
-> Alex Deucher (2):
->       Revert "drm/amd/display: Move setup_stream_attribute"
->       drm/amdgpu: fix cyan_skillfish2 gpu info fw handling
+On Fri, 28 Nov 2025 10:48:31 +0100
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-This broke the drm-tip build:
+> Hello,
+> 
+> This series is a collection of fixes that seem to address the problem
+> reported here [1]. In order to validate those changes, I added a few
+> IGT tests [2], but I'd like to extend the test coverage before claiming
+> this is working properly. Until I get to it, I thought I'd post what
+> I have for preliminary review/testing.
+> 
+> No major changes in this version, for more details, check the changelog
+> in each patch.
+> 
+> Regards,
+> 
+> Boris
+> 
+> [1]https://gitlab.freedesktop.org/panfrost/linux/-/issues/48
+> [2]https://gitlab.freedesktop.org/bbrezillon/igt-gpu-tools/-/tree/panthor-sched?ref_type=heads
+> 
+> Boris Brezillon (8):
+>   drm/panthor: Simplify group idleness tracking
+>   drm/panthor: Don't try to enable extract events
+>   drm/panthor: Fix the full_tick check
+>   drm/panthor: Fix the group priority rotation logic
+>   drm/panthor: Fix immediate ticking on a disabled tick
+>   drm/panthor: Fix the logic that decides when to stop ticking
+>   drm/panthor: Make sure we resume the tick when new jobs are submitted
+>   drm/panthor: Kill panthor_sched_immediate_tick()
 
-../drivers/gpu/drm/amd/amdgpu/amdgpu_device.c: In function =E2=80=98amdgpu_=
-device_parse_gpu_info_fw=E2=80=99:
-../drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:2668:31: error: =E2=80=98stru=
-ct amdgpu_mman=E2=80=99 has no member named =E2=80=98discovery_bin=E2=80=99
- 2668 |                 if (adev->mman.discovery_bin)
-      |                               ^
+Queued to drm-misc-next
 
-and it's going to need a fixup.
+> 
+>  drivers/gpu/drm/panthor/panthor_sched.c | 203 ++++++++++++------------
+>  1 file changed, 100 insertions(+), 103 deletions(-)
+> 
 
-BR,
-Jani.
-
->
-> Alex Hung (1):
->       drm/amd/display: Check NULL before accessing
->
-> Mario Limonciello (AMD) (2):
->       drm/amd/display: Don't change brightness for disabled connectors
->       drm/amd/display: Increase EDID read retries
->
-> Michael Chen (1):
->       drm/amd/amdgpu: reserve vm invalidation engine for uni_mes
->
-> Prike Liang (1):
->       drm/amdgpu: attach tlb fence to the PTs update
->
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c                |  2 ++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c                   |  3 +++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c                    |  2 +-
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c         | 15 +++++++++=
-++++++
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c |  8 ++++----
->  drivers/gpu/drm/amd/display/dc/core/dc_stream.c           | 11 ++++++++-=
---
->  drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c |  1 -
->  drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c   |  2 --
->  drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c |  2 --
->  drivers/gpu/drm/amd/display/dc/link/link_dpms.c           |  3 +++
->  .../drm/amd/display/dc/virtual/virtual_stream_encoder.c   |  7 -------
->  11 files changed, 36 insertions(+), 20 deletions(-)
-
---=20
-Jani Nikula, Intel
