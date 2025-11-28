@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19B6C929FE
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 17:52:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62577C92A04
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 17:52:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D73E10E7C0;
-	Fri, 28 Nov 2025 16:52:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE34210E192;
+	Fri, 28 Nov 2025 16:52:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="sWJlzoe1";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="0Ih0QNvG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4B4710E7C0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 16:52:29 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB0A810E868
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 16:52:37 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 8EC254E4194E;
- Fri, 28 Nov 2025 16:52:28 +0000 (UTC)
+ by smtpout-04.galae.net (Postfix) with ESMTPS id 9139FC16A3C;
+ Fri, 28 Nov 2025 16:52:13 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 5722F60706;
- Fri, 28 Nov 2025 16:52:28 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 7C3AB60706;
+ Fri, 28 Nov 2025 16:52:36 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 5953910B0217D; Fri, 28 Nov 2025 17:52:18 +0100 (CET)
+ with ESMTPSA id CE4F410B02181; Fri, 28 Nov 2025 17:52:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1764348746; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1764348754; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=lnQT9hncBALxwt6zSKKBcvvRQ9xJJffpDMu16HA1ozA=;
- b=sWJlzoe1EAsLTEWkuwZbXkkcSaFEvn2LztDS1bKvTh2vPIWKsN+AnNwIg7SPbOSH3xb/i0
- FYTGGNm219jwcPcpgwKKx8n3TQpaBcg/Sfvo7PGNWYLH40ClS/5jeXgHYZJ/4HUVBuKeC1
- BSWuwrtd5XA5CtVh+IfFA6q6wY+Whwn0iJyCCZhgpj9oLAOSefwo9zbuSYHyr7qPyrKNQr
- w/6rBGncKjEcX2eVjKGAL4C8epuvUEI9YeaZRjBFIfdnFrr4fmyRFdfQd9iuP8JIHAKz+x
- k43DqkSNJlbDwg8XEimMfXd6C0vKRMPXgGpGbCG8YphoamewaTg/1yB9Fon0QA==
+ bh=HkhS4tYdF7WtdpS/LQ+VOyrRk7ES6mHF90ZfBuOkcAg=;
+ b=0Ih0QNvGDpQfP25/WQZJTcFbX6sRO6ZK0tBkt2xbgsENn4Z5pg0HaKgiiiEPPuLeUQDYt+
+ zP7R+kRK7rtV3dSdxCfNxG1F+pbkDl5HIFGWJMByB/Hwvhzzn5mQYG8lzbevCev6GOcV06
+ NPg9Zc/JGbBpOAev3yEzjl8USc1GSDYk+YjKlun068MQ2lRVKv9M2UWtBT2X9M4jsgD1k2
+ Imlp3Z05SKZnsbjvjiNnRTVpzbwM72v0hD8cs/fmTGTj6i1Yrixp3tBw+fGb+Eb4E90VAB
+ H+W3Aka6hfRE/AUGPm/O+psviiZeDUAOdpd5up6LrGUMHQzvG/siwj1MXVUMBQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 28 Nov 2025 17:50:14 +0100
-Subject: [PATCH v2 04/26] drm/bridge: make of_drm_find_bridge() a wrapper
- of of_drm_get_bridge()
+Date: Fri, 28 Nov 2025 17:50:15 +0100
+Subject: [PATCH v2 05/26] drm/arcpgu: convert to of_drm_get_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-4-88f8a107eca2@bootlin.com>
+Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-5-88f8a107eca2@bootlin.com>
 References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
 In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -96,53 +95,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-of_drm_find_bridge() is identical to of_drm_get_bridge() except it does
-not increment the refcount. Rewrite it as a wrapper and put the bridge
-being returned so the behaviour is still the same.
+of_drm_find_bridge() is deprecated. Move to its replacement
+of_drm_get_bridge() which gets a bridge reference, and put it when done.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
 ---
+ drivers/gpu/drm/tiny/arcpgu.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Changed in v2:
-- Added comment to document why we put the reference
----
- drivers/gpu/drm/drm_bridge.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 21a84715d221..9b7e3f859973 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1467,19 +1467,17 @@ EXPORT_SYMBOL(of_drm_get_bridge);
-  */
- struct drm_bridge *of_drm_find_bridge(struct device_node *np)
- {
--	struct drm_bridge *bridge;
+diff --git a/drivers/gpu/drm/tiny/arcpgu.c b/drivers/gpu/drm/tiny/arcpgu.c
+index 7cf0f0ea1bfe..9d177ed4dff3 100644
+--- a/drivers/gpu/drm/tiny/arcpgu.c
++++ b/drivers/gpu/drm/tiny/arcpgu.c
+@@ -308,10 +308,8 @@ static int arcpgu_load(struct arcpgu_drm_private *arcpgu)
+ 		return ret;
+ 
+ 	if (encoder_node) {
+-		struct drm_bridge *bridge;
 -
--	mutex_lock(&bridge_lock);
-+	struct drm_bridge *bridge = of_drm_get_bridge(np);
+ 		/* Locate drm bridge from the hdmi encoder DT node */
+-		bridge = of_drm_find_bridge(encoder_node);
++		struct drm_bridge *bridge __free(drm_bridge_put) = of_drm_get_bridge(encoder_node);
+ 		if (!bridge)
+ 			return -EPROBE_DEFER;
  
--	list_for_each_entry(bridge, &bridge_list, list) {
--		if (bridge->of_node == np) {
--			mutex_unlock(&bridge_lock);
--			return bridge;
--		}
--	}
-+	/**
-+	 * We need to emulate the original semantics of
-+	 * of_drm_find_bridge(), which was not getting any bridge
-+	 * reference. Being now based on of_drm_get_bridge() which gets a
-+	 * reference, put it before returning.
-+	 */
-+	drm_bridge_put(bridge);
- 
--	mutex_unlock(&bridge_lock);
--	return NULL;
-+	return bridge;
- }
- EXPORT_SYMBOL(of_drm_find_bridge);
- #endif
 
 -- 
 2.51.1
