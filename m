@@ -2,65 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA885C90629
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 01:04:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0545C90681
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 01:24:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2D0110E7ED;
-	Fri, 28 Nov 2025 00:04:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3FE910E82D;
+	Fri, 28 Nov 2025 00:24:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iNMh298K";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RhygGWZw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F85910E7ED
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 00:04:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 419CB404E3
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 00:04:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 217D9C113D0
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 00:04:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764288274;
- bh=evAU5nv4UkblQ0km2bN+rnabsdHsldd42ez6PcC9Hxg=;
- h=From:To:Subject:Date:From;
- b=iNMh298K2jHmlbTprhtasn59/UfoFptLcqDQW5npnOcfiWPydwzeloGRKcEOh6rbI
- t0Mbm7iHREHtSUdFnUprD7EoqssMtd0Gvcd492gbu4d+ioD27qXkpE16NQNGc6kvNp
- xeEEBmL8p7b8dpV2zW1Vij6+DKKMF/HynapVeql882E+xMPdxYuv3i2W2UIpabUbVa
- UrNk7LJeLiexyqRtlno3fBqwXa0YsYreywWnoDeOcqklW7Ig/zfqigEtZbUxzzSy7U
- pm6ftX2OVs1N80u9Iu983l4zhxqwkJv74otvOwrMa6dT2Glt/6bU6G63l8iU/ad7e+
- ipBE9CoW2r5bQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 0F1F2C41613; Fri, 28 Nov 2025 00:04:34 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220813] New: 3x Radeon RX 7900 XTX Cards Exhibiting Identical
- PCIe Bus Dropouts, SMU/GFXOFF Failures, and Full GPU Loss Under Gaming and
- Compute Loads
-Date: Fri, 28 Nov 2025 00:04:33 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: amdgamingresolved@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression attachments.created
-Message-ID: <bug-220813-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C386410E793;
+ Fri, 28 Nov 2025 00:24:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764289488; x=1795825488;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=zOfHuO8fkD4NRmCYKrqEqYo+6OlircOXfPCCRsDPN7g=;
+ b=RhygGWZwaXuGuwqZ/bBoDUZeuLJDNyjjKt1bqEwA9fYXJvnrSnPW8/3C
+ 2MmfmE0YyjyakVvRxb4qmQ7Nf7t4vS2we+QOAMrXU7w75Ajd3EI0kE7MR
+ Rqeu0u/cG7gTMgsi07w0FwVh3Gf9VUNObrbwgGsihvC5a1Sd6O/B2JNsC
+ JsT+3Dn0M4KHktJ5rQ7dv3J3vB/z8K+d+SnSGXvrJAxTA28RNZVvEkVBB
+ 5+KukW3+5lQtQRgqUwCe2yuoVR4AbXVRMnnZfN83lW4KnFltFtV51qVDd
+ Rfs9ZYHVywO65VRmNf3JcvPsXmZDJJGpZZKPClNrPcReCqPO9MnpsSqgu g==;
+X-CSE-ConnectionGUID: eWb2gUpXRRmZle5l4NcTbw==
+X-CSE-MsgGUID: sEW//CFrTbCnSTv5nl7/mw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="83939709"
+X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; d="scan'208";a="83939709"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2025 16:24:48 -0800
+X-CSE-ConnectionGUID: Ewhk5ozpSbqrF/mVTqhaJQ==
+X-CSE-MsgGUID: N2jvP/9aRLWbIiCx5QDjUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; d="scan'208";a="192594209"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+ by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2025 16:24:44 -0800
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Thu, 27 Nov 2025 16:24:43 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Thu, 27 Nov 2025 16:24:43 -0800
+Received: from CO1PR03CU002.outbound.protection.outlook.com (52.101.46.22) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Thu, 27 Nov 2025 16:24:43 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dQ7C+MX6kaU0NaOEbWiu/QnaDSnfkL9STFO1w1ytD2Bjq9ndOFxfKI2c1Ujj1v40nP/wL9wgV1zixK7CgyEzGKL4+m/edK3kcyDx1TpZvsgyU7CWWTrfnzZbaCX8j3RJpXSNWGWXgsS2P1EZDXv4gKGLQUihDiKAFuRU+DCymvtG2KgNTyqdJhVi+/FNWaQc3Li4ChDcoUA0VFR6UA9IfuBSnncfM73BwCXr/dsL8QY9sp4EO2XmNdXOiV5ty6IxM9NF9c40UhaSq7OnzT5HWWGAM28FX0e2E/dk12R/l0R85diq4Vqusj/xOMeOjV48VAKQJXaaDH1++5GKoVuEeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YwPIKSCXd61B/sarNhzzxauIKWgT/21bs21YOxasxWQ=;
+ b=rIjcp1X17ZATrnewIp7lahyBUxuP9igeYSWFfivWUQ74P1V4mNPxtY8HuPsk35W6M6bDscBAQS9q2g3tyYtvdDX3PPI1xWsCvs1Lykn/q2wCDzLmMpuzj63+7Gyn+tLuji/ZBfNfcQH3Vc8SahZFxbUyDbVy8VBmD2ggnBcojur5AwrQt27FtZh6Y9z65P0JS8BRj3oROWGp8kxPRAru1UCQMFOc4Z0u/H5gSEBkvv1t9Mn2QX82MUPAzB/QlPtOkm5RvXQnTQvD4Vr3LxFbJCUKOZntObFC91vsFn3wJN9TGU3FwAi4Uxo5ufR/xy83JH+Faspx1pvQ+sMzdLnNHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by PH0PR11MB5829.namprd11.prod.outlook.com (2603:10b6:510:140::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.12; Fri, 28 Nov
+ 2025 00:24:40 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%6]) with mapi id 15.20.9366.009; Fri, 28 Nov 2025
+ 00:24:40 +0000
+Date: Thu, 27 Nov 2025 18:24:36 -0600
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
+ De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dim-tools@lists.freedesktop.org>, <demarchi@kernel.org>
+Subject: [PULL] drm-xe-fixes
+Message-ID: <7ejiqjgthpqybg5svmkind2pszk4fqadxuq7rngchaaw76iept@5pn6sngqj6lk>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+X-ClientProxiedBy: SJ0PR13CA0091.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c5::6) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|PH0PR11MB5829:EE_
+X-MS-Office365-Filtering-Correlation-Id: ea326c6e-01b0-4de7-57c3-08de2e14850f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?L/FeoqIZotWngojPGf3H7Y6B0pUclkYVGYfFlX7Ai8RcQzXeqWDxj9JE7cVg?=
+ =?us-ascii?Q?KVGkP+5ZXl/yiUB31q2n676+WUA4m2RLy2VeM9Rv8VUPF7lYxOi0ecXOknrH?=
+ =?us-ascii?Q?1crqp//L86WeM2pi6P/VjCjPc174uFYxAqaFtvtjdtjRX55NmpsJfjv1Ft8L?=
+ =?us-ascii?Q?r6xz3iWvMaZQwkXaqHjiIjtpNnhqQ4JCPtraka4FoSfPKO2l9iXew7DRZBrD?=
+ =?us-ascii?Q?cA45rkMeE+1yKT5iSUOA869Na58HUsSHWLz/yBebC0cH02tP60nGKH2i/IYW?=
+ =?us-ascii?Q?al5siUWXQHn0J569CorR2qE5KJEV+OIJgEe4PWYyz1EQZsUxjdZEor7AKZjq?=
+ =?us-ascii?Q?hiJhkiHI/14KL6pGDMHR1lAHfCCFSr4pl+QPGOYZOrzRnaxEDUqr0lRP6crj?=
+ =?us-ascii?Q?JbqhtAKkocCBN2/MaSXw6Bdmc2zoD57krOYuzOEX1wAh6EBkUg1GMnrlaBNx?=
+ =?us-ascii?Q?3U/P6w5TZ2xRR92E4mJiqeKbSJDsvtN6AcXi1/3yO4S9Q0UYhZCJFWp3jM12?=
+ =?us-ascii?Q?oewUXWJFI6bd79iuFc8zVsc0fpJTuUVkBvwjbYaCmiSI68dRKng7bo/N5wka?=
+ =?us-ascii?Q?qMd68jyGvSOk1NUCl9tTX1XQNocA4q+qgOEZoc5GOP7M9j0jbuygVP/uJrKi?=
+ =?us-ascii?Q?1yVQS/IgiQUQmPplXhq0D2RbSNCrdH5nIK7wktcaBWRF/sn4Pf9HcwTHNu5I?=
+ =?us-ascii?Q?WgEygUlRRJuoByZ6MGgbbA8yyGSx20nYl9E/s3rCCNn0hyf4iAQiX0mWCkJy?=
+ =?us-ascii?Q?FfdYegobZbp8q8eUE3DxzWIgYq+Jxb3A3Tnhi+kzEtR9nwZC+t7pEjOOp9Im?=
+ =?us-ascii?Q?iatAbNF563Td38gOdqhLBZKlc2s9Zi+migza/KkDw+LuN8D0iDmnLdDNzRo0?=
+ =?us-ascii?Q?yl7SrS4wY6BjGoadSiwvMau+xGosO3nb+8GICRIWRVxO3DVlPpg5jBfIwMWb?=
+ =?us-ascii?Q?PiXJ9wOAF6DVdZzdURidqYj621uqSEO8naOmaETTSLYR7x6bAfbkQ4eo00ne?=
+ =?us-ascii?Q?GxvTfHL1nMi+pWwnb5ZnAp4c2q8eKhaxFoHsjFkKxw8xOlg6ywqP1AFAhgY0?=
+ =?us-ascii?Q?WrUcUydov0aVYXEHjgbHokUWYuhyS2yajBDBiO0Lm/lIbqHorhUW4r909yCA?=
+ =?us-ascii?Q?2xbw8qgOcqu9RN72Lo6bFw0bbqbr3KB1i/kiPfI7xqmV+7Eb2ZoKhKZB2HKf?=
+ =?us-ascii?Q?RTG2vH32yXNmYnSds1o6letsmaluiAdiHy9SOBthgzPs/Tyd01wZV7yApjMN?=
+ =?us-ascii?Q?bfU+yKJTSdKrjRIJyHR52r1xhzdnRPe937+8FNxMkI+RQtGGP0jHebT/eUdo?=
+ =?us-ascii?Q?nQRtrrMmMe05kUW2WtFnNHLni5FTDEFZsWgzv6qjMg+PYjMRfYznKF/vkUbD?=
+ =?us-ascii?Q?EO7GyPOlxBcQnFvXAGkXn4p0TEZJFTYlUtT03rQJrlgXs9hM/w=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uVCU/Id1eqOnpvotZSUPfIgLMYu96/GeayNsq7yAU4/OkbLEDnuYr06Y7WhW?=
+ =?us-ascii?Q?ZUL/k7ufRtnu/o2n/OZxa24LmuwH8NuV7WkzwhNqltaIwEtDBr+rPDATdEwM?=
+ =?us-ascii?Q?6vovg6p8VMUCFuo+blj3g6Jud9F5UwkwGmoj1+NcmqjSJM5ZAl1bV7sJ0UO4?=
+ =?us-ascii?Q?HY/h6kkKs+lctxWfGM00Zm30+5WPSOLiacAYfapvk2pe9ka+GcLzrgo3bM0+?=
+ =?us-ascii?Q?e/XpR3qf3hRTSJtb+Mt2USIhnDYWzqu0J0H6z8gQqDUstQEocAXXZKWDLfpA?=
+ =?us-ascii?Q?RplrDF9VKU4otHE1Rhsiy9smChm0tfLrvnCksdAeFGDHMNPomTUcb9UsRIpy?=
+ =?us-ascii?Q?6lQHDe0TBLZomkfrrBinaIH9Ck+iCoo8xrxEN8qzCGJBo7laO682FRl0L82b?=
+ =?us-ascii?Q?/U0Fe2bROMJ+IWMcCsReB8i3PLvo8jw4ogt0s+BAjYYxl/cr4sbF3w3NsLWO?=
+ =?us-ascii?Q?26fMCt5teVaMrOcxHkE6R8BREQMGpzBgj8uSmLb3uTqkrkL5f3iKJ/YuJSTN?=
+ =?us-ascii?Q?QoFj0VNJG5/4cvD/OsEFB1Yitc+ucIeRXVZAYKidjyyEQnBVV4XnFbi7Xa48?=
+ =?us-ascii?Q?YW4NwP4jq77RstRpHf0KBEOSrudADxMpbXezrJqzEXrwaZp/IB1jwAq+IQRR?=
+ =?us-ascii?Q?uWBdGBfb03Ae5Qo3QGFzS+blUq+/xUPfp4as9gh4v0ZITpNcZznKyKWFaMir?=
+ =?us-ascii?Q?Xrlp6K0wdDsmZaEx8wIeZjck0REy7LJ53DhT9dbXQJKMRYbMUcVHf/FO9vTP?=
+ =?us-ascii?Q?yNjaNbNH2+g0CI3O45uZ94SF0CiVEmPh2VCxKIj2loOeZn0wpMcW60lHe16z?=
+ =?us-ascii?Q?MTk540tstmzd5lNg1kncuSbdxmYtvlkxjy5CDpLnzlS5g3CsQDoqnqFPHjG0?=
+ =?us-ascii?Q?zcZlPSz9ELPAPYiYE3roDWM/EfSJTaoGJ6oXWMRrjxN+RgUYJarRqw8unfnO?=
+ =?us-ascii?Q?tZZO06kP/I6W/rlblj47JzeQ1BJ+qIKcP1i3HaMku3yPxIH8H0LvBnUu1JGq?=
+ =?us-ascii?Q?ZWnV0bSPoxc+lh8Iao62om5K/eg17Sqp0VhCZwX6VyyllyUUSlOnYposRiYS?=
+ =?us-ascii?Q?YoyHdTNkPxgvZsJ/CcnKXW+rKBU0i5EUygu9//7lW/jQg3lg7bHpi4trC4tC?=
+ =?us-ascii?Q?yg3gnVfsYPo4ZDoL7idmQ+NyRD34EoE4Za3H0jwxdMqNeSbJOwD3nU7SyTin?=
+ =?us-ascii?Q?k6qQslyn7YxJwV/Hk341BTZKSwjs6tuWiKLa+hdmIJdV+hO3lsqZnz4LwS2i?=
+ =?us-ascii?Q?jpqxsT8uYiVzuUrMwT1nMcwFdY3PRmLQFiDKTH1sTZmVgnHZhbDzbQIi61g3?=
+ =?us-ascii?Q?KnAvEzCb/RbU4CSBsAYaRqssu11eltHtocQOsGrgFMLZL+GbKzjSqHGQPnSt?=
+ =?us-ascii?Q?9d6zHth1pP8nrK9tIIkshVZsl8pqzDj6kl7ulDi4s7aam0SXQrwXMleW6UHg?=
+ =?us-ascii?Q?/FDt8Kyb/cUg02gUQy3ym8wEusk2DvJLlj1I8jrl6WT/VtYbCemJ7BR9u0Ke?=
+ =?us-ascii?Q?Ic8LQyQIkQzl0uDdJjJlxzoSmIQHdSCIT5KaKQbfNKaW/z2/KzgQiavDzotm?=
+ =?us-ascii?Q?K5SGyD6UkuVQK2vjRxmGE11LTmHdRFiB+gtGU6TxCAQfjxgXAJHC1Ulw8fUh?=
+ =?us-ascii?Q?xw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea326c6e-01b0-4de7-57c3-08de2e14850f
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Nov 2025 00:24:40.2069 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: K2Mg3n3nlPfR++G4SZFgD3pghkyCQFp7aDX78+bLuGRJYydE6qD2nx2//WQf66TUuLHNWnZGIeV9fZHu7E2ucClnisBZbrj/7TI+irUAE8Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5829
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,257 +180,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220813
+Hi Dave and Sima,
 
-            Bug ID: 220813
-           Summary: 3x Radeon RX 7900 XTX Cards Exhibiting Identical PCIe
-                    Bus Dropouts, SMU/GFXOFF Failures, and Full GPU Loss
-                    Under Gaming and Compute Loads
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: high
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: amdgamingresolved@gmail.com
-        Regression: No
+Here are the fixes towards 6.18. This is also my last pull request as xe
+maintainer as I'm leaving Intel. Patch to the MAINTAINERS files will be
+merged soon. Rodrigo and Thomas will continue sending the fixes if we
+don't have a release this week.
 
-Created attachment 308979
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D308979&action=3Dedit
-Logs captured on Ubuntu in both Gaming and AI workloads demonstrating the
-failure pattern
+drm-xe-fixes-2025-11-27:
+Driver Changes:
+  - Fix resource leak in xe_guc_ct_init_noalloc()'s error path (Shuicheng Lin)
+  - Fix stack_depot usage without STACKDEPOT_ALWAYS_INIT (Lucas)
+  - Fix overflow in conversion from clock tics to msec (Harish Chegondi)
 
-I am reporting a reproducible and severe failure mode affecting three separ=
-ate
-AMD Radeon RX 7900 XTX GPUs across two years, two operating systems, multip=
-le
-workloads, and multiple driver stacks. All three cards eventually degrade i=
-nto
-the same failure condition: full GPU disappearance from the PCIe bus, SMU
-lock-ups, GFX ring timeouts, SDMA failures, fans ramping to 100%, and perma=
-nent
-instability until AC power is removed.
+thanks,
+Lucas De Marchi
 
-This appears to be a systemic hardware or firmware-level issue, not isolate=
-d to
-one card or one environment.
+The following changes since commit ac3fd01e4c1efce8f2c054cdeb2ddd2fc0fb150d:
 
-Hardware and System Information
+   Linux 6.18-rc7 (2025-11-23 14:53:16 -0800)
 
-GPU 1: XFX Radeon RX 7900 XTX Merc 310 Black Edition
-Serial Number: A6V070402
+are available in the Git repository at:
 
-GPU 2: XFX Radeon RX 7900 XTX Merc 310 Black Edition
-Serial Number: ACB000640
+   https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2025-11-27
 
-GPU 3 XFX Radeon RX 7900 XTX Merc 310 Black Edition=20
-Serial Number: Y6V013609 (Original first owned card, eventually died, no
-display signal, has been RMA'd)
+for you to fetch changes up to 7276878b069c57d9a9cca5db01d2f7a427b73456:
 
-Motherboard: ASUS Prime Pro X570
-BIOS: 5031
-PSU: Cooler Master MWE Gold 1050 V2 (3 independent PCIe power runs)
-OS: Ubuntu 24.04.3 (Noble Numbat)
-Kernel: 6.14.0-36-generic
-Drivers: Upstream amdgpu (KMS enabled)
+   drm/xe: Fix conversion from clock ticks to milliseconds (2025-11-25 11:53:34 -0800)
 
-Control GPU Testing (Stable GPU's in Same System)
+----------------------------------------------------------------
+Driver Changes:
+  - Fix resource leak in xe_guc_ct_init_noalloc()'s error path (Shuicheng Lin)
+  - Fix stack_depot usage without STACKDEPOT_ALWAYS_INIT (Lucas)
+  - Fix overflow in conversion from clock tics to msec (Harish Chegondi)
 
-To exclude PSU, motherboard, RAM, OS, kernel, driver, BIOS, and workload
-factors, I tested two separate control GPUs in the same hardware:
+----------------------------------------------------------------
+Harish Chegondi (1):
+       drm/xe: Fix conversion from clock ticks to milliseconds
 
-Control GPU A: PowerColor Radeon RX 7800 XT
-Control GPU B: Sapphire Nitro+ Radeon RX 7800 XT
+Lucas De Marchi (1):
+       drm/xe/guc: Fix stack_depot usage
 
-Both 7800 XT cards were tested under:
+Shuicheng Lin (1):
+       drm/xe/guc: Fix resource leak in xe_guc_ct_init_noalloc()
 
-The same llama.cpp torture workloads
-
-The same gaming workloads (Superposition, Battlefield 2042, Helldivers 2,
-Battlefield 6)
-
-The same system, same PSU cables, same PCIe slot, same BIOS config
-
-The same Ubuntu installation and same Windows installation
-
-Result:
-Both 7800 XT cards are completely stable.
-No crashes, no artefacts, no PCIe dropouts, no SMU/GFXOFF failures.
-
-This confirms the issue is specific to the 7900 XTX GPU family in this
-configuration, not the system or software.
-
-This behaviour also occurs under Windows 11, fully updated with latest
-Adrenalin drivers.
-
-Crash Behaviour Description
-
-All affected GPUs exhibit the same failure mode:
-
-Display output instantly cuts to black
-
-GPU fans ramp to 100%
-
-The operating system continues running in background
-
-amdgpu reports:
-
-GFX ring timeouts
-
-SDMA ring timeouts
-
-SMU failure to respond
-
-GFXOFF cannot be disabled
-
-The GPU vanishes from the PCIe bus
-
-Driver reset attempts fail with the error:
-"GPU reset begin =E2=86=92 device lost from bus =E2=86=92 GPU Recovery Fail=
-ed: -19"
-
-A full AC power removal is required to restore partial functionality
-
-After the crash, the GPU often displays visual artefacts and instability ev=
-en
-after reboot
-
-This post-crash corruption persists until PSU is switched off and the
-motherboard fully discharges
-
-In some cases, the system will not power on unless the PSU is in the O
-position.
-
-These symptoms are identical on all three cards.
-
-Linux Crash Reproduction (Compute Workload)
-
-The failure is highly reproducible with llama.cpp under full GPU load.
-Configuration:
-
-ngl =3D 999
-
-Context =3D 4096
-
-Threads =3D 8
-
-Model: Qwen2.5-7B q4_k_m
-
-Continuous infinite loop prompting generation
-
-Approximate crash times:
-
-First crash: 4 hours
-
-Second crash: 1=E2=80=932 hours
-
-Crashes are guaranteed within a few hours
-
-Glmark2 completes without crashing, suggesting the issue is related to
-sustained high-load VRAM/SDMA/GFX conditions, not basic rendering.
-
-Windows Crash Reproduction (Gaming Workloads)
-
-The failure also occurs in normal gaming scenarios on both Linux and Window=
-s.
-
-Games and benchmarks that trigger identical failure:
-
-Unigine Superposition (4K Optimized or higher)
-
-Battlefield 2042
-
-Battlefield 6
-
-Dying Light 2
-
-Helldivers 2
-
-The Windows symptoms are identical:
-
-Black screen
-
-Fans to 100%
-
-GPU disappears until full PSU power cycle
-
-Event Viewer shows GPU timeout attempts and reset failures
-
-Post-crash artefacting on secondary display
-
-This eliminates OS-level or application-specific causes.
-
-Key Kernel Log Excerpts
-
-SMU/GFXOFF failures repeatedly logged:
-amdgpu: SMU: response:0xFFFFFFFF for index:41
-amdgpu: Failed to disable gfxoff
-
-Ring timeouts:
-amdgpu: ring gfx timeout
-amdgpu: ring sdma1 timeout
-
-Reset failures:
-amdgpu: MES failed to respond to msg=3DRESET
-amdgpu: GPU reset begin!
-amdgpu: device lost from bus!
-amdgpu: GPU reset end with ret =3D -19
-amdgpu: GPU Recovery Failed: -19
-
-These cascades happen repeatedly until the GPU fully disappears.
-
-Post-Crash Artefacts and PCIe Behaviour
-
-Persistent visual corruption after reboot
-
-Corruption persists until full AC removal
-
-Removing secondary displays does not eliminate artefacts
-
-PCIe bus occasionally behaves unpredictably
-
-System attempts power-on with PSU switch OFF (reported on two GPUs)
-
-Conclusion
-
-Across three separate 7900 XTX GPUs, from different batches and time period=
-s,
-the same catastrophic failure mode occurs. This failure manifests identical=
-ly
-across Linux and Windows, gaming and compute workloads, and even after mult=
-iple
-fresh OS installations.
-
-The issue involves:
-
-GFX/SDMA ring instability
-
-SMU nonresponsiveness
-
-GFXOFF control failure
-
-Complete PCIe device disappearance
-
-Failure of the amdgpu driver to reset the card
-
-Post-crash persistent artefacts
-
-Power state anomalies after crash
-
-This appears to be a firmware-level or architectural issue involving power
-management (SMU), GFXOFF, and PCIe bus state transitions under sustained he=
-avy
-load.
-
-Any assistance or engineering escalation is appreciated.
-I can provide full logs, more crash traces, or additional hardware data upon
-request.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+  drivers/gpu/drm/xe/xe_gt_clock.c |  7 +------
+  drivers/gpu/drm/xe/xe_guc_ct.c   | 15 +++++++++------
+  2 files changed, 10 insertions(+), 12 deletions(-)
