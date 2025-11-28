@@ -2,90 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E000C9092B
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 03:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39003C90A87
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 03:53:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B93C710E895;
-	Fri, 28 Nov 2025 02:06:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38FF910E812;
+	Fri, 28 Nov 2025 02:52:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="Yk1UqNBo";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jwuXKnvl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.74.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4701610E8A5
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 02:06:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1764295597;
- bh=Xn5Sqf6jlBXaETnSdjcUsZQPPZf1EW7Rcj8pIik+fGE=;
- h=From:To:Subject:Date:Message-Id;
- b=Yk1UqNBoHRc05UqQm9liCvOT3baa8l8cLmAp+pm0LIMn4yLcEtlrvwaCUNnSNWz7I
- 6FOftiOrMrVfSWRvVGziScZfp5NBTM1eiZMhPLv1cqL+llSU9qtD9ekjxR1fKkfWaZ
- 8ZDoTDJmr45IteOpHum/qhC+mFrTfIaQ9uigLoGw=
-X-QQ-mid: esmtpsz21t1764295504t070fa9fe
-X-QQ-Originating-IP: UWgdCrYrv3Bx+daCLD2y4YZxUbnWlNQBoAbOIiRJVns=
-Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Fri, 28 Nov 2025 10:05:01 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 6933544831087385611
-From: Chaoyi Chen <kernel@airkyi.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Amit Sunil Dhamne <amitsd@google.com>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v11 11/11] arm64: dts: rockchip: rk3399-evb-ind: Add support
- for DisplayPort
-Date: Fri, 28 Nov 2025 10:04:05 +0800
-Message-Id: <20251128020405.90-12-kernel@airkyi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20251128020405.90-1-kernel@airkyi.com>
-References: <20251128020405.90-1-kernel@airkyi.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: OAowhIcaKHQtd6oVjnadb7YVmufdYoLBTx8jeAXik2M36as4RdW1vR90
- X3vRqfvWvOipF0uIkA67ExGPMX8XClDhCne/77biwy0JtVAFutZ1R49k18q2Yx9JJLJ06wg
- 6Nwzd6x7gXzXdr1yQJOyTLEdySkMPoVS2IS3NKjkFlk0+X1SA/6ux4jzpUgoJBojgyR4/kt
- vELNUK8or7aktp4qsFm18B5mYwEz2TDZ2t/O4WgT2nsSY7Kh5UPx0cD3LphA+7UNswNFvws
- H1gcO1JsKhNHU9quAhX/jbG13BEoa3W5UuqqVVkPP4UjY6HirYJdo6eaiBJqN5G3sdxkCWP
- 49FNK6Plg5mWHBXCsqneFnX+OkBCFLbLRJL95Jd0BdPXN2zOD+/TuTiqO3qX1piUu+CqwZ4
- 7R5g4IAx/5DX96eMzrZgN0BZzhN+j8I/9rYRTTZ6frvBoNKqNBeOQl9l+3Fe0w3nFphKp6r
- 1ii6Heh2Vymv0ZWc5YO/AfwVGalWu13Zzmu4A3S4KeeoaTaiEI19fQmRWiaFOSYpTqn5zXe
- UwhCllZ6dz1gJLjzDP+Zia2gETifCrC+d2YASt4nLgk74mPXbid3O7aANIg5CQEFPjM5Hse
- NtL697J0g+4PeI4O4dd7WIxCu7UXd/0KnJkLQUGwVzkpngVaqhDsul0KwZumO9lqIv3HESi
- icfEMMIsGBi3tA8m2mB+lT/4ySmp5dklmKmJO5ejZgTtKuWwyMzrZ7uXnLqYMcKKq/S1elc
- vaUOonvhld/uOHmJ/iPzxTNA1f5/oFoTzCNZHuV1RQeqJM3CudpG7X3CFWm27CNa0m1AK4B
- N1tuf8jmVo9pT+6iRWvDVnxWjfnKux+O+WnyaFZQlv3H83a/9GtXUvYxxQpJM8RC4kWiwM6
- 58lCibLumpCKKUVXwS9KwB+fBJ+MrvXhcklF7eNcIRzJM/RYl2kMs2IoBFkz+IgmR+KyZ/V
- vZkwKP6Vh+VWQOsms+0aJyTUYP390m8XhfpwxGiTJxapLdFOEeTIf2eXxX9EhB1FwNS1d29
- DB4s6j5p1NJ0+cYfBVFaGNrR7L6Wg=
-X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
-X-QQ-RECHKSPAM: 0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1434E10E08C;
+ Fri, 28 Nov 2025 02:52:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764298376; x=1795834376;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=kN8f8ocFg/9iq69/nMOZcevqnWg1yZnJ/G3yn1vCZBg=;
+ b=jwuXKnvlSlYpwdsuRSo+7bN42FuZxdo8v1XcRvX+LAUqP2Z5DOoKwUWY
+ ft2QcllrmyWPSe1Q0v542t4ySUaih99I6R4ozr/2bxZ0sh5XG35FlZzlq
+ PSuPO0PATYv8StFflhzaJqGto1fMjB56d/8yXlixH0qhGs6VEz12HDFQI
+ rnn/7G8ir8zeEBuLWw0kp0TAoKhBzuJzfYFirBE8/NuR2l5brVzavcHAP
+ kzaKO/ilA8FEVdV4jeZX2XS9xpQBOik53rxOwIGXW0Nj8NALLQmRCD92X
+ 0EopTGl/PnPkoZPJID0aKj0wg+Um61PY18EW94lwosBgnSGfKvwvGKsTg Q==;
+X-CSE-ConnectionGUID: djrcfU+yRKaCqoEM7mFfYQ==
+X-CSE-MsgGUID: 2OelRxrsQ1W37KBRZ30NBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11626"; a="66281697"
+X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; d="scan'208";a="66281697"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Nov 2025 18:52:55 -0800
+X-CSE-ConnectionGUID: kHmaFFJtSrCUNitANqQ8Mg==
+X-CSE-MsgGUID: OVGbIM/SSGC2110517cZ5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,232,1758610800"; d="scan'208";a="193159342"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+ by orviesa009.jf.intel.com with ESMTP; 27 Nov 2025 18:52:51 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vOobI-000000005xN-3R8H;
+ Fri, 28 Nov 2025 02:52:48 +0000
+Date: Fri, 28 Nov 2025 10:52:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anna Maniscalco <anna.maniscalco2000@gmail.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Antonino Maniscalco <antomani103@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Anna Maniscalco <anna.maniscalco2000@gmail.com>
+Subject: Re: [PATCH] drm/msm: Fix a7xx per pipe register programming
+Message-ID: <202511281253.rIkrIiqt-lkp@intel.com>
+References: <20251127-gras_nc_mode_fix-v1-1-5c0cf616401f@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251127-gras_nc_mode_fix-v1-1-5c0cf616401f@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,247 +81,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Hi Anna,
 
-The RK3399 EVB IND board has a Type-C interface DisplayPort.
-It use fusb302 chip as Type-C controller.
+kernel test robot noticed the following build warnings:
 
-fusb302 chip ---> USB/DP PHY0 <----> CDN-DP controller
+[auto build test WARNING on 7bc29d5fb6faff2f547323c9ee8d3a0790cd2530]
 
-Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
----
+url:    https://github.com/intel-lab-lkp/linux/commits/Anna-Maniscalco/drm-msm-Fix-a7xx-per-pipe-register-programming/20251127-074833
+base:   7bc29d5fb6faff2f547323c9ee8d3a0790cd2530
+patch link:    https://lore.kernel.org/r/20251127-gras_nc_mode_fix-v1-1-5c0cf616401f%40gmail.com
+patch subject: [PATCH] drm/msm: Fix a7xx per pipe register programming
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251128/202511281253.rIkrIiqt-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251128/202511281253.rIkrIiqt-lkp@intel.com/reproduce)
 
-(no changes since v10)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511281253.rIkrIiqt-lkp@intel.com/
 
-Changes in v9:
-- Add usb role switch for Type-C.
-- Remove USB2 PHY in Type-C connection.
+All warnings (new ones prefixed by >>):
 
-(no changes since v4)
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:984:35: warning: & has lower precedence than ==; == will be evaluated first [-Wparentheses]
+     984 |                         if (pipe_reglist->regs[i].pipe & BIT(pipe_id) == 0)
+         |                                                        ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:984:35: note: place parentheses around the '==' expression to silence this warning
+     984 |                         if (pipe_reglist->regs[i].pipe & BIT(pipe_id) == 0)
+         |                                                        ^ ~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:984:35: note: place parentheses around the & expression to evaluate it first
+     984 |                         if (pipe_reglist->regs[i].pipe & BIT(pipe_id) == 0)
+         |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   1 warning generated.
 
-Changes in v3:
-- Fix wrong vdo value.
-- Fix port node in usb-c-connector.
 
-Changes in v2:
-- Add endpoint to link DP PHY and DP controller.
-- Fix devicetree coding style.
+vim +984 drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 
- .../boot/dts/rockchip/rk3399-evb-ind.dts      | 147 ++++++++++++++++++
- 1 file changed, 147 insertions(+)
+   931	
+   932	static void a7xx_patch_pwrup_reglist(struct msm_gpu *gpu)
+   933	{
+   934		struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+   935		struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+   936		const struct adreno_reglist_list *reglist;
+   937		const struct adreno_reglist_pipe_list *pipe_reglist;
+   938		void *ptr = a6xx_gpu->pwrup_reglist_ptr;
+   939		struct cpu_gpu_lock *lock = ptr;
+   940		u32 *dest = (u32 *)&lock->regs[0];
+   941		u32 pipe_reglist_count = 0;
+   942		int i;
+   943	
+   944		lock->gpu_req = lock->cpu_req = lock->turn = 0;
+   945	
+   946		reglist = adreno_gpu->info->a6xx->ifpc_reglist;
+   947		lock->ifpc_list_len = reglist->count;
+   948	
+   949		/*
+   950		 * For each entry in each of the lists, write the offset and the current
+   951		 * register value into the GPU buffer
+   952		 */
+   953		for (i = 0; i < reglist->count; i++) {
+   954			*dest++ = reglist->regs[i];
+   955			*dest++ = gpu_read(gpu, reglist->regs[i]);
+   956		}
+   957	
+   958		reglist = adreno_gpu->info->a6xx->pwrup_reglist;
+   959		lock->preemption_list_len = reglist->count;
+   960	
+   961		for (i = 0; i < reglist->count; i++) {
+   962			*dest++ = reglist->regs[i];
+   963			*dest++ = gpu_read(gpu, reglist->regs[i]);
+   964		}
+   965	
+   966		/*
+   967		 * The overall register list is composed of
+   968		 * 1. Static IFPC-only registers
+   969		 * 2. Static IFPC + preemption registers
+   970		 * 3. Dynamic IFPC + preemption registers (ex: perfcounter selects)
+   971		 *
+   972		 * The first two lists are static. Size of these lists are stored as
+   973		 * number of pairs in ifpc_list_len and preemption_list_len
+   974		 * respectively. With concurrent binning, Some of the perfcounter
+   975		 * registers being virtualized, CP needs to know the pipe id to program
+   976		 * the aperture inorder to restore the same. Thus, third list is a
+   977		 * dynamic list with triplets as
+   978		 * (<aperture, shifted 12 bits> <address> <data>), and the length is
+   979		 * stored as number for triplets in dynamic_list_len.
+   980		 */
+   981		pipe_reglist = adreno_gpu->info->a6xx->pipe_reglist;
+   982		for (u32 pipe_id = PIPE_BR; pipe_id <= PIPE_BV; pipe_id++) {
+   983			for (i = 0; i < pipe_reglist->count; i++) {
+ > 984				if (pipe_reglist->regs[i].pipe & BIT(pipe_id) == 0)
+   985					continue;
+   986				*dest++ = A7XX_CP_APERTURE_CNTL_HOST_PIPE(pipe_id);
+   987				*dest++ = pipe_reglist->regs[i].offset;
+   988				*dest++ = a7xx_read_pipe(gpu, pipe_id,
+   989							 pipe_reglist->regs[i].offset);
+   990				pipe_reglist_count++;
+   991			}
+   992		}
+   993		lock->dynamic_list_len = pipe_reglist_count;
+   994	}
+   995	
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts b/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-index 70aee1ab904c..be1e90f7a453 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-@@ -4,6 +4,7 @@
-  */
- 
- /dts-v1/;
-+#include <dt-bindings/usb/pd.h>
- #include "rk3399.dtsi"
- 
- / {
-@@ -19,6 +20,21 @@ chosen {
- 		stdout-path = "serial2:1500000n8";
- 	};
- 
-+	sound: sound {
-+		compatible = "rockchip,rk3399-gru-sound";
-+		rockchip,cpu = <&i2s0 &spdif>;
-+	};
-+
-+	vbus_typec: regulator-vbus-typec {
-+		compatible = "regulator-fixed";
-+		enable-active-high;
-+		gpio = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&vcc5v0_typec0_en>;
-+		regulator-name = "vbus_typec";
-+		vin-supply = <&vcc5v0_sys>;
-+	};
-+
- 	vcc5v0_sys: regulator-vcc5v0-sys {
- 		compatible = "regulator-fixed";
- 		enable-active-high;
-@@ -31,6 +47,11 @@ vcc5v0_sys: regulator-vcc5v0-sys {
- 	};
- };
- 
-+&cdn_dp {
-+	phys = <&tcphy0_dp>;
-+	status = "okay";
-+};
-+
- &cpu_b0 {
- 	cpu-supply = <&vdd_cpu_b>;
- };
-@@ -55,6 +76,12 @@ &cpu_l3 {
- 	cpu-supply = <&vdd_cpu_l>;
- };
- 
-+&dp_out {
-+	dp_controller_output: endpoint {
-+		remote-endpoint = <&dp_phy_in>;
-+	};
-+};
-+
- &emmc_phy {
- 	status = "okay";
- };
-@@ -341,6 +368,71 @@ regulator-state-mem {
- 	};
- };
- 
-+&i2c4 {
-+	i2c-scl-rising-time-ns = <475>;
-+	i2c-scl-falling-time-ns = <26>;
-+	status = "okay";
-+
-+	usbc0: typec-portc@22 {
-+		compatible = "fcs,fusb302";
-+		reg = <0x22>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&usbc0_int>;
-+		vbus-supply = <&vbus_typec>;
-+
-+		usb_con: connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C";
-+			data-role = "dual";
-+			power-role = "dual";
-+			try-power-role = "sink";
-+			op-sink-microwatt = <1000000>;
-+			sink-pdos =
-+				<PDO_FIXED(5000, 2500, PDO_FIXED_USB_COMM)>;
-+			source-pdos =
-+				<PDO_FIXED(5000, 1500, PDO_FIXED_USB_COMM)>;
-+
-+			altmodes {
-+				displayport {
-+					svid = /bits/ 16 <0xff01>;
-+					vdo = <0x00001c46>;
-+				};
-+			};
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+
-+					usbc0_orien_sw: endpoint {
-+						remote-endpoint = <&tcphy0_orientation_switch>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+
-+					usbc0_role_sw: endpoint {
-+						remote-endpoint = <&dwc3_0_role_switch>;
-+					};
-+				};
-+
-+				port@2 {
-+					reg = <2>;
-+
-+					dp_altmode_mux: endpoint {
-+						remote-endpoint = <&tcphy0_typec_dp>;
-+					};
-+				};
-+			};
-+		};
-+	};
-+};
-+
- &i2s2 {
- 	status = "okay";
- };
-@@ -354,6 +446,16 @@ &io_domains {
- };
- 
- &pinctrl {
-+	usb-typec {
-+		usbc0_int: usbc0-int {
-+			rockchip,pins = <1 RK_PA2 RK_FUNC_GPIO &pcfg_pull_up>;
-+		};
-+
-+		vcc5v0_typec0_en: vcc5v0-typec0-en {
-+			rockchip,pins = <1 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	pmic {
- 		pmic_int_l: pmic-int-l {
- 			rockchip,pins = <1 RK_PC5 RK_FUNC_GPIO &pcfg_pull_up>;
-@@ -400,10 +502,48 @@ &sdmmc {
- 	status = "okay";
- };
- 
-+&sound {
-+	rockchip,codec = <&cdn_dp>;
-+	status = "okay";
-+};
-+
-+&spdif {
-+	status = "okay";
-+};
-+
- &tcphy0 {
- 	status = "okay";
- };
- 
-+&tcphy0_dp {
-+	mode-switch;
-+
-+	port {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		tcphy0_typec_dp: endpoint@0 {
-+			reg = <0>;
-+			remote-endpoint = <&dp_altmode_mux>;
-+		};
-+
-+		dp_phy_in: endpoint@1 {
-+			reg = <1>;
-+			remote-endpoint = <&dp_controller_output>;
-+		};
-+	};
-+};
-+
-+&tcphy0_usb3 {
-+	orientation-switch;
-+
-+	port {
-+		tcphy0_orientation_switch: endpoint {
-+			remote-endpoint = <&usbc0_orien_sw>;
-+		};
-+	};
-+};
-+
- &tcphy1 {
- 	status = "okay";
- };
-@@ -461,7 +601,14 @@ &usb_host1_ohci {
- };
- 
- &usbdrd_dwc3_0 {
-+	usb-role-switch;
- 	status = "okay";
-+
-+	port {
-+		dwc3_0_role_switch: endpoint {
-+			remote-endpoint = <&usbc0_role_sw>;
-+		};
-+	};
- };
- 
- &usbdrd3_0 {
 -- 
-2.51.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
