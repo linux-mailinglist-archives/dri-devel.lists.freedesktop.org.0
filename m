@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9EFC92A31
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 17:53:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3DA1C92A35
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 17:53:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4817C10E88F;
-	Fri, 28 Nov 2025 16:53:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D24510E89F;
+	Fri, 28 Nov 2025 16:53:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="KfKcij0y";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="zVFRb21y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B64210E88F
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 16:53:37 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE3710E8A4
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 16:53:45 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id EC0C3C16A3C;
- Fri, 28 Nov 2025 16:53:12 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 6AF944E4194E;
+ Fri, 28 Nov 2025 16:53:44 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id D6F6860706;
- Fri, 28 Nov 2025 16:53:35 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 3ED2B60706;
+ Fri, 28 Nov 2025 16:53:44 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id AB0B210B02189; Fri, 28 Nov 2025 17:53:25 +0100 (CET)
+ with ESMTPSA id 75EFE10B0218F; Fri, 28 Nov 2025 17:53:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1764348813; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1764348822; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=LFJHo08Gvnkp+qL2Ym+/lnjejmaUXBaIwhqv5Xy8HQ8=;
- b=KfKcij0y75WY0vi4+YdeFoGszym5i7agoF+oMKHNQxKn1nxLH4kTJx4vRvlRxtUsx2MkDI
- 7rxSzSZCyUwqPIG+/V2v0ZyCCddojGBoYX8roOO9gA5mqQJmL2s+0XPBpep9CG0fnfF259
- 1WhcUjSG0gDdxZQlzkc5N4flavAA549OOm5K8iWSOehwDfs8PU3vNBl9CrHgzaxfuaIJpe
- lL67jej/jbDfKPWIzBlYPrlEMcFa3vs3rR5fWiG3X3WSkSIhIhSZwk6JU5UUStC7M0Wnce
- LaSdHFuD89PiLBYFEuHRb2MdoppbD2tH2MtayvFKbzdnSR1IGl8norvMkavXgA==
+ bh=r0SeZhibaHmgTA3+OXcjuF8nwebchOJQovKKk2F4Pvw=;
+ b=zVFRb21ydmijis1wyGi7Dyg33XdiWZk43jdjKDoE/4kX9o7L2t/s5I9L6NHXS9p5B7kABH
+ u9FlRuctCCXA1vilhDv9ZsFlBBU1X7V1vIlfRPxexDjDKHWlQlro087EDFMNtWwdz6kAkd
+ tSyoOXXGkvcuTuq9nOOKanojBkiHuBWJRRkKE1/TEYq0ja8uopP7ZtCxAT/9QVeLV2hNEQ
+ JyR/wO4QKpDEMosDAoPn7XAmw57Fd2BQKhaJSI26+IbiyFyAbRDBRJOBxJd42opSuBq/Oy
+ Gwrgby+xl/Qwf/loFiLObwQZkgrgp4kyj/RaZmD8jdJEb2YctaUMIszSaR/Efg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 28 Nov 2025 17:50:22 +0100
-Subject: [PATCH v2 12/26] drm/bridge: imx8qxp-pxl2dpi: use
- devm_of_drm_get_bridge() to put the next and companion bridges
+Date: Fri, 28 Nov 2025 17:50:23 +0100
+Subject: [PATCH v2 13/26] drm/bridge: lt8912b: use devm_of_drm_get_bridge()
+ to put the hdmi bridge
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-12-88f8a107eca2@bootlin.com>
+Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-13-88f8a107eca2@bootlin.com>
 References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
 In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -103,31 +103,22 @@ reference on remove or on probe failure.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/bridge/lontium-lt8912b.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
-index 111310acab2c..fc8c83add378 100644
---- a/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
-+++ b/drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c
-@@ -279,7 +279,7 @@ imx8qxp_pxl2dpi_find_next_bridge(struct imx8qxp_pxl2dpi *p2d)
- 		goto out;
+diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+index 342374cb8fc6..e83ea0e727d8 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
++++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
+@@ -723,7 +723,7 @@ static int lt8912_parse_dt(struct lt8912 *lt)
+ 		goto err_free_host_node;
  	}
  
--	next_bridge = of_drm_find_bridge(remote);
-+	next_bridge = devm_of_drm_get_bridge(p2d->dev, remote);
- 	if (!next_bridge) {
- 		next_bridge = ERR_PTR(-EPROBE_DEFER);
- 		goto out;
-@@ -347,7 +347,7 @@ static int imx8qxp_pxl2dpi_parse_dt_companion(struct imx8qxp_pxl2dpi *p2d)
- 		goto out;
- 	}
- 
--	p2d->companion = of_drm_find_bridge(companion);
-+	p2d->companion = devm_of_drm_get_bridge(dev, companion);
- 	if (!p2d->companion) {
+-	lt->hdmi_port = of_drm_find_bridge(port_node);
++	lt->hdmi_port = devm_of_drm_get_bridge(lt->dev, port_node);
+ 	if (!lt->hdmi_port) {
  		ret = -EPROBE_DEFER;
- 		DRM_DEV_DEBUG_DRIVER(p2d->dev,
+ 		dev_err_probe(lt->dev, ret, "%s: Failed to get hdmi port\n", __func__);
 
 -- 
 2.51.1
