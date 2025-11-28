@@ -2,73 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D5BBC92F5F
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 19:53:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 724CCC92FE9
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 20:09:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AED410E91E;
-	Fri, 28 Nov 2025 18:53:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF38F10E920;
+	Fri, 28 Nov 2025 19:09:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="iiuP44ez";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pCkt4sJ/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4EEF910E91C;
- Fri, 28 Nov 2025 18:53:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764355985;
- bh=40WG8/2e61IMWsDRpUFUHulUyBgQPDILQimEoI6b3o0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=iiuP44ezth3Y2JRlmZ1rSE+K74/8kwjO/TPviOWbw1FSgy5A9odQ4CmhNAS5FVvQq
- UDUaAtfuZSRBLv9FRfg1M15w3uCVYBCbZp0VhNqgFw1Smij4a4R0cxQ2SZPoqyVLjs
- AicmW2MlD5NO/bI58Q1fdMnkdKQD81oGc+uqKsSy2v6JMGfPxWJu30MP+o9FCc+8bj
- MqE4JUcRg56N4kiMmPZFPZ1kcn4TdiLtIetYmohoFTLM7HszF2ESw4xMNCkK066M3E
- ekn+f5BdBYQCBcxHmdv8/kuL5yYEWyY8TAOYBqrsD84n1ISi9RjJnAxjxKgCzWmRZt
- rwpbMBoLk7bYw==
-Received: from debian-rockchip-rock5b-rk3588.. (unknown
- [IPv6:2a01:e0a:5e3:6100:2e0:4cff:fe03:d8c])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: loicmolinari)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 10AC217E1423;
- Fri, 28 Nov 2025 19:53:05 +0100 (CET)
-From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>,
- Al Viro <viro@zeniv.linux.org.uk>,
- =?UTF-8?q?Miko=C5=82aj=20Wasiak?= <mikolaj.wasiak@intel.com>,
- Christian Brauner <brauner@kernel.org>,
- Nitin Gote <nitin.r.gote@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Christopher Healy <healych@amazon.com>,
- Matthew Wilcox <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH v10 10/10] Documentation/gpu/drm-mm: Add THP paragraph to GEM
- mapping section
-Date: Fri, 28 Nov 2025 19:52:52 +0100
-Message-ID: <20251128185252.3092-11-loic.molinari@collabora.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251128185252.3092-1-loic.molinari@collabora.com>
-References: <20251128185252.3092-1-loic.molinari@collabora.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5B210E906;
+ Fri, 28 Nov 2025 19:09:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=uTQf4iRDWKC/7OfflwH1QbkUfGWvjJoI654/TIhexAc=; b=pCkt4sJ/T5N26BhdV6tlD4l+ld
+ w30I4Y0fVqdCpFi7LD8iugv9lYYxv6Rm+eDWTJN/Qqy/HDBwxJ0w5eVlbHM80a6f1OgxwM4PlmjDk
+ 9zWYguSNMnNLGdN36xuFCllIYX4lkxrXtKc450a8k5tdMDbzKtC2971rsWUlyWIcYkJz5jRNiA4HA
+ 1iFzl7klZq7Yx69daFQ4ygJlzui1FBsOZ1uoaA0Kty47smgBKjDpTWc8DjScPpmsZvfECeeC0hWLY
+ z2ncRkqe/DFZ82AcgKBwCm4Nuak2B8dSv1RkvzpsnpeMoFtV/E7+A9KL0pSTmJuya4Sk0o/wSH/iB
+ zdvkGD6w==;
+Received: from [186.208.73.94] (helo=[192.168.18.14])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vP3q6-006YWT-Iw; Fri, 28 Nov 2025 20:09:06 +0100
+Message-ID: <f832ec8c-cce1-45e0-975b-ed7000bed891@igalia.com>
+Date: Fri, 28 Nov 2025 16:09:00 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd/display: use DCN10 CM helper for plane shaper
+ func translation in DCN32
+To: Harry Wentland <harry.wentland@amd.com>, sunpeng.li@amd.com,
+ siqueira@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com
+References: <20251126005608.37513-1-mwen@igalia.com>
+ <2a918940-700d-4b24-90ae-4d9d4f9b457d@amd.com>
+Content-Language: en-US
+From: Melissa Wen <mwen@igalia.com>
+In-Reply-To: <2a918940-700d-4b24-90ae-4d9d4f9b457d@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,58 +65,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a paragraph to the GEM objects mapping section explaining how
-transparent huge pages are handled by GEM.
 
-v4:
-- fix wording after huge_pages handler removal
 
-v6:
-- fix wording after map_pages handler removal
+On 27/11/2025 17:39, Harry Wentland wrote:
+>
+> On 2025-11-25 19:45, Melissa Wen wrote:
+>> The usage of DCN30 CM helper creates some unexpected shimmer points on
+>> PQ shaper TF in the steamOS HDR color pipeline. Fix it by using the same
+>> DCN10 color mgmt helper of previous hw versions to translate plane
+>> shaper func to hw format in DCN32 hw family.
+>>
+>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>> ---
+>>
+>> Hi,
+>>
+>> Commit a953cd8cac6b ("drm/amd/display: Fix MPCC 1DLUT programming")
+>> mentions some visible artifacts when using DCN10 CM helper on DCN32
+>> shaper and blend LUTs. On the other hand, using DCN30 CM helper creates
+>> some shimmer points on steamOS HDR pipeline. We didn't noticed any
+>> visible artifacts so far, but I'd like to know more about what kind of
+>> artifacts were visible at the time this helper for shaper func was
+>> switched in the afore-mentioned commit for further investigation.
+>>
+> Thanks for the debug.
+>
+> Do you have more info on the unexpected shimmer points with SteamOS?
+> Ideally a video and a description on what to look for and why it's
+> wrong, or a comparison to a GFX-transformed example that shows the
+> correct visuals?
+Hi Harry,
 
-Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/gpu/drm-mm.rst | 22 +++++++++++++++++-----
- 1 file changed, 17 insertions(+), 5 deletions(-)
+I took some pictures of clear unexpected scenes in HDR games.
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index d55751cad67c..d69eab0b4093 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -290,15 +290,27 @@ The open and close operations must update the GEM object reference
- count. Drivers can use the drm_gem_vm_open() and drm_gem_vm_close() helper
- functions directly as open and close handlers.
- 
--The fault operation handler is responsible for mapping individual pages
--to userspace when a page fault occurs. Depending on the memory
--allocation scheme, drivers can allocate pages at fault time, or can
--decide to allocate memory for the GEM object at the time the object is
--created.
-+The fault operation handler is responsible for mapping pages to
-+userspace when a page fault occurs. Depending on the memory allocation
-+scheme, drivers can allocate pages at fault time, or can decide to
-+allocate memory for the GEM object at the time the object is created.
- 
- Drivers that want to map the GEM object upfront instead of handling page
- faults can implement their own mmap file operation handler.
- 
-+In order to reduce page table overhead, if the internal shmem mountpoint
-+"shm_mnt" is configured to use transparent huge pages (for builds with
-+CONFIG_TRANSPARENT_HUGEPAGE enabled) and if the shmem backing store
-+managed to allocate a huge page for a faulty address, the fault handler
-+will first attempt to insert that huge page into the VMA before falling
-+back to individual page insertion. mmap() user address alignment for GEM
-+objects is handled by providing a custom get_unmapped_area file
-+operation which forwards to the shmem backing store. For most drivers,
-+which don't create a huge mountpoint by default or through a module
-+parameter, transparent huge pages can be enabled by either setting the
-+"transparent_hugepage_shmem" kernel parameter or the
-+"/sys/kernel/mm/transparent_hugepage/shmem_enabled" sysfs knob.
-+
- For platforms without MMU the GEM core provides a helper method
- drm_gem_dma_get_unmapped_area(). The mmap() routines will call this to get a
- proposed address for the mapping.
--- 
-2.47.3
+1. 
+https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-split-fiction-game-black-loading-bkg.jpg
+
+Just loading Split Fiction after having turning on HDR in this game 
+options (Options > Graphics > HDR).
+We expected a black background with the Loading <icon> in the bottom 
+right, this background is full of bright spots.
+Friend pass is enough to reproduce the issue without having the game.
+
+2. 
+https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-menu.jpg
+
+Colorful-bright points around the margin/corner of the God of War 
+Ragnarok game menu.
+
+3. God of War Ragnarok game intro:
+
+- 
+https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro1.jpg
+- 
+https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro2.jpg
+- 
+https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro3.jpg
+- 
+https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-PS-logo.jpg
+
+Same random shimmer distortions.
+I think those images are good examples, but still pending screenshot/GFX 
+examples for comparison.
+I'll take it and reply here later.
+
+>
+> Obviously we don't want to simply switch back to DCN10 helpers
+> without understand why, and potentially regressing other use-cases.
+> At least we should look at what the differences are between the
+> two versions of that function, and which part of the curve programming
+> causes the undesirable results.
+>
+> The original bug that was solved by that commit was a regression that
+> sent bright values in an HDR video to black or red, so basically
+> something really messed up bright PQ values. At least I suspect
+> it was a PQ HDR video. The ticket doesn't state that.
+I see. Looks like now we have somehow the same problem but in reverse 
+(?) like black values mapped into bright values (?)
+>
+> When looking at the diff between the two functions I notice that
+> the cm3_ version is missing the dc_fixpt_clamp_u0d10 for the
+> delta_<color>_reg assignments, toward the bottom of the function.
+> I remember I had to add that to the cm_ version since it caused
+> issues with SteamOS HDR. Can we try that on the cm3_ function?
+Yes, I remember this issue.
+
+I've already tried the same changes from this commit 
+(https://gitlab.freedesktop.org/agd5f/linux/-/commit/27fc10d1095f) to 
+cm3_helper, but it doesn't help... probably because the commit was 
+addressing a different behaviors.
+
+I also noticed on cm3_ they consider a different range of hw points, as 
+in this comment:
+"
+     // DCN3+ have 257 pts in lieu of no separate slope registers
+     // Prior HW had 256 base+slope pairs
+"
+
+Can it be related to this problem?
+
+Thanks,
+
+Melissa
+
+>
+> Cheers,
+> Harry
+>
+>> Thanks in advance,
+>>
+>> Melissa
+>>
+>>
+>>   drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+>> index bf19ba65d09a..a28560caa1c0 100644
+>> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+>> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+>> @@ -501,9 +501,9 @@ bool dcn32_set_mcm_luts(
+>>   		lut_params = &plane_state->in_shaper_func.pwl;
+>>   	else if (plane_state->in_shaper_func.type == TF_TYPE_DISTRIBUTED_POINTS) {
+>>   		// TODO: dpp_base replace
+>> -		ASSERT(false);
+>> -		cm3_helper_translate_curve_to_hw_format(&plane_state->in_shaper_func,
+>> -				&dpp_base->shaper_params, true);
+>> +		cm_helper_translate_curve_to_hw_format(plane_state->ctx,
+>> +						       &plane_state->in_shaper_func,
+>> +						       &dpp_base->shaper_params, true);
+>>   		lut_params = &dpp_base->shaper_params;
+>>   	}
+>>   
 
