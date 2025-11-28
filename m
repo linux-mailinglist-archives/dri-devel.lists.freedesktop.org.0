@@ -2,74 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC913C9252B
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 15:27:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D2CC9264C
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 16:04:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7E2310E8E5;
-	Fri, 28 Nov 2025 14:27:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03ED910E88A;
+	Fri, 28 Nov 2025 15:04:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="VWeWGmEY";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="TlQs/hv6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A99610E8E5;
- Fri, 28 Nov 2025 14:27:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764340038;
- bh=MCNZ7/JOKVOKMS2Ye0Z5CGLQlCRGTTYsDLTxzMvltaE=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=VWeWGmEYeGIgOvnLOSv8vEZiGfLixdNRBrF3Bgr0AQUVMMk6cw7rC3fmfJScOHhk0
- dq3yDCG0wySHJ0aZbKRoxq0re1kYfYMGz3whg8KFAuKb5XNE9DLT5nB71E51SK/Cf2
- nU88JdaCMFOf/JFtsbIkvVK/L4VXruBPjCG4JH+y31ngZIHhAqW8x/WXC5RaGIiwIz
- ys2oaPzY/4viwi7a5+jNUkoheY6zfcvJSf+O49BorhP0pEa/0c+Mp/VcXdioCRFuRR
- zAelT7RVIaYa9P/7f4yeLE3FDFRXQD8ExFh2rZc7tqfsDgRgBQiJBEP2wg5bE0Nm1G
- S3cnWYoaDhB2g==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id A7BC717E0EDB;
- Fri, 28 Nov 2025 15:27:16 +0100 (CET)
-Date: Fri, 28 Nov 2025 15:27:13 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Daniel Almeida
- <daniel.almeida@collabora.com>, Matthew Brost <matthew.brost@intel.com>,
- "Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=" <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Miguel Ojeda
- <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
- <gary@garyguo.net>, "=?UTF-8?B?QmrDtnJu?= Roy Baron"
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
- Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, Frank
- Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, Rob
- Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang
- <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, Marijn
- Suijten <marijn.suijten@somainline.org>, Lyude Paul <lyude@redhat.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- "Christian =?UTF-8?B?S8O2bmln?=" <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 3/4] drm/gpuvm: use const for drm_gpuva_op_* ptrs
-Message-ID: <20251128152713.15bf1c37@fedora>
-In-Reply-To: <20251128-gpuvm-rust-v1-3-ebf66bf234e0@google.com>
-References: <20251128-gpuvm-rust-v1-0-ebf66bf234e0@google.com>
- <20251128-gpuvm-rust-v1-3-ebf66bf234e0@google.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 305F810E8DA
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 15:04:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=zlaiiMP7Sevijtkm4t7qoCJJmgwp+164Kl80ZMjHygU=; b=TlQs/hv6tiALdS8Sdp/RojDZL/
+ PmfZi9lf2TCsC6kJbHR1ZjzTTu+Ua+xqLyVOAqEKMtygmCMe7no0+1s3YPIzKwvrYCTj7HiDz6HX8
+ UbT7x11RGBbu/9WqiZUWzBR3KpwjfPSJ7xYqadCntU+6R+qMQ7kyGVMVNadgXMNO8ltCsdns3Nh7Z
+ rmkixu9zlRT9I25prEjcVWZZ9JFNneaEUrnTa9Ek+BFkeAONqPN4RSGRTWBIIBLY/mEf3e6/vJEuJ
+ rtQDwx85QiP8LfAcGbB8OZhg3n4nnUGKOa6AUZALBGkjrmv6Po4C9TEeKwTurHbLjidWfkov0cMsR
+ lpkADJJQ==;
+Received: from [90.240.106.137] (helo=localhost)
+ by fanzine2.igalia.com with utf8esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1vP012-006Ufe-Nt; Fri, 28 Nov 2025 16:04:08 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Ard Biesheuvel <ardb@kernel.org>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Melissa Wen <mwen@igalia.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, linux-efi@vger.kernel.org
+Subject: [RFX] efi: sysfb_efi: Fix simpledrmfb on Steam Deck
+Date: Fri, 28 Nov 2025 15:04:03 +0000
+Message-ID: <20251128150403.11567-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,83 +63,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Nov 2025 14:14:17 +0000
-Alice Ryhl <aliceryhl@google.com> wrote:
+I am not sure how is simpledrmfb on top of EFI supposed to work, but at
+least at the moment it appears there is a missing link in the "discovery"
+of frame buffer parameters.
 
-> These methods just read the values stored in the op pointers without
-> modifying them, so it is appropriate to use const ptrs here.
-> 
-> This allows us to avoid const -> mut pointer casts in Rust.
-> 
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+What I can see is that EFI GOP reads some parameters from the firmware and
+infers the other, such as in this case problematic pitch, or stride.
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+One could be easily excused in thinking that pitch cannot be reliably
+inferred, since different display hardware has differing alignment
+requirements, so it is unclear how is hardware agnostic solution supposed
+to work.
 
-> ---
->  drivers/gpu/drm/drm_gpuvm.c | 6 +++---
->  include/drm/drm_gpuvm.h     | 8 ++++----
->  2 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-> index 9cd06c7600dc32ceee0f0beb5e3daf31698a66b3..e06b58aabb8ea6ebd92c625583ae2852c9d2caf1 100644
-> --- a/drivers/gpu/drm/drm_gpuvm.c
-> +++ b/drivers/gpu/drm/drm_gpuvm.c
-> @@ -2283,7 +2283,7 @@ EXPORT_SYMBOL_GPL(drm_gpuvm_interval_empty);
->  void
->  drm_gpuva_map(struct drm_gpuvm *gpuvm,
->  	      struct drm_gpuva *va,
-> -	      struct drm_gpuva_op_map *op)
-> +	      const struct drm_gpuva_op_map *op)
->  {
->  	drm_gpuva_init_from_op(va, op);
->  	drm_gpuva_insert(gpuvm, va);
-> @@ -2303,7 +2303,7 @@ EXPORT_SYMBOL_GPL(drm_gpuva_map);
->  void
->  drm_gpuva_remap(struct drm_gpuva *prev,
->  		struct drm_gpuva *next,
-> -		struct drm_gpuva_op_remap *op)
-> +		const struct drm_gpuva_op_remap *op)
->  {
->  	struct drm_gpuva *va = op->unmap->va;
->  	struct drm_gpuvm *gpuvm = va->vm;
-> @@ -2330,7 +2330,7 @@ EXPORT_SYMBOL_GPL(drm_gpuva_remap);
->   * Removes the &drm_gpuva associated with the &drm_gpuva_op_unmap.
->   */
->  void
-> -drm_gpuva_unmap(struct drm_gpuva_op_unmap *op)
-> +drm_gpuva_unmap(const struct drm_gpuva_op_unmap *op)
->  {
->  	drm_gpuva_remove(op->va);
->  }
-> diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-> index 0d3fc1f6cac9966a42f3bc82b0b491bfefaf5b96..655bd9104ffb24170fca14dfa034ee79f5400930 100644
-> --- a/include/drm/drm_gpuvm.h
-> +++ b/include/drm/drm_gpuvm.h
-> @@ -1121,7 +1121,7 @@ void drm_gpuva_ops_free(struct drm_gpuvm *gpuvm,
->  			struct drm_gpuva_ops *ops);
->  
->  static inline void drm_gpuva_init_from_op(struct drm_gpuva *va,
-> -					  struct drm_gpuva_op_map *op)
-> +					  const struct drm_gpuva_op_map *op)
->  {
->  	va->va.addr = op->va.addr;
->  	va->va.range = op->va.range;
-> @@ -1265,13 +1265,13 @@ int drm_gpuvm_sm_unmap_exec_lock(struct drm_gpuvm *gpuvm, struct drm_exec *exec,
->  
->  void drm_gpuva_map(struct drm_gpuvm *gpuvm,
->  		   struct drm_gpuva *va,
-> -		   struct drm_gpuva_op_map *op);
-> +		   const struct drm_gpuva_op_map *op);
->  
->  void drm_gpuva_remap(struct drm_gpuva *prev,
->  		     struct drm_gpuva *next,
-> -		     struct drm_gpuva_op_remap *op);
-> +		     const struct drm_gpuva_op_remap *op);
->  
-> -void drm_gpuva_unmap(struct drm_gpuva_op_unmap *op);
-> +void drm_gpuva_unmap(const struct drm_gpuva_op_unmap *op);
->  
->  /**
->   * drm_gpuva_op_remap_to_unmap_range() - Helper to get the start and range of
-> 
+In the specific case of the Steam Deck hardware we have a 800x1280 native
+panel which is also installed rotated 90 degrees counter clockwise.
+
+Firmware appears to set up the pitch as 3328, while GOP assumes 3200,
+based of a width * bpp calculation.
+
+When this incorrect pitch propagates through (rather complicated) fbcon
+and DRM call paths, the end result is corrupted rendering all until the
+amdgpu takes over the fbdev.
+
+Simplistic solution in this patch is to add a DMI quirk to the EFI
+frame buffer setup code.
+
+Apart from the incorrect pitch, the quirk also does the swapping of the
+width and height. Apart from setting the correct fbcon dimensions this
+one also allows the quirk from drm_get_panel_orientation_quirk() to
+report the correct orientation.
+
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Melissa Wen <mwen@igalia.com>
+Cc: Rodrigo Siqueira <siqueira@igalia.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>
+Cc: linux-efi@vger.kernel.org
+---
+ drivers/firmware/efi/sysfb_efi.c | 48 ++++++++++++++++++++++++++++++--
+ 1 file changed, 46 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/firmware/efi/sysfb_efi.c b/drivers/firmware/efi/sysfb_efi.c
+index 1e509595ac03..84d9049bb2cb 100644
+--- a/drivers/firmware/efi/sysfb_efi.c
++++ b/drivers/firmware/efi/sysfb_efi.c
+@@ -231,6 +231,18 @@ static const struct dmi_system_id efifb_dmi_system_table[] __initconst = {
+ 	{},
+ };
+ 
++struct efifb_mode_fixup {
++	unsigned int width;
++	unsigned int height;
++	unsigned int pitch;
++};
++
++static const struct efifb_mode_fixup efifb_steamdeck_mode_fixup = {
++	.width = 1280,
++	.height = 800,
++	.pitch = 3328,
++};
++
+ /*
+  * Some devices have a portrait LCD but advertise a landscape resolution (and
+  * pitch). We simply swap width and height for these devices so that we can
+@@ -281,6 +293,24 @@ static const struct dmi_system_id efifb_dmi_swap_width_height[] __initconst = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Lenovo YB1-X91"),
+ 		},
+ 	},
++	{
++		/* Valve Steam Deck (Jupiter) */
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
++		},
++		.driver_data = (void *)&efifb_steamdeck_mode_fixup,
++	},
++	{
++		/* Valve Steam Deck (Galileo) */
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Galileo"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
++		},
++		.driver_data = (void *)&efifb_steamdeck_mode_fixup,
++	},
+ 	{},
+ };
+ 
+@@ -351,17 +381,31 @@ static struct fwnode_handle efifb_fwnode;
+ 
+ __init void sysfb_apply_efi_quirks(void)
+ {
++	const struct dmi_system_id *match;
++
+ 	if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI ||
+ 	    !(screen_info.capabilities & VIDEO_CAPABILITY_SKIP_QUIRKS))
+ 		dmi_check_system(efifb_dmi_system_table);
+ 
+-	if (screen_info.orig_video_isVGA == VIDEO_TYPE_EFI &&
+-	    dmi_check_system(efifb_dmi_swap_width_height)) {
++	if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI)
++		return;
++
++	for (match = dmi_first_match(efifb_dmi_swap_width_height);
++	     match;
++	     match = dmi_first_match(match + 1)) {
++		const struct efifb_mode_fixup *data = match->driver_data;
+ 		u16 temp = screen_info.lfb_width;
+ 
+ 		screen_info.lfb_width = screen_info.lfb_height;
+ 		screen_info.lfb_height = temp;
+ 		screen_info.lfb_linelength = 4 * screen_info.lfb_width;
++
++		if (data && data->pitch &&
++		   data->width == screen_info.lfb_height &&
++		   data->height == screen_info.lfb_width) {
++			screen_info.lfb_linelength = data->pitch;
++			screen_info.lfb_size = data->pitch * data->width;
++		}
+ 	}
+ }
+ 
+-- 
+2.51.1
 
