@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B205CC93286
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 22:07:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D48C9328B
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 22:07:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0226B10E93D;
-	Fri, 28 Nov 2025 21:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43BDC10E93A;
+	Fri, 28 Nov 2025 21:07:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="G3GMaRlO";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="fx7Q5EJ2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
- [136.143.184.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 805A110E938;
- Fri, 28 Nov 2025 21:07:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1764364048; cv=none; 
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 481E310E93C;
+ Fri, 28 Nov 2025 21:07:44 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1764364054; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=mxA1iGo24AnVpzkbM6BFLHKJF3iTThE8TR5+4oDudIYkq2aRD+MuFBxhCfnIgqnaE7yOq6YIbTCp5qoDILcqOIbHU//xnlKjg09juvQP9APX6q5ycatW3GgUXt9YFutVgcqHPNpMnHccrvAziowtpfMAxFRVSbmovmd6BsdmwUo=
+ b=UPWmRUTKbGui/i5e6sB805AxnGcH5CqgF+ej7cYhQX0k1JnqLWxYOjaNF8Blao2Otv9Bj3YyqYU0NI4u/1xjscc207xN4uMfIkiQtoRlWSyK0Y+GNm1W1h2ywKWx3bIT0AAlKrEw9g5f5wWShKcdpvFtcgVmEAgN88/SRO2Fe0A=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1764364048;
+ s=zohoarc; t=1764364054;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=AUL89ob/MZ7ra+D7aghfzym7THuhGc6TJCOHD38hX/8=; 
- b=XHytapiDwhIUtnRCU2MtjBEzMk+36RFBJmmUXDPAHkzHAkXkJ4LZflj5BOZS1S7jTMkFQB+PYihTQv6IrpRUUee3ljaBAFaxRhv6hUW8wen1SiejREng7qnQ+KZBHBTYpBo5yHBc4CuGvEKMwbdsmVF6R91xZ2MYCewX/j4+Xws=
+ bh=MSkvAHcP/G4a6alQDdr5rtYAAoRHlQiW07L6MnzhG5c=; 
+ b=k4dMunZWoDfjtqEr+6rY/CekD00x/qD9DVlEtY8+h/GKOBXy9oQVvd4p1ZIgp6MyQOCxpk0EdfAldtrBhJVbNZDiZu2P/AaNFhcTPK02dclXy0PdfVJAk82pobo48/lsDbzJdCaZ7MUz9hAA/D8EXBlPeCrBXkUVFguhZlsroxE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764364048; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764364054; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=AUL89ob/MZ7ra+D7aghfzym7THuhGc6TJCOHD38hX/8=;
- b=G3GMaRlOFV+JTmQA4moCKVm1kvg7TNvyrLx5eOtUvfYAuUBkaWMMQRkmSsfprQA3
- 4+emIaOiuRG2z70gh8h0i9GkY4LiikuJdildcFfn6PHV1sQn2Q3O1ftaqt6IaBqguNS
- 3tEVbdUcEdkioYJTvFcApu1DjvLm0buhWa9TIz4k=
-Received: by mx.zohomail.com with SMTPS id 1764364045671467.1689841398395;
- Fri, 28 Nov 2025 13:07:25 -0800 (PST)
+ bh=MSkvAHcP/G4a6alQDdr5rtYAAoRHlQiW07L6MnzhG5c=;
+ b=fx7Q5EJ2kkDka7ehv/XNboSqkwzCv3eVBtdhurXogzwSL985bn9Rw5eo+7ROZigA
+ KX/hclhyz+kHjApR1nbf/05LRBJg8RZoh+028/OBXpbhhDulAgDGe7ebjXf/C7GB/Vh
+ m/br9ZI78b68hafj0EZkLsWtLemNW9X60TyFdXY0=
+Received: by mx.zohomail.com with SMTPS id 1764364052859213.44634754490573;
+ Fri, 28 Nov 2025 13:07:32 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Fri, 28 Nov 2025 22:05:48 +0100
-Subject: [PATCH v5 12/17] drm/rockchip: vop2: Recognise 10/12-bit YUV422 as
- YUV formats
+Date: Fri, 28 Nov 2025 22:05:49 +0100
+Subject: [PATCH v5 13/17] drm/rockchip: vop2: Set correct output format for
+ RK3576 YUV422
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251128-color-format-v5-12-63e82f1db1e1@collabora.com>
+Message-Id: <20251128-color-format-v5-13-63e82f1db1e1@collabora.com>
 References: <20251128-color-format-v5-0-63e82f1db1e1@collabora.com>
 In-Reply-To: <20251128-color-format-v5-0-63e82f1db1e1@collabora.com>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -87,35 +87,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Rockchip VOP2 video output driver has a "is_yuv_output" function,
-which returns true when a given bus format is a YUV format, and false
-otherwise.
+For RK3576 to be able to output YUV422 signals, it first needs to be
+able to pick the right output mode in the display controller to do so.
 
-This switch statement is lacking the bus format used for YUV422 10-bit,
-as well as the bus format used for YUV422 12-bit.
+The RK3576 hardware specifies different output formats depending on the
+used display protocol.
 
-Add MEDIA_BUS_FMT_YUYV10_1X20 and MEDIA_BUS_FMT_YUYV12_1X24 to
-is_yuv_output's switch cases to resolve this.
+Adjust the written register value based on the SoC and connector, so
+other users of vcstate->output_mode don't have to care about this.
 
-Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 0a1adf36a24f..21afcca1218c 100644
+index 21afcca1218c..cd18876955e4 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -369,6 +369,8 @@ static bool is_yuv_output(u32 bus_format)
- 	switch (bus_format) {
- 	case MEDIA_BUS_FMT_YUV8_1X24:
- 	case MEDIA_BUS_FMT_YUV10_1X30:
-+	case MEDIA_BUS_FMT_YUYV10_1X20:
-+	case MEDIA_BUS_FMT_YUYV12_1X24:
- 	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
- 	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
- 	case MEDIA_BUS_FMT_YUYV8_2X8:
+@@ -1707,6 +1707,22 @@ static void vop2_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	if (vcstate->output_mode == ROCKCHIP_OUT_MODE_AAAA &&
+ 	    !(vp_data->feature & VOP2_VP_FEATURE_OUTPUT_10BIT))
+ 		out_mode = ROCKCHIP_OUT_MODE_P888;
++	else if (vcstate->output_mode == ROCKCHIP_OUT_MODE_YUV422 &&
++		 vop2->version == VOP_VERSION_RK3576)
++		switch (vcstate->output_type) {
++		case DRM_MODE_CONNECTOR_DisplayPort:
++		case DRM_MODE_CONNECTOR_eDP:
++			out_mode = ROCKCHIP_OUT_MODE_YUV422_RK3576_DP;
++			break;
++		case DRM_MODE_CONNECTOR_HDMIA:
++			out_mode = ROCKCHIP_OUT_MODE_YUV422_RK3576_HDMI;
++			break;
++		default:
++			drm_err(vop2->drm, "Unknown DRM_MODE_CONNECTOR %d\n",
++				vcstate->output_type);
++			vop2_unlock(vop2);
++			return;
++		}
+ 	else
+ 		out_mode = vcstate->output_mode;
+ 
 
 -- 
 2.52.0
