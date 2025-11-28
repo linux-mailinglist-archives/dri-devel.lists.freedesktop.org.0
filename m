@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5699CC92A46
-	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 17:54:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CCAC92A4C
+	for <lists+dri-devel@lfdr.de>; Fri, 28 Nov 2025 17:54:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A37310E8D8;
-	Fri, 28 Nov 2025 16:54:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EE5F10E8B2;
+	Fri, 28 Nov 2025 16:54:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="2skVqUO2";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ZJRXdtVJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F5F710E8C2
- for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 16:54:11 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9430010E8B5
+ for <dri-devel@lists.freedesktop.org>; Fri, 28 Nov 2025 16:54:19 +0000 (UTC)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-04.galae.net (Postfix) with ESMTPS id 429A5C16A3C;
- Fri, 28 Nov 2025 16:53:47 +0000 (UTC)
+ by smtpout-03.galae.net (Postfix) with ESMTPS id 7CC0A4E4194E;
+ Fri, 28 Nov 2025 16:54:18 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 2C14D60706;
- Fri, 28 Nov 2025 16:54:10 +0000 (UTC)
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 4F4E160706;
+ Fri, 28 Nov 2025 16:54:18 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 0EEA610B02187; Fri, 28 Nov 2025 17:53:59 +0100 (CET)
+ with ESMTPSA id C8D2A10B02189; Fri, 28 Nov 2025 17:54:08 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1764348848; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ t=1764348856; h=from:subject:date:message-id:to:cc:mime-version:content-type:
  content-transfer-encoding:in-reply-to:references;
- bh=P7PuQnrr2U0mS6+K0q3iGdpY5r4F/rhA/7tugsaTWHQ=;
- b=2skVqUO2wpq9PHtRVHRtqRhujv2FbueuNpP1H5JWR6CVK7xatL4uwySXumc3/taO9CvVMb
- acdli3XiqiV9CdPG5t8Qh3060lAfnNWjI2VPpk8RzD30MX13YdAas9gX/xJI+V5stGJ9IF
- QMH5qEERVOgRkIBJ381RLvqZ46+x/Sv0HHJQUeu21s2J1xRIOi9XngP+WMtr6FzDBX329V
- U87a1CUVxVq3zlNfVkGzc1y+sh9gaBb+ChDYlklggLCAaOMizlEfNE4HN5DHjPnhCkjqDX
- xtna16A1xSoMZcoauwJAsmEKEJxKySi463KCX3OOU9NqVtVl/UJy/drjwNFnOQ==
+ bh=5WAdl9mF/5vmOeq7HjMbS/w4YcaMEw0PcVLTVO9N8Bg=;
+ b=ZJRXdtVJ+OtHF5FjaXM78TLQNKNjEsmYao6LihS0FqfEsa3rxyeylnvgf0yQdP4kGfGRN+
+ dx+RmgVTwOX7KcHCMkjxLsSepp6Aws+MkEnhswjWuZ99+7PhAECdC3WGz0mkpKngocZRyC
+ fb1lxDLX4ahZyiXxMbPybSYnGIkSdSdyftsaRZvTfhBFpRB3ZSLCLbftxY5oiB0uRtva+h
+ 91uqysczMslvOk4r69/DYMDImuw+z/yKbz3c/38+D0Uu5/U9tp3VxPUmqr44DwPgfzaWFM
+ a4pva8vH1LOSqyG03DDkRi3l0g7zSo4EdrmPcSVcCwQOeEoPrKiKafFuunB4oA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 28 Nov 2025 17:50:26 +0100
-Subject: [PATCH v2 16/26] drm/rcar-du: lvds: use devm_of_drm_get_bridge()
- to put the next bridge
+Date: Fri, 28 Nov 2025 17:50:27 +0100
+Subject: [PATCH v2 17/26] drm/meson: encoder_*: use
+ devm_of_drm_get_bridge() to put the next bridge
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-16-88f8a107eca2@bootlin.com>
+Message-Id: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-17-88f8a107eca2@bootlin.com>
 References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
 In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -103,22 +103,50 @@ reference on remove or on probe failure.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c | 2 +-
+ drivers/gpu/drm/meson/meson_encoder_dsi.c  | 2 +-
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-index 001b3543924a..2dd95fd52e71 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c
-@@ -740,7 +740,7 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
- 		goto done;
+diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.c b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+index dc374bfc5951..bf8588a5f6dd 100644
+--- a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
++++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
+@@ -241,7 +241,7 @@ int meson_encoder_cvbs_probe(struct meson_drm *priv)
+ 		return 0;
  	}
  
--	lvds->companion = of_drm_find_bridge(companion);
-+	lvds->companion = devm_of_drm_get_bridge(dev, companion);
- 	if (!lvds->companion) {
- 		ret = -EPROBE_DEFER;
- 		goto done;
+-	meson_encoder_cvbs->next_bridge = of_drm_find_bridge(remote);
++	meson_encoder_cvbs->next_bridge = devm_of_drm_get_bridge(priv->dev, remote);
+ 	of_node_put(remote);
+ 	if (!meson_encoder_cvbs->next_bridge)
+ 		return dev_err_probe(priv->dev, -EPROBE_DEFER,
+diff --git a/drivers/gpu/drm/meson/meson_encoder_dsi.c b/drivers/gpu/drm/meson/meson_encoder_dsi.c
+index 6c6624f9ba24..6304f51a7e7e 100644
+--- a/drivers/gpu/drm/meson/meson_encoder_dsi.c
++++ b/drivers/gpu/drm/meson/meson_encoder_dsi.c
+@@ -120,7 +120,7 @@ int meson_encoder_dsi_probe(struct meson_drm *priv)
+ 		return 0;
+ 	}
+ 
+-	meson_encoder_dsi->next_bridge = of_drm_find_bridge(remote);
++	meson_encoder_dsi->next_bridge = devm_of_drm_get_bridge(priv->dev, remote);
+ 	if (!meson_encoder_dsi->next_bridge)
+ 		return dev_err_probe(priv->dev, -EPROBE_DEFER,
+ 				     "Failed to find DSI transceiver bridge\n");
+diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+index 8205ee56a691..e2a871347136 100644
+--- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
++++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
+@@ -390,7 +390,7 @@ int meson_encoder_hdmi_probe(struct meson_drm *priv)
+ 		return 0;
+ 	}
+ 
+-	meson_encoder_hdmi->next_bridge = of_drm_find_bridge(remote);
++	meson_encoder_hdmi->next_bridge = devm_of_drm_get_bridge(priv->dev, remote);
+ 	if (!meson_encoder_hdmi->next_bridge) {
+ 		ret = dev_err_probe(priv->dev, -EPROBE_DEFER,
+ 				    "Failed to find HDMI transceiver bridge\n");
 
 -- 
 2.51.1
