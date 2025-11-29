@@ -2,45 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E44C9437D
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Nov 2025 17:43:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F07C94482
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Nov 2025 17:54:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06E3210E159;
-	Sat, 29 Nov 2025 16:43:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8DFF10E03E;
+	Sat, 29 Nov 2025 16:54:08 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ARMJq38y";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 345 seconds by postgrey-1.36 at gabe;
- Sat, 29 Nov 2025 16:43:33 UTC
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it [5.144.164.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34C1210E159
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 16:43:33 +0000 (UTC)
-Received: from SoMainline.org (94-211-6-86.cable.dynamic.v4.ziggo.nl
- [94.211.6.86])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
- server-digest SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 43BA73EB7F;
- Sat, 29 Nov 2025 17:37:45 +0100 (CET)
-Date: Sat, 29 Nov 2025 17:37:43 +0100
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Jun Nie <jun.nie@linaro.org>
-Cc: Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Rob Clark <robin.clark@oss.qualcomm.com>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Jessica Zhang <quic_jesszhan@quicinc.com>
-Subject: Re: [PATCH v16 10/10] drm/msm/dpu: Enable quad-pipe for DSC and
- dual-DSI case
-Message-ID: <tjakx64c25gyakblncsvuoj2iquoknx4ngwujt2uf2clhhfvfl@lbvhrimf6gwp>
-References: <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-0-ff6232e3472f@linaro.org>
- <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-10-ff6232e3472f@linaro.org>
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com
+ [209.85.221.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E67310E20A
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 16:54:07 +0000 (UTC)
+Received: by mail-vk1-f176.google.com with SMTP id
+ 71dfb90a1353d-55999cc2a87so518495e0c.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 08:54:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1764435246; x=1765040046; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+ :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=SUdMDrZomFUZbbZgdh9LwkvsujEbVnk82m9l5aFdt8o=;
+ b=ARMJq38yiJdBdisA62+a+4w73VEbp0P07apHAsT4kGRdVfjSf+yHiYAcmOkqvV96zv
+ osV3fNBbnMK7STJqGYd6DZo80RR8gUjr/7CL0TNkns3bZj6I87rlkS2ror96bODxvWWL
+ jycEqnMybq8AzOF7upyFYBsMLEnS/x8vzn/gkE7jTyXydKZXcAGysoovzCBvqigI8lv8
+ BiBziyUY3m3V916Wxqt/89Co64a0pJpk2DHzUzgRdndC03hBS0H/M5GCnYcXXPL0nub7
+ bDcR2iA6dP+u8QBff1z0QcPvIi6jvlJlVLk6V2nsHvxEBEssbBgdsnmgyzOB5722KuWw
+ 0RAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764435246; x=1765040046;
+ h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+ :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SUdMDrZomFUZbbZgdh9LwkvsujEbVnk82m9l5aFdt8o=;
+ b=KQaLwoMTzFvSZ0thTdZfUJAZyFgPzY2HlDd0kgS8EirYPmjBMctsF5vtZThCnsNJEt
+ z8cpsGK7CVV7AcNwXi2vSjdGNOnjtzNMgu1cIQ3cYYX7K0/uNJ8yWyiPJ+ToSHKR9Vze
+ ZM6GvjjuchxtGjyk6lrXTaN5lCgeWkUUf9Ug8MGyH6yA/9j0+5yAMX7KOQHXl4r9e20k
+ sJnOAzhR7vjqnJebZ0NFAZ9yOsFKm0WdBqmXNvC5AHvUCQffVr78GO5dt21Qmw9KSkFF
+ 5VxAScbpfLARCHgVhrKG0RLc6iQgYH0cFgvvYAjRXVgucGQwGBOmjwFNYkgRpj1lP0BT
+ n6wQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVT/KBGf0Y7AZlKJxj08vxEXIefa1vNbi9R5lv2Dw5bzrSK/4foh6WmVCT3uy8fdkTMGWYWkfu5j9Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxVpO14Bvj+4DoKI62G2/diqARtnxK79u1yJUKPdk1pTO979Lfv
+ 71zd+zkHbwgvFgd3lgWJfppEfkysjd7jm/X52qeKOBE7n+ysh0mVklLqqpZJjAvjtx8=
+X-Gm-Gg: ASbGnctdvipJc6uWfACmzRfZYKTgo9cWCfjev7SSc4js6BSNEQPhWVKo0MasXwGXiO3
+ +QuIyGZD7SD3znYm90CXPULHzFbB/qSL3App9vnlAbmKDCzCMSFXlcVdq8fapZOPN+eD8Lfe9W1
+ DhpLWDik0y4qP2BaKGRgNenYZGYwNPjYMXaETeGxfbrY5/6AkEVY7cveaPU7UdsYOy9CVB3fpqN
+ 7q/I25bYfEQ3RlBBexZsbhGUbJdXUrq0v1VzLhqpICkawgpWIpwU6cwkEu5OpoxnZ0kOoqWDsCG
+ TbdABgmhN5UlimXWzApqC4Q0dkJt2p10LcBXlO4S81xKbzIsA7ZeiJIKxgx5OVZxDRRruR/LHYY
+ hm7LCBtvQ2bYUsGhDjjXYiIs07WN++zi000ZXOHMAXYPmsidFVSq28c9pOJyiKr5pjpvmacpefB
+ JbGbjtIu0q3DWervjF
+X-Google-Smtp-Source: AGHT+IG5tajmTfYoc3lFMiwar57/U6inDiuyMwTKKDkv9l56SNQgQ4HUSlYelexgYFZ7UMzNqqfw7Q==
+X-Received: by 2002:a05:6122:202a:b0:55b:305b:4e3c with SMTP id
+ 71dfb90a1353d-55b8f00fd2cmr10936851e0c.18.1764435245594; 
+ Sat, 29 Nov 2025 08:54:05 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 71dfb90a1353d-55cf516c50dsm3256156e0c.19.2025.11.29.08.54.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 29 Nov 2025 08:54:04 -0800 (PST)
+Date: Sat, 29 Nov 2025 19:53:59 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Matthew Brost <matthew.brost@intel.com>,
+ intel-xe@lists.freedesktop.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v6 8/8] drm/xe: Avoid toggling schedule state to check
+ LRC timestamp in TDR
+Message-ID: <202511291102.jnnKP6IB-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-10-ff6232e3472f@linaro.org>
+In-Reply-To: <20251126214748.650107-9-matthew.brost@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,111 +90,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-09-18 21:29:02, Jun Nie wrote:
-> To support high-resolution cases that exceed the width limitation of
-> a pair of SSPPs, or scenarios that surpass the maximum MDP clock rate,
-> additional pipes are necessary to enable parallel data processing
-> within the SSPP width constraints and MDP clock rate.
-> 
-> Request 4 mixers and 4 DSCs for high-resolution cases where both DSC
-> and dual interfaces are enabled. More use cases can be incorporated
-> later if quad-pipe capabilities are required.
-> 
-> Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         | 27 +++++++++++++++++------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  6 ++---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 28 ++++++++----------------
->  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  2 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |  2 +-
->  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |  2 +-
->  6 files changed, 35 insertions(+), 32 deletions(-)
+Hi Matthew,
 
-With this patch applied, I get the following crash on the Sony Xperia 1 III, a
-dual-DSI dual-DSC device:
+kernel test robot noticed the following build warnings:
 
-	Unable to handle kernel NULL pointer dereference at virtual address 0000000000000020
-	Mem abort info:
-	  ESR = 0x0000000096000004
-	  EC = 0x25: DABT (current EL), IL = 32 bits
-	  SET = 0, FnV = 0
-	  EA = 0, S1PTW = 0
-	  FSC = 0x04: level 0 translation fault
-	Data abort info:
-	  ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
-	  CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-	  GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-	user pgtable: 4k pages, 48-bit VAs, pgdp=000000012d4e1000
-	[0000000000000020] pgd=0000000000000000, p4d=0000000000000000
-	Internal error: Oops: 0000000096000004 [#1]  SMP
-	Modules linked in: msm drm_client_lib ubwc_config drm_dp_aux_bus gpu_sched drm_gpuvm drm_exec
-	CPU: 5 UID: 0 PID: 3081 Comm: (sd-close) Tainted: G     U              6.18.0-rc7-next-20251127-SoMainline-12422-g10b6db5b056d-dirty #21 NONE
-	Tainted: [U]=USER
-	Hardware name: Sony Xperia 1 III (DT)
-	pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-	pc : dpu_plane_atomic_check_sspp.isra.0+0x88/0x3f4 [msm]
-	lr : dpu_plane_atomic_check_sspp.isra.0+0x84/0x3f4 [msm]
-	sp : ffff800081e23940
-	x29: ffff800081e23950 x28: ffff0000bf2700d0 x27: 0000000000000a00
-	x26: ffff0000bf270000 x25: 0000000000000a00 x24: ffff0000bd0e5c18
-	x23: ffff000087a6c080 x22: 0000000000000224 x21: ffff00008ce88080
-	x20: 0000000000000002 x19: ffff0000bf270138 x18: ffff8000818350b0
-	x17: 000000040044ffff x16: ffffc488ae2e37e0 x15: 0000000000000005
-	x14: 0000000000000a00 x13: 0000000000000000 x12: 0000000000000138
-	x11: 0000000000000000 x10: 0000000000000012 x9 : 0000000000000000
-	x8 : 0000000000000a00 x7 : 0000000000000000 x6 : 0000000000000000
-	x5 : 0000000000000002 x4 : 0000000000000000 x3 : ffffc48897741db0
-	x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000000
-	Call trace:
-	 dpu_plane_atomic_check_sspp.isra.0+0x88/0x3f4 [msm] (P)
-	 dpu_plane_atomic_check+0x100/0x1a0 [msm]
-	 drm_atomic_helper_check_planes+0xd8/0x224
-	 drm_atomic_helper_check+0x50/0xb4
-	 msm_atomic_check+0xd0/0xe0 [msm]
-	 drm_atomic_check_only+0x4e0/0x928
-	 drm_atomic_commit+0x50/0xd4
-	 drm_client_modeset_commit_atomic+0x200/0x260
-	 drm_client_modeset_commit_locked+0x64/0x180
-	 drm_client_modeset_commit+0x30/0x60
-	 drm_fb_helper_lastclose+0x60/0xb0
-	 drm_fbdev_client_restore+0x18/0x38 [drm_client_lib]
-	 drm_client_dev_restore+0xac/0xf8
-	 drm_release+0x124/0x158
-	 __fput+0xd4/0x2e4
-	 fput_close_sync+0x3c/0xe0
-	 __arm64_sys_close+0x3c/0x84
-	 invoke_syscall.constprop.0+0x44/0x100
-	 el0_svc_common.constprop.0+0x3c/0xe4
-	 do_el0_svc+0x20/0x3c
-	 el0_svc+0x38/0x110
-	 el0t_64_sync_handler+0xa8/0xec
-	 el0t_64_sync+0x1a0/0x1a4
-	Code: 2a1403e5 52800082 94008e28 f9400380 (f940101b)
-	---[ end trace 0000000000000000 ]---
-	pstore: backend (ramoops) writing error (-28)
-	[drm:dpu_encoder_frame_done_timeout:2726] [dpu error]enc33 frame done timeout
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I don't see any thought given to it in the extremely terse patch description,
-but this patch seems to unconditionally select 4 DSCs and 4 LMs on this device
-because the underlying SM8350 SoC has 4 available in its catalog - while it
-was previously affixed to 2:2:2 matching the downstream and known-working
-configuration of this device - and I can only imagine things are rolling
-downhill from there.
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/drm-sched-Add-several-job-helpers-to-avoid-drivers-touching-scheduler-state/20251127-054955
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20251126214748.650107-9-matthew.brost%40intel.com
+patch subject: [PATCH v6 8/8] drm/xe: Avoid toggling schedule state to check LRC timestamp in TDR
+config: x86_64-randconfig-161-20251128 (https://download.01.org/0day-ci/archive/20251129/202511291102.jnnKP6IB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
-faddr2line seems to be failing for me, but this is the line
-`dpu_plane_atomic_check_sspp.isra.0+0x88` seems to be referring to:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202511291102.jnnKP6IB-lkp@intel.com/
 
-	aarch64-linux-gnu-objdump .output/drivers/gpu/drm/msm/msm.ko -dS | grep dpu_plane_atomic_check_sspp.isra.0\> -A80
-	00000000000671ac <dpu_plane_atomic_check_sspp.isra.0>:
-	static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
-	...
-	   67234:	f940101b 	ldr	x27, [x0, #32]
-		if (!(sblk->scaler_blk.len && pipe->sspp->ops.setup_scaler) &&
+smatch warnings:
+drivers/gpu/drm/xe/xe_lrc.c:2392 xe_lrc_timestamp() error: uninitialized symbol 'new_ts'.
 
-Please help resolve this issue, as I am not understanding the thought process
-behind this patch and unsure how to solve this issue short of just reverting it.
+vim +/new_ts +2392 drivers/gpu/drm/xe/xe_lrc.c
 
-Looking forward to some assistance, thanks;
-- Marijn
+94c0c481e1bd20 Matthew Brost         2025-11-26  2363  u64 xe_lrc_timestamp(struct xe_lrc *lrc)
+9b090d57746d96 Umesh Nerlige Ramappa 2024-05-17  2364  {
+94c0c481e1bd20 Matthew Brost         2025-11-26  2365  	u64 lrc_ts, reg_ts, new_ts;
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2366  	u32 engine_id;
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2367  
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2368  	lrc_ts = xe_lrc_ctx_timestamp(lrc);
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2369  	/* CTX_TIMESTAMP mmio read is invalid on VF, so return the LRC value */
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2370  	if (IS_SRIOV_VF(lrc_to_xe(lrc))) {
+94c0c481e1bd20 Matthew Brost         2025-11-26  2371  		new_ts = lrc_ts;
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2372  		goto done;
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2373  	}
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2374  
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2375  	if (lrc_ts == CONTEXT_ACTIVE) {
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2376  		engine_id = xe_lrc_engine_id(lrc);
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2377  		if (!get_ctx_timestamp(lrc, engine_id, &reg_ts))
+94c0c481e1bd20 Matthew Brost         2025-11-26  2378  			new_ts = reg_ts;
+
+uninitialized on else path.
+
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2379  
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2380  		/* read lrc again to ensure context is still active */
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2381  		lrc_ts = xe_lrc_ctx_timestamp(lrc);
+
+lrc_ts is re-assigned here.
+
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2382  	}
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2383  
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2384  	/*
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2385  	 * If context switched out, just use the lrc_ts. Note that this needs to
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2386  	 * be a separate if condition.
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2387  	 */
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2388  	if (lrc_ts != CONTEXT_ACTIVE)
+94c0c481e1bd20 Matthew Brost         2025-11-26  2389  		new_ts = lrc_ts;
+
+uninitialized on else path.
+
+9b090d57746d96 Umesh Nerlige Ramappa 2024-05-17  2390  
+82b98cadb01f63 Umesh Nerlige Ramappa 2025-05-09  2391  done:
+94c0c481e1bd20 Matthew Brost         2025-11-26 @2392  	return new_ts;
+94c0c481e1bd20 Matthew Brost         2025-11-26  2393  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
