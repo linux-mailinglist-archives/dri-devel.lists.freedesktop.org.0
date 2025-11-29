@@ -2,57 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21BCEC93812
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Nov 2025 05:29:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5567C93844
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Nov 2025 06:31:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE57F10E1BA;
-	Sat, 29 Nov 2025 04:28:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D95E10E1BF;
+	Sat, 29 Nov 2025 05:31:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HtpDyQt8";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="muuMujtu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 844DB10E1B7;
- Sat, 29 Nov 2025 04:28:51 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D70710E0B8;
+ Sat, 29 Nov 2025 05:31:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764390531; x=1795926531;
+ t=1764394313; x=1795930313;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:content-transfer-encoding:in-reply-to;
- bh=4BGqjsaA8iduZfG9kMiRC7A5y1i6zHXDhgQYC3LGgMo=;
- b=HtpDyQt8bbhvxPK+RFwATR87ZQJUvT0vPmUtgdWamrXrcTdPg9JV++zR
- M43KBea9eHagb/D41d2vqetbVyyGmb1dxuZEsRZaVAWH5dxmrIuqG4SUk
- v2y969omliaPJe9Fljx/JQ6zes/WrUjasOS4qu9PNgTaWMxM2sWc8vwU2
- blHJAG3wDDPl/tZO94waotydTlGEhh/5GPbWP5TFNaGvDhKi1chWaePzF
- fUUYmph1Zj7Fiy14uXFNOpurL6Q0500ZzZA9YpkDtypPpQNP2uPkEFUFa
- eqAlkttCPOeFFpiCrLhg7EaF7pxqTAF0UHwuO5ka2sj5OkAY3iOfrDzlD A==;
-X-CSE-ConnectionGUID: /Cya1AieQpqZPJNGd+Tq2g==
-X-CSE-MsgGUID: j/Oyszh7Qxmw0N/3cMnD/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="77093281"
-X-IronPort-AV: E=Sophos;i="6.20,235,1758610800"; d="scan'208";a="77093281"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Nov 2025 20:28:50 -0800
-X-CSE-ConnectionGUID: LAqmGPVgTCKLNhMS11fvyQ==
-X-CSE-MsgGUID: PtADVf4hQNW8LeX+Ej83/A==
+ bh=gBqlNedFooqN11JTXjN/tOTB158rBeHMd6y7NK/5C8I=;
+ b=muuMujtuPtTHtrs8OsL7bImm8NY97z17Yc13d5I4pGVeCWVFsb6fFG31
+ WKP6v+zoSMSVg3Orlw9VOYN7Pu5i0ghvYgL5i2vBnVKusvkGQN0qB/syL
+ HgATZwe95LxGiNne8cGtL8xDxmxLmARjoQNu7lOxdAAGj9rSePh+9mRt4
+ bIoZ0UXsNoYNWJQfOy9Vk/iREJ4/gAyyN34wCtOCQIPVI9W0ie6OsvQxP
+ bJnkJ3qwxMr3ZZjxa6JRYvuYKzSZctfpEzz5mnYpKfUtkXASZTN9M/8dQ
+ q2sHFCZ6O9HXXxUI3539VoRQRo9shOBKb3kIw3P3KT0fBnGELenJFvJhm g==;
+X-CSE-ConnectionGUID: XBUSEK86QriW3NW+iJDt/g==
+X-CSE-MsgGUID: XNAjcXDPQLq9peQQo7+QEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="66443547"
+X-IronPort-AV: E=Sophos;i="6.20,235,1758610800"; d="scan'208";a="66443547"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Nov 2025 21:31:52 -0800
+X-CSE-ConnectionGUID: lC3ULNEfRzqNiN3PbHJG1A==
+X-CSE-MsgGUID: tUUibmUaSf63VrE/phV1yA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,235,1758610800"; d="scan'208";a="224539104"
+X-IronPort-AV: E=Sophos;i="6.20,235,1758610800"; d="scan'208";a="193262698"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
- by fmviesa001.fm.intel.com with ESMTP; 28 Nov 2025 20:28:48 -0800
+ by fmviesa007.fm.intel.com with ESMTP; 28 Nov 2025 21:31:50 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vPCZh-000000006xd-3WMO;
- Sat, 29 Nov 2025 04:28:45 +0000
-Date: Sat, 29 Nov 2025 12:28:23 +0800
+ (envelope-from <lkp@intel.com>) id 1vPDYh-000000006zF-3bCX;
+ Sat, 29 Nov 2025 05:31:47 +0000
+Date: Sat, 29 Nov 2025 13:30:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: sunpeng.li@amd.com, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Harry.Wentland@amd.com, Nicholas.Kazlauskas@amd.com,
- simona@ffwll.ch, airlied@gmail.com, Leo Li <sunpeng.li@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Harry.Wentland@amd.com,
+ Nicholas.Kazlauskas@amd.com, simona@ffwll.ch, airlied@gmail.com,
+ Leo Li <sunpeng.li@amd.com>
 Subject: Re: [PATCH 2/2] drm/amd/display: Implement prepare_vblank_enable
  callback
-Message-ID: <202511291238.D3yaiZd1-lkp@intel.com>
+Message-ID: <202511291309.Ur1ho1CM-lkp@intel.com>
 References: <20251127235800.831297-2-sunpeng.li@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
@@ -89,69 +89,329 @@ url:    https://github.com/intel-lab-lkp/linux/commits/sunpeng-li-amd-com/drm-am
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20251127235800.831297-2-sunpeng.li%40amd.com
 patch subject: [PATCH 2/2] drm/amd/display: Implement prepare_vblank_enable callback
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20251129/202511291238.D3yaiZd1-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511291238.D3yaiZd1-lkp@intel.com/reproduce)
+config: x86_64-randconfig-075-20251129 (https://download.01.org/0day-ci/archive/20251129/202511291309.Ur1ho1CM-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511291309.Ur1ho1CM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202511291238.D3yaiZd1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511291309.Ur1ho1CM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:48:
-   In file included from drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:91:
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.h:588:32: error: expected ';' at end of declaration list
-     588 |         bool prepare_vbl_disallow_idle
-         |                                       ^
-         |                                       ;
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2088:11: error: no member named 'hpd_rx_offload_wq' in 'struct amdgpu_display_manager'
+         |                                     ^~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:1762:9: note: in expansion of macro 'list_for_each_entry'
+    1762 |         list_for_each_entry(da, &adev->dm.da_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/seqlock.h:19,
+                    from include/linux/mmzone.h:17:
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function 'amdgpu_dm_init':
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:1891:29: error: 'struct amdgpu_display_manager' has no member named 'dpia_aux_lock'
+    1891 |         mutex_init(&adev->dm.dpia_aux_lock);
+         |                             ^
+   include/linux/mutex.h:64:23: note: in definition of macro 'mutex_init'
+      64 |         __mutex_init((mutex), #mutex, &__key);                          \
+         |                       ^~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2012:21: error: 'struct amdgpu_display_manager' has no member named 'edp0_on_dp1_quirk'
+    2012 |         if (adev->dm.edp0_on_dp1_quirk)
+         |                     ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2015:21: error: 'struct amdgpu_display_manager' has no member named 'bb_from_dmub'
+    2015 |         if (adev->dm.bb_from_dmub)
+         |                     ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2016:50: error: 'struct amdgpu_display_manager' has no member named 'bb_from_dmub'
+    2016 |                 init_data.bb_from_dmub = adev->dm.bb_from_dmub;
+         |                                                  ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2088:17: error: 'struct amdgpu_display_manager' has no member named 'hpd_rx_offload_wq'
     2088 |         adev->dm.hpd_rx_offload_wq = hpd_rx_irq_create_workqueue(adev);
-         |         ~~~~~~~~ ^
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2089:16: error: no member named 'hpd_rx_offload_wq' in 'struct amdgpu_display_manager'
+         |                 ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2089:22: error: 'struct amdgpu_display_manager' has no member named 'hpd_rx_offload_wq'
     2089 |         if (!adev->dm.hpd_rx_offload_wq) {
-         |              ~~~~~~~~ ^
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2279:15: error: no member named 'hpd_rx_offload_wq' in 'struct amdgpu_display_manager'
+         |                      ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2135:42: error: 'struct amdgpu_display_manager' has no member named 'dmub_aux_transfer_done'
+    2135 |                 init_completion(&adev->dm.dmub_aux_transfer_done);
+         |                                          ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2142:25: error: 'struct amdgpu_display_manager' has no member named 'delayed_hpd_wq'
+    2142 |                 adev->dm.delayed_hpd_wq = create_singlethread_workqueue("amdgpu_dm_hpd_wq");
+         |                         ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2143:30: error: 'struct amdgpu_display_manager' has no member named 'delayed_hpd_wq'
+    2143 |                 if (!adev->dm.delayed_hpd_wq) {
+         |                              ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2155:59: error: 'struct amdgpu_display_manager' has no member named 'fused_io'
+    2155 |                 for (size_t i = 0; i < ARRAY_SIZE(adev->dm.fused_io); i++)
+         |                                                           ^
+   include/linux/array_size.h:11:33: note: in definition of macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                 ^~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2155:59: error: 'struct amdgpu_display_manager' has no member named 'fused_io'
+    2155 |                 for (size_t i = 0; i < ARRAY_SIZE(adev->dm.fused_io); i++)
+         |                                                           ^
+   include/linux/array_size.h:11:48: note: in definition of macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                ^~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2155:59: error: 'struct amdgpu_display_manager' has no member named 'fused_io'
+    2155 |                 for (size_t i = 0; i < ARRAY_SIZE(adev->dm.fused_io); i++)
+         |                                                           ^
+   include/linux/compiler.h:197:84: note: in definition of macro '__BUILD_BUG_ON_ZERO_MSG'
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                                    ^
+   include/linux/compiler.h:201:35: note: in expansion of macro '__same_type'
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                   ^~~~~~~~~~~
+   include/linux/compiler.h:202:58: note: in expansion of macro '__is_array'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                                          ^~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2155:40: note: in expansion of macro 'ARRAY_SIZE'
+    2155 |                 for (size_t i = 0; i < ARRAY_SIZE(adev->dm.fused_io); i++)
+         |                                        ^~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2155:59: error: 'struct amdgpu_display_manager' has no member named 'fused_io'
+    2155 |                 for (size_t i = 0; i < ARRAY_SIZE(adev->dm.fused_io); i++)
+         |                                                           ^
+   include/linux/compiler.h:197:84: note: in definition of macro '__BUILD_BUG_ON_ZERO_MSG'
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                                    ^
+   include/linux/compiler.h:201:35: note: in expansion of macro '__same_type'
+     201 | #define __is_array(a)           (!__same_type((a), &(a)[0]))
+         |                                   ^~~~~~~~~~~
+   include/linux/compiler.h:202:58: note: in expansion of macro '__is_array'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                                          ^~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2155:40: note: in expansion of macro 'ARRAY_SIZE'
+    2155 |                 for (size_t i = 0; i < ARRAY_SIZE(adev->dm.fused_io); i++)
+         |                                        ^~~~~~~~~~
+   include/linux/compiler.h:197:82: error: expression in static assertion is not an integer
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg, ...) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                                  ^
+   include/linux/compiler.h:202:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     202 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2155:40: note: in expansion of macro 'ARRAY_SIZE'
+    2155 |                 for (size_t i = 0; i < ARRAY_SIZE(adev->dm.fused_io); i++)
+         |                                        ^~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2156:50: error: 'struct amdgpu_display_manager' has no member named 'fused_io'
+    2156 |                         init_completion(&adev->dm.fused_io[i].replied);
+         |                                                  ^
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2199:22: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+    2199 |         if (!adev->dm.secure_display_ctx.crtc_ctx)
+         |                      ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2203:25: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+    2203 |                 adev->dm.secure_display_ctx.support_mul_roi = true;
+         |                         ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function 'amdgpu_dm_fini':
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2247:21: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+    2247 |         if (adev->dm.secure_display_ctx.crtc_ctx) {
+         |                     ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2249:37: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+    2249 |                         if (adev->dm.secure_display_ctx.crtc_ctx[i].crtc) {
+         |                                     ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2250:53: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+    2250 |                                 flush_work(&adev->dm.secure_display_ctx.crtc_ctx[i].notify_ta_work);
+         |                                                     ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2251:53: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+    2251 |                                 flush_work(&adev->dm.secure_display_ctx.crtc_ctx[i].forward_roi_work);
+         |                                                     ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2254:31: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+    2254 |                 kfree(adev->dm.secure_display_ctx.crtc_ctx);
+         |                               ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2255:25: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+    2255 |                 adev->dm.secure_display_ctx.crtc_ctx = NULL;
+         |                         ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2269:51: error: 'struct amdgpu_display_manager' has no member named 'delayed_hpd_wq'
+    2269 |                         destroy_workqueue(adev->dm.delayed_hpd_wq);
+         |                                                   ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2270:33: error: 'struct amdgpu_display_manager' has no member named 'delayed_hpd_wq'
+    2270 |                         adev->dm.delayed_hpd_wq = NULL;
+         |                                 ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2279:21: error: 'struct amdgpu_display_manager' has no member named 'hpd_rx_offload_wq'
     2279 |         if (adev->dm.hpd_rx_offload_wq && adev->dm.dc) {
-         |             ~~~~~~~~ ^
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2281:17: error: no member named 'hpd_rx_offload_wq' in 'struct amdgpu_display_manager'
+         |                     ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2281:37: error: 'struct amdgpu_display_manager' has no member named 'hpd_rx_offload_wq'
     2281 |                         if (adev->dm.hpd_rx_offload_wq[i].wq) {
-         |                             ~~~~~~~~ ^
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2282:32: error: no member named 'hpd_rx_offload_wq' in 'struct amdgpu_display_manager'
+         |                                     ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2282:59: error: 'struct amdgpu_display_manager' has no member named 'hpd_rx_offload_wq'
     2282 |                                 destroy_workqueue(adev->dm.hpd_rx_offload_wq[i].wq);
-         |                                                   ~~~~~~~~ ^
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2283:14: error: no member named 'hpd_rx_offload_wq' in 'struct amdgpu_display_manager'
+         |                                                           ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2283:41: error: 'struct amdgpu_display_manager' has no member named 'hpd_rx_offload_wq'
     2283 |                                 adev->dm.hpd_rx_offload_wq[i].wq = NULL;
-         |                                 ~~~~~~~~ ^
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2287:18: error: no member named 'hpd_rx_offload_wq' in 'struct amdgpu_display_manager'
+         |                                         ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2287:31: error: 'struct amdgpu_display_manager' has no member named 'hpd_rx_offload_wq'
     2287 |                 kfree(adev->dm.hpd_rx_offload_wq);
-         |                       ~~~~~~~~ ^
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2288:12: error: no member named 'hpd_rx_offload_wq' in 'struct amdgpu_display_manager'
+         |                               ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2288:25: error: 'struct amdgpu_display_manager' has no member named 'hpd_rx_offload_wq'
     2288 |                 adev->dm.hpd_rx_offload_wq = NULL;
-         |                 ~~~~~~~~ ^
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:3112:10: error: no member named 'hpd_rx_offload_wq' in 'struct amdgpu_display_manager'
-    3112 |         if (dm->hpd_rx_offload_wq) {
-         |             ~~  ^
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:3114:24: error: no member named 'hpd_rx_offload_wq' in 'struct amdgpu_display_manager'
-    3114 |                         flush_workqueue(dm->hpd_rx_offload_wq[i].wq);
-         |                                         ~~  ^
-   include/linux/workqueue.h:778:34: note: expanded from macro 'flush_workqueue'
-     778 |         struct workqueue_struct *_wq = (wq);                            \
-         |                                         ^~
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:4091:63: error: no member named 'hpd_rx_offload_wq' in 'struct amdgpu_display_manager'
-    4091 |         struct hpd_rx_irq_offload_work_queue *offload_wq = &adev->dm.hpd_rx_offload_wq[idx];
-         |                                                             ~~~~~~~~ ^
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5504:11: error: no member named 'hpd_rx_offload_wq' in 'struct amdgpu_display_manager'
-    5504 |                 if (dm->hpd_rx_offload_wq)
-         |                     ~~  ^
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5505:8: error: no member named 'hpd_rx_offload_wq' in 'struct amdgpu_display_manager'
-    5505 |                         dm->hpd_rx_offload_wq[aconnector->base.index].aconnector =
-         |                         ~~  ^
-   14 errors generated.
+         |                         ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2311:32: error: 'struct amdgpu_display_manager' has no member named 'dpia_aux_lock'
+    2311 |         mutex_destroy(&adev->dm.dpia_aux_lock);
+         |                                ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function 'dm_dmub_sw_init':
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2611:17: error: 'struct amdgpu_display_manager' has no member named 'bb_from_dmub'
+    2611 |         adev->dm.bb_from_dmub = dm_dmub_get_vbios_bounding_box(adev);
+         |                 ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function 'dm_sw_init':
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2629:33: error: 'struct amdgpu_display_manager' has no member named 'da_list'
+    2629 |         INIT_LIST_HEAD(&adev->dm.da_list);
+         |                                 ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function 'dm_sw_fini':
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2643:42: error: 'struct amdgpu_display_manager' has no member named 'da_list'
+    2643 |         list_for_each_entry(da, &adev->dm.da_list, list) {
+         |                                          ^
+   include/linux/container_of.h:20:33: note: in definition of macro 'container_of'
+      20 |         void *__mptr = (void *)(ptr);                                   \
+         |                                 ^~~
+   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
+     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2643:9: note: in expansion of macro 'list_for_each_entry'
+    2643 |         list_for_each_entry(da, &adev->dm.da_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2643:42: error: 'struct amdgpu_display_manager' has no member named 'da_list'
+    2643 |         list_for_each_entry(da, &adev->dm.da_list, list) {
+         |                                          ^
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   include/linux/list.h:609:9: note: in expansion of macro 'container_of'
+     609 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~
+   include/linux/list.h:620:9: note: in expansion of macro 'list_entry'
+     620 |         list_entry((ptr)->next, type, member)
+         |         ^~~~~~~~~~
+   include/linux/list.h:782:20: note: in expansion of macro 'list_first_entry'
+     782 |         for (pos = list_first_entry(head, typeof(*pos), member);        \
+         |                    ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2643:9: note: in expansion of macro 'list_for_each_entry'
+    2643 |         list_for_each_entry(da, &adev->dm.da_list, list) {
+         |         ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:2643:42: error: 'struct amdgpu_display_manager' has no member named 'da_list'
+--
+   In file included from drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:91,
+                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:30:
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.h:597:9: error: expected ':', ',', ';', '}' or '__attribute__' before 'struct'
+     597 |         struct secure_display_context secure_display_ctx;
+         |         ^~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c: In function 'update_phy_id_mapping':
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:98:11: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+      98 |         dm->secure_display_ctx.phy_mapping_updated = false;
+         |           ^~
+   In file included from include/linux/string.h:382,
+                    from include/linux/bitmap.h:13,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/drm/drm_crtc.h:28,
+                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:27:
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:194:67: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+     194 |         memset(dm->secure_display_ctx.phy_id_mapping, 0, sizeof(dm->secure_display_ctx.phy_id_mapping));
+         |                                                                   ^~
+   include/linux/fortify-string.h:502:42: note: in definition of macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:194:9: note: in expansion of macro 'memset'
+     194 |         memset(dm->secure_display_ctx.phy_id_mapping, 0, sizeof(dm->secure_display_ctx.phy_id_mapping));
+         |         ^~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:194:18: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+     194 |         memset(dm->secure_display_ctx.phy_id_mapping, 0, sizeof(dm->secure_display_ctx.phy_id_mapping));
+         |                  ^~
+   include/linux/fortify-string.h:503:44: note: in definition of macro '__fortify_memset_chk'
+     503 |         fortify_memset_chk(__fortify_size, p_size, p_size_field),       \
+         |                                            ^~~~~~
+   include/linux/fortify-string.h:513:17: note: in expansion of macro '__struct_size'
+     513 |                 __struct_size(p), __member_size(p))
+         |                 ^~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:194:9: note: in expansion of macro 'memset'
+     194 |         memset(dm->secure_display_ctx.phy_id_mapping, 0, sizeof(dm->secure_display_ctx.phy_id_mapping));
+         |         ^~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:194:18: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+     194 |         memset(dm->secure_display_ctx.phy_id_mapping, 0, sizeof(dm->secure_display_ctx.phy_id_mapping));
+         |                  ^~
+   include/linux/fortify-string.h:503:52: note: in definition of macro '__fortify_memset_chk'
+     503 |         fortify_memset_chk(__fortify_size, p_size, p_size_field),       \
+         |                                                    ^~~~~~~~~~~~
+   include/linux/fortify-string.h:513:35: note: in expansion of macro '__member_size'
+     513 |                 __struct_size(p), __member_size(p))
+         |                                   ^~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:194:9: note: in expansion of macro 'memset'
+     194 |         memset(dm->secure_display_ctx.phy_id_mapping, 0, sizeof(dm->secure_display_ctx.phy_id_mapping));
+         |         ^~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:194:18: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+     194 |         memset(dm->secure_display_ctx.phy_id_mapping, 0, sizeof(dm->secure_display_ctx.phy_id_mapping));
+         |                  ^~
+   include/linux/fortify-string.h:504:29: note: in definition of macro '__fortify_memset_chk'
+     504 |         __underlying_memset(p, c, __fortify_size);                      \
+         |                             ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:194:9: note: in expansion of macro 'memset'
+     194 |         memset(dm->secure_display_ctx.phy_id_mapping, 0, sizeof(dm->secure_display_ctx.phy_id_mapping));
+         |         ^~~~~~
+   include/linux/fortify-string.h:503:65: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     503 |         fortify_memset_chk(__fortify_size, p_size, p_size_field),       \
+         |                                                                 ^
+   include/linux/fortify-string.h:512:25: note: in expansion of macro '__fortify_memset_chk'
+     512 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+         |                         ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:194:9: note: in expansion of macro 'memset'
+     194 |         memset(dm->secure_display_ctx.phy_id_mapping, 0, sizeof(dm->secure_display_ctx.phy_id_mapping));
+         |         ^~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:198:19: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+     198 |                 dm->secure_display_ctx.phy_id_mapping[idx].assigned = true;
+         |                   ^~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:199:19: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+     199 |                 dm->secure_display_ctx.phy_id_mapping[idx].is_mst = false;
+         |                   ^~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:200:19: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+     200 |                 dm->secure_display_ctx.phy_id_mapping[idx].enc_hw_inst = aconnector->dc_link->link_enc_hw_inst;
+         |                   ^~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:203:27: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+     203 |                         dm->secure_display_ctx.phy_id_mapping[idx].is_mst = true;
+         |                           ^~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:204:27: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+     204 |                         dm->secure_display_ctx.phy_id_mapping[idx].lct = aconnector->mst_output_port->parent->lct;
+         |                           ^~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:205:27: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+     205 |                         dm->secure_display_ctx.phy_id_mapping[idx].port_num = aconnector->mst_output_port->port_num;
+         |                           ^~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:206:34: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+     206 |                         memcpy(dm->secure_display_ctx.phy_id_mapping[idx].rad,
+         |                                  ^~
+   include/linux/fortify-string.h:628:34: note: in definition of macro '__fortify_memcpy_chk'
+     628 |         const size_t __p_size = (p_size);                               \
+         |                                  ^~~~~~
+   include/linux/fortify-string.h:691:17: note: in expansion of macro '__struct_size'
+     691 |                 __struct_size(p), __struct_size(q),                     \
+         |                 ^~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:206:25: note: in expansion of macro 'memcpy'
+     206 |                         memcpy(dm->secure_display_ctx.phy_id_mapping[idx].rad,
+         |                         ^~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:206:34: error: 'struct amdgpu_display_manager' has no member named 'secure_display_ctx'
+     206 |                         memcpy(dm->secure_display_ctx.phy_id_mapping[idx].rad,
+         |                                  ^~
+   include/linux/fortify-string.h:630:40: note: in definition of macro '__fortify_memcpy_chk'
+     630 |         const size_t __p_size_field = (p_size_field);                   \
+         |                                        ^~~~~~~~~~~~
+   include/linux/fortify-string.h:692:17: note: in expansion of macro '__member_size'
+     692 |                 __member_size(p), __member_size(q),                     \
+         |                 ^~~~~~~~~~~~~
 
 
-vim +2088 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
+vim +2199 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
 
 28d43d0895896f Leo Li               2024-08-27  1877  
 7578ecda14d521 Alex Deucher         2017-10-10  1878  static int amdgpu_dm_init(struct amdgpu_device *adev)
@@ -364,7 +624,7 @@ e3834491b92a10 Fangzhi Zuo          2023-01-16  2079
 743b9786b14ae0 Nicholas Kazlauskas  2019-10-24  2085  
 bb6785c1212988 Nicholas Kazlauskas  2020-01-10  2086  	dc_hardware_init(adev->dm.dc);
 bb6785c1212988 Nicholas Kazlauskas  2020-01-10  2087  
-0f774fce4499d3 Aurabindo Pillai     2025-03-11 @2088  	adev->dm.hpd_rx_offload_wq = hpd_rx_irq_create_workqueue(adev);
+0f774fce4499d3 Aurabindo Pillai     2025-03-11  2088  	adev->dm.hpd_rx_offload_wq = hpd_rx_irq_create_workqueue(adev);
 8e794421bc9815 Wayne Lin            2021-07-23  2089  	if (!adev->dm.hpd_rx_offload_wq) {
 8ade4736075a83 Mario Limonciello    2025-05-02  2090  		drm_err(adev_to_drm(adev), "failed to create hpd rx offload workqueue.\n");
 8e794421bc9815 Wayne Lin            2021-07-23  2091  		goto error;
@@ -431,7 +691,7 @@ e27c41d5b0681c Jude Shih            2021-07-25  2150  			dmub_aux_setconfig_call
 e27c41d5b0681c Jude Shih            2021-07-25  2152  			goto error;
 e27c41d5b0681c Jude Shih            2021-07-25  2153  		}
 ce801e5d6c1bac Dominik Kaszewski    2025-03-27  2154  
-ce801e5d6c1bac Dominik Kaszewski    2025-03-27  2155  		for (size_t i = 0; i < ARRAY_SIZE(adev->dm.fused_io); i++)
+ce801e5d6c1bac Dominik Kaszewski    2025-03-27 @2155  		for (size_t i = 0; i < ARRAY_SIZE(adev->dm.fused_io); i++)
 ce801e5d6c1bac Dominik Kaszewski    2025-03-27  2156  			init_completion(&adev->dm.fused_io[i].replied);
 ce801e5d6c1bac Dominik Kaszewski    2025-03-27  2157  
 ce801e5d6c1bac Dominik Kaszewski    2025-03-27  2158  		if (!register_dmub_notify_callback(adev, DMUB_NOTIFICATION_FUSED_IO,
@@ -473,6 +733,14 @@ cc9428d5336aec Saleemkhan Jamadar   2025-03-21  2192  		drm_err(adev_to_drm(adev
 4562236b3bc0a2 Harry Wentland       2017-09-12  2194  		goto error;
 4562236b3bc0a2 Harry Wentland       2017-09-12  2195  	}
 4562236b3bc0a2 Harry Wentland       2017-09-12  2196  
+f477c7b5ec3e4e Alan Liu             2023-04-10  2197  #if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
+58a8467a3493c0 Wayne Lin            2024-10-31  2198  	amdgpu_dm_crtc_secure_display_create_contexts(adev);
+58a8467a3493c0 Wayne Lin            2024-10-31 @2199  	if (!adev->dm.secure_display_ctx.crtc_ctx)
+8ade4736075a83 Mario Limonciello    2025-05-02  2200  		drm_err(adev_to_drm(adev), "failed to initialize secure display contexts.\n");
+9a45ad15a1e264 Wayne Lin            2024-07-22  2201  
+9a45ad15a1e264 Wayne Lin            2024-07-22  2202  	if (amdgpu_ip_version(adev, DCE_HWIP, 0) >= IP_VERSION(4, 0, 1))
+9a45ad15a1e264 Wayne Lin            2024-07-22  2203  		adev->dm.secure_display_ctx.support_mul_roi = true;
+9a45ad15a1e264 Wayne Lin            2024-07-22  2204  
 
 -- 
 0-DAY CI Kernel Test Service
