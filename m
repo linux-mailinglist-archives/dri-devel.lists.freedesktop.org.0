@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 886F8C93CA5
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Nov 2025 11:44:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4B0C93CB4
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Nov 2025 11:50:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9B8710E086;
-	Sat, 29 Nov 2025 10:44:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1BE910E1D3;
+	Sat, 29 Nov 2025 10:50:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="E/nDU8i7";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="WDG6Mdqs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3B8510E086
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 10:44:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD2FB10E1D3
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 10:50:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,34 +22,31 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=f36mTSggbyI0dVO3vnsBztOs/jf0ytqm9wEXzpDFCMQ=; b=E/nDU8i72g0Ihjwchz06E2GthB
- l93SbM3lO27L7UF38bvJxnJETJqry8DzvaYHGKZaY90/9lL9YQo0mkZEaW5yS/8S9e9jOStT/IWD+
- icRhdwMrUTRSqHVkTGOztM7SgxiHktOQMn+vfJmbzHITQi3TasQ5KsSlSJ/fqBB5encKRKO6rHSVq
- MB/Dqp3JZCpK1dJKAqsnXjNRkN3IBQ3MCTzRvVbKKFF7E7ZqtGbwa8yJjR2zi/klwiksNwfl19Mdu
- lBX41PNXfYXtnzZMbofCPL1f376Fr6cyI0y9jA1CLoN7vLS5qw9JIIhaXxk/Kjp+VawWtf3C5MZUH
- 9sDtzkEQ==;
+ bh=O/dT2MbGixKv72s6lTDsDdSfF2zSps0MMmwSPtotcy4=; b=WDG6MdqsqHGIw3GmouUJz2gWGa
+ IoSPrhJvFWuS0hO/vw7hGbHCz00BgkQC9ITejhpuJRbp+bBPqqYQWHsgUiOxfqE0Jm0HTCf9+2A96
+ tjYnWQ9r5imMp3uXm3kTYf8fz+XWzn6Y+sM2KZghByH5ilW4l9U/GYB+Ht0HJxbRhbmZYkWtKujV/
+ ZFUZFbs9Cmb26Q8bmhl9dDdLJ+OuEQBOPcJdgDRorMeqashAw4hWVXnwl1UO5IklOPw84AmPQKLfa
+ bNVt8eqxTU0NMmVjyEg8DusmJIx7yoxTCg/a+RAv500PFD2LyNDKqE65gLh1RhKFTMkVYy+GXJp0t
+ 2mlqf8xQ==;
 Received: from [90.240.106.137] (helo=[192.168.0.101])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vPIRO-006lpi-LB; Sat, 29 Nov 2025 11:44:34 +0100
-Message-ID: <660c5469-086f-40b4-99f1-72c1bc613ece@igalia.com>
-Date: Sat, 29 Nov 2025 10:44:33 +0000
+ id 1vPIXM-006luk-Ew; Sat, 29 Nov 2025 11:50:44 +0100
+Message-ID: <8fa4139e-351d-40ea-abb8-45f0fa91732c@igalia.com>
+Date: Sat, 29 Nov 2025 10:50:43 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFX] efi: sysfb_efi: Fix simpledrmfb on Steam Deck
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Javier Martinez Canillas <javierm@redhat.com>,
- Ard Biesheuvel <ardb@kernel.org>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Melissa Wen <mwen@igalia.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- Mario Limonciello <mario.limonciello@amd.com>, linux-efi@vger.kernel.org
-References: <20251128150403.11567-1-tvrtko.ursulin@igalia.com>
- <ce41c2d1-c659-4632-8469-761762202800@suse.de>
+Subject: Re: [PATCH] drm/panic: Report invalid or unsupported panic modes
+To: Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Jocelyn Falempe <jfalempe@redhat.com>,
+ Javier Martinez Canillas <javierm@redhat.com>
+References: <20251127090349.92717-1-tvrtko.ursulin@igalia.com>
+ <baca752c83558cac83be9008e1da072588f6997d@intel.com>
 Content-Language: en-GB
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <ce41c2d1-c659-4632-8469-761762202800@suse.de>
+In-Reply-To: <baca752c83558cac83be9008e1da072588f6997d@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,209 +63,181 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 28/11/2025 17:07, Thomas Zimmermann wrote:
-> Hi,
-> 
-> thanks for the bug report
-> 
-> Am 28.11.25 um 16:04 schrieb Tvrtko Ursulin:
->> I am not sure how is simpledrmfb on top of EFI supposed to work, but at
->> least at the moment it appears there is a missing link in the "discovery"
->> of frame buffer parameters.
+On 27/11/2025 12:23, Jani Nikula wrote:
+> On Thu, 27 Nov 2025, Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
+>> Currently the user can write anything into the drm.panic_screen modparam,
+>> either at runtime via sysfs, or as a kernel boot time argument. Invalid
+>> strings will be silently accepted and ignored at use time by defaulting to
+>> the 'user' panic mode.
 >>
->> What I can see is that EFI GOP reads some parameters from the firmware 
->> and
->> infers the other, such as in this case problematic pitch, or stride.
-> 
-> The pitch/stride value comes from the firmware via pixels_per_scanline [1].
-> 
-> Can you verify that this value is really 800 instead of 832 (eq 3328 
-> bytes) ?
-> 
-> [1] https://elixir.bootlin.com/linux/v6.17.9/source/drivers/firmware/ 
-> efi/libstub/gop.c#L493
-
-I actually got confused a bit in following the flow so thank you for 
-asking me to double check.
-
-GOP actually reports 1280x800 with a stride of 5120. So it kind of 
-reports a rotated view already, kind of.
-
-Only when the rotation quirk from efifb_dmi_swap_width_height triggers 
-the stride gets incorrectly recalculated:
-
-		u16 temp = screen_info.lfb_width;
-
-		screen_info.lfb_width = screen_info.lfb_height;
-		screen_info.lfb_height = temp;
-		screen_info.lfb_linelength = 4 * screen_info.lfb_width;
-
-So this is where things go wrong, well, they actually go wrong a little 
-bit even earlier, in gop.c:
-
-	si->lfb_size = si->lfb_linelength * si->lfb_height;
-
-Which potentially underestimates the fb size. If GOP was forward looking 
-enough to give us the size we could derive the pitch based on size..
-
-Anyway, as it stands it looks a quirk in sysfb_apply_efi_quirks looks it 
-is required to fix it all up.
-
-I am a bit uneasy about declaring the fb size larger than what was 
-implied by firmware provided pitch * height * depth but limited to a 
-specific DMI match and if it looks visually okay I think it is a safe 
-assumption the quirked size is actually correct and safe.
->> One could be easily excused in thinking that pitch cannot be reliably
->> inferred, since different display hardware has differing alignment
->> requirements, so it is unclear how is hardware agnostic solution supposed
->> to work.
+>> Let instead add some validation in order to have immediate feedback when
+>> something has been mistyped, or not compiled in.
 >>
->> In the specific case of the Steam Deck hardware we have a 800x1280 native
->> panel which is also installed rotated 90 degrees counter clockwise.
+>> For example during kernel boot:
 >>
->> Firmware appears to set up the pitch as 3328, while GOP assumes 3200,
->> based of a width * bpp calculation.
-> 
-> 832 is a multiple of 64, while 800 is not. I've seen this over- 
-> allocation in other context as well.
-> 
+>>   Booting kernel: `bsod' invalid for parameter `drm.panic_screen'
 >>
->> When this incorrect pitch propagates through (rather complicated) fbcon
->> and DRM call paths, the end result is corrupted rendering all until the
->> amdgpu takes over the fbdev.
+>> Or at runtime:
 >>
->> Simplistic solution in this patch is to add a DMI quirk to the EFI
->> frame buffer setup code.
+>>   # echo -n bsod > /sys/module/drm/parameters/panic_screen
+>>   -bash: echo: write error: Invalid argument
 >>
->> Apart from the incorrect pitch, the quirk also does the swapping of the
->> width and height. Apart from setting the correct fbcon dimensions this
->> one also allows the quirk from drm_get_panel_orientation_quirk() to
->> report the correct orientation.
-> 
-> Nice
-> 
+>> Change of behavior is that when invalid mode is attempted to be
+>> configured, currently the code will default to the 'user' mode, while with
+>> this change the code will ignore it, and default to the mode set at kernel
+>> build time via CONFIG_DRM_PANIC_SCREEN.
 >>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Javier Martinez Canillas <javierm@redhat.com>
->> Cc: Ard Biesheuvel <ardb@kernel.org>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: "Christian König" <christian.koenig@amd.com>
->> Cc: Melissa Wen <mwen@igalia.com>
->> Cc: Rodrigo Siqueira <siqueira@igalia.com>
->> Cc: Mario Limonciello <mario.limonciello@amd.com>
->> Cc: linux-efi@vger.kernel.org
->> ---
->>   drivers/firmware/efi/sysfb_efi.c | 48 ++++++++++++++++++++++++++++++--
->>   1 file changed, 46 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/firmware/efi/sysfb_efi.c b/drivers/firmware/efi/ 
->> sysfb_efi.c
->> index 1e509595ac03..84d9049bb2cb 100644
->> --- a/drivers/firmware/efi/sysfb_efi.c
->> +++ b/drivers/firmware/efi/sysfb_efi.c
->> @@ -231,6 +231,18 @@ static const struct dmi_system_id 
->> efifb_dmi_system_table[] __initconst = {
->>       {},
->>   };
->> +struct efifb_mode_fixup {
->> +    unsigned int width;
->> +    unsigned int height;
->> +    unsigned int pitch;
->> +};
->> +
->> +static const struct efifb_mode_fixup efifb_steamdeck_mode_fixup = {
->> +    .width = 1280,
->> +    .height = 800,
->> +    .pitch = 3328,
->> +};
->> +
->>   /*
->>    * Some devices have a portrait LCD but advertise a landscape 
->> resolution (and
->>    * pitch). We simply swap width and height for these devices so that 
->> we can
->> @@ -281,6 +293,24 @@ static const struct dmi_system_id 
->> efifb_dmi_swap_width_height[] __initconst = {
->>               DMI_MATCH(DMI_PRODUCT_NAME, "Lenovo YB1-X91"),
->>           },
->>       },
->> +    {
->> +        /* Valve Steam Deck (Jupiter) */
->> +        .matches = {
->> +            DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
->> +            DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
->> +            DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
->> +        },
->> +        .driver_data = (void *)&efifb_steamdeck_mode_fixup,
->> +    },
->> +    {
->> +        /* Valve Steam Deck (Galileo) */
->> +        .matches = {
->> +            DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
->> +            DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Galileo"),
->> +            DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
->> +        },
->> +        .driver_data = (void *)&efifb_steamdeck_mode_fixup,
->> +    },
->>       {},
->>   };
->> @@ -351,17 +381,31 @@ static struct fwnode_handle efifb_fwnode;
->>   __init void sysfb_apply_efi_quirks(void)
->>   {
->> +    const struct dmi_system_id *match;
->> +
->>       if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI ||
->>           !(screen_info.capabilities & VIDEO_CAPABILITY_SKIP_QUIRKS))
->>           dmi_check_system(efifb_dmi_system_table);
->> -    if (screen_info.orig_video_isVGA == VIDEO_TYPE_EFI &&
->> -        dmi_check_system(efifb_dmi_swap_width_height)) {
+>> While at it lets also fix the module parameter description to include all
+>> compiled in modes.
 > 
-> Could we keep swap_width_height a separate list?
+> I've tried to add a convenient way to use enum module parameters on two
+> occasions [1][2] but it went nowhere. Maybe I should've pushed harder.
 > 
-> The for loop would then be a full override-display list.
+> In a perfect world we'd use device specific parameters, here too, but in
+> the imperfect world we still use module parameters. And use cases like
+> this would be a soooo nice with that.
 > 
->> +    if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI)
->> +        return;
->> +
->> +    for (match = dmi_first_match(efifb_dmi_swap_width_height);
->> +         match;
->> +         match = dmi_first_match(match + 1)) {
->> +        const struct efifb_mode_fixup *data = match->driver_data;
->>           u16 temp = screen_info.lfb_width;
->>           screen_info.lfb_width = screen_info.lfb_height;
->>           screen_info.lfb_height = temp;
->>           screen_info.lfb_linelength = 4 * screen_info.lfb_width;
-> 
-> FTR: This calculation has always been wrong. We need to take the 
-> lfb_depth into account. No need to fix this here; just so you know.
+> Want to take over and fight the fight? ;)
 
-I can add a patch to replace with screen_info.lfb_depth / BITS_PER_BYTE?
+You are not selling it very well. :))
 
->> +
->> +        if (data && data->pitch &&
->> +           data->width == screen_info.lfb_height &&
->> +           data->height == screen_info.lfb_width) {
->> +            screen_info.lfb_linelength = data->pitch;
->> +            screen_info.lfb_size = data->pitch * data->width;
->> +        }
-> 
-> If we have a separate fix-up list, we can make this much nicer:
-> 
-> if (data->width)
->     // assign data->width
-> if (data->height)
->     // assign data->width
-> if (data->data)
->     // assign data->pitch
-> 
-> and then recompute linelength and size
+If we can find enough users where new infra would consolidate them it 
+might be easier to sell. Anything else you know of apart from 
+drm.panic_screen?
 
-I thought the approach of looking at the multiple parameters at the same 
-time, similar how drm_get_panel_orientation_quirk() does it, is safer. 
-Ie. we don't want to edit unless the whole mode matches the expectation.
+Maybe drm_client_lib.active looks as a candidate? But we would need 
+something outside DRM ideally too.
 
 Regards,
 
 Tvrtko
+
+> 
+> [1] https://lore.kernel.org/r/20190611141701.7432-1-jani.nikula@intel.com
+> [2] https://lore.kernel.org/r/20220414123033.654198-1-jani.nikula@intel.com
+> 
+> 
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Jocelyn Falempe <jfalempe@redhat.com>
+>> Cc: Javier Martinez Canillas <javierm@redhat.com>
+>> ---
+>>   drivers/gpu/drm/drm_panic.c | 77 ++++++++++++++++++++++++++++++-------
+>>   1 file changed, 63 insertions(+), 14 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
+>> index d4b6ea42db0f..f42be7f1d8c2 100644
+>> --- a/drivers/gpu/drm/drm_panic.c
+>> +++ b/drivers/gpu/drm/drm_panic.c
+>> @@ -39,12 +39,6 @@ MODULE_AUTHOR("Jocelyn Falempe");
+>>   MODULE_DESCRIPTION("DRM panic handler");
+>>   MODULE_LICENSE("GPL");
+>>   
+>> -static char drm_panic_screen[16] = CONFIG_DRM_PANIC_SCREEN;
+>> -module_param_string(panic_screen, drm_panic_screen, sizeof(drm_panic_screen), 0644);
+>> -MODULE_PARM_DESC(panic_screen,
+>> -		 "Choose what will be displayed by drm_panic, 'user' or 'kmsg' [default="
+>> -		 CONFIG_DRM_PANIC_SCREEN "]");
+>> -
+>>   /**
+>>    * DOC: overview
+>>    *
+>> @@ -813,15 +807,60 @@ static void draw_panic_static_qr_code(struct drm_scanout_buffer *sb)
+>>   		draw_panic_static_user(sb);
+>>   }
+>>   #else
+>> -static void draw_panic_static_qr_code(struct drm_scanout_buffer *sb)
+>> -{
+>> -	draw_panic_static_user(sb);
+>> -}
+>> -
+>>   static void drm_panic_qr_init(void) {};
+>>   static void drm_panic_qr_exit(void) {};
+>>   #endif
+>>   
+>> +enum drm_panic_type {
+>> +	DRM_PANIC_TYPE_KMSG,
+>> +	DRM_PANIC_TYPE_USER,
+>> +	DRM_PANIC_TYPE_QR,
+>> +};
+>> +
+>> +static enum drm_panic_type drm_panic_type = -1;
+>> +
+>> +static const char *drm_panic_type_map[] = {
+>> +	[DRM_PANIC_TYPE_KMSG] = "kmsg",
+>> +	[DRM_PANIC_TYPE_USER] = "user",
+>> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
+>> +	[DRM_PANIC_TYPE_QR] = "qr",
+>> +#endif
+>> +};
+>> +
+>> +static int drm_panic_type_set(const char *val, const struct kernel_param *kp)
+>> +{
+>> +	unsigned int i;
+>> +
+>> +	for (i = 0; i < ARRAY_SIZE(drm_panic_type_map); i++) {
+>> +		if (!strcmp(val, drm_panic_type_map[i])) {
+>> +			drm_panic_type = i;
+>> +			return 0;
+>> +		}
+>> +	}
+>> +
+>> +	return -EINVAL;
+>> +}
+>> +
+>> +static int drm_panic_type_get(char *buffer, const struct kernel_param *kp)
+>> +{
+>> +	return scnprintf(buffer, PAGE_SIZE, "%s\n",
+>> +			 drm_panic_type_map[drm_panic_type]);
+>> +}
+>> +
+>> +static const struct kernel_param_ops drm_panic_ops = {
+>> +	.set = drm_panic_type_set,
+>> +	.get = drm_panic_type_get,
+>> +};
+>> +
+>> +module_param_cb(panic_screen, &drm_panic_ops, NULL, 0644);
+>> +MODULE_PARM_DESC(panic_screen,
+>> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
+>> +		 "Choose what will be displayed by drm_panic, 'user', 'kmsg' or 'qr' [default="
+>> +#else
+>> +		 "Choose what will be displayed by drm_panic, 'user' or 'kmsg' [default="
+>> +#endif
+>> +		 CONFIG_DRM_PANIC_SCREEN "]");
+>> +
+>>   /*
+>>    * drm_panic_is_format_supported()
+>>    * @format: a fourcc color code
+>> @@ -838,11 +877,19 @@ static bool drm_panic_is_format_supported(const struct drm_format_info *format)
+>>   
+>>   static void draw_panic_dispatch(struct drm_scanout_buffer *sb)
+>>   {
+>> -	if (!strcmp(drm_panic_screen, "kmsg")) {
+>> +	switch (drm_panic_type) {
+>> +	case DRM_PANIC_TYPE_KMSG:
+>>   		draw_panic_static_kmsg(sb);
+>> -	} else if (!strcmp(drm_panic_screen, "qr_code")) {
+>> +		break;
+>> +
+>> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
+>> +	case DRM_PANIC_TYPE_QR:
+>>   		draw_panic_static_qr_code(sb);
+>> -	} else {
+>> +		break;
+>> +#endif
+>> +
+>> +	case DRM_PANIC_TYPE_USER:
+>> +	default:
+>>   		draw_panic_static_user(sb);
+>>   	}
+>>   }
+>> @@ -1025,6 +1072,8 @@ void drm_panic_unregister(struct drm_device *dev)
+>>    */
+>>   void __init drm_panic_init(void)
+>>   {
+>> +	if (drm_panic_type == -1)
+>> +		drm_panic_type_set(CONFIG_DRM_PANIC_SCREEN, NULL);
+>>   	drm_panic_qr_init();
+>>   }
+> 
 
