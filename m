@@ -2,62 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77C2C947CD
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Nov 2025 21:29:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F4024C947D3
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Nov 2025 21:30:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F23F510E21B;
-	Sat, 29 Nov 2025 20:29:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8D6F10E21C;
+	Sat, 29 Nov 2025 20:30:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BCp9XUg2";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Oe21u0Yy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E0CC10E21B;
- Sat, 29 Nov 2025 20:29:03 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57D7510E21C;
+ Sat, 29 Nov 2025 20:30:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764448144; x=1795984144;
- h=date:from:to:cc:subject:in-reply-to:message-id:
- references:mime-version:content-id;
- bh=uYgVsf2MTQl3h82f/CYYelPTwNa+rIKmOBuKCFccqQA=;
- b=BCp9XUg2A7KdkaPiMmV0FGOT8XiHDnBhzPQGAXlivfmq6RDYh+aC1kSn
- oyO1/ftCtlaU6WbhGAyrYiXkn7Kkkjyblfn5tB51DQMFOVML7iVOi9hRv
- 9QRkheMe0fZWUNMlmqYBQE36i2UE+/wtWTYbLR8UFZbV7gsfEMEBE5e4d
- RGPH2RIz+jFXU1KD0/6SeMQ89qZnJRZ1f7Go1xZ3tJJRhJkDPg2sNAKgz
- yAtFDG66IoQzuPfhzkb6NHm4U/nmsMqgvmbZT2rgOZQvEEkaD7uMa8+eX
- 5516+3eNAa663aa54y/TLZ/8wO57JzBtxR76XgtxndpvdxGCvfjhpKQxw g==;
-X-CSE-ConnectionGUID: 6VmMKMUVSneTkQ5suUxpnA==
-X-CSE-MsgGUID: XBClhmcfTzifBR86S5G4oQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="77533581"
-X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; d="scan'208";a="77533581"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Nov 2025 12:29:03 -0800
-X-CSE-ConnectionGUID: wmLclJv7RJaIBRg910RcVQ==
-X-CSE-MsgGUID: RgFjJghNR02ow2px5OfSxQ==
+ t=1764448232; x=1795984232;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=Pl1lILzEe3LH5OBkbM+SoRdHXHebqrUDGpe8WEwHlas=;
+ b=Oe21u0Yy4ZzMaATh+/UuPJH6E7IEFZ/w15WERQSN9RhDUiKBa9Z4SXb6
+ v4PPTKSg+ZOwe7pXkt8oh6t6Pg2KgMxHoEshx9xkJah/ofKwREiu/LZ7n
+ Dkz1q8/TUtPRUINevvbcm/rX/7f+phwNzqsp1Xvqn/DAGune1wTMVK2Rh
+ 98HfztHHZCU5onN2HY/ohq3Oz+JVsUXDrRwpaqep5jYolKH1PmrgFLzmN
+ QDehJAs60g5PRXE+Lls+fec+BXFmEvkynU6drOaRB4iI5S6rEOkY9wq/V
+ V12ink2GwunAGWovzecMs7OMWFV8Av5bzWQKzEcZexqKK6ZVpxFpNOszU g==;
+X-CSE-ConnectionGUID: crIHPeFYTLyU96idnvOzWw==
+X-CSE-MsgGUID: 9I8kFQ/lQT+9aui23JCqIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="70293283"
+X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; d="scan'208";a="70293283"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2025 12:30:31 -0800
+X-CSE-ConnectionGUID: WTp37b03Qtu039IHsFhgDQ==
+X-CSE-MsgGUID: 3jllhBBnTWyegBibIUCwag==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; d="scan'208";a="197911362"
-Received: from administrator-system-product-name.igk.intel.com
- ([10.91.214.181])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Nov 2025 12:29:01 -0800
-Date: Sat, 29 Nov 2025 21:28:59 +0100 (CET)
-From: =?ISO-8859-2?Q?Micha=B3_Grzelak?= <michal.grzelak@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-cc: =?ISO-8859-2?Q?Micha=B3_Grzelak?= <michal.grzelak@intel.com>, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- lucas.demarchi@intel.com, rodrigo.vivi@intel.com, 
- jani.nikula@linux.intel.com, Arunpravin.PaneerSelvam@amd.com, 
- thomas.hellstrom@linux.intel.com
-Subject: Re: [PATCH] drm/buddy: release free_trees array on buddy mm teardown
-In-Reply-To: <370852a0-508b-4635-b46c-344e1b488363@intel.com>
-Message-ID: <c666a349-b962-358f-3394-fa321b4cdb34@intel.com>
-References: <20251120093022.276551-1-michal.grzelak@intel.com>
- <370852a0-508b-4635-b46c-344e1b488363@intel.com>
+X-IronPort-AV: E=Sophos;i="6.20,237,1758610800"; d="scan'208";a="198042828"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.50])
+ by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2025 12:30:26 -0800
+Date: Sat, 29 Nov 2025 22:30:23 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] tracing: move tracing declarations from kernel.h to
+ a dedicated header
+Message-ID: <aStX3242e3mo5H05@smile.fi.intel.com>
+References: <20251129195304.204082-1-yury.norov@gmail.com>
+ <20251129195304.204082-4-yury.norov@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323329-687312643-1763978318=:5787"
-Content-ID: <04b8a172-0a6b-bbf5-23d9-07fcb8bc4fc9@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251129195304.204082-4-yury.norov@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,50 +87,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Sat, Nov 29, 2025 at 02:53:02PM -0500, Yury Norov (NVIDIA) wrote:
+> Tracing is a half of the kernel.h in terms of LOCs, although it's a
+> self-consistent part. Move it to a separate header.
+> 
+> This is a pure move, except for removing a few 'extern's.
 
---8323329-687312643-1763978318=:5787
-Content-Type: text/plain; CHARSET=ISO-8859-2; format=flowed
-Content-Transfer-Encoding: 8BIT
-Content-ID: <12b04cac-0b3b-371c-a679-dd7143e7a347@intel.com>
+Yeah, I also have something similar (but half-baked) locally, the Q I wanted to
+ask is why a separate header? We have already some of tracing headers. Doesn't
+suit well?
 
-On Thu, 20 Nov 2025, Matthew Auld wrote:
-> On 20/11/2025 09:30, Micha³ Grzelak wrote:
->> During initialization of DRM buddy memory manager at drm_buddy_init,
->> mm->free_trees array is allocated for both clear and dirty RB trees.
->> During cleanup happening at drm_buddy_fini it is never freed, leading to
->> following memory leaks observed on xe module load & unload cycles:
->>
->>      kmemleak_alloc+0x4a/0x90
->>      __kmalloc_cache_noprof+0x488/0x800
->>      drm_buddy_init+0xc2/0x330 [drm_buddy]
->>      __xe_ttm_vram_mgr_init+0xc3/0x190 [xe]
->>      xe_ttm_stolen_mgr_init+0xf5/0x9d0 [xe]
->>      xe_device_probe+0x326/0x9e0 [xe]
->>      xe_pci_probe+0x39a/0x610 [xe]
->>      local_pci_probe+0x47/0xb0
->>      pci_device_probe+0xf3/0x260
->>      really_probe+0xf1/0x3c0
->>      __driver_probe_device+0x8c/0x180
->>      driver_probe_device+0x24/0xd0
->>      __driver_attach+0x10f/0x220
->>      bus_for_each_dev+0x7f/0xe0
->>      driver_attach+0x1e/0x30
->>      bus_add_driver+0x151/0x290
->> 
->> Deallocate array for free trees when cleaning up buddy memory manager
->> in the same way as if going through out_free_tree label.
->> 
->> Fixes: d4cd665c ("drm/buddy: Separate clear and dirty free block trees")
->> Signed-off-by: Micha³ Grzelak <michal.grzelak@intel.com>
->> Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
->
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->
-Thanks Matthew for your review. I will resend the patch to get the
-change merged via the drm-misc.
+...
 
-BR,
-Micha³
---8323329-687312643-1763978318=:5787--
+> --- a/include/linux/kernel.h
+> +++ b/include/linux/kernel.h
+> @@ -27,6 +27,7 @@
+>  #include <linux/math.h>
+>  #include <linux/minmax.h>
+>  #include <linux/typecheck.h>
+
+> +#include <linux/tracing.h>
+
+There is better place for t*.h, i.e. after static_call_types.h.
+
+Btw, have you tried to sort alphabetically the bulk in the kernel.h after
+your series. Does it still build? (Just wondering about state of affairs
+with the possible cyclic dependencies.)
+
+>  #include <linux/panic.h>
+>  #include <linux/printk.h>
+>  #include <linux/build_bug.h>
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
