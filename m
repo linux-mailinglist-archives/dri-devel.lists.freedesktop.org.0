@@ -2,105 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA5DC93B19
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Nov 2025 10:22:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83C73C93BAF
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Nov 2025 10:50:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15F3210E1CC;
-	Sat, 29 Nov 2025 09:21:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF8B010E1CB;
+	Sat, 29 Nov 2025 09:50:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="G9pWioFS";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="mWum973o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCF4410E1CB;
- Sat, 29 Nov 2025 09:21:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D30BA60132;
- Sat, 29 Nov 2025 09:21:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 850DAC4CEF7;
- Sat, 29 Nov 2025 09:21:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764408114;
- bh=JCS0XqE0LFr0UTEUO0aQ5SQ+0IwobH/0SZQXNTJ7Dp4=;
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 672AF10E1CB
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 09:50:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1764409817;
+ bh=MmXzVJ5MoVP8VbuSvcRf5Cd6FU2Boz+4Je345xBRang=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=G9pWioFSz+XjIfNCx5EfgksG+5jhfX0lFdfTcBm+HCvYoT+oJSugei8I0cVPEGMD1
- TwtgZRI59CF8X4xdelv4vTcK54QNLv7t2HBvHLj2/RfxNzJVGl9X8gbCHZJZt3iKln
- Lnibl+Rj7ilODpXldmoKQchkXhSTYTz/J6eu0AcShpVhZ4RWz3w6voShxzXiY4rMfK
- +pb3ZYxnkRBJp0FLLywFirUULQPPtccDLWLb++uKoPWpdEJ5NTZlZyy1/DChbZAl8S
- BD2s796269OU9LF5huPpVN6KwOX78mByOaq/WrbZ+gIOk6++Ar7Z8bl2+jgJyogpXg
- MCmwVMd1HyUhg==
-Message-ID: <5bad57b5-ab05-477e-b8e9-5086139b2326@kernel.org>
-Date: Sat, 29 Nov 2025 10:21:47 +0100
+ b=mWum973oC9Cc3v/JpWaj+y+bA86DwJ7gSSSecrKm9oRtJXaZEuAdCYMuM0DWgjD1P
+ 5U1s1i230v+rCAw8qZcP3wkUtUVZEWqXRnV7JjWyPQzTI+pY9UCi9mJK7XV3Rm7D/U
+ tMnPsBic37kmOut/GD5QLOsZ7oRNojsLwLXxr1SMTG5l4Rp+VZ4uA7ywtK0yvs3Uh/
+ AsHH2uEObJnWsg7bUyjJM00FGHm384j9W8TnxzDmadBAHKqBCSt1bJVapZ6Tg9UX11
+ noiuxv8yOBLePzsHJHhOAZr59WfU0rcsqzHnR4PIowuyg6dGWcSMqo3LLE+lxzNnXS
+ A4bjyTGgGkItw==
+Received: from [192.168.1.90] (unknown [82.79.138.145])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id B623A17E0330;
+ Sat, 29 Nov 2025 10:50:16 +0100 (CET)
+Message-ID: <058027df-1b1b-4c46-b8e1-ec53fc809e82@collabora.com>
+Date: Sat, 29 Nov 2025 11:50:16 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/6] dt-bindings: display/msm: gpu: Document A612 GPU
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Subject: Re: [PATCH v3 4/4] drm/rockchip: vop2: Support setting custom
+ background color
+To: Chaoyi Chen <chaoyi.chen@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com>
- <20251122-qcs615-spin-2-v3-2-9f4d4c87f51d@oss.qualcomm.com>
- <20251122-savvy-camouflaged-chinchilla-f600ce@kuoka>
- <1207b70e-dcf1-47cf-be26-ff2928932e3e@oss.qualcomm.com>
- <89601075-a312-478e-925d-3cc0b1e9471a@kernel.org>
- <a6a172bc-9f76-4e12-8925-35319baabb62@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>
+Cc: Robert Mader <robert.mader@collabora.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+References: <20251118-rk3588-bgcolor-v3-0-a2cc909428ea@collabora.com>
+ <20251118-rk3588-bgcolor-v3-4-a2cc909428ea@collabora.com>
+ <0ed71b8d-5a2e-4213-bd2f-7ba317d1e4cb@rock-chips.com>
+ <4a6443b8-d440-4921-8a43-7c20e4e265e7@collabora.com>
+ <b8819463-cc61-432f-b451-db90e3b43884@rock-chips.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <a6a172bc-9f76-4e12-8925-35319baabb62@oss.qualcomm.com>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <b8819463-cc61-432f-b451-db90e3b43884@rock-chips.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -118,147 +75,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/11/2025 11:29, Akhil P Oommen wrote:
-> On 11/25/2025 1:28 PM, Krzysztof Kozlowski wrote:
->> On 24/11/2025 22:39, Akhil P Oommen wrote:
->>> On 11/22/2025 4:32 PM, Krzysztof Kozlowski wrote:
->>>> On Sat, Nov 22, 2025 at 03:22:16AM +0530, Akhil P Oommen wrote:
->>>>> +
->>>>> +  - if:
->>>>> +      properties:
->>>>> +        compatible:
->>>>> +          contains:
->>>>> +            const: qcom,adreno-612.0
->>>>> +    then:
->>>>> +      properties:
->>>>> +        clocks:
->>>>> +          items:
->>>>> +            - description: GPU Core clock
->>>>> +
->>>>> +        clock-names:
->>>>> +          items:
->>>>> +            - const: core
->>>>> +
->>>>> +      required:
->>>>> +        - clocks
->>>>> +        - clock-names
->>>>> +
->>>>>      else:
->>>>
->>>> I am pretty sure you break not only intention/logic behindi this else,
->>>> but actually cause real warnings to appear.
->>>>
->>>> The else was intentional, right? So the pattern further will not match
->>>> some of devices defined in if:. Now else is for different part, so only
->>>> 612 out of these devices is excluded.
->>>>
->>>> There is a reason we do not want ever else:if: in bindings. If it
->>>> appeared, sure, maybe there is some benefit of it, but it means you need
->>>> to be more careful now.
->>>
->>> Aah! I missed that this comes under an 'allOf'. Not an expert in this
->>
->> The allOf does not matter here. If these were separate if:then: then it
->> would be the same.
->>
->>> syntax, does moving this entire block under an 'else' make sense? Or is
->>
->> No, never nest blocks.
->>
->>> there a saner alternative?
->>
->> Not sure, I don't remember the code. Original code was not easy to read,
->> with your changes it will not be easier. So the only alternative I see
->> is to make it simple and obvious.
-> 
-> Could you please confirm if the below change would be okay?
-> 
-> @@ -384,6 +384,31 @@ allOf:
-> 
->   - if:
->       properties:
->         compatible:
->           contains:
->             enum:
->               - qcom,adreno-610.0
->               - qcom,adreno-619.1
->               - qcom,adreno-07000200
->     then:
->       properties:
->         clocks:
->           minItems: 6
->           maxItems: 6
-> 
->         clock-names:
->           items:
->             - const: core
->               description: GPU Core clock
->             - const: iface
->               description: GPU Interface clock
->             - const: mem_iface
->               description: GPU Memory Interface clock
->             - const: alt_mem_iface
->               description: GPU Alternative Memory Interface clock
->             - const: gmu
->               description: CX GMU clock
->             - const: xo
->               description: GPUCC clocksource clock
-> 
->         reg-names:
->           minItems: 1
->           items:
->              - const: kgsl_3d0_reg_memory
->              - const: cx_dbgc
-> 
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: qcom,adreno-612.0
-> +    then:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: GPU Core clock
-> +
-> +        clock-names:
-> +          items:
-> +            - const: core
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - qcom,adreno-610.0
-> +              - qcom,adreno-612.0
-> +              - qcom,adreno-619.1
-> +              - qcom,adreno-07000200
-> +    then:
->       required:
->         - clocks
->         - clock-names
+Hi Chaoyi,
 
-Yes, this should work, but I think it is better to require clocks in the
-same block which defines them. You also need to restrict reg/reg-names
-for the new device.
+On 11/29/25 5:49 AM, Chaoyi Chen wrote:
+> Hello Cristian, 
+> 
+> On 11/28/2025 5:44 PM, Cristian Ciocaltea wrote:
+>> The precision was something I initially looked into for CRC verification, in the
+>> context of the related IGT test.  But since I've added the VKMS support, I think
+>> we should not worry about that anymore. 
+>>
+>> Moreover, as already pointed out in [1], only RK3576 supports CRC generation at
+>> display controller level, and that is not particularly useful because it doesn't
+> 
+> I believe you can get the CRTC CRC on the RK3576, even when only the 
+> background is visible and all plane is disabled. Feel free to let me
+> know if you run into any issues :)
+
+Yes, CRTC CRC works on RK3576 for the planes, but not for the background, i.e.
+the CRC is not updated when setting a different background color.  Unless
+there's a way to change this default behavior, which I'm not aware of. 
+
+My current understanding is that the background color is applied at a later
+stage in the display pipeline, *after* blending the planes and computing CRC.
+
+>> take the background color into account.  Therefore I had to capture the frame
+>> CRCs at DisplayPort AUX channel level, by using the USB-C DP AltMode capable
+> 
+> Oh that sounds interesting! I'm not sure how complex it would be to
+> implement.
+
+That's already implemented, I plan to submit the patches soon.
 
 > 
->     else:
->       if:
->         properties:
->           compatible:
->             contains:
->               oneOf:
->                 - pattern: '^qcom,adreno-[67][0-9][0-9]\.[0-9]+$'
->                 - pattern: '^qcom,adreno-[0-9a-f]{8}$'
-
-This if:else:if: should be just removed and written in a way to choose
-specific devices affected here. The code is not readable and your
-mistake was a proof of that.
-
+>> port of my RK3588-based board.  However, that solution is not yet available
+>> upstream, as it requires further work for cleanup and improving the overall
+>> USB-C reliability. 
+>>
+>> Hence I'll move on with your suggestion and switch to the simple bit-shifting
+>> approach for the next revision.
 > 
->       then: # Starting with A6xx, the clocks are usually defined in the
->         properties:
-Best regards,
-Krzysztof
