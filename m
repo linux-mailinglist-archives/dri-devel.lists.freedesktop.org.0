@@ -2,80 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC599C95628
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 00:28:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF190C93FAE
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Nov 2025 15:31:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FBAA10E291;
-	Sun, 30 Nov 2025 23:28:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4353310E1FF;
+	Sat, 29 Nov 2025 14:31:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AgH1xA/m";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lYMNXJUe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5CF8310E1FE
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 14:16:05 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-5958232f806so3134031e87.0
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 06:16:05 -0800 (PST)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+ [209.85.214.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73A0610E1FF
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 14:31:06 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id
+ d9443c01a7336-295351ad2f5so5237545ad.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 06:31:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764425763; x=1765030563; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=CCb0Eqo5GqhxN4l/mvqQ6jrTkxIuERyWVn+iJxuMgs0=;
- b=AgH1xA/mmxpYX8GQhQFVZEWLWj1fvBJw/nCHWOj6sW7OLfiARU6eZjDcKVhyCE9oJN
- xgjE2qxzh2KW4MneLWuzrZcBvhxWUbo7Klobol51s9Z/nEgTQjsjPnXYiC+DwRsK+z/j
- aeDsvf3zs/eZ21DQwkUyaXG5vVWOc6NrRa1RgDPbgYu7wEvvADtCsnhgv0NvtJHK3ObZ
- xdBNIKbJmNkwEehYCrvPW90TqoutBUdl2dB6Mt9E5wHsK8L+4iZRMLnitmXFv9WINmQy
- C8bRW1O93vWycaW7wAICesA9wsYeCq04M1GRjWUdYsPQqzmVl/t/wqBuRMtzVlP5Na/U
- 4Cuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764425763; x=1765030563;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1764426666; x=1765031466; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CCb0Eqo5GqhxN4l/mvqQ6jrTkxIuERyWVn+iJxuMgs0=;
- b=Bzk+08gNvGo4EeURF0IgRHpv8K0IXCpOaXL3qcq6C49+dhOls2Ww0qg25mi4Nk0732
- zSj0ZXBzeTKqFdbsWZww+WNWBYOuQ90Vmksr+OOwOYf+T8W6EI2Y2UF9IqlrQLtNdnEO
- aY5+vLCmFc1oitm6PddugREtfARvz0QWVhzFYVP4Wdkd+p5vFYzhjiHXpuiDMNWYD2sR
- Yvt5rsEUSApqX+HbijJc3lnP/cQ+4FQRWgkd9cv6aD5lw3Rn7e+W+7XBZV1qw/0N65xA
- NSQJzXQgT2+eSVJ69RQ5B972oPSBVuV+QAsIpVAWjjwE69mjtmmyVeiAc8lS9iAlqc/T
- pNeA==
+ bh=yMsbazQINn+Ap/ydJGs+KwKtfgjlcNUADEg2wwTJeFI=;
+ b=lYMNXJUezepyqKwJ9hnudOtpiYTrKxXorYB4oAlVn+Xv7FoOUA4HbEIMxvKiVI9NKL
+ R7nMVEQa6k2sY0ucmqQPdgHSKdiWaONmdToQ37PYTzHyvEK0Z3Rr1K7g8/p8Y6AY1zlr
+ 4t2of57Z15QWhjLLC1wKoW/L3K4B2mbUlmBsn+ERSmgFfLxnHfAqsgRx+Z7Re+iK+ayK
+ hwaD+KEJAG569kSvUFEe43rtD3g8fTmx2zOiYQll6VRJoGxAzoiWfgJ9hp3rkoBpCujM
+ q/cyCyLWVjX/GCe97ZI2Uz7wM10v2AnmYN8e2tcAeB21fTjrsPfKtFGS3yge3IO3c3cp
+ Icxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764426666; x=1765031466;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=yMsbazQINn+Ap/ydJGs+KwKtfgjlcNUADEg2wwTJeFI=;
+ b=L2fBosoTuaENtw4DRmhZJvUH41sABTiOHpDum6JVsZWJ90C9TvyWBDylJRbHyImvQL
+ EgaWxDPN4fGfxvfLDhEkzvNECxNKykDqGX4d2qm1qV52mKLd0tvdxZBmcI1ypJ/kov+0
+ iVvqqlYxbu3WPj7pmHf63URQJvW2ioSJF5/SNOBY3hylrcFms0Yn378UTvy7SyCM3h/5
+ R/RNMCv8s2kB7nmK+zVNVdBVF42HwahuYE9Wl5Fk750Hl/wW6NDDt0a+ZKAdHc49u/KY
+ XYp04xstk80NviNsNkapbQqmQWOL7/NC67dTIAyMIpnc48NIp/D08ET2OX6m8+Fc9tf9
+ PP4g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVmIXQIH2zj6aD8oHKpc15quFJaJVZ4ELm2pk9Eq8ieDSKnfsJQZRB3J2mCsHzISaz9F4oi/Li3+fo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxDi/B3FOJ+gNUH6tK3Y2p0h6aWJpE3TEXcxjxSPddY4PbqucOp
- NTC5cV2ZxSKxtCU91i9XrG5+iG17XlbJxwsH0t4hsmwm0Nchs/haU2vB
-X-Gm-Gg: ASbGncszzfWuhcA1z2/39FQFcNTjjVOM2P5eyGtKHWPmZUY2yNc9Y/FyJtwVwAEULgQ
- PYiJP4YDIVzKG5ykmDIM09SZSXLdq7OMHreFj+kO/8H0ousvVZ+moBYjFDi6BXrSlLm60zs3I0V
- HCq7RPOYuvk1myB3NMESMXgiA+JovpHNfhHuN5GcZ1igCA+0UNWuy1JAYzpfaFHt/TNVmkU4dM7
- 6xB/mMshaHbBDzgbqD0YaLxs+joQ8zn077cgV6QzUWFmq8kMFAwi47PtxtegCb5nam1gsU8rgc6
- H5V0ibPaiGidt28TP4mGG2Kyj35P86n9GZbIoLRGS1QU+dmMiM/cLUByAlRg+bsZG75Kx8BIWPV
- qcwqPSGydU9wucwQKSELKzOseYoFuE8hC0SnfuOITsJPARkzoZmHsrs5m83M9ER1Q3bYnkSblBG
- tTtilLRbixAf1NV0YRg5/7s3xAw3Jc9oFgJdOBX6JWoy4C5BOxi8DUl0xxUKU=
-X-Google-Smtp-Source: AGHT+IEA3WrHgp5ecEMKNm9JiVdtpzxk9v/x2/vTeR8RniWcj0S+d7R5TzjjaIhv5WRyeSx0oFzvMg==
-X-Received: by 2002:a05:6512:23a1:b0:594:36b3:d1fa with SMTP id
- 2adb3069b0e04-596a3ed471fmr11203155e87.29.1764425763064; 
- Sat, 29 Nov 2025 06:16:03 -0800 (PST)
-Received: from home-server.lan (89-109-48-215.dynamic.mts-nn.ru.
- [89.109.48.215]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-596bfa43f33sm1945600e87.49.2025.11.29.06.16.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Nov 2025 06:16:02 -0800 (PST)
-From: Alexey Simakov <bigalex934@gmail.com>
-To: bskeggs@redhat.com
-Cc: Alexey Simakov <bigalex934@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Francisco Jerez <currojerez@riseup.net>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
- Alexandr Sapozhnikov <alsp705@gmail.com>
-Subject: 
-Date: Sat, 29 Nov 2025 17:14:40 +0300
-Message-Id: <20251129141438.8789-1-bigalex934@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ AJvYcCVjD4CEdj6EoGDMcoodoWORYQpF7h4GdXQdRKgsszDY/jcuRFidT13yReFUcvVOg3O4iDqKcVE4gnQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzMBwWYp7VA+7EQKpGT21HnU4fm79DkhjqKz2kNtEtFP5te1Qsj
+ 23Sk+JzahYmTvBlbkj1GdTb0/e47s1NxJF6Ce3sZUftUW9vYUQsd+RuZhJ0TdkYrK/rrixXOQQA
+ DGEoIP71ndX8lz6ZPJ+LJf7PKb6Jh414=
+X-Gm-Gg: ASbGncvi1VjzoujbF2Cu9xJebXAeqq4nP5M9j0Iy1BXn8cdj7DZjXCQYwh4EImzexWD
+ L8SVPrVtN/Ax9+LjKOV31o2Msi1tAglTbbrWVdCBGXS0whtJTPt7HGgB8nxSswka6gE1WM7l7hP
+ 9V5JG7woatwSmvWt0BCtbhyG+P28W3+sWQvIZFPpypJ50/38Lb/NpKajF+5brE0dKQd993ngG93
+ 0P5dGxFdwXuYOJqi6ri33pR8w+h/uRSEGlQNZQECdOz/dsUrs25wIdoUQGfDezQ3oMwUX4+vfzO
+ kH5l4/2IeoVn7NgzTn3E0KXZa27sI3DMo0bDRvPI3t9qpDhWIds3ZB6cO21Fo4kLW/GjbW8YUeo
+ yL6jUeu37zLBugQ==
+X-Google-Smtp-Source: AGHT+IHcOsjVFY9XJX2BiFAdmsHJ/f20IbX6P9+zd7PQm2nCPKxCB5i/K/WGxRB0xol4Ze03XmNGaR0r/rbYJIpjsVo=
+X-Received: by 2002:a05:7301:4084:b0:2a4:3592:cf8b with SMTP id
+ 5a478bee46e88-2a724bbea18mr18350746eec.2.1764426665752; Sat, 29 Nov 2025
+ 06:31:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sun, 30 Nov 2025 23:28:49 +0000
+References: <20251129134834.34559-1-atharvd440@gmail.com>
+In-Reply-To: <20251129134834.34559-1-atharvd440@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 29 Nov 2025 15:30:53 +0100
+X-Gm-Features: AWmQ_bnPoDsTRNk5YATBKX1OFgMn8zdQLMedx-ZaZ6SNnvYibRdyQixueZZy5wk
+Message-ID: <CANiq72mSStPR2Htq3aRS9FLbiHALJP21tTSgiwDfQJBR1zHr4g@mail.gmail.com>
+Subject: Re: [PATCH] rust: drm: use `pin_init::zeroed()` for file operations
+ initialization
+To: Atharv Dubey <atharvd440@gmail.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, dakr@kernel.org, aliceryhl@google.com, 
+ ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com, 
+ gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org, 
+ a.hindborg@kernel.org, tmgross@umich.edu, daniel.almeida@collabora.com, 
+ lyude@redhat.com, shankari.ak0208@gmail.com, lina+kernel@asahilina.net, 
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,49 +92,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Date: Sat, 29 Nov 2025 17:06:57 +0300
-Subject: [PATCH v2] drm/nouveau: fix div-by-zero in nouveau_bo_fixup_align
+On Sat, Nov 29, 2025 at 2:48=E2=80=AFPM Atharv Dubey <atharvd440@gmail.com>=
+ wrote:
+>
+> +
 
-The expression 64 * nvbo->mode can be zero when nvbo->mode equals
-U32_MAX / 64, causing a division by zero in do_div(). Values greater
-than U32_MAX / 64 cause a u32 overflow, leading to incorrect results.
+Spurious newline?
 
-Since nvbo->mode comes from userspace via ioctl, it must be validated
-to prevent crashes or undefined behavior.
-
-Add a check to ensure nvbo->mode is less than U32_MAX / 64
-before use in multiplication.
-
-Found by Linux Verification Center (linuxtesting.org) with Svace.
-
-Fixes: a0af9add499c ("drm/nouveau: Make the MM aware of pre-G80 tiling.")
-Co-developed-by: Alexandr Sapozhnikov <alsp705@gmail.com>
-Signed-off-by: Alexandr Sapozhnikov <alsp705@gmail.com>
-Signed-off-by: Alexey Simakov <bigalex934@gmail.com>
----
-
-v2 - move value check at the begining of nouveau_bo_alloc for
-preventing execution of function for case, when tile_mode is too large
-
-link to v1: https://lore.kernel.org/dri-devel/20251022041302.13-1-alsp705@gmail.com/
-
- drivers/gpu/drm/nouveau/nouveau_bo.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 96a8b7b1215e..774888ffa4a8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -207,6 +207,9 @@ nouveau_bo_alloc(struct nouveau_cli *cli, u64 *size, int *align, u32 domain,
- 	struct nvif_vmm *vmm = cli->svm.cli ? &cli->svm.vmm : &cli->vmm.vmm;
- 	int i, pi = -1;
- 
-+	if (tile_mode > U32_MAX / 64)
-+		return ERR_PTR(-EINVAL);
-+
- 	if (!*size) {
- 		NV_WARN(drm, "skipped size %016llx\n", *size);
- 		return ERR_PTR(-EINVAL);
--- 
-2.34.1
-
+Cheers,
+Miguel
