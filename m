@@ -2,51 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB4B0C93CB4
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Nov 2025 11:50:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64008C93CC7
+	for <lists+dri-devel@lfdr.de>; Sat, 29 Nov 2025 12:11:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A1BE910E1D3;
-	Sat, 29 Nov 2025 10:50:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B89010E031;
+	Sat, 29 Nov 2025 11:11:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="WDG6Mdqs";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MokggMNn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD2FB10E1D3
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 10:50:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=O/dT2MbGixKv72s6lTDsDdSfF2zSps0MMmwSPtotcy4=; b=WDG6MdqsqHGIw3GmouUJz2gWGa
- IoSPrhJvFWuS0hO/vw7hGbHCz00BgkQC9ITejhpuJRbp+bBPqqYQWHsgUiOxfqE0Jm0HTCf9+2A96
- tjYnWQ9r5imMp3uXm3kTYf8fz+XWzn6Y+sM2KZghByH5ilW4l9U/GYB+Ht0HJxbRhbmZYkWtKujV/
- ZFUZFbs9Cmb26Q8bmhl9dDdLJ+OuEQBOPcJdgDRorMeqashAw4hWVXnwl1UO5IklOPw84AmPQKLfa
- bNVt8eqxTU0NMmVjyEg8DusmJIx7yoxTCg/a+RAv500PFD2LyNDKqE65gLh1RhKFTMkVYy+GXJp0t
- 2mlqf8xQ==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vPIXM-006luk-Ew; Sat, 29 Nov 2025 11:50:44 +0100
-Message-ID: <8fa4139e-351d-40ea-abb8-45f0fa91732c@igalia.com>
-Date: Sat, 29 Nov 2025 10:50:43 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15FE410E031
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 11:11:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764414663; x=1795950663;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=2UA5sco6NuFh6yBNwCIqsd1c3E4ylFlBew9OjNjMjDA=;
+ b=MokggMNnfiqYE0Bgk1DTO2XMnCsbJKbNNIgOf/3QkmPgLbpCLa2iCUZg
+ UjMUtJ8ontSZedPZ2xp3POv48ZIU/iQyogrWJIESwkfPkFWStcOs4igkS
+ ztbFgC7IJbFq/1Yv7bF/FwQ4o2W3Te8zbt5sdQc6gPBTED/wnFx5dPPki
+ s4vItbDJwxfVbw1WsRQfzCBmU5miCTEoSBG+H2VxDEoCRX8vfckh1PnN+
+ qTv7f952iBA+22w0KIJFgRJEAHtCDh3InfUdehBc4dEzkz7ll1HOAUwPz
+ 3J2kqlb3eGKcUEGnnYXXbs/YJrkNSzupO5MRWK+hpibvWOiInazI00wK0 g==;
+X-CSE-ConnectionGUID: Vm5jFKFaSw646WY7VHBpsg==
+X-CSE-MsgGUID: tFGeez1ETTWtGI7jXLmQMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="66306801"
+X-IronPort-AV: E=Sophos;i="6.20,236,1758610800"; d="scan'208";a="66306801"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2025 03:11:02 -0800
+X-CSE-ConnectionGUID: 07e4EypTSjqk02QeoBMjlw==
+X-CSE-MsgGUID: VptHr+F9Sd6YJLQl0Xa/Sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,236,1758610800"; d="scan'208";a="193754572"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+ by orviesa008.jf.intel.com with ESMTP; 29 Nov 2025 03:10:58 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vPIqt-00000000789-3cxV;
+ Sat, 29 Nov 2025 11:10:55 +0000
+Date: Sat, 29 Nov 2025 19:10:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, srini@kernel.org,
+ linux-arm-msm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
+ quic_bkumar@quicinc.com, linux-kernel@vger.kernel.org,
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
+ arnd@arndb.de, dmitry.baryshkov@oss.qualcomm.com
+Subject: Re: [PATCH v2 1/2] misc: fastrpc: Refactor mmap and munmap logic
+ into helper functions
+Message-ID: <202511291834.zu81Ud77-lkp@intel.com>
+References: <20251128103428.1119696-2-ekansh.gupta@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panic: Report invalid or unsupported panic modes
-To: Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Jocelyn Falempe <jfalempe@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>
-References: <20251127090349.92717-1-tvrtko.ursulin@igalia.com>
- <baca752c83558cac83be9008e1da072588f6997d@intel.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <baca752c83558cac83be9008e1da072588f6997d@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251128103428.1119696-2-ekansh.gupta@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,182 +74,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Ekansh,
 
-On 27/11/2025 12:23, Jani Nikula wrote:
-> On Thu, 27 Nov 2025, Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
->> Currently the user can write anything into the drm.panic_screen modparam,
->> either at runtime via sysfs, or as a kernel boot time argument. Invalid
->> strings will be silently accepted and ignored at use time by defaulting to
->> the 'user' panic mode.
->>
->> Let instead add some validation in order to have immediate feedback when
->> something has been mistyped, or not compiled in.
->>
->> For example during kernel boot:
->>
->>   Booting kernel: `bsod' invalid for parameter `drm.panic_screen'
->>
->> Or at runtime:
->>
->>   # echo -n bsod > /sys/module/drm/parameters/panic_screen
->>   -bash: echo: write error: Invalid argument
->>
->> Change of behavior is that when invalid mode is attempted to be
->> configured, currently the code will default to the 'user' mode, while with
->> this change the code will ignore it, and default to the mode set at kernel
->> build time via CONFIG_DRM_PANIC_SCREEN.
->>
->> While at it lets also fix the module parameter description to include all
->> compiled in modes.
-> 
-> I've tried to add a convenient way to use enum module parameters on two
-> occasions [1][2] but it went nowhere. Maybe I should've pushed harder.
-> 
-> In a perfect world we'd use device specific parameters, here too, but in
-> the imperfect world we still use module parameters. And use cases like
-> this would be a soooo nice with that.
-> 
-> Want to take over and fight the fight? ;)
+kernel test robot noticed the following build warnings:
 
-You are not selling it very well. :))
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.18-rc7 next-20251128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-If we can find enough users where new infra would consolidate them it 
-might be easier to sell. Anything else you know of apart from 
-drm.panic_screen?
+url:    https://github.com/intel-lab-lkp/linux/commits/Ekansh-Gupta/misc-fastrpc-Refactor-mmap-and-munmap-logic-into-helper-functions/20251128-183620
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20251128103428.1119696-2-ekansh.gupta%40oss.qualcomm.com
+patch subject: [PATCH v2 1/2] misc: fastrpc: Refactor mmap and munmap logic into helper functions
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251129/202511291834.zu81Ud77-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251129/202511291834.zu81Ud77-lkp@intel.com/reproduce)
 
-Maybe drm_client_lib.active looks as a candidate? But we would need 
-something outside DRM ideally too.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511291834.zu81Ud77-lkp@intel.com/
 
-Regards,
+All warnings (new ones prefixed by >>):
 
-Tvrtko
+   drivers/misc/fastrpc.c: In function 'fastrpc_req_munmap_dsp':
+>> drivers/misc/fastrpc.c:1825:23: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1825 |         args[0].ptr = (u64) &req_msg;
+         |                       ^
+   drivers/misc/fastrpc.c: In function 'fastrpc_req_map_dsp':
+   drivers/misc/fastrpc.c:1897:23: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1897 |         args[0].ptr = (u64)&req_msg;
+         |                       ^
+   drivers/misc/fastrpc.c:1903:23: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1903 |         args[1].ptr = (u64)&pages;
+         |                       ^
+   drivers/misc/fastrpc.c:1906:23: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1906 |         args[2].ptr = (u64)&rsp_msg;
+         |                       ^
 
-> 
-> [1] https://lore.kernel.org/r/20190611141701.7432-1-jani.nikula@intel.com
-> [2] https://lore.kernel.org/r/20220414123033.654198-1-jani.nikula@intel.com
-> 
-> 
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Jocelyn Falempe <jfalempe@redhat.com>
->> Cc: Javier Martinez Canillas <javierm@redhat.com>
->> ---
->>   drivers/gpu/drm/drm_panic.c | 77 ++++++++++++++++++++++++++++++-------
->>   1 file changed, 63 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_panic.c b/drivers/gpu/drm/drm_panic.c
->> index d4b6ea42db0f..f42be7f1d8c2 100644
->> --- a/drivers/gpu/drm/drm_panic.c
->> +++ b/drivers/gpu/drm/drm_panic.c
->> @@ -39,12 +39,6 @@ MODULE_AUTHOR("Jocelyn Falempe");
->>   MODULE_DESCRIPTION("DRM panic handler");
->>   MODULE_LICENSE("GPL");
->>   
->> -static char drm_panic_screen[16] = CONFIG_DRM_PANIC_SCREEN;
->> -module_param_string(panic_screen, drm_panic_screen, sizeof(drm_panic_screen), 0644);
->> -MODULE_PARM_DESC(panic_screen,
->> -		 "Choose what will be displayed by drm_panic, 'user' or 'kmsg' [default="
->> -		 CONFIG_DRM_PANIC_SCREEN "]");
->> -
->>   /**
->>    * DOC: overview
->>    *
->> @@ -813,15 +807,60 @@ static void draw_panic_static_qr_code(struct drm_scanout_buffer *sb)
->>   		draw_panic_static_user(sb);
->>   }
->>   #else
->> -static void draw_panic_static_qr_code(struct drm_scanout_buffer *sb)
->> -{
->> -	draw_panic_static_user(sb);
->> -}
->> -
->>   static void drm_panic_qr_init(void) {};
->>   static void drm_panic_qr_exit(void) {};
->>   #endif
->>   
->> +enum drm_panic_type {
->> +	DRM_PANIC_TYPE_KMSG,
->> +	DRM_PANIC_TYPE_USER,
->> +	DRM_PANIC_TYPE_QR,
->> +};
->> +
->> +static enum drm_panic_type drm_panic_type = -1;
->> +
->> +static const char *drm_panic_type_map[] = {
->> +	[DRM_PANIC_TYPE_KMSG] = "kmsg",
->> +	[DRM_PANIC_TYPE_USER] = "user",
->> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
->> +	[DRM_PANIC_TYPE_QR] = "qr",
->> +#endif
->> +};
->> +
->> +static int drm_panic_type_set(const char *val, const struct kernel_param *kp)
->> +{
->> +	unsigned int i;
->> +
->> +	for (i = 0; i < ARRAY_SIZE(drm_panic_type_map); i++) {
->> +		if (!strcmp(val, drm_panic_type_map[i])) {
->> +			drm_panic_type = i;
->> +			return 0;
->> +		}
->> +	}
->> +
->> +	return -EINVAL;
->> +}
->> +
->> +static int drm_panic_type_get(char *buffer, const struct kernel_param *kp)
->> +{
->> +	return scnprintf(buffer, PAGE_SIZE, "%s\n",
->> +			 drm_panic_type_map[drm_panic_type]);
->> +}
->> +
->> +static const struct kernel_param_ops drm_panic_ops = {
->> +	.set = drm_panic_type_set,
->> +	.get = drm_panic_type_get,
->> +};
->> +
->> +module_param_cb(panic_screen, &drm_panic_ops, NULL, 0644);
->> +MODULE_PARM_DESC(panic_screen,
->> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
->> +		 "Choose what will be displayed by drm_panic, 'user', 'kmsg' or 'qr' [default="
->> +#else
->> +		 "Choose what will be displayed by drm_panic, 'user' or 'kmsg' [default="
->> +#endif
->> +		 CONFIG_DRM_PANIC_SCREEN "]");
->> +
->>   /*
->>    * drm_panic_is_format_supported()
->>    * @format: a fourcc color code
->> @@ -838,11 +877,19 @@ static bool drm_panic_is_format_supported(const struct drm_format_info *format)
->>   
->>   static void draw_panic_dispatch(struct drm_scanout_buffer *sb)
->>   {
->> -	if (!strcmp(drm_panic_screen, "kmsg")) {
->> +	switch (drm_panic_type) {
->> +	case DRM_PANIC_TYPE_KMSG:
->>   		draw_panic_static_kmsg(sb);
->> -	} else if (!strcmp(drm_panic_screen, "qr_code")) {
->> +		break;
->> +
->> +#if IS_ENABLED(CONFIG_DRM_PANIC_SCREEN_QR_CODE)
->> +	case DRM_PANIC_TYPE_QR:
->>   		draw_panic_static_qr_code(sb);
->> -	} else {
->> +		break;
->> +#endif
->> +
->> +	case DRM_PANIC_TYPE_USER:
->> +	default:
->>   		draw_panic_static_user(sb);
->>   	}
->>   }
->> @@ -1025,6 +1072,8 @@ void drm_panic_unregister(struct drm_device *dev)
->>    */
->>   void __init drm_panic_init(void)
->>   {
->> +	if (drm_panic_type == -1)
->> +		drm_panic_type_set(CONFIG_DRM_PANIC_SCREEN, NULL);
->>   	drm_panic_qr_init();
->>   }
-> 
 
+vim +1825 drivers/misc/fastrpc.c
+
+  1813	
+  1814	static int fastrpc_req_munmap_dsp(struct fastrpc_user *fl, u64 raddr, u64 size)
+  1815	{
+  1816		struct fastrpc_invoke_args args[1] = { [0] = { 0 } };
+  1817		struct fastrpc_munmap_req_msg req_msg;
+  1818		int err;
+  1819		u32 sc;
+  1820	
+  1821		req_msg.client_id = fl->client_id;
+  1822		req_msg.size = size;
+  1823		req_msg.vaddr = raddr;
+  1824	
+> 1825		args[0].ptr = (u64) &req_msg;
+  1826		args[0].length = sizeof(req_msg);
+  1827	
+  1828		sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_MUNMAP, 1, 0);
+  1829		err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE, sc,
+  1830					      &args[0]);
+  1831	
+  1832		return err;
+  1833	}
+  1834	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
