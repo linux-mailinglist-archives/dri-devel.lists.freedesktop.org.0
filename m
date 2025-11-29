@@ -1,84 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (unknown [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9210C93ED2
-	for <lists+dri-devel@lfdr.de>; Sat, 29 Nov 2025 14:52:04 +0100 (CET)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC599C95628
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 00:28:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BF9D10E1F8;
-	Sat, 29 Nov 2025 13:51:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FBAA10E291;
+	Sun, 30 Nov 2025 23:28:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RtDmKs/r";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AgH1xA/m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C98610E1F8
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 13:48:50 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-7baf61be569so3198813b3a.3
- for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 05:48:50 -0800 (PST)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5CF8310E1FE
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 14:16:05 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-5958232f806so3134031e87.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 29 Nov 2025 06:16:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764424130; x=1765028930; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1764425763; x=1765030563; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=CxF0XBnGH6LB9r496VOLJIF8yF3YVeU0DcCoOsSq/us=;
- b=RtDmKs/r6+J9a0zJWEORT5I0OYfxSsdFUkk4il4nX/0ehgghsBGjfstvv6O0eoOQ9K
- FJAsopNh4xtmLtPxw9r3Rl87NTDgZAhFQTuFcJAj3xnF4i4qvfld+WHtNhXw4inZQtMs
- gWGNwb7M+Siv9r11X+1cks4Wj1iZTP/58phDFV3Y3bpOKXnWvTWnodDj9xnL6ZZtNtaP
- JYopN+p1hVhWsDUmKi5xqi1d7bWb+WGFh8rQEMRJVBjkR7teWSdUPgDW5AWgcOFs00vI
- TfQ121DrJn+RZQbnoRs1JgT6fb3VM1MdyfHyQFOMU/NseKynUFVxnRI4OVvfcAd4aNkG
- 5gEg==
+ bh=CCb0Eqo5GqhxN4l/mvqQ6jrTkxIuERyWVn+iJxuMgs0=;
+ b=AgH1xA/mmxpYX8GQhQFVZEWLWj1fvBJw/nCHWOj6sW7OLfiARU6eZjDcKVhyCE9oJN
+ xgjE2qxzh2KW4MneLWuzrZcBvhxWUbo7Klobol51s9Z/nEgTQjsjPnXYiC+DwRsK+z/j
+ aeDsvf3zs/eZ21DQwkUyaXG5vVWOc6NrRa1RgDPbgYu7wEvvADtCsnhgv0NvtJHK3ObZ
+ xdBNIKbJmNkwEehYCrvPW90TqoutBUdl2dB6Mt9E5wHsK8L+4iZRMLnitmXFv9WINmQy
+ C8bRW1O93vWycaW7wAICesA9wsYeCq04M1GRjWUdYsPQqzmVl/t/wqBuRMtzVlP5Na/U
+ 4Cuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764424130; x=1765028930;
+ d=1e100.net; s=20230601; t=1764425763; x=1765030563;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CxF0XBnGH6LB9r496VOLJIF8yF3YVeU0DcCoOsSq/us=;
- b=BtobgOgsW8+pIbqbewjST1YU9TPxNv1pzPbQIenrsByUABmRopI9ySj8f0tdfS/vsE
- eqKA/C4iURXIdlBljiD87YH7uqn64FaT2ZwzeUagdH9rsjOPTcPDFc3lbb7zCrzrqLCh
- Jpb1M7Fp84iA1DPMx9Det0CHRi3Arncv3+dLohtfImxtm5jv2M8m5EuG93XAlrwDM+mY
- opCLLq3x1TafqPXmX8pNNJC1w0MvD/Co/Sxj3y5z/G51rwFdZUMxGJyezk70clg6RHey
- mMpvuGlpJVNkzCZUjliPPMzC3pFtbwklwaDZmIZBz5xyobp9U3YdndsoWm7+DW93U31c
- waJw==
+ bh=CCb0Eqo5GqhxN4l/mvqQ6jrTkxIuERyWVn+iJxuMgs0=;
+ b=Bzk+08gNvGo4EeURF0IgRHpv8K0IXCpOaXL3qcq6C49+dhOls2Ww0qg25mi4Nk0732
+ zSj0ZXBzeTKqFdbsWZww+WNWBYOuQ90Vmksr+OOwOYf+T8W6EI2Y2UF9IqlrQLtNdnEO
+ aY5+vLCmFc1oitm6PddugREtfARvz0QWVhzFYVP4Wdkd+p5vFYzhjiHXpuiDMNWYD2sR
+ Yvt5rsEUSApqX+HbijJc3lnP/cQ+4FQRWgkd9cv6aD5lw3Rn7e+W+7XBZV1qw/0N65xA
+ NSQJzXQgT2+eSVJ69RQ5B972oPSBVuV+QAsIpVAWjjwE69mjtmmyVeiAc8lS9iAlqc/T
+ pNeA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXxu3L292/uffeAJbErDhm0m9PsmV/2XubI2PMTuBEX2xAJXVij8ynlQX+mjufRjALFGElbkQLfi00=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YypiPLckqpIWEpMlaHolnUdMBIUDX4+iltNdqhFqkn0C+CnvG5g
- 6Eq7sFp44GZ0JslhlInW2mUgJPv7C0X+hYfVSriWKF/f0UOI7ry6SS+N
-X-Gm-Gg: ASbGncvI7aIDqCcTcFf2LMYNpdK49Ej+OROW6yLZi9QOlmilHLUuxOuzSy511RzeaYY
- aKZujdeasS+fPE69dxqdpuLDxkxyDo1KSfv3hDpWhFX3eVyY0VZ2DKheyiE6kSqLPsh+Er+VwIZ
- L+TgmpIyY8afWH4bl52Cn3qs64Lxl6L4hCx8DB0Ac4cuZctbWNASXeC2FnSxAriclx5DDWreVlS
- 5CJEPDV8M7vo5LLJBMwU0kxRjcXjJxRTr1Zu9rAMW4KDBcVwDSrmbpdB0nN7AXxT/s3fu4N0EYo
- kTNlfrVBFHhMIZFSS1EHY7UDpme2Z8oqW9RG6O6tsHeQ7o4O/vA0Jk+k8qF2XJCBL9GFRT+w07+
- g+qVr8bbntJODggPC2xdaf6B9HHd7on6zs6cJrsN0TvQS4IGN9uGym+clvd1NymXUJKo2FLxXED
- G/af8dukxKno30S7mF3u3RpOo/i62OOv2PkwXCasvhvucbUaJl/H7et7xjBYckmilB
-X-Google-Smtp-Source: AGHT+IEj/pGfzV/wVSjqFnk1Rp085zRW724FpSRZrypf39X/AxpERM/MpTy8vTxQVKLagBZNvo3B5w==
-X-Received: by 2002:a05:6a20:e293:b0:33e:6885:2bd4 with SMTP id
- adf61e73a8af0-36150f058ffmr35905235637.29.1764424129965; 
- Sat, 29 Nov 2025 05:48:49 -0800 (PST)
-Received: from atharv-HP-Pavilion-x360-2-in-1-Laptop-14-ek1xxx..
- ([103.216.213.160]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7d151ad4d6esm8084743b3a.26.2025.11.29.05.48.40
+ AJvYcCVmIXQIH2zj6aD8oHKpc15quFJaJVZ4ELm2pk9Eq8ieDSKnfsJQZRB3J2mCsHzISaz9F4oi/Li3+fo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxDi/B3FOJ+gNUH6tK3Y2p0h6aWJpE3TEXcxjxSPddY4PbqucOp
+ NTC5cV2ZxSKxtCU91i9XrG5+iG17XlbJxwsH0t4hsmwm0Nchs/haU2vB
+X-Gm-Gg: ASbGncszzfWuhcA1z2/39FQFcNTjjVOM2P5eyGtKHWPmZUY2yNc9Y/FyJtwVwAEULgQ
+ PYiJP4YDIVzKG5ykmDIM09SZSXLdq7OMHreFj+kO/8H0ousvVZ+moBYjFDi6BXrSlLm60zs3I0V
+ HCq7RPOYuvk1myB3NMESMXgiA+JovpHNfhHuN5GcZ1igCA+0UNWuy1JAYzpfaFHt/TNVmkU4dM7
+ 6xB/mMshaHbBDzgbqD0YaLxs+joQ8zn077cgV6QzUWFmq8kMFAwi47PtxtegCb5nam1gsU8rgc6
+ H5V0ibPaiGidt28TP4mGG2Kyj35P86n9GZbIoLRGS1QU+dmMiM/cLUByAlRg+bsZG75Kx8BIWPV
+ qcwqPSGydU9wucwQKSELKzOseYoFuE8hC0SnfuOITsJPARkzoZmHsrs5m83M9ER1Q3bYnkSblBG
+ tTtilLRbixAf1NV0YRg5/7s3xAw3Jc9oFgJdOBX6JWoy4C5BOxi8DUl0xxUKU=
+X-Google-Smtp-Source: AGHT+IEA3WrHgp5ecEMKNm9JiVdtpzxk9v/x2/vTeR8RniWcj0S+d7R5TzjjaIhv5WRyeSx0oFzvMg==
+X-Received: by 2002:a05:6512:23a1:b0:594:36b3:d1fa with SMTP id
+ 2adb3069b0e04-596a3ed471fmr11203155e87.29.1764425763064; 
+ Sat, 29 Nov 2025 06:16:03 -0800 (PST)
+Received: from home-server.lan (89-109-48-215.dynamic.mts-nn.ru.
+ [89.109.48.215]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-596bfa43f33sm1945600e87.49.2025.11.29.06.16.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 29 Nov 2025 05:48:49 -0800 (PST)
-From: Atharv Dubey <atharvd440@gmail.com>
-To: airlied@gmail.com, simona@ffwll.ch, dakr@kernel.org, aliceryhl@google.com,
- ojeda@kernel.org, alex.gaynor@gmail.com
-Cc: boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu,
- daniel.almeida@collabora.com, lyude@redhat.com, shankari.ak0208@gmail.com,
- lina+kernel@asahilina.net, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- Atharv Dubey <atharvd440@gmail.com>
-Subject: [PATCH] rust: drm: use `pin_init::zeroed()` for file operations
- initialization
-Date: Sat, 29 Nov 2025 19:18:34 +0530
-Message-ID: <20251129134834.34559-1-atharvd440@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ Sat, 29 Nov 2025 06:16:02 -0800 (PST)
+From: Alexey Simakov <bigalex934@gmail.com>
+To: bskeggs@redhat.com
+Cc: Alexey Simakov <bigalex934@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Francisco Jerez <currojerez@riseup.net>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
+ Alexandr Sapozhnikov <alsp705@gmail.com>
+Subject: 
+Date: Sat, 29 Nov 2025 17:14:40 +0300
+Message-Id: <20251129141438.8789-1-bigalex934@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Sat, 29 Nov 2025 13:51:20 +0000
+X-Mailman-Approved-At: Sun, 30 Nov 2025 23:28:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,31 +91,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the manual `unsafe { core::mem::zeroed() }` initialization of
-`bindings::file_operations` with `pin_init::zeroed()`. This removes the
-explicit unsafe
+Date: Sat, 29 Nov 2025 17:06:57 +0300
+Subject: [PATCH v2] drm/nouveau: fix div-by-zero in nouveau_bo_fixup_align
 
-Signed-off-by: Atharv Dubey <atharvd440@gmail.com>
+The expression 64 * nvbo->mode can be zero when nvbo->mode equals
+U32_MAX / 64, causing a division by zero in do_div(). Values greater
+than U32_MAX / 64 cause a u32 overflow, leading to incorrect results.
+
+Since nvbo->mode comes from userspace via ioctl, it must be validated
+to prevent crashes or undefined behavior.
+
+Add a check to ensure nvbo->mode is less than U32_MAX / 64
+before use in multiplication.
+
+Found by Linux Verification Center (linuxtesting.org) with Svace.
+
+Fixes: a0af9add499c ("drm/nouveau: Make the MM aware of pre-G80 tiling.")
+Co-developed-by: Alexandr Sapozhnikov <alsp705@gmail.com>
+Signed-off-by: Alexandr Sapozhnikov <alsp705@gmail.com>
+Signed-off-by: Alexey Simakov <bigalex934@gmail.com>
 ---
- rust/kernel/drm/gem/mod.rs | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
-index 30c853988b94..c220cf1966fd 100644
---- a/rust/kernel/drm/gem/mod.rs
-+++ b/rust/kernel/drm/gem/mod.rs
-@@ -298,9 +298,8 @@ impl<T: DriverObject> AllocImpl for Object<T> {
- }
+v2 - move value check at the begining of nouveau_bo_alloc for
+preventing execution of function for case, when tile_mode is too large
+
+link to v1: https://lore.kernel.org/dri-devel/20251022041302.13-1-alsp705@gmail.com/
+
+ drivers/gpu/drm/nouveau/nouveau_bo.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
+index 96a8b7b1215e..774888ffa4a8 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_bo.c
++++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
+@@ -207,6 +207,9 @@ nouveau_bo_alloc(struct nouveau_cli *cli, u64 *size, int *align, u32 domain,
+ 	struct nvif_vmm *vmm = cli->svm.cli ? &cli->svm.vmm : &cli->vmm.vmm;
+ 	int i, pi = -1;
  
- pub(super) const fn create_fops() -> bindings::file_operations {
--    // SAFETY: As by the type invariant, it is safe to initialize `bindings::file_operations`
--    // zeroed.
--    let mut fops: bindings::file_operations = unsafe { core::mem::zeroed() };
++	if (tile_mode > U32_MAX / 64)
++		return ERR_PTR(-EINVAL);
 +
-+    let mut fops: bindings::file_operations = pin_init::zeroed();
- 
-     fops.owner = core::ptr::null_mut();
-     fops.open = Some(bindings::drm_open);
+ 	if (!*size) {
+ 		NV_WARN(drm, "skipped size %016llx\n", *size);
+ 		return ERR_PTR(-EINVAL);
 -- 
-2.43.0
+2.34.1
 
