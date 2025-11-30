@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD3E9C95072
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Nov 2025 15:44:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 114E3C9503F
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Nov 2025 15:35:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6DDF89023;
-	Sun, 30 Nov 2025 14:44:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F27B10E02B;
+	Sun, 30 Nov 2025 14:35:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=foxmail.com header.i=@foxmail.com header.b="RbwmrQU5";
+	dkim=pass (1024-bit key; unprotected) header.d=foxmail.com header.i=@foxmail.com header.b="OQsqzUBp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 485 seconds by postgrey-1.36 at gabe;
- Sun, 30 Nov 2025 14:44:42 UTC
-Received: from out162-62-57-64.mail.qq.com (out162-62-57-64.mail.qq.com
- [162.62.57.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 868E889023
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Nov 2025 14:44:41 +0000 (UTC)
+X-Greylist: delayed 393 seconds by postgrey-1.36 at gabe;
+ Sun, 30 Nov 2025 14:35:45 UTC
+Received: from out203-205-221-210.mail.qq.com (out203-205-221-210.mail.qq.com
+ [203.205.221.210])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 710F910E02B
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Nov 2025 14:35:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
- s=s201512; t=1764513877;
- bh=efa3Phy+9Z/xCM2a0z0nq9OLkO6OgO7fwzu5NcORe/w=;
+ s=s201512; t=1764513342;
+ bh=qReGk1WfsHOyiBno1NOk+49x8+G9e2IJ9Nlz9CqVvbE=;
  h=From:To:Cc:Subject:Date;
- b=RbwmrQU5ShhplkzkNLqDmFj0K7JFm+/RIZGDAzSUF6pORMqHCDS8IgNRVe22Wz0Cd
- 0QpP/kwvMhkC6uXFHIkrjl0QdfdHVDA6d+dXvB3RtvUUJt33GawZATlOhT4F/rilSO
- lcy9ZIhfTtHf1aylqoHIFiCwgEjRdQ59C5kcEGMU=
+ b=OQsqzUBpfS4+mQYu0J3/sC7oR8s/8wD1HruvflIsO5knuESQr5AsPdGdvmvGkec6y
+ 2o6/n4JqOHvkNSQWlI+KI0Vy9oOqrDyz/aIr8uh0OWwOMK/wPxY9X5FAoidRUVES97
+ QP6NGncb5GQRFbIO5i+rcR+LU1AyVnqy2OQdAucQ=
 Received: from localhost.localdomain ([171.223.167.52])
- by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
- id 74625490; Sun, 30 Nov 2025 22:29:06 +0800
-X-QQ-mid: xmsmtpt1764512946t25g3kiom
-Message-ID: <tencent_9EB0AA660F6B5E93CEC56ECE35AD49491308@qq.com>
-X-QQ-XMAILINFO: NC4p7XQIBeahEfXR2loLDJJaZZHlGs/k8kTJB7zZgPrsAqCMPinxwfPEuxWAJc
- ZaHtUywKQJcPeXvcBTa5HsxLFRdc32210K+w/juAQ2sNy4XBhh+gYG9LaglAtKIoReqvj6GtjvB1
- WsVBoh0YcocKlgV+co6701eA0G7QU9G1U7vqiFPwbtLEtvjQFlIg4XpHUCP1rGezHGR2mrZatX8Y
- ItvgE0sOyzDWwws5yvcLa1VSKaH4YIDTnFS3RSTd2QrBErC//NRxQqtPTrI79vGz/o7CeCpzrp5A
- ODBD9b3oHbcaEL7M1cBfiuPosw8Ok+uaIE9fuAGz1YJWrfacrLbw8cSPjE1y1/l8PMWtdJBZkMpY
- ttimRbb7fz2c9Pe+bs3pxLS+9OjAet7KhWLSQTQhOoNkuM3UJxo/xlhD7QkOMe6sXguX4MMWZCvT
- gMZcmeAGqbYWWJ5ABrHIGxL3Tv0DhhEqdX2lBW3n4kjqVvNZV4LOXn6pWNxHnA2ni57jmkzGU+RH
- BKTGI6zqTw+5MWkjx+w189b8ew4eoHFaq/qcFVsM55cTJnbNILhR9bxOba8ubqwa3wqz3KVHGtZd
- G9OTD/xjQrQuuarzPeOLJIPNhrLzXhUI/Sgy7Gsp9BUuJFKCBVWGj4bhG1uqpo7J3bgNYVCId8RR
- UZyT/ncJM7DZMECqx2dlvLIeo+1jXRKFb36MBkO+Gf2x+APDVxfHZa8juvoW5IeHQF8cYuk+xFC7
- KQGdEWhnb8u+jczE3MwM4zK9yWA/DocVGLzgPmK280a+DUu6Zz11iFiq3Z4UkFkJckXXUAAcz1B+
- h9rcuXoAHW9IkWgUcyyVKkM+HO5BJU9jTTLOFILYSBLZ6gG3NZJwjC+HWC0pEm51BCKPFPq4euSZ
- fhhGO3EuR1+7bAuHSd3plIo9igQzgGr6FS4j2SHvvqYOv81Rmkwq1hfXBOeW8XSkYo9f3EDBhIr4
- L8IEN6vbfwns0KMu1UMcU6ul3wu731+XoU6qLifpaCTwKTpCA9o023RZfCzipbOHMrxDwp1co/tS
- 7SXzVcqr6d4+24V0JB+t27IxQN0LrzLe0Br34LMiI7R7ZGyPfSxOLVWbzoKxU=
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+ by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+ id 8E6A52C2; Sun, 30 Nov 2025 22:35:38 +0800
+X-QQ-mid: xmsmtpt1764513338t3z1son2f
+Message-ID: <tencent_FD75580BB3BF35F44985E237E7DE56BE2407@qq.com>
+X-QQ-XMAILINFO: MJf32pulH4812iR2pxWgduXPSR8oEa1DaOvphV0IbBF3lyi/IvzL7a69v182Mw
+ 7gauB0JK/LTDfFLut1dVvWm0plgmq+8LrPGRSaR3yvSE1Ke+WQEYjzISxBweKyeVKLNUXqvUypyB
+ ftHoJb0a3x611rhwH0zYUeKDfL/kYD5lqdRAF1uTkZNqfUe7Q5Yc64AS/C4FH3ONBfy0pv78thok
+ JeSAf9NVB+Dce4rmtsLSCig9hec8mFFSGvUv9h0F1i1ljmC0KtcB76vM8RQNnTp7yc/OnsOp6Yk0
+ Mjr1EP8BTQmEnfxG0UWoeS7zEXE98o1Kvoykcp0cr0dXGYsWS6bLeZDAI5C0pioKMtqUyz9dbnEO
+ c9oM37ki4GfWueB5SjBSvJRcOu7VedxZfShFjs16E9Z6rlfBnRe6/FVqnYy2S5A4jIm6fCWs6cGb
+ 4zIWoeDA2lrso1LOeZJkh5aOlL2UDsAUBq3qcg2FudEf85coIsBclyxqNCFoe7LbeImvDePm7kyt
+ LN8yWDPEeWnWKMtRHnB3LkRK1lz8ZS9VUh7Tbxqiz+QjYoTjiNA+BkzLNcSk/D8cMdvzmRiv+gxe
+ h8lom0tOpt74wrFwuD7rdmZFs4FMSDsRvR6Shy8E5VCyeWP4qI9yphhMDYWVc3D/mjAIFueffS9d
+ M+3haVDox4FZvS7jhZWLzqQ6B4YMbryeDjk1nHVr3jAOlLjy2iy3duRaJXHYEZfyN2MRn4IrA+dz
+ iCsrm3Xgj+4EmgPh0TxJzslApUzXpAHwCjPgd5zhd1cYRHRS8wNFDTbjqfUi/EbMM9AzRMNAiLKr
+ Z/b15DDjEVYTeM0/Hh8IUP9h8k6LiIea2BqcbiTueDWMxe7dgE0qAL4H4IZdbnenYaF1VKotWoDA
+ guy6w2KBfaHBddNBR/wLjO+Q9JsVqk1ZD2NzRyqjpH/evCHpme8U4kqHXQziAAENMddWlwwRjJxX
+ MhWggQtNrdRV1Yl5YbtkSECmnHKjHCCUmFuTGX/Z3fMp/SkRQtgx4GhcF9g14SxdWpF3R7PfM3bI
+ 9XGP/tZq/3lDvhtYHoGxIztGMZ1/8WGfbKfNehJmqXsa98rN0HN/rGu+rKYMB3rZCto8YMnrCBZU
+ ItLuHs
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
 From: Renjun Wang <renjunw0@foxmail.com>
 To: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
  airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
@@ -54,9 +55,9 @@ To: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
  sam@ravnborg.org
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Renjun Wang <renjunw0@foxmail.com>
-Subject: [PATCH 0/2] Add HannStar HSD156JUW2 panel support
-Date: Sun, 30 Nov 2025 22:28:41 +0800
-X-OQ-MSGID: <20251130142843.78926-1-renjunw0@foxmail.com>
+Subject: [PATCH 1/2] dt-bindings: display: simple: Add HannStar HSD156JUW2
+Date: Sun, 30 Nov 2025 22:35:27 +0800
+X-OQ-MSGID: <20251130143527.81309-1-renjunw0@foxmail.com>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -75,19 +76,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The HannStar HSD156JUW2 panel is a 15.6" FHD (1920x1080) LCD-TFT LVDS
-panel. Add a binding and a panel entry under panel-simple.c.
+Add the HannStar HSD156JUW2 15.6" FHD (1920x1080) TFT LCD panel to
+the panel-simple compatible list.
 
-Renjun Wang (2):
-  dt-bindings: display: simple: Add HannStar HSD156JUW2
-  drm/panel: simple: Add HannStar HSD156JUW2
+Signed-off-by: Renjun Wang <renjunw0@foxmail.com>
+---
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../bindings/display/panel/panel-simple.yaml  |  2 ++
- drivers/gpu/drm/panel/panel-simple.c          | 28 +++++++++++++++++++
- 2 files changed, 30 insertions(+)
-
-
-base-commit: e538109ac71d801d26776af5f3c54f548296c29c
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 2017428d8828..918dd6d303cd 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -154,6 +154,8 @@ properties:
+       - hannstar,hsd070pww1
+         # HannStar Display Corp. HSD100PXN1 10.1" XGA LVDS panel
+       - hannstar,hsd100pxn1
++        # HannStar Display Corp. HSD156JUW2 15.6" FHD (1920x1080) TFT LCD panel
++      - hannstar,hsd156juw2
+         # Hitachi Ltd. Corporation 9" WVGA (800x480) TFT LCD panel
+       - hit,tx23d38vm0caa
+         # Innolux AT043TN24 4.3" WQVGA TFT LCD panel
 -- 
 2.39.5
 
