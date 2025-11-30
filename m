@@ -2,51 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AB6C95227
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Nov 2025 17:14:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58378C952F6
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Nov 2025 18:40:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9063889A72;
-	Sun, 30 Nov 2025 16:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9307310E041;
+	Sun, 30 Nov 2025 17:40:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e1JJWp4Q";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="Dl5yHnKL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0BEB89A72
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Nov 2025 16:14:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id D7E136014B;
- Sun, 30 Nov 2025 16:14:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA5FDC4CEF8;
- Sun, 30 Nov 2025 16:14:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764519293;
- bh=Mx8Q61Ut2NMjVGiek8L2Ppr/wcjqwTTDVTB8wQMifek=;
- h=From:Date:Subject:To:Cc:From;
- b=e1JJWp4QrGccrc9V/8CPx9kIxOE0eDSW0VikgrfBKALo45Hv5bKaQcFBYo80BvyyF
- RcIipYkVBQmp1oqMdF5JrurJyavBM0o8ddQ1Fk1044zO+uXpzsdq52KkLhUXTDYY69
- sBNQCXaiuaSa9RVYxWRJx2ixMCqYV1pfs6tpzL5ByXx146nxaPuadlQqr516VMEukJ
- 4N8TjcGEU8jbkRPlyuKzUUJyOkImVGaCPh0v5gV+Bfvp5tkfVvUUA+2BgqloISqqNN
- ibusWVDC+dhr++ThRfbFHW37ZhBR7kMc5qXA9xqIBWpKkYUYgnXuUHJEsRfa407ywq
- PGC7PO0xcVTcA==
-From: Linus Walleij <linusw@kernel.org>
-Date: Sun, 30 Nov 2025 17:14:45 +0100
-Subject: [PATCH] MAINTAINERS: Change Linus Walleij mail address
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+ [209.85.128.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 331E010E041
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Nov 2025 17:40:19 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id
+ 5b1f17b1804b1-4779e2ac121so195345e9.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Nov 2025 09:40:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1764524418; x=1765129218;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=L4Na1WnWt98FnIwMW2cXnPG9QEtYrpTgxkwDunJeAk8=;
+ b=Dl5yHnKL7sRfrMwyI6WPxwmktMkQW1wR/WQxup5VMuIz6V601rLXOonl6H0Lm3CyHR
+ rkZ25u+n5XzwRcn+OMCwTGf6gVQMX/RiL9Ux9ljoiuVoNelM79GhS6jpakxDLKd8XDSu
+ R8I9xeC8T4qtJudLrJb1bmiKUmWzRzcbKPvpPveoTS/CfrdpissgyQMCaYe6keQ7HF8W
+ 144Sd3liOLPSATLV/vU+pitZCVBop8MHmELu1ltAnXihjdFhL18Xuux1eV0KMUvfN6d0
+ QaKWGo/MDHe7OOvBChT7IB5Tc1oNtQNRnDIYuD1gmumHHvMt72eAnCovdOHeUsgMYVbo
+ 3AQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764524418; x=1765129218;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=L4Na1WnWt98FnIwMW2cXnPG9QEtYrpTgxkwDunJeAk8=;
+ b=d4/HxkgC8RcS6wYL8AqAYPlc6Nw5nwvMr0qYufixVB4Ftua/LQBwXT20JZtV9nrrTK
+ B7zzWELbPRcMSMPZVk7qqHdfoNPDWR5zRHcgwoMBWKTAaN1Dw41gxZz3e6hylQqWjY0v
+ 4dUhgkmnan3pFXSmvaB5qQ8l7mH+3pdQoKcL8GvML7Zing8pKfwebnaJzNcCqOaXaDZE
+ jlzHAQhLyobRmOLPZ/jNRL4REPMSAWgcAZdip0kGZgA00C7WkkkgOQDN8WpNtCdDog0j
+ L21EV686T7JQcAiVl0H/Yadm2aaPYK6qbiPe87rH6mBcRFtLaNcWUmbXi579yf6ZawNQ
+ u9nw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXMCllVNRJQKTd2BXW5JZV5AEHaJ+FOJg2jFo4GkcZdyozO5FwlVK2od4uYj9rkB96bM+5KKTv57pU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxyZGJEzTL3yXCQsJumxgX/CD4ZaE9GMQPiXaO0mtm2162J92rx
+ k+eegcfK2Rwv1Mm6+0SF3BrLVWD8LCqoYwELBa+f/ebr2DwYI8RnhHVXZORD1/koYPLkK2r9zi8
+ i+RRxkracuzBSyFBxECDkxgTe0vb1MEFAhlNA/zpf
+X-Gm-Gg: ASbGncuiNUdIoQcQ2gOBzmW1S13W3sdpgZiWB3XY3qtpGMNfMePzGaWZSU9Y6gRAoUL
+ ok6UXhT5XWgf824QaXSttjL6O8C0OByc0aUQeWvJqD3NnEovpEonYnVI4LMIWH7EQbkAoWqOlqS
+ yMtODlFJprKv/aQF7eP5RJzUQ++sHUsl8e3Xo4G5i3cqszv4JolE0DuIsbJA1Qgh/0a8uD+wQ8s
+ JRTTgsITH5vC+xYf/Q5ScYZcRPf43HwE2uK9NOsVdVHrt4eVFHzmDwW192IpvaRh7WvQq5NR3l3
+ hMpcqOxYbWNcsidL1LAW1RrTo+K7TX5g3VfUV8vRZm04LHI9hAqdx/ZLatoGzw==
+X-Google-Smtp-Source: AGHT+IHlTVz7wW8BG+EB/zJr/z7m4Wjnt3IV1uAh9XtpVidYWPvE2DdOvZABmgAV2wINgEeD93te3ZXLwt2sI23wYH8=
+X-Received: by 2002:a05:600d:104:b0:477:86fd:fb1b with SMTP id
+ 5b1f17b1804b1-47910a0f7cdmr1051315e9.11.1764524417540; Sun, 30 Nov 2025
+ 09:40:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251130-linusw-kernelorg-email-v1-1-bcdbff7b896c@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MwQqDMAyA4VeRnA0kdUXmqwwPorELq3WkqAPx3
- S07fof/PyGLqWToqhNMds26pgKuKxjfQwqCOhWDI+eZG8KoacsHfsSSxNUCyjJoRGqfzM5TS/M
- DSvw1mfX3H7/667oBGLNjXGgAAAA=
-X-Change-ID: 20251130-linusw-kernelorg-email-0791125070f4
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
- linux-iio@vger.kernel.org, linux-input@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- Linus Walleij <linusw@kernel.org>
-X-Mailer: b4 0.14.3
+References: <20251130-dma-buf-heap-clear-page-v1-1-a8dcea2a88ee@linaro.org>
+In-Reply-To: <20251130-dma-buf-heap-clear-page-v1-1-a8dcea2a88ee@linaro.org>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Sun, 30 Nov 2025 09:40:05 -0800
+X-Gm-Features: AWmQ_blosOa_VWvpKHaVXV4SgNmym-5ipECN2hZ2hHZsTsjHR9HcSCxA6X756f0
+Message-ID: <CABdmKX3-jP7s5CCGeHc8Gz-mHBEwob983KXMcRmrTfpZz6d=Rg@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: heaps: Clear CMA pages with clear_page()
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,283 +90,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I will be using my kernel.org mail address going forward.
+On Sun, Nov 30, 2025 at 2:54=E2=80=AFAM Linus Walleij <linus.walleij@linaro=
+.org> wrote:
+>
+> clear_page() translates into memset(*p, 0, PAGE_SIZE) on some
+> architectures, but on the major architectures it will call
+> an optimized assembly snippet so use this instead of open
+> coding a memset().
+>
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 
-There is no point in splitting this MAINTAINERS patch up
-per subsystem, I will just include it with the rest of my
-patches to pin control in the next merge window.
+Reviewed-by: T.J. Mercier <tjmercier@google.com>
 
-Signed-off-by: Linus Walleij <linusw@kernel.org>
----
- MAINTAINERS | 58 +++++++++++++++++++++++++++++-----------------------------
- 1 file changed, 29 insertions(+), 29 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 181a58ec4a8d..13f61acdc8f7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -195,7 +195,7 @@ F:	drivers/pinctrl/pinctrl-upboard.c
- F:	include/linux/mfd/upboard-fpga.h
- 
- AB8500 BATTERY AND CHARGER DRIVERS
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- F:	Documentation/devicetree/bindings/power/supply/*ab8500*
- F:	drivers/power/supply/*ab8500*
- 
-@@ -2045,7 +2045,7 @@ F:	Documentation/devicetree/bindings/display/arm,hdlcd.yaml
- F:	drivers/gpu/drm/arm/hdlcd_*
- 
- ARM INTEGRATOR, VERSATILE AND REALVIEW SUPPORT
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- F:	Documentation/devicetree/bindings/arm/arm,integrator.yaml
-@@ -2203,7 +2203,7 @@ F:	Documentation/devicetree/bindings/memory-controllers/arm,pl35x-smc.yaml
- F:	drivers/memory/pl353-smc.c
- 
- ARM PRIMECELL SSP PL022 SPI DRIVER
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- F:	Documentation/devicetree/bindings/spi/spi-pl022.yaml
-@@ -2216,7 +2216,7 @@ F:	drivers/tty/serial/amba-pl01*.c
- F:	include/linux/amba/serial.h
- 
- ARM PRIMECELL VIC PL190/PL192 DRIVER
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- F:	Documentation/devicetree/bindings/interrupt-controller/arm,vic.yaml
-@@ -2633,7 +2633,7 @@ F:	tools/perf/util/cs-etm.*
- 
- ARM/CORTINA SYSTEMS GEMINI ARM ARCHITECTURE
- M:	Hans Ulli Kroll <ulli.kroll@googlemail.com>
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- T:	git https://github.com/ulli-kroll/linux.git
-@@ -3035,7 +3035,7 @@ F:	include/dt-bindings/clock/mstar-*
- F:	include/dt-bindings/gpio/msc313-gpio.h
- 
- ARM/NOMADIK/Ux500 ARCHITECTURES
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-nomadik.git
-@@ -3732,7 +3732,7 @@ F:	Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml
- F:	drivers/media/i2c/ak7375.c
- 
- ASAHI KASEI AK8974 DRIVER
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-iio@vger.kernel.org
- S:	Supported
- W:	http://www.akm.com/
-@@ -6758,7 +6758,7 @@ S:	Maintained
- F:	drivers/pinctrl/pinctrl-cy8c95x0.c
- 
- CYPRESS CY8CTMA140 TOUCHSCREEN DRIVER
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	drivers/input/touchscreen/cy8ctma140.c
-@@ -6778,13 +6778,13 @@ Q:	http://patchwork.linuxtv.org/project/linux-media/list/
- F:	drivers/media/common/cypress_firmware*
- 
- CYTTSP TOUCHSCREEN DRIVER
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	drivers/input/touchscreen/cyttsp*
- 
- D-LINK DIR-685 TOUCHKEYS DRIVER
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-input@vger.kernel.org
- S:	Supported
- F:	drivers/input/keyboard/dlink-dir685-touchkeys.c
-@@ -7653,13 +7653,13 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	drivers/gpu/drm/tiny/appletbdrm.c
- 
- DRM DRIVER FOR ARM PL111 CLCD
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	drivers/gpu/drm/pl111/
- 
- DRM DRIVER FOR ARM VERSATILE TFT PANELS
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/panel/arm,versatile-tft-panel.yaml
-@@ -7709,7 +7709,7 @@ F:	Documentation/devicetree/bindings/display/panel/ebbg,ft8719.yaml
- F:	drivers/gpu/drm/panel/panel-ebbg-ft8719.c
- 
- DRM DRIVER FOR FARADAY TVE200 TV ENCODER
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	drivers/gpu/drm/tve200/
-@@ -7903,14 +7903,14 @@ F:	include/dt-bindings/clock/qcom,dsi-phy-28nm.h
- F:	include/uapi/drm/msm_drm.h
- 
- DRM DRIVER FOR NOVATEK NT35510 PANELS
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
- F:	drivers/gpu/drm/panel/panel-novatek-nt35510.c
- 
- DRM DRIVER FOR NOVATEK NT35560 PANELS
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/panel/sony,acx424akp.yaml
-@@ -8028,7 +8028,7 @@ F:	Documentation/devicetree/bindings/display/panel/raydium,rm67191.yaml
- F:	drivers/gpu/drm/panel/panel-raydium-rm67191.c
- 
- DRM DRIVER FOR SAMSUNG DB7430 PANELS
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.yaml
-@@ -8112,7 +8112,7 @@ F:	Documentation/devicetree/bindings/display/solomon,ssd13*.yaml
- F:	drivers/gpu/drm/solomon/ssd130x*
- 
- DRM DRIVER FOR ST-ERICSSON MCDE
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/ste,mcde.yaml
-@@ -8144,7 +8144,7 @@ F:	Documentation/devicetree/bindings/display/bridge/ti,sn65dsi86.yaml
- F:	drivers/gpu/drm/bridge/ti-sn65dsi86.c
- 
- DRM DRIVER FOR TPO TPG110 PANELS
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/panel/tpo,tpg110.yaml
-@@ -8188,7 +8188,7 @@ F:	drivers/gpu/drm/vmwgfx/
- F:	include/uapi/drm/vmwgfx_drm.h
- 
- DRM DRIVER FOR WIDECHIPS WS2401 PANELS
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.yaml
-@@ -9482,7 +9482,7 @@ F:	include/linux/fanotify.h
- F:	include/uapi/linux/fanotify.h
- 
- FARADAY FOTG210 USB2 DUAL-ROLE CONTROLLER
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-usb@vger.kernel.org
- S:	Maintained
- F:	drivers/usb/fotg210/
-@@ -10669,7 +10669,7 @@ F:	drivers/gpio/gpio-sloppy-logic-analyzer.c
- F:	tools/gpio/gpio-sloppy-logic-analyzer.sh
- 
- GPIO SUBSYSTEM
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- M:	Bartosz Golaszewski <brgl@bgdev.pl>
- L:	linux-gpio@vger.kernel.org
- S:	Maintained
-@@ -13033,7 +13033,7 @@ F:	Documentation/devicetree/bindings/iio/imu/invensense,icm42600.yaml
- F:	drivers/iio/imu/inv_icm42600/
- 
- INVENSENSE MPU-3050 GYROSCOPE DRIVER
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-iio@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/iio/gyroscope/invensense,mpu3050.yaml
-@@ -13948,7 +13948,7 @@ F:	drivers/auxdisplay/ks0108.c
- F:	include/linux/ks0108.h
- 
- KTD253 BACKLIGHT DRIVER
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- S:	Maintained
- F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
- F:	drivers/video/backlight/ktd253-backlight.c
-@@ -14159,7 +14159,7 @@ F:	drivers/ata/pata_arasan_cf.c
- F:	include/linux/pata_arasan_cf_data.h
- 
- LIBATA PATA FARADAY FTIDE010 AND GEMINI SATA BRIDGE DRIVERS
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-ide@vger.kernel.org
- S:	Maintained
- F:	drivers/ata/pata_ftide010.c
-@@ -19663,7 +19663,7 @@ F:	Documentation/devicetree/bindings/pci/fsl,imx6q-pcie.yaml
- F:	drivers/pci/controller/dwc/*imx6*
- 
- PCI DRIVER FOR INTEL IXP4XX
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- S:	Maintained
- F:	Documentation/devicetree/bindings/pci/intel,ixp4xx-pci.yaml
- F:	drivers/pci/controller/pci-ixp4xx.c
-@@ -19774,7 +19774,7 @@ F:	drivers/pci/controller/cadence/pci-j721e.c
- F:	drivers/pci/controller/dwc/pci-dra7xx.c
- 
- PCI DRIVER FOR V3 SEMICONDUCTOR V360EPC
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-pci@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/pci/v3,v360epc-pci.yaml
-@@ -20219,7 +20219,7 @@ K:	(?i)clone3
- K:	\b(clone_args|kernel_clone_args)\b
- 
- PIN CONTROL SUBSYSTEM
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-gpio@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git
-@@ -21631,7 +21631,7 @@ F:	Documentation/devicetree/bindings/watchdog/realtek,otto-wdt.yaml
- F:	drivers/watchdog/realtek_otto_wdt.c
- 
- REALTEK RTL83xx SMI DSA ROUTER CHIPS
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- M:	Alvin Šipraga <alsi@bang-olufsen.dk>
- S:	Maintained
- F:	Documentation/devicetree/bindings/net/dsa/realtek.yaml
-@@ -23384,7 +23384,7 @@ S:	Supported
- F:	net/smc/
- 
- SHARP GP2AP002A00F/GP2AP002S00F SENSOR DRIVER
--M:	Linus Walleij <linus.walleij@linaro.org>
-+M:	Linus Walleij <linusw@kernel.org>
- L:	linux-iio@vger.kernel.org
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git
-
----
-base-commit: 6156424a7d001cceeafe59b52209d6f36719b51d
-change-id: 20251130-linusw-kernelorg-email-0791125070f4
-
-Best regards,
--- 
-Linus Walleij <linusw@kernel.org>
-
+> ---
+>  drivers/dma-buf/heaps/cma_heap.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma=
+_heap.c
+> index 0df007111975..9eaff80050f2 100644
+> --- a/drivers/dma-buf/heaps/cma_heap.c
+> +++ b/drivers/dma-buf/heaps/cma_heap.c
+> @@ -315,7 +315,7 @@ static struct dma_buf *cma_heap_allocate(struct dma_h=
+eap *heap,
+>                 while (nr_clear_pages > 0) {
+>                         void *vaddr =3D kmap_local_page(page);
+>
+> -                       memset(vaddr, 0, PAGE_SIZE);
+> +                       clear_page(vaddr);
+>                         kunmap_local(vaddr);
+>                         /*
+>                          * Avoid wasting time zeroing memory if the proce=
+ss
+>
+> ---
+> base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+> change-id: 20251129-dma-buf-heap-clear-page-248bb236e4c4
+>
+> Best regards,
+> --
+> Linus Walleij <linus.walleij@linaro.org>
+>
