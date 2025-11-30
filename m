@@ -2,61 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F161C94BB4
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Nov 2025 07:19:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770A7C94C10
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Nov 2025 08:38:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8851110E150;
-	Sun, 30 Nov 2025 06:19:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5397C10E154;
+	Sun, 30 Nov 2025 07:38:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="1O+ufe3I";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TMmv1vrb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A39D10E00B;
- Sun, 30 Nov 2025 06:19:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=rt2H3+YsV1Ah/Ev8lx7nrZ/yC+yGTNlGyhpvY/Czsfc=; b=1O+ufe3IOodReZZFEuh/XWgceb
- lPyYSG94S/HbBkwa0ugXvuXTGFRNx62ihA4+4zF66T1SH3PtF38wEx79Qcb07iEM8VLJKUwZ2ESdW
- H1VQ0KUJkgmiqv0RGf0GIi4majQmZCE/Rivw2IlQDzuVnY75lsFlgwXeWhqpej3nUOvxnaFfoQGi0
- EqfoGhX/mctk9lM7RulWQ9FJFlM9wo3CqqGyNN9P1hPjiNR8W4RuNrJ7/q1f/BUdAWMpLO9KAXh5+
- sjCwzMBAhznoebLFF6BWLxYgvZCmvFXTdZ5Y/b1USDwWngoDT7I9PYA4w34QtLlQx8ZYUmEtNoLr+
- BoQXh9ag==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
- by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
- id 1vPamP-000000025XT-3zu4; Sun, 30 Nov 2025 06:19:30 +0000
-Message-ID: <e0d34a20-7547-4788-8449-95fcd5588434@infradead.org>
-Date: Sat, 29 Nov 2025 22:19:29 -0800
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD0D10E154;
+ Sun, 30 Nov 2025 07:38:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764488332; x=1796024332;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=5dnK4oFXEiZYt1cEpiBmjME4Q9+HAvXwwE8FFYoFVCU=;
+ b=TMmv1vrbYF/fIySPWd13d9v1S6xlouHTIp6YTACYiTGkXxAcHSBOPUnI
+ gYlFUD2PfzHnTHuYqaCaTJdpcW5zujMkIJFzk+SnTp4PmYwxX3hfmPf6g
+ 6OV8zv5XqTvoNcrTgf9tMDh1N3CVNM5IUae7QlyvY8YmvR4J6BXbdUPTF
+ dvCE9ssStOR0BXALMDIKQft6ADD5weC5u8KMWLOCdwZxG9ZgJmNhDEEDW
+ /Tk8D7/H2Pz6yj0Xk2LgxGIXiEnQtuedCYPsSVDgIbgcLPD2UgU5zsrWU
+ 6ABL4IKvahIdDO0xWozOmZvsVxcXG074DftcLKUJmqadHtEC3R38Eilej w==;
+X-CSE-ConnectionGUID: kKOrdKbzTbe9+k3WNq8Rdw==
+X-CSE-MsgGUID: aIIV/8r/RwerQxQzVR0b6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11628"; a="54006021"
+X-IronPort-AV: E=Sophos;i="6.20,238,1758610800"; d="scan'208";a="54006021"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Nov 2025 23:38:51 -0800
+X-CSE-ConnectionGUID: dRXbbdVWRnGYZ/4OuEzi1Q==
+X-CSE-MsgGUID: dcPc/0ZbT665FlB88ciN8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,238,1758610800"; d="scan'208";a="231074250"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+ by orviesa001.jf.intel.com with ESMTP; 29 Nov 2025 23:38:46 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vPc16-000000007px-29Xd;
+ Sun, 30 Nov 2025 07:38:44 +0000
+Date: Sun, 30 Nov 2025 15:38:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anna Maniscalco <anna.maniscalco2000@gmail.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Antonino Maniscalco <antomani103@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Anna Maniscalco <anna.maniscalco2000@gmail.com>
+Subject: Re: [PATCH v2] drm/msm: Fix a7xx per pipe register programming
+Message-ID: <202511301514.t3OSLc6E-lkp@intel.com>
+References: <20251128-gras_nc_mode_fix-v2-1-634cda7b810f@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] kernel.h: move VERIFY_OCTAL_PERMISSIONS() to sysfs.h
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Ingo Molnar <mingo@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-References: <20251129195304.204082-1-yury.norov@gmail.com>
- <20251129195304.204082-3-yury.norov@gmail.com>
- <aStWkK6exUj9YEC1@smile.fi.intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <aStWkK6exUj9YEC1@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251128-gras_nc_mode_fix-v2-1-634cda7b810f@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,48 +81,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Anna,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 7bc29d5fb6faff2f547323c9ee8d3a0790cd2530]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anna-Maniscalco/drm-msm-Fix-a7xx-per-pipe-register-programming/20251129-012027
+base:   7bc29d5fb6faff2f547323c9ee8d3a0790cd2530
+patch link:    https://lore.kernel.org/r/20251128-gras_nc_mode_fix-v2-1-634cda7b810f%40gmail.com
+patch subject: [PATCH v2] drm/msm: Fix a7xx per pipe register programming
+config: um-randconfig-002-20251130 (https://download.01.org/0day-ci/archive/20251130/202511301514.t3OSLc6E-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251130/202511301514.t3OSLc6E-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202511301514.t3OSLc6E-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c: In function 'a6xx_set_ubwc_config':
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:853:36: error: 'A7XX_PIPE_BR' undeclared (first use in this function)
+     853 |                 for (u32 pipe_id = A7XX_PIPE_BR; pipe_id <= A7XX_PIPE_BV; pipe_id++) {
+         |                                    ^~~~~~~~~~~~
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:853:36: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:853:61: error: 'A7XX_PIPE_BV' undeclared (first use in this function)
+     853 |                 for (u32 pipe_id = A7XX_PIPE_BR; pipe_id <= A7XX_PIPE_BV; pipe_id++) {
+         |                                                             ^~~~~~~~~~~~
+>> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:860:59: error: 'A7XX_PIPE_NONE' undeclared (first use in this function); did you mean 'MSM_PIPE_NONE'?
+     860 |                           A7XX_CP_APERTURE_CNTL_HOST_PIPE(A7XX_PIPE_NONE));
+         |                                                           ^~~~~~~~~~~~~~
+         |                                                           MSM_PIPE_NONE
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c: In function 'a7xx_patch_pwrup_reglist':
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:921:36: error: 'A7XX_PIPE_BR' undeclared (first use in this function)
+     921 |                 for (u32 pipe_id = A7XX_PIPE_BR; pipe_id <= A7XX_PIPE_BV; pipe_id++) {
+         |                                    ^~~~~~~~~~~~
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:921:61: error: 'A7XX_PIPE_BV' undeclared (first use in this function)
+     921 |                 for (u32 pipe_id = A7XX_PIPE_BR; pipe_id <= A7XX_PIPE_BV; pipe_id++) {
+         |                                                             ^~~~~~~~~~~~
+   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:934:59: error: 'A7XX_PIPE_NONE' undeclared (first use in this function); did you mean 'MSM_PIPE_NONE'?
+     934 |                           A7XX_CP_APERTURE_CNTL_HOST_PIPE(A7XX_PIPE_NONE));
+         |                                                           ^~~~~~~~~~~~~~
+         |                                                           MSM_PIPE_NONE
 
 
-On 11/29/25 12:24 PM, Andy Shevchenko wrote:
-> On Sat, Nov 29, 2025 at 02:53:01PM -0500, Yury Norov (NVIDIA) wrote:
->> The macro is related to sysfs, but is defined in kernel.h. Move it to
->> the proper header, and unload the generic kernel.h.
-> 
-> Tough guy :-)
-> I hope it builds well in your case.
-> 
-> FWIW,
-> https://lore.kernel.org/lkml/20220603172101.49950-1-andriy.shevchenko@linux.intel.com/
-> https://lore.kernel.org/lkml/20240212115500.2078463-1-max.kellermann@ionos.com/
-> https://lore.kernel.org/lkml/20240215093646.3265823-1-max.kellermann@ionos.com/
-> 
-> Assuming it builds in allmodconfig, allyesconfig on x86_32/64 and arm/64
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+vim +/A7XX_PIPE_BR +853 drivers/gpu/drm/msm/adreno/a6xx_gpu.c
 
-I don't build allyesconfigs any more (final? linking takes too long).
-It builds successfully for arm64 allmodconfig, arm allmodconfig,
-i386 allmodconfig, and x86_64 allmodconfig.
+   807	
+   808	static void a6xx_set_ubwc_config(struct msm_gpu *gpu)
+   809	{
+   810		struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+   811		const struct qcom_ubwc_cfg_data *cfg = adreno_gpu->ubwc_config;
+   812		/*
+   813		 * We subtract 13 from the highest bank bit (13 is the minimum value
+   814		 * allowed by hw) and write the lowest two bits of the remaining value
+   815		 * as hbb_lo and the one above it as hbb_hi to the hardware.
+   816		 */
+   817		BUG_ON(cfg->highest_bank_bit < 13);
+   818		u32 hbb = cfg->highest_bank_bit - 13;
+   819		bool rgb565_predicator = cfg->ubwc_enc_version >= UBWC_4_0;
+   820		u32 level2_swizzling_dis = !(cfg->ubwc_swizzle & UBWC_SWIZZLE_ENABLE_LVL2);
+   821		bool ubwc_mode = qcom_ubwc_get_ubwc_mode(cfg);
+   822		bool amsbc = cfg->ubwc_enc_version >= UBWC_3_0;
+   823		bool min_acc_len_64b = false;
+   824		u8 uavflagprd_inv = 0;
+   825		u32 hbb_hi = hbb >> 2;
+   826		u32 hbb_lo = hbb & 3;
+   827	
+   828		if (adreno_is_a650_family(adreno_gpu) || adreno_is_a7xx(adreno_gpu))
+   829			uavflagprd_inv = 2;
+   830	
+   831		if (adreno_is_a610(adreno_gpu) || adreno_is_a702(adreno_gpu))
+   832			min_acc_len_64b = true;
+   833	
+   834		gpu_write(gpu, REG_A6XX_RB_NC_MODE_CNTL,
+   835			  level2_swizzling_dis << 12 |
+   836			  rgb565_predicator << 11 |
+   837			  hbb_hi << 10 | amsbc << 4 |
+   838			  min_acc_len_64b << 3 |
+   839			  hbb_lo << 1 | ubwc_mode);
+   840	
+   841		gpu_write(gpu, REG_A6XX_TPL1_NC_MODE_CNTL,
+   842			  level2_swizzling_dis << 6 | hbb_hi << 4 |
+   843			  min_acc_len_64b << 3 |
+   844			  hbb_lo << 1 | ubwc_mode);
+   845	
+   846		gpu_write(gpu, REG_A6XX_SP_NC_MODE_CNTL,
+   847			  level2_swizzling_dis << 12 | hbb_hi << 10 |
+   848			  uavflagprd_inv << 4 |
+   849			  min_acc_len_64b << 3 |
+   850			  hbb_lo << 1 | ubwc_mode);
+   851	
+   852		if (adreno_is_a7xx(adreno_gpu)) {
+ > 853			for (u32 pipe_id = A7XX_PIPE_BR; pipe_id <= A7XX_PIPE_BV; pipe_id++) {
+   854				gpu_write(gpu, REG_A7XX_CP_APERTURE_CNTL_HOST,
+   855					  A7XX_CP_APERTURE_CNTL_HOST_PIPE(pipe_id));
+   856				gpu_write(gpu, REG_A7XX_GRAS_NC_MODE_CNTL,
+   857					  FIELD_PREP(GENMASK(8, 5), hbb_lo));
+   858			}
+   859			gpu_write(gpu, REG_A7XX_CP_APERTURE_CNTL_HOST,
+ > 860				  A7XX_CP_APERTURE_CNTL_HOST_PIPE(A7XX_PIPE_NONE));
+   861		}
+   862	
+   863		gpu_write(gpu, REG_A6XX_UCHE_MODE_CNTL,
+   864			  min_acc_len_64b << 23 | hbb_lo << 21);
+   865	
+   866		gpu_write(gpu, REG_A6XX_RBBM_NC_MODE_CNTL,
+   867			  cfg->macrotile_mode);
+   868	}
+   869	
 
-And the source files that use VERIFY_OCTAL_PERMISSIONS() all build successfully
-(which means that they possibly include <linux/sysfs.h> indirectly, i.e.,
-by luck). There aren't many of them, so I checked:
-
-arch/arc/kernel/perf_event.c:	arc_pmu->attr[j].attr.attr.mode = VERIFY_OCTAL_PERMISSIONS(0444);
-INDIRECT
-drivers/edac/thunderx_edac.c:	.mode = VERIFY_OCTAL_PERMISSIONS(_mode),		    \
-INDIRECT
-drivers/media/platform/amphion/vpu_dbg.c:		    VERIFY_OCTAL_PERMISSIONS(0644),
-INDIRECT
-drivers/soc/aspeed/aspeed-uart-routing.c:	 .mode = VERIFY_OCTAL_PERMISSIONS(0644) },	\
-INDIRECT
-fs/xfs/xfs_error.c:		 .mode = VERIFY_OCTAL_PERMISSIONS(S_IWUSR | S_IRUGO) },	\
-INDIRECT
-include/linux/moduleparam.h:	    VERIFY_OCTAL_PERMISSIONS(perm), level, flags, { arg } }
-INDIRECT
-
-so all of them got lucky. :)
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
