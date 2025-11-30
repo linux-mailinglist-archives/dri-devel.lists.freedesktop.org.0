@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5BD2C9532C
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Nov 2025 19:16:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0874EC95363
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Nov 2025 19:27:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 19A2F10E275;
-	Sun, 30 Nov 2025 18:16:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D47A110E27B;
+	Sun, 30 Nov 2025 18:27:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AXfSdG70";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="U6isQ2fh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com
- [74.125.224.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4E3610E270
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Nov 2025 18:16:21 +0000 (UTC)
-Received: by mail-yx1-f46.google.com with SMTP id
- 956f58d0204a3-6420dc2e5feso2579354d50.3
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Nov 2025 10:16:21 -0800 (PST)
+Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com
+ [74.125.224.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EADED10E27B
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Nov 2025 18:27:46 +0000 (UTC)
+Received: by mail-yx1-f45.google.com with SMTP id
+ 956f58d0204a3-64308342458so2894094d50.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Nov 2025 10:27:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764526580; x=1765131380; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1764527266; x=1765132066; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=bPTHL8VwtfKfk45TFU08paMyal7EO1gfKoy+e7omzHs=;
- b=AXfSdG70wwg+NJSOTf8MqnNpq263+h4TqLmU7bSpjQ866yjC4LEAJVLutx+FxwO18x
- Buxly7vqg8bNMWjdEB9E7kcL9AxH8qKSWWj1t0KqI4X5UREF0+aVLekRdEL/vFS8X0uG
- wjv7J75BFd7YluEGLSeIXXjQ2Mn+0hw5jh7L8dYI7XQeuTJjy5eY2bWkwm55a0hQmirp
- QBH7/UVM1LzydFMdmlwBqOXRF7rCtD+yWVKZvcMIy/+eufjI8KF0NVJ7nx/cUygVuYMB
- 7r1P8nxmkjZVKbkXFniQ+Yil2Vp7xv162g7+wAfvSMxGNE4YW6fxdr6pj7X3Kox6xBHS
- 6Bog==
+ bh=gQ0UOimIv+Gqhv0/1FQc2e2rNrHodQEz9DgOtiLMoSM=;
+ b=U6isQ2fhf2qu7YIhnwn+4JfFPEdYILm5b7bv4EeyrhT/FwokHy3ckIQwBzcRlMZUJY
+ P7ROCyG9ix9Xbm+7PW0eGsTs/lcEQiNn7gnBeyD2w007x+5WWobeB1r2GZGi2OqU/opV
+ zDvGQqCKsZ0cQhGqhO7/SGmN8xF1B/8hqLNPAB8Nn3eZvOSYtcqVu+P3TQZaMtjFDgOF
+ ye8JbFq9QpTN7j86TvsOE78HJ7WRAZqyqzhV51EzQ4t2h3PMDq8XCZ8SaH58jHBA8sf9
+ 6GEayT+b87pp2/IvOv5FbAi9uu8vlkH0IDO4twb3LX0wSXYP0W+GttFhy1kFVkJ62Nks
+ pAUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764526580; x=1765131380;
+ d=1e100.net; s=20230601; t=1764527266; x=1765132066;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bPTHL8VwtfKfk45TFU08paMyal7EO1gfKoy+e7omzHs=;
- b=ghriLlmZUY2PVzEXoPPDje/6PZQSClZX4z9YgmtV2YV9IUgU3XYg1MmZAYqxgJ/TgA
- EYbTnQd4Rl1X+/Ws9oSXQDlo2yVs9Il8FlZTWz6j7DgPPPYfDj4WoKiiD+nag3Y/VZmU
- 0TvB8Mf6bzfkCQpAt1mG+67faxkGL4qsNZthQNmraO5syPgZx9oy/F3tUS6GsvBzSoFK
- w7OwiVc1BUOXq4siOVNkqpmdlmC9YX0HaXjYXWEs729rliNOeXGWyZpx/K3Au9ZNYWHx
- aTOjtlq9dsJrw4wTdcF5cACCbNhprW0no4SygYK8Dvz2cPD9joip9juA7HtbJYzAz8KV
- F8Sw==
+ bh=gQ0UOimIv+Gqhv0/1FQc2e2rNrHodQEz9DgOtiLMoSM=;
+ b=BXxFgmSryZw499y9StnT6LgtrWCVrcAA+vuRHZqUVSLG8UASFmVLZlDN/dV0Hm5dsR
+ q4GIfhNqkoTk27GP+9SumLJGbHTtS8WWbW+vLpwXfhH4Ar4iexcf9uKZsVRi6s5cTUCW
+ VPP0ilkGZaRlPqvE5CPlEXN1cUYleaGLRpEEtryqVITHdI8yA1cbEoMiAED34VxQa115
+ c39hxSK5ZFm1RfyHIvbfBFKfBae0yNXFVReLw87suU5teGQa0J5Pd8Kc1Ozjd5T3z1Wi
+ knV7f9aM1IdRYnp+OjsYyckpA08W//kpvipEJsYjNIH3QT0E1v+D+WuBsczF0RrR42NJ
+ fCvQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWzd7qcoSxOnfUYNW3T/DdIXZo6VpSvHxnM3hF/WRt6Y1ftVUGAaAzg3U/LYZmIurvT6II4SLU+7Y0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5B5wFJXjHkcFdbnP7M2SHqhle7V3VYVqeVh9UEj17htkz3khJ
- eEHL5QSgkOjbMUgPoyiQ/eQprDw0JIjPWTn2uY8Yv2GD55YhE766AFWh
-X-Gm-Gg: ASbGncun5SHdZiaWcpiwSLn+sgVrg1EfropxUxqIERyoUJnBqRgRYtedKv9qIbQh0kP
- EAjI0Ql1TjpEIkjyORFp6bp3f5HxycJDWo8GYlgPwTQvxwr/VTlGzrom+BwyXO16so8Ajy2Drow
- YgvPy0WZyVjdFPnevQXtquxbNi+kFPJDUj8idoc55a7mtdwp9gNrK0RH6SmYA1GgQJK7BOy4ASB
- ptOtP1FP1vr0N5DkVvd9+mQgwx0i+ONsUZJMD+JPf9nKiTs5gXMYDrUUgUx8SQMCJELRelKPHWl
- M3syvrO2+p2VgVgLZL/sX+u49+Fjw1wRHZvMSKEKQKXbvKW3DIB3dhcFC0VgVUN4By2hj4pIbtF
- MSDGS4t61nW0b66oBXutK71uB9qU23aBT7RRZtoPzOd68ksV6luO5ciqgXMaLAGitHAkC8/0hsL
- HnjfNQxXJ0njocbpCXvA==
-X-Google-Smtp-Source: AGHT+IEQcHwA7T6ktmCXafon70hVlddeX9BaPXERtnLHGkMmTox+ufRP6CsVlNJn8W2ToaNF/lgtHw==
-X-Received: by 2002:a53:acc9:0:10b0:63f:beb2:9519 with SMTP id
- 956f58d0204a3-64302a2fb59mr21422815d50.5.1764526580498; 
- Sun, 30 Nov 2025 10:16:20 -0800 (PST)
+ AJvYcCXmKfLMmtDVf96U1Qon0Hi5WbRR9JLU+I1AqvhvHZkQB59sv9g1+Znw4KcPc03aaYd9I/TTp917j+M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz0Up2idJGPSeojT5m+6hY+DtJOFqdr5Y+jUK3jwZJSPVX3LcQk
+ YxWyJnkBaoUolEQtVUdeHu49ltufNbVnLqUFDGPDSnzpWfWvx24T6Tbo
+X-Gm-Gg: ASbGncu7fTQ8txt415si6U/vwFaxIHu5QsVDWJVXaL7GXQjMowyW/+p2IPsfjVjc4xm
+ 1LHFzJ6Jaf3utshapWhgezi7aoy9cP084y2/3BT0p1Jh+TChBBHI61Mfxe1+TcSz1SpxKwWB+/7
+ h733Z3dPvJAzJNwcWTYZOZj8Ac0vP3NKYCplpL+EANw752/uftczZjbGk3oHi/Pzhegg3sFYGPp
+ wkGk2Mi/5oBGnzgYsI8FPRXDtVSt7AUuNVjpChC3387s5/OR/VTYDKHXswJy77g2cF5JRBDOBji
+ 8S24/ubWijKtY4P03ofaCzC3R/ZUZfOTknVzsxyob8AJlkcxmtZ44E9EErX8PSdhqaXeSvnj+ts
+ 6upYZCN9ZNgAr1JohCneKWQzxtZlcL7F9SN9fRfraAqTaSlOAIfIUbd76EsMguLPcfpZ83X3JR6
+ l4D1wdvd8=
+X-Google-Smtp-Source: AGHT+IFDyYOeUhT8Bbb9GCbxFDItrQuSs7u5k0phj03PaXnRWntIOvKeCN52kZaBXAUM/+2zDMUHvw==
+X-Received: by 2002:a53:b2f5:0:b0:63e:1ca0:be73 with SMTP id
+ 956f58d0204a3-64302ac3594mr20527544d50.37.1764527265793; 
+ Sun, 30 Nov 2025 10:27:45 -0800 (PST)
 Received: from localhost ([2601:346:0:79bd:b42b:4ad9:10af:cabc])
  by smtp.gmail.com with ESMTPSA id
- 00721157ae682-78ad0d603f5sm39289087b3.19.2025.11.30.10.16.20
+ 00721157ae682-78ad1011c00sm39418837b3.33.2025.11.30.10.27.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 30 Nov 2025 10:16:20 -0800 (PST)
-Date: Sun, 30 Nov 2025 13:16:19 -0500
+ Sun, 30 Nov 2025 10:27:45 -0800 (PST)
+Date: Sun, 30 Nov 2025 13:27:45 -0500
 From: Yury Norov <yury.norov@gmail.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Steven Rostedt <rostedt@goodmis.org>,
@@ -81,16 +81,15 @@ Cc: Steven Rostedt <rostedt@goodmis.org>,
  linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org,
  linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] tracing: move tracing declarations from kernel.h to
- a dedicated header
-Message-ID: <aSyJ83v7EEAPHXeU@yury>
+Subject: Re: [PATCH 2/3] kernel.h: move VERIFY_OCTAL_PERMISSIONS() to sysfs.h
+Message-ID: <aSyMobJnY4qKmsdk@yury>
 References: <20251129195304.204082-1-yury.norov@gmail.com>
- <20251129195304.204082-4-yury.norov@gmail.com>
- <aStX3242e3mo5H05@smile.fi.intel.com>
+ <20251129195304.204082-3-yury.norov@gmail.com>
+ <aStWkK6exUj9YEC1@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aStX3242e3mo5H05@smile.fi.intel.com>
+In-Reply-To: <aStWkK6exUj9YEC1@smile.fi.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,44 +105,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Nov 29, 2025 at 10:30:23PM +0200, Andy Shevchenko wrote:
-> On Sat, Nov 29, 2025 at 02:53:02PM -0500, Yury Norov (NVIDIA) wrote:
-> > Tracing is a half of the kernel.h in terms of LOCs, although it's a
-> > self-consistent part. Move it to a separate header.
-> > 
-> > This is a pure move, except for removing a few 'extern's.
+On Sat, Nov 29, 2025 at 10:24:48PM +0200, Andy Shevchenko wrote:
+> On Sat, Nov 29, 2025 at 02:53:01PM -0500, Yury Norov (NVIDIA) wrote:
+> > The macro is related to sysfs, but is defined in kernel.h. Move it to
+> > the proper header, and unload the generic kernel.h.
 > 
-> Yeah, I also have something similar (but half-baked) locally, the Q I wanted to
-> ask is why a separate header? We have already some of tracing headers. Doesn't
-> suit well?
+> Tough guy :-)
+> I hope it builds well in your case.
+> 
+> FWIW,
+> https://lore.kernel.org/lkml/20220603172101.49950-1-andriy.shevchenko@linux.intel.com/
+> https://lore.kernel.org/lkml/20240212115500.2078463-1-max.kellermann@ionos.com/
+> https://lore.kernel.org/lkml/20240215093646.3265823-1-max.kellermann@ionos.com/
 
-Just as said in the commit message - this part is more or less
-self-consistent and debugging-oriented. If someone needs to just
-throw trace_printk() in their driver, they will not have to pull
-all the heavy tracing machinery.
-
-> ...
-> 
-> > --- a/include/linux/kernel.h
-> > +++ b/include/linux/kernel.h
-> > @@ -27,6 +27,7 @@
-> >  #include <linux/math.h>
-> >  #include <linux/minmax.h>
-> >  #include <linux/typecheck.h>
-> 
-> > +#include <linux/tracing.h>
-> 
-> There is better place for t*.h, i.e. after static_call_types.h.
-
-They are poorly sorted for seemingly no good reason. I found the first
-t*.h and just put this header next to it. Don't think that placing it
-next to static_call_types.h is any better or worse.
+Oh, OK. Surely I didn't want to undercut your or Max's work. Do you
+know why it wasn't merged in 2022 and 2024?
  
-> Btw, have you tried to sort alphabetically the bulk in the kernel.h after
-> your series. Does it still build? (Just wondering about state of affairs
-> with the possible cyclic dependencies.)
+> Assuming it builds in allmodconfig, allyesconfig on x86_32/64 and arm/64
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-I didn't try. Sorting #include's is not the purpose of the series.
-
-Thanks,
-Yury
+It seemingly builds well. Thanks for review.
