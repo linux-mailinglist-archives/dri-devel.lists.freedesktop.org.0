@@ -2,110 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1531AC94FD1
-	for <lists+dri-devel@lfdr.de>; Sun, 30 Nov 2025 14:10:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9C8BC95020
+	for <lists+dri-devel@lfdr.de>; Sun, 30 Nov 2025 14:48:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E904A10E18A;
-	Sun, 30 Nov 2025 13:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3BD910E26D;
+	Sun, 30 Nov 2025 13:48:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=googlemail.com header.i=@googlemail.com header.b="BIS6eInB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KGBmiUQ7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6F5510E18A
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Nov 2025 13:09:57 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-29558061c68so40587315ad.0
- for <dri-devel@lists.freedesktop.org>; Sun, 30 Nov 2025 05:09:57 -0800 (PST)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+ [209.85.166.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52C5410E267
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Nov 2025 13:48:10 +0000 (UTC)
+Received: by mail-io1-f49.google.com with SMTP id
+ ca18e2360f4ac-94863b3620cso126212139f.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Nov 2025 05:48:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20230601; t=1764508197; x=1765112997;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FNmbbxbBaoTz8DomyGsXnxRB8wBP1F/AJR530QwYnIc=;
- b=BIS6eInBsAqIh+N4reHl+luDSWGEY0sAzoA9xyug+eIwKcTGyx/fe+SY2mqvNKxU0L
- DNMjWlR8tBPYXRxbOcA9u+QlTN9xZVj0SPgRwOjuxHLmp2Or/MTsNt3YDrvvdGrdykUv
- zWSsCFnUWgBbTHs0wlXXW3cxNoWHFdyADKf58w3YRTC6iJMnTnQGc4A/znCL0qgQGM7u
- 2jdWbOmM6QgbymlcslAvjvj0c4fk2+ie0YBUjEL23Gtl6z6Qwj+TXp8k6Rq8d6kpFqL8
- U+eFT8/egDdRSnx3fSeYRJ2UuDxfOWaflPd7YgMLCyFVm3n+bjt2StDdJhB6BMstqU5N
- vVCw==
+ d=gmail.com; s=20230601; t=1764510489; x=1765115289; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=eiQ3eFN12BMemKB9ngyDX/zYtCqwPFyCoway1CJnXQo=;
+ b=KGBmiUQ7RThdWebxJtTti8LVZ6Xqg8KnV16X4ZVtql68qgwo/hAutGnOr9p433uaiV
+ +v5Gn3cyR0Fp8t9Ro0YYKtETOI35pGj1nV16q0wnm/ICLNlve3qfqjIE4M9xCd6QJCCf
+ IJ2eSBa5udTE/ymEhEuHtBdCvHRr6lWXeOe19HXRfRQ3O7dowtdkAplyUJqD1w2ep/pd
+ 4MHCGFONpDgWBKkhHk0wRkRLx6/MsKoH0l4Un27BZGYkr5aeWPA+YY8uvquFWQhkshkL
+ lHDS1KgF/f0jdgczcTvxgY3jV86Sz98z0O4ZQ1IdW2aV9LQG5rINPk4EUi7a6f3EK8FH
+ OEGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764508197; x=1765112997;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=FNmbbxbBaoTz8DomyGsXnxRB8wBP1F/AJR530QwYnIc=;
- b=AErEmK7ngDCf8Q4wXlynpnH0p9QbF8t/XhF9mKfHW+f5i36VQcJDvmgvqIHBPTPdHC
- 3MWo8ZBBN850YdU2+NONKBBbYDRMReS2ekz4owioFl8DZFaFjdjlbeOpmVksL8/jwaYw
- QALYIg9f9QsSvS5+y7lR8MU0ejekSAOyUbQYP8iO4dj5Z84TBwEG781RGuVfygGvPXks
- fs0h7WIdO7kbqJRKsugFE+riY/f5p9VNRI7fMLfoWwqfVv2DQGTEbUERaRQQgA+Xpv87
- 4yW/zqMXtoSe5Tk55Za2+tWn8mPVmZphCGtengpCsTDkijsr1o/auBcVu7mDSiTyTZ3G
- o3vA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXHxKZ5QnqFe78BgHR/6CnQi5T0fSGLhno8+p2NtpB278/TAd3jvBiP5C2N9LJWYiMOipohmapFlYk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxJatjjBvVvEp9xxcpTx0cIzOttAmBbTldUnuApeuZ/Umk8T/bf
- ZINzLzN7DU64qpTKRU1zhYdbuSUvmIGFfNI8pAYJmOlMVt5USEqDQZ2bJ0kmpbwOQlocdeiczTu
- C+SaQnd3bExqCWt6hMiKbCH+TsOBGaZo=
-X-Gm-Gg: ASbGncvnFrvuNvgOPnv+ORcKzVUhcmB45rM3iOopenOhLlxWg+iZu6lzjPcKSFrub2R
- ViK6PcI+v7j3zY4nJWwrI4bofKNDA6aKB1yjYnvqveL5k90zd6ISgVp0JJloDZgb1KClDz8Dqkj
- FdmgbJ0b+zNz590dC23VmYSs0oYnlpNPfLRVUNmRJ7zapxGt01R3wfuiQzDtRk9aNFypIOwbF4H
- mrXUEfvXd0XLvRkenmmTlhv8k3gbd8YXBLC4HKggBrXx9GhLCPWsoOdtrdrkOvhtd3jEMKee5Im
- IIXM4YG2tUkQyV5MzONSnx7ofGAW
-X-Google-Smtp-Source: AGHT+IG53GhYkY/+dF5qGVT19Jadft1SJnnMvw5Wcu0qyYtU4QLG8FtzqF0lB0krYhtMk3QufvRzdFqig5aHMJFxvm0=
-X-Received: by 2002:a17:903:903:b0:295:a1a5:bae9 with SMTP id
- d9443c01a7336-29b6be86b48mr332545755ad.8.1764508197220; Sun, 30 Nov 2025
- 05:09:57 -0800 (PST)
+ d=1e100.net; s=20230601; t=1764510489; x=1765115289;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=eiQ3eFN12BMemKB9ngyDX/zYtCqwPFyCoway1CJnXQo=;
+ b=ndoUfnOKmP1dQ5VlmgNi4eE7avIt/7DwYy9IslmSp+fZOnpGRZJRvxqBOpWmhf93dJ
+ GxOVV5J0VEMG7kyQs8RrXw8gzbZ9w+sF2x/MPOmxPPhoRqqpV+t2kH0rXKcZw2RaX2a6
+ cZO/sr3/jbbj2L2fyNX3ECFZNOqVHHr6q0MgbnVD4GJFsEtEfs/uLeidgU3Zw2Jy6+wx
+ zHhIgbkPy66b0MXKl2uwC9lzk5uKg35gZiOw9l0a6bIRVncYVNtt8XNCh/OXJl8YFlzG
+ Ewnh8o1gvqbhU3HTkvD8Ek4lYFy6K6UywnY7VZpw4tJs8pNlYhl70x71PCl55wiMKPa8
+ WHpg==
+X-Gm-Message-State: AOJu0YwIV7AO1cXpEdE6cj52gFA+U+cNaXJjHt4Wcr8K2KytRhKVZMDE
+ ut93FR/52l3lSXBvQfzRYjlPCOatpnnOxigWSAsNcguH3zLsLEzpZjbV
+X-Gm-Gg: ASbGnctoLXobdZ2SqaVh7s9+0Uq8NOUB/LL28qyd2EuljCUPNqtQk723D6s2xIK9xbP
+ lIMgxpgqGiZp0tiF4cBCKkrvv96pd3x3zGejxWNV0dsvrUcYgsVXcB/OWPCQv27CBKYjHz7AvGu
+ BDJC6qCiVfNE2NVX9EyVil/1Yh1ClD88Kk2Jij2RyLf3+Yj6tRbqDlWVQiRtdCoOp5YGKz8fTa2
+ q1qSavwenbnyYBlhREK7nBZngV/volsL6syLdFI2ET372tCDSU6KSEVdIF7mnOYBPpxl4pQg3Xs
+ juOEh/ik5XIXLAHRs7AFNCRbdp+PfSNA/2NLgxIwLWw6HpNMaGSqAlk6qlwgHy+uHbAbGlaQWWz
+ rabpHF908fAoYF/miQyhhQnqkwF4Jus77zIuCWoPtyJ+1oBN9CD7XALc3t2QhU7uHOUqc7e7Wue
+ SSRQdv+4rKhQ7JGeLCsyiDVFyn
+X-Google-Smtp-Source: AGHT+IHoHXUfTkF+vaS1pnIVRKSps09fJdophVLtTYQOKUkmnHvUYngKhUIxBBlieYeLEpnP+wV2vA==
+X-Received: by 2002:a05:6638:8805:b0:5b7:c969:85f3 with SMTP id
+ 8926c6da1cb9f-5b967a01c06mr35061717173.4.1764510489137; 
+ Sun, 30 Nov 2025 05:48:09 -0800 (PST)
+Received: from ?IPV6:2601:40a:8000:28d9::dbf? ([2601:40a:8000:28d9::dbf])
+ by smtp.gmail.com with ESMTPSA id
+ 8926c6da1cb9f-5b9bc767d6fsm4592649173.34.2025.11.30.05.48.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 30 Nov 2025 05:48:08 -0800 (PST)
+Message-ID: <7462992a-fdc1-44ff-9604-ca5a9feaef07@gmail.com>
+Date: Sun, 30 Nov 2025 08:48:07 -0500
 MIME-Version: 1.0
-References: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-0-88f8a107eca2@bootlin.com>
- <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-17-88f8a107eca2@bootlin.com>
-In-Reply-To: <20251128-drm-bridge-alloc-getput-drm_of_find_bridge-v2-17-88f8a107eca2@bootlin.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Sun, 30 Nov 2025 14:09:46 +0100
-X-Gm-Features: AWmQ_bkqQ0yeDiiVRXlgzLTrdqIA678_lHRrauQKV29M6KsFuJAoinD-iLMIAaM
-Message-ID: <CAFBinCCQjeUu7pgfwViH6b0-M6S_sKgfvz9VAP1hpqLRj=bL_g@mail.gmail.com>
-Subject: Re: [PATCH v2 17/26] drm/meson: encoder_*: use
- devm_of_drm_get_bridge() to put the next bridge
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Alexey Brodkin <abrodkin@synopsys.com>,
- Phong LE <ple@baylibre.com>, 
- Liu Ying <victor.liu@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
- linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amdgpu: use static ids for ACP platform devs
+To: Alex Deucher <alexdeucher@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, alexander.deucher@amd.com,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ sunil.khatri@amd.com, boyuan.zhang@amd.com
+References: <20250325210517.2097188-1-bradynorander@gmail.com>
+ <CADnq5_MNBUY=jWbnq-gZQ_4_M_sBJGAgMD0bj2cMdnkoU9G=HA@mail.gmail.com>
+ <9ab05b38-6f77-4b0b-8a1b-8314e2873047@gmail.com>
+ <CADnq5_No+w+tco9j35GBM3+CYBTo018eLwWec278d3VBJHPQxw@mail.gmail.com>
+Content-Language: en-US
+From: Brady Norander <bradynorander@gmail.com>
+In-Reply-To: <CADnq5_No+w+tco9j35GBM3+CYBTo018eLwWec278d3VBJHPQxw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,50 +96,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Luca,
+On 11/10/25 14:14, Alex Deucher wrote:
+> On Tue, Mar 25, 2025 at 7:11 PM Brady Norander <bradynorander@gmail.com> wrote:
+>>
+>> On 3/25/25 6:12 PM, Alex Deucher wrote:
+>>>
+>>> While you are at it, can you take a look at
+>>> drivers/gpu/drm/amd/amdgpu/isp_v4_1_0.c and
+>>> drivers/gpu/drm/amd/amdgpu/isp_v4_1_1.c as well?
+>>>
+>>> Alex
+>>
+>> I think it makes more sense to handle that in a separate patch as it is
+>> an unrelated ip block.
+> 
+> Sure. Can you send a patch to fix those up as well if needed?
+> 
+> Alex
 
-On Fri, Nov 28, 2025 at 5:54=E2=80=AFPM Luca Ceresoli <luca.ceresoli@bootli=
-n.com> wrote:
->
-> This driver obtains a bridge pointer from of_drm_find_bridge() in the pro=
-be
-> function and stores it until driver removal. of_drm_find_bridge() is
-> deprecated. Move to devm_of_drm_get_bridge() which puts the bridge
-> reference on remove or on probe failure.
->
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
->  drivers/gpu/drm/meson/meson_encoder_cvbs.c | 2 +-
->  drivers/gpu/drm/meson/meson_encoder_dsi.c  | 2 +-
->  drivers/gpu/drm/meson/meson_encoder_hdmi.c | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.c b/drivers/gpu/drm=
-/meson/meson_encoder_cvbs.c
-> index dc374bfc5951..bf8588a5f6dd 100644
-> --- a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-> +++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-> @@ -241,7 +241,7 @@ int meson_encoder_cvbs_probe(struct meson_drm *priv)
->                 return 0;
->         }
->
-> -       meson_encoder_cvbs->next_bridge =3D of_drm_find_bridge(remote);
-> +       meson_encoder_cvbs->next_bridge =3D devm_of_drm_get_bridge(priv->=
-dev, remote);
->         of_node_put(remote);
->         if (!meson_encoder_cvbs->next_bridge)
->                 return dev_err_probe(priv->dev, -EPROBE_DEFER,
-Would you be happy with me sending a patch that replaces the whole
-logic in two meson_encoder_{cvbs,dsi,hdmi}.c with
-devm_drm_of_get_bridge()?
-I see two benefits:
-- simpler code
-- a patch less in your series (less maintenance burden for you)
-
-What I'm not sure about is how this series interacts with
-devm_drm_of_get_bridge() which is why I'm asking before cooking a
-patch.
-
-
-Best regards,
-Martin
+Sorry to nag again, but can we look into getting this patch merged? The 
+ASoC patch has already been merged and it would be nice to have audio 
+working on this platform.
