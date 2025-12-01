@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55054C96243
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 09:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7110C9624F
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 09:29:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AFBB10E320;
-	Mon,  1 Dec 2025 08:29:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3182B10E31B;
+	Mon,  1 Dec 2025 08:29:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kfoW+L2U";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JhA0kMiX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F76510E31B;
- Mon,  1 Dec 2025 08:29:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8549910E31B;
+ Mon,  1 Dec 2025 08:29:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764577789; x=1796113789;
+ t=1764577795; x=1796113795;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=5hnRKcN5tbedNi0hk9XR+hILDioF7IhCdNOOoRlRFB0=;
- b=kfoW+L2U6VJbSfsQK5uP98HZldUZZsyz/9MMN+yMDV1q3SoaocqlHeun
- mIdNnuqtrbaS4AR8CIRjPlM/FThu6+MGuKTcuMWNHmsfppv/scayB1IhT
- Ya1YW1Wsq4Eilgix0Y284/x3NejnNDM6JGf+YMLUjYCCq7jyyETOlgs7e
- kPUnPwY2VeSKC+t812pNTAGnM8hcH2lThx9D/tU1shClvLXwpMLhp/4PZ
- R1wktWxKBHlCipsaSHtLfEIxCdV85Sy5o3byNC488WmXBDts9zYwj3XrY
- WGq3nufjryAjHbDc+ItMtpK1yUOY3SHGRwgcjJyAGTdhCjy9PT1+N/4tC Q==;
-X-CSE-ConnectionGUID: n4dIbBLoSiy/PeeNb8E6SA==
-X-CSE-MsgGUID: cYpc4r8XSBWy9wjcXlMtWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="66578450"
-X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="66578450"
+ bh=Hn0DzjEDjdWBSR//FCEmS8oHhVJOx5SBBSmlLinaPDk=;
+ b=JhA0kMiXvD5pJR1lC9hy6wE3ph9cPP1MU0ZBEGrA4xFwmqsysrHTxJ3B
+ JRNNsBbkQLc0JRcOB7U8dHho1NLimM1eTl8S+mAmTUEUBaypm2BXPgPqP
+ 9t62unEMknW0cUKiHZlQeE8O9WJhFvuk2nq1EhKseD5RSXJuFxsPJt+c3
+ 5x97TzaH9DFI2gLQJKwNnvnk1Zc8Ln15fvGe98uxJTYs34BJXlE5OTcZv
+ QlGO1phyqI79Ha0fdA6tlGOtGdpqJofqimk+eoDY/+yoPmYVWUmazBOY7
+ t6k9yWDE6I1v7hg9KmGMMEKp9HwhXkATrq0AYxudvvkgmxtVl4efAVvP8 Q==;
+X-CSE-ConnectionGUID: Ygibds2/Tmmp3oIPaW7s3Q==
+X-CSE-MsgGUID: nrIwivOFRDqW9Wz+ILZ0Bw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="66578474"
+X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="66578474"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 00:29:49 -0800
-X-CSE-ConnectionGUID: 7EHqeELPRteauD+oKa1xsg==
-X-CSE-MsgGUID: EK3pNMQDQo6TjiL3SlA8AA==
+ 01 Dec 2025 00:29:55 -0800
+X-CSE-ConnectionGUID: ihGYdiRUSbKh5cAAunS8MQ==
+X-CSE-MsgGUID: fp6Sa4m+S/W2FzossHrSRA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="198352952"
+X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="198352980"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa005.fm.intel.com with ESMTP; 01 Dec 2025 00:29:42 -0800
+ by fmviesa005.fm.intel.com with ESMTP; 01 Dec 2025 00:29:49 -0800
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Mon, 01 Dec 2025 13:58:54 +0530
-Subject: [PATCH DO_NOT_RTEVIEW v9 12/20] Plane Color Pipeline support for
- Intel platforms
+Date: Mon, 01 Dec 2025 13:58:55 +0530
+Subject: [PATCH v9 13/20] drm/i915/colorop: Add crtc color pipeline for
+ i915
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251201-dpst-v9-12-e462d55dba65@intel.com>
+Message-Id: <20251201-dpst-v9-13-e462d55dba65@intel.com>
 References: <20251201-dpst-v9-0-e462d55dba65@intel.com>
 In-Reply-To: <20251201-dpst-v9-0-e462d55dba65@intel.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -85,78 +85,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch is a squashed series of
-https://patchwork.freedesktop.org/series/129811/
-
-Note: The entire series is not taken
+Add crtc color pipeline for i915 with initializing the histogram
+transfer function.
 
 Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 ---
- drivers/gpu/drm/i915/Makefile                       | 2 ++
- drivers/gpu/drm/i915/display/intel_display_limits.h | 8 ++++++++
- drivers/gpu/drm/i915/display/intel_display_types.h  | 5 +++++
- drivers/gpu/drm/xe/Makefile                         | 2 ++
- 4 files changed, 17 insertions(+)
+ drivers/gpu/drm/i915/display/intel_display_limits.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 004e8fc092a3b9ba7dd907a228b835ceaf8f2ba5..5088a0ef0be67f5e3851ab8e43b8f661824d561a 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -236,6 +236,8 @@ i915-y += \
- 	display/intel_cdclk.o \
- 	display/intel_cmtg.o \
- 	display/intel_color.o \
-+	display/intel_colorop.o \
-+	display/intel_color_pipeline.o \
- 	display/intel_combo_phy.o \
- 	display/intel_connector.o \
- 	display/intel_crtc.o \
 diff --git a/drivers/gpu/drm/i915/display/intel_display_limits.h b/drivers/gpu/drm/i915/display/intel_display_limits.h
-index f0fa27e365ab6d1fad1616266ac2b0508ce92a91..55fd574ba313176b5da637e3623ad106dd27880c 100644
+index 55fd574ba313176b5da637e3623ad106dd27880c..20bb2bd81489b4fed7e550e0b4e0ade6dcf35859 100644
 --- a/drivers/gpu/drm/i915/display/intel_display_limits.h
 +++ b/drivers/gpu/drm/i915/display/intel_display_limits.h
-@@ -138,4 +138,12 @@ enum hpd_pin {
- 	HPD_NUM_PINS
+@@ -146,4 +146,10 @@ enum intel_color_block {
+ 	INTEL_CB_MAX
  };
  
-+enum intel_color_block {
-+	INTEL_PLANE_CB_PRE_CSC_LUT,
-+	INTEL_PLANE_CB_CSC,
-+	INTEL_PLANE_CB_POST_CSC_LUT,
++enum intel_crtc_color_block {
++	INTEL_CRTC_HISTOGRAM,
 +
-+	INTEL_CB_MAX
++	INTEL_CRTC_CB_MAX
 +};
 +
  #endif /* __INTEL_DISPLAY_LIMITS_H__ */
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index b8a1be24cd0408dfa5377c9afe5309a9f1e743dd..ac5fa0dbffd77dbf927b61d2916a9624eeabac24 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -1987,6 +1987,11 @@ struct intel_dp_mst_encoder {
- 	struct intel_connector *connector;
- };
- 
-+struct intel_colorop {
-+	struct drm_colorop base;
-+	enum intel_color_block id;
-+};
-+
- static inline struct intel_encoder *
- intel_attached_encoder(struct intel_connector *connector)
- {
-diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-index 38008a644a0919868d6ff99fdda024df0eca944e..cd84f2be4ed37847d4da031ad9e330f56982431d 100644
---- a/drivers/gpu/drm/xe/Makefile
-+++ b/drivers/gpu/drm/xe/Makefile
-@@ -230,6 +230,8 @@ xe-$(CONFIG_DRM_XE_DISPLAY) += \
- 	i915-display/intel_cdclk.o \
- 	i915-display/intel_cmtg.o \
- 	i915-display/intel_color.o \
-+	i915-display/intel_colorop.o \
-+	i915-display/intel_color_pipeline.o \
- 	i915-display/intel_combo_phy.o \
- 	i915-display/intel_connector.o \
- 	i915-display/intel_crtc.o \
 
 -- 
 2.25.1
