@@ -2,111 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C064BC993DA
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 22:46:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A62FAC994B2
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 23:06:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 77C6010E499;
-	Mon,  1 Dec 2025 21:46:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18DB110E4A1;
+	Mon,  1 Dec 2025 22:06:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZHZeyGnX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="H5EHaymI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2A3810E499
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 21:46:15 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 475476018D;
- Mon,  1 Dec 2025 21:46:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3335AC4CEF1;
- Mon,  1 Dec 2025 21:46:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764625574;
- bh=VLLU6Fk7P3OG6KYCxQGd9OElcUAY4ZD7P6cn13H2jiM=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ZHZeyGnX53fuJ+TFcphgGSaCsDCJhwYeaA57v4UgoTroDE1bNBiA+AEBgK6TWk4PP
- StgMzwo6oxSb3Di3nUAj39dfRtVry2Wghasn0rtlszjDZ0b0OIc7DgBquFet90WHED
- ehtfNAglh2SiPiEaAwI9a0/EJQobw2hmwPQIq0V9K84uSkvqYOlmByaMD+eio2ZZ2G
- yt3YHi9/JGIleOqhXNXcVEzMu9wN0MPTXcRHzFrJgDHbSa7zwK4yDWuN9GQCtGx8+C
- XLDzaT0uptyRyeOLkxSEy9O1+HUv0wd+Nhq+nhmh0O1OrAiNU53CBX3C/P0z6wenKo
- UCNSbv44STpbQ==
-Message-ID: <3bc5bf92-05c3-4841-ab28-9bab2bb31cd5@kernel.org>
-Date: Mon, 1 Dec 2025 22:46:01 +0100
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
+ [209.85.222.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BF2D10E4A1
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 22:06:09 +0000 (UTC)
+Received: by mail-ua1-f51.google.com with SMTP id
+ a1e0cc1a2514c-9352cbe2e14so1173574241.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 14:06:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764626768; x=1765231568; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RjsD19aCUMHa2E8WfpptbpfT6kxnKtjPzjy54H5oDQE=;
+ b=H5EHaymIlaSPNLcf7vUveQdOxN4b1dcwKKAkVSOztWcTlHsaY2z79s6Svq4/DqlYom
+ 9zfhyzpKCSL527V83lebPE+svlNKvGh4mCQ9l9LgOJi6uSNVDPKTSfubyZL1dRfZo2za
+ 7IfxudyqwVualE4WS4nfaMfUjLMWdwJHxskPweRKTLaAALEeGwFXoD1jMq/DdpO22e0a
+ EWETpMNq8cEIsF/KJbGV56lu4EJK2zxNxXRHxHYKfZZgvcD/Y9+BxuT2TdzJwnsL7uPF
+ AHxoOfghnJM5ntbqfrqWBcBsdnjHFWMP1gnu3RqFW5iMNFRAFq3uuMfZYV3dtk/NxoSC
+ Pp9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764626768; x=1765231568;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=RjsD19aCUMHa2E8WfpptbpfT6kxnKtjPzjy54H5oDQE=;
+ b=xGCgmI2hZE9tzmLc4p6EySgNaTx10ZbgmXCTjf10iOV20Q9ec2F3M5g2ghIzmlQgKQ
+ InRlQzdWFuPgFiIeFJBLc/YPiLlTmSdB8lmMBl5cDiE2hWMrNE+JHXDm/xNoGnBDNfpP
+ eLjqt5K2SW0vUf0l08TOJgNmzULVrFZKx54LVbFv+/abU4cOynxROH+1sjtICTdN8PFv
+ QuLyyuLzrh1lu4fYkEwBb+QXk2RHOdD6VL1ioWxqfhZ4nKedzpgxCcOp6dwpScwhgWa+
+ mwSuCmR/ImtaqQawlgr6NA82LW1Z9TH3UFBiKwbnyTAkHnB8r05G8LTvemiSWR3gX0e2
+ kbvw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU4YLY4mLbtdeMgq9ELlVJnHFQoWFNEnt89sOZ4JrFThbGQsJuXHFib+9zMGuo/4pb4oYbPJbO9uzM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyxVHUIHxLuAatxxFJXN0UWDtyx8EJEjLUnRL/22SiyPXlCYzQr
+ z3og6wkSdPp2lAxBug0D9CnQ6ZVtEHKeGv+cejc6WcBpwcMktArw0HSfKeL/VmYDWVtBongg7mn
+ P5mbFQBKBSqMfoHFG9OBL0qAoH12VrxI=
+X-Gm-Gg: ASbGncsnAHewnJcRpxyVuVo9hmYJYniJbg2TqizqLSFaZ5WIrBZx56akKhLITko3hmE
+ puLi6M8cmB+XI81ovl6U0gTt2ImnacBh8nnvhHK6+duvQM25ktbA8J+iIwwPH14142AdFDkDLQ9
+ YexLazK5CxZu4NIs9USQLvRd6wwYERYarb9cAE/WrrzppXNSwn2aV9qRHPOaZ5lKhZb7Re7pJpJ
+ TfVEjwEpXDT2dmKc5CSlNmn0YdF+6tq2eRoKbU2dICA0tVoyBiBPtQJHQxKNCERQ44HcQ==
+X-Google-Smtp-Source: AGHT+IHy9MubOTLG2etzaabSpxtKy1Lb/AjgjOqAEtXPMeO1sBbpyDe9CCi6vq0uRyBGY3AdXltB4if2OEMaCAYo1tg=
+X-Received: by 2002:a05:6102:5805:b0:5db:c987:d8f4 with SMTP id
+ ada2fe7eead31-5e22421c58amr9629989137.7.1764626767957; Mon, 01 Dec 2025
+ 14:06:07 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/21] ARM: dts: omap: Bind panel to panel-dpi instead of
- ti,tilcdc,panel driver
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-Cc: Markus Schneider-Pargmann <msp@baylibre.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Miguel Gazquez <miguel.gazquez@bootlin.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-omap@vger.kernel.org, Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Tony Lindgren <tony@atomide.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20251126-feature_tilcdc-v1-0-49b9ef2e3aa0@bootlin.com>
- <20251126-feature_tilcdc-v1-5-49b9ef2e3aa0@bootlin.com>
- <96b1b7bf-ddbe-4213-a201-dc89cf2998dd@ideasonboard.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <96b1b7bf-ddbe-4213-a201-dc89cf2998dd@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251122090343.81243-1-21cnbao@gmail.com> <aSiB-UsunuE7u295@milan>
+ <CAGsJ_4z21fN2KSg6jt_qveYgrKZw1Vsi_kb+uhed=RJAbujMHw@mail.gmail.com>
+ <aS13J6U-QMOrwwbs@milan>
+In-Reply-To: <aS13J6U-QMOrwwbs@milan>
+From: Barry Song <21cnbao@gmail.com>
+Date: Tue, 2 Dec 2025 06:05:56 +0800
+X-Gm-Features: AWmQ_bmgxK1g1aP9fycsrkY4ZrS4yYO9pthpUyw8iDWG0FYFC6_bJ-WYcNubwhU
+Message-ID: <CAGsJ_4yGLdhk84Ent8VRcE4_2Am_U=bXTVdV2LHDBtD2OZs8xg@mail.gmail.com>
+Subject: Re: [PATCH RFC] mm/vmap: map contiguous pages in batches whenever
+ possible
+To: Uladzislau Rezki <urezki@gmail.com>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-kernel@vger.kernel.org, Barry Song <v-songbaohua@oppo.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, John Stultz <jstultz@google.com>, 
+ Maxime Ripard <mripard@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,36 +90,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/12/2025 15:13, Tomi Valkeinen wrote:
-> Hi Kory,
-> 
-> On 26/11/2025 19:35, Kory Maincent (TI.com) wrote:
->> Use panel-dpi driver instead of the deprecated tilcdc-panel driver in
->> preparation for removing the tilcdc-panel driver and binding.
->>
->> Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
->> ---
->>
->> This patch is not tested. It would be nice if someone with one of this
->> board could test and validate it.
->> ---
->>  arch/arm/boot/dts/ti/davinci/da850-evm.dts    | 26 +++++++++++++-------------
->>  arch/arm/boot/dts/ti/omap/am335x-guardian.dts | 25 +++++++++----------------
->>  arch/arm/boot/dts/ti/omap/am335x-pdu001.dts   | 21 ++++++++++-----------
->>  arch/arm/boot/dts/ti/omap/am335x-pepper.dts   | 22 +++++++++++-----------
->>  arch/arm/boot/dts/ti/omap/am335x-sbc-t335.dts | 25 +++++++++++++------------
->>  arch/arm/boot/dts/ti/omap/am335x-sl50.dts     | 25 ++++++++++++-------------
->>  6 files changed, 68 insertions(+), 76 deletions(-)
->>
-> 
-> Doesn't this, or rather the following patches, break DTB compatibility
-> with all the above boards?
+On Mon, Dec 1, 2025 at 7:08=E2=80=AFPM Uladzislau Rezki <urezki@gmail.com> =
+wrote:
+>
+> On Fri, Nov 28, 2025 at 04:43:54AM +0800, Barry Song wrote:
+> > > >
+> > > > +     /*
+> > > > +      * Some users may allocate pages from high-order down to orde=
+r 0.
+> > > > +      * We roughly check if the first page is a compound page. If =
+so,
+> > > > +      * there is a chance to batch multiple pages together.
+> > > > +      */
+> > > >       if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
+> > > > -                     page_shift =3D=3D PAGE_SHIFT)
+> > > > +                     (page_shift =3D=3D PAGE_SHIFT && !PageCompoun=
+d(pages[0])))
+> > > >
+> > > Do we support __GFP_COMP as vmalloc/vmap flag? As i see from latest:
+> >
+> > This is not the case for vmalloc, but applies to dma-bufs that are allo=
+cated
+> > using alloc_pages() with GFP_COMP.
+> >
+> > #define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO)
+> > #define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
+> >                                 | __GFP_NORETRY) & ~__GFP_RECLAIM) \
+> >                                 | __GFP_COMP)
+> >
+> > >
+> > > /*
+> > >  * See __vmalloc_node_range() for a clear list of supported vmalloc f=
+lags.
+> > >  * This gfp lists all flags currently passed through vmalloc. Current=
+ly,
+> > >  * __GFP_ZERO is used by BPF and __GFP_NORETRY is used by percpu. Bot=
+h drm
+> > >  * and BPF also use GFP_USER. Additionally, various users pass
+> > >  * GFP_KERNEL_ACCOUNT. Xfs uses __GFP_NOLOCKDEP.
+> > >  */
+> > > #define GFP_VMALLOC_SUPPORTED (GFP_KERNEL | GFP_ATOMIC | GFP_NOWAIT |=
+\
+> > >                                __GFP_NOFAIL |  __GFP_ZERO | __GFP_NOR=
+ETRY |\
+> > >                                GFP_NOFS | GFP_NOIO | GFP_KERNEL_ACCOU=
+NT |\
+> > >                                GFP_USER | __GFP_NOLOCKDEP)
+> > >
+> > > Could you please clarify when PageCompound(pages[0]) returns true?
+> > >
+> >
+> > In this case, dma-buf attempts to allocate as many compound high-order =
+pages
+> > as possible, falling back to 0-order allocations if necessary.
+> >
+> OK, it is folio who uses it.
+>
+> > Then, dma_buf_vmap() is called by the GPU drivers:
+> >
+> >  1    404  drivers/accel/amdxdna/amdxdna_gem.c <<amdxdna_gem_obj_vmap>>
+> >              dma_buf_vmap(abo->dma_buf, map);
+> >    2   1568  drivers/dma-buf/dma-buf.c <<dma_buf_vmap_unlocked>>
+> >              ret =3D dma_buf_vmap(dmabuf, map);
+> >    3    354  drivers/gpu/drm/drm_gem_shmem_helper.c
+> > <<drm_gem_shmem_vmap_locked>>
+> >              ret =3D dma_buf_vmap(obj->import_attach->dmabuf, map);
+> >    4     85  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
+> > <<etnaviv_gem_prime_vmap_impl>>
+> >              ret =3D dma_buf_vmap(etnaviv_obj->base.import_attach->dmab=
+uf, &map);
+> >    5    433  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c <<map_external>>
+> >              ret =3D dma_buf_vmap(bo->tbo.base.dma_buf, map);
+> >    6     88  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c <<vmw_gem_vmap>>
+> >              ret =3D dma_buf_vmap(obj->import_attach->dmabuf, map);
+> >
+> Thank you for clarification. That would be good to reflect it in the
+> commit message. Also, please note that:
 
-Stuffing DTS change in the middle of the driver change tries to hide
-impact, which is not nice on its own.
+Sure.
 
-Please follow soc maintainer profile and submitting patches in DT
-regarding DTS patches.
+>
+> >       if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
+> > -                     page_shift =3D=3D PAGE_SHIFT)
+> > +                     (page_shift =3D=3D PAGE_SHIFT && !PageCompound(pa=
+ges[0])))
+> >
+> we rely on page_shift =3D=3D PAGE_SHIFT condition for the non-sleep vmall=
+oc()
+> allocations(GFP_ATOMIC, GFP_NOWAIT), so we go via vmap_small_pages_range_=
+noflush()
+> path. Your patch adds !PageCompound(pages[0]) also. It is not a problem
+> since it is vmap() path but we need to comment that.
 
-Best regards,
-Krzysztof
+Sure. Would the following work?
+
+        /*
+         * For vmap(), users may allocate pages from high orders down
+to order 0,
+         * while always using PAGE_SHIFT as the page_shift.
+         * We first check whether the initial page is a compound page. If s=
+o,
+         * there may be an opportunity to batch multiple pages together.
+         */
+        if (!IS_ENABLED(CONFIG_HAVE_ARCH_HUGE_VMALLOC) ||
+                        (page_shift =3D=3D PAGE_SHIFT && !PageCompound(page=
+s[0])))
+                return vmap_small_pages_range_noflush(addr, end, prot, page=
+s);
+
+Thanks
+Barry
