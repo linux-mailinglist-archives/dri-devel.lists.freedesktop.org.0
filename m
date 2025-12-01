@@ -2,79 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B9EC959E5
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 03:50:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B37C95AB6
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 04:51:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C447710E08B;
-	Mon,  1 Dec 2025 02:50:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B48C10E03D;
+	Mon,  1 Dec 2025 03:51:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="L2B2o/V2";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Gf6yPULd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B59A310E039;
- Mon,  1 Dec 2025 02:50:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764557450; x=1796093450;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=rKOvDeIyiyRW4pFdZUPEt3azuNBykMjjiaAtloiTHqg=;
- b=L2B2o/V2nRu4XHbLuKytjN/XJx6sAveYGpN4yXH3zTLvee05lSOF8icA
- E/zvU71ixtxsgbgQXN/JUcTLkoYZ278kwHUuTPcEFELLfJWOqy96DyAuv
- aeXijHY30Bij7KpVZ/psNo5UzMofaeXcmvBPY28xd0JeG+gUHVhO4wJV5
- zmlaHYwZOXDRl6fCpYLRl8uDMy9/4RGSLl2m4iaMPhH09ADQ5kPZyaDeJ
- cYurXg8Z+G9Anxp2ixon30PUr86T+tphhHmkDCilUn79bcIEW1hPDWZvv
- Vr9HuGZn/PPbLc1BjIb1nUntdqvlP+7oHCD/+eYIZFpIkICIBBXccLPpn w==;
-X-CSE-ConnectionGUID: xKLzhLvtT+aUn4B0YYNh5g==
-X-CSE-MsgGUID: 1BW+ghRfQAKAadUmB3XZGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="66377203"
-X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="66377203"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2025 18:50:49 -0800
-X-CSE-ConnectionGUID: YAbpDgaQSW6OVR+KExldcw==
-X-CSE-MsgGUID: jGsuMvD2QQ2EBRDrcIx6Hw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="224916572"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.125])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2025 18:50:45 -0800
-Date: Mon, 1 Dec 2025 04:50:42 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: david laight <david.laight@runbox.com>
-Cc: Yury Norov <yury.norov@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] tracing: move tracing declarations from kernel.h to
- a dedicated header
-Message-ID: <aS0CgnvRfQtam0uU@smile.fi.intel.com>
-References: <20251129195304.204082-1-yury.norov@gmail.com>
- <20251129195304.204082-4-yury.norov@gmail.com>
- <aStX3242e3mo5H05@smile.fi.intel.com> <aSyJ83v7EEAPHXeU@yury>
- <aSyertuRRX9Czvyz@smile.fi.intel.com>
- <20251130230925.376b5377@pumpkin>
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
+ [209.85.222.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDD4810E03D
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 03:51:46 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id
+ af79cd13be357-8b25ed53fcbso527486885a.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 30 Nov 2025 19:51:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764561106; x=1765165906; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VPDvjmWmstCZs403kLYZUcqozaowRwzBovq4hKgB4II=;
+ b=Gf6yPULdbwiYJEfzesk7pII4oXtyPO4g+cAbd+6A9EZWXm9wSupyjhzbItuvF97dPG
+ 0q1RFoJpxMcTa2JqPh3YIzsBUeng2diVEQVckacjjuW0oBbVkUsY0bFN8hUO0DdS3Mpm
+ NSamOZiyx2zfpPfK0PpI/G1rTQXnh4UguEUvFCTKZsAEW9OzOTi1yOMiDNsqc8X8TadD
+ 8PayWSB48HJ6G6GkVSwZ/qVI14gSl+/poiRLlmHd6Po+82JNGfSVq8ao3PjwVDHE1RTg
+ O1KOy6z3oIjfgPoxYLBTBHaU9m69Xykxdo5CMT4jwjQeKt9OTaQrWe8/u62YLCN0rT2m
+ J4Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764561106; x=1765165906;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=VPDvjmWmstCZs403kLYZUcqozaowRwzBovq4hKgB4II=;
+ b=HP4OEi+wka05g92IYeKtvP3INxGqN9QL8A9m/UxoitFFvCMVcaBvM1ofaSLpJnjoQo
+ cqBpTuemg0F0fmhvCNqKQxMlyLg7wyvTR2CCWyw/F3UwzbxFhE7HM0unefbh87zu8YM6
+ wuVNiy4sqO21xyvbimoy3QrourmGbU9x1e5+N11HxpnOpf2fjYJEq/QriRDcp3fdxvH2
+ dPvqhBumm6y/icHMkWLUujJfvCzrMQDgf3OkWkXshy7L5u2QX75ucaI+zSANichg6Dp4
+ 14npG8Q/4gf6S4D33c4ce2g5Am1ExxS7h4zWUXkVSqkkx8u4O5hr2jUHktfmWPiAnxCp
+ a4EQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVaTl+dpih/dYwMTytz6UH/LcTH1m18rIdY37c0U5uQwiBWb2/Iv2CHylh91yPLgSTngCj+t/EsQ3M=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw868qK4WKfHDk6vqzn3deKAbTgzCm4zB7FSiLCUe33BsdLqYgt
+ blZFX9le6jzGAR7JodcA3jl6LqmLfMcFXaQCFOtFvtO4RZGMf+kVBPUoUeu0SrVOwJHhUrP2o8p
+ 8TZJMYrk7efBHtOqx221ZqxZFdvDFZk4=
+X-Gm-Gg: ASbGncv3w8hGvlKkWoUuDl/XCEg7dQa4m3Pzq04aR6ni3+4lx4L40qb/x+8SvxHNtbb
+ cHKyk34KbTWK/MgURvinaE35GvsBOKGVDbg8HzAPrbkguGQBqAJZotR/i25vKgltcJWOLtLbeVZ
+ EDpPTsa/qUuZgQ6CbFF4aKQ1qqjx9U46gpClZPbbmQBQE8UcGwYTx6c6lyd9psjExyvJcEjp8DZ
+ plVMx/4+PlILImM7tONUjBshxNf8aNxrmRbfwsHuprLRCjYxne42jceADPPm1M8LarJ9w==
+X-Google-Smtp-Source: AGHT+IENLrKf8ZvtsbVdSEdOPpi7r72ocwGWKSGb+wdCtQSjh0/U4/sVoF8VaRnzcYtDaessP8NKZiHFHWiHIPIqohs=
+X-Received: by 2002:a05:620a:f13:b0:8b2:e069:6911 with SMTP id
+ af79cd13be357-8b33d4cac8cmr4497623885a.59.1764561105765; Sun, 30 Nov 2025
+ 19:51:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251130230925.376b5377@pumpkin>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <a878e155-4a20-4a6e-8a9d-783117d4fe8c@intel.com>
+In-Reply-To: <a878e155-4a20-4a6e-8a9d-783117d4fe8c@intel.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Mon, 1 Dec 2025 13:51:34 +1000
+X-Gm-Features: AWmQ_bkH-fNa5-FuUvil5JWTOME_pdvqsUrVTWPYxV7f62JXP55q-R1vHsO4NLM
+Message-ID: <CAPM=9tx4ASiN8VB6OUvOEzwOPaXO0tM4-q4ZaQRKmtdoTTRF3Q@mail.gmail.com>
+Subject: Re: [git pull] accel/habanalabs: Gaudi3 support and updates for v6.19
+To: "Sinyuk, Konstantin" <konstantin.sinyuk@intel.com>
+Cc: Dave Airlie <airlied@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, "Elbaz, Koby" <koby.elbaz@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,32 +84,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Nov 30, 2025 at 11:09:25PM +0000, david laight wrote:
-> On Sun, 30 Nov 2025 21:44:46 +0200
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+On Mon, 1 Dec 2025 at 11:04, Sinyuk, Konstantin
+<konstantin.sinyuk@intel.com> wrote:
+>
+> Hi Dave, Sima,
+>
+> We are excited to continue the upstreaming of the accel/habanalabs driver=
+.
+> While maintaining the momentum with Gaudi2 fixes, we now introduce Gaudi3=
+ support,
+> covering the development work done during the 2021-2024 period.
+>
+> This tag contains habanalabs driver changes for v6.19, continuing the pre=
+vious
+> upstream work from tags/drm-habanalabs-next-2025-05-25. It includes impro=
+vements
+> in debug and visibility, general code cleanups, and the finalization of G=
+audi3
+> support, closing remaining gaps relative to Gaudi2. This is backed by
+> foundational features such as the MMU v3 architecture, ODP (On-Demand Pag=
+ing),
+> and enhanced security infrastructure.
 
-...
+As per https://www.kernel.org/doc/html/latest/gpu/introduction.html
 
-> It is worth checking whether the files get included anyway, and whether it
-> really makes that much difference.
-> 
-> Fiddling with kernel.h and extracting small 'leaf' headers from it is also
-> unlikely to make a big difference.
+"All feature work must be in the linux-next tree by the -rc6 release
+of the current release cycle, otherwise they must be postponed and
+can=E2=80=99t reach the next merge window. All patches must have landed in =
+the
+drm-next tree by latest -rc7, but if your branch is not in linux-next
+then this must have happened by -rc6 already."
 
-It makes a big difference for the kernel.h and its (ab)users.
-Especially when we have cyclic dependencies and "include everything"
-cases due to other _headers_ including kernel.h.
+This is new hardware support so I was seeing how nice I was feeling,
+but there were a few messy bits on initial review, so probably will
+have to wait for 6.20.
 
-> Try adding a syntax error to (say) sys/ioctl.h and see where it is included
-> from the first time - I suspect you'll be surprised.
-> Working on that include list might be more fruitful (in reducing build times).
+>  .clang-format                                      |    179 +-
 
-kernel.h elimination (in the form it exists right now) is very fruitful.
-However, you may help with the (say) ioctl.h or whatever you consider
-really fruitful, we all will thank you (no jokes).
+I've no idea who owns .clang-format, but changes to it should not be
+happening via here, it looks like it regresses and changes a bunch of
+stuff unrelated to this.
 
--- 
-With Best Regards,
-Andy Shevchenko
+diff --git a/drivers/accel/habanalabs/Makefile
+b/drivers/accel/habanalabs/Makefile
+index 98510cdd5066..58c51f03858d 100644
+--- a/drivers/accel/habanalabs/Makefile
++++ b/drivers/accel/habanalabs/Makefile
+@@ -3,11 +3,16 @@
+ # Makefile for HabanaLabs AI accelerators driver
+index 98510cdd5066..58c51f03858d 100644
+--- a/drivers/accel/habanalabs/Makefile
++++ b/drivers/accel/habanalabs/Makefile
+@@ -3,11 +3,16 @@
+ # Makefile for HabanaLabs AI accelerators driver
+ #
 
++CONFIG_DRM_ACCEL_HABANALABS :=3D m
 
+that seems suspect at best?
+
++ifdef OFED_PATH
++KBUILD_EXTRA_SYMBOLS :=3D $(OFED_PATH)/Module.symvers
++endif
+???
+
+        timeout =3D flags & HL_CS_FLAGS_CUSTOM_TIMEOUT
+-                       ? secs_to_jiffies(args->in.timeout)
++                       ? msecs_to_jiffies(args->in.timeout * 1000)
+                        : hpriv->hdev->timeout_jiffies;
+
+There appears to be a bunch of reverts of upstream developed patches,
+
+78cf56f8832a932ade20b8340a029ace14ac0e98
+Author: Easwar Hariharan <easwar.hariharan@linux.microsoft.com>
+Date:   Tue Feb 25 20:17:17 2025 +0000
+
+    accel/habanalabs: convert timeouts to secs_to_jiffies()
+
+Please re-review this and make sure you aren't rewinding upstream work
+that never made it to your internal development tree.
+
+Dave.
