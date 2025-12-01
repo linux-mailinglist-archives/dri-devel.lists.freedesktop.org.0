@@ -2,170 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B610C99942
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 00:23:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E113C99A1E
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 00:55:51 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E97810E4D5;
-	Mon,  1 Dec 2025 23:23:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A930810E4F0;
+	Mon,  1 Dec 2025 23:55:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="JHDb/pT3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cZHbr/4a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11012017.outbound.protection.outlook.com [40.107.209.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A2BF10E4D3;
- Mon,  1 Dec 2025 23:23:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vh9W0Hm3Ew/DU681ZY8IPxiXc7KNYLpMCiCffmWPDGklJn66FTh3LdbWBGrSWRxsrBRm065y0Yl19IwWQUrQygCJPjMXyj3BjJQ80MF82L/HU+JGHoxIomQNoRCknHvqVD7zyGdGHg/FfK31IScuTxLzEpstADpSvP627YIJkSRMf6eR9u3EUZOn6krWXEHOVpGSLMmqM8BgLglEDyCBstDDS4m27Uik7CsRvVTcISRCwFKPrSiM1dLxiE5rjYG+w9QzTw35uOfX+vdupbenaebK21lbDUwUb5BsAd/hQejnTGC3rKjpGsygA3cFfi1Z7oinyIoiJtNM7t8JnSLgQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2W7kurcCOjlcTfdF8QO5WCApqkd5BtY+U2k343fvsFI=;
- b=jv3A0EYkyKzf+v1I+ZKtPwJQF1+/vJPrGyTJp0EDa6H6Iu6scmT1WYgdjqqhg8ONtGa8hB7YqanJNOuuWMHx/BrTSVT0yYNdk4waCR1Y62jyCh97BwyxjxO22MEMfeoWrNQ34EQBoNRxej+csCCiKS1eETmv+qpJpZ6lh/nVuZPukNUYtA3WpkFbJ127IW+C9I9a1hBjQNMmGQyDD9DbZB1US05HALfwYQi2sa4lMoinXWuugZS+LQ3iCqoh6ZMkk5Gv9kJYjeQ6zh4N0Zj8bIe0rxSZRhc7oC1gkLb2BlUKdvBtK+qxgoNb+IEwkndJqdXKm/HAyE8Gfyqxx3zHQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2W7kurcCOjlcTfdF8QO5WCApqkd5BtY+U2k343fvsFI=;
- b=JHDb/pT32CJcVFAhJM5VyrBV5UCpJjFoKSzErYlleURakqFrjfCPtPHHUqFJxAVqL+nOHlL9GtleUqUZBP4i05irhbdxeqgyGuOFwTYOPr/4xIMnlmGB6/D6WlGwQPaW88n1mQyXp4jFLzfFL3gcM5dK2cOMS1ETbK6wKLjXh4yiYIIFILheVQaI2R6GDlP3iNjDQg/t17nym7Q0OR4gKsBNu/F3ffm9rJnB490g3U5c1AZQNb61eucMdBiGeXSAvrep+cAFClB0xLejgOdK70TBgDoq9xwhSwyqnr+3cf9ax7W7v57XcjQhTHIF/1y8B1Yy01ovEDy9HyQbYVBa5A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by PH7PR12MB9066.namprd12.prod.outlook.com (2603:10b6:510:1f6::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
- 2025 23:23:28 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
- 23:23:28 +0000
-Message-ID: <4be3e780-fd5a-4688-b8aa-242f4c089ef8@nvidia.com>
-Date: Mon, 1 Dec 2025 18:23:24 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] rust: clist: Add support to interface with C linked
- lists
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@kernel.org>,
- Dave Airlie <airlied@gmail.com>, Alexandre Courbot <acourbot@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Timur Tabi <ttabi@nvidia.com>, Joel Fernandes <joel@joelfernandes.org>,
- Lyude Paul <elle@weathered-steel.dev>, Andrea Righi <arighi@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>
-References: <20251129213056.4021375-1-joelagnelf@nvidia.com>
- <5B89D953-BB52-4E8F-AC40-1FA33C016780@collabora.com>
- <87d2c2d5-12d2-4655-b070-872c909f7e0a@nvidia.com>
- <1933c83d-7692-431b-b2b8-9c9a637ebed2@nvidia.com>
- <2584CA37-1AE6-4B1B-90B1-8DE4F826E760@collabora.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <2584CA37-1AE6-4B1B-90B1-8DE4F826E760@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR11CA0022.namprd11.prod.outlook.com
- (2603:10b6:208:23b::27) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C74F10E4D8;
+ Mon,  1 Dec 2025 23:55:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764633343; x=1796169343;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Z1VcxsuR3L6YBzY7PiEEbGrfY1QOz5qtvbuFHc6Q+vM=;
+ b=cZHbr/4aVx11oaQHdSYIwAXaeE7UQEICnLfgPVC29cIDcx5psRs5ssup
+ HdQmB3pdQwQweiRY5TUfneZ54wWoZK3ZtKVJrMpfUOfG4QIgmb68xfRhH
+ rxZoDlS6r1Ix90SCIdV5HgZMm9nRTSyzKMGoRxJRBlyXipnezJoX9cbRQ
+ U3+2wAvDB5evNnczr/MQqOplyI+Ipzbw9OJCWd7qemXrK4rj99U0sFH0I
+ K5sHHUmRW8IpizhwgwY9pYY64VRhU/I/bqptSUuzKEFBAaWCtZTPcRP98
+ 6q32aZvpSp6J9n0R9eeUj+xIkglfn5jjAEvUkyqrLPW6Jrp1vtxJpNXdh Q==;
+X-CSE-ConnectionGUID: O+lowcabR8qJ/mhghTjzsw==
+X-CSE-MsgGUID: nvzA1nNYQvepEiexH4V/sg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="89235935"
+X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; d="scan'208";a="89235935"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2025 15:55:42 -0800
+X-CSE-ConnectionGUID: V4wAlWvZR+qKDimA+vyxPw==
+X-CSE-MsgGUID: Fc1yKlU3SsOQYlpllI86VQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; d="scan'208";a="198410922"
+Received: from dut4086lnl.fm.intel.com ([10.105.10.149])
+ by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2025 15:55:43 -0800
+From: Jonathan Cavitt <jonathan.cavitt@intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
+ joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
+ jianxun.zhang@intel.com, shuicheng.lin@intel.com,
+ dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
+ michal.mrozek@intel.com, raag.jadav@intel.com, ivan.briano@intel.com,
+ matthew.auld@intel.com, dafna.hirschfeld@intel.com
+Subject: [PATCH v28 0/4] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+Date: Mon,  1 Dec 2025 23:55:40 +0000
+Message-ID: <20251201235539.236686-6-jonathan.cavitt@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|PH7PR12MB9066:EE_
-X-MS-Office365-Filtering-Correlation-Id: 415a90e9-c70c-41c3-f6d0-08de3130a237
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Q2M1REMrekQwUFVCdTFIRzd6Mjg2dFhPOGQvYmlYT2NpWEJzajRXRmFRdXdP?=
- =?utf-8?B?SUE0UkV3eW5WTkVXY3VPQnFKeVhNRkVMWXV1NzJOc0dqQzliaFRRTzJONVlu?=
- =?utf-8?B?emhieEd0UzY4NjNHRGt4ell6cDVjNnU2YVVYYlpCTmVsbk1xeEprd3lCa3Nu?=
- =?utf-8?B?c1pMR0dpZTBjcWJjd3Ywd05GV1VVVk9od3E0ajkvby9ma1dXVmI0SnpCYzdm?=
- =?utf-8?B?MlE5Tm5Gb0VtYWRSdXkxY2RHV1lWbUNYRHBpeEZYMkNQSWU4YWpIQjJsK0Q2?=
- =?utf-8?B?R2lJenR4eTZCUVV4RG9rL291QkFLS3paZFlBWENpSW5mY1UxOStMdmpwbW82?=
- =?utf-8?B?NEJiem5WMU96NXdxaC9uV3g2OUdDbTZ2WFU2ZG5yUnk0Y1dhc09zMitzK0tk?=
- =?utf-8?B?bTBuUzdPdEkrMHF0bW9qbUdZMTRJNURFNkpUbzYvUUVmZzQvRS9hdHNJcGUr?=
- =?utf-8?B?VU1iUDBQVEpnU09pZUdDQVU1aUZleUpWVG0wWXNMREtwNDdzVE0wQzZBeCtt?=
- =?utf-8?B?T0U2TE4zaTFydGdQb0N2QWRRY285RXBab2RQOWhEdTJhNy9WbXhmOVhhM3do?=
- =?utf-8?B?cHk0N2VQUkwrYkhqMytMby91VWdmY3c2dzZ1ZUxaT2huMitkL1B0NXpKaVJV?=
- =?utf-8?B?ZU9RczFTS2pjcDRDNFVITjJhQjJrN1czYTNJRVg1bDRRaU8ySy9Yb205Rmpj?=
- =?utf-8?B?NElaa3VYZEtMTEJJQjBSZk5pM0traGY4eXdkT1VrNjRCQitZbUZXM2FaWUUy?=
- =?utf-8?B?QTVaQiswYjE4RkUxTmZwVVM2R0swMGtUeWpZR1pyaHNWNDNqTEluZXIyRjN4?=
- =?utf-8?B?RFYxOGtDN2pPKzRXdmZyVmwrOW9IRG9sejRERUhidHoraEFCWEVJaW1rbjFk?=
- =?utf-8?B?VzRmbTVzaEJGaTJTL2RqcS91RXZzeStqc3ltSnAvOGV5dHJQb0EyZEVaQjZi?=
- =?utf-8?B?N1gzekJWL1FCaDdyaklsZEt0TGYvK2ZhWWk0eGdpRWFJRllpejZKalY0WXpq?=
- =?utf-8?B?RWxhanovUTIxd1R4ZG5EZHNZOHRjSWJub0JhR09UTHI0OUkrTkpaa1ZzZkl2?=
- =?utf-8?B?WXQ3cm9XRkJ1TlRhWFBFajVuWmg2bkNQVFZxcmh5WitmcnJMMjF4Mkd5cU5L?=
- =?utf-8?B?QzZmZXdvcTJFYU90b2l2a2J0c3J1YlE3TDZKbENVdUxXNzlHb0h5UHRVZ1k1?=
- =?utf-8?B?VXNTUmR4dTFrQlhkbGxIdEdYU1pwYWlvWG5MaXF1KzJvaCtFSmp5RmkxalE1?=
- =?utf-8?B?VFFFbGR5YTJQem5MTDVkZlN1bWVSQlZpdEZyQzdpTm9nb3dMOXE3cnhtQmN5?=
- =?utf-8?B?akF1eWNjbk9RNHo2c0s4dHA1MHo1VnBTTElpSVZKZGVsZGsxTmJZamlheUly?=
- =?utf-8?B?QVFCa2JHWXcxTEQ1RWVrQlRSMmJmNmVwMWJ3ZWNvVDlhdzRNTlU1MitQUURm?=
- =?utf-8?B?eDEvbEJmYm1CVGhIWUJaeWE1ZFNwZlRFZVMvYXNLdFF4QXpNRk9GS3oyNXMy?=
- =?utf-8?B?S2s0RmJKMlB1bGtmYTRpRlY5dVRLZ09ORng5WVRVQjNoUFMrMlhjdmpWcEdT?=
- =?utf-8?B?ZDdJS1dXWWlkZ1dabmRiNUc4aU1saFFhRFI5M0pEREc2c2hId0x4aGZQMCtw?=
- =?utf-8?B?alAwdWlqQ0w2d1BPSDZ0K0o5QmxRdEdXZkRHWlk5cDY5M2hhWlp6STNubTJm?=
- =?utf-8?B?RjhJMUd1L1l0Zm1vUXlVci90QWhQVUxwYmRKQ3MrdUFmbWdYRWdZUUs3M1c5?=
- =?utf-8?B?NThDSnJzMkdTYTBmWThFZ2J4czBpQTBzQXQ1SWdKNHdTTzVNdjZ6K2orZ3Bx?=
- =?utf-8?B?Vy9VS3FLanFFd0pOc1JIOTRLK0I1aUhUNWJxZDRsa1VOWm9iQ2c0bm9VTi91?=
- =?utf-8?B?aEJ3a2RRZnBrZDIwcjM1Q0RXV1ozYzZkcXZKbC9UOWJFK0p2V21WWkRqWElM?=
- =?utf-8?Q?S7pTrwSB2CIjNq7rhT4WpVSSWIM0lYOV?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGdmRXVDNmZkMWFzLzB1VG1KSjB3aSt4YzgvMU03VEdMbk5SZTVnTHltM1l5?=
- =?utf-8?B?U3N5VVNzVldpaXQ2VGt1Z1RBNnlhY1dqVHA4THJodzZ5WDYxeUVEaGloak4z?=
- =?utf-8?B?ZWVLcGl3dlZaK29vc1l5OE1CM2NldGFjNFBHbjJvV0JEUlNOOFVRcndCYk93?=
- =?utf-8?B?Yk9vOCt2M1VZK1o4TmRqRnNib1c3TzJYYjkyUmVYMkg0Qlhac29pL0tML25L?=
- =?utf-8?B?SkNrdjRYY2kzM0Zkcmcvci9YZEhnUXNzUW9hREl3S2pkMzJOVTkyMzBVSlhQ?=
- =?utf-8?B?UnBFcjJhN1pIeHZLYmNsTXJLalJHWjc2ZFpLRnhyMzVIVTdydFQvTU1zOWpG?=
- =?utf-8?B?TmI1Q05HQW1kTmxVQjFtRTF4Z3Q0dGp2UHlmTzE0RUN0cU9CUmFoejd5eUlJ?=
- =?utf-8?B?UWJBK3E2MGJiRm81SG9uTEpRMVFOQjhWdE1UUkJTdi9PRm1kMzYxN05XblND?=
- =?utf-8?B?bytldXd4UjEwZFNjZGhHc2gzVWFpUnhVNlA4eTVMcjFNKzdveWxxc0RnYWdt?=
- =?utf-8?B?eUtqeHM2enJoRkVjeWlzbk5tdnJ4QklzK2JaV0p4SXVDQWpBU2RZbkplYjdX?=
- =?utf-8?B?QWpjSHBOT0U5M1NyRGNtMDZseG96UzVKZzg5NUlGWSt6VkN6cVU3RmFMb0J6?=
- =?utf-8?B?dmhiajZvSXFoOTIyeXVyaXBOM1dBK2FEUlVlN2FJQ2UzQytzbGpkamw5UURI?=
- =?utf-8?B?dEFkV1JPeWhBbHJjeHNrMWM4RmFTWk1hWUtUTEVPSFdRa0RLV0VLRUJ6RUFM?=
- =?utf-8?B?a0ltQVdIK0IxOVZkZUR2Y2Y1clJBWmdnZ204c0hrdDZHcFoya1V4dDkzdTFu?=
- =?utf-8?B?ZlYxYkVTbStLZTRvV1RwWjJ6TDFaZjVvcUhiWnBiUXMzalA5RTYwNS9ETkJ2?=
- =?utf-8?B?cHBtdDJFR0pTc2h3ekhCR0dHUHVlTlo1WmJ2dU9WbDZ6MFJnUkNlRW9DQlFj?=
- =?utf-8?B?czltQ005VUFwT1JrMmxMNkdteHo0ejlZbUhkcFhBSG00TVpwQ1ZpT2U2U2pm?=
- =?utf-8?B?NFlld2xHdTFVZDJFVlFDRy8xSE45N1JQeFgxZXVqUFg1cjNtdWRKT3RJRjRK?=
- =?utf-8?B?QlRITFU2cGdYZDJlZUFWeFJxaE96K1dwdFQwOFVDR05RdzhXRW9ISmNWeUVs?=
- =?utf-8?B?alB6R0tCQlBDY1Z5MVU0N0tTQnNhcWlXQXpncG91WG9oa0YyYjBnN3R6YVQ3?=
- =?utf-8?B?b1RpY3BnS0E2SG8zZUxTVWxXblhseXNwcHFNbGZNQXloakFjcjUrWEZaM3Qx?=
- =?utf-8?B?Vi9pZjlmNnBJT2VLVWtXWWJrcE41bHRZaFVBdlZjSHhBaGtXTm1DaDFMQW92?=
- =?utf-8?B?YjZrYkkveFlLbk02ajJROHIxU1BmbFRxaHRnSjNpYkFjR1hYMUhIcytsV1E4?=
- =?utf-8?B?cWwwcGtBVUhmZTJWWGxRWk9QRmpJUno5L1U5bVlwQkhRNU1jd25lWms2N2ZF?=
- =?utf-8?B?cG5pQWRpd3h2UERyTlljZzBqaSt4L05QOFk2Y0VLT0lCTTE1UlFMN0ZUZ0ow?=
- =?utf-8?B?dnUvTGxPSmp3UDZwb3MyM0dCZmh3L1podkYvVWYvL2JDOThmOU01MFNvaHpP?=
- =?utf-8?B?L0RQTzYwbC9naHRDVHQwOUFxc1FFZHFkQnlvMjFRSHJLMkIvVFFFNFBoVlps?=
- =?utf-8?B?Q1V4R0tYZ3Y2cWRnSFZDTDdHVFcvS0tkVkR5YzMva2Z4S2tTNnhURWo4RFJB?=
- =?utf-8?B?RldGYTduVUtvaVZoRytPZDc0c25NcnFXdFdMN0Z6WkVKVTNjNjYxL25OL01F?=
- =?utf-8?B?aGxjNFJydndRR1dMa2dtWkxLbnYwdHp3R2dvenVIU0NRSVJlZG9OMy9LOTFl?=
- =?utf-8?B?VHFUMXNVaW05bm41N0tJZGlXR0YyMUxnM3VOZnd0aldXSTlvTHBpZEU0Rndp?=
- =?utf-8?B?a2FWWGNpOW8remhOakdmU2JVWjNydnVQUXF5MkdVTUl5WHdQRFVUR0JFYllq?=
- =?utf-8?B?QVBBVEJYWHhZZUcxT2ZKRHdBQnRHcmVPVjdWdFV1amVSRk9nSUFvcHJuaE1H?=
- =?utf-8?B?TGl2Y2dyekpLVThrTlN2aFlxWlZXVkI5MUI2dm1GcmxPOXlpOUZHMjI5ODJI?=
- =?utf-8?B?ZTc5Tm1kdzlTSGxLRGp5TUxDOVNCQWR4enYxRG1hNmhycklOZHpid3BURDZY?=
- =?utf-8?Q?h8JgRkY9swzoevmRUkC5qJjRS?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 415a90e9-c70c-41c3-f6d0-08de3130a237
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 23:23:28.4522 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i+uFPX24RH6TK4PtY2GIRtWBR+Ife0QoczVIdlXbVsrIXFvBk3uIzi3NKBZPzWtHxXEm5uiy9hvMnzMm5j3t4A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9066
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,58 +70,188 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add additional information to each VM so they can report up to the first
+50 seen faults.  Only pagefaults are saved this way currently, though in
+the future, all faults should be tracked by the VM for future reporting.
 
+Additionally, of the pagefaults reported, only failed pagefaults are
+saved this way, as successful pagefaults should recover silently and not
+need to be reported to userspace.
 
-On 12/1/2025 6:01 PM, Daniel Almeida wrote:
-> 
-> 
->> On 1 Dec 2025, at 17:06, Joel Fernandes <joelagnelf@nvidia.com> wrote:
->>
->>
->>
->> On 12/1/2025 2:35 PM, John Hubbard wrote:
->>> On 12/1/25 8:51 AM, Daniel Almeida wrote:
->>>>> On 29 Nov 2025, at 18:30, Joel Fernandes <joelagnelf@nvidia.com> wrote:
->>> ...
->>>>> +#[repr(transparent)]
->>>>> +pub struct ClistHead(Opaque<bindings::list_head>);
->>>>
->>>> I still think we should call this CList. IMHO, it does not make sense to have a
->>>
->>> I am guessing you meant to place this comment after Clist, rather than here
->>> (after ClistHead)? Otherwise I don't know what you are actually suggesting?
->>>
->>>> Clist, and a ClistHead (notice the capitalization). CList and CListHead are
->>>> easier to read and reason about.
->>>>
->>>> Did anyone push back on this?
->>>
->>> If you are simply recommending renaming:
->>>    Clist     --> CList
->>>    ClistHead --> CListHead
->>>
->>> ...then I'd say "+1" for that suggestion.
->>
->> I am not fond of the suggestion but I don't oppose it either. I honestly don't
->> like the triple capitalization with CListHead though. Lets see where all of us
->> stand and then take a call on it. Opinions?
->>
->> Thanks.
-> 
-> Well, there are three things at play:
-> 
-> C, List, Head
-> 
-> So I think that the CListHead capitalization correctly describes it. IMHO
-> it’s hard to see “C” and “List” if you spell it
-> “Clist”, i.e.: it’s easier to read this as a single word and wonder
-> what’s that for a few seconds.
-> 
-> This is a bit of a nitpick though, so feel free to keep the old spelling if
-> there is no consensus here.
+To allow userspace to access these faults, a new ioctl -
+xe_vm_get_property_ioct - was created.
 
-No problem, I'll change it to CList/CListHead considering John and Miguel also
-felt this is better. So I am the odd one out here :)
+v2: (Matt Brost)
+- Break full ban list request into a separate property.
+- Reformat drm_xe_vm_get_property struct.
+- Remove need for drm_xe_faults helper struct.
+- Separate data pointer and scalar return value in ioctl.
+- Get address type on pagefault report and save it to the pagefault.
+- Correctly reject writes to read-only VMAs.
+- Miscellaneous formatting fixes.
 
-Thanks.
+v3: (Matt Brost)
+- Only allow querying of failed pagefaults
+
+v4:
+- Remove unnecessary size parameter from helper function, as it
+  is a property of the arguments. (jcavitt)
+- Remove unnecessary copy_from_user (Jainxun)
+- Set address_precision to 1 (Jainxun)
+- Report max size instead of dynamic size for memory allocation
+  purposes.  Total memory usage is reported separately.
+
+v5:
+- Return int from xe_vm_get_property_size (Shuicheng)
+- Fix memory leak (Shuicheng)
+- Remove unnecessary size variable (jcavitt)
+
+v6:
+- Free vm after use (Shuicheng)
+- Compress pf copy logic (Shuicheng)
+- Update fault_unsuccessful before storing (Shuicheng)
+- Fix old struct name in comments (Shuicheng)
+- Keep first 50 pagefaults instead of last 50 (Jianxun)
+- Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
+
+v7:
+- Avoid unnecessary execution by checking MAX_PFS earlier (jcavitt)
+- Fix double-locking error (jcavitt)
+- Assert kmemdump is successful (Shuicheng)
+- Repair and move fill_faults break condition (Dan Carpenter)
+- Free vm after use (jcavitt)
+- Combine assertions (jcavitt)
+- Expand size check in xe_vm_get_faults_ioctl (jcavitt)
+- Remove return mask from fill_faults, as return is already -EFAULT or 0
+  (jcavitt)
+
+v8:
+- Revert back to using drm_xe_vm_get_property_ioctl
+- s/Migrate/Move (Michal)
+- s/xe_pagefault/xe_gt_pagefault (Michal)
+- Create new header file, xe_gt_pagefault_types.h (Michal)
+- Add and fix kernel docs (Michal)
+- Rename xe_vm.pfs to xe_vm.faults (jcavitt)
+- Store fault data and not pagefault in xe_vm faults list (jcavitt)
+- Store address, address type, and address precision per fault (jcavitt)
+- Store engine class and instance data per fault (Jianxun)
+- Properly handle kzalloc error (Michal W)
+- s/MAX_PFS/MAX_FAULTS_SAVED_PER_VM (Michal W)
+- Store fault level per fault (Micahl M)
+- Apply better copy_to_user logic (jcavitt)
+
+v9:
+- More kernel doc fixes (Michal W, Jianxun)
+- Better error handling (jcavitt)
+
+v10:
+- Convert enums to defines in regs folder (Michal W)
+- Move xe_guc_pagefault_desc to regs folder (Michal W)
+- Future-proof size logic for zero-size properties (jcavitt)
+- Replace address type extern with access type (Jianxun)
+- Add fault type to xe_drm_fault (Jianxun)
+
+v11:
+- Remove unnecessary switch case logic (Raag)
+- Compress size get, size validation, and property fill functions into a
+  single helper function (jcavitt)
+- Assert valid size (jcavitt)
+- Store pagefaults in non-fault-mode VMs as well (Jianxun)
+
+v12:
+- Remove unnecessary else condition
+- Correct backwards helper function size logic (jcavitt)
+- Fix kernel docs and comments (Michal W)
+
+v13:
+- Move xe and user engine class mapping arrays to header (John H)
+
+v14:
+- Fix double locking issue (Jianxun)
+- Use size_t instead of int (Raag)
+- Remove unnecessary includes (jcavitt)
+
+v15:
+- Do not report faults from reserved engines (Jianxun)
+
+v16:
+- Remove engine class and instance (Ivan)
+
+v17:
+- Map access type, fault type, and fault level to user macros (Matt
+  Brost, Ivan)
+
+v18:
+- Add uAPI merge request to this cover letter
+
+v19:
+- Perform kzalloc outside of lock (Auld)
+
+v20:
+- Fix inconsistent use of whitespace in defines
+
+v21:
+- Remove unnecessary size assertion (jcavitt)
+
+v22:
+- Fix xe_vm_fault_entry kernel docs (Shuicheng)
+
+v23:
+- Nit fixes (Matt Brost)
+
+v24:
+- s/xe_pagefault_desc.h/xe_guc_pagefault_desc.h (Dafna)
+- Move PF_MSG_LEN_DW to regs folder (Dafna)
+
+v25:
+- Revert changes from last revision (John H)
+- Add missing bspec (Michal W)
+
+v26:
+- Rebase and refactor on top of latest change to xe_pagefault layer
+  (jcavitt)
+
+v27:
+- Apply max line length (Matt Brost)
+- Correctly ignore fault mode in save_pagefault_to_vm (jcavitt)
+
+v28:
+- Do not copy_to_user in critical section (Matt Brost)
+- Assert args->size is multiple of sizeof(struct xe_vm_fault) (Matt
+  Brost)
+- s/save_pagefault_to_vm/xe_pagefault_save_to_vm (Matt Brost)
+- Use guard instead of spin_lock/unlock (Matt Brost)
+- GT was added to xe_pagefault struct.  Use xe_gt_hw_engine
+  instead of creating a new helper function (Matt Brost) 
+
+uAPI: TBD
+Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+Suggested-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Suggested-by: Matthew Brost <matthew.brost@intel.com>
+Cc: Zhang Jianxun <jianxun.zhang@intel.com>
+Cc: Shuicheng Lin <shuicheng.lin@intel.com>
+Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
+Cc: Michal Mrozek <michal.mrozek@intel.com>
+Cc: Raag Jadav <raag.jadav@intel.com>
+Cc: John Harrison <john.c.harrison@intel.com>
+Cc: Ivan Briano <ivan.briano@intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Dafna Hirschfeld <dafna.hirschfeld@intel.com>
+
+Jonathan Cavitt (4):
+  drm/xe/xe_pagefault: Disallow writes to read-only VMAs
+  drm/xe/uapi: Define drm_xe_vm_get_property
+  drm/xe/xe_vm: Add per VM fault info
+  drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+
+ drivers/gpu/drm/xe/xe_device.c    |   2 +
+ drivers/gpu/drm/xe/xe_pagefault.c |  32 +++++
+ drivers/gpu/drm/xe/xe_vm.c        | 186 ++++++++++++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_vm.h        |  12 ++
+ drivers/gpu/drm/xe/xe_vm_types.h  |  29 +++++
+ include/uapi/drm/xe_drm.h         |  86 ++++++++++++++
+ 6 files changed, 347 insertions(+)
+
+-- 
+2.43.0
 
