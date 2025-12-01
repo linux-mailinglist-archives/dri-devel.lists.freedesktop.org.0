@@ -2,102 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7DC8C986B0
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 18:09:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85704C9874F
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 18:15:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1E0210E2C1;
-	Mon,  1 Dec 2025 17:09:24 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WnY1SrfW";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B99C810E07F;
+	Mon,  1 Dec 2025 17:15:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
- [209.85.215.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E817C10E2C1
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 17:09:23 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id
- 41be03b00d2f7-be64c3a2849so51073a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 09:09:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764608963; x=1765213763; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=10oqy7XG0ziR1jN7iIJoYu4N7Sm/NTHUpb4SiggOXnk=;
- b=WnY1SrfWMKW8eJpH2ult5Ne+qg57M+g4KerXnl9eyqDNWNX+cmSMR648f6f1MdifZ5
- qBjMYTpBpvNQdRIrLfONQkaOeijWI9vXG/KXtMMnPtf6pmOFZJhFZ8BLZ+Ts7RRDe9QT
- i00PfONlXtBKKrWi+oLeTDcTwHW1xrSCG0pEVbqnJ7xJHsN5xOhVjwGVNd79Ph8902jB
- U25PW5q83ljCNOEXwUOrgVx1hxdx/vJAS/whvOhE+1n0MnSf58t8XVMCbfqq7bABO/Md
- xGHq2cHi8XU3r2grf0RGbsg0UfxrRYrdnhD/naQfiD/c1/0sQK15+4N2Fc9tEgvC7N35
- 2RPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764608963; x=1765213763;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=10oqy7XG0ziR1jN7iIJoYu4N7Sm/NTHUpb4SiggOXnk=;
- b=kpUFAIc6LYtA1BbvksidqK9jodJX7zu5HNYLBfk+0r2rTqubFwDFEMXH8KosIZEGvb
- yecX5Q4HhXALQMDcmU7jA4QZAgVX04NXLgNnMjOjIjO14ZyT5+Dcp6CJI1eHvOTr734e
- 6xy364FnlS2bMkA35rk62TJ5ysgMQRukrNc/NQMxPC3849JgXeFR2DsP8vvt7s0OzgNT
- 93JB4jXLWuRGRh+z4cSiYzC06zExdmDYsdm5OYEPl46JJQrCka3KIZTyMdgZKX8z0VXk
- ejMWPu7a3sT3cCLZgo2givFUTSauzZpJ14tVWkvmLWQaKnuLIH2yfQTEtq8Oi0Ztvx+x
- aqIw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW+Z4zIaCwBUK04xezikSpVhOs9riin7WlP43+xSXyU2R4pEE3b+RiOIzypEhIJr/IuFpPgJOQggaM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz+gP0J6sPZ8ilgbt6jx7sc1pT1pXNifZEVJ/aQmXJMmJeazAAg
- 5orluQD3pJ+0VPfhr//tODfa20j0PKJ1QgTsJATelJVt2QLtTIWeuKfW8Rl5UxYCMv1KcFYKd4g
- Bb2Md+7NNW0RzdPILDo2cyC1cG6XLtRw=
-X-Gm-Gg: ASbGncvXOJwllS7ZJbEY7ST3hvNJHIzJFM0u9Cbs78beZAafc99vJPXXNPNHBD6wc+u
- inx5bBq5Uuz+Kj2tk4BHRIpC5wiLgLvD1XujFXz7YIT/W7/NNT4CvgPfWxGLGpAhquwxEXhkSpi
- kgKsHJw7YngLluqsEb88288leSuroiW90ftEah1cTAp4+zEBqWkn+6T6eiyljODU2jnOkQoR1lX
- Rs4TDVARWXwYaA//ZZrUleWxJw0B4Cw4ZyLHFed2bmaBp78FQVv5KKmLmUtbzFU9AMc37bAp/72
- u2ciDvlFmJJtVEOe1P08ltcXfgF0B7LHcZKBid1Um44jvXhPvFJNELYezgvhaYX9TwuyDypSc3u
- 63yCx2iFF2q6xHA==
-X-Google-Smtp-Source: AGHT+IF1YPYGD/E+eDHxFkwlvTUf8jqG51M5LA+tdLWxMqHx4a8yCVti7p4nga92l9CsKYM8VN2f66dz5zEFbxtTTgc=
-X-Received: by 2002:a05:7301:e24:b0:2a4:3593:2c07 with SMTP id
- 5a478bee46e88-2a7243ec7b9mr21959223eec.0.1764608963077; Mon, 01 Dec 2025
- 09:09:23 -0800 (PST)
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF19D10E07F
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 17:15:40 +0000 (UTC)
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+ by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <m.felsch@pengutronix.de>)
+ id 1vQ7Uw-0003DM-Ii; Mon, 01 Dec 2025 18:15:38 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+Subject: [PATCH v6 0/3] Add i.MX91/93 parallel display support
+Date: Mon, 01 Dec 2025 18:15:19 +0100
+Message-Id: <20251201-v6-18-topic-imx93-parallel-display-v6-0-7b056e1e5b1e@pengutronix.de>
 MIME-Version: 1.0
-References: <20251117-unique-ref-v13-0-b5b243df1250@pm.me>
- <20251117-unique-ref-v13-4-b5b243df1250@pm.me>
- <A5A7C4C9-1504-439C-B4FF-C28482AF7444@collabora.com> <aS1slBD1t-Y_K-aC@mango>
-In-Reply-To: <aS1slBD1t-Y_K-aC@mango>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 1 Dec 2025 18:09:10 +0100
-X-Gm-Features: AWmQ_bnmy3Os7dUuxEXbA4TScnRqySjzLSX-NOnwmbpPdF9z2OcK2znpi-34sDw
-Message-ID: <CANiq72=mZXc5+fMzsdTRupUsmsuLdsx=GZucn2MNoCTLAT1qkw@mail.gmail.com>
-Subject: Re: [PATCH v13 4/4] rust: Add `OwnableRefCounted`
-To: Oliver Mangold <oliver.mangold@pm.me>
-Cc: Daniel Almeida <daniel.almeida@collabora.com>,
- Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Benno Lossin <lossin@kernel.org>, 
- Danilo Krummrich <dakr@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Leon Romanovsky <leon@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
- Asahi Lina <lina+kernel@asahilina.net>, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
- linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
- linux-security-module@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACfNLWkC/x3NwQqEIBCA4VeJOTeQWpK9SnRwbdwGrEQjWqJ3T
+ /b4Xf7/hkyJKcNQ3ZDo5Mz7VqDrCtxity8hz8UgG9kJ2Qg8NYoejz2yQ14vozDaZEOggDPnGOw
+ PTeeNVO3Ha+eghGIiz9d/Mk7P8wIj4FDDdAAAAA==
+X-Change-ID: 20251201-v6-18-topic-imx93-parallel-display-95f9234bf6cc
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
+ Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: devicetree@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, Marco Felsch <m.felsch@pengutronix.de>
+X-Mailer: b4 0.14.2
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
+X-SA-Exim-Mail-From: m.felsch@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,25 +64,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 1, 2025 at 11:23=E2=80=AFAM Oliver Mangold <oliver.mangold@pm.m=
-e> wrote:
->
-> Ah, yes, rustfmt must I done that, and I missed it. Will fix.
+Hi,
 
-Strange -- if you noticed a case where `rustfmt` wasn't idempotent,
-please let us (and upstream) know about it.
+this patchset adds the driver, dt-bindings and dt integration required
+to drive a parallel display on the i.MX93.
 
-> Not sure what you mean by fictional function. Do you mean a non-existent
-> function? We want to compile this code as a unit test.
+Since the i.MX91 register layout equals the one from the i.MX93, I added
+the support for both but tested only the i.MX93 use-case.
 
-Typically that means either using a (hidden on rendering) function
-that wraps the code and returns a `Result` or directly a doctest that
-returns one (better, when applicable). Please check other tests for
-lines like
+This patchset depends on:
+ - https://lore.kernel.org/all/20251201-v6-18-topic-imx93-blkctrl-v1-0-b57a72e60105@pengutronix.de/
 
-    /// # Ok::<(), Error>(())
+@Conor Dooley
+I dropped your r-b tag since I added the 'bus-width' property.
 
-I hope that helps!
+Regards,
+  Marco
 
-Cheers,
-Miguel
+Changelog:
+v5:
+- https://lore.kernel.org/all/20250304082434.834031-1-victor.liu@nxp.com/
+- Add bus-width support
+- rebase onto v6.18-rc1
+- add review feedback (Alexander)
+- driver license "GPL v2" -> "GPL" (checkpatch)
+- make use of reg of-property
+- fix to short Kconfig description (checkpath)
+- add OF integration
+
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+---
+Liu Ying (2):
+      dt-bindings: soc: imx93-media-blk-ctrl: Add PDFC subnode to schema and example
+      drm/bridge: imx: Add i.MX93 parallel display format configuration support
+
+Marco Felsch (1):
+      arm64: dts: imx93: Add parallel display output nodes
+
+ .../bindings/soc/imx/fsl,imx93-media-blk-ctrl.yaml |  92 +++++++++
+ arch/arm64/boot/dts/freescale/imx91_93_common.dtsi |  57 ++++++
+ arch/arm64/boot/dts/freescale/imx93.dtsi           |  12 ++
+ drivers/gpu/drm/bridge/imx/Kconfig                 |  11 +
+ drivers/gpu/drm/bridge/imx/Makefile                |   1 +
+ drivers/gpu/drm/bridge/imx/imx93-pdfc.c            | 225 +++++++++++++++++++++
+ 6 files changed, 398 insertions(+)
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20251201-v6-18-topic-imx93-parallel-display-95f9234bf6cc
+
+Best regards,
+-- 
+Marco Felsch <m.felsch@pengutronix.de>
+
