@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D97BC96BCE
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 11:51:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9316C96BD1
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 11:51:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91B9B10E38E;
-	Mon,  1 Dec 2025 10:51:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43D1410E397;
+	Mon,  1 Dec 2025 10:51:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Qr/O92Um";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DU6NroHJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D500D10E38E;
- Mon,  1 Dec 2025 10:51:08 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0346610E392;
+ Mon,  1 Dec 2025 10:51:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 51A4760137;
+ by sea.source.kernel.org (Postfix) with ESMTP id DFA1743CCD;
+ Mon,  1 Dec 2025 10:51:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BE25C4CEF1;
  Mon,  1 Dec 2025 10:51:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B853EC113D0;
- Mon,  1 Dec 2025 10:51:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764586268;
- bh=vLU4asfyOip/u8apYJb8xS5xSWEq5LKx5AZnLWJhf5Q=;
+ s=k20201202; t=1764586273;
+ bh=mj9yMjkJYnq6gG3lH605LhmJYpglfLnEKicH3/+ivuE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Qr/O92UmvlYreeY2B2vJnfwo1e1iYbEvJk6Q2RlIH+GZj2YvMEwu1NqVImEVBRQVO
- VtcJ8XOnJvJHi9ZEs1SjjI/VSj7PXMWiDYSoS3n59zqvjCEeyT/ArJIZ+2iigI+jdg
- lxQqbybIcGCBhgR6XNUCYkZhtZvq+IZUkMPnvY860rM1GBHtpid9OrrpSHbBEPbJcF
- qs1xVsrmIPEqpZ3aBbNrF7Zmkz2AIfysfWQ8Ol9+O+VHuPa/6ieDua4K3/EfYvgnDd
- yjA/pgLDKiIE4H1YcBhcui5Uvp4mD/GjsTmJmXLM6p8IEEUUBdVov8loclOjjBHpD5
- 4Gj8oykZgcKkA==
+ b=DU6NroHJll/euhP3rvFLbh4NSOf5U8rJJz3hOoQYb4qeBnETbcZs6C0qbiKr4Adyp
+ PSB0UMovD7mRiU5pk9HmDmCMV7Co/inKdC1vzlOr+iqm17MXNje7ZOMn02KwBOKHzv
+ 9AGvrL7EAa9MFaPQQdJRrexqOD2mHNK57M4ED+4FKHSW8y0mWIRcyRJI7ufzJuLqEE
+ CUPuQFI5s3XOuXEg1JAItdeD85228dnhKp/Uj71pygEXhVcn2ouXqF7+BWqaJ6Am4s
+ O9jtI3z3AHSjNDsNIwkBBtlukpKGqTcfM9leHHbTO/81aoLJgVP2rmnolE/PdLH/8a
+ /U/GtbReIIYIA==
 From: Philipp Stanner <phasta@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>,
  Gustavo Padovan <gustavo@padovan.org>,
@@ -51,15 +51,13 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v2 7/8] dma-buf/dma-fence: Remove return code of
- signaling-functions
-Date: Mon,  1 Dec 2025 11:50:11 +0100
-Message-ID: <20251201105011.19386-9-phasta@kernel.org>
+Subject: [PATCH v2 8/8] drm/xe: Use dma_fence_test_signaled_flag()
+Date: Mon,  1 Dec 2025 11:50:12 +0100
+Message-ID: <20251201105011.19386-10-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251201105011.19386-2-phasta@kernel.org>
 References: <20251201105011.19386-2-phasta@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,153 +74,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All functions used for signaling a fence return an error code whose sole
-purpose is to tell whether a fence was already signaled.
+There is a new dma_fence helper which simplifies testing for a fence's
+signaled_flag. Use it in xe.
 
-This is racy and has been used by almost no party in the kernel, and the
-few users have been removed in preceding cleanup commits.
-
-Turn all signaling-functions into void-functions.
-
-Suggested-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/dma-buf/dma-fence.c | 40 ++++++++++---------------------------
- include/linux/dma-fence.h   |  9 ++++-----
- 2 files changed, 14 insertions(+), 35 deletions(-)
+ drivers/gpu/drm/xe/xe_exec_queue.c | 9 +++------
+ drivers/gpu/drm/xe/xe_pt.c         | 3 +--
+ drivers/gpu/drm/xe/xe_sched_job.c  | 2 +-
+ 3 files changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 146de62887cf..529a44371b35 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -360,11 +360,8 @@ void __dma_fence_might_wait(void)
-  *
-  * Unlike dma_fence_signal_timestamp(), this function must be called with
-  * &dma_fence.lock held.
-- *
-- * Returns 0 on success and a negative error value when @fence has been
-- * signalled already.
-  */
--int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
-+void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
- 				      ktime_t timestamp)
- {
- 	struct dma_fence_cb *cur, *tmp;
-@@ -374,7 +371,7 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe_exec_queue.c
+index cb5f204c08ed..06736f52fbaa 100644
+--- a/drivers/gpu/drm/xe/xe_exec_queue.c
++++ b/drivers/gpu/drm/xe/xe_exec_queue.c
+@@ -1037,8 +1037,7 @@ struct dma_fence *xe_exec_queue_last_fence_get(struct xe_exec_queue *q,
  
- 	if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
- 				      &fence->flags)))
--		return -EINVAL;
-+		return;
+ 	xe_exec_queue_last_fence_lockdep_assert(q, vm);
  
- 	/* Stash the cb_list before replacing it with the timestamp */
- 	list_replace(&fence->cb_list, &cb_list);
-@@ -387,8 +384,6 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
- 		INIT_LIST_HEAD(&cur->node);
- 		cur->func(fence, cur);
+-	if (q->last_fence &&
+-	    test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &q->last_fence->flags))
++	if (q->last_fence && dma_fence_test_signaled_flag(q->last_fence))
+ 		xe_exec_queue_last_fence_put(q, vm);
+ 
+ 	fence = q->last_fence ? q->last_fence : dma_fence_get_stub();
+@@ -1064,8 +1063,7 @@ struct dma_fence *xe_exec_queue_last_fence_get_for_resume(struct xe_exec_queue *
+ 
+ 	lockdep_assert_held_write(&q->hwe->hw_engine_group->mode_sem);
+ 
+-	if (q->last_fence &&
+-	    test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &q->last_fence->flags))
++	if (q->last_fence && dma_fence_test_signaled_flag(q->last_fence))
+ 		xe_exec_queue_last_fence_put_unlocked(q);
+ 
+ 	fence = q->last_fence ? q->last_fence : dma_fence_get_stub();
+@@ -1106,8 +1104,7 @@ int xe_exec_queue_last_fence_test_dep(struct xe_exec_queue *q, struct xe_vm *vm)
+ 
+ 	fence = xe_exec_queue_last_fence_get(q, vm);
+ 	if (fence) {
+-		err = test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) ?
+-			0 : -ETIME;
++		err = dma_fence_test_signaled_flag(fence) ? 0 : -ETIME;
+ 		dma_fence_put(fence);
  	}
--
--	return 0;
- }
- EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
  
-@@ -403,23 +398,17 @@ EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
-  * can only go from the unsignaled to the signaled state and not back, it will
-  * only be effective the first time. Set the timestamp provided as the fence
-  * signal timestamp.
-- *
-- * Returns 0 on success and a negative error value when @fence has been
-- * signalled already.
-  */
--int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp)
-+void dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp)
- {
- 	unsigned long flags;
--	int ret;
+diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
+index 07f96bda638a..1ca2dec18e51 100644
+--- a/drivers/gpu/drm/xe/xe_pt.c
++++ b/drivers/gpu/drm/xe/xe_pt.c
+@@ -1208,8 +1208,7 @@ static bool no_in_syncs(struct xe_sync_entry *syncs, u32 num_syncs)
+ 	for (i = 0; i < num_syncs; i++) {
+ 		struct dma_fence *fence = syncs[i].fence;
  
- 	if (WARN_ON(!fence))
--		return -EINVAL;
-+		return;
+-		if (fence && !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+-				       &fence->flags))
++		if (fence && !dma_fence_test_signaled_flag(fence))
+ 			return false;
+ 	}
  
- 	spin_lock_irqsave(fence->lock, flags);
--	ret = dma_fence_signal_timestamp_locked(fence, timestamp);
-+	dma_fence_signal_timestamp_locked(fence, timestamp);
- 	spin_unlock_irqrestore(fence->lock, flags);
--
--	return ret;
- }
- EXPORT_SYMBOL(dma_fence_signal_timestamp);
+diff --git a/drivers/gpu/drm/xe/xe_sched_job.c b/drivers/gpu/drm/xe/xe_sched_job.c
+index d21bf8f26964..1c9ba49a325b 100644
+--- a/drivers/gpu/drm/xe/xe_sched_job.c
++++ b/drivers/gpu/drm/xe/xe_sched_job.c
+@@ -188,7 +188,7 @@ static bool xe_fence_set_error(struct dma_fence *fence, int error)
+ 	bool signaled;
  
-@@ -435,13 +424,10 @@ EXPORT_SYMBOL(dma_fence_signal_timestamp);
-  *
-  * Unlike dma_fence_signal(), this function must be called with &dma_fence.lock
-  * held.
-- *
-- * Returns 0 on success and a negative error value when @fence has been
-- * signalled already.
-  */
--int dma_fence_signal_locked(struct dma_fence *fence)
-+void dma_fence_signal_locked(struct dma_fence *fence)
- {
--	return dma_fence_signal_timestamp_locked(fence, ktime_get());
-+	dma_fence_signal_timestamp_locked(fence, ktime_get());
- }
- EXPORT_SYMBOL(dma_fence_signal_locked);
- 
-@@ -498,28 +484,22 @@ EXPORT_SYMBOL(dma_fence_check_and_signal);
-  * dma_fence_add_callback(). Can be called multiple times, but since a fence
-  * can only go from the unsignaled to the signaled state and not back, it will
-  * only be effective the first time.
-- *
-- * Returns 0 on success and a negative error value when @fence has been
-- * signalled already.
-  */
--int dma_fence_signal(struct dma_fence *fence)
-+void dma_fence_signal(struct dma_fence *fence)
- {
- 	unsigned long flags;
--	int ret;
- 	bool tmp;
- 
- 	if (WARN_ON(!fence))
--		return -EINVAL;
-+		return;
- 
- 	tmp = dma_fence_begin_signalling();
- 
- 	spin_lock_irqsave(fence->lock, flags);
--	ret = dma_fence_signal_timestamp_locked(fence, ktime_get());
-+	dma_fence_signal_timestamp_locked(fence, ktime_get());
- 	spin_unlock_irqrestore(fence->lock, flags);
- 
- 	dma_fence_end_signalling(tmp);
--
--	return ret;
- }
- EXPORT_SYMBOL(dma_fence_signal);
- 
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 0504afe52c2a..d4c92fd35092 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -364,13 +364,12 @@ static inline void dma_fence_end_signalling(bool cookie) {}
- static inline void __dma_fence_might_wait(void) {}
- #endif
- 
--int dma_fence_signal(struct dma_fence *fence);
-+void dma_fence_signal(struct dma_fence *fence);
- bool dma_fence_check_and_signal(struct dma_fence *fence);
- bool dma_fence_check_and_signal_locked(struct dma_fence *fence);
--int dma_fence_signal_locked(struct dma_fence *fence);
--int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
--int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
--				      ktime_t timestamp);
-+void dma_fence_signal_locked(struct dma_fence *fence);
-+void dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
-+void dma_fence_signal_timestamp_locked(struct dma_fence *fence, ktime_t timestamp);
- signed long dma_fence_default_wait(struct dma_fence *fence,
- 				   bool intr, signed long timeout);
- int dma_fence_add_callback(struct dma_fence *fence,
+ 	spin_lock_irqsave(fence->lock, irq_flags);
+-	signaled = test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags);
++	signaled = dma_fence_test_signaled_flag(fence);
+ 	if (!signaled)
+ 		dma_fence_set_error(fence, error);
+ 	spin_unlock_irqrestore(fence->lock, irq_flags);
 -- 
 2.49.0
 
