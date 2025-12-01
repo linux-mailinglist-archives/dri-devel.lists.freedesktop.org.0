@@ -2,169 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164F3C989F7
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 18:55:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA31AC98A06
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 18:57:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A73B210E444;
-	Mon,  1 Dec 2025 17:55:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C7C710E441;
+	Mon,  1 Dec 2025 17:57:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="JTa42XVH";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ceyDjUgG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1874910E441;
- Mon,  1 Dec 2025 17:55:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764611736; x=1796147736;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=jUqm+NoJse/V6ST3n0fddX1nsoGHdB9thrfiHyDCOHw=;
- b=JTa42XVHSFPMQ8rj1gmuappggXIzqOOELtFVKbvC7VtHSRNo6K2nNrvZ
- a42V9SUBTK9vQ9s683IlyHwXsLrCM9dCg4RTCtCQ5bczuszCrr5Lj0lge
- 3gg4jYdj5qbNdqoL2p1zdY1mMi+mWpdtuFISz7w5PIJ2X9BhteyqUPaB9
- Ulg0wV5UoCQ6lPL28hRvx0Rw+nrmETWiViod6r+nsJLX6MJoXO73evvDZ
- 51jUReoVOSQY+nTPasv6XU8a18v3NwyPG018Q5BgILIR8M+XZqsLddSE2
- /yI2fNdsb9oiYDYYsGSh85aTn3EcBxdb8FbpxhjTpHd6pqrqaWhS6OsNJ Q==;
-X-CSE-ConnectionGUID: AgdBvs4hR+64p1Bx+dQhXw==
-X-CSE-MsgGUID: DcuCz479SNqoou87m/AAfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="77908998"
-X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; d="scan'208";a="77908998"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 09:55:36 -0800
-X-CSE-ConnectionGUID: rBsq14sbTIqGdx38ae51JQ==
-X-CSE-MsgGUID: CTua6ZZuSiiGB4+tkHqeSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; d="scan'208";a="217480114"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 09:55:35 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 1 Dec 2025 09:55:35 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Mon, 1 Dec 2025 09:55:35 -0800
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.10) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 1 Dec 2025 09:55:34 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C/2qY1ZXRr2epf0PPJMHjBW9J2GgmsE5r4ozvtOSxpltEnL71CO7vT5w6xd9YbXwYPtfIuMlhtkj7RyMQ1XYfAsJPsbJbQMO7H08wLVq4Wvom+6CJGqYmd7Dw1zLt0z2xedT10B8TODLErqxaSDkuU/BVuCSgB7OKB0GsnfyJ/pXzNSPshdYwErkSToaoeULOsANoekRGGbLtgtBHPk75DcVi109R7OFChqEERyqPRPnFdx9hdwJ70fug1zDG4HtT5LGduXDL6Cgdd8k4euAn08SDFaK2+3egMQi3/50PgvwsBMWu7m5+Tr1U/40DttkmIubEesk/a4N/Nm69X7oig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=llxPgnPF1SIesNvbHBYSKclZcZEHLMGrFt9UKKaXlRk=;
- b=YJxup8eSUeTRP6ETZ+FpQFSdOe/HXcvJmujS7FA4pLzQL9Q8FKoXDW5lFarDl4cnRYAXPiZkLyAGotGZ1Pr1Iv3485F+DcBC75rhDw0f0WvJ/fOGogi30HDmHOQapXn+JNbj8sgA2RQ9Jiix8RXNXq6FK98YJc4rDcaggw1rgUy+U+XIYPDEbvFh/OzVzbKb4bkPxdgxELQ7kxEDfO97LsQ9zsIkEunEVoIfw+uO9LGtmobBTC0ndVSbmtKKWQKe76PKuJ8OZe383i+13aYPK3xPujkFu+4fwBjW++2d4XGEH9GoG+R10JtvZJ88cuoUj9pSRdfAQmhYqoWXditO8w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
- by CO1PR11MB4788.namprd11.prod.outlook.com (2603:10b6:303:97::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
- 2025 17:55:19 +0000
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563%6]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
- 17:55:19 +0000
-Date: Mon, 1 Dec 2025 12:55:15 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-CC: <dri-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, "Dave
- Airlie" <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH] MAINTAINERS: Remove myself from xe maintainers
-Message-ID: <aS3Wg418oQKUFOE1@intel.com>
-References: <20251126224357.2482051-2-lucas.demarchi@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251126224357.2482051-2-lucas.demarchi@intel.com>
-X-ClientProxiedBy: BYAPR06CA0061.namprd06.prod.outlook.com
- (2603:10b6:a03:14b::38) To CYYPR11MB8430.namprd11.prod.outlook.com
- (2603:10b6:930:c6::19)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A66BD10E441
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 17:57:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1764611829;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=F2paQXFbFxGwpmccgXBJ2jOZ/qHBAktMJ04FeN3x5rs=;
+ b=ceyDjUgG4B54LFI/fADub+fzxnV6my/v7sEE0KgysrQfcNpzPbYTupTSDC2rxC6gNYe8Jp
+ ftrbYR1yHDvV6Va9cIDPJyb5CnvpsdfCh/2A3rrE1leAjqBSTjAZTgVj1Iutjx0bP3A8Bg
+ vTR1/b5wMU3mqbhWnOKe0uN+qU5gkpY=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-101-zj45U-_kP8CQJ9QCIKwe3w-1; Mon,
+ 01 Dec 2025 12:57:08 -0500
+X-MC-Unique: zj45U-_kP8CQJ9QCIKwe3w-1
+X-Mimecast-MFC-AGG-ID: zj45U-_kP8CQJ9QCIKwe3w_1764611826
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 490C4195609F; Mon,  1 Dec 2025 17:57:05 +0000 (UTC)
+Received: from chopper.redhat.com (unknown [10.22.88.42])
+ by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 6EBBC30001A4; Mon,  1 Dec 2025 17:57:01 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
+ Timur Tabi <ttabi@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ Zhi Wang <zhiw@nvidia.com>, Mel Henning <mhenning@darkrefraction.com>
+Subject: [PATCH] drm/nouveau/gsp: Prepare fwsec-sb and fwsec-frts at boot
+Date: Mon,  1 Dec 2025 12:56:28 -0500
+Message-ID: <20251201175634.248900-1-lyude@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|CO1PR11MB4788:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0bba14da-a3e6-40d0-3463-08de3102ca4c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?WwonRDAgOyumYTchfLIfOO0SSfX0MREbvTDozDyD4qEmv+tZYEHPfaJLdy?=
- =?iso-8859-1?Q?Daqonzr5e48Shs3iDc4hOk9QwKdsDb4ZVsjVqP2n6qf5+KBOtj1LOjlf3S?=
- =?iso-8859-1?Q?MBARSy9o6W50aZNFVDo7/4pan9bQGujGPwPIB5EwQnHvc9BY5+ThsjCC9X?=
- =?iso-8859-1?Q?gZls79Fqv7o/SQ/+J6MnuTLrQ+QKRHXuEKAyY6ZRiATDj8O3e8Hxy9iV+0?=
- =?iso-8859-1?Q?PoG/BPdo4RuOs/dUD3Gy3zxYYur5TEU7a6OmdPgnaOcxedj3lNsNmBVCzX?=
- =?iso-8859-1?Q?kL+U8BZ4qIrrMC0PPcilC4/pSbYtUshPT2gwcOQcmKlxmuSqdpnGUWxFCN?=
- =?iso-8859-1?Q?tSIgqi1EYLN1+/S6Wg0riLWddchad7osfJJbF+onZyA9Z+NdhSKsI4hxL9?=
- =?iso-8859-1?Q?qVnCv2U6X1Hs6WiQ1L1MmbFN+qn8l5c/i+sVibDl20dV48JU+XvvLley0g?=
- =?iso-8859-1?Q?RknhrrQciiONxfXqomtd9aaGQ/6xGwiwjyX56P7tTrQy4kSVygKEvgipAh?=
- =?iso-8859-1?Q?DPf/mGka+fsj2ImFpL0naqdgdNLpWmCd2jkA4/JnGD7HK59BqyyPHYCSrc?=
- =?iso-8859-1?Q?KcKeh0fWkNwKjOFQ5YMT+4d0SmaqqX8wKa8bCHQsZteEs1A4x6CzbFn9+3?=
- =?iso-8859-1?Q?P7Hz80I5Ye0Yt0fZ9ygz1YIZaDHs7CDzyErjwXvGkQ9jlq2EfOw58cuYy+?=
- =?iso-8859-1?Q?73PPAT8TkOMd/u5XWXk6N8nePWCoZKXWIPAurO3DeBJdTiinMf7kbfDbN9?=
- =?iso-8859-1?Q?ZDInjKjhH6kfZX+1t2C80y05Uiw/U9rgOMe5xhEekX1IMBnfnNLCdalypt?=
- =?iso-8859-1?Q?4FeJVGwH5FgIkEBzEmQkP2vdXZ5vsSDcVqx9X4S++jdAP/SLo5bEQwhtSY?=
- =?iso-8859-1?Q?4dNshiJLI4q6jJcIfXrEUFZTQukpcYJttHTmrmhgBaRr+PXhZ1T1wFZp6x?=
- =?iso-8859-1?Q?ziNTdbfOAQE9xrdpgendG66q/is3pBxwW8PMTrgm5yNgyhoioHqWWGqWBN?=
- =?iso-8859-1?Q?cpsP0HIk02dHB4oABtcw2Fd4gUy5m+S+hj/7RG8WDroh7pE+23Bku43aab?=
- =?iso-8859-1?Q?Fx/xNGYCdoXnxDsPFCyq6n7ATP2xuK4SurwJyFOL0LKA7if9ZLEIvN2PGo?=
- =?iso-8859-1?Q?q3y52kWj/61/HCeYTVayWuG/gPzhacd08jllHFa1Wcunf0sv+oJ+W5gt1P?=
- =?iso-8859-1?Q?3EeTR67wMjRDQajGlV2cVpt6IAGJKeNi6U95t4bhmJA50ts9tY9OiJlF8E?=
- =?iso-8859-1?Q?zk6Pb4/l84g0tFYC+fyppF91IkmDDLKF3JVURf0Fk+s3BR4W1dIutZnm0k?=
- =?iso-8859-1?Q?M+0nV1tnph/wSmCre2Dirj81BapvLLJbADUNu4sEOFcQZTdyIExJLe3Ct1?=
- =?iso-8859-1?Q?zqaaPZpdwzFoVbm1Bie0LPWcG8wzoXeHe9/vkAGAaCiti4DdQaBe+Vdaoh?=
- =?iso-8859-1?Q?mHHHrrUdLXCCT7SLwHeF6sHhtMiBUokc6exXhgqKduh+GZN5QlYeBNTzqu?=
- =?iso-8859-1?Q?sPWubvw6qrQVnZaPmuaKYY?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?IINhd8l0gX/bzITVmI1JODD15C2f8YHiJ2dc2YoPlnIQ1t+stRyDyDmoCi?=
- =?iso-8859-1?Q?3e5qG1HL/qbSGYxrTvRhQW4YAj0YNopuim0KE1iLd8HF6S8nOF3CqUJZlN?=
- =?iso-8859-1?Q?ErNtzmCJ3OFen1jf6cPn5cj7kBXcF0l+ofOOiC5Hv7Uf0BMrwCYo29Ci/y?=
- =?iso-8859-1?Q?lV4e/bO2rWwVcpCqGVaMZm0WbwmTirHF6I1yOBaplHwuYM2OJZPRWBhuiR?=
- =?iso-8859-1?Q?Zr47CrIGvJFNuADNEBIPkP4AgWXZK5TYbtkowEOd2tP2qvfJOrxmbhTdYF?=
- =?iso-8859-1?Q?4CltwNFrV0QLS1xkfkQfMUuahYo1DBFkYUyNsmMiL9+puPKt0d1p3D1k9Z?=
- =?iso-8859-1?Q?kuXtHQljYhnV0yEYMzSP17v9B6LP4G62sMgbff/vO5azjHe2bbT9IR5sy2?=
- =?iso-8859-1?Q?3KThacRzBQoQPM03m6Y2a+AzpQ/Iox1qVqBvWK/bVHfCf6HOBGc4bjFJbU?=
- =?iso-8859-1?Q?vAoyk73m0EgE1hYQC8TMQZbRZYII3NPwqM0uxepz8wqyrzMKGk2VoQbBf3?=
- =?iso-8859-1?Q?x4jVaR1RKgPNOhrrBaW5U5Ci7XrQ8nltTw8TMNNeek6eoymUgV+9GrLuwN?=
- =?iso-8859-1?Q?JdHIJoFIC15JmztCpPUGJqG+8K5CUBOcBuBbk3IdEV5KtTiTZC77GzhzuY?=
- =?iso-8859-1?Q?NpAQg/nO4xxKBOi8Owh8JQ5CZFJ61cbenpnaCOShoycveCUAz8Xh+/aI4a?=
- =?iso-8859-1?Q?tG/ka5ugciCp/Ul/wGwjse7+8HShwH1qOzfKKwKPbEXu1OQ/Og33qfe6jJ?=
- =?iso-8859-1?Q?fMWzENQqottINud/gfQwhuUTWrMZ2CRP1KZ/GoFm7T67AMw60pdooYwl+3?=
- =?iso-8859-1?Q?DWxdV65wHFj36BPwS/7HaUsAs7eSd7A4weDtE1K5jCwt0/rzcZV/LqD91N?=
- =?iso-8859-1?Q?E8FRD1pUwHj6HJWBZdgi6jaAKwjfw25+g/JbiYDnpf0aKzp0+FlQhEmiwd?=
- =?iso-8859-1?Q?AmajYT/nYRUZeMQs3sEH/omaWR+0REwOYQ7RXdGd1K4YhirnWWiC2veCZW?=
- =?iso-8859-1?Q?HHQaCwtxb4Dj2ZXugqIt7W0rK1b88sHt4Lt7Meb85nNZNTbAO0u4aKHNn/?=
- =?iso-8859-1?Q?li2sD1Emjo13CGHoyJpgdMII6Pn+5yUQfmN1w69HArUtmEQZwDNGwsA5M9?=
- =?iso-8859-1?Q?CPzYCUxWRQLCef6HtL60I4tgXlgw3P3oL7ZRz7iJlAF4d18Ofi88unNNEh?=
- =?iso-8859-1?Q?HUYockfW7hR02K0PtMunppQSc8YBcbnQSNqmMBNibblNRSV+Yre7RU39CM?=
- =?iso-8859-1?Q?ILNF4ZTo1oDHmlNmj+X2xeSfKGPWNFkbbG4iFSmyuxpZUW3+0g5V9no+8X?=
- =?iso-8859-1?Q?/8lth0cldX5qwTFjB2kA8bdAWko820LNLN5jhjZylye5NA8IqmjmXed+TH?=
- =?iso-8859-1?Q?lXisL4wYUTdh+q2edwKzuP1sVrfHGzGrjnHGnWSMUN6eZJwdj++RStR2hx?=
- =?iso-8859-1?Q?E4f64zgHHzK3bUE7JRg+myi2+yQGB+NhgTH+GILdWZ/tX8NY9OM2yGpkvM?=
- =?iso-8859-1?Q?zPvWwdh2M0GfVlIalS9kFmUsReG9rksgkJ0TAZGp/MHVtouXGBl+Lf3p8X?=
- =?iso-8859-1?Q?mRCaVNiTMMhxHZn6c6ufmWq0WIC6vQ0nSHzAX0HcfE/QAiaGxUODlRXOy+?=
- =?iso-8859-1?Q?U/zLEbOK0pm4pvPleBmnWBU8ZZYzizi6/U?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0bba14da-a3e6-40d0-3463-08de3102ca4c
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 17:55:18.9507 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Gs7QVd6Y0nxOuK63j6AtboIRYHd3vpuDUxABznvKqwVynmxtwwMZY13v7qpFo7KXGa0PCMzuipemyFQfrN58FA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4788
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,46 +73,307 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 26, 2025 at 02:43:58PM -0800, Lucas De Marchi wrote:
-> As I'm leaving Intel soon, drop myself from the list of Xe maintainers.
-> Also update the mailmap to switch to my kernel.org address.
-> 
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
->  .mailmap    | 1 +
->  MAINTAINERS | 1 -
->  2 files changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/.mailmap b/.mailmap
-> index af6e4fce9bfe1..716c0573db214 100644
-> --- a/.mailmap
-> +++ b/.mailmap
-> @@ -476,6 +476,7 @@ Lorenzo Pieralisi <lpieralisi@kernel.org> <lorenzo.pieralisi@arm.com>
->  Lorenzo Stoakes <lorenzo.stoakes@oracle.com> <lstoakes@gmail.com>
->  Luca Ceresoli <luca.ceresoli@bootlin.com> <luca@lucaceresoli.net>
->  Luca Weiss <luca@lucaweiss.eu> <luca@z3ntu.xyz>
-> +Lucas De Marchi <demarchi@kernel.org> <lucas.demarchi@intel.com>
->  Lukasz Luba <lukasz.luba@arm.com> <l.luba@partner.samsung.com>
->  Luo Jie <quic_luoj@quicinc.com> <luoj@codeaurora.org>
->  Lance Yang <lance.yang@linux.dev> <ioworker0@gmail.com>
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index acc951f122eaf..c3fe83ea713cf 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12517,7 +12517,6 @@ F:	include/drm/intel/
->  F:	include/uapi/drm/i915_drm.h
->  
->  INTEL DRM XE DRIVER (Lunar Lake and newer)
-> -M:	Lucas De Marchi <lucas.demarchi@intel.com>
+At the moment - the memory allocations for fwsec-sb and fwsec-frts are
+created as needed and released after being used. This can cause
+runtime suspend/resume to initially work on driver load, but then later
+fail on a machine that has been running for long enough with sufficiently
+high enough memory pressure:
 
-:(
+  kworker/7:1: page allocation failure: order:5, mode:0xcc0(GFP_KERNEL),
+  nodemask=(null),cpuset=/,mems_allowed=0
+  CPU: 7 UID: 0 PID: 875159 Comm: kworker/7:1 Not tainted
+  6.17.8-300.fc43.x86_64 #1 PREEMPT(lazy)
+  Hardware name: SLIMBOOK Executive/Executive, BIOS N.1.10GRU06 02/02/2024
+  Workqueue: pm pm_runtime_work
+  Call Trace:
+   <TASK>
+   dump_stack_lvl+0x5d/0x80
+   warn_alloc+0x163/0x190
+   ? __alloc_pages_direct_compact+0x1b3/0x220
+   __alloc_pages_slowpath.constprop.0+0x57a/0xb10
+   __alloc_frozen_pages_noprof+0x334/0x350
+   __alloc_pages_noprof+0xe/0x20
+   __dma_direct_alloc_pages.isra.0+0x1eb/0x330
+   dma_direct_alloc_pages+0x3c/0x190
+   dma_alloc_pages+0x29/0x130
+   nvkm_firmware_ctor+0x1ae/0x280 [nouveau]
+   nvkm_falcon_fw_ctor+0x3e/0x60 [nouveau]
+   nvkm_gsp_fwsec+0x10e/0x2c0 [nouveau]
+   ? sysvec_apic_timer_interrupt+0xe/0x90
+   nvkm_gsp_fwsec_sb+0x27/0x70 [nouveau]
+   tu102_gsp_fini+0x65/0x110 [nouveau]
+   ? ktime_get+0x3c/0xf0
+   nvkm_subdev_fini+0x67/0xc0 [nouveau]
+   nvkm_device_fini+0x94/0x140 [nouveau]
+   nvkm_udevice_fini+0x50/0x70 [nouveau]
+   nvkm_object_fini+0xb1/0x140 [nouveau]
+   nvkm_object_fini+0x70/0x140 [nouveau]
+   ? __pfx_pci_pm_runtime_suspend+0x10/0x10
+   nouveau_do_suspend+0xe4/0x170 [nouveau]
+   nouveau_pmops_runtime_suspend+0x3e/0xb0 [nouveau]
+   pci_pm_runtime_suspend+0x67/0x1a0
+   ? __pfx_pci_pm_runtime_suspend+0x10/0x10
+   __rpm_callback+0x45/0x1f0
+   ? __pfx_pci_pm_runtime_suspend+0x10/0x10
+   rpm_callback+0x6d/0x80
+   rpm_suspend+0xe5/0x5e0
+   ? finish_task_switch.isra.0+0x99/0x2c0
+   pm_runtime_work+0x98/0xb0
+   process_one_work+0x18f/0x350
+   worker_thread+0x25a/0x3a0
+   ? __pfx_worker_thread+0x10/0x10
+   kthread+0xf9/0x240
+   ? __pfx_kthread+0x10/0x10
+   ? __pfx_kthread+0x10/0x10
+   ret_from_fork+0xf1/0x110
+   ? __pfx_kthread+0x10/0x10
+   ret_from_fork_asm+0x1a/0x30
+   </TASK>
 
-Sadly-
-Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+The reason this happens is because the fwsec-sb and fwsec-frts firmware
+images only support being booted from a contiguous coherent sysmem
+allocation. If a system runs into enough memory fragmentation from memory
+pressure, such as what can happen on systems with low amounts of memory,
+this can lead to a situation where it later becomes impossible to find
+space for a large enough contiguous allocation to hold each firmware image.
+As such, we fail to allocate memory for the falcon firmware images - fail
+to boot the GPU, and the driver falls over.
 
->  M:	Thomas Hellström <thomas.hellstrom@linux.intel.com>
->  M:	Rodrigo Vivi <rodrigo.vivi@intel.com>
->  L:	intel-xe@lists.freedesktop.org
-> -- 
-> 2.51.2
-> 
+Since this firmware can't use non-contiguous allocations, the best solution
+to avoid this issue is to simply allocate the memory for both fwsec-sb and
+fwsec-frts during initial driver load, and reuse said allocations whenever
+either firmware image needs to be used. We then release the memory
+allocations on driver unload.
+
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Fixes: 594766ca3e53 ("drm/nouveau/gsp: move booter handling to GPU-specific code")
+Cc: <stable@vger.kernel.org> # v6.16+
+---
+ .../gpu/drm/nouveau/include/nvkm/subdev/gsp.h |  5 ++
+ .../gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c   | 56 ++++++++++++++-----
+ .../gpu/drm/nouveau/nvkm/subdev/gsp/priv.h    |  8 ++-
+ .../drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c | 11 +++-
+ .../gpu/drm/nouveau/nvkm/subdev/gsp/tu102.c   |  4 ++
+ 5 files changed, 68 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h b/drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h
+index 226c7ec56b8ed..608ef5189eddb 100644
+--- a/drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h
++++ b/drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h
+@@ -73,6 +73,11 @@ struct nvkm_gsp {
+ 
+ 		const struct firmware *bl;
+ 		const struct firmware *rm;
++
++		struct {
++			struct nvkm_falcon_fw sb;
++			struct nvkm_falcon_fw frts;
++		} falcon;
+ 	} fws;
+ 
+ 	struct nvkm_firmware fw;
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c
+index 5b721bd9d7994..be9a0b103aa1f 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c
+@@ -259,18 +259,16 @@ nvkm_gsp_fwsec_v3(struct nvkm_gsp *gsp, const char *name,
+ }
+ 
+ static int
+-nvkm_gsp_fwsec(struct nvkm_gsp *gsp, const char *name, u32 init_cmd)
++nvkm_gsp_fwsec_init(struct nvkm_gsp *gsp, struct nvkm_falcon_fw *fw, const char *name, u32 init_cmd)
+ {
+ 	struct nvkm_subdev *subdev = &gsp->subdev;
+ 	struct nvkm_device *device = subdev->device;
+ 	struct nvkm_bios *bios = device->bios;
+ 	const union nvfw_falcon_ucode_desc *desc;
+ 	struct nvbios_pmuE flcn_ucode;
+-	u8 idx, ver, hdr;
+ 	u32 data;
+ 	u16 size, vers;
+-	struct nvkm_falcon_fw fw = {};
+-	u32 mbox0 = 0;
++	u8 idx, ver, hdr;
+ 	int ret;
+ 
+ 	/* Lookup in VBIOS. */
+@@ -291,8 +289,8 @@ nvkm_gsp_fwsec(struct nvkm_gsp *gsp, const char *name, u32 init_cmd)
+ 	vers = (desc->v2.Hdr & 0x0000ff00) >> 8;
+ 
+ 	switch (vers) {
+-	case 2: ret = nvkm_gsp_fwsec_v2(gsp, name, &desc->v2, size, init_cmd, &fw); break;
+-	case 3: ret = nvkm_gsp_fwsec_v3(gsp, name, &desc->v3, size, init_cmd, &fw); break;
++	case 2: ret = nvkm_gsp_fwsec_v2(gsp, name, &desc->v2, size, init_cmd, fw); break;
++	case 3: ret = nvkm_gsp_fwsec_v3(gsp, name, &desc->v3, size, init_cmd, fw); break;
+ 	default:
+ 		nvkm_error(subdev, "%s(v%d): version unknown\n", name, vers);
+ 		return -EINVAL;
+@@ -303,15 +301,19 @@ nvkm_gsp_fwsec(struct nvkm_gsp *gsp, const char *name, u32 init_cmd)
+ 		return ret;
+ 	}
+ 
+-	/* Boot. */
+-	ret = nvkm_falcon_fw_boot(&fw, subdev, true, &mbox0, NULL, 0, 0);
+-	nvkm_falcon_fw_dtor(&fw);
+-	if (ret)
+-		return ret;
+-
+ 	return 0;
+ }
+ 
++static int
++nvkm_gsp_fwsec_boot(struct nvkm_gsp *gsp, struct nvkm_falcon_fw *fw)
++{
++	struct nvkm_subdev *subdev = &gsp->subdev;
++	u32 mbox0 = 0;
++
++	/* Boot */
++	return nvkm_falcon_fw_boot(fw, subdev, true, &mbox0, NULL, 0, 0);
++}
++
+ int
+ nvkm_gsp_fwsec_sb(struct nvkm_gsp *gsp)
+ {
+@@ -320,7 +322,7 @@ nvkm_gsp_fwsec_sb(struct nvkm_gsp *gsp)
+ 	int ret;
+ 	u32 err;
+ 
+-	ret = nvkm_gsp_fwsec(gsp, "fwsec-sb", NVFW_FALCON_APPIF_DMEMMAPPER_CMD_SB);
++	ret = nvkm_gsp_fwsec_boot(gsp, &gsp->fws.falcon.sb);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -334,6 +336,19 @@ nvkm_gsp_fwsec_sb(struct nvkm_gsp *gsp)
+ 	return 0;
+ }
+ 
++int
++nvkm_gsp_fwsec_sb_ctor(struct nvkm_gsp *gsp)
++{
++	return nvkm_gsp_fwsec_init(gsp, &gsp->fws.falcon.sb, "fwsec-sb",
++				   NVFW_FALCON_APPIF_DMEMMAPPER_CMD_SB);
++}
++
++void
++nvkm_gsp_fwsec_sb_dtor(struct nvkm_gsp *gsp)
++{
++	nvkm_falcon_fw_dtor(&gsp->fws.falcon.sb);
++}
++
+ int
+ nvkm_gsp_fwsec_frts(struct nvkm_gsp *gsp)
+ {
+@@ -342,7 +357,7 @@ nvkm_gsp_fwsec_frts(struct nvkm_gsp *gsp)
+ 	int ret;
+ 	u32 err, wpr2_lo, wpr2_hi;
+ 
+-	ret = nvkm_gsp_fwsec(gsp, "fwsec-frts", NVFW_FALCON_APPIF_DMEMMAPPER_CMD_FRTS);
++	ret = nvkm_gsp_fwsec_boot(gsp, &gsp->fws.falcon.frts);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -358,3 +373,16 @@ nvkm_gsp_fwsec_frts(struct nvkm_gsp *gsp)
+ 	nvkm_debug(subdev, "fwsec-frts: WPR2 @ %08x - %08x\n", wpr2_lo, wpr2_hi);
+ 	return 0;
+ }
++
++int
++nvkm_gsp_fwsec_frts_ctor(struct nvkm_gsp *gsp)
++{
++	return nvkm_gsp_fwsec_init(gsp, &gsp->fws.falcon.frts, "fwsec-frts",
++				   NVFW_FALCON_APPIF_DMEMMAPPER_CMD_FRTS);
++}
++
++void
++nvkm_gsp_fwsec_frts_dtor(struct nvkm_gsp *gsp)
++{
++	nvkm_falcon_fw_dtor(&gsp->fws.falcon.frts);
++}
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h
+index c3494b7ac572b..d0ce34b5806c2 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h
+@@ -5,8 +5,14 @@
+ #include <rm/gpu.h>
+ enum nvkm_acr_lsf_id;
+ 
+-int nvkm_gsp_fwsec_frts(struct nvkm_gsp *);
++
++int nvkm_gsp_fwsec_sb_ctor(struct nvkm_gsp *);
+ int nvkm_gsp_fwsec_sb(struct nvkm_gsp *);
++void nvkm_gsp_fwsec_sb_dtor(struct nvkm_gsp *);
++
++int nvkm_gsp_fwsec_frts_ctor(struct nvkm_gsp *);
++int nvkm_gsp_fwsec_frts(struct nvkm_gsp *);
++void nvkm_gsp_fwsec_frts_dtor(struct nvkm_gsp *);
+ 
+ struct nvkm_gsp_fwif {
+ 	int version;
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c
+index 32e6a065d6d7a..33db4bad44ef5 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c
+@@ -1817,12 +1817,16 @@ r535_gsp_rm_boot_ctor(struct nvkm_gsp *gsp)
+ 	RM_RISCV_UCODE_DESC *desc;
+ 	int ret;
+ 
++	ret = nvkm_gsp_fwsec_sb_ctor(gsp);
++	if (ret)
++		return ret;
++
+ 	hdr = nvfw_bin_hdr(&gsp->subdev, fw->data);
+ 	desc = (void *)fw->data + hdr->header_offset;
+ 
+ 	ret = nvkm_gsp_mem_ctor(gsp, hdr->data_size, &gsp->boot.fw);
+ 	if (ret)
+-		return ret;
++		goto dtor_fwsec;
+ 
+ 	memcpy(gsp->boot.fw.data, fw->data + hdr->data_offset, hdr->data_size);
+ 
+@@ -1831,6 +1835,9 @@ r535_gsp_rm_boot_ctor(struct nvkm_gsp *gsp)
+ 	gsp->boot.manifest_offset = desc->manifestOffset;
+ 	gsp->boot.app_version = desc->appVersion;
+ 	return 0;
++dtor_fwsec:
++	nvkm_gsp_fwsec_sb_dtor(gsp);
++	return ret;
+ }
+ 
+ static const struct nvkm_firmware_func
+@@ -2087,6 +2094,7 @@ r535_gsp_dtor(struct nvkm_gsp *gsp)
+ 	nvkm_gsp_radix3_dtor(gsp, &gsp->radix3);
+ 	nvkm_gsp_mem_dtor(&gsp->sig);
+ 	nvkm_firmware_dtor(&gsp->fw);
++	nvkm_gsp_fwsec_sb_dtor(gsp);
+ 
+ 	nvkm_falcon_fw_dtor(&gsp->booter.unload);
+ 	nvkm_falcon_fw_dtor(&gsp->booter.load);
+@@ -2105,6 +2113,7 @@ r535_gsp_dtor(struct nvkm_gsp *gsp)
+ 	nvkm_gsp_mem_dtor(&gsp->rmargs);
+ 	nvkm_gsp_mem_dtor(&gsp->wpr_meta);
+ 	nvkm_gsp_mem_dtor(&gsp->shm.mem);
++	nvkm_gsp_fwsec_frts_dtor(gsp);
+ 
+ 	r535_gsp_libos_debugfs_fini(gsp);
+ 
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/tu102.c b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/tu102.c
+index 81e56da0474a1..b9047da609b81 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/tu102.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/tu102.c
+@@ -331,6 +331,10 @@ tu102_gsp_oneinit(struct nvkm_gsp *gsp)
+ 	if (ret)
+ 		return ret;
+ 
++	ret = nvkm_gsp_fwsec_frts_ctor(gsp);
++	if (WARN_ON(ret))
++		return ret;
++
+ 	ret = nvkm_gsp_fwsec_frts(gsp);
+ 	if (WARN_ON(ret))
+ 		return ret;
+
+base-commit: 62433efe0b06042d8016ba0713d801165a939229
+-- 
+2.52.0
+
