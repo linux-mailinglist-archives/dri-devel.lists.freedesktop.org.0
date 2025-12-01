@@ -2,169 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC334C993D7
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 22:46:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C064BC993DA
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 22:46:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20DD410E495;
-	Mon,  1 Dec 2025 21:46:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77C6010E499;
+	Mon,  1 Dec 2025 21:46:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="uUrQ6RUe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZHZeyGnX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013015.outbound.protection.outlook.com
- [40.107.201.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0161B10E05E;
- Mon,  1 Dec 2025 21:46:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bzUxVSpJ3DkvXH9nd1B3CcxC8Li3YKLjg0VsCVfqzgzJVV5DJbm31isN6Idi27/9tBGpf2ITs2bLao1BkCffpOlH6sRhbeBzQM0u0DPm8nGvuctKHFCqBRmIe3M/GLljFy6JKlSqotly26mUZm2RXZ4mQLCm5kuCWlMv/afpRhVe6bdf0gTjUx4x1Nrdc77QXQKQ8ptLKgsGCBJ94cJbeYmLxgF/hJ5uLZiKRyrqfN75BM6W0daR8DTkGNX9+A3mXY9bC7lKgnd+xH7s3vgyW4r4skRB5RHbL/EMEb5GVSjasuxraVj3yYtny78YN973cLmJfkv7MIN9GgZP5xjxgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UZpws9g+Zanr/B+zj16P7I7+zUeJ2589xtI56Z4UBpE=;
- b=qNKOdzrDJQ/7y2Ut7FPADfm6vprJyqQZSlY71PHp2MVjECyBFajm/SEG1iFcmuHv4ZFMntNwZz0srJ5bjpnHiZjcMHLjsHlT6njy9R51DsoTUWHLMr+bUfQxOEm8lvIJ5EmzYcmjE5kPXW1MdbYmPbACWLT3mpD7zh8Bf6IFy7JuI1GlHeG7ffswce64uAES5t4T0S3rTo2CvjyWE74rG/qeK4dP1m+ZoUPhHjZEUBNKQ8PejP8vl7p3lG83GiwUDVoGyucEeRl8iRNfL4AsJKFpPBa4FPY6GNPIJRJH4ohmlxdK9pdUFk72xUe21f+STmAPeQ/Ucun31B915J7coA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UZpws9g+Zanr/B+zj16P7I7+zUeJ2589xtI56Z4UBpE=;
- b=uUrQ6RUe3eSQZd6BaqJPVOXxYhfMBz3TQ0Dnwgw1ESTgdL11uVNNd6VaJnttIiaIFMMCv22ih7eH0AXOyK1ZFU0TnjyyKcVKLLO+ySKbmhDmqenNhysXxalAMLSCscyFo8i15DSjlBp3l469/qSI1gLlORi+S6zi1sCdOagLunPNLXDFdatG5q7VdGT44bstz6g7Jpiowa3IJqMf/q8UXBYWnQAYwsQTKCWtNo29ihBUsCiMjdB9qSUuqcIp4TvOHZomSzzrEGs0WWjMDmKPUsukQi/BkvayITTaSf3TaSRvm2NUGPcKhHdLS/KJcwBxNPZWUENNO8JtUPecy+tsYg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by DM4PR12MB9735.namprd12.prod.outlook.com (2603:10b6:8:225::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
- 2025 21:46:05 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
- 21:46:05 +0000
-Message-ID: <c6c0a327-f657-493e-beaa-c392eca8ce34@nvidia.com>
-Date: Mon, 1 Dec 2025 16:46:01 -0500
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2A3810E499
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 21:46:15 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 475476018D;
+ Mon,  1 Dec 2025 21:46:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3335AC4CEF1;
+ Mon,  1 Dec 2025 21:46:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764625574;
+ bh=VLLU6Fk7P3OG6KYCxQGd9OElcUAY4ZD7P6cn13H2jiM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ZHZeyGnX53fuJ+TFcphgGSaCsDCJhwYeaA57v4UgoTroDE1bNBiA+AEBgK6TWk4PP
+ StgMzwo6oxSb3Di3nUAj39dfRtVry2Wghasn0rtlszjDZ0b0OIc7DgBquFet90WHED
+ ehtfNAglh2SiPiEaAwI9a0/EJQobw2hmwPQIq0V9K84uSkvqYOlmByaMD+eio2ZZ2G
+ yt3YHi9/JGIleOqhXNXcVEzMu9wN0MPTXcRHzFrJgDHbSa7zwK4yDWuN9GQCtGx8+C
+ XLDzaT0uptyRyeOLkxSEy9O1+HUv0wd+Nhq+nhmh0O1OrAiNU53CBX3C/P0z6wenKo
+ UCNSbv44STpbQ==
+Message-ID: <3bc5bf92-05c3-4841-ab28-9bab2bb31cd5@kernel.org>
+Date: Mon, 1 Dec 2025 22:46:01 +0100
+MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] rust: clist: Add support to interface with C linked
- lists
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@gmail.com>,
- Alexandre Courbot <acourbot@nvidia.com>, Alistair Popple
- <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Simona Vetter <simona@ffwll.ch>,
+Subject: Re: [PATCH 05/21] ARM: dts: omap: Bind panel to panel-dpi instead of
+ ti,tilcdc,panel driver
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
+Cc: Markus Schneider-Pargmann <msp@baylibre.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Louis Chauvet <louis.chauvet@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Miguel Gazquez <miguel.gazquez@bootlin.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-omap@vger.kernel.org, Jyri Sarha <jyri.sarha@iki.fi>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Joel Fernandes <joel@joelfernandes.org>,
- Lyude Paul <elle@weathered-steel.dev>, Andrea Righi <arighi@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>
-References: <20251129213056.4021375-1-joelagnelf@nvidia.com>
- <5B89D953-BB52-4E8F-AC40-1FA33C016780@collabora.com>
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Tony Lindgren <tony@atomide.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+References: <20251126-feature_tilcdc-v1-0-49b9ef2e3aa0@bootlin.com>
+ <20251126-feature_tilcdc-v1-5-49b9ef2e3aa0@bootlin.com>
+ <96b1b7bf-ddbe-4213-a201-dc89cf2998dd@ideasonboard.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <5B89D953-BB52-4E8F-AC40-1FA33C016780@collabora.com>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <96b1b7bf-ddbe-4213-a201-dc89cf2998dd@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN0P222CA0001.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:208:531::6) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|DM4PR12MB9735:EE_
-X-MS-Office365-Filtering-Correlation-Id: a86d64e1-53b9-4ab7-74fc-08de3123078d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?bCtGNlByZURVb3B5eGpadnRNVG1nQm5VTjNOV1NnNU1TZ0F4QTJwZHg4a3NZ?=
- =?utf-8?B?TFpoaXZFcGU3OHRKcHpBeGdxaDZ4L3k4b3hHeHNYb0ZWTWdHbmorc2xHT2FC?=
- =?utf-8?B?SFlnekJPcElPaFM5clk5OXpuZVllK201c21MbTVsaHBBN0dhQVRUeFY2RElB?=
- =?utf-8?B?TCs1eUdoSTEyWUE5ZlY5bndrWHorWXY1dWlSVi9KK1FHZ2FSMXRPWXk5Ly9L?=
- =?utf-8?B?bTh4TkJJSGhGT3l4RnErZVlMWk8yWVpoNjNTZHViWVNmdFNKaXN0R05vTEsw?=
- =?utf-8?B?VXV2ZEFKRFkyb2p6aE9SRDFrZkJvU0p2Z1lYRExNTWJQbE56WjhPY3BMSld3?=
- =?utf-8?B?S0NNclZvRHBLRnB0NVZId0VJODlOQlVEUnYxUjc5WDhJSGVaVVY5S3BDcUpn?=
- =?utf-8?B?OE9ibWduYVRSaHNsUk5HVlNyR0lPWnJKLzYybW9jMkdCWUo1TXRyaW0zNkFr?=
- =?utf-8?B?ejlTS0hOSDJGVHNJRlNUdmlnclZwK3lVY2x0Nm9OQmtLMzRhd1NkNEFyM2Ex?=
- =?utf-8?B?VjNQR0VONEtkS0VqZkYyY0c2N3JyNWJIcTNIWi9qOUtsbkt5WG81RHZmZG5Y?=
- =?utf-8?B?YndVby94OEJZTG9tMnZ0YnFJT01qN0o2WWZrSlFaU24zZ3lNRkZsSjlWWnRV?=
- =?utf-8?B?VndSWkVuM3FKTTVJcjJZKzBvYjN4QkZQbDhMOVdXQXV2bE1MMm5idXVYRTE4?=
- =?utf-8?B?QlhFRjF0RGl1REpmQUpLbS8zTDA5KzNnb0hOeUx2Rkx4NHYwais3RjBvTzI1?=
- =?utf-8?B?aktXSE94UmVQMXppS29aQnNLVVJ1WHdpNEpHeVFGZjZSTGRlaG92Wk1lZWx0?=
- =?utf-8?B?TmJiRTQ2MVdQSitUay9sdnlrVURlRU1jZTVzVitiaG9ERThVQ21hclh4SS92?=
- =?utf-8?B?UkY5MFNyWHl5Rk5ubWEwOWR3UXVPdGRWMWMydm1Nb0hsWVpXai84K1ZjNVF0?=
- =?utf-8?B?eStCMjIzT091L2h6b3FXaDVCay80NFNnNEZlVEdibUNxQ3VoNC80YnE1dUVx?=
- =?utf-8?B?cTlMU1U1NkFZWi9wMkZ6WkhGdWJXd1pvc3YyK1hLWnNUZWdNdGUrZ1VyYS9s?=
- =?utf-8?B?RG1tTVdBVmRSdmZvejcwUjFIYmVjMW1SU2xybU1nRkNEMENmZm9DOFN2WGZj?=
- =?utf-8?B?WlRjdGhHMmMwYWJhMkVzWWxCQnQxdUd4eGJQdjhjZlgwZVArV29raitFWnlu?=
- =?utf-8?B?VGJ2Y29rYmZiNUF1a3B1bkIvQkdNaHNwVEl1R1lSckdkQ3ZuRFZoMzlxbktz?=
- =?utf-8?B?cUNDR2VqY0FnSWZ0cHcydUlRbWdYOWk4dHZORHc1WXZEczlEYUlyMDlZdG4v?=
- =?utf-8?B?b05xN2NTbmdUNjFiODNzdkJETTlJY3g2cHQ4ZmxHYytBejZxekRHblZmeUwr?=
- =?utf-8?B?UHVrNTFPMzdGMytVZjdrbDh4eEJ4RGpveHc5TkliN1NIQzQ2Zmc5QW5Pc2lt?=
- =?utf-8?B?M0JCcHlFM2l0eDRScG5IL3ZUQWVoSllYbDk2VlRqR09YbUl1dzduM1M0Y081?=
- =?utf-8?B?WDdHbjEvU2drckJJcG5hc01NbW5NZVI4ekpaM0dMRE9SMlNBZGpnTmxYREVI?=
- =?utf-8?B?Q09CakpnZFcyZ0thUHptczdyN2pPeCtQMUJvTC8rcnB6bjdCZkdLbnpNaWhN?=
- =?utf-8?B?dVlzMkZpeGUzWVdFWGg5TnlQWCsxK3ZNNVNHeXdzYThFSU5WRFZqUjUyMS9D?=
- =?utf-8?B?YzMwZWtuOVJSS0JlRWE2N24vTFNNL2FuNGRVWGdCZDNkMkFPRzBnQloxOFpT?=
- =?utf-8?B?UTFIaElkNDBBQ01RNlpjK08yTUl4Vy9lTGlycTZNTWhMSWxaTUpNVXpJemIz?=
- =?utf-8?B?NmVJbmR4cGhXUGhPVVN1bXQ1OTNxc2huWFIzck01TWVmRWxLWlJ1eHFScCtJ?=
- =?utf-8?B?MFJXVVcrU25qR0c1NnE4Z1NkQmkzOXNsbnpUNldzTHZ3Vm0yZ3lBSHJyYkFi?=
- =?utf-8?Q?BMlLeBNhj7HGdpBKYsUTJDM7HJvkWwmQ?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SURNdjZtaEtxSlV4ZDRyMHRRd3NXYTl2bGVkb3VDL0pBMzVnSEtSS0JBaDVn?=
- =?utf-8?B?R3hqclBUM0lTMUZEZGVMZVFQT09KZ3hEMVZ2c2d2QmpTM3VrdlY4Tzdkaklx?=
- =?utf-8?B?M0RLRUtOV1NzOTZSL0o2amZrUlBDOWQwTEFkbDlrbnNLa0pqQXhRK09ZMEdn?=
- =?utf-8?B?dnowSU1zS1ZHaUdsQUhhelJIL2xYUEJUaGx3clZIdmZBcFpaSVZIRmJHZ3Rv?=
- =?utf-8?B?bjhpQ3RkY2syTk9NS2dzbTNFZm9CUkQ3bUhDbDQ5NzRpeGxQMCtyYzBpenV4?=
- =?utf-8?B?NTlLVUpnTVJyTFdoN3VaZitNUXRUTWpnRHd0anpUL0R4eGhRRE5MS1MyNVdC?=
- =?utf-8?B?RWNRYXJ1Z0g2eXVvUlU0bnY4MXFXZnJFa2xyRGtjcWxQQTZRd2RydHBtUmxz?=
- =?utf-8?B?VzR4akdTc2drNmdKOWlXdVROQ1EyNVRIeXhGZWk0cGZwRDJxVzVBV2Y4TmQv?=
- =?utf-8?B?L0hCMUpEQWNoY25makF6YStiRlQvdUE2SGw0c09MdjVwaExGTjltNkZ5Mkcy?=
- =?utf-8?B?Ym5sWllsVlBuR3NvVDJuV1o3b1VJNWUzS0d0ZkliS0duNUxkT1NNUHFzN09o?=
- =?utf-8?B?NFRsNHkzUjU4WTd1Zk9BYnpDQitsUHpqaC9xcEx2WW9YeWJjbVk2dGRqTjMw?=
- =?utf-8?B?QzFKbTRwVTdJMjVpRU5CUzlCVnprS0E3eXpucTVGVnZNNUMvUHF6Vkp1UWRi?=
- =?utf-8?B?RTBWZnBEdTl2bEdIODZUOXlkUWhXeTBzT0pmQll4ZXRsMEZxd0d5T3VMUVB5?=
- =?utf-8?B?T2V2SkRkYzk0QlJxaWoxa0tzR09WaVRrUWRZL3NvclVvWU8vRVBvSWJaTGRW?=
- =?utf-8?B?YTRkaUdxVnFzY0dSTmh4VUEyTHh5enpySThubFVWVFNxUTVZRDlFQ1FOOXp2?=
- =?utf-8?B?QVVDbk9ySzZqM29KWGZXRTZPeVg3cWVvSzlaV0pMZmpwWWZHdkJKTnVDVWtD?=
- =?utf-8?B?OGlPVEJ3QTYvMDllUHFJRThIL3R2Q0RjZ2Y4ZXZSU1Z5U2JyZjJLTXg5dlRL?=
- =?utf-8?B?cWVWaEJIcHpuMFM2cmlRaFh5clgvUHh2TFh6OExuY2NacUUyakhDaWR3d29B?=
- =?utf-8?B?Y2Mrd2FTME9QbWw2bmZZNUk5cnpzWndSanZaYlVTUU5DMitITEcrZUEzamZp?=
- =?utf-8?B?QWNINjRRTUxkWmFqOGR6Ky9tUVRjUUFoM212bHJnTzRGc3RnckRMRGZFT3cz?=
- =?utf-8?B?MkZFZ0NSa3pjWFVSS1ZhYXg0S0xVSllLZjBkOHpWWmMxYnZsMFdqRUxjVVF6?=
- =?utf-8?B?S1JNSC84K3BaajdLbXdCM2tEZnpiak11VFBJc3l2TlU5bXp1Q05saXpObWNI?=
- =?utf-8?B?TGwyMm1Kdm5pUWIxME1ZSGovYnhhQ0MwM1pralJ6cFhBUzJSKzNzVGdMYTVQ?=
- =?utf-8?B?ZzNkWjNnUDE5WGtqN2RDaEVUK2E3ck16cnVCWEZFbWFGSGErR1M4bGhYanlt?=
- =?utf-8?B?QklrUVIxM0d2ZEZXL1N1OHlWbDdCN1E0M2FUSzZHeG9HbFN2cnRBYU9rVTVr?=
- =?utf-8?B?NDYvR1JBTzI0S3MzMW5sRmRuN25mVytTalExTE92M1BJSW11SHowUnZhb04v?=
- =?utf-8?B?WC81OHZDVW1VUGtWeUhOODVVcjBiVzN2aUVuMndaQlU5aVhWd29KUlVXQ0N0?=
- =?utf-8?B?MHFQMFBEbTFxV0lZc3g2cDUwVWNGMmJBSGRwWGRSN1dwd29mempsL0FhZWRx?=
- =?utf-8?B?WXVzdHg0dEhWTGt2UDB4eUErMzdIV2hBRER3UEpIeU9TdjV3cHZGY0Ywenlj?=
- =?utf-8?B?TytsUVBQTUt0dG5TZ3ZpOVBHdThWZ3E4Y0l4aFVzQ0tkSmVHMEs0UCtaaWNp?=
- =?utf-8?B?YkxKN3NQWkk1aE0vMm1yUkZZU1RCYXZVTllLNEhpZkphTGRGMTlwOS9jNVIx?=
- =?utf-8?B?a29oK2xtSVNKYlI2ZWRjRXN0QUpRUEp4ZGo0SVNpdFJDcXlkWDJwM3gxdU8x?=
- =?utf-8?B?bm5CL29qcVhzY2V1bXZKWlhubityN0NFN3VGRHplVS9XRWJnZ3VrSVBqQzk3?=
- =?utf-8?B?aGhyQ1lmZlZyNFNOOWZwbFhuOVVKVjhkWmg3MkNPUnBsSkU3dUhhcWRWNEw1?=
- =?utf-8?B?cGc2eU5wWll6bFVEWDJKYXJNaSticTd2c0k4My9CdSs1djBJWDdyOTVJbDFX?=
- =?utf-8?Q?+MhZ1d6b4Dg3+q/jQlHz7ZHhV?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a86d64e1-53b9-4ab7-74fc-08de3123078d
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 21:46:05.5413 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QbwAu5KwtPVjUDa06fdUevFWnnHXMJH6oZUGPaFW9piGcvSSl8gfKWvsRYULgHFXT6/eYE3yaXiBEQGmIF3T2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB9735
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,57 +122,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
-
-On 12/1/2025 11:51 AM, Daniel Almeida wrote:
+On 01/12/2025 15:13, Tomi Valkeinen wrote:
+> Hi Kory,
 > 
-[...]
->> +/// Create a C doubly-circular linked list interface `Clist` from a raw `list_head` pointer.
->> +///
->> +/// This macro creates a `Clist<T>` that can iterate over items of type `$rust_type` linked
->> +/// via the `$field` field in the underlying C struct `$c_type`.
->> +///
->> +/// # Arguments
->> +///
->> +/// - `$head`: Raw pointer to the sentinel `list_head` object (`*mut bindings::list_head`).
->> +/// - `$rust_type`: Each item's rust wrapper type.
->> +/// - `$c_type`: Each item's C struct type that contains the embedded `list_head`.
->> +/// - `$field`: The name of the `list_head` field within the C struct.
->> +///
->> +/// # Safety
->> +///
->> +/// The caller must ensure:
->> +/// - `$head` is a valid, initialized sentinel `list_head` pointing to a list that remains
->> +///   unmodified for the lifetime of the rust `Clist`.
->> +/// - The list contains items of type `$c_type` linked via an embedded `$field`.
->> +/// - `$rust_type` is `#[repr(transparent)]` over `$c_type` or has compatible layout.
->> +/// - The macro is called from an unsafe block.
->> +///
->> +/// # Examples
->> +///
->> +/// Refer to the examples in the [crate::clist] module documentation.
+> On 26/11/2025 19:35, Kory Maincent (TI.com) wrote:
+>> Use panel-dpi driver instead of the deprecated tilcdc-panel driver in
+>> preparation for removing the tilcdc-panel driver and binding.
+>>
+>> Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
+>> ---
+>>
+>> This patch is not tested. It would be nice if someone with one of this
+>> board could test and validate it.
+>> ---
+>>  arch/arm/boot/dts/ti/davinci/da850-evm.dts    | 26 +++++++++++++-------------
+>>  arch/arm/boot/dts/ti/omap/am335x-guardian.dts | 25 +++++++++----------------
+>>  arch/arm/boot/dts/ti/omap/am335x-pdu001.dts   | 21 ++++++++++-----------
+>>  arch/arm/boot/dts/ti/omap/am335x-pepper.dts   | 22 +++++++++++-----------
+>>  arch/arm/boot/dts/ti/omap/am335x-sbc-t335.dts | 25 +++++++++++++------------
+>>  arch/arm/boot/dts/ti/omap/am335x-sl50.dts     | 25 ++++++++++++-------------
+>>  6 files changed, 68 insertions(+), 76 deletions(-)
+>>
 > 
-> Missing backticks?
-> 
+> Doesn't this, or rather the following patches, break DTB compatibility
+> with all the above boards?
 
-will fix, thanks.
+Stuffing DTS change in the middle of the driver change tries to hide
+impact, which is not nice on its own.
 
->> +#[macro_export]
->> +macro_rules! clist_create {
->> +    ($head:expr, $rust_type:ty, $c_type:ty, $field:ident) => {
-> 
-> I think this needs a SAFETY comment, or otherwise the linter will complain.
-> 
-This is intentional, the SAFETY comes from the caller. This is exactly the
-container_of! macro pattern too.
+Please follow soc maintainer profile and submitting patches in DT
+regarding DTS patches.
 
-Instead, like container_of, we have a safety header above:
-
-/// # Safety
-
-thanks,
-
- - Joel
-
-
-
+Best regards,
+Krzysztof
