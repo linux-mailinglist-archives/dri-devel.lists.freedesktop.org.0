@@ -2,89 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5A3C98982
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 18:49:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5460EC989C1
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 18:53:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC8D610E439;
-	Mon,  1 Dec 2025 17:49:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 287EA10E43D;
+	Mon,  1 Dec 2025 17:52:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="XgakEoke";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="jfzYUP7V";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2050D10E439
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 17:49:50 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-6418738efa0so7491955a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 09:49:50 -0800 (PST)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9D3F10E43D
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 17:52:56 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-64074f01a6eso8134710a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 09:52:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1764611386; x=1765216186;
+ d=chromium.org; s=google; t=1764611574; x=1765216374;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YjHx+/RkP+oD6eZvyiUE3nXyrGDBrliKfWOauWnm6JE=;
- b=XgakEoke7rU1n75EEuDHjkXVXWJ5LaYae3XVyAfYIE09HpJEX9sB54m5O1juQIskJa
- Z9unCeOlgP62iZ+HUT2ShPwKfsIZHWaVwKMWjpOZsSHL8WDwoY/GUZ1hYpGCRKv01TbJ
- +0sYRMv0NWrAhULf1wc4d9pXvIZK4rwkfbnN8=
+ bh=+t3WyfrUncDVsjkdBLbauFOskCwdxza+DonH+evbxvc=;
+ b=jfzYUP7VvtyKtpDN1rd2Lh8/sIlWlyt8bJnfpvl635j+6VHdUwlrsbCl+lUD15D0Cc
+ equBtJxw2UbpxQ1H/oD3DZvTiKHNtf93Y9dyNAw+xIociLWzgPyBZgNzuKL7U7qcL8Wg
+ JKYHxjP1WT9gcZC1EptjEtkBrP08uzLA/y+VE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764611386; x=1765216186;
+ d=1e100.net; s=20230601; t=1764611574; x=1765216374;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=YjHx+/RkP+oD6eZvyiUE3nXyrGDBrliKfWOauWnm6JE=;
- b=BNDJWkypifJz8U3LQbrqP7j41mw7r7mSTMKS7Sx7jG+mLC3+IOOlISh1Q3lnqxwGax
- raVNImLzmLrEgP0DPGQ0uHZAuaCJogIEYlaff/Vv9BELKV7KI29n+/lYLA389MTar+uq
- w/dkZ1H+D9Vt8kJZEFlWQ6UiLft0w+sXCSaIfepGBOiZgc7t4Zd2oWlDPcNYNgwJSrdo
- frLJA7hDjrEyFWHMhd6PSkxZMuSwqXughtn0OCAinKpWe0oPwTVVhMn9rbmh+xSqZ1i5
- odRV5U/F70nrzMwTfWgIwJ6bLoW4BhusRoK8mcxmjcnFb043i2Xg86N835d9C4eUM+UR
- Sz/g==
+ bh=+t3WyfrUncDVsjkdBLbauFOskCwdxza+DonH+evbxvc=;
+ b=iBYwsO+3+o/cpDnpEZuKebh2ldVEACJrTEMwJkHeGe+Wl7vmrKk50i3F+prviQgKYK
+ YNc9Q/FdCxW5RJC0kdLZrfSD3LzCYE2qKzYhocLlTuZLMHsZGqsdkiPFbTSjM+Rb1MrK
+ eyRbm/WpQOJyqa0tk835gRbB3zrvcdBC39w0ROHTpDOBJy5uAh70wJovUt50hC2pCTFl
+ uZXsSu2Cy+EMK8PD8gCp6EaqbIJcEhYOBFVyetO4wyAxtuxA0WTKXdfXOPOM3OU9Qb9P
+ OjRt3WbZpKEwGtTLpYJNA8HMLFNlMLj7HI9opOVxIcG2G4k5Taf3scqVfU1Ynyj04AC4
+ 8lmg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWnHBNZ/y09F6XBQASD0wNVPpdMb9xi5hnTAwUQ+wVB05Qniv8ekBn8q6NHIpdzJDNt/UJEl2X/2Dk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx22iq9AvC6YMbvWxDb4lkvElccUVxCoMseoBP47Ft+sLyoYML+
- zjMrV9/KJ33sFbjiAXZYX0oYTjB79f9dO9I6GpvU+S4jYMW30Rphq4GSNhWMiDGC3CDAgPRroQ7
- zkATWdg==
-X-Gm-Gg: ASbGncvCwTOeH5KcdibDJtlye6qq2136l8Vhs6nW8RbwJ2PF6ZqsT538usZ6EQ80tPb
- Y+Q5NXH2a66xD9wAyUtNmTaFODCBknZ3naUwLVq0dTqq62D3gbR+o3l/zg5GHvIREkeJs4VKH+L
- k9kUCoqI1Q82BAimt/LVoIqw2WIZuSRdoQ+WqVWoHF7Gf165T4SVrDDZxtXoC4LVzOiwHqLtlUm
- vUXtyDExk5VS7t+SoagI8iFyHUj33sazLfAVnxqixSr9V8oCN1qa/2sqdpvW7kFdvYTLuPOh904
- dOzq3sGhUGEobqDwi4N2SM8n2ZfbnoL+ha2ZXV7cUtsk57i2wO8iBV5dHlUlQk/S6lLkrlGwLoX
- 5Kbdmdu5ZT8J1Y98eVDtxKWrD7jEk0j3SoKKLX1TznJyjR7rl1G0HtmZS7FyUtI/nxuI26rCYcM
- C0XNmmBix9ta0v0IhBHHzwfyf8QlXSzyHnsNrjISgb7gt4XV3KnGmMXK79r7WV
-X-Google-Smtp-Source: AGHT+IE0vbeN6rzCM4veHovvu9Pf/mc9Rtoh6p/TZHFSnr8Zy3TLfFyeCCt7YyylPI/JiMl9I3aAOg==
-X-Received: by 2002:a05:6402:4407:b0:641:5bb9:fdfb with SMTP id
- 4fb4d7f45d1cf-64555cf86c1mr38146162a12.33.1764611386527; 
- Mon, 01 Dec 2025 09:49:46 -0800 (PST)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com.
- [209.85.221.46]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-64750a90c93sm12905303a12.9.2025.12.01.09.49.41
+ AJvYcCX7MB3xbmmUkOuD8C6CxRFpY4yn9FeDo9+koCx7hz5sjuqKIWW3bww9zc8HyIWYhndRtL2JgdWcZi8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxcSGHX2LuBWXZqWwwJNfAZxNHIhpYAqMXmkMWbMtPVkB0Lx5ZH
+ 7tJRdaTL+SrSPfs095TcZHXraObvk7H0JDHQXFw03NbypcetcrJuoBqEIPwyGWxlEaYucuxfquz
+ sIyPqUwSv
+X-Gm-Gg: ASbGncsnwSaLdbXea/9sKAi4JKSD01RTuJW9nXyt/R71/xuIUoNv+ZdYwUOg2OIZHwj
+ AWrHvR77HPixAPqvqotom0Lxwi/3JCPb/Yt8d7lu7gRrn/sZ8vfE5TycQxJZd0yE7GiMH2dQ4eL
+ ciet/Tm9HkgX3XCroRNYc8QOQ9vcLHBU0NZHIS3BcmnjiTSrvd4bXwS99umlJpdyRaUvqAp65vG
+ z1XUnnYL7gfSHGf9ttj/7gW2ehjM9zE8SGayE6JfkjSFnyADYhq4zRKPX5rxNTvKmv9mNAF5R5p
+ QvV+PYzcttGQXmqjWEs4HFgmVl5d3/j6PU1MpPfnLTTTNKChmMDNcvu3iZBDFH72ALai51CB113
+ 2futg2I6iKnNSB0Or/YVnlMz3YiAkQo903cRbj2FZQogEWuwTjVNbz8p2vvDukHdS692hdPPxJc
+ 95YIap+l6C+NTau+4m6CP0nnKpyB1QRVPEjvNE7aFCpt0HQDjJhMWUcQjWogZ2
+X-Google-Smtp-Source: AGHT+IEffeX+1Ibs7sDv8WvV2Od9qT8VHQ2zP2+v739hgiyak1iPiPlb4MZf4KOIM4Xt51e9pbQHCg==
+X-Received: by 2002:a05:6402:51c7:b0:641:6872:8857 with SMTP id
+ 4fb4d7f45d1cf-64555d2fc70mr37132769a12.34.1764611574435; 
+ Mon, 01 Dec 2025 09:52:54 -0800 (PST)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com.
+ [209.85.128.53]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-64750a6ea36sm12969485a12.2.2025.12.01.09.52.53
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Dec 2025 09:49:41 -0800 (PST)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-42e2e167067so976785f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 09:49:41 -0800 (PST)
+ Mon, 01 Dec 2025 09:52:53 -0800 (PST)
+Received: by mail-wm1-f53.google.com with SMTP id
+ 5b1f17b1804b1-47789cd2083so25841285e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 09:52:53 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWUWMVp4rXZW0Lt08aK3rRbmMNLhCa5R0NzWCiGf+90OaCmCecxgqdGH0KWp2sWGKv5DsGdmWZt8Vw=@lists.freedesktop.org
-X-Received: by 2002:a05:6000:240b:b0:42b:3661:304a with SMTP id
- ffacd0b85a97d-42cc1d08715mr41861347f8f.38.1764611381069; Mon, 01 Dec 2025
- 09:49:41 -0800 (PST)
+ AJvYcCWeCIeRxwB1NwOdwVx+XdbcyZr7F/K9TkYYuuDX8Ig7CP63NdEMRXWjZ+eMUsjNz/YfPrdAr33v5Kg=@lists.freedesktop.org
+X-Received: by 2002:a05:600c:4ed2:b0:477:9e10:3e63 with SMTP id
+ 5b1f17b1804b1-477c1164cebmr369919515e9.35.1764611572764; Mon, 01 Dec 2025
+ 09:52:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20251127121601.1608379-1-yelangyan@huaqin.corp-partner.google.com>
-In-Reply-To: <20251127121601.1608379-1-yelangyan@huaqin.corp-partner.google.com>
+References: <20251130-sony-akari-fix-panel-v1-1-1d27c60a55f5@somainline.org>
+In-Reply-To: <20251130-sony-akari-fix-panel-v1-1-1d27c60a55f5@somainline.org>
 From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 1 Dec 2025 09:49:29 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=UiwYf3U=mjkEVeyMtsyuXZQoy5buTP8O0k_rUARcO9jw@mail.gmail.com>
-X-Gm-Features: AWmQ_bn-T7laNp4qlVi3tbIPZZq0UDtoj14HOFcICyK15YOQ5_L1vetG1Vf5lQM
-Message-ID: <CAD=FV=UiwYf3U=mjkEVeyMtsyuXZQoy5buTP8O0k_rUARcO9jw@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel-edp: Add CSW MNE007QB3-1
-To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
-Cc: neil.armstrong@linaro.org, jesszhan0024@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
+Date: Mon, 1 Dec 2025 09:52:41 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=VM18TOB70vvn05XFECsaCkj9=0sjqsKJQo7mfR=NZ9=Q@mail.gmail.com>
+X-Gm-Features: AWmQ_bmP4gsrdifZMMsR0YcBfbJWCt8JyJt0iJXOYDAkFhvKs0FxR8muX9iMfvI
+Message-ID: <CAD=FV=VM18TOB70vvn05XFECsaCkj9=0sjqsKJQo7mfR=NZ9=Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: sony-td4353-jdi: Enable prepare_prev_first
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ ~postmarketos/upstreaming@lists.sr.ht, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Martin Botka <martin.botka@somainline.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Jami Kettunen <jami.kettunen@somainline.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,57 +113,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, Nov 27, 2025 at 4:16=E2=80=AFAM Langyan Ye
-<yelangyan@huaqin.corp-partner.google.com> wrote:
+On Sun, Nov 30, 2025 at 2:40=E2=80=AFPM Marijn Suijten
+<marijn.suijten@somainline.org> wrote:
 >
-> Add support for the CSW MNE007QB3-1, pleace the EDID here for
-> subsequent reference.
+> The DSI host must be enabled before our prepare function can run, which
+> has to send its init sequence over DSI.  Without enabling the host first
+> the panel will not probe.
 >
-> 00 ff ff ff ff ff ff 00 0e 77 7c 14 00 00 00 00
-> 00 23 01 04 a5 1e 13 78 07 ee 95 a3 54 4c 99 26
-> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 35 3c 80 a0 70 b0 23 40 30 20
-> 36 00 2d bc 10 00 00 18 2b 30 80 a0 70 b0 23 40
-> 30 20 36 00 2d bc 10 00 00 18 00 00 00 fd 00 28
-> 3c 4a 4a 0f 01 0a 20 20 20 20 20 20 00 00 00 fc
-> 00 4d 4e 45 30 30 37 51 42 33 2d 31 0a 20 01 5b
->
-> 70 20 79 02 00 21 00 1d c8 0b 5d 07 80 07 b0 04
-> 00 3d 8a 54 cd a4 99 66 62 0f 02 45 54 40 5e 40
-> 5e 00 44 12 78 2e 00 06 00 44 40 5e 40 5e 81 00
-> 20 74 1a 00 00 03 01 28 3c 00 00 00 00 00 00 3c
-> 00 00 00 00 8d 00 e3 05 04 00 e6 06 01 00 60 60
-> ff 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00 00 00 00 00 00 00 00 00 00 00 68 90
->
-> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> Fixes: 9e15123eca79 ("drm/msm/dsi: Stop unconditionally powering up DSI h=
+osts at modeset")
+> Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 > ---
->  drivers/gpu/drm/panel/panel-edp.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/pa=
-nel-edp.c
-> index 415b894890ad..023fbbb10eb4 100644
-> --- a/drivers/gpu/drm/panel/panel-edp.c
-> +++ b/drivers/gpu/drm/panel/panel-edp.c
-> @@ -2033,6 +2033,7 @@ static const struct edp_panel_entry edp_panels[] =
-=3D {
->         EDP_PANEL_ENTRY('C', 'S', 'W', 0x1462, &delay_200_500_e50, "MNE00=
-7QS5-2"),
->         EDP_PANEL_ENTRY('C', 'S', 'W', 0x1468, &delay_200_500_e50, "MNE00=
-7QB2-2"),
->         EDP_PANEL_ENTRY('C', 'S', 'W', 0x146e, &delay_80_500_e50_d50, "MN=
-E007QB3-1"),
-> +       EDP_PANEL_ENTRY('C', 'S', 'W', 0x147c, &delay_200_500_e50_d100, "=
-MNE007QB3-1"),
+>  drivers/gpu/drm/panel/panel-sony-td4353-jdi.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Not unexpected, but I guess this is a second variant of `MNE007QB3-1`
-since the panel right above has the same name. ;-) This is still the
-correct thing to do, though, since it matches the string in the EDID
-which could help us if a panel vendor accidentally re-uses this ID...
-
-...pushed to drm-misc-next...
-
-[1/1] drm/panel-edp: Add CSW MNE007QB3-1
-      commit: b1ea3babb67dcb8b0881c2ab49dfba88b1445856
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
