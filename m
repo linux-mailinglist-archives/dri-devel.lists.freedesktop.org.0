@@ -2,65 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57274C98242
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 16:56:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A124C98263
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 17:01:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F60A10E077;
-	Mon,  1 Dec 2025 15:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E038410E423;
+	Mon,  1 Dec 2025 16:01:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QIs7hGHM";
+	dkim=pass (1024-bit key; unprotected) header.d=garyguo.net header.i=@garyguo.net header.b="CR91mVdp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F75910E425;
- Mon,  1 Dec 2025 15:56:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764604577; x=1796140577;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=8CatreM/H388Bg/dh303kBgixcSKi5WU0xRXH7oS0t4=;
- b=QIs7hGHMMZU9BHrhFyTakmkpLDd8gyoC6rWrphBbPRB+MVR1Ev/iwu0s
- 4spG3tlIN0L27hTb0Ylms3+U49NWePwgL9Tb0kDCLykYBRaXYHKOJ8IYm
- k9i4Do/CfweXZsak52laJzrrhPf7Ig5fgC3mNOPgS0ZcebAP02p/Hegey
- OIlFNhxtkQAvSoumaa2G83Uf6Y4xdn4N9/IijRszg64rH1kAoFfwgULKL
- ZLjN/9953xsk6c3t8JQTBE7dPV2q58dAMf6XXjIffLIB/EURvBJqGHiFm
- GBDlmv751qjdr06ObZNjOSaxNEmRVB3Q7I2jCL24Mgl1W0sHwGODHyi4u A==;
-X-CSE-ConnectionGUID: CDqaDdlySUG5TEzwFTIY6Q==
-X-CSE-MsgGUID: f6pg6ko5QxWbMKXSOJ7eSg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="70160483"
-X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; d="scan'208";a="70160483"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 07:56:12 -0800
-X-CSE-ConnectionGUID: CX2Kz1p6Sy+4umqmhp2Ogg==
-X-CSE-MsgGUID: 8YWDxro4St+V5obqHT2sGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; d="scan'208";a="193766495"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
- by fmviesa007.fm.intel.com with ESMTP; 01 Dec 2025 07:56:10 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vQ6Fz-000000008tD-2CkX;
- Mon, 01 Dec 2025 15:56:07 +0000
-Date: Mon, 1 Dec 2025 23:55:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, chaitanya.kumar.borah@intel.com,
- ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
- contact@emersion.fr, harry.wentland@amd.com, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com,
- swati2.sharma@intel.com, alex.hung@amd.com, jani.nikula@intel.com,
- suraj.kandpal@intel.com, Uma Shankar <uma.shankar@intel.com>
-Subject: Re: [v7 04/15] drm/i915/color: Create a transfer function color
- pipeline
-Message-ID: <202512012314.C2mdxzIy-lkp@intel.com>
-References: <20251201064655.3579280-5-uma.shankar@intel.com>
+Received: from CWXP265CU008.outbound.protection.outlook.com
+ (mail-ukwestazon11020109.outbound.protection.outlook.com [52.101.195.109])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8191810E421
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 16:01:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tk239u5kUrnEgGX2LGGbhTSTo1thYlO9L5EdRf4vaSm574At2jnV2EkyBrBmhJ70uCtAseZgrKQV6r3ulUIToobPzvX6g5QK8wOA76LD5rb90H3A4M2JX4mQlZZtsPH0D8EM+mjYUkXoV35bUZxh1P7uHaqiWcpUstYRxX2zdFMJUmUd9hX/iXhU+9+6H7QydZ5OVIcvVTRgCuW+2yERz5VZ6a455qdlw0dyjsWjo7nPHAc6Enbrt8oHJDYLNKv4xG7AENATS2MwuqT6b084XcNbiTNJdE7dBA3WetEQ3SHwjQux5mi9qXuKl2ubb2dPO4B/AfWZcD1jBSLtJlrYhQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K+Xh0NjmWd6LoBGtG7p8ix71BjVu1+hkOimissFZr6Y=;
+ b=h3uSNG2IWofQRUlUMOJcbQ1IUDgTa3UxepyCnOeO0zphNKvMkkTPwfulq1fR5kuSm2Fvq5wHeYRw7LJxKJPNqaw9n/6ijqk2KC13vmswqd38X8SIzTs9QAICzFZa1VEzpkmkiagQUbrW/W32hG+x65DoBr8fc2qYG7a0JXcZcBk/vYFn4+yqJvkz8a1gEXxUuapyakWH/ehM3N7J02RhZSlDJARlS4z2KFjcIYbBS3PhT8DEtmtdc66rsIcmuh6KGynMUF/gkTFRdqphwAlKBznpJpSZFW1JGeoHq7a9VzYfDmyWtYn2nWhE4vMtrtOvl3Dx96EtTD3PpkVBy2xwug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K+Xh0NjmWd6LoBGtG7p8ix71BjVu1+hkOimissFZr6Y=;
+ b=CR91mVdplPYLhvVnbqad7cfe2QefkefEqhlU+S9vQfw7FbxkmrYfOaWnxIIuNbBgDRJsnQUXWxfdaCUxxe6qoluuJp/No0Yn1KcFWYLc+E7MCSfgSK2a8Ik+ONtA+4rST/Px02XO8ZjMwHYulN5a+QilffOjuW98TMHOIR3ZCU8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:253::10)
+ by LO2P265MB2990.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:178::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
+ 2025 16:01:30 +0000
+Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1818:a2bf:38a7:a1e7]) by LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1818:a2bf:38a7:a1e7%6]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
+ 16:01:30 +0000
+Date: Mon, 1 Dec 2025 16:00:30 +0000
+From: Gary Guo <gary@garyguo.net>
+To: Oliver Mangold <oliver.mangold@pm.me>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?B?QmrDtnJu?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@kernel.org>, Alice
+ Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Benno Lossin
+ <lossin@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Dave Ertman <david.m.ertman@intel.com>, Ira
+ Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Lorenzo
+ Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Viresh Kumar <vireshk@kernel.org>, Nishanth
+ Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas
+ <bhelgaas@google.com>, Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?=
+ <kwilczynski@kernel.org>, Paul Moore <paul@paul-moore.com>, Serge Hallyn
+ <sergeh@kernel.org>, Asahi Lina <lina+kernel@asahilina.net>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v13 2/4] rust: `AlwaysRefCounted` is renamed to
+ `RefCounted`.
+Message-ID: <20251201160030.6956a834.gary@garyguo.net>
+In-Reply-To: <20251117-unique-ref-v13-2-b5b243df1250@pm.me>
+References: <20251117-unique-ref-v13-0-b5b243df1250@pm.me>
+ <20251117-unique-ref-v13-2-b5b243df1250@pm.me>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO2P265CA0377.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a3::29) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:253::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251201064655.3579280-5-uma.shankar@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|LO2P265MB2990:EE_
+X-MS-Office365-Filtering-Correlation-Id: 87e51919-53af-4fc6-0ee7-08de30f2e3ff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|1800799024|7416014|376014|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?dQS4zknpLWJ8bvw2F0czGUuMXLjr5FTeTK72rr9fe21KqE7FkAfcqHqUl6J8?=
+ =?us-ascii?Q?ppMsjEVYuQIFG9PjCF7N9sZNQxQESKue3T2ZM7w3P6zYUaqLpBz6onwUkid2?=
+ =?us-ascii?Q?J0G9BRHtv3kKfzoZGBKhGRj09HVM5L1HHfMUdEY4ZyolxljXuxObaDObeOHD?=
+ =?us-ascii?Q?bqV0ZnOwN3GndVad54Qsw6KvzozYBhAK0+e01qrRwcAVa9vmpY8RlHEBygEz?=
+ =?us-ascii?Q?JlMqBK8W5/FizFS5QRfgJ544dNYK/ojFp7fRgN0eINDnoBlgqFAZ9Rdmy/nz?=
+ =?us-ascii?Q?tZpFANsK57/0dLoqzgfCbk6h6wApqCwx4ZAO6iUKJAumnCE6i0Ujb6/p6V1w?=
+ =?us-ascii?Q?yOiI2MszoqtWkfIHwOKD41HC1HcmjWjE+laEzFhUNHlYgHSTuBCYq8U6LWNb?=
+ =?us-ascii?Q?Gvedu3sI3Z3/W19pRsPXxKjQLrK04wknG5IeYk7Piinzf8HLn9aNvnNkJLEW?=
+ =?us-ascii?Q?U2xihCg68npxeWtSEg8bfqffFtibGdM2eNuPbkBhwBgLpQOZ6qTDDspflXvR?=
+ =?us-ascii?Q?B9pZaX5PLUyGdSMIxW/wi2lvh1J642qDX9G5QZlZBw/bkNP04u3/XEpFiFJV?=
+ =?us-ascii?Q?QGstGMOn/wnhCYwpKCc5b47dbD2ZkhwQXAaElWO2dpQN9aURXsPzNs42rdiB?=
+ =?us-ascii?Q?Pfwb7xmDwgNPxWm8xLemkIPeo3RelxOfC5cvov5QsfQYOTSV1Me9O65P6aTP?=
+ =?us-ascii?Q?6ybS3dVedl8M19mlc7zsmAP49JnIXHYQc6XdeR1j9z0UaEDEuwIi42XQt+qU?=
+ =?us-ascii?Q?h+9leDZoFYyb+pc+N4W/ries9ukdZtp+KsFPnG2+DpN2kf8KBLqcdP8Hoc/K?=
+ =?us-ascii?Q?vI4wCU4Rr17PPxthqVyUeI1nYQQoDFPeD4Blno+5cFCM+668uPystxvmOfmT?=
+ =?us-ascii?Q?O97PJ8ayn9WaGYWuSgSorTDYl770Hc7htjvrRbIb5fROaOji8e9GQhyz5N8q?=
+ =?us-ascii?Q?/6zf1qfIBxgEj8iTjBoCO3WKC4curHzZENEMQKiPh7xVyeyokeKxQJmJEOAp?=
+ =?us-ascii?Q?K/KEpa+WFDn9r2/3wKnnytFjh8FrfJxo2a03g0tD5r92X33AnTMKQYxyedCo?=
+ =?us-ascii?Q?/Y+CFYVGqAjuAYbFbimMUeV/iEQThU/FLmdShNS2lf1jSQEese6hDMX7PpSM?=
+ =?us-ascii?Q?bW6zK/+ehlyFhG3OY8FCGN+w+jgpgUDXzc/0EQ+6qSNP910WroACPgSRW38E?=
+ =?us-ascii?Q?1O8AxWkPPLSDDE/uQYA4YzSLvvw6PvlqTlMAsCRJWOWzcF/vXisYVfoh9IkN?=
+ =?us-ascii?Q?K2erMLHVYOzfaHykpMX7VQCgAPEIpnZvDju46/A/im41th6p5Bj4fiTvzF07?=
+ =?us-ascii?Q?I1eXeYIoSewjqM9scc3UTWMeZ/gHMzrMim9xz/LyUHzD3hzJjVEyZtzSv9pl?=
+ =?us-ascii?Q?mFmCHq+GyMDX5mpWWq5UHYqm2zUerycwr2F6bqkPOX6z3YpHu29ubMUcZiWy?=
+ =?us-ascii?Q?ZcdHq8gnyGYSuJJxvzektrCIOuM/BDrN?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(1800799024)(7416014)(376014)(366016)(7053199007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BeIkBVgVFmyYBSY0ouJA59JWpsYsOhhsOVti14eUmwLpEw88qfiP0a8/3ZUy?=
+ =?us-ascii?Q?0dcwHRySrmrCYszC7SLadViLVMo0nw64ZvDZoKoQfqnlw16kHbi+PRt7j8E1?=
+ =?us-ascii?Q?XGHVE09a5L8lOlX1kBjnXhnVyuJLtjQDi9HYuCpjotd2P03AeByx5PAineg3?=
+ =?us-ascii?Q?8S5HG+5C4hDFlW48pULFalk0mRf2e6kcJs9gqRva0BlXgyY20CkrobGDHGDc?=
+ =?us-ascii?Q?PmbLjFA+96FxQVXy8jzfi2/RlBhAls8MCQPpZhr0FFZ2KeKgc+evqwLXPhP1?=
+ =?us-ascii?Q?C/D6TU3I6P8lB0e/FvCwhYp4HwOWDQfz6DPNX/NTD7bXwGSyFhY8bCqR4jVs?=
+ =?us-ascii?Q?S+0HicXHKU/xpVP0G3rQsunNndGfaSipGCQhWvZ6H9fnHVKYuwSKtbJWsXWV?=
+ =?us-ascii?Q?mz4jGnYo0I1mEI7TXXnUiqAbZrI7we8yK/kV5dqiu0feR0owr40Y9T5m49xK?=
+ =?us-ascii?Q?NUId0MWrrtNdm/jW4jCqk46aIFEjwwoOKmBlp7QpsYQGbe8mY/MTKcLqV2OU?=
+ =?us-ascii?Q?pvJTY2ekxfjGYE6JSIDxUC4knP3c9NgseXGMADPhypB1hf462cf/wzSoAsN9?=
+ =?us-ascii?Q?dHPziajcoyJeMctkpwrXQjDkiBSedGUz9VJH84L8q3mIxEPaAbOAlWi0p2UV?=
+ =?us-ascii?Q?82Vn4o17WXgDUS+qAKu3m91ltYs2WZOtz1UKEzwk0dud0CrvIAPkarUm3Yw0?=
+ =?us-ascii?Q?CdnDZtLThu1tESE4Y6nntkfwrHlf+apxzPj7Sa6E8OJkVOqtNzZsO/kt9U+p?=
+ =?us-ascii?Q?WOOwXgxH1c5xjsph1dpK3OvUUpVMea6oEgkrsYiBQ2UVhfhGW+bdOrQ8NLtO?=
+ =?us-ascii?Q?JamCPPfBLe3NASLDf7Xn+vpbJHOgO9PmGnxirnyDOCAchQ4YCfTAGmSV1vnz?=
+ =?us-ascii?Q?qNC19r9jCtNNNNwq6gaXqrLStkqu2eiIXrFELCah6mAcue0umo4ud4cfs9Ku?=
+ =?us-ascii?Q?OTbALvJXFkm+L+Ulq1dDbcouBrHGV17mpmY7IE3erB7CfImfheR8oX+e2IdI?=
+ =?us-ascii?Q?M74xAL3JJ1X/O1EyhVgQRKeLbZQBEoSCWE63s+H29GjWRrRmZiuRmHt30iMC?=
+ =?us-ascii?Q?s+HgyNHtl9wQpOmr5kok/l+DkABfKlwCPxZJ2sBojMKmY8clABXhYtPqHmyW?=
+ =?us-ascii?Q?4sJtgNHli1VvWV9hBoaEkDd6C73qRdL045LN0ROMr7MiUEwMNZz8+IE03gpF?=
+ =?us-ascii?Q?3tRfuBzZzo0wRaq5+8LQHMZEmgsAqSclGUl2d1J4O9ICuWqXsYEFBhChlvTe?=
+ =?us-ascii?Q?Y8OugfOagC4tnFrpYNaqsn22NOn/RcBU2zvYOTsN8TjiC9IyBbYeQtpdn+n5?=
+ =?us-ascii?Q?DQjp5iGC0+J0syPleFIGjANPyNbQonIjwM30flLlM/nXl1sDIgSEX66szVx3?=
+ =?us-ascii?Q?+Rq0zNUcQ1y17gNMJDhdmzsBUdrb3M0vZOBxfmtAKGqa4CHFRt5NdzZEHhuo?=
+ =?us-ascii?Q?E2IQIILOPUkgr2GXyVU+YogdeNzE2w8W6wVbLuSR4IPcEqpoBJgrZG32D6zd?=
+ =?us-ascii?Q?DJDih6WnJIOeMtq/3GuH6/9RvyjwR1LAJPMV5hpIFsqDVj6OzXZnKl+mVhWS?=
+ =?us-ascii?Q?cevr0r1y6lZPTVRMXoU1R/5CnVSZ31kkjICO4a4I0GPxtWNXpS4hC7BZbpOz?=
+ =?us-ascii?Q?DA=3D=3D?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87e51919-53af-4fc6-0ee7-08de30f2e3ff
+X-MS-Exchange-CrossTenant-AuthSource: LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 16:01:29.9920 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rSBYlATzlV0k8QEuECqafBYn5mtP2v+zqpTk5UNMbi/XIC3rBwrLDIl+trrx/+WBoVu3zRtye6HWBCKlvan8CA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB2990
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,153 +171,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uma,
+On Mon, 17 Nov 2025 10:07:57 +0000
+Oliver Mangold <oliver.mangold@pm.me> wrote:
 
-kernel test robot noticed the following build errors:
+> `AlwaysRefCounted` will become a marker trait to indicate that it is
+> allowed to obtain an `ARef<T>` from a `&T`, which cannot be allowed for
+> types which are also Ownable.
 
-[auto build test ERROR on next-20251201]
-[also build test ERROR on linus/master v6.18]
-[cannot apply to drm-xe/drm-xe-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.18 v6.18-rc7 v6.18-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The message needs a rationale for making the change rather than relying
+on the reader to deduce so.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245
-base:   next-20251201
-patch link:    https://lore.kernel.org/r/20251201064655.3579280-5-uma.shankar%40intel.com
-patch subject: [v7 04/15] drm/i915/color: Create a transfer function color pipeline
-config: i386-buildonly-randconfig-006-20251201 (https://download.01.org/0day-ci/archive/20251201/202512012314.C2mdxzIy-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512012314.C2mdxzIy-lkp@intel.com/reproduce)
+For example:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512012314.C2mdxzIy-lkp@intel.com/
+	There are types where it may both be referenced counted in some
+	cases and owned in other. In such cases, obtaining `ARef<T>`
+	from `&T` would be unsound as it allows creation of `ARef<T>`
+	copy from `&Owned<T>`.
 
-All errors (new ones prefixed by >>):
+	Therefore, we split `AlwaysRefCounted` into `RefCounted` (which
+	`ARef<T>` would require) and a marker trait to indicate that
+	the type is always reference counted (and not `Ownable`) so the
+	`&T` -> `ARef<T>` conversion is possible.
 
-   In file included from drivers/gpu/drm/i915/display/intel_colorop.h:9,
-                    from drivers/gpu/drm/i915/display/intel_color_pipeline.c:5:
-   drivers/gpu/drm/i915/display/intel_display_types.h:1989:28: error: field 'base' has incomplete type
-    1989 |         struct drm_colorop base;
-         |                            ^~~~
-   drivers/gpu/drm/i915/display/intel_color_pipeline.c: In function '_intel_color_pipeline_plane_init':
->> drivers/gpu/drm/i915/display/intel_color_pipeline.c:25:15: error: implicit declaration of function 'drm_plane_colorop_curve_1d_lut_init' [-Wimplicit-function-declaration]
-      25 |         ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/i915/display/intel_color_pipeline.c:27:51: error: 'DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR' undeclared (first use in this function)
-      27 |                                                   DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_color_pipeline.c:27:51: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/gpu/drm/i915/display/intel_color_pipeline.c:28:51: error: 'DRM_COLOROP_FLAG_ALLOW_BYPASS' undeclared (first use in this function)
-      28 |                                                   DRM_COLOROP_FLAG_ALLOW_BYPASS);
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/i915/display/intel_color_pipeline.c:40:15: error: implicit declaration of function 'drm_plane_colorop_ctm_3x4_init' [-Wimplicit-function-declaration]
-      40 |         ret = drm_plane_colorop_ctm_3x4_init(dev, &colorop->base, plane,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/i915/display/intel_color_pipeline.c:45:9: error: implicit declaration of function 'drm_colorop_set_next_property'; did you mean 'drm_connector_set_tile_property'? [-Wimplicit-function-declaration]
-      45 |         drm_colorop_set_next_property(prev_op, &colorop->base);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         drm_connector_set_tile_property
-   drivers/gpu/drm/i915/display/intel_color_pipeline.c: In function 'intel_color_pipeline_plane_init':
->> drivers/gpu/drm/i915/display/intel_color_pipeline.c:92:16: error: 'struct drm_plane' has no member named 'color_pipeline_property'; did you mean 'color_encoding_property'?
-      92 |         plane->color_pipeline_property = prop;
-         |                ^~~~~~~~~~~~~~~~~~~~~~~
-         |                color_encoding_property
+Best,
+Gary
 
-
-vim +/drm_plane_colorop_curve_1d_lut_init +25 drivers/gpu/drm/i915/display/intel_color_pipeline.c
-
-   > 5	#include "intel_colorop.h"
-     6	#include "intel_color_pipeline.h"
-     7	#include "intel_de.h"
-     8	#include "intel_display_types.h"
-     9	#include "skl_universal_plane.h"
-    10	
-    11	#define MAX_COLOR_PIPELINES 2
-    12	#define PLANE_DEGAMMA_SIZE 128
-    13	#define PLANE_GAMMA_SIZE 32
-    14	
-    15	static
-    16	int _intel_color_pipeline_plane_init(struct drm_plane *plane, struct drm_prop_enum_list *list)
-    17	{
-    18		struct intel_colorop *colorop;
-    19		struct drm_device *dev = plane->dev;
-    20		int ret;
-    21		struct drm_colorop *prev_op;
-    22	
-    23		colorop = intel_colorop_create(INTEL_PLANE_CB_PRE_CSC_LUT);
-    24	
-  > 25		ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane,
-    26							  PLANE_DEGAMMA_SIZE,
-  > 27							  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
-  > 28							  DRM_COLOROP_FLAG_ALLOW_BYPASS);
-    29	
-    30		if (ret)
-    31			return ret;
-    32	
-    33		list->type = colorop->base.base.id;
-    34		list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", colorop->base.base.id);
-    35	
-    36		/* TODO: handle failures and clean up */
-    37		prev_op = &colorop->base;
-    38	
-    39		colorop = intel_colorop_create(INTEL_PLANE_CB_CSC);
-  > 40		ret = drm_plane_colorop_ctm_3x4_init(dev, &colorop->base, plane,
-    41						     DRM_COLOROP_FLAG_ALLOW_BYPASS);
-    42		if (ret)
-    43			return ret;
-    44	
-  > 45		drm_colorop_set_next_property(prev_op, &colorop->base);
-    46		prev_op = &colorop->base;
-    47	
-    48		colorop = intel_colorop_create(INTEL_PLANE_CB_POST_CSC_LUT);
-    49		ret = drm_plane_colorop_curve_1d_lut_init(dev, &colorop->base, plane,
-    50							  PLANE_GAMMA_SIZE,
-    51							  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
-    52							  DRM_COLOROP_FLAG_ALLOW_BYPASS);
-    53		if (ret)
-    54			return ret;
-    55	
-    56		drm_colorop_set_next_property(prev_op, &colorop->base);
-    57	
-    58		return 0;
-    59	}
-    60	
-    61	int intel_color_pipeline_plane_init(struct drm_plane *plane)
-    62	{
-    63		struct drm_device *dev = plane->dev;
-    64		struct intel_display *display = to_intel_display(dev);
-    65		struct drm_property *prop;
-    66		struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES];
-    67		int len = 0;
-    68		int ret;
-    69	
-    70		/* Currently expose pipeline only for HDR planes */
-    71		if (!icl_is_hdr_plane(display, to_intel_plane(plane)->id))
-    72			return 0;
-    73	
-    74		/* Add "Bypass" (i.e. NULL) pipeline */
-    75		pipelines[len].type = 0;
-    76		pipelines[len].name = "Bypass";
-    77		len++;
-    78	
-    79		/* Add pipeline consisting of transfer functions */
-    80		ret = _intel_color_pipeline_plane_init(plane, &pipelines[len]);
-    81		if (ret)
-    82			return ret;
-    83		len++;
-    84	
-    85		/* Create COLOR_PIPELINE property and attach */
-    86		prop = drm_property_create_enum(dev, DRM_MODE_PROP_ATOMIC,
-    87						"COLOR_PIPELINE",
-    88						pipelines, len);
-    89		if (!prop)
-    90			return -ENOMEM;
-    91	
-  > 92		plane->color_pipeline_property = prop;
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Signed-off-by: Oliver Mangold <oliver.mangold@pm.me>
+> Co-developed-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Signed-off-by: Andreas Hindborg <a.hindborg@kernel.org>
+> Suggested-by: Alice Ryhl <aliceryhl@google.com>
+> ---
+>  rust/kernel/auxiliary.rs        |  7 +++++-
+>  rust/kernel/block/mq/request.rs | 15 +++++++------
+>  rust/kernel/cred.rs             | 13 ++++++++++--
+>  rust/kernel/device.rs           | 13 ++++++++----
+>  rust/kernel/device/property.rs  |  7 +++++-
+>  rust/kernel/drm/device.rs       | 10 ++++++---
+>  rust/kernel/drm/gem/mod.rs      | 10 ++++++---
+>  rust/kernel/fs/file.rs          | 16 ++++++++++----
+>  rust/kernel/mm.rs               | 15 +++++++++----
+>  rust/kernel/mm/mmput_async.rs   |  9 ++++++--
+>  rust/kernel/opp.rs              | 10 ++++++---
+>  rust/kernel/owned.rs            |  2 +-
+>  rust/kernel/pci.rs              | 10 ++++++---
+>  rust/kernel/pid_namespace.rs    | 12 +++++++++--
+>  rust/kernel/platform.rs         |  7 +++++-
+>  rust/kernel/sync/aref.rs        | 47 ++++++++++++++++++++++++++---------------
+>  rust/kernel/task.rs             | 10 ++++++---
+>  rust/kernel/types.rs            |  2 +-
+>  18 files changed, 154 insertions(+), 61 deletions(-)
