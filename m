@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9EF6C96BB0
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 11:50:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC52C96BBC
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 11:51:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10D8110E384;
-	Mon,  1 Dec 2025 10:50:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D1DB10E38A;
+	Mon,  1 Dec 2025 10:50:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nriw1m3h";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rLTAWzYx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3146610E384;
- Mon,  1 Dec 2025 10:50:51 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 576ED10E38D;
+ Mon,  1 Dec 2025 10:50:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id DFC8E4080E;
- Mon,  1 Dec 2025 10:50:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B218C4CEF1;
- Mon,  1 Dec 2025 10:50:45 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id CAF2B60137;
+ Mon,  1 Dec 2025 10:50:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E334C113D0;
+ Mon,  1 Dec 2025 10:50:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764586250;
- bh=nBUlplmOKh9m9ly7/GmxFt4mHujNHh6V7/MgT8pL33Q=;
+ s=k20201202; t=1764586256;
+ bh=psV3AjFMvx+hXzUq9J8i739SH64kLqL5g0LrFSRpUkM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nriw1m3ha4OTMH/XMePE3kBvGPVChGJ8qPbWQ39WnGIxGjLjrkiW7TjT+SYIlx5KI
- gxMIADDj5J1EO+GsWRp+mXIlg5q2Yz6mcXTK9wu8RFTGHd4AtDnUXXmA5jIDDwsV+c
- nOWkPuHG4o3RGGIB/mOLL8htcaUQATnjDvBAaeA4hiUYFKMVMQEFBC4UgXOeJ7uFAY
- 812WELGcmLbETDKsQkPI+jZT9h2aWiY1jBB+aSWrplQKrujJkdDS9UYGVJ4vqpr6rx
- uGgxxJ2stgT6/76F+u6muDqBxIaGHOKBg6+avfXm6HZQJg2P1oACiNANVb+HoR5H/+
- A34XQiNOAJH6Q==
+ b=rLTAWzYx6rzjm5FOB1qQRsnqmGx9jZme2PkpQdPQ5Gk9SYiCeR3uqyFWB/ecKz80T
+ dFkAKaEmVUAj/yOX/dJf22/kQnshwBsC3eedsv1wk5Ojj1vQnEi6rZqpRTA3Ufntdr
+ P7OmsO/ICoEgrwsStpB/dILe4tLxYKj5JGeQQT1jXrkaLHVbmo6FhS1377mQIm2awY
+ 2ptlOGK6moAeJgfunx/ryXcHzUc0TXM8v0mN+koe4xQcIdrOVPAouclixrhcHNccdv
+ rXFXI0ABcANLgSdbNSwCebdfb7OA2BZE4GhcD9eWrQt8VoUQLnNNo0O1ZvzdLUMnUl
+ YmmkPTZeKOJ1A==
 From: Philipp Stanner <phasta@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>,
  Gustavo Padovan <gustavo@padovan.org>,
@@ -51,13 +51,14 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v2 4/8] drm/xe: Use dma_fence_check_and_signal_locked()
-Date: Mon,  1 Dec 2025 11:50:08 +0100
-Message-ID: <20251201105011.19386-6-phasta@kernel.org>
+Subject: [PATCH v2 5/8] dma-buf: Don't misuse dma_fence_signal()
+Date: Mon,  1 Dec 2025 11:50:09 +0100
+Message-ID: <20251201105011.19386-7-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251201105011.19386-2-phasta@kernel.org>
 References: <20251201105011.19386-2-phasta@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -74,44 +75,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Xe is one of the few users utilizing the return code of
-dma_fence_signal() to check whether a fence had already been signaled by
-someone else.
+The return code of dma_fence_signal() is not really useful as there is
+nothing reasonable to do if a fence was already signaled. That return
+code shall be removed from the kernel.
 
-To clean up and simplify the dma_fence API, the few kernel users relying
-on that behavior shall be ported to an alternative function.
+Moreover, dma_fence_signal() should not be used to check whether fences
+are signaled. That's what dma_fence_is_signaled() and
+dma_fence_test_signaled_flag() exist for.
 
-Replace dma_fence_signal_locked() with
-dma_fence_check_and_signal_locked().
+Replace the non-canonical usage of dma_fence_signal().
 
+Suggested-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/xe/xe_hw_fence.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/dma-buf/st-dma-fence.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
-index b2a0c46dfcd4..f6057456e460 100644
---- a/drivers/gpu/drm/xe/xe_hw_fence.c
-+++ b/drivers/gpu/drm/xe/xe_hw_fence.c
-@@ -85,7 +85,6 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
- {
- 	struct xe_hw_fence *fence, *next;
- 	unsigned long flags;
--	int err;
- 	bool tmp;
+diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
+index 27a36045410b..4dbe39c58bfb 100644
+--- a/drivers/dma-buf/st-dma-fence.c
++++ b/drivers/dma-buf/st-dma-fence.c
+@@ -126,7 +126,7 @@ static int test_signaling(void *arg)
+ 		goto err_free;
+ 	}
  
- 	if (XE_WARN_ON(!list_empty(&irq->pending))) {
-@@ -93,9 +92,8 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
- 		spin_lock_irqsave(&irq->lock, flags);
- 		list_for_each_entry_safe(fence, next, &irq->pending, irq_link) {
- 			list_del_init(&fence->irq_link);
--			err = dma_fence_signal_locked(&fence->dma);
-+			XE_WARN_ON(dma_fence_check_and_signal_locked(&fence->dma));
- 			dma_fence_put(&fence->dma);
--			XE_WARN_ON(err);
- 		}
- 		spin_unlock_irqrestore(&irq->lock, flags);
- 		dma_fence_end_signalling(tmp);
+-	if (dma_fence_signal(f)) {
++	if (dma_fence_check_and_signal(f)) {
+ 		pr_err("Fence reported being already signaled\n");
+ 		goto err_free;
+ 	}
+@@ -136,7 +136,7 @@ static int test_signaling(void *arg)
+ 		goto err_free;
+ 	}
+ 
+-	if (!dma_fence_signal(f)) {
++	if (!dma_fence_test_signaled_flag(f)) {
+ 		pr_err("Fence reported not being already signaled\n");
+ 		goto err_free;
+ 	}
 -- 
 2.49.0
 
