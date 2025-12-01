@@ -2,144 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEED9C965AB
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 10:20:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD638C965B1
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 10:21:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04B4B10E22E;
-	Mon,  1 Dec 2025 09:20:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15FEF10E307;
+	Mon,  1 Dec 2025 09:21:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="ASxw0RCW";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="g0/fBod+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CO1PR03CU002.outbound.protection.outlook.com
- (mail-westus2azon11010025.outbound.protection.outlook.com [52.101.46.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93BE310E22E
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 09:20:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r6xqZRR+w+GAwhLs8Lbv3YRATScMrklc1sjayuihT7gcIpHwGCvuySmldNCndTQwqYn+e+4sUvBKzKzcTXKIKXC/HCuVTO/P3Vwr/E8Y9aIMIEKK1e4D0ahEU7uE9C3MUl4tU7W0ekzXDA3ADh84niOA/CjFVnLV17iaeufx2nkGLe5EppSBFj6PPtB69tTcjKLBIhtsaZ8Ib99F6ZIZ1+XgyEnm3la27qJshGhz8ECVWeqMy247fw0I9mGPP057w5+obcz65ujSSkYZ6CG6wFMjUjEBJdoUr3X0tGXXOWqRPpQIybDfEErtQ2lcEmFWnxrLPT66Y+qgH23yBYDxDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s8mPR5CRXGdC+GCT3JS8pnbhb5XGaHg0GwzpaasRb4M=;
- b=FFR95bCWECLPTagcxd6D4fiK+Vx5F+Xi+Inp3vSOgjBYCt5/xSh3jjorCQBwNW79n+t5dY+4rQJD+uJhlDAezo0RGaperTFXmHVQcYGP0ZuwLqZpRGe+GvpO094QlTD8hxRczDrDU88sG85SjLWqCVBHgwTT0G1cRFxVEA+wn4ixpq3Xz2WVL7hd0R67/yRIDutGcrHVo7PtIg9XgVSK003dWoGqlI4/XxCiqcJFNHLis7ggqQNYzeODKJ6P2/eV8YZYj8CXukefbdy9C2XL7D66ELSqYvA+BjX9AxXftsRIlOHIXEQ56HsS3eoQEWr4GKrvJPIOKLm8UiIEXLTacg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=linaro.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s8mPR5CRXGdC+GCT3JS8pnbhb5XGaHg0GwzpaasRb4M=;
- b=ASxw0RCW9gtBNBCk5D0enBoPiGFCRdJ6yFzOxE+ziZ3T+3uXwrSXRBn3j9+mS9LCb1oF9qGZm0hmsGvbHnISmTzJDNVZaH+jAmF8K97U3w9GCcKCIVJUfIahiOKIUa7ZwhQfuIJW9kXQ/afuYB5uO+/DtPL4ELNNXqHN1mZcrt9PIHIop/KmTFcnQsDqf9i+Y7GtxAgALzxG4u4WJ6id5iqG6THSHY14V+BOh1WdlIVidTw011KmfX/kWVQjeE8srG5hX7TqfYAmJTNLGC6wpMojGt24/eBm9ybzLCchZAHzqup/j7D7/C4vEQKCZF3JB4bZUSsM6SWinkKxj17yqA==
-Received: from PH7PR10CA0011.namprd10.prod.outlook.com (2603:10b6:510:23d::12)
- by MN2PR12MB4095.namprd12.prod.outlook.com (2603:10b6:208:1d1::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
- 2025 09:20:52 +0000
-Received: from CO1PEPF000044F6.namprd21.prod.outlook.com
- (2603:10b6:510:23d:cafe::2f) by PH7PR10CA0011.outlook.office365.com
- (2603:10b6:510:23d::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.17 via Frontend Transport; Mon,
- 1 Dec 2025 09:20:45 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CO1PEPF000044F6.mail.protection.outlook.com (10.167.241.196) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.0 via Frontend Transport; Mon, 1 Dec 2025 09:20:51 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 1 Dec
- 2025 01:20:26 -0800
-Received: from [10.221.129.205] (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 1 Dec
- 2025 01:20:23 -0800
-Message-ID: <f00bdc19-58cd-45a6-a57d-7b7612197c71@nvidia.com>
-Date: Mon, 1 Dec 2025 10:20:21 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F7BD10E307
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 09:21:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ZEpeFCNjSViWNaBjz3AGfgUjpoXhCnu8p9s9NErzONg=; b=g0/fBod+wC1N3fTjSFEvwYcScV
+ O+B6XHTFRXj0U1aZrbacgUbeC9J6UyI8lywvdBQ6PX3tD+/jvlK8U3H4/3lAp0bgFC8MbbAjXhOkB
+ wkqezPRZTBiKdUKi1m6Z/JuwZ0CWNYYmRDGxynNaIkpq2jRd29uFlW4plAHZ6a79jq/cuIgYjXkYB
+ pzqKpOLIIyC7iOLsHj0+7I8y2HSLn6xf/OeXCekhiLNaJjlmwug7QGlgjyBxR5iSZ+5s01G1fP+PO
+ SbkKfdS1MwNvMGwv/K3SrbLOvep7cpawl+EqsgsRFauTUg1h5/8+hgffitGJSszdnqVBqEJUnrcPC
+ /Ktr45DQ==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vQ05b-007Jba-DE; Mon, 01 Dec 2025 10:20:59 +0100
+Message-ID: <b146fb1b-80e9-403c-acd1-b50ef1aaa646@igalia.com>
+Date: Mon, 1 Dec 2025 09:20:58 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: heaps: Clear CMA pages with clear_page()
-To: Linus Walleij <linus.walleij@linaro.org>, Sumit Semwal
- <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-CC: <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>
-References: <20251130-dma-buf-heap-clear-page-v1-1-a8dcea2a88ee@linaro.org>
-Content-Language: en-US
-From: Nirmoy Das <nirmoyd@nvidia.com>
-In-Reply-To: <20251130-dma-buf-heap-clear-page-v1-1-a8dcea2a88ee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.126.231.35]
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F6:EE_|MN2PR12MB4095:EE_
-X-MS-Office365-Filtering-Correlation-Id: 31a4a39b-3955-4bb5-e315-08de30baebe1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|82310400026|7416014|376014|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?emtLQmV6dUhYZWl6QmVqU2dtREtCcVpnbGs5VGpYV0xqcHZXYjhnSnAwdk90?=
- =?utf-8?B?Wm11YlV6bHdLYTh6MlBxb3d5UFUxcFNPejBIaE1RUkU5eFU2blhleWM4Nmxk?=
- =?utf-8?B?eFY1YmVnWmdNZk1rR1RWbzRqLzlTbjhETzdubEppazF2RmFoOHFOT0Zid1VD?=
- =?utf-8?B?czJUK3cxWmk1WkU0NXIyUmVNajFJbGFnUVFXaW5qdmhtN2o4L2t4Yzl3cmY5?=
- =?utf-8?B?dk9rT2VyN2hWeWxkSFhBOWdwZjI4R0hjRHoxWTMwWTEvL0lEZDh1ZVRIbDZ3?=
- =?utf-8?B?QXRCellGQkU0ckRWRmlheHVhWXlLbk1icjNudkpobStRS213Y0lHRm1XWHpa?=
- =?utf-8?B?eUMvQjNXMk1vYWRHVTBERHNzbmJzcXJXaG5ZQ3ltN0Zub0FaVjQrZUhJS3FY?=
- =?utf-8?B?RzFpZU1FY2N3VVpNVDdZeHgvdVpRSVd5U2JVYnJlRE9nZFozZkZBZHJhTjBr?=
- =?utf-8?B?TnN2YnVDRC9SSXVMaFJRQmhDaVBWRlcwcUhLV09QSkljQzFMR0F3ekxXYU5M?=
- =?utf-8?B?STVLV0JhcVo2SXRPSXdyYzBGLzJvSDVIeksvT1p3cUpHQlA3QUMzdXl4YWxu?=
- =?utf-8?B?d2ZYT2xNd3lPWGkvQlgxc1BSNnBMQjFwS2hQL3lsNVdXbmlTSjFMS3pkNmVV?=
- =?utf-8?B?b0pBN2NCR1RSelowMlVBbXdGa05zdC9obFQ1MUY0eTZicEw0ZTQrNDFZUmJI?=
- =?utf-8?B?V05abkNueEtQYW9vaVVaeVV3QjlTVjdEcFlBcWlpSThXZGFxa1JzamR6NTJM?=
- =?utf-8?B?SHphNnFRcjhneEJwZmVZWTB1UnZUQ2U5elUwbXZWbmVZSnY2Y3JEZkNDRzVz?=
- =?utf-8?B?cXAwRkNQN1kvR0VtWTBTeDRSeC8vMW1jLzBnaEtsZWRRa2dXQkloRUhSSDdS?=
- =?utf-8?B?SzR1QzExc0JONFQxc1laREVScFVTVVdQcksxekRBVlJocVZpT1hBUllhdk1C?=
- =?utf-8?B?b20xK0RiVWozRWw5R0I4VkJsNlNuVXR3V005bForYm5QalRwcDhBbGRwbFdD?=
- =?utf-8?B?dFlYK2QvbDFzVlVKSGJTdHpMMUNpSDRmd0VqSm81c0wweGpzb2JmUndqSmZS?=
- =?utf-8?B?ZUp4d0ZLWkhaL0hYK01KOFZ6dFRtMUtRSzhEYXdDRDc4cXlNYmR2SCtKQkwx?=
- =?utf-8?B?T2R0enNjTDN5RFdBcGlYcjJpQkJqbzNiemlWOCsyUXVrU3ZJdXN4dkFXL2Ra?=
- =?utf-8?B?ZDVWU3k3QXFpRnIxZFpOZmQ5bHNqWCszcVA4SzN4blVSL2NocDlCVUxiUjI2?=
- =?utf-8?B?VHI1aFJ5VG05Sm1pVDhSUWNRN2RaN0lWSVc5R0NTdDV6bm5VaExJUS8vaUxH?=
- =?utf-8?B?TmQ3ZWhBMTZ1MXhSUi9lR1lhMG5CbkZ1UDV4K2FCVStUU1BiZHJBVXVIblcw?=
- =?utf-8?B?UmpJaVhQWUExTTZQL0hYcHFZeFFGcVJGTFAyRTJYQWQxdkJGbEtscjJsM1JQ?=
- =?utf-8?B?Qk9jOHVkWkJQOURsdDRzL1UzOG92dXEzV25raUlpcjBJUEpFdUVxQU50R0NK?=
- =?utf-8?B?SGxMQlpORU1DcGJaSlBHMTlydnFQN3F0SzJrVmgyRWtZcHR4aXVRY1NXMjNH?=
- =?utf-8?B?TnJkZ3RVOHR0MDlNRFcvUS9HS3UzU1drOEdaejVvTmlJRXI2Zml3VTA5K0Q4?=
- =?utf-8?B?NWR3VlBsY0JaUncxSVIwdXNiTWFpMGZCUDl4ZzdJY2JOWlBGcjNhb3pUNUY4?=
- =?utf-8?B?Zm4vS2RxMVJROTNrb3pyT3VWcUpJSER4WWJ3RXJlR2lFa1U4VlArcXFDSm1F?=
- =?utf-8?B?QWRUdEhZMGxHYk9FSzJjcHE4WHVmSkxidGN4a2pGMjhGMHd6SnAzaWNOclZ4?=
- =?utf-8?B?VEgvWGpNaTBwUUc1NklYZjBDb2ZtSWYyVEZsQ1BpSnJvVE44TFNxUmJnQkNF?=
- =?utf-8?B?bWRnVEsvVk53eWpFYkNycFB3MXlTcVBHS1pnMXlyNExpN1FNK21WaTRRc0pE?=
- =?utf-8?B?SVdzemdvZDBUekIvZjBIdkcvK0NzYWFuK1VJb1lBZURvSW1VNmhJdFphTitn?=
- =?utf-8?B?YTlGaVRXRU9yc3RaanB4Q3ZDNEdQd250ZU1CQ20xd1Z5L2NnK1J2V1lsZjVW?=
- =?utf-8?B?SFppN3c3d2NZSE1aMWo4bk5TKzBhakltbUl4MnJMZkxiSVVqNmJ1QzRtN3d2?=
- =?utf-8?Q?GNMM=3D?=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
- SFS:(13230040)(36860700013)(82310400026)(7416014)(376014)(1800799024)(7053199007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 09:20:51.1791 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31a4a39b-3955-4bb5-e315-08de30baebe1
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F6.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4095
+Subject: Re: [RFX] efi: sysfb_efi: Fix simpledrmfb on Steam Deck
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Javier Martinez Canillas <javierm@redhat.com>,
+ Ard Biesheuvel <ardb@kernel.org>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Melissa Wen <mwen@igalia.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, linux-efi@vger.kernel.org
+References: <20251128150403.11567-1-tvrtko.ursulin@igalia.com>
+ <ce41c2d1-c659-4632-8469-761762202800@suse.de>
+ <660c5469-086f-40b4-99f1-72c1bc613ece@igalia.com>
+ <1df5a480-2510-43b9-9d79-51d842518036@suse.de>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <1df5a480-2510-43b9-9d79-51d842518036@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,34 +68,243 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 30.11.25 11:54, Linus Walleij wrote:
-> clear_page() translates into memset(*p, 0, PAGE_SIZE) on some
-> architectures, but on the major architectures it will call
-> an optimized assembly snippet so use this instead of open
-> coding a memset().
->
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Nirmoy Das <nirmoyd@nvidia.com>
-> ---
->   drivers/dma-buf/heaps/cma_heap.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-> index 0df007111975..9eaff80050f2 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -315,7 +315,7 @@ static struct dma_buf *cma_heap_allocate(struct dma_heap *heap,
->   		while (nr_clear_pages > 0) {
->   			void *vaddr = kmap_local_page(page);
->   
-> -			memset(vaddr, 0, PAGE_SIZE);
-> +			clear_page(vaddr);
->   			kunmap_local(vaddr);
->   			/*
->   			 * Avoid wasting time zeroing memory if the process
->
-> ---
-> base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-> change-id: 20251129-dma-buf-heap-clear-page-248bb236e4c4
->
-> Best regards,
+On 01/12/2025 07:32, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 29.11.25 um 11:44 schrieb Tvrtko Ursulin:
+>>
+>> On 28/11/2025 17:07, Thomas Zimmermann wrote:
+>>> Hi,
+>>>
+>>> thanks for the bug report
+>>>
+>>> Am 28.11.25 um 16:04 schrieb Tvrtko Ursulin:
+>>>> I am not sure how is simpledrmfb on top of EFI supposed to work, but at
+>>>> least at the moment it appears there is a missing link in the 
+>>>> "discovery"
+>>>> of frame buffer parameters.
+>>>>
+>>>> What I can see is that EFI GOP reads some parameters from the 
+>>>> firmware and
+>>>> infers the other, such as in this case problematic pitch, or stride.
+>>>
+>>> The pitch/stride value comes from the firmware via 
+>>> pixels_per_scanline [1].
+>>>
+>>> Can you verify that this value is really 800 instead of 832 (eq 3328 
+>>> bytes) ?
+>>>
+>>> [1] https://elixir.bootlin.com/linux/v6.17.9/source/drivers/firmware/ 
+>>> efi/libstub/gop.c#L493
+>>
+>> I actually got confused a bit in following the flow so thank you for 
+>> asking me to double check.
+>>
+>> GOP actually reports 1280x800 with a stride of 5120. So it kind of 
+>> reports a rotated view already, kind of.
+> 
+> These are correct values.
+> 
+> But the stream deck is this device: [1], right? It uses landscape-mode 
+> orientation. Why does it require rotation at all?
+> 
+> [1] https://de.wikipedia.org/wiki/Steam_Deck#/media/ 
+> Datei:Steam_Deck_(front).png
+
+That's the device yes. For the user the screen is landscape, but the 
+actual panel is 800x1280 portrait. Left edge is top of the display. 
+(Hence the pre-existing entry in drm_get_panel_orientation_quirk.)
+>> Only when the rotation quirk from efifb_dmi_swap_width_height triggers 
+>> the stride gets incorrectly recalculated:
+>>
+>>         u16 temp = screen_info.lfb_width;
+>>
+>>         screen_info.lfb_width = screen_info.lfb_height;
+>>         screen_info.lfb_height = temp;
+>>         screen_info.lfb_linelength = 4 * screen_info.lfb_width;
+>>
+>> So this is where things go wrong, well, they actually go wrong a 
+>> little bit even earlier, in gop.c:
+>>
+>>     si->lfb_size = si->lfb_linelength * si->lfb_height;
+>>
+>> Which potentially underestimates the fb size. If GOP was forward 
+>> looking enough to give us the size we could derive the pitch based on 
+>> size..
+>>
+>> Anyway, as it stands it looks a quirk in sysfb_apply_efi_quirks looks 
+>> it is required to fix it all up.
+>>
+>> I am a bit uneasy about declaring the fb size larger than what was 
+>> implied by firmware provided pitch * height * depth but limited to a 
+>> specific DMI match and if it looks visually okay I think it is a safe 
+>> assumption the quirked size is actually correct and safe.
+> 
+> Yeah, we better not do that.
+You mean declare it a firmware bug and live with the corrupt console 
+until the final fb driver takes over?
+
+Regards,
+
+Tvrtko
+
+>>>> One could be easily excused in thinking that pitch cannot be reliably
+>>>> inferred, since different display hardware has differing alignment
+>>>> requirements, so it is unclear how is hardware agnostic solution 
+>>>> supposed
+>>>> to work.
+>>>>
+>>>> In the specific case of the Steam Deck hardware we have a 800x1280 
+>>>> native
+>>>> panel which is also installed rotated 90 degrees counter clockwise.
+>>>>
+>>>> Firmware appears to set up the pitch as 3328, while GOP assumes 3200,
+>>>> based of a width * bpp calculation.
+>>>
+>>> 832 is a multiple of 64, while 800 is not. I've seen this over- 
+>>> allocation in other context as well.
+>>>
+>>>>
+>>>> When this incorrect pitch propagates through (rather complicated) fbcon
+>>>> and DRM call paths, the end result is corrupted rendering all until the
+>>>> amdgpu takes over the fbdev.
+>>>>
+>>>> Simplistic solution in this patch is to add a DMI quirk to the EFI
+>>>> frame buffer setup code.
+>>>>
+>>>> Apart from the incorrect pitch, the quirk also does the swapping of the
+>>>> width and height. Apart from setting the correct fbcon dimensions this
+>>>> one also allows the quirk from drm_get_panel_orientation_quirk() to
+>>>> report the correct orientation.
+>>>
+>>> Nice
+>>>
+>>>>
+>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> Cc: Javier Martinez Canillas <javierm@redhat.com>
+>>>> Cc: Ard Biesheuvel <ardb@kernel.org>
+>>>> Cc: Alex Deucher <alexander.deucher@amd.com>
+>>>> Cc: "Christian König" <christian.koenig@amd.com>
+>>>> Cc: Melissa Wen <mwen@igalia.com>
+>>>> Cc: Rodrigo Siqueira <siqueira@igalia.com>
+>>>> Cc: Mario Limonciello <mario.limonciello@amd.com>
+>>>> Cc: linux-efi@vger.kernel.org
+>>>> ---
+>>>>   drivers/firmware/efi/sysfb_efi.c | 48 ++++++++++++++++++++++++++++ 
+>>>> ++--
+>>>>   1 file changed, 46 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/firmware/efi/sysfb_efi.c b/drivers/firmware/ 
+>>>> efi/ sysfb_efi.c
+>>>> index 1e509595ac03..84d9049bb2cb 100644
+>>>> --- a/drivers/firmware/efi/sysfb_efi.c
+>>>> +++ b/drivers/firmware/efi/sysfb_efi.c
+>>>> @@ -231,6 +231,18 @@ static const struct dmi_system_id 
+>>>> efifb_dmi_system_table[] __initconst = {
+>>>>       {},
+>>>>   };
+>>>> +struct efifb_mode_fixup {
+>>>> +    unsigned int width;
+>>>> +    unsigned int height;
+>>>> +    unsigned int pitch;
+>>>> +};
+>>>> +
+>>>> +static const struct efifb_mode_fixup efifb_steamdeck_mode_fixup = {
+>>>> +    .width = 1280,
+>>>> +    .height = 800,
+>>>> +    .pitch = 3328,
+>>>> +};
+>>>> +
+>>>>   /*
+>>>>    * Some devices have a portrait LCD but advertise a landscape 
+>>>> resolution (and
+>>>>    * pitch). We simply swap width and height for these devices so 
+>>>> that we can
+>>>> @@ -281,6 +293,24 @@ static const struct dmi_system_id 
+>>>> efifb_dmi_swap_width_height[] __initconst = {
+>>>>               DMI_MATCH(DMI_PRODUCT_NAME, "Lenovo YB1-X91"),
+>>>>           },
+>>>>       },
+>>>> +    {
+>>>> +        /* Valve Steam Deck (Jupiter) */
+>>>> +        .matches = {
+>>>> +            DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
+>>>> +            DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
+>>>> +            DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
+>>>> +        },
+>>>> +        .driver_data = (void *)&efifb_steamdeck_mode_fixup,
+>>>> +    },
+>>>> +    {
+>>>> +        /* Valve Steam Deck (Galileo) */
+>>>> +        .matches = {
+>>>> +            DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
+>>>> +            DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Galileo"),
+>>>> +            DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
+>>>> +        },
+>>>> +        .driver_data = (void *)&efifb_steamdeck_mode_fixup,
+>>>> +    },
+>>>>       {},
+>>>>   };
+>>>> @@ -351,17 +381,31 @@ static struct fwnode_handle efifb_fwnode;
+>>>>   __init void sysfb_apply_efi_quirks(void)
+>>>>   {
+>>>> +    const struct dmi_system_id *match;
+>>>> +
+>>>>       if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI ||
+>>>>           !(screen_info.capabilities & VIDEO_CAPABILITY_SKIP_QUIRKS))
+>>>>           dmi_check_system(efifb_dmi_system_table);
+>>>> -    if (screen_info.orig_video_isVGA == VIDEO_TYPE_EFI &&
+>>>> -        dmi_check_system(efifb_dmi_swap_width_height)) {
+>>>
+>>> Could we keep swap_width_height a separate list?
+>>>
+>>> The for loop would then be a full override-display list.
+>>>
+>>>> +    if (screen_info.orig_video_isVGA != VIDEO_TYPE_EFI)
+>>>> +        return;
+>>>> +
+>>>> +    for (match = dmi_first_match(efifb_dmi_swap_width_height);
+>>>> +         match;
+>>>> +         match = dmi_first_match(match + 1)) {
+>>>> +        const struct efifb_mode_fixup *data = match->driver_data;
+>>>>           u16 temp = screen_info.lfb_width;
+>>>>           screen_info.lfb_width = screen_info.lfb_height;
+>>>>           screen_info.lfb_height = temp;
+>>>>           screen_info.lfb_linelength = 4 * screen_info.lfb_width;
+>>>
+>>> FTR: This calculation has always been wrong. We need to take the 
+>>> lfb_depth into account. No need to fix this here; just so you know.
+>>
+>> I can add a patch to replace with screen_info.lfb_depth / BITS_PER_BYTE?
+>>
+>>>> +
+>>>> +        if (data && data->pitch &&
+>>>> +           data->width == screen_info.lfb_height &&
+>>>> +           data->height == screen_info.lfb_width) {
+>>>> +            screen_info.lfb_linelength = data->pitch;
+>>>> +            screen_info.lfb_size = data->pitch * data->width;
+>>>> +        }
+>>>
+>>> If we have a separate fix-up list, we can make this much nicer:
+>>>
+>>> if (data->width)
+>>>     // assign data->width
+>>> if (data->height)
+>>>     // assign data->width
+>>> if (data->data)
+>>>     // assign data->pitch
+>>>
+>>> and then recompute linelength and size
+>>
+>> I thought the approach of looking at the multiple parameters at the 
+>> same time, similar how drm_get_panel_orientation_quirk() does it, is 
+>> safer. Ie. we don't want to edit unless the whole mode matches the 
+>> expectation.
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+> 
+
