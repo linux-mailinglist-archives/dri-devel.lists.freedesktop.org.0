@@ -2,80 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6FD3C96DDF
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 12:21:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3460C9721D
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 12:53:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24C0410E29E;
-	Mon,  1 Dec 2025 11:21:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A256A10E3AE;
+	Mon,  1 Dec 2025 11:53:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="J66lqoWR";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="W3+FpNn/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72DFF10E29E
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 11:21:56 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-7d26a7e5639so4184468b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 03:21:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764588116; x=1765192916; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=FLEoVh5V6KL4DPldRLgtrXwzYkYlClTOMyNoGl8minI=;
- b=J66lqoWRAlW2n94awN4kObLf/A0zyrQpn64oj2FLrYQt0DWjFropy4reqhDIgTAZ51
- Gv6+FyUf6306hbcRjluHfdgAeeqeo/hX54clLc44vZROeuCeQWjHM2El2YlsD1RhWbg1
- ZkZpqI9vaI5kMb9AxuTuj2YJEzWKoqKAr/ZGJBuSm/gchqriMabUEWIugAoeAmGLmt8j
- 8pTUmMkbrj73Do0AD7809s6ACtEHE5m1JN6JJS6v+1bo9omOFp0EF/6OZdmLR6B6MWbh
- 1IMn/exw19oNCMfvH2mscf3rZX027RrPSMRXit39rt432S28q87LyjFvbo3N3DgRqRiD
- a9Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764588116; x=1765192916;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=FLEoVh5V6KL4DPldRLgtrXwzYkYlClTOMyNoGl8minI=;
- b=GXqSayCnv8YFcC4kGZ+pHUtVY0vHcCuaImAjlDa+rMmLpSIb5YBe5oiHhBGZslNkRL
- kAW8GGW7craRx5fMFkBAD46qsnDKp7R0sJIeqKEYRktJysd+ZXxD/QrbmNijbtwAia7f
- ULbozdPmcxmzOSKqR6/yEHM9l2DiOL18cXYGX9tgrl3+93zSMjmgZYAdVTw0lvL1CLT/
- yKAOHi5wF0OQ57AxW7+pYY32lvAjHS5gNeOmYbI6qcDxgoOz/6Fv4TNEVhDXYKepFCOD
- uPXPc8MJM61TeiZKcJ4SBbIxDgLe281sc34kF0Rh1Z2QxT3JAzvC27NYkblvIkU85SX9
- 6oOg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWiQVF9fcmqui9vIb4zTgUYFhay+FQaM4tEV02I64BxY2qoAbkq9VRNQzQj6dqb0XDroOM0Ub+ov4w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxwqOUD4z5odgKx6p0xPPkAHJKBxVMcRLSqW2SbcSntCSv2r2ha
- S0ixfjVZPtuEvW5IDk9487glX7E+bNJHszvbvhp/kkAH4tkLBe1W0gnI
-X-Gm-Gg: ASbGnct0Mc4fPb7aiIXNZL5PTtA1qvyNkLBBJrfkLCBxfds5WtUsPfG95+9WpsrHQYc
- lu1W+X8Y14zgNjV345fFU7jsxhafQDldFdD3VqtUeynNes4u++Ptnz2RVSIsjgsxWRXDjS9mIkJ
- 8YslDb8ti918JqLvf+p6suNQ8Fk+rkyFCVe61MM8xsMaqyuGLGcCaHDR0NUs/iB3Z6kXO2sDALZ
- 7u9bauai4752K8c8Tgf/qqDeqTCLGLgI1RXvo4zSs03tgQke8zdn58GWAbPY+gso+el7MTnhzdh
- VwB2m9cySh6SbxTfXp8RcdIG4N4n1QLWsBC56NyqUYi5IljmTmQ3t3Uc2BusVcVLt5gHU6eAwyc
- 40GQDR37Wgs/V8lDsj3bqrBeEkXVdQGqljAuoJmyZEz4/TWixK3dgBAzaFIczw56/UpPOL4YH96
- Kk2DBmJlycH+wz4KyOv6S79TyHQi2pRTE=
-X-Google-Smtp-Source: AGHT+IG8yzad/QJdYWQN8COSv2tXagPdX30bTvEdOFoh8MH8FuOVBDhI+7MvQ4WDkTSTqw06Vd9UnA==
-X-Received: by 2002:a05:6a00:9a4:b0:7b1:79be:1273 with SMTP id
- d2e1a72fcca58-7c58e608b0fmr40271597b3a.26.1764588115849; 
- Mon, 01 Dec 2025 03:21:55 -0800 (PST)
-Received: from xiao.mioffice.cn ([43.224.245.230])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7d15fb1486asm13213642b3a.61.2025.12.01.03.21.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Dec 2025 03:21:55 -0800 (PST)
-From: Xiang Gao <gxxa03070307@gmail.com>
-To: sumit.semwal@linaro.org, christian.koenig@amd.com, rostedt@goodmis.org,
- mhiramat@kernel.org
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, mathieu.desnoyers@efficios.com,
- dhowells@redhat.com, kuba@kernel.org, brauner@kernel.org,
- akpm@linux-foundation.org, linux-trace-kernel@vger.kernel.org,
- gaoxiang17 <gaoxiang17@xiaomi.com>
-Subject: [PATCH v5] dma-buf: add some tracepoints to debug.
-Date: Mon,  1 Dec 2025 19:21:48 +0800
-Message-Id: <20251201112148.843572-1-gxxa03070307@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 001D810E0A0
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 11:53:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C6FB56016B;
+ Mon,  1 Dec 2025 11:53:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6F8FAC4CEF1;
+ Mon,  1 Dec 2025 11:53:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764590005;
+ bh=0nMJ0F2u0g5tfi1U82ygJgaOgW4YChsxsA3FwPtCIoY=;
+ h=From:Subject:Date:To:Cc:Reply-To:From;
+ b=W3+FpNn/9/OtDVt3k2X0c10JxWWchRqIYaKLQvRcKbW3258FW1CmHnTw4w9UHtMkL
+ 2GeVI4NRKS38vEIrKE2aqXpvGkroTkLRgWNWsiI03E15MS9ONmQdoG40/n1BKpOS4Z
+ yyWcfNRutYHbNzqcaVR2TSOzEvqhSn9QPr7kq+BeKHeBQ9n6PM+KAxX8RtJLKCKaow
+ UUIXTKCU5vI/phCOHYDUZvTZIqQ1CDxW55qnZKtMcIGxMqs+4t4K2bpJ+B5lFFgryr
+ lHc07iENbEK3P6UNJfj043FdsZICHcIh8YQTEkgRKYDwXoBXoxDmvg4qQpVyY3gqNn
+ ORbkDwOzrDNTQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
+ (localhost.localdomain [127.0.0.1])
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 5C100D116F5;
+ Mon,  1 Dec 2025 11:53:25 +0000 (UTC)
+From: Maud Spierings via B4 Relay
+ <devnull+maudspierings.gocontroll.com@kernel.org>
+Subject: [PATCH v6 0/4] backlight: add new max25014 backlight driver
+Date: Mon, 01 Dec 2025 12:53:19 +0100
+Message-Id: <20251201-max25014-v6-0-88e3ac8112ff@gocontroll.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAK+BLWkC/23NzWrDMAzA8VcpPs9D8me8095j7KA4cmto4+GU0
+ FHy7nM7WALLzTL6/XUXE9fMk3g73EXlOU+5jG1wLwcRTzQeWeahzUKBsuCUkxe6tRcaaRR4G5C
+ RkhVt/atyyrdn6uOzzac8XUv9fpZnfPz+Rryya2RGCRK4i5FD63X8fiyxjNdazufXWC7iUZrVq
+ jsMG62atmnwxD0aZNrVetUBcaN10wPoZLgn7e3+bfOnEWB72zTtaOgVAZG2aVfbVSP4jbZNB3J
+ E1mtw/X+9LMsPhwCQh50BAAA=
+X-Change-ID: 20250626-max25014-4207591e1af5
+To: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-fbdev@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, 
+ Maud Spierings <maudspierings@gocontroll.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1764590004; l=4564;
+ i=maudspierings@gocontroll.com; s=20250214; h=from:subject:message-id;
+ bh=0nMJ0F2u0g5tfi1U82ygJgaOgW4YChsxsA3FwPtCIoY=;
+ b=0lbejPBBqafdrfT0aI0CHFJD41yFIchpfq4m6Fz7r5gOfezIZC52it3MGOmbfoa+pkvqoQaz2
+ 2PiHMMjaRNcD+GY+SlKLgROngLwWnrR4FmZwPrfbe4gXI4jBN1Cqhpx
+X-Developer-Key: i=maudspierings@gocontroll.com; a=ed25519;
+ pk=7chUb8XpaTQDvWhzTdHC0YPMkTDloELEC7q94tOUyPg=
+X-Endpoint-Received: by B4 Relay for maudspierings@gocontroll.com/20250214
+ with auth_id=341
+X-Original-From: Maud Spierings <maudspierings@gocontroll.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,299 +84,106 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: maudspierings@gocontroll.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: gaoxiang17 <gaoxiang17@xiaomi.com>
+The Maxim MAX25014 is an automotive grade backlight driver IC. Its
+datasheet can be found at [1].
 
-Since we can only inspect dmabuf by iterating over process FDs or the
-dmabuf_list, we need to add our own tracepoints to track its status in
-real time in production.
+With its integrated boost controller, it can power 4 channels (led
+strings) and has a number of different modes using pwm and or i2c.
+Currently implemented is only i2c control.
 
-For example:
-   binder:3016_1-3102    [006] ...1.   255.126521: dma_buf_export: exp_name=qcom,system size=12685312 ino=2738
-   binder:3016_1-3102    [006] ...1.   255.126528: dma_buf_fd: exp_name=qcom,system size=12685312 ino=2738 fd=8
-   binder:3016_1-3102    [006] ...1.   255.126642: dma_buf_mmap_internal: exp_name=qcom,system size=28672 ino=2739
-     kworker/6:1-86      [006] ...1.   255.127194: dma_buf_put: exp_name=qcom,system size=12685312 ino=2738
-    RenderThread-9293    [006] ...1.   316.618179: dma_buf_get: exp_name=qcom,system size=12771328 ino=2762 fd=176
-    RenderThread-9293    [006] ...1.   316.618195: dma_buf_dynamic_attach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
-    RenderThread-9293    [006] ...1.   318.878220: dma_buf_detach: exp_name=qcom,system size=12771328 ino=2762 attachment:ffffff880a18dd00 is_dynamic=0 dev_name=kgsl-3d0
+link: https://www.analog.com/media/en/technical-documentation/data-sheets/MAX25014.pdf [1]
 
-Signed-off-by: Xiang Gao <gaoxiang17@xiaomi.com>
+Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
 ---
- drivers/dma-buf/dma-buf.c      |  34 +++++++-
- include/trace/events/dma_buf.h | 154 +++++++++++++++++++++++++++++++++
- 2 files changed, 187 insertions(+), 1 deletion(-)
- create mode 100644 include/trace/events/dma_buf.h
+Changes in v6:
+- fixup changes in v4 where default brightness handling was changed but
+  not noted
+- remove leftover comment about initializing brightness
+- use BIT definitions for fields in the DIAG register
+- apply reverse christmas tree initialization of local variables
+- remove !=0 from checks, just check if (ret)
+- remove > 0 from checks, just check if (val)
+- use dev_err_probe() more
+- set enable gpio high in the get() instead of seperately calling set()
+- change usleep_range() to fsleep()
+- remove null checks when setting gpio value
+- get regular regulator, not optional to avoid further NULL checks in
+  case none is provided
+- introduce max25014_initial_power_state() to check if the bootloader
+  has already initialized the backlight and to correctly set props.power
+- squash max25014_register_control() into max25014_update_status()
+- in max25014_configure() perform extra checking on the DISABLE register
+  now that the state from the bootloader is taken into account
+- Link to v5: https://lore.kernel.org/r/20251107-max25014-v5-0-9a6aa57306bf@gocontroll.com
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 2bcf9ceca997..fc05e2114922 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -35,6 +35,17 @@
- 
- #include "dma-buf-sysfs-stats.h"
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/dma_buf.h>
-+
-+#define DMA_BUF_TRACE(FUNC, ...)                  \
-+    do {                                          \
-+        if (FUNC##_enabled()) {                   \
-+            guard(spinlock)(&dmabuf->name_lock); \
-+            FUNC(__VA_ARGS__);                    \
-+        }                                         \
-+    } while (0)
-+
- static inline int is_dma_buf_file(struct file *);
- 
- static DEFINE_MUTEX(dmabuf_list_mutex);
-@@ -220,6 +231,8 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
- 	    dmabuf->size >> PAGE_SHIFT)
- 		return -EINVAL;
- 
-+	DMA_BUF_TRACE(trace_dma_buf_mmap_internal, dmabuf);
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- 
-@@ -745,6 +758,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 
- 	__dma_buf_list_add(dmabuf);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_export, dmabuf);
-+
- 	return dmabuf;
- 
- err_dmabuf:
-@@ -779,6 +794,8 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
- 
- 	fd_install(fd, dmabuf->file);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_fd, dmabuf, fd);
-+
- 	return fd;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
-@@ -794,6 +811,7 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_fd, "DMA_BUF");
- struct dma_buf *dma_buf_get(int fd)
- {
- 	struct file *file;
-+	struct dma_buf *dmabuf;
- 
- 	file = fget(fd);
- 
-@@ -805,7 +823,11 @@ struct dma_buf *dma_buf_get(int fd)
- 		return ERR_PTR(-EINVAL);
- 	}
- 
--	return file->private_data;
-+	dmabuf = file->private_data;
-+
-+	DMA_BUF_TRACE(trace_dma_buf_get, dmabuf, fd);
-+
-+	return dmabuf;
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_get, "DMA_BUF");
- 
-@@ -825,6 +847,8 @@ void dma_buf_put(struct dma_buf *dmabuf)
- 		return;
- 
- 	fput(dmabuf->file);
-+
-+	DMA_BUF_TRACE(trace_dma_buf_put, dmabuf);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
- 
-@@ -979,6 +1003,9 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
- 	list_add(&attach->node, &dmabuf->attachments);
- 	dma_resv_unlock(dmabuf->resv);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_dynamic_attach, dmabuf, attach,
-+		dma_buf_attachment_is_dynamic(attach), dev);
-+
- 	return attach;
- 
- err_attach:
-@@ -1023,6 +1050,9 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
- 	if (dmabuf->ops->detach)
- 		dmabuf->ops->detach(dmabuf, attach);
- 
-+	DMA_BUF_TRACE(trace_dma_buf_detach, dmabuf, attach,
-+		dma_buf_attachment_is_dynamic(attach), attach->dev);
-+
- 	kfree(attach);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
-@@ -1488,6 +1518,8 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma,
- 	vma_set_file(vma, dmabuf->file);
- 	vma->vm_pgoff = pgoff;
- 
-+	DMA_BUF_TRACE(trace_dma_buf_mmap, dmabuf);
-+
- 	return dmabuf->ops->mmap(dmabuf, vma);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, "DMA_BUF");
-diff --git a/include/trace/events/dma_buf.h b/include/trace/events/dma_buf.h
-new file mode 100644
-index 000000000000..81ee4d05979c
---- /dev/null
-+++ b/include/trace/events/dma_buf.h
-@@ -0,0 +1,154 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM dma_buf
-+
-+#if !defined(_TRACE_DMA_BUF_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_DMA_BUF_H
-+
-+#include <linux/dma-buf.h>
-+#include <linux/tracepoint.h>
-+
-+DECLARE_EVENT_CLASS(dma_buf,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf),
-+
-+	TP_STRUCT__entry(
-+		__string(exp_name, dmabuf->exp_name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino)
-+);
-+
-+DECLARE_EVENT_CLASS(dma_buf_attach_dev,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach, bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev),
-+
-+	TP_STRUCT__entry(
-+		__string(dev_name, dev_name(dev))
-+		__string(exp_name, dmabuf->exp_name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+		__field(struct dma_buf_attachment *, attach)
-+		__field(bool, is_dynamic)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(dev_name);
-+		__assign_str(exp_name);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+		__entry->is_dynamic = is_dynamic;
-+		__entry->attach = attach;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu attachment:%p is_dynamic=%d dev_name=%s",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->attach,
-+		  __entry->is_dynamic,
-+		  __get_str(dev_name))
-+);
-+
-+DECLARE_EVENT_CLASS(dma_buf_fd,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd),
-+
-+	TP_STRUCT__entry(
-+		__string(exp_name, dmabuf->exp_name)
-+		__field(size_t, size)
-+		__field(ino_t, ino)
-+		__field(int, fd)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(exp_name);
-+		__entry->size = dmabuf->size;
-+		__entry->ino = dmabuf->file->f_inode->i_ino;
-+		__entry->fd = fd;
-+	),
-+
-+	TP_printk("exp_name=%s size=%zu ino=%lu fd=%d",
-+		  __get_str(exp_name),
-+		  __entry->size,
-+		  __entry->ino,
-+		  __entry->fd)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_export,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_mmap_internal,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_mmap,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf, dma_buf_put,
-+
-+	TP_PROTO(struct dma_buf *dmabuf),
-+
-+	TP_ARGS(dmabuf)
-+);
-+
-+DEFINE_EVENT(dma_buf_attach_dev, dma_buf_dynamic_attach,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach, bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev)
-+);
-+
-+DEFINE_EVENT(dma_buf_attach_dev, dma_buf_detach,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, struct dma_buf_attachment *attach, bool is_dynamic, struct device *dev),
-+
-+	TP_ARGS(dmabuf, attach, is_dynamic, dev)
-+);
-+
-+DEFINE_EVENT(dma_buf_fd, dma_buf_fd,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd)
-+);
-+
-+DEFINE_EVENT(dma_buf_fd, dma_buf_get,
-+
-+	TP_PROTO(struct dma_buf *dmabuf, int fd),
-+
-+	TP_ARGS(dmabuf, fd)
-+);
-+
-+#endif /* _TRACE_DMA_BUF_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
+Changes in v5:
+- moved comment about current functions of the driver to the actual
+  comment section of the commit
+- fixed the led@0 property, regex patternProperty is not needed as of
+  now
+- added extra clarification about the ISET field/register
+- moved #address-cells and #size-cells to the correct location
+- remove leftover default-brightness in backlight nodes
+- Link to v4: https://lore.kernel.org/r/20251009-max25014-v4-0-6adb2a0aa35f@gocontroll.com
+
+Changes in v4:
+- remove setting default brightness, let backlight core take care of it
+- use a led node to describe the backlight
+- use led-sources to enable specific channels
+- also wait 2ms when there is a supply but no enable
+- change dev_warn() to dev_err() in error path in max25014_check_errors()
+- set backlight_properties.scale to BACKLIGHT_SCALE_LINEAR
+- rebase latest next
+- add address-cells and size-cells to i2c4 in av101hdt-a10.dtso
+- Link to v3: https://lore.kernel.org/r/20250911-max25014-v3-0-d03f4eba375e@gocontroll.com
+
+Changes in v3:
+- fixed commit message type intgrated -> integrated
+- added maximum and description to maxim,iset-property
+- dropped unused labels and pinctrl in bindings example
+- put the compatible first in the bindings example and dts
+- removed brackets around defines
+- removed the leftover pdata struct field
+- removed the initial_brightness struct field
+- Link to v2: https://lore.kernel.org/r/20250819-max25014-v2-0-5fd7aeb141ea@gocontroll.com
+
+Changes in v2:
+- Remove leftover unused property from the bindings example
+- Complete the bindings example with all properties
+- Remove some double info from the maxim,iset property
+- Remove platform_data header, fold its data into the max25014 struct
+- Don't force defines to be unsigned
+- Remove stray struct max25014 declaration
+- Remove chipname and device from the max25014 struct
+- Inline the max25014_backlight_register() and strings_mask() functions
+- Remove CONFIG_OF ifdef
+- Link to v1: https://lore.kernel.org/r/20250725-max25014-v1-0-0e8cce92078e@gocontroll.com
+
+---
+Maud Spierings (4):
+      dt-bindings: backlight: Add max25014 support
+      backlight: add max25014atg backlight
+      arm64: dts: freescale: moduline-display-av101hdt-a10: add backlight
+      arm64: dts: freescale: moduline-display-av123z7m-n17: add backlight
+
+ .../bindings/leds/backlight/maxim,max25014.yaml    | 107 ++++++
+ MAINTAINERS                                        |   6 +
+ ...x8p-ml81-moduline-display-106-av101hdt-a10.dtso |  30 ++
+ ...x8p-ml81-moduline-display-106-av123z7m-n17.dtso |  25 +-
+ drivers/video/backlight/Kconfig                    |   7 +
+ drivers/video/backlight/Makefile                   |   1 +
+ drivers/video/backlight/max25014.c                 | 419 +++++++++++++++++++++
+ 7 files changed, 594 insertions(+), 1 deletion(-)
+---
+base-commit: 9c0826a5d9aa4d52206dd89976858457a2a8a7ed
+change-id: 20250626-max25014-4207591e1af5
+
+Best regards,
 -- 
-2.34.1
+Maud Spierings <maudspierings@gocontroll.com>
+
 
