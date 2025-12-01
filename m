@@ -2,64 +2,182 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD55CC98DA2
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 20:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4899C98DCE
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 20:34:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23FD610E46A;
-	Mon,  1 Dec 2025 19:29:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB44810E476;
+	Mon,  1 Dec 2025 19:34:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nLvTlYd0";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TmIzEngE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEEB010E46A;
- Mon,  1 Dec 2025 19:29:36 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7677B10E470;
+ Mon,  1 Dec 2025 19:34:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764617377; x=1796153377;
+ t=1764617647; x=1796153647;
  h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=wEeWshUELrWCpy2AXbFvY00dfhEnEVOWjGjYTP/rV/c=;
- b=nLvTlYd0FF7NL7GLSd/C1wmOXPdLi6L6jSylztWKMBbRFng+YuzP7Xe+
- aFxvov/1BxgOWYVMj2uFheTLIeTNb9lEYSdoB1RCHwt8xnIXaTY1aD+h0
- QEpPE4BHbD9jlhp+yKCEGWtXsbq3DVTeVqu4pCwDyeM7twtgrY66+j9FP
- aQS0PUQ562bnIUQ76MfIneBVtt9lDdC50ERa70vufZF9bjYS1Th++WDwP
- VPLNuJl+PNT39N9NJ8mpbIBQkQ5lqNZ/Helzr+uSrzOo1HN5NE3YXsH4c
- sh6gAwW/qbaKH6tFAaGvhHPSGR65iL1Ik/X0Lss0xs2+VA3E5IGsYOJQR Q==;
-X-CSE-ConnectionGUID: IoOfgbd6ROipmuG5OjO6IQ==
-X-CSE-MsgGUID: f7ZkoVLgQIO11fA+DqJKUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="69165041"
-X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; d="scan'208";a="69165041"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 11:29:36 -0800
-X-CSE-ConnectionGUID: KbOCuOgSS22isMzUzTjzJA==
-X-CSE-MsgGUID: a1MhPLfiS9C5qU6Ry/9q2w==
+ in-reply-to:mime-version;
+ bh=emSgNlA/d1VdpfHj1K2m1alaafpUwAOujwOVyBnGlMU=;
+ b=TmIzEngE43tqrRWt0y3eNcqJym998GnSvDU3D/TTkJg3PrYm+K32meFP
+ BdmttcEqOg+JweO8cGq1RWXtAzQLBcCzrNakE9zSAIAo1fdWQ+P9a/Z8h
+ wf7N/VY1/nKIvDOtKwO7GId8JFFdrsC7kX32X/e9RCILDZaGtWnUvwVdJ
+ qGTR9N54aAlZMKkMj1Ay6Hmd6Mjbzo11H0iVnMp331X6pMpTd9Xrpzho8
+ yEWOFubkUyJXMd8zmUzPD/6I1mgpnYpLeKTUyTzAW2PkazGk0K+cwo7tJ
+ M7LLuv65F1/ErVyXiY5TccC+YINfZvz1j8aw0oQffkUj7BWavnyC9Io4d A==;
+X-CSE-ConnectionGUID: BzFL+s9eS9yaIOUkSQHf2A==
+X-CSE-MsgGUID: H9FkikizSQu1aUdIr9inCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66607102"
+X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; d="scan'208";a="66607102"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2025 11:34:07 -0800
+X-CSE-ConnectionGUID: I00kCBMKSYGsDjNfLv1K8g==
+X-CSE-MsgGUID: 221y7yD/TZ6b26NfJXhTwA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; d="scan'208";a="199093475"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
- by fmviesa004.fm.intel.com with ESMTP; 01 Dec 2025 11:29:32 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vQ9aT-0000000095V-498Z;
- Mon, 01 Dec 2025 19:29:29 +0000
-Date: Tue, 2 Dec 2025 03:28:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, chaitanya.kumar.borah@intel.com,
- ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
- contact@emersion.fr, harry.wentland@amd.com, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com,
- swati2.sharma@intel.com, alex.hung@amd.com, jani.nikula@intel.com,
- suraj.kandpal@intel.com, Uma Shankar <uma.shankar@intel.com>
-Subject: Re: [v7 11/15] drm/i915/color: Program Pre-CSC registers
-Message-ID: <202512020343.7KKu4M4I-lkp@intel.com>
-References: <20251201064655.3579280-12-uma.shankar@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; d="scan'208";a="194954498"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2025 11:34:06 -0800
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Mon, 1 Dec 2025 11:34:05 -0800
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Mon, 1 Dec 2025 11:34:05 -0800
+Received: from BN1PR04CU002.outbound.protection.outlook.com (52.101.56.43) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Mon, 1 Dec 2025 11:34:05 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YyTReQLC5wzhzJ0YfOYSneLflNKtIcRaM17/4g+R25ucxFn7LVb2jjdyfJHGgSW6x57wtE0LdKeBR2Q+2QJr7YZRFQTmPn1smmh9A1gHGxw3hZKCH4Q/8ty8KU0P1GxyL8jxIzQKHOY3v5AgRV5CoH4X7ClOrNnC4Rt31VJx5FsLD17rqD9JFbizk0LMddtlHxxZa/RUQRZjNIP5WF/EuBLAX3SqqLHn+SsNLNYvWb2bMlBkzQZBwmOXIa338WSa+bBbjvdpiDedKWNK6gnwobBNCrF9xPKR8C8Oa41fSwQQy6s9MESbfooc+y+bOdZCSJ7iZ4y9bzFzn1a0C+pSPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0JfaFhvYMVss6c4XFD1ikaJIZMkDWb/pC22LE1GnAS0=;
+ b=RctqGYKrc6Xh/nOZeH/alP8OURpULPwl31NXExBjLXAc4BI3OiM/6XOe8/SrJ6FnkxdrQKFninS3Z9n9sZ16m/VeShWISnf7gLAjfXXWS78Xty4fJHBzW4L8VajdOTfYI2uLCGbXzQqdfPMcVISoFI6Z/TMwK8/L1CMdqbAO9bHTq5SyYBTT2j2Ol8kIPmSoTAkqgp0yvmKXFNSjHEOKCizLwMu2nUnwtFYt/2xq8VCPVKhmjUam6dqei4PAVpsraIX6/Sx+Ow9HbTgYVnAjbVRmbNGkSIZ5eVsFc7t7qakzvSwgxCfzeq9CXLw45dNDVo5Qje818WPWnLSpCzIwoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by DM3PPF1A34EE115.namprd11.prod.outlook.com (2603:10b6:f:fc00::f0e)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
+ 2025 19:33:58 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
+ 19:33:58 +0000
+Date: Mon, 1 Dec 2025 11:33:54 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Philipp Stanner <phasta@kernel.org>
+CC: Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+ <gustavo@padovan.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>, "Alex
+ Deucher" <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
+ <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>
+Subject: Re: [PATCH v2 8/8] drm/xe: Use dma_fence_test_signaled_flag()
+Message-ID: <aS3touSB1ZyR2hfM@lstrano-desk.jf.intel.com>
+References: <20251201105011.19386-2-phasta@kernel.org>
+ <20251201105011.19386-10-phasta@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20251201064655.3579280-12-uma.shankar@intel.com>
+In-Reply-To: <20251201105011.19386-10-phasta@kernel.org>
+X-ClientProxiedBy: MW4PR04CA0315.namprd04.prod.outlook.com
+ (2603:10b6:303:82::20) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DM3PPF1A34EE115:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee041753-9b9e-407d-4569-08de31109236
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7GK0tplFJ6S9wYnb4pzDoEfVbbiLfWgyl5bdaGp0YelOcC3tWqfb91q+1f3m?=
+ =?us-ascii?Q?T6noG6d/HPg+U1a+iaa2AURGTwT4wVg09GbRRID8JUEvxAsi3xo2sJ5ZhvLg?=
+ =?us-ascii?Q?Jp+Fnzyc8ZlA/exbKAiq5Um17K5951LMSEpxAk5KZ8poUhsEl8qcLxwlqqjC?=
+ =?us-ascii?Q?zKMK6S4M7OZNT859h+4Y1KMtMfohCDOPfP47SaELHdTyDFXt0oqKPUoBDxAV?=
+ =?us-ascii?Q?GfkAPu0Yxe8v+/N5Qyun/9sjkGICnotvpBN+vWr5BZPwnbdjmqZhXyu0vCzD?=
+ =?us-ascii?Q?fM89wK3+mwEK5aX62NlRMiqJS8onih+Ix9zy5/pD6KvGh01wezhwa+lcvwn6?=
+ =?us-ascii?Q?XZqKrxXG2LdCG9KyxkSDcPogb67Ozkx2oISH39wfR4jBPnPcl636m2Deq4fl?=
+ =?us-ascii?Q?iVdbFUUz3r1Ti2f9wdCBS2vDxycV+lizuJnuxye7+588E3K2H3dNv+6ahvwx?=
+ =?us-ascii?Q?aTnhnYAspSTI189G8hnosjDlHPbI/o87Uv9777JY0zoe3y7UyE23I+8q7Nek?=
+ =?us-ascii?Q?HI65bxU/XqQ7iV/AjVEG9sc1/CMTtpWJzzPKO48DyGP09yW1c2VEqSNx6muj?=
+ =?us-ascii?Q?U4hXBPAUhiWgLYh6EuEWpiWE4GljOp/obkKQFYOP5dVNCnRIlVa56gaMaAD2?=
+ =?us-ascii?Q?vJSzdn218VDICi6vxCovBfYvr2i5nLVzw2Hh/LViDjIDRnoT99cC48TrM6iO?=
+ =?us-ascii?Q?NBtzCK9GrR/YPtwmW+NlPLvgYyBgDOuMUPAfJHGJw2y781dDOkzHrAYZdErn?=
+ =?us-ascii?Q?0TxLjMxqHE/xcb6uaVRA94gZlKGTySVrAMX777ip25oaPFKKdENDO9+jJ8tw?=
+ =?us-ascii?Q?aocjmZlzjZ8eTsH7y3rt466jptvUrUboIeSVV+iNtcFOhBWe1ROkQmgbU6js?=
+ =?us-ascii?Q?nYlfs9Kzs119kl3zo6nhQYVjDN9Jgwtnr+V+owUDX6kKivtB06J4QqA0bYfW?=
+ =?us-ascii?Q?2V2REF1zCc2JJgGwQiu0cRqYxe/X4VMHTL21OZv71v1Qu49LhkPjZej5PvjP?=
+ =?us-ascii?Q?k1lsZq1Lfm1eS12otChMOM+IhpCUJ1eoJODVZElg18vvh0GHnvbow958JWMY?=
+ =?us-ascii?Q?F3J0uov8/pL0CbrFbwEk+FfjGCfNXMVN2BdxIq4KcLj1uJSRrLBwKVLgLEMr?=
+ =?us-ascii?Q?C09rVIFhLCZX3/d+Q2p6oauUQ3eR53kkGPBzYREe9Guqbs4ZNVNEGq0Wp4As?=
+ =?us-ascii?Q?4+IL2LAyMZO5t2/5YUpNzUBN5+Vgjg4UYHo9YF1nWU4Dsn2plNhiISVYiO0R?=
+ =?us-ascii?Q?nx8yfnQLZQHkojgrOXP2dy16Nk5lCrPfNvIs0PaNM6nJORKsguKg8nTD6+jp?=
+ =?us-ascii?Q?u9EmJwWlMBAS9GyGSeIUKvgycT98bajoHmoBRZOI6mAkwbtgcE1AaGqx82au?=
+ =?us-ascii?Q?lO/rgU1BFmRroEZ9TtJ3/nFxmxCt6y/jVPueRAh9t5WNUfv8ZNADykKcqR1a?=
+ =?us-ascii?Q?QX1l2/qBmf2BDiYHsbbNcHLb874n0zSy?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8v9L5y3ENpuZPuXPEuRoIEwv03bSzNmAReUCnRwButwJ1xjcT8M4NO/kV6PW?=
+ =?us-ascii?Q?UBm/jiltuXkZTmREDb3UZ6YG34MJONiOa0rQUcXqG2eGksnDEQNSYTOqpr7D?=
+ =?us-ascii?Q?V33hmP07cEIO9z1jdQKadgO3f1vtRfsELGYHR9OoCDjUm3TJOQz8xLO7CvWd?=
+ =?us-ascii?Q?/2PdDOzHYsfyTpSPWu9qwVgLqORZr+latLflWknWWU9Gnvolk0TrMJ5TIYx8?=
+ =?us-ascii?Q?RD0OwNHqK1qyvZq3KUSRhj783As7k2ICGdmN+ov6YqwSdhMD+rmNWU7tQF0x?=
+ =?us-ascii?Q?ECxcudHNx9Fi+5bLG1m9ycl+FyEj+FnSErU3pashVNmhwUbtidz3nERxs+Ts?=
+ =?us-ascii?Q?8LZ9eo/i4r9pMrYGf9nARrRWT8OnNM9oET4fH9i9OX/bbScN2lQdV9hRWgBJ?=
+ =?us-ascii?Q?48f9opERnh5bQw+anbjbFOINhXaaXOpfxAgNF9CGjeJaVpzXc6pA7BXH837y?=
+ =?us-ascii?Q?PTPNlHgbKTm2J9rZWK4oyIi9HaLCreRU74T/GvTnn+LBUkMsyhAyCKZx/6q7?=
+ =?us-ascii?Q?dt9pt3ql2Qerhehzh3iX2NDEy/P4eGw7PLGx/q4ezjOL3IeldFiZTmzF+wlw?=
+ =?us-ascii?Q?rErXIbE+Rwb6voF3flutUe0NOUhfTRdZYrYHJLt0/CFhO9fxjwGmfrjrM8ka?=
+ =?us-ascii?Q?CRSsVb0oY0YYwm1L+S98m+WJ2AmDWaaPHAf9Jq5ONB6+BCHrXKczbWCMDEvV?=
+ =?us-ascii?Q?B/uQZpAHUl9fBtWaHfpLdW1pEV1qJ95za8A/MIw8LUt/fsYxgXrUP70excxF?=
+ =?us-ascii?Q?r8wm870qsdeZ1lxIhA7N+qSKVZ7Cz+Fv53WWPvr66f4cIeRdQwZzL7AdFQNh?=
+ =?us-ascii?Q?R38eeJdUGsGDVFancPk7p1ePh8XHZ3jAUsS2fasduNTttDaKvhKwgupZocFp?=
+ =?us-ascii?Q?EVyrymFdzalTVsXXnlOoLAP1ZUBsm1rjARxkTFq+pLfWJgm3YPXuBJb0bbXw?=
+ =?us-ascii?Q?YPKU3zdLhAN0cEBciyvmyXjpTME76uen9HqEVc+GtOekgKlHz4R2Xda8W0xz?=
+ =?us-ascii?Q?6BnVwpF9q22ScdxbZUpjVKWDVgdQQWQb5WmvToTiXSjG8mLH6CNWHVi2Qtav?=
+ =?us-ascii?Q?FD7SZyN273FO4hcUOJP8UZ1Dki3RyvNc6z3r0SOef4+FNNIoj1r9t9BDACiI?=
+ =?us-ascii?Q?bxKjVKl7PE2vhlq9l+2ltAvCPtWyfAy677UY53eIw/3gXV8KMKKfIYyg+GEz?=
+ =?us-ascii?Q?NaX7q5u1LOFU/prF/5qh6ZMiek4P/GGPAlOg/HSFe5pNECyP5Z8mNRZoNxm0?=
+ =?us-ascii?Q?hCaMMdlG4ypL0Rx0n6lPUQRV5ss6YuWQfMLmGXe8aYeFdUajPiFD5nI0uKvK?=
+ =?us-ascii?Q?RyiZJvB5dYeMh8jKOgt0wqiZ7YoIvNC8Oe6plQcEqEpK2y9HhJ2AuDIbI4sW?=
+ =?us-ascii?Q?44rvugz6YH5CHIEzxrBAT3i3YvFUVPd983TGqFbvIaiW2P1i2z32jcVVA51Z?=
+ =?us-ascii?Q?FBUODBLFGI6VpcWDEcEKMikKV/pphy2qEQcx3yTwSxm1xCDfOLLNr2Qw0Zpb?=
+ =?us-ascii?Q?9i9Pc9PRFcFqwATF6aMUKjpZP9lmWJtkrqcMSxuCYwReQtu2vXs6QfgnaLpq?=
+ =?us-ascii?Q?RApO1vzzBem2/CERRcXkyOWIUbL+kdojh6FJsWqinwvTNkvNl0Wni9S1E/Vj?=
+ =?us-ascii?Q?Bg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee041753-9b9e-407d-4569-08de31109236
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 19:33:57.9396 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0lPuLw8dUS5bIqDXf1tVsRNctWrdqj6IFVDCPiwBKeXeoYxlqg3wKiJKhvrmQE/evUvCu5jqKjoGhYem4cds1Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF1A34EE115
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,204 +193,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uma,
+On Mon, Dec 01, 2025 at 11:50:12AM +0100, Philipp Stanner wrote:
+> There is a new dma_fence helper which simplifies testing for a fence's
+> signaled_flag. Use it in xe.
+> 
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
 
-kernel test robot noticed the following build errors:
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-[auto build test ERROR on next-20251201]
-[cannot apply to drm-xe/drm-xe-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.18 v6.18-rc7 v6.18-rc6 linus/master v6.18]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245
-base:   next-20251201
-patch link:    https://lore.kernel.org/r/20251201064655.3579280-12-uma.shankar%40intel.com
-patch subject: [v7 11/15] drm/i915/color: Program Pre-CSC registers
-config: i386-buildonly-randconfig-006-20251201 (https://download.01.org/0day-ci/archive/20251202/202512020343.7KKu4M4I-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512020343.7KKu4M4I-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512020343.7KKu4M4I-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/i915/display/intel_color.c:31:
-   drivers/gpu/drm/i915/display/intel_display_types.h:1993:28: error: field 'base' has incomplete type
-    1993 |         struct drm_colorop base;
-         |                            ^~~~
-   drivers/gpu/drm/i915/display/intel_color.c: In function 'xelpd_load_plane_csc_matrix':
-   drivers/gpu/drm/i915/display/intel_color.c:3869:20: error: invalid use of undefined type 'struct drm_color_ctm_3x4'
-    3869 |         input = ctm->matrix;
-         |                    ^~
-   drivers/gpu/drm/i915/display/intel_color.c: In function 'xelpd_program_plane_pre_csc_lut':
->> drivers/gpu/drm/i915/display/intel_color.c:3966:47: error: implicit declaration of function 'drm_color_lut32_extract'; did you mean 'drm_color_lut_extract'? [-Wimplicit-function-declaration]
-    3966 |                                 u32 lut_val = drm_color_lut32_extract(pre_csc_lut[i].green, 24);
-         |                                               ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                               drm_color_lut_extract
->> drivers/gpu/drm/i915/display/intel_color.c:3966:82: error: invalid use of undefined type 'struct drm_color_lut32'
-    3966 |                                 u32 lut_val = drm_color_lut32_extract(pre_csc_lut[i].green, 24);
-         |                                                                                  ^
->> drivers/gpu/drm/i915/display/intel_color.c:3966:85: error: invalid use of undefined type 'const struct drm_color_lut32'
-    3966 |                                 u32 lut_val = drm_color_lut32_extract(pre_csc_lut[i].green, 24);
-         |                                                                                     ^
-
-
-vim +3966 drivers/gpu/drm/i915/display/intel_color.c
-
-  3850	
-  3851	static void
-  3852	xelpd_load_plane_csc_matrix(struct intel_dsb *dsb,
-  3853				    const struct intel_plane_state *plane_state)
-  3854	{
-  3855		struct intel_display *display = to_intel_display(plane_state);
-  3856		const struct drm_plane_state *state = &plane_state->uapi;
-  3857		enum pipe pipe = to_intel_plane(state->plane)->pipe;
-  3858		enum plane_id plane = to_intel_plane(state->plane)->id;
-  3859		const struct drm_property_blob *blob = plane_state->hw.ctm;
-  3860		struct drm_color_ctm_3x4 *ctm;
-  3861		const u64 *input;
-  3862		u16 coeffs[9] = {};
-  3863		int i, j;
-  3864	
-  3865		if (!icl_is_hdr_plane(display, plane) || !blob)
-  3866			return;
-  3867	
-  3868		ctm = blob->data;
-> 3869		input = ctm->matrix;
-  3870	
-  3871		/*
-  3872		 * Convert fixed point S31.32 input to format supported by the
-  3873		 * hardware.
-  3874		 */
-  3875		for (i = 0, j = 0; i < ARRAY_SIZE(coeffs); i++) {
-  3876			u64 abs_coeff = ((1ULL << 63) - 1) & input[j];
-  3877	
-  3878			/*
-  3879			 * Clamp input value to min/max supported by
-  3880			 * hardware.
-  3881			 */
-  3882			abs_coeff = clamp_val(abs_coeff, 0, CTM_COEFF_4_0 - 1);
-  3883	
-  3884			/* sign bit */
-  3885			if (CTM_COEFF_NEGATIVE(input[j]))
-  3886				coeffs[i] |= 1 << 15;
-  3887	
-  3888			if (abs_coeff < CTM_COEFF_0_125)
-  3889				coeffs[i] |= (3 << 12) |
-  3890					      ILK_CSC_COEFF_FP(abs_coeff, 12);
-  3891			else if (abs_coeff < CTM_COEFF_0_25)
-  3892				coeffs[i] |= (2 << 12) |
-  3893					      ILK_CSC_COEFF_FP(abs_coeff, 11);
-  3894			else if (abs_coeff < CTM_COEFF_0_5)
-  3895				coeffs[i] |= (1 << 12) |
-  3896					      ILK_CSC_COEFF_FP(abs_coeff, 10);
-  3897			else if (abs_coeff < CTM_COEFF_1_0)
-  3898				coeffs[i] |= ILK_CSC_COEFF_FP(abs_coeff, 9);
-  3899			else if (abs_coeff < CTM_COEFF_2_0)
-  3900				coeffs[i] |= (7 << 12) |
-  3901					      ILK_CSC_COEFF_FP(abs_coeff, 8);
-  3902			else
-  3903				coeffs[i] |= (6 << 12) |
-  3904					      ILK_CSC_COEFF_FP(abs_coeff, 7);
-  3905	
-  3906			/* Skip postoffs */
-  3907			if (!((j + 2) % 4))
-  3908				j += 2;
-  3909			else
-  3910				j++;
-  3911		}
-  3912	
-  3913		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 0),
-  3914				   coeffs[0] << 16 | coeffs[1]);
-  3915		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 1),
-  3916				   coeffs[2] << 16);
-  3917	
-  3918		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 2),
-  3919				   coeffs[3] << 16 | coeffs[4]);
-  3920		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 3),
-  3921				   coeffs[5] << 16);
-  3922	
-  3923		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 4),
-  3924				   coeffs[6] << 16 | coeffs[7]);
-  3925		intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 5),
-  3926				   coeffs[8] << 16);
-  3927	
-  3928		intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 0), 0);
-  3929		intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 1), 0);
-  3930		intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 2), 0);
-  3931	
-  3932		/*
-  3933		 * Conversion from S31.32 to S0.12. BIT[12] is the signed bit
-  3934		 */
-  3935		intel_de_write_dsb(display, dsb,
-  3936				   PLANE_CSC_POSTOFF(pipe, plane, 0),
-  3937				   ctm_to_twos_complement(input[3], 0, 12));
-  3938		intel_de_write_dsb(display, dsb,
-  3939				   PLANE_CSC_POSTOFF(pipe, plane, 1),
-  3940				   ctm_to_twos_complement(input[7], 0, 12));
-  3941		intel_de_write_dsb(display, dsb,
-  3942				   PLANE_CSC_POSTOFF(pipe, plane, 2),
-  3943				   ctm_to_twos_complement(input[11], 0, 12));
-  3944	}
-  3945	
-  3946	static void
-  3947	xelpd_program_plane_pre_csc_lut(struct intel_dsb *dsb,
-  3948					const struct intel_plane_state *plane_state)
-  3949	{
-  3950		struct intel_display *display = to_intel_display(plane_state);
-  3951		const struct drm_plane_state *state = &plane_state->uapi;
-  3952		enum pipe pipe = to_intel_plane(state->plane)->pipe;
-  3953		enum plane_id plane = to_intel_plane(state->plane)->id;
-  3954		const struct drm_color_lut32 *pre_csc_lut = plane_state->hw.degamma_lut->data;
-  3955		u32 i, lut_size;
-  3956	
-  3957		if (icl_is_hdr_plane(display, plane)) {
-  3958			lut_size = 128;
-  3959	
-  3960			intel_de_write_dsb(display, dsb,
-  3961					   PLANE_PRE_CSC_GAMC_INDEX_ENH(pipe, plane, 0),
-  3962					   PLANE_PAL_PREC_AUTO_INCREMENT);
-  3963	
-  3964			if (pre_csc_lut) {
-  3965				for (i = 0; i < lut_size; i++) {
-> 3966					u32 lut_val = drm_color_lut32_extract(pre_csc_lut[i].green, 24);
-  3967	
-  3968					intel_de_write_dsb(display, dsb,
-  3969							   PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0),
-  3970							   lut_val);
-  3971				}
-  3972	
-  3973				/* Program the max register to clamp values > 1.0. */
-  3974				/* TODO: Restrict to 0x7ffffff */
-  3975				do {
-  3976					intel_de_write_dsb(display, dsb,
-  3977							   PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0),
-  3978							   (1 << 24));
-  3979				} while (i++ > 130);
-  3980			} else {
-  3981				for (i = 0; i < lut_size; i++) {
-  3982					u32 v = (i * ((1 << 24) - 1)) / (lut_size - 1);
-  3983	
-  3984					intel_de_write_dsb(display, dsb,
-  3985							   PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0), v);
-  3986				}
-  3987	
-  3988				do {
-  3989					intel_de_write_dsb(display, dsb,
-  3990							   PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0),
-  3991							   1 << 24);
-  3992				} while (i++ < 130);
-  3993			}
-  3994	
-  3995			intel_de_write_dsb(display, dsb, PLANE_PRE_CSC_GAMC_INDEX_ENH(pipe, plane, 0), 0);
-  3996		}
-  3997	}
-  3998	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ---
+>  drivers/gpu/drm/xe/xe_exec_queue.c | 9 +++------
+>  drivers/gpu/drm/xe/xe_pt.c         | 3 +--
+>  drivers/gpu/drm/xe/xe_sched_job.c  | 2 +-
+>  3 files changed, 5 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe_exec_queue.c
+> index cb5f204c08ed..06736f52fbaa 100644
+> --- a/drivers/gpu/drm/xe/xe_exec_queue.c
+> +++ b/drivers/gpu/drm/xe/xe_exec_queue.c
+> @@ -1037,8 +1037,7 @@ struct dma_fence *xe_exec_queue_last_fence_get(struct xe_exec_queue *q,
+>  
+>  	xe_exec_queue_last_fence_lockdep_assert(q, vm);
+>  
+> -	if (q->last_fence &&
+> -	    test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &q->last_fence->flags))
+> +	if (q->last_fence && dma_fence_test_signaled_flag(q->last_fence))
+>  		xe_exec_queue_last_fence_put(q, vm);
+>  
+>  	fence = q->last_fence ? q->last_fence : dma_fence_get_stub();
+> @@ -1064,8 +1063,7 @@ struct dma_fence *xe_exec_queue_last_fence_get_for_resume(struct xe_exec_queue *
+>  
+>  	lockdep_assert_held_write(&q->hwe->hw_engine_group->mode_sem);
+>  
+> -	if (q->last_fence &&
+> -	    test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &q->last_fence->flags))
+> +	if (q->last_fence && dma_fence_test_signaled_flag(q->last_fence))
+>  		xe_exec_queue_last_fence_put_unlocked(q);
+>  
+>  	fence = q->last_fence ? q->last_fence : dma_fence_get_stub();
+> @@ -1106,8 +1104,7 @@ int xe_exec_queue_last_fence_test_dep(struct xe_exec_queue *q, struct xe_vm *vm)
+>  
+>  	fence = xe_exec_queue_last_fence_get(q, vm);
+>  	if (fence) {
+> -		err = test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) ?
+> -			0 : -ETIME;
+> +		err = dma_fence_test_signaled_flag(fence) ? 0 : -ETIME;
+>  		dma_fence_put(fence);
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
+> index 07f96bda638a..1ca2dec18e51 100644
+> --- a/drivers/gpu/drm/xe/xe_pt.c
+> +++ b/drivers/gpu/drm/xe/xe_pt.c
+> @@ -1208,8 +1208,7 @@ static bool no_in_syncs(struct xe_sync_entry *syncs, u32 num_syncs)
+>  	for (i = 0; i < num_syncs; i++) {
+>  		struct dma_fence *fence = syncs[i].fence;
+>  
+> -		if (fence && !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+> -				       &fence->flags))
+> +		if (fence && !dma_fence_test_signaled_flag(fence))
+>  			return false;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/xe/xe_sched_job.c b/drivers/gpu/drm/xe/xe_sched_job.c
+> index d21bf8f26964..1c9ba49a325b 100644
+> --- a/drivers/gpu/drm/xe/xe_sched_job.c
+> +++ b/drivers/gpu/drm/xe/xe_sched_job.c
+> @@ -188,7 +188,7 @@ static bool xe_fence_set_error(struct dma_fence *fence, int error)
+>  	bool signaled;
+>  
+>  	spin_lock_irqsave(fence->lock, irq_flags);
+> -	signaled = test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags);
+> +	signaled = dma_fence_test_signaled_flag(fence);
+>  	if (!signaled)
+>  		dma_fence_set_error(fence, error);
+>  	spin_unlock_irqrestore(fence->lock, irq_flags);
+> -- 
+> 2.49.0
+> 
