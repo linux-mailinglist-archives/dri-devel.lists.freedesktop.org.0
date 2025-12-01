@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C603DC9750F
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 13:40:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B5AC97512
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 13:40:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F29E310E3C7;
-	Mon,  1 Dec 2025 12:40:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED02C10E3CC;
+	Mon,  1 Dec 2025 12:40:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TwhAcTxX";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BTXqHFrd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C86210E3C7
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 12:40:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06FF610E3CB
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 12:40:06 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 12D736DF;
- Mon,  1 Dec 2025 13:37:21 +0100 (CET)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 121536DF;
+ Mon,  1 Dec 2025 13:37:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1764592642;
- bh=scwp1nFOyzoWTYke7tC9K/cDdbaR8PP1EjQ7+HLIPxs=;
+ s=mail; t=1764592671;
+ bh=+v3zans8SQL6TcuqHoU+8GTaVGHsqj/2oeofJiXiwyY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=TwhAcTxX7IP/lV++yUHbJ6EyDXQitP7QKRDPCmpmEPz/8d9lRjZT+ylr9Kp7bbeRa
- 5iVG2ScMpfSHEUpnQbfxc7LesCoRC76J/KeFrMNMXTAq8/3T0MhwxEGz/lCLJATs+u
- vqh+52PNQGyr+LplmXfaa9/xwN5YaBSqbpNTem+s=
-Message-ID: <10fa2941-2acd-45de-aadd-8422471b49ab@ideasonboard.com>
-Date: Mon, 1 Dec 2025 14:39:32 +0200
+ b=BTXqHFrd53Z8o9bl1CUTaTNbt6M9A4CmUEjSAneXitHkFjmpi5YulXOEvcKY5nmIT
+ PcDagE3I36YcAXHzKRb+BryKghXidUzQoWxtm2xUHqYJenVVQNSloT/pc81+ei0MuF
+ xHbInl4nXfhONa4WjpHHNI6bS2RrVMoyuuU5pcB8=
+Message-ID: <b91b00db-b3f1-418a-a686-b417b290eb4b@ideasonboard.com>
+Date: Mon, 1 Dec 2025 14:40:01 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] drm: tidss: tidss_drv: Add support for AM62P
- display subsystem
+Subject: Re: [PATCH v2 2/3] drm/tidss: Power up attached PM domains on probe
 To: Swamil Jain <s-jain1@ti.com>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, devarsht@ti.com, praneeth@ti.com,
@@ -41,7 +40,7 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, aradhya.bhatia@linux.dev
 References: <20251125165942.2586341-1-s-jain1@ti.com>
- <20251125165942.2586341-4-s-jain1@ti.com>
+ <20251125165942.2586341-3-s-jain1@ti.com>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -87,7 +86,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20251125165942.2586341-4-s-jain1@ti.com>
+In-Reply-To: <20251125165942.2586341-3-s-jain1@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -108,38 +107,198 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi,
 
 On 25/11/2025 18:59, Swamil Jain wrote:
-> The DSS controller on TI's AM62P SoC features two instances of the TI
-> DSS. Each DSS instance supports two video ports, similar to the DSS
-> controller found on the TI AM62X SoC. This allows three independent
-> video streams to be supported: OLDI, DPI, and DSI.
+> From: Devarsh Thakkar <devarsht@ti.com>
 > 
-> Since the DSS instances on AM62P are architecturally similar to those
-> on the AM62X DSS controller, the existing dispc_am625_feats
-> configuration can be reused for the AM62P DSS support.
+> Some SoC's such as AM62P have dedicated power domains
+> for OLDI which need to be powered on separately along
+> with display controller.
 > 
-> This patch adds the necessary device tree compatibility entry for
-> "ti,am62p-dss" in the tidss driver, pointing to dispc_am625_feats,
-> thereby enabling DSS support on AM62P devices.
+> So during driver probe, power up all attached PM domains
+> enumerated in devicetree node for DSS.
 > 
+> This also prepares base to add display support for AM62P.
+> 
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> [j-choudhary@ti.com: fix PM call sequence causing kernel crash in OLDI]
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 > Signed-off-by: Swamil Jain <s-jain1@ti.com>
 > ---
->  drivers/gpu/drm/tidss/tidss_drv.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/tidss/tidss_drv.c | 88 +++++++++++++++++++++++++++++--
+>  drivers/gpu/drm/tidss/tidss_drv.h |  4 ++
+>  2 files changed, 89 insertions(+), 3 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/tidss/tidss_drv.c b/drivers/gpu/drm/tidss/tidss_drv.c
-> index 50158281715f..620d0af478f8 100644
+> index 1c8cc18bc53c..50158281715f 100644
 > --- a/drivers/gpu/drm/tidss/tidss_drv.c
 > +++ b/drivers/gpu/drm/tidss/tidss_drv.c
-> @@ -327,6 +327,7 @@ static const struct of_device_id tidss_of_table[] = {
->  	{ .compatible = "ti,am625-dss", .data = &dispc_am625_feats, },
->  	{ .compatible = "ti,am62a7-dss", .data = &dispc_am62a7_feats, },
->  	{ .compatible = "ti,am62l-dss", .data = &dispc_am62l_feats, },
-> +	{ .compatible = "ti,am62p-dss", .data = &dispc_am625_feats, },
->  	{ .compatible = "ti,am65x-dss", .data = &dispc_am65x_feats, },
->  	{ .compatible = "ti,j721e-dss", .data = &dispc_j721e_feats, },
->  	{ }
+> @@ -8,6 +8,7 @@
+>  #include <linux/of.h>
+>  #include <linux/module.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/pm_domain.h>
+>  #include <linux/aperture.h>
+>  
+>  #include <drm/clients/drm_client_setup.h>
+> @@ -107,6 +108,72 @@ static const struct drm_driver tidss_driver = {
+>  	.minor			= 0,
+>  };
+>  
+> +static int tidss_detach_pm_domains(struct tidss_device *tidss)
+> +{
+> +	int i;
+> +
+> +	if (tidss->num_domains <= 1)
+> +		return 0;
+> +
+> +	for (i = 0; i < tidss->num_domains; i++) {
+> +		if (tidss->pd_link[i] && !IS_ERR(tidss->pd_link[i]))
+> +			device_link_del(tidss->pd_link[i]);
+> +		if (tidss->pd_dev[i] && !IS_ERR(tidss->pd_dev[i]))
+> +			dev_pm_domain_detach(tidss->pd_dev[i], true);
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+There's IS_ERR_OR_NULL()
+
+> +		tidss->pd_dev[i] = NULL;
+> +		tidss->pd_link[i] = NULL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int tidss_attach_pm_domains(struct tidss_device *tidss)
+> +{
+> +	struct device *dev = tidss->dev;
+> +	int i;
+> +	int ret;
+> +	struct platform_device *pdev = to_platform_device(dev);
+> +	struct device_node *np = pdev->dev.of_node;
+> +
+> +	tidss->num_domains = of_count_phandle_with_args(np, "power-domains",
+> +							"#power-domain-cells");
+> +	if (tidss->num_domains <= 1) {
+> +		dev_dbg(dev, "One or less power domains, no need to do attach domains\n");
+
+I don't think this print is needed. It would be printed on almost all
+platforms with DSS.
+
+> +		return 0;
+> +	}
+> +
+> +	tidss->pd_dev = devm_kmalloc_array(dev, tidss->num_domains,
+> +					   sizeof(*tidss->pd_dev), GFP_KERNEL);
+> +	if (!tidss->pd_dev)
+> +		return -ENOMEM;
+> +
+> +	tidss->pd_link = devm_kmalloc_array(dev, tidss->num_domains,
+> +					    sizeof(*tidss->pd_link), GFP_KERNEL);
+> +	if (!tidss->pd_link)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < tidss->num_domains; i++) {
+> +		tidss->pd_dev[i] = dev_pm_domain_attach_by_id(dev, i);
+> +		if (IS_ERR(tidss->pd_dev[i])) {
+> +			ret = PTR_ERR(tidss->pd_dev[i]);
+> +			goto fail;
+> +		}
+> +
+> +		tidss->pd_link[i] = device_link_add(dev, tidss->pd_dev[i],
+> +						    DL_FLAG_STATELESS |
+> +						    DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE);
+> +		if (!tidss->pd_link[i]) {
+> +			ret = -EINVAL;
+> +			goto fail;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +fail:
+> +	tidss_detach_pm_domains(tidss);
+> +	return ret;
+> +}
+> +
+>  static int tidss_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> @@ -129,15 +196,24 @@ static int tidss_probe(struct platform_device *pdev)
+>  
+>  	spin_lock_init(&tidss->irq_lock);
+>  
+> +	/* powering up associated OLDI domains */
+
+I think the function name is self-explanatory, no comment needed.
+
+> +	ret = tidss_attach_pm_domains(tidss);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to attach power domains %d\n", ret);
+> +		goto err_detach_pm_domains;
+
+This is not correct. If tidss_attach_pm_domains() fails, it should do
+its own cleanup, thus there's no need to goto err_detach_pm_domains.
+
+> +	}
+> +
+>  	ret = dispc_init(tidss);
+>  	if (ret) {
+>  		dev_err(dev, "failed to initialize dispc: %d\n", ret);
+> -		return ret;
+> +		goto err_detach_pm_domains;
+>  	}
+>  
+>  	ret = tidss_oldi_init(tidss);
+> -	if (ret)
+> -		return dev_err_probe(dev, ret, "failed to init OLDI\n");
+> +	if (ret) {
+> +		dev_dbg(dev, "failed to init OLDI: %d\n", ret);
+> +		goto err_oldi_deinit;
+
+Same here, this is just not correct. Please go through the error
+handling paths with your patch. This also changes dev_err_probe() to
+dev_dbg().
+
+> +	}
+>  
+>  	pm_runtime_enable(dev);
+>  
+> @@ -203,8 +279,12 @@ static int tidss_probe(struct platform_device *pdev)
+>  	pm_runtime_dont_use_autosuspend(dev);
+>  	pm_runtime_disable(dev);
+>  
+> +err_oldi_deinit:
+>  	tidss_oldi_deinit(tidss);
+>  
+> +err_detach_pm_domains:
+> +	tidss_detach_pm_domains(tidss);
+> +
+>  	return ret;
+>  }
+>  
+> @@ -232,6 +312,8 @@ static void tidss_remove(struct platform_device *pdev)
+>  	/* devm allocated dispc goes away with the dev so mark it NULL */
+>  	dispc_remove(tidss);
+>  
+> +	tidss_detach_pm_domains(tidss);
+> +
+>  	dev_dbg(dev, "%s done\n", __func__);
+>  }
+>  
+> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
+> index e1c1f41d8b4b..6eb17cb32043 100644
+> --- a/drivers/gpu/drm/tidss/tidss_drv.h
+> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
+> @@ -41,6 +41,10 @@ struct tidss_device {
+>  	/* protects the irq masks field and irqenable/irqstatus registers */
+>  	spinlock_t irq_lock;
+>  	dispc_irq_t irq_mask;	/* enabled irqs */
+> +
+> +	int num_domains; /* Handle attached PM domains */
+
+What does the comment mean?
 
  Tomi
+
+> +	struct device **pd_dev;
+> +	struct device_link **pd_link;
+>  };
+>  
+>  #define to_tidss(__dev) container_of(__dev, struct tidss_device, ddev)
 
