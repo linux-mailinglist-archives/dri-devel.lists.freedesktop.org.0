@@ -2,73 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7AD1C98AA1
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 19:11:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50A1C98AAA
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 19:13:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1458C10E452;
-	Mon,  1 Dec 2025 18:11:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAE6510E44A;
+	Mon,  1 Dec 2025 18:13:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Vd2NavZ1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lOkZtHAy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 514E910E44C
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 18:11:04 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-7a9fb70f7a9so312063b3a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 10:11:04 -0800 (PST)
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+ [209.85.210.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 031A210E449
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 18:13:18 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id
+ d2e1a72fcca58-7bac5b906bcso511971b3a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 10:13:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764612664; x=1765217464; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1764612797; x=1765217597; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=pACjIJ5Z98dL1VC/6XHBEnEAfmGPEe/jI8Z9/L5Bn2s=;
- b=Vd2NavZ1yKr0xG9fpYA/anBb3pE7CC1ajHWDQbkxGDMS6M2i6yDK5imucw18oYUd2D
- PfsmMUX2ZTEKl4W8BbhTpNZszZSey9Ez99D5vdbB7MZTF5mkJoeiEa1r7yqOTJGEtMhl
- AIwYCUj16F9DAdO4k71Tr041nBX9rJbdFEo0cJHVKHRKEtjnI1fdE/40CneEpeuES+Wy
- ifZAwC+EF3ekWkguQ9rCzPs/OUNWKRvgP0Z40nQlJEAE7DpzQhLO8sZ106bCHxiti7LA
- QWKyycYrdKxYKEWtegenT71XI77P5M/rgRtqu8+61St4VSomKEUW70sWoG3JoxXasS8o
- 2CTw==
+ bh=rZKFL/JEwbljEDVnMiN+HCxuZU9kf3npT0jz2xRcA7Q=;
+ b=lOkZtHAyjPxl5v7Q7po+95F7+Crdz+v5UaaeZ0LkDFL0QYwl21GI/xj6tj6Svnit2D
+ aoROb8O/mkpvc1gkxEwrqw5gwiVyfTdhUY7aJ+SJLIJvAUJKPb6hPt0MGwodGeCdX2/S
+ u2JPIUIlf589NDK58ShyN+pN2YRnOhz2rwXcbNlPRMZBJGxt2lsNzlPc92LDzqcwI6VY
+ KuysVJQ8VGaCYIVG+7WWCocbaxsaS85ktDjRv1+P0vv7YB2nQoKbxJs+GYialFULcWHI
+ 6/5rMFsc5ma6Cz9iQO1Q7f27WhFKiCtPdxhq7hPGo+Qrl1EUcxa3YQo6xWDS0EMpERQP
+ KAFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764612664; x=1765217464;
+ d=1e100.net; s=20230601; t=1764612797; x=1765217597;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=pACjIJ5Z98dL1VC/6XHBEnEAfmGPEe/jI8Z9/L5Bn2s=;
- b=h+Q19yMyKU8TjQbgQBdN+KVV5B6PIQYZmoTu5/pfsRe2pVsBVC+b3nWXXbdhST0Tpt
- DwXpRWxK4IeLxkpLKT1ZJvvUgwLCzTdjudsISXZBgjW4wEgElLhmobmBNHIdW7f+hFU8
- 1iQwFvNfj9iNWaFU+NayOCBEybrkhBFA48ckNnRYkienSKqyI3vaoRaB+wZ8GRN+DZjv
- 09tcvIYXmKehLbdu6UxEW6R9/B4iGtdnd8St+Nk1LEFG5yv8KIPf0JA5pBAhrkRY/Rrv
- iKPRco+wsrhqzy/9JU2MQQAe2fI5A8HN1sp9nxhol7i95w06Ri9fjIeQJnxGd8E0n0hB
- kJ0Q==
-X-Gm-Message-State: AOJu0YxC6gup9lISzi2VEGuS1r3rEuMGRogtJONdNSqROB5pZwfUEnXp
- Iy6jcgKZHrusYHXGca+UmupW7NlSsZ5szv9e3+gQTHcf13RIyvsjMItXd23HBuCX8Zs7pXmBxAn
- ek4kgXk/dYxMRqc8PpaYGIqo25qkA3Hw=
-X-Gm-Gg: ASbGncsNoW+cDkrxG4rqjqZqPJJ0S4XyLr7fwCiGWmTaFyZtniUdqI/LlGearmzSSYo
- i9JiN4sMQjiTE6l8SaDKEfIg4uYar4YWsub+dYMinS2V8yiloMaLPCZ8XIzYN9E9Xtx4BAMXK77
- wPBh/ElwZK6CSHjEOBr030JgUYvUDHcqQOKvreVG0ZvLmAX2snHJqU/Fqijfevh5tD5S2pIeIJM
- vnYJPn3uAGJ3DBpxJy7mIRPd68qJQmFuCOYyUyTXokBx7ubJxdkMoeVfpJcOLqBveBVyTM=
-X-Google-Smtp-Source: AGHT+IE71pJafFwUFiPS9h38WORURTVaywA11WteMOZkloki51qtSpW8dr8VyIrZTMlaeGq2FnTBiE1ewdbGlm1RvZM=
-X-Received: by 2002:a05:7022:20b:b0:11a:43fb:58dd with SMTP id
- a92af1059eb24-11c9d8851e0mr22415203c88.5.1764612663631; Mon, 01 Dec 2025
- 10:11:03 -0800 (PST)
+ bh=rZKFL/JEwbljEDVnMiN+HCxuZU9kf3npT0jz2xRcA7Q=;
+ b=csVeU1jw6t/17iPQIiuef62VsOGL2xS0Sd413VllGuPVda+y8973fJcRuH2W3udFGy
+ QCRY4hmH8sbjSwPxOec2CR/kNgJHetsWj2PgO6vFyVW0xGv9iGVJMW83jtNYiP34vOoD
+ DDSml3gsb47FrqapLR46gWGvfD2ojGMyBxBnRe0tYTTOHZynF/dtbzsyFmlEg2uktJqh
+ U/CNKkA7VRn48x44+pidzLvrEhl/OQyCRKpFzjQCsLolxCkfoQUxXslOafDRgL4W3DVh
+ ToliHUhM/BTHuWf61a7aei26dIyeyvVCbde1MMAlREfTYZTs0a3RdSv3lMuIGE0tDmJH
+ llmw==
+X-Gm-Message-State: AOJu0Yy4d+kpOgm8ZioknRsjrdUgC8qNmXOyJ22HFdiEfHsWDw6Kl+ef
+ gnA2nn/+0CQCzazzU1BtLkuJtrGCLVYMjY4JFi77UsVQXRICt9R0zdo6W0CBleikvDdZ+/2P4R9
+ 4w/QOZS8vkYpO/ViZvH0ayYBIRUraJVOexg==
+X-Gm-Gg: ASbGncuRC5kng2xFw5bQZloWhr2/EJuOJY03ucAbxKiIYSTTaI4jIM/iTyIYMfRB6ux
+ lkm6GprbwfhWTuMGtzLQG8dlh9qB8fMfD8/CNVxnOqPpRAnOBKCpakwPXRBPhnpub124c2XQE85
+ 1A7KSO86ly2U6fVLY/cMWZJUUCcUhOQL+hlaFyvlJ7SV+pD8N3C2WEim3wilvjwZn1j/c41maQN
+ 8x9aKKqzq7bonv7Dsqb42Bfc9Sv8UH8pHve4+mYvgs5dKip7jkQziKLaQOMuJsFS91yH7U=
+X-Google-Smtp-Source: AGHT+IEko7+6ZQfi2SHPHswwqWhnkJEszsunfElDB7n2BH9Cvzj1GBhb6ZX5FoUjJkiIep9k8GRdbYR+fNG/2OVGzQI=
+X-Received: by 2002:a05:7023:c007:b0:11b:ad6a:6e39 with SMTP id
+ a92af1059eb24-11c9f3a16demr15258433c88.5.1764612797406; Mon, 01 Dec 2025
+ 10:13:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20251129073740.1813659-1-rdunlap@infradead.org>
-In-Reply-To: <20251129073740.1813659-1-rdunlap@infradead.org>
+References: <20250325210517.2097188-1-bradynorander@gmail.com>
+ <CADnq5_MNBUY=jWbnq-gZQ_4_M_sBJGAgMD0bj2cMdnkoU9G=HA@mail.gmail.com>
+ <9ab05b38-6f77-4b0b-8a1b-8314e2873047@gmail.com>
+ <CADnq5_No+w+tco9j35GBM3+CYBTo018eLwWec278d3VBJHPQxw@mail.gmail.com>
+ <7462992a-fdc1-44ff-9604-ca5a9feaef07@gmail.com>
+In-Reply-To: <7462992a-fdc1-44ff-9604-ca5a9feaef07@gmail.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 1 Dec 2025 13:10:52 -0500
-X-Gm-Features: AWmQ_bmuZ0JnGfMfHwqT7CqSUNa9bxeI_sau48Vz1Z6fx06hE5loP7Vv_ifbeOc
-Message-ID: <CADnq5_OWcjQjNEuUKva1HJE+8ufD6dOecwZdikAuhvaQ_HBMZA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: correct kernel-doc in dml21_wrapper.h
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: dri-devel@lists.freedesktop.org, Austin Zheng <austin.zheng@amd.com>, 
- Jun Lei <jun.lei@amd.com>, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- amd-gfx@lists.freedesktop.org
+Date: Mon, 1 Dec 2025 13:13:06 -0500
+X-Gm-Features: AWmQ_bk2sFxl2w_v6h4bWnH-9snjeEy59H2TxSLFYb1U9EE4s8zd-Xrk4mUxofc
+Message-ID: <CADnq5_Mat5hBpBFit+ETwOSv8m3vdZVo02Zk6F4GrmJzNGvksA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: use static ids for ACP platform devs
+To: Brady Norander <bradynorander@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, alexander.deucher@amd.com, 
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch, 
+ sunil.khatri@amd.com, boyuan.zhang@amd.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -86,76 +88,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+Applied.  Thanks.
 
-On Sat, Nov 29, 2025 at 2:37=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org=
-> wrote:
+Alex
+
+On Sun, Nov 30, 2025 at 8:48=E2=80=AFAM Brady Norander <bradynorander@gmail=
+.com> wrote:
 >
-> Fix all kernel-doc warnings in dml21_wrapper.h:
-> - add missing @dml_ctx entries (2 places)
-> - fix function prototype typo for dml21_create()
-> - change a blank kernel-doc line to " *"
+> On 11/10/25 14:14, Alex Deucher wrote:
+> > On Tue, Mar 25, 2025 at 7:11=E2=80=AFPM Brady Norander <bradynorander@g=
+mail.com> wrote:
+> >>
+> >> On 3/25/25 6:12 PM, Alex Deucher wrote:
+> >>>
+> >>> While you are at it, can you take a look at
+> >>> drivers/gpu/drm/amd/amdgpu/isp_v4_1_0.c and
+> >>> drivers/gpu/drm/amd/amdgpu/isp_v4_1_1.c as well?
+> >>>
+> >>> Alex
+> >>
+> >> I think it makes more sense to handle that in a separate patch as it i=
+s
+> >> an unrelated ip block.
+> >
+> > Sure. Can you send a patch to fix those up as well if needed?
+> >
+> > Alex
 >
-> Fixes these warnings:
-> Warning: drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21_wrapper.h:30
->  function parameter 'dml_ctx' not described in 'dml21_create'
-> Warning: drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21_wrapper.h:30
->  expecting prototype for dml2_create(). Prototype was for dml21_create()
->  instead
-> Warning: drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21_wrapper.h:55
->  bad line:
-> Warning: drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21_wrapper.h:61
->  function parameter 'dml_ctx' not described in 'dml21_validate'
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> Cc: Austin Zheng <austin.zheng@amd.com>
-> Cc: Jun Lei <jun.lei@amd.com>
-> Cc: Harry Wentland <harry.wentland@amd.com>
-> Cc: Leo Li <sunpeng.li@amd.com>
-> Cc: Rodrigo Siqueira <siqueira@igalia.com>
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: amd-gfx@lists.freedesktop.org
-> ---
->  drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21_wrapper.h |    7 ++++-=
---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> --- linux-next-20251128.orig/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/=
-dml21_wrapper.h
-> +++ linux-next-20251128/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21=
-_wrapper.h
-> @@ -17,9 +17,9 @@ struct dml2_context;
->  enum dc_validate_mode;
->
->  /**
-> - * dml2_create - Creates dml21_context.
-> + * dml21_create - Creates dml21_context.
->   * @in_dc: dc.
-> - * @dml2: Created dml21 context.
-> + * @dml_ctx: Created dml21 context.
->   * @config: dml21 configuration options.
->   *
->   * Create of DML21 is done as part of dc_state creation.
-> @@ -40,6 +40,7 @@ void dml21_reinit(const struct dc *in_dc
->   * dml21_validate - Determines if a display configuration is supported o=
-r not.
->   * @in_dc: dc.
->   * @context: dc_state to be validated.
-> + * @dml_ctx: dml21 context.
->   * @validate_mode: DC_VALIDATE_MODE_ONLY and DC_VALIDATE_MODE_AND_STATE_=
-INDEX
->   *           will not populate context.res_ctx.
->   *
-> @@ -53,7 +54,7 @@ void dml21_reinit(const struct dc *in_dc
->   * -dml21_check_mode_support - for DC_VALIDATE_MODE_ONLY and DC_VALIDATE=
-_MODE_AND_STATE_INDEX option
->   * Calculates if dc_state can be supported for the input display
->   * config.
-> -
-> + *
->   * Context: Two threads may not invoke this function concurrently unless=
- they reference
->   *          separate dc_states for validation.
->   * Return: True if mode is supported, false otherwise.
+> Sorry to nag again, but can we look into getting this patch merged? The
+> ASoC patch has already been merged and it would be nice to have audio
+> working on this platform.
