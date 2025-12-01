@@ -2,61 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E02C96AB7
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 11:33:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D482C96AE7
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 11:36:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74A3F10E237;
-	Mon,  1 Dec 2025 10:33:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDAD310E36A;
+	Mon,  1 Dec 2025 10:36:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="G9YcgJiO";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ttqxnQUl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6B3810E237
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 10:33:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=1UxRayKjfGmLzV11R6yiUvXi/gnqWdPw/R5Q/5Mgx3E=; b=G9YcgJiOoMdTQWx3HSu9I8osiK
- Q6UKaTUHkB2Kz7i2ssfb/xMvukhhiFxOq1MGXerwoiQQVdO4p0OrVEQ+rCAd0CsEvJQeWlD5s95yD
- 4Jmls/MsMXcNg8swhe40zEvu5prQ5SGVPNy/MNCltv2EH33LevWIYrqbu94OpTGn8+ibvwYez/PO+
- xF1yCq3qBTb6hLSv1PTC1B5+WDf43iLGqpGI1lGchi5rAjCqPuMOGiG7uUbKGdedBoSOwUPDzg/H6
- wRVMIaa28IhERHRNhsUuwfyl8/qwHV9ERPerynrRC1TElhZAaNbd0iLiTCxLNRUkcpmxALo8ER/i/
- KVXfY/Mw==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vQ1DV-007L7I-G2; Mon, 01 Dec 2025 11:33:13 +0100
-Message-ID: <07212b84-fc2a-4efe-a39b-5b536b6dd602@igalia.com>
-Date: Mon, 1 Dec 2025 10:33:12 +0000
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E68AF10E36A
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 10:36:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 5CB7243952;
+ Mon,  1 Dec 2025 10:36:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0535CC4CEF1;
+ Mon,  1 Dec 2025 10:36:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764585399;
+ bh=i/3/Rip96GcKSnLsnoJCi2BaWt5AlEQD9LD5Gy2yr64=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ttqxnQUlMyZ735APhYyyPQlNfKCxrJ7vr/YSfKPCFR/vDFgL5eOPDW09v0LT0lpDU
+ ivEril84GprJ+EjxGUybk0u36RrkTSTOptCgRjdaVWZr9v6m4kzG/4rxC7D8gIjlLg
+ x9L89WwPTIOM0SklBRUx3nfizT1F98V85iPW0HzxOWSuSouOGJXt8bSSuie3N6CKQX
+ v0aWu63LNuFVFVOuT6a7PFDevwj8J4ygb9f+9ABPHjimzoxqrBD4txoLI9eR6nynSH
+ LZPhMTEMQ3aGx4iBMHTVXXD89hmehrEftHm/iHMnsfKYW8uDA0XD02v5GozAldSMPq
+ yvKsa4tXDLWbw==
+Message-ID: <ed7701d7-28c8-4760-9ccb-f22fc1e9528e@kernel.org>
+Date: Mon, 1 Dec 2025 11:36:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFX] efi: sysfb_efi: Fix simpledrmfb on Steam Deck
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- kernel-dev@igalia.com, Javier Martinez Canillas <javierm@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Melissa Wen <mwen@igalia.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- Mario Limonciello <mario.limonciello@amd.com>, linux-efi@vger.kernel.org
-References: <20251128150403.11567-1-tvrtko.ursulin@igalia.com>
- <ce41c2d1-c659-4632-8469-761762202800@suse.de>
- <660c5469-086f-40b4-99f1-72c1bc613ece@igalia.com>
- <1df5a480-2510-43b9-9d79-51d842518036@suse.de>
- <b146fb1b-80e9-403c-acd1-b50ef1aaa646@igalia.com>
- <1b73df5b-5f47-4ce4-abd4-83d550cc0dea@suse.de>
- <e7c4a76e-5cef-4a75-847f-59c53a554327@igalia.com>
- <CAMj1kXFOS9jAzhh2Z_4rarEGd+kGPyNCu9PFoMhFbBVEF8NwJw@mail.gmail.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <CAMj1kXFOS9jAzhh2Z_4rarEGd+kGPyNCu9PFoMhFbBVEF8NwJw@mail.gmail.com>
+Subject: Re: [PATCH RFC] mm/vmap: map contiguous pages in batches whenever
+ possible
+To: Barry Song <21cnbao@gmail.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Barry Song <v-songbaohua@oppo.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, John Stultz <jstultz@google.com>,
+ Maxime Ripard <mripard@kernel.org>
+References: <20251122090343.81243-1-21cnbao@gmail.com>
+From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20251122090343.81243-1-21cnbao@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,131 +64,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 01/12/2025 10:18, Ard Biesheuvel wrote:
-> On Mon, 1 Dec 2025 at 11:03, Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
->>
->>
->> On 01/12/2025 09:39, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 01.12.25 um 10:20 schrieb Tvrtko Ursulin:
->>>>
->>>> On 01/12/2025 07:32, Thomas Zimmermann wrote:
->>>>> Hi
->>>>>
->>>>> Am 29.11.25 um 11:44 schrieb Tvrtko Ursulin:
->>>>>>
->>>>>> On 28/11/2025 17:07, Thomas Zimmermann wrote:
->>>>>>> Hi,
->>>>>>>
->>>>>>> thanks for the bug report
->>>>>>>
->>>>>>> Am 28.11.25 um 16:04 schrieb Tvrtko Ursulin:
->>>>>>>> I am not sure how is simpledrmfb on top of EFI supposed to work,
->>>>>>>> but at
->>>>>>>> least at the moment it appears there is a missing link in the
->>>>>>>> "discovery"
->>>>>>>> of frame buffer parameters.
->>>>>>>>
->>>>>>>> What I can see is that EFI GOP reads some parameters from the
->>>>>>>> firmware and
->>>>>>>> infers the other, such as in this case problematic pitch, or stride.
->>>>>>>
->>>>>>> The pitch/stride value comes from the firmware via
->>>>>>> pixels_per_scanline [1].
->>>>>>>
->>>>>>> Can you verify that this value is really 800 instead of 832 (eq
->>>>>>> 3328 bytes) ?
->>>>>>>
->>>>>>> [1] https://elixir.bootlin.com/linux/v6.17.9/source/drivers/
->>>>>>> firmware/ efi/libstub/gop.c#L493
->>>>>>
->>>>>> I actually got confused a bit in following the flow so thank you for
->>>>>> asking me to double check.
->>>>>>
->>>>>> GOP actually reports 1280x800 with a stride of 5120. So it kind of
->>>>>> reports a rotated view already, kind of.
->>>>>
->>>>> These are correct values.
->>>>>
->>>>> But the stream deck is this device: [1], right? It uses landscape-
->>>>> mode orientation. Why does it require rotation at all?
->>>>>
->>>>> [1] https://de.wikipedia.org/wiki/Steam_Deck#/media/
->>>>> Datei:Steam_Deck_(front).png
->>>>
->>>> That's the device yes. For the user the screen is landscape, but the
->>>> actual panel is 800x1280 portrait. Left edge is top of the display.
->>>> (Hence the pre-existing entry in drm_get_panel_orientation_quirk.)
->>>
->>> I see. So the EFI display settings are configured as if this was a
->>> landscape panel.
->>>
->>> What happens if you leave the EFI settings as-is and simply remove the
->>> panel-orientation quirk?
->>
->> That would create effectively the same situation as without my patch
->> because the panel-orientation quirk does not trigger unless detected
->> screen is 800x1280. Result is corrupted console since fbcon thinks it is
->> a landscape 1280x800 screen.
->>>>>> Only when the rotation quirk from efifb_dmi_swap_width_height
->>>>>> triggers the stride gets incorrectly recalculated:
->>>>>>
->>>>>>          u16 temp = screen_info.lfb_width;
->>>>>>
->>>>>>          screen_info.lfb_width = screen_info.lfb_height;
->>>>>>          screen_info.lfb_height = temp;
->>>>>>          screen_info.lfb_linelength = 4 * screen_info.lfb_width;
->>>>>>
->>>>>> So this is where things go wrong, well, they actually go wrong a
->>>>>> little bit even earlier, in gop.c:
->>>>>>
->>>>>>      si->lfb_size = si->lfb_linelength * si->lfb_height;
->>>>>>
->>>>>> Which potentially underestimates the fb size. If GOP was forward
->>>>>> looking enough to give us the size we could derive the pitch based
->>>>>> on size..
->>>>>>
->>>>>> Anyway, as it stands it looks a quirk in sysfb_apply_efi_quirks
->>>>>> looks it is required to fix it all up.
->>>>>>
->>>>>> I am a bit uneasy about declaring the fb size larger than what was
->>>>>> implied by firmware provided pitch * height * depth but limited to a
->>>>>> specific DMI match and if it looks visually okay I think it is a
->>>>>> safe assumption the quirked size is actually correct and safe.
->>>>>
->>>>> Yeah, we better not do that.
->>>> You mean declare it a firmware bug and live with the corrupt console
->>>> until the final fb driver takes over?
->>>
->>> I only mean that we should not use more video memory than provided by EFI.
->>
->> Right, but that information is not available in the GOP, right? Ie. as I
->> wrote above it appears assumed:
->>
->>      si->lfb_size = si->lfb_linelength * si->lfb_height;
->>
->> Do we have any other options apart from corruption or assume firmware
->> configured GOP screen info incorrectly?
->>
+On 11/22/25 10:03, Barry Song wrote:
+> From: Barry Song <v-songbaohua@oppo.com>
 > 
-> How does it make sense to recalculate the line length? Those invisible
-> pixels at the end of the scanline are not going to be transposed to
-> the other dimension, right?
+> In many cases, the pages passed to vmap() may include
+> high-order pages—for example, the systemheap often allocates
+> pages in descending order: order 8, then 4, then 0. Currently,
+> vmap() iterates over every page individually—even the pages
+> inside a high-order block are handled one by one. This patch
+> detects high-order pages and maps them as a single contiguous
+> block whenever possible.
+> 
+> Another possibility is to implement a new API, vmap_sg().
+> However, that change seems to be quite large in scope.
+> 
+> When vmapping a 128MB dma-buf using the systemheap,
+> this RFC appears to make system_heap_do_vmap() 16× faster:
+> 
+> W/ patch:
+> [   51.363682] system_heap_do_vmap took 2474000 ns
+> [   53.307044] system_heap_do_vmap took 2469008 ns
+> [   55.061985] system_heap_do_vmap took 2519008 ns
+> [   56.653810] system_heap_do_vmap took 2674000 ns
+> 
+> W/o patch:
+> [    8.260880] system_heap_do_vmap took 39490000 ns
+> [   32.513292] system_heap_do_vmap took 38784000 ns
+> [   82.673374] system_heap_do_vmap took 40711008 ns
+> [   84.579062] system_heap_do_vmap took 40236000 ns
+> 
+> Cc: Uladzislau Rezki <urezki@gmail.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: John Stultz <jstultz@google.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
+> ---
+>   mm/vmalloc.c | 49 +++++++++++++++++++++++++++++++++++++++++++------
+>   1 file changed, 43 insertions(+), 6 deletions(-)
+> 
+> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> index 0832f944544c..af2e3e8c052a 100644
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -642,6 +642,34 @@ static int vmap_small_pages_range_noflush(unsigned long addr, unsigned long end,
+>   	return err;
+>   }
+>   
+> +static inline int get_vmap_batch_order(struct page **pages,
+> +		unsigned int stride,
+> +		int max_steps,
+> +		unsigned int idx)
 
-Not sure what you meant here. The line above is from gop.c and the 
-context is that GOP screen info appears to not carry the frame buffer 
-size in bytes so it is implied.
+These fit into less lines.
 
-Elsewhere in the patch I quirk the pitch to the correct value so rotated 
-rendering is correct.
+ideally
 
-But the corrected pitch also means that in principle we need to adjust 
-the frame buffer size, since it is larger than the size implied with the 
-incorrect pitch.
+\t\tunsigned int stride, int max_steps, unsigned int idx)
 
-Regards,
+> +{
 
-Tvrtko
+int order, nr_pages, i;
+struct page *base;
 
+But I think you can just drop "base". And order.
+
+> +	/*
+> +	 * Currently, batching is only supported in vmap_pages_range
+> +	 * when page_shift == PAGE_SHIFT.
+> +	 */
+> +	if (stride != 1)
+> +		return 0;
+> +
+> +	struct page *base = pages[idx];
+> +	if (!PageHead(base))
+> +		return 0;
+> +
+> +	int order = compound_order(base);
+> +	int nr_pages = 1 << order;
+
+
+You can drop the head check etc and simply do
+
+nr_pages = compound_nr(pages[idx]);
+if (nr_pages == 1)
+	return 0;
+
+Which raises the question: are these things folios? I assume not.
+
+> +
+> +	if (max_steps < nr_pages)
+> +		return 0;
+> +
+> +	for (int i = 0; i < nr_pages; i++)
+> +		if (pages[idx + i] != base + i)
+> +			return 0;
+
+if (num_pages_contiguous(&pages[idx], nr_pages) == nr_pages)
+	return compound_order(pages[idx]);
+return 0;
+
+-- 
+Cheers
+
+David
