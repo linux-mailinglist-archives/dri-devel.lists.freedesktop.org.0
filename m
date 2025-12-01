@@ -2,51 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F639C96261
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 09:30:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ACCEC9626E
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 09:30:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCA7710E32B;
-	Mon,  1 Dec 2025 08:30:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 626E510E31F;
+	Mon,  1 Dec 2025 08:30:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XTxarnnx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iTkMUb/a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F10DF10E326;
- Mon,  1 Dec 2025 08:30:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5A8E10E340;
+ Mon,  1 Dec 2025 08:30:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764577809; x=1796113809;
+ t=1764577815; x=1796113815;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=yIdNhEnolQY4SwwQ474YXZuZ51s/IHFsE4DzlXIuclY=;
- b=XTxarnnxytCL84g6hoYXmdQPT2kUncMClXDiVfOBQ4xSqDWN4LS+M7E8
- dbQwH40o3QL6HhhzdkRjlMLaCFTRoVfatpzziF4LqGkBLUk/Sm/JxDmFT
- xdHLFlr6geu9Xy0/d07Px0lMIDajni/VVlWPhYUMqaXhpq8niZyGESgUB
- 5DcJdMK5Ak0kNOz/8pMnUXxzDwtH66ffvibUed5fvn6SnwxifrPtDkXwK
- BCEHcBe37dv8VetiBKOZhNlSfcZGpPSW8BfE7GZPBR4kDlwt2RD7CgBPG
- JsO5q+lY8HcBFqGVQ01H4jQioUzPkGl6gw27l0Oa+nK/1WkK9pVC47c6e Q==;
-X-CSE-ConnectionGUID: e/2fu/+iSwKqFFMSIgC/fw==
-X-CSE-MsgGUID: UIfSeKygRpyyJzaCYDm+nA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="66578568"
-X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="66578568"
+ bh=4vssSjKg+L0n5tTM1GUpwxWyC7fl60bhctsN15IJY4k=;
+ b=iTkMUb/a0xJQTPZIl9qJSjoIpVckVMBEX0ZzQEYAfYTkVSEiNsHmfOYW
+ XW8GX5Oq+TmwDGrq/iT5kVdTgbEl3Oxrd24Ll+43I8Vqb7CXVW9VBp2Gv
+ Qz6K62BJWgIM36uNdjMe0SBdqssDCdz5NnlyNnje0tGaAkxNAXz+yKsok
+ GGEFQ0poEXli0FmV/y8ygIIHWzAwHmDZNXZ4Mrhd8W3aDaVdklRSFaZJT
+ Pv/T2mAflecw7J2VREMj2Cx3W2OPObBVRjDkWgzeT9U0PBom+4KoMrJIe
+ wQBgfH6Qu7kF5igq6V9O0W+T0jlYNOroIbvM2cU+dC2nnjiQkdXHmnlKY A==;
+X-CSE-ConnectionGUID: AKqSfZ8HSd+gi7WxmLz7MA==
+X-CSE-MsgGUID: F44ktzsWRO60txct4hVGOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="66578603"
+X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="66578603"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 00:30:08 -0800
-X-CSE-ConnectionGUID: CX2Crrk7SSaXrxFOlTnglg==
-X-CSE-MsgGUID: RXxZt8zZRZ68WQNWjvc0yQ==
+ 01 Dec 2025 00:30:15 -0800
+X-CSE-ConnectionGUID: 2gqRplfmTHq7aBzGhO4DSg==
+X-CSE-MsgGUID: GvQFdX9KQrKHCwSK1y/MVA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="198353229"
+X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="198353385"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa005.fm.intel.com with ESMTP; 01 Dec 2025 00:30:01 -0800
+ by fmviesa005.fm.intel.com with ESMTP; 01 Dec 2025 00:30:08 -0800
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Mon, 01 Dec 2025 13:58:57 +0530
-Subject: [PATCH v9 15/20] drm/i915/iet: Add support to writing the IET LUT data
+Date: Mon, 01 Dec 2025 13:58:58 +0530
+Subject: [PATCH v9 16/20] drm/i915/colorop: create IET LUT properties
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251201-dpst-v9-15-e462d55dba65@intel.com>
+Message-Id: <20251201-dpst-v9-16-e462d55dba65@intel.com>
 References: <20251201-dpst-v9-0-e462d55dba65@intel.com>
 In-Reply-To: <20251201-dpst-v9-0-e462d55dba65@intel.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -84,143 +84,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-User created LUT can be fed back to the hardware so that the hardware
-can apply this LUT data to see the enhancement in the image.
+Create IET LUT properties for i915.
 
 Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_histogram.c | 67 ++++++++++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_histogram.h |  4 ++
- 2 files changed, 71 insertions(+)
+ drivers/gpu/drm/i915/display/intel_display_limits.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_histogram.c b/drivers/gpu/drm/i915/display/intel_histogram.c
-index b42edf7dae7c0b8d083dff81c41a7ed4f7938e84..cf8aa7b04c4461629b071e49601a0e60d7609a08 100644
---- a/drivers/gpu/drm/i915/display/intel_histogram.c
-+++ b/drivers/gpu/drm/i915/display/intel_histogram.c
-@@ -22,6 +22,7 @@
- /* Precision factor for threshold guardband */
- #define HISTOGRAM_GUARDBAND_PRECISION_FACTOR 10000
- #define HISTOGRAM_BIN_READ_RETRY_COUNT 5
-+#define IET_SAMPLE_FORMAT_1_INT_9_FRACT 0x1000009
+diff --git a/drivers/gpu/drm/i915/display/intel_display_limits.h b/drivers/gpu/drm/i915/display/intel_display_limits.h
+index 20bb2bd81489b4fed7e550e0b4e0ade6dcf35859..cda05e50a30c08fae50af44e5c69e1ea1a0859d8 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_limits.h
++++ b/drivers/gpu/drm/i915/display/intel_display_limits.h
+@@ -148,6 +148,7 @@ enum intel_color_block {
  
- static bool intel_histogram_get_data(struct intel_crtc *intel_crtc)
- {
-@@ -227,6 +228,57 @@ int intel_histogram_update(struct intel_crtc *intel_crtc,
- 	return 0;
- }
+ enum intel_crtc_color_block {
+ 	INTEL_CRTC_HISTOGRAM,
++	INTEL_CRTC_IET,
  
-+int intel_histogram_set_iet_lut(struct intel_crtc *intel_crtc,
-+				struct drm_property_blob *blob)
-+{
-+	struct intel_histogram *histogram = intel_crtc->histogram;
-+	struct intel_display *display = to_intel_display(intel_crtc);
-+	int pipe = intel_crtc->pipe;
-+	int i = 0;
-+	struct drm_iet_1dlut_sample *iet;
-+	struct drm_colorop *colorop = intel_crtc->base.state->color_pipeline;
-+	u32 *data;
-+	int ret;
-+
-+	if (!histogram)
-+		return -EINVAL;
-+
-+	if (!histogram->enable) {
-+		drm_err(display->drm, "histogram not enabled");
-+		return -EINVAL;
-+	}
-+
-+	data = kcalloc(iet->nr_elements, sizeof(data), GFP_KERNEL);
-+	if (!data)
-+		return -ENOMEM;
-+
-+	/* Set DPST_CTL Bin Reg function select to IE & wait for a vblabk */
-+	intel_de_rmw(display, DPST_CTL(pipe),
-+		     DPST_CTL_BIN_REG_FUNC_SEL, DPST_CTL_BIN_REG_FUNC_IE);
-+
-+	drm_crtc_wait_one_vblank(&intel_crtc->base);
-+
-+	 /* Set DPST_CTL Bin Register Index to 0 */
-+	intel_de_rmw(display, DPST_CTL(pipe),
-+		     DPST_CTL_BIN_REG_MASK, DPST_CTL_BIN_REG_CLEAR);
-+
-+	iet = (struct drm_iet_1dlut_sample *)blob->data;
-+	ret = copy_from_user(data, (uint32_t __user *)(unsigned long)iet->iet_lut,
-+			     sizeof(uint32_t) * iet->nr_elements);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < HISTOGRAM_IET_LENGTH; i++) {
-+		intel_de_rmw(display, DPST_BIN(pipe),
-+			     DPST_BIN_DATA_MASK, data[i]);
-+		drm_dbg_atomic(display->drm, "iet_lut[%d]=%x\n", i, data[i]);
-+	}
-+	drm_property_blob_put(colorop->state->data);
-+	kfree(data);
-+
-+	return 0;
-+}
-+
- void intel_histogram_finish(struct intel_crtc *intel_crtc)
- {
- 	struct intel_histogram *histogram = intel_crtc->histogram;
-@@ -239,6 +291,8 @@ int intel_histogram_init(struct intel_crtc *crtc)
- {
- 	struct intel_histogram *histogram;
- 	struct drm_histogram_caps *histogram_caps;
-+	struct drm_iet_caps *iet_caps;
-+	u32 *iet_format;
- 
- 	/* Allocate histogram internal struct */
- 	histogram = kzalloc(sizeof(*histogram), GFP_KERNEL);
-@@ -251,10 +305,23 @@ int intel_histogram_init(struct intel_crtc *crtc)
- 	histogram_caps->histogram_mode = DRM_MODE_HISTOGRAM_HSV_MAX_RGB;
- 	histogram_caps->bins_count = HISTOGRAM_BIN_COUNT;
- 
-+	iet_caps = kzalloc(sizeof(*iet_caps), GFP_KERNEL);
-+	if (!iet_caps)
-+		return -ENOMEM;
-+
-+	iet_caps->iet_mode = DRM_MODE_IET_MULTIPLICATIVE;
-+	iet_caps->nr_iet_sample_formats = 1;
-+	iet_caps->nr_iet_lut_entries = HISTOGRAM_IET_LENGTH;
-+	iet_format = kcalloc(iet_caps->nr_iet_sample_formats, sizeof(u32),
-+			     GFP_KERNEL);
-+	*iet_format = IET_SAMPLE_FORMAT_1_INT_9_FRACT;
-+	iet_caps->iet_sample_format = *iet_format;
-+
- 	crtc->histogram = histogram;
- 	histogram->crtc = crtc;
- 	histogram->can_enable = false;
- 	histogram->caps = histogram_caps;
-+	histogram->iet_caps = iet_caps;
- 
- 	INIT_DEFERRABLE_WORK(&histogram->work,
- 			     intel_histogram_handle_int_work);
-diff --git a/drivers/gpu/drm/i915/display/intel_histogram.h b/drivers/gpu/drm/i915/display/intel_histogram.h
-index bd559d90e9b9fc8f5afdbc31c47702a99569b712..d4ddd99bf8c0347cdad23e3d34c14abe0c8ec7ca 100644
---- a/drivers/gpu/drm/i915/display/intel_histogram.h
-+++ b/drivers/gpu/drm/i915/display/intel_histogram.h
-@@ -16,9 +16,11 @@ struct intel_display;
- enum pipe;
- 
- #define HISTOGRAM_BIN_COUNT                    32
-+#define HISTOGRAM_IET_LENGTH                   33
- 
- struct intel_histogram {
- 	struct drm_histogram_caps *caps;
-+	struct drm_iet_caps *iet_caps;
- 	struct intel_crtc *crtc;
- 	struct delayed_work work;
- 	bool enable;
-@@ -43,6 +45,8 @@ void intel_histogram_irq_handler(struct intel_display *display, enum pipe pipe);
- int intel_histogram_atomic_check(struct intel_crtc *intel_crtc);
- int intel_histogram_update(struct intel_crtc *intel_crtc,
- 			   struct drm_histogram_config *config);
-+int intel_histogram_set_iet_lut(struct intel_crtc *intel_crtc,
-+				struct drm_property_blob *blob);
- int intel_histogram_init(struct intel_crtc *intel_crtc);
- void intel_histogram_finish(struct intel_crtc *intel_crtc);
- 
+ 	INTEL_CRTC_CB_MAX
+ };
 
 -- 
 2.25.1
