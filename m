@@ -2,79 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A7AC98653
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 18:02:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7DC8C986B0
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 18:09:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5518710E420;
-	Mon,  1 Dec 2025 17:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1E0210E2C1;
+	Mon,  1 Dec 2025 17:09:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jr7StedP";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WnY1SrfW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 978D410E0D4;
- Mon,  1 Dec 2025 17:02:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id A07CE6014A;
- Mon,  1 Dec 2025 17:01:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5905C116C6;
- Mon,  1 Dec 2025 17:01:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764608519;
- bh=bmyTq2q+hM5yLfaOwvV4mt3DtxhrkyZjZ87SLQzIRvc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jr7StedPEyC4/M1t7fb11w5L7eX7EwY91G07P7AMGijfckxto+L1WhwGZsjlsXYIY
- oPOBlsHBliJM+a+Ck+s95tJX7dUkcTP5pveCNFp/krPg4vR0LXWKAYEHPMZFH7BnSa
- w/jmhdgHtlBNuR767BlzygS7X3PXNC6OjSXYaqFQBISNpnI6dO3zRh4SkdSFewBq7X
- zREFhG+p8OGRGjPPiSi80gwvkw0y85GNS/W5tNjwqV7H9L1DBf2eLGS8ArX4PFGdca
- NRClciXygKLJ3Mf0U36BtEe3k+YhGpk6jI8Jy8BC6oYJJRGMbYG05OQchgkdz3i2TA
- 5RsxeDtcuuY4Q==
-Date: Mon, 1 Dec 2025 18:01:56 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Daniel Stone <daniel@fooishbar.org>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Chen-Yu Tsai <wens@csie.org>, 
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Liu Ying <victor.liu@nxp.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
- driver capabilities
-Message-ID: <20251201-enlightened-zebu-from-asgard-5a20be@houat>
-References: <20250925-fervent-merry-beagle-2baba3@penduick>
- <qx5ashx62pufott6hnsfna3qntnoyvxwxze4rihhuxcsdxi37s@bbdvc3sfsgne>
- <20250929-gregarious-worm-of-memory-c5354d@houat>
- <itgffxygopi7etkt7xhvmyuvyl5ad3k43nsxvjzw3ubtwiikn7@ocugfdaigtu7>
- <20251003-uptight-echidna-of-stamina-815305@houat>
- <zpygq4kapil3swsmhhqkdwny4ry2dznnzixsw5rkza5p2kqnvp@abvf2vxlbwif>
- <2a5fitdzr2bz235fj6rvqzxr6ckszkjbazjfszlvnizdh2cvbt@w3ypjo7vahhs>
- <pibxhl5hlcpuk3zsgyienfdlda5cwuxrnofwlw356scuzzplqy@zw3ofelgvwik>
- <bsoqyzxi45i67jpzhwr2d4illufa5ghqf25z6flbp67lsbvh22@rrlcihp2oxea>
- <cgzclxjubj5oca3rdnv44qwrkmpddxve4tlz76cc6p3b4hz3oc@3l7mt5ha7do6>
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+ [209.85.215.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E817C10E2C1
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 17:09:23 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id
+ 41be03b00d2f7-be64c3a2849so51073a12.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 09:09:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764608963; x=1765213763; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=10oqy7XG0ziR1jN7iIJoYu4N7Sm/NTHUpb4SiggOXnk=;
+ b=WnY1SrfWMKW8eJpH2ult5Ne+qg57M+g4KerXnl9eyqDNWNX+cmSMR648f6f1MdifZ5
+ qBjMYTpBpvNQdRIrLfONQkaOeijWI9vXG/KXtMMnPtf6pmOFZJhFZ8BLZ+Ts7RRDe9QT
+ i00PfONlXtBKKrWi+oLeTDcTwHW1xrSCG0pEVbqnJ7xJHsN5xOhVjwGVNd79Ph8902jB
+ U25PW5q83ljCNOEXwUOrgVx1hxdx/vJAS/whvOhE+1n0MnSf58t8XVMCbfqq7bABO/Md
+ xGHq2cHi8XU3r2grf0RGbsg0UfxrRYrdnhD/naQfiD/c1/0sQK15+4N2Fc9tEgvC7N35
+ 2RPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764608963; x=1765213763;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=10oqy7XG0ziR1jN7iIJoYu4N7Sm/NTHUpb4SiggOXnk=;
+ b=kpUFAIc6LYtA1BbvksidqK9jodJX7zu5HNYLBfk+0r2rTqubFwDFEMXH8KosIZEGvb
+ yecX5Q4HhXALQMDcmU7jA4QZAgVX04NXLgNnMjOjIjO14ZyT5+Dcp6CJI1eHvOTr734e
+ 6xy364FnlS2bMkA35rk62TJ5ysgMQRukrNc/NQMxPC3849JgXeFR2DsP8vvt7s0OzgNT
+ 93JB4jXLWuRGRh+z4cSiYzC06zExdmDYsdm5OYEPl46JJQrCka3KIZTyMdgZKX8z0VXk
+ ejMWPu7a3sT3cCLZgo2givFUTSauzZpJ14tVWkvmLWQaKnuLIH2yfQTEtq8Oi0Ztvx+x
+ aqIw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW+Z4zIaCwBUK04xezikSpVhOs9riin7WlP43+xSXyU2R4pEE3b+RiOIzypEhIJr/IuFpPgJOQggaM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz+gP0J6sPZ8ilgbt6jx7sc1pT1pXNifZEVJ/aQmXJMmJeazAAg
+ 5orluQD3pJ+0VPfhr//tODfa20j0PKJ1QgTsJATelJVt2QLtTIWeuKfW8Rl5UxYCMv1KcFYKd4g
+ Bb2Md+7NNW0RzdPILDo2cyC1cG6XLtRw=
+X-Gm-Gg: ASbGncvXOJwllS7ZJbEY7ST3hvNJHIzJFM0u9Cbs78beZAafc99vJPXXNPNHBD6wc+u
+ inx5bBq5Uuz+Kj2tk4BHRIpC5wiLgLvD1XujFXz7YIT/W7/NNT4CvgPfWxGLGpAhquwxEXhkSpi
+ kgKsHJw7YngLluqsEb88288leSuroiW90ftEah1cTAp4+zEBqWkn+6T6eiyljODU2jnOkQoR1lX
+ Rs4TDVARWXwYaA//ZZrUleWxJw0B4Cw4ZyLHFed2bmaBp78FQVv5KKmLmUtbzFU9AMc37bAp/72
+ u2ciDvlFmJJtVEOe1P08ltcXfgF0B7LHcZKBid1Um44jvXhPvFJNELYezgvhaYX9TwuyDypSc3u
+ 63yCx2iFF2q6xHA==
+X-Google-Smtp-Source: AGHT+IF1YPYGD/E+eDHxFkwlvTUf8jqG51M5LA+tdLWxMqHx4a8yCVti7p4nga92l9CsKYM8VN2f66dz5zEFbxtTTgc=
+X-Received: by 2002:a05:7301:e24:b0:2a4:3593:2c07 with SMTP id
+ 5a478bee46e88-2a7243ec7b9mr21959223eec.0.1764608963077; Mon, 01 Dec 2025
+ 09:09:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="nhtgib353qneclwb"
-Content-Disposition: inline
-In-Reply-To: <cgzclxjubj5oca3rdnv44qwrkmpddxve4tlz76cc6p3b4hz3oc@3l7mt5ha7do6>
+References: <20251117-unique-ref-v13-0-b5b243df1250@pm.me>
+ <20251117-unique-ref-v13-4-b5b243df1250@pm.me>
+ <A5A7C4C9-1504-439C-B4FF-C28482AF7444@collabora.com> <aS1slBD1t-Y_K-aC@mango>
+In-Reply-To: <aS1slBD1t-Y_K-aC@mango>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 1 Dec 2025 18:09:10 +0100
+X-Gm-Features: AWmQ_bnmy3Os7dUuxEXbA4TScnRqySjzLSX-NOnwmbpPdF9z2OcK2znpi-34sDw
+Message-ID: <CANiq72=mZXc5+fMzsdTRupUsmsuLdsx=GZucn2MNoCTLAT1qkw@mail.gmail.com>
+Subject: Re: [PATCH v13 4/4] rust: Add `OwnableRefCounted`
+To: Oliver Mangold <oliver.mangold@pm.me>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Benno Lossin <lossin@kernel.org>, 
+ Danilo Krummrich <dakr@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+ Leon Romanovsky <leon@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Stephen Boyd <sboyd@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+ Asahi Lina <lina+kernel@asahilina.net>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-fsdevel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-pm@vger.kernel.org, linux-pci@vger.kernel.org, 
+ linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,69 +113,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Dec 1, 2025 at 11:23=E2=80=AFAM Oliver Mangold <oliver.mangold@pm.m=
+e> wrote:
+>
+> Ah, yes, rustfmt must I done that, and I missed it. Will fix.
 
---nhtgib353qneclwb
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 00/11] drm/connector: hdmi: limit infoframes per
- driver capabilities
-MIME-Version: 1.0
+Strange -- if you noticed a case where `rustfmt` wasn't idempotent,
+please let us (and upstream) know about it.
 
-On Fri, Nov 21, 2025 at 07:09:01PM +0200, Dmitry Baryshkov wrote:
-> > So it's not really impossible, you just need some hardware and a day's
-> > worth of work.
-> >=20
-> > There's no reason these should get a pass, it's breaking the spec for no
-> > reason.
-> >=20
-> > > > For SPD, It's really not clear to me why atomic_check should do tha=
-t in
-> > > > the first place. Your initial concern was about exposing infoframes=
- in
-> > > > debugfs that wouldn't be used by the driver.
-> > > >=20
-> > > > If the driver doesn't register a debugfs file for SPD, and ignores
-> > > > whatever is in the atomic state, what's should we force drivers to =
-do
-> > > > that?
-> > >=20
-> > > I really don't think that drivers should mess up with debugfs on their
-> > > own. Making atomic_check() disable the unsupported InfoFrames makes t=
-he
-> > > picture perfect: the DRM no longer tries to program them to the
-> > > hardware, DebugFS files stay empty, so the whole state becomes
-> > > consistent.
-> >=20
-> > In the "bridge has no access to infoframes" case, there's really no
-> > infoframe. An empty file is "the infoframe can be there but isn't used",
-> > not "we don't have access to it and can't report them". Only drivers
-> > have those infos.
-> >=20
-> > If we do split up write_infoframe into multiple functions though, I
-> > guess we could create the debugfs file only if the function pointer is
-> > set, which removes drivers' involvement if you don't like that.
->=20
-> I'm fine with not using HDMI connector framework for lt9611uxc.
-> Likewise, I think, it's fine to have empty files for the infoframes
-> which are not being sent over the wire for any reason (hw not supporting
-> it is one of the reasons).
+> Not sure what you mean by fictional function. Do you mean a non-existent
+> function? We want to compile this code as a unit test.
 
-I can't think of any other example in the kernel where an empty file
-means that the driver doesn't support something.
+Typically that means either using a (hidden on rendering) function
+that wraps the code and returns a `Result` or directly a doctest that
+returns one (better, when applicable). Please check other tests for
+lines like
 
-Maxime
+    /// # Ok::<(), Error>(())
 
---nhtgib353qneclwb
-Content-Type: application/pgp-signature; name="signature.asc"
+I hope that helps!
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaS3KBAAKCRAnX84Zoj2+
-dpehAX9df8UFvZVN58dQXWwnBnuke2vOU1UxT4zbhxIdR/6V/O2rER74TkmbviQv
-h0HIhF0BgLOgEP5gmSlL9xZCFl5EWhJpy16T7ozKZGULaHEy/3NJR+/SzYOZmLZ5
-yR5aU4SDRQ==
-=m4w1
------END PGP SIGNATURE-----
-
---nhtgib353qneclwb--
+Cheers,
+Miguel
