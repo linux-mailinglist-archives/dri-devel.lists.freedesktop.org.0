@@ -2,93 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B568C996FC
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 23:50:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF0EC9970B
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 23:51:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CD3689CC1;
-	Mon,  1 Dec 2025 22:50:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75C9C10E4B3;
+	Mon,  1 Dec 2025 22:51:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NL0IjXL4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m5udlNqh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
- [209.85.214.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E7DD10E4B0
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 22:50:46 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id
- d9443c01a7336-299e43c1adbso6615475ad.3
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 14:50:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764629445; x=1765234245; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=o5MpGRWt1QbTCIx3psi0kP3FtONWDRDv/mGYqfAxpuE=;
- b=NL0IjXL4ppEsD8It9WKJQ2oCmbQgUJClYKnnVewEvUCAhjM1jcXEnsSv0ePGpfv2sh
- JhFG/y7IfeAEnPopVIvcnMz/JcScTs0PKQoEsSeK8htDv6rN6Ss9mIg+45BPnot2MFYi
- CpmaO20eL3Eg2wjQU6dW+ljx0E8IwEv2AANHXhx2OAGB4GFODtxtWZXRheqqyUDM5nlg
- WQhIxjRwdXbjA73hV33Yn1FO+7Fdps80pJ8Hyb/1iKeD21Cf8EdNfXVS+3xjcaWBVdR3
- x69+wBgTPqKdwUsja9vNqs1jwLI+IaGauErDssFB03nE/yFpZI9xa/OBo/UoLCSXRWYy
- eqZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764629445; x=1765234245;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=o5MpGRWt1QbTCIx3psi0kP3FtONWDRDv/mGYqfAxpuE=;
- b=fO2yg0xqqsGI7KcI6T/qwkd2T9VlM6jJAlVEkQocCBXS/QrmX9HjOWI5Uts1r9rsn2
- laIhYuSO00wdmwHyRd0mT2z9rOUGgHsXIP7cE642xR4SVHEaMgTaQNqw6uM9o3Vdfs1k
- XYkwV8Kp2h4601HJOLI1n6ZnimcpbKJLnWhmx+qNqJ+/tavQsU8sYtPOf5M1r61izvDy
- nDF1NRY2sDCNrBaiOBiapUXXKJYFrnybIerSpZ0FL7ihHkyAVtC/s+QqSLwBWmb9SECx
- Olg0dxmmYlfkU0GdU6VxH2ZNd+xDwvmXaq3p2SzVADtgAGR5+dedAnRK5DyZIZgJloOW
- BINA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW5g4riS4Qc6+Whm8SKDZw6NBG45SDXAnBLEQq9Aubj5ERSl9inAnpicUt2z8WSLcKvoAlgJQfj+3k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzhYzXB7QiJ0Zn8RBYEs8JUt7hpXneRZgvRgiT4exxxb9pwN6Wt
- cOCdAuerQngQh/bhqAbvz+8Tsqm509+Ygl+qyRAcjk/pOm/R6BEmDrZCV79VFMwURCiE4+yqz22
- iRrbhF3Rgb9MABhmDI24/JBGbMBQH1CU=
-X-Gm-Gg: ASbGncsx00ODTjaQjMHnNJQ/zVCPWXnxEgFIIdKHHZelxh94DudnCD4/Vybr8M9UvgJ
- vp6/bCi0NQXBdtywKivCCdDCExhabChNwVcKfVkuUx5eS09lxL3b/vo3vCAFje1AoKU2u6R0H88
- xbJRAsB98CeDZ41OH/JcIsvoXwBhbMAmDfNeMQmk53YJKr/usFIZhVwVreVWo8KZwj4IZ+Lg+T1
- NKFYWtYRq+jtOcp4rHZYsFL9M0fJM2N7j0/A4318SknWryIIc8/LyDhkUlEH2qr3W7obYbD8vqK
- wpJlFyra7iKLxGd14TJZh/hRBSyWbLbkQ3SsaZ6m82fQWtcRzj55iw8WwXtBv1R/TPSl++xMwr4
- acOlxsjKmIr7+Hg==
-X-Google-Smtp-Source: AGHT+IGHxGCGzFVwRUGMDnjtYFSdBL47/yuzjgLbitj4yeg6ia4ATcJFfArtvcqBElQcbvEvQwVhmeOGDZ21tUc8jmo=
-X-Received: by 2002:a05:7300:e80a:b0:2a4:3593:5fc6 with SMTP id
- 5a478bee46e88-2a718b198bemr25658546eec.0.1764629445406; Mon, 01 Dec 2025
- 14:50:45 -0800 (PST)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E19810E4B0;
+ Mon,  1 Dec 2025 22:51:28 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id E21E043ED1;
+ Mon,  1 Dec 2025 22:51:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A4C2C4CEF1;
+ Mon,  1 Dec 2025 22:51:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764629487;
+ bh=l6a8KE0SQRDdJHNwVx3ilxUBBg9ZsFk4iQ3P3jn1cCY=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=m5udlNqhOrxeKfPmSLeccLSvSbqX5+SiNB77oiTf24gMs1cf1t5NcVT6y2WEvzJcn
+ v92rwC/DkEMb8tvON1+nh7wcDrKL7m3oHwEcjBGzj+grL/h1naoAMaQO67shLT2eX1
+ x8sM289OhNRbzRN2I+nMyMIftlJDjPTtg8S2w7prKksUVPPnIk2GSFdhqD2ZRZZOaO
+ sSHzdN8o0sWV+eahBnjF4R6tEoRwsKXa8mJ8G/9h5qLUTXj9eS/VpzYl6rm9ip9zxY
+ sC6Mvqj9PboKAgZuFbe08GzjLV43HbaeYnZOJcGoSHeazH6BHYJMpqmhGJvf3U3O+n
+ wtgMtOsy7fDnA==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.6.y] drm, fbcon,
+ vga_switcheroo: Avoid race condition in fbcon setup
+Date: Mon,  1 Dec 2025 17:51:23 -0500
+Message-ID: <20251201225123.1298682-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <2025120119-quake-universal-d896@gregkh>
+References: <2025120119-quake-universal-d896@gregkh>
 MIME-Version: 1.0
-References: <20251129213056.4021375-1-joelagnelf@nvidia.com>
- <2653abf6-5cd4-4385-b7c2-f377a9503160@nvidia.com>
- <7a88da9f-c67b-4a68-b8d6-a66f9096bab4@nvidia.com>
- <497c91a2-ca6c-4e05-bc5e-7c3818302c7e@nvidia.com>
-In-Reply-To: <497c91a2-ca6c-4e05-bc5e-7c3818302c7e@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 1 Dec 2025 23:50:33 +0100
-X-Gm-Features: AWmQ_bn7_DfyaSJT0jy3fNrYUWknruqwwH7bRpIZRSHNxUbqTeaYfAUp-OMWGok
-Message-ID: <CANiq72nhkOMGGb7evGn441J-8nX=jSWeDTASn0gj+TCa692B+A@mail.gmail.com>
-Subject: Re: [PATCH v3] rust: clist: Add support to interface with C linked
- lists
-To: John Hubbard <jhubbard@nvidia.com>
-Cc: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@kernel.org>, 
- Dave Airlie <airlied@gmail.com>, Alexandre Courbot <acourbot@nvidia.com>, 
- Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Timur Tabi <ttabi@nvidia.com>, 
- Joel Fernandes <joel@joelfernandes.org>, Lyude Paul <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>, Andrea Righi <arighi@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,25 +61,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 1, 2025 at 11:18=E2=80=AFPM John Hubbard <jhubbard@nvidia.com> =
-wrote:
->
-> But for API developers, the problem with doctests is that no one has ever
-> actually *run* the code. It's just a build test. And so critical bugs, su=
-ch
-> as the kernel crash/hang below, are missed.
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-No, it is not just a build test. Doctests are actually transformed
-into KUnit tests automatically, and `assert!`s inside them actually
-report back to KUnit too.
+[ Upstream commit eb76d0f5553575599561010f24c277cc5b31d003 ]
 
-It was a major hack to implement, but I am proud of that one :)
+Protect vga_switcheroo_client_fb_set() with console lock. Avoids OOB
+access in fbcon_remap_all(). Without holding the console lock the call
+races with switching outputs.
 
-That also allows us to build them with Clippy, to e.g. get the safety
-comments right, which is something normal Rust doesn't support yet.
+VGA switcheroo calls fbcon_remap_all() when switching clients. The fbcon
+function uses struct fb_info.node, which is set by register_framebuffer().
+As the fb-helper code currently sets up VGA switcheroo before registering
+the framebuffer, the value of node is -1 and therefore not a legal value.
+For example, fbcon uses the value within set_con2fb_map() [1] as an index
+into an array.
 
-We are actually getting a feature from upstream Rust to support it all
-in a stable and nice way!
+Moving vga_switcheroo_client_fb_set() after register_framebuffer() can
+result in VGA switching that does not switch fbcon correctly.
 
-Cheers,
-Miguel
+Therefore move vga_switcheroo_client_fb_set() under fbcon_fb_registered(),
+which already holds the console lock. Fbdev calls fbcon_fb_registered()
+from within register_framebuffer(). Serializes the helper with VGA
+switcheroo's call to fbcon_remap_all().
+
+Although vga_switcheroo_client_fb_set() takes an instance of struct fb_info
+as parameter, it really only needs the contained fbcon state. Moving the
+call to fbcon initialization is therefore cleaner than before. Only amdgpu,
+i915, nouveau and radeon support vga_switcheroo. For all other drivers,
+this change does nothing.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://elixir.bootlin.com/linux/v6.17/source/drivers/video/fbdev/core/fbcon.c#L2942 # [1]
+Fixes: 6a9ee8af344e ("vga_switcheroo: initial implementation (v15)")
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: <stable@vger.kernel.org> # v2.6.34+
+Link: https://patch.msgid.link/20251105161549.98836-1-tzimmermann@suse.de
+[ drm_fb_helper_unregister_info() lacks vga_switcheroo code ]
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/drm_fb_helper.c  | 7 -------
+ drivers/video/fbdev/core/fbcon.c | 9 +++++++++
+ 2 files changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+index b507c1c008a3e..3891837a78414 100644
+--- a/drivers/gpu/drm/drm_fb_helper.c
++++ b/drivers/gpu/drm/drm_fb_helper.c
+@@ -30,9 +30,7 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+ #include <linux/console.h>
+-#include <linux/pci.h>
+ #include <linux/sysrq.h>
+-#include <linux/vga_switcheroo.h>
+ 
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_drv.h>
+@@ -1668,7 +1666,6 @@ static int drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper,
+ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper)
+ {
+ 	struct drm_client_dev *client = &fb_helper->client;
+-	struct drm_device *dev = fb_helper->dev;
+ 	struct drm_fb_helper_surface_size sizes;
+ 	int ret;
+ 
+@@ -1687,10 +1684,6 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper)
+ 
+ 	strcpy(fb_helper->fb->comm, "[fbcon]");
+ 
+-	/* Set the fb info for vgaswitcheroo clients. Does nothing otherwise. */
+-	if (dev_is_pci(dev->dev))
+-		vga_switcheroo_client_fb_set(to_pci_dev(dev->dev), fb_helper->info);
+-
+ 	return 0;
+ }
+ 
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 78a5b22c8d150..8b2c3065c0c26 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -64,6 +64,7 @@
+ #include <linux/console.h>
+ #include <linux/string.h>
+ #include <linux/kd.h>
++#include <linux/pci.h>
+ #include <linux/slab.h>
+ #include <linux/fb.h>
+ #include <linux/fbcon.h>
+@@ -75,6 +76,7 @@
+ #include <linux/interrupt.h>
+ #include <linux/crc32.h> /* For counting font checksums */
+ #include <linux/uaccess.h>
++#include <linux/vga_switcheroo.h>
+ #include <asm/irq.h>
+ 
+ #include "fbcon.h"
+@@ -2913,6 +2915,9 @@ void fbcon_fb_unregistered(struct fb_info *info)
+ 
+ 	console_lock();
+ 
++	if (info->device && dev_is_pci(info->device))
++		vga_switcheroo_client_fb_set(to_pci_dev(info->device), NULL);
++
+ 	fbcon_registered_fb[info->node] = NULL;
+ 	fbcon_num_registered_fb--;
+ 
+@@ -3046,6 +3051,10 @@ static int do_fb_registered(struct fb_info *info)
+ 		}
+ 	}
+ 
++	/* Set the fb info for vga_switcheroo clients. Does nothing otherwise. */
++	if (info->device && dev_is_pci(info->device))
++		vga_switcheroo_client_fb_set(to_pci_dev(info->device), info);
++
+ 	return ret;
+ }
+ 
+-- 
+2.51.0
+
