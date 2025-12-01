@@ -2,182 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344AEC99284
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 22:19:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66A1C99305
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 22:36:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D9CDD10E469;
-	Mon,  1 Dec 2025 21:19:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 235AC10E496;
+	Mon,  1 Dec 2025 21:35:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ht24G94Z";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="LejXlTnr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CCEA10E113;
- Mon,  1 Dec 2025 21:19:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764623943; x=1796159943;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=0zSBBmTXo18KbvIyZz0Ld1f/9OT+DePMW0yVjsBbnJ4=;
- b=ht24G94ZD2ysZ0uy00Cr1SKap4purK6prIXwZJKGCGfwOjTZJG/e8fv7
- WWe3okWQK2qq+9ZU1CpstX2G0hK6gf2j3wYPvpzFtpv6q3t4PZsoiv1Fa
- lpwERfPf9iE74XOzwmSVEu2CrYu/WfSmQjv05fvobYvee+TTrRhoeXRQT
- XxQT4ntjio/9Vtp2ykQk4Z1Yrd0Avc6rU1b1ZzTCkMiNvde9aBcp6eAp2
- WopRwrzAvCVH994ZTZnZELyMaL0ZNMFTYPOSqL8GS3Fz8Gvge6/Jk7jFW
- DiYMcVvCqG9dDZoSV3vFcDD0X/OqqLLyinR7FcIaz9IT9tXUadYs5SR1n Q==;
-X-CSE-ConnectionGUID: EAy+cGISQ4q4VXcKEpZ4wQ==
-X-CSE-MsgGUID: xs/KGuEuSO+92iTXYwQ1Og==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="77207734"
-X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; d="scan'208";a="77207734"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 13:19:02 -0800
-X-CSE-ConnectionGUID: 8k5GYUT4Tsq/lRAWtcdN7Q==
-X-CSE-MsgGUID: /TqVID/BQbe7Tx0uggyDXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; d="scan'208";a="217522542"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 13:19:02 -0800
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 1 Dec 2025 13:19:01 -0800
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Mon, 1 Dec 2025 13:19:01 -0800
-Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.68) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 1 Dec 2025 13:19:01 -0800
+Received: from BYAPR05CU005.outbound.protection.outlook.com
+ (mail-westusazon11010002.outbound.protection.outlook.com [52.101.85.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC79F10E113;
+ Mon,  1 Dec 2025 21:35:56 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=grz8OhQkZ+pXDMBnWiQ3J3yH/LGw8x6M+UEzDqdvhw997rDpBeNSl/BgBRO1nJvQXX95FwRLN677eCKYxk79C49gcgCus0Q7Ab1KCnOXNPfnOrOWkXcTBXnNAE8nf2NrnhsN4RrntZWVpdsyFAvpwjdWX0/LTM0dFLEQqoyhhrLOeF4J3lO3rzE4ptn1oWFMqRw271fAGWImsmhSpPV4cHVmx7ZNMNPS532Tblz+1veznsKIZTY+4CfGk92LcFf+SwRWwlTbpAOZbz7sz3Ahxznxy6ea5IfFdayOBnkCV5RLOOjBsGvJGHCsabU1UeT7dsozhaZTb3u4SoCf9dsekg==
+ b=EPsYcbQcCZrA6xmnxdiHJqdXuaxZCeMM/bMCHPx0DEFpID4+aFDK3nkEdecyjWXxxxfcsRoyMJa3/BFYJh4elEG8i6wkQBvrJWarfZ0oUPuBNXLmTTknICvfwez3utzvtB47uaXMQLx4TT/aguuTnoHf5bsMnOis+xZtmrnwuYW+JFexXGfGaFxvcUfd8Zic7vmTBbsROHKs+ZvRt+oUFmqfC5P2IhrivHA7wz4DfcEYE1LZ4B5nL8pU7DhmRze9bnotPHME8W2w+rrx4oiXY0AfLXbMK4Lf3QtfahrgHB6CIEs2Nno3hKYM95S96q1JJspA6G1xq3Ab40SZEkdFtg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qP21tKjxGQfDXuDe5XBTgD3wcBOF6iY3K8p97HJ+uqg=;
- b=jHMg1Covb7ShgkHXcnESaP/vw+1qlQsdaIBSES3uRgusoUjiNO8IczDXsyIilbisFMr7dsXQwjcSq+QGjsqt8KEUEUk/wdAwb+JqoOXIIxZu+KbwAj73ktoexcr5A6P9d5JtSC6lt2J+BfzzcJOvNF+AJ8Nfv2h9pQj+Gx8+83JgOamuxsAQBXplB+PEHkXmr90DHx33SC3Y+WuH1ySmzapwvjqGj7fdOee6S06XoVt72NJBNRWLB26NugvOKJrkCCJCGgXyAap9ORYr2OFhE2dXgo/PTtRKK17qZb3Iet8y7fVi0oAUbCH1OlgGNsUXQp2Zcs5PEVb4CJuaYXHXew==
+ bh=+G1sF9PjDBLBC8VDpOHl+IZ8mDanhpIdJk0hssWn4u0=;
+ b=ThlC20U0OjjTTYXRn8FJJcglb/T4egS6ReU0j79KG+BSS5P269jFl4jNJ4z0m0NruStaiJU7kvMupkLPbFZJWxcvcj/69E2lxz0Blo7J/1eawplZuXXRc7yDeeeClosslJIsBpDCqmOrt3d7fMSJmE7q1ms98799HQG+u4iaDW3bixa7tkll55bFinZFIfDWpTJla8yHDPAk74LW1YFUtx+HbqjeR4PhnXejV5ymLrRLrhhv/+RT/MnPRnMABQGKKE1oUdfHTTNiXeulPIr5gq5TEXDpFtkKF1t/59W+9fYCZcaxsHBzfq+8HkSO6UpdICjI7dTATfpKiTPIHhvswA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB5456.namprd11.prod.outlook.com (2603:10b6:5:39c::14)
- by DS0PR11MB6470.namprd11.prod.outlook.com (2603:10b6:8:c2::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9366.17; Mon, 1 Dec 2025 21:18:57 +0000
-Received: from DM4PR11MB5456.namprd11.prod.outlook.com
- ([fe80::b23b:735f:b015:26ad]) by DM4PR11MB5456.namprd11.prod.outlook.com
- ([fe80::b23b:735f:b015:26ad%5]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
- 21:18:57 +0000
-From: "Lin, Shuicheng" <shuicheng.lin@intel.com>
-To: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>, "Brost, Matthew"
- <matthew.brost@intel.com>
-CC: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Gupta, 
- saurabhg" <saurabhg.gupta@intel.com>, "Zuo, Alex" <alex.zuo@intel.com>,
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>, "Zhang,
- Jianxun" <jianxun.zhang@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "Wajdeczko, Michal"
- <Michal.Wajdeczko@intel.com>, "Mrozek, Michal" <michal.mrozek@intel.com>,
- "Jadav, Raag" <raag.jadav@intel.com>, "john.c.harrison@intel.com"
- <john.c.harrison@intel.com>, "Briano, Ivan" <ivan.briano@intel.com>, "Auld,
- Matthew" <matthew.auld@intel.com>, "Hirschfeld, Dafna"
- <dafna.hirschfeld@intel.com>
-Subject: RE: [PATCH v27 3/4] drm/xe/xe_vm: Add per VM fault info
-Thread-Topic: [PATCH v27 3/4] drm/xe/xe_vm: Add per VM fault info
-Thread-Index: AQHcYuo1GIlWr53Ct02upu4aNZAfdrUNKKMAgAASkACAAAuWIA==
-Date: Mon, 1 Dec 2025 21:18:57 +0000
-Message-ID: <DM4PR11MB54565168AC71BCFE647EF783EADBA@DM4PR11MB5456.namprd11.prod.outlook.com>
-References: <20251201174443.139151-6-jonathan.cavitt@intel.com>
- <20251201174443.139151-9-jonathan.cavitt@intel.com>
- <aS3p9Cwhwu8tWFNb@lstrano-desk.jf.intel.com>
- <CH0PR11MB54440A4D690DE5A8730EF7C3E5DBA@CH0PR11MB5444.namprd11.prod.outlook.com>
-In-Reply-To: <CH0PR11MB54440A4D690DE5A8730EF7C3E5DBA@CH0PR11MB5444.namprd11.prod.outlook.com>
-Accept-Language: en-US
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+G1sF9PjDBLBC8VDpOHl+IZ8mDanhpIdJk0hssWn4u0=;
+ b=LejXlTnroh9MX6GV1ue36wEFvoTB/D5WmUQJgSnou30KwIsbrcrnmZzW1Lv2uHqPLklKyrvRaZuIxKxiNWj2MhteQoEmOeb/Q+/qb/tb9w2eTb9WniDtvtU5qdKDfyuQdKOCp2E2oBV+Gtn6eRtWEn86C0bKYZv6MptIgCiFJavxhoEG3nMezP0KvU40yluueP+A7fPD8Jrg/OK+/avHVWCDIOOcNhFMz4W1KXp3iAYIJddnf/d3ywyWsX9WujvseBRckUpdAYqPArzJYNGl12isEEayKy15lolx+HjenMFbiCZAhF+ryzXLmNVMEA5dKj+XhdDQvtutweWxslhqXA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by PH7PR12MB5807.namprd12.prod.outlook.com (2603:10b6:510:1d3::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
+ 2025 21:35:51 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%2]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
+ 21:35:44 +0000
+Message-ID: <55706e62-83ce-41d8-b0b8-320955cd73bc@nvidia.com>
+Date: Mon, 1 Dec 2025 16:35:40 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] rust: clist: Add support to interface with C linked
+ lists
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@gmail.com>,
+ Alexandre Courbot <acourbot@nvidia.com>, Alistair Popple
+ <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ John Hubbard <jhubbard@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Joel Fernandes <joel@joelfernandes.org>,
+ Lyude Paul <elle@weathered-steel.dev>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Andrea Righi <arighi@nvidia.com>, Philipp Stanner <phasta@kernel.org>
+References: <20251129213056.4021375-1-joelagnelf@nvidia.com>
+ <aS2zeUDqqbmYPaug@google.com>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB5456:EE_|DS0PR11MB6470:EE_
-x-ms-office365-filtering-correlation-id: ce6938e3-57b3-41c5-83cf-08de311f3d6f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|376014|1800799024|366016|38070700021|7053199007; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?40YCx6HnpCHux0howT/BxGA/WgabKmpRQukal9Ke9+vXUmSCXSk97gc0ystf?=
- =?us-ascii?Q?MZrXThhwqJp2sKT8vClB80qA6JuNsqkiS2z3/SemJoyIgnqtH7+v3YHfNCyb?=
- =?us-ascii?Q?FEyXLUI2nccmaHHUu3hC/dsnxZl6q58UGUYJjrQodlM7lgDyTQ8rSpuj4nnk?=
- =?us-ascii?Q?kWCnt38/rbfJawBvbZkArXDixmK1yYnEt5dXnUrrjFBrh6LXAuILTDQmirN5?=
- =?us-ascii?Q?urrBMibWrAi1JHlfU/DsMkxO7zjHkflZ6eEkJj63mnVpeevsSs9UHBrURc/N?=
- =?us-ascii?Q?1vuk0LM9RG8i6MCKq0jEqMsGHJOsbS/g4DfgxSGwfvB41jSwL7Opw5UCdbgv?=
- =?us-ascii?Q?urPDwQCC86hdaKGU2l5dtILHa/7zCJRejNWrF6+33l+ZJMBDwRqjEi35RREc?=
- =?us-ascii?Q?U4UM16cDWneSy9ch/mpaEDslRyhNu8bOsgiA1W/255KRcJZmrbZpeErxIloW?=
- =?us-ascii?Q?IPxF9u3/rSvirSj2Iiise2EoJlTTtsQLmYCgu4kmsvjYOob6L8Q0aXVscU5n?=
- =?us-ascii?Q?fvcTyhrdwRHyqi0v56JWKGiDXn/CnHXRdxPz5bTIiCyMobh4I+1KA0398etz?=
- =?us-ascii?Q?FvTiXvkwlSHh6SJSwm9/75i0hrHMtnckEMRr77XINkeza7N3WK8ILPaCuQc+?=
- =?us-ascii?Q?r0pcuJetJfT6ygMpLB1QX4H+3IcFaG0oKz/tXAYTiH8u9YjJTI5VcezH1e5r?=
- =?us-ascii?Q?I5WDMHhw7qEio68AUf4ZdkugMzqZUHptZCr1hVBnOpcazMK8Bn8BV+JssLGU?=
- =?us-ascii?Q?DRWQP9UraFzkQWW/i/idxvSB2mauJufAYDISEJs4fUC4yq2At0axiRfCwWk6?=
- =?us-ascii?Q?92wxIn83DLOYGIKJ1rPSi/s/D9vmgquS+Tb/tjwXwVd5qCU//6ok5T0rZrRC?=
- =?us-ascii?Q?SeaCkZNkN6hSGzB1UHoC11LnMFg+ZMmjwkIwk2ypBbFJFQ245kZEFkDoq0uH?=
- =?us-ascii?Q?gSaQ0dplWvQ/oV6cTogyNFixGhXRLtydRX2Uu31QedTptv+mMLvA1qI3tKno?=
- =?us-ascii?Q?8G6fMosfLriZXAmdgF2c0mG1/nR0bObg3UYyD/e2RA1ioEQA8YoR7/WzwtpM?=
- =?us-ascii?Q?cwdSklRVNb762mo1QPIwLHCrXJNwD4xqx7nzAZ64CkvhZJ3/hUwO9KzYFbkS?=
- =?us-ascii?Q?+VIaSgfMnOlEpAso4nBiSAoHGhQZtKX/oPJBy+w7AdZsDvty/R11/9U+m+h0?=
- =?us-ascii?Q?UwcXW1++glJHtaFwLQTpAbsK1UPbvEiJJ0D4+ZHuT5aUFqU1/CYRlF9DLieD?=
- =?us-ascii?Q?2lm0ExiD5IQJILhOkH2uKzeYjSMBL1N2iIudVPEpjowFNgJUXFS2CcAMGuYy?=
- =?us-ascii?Q?GVZUJ0FFT/GNb6Cje8geaJhMzdqryx+pobJ3aQowrp/kfS4GuabEAdq6pKLJ?=
- =?us-ascii?Q?5twsw7JRKueBzaw6iFUYk0iVMnxsOiDCPrx/Zz/2CJpTfzqoYxRNZqweB/j8?=
- =?us-ascii?Q?HKo0GB9D1vt3PYWVAuxbIgkff2f9UUThZvILvVjpH0MkvXvVf3ev23tHv27p?=
- =?us-ascii?Q?Ox4yoLKl7COdIFZfLFUZJs2Oxynb0XMDqHfn?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5456.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(38070700021)(7053199007); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?/INJvYaa1LBYazBWWYgYmnabq3E4GIsoVVo/HnUxyS/uTqQBos627pfBHCcX?=
- =?us-ascii?Q?xrRod6uWJl3la6g0B4cCLqn1zD6AyRgotzwIgHXzGGgqtVYEq0ON5JpXjkR0?=
- =?us-ascii?Q?VfYSB9YItBdB3UOaG40ckmGxrK/m0gxnJipKPBDJgP/VB4ONRnz5o6W9bJzp?=
- =?us-ascii?Q?WVyzH06UjauXfwKqRQe+EyX1L/wwNAGngxwm9L3i3OQNfb4S2LQWKVRBTmEb?=
- =?us-ascii?Q?UwN8UAYO/kDZJG/QHKqaTgH8Dou9ka7JEPz8zAPD5WMMjuHB37D8YoNobrXw?=
- =?us-ascii?Q?voHCuuiWLoE3064peQH5KkAjkiWeypV0Jw03lkm7H+KAfBPRxiIDu07UPTJz?=
- =?us-ascii?Q?I8h2TX3OtHp8aXrnZ03+cVopk4xvILv+jl8nfO02pM5ArxJoOaknNmzu6BN2?=
- =?us-ascii?Q?KpAf1FgNjm++rUY5v6Zr2NhwD6c+byhJX0UTsqkmPeeYrDO247jjhlOMOV90?=
- =?us-ascii?Q?aMeRNNuT7mRLH6A54Y2IixJ707Q5Rc8/HVa3w9L59urF7KUrUr6gpNhSQg1O?=
- =?us-ascii?Q?oBR5hhncRM/acteFpPyDKzNUuUcc33wXmOQghsJuZ5iNHOQ1umdzoOTRiqTQ?=
- =?us-ascii?Q?xV8zdY5kke5NoAnTfiktz21pwCxlHKUSIGU4tHxWyzYEWoKui5nh7D6f7Lub?=
- =?us-ascii?Q?AEH4jxE8Yt5+9cqHy8B6Id51PaY+6Avi/Uq4lqoBjKt0U4128uqkOpmFZZtZ?=
- =?us-ascii?Q?7ELvcnWAIuY5dZucYQHUlF/+n/k/XHt4lYnI/OpUxfKjTs8pBRzcgFSql4Ur?=
- =?us-ascii?Q?Osu7AxbOpmsCdBZ6G2d05yMMHiMz2arCeV8PtHrP+wkwWTTOwpkbBo1dh2kv?=
- =?us-ascii?Q?/9mZNdpcJ4Nt9d1qcCsFiGy7dwXt+8/l1QG3XM+qOust1Ms5CARn/cRlmS18?=
- =?us-ascii?Q?Px0hdp8EejuUExmnvhT2IW3fTxIpSM5rVGtBaoBE1TE3Zcf4Xhi1aiaabmtT?=
- =?us-ascii?Q?W4uSZGPL7jPN4JjJM3Q9vujZHas/OC4B3vixfR7yEX8mTAYp128mxGkLb5bp?=
- =?us-ascii?Q?zv66xibAWox2l5+iiUmUNfASaQuHYv8uQFAfImdDxPs67aDz8CuiSvDVqoOJ?=
- =?us-ascii?Q?fGD5RN5ZEN5rJoHFtlPyn9VfW1EHDCeq5A+U1rELDzq1IDWk/LdDsV/76PMj?=
- =?us-ascii?Q?7nc0eVtMU65i/WTaDHguJfkLYOtY+5PROEq0h26yskRwMtxdJLgsnZqrdiEV?=
- =?us-ascii?Q?0CAJpY7z1Btki4p5xuSRo3JndOyc+cR6+GLh/1CuzM4B34kHvGslpZalmP81?=
- =?us-ascii?Q?Hr2C8VfB2VYK6zC1wTTiWUh7GBI9S/hq7BMFJePiqLiUw70m3kWPrTIEUFRS?=
- =?us-ascii?Q?DQxj60rfMvWK3Ewxvn73IPviWbbElwUeSUimyyIW9PSPX8RGkyXm7HvztuRj?=
- =?us-ascii?Q?d/IL4VA5KR8+rlsREnLgTbroRaCrw4mEgh8PM4dH49zGnMYDoRehRlztmp/U?=
- =?us-ascii?Q?cZUBmEoG0q/eqw9tzKA6TsD7/GzxCWTcjKaa0YkCHd22Swz1p6xbLU7qFutN?=
- =?us-ascii?Q?vk0UvwO1xr8878+228ESmdoqI8/lL2lFI9jZA5v1ab9WX6MBoKgD52g4otQL?=
- =?us-ascii?Q?bcWmH8KIeZkP64qIE4yGbUhnvNV3K8memyHRT4lM?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <aS2zeUDqqbmYPaug@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR18CA0023.namprd18.prod.outlook.com
+ (2603:10b6:208:23c::28) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|PH7PR12MB5807:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6956256c-169f-4662-a81a-08de3121958a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RzM1TmRBbC96aHN0dWZtbCtGbCttZ25OOE42Ujh5R1BXS1hMSTJ6TXpvZmht?=
+ =?utf-8?B?RUxzaTlGTFR5dWpuUm5ON0xKOEhuQW11ZVZkQVVlb2FLVDRzUjlvcUdPY2lV?=
+ =?utf-8?B?Vm0zRjZ0OWp3bTVub1JFbE12aG5NVnNKamljYi9LUlFOZzk5SWw0bjk5SDE4?=
+ =?utf-8?B?V3licXhLRUVFbkcxd1M1a0xucHdHYWdNY2dWOUhZdzlqWjQzRXhFWVBJYVE5?=
+ =?utf-8?B?Z1NMTk5NazhIdjdteXBJR3hYcWdVUExrbEtLblZGRFgwWXZTa1pIUXpFUjVo?=
+ =?utf-8?B?SnhTS1J4QXh6aGxFUnNWeFpTQkthQTV3VVBWSGl6c3FDOUNhK2RiZkZxUHlC?=
+ =?utf-8?B?NmtFa0YrSTl3TkR6TVlxeU1QTXlVYms0ZmVDRlRHNTdaaEx3am56Y1Q1UnJR?=
+ =?utf-8?B?cU5pSm9HOEdQQ0VCUndMc3luakZjVUYvTDk4SlNPZjlSWXd0dGE3dWlFamt2?=
+ =?utf-8?B?TW1CQi8yWklvaCtLMXM5ZG1SeHI3V1Bpc21oc1NDWU1SWGZzSHhxUklZeHhk?=
+ =?utf-8?B?eG9aK2xBNXY2bmNGbGUwYkNyTEJ5aTBqNm1EWXRISmRyU081Qk1mK3lGakJL?=
+ =?utf-8?B?ZCtaQitQU3k3enhmcm5FNmd5T3h2TlFwaXI4Q09rL1hSSXN4blNrcnhhd3pl?=
+ =?utf-8?B?eGxaTHF1T2U1OHFKRG8xSHovaVp1U0lhZk5ldXRkTjVLS1czYkhUd3VvVkNu?=
+ =?utf-8?B?ZUdnLzlEOExGQUpzM2E3OFFBME1LNWxteTRmSDEzQ2w2N0FqelF2VlhmSGk5?=
+ =?utf-8?B?bStxOXV0ZDlkbGZJd3REdGVmQ2xqNFNlUlI4T1FBNXcvOEVRQ1FuS3BmR3Vv?=
+ =?utf-8?B?SnQxRWE2Y3I2d2tCRi9FbStEM2VoaXY3czlUcGpiODdPZ1hFVzJKRFQrQ2RZ?=
+ =?utf-8?B?ZmF5OGVJVEdPVldnUno2MVJqdEMzWG11djNSZFhMSWtQL2IwWFFtSlF3bTRy?=
+ =?utf-8?B?Yy9aZFl0WTBrVFpGRXYzYXgreWsyMHJ5b0gvUFdkTlBBNWV6UktoTmFLNWlD?=
+ =?utf-8?B?ZndIR3ppQkE5TlhOc3J2aFZBa1hyVFdMWjd3cG4rOXRrR2pnb05aVWgvNVpI?=
+ =?utf-8?B?UmRtS1lqWFZDa0dFNWhMbkN5VHlNQ29KaDhVWkp4dm5TSTZKOXlmNUV3ZTlC?=
+ =?utf-8?B?Ny9GZlZSM0UyVk5TeHY4VFFYbHVRMWpNWjJJNWc2MFIwQm43cTVGaWcrWXUx?=
+ =?utf-8?B?RzRzczJRS0ppL05YUlhEaHJpVHRsZmczc1pOZnQ2YmhTMitkb3NSKzhYMTQx?=
+ =?utf-8?B?RkRJRXA1NkVtUlgzSS9PNXhySFJhdjRlMFp5QWZqUThyTFRjeGR3S1RtcUN1?=
+ =?utf-8?B?ZzRjTmJEdUpMS2Vta0Vqc0FyaksvY0ZwbldrQk9xWVhvY0hueXY3dFduMlNu?=
+ =?utf-8?B?bzBVTzRhT0gvWmd5TEg2dDJKUVFSMzZRZDk1Z2lZK3V4b2FNZi9QaUVSUUZk?=
+ =?utf-8?B?TTlzMEdTRTZZN1pIOUpuSnhVMEd0T1pCanlGeEZHWTlMbVhaK3lPV3FoeGRB?=
+ =?utf-8?B?VzFBdEY4MGV5YnVSYitVdWhkK2ZyaUNGUE56TmV0UkhHNFdZUWh5a1c1TGRI?=
+ =?utf-8?B?S09TUloyM2o4SnRaNGd6ZWpBbGdBMUJKSzYzdlIxd00xTXJDUFdMYVJEeUlK?=
+ =?utf-8?B?N1hrTDN3K2FwZDEya1NvdkpiSkd1bzhnRDdJZTBERHNSaXpxVzJ0dEhQT1Zs?=
+ =?utf-8?B?UFZ3TTYrVVdkSGU5YllIV0tYWTZCTG96QVRJUElpZjMya0FmZSttSEl6K1V2?=
+ =?utf-8?B?M1hnU3pvTWN3clJKalF0TC9IdXpncE9yQUJJWCsxdGpXenozZmsrZTZkM3Z6?=
+ =?utf-8?B?bTVvMVQvSWlrQ2pwSk5wRHp4UFN6UEMySnJZVlZBa2c5ZHRsVytYdkpCWmM0?=
+ =?utf-8?B?TlJ6eGsxWElOK2JDL3ZxVjVkdkJ2eTN4MGV4c0Z4Ulh1Z2owQjcwOUx0YnRV?=
+ =?utf-8?Q?6M4JpX6xUHD/muDXg1aeLcMxR7SWmlVe?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN7PR12MB8059.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OFRpMWhSYlV0aS9ZR2Y3R2FTaGM4UFVFbEhDWHBhd3I2N29uTHZxZTY2eTli?=
+ =?utf-8?B?bVNNRXJkdjhEYjUzUm5CaDZTZGZpS0MxMkJ5aFJ4cENFdXNDTWVJWGFCMFNB?=
+ =?utf-8?B?bEZXa1dLK1ZOQnVDb0VyaE52dUpuemlhUmVFVnJxL0ZoRDQzbEdGbHliSDYr?=
+ =?utf-8?B?N3kwNzZhbW1MWlVqdndROCsxdjgvb081OXh6aHg0R3NLVWgrbFZDeFQxSHQ2?=
+ =?utf-8?B?WklHbEFtTkljN2RJSzRjcTlCM2JjQzcvUzNZeC9ld3RNZ05wZUF2VHpjenJ2?=
+ =?utf-8?B?dVZLYVYwREJ6SE5OVjRhdlVQT3pZdktTZUZHR1IvU3ZwL3hrbGVlZStaUnYw?=
+ =?utf-8?B?YmNKbG0xTndkZE5kYmpKMnFqc0ZkMDFiWTJ0ZXMvNzE4bUJmejhyVnJRR2JI?=
+ =?utf-8?B?L2ZWT1BvNzRCcjloOVhSRVc0TThNMnJQMkhobGE1a2RtQ0kzcDgreDRqSmNC?=
+ =?utf-8?B?Sjhiay9hS2EyOW5ZSmRMWjNOOUM5bVZlbWgxcDYzLzN2QUw1R2JnRjNTWWV2?=
+ =?utf-8?B?M1VlcWdHU1Ric3FSYzNWbnF1SEQySmpPSW1QV0wyS0RUNnpSQzBQVVVub2NW?=
+ =?utf-8?B?NzV5R1hzRm4ydU5yQUIwTDY5Z1o4Z1lCQ2ZlNkxOZUNIZVd6eS8xUGZaOXJG?=
+ =?utf-8?B?Y2ZQTksrVjdiaGJWR3ZJZUEveERKa3FCVWRiRWUwczlSV09UcUJSalp1Y1lh?=
+ =?utf-8?B?RjhPSkdxRVh5RWhZZ2x5a2xiU2ZieWMzSDJiQUJaVElzRmgzd1dPNDNKc0FK?=
+ =?utf-8?B?eUJ1Z2xjV2tKLzNpY0c4dUY3akRDa2NUVGluRDZVVzNEYXlkcUREWVZ2dzRG?=
+ =?utf-8?B?cUZ2R1BSRG5GSit3a01kSlA4ME9jblh4UG8xWE43aHp6R2ZzZ2VuQ2FEblA3?=
+ =?utf-8?B?OEwvcm1CcjBzdXFyZFlLa0xxUzhKS21PYVhDbVdhMDV0SnRtRDF3QUI0bGx5?=
+ =?utf-8?B?akwxSE9hVG1NVDk0UVlXdzVQbHJZMU16OTR4cDRwTlVaSHRha0xUZE9ta2F5?=
+ =?utf-8?B?d0FlNFJ2KzBKeittME0vODFHTER1aVc4S29rOVJzSWpqUjBQUU1TdElaQ1VU?=
+ =?utf-8?B?aWFuNFM3NG1MczkrZWplcGpTd2t2cG5iTE4wRWlHd2lVTUFQd1ViN29tOTBn?=
+ =?utf-8?B?VTZqUGlUMEhOOWFnZkRXTWFocmMyQUdNK1FLUEgxVHJNak1ZODNOem85aTRy?=
+ =?utf-8?B?MExVUCtmY2ZWSEdieFhTRFhEQi9UanFINStrOGhvQmNBcXZ6eTExdUlOQWNT?=
+ =?utf-8?B?SkRjQi9HL0M5dEhKdGdkalJKcE5ra3IwN2RaU3dvbENFcVRXczIvL2pFK2pQ?=
+ =?utf-8?B?NzdpZ05FTWZ5T3dOUG9lOG55c1piQmpCN2RxYU9RLzZ3MmRHSUVCcStvaVdT?=
+ =?utf-8?B?QnEvU1kwaGZIR0dkU0JEcWpjRXNaSnJkcW0xL3RNNEdPVFM1TWg3dDA4MDRj?=
+ =?utf-8?B?MHQ5cG44K0MzVnIyWWNIeFoyQnloblRGY3JHNnlxVHJrdU54aWZCdk91WUtV?=
+ =?utf-8?B?ZEgwVzZBUlNBaEV3R3JvRWRCdzRUdmlBM1VTdFVTVERGdTkyOFNCamMvR0hI?=
+ =?utf-8?B?Y2hzMmRPQk52NldHYUkraVFtVVZ5MG5Vc01CSFY4ajFLKzN0b2RYS211WVor?=
+ =?utf-8?B?SlpQSjY3TmlNN01DMDRaRVN0OG1NNGRjMUVZMjkyYTlFVnFJbjdkYWRWbHY1?=
+ =?utf-8?B?WEpXeUI2QUpaVENDYXY0akVUdlo0TmxpRXBJNHlMd3c4ZTlnNWFZRkdIV3NW?=
+ =?utf-8?B?MEo1U2ZEcVdORmZDM2hpWFZKRStJcWZXUVA1dXVvSFhQMVh5Q1ErN1hlWWxU?=
+ =?utf-8?B?MVIrYjZNNmRZb3lSWEdKbWo5WURTVXhRa0ZLVXBZVEpMVDhwTUc5bCs1SEZr?=
+ =?utf-8?B?RU5WWGNWbUVYTzZEcVhJN20ySExZM2NMamxwYVNFSTJpNU1wRWdXdk5uWGNo?=
+ =?utf-8?B?Ry9YUmhwVVArNndjSWh4M1JYRW1jQlo0NFJsN0NTWVRrMFYvNGoweEJ3OW5E?=
+ =?utf-8?B?dmc0SHh3YjE0WkQ1RWZjZERLODJnV2tXRk9Wc0dsazkza2hKVUZQNFlFbkVF?=
+ =?utf-8?B?SXQwdVNmTCtmYVA0SGdZaHNDdG5MT05DZ2M4c3g2SGFneEZkdHF3UDFRK3RI?=
+ =?utf-8?Q?Zox0OWXDdEpl2sYZeZZ8RPVTV?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6956256c-169f-4662-a81a-08de3121958a
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5456.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce6938e3-57b3-41c5-83cf-08de311f3d6f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2025 21:18:57.7102 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: beTWKadKmQU/WHnP4iUqH7Bi9sImKNwffkkz0M8z6FhiavXyPJngyV1GSYnbSNvX0d2WCLQ8ZALKnX06UB5QAw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6470
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 21:35:44.7816 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: f30W1342lovf8f3Ko7sS5BgPIKR/441jVeMzyI1YbNBj1RQYPXexrmf1WBLvxqVtJeDoIM+F5bF1OfdApESoPQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5807
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -193,401 +179,289 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 1, 2025 12:25 PM Jonathan Cavitt wrote:
-> -----Original Message-----
-> From: Brost, Matthew <matthew.brost@intel.com>
-> Sent: Monday, December 1, 2025 11:18 AM
-> To: Cavitt, Jonathan <jonathan.cavitt@intel.com>
-> Cc: intel-xe@lists.freedesktop.org; Gupta, saurabhg
-> <saurabhg.gupta@intel.com>; Zuo, Alex <alex.zuo@intel.com>;
-> joonas.lahtinen@linux.intel.com; Zhang, Jianxun <jianxun.zhang@intel.com>=
-;
-> Lin, Shuicheng <shuicheng.lin@intel.com>; dri-devel@lists.freedesktop.org=
-;
-> Wajdeczko, Michal <Michal.Wajdeczko@intel.com>; Mrozek, Michal
-> <michal.mrozek@intel.com>; Jadav, Raag <raag.jadav@intel.com>;
-> john.c.harrison@intel.com; Briano, Ivan <ivan.briano@intel.com>; Auld,
-> Matthew <matthew.auld@intel.com>; Hirschfeld, Dafna
-> <dafna.hirschfeld@intel.com>
-> Subject: Re: [PATCH v27 3/4] drm/xe/xe_vm: Add per VM fault info
-> >
-> > On Mon, Dec 01, 2025 at 05:44:47PM +0000, Jonathan Cavitt wrote:
-> > > Add additional information to each VM so they can report up to the
-> > > first
-> > > 50 seen faults.  Only pagefaults are saved this way currently,
-> > > though in the future, all faults should be tracked by the VM for futu=
-re
-> reporting.
-> > >
-> > > Additionally, of the pagefaults reported, only failed pagefaults are
-> > > saved this way, as successful pagefaults should recover silently and
-> > > not need to be reported to userspace.
-> > >
-> > > v2:
-> > > - Free vm after use (Shuicheng)
-> > > - Compress pf copy logic (Shuicheng)
-> > > - Update fault_unsuccessful before storing (Shuicheng)
-> > > - Fix old struct name in comments (Shuicheng)
-> > > - Keep first 50 pagefaults instead of last 50 (Jianxun)
-> > >
-> > > v3:
-> > > - Avoid unnecessary execution by checking MAX_PFS earlier (jcavitt)
-> > > - Fix double-locking error (jcavitt)
-> > > - Assert kmemdump is successful (Shuicheng)
-> > >
-> > > v4:
-> > > - Rename xe_vm.pfs to xe_vm.faults (jcavitt)
-> > > - Store fault data and not pagefault in xe_vm faults list (jcavitt)
-> > > - Store address, address type, and address precision per fault
-> > > (jcavitt)
-> > > - Store engine class and instance data per fault (Jianxun)
-> > > - Add and fix kernel docs (Michal W)
-> > > - Properly handle kzalloc error (Michal W)
-> > > - s/MAX_PFS/MAX_FAULTS_SAVED_PER_VM (Michal W)
-> > > - Store fault level per fault (Micahl M)
-> > >
-> > > v5:
-> > > - Store fault and access type instead of address type (Jianxun)
-> > >
-> > > v6:
-> > > - Store pagefaults in non-fault-mode VMs as well (Jianxun)
-> > >
-> > > v7:
-> > > - Fix kernel docs and comments (Michal W)
-> > >
-> > > v8:
-> > > - Fix double-locking issue (Jianxun)
-> > >
-> > > v9:
-> > > - Do not report faults from reserved engines (Jianxun)
-> > >
-> > > v10:
-> > > - Remove engine class and instance (Ivan)
-> > >
-> > > v11:
-> > > - Perform kzalloc outside of lock (Auld)
-> > >
-> > > v12:
-> > > - Fix xe_vm_fault_entry kernel docs (Shuicheng)
-> > >
-> > > v13:
-> > > - Rebase and refactor (jcavitt)
-> > >
-> > > v14:
-> > > - Correctly ignore fault mode in save_pagefault_to_vm (jcavitt)
-> > >
-> > > Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> > > Suggested-by: Matthew Brost <matthew.brost@intel.com>
-> > > Cc: Shuicheng Lin <shuicheng.lin@intel.com>
-> > > Cc: Jianxun Zhang <jianxun.zhang@intel.com>
-> > > Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
-> > > Cc: Michal Mzorek <michal.mzorek@intel.com>
-> > > Cc: Ivan Briano <ivan.briano@intel.com>
-> > > Cc: Matthew Auld <matthew.auld@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/xe/xe_pagefault.c | 26 +++++++++
-> > >  drivers/gpu/drm/xe/xe_vm.c        | 88
-> +++++++++++++++++++++++++++++++
-> > >  drivers/gpu/drm/xe/xe_vm.h        |  9 ++++
-> > >  drivers/gpu/drm/xe/xe_vm_types.h  | 29 ++++++++++
-> > >  4 files changed, 152 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/xe/xe_pagefault.c
-> > > b/drivers/gpu/drm/xe/xe_pagefault.c
-> > > index 0b625a52a598..5997023a5889 100644
-> > > --- a/drivers/gpu/drm/xe/xe_pagefault.c
-> > > +++ b/drivers/gpu/drm/xe/xe_pagefault.c
-> > > @@ -247,6 +247,31 @@ static void xe_pagefault_print(struct
-> xe_pagefault *pf)
-> > >  		  pf->consumer.engine_instance);
-> > >  }
-> > >
-> > > +static void save_pagefault_to_vm(struct xe_device *xe, struct
-> > > +xe_pagefault *pf)
-> >
-> > Every function in xe_pagefault.c starts with 'xe_pagefault_'
-> >
-> > So maybe: s/save_pagefault_to_vm/xe_pagefault_save_to_vm
-> >
-> > > +{
-> > > +	struct xe_vm *vm;
-> > > +
-> > > +	/*
-> > > +	 * Pagefault may be asociated to VM that is not in fault mode.
-> > > +	 * Perform asid_to_vm behavior, except if VM is not in fault
-> > > +	 * mode, return VM anyways.
-> > > +	 */
-> > > +	down_read(&xe->usm.lock);
-> > > +	vm =3D xa_load(&xe->usm.asid_to_vm, pf->consumer.asid);
-> > > +	if (vm)
-> > > +		xe_vm_get(vm);
-> > > +	else
-> > > +		vm =3D ERR_PTR(-EINVAL);
-> > > +	up_read(&xe->usm.lock);
-> > > +
-> > > +	if (IS_ERR(vm))
-> > > +		return;
-> > > +
-> > > +	xe_vm_add_fault_entry_pf(vm, pf);
-> > > +
-> > > +	xe_vm_put(vm);
-> > > +}
-> > > +
-> > >  static void xe_pagefault_queue_work(struct work_struct *w)  {
-> > >  	struct xe_pagefault_queue *pf_queue =3D @@ -266,6 +291,7 @@ static
-> > > void xe_pagefault_queue_work(struct work_struct *w)
-> > >  		err =3D xe_pagefault_service(&pf);
-> > >  		if (err) {
-> > >  			xe_pagefault_print(&pf);
-> > > +			save_pagefault_to_vm(gt_to_xe(pf.gt), &pf);
-> > >  			xe_gt_dbg(pf.gt, "Fault response:
-> Unsuccessful %pe\n",
-> > >  				  ERR_PTR(err));
-> > >  		}
-> > > diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-> > > index 8ab726289583..e69e10233b00 100644
-> > > --- a/drivers/gpu/drm/xe/xe_vm.c
-> > > +++ b/drivers/gpu/drm/xe/xe_vm.c
-> > > @@ -27,6 +27,7 @@
-> > >  #include "xe_device.h"
-> > >  #include "xe_drm_client.h"
-> > >  #include "xe_exec_queue.h"
-> > > +#include "xe_gt.h"
-> > >  #include "xe_migrate.h"
-> > >  #include "xe_pat.h"
-> > >  #include "xe_pm.h"
-> > > @@ -578,6 +579,88 @@ static void preempt_rebind_work_func(struct
-> work_struct *w)
-> > >  	trace_xe_vm_rebind_worker_exit(vm);
-> > >  }
-> > >
-> > > +static struct xe_hw_engine *
-> > > +hw_engine_lookup_class_instance(struct xe_vm *vm,
-> > > +				enum xe_engine_class class,
-> > > +				u16 instance)
-> >
-> > Can we use xe_hw_engine_lookup or xe_gt_hw_engine rather than adding a
-> > new helper?
->=20
-> Both of those functions require the GT ID, which is unknown.
 
-GT ID should be able to got from pf->gt->info.id.
 
-Shuicheng
+On 12/1/2025 10:25 AM, Alice Ryhl wrote:
+> On Sat, Nov 29, 2025 at 04:30:56PM -0500, Joel Fernandes wrote:
+>> Add a new module `clist` for working with C's doubly circular linked
+>> lists. Provide low-level iteration over list_head nodes and high-level
+>> iteration over typed list items.
+>>
+>> Provide a `clist_create` macro to assist in creation of the `Clist` type.
+>>
+[...]
+>> +//! // Rust wrapper for the C struct.
+>> +//! // The list item struct in this example is defined in C code as:
+>> +//! //   struct SampleItemC {
+>> +//! //       int value;
+>> +//! //       struct list_head link;
+>> +//! //   };
+>> +//! //
+>> +//! #[repr(transparent)]
+>> +//! pub(crate) struct Item(Opaque<SampleItemC>);
+>> +//!
+>> +//! impl Item {
+>> +//!     pub(crate) fn value(&self) -> i32 {
+>> +//!         // SAFETY: `Item` has same layout as `SampleItemC`.
+>> +//!         unsafe { (*self.0.get()).value }
+>> +//!     }
+>> +//! }
+>> +//!
+>> +//! // Create typed Clist from sentinel head.
+>> +//! // SAFETY: head is valid, items are `SampleItemC` with embedded `link` field.
+>> +//! let list = unsafe { clist_create!(&mut head, Item, SampleItemC, link) };
+>> +//!
+>> +//! // Iterate directly over typed items.
+>> +//! let mut found_0 = false;
+>> +//! let mut found_10 = false;
+>> +//! let mut found_20 = false;
+>> +//!
+>> +//! for item in list.iter() {
+>> +//!     let val = item.value();
+>> +//!     if val == 0 { found_0 = true; }
+>> +//!     if val == 10 { found_10 = true; }
+>> +//!     if val == 20 { found_20 = true; }
+>> +//! }
+>> +//!
+>> +//! assert!(found_0 && found_10 && found_20);
+>> +//! ```
+>> +
+>> +use core::{
+>> +    iter::FusedIterator,
+>> +    marker::PhantomData, //
+>> +};
+>> +
+>> +use crate::{
+>> +    bindings,
+>> +    types::Opaque, //
+>> +};
+>> +
+>> +/// Initialize a `list_head` object to point to itself.
+>> +///
+>> +/// # Safety
+>> +///
+>> +/// `list` must be a valid pointer to a `list_head` object.
+>> +#[inline]
+>> +pub unsafe fn init_list_head(list: *mut bindings::list_head) {
+>> +    // SAFETY: Caller guarantees `list` is a valid pointer to a `list_head`.
+>> +    unsafe {
+>> +        (*list).next = list;
+>> +        (*list).prev = list;
+>> +    }
+>> +}
+> 
+> It may make sense to move such manual reimplementations into the
+> bindings crate so that other abstractions take advantage of them by
+> default when they write bindings::init_list_head.
+> 
+> Of course you can still have a re-export here.
+> 
+Where would we make this change, do you mean to rust/helpers/ and have it come
+into the bindings that (like i did in v2)? Or do you mean move this function as
+it is to bindings/lib.rs?
 
->=20
-> >
-> > > +{
-> > > +	struct xe_device *xe =3D vm->xe;
-> > > +	struct xe_hw_engine *hwe;
-> > > +	enum xe_hw_engine_id id;
-> > > +	struct xe_gt *gt;
-> > > +	u8 gt_id;
-> > > +
-> > > +	for_each_gt(gt, xe, gt_id)
-> > > +		for_each_hw_engine(hwe, gt, id)
-> > > +			if (hwe->class =3D=3D class && hwe->instance =3D=3D instance)
-> > > +				return hwe;
-> > > +	return NULL;
-> > > +}
-> > > +
-> > > +/**
-> > > + * xe_vm_add_fault_entry_pf() - Add pagefault to vm fault list
-> > > + * @vm: The VM.
-> > > + * @pf: The pagefault.
-> > > + *
-> > > + * This function takes the data from the pagefault @pf and saves it =
-to
-> @vm->faults.list.
-> > > + *
-> > > + * The function exits silently if the list is full, and reports a
-> > > +warning if the pagefault
-> > > + * could not be saved to the list.
-> > > + */
-> > > +void xe_vm_add_fault_entry_pf(struct xe_vm *vm, struct xe_pagefault
-> > > +*pf) {
-> > > +	struct xe_vm_fault_entry *e =3D NULL;
-> > > +	struct xe_hw_engine *hwe;
-> > > +
-> > > +	/* Do not report faults on reserved engines */
-> > > +	hwe =3D hw_engine_lookup_class_instance(vm, pf-
-> >consumer.engine_class,
-> > > +					      pf->consumer.engine_instance);
-> > > +	if (!hwe || xe_hw_engine_is_reserved(hwe))
-> > > +		return;
-> > > +
-> > > +	e =3D kzalloc(sizeof(*e), GFP_KERNEL);
-> > > +	if (!e) {
-> > > +		drm_warn(&vm->xe->drm,
-> > > +			 "Could not allocate memory for fault!\n");
-> > > +		return;
-> > > +	}
-> > > +
-> > > +	spin_lock(&vm->faults.lock);
-> > > +
-> >
-> > Michal would say use guard(spinlock)(&vm->faults.lock) here. Probably
-> > a little cleaner as the goto can be avoided.
-> >
-> > > +	/*
-> > > +	 * Limit the number of faults in the fault list to prevent
-> > > +	 * memory overuse.
-> > > +	 */
-> > > +	if (vm->faults.len >=3D MAX_FAULTS_SAVED_PER_VM) {
-> > > +		kfree(e);
-> > > +		goto out;
-> > > +	}
-> > > +
-> > > +	e->address =3D pf->consumer.page_addr;
-> > > +	e->address_precision =3D 1;
-> > > +	e->access_type =3D pf->consumer.access_type;
-> > > +	e->fault_type =3D pf->consumer.fault_type;
-> > > +	e->fault_level =3D pf->consumer.fault_level;
-> > > +
-> > > +	list_add_tail(&e->list, &vm->faults.list);
-> > > +	vm->faults.len++;
-> > > +out:
-> > > +	spin_unlock(&vm->faults.lock);
-> > > +}
-> > > +
-> > > +static void xe_vm_clear_fault_entries(struct xe_vm *vm) {
-> > > +	struct xe_vm_fault_entry *e, *tmp;
-> > > +
-> > > +	spin_lock(&vm->faults.lock);
-> >
-> > Probably a guard here too.
-> >
-> > Nits aside, overall LGTM.
-> >
-> > Matt
-> >
-> > > +	list_for_each_entry_safe(e, tmp, &vm->faults.list, list) {
-> > > +		list_del(&e->list);
-> > > +		kfree(e);
-> > > +	}
-> > > +	vm->faults.len =3D 0;
-> > > +	spin_unlock(&vm->faults.lock);
-> > > +}
-> > > +
-> > >  static int xe_vma_ops_alloc(struct xe_vma_ops *vops, bool
-> > > array_of_binds)  {
-> > >  	int i;
-> > > @@ -1503,6 +1586,9 @@ struct xe_vm *xe_vm_create(struct xe_device
-> *xe, u32 flags, struct xe_file *xef)
-> > >  	INIT_LIST_HEAD(&vm->userptr.invalidated);
-> > >  	spin_lock_init(&vm->userptr.invalidated_lock);
-> > >
-> > > +	INIT_LIST_HEAD(&vm->faults.list);
-> > > +	spin_lock_init(&vm->faults.lock);
-> > > +
-> > >  	ttm_lru_bulk_move_init(&vm->lru_bulk_move);
-> > >
-> > >  	INIT_WORK(&vm->destroy_work, vm_destroy_work_func); @@ -
-> 1808,6
-> > > +1894,8 @@ void xe_vm_close_and_put(struct xe_vm *vm)
-> > >  	}
-> > >  	up_write(&xe->usm.lock);
-> > >
-> > > +	xe_vm_clear_fault_entries(vm);
-> > > +
-> > >  	for_each_tile(tile, xe, id)
-> > >  		xe_range_fence_tree_fini(&vm->rftree[id]);
-> > >
-> > > diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-> > > index 361f10b3c453..e9f2de4189e0 100644
-> > > --- a/drivers/gpu/drm/xe/xe_vm.h
-> > > +++ b/drivers/gpu/drm/xe/xe_vm.h
-> > > @@ -12,6 +12,12 @@
-> > >  #include "xe_map.h"
-> > >  #include "xe_vm_types.h"
-> > >
-> > > +/**
-> > > + * MAX_FAULTS_SAVED_PER_VM - Maximum number of faults each vm
-> can
-> > > +store before future
-> > > + * faults are discarded to prevent memory overuse  */
-> > > +#define MAX_FAULTS_SAVED_PER_VM	50
-> > > +
-> > >  struct drm_device;
-> > >  struct drm_printer;
-> > >  struct drm_file;
-> > > @@ -22,6 +28,7 @@ struct dma_fence;
-> > >
-> > >  struct xe_exec_queue;
-> > >  struct xe_file;
-> > > +struct xe_pagefault;
-> > >  struct xe_sync_entry;
-> > >  struct xe_svm_range;
-> > >  struct drm_exec;
-> > > @@ -309,6 +316,8 @@ void xe_vm_snapshot_capture_delayed(struct
-> > > xe_vm_snapshot *snap);  void xe_vm_snapshot_print(struct
-> > > xe_vm_snapshot *snap, struct drm_printer *p);  void
-> > > xe_vm_snapshot_free(struct xe_vm_snapshot *snap);
-> > >
-> > > +void xe_vm_add_fault_entry_pf(struct xe_vm *vm, struct xe_pagefault
-> > > +*pf);
-> > > +
-> > >  /**
-> > >   * xe_vm_set_validating() - Register this task as currently making b=
-os
-> resident
-> > >   * @allow_res_evict: Allow eviction of buffer objects bound to @vm
-> > > when diff --git a/drivers/gpu/drm/xe/xe_vm_types.h
-> > > b/drivers/gpu/drm/xe/xe_vm_types.h
-> > > index 3bf912bfbdcc..fff914fb0aa6 100644
-> > > --- a/drivers/gpu/drm/xe/xe_vm_types.h
-> > > +++ b/drivers/gpu/drm/xe/xe_vm_types.h
-> > > @@ -20,6 +20,7 @@
-> > >  #include "xe_userptr.h"
-> > >
-> > >  struct xe_bo;
-> > > +struct xe_pagefault;
-> > >  struct xe_svm_range;
-> > >  struct xe_sync_entry;
-> > >  struct xe_user_fence;
-> > > @@ -165,6 +166,24 @@ struct xe_userptr_vma {
-> > >
-> > >  struct xe_device;
-> > >
-> > > +/**
-> > > + * struct xe_vm_fault_entry - Elements of vm->faults.list
-> > > + * @list: link into @xe_vm.faults.list
-> > > + * @address: address of the fault
-> > > + * @address_precision: precision of faulted address
-> > > + * @access_type: type of address access that resulted in fault
-> > > + * @fault_type: type of fault reported
-> > > + * @fault_level: fault level of the fault  */ struct
-> > > +xe_vm_fault_entry {
-> > > +	struct list_head list;
-> > > +	u64 address;
-> > > +	u32 address_precision;
-> > > +	u8 access_type;
-> > > +	u8 fault_type;
-> > > +	u8 fault_level;
-> > > +};
-> > > +
-> > >  struct xe_vm {
-> > >  	/** @gpuvm: base GPUVM used to track VMAs */
-> > >  	struct drm_gpuvm gpuvm;
-> > > @@ -302,6 +321,16 @@ struct xe_vm {
-> > >  		bool capture_once;
-> > >  	} error_capture;
-> > >
-> > > +	/** @faults: List of all faults associated with this VM */
-> > > +	struct {
-> > > +		/** @faults.lock: lock protecting @faults.list */
-> > > +		spinlock_t lock;
-> > > +		/** @faults.list: list of xe_vm_fault_entry entries */
-> > > +		struct list_head list;
-> > > +		/** @faults.len: length of @faults.list */
-> > > +		unsigned int len;
-> > > +	} faults;
-> > > +
-> > >  	/**
-> > >  	 * @validation: Validation data only valid with the vm resv held.
-> > >  	 * Note: This is really task state of the task holding the vm
-> > > resv,
-> > > --
-> > > 2.43.0
-> > >
-> >
+I am Ok with either.
+
+>> +/// Wraps a `list_head` object for use in intrusive linked lists.
+>> +///
+>> +/// # Invariants
+>> +///
+>> +/// - `ClistHead` represents an allocated and valid `list_head` structure.
+>> +///
+>> +/// # Safety
+>> +///
+>> +/// - All `list_head` nodes must not be modified by C code for the lifetime of `ClistHead`.
+> 
+> So if I modify the list from Rust code, it's okay?
+> 
+> I think the actual requirement you want is just that nobody modifies it.
+
+Yeah you're right, I will change the phrasing.
+
+> 
+>> +#[repr(transparent)]
+>> +pub struct ClistHead(Opaque<bindings::list_head>);
+>> +
+>> +impl ClistHead {
+>> +    /// Create a `&ClistHead` reference from a raw `list_head` pointer.
+>> +    ///
+>> +    /// # Safety
+>> +    ///
+>> +    /// - `ptr` must be a valid pointer to an allocated and initialized `list_head` structure.
+>> +    /// - `ptr` must remain valid and unmodified for the lifetime `'a`.
+>> +    #[inline]
+>> +    pub unsafe fn from_raw<'a>(ptr: *mut bindings::list_head) -> &'a Self {
+>> +        // SAFETY:
+>> +        // - `ClistHead` has same layout as `list_head`.
+>> +        // - `ptr` is valid and unmodified for 'a.
+>> +        unsafe { &*ptr.cast() }
+>> +    }
+>> +
+>> +    /// Get the raw `list_head` pointer.
+>> +    #[inline]
+>> +    pub fn as_raw(&self) -> *mut bindings::list_head {
+>> +        self.0.get()
+>> +    }
+>> +
+>> +    /// Get the next `ClistHead` in the list.
+>> +    #[inline]
+>> +    pub fn next(&self) -> &Self {
+>> +        let raw = self.as_raw();
+>> +        // SAFETY:
+>> +        // - `self.as_raw()` is valid per type invariants.
+>> +        // - The `next` pointer is guaranteed to be non-NULL.
+>> +        unsafe { Self::from_raw((*raw).next) }
+>> +    }
+>> +
+>> +    /// Get the previous `ClistHead` in the list.
+>> +    #[inline]
+>> +    pub fn prev(&self) -> &Self {
+>> +        let raw = self.as_raw();
+>> +        // SAFETY:
+>> +        // - self.as_raw() is valid per type invariants.
+>> +        // - The `prev` pointer is guaranteed to be non-NULL.
+>> +        unsafe { Self::from_raw((*raw).prev) }
+>> +    }
+>> +
+>> +    /// Check if this node is linked in a list (not isolated).
+>> +    #[inline]
+>> +    pub fn is_linked(&self) -> bool {
+>> +        let raw = self.as_raw();
+>> +        // SAFETY: self.as_raw() is valid per type invariants.
+>> +        unsafe { (*raw).next != raw && (*raw).prev != raw }
+>> +    }
+>> +}
+>> +
+>> +// SAFETY: `ClistHead` can be sent to any thread.
+>> +unsafe impl Send for ClistHead {}
+>> +
+>> +// SAFETY: `ClistHead` can be shared among threads as it is not modified by C per type invariants.
+>> +unsafe impl Sync for ClistHead {}
+>> +
+>> +impl PartialEq for ClistHead {
+>> +    fn eq(&self, other: &Self) -> bool {
+>> +        self.as_raw() == other.as_raw()
+>> +    }
+>> +}
+>> +
+
+[...]
+
+>> +impl<'a> FusedIterator for ClistHeadIter<'a> {}
+>> +
+>> +/// A typed C linked list with a sentinel head.
+>> +///
+>> +/// A sentinel head represents the entire linked list and can be used for
+>> +/// iteration over items of type `T`, it is not associated with a specific item.
+>> +///
+>> +/// # Invariants
+>> +///
+>> +/// - `head` is an allocated and valid C `list_head` structure that is the list's sentinel.
+>> +/// - `offset` is the byte offset of the `list_head` field within the C struct that `T` wraps.
+>> +///
+>> +/// # Safety
+>> +///
+>> +/// - All the list's `list_head` nodes must be allocated and have valid next/prev pointers.
+>> +/// - The underlying `list_head` (and entire list) must not be modified by C for the
+>> +///   lifetime 'a of `Clist`.
+> 
+> Here and elsewhere: We don't generally have Safety sections on structs.
+> It looks like these should just be invariants.
+
+I see, Ok I will move it, thanks.
+
+> 
+>> +pub struct Clist<'a, T> {
+>> +    head: &'a ClistHead,
+>> +    offset: usize,
+>> +    _phantom: PhantomData<&'a T>,
+>> +}
+>> +
+>> +impl<'a, T> Clist<'a, T> {
+>> +    /// Create a typed `Clist` from a raw sentinel `list_head` pointer.
+>> +    ///
+>> +    /// The const generic `OFFSET` specifies the byte offset of the `list_head` field within
+>> +    /// the C struct that `T` wraps.
+>> +    ///
+>> +    /// # Safety
+>> +    ///
+>> +    /// - `ptr` must be a valid pointer to an allocated and initialized `list_head` structure
+>> +    ///   representing a list sentinel.
+>> +    /// - `ptr` must remain valid and unmodified for the lifetime `'a`.
+>> +    /// - The list must contain items where the `list_head` field is at byte offset `OFFSET`.
+>> +    /// - `T` must be `#[repr(transparent)]` over the C struct.
+>> +    #[inline]
+>> +    pub unsafe fn from_raw_and_offset<const OFFSET: usize>(ptr: *mut bindings::list_head) -> Self {
+> 
+> I think OFFSET should probably be a constant on the struct rather than a
+> field.
+
+Yes John suggested this too. The type signature becomes complex/ugly (and you
+guys know my hatred for const generic syntax :)). But ok, since this is mostly
+hidden by a macro, I will make the change :).
+
+> 
+>> +        Self {
+>> +            // SAFETY: Caller guarantees `ptr` is a valid, sentinel `list_head` object.
+>> +            head: unsafe { ClistHead::from_raw(ptr) },
+>> +            offset: OFFSET,
+>> +            _phantom: PhantomData,
+>> +        }
+>> +    }
+>> +
+>> +    /// Get the raw sentinel `list_head` pointer.
+>> +    #[inline]
+>> +    pub fn as_raw(&self) -> *mut bindings::list_head {
+>> +        self.head.as_raw()
+>> +    }
+>> +
+>> +    /// Check if the list is empty.
+>> +    #[inline]
+>> +    pub fn is_empty(&self) -> bool {
+>> +        let raw = self.as_raw();
+>> +        // SAFETY: self.as_raw() is valid per type invariants.
+>> +        unsafe { (*raw).next == raw }
+>> +    }
+>> +
+>> +    /// Create an iterator over typed items.
+>> +    #[inline]
+>> +    pub fn iter(&self) -> ClistIter<'a, T> {
+>> +        ClistIter {
+>> +            head_iter: ClistHeadIter {
+>> +                current_head: self.head,
+>> +                list_head: self.head,
+>> +                exhausted: false,
+>> +            },
+>> +            offset: self.offset,
+>> +            _phantom: PhantomData,
+>> +        }
+>> +    }
+>> +}
+>> +
+>> +/// High-level iterator over typed list items.
+>> +pub struct ClistIter<'a, T> {
+>> +    head_iter: ClistHeadIter<'a>,
+>> +    offset: usize,
+>> +    _phantom: PhantomData<&'a T>,
+>> +}
+>> +
+>> +impl<'a, T> Iterator for ClistIter<'a, T> {
+>> +    type Item = &'a T;
+>> +
+>> +    fn next(&mut self) -> Option<Self::Item> {
+>> +        let head = self.head_iter.next()?;
+>> +
+>> +        // Convert to item using offset.
+>> +        // SAFETY:
+>> +        // - `item_ptr` calculation from `offset` (calculated using offset_of!)
+>> +        //    is valid per invariants.
+>> +        Some(unsafe { &*head.as_raw().cast::<u8>().sub(self.offset).cast::<T>() })
+> 
+> Can be simplified to:
+> head.as_raw().byte_sub(OFFSET).cast::<T>()
+> 
+
+Fixed, thanks.
+
+ - Joel
+
