@@ -2,88 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EF49C98650
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 18:02:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08EEDC980EF
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 16:31:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC0310E2BE;
-	Mon,  1 Dec 2025 17:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDA9110E3FA;
+	Mon,  1 Dec 2025 15:31:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="N5Vp/QOM";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="UIBVZiu9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2CD10E3FA
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 15:28:15 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-7b9c17dd591so3821667b3a.3
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 07:28:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764602895; x=1765207695; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=dCB4uXBZgUQkOf1CP9f395NPph0GsGyOxLs8b8/ayBM=;
- b=N5Vp/QOM936F+Ge5ZfjOYYuF9nzcnAftAXLLmiPyhKip4O3LdRbHekSI6sNFuxzp6H
- D5eWGZPy8+b9pqjvSGb1zHyBMx5LWvHQOr+bPmMQwGUbcDbkXNiK5qi53tr7fx9lPcxz
- aIDrB4M6cCNK4HS0kto1Uj+wk2JCaXOWRIlldAejZrwYtaM8N77/AbfDah6GnATnJFSr
- k3ORutnwnywdqepBoSvy6ZBdu951NkISuOrg7D8FQsHfc5TBxCikY8mj37dGhQyyEimL
- X7obtiByGLoLCdfWsFSNSfbB3yn2X/VEz5Iuy5hSFIKYNEYqh56ehsboLoIIR1DbxbSh
- zVJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764602895; x=1765207695;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dCB4uXBZgUQkOf1CP9f395NPph0GsGyOxLs8b8/ayBM=;
- b=Cm9RdA5/cmYLFtWC9rd1yrvgn4ya+a3Y0ZIGGFGxnjBW/ikeUami3PR8V3c2JpiBbS
- lhY7mrEoqkTV7HTJhzUxBUc5LVNxKLbC3N7Zy98PF3jtU5bU1fHIRYmbEz7sb1isc9yY
- msGHPpucFBpaE/+aH2VQA8tNGNjFGUrwOUhjpZ0e/ppID8rNWlwQwsxluS6jxonXIZlL
- H9r+9FM9n3Azqr5Z8kbBdF1bVeGitjlJ29uZCUiGydZSKZeaymZdUFQpuAlVDZF786/n
- LEgZcDlgslGisZHJMxQk5orNJbDY6G+AHyuU6XQt/sblNgj0RqMSaaGzYj+LUTQWK0x1
- xZ+Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUOonWa9bLeQeSD0oHCyfg+kKsZjWxium9rAZZh0ZJfEmK8daTfeAhlqsa+chEUmbfIZmDvA7RKww8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywwsfpnk66nheJxiu9/Omajd95lzXkNLx72nodlXRCUCCp9Hwpl
- u8X0T93a9s3+ikCz5TZ/8H81P3alOXxHK47AHbY+5vexqzxmEz+52+em
-X-Gm-Gg: ASbGncvmiiBMZHPlUfJmyH5d2Pj4Ijlo6dEtewKKN7MTw/ni8rVmJbQUz7po9YfN7vg
- P7keH0eVEh/e/ZcHy91qDWKpRbdhemRaRr76oKMfUsqjVoiMYW189lQcaV3fx6HcQH6o1CVN3pN
- SrNX0ixJc9LsItOnO5zxW5ZH7FbDqwbLdO/2A9oW5hx0LzepnMyqi34vuiHFolbj3HmPxlGI6Bl
- lNdIST3PPsjL599yOZktl1HH0v4hoecmRTmbhQjeJx8qrn4FoODvzHaOHRp1DP34bpbCLNrOkg8
- TwiuWg2Sfl2GXCLZ3s25jxbGSkltNcu+zdY6hcqIMaafwmU5yoz/vgjPzidsPaZqOUSdKwaLYFV
- sIUyB/p42F9MS+5mRl+8DSfxdgl1TaEQUk7USR826wVnD7G4WdaPlmhpapo4jp/BosaPljsGACe
- dFMS5/0pMao7Qwfycns0VmbX3TrmJVkNx51CcD+bOGJft7q1W9DKAu/EAArmgBNhWI
-X-Google-Smtp-Source: AGHT+IH0CcqA+i45zWE4hwAOZUK/YbYfpvPimm4i7NbGuR7Rv0Kwg1psJKl2PjAExOkxM1RJMnNT6A==
-X-Received: by 2002:a05:6a20:4320:b0:35e:deb8:bcd7 with SMTP id
- adf61e73a8af0-3637e0c5ce3mr30015738637.53.1764602894536; 
- Mon, 01 Dec 2025 07:28:14 -0800 (PST)
-Received: from atharv-HP-Pavilion-x360-2-in-1-Laptop-14-ek1xxx..
- ([103.216.213.160]) by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7d15e9c3e41sm14059158b3a.33.2025.12.01.07.28.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Dec 2025 07:28:14 -0800 (PST)
-From: Atharv Dubey <atharvd440@gmail.com>
-To: Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>, Danilo Krummrich <dakr@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CC7610E3FA
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 15:31:33 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1764603084; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Xuy+zrayxriwhuYfV/lVGssZKZ+Bjy7aYphus6QJ/hBrv939HE61Ad745hTjCtzVc5kx4WT9ABt8vM9ekMcBIK1zJVpxgEclYdCLoePwiPQkm7wAqnSofQWudJdg+L61dnNzPqFj3xr47S0vxMksduM+fAitX1b3WenFPZw6t0s=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1764603084;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=3HbneU3qyka+xS+SgyzTpdhrl3NagdrNaKT2I4JJmeg=; 
+ b=fyY2x3hqyXc+eLlSejazJ4GEzzUSn6ZRpeCrTY+/AV5qDOock5KTgQPt1pO+EO/kp6u3hlxOfhcpFFr4P8Re6Hph16nZ76FlL9qrPqrQFsCczyLdD+HLk54xxsqzlY6M1FIluDxHRVhm1CsmT9mSzi4p90M5G/4zTps8cxQvJCU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764603084; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=3HbneU3qyka+xS+SgyzTpdhrl3NagdrNaKT2I4JJmeg=;
+ b=UIBVZiu9rxK3BZWr6HrP6U+QllaOJuwYNqVOggn6MYMG2I0i7qRSylEGzDSG78Zx
+ V3gwwUKPTl/1t5Qf+3RA9xmbBnhWIml8CbpDyEZJFttuv1yfxEKxxydFy33Paw7hYzu
+ bc0tDMOa5uirnHDAkatQcM+721cH5zFiiJfPZczs=
+Received: by mx.zohomail.com with SMTPS id 1764603079634801.5377747252071;
+ Mon, 1 Dec 2025 07:31:19 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH v2] rust: drm: use `pin_init::zeroed()` for file
+ operations initialization
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20251201152759.16429-1-atharvd440@gmail.com>
+Date: Mon, 1 Dec 2025 12:31:04 -0300
+Cc: Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
  Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Lyude Paul <lyude@redhat.com>, Shankari Anand <shankari.ak0208@gmail.com>,
- Asahi Lina <lina+kernel@asahilina.net>,
- Atharv Dubey <atharvd440@gmail.com>, dri-devel@lists.freedesktop.org,
+ Trevor Gross <tmgross@umich.edu>, Lyude Paul <lyude@redhat.com>,
+ Shankari Anand <shankari.ak0208@gmail.com>,
+ Asahi Lina <lina+kernel@asahilina.net>, dri-devel@lists.freedesktop.org,
  rust-for-linux@vger.kernel.org
-Subject: [PATCH v2] rust: drm: use `pin_init::zeroed()` for file operations
- initialization
-Date: Mon,  1 Dec 2025 20:57:58 +0530
-Message-ID: <20251201152759.16429-1-atharvd440@gmail.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 01 Dec 2025 17:02:00 +0000
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <6DE296DC-45BA-4915-8FB7-78A6A7339A66@collabora.com>
+References: <20251201152759.16429-1-atharvd440@gmail.com>
+To: Atharv Dubey <atharvd440@gmail.com>
+X-Mailer: Apple Mail (2.3826.700.81)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,30 +76,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the manual `unsafe { core::mem::zeroed() }` initialization of
-`bindings::file_operations` with `pin_init::zeroed()`. This removes the
-explicit unsafe
+Hi Atharv,
 
-Signed-off-by: Atharv Dubey <atharvd440@gmail.com>
----
- rust/kernel/drm/gem/mod.rs | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+> On 1 Dec 2025, at 12:27, Atharv Dubey <atharvd440@gmail.com> wrote:
+>=20
+> Replace the manual `unsafe { core::mem::zeroed() }` initialization of
+> `bindings::file_operations` with `pin_init::zeroed()`. This removes =
+the
+> explicit unsafe
+>=20
+> Signed-off-by: Atharv Dubey <atharvd440@gmail.com>
+> ---
+> rust/kernel/drm/gem/mod.rs | 4 +---
+> 1 file changed, 1 insertion(+), 3 deletions(-)
+>=20
+> diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+> index 30c853988b94..f9fd98dc102b 100644
+> --- a/rust/kernel/drm/gem/mod.rs
+> +++ b/rust/kernel/drm/gem/mod.rs
+> @@ -298,9 +298,7 @@ impl<T: DriverObject> AllocImpl for Object<T> {
+> }
+>=20
+> pub(super) const fn create_fops() -> bindings::file_operations {
+> -    // SAFETY: As by the type invariant, it is safe to initialize =
+`bindings::file_operations`
+> -    // zeroed.
+> -    let mut fops: bindings::file_operations =3D unsafe { =
+core::mem::zeroed() };
+> +    let mut fops: bindings::file_operations =3D pin_init::zeroed();
+>=20
+>     fops.owner =3D core::ptr::null_mut();
+>     fops.open =3D Some(bindings::drm_open);
+> --=20
+> 2.43.0
+>=20
+>=20
 
-diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
-index 30c853988b94..f9fd98dc102b 100644
---- a/rust/kernel/drm/gem/mod.rs
-+++ b/rust/kernel/drm/gem/mod.rs
-@@ -298,9 +298,7 @@ impl<T: DriverObject> AllocImpl for Object<T> {
- }
- 
- pub(super) const fn create_fops() -> bindings::file_operations {
--    // SAFETY: As by the type invariant, it is safe to initialize `bindings::file_operations`
--    // zeroed.
--    let mut fops: bindings::file_operations = unsafe { core::mem::zeroed() };
-+    let mut fops: bindings::file_operations = pin_init::zeroed();
- 
-     fops.owner = core::ptr::null_mut();
-     fops.open = Some(bindings::drm_open);
--- 
-2.43.0
+I wonder if this should be part of a larger series that implements this =
+change
+throughout the tree?
 
+=E2=80=94 Daniel=
