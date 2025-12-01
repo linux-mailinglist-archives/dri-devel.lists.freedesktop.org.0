@@ -2,55 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F7CC97846
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 14:13:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 533DEC978A1
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 14:17:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F17C10E3CF;
-	Mon,  1 Dec 2025 13:13:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D67510E2AC;
+	Mon,  1 Dec 2025 13:17:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="EB+wolPF";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="F1ykKtUl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 091A210E3CF
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 13:13:10 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-02.galae.net (Postfix) with ESMTPS id 5C7871A1E6D;
- Mon,  1 Dec 2025 13:13:08 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 2B8E7606BB;
- Mon,  1 Dec 2025 13:13:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 68FC81191817C; Mon,  1 Dec 2025 14:13:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1764594787; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:content-language:in-reply-to:references;
- bh=fBRDi0A4o9YmsnBRCqreFxadvyrDZVlPJ4NIul79DiI=;
- b=EB+wolPFmTG8gw6JMI6Ev653l4ibvW4Q32N68/5VkdZ6OI77sE495kI3TQPzNOIjTK3WPf
- DKfd7IsZC0/S+fiPgUPX9RZjQChZz+WyJYACH04dkVpbh6msxy7znLDdRAhts8+GQjNHyN
- MoHT9DSk2bqj/W//Rq1OgZJ0xw7tOJUI7Aq9CfAA2Vtz7xFwtGMI2mizIFuY8QhAqAA8pF
- 96iDG7W/Z+ns8mECFnuOKCWVHsF/s1P5VHIolIy2KTymFqlAwxUiH/LAw0SblblTlsiKs2
- h5M9M3GTlYYcZN0v3rpiT+7cY234wGLOJdrofaHUHTZcFbSQBUTG1yIsISa1tQ==
-Message-ID: <9222543c-5e67-4fe5-b598-e1bab8f6da2e@bootlin.com>
-Date: Mon, 1 Dec 2025 14:13:05 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B49BF10E138;
+ Mon,  1 Dec 2025 13:17:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=cPiAfx7FdDOpOGsC72ThWHuHw4YoMlt69Iwmcf91efo=; b=F1ykKtUl8axnsePILvv1n5IyfT
+ muXHi/NsapQAhJuCgTSgTUKFWi9Tu+8Hj1K25SUoeTFmSnTlUCHj9UHI6v0B7BjEIQmfZ5fpNNKJe
+ LiYBm/FfDU7A000mG7ROPxNNK+OxAzR2YWroSAaFL/C3K2i6Ah3LSdYDd3KNJoNHglXTNzJYBNlfW
+ +2N83hgabMUjzT0kJ7KdGAfZ33af3q2bvbQ6S2bU31PGr0NQWHJcoVfHpNX2qlPkacVxd2u80Tdvi
+ mr7yDORard5qvM6WaQY6VoOjGBk0ZlDUkCKUaAF5nrNo9k6PcJalvdk71IvLKEf5BWjUEJy5UXz7d
+ gyhZA/ig==;
+Received: from [189.7.87.198] (helo=[192.168.0.4])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vQ3le-007OGa-VH; Mon, 01 Dec 2025 14:16:39 +0100
+Message-ID: <69f7bdc1-e2e2-4a0c-94be-b096a4de218b@igalia.com>
+Date: Mon, 1 Dec 2025 10:16:26 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] backlight: Add Congatec Board Controller (CGBC)
- backlight support
-To: petri.karhula@novatron.fi, Lee Jones <lee@kernel.org>,
- Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH v10 06/10] drm/v3d: Use huge tmpfs mountpoint helpers
+To: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>, Matthew Wilcox
+ <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-References: <20251127-cgbc-backlight-v4-0-626523b7173d@novatron.fi>
- <20251127-cgbc-backlight-v4-1-626523b7173d@novatron.fi>
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+References: <20251128185252.3092-1-loic.molinari@collabora.com>
+ <20251128185252.3092-7-loic.molinari@collabora.com>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 Content-Language: en-US
-From: Thomas Richard <thomas.richard@bootlin.com>
-In-Reply-To: <20251127-cgbc-backlight-v4-1-626523b7173d@novatron.fi>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+In-Reply-To: <20251128185252.3092-7-loic.molinari@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,16 +80,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/27/25 4:21 PM, Petri Karhula via B4 Relay wrote:
-> From: Petri Karhula <petri.karhula@novatron.fi>
-> 
-> This driver provides backlight brightness control through the Linux
-> backlight subsystem. It communicates with the board controller to
-> adjust LCD backlight using PWM signals. Communication is done
-> through Congatec Board Controller core driver.
-Tested on a conga-SA7 module with conga-SEVAL carrier board.
+Hi Loïc,
 
-Tested-by: Thomas Richard <thomas.richard@bootlin.com>
+On 28/11/25 15:52, Loïc Molinari wrote:
+> Make use of the new drm_gem_huge_mnt_create() and
+> drm_gem_get_huge_mnt() helpers to avoid code duplication. Now that
+> it's just a few lines long, the single function in v3d_gemfs.c is
+> moved into v3d_gem.c.
+> 
+> v3:
+> - use huge tmpfs mountpoint in drm_device
+> - move v3d_gemfs.c into v3d_gem.c
+> 
+> v4:
+> - clean up mountpoint creation error handling
+> 
+> v5:
+> - fix CONFIG_TRANSPARENT_HUGEPAGE check
+> - use drm_gem_has_huge_mnt() helper
+> 
+> v8:
+> - don't access huge_mnt field with CONFIG_TRANSPARENT_HUGEPAGE=n
+> 
+> v9:
+> - replace drm_gem_has_huge_mnt() by drm_gem_get_huge_mnt()
+> 
+> v10:
+> - get rid of CONFIG_TRANSPARENT_HUGEPAGE ifdefs
+> 
+> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+
+With one suggestion below:
+
+> ---
+>   drivers/gpu/drm/v3d/Makefile    |  3 +-
+>   drivers/gpu/drm/v3d/v3d_bo.c    |  5 ++-
+>   drivers/gpu/drm/v3d/v3d_drv.c   |  2 +-
+>   drivers/gpu/drm/v3d/v3d_drv.h   | 11 +-----
+>   drivers/gpu/drm/v3d/v3d_gem.c   | 27 ++++++++++++--
+>   drivers/gpu/drm/v3d/v3d_gemfs.c | 62 ---------------------------------
+>   6 files changed, 30 insertions(+), 80 deletions(-)
+>   delete mode 100644 drivers/gpu/drm/v3d/v3d_gemfs.c
+> 
+
+[...]
+
+> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+> index 5a180dc6c452..62532a89dd14 100644
+> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+> @@ -259,6 +259,30 @@ v3d_invalidate_caches(struct v3d_dev *v3d)
+>   	v3d_invalidate_slices(v3d, 0);
+>   }
+>   
+> +static void
+> +v3d_huge_mnt_init(struct v3d_dev *v3d)
+> +{
+> +	int err = 0;
+> +
+> +	/*
+> +	 * By using a huge shmemfs mountpoint when the user wants to
+> +	 * enable Super Pages, we can pass in mount flags that better
+> +	 * match our usecase.
+> +	 */
+
+I feel that this comment is phrased in a way that isn’t very clear. If
+possible, could you rephrase it or remove it? I think this comment is
+no longer needed given all the documentation already added to the
+DRM GEM functions.
 
 Best Regards,
-Thomas
+- Maíra
+
+> +
+> +	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) && super_pages)
+> +		err = drm_gem_huge_mnt_create(&v3d->drm, "within_size");
+> +
+> +	if (drm_gem_get_huge_mnt(&v3d->drm))
+> +		drm_info(&v3d->drm, "Using Transparent Hugepages\n");
+> +	else if (err)
+> +		drm_warn(&v3d->drm, "Can't use Transparent Hugepages (%d)\n",
+> +			 err);
+> +	else
+> +		drm_notice(&v3d->drm,
+> +			   "Transparent Hugepage support is recommended for optimal performance on this platform!\n");
+> +}
+> +
