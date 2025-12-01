@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC52C96BBC
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 11:51:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D796CC96BC2
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 11:51:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D1DB10E38A;
-	Mon,  1 Dec 2025 10:50:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3353210E391;
+	Mon,  1 Dec 2025 10:51:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rLTAWzYx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Cztmh2b1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 576ED10E38D;
- Mon,  1 Dec 2025 10:50:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B77310E390;
+ Mon,  1 Dec 2025 10:51:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id CAF2B60137;
+ by tor.source.kernel.org (Postfix) with ESMTP id 8E4E060163;
+ Mon,  1 Dec 2025 10:51:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01A2FC4CEF1;
  Mon,  1 Dec 2025 10:50:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E334C113D0;
- Mon,  1 Dec 2025 10:50:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764586256;
- bh=psV3AjFMvx+hXzUq9J8i739SH64kLqL5g0LrFSRpUkM=;
+ s=k20201202; t=1764586262;
+ bh=weqR/k6bdbRE4AndEp4LhhGi2UzLYefCKJre4wdO4eM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rLTAWzYx6rzjm5FOB1qQRsnqmGx9jZme2PkpQdPQ5Gk9SYiCeR3uqyFWB/ecKz80T
- dFkAKaEmVUAj/yOX/dJf22/kQnshwBsC3eedsv1wk5Ojj1vQnEi6rZqpRTA3Ufntdr
- P7OmsO/ICoEgrwsStpB/dILe4tLxYKj5JGeQQT1jXrkaLHVbmo6FhS1377mQIm2awY
- 2ptlOGK6moAeJgfunx/ryXcHzUc0TXM8v0mN+koe4xQcIdrOVPAouclixrhcHNccdv
- rXFXI0ABcANLgSdbNSwCebdfb7OA2BZE4GhcD9eWrQt8VoUQLnNNo0O1ZvzdLUMnUl
- YmmkPTZeKOJ1A==
+ b=Cztmh2b1+F4gfiasJbMsWE/qSkS82JpFMlm/0WEWAQq4MkG0cQ5prUks+WOxnrC+I
+ EnkNe36MccmTR7x1s738D9S1JOP/mYuReRRAR4Lh1nqZdbhUUOupxxY/0+TjxbiqzU
+ vPUSzr9Kxop6wOaxnR08AutarKfwoYuqMm37sLUxuoPy4bjbM7UnOTqqpItCtPnpUd
+ tIUm/S9EOpvMIVoVdbNIlwRP8H0vypQ8MJx1eIijrxjGXnc5KpM60zT3NBE7WG5rgX
+ yMUp16KlA+vQHzzy2Gz57WZLYDVj5ZxYl7B3DTLLRevpjF4hU9rORH199i2rKYGBKT
+ 0xLO9jmc9Tn9w==
 From: Philipp Stanner <phasta@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>,
  Gustavo Padovan <gustavo@padovan.org>,
@@ -51,9 +51,9 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v2 5/8] dma-buf: Don't misuse dma_fence_signal()
-Date: Mon,  1 Dec 2025 11:50:09 +0100
-Message-ID: <20251201105011.19386-7-phasta@kernel.org>
+Subject: [PATCH v2 6/8] drm/ttm: Use dma_fence_check_and_signal()
+Date: Mon,  1 Dec 2025 11:50:10 +0100
+Message-ID: <20251201105011.19386-8-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20251201105011.19386-2-phasta@kernel.org>
 References: <20251201105011.19386-2-phasta@kernel.org>
@@ -75,44 +75,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The return code of dma_fence_signal() is not really useful as there is
-nothing reasonable to do if a fence was already signaled. That return
-code shall be removed from the kernel.
+The return code of dma_fence_signal() is not useful and shall be removed
+from the kernel. To do so, the few users who rely on the return code
+must be ported.
 
-Moreover, dma_fence_signal() should not be used to check whether fences
-are signaled. That's what dma_fence_is_signaled() and
-dma_fence_test_signaled_flag() exist for.
-
-Replace the non-canonical usage of dma_fence_signal().
+Use dma_fence_check_and_signal() and mapp its boolean return code to
+dma_fence_signal()'s former value for already-signaled fences.
 
 Suggested-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/dma-buf/st-dma-fence.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/st-dma-fence.c b/drivers/dma-buf/st-dma-fence.c
-index 27a36045410b..4dbe39c58bfb 100644
---- a/drivers/dma-buf/st-dma-fence.c
-+++ b/drivers/dma-buf/st-dma-fence.c
-@@ -126,7 +126,7 @@ static int test_signaling(void *arg)
- 		goto err_free;
- 	}
+diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+index 1bcc67977f48..eaf2e91f8e97 100644
+--- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
++++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+@@ -692,7 +692,7 @@ static int threaded_fence_signal(void *arg)
  
--	if (dma_fence_signal(f)) {
-+	if (dma_fence_check_and_signal(f)) {
- 		pr_err("Fence reported being already signaled\n");
- 		goto err_free;
- 	}
-@@ -136,7 +136,7 @@ static int test_signaling(void *arg)
- 		goto err_free;
- 	}
+ 	msleep(20);
  
--	if (!dma_fence_signal(f)) {
-+	if (!dma_fence_test_signaled_flag(f)) {
- 		pr_err("Fence reported not being already signaled\n");
- 		goto err_free;
- 	}
+-	return dma_fence_signal(fence);
++	return dma_fence_check_and_signal(fence) ? -EINVAL : 0;
+ }
+ 
+ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
 -- 
 2.49.0
 
