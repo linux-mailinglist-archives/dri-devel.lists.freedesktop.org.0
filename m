@@ -2,70 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBA89C980FE
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 16:34:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19244C9810A
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 16:35:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA6A510E010;
-	Mon,  1 Dec 2025 15:34:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA1210E137;
+	Mon,  1 Dec 2025 15:35:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="RJMoTVd0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MnfUmDiW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76CAD10E010;
- Mon,  1 Dec 2025 15:34:43 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4dKnyS2nxQz9t7d;
- Mon,  1 Dec 2025 16:34:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1764603280; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jgphQImo2CsCBeaCQs8YEn7VRVszdQcY1N+6nFeVvP0=;
- b=RJMoTVd0KT3Am/i7RHmcUdZ67k5CBi+kZl9EEsPD2iE2f9yWC00VfQQQO2/mLq4ICSbzFl
- WAgy6uiwm5pAQ/ojek1ecv4MOkfHekA8bbcJEUryGB6pq2RPO4M1OsPyMEueel5O26+hmQ
- 1/Llt1MOxBbvN1T+1THDoJ3uMwBzjAdVCGqsJRpQqWGidV9YTkEODLrJG3lF2NQaTChQFM
- 8EQx/2yicrNHVndvn8SZOZt8pBkFq0PkJMIje+VIJbUQIwj/DVsVjuF0sPdR/z03JastDN
- 27Bj6re/HOL2ghT0W3FwWx28bTsxjfM09+AT6/QUN2rkgn2aZ5cf+RJcK0oSug==
-Message-ID: <8eaab4c04fad84bde279ee2cd228fac4f84c5184.camel@mailbox.org>
-Subject: Re: [PATCH v2 2/8] dma-buf/dma-fence: Add dma_fence_check_and_signal()
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- phasta@kernel.org, Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, Felix Kuehling <Felix.Kuehling@amd.com>, Alex
- Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>,  Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
- <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,  Matthew Brost
- <matthew.brost@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Mon, 01 Dec 2025 16:34:32 +0100
-In-Reply-To: <93a4f4e4-af7a-4c84-a7a2-5db785f2a5a8@amd.com>
-References: <20251201105011.19386-2-phasta@kernel.org>
- <20251201105011.19386-4-phasta@kernel.org>
- <80554ed2-4454-489b-873f-533d68c8d2ae@amd.com>
- <2a9c83b4a428bb3cc993499c39d0da01f9563278.camel@mailbox.org>
- <93a4f4e4-af7a-4c84-a7a2-5db785f2a5a8@amd.com>
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+ [209.85.215.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DEF4F10E137
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 15:35:28 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id
+ 41be03b00d2f7-bc144564e07so122384a12.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 07:35:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764603328; x=1765208128; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IUNxN5qrxyE5m7ZulRO3ENGx2G6kLUP7duXkt1dCvso=;
+ b=MnfUmDiWOpN/xsC6bcz9Q6yJ2AH8PxL8gMKFkW6Up0FRKkAod56Uf12LwiCkmei9kv
+ INEiCjvQOJSTggfs5Aj0W0xzHXin6LbGxt6dTlF7bCm21mBV8xkqqqHeNDRH2xs/ymDP
+ 89g1Oet982WvqBNblx0EkJ6Wn2vBSxNdf3H5D1AdnIg3A+Qcmw+Rwr7aciUBkWlfYvsI
+ 6OzNhhvlFWvPCvocJBNFlDCwbzDckaLpsCWBkz4Vocl52rgrH6/QqltjvPNdYNjEjSBk
+ OnY3ZskHcFvLzyeSvoX41phxrDOxu40a8s/WM+RPhzypKAP9hHLL/6MNaxzGDBT0VE/1
+ IcSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764603328; x=1765208128;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=IUNxN5qrxyE5m7ZulRO3ENGx2G6kLUP7duXkt1dCvso=;
+ b=TXL+v7T66tY6OsfrNBwK0WxwqjwxKjy7Vrfxbznffk/fx0eKgGxCNvxs0ujLH3gzTQ
+ KWwF8Y980X44kHAAacO7iY3X1HmeurbqQra4DJM8bHqEVEi08q2XV67WQodPJ8OznRwY
+ 8+sIeEQY2Asa0e5Lptsf+zth1Xz6kibiXuCoioZaydVzl9Mgq1Rj2SPkvrqgXoGY2rXU
+ gLSQ67odMgGPilCLVePf/M9GjMcoEAiIMYpOAal2DMvo4DnkfXzEid3pBxOhPll1wfWv
+ rS0cum+blWk3x403LPxLM5E7rpG+oWXVExPvwXdBeFeWOGi17UHhN2C5bwkvYnQYqraS
+ qa/w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXRc/KZw1Rm49mi+epY0aMqC1nXxcpIzi2GuLTj4IJIb0mrodhH5y3YVWERqvSAJ9CnZGz8DHB1Osk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx1/SLTYfjTVwO0oFMXGcDLonVH/1Tg+xQ4VfxHqUdRKxCJ+sFQ
+ ZrlVGOyDAEh74/08pil0y1/Zayed+LOUVVGFwTmK45y0kYH8L8O0zvcezxg3pFksLtr8eJSONQq
+ mxmOf9YvmKI83mXbeIQCa/oj1b8M0xag=
+X-Gm-Gg: ASbGncsH/bpp8EjDyAhKf2In/Ws0rk0dVxOx68ERV7ZxbkWjt3n7zfReht64bPpAYat
+ eNgh8qI4TF2y07NPt4q5ZcIbFqB51wrXBL/GsowUcxUuKcMCO0MzgK82q+jhoUg9+e3MlWN6PJr
+ Od68JpJYEnc8vRMAVIRpmLKe7HLsiujtQOC/DYdgImH2FYv5U6l6xDVH4V2uLDO6BQRnGQnMgwA
+ 8hEI+ThsAW9EtyMA/mBBU1n0ePke9M4cIl1lYiCQG4g5xRooDlvHSd7vTKf0OHXpuFYvPr/rpGl
+ 3JShqDjswJNGkKiZiyR0Oeqm4y5YinDws4drt73ZU7qz7HrJBMAPfx3CAZK0o6Ag2Tt2qZxPKGE
+ ZNSpxLZdiLChocA==
+X-Google-Smtp-Source: AGHT+IEoCLpm9lr0RH3SWQPZtNE57eOwkauItyiHao4q1iLnYOGMmNevS+W3sSEcxd7G4uHpfc3hJZOjQWWFcvoi3cQ=
+X-Received: by 2002:a05:7301:e24:b0:2a4:3593:2c07 with SMTP id
+ 5a478bee46e88-2a7243ec7b9mr21735269eec.0.1764603328166; Mon, 01 Dec 2025
+ 07:35:28 -0800 (PST)
+MIME-Version: 1.0
+References: <20251201152759.16429-1-atharvd440@gmail.com>
+ <6DE296DC-45BA-4915-8FB7-78A6A7339A66@collabora.com>
+In-Reply-To: <6DE296DC-45BA-4915-8FB7-78A6A7339A66@collabora.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 1 Dec 2025 16:35:15 +0100
+X-Gm-Features: AWmQ_blJCkBhicE8Cax4nvSPCCoAJ0n5ZIvU9eCcCm1jzeuOpDDhMtG4FEcpZh4
+Message-ID: <CANiq72=CS6o9=2KUVgoOKoyEAOpMz+wepLCJe5Mftxuz-RV1Tg@mail.gmail.com>
+Subject: Re: [PATCH v2] rust: drm: use `pin_init::zeroed()` for file
+ operations initialization
+To: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Atharv Dubey <atharvd440@gmail.com>, Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Danilo Krummrich <dakr@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, Lyude Paul <lyude@redhat.com>, 
+ Shankari Anand <shankari.ak0208@gmail.com>,
+ Asahi Lina <lina+kernel@asahilina.net>, 
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MBO-RS-ID: b98572e8d9faed18a8e
-X-MBO-RS-META: 51juwjpfinahneyw9wwu3nc86zzu6ucz
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,194 +94,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-12-01 at 16:20 +0100, Christian K=C3=B6nig wrote:
-> On 12/1/25 14:55, Philipp Stanner wrote:
-> > On Mon, 2025-12-01 at 14:23 +0100, Christian K=C3=B6nig wrote:
-> > > On 12/1/25 11:50, Philipp Stanner wrote:
-> > > > The overwhelming majority of users of dma_fence signaling functions
-> > > > don't care about whether the fence had already been signaled by som=
-eone
-> > > > else. Therefore, the return code shall be removed from those functi=
-ons.
-> > > >=20
-> > > > For the few users who rely on the check, a new, specialized functio=
-n
-> > > > shall be provided.
-> > > >=20
-> > > > Add dma_fence_check_and_signal(), which signals a fence if it had n=
-ot
-> > > > yet been signaled, and informs the user about that.
-> > > >=20
-> > > > Add a counter part, dma_fence_check_and_signal_locked(), which does=
-n't
-> > > > take the spinlock.
-> > > >=20
-> > > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > > > ---
-> > > > =C2=A0drivers/dma-buf/dma-fence.c | 44 ++++++++++++++++++++++++++++=
-+++++++++
-> > > > =C2=A0include/linux/dma-fence.h=C2=A0=C2=A0 |=C2=A0 2 ++
-> > > > =C2=A02 files changed, 46 insertions(+)
-> > > >=20
-> > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fenc=
-e.c
-> > > > index 96d72ffc0750..146de62887cf 100644
-> > > > --- a/drivers/dma-buf/dma-fence.c
-> > > > +++ b/drivers/dma-buf/dma-fence.c
-> > > > @@ -445,6 +445,50 @@ int dma_fence_signal_locked(struct dma_fence *=
-fence)
-> > > > =C2=A0}
-> > > > =C2=A0EXPORT_SYMBOL(dma_fence_signal_locked);
-> > > > =C2=A0
-> > > > +/**
-> > > > + * dma_fence_check_and_signal_locked - signal the fence if it's no=
-t yet signaled
-> > > > + * @fence: the fence to check and signal
-> > > > + *
-> > > > + * Checks whether a fence was signaled and signals it if it was no=
-t yet signaled.
-> > > > + *
-> > > > + * Unlike dma_fence_check_and_signal(), this function must be call=
-ed with
-> > > > + * &struct dma_fence.lock being held.
-> > > > + *
-> > > > + * Return: true if fence has been signaled already, false otherwis=
-e.
-> > > > + */
-> > > > +bool dma_fence_check_and_signal_locked(struct dma_fence *fence)
-> > >=20
-> > > I'm seriously considering to nuke all the unlocked variants of dma_fe=
-nce functions and just make it mandatory for callers to grab the lock manua=
-lly.
-> > >=20
-> >=20
-> > You mean "nuke the *locked* variants.
->=20
-> Sorry, that wasn't specific enough.
->=20
-> What I meant was making the locked variants the default instead of the un=
-locked ones.
+On Mon, Dec 1, 2025 at 4:31=E2=80=AFPM Daniel Almeida
+<daniel.almeida@collabora.com> wrote:
+>
+> I wonder if this should be part of a larger series that implements this c=
+hange
+> throughout the tree?
 
-Well, no :D
+They are independent, so it is easier to land them as such (and may be
+clearer that is the case by sending them separately), but having them
+in a series (even if landed separately) is also OK.
 
-What you want to do is:
-- Delete / deprecate the *locked* variants
-- Force all users to take the fence lock manually, then use the (now
-all unlocked) dma fence functions.
-
-ACK?
-
->=20
-> >=20
-> > Why, though? Aren't they enough for most users?
-> > I suppose you have all those subtle races in mind..
->=20
-> Yeah, exactly that.
->=20
-> >=20
-> > > > +{
-> > > > +	bool ret;
-> > > > +
-> > > > +	ret =3D dma_fence_test_signaled_flag(fence);
-> > > > +	dma_fence_signal_locked(fence);
-> > > > +
-> > > > +	return ret;
-> > > > +}
-> > > > +EXPORT_SYMBOL(dma_fence_check_and_signal_locked);
-> > > > +
-> > > > +/**
-> > > > + * dma_fence_check_and_signal - signal the fence if it's not yet s=
-ignaled
-> > > > + * @fence: the fence to check and signal
-> > > > + *
-> > > > + * Checks whether a fence was signaled and signals it if it was no=
-t yet signaled.
-> > > > + * All this is done in a race-free manner.
-> > > > + *
-> > > > + * Return: true if fence has been signaled already, false otherwis=
-e.
-> > > > + */
-> > > > +bool dma_fence_check_and_signal(struct dma_fence *fence)
-> > >=20
-> > > So I think we should name this one here dma_fence_check_and_signal_un=
-locked() and drop the postfix from the locked variant.
-> >=20
-> > postfix?
-> >=20
-> > Well, now, IDK. Can't we, for this series, keep the _locked() variant
-> > so that it's congruent with all the other dma_fence code?
->=20
-> Good point. That thought was not really related to this series here.
-
-OK, then let's progress with this here for now.
-
-
-P.
-
->=20
-> >=20
-> > And then later if you want to force manual locking you can add that
-> > kernel-wide in a separate series, since it'll be a discussion-worthy,
-> > bigger chunk of work.
-> >=20
-> > That's cleaner, and my series here won't prevent that once merged.
-> >=20
-> > >=20
-> > > > +{
-> > > > +	unsigned long flags;
-> > > > +	bool ret;
-> > > > +
-> > > > +	spin_lock_irqsave(fence->lock, flags);
-> > > > +	ret =3D dma_fence_check_and_signal_locked(fence);
-> > > > +	spin_unlock_irqrestore(fence->lock, flags);
-> > >=20
-> > > Could this use guard(fence->lock, flags) ?
-> >=20
-> > guard? You mean a lockdep guard? Do you have a pointer to someplace in
-> > dma_fence who does what you mean / want?
->=20
-> E.g. like guard(spinlock_irqsave)(&fence->lock);
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> >=20
-> > P.
-> >=20
-> > >=20
-> > > Regards,
-> > > Christian.
-> > >=20
-> > > > +
-> > > > +	return ret;
-> > > > +}
-> > > > +EXPORT_SYMBOL(dma_fence_check_and_signal);
-> > > > +
-> > > > =C2=A0/**
-> > > > =C2=A0 * dma_fence_signal - signal completion of a fence
-> > > > =C2=A0 * @fence: the fence to signal
-> > > > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> > > > index 19972f5d176f..0504afe52c2a 100644
-> > > > --- a/include/linux/dma-fence.h
-> > > > +++ b/include/linux/dma-fence.h
-> > > > @@ -365,6 +365,8 @@ static inline void __dma_fence_might_wait(void)=
- {}
-> > > > =C2=A0#endif
-> > > > =C2=A0
-> > > > =C2=A0int dma_fence_signal(struct dma_fence *fence);
-> > > > +bool dma_fence_check_and_signal(struct dma_fence *fence);
-> > > > +bool dma_fence_check_and_signal_locked(struct dma_fence *fence);
-> > > > =C2=A0int dma_fence_signal_locked(struct dma_fence *fence);
-> > > > =C2=A0int dma_fence_signal_timestamp(struct dma_fence *fence, ktime=
-_t timestamp);
-> > > > =C2=A0int dma_fence_signal_timestamp_locked(struct dma_fence *fence=
-,
-> > >=20
-> >=20
->=20
-
+Cheers,
+Miguel
