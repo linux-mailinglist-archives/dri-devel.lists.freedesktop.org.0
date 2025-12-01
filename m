@@ -2,64 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720E1C97D4E
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 15:22:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF82AC97D48
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 15:22:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02CEA10E3E2;
-	Mon,  1 Dec 2025 14:22:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8982F10E2AE;
+	Mon,  1 Dec 2025 14:22:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B0dVMBgE";
+	dkim=pass (1024-bit key; unprotected) header.d=foxmail.com header.i=@foxmail.com header.b="Xill1SXy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DFE810E2B9;
- Mon,  1 Dec 2025 14:22:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764598923; x=1796134923;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=n3Dp5GLmrKfysZMBJHMWpL6GCub8YBOyNrqyFvRytHg=;
- b=B0dVMBgEcPTcWvBT+6xKECPEjWzJmYKNKnXLTJBBjRpaq0TtnZZc07s7
- BzB4un1xCMJcJ0t9EO779Nz1V5kWKxjBNFls4jQd7MdQt4s35koNooLAC
- 9f6EiMfHwjzB+LXVBStRSBczyELhdst7GfYPACVpvTdX1qKiVIwTfFsbr
- yjbi0r4WxwsIoaVbG0xelWrj2F+PiuqEgcdCVVEZhIeLwLzMk9kHQkeSx
- 5puje3DVY5UrO8n7O5T/kvU/U02W9hTLUvAsksYb6/TwQTiauWdvVITEa
- RMyNjf8SaMx9dr0G4G9qsEg8br4BOcUcLSkVxQTbA2ysqcuMRDDfqls6x w==;
-X-CSE-ConnectionGUID: x3NDKQepT+uZjX/bRXCEKw==
-X-CSE-MsgGUID: K61ThVxBRi+yAFgmc3ItnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="83930474"
-X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="83930474"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 06:22:02 -0800
-X-CSE-ConnectionGUID: +j1YOhCXRuWkPkryA7iL3A==
-X-CSE-MsgGUID: s3vVmGQaQdaz8163i6kEww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="193907437"
-Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
- by orviesa009.jf.intel.com with ESMTP; 01 Dec 2025 06:21:57 -0800
-Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vQ4mp-000000008oz-27CC;
- Mon, 01 Dec 2025 14:21:55 +0000
-Date: Mon, 1 Dec 2025 22:21:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, chaitanya.kumar.borah@intel.com,
- ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com,
- contact@emersion.fr, harry.wentland@amd.com, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com,
- swati2.sharma@intel.com, alex.hung@amd.com, jani.nikula@intel.com,
- suraj.kandpal@intel.com, Uma Shankar <uma.shankar@intel.com>
-Subject: Re: [v7 02/15] drm/i915: Add intel_color_op
-Message-ID: <202512012214.cxi2Gair-lkp@intel.com>
-References: <20251201064655.3579280-3-uma.shankar@intel.com>
+Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com
+ [162.62.57.210])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8343D10E2AE
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 14:22:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+ s=s201512; t=1764598918;
+ bh=qReGk1WfsHOyiBno1NOk+49x8+G9e2IJ9Nlz9CqVvbE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=Xill1SXyHXW3k7RqkqPNe1wzab++SfKlJ5IHK6qahf2eoXDBHRO9cLGk372EnThbi
+ rF0+wA5kOw6h1xzvJbpA/0gOq0IumAGsYJXGW9u0Hx+99ca0wfgFs5SJhAE1Kf/iBL
+ FRNWSmH7VNfF/2ijqzEP91DLGkzQWvLWCsK2cDEE=
+Received: from localhost.localdomain ([171.223.167.52])
+ by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
+ id 57691857; Mon, 01 Dec 2025 22:21:54 +0800
+X-QQ-mid: xmsmtpt1764598914t0lb6isfh
+Message-ID: <tencent_8B5693A42B580AB3A5359849CCE23E67B407@qq.com>
+X-QQ-XMAILINFO: MXi6VldghLL7hK2ZUnJNNfhGA7vNfcTSV2ayxRc8tgS7vHncXysYwBoc1eMLYC
+ SQek9xtZmoueH0uG8IUXw5sKNTeHa24uUsIMgypgkfvXNtFnBFlsYMHiAgC1YedDKaACYAgIQ4KK
+ V6rqIEGUn5I9gC79AaBvqZPNBMjIAcJxvJoIgPc+HermF0dniDN//EiB4Jn98eS/jg1rTdex8Om2
+ +z3YANFU+ubCe3Prjv5bp+ezrVjA/+Sn+ZXuAfbwXlrKkdw1aLZZiRnSj/E7iGin/26SYyuCk+jb
+ 6xAH0cu8DWzvi6vCmvdJhyO7f4IVeo0M2irsrpet2rkGH/YWBf//BRMqy+pcHtyzuhghobt835P+
+ nnkW8rCFFhMvmepr3lVep66C2dLlWNWVQJMNLoRPAeHGw952FIlo8vVYlXdPaxtCnOHWHWCSAehL
+ niMHz5K/tgKiUjENvoCyw0b1q5YU3CZzMen/BZkQS8HYLaP+W8fAsGW7Qk9F0KROWj0R++BO7h+5
+ omACoW36iBweKMs5JS5B7htqN1rLD7ZMRzJT9WQbJIadmr12IzKtFyt/CFR9FkdINqVvdMLRF/x3
+ LEQRYyzGSa4WYmN7RCUb1CLeF61ligAV77L3Va6m8NcllS/RE3oz6vNubAZ+RsmXpzPVdh/tCBhr
+ Ba4N5mMZT+jbXXIQGU28nONBvFyi7x+aSpacK3A+RY/NvunL59u8SAfu7mSUrY1ylLLNPeftwtq/
+ /4Fuo7i5LXfhqb4/yoLFOgWkXiPW28NfWWNp+Nd4X8Kfba6wK6JFjQm6H29flrHh/0eBnHEmdbay
+ tqiRAYbCkvpM3+y4ssbfm7PozUtjPncvdzgZRPi07+PlgiBCBiwoZ/fz9Ri49V8wISYOzA/jP3D1
+ SNiAAjYeJRijxwz8cWM1m2ZoV7dgX7FUekJEPKQHhgMCZipwDIZfqTIbHZ0MGLuBNDB0jmyR9pAF
+ /aH/7zOSKssJ3tKaR5Blo0/qjFyqB0/BwyMXDx4NIywWorDW87Xvvp0DrvU7jeZYyT4t3azu8uwg
+ qNH1exvzK3oPanUsaxtqkJTQHkzFyi9MAEadYdid2h7o0xXxK392oZlxizFU8vN7XuzsbKl+Cl6X
+ 08STXd
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+From: Renjun Wang <renjunw0@foxmail.com>
+To: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, thierry.reding@gmail.com,
+ sam@ravnborg.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Renjun Wang <renjunw0@foxmail.com>
+Subject: [PATCH RESEND 1/2] dt-bindings: display: simple: Add HannStar
+ HSD156JUW2
+Date: Mon,  1 Dec 2025 22:21:53 +0800
+X-OQ-MSGID: <20251201142153.31160-1-renjunw0@foxmail.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <tencent_D449AE627267BDD68BA41AD80EB3DFB5D407@qq.com>
+References: <tencent_D449AE627267BDD68BA41AD80EB3DFB5D407@qq.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251201064655.3579280-3-uma.shankar@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,70 +77,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Uma,
+Add the HannStar HSD156JUW2 15.6" FHD (1920x1080) TFT LCD panel to
+the panel-simple compatible list.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Renjun Wang <renjunw0@foxmail.com>
+---
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-[auto build test ERROR on next-20251201]
-[also build test ERROR on linus/master v6.18]
-[cannot apply to drm-xe/drm-xe-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.18 v6.18-rc7 v6.18-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uma-Shankar/drm-i915-display-Add-identifiers-for-driver-specific-blocks/20251201-150245
-base:   next-20251201
-patch link:    https://lore.kernel.org/r/20251201064655.3579280-3-uma.shankar%40intel.com
-patch subject: [v7 02/15] drm/i915: Add intel_color_op
-config: i386-buildonly-randconfig-006-20251201 (https://download.01.org/0day-ci/archive/20251201/202512012214.cxi2Gair-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251201/202512012214.cxi2Gair-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512012214.cxi2Gair-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/i915/display/intel_colorop.h:9,
-                    from drivers/gpu/drm/i915/display/intel_colorop.c:5:
-   drivers/gpu/drm/i915/display/intel_display_types.h:1989:28: error: field 'base' has incomplete type
-    1989 |         struct drm_colorop base;
-         |                            ^~~~
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/plist.h:76,
-                    from include/linux/pm_qos.h:15,
-                    from drivers/gpu/drm/i915/display/intel_display_types.h:29:
-   drivers/gpu/drm/i915/display/intel_colorop.c: In function 'to_intel_colorop':
->> include/linux/compiler_types.h:552:27: error: expression in static assertion is not an integer
-     552 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
-      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_colorop.c:9:16: note: in expansion of macro 'container_of'
-       9 |         return container_of(colorop, struct intel_colorop, base);
-         |                ^~~~~~~~~~~~
->> drivers/gpu/drm/i915/display/intel_colorop.c:10:1: warning: control reaches end of non-void function [-Wreturn-type]
-      10 | }
-         | ^
-
-
-vim +10 drivers/gpu/drm/i915/display/intel_colorop.c
-
-     6	
-     7	struct intel_colorop *to_intel_colorop(struct drm_colorop *colorop)
-     8	{
-     9		return container_of(colorop, struct intel_colorop, base);
-  > 10	}
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 2017428d8828..918dd6d303cd 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -154,6 +154,8 @@ properties:
+       - hannstar,hsd070pww1
+         # HannStar Display Corp. HSD100PXN1 10.1" XGA LVDS panel
+       - hannstar,hsd100pxn1
++        # HannStar Display Corp. HSD156JUW2 15.6" FHD (1920x1080) TFT LCD panel
++      - hannstar,hsd156juw2
+         # Hitachi Ltd. Corporation 9" WVGA (800x480) TFT LCD panel
+       - hit,tx23d38vm0caa
+         # Innolux AT043TN24 4.3" WQVGA TFT LCD panel
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.5
+
