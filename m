@@ -2,65 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A225C97D51
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 15:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 014DEC97F5C
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 16:07:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC51610E3E9;
-	Mon,  1 Dec 2025 14:22:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E51D89A94;
+	Mon,  1 Dec 2025 15:07:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=foxmail.com header.i=@foxmail.com header.b="NDRmiP+H";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l/mtdbD5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com
- [162.62.57.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7CD010E3E9
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 14:22:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
- s=s201512; t=1764598931;
- bh=A46fsy9EF7CRu4Y9aOSl3UqvkUzQSeDu2M6rkC2ypzI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References;
- b=NDRmiP+Hcd6r87ybCCNSUj6YbaT63/4VQg5jzkQUeExI1sMBpUHeCZlVDjrNbilTP
- PUAKIo4TJgqS+Kan6YzwS7LR6VwQIs2L7+Xfob66nahzTvJJQbccXBYFWTRoDGcgte
- Zoz0nE877kv2LG63bNjv7YvFeEMaRpd7S0kbdhgI=
-Received: from localhost.localdomain ([171.223.167.52])
- by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
- id 587A4AE8; Mon, 01 Dec 2025 22:22:07 +0800
-X-QQ-mid: xmsmtpt1764598927tshydvwaw
-Message-ID: <tencent_FE5819B397B5ECC989623C67A7D68D246907@qq.com>
-X-QQ-XMAILINFO: OATpkVjS499uuUDTIspOO8xGFMp6qi3u4HWEUEueZopR9GNCDR6BsaRkVDtpT4
- KVY9zNFDdjT3GJW05DLcd2UuoIbeJBUTwMSMS4vPu/YATh3eyrkgucS8zwCYUIGw7XGJyO4VpAJM
- QBHR5Zqo5ggo4M/OdOSeV/YyK2WPd7wACC6axIuxpJ9VkfEfkXBQsr6HeB37SsZG2SNF12qYPLLX
- GHuApCYvFeMMPNaQBAmjeMqHQx8UNJk1fLhyzvamQjOl+Ot1bc4SKXTowidRPnESm1+cMijTflCn
- JOKvvYQ84HdjXjvVnWfTSeCFDXQ++zwb8AtO05ElPyGw0KfADYNsfbs7a3R8pcx9WaCmzAnSHwnJ
- kMx0N2+zDzsq12/PdviMV/c91hB3Yc1J0s0YrJ61w5ofHAY7IIfCW4VSQwBSPBLUPIFjW4znDV26
- efSZtEjSbnkYzhQ6PUqouarfDRWY6r2PhtvaGY7qDZGKJxk/K/0FMjMsX8BjwAjcZB0jyVU4ZAT0
- 7JZweH7wELLKm3YsfUratOGFo75M4/hsb1wErbiHANGm5xPwe1Q+3LqWSsVZDUhWFZ8zAIUdrDOK
- 4ubl9a2VVH2/0VpEskGX4WGSoRgnojRueFGTk0jOha5GiUqAgMzYAyPLIcd0FM/QCqtIdzgU+hTd
- SE0+MOB/IDUsQ3fiubaKYuluUkQLahiyibLltb4ZzxKOpBovJ70K1sae6/BiEuplXmAX1l8nRHGi
- yCUrVmk9AmfyBcIdiNy2uZowmy43VxGBq9hFkFsVMjdKMlHl/42kQneNDaARHf3pZzQuEtohu/Zq
- eK75V+L+DWENLCNOgSSJV4R0nW/BbIZzaKq2o1ZtMjOfgEDaUez2ZGZGUnsL3lb/UBlu54Ja10vT
- KTgddER8R0ty7syiSPzsD50xWNa2euvplQ1uDu6oDjwy13iVjxA4WrK/3D//yE56P+IDtSZHGnvQ
- fXOW2rkmwqds85xiMGLNeYmkHIGXtudUizKgZJskGxxa3B/sV68dhThlbdr6f4rY6Xq22GpH1KQw
- S+4SHnRItYHyl5Sm9A7x83k9J5dZ9iMW07LRBauUfxIC8E/CF+PItLERmuearhEeKMY3OxagyfMr
- lhmmdhnPYk20Z+Hhc=
-X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
-From: Renjun Wang <renjunw0@foxmail.com>
-To: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
- airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, thierry.reding@gmail.com,
- sam@ravnborg.org
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Renjun Wang <renjunw0@foxmail.com>
-Subject: [PATCH RESEND 2/2] drm/panel: simple: Add HannStar HSD156JUW2
-Date: Mon,  1 Dec 2025 22:22:06 +0800
-X-OQ-MSGID: <20251201142206.31180-1-renjunw0@foxmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <tencent_D449AE627267BDD68BA41AD80EB3DFB5D407@qq.com>
-References: <tencent_D449AE627267BDD68BA41AD80EB3DFB5D407@qq.com>
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1DCF89D7C
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 14:27:18 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-29853ec5b8cso52279635ad.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 06:27:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764599238; x=1765204038; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=CyfuXJ3dS1xwuzdmGQEJgMw3DQ60E0n4xhvXA4DDY0I=;
+ b=l/mtdbD5yshIJlKF+y285hTtT6lf6/kTX0eGlwLEhl6mqkkjem2zVx9Wpmhn5Qq6W+
+ akBjqieRfzmmk8xhEEJvYPgzR7QRm8iuDnBxy3k7WOl91jQ9bmOlJ51jwTluy73/302G
+ PI5W7Z7+ojp31B9Z8xNtOukUpj/CiO6wePvja5bjY72hdhHFf1Z7prRYRi1GG+ZlcDpv
+ sT8mQP9IkQv9INv7T8laYg62C0qNCLrnj8q/TuWyNN+tiSIJikl/Pv6+wDDXYmwmG4XR
+ +5X3N/cIWyrPRoYehZs8LfH+nqt96w7wK+8tIlI5rYfGnFNyKTzaGM1xXKMjiuUnuO9C
+ y2ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764599238; x=1765204038;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CyfuXJ3dS1xwuzdmGQEJgMw3DQ60E0n4xhvXA4DDY0I=;
+ b=O2aqRidv+/yoCxdpU7YX0+/cPnUtvFSFuaiWNPsmwGoTDo3cGgesa5TbFluFxmvC9/
+ ulVmJyVXoJGdyyVc/+jlEUG21L1W05AA+ICZaR7kOHMiJE1siL4d2HeIxZlQez/n5hNS
+ 89RQ5Z1/+RYwadbwPiVjRDt2C/8cbmvS7/BHqUD8iH/z0RnhD0LDP2/cunDoNSnWxH/G
+ B83SBOpaCLUxAfD8rxoKMD/meLuD2dVxu7CXhkxZRvrGu/DlvzM5cEwlBWRoiLLiOLCb
+ Z5+PQPXX4BDQwjwQOnL1sBvekuhZgzDV42hGAbudwkb3GBAZckZLQHv61yZTBr0oCMCX
+ cC4w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXQByk4SJ4LnprZbBvLiQ9UKq2Y5pSZGHG6IAo/oLClDP6VFmhcE5op6WXCJgKGgqe3Jv/vTzooB5E=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx+IRpSUpBQXecs2oGGdT/ygGem/7dbopGDPV7DpPhNcZlqvN3I
+ 7forR4ik2NtJyayc3m+lcDS6e4UoRdbhJk2e/Z6zVaJ26yA+eqOgzUoS
+X-Gm-Gg: ASbGnctrpwJExG8jmM2VMmWcX/dqtvaK5gsn7MOkgrcTILewxHG4OBaYvUG/+7peT/q
+ eF81iu5Mje2LD3oKxxapBRe4YR/n/du3MDUJHvIBIgnL3zKA+sVyxt//F8+sM5CLmOMATKsEr0b
+ 0/Vd5sDDiDphw5MRq+X3+EoEYDcuXayd24Tqlt5sSU1/zQjRFH0chjKMjc50hk0eiMnY8eFGAHW
+ 40bn1ozHtcOdmD5BZ6bsLpnPA0ENimLBDB73RxXXv/TeieQSLQX9ymScUDUYCYkr4H2SCoizuwP
+ icFMJDg3i+4dPqsq+ScitYpnUq0PTgLI6JPTsoqhQUb7jZc+tUvmv74vXKF3MH1qhuRAwh2oI0L
+ f2a+wVKgJa8wSOw3xJQhwtM7lXmt1KxQab/FmzFL52Blf66wuaV1imanqnPHz54MXXJ7C4bYdcN
+ KMPc/sHsS4kwBD1F92ZnzC85IHLC/XuXaf1ilQCP8nu4vpU7EU0cL4KTkzjAq6+g==
+X-Google-Smtp-Source: AGHT+IGgqPIBYFZh21Im7PrQQJOK9fLH8qMDVq6VS434Z4nqdYM39hwMJTbUqbIONb8SI9qarmWo1g==
+X-Received: by 2002:a17:903:2ec8:b0:24e:3cf2:2453 with SMTP id
+ d9443c01a7336-29b6c6f1d7dmr406419575ad.61.1764599238125; 
+ Mon, 01 Dec 2025 06:27:18 -0800 (PST)
+Received: from atharv-HP-Pavilion-x360-2-in-1-Laptop-14-ek1xxx
+ ([103.216.213.160]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29bce416f00sm124994465ad.4.2025.12.01.06.27.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Dec 2025 06:27:17 -0800 (PST)
+Date: Mon, 1 Dec 2025 19:57:08 +0530
+From: Atharv Dubey <atharvd440@gmail.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, dakr@kernel.org,
+ aliceryhl@google.com, ojeda@kernel.org, alex.gaynor@gmail.com,
+ boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu,
+ daniel.almeida@collabora.com, lyude@redhat.com,
+ shankari.ak0208@gmail.com, lina+kernel@asahilina.net,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] rust: drm: use `pin_init::zeroed()` for file operations
+ initialization
+Message-ID: <aS2lvGotkV3lFLE6@atharv-HP-Pavilion-x360-2-in-1-Laptop-14-ek1xxx>
+References: <20251129134834.34559-1-atharvd440@gmail.com>
+ <CANiq72mSStPR2Htq3aRS9FLbiHALJP21tTSgiwDfQJBR1zHr4g@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72mSStPR2Htq3aRS9FLbiHALJP21tTSgiwDfQJBR1zHr4g@mail.gmail.com>
+X-Mailman-Approved-At: Mon, 01 Dec 2025 15:07:33 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,59 +100,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Hannstar HSD156JUW2 15.6" FHD (1920x1080) TFT LCD panel support.
-
-Signed-off-by: Renjun Wang <renjunw0@foxmail.com>
----
- drivers/gpu/drm/panel/panel-simple.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
-
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 0019de93be1b..057ae6735806 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -2509,6 +2509,31 @@ static const struct panel_desc hannstar_hsd101pww2 = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
-+static const struct display_timing hannstar_hsd156juw2_timing = {
-+	.pixelclock = { 66000000, 72800000, 80500000 },
-+	.hactive = { 1920, 1920, 1920 },
-+	.hfront_porch = { 20, 30, 30 },
-+	.hback_porch = { 20, 30, 30 },
-+	.hsync_len = { 50, 60, 90 },
-+	.vactive = { 1080, 1080, 1080 },
-+	.vfront_porch = { 1, 2, 4 },
-+	.vback_porch = { 1, 2, 4 },
-+	.vsync_len = { 3, 40, 80 },
-+	.flags = DISPLAY_FLAGS_DE_HIGH,
-+};
-+
-+static const struct panel_desc hannstar_hsd156juw2 = {
-+	.timings = &hannstar_hsd156juw2_timing,
-+	.num_timings = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 344,
-+		.height = 194,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-+};
-+
- static const struct drm_display_mode hitachi_tx23d38vm0caa_mode = {
- 	.clock = 33333,
- 	.hdisplay = 800,
-@@ -5166,6 +5191,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "hannstar,hsd101pww2",
- 		.data = &hannstar_hsd101pww2,
-+	}, {
-+		.compatible = "hannstar,hsd156juw2",
-+		.data = &hannstar_hsd156juw2,
- 	}, {
- 		.compatible = "hit,tx23d38vm0caa",
- 		.data = &hitachi_tx23d38vm0caa
--- 
-2.39.5
-
+On Sat, Nov 29, 2025 at 03:30:53PM +0100, Miguel Ojeda wrote:
+> On Sat, Nov 29, 2025 at 2:48 PM Atharv Dubey <atharvd440@gmail.com> wrote:
+> >
+> > +
+> 
+> Spurious newline?
+> > Sorry for this, I will send a V2 of the patch.
+> Cheers,
+> Miguel
