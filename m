@@ -2,83 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536A0C9978C
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 23:58:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00CF2C99795
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 23:59:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA1DF10E4BB;
-	Mon,  1 Dec 2025 22:58:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62D7210E4BC;
+	Mon,  1 Dec 2025 22:58:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Jw+epErl";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IxotbmSJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0DFA810E4BB
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 22:58:40 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id
- d2e1a72fcca58-7b8ba3c8ca1so657459b3a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 14:58:40 -0800 (PST)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF3C10E4BC
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 22:58:58 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id
+ d2e1a72fcca58-7b90db89b09so473686b3a.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 14:58:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764629919; x=1765234719; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1764629938; x=1765234738; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=a1pdL8EYMo2eswZyriHACheqxubZbCfaF1iStJizjuE=;
- b=Jw+epErlz8ry4sbCtk1ZY2qq5YBeUKrB0R9UTr4sOHm70rSXU9UbRJKCT6aP7riT/j
- 7k5yGJoWdNcIxDZh1eGJ3XghmoAv0IPeSQ7JYNhXgek/TaUm/jp5Y0f2YVGRlOwnbp3y
- CVyDcb+5+iMxdNK59gXoJiEBn83kZqk/OYCCYNTcyv10nuNSFfH458qj12LkVTJIInKl
- I7v5iy0Pl4BLBRnV+OQ2K1H/IfuoRGzRHPp1GA3tF5M6qZno6rgdlcNhI/jsuKS0OOIx
- jPcmOnsfnn/mQPhm7GHNPomNvDJ5n2IIyq72ttUyxDwQxU1z5to4OGcM9wrExuEQmLyK
- Bfkw==
+ bh=zyWPxm7BxHU2DwXC/shC6IQcOtTNXj2MQcP74sbsrkE=;
+ b=IxotbmSJsd/X44ee+0EfVdjUaaIZZLVVUs+Qgur7prs27YSaKoK2pUYyaeq+vu4iKI
+ zvk3NJIMPQmuckhSt95R1tylWvgYHBCMK8+uwbi6/D7Dp+lH8wCulUr0qhJpIzbAAqVA
+ UHqMVIbLWekkBDrMeMD59+SHMMFdk7MGoiANUBU7oE4Rs1wOiAKlIHeDusLnlIe3wk/z
+ U+VBfTV0sk6xB+3sjvWe1jKP7pEVkkJC9FFU6AecCRsUS45kLneHIRcRYXf7XAJ8BXL5
+ DEcDsPHoavwAGrsNpSs3Vo6NzJUEn+QsGLUoYs+LtbOjpwtH9PGkvf0eyOjA6hSQBX6W
+ SdVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764629919; x=1765234719;
+ d=1e100.net; s=20230601; t=1764629938; x=1765234738;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=a1pdL8EYMo2eswZyriHACheqxubZbCfaF1iStJizjuE=;
- b=Tkh4RmoQcCwHfkXF0Mdu1TB1S/ui49LSrQv/oJ4d0dtPPicQp66y1qJmnAVNRB4iic
- 8rS4J7Ph/Bu9rsVoFCSip5mAxtPQDm0GIKChAJjyv9OEcPsosogVudsirQW5y9XHiJF2
- bX8hhGP70fEmdW2g3Ae08LXo0T/DIF77+c1C1scQ8BZQOqMHrEgVUKQWtkKv27eDo9H0
- hD1riCQjnJ9GlKOTffcmHprZcayUKDWdGr1IHGr4SsjXUNyCiDn6PaCfi6FbE258BFv9
- /7prmqWMYxiRujjex82lU9sTG6JzwBKsmCw5ULHajYZi5aEG7S/e2lTGYiChNgtYRZcq
- W24Q==
+ bh=zyWPxm7BxHU2DwXC/shC6IQcOtTNXj2MQcP74sbsrkE=;
+ b=u3TVeq/viKqM5wWy4USgtMEI3DM6uRXXaYqhtd3+jnfR8CYpbjFIqstFsy8K17Zfnm
+ M55xDZ20s2Q5xqzBzHOYF3KlKujuEqUaFwlonSqxHaS6tG3ACOW8uAo2tdCB/U9nwGwz
+ ReVTyPlz03JRYL+jwKERwHd6uzdmoz+OmsDzErJa3/0zvLUqgQXXTguGwap0NhalFTdI
+ SHVdngcbtzIBGneIPOTcovXtrzE1Ya8UIELUCtRWbZfOpOR2AQ/l4Un6RPHACC/n622f
+ k5LnTdMCppz24IZW901crSv54lNA4EGUx8lW32tkBtSMnPthmClv5vVFw0o6aZOy4DcM
+ LJiw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWrrKHvoduDWCR2IxfcREWYPIRz11MSokObxlZz8nOcOtOA3ESpASmiDn14C5n7pk866BdG9fMt8/0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwTc6Qvo+zoALhLqVeHnC08Ic2ywJzX++hklCiCm+qW3WW79lgn
- wf+puJTA0YGPHqy9a+zgMWMui7JWqYsw6ZrHHhUCFFlhCepDxdkUR8uTuwbXGiduEgN3WYhoFij
- cRcMbvIa/R+tX8ggzwtKHuZbjG1GoBYU=
-X-Gm-Gg: ASbGncu6/CVoh4ECzLBwAizWEupOOKOgjh2E2lfb5P/vg855y/LwZFBv83Y7QPz2gR9
- 0QA49y7a46VrCEcPrMOHYdYQzROdQO92pFis9BHTBNNNr8TwUUofKCG/YWoM+u+nSaI1kpE8pkP
- b4qHjwIuBAKKhvyOOROoVY9R3XXmw1ouFsyZCB2ykqrNlpdBrncGoF2UehiHLogVfuCbuHn0CI9
- Ww1NUGQz9E8dkDLbOl+eC2+qjzPecKdfx1csTMYXoQFBrUY46UmnMT0rhMbyJDQkB2LxNeqxTCQ
- znsIWs8ZT07ORmTM5zjnWW1fQ33HjrpdKe0sHeeDPkwG3GO16wcN0NnEeJkR+SL6wzvWk3aQIl6
- BC3xHUoy9jaXSmLO/FJhXjFKP
-X-Google-Smtp-Source: AGHT+IFfuN9zEIrSqZ4UfzyHrOAWhLG/2/sm864P3ydB1iuIelR7Cpw9LcULJ3uSXFJitdhtK2p/ltt0ZFQOQNh8uwg=
-X-Received: by 2002:a05:7300:ac82:b0:2a4:3593:2c0a with SMTP id
- 5a478bee46e88-2a724c02369mr27204611eec.3.1764629919416; Mon, 01 Dec 2025
- 14:58:39 -0800 (PST)
+ AJvYcCUW+rPHI0q9HY2imdPxpzXVSKpdqTco88CN0z6fVdUWjQ3Fy9Lbe5qSXhxYyd27t1Vd0o6zUv/44nY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJA9GV/SbalQkH2PeIccAxDeIg5JCL9pbrDW4O2wDEfqUlyw/A
+ vOmLzC/5U/mWYec3791j5jqWw2kzOdajkOvgXG6JtSYEYTJqwt5Hz+2p4cQdUYeozDTQmEw+6BV
+ BtQtapw+jkUFv/k6LehUhhpkEKfKUYPE=
+X-Gm-Gg: ASbGncuqVYBuWTxTZ1fy9Zzq9VkBEaGOboqhMc2nsEADzX7bNDDl9oZ05KxGBNO6FKj
+ nZ2QEXgF9vjs+lrUV2+JRUC1HN5Lfttt6DXhLjk50YQeIlzrI9EHtgWyeejmSooFpPXM23RM9vv
+ lEsLOrC3rG3L44tZ6KyaGLrZGlNyDSCfGJUlTZbJ4BI6mQONlpGVXUXUwQSD52sDtdI74roqpLs
+ c5Ef+0uCwAYoWz8x4uYaqNSv4uAoTTB7rqtWAG7TVqfPL50rRVNn5RYpMSm2yUbyddLKQRwEgWO
+ R4d0FjNmIWsu3CMNdqCncCQrq3zSJcH7tLiNNfEZitkHoy5/lVWIGBhtVT8nQwV4zOAf13Vi5nb
+ /fnGiQK2douU31A==
+X-Google-Smtp-Source: AGHT+IHY+FeAItpAcrc5Fq3fIXt5nt1KC5tdgt+lz+Ap3b7wKK+vwNPbBlkNS7wWrophFDdlzmuDF0mqMk5k9ykfKLw=
+X-Received: by 2002:a05:7301:e24:b0:2a4:3593:2c07 with SMTP id
+ 5a478bee46e88-2a7243ec7b9mr22701116eec.0.1764629937707; Mon, 01 Dec 2025
+ 14:58:57 -0800 (PST)
 MIME-Version: 1.0
 References: <20251129213056.4021375-1-joelagnelf@nvidia.com>
- <2653abf6-5cd4-4385-b7c2-f377a9503160@nvidia.com>
- <7a88da9f-c67b-4a68-b8d6-a66f9096bab4@nvidia.com>
- <497c91a2-ca6c-4e05-bc5e-7c3818302c7e@nvidia.com>
- <2700c827-d3af-403c-857a-30324e0d8502@nvidia.com>
-In-Reply-To: <2700c827-d3af-403c-857a-30324e0d8502@nvidia.com>
+ <5B89D953-BB52-4E8F-AC40-1FA33C016780@collabora.com>
+ <87d2c2d5-12d2-4655-b070-872c909f7e0a@nvidia.com>
+ <48EFFE1F-4D20-4A2D-B3E0-13E9CB796624@collabora.com>
+In-Reply-To: <48EFFE1F-4D20-4A2D-B3E0-13E9CB796624@collabora.com>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 1 Dec 2025 23:58:26 +0100
-X-Gm-Features: AWmQ_bkl2DTKJWfF5AG_9aZv1tTBUZWM-ImMGF4ZqdhUPDiYIUQE-GRQbnKTx8c
-Message-ID: <CANiq72=wGCRrZGvsoqs5jZQ-n23H9chxpH+dwo=jomhEjCsrZA@mail.gmail.com>
+Date: Mon, 1 Dec 2025 23:58:45 +0100
+X-Gm-Features: AWmQ_bk8XBPXNwQ-7Pod4UntjM0rZKNAiZHIZMwXF3_mA-n9qMS1f4f_JysZoCo
+Message-ID: <CANiq72=V9TvPPvx=nAOciSZKVQJy+YBgLmPTt2EGo9bGrthdog@mail.gmail.com>
 Subject: Re: [PATCH v3] rust: clist: Add support to interface with C linked
  lists
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, Danilo Krummrich <dakr@kernel.org>, 
- Dave Airlie <airlied@gmail.com>, Alexandre Courbot <acourbot@nvidia.com>, 
- Alistair Popple <apopple@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>, bjorn3_gh@protonmail.com, 
+To: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, Joel Fernandes <joelagnelf@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@gmail.com>, 
+ Alexandre Courbot <acourbot@nvidia.com>, Alistair Popple <apopple@nvidia.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ bjorn3_gh@protonmail.com, 
  Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
  Simona Vetter <simona@ffwll.ch>,
@@ -86,8 +86,7 @@ Cc: John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  Timur Tabi <ttabi@nvidia.com>, 
  Joel Fernandes <joel@joelfernandes.org>, Lyude Paul <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>, Andrea Righi <arighi@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>
+ Andrea Righi <arighi@nvidia.com>, Philipp Stanner <phasta@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,15 +104,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 1, 2025 at 11:43=E2=80=AFPM Joel Fernandes <joelagnelf@nvidia.c=
-om> wrote:
+On Mon, Dec 1, 2025 at 11:55=E2=80=AFPM Daniel Almeida
+<daniel.almeida@collabora.com> wrote:
 >
-> The documentation clearly says "doctests get
-> compiled as Rust kernel objects, allowing them to run against a built ker=
-nel.".
+> Yes, this is what I meant.
 
-Yeah, there is also a Python script that KUnit provides that some
-people like to use too, and quite convenient to pass certain configs etc.
+Sounds good to me too, but if enough people like otherwise, it is not
+a big deal either way.
 
 Cheers,
 Miguel
