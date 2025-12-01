@@ -2,94 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6771CC98A98
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 19:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7AD1C98AA1
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 19:11:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A914610E3B7;
-	Mon,  1 Dec 2025 18:10:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1458C10E452;
+	Mon,  1 Dec 2025 18:11:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Nw71jeAH";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Vd2NavZ1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
- [209.85.208.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FA8C10E3B7
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 18:10:21 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-640aa1445c3so6956603a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 10:10:21 -0800 (PST)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 514E910E44C
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 18:11:04 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-7a9fb70f7a9so312063b3a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 10:11:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1764612615; x=1765217415;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1764612664; x=1765217464; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fSAcsh/jLvy3jVAdeyxQi+guKPEheOPvD2BWq9t337E=;
- b=Nw71jeAHO4dsmlPqXYh9iRF20oJuo2Uz1G7AArP7aZUtehU2omikqyuyYroLHZos2B
- LKKkaYrRM3tNZyvMOeZzwcorwhfWK5eH//EwZEDVUG+2NevnB09nAY8xq2pkQqZQNwmR
- /rz3FrUnC44+AfM5a1QPyxxFqh2YHMmTJYjCA=
+ bh=pACjIJ5Z98dL1VC/6XHBEnEAfmGPEe/jI8Z9/L5Bn2s=;
+ b=Vd2NavZ1yKr0xG9fpYA/anBb3pE7CC1ajHWDQbkxGDMS6M2i6yDK5imucw18oYUd2D
+ PfsmMUX2ZTEKl4W8BbhTpNZszZSey9Ez99D5vdbB7MZTF5mkJoeiEa1r7yqOTJGEtMhl
+ AIwYCUj16F9DAdO4k71Tr041nBX9rJbdFEo0cJHVKHRKEtjnI1fdE/40CneEpeuES+Wy
+ ifZAwC+EF3ekWkguQ9rCzPs/OUNWKRvgP0Z40nQlJEAE7DpzQhLO8sZ106bCHxiti7LA
+ QWKyycYrdKxYKEWtegenT71XI77P5M/rgRtqu8+61St4VSomKEUW70sWoG3JoxXasS8o
+ 2CTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764612615; x=1765217415;
+ d=1e100.net; s=20230601; t=1764612664; x=1765217464;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=fSAcsh/jLvy3jVAdeyxQi+guKPEheOPvD2BWq9t337E=;
- b=WiCDEAfA5w9CSVI+OzOnaEhBRJ83owBVIy4Qr9DdlX/2RqfauIVp4/yHXc5ZGrGg7D
- YrKSjg+hqbQmCcIUUQMPpEXGTd5Jl8RS4zufaYmrFqp7n7VR8uZeaf8z3Q54dZKYm8hI
- Lk/36OHbGLn/kDUH8+syGNS05ByyVJw0KJUZm2X21zOC5lMcP982RCkubGO3bls+yT+h
- uu8+UY1Kf2C69cgdOo4FyI4gyEySxPeIpvZLNEiahC7Ocj3b4pZbcvV4p5Lz0tUc6mJA
- X84v36Wrq9vz13XMX5r3tSOxwku+qo/18ayjo+kTZj3AB/5oPwG4BbV1tKNrZUfSDIbg
- dIXQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU0zcED5hnnI1vy5HB2BZos43H7IT5TPxFVBlkyszjDZxR0SkIKgJsTO5MksYsJuulOx5ByXiEnUEI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyZt8u8Sp62lRFm7CwDKs3GcQxFwHaIEo5HHE+RNHNTZAizvQ6X
- v3O8nyu/vaAdN3T/7El77F5V1Ph6Ysmh3uPhjd5ZO4QiqshBLGzBHrYdXaQLRqFxKG2NqRjUMpp
- FIS3vArea
-X-Gm-Gg: ASbGncsZ2SaR9Fcb+pWdOhs8rIbuzfsLNPc6JuJcCHfs+1KNNbY6eNZGSIrq+zsTsVO
- sXNXJ8xcKkcD6z0aoJdj4FoN0uIz4Z50xpUR38HFNTf/enkKys2K4FrpW42bCpmU4GkVzf8kisu
- nsGF6b5Yq3sY8zD31DS45pM4ipdDEAgqxxyEvsuI5Az482rbA7hM6tujcc+bVNKOSE5dNrabEeI
- Dtg9MT074TBIy7Eei6jDJwqRMXeifWxl7xSCfVuviaogOVxjGvnPg2TigEM7MU5cgfKpFOLJChP
- Ea2iE/gc/pwHVWYM5p2GdkgcGm9fGe1CyuIeQsZZujGMjiDX9N2PQlV11ZI9L0mZxZ+CXFhypCX
- BqpgiCC0JshMyOWL6KdArJG19hla2VR+GBUSbeK+UWL0gDO2loptVNe0TdgouUS+pSRbdmCL2Qn
- zSeL32AZ+RqoWb4Vu9OK+95dff66NPWhwA690WjnC9LAYzYAjVhg==
-X-Google-Smtp-Source: AGHT+IHDbsw9M2y7msJfJgyr1Rae1eMmMxH7StGPqBi8l6SYzIwO1xb0/2XAXzGc/K7MV/9eEKnouA==
-X-Received: by 2002:a05:6402:3550:b0:63c:1073:4a69 with SMTP id
- 4fb4d7f45d1cf-64555d2aebamr33193220a12.34.1764612615233; 
- Mon, 01 Dec 2025 10:10:15 -0800 (PST)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com.
- [209.85.128.41]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-647510615c0sm13336772a12.30.2025.12.01.10.10.13
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Dec 2025 10:10:14 -0800 (PST)
-Received: by mail-wm1-f41.google.com with SMTP id
- 5b1f17b1804b1-4775ae77516so45530175e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 10:10:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVcy1Xhh3C5DBedWMyK0tVdkVs9+SBAHr1DybEBHVVNoWdZ4f+pBSR0NOnKYPtrNnx8Zy2fh3IM1Fs=@lists.freedesktop.org
-X-Received: by 2002:a05:600c:3ba1:b0:475:dd89:acb with SMTP id
- 5b1f17b1804b1-477c11160cdmr415396085e9.22.1764612612856; Mon, 01 Dec 2025
- 10:10:12 -0800 (PST)
+ bh=pACjIJ5Z98dL1VC/6XHBEnEAfmGPEe/jI8Z9/L5Bn2s=;
+ b=h+Q19yMyKU8TjQbgQBdN+KVV5B6PIQYZmoTu5/pfsRe2pVsBVC+b3nWXXbdhST0Tpt
+ DwXpRWxK4IeLxkpLKT1ZJvvUgwLCzTdjudsISXZBgjW4wEgElLhmobmBNHIdW7f+hFU8
+ 1iQwFvNfj9iNWaFU+NayOCBEybrkhBFA48ckNnRYkienSKqyI3vaoRaB+wZ8GRN+DZjv
+ 09tcvIYXmKehLbdu6UxEW6R9/B4iGtdnd8St+Nk1LEFG5yv8KIPf0JA5pBAhrkRY/Rrv
+ iKPRco+wsrhqzy/9JU2MQQAe2fI5A8HN1sp9nxhol7i95w06Ri9fjIeQJnxGd8E0n0hB
+ kJ0Q==
+X-Gm-Message-State: AOJu0YxC6gup9lISzi2VEGuS1r3rEuMGRogtJONdNSqROB5pZwfUEnXp
+ Iy6jcgKZHrusYHXGca+UmupW7NlSsZ5szv9e3+gQTHcf13RIyvsjMItXd23HBuCX8Zs7pXmBxAn
+ ek4kgXk/dYxMRqc8PpaYGIqo25qkA3Hw=
+X-Gm-Gg: ASbGncsNoW+cDkrxG4rqjqZqPJJ0S4XyLr7fwCiGWmTaFyZtniUdqI/LlGearmzSSYo
+ i9JiN4sMQjiTE6l8SaDKEfIg4uYar4YWsub+dYMinS2V8yiloMaLPCZ8XIzYN9E9Xtx4BAMXK77
+ wPBh/ElwZK6CSHjEOBr030JgUYvUDHcqQOKvreVG0ZvLmAX2snHJqU/Fqijfevh5tD5S2pIeIJM
+ vnYJPn3uAGJ3DBpxJy7mIRPd68qJQmFuCOYyUyTXokBx7ubJxdkMoeVfpJcOLqBveBVyTM=
+X-Google-Smtp-Source: AGHT+IE71pJafFwUFiPS9h38WORURTVaywA11WteMOZkloki51qtSpW8dr8VyIrZTMlaeGq2FnTBiE1ewdbGlm1RvZM=
+X-Received: by 2002:a05:7022:20b:b0:11a:43fb:58dd with SMTP id
+ a92af1059eb24-11c9d8851e0mr22415203c88.5.1764612663631; Mon, 01 Dec 2025
+ 10:11:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20251125090546.137193-1-kory.maincent@bootlin.com>
-In-Reply-To: <20251125090546.137193-1-kory.maincent@bootlin.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 1 Dec 2025 10:10:01 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WikKrpLKvaxD22H0s3XHeG=WUiRrLJ0eQMM2pqvXJhuw@mail.gmail.com>
-X-Gm-Features: AWmQ_bmsv9J5UlggLGP1aiEVtrV6kayziPzbKKyqQbq8EQwvWpJS3SIXk8v0J68
-Message-ID: <CAD=FV=WikKrpLKvaxD22H0s3XHeG=WUiRrLJ0eQMM2pqvXJhuw@mail.gmail.com>
-Subject: Re: [PATCH v4] drm/tilcdc: Fix removal actions in case of failed probe
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maxime Ripard <mripard@kernel.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Bajjuri Praneeth <praneeth@ti.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>, stable@vger.kernel.org, 
- thomas.petazzoni@bootlin.com, Jyri Sarha <jyri.sarha@iki.fi>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+References: <20251129073740.1813659-1-rdunlap@infradead.org>
+In-Reply-To: <20251129073740.1813659-1-rdunlap@infradead.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 1 Dec 2025 13:10:52 -0500
+X-Gm-Features: AWmQ_bmuZ0JnGfMfHwqT7CqSUNa9bxeI_sau48Vz1Z6fx06hE5loP7Vv_ifbeOc
+Message-ID: <CADnq5_OWcjQjNEuUKva1HJE+8ufD6dOecwZdikAuhvaQ_HBMZA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: correct kernel-doc in dml21_wrapper.h
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: dri-devel@lists.freedesktop.org, Austin Zheng <austin.zheng@amd.com>, 
+ Jun Lei <jun.lei@amd.com>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ amd-gfx@lists.freedesktop.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,72 +86,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Applied.  Thanks!
 
-On Tue, Nov 25, 2025 at 1:06=E2=80=AFAM Kory Maincent <kory.maincent@bootli=
-n.com> wrote:
+On Sat, Nov 29, 2025 at 2:37=E2=80=AFAM Randy Dunlap <rdunlap@infradead.org=
+> wrote:
 >
-> From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
+> Fix all kernel-doc warnings in dml21_wrapper.h:
+> - add missing @dml_ctx entries (2 places)
+> - fix function prototype typo for dml21_create()
+> - change a blank kernel-doc line to " *"
 >
-> The drm_kms_helper_poll_fini() and drm_atomic_helper_shutdown() helpers
-> should only be called when the device has been successfully registered.
-> Currently, these functions are called unconditionally in tilcdc_fini(),
-> which causes warnings during probe deferral scenarios.
+> Fixes these warnings:
+> Warning: drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21_wrapper.h:30
+>  function parameter 'dml_ctx' not described in 'dml21_create'
+> Warning: drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21_wrapper.h:30
+>  expecting prototype for dml2_create(). Prototype was for dml21_create()
+>  instead
+> Warning: drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21_wrapper.h:55
+>  bad line:
+> Warning: drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21_wrapper.h:61
+>  function parameter 'dml_ctx' not described in 'dml21_validate'
 >
-> [    7.972317] WARNING: CPU: 0 PID: 23 at drivers/gpu/drm/drm_atomic_stat=
-e_helper.c:175 drm_atomic_helper_crtc_duplicate_state+0x60/0x68
-> ...
-> [    8.005820]  drm_atomic_helper_crtc_duplicate_state from drm_atomic_ge=
-t_crtc_state+0x68/0x108
-> [    8.005858]  drm_atomic_get_crtc_state from drm_atomic_helper_disable_=
-all+0x90/0x1c8
-> [    8.005885]  drm_atomic_helper_disable_all from drm_atomic_helper_shut=
-down+0x90/0x144
-> [    8.005911]  drm_atomic_helper_shutdown from tilcdc_fini+0x68/0xf8 [ti=
-lcdc]
-> [    8.005957]  tilcdc_fini [tilcdc] from tilcdc_pdev_probe+0xb0/0x6d4 [t=
-ilcdc]
->
-> Fix this by rewriting the failed probe cleanup path using the standard
-> goto error handling pattern, which ensures that cleanup functions are
-> only called on successfully initialized resources. Additionally, remove
-> the now-unnecessary is_registered flag.
->
-> Cc: stable@vger.kernel.org
-> Fixes: 3c4babae3c4a ("drm: Call drm_atomic_helper_shutdown() at shutdown/=
-remove time for misc drivers")
-> Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > ---
->
-> I'm working on removing the usage of deprecated functions as well as
-> general improvements to this driver, but it will take some time so for
-> now this is a simple fix to a functional bug.
->
-> Change in v4:
-> - Fix an unused label warning reported by the kernel test robot.
->
-> Change in v3:
-> - Rewrite the failed probe clean up path using goto
-> - Remove the is_registered flag
->
-> Change in v2:
-> - Add missing cc: stable tag
-> - Add Swamil reviewed-by
+> Cc: Austin Zheng <austin.zheng@amd.com>
+> Cc: Jun Lei <jun.lei@amd.com>
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Leo Li <sunpeng.li@amd.com>
+> Cc: Rodrigo Siqueira <siqueira@igalia.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
 > ---
->  drivers/gpu/drm/tilcdc/tilcdc_crtc.c |  2 +-
->  drivers/gpu/drm/tilcdc/tilcdc_drv.c  | 53 ++++++++++++++++++----------
->  drivers/gpu/drm/tilcdc/tilcdc_drv.h  |  2 +-
->  3 files changed, 37 insertions(+), 20 deletions(-)
-
-Seems reasonable to me. I did a once-over and based on code inspection
-it looks like things are being reversed properly. I agree this should
-probably land to fix the regression while waiting for a bigger
-cleanup.
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-This fixup has been sitting out there for a while. Who is the right
-person to apply it? If nobody else does and there are no objections, I
-can apply it to "fixes" next week...
-
--Doug
+>  drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21_wrapper.h |    7 ++++-=
+--
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> --- linux-next-20251128.orig/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/=
+dml21_wrapper.h
+> +++ linux-next-20251128/drivers/gpu/drm/amd/display/dc/dml2_0/dml21/dml21=
+_wrapper.h
+> @@ -17,9 +17,9 @@ struct dml2_context;
+>  enum dc_validate_mode;
+>
+>  /**
+> - * dml2_create - Creates dml21_context.
+> + * dml21_create - Creates dml21_context.
+>   * @in_dc: dc.
+> - * @dml2: Created dml21 context.
+> + * @dml_ctx: Created dml21 context.
+>   * @config: dml21 configuration options.
+>   *
+>   * Create of DML21 is done as part of dc_state creation.
+> @@ -40,6 +40,7 @@ void dml21_reinit(const struct dc *in_dc
+>   * dml21_validate - Determines if a display configuration is supported o=
+r not.
+>   * @in_dc: dc.
+>   * @context: dc_state to be validated.
+> + * @dml_ctx: dml21 context.
+>   * @validate_mode: DC_VALIDATE_MODE_ONLY and DC_VALIDATE_MODE_AND_STATE_=
+INDEX
+>   *           will not populate context.res_ctx.
+>   *
+> @@ -53,7 +54,7 @@ void dml21_reinit(const struct dc *in_dc
+>   * -dml21_check_mode_support - for DC_VALIDATE_MODE_ONLY and DC_VALIDATE=
+_MODE_AND_STATE_INDEX option
+>   * Calculates if dc_state can be supported for the input display
+>   * config.
+> -
+> + *
+>   * Context: Two threads may not invoke this function concurrently unless=
+ they reference
+>   *          separate dc_states for validation.
+>   * Return: True if mode is supported, false otherwise.
