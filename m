@@ -2,85 +2,144 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB76C985D7
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 17:52:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D42AC985E9
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 17:52:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B77B710E416;
-	Mon,  1 Dec 2025 16:51:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 055A610E2BB;
+	Mon,  1 Dec 2025 16:52:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QZd9JKHd";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="R3aL+RUr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EF7010E2BB
- for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 16:51:59 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id DEE5D60133;
- Mon,  1 Dec 2025 16:51:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14EE0C4CEF1;
- Mon,  1 Dec 2025 16:51:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764607917;
- bh=++Pjz2EWGu+Di5eo/zjDna0mHdfDsBWr6pvA6L4UET0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QZd9JKHdL2MMfPYJAs+GzDwf6s8hAGngHPTWngKTVs/z7HbMFK1M4Ll7tbgyXFMlo
- P1arM0NWcAdfGZUuEHCcB8AnsHP/1FhNK5tIoN+6BIzkRbJLsg1A1XhuWljEty1ZN6
- HF2SI/6Ct4mn56Qng0LY5SKyVqRLniNb1gIsbn6mwDUVid6AaLKuzmgqZCcKDz6lt+
- FswBf7hfcsAfvjtK49vpR85jEeEEtdAoRCyLYHHGPCu5WdRNJkQZUHrxe1lKGByybL
- TZqORCuiTWIan8wW0fcnnsNlDEMPqMgyD6GZ21r3D+oQ8q0fCXCTqkkEJAO2CcE9Cv
- MPMOsWmPH8FWg==
-Date: Mon, 1 Dec 2025 17:51:54 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Alexey Brodkin <abrodkin@synopsys.com>, Phong LE <ple@baylibre.com>,
- Liu Ying <victor.liu@nxp.com>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+Received: from AS8PR04CU009.outbound.protection.outlook.com
+ (mail-westeuropeazon11011009.outbound.protection.outlook.com [52.101.70.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C3C3610E2BB
+ for <dri-devel@lists.freedesktop.org>; Mon,  1 Dec 2025 16:52:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KPdpOeqCsrO8c86HNHj607ceMqo8XPQAcISF7Ci7o6gD6oowJD2hFeY9ZPfK9wbOgXIXxbn3hpy8mEpYB+jnTuuPJ5UzBstQfM7EDRqSM8bQXC2as/iAcaYeZVynSQV3HWOEnoeuP8rROv4m3b6xH3sV/IWlAYLwEsDkXIsmBQipFH6BVvb9R4Y2fjGK6NlCd9bMkFEGogyQZbtHCyhZmKTLMKAuG6FwiNapc9nMlBSJ2mlDA4Vc9RnhP8Zes9XYRmkhzB/mpZZeGh6mvkSagCq6k8pBbUe7oYCAWoG5ME8JKF7UtaYXZyCyA6qNFesvCDHq0nBLyxNJ/xLw1AZXpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=l58dffqnoPz3cOiK1sf14CjfiSUwOcau9Xv/PpLgrXg=;
+ b=X0MlfzKCjyD79OHCwLN9Ab/BImQnMlSbtmLgKV2MJ9Xt0CVs5lzxGoq4JyKZXOGwZ3veTZiu/vHYaeeGRaNDBFWf0hkNe+3Tdktg1KI8Rbvv1hL69tDpfWhwktCB1dfZxgQo7viRqXUvjWsF0tA+NU3+/qVZRHeckJr4r+6wU0uOapPmrVmZpBAy3h+CLZ00OS8DA38OKpgOAaPWyN6CpGPZbJqGld4gi1SfOFmnhE6FltBDSJ0TrqLBXqUuZGULDx3NT0sylJ5obJts8p632f1Cei2mL4KAHx+YJRtAwotdu9Si4XzOqPdvxIVJgEwIE/NgGSZaT2nV6oXSHq12tw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l58dffqnoPz3cOiK1sf14CjfiSUwOcau9Xv/PpLgrXg=;
+ b=R3aL+RUrpCwsvSr4ysrPPKxtf3h/Vz8Q2NpYZdINz/5iY5Q758qn4iszjSoc0nukaT7C/qYW3tHYGMTuSQYsMsa0kmaPZn4O38FeN9zI+NeZSbltgtX1GDu/jwIGVrL1N7TWakh5xTm4RiiFZsUFP/GGSbU/ZkVsNiORC32KEIzHuI3tsJjVWrqUl9NVBstEG+fc9ZRKfToNt7THMCBXckAXgK3OikAzDhbLmBn/Q1qq1fFlzGU3FDvjvEPT57PYgrBZiKtVrcm6TgyfIyz1u9s5m0IjAybiRdWVmVGZFb2Wxs6mBXBWgMj2mhnv6CMSt7esQQCcqzfzk2ahXuCkNQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com (2603:10a6:10:2e2::22)
+ by AS8PR04MB8279.eurprd04.prod.outlook.com (2603:10a6:20b:3f8::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Mon, 1 Dec
+ 2025 16:52:49 +0000
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196]) by DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196%4]) with mapi id 15.20.9366.012; Mon, 1 Dec 2025
+ 16:52:48 +0000
+Date: Mon, 1 Dec 2025 11:52:38 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: maudspierings@gocontroll.com
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, 
- Adrien Grassein <adrien.grassein@gmail.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
- Edmund Dea <edmund.j.dea@intel.com>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
-Message-ID: <20251201-thick-jasmine-oarfish-1eceb0@houat>
-References: <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-0-0db98a7fe474@bootlin.com>
- <20251119-drm-bridge-alloc-getput-drm_of_find_bridge-v1-6-0db98a7fe474@bootlin.com>
- <hs44z4b2dgisemuewgtvl4epjcqqilg6cy36po25pubaog4hmq@33qgl4o3hwoa>
- <DEH2CVQV21Z2.25PJBAQAKFJSG@bootlin.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="vysorlzfm2p6uhgc"
+ Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6 1/4] dt-bindings: backlight: Add max25014 support
+Message-ID: <aS3H1qzSMKHamqpP@lizhi-Precision-Tower-5810>
+References: <20251201-max25014-v6-0-88e3ac8112ff@gocontroll.com>
+ <20251201-max25014-v6-1-88e3ac8112ff@gocontroll.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DEH2CVQV21Z2.25PJBAQAKFJSG@bootlin.com>
+In-Reply-To: <20251201-max25014-v6-1-88e3ac8112ff@gocontroll.com>
+X-ClientProxiedBy: PH8PR02CA0015.namprd02.prod.outlook.com
+ (2603:10b6:510:2d0::7) To DU2PR04MB8951.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e2::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|AS8PR04MB8279:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2d19c844-45d3-4f5a-fd1b-08de30fa0f23
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|19092799006|366016|7416014|52116014|376014|1800799024|38350700014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?x6suohBV+EXou57H3PUnLwyDDUbOVQ9pBOq+mTasHdq7hlY9C5Ue2cKEpPkE?=
+ =?us-ascii?Q?t6qswluzbmBiAZ2v/D2qJpGWo0hhAIlM+7sgmjiKavYKXUO27UBLYVWlNaAI?=
+ =?us-ascii?Q?VJEtdM13CqOdC+4vXMNlGmq1II0C/bn2YDcxL3gNTGPdAofK2G4Hw7LXPgy8?=
+ =?us-ascii?Q?uQVd4db/xB0NAymP2gebPxu0EWf1kE4nLtjGmQUD6oM66I1m+sEug9IXUTo9?=
+ =?us-ascii?Q?pmVrjO/kXhoyyAXA/oRdOelWrsNxAPu8sr2qUdPI7jbHdtO9UER6VXcY2wlX?=
+ =?us-ascii?Q?/YKxDpZJ4AoEQetf9yvozwJpcgViTW1Gf4bGCay4xyPHc8irb4BWaQhpkJhE?=
+ =?us-ascii?Q?8De1Qgi+Xye8soQb+8+0vg/IYe8LgjiR1XWujtLdSKpLGPjEBZQ1tIl4v4FA?=
+ =?us-ascii?Q?AYa1hpe5B2+R6gsmOZur21RyO4iniaa3i29gsUH3bVychqqEBdmnf3sDVfNM?=
+ =?us-ascii?Q?wkGQ+jr8i45pQZLcHvLHrHOPC4toW1uspb/UA6b9+nhaRMLhg2s0s1RsC+j7?=
+ =?us-ascii?Q?CHZ4Wj6rrpFnaVpDldoU4tZ5p4bQ/3BWXzGpmLI7gFhdq9NMIXk9NnLgxirz?=
+ =?us-ascii?Q?izEpxG0w5MKy3/s2A/W7b5kCguV4pwvdaGoVSRAZTjzRT/2c8w3hl8JZYf45?=
+ =?us-ascii?Q?+kQTXZD/z2oQWI3yH/+2W7LiMmHMs2HCJI75WuCEguE3KM1E8bB7gAotXiOU?=
+ =?us-ascii?Q?hP52GcHxCnYv7DCOW25OIpqwTBOy2mIUuc0smdbt8W9L7clb9sy+LWwS+xmk?=
+ =?us-ascii?Q?LIEidtFiDJW5CS6VG9BVXdgPVfcOob+HO0R+3KIZBXp23M52sdNAtFVc3XMW?=
+ =?us-ascii?Q?gOovD36fJAt6bC2x4UPjzq1uinPQuxEJd0Ymjy/OvNGImkdGy4SxyVlpmuui?=
+ =?us-ascii?Q?Z9AFnQBoAUOwN6CUPsRCHTWGOrGxVOD2+uFJVuX04OFpTp1+Wl49ESypf+iy?=
+ =?us-ascii?Q?1d6NCk/53WxQWUGgUxu71jlULZiTcyK/PT1VmeJL8RQ4XD7ygEM8/r8YaMHY?=
+ =?us-ascii?Q?pRCKphQlboCavDolngLUwqVZ1agjDpFjI4pTkqLA/wOqiQ5kc38Z9wFqlZOR?=
+ =?us-ascii?Q?A1ju9aIran5Uro7tpmN5RfytitiqjbrdPAX35wsn2fIViy419Ufs/aleS5Gg?=
+ =?us-ascii?Q?rCaNsL5DCMp79IMjz7GwrM83mDhc0JMGR+KqIcItatT/sJVC35rSFnkqkGGW?=
+ =?us-ascii?Q?TuGW5vZVaz83v7OEhVtRERqDn8TQ/MF3S/KLzR4jQt9t4R4BMA2rawviRld6?=
+ =?us-ascii?Q?9EYhPaPRZp5Wwofm4AwEjxr8YWJkFv2eIvHd7BXdLrfxrhCyIwaarhsKElJ/?=
+ =?us-ascii?Q?oDJxDIDheaIZ17VjGIbvolrE2pi2E0PaanxiEVBA6+w7Y8djwzks2T2a3b5B?=
+ =?us-ascii?Q?AH6CyxFUGJoyTHIUUs6+tnz90EAlqEYK7n8kaWXARdqQJFsIdTDLeLhgDCuN?=
+ =?us-ascii?Q?gfiA6ROf9WMLu7TwBKYQHEtshjiaJwFnP8S2MbvZYsHSizH/b7e4sg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DU2PR04MB8951.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(19092799006)(366016)(7416014)(52116014)(376014)(1800799024)(38350700014)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?P9AqLSRMFR48W2TKbZgd2TZmXTBsJP0/ypP9pHJLicknagJ7BV9D6vEuLqoV?=
+ =?us-ascii?Q?H4yv1kN0Nyg98LNfEtLQdZ8rT7afWxRybOHYlkrMIrvN7PCIBsgj8CAKNDyC?=
+ =?us-ascii?Q?v/FtWNft/jym0+qWRwJcOusYJQePTwUWwYizWGH44iAHw8Xmh90wW6PlkWhg?=
+ =?us-ascii?Q?iRjqkY/benNt1CT5owkn87bTk42D3FpVjgzj3GQmLoNmwJZhfu34VfzPm+KC?=
+ =?us-ascii?Q?1CCHvfk+8J/IaY7n8wRDaFwLj9OxNo2uBYlw0aCn2Aijxzyy/mEvefoU61Iq?=
+ =?us-ascii?Q?uGBO+3RdS1alDhcTGBG9XwGYG+YeR131rRXJLOAljFwAMFTDrG8nCGICkYRj?=
+ =?us-ascii?Q?0ulHaeVpfvw7y95xfZMK7Y5vGXIRNC9CGy1qskYpba8qIGdHF1cJo1zBGFV1?=
+ =?us-ascii?Q?Bwgbix5s8Gui3aN70A5N552DtSnYFUlmOQzDbaPcuiYz0l44iE3OB/WuUixp?=
+ =?us-ascii?Q?yp1B2rD9Cv160HsWV+t5BUnx8fNV6pv/6tS9M2X0Ozd8pKc8j4SwqgZIrw1R?=
+ =?us-ascii?Q?+SAZKIFKjHeUplMQ5eeqO1XhxVEfYkLg2ZFvthPNKUs4xMiXMKm14WGYvxgx?=
+ =?us-ascii?Q?mBp354Y2BaijkTNvhHzWHFwoZcIhvq1sVAuAIXYmUi/HYk1vM9rKr3WD81j5?=
+ =?us-ascii?Q?QPDoUVmg+yxgxf+0FUBA2pmNmeVHbXQGnwZsOXJbnQd4Kje31jX/sE6nEf7/?=
+ =?us-ascii?Q?ZjjhxeumIO+L5psc4Pih5Y4MCvYDC8H4rtMCWzJKk32Y9WQATmm9B5Hkilj0?=
+ =?us-ascii?Q?4nL4RRrGxjGMjnGJAZzsL5tjD0PqETmTluy5nqMvzzzE93agWXe1j5D4tJek?=
+ =?us-ascii?Q?56OJUZDwmC7E/kJBom9Kn2rFerH0lOeNOKvKQnv9yQsYGxrosWbjaFryRN3f?=
+ =?us-ascii?Q?RXqg1imHe657iu/NWLjHiUhmMhvOo/mPrMzGRT/W4qAaVEfEnMMHYiugljup?=
+ =?us-ascii?Q?8h+88+WxxGU0gpVXhRsFXm3Pi4yvsyg1oMW4MW2gmlbZh5Ov3FKUY19hUEiv?=
+ =?us-ascii?Q?M6XqXMk6PT6u1XHyF42DSG3ZtkatsLZ7KdHGE1IsVHjzMqRqbiP/MRCh1jCH?=
+ =?us-ascii?Q?urOplsYObtLQqxH0YgYxNFNbUQv6RvfQ8y+RkpByn+sJwlkAYzAs87f+jhrV?=
+ =?us-ascii?Q?tn0FCadf/3cbvSENgnGzv1r6e40F3LKNwsLA+iYbNiIRPlVsStOxb7YWEXQS?=
+ =?us-ascii?Q?bX952t5AWmP3/4aVyoMHkJYnNJff0Efh7M9k8/wn44BQ/xkA/EtN2kMlEr0n?=
+ =?us-ascii?Q?r+JYdi5IABTvN1sN5AFwheIbdI1xM9SZUPWfK0NPzerLcNwkLToZJqX7HGAZ?=
+ =?us-ascii?Q?NKpxIqJNWTbx8thLK/hubJVEgkWJD1EL4g5dLFi0HDEvQom7QVPUGixGMFZd?=
+ =?us-ascii?Q?8eT5eYbsOAfqthK47y5P+VSNn/W4RdT0tBc87Tfovva9uQYmGwgTRLVzRhXC?=
+ =?us-ascii?Q?NhGkU18R325ziA7fOnNjzlNrQsoUfaHprTXG4noLevipx5n0XpUOBt8vzOcO?=
+ =?us-ascii?Q?qvIvWJCmxPQspbuROUBCuURfA/TY8h6JRTvCOBeMvCRH6XjaRNNLqNTBxXJR?=
+ =?us-ascii?Q?UfIdu1jXu53GVSn0SlQ=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d19c844-45d3-4f5a-fd1b-08de30fa0f23
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2025 16:52:48.8395 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zkvPhN+ZO4DM3ufm79Im18GRam+/hXLyThBb2JIjYSuO9d3WtK7JTaOfite01DlyKpzi+/z+F9SBEnbj5cxSkQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8279
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,266 +155,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Dec 01, 2025 at 12:53:20PM +0100, Maud Spierings via B4 Relay wrote:
+> From: Maud Spierings <maudspierings@gocontroll.com>
+>
+> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
+> with integrated boost controller.
+>
+> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+>
+> ---
+>
+> In the current implementation the control registers for channel 1,
+> control all channels. So only one led subnode with led-sources is
+> supported right now. If at some point the driver functionality is
+> expanded the bindings can be easily extended with it.
+> ---
+>  .../bindings/leds/backlight/maxim,max25014.yaml    | 107 +++++++++++++++++++++
+>  MAINTAINERS                                        |   5 +
+>  2 files changed, 112 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+> new file mode 100644
+> index 000000000000..e83723224b07
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+> @@ -0,0 +1,107 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Maxim max25014 backlight controller
+> +
+> +maintainers:
+> +  - Maud Spierings <maudspierings@gocontroll.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - maxim,max25014
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  enable-gpios:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-supply:
+> +    description: Regulator which controls the boost converter input rail.
+> +
+> +  pwms:
+> +    maxItems: 1
+> +
+> +  maxim,iset:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    maximum: 15
+> +    default: 11
+> +    description:
+> +      Value of the ISET field in the ISET register. This controls the current
+> +      scale of the outputs, a higher number means more current.
+> +
+> +  led@0:
 
---vysorlzfm2p6uhgc
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 06/26] drm/bridge: add devm_drm_of_find_bridge
-MIME-Version: 1.0
+define whole binding, allow 0-3. binding is not related with driver's
+implement.
 
-On Mon, Nov 24, 2025 at 05:25:39PM +0100, Luca Ceresoli wrote:
-> Hi Maxime,
->=20
-> On Mon Nov 24, 2025 at 11:39 AM CET, Maxime Ripard wrote:
-> > On Wed, Nov 19, 2025 at 02:05:37PM +0100, Luca Ceresoli wrote:
-> >> Several drivers (about 20) follow the same pattern:
-> >>
-> >>  1. get a pointer to a bridge (typically the next bridge in the chain)=
- by
-> >>     calling of_drm_find_bridge()
-> >>  2. store the returned pointer in the private driver data, keep it unt=
-il
-> >>     driver .remove
-> >>  3. dereference the pointer at attach time and possibly at other times
-> >>
-> >> of_drm_find_bridge() is now deprecated because it does not increment t=
-he
-> >> refcount and should be replaced with drm_of_find_bridge() +
-> >> drm_bridge_put().
-> >>
-> >> However some of those drivers have a complex code flow and adding a
-> >> drm_bridge_put() call in all the appropriate locations is error-prone,
-> >> leads to ugly and more complex code, and can lead to errors over time =
-with
-> >> code flow changes.
-> >>
-> >> To handle all those drivers in a straightforward way, add a devm varia=
-nt of
-> >> drm_of_find_bridge() that adds a devm action to invoke drm_bridge_put()
-> >> when the said driver is removed. This allows all those drivers to put =
-the
-> >> reference automatically and safely with a one line change:
-> >>
-> >>   - priv->next_bridge =3D of_drm_find_bridge(remote_np);
-> >>   + priv->next_bridge =3D devm_drm_of_find_bridge(dev, remote_np);
-> >>
-> >> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> >>
-> >> ---
-> >>  drivers/gpu/drm/drm_bridge.c | 30 ++++++++++++++++++++++++++++++
-> >>  include/drm/drm_bridge.h     |  5 +++++
-> >>  2 files changed, 35 insertions(+)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge=
-=2Ec
-> >> index 09ad825f9cb8..c7baafbe5695 100644
-> >> --- a/drivers/gpu/drm/drm_bridge.c
-> >> +++ b/drivers/gpu/drm/drm_bridge.c
-> >> @@ -1446,6 +1446,36 @@ struct drm_bridge *drm_of_find_bridge(struct de=
-vice_node *np)
-> >>  }
-> >>  EXPORT_SYMBOL(drm_of_find_bridge);
-> >>
-> >> +/**
-> >> + * devm_drm_of_find_bridge - find the bridge corresponding to the dev=
-ice
-> >> + *			     node in the global bridge list and add a devm
-> >> + *			     action to put it
-> >> + *
-> >> + * @dev: device requesting the bridge
-> >> + * @np: device node
-> >> + *
-> >> + * On success the returned bridge refcount is incremented, and a devm
-> >> + * action is added to call drm_bridge_put() when @dev is removed. So =
-the
-> >> + * caller does not have to put the returned bridge explicitly.
-> >> + *
-> >> + * RETURNS:
-> >> + * drm_bridge control struct on success, NULL on failure
-> >> + */
-> >> +struct drm_bridge *devm_drm_of_find_bridge(struct device *dev, struct=
- device_node *np)
-> >> +{
-> >> +	struct drm_bridge *bridge =3D drm_of_find_bridge(np);
-> >> +
-> >> +	if (bridge) {
-> >> +		int err =3D devm_add_action_or_reset(dev, drm_bridge_put_void, brid=
-ge);
-> >> +
-> >> +		if (err)
-> >> +			return ERR_PTR(err);
-> >> +	}
-> >> +
-> >> +	return bridge;
-> >> +}
-> >> +EXPORT_SYMBOL(devm_drm_of_find_bridge);
-> >
-> > That's inherently unsafe though, because even if the bridge is removed
-> > other parts of DRM might still have a reference to it and could call
-> > into it.
-> >
-> > We'd then have dropped our reference to the next bridge, which could
-> > have been freed, and it's a use-after-free.
->=20
-> I think you refer to this scenario:
->=20
->   1. pipeline: encoder --> bridge A --> bridge B --> bridge C
->   2. encoder takes a reference to bridge B
->      using devm_drm_of_find_bridge() or other means
->   3. bridge B takes a next_bridge reference to bridge C
->      using devm_drm_of_find_bridge()
->   4. encoder calls (bridge B)->foo(), which in turns references
->      next_bridge, e.g.:
->=20
->        b_foo() {
->            bar(b->next_bridge);
->        }
->=20
-> If bridges B and C are removed, bridge C can be freed but B is still
-> allocated because the encoder holds a ref. So when step 4 happens, 'b->c'
-> would be a use-after-free (or NULL deref if b.remove cleared it, which is
-> just as bad).
+it'd better put unders leds.
 
-Yep.
 
-> If I got you correctly, then I'm a bit surprised by your comment. This
-> series is part of the first chapter of the hotplug work, which does not a=
-im
-> at fixing everything but rather at fixing one part: handle dynamic
-> _allocation_ lifetime of drm_bridges by adding a refcount and
-> drm_bridge_get/put().
->=20
-> Chapter 2 of the work is adding drm_bridge_enter/exit/unplug() [1] and
-> other changes in order to avoid code of drivers of removed bridges to
-> access fields they shouldn't. So the above example at point 4 would becom=
-e:
->=20
->        b_foo() {
->            if (!drm_bridge_enter())
->                return;
->            bar(b->c);
->            drm_bridge_exit();
->        }
->=20
-> And that avoids 'b->c' after bridge B is removed.
->=20
-> Does that answer your remark?
+> +    type: object
+> +    description: Properties for a string of connected LEDs.
+> +    $ref: common.yaml#
+> +
+> +    properties:
+> +      reg:
+> +        const: 0
+> +
+> +      led-sources:
+> +        allOf:
+> +          - minItems: 1
+> +            maxItems: 4
+> +            items:
+> +              minimum: 0
+> +              maximum: 3
+> +            default: [0, 1, 2, 3]
+> +
+> +      default-brightness:
+> +        minimum: 0
+> +        maximum: 100
+> +        default: 50
+> +
+> +    required:
+> +      - reg
+> +
+> +    additionalProperties: false
 
-Not really. I wasn't really questionning your current focus, or the way
-you laid out the current agenda or whatever.
+unevaluatedProperties: false because ref to common.yaml
 
-What I am questionning though is whether or not we want to introduce
-something we will have to untangle soon, and even more so when we're not
-mentioning it anywhere.
+Frank
 
-> > It's more complicated than it sounds, because we only have access to the
-> > drm_device when the bridge is attached, so later than probe.
-> >
-> > I wonder if we shouldn't tie the lifetime of that reference to the
-> > lifetime of the bridge itself, and we would give up the next_bridge
-> > reference only when we're destroyed ourselves.
->=20
-> I'm afraid I'm not following you, sorry. Do you refer to the time between
-> the bridge removal (driver .remove) and the last bridge put (when
-> deallocation happens)?
->=20
-> In that time frame the struct drm_bridge is still allocated along with any
-> next_bridge pointer it may contain, but the following bridge could have
-> been deallocated.
->=20
-> What do you mean by "give up the next_bridge"?
-
-What I was trying to say was that if we want to fix the problem you
-illustrated about, we need to give up the reference at __drm_bridge_free
-time. So each bridge having a reference to a bridge would need to do so
-in its destroy hook.
-
-Since it's quite a common pattern, it would make sense to add a
-next_bridge field to drm_bridge itself, so the core can do it
-automatically in __drm_bridge_free if that pointer is !NULL.
-
-But...
-
-> > Storing a list of all the references we need to drop is going to be
-> > intrusive though, so maybe the easiest way to do it would be to create a
-> > next_bridge field in drm_bridge, and only drop the reference stored
-> > there?
-> >
-> > And possibly tie the whole thing together using a helper?
-> >
-> > Anyway, I'm not sure it should be a prerequisite to this series. I we do
-> > want to go the devm_drm_of_find_bridge route however, we should at least
-> > document that it's unsafe, and add a TODO entry to clean up the mess
-> > later on.
-
-=2E.. I *really* don't consider it something you need to work on right now.
-
-> Do you mean the drm variant is unsafe while the original
-> (drm_of_find_bridge() in this series, might be renamed) is not? I
-> don't see how that can happen. If the driver for bridge B were to use
-> drm_of_find_bridge(), that driver would be responsible to
-> drm_bridge_put(b->next_bridge) in its .remove() function or earlier.
-> So the next_bridge pointing to bridge C would equally become subject
-> to use-after-free.
-
-No, I was saying that both are equally unsafe. But we're adding a new,
-broken, helper, and we don't mention anywhere that it is. So what I was
-saying is mostly do we really want to introduce some more broken code
-when we know it is. And if we do, we should be really clear about it.
-
-> devm does not make it worse, on the opposite it postpones the
-> drm_bridge_put(next_bridge) as late as possible: just after
-> b.remove().
-
-Which doesn't really change anything, does it? I'd expect the window
-between the remove and final drm_bridge_put to be much wider than the
-execution time of remove itself.
-
-> One final, high-level thought about the various 'next_bridge' pointers th=
-at
-> many bridge drivers have. Most of them do:
->=20
->  0. have a 'struct drm_bridge next_bridge *' in their private struct
->  1. take the next_bridge reference during probe or another startup phase
->  2. store it in their private driver struct
->  3. use it to call drm_bridge_attach
->  4. (pending) put the reference to it in their .remove or earlier
->=20
-> I'm wondering whether we could let the DRM bridge core do it all, by
-> removing items 0, 1, 2 and 4, and change 3 as:
->=20
-> -     drm_bridge_attach(encoder, me->next_bridge, &me->bridge, flags);
-> +  drm_of_bridge_attach(encoder, &me->bridge, dev->of_node, 1, -1, flags);
->=20
-> where dev->of_node and the following integers are the same flags passed to
-> devm_drm_of_get_bridge() and the like, i.e. the endpoint info needed to
-> walk the DT graph and reach the next bridge.
->=20
-> This would allow the core to take care of all locking and lifetime of the
-> next bridge, and most (all?) bridges would never access any pointers to t=
-he
-> next bridge. The idea is to let the core do the right thing in a single
-> place instead of trying to make all drivers do the right thing (and
-> touching dozen files when needing to touch the logic).
->=20
-> That is more a long-term ideal than something I'd do right now, but having
-> opinions would be very interesting.
-
-That was pretty much my point, yeah.
-
-Maxime
-
---vysorlzfm2p6uhgc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaS3HqgAKCRAnX84Zoj2+
-dtkvAX4rXtiifHgBMiNuTE+oq5YRpJHiwuAryr1vVp5dRFs89l7GaqjGKfUTsivq
-vi/sGEYBgJqDs2PwFTGrO+7VA0R8yw/cmqsfGVuImcSZfLiyy6oWHU4ftq7JQjBk
-x6/eNlgihA==
-=gjHT
------END PGP SIGNATURE-----
-
---vysorlzfm2p6uhgc--
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        backlight@6f {
+> +            compatible = "maxim,max25014";
+> +            reg = <0x6f>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            enable-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
+> +            interrupt-parent = <&gpio1>;
+> +            interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
+> +            power-supply = <&reg_backlight>;
+> +            pwms = <&pwm1>;
+> +            maxim,iset = <7>;
+> +
+> +            led@0 {
+> +                reg = <0>;
+> +                led-sources = <0 1 2 3>;
+> +                default-brightness = <50>;
+> +            };
+> +        };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 58c7e3f678d8..606ce086f758 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15261,6 +15261,11 @@ F:	Documentation/userspace-api/media/drivers/max2175.rst
+>  F:	drivers/media/i2c/max2175*
+>  F:	include/uapi/linux/max2175.h
+>
+> +MAX25014 BACKLIGHT DRIVER
+> +M:	Maud Spierings <maudspierings@gocontroll.com>
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+> +
+>  MAX31335 RTC DRIVER
+>  M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
+>  L:	linux-rtc@vger.kernel.org
+>
+> --
+> 2.52.0
+>
+>
