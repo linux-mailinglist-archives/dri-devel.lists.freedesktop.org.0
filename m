@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93500C95E0A
-	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 07:36:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF05BC95E10
+	for <lists+dri-devel@lfdr.de>; Mon, 01 Dec 2025 07:36:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D3C210E2D1;
-	Mon,  1 Dec 2025 06:36:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9897C10E2D8;
+	Mon,  1 Dec 2025 06:36:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Arv7Q2iU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bpAPQNU6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3660610E2C6;
- Mon,  1 Dec 2025 06:35:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1250B10E2D8;
+ Mon,  1 Dec 2025 06:36:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764570959; x=1796106959;
+ t=1764570964; x=1796106964;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=VkVEvmec002RFwYfNPyMZ+NjcRRF+OHpkdmOsXACe3A=;
- b=Arv7Q2iUCBoCmN5wLij8zRX5KJkFOWUVOhm7IRbuyvmuQbaGKqJDt1E0
- 8yKr5fCY4cSFJm/DAFku7ih3sgXHBbGEOFwQUrAL8WDVlzLbWZ778ZtqE
- AJI4/sOM2TZcRtDUyQO7PQ5Dg/SxboxvLgcMDa3a8LIvRCVCIqlkEyxgp
- VNLYJCm2ogmRn7YPoQ1VHmiG8QKyUF7lOJu65uqQoyFQt3sg1o9JzLKuc
- dvoORqxabtPsyhJE28/VR/ny1a2BuD6jyvYAHE00HC4RabZRRD7fhHWcT
- RQ70AgkauMtscAuVIPA8j4UnzsoQvUMA9VRKtd04kMhE3RJ7WXiKn1dEz A==;
-X-CSE-ConnectionGUID: +Cv2iqCzR4+J7D1tSQsoNQ==
-X-CSE-MsgGUID: Snt05Dk7ShG2VKvHQINpCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="66663230"
-X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="66663230"
+ bh=y3Wzy/meVOL9BBjI/oLn3MLhVW8haBKS8oEgdSFSp7c=;
+ b=bpAPQNU68/xurryKMvsot1B77rQMtIHq1A9buILI9ac8rjlDbKkF0qPX
+ 5ERjND9iA5k1zo0i9hOaT2q7OX1cWtN6fRFK7YdWvPq/y/U+CZgFk8iE8
+ EIGI3mTmOMetaNeXg0m2vuMPnh8iWz0SVrYM0e4/l8wcOtJorYbk9j5yh
+ wtjoV6p7tVqV6pO5vDhWLvR3UN7lb1Bm61NyKCoxoh2NnYcvq9LGJpE4g
+ NrSDMTvQWz8yRV7/WF3Zp8rZoU/fHD22ESpfn8c51ylQVbruH4KzjYZb0
+ kCXRvBIYR8Ql4BvgkhCG7qVa6MVvPxs0enaPL2BYKlmWw3l4tQScK9ErT A==;
+X-CSE-ConnectionGUID: 9HnnTaveQJqnl/+xmV/V/g==
+X-CSE-MsgGUID: TuVY54G4RzeH7dHhJAj4aA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11629"; a="66663237"
+X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="66663237"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Nov 2025 22:35:58 -0800
-X-CSE-ConnectionGUID: d6Vub/KlSMCq2mnSPXNgOA==
-X-CSE-MsgGUID: DeBtVaqxSEq3kOLFmzzchg==
+ 30 Nov 2025 22:36:03 -0800
+X-CSE-ConnectionGUID: IXSFDRd1QSSqzpfcq0esOw==
+X-CSE-MsgGUID: SFMLIH47R6i2O7M5MI2Thw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="193806107"
+X-IronPort-AV: E=Sophos;i="6.20,240,1758610800"; d="scan'208";a="193806121"
 Received: from cfl-desktop.iind.intel.com ([10.190.239.20])
- by orviesa009.jf.intel.com with ESMTP; 30 Nov 2025 22:35:53 -0800
+ by orviesa009.jf.intel.com with ESMTP; 30 Nov 2025 22:35:58 -0800
 From: Uma Shankar <uma.shankar@intel.com>
 To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
@@ -48,9 +48,9 @@ Cc: chaitanya.kumar.borah@intel.com, ville.syrjala@linux.intel.com,
  mwen@igalia.com, jadahl@redhat.com, sebastian.wick@redhat.com,
  swati2.sharma@intel.com, alex.hung@amd.com, jani.nikula@intel.com,
  suraj.kandpal@intel.com, Uma Shankar <uma.shankar@intel.com>
-Subject: [v7 10/15] drm/i915/color: Add framework to program PRE/POST CSC LUT
-Date: Mon,  1 Dec 2025 12:16:50 +0530
-Message-ID: <20251201064655.3579280-11-uma.shankar@intel.com>
+Subject: [v7 11/15] drm/i915/color: Program Pre-CSC registers
+Date: Mon,  1 Dec 2025 12:16:51 +0530
+Message-ID: <20251201064655.3579280-12-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251201064655.3579280-1-uma.shankar@intel.com>
 References: <20251201064655.3579280-1-uma.shankar@intel.com>
@@ -71,88 +71,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add framework that will help in loading LUT to Pre/Post CSC color
-blocks.
+Add callback to program Pre-CSC LUT for TGL and beyond
 
-v2: Add dsb support
-v3: Align enum names
-v4: Propagate change in lut data to crtc_state
+v2: Add DSB support
+v3: Add support for single segment 1D LUT color op
+v4:
+- s/drm_color_lut_32/drm_color_lut32/ (Simon)
+- Change commit message (Suraj)
+- Improve comments (Suraj)
+- Remove multisegmented programming, to be added later
+- Remove dead code for SDR planes, add when needed
 
+BSpec: 50411, 50412, 50413, 50414
 Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_color.c       | 16 ++++++++++++++++
- .../gpu/drm/i915/display/intel_display_types.h   |  2 +-
- drivers/gpu/drm/i915/display/intel_plane.c       |  4 ++++
- 3 files changed, 21 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/display/intel_color.c | 61 ++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
-index 2f8e985d51e5..4ca359d68730 100644
+index 4ca359d68730..2a114d2964fa 100644
 --- a/drivers/gpu/drm/i915/display/intel_color.c
 +++ b/drivers/gpu/drm/i915/display/intel_color.c
-@@ -93,6 +93,10 @@ struct intel_color_funcs {
- 	/* Plane CSC*/
- 	void (*load_plane_csc_matrix)(struct intel_dsb *dsb,
- 				      const struct intel_plane_state *plane_state);
-+
-+	/* Plane Pre/Post CSC */
-+	void (*load_plane_luts)(struct intel_dsb *dsb,
-+				const struct intel_plane_state *plane_state);
- };
- 
- #define CTM_COEFF_SIGN	(1ULL << 63)
-@@ -4077,11 +4081,23 @@ intel_color_load_plane_csc_matrix(struct intel_dsb *dsb,
- 		display->funcs.color->load_plane_csc_matrix(dsb, plane_state);
+@@ -3943,6 +3943,66 @@ xelpd_load_plane_csc_matrix(struct intel_dsb *dsb,
+ 			   ctm_to_twos_complement(input[11], 0, 12));
  }
  
 +static void
-+intel_color_load_plane_luts(struct intel_dsb *dsb,
-+			    const struct intel_plane_state *plane_state)
++xelpd_program_plane_pre_csc_lut(struct intel_dsb *dsb,
++				const struct intel_plane_state *plane_state)
 +{
 +	struct intel_display *display = to_intel_display(plane_state);
++	const struct drm_plane_state *state = &plane_state->uapi;
++	enum pipe pipe = to_intel_plane(state->plane)->pipe;
++	enum plane_id plane = to_intel_plane(state->plane)->id;
++	const struct drm_color_lut32 *pre_csc_lut = plane_state->hw.degamma_lut->data;
++	u32 i, lut_size;
 +
-+	if (display->funcs.color->load_plane_luts)
-+		display->funcs.color->load_plane_luts(dsb, plane_state);
++	if (icl_is_hdr_plane(display, plane)) {
++		lut_size = 128;
++
++		intel_de_write_dsb(display, dsb,
++				   PLANE_PRE_CSC_GAMC_INDEX_ENH(pipe, plane, 0),
++				   PLANE_PAL_PREC_AUTO_INCREMENT);
++
++		if (pre_csc_lut) {
++			for (i = 0; i < lut_size; i++) {
++				u32 lut_val = drm_color_lut32_extract(pre_csc_lut[i].green, 24);
++
++				intel_de_write_dsb(display, dsb,
++						   PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0),
++						   lut_val);
++			}
++
++			/* Program the max register to clamp values > 1.0. */
++			/* TODO: Restrict to 0x7ffffff */
++			do {
++				intel_de_write_dsb(display, dsb,
++						   PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0),
++						   (1 << 24));
++			} while (i++ > 130);
++		} else {
++			for (i = 0; i < lut_size; i++) {
++				u32 v = (i * ((1 << 24) - 1)) / (lut_size - 1);
++
++				intel_de_write_dsb(display, dsb,
++						   PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0), v);
++			}
++
++			do {
++				intel_de_write_dsb(display, dsb,
++						   PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0),
++						   1 << 24);
++			} while (i++ < 130);
++		}
++
++		intel_de_write_dsb(display, dsb, PLANE_PRE_CSC_GAMC_INDEX_ENH(pipe, plane, 0), 0);
++	}
 +}
 +
- void intel_color_plane_program_pipeline(struct intel_dsb *dsb,
- 					const struct intel_plane_state *plane_state)
- {
- 	if (plane_state->hw.ctm)
- 		intel_color_load_plane_csc_matrix(dsb, plane_state);
-+	if (plane_state->hw.degamma_lut || plane_state->hw.gamma_lut)
-+		intel_color_load_plane_luts(dsb, plane_state);
- }
++static void
++xelpd_plane_load_luts(struct intel_dsb *dsb, const struct intel_plane_state *plane_state)
++{
++	if (plane_state->hw.degamma_lut)
++		xelpd_program_plane_pre_csc_lut(dsb, plane_state);
++}
++
+ static const struct intel_color_funcs chv_color_funcs = {
+ 	.color_check = chv_color_check,
+ 	.color_commit_arm = i9xx_color_commit_arm,
+@@ -3991,6 +4051,7 @@ static const struct intel_color_funcs tgl_color_funcs = {
+ 	.read_csc = icl_read_csc,
+ 	.get_config = skl_get_config,
+ 	.load_plane_csc_matrix = xelpd_load_plane_csc_matrix,
++	.load_plane_luts = xelpd_plane_load_luts,
+ };
  
- void intel_color_crtc_init(struct intel_crtc *crtc)
-diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
-index 6d8217497583..c419a814cb34 100644
---- a/drivers/gpu/drm/i915/display/intel_display_types.h
-+++ b/drivers/gpu/drm/i915/display/intel_display_types.h
-@@ -646,7 +646,7 @@ struct intel_plane_state {
- 		enum drm_color_encoding color_encoding;
- 		enum drm_color_range color_range;
- 		enum drm_scaling_filter scaling_filter;
--		struct drm_property_blob *ctm;
-+		struct drm_property_blob *ctm, *degamma_lut, *gamma_lut;
- 	} hw;
- 
- 	struct i915_vma *ggtt_vma;
-diff --git a/drivers/gpu/drm/i915/display/intel_plane.c b/drivers/gpu/drm/i915/display/intel_plane.c
-index 328b12af4d27..4e6ddb36b872 100644
---- a/drivers/gpu/drm/i915/display/intel_plane.c
-+++ b/drivers/gpu/drm/i915/display/intel_plane.c
-@@ -348,6 +348,10 @@ intel_plane_colorop_replace_blob(struct intel_plane_state *plane_state,
- {
- 	if (intel_colorop->id == INTEL_PLANE_CB_CSC)
- 		return drm_property_replace_blob(&plane_state->hw.ctm, blob);
-+	else if (intel_colorop->id == INTEL_PLANE_CB_PRE_CSC_LUT)
-+		return	drm_property_replace_blob(&plane_state->hw.degamma_lut, blob);
-+	else if (intel_colorop->id == INTEL_PLANE_CB_POST_CSC_LUT)
-+		return drm_property_replace_blob(&plane_state->hw.gamma_lut, blob);
- 
- 	return false;
- }
+ static const struct intel_color_funcs icl_color_funcs = {
 -- 
 2.50.1
 
