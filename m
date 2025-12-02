@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E6CC9A463
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 07:27:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18713C9A46E
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 07:27:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E02010E549;
-	Tue,  2 Dec 2025 06:27:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5889A10E53C;
+	Tue,  2 Dec 2025 06:27:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ZyuSt0kK";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FxHjAUjV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 88CA810E534;
- Tue,  2 Dec 2025 06:27:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D581D10E533;
+ Tue,  2 Dec 2025 06:27:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764656842; x=1796192842;
+ t=1764656848; x=1796192848;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=yN5gM/aDkLoBgLfP8gXXGjGMY/vN0fPRoCNy5jzA+wA=;
- b=ZyuSt0kKbQW8ab5KYzX3kZOAYLcHVbyR9sP+sORljP6TMATwriBjMlCJ
- Efy5WOlem2ITCrudhJL++X8wPBxvfn6dkWELRdgWHGozVE9+m0MzMh9Yp
- TLFc88CAjhBmQe63668BNWlvfzFSxWp401CjfLyiD6QMCpWmSBpqbIA+R
- FSfGZrSkwoFBCWmo8+hWC2BItLo1LnYy6NsmhguOCpg5jCEteEfnJoGXG
- TmEeQEBKtvHQP7voduw2wCJFNDLhClYHOdZXUSYg61dic40VKdOlv/Ad/
- BiAG83by36oW8B+OmgKtzEUHkYoaREbAEov+xFTMYgTtlmE39o3WpHtkp A==;
-X-CSE-ConnectionGUID: XdLdM9sRRBSnQfL1AFguAw==
-X-CSE-MsgGUID: e+4YjApYSaKp8tiYlTf6wQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66499880"
-X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="66499880"
+ bh=Vt3jJgn5ZgLlU3RI1l3DsLrM10cI+x/TGd61YIT8HJg=;
+ b=FxHjAUjVgBshBtq8mTIQKocg4XjT2NQgyA14xvIF1AOJA28NFGGVxdeM
+ NP0EwKYp+ZOsfGXeCG8swJp2vG+HsxrfOb31Uxly7X5eYhsFLwdsXMyok
+ 9txM4kgC8uwCdjechmfSrFKZQ59Arut52I0c9EWAPjHoOC+/BkkZ7G1V7
+ +peek86j5q2FuggO9Meg1cPmWVJ/ys5cE6VJgz/0XF1+lyt/tnbg3RX1K
+ H94Fqd9cpPRISeUIfZ9JQxqM73EhuCNqNTMevZsQXS3beM7PHtr0V6J0U
+ Drb1SiHRwVsib3hIZ/Qq2F4htfMlaJGZTXA7ukeCC/Td17NOQr3aq5Q+D g==;
+X-CSE-ConnectionGUID: dBi3tp5sQqeNSuWKOEETFw==
+X-CSE-MsgGUID: jAvsXk+5T6Cd/AHlsChlLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66499895"
+X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="66499895"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 22:27:21 -0800
-X-CSE-ConnectionGUID: MGNtZ10cRsOvt38gVl317g==
-X-CSE-MsgGUID: PjXB7q+ZQcycHFfxG3iDfg==
+ 01 Dec 2025 22:27:28 -0800
+X-CSE-ConnectionGUID: N3yCYxAFSqi1Iff5UKDU4w==
+X-CSE-MsgGUID: 0Rr/DAW0SiOr4CK2aVAfhw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="193961247"
+X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="193961291"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa007.fm.intel.com with ESMTP; 01 Dec 2025 22:27:15 -0800
+ by fmviesa007.fm.intel.com with ESMTP; 01 Dec 2025 22:27:21 -0800
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Tue, 02 Dec 2025 11:57:01 +0530
-Subject: [PATCH [RESEND] v9 07/20] drm/colorop: Export function to create
- pipeline element iet lut
+Date: Tue, 02 Dec 2025 11:57:02 +0530
+Subject: [PATCH [RESEND] v9 08/20] drm/i915/histogram: Define registers for
+ histogram
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251202-dpst-v9-7-f2abb2ca2465@intel.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20251202-dpst-v9-8-f2abb2ca2465@intel.com>
 References: <20251202-dpst-v9-0-f2abb2ca2465@intel.com>
 In-Reply-To: <20251202-dpst-v9-0-f2abb2ca2465@intel.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -84,176 +84,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The generated histogram can be used the user algorithm to generate a
-LUT, which is referred as image enhanced LUT. This is fed back to the
-hardware to get an enhanced image.
+Add the register/bit definitions for global histogram.
 
+v2: Intended the register contents, removed unused regs (Jani)
+
+Bspec: 4270
 Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c | 21 +++++++++----
- drivers/gpu/drm/drm_colorop.c     | 62 +++++++++++++++++++++++++++++++++++++++
- include/drm/drm_colorop.h         | 17 +++++++++++
- 3 files changed, 94 insertions(+), 6 deletions(-)
+ .../gpu/drm/i915/display/intel_histogram_regs.h    | 46 ++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 3505c00dfc5168de3476fb94bced123f9c886cb2..579210be8288d6788a6cfc357394c3794b13a417 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -719,6 +719,7 @@ static int drm_atomic_color_set_data_property(struct drm_colorop *colorop,
- 	ssize_t elem_size = -1;
- 	ssize_t size = -1;
- 	bool replaced = false;
-+	u32 ret;
- 
- 	switch (colorop->type) {
- 	case DRM_COLOROP_1D_LUT:
-@@ -731,17 +732,25 @@ static int drm_atomic_color_set_data_property(struct drm_colorop *colorop,
- 		size = colorop->size * colorop->size * colorop->size *
- 		       sizeof(struct drm_color_lut32);
- 		break;
-+	case DRM_COLOROP_IET:
-+		elem_size = state->data->length;
-+		break;
- 	default:
- 		/* should never get here */
- 		return -EINVAL;
- 	}
- 
--	return drm_property_replace_blob_from_id(colorop->dev,
--						 &state->data,
--						 val,
--						 size,
--						 elem_size,
--						 &replaced);
-+	ret = drm_property_replace_blob_from_id(colorop->dev,
-+						&state->data,
-+						val,
-+						size,
-+						elem_size,
-+						&replaced);
+diff --git a/drivers/gpu/drm/i915/display/intel_histogram_regs.h b/drivers/gpu/drm/i915/display/intel_histogram_regs.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..71daf5ac2dd9ac987b256a35161b3b6977992e95
+--- /dev/null
++++ b/drivers/gpu/drm/i915/display/intel_histogram_regs.h
+@@ -0,0 +1,46 @@
++/* SPDX-License-Identifier: MIT */
++/* Copyright © 2025 Intel Corporation */
 +
-+	if (colorop->type == DRM_COLOROP_IET && !ret)
-+		state->iet_lut_updated |= replaced;
++#ifndef __INTEL_HISTOGRAM_REGS_H__
++#define __INTEL_HISTOGRAM_REGS_H__
 +
-+	return ret;
- }
- 
- /**
-diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-index e3e22db3b911e79979488b1493e72cd9a11ed418..797a6f5ef79c7cc04109e87c44566f2461aee965 100644
---- a/drivers/gpu/drm/drm_colorop.c
-+++ b/drivers/gpu/drm/drm_colorop.c
-@@ -545,6 +545,68 @@ int drm_crtc_colorop_histogram_init(struct drm_colorop *colorop,
- }
- EXPORT_SYMBOL(drm_crtc_colorop_histogram_init);
- 
-+/**
-+ * drm_crtc_colorop_iet_lut_init
-+ *
-+ * @crtc: pointer to the struct drm_crtc.
-+ * @caps: pointer to the struct drm_iet_caps, holds the
-+ *	  image enhancement LUT hardware capabilities.
-+ *
-+ * This 1DLUT is used by the hardware to enahance the image. Hardware
-+ * interpolates this LUT value to generate the enhanced output image.
-+ *
-+ * The blob property IET_LUT_CAPS points to the struct drm_iet_lut_caps
-+ * The blob property DATA points to the struct drm_iet_1dlut_sample
-+ * Description of the structure is in include/uapi/drm/drm_mode.h
-+ *
-+ * RETURNS:
-+ * Zero for success or -errno
-+ */
-+int drm_crtc_colorop_iet_lut_init(struct drm_colorop *colorop,
-+				  struct drm_crtc *crtc,
-+				  struct drm_iet_caps *caps,
-+				  uint32_t flags)
-+{
-+	struct drm_property *prop;
-+	struct drm_iet_caps *blob_data;
-+	struct drm_property_blob *blob;
-+	int ret = 0;
++#include "intel_display_reg_defs.h"
 +
-+	ret = drm_crtc_colorop_init(crtc->dev, colorop, crtc,
-+				    DRM_COLOROP_IET, flags);
-+	if (ret)
-+		return ret;
++/* GLOBAL_HIST related registers */
++#define _DPST_CTL_A					0x490C0
++#define _DPST_CTL_B					0x491C0
++#define DPST_CTL(pipe)					_MMIO_PIPE(pipe, _DPST_CTL_A, _DPST_CTL_B)
++#define  DPST_CTL_IE_HIST_EN				REG_BIT(31)
++#define  DPST_CTL_RESTORE				REG_BIT(28)
++#define  DPST_CTL_IE_MODI_TABLE_EN			REG_BIT(27)
++#define  DPST_CTL_HIST_MODE				REG_BIT(24)
++#define  DPST_CTL_ENHANCEMENT_MODE_MASK			REG_GENMASK(14, 13)
++#define  DPST_CTL_EN_MULTIPLICATIVE			REG_FIELD_PREP(DPST_CTL_ENHANCEMENT_MODE_MASK, 2)
++#define  DPST_CTL_IE_TABLE_VALUE_FORMAT			REG_BIT(15)
++#define  DPST_CTL_BIN_REG_FUNC_SEL			REG_BIT(11)
++#define  DPST_CTL_BIN_REG_FUNC_TC			REG_FIELD_PREP(DPST_CTL_BIN_REG_FUNC_SEL, 0)
++#define  DPST_CTL_BIN_REG_FUNC_IE			REG_FIELD_PREP(DPST_CTL_BIN_REG_FUNC_SEL, 1)
++#define  DPST_CTL_BIN_REG_MASK				REG_GENMASK(6, 0)
++#define  DPST_CTL_BIN_REG_CLEAR				REG_FIELD_PREP(DPST_CTL_BIN_REG_MASK, 0)
++#define  DPST_CTL_IE_TABLE_VALUE_FORMAT_2INT_8FRAC	REG_FIELD_PREP(DPST_CTL_IE_TABLE_VALUE_FORMAT, 1)
++#define  DPST_CTL_IE_TABLE_VALUE_FORMAT_1INT_9FRAC	REG_FIELD_PREP(DPST_CTL_IE_TABLE_VALUE_FORMAT, 0)
++#define  DPST_CTL_HIST_MODE_YUV				REG_FIELD_PREP(DPST_CTL_HIST_MODE, 0)
++#define  DPST_CTL_HIST_MODE_HSV				REG_FIELD_PREP(DPST_CTL_HIST_MODE, 1)
 +
-+	blob = drm_property_create_blob(crtc->dev,
-+					sizeof(struct drm_iet_caps),
-+					NULL);
-+	if (IS_ERR(blob))
-+		return -1;
-+	blob_data = blob->data;
-+	blob_data->iet_mode = caps->iet_mode;
-+	blob_data->nr_iet_sample_formats = caps->nr_iet_sample_formats;
-+	blob_data->nr_iet_lut_entries = caps->nr_iet_lut_entries;
-+	blob_data->iet_sample_format = caps->iet_sample_format;
++#define _DPST_GUARD_A					0x490C8
++#define _DPST_GUARD_B					0x491C8
++#define DPST_GUARD(pipe)				_MMIO_PIPE(pipe, _DPST_GUARD_A, _DPST_GUARD_B)
++#define  DPST_GUARD_HIST_INT_EN				REG_BIT(31)
++#define  DPST_GUARD_HIST_EVENT_STATUS			REG_BIT(30)
++#define  DPST_GUARD_INTERRUPT_DELAY_MASK			REG_GENMASK(29, 22)
++#define  DPST_GUARD_INTERRUPT_DELAY(val)			REG_FIELD_PREP(DPST_GUARD_INTERRUPT_DELAY_MASK, val)
++#define  DPST_GUARD_THRESHOLD_GB_MASK			REG_GENMASK(21, 0)
++#define  DPST_GUARD_THRESHOLD_GB(val)			REG_FIELD_PREP(DPST_GUARD_THRESHOLD_GB_MASK, val)
 +
-+	/* IET LUT Capabilities */
-+	prop = drm_property_create(crtc->dev, DRM_MODE_PROP_ATOMIC |
-+				   DRM_MODE_PROP_IMMUTABLE | DRM_MODE_PROP_BLOB,
-+				   "IET_LUT_CAPS", blob->base.id);
-+	if (!prop)
-+		return -ENOMEM;
-+	colorop->iet_lut_caps_property = prop;
-+	drm_object_attach_property(&colorop->base, colorop->iet_lut_caps_property,
-+				   0);
++#define _DPST_BIN_A					0x490C4
++#define _DPST_BIN_B					0x491C4
++#define DPST_BIN(pipe)					_MMIO_PIPE(pipe, _DPST_BIN_A, _DPST_BIN_B)
++#define  DPST_BIN_DATA_MASK				REG_GENMASK(23, 0)
++#define  DPST_BIN_BUSY					REG_BIT(31)
 +
-+	/* IET LUT data */
-+	ret = drm_colorop_create_data_prop(crtc->dev, colorop);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_crtc_colorop_iet_lut_init);
-+
- static void __drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop,
- 							struct drm_colorop_state *state)
- {
-diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h
-index 4d905c13274c13d8d50e1c9e45a87feec72f82ae..fa37277232dbec3c7c58781d27cfaf62163b6922 100644
---- a/include/drm/drm_colorop.h
-+++ b/include/drm/drm_colorop.h
-@@ -215,6 +215,12 @@ struct drm_colorop_state {
- 	 * Flag to say that the histogram data is updated by the KMD.
- 	 */
- 	bool histogram_updated;
-+	/**
-+	 * @iet_lut_updated:
-+	 *
-+	 * Boolean flag to say that there are some updates on iet_lut property
-+	 */
-+	bool iet_lut_updated;
- 
- 	/** @state: backpointer to global drm_atomic_state */
- 	struct drm_atomic_state *state;
-@@ -399,6 +405,13 @@ struct drm_colorop {
- 	 */
- 	struct drm_property *histogram_data_property;
- 
-+	/**
-+	 * @iet_lut_caps_proeprty
-+	 * Optional colorpipeline property for writing the
-+	 * image enhanced LUT
-+	 */
-+	struct drm_property *iet_lut_caps_property;
-+
- 	/**
- 	 * @data_property:
- 	 *
-@@ -463,6 +476,10 @@ int drm_crtc_colorop_histogram_init(struct drm_colorop *colorop,
- 				    struct drm_crtc *crtc,
- 				    struct drm_histogram_caps *caps,
- 				    uint32_t flags);
-+int drm_crtc_colorop_iet_lut_init(struct drm_colorop *colorop,
-+				  struct drm_crtc *crtc,
-+				  struct drm_iet_caps *caps,
-+				  uint32_t flags);
- 
- struct drm_colorop_state *
- drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop);
++#endif /* __INTEL_HISTOGRAM_REGS_H__ */
 
 -- 
 2.25.1
