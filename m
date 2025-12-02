@@ -2,60 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44671C99EC9
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 03:54:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E20C99EA2
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 03:50:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7915C10E512;
-	Tue,  2 Dec 2025 02:54:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEBFB10E4FC;
+	Tue,  2 Dec 2025 02:50:34 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KdXDVIlM";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vip.corpemail.net (mail-vip.corpemail.net
- [162.243.126.186])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9411C10E512
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 02:54:37 +0000 (UTC)
-Received: from inspur.com
- by ssh248.corpemail.net ((D)) with ESMTP id 202512021033430846
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 10:33:43 +0800
-Received: from localhost.localdomain.com (unknown [10.94.15.65])
- by app6 (Coremail) with SMTP id bgJkCsDw5zIHUC5pIiEGAA--.305S4;
- Tue, 02 Dec 2025 10:33:43 +0800 (CST)
-From: Chu Guangqing <chuguangqing@inspur.com>
-To: tzimmermann@suse.de
-Cc: airlied@gmail.com, chuguangqing@inspur.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch
-Subject: [PATCH v11 0/1] [DRIVER] gpu: drm: add support for YHGCH ZX1000 soc
- chipset
-Date: Tue,  2 Dec 2025 10:32:55 +0800
-Message-ID: <20251202023255.2674-1-chuguangqing@inspur.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <59c5a8a5-6d6e-4394-a3a3-9fa640ba849c@suse.de>
-References: <59c5a8a5-6d6e-4394-a3a3-9fa640ba849c@suse.de>
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com
+ [74.125.224.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C25510E511
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 02:50:34 +0000 (UTC)
+Received: by mail-yx1-f46.google.com with SMTP id
+ 956f58d0204a3-63f996d4e1aso5157779d50.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 18:50:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764643833; x=1765248633; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=u4fZQuQJ65AJK2A7tpNQAB3pVThD3W5ngX9pcfsdMkk=;
+ b=KdXDVIlM11BQ5vk0wToKrJ3tQJI5yTUGyDS9Ddd9oH/L+J9Bc1PcGzjKOo2M0amFKs
+ Ozru40gwO0OW4Py5XihSyrNpxUg07I3Dw1XsNyf4ah0IUD16n6bmvjSmukTaXXWgyOcF
+ 2xYhAfxPB7FrqgKIu7aI+ZfKvY45lOyKoxLa5YnHoRGiRphWsrlxNxeIIhpF3CGvbbKU
+ p0f8uTMlRJkLPSTCGw4QCuq0TIySbLDCSB8IJxd2S6VepRjDvh9vrQ7D9ThY/l+JTzwZ
+ FMo8OC+RJujF3Z98Tz+fNSIXZIQHAusRcCXhpQJpRTr16vxuT78uYyGj89f4LUvCRc8H
+ syFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764643833; x=1765248633;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=u4fZQuQJ65AJK2A7tpNQAB3pVThD3W5ngX9pcfsdMkk=;
+ b=r0R2MwHITALsrp+expzS7tmtwsLJtnyQS89B3qEfUDyD0DhZSwS3n94S+EbDhYG263
+ P89rGff7S/c3awzZAR8BnZLnqyb2SGf6XgRdKfMPmRI+Vm9hluZvxRnKKf013plbnYJz
+ dqiwSnK5O6u3Nnx8nYEnB8Z3XNrvBMdCXf/SwFS82p4uImJg9Fgc3Lz7hjUIpjSCYdob
+ KBwQqZ0ezncPxZoqkCJdPlQYWIy14qR0M2p2L/1Gxb4bnBlglCRBowL7MW1ZCIo2jXUQ
+ Fc1SdPzmHfXSw/gf7DoUL3NdBAvaRNo/HxIfgpKffR0xdiMrc0p9BGoWtz+4sannc/kG
+ e3NA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXcUq/S9p+5W3QAb6/KdUJ0oOYxfxTWteQENNBwg6SKEgPl5IZflq7s5g3rxENruRgQ0cRoYO9bBPE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxm3WUD8YoNsCZr3o3XfSUlvMmTVAirqGNfFSWnQ97yGVw4WCdJ
+ c45scxZld5zFR1VC+ssFXL3Lnq+bH+Ew2Rhy2dGRgPnjooGbmkuVwLq9
+X-Gm-Gg: ASbGncsY9FlD7BuUuZ/PySvNWiB+bgno1jcUJF6aj3Zy0bUwDsKgrkYnFxaIQls31Gm
+ xj07ueR2C4fevgT7U6Claqmiw0vMwt/lICOz1++ALR5Xy6GEXffY1W5wq6FEM20gm/PvVN8uiGd
+ MrcfWaiu563HugWl4nbEAqBTQJGgDyECG6PNxHjAIfN4Eb1DU1N3nNQCRZSuhk5/XWZckngnJVP
+ aqQEGrKdpzaJiE/7qbu+KBCCDxEX3AxlNAMeVZZZuafpd/vrfmgsrNvAHw3VZaqgWP/HTDr2rXF
+ ssRlF9ntUErAy/HIG+aZMNQGrpR7egkylV32aPTwL5+tGxFzlYXCLIqkUBMwEWVUfAChTfmQsEQ
+ 9l9s/y+eLf9DUMJzu3hpFbsavtI89e4NkbCsDmOwm3P5jJZCThKdtmlYdlb6t4VcoWDze6yi5JG
+ VEWZmDZfQ=
+X-Google-Smtp-Source: AGHT+IFvjnC2S/Jp93rH0uVWc/73vRFOoYQepG4E9Ug5xxnCcXms6vpoqWinBuFed3GkRDU5HYh1CQ==
+X-Received: by 2002:a05:690c:2781:b0:787:e9bc:fa1f with SMTP id
+ 00721157ae682-78a8b54d8cemr340242637b3.46.1764643833002; 
+ Mon, 01 Dec 2025 18:50:33 -0800 (PST)
+Received: from localhost ([2601:346:0:79bd:8738:665d:bba8:afd0])
+ by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-78ad1043a08sm58083027b3.52.2025.12.01.18.50.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Dec 2025 18:50:32 -0800 (PST)
+Date: Mon, 1 Dec 2025 21:50:31 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] kernel.h: drop STACK_MAGIC macro
+Message-ID: <aS5T9-1z7PK32q9R@yury>
+References: <20251129195304.204082-1-yury.norov@gmail.com>
+ <20251129195304.204082-2-yury.norov@gmail.com>
+ <3e7ddbea-978f-44f7-abdd-7319908fd83c@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: bgJkCsDw5zIHUC5pIiEGAA--.305S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7WFyxAF17Xw48Xr4UZrWkWFg_yoW8uw1xpa
- 4a9ayIkry0qa1rAwn0y3W2vFn0y3yrtF4UKw1Uuw1UCF1Ygr9rZrs3Xr1DuFyUGrWDJF4Y
- vanFgFsxAFyUA3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl
- 6s0DM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
- 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
- jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
- 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
- 6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
- IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU18sqtUUUU
- U==
-X-CM-SenderInfo: 5fkxw35dqj1xlqj6x0hvsx2hhfrp/
-tUid: 202512021033438e45b1b302bee460eaf4005e20392e3d
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
+In-Reply-To: <3e7ddbea-978f-44f7-abdd-7319908fd83c@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,77 +108,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Thomas,
+On Mon, Dec 01, 2025 at 10:38:01AM +0100, Christophe Leroy (CS GROUP) wrote:
+> 
+> 
+> Le 29/11/2025 à 20:53, Yury Norov (NVIDIA) a écrit :
+> > The macro is only used by i915. Move it to a local header and drop from
+> > the kernel.h.
+> 
+> At the begining of the git history we have:
+> 
+> $ git grep STACK_MAGIC 1da177e4c3f41
+> 1da177e4c3f41:arch/h8300/kernel/traps.c:        if (STACK_MAGIC !=
+> *(unsigned long *)((unsigned long)current+PAGE_SIZE))
+> 1da177e4c3f41:arch/m68k/mac/macints.c:          if (STACK_MAGIC !=
+> *(unsigned long *)current->kernel_stack_page)
+> 1da177e4c3f41:include/linux/kernel.h:#define STACK_MAGIC        0xdeadbeef
+> 
+> Would be good to know the history of its usage over time.
+> 
+> I see:
+> - Removed from m68k by 3cd53b14e7c4 ("m68k/mac: Improve NMI handler")
+> - Removed from h8300 by 1c4b5ecb7ea1 ("remove the h8300 architecture")
+> - Started being used in i915 selftest by 250f8c8140ac ("drm/i915/gtt:
+> Read-only pages for insert_entries on bdw+")
 
-The link to the new PR is here.
+STACK_MAGIC was added in 1994 in 1.0.2.  It was indeed used in a couple
+of places in core subsystems back then to detect stack corruption. But
+since that people invented better ways to guard stacks.
 
-https://lore.kernel.org/all/20251202022452.2636-1-chuguangqing@inspur.com/
+You can check commit 4914d770dec4 in this project:
 
-> diff --git a/drivers/gpu/drm/yhgch/yhgch_drm_vdac.c b/drivers/gpu/drm/yhgch/yhgch_drm_vdac.c
-> new file mode 100644
-> index 000000000000..2de95c887b62
-> --- /dev/null
-> +++ b/drivers/gpu/drm/yhgch/yhgch_drm_vdac.c
-> @@ -0,0 +1,137 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/io.h>
-> +
-> +#include <drm/drm_atomic_helper.h>
-> +#include <drm/drm_edid.h>
-> +#include <drm/drm_probe_helper.h>
-> +#include <drm/drm_print.h>
-> +#include <drm/drm_simple_kms_helper.h>
-> +
-> +#include "yhgch_drm_drv.h"
-> +#include "yhgch_drm_regs.h"
-> +
-> +static int yhgch_connector_get_modes(struct drm_connector *connector)
-> +{
-> +	int count;
-> +	const struct drm_edid *drm_edid;
-> +
-> +	drm_edid = drm_edid_read(connector);
-> +	if (drm_edid) {
-> +		drm_edid_connector_update(connector, drm_edid);
-> +		count =  drm_edid_connector_add_modes(connector);
-> +		drm_edid_free(drm_edid);
-> +		if (count)
-> +			goto out;
-
-Don't do the goto here. Simple call drm_edid_free().
-
-> +	} else {
-> +		drm_edid_connector_update(connector, NULL);
-> +	}
-> +
-> +	count = drm_add_modes_noedid(connector,
-> +				     connector->dev->mode_config.max_width,
-> +				     connector->dev->mode_config.max_height);
-> +	drm_set_preferred_mode(connector, 1024, 768);
-
-These two calls belong into the else branch. If you have an EDID, please 
-don't try to make up your own defaults.
-
-Answer: This is to avoid encountering the situation where the display cannot be
-read (some special displays do not have EDID).
-
-> +
-> +out:
-> +	drm_edid_free(drm_edid);
-
-This only belongs into the if branch. You also have a double free on 
-drm_edid in that case. I wonder how you did not notice.
-
-Answer: Revisions have been made in accordance with your requirements. We
-apologize for not noticing the double free issue and thank you for pointing it out.
-
-> +	return count;
-
-Returning 0 here is not a problem. DRM will try several steps to figure 
-out the display modes, and eventually fallback to defaults.
-
-Best regards
-
-Chu Guangqing
-
+https://archive.org/details/git-history-of-linux
