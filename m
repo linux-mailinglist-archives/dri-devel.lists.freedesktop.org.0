@@ -2,152 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36CD3C9A756
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 08:34:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8FF0C9A76B
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 08:36:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9349C10E54E;
-	Tue,  2 Dec 2025 07:34:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4290610E566;
+	Tue,  2 Dec 2025 07:36:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="aYkwdS2+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BU6hSf6a";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eo8KI2e6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OPGhBN0F";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OO9m1bfo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BCAE10E54E
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 07:34:20 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1ABC9336A5;
- Tue,  2 Dec 2025 07:34:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764660857; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=A/yTTBF5VOprXxxci9xgTbcFEzEJ7KqfWjDqZ7WnPq0=;
- b=aYkwdS2+5bht5Zq42Su5MCb4puTV6DUhON7FvFcHOCFBQVgS4cUzF2KLmuL3P0hYzziT1C
- WE2xI+UjURwXYmNpHDvf2BQc6TglY4SlLiUX4WXiARWLC649qAAef63owYUBFypqvFHvMe
- TvX36RvnG/Zz3/YV2zfyS2ozLSAE0t8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764660857;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=A/yTTBF5VOprXxxci9xgTbcFEzEJ7KqfWjDqZ7WnPq0=;
- b=BU6hSf6a02M1WbjOuTiMK6mb5ZosMwgBqGWL8EKU1SeoU0uuqAgi225fmL9a8B7DpYCy6Y
- tHVUDJHZ1/UsAdAQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eo8KI2e6;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=OPGhBN0F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764660855; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=A/yTTBF5VOprXxxci9xgTbcFEzEJ7KqfWjDqZ7WnPq0=;
- b=eo8KI2e6mP3fPfD4pI82lx5QaXztyPbR4lEzs1iLjIVXQidZSfkL2+45w7aYMekGvGF98x
- T0In91dwSPjFlmwgzHcmuYmHy3Ma15dSoRT2FmkXFfSWDlHnemfzz9cNoD11nvNdROFISe
- j/025ZcFlz4HQiQLoZu7b1hb03ge1/Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764660855;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=A/yTTBF5VOprXxxci9xgTbcFEzEJ7KqfWjDqZ7WnPq0=;
- b=OPGhBN0FYmesOTdiW0FJTWd2EUohb79cb0whwK5AzK09SV286eRMH+W03WHDUMzZGpRt/h
- QtEgLuaw6YM/L+Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C3DF83EA63;
- Tue,  2 Dec 2025 07:34:14 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 1TmLLnaWLmnidwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 02 Dec 2025 07:34:14 +0000
-Message-ID: <f4dfd1b4-76c0-4b88-aefb-f0536e706f96@suse.de>
-Date: Tue, 2 Dec 2025 08:34:14 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B17A810E55C;
+ Tue,  2 Dec 2025 07:36:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764660973; x=1796196973;
+ h=message-id:date:mime-version:from:to:cc:subject:
+ content-transfer-encoding;
+ bh=baMs+qwTMlTP82tUYXqH+qiq6upvNswF93Gp85GMRv4=;
+ b=OO9m1bfoX3L39nScTzk0KiftHRYuwuX3TqX2IwkPOR8HuBQCWJO8R8dz
+ /lhYsyjLB+IN1px0aEXsqqvZYJsBQp+DUVVC61KFEARVExQEPsZxbhB1d
+ Ykr3HG2GoLSd6ostQfHo2mKOMIfDsuJKc45Cum4h/oTJIGdNoDdH3GHKm
+ GsRPyRUOkbtcEHrHGf2Zs+PRUS3XjXgAw065Lyw71mnZfi/HGCKB2CS3j
+ kb3HF2VNwk+2H60dkW3SqI37BUIIBEYAsNg644ZyQtoXw1EnzsN95TiAm
+ hMLySgYyKjiE/OEsowp6UV/sRoXLxim/ldM6BDWCzZUgsdQFFMJ6Gk5B0 Q==;
+X-CSE-ConnectionGUID: +14ex74IR2CcYTLmBYD7tA==
+X-CSE-MsgGUID: rgKHquUbRRGbzS0oa9ji/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="89267730"
+X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="89267730"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2025 23:36:13 -0800
+X-CSE-ConnectionGUID: Lsg29YX8Rnm/Gw+hnagyVg==
+X-CSE-MsgGUID: gPH3HgK+SRSabRjbMSzdVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="199246662"
+Received: from inaky-mobl1.amr.corp.intel.com (HELO [10.245.244.103])
+ ([10.245.244.103])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Dec 2025 23:36:09 -0800
+Message-ID: <aa5cbd50-7676-4a59-bbed-e8428af86804@linux.intel.com>
+Date: Tue, 2 Dec 2025 08:35:58 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFX] efi: sysfb_efi: Fix simpledrmfb on Steam Deck
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Ard Biesheuvel <ardb@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- Javier Martinez Canillas <javierm@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Melissa Wen <mwen@igalia.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- Mario Limonciello <mario.limonciello@amd.com>, linux-efi@vger.kernel.org
-References: <20251128150403.11567-1-tvrtko.ursulin@igalia.com>
- <ce41c2d1-c659-4632-8469-761762202800@suse.de>
- <660c5469-086f-40b4-99f1-72c1bc613ece@igalia.com>
- <1df5a480-2510-43b9-9d79-51d842518036@suse.de>
- <b146fb1b-80e9-403c-acd1-b50ef1aaa646@igalia.com>
- <1b73df5b-5f47-4ce4-abd4-83d550cc0dea@suse.de>
- <e7c4a76e-5cef-4a75-847f-59c53a554327@igalia.com>
- <CAMj1kXFOS9jAzhh2Z_4rarEGd+kGPyNCu9PFoMhFbBVEF8NwJw@mail.gmail.com>
- <07212b84-fc2a-4efe-a39b-5b536b6dd602@igalia.com>
- <CAMj1kXH3FyhNinT3-_FqROB53p_574ft6hsoF6aGYeYkhLd+TQ@mail.gmail.com>
- <086cf4fd-6401-46ce-a55f-ea2fd96a73d1@igalia.com>
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>
+Cc: dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>, Oded Gabbay
+ <ogabbay@kernel.org>, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PULL] drm-misc-next
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <086cf4fd-6401-46ce-a55f-ea2fd96a73d1@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[11]; TO_DN_SOME(0.00)[];
- MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_TLS_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[igalia.com:email,suse.de:dkim,suse.de:mid,wikipedia.org:url,bootlin.com:url,suse.com:url,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 1ABC9336A5
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,248 +77,457 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi Dave, Simona,
 
-Am 01.12.25 um 16:43 schrieb Tvrtko Ursulin:
->
-> On 01/12/2025 15:00, Ard Biesheuvel wrote:
->> On Mon, 1 Dec 2025 at 11:33, Tvrtko Ursulin 
->> <tvrtko.ursulin@igalia.com> wrote:
->>>
->>>
->>> On 01/12/2025 10:18, Ard Biesheuvel wrote:
->>>> On Mon, 1 Dec 2025 at 11:03, Tvrtko Ursulin 
->>>> <tvrtko.ursulin@igalia.com> wrote:
->>>>>
->>>>>
->>>>> On 01/12/2025 09:39, Thomas Zimmermann wrote:
->>>>>> Hi
->>>>>>
->>>>>> Am 01.12.25 um 10:20 schrieb Tvrtko Ursulin:
->>>>>>>
->>>>>>> On 01/12/2025 07:32, Thomas Zimmermann wrote:
->>>>>>>> Hi
->>>>>>>>
->>>>>>>> Am 29.11.25 um 11:44 schrieb Tvrtko Ursulin:
->>>>>>>>>
->>>>>>>>> On 28/11/2025 17:07, Thomas Zimmermann wrote:
->>>>>>>>>> Hi,
->>>>>>>>>>
->>>>>>>>>> thanks for the bug report
->>>>>>>>>>
->>>>>>>>>> Am 28.11.25 um 16:04 schrieb Tvrtko Ursulin:
->>>>>>>>>>> I am not sure how is simpledrmfb on top of EFI supposed to 
->>>>>>>>>>> work,
->>>>>>>>>>> but at
->>>>>>>>>>> least at the moment it appears there is a missing link in the
->>>>>>>>>>> "discovery"
->>>>>>>>>>> of frame buffer parameters.
->>>>>>>>>>>
->>>>>>>>>>> What I can see is that EFI GOP reads some parameters from the
->>>>>>>>>>> firmware and
->>>>>>>>>>> infers the other, such as in this case problematic pitch, or 
->>>>>>>>>>> stride.
->>>>>>>>>>
->>>>>>>>>> The pitch/stride value comes from the firmware via
->>>>>>>>>> pixels_per_scanline [1].
->>>>>>>>>>
->>>>>>>>>> Can you verify that this value is really 800 instead of 832 (eq
->>>>>>>>>> 3328 bytes) ?
->>>>>>>>>>
->>>>>>>>>> [1] https://elixir.bootlin.com/linux/v6.17.9/source/drivers/
->>>>>>>>>> firmware/ efi/libstub/gop.c#L493
->>>>>>>>>
->>>>>>>>> I actually got confused a bit in following the flow so thank 
->>>>>>>>> you for
->>>>>>>>> asking me to double check.
->>>>>>>>>
->>>>>>>>> GOP actually reports 1280x800 with a stride of 5120. So it 
->>>>>>>>> kind of
->>>>>>>>> reports a rotated view already, kind of.
->>>>>>>>
->>>>>>>> These are correct values.
->>>>>>>>
->>>>>>>> But the stream deck is this device: [1], right? It uses landscape-
->>>>>>>> mode orientation. Why does it require rotation at all?
->>>>>>>>
->>>>>>>> [1] https://de.wikipedia.org/wiki/Steam_Deck#/media/
->>>>>>>> Datei:Steam_Deck_(front).png
->>>>>>>
->>>>>>> That's the device yes. For the user the screen is landscape, but 
->>>>>>> the
->>>>>>> actual panel is 800x1280 portrait. Left edge is top of the display.
->>>>>>> (Hence the pre-existing entry in drm_get_panel_orientation_quirk.)
->>>>>>
->>>>>> I see. So the EFI display settings are configured as if this was a
->>>>>> landscape panel.
->>>>>>
->>>>>> What happens if you leave the EFI settings as-is and simply 
->>>>>> remove the
->>>>>> panel-orientation quirk?
->>>>>
->>>>> That would create effectively the same situation as without my patch
->>>>> because the panel-orientation quirk does not trigger unless detected
->>>>> screen is 800x1280. Result is corrupted console since fbcon thinks 
->>>>> it is
->>>>> a landscape 1280x800 screen.
->>>>>>>>> Only when the rotation quirk from efifb_dmi_swap_width_height
->>>>>>>>> triggers the stride gets incorrectly recalculated:
->>>>>>>>>
->>>>>>>>>           u16 temp = screen_info.lfb_width;
->>>>>>>>>
->>>>>>>>>           screen_info.lfb_width = screen_info.lfb_height;
->>>>>>>>>           screen_info.lfb_height = temp;
->>>>>>>>>           screen_info.lfb_linelength = 4 * screen_info.lfb_width;
->>>>>>>>>
->>>>>>>>> So this is where things go wrong, well, they actually go wrong a
->>>>>>>>> little bit even earlier, in gop.c:
->>>>>>>>>
->>>>>>>>>       si->lfb_size = si->lfb_linelength * si->lfb_height;
->>>>>>>>>
->>>>>>>>> Which potentially underestimates the fb size. If GOP was forward
->>>>>>>>> looking enough to give us the size we could derive the pitch 
->>>>>>>>> based
->>>>>>>>> on size..
->>>>>>>>>
->>>>>>>>> Anyway, as it stands it looks a quirk in sysfb_apply_efi_quirks
->>>>>>>>> looks it is required to fix it all up.
->>>>>>>>>
->>>>>>>>> I am a bit uneasy about declaring the fb size larger than what 
->>>>>>>>> was
->>>>>>>>> implied by firmware provided pitch * height * depth but 
->>>>>>>>> limited to a
->>>>>>>>> specific DMI match and if it looks visually okay I think it is a
->>>>>>>>> safe assumption the quirked size is actually correct and safe.
->>>>>>>>
->>>>>>>> Yeah, we better not do that.
->>>>>>> You mean declare it a firmware bug and live with the corrupt 
->>>>>>> console
->>>>>>> until the final fb driver takes over?
->>>>>>
->>>>>> I only mean that we should not use more video memory than 
->>>>>> provided by EFI.
->>>>>
->>>>> Right, but that information is not available in the GOP, right? 
->>>>> Ie. as I
->>>>> wrote above it appears assumed:
->>>>>
->>>>>       si->lfb_size = si->lfb_linelength * si->lfb_height;
->>>>>
->>>>> Do we have any other options apart from corruption or assume firmware
->>>>> configured GOP screen info incorrectly?
->>>>>
->>>>
->>>> How does it make sense to recalculate the line length? Those invisible
->>>> pixels at the end of the scanline are not going to be transposed to
->>>> the other dimension, right?
->>>
->>> Not sure what you meant here. The line above is from gop.c and the
->>> context is that GOP screen info appears to not carry the frame buffer
->>> size in bytes so it is implied.
->>>
->>> Elsewhere in the patch I quirk the pitch to the correct value so 
->>> rotated
->>> rendering is correct.
->>>
->>> But the corrected pitch also means that in principle we need to adjust
->>> the frame buffer size, since it is larger than the size implied with 
->>> the
->>> incorrect pitch.
->>>
->>
->> OK, so if I understand all of the above correctly, you have a 800x1280
->> panel with 832 pixels per scanline, right? And the 5120 pitch is
->> simply bogus, but needed to maintain the fiction that the panel is
->> 1280 pixels wide, and so the resulting lfb_size is bogus too?
->>
->> Since we know that the PixelsPerScanline value is incorrect, I don't
->> think there is any point in attempting to cross reference this against
->> other firmware provided data. But it would make sense imho to apply
->> the quirk only if the exact combination of incorrect values (i.e.,
->> 1280x800/5120) is encountered.
->
-> Right, the whole 1280x800 mode I *think* could be "bogus", that is, 
-> some kind of a software rotated mode implemented by the firmware.
->
-> Default mode is 800x1280 (pitch 832), while this second native 
-> resolution mode is 1280x800 (pitch 1280).
->
-> If default mode is left then both simpledrmfb and efidrmfb work fine. 
-> The existing panel orientation quirk will trigger on 800x1280 and tell 
-> fbcon to rotate.
->
-> But if someone, like for example grub2, changed the mode to this 
-> software rotated one then the existing DRM quirk will not work.
+To allow weston 15 to finalize, I was asked to send another pull request to pull in the drm colorop support.
+So here's another pull request, up to the point where all drm colorop support is added!
 
-So this is a bug in grub? Should it supply the original mode?
+Kind regards,
+~Maarten Lankhorst
 
+drm-misc-next-2025-12-01-1:
+Extra drm-misc-next for v6.19-rc1:
 
-Apologies for only asking dump questions here. I find this very confusing.
+UAPI Changes:
+- Add support for drm colorop pipeline.
+- Add COLOR PIPELINE plane property.
+- Add DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE.
 
-In the correct mode 800x1280, the first native pixel should be on the 
-lower left corner. and the second pixel should be 'up form it'. And 
-because it's marked as rotated CCW, fbcon adapts correctly.
+Cross-subsystem Changes:
+- Attempt to use higher order mappings in system heap allocator.
+- Always taint kernel with sw-sync.
 
-If the display is in the bogus mode 1280x800, in which direction does it 
-draw by default?  The framebuffer's first pixel should still be in one 
-of the corners. And the second pixel is nearby. In which direction does 
-it advance?
+Core Changes:
+- Small fixes to drm/gem.
+- Support emergency restore to drm-client.
+- Allocate and release fb_info in single place.
+- Rework ttm pipelined eviction fence handling.
 
+Driver Changes:
+- Support the drm color pipeline in vkms, amdgfx.
+- Add NVJPG driver for tegra.
+- Assorted small fixes and updates to rockchip, bridge/dw-hdmi-qp,
+  panthor.
+- Add ASL CS5263 DP-to-HDMI simple bridge.
+- Add and improve support for G LD070WX3-SL01 MIPI DSI, Samsung LTL106AL0,
+  Samsung LTL106AL01, Raystar RFF500F-AWH-DNN, Winstar WF70A8SYJHLNGA,
+  Wanchanglong w552946aaa, Samsung SOFEF00, Lenovo X13s panel.
+- Add support for it66122 to it66121.
+- Support mali-G1 gpu in panthor.
+The following changes since commit ca2583412306ceda9304a7c4302fd9efbf43e963:
 
->
-> The quirk in this patch therefore proposes to correct back the mode to 
-> the default native.
->
-> You are indeed right that the criteria needs to be tweaked. In v2 I've 
-> fixed and it now looks like this:
->
-> ...
->     for (match = dmi_first_match(efifb_dmi_swap_width_height);
->          match;
->          match = dmi_first_match(match + 1)) {
->         const struct efifb_mode_fixup *data = match->driver_data;
->         u16 temp = screen_info.lfb_width;
->
->         if (!data ||
->             (data->width == screen_info.lfb_width &&
->              data->height == screen_info.lfb_height)) {
->             screen_info.lfb_width = screen_info.lfb_height;
->             screen_info.lfb_height = temp;
+  accel/amdxdna: Fix deadlock between context destroy and job timeout (2025-11-13 09:10:43 -0800)
 
-There's a swap() macro BTW. [1]
+are available in the Git repository at:
 
-[1] 
-https://elixir.bootlin.com/linux/v6.18/source/include/linux/minmax.h#L307
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-2025-12-01
 
-Best regards
-Thomas
+for you to fetch changes up to b1ea3babb67dcb8b0881c2ab49dfba88b1445856:
 
->
->             if (data && data->pitch) {
->                 screen_info.lfb_linelength = data->pitch;
->                 screen_info.lfb_size = data->pitch * data->width;
->             } else {
->                 screen_info.lfb_linelength = 4 * screen_info.lfb_width;
->             }
->         }
->     }
-> ...
->
->
-> Ie. only swap width<->height for the pre-existing quirks and the new 
-> quirk *if* it is in 1280x800.
->
-> Regards,
->
-> Tvrtko
->
+  drm/panel-edp: Add CSW MNE007QB3-1 (2025-12-01 09:47:05 -0800)
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+----------------------------------------------------------------
+Extra drm-misc-next for v6.19-rc1:
 
+UAPI Changes:
+- Add support for drm colorop pipeline.
+- Add COLOR PIPELINE plane property.
+- Add DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE.
 
+Cross-subsystem Changes:
+- Attempt to use higher order mappings in system heap allocator.
+- Always taint kernel with sw-sync.
+
+Core Changes:
+- Small fixes to drm/gem.
+- Support emergency restore to drm-client.
+- Allocate and release fb_info in single place.
+- Rework ttm pipelined eviction fence handling.
+
+Driver Changes:
+- Support the drm color pipeline in vkms, amdgfx.
+- Add NVJPG driver for tegra.
+- Assorted small fixes and updates to rockchip, bridge/dw-hdmi-qp,
+  panthor.
+- Add ASL CS5263 DP-to-HDMI simple bridge.
+- Add and improve support for G LD070WX3-SL01 MIPI DSI, Samsung LTL106AL0,
+  Samsung LTL106AL01, Raystar RFF500F-AWH-DNN, Winstar WF70A8SYJHLNGA,
+  Wanchanglong w552946aaa, Samsung SOFEF00, Lenovo X13s panel.
+- Add support for it66122 to it66121.
+- Support mali-G1 gpu in panthor.
+
+----------------------------------------------------------------
+Abhishek Rajput (1):
+      drm/panel: jadard-jd9365da-h3: Use dev_err_probe() instead of DRM_DEV_ERROR() during probing
+
+Akash Goel (1):
+      drm/panthor: Avoid adding of kernel BOs to extobj list
+
+Alex Hung (18):
+      drm/colorop: Add destroy functions for color pipeline
+      drm/colorop: define a new macro for_each_new_colorop_in_state
+      drm/amd/display: Skip color pipeline initialization for cursor plane
+      drm/amd/display: Add support for sRGB EOTF in DEGAM block
+      drm/amd/display: Add support for sRGB Inverse EOTF in SHAPER block
+      drm/amd/display: Add support for sRGB EOTF in BLND block
+      drm/colorop: Add 1D Curve Custom LUT type
+      drm/amd/display: add shaper and blend colorops for 1D Curve Custom LUT
+      drm/amd/display: add 3x4 matrix colorop
+      drm/colorop: Add multiplier type
+      drm/amd/display: add multiplier colorop
+      drm/amd/display: Swap matrix and multiplier
+      drm/colorop: Add 3D LUT support to color pipeline
+      drm/amd/display: add 3D LUT colorop
+      drm/amd/display: Ensure 3D LUT for color pipeline
+      drm/amd/display: Disable CRTC degamma when color pipeline is enabled
+      drm/colorop: Add DRM_COLOROP_1D_CURVE_GAMMA22 to 1D Curve
+      drm/amd/display: Enable support for Gamma 2.2
+
+Andy Yan (1):
+      drm/rockchip: vop2: Use OVL_LAYER_SEL configuration instead of use win_mask calculate used layers
+
+Ashley Smith (2):
+      drm/panthor: Make the timeout per-queue instead of per-job
+      drm/panthor: Reset queue slots if termination fails
+
+Barry Song (1):
+      dma-buf: system_heap: use larger contiguous mappings instead of per-page mmap
+
+Boris Brezillon (14):
+      drm/panthor: Always wait after sending a command to an AS
+      drm/panthor: Kill lock_region()
+      drm/panthor: Recover from panthor_gpu_flush_caches() failures
+      drm/panthor: Add support for atomic page table updates
+      drm/panthor: Make panthor_vm_[un]map_pages() more robust
+      drm/panthor: Relax a check in panthor_sched_pre_reset()
+      drm/panthor: Simplify group idleness tracking
+      drm/panthor: Don't try to enable extract events
+      drm/panthor: Fix the full_tick check
+      drm/panthor: Fix the group priority rotation logic
+      drm/panthor: Fix immediate ticking on a disabled tick
+      drm/panthor: Fix the logic that decides when to stop ticking
+      drm/panthor: Make sure we resume the tick when new jobs are submitted
+      drm/panthor: Kill panthor_sched_immediate_tick()
+
+Casey Connolly (2):
+      drm/panel: sofef00: Add prepare_prev_first flag to drm_panel
+      drm/panel: sofef00: Initialise at 50% brightness
+
+Chaitanya Kumar Borah (1):
+      drm: Add helper to extract lut from struct drm_color_lut32
+
+Chaoyi Chen (2):
+      dt-bindings: ili9881c: Add compatible string for Wanchanglong w552946aaa
+      drm/panel: ilitek-ili9881d: Add support for Wanchanglong W552946AAA panel
+
+Christian König (2):
+      dma-buf/sw-sync: always taint the kernel when sw-sync is used
+      dma-buf: cleanup dma_fence_describe v3
+
+Cristian Ciocaltea (7):
+      dt-bindings: display: rk3588-dw-hdmi-qp: Add frl-enable-gpios property
+      drm/rockchip: dw_hdmi_qp: Fixup usage of enable_gpio member in main struct
+      drm/rockchip: vop2: Check bpc before switching DCLK source
+      drm/bridge: dw-hdmi-qp: Handle platform supported formats and color depth
+      drm/rockchip: dw_hdmi_qp: Switch to phy_configure()
+      drm/rockchip: dw_hdmi_qp: Use bit macros for RK3576 regs
+      drm/rockchip: dw_hdmi_qp: Add high color depth support
+
+Damon Ding (1):
+      drm/rockchip: analogix_dp: Use dev_err_probe() instead of DRM_DEV_ERROR() during probing
+
+Daniel Thompson (1):
+      drm/edp-panel: Add touchscreen panel used by Lenovo X13s
+
+David Heidelberg (9):
+      dt-bindings: panel: Convert Samsung SOFEF00 DDIC into standalone yaml
+      drm/panel: sofef00: Clean up panel description after s6e3fc2x01 removal
+      drm/panel: sofef00: Handle all regulators
+      drm/panel: sofef00: Split sending commands to the enable/disable functions
+      drm/panel: sofef00: Introduce page macro
+      drm/panel: sofef00: Introduce compatible which includes the panel name
+      drm/panel: sofef00: Simplify get_modes
+      drm/panel: sofef00: Mark the LPM mode always-on
+      drm/panel: sofef00: Non-continuous mode and video burst are supported
+
+Diogo Ivo (1):
+      drm/tegra: Add NVJPG driver
+
+Dmitry Osipenko (1):
+      drm/rockchip: Set VOP for the DRM DMA device
+
+Ettore Chimenti (3):
+      dt-bindings: vendor-prefixes: Add ASL Xiamen Technology
+      dt-bindings: display: bridge: simple: document the ASL CS5263 DP-to-HDMI bridge
+      drm/bridge: simple: add ASL CS5263 DP-to-HDMI bridge
+
+Fabio Estevam (3):
+      dt-bindings: vendor-prefixes: Add Raystar Optronics, Inc
+      dt-bindings: display: simple: Add Raystar RFF500F-AWH-DNN panel
+      drm/panel: simple: Add Raystar RFF500F-AWH-DNN panel entry
+
+Harry Wentland (29):
+      drm: Add helper for conversion from signed-magnitude
+      drm/vkms: Add kunit tests for VKMS LUT handling
+      drm/doc/rfc: Describe why prescriptive color pipeline is needed
+      drm/colorop: Introduce new drm_colorop mode object
+      drm/colorop: Add TYPE property
+      drm/colorop: Add 1D Curve subtype
+      drm/colorop: Add BYPASS property
+      drm/colorop: Add NEXT property
+      drm/colorop: Add atomic state print for drm_colorop
+      drm/plane: Add COLOR PIPELINE property
+      drm/colorop: Introduce DRM_CLIENT_CAP_PLANE_COLOR_PIPELINE
+      Documentation/gpu: document drm_colorop
+      drm/vkms: Add enumerated 1D curve colorop
+      drm/vkms: Add kunit tests for linear and sRGB LUTs
+      drm/colorop: Add 3x4 CTM type
+      drm/vkms: Use s32 for internal color pipeline precision
+      drm/vkms: add 3x4 matrix in color pipeline
+      drm/tests: Add a few tests around drm_fixed.h
+      drm/vkms: Add tests for CTM handling
+      drm/colorop: pass plane_color_pipeline client cap to atomic check
+      drm/amd/display: Ignore deprecated props when plane_color_pipeline set
+      drm/amd/display: Add bypass COLOR PIPELINE
+      drm/colorop: Add PQ 125 EOTF and its inverse
+      drm/amd/display: Enable support for PQ 125 EOTF and Inverse
+      drm/colorop: add BT2020/BT709 OETF and Inverse OETF
+      drm/amd/display: Add support for BT.709 and BT.2020 TFs
+      drm/colorop: Define LUT_1D interpolation
+      drm/colorop: allow non-bypass colorops
+      drm/amd/display: Add AMD color pipeline doc
+
+Josua Mayer (3):
+      dt-bindings: display: panel: ronbo,rb070d30: panel-common ref
+      dt-bindings: panel: lvds: add Winstar WF70A8SYJHLNGA
+      drm/panel: ronbo-rb070d30: fix warning with gpio controllers that sleep
+
+Karunika Choo (8):
+      drm/panthor: Add arch-specific panthor_hw binding
+      drm/panthor: Add architecture-specific function operations
+      drm/panthor: Introduce panthor_pwr API and power control framework
+      drm/panthor: Implement L2 power on/off via PWR_CONTROL
+      drm/panthor: Implement soft reset via PWR_CONTROL
+      drm/panthor: Support GLB_REQ.STATE field for Mali-G1 GPUs
+      drm/panthor: Support 64-bit endpoint_req register for Mali-G1
+      drm/panthor: Add support for Mali-G1 GPUs
+
+Langyan Ye (1):
+      drm/panel-edp: Add CSW MNE007QB3-1
+
+Louis Chauvet (2):
+      drm/vkms: Pass plane_cfg to plane initialization
+      drm/vkms: Add config for default plane pipeline
+
+Loïc Molinari (1):
+      drm/panthor: Improve IOMMU map/unmap debugging logs
+
+Maud Spierings (2):
+      dt-bindings: display: bridge: simple: document the Parade PS185HDM DP-to-HDMI bridge
+      drm/bridge: simple: add the Parade PS185HDM DP-to-HDMI bridge
+
+Mikko Perttunen (1):
+      gpu: host1x: Syncpoint interrupt performance optimization
+
+Nishanth Menon (5):
+      dt-bindings: display: bridge: it66121: Add compatible string for IT66122
+      drm/bridge: it66121: Drop ftrace like dev_dbg() prints
+      drm/bridge: it66121: Sort the compatibles
+      drm/bridge: it66121: Use vid/pid to detect the type of chip
+      drm/bridge: it66121: Add minimal it66122 support
+
+Pierre-Eric Pelloux-Prayer (2):
+      drm/ttm: rework pipelined eviction fence handling
+      drm/amdgpu: use ttm_resource_manager_cleanup
+
+Steven Price (1):
+      drm/gem: Correct error condition in drm_gem_objects_lookup
+
+Suraj Kandpal (1):
+      drm/display/dp_mst: Add protection against 0 vcpi
+
+Svyatoslav Ryhel (6):
+      drm/tegra: dsi: Make SOL delay calculation mode independent
+      drm/tegra: dsi: Calculate packet parameters for video mode
+      dt-bindings: display: panel: properly document LG LD070WX3 panel
+      gpu/drm: panel: add support for LG LD070WX3-SL01 MIPI DSI panel
+      dt-bindings: display: panel: document Samsung LTL106AL01 simple panel
+      gpu/drm: panel: simple-panel: add Samsung LTL106AL01 LVDS panel support
+
+Thomas Zimmermann (7):
+      drm/client: Pass force parameter to client restore
+      drm/client: Support emergency restore via sysrq for all clients
+      drm/client: log: Implement struct drm_client_funcs.restore
+      drm/fb-helper: Allocate and release fb_info in single place
+      drm/ast: Move cursor format conversion into helper function
+      drm/ast: Support cursor buffers objects in I/O memory
+      drm/ast: Wrap cursor framebuffer access in drm_gem_fb_begin/end_cpu_access()
+
+Tvrtko Ursulin (2):
+      drm/gem: Use vmemdup_array_user in drm_gem_objects_lookup
+      drm/panic: Report invalid or unsupported panic modes
+
+Uma Shankar (1):
+      drm: Add Enhanced LUT precision structure
+
+ .../bindings/display/bridge/ite,it66121.yaml       |   1 +
+ .../bindings/display/bridge/simple-bridge.yaml     |   2 +
+ .../bindings/display/panel/ilitek,ili9881c.yaml    |   1 +
+ .../bindings/display/panel/lg,ld070wx3-sl01.yaml   |  60 ++
+ .../bindings/display/panel/panel-lvds.yaml         |   2 +
+ .../bindings/display/panel/panel-simple-dsi.yaml   |  27 +-
+ .../bindings/display/panel/panel-simple.yaml       |   4 +
+ .../bindings/display/panel/ronbo,rb070d30.yaml     |  14 +-
+ .../bindings/display/panel/samsung,sofef00.yaml    |  79 ++
+ .../rockchip/rockchip,rk3588-dw-hdmi-qp.yaml       |  11 +
+ .../devicetree/bindings/vendor-prefixes.yaml       |   4 +
+ Documentation/gpu/drm-kms.rst                      |  15 +
+ Documentation/gpu/rfc/color_pipeline.rst           | 378 ++++++++++
+ Documentation/gpu/rfc/index.rst                    |   3 +
+ MAINTAINERS                                        |   7 +
+ drivers/dma-buf/dma-fence.c                        |  20 +-
+ drivers/dma-buf/heaps/system_heap.c                |  33 +-
+ drivers/dma-buf/sw_sync.c                          |   4 +
+ drivers/gpu/drm/Makefile                           |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |   6 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/Makefile     |   3 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |   4 +
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.c    | 768 ++++++++++++++++++-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c  | 209 ++++++
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h  |  36 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c |  26 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    |  39 +
+ drivers/gpu/drm/armada/armada_fbdev.c              |  12 +-
+ drivers/gpu/drm/ast/ast_cursor.c                   |  83 ++-
+ drivers/gpu/drm/bridge/ite-it66121.c               |  68 +-
+ drivers/gpu/drm/bridge/simple-bridge.c             |  10 +
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c       |  11 +-
+ drivers/gpu/drm/clients/drm_fbdev_client.c         |   6 +-
+ drivers/gpu/drm/clients/drm_log.c                  |  13 +
+ drivers/gpu/drm/display/drm_dp_mst_topology.c      |   3 +-
+ drivers/gpu/drm/drm_atomic.c                       | 167 ++++-
+ drivers/gpu/drm/drm_atomic_helper.c                |  12 +
+ drivers/gpu/drm/drm_atomic_state_helper.c          |   5 +
+ drivers/gpu/drm/drm_atomic_uapi.c                  | 156 ++++
+ drivers/gpu/drm/drm_client.c                       |   1 +
+ drivers/gpu/drm/drm_client_event.c                 |   4 +-
+ drivers/gpu/drm/drm_client_sysrq.c                 |  65 ++
+ drivers/gpu/drm/drm_color_mgmt.c                   |  43 ++
+ drivers/gpu/drm/drm_colorop.c                      | 599 +++++++++++++++
+ drivers/gpu/drm/drm_connector.c                    |   1 +
+ drivers/gpu/drm/drm_crtc_internal.h                |   1 +
+ drivers/gpu/drm/drm_drv.c                          |   3 +
+ drivers/gpu/drm/drm_fb_helper.c                    | 108 +--
+ drivers/gpu/drm/drm_fbdev_dma.c                    |  12 +-
+ drivers/gpu/drm/drm_fbdev_shmem.c                  |  12 +-
+ drivers/gpu/drm/drm_fbdev_ttm.c                    |  12 +-
+ drivers/gpu/drm/drm_file.c                         |   2 +-
+ drivers/gpu/drm/drm_gem.c                          |  16 +-
+ drivers/gpu/drm/drm_internal.h                     |  11 +
+ drivers/gpu/drm/drm_ioctl.c                        |   7 +
+ drivers/gpu/drm/drm_mode_config.c                  |   7 +
+ drivers/gpu/drm/drm_mode_object.c                  |  18 +
+ drivers/gpu/drm/drm_panic.c                        |  77 +-
+ drivers/gpu/drm/drm_plane.c                        |  59 ++
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c          |   9 +-
+ drivers/gpu/drm/gma500/fbdev.c                     |  12 +-
+ drivers/gpu/drm/i915/display/intel_fbdev.c         |   9 +-
+ drivers/gpu/drm/msm/msm_fbdev.c                    |   9 +-
+ drivers/gpu/drm/omapdrm/omap_fbdev.c               |   9 +-
+ drivers/gpu/drm/panel/Kconfig                      |  20 +-
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-edp.c                  |   2 +
+ drivers/gpu/drm/panel/panel-ilitek-ili9881c.c      | 225 ++++++
+ drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c   |  21 +-
+ drivers/gpu/drm/panel/panel-lg-ld070wx3.c          | 184 +++++
+ drivers/gpu/drm/panel/panel-ronbo-rb070d30.c       |   8 +-
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c      | 105 ++-
+ drivers/gpu/drm/panel/panel-simple.c               |  92 ++-
+ drivers/gpu/drm/panthor/Makefile                   |   1 +
+ drivers/gpu/drm/panthor/panthor_device.c           |  18 +-
+ drivers/gpu/drm/panthor/panthor_device.h           |   8 +
+ drivers/gpu/drm/panthor/panthor_fw.c               | 131 +++-
+ drivers/gpu/drm/panthor/panthor_fw.h               |  32 +-
+ drivers/gpu/drm/panthor/panthor_gem.c              |   6 +-
+ drivers/gpu/drm/panthor/panthor_gpu.c              |  31 +-
+ drivers/gpu/drm/panthor/panthor_gpu.h              |   1 +
+ drivers/gpu/drm/panthor/panthor_hw.c               | 107 ++-
+ drivers/gpu/drm/panthor/panthor_hw.h               |  47 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c              | 297 ++++----
+ drivers/gpu/drm/panthor/panthor_pwr.c              | 549 ++++++++++++++
+ drivers/gpu/drm/panthor/panthor_pwr.h              |  23 +
+ drivers/gpu/drm/panthor/panthor_regs.h             |  79 ++
+ drivers/gpu/drm/panthor/panthor_sched.c            | 509 ++++++++-----
+ drivers/gpu/drm/radeon/radeon_fbdev.c              |  13 +-
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    |  31 +-
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c     | 120 ++-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c        |   3 +
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |  56 +-
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c       |  49 +-
+ drivers/gpu/drm/tegra/Makefile                     |   1 +
+ drivers/gpu/drm/tegra/drm.c                        |   2 +
+ drivers/gpu/drm/tegra/drm.h                        |   1 +
+ drivers/gpu/drm/tegra/dsi.c                        |  59 +-
+ drivers/gpu/drm/tegra/fbdev.c                      |   9 +-
+ drivers/gpu/drm/tegra/nvjpg.c                      | 330 +++++++++
+ drivers/gpu/drm/tests/Makefile                     |   3 +-
+ drivers/gpu/drm/tests/drm_fixp_test.c              |  71 ++
+ drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c   |  11 +-
+ drivers/gpu/drm/ttm/tests/ttm_resource_test.c      |   5 +-
+ drivers/gpu/drm/ttm/ttm_bo.c                       |  47 +-
+ drivers/gpu/drm/ttm/ttm_bo_util.c                  |  38 +-
+ drivers/gpu/drm/ttm/ttm_resource.c                 |  31 +-
+ drivers/gpu/drm/vkms/Makefile                      |   4 +-
+ drivers/gpu/drm/vkms/tests/Makefile                |   3 +-
+ drivers/gpu/drm/vkms/tests/vkms_color_test.c       | 414 +++++++++++
+ drivers/gpu/drm/vkms/tests/vkms_config_test.c      |  47 +-
+ drivers/gpu/drm/vkms/vkms_colorop.c                | 120 +++
+ drivers/gpu/drm/vkms/vkms_composer.c               | 135 +++-
+ drivers/gpu/drm/vkms/vkms_composer.h               |  28 +
+ drivers/gpu/drm/vkms/vkms_config.c                 |   7 +-
+ drivers/gpu/drm/vkms/vkms_config.h                 |  28 +-
+ drivers/gpu/drm/vkms/vkms_drv.c                    |   8 +-
+ drivers/gpu/drm/vkms/vkms_drv.h                    |  12 +-
+ drivers/gpu/drm/vkms/vkms_luts.c                   | 811 +++++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_luts.h                   |  12 +
+ drivers/gpu/drm/vkms/vkms_output.c                 |   6 +-
+ drivers/gpu/drm/vkms/vkms_plane.c                  |   9 +-
+ drivers/gpu/host1x/dev.c                           |   9 +
+ drivers/gpu/host1x/dev.h                           |   3 +
+ drivers/gpu/host1x/hw/intr_hw.c                    |  56 +-
+ include/drm/bridge/dw_hdmi_qp.h                    |   4 +
+ include/drm/drm_atomic.h                           | 111 +++
+ include/drm/drm_atomic_uapi.h                      |   3 +
+ include/drm/drm_client.h                           |   8 +-
+ include/drm/drm_client_event.h                     |   4 +-
+ include/drm/drm_color_mgmt.h                       |  29 +
+ include/drm/drm_colorop.h                          | 464 ++++++++++++
+ include/drm/drm_device.h                           |   8 +
+ include/drm/drm_fb_helper.h                        |  20 +-
+ include/drm/drm_file.h                             |   7 +
+ include/drm/drm_fixed.h                            |  17 +
+ include/drm/drm_mode_config.h                      |  18 +
+ include/drm/drm_plane.h                            |  19 +
+ include/drm/ttm/ttm_resource.h                     |  29 +-
+ include/uapi/drm/amdgpu_drm.h                      |   9 -
+ include/uapi/drm/drm.h                             |  15 +
+ include/uapi/drm/drm_mode.h                        | 134 ++++
+ 142 files changed, 8315 insertions(+), 1085 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/lg,ld070wx3-sl01.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/panel/samsung,sofef00.yaml
+ create mode 100644 Documentation/gpu/rfc/color_pipeline.rst
+ create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+ create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
+ create mode 100644 drivers/gpu/drm/drm_client_sysrq.c
+ create mode 100644 drivers/gpu/drm/drm_colorop.c
+ create mode 100644 drivers/gpu/drm/panel/panel-lg-ld070wx3.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.c
+ create mode 100644 drivers/gpu/drm/panthor/panthor_pwr.h
+ create mode 100644 drivers/gpu/drm/tegra/nvjpg.c
+ create mode 100644 drivers/gpu/drm/tests/drm_fixp_test.c
+ create mode 100644 drivers/gpu/drm/vkms/tests/vkms_color_test.c
+ create mode 100644 drivers/gpu/drm/vkms/vkms_colorop.c
+ create mode 100644 drivers/gpu/drm/vkms/vkms_composer.h
+ create mode 100644 drivers/gpu/drm/vkms/vkms_luts.c
+ create mode 100644 drivers/gpu/drm/vkms/vkms_luts.h
+ create mode 100644 include/drm/drm_colorop.h
