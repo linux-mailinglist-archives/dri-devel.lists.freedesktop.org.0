@@ -2,68 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BBC2C9E272
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 09:11:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739D2C9C528
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 18:02:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 317E910E00C;
-	Wed,  3 Dec 2025 08:11:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 415F310E68B;
+	Tue,  2 Dec 2025 17:02:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dWv77qX9";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="l6h9Q867";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KqqljGty";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bzSTlnox";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UR6C5y+q";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2599710E68B
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 17:02:26 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-b79af62d36bso431875066b.3
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 09:02:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764694945; x=1765299745; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=myTLFLpLAlmFspa46GVYPcd280vbe7QCCYuudd6nzhY=;
- b=dWv77qX9hf1j7BR9W2dIMD2sOqlbyygJClgcyVqP/bNk+bchjuM8P/LfFW1bbdtXUY
- H9cvqla5pj1iWCZAnNSxpEmWVrqgJ4cBgaiW52oQQrH/N8VlIoDX+ka4I/LgJGiksapy
- +9e+8k6BzL7Syr5cXEPD/PPkwyoqDrKX5khWaKWnCGBB08IeJt1nR5uLJd0nNmPqkwMX
- cy4qVkDU1Er3qvHAWSIJLDECLaqjjMzsMPyvGrA19sABbR2Ig/v3m+3o2/9+8EWmTapW
- 7WD+Af1YDHauMFNkwt3u3MremFZBFcfwLQ9VzZvSq5q7t6hFlpOBsVpYCXgwql6SL/lS
- xSNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764694945; x=1765299745;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=myTLFLpLAlmFspa46GVYPcd280vbe7QCCYuudd6nzhY=;
- b=nRgM4Kqqq3Y1mdV8uV5PFEUXchHnF+mZ9EHnHrj+VY7Vi95CH15OxdCKvPbdM21d4W
- L7DyNF/Hro2pPpL7SFbzB7LhRHO2SpNyBWjhuBuaKOkx87+g7vFI5R/doxzuVZiEc+sL
- i7hEmGs92cbfbocPaMtKfbDXkHB/kYBkJEokWyRT6EgNAh2DiBYNX7/0zfhaXOQAlr4m
- SgP/J62qJtwDc1olvfi0L63fJR578fq70NXqNj8AeTiZkIH04F75ETqFUUbD8ruqZzhl
- x9obv+TleKOxYbiydRTBVWKRATNVQRFknZNRqJ6CXWV4s7nQQ+q37brLZ8BraOxaBDim
- ce7A==
-X-Gm-Message-State: AOJu0YwnMAn8H4KDyJus/o7LTEODtipr+HahD7Dq8KvxFwOd6R47arzQ
- phfvT7iux6E2YP8oQEokVlJHEPl4UWo6xmv56P/M1wGkFmgPupDpAaX7+6GE5/aEtBU/bs/iGJh
- dQPKOZP9uOZWFbAOkq6bBJQRz1yH2ZBE=
-X-Gm-Gg: ASbGncteIl+deWb2r/4XP7sd7JxwLEa+lZfkXNuWwgwcruWgTNmBhIhrZPNo6bhhiPv
- egPforMqkcA89v+vr5zRxyfRboTcGxxmT3LbgzFujHlUMX7dttGDaI/f9vx40SLBYi4ZbzOyNz6
- gAkk4RkbcFJbltVrskLzVCc90XQKNaLfUiqiliU5JMMcMwLSxtgy1qqPbQqLeZKeF6JcQNktwn9
- yy+bnW70aWvrBDhChr4h5ymBsFHMUm7ayQEKFjTS872mupni0//Yu09RdUfeTmRmY+Hp4QRVDPl
- enmwRmos0CMbJJgXxAeaO2gSmeI=
-X-Google-Smtp-Source: AGHT+IE/PTWNy1q5xhx5/0yhcOfBwkkcqTd+YRzkXSn1ca/dbvTbJwPrZqnWeQhE6Ga01tymOdRsUZNuu01gW3q8KmY=
-X-Received: by 2002:a17:906:d54e:b0:b76:5ef6:3b73 with SMTP id
- a640c23a62f3a-b76c54b9c6dmr3064419666b.23.1764694944249; Tue, 02 Dec 2025
- 09:02:24 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 361BF10E68B
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 17:02:24 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 4977E5BCC4;
+ Tue,  2 Dec 2025 17:02:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1764694941; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MPg36pMYV+ZlZFypdkt5dxinKCPo9KgGiXnuPEqz4c8=;
+ b=l6h9Q867e0n75cjVLor19PtCfS2Vr26xD81k9Kdr3ErWYQkIlkP19yJJt4dWfpC9ZZkbmU
+ 0RyQBZiSBUj4m9RybjMQl4BzN9P7EMJNt+EG4CEC+UBhg4YgNzy997FBkXczq9GA88QkPZ
+ 2Gw6nucmODK6hK+GdZSYqtyi22hKQe8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1764694941;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MPg36pMYV+ZlZFypdkt5dxinKCPo9KgGiXnuPEqz4c8=;
+ b=KqqljGtySiLEoHSBZ9EYs3SnSpHPDwfgIXGTHlL3Ue1TvkezRKgyZ120xfmxHZJCBoemti
+ lAjqg5NBq+2CWEAQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bzSTlnox;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UR6C5y+q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1764694940; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MPg36pMYV+ZlZFypdkt5dxinKCPo9KgGiXnuPEqz4c8=;
+ b=bzSTlnoxzmjYVux5sMvTzxILGPoEXFkyA6wN6vMg4e3gIHMsSOZRHZCrsqJTRBWMZQKOVS
+ 8rXm6FbHVOVakk6getKct8d46DSVOGIGSl19xcVIEMu6T5sjgPEO2EcepjfuIMRynYI/G1
+ wW3N9J4pEJlvc4EEt5PPwbYHeB2uETE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1764694940;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=MPg36pMYV+ZlZFypdkt5dxinKCPo9KgGiXnuPEqz4c8=;
+ b=UR6C5y+qg/C97ZM1FMxav0sspqzdxy15jMPOq44WMHJbIEVRoMXeh4cPB60rvzVc73Mkb8
+ 5UMa2HSeK/34ciDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 14B453EA63;
+ Tue,  2 Dec 2025 17:02:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id LPEtA5wbL2kjAwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 02 Dec 2025 17:02:20 +0000
+Message-ID: <91dc7eae-b337-4900-8655-e977bad410e3@suse.de>
+Date: Tue, 2 Dec 2025 18:02:19 +0100
 MIME-Version: 1.0
-From: Tommy Lee <undertakelift@gmail.com>
-Date: Tue, 2 Dec 2025 09:02:11 -0800
-X-Gm-Features: AWmQ_bkJi_REpo9gv9AUX-3oOKZAGnjC4NS5ktf_FnBaCLSXigfIWyCwYjO0gKc
-Message-ID: <CACdF58_ZzgwpwuRkmtriPVC81cnoU3T2Ep2Q1fL=2WpcBR5N6g@mail.gmail.com>
-Subject: Re: [PATCH] accel/ivpu: Fix warning due to undefined CONFIG_PROC_FS
-To: karol.wachowski@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org, jeff.hugo@oss.qualcomm.com, 
- lizhi.hou@amd.com, maciej.falkowski@linux.intel.com, oded.gabbay@gmail.com
-Content-Type: multipart/alternative; boundary="00000000000049f9100644fb0f08"
-X-Mailman-Approved-At: Wed, 03 Dec 2025 08:11:25 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] drm/gem-dma: revert the 8-byte alignment constraint
+To: Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251126-lcd_pitch_alignment-v1-0-991610a1e369@microchip.com>
+ <20251126-lcd_pitch_alignment-v1-1-991610a1e369@microchip.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20251126-lcd_pitch_alignment-v1-1-991610a1e369@microchip.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TO_DN_SOME(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[microchip.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ MID_RHS_MATCH_FROM(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_SEVEN(0.00)[7];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,suse.com:url,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,microchip.com:email];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 4977E5BCC4
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,16 +152,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000049f9100644fb0f08
-Content-Type: text/plain; charset="UTF-8"
 
-Good morning to you,I been working solo on this but I did a little
-adjustment to make this work and if affects anything of your work please be
-mindful and you can change it back to your settings to however you like
 
---00000000000049f9100644fb0f08
-Content-Type: text/html; charset="UTF-8"
+Am 26.11.25 um 15:44 schrieb Ludovic Desroches:
+> Using drm_mode_size_dumb() to compute the size of dumb buffers introduced
+> an 8-byte alignment constraint on the pitch that wasn’t present before.
+> Let’s remove this constraint, which isn’t necessarily required and may
+> cause buffers to be allocated larger than needed.
+>
+> Signed-off-by: Ludovic Desroches <ludovic.desroches@microchip.com>
 
-<div dir="auto">Good morning to you,I been working solo on this but I did a little adjustment to make this work and if affects anything of your work please be mindful and you can change it back to your settings to however you like</div>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
---00000000000049f9100644fb0f08--
+Fixes: dcacfcd35cef ("drm/gem-dma: Compute dumb-buffer sizes with 
+drm_mode_size_dumb()")
+
+
+> ---
+>   drivers/gpu/drm/drm_gem_dma_helper.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/drm_gem_dma_helper.c b/drivers/gpu/drm/drm_gem_dma_helper.c
+> index 12d8307997a0a90a9b5c0469bd742130fa6722d5..eb56ba2347966040a3c7fd27e09c8b81bc797daa 100644
+> --- a/drivers/gpu/drm/drm_gem_dma_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_dma_helper.c
+> @@ -308,7 +308,7 @@ int drm_gem_dma_dumb_create(struct drm_file *file_priv,
+>   	struct drm_gem_dma_object *dma_obj;
+>   	int ret;
+>   
+> -	ret = drm_mode_size_dumb(drm, args, SZ_8, 0);
+> +	ret = drm_mode_size_dumb(drm, args, 0, 0);
+>   	if (ret)
+>   		return ret;
+>   
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
