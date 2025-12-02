@@ -2,95 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347EBC9B49C
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 12:19:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F19C9B4AE
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 12:20:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 184B910E629;
-	Tue,  2 Dec 2025 11:19:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 804AD10E630;
+	Tue,  2 Dec 2025 11:20:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bi/POMSi";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OHoIZMr/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
- [209.85.218.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 533C510E638
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 11:19:09 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id
- a640c23a62f3a-b75c7cb722aso774219666b.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 03:19:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764674348; x=1765279148; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=AFKm5TgCbXMywR9ztCslk4pzbDCGqU8JaRErdSAZu5w=;
- b=bi/POMSixBHaLFFp6QI644ym8Ysp4cu2aamve9RBRVc2NJKA7gccC/NOvEi4XSCD2Z
- mU82rXTMhtHJiACebsiIOBwwQnv790xmKQuYLTsCb4e9kDRgPsKds2Zp4jaDgAaeDZns
- PzAKMJVoaP+twhqhSJtBBtTl4nc1TyDb7LwvfTsHup/8/IYRzrODy3/yX1sXM7L1Mb2h
- dxAyVCcHphC+BzUfQLl9HrmWwhcSVS3kOl4n6Zpx0sV57Anlu05Cz4emz1ekdnu2jGtL
- 5ywfgOc8P8j+vrzIsAoiqxIg1dkkeQghpuwbnzS4GQMMrhNivDK4J8pXx36kp9hOPDW7
- HvBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764674348; x=1765279148;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=AFKm5TgCbXMywR9ztCslk4pzbDCGqU8JaRErdSAZu5w=;
- b=hvRKgM//5BC4nCmWJbdY9uEb5CFNaQVJ0NvX/G9s+ldRdYKxYZb033gl6NaH2TS2Jf
- aHEWSYw/3i9EkLeYXuMNgRagVkfGDP2Mb7mXLPWUsTiwlGsn+/bEUveh4OPODYQZulBh
- NR8ICbUaZxDfcIBuvX1AiBG3NnkDHygEY9/fbh4Ti8VgpnksQCqCx+F8gTr1QIuj4Tq5
- QzNZWdbssJrlIQ1Tw9I5if1tq2sVDGkR0Hz2epN6E0PH6RKmmEkxz9i1QKoNvKYrWO98
- 8GNBWQxTrsCJBSmblP4ld4MiUKeTlUYyfGkBmhhmcGnLnz5K7Tlmofg9q+8OyYrEcnPJ
- +chA==
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF3C010E624
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 11:20:48 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 9E439442CA
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 11:20:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AEB1C19424
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 11:20:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764674448;
+ bh=u5CoxZ0LesDoWjJf/IeExTfqTihhxCSE6algBWh9d+s=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=OHoIZMr/sKdM8jt7HGeaUnOARyfxMDY9ulFzNjeW/5A5sKZSX3yfNHNiHSpvdPjfA
+ PL8G1EB1sYYzEc66H8WgxRcar+nDfk59/+pPtI2PiOmXpBVXxu8iFt61VAk/kgg+Xi
+ 0bAlPFY6f7fQtgWKmn92uinC915rCmO4t4vr+KPY4hypxTzWr4baXoimkI+/J6D/3y
+ vMhBKWShik2I+PAyS3qn4ivrtKClOkwROFarAiH+I9rdL8IsxTBh6OauncX/vUI0GB
+ tnX4PwcvqWYp2jLN3mLn0Kqu04nNR8JCEKiQtTCbt6wzU8wIGsDTP/u8s1XVoo8JRq
+ prj8ul1uF7eqw==
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-37b95f87d64so46098021fa.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 03:20:48 -0800 (PST)
 X-Forwarded-Encrypted: i=1;
- AJvYcCUfIbTe3stVubFZdLv01p0nBaZtUei85N84LvGW3P5WRWsTFre+lK86Q0NFCsfAcXg613OY85BWIrU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy0PD7wWpHh273US62P8S08e5JHhh65L5SHO5Tl+JFymcQfaZds
- gqtvmF09g75CkEohjMFRoKrasjDIKNE58u0cqiWq5AhZpYuDuTha/q66
-X-Gm-Gg: ASbGncvNo4x7/72tYaSOCQRIMsdG1c/QyRqChdrx40a29bPw76Nr6FleN5gpZPEkDv0
- QWeMB2Rox7McIq+PF23aUIXFwTBz54eYX0D6JbYjcPErqCHAt5qIatD3Uz5bJ6NmKio6poBoTaR
- FOmr7PdI/yqGmnrdRlwaUYMihuy+g6vVm/vOdCmMKv040ZSu1tsHcpBRrfwLdieTYXRatsBd8dc
- 7IMWJHSfRFiXGEb8jFZuSxYBlX+lzZhbNet20S9qwNQzvyp9oKJogVAjOI62RTVrswqSlNjIrpF
- 6gglXuKses2edie91l5E9Me4EsMa/X619pGS7ok8RNvMydpG2bHLwNc1dA6FWCh/152JL69ihkl
- 3x5cQ1I2TQNiMplqczZtHq197+lfvSsSPAiqU8PD/Q7d+DBRoFzw1T8JFXHWxz5fkIAnO3NOxot
- c8Eyy4PSsXKiQBc5ygmGjxt3lH0BsmuWKanXhwsv3+eK67RQLLNw==
-X-Google-Smtp-Source: AGHT+IHY9Fm4775G9TVCUUeZO3LX6VYmaVn80vEWW1L95jQOyW7g8hXV8wnuSO7FTN6GjpPobn6rDw==
-X-Received: by 2002:a17:907:9289:b0:b73:5a8b:c9af with SMTP id
- a640c23a62f3a-b767184bcafmr4940716066b.42.1764674347634; 
- Tue, 02 Dec 2025 03:19:07 -0800 (PST)
-Received: from [10.251.131.228] (93-44-9-97.ip94.fastwebnet.it. [93.44.9.97])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-b76f59a695esm1464431066b.33.2025.12.02.03.19.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Dec 2025 03:19:07 -0800 (PST)
-Message-ID: <cd607656-90d3-4821-98ea-4dad48288fc9@gmail.com>
-Date: Tue, 2 Dec 2025 12:19:04 +0100
+ AJvYcCUjUiv1QFl+fYWfyzZFToFT5ki89rDm4QaMIcKugtdULrpfbSGWe11A1a9EJt2IXHL7Rbt1ct+wvjU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyt8v75zO8s4x+7z5lXDeTRQ+jlKLvcVgRk37gcT3VbkBZpkp4Y
+ YSRyuR9Ar6oTbjx2aTZWaAXes2ADwCBGnUm/vH0j995wtQb3bANGvOOJPR2WcClicFrmpltRdvD
+ SJte9TSzJETYqiuHaXGrvD0fL/8aV0/o=
+X-Google-Smtp-Source: AGHT+IGN5ArDw6mC4+FGXAIuibrw7XR5/8A1yxM3ReGUTlB7eFb2p2HM7WNjFKX8MdLVYyjhd1CKNiQBRwGJDCZa99M=
+X-Received: by 2002:a05:651c:31cd:b0:367:5a84:bc98 with SMTP id
+ 38308e7fff4ca-37d07892b0amr79611901fa.30.1764674446667; Tue, 02 Dec 2025
+ 03:20:46 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: ignore PLL_UNLOCK errors
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- =?UTF-8?Q?Jo=C3=A3o_Paulo_Gon=C3=A7alves?=
- <jpaulo.silvagoncalves@gmail.com>, Francesco Dolcini <francesco@dolcini.it>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Philippe Schenker <philippe.schenker@impulsing.ch>,
- Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, =?UTF-8?Q?Herv=C3=A9_Codina?=
- <herve.codina@bootlin.com>
-References: <20251127-drm-ti-sn65dsi83-ignore-pll-unlock-v1-1-8a03fdf562e9@bootlin.com>
-Content-Language: en-US
-From: Emanuele Ghidoli <ghidoliemanuele@gmail.com>
-In-Reply-To: <20251127-drm-ti-sn65dsi83-ignore-pll-unlock-v1-1-8a03fdf562e9@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20251128150403.11567-1-tvrtko.ursulin@igalia.com>
+ <ce41c2d1-c659-4632-8469-761762202800@suse.de>
+ <660c5469-086f-40b4-99f1-72c1bc613ece@igalia.com>
+ <1df5a480-2510-43b9-9d79-51d842518036@suse.de>
+ <b146fb1b-80e9-403c-acd1-b50ef1aaa646@igalia.com>
+ <1b73df5b-5f47-4ce4-abd4-83d550cc0dea@suse.de>
+ <e7c4a76e-5cef-4a75-847f-59c53a554327@igalia.com>
+ <CAMj1kXFOS9jAzhh2Z_4rarEGd+kGPyNCu9PFoMhFbBVEF8NwJw@mail.gmail.com>
+ <07212b84-fc2a-4efe-a39b-5b536b6dd602@igalia.com>
+ <CAMj1kXH3FyhNinT3-_FqROB53p_574ft6hsoF6aGYeYkhLd+TQ@mail.gmail.com>
+ <086cf4fd-6401-46ce-a55f-ea2fd96a73d1@igalia.com>
+ <f4dfd1b4-76c0-4b88-aefb-f0536e706f96@suse.de>
+ <74e89e3b-b237-424c-a5cb-f4b3e026b61f@igalia.com>
+ <CAMj1kXEGNOUkM0HC1GODDO7e33aRmLi71GLDefeEE7Pb=F1ZtQ@mail.gmail.com>
+ <91719464-81cf-4bbb-96c4-378df53cfaff@igalia.com>
+In-Reply-To: <91719464-81cf-4bbb-96c4-378df53cfaff@igalia.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Tue, 2 Dec 2025 12:20:34 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGwE=zXwk6toMZ_w89vJD05PttDArC5NNx6Y6YCJ_UEgQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bl2keadLEwLjZOQo5Lls9YXW7E6b7csdB0R6mZGZk6OyzSYmVu-do44iDs
+Message-ID: <CAMj1kXGwE=zXwk6toMZ_w89vJD05PttDArC5NNx6Y6YCJ_UEgQ@mail.gmail.com>
+Subject: Re: [RFX] efi: sysfb_efi: Fix simpledrmfb on Steam Deck
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ kernel-dev@igalia.com, Javier Martinez Canillas <javierm@redhat.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Melissa Wen <mwen@igalia.com>, Rodrigo Siqueira <siqueira@igalia.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>, linux-efi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,95 +88,233 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 2 Dec 2025 at 12:17, Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
+>
+>
+> On 02/12/2025 10:56, Ard Biesheuvel wrote:
+> > On Tue, 2 Dec 2025 at 11:44, Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
+> >>
+> >>
+> >> On 02/12/2025 07:34, Thomas Zimmermann wrote:
+> >>> Hi
+> >>>
+> >>> Am 01.12.25 um 16:43 schrieb Tvrtko Ursulin:
+> >>>>
+> >>>> On 01/12/2025 15:00, Ard Biesheuvel wrote:
+> >>>>> On Mon, 1 Dec 2025 at 11:33, Tvrtko Ursulin
+> >>>>> <tvrtko.ursulin@igalia.com> wrote:
+> >>>>>>
+> >>>>>>
+> >>>>>> On 01/12/2025 10:18, Ard Biesheuvel wrote:
+> >>>>>>> On Mon, 1 Dec 2025 at 11:03, Tvrtko Ursulin
+> >>>>>>> <tvrtko.ursulin@igalia.com> wrote:
+> >>>>>>>>
+> >>>>>>>>
+> >>>>>>>> On 01/12/2025 09:39, Thomas Zimmermann wrote:
+> >>>>>>>>> Hi
+> >>>>>>>>>
+> >>>>>>>>> Am 01.12.25 um 10:20 schrieb Tvrtko Ursulin:
+> >>>>>>>>>>
+> >>>>>>>>>> On 01/12/2025 07:32, Thomas Zimmermann wrote:
+> >>>>>>>>>>> Hi
+> >>>>>>>>>>>
+> >>>>>>>>>>> Am 29.11.25 um 11:44 schrieb Tvrtko Ursulin:
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> On 28/11/2025 17:07, Thomas Zimmermann wrote:
+> >>>>>>>>>>>>> Hi,
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> thanks for the bug report
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> Am 28.11.25 um 16:04 schrieb Tvrtko Ursulin:
+> >>>>>>>>>>>>>> I am not sure how is simpledrmfb on top of EFI supposed to
+> >>>>>>>>>>>>>> work,
+> >>>>>>>>>>>>>> but at
+> >>>>>>>>>>>>>> least at the moment it appears there is a missing link in the
+> >>>>>>>>>>>>>> "discovery"
+> >>>>>>>>>>>>>> of frame buffer parameters.
+> >>>>>>>>>>>>>>
+> >>>>>>>>>>>>>> What I can see is that EFI GOP reads some parameters from the
+> >>>>>>>>>>>>>> firmware and
+> >>>>>>>>>>>>>> infers the other, such as in this case problematic pitch, or
+> >>>>>>>>>>>>>> stride.
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> The pitch/stride value comes from the firmware via
+> >>>>>>>>>>>>> pixels_per_scanline [1].
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> Can you verify that this value is really 800 instead of 832 (eq
+> >>>>>>>>>>>>> 3328 bytes) ?
+> >>>>>>>>>>>>>
+> >>>>>>>>>>>>> [1] https://elixir.bootlin.com/linux/v6.17.9/source/drivers/
+> >>>>>>>>>>>>> firmware/ efi/libstub/gop.c#L493
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> I actually got confused a bit in following the flow so thank
+> >>>>>>>>>>>> you for
+> >>>>>>>>>>>> asking me to double check.
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> GOP actually reports 1280x800 with a stride of 5120. So it
+> >>>>>>>>>>>> kind of
+> >>>>>>>>>>>> reports a rotated view already, kind of.
+> >>>>>>>>>>>
+> >>>>>>>>>>> These are correct values.
+> >>>>>>>>>>>
+> >>>>>>>>>>> But the stream deck is this device: [1], right? It uses landscape-
+> >>>>>>>>>>> mode orientation. Why does it require rotation at all?
+> >>>>>>>>>>>
+> >>>>>>>>>>> [1] https://de.wikipedia.org/wiki/Steam_Deck#/media/
+> >>>>>>>>>>> Datei:Steam_Deck_(front).png
+> >>>>>>>>>>
+> >>>>>>>>>> That's the device yes. For the user the screen is landscape, but
+> >>>>>>>>>> the
+> >>>>>>>>>> actual panel is 800x1280 portrait. Left edge is top of the display.
+> >>>>>>>>>> (Hence the pre-existing entry in drm_get_panel_orientation_quirk.)
+> >>>>>>>>>
+> >>>>>>>>> I see. So the EFI display settings are configured as if this was a
+> >>>>>>>>> landscape panel.
+> >>>>>>>>>
+> >>>>>>>>> What happens if you leave the EFI settings as-is and simply
+> >>>>>>>>> remove the
+> >>>>>>>>> panel-orientation quirk?
+> >>>>>>>>
+> >>>>>>>> That would create effectively the same situation as without my patch
+> >>>>>>>> because the panel-orientation quirk does not trigger unless detected
+> >>>>>>>> screen is 800x1280. Result is corrupted console since fbcon thinks
+> >>>>>>>> it is
+> >>>>>>>> a landscape 1280x800 screen.
+> >>>>>>>>>>>> Only when the rotation quirk from efifb_dmi_swap_width_height
+> >>>>>>>>>>>> triggers the stride gets incorrectly recalculated:
+> >>>>>>>>>>>>
+> >>>>>>>>>>>>            u16 temp = screen_info.lfb_width;
+> >>>>>>>>>>>>
+> >>>>>>>>>>>>            screen_info.lfb_width = screen_info.lfb_height;
+> >>>>>>>>>>>>            screen_info.lfb_height = temp;
+> >>>>>>>>>>>>            screen_info.lfb_linelength = 4 * screen_info.lfb_width;
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> So this is where things go wrong, well, they actually go wrong a
+> >>>>>>>>>>>> little bit even earlier, in gop.c:
+> >>>>>>>>>>>>
+> >>>>>>>>>>>>        si->lfb_size = si->lfb_linelength * si->lfb_height;
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> Which potentially underestimates the fb size. If GOP was forward
+> >>>>>>>>>>>> looking enough to give us the size we could derive the pitch
+> >>>>>>>>>>>> based
+> >>>>>>>>>>>> on size..
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> Anyway, as it stands it looks a quirk in sysfb_apply_efi_quirks
+> >>>>>>>>>>>> looks it is required to fix it all up.
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> I am a bit uneasy about declaring the fb size larger than what
+> >>>>>>>>>>>> was
+> >>>>>>>>>>>> implied by firmware provided pitch * height * depth but
+> >>>>>>>>>>>> limited to a
+> >>>>>>>>>>>> specific DMI match and if it looks visually okay I think it is a
+> >>>>>>>>>>>> safe assumption the quirked size is actually correct and safe.
+> >>>>>>>>>>>
+> >>>>>>>>>>> Yeah, we better not do that.
+> >>>>>>>>>> You mean declare it a firmware bug and live with the corrupt
+> >>>>>>>>>> console
+> >>>>>>>>>> until the final fb driver takes over?
+> >>>>>>>>>
+> >>>>>>>>> I only mean that we should not use more video memory than
+> >>>>>>>>> provided by EFI.
+> >>>>>>>>
+> >>>>>>>> Right, but that information is not available in the GOP, right?
+> >>>>>>>> Ie. as I
+> >>>>>>>> wrote above it appears assumed:
+> >>>>>>>>
+> >>>>>>>>        si->lfb_size = si->lfb_linelength * si->lfb_height;
+> >>>>>>>>
+> >>>>>>>> Do we have any other options apart from corruption or assume firmware
+> >>>>>>>> configured GOP screen info incorrectly?
+> >>>>>>>>
+> >>>>>>>
+> >>>>>>> How does it make sense to recalculate the line length? Those invisible
+> >>>>>>> pixels at the end of the scanline are not going to be transposed to
+> >>>>>>> the other dimension, right?
+> >>>>>>
+> >>>>>> Not sure what you meant here. The line above is from gop.c and the
+> >>>>>> context is that GOP screen info appears to not carry the frame buffer
+> >>>>>> size in bytes so it is implied.
+> >>>>>>
+> >>>>>> Elsewhere in the patch I quirk the pitch to the correct value so
+> >>>>>> rotated
+> >>>>>> rendering is correct.
+> >>>>>>
+> >>>>>> But the corrected pitch also means that in principle we need to adjust
+> >>>>>> the frame buffer size, since it is larger than the size implied with
+> >>>>>> the
+> >>>>>> incorrect pitch.
+> >>>>>>
+> >>>>>
+> >>>>> OK, so if I understand all of the above correctly, you have a 800x1280
+> >>>>> panel with 832 pixels per scanline, right? And the 5120 pitch is
+> >>>>> simply bogus, but needed to maintain the fiction that the panel is
+> >>>>> 1280 pixels wide, and so the resulting lfb_size is bogus too?
+> >>>>>
+> >>>>> Since we know that the PixelsPerScanline value is incorrect, I don't
+> >>>>> think there is any point in attempting to cross reference this against
+> >>>>> other firmware provided data. But it would make sense imho to apply
+> >>>>> the quirk only if the exact combination of incorrect values (i.e.,
+> >>>>> 1280x800/5120) is encountered.
+> >>>>
+> >>>> Right, the whole 1280x800 mode I *think* could be "bogus", that is,
+> >>>> some kind of a software rotated mode implemented by the firmware.
+> >>>>
+> >>>> Default mode is 800x1280 (pitch 832), while this second native
+> >>>> resolution mode is 1280x800 (pitch 1280).
+> >>>>
+> >>>> If default mode is left then both simpledrmfb and efidrmfb work fine.
+> >>>> The existing panel orientation quirk will trigger on 800x1280 and tell
+> >>>> fbcon to rotate.
+> >>>>
+> >>>> But if someone, like for example grub2, changed the mode to this
+> >>>> software rotated one then the existing DRM quirk will not work.
+> >>>
+> >>> So this is a bug in grub? Should it supply the original mode?
+> >>>
+> >>>
+> >>> Apologies for only asking dump questions here. I find this very confusing.
+> >>
+> >> Not at all, it is complicated and open whether it is worth improving.
+> >>
+> >> I don't think it is a grub bug. To me it seems like an unfortunate
+> >> consequence of protocol limitations.
+> >>
+> >>> In the correct mode 800x1280, the first native pixel should be on the
+> >>> lower left corner. and the second pixel should be 'up form it'. And
+> >>> because it's marked as rotated CCW, fbcon adapts correctly.
+> >>>
+> >>> If the display is in the bogus mode 1280x800, in which direction does it
+> >>> draw by default?  The framebuffer's first pixel should still be in one
+> >>> of the corners. And the second pixel is nearby. In which direction does
+> >>> it advance?
+> >>
+> >> I am not a grub expert, but I had a brief look at its codebase, and
+> >> AFAICT it draws by software rendering into a shadow frame buffer and
+> >> calls GOP->Blit to update the screen.
+> >>
+> >> As such my assumption is that with the fake 1280x800 mode, firmware
+> >> implements the blit to rotate under the hood.
+> >>
+> >> So for grub everything is fine. It sets 1280x800, sees 1280x800, renders
+> >> the menu in there, and courtesy of firmware blit the menu is presented
+> >> in the human friendly orientation.
+> >>
+> >
+> > Indeed - GRUB never draws into the EFI GOP linear frame buffer
+> > directly, and this seems to be what makes it work in this case.
+> >
+> > Could you boot with video=efifb:list on the kernel command line to see
+> > how the GOP modes are reported? I suppose the bug here is that the
+> > mode in question is not reported with PixelFormat==PixelBltOnly as it
+> > should be.
+>
+> No problem, I had this info already and the 1280x800 mode has the same
+> pixel format as all the rest - PIXEL_BGR_RESERVED_8BIT_PER_COLOR.
+>
+> If it was set to PIXEL_BLT_ONLY, there would be no screen info set up,
+> right? So neither simpledrmfb or efidrmfb, or even legacy efifb, would
+> probe ie. there would be no fbcon until amdgpu loads?
+>
 
-
-On 27/11/2025 09:42, Luca Ceresoli wrote:
-> On hardware based on Toradex Verdin AM62 the recovery mechanism added by
-> commit ad5c6ecef27e ("drm: bridge: ti-sn65dsi83: Add error recovery
-> mechanism") has been reported [0] to make the display turn on and off and
-> and the kernel logging "Unexpected link status 0x01".
-> 
-> According to the report, the error recovery mechanism is triggered by the
-> PLL_UNLOCK error going active. Analysis suggested the board is unable to
-> provide the correct DSI clock neede by the SN65DSI84, to which the TI
-> SN65DSI84 reacts by raising the PLL_UNLOCK, while the display still works
-> apparently without issues.
-> 
-> On other hardware, where all the clocks are within the components
-> specifications, the PLL_UNLOCK bit does not trigger while the display is in
-> normal use. It can trigger for e.g. electromagnetic interference, which is
-> a transient event and exactly the reason why the error recovery mechanism
-> has been implemented.
-> 
-> Idelly the PLL_UNLOCK bit could be ignored when working out of
-> specification, but this requires to detect in software whether it triggers
-> because the device is working out of specification but visually correctly
-> for the user or for good reasons (e.g. EMI, or even because working out of
-> specifications but compromising the visual output).
-> 
-> The ongoing analysis as of this writing [1][2] has not yet found a way for
-> the driver to discriminate among the two cases. So as a temporary measure
-> mask the PLL_UNLOCK error bit unconditionally.
-> 
-> [0] https://lore.kernel.org/r/bhkn6hley4xrol5o3ytn343h4unkwsr26p6s6ltcwexnrsjsdx@mgkdf6ztow42
-> [1] https://lore.kernel.org/all/b71e941c-fc8a-4ac1-9407-0fe7df73b412@gmail.com/
-> [2] https://lore.kernel.org/all/20251125103900.31750-1-francesco@dolcini.it/
-> 
-> Closes: https://lore.kernel.org/r/bhkn6hley4xrol5o3ytn343h4unkwsr26p6s6ltcwexnrsjsdx@mgkdf6ztow42
-> Cc: stable@vger.kernel.org # 6.15+
-> Co-developed-by: Hervé Codina <herve.codina@bootlin.com>
-> Signed-off-by: Hervé Codina <herve.codina@bootlin.com>
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
-> Francesco, Emanuele, João: can you please apply this patch and report
-> whether the display on the affected boards gets back to working as before?
-> 
-> Cc: João Paulo Gonçalves <jpaulo.silvagoncalves@gmail.com>
-> Cc: Francesco Dolcini <francesco@dolcini.it>
-> Cc: Emanuele Ghidoli <ghidoliemanuele@gmail.com>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> index 033c44326552..fffb47b62f43 100644
-> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> @@ -429,7 +429,14 @@ static void sn65dsi83_handle_errors(struct sn65dsi83 *ctx)
->  	 */
->  
->  	ret = regmap_read(ctx->regmap, REG_IRQ_STAT, &irq_stat);
-> -	if (ret || irq_stat) {
-> +
-> +	/*
-> +	 * Some hardware (Toradex Verdin AM62) is known to report the
-> +	 * PLL_UNLOCK error interrupt while working without visible
-> +	 * problems. In lack of a reliable way to discriminate such cases
-> +	 * from user-visible PLL_UNLOCK cases, ignore that bit entirely.
-> +	 */
-> +	if (ret || irq_stat & ~REG_IRQ_STAT_CHA_PLL_UNLOCK) {
->  		/*
->  		 * IRQ acknowledged is not always possible (the bridge can be in
->  		 * a state where it doesn't answer anymore). To prevent an
-> @@ -654,7 +661,7 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
->  	if (ctx->irq) {
->  		/* Enable irq to detect errors */
->  		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, REG_IRQ_GLOBAL_IRQ_EN);
-> -		regmap_write(ctx->regmap, REG_IRQ_EN, 0xff);
-> +		regmap_write(ctx->regmap, REG_IRQ_EN, 0xff & ~REG_IRQ_EN_CHA_PLL_UNLOCK_EN);
->  	} else {
->  		/* Use the polling task */
->  		sn65dsi83_monitor_start(ctx);
-> 
-> ---
-> base-commit: c884ee70b15a8d63184d7c1e02eba99676a6fcf7
-> change-id: 20251126-drm-ti-sn65dsi83-ignore-pll-unlock-4a28aa29eb5c
-> 
-> Best regards,
-
-Well,
-I would suggest a couple of tags, thanks.
-Emanuele
-
-Fixes: ad5c6ecef27e ("drm: bridge: ti-sn65dsi83: Add error recovery mechanism")
-Reported-by: João Paulo Gonçalves <joao.goncalves@toradex.com>
+No, but we could make the EFI stub switch to a different mode if the
+active mode is BltOnly.
