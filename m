@@ -2,142 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8DE9C9CB0F
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 19:54:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA8FC9CBA2
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 20:09:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A4E510E6A8;
-	Tue,  2 Dec 2025 18:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5570410E68E;
+	Tue,  2 Dec 2025 19:09:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ALp3ckUU";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SM7jn6mC";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="irJU6IPS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81F2D10E679
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 18:54:16 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5B2GXZja3714842
- for <dri-devel@lists.freedesktop.org>; Tue, 2 Dec 2025 18:54:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- hNXN76wd6N8myVw7+8PtjIAlo29BoY5GwXZPUkKU7n8=; b=ALp3ckUUHlsHUsdj
- Rd1Y+DpvI04kJ61unC51UMChiu0za2yA1ERP2mFmpDlUkoUiv5Vkks9h/CAxDv9Z
- Bb7RoRwwVX+a6QISn3k0Z1JCKio3aOivY+iGtWSAmE08Q3s2ujuWAEHzaP/NQU+2
- dzv8cX+a3SvOBmV8IGTalQwjsryIcQIDYu9TtvWGjOPikNZFGHlFJge2hfayX6lw
- hUyvHmcvErgD8FQTJsufNfgdCcpHiT2M9Wn3zNF/Of4N/1XTOhcZ1ARD/mlkD2ca
- I2NzufK2phGwtwEvWTnN5K5ew29QZwaV79xx/wktR8/AQv1heEN1uoiH7Q3QOY8j
- ao4/hA==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4at3r20edn-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 18:54:15 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id
- d9443c01a7336-297e5a18652so62641725ad.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 10:54:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1764701655; x=1765306455;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=hNXN76wd6N8myVw7+8PtjIAlo29BoY5GwXZPUkKU7n8=;
- b=SM7jn6mCjphdve+IdERKVZUA6Iha8Uf5GRSxmbtZoszylUZMacgnH/3ktDfqFQdXYu
- O5EtvnRGH3NI4gIPKL6e8t0CE3SgW/deL0mVq5NdCm8EPhn+8nv6C3/JX425l/fL84Xs
- Y9MBCeiaQAJt2Q3uzrtJI4KIcFloEGWC2jVNFfFkuCt5ICz7+J4/C7uvGh0u36mJsS7+
- EQQncJh4rPh9Ps1oIzUUGg+zXYGdwPQGhJksL1YGmRF4qVLUlL0Mcts8uUBhrcJUlEzC
- HhebC2N/YaoVTKCCkPeOD+PhzdbMQumrRKooNsCC2hPDZVDtotWLQcza1wryCEQkSAGU
- +76g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764701655; x=1765306455;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=hNXN76wd6N8myVw7+8PtjIAlo29BoY5GwXZPUkKU7n8=;
- b=nCAUThIqhXGIXtQeZWwe6S3d5AKn1sjw73cyDQLcwaKYkS3A+hYHkoYErRNN7C6u4m
- FhsXSymKHCiqfSuyhz0wajhN3t6w5aGF8H0dUhJItb/iIyQJQtCA3cBr8z7fKW0DVffr
- 08t3SJVhnvxwuvbIVuhD4OvrxJIv+SSSkHc/YopgQWLN/bB1obo+qBScEUTbHsCoLvaF
- 0cLZct/nDdJkD4gzZXikO5flEaGj3iH/Katmov+MKk8TQLhnyhvoznBPAdKWDnNtXzPR
- qAqAZ2KUQGLG+YhMXPuyuvEQaXcNr2RFOiSUrmR6UcoCFuzku4XttmPI7YOE9fpN4T1a
- 15+A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUjP4Rltg7hS9SznLlzueIva1sfu30TMsEMaZ/A/GnTQxsDcL/CDOrBeYm3n7ijNNjMKKBC2wwLnGQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxR+2v+9KQUqJWy/n1mY4ynCu1Vs+7MLnmbqFFEf3feOpT0fNsM
- z8KoS2AocwFclJr72b1d/CdaTr6kAGvV3WGepG3u6kegfN5ak09D3ODtHH3y2a3eSykRTjn/NsS
- gmABoi85I31/4v1AxlpqRhGEouTXIqeEI4pAaiEiRYuKDUsVipXHFRgjZQfCYNolUwjbP9n8=
-X-Gm-Gg: ASbGncuN3y7S0EpEMu48vfxcpzeBfwoo12PYc2tkYov7a7fg8mwOiMrk54c8etzrK7n
- psfEaVLQ/GBx07JwJZkvsBmn5tpN3LR3p+U/NBulI07P7B5c98F6W1na4QqbPtaxeD7gp85Lpfx
- M8lHefxPyX81RmO8PmTDUpO2JkBltpnfl/Ahoj3//kDpnVL/I/ZyS8Tqjq6slp9Vy9QePbB5swC
- APKIcVUVh+eRQIKuN0uC/TaFh8PzOiOtsAhj08i5JmzhPu7npWnNpFUljW967RwDOJZS9riiBlf
- cq5IMUNMDHB62qfXi7Bo2c3iDdlJ4F1Gvq2upD0HOdpK4t0+Ts+w1c+6YcvDOQw0E6It18MNOxU
- 51BgZS8uKtmJYh2Wt+CrMGmRYlCe13zZbSw/98QczQquRTN4uQecHUIh2
-X-Received: by 2002:a17:902:cf4a:b0:299:fc47:d7e3 with SMTP id
- d9443c01a7336-29d65dcf153mr3194965ad.31.1764701654701; 
- Tue, 02 Dec 2025 10:54:14 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGJ/RzWsFhuxc2+iwjgFwfUTjpK4qX1voFjw3XyGlKEHTYHR3nxGS9zclRDNjBfyGa0y30Nkg==
-X-Received: by 2002:a17:902:cf4a:b0:299:fc47:d7e3 with SMTP id
- d9443c01a7336-29d65dcf153mr3194655ad.31.1764701654151; 
- Tue, 02 Dec 2025 10:54:14 -0800 (PST)
-Received: from [10.73.112.168] (pat_11.qualcomm.com. [192.35.156.11])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29bd96307ebsm136616815ad.36.2025.12.02.10.54.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Dec 2025 10:54:13 -0800 (PST)
-Message-ID: <cb5cfffe-dbba-4da2-ac1f-de4a9a31f057@oss.qualcomm.com>
-Date: Tue, 2 Dec 2025 10:54:12 -0800
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4608310E68E
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 19:09:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1764702565; x=1765307365; i=deller@gmx.de;
+ bh=A1e7guE1xlN/gI6ot+gw4o0j13PhWp4YDpGVxkdgmIY=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=irJU6IPSSXa3qoTw98puCGQUQ6GztIawzszEXairnaribemieaKPMTFtJVN/V4B0
+ ySKGRiJ+e6ZY7J3b38Od2EquSF/XY5VzbUz4wVp9hkklgkjjzn8YAUlIx24RfXwlp
+ /TUyIr553ATFaAuAozpsOuia+IENrLoW2bfnzOfjMcgzd/AWnIWndjwqqNN3QIb/s
+ GuIT9p9wn0FlPmqn9CWoycZriS0VWOvdO0PQkg6jT0uT7W/I+Hy7KfRCCe4YI/5bV
+ lJ42golLQnirGoyLKywPlQY3Qxl9OtBDrzvYz6Wbs1LNqzn43vOwcPQY6uPqJw7Zm
+ Yxq9RJ/o06wVUYky4g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([109.250.50.47]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MVvPD-1vXyNM24pB-00JurL; Tue, 02
+ Dec 2025 20:09:25 +0100
+Message-ID: <3fd9bee7-f256-45c9-89a1-32f661769965@gmx.de>
+Date: Tue, 2 Dec 2025 20:09:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] bus: mhi: Fix broken runtime PM design
-To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
- Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>
-Cc: mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
- ath12k@lists.infradead.org, netdev@vger.kernel.org,
- quic_vbadigan@quicinc.com, vivek.pernamitta@oss.qualcomm.com
-References: <20251201-mhi_runtimepm-v1-0-fab94399ca75@oss.qualcomm.com>
- <20251201-mhi_runtimepm-v1-4-fab94399ca75@oss.qualcomm.com>
- <2dc234d3-3bb4-4d6e-810a-e7197174769f@oss.qualcomm.com>
- <8872ac78-38de-4b1d-a0f5-9f171cc9f42c@oss.qualcomm.com>
+Subject: Re: [PATCH] fbdev/tridentfb: replace printk() with dev_*() in probe
+To: Javier Garcia <rampxxxx@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, shuah@kernel.org
+References: <20251115125701.3228804-1-rampxxxx@gmail.com>
 Content-Language: en-US
-From: Mayank Rana <mayank.rana@oss.qualcomm.com>
-In-Reply-To: <8872ac78-38de-4b1d-a0f5-9f171cc9f42c@oss.qualcomm.com>
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ xsFNBF3Ia3MBEAD3nmWzMgQByYAWnb9cNqspnkb2GLVKzhoH2QD4eRpyDLA/3smlClbeKkWT
+ HLnjgkbPFDmcmCz5V0Wv1mKYRClAHPCIBIJgyICqqUZo2qGmKstUx3pFAiztlXBANpRECgwJ
+ r+8w6mkccOM9GhoPU0vMaD/UVJcJQzvrxVHO8EHS36aUkjKd6cOpdVbCt3qx8cEhCmaFEO6u
+ CL+k5AZQoABbFQEBocZE1/lSYzaHkcHrjn4cQjc3CffXnUVYwlo8EYOtAHgMDC39s9a7S90L
+ 69l6G73lYBD/Br5lnDPlG6dKfGFZZpQ1h8/x+Qz366Ojfq9MuuRJg7ZQpe6foiOtqwKym/zV
+ dVvSdOOc5sHSpfwu5+BVAAyBd6hw4NddlAQUjHSRs3zJ9OfrEx2d3mIfXZ7+pMhZ7qX0Axlq
+ Lq+B5cfLpzkPAgKn11tfXFxP+hcPHIts0bnDz4EEp+HraW+oRCH2m57Y9zhcJTOJaLw4YpTY
+ GRUlF076vZ2Hz/xMEvIJddRGId7UXZgH9a32NDf+BUjWEZvFt1wFSW1r7zb7oGCwZMy2LI/G
+ aHQv/N0NeFMd28z+deyxd0k1CGefHJuJcOJDVtcE1rGQ43aDhWSpXvXKDj42vFD2We6uIo9D
+ 1VNre2+uAxFzqqf026H6cH8hin9Vnx7p3uq3Dka/Y/qmRFnKVQARAQABzRxIZWxnZSBEZWxs
+ ZXIgPGRlbGxlckBnbXguZGU+wsGRBBMBCAA7AhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheA
+ FiEERUSCKCzZENvvPSX4Pl89BKeiRgMFAl3J1zsCGQEACgkQPl89BKeiRgNK7xAAg6kJTPje
+ uBm9PJTUxXaoaLJFXbYdSPfXhqX/BI9Xi2VzhwC2nSmizdFbeobQBTtRIz5LPhjk95t11q0s
+ uP5htzNISPpwxiYZGKrNnXfcPlziI2bUtlz4ke34cLK6MIl1kbS0/kJBxhiXyvyTWk2JmkMi
+ REjR84lCMAoJd1OM9XGFOg94BT5aLlEKFcld9qj7B4UFpma8RbRUpUWdo0omAEgrnhaKJwV8
+ qt0ULaF/kyP5qbI8iA2PAvIjq73dA4LNKdMFPG7Rw8yITQ1Vi0DlDgDT2RLvKxEQC0o3C6O4
+ iQq7qamsThLK0JSDRdLDnq6Phv+Yahd7sDMYuk3gIdoyczRkXzncWAYq7XTWl7nZYBVXG1D8
+ gkdclsnHzEKpTQIzn/rGyZshsjL4pxVUIpw/vdfx8oNRLKj7iduf11g2kFP71e9v2PP94ik3
+ Xi9oszP+fP770J0B8QM8w745BrcQm41SsILjArK+5mMHrYhM4ZFN7aipK3UXDNs3vjN+t0zi
+ qErzlrxXtsX4J6nqjs/mF9frVkpv7OTAzj7pjFHv0Bu8pRm4AyW6Y5/H6jOup6nkJdP/AFDu
+ 5ImdlA0jhr3iLk9s9WnjBUHyMYu+HD7qR3yhX6uWxg2oB2FWVMRLXbPEt2hRGq09rVQS7DBy
+ dbZgPwou7pD8MTfQhGmDJFKm2jvOwU0EXchrcwEQAOsDQjdtPeaRt8EP2pc8tG+g9eiiX9Sh
+ rX87SLSeKF6uHpEJ3VbhafIU6A7hy7RcIJnQz0hEUdXjH774B8YD3JKnAtfAyuIU2/rOGa/v
+ UN4BY6U6TVIOv9piVQByBthGQh4YHhePSKtPzK9Pv/6rd8H3IWnJK/dXiUDQllkedrENXrZp
+ eLUjhyp94ooo9XqRl44YqlsrSUh+BzW7wqwfmu26UjmAzIZYVCPCq5IjD96QrhLf6naY6En3
+ ++tqCAWPkqKvWfRdXPOz4GK08uhcBp3jZHTVkcbo5qahVpv8Y8mzOvSIAxnIjb+cklVxjyY9
+ dVlrhfKiK5L+zA2fWUreVBqLs1SjfHm5OGuQ2qqzVcMYJGH/uisJn22VXB1c48yYyGv2HUN5
+ lC1JHQUV9734I5cczA2Gfo27nTHy3zANj4hy+s/q1adzvn7hMokU7OehwKrNXafFfwWVK3OG
+ 1dSjWtgIv5KJi1XZk5TV6JlPZSqj4D8pUwIx3KSp0cD7xTEZATRfc47Yc+cyKcXG034tNEAc
+ xZNTR1kMi9njdxc1wzM9T6pspTtA0vuD3ee94Dg+nDrH1As24uwfFLguiILPzpl0kLaPYYgB
+ wumlL2nGcB6RVRRFMiAS5uOTEk+sJ/tRiQwO3K8vmaECaNJRfJC7weH+jww1Dzo0f1TP6rUa
+ fTBRABEBAAHCwXYEGAEIACAWIQRFRIIoLNkQ2+89Jfg+Xz0Ep6JGAwUCXchrcwIbDAAKCRA+
+ Xz0Ep6JGAxtdEAC54NQMBwjUNqBNCMsh6WrwQwbg9tkJw718QHPw43gKFSxFIYzdBzD/YMPH
+ l+2fFiefvmI4uNDjlyCITGSM+T6b8cA7YAKvZhzJyJSS7pRzsIKGjhk7zADL1+PJei9p9idy
+ RbmFKo0dAL+ac0t/EZULHGPuIiavWLgwYLVoUEBwz86ZtEtVmDmEsj8ryWw75ZIarNDhV74s
+ BdM2ffUJk3+vWe25BPcJiaZkTuFt+xt2CdbvpZv3IPrEkp9GAKof2hHdFCRKMtgxBo8Kao6p
+ Ws/Vv68FusAi94ySuZT3fp1xGWWf5+1jX4ylC//w0Rj85QihTpA2MylORUNFvH0MRJx4mlFk
+ XN6G+5jIIJhG46LUucQ28+VyEDNcGL3tarnkw8ngEhAbnvMJ2RTx8vGh7PssKaGzAUmNNZiG
+ MB4mPKqvDZ02j1wp7vthQcOEg08z1+XHXb8ZZKST7yTVa5P89JymGE8CBGdQaAXnqYK3/yWf
+ FwRDcGV6nxanxZGKEkSHHOm8jHwvQWvPP73pvuPBEPtKGLzbgd7OOcGZWtq2hNC6cRtsRdDx
+ 4TAGMCz4j238m+2mdbdhRh3iBnWT5yPFfnv/2IjFAk+sdix1Mrr+LIDF++kiekeq0yUpDdc4
+ ExBy2xf6dd+tuFFBp3/VDN4U0UfG4QJ2fg19zE5Z8dS4jGIbLg==
+In-Reply-To: <20251115125701.3228804-1-rampxxxx@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: 18yd-GdJYyZ0YqaDsUMXA3z7lz9_Pepq
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAyMDE0OSBTYWx0ZWRfX89UsTdDzfCZT
- EIbAqGL5J5YRdaa3r+HXKSl3mcXaIUBBCQqwDfChMcbxIGhh+oD8ZhTB5sb338xE2+BDRrLRTYj
- HRTlt/jRRjrcodBhIDvVHNhAeCRnTojWFWT3/GdtUsXBRVwV05PNbEF5/DPNcracGUeWnSiE9A3
- 16USgay5ZrI0yNyjRbfB5qRgg96qCTdKKALQ1ftzXLKw2Npqbu2AJrApPeUN50rV81O8nE+tSEa
- DuonhTN2ZGyl15XlXNklU57Les/SKr3u+ojuiAViJntXOGij3+sdYcIhG9m0BA0ue4dl1rBYI52
- lSJSjRYqrrIA5foKqyCSydPoFrApv2ZK2XuSISEJyVK/AZ13aRnXA7TLCxB3bLgS2lygavMf8CY
- XATKEKM6CxnoG2XgKO8ydRT5JPjoZw==
-X-Proofpoint-GUID: 18yd-GdJYyZ0YqaDsUMXA3z7lz9_Pepq
-X-Authority-Analysis: v=2.4 cv=c+WmgB9l c=1 sm=1 tr=0 ts=692f35d7 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=PkJSjolnkn3GvNMOFesA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-01_01,2025-11-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 phishscore=0 bulkscore=0 impostorscore=0
- malwarescore=0 suspectscore=0 spamscore=0 clxscore=1015 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512020149
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:umfci4bNAgMLUqYaNW3sOhC7eR1z8/ZyUowzy4AhWbxKdj0R9YV
+ Dcp6b0l7FKgwiQ4SwqSvbsHuYjNbbJri4n/btZN7vhAjyZ1rIuNDgtCDck0qI+R64qrrEMg
+ +S9bj61BF2G9VEDGtg7ehyssiku5XRpYzgBBT49uScNRD9hGDiLItHX7GWBp7/fAT0wADIG
+ KI/ogYRPS4XM5PlC2uXAQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:PHBr2COXjuo=;A8Qf9EB0lAG7bfqigN5yRssW4Ma
+ 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,236 +183,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 11/15/25 13:57, Javier Garcia wrote:
+> - Replace in `trident_pc_probe()` printk by dev_* fn's
+> - Delete the prefix `tridentfb:` from msg strings, not needed now.
+>=20
+> Signed-off-by: Javier Garcia <rampxxxx@gmail.com>
+> ---
+>   drivers/video/fbdev/tridentfb.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
+applied.
 
-On 12/1/2025 9:26 PM, Krishna Chaitanya Chundru wrote:
-> 
-> 
-> On 12/2/2025 12:03 AM, Mayank Rana wrote:
->> Hi Krishna
->>
->> On 12/1/2025 4:43 AM, Krishna Chaitanya Chundru wrote:
->>> The current MHI runtime PM design is flawed, as the MHI core attempts to
->>> manage power references internally via mhi_queue() and related paths.
->>> This is problematic because the controller drivers do not have the
->>> knowledge of the client PM status due to the broken PM topology. So when
->>> they runtime suspend the controller, the client drivers could no longer
->>> function.
->>>
->>> To address this, in the new design, the client drivers reports their own
->>> runtime PM status now and the PM framework makes sure that the parent
->>> (controller driver) and other components up in the chain remain active.
->>> This leverages the standard parent-child PM relationship.
->>>
->>> Since MHI creates a mhi_dev device without an associated driver, we
->>> explicitly enable runtime PM on it and mark it with
->>> pm_runtime_no_callbacks() to indicate the PM core that no callbacks
->>> exist for this device. This is only needed for MHI controller, since
->>> the controller driver uses the bus device just like PCI device.
->>>
->>> Also Update the MHI core to explicitly manage runtime PM references in
->>> __mhi_device_get_sync() and mhi_device_put() to ensure the controller
->>> does not enter suspend while a client device is active.
->> Why does this needed here ?
->> Isn't it MHI client driver take care of allowing suspend ?
->> Do you think we should remove mhi_device_get_sync() and 
->> mhi_device_put() API interfaces as well ? And let controller/client 
->> driver takes care of calling get/sync directly ?
-> These API's not only  do runtime_get & put but as also do wake_get & 
-> wake_put which make sure endpoint also doesn't go M1 state.
-ok here we are doing 2 different devices based pm runtime API usage in 
-this core MHI driver.
-1. mhi_cntrl->dev
-2. mhi_cntrl->mhi_dev->dev
-
-Those are seperate devices, and here we are mixing those usage.
-Is it correct or I am seeing differently ?
-
-Regards,
-Mayank
-
->>
->> How are you handling cases for M0 and M3 suspend ?
->> Do we need to tie runtime usage with M0 (pm_runtime_get) and M3 
->> (pm_runtime_put) ?
-> M3 are controlled by the controller driver, they usually do it as part 
-> of their runtime suspend
-> and M0 as part of runtime resume.
- > once the mhi driver gives pm_runtime_put() then only controller can go
- > keep MHI in M3.
- > So we can't tie MHI states pm_runtime_get/put.
-Ok sounds good.
->>
->> Regards,
->> Mayank
->>
->>> Signed-off-by: Krishna Chaitanya Chundru 
->>> <krishna.chundru@oss.qualcomm.com>
->>> ---
->>>   drivers/bus/mhi/host/internal.h |  6 +++---
->>>   drivers/bus/mhi/host/main.c     | 28 ++++------------------------
->>>   drivers/bus/mhi/host/pm.c       | 18 ++++++++----------
->>>   3 files changed, 15 insertions(+), 37 deletions(-)
->>>
->>> diff --git a/drivers/bus/mhi/host/internal.h b/drivers/bus/mhi/host/ 
->>> internal.h
->>> index 
->>> 61e03298e898e6dd02d2a977cddc4c87b21e3a6c..d6a3168bb3ecc34eab1036c0e74f8d70cf422fed 100644
->>> --- a/drivers/bus/mhi/host/internal.h
->>> +++ b/drivers/bus/mhi/host/internal.h
->>> @@ -355,9 +355,9 @@ static inline bool mhi_is_active(struct 
->>> mhi_controller *mhi_cntrl)
->>>   static inline void mhi_trigger_resume(struct mhi_controller 
->>> *mhi_cntrl)
->>>   {
->>>       pm_wakeup_event(&mhi_cntrl->mhi_dev->dev, 0);
->>> -    pm_runtime_get(mhi_cntrl->cntrl_dev);
->>> -    pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->>> -    pm_runtime_put(mhi_cntrl->cntrl_dev);
->>> +    pm_runtime_get(&mhi_cntrl->mhi_dev->dev);
->>> + pm_runtime_mark_last_busy(&mhi_cntrl->mhi_dev->dev);
->>> +    pm_runtime_put(&mhi_cntrl->mhi_dev->dev);
->>>   }
->>>     /* Register access methods */
->>> diff --git a/drivers/bus/mhi/host/main.c b/drivers/bus/mhi/host/main.c
->>> index 
->>> 7ac1162a0a81ae11245a2bbd9bf6fd6c0f86fbc1..85a9a5a62a6d3f92b0e9dc35b13fd867db89dd95 100644
->>> --- a/drivers/bus/mhi/host/main.c
->>> +++ b/drivers/bus/mhi/host/main.c
->>> @@ -427,6 +427,8 @@ void mhi_create_devices(struct mhi_controller 
->>> *mhi_cntrl)
->>>           if (ret)
->>>               put_device(&mhi_dev->dev);
->>>       }
->>> + pm_runtime_no_callbacks(&mhi_cntrl->mhi_dev->dev);
->>> + devm_pm_runtime_set_active_enabled(&mhi_cntrl->mhi_dev->dev);
->>>   }
->>>     irqreturn_t mhi_irq_handler(int irq_number, void *dev)
->>> @@ -658,12 +660,8 @@ static int parse_xfer_event(struct 
->>> mhi_controller *mhi_cntrl,
->>>               /* notify client */
->>>               mhi_chan->xfer_cb(mhi_chan->mhi_dev, &result);
->>>   -            if (mhi_chan->dir == DMA_TO_DEVICE) {
->>> +            if (mhi_chan->dir == DMA_TO_DEVICE)
->>>                   atomic_dec(&mhi_cntrl->pending_pkts);
->>> -                /* Release the reference got from mhi_queue() */
->>> - pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->>> -                pm_runtime_put(mhi_cntrl->cntrl_dev);
->>> -            }
->>>                 /*
->>>                * Recycle the buffer if buffer is pre-allocated,
->>> @@ -1152,12 +1150,6 @@ static int mhi_queue(struct mhi_device 
->>> *mhi_dev, struct mhi_buf_info *buf_info,
->>>         read_lock_irqsave(&mhi_cntrl->pm_lock, flags);
->>>   -    /* Packet is queued, take a usage ref to exit M3 if necessary
->>> -     * for host->device buffer, balanced put is done on buffer 
->>> completion
->>> -     * for device->host buffer, balanced put is after ringing the DB
->>> -     */
->>> -    pm_runtime_get(mhi_cntrl->cntrl_dev);
->>> -
->>>       /* Assert dev_wake (to exit/prevent M1/M2)*/
->>>       mhi_cntrl->wake_toggle(mhi_cntrl);
->>>   @@ -1167,11 +1159,6 @@ static int mhi_queue(struct mhi_device 
->>> *mhi_dev, struct mhi_buf_info *buf_info,
->>>       if (likely(MHI_DB_ACCESS_VALID(mhi_cntrl)))
->>>           mhi_ring_chan_db(mhi_cntrl, mhi_chan);
->>>   -    if (dir == DMA_FROM_DEVICE) {
->>> -        pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->>> -        pm_runtime_put(mhi_cntrl->cntrl_dev);
->>> -    }
->>> -
->>>       read_unlock_irqrestore(&mhi_cntrl->pm_lock, flags);
->>>         return ret;
->>> @@ -1377,7 +1364,6 @@ static int mhi_update_channel_state(struct 
->>> mhi_controller *mhi_cntrl,
->>>       ret = mhi_device_get_sync(mhi_cntrl->mhi_dev);
->>>       if (ret)
->>>           return ret;
->>> -    pm_runtime_get(mhi_cntrl->cntrl_dev);
->>>         reinit_completion(&mhi_chan->completion);
->>>       ret = mhi_send_cmd(mhi_cntrl, mhi_chan, cmd);
->>> @@ -1408,8 +1394,6 @@ static int mhi_update_channel_state(struct 
->>> mhi_controller *mhi_cntrl,
->>>         trace_mhi_channel_command_end(mhi_cntrl, mhi_chan, to_state, 
->>> TPS("Updated"));
->>>   exit_channel_update:
->>> -    pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->>> -    pm_runtime_put(mhi_cntrl->cntrl_dev);
->>>       mhi_device_put(mhi_cntrl->mhi_dev);
->>>         return ret;
->>> @@ -1592,12 +1576,8 @@ static void mhi_reset_data_chan(struct 
->>> mhi_controller *mhi_cntrl,
->>>       while (tre_ring->rp != tre_ring->wp) {
->>>           struct mhi_buf_info *buf_info = buf_ring->rp;
->>>   -        if (mhi_chan->dir == DMA_TO_DEVICE) {
->>> +        if (mhi_chan->dir == DMA_TO_DEVICE)
->>>               atomic_dec(&mhi_cntrl->pending_pkts);
->>> -            /* Release the reference got from mhi_queue() */
->>> -            pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
->>> -            pm_runtime_put(mhi_cntrl->cntrl_dev);
->>> -        }
->>>             if (!buf_info->pre_mapped)
->>>               mhi_cntrl->unmap_single(mhi_cntrl, buf_info);
->>> diff --git a/drivers/bus/mhi/host/pm.c b/drivers/bus/mhi/host/pm.c
->>> index 
->>> b4ef115189b505c3450ff0949ad2d09f3ed53386..fd690e8af693109ed8c55248db0ea153f9e69423 100644
->>> --- a/drivers/bus/mhi/host/pm.c
->>> +++ b/drivers/bus/mhi/host/pm.c
->>> @@ -429,6 +429,7 @@ static int mhi_pm_mission_mode_transition(struct 
->>> mhi_controller *mhi_cntrl)
->>>         if (MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
->>>           ret = -EIO;
->>> +        read_unlock_bh(&mhi_cntrl->pm_lock);
->>>           goto error_mission_mode;
->>>       }
->>>   @@ -459,11 +460,9 @@ static int 
->>> mhi_pm_mission_mode_transition(struct mhi_controller *mhi_cntrl)
->>>        */
->>>       mhi_create_devices(mhi_cntrl);
->>>   -    read_lock_bh(&mhi_cntrl->pm_lock);
->>>     error_mission_mode:
->>> -    mhi_cntrl->wake_put(mhi_cntrl, false);
->>> -    read_unlock_bh(&mhi_cntrl->pm_lock);
->>> +    mhi_device_put(mhi_cntrl->mhi_dev);
->>>         return ret;
->>>   }
->>> @@ -1038,9 +1037,11 @@ int __mhi_device_get_sync(struct 
->>> mhi_controller *mhi_cntrl)
->>>           read_unlock_bh(&mhi_cntrl->pm_lock);
->>>           return -EIO;
->>>       }
->>> +    read_unlock_bh(&mhi_cntrl->pm_lock);
->>> +
->>> +    pm_runtime_get_sync(&mhi_cntrl->mhi_dev->dev);
->>> +    read_lock_bh(&mhi_cntrl->pm_lock);
->>>       mhi_cntrl->wake_get(mhi_cntrl, true);
->>> -    if (MHI_PM_IN_SUSPEND_STATE(mhi_cntrl->pm_state))
->>> -        mhi_trigger_resume(mhi_cntrl);
->>>       read_unlock_bh(&mhi_cntrl->pm_lock);
->>>         ret = wait_event_timeout(mhi_cntrl->state_event,
->>> @@ -1049,9 +1050,7 @@ int __mhi_device_get_sync(struct mhi_controller 
->>> *mhi_cntrl)
->>>                    msecs_to_jiffies(mhi_cntrl->timeout_ms));
->>>         if (!ret || MHI_PM_IN_ERROR_STATE(mhi_cntrl->pm_state)) {
->>> -        read_lock_bh(&mhi_cntrl->pm_lock);
->>> -        mhi_cntrl->wake_put(mhi_cntrl, false);
->>> -        read_unlock_bh(&mhi_cntrl->pm_lock);
->>> +        mhi_device_put(mhi_cntrl->mhi_dev);
->>>           return -EIO;
->>>       }
->>>   @@ -1339,11 +1338,10 @@ void mhi_device_put(struct mhi_device 
->>> *mhi_dev)
->>>         mhi_dev->dev_wake--;
->>>       read_lock_bh(&mhi_cntrl->pm_lock);
->>> -    if (MHI_PM_IN_SUSPEND_STATE(mhi_cntrl->pm_state))
->>> -        mhi_trigger_resume(mhi_cntrl);
->>>         mhi_cntrl->wake_put(mhi_cntrl, false);
->>>       read_unlock_bh(&mhi_cntrl->pm_lock);
->>> +    pm_runtime_put(&mhi_cntrl->mhi_dev->dev);
->>>   }
->>>   EXPORT_SYMBOL_GPL(mhi_device_put);
->>>
->>
-> 
-
+Thanks!
+Helge
