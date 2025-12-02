@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319E1C9B0E9
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 11:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BFBFC9B0EF
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 11:17:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1BED10E5EF;
-	Tue,  2 Dec 2025 10:17:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A958410E5F2;
+	Tue,  2 Dec 2025 10:17:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OAqlbf2t";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="F8zu7ZoM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6237310E559;
- Tue,  2 Dec 2025 10:17:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EBB510E575;
+ Tue,  2 Dec 2025 10:17:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764670644;
- bh=YS8/vqBJoLcfbhBEgaog8sdplpPEafy556rfQqhGLYk=;
+ s=mail; t=1764670645;
+ bh=N2AsdBqZNtbYogJcBwRYN1psPAl2r+q308j/n/zu/no=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OAqlbf2tuonZCKf99vdYXdAbQ78Pg0EnAKueTc8M7vL7PlCHbc/gxtVucuQdTv7y1
- 0IsD7GvFknmSsSEhaCQy2E+irHI9TUVYLt5MLHEynjxBNUCuml8Zizl40qpce56JAC
- z10FkvK2o7xoTyzuh8/k6JyOQKIesWAF5tAfX3TKz9Z3g4T3PzmneqbFmiFdvjMjtA
- Kfx3fV8erzCUAkd5ckyXCvBPGONeSR3ip18LZ7CUe3O2ZTyup/jAZiPylc+nmEslJO
- PMf6uwLDnCk2hRg698olJHXNMckgrRG4l3BIEXqTYOMh9YqsR8C+0Y4jm0om8j5Ap3
- lQiE5Gw61moZg==
+ b=F8zu7ZoMUaldXwPoM2FCMg/6Lzwz40NNr88YDofPZKSyv2AZnX4QHrzDcCRCSC+Fp
+ /YTMe2dI6WqtI4PhJCx/+GCvQrASYQ65bT7Y/z7g/829OWRtLWXcQX87MAcU3nSpQC
+ 75lSWFhiq3cBZotUIrFisMRb+oj34k9jw1FirOKKty/tOa1qM5r9KmMB4UaKS5IZxB
+ KxrYlsvJ2phGwfsJv1eEaw0wZupnG1LKmSVZVcYOpFeSn4Izce8+wWPS0Vab2+Ht3S
+ o1wD7UzV6KFEkBtZKvUIDSSQ5ZE9naEfrkqwA7ICbWP5T7PtR+Yi7H4kg0iBPyOMTy
+ zWSamgvvtNr1A==
 Received: from debian-rockchip-rock5b-rk3588.. (unknown
  [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: loicmolinari)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 13DFC17E1157;
- Tue,  2 Dec 2025 11:17:24 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 1988317E1341;
+ Tue,  2 Dec 2025 11:17:25 +0100 (CET)
 From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -60,10 +60,9 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
  linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH v11 01/10] drm/shmem-helper: Simplify page offset calculation
- in fault handler
-Date: Tue,  2 Dec 2025 11:17:11 +0100
-Message-ID: <20251202101720.3129-2-loic.molinari@collabora.com>
+Subject: [PATCH v11 02/10] drm/shmem-helper: Map huge pages in fault handler
+Date: Tue,  2 Dec 2025 11:17:12 +0100
+Message-ID: <20251202101720.3129-3-loic.molinari@collabora.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251202101720.3129-1-loic.molinari@collabora.com>
 References: <20251202101720.3129-1-loic.molinari@collabora.com>
@@ -85,42 +84,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For a fault at address addr, the page offset is
-  page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT
-              = ((addr & PAGE_MASK) - vma->vm_start) >> PAGE_SHIFT
-	      = (addr - vma->vm_start) >> PAGE_SHIFT
+Attempt a PMD sized PFN insertion into the VMA if the faulty address
+of the fault handler is part of a huge page.
 
-Since the faulty logical page offset based on VMA is
-  vmf->pgoff = vma->vm_pgoff + ((addr - vma->vm_start) >> PAGE_SHIFT)
+On builds with CONFIG_TRANSPARENT_HUGEPAGE enabled, if the mmap() user
+address is PMD size aligned, if the GEM object is backed by shmem
+buffers on mountpoints setting the 'huge=' option and if the shmem
+backing store manages to allocate a huge folio, CPU mapping would then
+benefit from significantly increased memcpy() performance. When these
+conditions are met on a system with 2 MiB huge pages, an aligned copy
+of 2 MiB would raise a single page fault instead of 4096.
 
-We can slightly simplify the calculation using
-  page_offset = vmf->pgoff - vma->vm_pgoff
+v4:
+- implement map_pages instead of huge_fault
+
+v6:
+- get rid of map_pages handler for now (keep it for another series
+  along with arm64 contpte support)
 
 v11:
-- remove misleading comment
+- remove page fault validity check helper
+- rename drm_gem_shmem_map_pmd() to drm_gem_shmem_try_map_pmd()
 - add Boris R-b
 
 Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 37 ++++++++++++++++++++++----
+ 1 file changed, 32 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index dc94a27710e5..e47ab3ebb5c2 100644
+index e47ab3ebb5c2..4e2e58d92b36 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -577,8 +577,8 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
- 	struct page *page;
+@@ -567,15 +567,36 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_dumb_create);
+ 
++static bool drm_gem_shmem_try_map_pmd(struct vm_fault *vmf, unsigned long addr,
++				      struct page *page)
++{
++#ifdef CONFIG_ARCH_SUPPORTS_PMD_PFNMAP
++	unsigned long pfn = page_to_pfn(page);
++	unsigned long paddr = pfn << PAGE_SHIFT;
++	bool aligned = (addr & ~PMD_MASK) == (paddr & ~PMD_MASK);
++
++	if (aligned &&
++	    pmd_none(*vmf->pmd) &&
++	    folio_test_pmd_mappable(page_folio(page))) {
++		pfn &= PMD_MASK >> PAGE_SHIFT;
++		if (vmf_insert_pfn_pmd(vmf, pfn, false) == VM_FAULT_NOPAGE)
++			return true;
++	}
++#endif
++
++	return false;
++}
++
+ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+ {
+ 	struct vm_area_struct *vma = vmf->vma;
+ 	struct drm_gem_object *obj = vma->vm_private_data;
+ 	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+ 	loff_t num_pages = obj->size >> PAGE_SHIFT;
+-	vm_fault_t ret;
+-	struct page *page;
++	struct page **pages = shmem->pages;
  	pgoff_t page_offset;
++	unsigned long pfn;
++	vm_fault_t ret;
  
--	/* We don't use vmf->pgoff since that has the fake offset */
--	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
-+	/* Offset to faulty address in the VMA. */
-+	page_offset = vmf->pgoff - vma->vm_pgoff;
+ 	/* Offset to faulty address in the VMA. */
+ 	page_offset = vmf->pgoff - vma->vm_pgoff;
+@@ -586,12 +607,18 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
+ 	    drm_WARN_ON_ONCE(obj->dev, !shmem->pages) ||
+ 	    shmem->madv < 0) {
+ 		ret = VM_FAULT_SIGBUS;
+-	} else {
+-		page = shmem->pages[page_offset];
++		goto out;
++	}
  
- 	dma_resv_lock(shmem->base.resv, NULL);
+-		ret = vmf_insert_pfn(vma, vmf->address, page_to_pfn(page));
++	if (drm_gem_shmem_try_map_pmd(vmf, vmf->address, pages[page_offset])) {
++		ret = VM_FAULT_NOPAGE;
++		goto out;
+ 	}
  
++	pfn = page_to_pfn(pages[page_offset]);
++	ret = vmf_insert_pfn(vma, vmf->address, pfn);
++
++ out:
+ 	dma_resv_unlock(shmem->base.resv);
+ 
+ 	return ret;
 -- 
 2.47.3
 
