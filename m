@@ -2,65 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6879FC9B350
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 11:44:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04925C9B353
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 11:44:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94D1310E609;
-	Tue,  2 Dec 2025 10:44:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3DFC910E60E;
+	Tue,  2 Dec 2025 10:44:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="LlQt60N+";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="FtnTHSwh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 042C710E609
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 10:44:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=r7p81Th9UvtOh54eAvf6X2mM8Gg5Bzqb5cYHFhaUOdo=; b=LlQt60N+UVWvdZ4nOYm4D2dNbb
- KEZq7LV78FjZqxHGxnwyvYZdDuOFlo2YV9kPkuw81eeFkUGkakU9eSy4vkW0IOy+eBeiAebEY81ie
- 4sp7F7OshFo8Co4mP5uAk2R/WguOe3VU8/GNP2kW4ILDWYU0ITs08U6XuNYTtnj9V5f/0EKs9nFKm
- u53ikxeAv2UVnX/AWWopiJexJTP2dIBYE8b/YFHQGab87/uV/BtZu98jqn1CPJh1FFwxZrHrcj1J4
- A6NNlllYUZSKnPYxK70gIbSK42RlipUGG+EqrBG5HkXYhhANgoublYl5RCw05cNafQvdwY+pzdCxA
- 7SQxzhfw==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vQNrg-007lqK-9G; Tue, 02 Dec 2025 11:44:12 +0100
-Message-ID: <74e89e3b-b237-424c-a5cb-f4b3e026b61f@igalia.com>
-Date: Tue, 2 Dec 2025 10:44:11 +0000
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 323F410E610
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 10:44:29 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-02.galae.net (Postfix) with ESMTPS id B98AC1A1EC4;
+ Tue,  2 Dec 2025 10:44:27 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id 7A15E606D3;
+ Tue,  2 Dec 2025 10:44:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id CE85011919314; Tue,  2 Dec 2025 11:44:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1764672266; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=/WArC6OL7B5oE8PIh2iIwHlwHZM8BzUleCfIFcquPlo=;
+ b=FtnTHSwh6bzVp73JDyCQFjgNMIlM5eLYd+3FXKT7elsm4qRBny30F1dBtB29Suhn3NgITk
+ diL67dbtxwV+ZPjgkzDG1R71lWJ95juqtacKFa4RU8WskRM38yVS6cimNXjdODZa5F+uKr
+ ov/cCVLaIGzi2a/T6Y/zf41/fM0V50MKqlOdR54nbNh2gTE4R8A51GanPP2Jh09yUkQDu7
+ n67eXSZUpENq/FSdx8XqY+zmY5iiiyAdOJ+KNmYc5qif1zZs9KkJLtW7QCdaKTehC65iXZ
+ CqFMog159pU4iZOSB4kdfjknae5dRsK0v4OViBEBmHYY9YvJaupvVg9xd9NB9A==
+Date: Tue, 2 Dec 2025 11:44:16 +0100
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Markus
+ Schneider-Pargmann <msp@baylibre.com>, Luca Ceresoli
+ <luca.ceresoli@bootlin.com>, Louis Chauvet <louis.chauvet@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Miguel Gazquez
+ <miguel.gazquez@bootlin.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, Jyri
+ Sarha <jyri.sarha@iki.fi>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Russell
+ King <linux@armlinux.org.uk>, Bartosz Golaszewski <brgl@bgdev.pl>, Tony
+ Lindgren <tony@atomide.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH 05/21] ARM: dts: omap: Bind panel to panel-dpi instead
+ of ti,tilcdc,panel driver
+Message-ID: <20251202114416.09624a4b@kmaincent-XPS-13-7390>
+In-Reply-To: <d7515cd3-5488-4d15-82dc-d2b98cfa2bed@kernel.org>
+References: <20251126-feature_tilcdc-v1-0-49b9ef2e3aa0@bootlin.com>
+ <20251126-feature_tilcdc-v1-5-49b9ef2e3aa0@bootlin.com>
+ <96b1b7bf-ddbe-4213-a201-dc89cf2998dd@ideasonboard.com>
+ <3bc5bf92-05c3-4841-ab28-9bab2bb31cd5@kernel.org>
+ <20251202104244.59a9e83d@kmaincent-XPS-13-7390>
+ <d7515cd3-5488-4d15-82dc-d2b98cfa2bed@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFX] efi: sysfb_efi: Fix simpledrmfb on Steam Deck
-To: Thomas Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel <ardb@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- Javier Martinez Canillas <javierm@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Melissa Wen <mwen@igalia.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- Mario Limonciello <mario.limonciello@amd.com>, linux-efi@vger.kernel.org
-References: <20251128150403.11567-1-tvrtko.ursulin@igalia.com>
- <ce41c2d1-c659-4632-8469-761762202800@suse.de>
- <660c5469-086f-40b4-99f1-72c1bc613ece@igalia.com>
- <1df5a480-2510-43b9-9d79-51d842518036@suse.de>
- <b146fb1b-80e9-403c-acd1-b50ef1aaa646@igalia.com>
- <1b73df5b-5f47-4ce4-abd4-83d550cc0dea@suse.de>
- <e7c4a76e-5cef-4a75-847f-59c53a554327@igalia.com>
- <CAMj1kXFOS9jAzhh2Z_4rarEGd+kGPyNCu9PFoMhFbBVEF8NwJw@mail.gmail.com>
- <07212b84-fc2a-4efe-a39b-5b536b6dd602@igalia.com>
- <CAMj1kXH3FyhNinT3-_FqROB53p_574ft6hsoF6aGYeYkhLd+TQ@mail.gmail.com>
- <086cf4fd-6401-46ce-a55f-ea2fd96a73d1@igalia.com>
- <f4dfd1b4-76c0-4b88-aefb-f0536e706f96@suse.de>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <f4dfd1b4-76c0-4b88-aefb-f0536e706f96@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,286 +83,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 2 Dec 2025 11:28:55 +0100
+Krzysztof Kozlowski <krzk@kernel.org> wrote:
 
-On 02/12/2025 07:34, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 01.12.25 um 16:43 schrieb Tvrtko Ursulin:
->>
->> On 01/12/2025 15:00, Ard Biesheuvel wrote:
->>> On Mon, 1 Dec 2025 at 11:33, Tvrtko Ursulin 
->>> <tvrtko.ursulin@igalia.com> wrote:
->>>>
->>>>
->>>> On 01/12/2025 10:18, Ard Biesheuvel wrote:
->>>>> On Mon, 1 Dec 2025 at 11:03, Tvrtko Ursulin 
->>>>> <tvrtko.ursulin@igalia.com> wrote:
->>>>>>
->>>>>>
->>>>>> On 01/12/2025 09:39, Thomas Zimmermann wrote:
->>>>>>> Hi
->>>>>>>
->>>>>>> Am 01.12.25 um 10:20 schrieb Tvrtko Ursulin:
->>>>>>>>
->>>>>>>> On 01/12/2025 07:32, Thomas Zimmermann wrote:
->>>>>>>>> Hi
->>>>>>>>>
->>>>>>>>> Am 29.11.25 um 11:44 schrieb Tvrtko Ursulin:
->>>>>>>>>>
->>>>>>>>>> On 28/11/2025 17:07, Thomas Zimmermann wrote:
->>>>>>>>>>> Hi,
->>>>>>>>>>>
->>>>>>>>>>> thanks for the bug report
->>>>>>>>>>>
->>>>>>>>>>> Am 28.11.25 um 16:04 schrieb Tvrtko Ursulin:
->>>>>>>>>>>> I am not sure how is simpledrmfb on top of EFI supposed to 
->>>>>>>>>>>> work,
->>>>>>>>>>>> but at
->>>>>>>>>>>> least at the moment it appears there is a missing link in the
->>>>>>>>>>>> "discovery"
->>>>>>>>>>>> of frame buffer parameters.
->>>>>>>>>>>>
->>>>>>>>>>>> What I can see is that EFI GOP reads some parameters from the
->>>>>>>>>>>> firmware and
->>>>>>>>>>>> infers the other, such as in this case problematic pitch, or 
->>>>>>>>>>>> stride.
->>>>>>>>>>>
->>>>>>>>>>> The pitch/stride value comes from the firmware via
->>>>>>>>>>> pixels_per_scanline [1].
->>>>>>>>>>>
->>>>>>>>>>> Can you verify that this value is really 800 instead of 832 (eq
->>>>>>>>>>> 3328 bytes) ?
->>>>>>>>>>>
->>>>>>>>>>> [1] https://elixir.bootlin.com/linux/v6.17.9/source/drivers/
->>>>>>>>>>> firmware/ efi/libstub/gop.c#L493
->>>>>>>>>>
->>>>>>>>>> I actually got confused a bit in following the flow so thank 
->>>>>>>>>> you for
->>>>>>>>>> asking me to double check.
->>>>>>>>>>
->>>>>>>>>> GOP actually reports 1280x800 with a stride of 5120. So it 
->>>>>>>>>> kind of
->>>>>>>>>> reports a rotated view already, kind of.
->>>>>>>>>
->>>>>>>>> These are correct values.
->>>>>>>>>
->>>>>>>>> But the stream deck is this device: [1], right? It uses landscape-
->>>>>>>>> mode orientation. Why does it require rotation at all?
->>>>>>>>>
->>>>>>>>> [1] https://de.wikipedia.org/wiki/Steam_Deck#/media/
->>>>>>>>> Datei:Steam_Deck_(front).png
->>>>>>>>
->>>>>>>> That's the device yes. For the user the screen is landscape, but 
->>>>>>>> the
->>>>>>>> actual panel is 800x1280 portrait. Left edge is top of the display.
->>>>>>>> (Hence the pre-existing entry in drm_get_panel_orientation_quirk.)
->>>>>>>
->>>>>>> I see. So the EFI display settings are configured as if this was a
->>>>>>> landscape panel.
->>>>>>>
->>>>>>> What happens if you leave the EFI settings as-is and simply 
->>>>>>> remove the
->>>>>>> panel-orientation quirk?
->>>>>>
->>>>>> That would create effectively the same situation as without my patch
->>>>>> because the panel-orientation quirk does not trigger unless detected
->>>>>> screen is 800x1280. Result is corrupted console since fbcon thinks 
->>>>>> it is
->>>>>> a landscape 1280x800 screen.
->>>>>>>>>> Only when the rotation quirk from efifb_dmi_swap_width_height
->>>>>>>>>> triggers the stride gets incorrectly recalculated:
->>>>>>>>>>
->>>>>>>>>>           u16 temp = screen_info.lfb_width;
->>>>>>>>>>
->>>>>>>>>>           screen_info.lfb_width = screen_info.lfb_height;
->>>>>>>>>>           screen_info.lfb_height = temp;
->>>>>>>>>>           screen_info.lfb_linelength = 4 * screen_info.lfb_width;
->>>>>>>>>>
->>>>>>>>>> So this is where things go wrong, well, they actually go wrong a
->>>>>>>>>> little bit even earlier, in gop.c:
->>>>>>>>>>
->>>>>>>>>>       si->lfb_size = si->lfb_linelength * si->lfb_height;
->>>>>>>>>>
->>>>>>>>>> Which potentially underestimates the fb size. If GOP was forward
->>>>>>>>>> looking enough to give us the size we could derive the pitch 
->>>>>>>>>> based
->>>>>>>>>> on size..
->>>>>>>>>>
->>>>>>>>>> Anyway, as it stands it looks a quirk in sysfb_apply_efi_quirks
->>>>>>>>>> looks it is required to fix it all up.
->>>>>>>>>>
->>>>>>>>>> I am a bit uneasy about declaring the fb size larger than what 
->>>>>>>>>> was
->>>>>>>>>> implied by firmware provided pitch * height * depth but 
->>>>>>>>>> limited to a
->>>>>>>>>> specific DMI match and if it looks visually okay I think it is a
->>>>>>>>>> safe assumption the quirked size is actually correct and safe.
->>>>>>>>>
->>>>>>>>> Yeah, we better not do that.
->>>>>>>> You mean declare it a firmware bug and live with the corrupt 
->>>>>>>> console
->>>>>>>> until the final fb driver takes over?
->>>>>>>
->>>>>>> I only mean that we should not use more video memory than 
->>>>>>> provided by EFI.
->>>>>>
->>>>>> Right, but that information is not available in the GOP, right? 
->>>>>> Ie. as I
->>>>>> wrote above it appears assumed:
->>>>>>
->>>>>>       si->lfb_size = si->lfb_linelength * si->lfb_height;
->>>>>>
->>>>>> Do we have any other options apart from corruption or assume firmware
->>>>>> configured GOP screen info incorrectly?
->>>>>>
->>>>>
->>>>> How does it make sense to recalculate the line length? Those invisible
->>>>> pixels at the end of the scanline are not going to be transposed to
->>>>> the other dimension, right?
->>>>
->>>> Not sure what you meant here. The line above is from gop.c and the
->>>> context is that GOP screen info appears to not carry the frame buffer
->>>> size in bytes so it is implied.
->>>>
->>>> Elsewhere in the patch I quirk the pitch to the correct value so 
->>>> rotated
->>>> rendering is correct.
->>>>
->>>> But the corrected pitch also means that in principle we need to adjust
->>>> the frame buffer size, since it is larger than the size implied with 
->>>> the
->>>> incorrect pitch.
->>>>
->>>
->>> OK, so if I understand all of the above correctly, you have a 800x1280
->>> panel with 832 pixels per scanline, right? And the 5120 pitch is
->>> simply bogus, but needed to maintain the fiction that the panel is
->>> 1280 pixels wide, and so the resulting lfb_size is bogus too?
->>>
->>> Since we know that the PixelsPerScanline value is incorrect, I don't
->>> think there is any point in attempting to cross reference this against
->>> other firmware provided data. But it would make sense imho to apply
->>> the quirk only if the exact combination of incorrect values (i.e.,
->>> 1280x800/5120) is encountered.
->>
->> Right, the whole 1280x800 mode I *think* could be "bogus", that is, 
->> some kind of a software rotated mode implemented by the firmware.
->>
->> Default mode is 800x1280 (pitch 832), while this second native 
->> resolution mode is 1280x800 (pitch 1280).
->>
->> If default mode is left then both simpledrmfb and efidrmfb work fine. 
->> The existing panel orientation quirk will trigger on 800x1280 and tell 
->> fbcon to rotate.
->>
->> But if someone, like for example grub2, changed the mode to this 
->> software rotated one then the existing DRM quirk will not work.
-> 
-> So this is a bug in grub? Should it supply the original mode?
-> 
-> 
-> Apologies for only asking dump questions here. I find this very confusing.
+> On 02/12/2025 10:42, Kory Maincent wrote:
+> >   =20
+> >> Stuffing DTS change in the middle of the driver change tries to hide
+> >> impact, which is not nice on its own. =20
+> >=20
+> > As it needs driver change before the removal for not breaking things it
+> > can't be done at the beginning of the series. =20
+>=20
+> And that is the problem which should stop you there and rethink how to
+> organize it without impacting users. DTS cannot go via DRM. If that was
+> your intention, that's my:
+>=20
+> NAK
 
-Not at all, it is complicated and open whether it is worth improving.
-
-I don't think it is a grub bug. To me it seems like an unfortunate 
-consequence of protocol limitations.
-
-> In the correct mode 800x1280, the first native pixel should be on the 
-> lower left corner. and the second pixel should be 'up form it'. And 
-> because it's marked as rotated CCW, fbcon adapts correctly.
-> 
-> If the display is in the bogus mode 1280x800, in which direction does it 
-> draw by default?  The framebuffer's first pixel should still be in one 
-> of the corners. And the second pixel is nearby. In which direction does 
-> it advance?
-
-I am not a grub expert, but I had a brief look at its codebase, and 
-AFAICT it draws by software rendering into a shadow frame buffer and 
-calls GOP->Blit to update the screen.
-
-As such my assumption is that with the fake 1280x800 mode, firmware 
-implements the blit to rotate under the hood.
-
-So for grub everything is fine. It sets 1280x800, sees 1280x800, renders 
-the menu in there, and courtesy of firmware blit the menu is presented 
-in the human friendly orientation.
-
-Note this is all when grub is asked to change the mode to 1280x800. This 
-does not happen on the normal SteamOS boot, but only if grub menu was 
-entered. Otherwise mode stays at the default 800x1280 and the DRM quirk 
-triggers to set the orientation both for the simple DRM fb, efidrmfb and 
-later the real amdgpu drm fd.
-
-In other words without this patch fbcon is correctly rotated when the 
-mode is default 800x1280, but broken if grub menu is entered which sets 
-the mode to 1280x800. Because the DRM panel orientation quirk only 
-triggers for 800x1280.
-
-Hence this patch/quirk to fudge the screen info back into the native 
-mode and allow the orientation quirk to always work and fbcon always be 
-right.
-
-Questionable part is that it only fixes the user experience for people 
-who enter the boot menu, so probably only developers. And the broken 
-fbcon is only until amdgpu takes it over, which correctly probes the 
-mode, I guess from the display state, and always sees it as 800x1280 and 
-so panel orientation quirk matches.
-
-I suppose for DRM panic before amdgpu loads, or before it fully 
-initializes, it would be worth having an readable fbcon, but again, I 
-accept it is probably a border line case so if people do not want to 
-take this quirk then it is what it is.
+My intention was to raise discussion over the ugly and legacy tilcdc-panel
+binding and what to do with it. But it seems you don't want to, that's a sh=
+ame.
 
 Regards,
-
-Tvrtko
-
->> The quirk in this patch therefore proposes to correct back the mode to 
->> the default native.
->>
->> You are indeed right that the criteria needs to be tweaked. In v2 I've 
->> fixed and it now looks like this:
->>
->> ...
->>     for (match = dmi_first_match(efifb_dmi_swap_width_height);
->>          match;
->>          match = dmi_first_match(match + 1)) {
->>         const struct efifb_mode_fixup *data = match->driver_data;
->>         u16 temp = screen_info.lfb_width;
->>
->>         if (!data ||
->>             (data->width == screen_info.lfb_width &&
->>              data->height == screen_info.lfb_height)) {
->>             screen_info.lfb_width = screen_info.lfb_height;
->>             screen_info.lfb_height = temp;
-> 
-> There's a swap() macro BTW. [1]
-> 
-> [1] https://elixir.bootlin.com/linux/v6.18/source/include/linux/ 
-> minmax.h#L307
-> 
-> Best regards
-> Thomas
-> 
->>
->>             if (data && data->pitch) {
->>                 screen_info.lfb_linelength = data->pitch;
->>                 screen_info.lfb_size = data->pitch * data->width;
->>             } else {
->>                 screen_info.lfb_linelength = 4 * screen_info.lfb_width;
->>             }
->>         }
->>     }
->> ...
->>
->>
->> Ie. only swap width<->height for the pre-existing quirks and the new 
->> quirk *if* it is in 1280x800.
->>
->> Regards,
->>
->> Tvrtko
->>
-> 
-
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
