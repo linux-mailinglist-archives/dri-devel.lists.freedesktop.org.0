@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7993CC9A4A5
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 07:28:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD01C9A4AA
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 07:28:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C61310E56C;
-	Tue,  2 Dec 2025 06:28:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A578310E568;
+	Tue,  2 Dec 2025 06:28:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="R2MmKjPM";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TIuNxBWs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3366410E56A;
- Tue,  2 Dec 2025 06:28:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E78310E568;
+ Tue,  2 Dec 2025 06:28:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764656885; x=1796192885;
+ t=1764656892; x=1796192892;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=CPjxqPmfGT/JW+AfTn1OjFXScu7jUsPI/MuITD/++No=;
- b=R2MmKjPMZ3HiyYOu0BTsaHegsdUGw+PW/DsS0C3AgxSpOgRiY3nmaGkU
- Eo+BK5j+yMwEjt6ENnHkg/lWon8VPBzfx3Ra5g6/WPkEKlcRfKTdLA24n
- wZfS7N0AlTwLAXvNEa/o7oTcEk/UYIuQ/dmZL63QpY9L/jtGRnXufXIcq
- R5oY5x23T4r4xiE7AoBG24bGiFzABQDkHr+bPd/izX4S8+AR8ZvK7nHrO
- 6joPh/GBbdcXjWbWJlEibk1ID6PK4N9+Yo23VdykZL/pDxEgODfK5f6RJ
- p/heU+lbc1WikYfXCvKfP+SX59dBtSt1nD1lFzHMzO01V8AY7PjZkDIHL A==;
-X-CSE-ConnectionGUID: H4DTS/LhSwyPa81CagMMUQ==
-X-CSE-MsgGUID: EFoSXXhyTe2xbzAntEQwKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66499976"
-X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="66499976"
+ bh=yIdNhEnolQY4SwwQ474YXZuZ51s/IHFsE4DzlXIuclY=;
+ b=TIuNxBWsmLWOQHE6JD4xOsUcOrXTGqbn0H33ljHlR0ErI7GrFd6tyPeQ
+ AejdJSiHHViYjvbjDYIKqgJtDwW/Pl5VZXvUUbSjNQ1sOxA3IhFj3XDs5
+ MKOooB84y6m20lmoVN+FVzsfUlzpZVgud5EaNoJDZu0tY/Ick3+GZA/3N
+ pHflwODx6WXnaBxcUvHInC9qwJpSmegLbvMiFu43b11ptG/JP3CARNsID
+ nGBgqKZneJOyzOKHVzkLqdAD3OwY7202e1CY6DyowrhDXVp5sjye6QZKE
+ YaXgW3PLLGcTGuhA/pfVluv0ajrc2LBSUDe1+52UeOB3A1XrvXRv3tGjE A==;
+X-CSE-ConnectionGUID: Kdrpp9VXQASqAQymMe4xhw==
+X-CSE-MsgGUID: pCgRrFQtSaezvYETKAWbGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66499991"
+X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="66499991"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 22:28:05 -0800
-X-CSE-ConnectionGUID: GBN8fg0PRZ+7V/q5NuSdcg==
-X-CSE-MsgGUID: G7HvLM1QRwajRfVbF3AKog==
+ 01 Dec 2025 22:28:11 -0800
+X-CSE-ConnectionGUID: niN3aZLNSs2bO65nBNikhw==
+X-CSE-MsgGUID: L+GN6AhCTmSerUdqB6sLKQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="193961470"
+X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="193961477"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa007.fm.intel.com with ESMTP; 01 Dec 2025 22:27:59 -0800
+ by fmviesa007.fm.intel.com with ESMTP; 01 Dec 2025 22:28:05 -0800
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Tue, 02 Dec 2025 11:57:08 +0530
-Subject: [PATCH [RESEND] v9 14/20] drm/i915/histogram: Hook i915 histogram
- with drm histogram
+Date: Tue, 02 Dec 2025 11:57:09 +0530
+Subject: [PATCH [RESEND] v9 15/20] drm/i915/iet: Add support to writing the
+ IET LUT data
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251202-dpst-v9-14-f2abb2ca2465@intel.com>
+Message-Id: <20251202-dpst-v9-15-f2abb2ca2465@intel.com>
 References: <20251202-dpst-v9-0-f2abb2ca2465@intel.com>
 In-Reply-To: <20251202-dpst-v9-0-f2abb2ca2465@intel.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -84,109 +84,143 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Handle histogram caps and histogram config property in i915 driver. Fill
-the histogram hardware capability and act upon the histogram config
-property to enable/disable histogram in i915.
+User created LUT can be fed back to the hardware so that the hardware
+can apply this LUT data to see the enhancement in the image.
 
 Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_crtc.c    |  7 +++++++
- drivers/gpu/drm/i915/display/intel_display.c | 15 +++++++++++++++
- 2 files changed, 22 insertions(+)
+ drivers/gpu/drm/i915/display/intel_histogram.c | 67 ++++++++++++++++++++++++++
+ drivers/gpu/drm/i915/display/intel_histogram.h |  4 ++
+ 2 files changed, 71 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c b/drivers/gpu/drm/i915/display/intel_crtc.c
-index 2fe645860385df9b64aedc408dc5908b475a0b40..036a347d7540d33faa3f7d7588dc860e6b717a56 100644
---- a/drivers/gpu/drm/i915/display/intel_crtc.c
-+++ b/drivers/gpu/drm/i915/display/intel_crtc.c
-@@ -17,6 +17,7 @@
- #include "icl_dsi.h"
- #include "intel_atomic.h"
- #include "intel_color.h"
-+#include "intel_color_pipeline.h"
- #include "intel_crtc.h"
- #include "intel_cursor.h"
- #include "intel_display_debugfs.h"
-@@ -26,6 +27,7 @@
- #include "intel_drrs.h"
- #include "intel_dsi.h"
- #include "intel_fifo_underrun.h"
-+#include "intel_histogram.h"
- #include "intel_parent.h"
- #include "intel_pipe_crc.h"
- #include "intel_plane.h"
-@@ -215,6 +217,7 @@ static struct intel_crtc *intel_crtc_alloc(void)
- static void intel_crtc_free(struct intel_crtc *crtc)
+diff --git a/drivers/gpu/drm/i915/display/intel_histogram.c b/drivers/gpu/drm/i915/display/intel_histogram.c
+index b42edf7dae7c0b8d083dff81c41a7ed4f7938e84..cf8aa7b04c4461629b071e49601a0e60d7609a08 100644
+--- a/drivers/gpu/drm/i915/display/intel_histogram.c
++++ b/drivers/gpu/drm/i915/display/intel_histogram.c
+@@ -22,6 +22,7 @@
+ /* Precision factor for threshold guardband */
+ #define HISTOGRAM_GUARDBAND_PRECISION_FACTOR 10000
+ #define HISTOGRAM_BIN_READ_RETRY_COUNT 5
++#define IET_SAMPLE_FORMAT_1_INT_9_FRACT 0x1000009
+ 
+ static bool intel_histogram_get_data(struct intel_crtc *intel_crtc)
  {
- 	intel_crtc_destroy_state(&crtc->base, crtc->base.state);
-+	intel_histogram_finish(crtc);
- 	kfree(crtc);
- }
- 
-@@ -387,6 +390,10 @@ int intel_crtc_init(struct intel_display *display, enum pipe pipe)
- 						BIT(DRM_SCALING_FILTER_DEFAULT) |
- 						BIT(DRM_SCALING_FILTER_NEAREST_NEIGHBOR));
- 
-+	intel_histogram_init(crtc);
-+	if (intel_color_pipeline_crtc_init(&crtc->base))
-+		drm_err(display->drm, "Failed to initialize histogram properties\n");
-+
- 	intel_color_crtc_init(crtc);
- 	intel_drrs_crtc_init(crtc);
- 	intel_crtc_crc_init(crtc);
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index e5ce47efc809604cf6f7f01bdc9c679d608be3ef..191a830009e78a31e1ad3d9ca8e0596e1a1ff71e 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -99,6 +99,7 @@
- #include "intel_flipq.h"
- #include "intel_frontbuffer.h"
- #include "intel_hdmi.h"
-+#include "intel_histogram.h"
- #include "intel_hotplug.h"
- #include "intel_link_bw.h"
- #include "intel_lt_phy.h"
-@@ -4252,6 +4253,7 @@ static int intel_crtc_atomic_check(struct intel_atomic_state *state,
- 	struct intel_display *display = to_intel_display(crtc);
- 	struct intel_crtc_state *crtc_state =
- 		intel_atomic_get_new_crtc_state(state, crtc);
-+	struct drm_colorop *colorop = crtc_state->uapi.color_pipeline;
- 	int ret;
- 
- 	if (DISPLAY_VER(display) < 5 && !display->platform.g4x &&
-@@ -4313,6 +4315,12 @@ static int intel_crtc_atomic_check(struct intel_atomic_state *state,
- 	if (ret)
- 		return ret;
- 
-+	if (colorop->state->histogram_updated) {
-+		ret = intel_histogram_atomic_check(crtc);
-+		if (ret)
-+			return ret;
-+	}
-+
+@@ -227,6 +228,57 @@ int intel_histogram_update(struct intel_crtc *intel_crtc,
  	return 0;
  }
  
-@@ -7547,6 +7555,8 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
- 	intel_dbuf_post_plane_update(state);
- 
- 	for_each_oldnew_intel_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
-+		struct drm_colorop *colorop = new_crtc_state->uapi.color_pipeline;
++int intel_histogram_set_iet_lut(struct intel_crtc *intel_crtc,
++				struct drm_property_blob *blob)
++{
++	struct intel_histogram *histogram = intel_crtc->histogram;
++	struct intel_display *display = to_intel_display(intel_crtc);
++	int pipe = intel_crtc->pipe;
++	int i = 0;
++	struct drm_iet_1dlut_sample *iet;
++	struct drm_colorop *colorop = intel_crtc->base.state->color_pipeline;
++	u32 *data;
++	int ret;
 +
- 		intel_post_plane_update(state, crtc);
- 
- 		intel_modeset_put_crtc_power_domains(crtc, &put_domains[crtc->pipe]);
-@@ -7564,6 +7574,11 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
- 		 */
- 		old_crtc_state->dsb_color = fetch_and_zero(&new_crtc_state->dsb_color);
- 		old_crtc_state->dsb_commit = fetch_and_zero(&new_crtc_state->dsb_commit);
++	if (!histogram)
++		return -EINVAL;
 +
-+		if (colorop->state->histogram_updated)
-+			intel_histogram_update(crtc,
-+					       (struct drm_histogram_config *)
-+					       colorop->state->histogram_enable->data);
- 	}
++	if (!histogram->enable) {
++		drm_err(display->drm, "histogram not enabled");
++		return -EINVAL;
++	}
++
++	data = kcalloc(iet->nr_elements, sizeof(data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	/* Set DPST_CTL Bin Reg function select to IE & wait for a vblabk */
++	intel_de_rmw(display, DPST_CTL(pipe),
++		     DPST_CTL_BIN_REG_FUNC_SEL, DPST_CTL_BIN_REG_FUNC_IE);
++
++	drm_crtc_wait_one_vblank(&intel_crtc->base);
++
++	 /* Set DPST_CTL Bin Register Index to 0 */
++	intel_de_rmw(display, DPST_CTL(pipe),
++		     DPST_CTL_BIN_REG_MASK, DPST_CTL_BIN_REG_CLEAR);
++
++	iet = (struct drm_iet_1dlut_sample *)blob->data;
++	ret = copy_from_user(data, (uint32_t __user *)(unsigned long)iet->iet_lut,
++			     sizeof(uint32_t) * iet->nr_elements);
++	if (ret)
++		return ret;
++
++	for (i = 0; i < HISTOGRAM_IET_LENGTH; i++) {
++		intel_de_rmw(display, DPST_BIN(pipe),
++			     DPST_BIN_DATA_MASK, data[i]);
++		drm_dbg_atomic(display->drm, "iet_lut[%d]=%x\n", i, data[i]);
++	}
++	drm_property_blob_put(colorop->state->data);
++	kfree(data);
++
++	return 0;
++}
++
+ void intel_histogram_finish(struct intel_crtc *intel_crtc)
+ {
+ 	struct intel_histogram *histogram = intel_crtc->histogram;
+@@ -239,6 +291,8 @@ int intel_histogram_init(struct intel_crtc *crtc)
+ {
+ 	struct intel_histogram *histogram;
+ 	struct drm_histogram_caps *histogram_caps;
++	struct drm_iet_caps *iet_caps;
++	u32 *iet_format;
  
- 	/* Underruns don't always raise interrupts, so check manually */
+ 	/* Allocate histogram internal struct */
+ 	histogram = kzalloc(sizeof(*histogram), GFP_KERNEL);
+@@ -251,10 +305,23 @@ int intel_histogram_init(struct intel_crtc *crtc)
+ 	histogram_caps->histogram_mode = DRM_MODE_HISTOGRAM_HSV_MAX_RGB;
+ 	histogram_caps->bins_count = HISTOGRAM_BIN_COUNT;
+ 
++	iet_caps = kzalloc(sizeof(*iet_caps), GFP_KERNEL);
++	if (!iet_caps)
++		return -ENOMEM;
++
++	iet_caps->iet_mode = DRM_MODE_IET_MULTIPLICATIVE;
++	iet_caps->nr_iet_sample_formats = 1;
++	iet_caps->nr_iet_lut_entries = HISTOGRAM_IET_LENGTH;
++	iet_format = kcalloc(iet_caps->nr_iet_sample_formats, sizeof(u32),
++			     GFP_KERNEL);
++	*iet_format = IET_SAMPLE_FORMAT_1_INT_9_FRACT;
++	iet_caps->iet_sample_format = *iet_format;
++
+ 	crtc->histogram = histogram;
+ 	histogram->crtc = crtc;
+ 	histogram->can_enable = false;
+ 	histogram->caps = histogram_caps;
++	histogram->iet_caps = iet_caps;
+ 
+ 	INIT_DEFERRABLE_WORK(&histogram->work,
+ 			     intel_histogram_handle_int_work);
+diff --git a/drivers/gpu/drm/i915/display/intel_histogram.h b/drivers/gpu/drm/i915/display/intel_histogram.h
+index bd559d90e9b9fc8f5afdbc31c47702a99569b712..d4ddd99bf8c0347cdad23e3d34c14abe0c8ec7ca 100644
+--- a/drivers/gpu/drm/i915/display/intel_histogram.h
++++ b/drivers/gpu/drm/i915/display/intel_histogram.h
+@@ -16,9 +16,11 @@ struct intel_display;
+ enum pipe;
+ 
+ #define HISTOGRAM_BIN_COUNT                    32
++#define HISTOGRAM_IET_LENGTH                   33
+ 
+ struct intel_histogram {
+ 	struct drm_histogram_caps *caps;
++	struct drm_iet_caps *iet_caps;
+ 	struct intel_crtc *crtc;
+ 	struct delayed_work work;
+ 	bool enable;
+@@ -43,6 +45,8 @@ void intel_histogram_irq_handler(struct intel_display *display, enum pipe pipe);
+ int intel_histogram_atomic_check(struct intel_crtc *intel_crtc);
+ int intel_histogram_update(struct intel_crtc *intel_crtc,
+ 			   struct drm_histogram_config *config);
++int intel_histogram_set_iet_lut(struct intel_crtc *intel_crtc,
++				struct drm_property_blob *blob);
+ int intel_histogram_init(struct intel_crtc *intel_crtc);
+ void intel_histogram_finish(struct intel_crtc *intel_crtc);
+ 
 
 -- 
 2.25.1
