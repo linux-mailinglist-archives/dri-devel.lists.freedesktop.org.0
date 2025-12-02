@@ -2,115 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7302AC9B36E
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 11:47:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34933C9B3C8
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 11:56:21 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B594110E611;
-	Tue,  2 Dec 2025 10:47:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91C3910E614;
+	Tue,  2 Dec 2025 10:56:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZWuJjPUt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bScvELhh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D6FE10E611
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 10:47:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9317210E614
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 10:56:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 62CAD60017;
- Tue,  2 Dec 2025 10:47:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35FC6C4CEF1;
- Tue,  2 Dec 2025 10:47:42 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 77CEB60171
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 10:56:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26D1AC4AF0B
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 10:56:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764672468;
- bh=adNB2B+uO3/Wvr6tI+I09c6GHOJZPNcPW7HRCH1nODw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ZWuJjPUtZvZI2rRAutpjql3IMNgWGLurJTn7adAWCnVIVSNWC5dPhFKwFkeQL4JaY
- u8h48aJizsqQ0uTDww1PkWSRScwFromANpWfu4EvwUIPW1DCpJ6Vq41MKGt1F0mGVN
- oyeXqBmt21wdHr/X/2xEAVBmjWaOgbWc8VhVInZc2viSZ6GdV4Tkz6C00cGDWAUFaI
- pX3YO7jzC/U3op5Iw3CnwrWe4uglZBzzmWR2n0nn+JhURerYjHTyGW5OItm/KI9wOI
- hmEl+aBRVXfkUjyD98FnDvEcOTjNAMUtzMEDQbKV9ZZkKr2zy5cb5UG+ZkL+bO9YLk
- n11Av3VeAP9Hg==
-Message-ID: <94e254fa-289d-41ed-909f-1742cfbb2690@kernel.org>
-Date: Tue, 2 Dec 2025 11:47:40 +0100
+ s=k20201202; t=1764672977;
+ bh=WbsFxgUvFNsH1LWnzvQQyArPbtWnxPR5v5iGOIRmQUA=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=bScvELhhMo8y4ZfPkhM3GnIK0cX6Uz8AhjbqGecl3i1KyBEnMozeJFK9qTBVqK7yB
+ qFYrx0ijsBKmyoU0D3RZRFAdjZq/Vw703fJJ+gbuo1mEcCqcQsZJObho0vs1W6Znns
+ i7+EerpXfCY2AoHjILlv9YPVILNg6Y4yZ3SdDGIRfYbrBhIcC6CjfbpjevrZYSVyFp
+ Pek2CC4TwJhu23kLtVaDLjFpoPmG8FaH4DmDktTgiz40xKKEgN8VFrPupvzy2psWHv
+ /qHxqHWcSKIzyd+PQEeFH1Tc1t7mIpVNGZpODDhtiqpmx3X8QQBSRiw5z5XN6zQ/BY
+ 6HeIR30ksywCw==
+Received: by mail-lf1-f43.google.com with SMTP id
+ 2adb3069b0e04-5957db5bdedso6172872e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 02:56:17 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXDDIYVpv252eDT1eZ4k9MMtY2D/pgide5lTJwliz7t5w6uMmPQfjMIDwk0yIMRxrG/1HGCTPQthPM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwYvaWtaCPmdRzu/vPMG1YrKYivjd7lwLiyKBvCL8hYIiRbzfpq
+ aam9TpoejCcRt2T4fD1W8HO5eUi814CFAVEEUP+gliEW1es3n1ApMeSU3fqxGHHYJfurHzbNwP9
+ KWrGde3y1+1aSfM90gZ3YvgHJdyDGsX0=
+X-Google-Smtp-Source: AGHT+IGaao0VQuFxgIUhHcRPyQd5enqGXiDoMj1fS82VL+ycDa/o21UypCk9+vyoSkRa/WELk4whH8lhe4Le4CFu5Io=
+X-Received: by 2002:a05:6512:12d3:b0:595:8350:5824 with SMTP id
+ 2adb3069b0e04-596a3e9fbf8mr15614048e87.7.1764672975353; Tue, 02 Dec 2025
+ 02:56:15 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/21] ARM: dts: omap: Bind panel to panel-dpi instead of
- ti,tilcdc,panel driver
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Miguel Gazquez <miguel.gazquez@bootlin.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-omap@vger.kernel.org, Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Tony Lindgren <tony@atomide.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20251126-feature_tilcdc-v1-0-49b9ef2e3aa0@bootlin.com>
- <20251126-feature_tilcdc-v1-5-49b9ef2e3aa0@bootlin.com>
- <96b1b7bf-ddbe-4213-a201-dc89cf2998dd@ideasonboard.com>
- <3bc5bf92-05c3-4841-ab28-9bab2bb31cd5@kernel.org>
- <20251202104244.59a9e83d@kmaincent-XPS-13-7390>
- <d7515cd3-5488-4d15-82dc-d2b98cfa2bed@kernel.org>
- <20251202114416.09624a4b@kmaincent-XPS-13-7390>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251202114416.09624a4b@kmaincent-XPS-13-7390>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251128150403.11567-1-tvrtko.ursulin@igalia.com>
+ <ce41c2d1-c659-4632-8469-761762202800@suse.de>
+ <660c5469-086f-40b4-99f1-72c1bc613ece@igalia.com>
+ <1df5a480-2510-43b9-9d79-51d842518036@suse.de>
+ <b146fb1b-80e9-403c-acd1-b50ef1aaa646@igalia.com>
+ <1b73df5b-5f47-4ce4-abd4-83d550cc0dea@suse.de>
+ <e7c4a76e-5cef-4a75-847f-59c53a554327@igalia.com>
+ <CAMj1kXFOS9jAzhh2Z_4rarEGd+kGPyNCu9PFoMhFbBVEF8NwJw@mail.gmail.com>
+ <07212b84-fc2a-4efe-a39b-5b536b6dd602@igalia.com>
+ <CAMj1kXH3FyhNinT3-_FqROB53p_574ft6hsoF6aGYeYkhLd+TQ@mail.gmail.com>
+ <086cf4fd-6401-46ce-a55f-ea2fd96a73d1@igalia.com>
+ <f4dfd1b4-76c0-4b88-aefb-f0536e706f96@suse.de>
+ <74e89e3b-b237-424c-a5cb-f4b3e026b61f@igalia.com>
+In-Reply-To: <74e89e3b-b237-424c-a5cb-f4b3e026b61f@igalia.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Tue, 2 Dec 2025 11:56:04 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXEGNOUkM0HC1GODDO7e33aRmLi71GLDefeEE7Pb=F1ZtQ@mail.gmail.com>
+X-Gm-Features: AWmQ_bmnKkI5ul0i3PBkuQzIZ7XsTG3GsV-i3zW8N-3_vZ-KL_6NYwmSJ0R3iks
+Message-ID: <CAMj1kXEGNOUkM0HC1GODDO7e33aRmLi71GLDefeEE7Pb=F1ZtQ@mail.gmail.com>
+Subject: Re: [RFX] efi: sysfb_efi: Fix simpledrmfb on Steam Deck
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ kernel-dev@igalia.com, Javier Martinez Canillas <javierm@redhat.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Melissa Wen <mwen@igalia.com>, Rodrigo Siqueira <siqueira@igalia.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>, linux-efi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,36 +86,218 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/12/2025 11:44, Kory Maincent wrote:
-> On Tue, 2 Dec 2025 11:28:55 +0100
-> Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> 
->> On 02/12/2025 10:42, Kory Maincent wrote:
->>>    
->>>> Stuffing DTS change in the middle of the driver change tries to hide
->>>> impact, which is not nice on its own.  
->>>
->>> As it needs driver change before the removal for not breaking things it
->>> can't be done at the beginning of the series.  
->>
->> And that is the problem which should stop you there and rethink how to
->> organize it without impacting users. DTS cannot go via DRM. If that was
->> your intention, that's my:
->>
->> NAK
-> 
-> My intention was to raise discussion over the ugly and legacy tilcdc-panel
-> binding and what to do with it. But it seems you don't want to, that's a shame.
+On Tue, 2 Dec 2025 at 11:44, Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
+>
+>
+> On 02/12/2025 07:34, Thomas Zimmermann wrote:
+> > Hi
+> >
+> > Am 01.12.25 um 16:43 schrieb Tvrtko Ursulin:
+> >>
+> >> On 01/12/2025 15:00, Ard Biesheuvel wrote:
+> >>> On Mon, 1 Dec 2025 at 11:33, Tvrtko Ursulin
+> >>> <tvrtko.ursulin@igalia.com> wrote:
+> >>>>
+> >>>>
+> >>>> On 01/12/2025 10:18, Ard Biesheuvel wrote:
+> >>>>> On Mon, 1 Dec 2025 at 11:03, Tvrtko Ursulin
+> >>>>> <tvrtko.ursulin@igalia.com> wrote:
+> >>>>>>
+> >>>>>>
+> >>>>>> On 01/12/2025 09:39, Thomas Zimmermann wrote:
+> >>>>>>> Hi
+> >>>>>>>
+> >>>>>>> Am 01.12.25 um 10:20 schrieb Tvrtko Ursulin:
+> >>>>>>>>
+> >>>>>>>> On 01/12/2025 07:32, Thomas Zimmermann wrote:
+> >>>>>>>>> Hi
+> >>>>>>>>>
+> >>>>>>>>> Am 29.11.25 um 11:44 schrieb Tvrtko Ursulin:
+> >>>>>>>>>>
+> >>>>>>>>>> On 28/11/2025 17:07, Thomas Zimmermann wrote:
+> >>>>>>>>>>> Hi,
+> >>>>>>>>>>>
+> >>>>>>>>>>> thanks for the bug report
+> >>>>>>>>>>>
+> >>>>>>>>>>> Am 28.11.25 um 16:04 schrieb Tvrtko Ursulin:
+> >>>>>>>>>>>> I am not sure how is simpledrmfb on top of EFI supposed to
+> >>>>>>>>>>>> work,
+> >>>>>>>>>>>> but at
+> >>>>>>>>>>>> least at the moment it appears there is a missing link in the
+> >>>>>>>>>>>> "discovery"
+> >>>>>>>>>>>> of frame buffer parameters.
+> >>>>>>>>>>>>
+> >>>>>>>>>>>> What I can see is that EFI GOP reads some parameters from the
+> >>>>>>>>>>>> firmware and
+> >>>>>>>>>>>> infers the other, such as in this case problematic pitch, or
+> >>>>>>>>>>>> stride.
+> >>>>>>>>>>>
+> >>>>>>>>>>> The pitch/stride value comes from the firmware via
+> >>>>>>>>>>> pixels_per_scanline [1].
+> >>>>>>>>>>>
+> >>>>>>>>>>> Can you verify that this value is really 800 instead of 832 (eq
+> >>>>>>>>>>> 3328 bytes) ?
+> >>>>>>>>>>>
+> >>>>>>>>>>> [1] https://elixir.bootlin.com/linux/v6.17.9/source/drivers/
+> >>>>>>>>>>> firmware/ efi/libstub/gop.c#L493
+> >>>>>>>>>>
+> >>>>>>>>>> I actually got confused a bit in following the flow so thank
+> >>>>>>>>>> you for
+> >>>>>>>>>> asking me to double check.
+> >>>>>>>>>>
+> >>>>>>>>>> GOP actually reports 1280x800 with a stride of 5120. So it
+> >>>>>>>>>> kind of
+> >>>>>>>>>> reports a rotated view already, kind of.
+> >>>>>>>>>
+> >>>>>>>>> These are correct values.
+> >>>>>>>>>
+> >>>>>>>>> But the stream deck is this device: [1], right? It uses landscape-
+> >>>>>>>>> mode orientation. Why does it require rotation at all?
+> >>>>>>>>>
+> >>>>>>>>> [1] https://de.wikipedia.org/wiki/Steam_Deck#/media/
+> >>>>>>>>> Datei:Steam_Deck_(front).png
+> >>>>>>>>
+> >>>>>>>> That's the device yes. For the user the screen is landscape, but
+> >>>>>>>> the
+> >>>>>>>> actual panel is 800x1280 portrait. Left edge is top of the display.
+> >>>>>>>> (Hence the pre-existing entry in drm_get_panel_orientation_quirk.)
+> >>>>>>>
+> >>>>>>> I see. So the EFI display settings are configured as if this was a
+> >>>>>>> landscape panel.
+> >>>>>>>
+> >>>>>>> What happens if you leave the EFI settings as-is and simply
+> >>>>>>> remove the
+> >>>>>>> panel-orientation quirk?
+> >>>>>>
+> >>>>>> That would create effectively the same situation as without my patch
+> >>>>>> because the panel-orientation quirk does not trigger unless detected
+> >>>>>> screen is 800x1280. Result is corrupted console since fbcon thinks
+> >>>>>> it is
+> >>>>>> a landscape 1280x800 screen.
+> >>>>>>>>>> Only when the rotation quirk from efifb_dmi_swap_width_height
+> >>>>>>>>>> triggers the stride gets incorrectly recalculated:
+> >>>>>>>>>>
+> >>>>>>>>>>           u16 temp = screen_info.lfb_width;
+> >>>>>>>>>>
+> >>>>>>>>>>           screen_info.lfb_width = screen_info.lfb_height;
+> >>>>>>>>>>           screen_info.lfb_height = temp;
+> >>>>>>>>>>           screen_info.lfb_linelength = 4 * screen_info.lfb_width;
+> >>>>>>>>>>
+> >>>>>>>>>> So this is where things go wrong, well, they actually go wrong a
+> >>>>>>>>>> little bit even earlier, in gop.c:
+> >>>>>>>>>>
+> >>>>>>>>>>       si->lfb_size = si->lfb_linelength * si->lfb_height;
+> >>>>>>>>>>
+> >>>>>>>>>> Which potentially underestimates the fb size. If GOP was forward
+> >>>>>>>>>> looking enough to give us the size we could derive the pitch
+> >>>>>>>>>> based
+> >>>>>>>>>> on size..
+> >>>>>>>>>>
+> >>>>>>>>>> Anyway, as it stands it looks a quirk in sysfb_apply_efi_quirks
+> >>>>>>>>>> looks it is required to fix it all up.
+> >>>>>>>>>>
+> >>>>>>>>>> I am a bit uneasy about declaring the fb size larger than what
+> >>>>>>>>>> was
+> >>>>>>>>>> implied by firmware provided pitch * height * depth but
+> >>>>>>>>>> limited to a
+> >>>>>>>>>> specific DMI match and if it looks visually okay I think it is a
+> >>>>>>>>>> safe assumption the quirked size is actually correct and safe.
+> >>>>>>>>>
+> >>>>>>>>> Yeah, we better not do that.
+> >>>>>>>> You mean declare it a firmware bug and live with the corrupt
+> >>>>>>>> console
+> >>>>>>>> until the final fb driver takes over?
+> >>>>>>>
+> >>>>>>> I only mean that we should not use more video memory than
+> >>>>>>> provided by EFI.
+> >>>>>>
+> >>>>>> Right, but that information is not available in the GOP, right?
+> >>>>>> Ie. as I
+> >>>>>> wrote above it appears assumed:
+> >>>>>>
+> >>>>>>       si->lfb_size = si->lfb_linelength * si->lfb_height;
+> >>>>>>
+> >>>>>> Do we have any other options apart from corruption or assume firmware
+> >>>>>> configured GOP screen info incorrectly?
+> >>>>>>
+> >>>>>
+> >>>>> How does it make sense to recalculate the line length? Those invisible
+> >>>>> pixels at the end of the scanline are not going to be transposed to
+> >>>>> the other dimension, right?
+> >>>>
+> >>>> Not sure what you meant here. The line above is from gop.c and the
+> >>>> context is that GOP screen info appears to not carry the frame buffer
+> >>>> size in bytes so it is implied.
+> >>>>
+> >>>> Elsewhere in the patch I quirk the pitch to the correct value so
+> >>>> rotated
+> >>>> rendering is correct.
+> >>>>
+> >>>> But the corrected pitch also means that in principle we need to adjust
+> >>>> the frame buffer size, since it is larger than the size implied with
+> >>>> the
+> >>>> incorrect pitch.
+> >>>>
+> >>>
+> >>> OK, so if I understand all of the above correctly, you have a 800x1280
+> >>> panel with 832 pixels per scanline, right? And the 5120 pitch is
+> >>> simply bogus, but needed to maintain the fiction that the panel is
+> >>> 1280 pixels wide, and so the resulting lfb_size is bogus too?
+> >>>
+> >>> Since we know that the PixelsPerScanline value is incorrect, I don't
+> >>> think there is any point in attempting to cross reference this against
+> >>> other firmware provided data. But it would make sense imho to apply
+> >>> the quirk only if the exact combination of incorrect values (i.e.,
+> >>> 1280x800/5120) is encountered.
+> >>
+> >> Right, the whole 1280x800 mode I *think* could be "bogus", that is,
+> >> some kind of a software rotated mode implemented by the firmware.
+> >>
+> >> Default mode is 800x1280 (pitch 832), while this second native
+> >> resolution mode is 1280x800 (pitch 1280).
+> >>
+> >> If default mode is left then both simpledrmfb and efidrmfb work fine.
+> >> The existing panel orientation quirk will trigger on 800x1280 and tell
+> >> fbcon to rotate.
+> >>
+> >> But if someone, like for example grub2, changed the mode to this
+> >> software rotated one then the existing DRM quirk will not work.
+> >
+> > So this is a bug in grub? Should it supply the original mode?
+> >
+> >
+> > Apologies for only asking dump questions here. I find this very confusing.
+>
+> Not at all, it is complicated and open whether it is worth improving.
+>
+> I don't think it is a grub bug. To me it seems like an unfortunate
+> consequence of protocol limitations.
+>
+> > In the correct mode 800x1280, the first native pixel should be on the
+> > lower left corner. and the second pixel should be 'up form it'. And
+> > because it's marked as rotated CCW, fbcon adapts correctly.
+> >
+> > If the display is in the bogus mode 1280x800, in which direction does it
+> > draw by default?  The framebuffer's first pixel should still be in one
+> > of the corners. And the second pixel is nearby. In which direction does
+> > it advance?
+>
+> I am not a grub expert, but I had a brief look at its codebase, and
+> AFAICT it draws by software rendering into a shadow frame buffer and
+> calls GOP->Blit to update the screen.
+>
+> As such my assumption is that with the fake 1280x800 mode, firmware
+> implements the blit to rotate under the hood.
+>
+> So for grub everything is fine. It sets 1280x800, sees 1280x800, renders
+> the menu in there, and courtesy of firmware blit the menu is presented
+> in the human friendly orientation.
+>
 
-I don't see how you get to these conclusions. I comment that putting
-here DTS in the middle without any explanation of the impact is not
-correct and this one alone I disagree with.
+Indeed - GRUB never draws into the EFI GOP linear frame buffer
+directly, and this seems to be what makes it work in this case.
 
-From that you claim I don't want to fix things...
-
-DTS cannot go to drm, which means you either need to separate the change
-and make entire work bisectable and backwards compatible for some time
-OR at least document clearly the impact as we always ask.
-
-Best regards,
-Krzysztof
+Could you boot with video=efifb:list on the kernel command line to see
+how the GOP modes are reported? I suppose the bug here is that the
+mode in question is not reported with PixelFormat==PixelBltOnly as it
+should be.
