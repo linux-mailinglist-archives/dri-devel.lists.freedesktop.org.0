@@ -2,182 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075DCC9C347
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 17:29:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D38C9C47C
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 17:47:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0809B10E187;
-	Tue,  2 Dec 2025 16:29:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A22EB10E092;
+	Tue,  2 Dec 2025 16:47:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CDAul8gN";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="srVIWwWx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06AAE10E187;
- Tue,  2 Dec 2025 16:29:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764692949; x=1796228949;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=wOqDXLjLQuHYRBWCYiK7N6N0zv67U5diIs4oC8srfas=;
- b=CDAul8gNTZXr84L3gOnIk/kOu/1PJdia4qwZfT+s4Iq1ymthnLIEcGKC
- 9M+QggfoiZJv6E9uaPGPSSkXt4x3vZKob4HgpcU4M/IhQJANPcxgzBBKt
- snYpDVRLEJ+Eq15yqJ2fPpUqm9AFB558H6xMdbLVxGR/SM0jkyY1Lnpp+
- /AKE5irO9deaBzM7Lj1HYVJpF5UxSR0nlol/Q1ZHxPMp2VgtbnIAD1T5m
- iqKvDM9d6/wJwBBs5194wNppityY4b5YIEHi4HttM5n+E16b/i9Unqtyl
- 4Y54Gljzn5ET6YqWBuLeOwLmVoZ4pBUrqbhnV8Yt+b4c8ST5nOUPHNlBm g==;
-X-CSE-ConnectionGUID: hEn8gxNvQc6GjtohhKhNLQ==
-X-CSE-MsgGUID: EZhr5SenTLetocAHg2+XMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66700085"
-X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; d="scan'208";a="66700085"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2025 08:29:08 -0800
-X-CSE-ConnectionGUID: DWRLjAfxQkC/uKNT7hc3Rg==
-X-CSE-MsgGUID: 0Ai+v6DpTmaXgRhlbSJBVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; d="scan'208";a="194844159"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2025 08:29:08 -0800
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 2 Dec 2025 08:29:07 -0800
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Tue, 2 Dec 2025 08:29:07 -0800
-Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.19) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 2 Dec 2025 08:29:07 -0800
+Received: from PH0PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11011029.outbound.protection.outlook.com [40.107.208.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF05510E092
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 16:47:01 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VYJnnayKAB5L6BGOxQZq6ZLWMT5nlMC1k5qfb9plmYlspmj5aH8qwuEyAbjYJoD0r87r4WazhpIiF74FTOAoJ5B5ZHql8bwNVOUA5//licUbPP0htd1Og1vUZbsUsyMGjIV8tXWW0FA4oFisKXgFb5+hHg46/LpzJk/ri76L5ODKvUmR0BLZ4fyjZz2MRoAF4Rta+x1uiB8x6hIaMNv4XgCOXlCIP360QmvBMsZhvElkktx4gvn77wjUpoPKrXElUh7yfts5GMCPWldMsHk+4cud+XuZHjqieqCc59RyejIeAR3OmdGVRQkQ46nkxXnSWF1fI1dNDC3Le7RUJNRRDQ==
+ b=dijPd02jm7vk0GSL3RPBXpUGYXrpFX/x2KrruYqbqIXm4diAaGzCQeD+GL2BN142W2N5n8lZfhNCtQRe7vnuNCSTVAOg3xr85ccEtiX5K3W9uPGCSIb9nI2i7qsSUmJ36Nypy31ybc46VATSFFFZUbS9HZBSEq+AieMiAOdPUdZxxxyAfV2cbV2rfSTAZRIxug7zyjYuxfEIfrW7JMm6JSkoeLU/y6iwx0qs4zojxQLRxs3P5bFoXIFL6qdqDOW5wEZtOy+wHSU8rdO5L0+daNAckryIRck/z+80YbR8mjQRRwAq1ArkB8o4KcdzVJTtPWbIwt0Et7XU9W+Mw8wYIA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qF5fMQOUN0t4nVtPLhI5zkxHfI0UG2SeMfBnChUZ97Y=;
- b=dbwEoUicCbjEwxeCS7OEnqN5/5+niNQ1d1vLcAHs8uuP01F1STploU/jxOHXpoLx5RI+Q3CFXFT9sP21MHpB7RYUoNITGYm4JWnnqymJcMbkIdMNU/5fuwmTUZqBBsbTRrEZPlUI9aIqIeijze1hH8tT9Gg/tdl6G4lnMcbMQStn5tUEMD7yETU4FV8iW04uboSO+E0LxICRRGqEkEDG9EWJXUqXxtcfdf3eVNZA/GQ3Gesn7WcpGeG99wsSz6m4oRAVyemCUHz8vjjl36BoCh/JgrGx3ovYE6EtIQXEqAktEaCW6VtDbwRinmN2ZsbbI6NJMIhez1wMGeg0hqkVXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CH0PR11MB5444.namprd11.prod.outlook.com (2603:10b6:610:d3::13)
- by CO1PR11MB4835.namprd11.prod.outlook.com (2603:10b6:303:9e::22)
+ bh=SiSM3RqaXc+bbkc9WCcFqr6uHZ4Y5bYQxLFweJ6TxvY=;
+ b=ZEJ+TmseU8wX67vgoDcK3/eDJD02huVIzXHhpiPaVAveq7ZHY2+8f/d5uay12j5xFB6/vGB0xrFRwi0c/FHyplyz4c0jQIXprLtFC2cCGCl31J7kJ7cbLe5ZpBcmit9j85RfYF+Pz3N82RM4xbzolFG/2kG1YxNX6SEZxhjsomH0HMAT9UTPv2XA3+929af3w8rH4g3zToeif1a/3azRGlwChdJ7x5LcW592CgH3it/ekCEEMTOn5CQ8WhNO6Onjb5Xrw/6jClbk4dO1H9NxPgEhJiPiZ5kM41UD7l9UUNd98ak1QcJs+XxxOq886vmrAzT3RUFlSdm8YXv1mJ/Hzg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SiSM3RqaXc+bbkc9WCcFqr6uHZ4Y5bYQxLFweJ6TxvY=;
+ b=srVIWwWx+6RAM1vAf2vnXEtUhnfmSmV2gsgQ4EZpCYgG9Er2VOkaeD7cr+p6Sznky3kauAr27zU2wMMXN8kcwHljWixk6V/5CqEbCZ3N4Sx8IX307mqsMu5v2y/VNehH9CsU8TByJ8ub1jkUl3tIZaz6rAk6HydPw8SAO4BAzD0=
+Received: from SJ0PR03CA0080.namprd03.prod.outlook.com (2603:10b6:a03:331::25)
+ by MN2PR12MB4285.namprd12.prod.outlook.com (2603:10b6:208:1d7::12)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Tue, 2 Dec
- 2025 16:29:00 +0000
-Received: from CH0PR11MB5444.namprd11.prod.outlook.com
- ([fe80::5081:cd4:1a4b:a73e]) by CH0PR11MB5444.namprd11.prod.outlook.com
- ([fe80::5081:cd4:1a4b:a73e%5]) with mapi id 15.20.9366.012; Tue, 2 Dec 2025
- 16:29:00 +0000
-From: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
-To: "Brost, Matthew" <matthew.brost@intel.com>
-CC: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Gupta, 
- saurabhg" <saurabhg.gupta@intel.com>, "Zuo, Alex" <alex.zuo@intel.com>,
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>, "Zhang,
- Jianxun" <jianxun.zhang@intel.com>, "Lin, Shuicheng"
- <shuicheng.lin@intel.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "Wajdeczko, Michal"
- <Michal.Wajdeczko@intel.com>, "Mrozek, Michal" <michal.mrozek@intel.com>,
- "Jadav, Raag" <raag.jadav@intel.com>, "Briano, Ivan" <ivan.briano@intel.com>, 
- "Auld, Matthew" <matthew.auld@intel.com>, "Hirschfeld, Dafna"
- <dafna.hirschfeld@intel.com>, "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
-Subject: RE: [PATCH v28 4/4] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Thread-Topic: [PATCH v28 4/4] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Thread-Index: AQHcYx4Fv8BJSpISqka7L0hdNHlMwbUOhPKAgAABCvA=
-Date: Tue, 2 Dec 2025 16:29:00 +0000
-Message-ID: <CH0PR11MB54442BF64055A807AADA7C1BE5D8A@CH0PR11MB5444.namprd11.prod.outlook.com>
-References: <20251201235539.236686-6-jonathan.cavitt@intel.com>
- <20251201235539.236686-10-jonathan.cavitt@intel.com>
- <aS8OeWtmbaP/gsL+@lstrano-desk.jf.intel.com>
-In-Reply-To: <aS8OeWtmbaP/gsL+@lstrano-desk.jf.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH0PR11MB5444:EE_|CO1PR11MB4835:EE_
-x-ms-office365-filtering-correlation-id: 1fdb3be0-0deb-48dd-180c-08de31bfe629
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|376014|10070799003|1800799024|38070700021|7053199007; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?acxAxbUxHUKg/pG/5IuDcWiMHwyZ5NBa1eE2QqlAHu/CJUnYrb/d6YpNmP8J?=
- =?us-ascii?Q?x5Aic0fiCC0aZgHoXf6l4ovFX7kNhuU4/Kvubbg7il6u/TgzCO6+w0jwLmwk?=
- =?us-ascii?Q?i/O0RdrZwZdNX2egJRixSCEmzNzBwfmUFvDgjd1ntxnHeCszcE8wPV1oiOcF?=
- =?us-ascii?Q?BF6z2l9Uis1t80wuPZDiFZlefJ7n5mkyE8O1Gn8FYuUbenRjSiqwze8EJqpI?=
- =?us-ascii?Q?DJGhqFBJlUdHS5EvrXktWymO6602gbC4G/INP9/byEXyDHjTls/VYG4EpW+b?=
- =?us-ascii?Q?PD9J46YTFnpQY4vBZZcsLJn4MKv2d2dL/4vI7pCA/gCPXG6QId/XIfJRts9D?=
- =?us-ascii?Q?Ghli7RVsO4oW8umQc/aMKpSRAPlag0jSBFMvdXEze/lcJjzNFLFu6ZPL1Z1Q?=
- =?us-ascii?Q?j9eqwuv4pUGgq4hzWbimdrMd49RLUzgOzh2fF8kIBL90aEZMXuvoZghGaEUX?=
- =?us-ascii?Q?TYts7e7nHFt0Y9SeJTn24nXp28nBbnygckaKZ6y9Gat4CnHYtvcSaxTJBZ+S?=
- =?us-ascii?Q?13dhNfsbGyhmFpVK8dG4os8yUXcfuA/eYdTsWHv8Eo+/rduYEWTjYsgyPqa2?=
- =?us-ascii?Q?s3qqVD/YwDyd7aLMnwwRTF5I36A2XT6sX+Hl3uOwszO1U0diYVLJuijZJuLw?=
- =?us-ascii?Q?n0W4OBZjgkCojCfZSUSpryhvFgHLcbGdwBRBs8TrfjbqxtWoxCaIhf9Xgvz6?=
- =?us-ascii?Q?ugebuqROjJXmdYWd1wgShyV0MNs7trO/BAqMRmf/Tzocl9P9t66u3I7nVaqc?=
- =?us-ascii?Q?1VRcLf4sGSDEUlVOzWlzdm6s3MSApq7Ou0j3iIlN/AfWVPoeo75//2KXumoW?=
- =?us-ascii?Q?/uUQg3HV3R9f2CX5l6fkhYR9goAHjH7sT45NrHxV1efavCsPQQ8sV6MtRr3R?=
- =?us-ascii?Q?WyVdaWQFs3uOE3QLrpitO6SebE/FaDTRRj6wFeyATYjME7j6r0nCU+xPDfiF?=
- =?us-ascii?Q?xw++pyDDN/1IeAd3QcL1rZXGTvgg0K9ef07FaU8U/P8OXelHlRnF51skg81V?=
- =?us-ascii?Q?0Gb1OrzWmYyGsL0NEpVuuRPluxDQsCR8zGmdjt0MZVPbVU4pYYUV7a2zUlDx?=
- =?us-ascii?Q?RHLSt1ifydTCfPm8itQoBcq/69/6J5go7OMb5biRhNEEiSLKFR2nXoOAA9JQ?=
- =?us-ascii?Q?MHGZBVuI2owqxp6qIHQWi8GHuAYFjQB5K1srB619+aIB2uNQPQ+XkA3gmln/?=
- =?us-ascii?Q?I5FouM59n5NVNqEpAftaQYlf4+vWlBCju9dhKq2Ln0ssSi0jzfLlKbDyQACy?=
- =?us-ascii?Q?mFn1eDGHcCkPY79JhhfODxr/zYfTALEJl3OEgMEQiQvXU/GXb09QeBMx0hhj?=
- =?us-ascii?Q?fVP2MwIPawLnTpeVyLLRt7zqYV1x5gIpAcyLZ7KKaE7GLF0hg2xz7keSEXXM?=
- =?us-ascii?Q?Ub71ud0f8NlHwe2OLZIeXNBV2JpqO8eMpTwrPgmrpH/VOxxsjQyCn8oRoIiw?=
- =?us-ascii?Q?XW7RDz+rbtilw9bP1YnU4pD6PUgovUy10NorRmh2LVx4Ra3TZ51eYz+o/cI1?=
- =?us-ascii?Q?JeipVyytUwHI2cVTTqcOGva18YBQApahGnWA?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR11MB5444.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(10070799003)(1800799024)(38070700021)(7053199007);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?gvCmcDUbdBQegMal/ZDmGEZOBTRaC1HMMUKPsm6kuULrQXbWo4yWkGF5eTwm?=
- =?us-ascii?Q?RL7WXE7jJJd8YUKBpS4TBgf6LrorSu6ExZN3vYnOoT60Me0GKDSgwbg3H4Rh?=
- =?us-ascii?Q?CBjs1vmOqYihJIpg5rw/RxzNU7Jvl6n1gSZ4GrL9OEo52uPLCoqqTdmGPDSH?=
- =?us-ascii?Q?oKU8wUPr9oNs1ykJcldgjSiwlpjTzkgAufxBpR3AK/7HoHZ41mjJw2hmfi0b?=
- =?us-ascii?Q?bIFv71oWvoHw59Y3cAVegNvLWzBELRRiXY/RSyNBYsxj+YYbm0rbO9c9rF1J?=
- =?us-ascii?Q?rsOs91l9IeTVAnIBvI9Qx/pbvVT0BKO3VHxb6+oC9uM5k7hMNaJUq+a0YHwy?=
- =?us-ascii?Q?EVGyB5bWyM4PB8HlcwIlkN0Fh3sRRKJC6XqToa4BYOowLuBcC+tWtA4XmosL?=
- =?us-ascii?Q?fKfaF7GPgRGeF/C5c9wntiXlWsGETybnvgWpxER5edQY5P2pLDoa3hbAQjvv?=
- =?us-ascii?Q?4YHiOHGaWpXoVYpAqxab2BsG3m7RtB5+2zVYMo5O8L1JMz2Fxy+F0JHIvzHi?=
- =?us-ascii?Q?U4IX5k4BH+KjwxIflIv36wjOjTO0tex8FAywjwPwazUw2o/IrMveRpDQ+n9M?=
- =?us-ascii?Q?7l3b2zItsr2GuFXcmh+GOeJYs++tSiUH9/jePBi/g37kFx5PXhm8n7bkYyS3?=
- =?us-ascii?Q?fHLBZMjLUZO7RpYREAcB/i1/+wwxXlco46Q9Fj5pJbQmWjU9EDQ6m0l+2uEs?=
- =?us-ascii?Q?rrffHQaNaAh8mSnsAug61butW9f5bgDhzMD82ZaGjIfandx9owfjy8J8E1Ns?=
- =?us-ascii?Q?B1RUUN1YAmV0jXsYNMdQ2ELj1ujVZpueZDbD0TCY5UTbkFQdmyVpH9uh0feX?=
- =?us-ascii?Q?O1MqwMoMKGTO8Q/juOmtZFVGLivRzaXbBGL71pB7JxobazocvD3pXkDqeNjy?=
- =?us-ascii?Q?dzEL7Sc5D2DiImG6S9nbLyE4EnAvjNnnoLL5dfUPQSsWlGSO82nHbfoBlOF5?=
- =?us-ascii?Q?iTWkHHDUaA+9oAj6Eir9JspeYtjRhjH2GuHYJxal7nURF4GwXbXiPJ3OHSNL?=
- =?us-ascii?Q?FVrQPTNiFBtOj5mvF4fjlts7nm63eXVMpRfFTHdGJK0WdCRqNRm6khu3jz9z?=
- =?us-ascii?Q?rEOEASzT4cv6XB38wImLq2NjJ2MC6MoXuiMv4g/tWnXGY4XzEW+sCuruBCT3?=
- =?us-ascii?Q?ZDzzit5lY+AuQrBVCf4UpamRjqPtHRT8RLJLO3FJ0HWKn4iyU2yD9KbZV6MC?=
- =?us-ascii?Q?Q/vxT87mPxXdfg49sNEYMIu/XMYGlWOgnt+Ykd9XHn1czW3RYLDamppF7Br1?=
- =?us-ascii?Q?Igu7zH26uZkbbm1BebTMzzsGJ19U805uhAgyhSpxQRErRvp+5Z857BuWqU9Y?=
- =?us-ascii?Q?dlw0EpHNw1DQx1m1qY7p1/g0QgUCJM5Y1e359QPe5y6Lme2COExsIdejkLPm?=
- =?us-ascii?Q?Vtz2hX+sQhf8XGtbrCNzPfksfHAIvj43zN85aWEQVRG/vrhDHI0sSJZkR3gJ?=
- =?us-ascii?Q?BMLtAFlIn/sh5ixTnUFbybXsuGnwcq+FnLqZKaMmPk/A7kPArLK2pgl+QwHJ?=
- =?us-ascii?Q?8k0mErsCkOw20dF7hUa/EYUVJoN+WDE8i1bHswVlm2EVzEBpXKMcLv9/N88K?=
- =?us-ascii?Q?b+RohUfOV7x3fgRd64HFPY2YWV0JJbuU15KXL1wI3smCV42nr8O195+dHqQm?=
- =?us-ascii?Q?ED7Wb7rLezmsSJh7Kpi6v+ypy8z7ChsykY4ALvh18D/u?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Tue, 2 Dec
+ 2025 16:46:56 +0000
+Received: from BY1PEPF0001AE16.namprd04.prod.outlook.com
+ (2603:10b6:a03:331:cafe::11) by SJ0PR03CA0080.outlook.office365.com
+ (2603:10b6:a03:331::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.17 via Frontend Transport; Tue,
+ 2 Dec 2025 16:46:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ BY1PEPF0001AE16.mail.protection.outlook.com (10.167.242.104) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9388.8 via Frontend Transport; Tue, 2 Dec 2025 16:46:56 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 2 Dec
+ 2025 10:46:55 -0600
+Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Tue, 2 Dec 2025 08:46:54 -0800
+Message-ID: <86378b86-bf98-6dc5-0f3b-0a92cfa6a5f1@amd.com>
+Date: Tue, 2 Dec 2025 08:46:54 -0800
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5444.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fdb3be0-0deb-48dd-180c-08de31bfe629
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Dec 2025 16:29:00.2827 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jflTy4ki+svMdus4H/h6LtxGB2aMpGfs2/54wGeArJ+BM32ntgReyfbDFx3wznbHWvesHFwVlc9LfHsWkONbVwTqA5S2HmkXO07qnWjvJ+c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4835
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V1] accel/amdxdna: Poll MPNPU_PWAITMODE after requesting
+ firmware suspend
+Content-Language: en-US
+To: Mario Limonciello <mario.limonciello@amd.com>, <ogabbay@kernel.org>,
+ <quic_jhugo@quicinc.com>, <dri-devel@lists.freedesktop.org>,
+ <maciej.falkowski@linux.intel.com>
+CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>, <sonal.santan@amd.com>
+References: <20251202053717.461943-1-lizhi.hou@amd.com>
+ <b18d6c28-fd7a-43df-b2a5-a8af3050c2a1@amd.com>
+From: Lizhi Hou <lizhi.hou@amd.com>
+In-Reply-To: <b18d6c28-fd7a-43df-b2a5-a8af3050c2a1@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE16:EE_|MN2PR12MB4285:EE_
+X-MS-Office365-Filtering-Correlation-Id: 60bc5a5f-0a2a-45aa-e432-08de31c267a2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|82310400026|1800799024|376014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?c2NXVW5CQ0tGc3ZlVjlOZ2NjelFBT3lPUncvNkJXN0tnOXpZS3Y2NjQ2Mkhs?=
+ =?utf-8?B?NkNmaVM1dGJDOUJIWnJjNzZ1azBZVmpoMi9IN1Zod3FIdTB3Q2JwWFBnZ3Ro?=
+ =?utf-8?B?K0FIQTRzNXFaeVN0Z2lPQk84dEZQQWJNSmpCeXZINU1zL1lQSllWZ0ljUGVM?=
+ =?utf-8?B?d3hXa3E5cDZpZ0MwWitHQUo4b2dEUmh2VldMODRqcUh1V2tKMVJKdFkzVUU5?=
+ =?utf-8?B?VnJRUFNlS1A3UWd2UVE0WHpGN2drRDVyVW4ySzZDc29BWm4zMURFNUZwNENw?=
+ =?utf-8?B?MzYxUC95UTE4YllmbG42bkpOUC80V2JpNlpITU9SclZlZ1p4WXZCNVA1QkVv?=
+ =?utf-8?B?NTJ5TkZKV1VPblZiM2Raay9nZWhSaXdoamJLTUxwY0RHUEU4Z0drcjloTStO?=
+ =?utf-8?B?blNReVcwTlR0T2FXUloxREYva1Nzai9iWW1CVDBmMmFkVGJjMVl3TVdtS0tD?=
+ =?utf-8?B?TnFFS3BvZENmRHh1UDlqL0YrZ0Y2QXJiblNNSlNQUkpnenUxeTRGKy9IbDA1?=
+ =?utf-8?B?WVFtRzUvMURUZmdaVExsYUY5WmpYTjQvY3d5QzRqZ0h1aVkyakZVS3E3cnVJ?=
+ =?utf-8?B?MmJ3bHN2RmgzMzY3TW9pUXBkRnIzODdzcEhSZ1QwOHpwazJFUkIvWEJmaGZR?=
+ =?utf-8?B?QkpHdFRwS2E2QXNlY0ZXRzhqYUVDWWcrWmp4dWs4ZmE1T3V0dm40OEh4WUNw?=
+ =?utf-8?B?L2doWnlwSHNEVDIyb2JLeUlQNXVVc0RBZk1VTm1zbUFRMlhpakRVZXRab1Ux?=
+ =?utf-8?B?VEF6Zmk1TlBkb1dhYnpVV0NzOEliKzdYc3FLZHhidFlOUWU4VXZDcm1ZUHJy?=
+ =?utf-8?B?bmZEbVNONVpoT3JQRGI3elYxVm83cnl0UkU0UVMzMXZyYlV5blJ4M0JVeXNN?=
+ =?utf-8?B?ZmlzVldEamV1RmxRSmNzUFlwRVNQd3BNU1RSVVc4aTdKQUtJYzZZWDVtak5w?=
+ =?utf-8?B?b0pzZlU4WHFKYVV6TElBcWExV0V2OU9Qa1BFNjMwWGNqWVExZE5JcldlNmJn?=
+ =?utf-8?B?VmdacnR5aTVlQVU5T2FRMUE4Z0ZrVUY5T0xlc1RLd0dlcnhGNEh5RWV0MTJT?=
+ =?utf-8?B?ejNoM0JXalRtQVdNU0F5WTBORThmVWhKakpaaEVIUnc0WDZnQjQzUnFKU2NR?=
+ =?utf-8?B?YTFSVUZsamZtenlWT1JCMXhGZzBLR3NRTEhZbWpBRnFCeTZhMmk5UmkxVVRi?=
+ =?utf-8?B?d3NSNXJ4Q2hidjJYQzNBcC9hN09zMTdTKzhxcmtTTVlOZjlrV0RqajJDOEtX?=
+ =?utf-8?B?c0ZsZWZJd1NvS2VCSHFCY1hjL25yTkdnNFlVWDlsTnd4M2QxWHFXVk1LY2xq?=
+ =?utf-8?B?UEFFd0lPR2xQMkIzcVhtS0I3cTIrYzE5OXJmYk5FWEYzT3ZtOVl0enZvV09q?=
+ =?utf-8?B?Q2dpMXFYU1YyYW82aVpUbitwU3oxa0lLZzRTRUFFQ2NZZy9iRGpGaEZEd0p2?=
+ =?utf-8?B?cVh4Mk53eXJnK1ZMQWdnYU9MbnJIZ1RQd0hFL2l6OXpFVGN1Ujl1TDRpa1VC?=
+ =?utf-8?B?WG5DSnFxMHR6bUxmdWZDc1VBV0QwOUd0MGZ1dmRpbFJ6bUlPaUp6RXdWQ29a?=
+ =?utf-8?B?UDBtb2N5OWtrenNKNkhnNVdNLzlpSVRsbTlYYmR5bS9weHVZWXIyTGlBL0tK?=
+ =?utf-8?B?NzU2TGdVWW0zbXQyNFBoM2pDK1ZvVFZqd1hKYTYweVpTZWp1Q3k0RWNWejdp?=
+ =?utf-8?B?cU5udWlQS3FhTmlVWnNCR0FwZjd6MTA2RXozVUJqY29XZjZmSmFpOXJXYjY1?=
+ =?utf-8?B?QjlsZ0ZzRFU0Yks5SGQxdERBU2NMRFZQODUybVFUcGNlS0kwMk10SDY5aC82?=
+ =?utf-8?B?Y3JycDJZZGNSZmE0cXgzSDgrWDAwcDVUdE12dkJ4WmtXeXo3ZFd4dmE5d3Y3?=
+ =?utf-8?B?Mk1vUGhyZDZLOXVMbGNiZnVvMFNoU3VGNzlmSzVaZTZ1K0dxMnFkY0ZDbS9y?=
+ =?utf-8?B?SS9iVUYvOFJGaXBJTUtCSUROVVdsWDduRSs1cmZZN1g4cFRNRjRVZmhzQjRr?=
+ =?utf-8?B?c0tXUlI3a1Y4LzF5S2t3U3BmUWZOaGNEaGQwZkJjU2RzUUZOYVJBSURIdnhM?=
+ =?utf-8?B?bzZwUW03eGt5bDR6cTJmc0ZsSFhRRS93eEpBWmlyTG5LUmdEMWFaT2RiTkZz?=
+ =?utf-8?Q?VmdE=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 16:46:56.3986 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60bc5a5f-0a2a-45aa-e432-08de31c267a2
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BY1PEPF0001AE16.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4285
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -193,307 +149,257 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
------Original Message-----
-From: Brost, Matthew <matthew.brost@intel.com>=20
-Sent: Tuesday, December 2, 2025 8:06 AM
-To: Cavitt, Jonathan <jonathan.cavitt@intel.com>
-Cc: intel-xe@lists.freedesktop.org; Gupta, saurabhg <saurabhg.gupta@intel.c=
-om>; Zuo, Alex <alex.zuo@intel.com>; joonas.lahtinen@linux.intel.com; Zhang=
-, Jianxun <jianxun.zhang@intel.com>; Lin, Shuicheng <shuicheng.lin@intel.co=
-m>; dri-devel@lists.freedesktop.org; Wajdeczko, Michal <Michal.Wajdeczko@in=
-tel.com>; Mrozek, Michal <michal.mrozek@intel.com>; Jadav, Raag <raag.jadav=
-@intel.com>; Briano, Ivan <ivan.briano@intel.com>; Auld, Matthew <matthew.a=
-uld@intel.com>; Hirschfeld, Dafna <dafna.hirschfeld@intel.com>
-Subject: Re: [PATCH v28 4/4] drm/xe/xe_vm: Implement xe_vm_get_property_ioc=
-tl
->=20
-> On Mon, Dec 01, 2025 at 11:55:44PM +0000, Jonathan Cavitt wrote:
-> > Add support for userspace to request a list of observed faults
-> > from a specified VM.
-> >=20
-> > v2:
-> > - Only allow querying of failed pagefaults (Matt Brost)
-> >=20
-> > v3:
-> > - Remove unnecessary size parameter from helper function, as it
-> >   is a property of the arguments. (jcavitt)
-> > - Remove unnecessary copy_from_user (Jainxun)
-> > - Set address_precision to 1 (Jainxun)
-> > - Report max size instead of dynamic size for memory allocation
-> >   purposes.  Total memory usage is reported separately.
-> >=20
-> > v4:
-> > - Return int from xe_vm_get_property_size (Shuicheng)
-> > - Fix memory leak (Shuicheng)
-> > - Remove unnecessary size variable (jcavitt)
-> >=20
-> > v5:
-> > - Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
-> > - Update fill_property_pfs to eliminate need for kzalloc (Jianxun)
-> >=20
-> > v6:
-> > - Repair and move fill_faults break condition (Dan Carpenter)
-> > - Free vm after use (jcavitt)
-> > - Combine assertions (jcavitt)
-> > - Expand size check in xe_vm_get_faults_ioctl (jcavitt)
-> > - Remove return mask from fill_faults, as return is already -EFAULT or =
-0
-> >   (jcavitt)
-> >=20
-> > v7:
-> > - Revert back to using xe_vm_get_property_ioctl
-> > - Apply better copy_to_user logic (jcavitt)
-> >=20
-> > v8:
-> > - Fix and clean up error value handling in ioctl (jcavitt)
-> > - Reapply return mask for fill_faults (jcavitt)
-> >=20
-> > v9:
-> > - Future-proof size logic for zero-size properties (jcavitt)
-> > - Add access and fault types (Jianxun)
-> > - Remove address type (Jianxun)
-> >=20
-> > v10:
-> > - Remove unnecessary switch case logic (Raag)
-> > - Compress size get, size validation, and property fill functions into =
-a
-> >   single helper function (jcavitt)
-> > - Assert valid size (jcavitt)
-> >=20
-> > v11:
-> > - Remove unnecessary else condition
-> > - Correct backwards helper function size logic (jcavitt)
-> >=20
-> > v12:
-> > - Use size_t instead of int (Raag)
-> >=20
-> > v13:
-> > - Remove engine class and instance (Ivan)
-> >=20
-> > v14:
-> > - Map access type, fault type, and fault level to user macros (Matt
-> >   Brost, Ivan)
-> >=20
-> > v15:
-> > - Remove unnecessary size assertion (jcavitt)
-> >=20
-> > v16:
-> > - Nit fixes (Matt Brost)
-> >=20
-> > v17:
-> > - Rebase and refactor (jcavitt)
-> >=20
-> > v18:
-> > - Do not copy_to_user in critical section (Matt Brost)
-> > - Assert args->size is multiple of sizeof(struct xe_vm_fault) (Matt
-> >   Brost)
-> >=20
-> > Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> > Suggested-by: Matthew Brost <matthew.brost@intel.com>
-> > Cc: Jainxun Zhang <jianxun.zhang@intel.com>
-> > Cc: Shuicheng Lin <shuicheng.lin@intel.com>
-> > Cc: Raag Jadav <raag.jadav@intel.com>
-> > Cc: Ivan Briano <ivan.briano@intel.com>
-> > ---
-> >  drivers/gpu/drm/xe/xe_device.c |   2 +
-> >  drivers/gpu/drm/xe/xe_vm.c     | 119 +++++++++++++++++++++++++++++++++
-> >  drivers/gpu/drm/xe/xe_vm.h     |   3 +
-> >  3 files changed, 124 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_dev=
-ice.c
-> > index 1197f914ef77..69baf01f008a 100644
-> > --- a/drivers/gpu/drm/xe/xe_device.c
-> > +++ b/drivers/gpu/drm/xe/xe_device.c
-> > @@ -207,6 +207,8 @@ static const struct drm_ioctl_desc xe_ioctls[] =3D =
-{
-> >  	DRM_IOCTL_DEF_DRV(XE_MADVISE, xe_vm_madvise_ioctl, DRM_RENDER_ALLOW),
-> >  	DRM_IOCTL_DEF_DRV(XE_VM_QUERY_MEM_RANGE_ATTRS, xe_vm_query_vmas_attrs=
-_ioctl,
-> >  			  DRM_RENDER_ALLOW),
-> > +	DRM_IOCTL_DEF_DRV(XE_VM_GET_PROPERTY, xe_vm_get_property_ioctl,
-> > +			  DRM_RENDER_ALLOW),
-> >  };
-> > =20
-> >  static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned=
- long arg)
-> > diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-> > index dc6c36191274..ccc0aa3afe58 100644
-> > --- a/drivers/gpu/drm/xe/xe_vm.c
-> > +++ b/drivers/gpu/drm/xe/xe_vm.c
-> > @@ -3850,6 +3850,125 @@ int xe_vm_bind_ioctl(struct drm_device *dev, vo=
-id *data, struct drm_file *file)
-> >  	return err;
-> >  }
-> > =20
-> > +/*
-> > + * Map access type, fault type, and fault level from current bspec
-> > + * specification to user spec abstraction.  The current mapping is
-> > + * 1-to-1, but if there is ever a hardware change, we will need
-> > + * this abstraction layer to maintain API stability through the
-> > + * hardware change.
-> > + */
-> > +static u8 xe_to_user_access_type(u8 access_type)
-> > +{
-> > +	return access_type;
-> > +}
-> > +
-> > +static u8 xe_to_user_fault_type(u8 fault_type)
-> > +{
-> > +	return fault_type;
-> > +}
-> > +
-> > +static u8 xe_to_user_fault_level(u8 fault_level)
-> > +{
-> > +	return fault_level;
-> > +}
-> > +
-> > +static int fill_faults(struct xe_vm *vm,
-> > +		       struct drm_xe_vm_get_property *args)
-> > +{
-> > +	struct xe_vm_fault __user *usr_ptr =3D u64_to_user_ptr(args->data);
-> > +	struct xe_vm_fault *fault_list, fault_entry;
-> > +	struct xe_vm_fault_entry *entry;
-> > +	int ret =3D 0, i =3D 0, count, entry_size;
-> > +
-> > +	entry_size =3D sizeof(struct xe_vm_fault);
-> > +	count =3D args->size / entry_size;
-> > +
-> > +	fault_list =3D kcalloc(count, sizeof(struct xe_vm_fault), GFP_KERNEL)=
-;
-> > +	if (!fault_list)
-> > +		return -ENOMEM;
-> > +
-> > +	spin_lock(&vm->faults.lock);
-> > +	list_for_each_entry(entry, &vm->faults.list, list) {
-> > +		if (i =3D=3D count)
-> > +			break;
-> > +
-> > +		memset(&fault_entry, 0, entry_size);
->=20
-> This memset only needs to happen once, right?
->=20
-> So maybe when declaring 'fault_entry', do this: 'fault_entry =3D {};'.
 
-This is true from a theoretical and practical standpoint.  But from a desig=
-n perspective,
-it's generally bad practice to reuse a memory region without clearing it fi=
-rst (at least,
-in the case where that memory region points to a struct).
+On 12/1/25 21:51, Mario Limonciello wrote:
+>
+>
+> On 12/1/2025 11:37 PM, Lizhi Hou wrote:
+>> After issuing a firmware suspend request, the driver must ensure that 
+>> the
+>> suspend operation has completed before proceeding. Add polling of the
+>> MPNPU_PWAITMODE register to confirm that the firmware has fully entered
+>> the suspended state. This prevents race conditions where subsequent
+>> operations assume the firmware is idle before it has actually completed
+>> its suspend sequence.
+>>
+>> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+>> ---
+>>   drivers/accel/amdxdna/aie2_message.c |  9 ++++++++-
+>>   drivers/accel/amdxdna/aie2_pci.h     |  2 ++
+>>   drivers/accel/amdxdna/aie2_psp.c     | 15 +++++++++++++++
+>>   drivers/accel/amdxdna/npu1_regs.c    |  2 ++
+>>   drivers/accel/amdxdna/npu2_regs.c    |  2 ++
+>>   drivers/accel/amdxdna/npu4_regs.c    |  2 ++
+>>   drivers/accel/amdxdna/npu5_regs.c    |  4 +++-
+>>   drivers/accel/amdxdna/npu6_regs.c    |  2 ++
+>>   8 files changed, 36 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/accel/amdxdna/aie2_message.c 
+>> b/drivers/accel/amdxdna/aie2_message.c
+>> index d493bb1c3360..fee3b0627aba 100644
+>> --- a/drivers/accel/amdxdna/aie2_message.c
+>> +++ b/drivers/accel/amdxdna/aie2_message.c
+>> @@ -59,8 +59,15 @@ static int aie2_send_mgmt_msg_wait(struct 
+>> amdxdna_dev_hdl *ndev,
+>>   int aie2_suspend_fw(struct amdxdna_dev_hdl *ndev)
+>>   {
+>>       DECLARE_AIE2_MSG(suspend, MSG_OP_SUSPEND);
+>> +    int ret;
+>>   -    return aie2_send_mgmt_msg_wait(ndev, &msg);
+>> +    ret = aie2_send_mgmt_msg_wait(ndev, &msg);
+>> +    if (ret) {
+>> +        XDNA_ERR(ndev->xdna, "Failed to suspend fw, ret %d", ret);
+>> +        return ret;
+>> +    }
+>> +
+>> +    return aie2_psp_waitmode_poll(ndev->psp_hdl);
+>>   }
+>>     int aie2_resume_fw(struct amdxdna_dev_hdl *ndev)
+>> diff --git a/drivers/accel/amdxdna/aie2_pci.h 
+>> b/drivers/accel/amdxdna/aie2_pci.h
+>> index a5f9c42155d1..cc9f933f80b2 100644
+>> --- a/drivers/accel/amdxdna/aie2_pci.h
+>> +++ b/drivers/accel/amdxdna/aie2_pci.h
+>> @@ -70,6 +70,7 @@ enum psp_reg_idx {
+>>       PSP_INTR_REG = PSP_NUM_IN_REGS,
+>>       PSP_STATUS_REG,
+>>       PSP_RESP_REG,
+>> +    PSP_PWAITMODE_REG,
+>>       PSP_MAX_REGS /* Keep this at the end */
+>>   };
+>>   @@ -290,6 +291,7 @@ int aie2_pm_set_mode(struct amdxdna_dev_hdl 
+>> *ndev, enum amdxdna_power_mode_type
+>>   struct psp_device *aie2m_psp_create(struct drm_device *ddev, struct 
+>> psp_config *conf);
+>>   int aie2_psp_start(struct psp_device *psp);
+>>   void aie2_psp_stop(struct psp_device *psp);
+>> +int aie2_psp_waitmode_poll(struct psp_device *psp);
+>>     /* aie2_error.c */
+>>   int aie2_error_async_events_alloc(struct amdxdna_dev_hdl *ndev);
+>> diff --git a/drivers/accel/amdxdna/aie2_psp.c 
+>> b/drivers/accel/amdxdna/aie2_psp.c
+>> index f28a060a8810..4bc60f458fd4 100644
+>> --- a/drivers/accel/amdxdna/aie2_psp.c
+>> +++ b/drivers/accel/amdxdna/aie2_psp.c
+>> @@ -76,6 +76,21 @@ static int psp_exec(struct psp_device *psp, u32 
+>> *reg_vals)
+>>       return 0;
+>>   }
+>>   +int aie2_psp_waitmode_poll(struct psp_device *psp)
+>> +{
+>> +    int mode_reg = -1, ret;
+>
+> It seems like from the usage mode_reg shouldn't be a signed integer.
+Will change it to u32.
+>
+>> +
+>> +    ret = readx_poll_timeout(readl, PSP_REG(psp, PSP_PWAITMODE_REG), 
+>> mode_reg,
+>> +                 (mode_reg & 0x1) == 1,
+>> +                 PSP_POLL_INTERVAL, PSP_POLL_TIMEOUT);
+>> +    if (ret) {
+>> +        drm_err(psp->ddev, "fw waitmode reg error, ret 0x%x", ret);
+>
+> Aren't these return codes going to be negative in the case of an 
+> error? IE they shouldn't be 0x%x, they should be %d.
+Agree. I will fix this.
+>
+> Also shouldn't you be using XDNA_ERR()?
+Sure. I can use XDNA_ERR.
+>
+>> +        return ret;
+>> +    }
+>> +
+>> +    return 0;
+>
+> You can probably simplify as:
+>
+> if (ret)
+>     drm_err();
+> return ret;
 
-On the other hand, there's apparently no precedent for calling memset on th=
-e same
-memory region repeatedly in a loop literally anywhere in the XE code, so ma=
-ybe it
-would be more fitting to just do it the way you suggested.  I'll apply the =
-change
-later once more revision notes come in.
+Agree.
 
--Jonathan Cavitt
+>
+>> +}
+>> +
+>>   void aie2_psp_stop(struct psp_device *psp)
+>>   {
+>>       u32 reg_vals[PSP_NUM_IN_REGS] = { PSP_RELEASE_TMR, };
+>> diff --git a/drivers/accel/amdxdna/npu1_regs.c 
+>> b/drivers/accel/amdxdna/npu1_regs.c
+>> index ec407f3b48fc..ebc6e2802297 100644
+>> --- a/drivers/accel/amdxdna/npu1_regs.c
+>> +++ b/drivers/accel/amdxdna/npu1_regs.c
+>> @@ -13,6 +13,7 @@
+>>   #include "amdxdna_pci_drv.h"
+>>     /* Address definition from NPU1 docs */
+>> +#define MPNPU_PWAITMODE            0x3010034
+>>   #define MPNPU_PUB_SEC_INTR        0x3010090
+>>   #define MPNPU_PUB_PWRMGMT_INTR        0x3010094
+>>   #define MPNPU_PUB_SCRATCH2        0x30100A0
+>> @@ -92,6 +93,7 @@ static const struct amdxdna_dev_priv npu1_dev_priv = {
+>>           DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU1_PSP, 
+>> MPNPU_PUB_SEC_INTR),
+>>           DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU1_PSP, 
+>> MPNPU_PUB_SCRATCH2),
+>>           DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU1_PSP, 
+>> MPNPU_PUB_SCRATCH3),
+>> +        DEFINE_BAR_OFFSET(PSP_PWAITMODE_REG, NPU1_PSP, 
+>> MPNPU_PWAITMODE),
+>>       },
+>>       .smu_regs_off   = {
+>>           DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU1_SMU, MPNPU_PUB_SCRATCH5),
+>> diff --git a/drivers/accel/amdxdna/npu2_regs.c 
+>> b/drivers/accel/amdxdna/npu2_regs.c
+>> index 86f87d0d1354..ad0743fb06d5 100644
+>> --- a/drivers/accel/amdxdna/npu2_regs.c
+>> +++ b/drivers/accel/amdxdna/npu2_regs.c
+>> @@ -13,6 +13,7 @@
+>>   #include "amdxdna_pci_drv.h"
+>>     /* NPU Public Registers on MpNPUAxiXbar (refer to Diag 
+>> npu_registers.h) */
+>> +#define MPNPU_PWAITMODE                0x301003C
+>>   #define MPNPU_PUB_SEC_INTR             0x3010060
+>>   #define MPNPU_PUB_PWRMGMT_INTR         0x3010064
+>>   #define MPNPU_PUB_SCRATCH0             0x301006C
+>> @@ -85,6 +86,7 @@ static const struct amdxdna_dev_priv npu2_dev_priv = {
+>>           DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU2_PSP, MP0_C2PMSG_73),
+>>           DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU2_PSP, MP0_C2PMSG_123),
+>>           DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU2_REG, 
+>> MPNPU_PUB_SCRATCH3),
+>> +        DEFINE_BAR_OFFSET(PSP_PWAITMODE_REG, NPU2_REG, 
+>> MPNPU_PWAITMODE),
+>>       },
+>>       .smu_regs_off   = {
+>>           DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU2_SMU, MP1_C2PMSG_0),
+>> diff --git a/drivers/accel/amdxdna/npu4_regs.c 
+>> b/drivers/accel/amdxdna/npu4_regs.c
+>> index 986a5f28ba24..4ca21db70478 100644
+>> --- a/drivers/accel/amdxdna/npu4_regs.c
+>> +++ b/drivers/accel/amdxdna/npu4_regs.c
+>> @@ -13,6 +13,7 @@
+>>   #include "amdxdna_pci_drv.h"
+>>     /* NPU Public Registers on MpNPUAxiXbar (refer to Diag 
+>> npu_registers.h) */
+>> +#define MPNPU_PWAITMODE                0x301003C
+>>   #define MPNPU_PUB_SEC_INTR             0x3010060
+>>   #define MPNPU_PUB_PWRMGMT_INTR         0x3010064
+>>   #define MPNPU_PUB_SCRATCH0             0x301006C
+>> @@ -116,6 +117,7 @@ static const struct amdxdna_dev_priv 
+>> npu4_dev_priv = {
+>>           DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU4_PSP, MP0_C2PMSG_73),
+>>           DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU4_PSP, MP0_C2PMSG_123),
+>>           DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU4_REG, 
+>> MPNPU_PUB_SCRATCH3),
+>> +        DEFINE_BAR_OFFSET(PSP_PWAITMODE_REG, NPU4_REG, 
+>> MPNPU_PWAITMODE),
+>>       },
+>>       .smu_regs_off   = {
+>>           DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU4_SMU, MP1_C2PMSG_0),
+>> diff --git a/drivers/accel/amdxdna/npu5_regs.c 
+>> b/drivers/accel/amdxdna/npu5_regs.c
+>> index 75ad97f0b937..f761a6661f40 100644
+>> --- a/drivers/accel/amdxdna/npu5_regs.c
+>> +++ b/drivers/accel/amdxdna/npu5_regs.c
+>> @@ -13,6 +13,7 @@
+>>   #include "amdxdna_pci_drv.h"
+>>     /* NPU Public Registers on MpNPUAxiXbar (refer to Diag 
+>> npu_registers.h) */
+>> +#define MPNPU_PWAITMODE                0x301003C
+>>   #define MPNPU_PUB_SEC_INTR             0x3010060
+>>   #define MPNPU_PUB_PWRMGMT_INTR         0x3010064
+>>   #define MPNPU_PUB_SCRATCH0             0x301006C
+>> @@ -62,7 +63,7 @@
+>>   #define NPU5_SRAM_BAR_BASE    MMNPU_APERTURE1_BASE
+>>     static const struct amdxdna_dev_priv npu5_dev_priv = {
+>> -    .fw_path        = "amdnpu/17f0_11/npu.sbin",
+>> +    .fw_path        = "amdnpu/17f0_11/npu.dev.sbin",
+>
+> This seems like an unintended change.
 
->=20
-> Otherwise LGTM.
->=20
-> Matt
->=20
-> > +
-> > +		fault_entry.address =3D entry->address;
-> > +		fault_entry.address_precision =3D entry->address_precision;
-> > +
-> > +		fault_entry.access_type =3D xe_to_user_access_type(entry->access_typ=
-e);
-> > +		fault_entry.fault_type =3D xe_to_user_fault_type(entry->fault_type);
-> > +		fault_entry.fault_level =3D xe_to_user_fault_level(entry->fault_leve=
-l);
-> > +
-> > +		memcpy(&fault_list[i], &fault_entry, entry_size);
-> > +
-> > +		i++;
-> > +	}
-> > +	spin_unlock(&vm->faults.lock);
-> > +
-> > +	ret =3D copy_to_user(usr_ptr, fault_list, args->size);
-> > +
-> > +	kfree(fault_list);
-> > +	return ret ? -EFAULT : 0;
-> > +}
-> > +
-> > +static int xe_vm_get_property_helper(struct xe_vm *vm,
-> > +				     struct drm_xe_vm_get_property *args)
-> > +{
-> > +	size_t size;
-> > +
-> > +	switch (args->property) {
-> > +	case DRM_XE_VM_GET_PROPERTY_FAULTS:
-> > +		spin_lock(&vm->faults.lock);
-> > +		size =3D size_mul(sizeof(struct xe_vm_fault), vm->faults.len);
-> > +		spin_unlock(&vm->faults.lock);
-> > +
-> > +		if (!args->size) {
-> > +			args->size =3D size;
-> > +			return 0;
-> > +		}
-> > +
-> > +		/*
-> > +		 * Number of faults may increase between calls to
-> > +		 * xe_vm_get_property_ioctl, so just report the number of
-> > +		 * faults the user requests if it's less than or equal to
-> > +		 * the number of faults in the VM fault array.
-> > +		 *
-> > +		 * We should also at least assert that the args->size value
-> > +		 * is a multiple of the xe_vm_fault struct size.
-> > +		 */
-> > +		if (args->size > size || args->size % sizeof(struct xe_vm_fault))
-> > +			return -EINVAL;
-> > +
-> > +		return fill_faults(vm, args);
-> > +	}
-> > +	return -EINVAL;
-> > +}
-> > +
-> > +int xe_vm_get_property_ioctl(struct drm_device *drm, void *data,
-> > +			     struct drm_file *file)
-> > +{
-> > +	struct xe_device *xe =3D to_xe_device(drm);
-> > +	struct xe_file *xef =3D to_xe_file(file);
-> > +	struct drm_xe_vm_get_property *args =3D data;
-> > +	struct xe_vm *vm;
-> > +	int ret =3D 0;
-> > +
-> > +	if (XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1] ||
-> > +			     args->reserved[2]))
-> > +		return -EINVAL;
-> > +
-> > +	vm =3D xe_vm_lookup(xef, args->vm_id);
-> > +	if (XE_IOCTL_DBG(xe, !vm))
-> > +		return -ENOENT;
-> > +
-> > +	ret =3D xe_vm_get_property_helper(vm, args);
-> > +
-> > +	xe_vm_put(vm);
-> > +	return ret;
-> > +}
-> > +
-> >  /**
-> >   * xe_vm_bind_kernel_bo - bind a kernel BO to a VM
-> >   * @vm: VM to bind the BO to
-> > diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-> > index e9f2de4189e0..f2675ec9e8c4 100644
-> > --- a/drivers/gpu/drm/xe/xe_vm.h
-> > +++ b/drivers/gpu/drm/xe/xe_vm.h
-> > @@ -210,6 +210,9 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, voi=
-d *data,
-> >  int xe_vm_bind_ioctl(struct drm_device *dev, void *data,
-> >  		     struct drm_file *file);
-> >  int xe_vm_query_vmas_attrs_ioctl(struct drm_device *dev, void *data, s=
-truct drm_file *file);
-> > +int xe_vm_get_property_ioctl(struct drm_device *dev, void *data,
-> > +			     struct drm_file *file);
-> > +
-> >  void xe_vm_close_and_put(struct xe_vm *vm);
-> > =20
-> >  static inline bool xe_vm_in_fault_mode(struct xe_vm *vm)
-> > --=20
-> > 2.43.0
-> >=20
->=20
+Ah. Yes. It is a merging issue. Sorry about the confusion.
+
+
+Thanks,
+
+Lizhi
+
+>
+>>       .protocol_major = 0x6,
+>>       .protocol_minor = 12,
+>>       .rt_config    = npu4_default_rt_cfg,
+>> @@ -85,6 +86,7 @@ static const struct amdxdna_dev_priv npu5_dev_priv = {
+>>           DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU5_PSP, MP0_C2PMSG_73),
+>>           DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU5_PSP, MP0_C2PMSG_123),
+>>           DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU5_REG, 
+>> MPNPU_PUB_SCRATCH3),
+>> +        DEFINE_BAR_OFFSET(PSP_PWAITMODE_REG, NPU5_REG, 
+>> MPNPU_PWAITMODE),
+>>       },
+>>       .smu_regs_off   = {
+>>           DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU5_SMU, MP1_C2PMSG_0),
+>> diff --git a/drivers/accel/amdxdna/npu6_regs.c 
+>> b/drivers/accel/amdxdna/npu6_regs.c
+>> index 758dc013fe13..1f71285655b2 100644
+>> --- a/drivers/accel/amdxdna/npu6_regs.c
+>> +++ b/drivers/accel/amdxdna/npu6_regs.c
+>> @@ -13,6 +13,7 @@
+>>   #include "amdxdna_pci_drv.h"
+>>     /* NPU Public Registers on MpNPUAxiXbar (refer to Diag 
+>> npu_registers.h) */
+>> +#define MPNPU_PWAITMODE                0x301003C
+>>   #define MPNPU_PUB_SEC_INTR             0x3010060
+>>   #define MPNPU_PUB_PWRMGMT_INTR         0x3010064
+>>   #define MPNPU_PUB_SCRATCH0             0x301006C
+>> @@ -85,6 +86,7 @@ static const struct amdxdna_dev_priv npu6_dev_priv = {
+>>           DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU6_PSP, MP0_C2PMSG_73),
+>>           DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU6_PSP, MP0_C2PMSG_123),
+>>           DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU6_REG, 
+>> MPNPU_PUB_SCRATCH3),
+>> +        DEFINE_BAR_OFFSET(PSP_PWAITMODE_REG, NPU6_REG, 
+>> MPNPU_PWAITMODE),
+>>       },
+>>       .smu_regs_off   = {
+>>           DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU6_SMU, MP1_C2PMSG_0),
+>
