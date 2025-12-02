@@ -2,53 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD03C9B9A6
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 14:33:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B55EC9B9C4
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 14:34:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9539710E193;
-	Tue,  2 Dec 2025 13:33:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6E4F10E648;
+	Tue,  2 Dec 2025 13:34:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 54CF410E193
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 13:33:22 +0000 (UTC)
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
- by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <m.felsch@pengutronix.de>)
- id 1vQQVD-0005Gc-Lb; Tue, 02 Dec 2025 14:33:11 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-Date: Tue, 02 Dec 2025 14:33:00 +0100
-Subject: [PATCH v7 3/3] arm64: dts: imx93: Add parallel display output
- nodes
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id A7AFC10E648
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 13:34:07 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C6F2D153B
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 05:33:59 -0800 (PST)
+Received: from [10.2.10.34] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
+ EA09B3F66E
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 05:34:06 -0800 (PST)
+Date: Tue, 2 Dec 2025 13:33:43 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Rahul Kumar <rk0006818@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] drm/komeda: Convert logging in d71_dev.c to drm_*
+ with drm_device parameter
+Message-ID: <aS7qty8ABRjwQWaF@e142607>
+References: <20251118105934.748955-1-rk0006818@gmail.com>
+ <20251118105934.748955-4-rk0006818@gmail.com>
+ <CAKY2RyYgvr3z_KZKjEgcVLqKZ8Sq0hb+eoXkhFTPfFqU3N=STg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251202-v6-18-topic-imx93-parallel-display-v7-3-2cce31d64608@pengutronix.de>
-References: <20251202-v6-18-topic-imx93-parallel-display-v7-0-2cce31d64608@pengutronix.de>
-In-Reply-To: <20251202-v6-18-topic-imx93-parallel-display-v7-0-2cce31d64608@pengutronix.de>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
- Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: devicetree@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, kernel@pengutronix.de, 
- Marco Felsch <m.felsch@pengutronix.de>
-X-Mailer: b4 0.14.2
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::28
-X-SA-Exim-Mail-From: m.felsch@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKY2RyYgvr3z_KZKjEgcVLqKZ8Sq0hb+eoXkhFTPfFqU3N=STg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,119 +51,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add required OF nodes to support the i.MX93 parallel output (DPI) path.
+On Tue, Nov 25, 2025 at 12:15:28PM +0530, Rahul Kumar wrote:
+> Hi Liviu,
 
-On the i.MX93 a single LCDIF is connected to three bridges: DPI, LVDS
-LDB and the MIPI-DSI whereas the i.MX91 support only the DPI bridge.
+Hi Rahul,
 
-Map endpoint@0 as DPI bridge output since the i.MX93 TRM (Figure 485.
-MEDIAMIX block diagram) doesn't mention any port-number <-> bridge
-combination.
+Sorry, you caught me with your new series just before going on holiday so
+did not started the review. Since coming back I had some other internal
+issues to take care of, I will have a look at your series next week when
+I should have more time for it.
 
-Set the MEDIA-AXI and MEDIA-APB clocks to the overdrive (OD) values
-since the i.MX93 and i.MX91 use the overdrive (OD) clk settings per
-default.
+Best regards,
+Liviu
 
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
----
- arch/arm64/boot/dts/freescale/imx91_93_common.dtsi | 57 ++++++++++++++++++++++
- arch/arm64/boot/dts/freescale/imx93.dtsi           | 12 +++++
- 2 files changed, 69 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/freescale/imx91_93_common.dtsi b/arch/arm64/boot/dts/freescale/imx91_93_common.dtsi
-index 52da571f26c4e8a2703e4476b5541fa7aca52f10..6dc01a76c68425bb65576712bfd98950d662bd38 100644
---- a/arch/arm64/boot/dts/freescale/imx91_93_common.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx91_93_common.dtsi
-@@ -1122,8 +1122,65 @@ media_blk_ctrl: system-controller@4ac10000 {
- 				 <&clk IMX93_CLK_MIPI_DSI_GATE>;
- 			clock-names = "apb", "axi", "nic", "disp", "cam",
- 				      "pxp", "lcdif", "isi", "csi", "dsi";
-+			assigned-clocks = <&clk IMX93_CLK_MEDIA_AXI>,
-+					  <&clk IMX93_CLK_MEDIA_APB>,
-+					  <&clk IMX93_CLK_MEDIA_DISP_PIX>;
-+			assigned-clock-parents = <&clk IMX93_CLK_SYS_PLL_PFD1>,
-+						 <&clk IMX93_CLK_SYS_PLL_PFD1_DIV2>,
-+						 <&clk IMX93_CLK_VIDEO_PLL>;
-+			assigned-clock-rates = <400000000>, <133333333>;
- 			#power-domain-cells = <1>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
- 			status = "disabled";
-+
-+			dpi_bridge: bridge@60 {
-+				compatible = "nxp,imx93-pdfc";
-+				reg = <0x60 0x4>;
-+				status = "disabled";
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					port@0 {
-+						reg = <0>;
-+
-+						dpi_from_lcdif: endpoint {
-+							remote-endpoint = <&lcdif_to_dpi>;
-+						};
-+					};
-+
-+					port@1 {
-+						reg = <1>;
-+
-+						dpi_to_panel: endpoint {
-+						};
-+					};
-+				};
-+			};
-+		};
-+
-+		lcdif: display-controller@4ae30000 {
-+			compatible = "fsl,imx93-lcdif";
-+			reg = <0x4ae30000 0x23c>;
-+			interrupts = <GIC_SPI 176 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clk IMX93_CLK_MEDIA_DISP_PIX>,
-+				 <&clk IMX93_CLK_LCDIF_GATE>,
-+				 <&clk IMX93_CLK_MEDIA_AXI>;
-+			clock-names = "pix", "axi", "disp_axi";
-+			power-domains = <&media_blk_ctrl IMX93_MEDIABLK_PD_LCDIF>;
-+			status = "disabled";
-+
-+			port {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				lcdif_to_dpi: endpoint@0 {
-+					reg = <0>;
-+					remote-endpoint = <&dpi_from_lcdif>;
-+				};
-+			};
- 		};
- 
- 		usbotg1: usb@4c100000 {
-diff --git a/arch/arm64/boot/dts/freescale/imx93.dtsi b/arch/arm64/boot/dts/freescale/imx93.dtsi
-index 7b27012dfcb564650882dc8c40e836e797b2fda1..5436b48b30e89eb1f939b398ce1bf105abe7e34b 100644
---- a/arch/arm64/boot/dts/freescale/imx93.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx93.dtsi
-@@ -150,6 +150,18 @@ l3_cache: l3-cache {
- 	};
- };
- 
-+&lcdif {
-+	port {
-+		lcdif_to_ldb: endpoint@1 {
-+			reg = <1>;
-+		};
-+
-+		lcdif_to_dsi: endpoint@2 {
-+			reg = <2>;
-+		};
-+	};
-+};
-+
- &src {
- 	mlmix: power-domain@44461800 {
- 		compatible = "fsl,imx93-src-slice";
-
--- 
-2.47.3
-
+> 
+> On Tue, Nov 18, 2025 at 4:32 PM Rahul Kumar <rk0006818@gmail.com> wrote:
+> >
+> > Replace DRM_DEBUG() and DRM_ERROR() calls in
+> > drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c with the
+> > drm_dbg() and drm_err() helpers in functions where a drm_device
+> > parameter is available.
+> >
+> > The drm_*() logging macros require a struct drm_device * parameter,
+> > which allows the DRM core to prefix log messages with the device
+> > instance. This improves debugging clarity when multiple Komeda or
+> > other DRM devices are present.
+> >
+> > Logging in early hardware probing functions such as d71_identify()
+> > is intentionally left unchanged because they do not have access to
+> > a drm_device pointer at that stage of initialization.
+> >
+> > This conversion follows the DRM TODO entry:
+> > "Convert logging to drm_* functions with drm_device parameter".
+> >
+> > Signed-off-by: Rahul Kumar <rk0006818@gmail.com>
+> > ---
+> > Changes since v1:
+> > - Fixed incorrect use of dev_get_drvdata(): it returns struct komeda_drv *,
+> >   not struct komeda_kms_dev *, as pointed out by Liviu Dudau.
+> > - Updated DRM device pointer retrieval to use drv->kms.
+> > - Combined both changes into a 0/3 series.
+> > Link to v1:
+> > https://lore.kernel.org/all/aRdT1qscQqO7-U6h@e110455-lin.cambridge.arm.com/
+> > ---
+> >  .../gpu/drm/arm/display/komeda/d71/d71_dev.c  | 24 +++++++++++++------
+> >  1 file changed, 17 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> > index 80973975bfdb..39c51bbe2bb9 100644
+> > --- a/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> > +++ b/drivers/gpu/drm/arm/display/komeda/d71/d71_dev.c
+> > @@ -9,6 +9,7 @@
+> >  #include <drm/drm_print.h>
+> >  #include "d71_dev.h"
+> >  #include "malidp_io.h"
+> > +#include "komeda_drv.h"
+> >
+> >  static u64 get_lpu_event(struct d71_pipeline *d71_pipeline)
+> >  {
+> > @@ -348,6 +349,9 @@ static void d71_cleanup(struct komeda_dev *mdev)
+> >
+> >  static int d71_enum_resources(struct komeda_dev *mdev)
+> >  {
+> > +       struct komeda_drv *drv = dev_get_drvdata(mdev->dev);
+> > +       struct komeda_kms_dev *kms = drv->kms;
+> > +       struct drm_device *drm = &kms->base;
+> >         struct d71_dev *d71;
+> >         struct komeda_pipeline *pipe;
+> >         struct block_header blk;
+> > @@ -366,7 +370,7 @@ static int d71_enum_resources(struct komeda_dev *mdev)
+> >
+> >         err = d71_reset(d71);
+> >         if (err) {
+> > -               DRM_ERROR("Fail to reset d71 device.\n");
+> > +               drm_err(drm, "Fail to reset d71 device.\n");
+> >                 goto err_cleanup;
+> >         }
+> >
+> > @@ -376,8 +380,8 @@ static int d71_enum_resources(struct komeda_dev *mdev)
+> >         d71->num_pipelines = (value >> 8) & 0x7;
+> >
+> >         if (d71->num_pipelines > D71_MAX_PIPELINE) {
+> > -               DRM_ERROR("d71 supports %d pipelines, but got: %d.\n",
+> > -                         D71_MAX_PIPELINE, d71->num_pipelines);
+> > +               drm_err(drm, "d71 supports %d pipelines, but got: %d.\n",
+> > +                       D71_MAX_PIPELINE, d71->num_pipelines);
+> >                 err = -EINVAL;
+> >                 goto err_cleanup;
+> >         }
+> > @@ -455,8 +459,8 @@ static int d71_enum_resources(struct komeda_dev *mdev)
+> >                 offset += D71_BLOCK_SIZE;
+> >         }
+> >
+> > -       DRM_DEBUG("total %d (out of %d) blocks are found.\n",
+> > -                 i, d71->num_blocks);
+> > +       drm_dbg(drm, "total %d (out of %d) blocks are found.\n",
+> > +               i, d71->num_blocks);
+> >
+> >         return 0;
+> >
+> > @@ -555,6 +559,9 @@ static void d71_init_fmt_tbl(struct komeda_dev *mdev)
+> >
+> >  static int d71_connect_iommu(struct komeda_dev *mdev)
+> >  {
+> > +       struct komeda_drv *drv = dev_get_drvdata(mdev->dev);
+> > +       struct komeda_kms_dev *kms = drv->kms;
+> > +       struct drm_device *drm = &kms->base;
+> >         struct d71_dev *d71 = mdev->chip_data;
+> >         u32 __iomem *reg = d71->gcu_addr;
+> >         u32 check_bits = (d71->num_pipelines == 2) ?
+> > @@ -569,7 +576,7 @@ static int d71_connect_iommu(struct komeda_dev *mdev)
+> >         ret = dp_wait_cond(has_bits(check_bits, malidp_read32(reg, BLK_STATUS)),
+> >                         100, 1000, 1000);
+> >         if (ret < 0) {
+> > -               DRM_ERROR("timed out connecting to TCU!\n");
+> > +               drm_err(drm, "timed out connecting to TCU!\n");
+> >                 malidp_write32_mask(reg, BLK_CONTROL, 0x7, INACTIVE_MODE);
+> >                 return ret;
+> >         }
+> > @@ -582,6 +589,9 @@ static int d71_connect_iommu(struct komeda_dev *mdev)
+> >
+> >  static int d71_disconnect_iommu(struct komeda_dev *mdev)
+> >  {
+> > +       struct komeda_drv *drv = dev_get_drvdata(mdev->dev);
+> > +       struct komeda_kms_dev *kms = drv->kms;
+> > +       struct drm_device *drm = &kms->base;
+> >         struct d71_dev *d71 = mdev->chip_data;
+> >         u32 __iomem *reg = d71->gcu_addr;
+> >         u32 check_bits = (d71->num_pipelines == 2) ?
+> > @@ -593,7 +603,7 @@ static int d71_disconnect_iommu(struct komeda_dev *mdev)
+> >         ret = dp_wait_cond(((malidp_read32(reg, BLK_STATUS) & check_bits) == 0),
+> >                         100, 1000, 1000);
+> >         if (ret < 0) {
+> > -               DRM_ERROR("timed out disconnecting from TCU!\n");
+> > +               drm_err(drm, "timed out disconnecting from TCU!\n");
+> >                 malidp_write32_mask(reg, BLK_CONTROL, 0x7, INACTIVE_MODE);
+> >         }
+> >
+> > --
+> > 2.43.0
+> 
+> 
+> Just following up on my v2 Komeda logging patch series.
+> Please let me know if any changes or suggestions are needed.
+> 
+> Thanks,
+> Rahul
