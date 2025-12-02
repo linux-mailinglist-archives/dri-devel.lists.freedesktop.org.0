@@ -2,133 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 802ACC9A855
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 08:42:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB933C9A89A
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 08:46:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F2FD10E5B9;
-	Tue,  2 Dec 2025 07:42:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 714F510E5B8;
+	Tue,  2 Dec 2025 07:46:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="v54KINoS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="scoE9VZQ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WfUz/mA6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4zmcd5S2";
+	dkim=pass (2048-bit key; unprotected) header.d=gocontrollcom.onmicrosoft.com header.i=@gocontrollcom.onmicrosoft.com header.b="bTf/YBoE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8FFD10E5B8
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 07:42:55 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 5110F5BD0D;
- Tue,  2 Dec 2025 07:42:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764661374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WifntVVqvVe83okeYRsRA2wAUvOIcrEaXyp19dXJ1vI=;
- b=v54KINoSSeCZEmdVVCh8jGCEvJiWl50LEoHcoT8E9FVvWFCWVZGYukvpvy72HQ6VDWbKiy
- hBi4kIizteoUVfuDVno4obJU8HciEQwNZqBJm3R3mgcQmiXmeToOAOGMuLCB9Wu40823ZN
- kLIjtG5Dk7xHgS/hxrXRgj+ZdgyPnqI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764661374;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WifntVVqvVe83okeYRsRA2wAUvOIcrEaXyp19dXJ1vI=;
- b=scoE9VZQSdTvSPBLtfFceEJMi+J51wTrrNOfa/EdSD/K3381tpEEymEyPrLEcMvtG5n5xX
- 4Zz4v7puJ8j6tkDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764661373; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WifntVVqvVe83okeYRsRA2wAUvOIcrEaXyp19dXJ1vI=;
- b=WfUz/mA6uH0scWlh+FIIDCY8mEjy+ZGzNag/CTiDlKT5fE8NJ8O+hH6fPvblv3vD1O5yk+
- 6oC9lXGh116BC1Nk9S0q2XsObBn1UyzRulXI6ew/hOwqVuMyksQfGv9rBcBu0w3HJHIBz5
- k5n1uIiKdNR/b71l7FMZkPvQEg7TLdI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764661373;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=WifntVVqvVe83okeYRsRA2wAUvOIcrEaXyp19dXJ1vI=;
- b=4zmcd5S2jYLQWfKNODmfN2vr7chNoLGU8sJSuXZr5cuizCsYJ6cjqW4nHkYdrXTg9dTj4/
- lxaypuJr+YpKOYAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0213F3EA63;
- Tue,  2 Dec 2025 07:42:52 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id C5bhOHyYLmnQAQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 02 Dec 2025 07:42:52 +0000
-Message-ID: <250b44b3-e75b-4f8d-af44-d3a985ea554c@suse.de>
-Date: Tue, 2 Dec 2025 08:42:52 +0100
-MIME-Version: 1.0
+Received: from DU2PR03CU002.outbound.protection.outlook.com
+ (mail-northeuropeazon11021119.outbound.protection.outlook.com
+ [52.101.65.119])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20DCA10E5B8
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 07:46:29 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qhZRiiYb3bRQxVmPZaMZHW+5az0/s2cC8keHyNbFM+h5jIwjiA3yNKcyCVVXQoUm755IsBAFoftruUH2CqskitQHBCuyxFESIn2YOGePQ8ppNl+q4nTvmIJH8dpUunx+PeJyDexVaMb3ZTm5kP1MBbC6FMx1JTsAm82zBNjZjxRA7M8QAz3YLlv+crR4CA5YJVzWukyDyf2Achg26u/fGv0J7xnmAIJoBBj/o8YLhJW5byAmE7AD4P0aCMqfHcSq3OtsyW8GV/hRiNpqSBOvO12Ih6NxyN6565qaeXPwNHSDIAn0a66ImsGELyXhi6ujB3ONjsKzGZLSktR5KI+EgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HjJshxMX8QnC0rwwYNRo6DOOgmUXFmw5qQ2P/RFn5cI=;
+ b=JWuh3a+9CsDfcB10y2Lgkjgp5HcPw15yThHrpHQkKJdCx2DhuydcPNaxSL/fcdV57depi3DrX4JwOu+Oih6NsX9OznIHCX3WsWGTJxv4JNFYAGOQCRqhaOfHdJLdaIIqRCz7WeAnCMlvnQmozifWPYxDr9SQ3gKru8MnDkwOmr9PDSb5s4R8vxDtv3i6G/E2l1GDRjIIOnuXinpdik7vEhZWDcglAqE/Q20H3nijP7nZ1qUOhWVQJFi/SJ/N53GxsnTZfnsnuCULF8d3xyMLsUY2YiccZ9vXHfJiHPxF6w1e827RNEvvVLH6D0khVmlCWzJX63sm7lkhiqvazffQjg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=gocontroll.com; dmarc=pass action=none
+ header.from=gocontroll.com; dkim=pass header.d=gocontroll.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gocontrollcom.onmicrosoft.com; s=selector1-gocontrollcom-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HjJshxMX8QnC0rwwYNRo6DOOgmUXFmw5qQ2P/RFn5cI=;
+ b=bTf/YBoEuBhcYu/6Rc1KwYpz0WmKmSFYcnj+intXIyhivI+Z+gyMmGjXIBVTs4aD3ZCy9gQyYbyf5eReSrhwVOA1H+B773k2viZ6hgmFPNNT+SwJCcBIzBsuCb75iFIoJS3oZwDHFLuB3/FJx9QOU7vGglZb5yZdnaEgGbAgXuSj3ncod2/sgjIDcYBCWNzTooGjtP3nyFfL99YUS1TkljpSZxi84hKDgkzK5XDzyUHeohwyNMgOuh74W94t0voa6ktMjwdgvwx4xXAtLHiK3WeRcEH0gZxw1AQRBX59jBRzuR9Y7hIwfSU5bVSaSL7qGgawvYs0ff0l460a/xDcRQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=gocontroll.com;
+Received: from AMBPR04MB11741.eurprd04.prod.outlook.com (2603:10a6:20b:6f3::7)
+ by PA4PR04MB9343.eurprd04.prod.outlook.com (2603:10a6:102:2a7::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Tue, 2 Dec
+ 2025 07:46:26 +0000
+Received: from AMBPR04MB11741.eurprd04.prod.outlook.com
+ ([fe80::c39b:dab3:ae88:c5ba]) by AMBPR04MB11741.eurprd04.prod.outlook.com
+ ([fe80::c39b:dab3:ae88:c5ba%4]) with mapi id 15.20.9388.003; Tue, 2 Dec 2025
+ 07:46:25 +0000
+Message-ID: <b9fe6df7-fdc6-4a32-919b-8f3b44eace7d@gocontroll.com>
+Date: Tue, 2 Dec 2025 08:46:21 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6.6.y] drm, fbcon, vga_switcheroo: Avoid race condition in
- fbcon setup
-To: Sasha Levin <sashal@kernel.org>, stable@vger.kernel.org
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-References: <2025120119-quake-universal-d896@gregkh>
- <20251201225123.1298682-1-sashal@kernel.org>
+Subject: Re: [PATCH v6 1/4] dt-bindings: backlight: Add max25014 support
+To: Frank Li <Frank.li@nxp.com>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20251201-max25014-v6-0-88e3ac8112ff@gocontroll.com>
+ <20251201-max25014-v6-1-88e3ac8112ff@gocontroll.com>
+ <aS3H1qzSMKHamqpP@lizhi-Precision-Tower-5810>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251201225123.1298682-1-sashal@kernel.org>
+From: Maud Spierings <maudspierings@gocontroll.com>
+In-Reply-To: <aS3H1qzSMKHamqpP@lizhi-Precision-Tower-5810>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.27 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.17)[-0.858]; MIME_GOOD(-0.10)[text/plain];
- MIME_TRACE(0.00)[0:+]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
- FROM_HAS_DN(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[8];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email, lists.freedesktop.org:email,
- suse.de:mid, suse.de:email, msgid.link:url, bootlin.com:url, suse.com:url]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -4.27
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AS4P251CA0013.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5d2::18) To AMBPR04MB11741.eurprd04.prod.outlook.com
+ (2603:10a6:20b:6f3::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMBPR04MB11741:EE_|PA4PR04MB9343:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7293b1e9-6ee0-4ce9-f34d-08de3176e551
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|366016|376014|10070799003|7416014|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Mzg0Yi9ZNWhCTnYxWDBQQXg1cnVUcWgvNE1qck5oMjExVE9OU3hGalZ3aits?=
+ =?utf-8?B?MmhYbGtuM0huZldIRDZRNHpqZUJuMDRXcHZ6dFJ1bnd5SGh5K21kaWpxSVh1?=
+ =?utf-8?B?azBzbmdndDlXZWU2TzRPY1hLNkRCeEt4ZkxaV0RNSmRYQkE5RGEyOVdGR1lq?=
+ =?utf-8?B?aXp3Y00rUUlCakR3WU0vQTFzM1pxZTMyOUQ5c0FlZW1hSlp5Qjk3aHdiMzRj?=
+ =?utf-8?B?cmQ0UVQyTEJGMFB5VDlGSkFVZnJMTGxrUWpZdzk0NisxcWlwcllYNzJqK3Fk?=
+ =?utf-8?B?aFVIWFl2emgycWlHQnlQVTZnUGhpMDc1Tk9wbE12ajRKUVZVSk8wZUNBNk0y?=
+ =?utf-8?B?UktKNk9ZQVd3QjBNNnFBUjRkY2R3SjNodDhFdGxoRFIzc3VoK2dNdldtSU1T?=
+ =?utf-8?B?elFwUmlQdkVFTWo5TlRmbmcyeGlLWjVmNFZ3U016R1VyQ3ZSQ2lRaTNwU0xZ?=
+ =?utf-8?B?d1ByUHhISEV6clFQL3Y1bnNxbTY5cCtXUmZGWkt2SkV4cll2a0dRV2pweDVI?=
+ =?utf-8?B?TzdoMDJVa3pQNDdpTi9Sb25NakpBcUk0L0xYb3pxR0lWWjRqNEZRWmJ1cldr?=
+ =?utf-8?B?K1d6MnVUdHFvVzJvTnlyeXM2ZitTSFFmdGdyZEZYSWRKN2hKS0xaUUJmbHpI?=
+ =?utf-8?B?clRKMmNZc3RBWlVTenE3KytkMUNsWjRTRzhuTlZxbk5RY1JOcEQvUjVvbmQ2?=
+ =?utf-8?B?RXZML3dzeWJMZHNWSU5yckRxb3NtNk5vcFRvaVNTZUIxZUoyWXJEcDdLZHZq?=
+ =?utf-8?B?NlZFNnd2SkVxSlAwOFVJSWlpUHUzbGpiL3kySWhCdFdZZWlHZFFwY1A4SkZn?=
+ =?utf-8?B?em1SN0ZNUW9DY3d0MG5CZkNaV3UvZ2syV3RWQ2I5LzB5WWI4NG1JenhCUW91?=
+ =?utf-8?B?bnVKdERIYURzM29mTDdBZ2lYNHRUTHVhUGFUNFBnZmJ0ajdNeTNIaHdXc2dZ?=
+ =?utf-8?B?UjMydFlucmVwN1FDM0hGZXB1NHdnb2dlYU03aVNSa0UrVjlDYjdoWkRMU2Y1?=
+ =?utf-8?B?MW0zSUhudnB5bTFaa1hMS0gxbmFEMnZEV3U1STZYNU50a0crSG93aHgyeUo3?=
+ =?utf-8?B?Vi9FbzBsM3J3QnpZaW1GZTc3QXRuemRZb2o0dWdkM0s0azJFVDdTUHhkUXMv?=
+ =?utf-8?B?dWJlcUNPVlFLK2hhQTUwdmRlSDJDN0x2eVpBcFBOZkcwakR0QzRwMXJOZE1N?=
+ =?utf-8?B?TXptZGQ0RFFxMmhHRm1VU1c5RzZuTzQvL3FlLzBWd0V3MURWQWIvUDFaNTMx?=
+ =?utf-8?B?TjcrODdlY0JLV2VsVnkrRGdHRWdOS3ZJQ1Q1RUhwK0gzOEMzNHBzd0tPL3FR?=
+ =?utf-8?B?TFhaT2FaV25LeTFzak1SMmpDbW5PTUhobCt3TmJYcVN1citLYzU1cXpDU2hz?=
+ =?utf-8?B?ZGxiOU85V2VuTUZsb2hLa0lhK0ZJYzI1OVVTYUxGMFp2SXBEZW9ISnB6aGxN?=
+ =?utf-8?B?SmVRRXpPQi9aZk9tOVYvR0JJendoRXQ5SUh0bkpsT0hIby9SY0l5V0FHb1JW?=
+ =?utf-8?B?MVN6ODZET1daVVJMMjBEdWhWdW5SbGgvR3BqdE1SeUtWZWF3S2lYamZkY2xl?=
+ =?utf-8?B?STlYcGFyT29FYytmeFVRQnRSelJVNFVVN0FSeElTVmh0YmpDS3RheXZUcXUz?=
+ =?utf-8?B?ZDcvS2JNQTN0MzNzNVNoM0NSYmJ3T2dPaEYxc1V3RUtYMUVVVnQzeXp2emdn?=
+ =?utf-8?B?V2FxcXAwSi9BbllFMHMxaE5TZzdYZk9UcElLNzMvaWZKRTJQVnhBcWJFRjVu?=
+ =?utf-8?B?WDhIY0ZWRS9NOTdPb21acmFYSHBpaURWZFJ4ZlZQK2YzUi9lRldwQXJXN2xT?=
+ =?utf-8?B?YWtlZHhlN3VCMU4vcU9aV0xOVE5WcStKaXBneHYrR0toZ1dxWUQ2QmhRK2kx?=
+ =?utf-8?B?WXJYWTBqNmM1UVFtZUthbEhyRGR6eXk1cTYyeXo1RyszU3c9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AMBPR04MB11741.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(10070799003)(7416014)(1800799024); DIR:OUT;
+ SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NGo1VUwxMFJtVWluYlpFTUpMNHZ0SGgyOHV1SmQ2cUx5eG9XR0YzcHUrVURV?=
+ =?utf-8?B?SFVDaEFRdkpMT2xjZHZ3L09YWUdKbktYNWxWMm10VVptMy9zQURuRll5T0Ju?=
+ =?utf-8?B?bjdrWkFreVAzWUQvdjJDeS82TVZ3UzNWeCsrdmlGVGFOazdpNjNlc05wc3hn?=
+ =?utf-8?B?SWNKeXgzaCsvQkhBWFpNcVhIUEx1Y3JjbUVOeDRDWG9hYmxvN3FScjI5Y29t?=
+ =?utf-8?B?NFR6RUtXTzFwclFaN1hWMFZQczMrVUh6MFlSUFVNRE9INi8vRmo5MDN3cTRD?=
+ =?utf-8?B?bnF5aGltSTBuVTd3ZzZhS0k2enl2cVp4V1ZoaldYMitxSTQrUHZKY3RRaUZ3?=
+ =?utf-8?B?bENScUdQdElwRHFSZURGK2Zyb1hKRXpOWllYWFJWQkNJWmU4OUpmcWJBK1U4?=
+ =?utf-8?B?aDVPYmJPaUNTbnQreENxejNDVmdFWGxhVUtJRDBlMlBESitYbGVtdlZXaDdu?=
+ =?utf-8?B?R1ZySXFkVlcrOURNMXY5TE5KdG52YWxwSlFCZHJram9mdFY1T1Q0Nm1GYXo1?=
+ =?utf-8?B?SmpNSDNRQytrRWVvV0VuM0V4WXVMK3B1TmFCemh1cStZTjl2QU1Ya0F6WVRP?=
+ =?utf-8?B?K1Z5ZG50VUtWYjVCMTlxUEZpK2hlWmlSa2ZESE9SY2lHclBTZlV1STJ3aEhh?=
+ =?utf-8?B?aU9nam02UXJQNDRKQ09HOHBSVDJIWVg3ZG82eE1YRHp4WjVUb0ZLcHI5MHk1?=
+ =?utf-8?B?ZCt5OFA1U0xYbjJBS2hLQTB1TTk5ZXVsaG44cCs4bEwvQUxZRGphNzVpd1JE?=
+ =?utf-8?B?WjR5M0tRcXdRbHU3cjhockFxMk5odjlzWUxmUE5wa3p3RktDRS8vM0w4THRs?=
+ =?utf-8?B?ZTk3ajl6dW9zNmVzRkMwQnBLa2ZUQ05weCtQVG54VUpIa0dvMWxKdFVsYjlw?=
+ =?utf-8?B?NnllUHErWlJqMmp3OHdnekpCQlltdXI2akV4VWszM1BzWiswL2xZR2pIRlZY?=
+ =?utf-8?B?Zk5XdWkyTWZId2RwUUp5Q0xkMForaXU3b3FpVXN0ekQ0cHc4UU93QU1VSkJ3?=
+ =?utf-8?B?b0lkUE9KUTJzNUdXdmFBRi9oZmhscWdBTTBZUVoyWGJoTVhnU3p2UnQ0UGxC?=
+ =?utf-8?B?eDNmNDc1U3ZMZ0hzcGJvaVI5ZFREYnI5QW1BNEhVcHFWeTVOL0VWL001cWto?=
+ =?utf-8?B?dVg0RFhFRDIxQ1hlOW44bHoxTVRyY0luZWRtRWcrMnFuSFJiRlU3dVVHK1ha?=
+ =?utf-8?B?Z25pSXROYi9hNlZ2NHluaE1DUFo5TFBKQ1RTbDJZTnp1QUtoRE85UUZrdlFL?=
+ =?utf-8?B?Tm9YQzRtZWlmK1FNaVF5Sks5V2FiSXdIQkJsWk5CWHpwMmxnbGVwZXdlOHBy?=
+ =?utf-8?B?Y2pFUHB6aWJuNWZEMGdPVUY5ajlQZ0doMXQ0Q0RMTkYvdm1jQ1cyMlBkOW9X?=
+ =?utf-8?B?RVRocUZJaEJQN3JMRDV1dkJQdmo2T0J3Tys2ODNHeVdTQjUxM2lIZGRiSmMv?=
+ =?utf-8?B?WDJxb1VSQ3VqWUxwMFJoNFBZTXMvOUhyYjhHS1RQOXJ5QTM0dWFuKzFQZ2Yv?=
+ =?utf-8?B?WW1vYmw2YTA1N3lpdC9idWl4MnRQZUwwQjgwYjNiMjBzR0dhVzc0TFJGMG9k?=
+ =?utf-8?B?UVdBaXRRcHFyTExLYlhGZnVqQmdlaUhwVERCTDFLNktLN1dUYkZzdmZUSEdZ?=
+ =?utf-8?B?S29INzB4RHZLcXVvTTFydzhVZHNHdEcyR1k4UHQ5cnBZUWtLNzl6Z25RRmhC?=
+ =?utf-8?B?ZXRCVU8rV21Db0l4ZGx3SnlDU3VoTll6QTRsTXZaamF6ckdHTklaMGZxUi90?=
+ =?utf-8?B?Nnh6MlZTMWFqeWlMU1FxOGFqL0ZyTlR5MTlIb2ZaL2xzcTJraGdsR0Q1a1pP?=
+ =?utf-8?B?c291OUw3bFA1Z0dxc2pTMzJQL2NWWDIxN0dsQm9MU0NrRHozR3NjZkw3YmlP?=
+ =?utf-8?B?STNRSnl6aElDaXNEOTRqcVRXTHpFV05xN2xCL21UMTBpcGM1eFZ5VzNRLzRY?=
+ =?utf-8?B?K0Q2MUVUMEJXRnVCNHFsYk5SN0tsTVc4TXZYcEhVZ09GWHVsaVJxM01jcFBL?=
+ =?utf-8?B?WHVQUHdITXJYVjZQblMydnNsMHhGVGxpcmg0WXJLcXhnbHRodnE3WWRwTjd6?=
+ =?utf-8?B?a2QzSnNJU3AxTnlsNTdmYzgwRFFVMmhjVVlMVXpYRnpOZWJFTmJuQ1JUT3ZX?=
+ =?utf-8?B?SENxcjZNd0p0aExDclNmYmRLZW5TL0phV2xPRkFkRmhKRzMzVDd2K25qOFVy?=
+ =?utf-8?B?VllzdDlCZkhNMUFrUkdNZnh4aGRMYThHWGg4UEttTWhjSEhSNjkzT1hoRGNm?=
+ =?utf-8?B?MUp1NEhiMko5dmtjYVZPclR5ckJRPT0=?=
+X-OriginatorOrg: gocontroll.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7293b1e9-6ee0-4ce9-f34d-08de3176e551
+X-MS-Exchange-CrossTenant-AuthSource: AMBPR04MB11741.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 07:46:25.7521 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4c8512ff-bac0-4d26-919a-ee6a4cecfc9d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FFdcyCbqiap6pLnu9/Wric8elDm6tW5prscOdLfWfvNLW9Kx6tvU1lBZS3HHHwVyNlSlVpcuHQjbyZhblV0k/K5PcLyfFdx0m8h4K1F4Bl4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9343
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,150 +178,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-thanks for backporting.
-
-You also have to remove the calls to vga_switcheroo_client_fb_set() from 
-these files
-
-https://elixir.bootlin.com/linux/v6.6/source/drivers/gpu/drm/i915/display/intel_fbdev.c 
-
-https://elixir.bootlin.com/linux/v6.6/source/drivers/gpu/drm/radeon/radeon_fbdev.c 
-
-
-Best regards
-Thomas
-
-Am 01.12.25 um 23:51 schrieb Sasha Levin:
-> From: Thomas Zimmermann <tzimmermann@suse.de>
+On 12/1/25 17:52, Frank Li wrote:
+> On Mon, Dec 01, 2025 at 12:53:20PM +0100, Maud Spierings via B4 Relay wrote:
+>> From: Maud Spierings <maudspierings@gocontroll.com>
+>>
+>> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
+>> with integrated boost controller.
+>>
+>> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+>>
+>> ---
+>>
+>> In the current implementation the control registers for channel 1,
+>> control all channels. So only one led subnode with led-sources is
+>> supported right now. If at some point the driver functionality is
+>> expanded the bindings can be easily extended with it.
+>> ---
+>>   .../bindings/leds/backlight/maxim,max25014.yaml    | 107 +++++++++++++++++++++
+>>   MAINTAINERS                                        |   5 +
+>>   2 files changed, 112 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+>> new file mode 100644
+>> index 000000000000..e83723224b07
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+>> @@ -0,0 +1,107 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Maxim max25014 backlight controller
+>> +
+>> +maintainers:
+>> +  - Maud Spierings <maudspierings@gocontroll.com>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - maxim,max25014
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  "#address-cells":
+>> +    const: 1
+>> +
+>> +  "#size-cells":
+>> +    const: 0
+>> +
+>> +  enable-gpios:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +
+>> +  power-supply:
+>> +    description: Regulator which controls the boost converter input rail.
+>> +
+>> +  pwms:
+>> +    maxItems: 1
+>> +
+>> +  maxim,iset:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    maximum: 15
+>> +    default: 11
+>> +    description:
+>> +      Value of the ISET field in the ISET register. This controls the current
+>> +      scale of the outputs, a higher number means more current.
+>> +
+>> +  led@0:
+> 
+> define whole binding, allow 0-3. binding is not related with driver's
+> implement.
+> 
+> it'd better put unders leds.
 >
-> [ Upstream commit eb76d0f5553575599561010f24c277cc5b31d003 ]
->
-> Protect vga_switcheroo_client_fb_set() with console lock. Avoids OOB
-> access in fbcon_remap_all(). Without holding the console lock the call
-> races with switching outputs.
->
-> VGA switcheroo calls fbcon_remap_all() when switching clients. The fbcon
-> function uses struct fb_info.node, which is set by register_framebuffer().
-> As the fb-helper code currently sets up VGA switcheroo before registering
-> the framebuffer, the value of node is -1 and therefore not a legal value.
-> For example, fbcon uses the value within set_con2fb_map() [1] as an index
-> into an array.
->
-> Moving vga_switcheroo_client_fb_set() after register_framebuffer() can
-> result in VGA switching that does not switch fbcon correctly.
->
-> Therefore move vga_switcheroo_client_fb_set() under fbcon_fb_registered(),
-> which already holds the console lock. Fbdev calls fbcon_fb_registered()
-> from within register_framebuffer(). Serializes the helper with VGA
-> switcheroo's call to fbcon_remap_all().
->
-> Although vga_switcheroo_client_fb_set() takes an instance of struct fb_info
-> as parameter, it really only needs the contained fbcon state. Moving the
-> call to fbcon initialization is therefore cleaner than before. Only amdgpu,
-> i915, nouveau and radeon support vga_switcheroo. For all other drivers,
-> this change does nothing.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Link: https://elixir.bootlin.com/linux/v6.17/source/drivers/video/fbdev/core/fbcon.c#L2942 # [1]
-> Fixes: 6a9ee8af344e ("vga_switcheroo: initial implementation (v15)")
-> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
-> Acked-by: Alex Deucher <alexander.deucher@amd.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: nouveau@lists.freedesktop.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: <stable@vger.kernel.org> # v2.6.34+
-> Link: https://patch.msgid.link/20251105161549.98836-1-tzimmermann@suse.de
-> [ drm_fb_helper_unregister_info() lacks vga_switcheroo code ]
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->   drivers/gpu/drm/drm_fb_helper.c  | 7 -------
->   drivers/video/fbdev/core/fbcon.c | 9 +++++++++
->   2 files changed, 9 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index b507c1c008a3e..3891837a78414 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -30,9 +30,7 @@
->   #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->   
->   #include <linux/console.h>
-> -#include <linux/pci.h>
->   #include <linux/sysrq.h>
-> -#include <linux/vga_switcheroo.h>
->   
->   #include <drm/drm_atomic.h>
->   #include <drm/drm_drv.h>
-> @@ -1668,7 +1666,6 @@ static int drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper,
->   static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper)
->   {
->   	struct drm_client_dev *client = &fb_helper->client;
-> -	struct drm_device *dev = fb_helper->dev;
->   	struct drm_fb_helper_surface_size sizes;
->   	int ret;
->   
-> @@ -1687,10 +1684,6 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper)
->   
->   	strcpy(fb_helper->fb->comm, "[fbcon]");
->   
-> -	/* Set the fb info for vgaswitcheroo clients. Does nothing otherwise. */
-> -	if (dev_is_pci(dev->dev))
-> -		vga_switcheroo_client_fb_set(to_pci_dev(dev->dev), fb_helper->info);
-> -
->   	return 0;
->   }
->   
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index 78a5b22c8d150..8b2c3065c0c26 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -64,6 +64,7 @@
->   #include <linux/console.h>
->   #include <linux/string.h>
->   #include <linux/kd.h>
-> +#include <linux/pci.h>
->   #include <linux/slab.h>
->   #include <linux/fb.h>
->   #include <linux/fbcon.h>
-> @@ -75,6 +76,7 @@
->   #include <linux/interrupt.h>
->   #include <linux/crc32.h> /* For counting font checksums */
->   #include <linux/uaccess.h>
-> +#include <linux/vga_switcheroo.h>
->   #include <asm/irq.h>
->   
->   #include "fbcon.h"
-> @@ -2913,6 +2915,9 @@ void fbcon_fb_unregistered(struct fb_info *info)
->   
->   	console_lock();
->   
-> +	if (info->device && dev_is_pci(info->device))
-> +		vga_switcheroo_client_fb_set(to_pci_dev(info->device), NULL);
-> +
->   	fbcon_registered_fb[info->node] = NULL;
->   	fbcon_num_registered_fb--;
->   
-> @@ -3046,6 +3051,10 @@ static int do_fb_registered(struct fb_info *info)
->   		}
->   	}
->   
-> +	/* Set the fb info for vga_switcheroo clients. Does nothing otherwise. */
-> +	if (info->device && dev_is_pci(info->device))
-> +		vga_switcheroo_client_fb_set(to_pci_dev(info->device), info);
-> +
->   	return ret;
->   }
->   
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+so like:
+
+backlight: backlight@6f {
+	compatible = "maxim,max25014";
+	reg = <0x6f>;
+	enable-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_backlight>;
+	maxim,iset = <7>;
+
+	leds {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		led@0 {
+			reg = <0>;
+			led-sources = <0 1 2>;
+			default-brightness = <50>;
+		};
+
+		optional led@#....
+	};
+};
+
+right?
+
+Kind regards,
+Maud
+
+> 
+>> +    type: object
+>> +    description: Properties for a string of connected LEDs.
+>> +    $ref: common.yaml#
+>> +
+>> +    properties:
+>> +      reg:
+>> +        const: 0
+>> +
+>> +      led-sources:
+>> +        allOf:
+>> +          - minItems: 1
+>> +            maxItems: 4
+>> +            items:
+>> +              minimum: 0
+>> +              maximum: 3
+>> +            default: [0, 1, 2, 3]
+>> +
+>> +      default-brightness:
+>> +        minimum: 0
+>> +        maximum: 100
+>> +        default: 50
+>> +
+>> +    required:
+>> +      - reg
+>> +
+>> +    additionalProperties: false
+> 
+> unevaluatedProperties: false because ref to common.yaml
+> 
+> Frank
+> 
 
 
