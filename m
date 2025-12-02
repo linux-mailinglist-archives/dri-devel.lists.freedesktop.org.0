@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE1E8C9A4BD
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 07:28:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9357DC9A4C5
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 07:28:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A4A310E577;
-	Tue,  2 Dec 2025 06:28:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDF5810E57D;
+	Tue,  2 Dec 2025 06:28:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LwBRMgsy";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EGPOkBaC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37AFB10E578;
- Tue,  2 Dec 2025 06:28:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72ADE10E576;
+ Tue,  2 Dec 2025 06:28:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764656903; x=1796192903;
+ t=1764656910; x=1796192910;
  h=from:date:subject:mime-version:content-transfer-encoding:
  message-id:references:in-reply-to:to:cc;
- bh=YMFEJogHsTvlt3+pZNiaYpGoAQBRirM1RpH5i4NMctI=;
- b=LwBRMgsyYkijGdt0ZFDPZDQEEJXlz6ladLycBQF7j36IWUK8MsBecmGe
- QiZzzrv14+E8DJRycMIVZ1FPY43H3MHHKDUmzQaYlttvMfdiAByP1G6iM
- zOMJmCPtfZgizmx4tqSDePIguV1OkaWl/rnpnHFcms7KVNx9KcuHKpP7n
- /qiBwMkfFcDsPfF4+CLevEU6HeBqcShpJThoOktfWnKyt07qi4Gg2y/34
- fAGI2EyGzhMRQTWQCr3tQWElru00W5cvYttzFT29uwjYXcH2o3SBaA3Z6
- OlpFVFUV8bZXxxOtSTq5RUci9w32nxtGxMZYAcx3tETT8TnMnQwXLgQvS g==;
-X-CSE-ConnectionGUID: VtNIWxJWSAONY/ULJLTAww==
-X-CSE-MsgGUID: uCs4A8NnQWmJjzBuDl+nbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66500015"
-X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="66500015"
+ bh=eptpgrqEeKqmwLImiXdOEDGmU4R9xsmeWyQQ26WQR30=;
+ b=EGPOkBaCK/VLYn2/CR0NqXC2bsHkogZKPvQbCxFPym14m8tKJX89LUtK
+ x/2rCu32bIJfcR1+3K8u20veHjNQVcOlcqjmh07fwYGy3BNViPVA80LYK
+ DDz4H0n35iPKD+bAq6km2XeDmAJ3n8IMa0wfssvcWIcjeDRuGOdF0o1KI
+ 2gC1LSYx+Buht9NgtoHmz065PlJVogOISIGXOBnj5+GAMq7tfoU3geksv
+ PyKVFYf6FC1bBwIwCBt/GUik3jtm3fmNpdQpYCnTE629jK5Z6cKr0a1TC
+ f/7amCf2pHtw/7ZRipjGyFH8JzJv6cAhhRTEdvX9/s6+ktc3W8nHnDuSZ w==;
+X-CSE-ConnectionGUID: bNooElXPRhKcl4Im0qlIvg==
+X-CSE-MsgGUID: 8sp4gSozSY+b4jb/QMjBkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66500027"
+X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="66500027"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 22:28:23 -0800
-X-CSE-ConnectionGUID: pcCLjLHcRjaRWgLIPD8Jnw==
-X-CSE-MsgGUID: THr23SuQSYKBV3s7OrHv0g==
+ 01 Dec 2025 22:28:29 -0800
+X-CSE-ConnectionGUID: fV1ZN602Rqaki2jMmfLIkA==
+X-CSE-MsgGUID: //0R2sJWRDmbTVc0CA9vvA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="193961499"
+X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="193961507"
 Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa007.fm.intel.com with ESMTP; 01 Dec 2025 22:28:17 -0800
+ by fmviesa007.fm.intel.com with ESMTP; 01 Dec 2025 22:28:23 -0800
 From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Tue, 02 Dec 2025 11:57:11 +0530
-Subject: [PATCH [RESEND] v9 17/20] drm/i915/crtc: Hook i915 IET LUT with
- the drm IET properties
+Date: Tue, 02 Dec 2025 11:57:12 +0530
+Subject: [PATCH [RESEND] v9 18/20] drm/i915/histogram: histogram delay
+ counter doesn't reset
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251202-dpst-v9-17-f2abb2ca2465@intel.com>
+Message-Id: <20251202-dpst-v9-18-f2abb2ca2465@intel.com>
 References: <20251202-dpst-v9-0-f2abb2ca2465@intel.com>
 In-Reply-To: <20251202-dpst-v9-0-f2abb2ca2465@intel.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -84,29 +84,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Upon drm getting the IET LUT value from the user through the IET_LUT
-property, i915 driver will write the LUT table to the hardware
-registers.
+The delay counter for histogram does not reset and as a result the
+histogram bin never gets updated. Workaround would be to use save and
+restore histogram register.
 
+v2: Follow the seq in interrupt handler
+	Restore DPST bit 0
+	read/write dpst ctl rg
+	Restore DPST bit 1 and Guardband Delay Interrupt counter = 0
+	(Suraj)
+v3: updated wa version for display 13 and 14
+
+Wa: 14014889975
 Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
+Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/i915/display/intel_histogram.c      | 14 ++++++++++++++
+ drivers/gpu/drm/i915/display/intel_histogram_regs.h |  2 ++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 191a830009e78a31e1ad3d9ca8e0596e1a1ff71e..fd81452483bff1c6542aa95b6e11874fff21bc29 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -7579,6 +7579,9 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
- 			intel_histogram_update(crtc,
- 					       (struct drm_histogram_config *)
- 					       colorop->state->histogram_enable->data);
+diff --git a/drivers/gpu/drm/i915/display/intel_histogram.c b/drivers/gpu/drm/i915/display/intel_histogram.c
+index cf8aa7b04c4461629b071e49601a0e60d7609a08..2dfc07878ababc11c88468645eae5a58be3b1ee8 100644
+--- a/drivers/gpu/drm/i915/display/intel_histogram.c
++++ b/drivers/gpu/drm/i915/display/intel_histogram.c
+@@ -55,6 +55,11 @@ static void intel_histogram_handle_int_work(struct work_struct *work)
+ 	snprintf(pipe_id, sizeof(pipe_id),
+ 		 "PIPE=%u", intel_crtc->base.base.id);
+ 
++	/* Wa: 14014889975 */
++	if (IS_DISPLAY_VER(display, 13, 14))
++		intel_de_rmw(display, DPST_CTL(intel_crtc->pipe),
++			     DPST_CTL_RESTORE, 0);
 +
-+		if (colorop->state->iet_lut_updated)
-+			intel_histogram_set_iet_lut(crtc, colorop->state->data);
+ 	/*
+ 	 * TODO: PSR to be exited while reading the Histogram data
+ 	 * Set DPST_CTL Bin Reg function select to TC
+@@ -97,6 +102,15 @@ static void intel_histogram_handle_int_work(struct work_struct *work)
+ 		return;
  	}
  
- 	/* Underruns don't always raise interrupts, so check manually */
++	/* Wa: 14014889975 */
++	if (IS_DISPLAY_VER(display, 13, 14))
++		/* Write the value read from DPST_CTL to DPST_CTL.Interrupt Delay Counter(bit 23:16) */
++		intel_de_rmw(display, DPST_CTL(intel_crtc->pipe),
++			     DPST_CTL_GUARDBAND_INTERRUPT_DELAY_CNT |
++			     DPST_CTL_RESTORE,
++			     DPST_CTL_GUARDBAND_INTERRUPT_DELAY(0x0) |
++			     DPST_CTL_RESTORE);
++
+ 	/* Enable histogram interrupt */
+ 	intel_de_rmw(display, DPST_GUARD(intel_crtc->pipe), DPST_GUARD_HIST_INT_EN,
+ 		     DPST_GUARD_HIST_INT_EN);
+diff --git a/drivers/gpu/drm/i915/display/intel_histogram_regs.h b/drivers/gpu/drm/i915/display/intel_histogram_regs.h
+index 71daf5ac2dd9ac987b256a35161b3b6977992e95..73d2de05ebe777ca7141eee01ec8ce09b53ee5c8 100644
+--- a/drivers/gpu/drm/i915/display/intel_histogram_regs.h
++++ b/drivers/gpu/drm/i915/display/intel_histogram_regs.h
+@@ -14,6 +14,8 @@
+ #define  DPST_CTL_RESTORE				REG_BIT(28)
+ #define  DPST_CTL_IE_MODI_TABLE_EN			REG_BIT(27)
+ #define  DPST_CTL_HIST_MODE				REG_BIT(24)
++#define  DPST_CTL_GUARDBAND_INTERRUPT_DELAY_CNT		REG_GENMASK(23, 16)
++#define  DPST_CTL_GUARDBAND_INTERRUPT_DELAY(val)	REG_FIELD_PREP(DPST_CTL_GUARDBAND_INTERRUPT_DELAY_CNT, val)
+ #define  DPST_CTL_ENHANCEMENT_MODE_MASK			REG_GENMASK(14, 13)
+ #define  DPST_CTL_EN_MULTIPLICATIVE			REG_FIELD_PREP(DPST_CTL_ENHANCEMENT_MODE_MASK, 2)
+ #define  DPST_CTL_IE_TABLE_VALUE_FORMAT			REG_BIT(15)
 
 -- 
 2.25.1
