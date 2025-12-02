@@ -2,183 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62AD2C9C118
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 17:00:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C81D6C9C187
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 17:06:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A0F410E685;
-	Tue,  2 Dec 2025 16:00:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 449C410E67C;
+	Tue,  2 Dec 2025 16:06:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OLJA+pRd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="I3TiFB6c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 906D310E677;
- Tue,  2 Dec 2025 16:00:28 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B06B10E187;
+ Tue,  2 Dec 2025 16:06:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764691229; x=1796227229;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=fXPfdgbQZCr3F0A7EElRGzqP1CTIW1h2BL+DMgo10+g=;
- b=OLJA+pRdBw1JeHD6QtewlswAoN01UMeLITubJWlZuA9RUfultjBy/UeR
- DjwlIwW/k912inVm4y+DMg4v3iPojrfAP4ThetBqKspAJVY+O2UYR6nJn
- ueAk3ypYq1/PPlbiZ9PUQ6PJvJ4tJWhKu72zImj3eK7UJPC9tISAtkpp/
- H8qJ8eKZr3xdCcpXzZFCPrxxZ55tie49tu1rbnTOKD+nXWCT6aA9etsKn
- XbexXQaP+zhluOzx0BbA4IwBA6/GNKZJhmb8r4ZLDIh3n0Q8ofMUEHy6v
- jiQMijCBHzkLEzgOoy/2dxefNn2b5C3xOwOzXw9O8fCLtyMLwclwksQFN g==;
-X-CSE-ConnectionGUID: 2eY/V0QbQ3+j6/3Dp740vw==
-X-CSE-MsgGUID: Hg2M2g/MS/S9+PDR4nomNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="78128241"
-X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; d="scan'208";a="78128241"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2025 08:00:27 -0800
-X-CSE-ConnectionGUID: puU5i5QARYK5uS/sbZiZDQ==
-X-CSE-MsgGUID: hamcUeiKTW+3U7KJGJOfsA==
+ t=1764691587; x=1796227587;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=YEiV+yKjPhaMACy+X+yjUrq1vEkeYdBRBiLQkcEo0r0=;
+ b=I3TiFB6cwCVOhusZjvwbDAQqvrs/9XCmJOSZ0FcizMSPSn3JAhs6l4cM
+ cC/SA6AOS5Bq4jXh6r+Gz2i+w9zGkFLfm4O7I5yGhloGDgUePVWTpQh1F
+ k95TthP76vYsoGzR0KYaun6r+Pl5FJk5UUipbMkKGP6gr+CxUc4T1souR
+ uENJtZyuw0IveXHvOQndyNQXVPqj4Vj4SEfShtk2VIPvHoDJA+6RsNEtm
+ YvYs3EOFum7ZPLPWfL8yWS9PyyAC2eeUqZC3x5Jo+/JaoKPLfsp1k6XP2
+ 95ioMMCUi0L1waLK4rjkyiS/AieirphPxk5cRHqwv5FI8ibZbN2D05eG4 A==;
+X-CSE-ConnectionGUID: ADCNg6bTRwCN33uHjac+lg==
+X-CSE-MsgGUID: ofKdrKsYTwa37zOhTLwQSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66621279"
+X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; d="scan'208";a="66621279"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2025 08:06:26 -0800
+X-CSE-ConnectionGUID: 4kQYvsQZTImzOHA10gTR4Q==
+X-CSE-MsgGUID: vK56Sr4dRfCflhwj2qbVJA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,243,1758610800"; d="scan'208";a="198875458"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2025 08:00:27 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+ by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2025 08:06:26 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 2 Dec 2025 08:00:26 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ 15.2.2562.29; Tue, 2 Dec 2025 08:06:25 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Tue, 2 Dec 2025 08:00:26 -0800
-Received: from BN1PR04CU002.outbound.protection.outlook.com (52.101.56.24) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ 15.2.2562.29 via Frontend Transport; Tue, 2 Dec 2025 08:06:25 -0800
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.51) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 2 Dec 2025 08:00:25 -0800
+ 15.2.2562.29; Tue, 2 Dec 2025 08:06:25 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vrqo909MgTOoTYzbrBgShnGl5EcK6qnGaJE0pkLTjHZH71FfQQLZF/9sddXRpcmop+YH7GNSCMVBF+oVhNCAdfahkP61kh2H7qsYDSfS8dWw8xodscJVb7qdz/aTJjLumKG7M/PS6bOo8AJn+CgItN3UYMVaOtnMUkZPzKTk+cD5yy7m3Fl8++DlthduiBfDdN0YIR3tzlkunp6BBQrpi+b/JONOUQ/p5cpoPYpkd7ETuvUNlw5bkWZgKk6nhxAfHtBa/JRrVVkJfTSxgVR1/GuYCueGu1YvLhmJzYZ4YegV1Iwvrv5+m7UybDShc/tHdx4YJc9R2ux7UtzlNGB03Q==
+ b=fjf/FLadJgHwMWQN15MirvvKDsB2MZQQ4SDnTgXw1c6IfLV+4hU3j5BkDeeSs9nRkuNVQKKlMavFNVOwHZseZ51i+Xnx00IoTrU65dettnV+LEsjNJbXVc7fKVPIwd33KU8grMu/bFOgq6pPvcTRjM2r7Y17Ys/0OAKsi3qRcuT0iWifFQv8+VGDxvjo3Dy+HeFHWH01GA2kKKLwuOLbTNjStckVD511wxh6v1PDG5g6atPLYvZd4EBPtFpffB/sZ+8X42uQHrSHqbtvE84yUbHIHGPyFRd3JyNx4hiomak2Jpw8vpXm8+BJuZZLHR/uDye2nXCiejFcYF9zHMj1lA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5lmjsybR2a/vhcTQAJdMe+GgZngOwIcgEoCTeFOm/0Y=;
- b=lUgjTNmNEIFlz8vzE28Nmsgjp3Zq5BqqkysS5TA9OHpTW9bIHsIBKbAmB5bf2d/QB2iJH6nhZ5rI/XOus77OosOT8oq91PmCq+9vZw25m3xvQ2/mtAu753dNs8rHLEHHwatSSHJf3VERyLhANl5qakpBxR+IZKUZalm83xPCYLMO75Sw883Qphyr6v+1+VvtWQAoBzpJHwlgV7C5fqDWP9IVdSrkqUa6rhg/g9HPLIxb1SibM2+ZKdqpYEEZs1ikbaby+wn+AYXMHA56rS0cEHmlVamed5UgoK7PyHO/a8FFDdUU3XNkGISmV70d4omkjoB0nfoxMVId8zd48O5KSA==
+ bh=s0y49GGyYlDcvxUuZwXpUrz3APfQ5KpKctCSzcmJEG8=;
+ b=sO0sICcwtStU2Ya0aOQYwVrhan63DWt4dj4RH5zQtPJZu3iOKdBb04OVdMskKYOv1v1jicn3/z7xlLK1G1W9JpmdwxD7J4XcCk4b+U/RYWE7DalgjmwwUziXxfQUt3w4PRjWsSVop9SleJj7AZcqXVDZwNt/vZ7L5hKBTUU5n3IOEVmAhm4L87jnhHBVkJW1HxfoDbPGAzWsDxVKW0dRH5Z8F5qfxSQ0XynD+DMZQs7r4yi5wxJvRG54pr0SZgsYZkleI8wSFage5qrGzXtEsK/fDGpbq6cKc1DrpdqaFhVlN6O/TwzdQVtx4fY49FDX4VRh2YUTMmCV0DcM786QSw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- (2603:10b6:f:fc00::f13) by DS7PR11MB7887.namprd11.prod.outlook.com
- (2603:10b6:8:e2::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Tue, 2 Dec
- 2025 16:00:16 +0000
-Received: from DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::95c9:5973:5297:d3cc]) by DM3PPF208195D8D.namprd11.prod.outlook.com
- ([fe80::95c9:5973:5297:d3cc%6]) with mapi id 15.20.9388.003; Tue, 2 Dec 2025
- 16:00:16 +0000
-From: "Kandpal, Suraj" <suraj.kandpal@intel.com>
-To: "Shankar, Uma" <uma.shankar@intel.com>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
- <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-CC: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "pekka.paalanen@collabora.com" <pekka.paalanen@collabora.com>,
- "contact@emersion.fr" <contact@emersion.fr>, "harry.wentland@amd.com"
- <harry.wentland@amd.com>, "mwen@igalia.com" <mwen@igalia.com>,
- "jadahl@redhat.com" <jadahl@redhat.com>, "sebastian.wick@redhat.com"
- <sebastian.wick@redhat.com>, "Sharma, Swati2" <swati2.sharma@intel.com>,
- "alex.hung@amd.com" <alex.hung@amd.com>, "Nikula, Jani"
- <jani.nikula@intel.com>
-Subject: RE: [v7 11/15] drm/i915/color: Program Pre-CSC registers
-Thread-Topic: [v7 11/15] drm/i915/color: Program Pre-CSC registers
-Thread-Index: AQHcYozH2hBK9lVsC0KXxVFiN/qQD7UMg2dwgAGBtACAAH8bIA==
-Date: Tue, 2 Dec 2025 16:00:15 +0000
-Message-ID: <DM3PPF208195D8D7FD22D5A5EB558F3FBB7E3D8A@DM3PPF208195D8D.namprd11.prod.outlook.com>
-References: <20251201064655.3579280-1-uma.shankar@intel.com>
- <20251201064655.3579280-12-uma.shankar@intel.com>
- <DM3PPF208195D8DA1980D5CD74E95BEA81DE3DBA@DM3PPF208195D8D.namprd11.prod.outlook.com>
- <CY5PR11MB63445DCDE616C4C99C21F275F4D8A@CY5PR11MB6344.namprd11.prod.outlook.com>
-In-Reply-To: <CY5PR11MB63445DCDE616C4C99C21F275F4D8A@CY5PR11MB6344.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
+Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM3PPF208195D8D:EE_|DS7PR11MB7887:EE_
-x-ms-office365-filtering-correlation-id: b377d9d2-5a3d-4de9-0a36-08de31bbe25b
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|7416014|376014|1800799024|366016|38070700021; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?rocS1bUd2c4lYphBiS+VHfxuF11OE0OTV5j32Yuslc+ZHJuFO6dDhutPYz7i?=
- =?us-ascii?Q?uD8a8IWm+2hX4OBMHwBI4m1UywksG9NcPpWTa04m0A/PtkPda6ee/jeYXfqD?=
- =?us-ascii?Q?ARoj7I/vNMNX7Oz54c3xslM1vXqlLuuMpXlPnJAIqchJfnDhVBXrhHHMG3G6?=
- =?us-ascii?Q?Qua6lMFZopY1UusJEJzzCAUEmpVPZiNQ6biQUOcYsIYgulplQLlplpo9jA/n?=
- =?us-ascii?Q?SjfT6fD0EIom9GZpGL/YgbFqPutT4pEfOIaBOZ6hzAEM5Mt4/iW95cuiivRS?=
- =?us-ascii?Q?AmYxV9+a92a4WbIpFVxp5s5VnZqU3m3rhF+5m2MPSIEEfRpFSRg3qYbOhMyK?=
- =?us-ascii?Q?OE5PI65uelUaRQveJojtJPZdY1iua3jp+MI88TbRwjxO7raQCTkC+Cukr7tx?=
- =?us-ascii?Q?L585Wd6bq2NyOMeTpKrZOuLX+EQ8r8JQ5pO8StUUMZbnw8K4yT3l2hjdo19F?=
- =?us-ascii?Q?/eibl4sXQ0CqNlQKM2an4CAkf+ZnOSMEOSBQcMSVPjADa7Fzb0fbkrT8fkKn?=
- =?us-ascii?Q?ocsJwPTpTAyStRmmCmlFihiLSq3RKjtxRWCj3hgjr9gjBFjprYMAU0qZ4ryc?=
- =?us-ascii?Q?pnDlOcig1sOP5TWXqwrv5XRi2OMEo7DirjkTISoNH3AYVpq/4TKhLXlAxCsE?=
- =?us-ascii?Q?WVTTvr9lkKlwzPJYIklwbKza8zeffsfs88VcAih04Z91sapBRaZlLyk8abSN?=
- =?us-ascii?Q?7sHZXOEz2bxCDkING1zJZh6kpBJ/Sd0xiCPi7j45JOHt1J7Ofico05xFBury?=
- =?us-ascii?Q?4dzgrDwdLCooPL9dKopwI7ce8klQHxX6xueW52X7fBbNLlJIIqh7E3eHDi4P?=
- =?us-ascii?Q?tCv9f56CU2kkirvsYXw89mip74yyz+Gb1f3tdIFIt6ed0rsIm7fGYCToPwn2?=
- =?us-ascii?Q?S31L4cwjFD2cIJV0rw6TDdtUK2aag9KZ1XITW5yH01PwVhyicvB2J0VsFsxi?=
- =?us-ascii?Q?UCyJ1jCd8ffCVGmrDhphWJXtkJYE5aSsAB2Y9wX5N3QoMkmuNN3TQFxa2mPQ?=
- =?us-ascii?Q?6lPgxZMgmKNs7qFMxEsSbVkyc1taGrGJIKVRyWV/9b9TO0icdkGP6us0V7St?=
- =?us-ascii?Q?hlNO7sA1e7cG/2j304Ef4+0lu5LrknT1ZIOjjBkANKjfTOAw1jUwN9nW8Cir?=
- =?us-ascii?Q?gpNw7kt6Uob/a/pVOyrqtzomRidBwyEzvteQe12a92pSEqIlmc5gVAgiZ04l?=
- =?us-ascii?Q?CTvIU43CARnqg39lvqL8y24DnIrpuC9KGfBBSq+ipxQCPAKcREI9qppYi7ca?=
- =?us-ascii?Q?s+HX/cRu1hRyaBGVshnyqZM+o5qY+wCtEmbP3+fDUOH2ejoTpE9wr39ymuGC?=
- =?us-ascii?Q?D7sLV3ev0QJZKrQDRlGFAdZozTEkYbHkwS01p/QFlARIam3sSC6y2qAIVXU3?=
- =?us-ascii?Q?t/lGjeLAUECXT6ckkwqkV3xpAO8D9Arw1fnp+YnZXSKtmN2vlKadw+Rss3H3?=
- =?us-ascii?Q?EEqb4dkm1H/fcs4vC0UacKD+5jcRgKvt/HuGfL5nY3OFE5dIS/q29CUh+83V?=
- =?us-ascii?Q?B4Jbt92WQpokFjQQPeSDw1CmUKLT6NIhjWJq?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM3PPF208195D8D.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700021); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?JO53S7qyGH7zEz2Ir0EWrSlJxiDBjDBZc1Lg6tVfXuLpiZ+2UhSKZiZB39ga?=
- =?us-ascii?Q?31NhDWpBhY8sL0QsS69kY3E2ZBVIVAR4Ah3J9ECXkBV46fNlVHzk5RLdlK9A?=
- =?us-ascii?Q?sI16/ZTNN44aJ8cpVDmP5lAOlihU9xyMAXX/dWEPWFdYbfO0Ain1lYDDNt8+?=
- =?us-ascii?Q?v4K1ba2bAXi/oLv+tmc832tuK+grte9y/B7hDMBukSodWpENTiyFD0EIpDQR?=
- =?us-ascii?Q?5/WMXtcIbGWyDjSGj1B+wEase3TbWye/clp8eOu1jpSMYMicwDc4WPATM98w?=
- =?us-ascii?Q?9mJnXsV2sWN9tfSGNn9O9S0aEU67vG1BTtdz/7OGSDadg3K1KkXOjS/lvP22?=
- =?us-ascii?Q?MwNeYjO8fZjNTohyLZdZiBxHNTSASMaFljx3K1J3r2/RUOvCpi81DnlVePhj?=
- =?us-ascii?Q?ePiqHpgI7lwj0kYy+586CzgH7NeZpUFebaINh97iVm2oC+IaUa16S2yYA+pk?=
- =?us-ascii?Q?fKvKd1JMCWVbR5ZsKic6p/lsHsFoxNKkULuXCVR2iNyCN3jzq+dJCElcZTps?=
- =?us-ascii?Q?hhNoWB1ZRSAPLoGjrYR/HtXYkhnTSW8fi4YeAbF8gCC/d7zZzi+kGxKWjfqP?=
- =?us-ascii?Q?YaNhxMQhlm4FNHFLSKZHo+Exje8cbwxElFQQ7U/gQtlBvX6j+XmiZRSx46fE?=
- =?us-ascii?Q?EtTqFRU2axK7wWAPEK4GNlWE139Ajqd1xImxnoGbnPgDyAxlTkUD89gx420p?=
- =?us-ascii?Q?58mOKOIOwgZKTdxSMyHWsZmQe9oUEUF34a9aQ2y2iUyBJHZMcEyVDGzm7hOX?=
- =?us-ascii?Q?Fo2fHr1wtt64IOzut/fwPnv2FTCvf5MJ4Rpdfm96wp1gbC/HbAyFQxNZ7cbl?=
- =?us-ascii?Q?JNRPUhYZ7C4MZF/NvPTjSvyKngKAKkzPahja7F6OUH8T54yLP/9E0C4KqBHS?=
- =?us-ascii?Q?0w+FRDHAaz97rzXPrk/i9kp80N1Mn/NI99nBNjOzOjt1JAw/CLZ+Pza1teE4?=
- =?us-ascii?Q?H0iajSCfA8t4AQtTs9BiHbfkQ+MYMVhg4FZAIGPBThGURVD3iulhK55/Ot9r?=
- =?us-ascii?Q?UKC2XSawlXm1IEGyw7FPhoLGOmoKpq9fmtE/ilYjnzn+ktv3lMBv5nOTpdSF?=
- =?us-ascii?Q?Nb18PDwb3Hpw6ZPWJCCzMdA1ocp/a4dKTx7hj65tEo/dsecvNWlPNpN8i0kX?=
- =?us-ascii?Q?unKKsb66YsWha44bByB0/BpsMW270kaCpduRhFJ6PyoKKtxwuoC/Nrh2NaYS?=
- =?us-ascii?Q?CTfuu+I6NneDqaEOlrSt4iNif0NAa2okFgyqf5TPOWKJlAPsWAtM47kjS6sh?=
- =?us-ascii?Q?d+iT2/u9DXomd+SbkLnEJWTHt7k02Eij4udkJ2Cabdbb9nrCp3ccGaX2ozlP?=
- =?us-ascii?Q?Sj5xi5XgWfyH4PO92Su/Qo+T6wsB8viQz8cB4E0iayPHA/fYCk4J8oLfnhFB?=
- =?us-ascii?Q?KI9vU+XkTvlCnJ1hFUxVhbtxfOK/tKgIZVoXMenbsrL94S/Rn8YcNasMQQf5?=
- =?us-ascii?Q?WkWM3PmlcdHe0fU2uJdBNjGzgN/fEDdYU003c4OPNlhaDmab45NjZl/0E3WP?=
- =?us-ascii?Q?SLRYUYYpo3QjD7b/LIIQJCzA1phvdlYj3Or/Pt00bdjT0lvHqR2YGoU6DdFF?=
- =?us-ascii?Q?VR9ItLJAlrt5+3LHLXOv+xEEVFdAI4oNrYvP1GQj?=
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by MW4PR11MB6785.namprd11.prod.outlook.com (2603:10b6:303:20c::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Tue, 2 Dec
+ 2025 16:06:21 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9388.003; Tue, 2 Dec 2025
+ 16:06:20 +0000
+Date: Tue, 2 Dec 2025 08:06:17 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: Jonathan Cavitt <jonathan.cavitt@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <saurabhg.gupta@intel.com>,
+ <alex.zuo@intel.com>, <joonas.lahtinen@linux.intel.com>,
+ <jianxun.zhang@intel.com>, <shuicheng.lin@intel.com>,
+ <dri-devel@lists.freedesktop.org>, <Michal.Wajdeczko@intel.com>,
+ <michal.mrozek@intel.com>, <raag.jadav@intel.com>, <ivan.briano@intel.com>,
+ <matthew.auld@intel.com>, <dafna.hirschfeld@intel.com>
+Subject: Re: [PATCH v28 4/4] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+Message-ID: <aS8OeWtmbaP/gsL+@lstrano-desk.jf.intel.com>
+References: <20251201235539.236686-6-jonathan.cavitt@intel.com>
+ <20251201235539.236686-10-jonathan.cavitt@intel.com>
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <20251201235539.236686-10-jonathan.cavitt@intel.com>
+X-ClientProxiedBy: MW4PR04CA0031.namprd04.prod.outlook.com
+ (2603:10b6:303:6a::6) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|MW4PR11MB6785:EE_
+X-MS-Office365-Filtering-Correlation-Id: 18c15ddd-922d-49c2-42c7-08de31bcbb69
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Eqy8FCAEy3OYqdd6CklFIrRLHNVqTdgvV5BTH2YJACAR2VZBD3CVhNFOjvlO?=
+ =?us-ascii?Q?P1CoycZg8sf/vDE0jz7e4K6aZTVFQBMaIiGof0t3A/xOQv5pU4Swzv1BjXYB?=
+ =?us-ascii?Q?9qJRObLPk1Nt06jLj5S9fa5B/Jt1PryB3YLFG/n/oZMb42f6r/Zmbsv0hjK7?=
+ =?us-ascii?Q?64cRROPpCZkVvKm2id0sQb1URpPCvs1W2e2Udt76Pe+8zTO+S5aB69hUhr3/?=
+ =?us-ascii?Q?G2n/WNfymrGMKFjKz7Wqu0zCuLRmpJQ2FXHTlOtlasL6UBduwYePoNlTVlWU?=
+ =?us-ascii?Q?EP1DpvNDJ0w0fZZz0/Our/+n6slkZ+1wA+JYbmwvZTU9C1fedpEfRKc/Va6V?=
+ =?us-ascii?Q?eeLgo6ilDX7Lc/UeVdX70TaIR/BGfTPAAC+Ex3OF1fEDGFZBFZ3tFbfapKSX?=
+ =?us-ascii?Q?kxINIWeBjWcyKRA1MULtyCVg183MKRSPjGBJQOyJVVeZH262JVcQ0TE1N541?=
+ =?us-ascii?Q?Gsjo3HfL0Ps0ykmSiz7Y8elHZ7g3RONX4K4GcfRHsvbkkO2EltxA/LxDu2oA?=
+ =?us-ascii?Q?44oJo40AT8kvQdb9CHJyV53KpFClQ5Gx/c3Raf7mnbyQbLF10lt1VLYqsibR?=
+ =?us-ascii?Q?bZY9nErUvmOuvLJ/f0Ewm+oq6BEeZKTvbztLCxspoNw4vFfHrQOYvR79VqKW?=
+ =?us-ascii?Q?x1Hs66MBLGUypOAQDtJqHzBQVUHT56aqjpuyh1X+sSZIAN4Cojdbw6gMSUn6?=
+ =?us-ascii?Q?RFHmMv/AxUW8xp5Dg+InqVghCFBCbxzC3YDFkjlwxCqIdYsrIdhOldKANSD5?=
+ =?us-ascii?Q?HF+j80DahzfhaQNoUwYK3RJNFNhMu3Wzps4k2ZMpZQvnzl0TBKIDTqPuspRT?=
+ =?us-ascii?Q?2ZTL77qL9DZPxhQksUdGU1MG5c0DCoCgTu56dWlEultyuFVMvGaDa/LT2KRZ?=
+ =?us-ascii?Q?hBys9PNdTt6Hco3TS6iatO9ePJfdsh+9rwt9X55xQO4ouzHDQnSg6vltUTER?=
+ =?us-ascii?Q?8bvG8y3+z2hxADLNvFMe1KsCgOSn6SY3Ov+eWs+lKSlmmZ4jsEwC6HYetZyH?=
+ =?us-ascii?Q?eXSQVtlif3D0fSUxvbH5sKNySQwlQwtyjvRzLF3nfksINTQ+jAvqTclQvgnS?=
+ =?us-ascii?Q?tyh25kggEYIGI5Oz+ew7dclnU/yxGk3t0Eo56pUzvuiQeTltOAw7lKEbWvCT?=
+ =?us-ascii?Q?Z4szmUD53dbhZOMgNkDIwmcqz6wQhOftZj9XHk3XFLdTfSO0fx3sc9rsKh5K?=
+ =?us-ascii?Q?vm0VZLZFJDrq07BD9ur5SezyQv3QeJ44EfjNBTH8G3ucEM71nMVhSyNV3U6f?=
+ =?us-ascii?Q?fM5RuWUpCXXv3g7Nxr87ipZ5V2GXPbSa1FOiDQ0IF8oxloZvDMv1gDff5W6y?=
+ =?us-ascii?Q?Pe58x7WJrgU7uaZ6jI1LkLztJFUrVlAT5g2y9sWtgwtLWtbqUEpSsThCW39g?=
+ =?us-ascii?Q?wQZj4g+Twrt5yfn/KccVxpOL6dbrriZmXqLpMqsXDa0X0ZziZqBNmEvPLNem?=
+ =?us-ascii?Q?XITHYL5DvOXAVvZxYAGTb0mAnirS/31e?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sfSGMMwvW1162VrLL0pvnZsvL+ov/LmuL2Z3t9Y6aysTx3m7r0q+PSKLncAc?=
+ =?us-ascii?Q?Jt6/EOXYCsPOTDUcI4IDgBR29ms3rUHZjQpOOCMrWJcaGASJEVjI6hortN0D?=
+ =?us-ascii?Q?Uj2Tieoc0FV1qSA2CVY2JR4AGo3Xa/wx8M4bTqbXZVc5LPN1B0v1r9y0a3lx?=
+ =?us-ascii?Q?JHZ9T7TIMXO5hi1AsOBg52esHRi7ZhL+rYBpwsjSrrHyHfezUrT42IYg6XFL?=
+ =?us-ascii?Q?jC2EZGNaV99Cvm2QIJ8av1MchEg6spYywo2t9dHPVcEF7tfJLbgc+DIovs28?=
+ =?us-ascii?Q?byYTpiZY7U7R9ySt6nDpmfVagfYelxd+Z/XJc5zU7UcnqmW+eCAt6SSgkj3B?=
+ =?us-ascii?Q?lmaBwN7NwOYphVDTQttPNHMQIY2vHnFpz2SERJuR3lfeirGPOTm/zNys9jZc?=
+ =?us-ascii?Q?tUIhjXCNf4WHJc3QSrJfhs5kAvfBwlEShfWuzXvxztK4a9KmIL/DuQ4ULKlt?=
+ =?us-ascii?Q?A1xbMOxKjj4kw2T1Gp1Vx6EDwpxmysNU2DuEyV7yr6cnXNJOXRtFYaAIlHBV?=
+ =?us-ascii?Q?6XLoIP5C3CuiGdS8kKnsfwEb/YVxV+gwncLRBwOAklEIFxm1I3o7svdUivlJ?=
+ =?us-ascii?Q?R3ULNLcHC1R2FZo+6WMs1NraY2TMbR4LfZRMLTyx0lamfGG4hVFFPYe30upr?=
+ =?us-ascii?Q?AarLwweySPhp0W4sct4iVSlpy6uIJRyykYJSxD2Pje6Z9/KW5QvbKfqsXwZC?=
+ =?us-ascii?Q?lcrvmS8pdPneEGQK1yKIGVH3dU9KoWR0tDfwcKwr1dpn+WFkCiO27qOhl9SQ?=
+ =?us-ascii?Q?K8aDi4LeY/adazuGtQCuqmL16fUpI7/CYwZKAdYq9EhjaB/YL3T25eVuzPP9?=
+ =?us-ascii?Q?bJkjHylOaB/pvZUFKa6pO9UZwEd7XdY1UrQVNd0NNlPDSRE5n1BOa9Eyy/or?=
+ =?us-ascii?Q?qactpH0zn+jH8F4k7aq58RAWv3pKvMqn8ZEF13MZWUGMHWqeG9pnhrTqpfab?=
+ =?us-ascii?Q?n7HoLmTkC8gs3YQKqVOqVZdWQwU8nJv0fC3zn8KbSoakdArGSbhuu1EMg1w4?=
+ =?us-ascii?Q?c7EJADydfB9/91g+NkJWWf/h0a3pKAiPdvPeS5/WmL8e1YoCKuiQdI1wDXJj?=
+ =?us-ascii?Q?Di7VvgpAL/RD0DC+NBPonVVZRQWenSZ2H9QQkW9JYwcw34/GL/3kE8hH0eJB?=
+ =?us-ascii?Q?vEa0WRZMwN+4yKlIZ87/N6fPtBtLmrhWpnHf8YK75f2WKZOkYrCdls+CZbGy?=
+ =?us-ascii?Q?2h1RlRbfRV9MSdl5kOyuKcJ+R8Ur7cw9NjBwvAJsq0MMPNn1RDLmrMv79+in?=
+ =?us-ascii?Q?UW5dWb0PUhahLdAuXVJI2hrTRwwCLy9Ta09qRKfP/P6Di9zuF63VkILc5t5/?=
+ =?us-ascii?Q?2nBGj6vtGrcQUdYp9Q9zruKHbz2u+HDZhgGkEClws1d4LKc3jFk+l9fqfq/D?=
+ =?us-ascii?Q?QGHWkol9NkaonULnGbz5/RKAN/Jzq5duvK1SmKJR/VUlBEQNAPxbFGr3Bas+?=
+ =?us-ascii?Q?+f8kTVZdxPrkm4X9GoTDK0BeCcNp6KTpsXCzq4tFccBCSFBsvos1KrYWGduG?=
+ =?us-ascii?Q?+zgEVeiZJl4b+ESXbUgiAcWUTyx3ezUxl4Ej+dqNAmgKu70V/pS49Vlz+OPg?=
+ =?us-ascii?Q?0AIxAM4Y5RPnRJO4/O55FWhRfwznhNqWH0UXLPINPFvxKP4TFa2FyWyuZnGk?=
+ =?us-ascii?Q?kw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18c15ddd-922d-49c2-42c7-08de31bcbb69
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM3PPF208195D8D.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b377d9d2-5a3d-4de9-0a36-08de31bbe25b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Dec 2025 16:00:15.9173 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: v3nzLTvvEkZt29PZvGg9m1XVupAL/7r1v2f3aNGM0rsZN04Y54PlJbFCXF87mxXDZ+cSAwyAayWu1JuyHkifkQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7887
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 16:06:20.7182 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lZIH+y04ze6ZVULqo5DK+s1clsRuxzmGF7yD4i4DtvELi1AYr5LXXJngavsb/rVvb/PSuR0tDhQC25JZfg94KQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6785
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -195,132 +181,263 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > Subject: RE: [v7 11/15] drm/i915/color: Program Pre-CSC registers
-> >
-> > > Subject: [v7 11/15] drm/i915/color: Program Pre-CSC registers
-> > >
-> > > Add callback to program Pre-CSC LUT for TGL and beyond
-> > >
-> > > v2: Add DSB support
-> > > v3: Add support for single segment 1D LUT color op
-> > > v4:
-> > > - s/drm_color_lut_32/drm_color_lut32/ (Simon)
-> > > - Change commit message (Suraj)
-> > > - Improve comments (Suraj)
-> > > - Remove multisegmented programming, to be added later
-> > > - Remove dead code for SDR planes, add when needed
-> > >
-> > > BSpec: 50411, 50412, 50413, 50414
-> > > Signed-off-by: Uma Shankar <uma.shankar@intel.com>
-> > > Signed-off-by: Chaitanya Kumar Borah
-> > > <chaitanya.kumar.borah@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/i915/display/intel_color.c | 61
-> > > ++++++++++++++++++++++
-> > >  1 file changed, 61 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/display/intel_color.c
-> > > b/drivers/gpu/drm/i915/display/intel_color.c
-> > > index 4ca359d68730..2a114d2964fa 100644
-> > > --- a/drivers/gpu/drm/i915/display/intel_color.c
-> > > +++ b/drivers/gpu/drm/i915/display/intel_color.c
-> > > @@ -3943,6 +3943,66 @@ xelpd_load_plane_csc_matrix(struct intel_dsb
-> *dsb,
-> > >  			   ctm_to_twos_complement(input[11], 0, 12));  }
-> > >
-> > > +static void
-> > > +xelpd_program_plane_pre_csc_lut(struct intel_dsb *dsb,
-> > > +				const struct intel_plane_state *plane_state) {
-> > > +	struct intel_display *display =3D to_intel_display(plane_state);
-> > > +	const struct drm_plane_state *state =3D &plane_state->uapi;
-> > > +	enum pipe pipe =3D to_intel_plane(state->plane)->pipe;
-> > > +	enum plane_id plane =3D to_intel_plane(state->plane)->id;
-> >
-> > Introduce intel_plane here and use that
->=20
-> I think its only used at 2 places, don't see any need of extra variable.
-> If no strong objection, I think it's ok to keep this way.
+On Mon, Dec 01, 2025 at 11:55:44PM +0000, Jonathan Cavitt wrote:
+> Add support for userspace to request a list of observed faults
+> from a specified VM.
+> 
+> v2:
+> - Only allow querying of failed pagefaults (Matt Brost)
+> 
+> v3:
+> - Remove unnecessary size parameter from helper function, as it
+>   is a property of the arguments. (jcavitt)
+> - Remove unnecessary copy_from_user (Jainxun)
+> - Set address_precision to 1 (Jainxun)
+> - Report max size instead of dynamic size for memory allocation
+>   purposes.  Total memory usage is reported separately.
+> 
+> v4:
+> - Return int from xe_vm_get_property_size (Shuicheng)
+> - Fix memory leak (Shuicheng)
+> - Remove unnecessary size variable (jcavitt)
+> 
+> v5:
+> - Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
+> - Update fill_property_pfs to eliminate need for kzalloc (Jianxun)
+> 
+> v6:
+> - Repair and move fill_faults break condition (Dan Carpenter)
+> - Free vm after use (jcavitt)
+> - Combine assertions (jcavitt)
+> - Expand size check in xe_vm_get_faults_ioctl (jcavitt)
+> - Remove return mask from fill_faults, as return is already -EFAULT or 0
+>   (jcavitt)
+> 
+> v7:
+> - Revert back to using xe_vm_get_property_ioctl
+> - Apply better copy_to_user logic (jcavitt)
+> 
+> v8:
+> - Fix and clean up error value handling in ioctl (jcavitt)
+> - Reapply return mask for fill_faults (jcavitt)
+> 
+> v9:
+> - Future-proof size logic for zero-size properties (jcavitt)
+> - Add access and fault types (Jianxun)
+> - Remove address type (Jianxun)
+> 
+> v10:
+> - Remove unnecessary switch case logic (Raag)
+> - Compress size get, size validation, and property fill functions into a
+>   single helper function (jcavitt)
+> - Assert valid size (jcavitt)
+> 
+> v11:
+> - Remove unnecessary else condition
+> - Correct backwards helper function size logic (jcavitt)
+> 
+> v12:
+> - Use size_t instead of int (Raag)
+> 
+> v13:
+> - Remove engine class and instance (Ivan)
+> 
+> v14:
+> - Map access type, fault type, and fault level to user macros (Matt
+>   Brost, Ivan)
+> 
+> v15:
+> - Remove unnecessary size assertion (jcavitt)
+> 
+> v16:
+> - Nit fixes (Matt Brost)
+> 
+> v17:
+> - Rebase and refactor (jcavitt)
+> 
+> v18:
+> - Do not copy_to_user in critical section (Matt Brost)
+> - Assert args->size is multiple of sizeof(struct xe_vm_fault) (Matt
+>   Brost)
+> 
+> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> Suggested-by: Matthew Brost <matthew.brost@intel.com>
+> Cc: Jainxun Zhang <jianxun.zhang@intel.com>
+> Cc: Shuicheng Lin <shuicheng.lin@intel.com>
+> Cc: Raag Jadav <raag.jadav@intel.com>
+> Cc: Ivan Briano <ivan.briano@intel.com>
+> ---
+>  drivers/gpu/drm/xe/xe_device.c |   2 +
+>  drivers/gpu/drm/xe/xe_vm.c     | 119 +++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/xe/xe_vm.h     |   3 +
+>  3 files changed, 124 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+> index 1197f914ef77..69baf01f008a 100644
+> --- a/drivers/gpu/drm/xe/xe_device.c
+> +++ b/drivers/gpu/drm/xe/xe_device.c
+> @@ -207,6 +207,8 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
+>  	DRM_IOCTL_DEF_DRV(XE_MADVISE, xe_vm_madvise_ioctl, DRM_RENDER_ALLOW),
+>  	DRM_IOCTL_DEF_DRV(XE_VM_QUERY_MEM_RANGE_ATTRS, xe_vm_query_vmas_attrs_ioctl,
+>  			  DRM_RENDER_ALLOW),
+> +	DRM_IOCTL_DEF_DRV(XE_VM_GET_PROPERTY, xe_vm_get_property_ioctl,
+> +			  DRM_RENDER_ALLOW),
+>  };
+>  
+>  static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+> index dc6c36191274..ccc0aa3afe58 100644
+> --- a/drivers/gpu/drm/xe/xe_vm.c
+> +++ b/drivers/gpu/drm/xe/xe_vm.c
+> @@ -3850,6 +3850,125 @@ int xe_vm_bind_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+>  	return err;
+>  }
+>  
+> +/*
+> + * Map access type, fault type, and fault level from current bspec
+> + * specification to user spec abstraction.  The current mapping is
+> + * 1-to-1, but if there is ever a hardware change, we will need
+> + * this abstraction layer to maintain API stability through the
+> + * hardware change.
+> + */
+> +static u8 xe_to_user_access_type(u8 access_type)
+> +{
+> +	return access_type;
+> +}
+> +
+> +static u8 xe_to_user_fault_type(u8 fault_type)
+> +{
+> +	return fault_type;
+> +}
+> +
+> +static u8 xe_to_user_fault_level(u8 fault_level)
+> +{
+> +	return fault_level;
+> +}
+> +
+> +static int fill_faults(struct xe_vm *vm,
+> +		       struct drm_xe_vm_get_property *args)
+> +{
+> +	struct xe_vm_fault __user *usr_ptr = u64_to_user_ptr(args->data);
+> +	struct xe_vm_fault *fault_list, fault_entry;
+> +	struct xe_vm_fault_entry *entry;
+> +	int ret = 0, i = 0, count, entry_size;
+> +
+> +	entry_size = sizeof(struct xe_vm_fault);
+> +	count = args->size / entry_size;
+> +
+> +	fault_list = kcalloc(count, sizeof(struct xe_vm_fault), GFP_KERNEL);
+> +	if (!fault_list)
+> +		return -ENOMEM;
+> +
+> +	spin_lock(&vm->faults.lock);
+> +	list_for_each_entry(entry, &vm->faults.list, list) {
+> +		if (i == count)
+> +			break;
+> +
+> +		memset(&fault_entry, 0, entry_size);
 
-Sure Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
+This memset only needs to happen once, right?
 
->=20
-> Regards,
-> Uma Shankar
->=20
-> > Regards,
-> > Suraj Kandpal
-> >
-> > > +	const struct drm_color_lut32 *pre_csc_lut =3D plane_state-
-> > > >hw.degamma_lut->data;
-> > > +	u32 i, lut_size;
-> > > +
-> > > +	if (icl_is_hdr_plane(display, plane)) {
-> > > +		lut_size =3D 128;
-> > > +
-> > > +		intel_de_write_dsb(display, dsb,
-> > > +				   PLANE_PRE_CSC_GAMC_INDEX_ENH(pipe,
-> > > plane, 0),
-> > > +				   PLANE_PAL_PREC_AUTO_INCREMENT);
-> > > +
-> > > +		if (pre_csc_lut) {
-> > > +			for (i =3D 0; i < lut_size; i++) {
-> > > +				u32 lut_val =3D
-> > > drm_color_lut32_extract(pre_csc_lut[i].green, 24);
-> > > +
-> > > +				intel_de_write_dsb(display, dsb,
-> > > +
-> > > PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0),
-> > > +						   lut_val);
-> > > +			}
-> > > +
-> > > +			/* Program the max register to clamp values > 1.0. */
-> > > +			/* TODO: Restrict to 0x7ffffff */
-> > > +			do {
-> > > +				intel_de_write_dsb(display, dsb,
-> > > +
-> > > PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0),
-> > > +						   (1 << 24));
-> > > +			} while (i++ > 130);
-> > > +		} else {
-> > > +			for (i =3D 0; i < lut_size; i++) {
-> > > +				u32 v =3D (i * ((1 << 24) - 1)) / (lut_size - 1);
-> > > +
-> > > +				intel_de_write_dsb(display, dsb,
-> > > +
-> > > PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0), v);
-> > > +			}
-> > > +
-> > > +			do {
-> > > +				intel_de_write_dsb(display, dsb,
-> > > +
-> > > PLANE_PRE_CSC_GAMC_DATA_ENH(pipe, plane, 0),
-> > > +						   1 << 24);
-> > > +			} while (i++ < 130);
-> > > +		}
-> > > +
-> > > +		intel_de_write_dsb(display, dsb,
-> > > PLANE_PRE_CSC_GAMC_INDEX_ENH(pipe, plane, 0), 0);
-> > > +	}
-> > > +}
-> > > +
-> > > +static void
-> > > +xelpd_plane_load_luts(struct intel_dsb *dsb, const struct
-> > > +intel_plane_state *plane_state) {
-> > > +	if (plane_state->hw.degamma_lut)
-> > > +		xelpd_program_plane_pre_csc_lut(dsb, plane_state); }
-> > > +
-> > >  static const struct intel_color_funcs chv_color_funcs =3D {
-> > >  	.color_check =3D chv_color_check,
-> > >  	.color_commit_arm =3D i9xx_color_commit_arm, @@ -3991,6 +4051,7
-> @@
-> > > static const struct intel_color_funcs tgl_color_funcs =3D {
-> > >  	.read_csc =3D icl_read_csc,
-> > >  	.get_config =3D skl_get_config,
-> > >  	.load_plane_csc_matrix =3D xelpd_load_plane_csc_matrix,
-> > > +	.load_plane_luts =3D xelpd_plane_load_luts,
-> > >  };
-> > >
-> > >  static const struct intel_color_funcs icl_color_funcs =3D {
-> > > --
-> > > 2.50.1
+So maybe when declaring 'fault_entry', do this: 'fault_entry = {};'.
 
+Otherwise LGTM.
+
+Matt
+
+> +
+> +		fault_entry.address = entry->address;
+> +		fault_entry.address_precision = entry->address_precision;
+> +
+> +		fault_entry.access_type = xe_to_user_access_type(entry->access_type);
+> +		fault_entry.fault_type = xe_to_user_fault_type(entry->fault_type);
+> +		fault_entry.fault_level = xe_to_user_fault_level(entry->fault_level);
+> +
+> +		memcpy(&fault_list[i], &fault_entry, entry_size);
+> +
+> +		i++;
+> +	}
+> +	spin_unlock(&vm->faults.lock);
+> +
+> +	ret = copy_to_user(usr_ptr, fault_list, args->size);
+> +
+> +	kfree(fault_list);
+> +	return ret ? -EFAULT : 0;
+> +}
+> +
+> +static int xe_vm_get_property_helper(struct xe_vm *vm,
+> +				     struct drm_xe_vm_get_property *args)
+> +{
+> +	size_t size;
+> +
+> +	switch (args->property) {
+> +	case DRM_XE_VM_GET_PROPERTY_FAULTS:
+> +		spin_lock(&vm->faults.lock);
+> +		size = size_mul(sizeof(struct xe_vm_fault), vm->faults.len);
+> +		spin_unlock(&vm->faults.lock);
+> +
+> +		if (!args->size) {
+> +			args->size = size;
+> +			return 0;
+> +		}
+> +
+> +		/*
+> +		 * Number of faults may increase between calls to
+> +		 * xe_vm_get_property_ioctl, so just report the number of
+> +		 * faults the user requests if it's less than or equal to
+> +		 * the number of faults in the VM fault array.
+> +		 *
+> +		 * We should also at least assert that the args->size value
+> +		 * is a multiple of the xe_vm_fault struct size.
+> +		 */
+> +		if (args->size > size || args->size % sizeof(struct xe_vm_fault))
+> +			return -EINVAL;
+> +
+> +		return fill_faults(vm, args);
+> +	}
+> +	return -EINVAL;
+> +}
+> +
+> +int xe_vm_get_property_ioctl(struct drm_device *drm, void *data,
+> +			     struct drm_file *file)
+> +{
+> +	struct xe_device *xe = to_xe_device(drm);
+> +	struct xe_file *xef = to_xe_file(file);
+> +	struct drm_xe_vm_get_property *args = data;
+> +	struct xe_vm *vm;
+> +	int ret = 0;
+> +
+> +	if (XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1] ||
+> +			     args->reserved[2]))
+> +		return -EINVAL;
+> +
+> +	vm = xe_vm_lookup(xef, args->vm_id);
+> +	if (XE_IOCTL_DBG(xe, !vm))
+> +		return -ENOENT;
+> +
+> +	ret = xe_vm_get_property_helper(vm, args);
+> +
+> +	xe_vm_put(vm);
+> +	return ret;
+> +}
+> +
+>  /**
+>   * xe_vm_bind_kernel_bo - bind a kernel BO to a VM
+>   * @vm: VM to bind the BO to
+> diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
+> index e9f2de4189e0..f2675ec9e8c4 100644
+> --- a/drivers/gpu/drm/xe/xe_vm.h
+> +++ b/drivers/gpu/drm/xe/xe_vm.h
+> @@ -210,6 +210,9 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, void *data,
+>  int xe_vm_bind_ioctl(struct drm_device *dev, void *data,
+>  		     struct drm_file *file);
+>  int xe_vm_query_vmas_attrs_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
+> +int xe_vm_get_property_ioctl(struct drm_device *dev, void *data,
+> +			     struct drm_file *file);
+> +
+>  void xe_vm_close_and_put(struct xe_vm *vm);
+>  
+>  static inline bool xe_vm_in_fault_mode(struct xe_vm *vm)
+> -- 
+> 2.43.0
+> 
