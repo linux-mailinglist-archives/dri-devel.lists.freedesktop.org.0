@@ -2,137 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5651C9B040
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 11:01:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44451C9B063
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 11:06:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C867010E5C6;
-	Tue,  2 Dec 2025 10:01:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5400B10E556;
+	Tue,  2 Dec 2025 10:06:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MupdOExJ";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WvFAXAUC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="m3U7LOTm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 993AD10E5C6
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 10:01:29 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5B22vGeA1090857
- for <dri-devel@lists.freedesktop.org>; Tue, 2 Dec 2025 10:01:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- VCgyHpBwQTHzIAgBMQn8Tj44im5JyB4dlR9ZKOC00xw=; b=MupdOExJPHKS91JK
- OrTN9mOgl8emGkBoTUnDHrT8uwVXEEVM64XYfBDrx8YSK7ssxm/goPpPyZM/3F3j
- 8cYu4Elmc0aqyBGMzjU+LzmzYWG/ZOvD7ZOYwp1uK2jNjCR1mfLCl7M4/kMKEQS7
- VIcmBelIqaEuPt3XpXcgrXxHSHWIbRHrwt9KJdwlYBudCN8dVo11oJNW3jWsr0XM
- jmyRHEBcHE66FH7uFHtrWgfoxxa0Z2ZxMmmUOL6bSR3Ln/fqKK1kfl64vXlFc9/A
- x2vt7ESELlZaNnGrzfM9Dlhr4YtlrtORn9QXbCnGK1Ire0mKsbH3UV7wPlTGLXXR
- U20LIg==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4asfu12u7v-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 10:01:28 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-b969f3f5bb1so7671313a12.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 02:01:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1764669687; x=1765274487;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=VCgyHpBwQTHzIAgBMQn8Tj44im5JyB4dlR9ZKOC00xw=;
- b=WvFAXAUCusOcJ6updL2Jy8YDCdyMLQuCEA1hrnWzph16m+UbaL6mPsQOaPGZuBtWHn
- b6xYN8WtET4gF5GQ4CC+KPdylTCJyWSMozBWrJshOyvKHk8ApgWMMkFI7ypvL21c3pVw
- MBCp1RKIhpDKxffeZzcyQ6OdBX6qhlRnatY5fHiRP8GDL85IcDcCcJJC/bDZGg9lAuL/
- igisoOAwsvkDHN7KdimyDlmb2XzJ7twrD07zV4qSufnXMJuYTOXEKYe1a9wniuDmPGtq
- bICWmV9UxFuypJFA+Tondml8Jm2fPqRLX3J2DC5kqF16EVV8kmzf/fkmvzeKcINXxWNT
- ra5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764669687; x=1765274487;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=VCgyHpBwQTHzIAgBMQn8Tj44im5JyB4dlR9ZKOC00xw=;
- b=hEnOs47j0r8Kc7UWYAtIbeU6RHHV76pJaWb99DCHofBLKY7d40VZGPY6KUJ1yrk1pl
- cr2hlQnAOwOKF6MbRZPQKKKc1ZvSnpfGVTYBfPrJqE7Ai5Id2YvLaFe0va9zfXAXyhKZ
- sb/3YTVSEyHWKPuSflpK1L+Q44TGMUz9llZi8TA4va/c1c/vzVD4Lsap3tpQFHicHaBf
- ZjWg942V409qkQ3C0LwxU0Sm3VGtjoMS2PkxLk3mY0StrJitQBnq68fkEKA1vWdgn92P
- PvdMKsClk3JnINwJ9gcEIgfC5rWxK1RM3beIwsw21x33kGqvsWEXLY+jiXxpHz4poby7
- OKgQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUIRbl6z/mUL9G3Gm6UTrbUKzcNdhQmAtYtifHsb0IyMv8Cd+eXrRFsAE5tcH7Ny3ikgMw6iOKGZrM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwWxGcEY7hZ7E8bDVECL0O4+ShVXHrEavKehPlfqwYi6c0OWJ0J
- 0hqKd1SWBFAF1+wdBfnCWEuQ0Q3orfjxs6CJZHQxRGU263P11pOjHcpq2Dl8BLFQI7hqexKwaus
- Rcv+eMF+805d8Oh0bg8jmDwTe/X7yL3rQOqDuLNvj3n4nA43pyNNrLOZLcjUxDEyeuK9EAgY=
-X-Gm-Gg: ASbGnctemaWcwCamvWPHt6Po1E25sBi6yFGJgVw1jhqfGnBfAN3UFfFzhP+4f8zgbxC
- 68vibcSvkInLBPUJzzO464p7AqDn8R575RVIIPzKO0QTyKUXmeODleOIPAn2uEgkDrl3yOSHXF5
- j2QpRr4enl6FO+gZGi1gw5qDHkg3HFuPBmY+4tKJR+Zy1CBEAbDtcxogj61QrhowlnVMEhEczGe
- nnpBxBE1NLPQKvqsAs2teI7d2yIyor4+N+BHzFGa6/WpB1sUOG660Esb9XLVLhj23qdun3cOFBZ
- wHkGXU7Kr9Dp1YioXks9mSjmU2O9/yOocv0cmfSWQgVBjnr2HAjyE5XTE7jdg3mAz9k29HJU0T2
- sIFi/0Z/siwEVkrfFnwDnhhItOkII5le0r4Sy1JGFCA==
-X-Received: by 2002:a05:7301:7194:b0:2a4:3593:c7c1 with SMTP id
- 5a478bee46e88-2a7194ab2a1mr19578319eec.1.1764669687357; 
- Tue, 02 Dec 2025 02:01:27 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHKRFsMylJah6XxPplvV9ZpzzT/gex0k0NSf2YPvwqBcH7AOdKS2xzxMzA1XuIz16ntn4kKiA==
-X-Received: by 2002:a05:7301:7194:b0:2a4:3593:c7c1 with SMTP id
- 5a478bee46e88-2a7194ab2a1mr19578297eec.1.1764669686707; 
- Tue, 02 Dec 2025 02:01:26 -0800 (PST)
-Received: from [10.204.86.123] ([202.46.23.25])
- by smtp.gmail.com with ESMTPSA id
- a92af1059eb24-11dcaed5fcasm83627991c88.2.2025.12.02.02.01.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Dec 2025 02:01:26 -0800 (PST)
-Message-ID: <ab942177-a8a7-4047-9b6a-634aa3d15b21@oss.qualcomm.com>
-Date: Tue, 2 Dec 2025 15:31:17 +0530
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE75910E556
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 10:06:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764669982; x=1796205982;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=oQlaqUeREC8Pc2NqxB4xgOj6FQuw9eUxeGBxZjH6Sgc=;
+ b=m3U7LOTmSu7DKVjWXzAeDHIribeVglwLZPGs8+l0g8suR6OCr3dsW3QK
+ uE90RNV87hSZdo22PUhR/L7zOzZY2xFCc/HsIcH+2S8GAXJxQ1yGrMC+9
+ 6SMyha50zdKrYJSW24PdITRPpkYQxznj+JGvh6+ozzJA2fhml9ldIMXTn
+ sFbrofEsoA1fn23b5fkkzXXJ9blzRhogEZryYETdyiasUVh1q8ycEWEfr
+ tT3xJCgtSGItJyCwif9cagNkzxiqgsut1ZniNmecuMIQfhfGUkGHl8Zdl
+ Oj8bjv/W6GCKFYue/kNmJ0rzHUVFbiYj6v9R2hXfgtfYVFNYSM1b12Kq+ g==;
+X-CSE-ConnectionGUID: KbTBu3eST+qf9kEvZ5a9Sw==
+X-CSE-MsgGUID: 2/M0CQYYSv++//5HmtWFGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="69223298"
+X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="69223298"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2025 02:06:21 -0800
+X-CSE-ConnectionGUID: PITpErWwRNmDgKnxiyeQcw==
+X-CSE-MsgGUID: 4OdsEXdETKmHXxBiAj8Kiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="217680052"
+Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
+ by fmviesa002.fm.intel.com with ESMTP; 02 Dec 2025 02:06:15 -0800
+Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vQNGv-000000009fR-1YFs;
+ Tue, 02 Dec 2025 10:06:13 +0000
+Date: Tue, 2 Dec 2025 18:06:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marco Felsch <m.felsch@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+ Liu Ying <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH v6 2/3] drm/bridge: imx: Add i.MX93 parallel display
+ format configuration support
+Message-ID: <202512021733.cIbkorvY-lkp@intel.com>
+References: <20251201-v6-18-topic-imx93-parallel-display-v6-2-7b056e1e5b1e@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/4] dt-bindings: misc: qcom,fastrpc: Add compatible
- for Kaanapali
-To: Krzysztof Kozlowski <krzk@kernel.org>, kpallavi@qti.qualcomm.com,
- srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
- gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org
-Cc: quic_bkumar@quicinc.com, ekansh.gupta@oss.qualcomm.com,
- linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
- dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, jingyi.wang@oss.qualcomm.com,
- aiqun.yu@oss.qualcomm.com, ktadakam@qti.qualcomm.com
-References: <20251202060628.1869967-1-kumari.pallavi@oss.qualcomm.com>
- <20251202060628.1869967-2-kumari.pallavi@oss.qualcomm.com>
- <191e6be9-5e61-43b7-a75b-e2d211bc6630@kernel.org>
-Content-Language: en-US
-From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
-In-Reply-To: <191e6be9-5e61-43b7-a75b-e2d211bc6630@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAyMDA4MCBTYWx0ZWRfX+FWRY0+j2FYo
- UPJPSbNlCZ78EM55QsGYrP4LZMF3e8h3mOAl90pxTXKxfRG5eINc2+2cF24NsUA2IPf6I2XK7aI
- QrwPXa5EdOaTcS3yLR/Fi6D9el2P36KTYUCHdstYLXg5rtfml2HzGaBqLcppWjp4cXrcZ1ppPEk
- 5pOfbzVkOk8WxfbBBahujPP7SmTBPjRI+fwmBChrAu+f08qi3kHMjBfwxWj0yBdsyBWq/8wsKmC
- Do7LKrh9nllXNBmyy62encrivsrqvFgrROaupUVPWFRQGxp6pW78WZc7i/7bzjCbnQ1wuFj5WqU
- FvVOIZc229okhXxYg3rNoiTQyEY+7SptPikck7iaNY1a4Jj7lr0EilYFKchu2oz/VoIZrv+qRFI
- H9xUhfYQKgqoLIp3NWSgHczbfbv59g==
-X-Authority-Analysis: v=2.4 cv=BJW+bVQG c=1 sm=1 tr=0 ts=692eb8f8 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=9uI-NWsv2U5wCxV133oA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-GUID: MCZnAx2as5AWos481DxtTolYQ88hQYjC
-X-Proofpoint-ORIG-GUID: MCZnAx2as5AWos481DxtTolYQ88hQYjC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-01_01,2025-11-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 malwarescore=0 suspectscore=0 adultscore=0
- spamscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512020080
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251201-v6-18-topic-imx93-parallel-display-v6-2-7b056e1e5b1e@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,76 +86,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Marco,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 3a8660878839faadb4f1a6dd72c3179c1df56787]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/dt-bindings-soc-imx93-media-blk-ctrl-Add-PDFC-subnode-to-schema-and-example/20251202-011707
+base:   3a8660878839faadb4f1a6dd72c3179c1df56787
+patch link:    https://lore.kernel.org/r/20251201-v6-18-topic-imx93-parallel-display-v6-2-7b056e1e5b1e%40pengutronix.de
+patch subject: [PATCH v6 2/3] drm/bridge: imx: Add i.MX93 parallel display format configuration support
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251202/202512021733.cIbkorvY-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251202/202512021733.cIbkorvY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512021733.cIbkorvY-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/bridge/imx/imx93-pdfc.c:55:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      55 |                 val = FORMAT_RGB888_TO_RGB888;
+         |                       ^
+   drivers/gpu/drm/bridge/imx/imx93-pdfc.c:21:34: note: expanded from macro 'FORMAT_RGB888_TO_RGB888'
+      21 | #define FORMAT_RGB888_TO_RGB888         FIELD_PREP(PARALLEL_DISP_FORMAT, 0)
+         |                                         ^
+   1 error generated.
 
 
-On 12/2/2025 1:47 PM, Krzysztof Kozlowski wrote:
-> On 02/12/2025 07:06, Kumari Pallavi wrote:
->> Kaanapali introduces changes in DSP IOVA layout and CDSP DMA addressing
->> that differ from previous SoCs. The SID field moves within the physical
->> address, and CDSP now supports a wider DMA range, requiring updated
->> sid_pos and DMA mask handling in the driver.
->> To apply these changes only on Kaanapali, add a SoC-specific compatible
->> string "qcom,kaanapali-fastrpc". Older DTs using "qcom,fastrpc" remain
->> valid.
-> 
-> Drop last two sentences, redundant. Patch contents tell that.
-> 
+vim +/FIELD_PREP +55 drivers/gpu/drm/bridge/imx/imx93-pdfc.c
 
-ACK
+    42	
+    43	static void imx93_pdfc_bridge_atomic_enable(struct drm_bridge *bridge,
+    44						    struct drm_atomic_state *state)
+    45	{
+    46		struct imx93_pdfc *pdfc = bridge->driver_private;
+    47		const struct drm_bridge_state *bridge_state;
+    48		unsigned int mask = PARALLEL_DISP_FORMAT;
+    49		unsigned int val;
+    50	
+    51		bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
+    52	
+    53		switch (bridge_state->output_bus_cfg.format) {
+    54		case MEDIA_BUS_FMT_RGB888_1X24:
+  > 55			val = FORMAT_RGB888_TO_RGB888;
+    56			if (pdfc->phy_bus_width == 18) {
+    57				/*
+    58				 * Can be valid if physical bus limitation exist,
+    59				 * therefore use dev_dbg().
+    60				 */
+    61				dev_dbg(pdfc->dev, "Truncate two LSBs from each color\n");
+    62				val = FORMAT_RGB888_TO_RGB666;
+    63			}
+    64			break;
+    65		case MEDIA_BUS_FMT_RGB666_1X18:
+    66			val = FORMAT_RGB888_TO_RGB666;
+    67			break;
+    68		case MEDIA_BUS_FMT_RGB565_1X16:
+    69			val = FORMAT_RGB565_TO_RGB565;
+    70			break;
+    71		}
+    72	
+    73		regmap_update_bits(pdfc->regmap, pdfc->disp_mux_reg_off, mask, val);
+    74	}
+    75	
 
->>
->> Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
->> ---
->>   Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml | 8 +++++++-
->>   1 file changed, 7 insertions(+), 1 deletion(-)
->>
-> 
-> You did not test the v4, so is this one tested?
-> 
-
-Yes, I tested all possible entry combinations for this version. For v4, 
-I only validated the best-case scenario and did not cover all possibilities.
-
->> diff --git a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
->> index 3f6199fc9ae6..8bf7d4d83c8b 100644
->> --- a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
->> +++ b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
->> @@ -18,7 +18,13 @@ description: |
->>   
->>   properties:
->>     compatible:
->> -    const: qcom,fastrpc
->> +    oneOf:
->> +      - items:
->> +          - enum:
->> +              - qcom,kaanapali-fastrpc
->> +          - const: qcom,fastrpc
->> +      - items:
-> 
-> I asked last time to drop the unnecessary items. Wasn't here before.
-> 
-
-I’ll update the schema in the next patch series to remove the 
-unnecessary items. The revised version will look like this:
-
-properties:
-   compatible:
-     oneOf:
-       - items:
-           - enum:
-               - qcom,kaanapali-fastrpc
-           - const: qcom,fastrpc
-       - const: qcom,fastrpc
-
-
->> +          - const: qcom,fastrpc
->>   
->>     label:
->>       enum:
-> 
-> 
-> Best regards,
-> Krzysztof
-
-Thanks,
-Pallavi
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
