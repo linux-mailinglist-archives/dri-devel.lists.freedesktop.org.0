@@ -2,130 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDDAAC9D128
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 22:23:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B768C9D120
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 22:23:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D0A810E6D5;
-	Tue,  2 Dec 2025 21:23:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9B44810E6D3;
+	Tue,  2 Dec 2025 21:23:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b8pgJamX";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l1ppoxtk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
- [209.85.216.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEAE010E6D7
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 21:23:42 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id
- 98e67ed59e1d1-34101107cc8so5490696a91.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 13:23:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764710622; x=1765315422; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
- bh=agJt8ziZkxLcgZdO7xsho89pkW075Jay4JeY0MzA4Ho=;
- b=b8pgJamXt3RvG18+Jwrfj7XzjCzlM79LBavFgmW1l5aLwm2Ol9tA+hN4AlDb2eZcTm
- UDc1J+C9kAQXEGvqbW3K3AAsVlSrGEe0zB7Q2T1kgHwoauHmw3gZ2m5UjZJQLUxWBhKI
- XjLMepeXo29sc8sFLxIIKVizt89ePPqGNVhamfg9GrZ0k/T+d3JjdOdS+eM5RhHAzYey
- gDw5qjoxsI1ILCoJvwrJtQUTvymhtZKCRM3415tKWBpeb8iDJjh6Ozb1rQ0dJnbqy1aJ
- FCBS6eh5+mkT6WZDvqujEGwjnuFGuROOn7nAlEPFAoAPcrbg9sQ8gJRQpy7aQXl4PUVB
- HHnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764710622; x=1765315422;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=agJt8ziZkxLcgZdO7xsho89pkW075Jay4JeY0MzA4Ho=;
- b=qvFrucNc4otcQ9Zdrbo5UwgA3h6kFel99629LI9fAq+vYnUp0TKf/dNVoISShtpXN7
- C2So1jw5OqCEjDDGVBs/Djq2IAIdQ7MIHLpjR3y8FEPte7ALRXbyg7VRrhjIq3Bi+zvq
- tmQjrRcoJ/4HG94xOCtFUFTHeIV0XKWk8FY//vV4GmwuTm88aWX+h39g0kvolxFmII5G
- kCQo4qu2EEb0BbEWOSzDQF2DcErU9G0ty8jPEG+oCiJeCnygDZ7jEosOoh49ARftqHO2
- sBGFr/8FnloY6Ha8IAJbA7Rlpy801ytxVRgtoUTSUcuPrFPoZZNKu4LSPBWI6ctp/FYg
- /5bA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWnhvS9YQq/gbOrXHhzZpPYt9OceJE7t5VsxTP7WLeUFlqH/7Wu6wlrGjeH19ZXIxMMw0gD8cWnYOc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxCtwJpQx8GS9P50RMzP/lxmwuU3D+MaDyki6YuiUOYjTJXDtr8
- GPVVYwrtUQvmLCoGmQLrTGD7PBkip2BBEBRfXHoXfdiKhyAjT4BFAAr3
-X-Gm-Gg: ASbGncsoMLnP44rbRNigNtqvfZnId4ubHqZjob/yEkzh3dy5nKlR1SQY/24GBvA3dLJ
- WrybqGck/9AP65ATKDPlpa69PacAN4xuLQN1u0PUKY68J5huPSrCVadc0HhknS2K+aZiRXvX5gw
- jYeiJ+mURZwTLPg6CYfDT4cT8Z8/tHdZRDHc+4fBEzff32sGqlm/TaVjWdWtVfIJMP/2Mm/HB7T
- yD2NFqoNgZMJajQkK597psAMaSbm2nU9Exfr9EfZ8yh6PyryDkQWEuBTxCZwTfBhTWNR92UadBK
- 1810nielzk1scIBwNDyICXOhyaiyVpCtR2TfITtNPgXmRv2EYTQ6Mw/DouF1faUwaOF0Yeu8drO
- zyOWJ4E0lynG/9EkKhPmluFNolEgKgE3ytg0mOzgoO7SmkNOPLzlFXDa+JT52Lp9/WIrwdiN/r/
- 5UTgRZvSlG9hOnInDE9sQ4LN8WXGZb7rcNdIa4wJaBcdsbnZX8YpbOki9lNms=
-X-Google-Smtp-Source: AGHT+IGg7yyz0qkW8DL9xXfPYIObrSt846ksQ+2QOA0VlRLzxAsbkrocwjvZBe2ZllE3KRu8M1Ejaw==
-X-Received: by 2002:a17:90b:270e:b0:343:e082:b327 with SMTP id
- 98e67ed59e1d1-349128451damr59598a91.31.1764710622125; 
- Tue, 02 Dec 2025 13:23:42 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5?
- ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-34912896983sm7667a91.0.2025.12.02.13.23.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Dec 2025 13:23:41 -0800 (PST)
-Message-ID: <ec77d11a-7613-4b75-8c9e-f2bba1595f0f@roeck-us.net>
-Date: Tue, 2 Dec 2025 13:23:39 -0800
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CB5910E6D3
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 21:23:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id F1C0F4437B;
+ Tue,  2 Dec 2025 21:23:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6513EC113D0;
+ Tue,  2 Dec 2025 21:23:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764710602;
+ bh=3H3i5EY0vUpCRBByCy+K0P1cbdkkSno7+PnmdSTaJIo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=l1ppoxtkItiuZr/6lqw+M7aNm5wTd86jaWhsJDU/SN+RZRyM7MZ8fvibjRhL06u32
+ qgpFCM2GqrxGy+r9v4veRsSNV1v9mmzyxrLiqNhhyZ98dBst6l7i689AvieEpoPgEd
+ IF047R0qiecT85HnvDHRPL2T+wYoT7RMzjgpi/3qN4N2lN/HyWdB5syihuifHnUKVe
+ 2jTDuJeVoGsphO2aKKWfQp63CaS/3HWRPnJH6m7hLjgh/FZMmeD5bkWZ912QdQWT57
+ jMufoUGr5ivuWg2E2THXGXc9BafhL+/WJHTX9kK4gto29jY+S/ivSb65zYTq+3Mv/i
+ TGfoXYra/q0BQ==
+Date: Tue, 2 Dec 2025 15:29:24 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, 
+ Oded Gabbay <ogabbay@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, mhi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-wireless@vger.kernel.org, 
+ ath11k@lists.infradead.org, ath12k@lists.infradead.org, netdev@vger.kernel.org,
+ mayank.rana@oss.qualcomm.com, quic_vbadigan@quicinc.com,
+ vivek.pernamitta@oss.qualcomm.com
+Subject: Re: [PATCH 2/4] bus: mhi: Remove runtime PM callback ops from
+ controller interface
+Message-ID: <pqe2gpbjbqgb42ioebrd6spodovi52x4rkbox5ptavrclwjkf4@rvli6wklilrj>
+References: <20251201-mhi_runtimepm-v1-0-fab94399ca75@oss.qualcomm.com>
+ <20251201-mhi_runtimepm-v1-2-fab94399ca75@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Linux 6.18 amdgpu build error
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Alexander Deucher <Alexander.Deucher@amd.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx@lists.freedesktop.org, dri-devel <dri-devel@lists.freedesktop.org>
-References: <74032153-813a-4a40-8363-cce264f4d5ea@linuxfoundation.org>
- <1eb24816-530b-4470-8e58-ce7d8297996c@roeck-us.net>
- <0425d7b4-76e4-4057-83a5-a7b17a051c54@linuxfoundation.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <0425d7b4-76e4-4057-83a5-a7b17a051c54@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251201-mhi_runtimepm-v1-2-fab94399ca75@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,49 +70,201 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/2/25 13:01, Shuah Khan wrote:
-> On 12/1/25 19:31, Guenter Roeck wrote:
->> On Mon, Dec 01, 2025 at 03:17:49PM -0700, Shuah Khan wrote:
->>> Hi Alex,
->>>
->>> I am seeing the following make error on Linux 6.18.
->>> I started seeing build failures since rc7 and rc6
->>> build was just fine on the same config file.
->>>
->>> LD [M]  drivers/gpu/drm/amd/amdgpu/amdgpu.o
->>> drivers/gpu/drm/amd/amdgpu/amdgpu.o: error: objtool: elf_init_reloc: .rela.orc_unwind_ip: reloc 39935 already initialized!
->>> make[6]: *** [scripts/Makefile.build:503: drivers/gpu/drm/amd/amdgpu/amdgpu.o] Error 255
->>> make[6]: *** Deleting file 'drivers/gpu/drm/amd/amdgpu/amdgpu.o'
->>> make[5]: *** [scripts/Makefile.build:556: drivers/gpu/drm/amd/amdgpu] Error 2
->>> make[4]: *** [scripts/Makefile.build:556: drivers/gpu/drm] Error 2
->>> make[3]: *** [scripts/Makefile.build:556: drivers/gpu] Error 2
->>> make[2]: *** [scripts/Makefile.build:556: drivers] Error 2
->>> make[1]: *** [/linux/linux_6.18/Makefile:2010: .] Error 2
->>> make: *** [Makefile:248: __sub-make] Error 2
->>>
->>> I tried "make clean" and "make distclean" just in case, still see
->>> the same error.
->>>
->>
->> My test system does not report any problems. What is the configuration
->> and compiler ?
->>
+On Mon, Dec 01, 2025 at 06:13:18PM +0530, Krishna Chaitanya Chundru wrote:
+> Remove the runtime_get and runtime_put function pointers from the
+> struct mhi_controller interface and all associated usage across the
+> MHI host stack. These callbacks were previously required by MHI drivers
+> to abstract runtime PM handling, but are now redundant.
 > 
-> My one test system didn't report any problems. The other one did.
-> I am using gcc and the config is the same as the one used to build
-> 6.18-rc6 with no issues.
-> 
-> I will keep digging to find what's wrong on my system.
-> 
-> gcc version 14.2.0 (Debian 14.2.0-19)
-> 
+> The MHI core has been updated to directly use standard pm_runtime_*
+> APIs, eliminating the need for driver-specific indirection.
 
-Interesting. That reminds me ... I used to have that kind of machine specific
-problems when building with CONFIG_RANDSTRUCT enabled. I worked around it
-by using gcc builds with plugin support disabled. In my case, there was
-nothing wrong with the system, just that each system has a slightly different
-hardware configuration which somehow influenced structure randomization, even
-across "make clean/distclean".
+Please write your commit messages according to
+https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
 
-Guenter
+Start by establishing the purpose of the patch/the problem you're
+solving. Then once that's clear you can provide details about the
+change.
 
+Regards,
+Bjorn
+
+> 
+> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> ---
+>  drivers/accel/qaic/mhi_controller.c   | 11 -----------
+>  drivers/bus/mhi/host/pci_generic.c    | 24 +++---------------------
+>  drivers/net/wireless/ath/ath11k/mhi.c | 10 ----------
+>  drivers/net/wireless/ath/ath12k/mhi.c | 11 -----------
+>  include/linux/mhi.h                   |  4 ----
+>  5 files changed, 3 insertions(+), 57 deletions(-)
+> 
+> diff --git a/drivers/accel/qaic/mhi_controller.c b/drivers/accel/qaic/mhi_controller.c
+> index 13a14c6c61689fa4af47dade6d62b3cb1a148354..319344be658b38656f6e85e92be4b5473f43c897 100644
+> --- a/drivers/accel/qaic/mhi_controller.c
+> +++ b/drivers/accel/qaic/mhi_controller.c
+> @@ -820,15 +820,6 @@ static void mhi_write_reg(struct mhi_controller *mhi_cntrl, void __iomem *addr,
+>  	writel_relaxed(val, addr);
+>  }
+>  
+> -static int mhi_runtime_get(struct mhi_controller *mhi_cntrl)
+> -{
+> -	return 0;
+> -}
+> -
+> -static void mhi_runtime_put(struct mhi_controller *mhi_cntrl)
+> -{
+> -}
+> -
+>  static void mhi_status_cb(struct mhi_controller *mhi_cntrl, enum mhi_callback reason)
+>  {
+>  	struct qaic_device *qdev = pci_get_drvdata(to_pci_dev(mhi_cntrl->cntrl_dev));
+> @@ -889,8 +880,6 @@ struct mhi_controller *qaic_mhi_register_controller(struct pci_dev *pci_dev, voi
+>  	mhi_cntrl->iova_start = 0;
+>  	mhi_cntrl->iova_stop = PHYS_ADDR_MAX - 1;
+>  	mhi_cntrl->status_cb = mhi_status_cb;
+> -	mhi_cntrl->runtime_get = mhi_runtime_get;
+> -	mhi_cntrl->runtime_put = mhi_runtime_put;
+>  	mhi_cntrl->read_reg = mhi_read_reg;
+>  	mhi_cntrl->write_reg = mhi_write_reg;
+>  	mhi_cntrl->regs = mhi_bar;
+> diff --git a/drivers/bus/mhi/host/pci_generic.c b/drivers/bus/mhi/host/pci_generic.c
+> index b188bbf7de042d8b9aa0dde1217d2c86558c3caf..7036b1654c550a79e53fb449b944d67b68aad677 100644
+> --- a/drivers/bus/mhi/host/pci_generic.c
+> +++ b/drivers/bus/mhi/host/pci_generic.c
+> @@ -1173,23 +1173,6 @@ static int mhi_pci_get_irqs(struct mhi_controller *mhi_cntrl,
+>  	return 0;
+>  }
+>  
+> -static int mhi_pci_runtime_get(struct mhi_controller *mhi_cntrl)
+> -{
+> -	/* The runtime_get() MHI callback means:
+> -	 *    Do whatever is requested to leave M3.
+> -	 */
+> -	return pm_runtime_get(mhi_cntrl->cntrl_dev);
+> -}
+> -
+> -static void mhi_pci_runtime_put(struct mhi_controller *mhi_cntrl)
+> -{
+> -	/* The runtime_put() MHI callback means:
+> -	 *    Device can be moved in M3 state.
+> -	 */
+> -	pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
+> -	pm_runtime_put(mhi_cntrl->cntrl_dev);
+> -}
+> -
+>  static void mhi_pci_recovery_work(struct work_struct *work)
+>  {
+>  	struct mhi_pci_device *mhi_pdev = container_of(work, struct mhi_pci_device,
+> @@ -1277,7 +1260,7 @@ static int mhi_pci_generic_edl_trigger(struct mhi_controller *mhi_cntrl)
+>  	}
+>  
+>  	pm_wakeup_event(&mhi_cntrl->mhi_dev->dev, 0);
+> -	mhi_cntrl->runtime_get(mhi_cntrl);
+> +	pm_runtime_get(mhi_cntrl->cntrl_dev);
+>  
+>  	ret = mhi_get_channel_doorbell_offset(mhi_cntrl, &val);
+>  	if (ret)
+> @@ -1291,7 +1274,8 @@ static int mhi_pci_generic_edl_trigger(struct mhi_controller *mhi_cntrl)
+>  	mhi_soc_reset(mhi_cntrl);
+>  
+>  err_get_chdb:
+> -	mhi_cntrl->runtime_put(mhi_cntrl);
+> +	pm_runtime_mark_last_busy(mhi_cntrl->cntrl_dev);
+> +	pm_runtime_put(mhi_cntrl->cntrl_dev);
+>  	mhi_device_put(mhi_cntrl->mhi_dev);
+>  
+>  	return ret;
+> @@ -1338,8 +1322,6 @@ static int mhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  	mhi_cntrl->read_reg = mhi_pci_read_reg;
+>  	mhi_cntrl->write_reg = mhi_pci_write_reg;
+>  	mhi_cntrl->status_cb = mhi_pci_status_cb;
+> -	mhi_cntrl->runtime_get = mhi_pci_runtime_get;
+> -	mhi_cntrl->runtime_put = mhi_pci_runtime_put;
+>  	mhi_cntrl->mru = info->mru_default;
+>  	mhi_cntrl->name = info->name;
+>  
+> diff --git a/drivers/net/wireless/ath/ath11k/mhi.c b/drivers/net/wireless/ath/ath11k/mhi.c
+> index acd76e9392d31192aca6776319ef0829a1c69628..18bac9e4bc35bffabef05171b88bd5515e7df925 100644
+> --- a/drivers/net/wireless/ath/ath11k/mhi.c
+> +++ b/drivers/net/wireless/ath/ath11k/mhi.c
+> @@ -230,14 +230,6 @@ static int ath11k_mhi_get_msi(struct ath11k_pci *ab_pci)
+>  	return 0;
+>  }
+>  
+> -static int ath11k_mhi_op_runtime_get(struct mhi_controller *mhi_cntrl)
+> -{
+> -	return 0;
+> -}
+> -
+> -static void ath11k_mhi_op_runtime_put(struct mhi_controller *mhi_cntrl)
+> -{
+> -}
+>  
+>  static char *ath11k_mhi_op_callback_to_str(enum mhi_callback reason)
+>  {
+> @@ -384,8 +376,6 @@ int ath11k_mhi_register(struct ath11k_pci *ab_pci)
+>  	mhi_ctrl->sbl_size = SZ_512K;
+>  	mhi_ctrl->seg_len = SZ_512K;
+>  	mhi_ctrl->fbc_download = true;
+> -	mhi_ctrl->runtime_get = ath11k_mhi_op_runtime_get;
+> -	mhi_ctrl->runtime_put = ath11k_mhi_op_runtime_put;
+>  	mhi_ctrl->status_cb = ath11k_mhi_op_status_cb;
+>  	mhi_ctrl->read_reg = ath11k_mhi_op_read_reg;
+>  	mhi_ctrl->write_reg = ath11k_mhi_op_write_reg;
+> diff --git a/drivers/net/wireless/ath/ath12k/mhi.c b/drivers/net/wireless/ath/ath12k/mhi.c
+> index 08f44baf182a5e34651e8c117fe279942f8ad8f4..99d8d9a8944cefa2561cd47d83bbeb53ef13044d 100644
+> --- a/drivers/net/wireless/ath/ath12k/mhi.c
+> +++ b/drivers/net/wireless/ath/ath12k/mhi.c
+> @@ -230,15 +230,6 @@ static int ath12k_mhi_get_msi(struct ath12k_pci *ab_pci)
+>  	return 0;
+>  }
+>  
+> -static int ath12k_mhi_op_runtime_get(struct mhi_controller *mhi_cntrl)
+> -{
+> -	return 0;
+> -}
+> -
+> -static void ath12k_mhi_op_runtime_put(struct mhi_controller *mhi_cntrl)
+> -{
+> -}
+> -
+>  static char *ath12k_mhi_op_callback_to_str(enum mhi_callback reason)
+>  {
+>  	switch (reason) {
+> @@ -386,8 +377,6 @@ int ath12k_mhi_register(struct ath12k_pci *ab_pci)
+>  	mhi_ctrl->sbl_size = SZ_512K;
+>  	mhi_ctrl->seg_len = SZ_512K;
+>  	mhi_ctrl->fbc_download = true;
+> -	mhi_ctrl->runtime_get = ath12k_mhi_op_runtime_get;
+> -	mhi_ctrl->runtime_put = ath12k_mhi_op_runtime_put;
+>  	mhi_ctrl->status_cb = ath12k_mhi_op_status_cb;
+>  	mhi_ctrl->read_reg = ath12k_mhi_op_read_reg;
+>  	mhi_ctrl->write_reg = ath12k_mhi_op_write_reg;
+> diff --git a/include/linux/mhi.h b/include/linux/mhi.h
+> index dd372b0123a6da5107b807ff8fe940c567eb2030..312e5c4b9cf8a46ffb20e2afc70441a11ecf659c 100644
+> --- a/include/linux/mhi.h
+> +++ b/include/linux/mhi.h
+> @@ -347,8 +347,6 @@ struct mhi_controller_config {
+>   * @wake_get: CB function to assert device wake (optional)
+>   * @wake_put: CB function to de-assert device wake (optional)
+>   * @wake_toggle: CB function to assert and de-assert device wake (optional)
+> - * @runtime_get: CB function to controller runtime resume (required)
+> - * @runtime_put: CB function to decrement pm usage (required)
+>   * @map_single: CB function to create TRE buffer
+>   * @unmap_single: CB function to destroy TRE buffer
+>   * @read_reg: Read a MHI register via the physical link (required)
+> @@ -427,8 +425,6 @@ struct mhi_controller {
+>  	void (*wake_get)(struct mhi_controller *mhi_cntrl, bool override);
+>  	void (*wake_put)(struct mhi_controller *mhi_cntrl, bool override);
+>  	void (*wake_toggle)(struct mhi_controller *mhi_cntrl);
+> -	int (*runtime_get)(struct mhi_controller *mhi_cntrl);
+> -	void (*runtime_put)(struct mhi_controller *mhi_cntrl);
+>  	int (*map_single)(struct mhi_controller *mhi_cntrl,
+>  			  struct mhi_buf_info *buf);
+>  	void (*unmap_single)(struct mhi_controller *mhi_cntrl,
+> 
+> -- 
+> 2.34.1
+> 
+> 
