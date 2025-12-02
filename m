@@ -2,114 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77EAFC9B5E4
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 12:52:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7DBFC9B623
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 12:54:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D01AF10E632;
-	Tue,  2 Dec 2025 11:52:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99DA710E637;
+	Tue,  2 Dec 2025 11:54:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pew/nz/9";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="vS01kp4a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26DF910E632
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 11:52:06 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 442AE16A;
- Tue,  2 Dec 2025 12:49:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1764676190;
- bh=vcpCTg0wpMBBIdr8xrC7o97iEYNz6S+U+iHa72fxOsQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=pew/nz/9erz0jniUczc0Vo5JzbSbEzuA456Dp6BUQ4YldSqYW75EjlBKtmyrE+seB
- Rv+h8iinBEAyGcBtcmnBhhTA8ie6TTkE1OSIN+GkNywoKvhsB/l4RhHyNX/1yDunZu
- 97b6Zjp3h4YGPLRBEb11/oei56Uy2Z7Ija+hsV5Y=
-Message-ID: <1d9a9269-bfda-4d43-938b-2df6b82b9369@ideasonboard.com>
-Date: Tue, 2 Dec 2025 13:51:59 +0200
-MIME-Version: 1.0
+Received: from BYAPR05CU005.outbound.protection.outlook.com
+ (mail-westusazon11010016.outbound.protection.outlook.com [52.101.85.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5668C10E636;
+ Tue,  2 Dec 2025 11:54:03 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o4j9nZvfqausju5GlrO2F+/tbC5psVHL449WVLyhy08HZXFRHgvHKjOPiQXWG50mUtG7WSrtc3dhSBFAOVp8yO1ZDnLNFDRICh/sD2iwGDmp2EA3FsBiD64qigtWkG7G/E6NmLKMXa9FtrHzI/mxI5L8YQrKD7j/UUymlWI96676HYObuK4L07190bzXFOYQPCnac3gr1oS4VfL8FcyBtEVje10WwtazszeMfO5MgR7yH9BbBOkNDZVlm9zkT6i8HlxZMXgngJrbOQWPgSuawZilqNJwjjQRCI9Z3e30/5LNJHjxysDKhJdUvE7Z86C5Ab/EXf2UqFRixnf8rubnyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yplZAKVY9YaDCJSrAzIwzFocobjlFF/KO5xcSrVla+U=;
+ b=drsJkV4HRmVq5vpEnMgqLuo5ki505bJh2wlepKzFAEpV3c2OdndmkBElNSyb/w3wVM6b0P1GiH09gP8WjkvdXzGZVYO9kzzBqMRF4sswFAIcq7cG1k0S70f6gsaAlZ+hxuNrqG8RcJA165l6y+duQWr6hFH+Gfr1JBGevhUU0uwBUEm+mVDJVQ+C68ZH5th+37U2gNsuGqePbR6Ske2SgeQ8TyqCXgw6JxW7GIGLHcBGV7rekWSIybVMf1gHKaMgVumkMt2Ybk3861HbPguzn4fEYVTPNdtz+nglV2yO/JeQCJ0A6JvfkJStYvOZu2qdlad3Fp5wzCEw8I1nn4CVhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yplZAKVY9YaDCJSrAzIwzFocobjlFF/KO5xcSrVla+U=;
+ b=vS01kp4aUxNhbFU4GyOxVA17DSpHy2CQEB6izKDNaE9D7kCqWshRXxuMRhwxnxq9R2xPnDeZUPMH+8NpVhtBBWFYIPa+hciJLs0cuHw+xpk70tQHeaLE5ifqyCLcQ+ZxsbQDBZ6MWoxNB1N+CU38dluwgcjtQKjLlCtXN7IIf3I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ2PR12MB9007.namprd12.prod.outlook.com (2603:10b6:a03:541::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Tue, 2 Dec
+ 2025 11:53:56 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9388.003; Tue, 2 Dec 2025
+ 11:53:56 +0000
+Message-ID: <c162195a-d783-4576-b8b6-19057f98bc63@amd.com>
+Date: Tue, 2 Dec 2025 12:53:51 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/21] ARM: dts: omap: Bind panel to panel-dpi instead of
- ti,tilcdc,panel driver
-To: Kory Maincent <kory.maincent@bootlin.com>,
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Markus Schneider-Pargmann <msp@baylibre.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Miguel Gazquez <miguel.gazquez@bootlin.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-omap@vger.kernel.org, Jyri Sarha <jyri.sarha@iki.fi>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Tony Lindgren <tony@atomide.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-References: <20251126-feature_tilcdc-v1-0-49b9ef2e3aa0@bootlin.com>
- <20251126-feature_tilcdc-v1-5-49b9ef2e3aa0@bootlin.com>
- <96b1b7bf-ddbe-4213-a201-dc89cf2998dd@ideasonboard.com>
- <3bc5bf92-05c3-4841-ab28-9bab2bb31cd5@kernel.org>
- <20251202104244.59a9e83d@kmaincent-XPS-13-7390>
- <d7515cd3-5488-4d15-82dc-d2b98cfa2bed@kernel.org>
- <20251202114416.09624a4b@kmaincent-XPS-13-7390>
- <94e254fa-289d-41ed-909f-1742cfbb2690@kernel.org>
- <20251202121856.0da62885@kmaincent-XPS-13-7390>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v4 13/13] drm/amdgpu: move sched status check inside
+ amdgpu_ttm_set_buffer_funcs_status
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20251202094738.15614-1-pierre-eric.pelloux-prayer@amd.com>
+ <20251202094738.15614-14-pierre-eric.pelloux-prayer@amd.com>
 Content-Language: en-US
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20251202121856.0da62885@kmaincent-XPS-13-7390>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251202094738.15614-14-pierre-eric.pelloux-prayer@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0213.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e4::13) To SJ0PR12MB5673.namprd12.prod.outlook.com
+ (2603:10b6:a03:42b::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB9007:EE_
+X-MS-Office365-Filtering-Correlation-Id: 57d2ebe3-6768-4638-935d-08de31997903
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aS95T2ZuTVhRUGhRellLamxtQ1pSeWxsMWNURVc5WjhGd2lwOVVHeGZFWUJX?=
+ =?utf-8?B?MmJBNXlXUC9TTzZ6cWN5Q1NsS2JOR3UxdW1LK3ZrNm5KK0lYSklqRGJTTm9D?=
+ =?utf-8?B?U3FlN2UwYVhSMFhZZkxhTFMzL0ZWeGlkb3h4UWVZMDRWUzlaQkhKY3hrTGtm?=
+ =?utf-8?B?eFNmeFVBc1NueU1GMWVlMS9yTUZjTEJpc0RPZ2hsYURBakh4YlNFZDVtTTFS?=
+ =?utf-8?B?NjgwbHBsN2MwRTdHVkUxWTRTc25RQThBYUdqNnJxbGsxTW9pbm1mWkt2dTlR?=
+ =?utf-8?B?Z09FaW1UQUVPTGg0L0xKRkFSQnArN3drcXdsVlptTEN4dXJjMlM2UHl3elJ1?=
+ =?utf-8?B?NUdaWm1DTHJsK1NQWUhFNmVkYlAvaWNLWnRnZEpDU1k5YUxWcjlCblEvTVBy?=
+ =?utf-8?B?a0o4UnJGTG5WOXBWemVMQjNhNUo4V0pMMGlRNEplenZMclFxV3dqMjRVUjJH?=
+ =?utf-8?B?WWY2QlgraHpsbmp3aTNKZjIzU3VsaThCbFVyd2tFZVZrcFczdlJSK1ZVMVdN?=
+ =?utf-8?B?Zmc4a2NVaFYxOFFVUS8rYjFnQlFFTXJzUit0UThHNWJEd1NRU0tFQmxFOUZ5?=
+ =?utf-8?B?RjFQYmVOcnhic3kxZzJwQzhadFBidyt1TjBQaWx0dDB0VmhhT0Fndi9hZHkx?=
+ =?utf-8?B?dWs5U3V0djlHYVB2VmtlNUdBQjQ5bCtScHlkSXNnejFtRUNINkJ5WWpUVmxn?=
+ =?utf-8?B?NXVkT054RndSYTQrTmxHRHZCSmx2aDZNYmVNbVMySnEwZmFEOVFaSHRRU2dM?=
+ =?utf-8?B?V2wvclNLdjg3aWppTStJQ3o4UVFwN25HSkE3bk1tRmkvY1lkam4xdkNuQ3U3?=
+ =?utf-8?B?eFpUYlE0dlVQZjdWVEtDNjAzc1ZRdjZwZHg5aFdYVldldGZNSlp6RWszMTBi?=
+ =?utf-8?B?TXFWWnI5MElEY2ZEZmdta2N2ZzlDWFVJMXY0ak4rM1EvMEk5Uy8wc0thcy93?=
+ =?utf-8?B?cWxaQmtGQ0trQnJHVnpkMmZyK2xZM2g2d0FUWkg3RWF2NUd6TUx5bWRSU0po?=
+ =?utf-8?B?YlBKSWN6S29uU3BUUnFWMUJML3NESjBPcS8vNU13TDN2QVVzYjhaeUNnRTN4?=
+ =?utf-8?B?aUsyODRzSXh0bTU4azNVVytiQUowWnBsS3NNZVZCRG9zQ0QzMlhNcDU3YXkw?=
+ =?utf-8?B?aHEyYjVNWTZFd2RqdklZWnMyTURzdmJaaG9aeDF0ZlFHODQ4c3Zqc0s5R3p5?=
+ =?utf-8?B?S29rMVF5SGFiSWV2a1ZpZ29IcnBNRnRFZFI5Y3hMWlVNTlBDOHpXcWt6T0tz?=
+ =?utf-8?B?OUd0ZW5kVWE0RUJEU2xDOTVPOFgzVUlGb0FiQ0NsVW5xTm90ZDhpQ3JOcTd3?=
+ =?utf-8?B?cWEwRWJ0Q01saGN2UXpDUHg0TWM5QllGOWZkVVMzMzdFeUhkQVBDSDBYdThi?=
+ =?utf-8?B?V2l4SjlkYWNKVUs4YWxlbjFDTGVhNjc5TjlWR0xtNlZEWHVnK3BWamlabWQ5?=
+ =?utf-8?B?SUpoS3ZuNHNUdk9RTTllemNKNWkzL2tWcW94VjM0UW5jYXd4TTdaMFVGZy9G?=
+ =?utf-8?B?UFpJOGNqNDROeFpDeERrT2Noc09TclhTZmZqN0NnenJ4SFR6aXEvelFNUno4?=
+ =?utf-8?B?ZG12cW4vc05yMnl1dHNWVTRuVC9KT0J1VlhSbTlHRWdaSXZqVWVrQzlvaTJu?=
+ =?utf-8?B?d0VTd0NscG9pck1UcExQNkhzcEJodEN1RHRiU01NVVlNZitRZ3N2ZTVXTkJq?=
+ =?utf-8?B?QVl2dFM3VDFSQlpTQVptdXZRckVrOE5Ud0RZVktVQjBEQ3Z6WHdtcmV5OXBR?=
+ =?utf-8?B?K3BhS0Y4MGpsSEJzMmlUYmozdzZEajF3c1crVXhGVHU1WE5VenFqb1YwRHFj?=
+ =?utf-8?B?bU5kUFRlbVEyYitISDN1M3RBTG5OR3JWWklMSlVHL1FuTjhXMXZsUkphSUdy?=
+ =?utf-8?B?LzIxZnhkeVFvU212Q3Y5dDVPa1VHbWdCNWx5cnI5R3ZoVVBsUWIxUjJhSjFn?=
+ =?utf-8?Q?ec5QDCDJxURr5DlBnSVPlWqEqzSdAPbL?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QTlKUG5yWVNLUmxzZU1Dc0xsN216MUNjY3VHWXVrUmRMeWxlblpTRDdvZ0Ru?=
+ =?utf-8?B?KzRodnIzeUZ6cW9pVnRjKzdKUFE3MjcybDh2Z3VXR2xHcVZFY2RBeUU2NTlV?=
+ =?utf-8?B?MDFvSGtvb3RPT1RBTnBIY1FCTWlQRTJSSUVBRi9Wb2Nud2lEcnlINTNEKzBm?=
+ =?utf-8?B?UHptc2hJUlI5NWFoSHZjbDRLNjBweUM3bEZ2Q3U2MWtodGhxWEU3VDh3ZzNh?=
+ =?utf-8?B?bCtVb1hzUGhZNjJTbit4TFVnaXRpSFNweU0yZWc1QkhUUXBrbTVaenIxeWdB?=
+ =?utf-8?B?aUY0NFFxTGwrL0o0R016MHY5djdLWlNJRVVLcUlYSmN4bnZaL0lZOHIrbGN6?=
+ =?utf-8?B?cUdraDZHL3gzdlFlYVYzUDIraTJKbDdOSUZLRHhwdHJxQXBFUXVDdm1xam9k?=
+ =?utf-8?B?K25CS1ZHWUVaSldIRjRNRjNtMnllbW5JSDBhbjFhVXk0bVJ1bWhMZkppazkz?=
+ =?utf-8?B?SGg2bVR1KzNueUZzQll2c1p1QzFKMlRTV3pBWk5wWWc1ZDBxWEh4U2d1NS82?=
+ =?utf-8?B?Y1pXTnJpdjJOaDl3RDN3Mlh0MzNOQkd1MktJaEI5OEowSnV0bWEzU0Z5eVRY?=
+ =?utf-8?B?SXJjd0NTTFpBOGttQUZ2RnVGOWlWWnNOeW5ERktjY1Z4eHNrT2VVNG1qK0ZT?=
+ =?utf-8?B?SlZWeWVBVUVreVVLUEZKWmJ1cndQOWc3c2t5TlR6OFZTU3hLSWEvR3ZtQ3Iw?=
+ =?utf-8?B?bGhjTDFhYVFIaDdTQVFLMGxTVytFQlVxeFZvVkljR0NOYXp0VFJCaGxYV0o5?=
+ =?utf-8?B?V3FQOGQ2MHhoZGw5TEZBWXVidVN1eE1WejNyQU1JYU9NVDIxK09tZHNpeG9h?=
+ =?utf-8?B?cWltQzNFTUdLTEFESGR5RStENEk0ck5UVXowZVc1UUJOdjRCMzluS01kNTQy?=
+ =?utf-8?B?MEl0UW55ZWs3NnFweVRiLzJzMFdIMmsyMTVaam9NemprOGxBYWtOekc4N2RE?=
+ =?utf-8?B?NVN2bEdCK3RRS2xZbEtmL2JaaG1ZK1FHN2FPWnRXT2Vyd0VYRXoxZE45OTJs?=
+ =?utf-8?B?d3BMUkRsY3gzSVc2TWQwQWJGOXRUVGZrZDhBZ0diZll5SFp0dllJU2c2SXQx?=
+ =?utf-8?B?TytxK3ZrdmRKUFRpUDBYZVprTmpCRmhZOVlqN1o2cldENWErcnFXeXF5cVFL?=
+ =?utf-8?B?ZUJzdnlmMk92VG8vRGsxc25Makc5MVBWMURwN0d1bDcyN3pjMzlrTVVvN2RR?=
+ =?utf-8?B?TkxSem9GSzU1TGY3dzRpZTlsL0taSFdoZm1KUFA5aVFmd1ZXOTdkek41VVRt?=
+ =?utf-8?B?MEdscXZRZkNnQ3lMcWxOUE4yRHhlZko5bDI5dkRvcUt2L2puQmZlL3hWV0Iz?=
+ =?utf-8?B?QjVvL1hScHljcWt1UzFiUEVNZ2dMVCtJeUZSY2hDekQ4YTM0S0NCbzRhYVVP?=
+ =?utf-8?B?amtkTkJPVEFpWm1VOW10S3N6cW9OUkxoTU40Nk05bS9rUUVDTGVlRmlKM3Nx?=
+ =?utf-8?B?d09aczF4ODMvRWNKQUh4VWhCaXJ4ZEdSQnZpR1l6dUNES1pUazN5RzdNeFp1?=
+ =?utf-8?B?RkQ3Wmlsaks0SUFWQ0FZblpIY25EL2FhQWF6M3JETkVYcTJtZm9FdWFrTm9U?=
+ =?utf-8?B?RkU1R3pPSzhhdEhlaWZJZ1JlZmxzc0ZqYjhzaHpXSGJSdGNEdmJpUFpMV2hm?=
+ =?utf-8?B?SWlCTTdOK2pEZDJrZlV5TWlIS0s2Z2NzYm1CclVxVFFRWUltZXo5RGRsd0lB?=
+ =?utf-8?B?Vi9XSXhEbWZ2cGV1YjBML29iLytRSllhdkV1eHZCYktyYXNWc2kyZWpnWVZB?=
+ =?utf-8?B?QW9xNTYyZ1ErZ0lvNHlJM01NUEg5RGVSdU84a3JCdTkxVzNVVlhGOUkwdnp4?=
+ =?utf-8?B?QXp4L1p3SEtZVHhvaVFpZ3lDNW9hRU5ZNEU5SU45UWhNVWNzYmgwRDlOOGdr?=
+ =?utf-8?B?SVhTWXFYcmF6MURBM1FTMVg4UGN5TUJhZUpoYzJrR3ExVEozbDZQSEQ5bStw?=
+ =?utf-8?B?M2ZveEdwZEJmazlqL3BMblVnNHplRzRjNkF4bFp6eFI1Nk9KSHhmcWhETXFX?=
+ =?utf-8?B?U09mY2Nabi9pOVM3bXFUTEdVQW14cCtkcFlHL3BCOGJaL1lOUlNGUE1YMnNH?=
+ =?utf-8?B?d3F0TTR5MjJDVUdKcmVPcmVaZXdaS010dS9ablRJTUljVTlYVWRxTUZwVUdj?=
+ =?utf-8?Q?G1P/TV9zX3COVHmmJ3TO554FY?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57d2ebe3-6768-4638-935d-08de31997903
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 11:53:56.8208 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EMbxGzghDV4CJy0iwhonM8BbhKEZONJlIrvQiDbP+bpgGHNj1Y9gmNLI2s3qfMSB
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9007
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,75 +166,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kory,
 
-On 02/12/2025 13:18, Kory Maincent wrote:
-> On Tue, 2 Dec 2025 11:47:40 +0100
-> Krzysztof Kozlowski <krzk@kernel.org> wrote:
+
+On 12/2/25 10:47, Pierre-Eric Pelloux-Prayer wrote:
+> It avoids duplicated code and allows to output a warning.
 > 
->> On 02/12/2025 11:44, Kory Maincent wrote:
->>> On Tue, 2 Dec 2025 11:28:55 +0100
->>> Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>   
->>>> On 02/12/2025 10:42, Kory Maincent wrote:  
->>>>>      
->>>>>> Stuffing DTS change in the middle of the driver change tries to hide
->>>>>> impact, which is not nice on its own.    
->>>>>
->>>>> As it needs driver change before the removal for not breaking things it
->>>>> can't be done at the beginning of the series.    
->>>>
->>>> And that is the problem which should stop you there and rethink how to
->>>> organize it without impacting users. DTS cannot go via DRM. If that was
->>>> your intention, that's my:
->>>>
->>>> NAK  
->>>
->>> My intention was to raise discussion over the ugly and legacy tilcdc-panel
->>> binding and what to do with it. But it seems you don't want to, that's a
->>> shame.  
->>
->> I don't see how you get to these conclusions. I comment that putting
->> here DTS in the middle without any explanation of the impact is not
->> correct and this one alone I disagree with.
+> ---
+> v4: move check inside the existing if (enable) test
+> ---
 > 
-> Because you didn't replied to the first line of my answer:
-> "Yes, I know this but I still wanted to try and begin a discussion on this, as I
-> really thought it is not a good idea to add and maintain an new non-standard
-> panel driver solely for this tilcdc panel binding."
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 13 ++++---------
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  5 +++++
+>  2 files changed, 9 insertions(+), 9 deletions(-)
 > 
-> But indeed you are right, I should have put more explanation on why there is DTS
-> and binding change in the middle of the series. Sorry for that.
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index 54f7c81f287b..7167db54d722 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -3309,9 +3309,7 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
+>  	if (r)
+>  		goto init_failed;
 >  
->> From that you claim I don't want to fix things...
->>
->> DTS cannot go to drm, which means you either need to separate the change
->> and make entire work bisectable and backwards compatible for some time
->> OR at least document clearly the impact as we always ask.
-> 
-> The thing is, if I split it, it has to be in 3. One for the of DRM bus flags
-> support, a second for the the devicetree and binding change and a third for the
-> whole tilcdc and tda998x cleaning stuff. I think I will go for one series, with
-> better documentation.
-> 
-> Now, what is your point of view on my question. Will you nak any binding
-> removal even if the binding is ugly and legacy and imply maintaining an
-> non-standard tilcdc panel driver? I know it breaks DTB compatibility but there
-> is several argument to not keep it. See patch 6.
-The binding being ugly and having to maintain non-standard tilcdc panel
-driver may be nice things for us, the users don't care. The users care
-if their board no longer works.
+> -	if (adev->mman.buffer_funcs_ring &&
+> -	    adev->mman.buffer_funcs_ring->sched.ready)
+> -		amdgpu_ttm_set_buffer_funcs_status(adev, true);
+> +	amdgpu_ttm_set_buffer_funcs_status(adev, true);
+>  
+>  	/* Don't init kfd if whole hive need to be reset during init */
+>  	if (adev->init_lvl->level != AMDGPU_INIT_LEVEL_MINIMAL_XGMI) {
+> @@ -4191,8 +4189,7 @@ static int amdgpu_device_ip_resume(struct amdgpu_device *adev)
+>  
+>  	r = amdgpu_device_ip_resume_phase2(adev);
+>  
+> -	if (adev->mman.buffer_funcs_ring->sched.ready)
+> -		amdgpu_ttm_set_buffer_funcs_status(adev, true);
+> +	amdgpu_ttm_set_buffer_funcs_status(adev, true);
+>  
+>  	if (r)
+>  		return r;
+> @@ -5321,8 +5318,7 @@ int amdgpu_device_suspend(struct drm_device *dev, bool notify_clients)
+>  	return 0;
+>  
+>  unwind_evict:
+> -	if (adev->mman.buffer_funcs_ring->sched.ready)
+> -		amdgpu_ttm_set_buffer_funcs_status(adev, true);
+> +	amdgpu_ttm_set_buffer_funcs_status(adev, true);
+>  	amdgpu_fence_driver_hw_init(adev);
+>  
+>  unwind_userq:
+> @@ -6050,8 +6046,7 @@ int amdgpu_device_reinit_after_reset(struct amdgpu_reset_context *reset_context)
+>  				if (r)
+>  					goto out;
+>  
+> -				if (tmp_adev->mman.buffer_funcs_ring->sched.ready)
+> -					amdgpu_ttm_set_buffer_funcs_status(tmp_adev, true);
+> +				amdgpu_ttm_set_buffer_funcs_status(tmp_adev, true);
+>  
+>  				r = amdgpu_device_ip_resume_phase3(tmp_adev);
+>  				if (r)
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> index ad53789d0e2b..ef68c5f706d2 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -2223,6 +2223,11 @@ u32 amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
+>  		struct amdgpu_ring *ring;
+>  		struct drm_gpu_scheduler *sched;
+>  
+> +		if (!adev->mman.buffer_funcs_ring || !adev->mman.buffer_funcs_ring->sched.ready) {
+> +			dev_warn(adev->dev, "Not enabling DMA transfers for in kernel use");
+> +			return 0;
+> +		}
+> +
+>  		ring = adev->mman.buffer_funcs_ring;
+>  		sched = &ring->sched;
 
-And how does this sync with u-boot? It also has code for at least for a
-few of these boards.
+The ring and sched are assigned to local variables here, so you could move that check just a few more lines down.
 
-Are there even users for these boards? If not, maybe they can be just
-removed? I'm personally not familiar with these boards, so I have no
-idea of their age or distribution.
+Apart from that looks good to me.
 
-One trick that can be done is to modify the loaded DTB at boot time,
-detecting the old format, converting it to the new one, so that when the
-drivers are probed they only see the new DTB.
+Regards,
+Christian.
 
- Tomi
+>  		r = drm_sched_entity_init(&adev->mman.default_entity.base,
 
