@@ -2,72 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A2DC9CEEB
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 21:35:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45674C9CF3C
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 21:47:49 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53B5F10E6C9;
-	Tue,  2 Dec 2025 20:35:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA70B10E6C4;
+	Tue,  2 Dec 2025 20:47:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MSsY1Q9R";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GhFzY/01";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8605E10E6C4
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 20:35:40 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E20810E6BA;
+ Tue,  2 Dec 2025 20:47:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 8ED7760153
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 20:35:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 438BFC4CEF1
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 20:35:39 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 1A39443CB2;
+ Tue,  2 Dec 2025 20:47:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ED27C4CEF1;
+ Tue,  2 Dec 2025 20:47:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764707739;
- bh=fw3vvCO25y2QsEtxQr3J1GyiYMB72VrlHeF4NTnUQqM=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=MSsY1Q9RCpZtv5Vyvg/sUp5gnbAenL0h7nDk8HEZksWy7rx/IWN/iaSBdcT13LvNu
- n1p0E67G+jjn9+R3TEuyGVPa8+8cxGAd1rT0bZOgXQPMMs2uHu3MOWcKicVlj6EVfU
- pNqDe18bGx8nEJRYzciZPPXApFKzxdD224IN3W4McDDtpNNkWe/NrGlkIeaHpTlppT
- IO0yuQ7ve4VTq0g/X+CM52cNVddfkA4buhVXtDU1V5pC7y6Ip8jFe4HO+eFuS5Aqk5
- FUD9rsmOJKkFD/CmLaamJvEeL3mOXznPVu7W8WEdiqRZrYn99I4v37f1meJRsjElon
- 0Z7Hgtkiq8Fsw==
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-789524e6719so4117967b3.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 12:35:39 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVmcPzM6YpO4vIByQqKYunYnh+oKiMSTb7GdaZWGt8MFZzyOT1j8YQWDh8qCvH1emyh2zElppnZeK4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YymYewXkygmeavnQuBYYnG0EHIToyDglv1FbPixKU7RK00V4YMk
- /AGUkKKgwUif1c70gM7ySclyQqFw/DHpVde0lG10dGTLMRgVeRaE20vYcey03oAed9ZEAma+1mx
- RJeRrfWP78kT6Bj1+c0OesMLnJLh36c8=
-X-Google-Smtp-Source: AGHT+IHig/urPkaR1oA+wP6UgSBaE9q1ljtg9f8Gcd/QeEE1KBA/BNINyk+rLkEuRB3QcVgUPL0PGjj/DJwLFXDY/xU=
-X-Received: by 2002:a05:690c:399:b0:78a:834e:b106 with SMTP id
- 00721157ae682-78bff634c32mr31924477b3.25.1764707738655; Tue, 02 Dec 2025
- 12:35:38 -0800 (PST)
+ s=k20201202; t=1764708464;
+ bh=l/Jj51vowNeSgGS/dVU8jWz01C1souuTfKbOaYrX4Zw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GhFzY/01zRShkLRPXj7D07dHNmqvz7x/CthRRa9Game+42RtJbNA84bYbyacAAj2H
+ hgZNPVj95sBKnLrN4fQe8t0L+8KUbTeZ6aTHaMmtXFOj0n7u51Rz6oN0OVu31qYUZn
+ sfSfUBmiNgQtIq5dkFrpRA9sAhpZXWHW07aPRNIzwxW2WUgIZTpgxO4qHgAmDZjpT2
+ DRGZK7OMMhXXkbONvZPpULEbovh27zcJoXZRaOz7Zi8xcsO/W+9bXruKY3+28dZSvj
+ nFD4qn7aFlmdSzkTIYi4UN4Hj4+i3hKPpfM0o/+ZAhUZaWJEuZ/NLpjFBvAhfryYoo
+ myO1V0GpMrMKg==
+Date: Tue, 2 Dec 2025 21:47:39 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Philipp Stanner <phasta@kernel.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Felix Kuehling <Felix.Kuehling@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>, 
+ Matthew Auld <matthew.auld@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v2 4/8] drm/xe: Use dma_fence_check_and_signal_locked()
+Message-ID: <fdb7dhdrquapw4cb7oa23rpzl6dkzbnotc3otxntruf3a5hvca@szamkxwcjvfc>
+References: <20251201105011.19386-2-phasta@kernel.org>
+ <20251201105011.19386-6-phasta@kernel.org>
+ <aS3uycB40j2CptOf@lstrano-desk.jf.intel.com>
 MIME-Version: 1.0
-References: <20251130-mcde-drm-regression-thirdfix-v5-0-aed71a32981d@kernel.org>
- <20251202063403.GA18267@pendragon.ideasonboard.com>
-In-Reply-To: <20251202063403.GA18267@pendragon.ideasonboard.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 2 Dec 2025 21:35:26 +0100
-X-Gmail-Original-Message-ID: <CAD++jLn5NmPubNm_hv9xCSvbY9pAKj_GLFWC1Hq5YP6ZHP=UZg@mail.gmail.com>
-X-Gm-Features: AWmQ_bniAk89rICI8zBhXLsMDXs2C_Zjmwnz8XeXqKahgHSWRTnp_0PHlTf_qEc
-Message-ID: <CAD++jLn5NmPubNm_hv9xCSvbY9pAKj_GLFWC1Hq5YP6ZHP=UZg@mail.gmail.com>
-Subject: Re: [PATCH v5 0/3] drm/atomic-helpers: Fix MCDE/R-Car DU regressions
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Marek Vasut <marek.vasut+renesas@mailbox.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>,
- dri-devel@lists.freedesktop.org, 
- linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aS3uycB40j2CptOf@lstrano-desk.jf.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,22 +74,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 2, 2025 at 7:34=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+Hi Matt,
 
-> We now have a third platform broken by
-> c9b1150a68d9362a0827609fc0dc1664c0d8bfe1, see [1]. I think this calls
-> for a revert, to give us the time to implement a correct solution.
->
-> [1] https://lore.kernel.org/r/CAAMcf8Di8sc_XVZAnzQ9sUiUf-Ayvg2yjhx2dWmvvC=
-nfF3pBRA@mail.gmail.com
+> > @@ -93,9 +92,8 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
+> >  		spin_lock_irqsave(&irq->lock, flags);
+> >  		list_for_each_entry_safe(fence, next, &irq->pending, irq_link) {
+> >  			list_del_init(&fence->irq_link);
+> > -			err = dma_fence_signal_locked(&fence->dma);
+> > +			XE_WARN_ON(dma_fence_check_and_signal_locked(&fence->dma));
+> 
+> I think XE_WARN_ON can compile out in certain builds. Best to leave warn on logic as is.
 
-This is a mess.
+I don't think XE_WARN_ON compiles out. It should always evaluate
+the content, then, depending on the build, it prints debug logs.
 
-But OK let's see if we can deal with the mess.
-
-I will make an RFT patch for Rockchip as well and resend at the
-tail of the patch series if we want to try to fix also that one.
-
-Yours,
-Linus Walleij
+Andi
