@@ -2,76 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5EB9C9B87B
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 13:56:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A01C9B90D
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 14:18:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2C97510E06A;
-	Tue,  2 Dec 2025 12:56:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42F6010E00E;
+	Tue,  2 Dec 2025 13:18:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ffvFEagv";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="CvUS6u+P";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5E4C10E06A
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 12:56:19 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id 1A8C34E419D8;
- Tue,  2 Dec 2025 12:56:18 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id E0331606D3;
- Tue,  2 Dec 2025 12:56:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id BDFCC119197A7; Tue,  2 Dec 2025 13:56:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1764680176; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=QFgcSxDwjQGmQohC290QGXRTuVmXVyuOEalaNkjC4ws=;
- b=ffvFEagvHMxcxYiWtdroyPQNdvLv1ifz3VFkmfX4Ma1/lCwCnkcQ1z5TloYCThJtsNEbVR
- Tl/HXf05ZSSsQobwVSpvnrzOwTaoF2ngm/scJqKUw4cv0uYRkdxjpM1gD8kqvNzOsB7587
- mJ0C7A89FtwW3hcIYb3WEx0KSbOMoDe2FjigWHBimIoYM7Y08gzh8unAKgbBlc/8Y2Ts11
- Apq5W3jhmeRmm2svhWKmIIw4sHHpyUfjA7BCBRKtOdMPEnAR6VoYOa4zbh4TFL1Dd15DKi
- 1nAQwvVkD6UErGkIJJIuJwWxon9Z21z/34FWPZaLONeELfD6Cis5CRYWNdejRw==
-Date: Tue, 2 Dec 2025 13:56:05 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Markus Schneider-Pargmann
- <msp@baylibre.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Louis
- Chauvet <louis.chauvet@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, Miguel Gazquez
- <miguel.gazquez@bootlin.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, Jyri
- Sarha <jyri.sarha@iki.fi>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Russell
- King <linux@armlinux.org.uk>, Bartosz Golaszewski <brgl@bgdev.pl>, Tony
- Lindgren <tony@atomide.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH 05/21] ARM: dts: omap: Bind panel to panel-dpi instead
- of ti,tilcdc,panel driver
-Message-ID: <20251202135605.053ada96@kmaincent-XPS-13-7390>
-In-Reply-To: <1d9a9269-bfda-4d43-938b-2df6b82b9369@ideasonboard.com>
-References: <20251126-feature_tilcdc-v1-0-49b9ef2e3aa0@bootlin.com>
- <20251126-feature_tilcdc-v1-5-49b9ef2e3aa0@bootlin.com>
- <96b1b7bf-ddbe-4213-a201-dc89cf2998dd@ideasonboard.com>
- <3bc5bf92-05c3-4841-ab28-9bab2bb31cd5@kernel.org>
- <20251202104244.59a9e83d@kmaincent-XPS-13-7390>
- <d7515cd3-5488-4d15-82dc-d2b98cfa2bed@kernel.org>
- <20251202114416.09624a4b@kmaincent-XPS-13-7390>
- <94e254fa-289d-41ed-909f-1742cfbb2690@kernel.org>
- <20251202121856.0da62885@kmaincent-XPS-13-7390>
- <1d9a9269-bfda-4d43-938b-2df6b82b9369@ideasonboard.com>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+ [209.85.167.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6925D10E00E
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 13:18:43 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id
+ 2adb3069b0e04-59584301f0cso4387236e87.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 05:18:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=suse.com; s=google; t=1764681522; x=1765286322; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=d2qTS0djCtlvzenkDRiQ4JmBu4W3Dqf8pIaygUtSKbc=;
+ b=CvUS6u+PW9a8fI92ihohy9mxR0p+dq4Dwz+YPeZ6bPhwRZqAoMhQSoixxQMF98ZSXo
+ F5Toj+JwnMK/rpNhe4rsApveWiLMmG/lZR3U8ZJFEWecR6DY9TlFephTVagbM94gGQNI
+ 2XUPhSvVZo+V4/NuaX/4VOrzvxzynjn/4t/Q3QIA/cQ4RZ0yxa1FeDQ7Lb1mQ4rhXEbp
+ pTpPpm0qA97grfC3kl9uMdvyjBVmb7JebKBsGsk7CfTum4TIrw7BE7OZLQ9gpB7EuOOC
+ +gZqit34YmNpKulx59/V2Q570u2SgKDkTBBJn7O+CgnIfBnM9TClPCV7QrfKEr4Bnh1I
+ 4lsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764681522; x=1765286322;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=d2qTS0djCtlvzenkDRiQ4JmBu4W3Dqf8pIaygUtSKbc=;
+ b=xMK+XpISzkanh2S9CecsxE/GWpr8pgDZ5uVFvK9olM4oE9W/Pqx0bAyv1Rn8rCSJv+
+ DPvTWAEO4zkVtuQkWr8TDBskiBXgrVM8b9yO9kyC1pHvr60mY2+lhDbTG+Y+LkMK62H3
+ pZJgF4JWmJdFKUSRNJ51YrWR6ih3U7Whxtyoto2uDnO6RYKo2Rv6KK0tjUfPeG0EA/SJ
+ oOL9yugmbjtVbNsTJiKfpmxol1NU4aLnMtPrwYEZnNpPDC0vbQ4jtBVaTILs7c3lRrsQ
+ 73Qf/NiwjM7Ks4EEQjA5xoM25EY5gOfNjCcj+3APKH2XNdO5Zxb6TDqieDe6ENzpSmAr
+ BC4Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWDe/cBkWpFKzjI2zBIrnaZ7foe0AsjNZLsqIsCh6UANVyOTjBtvoxjiJI9/nQWe/dBNKP0LT7qKmo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxEIxpcFLBvuwsLOE7gIQn5wYWXPHW66WCTwpsSdEmaKYOhkaX6
+ vEgePxOXplQf7YQ7rfT0TScCA2gF4Trngt5qN4vQXy62YJsILIy9oaMCfDRhmHhTLGAsI0/zpRP
+ Ew5kPyonplwtOSmyFs8b4RNH4LR6kiCY9He+Lu8j+VA==
+X-Gm-Gg: ASbGncvuDMFzdfctNGqN8RRWqfzhc5o2C1FFkrczqafqvaLL5Eqeyf85BLjd11zKWch
+ zlFqANOR0gTaMT1dgscmZ/7QDQPHvNEIcls1C39JZLOStJrP5VFh/M4z5DAGFhkEbIJ/ajFvjEQ
+ v178g7B8faKWMZw7EO3x3hpivYTD459fAc/VAgdhwEl9p6MXVXzURSO1G1bamQURn2Dno5W96W2
+ NIcxu0VOrF8SvFwPdEj4pEfOO41d4jt/qsdgh3IzTS0amwxl0NyWou746tywa0M6OhJVPpalDsf
+ NbDGLuCjLz+WEvBtQk/IsbW7FDdc
+X-Google-Smtp-Source: AGHT+IHXPq/1WU7Y6p5Y1lD+k5wDuWG4cZs/H+fFh7MfEyTT0+oPBhUYEG6IeIhzVNqgsaoRyEt5M7vDP9CoP0oYIqI=
+X-Received: by 2002:a05:6512:159c:b0:595:9152:b932 with SMTP id
+ 2adb3069b0e04-596b526c87bmr9950731e87.47.1764681521679; Tue, 02 Dec 2025
+ 05:18:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20251031104846.119503-1-marco.crivellari@suse.com>
+In-Reply-To: <20251031104846.119503-1-marco.crivellari@suse.com>
+From: Marco Crivellari <marco.crivellari@suse.com>
+Date: Tue, 2 Dec 2025 14:18:30 +0100
+X-Gm-Features: AWmQ_blWaASpaRpR4V19dOIxX8T97Dq9h1s9NUCUDv7AzhCvoFkKrXxIheilGew
+Message-ID: <CAAofZF7BnLm3XKBVsOvAcfON29PgxvA4dfkd4N4+yx40LSTV-A@mail.gmail.com>
+Subject: Re: [PATCH 0/2] rename system_wq and system_unbound_wq
+To: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+Cc: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Frederic Weisbecker <frederic@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Michal Hocko <mhocko@suse.com>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,79 +93,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2 Dec 2025 13:51:59 +0200
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> wrote:
+Hi,
 
-> Hi Kory,
->=20
-> On 02/12/2025 13:18, Kory Maincent wrote:
-> > On Tue, 2 Dec 2025 11:47:40 +0100
-> > Krzysztof Kozlowski <krzk@kernel.org> wrote:
+On Fri, Oct 31, 2025 at 11:48=E2=80=AFAM Marco Crivellari
+<marco.crivellari@suse.com> wrote:
+> Marco Crivellari (2):
+>   drm/rockchip: replace use of system_unbound_wq with system_dfl_wq
+>   drm/rockchip: replace use of system_wq with system_percpu_wq
+>
+>  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 4 ++--
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop.c    | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 
-> I will not NAK, removing bindings and breaking users is under some
-> conditions acceptable. You just need to come with the reasons and impact.
->=20
-> Reason "is ugly" is usually not good enough. Especially if things were
-> working.
+Gentle ping about this.
 
-Thanks for you reply.
+Thanks!
 
-> >>
-> >> DTS cannot go to drm, which means you either need to separate the chan=
-ge
-> >> and make entire work bisectable and backwards compatible for some time
-> >> OR at least document clearly the impact as we always ask. =20
-> >=20
-> > The thing is, if I split it, it has to be in 3. One for the of DRM bus =
-flags
-> > support, a second for the the devicetree and binding change and a third=
- for
-> > the whole tilcdc and tda998x cleaning stuff. I think I will go for one
-> > series, with better documentation.
-> >=20
-> > Now, what is your point of view on my question. Will you nak any binding
-> > removal even if the binding is ugly and legacy and imply maintaining an
-> > non-standard tilcdc panel driver? I know it breaks DTB compatibility but
-> > there is several argument to not keep it. See patch 6. =20
-> The binding being ugly and having to maintain non-standard tilcdc panel
-> driver may be nice things for us, the users don't care. The users care
-> if their board no longer works.
-
-Yes I understand but then I have another question. At what cost should we
-continue to support legacy binding?
-
-Just figured out this case already happened, ti,tilcdc,slave binding was
-removed from the tilcdc driver:
-739acd85ffdb7 ("drm/tilcdc: Remove obsolete "ti,tilcdc,slave" dts binding
-support")
-
-Even if there is still one mainline device tree that uses it:
-am335x-base0033.dts. :/
-
-> And how does this sync with u-boot? It also has code for at least for a
-> few of these boards.
-
-U-boot has indeed a driver for the ti,tilcdc,panel binding.
-Changing this devicetree would beak display for these board in U-boot as it
-currently does not support the "panel-dpi" binding.
-
-> Are there even users for these boards? If not, maybe they can be just
-> removed? I'm personally not familiar with these boards, so I have no
-> idea of their age or distribution.
-
-These boards are quite old (>10 years) but I don't know if they are still u=
-sed
-by people. After a quick look they seem not available on the market.
-
-> One trick that can be done is to modify the loaded DTB at boot time,
-> detecting the old format, converting it to the new one, so that when the
-> drivers are probed they only see the new DTB.
-
-Yes, indeed that could do the trick. The things is, I don't have one of
-theses board to test it. I will try to look for an other way to test it.
-
-Regards,
 --=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+
+Marco Crivellari
+
+L3 Support Engineer, Technology & Product
