@@ -2,161 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23953C9B338
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 11:42:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6879FC9B350
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 11:44:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4916210E34B;
-	Tue,  2 Dec 2025 10:42:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94D1310E609;
+	Tue,  2 Dec 2025 10:44:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=cherry.de header.i=@cherry.de header.b="KHTPI44L";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="LlQt60N+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com
- (mail-northeuropeazon11011007.outbound.protection.outlook.com [52.101.65.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1C3B10E34B
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 10:42:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WgAGaj34Quyio5W0LeB3fCdHvvcpsinj5rD3db5tuYBbFr1ZPUuNL7JYdSTx/bVqynCtAbig56XrZvR8H4mTT712ZQiibENCNF2Zx4kGZtDhxPnEum8vugauqWh36XqzMfHuSAFSIk6gy2VU2n0bTkbHOEGMJ+GHAV4y0eqIUFNVA8OK2uU4fe99LSmLDahzZX4ZiPAmZxfymx0LPJmu0mN0skd3TOVAILeUYx5t3JAO7fuG7MvsyqtBZOzfpVpEbiNCWESb57YA9zEgnpVCLIYFBo3DYRiVZyUG5EJwgKqznQXIza79qPlUfyTO63ykNy02HCUe31BSjuP/usUK0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mjueNb/9i3zuRHwx03rb3hURMf5aqVnfkr7ISHcUAoY=;
- b=F8yi9K5JkpAKLhNMMo+RHUBnuwr/FMT1TMINL6BjA0zagUaleSHAEsInpaWezkFI+IwxbhC6SAiCBQUGdVkgUr+qecjwz8mCGOZzYgf45XtIwqujnPa0/X8KjtF8J0VyAu6u1l0I6usrbtbqBTAhMy3Xy6WwfLQEwYnO/4LTNCV6CRNrSk1dReqSuOgefpnWBpRCOSCMUjk3J6IHqLlEnSOrV9UlGXC+csyJTYv61ETej3PyAj5tLt+Ysbk7u7Is0fgxqhzGmy35KOR1BKsoh15EkuZSxuGIL0NL22aTs2lwGTjnPk9YhTYSkoEHM4PQ3fzurvIQWNqFaMyXMbop9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mjueNb/9i3zuRHwx03rb3hURMf5aqVnfkr7ISHcUAoY=;
- b=KHTPI44LIEHhnNAvbYcvtW8/Dh0ZTMGpnoXL446ldxXZ4j/UGScTjZGXZo6VCGK3p0r/nBYtbBtsPOAHAnOgy9/LJAAjQLjUNrNh0EDRQuKpB7Tc6KqLAQRLxvSJgC4h2IDfOwNoLPyOvlO9avU6BYhxtUX3TOFKLO2WXDqrvHs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com (2603:10a6:150:2be::5)
- by DU0PR04MB9298.eurprd04.prod.outlook.com (2603:10a6:10:355::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Tue, 2 Dec
- 2025 10:42:39 +0000
-Received: from GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::1033:5a9a:dc18:dad]) by GVXPR04MB12038.eurprd04.prod.outlook.com
- ([fe80::1033:5a9a:dc18:dad%4]) with mapi id 15.20.9366.012; Tue, 2 Dec 2025
- 10:42:39 +0000
-Message-ID: <50d9a41c-d35b-4489-af1e-a5f7eef303f1@cherry.de>
-Date: Tue, 2 Dec 2025 11:41:43 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 8/9] arm64: dts: rockchip: Enable HDMI output on
- RK3368-Lion-Haikou
-To: Heiko Stuebner <heiko@sntech.de>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, andy.yan@rock-chips.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, cn.liweihao@gmail.com,
- Heiko Stuebner <heiko.stuebner@cherry.de>
-References: <20251021074254.87065-1-heiko@sntech.de>
- <20251021074254.87065-9-heiko@sntech.de>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20251021074254.87065-9-heiko@sntech.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0026.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:c9::11) To GVXPR04MB12038.eurprd04.prod.outlook.com
- (2603:10a6:150:2be::5)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 042C710E609
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 10:44:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=r7p81Th9UvtOh54eAvf6X2mM8Gg5Bzqb5cYHFhaUOdo=; b=LlQt60N+UVWvdZ4nOYm4D2dNbb
+ KEZq7LV78FjZqxHGxnwyvYZdDuOFlo2YV9kPkuw81eeFkUGkakU9eSy4vkW0IOy+eBeiAebEY81ie
+ 4sp7F7OshFo8Co4mP5uAk2R/WguOe3VU8/GNP2kW4ILDWYU0ITs08U6XuNYTtnj9V5f/0EKs9nFKm
+ u53ikxeAv2UVnX/AWWopiJexJTP2dIBYE8b/YFHQGab87/uV/BtZu98jqn1CPJh1FFwxZrHrcj1J4
+ A6NNlllYUZSKnPYxK70gIbSK42RlipUGG+EqrBG5HkXYhhANgoublYl5RCw05cNafQvdwY+pzdCxA
+ 7SQxzhfw==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vQNrg-007lqK-9G; Tue, 02 Dec 2025 11:44:12 +0100
+Message-ID: <74e89e3b-b237-424c-a5cb-f4b3e026b61f@igalia.com>
+Date: Tue, 2 Dec 2025 10:44:11 +0000
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR04MB12038:EE_|DU0PR04MB9298:EE_
-X-MS-Office365-Filtering-Correlation-Id: 25670aad-d317-4616-f5d7-08de318f8393
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|10070799003|366016|1800799024|7416014|376014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cDdISmhzQW1xeXVCRUFJZThEQUZZRFF6U2NQaVRYZlEvMjY4bHQ0QUMvdmVC?=
- =?utf-8?B?b3pPYkZSaTZ2c0ZDbzUvM0RQR21NVnYzV1ZKcm5FdGNhcWNaQnJwVzg4L0Uz?=
- =?utf-8?B?ZlhjTEtGRll3UzJneWFFQUQ4YUtXSzNadzRqZUlrWm5ZTDc4ZzZsSnMyRG9t?=
- =?utf-8?B?ODBnTXJKMlUvaTlkeVdzUTRRSTBndnZ2d1lzT1gyZVkvbzF0WTZQWXk4UHZL?=
- =?utf-8?B?Yk5HOG9tWVdDb0ZTeUF5ZFlkcjBnWGRRQ1NOU2t4M1VKTXNxN3pMeVIxMHZh?=
- =?utf-8?B?NkhPRmFKY2p3eXI2b0FETThoUDdSS204cFdCRjN5TlZhVUhjSkdMZFVrbUVN?=
- =?utf-8?B?dmxXc216RXpCdUlkYjVDc09lY01jdUFPOExpZ3BUTkgrR3Y0NElNcTNZT21v?=
- =?utf-8?B?YTJjaVZPMVh3K1NjTkcyUFVJalNOcWlBQVIyNERBZTV4czVIVUhmbkhrdVI2?=
- =?utf-8?B?WUxYOTJOQStTMlRxaENRVWJxWXZ1dFJRa0R0UzliRTgxMXIrQmlmOHdVU0JO?=
- =?utf-8?B?bVR3ZTBTdUZ6M3YzVGZQdXcrdm9ZMjlEMFJKNXA3SFhDRWJWUEYxYURCWkRm?=
- =?utf-8?B?eVdUZXdZZUltVzQxeGdhMVFHTTI2dkpYdVpURTIvZEtWQTBDa1p4RDZVZmZQ?=
- =?utf-8?B?WE1XaWNucHdXRFpQRXk4K3lCbXhVbUh5a2xVTmNmenlLUDJDMHJYK3ZrUTdT?=
- =?utf-8?B?YWRjQ0VsZ2hIeVNOeElNb3c5My9rSWRLOXg5T1h3TVVqVnFXSVduZU9xNW1a?=
- =?utf-8?B?VmtLVG1CWGZ2ekZKWnhucncxVVhxTGxmVVZCaVJDV3krWlJPa25wQXBtNTlQ?=
- =?utf-8?B?WjZ0RGJYTHJMY2hIY2dyK08xVms2Vm9XbUZ5MFdxT2d4bkcyQkxDRWdWWmJl?=
- =?utf-8?B?cHdza1dsUHc0MjhJdmxYMnBPOGREWTIxZmdUTktqTEdUV1piZEpQeTR3MWhQ?=
- =?utf-8?B?MkpybGxvRVZGYUplekZiL0czdkRUaFpTRVBVVHJDVjZObG5sZmIzb0lyRDI1?=
- =?utf-8?B?UzZMSHJyM3BGN0NrY0lmaVhyNUoxeVYrdWgzMzhWaWdoOG5ZRG82SlpJZTVD?=
- =?utf-8?B?UXVKZnB3SXBUMlBsV0RVT2tFRHNtbkpIQ0R4TUZTUEpoaGZzcmtwZVlmbUlz?=
- =?utf-8?B?dkRWOVhLcUJFSUlMZmtnZnFrYXNHSlNBWGdueGtPV2pQakxDR0loaE1OTEVB?=
- =?utf-8?B?aVNQTCtwaVRDQitsbTFML3hJMFpvUkRwbmN1QS9JRjlHd3Z1U3g3MmdPQVJj?=
- =?utf-8?B?WlNGWmpJWlRXcFZGRlcyNlVwcmhXdFFhd2JOUC9na3BIOWdmVS9BWUZhOXEx?=
- =?utf-8?B?bFNJYmlKQjNsdHlzRW0zUlEzYTR0aHJnZTYxV3BuaGxkbEpNQzBSQ2xoTkI5?=
- =?utf-8?B?ZTFTNmVOcktoWDU4cVowQzNJZnIxVkRXckFTWXArRmRDRG1KbDRqTE8xRnJO?=
- =?utf-8?B?NWQyc3Q1RHlTeFRCSktWTEFHTFBaWW8yMjVteEo1WmR5dWlIUUZRaTlSdVdM?=
- =?utf-8?B?Yk9Od0xKbEdYRUFmcXQyNGNKVGk4cTNYVWlHaCtWUzI2Z2x3WDZsMVB1dFhR?=
- =?utf-8?B?eU9DbzVEbGZheTQ5a09HTko3aWJWSjhWQ1B0N0MyRjViVGZaVFhiL1JLcDFo?=
- =?utf-8?B?YWJVM1NwWExqRG54V1M5LzZ2QThvUmR3ZmFRd2E2TjJsT0RibHpyeXpURm9T?=
- =?utf-8?B?RHhydlRYaGZpU0tpRFFweXZqZHdsRlJxeng3NFZTVjVjc0J0N2tKVnR2ZDI4?=
- =?utf-8?B?Uk5mTVdmdUxDNkRjOXVHV1NuaFgrUzZMd1ZLbERWT2toYVgzbWZBSDlRMkhl?=
- =?utf-8?B?Z21YN21kdjZoaU9QVUtiRHdzSG1rS1JlSEdLakNLV3ZjR2VmK3Z3VUhQRElN?=
- =?utf-8?B?MkVaUkRMbUY4eXdUN0pDbWhzc0M2NnZ4NEh3ZXByaW9HVFVXazIrU2taQlhQ?=
- =?utf-8?Q?0UjCUncFFpxE+k/qUPdCLmHdLXRbdohG?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:GVXPR04MB12038.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(10070799003)(366016)(1800799024)(7416014)(376014); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aU9odERIbDNqN25OQ0FCeGt3NHJwWFBsV25TSkNWUHlGNFlBSEgvMnoxV294?=
- =?utf-8?B?cnJZY2pwWEVyMlBmTDlkTTk3NS8vU25qckN6WkJjWW0vRjl4UnJlZ2RMMmUw?=
- =?utf-8?B?WUhTcmNVVUdsVytUVlVZWGlTYklQZlR4Y3Y2M0dhRC9ScnRtYjJUTGw0eE5B?=
- =?utf-8?B?YlRlUWZESlFmK0l3UnpmclpCbHBvU2U2Skt4LzExUk1nekorNFQwMWhqaDhs?=
- =?utf-8?B?SGxtblZiVGpQRjUyc2hDRCs3dTNzTDRiYTA3dmh4SlVuakVuUXpkOVk2eVJS?=
- =?utf-8?B?NVY3a1M0cjZIMjBpeVVqSlpnSmVOeWlza2YwdHV0cTdiRndTNW1ETkkzTmxK?=
- =?utf-8?B?aVhGTVRvQU90c2M5TmJSakNaYUhLOGtHa2FabSt1NjhDV0tKM04xSXd3R2VZ?=
- =?utf-8?B?R1VLdi9ET2tZTXFXSEJVeG1iWkhORTI5Y2Z4QVNrZ01oaFFmK3hOM3hDMnVH?=
- =?utf-8?B?V1drcTZaOU8zNjU1eUYrckV6aFl0d0RmTjRLNC9oMG5tcGNlTG0rYkFKN2ZJ?=
- =?utf-8?B?VTVMYVB1UFJSamxZekVacEw5NDVINjBlR0xBZmxMdXkwZDZVMUJsY3NLbmFN?=
- =?utf-8?B?blZ4WE1rOTBjbWYvbElSZThRczV0UnE0Vk9NazQ2anZYRU11K2Q1Vzl3SzAv?=
- =?utf-8?B?US9oVjAwK3MvQU81MnV0cmlxUnJuY1QweE96WW9LWndLcUh3WTQ1MktsN1VW?=
- =?utf-8?B?dXl3anM3TUJzWmp1SGVZMXM4b2drOFEyWVRrZDV2NElNWnFmSC9OSkR3Ullx?=
- =?utf-8?B?ZkdTRXp6RTNvMnBROHFhMVo5WkwrQjVyZzZTSDFiWFVBc0VoSGp6UzdJKzRl?=
- =?utf-8?B?L1BvKzRwWGRlWk9uM2R0Q0hLUEZGRHhPZUJia0dEMVZWNE85TzFjVzhEVjBv?=
- =?utf-8?B?QmhYWjdGaGhLSlBhbmd3bVFZOWlsanNndUJONWc4eDRPZkJJNlo2OFJJK2VY?=
- =?utf-8?B?aWdqMklZV3hNZ1p0S0lzcS8vUWpuTExqRkZRb2d3U0FvN2hoWm5NazBwdW5I?=
- =?utf-8?B?U0U4WG5FL0djWk5kb0prejZseEkxMU0xSXlhclVqSnpPMjdlYkx1aUR6OWtX?=
- =?utf-8?B?MS9Yd28rU0ZNMHptWnZDRUo5ellPWG1rbHZwU2tSVW0rS2VSOFJUWURJcHV6?=
- =?utf-8?B?SlVUMGxoNkUyWUlzNExvVFlrOFhWVmlSMlRqcTVwV1BOYWRWd3pLT2lBeThX?=
- =?utf-8?B?bXhDRndpM2ZKSHZQZW9oNjI1VFBJL2Y5R3ZwYVZzVUdHQkprWitrS2dPQXBD?=
- =?utf-8?B?bVM2MlR2RnhNRiszOWVBbm43NUtWa3FmaVdzSjZ0NkVpdFFjT0oyV01XY2s5?=
- =?utf-8?B?UUVXVGFad3RwTGU3dlRZRjk5OXhDODI2YnRyUEI3YlJ2bWVQTVFYTHc2N29m?=
- =?utf-8?B?OTM3WWcwcDhBcldsRkJKVEdnZVh0d1JpOXZjSm9EdWEzWHMya2tuRFVmb2ZU?=
- =?utf-8?B?VVBXRzhxT0xDenV0ZlV5QTJSYkZVYVBrdVNnRk5BUU1GT3hmMGVtMWYyR0tU?=
- =?utf-8?B?My9jMUNFdDZuanNhT1VzMjIxZkdsdG1zbjdVTnlPaFljRVh0YXVPTkdveE8z?=
- =?utf-8?B?enk5aytpWmpZd0JSSE1ZNHFENFRDU0dUM291S21oeHlwcVdOUER4RmNkVVA1?=
- =?utf-8?B?cmdLdHFENGZZNmVpUDJnV0hzMnVKNFFXMXErSUlxRHMxREV5UGFCQWJUQUQ3?=
- =?utf-8?B?ZWZ2Um16UTAzdGFoZUFoZlJ6SlE5V25wUDNRb25DbXEwK0tyZTB6VkIzcDMx?=
- =?utf-8?B?dmhYU0pKeVQ5SVkzWlZRMHhSc3F5SUw5bGFEYmJJNUgzb21scmVHSUxxL3RM?=
- =?utf-8?B?Ukxydk9HQ0tTWlJZL0xMTHpVcFhrR3NHakF6aVVBYXBvMFB4UUpFazNPZThq?=
- =?utf-8?B?d1g4bTJtTVQxNlk3ZVBRZ0svci9XdGZTOTBXN2prMDVxTWEzQzZBUlBWenkx?=
- =?utf-8?B?Y3FQazR3TFMrRVZzMjhaR201OTJ0alFXRzBuSWpvWUxjcFN4NUc4THVCTGNl?=
- =?utf-8?B?TllBRUl0Sy9vYmdFUmF0cEQwVFdocm5yNGFTR1kwRnBPYm9ZRGdxMm1kZEp5?=
- =?utf-8?B?RGxuNDNUcUZvU0RGRCtlTGs1TU9Cc0x3aUdqQXpLUlozSWhKWHpFSjF5SFU1?=
- =?utf-8?B?alZCcW5HYURJVGhMNExqa256c2ZtTVpBRGRSWEJKVU5DcDVrT2xvdWxFSk8r?=
- =?utf-8?Q?ijNZoJAPHI3YASR9NHUqOaU=3D?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25670aad-d317-4616-f5d7-08de318f8393
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12038.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 10:42:39.1787 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xVak/0z+p94gF9CofcJdkaDpMTQkfyzXhTHDaJGpkj2HntuY0AieU4jdI3ra4tbcHwDa4gwxMtok0PQzvv7wY4ZCIjkdJXqc/XCXI/zg2Zg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR04MB9298
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFX] efi: sysfb_efi: Fix simpledrmfb on Steam Deck
+To: Thomas Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel <ardb@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Melissa Wen <mwen@igalia.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>, linux-efi@vger.kernel.org
+References: <20251128150403.11567-1-tvrtko.ursulin@igalia.com>
+ <ce41c2d1-c659-4632-8469-761762202800@suse.de>
+ <660c5469-086f-40b4-99f1-72c1bc613ece@igalia.com>
+ <1df5a480-2510-43b9-9d79-51d842518036@suse.de>
+ <b146fb1b-80e9-403c-acd1-b50ef1aaa646@igalia.com>
+ <1b73df5b-5f47-4ce4-abd4-83d550cc0dea@suse.de>
+ <e7c4a76e-5cef-4a75-847f-59c53a554327@igalia.com>
+ <CAMj1kXFOS9jAzhh2Z_4rarEGd+kGPyNCu9PFoMhFbBVEF8NwJw@mail.gmail.com>
+ <07212b84-fc2a-4efe-a39b-5b536b6dd602@igalia.com>
+ <CAMj1kXH3FyhNinT3-_FqROB53p_574ft6hsoF6aGYeYkhLd+TQ@mail.gmail.com>
+ <086cf4fd-6401-46ce-a55f-ea2fd96a73d1@igalia.com>
+ <f4dfd1b4-76c0-4b88-aefb-f0536e706f96@suse.de>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <f4dfd1b4-76c0-4b88-aefb-f0536e706f96@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,37 +76,286 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heiko,
 
-On 10/21/25 9:42 AM, Heiko Stuebner wrote:
-> From: Heiko Stuebner <heiko.stuebner@cherry.de>
+On 02/12/2025 07:34, Thomas Zimmermann wrote:
+> Hi
 > 
-> Enable the VOP and HDMI controller on the Lion-Haikou board.
+> Am 01.12.25 um 16:43 schrieb Tvrtko Ursulin:
+>>
+>> On 01/12/2025 15:00, Ard Biesheuvel wrote:
+>>> On Mon, 1 Dec 2025 at 11:33, Tvrtko Ursulin 
+>>> <tvrtko.ursulin@igalia.com> wrote:
+>>>>
+>>>>
+>>>> On 01/12/2025 10:18, Ard Biesheuvel wrote:
+>>>>> On Mon, 1 Dec 2025 at 11:03, Tvrtko Ursulin 
+>>>>> <tvrtko.ursulin@igalia.com> wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 01/12/2025 09:39, Thomas Zimmermann wrote:
+>>>>>>> Hi
+>>>>>>>
+>>>>>>> Am 01.12.25 um 10:20 schrieb Tvrtko Ursulin:
+>>>>>>>>
+>>>>>>>> On 01/12/2025 07:32, Thomas Zimmermann wrote:
+>>>>>>>>> Hi
+>>>>>>>>>
+>>>>>>>>> Am 29.11.25 um 11:44 schrieb Tvrtko Ursulin:
+>>>>>>>>>>
+>>>>>>>>>> On 28/11/2025 17:07, Thomas Zimmermann wrote:
+>>>>>>>>>>> Hi,
+>>>>>>>>>>>
+>>>>>>>>>>> thanks for the bug report
+>>>>>>>>>>>
+>>>>>>>>>>> Am 28.11.25 um 16:04 schrieb Tvrtko Ursulin:
+>>>>>>>>>>>> I am not sure how is simpledrmfb on top of EFI supposed to 
+>>>>>>>>>>>> work,
+>>>>>>>>>>>> but at
+>>>>>>>>>>>> least at the moment it appears there is a missing link in the
+>>>>>>>>>>>> "discovery"
+>>>>>>>>>>>> of frame buffer parameters.
+>>>>>>>>>>>>
+>>>>>>>>>>>> What I can see is that EFI GOP reads some parameters from the
+>>>>>>>>>>>> firmware and
+>>>>>>>>>>>> infers the other, such as in this case problematic pitch, or 
+>>>>>>>>>>>> stride.
+>>>>>>>>>>>
+>>>>>>>>>>> The pitch/stride value comes from the firmware via
+>>>>>>>>>>> pixels_per_scanline [1].
+>>>>>>>>>>>
+>>>>>>>>>>> Can you verify that this value is really 800 instead of 832 (eq
+>>>>>>>>>>> 3328 bytes) ?
+>>>>>>>>>>>
+>>>>>>>>>>> [1] https://elixir.bootlin.com/linux/v6.17.9/source/drivers/
+>>>>>>>>>>> firmware/ efi/libstub/gop.c#L493
+>>>>>>>>>>
+>>>>>>>>>> I actually got confused a bit in following the flow so thank 
+>>>>>>>>>> you for
+>>>>>>>>>> asking me to double check.
+>>>>>>>>>>
+>>>>>>>>>> GOP actually reports 1280x800 with a stride of 5120. So it 
+>>>>>>>>>> kind of
+>>>>>>>>>> reports a rotated view already, kind of.
+>>>>>>>>>
+>>>>>>>>> These are correct values.
+>>>>>>>>>
+>>>>>>>>> But the stream deck is this device: [1], right? It uses landscape-
+>>>>>>>>> mode orientation. Why does it require rotation at all?
+>>>>>>>>>
+>>>>>>>>> [1] https://de.wikipedia.org/wiki/Steam_Deck#/media/
+>>>>>>>>> Datei:Steam_Deck_(front).png
+>>>>>>>>
+>>>>>>>> That's the device yes. For the user the screen is landscape, but 
+>>>>>>>> the
+>>>>>>>> actual panel is 800x1280 portrait. Left edge is top of the display.
+>>>>>>>> (Hence the pre-existing entry in drm_get_panel_orientation_quirk.)
+>>>>>>>
+>>>>>>> I see. So the EFI display settings are configured as if this was a
+>>>>>>> landscape panel.
+>>>>>>>
+>>>>>>> What happens if you leave the EFI settings as-is and simply 
+>>>>>>> remove the
+>>>>>>> panel-orientation quirk?
+>>>>>>
+>>>>>> That would create effectively the same situation as without my patch
+>>>>>> because the panel-orientation quirk does not trigger unless detected
+>>>>>> screen is 800x1280. Result is corrupted console since fbcon thinks 
+>>>>>> it is
+>>>>>> a landscape 1280x800 screen.
+>>>>>>>>>> Only when the rotation quirk from efifb_dmi_swap_width_height
+>>>>>>>>>> triggers the stride gets incorrectly recalculated:
+>>>>>>>>>>
+>>>>>>>>>>           u16 temp = screen_info.lfb_width;
+>>>>>>>>>>
+>>>>>>>>>>           screen_info.lfb_width = screen_info.lfb_height;
+>>>>>>>>>>           screen_info.lfb_height = temp;
+>>>>>>>>>>           screen_info.lfb_linelength = 4 * screen_info.lfb_width;
+>>>>>>>>>>
+>>>>>>>>>> So this is where things go wrong, well, they actually go wrong a
+>>>>>>>>>> little bit even earlier, in gop.c:
+>>>>>>>>>>
+>>>>>>>>>>       si->lfb_size = si->lfb_linelength * si->lfb_height;
+>>>>>>>>>>
+>>>>>>>>>> Which potentially underestimates the fb size. If GOP was forward
+>>>>>>>>>> looking enough to give us the size we could derive the pitch 
+>>>>>>>>>> based
+>>>>>>>>>> on size..
+>>>>>>>>>>
+>>>>>>>>>> Anyway, as it stands it looks a quirk in sysfb_apply_efi_quirks
+>>>>>>>>>> looks it is required to fix it all up.
+>>>>>>>>>>
+>>>>>>>>>> I am a bit uneasy about declaring the fb size larger than what 
+>>>>>>>>>> was
+>>>>>>>>>> implied by firmware provided pitch * height * depth but 
+>>>>>>>>>> limited to a
+>>>>>>>>>> specific DMI match and if it looks visually okay I think it is a
+>>>>>>>>>> safe assumption the quirked size is actually correct and safe.
+>>>>>>>>>
+>>>>>>>>> Yeah, we better not do that.
+>>>>>>>> You mean declare it a firmware bug and live with the corrupt 
+>>>>>>>> console
+>>>>>>>> until the final fb driver takes over?
+>>>>>>>
+>>>>>>> I only mean that we should not use more video memory than 
+>>>>>>> provided by EFI.
+>>>>>>
+>>>>>> Right, but that information is not available in the GOP, right? 
+>>>>>> Ie. as I
+>>>>>> wrote above it appears assumed:
+>>>>>>
+>>>>>>       si->lfb_size = si->lfb_linelength * si->lfb_height;
+>>>>>>
+>>>>>> Do we have any other options apart from corruption or assume firmware
+>>>>>> configured GOP screen info incorrectly?
+>>>>>>
+>>>>>
+>>>>> How does it make sense to recalculate the line length? Those invisible
+>>>>> pixels at the end of the scanline are not going to be transposed to
+>>>>> the other dimension, right?
+>>>>
+>>>> Not sure what you meant here. The line above is from gop.c and the
+>>>> context is that GOP screen info appears to not carry the frame buffer
+>>>> size in bytes so it is implied.
+>>>>
+>>>> Elsewhere in the patch I quirk the pitch to the correct value so 
+>>>> rotated
+>>>> rendering is correct.
+>>>>
+>>>> But the corrected pitch also means that in principle we need to adjust
+>>>> the frame buffer size, since it is larger than the size implied with 
+>>>> the
+>>>> incorrect pitch.
+>>>>
+>>>
+>>> OK, so if I understand all of the above correctly, you have a 800x1280
+>>> panel with 832 pixels per scanline, right? And the 5120 pitch is
+>>> simply bogus, but needed to maintain the fiction that the panel is
+>>> 1280 pixels wide, and so the resulting lfb_size is bogus too?
+>>>
+>>> Since we know that the PixelsPerScanline value is incorrect, I don't
+>>> think there is any point in attempting to cross reference this against
+>>> other firmware provided data. But it would make sense imho to apply
+>>> the quirk only if the exact combination of incorrect values (i.e.,
+>>> 1280x800/5120) is encountered.
+>>
+>> Right, the whole 1280x800 mode I *think* could be "bogus", that is, 
+>> some kind of a software rotated mode implemented by the firmware.
+>>
+>> Default mode is 800x1280 (pitch 832), while this second native 
+>> resolution mode is 1280x800 (pitch 1280).
+>>
+>> If default mode is left then both simpledrmfb and efidrmfb work fine. 
+>> The existing panel orientation quirk will trigger on 800x1280 and tell 
+>> fbcon to rotate.
+>>
+>> But if someone, like for example grub2, changed the mode to this 
+>> software rotated one then the existing DRM quirk will not work.
 > 
-> Signed-off-by: Heiko Stuebner <heiko.stuebner@cherry.de>
-> ---
->   .../boot/dts/rockchip/rk3368-lion-haikou.dts   | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
+> So this is a bug in grub? Should it supply the original mode?
 > 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3368-lion-haikou.dts b/arch/arm64/boot/dts/rockchip/rk3368-lion-haikou.dts
-> index abd1af97456a..a8eb4e9c2778 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3368-lion-haikou.dts
-> +++ b/arch/arm64/boot/dts/rockchip/rk3368-lion-haikou.dts
-> @@ -58,6 +58,16 @@ vcc5v0_otg: regulator-vcc5v0-otg {
->   	};
->   };
->   
-> +&display_subsystem {
-> +	status = "okay";
-> +};
-> +
-> +&hdmi {
-> +	avdd-0v9-supply = <&vdd10_video>;
-> +	avdd-1v8-supply = <&vcc18_video>;
+> 
+> Apologies for only asking dump questions here. I find this very confusing.
 
-After a long night of sleep, I believe this should be specified in 
-rk3368-lion.dtsi SoM DTSI and not in rk3368-lion-haikou.dts as it's 
-SoM-specific.
+Not at all, it is complicated and open whether it is worth improving.
 
-Cheers,
-Quentin
+I don't think it is a grub bug. To me it seems like an unfortunate 
+consequence of protocol limitations.
+
+> In the correct mode 800x1280, the first native pixel should be on the 
+> lower left corner. and the second pixel should be 'up form it'. And 
+> because it's marked as rotated CCW, fbcon adapts correctly.
+> 
+> If the display is in the bogus mode 1280x800, in which direction does it 
+> draw by default?  The framebuffer's first pixel should still be in one 
+> of the corners. And the second pixel is nearby. In which direction does 
+> it advance?
+
+I am not a grub expert, but I had a brief look at its codebase, and 
+AFAICT it draws by software rendering into a shadow frame buffer and 
+calls GOP->Blit to update the screen.
+
+As such my assumption is that with the fake 1280x800 mode, firmware 
+implements the blit to rotate under the hood.
+
+So for grub everything is fine. It sets 1280x800, sees 1280x800, renders 
+the menu in there, and courtesy of firmware blit the menu is presented 
+in the human friendly orientation.
+
+Note this is all when grub is asked to change the mode to 1280x800. This 
+does not happen on the normal SteamOS boot, but only if grub menu was 
+entered. Otherwise mode stays at the default 800x1280 and the DRM quirk 
+triggers to set the orientation both for the simple DRM fb, efidrmfb and 
+later the real amdgpu drm fd.
+
+In other words without this patch fbcon is correctly rotated when the 
+mode is default 800x1280, but broken if grub menu is entered which sets 
+the mode to 1280x800. Because the DRM panel orientation quirk only 
+triggers for 800x1280.
+
+Hence this patch/quirk to fudge the screen info back into the native 
+mode and allow the orientation quirk to always work and fbcon always be 
+right.
+
+Questionable part is that it only fixes the user experience for people 
+who enter the boot menu, so probably only developers. And the broken 
+fbcon is only until amdgpu takes it over, which correctly probes the 
+mode, I guess from the display state, and always sees it as 800x1280 and 
+so panel orientation quirk matches.
+
+I suppose for DRM panic before amdgpu loads, or before it fully 
+initializes, it would be worth having an readable fbcon, but again, I 
+accept it is probably a border line case so if people do not want to 
+take this quirk then it is what it is.
+
+Regards,
+
+Tvrtko
+
+>> The quirk in this patch therefore proposes to correct back the mode to 
+>> the default native.
+>>
+>> You are indeed right that the criteria needs to be tweaked. In v2 I've 
+>> fixed and it now looks like this:
+>>
+>> ...
+>>     for (match = dmi_first_match(efifb_dmi_swap_width_height);
+>>          match;
+>>          match = dmi_first_match(match + 1)) {
+>>         const struct efifb_mode_fixup *data = match->driver_data;
+>>         u16 temp = screen_info.lfb_width;
+>>
+>>         if (!data ||
+>>             (data->width == screen_info.lfb_width &&
+>>              data->height == screen_info.lfb_height)) {
+>>             screen_info.lfb_width = screen_info.lfb_height;
+>>             screen_info.lfb_height = temp;
+> 
+> There's a swap() macro BTW. [1]
+> 
+> [1] https://elixir.bootlin.com/linux/v6.18/source/include/linux/ 
+> minmax.h#L307
+> 
+> Best regards
+> Thomas
+> 
+>>
+>>             if (data && data->pitch) {
+>>                 screen_info.lfb_linelength = data->pitch;
+>>                 screen_info.lfb_size = data->pitch * data->width;
+>>             } else {
+>>                 screen_info.lfb_linelength = 4 * screen_info.lfb_width;
+>>             }
+>>         }
+>>     }
+>> ...
+>>
+>>
+>> Ie. only swap width<->height for the pre-existing quirks and the new 
+>> quirk *if* it is in 1280x800.
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+> 
+
