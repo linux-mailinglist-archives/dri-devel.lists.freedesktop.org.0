@@ -2,80 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97747C99E1B
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 03:31:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44671C99EC9
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 03:54:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC02D10E50A;
-	Tue,  2 Dec 2025 02:31:43 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P532wrAP";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7915C10E512;
+	Tue,  2 Dec 2025 02:54:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15C8310E50A
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 02:31:43 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-29808a9a96aso56167345ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 18:31:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764642702; x=1765247502; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
- :reply-to; bh=+gp3h6PDJrFjQ/i9BEQXXsbli1Le18PxsqaLSK45JE0=;
- b=P532wrAPHjTw5TpnLlQgPwbsPV5/TUaviNfuKDyPRxScbMIYfQJsQ5IfzN5YUuBxPV
- CQVBCrqlgkVGdQeQg4z3RKtxD+YMUkV7gB5y1thKiHx1MKtFBzYIcaFdACRbTiCJ16qj
- 0fAbi3wqzSI8b0gvwuI3FNrgjO4moYWiN5xQB7Q2ur7h5AiHd2TTb5JJcPbUsbJNlluo
- ZE7l/QRo3aLZHGSsSy9kENSqVb7MQMBm7M+4KS0XPHMkz15oNopoezuAr39XQXzBmKCb
- ZrmBwR16vlu8o6Y3pVfeuLetitY4lXaj6tT+yFJ3h7a9j6KW017sCJcz4dfQoaqgaxVq
- Koqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764642702; x=1765247502;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=+gp3h6PDJrFjQ/i9BEQXXsbli1Le18PxsqaLSK45JE0=;
- b=L11f2lNaOU7VXGtelUDIvERj+Uuu6xDOFg6mweWc3FJHJLOmjpWrkeRVbL1ZJH6z1D
- XLco/Bok0lWVkVS53w4Qbyv4zOQkANeCyKy1Dg9O/pCN3wGLkJzBqbXdkhdyyZCpCzkJ
- m9lIONWsgjoS0QnS1i1RoicS5kv+o8yb9P5SSm6qk1JanWNBhMkn5C2/vp3vCg12o/hk
- zE59bxNhRZS/zzMcAMK2xCsr9SAYe9TzEg2+0wTKGd7EUaqabI/qmj5xkfAYQ1XMDHOA
- wZWsIS+nHUVq+MFFSmEhEmM2SfLgkOqzz7FkIb6x4+1gj8wVz2eSTMp3zomgjyTFEyxo
- 2YeQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWQV0ycT/PjJeZYV5MOaDOp69hjTdZ9wNVGsEmLO7lddrQKDW8U88qX1xgSeDT3Lu/4UIOSeI8DVok=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwzRX8W0VaLxm+8n76IIXxPoBVrxWG9RDLIEaa68ctK69U3RG6t
- 013rkpRlVe1yUzOwGGr/yhS6tdjEQwEYjCOzdrP9mzmP28t3a2d7Ohue
-X-Gm-Gg: ASbGncuztwLXcFPLCFQsSpl9mjzmsl/NJqhTXNYmMGv/5bh18NacMfO6yTd32QBqaY5
- UyoNKIH73QmpBHJgd5hq/jxiINCHU6xxmV+/WvyJM+0okJ/IM3oshYvn7kgGtcEgLHPV1BCvjdO
- 28bcnLnyLlpxWmPenhpBviVxvheYz0LyXN5zg3b40W35/pZ3Xg553LYa6aqIr1CDbU6d4S9fo8w
- eJb861Im1Hch/tP6xSXbbgmi7/FeDoeaA8C6Br11OjMX5D6u/etXFIom2YXKyy6CfUJr6HtcJsm
- 8HOBjnxQeCDS+QVHWkB62yj/bA5RhUg3BTL8UhqGQaeSZOrPOxTQbol8gilTK5AUDMOmZSZAewz
- 5qu3JE2iuNhgGomhdCqQiEk+5bT117i3Vo1MUaWb1TksjKp6EW6nQyUUQn9y8H56PyIbrNxAq/S
- OcHRPMr1kEyw+fAQJrAXzhQe8=
-X-Google-Smtp-Source: AGHT+IGOriu2yyUHY9yb8FJoC+gkKNWxweR3s4/nUAw2SsEdpRaUGaSBOcwYKvayoTNR6hvb42S4fw==
-X-Received: by 2002:a05:7022:6285:b0:119:e56b:9580 with SMTP id
- a92af1059eb24-11c9d61285bmr23737179c88.5.1764642702387; 
- Mon, 01 Dec 2025 18:31:42 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
- by smtp.gmail.com with ESMTPSA id
- a92af1059eb24-11dcaed5f6bsm79049292c88.1.2025.12.01.18.31.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Dec 2025 18:31:41 -0800 (PST)
-Date: Mon, 1 Dec 2025 18:31:40 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Alexander Deucher <Alexander.Deucher@amd.com>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx@lists.freedesktop.org, dri-devel <dri-devel@lists.freedesktop.org>
-Subject: Re: Linux 6.18 amdgpu build error
-Message-ID: <1eb24816-530b-4470-8e58-ce7d8297996c@roeck-us.net>
-References: <74032153-813a-4a40-8363-cce264f4d5ea@linuxfoundation.org>
+Received: from mail-vip.corpemail.net (mail-vip.corpemail.net
+ [162.243.126.186])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9411C10E512
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 02:54:37 +0000 (UTC)
+Received: from inspur.com
+ by ssh248.corpemail.net ((D)) with ESMTP id 202512021033430846
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 10:33:43 +0800
+Received: from localhost.localdomain.com (unknown [10.94.15.65])
+ by app6 (Coremail) with SMTP id bgJkCsDw5zIHUC5pIiEGAA--.305S4;
+ Tue, 02 Dec 2025 10:33:43 +0800 (CST)
+From: Chu Guangqing <chuguangqing@inspur.com>
+To: tzimmermann@suse.de
+Cc: airlied@gmail.com, chuguangqing@inspur.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, simona@ffwll.ch
+Subject: [PATCH v11 0/1] [DRIVER] gpu: drm: add support for YHGCH ZX1000 soc
+ chipset
+Date: Tue,  2 Dec 2025 10:32:55 +0800
+Message-ID: <20251202023255.2674-1-chuguangqing@inspur.com>
+X-Mailer: git-send-email 2.43.7
+In-Reply-To: <59c5a8a5-6d6e-4394-a3a3-9fa640ba849c@suse.de>
+References: <59c5a8a5-6d6e-4394-a3a3-9fa640ba849c@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <74032153-813a-4a40-8363-cce264f4d5ea@linuxfoundation.org>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: bgJkCsDw5zIHUC5pIiEGAA--.305S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7WFyxAF17Xw48Xr4UZrWkWFg_yoW8uw1xpa
+ 4a9ayIkry0qa1rAwn0y3W2vFn0y3yrtF4UKw1Uuw1UCF1Ygr9rZrs3Xr1DuFyUGrWDJF4Y
+ vanFgFsxAFyUA3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl
+ 6s0DM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
+ 6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+ IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU18sqtUUUU
+ U==
+X-CM-SenderInfo: 5fkxw35dqj1xlqj6x0hvsx2hhfrp/
+tUid: 202512021033438e45b1b302bee460eaf4005e20392e3d
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,30 +71,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 01, 2025 at 03:17:49PM -0700, Shuah Khan wrote:
-> Hi Alex,
-> 
-> I am seeing the following make error on Linux 6.18.
-> I started seeing build failures since rc7 and rc6
-> build was just fine on the same config file.
-> 
-> LD [M]  drivers/gpu/drm/amd/amdgpu/amdgpu.o
-> drivers/gpu/drm/amd/amdgpu/amdgpu.o: error: objtool: elf_init_reloc: .rela.orc_unwind_ip: reloc 39935 already initialized!
-> make[6]: *** [scripts/Makefile.build:503: drivers/gpu/drm/amd/amdgpu/amdgpu.o] Error 255
-> make[6]: *** Deleting file 'drivers/gpu/drm/amd/amdgpu/amdgpu.o'
-> make[5]: *** [scripts/Makefile.build:556: drivers/gpu/drm/amd/amdgpu] Error 2
-> make[4]: *** [scripts/Makefile.build:556: drivers/gpu/drm] Error 2
-> make[3]: *** [scripts/Makefile.build:556: drivers/gpu] Error 2
-> make[2]: *** [scripts/Makefile.build:556: drivers] Error 2
-> make[1]: *** [/linux/linux_6.18/Makefile:2010: .] Error 2
-> make: *** [Makefile:248: __sub-make] Error 2
-> 
-> I tried "make clean" and "make distclean" just in case, still see
-> the same error.
-> 
+Hi Thomas,
 
-My test system does not report any problems. What is the configuration
-and compiler ?
+The link to the new PR is here.
 
-Thanks,
-Guenter
+https://lore.kernel.org/all/20251202022452.2636-1-chuguangqing@inspur.com/
+
+> diff --git a/drivers/gpu/drm/yhgch/yhgch_drm_vdac.c b/drivers/gpu/drm/yhgch/yhgch_drm_vdac.c
+> new file mode 100644
+> index 000000000000..2de95c887b62
+> --- /dev/null
+> +++ b/drivers/gpu/drm/yhgch/yhgch_drm_vdac.c
+> @@ -0,0 +1,137 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/io.h>
+> +
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_edid.h>
+> +#include <drm/drm_probe_helper.h>
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_simple_kms_helper.h>
+> +
+> +#include "yhgch_drm_drv.h"
+> +#include "yhgch_drm_regs.h"
+> +
+> +static int yhgch_connector_get_modes(struct drm_connector *connector)
+> +{
+> +	int count;
+> +	const struct drm_edid *drm_edid;
+> +
+> +	drm_edid = drm_edid_read(connector);
+> +	if (drm_edid) {
+> +		drm_edid_connector_update(connector, drm_edid);
+> +		count =  drm_edid_connector_add_modes(connector);
+> +		drm_edid_free(drm_edid);
+> +		if (count)
+> +			goto out;
+
+Don't do the goto here. Simple call drm_edid_free().
+
+> +	} else {
+> +		drm_edid_connector_update(connector, NULL);
+> +	}
+> +
+> +	count = drm_add_modes_noedid(connector,
+> +				     connector->dev->mode_config.max_width,
+> +				     connector->dev->mode_config.max_height);
+> +	drm_set_preferred_mode(connector, 1024, 768);
+
+These two calls belong into the else branch. If you have an EDID, please 
+don't try to make up your own defaults.
+
+Answer: This is to avoid encountering the situation where the display cannot be
+read (some special displays do not have EDID).
+
+> +
+> +out:
+> +	drm_edid_free(drm_edid);
+
+This only belongs into the if branch. You also have a double free on 
+drm_edid in that case. I wonder how you did not notice.
+
+Answer: Revisions have been made in accordance with your requirements. We
+apologize for not noticing the double free issue and thank you for pointing it out.
+
+> +	return count;
+
+Returning 0 here is not a problem. DRM will try several steps to figure 
+out the display modes, and eventually fallback to defaults.
+
+Best regards
+
+Chu Guangqing
+
