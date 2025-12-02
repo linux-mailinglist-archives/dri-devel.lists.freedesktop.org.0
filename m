@@ -2,98 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6EF0C9AAC3
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 09:26:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDCDC9AAED
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 09:29:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A5AF10E5B4;
-	Tue,  2 Dec 2025 08:26:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70E1810E5B1;
+	Tue,  2 Dec 2025 08:29:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Sy49BfZQ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VYKPUHGS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C26F10E5B3
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 08:26:19 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-5942bac322dso50714e87.0
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 00:26:19 -0800 (PST)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B5EC10E5B1
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 08:29:23 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-64165cd689eso9136846a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 00:29:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764663978; x=1765268778; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=OSUsJtZmVyJFMumy5C75Kafona0a7fDMqaNggZdL9to=;
- b=Sy49BfZQy8EvxfScqhFnXFfw3ywoSO2ZKrktNcxbS3X0iZuFmlb1lxetMzWTn5S39d
- 9/xyM36oeyf3b4fSYFvoPhiENRFLkE6LhKLow8G4Fn+ws5zdIm7xfM5W6N4F87KwZjwJ
- rF/cIwLMOiKOdHzS7aM6F9m7ZJUp/vd8SDUz7QF38ivdVS8ft0+e32E2MstXBqskeqiJ
- RtwPSGlpW9IWkZzjtdtKJGQgf4rCcNjFOCX04oK1jNrySN9DPeLlzUSGp9vBhsRoO5y6
- 17CN+qzuYPbVSyd8ichUih7lsyMoICwaLCVkWDt1csWeEL028LBTkA4OWp6AZKS0BJeQ
- cyTA==
+ d=gmail.com; s=20230601; t=1764664162; x=1765268962; darn=lists.freedesktop.org;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kcgzur0HEUNJflCgkpwrwXAczgebSEaHIRN6YepyWwU=;
+ b=VYKPUHGSuRnqb9PodSbJ79vLuY+AdgiPr+dZvCzHH/Omex8tyAAc8xkqdNeG4kYwMX
+ HFu0JaVFe0BxNCOeRS6W+rQbrLTmHghCiUYPCg3TLEviKHNbcaMiir0E3U7cdW+6931N
+ Ia+OQpBZ5PLxMj9L7M05TtyCOKTXA99SCCSs6jxP14e5s75l75LV2OkUy+t/LxlG4OWm
+ XcVyJ+HTqF442UDiTIi59tzKccjpge0O42UomT20oITd9CdilzlTAYxlDdu1z6gk1Nys
+ p42q+fmbKvbJ5uySenv8UUNp+Imnb3RYy/y/b3ZsA7FzEKvneBWgr5jMglp2/94KzfgQ
+ cKvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764663978; x=1765268778;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=OSUsJtZmVyJFMumy5C75Kafona0a7fDMqaNggZdL9to=;
- b=BMPWeDokffd7+eQnmmbnnTB91XGbOZMZfjlVgNl/RkXo/FMrCMtT77ltfHkPDyOJGC
- 1GBSSNfIV8vCK3tJ+kEp/OmBYS/dVbwClIal+KDFA3AI5YyhdTYRJHAOco1REmZBTiCB
- CSTLyPVw2DU1MYvYKz+e5YFaD1c1D9LOCdnDBT24zx+F/vTYTlvFtZjhY4/aymt4zVh7
- I7kv0cd5LSmjq0F8RMJp5T0JmBZGuq9onHh1dTAybOv0jyjQZpVP4CFESwFDArfP9AOn
- nGKXA5Anzl36KAEA9zwIvVRQ3uFimR9ly7urBo1TycITItJnj/o5lBRmY8ksyB+yfq7I
- 9cfg==
-X-Gm-Message-State: AOJu0Yxxf+dQ6vxIve9YpC9355A891O1uIT1HOjbQfYn8Kns67Zzbgvv
- vZZLsp1rAH0YQsao5RYf2ymAYyrUOawemXSn816MJEwdz1hJe4hH6JqX
-X-Gm-Gg: ASbGncu/oU4TSn8CTD9oKv+9HDYT6wYxbt0vZoJDmovvrjvFmHuWQnPJx7eUFBB/7h2
- vvhd0CeHPv3stK8mS88iP1O0/307T4al3yTft8rE16acVNwhIQYjM5/OwqJADyzKf8+whvuSqET
- cDLE/ewkQytTd3RLLUUtpvUNTf8NtVvqNjmGh2x2DkvedK/0eEOIrlFthlbDEPHm5p6T880C2kt
- vK/Rtk0M2bcM3KH11y5vqz+9PKUE8BB2qfQYuAN6aQ5YBbs+izabmeeFkgFgNjZFFDMfBdh0NFb
- 8Sww8NTPFXXl1x3SdOKDNY1PRpJq0QIvdTTmXQrXT24PZntpMefdiAy/Mux6wLaU3+Z2GeCmMYm
- jz5hWwyLtQmLKioBgTA4zJcC6Ed0jcOdXnIqqeCjJSvuSZjGNTQXYTi+lXkah16XhwNudPiAqRG
- CtUpSBja3jkWXNlV1BdZlSEAwT3zXscgP64oSzPUSxPXXVWecD3Un920diNw803pp+cZ4=
-X-Google-Smtp-Source: AGHT+IGjykhC2zoR8hTlVXXe+Skv0zw1/qAkZP6sy5Z13nSnub9A43A+C4Id3mGwfG9St6ZgSaDchA==
-X-Received: by 2002:a05:6512:1154:b0:595:7876:7b78 with SMTP id
- 2adb3069b0e04-596a3eac7edmr14185853e87.15.1764663977468; 
- Tue, 02 Dec 2025 00:26:17 -0800 (PST)
-Received: from [192.168.1.168] (83-233-6-197.cust.bredband2.com.
- [83.233.6.197]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-596bf8b06bcsm4423727e87.25.2025.12.02.00.26.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Dec 2025 00:26:16 -0800 (PST)
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-Date: Tue, 02 Dec 2025 09:25:22 +0100
-Subject: [PATCH RESEND v2 6/6] drm/sitronix/st7571-spi: add support for SPI
- interface
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251202-st7571-split-v2-6-1e537a09e92f@gmail.com>
-References: <20251202-st7571-split-v2-0-1e537a09e92f@gmail.com>
-In-Reply-To: <20251202-st7571-split-v2-0-1e537a09e92f@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Javier Martinez Canillas <javierm@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Marcus Folkesson <marcus.folkesson@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4371;
- i=marcus.folkesson@gmail.com; h=from:subject:message-id;
- bh=M2AEWs1PlE4kHIlUXzPT49FDEzkCCXRLe8Ws9kBRYLc=;
- b=owEBbQKS/ZANAwAKAYiATm9ZXVIyAcsmYgBpLqKZU7jBbtSJJ40+LT2OBg5HNtGXFaAbA3sIp
- HshImbm5RyJAjMEAAEKAB0WIQQFUaLotmy1TWTBLGWIgE5vWV1SMgUCaS6imQAKCRCIgE5vWV1S
- MnZ0D/wNq7LJe20xNdz7/iBRa3JcaSkQNJoiRTfDZCoOYmepqgB1lQeJREVhw3MeGoaDuK9oyNF
- 1SuhtEKY9mE+VzC5Ke+7r5nKm8H/fwMMPqWYtsFMzAotYbCO2EsCH0+GYYh15c6m6RBhKkCmIse
- NQkOeeRklldJG4jq+POUr1uhaBVC0dska4F+tYL+pMefWaHtvy9qGuJV0KGviBiMRQXv1JPE7Kh
- GM5wVFnKZxvgNy3BW0ZZwZ7ZzTeMJ5jJ2T4Ka5hzLN5kBAH2X3A3H2kaQln2fs/Rpmzx+Mn7T50
- akLLeJMOcIm3Up4aepRr6mX/aW30Dd/IVcu+HOU70y9UZezwu1yDGmEWXoyZn7s4Peo9RGHnidW
- 1R/+AFxVyj8U1nbkUQtnoqa1VVDu/odnTUDs4w/u+2Z20OEzLzjtxjQLrY0r7FrAfaTiXMkGgAj
- aEPqDzJUcMvgNa+6kBsLtjy6m5DhiV74WpmE9G5KpmRWHhOXkGnd9sw8fJxVcUB310ZWOCHHulR
- X/UCtHrLXghCOYEo673Q0yI//JDtA4Ejb2R4JGmbu42iJfg6P+AIOUSb9ZcIfez5x/ifFJGZqY+
- 6+rfzpiOOkwmF4E0DGmd9ZXfj9XC3MlZiAH9Y7OncUd9kB92hEUrmvsmgUNoQ8KvcZcJutyQYUX
- GJWWzutJ+G4EHUA==
-X-Developer-Key: i=marcus.folkesson@gmail.com; a=openpgp;
- fpr=AB91D46C7E0F6E6FB2AB640EC0FE25D598F6C127
+ d=1e100.net; s=20230601; t=1764664162; x=1765268962;
+ h=to:references:message-id:content-transfer-encoding:cc:date
+ :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kcgzur0HEUNJflCgkpwrwXAczgebSEaHIRN6YepyWwU=;
+ b=iHCeaS8CxTKeY5Zjy02crbkjb/b2RwXGfRoNbXIkGO/cyV2r9OacOflc3AWZkQ9ieq
+ pTGYWGIxjfJoKLmTMdik8DJnmBxx+ONAsPgIWkHof4jSFr/n7WDchSBSYvE3NCUGG2Pj
+ MeGixOv8BfGUK+yb5bm7KP98WSGyw0TUugth1RAJ0DrbMZdaiO4NO8wxGDzPxPLo+bdm
+ reN4+CiVrVFFCaiWTz6IYsN8vuh+ILfH6Qp5mFjRLMha7T8i70NkbH3YfH3u7jiwJsx+
+ hMvf2dmrKU4ZulucBssKC1cfK5iMXPQ1OvVUhXbmoWXcwfnPtCDyAby4w/XxsXr4WgFU
+ k7iQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXb6Bov2TAxoJHZmR+LY6SSsstgeecmYOONytBGjPR/l5ceWm1AiTbJwXiJOVvVZ5k1pTdU+0GTTag=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwV6q8ZVDBB12IHdyOCjbmD4zorwFGh7K7s6P6oLC9R4GMy14R3
+ 1ZyOPAbYK8cH5USuZw7vuKGjibpEf0+wpo3b54hkJy4Uw8EpcOrN5fqQ
+X-Gm-Gg: ASbGnctOw/eNjXGOnhvbLZBFvc7BHydKMg/LhgjIklKzNltDAnkTb/pDU0fF4q+Ib80
+ O0OQk/G5dSu6NU2kC0YXzXNUYxmNJFcggBZ+nwUgwD46Bt8Y33hEj0y2c/NFF1o4JGrICi3e86I
+ 7Vvmz0BD7hjgM9mF1qP3b9JfVUDKm2lLqcKpbN9kMjBjHGQoA1TwAmPBv4iX1x3HHvPXQh1XHa8
+ bh/ht+sTQlbnfFoPUfyJMs6ppwtM42o5x+dETDHGZnBEcdN1S8NIB+FPPKRt4T2K2dant/Q+TVp
+ X8TjICn04/VSwFh8PxVT5cA+xZ8+g6xKnAOF1PQLr7wt8+ZdP9y9swE8Z0Bop61QEacl5JZ+nOM
+ hvl7VJhospvBLPOvklQzgl/+a5P7XZopZONV74EdcRWC5S1TmQBNIzN1CcYFmncw2RHrc8C1IqF
+ xYBKfF/7VQZ6kcLKoR04T36CXL+rlnWi3LI1fo+wGTLZonRfkKf/stI3xRzXQTFQORuK/7TZWck
+ P8=
+X-Google-Smtp-Source: AGHT+IHjEo3dTSPtXuaE0YTbWgrbA87SGNQIz1itunkq73Jcs/neO8kKvVs5IxH7P+kpLe+c3V08gg==
+X-Received: by 2002:a05:6402:280d:b0:647:62ba:123b with SMTP id
+ 4fb4d7f45d1cf-647892a97a6mr1662944a12.9.1764664161284; 
+ Tue, 02 Dec 2025 00:29:21 -0800 (PST)
+Received: from smtpclient.apple (89-66-237-154.dynamic.play.pl.
+ [89.66.237.154]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-64750a90e44sm14669936a12.14.2025.12.02.00.29.19
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 02 Dec 2025 00:29:20 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
+Subject: Re: [PATCH 01/11] dt-bindings: display: meson-dw-hdmi: Add compatible
+ for S4 HDMI controller
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <a71f24c9-1f40-45a1-8fdb-6075bbf89930@amlogic.com>
+Date: Tue, 2 Dec 2025 09:29:07 +0100
+Cc: Chuan Liu <chuan.liu@amlogic.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <F04DC684-AD64-447F-87EC-F503D411F25D@gmail.com>
+References: <20250110-drm-s4-v1-0-cbc2d5edaae8@amlogic.com>
+ <20250110-drm-s4-v1-1-cbc2d5edaae8@amlogic.com>
+ <3AC316FA-A633-4B6C-81BA-CCCA290E7F03@gmail.com>
+ <8c3b9fa4-326e-4791-8154-07b268faa132@amlogic.com>
+ <7703796D-35D4-4AD2-B7F8-B75D2BE0F7AD@gmail.com>
+ <a71f24c9-1f40-45a1-8fdb-6075bbf89930@amlogic.com>
+To: Ao Xu <ao.xu@amlogic.com>
+X-Mailer: Apple Mail (2.3826.700.81)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,144 +110,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for ST7561/ST7571 connected to SPI bus.
+Ao,
+Any chance for updated s4 hdmi series for 6.18?
+=20
 
-Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
----
- MAINTAINERS                           |  1 +
- drivers/gpu/drm/sitronix/Kconfig      | 12 ++++++
- drivers/gpu/drm/sitronix/Makefile     |  1 +
- drivers/gpu/drm/sitronix/st7571-spi.c | 76 +++++++++++++++++++++++++++++++++++
- 4 files changed, 90 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 66e9ffb757c8..c89e521cafa1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8083,6 +8083,7 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/display/sitronix,st7567.yaml
- F:	Documentation/devicetree/bindings/display/sitronix,st7571.yaml
- F:	drivers/gpu/drm/sitronix/st7571-i2c.c
-+F:	drivers/gpu/drm/sitronix/st7571-spi.c
- F:	drivers/gpu/drm/sitronix/st7571.c
- F:	drivers/gpu/drm/sitronix/st7571.h
- 
-diff --git a/drivers/gpu/drm/sitronix/Kconfig b/drivers/gpu/drm/sitronix/Kconfig
-index 0676a86661ca..2204250ab413 100644
---- a/drivers/gpu/drm/sitronix/Kconfig
-+++ b/drivers/gpu/drm/sitronix/Kconfig
-@@ -27,6 +27,18 @@ config DRM_ST7571_I2C
- 
- 	  if M is selected the module will be called st7571-i2c.
- 
-+config DRM_ST7571_SPI
-+	tristate "DRM support for Sitronix ST7567/ST7571 display panels (SPI)"
-+	depends on DRM_ST7571 && SPI
-+	select REGMAP_SPI
-+	help
-+	  Sitronix ST7571 is a driver and controller for 4-level gray
-+	  scale and monochrome dot matrix LCD panels.
+> Wiadomo=C5=9B=C4=87 napisana przez Ao Xu <ao.xu@amlogic.com> w dniu 21 =
+lis 2025, o godz. 03:55:
+>=20
+> Hi Piotr=EF=BC=8C
+>=20
+>     I will check this issue
+>=20
+> =E5=9C=A8 2025/11/19 18:27, Piotr Oniszczuk =E5=86=99=E9=81=93:
+>> [You don't often get email from piotr.oniszczuk@gmail.com. Learn why =
+this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>>=20
+>> [ EXTERNAL EMAIL ]
+>>=20
+>> Pls see inline
+>>=20
+>>> Wiadomo=C5=9B=C4=87 napisana przez Chuan Liu <chuan.liu@amlogic.com> =
+w dniu 19 lis 2025, o godz. 03:57:
+>>>=20
+>>> Hi Piotr,
+>>>=20
+>>>=20
+>>> On 11/18/2025 10:50 PM, Piotr Oniszczuk wrote:
+>>>> [You don't often get email from piotr.oniszczuk@gmail.com. Learn =
+why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>>>> [ EXTERNAL EMAIL ]
+>>>> Ao,
+>>>> Is there any chance to get this s4 drm hdmi series for current =
+6.18?
+>>>> (i tried backport this series to 6.18 but have some issues with =
+reparent vpu_0_sel to sysclk_b_sel)
+>>> Why do we need to reparent vpu_0_sel to sysclk_b_sel? is there any
+>>> background here?
+>> Well - it looks it is because bug....
+>> Martin Blumenstingl had perfect eye and catch typo in patch =
+https://lore.kernel.org/all/20250110-drm-s4-v1-11-cbc2d5edaae8@amlogic.com=
+/:
+>>=20
+>> By replacing:
+>> assigned-clock-parents =3D <&clkc_periphs CLKID_FCLK_DIV3>,
+>> <0>, /* Do Nothing */
+>> <&clkc_periphs CLKID_VPU_0>,
+>> <&clkc_periphs CLKID_FCLK_DIV4>,
+>> <0>, /* Do Nothing */
+>> <&clkc_periphs CLKID_VAPB_0>;
+>>=20
+>> with:
+>> assigned-clock-parents =3D <&clkc_pll CLKID_FCLK_DIV3>,
+>> <0>, /* Do Nothing */
+>> <&clkc_periphs CLKID_VPU_0>,
+>> <&clkc_pll CLKID_FCLK_DIV4>,
+>> <0>, /* Do Nothing */
+>> <&clkc_periphs CLKID_VAPB_0>;
+>>=20
+>> dmesg is like this https://termbin.com/6020
+>>=20
+>> So i'm getting hdmi working - but only when device boots _without_ =
+connected hdmi at boot (and connected later)
+>> If hdmi is connected at boot - boot hangs at:
+>>=20
+>>     0.341676] meson-dw-hdmi fe300000.hdmi-tx: Detected HDMI TX =
+controller v2.01a with HDCP (meson_dw_hdmi_phy)
+>> [    0.342750] meson-dw-hdmi fe300000.hdmi-tx: registered DesignWare =
+HDMI I2C bus driver
+>> [    0.343660] meson-drm ff000000.vpu: bound fe300000.hdmi-tx (ops =
+meson_dw_hdmi_ops)
+>> [    0.344832] [drm] Initialized meson 1.0.0 for ff000000.vpu on =
+minor 0
+>>=20
+>> FYI: It is after applying =
+https://patchwork.kernel.org/project/linux-amlogic/cover/20250110-drm-s4-v=
+1-0-cbc2d5edaae8@amlogic.com/ on mainline 6.18 (with some my adjustments =
+on this series required by changes in 6.18).
+>> For VPU clk changes see =
+https://github.com/warpme/minimyth2/blob/master/script/kernel/linux-6.18/f=
+iles/0312-drm-meson-add-vpu-clk-setting-for-S4.patch
+>> It is 6.18 adaptation of =
+https://patchwork.kernel.org/project/linux-amlogic/patch/20250110-drm-s4-v=
+1-9-cbc2d5edaae8@amlogic.com/
+>>=20
+>> As kernel hangs - i have limited caps to drill where root cause is.
+>>=20
+>> Maybe above hang is reason of my backports or missing any pre-req =
+required to get s4 drm working?
+>> Anyway - it will be good to test with updated to 6.18 series of Add =
+DRM support for Amlogic S4 (plus info about any pre-req required to get =
+s4 drm working)
+>>=20
+>>=20
+>>> The vpu_clk on S4 doesn't support sysclk_b_sel as one of its
+>>> selectable clock sources, so this reparent operation will definitely
+>>> fail. This has nothing to do with the kernel version.
+>>>=20
+>>>>> Wiadomo=C5=9B=C4=87 napisana przez Ao Xu via B4 Relay =
+<devnull+ao.xu.amlogic.com@kernel.org> w dniu 10 sty 2025, o godz. =
+06:39:
+>>>>>=20
+>>>>> From: Ao Xu <ao.xu@amlogic.com>
+>>>>>=20
+>>>>> Add devicetree document for S4 HDMI controller
+>>>>>=20
+>>>>> Signed-off-by: Ao Xu <ao.xu@amlogic.com>
+>>>>> ---
+>>>>> =
+Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml | 1 =
 +
-+	  DRM driver for Sitronix ST7565/ST7571 panels connected via SPI bus.
-+
-+	  if M is selected the module will be called st7571-spi.
-+
- config DRM_ST7586
- 	tristate "DRM support for Sitronix ST7586 display panels"
- 	depends on DRM && SPI
-diff --git a/drivers/gpu/drm/sitronix/Makefile b/drivers/gpu/drm/sitronix/Makefile
-index 8073bb776ff9..c631e3359c3d 100644
---- a/drivers/gpu/drm/sitronix/Makefile
-+++ b/drivers/gpu/drm/sitronix/Makefile
-@@ -1,4 +1,5 @@
- obj-$(CONFIG_DRM_ST7571)		+= st7571.o
- obj-$(CONFIG_DRM_ST7571_I2C)		+= st7571-i2c.o
-+obj-$(CONFIG_DRM_ST7571_SPI)		+= st7571-spi.o
- obj-$(CONFIG_DRM_ST7586)		+= st7586.o
- obj-$(CONFIG_DRM_ST7735R)		+= st7735r.o
-diff --git a/drivers/gpu/drm/sitronix/st7571-spi.c b/drivers/gpu/drm/sitronix/st7571-spi.c
-new file mode 100644
-index 000000000000..0206e9162f1c
---- /dev/null
-+++ b/drivers/gpu/drm/sitronix/st7571-spi.c
-@@ -0,0 +1,76 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Driver for Sitronix ST7571 connected via SPI bus.
-+ *
-+ * Copyright (C) 2025 Marcus Folkesson <marcus.folkesson@gmail.com>
-+ */
-+
-+#include <linux/spi/spi.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+
-+#include "st7571.h"
-+
-+static const struct regmap_config st7571_spi_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.can_multi_write = true,
-+};
-+
-+static int st7571_spi_probe(struct spi_device *spi)
-+{
-+	struct st7571_device *st7571;
-+	struct regmap *regmap;
-+
-+	regmap = devm_regmap_init_spi(spi, &st7571_spi_regmap_config);
-+	if (IS_ERR(regmap)) {
-+		return dev_err_probe(&spi->dev, PTR_ERR(regmap),
-+				     "Failed to initialize regmap\n");
-+	}
-+
-+	st7571 = st7571_probe(&spi->dev, regmap);
-+	if (IS_ERR(st7571))
-+		return dev_err_probe(&spi->dev, PTR_ERR(st7571),
-+				     "Failed to initialize regmap\n");
-+
-+	spi_set_drvdata(spi, st7571);
-+	return 0;
-+}
-+
-+static void st7571_spi_remove(struct spi_device *spi)
-+{
-+	struct st7571_device *st7571 = spi_get_drvdata(spi);
-+
-+	st7571_remove(st7571);
-+}
-+
-+static const struct of_device_id st7571_of_match[] = {
-+	{ .compatible = "sitronix,st7567", .data = &st7567_config },
-+	{ .compatible = "sitronix,st7571", .data = &st7571_config },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, st7571_of_match);
-+
-+static const struct spi_device_id st7571_spi_id[] = {
-+	{ "st7567", 0 },
-+	{ "st7571", 0 },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(spi, st7571_spi_id);
-+
-+static struct spi_driver st7571_spi_driver = {
-+	.driver = {
-+		.name = "st7571-spi",
-+		.of_match_table = st7571_of_match,
-+	},
-+	.probe = st7571_spi_probe,
-+	.remove = st7571_spi_remove,
-+	.id_table = st7571_spi_id,
-+};
-+
-+module_spi_driver(st7571_spi_driver);
-+
-+MODULE_AUTHOR("Marcus Folkesson <marcus.folkesson@gmail.com>");
-+MODULE_DESCRIPTION("DRM Driver for Sitronix ST7571 LCD controller (SPI)");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("DRM_ST7571");
-
--- 
-2.51.2
+>>>>> 1 file changed, 1 insertion(+)
+>>>>>=20
+>>>>> diff --git =
+a/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml =
+b/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
+>>>>> index =
+84d68b8cfccc86fd87a6a0fd2b70af12e51eb8a4..6e0a8369eee915fab55af24d450a6c40=
+e08def38 100644
+>>>>> --- =
+a/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
+>>>>> +++ =
+b/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml
+>>>>> @@ -55,6 +55,7 @@ properties:
+>>>>>           - const: amlogic,meson-gx-dw-hdmi
+>>>>>       - enum:
+>>>>>           - amlogic,meson-g12a-dw-hdmi # G12A (S905X2, S905Y2, =
+S905D2)
+>>>>> +          - amlogic,meson-s4-dw-hdmi # S4 (S905Y4)
+>>>>>=20
+>>>>>   reg:
+>>>>>     maxItems: 1
+>>>>>=20
+>>>>> --
+>>>>> 2.43.0
+>>>>>=20
+>>>>>=20
+>>>>>=20
+>>>>> _______________________________________________
+>>>>> linux-amlogic mailing list
+>>>>> linux-amlogic@lists.infradead.org
+>>>>> http://lists.infradead.org/mailman/listinfo/linux-amlogic
+>>>> _______________________________________________
+>>>> linux-amlogic mailing list
+>>>> linux-amlogic@lists.infradead.org
+>>>> http://lists.infradead.org/mailman/listinfo/linux-amlogic
 
