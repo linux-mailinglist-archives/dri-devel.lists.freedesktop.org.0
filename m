@@ -2,61 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD32AC99A24
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 00:55:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A87EC99B8B
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 02:20:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A18CB10E4F6;
-	Mon,  1 Dec 2025 23:55:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 225CA10E3B6;
+	Tue,  2 Dec 2025 01:20:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dfW4yiJU";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="f0RPY+7Z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CBC910E4ED;
- Mon,  1 Dec 2025 23:55:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764633344; x=1796169344;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=FtZA7Jthao9XeQt2GE5s8GZWlKJY9sY+ubOhLRmrHBU=;
- b=dfW4yiJUxcVlVAYG0UCMw6SNYDNfLONwoK5l9zD4/SOtlXWUCIM8k8gs
- 39eS6k2zWsK84chZnR1w49EmiqYIi+aR37ttNQmP7M/FKpYn6qlQsJqsn
- /lzWKjd/EzkLeOqT6QVmBEgcpcLCoG8BQ76tYexM53yAlLfBhyWjeq+db
- 13kLo8dYdNqX4CABqpN7zD6fH3fTO4JQiQFvNtInHQarDVVQOIWJSzP61
- H2p3IOZR5Tn4Cw3M7izSgNBOz4LWM5/gur6CruJzthPCn7OI8e2za/mCu
- i/ipFz5aMzuD9MvzNrVlHYz4DCadDWKigfB3m0pcxY9VXmUT6ODSJvkwC g==;
-X-CSE-ConnectionGUID: G4SZUa8wQYWp9eW23Xu4GQ==
-X-CSE-MsgGUID: sR1O3ahsRDiki5wnN4ezBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="89235941"
-X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; d="scan'208";a="89235941"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 15:55:44 -0800
-X-CSE-ConnectionGUID: ZsqyXj7IRSSACuhOkq04Vg==
-X-CSE-MsgGUID: KotZwrlqTMOurQNBmvZOZg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,241,1758610800"; d="scan'208";a="198410935"
-Received: from dut4086lnl.fm.intel.com ([10.105.10.149])
- by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 15:55:44 -0800
-From: Jonathan Cavitt <jonathan.cavitt@intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: saurabhg.gupta@intel.com, alex.zuo@intel.com, jonathan.cavitt@intel.com,
- joonas.lahtinen@linux.intel.com, matthew.brost@intel.com,
- jianxun.zhang@intel.com, shuicheng.lin@intel.com,
- dri-devel@lists.freedesktop.org, Michal.Wajdeczko@intel.com,
- michal.mrozek@intel.com, raag.jadav@intel.com, ivan.briano@intel.com,
- matthew.auld@intel.com, dafna.hirschfeld@intel.com
-Subject: [PATCH v28 4/4] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
-Date: Mon,  1 Dec 2025 23:55:44 +0000
-Message-ID: <20251201235539.236686-10-jonathan.cavitt@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251201235539.236686-6-jonathan.cavitt@intel.com>
-References: <20251201235539.236686-6-jonathan.cavitt@intel.com>
-MIME-Version: 1.0
+Received: from BL2PR02CU003.outbound.protection.outlook.com
+ (mail-eastusazon11011051.outbound.protection.outlook.com [52.101.52.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B15DA10E3B6
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 01:20:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tjwKmaKBA++LMRWWqeTlhJW71P0+PjMYH0gz34zvS4GkeswAAvjyKYPbV/KcMJfeL/Wtf99slLeAlQXIJsCh9tAYuxmpll10LC4qOKLHvdfvtPFIhat30KrEWDJnuL88t1YNLn+nWd6lyf/2QMszWEIpDT7HYLIpaRoMIb1muGnqmePaGOaQQ7gNaM84iPIda4Nd0/XvITWSfBf9/jxQmuWacq8Zdw98ScAyn6cVjPUUsjSwvyNiITNEWeUInjGEfbrzouyevLFacEDhN2nis6eKelOFpkSyHxhLA8DrKuMRxZRmU6zfgZBOPQAHUTOLIx2TLbHy++ImKaiAdaNj6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yYYHHcRTAxh3lxp7s6DTkWx0h3LRhMBtt7MXYWDAcr0=;
+ b=FLr18v2JQzTShY0t3Kq2jBj+35ZwY89BEBd7t7TKc8ED6rHjWl7LP7hufBUdl8joaQRTl0TY4fSGdmp1S2zz6jqZFgK4MV/PHERWEoFUZoYOXJxfMBvZ3UWBhgzbA3avXKY3ZIQ3rYAqmge2vApKDka6+j98r1hDVic2WmvQh857PLEVGw5Qn1tN3Z5Lk7Z0LySSCKtQY4CXAipu60P/UbbakCH9RmsoRnE9/5E5CkNcKC7IxjF7Kx0uqECLNj8iofP9YoTsNItj+EzO3jmxiUP7G8LM7RV0c7VPLirU1RCG04nmISPUgzMg6+ToFvBqF+dTVbEm2hc4qMb9yVTLhQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yYYHHcRTAxh3lxp7s6DTkWx0h3LRhMBtt7MXYWDAcr0=;
+ b=f0RPY+7ZtVVXO81kIEJQB1yICW3haapO5FiuWEHpnJ8xY0pcE1XEQXzdTLEH5JaVJneKXXjqjIjIUuifKUpMwxkhGEOSXlLVbcexjb5znRUymqxyTm/2txqZOU4jvTibY2uU+vmjGcE3Wr3WMuCVAYkp45zw3SnPvOQOH7k+Xge3+AU5GoZh4ida9U383d1B8mxsMczffYzQvZAHGH55Y4yWR+LijlWmpOLX34Xmy56rRJqzP9Asp1NIAuAj3t2pD8e1jOgw9yZEKWR0acYGTCUPuJ0hl+FqPdv3fFQlRRNOP0emj0jTCgm7pY783NQHR/7MNocovPp1U94ogvpnqg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com (2603:10b6:8:be::6) by
+ PH7PR12MB7940.namprd12.prod.outlook.com (2603:10b6:510:275::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Tue, 2 Dec
+ 2025 01:20:23 +0000
+Received: from DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::9e49:782:8e98:1ff1]) by DM4PR12MB9072.namprd12.prod.outlook.com
+ ([fe80::9e49:782:8e98:1ff1%3]) with mapi id 15.20.9366.012; Tue, 2 Dec 2025
+ 01:20:22 +0000
+Message-ID: <75de1c7d-58d2-4a0f-b86c-b3dae65fb52f@nvidia.com>
+Date: Tue, 2 Dec 2025 12:20:12 +1100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 1/6] mm/hmm: Add flag to track device private PFNs
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: linux-mm@kvack.org, balbirs@nvidia.com, akpm@linux-foundation.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ david@redhat.com, ziy@nvidia.com, apopple@nvidia.com,
+ lorenzo.stoakes@oracle.com, lyude@redhat.com, dakr@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, rcampbell@nvidia.com,
+ mpenttil@redhat.com, jgg@nvidia.com, willy@infradead.org
+References: <20251128044146.80050-1-jniethe@nvidia.com>
+ <20251128044146.80050-2-jniethe@nvidia.com>
+ <aSnrnyfr9fvst6eO@lstrano-desk.jf.intel.com>
+Content-Language: en-US
+From: Jordan Niethe <jniethe@nvidia.com>
+In-Reply-To: <aSnrnyfr9fvst6eO@lstrano-desk.jf.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BY5PR03CA0002.namprd03.prod.outlook.com
+ (2603:10b6:a03:1e0::12) To DM4PR12MB9072.namprd12.prod.outlook.com
+ (2603:10b6:8:be::6)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB9072:EE_|PH7PR12MB7940:EE_
+X-MS-Office365-Filtering-Correlation-Id: ac0476c7-2e9e-46a7-7856-08de3140f719
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ck11aDVmSmtCUVEzdWVxOXJTcVhRb01ISzFwMHNIWU9uOG9zNFBwYm9yUVo2?=
+ =?utf-8?B?YndpeGNlNDZzNFdWdkJqbFBtaEg3UHNFV3N6eHpNRmg4WDV1VkQwVWNGM1Fz?=
+ =?utf-8?B?Rm8reTMyWFo5WjBQZFkwT3VVK0NPQ29aTzA0azhUSXJMdlk5VjU4ZDllMTBa?=
+ =?utf-8?B?WlE4WlY4WDVuUjdBbk12NzU3QTB5R0dWOFIyVTlUbkhuR3N1a3k3bW1EekhO?=
+ =?utf-8?B?VDF5NHFwd2J3OW12ZUY0MWR6SVFUTnV4SzlLd0tRZWhwNVF6aGhHeC9QZERS?=
+ =?utf-8?B?UklxSWdrYlJDbXJoaE54dkY0UjUwTFpGb2VrVmlZcHRoUzlsTzJHMUJtU1Zp?=
+ =?utf-8?B?UGVzVW9NdlFtcGRMdklqTElXdXlJSWVLSnJnR2NMbklMTTA1VWZlRkttZlgz?=
+ =?utf-8?B?cTFROXBmc0x5VHkvUHFxY3IvVEVSUmNVSCtnSGNBdFFkOG5YVXpFZy9lVU96?=
+ =?utf-8?B?TFNtaktpR0xXMUdRVmZEdGxqOXkydHhNVWNyd0I2aURrUnhsS2NKZ3dHOTVP?=
+ =?utf-8?B?RGcrTFR3a0ZGa29VNTFwMUc5Q002MzRKSVVCL2dVWDBzTi96NE1Hdkszbms0?=
+ =?utf-8?B?MXQrdFlycm1OQTc2aFo3R3hMKzZVazRvNXdYeXdPbHNKeHB0NjBtNUo2YzNP?=
+ =?utf-8?B?SjlydlFFSzZhaVc4djAxdXV4VEZ1QnNnYk1PUTBJRllDNFNYdEFhN0JtZEVy?=
+ =?utf-8?B?NWFBZVRHalRoWFVzdm5PVGtYQjRDOVdZYUVrdTNGSnkzaUxYcWI2M0RWOUsr?=
+ =?utf-8?B?eFNsdDFUOFdHNHhQOEJxa2NYNTZLZUs1elZPRW9BbjhneHQ4TUNvLzlGL281?=
+ =?utf-8?B?RUdnbVlINTJsQ2c0NmxOaHZUT2dzMzlsM0hBaGtNU3BYMzU1Ynp0YzF1NW5t?=
+ =?utf-8?B?ZDdRU0NUb2NtTktUUW0yRTBXMWVnSnI4UUxNbXJjblFwR3RCZVl5bWN2N1pH?=
+ =?utf-8?B?YXQyUXBVZzlTbHVCaS84V1dZdXNPMnRXVzllekRrZFVzMnRhSDZUbGE4MVBH?=
+ =?utf-8?B?QlgySGZzelIzTGc1akc5L0M1TXJMTU1NL0E3SHVFaGlLNGJ3cnVxeExPTVNR?=
+ =?utf-8?B?ZGRCY2Q3R1BGelg2R1lSckNjaTAzSWVoOWR5RXplRU5NS0NwVVVDaDJuS0Uv?=
+ =?utf-8?B?d3hud0kwNzdNQ1BzYjFBNHo4VFpjNDRCeGR4dStKYXRjTnROTjdrSmRIKzRs?=
+ =?utf-8?B?d3I2cTNSRlRSNVBheHNDRnRlMGFlRWlKekh0aVVjc1gwUFBpMmx4bmRXZWJk?=
+ =?utf-8?B?eXRRcS9ITkQzWUExNXYvMnRJdXVCd29xd0pRQ2UvUCtHY3ArcVRPSE1PNmZy?=
+ =?utf-8?B?U0lUOXk2TGl5VHBqM1liY2VUVXcrWVh5MVdXTm52Zk1Kd3YrNVVnb3lqSjVY?=
+ =?utf-8?B?aXVvRy8rcFN6b09oS1k5Sis3aXlhRjB5UmljODdON2h1L01IYXdtOHNVNXNy?=
+ =?utf-8?B?WDBtd2V5ZFZCUCtCc21lVlZBNHp4UUtiQ2orcUU1TzVMenBBaWF2S1dvOCtV?=
+ =?utf-8?B?dXVvS0E5M3dia3dqVkFrVGZqWUJ5azE4clh1Y2xqUGVXY1VyekltMDB0UGdp?=
+ =?utf-8?B?U01rZ2kremNsd2llZVY1S2huS1NRa2Rqb3FtZS9xL04xNHhaSzFFM3pIRjNp?=
+ =?utf-8?B?KzlVS01KQmR2L0JET3o1TXdMdEtDcGFhQUhXNGkrSHdYbVEwaWpBdnorNGt0?=
+ =?utf-8?B?d1RjdjJRVWhvZjBFL3A5TDZibDc4YWpyUUwyVGpoN2NYaU4rc2FRMFV2a2I1?=
+ =?utf-8?B?NGtxcjlqbnd1bTRCcVd4eEVIRzBzTTFwd0lzUkVsUnNjbWVyNk1zbzBPMWxF?=
+ =?utf-8?B?dEpQcy9rY01rRjJWZnNnOTFXY2lpSzIzSW8wQVBVMDd2cERlOGlaOHBmMnVm?=
+ =?utf-8?B?ZzhFOEJmTlVLZSt5SmZ1Nmw3cmVidVJnN3ZTalJ1Y1RCM2ZvSzFGa0tFZ3hV?=
+ =?utf-8?Q?9FhRiJdLtoiv0rBOes9Jb4AVV/OfQf6W?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB9072.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VEV2ZHdDK1VNNEhNVnBCeGJaMmppL1Y2eU9nTnovYUdIdllXTllFdVR3ckhZ?=
+ =?utf-8?B?QzJ2TFovS3E1d2haZXlWb3VPWkQxNTAvaTYwemd4a3BsSVlGb3kwMjBxVkVW?=
+ =?utf-8?B?RDJiTW9rUFp6bkNML0pSa0VVZjJISTZ1dldpbms5SzMxemwvbm9IUWswS2hN?=
+ =?utf-8?B?MjdHSVo2VFdFVkRRMlZDemhCUERVTGl1T1RnSmd3b3NoNWhkSlVRQXp3U0Ns?=
+ =?utf-8?B?RHVRZDBWMVArcG1KMGpuWTJXb1lUVU9UcHFVUFN3RkFCRW1PT0c2NVFmaHQr?=
+ =?utf-8?B?V2lWU1ByZUlIckFvd3ozWDRMd1pCd1BVUGhmeHBibEJlb3phMnk5R21VN1Ev?=
+ =?utf-8?B?K0p3Qk1zY0VWTzBrSXV0d2xTckVxdWwrRmZoS3M4TjNKNVorUDQ5Y0wweGJm?=
+ =?utf-8?B?bzRiOHFkVzVUR3lKYjRBTFVFYVJSQk5Lc2F4eWlHVHVkZCtIZUxPWXhJZ0Yr?=
+ =?utf-8?B?REQyTSsxcUVDb1ZaeVdGN1gwcTdrYVYrUkxmbUNZdHhYcVVIUUlvd3g3WUpE?=
+ =?utf-8?B?VlRlTzkvTFp5bllpR2sxR1l0YWdMWFI3Qk1zcVY1MTVFY0ZLMjBqZURCU2ds?=
+ =?utf-8?B?dk5YRHFUWUZsNGIyYnZvMjNvKzc3MldGM050ZXUwTjlNZUZFSEhmeW4vOVda?=
+ =?utf-8?B?OUlISUtUSHpyNUoxVkdmUlJtVnZxYU05RkZrVDV3ZCtHR2FPNnNQVkd5OGFI?=
+ =?utf-8?B?cG1BMWdjWmJpTG9DenRrVmJ4QnJEcUZGMXF5V0RYRmwzdEtPNW8reHF5a0Iz?=
+ =?utf-8?B?WFlLamxHRGV5L056U0Mvc0VyRmplUThFZU9GclI4SEdjc09wWUtDTlJNQWxh?=
+ =?utf-8?B?aENDbHQ5VHJZeGlBdHZkQVdzZW1uZEV2cW1ZWjVscHJXaUFQV3JjaXdlK2ph?=
+ =?utf-8?B?bjN0QnE3YTh0ZzdrMUpqVCs3NmJvWlgzQ2xCUjFkdHpsd1dKanMwTFE2NVB6?=
+ =?utf-8?B?aWJ5cWJjQmZFWXY0Rks5MUpHeXMwY1RaQWcyNEtBRHY0SEdrdnViZUp2ZDhM?=
+ =?utf-8?B?Mzd5aWt5SHJyWU9scjd5MmladnVjOThYRlZkNXUzU0U0WVplM3pnMXdIY2Q2?=
+ =?utf-8?B?NUdWRWFHVnNNQ0h0WkVQa2tjUUVTbzloTkxGQUxKUmxTTVdrMG5TZ2crL0Nz?=
+ =?utf-8?B?T2RTWGFKcy9xMTFEYnlUNHRUM3o3SE9jWkJRZHhpRWM3ZVJrMDRMZElhdXpm?=
+ =?utf-8?B?ZVF2a3I5dkEvTExXMm1OSGVlTThDejlScy85NnRleVkwaFpDWHlaS2F4Wi8y?=
+ =?utf-8?B?VW1ZSG9CYW5DZ3VhOFBDNE9GSTg0bFV1eTJ1c1Q2N2ZlNWJnbHZwZ25GQ0M3?=
+ =?utf-8?B?bWVCbXFZQi83QW9kcERIbEVOcVlJTWxJSUdxTWhxSHc4VUJ6a3dwSDdLUU1N?=
+ =?utf-8?B?OHNZZHJUWWgvN0NWL2ZNRllVV0dEQ1pGSUhCd2VYVTQyN2gzQ0dIY0kra1JP?=
+ =?utf-8?B?WUlEbEpRUXQ2eFdieHZiVlYvOXRjcERnbWl4ZjRabXM0N0JEZGh2MmM3SU1X?=
+ =?utf-8?B?S3hTM2ZSOHZoRmJyRjUwTWEzWDhoUkgzY3BlUVVWS0k0bTdYTWg4bWVhaith?=
+ =?utf-8?B?VTNnZi90KzJJVitiQnVTMnpkaGNyd0dYVWFXNzRtVkdxTmduemxpTmZ2ejVj?=
+ =?utf-8?B?b0ptTWtjU1IwNlBHdEV6dnZWaG5vVEdlZDNZcWRKOSt0R1dXZHAxbVpVL0hi?=
+ =?utf-8?B?bGRhZ1BzcFB1QkRNNjdVUmJ0N1YyWk9YbmtlWngzbTNXWTNIeVpQNFlZbTlo?=
+ =?utf-8?B?c0U1MFB3bi9nZEI4VFZvRHo5ZG1wS3ZzOG43V1gwNTRQMnBoRDFVL1AraElD?=
+ =?utf-8?B?Z3Bjb2M0cVROSkxnSWdPa1llcnVYMEZzT3hyTTdpOFJqR1hjR0Q4TDFvQlpB?=
+ =?utf-8?B?WmMzMjVhTVFuc244Z1BVQVRtY3pzSnc4YnVyOVY4d09qRUg2aXpPMnlRWEtn?=
+ =?utf-8?B?MmhtMjY3a1dYczB3QXI3cm1sNmxZbUpWdmIySkVwL1FsaGJLUFhnUzh4OXF4?=
+ =?utf-8?B?bms1ZXpUbVZyZHlCV1NNdG4zaGtTZ1RWOHhnU0swMVgwb0J5dGVsbnpGTmNw?=
+ =?utf-8?B?VlJjbTA4N3JXUXBEc2hJNFRSanE5TEIzUDI0cWNCcERBYlRRbC9zWXFLd1J2?=
+ =?utf-8?Q?kaEZnTbYgJCoh+i7TOzlGJNeS?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac0476c7-2e9e-46a7-7856-08de3140f719
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB9072.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 01:20:22.8616 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /MXbb6UvV9yDAG3YBE16SGHIalUZJhUM7ge0J7Hg1mZwwPalnrMQdcATK2l1J/fJnJZbFq3xzulnbow90n3K/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7940
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,253 +169,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for userspace to request a list of observed faults
-from a specified VM.
+Hi,
 
-v2:
-- Only allow querying of failed pagefaults (Matt Brost)
+On 29/11/25 05:36, Matthew Brost wrote:
+> On Fri, Nov 28, 2025 at 03:41:41PM +1100, Jordan Niethe wrote:
+>> A future change will remove device private pages from the physical
+>> address space. This will mean that device private pages no longer have
+>> normal PFN and must be handled separately.
+>>
+>> Prepare for this by adding a HMM_PFN_DEVICE_PRIVATE flag to indicate
+>> that a hmm_pfn contains a PFN for a device private page.
+>>
+>> Signed-off-by: Jordan Niethe <jniethe@nvidia.com>
+>> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+>> ---
+>>   include/linux/hmm.h | 2 ++
+>>   mm/hmm.c            | 2 +-
+>>   2 files changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+>> index db75ffc949a7..df571fa75a44 100644
+>> --- a/include/linux/hmm.h
+>> +++ b/include/linux/hmm.h
+>> @@ -23,6 +23,7 @@ struct mmu_interval_notifier;
+>>    * HMM_PFN_WRITE - if the page memory can be written to (requires HMM_PFN_VALID)
+>>    * HMM_PFN_ERROR - accessing the pfn is impossible and the device should
+>>    *                 fail. ie poisoned memory, special pages, no vma, etc
+>> + * HMM_PFN_DEVICE_PRIVATE - the pfn field contains a DEVICE_PRIVATE pfn.
+>>    * HMM_PFN_P2PDMA - P2P page
+>>    * HMM_PFN_P2PDMA_BUS - Bus mapped P2P transfer
+>>    * HMM_PFN_DMA_MAPPED - Flag preserved on input-to-output transformation
+>> @@ -40,6 +41,7 @@ enum hmm_pfn_flags {
+>>   	HMM_PFN_VALID = 1UL << (BITS_PER_LONG - 1),
+>>   	HMM_PFN_WRITE = 1UL << (BITS_PER_LONG - 2),
+>>   	HMM_PFN_ERROR = 1UL << (BITS_PER_LONG - 3),
+>> +	HMM_PFN_DEVICE_PRIVATE = 1UL << (BITS_PER_LONG - 7),
+>>   	/*
+>>   	 * Sticky flags, carried from input to output,
+>>   	 * don't forget to update HMM_PFN_INOUT_FLAGS
+>> diff --git a/mm/hmm.c b/mm/hmm.c
+>> index 87562914670a..1cff68ade1d4 100644
+>> --- a/mm/hmm.c
+>> +++ b/mm/hmm.c
+>> @@ -262,7 +262,7 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
+>>   		if (is_device_private_entry(entry) &&
+>>   		    page_pgmap(pfn_swap_entry_to_page(entry))->owner ==
+>>   		    range->dev_private_owner) {
+>> -			cpu_flags = HMM_PFN_VALID;
+>> +			cpu_flags = HMM_PFN_VALID | HMM_PFN_DEVICE_PRIVATE;
+> 
+> I think you’ll need to set this flag in hmm_vma_handle_absent_pmd as
+> well. That function handles 2M device pages. Support for 2M device
+> pages, I believe, will be included in the 6.19 PR, but
+> hmm_vma_handle_absent_pmd is already upstream.
 
-v3:
-- Remove unnecessary size parameter from helper function, as it
-  is a property of the arguments. (jcavitt)
-- Remove unnecessary copy_from_user (Jainxun)
-- Set address_precision to 1 (Jainxun)
-- Report max size instead of dynamic size for memory allocation
-  purposes.  Total memory usage is reported separately.
+Thanks Matt, I agree. There will be a few more updates to this
+series for 2MB device pages - I'll send the next revision on top of that
+support.
 
-v4:
-- Return int from xe_vm_get_property_size (Shuicheng)
-- Fix memory leak (Shuicheng)
-- Remove unnecessary size variable (jcavitt)
+Jordan.
 
-v5:
-- Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
-- Update fill_property_pfs to eliminate need for kzalloc (Jianxun)
-
-v6:
-- Repair and move fill_faults break condition (Dan Carpenter)
-- Free vm after use (jcavitt)
-- Combine assertions (jcavitt)
-- Expand size check in xe_vm_get_faults_ioctl (jcavitt)
-- Remove return mask from fill_faults, as return is already -EFAULT or 0
-  (jcavitt)
-
-v7:
-- Revert back to using xe_vm_get_property_ioctl
-- Apply better copy_to_user logic (jcavitt)
-
-v8:
-- Fix and clean up error value handling in ioctl (jcavitt)
-- Reapply return mask for fill_faults (jcavitt)
-
-v9:
-- Future-proof size logic for zero-size properties (jcavitt)
-- Add access and fault types (Jianxun)
-- Remove address type (Jianxun)
-
-v10:
-- Remove unnecessary switch case logic (Raag)
-- Compress size get, size validation, and property fill functions into a
-  single helper function (jcavitt)
-- Assert valid size (jcavitt)
-
-v11:
-- Remove unnecessary else condition
-- Correct backwards helper function size logic (jcavitt)
-
-v12:
-- Use size_t instead of int (Raag)
-
-v13:
-- Remove engine class and instance (Ivan)
-
-v14:
-- Map access type, fault type, and fault level to user macros (Matt
-  Brost, Ivan)
-
-v15:
-- Remove unnecessary size assertion (jcavitt)
-
-v16:
-- Nit fixes (Matt Brost)
-
-v17:
-- Rebase and refactor (jcavitt)
-
-v18:
-- Do not copy_to_user in critical section (Matt Brost)
-- Assert args->size is multiple of sizeof(struct xe_vm_fault) (Matt
-  Brost)
-
-Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-Suggested-by: Matthew Brost <matthew.brost@intel.com>
-Cc: Jainxun Zhang <jianxun.zhang@intel.com>
-Cc: Shuicheng Lin <shuicheng.lin@intel.com>
-Cc: Raag Jadav <raag.jadav@intel.com>
-Cc: Ivan Briano <ivan.briano@intel.com>
----
- drivers/gpu/drm/xe/xe_device.c |   2 +
- drivers/gpu/drm/xe/xe_vm.c     | 119 +++++++++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_vm.h     |   3 +
- 3 files changed, 124 insertions(+)
-
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index 1197f914ef77..69baf01f008a 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -207,6 +207,8 @@ static const struct drm_ioctl_desc xe_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(XE_MADVISE, xe_vm_madvise_ioctl, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(XE_VM_QUERY_MEM_RANGE_ATTRS, xe_vm_query_vmas_attrs_ioctl,
- 			  DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(XE_VM_GET_PROPERTY, xe_vm_get_property_ioctl,
-+			  DRM_RENDER_ALLOW),
- };
- 
- static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index dc6c36191274..ccc0aa3afe58 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -3850,6 +3850,125 @@ int xe_vm_bind_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
- 	return err;
- }
- 
-+/*
-+ * Map access type, fault type, and fault level from current bspec
-+ * specification to user spec abstraction.  The current mapping is
-+ * 1-to-1, but if there is ever a hardware change, we will need
-+ * this abstraction layer to maintain API stability through the
-+ * hardware change.
-+ */
-+static u8 xe_to_user_access_type(u8 access_type)
-+{
-+	return access_type;
-+}
-+
-+static u8 xe_to_user_fault_type(u8 fault_type)
-+{
-+	return fault_type;
-+}
-+
-+static u8 xe_to_user_fault_level(u8 fault_level)
-+{
-+	return fault_level;
-+}
-+
-+static int fill_faults(struct xe_vm *vm,
-+		       struct drm_xe_vm_get_property *args)
-+{
-+	struct xe_vm_fault __user *usr_ptr = u64_to_user_ptr(args->data);
-+	struct xe_vm_fault *fault_list, fault_entry;
-+	struct xe_vm_fault_entry *entry;
-+	int ret = 0, i = 0, count, entry_size;
-+
-+	entry_size = sizeof(struct xe_vm_fault);
-+	count = args->size / entry_size;
-+
-+	fault_list = kcalloc(count, sizeof(struct xe_vm_fault), GFP_KERNEL);
-+	if (!fault_list)
-+		return -ENOMEM;
-+
-+	spin_lock(&vm->faults.lock);
-+	list_for_each_entry(entry, &vm->faults.list, list) {
-+		if (i == count)
-+			break;
-+
-+		memset(&fault_entry, 0, entry_size);
-+
-+		fault_entry.address = entry->address;
-+		fault_entry.address_precision = entry->address_precision;
-+
-+		fault_entry.access_type = xe_to_user_access_type(entry->access_type);
-+		fault_entry.fault_type = xe_to_user_fault_type(entry->fault_type);
-+		fault_entry.fault_level = xe_to_user_fault_level(entry->fault_level);
-+
-+		memcpy(&fault_list[i], &fault_entry, entry_size);
-+
-+		i++;
-+	}
-+	spin_unlock(&vm->faults.lock);
-+
-+	ret = copy_to_user(usr_ptr, fault_list, args->size);
-+
-+	kfree(fault_list);
-+	return ret ? -EFAULT : 0;
-+}
-+
-+static int xe_vm_get_property_helper(struct xe_vm *vm,
-+				     struct drm_xe_vm_get_property *args)
-+{
-+	size_t size;
-+
-+	switch (args->property) {
-+	case DRM_XE_VM_GET_PROPERTY_FAULTS:
-+		spin_lock(&vm->faults.lock);
-+		size = size_mul(sizeof(struct xe_vm_fault), vm->faults.len);
-+		spin_unlock(&vm->faults.lock);
-+
-+		if (!args->size) {
-+			args->size = size;
-+			return 0;
-+		}
-+
-+		/*
-+		 * Number of faults may increase between calls to
-+		 * xe_vm_get_property_ioctl, so just report the number of
-+		 * faults the user requests if it's less than or equal to
-+		 * the number of faults in the VM fault array.
-+		 *
-+		 * We should also at least assert that the args->size value
-+		 * is a multiple of the xe_vm_fault struct size.
-+		 */
-+		if (args->size > size || args->size % sizeof(struct xe_vm_fault))
-+			return -EINVAL;
-+
-+		return fill_faults(vm, args);
-+	}
-+	return -EINVAL;
-+}
-+
-+int xe_vm_get_property_ioctl(struct drm_device *drm, void *data,
-+			     struct drm_file *file)
-+{
-+	struct xe_device *xe = to_xe_device(drm);
-+	struct xe_file *xef = to_xe_file(file);
-+	struct drm_xe_vm_get_property *args = data;
-+	struct xe_vm *vm;
-+	int ret = 0;
-+
-+	if (XE_IOCTL_DBG(xe, args->reserved[0] || args->reserved[1] ||
-+			     args->reserved[2]))
-+		return -EINVAL;
-+
-+	vm = xe_vm_lookup(xef, args->vm_id);
-+	if (XE_IOCTL_DBG(xe, !vm))
-+		return -ENOENT;
-+
-+	ret = xe_vm_get_property_helper(vm, args);
-+
-+	xe_vm_put(vm);
-+	return ret;
-+}
-+
- /**
-  * xe_vm_bind_kernel_bo - bind a kernel BO to a VM
-  * @vm: VM to bind the BO to
-diff --git a/drivers/gpu/drm/xe/xe_vm.h b/drivers/gpu/drm/xe/xe_vm.h
-index e9f2de4189e0..f2675ec9e8c4 100644
---- a/drivers/gpu/drm/xe/xe_vm.h
-+++ b/drivers/gpu/drm/xe/xe_vm.h
-@@ -210,6 +210,9 @@ int xe_vm_destroy_ioctl(struct drm_device *dev, void *data,
- int xe_vm_bind_ioctl(struct drm_device *dev, void *data,
- 		     struct drm_file *file);
- int xe_vm_query_vmas_attrs_ioctl(struct drm_device *dev, void *data, struct drm_file *file);
-+int xe_vm_get_property_ioctl(struct drm_device *dev, void *data,
-+			     struct drm_file *file);
-+
- void xe_vm_close_and_put(struct xe_vm *vm);
- 
- static inline bool xe_vm_in_fault_mode(struct xe_vm *vm)
--- 
-2.43.0
+> 
+> Matt
+> 
+>>   			if (is_writable_device_private_entry(entry))
+>>   				cpu_flags |= HMM_PFN_WRITE;
+>>   			new_pfn_flags = swp_offset_pfn(entry) | cpu_flags;
+>> -- 
+>> 2.34.1
+>>
 
