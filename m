@@ -2,81 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE76C9D173
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 22:31:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E5AC9D17F
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 22:31:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56DE210E6DA;
-	Tue,  2 Dec 2025 21:31:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A419E10E6DC;
+	Tue,  2 Dec 2025 21:31:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="A+JjGU5A";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qZpOAkdr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
- [209.85.210.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E80B10E6DA
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 21:31:10 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id
- d2e1a72fcca58-7d26a7e5639so6668876b3a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 13:31:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764711070; x=1765315870; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=yH5BeOmwEsubUzKm+mTo1kbqOHNBbe73SWrF7jJ44Lo=;
- b=A+JjGU5AVs8ryISQlTdOVwzJPPy97bZLdAcYTZ01tn3thSWfncqJiyS4e4XzWPybpf
- QFmnGGmno7L3WBzyWeR9r83uF4oR7lSRm10msEL7tmVKzVxJeRgW9nKi/dzUGcqb5ZrF
- wMsNT5iUlHBnF2OqhgTyw1DbMyUSmBdvDtv/dln1sddnsVENpmrVZaPrMSOrBUHC3oB+
- hOZhlmg+L2++tCQJ3xKfip/9Biq9Fs+0IiKk6C7iRDnRtLebg3DYDO7+WsY3xInBgp10
- fdms020+arWxZIuLp40t/i94+vuxgqnJu4M1h0Z8iLx01BlZpE3vB2ftHhSKVWT9dp+3
- Iq7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764711070; x=1765315870;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yH5BeOmwEsubUzKm+mTo1kbqOHNBbe73SWrF7jJ44Lo=;
- b=NNyy5tCk1u44codI/iaig8z6Xrv22gELiHyHwZplwveCRbWzaaOnGZMWLm3lMMXNrj
- fdt3nfQoH32DiqgG6na3ndR+fx8ZrIRXrR3AeyJ1hTNJBroiWT0RiCEHxUFN5xeMP1mV
- NlGGJDwath6xZDCHoatRzioFWQX42DQ9wHxI4Dmwpwe6CxOq6Pwfj29GJi+ZlM2JSV0G
- Jc3h907tKftFCx5BfLKp88f0uJ2ua5TQd7BjRAEEbVuNm4TFBmsUXGhspBO7WNhDPYtV
- pPbxjuFEMfqVHKyDq5tZaV3rLc9hzbqwIJQtIggUQELeF1vQLga+RiG/8GXJsGQ+NyEg
- NaiQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVqyl1JmkYWiLYJCAhU/tkgwgYGl0OAvC+uO9E1v1m8ONEqNWPcFNWVe6hyAod2M2oUXdCDL1+iSlM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx9HnJLsST9Z3yQM+mqjaZ0AXd1cqHAzPj5QJPz2qDgONFVl4Uh
- NevFhMcWOwQ90eJf68fygj+8Er0AihOQ7N+K4S8tYFH2+MYqN+x2MFtE
-X-Gm-Gg: ASbGncsX/9w2bVNGtuqoCJILIiyrFSEMiU9uDkb659X6k3lbzXbNo/+llwJki9TTzo9
- /JMM1qYRidd+2dWNrflBJh0OODcAX5uDExSgKkJbTh7B16eMhu7XZ+H2GZOU7BNbSrNhV6ln0Az
- nBjFweLNzKyXt28k46zT0Cpa9clGm1Gelq8QDiaVL9bX2H+qhcSlcWSXrplUVQ8ChaIRplLBggN
- bwlNK7YTsEQdjhM36gYCMdPWlw5KFbJr4MhvTxQl61N9+ebg9ENerCzKg9c8MX/iUnmBtQGbOQm
- oK/3zFtpVQEVdVsGz7WlHLYtKZN5hFfwKzzqyD8UnvwahJd9GtJwPmDKBE19vUGFktujEJY9Aqk
- XPBCrPKzc1IBSi/FJo5Cu55k2h2/X72sNvRF/gMMVekoMbWO1rbWEdVULwDEMjxnV7CCNn6ehW0
- BQww1qnyAi2jhey9KHiNxgYRx8a/yaxNq7cvNjbdq2y3k=
-X-Google-Smtp-Source: AGHT+IFLhtBquNW3xKloVQHsX1MZpv5u7WEmUkGX/XE0NZ6v4BvhM0KL2YOk9v5fch5S241BeyuiBw==
-X-Received: by 2002:a05:6a00:88b:b0:7aa:d434:69d6 with SMTP id
- d2e1a72fcca58-7c58c7a3e40mr43738305b3a.10.1764711069957; 
- Tue, 02 Dec 2025 13:31:09 -0800 (PST)
-Received: from localhost (78.31.125.34.bc.googleusercontent.com.
- [34.125.31.78]) by smtp.gmail.com with UTF8SMTPSA id
- d2e1a72fcca58-7d15e6e5e2dsm17742194b3a.35.2025.12.02.13.31.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Dec 2025 13:31:09 -0800 (PST)
-From: Chia-I Wu <olvaffe@gmail.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Grant Likely <grant.likely@linaro.org>,
- Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, ashley.smith@collabora.com
-Subject: [PATCH v2] drm/panthor: fix queue_reset_timeout_locked
-Date: Tue,  2 Dec 2025 13:31:02 -0800
-Message-ID: <20251202213102.3197965-1-olvaffe@gmail.com>
-X-Mailer: git-send-email 2.52.0.158.g65b55ccf14-goog
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91DA210E6DC
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 21:31:42 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 94D566019A;
+ Tue,  2 Dec 2025 21:31:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C88AAC4CEF1;
+ Tue,  2 Dec 2025 21:31:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764711101;
+ bh=LIsUpX46nz8hXTPl3ASkyok9wqGryCPo8iyJRm2nQFw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=qZpOAkdrwJACnUdpSzBSxrBly0k1US5uT5Ymfi9n9+1mFsYFyzlLYBsIsi9UpS1mN
+ fGIzYhpWlYKpBnwleO7L8b7Z0UvRdyuFsmX7ELNxfFGU7eL9RLi4+fEeTAIxaGlzDF
+ SHNLcW47XrKMVLhSWJ+bNXakkZSeLRENfdA5NJijFV95B/n1n5c2FRByp4wRQO7yrV
+ KW8Yf9cdElo4G89A2o3mQdHTiZusBL0Zp009LTvd1fa+4NnTbe0kVAN4/But40i6nN
+ OiQF8BJKJ0giZObUop6+rMJMXMmMmiBGbGwfhnhFmtm+UKjUvqeXvM96F11YGIv0VB
+ mXUpj1nq9//hQ==
+Date: Tue, 2 Dec 2025 15:37:43 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+ Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, 
+ Oded Gabbay <ogabbay@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, mhi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-wireless@vger.kernel.org, 
+ ath11k@lists.infradead.org, ath12k@lists.infradead.org, netdev@vger.kernel.org,
+ mayank.rana@oss.qualcomm.com, quic_vbadigan@quicinc.com,
+ vivek.pernamitta@oss.qualcomm.com
+Subject: Re: [PATCH 3/4] net: mhi_net: Implement runtime PM support
+Message-ID: <nj4ovttt4i7hsqfdv5zhdotxrx3upxfq4ozuligwuheubnsmkd@e6bwzgkn55kl>
+References: <20251201-mhi_runtimepm-v1-0-fab94399ca75@oss.qualcomm.com>
+ <20251201-mhi_runtimepm-v1-3-fab94399ca75@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251201-mhi_runtimepm-v1-3-fab94399ca75@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,63 +69,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-queue_check_job_completion calls queue_reset_timeout_locked to reset the
-timeout when progress is made. We want the reset to happen when the
-timeout is running, not when it is suspended.
+On Mon, Dec 01, 2025 at 06:13:19PM +0530, Krishna Chaitanya Chundru wrote:
+> Add runtime power management support to the mhi_net driver to align with
+> the updated MHI framework, which expects runtime PM to be enabled by client
+> drivers. This ensures the controller remains active during data transfers
+> and can autosuspend when idle.
 
-Fixes: 345c5b7cc0f85 ("drm/panthor: Make the timeout per-queue instead of per-job")
-Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+This last sentence hints at there being an actual problem with the
+current code. Perhaps we do this because it's the right thing to do,
+perhaps we're making this change because devices are crashing and
+burning?
 
----
-v2: reset queue->timeout.remaining when suspended (Boris)
----
- drivers/gpu/drm/panthor/panthor_sched.c | 26 +++++++++++++------------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+Start your commit message with making the reason for your change clear.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index 389d508b3848e..95ae42168ce18 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -1052,18 +1052,6 @@ group_is_idle(struct panthor_group *group)
- 	return hweight32(inactive_queues) == group->queue_count;
- }
- 
--static void
--queue_reset_timeout_locked(struct panthor_queue *queue)
--{
--	lockdep_assert_held(&queue->fence_ctx.lock);
--
--	if (queue->timeout.remaining != MAX_SCHEDULE_TIMEOUT) {
--		mod_delayed_work(queue->scheduler.timeout_wq,
--				 &queue->timeout.work,
--				 msecs_to_jiffies(JOB_TIMEOUT_MS));
--	}
--}
--
- static bool
- group_can_run(struct panthor_group *group)
- {
-@@ -1080,6 +1068,20 @@ queue_timeout_is_suspended(struct panthor_queue *queue)
- 	return queue->timeout.remaining != MAX_SCHEDULE_TIMEOUT;
- }
- 
-+static void
-+queue_reset_timeout_locked(struct panthor_queue *queue)
-+{
-+	lockdep_assert_held(&queue->fence_ctx.lock);
-+
-+	if (queue_timeout_is_suspended(queue)) {
-+		queue->timeout.remaining = msecs_to_jiffies(JOB_TIMEOUT_MS);
-+	} else {
-+		mod_delayed_work(queue->scheduler.timeout_wq,
-+				 &queue->timeout.work,
-+				 msecs_to_jiffies(JOB_TIMEOUT_MS));
-+	}
-+}
-+
- static void
- queue_suspend_timeout_locked(struct panthor_queue *queue)
- {
--- 
-2.52.0.158.g65b55ccf14-goog
+Ask yourself https://en.wikipedia.org/wiki/Five_whys when you come up
+with your problem description.
 
+> 
+> The driver now uses pm_runtime_get() and pm_runtime_put() around
+> transmit, receive, and buffer refill operations. Runtime PM is initialized
+> during probe with autosuspend enabled and a 100ms delay. The device is
+> marked with pm_runtime_no_callbacks() to notify PM framework that there
+> are no callbacks for this driver.
+
+This looks like an AI prompt, does it add value to the commit message?
+
+It can mostly be summarized as "Implement pm_runtime in the driver". The
+only part that's not obvious is the 100ms autosuspend delay, but you
+skipped explaining why you did choose this number.
+
+> 
+> Signed-off-by: Krishna Chaitanya Chundru <krishna.chundru@oss.qualcomm.com>
+> ---
+>  drivers/net/mhi_net.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/drivers/net/mhi_net.c b/drivers/net/mhi_net.c
+> index ae169929a9d8e449b5a427993abf68e8d032fae2..c5c697f29e69e9bc874b6cfff4699de12a4af114 100644
+> --- a/drivers/net/mhi_net.c
+> +++ b/drivers/net/mhi_net.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/mod_devicetable.h>
+>  #include <linux/module.h>
+>  #include <linux/netdevice.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/skbuff.h>
+>  #include <linux/u64_stats_sync.h>
+>  
+> @@ -76,6 +77,7 @@ static netdev_tx_t mhi_ndo_xmit(struct sk_buff *skb, struct net_device *ndev)
+>  	struct mhi_device *mdev = mhi_netdev->mdev;
+>  	int err;
+>  
+> +	pm_runtime_get(&mdev->dev);
+
+What happened to your error handling?
+
+Regards,
+Bjorn
+
+>  	err = mhi_queue_skb(mdev, DMA_TO_DEVICE, skb, skb->len, MHI_EOT);
+>  	if (unlikely(err)) {
+>  		net_err_ratelimited("%s: Failed to queue TX buf (%d)\n",
+> @@ -94,6 +96,7 @@ static netdev_tx_t mhi_ndo_xmit(struct sk_buff *skb, struct net_device *ndev)
+>  	u64_stats_inc(&mhi_netdev->stats.tx_dropped);
+>  	u64_stats_update_end(&mhi_netdev->stats.tx_syncp);
+>  
+> +	pm_runtime_put_autosuspend(&mdev->dev);
+>  	return NETDEV_TX_OK;
+>  }
+>  
+> @@ -261,6 +264,7 @@ static void mhi_net_ul_callback(struct mhi_device *mhi_dev,
+>  	}
+>  	u64_stats_update_end(&mhi_netdev->stats.tx_syncp);
+>  
+> +	pm_runtime_put_autosuspend(&mdev->dev);
+>  	if (netif_queue_stopped(ndev) && !mhi_queue_is_full(mdev, DMA_TO_DEVICE))
+>  		netif_wake_queue(ndev);
+>  }
+> @@ -277,6 +281,7 @@ static void mhi_net_rx_refill_work(struct work_struct *work)
+>  
+>  	size = mhi_netdev->mru ? mhi_netdev->mru : READ_ONCE(ndev->mtu);
+>  
+> +	pm_runtime_get_sync(&mdev->dev);
+>  	while (!mhi_queue_is_full(mdev, DMA_FROM_DEVICE)) {
+>  		skb = netdev_alloc_skb(ndev, size);
+>  		if (unlikely(!skb))
+> @@ -296,6 +301,7 @@ static void mhi_net_rx_refill_work(struct work_struct *work)
+>  		cond_resched();
+>  	}
+>  
+> +	pm_runtime_put_autosuspend(&mdev->dev);
+>  	/* If we're still starved of rx buffers, reschedule later */
+>  	if (mhi_get_free_desc_count(mdev, DMA_FROM_DEVICE) == mhi_netdev->rx_queue_sz)
+>  		schedule_delayed_work(&mhi_netdev->rx_refill, HZ / 2);
+> @@ -362,12 +368,19 @@ static int mhi_net_probe(struct mhi_device *mhi_dev,
+>  
+>  	SET_NETDEV_DEV(ndev, &mhi_dev->dev);
+>  
+> +	pm_runtime_no_callbacks(&mhi_dev->dev);
+> +	devm_pm_runtime_set_active_enabled(&mhi_dev->dev);
+> +	pm_runtime_set_autosuspend_delay(&mhi_dev->dev, 100);
+> +	pm_runtime_use_autosuspend(&mhi_dev->dev);
+> +	pm_runtime_get(&mhi_dev->dev);
+>  	err = mhi_net_newlink(mhi_dev, ndev);
+>  	if (err) {
+>  		free_netdev(ndev);
+> +		pm_runtime_put_autosuspend(&mhi_dev->dev);
+>  		return err;
+>  	}
+>  
+> +	pm_runtime_put_autosuspend(&mhi_dev->dev);
+>  	return 0;
+>  }
+>  
+> 
+> -- 
+> 2.34.1
+> 
+> 
