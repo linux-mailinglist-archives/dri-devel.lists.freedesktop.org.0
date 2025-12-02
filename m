@@ -2,73 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D416C9A4DA
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 07:28:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973DDC9A4E0
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 07:29:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C29FA10E585;
-	Tue,  2 Dec 2025 06:28:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F203F10E58A;
+	Tue,  2 Dec 2025 06:29:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="J6CWnTzO";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ekP/unp1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 06A1A10E584;
- Tue,  2 Dec 2025 06:28:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764656922; x=1796192922;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=WABM3F0AqUFD/h+5NMeN8BFUPMukx54rDKevxqs39oc=;
- b=J6CWnTzO/inWKYghx9EI1g0O5Es50DMDrkIW0JQxXq6dAdGfvq3Lr8kL
- PQNrPmXv6bElW4T2D64zFYg5Q0A+lPo13ejuG9GiPBhT2J2/TViWQ9Y19
- IsE5+sPgdObXxvyUGkRmm1Wg8P9K7pdCDby7VLBhg5fi/K0zYWURNYt+K
- QWyeAU3BLKj9lV5ghPKNWhw66d5pPJRv0Z7EOQZUc5CvsNsR69+5sLZA/
- ZYBy5LUba1RSAptXs7f+a7pUcXiTxWpgaujSBg45rIUDmWs5pHaJzvRRM
- gaDP9JF5orCO/0MI2vN1Mo0tPSIUpwIwPCgzzG8Nk1jJoj5Dl4DAy/MVN A==;
-X-CSE-ConnectionGUID: vbytNz7WQD6E2YlWGwSdAQ==
-X-CSE-MsgGUID: zeiS7tfTSLyNYeJBNG/t/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="66500056"
-X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="66500056"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 22:28:42 -0800
-X-CSE-ConnectionGUID: vpnLwRcIQYyQlzzyzgRtTw==
-X-CSE-MsgGUID: xDs8DXeSQRqtJ7Qa5GiuBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="193961529"
-Received: from srr4-3-linux-106-armuthy.iind.intel.com ([10.190.238.56])
- by fmviesa007.fm.intel.com with ESMTP; 01 Dec 2025 22:28:36 -0800
-From: Arun R Murthy <arun.r.murthy@intel.com>
-Date: Tue, 02 Dec 2025 11:57:14 +0530
-Subject: [PATCH [RESEND] v9 20/20] drm/i915/histogram: Enable pipe
- dithering
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00CA710E58A
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 06:29:32 +0000 (UTC)
+Received: from pendragon.ideasonboard.com
+ (113x43x203x98.ap113.ftth.arteria-hikari.net [113.43.203.98])
+ by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8DD793E6;
+ Tue,  2 Dec 2025 07:27:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1764656837;
+ bh=VXzIPngFdacIDB87BOh+DyMPuMgW2UL2yvGKdB6Akqo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ekP/unp1qwNd/3Pk75lngsPPNLUJWaMpPPgy9xJEUs72B9FLPo+gGPAaGrSw5+ESs
+ oM9gLwccqIOJdXIpmrnMph3Z9ZIQGXO5l/pfIGCtB0OGU2L6vpYeN9gMcizmM3ifOp
+ 4V99jpxyFRBBbftE2eYRs0albkJaC6hRnU2YBifQ=
+Date: Tue, 2 Dec 2025 15:29:11 +0900
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Vicente Bergas <vicencb@gmail.com>
+Cc: Aradhya Bhatia <aradhya.bhatia@linux.dev>, airlied@gmail.com,
+ alexander.sverdlin@siemens.com, andrzej.hajda@intel.com,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ jernej.skrabec@gmail.com, Jonas Karlman <jonas@kwiboo.se>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ lumag@kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, neil.armstrong@linaro.org, nm@ti.com,
+ rfoss@kernel.org, simona@ffwll.ch, tomi.valkeinen@ideasonboard.com,
+ tzimmermann@suse.de, vigneshr@ti.com,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Damon Ding <damon.ding@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Linux Rockchip Support List <linux-rockchip@lists.infradead.org>,
+ Devarsh Thakkar <devarsht@ti.com>, Linus Walleij <linusw@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>
+Subject: Re: [PATCH v13 3/4] drm/atomic-helper: Re-order bridge chain
+ pre-enable and post-disable
+Message-ID: <20251202062911.GA24150@pendragon.ideasonboard.com>
+References: <CAAMcf8BfxMJx+5ttEXx0kONP2OYWSLFqEYF6rfVBKoRg5TKZzQ@mail.gmail.com>
+ <bea50d14-2311-46ad-bb30-9d60a4c5e3a2@linux.dev>
+ <ff21cbd1-dc77-43ae-85a8-dc6a56a1cefa@linux.dev>
+ <CAAMcf8Di8sc_XVZAnzQ9sUiUf-Ayvg2yjhx2dWmvvCnfF3pBRA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251202-dpst-v9-20-f2abb2ca2465@intel.com>
-References: <20251202-dpst-v9-0-f2abb2ca2465@intel.com>
-In-Reply-To: <20251202-dpst-v9-0-f2abb2ca2465@intel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- uma.shankar@intel.com, chaitanya.kumar.borah@intel.com, 
- suraj.kandpal@intel.com
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- Arun R Murthy <arun.r.murthy@intel.com>
-X-Mailer: b4 0.15-dev
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAMcf8Di8sc_XVZAnzQ9sUiUf-Ayvg2yjhx2dWmvvCnfF3pBRA@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,56 +74,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable pipe dithering while enabling histogram to overcome some
-atrifacts seen on the screen.
++Linus, Marek and Tomi.
 
-Signed-off-by: Arun R Murthy <arun.r.murthy@intel.com>
----
- drivers/gpu/drm/i915/display/intel_histogram.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+On Mon, Dec 01, 2025 at 08:34:37PM +0100, Vicente Bergas wrote:
+> On Mon, Oct 6, 2025 at 5:30 PM Aradhya Bhatia <aradhya.bhatia@linux.dev> wrote:
+> >
+> > +rockchip maintainers
+> >
+> > Hi Vicente, all,
+> 
+> Hi everybody,
+> please, can some expert on this platform take a look at this bug?
 
-diff --git a/drivers/gpu/drm/i915/display/intel_histogram.c b/drivers/gpu/drm/i915/display/intel_histogram.c
-index 1d02f4fdf8549a0fd7a46dbd8fdc218798c2de1b..152ae1d0393e9b2b331612494e0cf918edc6f999 100644
---- a/drivers/gpu/drm/i915/display/intel_histogram.c
-+++ b/drivers/gpu/drm/i915/display/intel_histogram.c
-@@ -9,10 +9,10 @@
- #include <drm/drm_vblank.h>
- #include <drm/drm_print.h>
- 
--#include "i915_reg.h"
- #include "i915_drv.h"
- #include "intel_de.h"
- #include "intel_display.h"
-+#include "intel_display_regs.h"
- #include "intel_display_types.h"
- #include "intel_histogram.h"
- #include "intel_histogram_regs.h"
-@@ -24,6 +24,13 @@
- #define HISTOGRAM_BIN_READ_RETRY_COUNT 5
- #define IET_SAMPLE_FORMAT_1_INT_9_FRACT 0x1000009
- 
-+static void intel_histogram_enable_dithering(struct intel_display *display,
-+					     enum pipe pipe)
-+{
-+	intel_de_rmw(display, PIPE_MISC(pipe), PIPE_MISC_DITHER_ENABLE,
-+		     PIPE_MISC_DITHER_ENABLE);
-+}
-+
- static void set_bin_index_0(struct intel_display *display, enum pipe pipe)
- {
- 	if (DISPLAY_VER(display) >= 20)
-@@ -204,6 +211,10 @@ static int intel_histogram_enable(struct intel_crtc *intel_crtc, u8 mode)
- 
- 	if (histogram->enable)
- 		return 0;
-+
-+	/* Pipe Dithering should be enabled with histogram */
-+	intel_histogram_enable_dithering(display, pipe);
-+
- 	 /* enable histogram, clear DPST_BIN reg and select TC function */
- 	if (DISPLAY_VER(display) >= 20)
- 		intel_de_rmw(display, DPST_CTL(pipe),
+There are similar issues with MCDE and R-Car DU, see
+https://lore.kernel.org/all/CAD++jLkNCH=8VmwXh0UJS5QZ9wB-iP2kinytT+__fq0L1PzoZQ@mail.gmail.com/
+
+I think we should revert commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+and work on a clean solution. It broke too many drivers.
+
+> > I went through the drivers and the affected areas in the gru-kevin
+> > chromebook pipeline last week, but nothing has stood out.
+> >
+> >
+> > Pipeline:
+> >
+> > rockchip,display-subsystem / rk3399-vop (Big/Lite) (CRTC) ->
+> > rk3399-edp (Encoder) -> analogix_dp_core (Bridge) ->
+> > sharp,lq123p (edp-panel)
+> >
+> > I am unable to debug this further since I do not have the hardware.
+> >
+> > I could use some help, especially from folks who understand the hardware
+> > requirements better.
+> >
+> >
+> > On 11/09/25 09:01, Aradhya Bhatia wrote:
+> > > Hi Vicente,
+> > >
+> > > Thank you for the bisection and reporting the issue.
+> > >
+> > > On 10/09/25 16:17, Vicente Bergas wrote:
+> > >> Hi,
+> > >> this patch causes a regression. It has been reported in
+> > >> https://bugzilla.kernel.org/show_bug.cgi?id=220554
+> > >>
+> > >> It affects the gru/kevin platform (arm64,RK3399) with the Panfrost DRM driver.
+> > >
+> > > I believe the Panfrost DRM driver may only be for the GPU.
+> > >
+> > > Based on the dts files in arm64/rockchip/, this is the pipeline of the
+> > > gru-kevin setup that I understand.
+> > >
+> > >       rk3399-vop (Big/Lite) -> rk3399-edp -> sharp,lq123p (edp-panel)
+> > >
+> > > The setup seems to be using the drm/rockchip drivers for the display
+> > > controller and for the bridge.
+> > >
+> > >>
+> > >> When it boots in console mode, the blinking of the cursor keeps the display on.
+> > >> If it is turned off via /sys/class/graphics/fbcon/cursor_blink, then
+> > >> the display briefly shows each key press presented on screen for less
+> > >> than one second and then powers off.
+> > >>
+> > >> When starting the graphical mode (wayland), if there are no
+> > >> applications drawing on the screen, the only way to keep the display
+> > >> on is by continuously moving the mouse.
+> > >>
+> > >
+> > > Okay!
+> > >
+> > > I will have a look through the drivers. In the meanwhile, please do
+> > > report back if you find any other observations.
 
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
