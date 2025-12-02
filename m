@@ -2,83 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCDCC99FD5
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 05:18:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71822C9A06D
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 05:43:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8504B10E51B;
-	Tue,  2 Dec 2025 04:18:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0CC610E15C;
+	Tue,  2 Dec 2025 04:43:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="B47pu/Mo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Myba3YY6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
- [209.85.128.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1549A10E15C
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 04:18:41 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-78ab039ddb4so49525767b3.3
- for <dri-devel@lists.freedesktop.org>; Mon, 01 Dec 2025 20:18:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1764649120; x=1765253920; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JAi2upxQHqXV6w3YAiIFw0Ei8pBZRTlw4L7PGEXhfmk=;
- b=B47pu/MoqUNXZ278T7YbQ5fqo108ejt4051tcj+u1eDwmKCbUsGJAeSTt4//2e+5ON
- S3DNySqg+9URPUqIKz+g2LDzXttyx31ei7O2yS81b/UtN1nRGx6HyJcepsqjqUKmZ0lF
- vDLt74DVBcBo5KajwhcS1DxL+2E3EEbgqRe3FrNUltmuW8iSMKRa2HlJlZvsNhPU4TU+
- fdPhM8aZ0wjDcP58dzNusKNoLjtUoBJTSfpYhei/2GHQ57SWCtZatrXnSJ2bUTcw7tAv
- 7L/KnC5Fmpwo4vvTc/lkagBfd4+neCjCip4HReotXHiNSZn3jxgJVy9NcR+VIkqDkE/7
- 9kbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764649120; x=1765253920;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=JAi2upxQHqXV6w3YAiIFw0Ei8pBZRTlw4L7PGEXhfmk=;
- b=ZjxuPBXASRxRpyxveUPLvyPexQMYSLvMvrMolSsypLIly4CFuexAvEoLBMqyllEY5n
- MJPu0SP5fTAYwEtQfKgVI+xSJGRdGUYPsYiuQ7XbFBecjKZAXpJekpw8+jVJxME8/G4z
- LDgnVgofG13HL4M/1+9Pz+bx5thnI/GLAPsVFMtFhvU6OU1r21k9IWvMTXd82p2WJfxU
- pS1lfoSe1tumo4ElO/OWpHYBT6ZZtHOh41zjrbKFG7QGoQPCJ7GSoOG9t7xYf3KalQv0
- TXXHtJV73NMTKSTRg+E145f96vmHQwqGF6X6wiI3TvtfyMhckftOQEj2gGMIdf2jQGIy
- hU6Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVsc8es/nJY4XNBP939NOpW6+fPpoNd34ZX7BGxoMoQF4enp70OAW99XcMpQ8BVXnHOhxqnX0jqHe8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz9nVbhYDSQbDb4NcZSxhqSkL46dtOPICeaf8EMOc1KTCDub3he
- 1EiuJRqVmno6ehEM8SS0cj7gO1LD4aqcV2xLesaL7nzEEvj/WddO4YQ5vZx5L62abEeUE61hTRw
- lyyonwCTfC6lySSGua+ZTdyJxoiB1vEUFZRm9p+9uYQ==
-X-Gm-Gg: ASbGnctKUzEvogMj5kdB7tDXswKa17fqRJdKfMkxbdgDSbm2NMbBnLqottqGUM66Xdu
- Aw1xaafbZ7kty0niTfF4+werTOhey3BvDt6ZovV2v4zoXmjtYq4GQqc9vQsRYL2FADTbUr30L1y
- 0Za+VjgH4bspGi0LJTKxTAsTjxvkXRIjlevatRca5FX3g+FKKipyZ5Dx2k1J6mby3wLzV4GPqWx
- OpXk0t7gaK32kvm7PhelKF6rL4YnTvnfFghhIE9xt2PXLyBGZBFMyYuWLG30vCmKv+/jN2A7txE
- uFODhI33xTSdsQEW
-X-Google-Smtp-Source: AGHT+IHm2Lb3KR5gVidXp7FW07QIkyqamhFjHbL15N5fpaAs7gMhEGz5ghkqWBZy6gX1AwwN7GcT9+/zubzA9ATXx70=
-X-Received: by 2002:a05:690c:e3e6:b0:788:7f:9a5 with SMTP id
- 00721157ae682-78a8b495634mr334380197b3.20.1764649119895; Mon, 01 Dec 2025
- 20:18:39 -0800 (PST)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDC0A10E15C;
+ Tue,  2 Dec 2025 04:43:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id B46566012B;
+ Tue,  2 Dec 2025 04:43:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83C6DC4CEF1;
+ Tue,  2 Dec 2025 04:43:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764650614;
+ bh=Wfm4K/CtvvCS85v3k7UzwpOnrUwGFPhaWyCiMNWdn+E=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=Myba3YY6+o692HLYNTvc84JNrskKCBzD97I/ol0JBfvxhCeVCIw5bdN3LOfjG4HtF
+ Z7oIMrUF4XAoXCm7C2ljRvFGcXFhLjl/a2hs2gefRuoUd7o/PsO5Szrf79uDe63cXW
+ TLzYBx/fsUOVairFlRJ5fCmpcWXHwDL5GrkOXYmPymR8KB858/Qpo+Pm0NueWRELUN
+ YbZK6MXHHKg0Hj6d/ux/OFsb7tM6v24KQVQCEGs3QpqH/0RoO8ZnohSFVCZ/78zdeF
+ gWECf5734/oF2B5tavu6+mYuuOpFBhnh6Ny49ZQa4ka4QZc59LEyb0Cd9N77hD+fam
+ QxpH5A9KyPRdw==
+Message-ID: <1654cfc3-ff8a-4f7f-9929-0442f2b3bb2b@kernel.org>
+Date: Mon, 1 Dec 2025 22:43:31 -0600
 MIME-Version: 1.0
-References: <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-0-ff6232e3472f@linaro.org>
- <20250918-v6-16-rc2-quad-pipe-upstream-4-v16-10-ff6232e3472f@linaro.org>
- <tjakx64c25gyakblncsvuoj2iquoknx4ngwujt2uf2clhhfvfl@lbvhrimf6gwp>
-In-Reply-To: <tjakx64c25gyakblncsvuoj2iquoknx4ngwujt2uf2clhhfvfl@lbvhrimf6gwp>
-From: Jun Nie <jun.nie@linaro.org>
-Date: Tue, 2 Dec 2025 12:18:28 +0800
-X-Gm-Features: AWmQ_bmh31LDDZhLcB5X5diPs4fQyKerYqoKD4tX0pSTR_6U-SSLi0GjQw-lPdA
-Message-ID: <CABymUCN2rwfbBbSVe9oSWr9mio-ie38JzgcdvSxV-87aan7Nrg@mail.gmail.com>
-Subject: Re: [PATCH v16 10/10] drm/msm/dpu: Enable quad-pipe for DSC and
- dual-DSI case
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
- Dmitry Baryshkov <lumag@kernel.org>, 
- Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Clark <robin.clark@oss.qualcomm.com>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Jessica Zhang <quic_jesszhan@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v1 1/1] ACPI: PM: s2idle: Add lps0_screen_off sysfs
+ interface
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Robert Beckett <bob.beckett@collabora.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
+Cc: linux-acpi@vger.kernel.org, kernel@collabora.com,
+ linux-kernel@vger.kernel.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Xaver Hugl <xaver.hugl@gmail.com>, Richard Hughes <richard@hughsie.com>,
+ William Jon McCann <mccann@jhu.edu>, "Jaap A . Haitsma" <jaap@haitsma.org>,
+ Benjamin Canou <bookeldor@gmail.com>, Bastien Nocera <hadess@hadess.net>,
+ systemd-devel@lists.freedesktop.org,
+ Lennart Poettering <lennart@poettering.net>,
+ Antheas Kapenekakis <lkml@antheas.dev>
+References: <20251202043416.2310677-1-dmitry.osipenko@collabora.com>
+ <20251202043416.2310677-2-dmitry.osipenko@collabora.com>
+Content-Language: en-US
+From: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>
+In-Reply-To: <20251202043416.2310677-2-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,145 +71,258 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Marijn Suijten <marijn.suijten@somainline.org> =E4=BA=8E2025=E5=B9=B411=E6=
-=9C=8830=E6=97=A5=E5=91=A8=E6=97=A5 00:37=E5=86=99=E9=81=93=EF=BC=9A
->
-> On 2025-09-18 21:29:02, Jun Nie wrote:
-> > To support high-resolution cases that exceed the width limitation of
-> > a pair of SSPPs, or scenarios that surpass the maximum MDP clock rate,
-> > additional pipes are necessary to enable parallel data processing
-> > within the SSPP width constraints and MDP clock rate.
-> >
-> > Request 4 mixers and 4 DSCs for high-resolution cases where both DSC
-> > and dual interfaces are enabled. More use cases can be incorporated
-> > later if quad-pipe capabilities are required.
-> >
-> > Signed-off-by: Jun Nie <jun.nie@linaro.org>
-> > Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > Reviewed-by: Jessica Zhang <quic_jesszhan@quicinc.com>
-> > ---
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c         | 27 ++++++++++++++++=
-+------
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.h         |  6 ++---
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c      | 28 ++++++++--------=
---------
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys.h |  2 +-
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h   |  2 +-
-> >  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_mdss.h      |  2 +-
-> >  6 files changed, 35 insertions(+), 32 deletions(-)
->
-> With this patch applied, I get the following crash on the Sony Xperia 1 I=
-II, a
-> dual-DSI dual-DSC device:
->
->         Unable to handle kernel NULL pointer dereference at virtual addre=
-ss 0000000000000020
->         Mem abort info:
->           ESR =3D 0x0000000096000004
->           EC =3D 0x25: DABT (current EL), IL =3D 32 bits
->           SET =3D 0, FnV =3D 0
->           EA =3D 0, S1PTW =3D 0
->           FSC =3D 0x04: level 0 translation fault
->         Data abort info:
->           ISV =3D 0, ISS =3D 0x00000004, ISS2 =3D 0x00000000
->           CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
->           GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
->         user pgtable: 4k pages, 48-bit VAs, pgdp=3D000000012d4e1000
->         [0000000000000020] pgd=3D0000000000000000, p4d=3D0000000000000000
->         Internal error: Oops: 0000000096000004 [#1]  SMP
->         Modules linked in: msm drm_client_lib ubwc_config drm_dp_aux_bus =
-gpu_sched drm_gpuvm drm_exec
->         CPU: 5 UID: 0 PID: 3081 Comm: (sd-close) Tainted: G     U        =
-      6.18.0-rc7-next-20251127-SoMainline-12422-g10b6db5b056d-dirty #21 NON=
-E
->         Tainted: [U]=3DUSER
->         Hardware name: Sony Xperia 1 III (DT)
->         pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
->         pc : dpu_plane_atomic_check_sspp.isra.0+0x88/0x3f4 [msm]
->         lr : dpu_plane_atomic_check_sspp.isra.0+0x84/0x3f4 [msm]
->         sp : ffff800081e23940
->         x29: ffff800081e23950 x28: ffff0000bf2700d0 x27: 0000000000000a00
->         x26: ffff0000bf270000 x25: 0000000000000a00 x24: ffff0000bd0e5c18
->         x23: ffff000087a6c080 x22: 0000000000000224 x21: ffff00008ce88080
->         x20: 0000000000000002 x19: ffff0000bf270138 x18: ffff8000818350b0
->         x17: 000000040044ffff x16: ffffc488ae2e37e0 x15: 0000000000000005
->         x14: 0000000000000a00 x13: 0000000000000000 x12: 0000000000000138
->         x11: 0000000000000000 x10: 0000000000000012 x9 : 0000000000000000
->         x8 : 0000000000000a00 x7 : 0000000000000000 x6 : 0000000000000000
->         x5 : 0000000000000002 x4 : 0000000000000000 x3 : ffffc48897741db0
->         x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000000
->         Call trace:
->          dpu_plane_atomic_check_sspp.isra.0+0x88/0x3f4 [msm] (P)
->          dpu_plane_atomic_check+0x100/0x1a0 [msm]
->          drm_atomic_helper_check_planes+0xd8/0x224
->          drm_atomic_helper_check+0x50/0xb4
->          msm_atomic_check+0xd0/0xe0 [msm]
->          drm_atomic_check_only+0x4e0/0x928
->          drm_atomic_commit+0x50/0xd4
->          drm_client_modeset_commit_atomic+0x200/0x260
->          drm_client_modeset_commit_locked+0x64/0x180
->          drm_client_modeset_commit+0x30/0x60
->          drm_fb_helper_lastclose+0x60/0xb0
->          drm_fbdev_client_restore+0x18/0x38 [drm_client_lib]
->          drm_client_dev_restore+0xac/0xf8
->          drm_release+0x124/0x158
->          __fput+0xd4/0x2e4
->          fput_close_sync+0x3c/0xe0
->          __arm64_sys_close+0x3c/0x84
->          invoke_syscall.constprop.0+0x44/0x100
->          el0_svc_common.constprop.0+0x3c/0xe4
->          do_el0_svc+0x20/0x3c
->          el0_svc+0x38/0x110
->          el0t_64_sync_handler+0xa8/0xec
->          el0t_64_sync+0x1a0/0x1a4
->         Code: 2a1403e5 52800082 94008e28 f9400380 (f940101b)
->         ---[ end trace 0000000000000000 ]---
->         pstore: backend (ramoops) writing error (-28)
->         [drm:dpu_encoder_frame_done_timeout:2726] [dpu error]enc33 frame =
-done timeout
->
-> I don't see any thought given to it in the extremely terse patch descript=
-ion,
-> but this patch seems to unconditionally select 4 DSCs and 4 LMs on this d=
-evice
-> because the underlying SM8350 SoC has 4 available in its catalog - while =
-it
-> was previously affixed to 2:2:2 matching the downstream and known-working
-> configuration of this device - and I can only imagine things are rolling
-> downhill from there.
+++ dri-devel
 
-This patch expands pipe array size from 2 to 4, and changes the
-topology decision making.
-There is an assumption that 2 stages(4LMs) should be allocated in case
-of 2 interfaces with
-DSC enabled, because it is a very high resolution use case. This fails
-for your 2:2:2 use case.
-But I still expect there are only 2 pipes info filled for your case,
-and the later 2 pipes shall be
- bypassed in dpu_plane_atomic_check_sspp() and does not introduce
-panic. So there is
-bug in SSPP handling.
+On 12/1/2025 10:34 PM, Dmitry Osipenko wrote:
+> Add `/sys/power/lps0_screen_off` interface to allow userspace to control
+> Display OFF/ON DSM notifications at runtime. Writing "1" to this file
+> triggers the OFF notification, and "0" triggers the ON notification.
+> 
+> Userspace should write "1" after turning off all physical and remote
+> displays. It should write "0" before turning on any of displays.
 
-What's your IRC ID and timezone? IRC shall be much more efficient, if
-you want to discuss
-more detail and debug support.
->
-> faddr2line seems to be failing for me, but this is the line
-> `dpu_plane_atomic_check_sspp.isra.0+0x88` seems to be referring to:
->
->         aarch64-linux-gnu-objdump .output/drivers/gpu/drm/msm/msm.ko -dS =
-| grep dpu_plane_atomic_check_sspp.isra.0\> -A80
->         00000000000671ac <dpu_plane_atomic_check_sspp.isra.0>:
->         static int dpu_plane_atomic_check_sspp(struct drm_plane *plane,
->         ...
->            67234:       f940101b        ldr     x27, [x0, #32]
->                 if (!(sblk->scaler_blk.len && pipe->sspp->ops.setup_scale=
-r) &&
->
-> Please help resolve this issue, as I am not understanding the thought pro=
-cess
-> behind this patch and unsure how to solve this issue short of just revert=
-ing it.
->
-> Looking forward to some assistance, thanks;
-> - Marijn
+As this has to do with actions when displays are off I think you should 
+also CC dri-devel on the next submission.
+
+> 
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>   Documentation/ABI/testing/sysfs-power |  13 +++
+>   drivers/acpi/x86/s2idle.c             | 149 +++++++++++++++++++++++---
+>   2 files changed, 145 insertions(+), 17 deletions(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-power b/Documentation/ABI/testing/sysfs-power
+> index d38da077905a..af7c81ae517c 100644
+> --- a/Documentation/ABI/testing/sysfs-power
+> +++ b/Documentation/ABI/testing/sysfs-power
+> @@ -470,3 +470,16 @@ Description:
+>   
+>                   Minimum value: 1
+>                   Default value: 3
+> +
+> +What:		/sys/power/lps0_screen_off
+> +Date:		November 2025
+
+This should be matching the kernel you're targeting this to land, which 
+is definitely not in the past.
+
+> +Contact:	Dmitrii Osipenko <dmitry.osipenko@collabora.com>
+> +Description:
+> +		This file is available if the ACPI/OSPM system supports
+> +		Display Off/On DSM notifications. It controls state of the
+> +		notification.
+> +
+> +		Writing a "1" to this file invokes Display Off Notification.
+> +		Writing a "0" to this file invokes Display On Notification.
+> +
+> +		Notifications are only triggered on state transitions.
+> diff --git a/drivers/acpi/x86/s2idle.c b/drivers/acpi/x86/s2idle.c
+> index 6d4d06236f61..d5cb5e22431d 100644
+> --- a/drivers/acpi/x86/s2idle.c
+> +++ b/drivers/acpi/x86/s2idle.c
+> @@ -18,7 +18,10 @@
+>   #include <linux/acpi.h>
+>   #include <linux/device.h>
+>   #include <linux/dmi.h>
+> +#include <linux/kobject.h>
+> +#include <linux/mutex.h>
+>   #include <linux/suspend.h>
+> +#include <linux/sysfs.h>
+>   
+>   #include "../sleep.h"
+>   
+> @@ -61,6 +64,11 @@ static guid_t lps0_dsm_guid_microsoft;
+>   static int lps0_dsm_func_mask_microsoft;
+>   static int lps0_dsm_state;
+>   
+> +static DEFINE_MUTEX(lps0_dsm_screen_off_lock);
+> +static bool lps0_dsm_screen_state_off;
+> +static bool lps0_screen_off_suspended;
+> +static bool lps0_screen_off_sysfs_inhibit;
+> +
+>   /* Device constraint entry structure */
+>   struct lpi_device_info {
+>   	char *name;
+> @@ -513,6 +521,76 @@ static struct acpi_scan_handler lps0_handler = {
+>   	.attach = lps0_device_attach,
+>   };
+>   
+> +static bool lps0_has_screen_off_dsm(void)
+> +{
+> +	int id = acpi_s2idle_vendor_amd() ?
+> +		 ACPI_LPS0_SCREEN_ON_AMD : ACPI_LPS0_SCREEN_OFF;
+> +
+> +	if (lps0_dsm_func_mask_microsoft > 0 &&
+> +	    (lps0_dsm_func_mask & BIT(ACPI_LPS0_SCREEN_OFF)))
+> +		return true;
+> +
+> +	if (lps0_dsm_func_mask > 0 && (lps0_dsm_func_mask & BIT(id)))
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+> +static void lps0_dsm_screen_off(void)
+> +{
+> +	if (lps0_dsm_screen_state_off)
+> +		return;
+> +
+> +	if (lps0_dsm_func_mask > 0)
+> +		acpi_sleep_run_lps0_dsm(acpi_s2idle_vendor_amd() ?
+> +					ACPI_LPS0_SCREEN_OFF_AMD :
+> +					ACPI_LPS0_SCREEN_OFF,
+> +					lps0_dsm_func_mask, lps0_dsm_guid);
+> +
+> +	if (lps0_dsm_func_mask_microsoft > 0)
+> +		acpi_sleep_run_lps0_dsm(ACPI_LPS0_SCREEN_OFF,
+> +					lps0_dsm_func_mask_microsoft,
+> +					lps0_dsm_guid_microsoft);
+> +
+> +	lps0_dsm_screen_state_off = true;
+> +}
+> +
+> +static void lps0_dsm_screen_on(void)
+> +{
+> +	if (!lps0_dsm_screen_state_off)
+> +		return;
+> +
+> +	if (lps0_dsm_func_mask_microsoft > 0)
+> +		acpi_sleep_run_lps0_dsm(ACPI_LPS0_SCREEN_ON,
+> +					lps0_dsm_func_mask_microsoft,
+> +					lps0_dsm_guid_microsoft);
+> +
+> +	if (lps0_dsm_func_mask > 0)
+> +		acpi_sleep_run_lps0_dsm(acpi_s2idle_vendor_amd() ?
+> +					ACPI_LPS0_SCREEN_ON_AMD :
+> +					ACPI_LPS0_SCREEN_ON,
+> +					lps0_dsm_func_mask, lps0_dsm_guid);
+> +
+> +	lps0_dsm_screen_state_off = false;
+> +}
+> +
+> +static void lps0_dsm_screen_off_set(int sysfs_off, int suspended)
+
+I don't really like passing in arbitrary integers, it makes this code 
+hard to follow.
+
+Could you perhaps use an enum instead?
+
+> +{
+> +	mutex_lock(&lps0_dsm_screen_off_lock);
+> +
+
+I'd use a guard(mutex) here instead.
+
+> +	if (sysfs_off > -1)
+> +		lps0_screen_off_sysfs_inhibit = sysfs_off;
+> +	if (suspended > -1)
+> +		lps0_screen_off_suspended = suspended;
+> +
+> +	if (lps0_screen_off_suspended || lps0_screen_off_sysfs_inhibit)
+> +		lps0_dsm_screen_off();
+> +	else
+> +		lps0_dsm_screen_on();
+> +
+> +	mutex_unlock(&lps0_dsm_screen_off_lock);
+> +}
+> +
+>   static int acpi_s2idle_begin_lps0(void)
+>   {
+>   	if (pm_debug_messages_on && !lpi_constraints_table) {
+> @@ -543,15 +621,7 @@ static int acpi_s2idle_prepare_late_lps0(void)
+>   		lpi_check_constraints();
+>   
+>   	/* Screen off */
+> -	if (lps0_dsm_func_mask > 0)
+> -		acpi_sleep_run_lps0_dsm(acpi_s2idle_vendor_amd() ?
+> -					ACPI_LPS0_SCREEN_OFF_AMD :
+> -					ACPI_LPS0_SCREEN_OFF,
+> -					lps0_dsm_func_mask, lps0_dsm_guid);
+> -
+> -	if (lps0_dsm_func_mask_microsoft > 0)
+> -		acpi_sleep_run_lps0_dsm(ACPI_LPS0_SCREEN_OFF,
+> -				lps0_dsm_func_mask_microsoft, lps0_dsm_guid_microsoft);
+> +	lps0_dsm_screen_off_set(-1, true);
+>   
+>   	/* LPS0 entry */
+>   	if (lps0_dsm_func_mask > 0 && acpi_s2idle_vendor_amd())
+> @@ -618,14 +688,7 @@ static void acpi_s2idle_restore_early_lps0(void)
+>   	}
+>   
+>   	/* Screen on */
+> -	if (lps0_dsm_func_mask_microsoft > 0)
+> -		acpi_sleep_run_lps0_dsm(ACPI_LPS0_SCREEN_ON,
+> -				lps0_dsm_func_mask_microsoft, lps0_dsm_guid_microsoft);
+> -	if (lps0_dsm_func_mask > 0)
+> -		acpi_sleep_run_lps0_dsm(acpi_s2idle_vendor_amd() ?
+> -					ACPI_LPS0_SCREEN_ON_AMD :
+> -					ACPI_LPS0_SCREEN_ON,
+> -					lps0_dsm_func_mask, lps0_dsm_guid);
+> +	lps0_dsm_screen_off_set(-1, false);
+>   }
+>   
+>   static const struct platform_s2idle_ops acpi_s2idle_ops_lps0 = {
+> @@ -673,4 +736,56 @@ void acpi_unregister_lps0_dev(struct acpi_s2idle_dev_ops *arg)
+>   }
+>   EXPORT_SYMBOL_GPL(acpi_unregister_lps0_dev);
+>   
+> +static ssize_t lps0_screen_off_store(struct kobject *kobj,
+> +				     struct kobj_attribute *attr,
+> +				     const char *buf, size_t count)
+> +{
+> +	unsigned long val;
+> +
+> +	if (kstrtoul(buf, 10, &val))
+> +		return -EINVAL;
+> +
+> +	if (val > 1)
+> +		return -EINVAL;
+
+Based upon how you are using this maybe just use kstrtobool() instead.
+
+> +
+> +	lps0_dsm_screen_off_set(val, -1);
+> +
+> +	return count;
+> +}
+> +
+> +static ssize_t lps0_screen_off_show(struct kobject *kobj,
+> +				    struct kobj_attribute *attr,
+> +				    char *buf)
+> +{
+> +	return sprintf(buf, "%d\n", lps0_screen_off_sysfs_inhibit);
+
+You should use sysfs_emit().
+
+> +}
+> +
+> +static struct kobj_attribute lps0_screen_off_attr =
+> +	__ATTR(lps0_screen_off, 0644,
+> +	       lps0_screen_off_show, lps0_screen_off_store);
+> +
+> +static struct attribute *lps0_screen_off_attrs[] = {
+> +	&lps0_screen_off_attr.attr,
+> +	NULL,
+> +};
+> +
+> +static struct attribute_group lps0_screen_off_attr_group = {
+> +	.attrs = lps0_screen_off_attrs,
+> +};
+> +
+> +static int lps0_dsm_screen_off_init(void)
+> +{
+> +	int ret;
+> +
+> +	if (!lps0_has_screen_off_dsm())
+> +		return 0;
+> +
+> +	ret = sysfs_create_group(power_kobj, &lps0_screen_off_attr_group);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +late_initcall(lps0_dsm_screen_off_init);
+> +
+>   #endif /* CONFIG_SUSPEND */
+
