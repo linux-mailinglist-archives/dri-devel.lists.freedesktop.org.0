@@ -2,133 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE19C9C570
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 18:09:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70677C9C5F2
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 18:19:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFE9510E087;
-	Tue,  2 Dec 2025 17:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6C2A10E68D;
+	Tue,  2 Dec 2025 17:19:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="VvFQcmeB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6W381L/v";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="a7oXoFF4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EXTxiIUx";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="oCby9haV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F51710E087
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 17:09:49 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id DE2625BCC4;
- Tue,  2 Dec 2025 17:09:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764695388; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yYItHieqjd0sajSxW+V+eTlN86F1NwfPPytjNfkSM+0=;
- b=VvFQcmeBeYrNEM6FADODKQo7PGCQA9gPRRRJjA/DpW1uqPh9qAX6+W0nG8OWDAXEaTID3y
- E2EFvq346L5C4Jq51f5021/WVTxH2zPqCeS339xg8hihXoiSy2A0bnm9QZ7M0kvHbvsVIh
- 3YdIv7LOmP3xzf6Uaj0+jfcfycOau5A=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764695388;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yYItHieqjd0sajSxW+V+eTlN86F1NwfPPytjNfkSM+0=;
- b=6W381L/v+VzhE6+CgJFGp1uj+y9dOCb2sNWDUYfP+jvBK/lGuoz1BpzYgp3wE5kNN11iZp
- Bpwk7kUK9PUwdCAQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764695386; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yYItHieqjd0sajSxW+V+eTlN86F1NwfPPytjNfkSM+0=;
- b=a7oXoFF4+GHh379lX2hJJ5jnRHen7HjmbLQmB4fTq/Y4o/k12RkqjlZJD43qYFNuE1k13p
- gfg8ljrV1d+IvJK2wxOAzR+qsKhS/W9zRLTvnbXgvz0MR82EUL0CPBskGL6eJogSvQxfE9
- lKgryEmLBN7r9hp7KNMaSdIHPN8eyYY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764695386;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=yYItHieqjd0sajSxW+V+eTlN86F1NwfPPytjNfkSM+0=;
- b=EXTxiIUxn2BNpbn3WoTpCNZrP2Bxmv1uqLyOTjaE+K33Qf6THsqs6v3fjjir+4Jd8eRtlL
- A27xwB6GufMGD7Ag==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 997B73EA63;
- Tue,  2 Dec 2025 17:09:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id kbJrIlodL2lKCgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 02 Dec 2025 17:09:46 +0000
-Message-ID: <4bdbbbd8-3777-444d-bb49-c79c3137abf5@suse.de>
-Date: Tue, 2 Dec 2025 18:09:45 +0100
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B227810E696;
+ Tue,  2 Dec 2025 17:19:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=UyCbUcL1nm1MZzDeCwaTG3zHrny4GdzBK6n/2gvUbXQ=; b=oCby9haVuYdOrAIteZZoLwWkPu
+ sVdsFQ//4adybW7oMm9kFJboF2Ed5gLUvpgNJeyfT6dBuHGoWMHO1Mhf2DFoaJTMSuH/A2LVghfoL
+ HZzgX9yQPT4Weo65SlpJIWdO8XsR3Tfqq/NMlQofpliTvfwCD7kh9HYuaVROCYhk2q1PVXeHE30Vz
+ t96mk3OxHne0/rWxVJ/174Yr/P9JJZOczGShKJYOSgSxAnW9vJKMH0Y+pUH2RvHsWc3Xnosbbcc9P
+ W881kVQnLSY6Exd/GHsd2LeUq6HmZ8iFF6GwfbXBuWhkPT9NGD/+/YZIZfVeSr9uEXrbW0Hlz81w2
+ sp0agC2Q==;
+Received: from gwsc.sc.usp.br ([143.107.225.16] helo=[172.24.21.125])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vQU20-007tsJ-AQ; Tue, 02 Dec 2025 18:19:16 +0100
+Message-ID: <489a6590-7d1a-46f9-a980-5c30b2b44c4c@igalia.com>
+Date: Tue, 2 Dec 2025 14:19:02 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] drm/gem-vram: revert the 8-byte alignment constraint
-To: Ludovic Desroches <ludovic.desroches@microchip.com>,
+Subject: Re: [PATCH v11 10/10] Documentation/gpu/drm-mm: Add THP paragraph to
+ GEM mapping section
+To: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20251126-lcd_pitch_alignment-v1-0-991610a1e369@microchip.com>
- <20251126-lcd_pitch_alignment-v1-3-991610a1e369@microchip.com>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>, Matthew Wilcox
+ <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+References: <20251202101720.3129-1-loic.molinari@collabora.com>
+ <20251202101720.3129-11-loic.molinari@collabora.com>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251126-lcd_pitch_alignment-v1-3-991610a1e369@microchip.com>
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
+ /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
+ gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
+ SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
+ G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
+ AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
+ dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
+ P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
+ O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
+ GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
+ 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
+ FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
+ TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
+ Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
+ 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
+ LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
+ T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
+ wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
+ zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
+ it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
+ Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
+ uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
+ raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
+In-Reply-To: <20251202101720.3129-11-loic.molinari@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.991]; MIME_GOOD(-0.10)[text/plain];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_TO(0.00)[microchip.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- RCPT_COUNT_SEVEN(0.00)[7]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email, suse.com:url, suse.de:mid,
- imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,47 +105,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi Loïc,
 
-Am 26.11.25 um 15:44 schrieb Ludovic Desroches:
-> Using drm_mode_size_dumb() to compute the size of dumb buffers introduced
-> an 8-byte alignment constraint on the pitch that wasn’t present before.
-> Let’s remove this constraint, which isn’t necessarily required and may
-> cause buffers to be allocated larger than needed.
->
-> Signed-off-by: Ludovic Desroches <ludovic.desroches@microchip.com>
+On 12/2/25 07:17, Loïc Molinari wrote:
+> Add a paragraph to the GEM Objects Creation section about the
+> drm_gem_huge_mnt_create() helper and to the GEM objects mapping
+> section explaining how transparent huge pages are handled by GEM.
+> 
+> v4:
+> - fix wording after huge_pages handler removal
+> 
+> v6:
+> - fix wording after map_pages handler removal
+> 
+> v11:
+> - mention drm_gem_huge_mnt_create() helper
+> - add Boris and Maíra R-bs
+> 
+> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Reviewed-by: Maíra Canal <mcanal@igalia.com>
+
+Just confirming my R-b:
+
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+
+Best Regards,
+- Maíra
+
 > ---
->   drivers/gpu/drm/drm_gem_vram_helper.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem_vram_helper.c b/drivers/gpu/drm/drm_gem_vram_helper.c
-> index f40f6e167f126681201b13d60be9c508f25d481f..3ab91965ec6f8fa275b9556079dfb335a02664bb 100644
-> --- a/drivers/gpu/drm/drm_gem_vram_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_vram_helper.c
-> @@ -553,7 +553,7 @@ int drm_gem_vram_driver_dumb_create(struct drm_file *file,
->   	if (WARN_ONCE(!dev->vram_mm, "VRAM MM not initialized"))
->   		return -EINVAL;
+>   Documentation/gpu/drm-mm.rst | 29 +++++++++++++++++++++++------
+>   1 file changed, 23 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> index d55751cad67c..f22433470c76 100644
+> --- a/Documentation/gpu/drm-mm.rst
+> +++ b/Documentation/gpu/drm-mm.rst
+> @@ -155,7 +155,12 @@ drm_gem_object_init() will create an shmfs file of the
+>   requested size and store it into the struct :c:type:`struct
+>   drm_gem_object <drm_gem_object>` filp field. The memory is
+>   used as either main storage for the object when the graphics hardware
+> -uses system memory directly or as a backing store otherwise.
+> +uses system memory directly or as a backing store otherwise. Drivers
+> +can call drm_gem_huge_mnt_create() to create, mount and use a huge
+> +shmem mountpoint instead of the default one ('shm_mnt'). For builds
+> +with CONFIG_TRANSPARENT_HUGEPAGE enabled, further calls to
+> +drm_gem_object_init() will let shmem allocate huge pages when
+> +possible.
 >   
-> -	ret = drm_mode_size_dumb(dev, args, SZ_8, 0);
-> +	ret = drm_mode_size_dumb(dev, args, 0, 0);
->   	if (ret)
->   		return ret;
-
-This code has not been merged yet AFAICT. I'll add the fix to the 
-patch's next update.
-
-Best regards
-Thomas
-
+>   Drivers are responsible for the actual physical pages allocation by
+>   calling shmem_read_mapping_page_gfp() for each page.
+> @@ -290,15 +295,27 @@ The open and close operations must update the GEM object reference
+>   count. Drivers can use the drm_gem_vm_open() and drm_gem_vm_close() helper
+>   functions directly as open and close handlers.
 >   
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+> -The fault operation handler is responsible for mapping individual pages
+> -to userspace when a page fault occurs. Depending on the memory
+> -allocation scheme, drivers can allocate pages at fault time, or can
+> -decide to allocate memory for the GEM object at the time the object is
+> -created.
+> +The fault operation handler is responsible for mapping pages to
+> +userspace when a page fault occurs. Depending on the memory allocation
+> +scheme, drivers can allocate pages at fault time, or can decide to
+> +allocate memory for the GEM object at the time the object is created.
+>   
+>   Drivers that want to map the GEM object upfront instead of handling page
+>   faults can implement their own mmap file operation handler.
+>   
+> +In order to reduce page table overhead, if the internal shmem mountpoint
+> +"shm_mnt" is configured to use transparent huge pages (for builds with
+> +CONFIG_TRANSPARENT_HUGEPAGE enabled) and if the shmem backing store
+> +managed to allocate a huge page for a faulty address, the fault handler
+> +will first attempt to insert that huge page into the VMA before falling
+> +back to individual page insertion. mmap() user address alignment for GEM
+> +objects is handled by providing a custom get_unmapped_area file
+> +operation which forwards to the shmem backing store. For most drivers,
+> +which don't create a huge mountpoint by default or through a module
+> +parameter, transparent huge pages can be enabled by either setting the
+> +"transparent_hugepage_shmem" kernel parameter or the
+> +"/sys/kernel/mm/transparent_hugepage/shmem_enabled" sysfs knob.
+> +
+>   For platforms without MMU the GEM core provides a helper method
+>   drm_gem_dma_get_unmapped_area(). The mmap() routines will call this to get a
+>   proposed address for the mapping.
 
