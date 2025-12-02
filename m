@@ -2,189 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1AA5C9A849
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 08:42:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 802ACC9A855
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 08:42:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 50D8B10E5AF;
-	Tue,  2 Dec 2025 07:42:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F2FD10E5B9;
+	Tue,  2 Dec 2025 07:42:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XwZZkEco";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="v54KINoS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="scoE9VZQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WfUz/mA6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4zmcd5S2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BFE910E5AE;
- Tue,  2 Dec 2025 07:42:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764661364; x=1796197364;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=CNw3Gahdu1xm7ohQcI+vLwSjeZ/RdJ+ctNSfDKgXz5M=;
- b=XwZZkEcoYAJ9pHHxWg0nHrnf2byqbK84l6cK3s9gxM9ANZLQLrKQdNEP
- jm2GFfupEddaAfW4uwA6lyh+otlRrYU/PVX9cKsrNSZlgGUnXHf8efwko
- X9GD2JIHBvGACDKYK+GnCejCLSPNm1wcqUlP5yDrSsSeV/p1fhOVfVvfq
- cyH7ENooKf58aL7zGzhXohGufRK9s2u27IwHK9pHWzit7YE7PbDEcaILp
- yJkGXpqDHPEvIjgTSUgLoXr+UsTdbjr6k4pnhiZds0UjVXNFXALFohnXk
- gf2qUW4DWe7czhMMz5DR9E6IsVldFlb0ydlUUL2CRUkZQ7Is2Tm343l3X Q==;
-X-CSE-ConnectionGUID: EAX7SJK8S5eL9fNYcpF11w==
-X-CSE-MsgGUID: R0GXRiXjQSyiLWQ9gnfNng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11630"; a="65621545"
-X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="65621545"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 23:42:43 -0800
-X-CSE-ConnectionGUID: VHub2dHDRuCzNoCgvJjmCg==
-X-CSE-MsgGUID: hkVuWQ8HQ963YuBRBCEkgw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,242,1758610800"; d="scan'208";a="217643603"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Dec 2025 23:42:43 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 1 Dec 2025 23:42:42 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Mon, 1 Dec 2025 23:42:42 -0800
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.46) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 1 Dec 2025 23:42:42 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yZFEwWoKkLCK6KQ6QxVopd9wcYaQtnrmSDJPPXEJJrBVKY0hbp0rilnbrJEzkGW8oaCtK5YeF3MfYfQG1h3E0LkCixD1IhJGlkz6ZOpJ1kemM9oKt6SK9l80lgknJAttwSx21FdmziiegBx8wNr2DoljTSJ2svYQgkX2miYRp9mPDkvuwQU9nnk++rZ27cSOQdlTKhpOlIuR8OPGcntBKG8i3Lk8f4/odSZF5PCH2zRmKlmj5zdu9QdLnhOuxoDrCu2jxdbAFi/7xC6xe1W54rt7o1EVCX4OBCLwxShT0FK5WYKNhk2WJsgVkeDFKwFIdTC83bJU3UcluC+8qGiPxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SmMhANsHlXJQsLXopqEAXT2S8SP8N4Ch54gCKC54muw=;
- b=UkGujWgj71H8f5MNDrwWgacPtxc6g0s0VqlF49Cw63tGv7qtXjtgJ1w8ttjzZIM5qW2cDmG38sM9pdCVGbvAhZlpj1Ud+Uo/tf3tdAhpEUoPQUE1/iGoe+ycOmM/7sqqDi6oFuz98dshJEhxs4ARZy6dX8ylX5vPbiQFPdX7QAZ+vhpNDWFE3EPkDQgnldpOCRFoSdy5LLeMc68DBq+ww+/beG28rhpUwbxGSNgK7JzDor9omPkn/XSyAdua0TikJPxVp1HAiXV3uOUcoRgK6ls9HoF8k9RNySihJmxNtf9V10W3bBXDcgFGhDlt12pXHeQNOP7cjAttpRWt8IdrZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com (2603:10b6:208:437::10)
- by BL3PR11MB6532.namprd11.prod.outlook.com (2603:10b6:208:38f::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Tue, 2 Dec
- 2025 07:42:39 +0000
-Received: from IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::dafa:d38d:8ac1:e843]) by IA0PR11MB7307.namprd11.prod.outlook.com
- ([fe80::dafa:d38d:8ac1:e843%6]) with mapi id 15.20.9366.012; Tue, 2 Dec 2025
- 07:42:39 +0000
-Message-ID: <045b308b-c5ab-4ad2-b25e-3fbda2b14590@intel.com>
-Date: Tue, 2 Dec 2025 13:12:29 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v7, 01/15] drm/i915/display: Add identifiers for driver specific
- blocks
-To: Uma Shankar <uma.shankar@intel.com>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-CC: <chaitanya.kumar.borah@intel.com>, <ville.syrjala@linux.intel.com>,
- <pekka.paalanen@collabora.com>, <contact@emersion.fr>,
- <harry.wentland@amd.com>, <mwen@igalia.com>, <jadahl@redhat.com>,
- <sebastian.wick@redhat.com>, <swati2.sharma@intel.com>, <alex.hung@amd.com>,
- <jani.nikula@intel.com>, <suraj.kandpal@intel.com>
-References: <20251201064655.3579280-2-uma.shankar@intel.com>
-Content-Language: en-US
-From: "Murthy, Arun R" <arun.r.murthy@intel.com>
-In-Reply-To: <20251201064655.3579280-2-uma.shankar@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5P287CA0142.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1d2::16) To IA0PR11MB7307.namprd11.prod.outlook.com
- (2603:10b6:208:437::10)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8FFD10E5B8
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 07:42:55 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 5110F5BD0D;
+ Tue,  2 Dec 2025 07:42:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1764661374; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WifntVVqvVe83okeYRsRA2wAUvOIcrEaXyp19dXJ1vI=;
+ b=v54KINoSSeCZEmdVVCh8jGCEvJiWl50LEoHcoT8E9FVvWFCWVZGYukvpvy72HQ6VDWbKiy
+ hBi4kIizteoUVfuDVno4obJU8HciEQwNZqBJm3R3mgcQmiXmeToOAOGMuLCB9Wu40823ZN
+ kLIjtG5Dk7xHgS/hxrXRgj+ZdgyPnqI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1764661374;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WifntVVqvVe83okeYRsRA2wAUvOIcrEaXyp19dXJ1vI=;
+ b=scoE9VZQSdTvSPBLtfFceEJMi+J51wTrrNOfa/EdSD/K3381tpEEymEyPrLEcMvtG5n5xX
+ 4Zz4v7puJ8j6tkDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1764661373; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WifntVVqvVe83okeYRsRA2wAUvOIcrEaXyp19dXJ1vI=;
+ b=WfUz/mA6uH0scWlh+FIIDCY8mEjy+ZGzNag/CTiDlKT5fE8NJ8O+hH6fPvblv3vD1O5yk+
+ 6oC9lXGh116BC1Nk9S0q2XsObBn1UyzRulXI6ew/hOwqVuMyksQfGv9rBcBu0w3HJHIBz5
+ k5n1uIiKdNR/b71l7FMZkPvQEg7TLdI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1764661373;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=WifntVVqvVe83okeYRsRA2wAUvOIcrEaXyp19dXJ1vI=;
+ b=4zmcd5S2jYLQWfKNODmfN2vr7chNoLGU8sJSuXZr5cuizCsYJ6cjqW4nHkYdrXTg9dTj4/
+ lxaypuJr+YpKOYAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0213F3EA63;
+ Tue,  2 Dec 2025 07:42:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id C5bhOHyYLmnQAQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 02 Dec 2025 07:42:52 +0000
+Message-ID: <250b44b3-e75b-4f8d-af44-d3a985ea554c@suse.de>
+Date: Tue, 2 Dec 2025 08:42:52 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR11MB7307:EE_|BL3PR11MB6532:EE_
-X-MS-Office365-Filtering-Correlation-Id: 511b8ff3-cd0a-491c-dcac-08de31765e3b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RTNxMll6eHNLQ1Rwd3oxKzlRTTN1TGxHMDRmTzlVTWU2S1NXYXZ4V2FGcjg3?=
- =?utf-8?B?TldFU0VkQzlnWlowNVJPLzljNjhIVVBPZFpkNnpEMXBPcUY5MTNVWjJROTdG?=
- =?utf-8?B?VUFsWmdGNkkxakVxL2JrdFFHZ01XVTFMNVFxeW1YdWxLY2RMcHBGNjd5RE8w?=
- =?utf-8?B?VW9SdXcwWVk4eGlnTXhqeUd2QUtadVo2djRYK282Q1kwaFE3MW1MekVKVVRl?=
- =?utf-8?B?bFZCZzlQcFdSSXJhakE4UkJXN2lWc00wek5FY2xtYi94YWE0OU1NU1RpS0dR?=
- =?utf-8?B?bVRCSm5sRTRkL2xOQ0hxVW1VcFZxbWZwWk1RMzVzb1RXK1FzVWVtc0d2Qyt0?=
- =?utf-8?B?amhuK1VmOHZMYno2bzJ2djJsdlZQTXIvcE9wM0svWEpxcUR5bzJFUERmam9W?=
- =?utf-8?B?aldSS3JSYmh2N0lUcXdRV0F2TFpFQnhIZGZ0clgraTZyTDhBQ09MaVJ0cS83?=
- =?utf-8?B?QjM2WmNMcjhRa3RaNS8zL1p6S1hsNnNYTzV5cDEzMnF6enhscFBuSllRdDU1?=
- =?utf-8?B?K1BQVWNjRzk2dDBGRUFIR01iZzFTRElBdXFOcGdmL0RCRG9mOGhGcDdlRFZz?=
- =?utf-8?B?UjFBNUppdmE5KzExWk8wS1UrcXo0ZU8yV0V6dTI4UnpYUlZRYjhZTlF6bFow?=
- =?utf-8?B?NlB0UzI4SVNuYWdtRmRxSnpENi93M3g5SktQcjRIUXVXNUF3c29pVHRIc3lV?=
- =?utf-8?B?RnBRVTd1WURwN0YxTUNicTU4SkJWd1YxNHd2VTQrN1BmVXkyajNFSDJMN3o0?=
- =?utf-8?B?QlhhTUNtUFJKbmZaaWxiYStXNFBlVlAvL2tGQnZKdisrT0VKSW5Hbm83TDlX?=
- =?utf-8?B?TU1oOGY4Ni9FbFRpc21SQ01SNDAwRSs1SGFLTDBRMk5VaDZqNlhXRzUrQjZM?=
- =?utf-8?B?cmlLQ25tMVB1N3NMM3BEa2xtc3lyLzByV2JFeGlDVENpZGNXQTZmM1I1Zm5N?=
- =?utf-8?B?ZDVUQWxlbTY1VDlmd29LZ2tZeG01WjlKZFU0MDBza2V3UDRPdGxHeXBQTkxp?=
- =?utf-8?B?cllnYU1XWTFVQ2pFYnNMMmx5UFdKYzhnSWExNkpHQ3ZvS3FuZVFQR1dJZWlO?=
- =?utf-8?B?My8rbGtseDVhYU1Qa283cHVXYkhmamt1TFlDVUJNWkF5aW1hSmZLaU9OVUd2?=
- =?utf-8?B?dklXWG4rM1ovazVQNXp1TnQ2WHk2SFBaZ3lUa2pGa0tiRExPSTlLVjRjd1lJ?=
- =?utf-8?B?NlZkRlJYQzJOZkIySzlDS3g2QURub0g2S1VHWDVieEZ5NTBlNmxHYVdNUVFo?=
- =?utf-8?B?MXVtVk5YTUlmc2tzZ0Z6Wm5WYVZzeEFqOFZMWXVkSW5ZNmRQNytXTXE1RXhz?=
- =?utf-8?B?azZuWUhBbnZqMWJEVGcvZGtsTnhTb3FZbnlqU241L3NqaFB0VUxiMy9PTFdE?=
- =?utf-8?B?Y2MyTDNkaUNGbWxZVDNPbGRTeCtGV0d0Q0UzcngzejVyRGlXWHcrY3kwZ0xC?=
- =?utf-8?B?WnRxTUlpRWpuUTVWSVhuVk9vYzhzM01nVEthMDNNWTBhaHpyWWNSMHMrTUVo?=
- =?utf-8?B?YkxsZWh5NUxBeTNqV0k1RmI4TTJFUGFKZ21LcytEM1N6K3RVa3lWUVUxUVZz?=
- =?utf-8?B?YW1uOU1YL3ZuWnJKSHNUUXQ1UWlpUzhHUXZ4eHNXQnBUamMvdXF2WHQxWDZV?=
- =?utf-8?B?RnVYemd0Nzl0dFd3dFRKaUsxVnY5RGs2ODF1SUs4ZHZDVGs4R1VOZEtvQW5K?=
- =?utf-8?B?UWRpdnZRbUNuN2EyMGVjS21EckxXOExrMEhrQjhBSjZqaEZjNDFadk9XSFhD?=
- =?utf-8?B?RFZTUTUrTGFsb3IrTUxod0NsbVc0TnN3TnhrRGFxT01yUUNlSWl2NEd5a28y?=
- =?utf-8?B?Nkt3RkNBK1oyUk4wcnVWdFpUZW9QS0xXUUFlVWVTVk5RZ2o0eW9KTlljQ21N?=
- =?utf-8?B?aE56eXoyM3RmQmtiVXAvU05TK0w4SEgrOWp1MjY4V2Q0S0pGUUxCUWVSWFhX?=
- =?utf-8?Q?mtw3YrClAfsH4sar+NDa0Djz+/C4kcwA?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:IA0PR11MB7307.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c3FtOGFKbGJCYzJnc1lkUFIyNGhZNG54TEptL3FmbDJzK2FVMGZycTdTTlRr?=
- =?utf-8?B?c3pWRDE1RnBzOFkwblQ2UW9JQ1Zvb3ZKZUpPNzRVR2IvQzc3YXJ1K3NSZVJF?=
- =?utf-8?B?N3hFZWFncytzc3RJSStVVy9LUTlwY3l2MWljZy96QlpxR0UwUHJFaVBVSnVC?=
- =?utf-8?B?cHE0RmZsdW5hd2M4eUo3Tys5bWF1bFZydzQxaXhaQTNHUGc0eDd2aWIxRTNq?=
- =?utf-8?B?cG5PbGhDZXVqdGpXUW1IT1B3Z1Y1M2dPMnNDMVNjUnVoMlBpSmhBSW9CL0Vm?=
- =?utf-8?B?SXg3RUIrb2llZHNOaDdrS1F1bitiTzlyVVZUcW9JS1RSR2NIQ09yMDRMOVFJ?=
- =?utf-8?B?SnhKb3JBWVJ6TldsTFpxaEhmWmFCQ0Rqa1VHQVU0NzR1OUZyUEVHVUxYdnpT?=
- =?utf-8?B?UVZCWE9DNjhwelQ2dzMvUnBSUTNsUjdDZkVhZng3VFEyVFRFMFNYRU96c2Zn?=
- =?utf-8?B?dElaUHdndEt0U1QySVBXZVJYbXN5SmpHQWgyY25HKzdvNmg5SHkvU0FDdHQx?=
- =?utf-8?B?VEdvbkJRcGREeDN0TGlPUDVndzI0VHZ4OGxpb2NnVXhkUGk0K040NUZxSEJv?=
- =?utf-8?B?WnloVFNONitRM3I2bHFvdkFsRlFLRGlRRXBqSEJFMDBZMUpYTXFxc3hydTR5?=
- =?utf-8?B?L2xtb2lSZVYvRit2ZmNHR1R0R2MrZFZyNzZGNlc3aVdIOCtIeGo2ekh1UWZ4?=
- =?utf-8?B?aUJacjRmY2xvYUhWbVdBNXN5bE5iT0RsVVRETnRBclJzdnJkRFZEc2JRM1VV?=
- =?utf-8?B?MHFacktINDZDTG5heGtudjVJbHAvK3VGLzAxYkdhbU9VQ1UrYTJDbmhlYzhi?=
- =?utf-8?B?Tmx6dkg4Nk5nWUZvOHpVNXMxU2U2R1hya3QrVitTTDE3NHE1OTFxQk9zWUls?=
- =?utf-8?B?WlZNSE9KbURvbVRlUld3dFk4T29nS2I3Um9aaStySTVzQkdWN2JrMml5N2xO?=
- =?utf-8?B?dVdDczBKTGFTVDhiR3FjNnU4bUpDR0g3eG5PV0NqbVFsUitIdFcrY3lOR2JY?=
- =?utf-8?B?c1dXbVdOOHg5WHNyNWVuUFh1YVFLcUpCSEwvaUZwbGtEWlJUbWpSMWloWlpG?=
- =?utf-8?B?NjkxMWlpdUN1WUdQUytHTFQ5djlwUGNUcVk2c0FHYmpqaS9tcUFVNWg0c0hm?=
- =?utf-8?B?VTFpTVh0c0dIMGo3VHlncDJ6UUdvRHVYcnZYVWFoYjFLNzdScGtSTlZPY2hu?=
- =?utf-8?B?Q21GaGZUVWNhZW96dDAvWGZQNkRUcmVEejAwY1pPTUdNVmN3TC9LTXVrSWFl?=
- =?utf-8?B?S01jR3hHWGJENTQrODhXV20xQ3AwazZ1di9SUk5YeGkvMEoxL0l1L2ZZSXdt?=
- =?utf-8?B?MHp3alZhOEZGVUpJWHNJaUtWVUluNEVydlMyclZoVHAyaDZaWDJ0TWhDTCs5?=
- =?utf-8?B?aFdvUTdxeVJRV3RpblYyZ092TEhvRC9KZkN1cGpuTmsweXJsUVpKa2dnT1Fm?=
- =?utf-8?B?V28yQndKUFRVVWxrQXp4Y1QzeFliOHBTTVpuNDZ6K3l2a0MwNEhwMjlSWnFj?=
- =?utf-8?B?bGptNEgwb1ZhV3YwNjkvc0EwYUorRS9qTjZ2anF3eTNSR3o3TTFabGN3TTc3?=
- =?utf-8?B?R21Qam1oSHY4UHJlODRxOHFnY1JUWmxOSU04S3BmMGd0K09SNjNNdmZyazIx?=
- =?utf-8?B?eWFhZ2tScXRWd0JNSFkxTkQwbVBTbnNldytLL0IwcU1VdTVpR1pEcWRxTVlD?=
- =?utf-8?B?R2Z3dExZckl4ZnR1TzVhU2wvS2YvNlpORUQrcm8zd0RWUm5NNmpSRE5tMU5L?=
- =?utf-8?B?ODdlUUVjYjdyT0Z0eThSWmFVYkNsRDY2L1dzTW5Ha3hId2YwUzRqK1cxODRC?=
- =?utf-8?B?VFNyVXd5NFZHTmp4OUVGNmJ1RTB3Qk1zdjJ4NXFWSGZZQnAxMDlrWU5iQWMx?=
- =?utf-8?B?bGV1TG1jdFdiWjlXWXlvdy9IalA1RGtLbzB5OUN6TFRNZTlOVlp5TGI5MjBR?=
- =?utf-8?B?OGVwdzVsd3NqbTU4ZjN1RUI0cXpYakE2M1VNVXAxOENpbysxOGd5NXIwNFhU?=
- =?utf-8?B?MnhzWWZCL0tVcHJtSG5wYmRFRnZ4Y05SaWtSVkpKSzlOcURzdlNxYXFyaGJE?=
- =?utf-8?B?RUVpZHJ3MmJBK1ZoejNUU2hBZjRiVElwbmlEVzhDNkpad1QzZjQrNkx3U0tu?=
- =?utf-8?Q?4zLWbPlHuTZ2y72Jur6fFxaP4?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 511b8ff3-cd0a-491c-dcac-08de31765e3b
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7307.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 07:42:39.3451 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YxCn/YP5k24Q19hEd4ghua34BigvHda1d49bnydB1+PpqeoJvWtrAsPn5T4r3H4jESlVKn1HPaXYHOWojsOkMg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6532
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6.6.y] drm, fbcon, vga_switcheroo: Avoid race condition in
+ fbcon setup
+To: Sasha Levin <sashal@kernel.org>, stable@vger.kernel.org
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+References: <2025120119-quake-universal-d896@gregkh>
+ <20251201225123.1298682-1-sashal@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20251201225123.1298682-1-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.27 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.17)[-0.858]; MIME_GOOD(-0.10)[text/plain];
+ MIME_TRACE(0.00)[0:+]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[8];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email, lists.freedesktop.org:email,
+ suse.de:mid, suse.de:email, msgid.link:url, bootlin.com:url, suse.com:url]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -4.27
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -200,46 +144,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01-12-2025 12:16, Uma Shankar wrote:
-> From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Hi,
+
+thanks for backporting.
+
+You also have to remove the calls to vga_switcheroo_client_fb_set() from 
+these files
+
+https://elixir.bootlin.com/linux/v6.6/source/drivers/gpu/drm/i915/display/intel_fbdev.c 
+
+https://elixir.bootlin.com/linux/v6.6/source/drivers/gpu/drm/radeon/radeon_fbdev.c 
+
+
+Best regards
+Thomas
+
+Am 01.12.25 um 23:51 schrieb Sasha Levin:
+> From: Thomas Zimmermann <tzimmermann@suse.de>
 >
-> Add macros to identify intel specific color blocks. It will help
-> in mapping drm_color_ops to intel color HW blocks
+> [ Upstream commit eb76d0f5553575599561010f24c277cc5b31d003 ]
 >
-> v2:- Prefix enums with INTEL_* (Jani, Suraj)
->     - Remove unnecessary comments (Jani)
->     - Commit message improvements (Suraj)
+> Protect vga_switcheroo_client_fb_set() with console lock. Avoids OOB
+> access in fbcon_remap_all(). Without holding the console lock the call
+> races with switching outputs.
 >
-> Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
-> Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
-> Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+> VGA switcheroo calls fbcon_remap_all() when switching clients. The fbcon
+> function uses struct fb_info.node, which is set by register_framebuffer().
+> As the fb-helper code currently sets up VGA switcheroo before registering
+> the framebuffer, the value of node is -1 and therefore not a legal value.
+> For example, fbcon uses the value within set_con2fb_map() [1] as an index
+> into an array.
+>
+> Moving vga_switcheroo_client_fb_set() after register_framebuffer() can
+> result in VGA switching that does not switch fbcon correctly.
+>
+> Therefore move vga_switcheroo_client_fb_set() under fbcon_fb_registered(),
+> which already holds the console lock. Fbdev calls fbcon_fb_registered()
+> from within register_framebuffer(). Serializes the helper with VGA
+> switcheroo's call to fbcon_remap_all().
+>
+> Although vga_switcheroo_client_fb_set() takes an instance of struct fb_info
+> as parameter, it really only needs the contained fbcon state. Moving the
+> call to fbcon initialization is therefore cleaner than before. Only amdgpu,
+> i915, nouveau and radeon support vga_switcheroo. For all other drivers,
+> this change does nothing.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Link: https://elixir.bootlin.com/linux/v6.17/source/drivers/video/fbdev/core/fbcon.c#L2942 # [1]
+> Fixes: 6a9ee8af344e ("vga_switcheroo: initial implementation (v15)")
+> Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+> Acked-by: Alex Deucher <alexander.deucher@amd.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: nouveau@lists.freedesktop.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: <stable@vger.kernel.org> # v2.6.34+
+> Link: https://patch.msgid.link/20251105161549.98836-1-tzimmermann@suse.de
+> [ drm_fb_helper_unregister_info() lacks vga_switcheroo code ]
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 > ---
->   drivers/gpu/drm/i915/display/intel_display_limits.h | 8 ++++++++
->   1 file changed, 8 insertions(+)
+>   drivers/gpu/drm/drm_fb_helper.c  | 7 -------
+>   drivers/video/fbdev/core/fbcon.c | 9 +++++++++
+>   2 files changed, 9 insertions(+), 7 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/i915/display/intel_display_limits.h b/drivers/gpu/drm/i915/display/intel_display_limits.h
-> index f0fa27e365ab..55fd574ba313 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display_limits.h
-> +++ b/drivers/gpu/drm/i915/display/intel_display_limits.h
-> @@ -138,4 +138,12 @@ enum hpd_pin {
->   	HPD_NUM_PINS
->   };
+> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
+> index b507c1c008a3e..3891837a78414 100644
+> --- a/drivers/gpu/drm/drm_fb_helper.c
+> +++ b/drivers/gpu/drm/drm_fb_helper.c
+> @@ -30,9 +30,7 @@
+>   #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 >   
-> +enum intel_color_block {
-
-Can this be intel_plane_color_block/pipeline as we get a new 
-block/pipeline for crtc which can later be named as 
-intel_crtc_color_block/pipeline
-
-Thanks and Regards,
-Arun R Murthy
--------------------
-
-> +	INTEL_PLANE_CB_PRE_CSC_LUT,
-> +	INTEL_PLANE_CB_CSC,
-> +	INTEL_PLANE_CB_POST_CSC_LUT,
+>   #include <linux/console.h>
+> -#include <linux/pci.h>
+>   #include <linux/sysrq.h>
+> -#include <linux/vga_switcheroo.h>
+>   
+>   #include <drm/drm_atomic.h>
+>   #include <drm/drm_drv.h>
+> @@ -1668,7 +1666,6 @@ static int drm_fb_helper_find_sizes(struct drm_fb_helper *fb_helper,
+>   static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper)
+>   {
+>   	struct drm_client_dev *client = &fb_helper->client;
+> -	struct drm_device *dev = fb_helper->dev;
+>   	struct drm_fb_helper_surface_size sizes;
+>   	int ret;
+>   
+> @@ -1687,10 +1684,6 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper)
+>   
+>   	strcpy(fb_helper->fb->comm, "[fbcon]");
+>   
+> -	/* Set the fb info for vgaswitcheroo clients. Does nothing otherwise. */
+> -	if (dev_is_pci(dev->dev))
+> -		vga_switcheroo_client_fb_set(to_pci_dev(dev->dev), fb_helper->info);
+> -
+>   	return 0;
+>   }
+>   
+> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+> index 78a5b22c8d150..8b2c3065c0c26 100644
+> --- a/drivers/video/fbdev/core/fbcon.c
+> +++ b/drivers/video/fbdev/core/fbcon.c
+> @@ -64,6 +64,7 @@
+>   #include <linux/console.h>
+>   #include <linux/string.h>
+>   #include <linux/kd.h>
+> +#include <linux/pci.h>
+>   #include <linux/slab.h>
+>   #include <linux/fb.h>
+>   #include <linux/fbcon.h>
+> @@ -75,6 +76,7 @@
+>   #include <linux/interrupt.h>
+>   #include <linux/crc32.h> /* For counting font checksums */
+>   #include <linux/uaccess.h>
+> +#include <linux/vga_switcheroo.h>
+>   #include <asm/irq.h>
+>   
+>   #include "fbcon.h"
+> @@ -2913,6 +2915,9 @@ void fbcon_fb_unregistered(struct fb_info *info)
+>   
+>   	console_lock();
+>   
+> +	if (info->device && dev_is_pci(info->device))
+> +		vga_switcheroo_client_fb_set(to_pci_dev(info->device), NULL);
 > +
-> +	INTEL_CB_MAX
-> +};
+>   	fbcon_registered_fb[info->node] = NULL;
+>   	fbcon_num_registered_fb--;
+>   
+> @@ -3046,6 +3051,10 @@ static int do_fb_registered(struct fb_info *info)
+>   		}
+>   	}
+>   
+> +	/* Set the fb info for vga_switcheroo clients. Does nothing otherwise. */
+> +	if (info->device && dev_is_pci(info->device))
+> +		vga_switcheroo_client_fb_set(to_pci_dev(info->device), info);
 > +
->   #endif /* __INTEL_DISPLAY_LIMITS_H__ */
+>   	return ret;
+>   }
+>   
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
