@@ -2,77 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F19C9B4AE
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 12:20:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E7EC9B550
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 12:43:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 804AD10E630;
-	Tue,  2 Dec 2025 11:20:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C913A10E00A;
+	Tue,  2 Dec 2025 11:43:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="OHoIZMr/";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Qfz6D4BM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF3C010E624
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 11:20:48 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 9E439442CA
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 11:20:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AEB1C19424
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 11:20:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764674448;
- bh=u5CoxZ0LesDoWjJf/IeExTfqTihhxCSE6algBWh9d+s=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=OHoIZMr/sKdM8jt7HGeaUnOARyfxMDY9ulFzNjeW/5A5sKZSX3yfNHNiHSpvdPjfA
- PL8G1EB1sYYzEc66H8WgxRcar+nDfk59/+pPtI2PiOmXpBVXxu8iFt61VAk/kgg+Xi
- 0bAlPFY6f7fQtgWKmn92uinC915rCmO4t4vr+KPY4hypxTzWr4baXoimkI+/J6D/3y
- vMhBKWShik2I+PAyS3qn4ivrtKClOkwROFarAiH+I9rdL8IsxTBh6OauncX/vUI0GB
- tnX4PwcvqWYp2jLN3mLn0Kqu04nNR8JCEKiQtTCbt6wzU8wIGsDTP/u8s1XVoo8JRq
- prj8ul1uF7eqw==
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-37b95f87d64so46098021fa.2
- for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 03:20:48 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUjUiv1QFl+fYWfyzZFToFT5ki89rDm4QaMIcKugtdULrpfbSGWe11A1a9EJt2IXHL7Rbt1ct+wvjU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyt8v75zO8s4x+7z5lXDeTRQ+jlKLvcVgRk37gcT3VbkBZpkp4Y
- YSRyuR9Ar6oTbjx2aTZWaAXes2ADwCBGnUm/vH0j995wtQb3bANGvOOJPR2WcClicFrmpltRdvD
- SJte9TSzJETYqiuHaXGrvD0fL/8aV0/o=
-X-Google-Smtp-Source: AGHT+IGN5ArDw6mC4+FGXAIuibrw7XR5/8A1yxM3ReGUTlB7eFb2p2HM7WNjFKX8MdLVYyjhd1CKNiQBRwGJDCZa99M=
-X-Received: by 2002:a05:651c:31cd:b0:367:5a84:bc98 with SMTP id
- 38308e7fff4ca-37d07892b0amr79611901fa.30.1764674446667; Tue, 02 Dec 2025
- 03:20:46 -0800 (PST)
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010054.outbound.protection.outlook.com [52.101.56.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D91C10E00A;
+ Tue,  2 Dec 2025 11:43:13 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VWjqKaygsWJY2e6qW5Yt9WcwM/rOIMcO7pmvad0NbJ/vFY2ln1o9FsQr+hGSETQL/H0H/6mm6odPoRfONgdpLOY1YUdrA5XW1wWRb1rtPmWzBhpXuZz/t7dVReh96lN6tqBCsZoaYIShLyH30xb+jQx2ZIEDhuXZL6AiKpJFQ4b2v99xxk0ht89ATjVv5qccUxTvdjKTjUOXJ+WLzWFuWpefvN1NY58zY3F5arYpmRc8sEu7GRQ8OfaotV5i8tU+E+o5Zy70tVo9U5j6iC+oKYJh0abIzEPg3YOo0pEenPVMwSHK51oCCCI3v0YE3PnZfwa7lNgZcIfrDT84xcCt6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tWl3Y4K6TOJss2n2CvTvx5Nj8cqC37d13iKUeFo18lk=;
+ b=bcQzdzZy4JRB8/6qpNPm9r6RkdrUrWbjfCabCMSxuVUUHwnnBUMDd5bmWcBN7QaATO5o9r4l92IJQEBeHiS3Q+bLJ30eju931qW1wwLFRWcJDI49huqdp5KTJcAH9XtLkVnU8VGPmFq2YkULl0o4UqjsRD9uNlp873xEmX+XFhsmVPI+0BIhTZyIIfqgggncGyo0hDliZ40YqBiRtHfS4/DN3kUcNZuAtK5lV38xDEOaa/3IFnHX7REtEx9Q6wqCrxP0bCpS7ka9v/0S12BWZ9Zfgq5GO1zmAbNcMNa+Esn0VxMm9cB24gNKaRbIXoRfj7eZSiPwriIjeCHzBno2nA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tWl3Y4K6TOJss2n2CvTvx5Nj8cqC37d13iKUeFo18lk=;
+ b=Qfz6D4BMSHJxkcimgek5uqqcBdjpUc26o505iybS7KiV9r1aHy269YqOi9Vj+35F/KXJWO8ieZEBglhnf8Fel0VXB1SgtPJTnoTKZgWFvRw5hlZJFaktwCbUrC64YON9OvjyGCS36xXn4ipr3yvUuy0xc41FErHktYV/u3CJHIo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN0PR12MB6200.namprd12.prod.outlook.com (2603:10b6:208:3c3::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Tue, 2 Dec
+ 2025 11:43:09 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9388.003; Tue, 2 Dec 2025
+ 11:43:08 +0000
+Message-ID: <95448a54-d471-4c6d-a940-0fa590d358a9@amd.com>
+Date: Tue, 2 Dec 2025 12:43:04 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 03/13] drm/amdgpu: fix error handling in
+ amdgpu_copy_buffer
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20251202094738.15614-1-pierre-eric.pelloux-prayer@amd.com>
+ <20251202094738.15614-4-pierre-eric.pelloux-prayer@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251202094738.15614-4-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0039.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c7::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-References: <20251128150403.11567-1-tvrtko.ursulin@igalia.com>
- <ce41c2d1-c659-4632-8469-761762202800@suse.de>
- <660c5469-086f-40b4-99f1-72c1bc613ece@igalia.com>
- <1df5a480-2510-43b9-9d79-51d842518036@suse.de>
- <b146fb1b-80e9-403c-acd1-b50ef1aaa646@igalia.com>
- <1b73df5b-5f47-4ce4-abd4-83d550cc0dea@suse.de>
- <e7c4a76e-5cef-4a75-847f-59c53a554327@igalia.com>
- <CAMj1kXFOS9jAzhh2Z_4rarEGd+kGPyNCu9PFoMhFbBVEF8NwJw@mail.gmail.com>
- <07212b84-fc2a-4efe-a39b-5b536b6dd602@igalia.com>
- <CAMj1kXH3FyhNinT3-_FqROB53p_574ft6hsoF6aGYeYkhLd+TQ@mail.gmail.com>
- <086cf4fd-6401-46ce-a55f-ea2fd96a73d1@igalia.com>
- <f4dfd1b4-76c0-4b88-aefb-f0536e706f96@suse.de>
- <74e89e3b-b237-424c-a5cb-f4b3e026b61f@igalia.com>
- <CAMj1kXEGNOUkM0HC1GODDO7e33aRmLi71GLDefeEE7Pb=F1ZtQ@mail.gmail.com>
- <91719464-81cf-4bbb-96c4-378df53cfaff@igalia.com>
-In-Reply-To: <91719464-81cf-4bbb-96c4-378df53cfaff@igalia.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 2 Dec 2025 12:20:34 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXGwE=zXwk6toMZ_w89vJD05PttDArC5NNx6Y6YCJ_UEgQ@mail.gmail.com>
-X-Gm-Features: AWmQ_bl2keadLEwLjZOQo5Lls9YXW7E6b7csdB0R6mZGZk6OyzSYmVu-do44iDs
-Message-ID: <CAMj1kXGwE=zXwk6toMZ_w89vJD05PttDArC5NNx6Y6YCJ_UEgQ@mail.gmail.com>
-Subject: Re: [RFX] efi: sysfb_efi: Fix simpledrmfb on Steam Deck
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
- kernel-dev@igalia.com, Javier Martinez Canillas <javierm@redhat.com>, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Melissa Wen <mwen@igalia.com>, Rodrigo Siqueira <siqueira@igalia.com>, 
- Mario Limonciello <mario.limonciello@amd.com>, linux-efi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN0PR12MB6200:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1b1795f0-8a8c-4436-9d1a-08de3197f6b8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?U2FDY2hmZ21RQXR3TDcvaGdoaDBtN25WUll4a1dqZU5PNURCVFkwK2pOaXgy?=
+ =?utf-8?B?blpsYzdxUG8zZ2p4T1YrRGFaOWlMNXJjTHJZZmNOR3F1eHN6STlPVElPbFJY?=
+ =?utf-8?B?eTNQakZMcitGVUlWL1F2eklzczhLb2kzYy9INHRqRkVPU2JqS3VCaXRUUUpj?=
+ =?utf-8?B?WG42dWxMK3ZDR01NMmdsRy9vaG9lSWFzSXZoN09lejB0QWFvSnZoOFBmS0kx?=
+ =?utf-8?B?dXNKSGwySUVmeEgwcnRKenBOdUlnRjY3U3gwckc5V2pCaEZCSnBDMzZVaEpk?=
+ =?utf-8?B?eWRIR2lTTjd6SUFHLzViRmpxRXVPaW5HMzhrWHNpMk5ocHZQOWhYZmJwQVhI?=
+ =?utf-8?B?TTVWeTM2NDV3Ulh6V1RGemY2Qm16YUdNd3hOcTc1Wnp4WGdiaEhBbjY2Nkxt?=
+ =?utf-8?B?V2dDTW9oVnVnVHRoVlRnblBQcWRENkRzTzBsQmxVOXVjMVR2QWRHVlJ6Q0RI?=
+ =?utf-8?B?c1o0T0Jzbk1YNGVzV0c3VjF6WWZOUnRkZEVEdUV2bGd1dWlwY1EybGRIVVo4?=
+ =?utf-8?B?bkpkTGV4UWpJa25xeGRrRzNuZVJDMUhTZHUvUmY3dkRORkRROTdCSitEMUJy?=
+ =?utf-8?B?ZmFreFpzVkx2b0g0U2VGQ1lKWjNlcEVQUkxuUldGSVpZZWE3ZUlwU3dGaXpu?=
+ =?utf-8?B?UW1ONVJIWExqTzVNcUxHRndPU0VWcytkck1BTDFYYmVhYWd3b3lYbkMrZUJZ?=
+ =?utf-8?B?NjhQWjloV3NPRDlTbzhpQXA5aHprWFdTNFhLRmlUZklSZE94V2l1eTMxM1VR?=
+ =?utf-8?B?TVhXVGlCaU5hRkZJd3VhZjNPNlBCK04vVE03K2dXSDlFUUJENUdnSWxxY1ly?=
+ =?utf-8?B?MlJ6aUdDQjhMNGlYUnFWMGJYVURYRWZrY3lnUkt1TTdaVXA3eXhBNGRBVDI0?=
+ =?utf-8?B?U2Jhb2M2TXRHY3Z2eEN4ZDhEdWRCVW5jNkhhSkNvY2FMTnRUL3R5MmxVQThQ?=
+ =?utf-8?B?cGM5QXJOQzdVZm0zV2x0TVJ3QnBCUDZRRFB6Q3lxbXFncjZCdkQzajRCRDJK?=
+ =?utf-8?B?NXN2ZmwvbExISjV0WU1GTjdQZngzL0hwL08vWW1BWSsxbmNyMW43NWtLb0NU?=
+ =?utf-8?B?bzRBNkFVcjl2bmZSbnNTdFdjS0VNNTFBMVR3Ry9kM2xGUkpmNFF5QkViV3VZ?=
+ =?utf-8?B?NGwwN2x1R2F6R3hNazQrY082bzlMVTQvWTFzYURRQTJZV1VsamVURm14UHEx?=
+ =?utf-8?B?NkxRa0xXYVNNT2JOaUU0cVBkUmlJRlRndzY5elNCWm1SK3dtRFhlUU9jVFkx?=
+ =?utf-8?B?eTZBNDRLQ3FnbW1ldmYyaE9pYVhyM2c4aURVMGlmZ1lFNzRvc2tpT0grNk5x?=
+ =?utf-8?B?b3IrQUM1VGVqcFd3Ry9kaUdkdUhIYVhOcHdqeGdxQmhCYzJrZXpPaFcxMlE2?=
+ =?utf-8?B?K2F0VFhyRUs0cGRQMHdnWnpCeWVIN1BWdkRqYlRPUXd4bE5WM3VKQzBFNzNO?=
+ =?utf-8?B?cXI4S0U1eHVsYzFiaUYyZVpWRlhvYXpITzBOWmFaN0xmV0hhWXZUNDhQWFV0?=
+ =?utf-8?B?Ykc1UDdGT1pYVE1UajhFWE5Wa2FBNTIxbEFRQVEzV1JjK0piOGhxL0lJQldr?=
+ =?utf-8?B?c1BYV1NBQ1VaemhlZ2dHVzhUN1ZXaXVaclBva1p3dTZWUXZGQU5LU3IzUGZz?=
+ =?utf-8?B?T2tOU2J5YnBubnZ6cG5ycW80cnMrQ3lUQVl3b1lZTXpJc0ZvWnlsUzRUb2hh?=
+ =?utf-8?B?WHZlTnNOLzEzL1pmRHgwaklISkQvRzB3TWZCZDJjekQ4SHZ0VlNoWlY1NjJo?=
+ =?utf-8?B?cE1kOFJvWWJtMWJqUjI3eVZQUUpKYUE0a3Z1U3BvbmhHUXpvZ3BRa2M2ejdY?=
+ =?utf-8?B?Nk5aajQ0U2UvaW94Tzl6RzlOdkhZN2s2ZmJKbGxSWlBHY09DR3ltMk94bVUz?=
+ =?utf-8?B?dTFEYXV0ZHdrOWNHU0xYVWIzY3FUVy9MZ0tyNmx6MGYrT3l2UTEwNFNiYTdG?=
+ =?utf-8?Q?IXIhaNgJCPbYnB0+emFA8la3IUIj0Cf6?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NjlDK2RVTjBKQWFSTVpoS0NML1lPdTlWWEhMYUF2RFd6amh5VVl0M2JMM09n?=
+ =?utf-8?B?SnFrOXFvaFZnaFFaQkVUdTBrWFFZTWh0UGtKYmJuTXRJMDMrb2pQdXJXSURW?=
+ =?utf-8?B?TFYrOTdNb3VxUUdOeE43dmNidkNhUU9WcTk5Ukdmc0VBUEdoSjd1VzN5bnky?=
+ =?utf-8?B?SWR6RDhieXRmQXNiczBYcjNLTEpydHJhK1VlMkxWa29CLzd4K3FoemVuVERV?=
+ =?utf-8?B?Qnp0bUsxcjlZUnljM29YblRBMEpmUm9hS3J1L1NoUlhYbzNiQjFCZC9KT2Ru?=
+ =?utf-8?B?cGJ6eFByeFk4VkE5WkVVV1hwU2cxQUxZVDZaY0ZnVGN1ZUN1cHhtSXJCYjZj?=
+ =?utf-8?B?ZkwzQVpzYkdPUHc0SGN0a05HVzRRQVkrWXp3ZXFSb3FPVVBFZVcrZjZDY3dF?=
+ =?utf-8?B?cEM0UE5iSk9zamR3UE4yVVBJVDRyVTQxbFlvVUtacU5wUi9vK3daTjJUeDkx?=
+ =?utf-8?B?dFE4amtEd0tMMHNtQVVEVFMvaHdUVmxuR05JUE0xSmtFcjlNUHhrR2RpdUNG?=
+ =?utf-8?B?YzZtSzNQZ2twZkZyRFlpdjloQVA5elA5SWlGalRoem5aTEQwdmZhL2NPMER2?=
+ =?utf-8?B?L29RNXdvQlRYZWlOUHhKNHlpMHdtaGJObnlxL0diaU1CcTcyTStEdW1lN1hC?=
+ =?utf-8?B?T3VJbk1FOVhWUWh1cHdpZFdmQVJnd1pSMDQ0dlZVRzNoZTdkNW8yb3VrOWdD?=
+ =?utf-8?B?dEVFNnU2K3NFQUVqcENaUzY4MkJhSEhpNFExWFBTc21sc1p6TmtiVlFSWUxj?=
+ =?utf-8?B?Zy92aFpkZy8wcXIyME9SWGw1aXhQRTlNZUovWDBlaFlxeFJOTDl6VXpOWS8z?=
+ =?utf-8?B?Y0lTT1JUUjRwSnl5eTE4N3RjVGpvMmYxQWcvMldwd0tMeU5ZRlUvQy9SL0R2?=
+ =?utf-8?B?VXV6aXNaTVpabmJmT2J6dXdUQlNUZFFqb3FvNkZpZTZqNVIreWtlVERlOTZM?=
+ =?utf-8?B?amsyWU9sQS83blhDTEtsd3dYd1FtUzNySFRCeXR5RlhzR2h0MXY2ZE4weVls?=
+ =?utf-8?B?Wmg3RUUxUzA0YmgvTHlCUS81eUtUQTllNXFiUWtyMjZnMzRNYldKbEtKazBn?=
+ =?utf-8?B?ME1Gd0dQZnBqSGVXTnkveHZoSmgrY3RPc3NBUjVRUzlLVmlkRERjUlMva2NM?=
+ =?utf-8?B?ekdja2VBenJaNjVWY3g1SjExZWJSWTk4anBNL2FmZjdBSkx1cnM2WHhhazIy?=
+ =?utf-8?B?RFRjdU9xSHpKRTNsWjQ0MkxmS2p0Z1Y3N0wwM3RwMm1iUUlZRXVWZHhBVFRK?=
+ =?utf-8?B?NFFuQktaZUQ5WG9WWG00dUNIUlVVK2tMQnV0WXVxTTY3dFNvR1pxZTFWSlpX?=
+ =?utf-8?B?S2U2M0lmMW1oUmw2dzk2aHFnaGF3cWNieE0wOXNuSUZ1eTV5NWMzZnBqbmU3?=
+ =?utf-8?B?aFlpRHM1dXVkZzlhSUM3bTJCdnNlV09JaFhFNmpZcG1MKzRnbXRzYzV6UVdi?=
+ =?utf-8?B?R2E2TEF1NnppSEFsd3k5eGpFQ0tWOGJYaWk3TThVbS9QMmIzNHUvQVJMM0dT?=
+ =?utf-8?B?WS9GQXI0QXAwbkNhWEp2SVEvR1czZlhxelptb1VHNGVpRUVidld2cnJkSmpr?=
+ =?utf-8?B?dlhRTnFzaXNzWjljK09tZmlyWlhoTDNHL3dzR284V09nQy9SaEEvTXJjYVFW?=
+ =?utf-8?B?NHJPR0RpejBtdThTNFZtREU4YjA1c2hiWGFYc003S2lVRm5FRHZPTzY5eTRC?=
+ =?utf-8?B?ZVJGMjlueUlUSkRMd3VCZ2JnQjg2M0lKVkY3UnpEN0dhb2pmTzVVd1RKVGM0?=
+ =?utf-8?B?TWYvYTZYQkxyS3BsNjFjRUE0VDF3eGhjRWJKNHorVGZtUHYzVGY2WVhEK3RB?=
+ =?utf-8?B?eXN3dStjRElXbFZ1bXVrYXVDUHd4bWJrSmNING9hVWpnaWxVekh3OGpRTk5p?=
+ =?utf-8?B?UWxrQVVuYVRIU29JSFp2SEdHdVBXV3IvVDZEcDQ1ckhqcVBEb0lkaENTOHBU?=
+ =?utf-8?B?SXg1NEQyRWlXekdMZy9MallldFdBcFRxV1FJRmxUU1RtRnY0SUIvczNvMGhh?=
+ =?utf-8?B?WDdVUWNLN3BRaU5weUJLT25QbzBRNVA4Y3ZVaGh2NmtTZDJDSG1oQ1ZvaHAw?=
+ =?utf-8?B?QTU0TWd3akt1emR5cjRWN2NSQmNHMkRTdkNHS3oyS2xhWkllN0FybHJGQjkz?=
+ =?utf-8?Q?ICo0=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b1795f0-8a8c-4436-9d1a-08de3197f6b8
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 11:43:08.5283 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ch8GY32oGtwVa8p4t+ns5/pUEA3RP20pu9jPrjdB6zd6aiQMLw2yFlTUSme30Rm6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6200
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,233 +166,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2 Dec 2025 at 12:17, Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
->
->
-> On 02/12/2025 10:56, Ard Biesheuvel wrote:
-> > On Tue, 2 Dec 2025 at 11:44, Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
-> >>
-> >>
-> >> On 02/12/2025 07:34, Thomas Zimmermann wrote:
-> >>> Hi
-> >>>
-> >>> Am 01.12.25 um 16:43 schrieb Tvrtko Ursulin:
-> >>>>
-> >>>> On 01/12/2025 15:00, Ard Biesheuvel wrote:
-> >>>>> On Mon, 1 Dec 2025 at 11:33, Tvrtko Ursulin
-> >>>>> <tvrtko.ursulin@igalia.com> wrote:
-> >>>>>>
-> >>>>>>
-> >>>>>> On 01/12/2025 10:18, Ard Biesheuvel wrote:
-> >>>>>>> On Mon, 1 Dec 2025 at 11:03, Tvrtko Ursulin
-> >>>>>>> <tvrtko.ursulin@igalia.com> wrote:
-> >>>>>>>>
-> >>>>>>>>
-> >>>>>>>> On 01/12/2025 09:39, Thomas Zimmermann wrote:
-> >>>>>>>>> Hi
-> >>>>>>>>>
-> >>>>>>>>> Am 01.12.25 um 10:20 schrieb Tvrtko Ursulin:
-> >>>>>>>>>>
-> >>>>>>>>>> On 01/12/2025 07:32, Thomas Zimmermann wrote:
-> >>>>>>>>>>> Hi
-> >>>>>>>>>>>
-> >>>>>>>>>>> Am 29.11.25 um 11:44 schrieb Tvrtko Ursulin:
-> >>>>>>>>>>>>
-> >>>>>>>>>>>> On 28/11/2025 17:07, Thomas Zimmermann wrote:
-> >>>>>>>>>>>>> Hi,
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> thanks for the bug report
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> Am 28.11.25 um 16:04 schrieb Tvrtko Ursulin:
-> >>>>>>>>>>>>>> I am not sure how is simpledrmfb on top of EFI supposed to
-> >>>>>>>>>>>>>> work,
-> >>>>>>>>>>>>>> but at
-> >>>>>>>>>>>>>> least at the moment it appears there is a missing link in the
-> >>>>>>>>>>>>>> "discovery"
-> >>>>>>>>>>>>>> of frame buffer parameters.
-> >>>>>>>>>>>>>>
-> >>>>>>>>>>>>>> What I can see is that EFI GOP reads some parameters from the
-> >>>>>>>>>>>>>> firmware and
-> >>>>>>>>>>>>>> infers the other, such as in this case problematic pitch, or
-> >>>>>>>>>>>>>> stride.
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> The pitch/stride value comes from the firmware via
-> >>>>>>>>>>>>> pixels_per_scanline [1].
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> Can you verify that this value is really 800 instead of 832 (eq
-> >>>>>>>>>>>>> 3328 bytes) ?
-> >>>>>>>>>>>>>
-> >>>>>>>>>>>>> [1] https://elixir.bootlin.com/linux/v6.17.9/source/drivers/
-> >>>>>>>>>>>>> firmware/ efi/libstub/gop.c#L493
-> >>>>>>>>>>>>
-> >>>>>>>>>>>> I actually got confused a bit in following the flow so thank
-> >>>>>>>>>>>> you for
-> >>>>>>>>>>>> asking me to double check.
-> >>>>>>>>>>>>
-> >>>>>>>>>>>> GOP actually reports 1280x800 with a stride of 5120. So it
-> >>>>>>>>>>>> kind of
-> >>>>>>>>>>>> reports a rotated view already, kind of.
-> >>>>>>>>>>>
-> >>>>>>>>>>> These are correct values.
-> >>>>>>>>>>>
-> >>>>>>>>>>> But the stream deck is this device: [1], right? It uses landscape-
-> >>>>>>>>>>> mode orientation. Why does it require rotation at all?
-> >>>>>>>>>>>
-> >>>>>>>>>>> [1] https://de.wikipedia.org/wiki/Steam_Deck#/media/
-> >>>>>>>>>>> Datei:Steam_Deck_(front).png
-> >>>>>>>>>>
-> >>>>>>>>>> That's the device yes. For the user the screen is landscape, but
-> >>>>>>>>>> the
-> >>>>>>>>>> actual panel is 800x1280 portrait. Left edge is top of the display.
-> >>>>>>>>>> (Hence the pre-existing entry in drm_get_panel_orientation_quirk.)
-> >>>>>>>>>
-> >>>>>>>>> I see. So the EFI display settings are configured as if this was a
-> >>>>>>>>> landscape panel.
-> >>>>>>>>>
-> >>>>>>>>> What happens if you leave the EFI settings as-is and simply
-> >>>>>>>>> remove the
-> >>>>>>>>> panel-orientation quirk?
-> >>>>>>>>
-> >>>>>>>> That would create effectively the same situation as without my patch
-> >>>>>>>> because the panel-orientation quirk does not trigger unless detected
-> >>>>>>>> screen is 800x1280. Result is corrupted console since fbcon thinks
-> >>>>>>>> it is
-> >>>>>>>> a landscape 1280x800 screen.
-> >>>>>>>>>>>> Only when the rotation quirk from efifb_dmi_swap_width_height
-> >>>>>>>>>>>> triggers the stride gets incorrectly recalculated:
-> >>>>>>>>>>>>
-> >>>>>>>>>>>>            u16 temp = screen_info.lfb_width;
-> >>>>>>>>>>>>
-> >>>>>>>>>>>>            screen_info.lfb_width = screen_info.lfb_height;
-> >>>>>>>>>>>>            screen_info.lfb_height = temp;
-> >>>>>>>>>>>>            screen_info.lfb_linelength = 4 * screen_info.lfb_width;
-> >>>>>>>>>>>>
-> >>>>>>>>>>>> So this is where things go wrong, well, they actually go wrong a
-> >>>>>>>>>>>> little bit even earlier, in gop.c:
-> >>>>>>>>>>>>
-> >>>>>>>>>>>>        si->lfb_size = si->lfb_linelength * si->lfb_height;
-> >>>>>>>>>>>>
-> >>>>>>>>>>>> Which potentially underestimates the fb size. If GOP was forward
-> >>>>>>>>>>>> looking enough to give us the size we could derive the pitch
-> >>>>>>>>>>>> based
-> >>>>>>>>>>>> on size..
-> >>>>>>>>>>>>
-> >>>>>>>>>>>> Anyway, as it stands it looks a quirk in sysfb_apply_efi_quirks
-> >>>>>>>>>>>> looks it is required to fix it all up.
-> >>>>>>>>>>>>
-> >>>>>>>>>>>> I am a bit uneasy about declaring the fb size larger than what
-> >>>>>>>>>>>> was
-> >>>>>>>>>>>> implied by firmware provided pitch * height * depth but
-> >>>>>>>>>>>> limited to a
-> >>>>>>>>>>>> specific DMI match and if it looks visually okay I think it is a
-> >>>>>>>>>>>> safe assumption the quirked size is actually correct and safe.
-> >>>>>>>>>>>
-> >>>>>>>>>>> Yeah, we better not do that.
-> >>>>>>>>>> You mean declare it a firmware bug and live with the corrupt
-> >>>>>>>>>> console
-> >>>>>>>>>> until the final fb driver takes over?
-> >>>>>>>>>
-> >>>>>>>>> I only mean that we should not use more video memory than
-> >>>>>>>>> provided by EFI.
-> >>>>>>>>
-> >>>>>>>> Right, but that information is not available in the GOP, right?
-> >>>>>>>> Ie. as I
-> >>>>>>>> wrote above it appears assumed:
-> >>>>>>>>
-> >>>>>>>>        si->lfb_size = si->lfb_linelength * si->lfb_height;
-> >>>>>>>>
-> >>>>>>>> Do we have any other options apart from corruption or assume firmware
-> >>>>>>>> configured GOP screen info incorrectly?
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> How does it make sense to recalculate the line length? Those invisible
-> >>>>>>> pixels at the end of the scanline are not going to be transposed to
-> >>>>>>> the other dimension, right?
-> >>>>>>
-> >>>>>> Not sure what you meant here. The line above is from gop.c and the
-> >>>>>> context is that GOP screen info appears to not carry the frame buffer
-> >>>>>> size in bytes so it is implied.
-> >>>>>>
-> >>>>>> Elsewhere in the patch I quirk the pitch to the correct value so
-> >>>>>> rotated
-> >>>>>> rendering is correct.
-> >>>>>>
-> >>>>>> But the corrected pitch also means that in principle we need to adjust
-> >>>>>> the frame buffer size, since it is larger than the size implied with
-> >>>>>> the
-> >>>>>> incorrect pitch.
-> >>>>>>
-> >>>>>
-> >>>>> OK, so if I understand all of the above correctly, you have a 800x1280
-> >>>>> panel with 832 pixels per scanline, right? And the 5120 pitch is
-> >>>>> simply bogus, but needed to maintain the fiction that the panel is
-> >>>>> 1280 pixels wide, and so the resulting lfb_size is bogus too?
-> >>>>>
-> >>>>> Since we know that the PixelsPerScanline value is incorrect, I don't
-> >>>>> think there is any point in attempting to cross reference this against
-> >>>>> other firmware provided data. But it would make sense imho to apply
-> >>>>> the quirk only if the exact combination of incorrect values (i.e.,
-> >>>>> 1280x800/5120) is encountered.
-> >>>>
-> >>>> Right, the whole 1280x800 mode I *think* could be "bogus", that is,
-> >>>> some kind of a software rotated mode implemented by the firmware.
-> >>>>
-> >>>> Default mode is 800x1280 (pitch 832), while this second native
-> >>>> resolution mode is 1280x800 (pitch 1280).
-> >>>>
-> >>>> If default mode is left then both simpledrmfb and efidrmfb work fine.
-> >>>> The existing panel orientation quirk will trigger on 800x1280 and tell
-> >>>> fbcon to rotate.
-> >>>>
-> >>>> But if someone, like for example grub2, changed the mode to this
-> >>>> software rotated one then the existing DRM quirk will not work.
-> >>>
-> >>> So this is a bug in grub? Should it supply the original mode?
-> >>>
-> >>>
-> >>> Apologies for only asking dump questions here. I find this very confusing.
-> >>
-> >> Not at all, it is complicated and open whether it is worth improving.
-> >>
-> >> I don't think it is a grub bug. To me it seems like an unfortunate
-> >> consequence of protocol limitations.
-> >>
-> >>> In the correct mode 800x1280, the first native pixel should be on the
-> >>> lower left corner. and the second pixel should be 'up form it'. And
-> >>> because it's marked as rotated CCW, fbcon adapts correctly.
-> >>>
-> >>> If the display is in the bogus mode 1280x800, in which direction does it
-> >>> draw by default?  The framebuffer's first pixel should still be in one
-> >>> of the corners. And the second pixel is nearby. In which direction does
-> >>> it advance?
-> >>
-> >> I am not a grub expert, but I had a brief look at its codebase, and
-> >> AFAICT it draws by software rendering into a shadow frame buffer and
-> >> calls GOP->Blit to update the screen.
-> >>
-> >> As such my assumption is that with the fake 1280x800 mode, firmware
-> >> implements the blit to rotate under the hood.
-> >>
-> >> So for grub everything is fine. It sets 1280x800, sees 1280x800, renders
-> >> the menu in there, and courtesy of firmware blit the menu is presented
-> >> in the human friendly orientation.
-> >>
-> >
-> > Indeed - GRUB never draws into the EFI GOP linear frame buffer
-> > directly, and this seems to be what makes it work in this case.
-> >
-> > Could you boot with video=efifb:list on the kernel command line to see
-> > how the GOP modes are reported? I suppose the bug here is that the
-> > mode in question is not reported with PixelFormat==PixelBltOnly as it
-> > should be.
->
-> No problem, I had this info already and the 1280x800 mode has the same
-> pixel format as all the rest - PIXEL_BGR_RESERVED_8BIT_PER_COLOR.
->
-> If it was set to PIXEL_BLT_ONLY, there would be no screen info set up,
-> right? So neither simpledrmfb or efidrmfb, or even legacy efifb, would
-> probe ie. there would be no fbcon until amdgpu loads?
->
+On 12/2/25 10:47, Pierre-Eric Pelloux-Prayer wrote:
+> drm_sched_job_add_resv_dependencies can fail in amdgpu_ttm_prepare_job.
+> In this case we need to use amdgpu_job_free to release memory.
+> 
+> ---
+> v4: moved job pointer clearing to a different patchset
+> ---
+> 
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 
-No, but we could make the EFI stub switch to a different mode if the
-active mode is BltOnly.
+Reviewed-by: Christian König <christian.koenig@amd.com>
+
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> index ae3ad19667df..6e8b6fd94378 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+> @@ -2278,7 +2278,7 @@ int amdgpu_copy_buffer(struct amdgpu_device *adev, uint64_t src_offset,
+>  				   resv, vm_needs_flush, &job, false,
+>  				   AMDGPU_KERNEL_JOB_ID_TTM_COPY_BUFFER);
+>  	if (r)
+> -		return r;
+> +		goto error_free;
+>  
+>  	for (i = 0; i < num_loops; i++) {
+>  		uint32_t cur_size_in_bytes = min(byte_count, max_bytes);
+> @@ -2290,11 +2290,9 @@ int amdgpu_copy_buffer(struct amdgpu_device *adev, uint64_t src_offset,
+>  		byte_count -= cur_size_in_bytes;
+>  	}
+>  
+> -	if (r)
+> -		goto error_free;
+>  	*fence = amdgpu_ttm_job_submit(adev, job, num_dw);
+>  
+> -	return r;
+> +	return 0;
+>  
+>  error_free:
+>  	amdgpu_job_free(job);
+
