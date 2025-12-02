@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87102C9B101
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 11:17:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5E8C9B0FE
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 11:17:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6BDC110E5F7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 776A610E5FB;
 	Tue,  2 Dec 2025 10:17:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="hzLTIZO4";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZK1+IAtm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ABD110E5F5;
- Tue,  2 Dec 2025 10:17:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6313B10E5F6;
+ Tue,  2 Dec 2025 10:17:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764670648;
- bh=9th0tLAngJVGd6qH652rQnjACAMqlVf6KbfxdfP115A=;
+ s=mail; t=1764670649;
+ bh=F21lcLtx1NkP7OSa7ulUeqIgfho6clTQ3QePI0r5YA0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hzLTIZO4FKybVytLPB8Q+wJpU5gvTnj6tCpOXfRP0sStlfSW6Qiyz9bqu5Dtm105w
- t3RbjK7qOT7oqij4vDG1DT67koICrUXrGdim26gz/c+v8zMMioqe+1sSvO5MhNFxY+
- iwJZ+opUrw9DpGNJdGg7nmWZi/noPh/rL3GKidVw5xc9nBtX5R1KVbdnFc0NXvgAtV
- srexQGdbfrhhSQmbGx/gAjdwfYwYgm5aQG7s0/8DFuJhL1sDOvKA+2qAEasF/Vvz1g
- +PSc2NsvfgY/zQi0YyP7hoMRhU4bRsBMAttp76kE0Rqy12yAb8baiZMsiFiHzrlMA2
- 23xevis+eKEDA==
+ b=ZK1+IAtmfk0vMuroptfO27xkg4GAzeGSimuC+AjVLHhh6CxG3WnS2khuunIKqNxZU
+ v89GbsT4FkT86MTrazurSsudYMKDH0/2GWKV1eTgjwXbPUaatiKUehDCxJcMJ7gPdg
+ 7tzjuF57BBZ23c21v45DXJ53hG7wPTRdjJYp/MJLGWDWKWhuidt7UYrFadrie6ZHsz
+ jHQVW0N18JL/hG1jRAIBRvFIz5A8XZfM76A8i6Q2F54O3V/2LHE2aQNUtbpezHyfwr
+ Qgi8s+w6852czqQPVANbeBbhBg+LOrsYmBBUiVV5kaCIB1LOMnsbOTNkKfCq8c7cBF
+ SSwU7tlh2mDiQ==
 Received: from debian-rockchip-rock5b-rk3588.. (unknown
  [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: loicmolinari)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2176017E13F1;
- Tue,  2 Dec 2025 11:17:27 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 238D817E1414;
+ Tue,  2 Dec 2025 11:17:28 +0100 (CET)
 From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -60,9 +60,9 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
  linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH v11 04/10] drm/gem: Add huge tmpfs mountpoint helpers
-Date: Tue,  2 Dec 2025 11:17:14 +0100
-Message-ID: <20251202101720.3129-5-loic.molinari@collabora.com>
+Subject: [PATCH v11 05/10] drm/i915: Use huge tmpfs mountpoint helpers
+Date: Tue,  2 Dec 2025 11:17:15 +0100
+Message-ID: <20251202101720.3129-6-loic.molinari@collabora.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251202101720.3129-1-loic.molinari@collabora.com>
 References: <20251202101720.3129-1-loic.molinari@collabora.com>
@@ -84,213 +84,314 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the drm_gem_huge_mnt_create() and drm_gem_get_huge_mnt() helpers
-to avoid code duplication in the i915, V3D, Panfrost and Panthor
-drivers. The former creates and mounts a dedicated huge tmpfs
-mountpoint, for the lifetime of a DRM device, used at GEM object
-initialization. The latter retrieves the dedicated huge tmpfs
-mountpoint used by a DRM device.
-
-The next commits will port drivers to these helpers.
+Make use of the new drm_gem_huge_mnt_create() and
+drm_gem_get_huge_mnt() helpers to avoid code duplication. Now that
+it's just a few lines long, the single function in i915_gemfs.c is
+moved into v3d_gem_shmem.c.
 
 v3:
-- store huge tmpfs mountpoint in drm_device
+- use huge tmpfs mountpoint in drm_device
+- move i915_gemfs.c into i915_gem_shmem.c
 
 v4:
-- return 0 in builds with CONFIG_TRANSPARENT_HUGEPAGE=n
-- return 0 when huge_mnt already exists
-- use new vfs_parse_fs_string() helper
+- clean up mountpoint creation error handling
 
 v5:
-- remove warning on !dev->huge_mnt and reset to NULL on free
-- inline drm_gem_huge_mnt_create() to remove func from text and avoid
-  calls in builds with CONFIG_TRANSPARENT_HUGEPAGE=n
-- compile out drm_device's huge_mnt field in builds with
-  CONFIG_TRANSPARENT_HUGEPAGE=n
-- add drm_gem_has_huge_mnt() helper
-
-v6:
-- move huge_mnt doc into ifdef'd section
-- either inline or export drm_gem_huge_mnt_create()
+- use drm_gem_has_huge_mnt() helper
 
 v7:
-- include <drm/drm_device.h> in drm_gem.h
+- include <drm/drm_print.h> in i915_gem_shmem.c
+
+v8:
+- keep logging notice message with CONFIG_TRANSPARENT_HUGEPAGE=n
+- don't access huge_mnt field with CONFIG_TRANSPARENT_HUGEPAGE=n
 
 v9:
 - replace drm_gem_has_huge_mnt() by drm_gem_get_huge_mnt()
-
-v11:
-- doc fixes
-- add Boris and Maíra R-bs
+- remove useless ternary op test in selftests/huge_pages.c
 
 Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Maíra Canal <mcanal@igalia.com>
 ---
- drivers/gpu/drm/drm_gem.c | 57 +++++++++++++++++++++++++++++++++++++++
- include/drm/drm_device.h  | 15 +++++++++++
- include/drm/drm_gem.h     | 33 +++++++++++++++++++++++
- 3 files changed, 105 insertions(+)
+ drivers/gpu/drm/i915/Makefile                 |  3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c     | 48 +++++++++----
+ drivers/gpu/drm/i915/gem/i915_gemfs.c         | 71 -------------------
+ drivers/gpu/drm/i915/gem/i915_gemfs.h         | 14 ----
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   | 16 +++--
+ drivers/gpu/drm/i915/i915_drv.h               |  5 --
+ 6 files changed, 47 insertions(+), 110 deletions(-)
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.c
+ delete mode 100644 drivers/gpu/drm/i915/gem/i915_gemfs.h
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 933fc89dd648..32dddb23e211 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -29,6 +29,9 @@
- #include <linux/export.h>
- #include <linux/file.h>
- #include <linux/fs.h>
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+#include <linux/fs_context.h>
-+#endif
- #include <linux/iosys-map.h>
- #include <linux/mem_encrypt.h>
- #include <linux/mm.h>
-@@ -82,6 +85,60 @@
-  * up at a later date, and as our interface with shmfs for memory allocation.
-  */
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index 84ec79b64960..b5a8c0a6b747 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -169,8 +169,7 @@ gem-y += \
+ 	gem/i915_gem_ttm_move.o \
+ 	gem/i915_gem_ttm_pm.o \
+ 	gem/i915_gem_userptr.o \
+-	gem/i915_gem_wait.o \
+-	gem/i915_gemfs.o
++	gem/i915_gem_wait.o
+ i915-y += \
+ 	$(gem-y) \
+ 	i915_active.o \
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index 26dda55a07ff..15c2c6fde2ac 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -9,14 +9,16 @@
+ #include <linux/uio.h>
  
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+static void drm_gem_huge_mnt_free(struct drm_device *dev, void *data)
-+{
-+	kern_unmount(dev->huge_mnt);
-+}
-+
-+/**
-+ * drm_gem_huge_mnt_create - Create, mount and use a huge tmpfs mountpoint
-+ * @dev: DRM device that will use the huge tmpfs mountpoint
-+ * @value: huge tmpfs mount option value
-+ *
-+ * This function creates and mounts a dedicated huge tmpfs mountpoint for the
-+ * lifetime of the DRM device @dev which is used at GEM object initialization
-+ * with drm_gem_object_init().
-+ *
-+ * The most common option for @value is "within_size" which only allocates huge
-+ * pages if the page will be fully within the GEM object size. "always",
-+ * "advise" and "never" are supported too but the latter would just create a
-+ * mountpoint similar to the default one (`shm_mnt`). See shmemfs and
-+ * Transparent Hugepage for more information.
-+ *
-+ * Returns:
-+ * 0 on success or a negative error code on failure.
-+ */
-+int drm_gem_huge_mnt_create(struct drm_device *dev, const char *value)
-+{
-+	struct file_system_type *type;
-+	struct fs_context *fc;
-+	int ret;
-+
-+	if (unlikely(drm_gem_get_huge_mnt(dev)))
-+		return 0;
-+
-+	type = get_fs_type("tmpfs");
-+	if (unlikely(!type))
-+		return -EOPNOTSUPP;
-+	fc = fs_context_for_mount(type, SB_KERNMOUNT);
-+	if (IS_ERR(fc))
-+		return PTR_ERR(fc);
-+	ret = vfs_parse_fs_string(fc, "source", "tmpfs");
-+	if (unlikely(ret))
-+		return -ENOPARAM;
-+	ret = vfs_parse_fs_string(fc, "huge", value);
-+	if (unlikely(ret))
-+		return -ENOPARAM;
-+
-+	dev->huge_mnt = fc_mount_longterm(fc);
-+	put_fs_context(fc);
-+
-+	return drmm_add_action_or_reset(dev, drm_gem_huge_mnt_free, NULL);
-+}
-+EXPORT_SYMBOL_GPL(drm_gem_huge_mnt_create);
-+#endif
-+
- static void
- drm_gem_init_release(struct drm_device *dev, void *ptr)
+ #include <drm/drm_cache.h>
++#include <drm/drm_gem.h>
++#include <drm/drm_print.h>
+ 
+ #include "gem/i915_gem_region.h"
+ #include "i915_drv.h"
+ #include "i915_gem_object.h"
+ #include "i915_gem_tiling.h"
+-#include "i915_gemfs.h"
+ #include "i915_scatterlist.h"
+ #include "i915_trace.h"
++#include "i915_utils.h"
+ 
+ /*
+  * Move folios to appropriate lru and release the batch, decrementing the
+@@ -497,6 +499,7 @@ static int __create_shmem(struct drm_i915_private *i915,
+ 			  resource_size_t size)
  {
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index 5af49c5c3778..bc78fb77cc27 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -3,6 +3,9 @@
- 
- #include <linux/list.h>
- #include <linux/kref.h>
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+#include <linux/mount.h>
-+#endif
- #include <linux/mutex.h>
- #include <linux/idr.h>
- #include <linux/sched.h>
-@@ -168,6 +171,18 @@ struct drm_device {
- 	 */
- 	struct drm_master *master;
- 
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	/**
-+	 * @huge_mnt:
-+	 *
-+	 * Huge tmpfs mountpoint used at GEM object initialization
-+	 * drm_gem_object_init(). Drivers can call drm_gem_huge_mnt_create() to
-+	 * create, mount and use it. The default tmpfs mountpoint (`shm_mnt`) is
-+	 * used if NULL.
-+	 */
+ 	unsigned long flags = VM_NORESERVE;
 +	struct vfsmount *huge_mnt;
-+#endif
-+
- 	/**
- 	 * @driver_features: per-device driver features
- 	 *
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 7c8bd67d087c..97b5fca8966d 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -40,6 +40,9 @@
- #include <linux/list.h>
- #include <linux/mutex.h>
+ 	struct file *filp;
  
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+#include <drm/drm_device.h>
-+#endif
- #include <drm/drm_vma_manager.h>
+ 	drm_gem_private_object_init(&i915->drm, obj, size);
+@@ -515,9 +518,9 @@ static int __create_shmem(struct drm_i915_private *i915,
+ 	if (BITS_PER_LONG == 64 && size > MAX_LFS_FILESIZE)
+ 		return -E2BIG;
  
- struct iosys_map;
-@@ -492,6 +495,36 @@ struct drm_gem_object {
- 		DRM_GEM_FOPS,\
- 	}
+-	if (i915->mm.gemfs)
+-		filp = shmem_file_setup_with_mnt(i915->mm.gemfs, "i915", size,
+-						 flags);
++	huge_mnt = drm_gem_get_huge_mnt(&i915->drm);
++	if (huge_mnt)
++		filp = shmem_file_setup_with_mnt(huge_mnt, "i915", size, flags);
+ 	else
+ 		filp = shmem_file_setup("i915", size, flags);
+ 	if (IS_ERR(filp))
+@@ -644,21 +647,40 @@ i915_gem_object_create_shmem_from_data(struct drm_i915_private *i915,
  
+ static int init_shmem(struct intel_memory_region *mem)
+ {
+-	i915_gemfs_init(mem->i915);
+-	intel_memory_region_set_name(mem, "system");
++	struct drm_i915_private *i915 = mem->i915;
+ 
+-	return 0; /* We have fallback to the kernel mnt if gemfs init failed. */
+-}
++	/*
++	 * By creating our own shmemfs mountpoint, we can pass in
++	 * mount flags that better match our usecase.
++	 *
++	 * One example, although it is probably better with a per-file
++	 * control, is selecting huge page allocations ("huge=within_size").
++	 * However, we only do so on platforms which benefit from it, or to
++	 * offset the overhead of iommu lookups, where with latter it is a net
++	 * win even on platforms which would otherwise see some performance
++	 * regressions such a slow reads issue on Broadwell and Skylake.
++	 */
+ 
+-static int release_shmem(struct intel_memory_region *mem)
+-{
+-	i915_gemfs_fini(mem->i915);
+-	return 0;
++	if (GRAPHICS_VER(i915) < 11 && !i915_vtd_active(i915))
++		goto no_thp;
++
++	drm_gem_huge_mnt_create(&i915->drm, "within_size");
++	if (drm_gem_get_huge_mnt(&i915->drm))
++		drm_info(&i915->drm, "Using Transparent Hugepages\n");
++	else
++		drm_notice(&i915->drm,
++			   "Transparent Hugepage support is recommended for optimal performance%s\n",
++			   GRAPHICS_VER(i915) >= 11 ? " on this platform!" :
++						      " when IOMMU is enabled!");
++
++ no_thp:
++	intel_memory_region_set_name(mem, "system");
++
++	return 0; /* We have fallback to the kernel mnt if huge mnt failed. */
+ }
+ 
+ static const struct intel_memory_region_ops shmem_region_ops = {
+ 	.init = init_shmem,
+-	.release = release_shmem,
+ 	.init_object = shmem_object_init,
+ };
+ 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
+deleted file mode 100644
+index 1f1290214031..000000000000
+--- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
++++ /dev/null
+@@ -1,71 +0,0 @@
+-// SPDX-License-Identifier: MIT
+-/*
+- * Copyright © 2017 Intel Corporation
+- */
+-
+-#include <linux/fs.h>
+-#include <linux/mount.h>
+-#include <linux/fs_context.h>
+-
+-#include <drm/drm_print.h>
+-
+-#include "i915_drv.h"
+-#include "i915_gemfs.h"
+-#include "i915_utils.h"
+-
+-void i915_gemfs_init(struct drm_i915_private *i915)
+-{
+-	struct file_system_type *type;
+-	struct fs_context *fc;
+-	struct vfsmount *gemfs;
+-	int ret;
+-
+-	/*
+-	 * By creating our own shmemfs mountpoint, we can pass in
+-	 * mount flags that better match our usecase.
+-	 *
+-	 * One example, although it is probably better with a per-file
+-	 * control, is selecting huge page allocations ("huge=within_size").
+-	 * However, we only do so on platforms which benefit from it, or to
+-	 * offset the overhead of iommu lookups, where with latter it is a net
+-	 * win even on platforms which would otherwise see some performance
+-	 * regressions such a slow reads issue on Broadwell and Skylake.
+-	 */
+-
+-	if (GRAPHICS_VER(i915) < 11 && !i915_vtd_active(i915))
+-		return;
+-
+-	if (!IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE))
+-		goto err;
+-
+-	type = get_fs_type("tmpfs");
+-	if (!type)
+-		goto err;
+-
+-	fc = fs_context_for_mount(type, SB_KERNMOUNT);
+-	if (IS_ERR(fc))
+-		goto err;
+-	ret = vfs_parse_fs_string(fc, "source", "tmpfs");
+-	if (!ret)
+-		ret = vfs_parse_fs_string(fc, "huge", "within_size");
+-	if (!ret)
+-		gemfs = fc_mount_longterm(fc);
+-	put_fs_context(fc);
+-	if (ret)
+-		goto err;
+-
+-	i915->mm.gemfs = gemfs;
+-	drm_info(&i915->drm, "Using Transparent Hugepages\n");
+-	return;
+-
+-err:
+-	drm_notice(&i915->drm,
+-		   "Transparent Hugepage support is recommended for optimal performance%s\n",
+-		   GRAPHICS_VER(i915) >= 11 ? " on this platform!" :
+-					      " when IOMMU is enabled!");
+-}
+-
+-void i915_gemfs_fini(struct drm_i915_private *i915)
+-{
+-	kern_unmount(i915->mm.gemfs);
+-}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.h b/drivers/gpu/drm/i915/gem/i915_gemfs.h
+deleted file mode 100644
+index 16d4333c9a4e..000000000000
+--- a/drivers/gpu/drm/i915/gem/i915_gemfs.h
++++ /dev/null
+@@ -1,14 +0,0 @@
+-/* SPDX-License-Identifier: MIT */
+-/*
+- * Copyright © 2017 Intel Corporation
+- */
+-
+-#ifndef __I915_GEMFS_H__
+-#define __I915_GEMFS_H__
+-
+-struct drm_i915_private;
+-
+-void i915_gemfs_init(struct drm_i915_private *i915);
+-void i915_gemfs_fini(struct drm_i915_private *i915);
+-
+-#endif
+diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+index bd08605a1611..28aef75630a2 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
++++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+@@ -1316,7 +1316,7 @@ typedef struct drm_i915_gem_object *
+ 
+ static inline bool igt_can_allocate_thp(struct drm_i915_private *i915)
+ {
+-	return i915->mm.gemfs && has_transparent_hugepage();
++	return !!drm_gem_get_huge_mnt(&i915->drm);
+ }
+ 
+ static struct drm_i915_gem_object *
+@@ -1761,7 +1761,9 @@ static int igt_tmpfs_fallback(void *arg)
+ 	struct drm_i915_private *i915 = arg;
+ 	struct i915_address_space *vm;
+ 	struct i915_gem_context *ctx;
+-	struct vfsmount *gemfs = i915->mm.gemfs;
 +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+int drm_gem_huge_mnt_create(struct drm_device *dev, const char *value);
-+#else
-+static inline int drm_gem_huge_mnt_create(struct drm_device *dev,
-+					  const char *value)
-+{
-+	return 0;
-+}
++	struct vfsmount *huge_mnt = i915->drm.huge_mnt;
 +#endif
-+
-+/**
-+ * drm_gem_get_huge_mnt - Get the huge tmpfs mountpoint used by a DRM device
-+ * @dev: DRM device
-+
-+ * This function gets the huge tmpfs mountpoint used by DRM device @dev. A huge
-+ * tmpfs mountpoint is used instead of `shm_mnt` after a successful call to
-+ * drm_gem_huge_mnt_create() when CONFIG_TRANSPARENT_HUGEPAGE is enabled.
-+
-+ * Returns:
-+ * The huge tmpfs mountpoint in use, NULL otherwise.
-+ */
-+static inline struct vfsmount *drm_gem_get_huge_mnt(struct drm_device *dev)
-+{
+ 	struct drm_i915_gem_object *obj;
+ 	struct i915_vma *vma;
+ 	struct file *file;
+@@ -1782,10 +1784,12 @@ static int igt_tmpfs_fallback(void *arg)
+ 	/*
+ 	 * Make sure that we don't burst into a ball of flames upon falling back
+ 	 * to tmpfs, which we rely on if on the off-chance we encounter a failure
+-	 * when setting up gemfs.
++	 * when setting up a huge mountpoint.
+ 	 */
+ 
+-	i915->mm.gemfs = NULL;
 +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	return dev->huge_mnt;
-+#else
-+	return NULL;
++	i915->drm.huge_mnt = NULL;
 +#endif
-+}
-+
- void drm_gem_object_release(struct drm_gem_object *obj);
- void drm_gem_object_free(struct kref *kref);
- int drm_gem_object_init(struct drm_device *dev,
+ 
+ 	obj = i915_gem_object_create_shmem(i915, PAGE_SIZE);
+ 	if (IS_ERR(obj)) {
+@@ -1819,7 +1823,9 @@ static int igt_tmpfs_fallback(void *arg)
+ out_put:
+ 	i915_gem_object_put(obj);
+ out_restore:
+-	i915->mm.gemfs = gemfs;
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++	i915->drm.huge_mnt = huge_mnt;
++#endif
+ 
+ 	i915_vm_put(vm);
+ out:
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 95f9ddf22ce4..93a5af3de334 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -141,11 +141,6 @@ struct i915_gem_mm {
+ 	 */
+ 	atomic_t free_count;
+ 
+-	/**
+-	 * tmpfs instance used for shmem backed objects
+-	 */
+-	struct vfsmount *gemfs;
+-
+ 	struct intel_memory_region *regions[INTEL_REGION_UNKNOWN];
+ 
+ 	struct notifier_block oom_notifier;
 -- 
 2.47.3
 
