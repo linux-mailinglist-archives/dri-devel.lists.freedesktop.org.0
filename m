@@ -2,129 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C921FC9AFA3
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 10:52:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5651C9B040
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 11:01:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2628510E5F9;
-	Tue,  2 Dec 2025 09:52:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C867010E5C6;
+	Tue,  2 Dec 2025 10:01:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="jhpjnlxT";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MupdOExJ";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WvFAXAUC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com
- (mail-northcentralusazon11012001.outbound.protection.outlook.com
- [40.107.200.1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE5E10E5EB;
- Tue,  2 Dec 2025 09:52:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HAwfYNMP45UDVUoz4/0N0BDCsjDFXyHXVeUSWibYhFrePXKJA4T1HabwDg6T3ucEqZNISh7u6pfSySYWX3zA7Wk6XVg/M/Vx/TpH5Ge1fl9Rspocg8bgML3xtT7SEvF527p7V8XyAFrG7UGWwrq0M26dU1Wgy12kMDdnuAA9yK0rI2lhMJ2FO3uin9Izo/V9BVdcXMjoBeK6glcLVS/Sdp7BKUkPJSE9p4xgz0sxq5BH46pBNo7xGeNosSWla0XfqnVluim3OH2/h6bySwBa93ba9t4mjPFV2/btPDXLXnva8PrXhqf0Jsx9FGSYWkguKod0oOBXG/r3Y5+hO3/AwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3LGisU0K6PssBQAQsltEni5VummLOUVbizxcgh5+ueU=;
- b=ubHDW65DXSqBtu4GY9EgRrLeKl/7Zw9TOtLhz9sEbExpRWs2CwgOQxoLqZjS6w3Nbundgmp6ugYcnU1NOMHEEjPTEKZc66z7W8D6C8d/B1RTMQBmxss+K+owseL2DiWidfButNI7Bz6ZwLC385xTQCTLwP0KDfgyb+8zasnPM4roxghSuJbFITJCGCpz/7J/Hf7XmvSy8N6hw+X7oYsZC1QHXO3YFUrS6Ti6OSFcMz+QAVVGqj3s8W4vz/ciQNJOYPXivnYQncG+a5ZJ9shTeZeBaPqFGc0ky1Kb8JlKDXBmYPDgrIGnXCe4tRnm0iDssk4UhJYTpNbJi64IVRtmBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3LGisU0K6PssBQAQsltEni5VummLOUVbizxcgh5+ueU=;
- b=jhpjnlxTgIcwkq/vp30rLNmS9FgtzNUx5EkUqjAZdNMdTPiRe1J8MPyxzHw9rcatHzdJup4YcoMzC/ZYnGPuw6n9a7O3eK2fwJBBuFRPnLmsBPbE5Ax+FrlOqaLBt0/Mjwp5lZT+0P1s5WYMKY5w+IGVatJdKC/awCWVdLPP7fQ=
-Received: from SJ0PR03CA0217.namprd03.prod.outlook.com (2603:10b6:a03:39f::12)
- by LV2PR12MB5965.namprd12.prod.outlook.com (2603:10b6:408:172::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Tue, 2 Dec
- 2025 09:52:31 +0000
-Received: from MWH0EPF000A6732.namprd04.prod.outlook.com
- (2603:10b6:a03:39f:cafe::9b) by SJ0PR03CA0217.outlook.office365.com
- (2603:10b6:a03:39f::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.17 via Frontend Transport; Tue,
- 2 Dec 2025 09:52:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- MWH0EPF000A6732.mail.protection.outlook.com (10.167.249.24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9388.8 via Frontend Transport; Tue, 2 Dec 2025 09:52:30 +0000
-Received: from FRAPPELLOUX01-WSLPUB.amd.com (10.180.168.240) by
- satlexmb07.amd.com (10.181.42.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Tue, 2 Dec 2025 03:52:24 -0600
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 13/13] drm/amdgpu: move sched status check inside
- amdgpu_ttm_set_buffer_funcs_status
-Date: Tue, 2 Dec 2025 10:47:23 +0100
-Message-ID: <20251202094738.15614-14-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251202094738.15614-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20251202094738.15614-1-pierre-eric.pelloux-prayer@amd.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 993AD10E5C6
+ for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 10:01:29 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5B22vGeA1090857
+ for <dri-devel@lists.freedesktop.org>; Tue, 2 Dec 2025 10:01:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ VCgyHpBwQTHzIAgBMQn8Tj44im5JyB4dlR9ZKOC00xw=; b=MupdOExJPHKS91JK
+ OrTN9mOgl8emGkBoTUnDHrT8uwVXEEVM64XYfBDrx8YSK7ssxm/goPpPyZM/3F3j
+ 8cYu4Elmc0aqyBGMzjU+LzmzYWG/ZOvD7ZOYwp1uK2jNjCR1mfLCl7M4/kMKEQS7
+ VIcmBelIqaEuPt3XpXcgrXxHSHWIbRHrwt9KJdwlYBudCN8dVo11oJNW3jWsr0XM
+ jmyRHEBcHE66FH7uFHtrWgfoxxa0Z2ZxMmmUOL6bSR3Ln/fqKK1kfl64vXlFc9/A
+ x2vt7ESELlZaNnGrzfM9Dlhr4YtlrtORn9QXbCnGK1Ire0mKsbH3UV7wPlTGLXXR
+ U20LIg==
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4asfu12u7v-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 10:01:28 +0000 (GMT)
+Received: by mail-pg1-f200.google.com with SMTP id
+ 41be03b00d2f7-b969f3f5bb1so7671313a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 02:01:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1764669687; x=1765274487;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=VCgyHpBwQTHzIAgBMQn8Tj44im5JyB4dlR9ZKOC00xw=;
+ b=WvFAXAUCusOcJ6updL2Jy8YDCdyMLQuCEA1hrnWzph16m+UbaL6mPsQOaPGZuBtWHn
+ b6xYN8WtET4gF5GQ4CC+KPdylTCJyWSMozBWrJshOyvKHk8ApgWMMkFI7ypvL21c3pVw
+ MBCp1RKIhpDKxffeZzcyQ6OdBX6qhlRnatY5fHiRP8GDL85IcDcCcJJC/bDZGg9lAuL/
+ igisoOAwsvkDHN7KdimyDlmb2XzJ7twrD07zV4qSufnXMJuYTOXEKYe1a9wniuDmPGtq
+ bICWmV9UxFuypJFA+Tondml8Jm2fPqRLX3J2DC5kqF16EVV8kmzf/fkmvzeKcINXxWNT
+ ra5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764669687; x=1765274487;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=VCgyHpBwQTHzIAgBMQn8Tj44im5JyB4dlR9ZKOC00xw=;
+ b=hEnOs47j0r8Kc7UWYAtIbeU6RHHV76pJaWb99DCHofBLKY7d40VZGPY6KUJ1yrk1pl
+ cr2hlQnAOwOKF6MbRZPQKKKc1ZvSnpfGVTYBfPrJqE7Ai5Id2YvLaFe0va9zfXAXyhKZ
+ sb/3YTVSEyHWKPuSflpK1L+Q44TGMUz9llZi8TA4va/c1c/vzVD4Lsap3tpQFHicHaBf
+ ZjWg942V409qkQ3C0LwxU0Sm3VGtjoMS2PkxLk3mY0StrJitQBnq68fkEKA1vWdgn92P
+ PvdMKsClk3JnINwJ9gcEIgfC5rWxK1RM3beIwsw21x33kGqvsWEXLY+jiXxpHz4poby7
+ OKgQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUIRbl6z/mUL9G3Gm6UTrbUKzcNdhQmAtYtifHsb0IyMv8Cd+eXrRFsAE5tcH7Ny3ikgMw6iOKGZrM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwWxGcEY7hZ7E8bDVECL0O4+ShVXHrEavKehPlfqwYi6c0OWJ0J
+ 0hqKd1SWBFAF1+wdBfnCWEuQ0Q3orfjxs6CJZHQxRGU263P11pOjHcpq2Dl8BLFQI7hqexKwaus
+ Rcv+eMF+805d8Oh0bg8jmDwTe/X7yL3rQOqDuLNvj3n4nA43pyNNrLOZLcjUxDEyeuK9EAgY=
+X-Gm-Gg: ASbGnctemaWcwCamvWPHt6Po1E25sBi6yFGJgVw1jhqfGnBfAN3UFfFzhP+4f8zgbxC
+ 68vibcSvkInLBPUJzzO464p7AqDn8R575RVIIPzKO0QTyKUXmeODleOIPAn2uEgkDrl3yOSHXF5
+ j2QpRr4enl6FO+gZGi1gw5qDHkg3HFuPBmY+4tKJR+Zy1CBEAbDtcxogj61QrhowlnVMEhEczGe
+ nnpBxBE1NLPQKvqsAs2teI7d2yIyor4+N+BHzFGa6/WpB1sUOG660Esb9XLVLhj23qdun3cOFBZ
+ wHkGXU7Kr9Dp1YioXks9mSjmU2O9/yOocv0cmfSWQgVBjnr2HAjyE5XTE7jdg3mAz9k29HJU0T2
+ sIFi/0Z/siwEVkrfFnwDnhhItOkII5le0r4Sy1JGFCA==
+X-Received: by 2002:a05:7301:7194:b0:2a4:3593:c7c1 with SMTP id
+ 5a478bee46e88-2a7194ab2a1mr19578319eec.1.1764669687357; 
+ Tue, 02 Dec 2025 02:01:27 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHKRFsMylJah6XxPplvV9ZpzzT/gex0k0NSf2YPvwqBcH7AOdKS2xzxMzA1XuIz16ntn4kKiA==
+X-Received: by 2002:a05:7301:7194:b0:2a4:3593:c7c1 with SMTP id
+ 5a478bee46e88-2a7194ab2a1mr19578297eec.1.1764669686707; 
+ Tue, 02 Dec 2025 02:01:26 -0800 (PST)
+Received: from [10.204.86.123] ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ a92af1059eb24-11dcaed5fcasm83627991c88.2.2025.12.02.02.01.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Dec 2025 02:01:26 -0800 (PST)
+Message-ID: <ab942177-a8a7-4047-9b6a-634aa3d15b21@oss.qualcomm.com>
+Date: Tue, 2 Dec 2025 15:31:17 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/4] dt-bindings: misc: qcom,fastrpc: Add compatible
+ for Kaanapali
+To: Krzysztof Kozlowski <krzk@kernel.org>, kpallavi@qti.qualcomm.com,
+ srini@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
+ gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org
+Cc: quic_bkumar@quicinc.com, ekansh.gupta@oss.qualcomm.com,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, jingyi.wang@oss.qualcomm.com,
+ aiqun.yu@oss.qualcomm.com, ktadakam@qti.qualcomm.com
+References: <20251202060628.1869967-1-kumari.pallavi@oss.qualcomm.com>
+ <20251202060628.1869967-2-kumari.pallavi@oss.qualcomm.com>
+ <191e6be9-5e61-43b7-a75b-e2d211bc6630@kernel.org>
+Content-Language: en-US
+From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+In-Reply-To: <191e6be9-5e61-43b7-a75b-e2d211bc6630@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000A6732:EE_|LV2PR12MB5965:EE_
-X-MS-Office365-Filtering-Correlation-Id: 66275f98-0824-41ec-48f1-08de3188828f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|36860700013|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9pTZ+cKQxlQrU0Prv/m4TlIJ7jBkXuBX13qjhlNVGS0sokQ/Jp+yj4tmdZUt?=
- =?us-ascii?Q?H/h+SIxl4y/FnYog1AKbISWwEI6Z0X0igUFMUYbIfqwVqc2tn3KwlKgGJ3+x?=
- =?us-ascii?Q?hgcfh2EW8r0ryUTHdFImNBGBsd/AUcpWQL8mD84yPyRlbCWeho+hR0KbwcCO?=
- =?us-ascii?Q?ywqqialiC4SOb85fPi0wy3hxlLO2potfSV+JCxaMKBfgvYk8vaR2hF4f7Imj?=
- =?us-ascii?Q?FSKa+EHw20z3Zt3aaBX5AiL3+/Tm3wIW0tlZf9SeBMjQ+ezTAnfodvUtx73G?=
- =?us-ascii?Q?KG55QYB0Eln0hqFqwOkNjU3z6TlBw95FNnG5vPRK21nWgTM9Si1Bi5Zkr+xg?=
- =?us-ascii?Q?hnlem8SAsXtFbZkkZNuoraQnd0MXc4wqDvsMK2crQoSzj6KUoevB6RteC4br?=
- =?us-ascii?Q?yVmB5ttm3/tRtR4Pachyl50KTVmgeQG4UC6P/nhe1dK5JrvU6DOPltwKcNYa?=
- =?us-ascii?Q?k2G47ujbsFx/ZZdVbkMgLW/fM8/4+HqpHnzhR8IdwZmgmmyCyqW6UT5WFxOv?=
- =?us-ascii?Q?Chyto3FzdvE5LrKvVZSvQoY8Hf6mnPNQsvLTCP5zFOtFvA09WjTQzg3KV11J?=
- =?us-ascii?Q?ErAH/NwQbDK6X2kKiSH9Fr0KWY/5tk9I6Q8o5fbkeLeLGumhRgMFANaRSyvr?=
- =?us-ascii?Q?oP0bmLiLvDmn0jmblPEzL2B2Xccz1LXierSxXTwclHJ6vbuZeCzOphTR6+MU?=
- =?us-ascii?Q?dLpj+mYYRKLRbrOqvXKXHoZ4T91faR19nHKtz4deUow4TtFWHenUBR8rIei/?=
- =?us-ascii?Q?5jrRoZXL6CsJTsUVfMD4i1Yi3c/v35A4Z6nLJDjfhOpCfPn9whK6w6Um8Ez2?=
- =?us-ascii?Q?A33/eRf/jhruuVuDonpwEx8rT5anxDp9dWgIWbouKiZ+1vjkQPajXBimf+ym?=
- =?us-ascii?Q?xoF1Lp7QwbCdovJ4Vjhp/+r44zFbhrkSXzmptKGabU5bGBzFwDYSzoGqZBTH?=
- =?us-ascii?Q?N7z3zmOktV8kFoT6956M2LrGBgYmcN4fHlVuzI8UdA5zz7WTn2rZXug7A+2A?=
- =?us-ascii?Q?SQf0dd1yGxY/InEPUnoMrlfIE690vLU9kK8AamTG0tcWV/np/yuiPWInOI2P?=
- =?us-ascii?Q?IPWA5hZRyBIjM8q1vWLFRt9Bm78jH/BR5C2UVe+iXIVjXPzHhtLkl8A+0UBy?=
- =?us-ascii?Q?HLZajBY88iHYcNjq66jMgVAOa8p8oS0vVTCqxriVpEhK7bh4fXid4a1qzJ6L?=
- =?us-ascii?Q?zP9OWS9g5RIW3kv+Ch3ww1mihm3pDH8AubLbcb9W/xiVddnuyHLKyLDBo9Kf?=
- =?us-ascii?Q?q9xtMfzpj2RBZC+sAbiRA4BAaX/gB6PudNLhT/CPOzg42j1fpsUFo9agESBr?=
- =?us-ascii?Q?cV5GWa2Ngzk9t7lFO3gDDQJTTq69uzGzZoIcaMKGMJP/qFHRiQkvoqHi4GDR?=
- =?us-ascii?Q?QvUkJVP4qOgzIsEY3tZsuM8xBuQGWCbg34ePYu5JzXz+YfpR5I0HL1FS1IPD?=
- =?us-ascii?Q?rHR1Pl43bq01LErKzgHpSeaGSYWWzHHbwNuABL2XT9WBoTQVwK36OBNXuNfC?=
- =?us-ascii?Q?fehILbEVYcIPVP3z/i8c7jLCeh96DVwGlrMdjIcVRD0XrN6PldZ4Crhk8atW?=
- =?us-ascii?Q?G+dQV7qvc3NnXKQ6V2c=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Dec 2025 09:52:30.7607 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66275f98-0824-41ec-48f1-08de3188828f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000A6732.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5965
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjAyMDA4MCBTYWx0ZWRfX+FWRY0+j2FYo
+ UPJPSbNlCZ78EM55QsGYrP4LZMF3e8h3mOAl90pxTXKxfRG5eINc2+2cF24NsUA2IPf6I2XK7aI
+ QrwPXa5EdOaTcS3yLR/Fi6D9el2P36KTYUCHdstYLXg5rtfml2HzGaBqLcppWjp4cXrcZ1ppPEk
+ 5pOfbzVkOk8WxfbBBahujPP7SmTBPjRI+fwmBChrAu+f08qi3kHMjBfwxWj0yBdsyBWq/8wsKmC
+ Do7LKrh9nllXNBmyy62encrivsrqvFgrROaupUVPWFRQGxp6pW78WZc7i/7bzjCbnQ1wuFj5WqU
+ FvVOIZc229okhXxYg3rNoiTQyEY+7SptPikck7iaNY1a4Jj7lr0EilYFKchu2oz/VoIZrv+qRFI
+ H9xUhfYQKgqoLIp3NWSgHczbfbv59g==
+X-Authority-Analysis: v=2.4 cv=BJW+bVQG c=1 sm=1 tr=0 ts=692eb8f8 cx=c_pps
+ a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=9uI-NWsv2U5wCxV133oA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
+X-Proofpoint-GUID: MCZnAx2as5AWos481DxtTolYQ88hQYjC
+X-Proofpoint-ORIG-GUID: MCZnAx2as5AWos481DxtTolYQ88hQYjC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-01_01,2025-11-27_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1015 malwarescore=0 suspectscore=0 adultscore=0
+ spamscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512020080
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,79 +148,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It avoids duplicated code and allows to output a warning.
 
----
-v4: move check inside the existing if (enable) test
----
 
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 13 ++++---------
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  5 +++++
- 2 files changed, 9 insertions(+), 9 deletions(-)
+On 12/2/2025 1:47 PM, Krzysztof Kozlowski wrote:
+> On 02/12/2025 07:06, Kumari Pallavi wrote:
+>> Kaanapali introduces changes in DSP IOVA layout and CDSP DMA addressing
+>> that differ from previous SoCs. The SID field moves within the physical
+>> address, and CDSP now supports a wider DMA range, requiring updated
+>> sid_pos and DMA mask handling in the driver.
+>> To apply these changes only on Kaanapali, add a SoC-specific compatible
+>> string "qcom,kaanapali-fastrpc". Older DTs using "qcom,fastrpc" remain
+>> valid.
+> 
+> Drop last two sentences, redundant. Patch contents tell that.
+> 
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 54f7c81f287b..7167db54d722 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3309,9 +3309,7 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
- 	if (r)
- 		goto init_failed;
- 
--	if (adev->mman.buffer_funcs_ring &&
--	    adev->mman.buffer_funcs_ring->sched.ready)
--		amdgpu_ttm_set_buffer_funcs_status(adev, true);
-+	amdgpu_ttm_set_buffer_funcs_status(adev, true);
- 
- 	/* Don't init kfd if whole hive need to be reset during init */
- 	if (adev->init_lvl->level != AMDGPU_INIT_LEVEL_MINIMAL_XGMI) {
-@@ -4191,8 +4189,7 @@ static int amdgpu_device_ip_resume(struct amdgpu_device *adev)
- 
- 	r = amdgpu_device_ip_resume_phase2(adev);
- 
--	if (adev->mman.buffer_funcs_ring->sched.ready)
--		amdgpu_ttm_set_buffer_funcs_status(adev, true);
-+	amdgpu_ttm_set_buffer_funcs_status(adev, true);
- 
- 	if (r)
- 		return r;
-@@ -5321,8 +5318,7 @@ int amdgpu_device_suspend(struct drm_device *dev, bool notify_clients)
- 	return 0;
- 
- unwind_evict:
--	if (adev->mman.buffer_funcs_ring->sched.ready)
--		amdgpu_ttm_set_buffer_funcs_status(adev, true);
-+	amdgpu_ttm_set_buffer_funcs_status(adev, true);
- 	amdgpu_fence_driver_hw_init(adev);
- 
- unwind_userq:
-@@ -6050,8 +6046,7 @@ int amdgpu_device_reinit_after_reset(struct amdgpu_reset_context *reset_context)
- 				if (r)
- 					goto out;
- 
--				if (tmp_adev->mman.buffer_funcs_ring->sched.ready)
--					amdgpu_ttm_set_buffer_funcs_status(tmp_adev, true);
-+				amdgpu_ttm_set_buffer_funcs_status(tmp_adev, true);
- 
- 				r = amdgpu_device_ip_resume_phase3(tmp_adev);
- 				if (r)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index ad53789d0e2b..ef68c5f706d2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -2223,6 +2223,11 @@ u32 amdgpu_ttm_set_buffer_funcs_status(struct amdgpu_device *adev, bool enable)
- 		struct amdgpu_ring *ring;
- 		struct drm_gpu_scheduler *sched;
- 
-+		if (!adev->mman.buffer_funcs_ring || !adev->mman.buffer_funcs_ring->sched.ready) {
-+			dev_warn(adev->dev, "Not enabling DMA transfers for in kernel use");
-+			return 0;
-+		}
-+
- 		ring = adev->mman.buffer_funcs_ring;
- 		sched = &ring->sched;
- 		r = drm_sched_entity_init(&adev->mman.default_entity.base,
--- 
-2.43.0
+ACK
 
+>>
+>> Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+>> ---
+>>   Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml | 8 +++++++-
+>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+> 
+> You did not test the v4, so is this one tested?
+> 
+
+Yes, I tested all possible entry combinations for this version. For v4, 
+I only validated the best-case scenario and did not cover all possibilities.
+
+>> diff --git a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
+>> index 3f6199fc9ae6..8bf7d4d83c8b 100644
+>> --- a/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
+>> +++ b/Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml
+>> @@ -18,7 +18,13 @@ description: |
+>>   
+>>   properties:
+>>     compatible:
+>> -    const: qcom,fastrpc
+>> +    oneOf:
+>> +      - items:
+>> +          - enum:
+>> +              - qcom,kaanapali-fastrpc
+>> +          - const: qcom,fastrpc
+>> +      - items:
+> 
+> I asked last time to drop the unnecessary items. Wasn't here before.
+> 
+
+I’ll update the schema in the next patch series to remove the 
+unnecessary items. The revised version will look like this:
+
+properties:
+   compatible:
+     oneOf:
+       - items:
+           - enum:
+               - qcom,kaanapali-fastrpc
+           - const: qcom,fastrpc
+       - const: qcom,fastrpc
+
+
+>> +          - const: qcom,fastrpc
+>>   
+>>     label:
+>>       enum:
+> 
+> 
+> Best regards,
+> Krzysztof
+
+Thanks,
+Pallavi
