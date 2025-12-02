@@ -2,66 +2,181 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4C9C9D2C5
-	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 23:11:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A92C9D238
+	for <lists+dri-devel@lfdr.de>; Tue, 02 Dec 2025 23:03:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C645510E6F1;
-	Tue,  2 Dec 2025 22:11:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60B9310E6EA;
+	Tue,  2 Dec 2025 22:03:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SkJgOAdQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ki61ujAi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A746610E6F1
- for <dri-devel@lists.freedesktop.org>; Tue,  2 Dec 2025 22:11:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1764713488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sUONzCKpgp9sphSRJABkyhTrpqvzQcZyR4eQMrAgr18=;
- b=SkJgOAdQop6wXMSjQuI4wyB0CL9Xvk5gTlskL8dUOuuMZHFZQ1GWZBHHzyBQwqZMl6xdua
- 1hBXyeGmBWquAecWZn56zXU4WH8vbG1kRBU484wy7YAUqsX9gcpcZwRDm15/A8RFsHFeID
- 67gQGDynmHaXxO+nSHi2A+Qn4VaGP04=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-20-w90fZuHCN6utFXefMhBnNg-1; Tue,
- 02 Dec 2025 17:11:25 -0500
-X-MC-Unique: w90fZuHCN6utFXefMhBnNg-1
-X-Mimecast-MFC-AGG-ID: w90fZuHCN6utFXefMhBnNg_1764713483
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 096B71955F19; Tue,  2 Dec 2025 22:11:23 +0000 (UTC)
-Received: from chopper.lan (unknown [10.22.80.109])
- by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 6647D19560A7; Tue,  2 Dec 2025 22:11:19 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Alice Ryhl <aliceryhl@google.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, Asahi Lina <lina+kernel@asahilina.net>
-Subject: [PATCH v6 8/8] rust: drm/gem: Add vmap functions to shmem bindings
-Date: Tue,  2 Dec 2025 17:03:34 -0500
-Message-ID: <20251202220924.520644-9-lyude@redhat.com>
-In-Reply-To: <20251202220924.520644-1-lyude@redhat.com>
-References: <20251202220924.520644-1-lyude@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F02510E6A7;
+ Tue,  2 Dec 2025 22:03:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764713032; x=1796249032;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=kXz0hE8jMIO4funy52d3l4i0rC39ktGg4+RZHzSX9FA=;
+ b=Ki61ujAih3Vx91ZafB7n/BquD5URk0XNHohJG8FYfG8g0P5Tx3abQo/x
+ NXs/7mZfdsXVOZg7v5BxygQF4Hqoiu0GRY18cj4WySu8prcWZsrSPg0K5
+ m+mAjgpPm30nETj2/R36AXPb8Yd5zPymkORgi219R3e+otTkHY7UHpdVn
+ wc5GRcMR7RwgrG15Udw3S/w7QyUuP4JRfUP38uQRCHHmxkPkg/8Q0oni6
+ Sfb8xbcUIxhG80Sv5RMj15ykvt18IymG+/5N4NLsrzSojZRMNJNv6gWaL
+ s0s84Q6nWhifFHNI8DhHIGge+jHOJ/7W9LmN4XtZZNRbgn3kHkjd0ZjfN g==;
+X-CSE-ConnectionGUID: PfEaQMmwQ6KwSX3ivK5uxg==
+X-CSE-MsgGUID: nRcI4IQCSP+yu3TJ9x9TTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="70555193"
+X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; d="scan'208";a="70555193"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2025 14:03:52 -0800
+X-CSE-ConnectionGUID: DDoufCSqSnysqESUEJ5OjQ==
+X-CSE-MsgGUID: 7SMdIWLgQuCHW6BBRNZJRg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; d="scan'208";a="193783804"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2025 14:03:52 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Tue, 2 Dec 2025 14:03:51 -0800
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Tue, 2 Dec 2025 14:03:51 -0800
+Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.51) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Tue, 2 Dec 2025 14:03:51 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bZ/1EOae69EDXY8flFW6Kemt0rU/jFlqAZgbfgBn/Xu+nkpcjzo/pCZ2wFvTevxPNpVANkwqT3pEubb9T/S2Tp5Hc9/MftkdK00TjWKJ9j9jq3t9THQXRAykiNaopUwe1D5g/cG2zZIuNUXgTjekQXTV0NiTOC2KqhU40gNao4Y8JW+jF5F+XjX0Nrv/4elbS6dfUPR/i70+gEjxlUYcD/I8x0mrff2/L+6fJtKrNFOp25iZ4szw5+oIPbAJiRdqKxcjjgfpkbP6gB0vg6fIfgZkJXLNoWKcLeg+Jrtj1AyXtgpAM8PBEuLqezzpe4Xv8ZNskl44ochqLAQFrGZDgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kRPYLSdm7k70PdugBTypHcz6w+G+GsbEOQtdtTbnBxk=;
+ b=yPak8i1W6zBuYWGW2inHzNZ0eKq6lW/8Zct7r46umnGh/5q2AhUITQcq9VduRZW5HtGYr0xP006ySUQsnFDPrVmx6/rNCFNccRrRw4vmxDZkG9IEy3snPdMvApY+dUn1m8Qixf28rTYW66YLyX7GTIBg4YThBYA/vy9DYFjbInMfBdUYuui6WEEAU1Po/xkrciwGhpHNA5KtV6gTl2rOtYsYdGnacp9EeK6VVFz6adNJSVwKbcvrihTIqO9DbzmqWglv0W67HUf6LVSnkxvLQlO2+AmRPN7KZ5KhqC4y6gmiaFgZ5vgLCWu3BMLIXdTx8FxzovoblHtgenp+41xTlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CH0PR11MB5444.namprd11.prod.outlook.com (2603:10b6:610:d3::13)
+ by IA1PR11MB7296.namprd11.prod.outlook.com (2603:10b6:208:427::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Tue, 2 Dec
+ 2025 22:03:49 +0000
+Received: from CH0PR11MB5444.namprd11.prod.outlook.com
+ ([fe80::5081:cd4:1a4b:a73e]) by CH0PR11MB5444.namprd11.prod.outlook.com
+ ([fe80::5081:cd4:1a4b:a73e%5]) with mapi id 15.20.9366.012; Tue, 2 Dec 2025
+ 22:03:49 +0000
+From: "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
+To: "Brost, Matthew" <matthew.brost@intel.com>
+CC: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, "Gupta, 
+ saurabhg" <saurabhg.gupta@intel.com>, "Zuo, Alex" <alex.zuo@intel.com>,
+ "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>, "Zhang,
+ Jianxun" <jianxun.zhang@intel.com>, "Lin, Shuicheng"
+ <shuicheng.lin@intel.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "Wajdeczko, Michal"
+ <Michal.Wajdeczko@intel.com>, "Mrozek, Michal" <michal.mrozek@intel.com>,
+ "Jadav, Raag" <raag.jadav@intel.com>, "Briano, Ivan" <ivan.briano@intel.com>, 
+ "Auld, Matthew" <matthew.auld@intel.com>, "Hirschfeld, Dafna"
+ <dafna.hirschfeld@intel.com>, "Cavitt, Jonathan" <jonathan.cavitt@intel.com>
+Subject: RE: [PATCH v29 0/5] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+Thread-Topic: [PATCH v29 0/5] drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+Thread-Index: AQHcY7wFW81MRE4Cjki7Yqpof74BILUO5H8AgAAAGeA=
+Date: Tue, 2 Dec 2025 22:03:48 +0000
+Message-ID: <CH0PR11MB54445B55ACA3FF6DBF92C0D7E5D8A@CH0PR11MB5444.namprd11.prod.outlook.com>
+References: <20251202184636.96142-7-jonathan.cavitt@intel.com>
+ <aS9fqikvSVFJCkre@lstrano-desk.jf.intel.com>
+In-Reply-To: <aS9fqikvSVFJCkre@lstrano-desk.jf.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH0PR11MB5444:EE_|IA1PR11MB7296:EE_
+x-ms-office365-filtering-correlation-id: c31e7179-eb5f-44f8-d1cb-08de31eeabf5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|376014|1800799024|10070799003|366016|38070700021|7053199007; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?XQR7JkrA6NiFMr50ZaGZ8eaa8NzHBh1cxxfQctqzuMtUQxJpLj8jTowXsSqU?=
+ =?us-ascii?Q?gITDZ3oeA1fKZfHR3BEvW8fGI84k4EFpEOy5JQ2DUc2mVrKI6DbQQt4nnHHE?=
+ =?us-ascii?Q?qiAFgeM4sW7/7suZrj3dX4VfygvmQYVnxeVOegih6g5bC5LQ38zcO28uegR9?=
+ =?us-ascii?Q?WEykSrmuAMAVdNsPKbhkr80XxWSxIbtzRyNZuJ1chM5lcILfWRQE9Lf28xKN?=
+ =?us-ascii?Q?sF8XrgiYt4QiF2dQsUxLUm8cjug4ZE3+iqEHNYOYHOrv7sjvdkaSFACweyzh?=
+ =?us-ascii?Q?PD+eMalIFRDme1BqmeQaF/AtOLl6pi4R1vNHBxqliYdq8I5QNCGAfo1p7Pjq?=
+ =?us-ascii?Q?5bv/GVVydK1mR/s2isnCoxzKVaBVe67w3/N/kKB4MGQfhdjPg3FQMk+b1l/1?=
+ =?us-ascii?Q?4Cpk9NxmRGIBDFT+U0+oxfDfUyg2dQlln2ZOPEnPPtnmF9SZU7LRyy/Wi2PS?=
+ =?us-ascii?Q?eAQ6b5Cer4caAT+oQz1nhcMSr/g0jEXErUFo4JvngPr9jILDzBsrTkCCQw1l?=
+ =?us-ascii?Q?VVtgXIbpnXIYsL8mbHbC5zRscf7wvtjv5FKv+x24QtJ89+4A1ADamtTxVUlf?=
+ =?us-ascii?Q?vDXOvj/iI3Ju3CELrj/+1rk2AB10khuJ4/VcHG+JDAStq/L9NG+lSAp4m1gs?=
+ =?us-ascii?Q?W46I7rYpmiCS7SwPqKD4fVNkHepXcIMHW0lU31OrDfsEIuNstca6QaS6s9XN?=
+ =?us-ascii?Q?gfdeUsWlSYqtkcQ+65UXp9jNicR0plG4sapLRrjru7SZUzr2CuVeTunoH8oW?=
+ =?us-ascii?Q?xOZHRur7QH9jiWWu2T7iVM4/9rLDvLZOHki/C2rCBixDls8S8D0TVSBOzwu6?=
+ =?us-ascii?Q?yvLBoHeqFKHjctbpvxkKOLLlCr5TNx0vTzKGNKAbkovg61U98TRQZy89Qqdn?=
+ =?us-ascii?Q?UsDV61Eig+2U827JrEd/jX0a8KtdLKpt3L0FWmbGsdYILf40WmKH9tAYIzcd?=
+ =?us-ascii?Q?c1myNkUm2xCZh/4LD/FL2qTrbvHVyKVdKRjpy3E5VvXnLsAzhprUJhi1sX4h?=
+ =?us-ascii?Q?TwP0QvRrsyMRt9wXzAItwEoZ32vZYxXEX/CCi/aDJ/wl0CCOhPhf/GWFaGLq?=
+ =?us-ascii?Q?rb6oKxeNirE5fABKwe4auicSdG/bh5PnfpINONV4ADJCbnF3UkVmAcID9j8G?=
+ =?us-ascii?Q?3tslu1kLETYOIO9Wk/ZwJotWmz7PxRpRD4evbGVpUybk+3k6v/Y9SWJ04Xh3?=
+ =?us-ascii?Q?QAr3Mp1rpzvhenxq9gMtoTmgyr2ScxsS0fqHRhBYM2Ixefdlf2EqrKNUU4hs?=
+ =?us-ascii?Q?zE+qXyHaSzii685jtl2Hf5AUatd+m7PBiVDpvJnzxbz1Uu/OZixReKV4e/vp?=
+ =?us-ascii?Q?S5kiK8kzz96mlIW0TG5dVDxjiL+auQFhpNpVcajmVJeg40XLkUgpR29kkLFT?=
+ =?us-ascii?Q?sztVJPNIag8otP4TWt+Zti1F2Gv/8Ly1BL2SCig99lWyRP+TufCaoeDIzUoI?=
+ =?us-ascii?Q?MXkgf996m4JBVy+f40AWkB9PSGOkhHUMs67hSR0gUYmRjv/LqklBkPMCSyZj?=
+ =?us-ascii?Q?2pQFRVIySf+S6ttFR/CBuEz1zH5bn7FuqatI?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR11MB5444.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(10070799003)(366016)(38070700021)(7053199007);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xfoD6pjR+zAqfbsOIAt6H3DY4g1X6EPpOM56dH3I2wsY5aMY2PpBI26gxm2P?=
+ =?us-ascii?Q?LY/zsXhps18UYQV1m7WBcOvaLG/R6M6BH5eLDZ3qsb7/AGDSfkMyb3KFRlh7?=
+ =?us-ascii?Q?na3AaM5tUUlIzULdJsDyW6zOLsbktbnNzYsaltb3RP+iaDxWTBk9V7+RgOGX?=
+ =?us-ascii?Q?BtDbLERH7JhYIhBpMeuZGWtfz6AcxEUrde87D6GIlDCTpbQD9BBlrohGYbmu?=
+ =?us-ascii?Q?udZuANxX+AUA2si9FcprHMmjOykEWPUdkHy+5wNkOJpNmlzPqeq84H40lTez?=
+ =?us-ascii?Q?o/F+O2/Pj6G1LBNVfyVq2cyT9YYBtQGiIgwTUT1+7zMdwz5ACfPBlILriByV?=
+ =?us-ascii?Q?KNlJSMu59rqXR94d5qwRkMzTcWDL1Mtb9YPgq++5B+dd6RjF/aLLuG2lGouJ?=
+ =?us-ascii?Q?h2LICybKAA5efAVSgJ3Pg/doB6mkfcIx8w5cnK9RI/PwHZnTYr3liuh3GHjN?=
+ =?us-ascii?Q?pBziWTt98RzvxHuFTG5K01o0U7TlbdjIFT3UfzSeDoqnCcPEWUM/NN2gaKKF?=
+ =?us-ascii?Q?Fa4LfocurzDXmw+8F1V1fJnqtyVXKufjPNf5u1Cey3sGXfpmggG3jzP7+dqt?=
+ =?us-ascii?Q?fQAfysubEtKJpbExEq/fAL13cdvpycSSrvuBPZWt7elh/CG1JqBPyRhLujcU?=
+ =?us-ascii?Q?sFXil8ipuXPak+nOTorLqnDQQMVIgeTC37vxpzOY6OeFZ4wN4d8FfiGSK51A?=
+ =?us-ascii?Q?MEHlzgMrKSno1VE5OKhAZgDfswP1u1r9lzY84yY+UvTwaHVugc98iB7dpstc?=
+ =?us-ascii?Q?mTwLT+rNlLIzuL9H+NWeZO8aTe++X4QzC22B7T3/E+twZl5hIdQ1Meot1u5u?=
+ =?us-ascii?Q?e8R6h2HQSTQq+hIAvB0/CusHdaDoX+59FPgtLsAGxcinGhM7zKNs26G4aToz?=
+ =?us-ascii?Q?IdWj6OmtNKiwXoKLKgzOeUgBMW2ryHl3lChIEsF0ub1pECqxGKUXNz7s5ZUu?=
+ =?us-ascii?Q?elUg6kJ5aDnaJAIh8mvjYL/dwE9PUwMTQ03m67/p5GpOSFfJCTUzgP/JXEVG?=
+ =?us-ascii?Q?eu5DK94VzU/IUqYxD7AhPvGCgU6y1fJK46CyfH3xn345idMfUO6yAoj2VR77?=
+ =?us-ascii?Q?jCfccDjRLcLxETYfrFKMHw9mOtKxvyAvjeN5Lctl81Zr0OL1CRdzg33ayc2B?=
+ =?us-ascii?Q?U99RgYvcuZJ3sXtQVIKm7wOfLuxdYXcJCW/7/AKIN2b1Zk1s8xZvYgpJ51SC?=
+ =?us-ascii?Q?Gqtx9GIjA70nBwNC4FwFJ7DRTeplJYuaw04NgstkDeaZEMknt7UzcuUe53RK?=
+ =?us-ascii?Q?QZRZWAK8s8J4LTctVvIojLCtYuFY+0ICzrGJqngJRcp+FsPH6rtPKMRwe6FM?=
+ =?us-ascii?Q?OsN4RvoisqX3d7vBX5iPUHVAijo6zeh8tSjKmPiMLD0Unk3W0q07dwi4Iqz1?=
+ =?us-ascii?Q?5MifYJZdiMIOj/NqENEeSuZEFv0WxgY1jyzRAXn+PYxbjJBUFUjFjNwbg81a?=
+ =?us-ascii?Q?eqpwipU4x4K90lfV71+UXN/Ee4ERYbAAbwKlAcQGuWW5a/c118HZD4mdXju9?=
+ =?us-ascii?Q?H81ZtTgTj+Sl09BFxEZat8X6AfwEl29zXyPNE1tNmZcTfgGFYEa98ZT34K5f?=
+ =?us-ascii?Q?5purDV4e7LiMyWZyfjFjBppCtCwlXi1dVVka+s07dTsQoQCMc8PGKSlpb+Vv?=
+ =?us-ascii?Q?1e7XIuMRbWf5f/hCc9MyiHgBgpJk/GtaV8SeKy4xaUJm?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5444.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c31e7179-eb5f-44f8-d1cb-08de31eeabf5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Dec 2025 22:03:48.9553 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pXc+ycXMBMis7LSF04AAddK1zRK77zUGBbFsP/3jw+ueZQadBqG/vas6zgl30/43yElZcsJkK+8ZcEqq839q4e/jb7LFpu0Hv5cMvh+KaT4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7296
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,232 +192,243 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-One of the more obvious use cases for gem shmem objects is the ability to
-create mappings into their contents, specifically iosys mappings. Now that
-we've added iosys_map rust bindings to the kernel, let's hook these up in
-gem shmem.
+-----Original Message-----
+From: Brost, Matthew <matthew.brost@intel.com>=20
+Sent: Tuesday, December 2, 2025 1:53 PM
+To: Cavitt, Jonathan <jonathan.cavitt@intel.com>
+Cc: intel-xe@lists.freedesktop.org; Gupta, saurabhg <saurabhg.gupta@intel.c=
+om>; Zuo, Alex <alex.zuo@intel.com>; joonas.lahtinen@linux.intel.com; Zhang=
+, Jianxun <jianxun.zhang@intel.com>; Lin, Shuicheng <shuicheng.lin@intel.co=
+m>; dri-devel@lists.freedesktop.org; Wajdeczko, Michal <Michal.Wajdeczko@in=
+tel.com>; Mrozek, Michal <michal.mrozek@intel.com>; Jadav, Raag <raag.jadav=
+@intel.com>; Briano, Ivan <ivan.briano@intel.com>; Auld, Matthew <matthew.a=
+uld@intel.com>; Hirschfeld, Dafna <dafna.hirschfeld@intel.com>
+Subject: Re: [PATCH v29 0/5] drm/xe/xe_vm: Implement xe_vm_get_property_ioc=
+tl
+>=20
+> On Tue, Dec 02, 2025 at 06:46:37PM +0000, Jonathan Cavitt wrote:
+> > Add additional information to each VM so they can report up to the firs=
+t
+> > 50 seen faults.  Only pagefaults are saved this way currently, though i=
+n
+> > the future, all faults should be tracked by the VM for future reporting=
+.
+> >=20
+> > Additionally, of the pagefaults reported, only failed pagefaults are
+> > saved this way, as successful pagefaults should recover silently and no=
+t
+> > need to be reported to userspace.
+> >=20
+> > To allow userspace to access these faults, a new ioctl -
+> > xe_vm_get_property_ioct - was created.
+> >=20
+>=20
+> Do we have a Mesa PR for this series? We will need one before merging +
+> Mesa ack for the uAPI patch. If any other UMD plan on using this, we
+> will an ack from them too.
 
-Similar to how we handle SGTables, we make sure there's two different types
-of mappings: owned mappings (kernel::drm::gem::shmem::VMap) and borrowed
-mappings (kernel::drm::gem::shmem::VMapRef).
+Mesa is a bit preoccupied disentangling a circular dependency on their end
+before this uAPI can be applied for them, so they won't be commenting on
+this for a while.  However, there was a Compute UMD request that's currentl=
+y
+being workshopped.  If Mesa needs any additional information beyond what
+Compute is requesting, there should be enough reserved space to add the
+missing data fields.
 
-One last note: we change the #[expect(unused)] for RawIoSysMap::from_raw()
-to an #[allow(unused)]. Normally we would simply remove the lint assertion,
-however - since shmem is conditionally built, we need allow to avoid
-hitting warnings in certain kernel configurations.
+I'd point to the Compute UMD request prototype, but it was sent to me
+directly as a private email.  Though I can say that the prototype is curren=
+tly
+an addition to the xe_compute.c set of IGT tests... which is probably not
+sufficient for a uAPI request, admittedly.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- rust/kernel/drm/gem/shmem.rs | 160 ++++++++++++++++++++++++++++++++++-
- rust/kernel/iosys_map.rs     |   2 +-
- 2 files changed, 160 insertions(+), 2 deletions(-)
+-Jonathan Cavitt
 
-diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
-index 21ccb6c1824be..62a2c12b9fe2a 100644
---- a/rust/kernel/drm/gem/shmem.rs
-+++ b/rust/kernel/drm/gem/shmem.rs
-@@ -13,15 +13,18 @@
-     container_of,
-     drm::{device, driver, gem, private::Sealed},
-     error::{from_err_ptr, to_result},
-+    iosys_map::*,
-     prelude::*,
-     scatterlist,
-+    transmute::*,
-     types::{ARef, Opaque},
- };
- use core::{
-+    mem::{self, MaybeUninit},
-     ops::{Deref, DerefMut},
-     ptr::NonNull,
- };
--use gem::{BaseObjectPrivate, DriverObject, IntoGEMObject};
-+use gem::{BaseObject, BaseObjectPrivate, DriverObject, IntoGEMObject};
- 
- /// A struct for controlling the creation of shmem-backed GEM objects.
- ///
-@@ -192,6 +195,72 @@ pub fn owned_sg_table(&self) -> Result<SGTable<T>> {
-             _owner: self.into(),
-         })
-     }
-+
-+    /// Attempt to create a [`RawIoSysMap`] from the gem object.
-+    fn raw_vmap<U: AsBytes + FromBytes>(&self) -> Result<RawIoSysMap<U>> {
-+        build_assert!(
-+            mem::size_of::<U>() > 0,
-+            "It doesn't make sense for the mapping type to be a ZST"
-+        );
-+
-+        let mut map: MaybeUninit<bindings::iosys_map> = MaybeUninit::uninit();
-+
-+        // SAFETY: drm_gem_shmem_vmap can be called with the DMA reservation lock held
-+        to_result(unsafe {
-+            // TODO: see top of file
-+            bindings::dma_resv_lock(self.raw_dma_resv(), core::ptr::null_mut());
-+            let ret = bindings::drm_gem_shmem_vmap_locked(self.as_shmem(), map.as_mut_ptr());
-+            bindings::dma_resv_unlock(self.raw_dma_resv());
-+            ret
-+        })?;
-+
-+        // SAFETY: if drm_gem_shmem_vmap did not fail, map is initialized now
-+        Ok(unsafe { RawIoSysMap::from_raw(map.assume_init()) })
-+    }
-+
-+    /// Unmap a [`RawIoSysMap`] from the gem object.
-+    ///
-+    /// # Safety
-+    ///
-+    /// - The caller promises that `map` came from a prior call to [`Self::raw_vmap`] on this gem
-+    ///   object.
-+    /// - The caller promises that the memory pointed to by `map` will no longer be accesed through
-+    ///   this instance.
-+    unsafe fn raw_vunmap<U: AsBytes + FromBytes>(&self, map: &mut RawIoSysMap<U>) {
-+        let resv = self.raw_dma_resv();
-+
-+        // SAFETY:
-+        // - This function is safe to call with the DMA reservation lock held
-+        // - Our `ARef` is proof that the underlying gem object here is initialized and thus safe to
-+        //   dereference.
-+        unsafe {
-+            // TODO: see top of file
-+            bindings::dma_resv_lock(resv, core::ptr::null_mut());
-+            bindings::drm_gem_shmem_vunmap_locked(self.as_shmem(), map.as_raw_mut());
-+            bindings::dma_resv_unlock(resv);
-+        }
-+    }
-+
-+    /// Creates and returns a virtual kernel memory mapping for this object.
-+    pub fn vmap<U: AsBytes + FromBytes>(&self) -> Result<VMapRef<'_, T, U>> {
-+        let map = self.raw_vmap()?;
-+
-+        Ok(VMapRef {
-+            // SAFETY:
-+            // - The size of the vmap is the same as the size of the gem
-+            // - The vmap will remain alive until this object is dropped.
-+            map: unsafe { IoSysMapRef::new(map, self.size()) },
-+            owner: self,
-+        })
-+    }
-+
-+    /// Creates and returns an owned reference to a virtual kernel memory mapping for this object.
-+    pub fn owned_vmap<U: AsBytes + FromBytes>(&self) -> Result<VMap<T, U>> {
-+        Ok(VMap {
-+            map: self.raw_vmap()?,
-+            owner: self.into(),
-+        })
-+    }
- }
- 
- impl<T: DriverObject> Deref for Object<T> {
-@@ -243,6 +312,95 @@ impl<T: DriverObject> driver::AllocImpl for Object<T> {
-     };
- }
- 
-+/// A borrowed reference to a virtual mapping for a shmem-based GEM object in kernel address space.
-+pub struct VMapRef<'a, D: DriverObject, T: AsBytes + FromBytes> {
-+    map: IoSysMapRef<'a, T>,
-+    owner: &'a Object<D>,
-+}
-+
-+impl<'a, D: DriverObject, T: AsBytes + FromBytes> Clone for VMapRef<'a, D, T> {
-+    fn clone(&self) -> Self {
-+        // SAFETY: We have a successful vmap already, so this can't fail
-+        unsafe { self.owner.vmap().unwrap_unchecked() }
-+    }
-+}
-+
-+impl<'a, D: DriverObject, T: AsBytes + FromBytes> Deref for VMapRef<'a, D, T> {
-+    type Target = IoSysMapRef<'a, T>;
-+
-+    fn deref(&self) -> &Self::Target {
-+        &self.map
-+    }
-+}
-+
-+impl<'a, D: DriverObject, T: AsBytes + FromBytes> DerefMut for VMapRef<'a, D, T> {
-+    fn deref_mut(&mut self) -> &mut Self::Target {
-+        &mut self.map
-+    }
-+}
-+
-+impl<'a, D: DriverObject, T: AsBytes + FromBytes> Drop for VMapRef<'a, D, T> {
-+    fn drop(&mut self) {
-+        // SAFETY: Our existence is proof that this map was previously created using self.owner.
-+        unsafe { self.owner.raw_vunmap(&mut self.map) };
-+    }
-+}
-+
-+/// An owned reference to a virtual mapping for a shmem-based GEM object in kernel address space.
-+///
-+/// # Invariants
-+///
-+/// - The memory pointed to by `map` is at least as large as `T`.
-+/// - The memory pointed to by `map` remains valid at least until this object is dropped.
-+pub struct VMap<D: DriverObject, T: AsBytes + FromBytes> {
-+    map: RawIoSysMap<T>,
-+    owner: ARef<Object<D>>,
-+}
-+
-+impl<D: DriverObject, T: AsBytes + FromBytes> Clone for VMap<D, T> {
-+    fn clone(&self) -> Self {
-+        // SAFETY: We have a successful vmap already, so this can't fail
-+        unsafe { self.owner.owned_vmap().unwrap_unchecked() }
-+    }
-+}
-+
-+impl<'a, D: DriverObject, T: AsBytes + FromBytes> From<VMapRef<'a, D, T>> for VMap<D, T> {
-+    fn from(value: VMapRef<'a, D, T>) -> Self {
-+        let this = Self {
-+            map: value.map.clone(),
-+            owner: value.owner.into(),
-+        };
-+
-+        mem::forget(value);
-+        this
-+    }
-+}
-+
-+impl<D: DriverObject, T: AsBytes + FromBytes> VMap<D, T> {
-+    /// Return a reference to the iosys map for this `VMap`.
-+    pub fn get(&self) -> IoSysMapRef<'_, T> {
-+        // SAFETY: The size of the iosys_map is equivalent to the size of the gem object.
-+        unsafe { IoSysMapRef::new(self.map.clone(), self.owner.size()) }
-+    }
-+
-+    /// Borrows a reference to the object that owns this virtual mapping.
-+    pub fn owner(&self) -> &Object<D> {
-+        &self.owner
-+    }
-+}
-+
-+impl<D: DriverObject, T: AsBytes + FromBytes> Drop for VMap<D, T> {
-+    fn drop(&mut self) {
-+        // SAFETY: Our existence is proof that this map was previously created using self.owner
-+        unsafe { self.owner.raw_vunmap(&mut self.map) };
-+    }
-+}
-+
-+/// SAFETY: `iosys_map` objects are safe to send across threads.
-+unsafe impl<D: DriverObject, T: AsBytes + FromBytes> Send for VMap<D, T> {}
-+/// SAFETY: `iosys_map` objects are safe to send across threads.
-+unsafe impl<D: DriverObject, T: AsBytes + FromBytes> Sync for VMap<D, T> {}
-+
- /// An owned reference to a scatter-gather table of DMA address spans for a GEM shmem object.
- ///
- /// This object holds an owned reference to the underlying GEM shmem object, ensuring that the
-diff --git a/rust/kernel/iosys_map.rs b/rust/kernel/iosys_map.rs
-index 884a3d2be3348..fb1bb1bc03b73 100644
---- a/rust/kernel/iosys_map.rs
-+++ b/rust/kernel/iosys_map.rs
-@@ -31,7 +31,7 @@
- 
- impl<T: AsBytes + FromBytes> RawIoSysMap<T> {
-     /// Convert from a raw `bindings::iosys_map`.
--    #[expect(unused)]
-+    #[allow(unused)]
-     #[inline]
-     pub(crate) fn from_raw(val: bindings::iosys_map) -> Self {
-         Self(val, PhantomData)
--- 
-2.52.0
-
+>=20
+> Matt
+>=20
+> > v2: (Matt Brost)
+> > - Break full ban list request into a separate property.
+> > - Reformat drm_xe_vm_get_property struct.
+> > - Remove need for drm_xe_faults helper struct.
+> > - Separate data pointer and scalar return value in ioctl.
+> > - Get address type on pagefault report and save it to the pagefault.
+> > - Correctly reject writes to read-only VMAs.
+> > - Miscellaneous formatting fixes.
+> >=20
+> > v3: (Matt Brost)
+> > - Only allow querying of failed pagefaults
+> >=20
+> > v4:
+> > - Remove unnecessary size parameter from helper function, as it
+> >   is a property of the arguments. (jcavitt)
+> > - Remove unnecessary copy_from_user (Jainxun)
+> > - Set address_precision to 1 (Jainxun)
+> > - Report max size instead of dynamic size for memory allocation
+> >   purposes.  Total memory usage is reported separately.
+> >=20
+> > v5:
+> > - Return int from xe_vm_get_property_size (Shuicheng)
+> > - Fix memory leak (Shuicheng)
+> > - Remove unnecessary size variable (jcavitt)
+> >=20
+> > v6:
+> > - Free vm after use (Shuicheng)
+> > - Compress pf copy logic (Shuicheng)
+> > - Update fault_unsuccessful before storing (Shuicheng)
+> > - Fix old struct name in comments (Shuicheng)
+> > - Keep first 50 pagefaults instead of last 50 (Jianxun)
+> > - Rename ioctl to xe_vm_get_faults_ioctl (jcavitt)
+> >=20
+> > v7:
+> > - Avoid unnecessary execution by checking MAX_PFS earlier (jcavitt)
+> > - Fix double-locking error (jcavitt)
+> > - Assert kmemdump is successful (Shuicheng)
+> > - Repair and move fill_faults break condition (Dan Carpenter)
+> > - Free vm after use (jcavitt)
+> > - Combine assertions (jcavitt)
+> > - Expand size check in xe_vm_get_faults_ioctl (jcavitt)
+> > - Remove return mask from fill_faults, as return is already -EFAULT or =
+0
+> >   (jcavitt)
+> >=20
+> > v8:
+> > - Revert back to using drm_xe_vm_get_property_ioctl
+> > - s/Migrate/Move (Michal)
+> > - s/xe_pagefault/xe_gt_pagefault (Michal)
+> > - Create new header file, xe_gt_pagefault_types.h (Michal)
+> > - Add and fix kernel docs (Michal)
+> > - Rename xe_vm.pfs to xe_vm.faults (jcavitt)
+> > - Store fault data and not pagefault in xe_vm faults list (jcavitt)
+> > - Store address, address type, and address precision per fault (jcavitt=
+)
+> > - Store engine class and instance data per fault (Jianxun)
+> > - Properly handle kzalloc error (Michal W)
+> > - s/MAX_PFS/MAX_FAULTS_SAVED_PER_VM (Michal W)
+> > - Store fault level per fault (Micahl M)
+> > - Apply better copy_to_user logic (jcavitt)
+> >=20
+> > v9:
+> > - More kernel doc fixes (Michal W, Jianxun)
+> > - Better error handling (jcavitt)
+> >=20
+> > v10:
+> > - Convert enums to defines in regs folder (Michal W)
+> > - Move xe_guc_pagefault_desc to regs folder (Michal W)
+> > - Future-proof size logic for zero-size properties (jcavitt)
+> > - Replace address type extern with access type (Jianxun)
+> > - Add fault type to xe_drm_fault (Jianxun)
+> >=20
+> > v11:
+> > - Remove unnecessary switch case logic (Raag)
+> > - Compress size get, size validation, and property fill functions into =
+a
+> >   single helper function (jcavitt)
+> > - Assert valid size (jcavitt)
+> > - Store pagefaults in non-fault-mode VMs as well (Jianxun)
+> >=20
+> > v12:
+> > - Remove unnecessary else condition
+> > - Correct backwards helper function size logic (jcavitt)
+> > - Fix kernel docs and comments (Michal W)
+> >=20
+> > v13:
+> > - Move xe and user engine class mapping arrays to header (John H)
+> >=20
+> > v14:
+> > - Fix double locking issue (Jianxun)
+> > - Use size_t instead of int (Raag)
+> > - Remove unnecessary includes (jcavitt)
+> >=20
+> > v15:
+> > - Do not report faults from reserved engines (Jianxun)
+> >=20
+> > v16:
+> > - Remove engine class and instance (Ivan)
+> >=20
+> > v17:
+> > - Map access type, fault type, and fault level to user macros (Matt
+> >   Brost, Ivan)
+> >=20
+> > v18:
+> > - Add uAPI merge request to this cover letter
+> >=20
+> > v19:
+> > - Perform kzalloc outside of lock (Auld)
+> >=20
+> > v20:
+> > - Fix inconsistent use of whitespace in defines
+> >=20
+> > v21:
+> > - Remove unnecessary size assertion (jcavitt)
+> >=20
+> > v22:
+> > - Fix xe_vm_fault_entry kernel docs (Shuicheng)
+> >=20
+> > v23:
+> > - Nit fixes (Matt Brost)
+> >=20
+> > v24:
+> > - s/xe_pagefault_desc.h/xe_guc_pagefault_desc.h (Dafna)
+> > - Move PF_MSG_LEN_DW to regs folder (Dafna)
+> >=20
+> > v25:
+> > - Revert changes from last revision (John H)
+> > - Add missing bspec (Michal W)
+> >=20
+> > v26:
+> > - Rebase and refactor on top of latest change to xe_pagefault layer
+> >   (jcavitt)
+> >=20
+> > v27:
+> > - Apply max line length (Matt Brost)
+> > - Correctly ignore fault mode in save_pagefault_to_vm (jcavitt)
+> >=20
+> > v28:
+> > - Do not copy_to_user in critical section (Matt Brost)
+> > - Assert args->size is multiple of sizeof(struct xe_vm_fault) (Matt
+> >   Brost)
+> > - s/save_pagefault_to_vm/xe_pagefault_save_to_vm (Matt Brost)
+> > - Use guard instead of spin_lock/unlock (Matt Brost)
+> > - GT was added to xe_pagefault struct.  Use xe_gt_hw_engine
+> >   instead of creating a new helper function (Matt Brost)
+> >=20
+> > v29:
+> > - Track address precision separately and report it accurately (Matt
+> >   Brost)
+> > - Remove unnecessary memset (Matt Brost)
+> >=20
+> > uAPI: TBD
+> > Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
+> > Suggested-by: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Suggested-by: Matthew Brost <matthew.brost@intel.com>
+> > Cc: Zhang Jianxun <jianxun.zhang@intel.com>
+> > Cc: Shuicheng Lin <shuicheng.lin@intel.com>
+> > Cc: Michal Wajdeczko <Michal.Wajdeczko@intel.com>
+> > Cc: Michal Mrozek <michal.mrozek@intel.com>
+> > Cc: Raag Jadav <raag.jadav@intel.com>
+> > Cc: John Harrison <john.c.harrison@intel.com>
+> > Cc: Ivan Briano <ivan.briano@intel.com>
+> > Cc: Matthew Auld <matthew.auld@intel.com>
+> > Cc: Dafna Hirschfeld <dafna.hirschfeld@intel.com>
+> >=20
+> > Jonathan Cavitt (5):
+> >   drm/xe/xe_pagefault: Disallow writes to read-only VMAs
+> >   drm/xe/xe_pagefault: Track address precision per pagefault
+> >   drm/xe/uapi: Define drm_xe_vm_get_property
+> >   drm/xe/xe_vm: Add per VM fault info
+> >   drm/xe/xe_vm: Implement xe_vm_get_property_ioctl
+> >=20
+> >  drivers/gpu/drm/xe/xe_device.c          |   2 +
+> >  drivers/gpu/drm/xe/xe_guc_pagefault.c   |   1 +
+> >  drivers/gpu/drm/xe/xe_pagefault.c       |  34 +++++
+> >  drivers/gpu/drm/xe/xe_pagefault_types.h |   8 +-
+> >  drivers/gpu/drm/xe/xe_vm.c              | 184 ++++++++++++++++++++++++
+> >  drivers/gpu/drm/xe/xe_vm.h              |  12 ++
+> >  drivers/gpu/drm/xe/xe_vm_types.h        |  29 ++++
+> >  include/uapi/drm/xe_drm.h               |  86 +++++++++++
+> >  8 files changed, 355 insertions(+), 1 deletion(-)
+> >=20
+> > --=20
+> > 2.43.0
+> >=20
+>=20
