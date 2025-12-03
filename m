@@ -2,55 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3022BC9EE4D
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 12:47:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 280B1C9EE62
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 12:51:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8D79B10E778;
-	Wed,  3 Dec 2025 11:47:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E37D10E78D;
+	Wed,  3 Dec 2025 11:51:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="f9mlpCoY";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="WdrQQunR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9401E10E778
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 11:47:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764762461;
- bh=l1brxEcZEA0OgRbkgRwjthl5cw9jv+wS/NkiJhQwLE0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=f9mlpCoYxuvF1RhDsSx/P4LQ0tjviho15e1R+U7MuNlo6w8zzuQ+9MkiDESdz/o4q
- t4bwNcwjs0ISRbT3bn+nzmNZCe7qj4Ru53TbAQ4SUdHwYdGP8VKktbR09XpXhO7shA
- o7LoDKUmAYoHbSu1YR1HKUI2kANb5lqM/Mr9ISTGO4qYSSwP1O2z9rRMf7D4YMmTTH
- tSs2WaD+opmj89T7C6124APQYqxWcaurHD/7ukAYiR8buMKOAXzEo3HsOGNzu3oXGz
- ttC+3SLL3knJjRQvHrmEQAO0to9Npw8OO/sA256DDwtmi5SkGPoTDJJ5ZC1bY+B1Jh
- ByII+xJq6P8JA==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 9D48C17E0117;
- Wed,  3 Dec 2025 12:47:40 +0100 (CET)
-Date: Wed, 3 Dec 2025 12:47:35 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRy?=
- =?UTF-8?B?acOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>, Chia-I
- Wu <olvaffe@gmail.com>, kernel@collabora.com
-Subject: Re: [PATCH v2 3/3] drm/panthor: Unlock the locked region before
- disabling an AS
-Message-ID: <20251203124735.61e7af54@fedora>
-In-Reply-To: <20251203110527.367089-4-boris.brezillon@collabora.com>
-References: <20251203110527.367089-1-boris.brezillon@collabora.com>
- <20251203110527.367089-4-boris.brezillon@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7534E10E787
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 11:51:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+ s=altu2504; t=1764762636;
+ bh=p/JhfQ/5mVmqehnjvRE1UyHQbPCzKtTccLmDH7YWYKE=;
+ h=From:To:Subject:Date:Message-Id;
+ b=WdrQQunRC6miA7a8WBfxuuiqDbwiaYGKwU8kAbvzi9et+VvuTC93krsEi3QVJVkFi
+ ozbSXg6n6D847fbeUURk6pAR4dwfMZoDNsxy3T3I7DPBNvXWz9mBekDaQXIJtU6+5l
+ S+bViNuJxdogGUeB6jtbI6Bz537aEQ93RuF9zH8A=
+X-QQ-mid: zesmtpsz9t1764762634t4ecda2a1
+X-QQ-Originating-IP: hmKrqfeMcwbdBdJxRwrYyzP1oSeWYkJShvR6sCH86u4=
+Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Wed, 03 Dec 2025 19:50:32 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 653531030055881594
+From: Chaoyi Chen <kernel@airkyi.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Subject: [PATCH] drm/mipi-dsi: Only remove child devices that match the dsi
+ device type
+Date: Wed,  3 Dec 2025 19:50:28 +0800
+Message-Id: <20251203115028.133-1-kernel@airkyi.com>
+X-Mailer: git-send-email 2.17.1
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: MD5XEDocxEOL+DzPtHJQllrrrm3kZdcABL+nj5QkMWc1JpWqK1+lSszu
+ gQUg9Y0tALGkQG9SiD/QGEnEFvG6dg3mQNWdsiBqiqFL2mEa2bW/ibZT2j68gauNBX1n6j3
+ Vsd+s/hwymidiv56pz2X0Zl8PNzgI2eRrSc6WJiYzMauVRysW+xRe3HFcl5MJ24PdaINyUa
+ XLa3+qRObBRCbZdt2MjA2HOhHeaumsaGmbqWqs6CWsAmnlFAvrnX0zgZdtvrO4PIY5jU9Jc
+ C7gdGwUwaGmjyw7YBm2DSLvb5DLqeqw75AAqv4t80IbimZBNvb9xcFfS/acJgdt9+hiCpHU
+ +i2EzsngN3iZLohNyncL1TShel6dLW72wKdATy9ZkU6xI6m0mvaKd1gabmyV+7sbhlx5xC0
+ TfKdf9pMp51JfioVRUHAD/6718n+k/E8ftapqgNSJALZwleYgoIL4DcukQkDRtOvEi39PMx
+ KOHUmX/Di+ILrL9VYyeXx94EosMxnEGKo3GWmHLu7g7Z7G4nj4NfvJkzemtOt9xeNlp9hR9
+ wdjnVaxqWWs9XOdQmonHEYbu39qd2nSvJkWqhYMQSArnQy7g6ipDQFUpubMGQGidi9jNgbl
+ XE2oR65rONeGL7oMnDCpX3iOT5VjUfJ6qZc3lanSROS5XDDcGrQaaKI/WgozoJH72zuGpTx
+ 88QBPxbjKfzkDp30vTulaXBdlsbjtVzObCNfYME+lkYGMBAhvTySqQKNlLelRsWEUph3tpd
+ gplnB8XMqT3YslLHfutWMAvguW3vun10Clt3U1WUv5iPqCoNge9zTNsneQ7tAhHCry8hhb/
+ yo4q44v9W8ZtsFw8DY/PVcBUbgKCmS/uawCDmQsLSz42OS61ikD1AGvguPEpAAZnsTVqGQ1
+ HkKo1C9T9hBNtPZHX9zuoDftBajXWxT0oMmdcz1IBMOSi+YlNQT0vUgAqxeUHYK5LK2164b
+ e33XQTXpNRlwi1q/P7Tm0lPD8kaMfhbOr3YSGKfrs6rn/eg==
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,59 +78,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed,  3 Dec 2025 12:05:27 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-> An AS can be disabled in the middle of a VM operation (VM being
-> evicted from an AS slot, for instance). In that case, we need the
-> locked section to be unlocked before releasing the slot.
-> 
-> v2:
-> - Add an lockdep_assert_held() in panthor_mmu_as_disable()
-> - Collect R-bs
-> 
-> Fixes: 6e2d3b3e8589 ("drm/panthor: Add support for atomic page table updates")
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index 3644af1a8e56..493e6428d478 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -588,14 +588,27 @@ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
->  static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr,
->  				  bool recycle_slot)
->  {
-> +	struct panthor_vm *vm = ptdev->mmu->as.slots[as_nr].vm;
->  	int ret;
->  
-> +	lockdep_assert_held(&ptdev->mmu->as.slots_lock);
-> +
->  	/* Flush+invalidate RW caches, invalidate RO ones. */
->  	ret = panthor_gpu_flush_caches(ptdev, CACHE_CLEAN | CACHE_INV,
->  				       CACHE_CLEAN | CACHE_INV, CACHE_INV);
->  	if (ret)
->  		return ret;
->  
-> +	if (vm && vm->locked_region.size) {
-> +		/* Unlock the region if there a lock pending. */
-> +		ret = as_send_cmd_and_wait(ptdev, vm->as.id, AS_COMMAND_UNLOCK);
-> +		if (ret)
-> +			return ret;
-> +
-> +		vm->locked_region.start = 0;
-> +		vm->locked_region.size = 0;
+This patch checks whether the device is a valid mipi_dsi_device before
+accessing it in mipi_dsi_remove_device_fn().
 
-Actually, resetting the locked_region range triggers the WARN_ON()s in
-the vm_[un]map_pages() path, so I'll get rid of that in v3.
+The mipi_dsi_host_unregister() assumes that all child devices of the
+host device are mipi_dsi_devices and uses mipi_dsi_remove_device_fn()
+to perform subsequent operations specific to mipi_dsi_device.
 
-> +	}
-> +
->  	/* If the slot is going to be used immediately, don't bother changing
->  	 * the config.
->  	 */
+In rockchip platform, for dw-mipi-dsi-rockchip.c, it creates a dphy
+device, and it use the dsi host device as its parent device.
+
+And when we call dw_mipi_dsi_remove() in
+dw_mipi_dsi_rockchip_remove(), mipi_dsi_host_unregister() will get
+such a dphy child device and treat it as an mipi_dsi_device, which
+will lead to a further panic.
+
+Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+---
+ drivers/gpu/drm/drm_mipi_dsi.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index a712e177b350..5b9cc799eb87 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -349,7 +349,12 @@ EXPORT_SYMBOL(mipi_dsi_host_register);
+ 
+ static int mipi_dsi_remove_device_fn(struct device *dev, void *priv)
+ {
+-	struct mipi_dsi_device *dsi = to_mipi_dsi_device(dev);
++	struct mipi_dsi_device *dsi;
++
++	if (!dev_is_mipi_dsi(dev))
++		return 0;
++
++	dsi = to_mipi_dsi_device(dev);
+ 
+ 	if (dsi->attached)
+ 		mipi_dsi_detach(dsi);
+-- 
+2.51.1
 
