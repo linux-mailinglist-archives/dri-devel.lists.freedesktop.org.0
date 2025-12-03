@@ -2,67 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A74C9E945
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 10:49:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEDA7C9E99F
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 10:55:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60AE710E76B;
-	Wed,  3 Dec 2025 09:49:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53B7410E18D;
+	Wed,  3 Dec 2025 09:55:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OHj0cfMI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="OxtwFCi8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D90710E672
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 09:49:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764755353; x=1796291353;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=+y+ApfGHtvycxU7K4CHZWLTcI3W9kqMhc7+aZGtfHlE=;
- b=OHj0cfMIXEsJNpTgDcJLP/dK6NCY2pxYBwg9mufr86zJLlGCBX1VhY4Y
- 6S+jOputN11I11BtqCg+9H/rzqVA+s6CjrEol/D8nIswk2FqGQmk2wmlZ
- Ryw/8wo0nC2efkTNiRknA/sILj+RyRhhRabmMUTWU1PpSeydiuhXxujFq
- TguRcB4Zu5+jEUbYjUKtw3KKDZrXWObdFGCrqN9UgCw50lFjjvnwMzyoX
- TgstBddoJAIzffJAY2Jp2qRrUVyUtsAHMoCCUz41TJYmh1q4sCfxZEQTi
- /PtwS2KiMG6ZrArPR6TJUVxr2iaZ0Bkjw1G+kkH+tVV0JE/Bh5zwLHgB+ A==;
-X-CSE-ConnectionGUID: fR2aUupBR3+jBpiHATMIrQ==
-X-CSE-MsgGUID: XntjrFqHRuSf8u4ajJbIfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="65931138"
-X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; d="scan'208";a="65931138"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2025 01:49:12 -0800
-X-CSE-ConnectionGUID: Ligm7xApQ+ysHdo5uJFotw==
-X-CSE-MsgGUID: 2GSroBjKTIScsZRWaWWZ6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; d="scan'208";a="193915649"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.244.217])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2025 01:49:10 -0800
-Date: Wed, 3 Dec 2025 11:49:07 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Helge Deller <deller@gmx.de>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
- Chelsy Ratnawat <chelsyratnawat2001@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Raag Jadav <raag.jadav@intel.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fbdev/pxafb: Fix multiple clamped values in
- pxafb_adjust_timing
-Message-ID: <aTAHkxg1_LDzZNSb@smile.fi.intel.com>
-References: <20251202181600.511166-2-thorsten.blum@linux.dev>
- <a7213b69-f6ae-4975-8c8b-2783dbe9f9b3@gmx.de>
- <C3FDBCE7-14D9-4999-B463-C2E3E384E7DB@linux.dev>
- <77ac64e5-709d-4eb5-8b47-9fc15e579d1a@gmx.de>
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A41E10E18D
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 09:55:00 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-5957ac0efc2so7357478e87.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 01:55:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1764755698; x=1765360498; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bf6xekrcsFMQsZdm4tiPKUq/zdj8GQcGkChPb3cjYAQ=;
+ b=OxtwFCi86MAn8Ta6i5268EM2H9so+L+s5C3efNE6387mWtCHbrAtdhghyvc3Ky8+Zs
+ G1f7nvXRWDRKs7ONSSdX2+5Xs6UnA+2vEGx5orZYcS0zw3MNkhppxuhKgFhhl1KgPKVx
+ yPfFBA8AMYAByIdOOGC5CH9p9FS0QZFl39fXnt7pSz1ZBEQVTwefThQ8ccQe7blVV49f
+ 0UQNkvz6efWGnLXew3TTt0+l2a4On4qCD1wJKeQAU/K0QzaV9SlWezcg9W2+rUmlbOyl
+ dtUOxKX751q+A010lLxbH/4gjRMuBSDOgUVMJZ6FJ7pQc1zpO8YzWv0sQdRSgt5Exs82
+ RsJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764755698; x=1765360498;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=bf6xekrcsFMQsZdm4tiPKUq/zdj8GQcGkChPb3cjYAQ=;
+ b=q+dcBSu3GYMSw37qau0anezeXvPbsfwzbjMrQx115GDxZccDRyIeAwU8Rn4wJUQbFU
+ 9zrvPoJRyburjItaeVHZftwdgal35SWhuWVsfCNG4xxj32gVHf8XVW5iLo+6EDgy2tRd
+ aLB63SmO/YTaEqpkoknS70c10kLZ99OyKJiJvRgn6idz+ydSco4d85iiRrOFzFMYZRaX
+ hGzacpGg/wXZtGYL+iUMMnVbnEO9Csh4LAXEztZKqmMWuk5iAf1UMg3LlmcCtZYzm8HZ
+ I33XwFlFpxIHXA+42L1d1PKULrpdsMSoVyE2ZlYiMkINUqbJ0VtT/AJedVpwWepch3rS
+ EM2A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXwOYI2hsJqblZxZ5ATZu3V2S3Ej4YZWZrT738NKs26AHBdnhZS5I6b/O8Eox/bTyuucjCFH9Rf7Zo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwgbHSH8FeHO5hAShlx0Fd4PCFAyKeQAqZnMJqpmsymGWfHQ4fr
+ YVaozMEqkBU+tRRCJGzRUxheWLbnWw1mvLk1uHbv6nFAEeXcRAvUnjtfReG17yD9/5irOc1nKLQ
+ 3qpEsgtiAiP0EM3J5hDoy1C1FEVvMBnAVzjNk4/giwg==
+X-Gm-Gg: ASbGnctR5EK7Oftjn6iP6GnzZA8/hfH5ClItKdP+CtrCG1W06o/VMpPhwdMpnTUIsKq
+ l7TfFQ1l51ZzPrQQsF23gwToDGzKLdgkAXM42zTjcnq9XQX9svG/FpwfjR2Zm27x+K9IiBuOtak
+ GidaY4fXFoFAVOTNbdp2hvfm5WPlbyKjdQkT2Xka6R5i/z1cZVSycvhIRqyzimjN/Fnk9KszlI8
+ P42F6LbvhIgjH9DhoTQdgV39Wah2fYYtyEkwir9+Rt/srQI7zU8/rBVoQimycdhjh14Qrg=
+X-Google-Smtp-Source: AGHT+IHPuIKwxz1VJ5GILJ384/PXefNP+n3NPV2VlQgZ4nbetMc71L02vArjvfuIYkxo4JwTlS+BXfDTbbd4MfnOmfA=
+X-Received: by 2002:a05:6512:6181:b0:594:48e6:26b8 with SMTP id
+ 2adb3069b0e04-597d3fea0cbmr771950e87.39.1764755698430; Wed, 03 Dec 2025
+ 01:54:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <77ac64e5-709d-4eb5-8b47-9fc15e579d1a@gmx.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa@kernel.org>
+ <20251202-mcde-drm-regression-thirdfix-v6-4-f1bffd4ec0fa@kernel.org>
+ <5d6e8e0e-3129-49f1-8c5f-c2f837a36139@rock-chips.com>
+In-Reply-To: <5d6e8e0e-3129-49f1-8c5f-c2f837a36139@rock-chips.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 3 Dec 2025 10:54:45 +0100
+X-Gm-Features: AWmQ_bkoUmfhb8re1685S4T8kLpKSzEGo5JqBtrDagJzf8b9dtmfohMBjnGs5MY
+Message-ID: <CACRpkdZwgsbVezfQBRP6pX-o8TLvtFMt+M+rL7GrTmeuzN8xvQ@mail.gmail.com>
+Subject: Re: [PATCH v6 4/4] RFT: drm/rockchip: Create custom commit tail
+To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Cc: Linus Walleij <linusw@kernel.org>, Vicente Bergas <vicencb@gmail.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, dri-devel@lists.freedesktop.org, 
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,31 +102,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 02, 2025 at 08:36:08PM +0100, Helge Deller wrote:
-> On 12/2/25 19:36, Thorsten Blum wrote:
-> > On 2. Dec 2025, at 19:28, Helge Deller wrote:
-> > > On 12/2/25 19:15, Thorsten Blum wrote:
+On Wed, Dec 3, 2025 at 4:10=E2=80=AFAM Chaoyi Chen <chaoyi.chen@rock-chips.=
+com> wrote:
 
-...
+> It seems that multiple drivers currently depend on the CRTC being
+> enabled and they implement the same atomic_commit_tail().
+>
+> Why not implement this in drm_atomic_helper_commit_tail_rpm() instead?
+> Or why not use another common helper function for this?
 
-> > > How did you notice? Do you actually have the hardware and tested it?
-> > 
-> > I only compile-tested it.
-> > 
-> > I stumbled upon another driver with the same bug and then used grep to
-> > search for other instances and found about 6 or 7, including this one.
-> 
-> Ok. But this then means, maybe the clamping isn't needed (since nobody complained),
-> or that nobody noticed because nobody uses the driver any longer.
+So my v2 version of the patch series added a new special case
+helper tail function to do that:
+https://lore.kernel.org/dri-devel/20251118-mcde-drm-regression-v2-3-4fedf10=
+b18f6@linaro.org/
 
-I think it's a combination of factors: 1) rarely people have this hardware,
-especially nowadays, to run more or less new kernel; 2) there are no conditions
-happened that this patch fixes in their environments; 3) something else I
-missed.
+It was politely NACKed for complicating the helpers library (short story).
 
+It's part of the trail of how we got to this current patch series.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Yours,
+Linus Walleij
