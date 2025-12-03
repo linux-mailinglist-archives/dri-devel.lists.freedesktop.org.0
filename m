@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D8DC9E42B
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 09:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD80C9E434
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 09:40:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F6B910E74C;
-	Wed,  3 Dec 2025 08:40:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CCA410E74F;
+	Wed,  3 Dec 2025 08:40:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IrbVtvUJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="kB4jvDTv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9336010E73E;
- Wed,  3 Dec 2025 08:40:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D266910E74B;
+ Wed,  3 Dec 2025 08:40:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764751251; x=1796287251;
+ t=1764751253; x=1796287253;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=OUTdsmcWH9SUMAIl1srrZz9ziKWRPpDdI06sB9PAJDk=;
- b=IrbVtvUJeiMfXowmvEufci0lxixbe2yEWyFX6Oyha1rdQgW+jzRwrsFl
- kojgTki5u9v+/zJIGAN6yAm2CiKbSf9DBy1DaYkMbS5RCNercTeMNY2/4
- hERgZS71d97opUii6T3yD0zBcgnHODZFkrEnMCzzogS7HBOXYWJsV1xJx
- o9sYPpbPZ5buH3n47Eh6KyUdpp9MupehyW5e/olNSCQ9dlgJ5ex68Re+J
- 9mDOSxTyR4tHI9mxBeEN410EzR3oC5yoH+tvlZtf0WRI/rqb6QX8ssxnH
- Y6+V7+9Vf+AXOFvtLM/dRlehl5oYxlyl3w/GrN9YwanNEb27Q5W/ThNzq g==;
-X-CSE-ConnectionGUID: iKnsjTQ6QSW6CL8Wz8Q77g==
-X-CSE-MsgGUID: 7ja/5BKCR5K1jsWwjKsUQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66458100"
-X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; d="scan'208";a="66458100"
+ bh=G8wH4LHx7BL3nCvG/mv1bbSMa/HCXnNGYuWGQzTV83o=;
+ b=kB4jvDTvwmM5of0mSmjSIjtBp4N+m6SYC41Kpw8/yp7Wg67LfkwLEhJk
+ eoFPYPoHX0MIhN9o5Nl9gHFde1aMlPn/FfxHaRTJC7zA44Y7NJKej/oyo
+ AlAGboWZRQHaAXYwXO0VBjyrNujCCm+s+rqgcsg7/qoCmtrv/bKbl+D1V
+ IDGcSMIi3oWHYo9A2J3lnfeRLSLMSZaoWeYIRE4HhTZ8mXZftea28pMlH
+ HAhlOC8LI2eydEhYX4crJdgwxUx3Snbvi0H87yGrJZoJCgzL+roI8d665
+ oaY+ogkLZ+495DQpkTEOW1BtNn0Bg9yydLDG/IVKaUWC8LUlSI67qk9Tg Q==;
+X-CSE-ConnectionGUID: vn+z7wR/Sma1zX+wVvGblA==
+X-CSE-MsgGUID: J2VTPNOGTtqQw8NmSvTJwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66458104"
+X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; d="scan'208";a="66458104"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2025 00:40:50 -0800
-X-CSE-ConnectionGUID: k+PcfGvRQju4eNM2W7ovCQ==
-X-CSE-MsgGUID: Do8hNcWgR8ub+MXb8xA6OA==
+ 03 Dec 2025 00:40:53 -0800
+X-CSE-ConnectionGUID: 5lQyWzg7RRaL+o5cnveCwQ==
+X-CSE-MsgGUID: rDqjHYyQSbSVGB7TdE6I5A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; d="scan'208";a="217945412"
+X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; d="scan'208";a="217945428"
 Received: from cfl-desktop.iind.intel.com ([10.190.239.20])
- by fmviesa002.fm.intel.com with ESMTP; 03 Dec 2025 00:40:43 -0800
+ by fmviesa002.fm.intel.com with ESMTP; 03 Dec 2025 00:40:48 -0800
 From: Uma Shankar <uma.shankar@intel.com>
 To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
@@ -48,9 +48,9 @@ Cc: chaitanya.kumar.borah@intel.com, ville.syrjala@linux.intel.com,
  mwen@igalia.com, jadahl@redhat.com, sebastian.wick@redhat.com,
  swati2.sharma@intel.com, alex.hung@amd.com, jani.nikula@intel.com,
  suraj.kandpal@intel.com, Uma Shankar <uma.shankar@intel.com>
-Subject: [v8 06/15] drm/i915/color: Preserve sign bit when int_bits is Zero
-Date: Wed,  3 Dec 2025 14:22:02 +0530
-Message-ID: <20251203085211.3663374-7-uma.shankar@intel.com>
+Subject: [v8 07/15] drm/i915/color: Add plane CTM callback for D12 and beyond
+Date: Wed,  3 Dec 2025 14:22:03 +0530
+Message-ID: <20251203085211.3663374-8-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251203085211.3663374-1-uma.shankar@intel.com>
 References: <20251203085211.3663374-1-uma.shankar@intel.com>
@@ -71,34 +71,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Add callback for setting CTM block in platforms D12 and beyond
 
-When int_bits == 0, we lose the sign bit when we do the range check
-and apply the mask.
+v2:
+- Add dsb support
+- Pass plane_state as we are now doing a uapi to hw state copy
+- Add support for 3x4 matrix
 
-Fix this by ensuring a minimum of one integer bit, which guarantees space
-for the sign bit in fully fractional representations (e.g. S0.12)
+v3:
+- Add relevant header file
+- Fix typo (Suraj)
+- Add callback to TGL+ (Suraj)
 
 Reviewed-by: Suraj Kandpal <suraj.kandpal@intel.com>
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_color.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/i915/display/intel_color.c | 98 ++++++++++++++++++++++
+ 1 file changed, 98 insertions(+)
 
 diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
-index 33fe5c9b4663..81b87fed8878 100644
+index 81b87fed8878..2f8e985d51e5 100644
 --- a/drivers/gpu/drm/i915/display/intel_color.c
 +++ b/drivers/gpu/drm/i915/display/intel_color.c
-@@ -613,6 +613,8 @@ static u16 ctm_to_twos_complement(u64 coeff, int int_bits, int frac_bits)
- 	if (CTM_COEFF_NEGATIVE(coeff))
- 		c = -c;
+@@ -32,6 +32,8 @@
+ #include "intel_display_utils.h"
+ #include "intel_dsb.h"
+ #include "intel_vrr.h"
++#include "skl_universal_plane.h"
++#include "skl_universal_plane_regs.h"
  
-+	int_bits = max(int_bits, 1);
+ struct intel_color_funcs {
+ 	int (*color_check)(struct intel_atomic_state *state,
+@@ -3842,6 +3844,101 @@ static void icl_read_luts(struct intel_crtc_state *crtc_state)
+ 	}
+ }
+ 
++static void
++xelpd_load_plane_csc_matrix(struct intel_dsb *dsb,
++			    const struct intel_plane_state *plane_state)
++{
++	struct intel_display *display = to_intel_display(plane_state);
++	const struct drm_plane_state *state = &plane_state->uapi;
++	enum pipe pipe = to_intel_plane(state->plane)->pipe;
++	enum plane_id plane = to_intel_plane(state->plane)->id;
++	const struct drm_property_blob *blob = plane_state->hw.ctm;
++	struct drm_color_ctm_3x4 *ctm;
++	const u64 *input;
++	u16 coeffs[9] = {};
++	int i, j;
 +
- 	c = clamp(c, -(s64)BIT(int_bits + frac_bits - 1),
- 		  (s64)(BIT(int_bits + frac_bits - 1) - 1));
++	if (!icl_is_hdr_plane(display, plane) || !blob)
++		return;
++
++	ctm = blob->data;
++	input = ctm->matrix;
++
++	/*
++	 * Convert fixed point S31.32 input to format supported by the
++	 * hardware.
++	 */
++	for (i = 0, j = 0; i < ARRAY_SIZE(coeffs); i++) {
++		u64 abs_coeff = ((1ULL << 63) - 1) & input[j];
++
++		/*
++		 * Clamp input value to min/max supported by
++		 * hardware.
++		 */
++		abs_coeff = clamp_val(abs_coeff, 0, CTM_COEFF_4_0 - 1);
++
++		/* sign bit */
++		if (CTM_COEFF_NEGATIVE(input[j]))
++			coeffs[i] |= 1 << 15;
++
++		if (abs_coeff < CTM_COEFF_0_125)
++			coeffs[i] |= (3 << 12) |
++				      ILK_CSC_COEFF_FP(abs_coeff, 12);
++		else if (abs_coeff < CTM_COEFF_0_25)
++			coeffs[i] |= (2 << 12) |
++				      ILK_CSC_COEFF_FP(abs_coeff, 11);
++		else if (abs_coeff < CTM_COEFF_0_5)
++			coeffs[i] |= (1 << 12) |
++				      ILK_CSC_COEFF_FP(abs_coeff, 10);
++		else if (abs_coeff < CTM_COEFF_1_0)
++			coeffs[i] |= ILK_CSC_COEFF_FP(abs_coeff, 9);
++		else if (abs_coeff < CTM_COEFF_2_0)
++			coeffs[i] |= (7 << 12) |
++				      ILK_CSC_COEFF_FP(abs_coeff, 8);
++		else
++			coeffs[i] |= (6 << 12) |
++				      ILK_CSC_COEFF_FP(abs_coeff, 7);
++
++		/* Skip postoffs */
++		if (!((j + 2) % 4))
++			j += 2;
++		else
++			j++;
++	}
++
++	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 0),
++			   coeffs[0] << 16 | coeffs[1]);
++	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 1),
++			   coeffs[2] << 16);
++
++	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 2),
++			   coeffs[3] << 16 | coeffs[4]);
++	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 3),
++			   coeffs[5] << 16);
++
++	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 4),
++			   coeffs[6] << 16 | coeffs[7]);
++	intel_de_write_dsb(display, dsb, PLANE_CSC_COEFF(pipe, plane, 5),
++			   coeffs[8] << 16);
++
++	intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 0), 0);
++	intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 1), 0);
++	intel_de_write_dsb(display, dsb, PLANE_CSC_PREOFF(pipe, plane, 2), 0);
++
++	/*
++	 * Conversion from S31.32 to S0.12. BIT[12] is the signed bit
++	 */
++	intel_de_write_dsb(display, dsb,
++			   PLANE_CSC_POSTOFF(pipe, plane, 0),
++			   ctm_to_twos_complement(input[3], 0, 12));
++	intel_de_write_dsb(display, dsb,
++			   PLANE_CSC_POSTOFF(pipe, plane, 1),
++			   ctm_to_twos_complement(input[7], 0, 12));
++	intel_de_write_dsb(display, dsb,
++			   PLANE_CSC_POSTOFF(pipe, plane, 2),
++			   ctm_to_twos_complement(input[11], 0, 12));
++}
++
+ static const struct intel_color_funcs chv_color_funcs = {
+ 	.color_check = chv_color_check,
+ 	.color_commit_arm = i9xx_color_commit_arm,
+@@ -3889,6 +3986,7 @@ static const struct intel_color_funcs tgl_color_funcs = {
+ 	.lut_equal = icl_lut_equal,
+ 	.read_csc = icl_read_csc,
+ 	.get_config = skl_get_config,
++	.load_plane_csc_matrix = xelpd_load_plane_csc_matrix,
+ };
  
+ static const struct intel_color_funcs icl_color_funcs = {
 -- 
 2.50.1
 
