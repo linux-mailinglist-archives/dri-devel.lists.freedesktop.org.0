@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9BA4C9ED9F
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 12:35:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3022BC9EE4D
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 12:47:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0D9510E136;
-	Wed,  3 Dec 2025 11:35:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D79B10E778;
+	Wed,  3 Dec 2025 11:47:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="C1Nn74Ud";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="f9mlpCoY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AD1A10E136
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 11:35:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
- Cc:To:From:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=zIyvi7S7EuLcmO2rULNAH7xtFQYywl3rkJA2B3mn/j8=; b=C1Nn74UdclNUnBDAznxqGAfYvm
- p9+iyp0C311FYIeDpoloBkNnpnjb1xnd2TSAOUEl+SUCiibVe5U/UXaOpZTPRsjLpyVUB3/F0pNev
- H9W9S+BrrIUNO45mg2Pk4X6cxBTptkQaImwjOHO+Vj9Ys6Gw9eP7KMqkiixOPvqa4e2ToxNQcnizS
- EbibAu96ebbM9l/BkWN5pC9mkof+AGx+mBSJNdfTGBTcCKlye/hA1sRSXnjY0BRNnXK6OH86wijBk
- Mdz3Xh5M1oYMaGekSbhyMBSGWZWSnLFEa3uX347gIu4/We4oxcNdHnKn+ATMi8nrDfnmA1wAT9vtp
- ylg4b+aA==;
-Received: from [90.240.106.137] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vQl8O-008FER-78; Wed, 03 Dec 2025 12:35:00 +0100
-Message-ID: <f5ea0445-c5b0-44cd-879b-9f1426640d2e@igalia.com>
-Date: Wed, 3 Dec 2025 11:34:59 +0000
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9401E10E778
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 11:47:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1764762461;
+ bh=l1brxEcZEA0OgRbkgRwjthl5cw9jv+wS/NkiJhQwLE0=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=f9mlpCoYxuvF1RhDsSx/P4LQ0tjviho15e1R+U7MuNlo6w8zzuQ+9MkiDESdz/o4q
+ t4bwNcwjs0ISRbT3bn+nzmNZCe7qj4Ru53TbAQ4SUdHwYdGP8VKktbR09XpXhO7shA
+ o7LoDKUmAYoHbSu1YR1HKUI2kANb5lqM/Mr9ISTGO4qYSSwP1O2z9rRMf7D4YMmTTH
+ tSs2WaD+opmj89T7C6124APQYqxWcaurHD/7ukAYiR8buMKOAXzEo3HsOGNzu3oXGz
+ ttC+3SLL3knJjRQvHrmEQAO0to9Npw8OO/sA256DDwtmi5SkGPoTDJJ5ZC1bY+B1Jh
+ ByII+xJq6P8JA==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9D48C17E0117;
+ Wed,  3 Dec 2025 12:47:40 +0100 (CET)
+Date: Wed, 3 Dec 2025 12:47:35 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, =?UTF-8?B?QWRy?=
+ =?UTF-8?B?acOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>, Chia-I
+ Wu <olvaffe@gmail.com>, kernel@collabora.com
+Subject: Re: [PATCH v2 3/3] drm/panthor: Unlock the locked region before
+ disabling an AS
+Message-ID: <20251203124735.61e7af54@fedora>
+In-Reply-To: <20251203110527.367089-4-boris.brezillon@collabora.com>
+References: <20251203110527.367089-1-boris.brezillon@collabora.com>
+ <20251203110527.367089-4-boris.brezillon@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] Some small TTM cleanups
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-To: dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Huang Rui <ray.huang@amd.com>
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>
-References: <20250919131530.91247-1-tvrtko.ursulin@igalia.com>
- <fdbab4cb-5011-451b-bec9-f246f3949c76@igalia.com>
- <989105d9-fd72-4a9b-9517-be37d24d2603@igalia.com>
-Content-Language: en-GB
-In-Reply-To: <989105d9-fd72-4a9b-9517-be37d24d2603@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,58 +66,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed,  3 Dec 2025 12:05:27 +0100
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-
-3rd ping, and apologies, for some reason I thought Thomas you were 
-listed as maintainer for TTM.
-
-Correcting the To: list to Christian and Huang.
-
-Again, asking for acks to merge this trivial series.
-
-Regards,
-
-Tvrtko
-
-On 21/11/2025 10:02, Tvrtko Ursulin wrote:
+> An AS can be disabled in the middle of a VM operation (VM being
+> evicted from an AS slot, for instance). In that case, we need the
+> locked section to be unlocked before releasing the slot.
 > 
-> A gentle ping. Two really trivial cleanups are ready to merge just need 
-> maintainer acks.
+> v2:
+> - Add an lockdep_assert_held() in panthor_mmu_as_disable()
+> - Collect R-bs
 > 
-> On 05/11/2025 15:33, Tvrtko Ursulin wrote:
->>
->> + Christian & Thomas
->>
->> On 19/09/2025 14:15, Tvrtko Ursulin wrote:
->>> Some small cleanups, nothing intentionally functional. It is mostly 
->>> about
->>> applying some consistency to when to use a local variable to cache 
->>> something,
->>> when not, and making the code use the ones already there.
->>>
->>> Tvrtko Ursulin (4):
->>>    drm/ttm: Make ttm_bo_init_validate safe against ttm_operation_ctx
->>>      re-ordering
->>>    drm/ttm: Resource cannot be NULL in ttm_resource_intersects
->>>    drm/ttm: Tidy ttm_operation_ctx initialization
->>>    drm/ttm: Tidy usage of local variables a little bit
->>
->> I got acks for trivial cleanups patch 1 & 3 from this series. Are you 
->> okay if I push the two to drm-misc-next?
->>
->> Regards,
->>
->> Tvrtko
->>
->>>   drivers/gpu/drm/ttm/ttm_bo.c       | 64 +++++++++++++++---------------
->>>   drivers/gpu/drm/ttm/ttm_bo_util.c  | 57 ++++++++++++--------------
->>>   drivers/gpu/drm/ttm/ttm_bo_vm.c    | 12 +++---
->>>   drivers/gpu/drm/ttm/ttm_device.c   |  5 +--
->>>   drivers/gpu/drm/ttm/ttm_pool.c     | 26 ++++++------
->>>   drivers/gpu/drm/ttm/ttm_resource.c | 14 ++-----
->>>   drivers/gpu/drm/ttm/ttm_tt.c       |  2 +-
->>>   7 files changed, 83 insertions(+), 97 deletions(-)
->>>
->>
+> Fixes: 6e2d3b3e8589 ("drm/panthor: Add support for atomic page table updates")
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+> Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index 3644af1a8e56..493e6428d478 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -588,14 +588,27 @@ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
+>  static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr,
+>  				  bool recycle_slot)
+>  {
+> +	struct panthor_vm *vm = ptdev->mmu->as.slots[as_nr].vm;
+>  	int ret;
+>  
+> +	lockdep_assert_held(&ptdev->mmu->as.slots_lock);
+> +
+>  	/* Flush+invalidate RW caches, invalidate RO ones. */
+>  	ret = panthor_gpu_flush_caches(ptdev, CACHE_CLEAN | CACHE_INV,
+>  				       CACHE_CLEAN | CACHE_INV, CACHE_INV);
+>  	if (ret)
+>  		return ret;
+>  
+> +	if (vm && vm->locked_region.size) {
+> +		/* Unlock the region if there a lock pending. */
+> +		ret = as_send_cmd_and_wait(ptdev, vm->as.id, AS_COMMAND_UNLOCK);
+> +		if (ret)
+> +			return ret;
+> +
+> +		vm->locked_region.start = 0;
+> +		vm->locked_region.size = 0;
+
+Actually, resetting the locked_region range triggers the WARN_ON()s in
+the vm_[un]map_pages() path, so I'll get rid of that in v3.
+
+> +	}
+> +
+>  	/* If the slot is going to be used immediately, don't bother changing
+>  	 * the config.
+>  	 */
 
