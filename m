@@ -2,140 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BD9C9EA32
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 11:05:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C266AC9EA96
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 11:13:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53C7789B46;
-	Wed,  3 Dec 2025 10:05:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78C1B10E5CB;
+	Wed,  3 Dec 2025 10:13:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="jnVOT+jo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="njjI2f9L";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="r01JSc+R";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="e8O4thsg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J3SlxfLj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B77489B46
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 10:05:27 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E581A5BD2A;
- Wed,  3 Dec 2025 10:05:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764756324; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9HpLpl2ZV1aDZOaoROYaUGQAilkVvscwuzKjyuJYnNs=;
- b=jnVOT+jotr9pslvvDUvdfIyfT237Oer3g/Yja6rIA+jkJUcHTwBsCtSLi8FUZMQDmjbf05
- Om6eGZGnmO/dp/D4sa4a24EHAGVEy+oqUF/iwAyFTrWGfR1B37bU9GOyJ4JmQ2ea7tQUdp
- i9O35d31UQQYCu7vp3/02T3si/ZfLwk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764756324;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9HpLpl2ZV1aDZOaoROYaUGQAilkVvscwuzKjyuJYnNs=;
- b=njjI2f9L3uNosxuu3KudVg8GDjviujs1UIMkPyz6OsDlYK6pIf76RjXRF1/revtLreg2HE
- i2zz+9HZKVnLjTBQ==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=r01JSc+R;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=e8O4thsg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764756323; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9HpLpl2ZV1aDZOaoROYaUGQAilkVvscwuzKjyuJYnNs=;
- b=r01JSc+R+eWZwoEMvF1RXse1jBRvnxA376iO2MBeCKCKHt8uwLKYBFmkQIwjQDBYxwBE2w
- GMZnGE6nF815W6C5Ui6Qd22ohFKOZ2an4kgCV70jRAVwvRxgwexAnCpjGO5K1rvMZQ9DXd
- tgv7ffIRpy4P4xCoFNeuVSZWPYALzMQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764756323;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9HpLpl2ZV1aDZOaoROYaUGQAilkVvscwuzKjyuJYnNs=;
- b=e8O4thsgdFg3DiKOzjzj3eJ5+DswRLbOlwVTee/gl38a8Oe0xBtD6Xyl9b7K9wEXRTtFw4
- SYBwPT8bL/HoMqBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ABE253EA63;
- Wed,  3 Dec 2025 10:05:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id LprNJ2MLMGklMAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 03 Dec 2025 10:05:23 +0000
-Message-ID: <5ecc23ed-929f-4e60-a7a1-d4bd759e9af2@suse.de>
-Date: Wed, 3 Dec 2025 11:05:23 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B9FE710E5CB
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 10:13:35 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C15BF6019B
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 10:13:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78FE9C4AF0B
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 10:13:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764756814;
+ bh=Cze7ErqqkpLz+XZgBbYQeWtEMFdLresxu3cFBZSDmwI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=J3SlxfLjIXh7j++wbN3LncYbvLl6gZsy/73oKRu0K4omyZDnH99kc/y72vXNcMec8
+ a2LWZRFf29nrTz4wRAXVJme9R6jQQfS4XxbXaafn+HGga8139pa6T2bRmqj08E8UEG
+ zVj0IMja6R1B7t8gvoskW4PRaeUOzvVgiwM9sUMozhYi/Hge/z/DRvVJqHDHLBNqrl
+ EKe3AYszafBC4jxYpvBWcjkPOGoCytXYrMo64GNvUMvIsfThVjKbgtWIhiI3PKBHgE
+ NPHV5NvTk2MBzgNNd/3Ll1Pf5lY5/hu5gwVq+/VkjV/wBOeNQ59cz8YOFaY/QKdNdn
+ rb7UWk74j8YSQ==
+Received: by mail-lf1-f52.google.com with SMTP id
+ 2adb3069b0e04-594285c6509so7657585e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 02:13:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWzhJTCC8sr4BneTO325pna4J3mvhrzkfQtDT/LHaUSJNbwxm0zZzMq1Va96RWZvkMvQ0s/74z1wI8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwDD7mtpifrML/xeuUk5Svv1ntntPxr5365zu3fE81rEST0ghgq
+ 1xZy+uOiY/nZNM0OvG8mqK0JfbnT6BGOD8SsKfOkrzR8/Nwk+iI/6H9AWxiQW7KxSWUwzAEpLsE
+ mZaOp0qwmi6oRP+zNgU9+QgeQx6O58HM=
+X-Google-Smtp-Source: AGHT+IEjQdkj/1Cic2lgrgFI19Se8QQ3Qy9UY9j5vrT08a555bfB2V1g7tUBZQ/05JQna5TxbQlzBvcPBTY6A+9cW6k=
+X-Received: by 2002:a05:6512:3d9e:b0:595:90f9:b9d2 with SMTP id
+ 2adb3069b0e04-597d3f017f7mr851029e87.3.1764756812858; Wed, 03 Dec 2025
+ 02:13:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] efi: sysfb_efi: Fix efidrmfb and simpledrmfb on
- Valve Steam Deck
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Ard Biesheuvel <ardb@kernel.org>,
- Melissa Wen <mwen@igalia.com>, linux-efi@vger.kernel.org
 References: <20251203090706.53778-1-tvrtko.ursulin@igalia.com>
  <20251203090706.53778-5-tvrtko.ursulin@igalia.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251203090706.53778-5-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: E581A5BD2A
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
- MIME_TRACE(0.00)[0:+];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim]; RCVD_TLS_ALL(0.00)[];
- RCPT_COUNT_FIVE(0.00)[6]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,suse.de:email,igalia.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:url];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Level: 
+ <5ecc23ed-929f-4e60-a7a1-d4bd759e9af2@suse.de>
+In-Reply-To: <5ecc23ed-929f-4e60-a7a1-d4bd759e9af2@suse.de>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Wed, 3 Dec 2025 11:13:21 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXEVq65rBQraKn8kcCiA6wU7tPfCCbf2Bma4F3p0As3ToQ@mail.gmail.com>
+X-Gm-Features: AWmQ_blXylcyxLDhJlO_QB6L4rIs-0IgKCx6-qBnsdZeLqjAGgiMfCwJCVsEYwk
+Message-ID: <CAMj1kXEVq65rBQraKn8kcCiA6wU7tPfCCbf2Bma4F3p0As3ToQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] efi: sysfb_efi: Fix efidrmfb and simpledrmfb on
+ Valve Steam Deck
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com, Melissa Wen <mwen@igalia.com>, linux-efi@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,125 +73,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 03.12.25 um 10:07 schrieb Tvrtko Ursulin:
-> Valve Steam Deck has a 800x1280 portrait screen installed in a landscape
-> orientation. The firmware offers a software rotated 1280x800 mode which
-> GRUB can be made to switch to when displaying a boot menu. If this mode
-> was selected frame buffer drivers will see this fake mode and fbcon
-> rendering will be corrupted.
+On Wed, 3 Dec 2025 at 11:05, Thomas Zimmermann <tzimmermann@suse.de> wrote:
 >
-> Lets therefore add a selective quirk inside the current "swap with and
-> height" handling, which will detect this exact mode and fix it up back to
-> the native one.
+> Hi
 >
-> This will allow the DRM based frame buffer drivers to detect the correct
-> mode and, apply the existing panel orientation quirk, and render the
-> console in landscape mode with no corruption.
+> Am 03.12.25 um 10:07 schrieb Tvrtko Ursulin:
+> > Valve Steam Deck has a 800x1280 portrait screen installed in a landscape
+> > orientation. The firmware offers a software rotated 1280x800 mode which
+> > GRUB can be made to switch to when displaying a boot menu. If this mode
+> > was selected frame buffer drivers will see this fake mode and fbcon
+> > rendering will be corrupted.
+> >
+> > Lets therefore add a selective quirk inside the current "swap with and
+> > height" handling, which will detect this exact mode and fix it up back to
+> > the native one.
+> >
+> > This will allow the DRM based frame buffer drivers to detect the correct
+> > mode and, apply the existing panel orientation quirk, and render the
+> > console in landscape mode with no corruption.
+> >
+> > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Ard Biesheuvel <ardb@kernel.org>
+> > Cc: Melissa Wen <mwen@igalia.com>
+> > Cc: linux-efi@vger.kernel.org
+> > ---
+> >   drivers/firmware/efi/sysfb_efi.c | 56 +++++++++++++++++++++++++++++---
+> >   1 file changed, 51 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/firmware/efi/sysfb_efi.c b/drivers/firmware/efi/sysfb_efi.c
+> > index eacf9a50eab2..566492e67798 100644
+> > --- a/drivers/firmware/efi/sysfb_efi.c
+> > +++ b/drivers/firmware/efi/sysfb_efi.c
+> > @@ -231,16 +231,42 @@ static const struct dmi_system_id efifb_dmi_system_table[] __initconst = {
+> >       {},
+> >   };
+> >
+> > +struct efifb_mode_fixup {
+> > +     unsigned int width;
+> > +     unsigned int height;
+> > +     unsigned int linelength;
+> > +};
+> > +
+> >   static int __init efifb_swap_width_height(const struct dmi_system_id *id)
 >
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: Ard Biesheuvel <ardb@kernel.org>
-> Cc: Melissa Wen <mwen@igalia.com>
-> Cc: linux-efi@vger.kernel.org
-> ---
->   drivers/firmware/efi/sysfb_efi.c | 56 +++++++++++++++++++++++++++++---
->   1 file changed, 51 insertions(+), 5 deletions(-)
+> It's something different now. Can this please become a separate list
+> with a separate callback?
 >
-> diff --git a/drivers/firmware/efi/sysfb_efi.c b/drivers/firmware/efi/sysfb_efi.c
-> index eacf9a50eab2..566492e67798 100644
-> --- a/drivers/firmware/efi/sysfb_efi.c
-> +++ b/drivers/firmware/efi/sysfb_efi.c
-> @@ -231,16 +231,42 @@ static const struct dmi_system_id efifb_dmi_system_table[] __initconst = {
->   	{},
->   };
->   
-> +struct efifb_mode_fixup {
-> +	unsigned int width;
-> +	unsigned int height;
-> +	unsigned int linelength;
-> +};
-> +
->   static int __init efifb_swap_width_height(const struct dmi_system_id *id)
 
-It's something different now. Can this please become a separate list 
-with a separate callback?
-
-Best regards
-Thomas
-
->   {
-> -	swap(screen_info.lfb_width, screen_info.lfb_height);
-> -	screen_info.lfb_linelength = (unsigned int)screen_info.lfb_depth *
-> -				     screen_info.lfb_width /
-> -				     BITS_PER_BYTE;
-> +	const struct efifb_mode_fixup *data = id->driver_data;
->   
-> -	return 1;
-> +	if (!data ||
-> +	    (data->width == screen_info.lfb_width &&
-> +	     data->height == screen_info.lfb_height)) {
-> +		swap(screen_info.lfb_width, screen_info.lfb_height);
-> +
-> +		if (data && data->linelength) {
-> +			screen_info.lfb_linelength = data->linelength;
-> +			screen_info.lfb_size = data->linelength * data->width;
-> +		} else {
-> +			screen_info.lfb_linelength = (unsigned int)screen_info.lfb_depth *
-> +						     screen_info.lfb_width /
-> +						     BITS_PER_BYTE;
-> +		}
-> +
-> +		return 1;
-> +	}
-> +
-> +	return 0;
->   }
->   
-> +static const struct efifb_mode_fixup efifb_steamdeck_mode_fixup = {
-> +	.width = 1280,
-> +	.height = 800,
-> +	.linelength = 3328,
-> +};
-> +
->   /*
->    * Some devices have a portrait LCD but advertise a landscape resolution (and
->    * pitch). We simply swap width and height for these devices so that we can
-> @@ -296,6 +322,26 @@ static const struct dmi_system_id efifb_dmi_swap_width_height[] __initconst = {
->   		},
->   		.callback = efifb_swap_width_height,
->   	},
-> +	{
-> +		/* Valve Steam Deck (Jupiter) */
-> +		.matches = {
-> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
-> +		},
-> +		.callback = efifb_swap_width_height,
-> +		.driver_data = (void *)&efifb_steamdeck_mode_fixup,
-> +	},
-> +	{
-> +		/* Valve Steam Deck (Galileo) */
-> +		.matches = {
-> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Galileo"),
-> +			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
-> +		},
-> +		.callback = efifb_swap_width_height,
-> +		.driver_data = (void *)&efifb_steamdeck_mode_fixup,
-> +	},
->   	{},
->   };
->   
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+Why? That means we have to introduce another dmi_check_system() call,
+and manually implement the logic to ensure that it is not called
+redundantly, i.e., after the first one already found a match.
