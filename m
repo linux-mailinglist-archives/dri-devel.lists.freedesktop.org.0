@@ -2,60 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F8FC9EFC9
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 13:27:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80641CA2E57
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 10:04:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 10D3E10E78F;
-	Wed,  3 Dec 2025 12:27:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3A48110E8FA;
+	Thu,  4 Dec 2025 09:04:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QYArkndf";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LWk8e0sc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 92B7510E146;
- Wed,  3 Dec 2025 12:27:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764764862; x=1796300862;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=QAnt8xMWTEFOGqh8jaKSYsiOTBC+evsQtew/Tzx5rcA=;
- b=QYArkndfPltjqx4AtGTOLSAdwzBegajP6jL1mEY94LbFi+CBuHf7UETW
- iVeghWDHkFoIryaKatosmLkqMwEKNw8aEv/XpSZ3+Cp+31xfm3WM4TxP2
- pmT6EUOnDa3FDGT6w6all7rHKJVlexDzDY8ohEb12WqcTQxwBpAR0x7qY
- taq4RnY1oEWSbZKAqhd0wv0T3ysVUoHbbSgtS9hJhO6UgGV2sEESk7AE7
- ZCStVYAEvY/Hh1qJEXmMW/qCzVluShAstN02tzDBhf4S6QdC83LOSFZSW
- k894rTCUPOPbvraiSNqdIrMo6BdvY4B+fimeCnTZ1BIqngPXh7kAgSOjz w==;
-X-CSE-ConnectionGUID: nGeoYpKmTaqKHmfhZzf+Zg==
-X-CSE-MsgGUID: WPhH77J8SQOHaK7R7WPcIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="65753778"
-X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; d="scan'208";a="65753778"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2025 04:27:42 -0800
-X-CSE-ConnectionGUID: ZYzhnvoAQ+Kd4/WK8R14FA==
-X-CSE-MsgGUID: RbuGZ89pQ0GW6MQ6GjcMxA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; d="scan'208";a="194759836"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.245.70])
- by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2025 04:27:40 -0800
-Date: Wed, 3 Dec 2025 14:27:37 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
-Subject: Re: [PATCH] nouveau: use proper atomic accessor to get crtc state
-Message-ID: <aTAsueO-OwP5pd4h@intel.com>
-References: <20251130214206.1469934-1-airlied@gmail.com>
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8FB810E129
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 12:51:08 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-4779cb0a33fso72373905e9.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 04:51:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764766267; x=1765371067; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=YCzEMZqIE6VK/l17z+67juAL4QIkZUzs5waT5RdKcHs=;
+ b=LWk8e0scqRiqWsT1or9X4hkvmAy5k2rypBoi6wUSixSBYsdZMC7eO6dWaFSqfeiGYU
+ nE8UKfjzEYYcL+b5IYDMI1Jg7Dk/j+ehIv4kraBkbFuYjlH+TN/0ppKqdLe9j+KdPmXQ
+ 1SiiwLT2RWchpRSfZ6ZLeX6Ljp1p+FZqUTfvhG+xtSA80YA/18pE3TksaZEVSeKldhNz
+ 9Z9Y6gvLEAHl1FGuh7DcM5GRpaWZ7IGYXrQ+s0TUED7C1+6gvUsM/X9wmKLHPjkYSWqf
+ cHuGIXCIgF6uwvNOJTiRG1kRcuc5wEEBR/oQpsjuJpgGd7MkzXqCm3/6PHB387ELnQlI
+ Jr6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764766267; x=1765371067;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YCzEMZqIE6VK/l17z+67juAL4QIkZUzs5waT5RdKcHs=;
+ b=Xpjq7gYUyKZ7UEFh+CQn9rrO+fjnSQdmj/Gr/5mDbLvbf6NNJksyuRPdBrwp4zzjcu
+ ykErAfZfB14aGuiAxFcJ84XjdB58HPOgDQLypJYonqtHnsooa4vgfjtTarApiTv5n8pZ
+ vY6kuk1f0ZdarrngJDY6FTYK7ItY5mdNUt2pq+gBj1ukvOirbVRkN6bZ54NTXVaTQF0t
+ iSs2Z1G2lIt3BHW4S3z7o6rEwQ/Fy7e2Xl97c9A8NMtKS8FyCb+6rZt2w9VoMIkpqgvi
+ VBrMNGo4zO5diUY0RYCn5iZkjOBnhj5qYdiMKVfG4SG0ZA/NDi4X5YIcbI/cK2n4oyPh
+ K5Fw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUm4prizsZRXUki32BkaPEhMri8H5Bl0TUJNe5onEtr8RH2IeB/cCdszYtgeo9KHw8l7pmivd1ZAmo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyas8pYdE+6rAgP8NlSkZTBhQAI8jYqN4FOOAQIt8MHeb8Ua7bF
+ U6FFb5YADNpqA3XhN7AP9SXW7Cbuy+vlY6Bxh63PMWT4ZHJNq08MW7PW
+X-Gm-Gg: ASbGncufHGQlcGMuKRdhNzFOerMOnTa/pGTZWibVgh+HDr7EuJpoaKnybFrpMICrrxN
+ Sixfvqag8RbBrGUHh3M3gbX0aUo36dvdc0lHymaNK87oZR9X7GdvoNZ5u0lsvE3WeEZdAZ2Ijze
+ PBr8j5WgvdDRv05uVpgpQ/RqA3VuaZUt09e8CkXjxkl9ga+1Jcd7QsfJ7v8CnoQ7UE4Gm0ynuno
+ hhcMu4TfvxUjQXpWJ2pswXhl6zgv5EEx0smQ8J0hA9aGw3ti1nqGWtVshVDJE3iMPtFr8b8IGxA
+ T2JkIormzzLphFMSlmfKnPxopLyk5hq1otRyZLBHbxUyDQS+CEwJriwK/9BFQVq29MM1jvPBh+1
+ Gq7AUVLB++/0KX96896sWREKbry+b3duFTFISlTGZlu/F1nh2LaGYpYZch1+mpzzQiRX2AfQfwt
+ pdUM0XzSJnlAMN/HF/wGILMj2Yo/COQ2h/UCX8kZGdKlAgJVaEGNNTQQn1Tsxt8AngeF9lday3O
+ z0=
+X-Google-Smtp-Source: AGHT+IHD/zjKzRKH5eirr7x2/CUknGJg4LSn2AKabfK6OTVG6+bpUp20UCdcJb9nbkTrsFpVkoSKNQ==
+X-Received: by 2002:a05:600c:4f54:b0:477:6d96:b3ca with SMTP id
+ 5b1f17b1804b1-4792aedf781mr21716185e9.5.1764766266787; 
+ Wed, 03 Dec 2025 04:51:06 -0800 (PST)
+Received: from biju.lan (host86-162-200-138.range86-162.btcentralplus.com.
+ [86.162.200.138]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4792a7975c8sm52651595e9.1.2025.12.03.04.51.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Dec 2025 04:51:06 -0800 (PST)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH] drm/panfrost: Add GPU_PM_RT support for RZ/G3E SoC
+Date: Wed,  3 Dec 2025 12:51:01 +0000
+Message-ID: <20251203125104.67596-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251130214206.1469934-1-airlied@gmail.com>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Mailman-Approved-At: Thu, 04 Dec 2025 09:04:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,47 +100,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 01, 2025 at 07:42:06AM +1000, Dave Airlie wrote:
-> From: Dave Airlie <airlied@redhat.com>
-> 
-> This gets the crtc state from the current state, instead of
-> trying to lookup or create a state.
-> 
-> atomic core started warning about this recently.
-> 
-> Fixes: 0a0e79a2d9ed ("drm/atomic: WARN about invalid drm_foo_get_state() usage")
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> ---
->  drivers/gpu/drm/nouveau/dispnv50/atom.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/atom.h b/drivers/gpu/drm/nouveau/dispnv50/atom.h
-> index 93f8f4f64578..ada8fb6f1a9a 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/atom.h
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/atom.h
-> @@ -151,7 +151,7 @@ struct nv50_head_atom {
->  static inline struct nv50_head_atom *
->  nv50_head_atom_get(struct drm_atomic_state *state, struct drm_crtc *crtc)
->  {
-> -	struct drm_crtc_state *statec = drm_atomic_get_crtc_state(state, crtc);
-> +	struct drm_crtc_state *statec = drm_atomic_get_new_crtc_state(state, crtc);
->  	if (IS_ERR(statec))
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-drm_atomic_get_new_crtc_state() will never return an error.
-It's either a valid pointer or NULL.
+RZ/G3E SoC is embedded with Mali-G52 GPU system. The system hangs after
+STR in the following condition:
 
-The somewhat oddball terminology used in the nouveau code makes it
-a bit hard to read, but to me it looks like this this is only used
-to get the crtc state for a plane's old/new crtc. Those should always
-be included in the atomic state along with the plane itself, so I
-*think* you could just nuke all the error checks in the callers and
-not bother with any NULL checks.
+STR -> Wakeup from STR -> Unload panfrost using 'modprobe -r panfrost'.
 
->  		return (void *)statec;
->  	return nv50_head_atom(statec);
-> -- 
-> 2.51.1
+Fix this issue by asserting/deasserting the reset during suspend/resume.
+Rename the variable allwinner_h616_data->default_pm_rt_data for data
+reuse and make it as generic GPU PM runtime data.
 
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_drv.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+index 7d8c7c337606..e553f183c780 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_drv.c
++++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+@@ -976,7 +976,7 @@ static const struct panfrost_compatible default_data = {
+ 	.pm_domain_names = NULL,
+ };
+ 
+-static const struct panfrost_compatible allwinner_h616_data = {
++static const struct panfrost_compatible default_pm_rt_data = {
+ 	.num_supplies = ARRAY_SIZE(default_supplies) - 1,
+ 	.supply_names = default_supplies,
+ 	.num_pm_domains = 1,
+@@ -1056,6 +1056,7 @@ static const struct of_device_id dt_match[] = {
+ 	  .data = &amlogic_data, },
+ 	{ .compatible = "amlogic,meson-g12a-mali",
+ 	  .data = &amlogic_data, },
++	{ .compatible = "renesas,r9a09g047-mali", .data = &default_pm_rt_data },
+ 	{ .compatible = "arm,mali-t604", .data = &default_data, },
+ 	{ .compatible = "arm,mali-t624", .data = &default_data, },
+ 	{ .compatible = "arm,mali-t628", .data = &default_data, },
+@@ -1073,7 +1074,7 @@ static const struct of_device_id dt_match[] = {
+ 	{ .compatible = "mediatek,mt8188-mali", .data = &mediatek_mt8188_data },
+ 	{ .compatible = "mediatek,mt8192-mali", .data = &mediatek_mt8192_data },
+ 	{ .compatible = "mediatek,mt8370-mali", .data = &mediatek_mt8370_data },
+-	{ .compatible = "allwinner,sun50i-h616-mali", .data = &allwinner_h616_data },
++	{ .compatible = "allwinner,sun50i-h616-mali", .data = &default_pm_rt_data },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(of, dt_match);
 -- 
-Ville Syrjälä
-Intel
+2.43.0
+
