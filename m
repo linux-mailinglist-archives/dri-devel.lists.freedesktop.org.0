@@ -2,72 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C81C9E11A
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 08:41:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86201C9E138
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 08:46:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 254CD10E0EB;
-	Wed,  3 Dec 2025 07:41:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F206A10E0F2;
+	Wed,  3 Dec 2025 07:45:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YC8ahw3O";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ujxcBwu+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9A7010E078;
- Wed,  3 Dec 2025 07:41:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764747669; x=1796283669;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=MUotNHdZvHfpLJp7wYS966EzQOmH3nsQfIzCutAez2E=;
- b=YC8ahw3O0A5N2c1TA5Ux1OIAIl1Cwc6DGGs3GmvZXIHtfbfErAjP/jOz
- OIeDSbRFR5TBU3pa/DsAAZuzg+yWgAcW2MuAd9CkYWkNe1eSU/IIXjWU7
- oFD/HRJtwXXvMQ1M3LxzkEoGnp1smIi4L2agl/tZqWa2zZBz88et0Uxab
- IUUTfVpi9GMeLU3PfQFlZnuW6S/yifxoPkbMU5YpPjkmYr1BSItQBI/I1
- KeHwlnUh97F9qeD+4CGnU4NbvQjkVNqy+BTqFOKeVE8omQPxWCBGr9qsM
- LhEf3/V8lJ/vSvD8YpZxh7jzrazp9Avmf9bMoM0eUTM94+kKU6bFKT03e g==;
-X-CSE-ConnectionGUID: jqIyK7YpQb6ON81VnJBaiw==
-X-CSE-MsgGUID: GOJaSljaRmC2f3EoQp/Cfw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="66692590"
-X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; d="scan'208";a="66692590"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2025 23:41:08 -0800
-X-CSE-ConnectionGUID: HHV6KETJT6+EV5w0j5UZpA==
-X-CSE-MsgGUID: w/IK4FJjTC+v44lCVSxgpg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; d="scan'208";a="231945676"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.245.246.211])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2025 23:41:01 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Yury Norov <yury.norov@gmail.com>, Andi Shyti <andi.shyti@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Randy Dunlap
- <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>, Andrew Morton
- <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] kernel.h: drop STACK_MAGIC macro
-In-Reply-To: <aS9XpaiGXn2upVKB@yury>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251129195304.204082-1-yury.norov@gmail.com>
- <20251129195304.204082-2-yury.norov@gmail.com>
- <d854dadd78a43f589399e967def37a0eda3655c2@intel.com>
- <3m64k5fagw7hp2duo43t5fldyn6argdjripx3nn6onxbr6xu6w@iwiepyn5krf6>
- <aS9XpaiGXn2upVKB@yury>
-Date: Wed, 03 Dec 2025 09:40:58 +0200
-Message-ID: <e049b13451395843971de33b2fbd9058eb351850@intel.com>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+ [209.85.128.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0439810E0F2
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 07:45:59 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id
+ 5b1f17b1804b1-4779cc419b2so65973765e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 02 Dec 2025 23:45:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1764747957; x=1765352757; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qY/PbcsnkUZCCKF2mlGoWTtD0mdsRoACsV51+JfVo4o=;
+ b=ujxcBwu+dSR/zFwsl+Ar/4AbltrfvdEYtCrggeznVYdQIdn4dZro5kJhXnLefxJQ1t
+ n7i39eZYCpYpgu0YyUEBaxWLKthly+JrMTatwYx134YundsCBXshNJLz5AiRpEiq1TiC
+ N28tPB12J1Um16mK2S4agevCYTbUSQwByn8SlEAXZ6/oJ/XGslLrA7hKvUmianrXbvG9
+ FnpS/BOey6vylYegcnPp6UjVMwgBHnEVxhPyBo39w33vk9OV9C+h/WkcPYSrzDLQ/VGx
+ 0Xm5r0FOWJSX+wSZBnlhFiFx1kyQfoJ8dZZYH+k6JTNARfIkeBtVD5iCoquBG72ALt9a
+ JCJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764747957; x=1765352757;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qY/PbcsnkUZCCKF2mlGoWTtD0mdsRoACsV51+JfVo4o=;
+ b=pqmJslrVEiHf8QyL5KJjgU9AcTsigpFaG6q42hDCYpp1AV0XFpoT1cRwpYDREZk6wz
+ f7OBi2HfbrcxX6RYrrMbInRt3yyuBTKlfuK827/cpS4uiloxCe4hpqoKZxr/zRbct/uK
+ DMCMrkuRhN18DQx3nYFaVEgGFHfw7mUlOPOYm/mAOwdZC0vYozY95BR+evl9BZCHc5J7
+ fGXjyfZrs0IzAalmGj4CWK6Xh1sLHfbReKwOWOOhcoghceqF7P7yNty/DG0HOfDv8X2T
+ d3P/f1zmastZPwghEynyehBMNQcZ9pE9bdc6QqbWuQDgKPpyhUbtQ1VnjcLgyywz5XyV
+ qnFg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXVKdP2kVtIZ9zGLoi+JJyuPGKZ/R+8i+2wrldnnAVq0jbNYtCi1tYVBTe1YeiBfVcJlbNQDa/fzTc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzxUgu2t8BYjHjlr/1ahUk9Y4eAP1Uf4B6HXrwgiaSbdY/ZM8Zz
+ PPPxRbjH/eAHCDSywQq4XMYTmzwAxHpgBDphttzJcT4Fvbd2sf6zKoQckLAq+9TfIhc=
+X-Gm-Gg: ASbGnctqylxRxE9f0NCCQtPzzIdYC9vmztvCTyykYuSM2TKjWmV5SdVB1eSF2Kgl048
+ A+1nMc/FWj8qP5ZMJWZ1iVcQwZqtNP+/xrgTFbmhX2Aq0XiEKl1KkcN3cVVTfkxEXcBDpE1SVfS
+ +fk/jRhX593pk8oH/KWOosNUjglpMk+w3VJCKjMgflUsmbzSdpKGY5Ardp3waSjdwfS8xkBZNNj
+ emK0KwDUq/3WJsilEOkRbCmDdEsX//y80IbH0ovHMV3MXr1yTdA6D4rBc+YSFI3G4FwTVjHRqmO
+ Sf8IcNhQCM2RVvqLKSwZ/X/iPvpTQcTyRUFz7qiCF/R62WzoD57TKvqyaBd4RanXv0LQsrp2bH4
+ s7+6nQ1vgHvW1QXXUOFdnEJbMzzinpvBp2QBWbBgX4ltC2Mumy4DfI27m4jXkzwq2xQZJ6f9AEr
+ /1HUtIpo+NJLdDmQIa2sk+4kwVIEg=
+X-Google-Smtp-Source: AGHT+IEUMDqN8+/nwF01p/sjfG/xJCCAzS5FIZ1FTwoqc1NLx80oiLXSC5Fkzo3aZsGD/y+t8R7nAw==
+X-Received: by 2002:a05:600c:3106:b0:46e:1a5e:211 with SMTP id
+ 5b1f17b1804b1-4792af1b207mr10218285e9.21.1764747957279; 
+ Tue, 02 Dec 2025 23:45:57 -0800 (PST)
+Received: from orion.home ([2a02:c7c:7259:a00:a4e6:4871:7444:3cf0])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4792a7a7aaesm32873585e9.11.2025.12.02.23.45.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Dec 2025 23:45:56 -0800 (PST)
+From: Alexey Klimov <alexey.klimov@linaro.org>
+To: dianders@chromium.org, neil.armstrong@linaro.org, jesszhan0024@gmail.com
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ vkoul@kernel.org, andersson@kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] gpu/panel-edp: add AUO panel entry for B140HAN06.4
+Date: Wed,  3 Dec 2025 07:45:55 +0000
+Message-ID: <20251203074555.690613-1-alexey.klimov@linaro.org>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,49 +89,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 02 Dec 2025, Yury Norov <yury.norov@gmail.com> wrote:
-> On Tue, Dec 02, 2025 at 09:58:19PM +0100, Andi Shyti wrote:
->> Hi Jani,
->> 
->> On Mon, Dec 01, 2025 at 09:46:47AM +0200, Jani Nikula wrote:
->> > On Sat, 29 Nov 2025, "Yury Norov (NVIDIA)" <yury.norov@gmail.com> wrote:
->> > > The macro is only used by i915. Move it to a local header and drop from
->> > > the kernel.h.
->> > >
->> > > Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
->> > > ---
->> > >  drivers/gpu/drm/i915/i915_utils.h | 2 ++
->> > >  include/linux/kernel.h            | 2 --
->> > >  2 files changed, 2 insertions(+), 2 deletions(-)
->> > >
->> > > diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
->> > > index a0c892e4c40d..6c197e968305 100644
->> > > --- a/drivers/gpu/drm/i915/i915_utils.h
->> > > +++ b/drivers/gpu/drm/i915/i915_utils.h
->> > 
->> > i915_utils.h is on a diet itself. STACK_MAGIC is only used in selftests,
->> > please put this in i915_selftest.h.
->> > 
->> > I guess also need to include that from gt/selftest_ring_submission.c,
->> > the only one that uses STACK_MAGIC but doesn't include i915_selftest.h.
->> 
->> Doing this cleanups is a bit out of the scope of this patch.
->> Given that the patch itself has quite a good consensus, let move
->> it forward and I can take care of the i915 cleanup once it gets
->> merged.
->
-> I'm already testing it in my tree:
->
-> https://github.com/norov/linux/tree/sm1
->
-> If everything is fine, I'll submit v2 with this change, otherwise will
-> schedule it for future improvements.
+Add an eDP panel entry for AUO B140HAN06.4 that is also used in
+some variants of Lenovo Flex 5G with Qcom SC8180 SoC.
 
-I had a look,
+The raw edid of the panel is:
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+00 ff ff ff ff ff ff 00 06 af 3d 64 00 00 00 00
+2b 1d 01 04 a5 1f 11 78 03 b8 1a a6 54 4a 9b 26
+0e 52 55 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 14 37 80 b8 70 38 24 40 10 10
+3e 00 35 ae 10 00 00 18 10 2c 80 b8 70 38 24 40
+10 10 3e 00 35 ae 10 00 00 18 00 00 00 fe 00 41
+55 4f 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
+00 42 31 34 30 48 41 4e 30 36 2e 34 20 0a 00 eb
 
+I do not have access to the datasheet and but it is tested on above
+mentioned laptop for a few weeks and seems to work just fine with
+timing info of similar panels.
 
+Cc: Bjorn Andersson <andersson@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+---
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 944c7c70de55..2298fb312c95 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1904,6 +1904,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x615c, &delay_200_500_e50, "B116XAN06.1"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x635c, &delay_200_500_e50, "B116XAN06.3"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x639c, &delay_200_500_e50, "B140HAK02.7"),
++	EDP_PANEL_ENTRY('A', 'U', 'O', 0x643d, &delay_200_500_e50, "B140HAN06.4"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x723c, &delay_200_500_e50, "B140XTN07.2"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x73aa, &delay_200_500_e50, "B116XTN02.3"),
+ 	EDP_PANEL_ENTRY('A', 'U', 'O', 0x8594, &delay_200_500_e50, "B133UAN01.0"),
 -- 
-Jani Nikula, Intel
+2.47.3
+
