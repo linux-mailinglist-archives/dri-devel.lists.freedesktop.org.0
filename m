@@ -2,62 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8673EC9E18F
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 08:53:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B77C9E1A9
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 08:57:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D1510E0FC;
-	Wed,  3 Dec 2025 07:53:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F20510E0C5;
+	Wed,  3 Dec 2025 07:57:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gua63jB4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QcvW4/s2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A190410E0FC
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 07:53:14 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04C8D10E0C5
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 07:57:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 90F8F60172;
- Wed,  3 Dec 2025 07:53:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF4CCC4CEFB;
- Wed,  3 Dec 2025 07:53:12 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id BEF6E4177B;
+ Wed,  3 Dec 2025 07:57:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 172B0C4CEFB;
+ Wed,  3 Dec 2025 07:57:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764748393;
- bh=GIt1O1sdOnAcu1gdxb3neSe5Nxyh0jnePFmYRYssJk0=;
+ s=k20201202; t=1764748648;
+ bh=DmpitrsvxyJChA97MD5POh03xguTAl1o4n/K+C0KV1w=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gua63jB4vHJw+M/hLkKznQgJLnzHdioq6jffMYqiIOtHSaiBm+AGZaEL8IMEFjDoi
- Ie2GnlO5x1MvcBSgpB6tollJPd4QAGQI3RHnBd92PH7iUAk9/+HSQ/cwKBmM+cajJU
- PvSy0mDzHv2t8ZTUljlmCu6GOUvb/T1oN3NtnJ7O7DtABGHjNTX97g3dh813NQ4XhN
- E+DWXNlTA4h79r6GJQkvoypbE2anbIj7r/jq1NjrQOK6O3lXOiV98PmLZQicpd/BAO
- cPKNa1AnU8HRDZPMlCUOUclvhK1H/A02SewUL8/81zuhh+9BECozf73R+uhtK6x6+/
- fRp48NM63vBgA==
-Date: Wed, 3 Dec 2025 08:53:10 +0100
+ b=QcvW4/s22ujatGNYSRD/n80r8gZyk8IjqoFHbEDKhdt5YkO8JB2lw+eXCNKmJ1ANK
+ Z1v6qnf8/q2C3TH8oAjoHVgWeY1cLyiAU6slFi/i5AenvGPrBNZxFuEw1c5cvn1XRa
+ 8VferID0XV20LeHH1I2jqD0u3HhpDLZFHshabw6MTPfQJLkJJWjfNEXlerzwZ+Vra1
+ S37rnqTGRw14azCPr9oRSiz/faLVq4Lbvo61cheL5IaJxBMww9zQ2ch7PPS5yG13Qj
+ A1QRqZ9bjXoHtgL3sRw2Y/P/xe8PXNfmXdFRYvNzbM4XqBnswgMBs794GLT5fLmo56
+ cQNEkS4qA19qQ==
+Date: Wed, 3 Dec 2025 08:57:26 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: David Heidelberg <david@ixit.cz>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Sumit Semwal <sumit.semwal@linaro.org>,
- Casey Connolly <casey.connolly@linaro.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <lumag@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- phodina@protonmail.com, 
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, 
- phone-devel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 2/8] dt-bindings: panel: sw43408: adjust to reflect
- the DDIC and panel used
-Message-ID: <20251203-faithful-steadfast-leech-5fbf14@quoll>
-References: <20251125-pixel-3-v4-0-3b706f8dcc96@ixit.cz>
- <20251125-pixel-3-v4-2-3b706f8dcc96@ixit.cz>
+To: Harikrishna Shenoy <h-shenoy@ti.com>
+Cc: robh@kernel.org, Laurent.pinchart@ideasonboard.com, airlied@gmail.com, 
+ andrzej.hajda@intel.com, conor+dt@kernel.org, devarsht@ti.com,
+ devicetree@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ krzk+dt@kernel.org, 
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, 
+ neil.armstrong@linaro.org, rfoss@kernel.org, s-jain1@ti.com, simona@ffwll.ch, 
+ sjakhade@cadence.com, tzimmermann@suse.de, u-kumar1@ti.com,
+ yamonkar@cadence.com, pthombar@cadence.com, nm@ti.com
+Subject: Re: [PATCH v4] dt-bindings: drm/bridge: Update reg-name and reg
+Message-ID: <20251203-caped-bullmastiff-from-jupiter-3dcaf3@quoll>
+References: <20251126092949.298530-1-h-shenoy@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251125-pixel-3-v4-2-3b706f8dcc96@ixit.cz>
+In-Reply-To: <20251126092949.298530-1-h-shenoy@ti.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,15 +65,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 25, 2025 at 09:29:37PM +0100, David Heidelberg wrote:
-> Add compatible for used LG panel.
-> SW43408 is not panel, but DDIC. The panel itself is the
-> LG LH546WF1-ED01, so introduce combined compatible for it.
+On Wed, Nov 26, 2025 at 02:59:49PM +0530, Harikrishna Shenoy wrote:
+> Move register name constraints and reg description lists to appropriate
+> compatibility sections to ensure correct register names are used with each
+> compatible value. The j721e-integ registers are specific to TI SoCs and not
+> required for other compatibles.
 > 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
+> Add DSC register descriptions to align bindings with hardware capabilities.
+> Structure the reg and reg-names constraints as lists according to
+> compatibles using oneOf schema construct.
+> 
+> Fixes: 7169d082e7e6 ("dt-bindings: drm/bridge: MHDP8546 bridge binding changes for HDCP")
+> Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
 > ---
->  .../devicetree/bindings/display/panel/lg,sw43408.yaml       | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
+>
+
+Thanks, looks good now!
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
