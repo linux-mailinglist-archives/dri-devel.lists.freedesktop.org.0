@@ -2,69 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25F19C9F692
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 16:18:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FA1C9FE6A
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 17:21:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A1A410E050;
-	Wed,  3 Dec 2025 15:18:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6518310E056;
+	Wed,  3 Dec 2025 16:21:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="HWvzvG/b";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GurQpm2H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DF9F10E050;
- Wed,  3 Dec 2025 15:18:21 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org
- [IPv6:2001:67c:2050:b231:465::202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4dM1Vf2198z9sjZ;
- Wed,  3 Dec 2025 16:18:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1764775098; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2aZUkHtkSK0oCrh4KpajSb66h7yNzcpGmeYAya58G6Y=;
- b=HWvzvG/bIkZHelt1pMkEtQNl8S6CqFby2URUKUUB07VYVfokbK9e15c3hxNjrr2apm3gGU
- YzAzMoDBLbpqjeJn90QGuW5OEM8jI+eXSoxAx0au7bP21OFfTtjYCnZEKJwkIbxeLYBzYR
- 6MaxFz8QiEe42Y36Ebyj9spKVnNl76pzgSyFrCfM0XCOolUvjsPkrSCKh9oGnmMsvtZUiT
- PDREL5YP68E4h0sr5phE6b8dzbAUDaBM+MrmvfsvSn47mOuJF17yaV9mdFydPwPMsK0dy3
- 5PW54Z9r1eqMoINlPTuwQLazqXFxAlJH8p/UjnW8L0Hv0sf1nAnLJbljJUVaMA==
-Message-ID: <a4655788feddd883f70aa374e4315cfaee59a88c.camel@mailbox.org>
-Subject: Re: [PATCH v2 8/8] drm/xe: Use dma_fence_test_signaled_flag()
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
- Stanner <phasta@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>, Felix Kuehling
- <Felix.Kuehling@amd.com>, Alex Deucher <alexander.deucher@amd.com>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,  Matthew Brost
- <matthew.brost@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Wed, 03 Dec 2025 16:18:06 +0100
-In-Reply-To: <e67b12d1-111f-484a-8374-4152d3b9f328@amd.com>
-References: <20251201105011.19386-2-phasta@kernel.org>
- <20251201105011.19386-10-phasta@kernel.org>
- <e67b12d1-111f-484a-8374-4152d3b9f328@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B8A4010E056
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 16:21:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 201EF43D11;
+ Wed,  3 Dec 2025 16:21:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 698CEC4CEF5;
+ Wed,  3 Dec 2025 16:21:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1764778865;
+ bh=nRZWo95fAkG4NI9TX/fZYVVAtRMa1t0L5PAyUEOxsbY=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=GurQpm2HOnEZdjdKoPEuQV8TIUzY2ch30lkhQIZXc88DuT3C8ABlepVMYB/ZeY5ne
+ 5uRvdugEkHVE6UbH5aNREYnf2nQM+FmFdXHN2zeysAHo+vAR1vDyGHJdfDxZ2wrUjc
+ fzWsyAxVSLT4xRsw2PVclLu+vpjHj+EeKa8z1Et4=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.1 084/568] drm/sysfb: Do not dereference NULL pointer in
+ plane reset
+Date: Wed,  3 Dec 2025 16:21:26 +0100
+Message-ID: <20251203152443.811067294@linuxfoundation.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251203152440.645416925@linuxfoundation.org>
+References: <20251203152440.645416925@linuxfoundation.org>
+User-Agent: quilt/0.69
+X-stable: review
+X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-X-MBO-RS-ID: 2d25109a1dd7c0ac011
-X-MBO-RS-META: u6d8mbjai1kb5wbkyqh941df6oh6is5g
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,105 +62,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-12-03 at 14:15 +0100, Christian K=C3=B6nig wrote:
-> On 12/1/25 11:50, Philipp Stanner wrote:
-> > There is a new dma_fence helper which simplifies testing for a fence's
-> > signaled_flag. Use it in xe.
-> >=20
-> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
->=20
-> Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+6.1-stable review patch.  If anyone has any objections, please let me know.
 
-This series would then be completely reviewed, it seems. So one could
-push it. Question is just who and where, and what to do about the merge
-conflict with intel.
+------------------
 
-Matthew?
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
+[ Upstream commit 14e02ed3876f4ab0ed6d3f41972175f8b8df3d70 ]
 
-P.
+The plane state in __drm_gem_reset_shadow_plane() can be NULL. Do not
+deref that pointer, but forward NULL to the other plane-reset helpers.
+Clears plane->state to NULL.
 
->=20
-> > ---
-> > =C2=A0drivers/gpu/drm/xe/xe_exec_queue.c | 9 +++------
-> > =C2=A0drivers/gpu/drm/xe/xe_pt.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 3 +--
-> > =C2=A0drivers/gpu/drm/xe/xe_sched_job.c=C2=A0 | 2 +-
-> > =C2=A03 files changed, 5 insertions(+), 9 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/xe/xe_exec_queue.c b/drivers/gpu/drm/xe/xe=
-_exec_queue.c
-> > index cb5f204c08ed..06736f52fbaa 100644
-> > --- a/drivers/gpu/drm/xe/xe_exec_queue.c
-> > +++ b/drivers/gpu/drm/xe/xe_exec_queue.c
-> > @@ -1037,8 +1037,7 @@ struct dma_fence *xe_exec_queue_last_fence_get(st=
-ruct xe_exec_queue *q,
-> > =C2=A0
-> > =C2=A0	xe_exec_queue_last_fence_lockdep_assert(q, vm);
-> > =C2=A0
-> > -	if (q->last_fence &&
-> > -	=C2=A0=C2=A0=C2=A0 test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &q->last_fen=
-ce->flags))
-> > +	if (q->last_fence && dma_fence_test_signaled_flag(q->last_fence))
-> > =C2=A0		xe_exec_queue_last_fence_put(q, vm);
-> > =C2=A0
-> > =C2=A0	fence =3D q->last_fence ? q->last_fence : dma_fence_get_stub();
-> > @@ -1064,8 +1063,7 @@ struct dma_fence *xe_exec_queue_last_fence_get_fo=
-r_resume(struct xe_exec_queue *
-> > =C2=A0
-> > =C2=A0	lockdep_assert_held_write(&q->hwe->hw_engine_group->mode_sem);
-> > =C2=A0
-> > -	if (q->last_fence &&
-> > -	=C2=A0=C2=A0=C2=A0 test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &q->last_fen=
-ce->flags))
-> > +	if (q->last_fence && dma_fence_test_signaled_flag(q->last_fence))
-> > =C2=A0		xe_exec_queue_last_fence_put_unlocked(q);
-> > =C2=A0
-> > =C2=A0	fence =3D q->last_fence ? q->last_fence : dma_fence_get_stub();
-> > @@ -1106,8 +1104,7 @@ int xe_exec_queue_last_fence_test_dep(struct xe_e=
-xec_queue *q, struct xe_vm *vm)
-> > =C2=A0
-> > =C2=A0	fence =3D xe_exec_queue_last_fence_get(q, vm);
-> > =C2=A0	if (fence) {
-> > -		err =3D test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags) ?
-> > -			0 : -ETIME;
-> > +		err =3D dma_fence_test_signaled_flag(fence) ? 0 : -ETIME;
-> > =C2=A0		dma_fence_put(fence);
-> > =C2=A0	}
-> > =C2=A0
-> > diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
-> > index 07f96bda638a..1ca2dec18e51 100644
-> > --- a/drivers/gpu/drm/xe/xe_pt.c
-> > +++ b/drivers/gpu/drm/xe/xe_pt.c
-> > @@ -1208,8 +1208,7 @@ static bool no_in_syncs(struct xe_sync_entry *syn=
-cs, u32 num_syncs)
-> > =C2=A0	for (i =3D 0; i < num_syncs; i++) {
-> > =C2=A0		struct dma_fence *fence =3D syncs[i].fence;
-> > =C2=A0
-> > -		if (fence && !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
-> > -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &fence->flags))
-> > +		if (fence && !dma_fence_test_signaled_flag(fence))
-> > =C2=A0			return false;
-> > =C2=A0	}
-> > =C2=A0
-> > diff --git a/drivers/gpu/drm/xe/xe_sched_job.c b/drivers/gpu/drm/xe/xe_=
-sched_job.c
-> > index d21bf8f26964..1c9ba49a325b 100644
-> > --- a/drivers/gpu/drm/xe/xe_sched_job.c
-> > +++ b/drivers/gpu/drm/xe/xe_sched_job.c
-> > @@ -188,7 +188,7 @@ static bool xe_fence_set_error(struct dma_fence *fe=
-nce, int error)
-> > =C2=A0	bool signaled;
-> > =C2=A0
-> > =C2=A0	spin_lock_irqsave(fence->lock, irq_flags);
-> > -	signaled =3D test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags);
-> > +	signaled =3D dma_fence_test_signaled_flag(fence);
-> > =C2=A0	if (!signaled)
-> > =C2=A0		dma_fence_set_error(fence, error);
-> > =C2=A0	spin_unlock_irqrestore(fence->lock, irq_flags);
->=20
+v2:
+- fix typo in commit description (Javier)
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: b71565022031 ("drm/gem: Export implementation of shadow-plane helpers")
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/dri-devel/aPIDAsHIUHp_qSW4@stanley.mountain/
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Melissa Wen <melissa.srw@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.15+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+Link: https://patch.msgid.link/20251017091407.58488-1-tzimmermann@suse.de
+[ removed drm_format_conv_state_init() call ]
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/drm_gem_atomic_helper.c |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+--- a/drivers/gpu/drm/drm_gem_atomic_helper.c
++++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+@@ -330,7 +330,11 @@ EXPORT_SYMBOL(drm_gem_destroy_shadow_pla
+ void __drm_gem_reset_shadow_plane(struct drm_plane *plane,
+ 				  struct drm_shadow_plane_state *shadow_plane_state)
+ {
+-	__drm_atomic_helper_plane_reset(plane, &shadow_plane_state->base);
++	if (shadow_plane_state) {
++		__drm_atomic_helper_plane_reset(plane, &shadow_plane_state->base);
++	} else {
++		__drm_atomic_helper_plane_reset(plane, NULL);
++	}
+ }
+ EXPORT_SYMBOL(__drm_gem_reset_shadow_plane);
+ 
+
 
