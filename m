@@ -2,37 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EB00C9F1FA
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 14:27:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC0CC9F20F
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 14:27:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F7EE10E143;
-	Wed,  3 Dec 2025 13:27:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D56110E7DF;
+	Wed,  3 Dec 2025 13:27:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C8B4510E143
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 13:27:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 2905110E7DF
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 13:27:49 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D7F9E1477
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 05:27:07 -0800 (PST)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 809B61477
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 05:27:41 -0800 (PST)
 Received: from [10.2.10.34] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
  by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
- EE8D63F59E
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 05:27:14 -0800 (PST)
-Date: Wed, 3 Dec 2025 13:26:55 +0000
+ 959C83F59E
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 05:27:48 -0800 (PST)
+Date: Wed, 3 Dec 2025 13:27:30 +0000
 From: Liviu Dudau <liviu.dudau@arm.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>,
- =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
- dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>,
- Chia-I Wu <olvaffe@gmail.com>, kernel@collabora.com
-Subject: Re: [PATCH v3 0/3] drm/panthor: Fix regressions introduced recently
-Message-ID: <aTA6n7NWeOlj7Sue@e142607>
-References: <20251203121750.404340-1-boris.brezillon@collabora.com>
+To: Akash Goel <akash.goel@arm.com>
+Cc: boris.brezillon@collabora.com, steven.price@arm.com,
+ dri-devel@lists.freedesktop.org, karunika.choo@arm.com,
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ daniel@ffwll.ch, nd@arm.com
+Subject: Re: [PATCH] drm/panthor: Remove redundant call to disable the MCU
+Message-ID: <aTA6wgDxZYRpfc-X@e142607>
+References: <20251203091911.145623-1-akash.goel@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251203121750.404340-1-boris.brezillon@collabora.com>
+In-Reply-To: <20251203091911.145623-1-akash.goel@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,32 +49,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 03, 2025 at 01:17:47PM +0100, Boris Brezillon wrote:
-> Hello,
+On Wed, Dec 03, 2025 at 09:19:11AM +0000, Akash Goel wrote:
+> This commit removes the redundant call to disable the MCU firmware
+> in the suspend path.
 > 
-> This is a set of fixes for regressions noticed while testing the
-> drm-misc-next branch against mesa-ci.
+> Fixes: 514072549865 ("drm/panthor: Support GLB_REQ.STATE field for Mali-G1 GPUs")
+> Signed-off-by: Akash Goel <akash.goel@arm.com>
 
 Pushed to drm-misc-next.
 
 Best regards,
 Liviu
 
+> ---
+>  drivers/gpu/drm/panthor/panthor_fw.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> Regards,
-> 
-> Boris
-> 
-> Boris Brezillon (3):
->   drm/panthor: Drop a WARN_ON() in group_free_queue()
->   drm/panthor: Make sure caches are flushed/invalidated when an AS is
->     recycled
->   drm/panthor: Unlock the locked region before disabling an AS
-> 
->  drivers/gpu/drm/panthor/panthor_mmu.c   | 36 ++++++++++++++++++++-----
->  drivers/gpu/drm/panthor/panthor_sched.c |  5 ++--
->  2 files changed, 32 insertions(+), 9 deletions(-)
-> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
+> index 1a5e3c1a27fb..94a3cd6dfa6d 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -1187,7 +1187,6 @@ void panthor_fw_pre_reset(struct panthor_device *ptdev, bool on_hang)
+>  		else
+>  			ptdev->reset.fast = true;
+>  	}
+> -	panthor_fw_stop(ptdev);
+>  
+>  	panthor_job_irq_suspend(&ptdev->fw->irq);
+>  	panthor_fw_stop(ptdev);
 > -- 
-> 2.51.1
+> 2.25.1
 > 
