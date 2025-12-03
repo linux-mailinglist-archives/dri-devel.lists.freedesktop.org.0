@@ -2,86 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905A5C9E9FF
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 11:02:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E243C9EA0B
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 11:03:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BFA910E0E2;
-	Wed,  3 Dec 2025 10:02:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC8CE10E1B0;
+	Wed,  3 Dec 2025 10:03:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="RkYidLZ7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3Av7TRFI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RkYidLZ7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3Av7TRFI";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="0rMf2n/Q";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bSDdy5dt";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0rMf2n/Q";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bSDdy5dt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE50110E0E2
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 10:02:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8F8110E1B0
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 10:03:44 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2ED215BD22;
- Wed,  3 Dec 2025 10:01:59 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 657645BD20;
+ Wed,  3 Dec 2025 10:03:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764756119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1764756223; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rtkkpt63z/9iReyBF0GHUolCGFw2L5JxLRA2LRTSOPE=;
- b=RkYidLZ7F/d4McRbMALxmjr1QeIfUPhLRfAIyqgKrxh5PL9jMslwJDrjrG81qCkd9kevx9
- 6mHY+HtttU6QpL4xmT7O1Wq6XHnd7KblwCvwnuguo74dRuKfQ4rsYpGUARNBGG7K2WJ5hj
- UcebrmJjxkIvobJ4IolhAkLlzr8k8XI=
+ bh=7B9yIeE3LWg0pQalhgfx0LDrUUY9Bz8pLEiRGPHzoEM=;
+ b=0rMf2n/QGXPZvLnU9FOdBj3K+dOEcuhkel/pnPQFodCNgvnKgcae1ROyukPJeEJZ+cITaU
+ s4lUI1htgdZa5CH8DUm4/wriGkyn0AkA0OdoWb2MetQq02HtI8do1/TDxpEDCKijTP2izw
+ IGDAeT1LofWvIAwAoNQEJmuv950JSVQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764756119;
+ s=susede2_ed25519; t=1764756223;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rtkkpt63z/9iReyBF0GHUolCGFw2L5JxLRA2LRTSOPE=;
- b=3Av7TRFIoe6zHLfhDQwLj3lvH0kQiJDhE7BmWo4VJZD4SoaECWBOp22TSE64QO/QTO9jBF
- PHHGdNsvBTOBptCg==
+ bh=7B9yIeE3LWg0pQalhgfx0LDrUUY9Bz8pLEiRGPHzoEM=;
+ b=bSDdy5dtcsF5Lem3fT4oxAUBOvNp1jkwje2+ejujD/UBiGUuDTCjoAwNSk9ekNDGo+De/s
+ Pdm/ODSsEzoBxKBQ==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764756119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1764756223; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rtkkpt63z/9iReyBF0GHUolCGFw2L5JxLRA2LRTSOPE=;
- b=RkYidLZ7F/d4McRbMALxmjr1QeIfUPhLRfAIyqgKrxh5PL9jMslwJDrjrG81qCkd9kevx9
- 6mHY+HtttU6QpL4xmT7O1Wq6XHnd7KblwCvwnuguo74dRuKfQ4rsYpGUARNBGG7K2WJ5hj
- UcebrmJjxkIvobJ4IolhAkLlzr8k8XI=
+ bh=7B9yIeE3LWg0pQalhgfx0LDrUUY9Bz8pLEiRGPHzoEM=;
+ b=0rMf2n/QGXPZvLnU9FOdBj3K+dOEcuhkel/pnPQFodCNgvnKgcae1ROyukPJeEJZ+cITaU
+ s4lUI1htgdZa5CH8DUm4/wriGkyn0AkA0OdoWb2MetQq02HtI8do1/TDxpEDCKijTP2izw
+ IGDAeT1LofWvIAwAoNQEJmuv950JSVQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764756119;
+ s=susede2_ed25519; t=1764756223;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rtkkpt63z/9iReyBF0GHUolCGFw2L5JxLRA2LRTSOPE=;
- b=3Av7TRFIoe6zHLfhDQwLj3lvH0kQiJDhE7BmWo4VJZD4SoaECWBOp22TSE64QO/QTO9jBF
- PHHGdNsvBTOBptCg==
+ bh=7B9yIeE3LWg0pQalhgfx0LDrUUY9Bz8pLEiRGPHzoEM=;
+ b=bSDdy5dtcsF5Lem3fT4oxAUBOvNp1jkwje2+ejujD/UBiGUuDTCjoAwNSk9ekNDGo+De/s
+ Pdm/ODSsEzoBxKBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9F8623EA63;
- Wed,  3 Dec 2025 10:01:58 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 36E7B3EA63;
+ Wed,  3 Dec 2025 10:03:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id cGB/JZYKMGlLLQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 03 Dec 2025 10:01:58 +0000
-Message-ID: <7c5a3d5d-9aa6-4d2a-8211-1d18393c9bea@suse.de>
-Date: Wed, 3 Dec 2025 11:01:57 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id lXE0DP8KMGlKLwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 03 Dec 2025 10:03:43 +0000
+Message-ID: <8d4fb419-04c0-4930-a74b-3aa0c026ce0b@suse.de>
+Date: Wed, 3 Dec 2025 11:03:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] efi: sysfb_efi: Fix lfb_linelength calculation
- when applying quirks
+Subject: Re: [PATCH v2 3/4] efi: sysfb_efi: Convert swap width and height
+ quirk to a callback
 To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Ard Biesheuvel <ardb@kernel.org>,
  Melissa Wen <mwen@igalia.com>, linux-efi@vger.kernel.org
-References: <20251203093948.54296-1-tvrtko.ursulin@igalia.com>
- <20251203093948.54296-3-tvrtko.ursulin@igalia.com>
+References: <20251203090706.53778-1-tvrtko.ursulin@igalia.com>
+ <20251203090706.53778-4-tvrtko.ursulin@igalia.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -108,15 +108,12 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251203093948.54296-3-tvrtko.ursulin@igalia.com>
+In-Reply-To: <20251203090706.53778-4-tvrtko.ursulin@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.28
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.28 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.18)[-0.889]; MIME_GOOD(-0.10)[text/plain];
+ NEURAL_HAM_SHORT(-0.19)[-0.949]; MIME_GOOD(-0.10)[text/plain];
  FUZZY_RATELIMITED(0.00)[rspamd.com];
  RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
  ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
@@ -125,8 +122,11 @@ X-Spamd-Result: default: False [-4.28 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[6];
  FROM_EQ_ENVFROM(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
  RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, bootlin.com:url,
- igalia.com:email, suse.de:email, suse.de:mid, suse.com:url]
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.com:url,
+ igalia.com:email, suse.de:mid, suse.de:email]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -4.29
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,49 +142,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 03.12.25 um 10:39 schrieb Tvrtko Ursulin:
-> PIXEL_BIT_MASK formats can have either less or more than four bytes per
-> pixel so lets fix the lfb_linelenght calculation when applying the
-> swapped width and height quirks.
+
+Am 03.12.25 um 10:07 schrieb Tvrtko Ursulin:
+> Convert the swapping of width and height quirk to a callback.
 >
 > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Suggested-by: Ard Biesheuvel <ardb@kernel.org>
 > Cc: Thomas Zimmermann <tzimmermann@suse.de>
 > Cc: Ard Biesheuvel <ardb@kernel.org>
 > Cc: Melissa Wen <mwen@igalia.com>
 > Cc: linux-efi@vger.kernel.org
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
 > ---
->   drivers/firmware/efi/sysfb_efi.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+>   drivers/firmware/efi/sysfb_efi.c | 24 +++++++++++++++++-------
+>   1 file changed, 17 insertions(+), 7 deletions(-)
 >
 > diff --git a/drivers/firmware/efi/sysfb_efi.c b/drivers/firmware/efi/sysfb_efi.c
-> index 1d8b6966731c..14b61414c33a 100644
+> index 14b61414c33a..eacf9a50eab2 100644
 > --- a/drivers/firmware/efi/sysfb_efi.c
 > +++ b/drivers/firmware/efi/sysfb_efi.c
-> @@ -358,7 +358,9 @@ __init void sysfb_apply_efi_quirks(void)
->   	if (screen_info.orig_video_isVGA == VIDEO_TYPE_EFI &&
->   	    dmi_check_system(efifb_dmi_swap_width_height)) {
->   		swap(screen_info.lfb_width, screen_info.lfb_height);
-> -		screen_info.lfb_linelength = 4 * screen_info.lfb_width;
-> +		screen_info.lfb_linelength = (unsigned int)screen_info.lfb_depth *
-
-Rather than using lfb_depth directly, call 
-__screen_info_lfb_bits_per_pixel(). [1] See the lengthy comment there on 
-why depth is broken.
-
-Best regards
-Thomas
-
-[1] 
-https://elixir.bootlin.com/linux/v6.18/source/drivers/video/screen_info_generic.c#L170
-
-> +					     screen_info.lfb_width /
-> +					     BITS_PER_BYTE;
->   	}
+> @@ -231,6 +231,16 @@ static const struct dmi_system_id efifb_dmi_system_table[] __initconst = {
+>   	{},
+>   };
+>   
+> +static int __init efifb_swap_width_height(const struct dmi_system_id *id)
+> +{
+> +	swap(screen_info.lfb_width, screen_info.lfb_height);
+> +	screen_info.lfb_linelength = (unsigned int)screen_info.lfb_depth *
+> +				     screen_info.lfb_width /
+> +				     BITS_PER_BYTE;
+> +
+> +	return 1;
+> +}
+> +
+>   /*
+>    * Some devices have a portrait LCD but advertise a landscape resolution (and
+>    * pitch). We simply swap width and height for these devices so that we can
+> @@ -248,6 +258,7 @@ static const struct dmi_system_id efifb_dmi_swap_width_height[] __initconst = {
+>   			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "MIIX 310-10ICR"),
+>   			DMI_EXACT_MATCH(DMI_BIOS_VERSION, "1HCN44WW"),
+>   		},
+> +		.callback = efifb_swap_width_height,
+>   	},
+>   	{
+>   		/* Lenovo MIIX 320-10ICR with 800x1280 portrait screen */
+> @@ -256,6 +267,7 @@ static const struct dmi_system_id efifb_dmi_swap_width_height[] __initconst = {
+>   			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION,
+>   					"Lenovo MIIX 320-10ICR"),
+>   		},
+> +		.callback = efifb_swap_width_height,
+>   	},
+>   	{
+>   		/* Lenovo D330 with 800x1280 or 1200x1920 portrait screen */
+> @@ -264,6 +276,7 @@ static const struct dmi_system_id efifb_dmi_swap_width_height[] __initconst = {
+>   			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION,
+>   					"Lenovo ideapad D330-10IGM"),
+>   		},
+> +		.callback = efifb_swap_width_height,
+>   	},
+>   	{
+>   		/* Lenovo IdeaPad Duet 3 10IGL5 with 1200x1920 portrait screen */
+> @@ -272,6 +285,7 @@ static const struct dmi_system_id efifb_dmi_swap_width_height[] __initconst = {
+>   			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION,
+>   					"IdeaPad Duet 3 10IGL5"),
+>   		},
+> +		.callback = efifb_swap_width_height,
+>   	},
+>   	{
+>   		/* Lenovo Yoga Book X91F / X91L */
+> @@ -280,6 +294,7 @@ static const struct dmi_system_id efifb_dmi_swap_width_height[] __initconst = {
+>   			/* Non exact match to match F + L versions */
+>   			DMI_MATCH(DMI_PRODUCT_NAME, "Lenovo YB1-X91"),
+>   		},
+> +		.callback = efifb_swap_width_height,
+>   	},
+>   	{},
+>   };
+> @@ -355,13 +370,8 @@ __init void sysfb_apply_efi_quirks(void)
+>   	    !(screen_info.capabilities & VIDEO_CAPABILITY_SKIP_QUIRKS))
+>   		dmi_check_system(efifb_dmi_system_table);
+>   
+> -	if (screen_info.orig_video_isVGA == VIDEO_TYPE_EFI &&
+> -	    dmi_check_system(efifb_dmi_swap_width_height)) {
+> -		swap(screen_info.lfb_width, screen_info.lfb_height);
+> -		screen_info.lfb_linelength = (unsigned int)screen_info.lfb_depth *
+> -					     screen_info.lfb_width /
+> -					     BITS_PER_BYTE;
+> -	}
+> +	if (screen_info.orig_video_isVGA == VIDEO_TYPE_EFI)
+> +		dmi_check_system(efifb_dmi_swap_width_height);
 >   }
 >   
+>   __init void sysfb_set_efifb_fwnode(struct platform_device *pd)
 
 -- 
 --
