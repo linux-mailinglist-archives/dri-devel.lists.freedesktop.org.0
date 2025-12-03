@@ -2,51 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07461C9EF4D
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 13:18:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40F8FC9EFC9
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 13:27:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5005C10E78B;
-	Wed,  3 Dec 2025 12:18:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 10D3E10E78F;
+	Wed,  3 Dec 2025 12:27:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="OyatpmNW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="QYArkndf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A29210E786
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 12:18:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764764281;
- bh=NhHuKZoIZXeIxgIqJ4nrsOnQpdUM7PFLVje1MFRfRlw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OyatpmNWpFd74HCV3wdQ825uSiPJlCG3/JsUtNrcJtkpohPzajCwVrnmVWfVy2EOM
- 4RNalUQWhBuUinihyiRwm8oCCtoC0Mb/siv3zj01Tv8V5LQCc7n8Srrw+4wiqespS7
- QTxrfRXcSMdWpcd8BOLiSswZR4oazZOy1EmzWqrH5HD0w/wY9w1q/l+yxxteHPT2iw
- FDBofTsZIi5LRl/Q1KPePQ+hCDQt3oPCjQBOQxrLoSKfVzKQGszIABu+DR6WLi0WLW
- K0Km4JdN4VXx1Gr1QwBz/cC9qUOHdWCsMp0APlH9SgJ9ByMFgYLk2CmDBJS08YUP1Q
- lW1pKP8oXM5uQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 6038517E13CD;
- Wed,  3 Dec 2025 13:18:01 +0100 (CET)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>,
- Chia-I Wu <olvaffe@gmail.com>, kernel@collabora.com
-Subject: [PATCH v3 3/3] drm/panthor: Unlock the locked region before disabling
- an AS
-Date: Wed,  3 Dec 2025 13:17:50 +0100
-Message-ID: <20251203121750.404340-4-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251203121750.404340-1-boris.brezillon@collabora.com>
-References: <20251203121750.404340-1-boris.brezillon@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92B7510E146;
+ Wed,  3 Dec 2025 12:27:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764764862; x=1796300862;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=QAnt8xMWTEFOGqh8jaKSYsiOTBC+evsQtew/Tzx5rcA=;
+ b=QYArkndfPltjqx4AtGTOLSAdwzBegajP6jL1mEY94LbFi+CBuHf7UETW
+ iVeghWDHkFoIryaKatosmLkqMwEKNw8aEv/XpSZ3+Cp+31xfm3WM4TxP2
+ pmT6EUOnDa3FDGT6w6all7rHKJVlexDzDY8ohEb12WqcTQxwBpAR0x7qY
+ taq4RnY1oEWSbZKAqhd0wv0T3ysVUoHbbSgtS9hJhO6UgGV2sEESk7AE7
+ ZCStVYAEvY/Hh1qJEXmMW/qCzVluShAstN02tzDBhf4S6QdC83LOSFZSW
+ k894rTCUPOPbvraiSNqdIrMo6BdvY4B+fimeCnTZ1BIqngPXh7kAgSOjz w==;
+X-CSE-ConnectionGUID: nGeoYpKmTaqKHmfhZzf+Zg==
+X-CSE-MsgGUID: WPhH77J8SQOHaK7R7WPcIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="65753778"
+X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; d="scan'208";a="65753778"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2025 04:27:42 -0800
+X-CSE-ConnectionGUID: ZYzhnvoAQ+Kd4/WK8R14FA==
+X-CSE-MsgGUID: RbuGZ89pQ0GW6MQ6GjcMxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,245,1758610800"; d="scan'208";a="194759836"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.245.70])
+ by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Dec 2025 04:27:40 -0800
+Date: Wed, 3 Dec 2025 14:27:37 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Subject: Re: [PATCH] nouveau: use proper atomic accessor to get crtc state
+Message-ID: <aTAsueO-OwP5pd4h@intel.com>
+References: <20251130214206.1469934-1-airlied@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251130214206.1469934-1-airlied@gmail.com>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,54 +71,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-An AS can be disabled in the middle of a VM operation (VM being
-evicted from an AS slot, for instance). In that case, we need the
-locked section to be unlocked before releasing the slot.
+On Mon, Dec 01, 2025 at 07:42:06AM +1000, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
+> 
+> This gets the crtc state from the current state, instead of
+> trying to lookup or create a state.
+> 
+> atomic core started warning about this recently.
+> 
+> Fixes: 0a0e79a2d9ed ("drm/atomic: WARN about invalid drm_foo_get_state() usage")
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> ---
+>  drivers/gpu/drm/nouveau/dispnv50/atom.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/nouveau/dispnv50/atom.h b/drivers/gpu/drm/nouveau/dispnv50/atom.h
+> index 93f8f4f64578..ada8fb6f1a9a 100644
+> --- a/drivers/gpu/drm/nouveau/dispnv50/atom.h
+> +++ b/drivers/gpu/drm/nouveau/dispnv50/atom.h
+> @@ -151,7 +151,7 @@ struct nv50_head_atom {
+>  static inline struct nv50_head_atom *
+>  nv50_head_atom_get(struct drm_atomic_state *state, struct drm_crtc *crtc)
+>  {
+> -	struct drm_crtc_state *statec = drm_atomic_get_crtc_state(state, crtc);
+> +	struct drm_crtc_state *statec = drm_atomic_get_new_crtc_state(state, crtc);
+>  	if (IS_ERR(statec))
 
-v2:
-- Add an lockdep_assert_held() in panthor_mmu_as_disable()
-- Collect R-bs
+drm_atomic_get_new_crtc_state() will never return an error.
+It's either a valid pointer or NULL.
 
-v3:
-- Don't reset the locked_region range in the as_disable() path
+The somewhat oddball terminology used in the nouveau code makes it
+a bit hard to read, but to me it looks like this this is only used
+to get the crtc state for a plane's old/new crtc. Those should always
+be included in the atomic state along with the plane itself, so I
+*think* you could just nuke all the error checks in the callers and
+not bother with any NULL checks.
 
-Fixes: 6e2d3b3e8589 ("drm/panthor: Add support for atomic page table updates")
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
----
- drivers/gpu/drm/panthor/panthor_mmu.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+>  		return (void *)statec;
+>  	return nv50_head_atom(statec);
+> -- 
+> 2.51.1
 
-diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-index 3644af1a8e56..ca112d874ecb 100644
---- a/drivers/gpu/drm/panthor/panthor_mmu.c
-+++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-@@ -588,14 +588,24 @@ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
- static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr,
- 				  bool recycle_slot)
- {
-+	struct panthor_vm *vm = ptdev->mmu->as.slots[as_nr].vm;
- 	int ret;
- 
-+	lockdep_assert_held(&ptdev->mmu->as.slots_lock);
-+
- 	/* Flush+invalidate RW caches, invalidate RO ones. */
- 	ret = panthor_gpu_flush_caches(ptdev, CACHE_CLEAN | CACHE_INV,
- 				       CACHE_CLEAN | CACHE_INV, CACHE_INV);
- 	if (ret)
- 		return ret;
- 
-+	if (vm && vm->locked_region.size) {
-+		/* Unlock the region if there's a lock pending. */
-+		ret = as_send_cmd_and_wait(ptdev, vm->as.id, AS_COMMAND_UNLOCK);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	/* If the slot is going to be used immediately, don't bother changing
- 	 * the config.
- 	 */
 -- 
-2.51.1
-
+Ville Syrjälä
+Intel
