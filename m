@@ -2,90 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3039C9EC89
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 11:56:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C636CC9ECAB
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 12:02:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9565B10E73B;
-	Wed,  3 Dec 2025 10:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E73E610E767;
+	Wed,  3 Dec 2025 11:02:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QRJ8rzGr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oEsuHtLi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DC2D10E73B
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 10:56:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1764759374;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pY/T8pxOvQ8oMUKdsezfeEdQecUkAbIHWDdibYbSlnU=;
- b=QRJ8rzGrHkWE8M7Uve92tGapbtEZbYMMM12uvsEpIyuYz4kgYMB02Uwkn5MuRjMZpG1vfP
- Z7uod/Afk1tin/9lipkGTuJiW+O++8E4AnMCJba6qb5jj8jrLfIHoLV4aBvYba2oYCNTFH
- 41WMdkNrcmhCOuldqX2TI51BCiuwSCo=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-60-3utZJJZGOd6xrF3GBGbwWg-1; Wed, 03 Dec 2025 05:56:13 -0500
-X-MC-Unique: 3utZJJZGOd6xrF3GBGbwWg-1
-X-Mimecast-MFC-AGG-ID: 3utZJJZGOd6xrF3GBGbwWg_1764759371
-Received: by mail-pj1-f71.google.com with SMTP id
- 98e67ed59e1d1-3418ad76023so10967971a91.0
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 02:56:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764759371; x=1765364171;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=neNpAH4brbwi06DhnReMp3uzKU4SDPQXAiWvP0P7onE=;
- b=fpZ1AqNVHHFjUR0KPkwtXBEuJ4CdIyXYiWAE7rNULu0KU+ypbwI8tVit4Vg43Ou0oI
- WCogHSHpyC0JHysbbK8jO3D7EX4+goQx9w+yjQyF4brH4za4Ac7vfGZjcbbhRIggGlmJ
- brUMpC+oLQ+eYC/gCJO9/3zkFUDTkZDpOQ8ONLPZh0MNQ2GrIzrQvtTgyNHL82VHTVbE
- fQAvnwG9eCD6ZgujuW0I+oJmw3Y3WSuAm0haKzv4Afzp0HQNOJhapUdT3aThq4IwRf8T
- 4vNmOMw7SyKb+KsN3f0V72w45GjTvodkTExycerDoypRC3Df5D4r243do2oEqxLXBNXp
- eIcQ==
-X-Gm-Message-State: AOJu0YwtjW0Z9ANjtBSKg51sEsbg17aOADKOzESkkgWW8urN83Lgj+DG
- eIt2gEllqLrcRm8/LUsC/lXkVJCcwJRtP7bXLwm8GxJsokxo3tCpuwf7GHLA91BoiLHNcdJh9JN
- rV8bvZj79+4b5TADK8fxKdhwKiXw57ejoq8Uf6qf/p8AP3CJcGu0vnRXEmRA2PHPFzCsl/A==
-X-Gm-Gg: ASbGncv4GmnI0RZYOoN8CpHMq6kKPeu4V7CZRXhe3kUMn2OHv+ZmkLzKCdLInuqG//B
- gl9I3UeDGAxX2o+uB+ISJJTahRGj8nhlrAHhFWrCgZyNzGmwPeKfBa2QKWQ3ZMy8x/DWbImCTkn
- hz7ogJp/ioZEww6bD4RNMGZQOKnutOlWYIMTkrkzi/B2+l6vczSl5GlZMEEHXKw/7Yl04MMqS8D
- uhftF15UWPVrLPEKcceuwYu2LrFJGCAkuq9hWpqqgtDPlqzFvojlABteHEkE0gFCBP7lKZ8gds4
- n/Jk2yq0X7/9rcW9h08wQ3ycfCVRdKNWA3qTBujZbqskdlk3FtDxIqZJRowXOIOjCODCc8adN7S
- N/bQ255T1guMclWvhDtRJyP77vKVv1+nj+UGj
-X-Received: by 2002:a17:90b:4d07:b0:340:c261:f9db with SMTP id
- 98e67ed59e1d1-349125d0893mr2082511a91.10.1764759371457; 
- Wed, 03 Dec 2025 02:56:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGFw7EHNvdsKJnQQE6Im4sp+X6L/gF+FUYvHD4ooSLEWO4GmOIUh8jS/PzMX4Tp2G5Nyq6lPg==
-X-Received: by 2002:a17:90b:4d07:b0:340:c261:f9db with SMTP id
- 98e67ed59e1d1-349125d0893mr2082498a91.10.1764759371035; 
- Wed, 03 Dec 2025 02:56:11 -0800 (PST)
-Received: from [10.200.68.138] (nat-pool-muc-u.redhat.com. [149.14.88.27])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-34910e9e0desm2406745a91.15.2025.12.03.02.56.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Dec 2025 02:56:10 -0800 (PST)
-Message-ID: <9bd6778fc3d22bad2b2f8adc6bb165134ef919e5.camel@redhat.com>
-Subject: Re: [PATCH v7 4/9] drm/xe: Stop abusing DRM scheduler internals
-From: Philipp Stanner <pstanner@redhat.com>
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, dakr@kernel.org, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>
-Date: Wed, 03 Dec 2025 11:56:01 +0100
-In-Reply-To: <20251201183954.852637-5-matthew.brost@intel.com>
-References: <20251201183954.852637-1-matthew.brost@intel.com>
- <20251201183954.852637-5-matthew.brost@intel.com>
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5447010E767
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 11:02:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 1CBFB42D8B
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 11:02:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F24C6C19421
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 11:02:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764759723;
+ bh=XyDNn3G8kg6wWghI4PDS5DtNG3vyQHUSE6b4xPglqCo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=oEsuHtLiEOCCxVPOhPPz/kRGmyYJ/0xPolCgN9U5hL73Mm2SxBqqDVwz5u3XHbzhZ
+ t7tyMTWeHQvwZZ6yMOulsOhysy4TO6BGqIZ9cZfWWUc1XtCifo+WMbP4UdiJYzCMMy
+ CVmA/XsvlvC3nzGbIsUlSeJhzB6077LqgXTcIHeCxjpMXTs+9HkVTihVZvLMotwJKa
+ yHyciWTAe0Z6KBypoIooogUWbfrMubNvm62bqEqfCx8MWPBIqDhirgqRm039h3HVXJ
+ 6+yA33YT/52alwbiu/30CD1vOH8OeE2w/8gTR70Oy9kdW0aPQQXRvdK4krmvz3sO1b
+ V+wyGW1/EAVuw==
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-595825c8eb3so6300909e87.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 03:02:02 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWl8kTA9EXAvcgfldlT/9tEnYGpannf1OmDjvmluEWK/nRkPBtnBd04wNQXW1TjUt8pTJhBg96pGl4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxiZZ0tAPy1EKTK5dJ59Bl+qyZBZffXKFv3w+0Nq0+xo3fWVt4c
+ Ru3B6gwDz4vqEdB3uXLEhNfoEW2Dbx/uypQYw/+ier62hRBr7XbdiKz+xq/BHBzEqUKwlt/2yxV
+ KvN/kALMvalSw+9o/TMmwn7u4mf25+J0=
+X-Google-Smtp-Source: AGHT+IFuhpabaksil21eQE1vIpzPVt55SWw484hYEd2Vfxi7j4bVYBREpg7FKOsp/6H4iezcQiAsWnQPNPSYNdpjtHw=
+X-Received: by 2002:a05:6512:b96:b0:594:3567:e835 with SMTP id
+ 2adb3069b0e04-597d3fe1a23mr765074e87.35.1764759721362; Wed, 03 Dec 2025
+ 03:02:01 -0800 (PST)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 9h-XhDl0DEEUOH-7ocQzRZuitOc8lxSC-OhcPlfp-pI_1764759371
-X-Mimecast-Originator: redhat.com
+References: <20251203090706.53778-1-tvrtko.ursulin@igalia.com>
+ <20251203090706.53778-5-tvrtko.ursulin@igalia.com>
+ <5ecc23ed-929f-4e60-a7a1-d4bd759e9af2@suse.de>
+ <CAMj1kXEVq65rBQraKn8kcCiA6wU7tPfCCbf2Bma4F3p0As3ToQ@mail.gmail.com>
+ <e5acaa09-a92f-48d1-b2af-64a120242de9@suse.de>
+ <caaf2e08-0770-4808-8872-e432e2ff5ec4@igalia.com>
+In-Reply-To: <caaf2e08-0770-4808-8872-e432e2ff5ec4@igalia.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Wed, 3 Dec 2025 12:01:49 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGRR5SGyG2yvc660zO3x6OwsphKv3B1tn=DsTKKXQme7w@mail.gmail.com>
+X-Gm-Features: AWmQ_bmaNJLpfbGHaWELpxbkZWzfynUs4w9eLpPR4LVUM3jcsRdYFuVNEU_3tLg
+Message-ID: <CAMj1kXGRR5SGyG2yvc660zO3x6OwsphKv3B1tn=DsTKKXQme7w@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] efi: sysfb_efi: Fix efidrmfb and simpledrmfb on
+ Valve Steam Deck
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org, 
+ kernel-dev@igalia.com, Melissa Wen <mwen@igalia.com>,
+ linux-efi@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,116 +77,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-12-01 at 10:39 -0800, Matthew Brost wrote:
-> Use new pending job list iterator and new helper functions in Xe to
-> avoid reaching into DRM scheduler internals.
+On Wed, 3 Dec 2025 at 11:34, Tvrtko Ursulin <tvrtko.ursulin@igalia.com> wrote:
+>
+>
+> On 03/12/2025 10:29, Thomas Zimmermann wrote:
+> > Hi
+> >
+> > Am 03.12.25 um 11:13 schrieb Ard Biesheuvel:
+> >> On Wed, 3 Dec 2025 at 11:05, Thomas Zimmermann <tzimmermann@suse.de>
+> >> wrote:
+> >>> Hi
+> >>>
+> >>> Am 03.12.25 um 10:07 schrieb Tvrtko Ursulin:
+> >>>> Valve Steam Deck has a 800x1280 portrait screen installed in a
+> >>>> landscape
+> >>>> orientation. The firmware offers a software rotated 1280x800 mode which
+> >>>> GRUB can be made to switch to when displaying a boot menu. If this mode
+> >>>> was selected frame buffer drivers will see this fake mode and fbcon
+> >>>> rendering will be corrupted.
+> >>>>
+> >>>> Lets therefore add a selective quirk inside the current "swap with and
+> >>>> height" handling, which will detect this exact mode and fix it up
+> >>>> back to
+> >>>> the native one.
+> >>>>
+> >>>> This will allow the DRM based frame buffer drivers to detect the
+> >>>> correct
+> >>>> mode and, apply the existing panel orientation quirk, and render the
+> >>>> console in landscape mode with no corruption.
+> >>>>
+> >>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> >>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> >>>> Cc: Ard Biesheuvel <ardb@kernel.org>
+> >>>> Cc: Melissa Wen <mwen@igalia.com>
+> >>>> Cc: linux-efi@vger.kernel.org
+> >>>> ---
+> >>>>    drivers/firmware/efi/sysfb_efi.c | 56 +++++++++++++++++++++++++++
+> >>>> ++---
+> >>>>    1 file changed, 51 insertions(+), 5 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/firmware/efi/sysfb_efi.c b/drivers/firmware/
+> >>>> efi/sysfb_efi.c
+> >>>> index eacf9a50eab2..566492e67798 100644
+> >>>> --- a/drivers/firmware/efi/sysfb_efi.c
+> >>>> +++ b/drivers/firmware/efi/sysfb_efi.c
+> >>>> @@ -231,16 +231,42 @@ static const struct dmi_system_id
+> >>>> efifb_dmi_system_table[] __initconst = {
+> >>>>        {},
+> >>>>    };
+> >>>>
+> >>>> +struct efifb_mode_fixup {
+> >>>> +     unsigned int width;
+> >>>> +     unsigned int height;
+> >>>> +     unsigned int linelength;
+> >>>> +};
+> >>>> +
+> >>>>    static int __init efifb_swap_width_height(const struct
+> >>>> dmi_system_id *id)
+> >>> It's something different now. Can this please become a separate list
+> >>> with a separate callback?
+> >>>
+> >> Why? That means we have to introduce another dmi_check_system() call,
+> >> and manually implement the logic to ensure that it is not called
+> >> redundantly, i.e., after the first one already found a match.
+> >
+> > If the separate list isn't feasible, let's at least have a separate
+> > callback.
+>
+> Ard asked for that already so in v3 it is already separate.
+>
+> I have also locally changed 2/4 to use
+> __screen_info_lfb_bits_per_pixel() and if now everyone is happy I can
+> send out a v4 with that?
+>
 
-Cool.
-
-Obviously this is your driver, but some comments below which you might
-want to take into account.
-
->=20
-> Part of this change involves removing pending jobs debug information
-> from debugfs and devcoredump. As agreed, the pending job list should
-> only be accessed when the scheduler is stopped. However, it's not
-> straightforward to determine whether the scheduler is stopped from the
-> shared debugfs/devcoredump code path. Additionally, the pending job list
-> provides little useful information, as pending jobs can be inferred from
-> seqnos and ring head/tail positions. Therefore, this debug information
-> is being removed.
-
-This reads a bit like a contradiction to the first sentence.
-
->=20
-> v4:
-> =C2=A0- Add comment around DRM_GPU_SCHED_STAT_NO_HANG (Niranjana)
-
-Revision info for just one of 7 revisions?
-
->=20
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Reviewed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.c=
-om>
-> ---
-> =C2=A0drivers/gpu/drm/xe/xe_gpu_scheduler.c=C2=A0=C2=A0=C2=A0 |=C2=A0 4 +=
--
-> =C2=A0drivers/gpu/drm/xe/xe_gpu_scheduler.h=C2=A0=C2=A0=C2=A0 | 33 ++----=
-----
-> =C2=A0drivers/gpu/drm/xe/xe_guc_submit.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 | 81 ++++++------------------
-> =C2=A0drivers/gpu/drm/xe/xe_guc_submit_types.h | 11 ----
-> =C2=A0drivers/gpu/drm/xe/xe_hw_fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 16 -----
-> =C2=A0drivers/gpu/drm/xe/xe_hw_fence.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 2 -
-> =C2=A06 files changed, 27 insertions(+), 120 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/xe/xe_gpu_scheduler.c b/drivers/gpu/drm/xe/x=
-e_gpu_scheduler.c
-> index f4f23317191f..9c8004d5dd91 100644
-> --- a/drivers/gpu/drm/xe/xe_gpu_scheduler.c
-> +++ b/drivers/gpu/drm/xe/xe_gpu_scheduler.c
-> @@ -7,7 +7,7 @@
-> =C2=A0
-> =C2=A0static void xe_sched_process_msg_queue(struct xe_gpu_scheduler *sch=
-ed)
-> =C2=A0{
-> -=09if (!READ_ONCE(sched->base.pause_submit))
-> +=09if (!drm_sched_is_stopped(&sched->base))
-> =C2=A0=09=09queue_work(sched->base.submit_wq, &sched->work_process_msg);
-
-Sharing the submit_wq is legal. But next-level cleanness would be if
-struct drm_gpu_scheduler's internal components wouldn't be touched.
-That's kind of a luxury request, though.
-
-> =C2=A0}
-> =C2=A0
-> @@ -43,7 +43,7 @@ static void xe_sched_process_msg_work(struct work_struc=
-t *w)
-> =C2=A0=09=09container_of(w, struct xe_gpu_scheduler, work_process_msg);
-> =C2=A0=09struct xe_sched_msg *msg;
-> =C2=A0
-> -=09if (READ_ONCE(sched->base.pause_submit))
-> +=09if (drm_sched_is_stopped(&sched->base))
-> =C2=A0=09=09return;
-> =C2=A0
-> =C2=A0=09msg =3D xe_sched_get_msg(sched);
-> diff --git a/drivers/gpu/drm/xe/xe_gpu_scheduler.h b/drivers/gpu/drm/xe/x=
-e_gpu_scheduler.h
-> index dceb2cd0ee5b..664c2db56af3 100644
-> --- a/drivers/gpu/drm/xe/xe_gpu_scheduler.h
-> +++ b/drivers/gpu/drm/xe/xe_gpu_scheduler.h
-> @@ -56,12 +56,9 @@ static inline void xe_sched_resubmit_jobs(struct xe_gp=
-u_scheduler *sched)
-> =C2=A0=09struct drm_sched_job *s_job;
-> =C2=A0=09bool restore_replay =3D false;
-> =C2=A0
-> -=09list_for_each_entry(s_job, &sched->base.pending_list, list) {
-> -=09=09struct drm_sched_fence *s_fence =3D s_job->s_fence;
-> -=09=09struct dma_fence *hw_fence =3D s_fence->parent;
-> -
-> +=09drm_sched_for_each_pending_job(s_job, &sched->base, NULL) {
-> =C2=A0=09=09restore_replay |=3D to_xe_sched_job(s_job)->restore_replay;
-> -=09=09if (restore_replay || (hw_fence && !dma_fence_is_signaled(hw_fence=
-)))
-> +=09=09if (restore_replay || !drm_sched_job_is_signaled(s_job))
-
-So that's where this function is needed. You check whether that job in
-the pending_list is signaled.=20
-
-> =C2=A0=09=09=09sched->base.ops->run_job(s_job);
-
-Aaaaaahm. So you invoke your own callback. But basically just to access
-the function pointer I suppose?
-
-Since this is effectively your drm_sched_resubmit_jobs(), it is
-definitely desirable to provide a text book example of how to do resets
-so that others can follow your usage.
-
-Can't you replace ops->run_job() with a call to your functions where
-you push the jobs to the ring, directly?
-
-
-P.
-
+Give it a day or so, it's not going to be merged before -rc1 anyway
