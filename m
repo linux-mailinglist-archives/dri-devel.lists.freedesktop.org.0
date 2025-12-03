@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B0FC9ECE8
+	by mail.lfdr.de (Postfix) with ESMTPS id B49AFC9ECE9
 	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 12:06:03 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F5CE10E78C;
-	Wed,  3 Dec 2025 11:05:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ED9A10E77E;
+	Wed,  3 Dec 2025 11:05:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="RIXuAKtg";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="BJi2iTI3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFF3D10E765
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 11:05:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6104510E773
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 11:05:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764759938;
- bh=F49nkMnBOo9d1L9Ch+w/k3nDy/9oGFebzJMlGFRS3l4=;
+ s=mail; t=1764759939;
+ bh=Ddyqk/LqDyM6oygnRyhwcDmnd+VnL04x1nhsAjL16iY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RIXuAKtgXb4LSxUrYkGHdYbmt+wihT/Tpxxs28RWq/yIVnm5vkp3NDhLbTBUWArZI
- yHlKxnd3LaDzsORmS6knFfEPr4M0m5ie2ORb83fTJxWTToKFn9gj9ET0OZF66OeV+S
- 6h2N6CFXZ+0M2BGk/JbOd2GDo0d2oH2FTM/JIC+kV3ZLzPQVadLUxDTH6IOF3uCC0P
- l64yeZl5LISbH2RwE0/wjccqG6YHAhRvRg3N1gPvVHKBEPh2tjEAnlQxiVSH8PhpN3
- AmThh0fh8LWySrU+l+jAvq/x4DS3Tabnu0QzDsUPOfHpPnA61Oj7fnSQq7a3z7/4BZ
- GwxE9dIkY/21A==
+ b=BJi2iTI3VFkF4TTGk2vBa7mjvFHmdHWTJ32eY4Zk7XkMQYx6tW5F9T5VdtRNoJcN3
+ 77+BN1qZhoXuFT9+Y5cJfZiCRfRhPIzQGvN9/lcE4576nEWq/dJNl4te0h7As7EwFh
+ 3uOD7ztf2pCol0p3E5sKGz3QRF2PwhG8960pmfnrtNaR2on4tRrky4kG+3szfa4pDJ
+ oENeZ/9Ciy/rSMEVpA00hY4WKIjYCJQM+pu+FOAgA3yKtBS1sL7CWX9Z6/UUKybCon
+ CofMJOXtl5bKVQ5Ic6IuB2vRT4xaOjZKVovM2rIuDa+y6bdbM7KCUsWOPquSpBoQU9
+ AnXUpG1WBvKSw==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2D56817E0360;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A03AE17E090D;
  Wed,  3 Dec 2025 12:05:38 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
@@ -38,9 +38,10 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
  =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 Cc: dri-devel@lists.freedesktop.org, Akash Goel <akash.goel@arm.com>,
  Chia-I Wu <olvaffe@gmail.com>, kernel@collabora.com
-Subject: [PATCH v2 1/3] drm/panthor: Drop a WARN_ON() in group_free_queue()
-Date: Wed,  3 Dec 2025 12:05:25 +0100
-Message-ID: <20251203110527.367089-2-boris.brezillon@collabora.com>
+Subject: [PATCH v2 2/3] drm/panthor: Make sure caches are flushed/invalidated
+ when an AS is recycled
+Date: Wed,  3 Dec 2025 12:05:26 +0100
+Message-ID: <20251203110527.367089-3-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251203110527.367089-1-boris.brezillon@collabora.com>
 References: <20251203110527.367089-1-boris.brezillon@collabora.com>
@@ -61,43 +62,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It appears the timeout can still be enabled when we reach that point,
-because of the asynchronous progress check done on queues that resets
-the timer when jobs are still in-flight, but progress was made.
-We could add more checks to make sure the timer is not re-enabled when
-a group can't run anymore, but we don't have a group to pass to
-queue_check_job_completion() in some context.
-
-It's just as safe (we just want to be sure the timer is stopped before
-we destroy the queue) and simpler to drop the WARN_ON() in
-group_free_queue().
+When we re-assign a slot to a different VM, we need to make sure the
+old VM caches are flushed before doing the switch. Specialize
+panthor_mmu_as_disable() so we can skip the slot programmation while
+still getting the cache flushing, and call this helper from
+panthor_vm_active() when an idle slot is recycled.
 
 v2:
 - Collect R-bs
 
+Fixes: 6e2d3b3e8589 ("drm/panthor: Add support for atomic page table updates")
 Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
 ---
- drivers/gpu/drm/panthor/panthor_sched.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/panthor/panthor_mmu.c | 26 ++++++++++++++++++++------
+ 1 file changed, 20 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index 389d508b3848..203f6a0a6b9a 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -893,9 +893,8 @@ static void group_free_queue(struct panthor_group *group, struct panthor_queue *
- 	if (IS_ERR_OR_NULL(queue))
- 		return;
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index 8ba5259e3d28..3644af1a8e56 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -585,7 +585,8 @@ static int panthor_mmu_as_enable(struct panthor_device *ptdev, u32 as_nr,
+ 	return as_send_cmd_and_wait(ptdev, as_nr, AS_COMMAND_UPDATE);
+ }
  
--	/* This should have been disabled before that point. */
--	drm_WARN_ON(&group->ptdev->base,
--		    disable_delayed_work_sync(&queue->timeout.work));
-+	/* Disable the timeout before tearing down drm_sched components. */
-+	disable_delayed_work_sync(&queue->timeout.work);
+-static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
++static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr,
++				  bool recycle_slot)
+ {
+ 	int ret;
  
- 	if (queue->entity.fence_context)
- 		drm_sched_entity_destroy(&queue->entity);
+@@ -595,6 +596,12 @@ static int panthor_mmu_as_disable(struct panthor_device *ptdev, u32 as_nr)
+ 	if (ret)
+ 		return ret;
+ 
++	/* If the slot is going to be used immediately, don't bother changing
++	 * the config.
++	 */
++	if (recycle_slot)
++		return 0;
++
+ 	gpu_write64(ptdev, AS_TRANSTAB(as_nr), 0);
+ 	gpu_write64(ptdev, AS_MEMATTR(as_nr), 0);
+ 	gpu_write64(ptdev, AS_TRANSCFG(as_nr), AS_TRANSCFG_ADRMODE_UNMAPPED);
+@@ -714,6 +721,11 @@ int panthor_vm_active(struct panthor_vm *vm)
+ 
+ 		drm_WARN_ON(&ptdev->base, refcount_read(&lru_vm->as.active_cnt));
+ 		as = lru_vm->as.id;
++
++		ret = panthor_mmu_as_disable(ptdev, as, true);
++		if (ret)
++			goto out_unlock;
++
+ 		panthor_vm_release_as_locked(lru_vm);
+ 	}
+ 
+@@ -853,7 +865,7 @@ static void panthor_vm_declare_unusable(struct panthor_vm *vm)
+ 	vm->unusable = true;
+ 	mutex_lock(&ptdev->mmu->as.slots_lock);
+ 	if (vm->as.id >= 0 && drm_dev_enter(&ptdev->base, &cookie)) {
+-		panthor_mmu_as_disable(ptdev, vm->as.id);
++		panthor_mmu_as_disable(ptdev, vm->as.id, false);
+ 		drm_dev_exit(cookie);
+ 	}
+ 	mutex_unlock(&ptdev->mmu->as.slots_lock);
+@@ -1780,7 +1792,7 @@ static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
+ 			ptdev->mmu->as.slots[as].vm->unhandled_fault = true;
+ 
+ 		/* Disable the MMU to kill jobs on this AS. */
+-		panthor_mmu_as_disable(ptdev, as);
++		panthor_mmu_as_disable(ptdev, as, false);
+ 		mutex_unlock(&ptdev->mmu->as.slots_lock);
+ 
+ 		status &= ~mask;
+@@ -1809,7 +1821,8 @@ void panthor_mmu_suspend(struct panthor_device *ptdev)
+ 		struct panthor_vm *vm = ptdev->mmu->as.slots[i].vm;
+ 
+ 		if (vm) {
+-			drm_WARN_ON(&ptdev->base, panthor_mmu_as_disable(ptdev, i));
++			drm_WARN_ON(&ptdev->base,
++				    panthor_mmu_as_disable(ptdev, i, false));
+ 			panthor_vm_release_as_locked(vm);
+ 		}
+ 	}
+@@ -1930,7 +1943,7 @@ static void panthor_vm_free(struct drm_gpuvm *gpuvm)
+ 		int cookie;
+ 
+ 		if (drm_dev_enter(&ptdev->base, &cookie)) {
+-			panthor_mmu_as_disable(ptdev, vm->as.id);
++			panthor_mmu_as_disable(ptdev, vm->as.id, false);
+ 			drm_dev_exit(cookie);
+ 		}
+ 
+@@ -2790,7 +2803,8 @@ void panthor_mmu_unplug(struct panthor_device *ptdev)
+ 		struct panthor_vm *vm = ptdev->mmu->as.slots[i].vm;
+ 
+ 		if (vm) {
+-			drm_WARN_ON(&ptdev->base, panthor_mmu_as_disable(ptdev, i));
++			drm_WARN_ON(&ptdev->base,
++				    panthor_mmu_as_disable(ptdev, i, false));
+ 			panthor_vm_release_as_locked(vm);
+ 		}
+ 	}
 -- 
 2.51.1
 
