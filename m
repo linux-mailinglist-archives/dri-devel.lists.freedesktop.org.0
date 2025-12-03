@@ -2,52 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A2EC9F33D
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 14:56:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51441C9F33A
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 14:56:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C3CE10E172;
-	Wed,  3 Dec 2025 13:56:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23A1110E157;
+	Wed,  3 Dec 2025 13:56:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="jOyCEdoS";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="HrHOlml2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4214C10E157
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
+ [136.143.184.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67C9B10E172
  for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 13:56:52 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1764770200; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1764770204; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=MfD7HeTOAfYFqPdNWb5To4kAsLSZdylqnYbA4drXn2sqgy/7zMx/4xY/7cVLKdGv+SQJVqUm7v3TYG0eFQlE1QqKUSNSeNF0BmEmSlQ+3ue5RiVyVgpwxGVEnJl2iI/NiO6l7ZppkJVIo+Mfzrj9Xr75XXpMmSWVt7grFLUghz4=
+ b=CSOAJ8aJW0jn2SFif2Ydk1uQyyx6OEm7IJwciO3Sg6SROYVwJ/RRuewWYdPTsYmahAnJ2SmplKzq4IhJCs8NW7GpYaADtcXOBjuvrJyx38ZrhsbRaYLpcBuazfK8oa0HVHzcMI796Nz3wTnJJ9ZQQF6TsG1NtOBW7SS9orRkxps=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1764770200;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=HoysW/1n7TBBKdA+MT51tASVcRfCXJFPQ7yjinrjBI8=; 
- b=dkS00fGiW5vxCwaniU5GMplhDtIiz85YUUhVCvPARrfCceR2EuvkpUyq0U7ftE8Wek9YpTzDlDiH+v/F2yShSIav4C2bqSZNgcFo7jLun++Xwawmu1gn8qowQcpR4a9AIUcIW5RJngEH1t67V6XyC5WBT4vw1gCe+IBGORiNpUQ=
+ s=zohoarc; t=1764770204;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=BafTXFGVFmIDDsJ0hvlCVkL5yw5qTMNyy0t2dgnoYMY=; 
+ b=IvM5C3Pu8NCdCFMKgrlOkvqIwAKijPDvajO/jw5dQzapX48tBhSuNEZoU5w0xQYlEef004uR4diZgsgBCoCfAP4382ukzoDXFMg+GxuUQjVGtjosTWbXHUvv5fT6jm2KPFpviXPiAqIkUy5T4Fvxn5VLobl9fK10JtiQehp8Apg=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764770200; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764770204; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
- bh=HoysW/1n7TBBKdA+MT51tASVcRfCXJFPQ7yjinrjBI8=;
- b=jOyCEdoSTS2Wu00ieCGRZq61Y3A0eFguWVbtiVTG5KuV1KI3JFYhfbUjG0Cp2twz
- 0otX7lKUr6gABa34EVnZotfsJUqESU6giL7XRUtUy0Uh0t9BWgJffyVvM8VVohFtWsU
- 62wItE6zqDHP38dZUIz+X0dd5GwZ1aN8DlQKQ5NQ=
-Received: by mx.zohomail.com with SMTPS id 1764770200324374.5408172125982;
- Wed, 3 Dec 2025 05:56:40 -0800 (PST)
+ h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
+ bh=BafTXFGVFmIDDsJ0hvlCVkL5yw5qTMNyy0t2dgnoYMY=;
+ b=HrHOlml2eCgEgPkZ1bObztMnXMkWea5+PIxlEZ7ntgnS0NMh2ZN9IPItYVvNG74y
+ V/GyBb2VBTdP2fAawrhK5aAgkBl7wCMqYtoEvvhjk6EqXc6lS1+EznPJaJgZntZH7l+
+ 01lB1860OHGbTiKqOtY+jsVtk+SIlLUFETd+Mybc=
+Received: by mx.zohomail.com with SMTPS id 1764770203279936.6526689272895;
+ Wed, 3 Dec 2025 05:56:43 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: [PATCH 0/2] Add a few tracepoints to panthor
-Date: Wed, 03 Dec 2025 14:56:21 +0100
-Message-Id: <20251203-panthor-tracepoints-v1-0-871c8917e084@collabora.com>
+Date: Wed, 03 Dec 2025 14:56:22 +0100
+Subject: [PATCH 1/2] drm/panthor: Add tracepoint for hardware utilisation
+ changes
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIVBMGkC/y2Myw6CMBBFf4XM2sZSUZFfMSxqO8gs+mA6GhPCv
- 9uIq5tzk3NWKMiEBYZmBcY3FUqxQntowM02PlGRrwxGm3Nr9EllG2VOrIStw5woSlFd39tJ33x
- 3wStUMzNO9PlV7+POjMurxmU/4WELKpdCIBkaz0EJ5eN/Ydy2Lwj9PraYAAAA
-X-Change-ID: 20251203-panthor-tracepoints-488af09d46e7
+Message-Id: <20251203-panthor-tracepoints-v1-1-871c8917e084@collabora.com>
+References: <20251203-panthor-tracepoints-v1-0-871c8917e084@collabora.com>
+In-Reply-To: <20251203-panthor-tracepoints-v1-0-871c8917e084@collabora.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>, 
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -72,40 +71,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds two tracepoints to panthor.
+Mali GPUs have three registers that indicate which parts of the hardware
+are powered and active at any moment. These take the form of bitmaps. In
+the case of SHADER_PWRACTIVE for example, a high bit indicates that the
+shader core corresponding to that bit index is active. These bitmaps
+aren't solely contiguous bits, as it's common to have holes in the
+sequence of shader core indices, and the actual set of which cores are
+present is defined by the "shader present" register.
 
-The first tracepoint allows for inspecting utilisation of the hardware
-subdivisions, e.g. how many shader cores are active. This is done by
-reading three hardware registers when a certain IRQ fires.
+When the GPU finishes a power state transition, it fires a
+GPU_IRQ_POWER_CHANGED_ALL interrupt. After such an interrupt is
+received, the PWRACTIVE registers will likely contain interesting new
+information.
 
-The second tracepoint instruments panthor's job IRQ handler. This is
-more useful than the generic interrupt tracing functionality, as the
-tracepoint has the events bit mask included, which indicates which
-command stream group interfaces triggered the interrupt.
+This is not to be confused with the PWR_IRQ_POWER_CHANGED_ALL interrupt,
+which is something related to Mali v14+'s power control logic. The
+PWRACTIVE registers and corresponding interrupts are already available
+in v9 and onwards.
 
-To test the tracepoints, the following can be used:
-
-  :~# echo 1 > /sys/kernel/tracing/events/panthor/gpu_power_active/enable
-  :~# echo 1 > /sys/kernel/tracing/events/panthor/gpu_job_irq/enable
-  :~# echo 1 > /sys/kernel/tracing/tracing_on
-  :~# cat /sys/kernel/tracing/trace_pipe
+Expose this as a tracepoint to userspace. This allows users to debug
+various scenarios and gather interesting information, such as: knowing
+how much hardware is lit up at any given time, correlating graphics
+corruption with a specific active shader core, measuring when hardware
+is allowed to go to an inactive state again, and so on.
 
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
-Nicolas Frattaroli (2):
-      drm/panthor: Add tracepoint for hardware utilisation changes
-      drm/panthor: Add gpu_job_irq tracepoint
-
  drivers/gpu/drm/panthor/panthor_device.c |  1 +
- drivers/gpu/drm/panthor/panthor_fw.c     | 13 +++++++
- drivers/gpu/drm/panthor/panthor_gpu.c    |  9 +++++
- drivers/gpu/drm/panthor/panthor_trace.h  | 62 ++++++++++++++++++++++++++++++++
- 4 files changed, 85 insertions(+)
----
-base-commit: 6ef847703ac6da2deaaf735ce95369ba25c2c432
-change-id: 20251203-panthor-tracepoints-488af09d46e7
+ drivers/gpu/drm/panthor/panthor_gpu.c    |  9 ++++++++
+ drivers/gpu/drm/panthor/panthor_trace.h  | 38 ++++++++++++++++++++++++++++++++
+ 3 files changed, 48 insertions(+)
 
-Best regards,
+diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+index e133b1e0ad6d..a3cb934104b8 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.c
++++ b/drivers/gpu/drm/panthor/panthor_device.c
+@@ -548,6 +548,7 @@ int panthor_device_resume(struct device *dev)
+ 			    DRM_PANTHOR_USER_MMIO_OFFSET, 0, 1);
+ 	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_ACTIVE);
+ 	mutex_unlock(&ptdev->pm.mmio_lock);
++
+ 	return 0;
+ 
+ err_suspend_devfreq:
+diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+index 9cb5dee93212..8830aa9a5c4b 100644
+--- a/drivers/gpu/drm/panthor/panthor_gpu.c
++++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+@@ -22,6 +22,9 @@
+ #include "panthor_hw.h"
+ #include "panthor_regs.h"
+ 
++#define CREATE_TRACE_POINTS
++#include "panthor_trace.h"
++
+ /**
+  * struct panthor_gpu - GPU block management data.
+  */
+@@ -46,6 +49,7 @@ struct panthor_gpu {
+ 	(GPU_IRQ_FAULT | \
+ 	 GPU_IRQ_PROTM_FAULT | \
+ 	 GPU_IRQ_RESET_COMPLETED | \
++	 GPU_IRQ_POWER_CHANGED_ALL | \
+ 	 GPU_IRQ_CLEAN_CACHES_COMPLETED)
+ 
+ static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
+@@ -97,6 +101,11 @@ static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
+ 		wake_up_all(&ptdev->gpu->reqs_acked);
+ 	}
+ 	spin_unlock(&ptdev->gpu->reqs_lock);
++
++	if (status & GPU_IRQ_POWER_CHANGED_ALL)
++		trace_gpu_power_active(gpu_read64(ptdev, SHADER_PWRACTIVE),
++				       gpu_read64(ptdev, TILER_PWRACTIVE),
++				       gpu_read64(ptdev, L2_PWRACTIVE));
+ }
+ PANTHOR_IRQ_HANDLER(gpu, GPU, panthor_gpu_irq_handler);
+ 
+diff --git a/drivers/gpu/drm/panthor/panthor_trace.h b/drivers/gpu/drm/panthor/panthor_trace.h
+new file mode 100644
+index 000000000000..01013f81e68a
+--- /dev/null
++++ b/drivers/gpu/drm/panthor/panthor_trace.h
+@@ -0,0 +1,38 @@
++/* SPDX-License-Identifier: GPL-2.0 or MIT */
++/* Copyright 2025 Collabora ltd. */
++
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM panthor
++
++#if !defined(__PANTHOR_TRACE_H__) || defined(TRACE_HEADER_MULTI_READ)
++#define __PANTHOR_TRACE_H__
++
++#include <linux/tracepoint.h>
++#include <linux/types.h>
++
++TRACE_EVENT(gpu_power_active,
++	TP_PROTO(u64 shader_bitmap, u64 tiler_bitmap, u64 l2_bitmap),
++	TP_ARGS(shader_bitmap, tiler_bitmap, l2_bitmap),
++	TP_STRUCT__entry(
++		__field(u64, shader_bitmap)
++		__field(u64, tiler_bitmap)
++		__field(u64, l2_bitmap)
++	),
++	TP_fast_assign(
++		__entry->shader_bitmap	= shader_bitmap;
++		__entry->tiler_bitmap	= tiler_bitmap;
++		__entry->l2_bitmap	= l2_bitmap;
++	),
++	TP_printk("shader_bitmap=0x%llx tiler_bitmap=0x%llx l2_bitmap=0x%llx",
++		  __entry->shader_bitmap, __entry->tiler_bitmap, __entry->l2_bitmap
++	)
++);
++
++#endif /* __PANTHOR_TRACE_H__ */
++
++#undef TRACE_INCLUDE_PATH
++#define TRACE_INCLUDE_PATH .
++#undef TRACE_INCLUDE_FILE
++#define TRACE_INCLUDE_FILE panthor_trace
++
++#include <trace/define_trace.h>
+
 -- 
-Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+2.52.0
 
