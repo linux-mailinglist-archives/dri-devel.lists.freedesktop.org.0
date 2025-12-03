@@ -2,67 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A16C9E5D1
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 10:02:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60977C9E65B
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 10:07:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97A5510E7C1;
-	Wed,  3 Dec 2025 09:02:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 392C310E0F3;
+	Wed,  3 Dec 2025 09:07:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="NXEVesc7";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ldaT57Rc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6664010E7B1;
- Wed,  3 Dec 2025 09:02:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764752525;
- bh=cSq5V84IfgW70V2taojsuA7wcDp4wnE57kEKY7SDv3E=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NXEVesc7LoWyy1cshwnABTn1xowbCy+P5/ALucj1BOVA5rNs12QELwRYtpZv9UIBm
- NB6IUstad3CD08aKaQby96Iw1NEMu/ARHtexy+q29T9H0H2eHeGsG2f/cGhVI2ryDD
- i/TYPvPGgikYenEyyvWLKJZ+vqI54H5fX7xgrJrr+9fkVBB+qWUK4TYq3JUp3OMttg
- BIyYadWFEVCVrobAcA5zkJcyRNKZ/fr5FofugDWMp1vVAvR8kO7tadJg7M0j+Tl054
- O2FyxazZHF6K4o75JOh3Zwjq6S56ZQI0kHS3kbQdEuofzwKLCMiNaFv910S+SZBCBl
- iuBQ5CoqJDUZw==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 1EAE017E110C;
- Wed,  3 Dec 2025 10:02:04 +0100 (CET)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, kernel@collabora.com,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: [PATCH v7 13/13] drm/panfrost: Bump the driver version to 1.6
-Date: Wed,  3 Dec 2025 10:01:41 +0100
-Message-ID: <20251203090141.227394-14-boris.brezillon@collabora.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4785E10E025
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 09:07:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=Vs5lt6mdnpNHHugizVfBqfWtqo6gOtmBDJ0kNaBstCQ=; b=ldaT57RcjgMogfekPj2VPTkYen
+ ei0yzwsg83UPWA72hk/nByOXIxF88SUApT5CoP6GqUpt8JfMeUIRH/UIG0XndFmI7OY0BVwhsLGl6
+ 3j+04jQxa6a55JUniNiMP884Xr+/2DOXrM1Xq0bjoHvDWV4+hHszzebXHEUaq37C/+TGctYcp/+pt
+ BpJ2X/be4NUsO6aXHXoWVht95gaPmPWlyUPwKwbCLlcdA8gBXDGtuf2adaHNX05KYAOndhioeqvHs
+ odqz87H0sVMdLYO+Bxxbbcp6qlpfsIOf5mOnndox4Oa0Fq2B+BPrsV1mD3ygynDX0aoUTLu2dG+ON
+ qZsxAs5g==;
+Received: from [90.240.106.137] (helo=localhost)
+ by fanzine2.igalia.com with utf8esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1vQipJ-008BpL-41; Wed, 03 Dec 2025 10:07:09 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel <ardb@kernel.org>,
+ Melissa Wen <mwen@igalia.com>, linux-efi@vger.kernel.org
+Subject: [PATCH v2 0/4] EFI fbcon fixes
+Date: Wed,  3 Dec 2025 09:07:02 +0000
+Message-ID: <20251203090706.53778-1-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20251203090141.227394-1-boris.brezillon@collabora.com>
-References: <20251203090141.227394-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -80,59 +58,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Faith Ekstrand <faith.ekstrand@collabora.com>
-
-Bump the driver version to reflect the new cached-CPU mapping
-capability.
+Two generic fixes split out for easy review, one refactoring as requested, and
+then the last patch is the panel/mode quirk to allow for corruption free fbcon
+with simpledrmfb and efidrmfb on the Valve Steam Deck.
 
 v2:
-- Quickly describe what the new version exposes in the commit message
+ * s/unsigned/unsigned int/
+ * s/pitch/linelength/
+ * Removed comment explaining the Steam Deck quirk.
+ * Added patch to refactor quirk application via callbacks.
 
-v3:
-- Add Steve's R-b
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Melissa Wen <mwen@igalia.com>
+Cc: linux-efi@vger.kernel.org
 
-v4:
-- No changes
+Tvrtko Ursulin (4):
+  efi: sysfb_efi: Replace open coded swap with the macro
+  efi: sysfb_efi: Fix lfb_linelength calculation when applying quirks
+  efi: sysfb_efi: Convert swap width and height quirk to a callback
+  efi: sysfb_efi: Fix efidrmfb and simpledrmfb on Valve Steam Deck
 
-v5:
-- No changes
+ drivers/firmware/efi/sysfb_efi.c | 71 ++++++++++++++++++++++++++++----
+ 1 file changed, 63 insertions(+), 8 deletions(-)
 
-v6:
-- No changes
-
-v7:
-- No changes
-
-Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 43a453ee9614..712497729732 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -928,6 +928,9 @@ static void panfrost_debugfs_init(struct drm_minor *minor)
-  * - 1.4 - adds SET_LABEL_BO
-  * - 1.5 - adds JM_CTX_{CREATE,DESTROY} ioctls and extend SUBMIT to allow
-  *	   context creation with configurable priorities/affinity
-+ * - 1.6 - adds PANFROST_BO_MAP_WB, PANFROST_IOCTL_SYNC_BO,
-+ *	   PANFROST_IOCTL_QUERY_BO_INFO and
-+ *	   DRM_PANFROST_PARAM_SELECTED_COHERENCY
-  */
- static const struct drm_driver panfrost_drm_driver = {
- 	.driver_features	= DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
-@@ -940,7 +943,7 @@ static const struct drm_driver panfrost_drm_driver = {
- 	.name			= "panfrost",
- 	.desc			= "panfrost DRM",
- 	.major			= 1,
--	.minor			= 5,
-+	.minor			= 6,
- 
- 	.gem_create_object	= panfrost_gem_create_object,
- 	.gem_prime_import	= panfrost_gem_prime_import,
 -- 
 2.51.1
 
