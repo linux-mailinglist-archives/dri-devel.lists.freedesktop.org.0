@@ -2,172 +2,178 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861E5C9D9E4
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 04:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B43C9DA57
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 04:30:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE59C10E702;
-	Wed,  3 Dec 2025 03:13:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 36E8510E035;
+	Wed,  3 Dec 2025 03:30:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CtJDxfwo";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="D4MFNsh5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4840A10E035;
- Wed,  3 Dec 2025 03:13:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764731621; x=1796267621;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=qkjOvwYhs/9lvLqRXjqdmQM6swOUbZ6zBLH4C5VbGnY=;
- b=CtJDxfwoHuy9nUgHiBiI4/hyu2mGkhVyIGaF/wAdavo2IcSQmNNVsxsX
- 4wT+8LQurOnij6moPmzO+umIBnn3heDiVMDrtGv0brirQWE3E/5Ca7wpf
- Og2c7fmea1UWUsk0Nm5RdES4Fy1tW2SJgv2lLYkeDpIY0ebmrjokdywLt
- 0Adg5X1O2LQ3SWo9MHHzP4IrKIgo91htaHs26OIBZBAHpeRLggEOIRiTX
- Lv3HiE86IFoFpPqbR1DnU07/cUaEdNeO+DvWDygtAHZFrjLhV4gD+6b4/
- f3uV5cI8gfcf+FEyUQvYURObOfek7j3XUjQJzBxD6VZQ/KFhxoJ1TWqWI A==;
-X-CSE-ConnectionGUID: ZfbAwSGZRlemYLbJGkWRyQ==
-X-CSE-MsgGUID: 9SfCo4PQRHiF0pVt5/BZeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="69310213"
-X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; d="scan'208";a="69310213"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2025 19:13:41 -0800
-X-CSE-ConnectionGUID: Y+dsPMKcQC6gVZ4N/sfWOw==
-X-CSE-MsgGUID: hkk/j+jMQoW9ulf0bP4cvg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; d="scan'208";a="231890612"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
- by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Dec 2025 19:13:41 -0800
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 2 Dec 2025 19:13:39 -0800
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Tue, 2 Dec 2025 19:13:39 -0800
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.66)
- by edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 2 Dec 2025 19:13:39 -0800
+Received: from BN1PR04CU002.outbound.protection.outlook.com
+ (mail-eastus2azon11010047.outbound.protection.outlook.com [52.101.56.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4553310E035;
+ Wed,  3 Dec 2025 03:30:19 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jfRuTPLkc4wSqWSgCIuccKMJglQyvMz6Dwa0YymsuBAOHNoB0DZ6AdeEKAWqlO9RjcpSTgsbBTdey3WMfP+R1ZRKWvvqKnMm3gdPjLSnKzJXKHrmpX36Utyqeuak09PzT9oXLPgECuLbIVCNjQR4HrfWRfcFyuK88a0FFWYN2ytPqyxFTm6lQXRg5cmYe5k69/GZT46B3hCCfoi8ZDB1pvUOD/DURcGb8j3RSZHHeaz5Ut+d9gS+EDoGGye1sJ3+481N79wvjqt0TThhiryzPR8Y99SK+9qecLFo4pDgnZOKdSq+ho7z5VGhnpm5AmDZO7dtocCeDYcUvHtWS/CaSQ==
+ b=II5BZIdLxR8QcgotBFZM/hwaEiZu3Az6zBNVOKPd1eQwUa7dva6GD9EPl0VkIt0TKhZflHnNT030GGVZxVCFEa0Ir7asRygeFcrCVyFf7jFTMoHSUdTE43X8SJtkyfL4Y0Agdisk+KFa1QzzJ/iYavSuGKmUIu1Vy8x9sHs3udIAwXS8rNl204qszMbsdqQ3sPJVvk1RX2D3vA4QYspie4TqNSSIa16EIPSr3gnL8s2Bl+/P6vj/Duq8S81kohxoY1ivvN1L4b9AAeHiskGe+EB7mTyJQXr9OzxXWMBE4/Xnm2jcEyC/DmE5D7dThAmnMsgx1laADc5glDA4euvf7w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=99Kq4OwA0SW5ctd6C7X6DJR8kMWP+PuZNz5Yzqgquhs=;
- b=bmnzm73SZlzh+K1iiH1fhuc0YpDJp4M0KsOQ0j/i3YFixOG6VoTaWUtL3Qba2PjttekZxdoNVm1TRAS4zdwyoA+QuRFqEfeJSZfl0078ZVoifPYqDJ0xDQQCylNCtvceQMfphNZmmo0Xthhi2ehZ0s+o6F8T/0Vk7LYmEcYhVt1lAYziqmJKO6LjE+onW1HNqDTJ4RlDO5ITpV5je8vN8AxaBWvZeOmozh3GrIDgw3W+NzUSI3MpkSGdCglly/I5AsEsFkgWOybmmIPhUXrbz8OqPOR81UHEk+0eMXScw7oPQGmOTv/gapV2f37i/H6ie7zUiY41+lReQaGRPj/Oxw==
+ bh=dA+6dQrVPjuqtoYIM5BoHHzpXPVNbA/bUzIvVZyB/N0=;
+ b=NVFfq+8D1M7AwaPWmy5QkYuzPsY3jc5/JATfCnPi7BsEXumBgnTKszvh8v0UmteIqm5zKL1ad+lZJ5nG87uT02MBgX2wT8e5RwML2KxkW0znO7iy7Bcvzy0bo1TWUBAjBZddm8NmWna3tXpo0ay2mk8wpsVqspezTtSEiYYn5CuG4XiVmu1Gq6osy32LlCYVCodH4xQqnKATC40y07bzxkQmqIs0ha+SEE3ve6eMEf3GC8i+FIHGe/Xq8ci3kcn88kPmzrv4dng4ViIRhH/03qEcE2Nzbgx+rkvfTn4p3v2qHq44LxKAM87hGmf5G6I9Hb+Qx8L2Eva9SXAjLo7WhQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dA+6dQrVPjuqtoYIM5BoHHzpXPVNbA/bUzIvVZyB/N0=;
+ b=D4MFNsh5BnUV86uM9/ZyjatrFVAUblhQIpcUofdEtT2TOqJlqxtBBCqaLpAGJJ30Y/NambEXsU2g2B9+VYj0h9wVmyJ0H/bxjWnCmZzoLJ8UzayqsscTuX9cSUPx159qdY+3fpDbLDZrjjy6iuAuHLX97W36OHO7bGYZuEOXVYwrsnCo4ipj6cCXBSOgChpkqnd8rVNYVZGDIoiE3sftvsQkDxaCHz9s2nS37PJQ9IeoEmp4aPMVELCywJ0ENSMfqkUB8NaK+JPF4vSX03qz7e9NV1iMJBN6zN4AUdDmfGCkUYmKKPMtUZ78802tlFnCdrj1/1uuHQXpQtKyxdHPaQ==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by DS7PR11MB5967.namprd11.prod.outlook.com (2603:10b6:8:72::13) with
- Microsoft SMTP Server (version=TLS1_2,
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by MN0PR12MB5715.namprd12.prod.outlook.com (2603:10b6:208:372::11)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Wed, 3 Dec
- 2025 03:13:37 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9388.003; Wed, 3 Dec 2025
- 03:13:37 +0000
-Date: Tue, 2 Dec 2025 19:13:34 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Jonathan Cavitt <jonathan.cavitt@intel.com>
-CC: <intel-xe@lists.freedesktop.org>, <saurabhg.gupta@intel.com>,
- <alex.zuo@intel.com>, <joonas.lahtinen@linux.intel.com>,
- <jianxun.zhang@intel.com>, <shuicheng.lin@intel.com>,
- <dri-devel@lists.freedesktop.org>, <Michal.Wajdeczko@intel.com>,
- <michal.mrozek@intel.com>, <raag.jadav@intel.com>, <ivan.briano@intel.com>,
- <matthew.auld@intel.com>, <dafna.hirschfeld@intel.com>
-Subject: Re: [PATCH v30 2/5] drm/xe/xe_pagefault: Track address precision per
- pagefault
-Message-ID: <aS+q3meOxp4wrL3Q@lstrano-desk.jf.intel.com>
-References: <20251202221221.106060-7-jonathan.cavitt@intel.com>
- <20251202221221.106060-9-jonathan.cavitt@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20251202221221.106060-9-jonathan.cavitt@intel.com>
-X-ClientProxiedBy: MW4P223CA0004.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:303:80::9) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+ 2025 03:30:15 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9366.012; Wed, 3 Dec 2025
+ 03:30:15 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 03 Dec 2025 12:30:11 +0900
+Message-Id: <DEO9I1XCK1ZF.3MX7M6OVB9GND@nvidia.com>
+To: "Daniel Almeida" <daniel.almeida@collabora.com>, "Alexandre Courbot"
+ <acourbot@nvidia.com>
+Cc: "Joel Fernandes" <joelagnelf@nvidia.com>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, "rust-for-linux@vger.kernel.org"
+ <rust-for-linux@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "dakr@kernel.org" <dakr@kernel.org>,
+ "airlied@gmail.com" <airlied@gmail.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "ojeda@kernel.org" <ojeda@kernel.org>,
+ "alex.gaynor@gmail.com" <alex.gaynor@gmail.com>, "boqun.feng@gmail.com"
+ <boqun.feng@gmail.com>, "gary@garyguo.net" <gary@garyguo.net>,
+ "bjorn3_gh@protonmail.com" <bjorn3_gh@protonmail.com>, "lossin@kernel.org"
+ <lossin@kernel.org>, "a.hindborg@kernel.org" <a.hindborg@kernel.org>,
+ "aliceryhl@google.com" <aliceryhl@google.com>, "tmgross@umich.edu"
+ <tmgross@umich.edu>, "simona@ffwll.ch" <simona@ffwll.ch>,
+ "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+ "mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
+ <tzimmermann@suse.de>, "John Hubbard" <jhubbard@nvidia.com>, "Timur Tabi"
+ <ttabi@nvidia.com>, "joel@joelfernandes.org" <joel@joelfernandes.org>,
+ "elle@weathered-steel.dev" <elle@weathered-steel.dev>, "Andrea Righi"
+ <arighi@nvidia.com>, "phasta@kernel.org" <phasta@kernel.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>, "Nouveau"
+ <nouveau-bounces@lists.freedesktop.org>
+Subject: Re: [PATCH v2 1/3] rust: helpers: Add list helpers for C linked
+ list operations
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20251111171315.2196103-1-joelagnelf@nvidia.com>
+ <DEHV08MPF9CH.1GZAWEGC4AVF3@nvidia.com>
+ <095D38BD-A8AA-4BC3-8C24-9454964EB8F8@nvidia.com>
+ <DEI89VUEYXAJ.1IQQPC3QRLITP@nvidia.com>
+ <5F21F7D7-D0E7-4B25-AC3E-D21331EE4A1F@collabora.com>
+In-Reply-To: <5F21F7D7-D0E7-4B25-AC3E-D21331EE4A1F@collabora.com>
+X-ClientProxiedBy: OS7P301CA0022.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:604:26b::10) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DS7PR11MB5967:EE_
-X-MS-Office365-Filtering-Correlation-Id: 25ddd2ba-0f60-4bdb-acd0-08de3219f363
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|MN0PR12MB5715:EE_
+X-MS-Office365-Filtering-Correlation-Id: 86ee7ea3-0a19-4da6-b445-08de321c465a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?1l0vZowgCZ0iI0B6Q6hofHhNlspAJ5eUBCoJWddivfa2IvVJXBKErw4C7/s+?=
- =?us-ascii?Q?V4Jm9u5fTMULm0JK5pARiYrKE3Cz+swKOrMpZ8V90+HJd36fRM5gLYVcEgtu?=
- =?us-ascii?Q?Kywej/oz2OCcvO6jIKFHVxtYHNEBhztU9XR48XT8ZxImrjp8+nn7ceQn3aRz?=
- =?us-ascii?Q?A188WteJxS0OgVSf3oJKnDH5q+eSuw9nOrJHv+N1YvwaRc/vCUJsRAPfplsC?=
- =?us-ascii?Q?jaeVlManBowU0D1EegzRYF6vCLi/TsbtpiSDUsrtcUcNFdyV3Accq3Eeh2Rk?=
- =?us-ascii?Q?q0m5uBnkCAbEtU89NuvBQNczBz8kisgkrVUG5HXK3bXCVRC5UeLAdBxXXHod?=
- =?us-ascii?Q?upjyuwj/207fppY+X6qUG3o1ovES9EjAJsYkJkg4wV1YwCDFjPDgS/IekhRU?=
- =?us-ascii?Q?pToQgc4ceszvrnVxVM07SGb+t2zuSuo9ZyRIvKXCwrClAvFH0sWpPuWhZdTV?=
- =?us-ascii?Q?PznHmc+k/qEjISFMAnGtPgTp0RPlsuKVl5jUoXA65HXpIAmob1/dXMkC5z1f?=
- =?us-ascii?Q?wBubE7sk9Zioj78+YjlQ2vY/glINQrKlMVJfqRsxty7iGGR43y3ttCsEBRoB?=
- =?us-ascii?Q?fP10UO/5jGtE8WJ+Fe5g633N/3GE6QCRiOPRSQxUC2z+ZO2ZjvGP8weLuNY2?=
- =?us-ascii?Q?1yBNWQXQeJFNqJMCO+MoBJpfq+7X3DRyXZE9Jm8FPx5/Iw/jNufhVDlfpFq2?=
- =?us-ascii?Q?HJc1jiwd2w2rOx5dVsBVBPcsD6U9RxP2FxLvcbIs1Q4kU4F5RTRG/NlTj7BM?=
- =?us-ascii?Q?o26TT2wW/0chFWyVUImJvG8V1Ul8sg9eExp/AGSXMlg+CEsCoEV1sDJTuA/R?=
- =?us-ascii?Q?KpFFAKCJTvZlVBiLu7rZknXkN7GnTTT37o7NVe/3i9oqojoz2Pd3iD5FdiB8?=
- =?us-ascii?Q?mC7FyCbKMAviKnChSttvgzDzKEjU+cJOqAbiGSgfENffkgosDfkVXtCyLzzk?=
- =?us-ascii?Q?HaSJA/NMS+AV/nkNoSCRr8oi6CbvRwgToudX6f2z4Xf3q7xcn+9ApLQBGw0c?=
- =?us-ascii?Q?Ogtd5ltpuhoFN8kev37hHejCgvZEMENfkchee8/3l/lB9DCtOC9UbH2GPMEn?=
- =?us-ascii?Q?YprQaLLrx5g4POyDuVKzphjN4H0SJ9/775PA6amvhAl2bQUTsYepiS05YcrC?=
- =?us-ascii?Q?I7aYyyD6j83AY9nxsFg2aNfGfTV6JNutEpZL5D4iUuUiNSq48KX9UkeAbTZT?=
- =?us-ascii?Q?ABLzXp8qK31kK9jfyswoqld1b8EzX0L1Gsqwo4SXTe04s1D7nM2HalDx2/UK?=
- =?us-ascii?Q?Ywo7JoVCjst4v+EPLstpWK5dUjMg7D9lwxOt/5WMgrCR2YwiLnPsOXx4vzzJ?=
- =?us-ascii?Q?kXUkvoJNS2a8/j1rDTWAeVk1nzhUKPlaYI2EP6m9+f+hPboZAgP4f0SEOC10?=
- =?us-ascii?Q?85I1W7jwLXiIbTANrkz1eE/0bttbqk1gYRzOptO576d2DYUpkej3U2xcDiLI?=
- =?us-ascii?Q?w9np+cx5I9sbCSZ6UntmPECDrra72z9e?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|366016|376014|1800799024|7416014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?THR6bWNBeXpwMnNFdW1uSDYvbmlqeldUY0ZKbDNjOE9reEwveGh0QnM4bzYr?=
+ =?utf-8?B?dWxNaUM3U3hpZTZOcDBoNEx3Ym1LclA3NHhtSVNsZlZNYTJ1bVN6emFLZmRl?=
+ =?utf-8?B?aTRYNWZ5MEhlWTFYc0FJc3lZbUF6V25NZTBxRGp3dTEvZ2Nsd2xoeUVJUDND?=
+ =?utf-8?B?M0g4N0NXa1BCdFc0cDVXSEg2azJTdE5IYzFMSTZTc3krUTFLK1JNcmFtcFpB?=
+ =?utf-8?B?S0lNT2pBcXN6cW9YWXcwcTd1MFd6SlhKZWZZQVM3U0tPaDZUZm8yZ3VVemdC?=
+ =?utf-8?B?SUFYdUxuSjY1R3dxTExERU1mcUprZFNsK2txLzgxTkZFdWZkYm14dUdCajRK?=
+ =?utf-8?B?a3F6by9XNzZRMVUxVWUzRVI0Tk45TU9DK2ppUUxIazNxaFRYV3FwWDRqQUlw?=
+ =?utf-8?B?dlBQTUo0amcyMURQKy9FYXRsOU5sRklMWXZuV3lmZ0FKbkVUMEhmSk93cGhJ?=
+ =?utf-8?B?Q2NPOWdBYWU3TnpoOU9FSkFEdUdBVmZvY1RqMXZlc3R2Vkd6N0NaakdnNXFG?=
+ =?utf-8?B?V1BkRGE3YTNZM2JvYzFDelVpMys1VDVyc2V4NXB2Y05jTjZvYUVoTGRoSUVO?=
+ =?utf-8?B?Z3JmV0F2K1Jkc0ZJajNNWFB2MVk2dlFOZGtJbS9PSGNDZHdVd0RNNEo0cEtj?=
+ =?utf-8?B?OVZ0K3FZVDBLLzJRdFNpSjZXbU9VT0hQb3cxeDl0UEZNNkEvbURraExsMHZW?=
+ =?utf-8?B?OURHdC9YeUwwOE5qRDdIeXFWN0dodG5BR2V2MFBOMFlua2xTVHAwaFgrUFZL?=
+ =?utf-8?B?RFEzWUYwS2R1WGV6TnpEdUN5UjlyUmY3b0Y3V0dVN1h1a3ozbStURlNKQUlo?=
+ =?utf-8?B?dkxmYnREUVhXN2NzSTNXRE9SNmtKbXV2dTFRT3NPWmhFYWZIZGNFVW9mNlN5?=
+ =?utf-8?B?VGVmeHZFekZOQWJvczZ6OGczUHFOVlJVTlFDblBtcmRtWTZuUUp1TW14R3R6?=
+ =?utf-8?B?cyswamVDSmU2Z2lCeElmalFBUjc3d3NsMTdxaHBTTTJlZXgrSkVCN2dES1ZY?=
+ =?utf-8?B?NzFsQWhIMnJJZUdSTGN2Mkk2amQ1aTVsWEI1dFBzU0sxNTdyUGg1N3U0OGYx?=
+ =?utf-8?B?RHZFMFdhUkp2M0hHSTg1M1BRQ0ErQUFHWm9LMHJzV1djWHNCblJIR2UraXN6?=
+ =?utf-8?B?Tmh2MXJmS2o3enp0WU1raHl3ZkdnOGk0S0dleFdjeEFrY3UvbFJ4bXM1R0Vw?=
+ =?utf-8?B?SFl5WlVsdmh2MmxSZFF5eHlydVEvL2ZMRjBpS0VFZHJWSnlURWRVNWtDTmtj?=
+ =?utf-8?B?ZEhSK09CVXQ1RjZpaklXMTRxZlVUdFBvYTkyMSs1N21pUVJXUDNoK3VXTTJ2?=
+ =?utf-8?B?NytIRHpmaXdLdURtQWZkZXJWSjg4T3RiTkRTMUgreDZKU0RYUHdBZHc1eE1j?=
+ =?utf-8?B?QmZlN2R4S1BZMnVoWjhKZXlRMUNMN0c4UXd0bTA5UkprWktTSlQrYWtKZTNF?=
+ =?utf-8?B?MlNnTFI3Y05seTloMEtIdDJTWFhDYkZseG4zWEdjcFV1WUdWeHg0aGsvMjNl?=
+ =?utf-8?B?NUVqcTZ6MnVWcVY4d1JGRGVYaWFERVdDTFZNUzBwaVJSWjNibUJOYkxvZzhv?=
+ =?utf-8?B?RGZDL1hzSzlOWEVBbDFzOHJrNTkxMHRUYlRNZzl0YlJ0ZmhPYW5zZ0F0Rkt3?=
+ =?utf-8?B?aTRYL1I5emJEVGwvUlRuOHIySFFORlNoT3lLOG5hZlIvZkNOOHordzBaMklk?=
+ =?utf-8?B?NFQyRGY3alRPQW1uWllWaC9RaFlCMlVpWHNXSjhnV3JoamEzMkFvWGM2eHFE?=
+ =?utf-8?B?NnZkSHE2VG1yY09yTXhUVzZSVW05Vmk2SXVSd1Q4NmZYZkN3aVR6UDNKUkN6?=
+ =?utf-8?B?eDM0MjZKNzRYVWwvb3VzaGNNUnhYb2JFM0NaRjJPUm9HKzNDbHJqYXBydkdN?=
+ =?utf-8?B?aHVkMlFrTHYxTjBOamVaWXd2SUpJdjZoS3lCMkxjaHVzT25YUUUwRVJLUjAr?=
+ =?utf-8?Q?MP107jDg2yAQTpP+G1RjsFw25afQGhPh?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(366016)(376014)(1800799024)(7416014); DIR:OUT;
+ SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?maKNcepTZ/GhoIcoSk5SySqdnLzTox7vIDHmHetidIVtkMXgCnWodmzVJIh7?=
- =?us-ascii?Q?3VvLVrZqVpzzOngTw0wuiXNVkTXhQJzHqteq2ASMxz++K9hUeVAsfjn4o6pP?=
- =?us-ascii?Q?LN5I00iWIUcjh2F0884pGuSee0exLgqHMEdNzaXOXIizUCp1xvcCMPfoSMK8?=
- =?us-ascii?Q?4ImIIvCaHWtbG0BGcO8JSjcl3mN9V3P8DOG+Ko77fDiGP/OZ8lY8GTWB/7mb?=
- =?us-ascii?Q?B+oqLozh7NPVw1gIyjUdf6Joo2Vik8Pmvxj9SWsflK6ENiiPsmkWMcRoicbu?=
- =?us-ascii?Q?EqIC/LMMMri1/bAUXuD2UEambW/i052UKQFb8hFMWEl0wsUxJnzBTYidL8WT?=
- =?us-ascii?Q?SXorokbL+afXadQ6BrKZ6+Ms71LMZBtvqAxD59+Z3oRoegpXXOXhd+LBvNOA?=
- =?us-ascii?Q?O0rw4w0o8jwXxJsplHT3D8STso58weXsA/sc9zHASBmf5Iz27lsZswPsf3OE?=
- =?us-ascii?Q?uVi3DPxU5J29e1LNGE1TB9WturSmGz3yeGfFsDGTANcedW+BMObVKu3bL2d4?=
- =?us-ascii?Q?PzYH3mlvr07+zwrz7YY0ApfIr0lvtangFTZ1eeLtfpi5LXs9qe2koRcwLAy8?=
- =?us-ascii?Q?Boj6ZPASgTQPlX+bR5q7EMppsrn+N9CyiI2qwUcHSbJj+EiSs017+2OcAQm5?=
- =?us-ascii?Q?S4dZFlK3rJC2g2SF+Q5zv3jObTS4/6FH/aF/T7q9q9PqOnb8Bn/IabcgzcVb?=
- =?us-ascii?Q?vL0RHZwzs5Z/1pH4PlZjxTFyNlpfr32NIcyBZwCMBJeD0RZ4rLHJUVCTgvG/?=
- =?us-ascii?Q?TzUNrfPGwiqzakjds9jOdAP3XCsekSolAQZAUHq+pm9RMQGgFvtgEdFV6kIZ?=
- =?us-ascii?Q?nRm+CSpiEQcMXsRUVW+voevR+uAbvpgRjLT0e5W9czoMuCH9LWES1kvgy8k7?=
- =?us-ascii?Q?df7h0RRj1bWxJqakZoXzopIP64C79TfAP+2HPd6yMcFVyG4YBU3a00uTQWuC?=
- =?us-ascii?Q?9soLqgk584axDHKTPFdUZ/r1axMnZs3vYevgpTeGG36PWqN/JsIYdMrBkCTE?=
- =?us-ascii?Q?2J+O798gQhZy66nLeOv6o69f3XvAd8Q22eBbvzPXRfS7PAYRVm6/xKbKRCk5?=
- =?us-ascii?Q?aiofc0Uqjj/6wy1lFyhoGa8TF8vcC8Vh19uDhXcrZ+cdwJqa4HvYhLLqL8Ee?=
- =?us-ascii?Q?sJDWvcJE3jYHrIzMmyZ15DiRXORq9CHXCAAVhlhgHBDH2uAZ6N1orziDAU/0?=
- =?us-ascii?Q?RDnrbYsdy7fDOkfwIgNbbwUeJyc/rWtbH7MCTex+2gYa8/j4yAA8GZNYuwGK?=
- =?us-ascii?Q?y5ul4XuOdoRB/KIb7kdbIIUe7LEa0r56IRjmpNql58OKNXvZiN11pe/vm6X8?=
- =?us-ascii?Q?M13dxia9hL9FmFYEQKGMR2K9XH2TAKBksLeA1phug9krXJ6YlSgAY3eKv4wU?=
- =?us-ascii?Q?HncxAGYI0WRMYF8EKg4+ohUbABy2s/CPuA2SN2NKbo9ZFoojeEBNMqIOBc4L?=
- =?us-ascii?Q?QrRY+GHgPh+2wJOTWLL/nRzwhhPmjek1pOK42FfhzEmzXT+Vx/nmDXeWEXHI?=
- =?us-ascii?Q?wxZeLjkLEzwNABiyP8HM270cz3RMBqQb6EjdrjIXFyiUokytqD4nb1A/2BXH?=
- =?us-ascii?Q?u2dQrfr/0Y01kEeO5JOEWAENvzM0aNY+/Ts7M+F99UGyzAfLOeVs295fhepY?=
- =?us-ascii?Q?vw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25ddd2ba-0f60-4bdb-acd0-08de3219f363
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dTdWZUJabStyR1c1WGMxd1NmcDJObDV1ZUMwYitwU1JjbGF2TlVhYzNBSWF2?=
+ =?utf-8?B?amNSdTlEWm1WZzN6STgrN21laEI5NjhvRUVaY0VYNHc2Y3MrTHpvTndGRkFk?=
+ =?utf-8?B?WlBNNWpBZlpnZGIwa3RIdE1qWTU2ZzJhWSsxMWdCOStIUURkS2JnL1FWUzFS?=
+ =?utf-8?B?Z0ZSa1M2WXI0ZllBTk8xb05RZ3JIdTFuZlc3SEIzVFVoRVVBNytENmFpTTBG?=
+ =?utf-8?B?SEw5ZEh1N21WQ2VBN3VkMTBKZUtVMUNqSkE0OHRHcVVYSlhYOHkyNCs5Q1kr?=
+ =?utf-8?B?d1UwZTRNd0FVTkEyM0dPNTNXTDJGaW5SNFlvZk9KRmppNXNLUGQ4L2VWNVFk?=
+ =?utf-8?B?OXhvQUs1cEE5Rk1HREpmaFcrcU1hOXQ1MkVDaGY3emFMZ210L1RaQWZpbGYv?=
+ =?utf-8?B?UVg3WGFKMzgzWHFSNzlUR3lLblhWUTJab1NOcFFyOWtVdW4rVU1mMjVwODI3?=
+ =?utf-8?B?c3pqU2pQclBQcGJLTVBJZTJybFlIRmpUMU9abW1PK29JZE5odWFQcUpCVnJ0?=
+ =?utf-8?B?MDVmRThZRlUyTW1YVFkwR1UvbW4vMzFYc3lCS2xGeWp0NzhrZVZTYVpSZmIz?=
+ =?utf-8?B?QURkMjF4RmdIMGVRSytSUHppcE1Kb1NXbWlIVkwwbktGenJIQjBzeDd6bUI3?=
+ =?utf-8?B?SmE2WEhKU3ZaeHFLQjhtOG5zS1k3eEE4eDQxaDNrSXdSVHl0U0cwTldBMXdG?=
+ =?utf-8?B?RHFzQ0FZckZmTjVDUkR4NVN0WjlZd2tYNkRoOTFKMnAxczZUUUZINWRvNWRw?=
+ =?utf-8?B?a25lZ2tDVFo2VHNNVFRtUUwwOHJpNVc3VTl3VTRqcHMwdWY0VzdrZDF3dmox?=
+ =?utf-8?B?eVQyWE1sUFJHOU9DL1NBQkVwSG1XRElxMmhwdXNjOTlVYjR6S2ZyQnFPZk5F?=
+ =?utf-8?B?TnlZcU1zejVVdXF0VlJ4a3E2bFgxS1hhblZ5NnJVMTZUWjlSS1FObXB6VVN2?=
+ =?utf-8?B?eC81RTNpQWhrSGo5Um9IUlJQTVlJS2F6aDhtUHgxVHlOSDZ3SG9taUp6emRm?=
+ =?utf-8?B?eGFUdFJ4SUMzcmtkM3YwaCtaeVY5NkZtNXcrNis2TTJnazNXMi9icVZsd0gz?=
+ =?utf-8?B?T0JSMFBKdVY4V0I4ZFU2SDNIanV2S0FmSmM2Q1FtZk9pZWc2L3lLRWRHdUlV?=
+ =?utf-8?B?RU5sWWlpM1lEdng1KzVnTVVDMTN0N0tKNFowZ2VaWGU2K1QxdUw4TGs5cmlz?=
+ =?utf-8?B?VEZWUVI1VWp1S01wdDlyZ2hOVng3ZmwzUkdpRlF4ekpSckdLaHlWSGFVK0Zu?=
+ =?utf-8?B?TFFlN3F1OUpTV0dXUERWMytHVC9QL25ndnhTODlpYVNlT2NaMDUwazQ0emZN?=
+ =?utf-8?B?TURScHJ6SDdIS0pRNDRUYS9uNkJRZXBEMCtsT1BmYXFBcHBwRHcza09Dcldo?=
+ =?utf-8?B?N2JJdU1TRVpSbzNsUTNMSVRsYmFGeEl3clEwZ0hvU2YwdFdoVmlvdXlwT1ov?=
+ =?utf-8?B?Tlo3UUdyVC9aMnZWQUZSaEd2Y1FvSWcxcG13RXpieHRFc0VXMi9JbU1aWTFR?=
+ =?utf-8?B?dWlBT0srbjBKK3lLTXJXYXlpZ0MwTEpKZktuWnN0aU9uWm9KRzAraklnOU9o?=
+ =?utf-8?B?NHBhdW9kNHRDcHZUSkxYYVQreVhzUVNwNTVMeHBGdjNCWEpjeU9pZFg2M3RD?=
+ =?utf-8?B?QjVVbi9oVlhOeW5IS1Nla1RWOHpFbjZETFVEeVNtWnlGU09LSDV5V0RyV3pE?=
+ =?utf-8?B?UEZSaTBTYVlCWEF5Q21jVVBLSXluUDNVS291M0toR2pSQW9rc0tTQlJvcEFo?=
+ =?utf-8?B?cXFxVWtUZ0lOSU5LeVRvelE0N2drTzZmVmhlNHRkcVVnZUQ3dDMwSVM4NkZp?=
+ =?utf-8?B?Z1VYdFIwS3N1NDlRVmJWbE9PdkxKaUpaRWpDUkJIaDdNUjljRnRRcWVoZFBV?=
+ =?utf-8?B?ZU1CNEVDZ0pvR3FGN3Y4QmR3MkZsYzZ5TGk0aElReGVUdVNMQXdxVnRSZ3NM?=
+ =?utf-8?B?WnB3S0x5dWVCaWxHbC9ZSWZCR0ZjMGFkSjB5eHc3OWVwWWxxM2NtRXE2ZjNj?=
+ =?utf-8?B?K0J5eGlMbGQ4NXhUaDBjRTFORDhGRmFRL2kyZU5GQlpBK3piOVAwNDVQTzFF?=
+ =?utf-8?B?U1VoL3BCVzU4Z3F1cThvRDE4MERjQzVJVzFqRkdiRFp6dmlQeHpXRjBjeVA5?=
+ =?utf-8?B?MEt3ZDgzdXpWa05WNXpudStUclZiYlZCOENVNFdDZEJMai9VdzA4R2o1cXFW?=
+ =?utf-8?Q?wPnCAqY3XXyyOchsKWuM4lgtTXvyGhVOakmI4R2g+mdq?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86ee7ea3-0a19-4da6-b445-08de321c465a
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2025 03:13:37.3743 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2025 03:30:15.6121 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4RYvj5vaDNiuxq7lUh48ikPtVZpVe3d2jy01vSg653p5mIy4/Q6JnxQ5m7L5klnEm3y5FNuICPiO9XdcMsMFiw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB5967
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: aQSIcIq23Zb3wuITjRRkmDmHAMrsqDTWGZMISNsBI1czWw+HbkovcodzHT1hJoDLeynFHMSraAno8szKQLay3w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5715
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -183,86 +189,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 02, 2025 at 10:12:24PM +0000, Jonathan Cavitt wrote:
-> Add an address precision field to the pagefault consumer.  This captures
-> the fact that pagefaults are reported on a SZ_4K granularity by GuC,
-> meaning the reported pagefault address is only the address of the page
-> where the faulting access occurred rather than the exact address of the
-> fault.  This field is necessary in case more reporters are added where
-> the granularity can be different.
-> 
-> v2:
-> - Keep u8 values together (Matt Brost)
-> 
-> Suggested-by: Matthew Brost <matthew.brost@intel.com>
+On Sat Nov 29, 2025 at 3:17 AM JST, Daniel Almeida wrote:
+>
+>
+>> On 25 Nov 2025, at 22:16, Alexandre Courbot <acourbot@nvidia.com> wrote:
+>>=20
+>> On Wed Nov 26, 2025 at 3:16 AM JST, Joel Fernandes wrote:
+>>>=20
+>>>=20
+>>>> On Nov 25, 2025, at 9:52=E2=80=AFAM, Alexandre Courbot <acourbot@nvidi=
+a.com> wrote:
+>>>>=20
+>>>> =EF=BB=BFOn Wed Nov 12, 2025 at 2:13 AM JST, Joel Fernandes wrote:
+>>>>> Add Rust helper functions for common C linked list operations
+>>>>> that are implemented as macros or inline functions and thus not
+>>>>> directly accessible from Rust.
+>>>>>=20
+>>>>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+>>>>> ---
+>>>>> rust/helpers/helpers.c |  1 +
+>>>>> rust/helpers/list.c    | 32 ++++++++++++++++++++++++++++++++
+>>>>> 2 files changed, 33 insertions(+)
+>>>>> create mode 100644 rust/helpers/list.c
+>>>>>=20
+>>>>> diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
+>>>>> index 79c72762ad9c..634fa2386bbb 100644
+>>>>> --- a/rust/helpers/helpers.c
+>>>>> +++ b/rust/helpers/helpers.c
+>>>>> @@ -32,6 +32,7 @@
+>>>>> #include "io.c"
+>>>>> #include "jump_label.c"
+>>>>> #include "kunit.c"
+>>>>> +#include "list.c"
+>>>>> #include "maple_tree.c"
+>>>>> #include "mm.c"
+>>>>> #include "mutex.c"
+>>>>> diff --git a/rust/helpers/list.c b/rust/helpers/list.c
+>>>>> new file mode 100644
+>>>>> index 000000000000..fea2a18621da
+>>>>> --- /dev/null
+>>>>> +++ b/rust/helpers/list.c
+>>>>> @@ -0,0 +1,32 @@
+>>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>>> +
+>>>>> +/*
+>>>>> + * Helpers for C Circular doubly linked list implementation.
+>>>>> + */
+>>>>> +
+>>>>> +#include <linux/list.h>
+>>>>> +
+>>>>> +bool rust_helper_list_empty(const struct list_head *head)
+>>>>> +{
+>>>>> +    return list_empty(head);
+>>>>> +}
+>>>>> +
+>>>>> +void rust_helper_list_del(struct list_head *entry)
+>>>>> +{
+>>>>> +    list_del(entry);
+>>>>> +}
+>>>>> +
+>>>>> +void rust_helper_INIT_LIST_HEAD(struct list_head *list)
+>>>>> +{
+>>>>> +    INIT_LIST_HEAD(list);
+>>>>> +}
+>>>>> +
+>>>>> +void rust_helper_list_add(struct list_head *new, struct list_head *h=
+ead)
+>>>>> +{
+>>>>> +    list_add(new, head);
+>>>>> +}
+>>>>> +
+>>>>> +void rust_helper_list_add_tail(struct list_head *new, struct list_he=
+ad *head)
+>>>>> +{
+>>>>> +    list_add_tail(new, head);
+>>>>> +}
+>>>>=20
+>>>> Just noticed, but of these helpers only `INIT_LIST_HEAD` and
+>>>> `list_add_tail` seem to be used (in doccomments).
+>>>=20
+>>> Correct, but it makes sense to add the most obvious/common ones (also t=
+o make it clear that using these are supported).
+>>=20
+>> "It makes sense" is subjective, and in this case I am confident it is
+>> not the right intuition to add dead code just for the sake of it.
+>>=20
+>> Each of these helpers adds a potential breakage point from the C API
+>> should the latter change, so we should only add them if they are indeed
+>> necessary.
+>>=20
+>> Actually, some of these helpers are not used when they could have been -
+>> you have a `is_empty` method that rewrites the C function instead of
+>> calling the helper. The only helpers that are unjustified as of now as
+>> `list_add` and `list_del`, and these are easy to add when they become
+>> necessary.
+>>=20
+>> But this raises an interesting dilemma: these helpers cannot be inlined
+>> and add the overhead of a function call. On the other hand, the
+>> definition of `list_head` is so excessively simple that manipulating it
+>> directly is virtually as intuitive as invoking the helper - and doesn't
+>> bear the overhead. So should we double-down on these helpers, or just
+>> drop them completely and re-implement the list functionality we need for
+>> increased performance?
+>
+> IIRC, there is someone working to fix this overhead by working on LTO sup=
+port, or at
+> least I remember this talk at some iteration of Kangrejos.
+>
+> If you use the helpers, you=E2=80=99ll be covered in the future.
 
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Looks like the series has just been posted:
 
-> Signed-off-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> ---
->  drivers/gpu/drm/xe/xe_guc_pagefault.c   | 1 +
->  drivers/gpu/drm/xe/xe_pagefault.c       | 2 ++
->  drivers/gpu/drm/xe/xe_pagefault_types.h | 8 +++++++-
->  3 files changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/xe/xe_guc_pagefault.c b/drivers/gpu/drm/xe/xe_guc_pagefault.c
-> index 719a18187a31..79b790fedda8 100644
-> --- a/drivers/gpu/drm/xe/xe_guc_pagefault.c
-> +++ b/drivers/gpu/drm/xe/xe_guc_pagefault.c
-> @@ -74,6 +74,7 @@ int xe_guc_pagefault_handler(struct xe_guc *guc, u32 *msg, u32 len)
->  				      << PFD_VIRTUAL_ADDR_HI_SHIFT) |
->  		(FIELD_GET(PFD_VIRTUAL_ADDR_LO, msg[2]) <<
->  		 PFD_VIRTUAL_ADDR_LO_SHIFT);
-> +	pf.consumer.addr_precision = 12;
->  	pf.consumer.asid = FIELD_GET(PFD_ASID, msg[1]);
->  	pf.consumer.access_type = FIELD_GET(PFD_ACCESS_TYPE, msg[2]);
->  	pf.consumer.fault_type = FIELD_GET(PFD_FAULT_TYPE, msg[2]);
-> diff --git a/drivers/gpu/drm/xe/xe_pagefault.c b/drivers/gpu/drm/xe/xe_pagefault.c
-> index 0b625a52a598..47dec46515b5 100644
-> --- a/drivers/gpu/drm/xe/xe_pagefault.c
-> +++ b/drivers/gpu/drm/xe/xe_pagefault.c
-> @@ -231,6 +231,7 @@ static void xe_pagefault_print(struct xe_pagefault *pf)
->  {
->  	xe_gt_dbg(pf->gt, "\n\tASID: %d\n"
->  		  "\tFaulted Address: 0x%08x%08x\n"
-> +		  "\tAddress Precision: %lu\n"
->  		  "\tFaultType: %d\n"
->  		  "\tAccessType: %d\n"
->  		  "\tFaultLevel: %d\n"
-> @@ -239,6 +240,7 @@ static void xe_pagefault_print(struct xe_pagefault *pf)
->  		  pf->consumer.asid,
->  		  upper_32_bits(pf->consumer.page_addr),
->  		  lower_32_bits(pf->consumer.page_addr),
-> +		  BIT(pf->consumer.addr_precision),
->  		  pf->consumer.fault_type,
->  		  pf->consumer.access_type,
->  		  pf->consumer.fault_level,
-> diff --git a/drivers/gpu/drm/xe/xe_pagefault_types.h b/drivers/gpu/drm/xe/xe_pagefault_types.h
-> index d3b516407d60..333db12713ef 100644
-> --- a/drivers/gpu/drm/xe/xe_pagefault_types.h
-> +++ b/drivers/gpu/drm/xe/xe_pagefault_types.h
-> @@ -67,6 +67,12 @@ struct xe_pagefault {
->  		u64 page_addr;
->  		/** @consumer.asid: address space ID */
->  		u32 asid;
-> +		/**
-> +		 * @consumer.addr_precision: precision of the page fault address.
-> +		 * u8 rather than u32 to keep compact - actual precision is
-> +		 * BIT(consumer.addr_precision).  Currently only 12
-> +		 */
-> +		u8 addr_precision;
->  		/**
->  		 * @consumer.access_type: access type, u8 rather than enum to
->  		 * keep size compact
-> @@ -85,7 +91,7 @@ struct xe_pagefault {
->  		/** @consumer.engine_instance: engine instance */
->  		u8 engine_instance;
->  		/** consumer.reserved: reserved bits for future expansion */
-> -		u8 reserved[7];
-> +		u8 reserved[6];
->  	} consumer;
->  	/**
->  	 * @producer: State for the producer (i.e., HW/FW interface). Populated
-> -- 
-> 2.43.0
-> 
+https://lore.kernel.org/all/20251202-inline-helpers-v1-0-879dae33a66a@googl=
+e.com/
+
+... which I guess means we can/should use helpers whenever they are
+available then. Joel, please ignore my rant above (except the part about
+unused helpers) and feel free to use the C helpers whenever relevant. I
+think the argument about the structure of list_head not changing can
+also apply to the helper API.
