@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057D7C9E327
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 09:25:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52617C9E32F
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 09:26:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D53010E70A;
-	Wed,  3 Dec 2025 08:25:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF98710E730;
+	Wed,  3 Dec 2025 08:26:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YRdsc/jd";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hxQp9to0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C919810E70A
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 08:25:27 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14EC110E730
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 08:26:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 147D8601A1;
- Wed,  3 Dec 2025 08:25:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5549FC113D0;
- Wed,  3 Dec 2025 08:25:26 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id CBC1B40247;
+ Wed,  3 Dec 2025 08:26:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2320AC4CEFB;
+ Wed,  3 Dec 2025 08:26:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764750326;
- bh=GH9c445FS+Bv0QIjALZIfJHArmxubl1+AOj/4TvDSMY=;
+ s=k20201202; t=1764750364;
+ bh=kQH0iNlJjfHm8ahSferCnq1iMR6JIJxlEr3jmbGJC1k=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YRdsc/jdu/qfgYZWWSDhpKphjvRNhizrsU/lvzj1fi+ToHZBRMMfnWKVgoAHQ98n+
- rWHOFI+WWyXxbC/8OarLudb6VgaUfjI5LmmN9mmAoS+WBD541Fae4N1fry5ARqYKCe
- MwV8/epLbGzVe97rVdnvag/1vEQux8kEh+89NtX1mxaAUL10WQX2eqt5lbjb5BwgEf
- 5ZVh7fAXjq6QIFx6ymAZDpdEox6N8RHYl6LUfbkONTCMi3uql0DgrfWGOfa3khLkyP
- WhXVf1jafP23DnwSJGgrAjMtucn/9Utck32TghwRh/1emlK5YQeZcwjZGYsWC16Ihx
- gpBtFSKUzrJ0w==
-Date: Wed, 3 Dec 2025 09:25:24 +0100
+ b=hxQp9to0Wz6STcN87tihQHaro209dAaMLnQ0Z06U5rz/OzLojS+nppo3+q8uDSX66
+ ER8A47bsJCBZkEvByOIe7+ekh0GtUuoO/jRk61xT8qwY/n7yTlN1oEn7qrIOBH7J2w
+ ZLq2oEB7blYB6eCYdyx7FQcTpeOvecm0V6cmDzyiwNLMR36B/iTXh6gQy1Jg08nRBI
+ XvXYIUCreAyO8bI+Chyf2Jh9LeIDJtd/FeVdoEpWZWKHmkxfhZr5ZyhQ/ecrSWTGmI
+ WxCQ+Cd4y7W2GwD/S0PQKyourEhNCoCtccVS69hDDV9XnTMwhILYbxB50efaINpMZW
+ cY4+M18Bdls/A==
+Date: Wed, 3 Dec 2025 09:26:02 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
@@ -49,15 +49,15 @@ Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
  Magnus Damm <magnus.damm@gmail.com>, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 15/22] media: dt-bindings: media: renesas,vsp1: Document
- RZ/G3E
-Message-ID: <20251203-competent-hypnotic-roadrunner-3a4e5e@quoll>
+Subject: Re: [PATCH 16/22] media: dt-bindings: media: renesas,fcp: Document
+ RZ/G3E SoC
+Message-ID: <20251203-independent-accurate-ara-de6b7f@quoll>
 References: <cover.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
- <2483415f35dabe42ba3c35a0c50a3e9b28dd724a.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+ <7b30184db6564f61742594c83c3da072d15a2576.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <2483415f35dabe42ba3c35a0c50a3e9b28dd724a.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <7b30184db6564f61742594c83c3da072d15a2576.1764165783.git.tommaso.merciai.xr@bp.renesas.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,17 +73,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Nov 26, 2025 at 03:07:27PM +0100, Tommaso Merciai wrote:
-> The VSPD block on the RZ/G3E SoC is identical to the one found on the
+On Wed, Nov 26, 2025 at 03:07:28PM +0100, Tommaso Merciai wrote:
+> The FCPVD block on the RZ/G3E SoC is identical to the one found on the
 > RZ/G2L SoC.
 > 
-> No driver changes are required, as `renesas,r9a07g044-vsp2` will be used
-> as a fallback compatible string on the RZ/G3E SoC.
-
-Last statement is not necessary. The first one stating they are
-identical implies this. Also, this is mostly about bindings not drivers.
-If my other driver in other OS needs custom code for this compatible,
-does it invalidate the commit msg?
+> No driver changes are required, as `renesas,fcpv` will be used as a
+> fallback compatible string on the RZ/G3E SoC.
+> 
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/media/renesas,fcp.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
