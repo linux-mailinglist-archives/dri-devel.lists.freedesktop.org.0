@@ -2,184 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CEDCA1A52
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 22:13:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F1ECA1CC9
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 23:16:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 677B410E827;
-	Wed,  3 Dec 2025 21:13:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DC5310E151;
+	Wed,  3 Dec 2025 22:16:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="RBkmIRaM";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dBZzyRdt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C196410E820;
- Wed,  3 Dec 2025 21:13:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764796426; x=1796332426;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=8ChyjmL7mW9AVC4zBeCg2xdrY0960XIx28vlHnY2TeQ=;
- b=RBkmIRaMMZo3+54mfec+KlujLuEvoAYPtutcH0DcL+JtW412KE3nZOMN
- roSasc3hbdCO1FpG8mvjDqCG7iwwBsSiRn6TJOK4GRBfC9pQPszTLUB2k
- xE1C3n2p1CsNAAQzGi9MImla7uOVR5kjpHCNx4hQR14B0mrjCZvGSzcGI
- XpotFPLa2TiOw9EMZGm+r6WTgkmmNxzOAV3O/BQmKdE+C0QzZyufIcB1V
- 3UHe5WF/52s//822tXfLCAPwMLfqz5n1w/mryUszAqK6ttzPypkikcbGw
- I8P/FmQiR1eaIXIccB+HW9fIS266cIsBFsg5F58njYVQ+YKVfvfm2fPSP Q==;
-X-CSE-ConnectionGUID: nLDz6BDKQSSdhP/vFDMt9A==
-X-CSE-MsgGUID: N6fsTGRyTqySpOUqeRsMbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="78273681"
-X-IronPort-AV: E=Sophos;i="6.20,247,1758610800"; d="scan'208";a="78273681"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2025 13:13:46 -0800
-X-CSE-ConnectionGUID: yH97SYFARjOeVOwi3l82dA==
-X-CSE-MsgGUID: rGCYHRzRQWahnO0oTN02Lg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,247,1758610800"; d="scan'208";a="193871958"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Dec 2025 13:13:45 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 3 Dec 2025 13:13:44 -0800
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Wed, 3 Dec 2025 13:13:44 -0800
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.71) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 3 Dec 2025 13:13:44 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yfMZEYJtH5NMCa/MIFwuU2I8aeaOxp8Gr9LYCYNNpzGyERHWdX7dOhBGc9Tt3Z+6i/pBh/tZK74FBXKt/CROxLRgpbGmiMQkYkgf+HvP0QtkQwhf0EvzmOJIZ/vGqJrkr75OEVPEjmzfjryiA9dWEkM9LcL8725knM+ImkZZ+NhbASm/LZHW+OuKmRPmJPl4KujGBB8BWvOI1hCpbICzYjKYh1BNPp7GpvijmJE2mkyIJROjAcMlbV8yx4XYQoW4NMYZ9+kH8k+tosxB5ZFC+1IlU+5txwAwg3PIbXGwOJhAi4Wd9LttZR5xOMaZnjEW2+cdbDsaDv/XnpQepL7rUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dByNS3fkjDeDSjWCpsFuJ0aT2ZfiKPIS0W0jtDTpDV0=;
- b=M/q99Hr4bhnMJLV8mgp7OhS6V7c9ZijuMB5BF11N13wMFgkrITIMbj/sX55Fx5x8IhYGIJ7YT3hfEnte23LQj5yjNl2gTbolTHoKmAhoK8MLuZSCo7JmAkJICRxJMJDwBmpgIW/VfSuXjg5c7gFN5E3xAGZwmD9jdbsjdltc+nZ/yqyx6WH+Bst1XD+WEX0sLY86a/KegktW2bSJWX7VJ3kY9bx6HMRcPEOQsSjn1rb/d9J/zgCj3ZY07cEyDLx9IwY5hdntGRHf0hysWsWXijnaGpkZZMDVTJFpRKydTMpDOg3kJ2lbTH7VIC/bkdenmm7naqXtWF3Wa2NN4hfJqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
- by IA4PR11MB9323.namprd11.prod.outlook.com (2603:10b6:208:565::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.10; Wed, 3 Dec
- 2025 21:13:42 +0000
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563%6]) with mapi id 15.20.9388.003; Wed, 3 Dec 2025
- 21:13:42 +0000
-Date: Wed, 3 Dec 2025 16:13:35 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-CC: Andi Shyti <andi.shyti@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>, "Alex
- Deucher" <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- "Simona Vetter" <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
- "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>, Matthew Auld
- <matthew.auld@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, <linux-media@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>
-Subject: Re: [PATCH v2 4/8] drm/xe: Use dma_fence_check_and_signal_locked()
-Message-ID: <aTCn_1VHOOkvhxpS@intel.com>
-References: <20251201105011.19386-2-phasta@kernel.org>
- <20251201105011.19386-6-phasta@kernel.org>
- <aS3uycB40j2CptOf@lstrano-desk.jf.intel.com>
- <fdb7dhdrquapw4cb7oa23rpzl6dkzbnotc3otxntruf3a5hvca@szamkxwcjvfc>
- <aS9UWDA4jABUWB+W@lstrano-desk.jf.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <aS9UWDA4jABUWB+W@lstrano-desk.jf.intel.com>
-X-ClientProxiedBy: SJ0PR13CA0150.namprd13.prod.outlook.com
- (2603:10b6:a03:2c6::35) To CYYPR11MB8430.namprd11.prod.outlook.com
- (2603:10b6:930:c6::19)
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com
+ [209.85.160.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 69F3D10E151
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 22:16:26 +0000 (UTC)
+Received: by mail-oa1-f51.google.com with SMTP id
+ 586e51a60fabf-3e37ad3d95aso225052fac.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 14:16:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linuxfoundation.org; s=google; t=1764800185; x=1765404985;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/BQ+aq7QV9wwUu5JnIoDoUm9ffc2261+vDlHLPgQixY=;
+ b=dBZzyRdtIZO4iccSV/sdMjsZuUzemP1ybtmiVKw5ffikM4sBbGLUWg3DSgdeTHXeQ5
+ bF5Q7Wec9xNeCSOjO9n6z4Db3AMdv8px8BgESebJ1yUo43jtLdZcyIfriPR6rlF5gp85
+ bPN3GEQ1LzwDf3sYu5yUG03kxlnmfmaiA+VAQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764800185; x=1765404985;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/BQ+aq7QV9wwUu5JnIoDoUm9ffc2261+vDlHLPgQixY=;
+ b=jbuqDTSHGfpwIteq+loGHKguuZTQ7aOpRZLKBw6lY/GgEBk5vXXEoZO7PfCggJQop1
+ y1Z1ecK6Ab5rpQ+KkkJr7WuJVA1e4oDSlL899OaVE/D+LZOlVNkSj03wD+ENpP7yjVfR
+ Tig4N5vVBIbCa6s+6YygvO2uAtdOCJUipi+Jm9lbf3mJQNW0/H3VwKmksAwb2Hrj9FOm
+ vvKmp7GivlWmg3jrntAZoC7AoFM0Z5r1QkvEP11XAoL8MdtLocd9O+67Z/56xqU+sLem
+ xCTCY2HqJPCRz3mxlZQERRYuH8ku0NLhTJ0ruGaBt4OZXGeHrceGFwfQ2YKBUQROIFq6
+ 2Ndg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUoLBP1XS5g50lmrU//GhcypRzI/KNWanMSo5qQAzgR/WUULBMBMcknwnb/bU/a7saVqVCsdmLlV1Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywquz12w30QUvoX5QmSmRsUvuVRhzKJaombsBhRt+qv2PJXMMtw
+ skWKxZOMHdy17G10iiE4nUESaTYGraFNkS+AHzWRa0NompK1nGsN0rBOIwnCz1bw8E4=
+X-Gm-Gg: ASbGnctLFjs6MpJbFutvhk4A/wJGc9cN2sJdT2aATnCulHb16M35Lnsc87d3dsw6Ddl
+ 4stlBykSDWle+NtXm+6ZkmOffPm/8rnE+8B0KA+SYuqvtTr5QnqhGPqzhJ8u7B0yC8e+yh7WYfR
+ UtKC0O5awfS61fb9quw65yUc2UY6CBbaZspUKOmnSkAE6xfnsh53nezAoGuyOjKXBbZQBmplw9h
+ vetRhgUx5ZygXNIJjtBZ6OX1TeIy+Y1aWgDIWA4WOS60jdXt5wAa58x1kCEHV6AGXSKNZAzF8js
+ bn6GrNuREuRb+JK8rZv91r68U0g/aSC/Q9oamUwUiz5Zs8jp+AuZEVo+5Ud3xDRwqi4GePD9JH/
+ IRIV4oCrHXyaf5uIipFkb5AiXhj9zl53TkinFTAFFNYiMu5CWI+ZOgQPH
+X-Google-Smtp-Source: AGHT+IGLm/MMHH27TVNlqYSIvX9zWGRL2Q08ixVb50qRPPkAoiUKIhGS/PeUtokINd7b7Xw8Q53j8g==
+X-Received: by 2002:a05:6870:d607:b0:3ec:5a09:3014 with SMTP id
+ 586e51a60fabf-3f50634f9cemr438772fac.3.1764800185136; 
+ Wed, 03 Dec 2025 14:16:25 -0800 (PST)
+Received: from [192.168.1.14] ([38.175.187.108])
+ by smtp.gmail.com with ESMTPSA id
+ 586e51a60fabf-3f50aa34d4fsm15449fac.5.2025.12.03.14.16.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Dec 2025 14:16:24 -0800 (PST)
+Message-ID: <9d520a1d-0b8d-4d30-b29f-230fc0f92b8a@linuxfoundation.org>
+Date: Wed, 3 Dec 2025 15:16:24 -0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|IA4PR11MB9323:EE_
-X-MS-Office365-Filtering-Correlation-Id: fe724440-c03e-462f-d2b9-08de32b0d66f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?M6LlnGoUgdDkGNngR6R3lUCBprN2+eU3S5DEGT+hvOgk1FDEjE4RwuvS3tJp?=
- =?us-ascii?Q?NYyS78A0sICPWRAUNw71AzN66nR7iI0IH4JsBm2MG64vMwmaER7ZGQjYSoWF?=
- =?us-ascii?Q?VEEWyX2ibm2NAo4oUYIyb41Zvj8jMAA6ajk004OLuX0/lsHuTWCI8pZfr7v6?=
- =?us-ascii?Q?jZcUkivwCEtZ+Tn+oTxs5sgVsy5zDqji5XSFf8SoTkt+JOIhTivHweZMaYi9?=
- =?us-ascii?Q?17MepSWheIPR97qm4ekXdkrrFGAHeLJR3MkibplyzLY0PIqTeIBkwJQ8h1I1?=
- =?us-ascii?Q?jzgBDDEdMGSFaXIHt4aLLE1jJY6brjeo5IhP2kLhrMpKm4vzfVLxndYCrYC8?=
- =?us-ascii?Q?bJFVwGy9OroIhTR6l4viuceknXKZ9BSkUDgY/G+i5j5HcxhSl7MiNTvxfp46?=
- =?us-ascii?Q?aKEtJ90M/uQpcX97PWx1/jz7jonbHymQIj7Bi8MkGTg1TYnmNyAtd8oe6jSO?=
- =?us-ascii?Q?Med6ggSDgh63hRnoE/2QZxk+7LE75IHm8EICjgXksXZFTrdcY9ScKB+u4XwE?=
- =?us-ascii?Q?CL8aYtcWf8/IxYbPvF8UtbHu3rwK5mke6JIYZh0PdhJ/Arvr3MwfGAlK82js?=
- =?us-ascii?Q?VX73vzFlXZ/nZpmIK5WVarhYew7VuDcKwpfwHsrTKZ7+l+jKJcZu8KfoUMlu?=
- =?us-ascii?Q?7OIeqslljJ0zqo0YVvfyAUdCnwIywAV5gd5zBLXeERj3UmaICE0VKHOJSo41?=
- =?us-ascii?Q?0htDM/ENVEnDoUwHbLKi9meNVZcre9C+2EOlZ0stbS+4G2ZzDaGyEcYPg783?=
- =?us-ascii?Q?nKW6UCJDfEik8GP8vYt0PTyjTaalzdlWQ8YaPMeGQam6IbpQsEyon1mljNn7?=
- =?us-ascii?Q?52a6OMO+2gREtkYj3Nc8BqwxTxeaeF60GamSk9glu2JxJ6oN8LmlGBwNjHPZ?=
- =?us-ascii?Q?DKmj/NSbvFFsepBQxpxL/JmWxJNYnuvwEX1i346KJUqizSXCrej+k2gpjkn2?=
- =?us-ascii?Q?59ztzh4zTJusG2UHk6fDruAgEmV0RGeiNSy/e22VP/CXmgtEXnWLaK73i2fP?=
- =?us-ascii?Q?IaJYrRB1y5AiYkTf9D2WaQ2se9+RXXV6DoqoiUbj3AonuWyPYmhMylg043Qe?=
- =?us-ascii?Q?RRut9vKMAUid9DfGUGmqqE3mDxrTI/ut5nk84781s0/qsWqIOaIhsF81j87r?=
- =?us-ascii?Q?CQBHFm7Lqcr1+u/LBTzBKyG5Y9KWQDEU5NvPleOsaPpGgaAsRZ6haWKnxwqh?=
- =?us-ascii?Q?68HRSPOtjz+RKr9LWzPaXJsayMP7cMYRshvXj9L6lRb21l2l8ZPhkUxEjPOR?=
- =?us-ascii?Q?ZjFBRT5qBjiIJ3IUDzckfdFLYUCsFF35r2mdu1qL/YHKEvn/yfMA7Z9WjUO5?=
- =?us-ascii?Q?zMuAGDqQqf0r8VwEX3MGjOlvXlg42Dm8QIESwCP70P89t4kS2Q2RIWt5AnnH?=
- =?us-ascii?Q?8APMRvJ3GZ589P1MsqOcTLoWDBhuY/6fxKvYEnILT1s7WFz+hcwa074WdIyo?=
- =?us-ascii?Q?JSswSpkLXKsTF5BxdMocLRFkJJbhcLIr?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lof/zh4MBYPKgbwBhTbkABrZ02kQCzQzsEjwohHBrTD0k0EYMhMBuR90Gdbx?=
- =?us-ascii?Q?8+v9OgTw6MjcF/ud7fQf7aSIMf78JU2shIjPXVAYxJR+SApBZGbSnHnSL5eJ?=
- =?us-ascii?Q?b5UsxJ3F1ag6ip4Vf3dMSjvyxSNUmuMaQUeRhQT0Q6TMvFU7HcXFUYAO+xfT?=
- =?us-ascii?Q?HDdZy3fQxTj+u0/PR2zyVUCNsygxRgflfNP3HAmqHAqM0bP+0GHaRTXwZE2P?=
- =?us-ascii?Q?WyBka5g5Fv7SKcRT0VLHDSxtK08a12ZMyPLlPRaXFUWC7cnRnHOh2RzkaZRX?=
- =?us-ascii?Q?gtZ73XgcNUsA3xJ/7ACETaz+hIAJvQmsjsQbUdWpJQxUjzHsGlLt/+PGaSAj?=
- =?us-ascii?Q?h2tGVfsmiChE6wnV79ZPWSR7DN7HjBlltkx9WbaWHv2RslqVZOj8wVsdM3yl?=
- =?us-ascii?Q?8AU0GuOMMWFBaeD/UAV0IjSpkRSQ9bpb0onpoRpi9w92EmFitvfRW71oPpuK?=
- =?us-ascii?Q?KkneTRIMmnNxhfBdCAOPjUfTy9HFVziaqvuzxlQNvTbze47PtXrHIziQfRNs?=
- =?us-ascii?Q?FTQ2D7oCf0i7kyHRHDwOYabrLwsIDesET8GTrq/Rlbb3bXmhSsVcbDYlCmB4?=
- =?us-ascii?Q?NtPV0JMyqRf25M0L0k6E5mKzRp0xPtC7Ft7TD7tyghNtia+9xMuYGgHgJPlD?=
- =?us-ascii?Q?ZetElNITa5Zlra0ElNcu+dM3wEp1A9k66+5oJ4+diN7B9K62gtlHOtOwxqV1?=
- =?us-ascii?Q?gNE2b9dF0VEVapf4FmjXdct9NCDIWmzYZOdrXua3JJMGqUiSKDCuhfR4R4bC?=
- =?us-ascii?Q?ejNVThV7PEqmxPa8U9OTiK6FIUr3Ojp5qKYB/sQd0j1hF6THA7ICXJX6/g0h?=
- =?us-ascii?Q?AC/OUY8FoKhW5bROX8+Dea5SMwUXAIzcWrWobVdLEyZlLyo5UhFTBltoqYf4?=
- =?us-ascii?Q?K2vuS8jkU905kKQ4iVWl18j3XhzVBS6sFMUMEzQAU7dUshh801EGAvlhbpiA?=
- =?us-ascii?Q?1tV2avzzPRVlFWj/1DGB89jI0kSjaok6Gp2gjkX/SCEdPHD5VqWBCPCZrhrS?=
- =?us-ascii?Q?VoJZFYdbUiIZpw4sslIjc4qFYeQIKBl9yKxFTF53LYAhWGrsEKM/IZlTto09?=
- =?us-ascii?Q?Z/lRHIvLiS3xXF4dRO0qJwyOYXy5P3J8/+yzPNCY56M0omvkNxuDQqL82VQO?=
- =?us-ascii?Q?ZuHxL26fIXPgCmliCxSZ9cR0/GdysuCW+i8lXZxWH/iT5nBTKg75LgpUk5G6?=
- =?us-ascii?Q?bbs0UwRsycNUivSywMM/5DuoMhmOBKoI+LimwU7/3ooTjctLEFoqaGdrRXQB?=
- =?us-ascii?Q?xD15IW91QkeQGF2wdXOpuBg1rWc7rCeVDMA40OoDwFmboZ+sohR06eZ6m/nJ?=
- =?us-ascii?Q?GiXTn4X4R7oj4nKitj4ZtBMiCAEqIxJjof0/MegQXjyQK00QDEH5EoHsQwvF?=
- =?us-ascii?Q?IoofDMEqNoSeLRIuyzjKyTnuJBpeKRpEP/k/r/90zEM5iTLJe4VrdFnNPiZn?=
- =?us-ascii?Q?XitsS5SSyoTlSIb7kjvGkLH8/NW2R7JaaPJtfSRxUlSdTGCBJkqAtgthVO7I?=
- =?us-ascii?Q?inp6qssMAtMmDFFIa2hPTn8UVc4RM8CMVMQ+gK5DeFUNse8CuiV2VLztvV/j?=
- =?us-ascii?Q?8cQHNuYbuvBGdd8nM1FfTPopw73PrM30gXtIPGx0ZSw3FyODiHw7Fh74te1e?=
- =?us-ascii?Q?bw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fe724440-c03e-462f-d2b9-08de32b0d66f
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2025 21:13:42.8311 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Dk9xBBBRljgI5PYuHG/qBKBq5GkYHunm/PDyFxjlPeP+4iZdns61288zrykIZKZW9Vz7gI0Q19yXgLjT0IZJSQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9323
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: Linux 6.18 amdgpu build error
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Alexander Deucher <Alexander.Deucher@amd.com>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx@lists.freedesktop.org, dri-devel <dri-devel@lists.freedesktop.org>
+References: <74032153-813a-4a40-8363-cce264f4d5ea@linuxfoundation.org>
+ <1eb24816-530b-4470-8e58-ce7d8297996c@roeck-us.net>
+ <0425d7b4-76e4-4057-83a5-a7b17a051c54@linuxfoundation.org>
+ <ec77d11a-7613-4b75-8c9e-f2bba1595f0f@roeck-us.net>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <ec77d11a-7613-4b75-8c9e-f2bba1595f0f@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -195,40 +95,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 02, 2025 at 01:04:24PM -0800, Matthew Brost wrote:
-> On Tue, Dec 02, 2025 at 09:47:39PM +0100, Andi Shyti wrote:
-> > Hi Matt,
-> > 
-> > > > @@ -93,9 +92,8 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
-> > > >  		spin_lock_irqsave(&irq->lock, flags);
-> > > >  		list_for_each_entry_safe(fence, next, &irq->pending, irq_link) {
-> > > >  			list_del_init(&fence->irq_link);
-> > > > -			err = dma_fence_signal_locked(&fence->dma);
-> > > > +			XE_WARN_ON(dma_fence_check_and_signal_locked(&fence->dma));
-> > > 
-> > > I think XE_WARN_ON can compile out in certain builds. Best to leave warn on logic as is.
-> > 
-> > I don't think XE_WARN_ON compiles out. It should always evaluate
-> > the content, then, depending on the build, it prints debug logs.
+On 12/2/25 14:23, Guenter Roeck wrote:
+> On 12/2/25 13:01, Shuah Khan wrote:
+>> On 12/1/25 19:31, Guenter Roeck wrote:
+>>> On Mon, Dec 01, 2025 at 03:17:49PM -0700, Shuah Khan wrote:
+>>>> Hi Alex,
+>>>>
+>>>> I am seeing the following make error on Linux 6.18.
+>>>> I started seeing build failures since rc7 and rc6
+>>>> build was just fine on the same config file.
+>>>>
+>>>> LD [M]  drivers/gpu/drm/amd/amdgpu/amdgpu.o
+>>>> drivers/gpu/drm/amd/amdgpu/amdgpu.o: error: objtool: elf_init_reloc: .rela.orc_unwind_ip: reloc 39935 already initialized!
+>>>> make[6]: *** [scripts/Makefile.build:503: drivers/gpu/drm/amd/amdgpu/amdgpu.o] Error 255
+>>>> make[6]: *** Deleting file 'drivers/gpu/drm/amd/amdgpu/amdgpu.o'
+>>>> make[5]: *** [scripts/Makefile.build:556: drivers/gpu/drm/amd/amdgpu] Error 2
+>>>> make[4]: *** [scripts/Makefile.build:556: drivers/gpu/drm] Error 2
+>>>> make[3]: *** [scripts/Makefile.build:556: drivers/gpu] Error 2
+>>>> make[2]: *** [scripts/Makefile.build:556: drivers] Error 2
+>>>> make[1]: *** [/linux/linux_6.18/Makefile:2010: .] Error 2
+>>>> make: *** [Makefile:248: __sub-make] Error 2
+>>>>
+>>>> I tried "make clean" and "make distclean" just in case, still see
+>>>> the same error.
+>>>>
+>>>
+>>> My test system does not report any problems. What is the configuration
+>>> and compiler ?
+>>>
+>>
+>> My one test system didn't report any problems. The other one did.
+>> I am using gcc and the config is the same as the one used to build
+>> 6.18-rc6 with no issues.
+>>
+>> I will keep digging to find what's wrong on my system.
+>>
+>> gcc version 14.2.0 (Debian 14.2.0-19)
+>>
 > 
-> Ah, ok. I thought XE_WARN_ON was tied to a Kconfig to compile out or
-> WARN_ON (this is what XE_WARN_ON resolves) compiled out in some kernel
-> builds. Upon more looking, I guess neither of these is the case.
+> Interesting. That reminds me ... I used to have that kind of machine specific
+> problems when building with CONFIG_RANDSTRUCT enabled. I worked around it
+> by using gcc builds with plugin support disabled. In my case, there was
+> nothing wrong with the system, just that each system has a slightly different
+> hardware configuration which somehow influenced structure randomization, even
+> across "make clean/distclean".
 > 
-> So I guess this patch is actually:
-> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-and
+CONFIG_RANDSTRUCT is disabled and so are the GCC_PLUGINS in my config.
+I am also seeing issues with cloning kernel.org repos on my system after
+a recent update:
 
-Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+remote: Enumerating objects: 11177736, done.
+remote: Counting objects: 100% (1231/1231), done.
+remote: Compressing objects: 100% (624/624), done.
+remote: Total 11177736 (delta 855), reused 781 (delta 606), pack-reused 11176505 (from 1)
+Receiving objects: 100% (11177736/11177736), 3.01 GiB | 7.10 MiB/s, done.
+Resolving deltas: 100% (9198323/9198323), done.
+fatal: did not receive expected object 0002003e951b5057c16de5a39140abcbf6e44e50
+fatal: fetch-pack: invalid index-pack output
 
-if needed to merge through any other tree...
+Happy start to the end of the year :(
 
-> 
-> Sorry for the noise. Side note, we should probably just XE_WARN_ON too
-> since this is just WARN_ON.
-> 
-> Matt
-> 
-> > 
-> > Andi
+thanks,
+-- Shuah
+
