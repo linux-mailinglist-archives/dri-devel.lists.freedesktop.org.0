@@ -2,143 +2,166 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D551C9D735
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 01:46:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 305BAC9D7F1
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 02:24:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B5DE310E695;
-	Wed,  3 Dec 2025 00:46:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4A9210E527;
+	Wed,  3 Dec 2025 01:23:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="2GRiq290";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="fSvkdwEr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11012070.outbound.protection.outlook.com [40.107.209.70])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE63810E695
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 00:46:18 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A451010E051;
+ Wed,  3 Dec 2025 01:23:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764725031; x=1796261031;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=bnP/yCyw0xVWeB9dZwBhhbyvzNrXts+0iDCxCHkc1KE=;
+ b=fSvkdwErBoK/YDUY8nWtHkm3amEysD47yIxNJlu23Qgp5qO3pX29bSn7
+ CwYvZ7I3iyYLp+ACk50ps5IILq0XmQ9ssHp+o6lHo/fXtP8k5GEqHsfVA
+ Br9O1zpItHHJgbm363YL7c9Qd5tlCkF2Zgh4gDXERhJTCRl2tkJYiErTU
+ Pcb7u+uJv8GewXqLeG+7Rp8TdbCQP3kXp7XYQ+Avp57fAe1uNJseO3dvk
+ WypmY9t7v9hhDd3WxBtvKnFDyyJXuAdvwrgEwMZAcYhuOJtsFKT1rsJ2u
+ 0M614/EzeuSHDgFtAVSH+plNVlpSDvJvyT379MW9IGChDXK/l7U82rsVC A==;
+X-CSE-ConnectionGUID: m4gtINUlRFKg9kLg0RZVOQ==
+X-CSE-MsgGUID: XuAzV4L+TAWBnDwoSJ4/Mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="78177094"
+X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; d="scan'208";a="78177094"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2025 17:23:51 -0800
+X-CSE-ConnectionGUID: 1UaSzTVVTlm8SWLF7UXi+Q==
+X-CSE-MsgGUID: imqxGgOyTnyYmpHHqNwvJA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,244,1758610800"; d="scan'208";a="194768588"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Dec 2025 17:23:51 -0800
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Tue, 2 Dec 2025 17:23:50 -0800
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Tue, 2 Dec 2025 17:23:50 -0800
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.17)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Tue, 2 Dec 2025 17:23:50 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Id8ZgW23/hVFd0BGh6/KBfjJuo4p9oH2yRGxKRBlW3/ai3p5oFjRDCTThcGLpv28br2bJLwfsIiTWwjFIEIyW7Tm8DBDmrGlXNQoH33z7s3e+BCJKtaZ3/pPzQ6wvCjf/qNwS3zy+v3JRq3+yi8V92KTJXVGmgfjKTFoGmdJUF+jOnmOS5L6abW/85Xpkx7cffOnAo0u/gKKdBoBkXV/3Nb9D84B8wteOZsewV0PyZIkip5szHOXwgGmpLgfu9OHp132Q0m6hEBsVtKnLRqpQKNG0IKzeHMIU1BR4RzpgCEPt8kEEFK3YrEnk9rrMHPPOeAzIBPjFyAaZfaNyc6RnA==
+ b=ySsjcstBOZixd+JnrPiA2Za3c0Mqyb76DO31fBK5Vx5Gu2dJg6uhQ3nGDCpGIKii/zaR58QGxjdnMm9ntuNrFU9yFJSbE59NNMWT8b4muQRNEw5V+EMCByWTboOuwAoZKZy1RlawauQd7kwX5ySmBTraROQfZZIcgUhGrvRCDGw2w8aORFPWS93NXcgb7CSXaKSudDG3CGTb1b5Z4oa8x/Ys4pXeQeel27GV6ecQBVqf3XlbdOkhnN/k4RBBzQm+lghVnMbitIVuoJFVbQbGQ1S2RTAfwmNDUaagpWX+ZvTKB6fX9tOpDoVns/qsAZ6uKtRWsUWtzuWDO9yssoYFEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HQJuVvqpfDgx5pABEgLrxhcDXoWcaTMpwnTf4/0XwuU=;
- b=W/SNOhXtNs1EVEB0SUiFXBb5IZDXVFmOvqm+KV8yKAfR+ZzJHeXvHsrIT14JFNdFFEi6jSOEd0lXEBPMXq6M6rBa9WnooPnhhzRoxrAekCHdsqzIp5c06zcAYIfqjJXah7YQxyZItIgUF9DSE4OcqZmiKe/mLTKEheCIfbV9IM6SvncrmDGIc8IMgR2SNGoqUHMIc5zVBoauT20SZZ4qhWo7XWgPlRrfZJpz8ejW7qaIPnD0PL9ruTQQJGjcEW0N2gszpwB9kQnu1sX9MVyNRfNTxj5VD1tZRRXrHfcnCfePPJh4x5ogMfjreC8n3vGF4qEMT/v4Ib67GTUJACLjow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HQJuVvqpfDgx5pABEgLrxhcDXoWcaTMpwnTf4/0XwuU=;
- b=2GRiq290JNqHpmgo8U/UXo5Eo1AGlMxIP6zgQ5b3nN1Ny6OZ0rfpExG4lRq4pN+z4+nU5yoOPKRjVUPfYnxMTjyRKIcNyhRqbuPy8mwfhhWvnh0a0o2OpKspP25SHaR/WA1ydnzJEoqlJb/b8P+4c17NLUHF8Anqk0OYxjqEJSo=
-Received: from IA4P220CA0010.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:558::15)
- by MN0PR12MB5716.namprd12.prod.outlook.com (2603:10b6:208:373::14)
+ bh=2FKYls9XsQ7fuV+nuobnepU1nnrYXei/kGHMLEEr59E=;
+ b=SaO9BlEOyiMoD6XlH/2MVWr70K2uSucKSsdDADWdlqvVJU3mn43Saeh8wMuaOhRb1AziwMVegoGplmlAfEklT/dpk/vxz9eB3yCQYMr5uFCPDIPdTTxirwWLFOZPgkTRWmel0ZZkubu1gULaAMkTJ1YDJBt3rKyrKabwVYM9EiViGkArfCIDLeytYYuS5a9yYQUcBgyjqdh6cTAzovc+imLmk3EhfYjvebe2Md6ghg84Qq24jQ/RfoQN+fyp2jBqitMgH46LRiSMvXuSo/X8EiP/USjxw0NGTVo2lvPe33znjTJMc7w2lPBy0NaykXbTismxEWTiZjGvAQb+zBnLMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by CY8PR11MB7846.namprd11.prod.outlook.com (2603:10b6:930:79::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Wed, 3 Dec
- 2025 00:46:15 +0000
-Received: from BN2PEPF000044AC.namprd04.prod.outlook.com
- (2603:10b6:208:558:cafe::eb) by IA4P220CA0010.outlook.office365.com
- (2603:10b6:208:558::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.17 via Frontend Transport; Wed,
- 3 Dec 2025 00:46:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- BN2PEPF000044AC.mail.protection.outlook.com (10.167.243.107) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9388.8 via Frontend Transport; Wed, 3 Dec 2025 00:46:14 +0000
-Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 2 Dec
- 2025 18:46:14 -0600
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb09.amd.com
- (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 2 Dec
- 2025 16:46:14 -0800
-Received: from [172.19.71.207] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Tue, 2 Dec 2025 16:46:13 -0800
-Message-ID: <35d1255e-3f2a-b82a-f1a0-014dc7977cad@amd.com>
-Date: Tue, 2 Dec 2025 16:46:13 -0800
+ 2025 01:23:48 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9388.003; Wed, 3 Dec 2025
+ 01:23:47 +0000
+Date: Tue, 2 Dec 2025 17:23:45 -0800
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-xe@lists.freedesktop.org>
+CC: <dri-devel@lists.freedesktop.org>, <phasta@kernel.org>,
+ <christian.koenig@amd.com>, <dakr@kernel.org>
+Subject: Re: [PATCH v7 0/9] Fix DRM scheduler layering violations in Xe
+Message-ID: <aS+RIfD3mb7dAHRV@lstrano-desk.jf.intel.com>
+References: <20251201183954.852637-1-matthew.brost@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20251201183954.852637-1-matthew.brost@intel.com>
+X-ClientProxiedBy: MW4P221CA0029.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:303:8b::34) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V2] accel/amdxdna: Poll MPNPU_PWAITMODE after requesting
- firmware suspend
-Content-Language: en-US
-To: "Falkowski, Maciej" <maciej.falkowski@linux.intel.com>,
- <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
- <dri-devel@lists.freedesktop.org>
-CC: <linux-kernel@vger.kernel.org>, <max.zhen@amd.com>,
- <sonal.santan@amd.com>, <mario.limonciello@amd.com>
-References: <20251202165427.507414-1-lizhi.hou@amd.com>
- <da012e50-692b-4887-830f-d1884df2a4a9@linux.intel.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <da012e50-692b-4887-830f-d1884df2a4a9@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000044AC:EE_|MN0PR12MB5716:EE_
-X-MS-Office365-Filtering-Correlation-Id: 38e85d0f-d937-4cc8-71e3-08de32055cba
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|CY8PR11MB7846:EE_
+X-MS-Office365-Filtering-Correlation-Id: 83c80d7d-48a4-495e-67a7-08de320a9bcc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|1800799024|82310400026|376014|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WkhSbmkrdHJtVmdDL09vNVUwMU5OVHA3VlFZYXVqWU5kUm94SzExVG9Ua25q?=
- =?utf-8?B?c2FMUmhaaGNVU3llR3VLdjF3TjJxT094cDErUkF3YUhUV0RkdmdlRnNqYjJO?=
- =?utf-8?B?bGllTEZpNXBVM0NDSWh4elAwZzJTaDVSTUJ6NGJ4aGhTU1ZYNElBemh2UGRP?=
- =?utf-8?B?NkZGMit2WE56SVRnSmJZTzFPbHZRMGEzeHhmRWJlVEZzRUROb21HWmZReWJ4?=
- =?utf-8?B?TG9kK3ptS1N0cUZoVmFZVGJiclBoRTNkSnl6OTZUZTIrSlExUHJsWndFMkkv?=
- =?utf-8?B?cHdsZ1RCTU55ZkZUOW1OcHB0TnlPajMwR2pJVlFRUDhraWcxdEllam9VaFN0?=
- =?utf-8?B?T0pBZG02Zk1ZZXJHUTFmRytkWUtoSFBkdk5nS0h2NmpLUHJzNm52a2t2NThX?=
- =?utf-8?B?b1RNazYxVGFSSkRTeGVtR2tnRzlRN0M2eHRhb2xLazZPUlUxWFJjb0IwRWpX?=
- =?utf-8?B?dlN5T25qdG52WkpSRHZvRE5BcG5SNDFVc2xGZ2tVcnZmOXhiOVFydzRPS1gy?=
- =?utf-8?B?U3RzN25lL1IrYWZ3WXdxUkw4aTZ1NityTGdERUtOL3ljMm5lUlRxSXVuMUtF?=
- =?utf-8?B?a2dOQUVIYWY0bVFmM29vV3hmN2dJUzlQYmRlVkVQbE8yOHMvQm10MG1ySnpL?=
- =?utf-8?B?d0Uxd3BhckJlK3VyMkIrNWdVbHBNMmVETkxuQXVlUHZmeHhENXVMenlKMnVD?=
- =?utf-8?B?NHlOTjlXMTFjRnhpWDgxdHkrZ3ZDUDB1ZmdwK3FHVXZMK2hFY2g2VGhNaUdW?=
- =?utf-8?B?dm1DTHFIdk8rYUVKV0RzbytxRnBOYll1NDE4YlBmLzB1NWNpSFFwbjNXSjFo?=
- =?utf-8?B?d3BJYVhvYVA1RWNQbk1SSVljRkR3RnhielVtRUZOYlUvbm5sbnZmQ1psSUZm?=
- =?utf-8?B?UzdvUWVCOWVUVWNQS3diRW9QMjVSUlNaZGZIbGcva1BLUVlSSDdmem54aXFz?=
- =?utf-8?B?SXk3SFBGSGJZSHRodkZSTTJqdldZTVAzenZxcVNWQU1KYTJvWFRIdUNOOTVv?=
- =?utf-8?B?dnlMQ1VSTlJuTzQ0dE1jaDRBUDFwQS9Tc3VDYzl1KzQvN1pjcDJzOG9pb1Bz?=
- =?utf-8?B?RG5uUmFqbU1NTkZBR1hJZ1RYWnpNWVFkQ0pNYkZVNWxMWUU3ejFidlJHaDZG?=
- =?utf-8?B?ZExRL2tlUUcrOVVnK0k1SFgrU1V6cHRNUSs0ejBnMFNWa252UFh4NEVBRUFp?=
- =?utf-8?B?YmFDUUxzYW1CSCtzQ2VCZUtCdzY0N0s4cnZLVis2bllZcTV4eWRFanQ4b2s3?=
- =?utf-8?B?OEU3cFVTZDNNZzdPNFd2Z3U1REhJUEE0RkpkQlJjQmtuUDdZMmVUcWtWQ0dt?=
- =?utf-8?B?MlJDNFVsbTZwaG8yYi9SNEcyRkN4cUZ2eTFTK2VHRUp1M0hvUkdrSmw1UHJs?=
- =?utf-8?B?RmhndWxaeEZXb084Y1V5cC84dUtHWUh2UlFIY09tSE02alNVZUJCZVJtSlJC?=
- =?utf-8?B?UFEwV2lqR1FLTHlSa0ZzRXdyTEhHZUMybFl4c1lTdUZMOXRwamIzODlOUzlw?=
- =?utf-8?B?bnAyZ2xUNGhIS1JwVWNsbXU3TUpIYjlHMTRNcDQyK0VsSXg3SEh2SDd6VzM2?=
- =?utf-8?B?TjhKMDNTKzduU2I5RC9kQWc4MVZsSHYyS3M3Zk5QTDdTM3VXaVdEZVliemdQ?=
- =?utf-8?B?TmlwdTZSUXQwTU00RHl2UFR3NXVjcUY3R1dTS3RjYTV1cGMxSTlLYnpEcWU4?=
- =?utf-8?B?Zy9KMWduSWpiUit4VmluS3pmeE02bXpMc2FhOUQyaU9Ya0djSm9JRWtJZUMx?=
- =?utf-8?B?RXo0eExBc3RxN3J6anVHQ0Y3OTlDYVZFejg0MmdnYzN2aGxselVtdThxZWF5?=
- =?utf-8?B?am9uZjFOUnBJUlpub25zbVpwV05XM0Z6T1F3Tm1VN3pSekExY2loeWNhbkhk?=
- =?utf-8?B?RUFmZk1adFNVaklCRCsvclJLOVhtVWZPOGFLSUp3N0dvYU9yWXZkT2hwakwv?=
- =?utf-8?B?WDVhbHA1bkNydTdoWUdKRVlGNHgxckJqQSt2bkZZVm9ncXJYRG5KaFJNRmgy?=
- =?utf-8?B?RTllS2F4VW1YRlJjTG9mVmd3MlE0aFMzRXhUOEc0QzNZQWdrbW1XODVvUzBr?=
- =?utf-8?B?dzVnWlhxQVZQY1BsSis2STZXZnoyQ2pQUDdiZ2ZGeUFMcXdLNmVYV0RZUm9R?=
- =?utf-8?Q?wdMI=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(7053199007);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2025 00:46:14.4714 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38e85d0f-d937-4cc8-71e3-08de32055cba
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000044AC.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5716
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?KitN2jhIu2YlUGVQyeK6JwjQXgoAH3Z82dMZXzWB0OWEubNY2YYbB2+FYC2J?=
+ =?us-ascii?Q?nZUqVeYql0b1d1HC4uV9fxQf4cEcSDvq0XVVVCOeRRoMBYoGyVx30biUrMEn?=
+ =?us-ascii?Q?xDPvBWtbnBglJnVKPgUslIBAmY+RKoRuQC+57j5vl7SeX5ey0xjcm2zW488v?=
+ =?us-ascii?Q?FEP85X1C+9LZxAYXevtcNdiP1EKr3yvDWyCTnKmWrvitYYLrm8VuZ467qCP5?=
+ =?us-ascii?Q?OMxLs5xHzMw0/ZNV4xyBz57VRzRdk/dLySClM9kzdnilRdRaPljBfoqEd85I?=
+ =?us-ascii?Q?wRBAhqBKPShZz8d5+SIxHAF7JlYBVqV07aNoQdoskSOsxVCpWWJslsq3mhn5?=
+ =?us-ascii?Q?wMRM1th9/4Bh3kgFj9Ri+00hryrd16Xzh9dCoeL9UsKpldgsi6s0mG8uEy7z?=
+ =?us-ascii?Q?MtZ/Lv6MRxHQ4TYeH1MsDaEKWLa8pGsXw7SrsDaLoojga3GoG+cwJBW9MEYG?=
+ =?us-ascii?Q?cxAMoEuzrBl7jB5Cv08QFJNZvfUvhJ8bGJHA/UXVH9bl+OGVLtTAkOxOsj8e?=
+ =?us-ascii?Q?p+MrVbj4b0OF7RCAeHHvhnGdkxRi60aPrTNkDTW4IY8gWQMHYtQAi2rlBDdH?=
+ =?us-ascii?Q?1/mQFU87v5I9MYTY02C/oaT88XSl5d4Hpr/i2okkVzw0A9Y2TYUXjXm8DB+W?=
+ =?us-ascii?Q?Z48oitYt0AaT7kjjX7pj4od3/JKIkPQbcjS3Xq0NO/i+iFyMmJUQDhv3ENYU?=
+ =?us-ascii?Q?RjWaGyDywUkryphwrgSjfVS/xZHSvLHb1mptPpRTWErzk8u+gTVlP54m1Vz9?=
+ =?us-ascii?Q?mQHf893XSD7eo8PMMsGWUwWO2alah9NeIXV/OeWeHrvGCK5dyHmRR69n8Hea?=
+ =?us-ascii?Q?fHDVdCss66Xrs+/HKktNciOKGGZ1F5OFz4RrMh6i8U9b9nM6ZW/7T9JsKgf3?=
+ =?us-ascii?Q?moOJ60avKI8FqD7KheFR94wjq/9+lgQlLHObPxlOPVLeycy04ixXGujfqbjZ?=
+ =?us-ascii?Q?3TwbZiek1UlBxXR952o2ELaDsBe1shrja2haFziILc0UG+IDwRYEYCZ42DmU?=
+ =?us-ascii?Q?J4/2DNb7B82bK5MSz4sJxfOpNrEsOz9izeFxD0oYgUjgpgl8/SylFgZoS4gr?=
+ =?us-ascii?Q?MRCCfRxMsQMwONoK/iN+tYmv925ord2CDCz5laPlyBCoWbUI5mgXQrG3wey8?=
+ =?us-ascii?Q?egVlCJIl7hLWJh9MfRhjiYJU3CvnaVwddn8lZsEMjzGX4zAkMhjQXp56/e/g?=
+ =?us-ascii?Q?WXMzPFOwS5myq91A5w7qky8bCS6l/KvxASPGbdU8Adx/NGJlsxLLFLpKSD2N?=
+ =?us-ascii?Q?zBrOt8RJC7qW0mB+JXmIIGjjZI/QGFUTbFCMg/UjHa7Ia2HtT4Ch2pRfBX8i?=
+ =?us-ascii?Q?n/bDU+T6VTM63l5wTobhqADQNnj130pz5K28Q0TSxfSACue5Z/r4LJ0yUHpr?=
+ =?us-ascii?Q?Qy80PgWR51ldPAlkBR0TUEjwjc6e3/Bx4762hB+Ixj09VvzdzZLDkxe3eW+p?=
+ =?us-ascii?Q?ymnTOAhjTUKXLm+7JNZiIzSaCFnvyzCt?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?gsxuWSYTeEmTtpm0d6Ptgo7sGasqakud2RgVaAArYvLbvhfHBB2kdUxO/cmw?=
+ =?us-ascii?Q?MrL2TjTw0sM1lHXGh3bXv6yg20vw0gHtGm8+/cSz8SKFU1//CdtOtnRtbAfa?=
+ =?us-ascii?Q?QuksIxSjqyK5v9TKoCcPXvqQPJliHFPa3PJznwY6IeAWjkD6y4ZJEPNMd67g?=
+ =?us-ascii?Q?MRtmIHRnwDZq3EgPhxGOuY26RpEX1F78onZ3qxd5IAjXp9eghDgOetBZW4xQ?=
+ =?us-ascii?Q?y5GB/pPJAhgX3wfiH7imPOy1Ka+1BLwwgYXpcfz+mwAwCBrYrlIMUbExlDqL?=
+ =?us-ascii?Q?v0Fqp6OFexYOnEzNOATC2z9dOo1/+bz4k+BmezQbfLthd218QcPjpbyQi252?=
+ =?us-ascii?Q?yhe/nC6GUSLEmENcWwvFG88CPiCWDfSKMZ70GIjdOnh5KDomnvlWmOT6Axqe?=
+ =?us-ascii?Q?p1Ct48jigRiViUH9DPYgxw54f1cQVBZe+QnnAFyN5ngSPBp/sUPI+IAxTtAj?=
+ =?us-ascii?Q?T155am+RRBUP3ugMf1neBUMnnJaON0LoD8sDKo9IazgjeFp1gXErP+3VviY2?=
+ =?us-ascii?Q?HFeQMiTpjBmRAFl4InqDvJXcEV1inZGuhQWzXE/g2rWSbzp4q/VAB11oBjzj?=
+ =?us-ascii?Q?uuDrHxC2fvjeJdIvMctiRIuCWt7VLWm3ftFBUZeNFnClYJa72ey3ZdEkWGO1?=
+ =?us-ascii?Q?87twL31ohsF9WBWQOglKYjY457AAQHq7itdo03BscspxnyMePqlJhS8/4UEV?=
+ =?us-ascii?Q?WeFjf24bKp+3+01V9ZuYztqY1M6SMDWHi3BPijwwDVoKWh0eNYU98QrZGSJn?=
+ =?us-ascii?Q?mAVrF5GajtzBmEHADhFPYjJSfzPQ2XnLSzwrrvojS4/L2nle/8xuUsmsLbRP?=
+ =?us-ascii?Q?bn3D5C4hJkzSYQi2+75j7GC58J3tj8JyLa9NmbfV8aytQewjwg0c3mJATVX0?=
+ =?us-ascii?Q?tiZHL0T/5dSdhbOOKw+QnnbLZgj00mCsfmWWkZoIdDivQ6+R4J2zs5KroLp/?=
+ =?us-ascii?Q?CoQ6XlPCoFEnuKTTG3ZB0SfRKOhdnCvg5U22Uh4fazUvF9ZD10vaEb5KpoQv?=
+ =?us-ascii?Q?U4ABF2vBZiP78xTP1sMNNro7oX8hSgYcW455dlDxEnlznMYCgYXL+ZmeHcPC?=
+ =?us-ascii?Q?6YoUUdG4GReVssc3+KUdhsRvAxgBoSzuoh/vasBzQuuECNvcFdlzLXNd+E8g?=
+ =?us-ascii?Q?8YG4w+AgqY1tIcqYJR8sCigACBmiqh0U4fZhxKpXPW5JAOFfR6grxvrXFzJq?=
+ =?us-ascii?Q?DtFccpNDontOtZUj8m3aaou9zLzL8qAXYk1+P6yI8fYZ1y07y/vruAcE/MNP?=
+ =?us-ascii?Q?K11PmTCvtxRf060ijvOjNy7NkjCyst0883H4UWG+zIHpbvoxgb4zKg594Flg?=
+ =?us-ascii?Q?RGjqVy3N3iz+RLi1t6sRnnePP0KG81hSrIzVdrD3jGtv4a65ghPse1iUh4qc?=
+ =?us-ascii?Q?byxtDX8GQC90KSbSsMt06o9ZZkakVbunUGYA45zbiYNSQtjHotTnoL1T1SYd?=
+ =?us-ascii?Q?zhvoWDbxVii5Mx8xvk+dxBy4jQAL1Qd6/CeX/CnsQVNAYpJJAwoCmslTzX2a?=
+ =?us-ascii?Q?onUUNUe8mGR7guIWa/Jd3fgCA8nrY/B8A8sUvjkpsjdaoXDeGSBlnY7XDiOB?=
+ =?us-ascii?Q?Baaugni2Vg7JJHB8jYw95JjeKUkdPVFYRauXGMtbt1up4txnUl1PIGLxAXfo?=
+ =?us-ascii?Q?tg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83c80d7d-48a4-495e-67a7-08de320a9bcc
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2025 01:23:47.9070 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: khrwRF9OsB/Fnq+MUPDlqERQhulWjA3SZk4Pm6Qq9kxJ13a1h83RJ3pnIhMPIdhmKp22k6ZXF3fNYEkPYlRXCQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7846
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,216 +177,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied to drm-misc-next.
+On Mon, Dec 01, 2025 at 10:39:45AM -0800, Matthew Brost wrote:
 
-On 12/2/25 09:29, Falkowski, Maciej wrote:
-> Reviewed-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
->
-> On 12/2/2025 5:54 PM, Lizhi Hou wrote:
->> After issuing a firmware suspend request, the driver must ensure that 
->> the
->> suspend operation has completed before proceeding. Add polling of the
->> MPNPU_PWAITMODE register to confirm that the firmware has fully entered
->> the suspended state. This prevents race conditions where subsequent
->> operations assume the firmware is idle before it has actually completed
->> its suspend sequence.
->>
->> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
->> ---
->>   drivers/accel/amdxdna/aie2_message.c |  9 ++++++++-
->>   drivers/accel/amdxdna/aie2_pci.h     |  2 ++
->>   drivers/accel/amdxdna/aie2_psp.c     | 15 +++++++++++++++
->>   drivers/accel/amdxdna/npu1_regs.c    |  2 ++
->>   drivers/accel/amdxdna/npu2_regs.c    |  2 ++
->>   drivers/accel/amdxdna/npu4_regs.c    |  2 ++
->>   drivers/accel/amdxdna/npu5_regs.c    |  2 ++
->>   drivers/accel/amdxdna/npu6_regs.c    |  2 ++
->>   8 files changed, 35 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/accel/amdxdna/aie2_message.c 
->> b/drivers/accel/amdxdna/aie2_message.c
->> index d493bb1c3360..fee3b0627aba 100644
->> --- a/drivers/accel/amdxdna/aie2_message.c
->> +++ b/drivers/accel/amdxdna/aie2_message.c
->> @@ -59,8 +59,15 @@ static int aie2_send_mgmt_msg_wait(struct 
->> amdxdna_dev_hdl *ndev,
->>   int aie2_suspend_fw(struct amdxdna_dev_hdl *ndev)
->>   {
->>       DECLARE_AIE2_MSG(suspend, MSG_OP_SUSPEND);
->> +    int ret;
->>   -    return aie2_send_mgmt_msg_wait(ndev, &msg);
->> +    ret = aie2_send_mgmt_msg_wait(ndev, &msg);
->> +    if (ret) {
->> +        XDNA_ERR(ndev->xdna, "Failed to suspend fw, ret %d", ret);
->> +        return ret;
->> +    }
->> +
->> +    return aie2_psp_waitmode_poll(ndev->psp_hdl);
->>   }
->>     int aie2_resume_fw(struct amdxdna_dev_hdl *ndev)
->> diff --git a/drivers/accel/amdxdna/aie2_pci.h 
->> b/drivers/accel/amdxdna/aie2_pci.h
->> index a5f9c42155d1..cc9f933f80b2 100644
->> --- a/drivers/accel/amdxdna/aie2_pci.h
->> +++ b/drivers/accel/amdxdna/aie2_pci.h
->> @@ -70,6 +70,7 @@ enum psp_reg_idx {
->>       PSP_INTR_REG = PSP_NUM_IN_REGS,
->>       PSP_STATUS_REG,
->>       PSP_RESP_REG,
->> +    PSP_PWAITMODE_REG,
->>       PSP_MAX_REGS /* Keep this at the end */
->>   };
->>   @@ -290,6 +291,7 @@ int aie2_pm_set_mode(struct amdxdna_dev_hdl 
->> *ndev, enum amdxdna_power_mode_type
->>   struct psp_device *aie2m_psp_create(struct drm_device *ddev, struct 
->> psp_config *conf);
->>   int aie2_psp_start(struct psp_device *psp);
->>   void aie2_psp_stop(struct psp_device *psp);
->> +int aie2_psp_waitmode_poll(struct psp_device *psp);
->>     /* aie2_error.c */
->>   int aie2_error_async_events_alloc(struct amdxdna_dev_hdl *ndev);
->> diff --git a/drivers/accel/amdxdna/aie2_psp.c 
->> b/drivers/accel/amdxdna/aie2_psp.c
->> index f28a060a8810..3a7130577e3e 100644
->> --- a/drivers/accel/amdxdna/aie2_psp.c
->> +++ b/drivers/accel/amdxdna/aie2_psp.c
->> @@ -76,6 +76,21 @@ static int psp_exec(struct psp_device *psp, u32 
->> *reg_vals)
->>       return 0;
->>   }
->>   +int aie2_psp_waitmode_poll(struct psp_device *psp)
->> +{
->> +    struct amdxdna_dev *xdna = to_xdna_dev(psp->ddev);
->> +    u32 mode_reg;
->> +    int ret;
->> +
->> +    ret = readx_poll_timeout(readl, PSP_REG(psp, PSP_PWAITMODE_REG), 
->> mode_reg,
->> +                 (mode_reg & 0x1) == 1,
->> +                 PSP_POLL_INTERVAL, PSP_POLL_TIMEOUT);
->> +    if (ret)
->> +        XDNA_ERR(xdna, "fw waitmode reg error, ret %d", ret);
->> +
->> +    return ret;
->> +}
->> +
->>   void aie2_psp_stop(struct psp_device *psp)
->>   {
->>       u32 reg_vals[PSP_NUM_IN_REGS] = { PSP_RELEASE_TMR, };
->> diff --git a/drivers/accel/amdxdna/npu1_regs.c 
->> b/drivers/accel/amdxdna/npu1_regs.c
->> index ec407f3b48fc..ebc6e2802297 100644
->> --- a/drivers/accel/amdxdna/npu1_regs.c
->> +++ b/drivers/accel/amdxdna/npu1_regs.c
->> @@ -13,6 +13,7 @@
->>   #include "amdxdna_pci_drv.h"
->>     /* Address definition from NPU1 docs */
->> +#define MPNPU_PWAITMODE            0x3010034
->>   #define MPNPU_PUB_SEC_INTR        0x3010090
->>   #define MPNPU_PUB_PWRMGMT_INTR        0x3010094
->>   #define MPNPU_PUB_SCRATCH2        0x30100A0
->> @@ -92,6 +93,7 @@ static const struct amdxdna_dev_priv npu1_dev_priv = {
->>           DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU1_PSP, 
->> MPNPU_PUB_SEC_INTR),
->>           DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU1_PSP, 
->> MPNPU_PUB_SCRATCH2),
->>           DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU1_PSP, 
->> MPNPU_PUB_SCRATCH3),
->> +        DEFINE_BAR_OFFSET(PSP_PWAITMODE_REG, NPU1_PSP, 
->> MPNPU_PWAITMODE),
->>       },
->>       .smu_regs_off   = {
->>           DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU1_SMU, MPNPU_PUB_SCRATCH5),
->> diff --git a/drivers/accel/amdxdna/npu2_regs.c 
->> b/drivers/accel/amdxdna/npu2_regs.c
->> index 86f87d0d1354..ad0743fb06d5 100644
->> --- a/drivers/accel/amdxdna/npu2_regs.c
->> +++ b/drivers/accel/amdxdna/npu2_regs.c
->> @@ -13,6 +13,7 @@
->>   #include "amdxdna_pci_drv.h"
->>     /* NPU Public Registers on MpNPUAxiXbar (refer to Diag 
->> npu_registers.h) */
->> +#define MPNPU_PWAITMODE                0x301003C
->>   #define MPNPU_PUB_SEC_INTR             0x3010060
->>   #define MPNPU_PUB_PWRMGMT_INTR         0x3010064
->>   #define MPNPU_PUB_SCRATCH0             0x301006C
->> @@ -85,6 +86,7 @@ static const struct amdxdna_dev_priv npu2_dev_priv = {
->>           DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU2_PSP, MP0_C2PMSG_73),
->>           DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU2_PSP, MP0_C2PMSG_123),
->>           DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU2_REG, 
->> MPNPU_PUB_SCRATCH3),
->> +        DEFINE_BAR_OFFSET(PSP_PWAITMODE_REG, NPU2_REG, 
->> MPNPU_PWAITMODE),
->>       },
->>       .smu_regs_off   = {
->>           DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU2_SMU, MP1_C2PMSG_0),
->> diff --git a/drivers/accel/amdxdna/npu4_regs.c 
->> b/drivers/accel/amdxdna/npu4_regs.c
->> index 986a5f28ba24..4ca21db70478 100644
->> --- a/drivers/accel/amdxdna/npu4_regs.c
->> +++ b/drivers/accel/amdxdna/npu4_regs.c
->> @@ -13,6 +13,7 @@
->>   #include "amdxdna_pci_drv.h"
->>     /* NPU Public Registers on MpNPUAxiXbar (refer to Diag 
->> npu_registers.h) */
->> +#define MPNPU_PWAITMODE                0x301003C
->>   #define MPNPU_PUB_SEC_INTR             0x3010060
->>   #define MPNPU_PUB_PWRMGMT_INTR         0x3010064
->>   #define MPNPU_PUB_SCRATCH0             0x301006C
->> @@ -116,6 +117,7 @@ static const struct amdxdna_dev_priv 
->> npu4_dev_priv = {
->>           DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU4_PSP, MP0_C2PMSG_73),
->>           DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU4_PSP, MP0_C2PMSG_123),
->>           DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU4_REG, 
->> MPNPU_PUB_SCRATCH3),
->> +        DEFINE_BAR_OFFSET(PSP_PWAITMODE_REG, NPU4_REG, 
->> MPNPU_PWAITMODE),
->>       },
->>       .smu_regs_off   = {
->>           DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU4_SMU, MP1_C2PMSG_0),
->> diff --git a/drivers/accel/amdxdna/npu5_regs.c 
->> b/drivers/accel/amdxdna/npu5_regs.c
->> index 75ad97f0b937..131080652ef0 100644
->> --- a/drivers/accel/amdxdna/npu5_regs.c
->> +++ b/drivers/accel/amdxdna/npu5_regs.c
->> @@ -13,6 +13,7 @@
->>   #include "amdxdna_pci_drv.h"
->>     /* NPU Public Registers on MpNPUAxiXbar (refer to Diag 
->> npu_registers.h) */
->> +#define MPNPU_PWAITMODE                0x301003C
->>   #define MPNPU_PUB_SEC_INTR             0x3010060
->>   #define MPNPU_PUB_PWRMGMT_INTR         0x3010064
->>   #define MPNPU_PUB_SCRATCH0             0x301006C
->> @@ -85,6 +86,7 @@ static const struct amdxdna_dev_priv npu5_dev_priv = {
->>           DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU5_PSP, MP0_C2PMSG_73),
->>           DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU5_PSP, MP0_C2PMSG_123),
->>           DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU5_REG, 
->> MPNPU_PUB_SCRATCH3),
->> +        DEFINE_BAR_OFFSET(PSP_PWAITMODE_REG, NPU5_REG, 
->> MPNPU_PWAITMODE),
->>       },
->>       .smu_regs_off   = {
->>           DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU5_SMU, MP1_C2PMSG_0),
->> diff --git a/drivers/accel/amdxdna/npu6_regs.c 
->> b/drivers/accel/amdxdna/npu6_regs.c
->> index 758dc013fe13..1f71285655b2 100644
->> --- a/drivers/accel/amdxdna/npu6_regs.c
->> +++ b/drivers/accel/amdxdna/npu6_regs.c
->> @@ -13,6 +13,7 @@
->>   #include "amdxdna_pci_drv.h"
->>     /* NPU Public Registers on MpNPUAxiXbar (refer to Diag 
->> npu_registers.h) */
->> +#define MPNPU_PWAITMODE                0x301003C
->>   #define MPNPU_PUB_SEC_INTR             0x3010060
->>   #define MPNPU_PUB_PWRMGMT_INTR         0x3010064
->>   #define MPNPU_PUB_SCRATCH0             0x301006C
->> @@ -85,6 +86,7 @@ static const struct amdxdna_dev_priv npu6_dev_priv = {
->>           DEFINE_BAR_OFFSET(PSP_INTR_REG,   NPU6_PSP, MP0_C2PMSG_73),
->>           DEFINE_BAR_OFFSET(PSP_STATUS_REG, NPU6_PSP, MP0_C2PMSG_123),
->>           DEFINE_BAR_OFFSET(PSP_RESP_REG,   NPU6_REG, 
->> MPNPU_PUB_SCRATCH3),
->> +        DEFINE_BAR_OFFSET(PSP_PWAITMODE_REG, NPU6_REG, 
->> MPNPU_PWAITMODE),
->>       },
->>       .smu_regs_off   = {
->>           DEFINE_BAR_OFFSET(SMU_CMD_REG,  NPU6_SMU, MP1_C2PMSG_0),
+Fellow DRM sched maintainers - going to merge the first two patches in
+this series to drm-misc-next two days from now unless I hear an
+objection.
+
+Matt 
+
+> At XDC, we discussed that drivers should avoid accessing DRM scheduler
+> internals, misusing DRM scheduler locks, and adopt a well-defined
+> pending job list iterator. This series proposes the necessary changes to
+> the DRM scheduler to bring Xe in line with that agreement and updates Xe
+> to use the new DRM scheduler API.
+> 
+> While here, cleanup LR queue handling and simplify GuC state machine in
+> Xe too. Also rework LRC timestamp sampling to avoid scheduling toggle.
+> 
+> v2:
+>  - Fix checkpatch / naming issues
+> v3:
+>  - Only allow pending job list iterator to be called on stopped schedulers
+>  - Cleanup LR queue handling / fix a few misselanous Xe scheduler issues
+> v4:
+>  - Address Niranjana's feedback
+>  - Add patch to avoid toggling scheduler state in the TDR
+> v5:
+>  - Rebase
+>  - Fixup LRC timeout check (Umesh)
+> v6:
+>  - Fix VF bugs (Testing)
+> v7:
+>  - Disable timestamp WA on VF
+> 
+> Matt
+> 
+> Matthew Brost (9):
+>   drm/sched: Add several job helpers to avoid drivers touching scheduler
+>     state
+>   drm/sched: Add pending job list iterator
+>   drm/xe: Add dedicated message lock
+>   drm/xe: Stop abusing DRM scheduler internals
+>   drm/xe: Only toggle scheduling in TDR if GuC is running
+>   drm/xe: Do not deregister queues in TDR
+>   drm/xe: Remove special casing for LR queues in submission
+>   drm/xe: Disable timestamp WA on VFs
+>   drm/xe: Avoid toggling schedule state to check LRC timestamp in TDR
+> 
+>  drivers/gpu/drm/scheduler/sched_main.c       |   4 +-
+>  drivers/gpu/drm/xe/xe_gpu_scheduler.c        |   9 +-
+>  drivers/gpu/drm/xe/xe_gpu_scheduler.h        |  37 +-
+>  drivers/gpu/drm/xe/xe_gpu_scheduler_types.h  |   2 +
+>  drivers/gpu/drm/xe/xe_guc_exec_queue_types.h |   2 -
+>  drivers/gpu/drm/xe/xe_guc_submit.c           | 362 +++----------------
+>  drivers/gpu/drm/xe/xe_guc_submit_types.h     |  11 -
+>  drivers/gpu/drm/xe/xe_hw_fence.c             |  16 -
+>  drivers/gpu/drm/xe/xe_hw_fence.h             |   2 -
+>  drivers/gpu/drm/xe/xe_lrc.c                  |  45 ++-
+>  drivers/gpu/drm/xe/xe_lrc.h                  |   3 +-
+>  drivers/gpu/drm/xe/xe_ring_ops.c             |  25 +-
+>  drivers/gpu/drm/xe/xe_sched_job.c            |   1 +
+>  drivers/gpu/drm/xe/xe_sched_job_types.h      |   2 +
+>  drivers/gpu/drm/xe/xe_trace.h                |   5 -
+>  include/drm/gpu_scheduler.h                  |  82 +++++
+>  16 files changed, 211 insertions(+), 397 deletions(-)
+> 
+> -- 
+> 2.34.1
+> 
