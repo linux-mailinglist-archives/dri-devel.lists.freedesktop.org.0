@@ -2,86 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20952C9E87C
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 10:42:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5939C9E930
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 10:48:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5E86110E760;
-	Wed,  3 Dec 2025 09:42:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1429D10E125;
+	Wed,  3 Dec 2025 09:48:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Zqtoq8U4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fuyRMsm8";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X9cUt+eC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YFsQ3v2b";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="q9ggn/Uk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Hevzi5jK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fl6oD9YP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yyrXVf2j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE0D010E77B
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 09:42:06 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF63910E125
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 09:48:35 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id AFBBB336E9;
- Wed,  3 Dec 2025 09:42:02 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 1A40A336F3;
+ Wed,  3 Dec 2025 09:48:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764754924; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1764755313; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HNogu28+nMbkqHQWDkw8EgSzkH9UCz9OV9jGTyCGXG4=;
- b=Zqtoq8U4KNDHb7Xw38OMwOP/J46KYrIXU8MP1q45YkumtSsjETbNILXcK2qhv3vVpbrgCW
- efNGOuK7YaYEfnisU0DaF32xtP82y+5mu0jE1a0Ep+M31oFbeyHNWUo661XmNDMA5JBb/3
- ESBrRDUKKFPekRlSZ6UhqAl1OlLbUKY=
+ bh=jMklE75l6GaMVcd4C1v+LCE/bBGy39/DlaYOsA1/3Zk=;
+ b=q9ggn/UkTCB79GJ4KVtdGa9Q+z0G5uNuJjM7PDKefzMMQaOQfy8yyoo36oALZ8x14H9paZ
+ R9Qy9lYlaFhKDxD7HaLv9UtQb+2c7jYCdQiB03rgOMxliB4YgTOxPwrqySy/Cc7d/QYH9b
+ 3sWVuq+81r42kZ2zssycAchQjU1+RnE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764754924;
+ s=susede2_ed25519; t=1764755313;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HNogu28+nMbkqHQWDkw8EgSzkH9UCz9OV9jGTyCGXG4=;
- b=fuyRMsm8ENZOj/q0JVixFbVgtAoR6elzQn7UNsyL+OAXKfnkmjd4Zjy+lbhancl3pUQ+Xc
- F7oPez5eyeSQIqAQ==
+ bh=jMklE75l6GaMVcd4C1v+LCE/bBGy39/DlaYOsA1/3Zk=;
+ b=Hevzi5jKGiaFwjg42fh9bUCmvWs8MPf6CcP3/L+vnpuuNfFENTk9PlrXvlMbbnvLU3PlKA
+ A6e/f0coy/2r5UDA==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=X9cUt+eC;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=YFsQ3v2b
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=fl6oD9YP;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=yyrXVf2j
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764754922; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1764755312; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HNogu28+nMbkqHQWDkw8EgSzkH9UCz9OV9jGTyCGXG4=;
- b=X9cUt+eCXk+D0cvhMxJ1ixRgHgPBSJRZ6DqaAjNoVSdnB7iNKXUgJzQ/kLyx0vOH8v3at9
- uGH/PPF9oMjRwqtvJNBfxOeWkhcTjZfT0vwcmbj+Xz+2TzGvjXa7z4MZsB8pKORsRAVO50
- vxOfRF/A79tV74zDga7CysXEMQ0O+Wc=
+ bh=jMklE75l6GaMVcd4C1v+LCE/bBGy39/DlaYOsA1/3Zk=;
+ b=fl6oD9YPB9PWsaP/3NTR4PHW5NrBqH79wBhJmIwnsyTm7oOh68qYDtGbaGspidNjXZ7x2m
+ E7ZNkUOPEPrLAV7I1nYIWbDgNKgI3FrHGi5rwpKJ5ZThm/64FjzpydvmaQkSNbdH+anv4d
+ JGtpXnmNqda1gBUOJfdMqujgaS0XdZw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764754922;
+ s=susede2_ed25519; t=1764755312;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HNogu28+nMbkqHQWDkw8EgSzkH9UCz9OV9jGTyCGXG4=;
- b=YFsQ3v2bIm3ttO8aq5p44HPrjyWg02nSr6tNQNDYQFIdqAdatsMHtAy4NlfJOVeIgEE7bv
- PzGfU9zhYFfJ2OBQ==
+ bh=jMklE75l6GaMVcd4C1v+LCE/bBGy39/DlaYOsA1/3Zk=;
+ b=yyrXVf2jFM8qDrT+ebFbqGRaagNeAFs1iWbNG+odoWfB++B9HIcdHW/4toplqsfaTClJ9p
+ nLC+i1QPEro3ltDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B1DD3EA63;
- Wed,  3 Dec 2025 09:42:02 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EE6F43EA65;
+ Wed,  3 Dec 2025 09:48:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id Zz5xIOoFMGlPGgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 03 Dec 2025 09:42:02 +0000
-Message-ID: <9b491299-1e56-498a-bdfb-20f2cd108280@suse.de>
-Date: Wed, 3 Dec 2025 10:42:01 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id mjS+OG8HMGk1IAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 03 Dec 2025 09:48:31 +0000
+Message-ID: <6e851fa0-5cca-4575-b5d8-b3fe99cf4c4d@suse.de>
+Date: Wed, 3 Dec 2025 10:48:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/mgag200: fix big-endian support
-To: =?UTF-8?Q?Ren=C3=A9_Rebe?= <rene@exactco.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: Dave Airlie <airlied@redhat.com>
-References: <20251202.164228.1439289308743755090.rene@exactco.de>
+Subject: Re: [PATCH 0/2] Fix AST2500 graphics on ppc64 systems in big-endian
+ mode
+To: Timothy Pearson <tpearson@raptorengineering.com>,
+ Dave Airlie <airlied@redhat.com>
+Cc: dri-devel@lists.freedesktop.org,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
+References: <407388289.1798972.1760725035958.JavaMail.zimbra@raptorengineeringinc.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -108,30 +110,30 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251202.164228.1439289308743755090.rene@exactco.de>
+In-Reply-To: <407388289.1798972.1760725035958.JavaMail.zimbra@raptorengineeringinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: AFBBB336E9
 X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
  R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MX_GOOD(-0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
  MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
- RCPT_COUNT_THREE(0.00)[4]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,exactco.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid];
+ ARC_NA(0.00)[]; RCVD_TLS_ALL(0.00)[];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_THREE(0.00)[4]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:url];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
  DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spam-Level: 
+X-Rspamd-Queue-Id: 1A40A336F3
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,50 +151,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-let's first go through the ast patch. Most of that review also applies 
-to this driver.
+please take a look at the patch at [1]. Testing is welcome, if you can.
 
 Best regards
 Thomas
 
-Am 02.12.25 um 16:42 schrieb René Rebe:
-> Unlike the original deleted Matrox mga driver, the new mgag200 driver
-> has the frame-buffer RGBX swapped on big-endian RISC systems. Fix by
-> enabling byte swapping "PowerPC" OPMODE for any __BIG_ENDIAN config.
+[1] 
+https://lore.kernel.org/dri-devel/20251202.170626.2134482663677806825.rene@exactco.de/
+
+Am 17.10.25 um 20:17 schrieb Timothy Pearson:
+> On ppc64 systems that use the AST2500 graphics device, such as the Blackbird
+> POWER9 system, the red and blue channels are inverted when the host is running
+> in big endian mode.  This is due to a ppc64 hardware quirk, which when combined
+> with a hardware design fault in the AST2500 VGA controller results in a need
+> to use software-based red-blue channel swapping.
 >
-> Fixes: 414c45310625 ("mgag200: initial g200se driver (v2)")
-> Signed-off-by: René Rebe <rene@exactco.de>
-> ---
-> Tested on IBM 43p Model 150 (7043-150) running T2/Linux.
-> ---
->   drivers/gpu/drm/mgag200/mgag200_mode.c | 14 ++++++++++++++
->   1 file changed, 14 insertions(+)
+> Tested to fix color graphics on Debian sid/ppc64 on a Blackbird system.
 >
-> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> index 951d715dea30..9073063f6473 100644
-> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-> @@ -655,6 +655,20 @@ void mgag200_crtc_helper_atomic_enable(struct drm_crtc *crtc, struct drm_atomic_
->   	else
->   		mgag200_crtc_fill_gamma(mdev, format);
->   
-> +#ifdef __BIG_ENDIAN
-> +	/* Big-endian byte-swapping */
-> +	switch (format->format) {
-> +	case DRM_FORMAT_RGB565:
-> +		WREG32(MGAREG_OPMODE, 1 << 16);
-> +		break;
-> +	case DRM_FORMAT_XRGB8888:
-> +		WREG32(MGAREG_OPMODE, 2 << 16);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +#endif
-> +
->   	mgag200_enable_display(mdev);
->   }
->   
+> Timothy Pearson (2):
+>    PCI: Add CONFIG_PCI_ARCH_ENDIAN_AUTOSWAP
+>    drm/ast: Fix framebuffer color swapping on ppc64 systems
+>
+>   arch/powerpc/Kconfig           |  1 +
+>   drivers/gpu/drm/ast/ast_mode.c | 33 +++++++++++++++++++++++++++++++--
+>   drivers/pci/Kconfig            |  4 ++++
+>   3 files changed, 36 insertions(+), 2 deletions(-)
+>
 
 -- 
 --
