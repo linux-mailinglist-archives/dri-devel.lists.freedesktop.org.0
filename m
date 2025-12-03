@@ -2,50 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FE30C9F163
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 14:13:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96CE2C9F172
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 14:14:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C63E10E7D2;
-	Wed,  3 Dec 2025 13:13:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3E6E10E7D5;
+	Wed,  3 Dec 2025 13:14:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="BPZPCcBx";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="BRa5ICTn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com
- (mail-eastusazon11012065.outbound.protection.outlook.com [52.101.53.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 273ED10E7CA;
- Wed,  3 Dec 2025 13:13:19 +0000 (UTC)
+Received: from PH8PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11012061.outbound.protection.outlook.com [40.107.209.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B07010E7CF;
+ Wed,  3 Dec 2025 13:14:24 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IyYvHxMXaFmHCdhmzPUY2G/+A8Z3pBQnMR4djj5P7d2Q8/8lBY6ZjrDSHMKsPuqm5j9Ce0VjnFZxp/juX8N5M6LndMotwYGAn+V/scCFaAq80yxr0IBE/UQNcCx4Sdak9IzRanFXPUryOBLIUpJe+azppTn+lz8yCg1++vWuhi0KYCv8y2+2VAFv71rFBaqSrP5sseVSptsXb6JMR2jOTtwdKFSnndMJVN3ZP4ZoHcKOkRsPku8H3cq+l19mTThl6W0lOVxWhDB/OzKUb6dmLRCMc8UDfKY0OaXzvhwAZPDzuudKyPSo7afoEOMYFdbCYA2zTdZilzZDDuHdsgWYWg==
+ b=iZ9EFfgxJzsK/7egSfZ2c1Rf4LRgy5QBpNTv2n2lxDtLPixY6TnbkdRsZEb38TF6TQDqchbQJ7yw6pEW3kZNs6f0mVc/SY8UQIqdq+XQjq00zdxLuaRdB/m1/gHG5GKCVPQPOiy3ztEPmlXhfwLozeTigtaBdUIbzzBrkX5eyhAK4f88IQBs2xY4VvG/BQVwJpf7Vnr8nHcZXbpmNSJIrIrA/HfzkerVV+J7mmM60UolHeRaHj6ntARRToBQsAwsnnkPhWIfJJ70gz2egKsOs4NrAvfNZbVbbvgcDtWyoDn+RRFUj0luB0Nsfr2daX2sHNJS9V7Hht7ZJlvHhLRQXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ta4+B+OGBdjsQl/IsAoKX+q9RDsQHMp/0mxmbbVLwZM=;
- b=LFqBHe+fI6lEiag6pZ6ET65AyCqe3Ejcv5E+r0Vup0YD1sKBO8ehSD+RyYZgsb+eekBjr47wBF0lvZu7yJUHLUQlhEzZd+jZydwd/dmgCu3ETiuRcs7nh34XQ8cJGwGnnSS5BDNeM/4s8TgNBHEttii1zvx6fV2OFR5vjTHsofnKtqesxNgzbqBtbR+RP6OE2zMokm2KDgEsV23xNDBSl5yTyUmm4c/thJfchljfpw5SWpWRt+4HgDQhIJSQBZXgmnMxvwOlnbd2HzaiIaqcOuQ82e1W5/obOYUwotJJHOMKyqjCQHFS4Aj9sn+yWJh8EvFVVEzknAgMqwvkHPCNIg==
+ bh=485duK5wW/AaXo6F52Qr0KyyXILC+zEwxNA5mE1j40o=;
+ b=VOXuOcQ3N2vjeBeFTVpw11cxQh2uZbx7icVQ5kb2vI6qiTg8GZ+06+CX5FEoeEz/kTcx0WU7L1oNkl/KE08+kskMNBWxn7coy2rVaxg7JSPRmwUqACNY4vmXc9Ol2I/j7cgpABqqMtU+43CircgLtlWw3DoR9o601zYnZVO4YSjHen0f232nsFIdQM4has9FSF6nk5GAq2GbbjlLjzebj1s/0KS6CtI97bLOCwmRi5JCzFW/S4ALWbMDakTfibdVhNDOCv+OZd6hxrFiV6iS/asj531Goq7DwtgFkFlOjlPKAIIBxGX+pq6GJM6vUgX0BhzhQUC1ZfGHJpqhBlJF7Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ta4+B+OGBdjsQl/IsAoKX+q9RDsQHMp/0mxmbbVLwZM=;
- b=BPZPCcBxoKRRfoX8K2gkSwWbIUmq6FyRcZrArhe0ephNjeKYMQTR/ypbithh+DJIlBe0vzFlC3Jj6W15FOL9PoTnsA0c+UhXnBfuoG6gn80Nz+XWDAg7UNRPOwbHvfhmAqm69JEpCBQYNdlpj14O/VV73sAhtNQ++4hbvnX/q7c=
+ bh=485duK5wW/AaXo6F52Qr0KyyXILC+zEwxNA5mE1j40o=;
+ b=BRa5ICTnYCtCwVUIUEWk7x830+hY3LPvWWuMoB0lwpVM59t2ir4Di5p/jIna65RcQRn819DI3GijFyXFeBFlRQi1xXPel208EGwGvzFVEI1RV600dUmzqW3i+X4w+FQS01pwL9YpDDmN4D3T9ep4StTeu+JptilzVXxhrxe4jew=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
  by SJ2PR12MB7824.namprd12.prod.outlook.com (2603:10b6:a03:4c4::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Wed, 3 Dec
- 2025 13:13:15 +0000
+ 2025 13:14:21 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9388.003; Wed, 3 Dec 2025
- 13:13:15 +0000
-Message-ID: <188a99e2-77bc-40b6-9d87-073a19497e20@amd.com>
-Date: Wed, 3 Dec 2025 14:13:06 +0100
+ 13:14:21 +0000
+Message-ID: <2fc7bb8e-aa0f-47c8-adf8-61e70d8c5689@amd.com>
+Date: Wed, 3 Dec 2025 14:14:11 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/8] dma-buf/dma-fence: Remove return code of
- signaling-functions
+Subject: Re: [PATCH v2 4/8] drm/xe: Use dma_fence_check_and_signal_locked()
 To: Philipp Stanner <phasta@kernel.org>,
  Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
  <gustavo@padovan.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
@@ -64,107 +63,107 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
 References: <20251201105011.19386-2-phasta@kernel.org>
- <20251201105011.19386-9-phasta@kernel.org>
+ <20251201105011.19386-6-phasta@kernel.org>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20251201105011.19386-9-phasta@kernel.org>
+In-Reply-To: <20251201105011.19386-6-phasta@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0068.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ce::14) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR2P281CA0115.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::17) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB7824:EE_
-X-MS-Office365-Filtering-Correlation-Id: fd3d8f69-5e6f-4cac-7b9c-08de326db80e
+X-MS-Office365-Filtering-Correlation-Id: 9e5ad84f-8810-43fb-7a62-08de326ddf29
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|376014|7416014|366016|1800799024|921020|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RE53cWFHUy9mSHBHbE02eXBCVlBUdDl1akRZblVDdHllQjZ6Tmd6RXJqdVB1?=
- =?utf-8?B?OHBicmttNGFuWlphK3VYZUxyV1gva1pvOWpPOTVDRkZPbGFtNDhBV3lWcXRj?=
- =?utf-8?B?d0hZb3RIVXhlMU12UWU2QmVjYWo1djE1bjM0UHRJQlROSXQ1ZEg3NnV5WFlo?=
- =?utf-8?B?RUpueUljcHUyUHkvZDJWVVdHUVFLYmRaT1dXUVJKUjArMkdQUlk1MXcwb29w?=
- =?utf-8?B?T2Q5OEpWbi9kL2pNTVNKdHoxaUM5STROZjZyUzdSRE5ldGpjcG1pN1ZPb1Z1?=
- =?utf-8?B?NEFRNTEwKytxbWpnT3R0ZmdUVTRmWjhlb2dMdm1OY2FsaWkwamVzOE1aQVdn?=
- =?utf-8?B?Ui9uV1lCUm45QzRjenNXbzZvMkowYlZRMFJaZ05jUVNhdGJJUXpMSTlvL08y?=
- =?utf-8?B?WWxYQm9BbTRjWlJtTzFwZklZNVBBa2lWNEF3Z3VRWkY5ZTJOZ3d6aHNITzZ4?=
- =?utf-8?B?SlJSNC9FcU1rZHNpY3ZYbElraG56VVNjRHF1NG9YT1dXMzZER0lDcEM5aVVO?=
- =?utf-8?B?bU9sVWZHMVNabzJSR3RnVWtVSzJzdUFmT29YSzM4ZzZ5K2NXbzF6NkJ3bnE4?=
- =?utf-8?B?SVRzNElmNkNjU3psZTVpbEdtbHZtUitHR0VqQWE5cXhLYWpPZERZbFc4WGVV?=
- =?utf-8?B?NXFidEx6YVFYOEVLQzA5QmlkTjdqVUhyY0tHRUpucHZaL21LTy8rdkJsajU4?=
- =?utf-8?B?Z002dHVGVXh5ckRQYVF1aHdhTWh5K2d4Wk5ESHh1aWdxWGd2Vkd0QkJvZGdJ?=
- =?utf-8?B?SEYyN21UR0puY090TXVyYjRyYXVWenAxa2pZSWg5Q0JQRnB6NUIxbHgweU8r?=
- =?utf-8?B?dDFVV0VGemJlZXZwUGxXOEFqbjhZVkVXdjVpR041ekpCOXE0dVBvamZreVky?=
- =?utf-8?B?VjFwUDZsSy9pL0xtcnVkSUZzaUxuaTRxOXVJN2lzdU56cmRhMXdvWGRGS0ZQ?=
- =?utf-8?B?SWMwd0k0K3hqZ2RoNHZVcURKMVpqZ2pHd0VUVkx3aGpmRDA1VS9WOUNNZmJG?=
- =?utf-8?B?QlZPb05YNUlzM1poRTNqQWs2MjZRRVNCUGNvVDg5V2UxQXYwd2J5dmNFRFBJ?=
- =?utf-8?B?SU8zdVRrYlNubFVKNGg5QlNBUlF1c0dsR2huM0tjbVJ5b1VQV3p4blpxMGRG?=
- =?utf-8?B?RmtPMTllZ3hJTDE4Y0gwMGlaSGpzWWZRVDlidDQ0SVVPdEFmUU1BaFMzOFpM?=
- =?utf-8?B?SXFkYVVJTDhuSGNibEZzNGMyQWpwdTZOd3A1M2NrRnV5QVRVVklKeWFiUERt?=
- =?utf-8?B?alF1RFNJcm1xRTd0NEtLUFdJWnE2Q3ROWUxpbnIvQ3kwTHY4Vk1EaStLNHBo?=
- =?utf-8?B?ZGxpbG1Bd3U1V2hheTh6T09uSG5DNHVNTGdCcEZlc1pQQStJWVgrOWdEVnpZ?=
- =?utf-8?B?WEo0RjliL3RQcEZQc25nUzU4M3RnWUNBaFZMQ2UzeDNlWUZaaHozc0txRkt0?=
- =?utf-8?B?NEhrZG9RbkgzWXFiU3BSTEsvaFp1ZUEwcGlTZmtGc2FYZ2RiSFpmemN2MDVT?=
- =?utf-8?B?YmxJM2NBNmU5cUhvdVFXZHdjVHl0MDNUdmwzWXNQOU43L0FhT1BTR0xtbXRp?=
- =?utf-8?B?d09meER1TWlEcDR1eldHb1JXTGprUmRRN01PUElCNjh6dHNNWmw5YjVMd0J2?=
- =?utf-8?B?Vkh0NXhkOFN5QzNOSGtrK1gvVkIxdzhIK2IvMGFOQldHa3FMcDBQT3JYYTJ1?=
- =?utf-8?B?OEo5TUFoYk5MZm01Zmd5WENINE5pYittNE9hU01zS0c4cmNJN0Rvb1dudnV3?=
- =?utf-8?B?Sk9lam1KVGo0cVdaVGlmVmN4YklCQlYyTmlQMVRHRVZLRTVMaktnaDEzQWFB?=
- =?utf-8?B?anFjalBJdFdIYzVGVGxaWnVSZEhscUtudy9kWFZXMC9obnA5Q3JMTkw4WWpp?=
- =?utf-8?B?ejVsK2s2dUJXaXh6cDR0S0Zpc29vclcwdExBQTlSdUFHWStBYzBsOTVkcDZJ?=
- =?utf-8?B?K3B1Y2t3SG5qUTA4T3hyc08vaDlNc2JMTWVaK01Uc3dKTi9KWDVTNm1kZkVv?=
- =?utf-8?Q?RXw1aBqdlPzMM21lJl+zxL7kFP1soI=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OHhUVWdKRUsyY0NBMUMrM1c0OHQrcll5cHdLbDl4RUpPRCtFUUdSWFBzcnBO?=
+ =?utf-8?B?R0JmOGFKK1ZjRGhHY3pyK2hpMXZoVklYcUFiaTVvcEtpOEVRbGlSMThObWZK?=
+ =?utf-8?B?SVZ1d05ydm9ESUV6Sk55UjcvUkhCTFN1REthOEprYXgvRjJWbXhWL3l4d3dL?=
+ =?utf-8?B?UHdXdHI1NEpBSXdudHlVUEozanV5NktlQURhVDZzQ2FwSTBpMjB5dVJuN3A1?=
+ =?utf-8?B?REx2aEpLNHRvZ0c4Y2ExTEtWbnk3ZHNtNXlaTVVGc2VxN1pYYm5aNklHKzM1?=
+ =?utf-8?B?MWFsYVNkK3ZnMENhK2dWZzBueHJENDlZaGozcHhnS1M1dTIxeG4zMTFsL0dR?=
+ =?utf-8?B?UWRueW4wVlh0cDVUVngxZnZRazhkdG84eGZKR1VaYStNcmp4T2orRGptS1hu?=
+ =?utf-8?B?bVRkbEYzU3NiN2ZIcjd6aTM0bUx1OVYvQmlxV3ZxSUJVT2cwZWN6WnVQNnd1?=
+ =?utf-8?B?eW9ZMXY3TEhIZW0rTmNPbW5Xbm9vMFliVDBQYmJnRkM1RFNPUWpMT095QWcy?=
+ =?utf-8?B?WDI2cWV3bE41SzJ5a2VDTzJaQ1JzQlozRWkrNGN2K2ZaNTdTRTdwSThaR2RX?=
+ =?utf-8?B?c0kxVS9NTlpjdTN1VjFwTFA1MnhEM09sRUlsMUIzVmg0a1JuOC9GckpvNndn?=
+ =?utf-8?B?Q3NHZlE5cG10R2l6RlhmTHYvcExZY0VEWFZTS2pHY2Uyb2pBUWIyWjQ1NUtI?=
+ =?utf-8?B?Sm1HQVBMNlVTQjZnNndQa3IvaXRYakRzTUMzK0tsc2dETWJKWkp3YU5nNnlm?=
+ =?utf-8?B?blNYK29WeWcwZ3pvTm1MT1hZNzRpTE81MXBxd0s2VFNYc2pMRXBMaTVHdTBy?=
+ =?utf-8?B?M0xjWXJvUlNJL201NTVBSGxOcFZ2VlIrZkFSZEc0aWJyY1hDTUd3VEVSakpl?=
+ =?utf-8?B?R2E2UnRRbS9rRy9qMnBTTWl3UnU4bmRFeXFGZVR4RGV3ZmR3b2VKR2ZLWkpV?=
+ =?utf-8?B?TDBDZHVuK3BZOUQzVEhBZVF0ZldzeDBra2JjK1hFRVVjTU1NaFlRRWliUnRl?=
+ =?utf-8?B?aEdEMXd6OGE1RTYxK1BoSUo5NkcvRUw5OHRCakR0U1lVZFowRHJvd0NmeEky?=
+ =?utf-8?B?ZkxVcDI0OGJaYTlUUkRvb2hvUE4wN1NIYU8xY0NFK0JrMkpMZGU3WmpPZFRo?=
+ =?utf-8?B?VWVXNGRqWFlUZzBKc0U1VFpkUXB6SHVHYktPTkFzOEx3MktQcjQyVzlXV0Yv?=
+ =?utf-8?B?c0REUUpyWk9FUnNCOFdibEZocnExdDB0Rk11UEJRMGlLWHBJUE1QMWtsVCtG?=
+ =?utf-8?B?SS92KzQwc24zMG5XSVE5bm5NaEdmNWVxclNpZjBtdTNwUW51ekhKVnFCNHQ3?=
+ =?utf-8?B?Ym9VRWpyTDdZWjdJUlc1Wko5T1JIWFlvZGtEcGJGRlR3U1ppUHIvaE5VRURV?=
+ =?utf-8?B?YjVHYWpaQ1hHNVNWUUIzT1lqb1ZoQzFEVEhldk5paWRjOGVQRmxtcWlGaCth?=
+ =?utf-8?B?TFZONUplNVRBL2FLRkpVcGMzNW1uZFFxWjhTdEE5MkxFTUU0aHJqdTFjWkd3?=
+ =?utf-8?B?OXhxTFRBY0NvQ05lSVkxVDIra05OdG05ODhSQUlIMlFrWTc2cmo5OXRCak9w?=
+ =?utf-8?B?cmdGTXZFb3Y4L0ppenhMK2Fzbnl3OVYzNUZnMkNrQVFIQ0RDK1ExSjhibVNz?=
+ =?utf-8?B?NTgyMHVjZkN3Y0I5YjRYbDFkWG44Zk5aUXJDR3hYcHFYRTB5bnNqM0JBbXlN?=
+ =?utf-8?B?ZVZMN0RreTh3bzNITWdNektJTEtNd3duN0hDZTBBNndJVzJlWlRWdXBHemdr?=
+ =?utf-8?B?NlpCWjI4SWtwNlNPQkk1V0dCdEdta3JyS1VrM1FkQVpvaGtSajdLQWswLzFa?=
+ =?utf-8?B?QzhMOG1YL2RCUkZ6amkrYVhlU0xaem5keGNYUHg0dk1nREUvWG44SnBBYkNi?=
+ =?utf-8?B?ZjlyM2c4VTNOTWlHNS8wZkxDMmlMVzYzTW1sRVVlSmJFUlNLUnBZSkdFUmRD?=
+ =?utf-8?B?WFBQOUkrek85YmphMkxScWdxdVZ0bWhsYmdxbCticHA0SHJiV0RLUTczZGtP?=
+ =?utf-8?Q?VSONLrAb2FJztmcgCwIyO9ceJ4CDj0=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020)(7053199007);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a3B2SVZoNlo4bmhSZlBsdmQ2OEhwQkloR2xFbkFNOStocHU0WnhTS0UyWWVL?=
- =?utf-8?B?V2pYditpSEllemRaQ2Fxci91ZnFWaWJnRTZmRGd0YXdYbTlZNGVBSEtCaGYy?=
- =?utf-8?B?em5XNkZ0cUFsTGYzTFZrR3EySjAxVEN3SzdKVy9DZjRmZlVXMzlFMHQyeDd2?=
- =?utf-8?B?MHczdXVqSVhoK292enRMNVdDakFtVEUxZnpMUjVlMk5pZzRXYlIxSVYzeHR0?=
- =?utf-8?B?YTh4eFFtcXJIazJOZlg3REJEMVdmRXE4VHNhdGpXUVYvc2t1TjRhV1RzSDlP?=
- =?utf-8?B?NUpzTEFyblpMS1JUemZnWjFLRXd4OXplTUpIZ0VYYlpIWC9CcUFYSSt5TXFr?=
- =?utf-8?B?Sis0ZERnWUhtbHQ4TExVbVEzN0tCMjFUSlNrUkVBNXZoZ0dBQy9UZmhYTDJB?=
- =?utf-8?B?VG5KYVJXaGJKeUxtOTk3czM3cnJkeGRZNXZZNkdFUUs2L1JSdnl2MHBMd2RI?=
- =?utf-8?B?ME83RW9FQjJUYU85R3oxMktlVk1WQllveStHbnduc2FQVTkxRlBRN0M1YU0v?=
- =?utf-8?B?UGpYVk1aZTltWFFqWnM0YzdWaFZVRUNKZS9YMWMxWkM2Y2FUaWo1MUpVK3h1?=
- =?utf-8?B?T0lqRlNIb1kyS2RSekduNnJWblB3Q0hTcTR3N2poRExReXpHUW0vRWhlQW9y?=
- =?utf-8?B?SENud0R2L2t0RjllS0FSUTRnS2I5ODBPVjltQU1QNElpSi9BK0FBK1ArREtO?=
- =?utf-8?B?Ky9KQXlZV1RRazZKUVNTVVZIR1h3SGd2eGtmaXB6V05BNU1VWXNJaGhuYUd5?=
- =?utf-8?B?OGN6ZG9VQ3NLWUR0b3lPcC96N0RLWVdsdnVWTG9mZ0c4WFdYb3JmaldWWElG?=
- =?utf-8?B?SFVZbFVTWk9QNkRaeTI5R3RMNldRbDVRMGVHb2c3eHZRMVFqN1F4d2hiZDg4?=
- =?utf-8?B?SnR4MlVvQ3ZScnpIWXZXWmw1VEFNbE1Eb1o5K050WE5OMFMzUGl6NW1oK3Zx?=
- =?utf-8?B?RjZ1MWlsY1piMW1TQUx1T20yVTN6TGFmU2xLQVh1NWdJTlA0bzFwSXl6U2FQ?=
- =?utf-8?B?M0JKQWpNL2hBbzZoZE9YM2NjWnRqMFZjZnAwb1I5U3dQVjhGS2dCUnd5T2lB?=
- =?utf-8?B?NlN0eXV1N0pONHBFUzFCZEFzdVkxb2VxZ29QQjJXa0tNM3J3VjIxQzBiVG42?=
- =?utf-8?B?d0VvU3IzVG9pV1lFcVhITndmcWI0OWEvK0IwTUo0S0VvNStveVh2TWZhRUpp?=
- =?utf-8?B?dmZyeFkxSWd6c0l4RGRkbUNXODhVUXFUN1h5b1BveUk4MXI0bUJIMEVLWTN1?=
- =?utf-8?B?bEZpTFB5bVlHUndxTTE1dGlMeE40YThBS1VtWFdtY2dxQmlYc3lQUVJXZTJC?=
- =?utf-8?B?Y25ZVUxWakFIY1RxSU1GK25YVk1rRzdoRkhmYWErWlpEaVRRRzdyYnBMRkJZ?=
- =?utf-8?B?RjFxZXBoZVVKaStFOHV1OUpjWG5DNTArajdhdlR4Q0NYNC84dGNnQU9LOUow?=
- =?utf-8?B?ZCtYZi9zNHF3RldHWlV6eHVyUGpBc1RUbHlxUU95bkdQc1lIaUJqdnJ2K2Ja?=
- =?utf-8?B?YXJqTGQ5RHhKY1MxdmZNVzZFZlNzdmlNRWwyVkIzNVZKblZEbGRPaWZJQXpX?=
- =?utf-8?B?WmQ2WjUxK1VyUnFhNzgyRW9QRG5HcWExbzFGeThYR2Z3YmJlTzVRamlNNW1C?=
- =?utf-8?B?dnIzblpUVkZDSGF0ZE1BUWVwSlpvZjhNSnppczlUMmEzU0o1WUdPTS8xM0Mw?=
- =?utf-8?B?aUJtSDdHWmI5ckh4WG5NdkZRMVJkaDhoSVNRV0lxbGRYZmpiWFFtUC9vd2U3?=
- =?utf-8?B?K2RsdWE3TWZ5SzdUdjNuTDZZZ00vOTA3T0RlbTZMeWplN1BmWS9NWVJCSGdn?=
- =?utf-8?B?cWRGN01JRm9mRzNKUHNUSHhhVzVmSjRIL2RlemdOdzExQ1VaamZkRnBnVDEy?=
- =?utf-8?B?OE9LdDk3cGRLVG8zVkk3a05GcjkzVUZuNGxucDBsWjdsRVlVdkZoR0piMUM3?=
- =?utf-8?B?ajNBQSszQ3BkTFBNMkhUdERvMlhUakR2RkplZXZwaVBwRTB3Zlp3YWk0Nk42?=
- =?utf-8?B?ZG9qNmpzZDhUL1cxa045UHdMMDVMcG14cWprSmV4OEgvWHlrcXloTUhaMEN3?=
- =?utf-8?B?aXFkK1VSaFlybjNzbGVQT3VCZnNrbDNIZmVZMi9RNDJDa3hwZkdnRDNteS91?=
- =?utf-8?Q?fleg=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WUJSVnBkWXNpZElNbFRGMXVCRUU3aVdNc3Rock9IV3FJVEdBK01odnVxN1ht?=
+ =?utf-8?B?a3VBNk9XUUxjazZ6NzhJdVlEdWhhVTExR1hEc1V4bXQ1T1BUSjM2VTJVM3JR?=
+ =?utf-8?B?bDVZYS8xR1lTQndxREJIc2xOV2R0OVZzYVErSG81SERpNlJBa2w0TnJ5QXZq?=
+ =?utf-8?B?U1QyN0o4R3grRm9JeFZVdXNaWHBzY2NTcUlGalFOcGhXYzdseEpDdEJDZS8x?=
+ =?utf-8?B?RlhMWG5POHdLN1V5UERBOUZmenU4Rk9LQnpKemJ3VVc5b3dmVkI0S2F4Z3ZB?=
+ =?utf-8?B?cU0rYmFRZVNGSGJsS01saDczZ3poTktvT3g4M1hpU240Qmsxb0J0WDZUd05X?=
+ =?utf-8?B?K0pPTU1BUUxaZlRsU0labE1pOEJjbUlLOEt4bE5POXlVOUJLdmdGVzkxQ25t?=
+ =?utf-8?B?WHZkRmYzVzRYS2t3M2gwbmpvcHVnbFRkS3pFNHN4NVlqN2JtaGFIdHVWdEJn?=
+ =?utf-8?B?SUN3aFhOeEVaajRDMzk3TlAvZUhxV1JIWjFYb0x2Zzk5SWp6Q2FVRmhUYWNz?=
+ =?utf-8?B?b1FrczBYa3hJZ1BjVktXK1Q4QTV1UXFnVjRzVW9vWFdRUjIvaU00UjE4bXpB?=
+ =?utf-8?B?Q2V4QW5Gd29BYUZSR2tMc0dsbDhKSG9zMmE1dnZvMU9TdlkxbnNNemY0K0Fs?=
+ =?utf-8?B?c3JRU3ZlcDFYMjh4Vm9pRktYcGVXSEVNeVRwRUE2OE43Y2MzWFRGNms5bzJC?=
+ =?utf-8?B?T085ajUzRG1SYkhNTmx4RkdWQkxLUi9acVBZRTRtajJRLzRLdFNSa2JaeHgr?=
+ =?utf-8?B?Vy8zdGdPaGsvemdnbmkxQmhubk8zK3B6b3hPZmRGTXp4VnZTczRzb1EyTzVm?=
+ =?utf-8?B?SS9XdG5TRW5wbmk3R1dXRVRSQ2tnU2xBTW9sMVlQemJ4bVY1eGxKN0JJYWx6?=
+ =?utf-8?B?S3RjaWYwSGc4MWlIQXJkNHJFMVAwQXVBUUtqTXBYb1k3TmRaME5VNE5WYmRS?=
+ =?utf-8?B?S0xYelVNem1OMDlXNXZRbmdWV2c1YTlGUmFCZlBMcUY3N21jckdjMFBJakJ4?=
+ =?utf-8?B?bmh6UFZ6bnEyV1NYN1NJc3piOTZpczJLTnp3UGs3Yi84TjlEc0U5Z0FZTWpE?=
+ =?utf-8?B?azhUZ1Nvc002TUcrZXFQUzZUM1BhNlRKSTZjbXc4SWRMc2piNXFtYzlrMTQ4?=
+ =?utf-8?B?WTZkdE9pUlFkOE1PT2gwZktvamJzTjNRSVpTOEZ4R1pwTWpEb0c4Uzg1dnJO?=
+ =?utf-8?B?b011VG5HY2VDVzJXak5nTzEwR3ZTb21XL3NRRXNZNW9vVGNhWE14c3gxZTkx?=
+ =?utf-8?B?Uk9ibWFnd2pkeU9DTk9leWcrMHBnRnRTenJ2aE1LbXpFamhaTmRRZEV4Vi9Q?=
+ =?utf-8?B?MGJIdEVrSlJMb3duUFFjdnREZm51YWdCK1dYZCszckd0MWpLNTcrZVhUWTFO?=
+ =?utf-8?B?ZlcvMTd6MlRsZTEvaW5RR2tPRURvV2xseGhqYUdNdlpsK0RVQWdwRlJvbDJa?=
+ =?utf-8?B?MVp3MW4vRjhEU0lpUEtackNqV0pQVTNOKzRucXowbms3NnpUZHNUTmJ2YjJY?=
+ =?utf-8?B?dHV1MTFMUUFuWWtUYkdyWEptQk1XNVV5VXVJcjJnTTRiV0ZmUUtDU0drYU1y?=
+ =?utf-8?B?QmVJclRmNVVKNFJlRnoyV0ZLcG9HUTNSL1h1RUhZNENsdDBoYjdUc0h3TGxK?=
+ =?utf-8?B?S1hVVU1tZ2JWRW5aS3NjZnllM25yaGpPU0dyM0lrS3UwQk1RWlF2RTFHMkN1?=
+ =?utf-8?B?dG9DaEYzTjgyZjYzeFZnVFVqVElHWTJQdExKWGYxbEVZM0tDWlp1ZHlJUFJG?=
+ =?utf-8?B?OG5ZSUxLNG40ckZxbG5GMmlHNHBZZ29vQ0I5bzdHKzI2cHN2SGFBdndvR2th?=
+ =?utf-8?B?cGhTdVlNREZKSEFFd2NJYTAyK2RQR0M4alRTM2FxaW0zbzN3bC9ZT0tBejhu?=
+ =?utf-8?B?a2JSUEFwQ21FaXBYZGxtbWd6Z1QyRnpkek15Sk41MStiVTlYMVU1OVJwQWxL?=
+ =?utf-8?B?OVUvMDRnVjFOL0xKbDNsMzkrbXFyZDNDaTRCa2hPU1duOXZvdVJoaW5uVk1F?=
+ =?utf-8?B?YlZtT2JidUh5eExDdVVDMXc3dk8vNXhmOWhtdC9BeDU2amNiMy9lWTdDVkdw?=
+ =?utf-8?B?UXMzM3hqelp0MG9QanZKclRrYkNRbXlUVExNQWVXeVRUSnlHRkVlbTJYRGth?=
+ =?utf-8?Q?DZlRjsWar2VOVtWb964W1FI1R?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fd3d8f69-5e6f-4cac-7b9c-08de326db80e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e5ad84f-8810-43fb-7a62-08de326ddf29
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2025 13:13:15.6795 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2025 13:14:21.1376 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ocr9buocon6aJ5sCyNb5TIvTIsh5qsD0gA84UvezWfA1iZdemOSKmI7I93lxkkH1
+X-MS-Exchange-CrossTenant-UserPrincipalName: jmP1ZWnihw5IylEAUWDw1r/wxrSS44sdFU28Os3L1XbQB8ebRAOwBWsoH65fDFtd
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7824
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -182,154 +181,45 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 12/1/25 11:50, Philipp Stanner wrote:
-> All functions used for signaling a fence return an error code whose sole
-> purpose is to tell whether a fence was already signaled.
+> Xe is one of the few users utilizing the return code of
+> dma_fence_signal() to check whether a fence had already been signaled by
+> someone else.
 > 
-> This is racy and has been used by almost no party in the kernel, and the
-> few users have been removed in preceding cleanup commits.
+> To clean up and simplify the dma_fence API, the few kernel users relying
+> on that behavior shall be ported to an alternative function.
 > 
-> Turn all signaling-functions into void-functions.
+> Replace dma_fence_signal_locked() with
+> dma_fence_check_and_signal_locked().
 > 
-> Suggested-by: Christian König <christian.koenig@amd.com>
 > Signed-off-by: Philipp Stanner <phasta@kernel.org>
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Acked-by: Christian König <christian.koenig@amd.com>
 
 > ---
->  drivers/dma-buf/dma-fence.c | 40 ++++++++++---------------------------
->  include/linux/dma-fence.h   |  9 ++++-----
->  2 files changed, 14 insertions(+), 35 deletions(-)
+>  drivers/gpu/drm/xe/xe_hw_fence.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 146de62887cf..529a44371b35 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -360,11 +360,8 @@ void __dma_fence_might_wait(void)
->   *
->   * Unlike dma_fence_signal_timestamp(), this function must be called with
->   * &dma_fence.lock held.
-> - *
-> - * Returns 0 on success and a negative error value when @fence has been
-> - * signalled already.
->   */
-> -int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
-> +void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->  				      ktime_t timestamp)
+> diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
+> index b2a0c46dfcd4..f6057456e460 100644
+> --- a/drivers/gpu/drm/xe/xe_hw_fence.c
+> +++ b/drivers/gpu/drm/xe/xe_hw_fence.c
+> @@ -85,7 +85,6 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
 >  {
->  	struct dma_fence_cb *cur, *tmp;
-> @@ -374,7 +371,7 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->  
->  	if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
->  				      &fence->flags)))
-> -		return -EINVAL;
-> +		return;
->  
->  	/* Stash the cb_list before replacing it with the timestamp */
->  	list_replace(&fence->cb_list, &cb_list);
-> @@ -387,8 +384,6 @@ int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->  		INIT_LIST_HEAD(&cur->node);
->  		cur->func(fence, cur);
->  	}
-> -
-> -	return 0;
->  }
->  EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
->  
-> @@ -403,23 +398,17 @@ EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
->   * can only go from the unsignaled to the signaled state and not back, it will
->   * only be effective the first time. Set the timestamp provided as the fence
->   * signal timestamp.
-> - *
-> - * Returns 0 on success and a negative error value when @fence has been
-> - * signalled already.
->   */
-> -int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp)
-> +void dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp)
->  {
+>  	struct xe_hw_fence *fence, *next;
 >  	unsigned long flags;
-> -	int ret;
->  
->  	if (WARN_ON(!fence))
-> -		return -EINVAL;
-> +		return;
->  
->  	spin_lock_irqsave(fence->lock, flags);
-> -	ret = dma_fence_signal_timestamp_locked(fence, timestamp);
-> +	dma_fence_signal_timestamp_locked(fence, timestamp);
->  	spin_unlock_irqrestore(fence->lock, flags);
-> -
-> -	return ret;
->  }
->  EXPORT_SYMBOL(dma_fence_signal_timestamp);
->  
-> @@ -435,13 +424,10 @@ EXPORT_SYMBOL(dma_fence_signal_timestamp);
->   *
->   * Unlike dma_fence_signal(), this function must be called with &dma_fence.lock
->   * held.
-> - *
-> - * Returns 0 on success and a negative error value when @fence has been
-> - * signalled already.
->   */
-> -int dma_fence_signal_locked(struct dma_fence *fence)
-> +void dma_fence_signal_locked(struct dma_fence *fence)
->  {
-> -	return dma_fence_signal_timestamp_locked(fence, ktime_get());
-> +	dma_fence_signal_timestamp_locked(fence, ktime_get());
->  }
->  EXPORT_SYMBOL(dma_fence_signal_locked);
->  
-> @@ -498,28 +484,22 @@ EXPORT_SYMBOL(dma_fence_check_and_signal);
->   * dma_fence_add_callback(). Can be called multiple times, but since a fence
->   * can only go from the unsignaled to the signaled state and not back, it will
->   * only be effective the first time.
-> - *
-> - * Returns 0 on success and a negative error value when @fence has been
-> - * signalled already.
->   */
-> -int dma_fence_signal(struct dma_fence *fence)
-> +void dma_fence_signal(struct dma_fence *fence)
->  {
->  	unsigned long flags;
-> -	int ret;
+> -	int err;
 >  	bool tmp;
 >  
->  	if (WARN_ON(!fence))
-> -		return -EINVAL;
-> +		return;
->  
->  	tmp = dma_fence_begin_signalling();
->  
->  	spin_lock_irqsave(fence->lock, flags);
-> -	ret = dma_fence_signal_timestamp_locked(fence, ktime_get());
-> +	dma_fence_signal_timestamp_locked(fence, ktime_get());
->  	spin_unlock_irqrestore(fence->lock, flags);
->  
->  	dma_fence_end_signalling(tmp);
-> -
-> -	return ret;
->  }
->  EXPORT_SYMBOL(dma_fence_signal);
->  
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 0504afe52c2a..d4c92fd35092 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -364,13 +364,12 @@ static inline void dma_fence_end_signalling(bool cookie) {}
->  static inline void __dma_fence_might_wait(void) {}
->  #endif
->  
-> -int dma_fence_signal(struct dma_fence *fence);
-> +void dma_fence_signal(struct dma_fence *fence);
->  bool dma_fence_check_and_signal(struct dma_fence *fence);
->  bool dma_fence_check_and_signal_locked(struct dma_fence *fence);
-> -int dma_fence_signal_locked(struct dma_fence *fence);
-> -int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
-> -int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
-> -				      ktime_t timestamp);
-> +void dma_fence_signal_locked(struct dma_fence *fence);
-> +void dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
-> +void dma_fence_signal_timestamp_locked(struct dma_fence *fence, ktime_t timestamp);
->  signed long dma_fence_default_wait(struct dma_fence *fence,
->  				   bool intr, signed long timeout);
->  int dma_fence_add_callback(struct dma_fence *fence,
+>  	if (XE_WARN_ON(!list_empty(&irq->pending))) {
+> @@ -93,9 +92,8 @@ void xe_hw_fence_irq_finish(struct xe_hw_fence_irq *irq)
+>  		spin_lock_irqsave(&irq->lock, flags);
+>  		list_for_each_entry_safe(fence, next, &irq->pending, irq_link) {
+>  			list_del_init(&fence->irq_link);
+> -			err = dma_fence_signal_locked(&fence->dma);
+> +			XE_WARN_ON(dma_fence_check_and_signal_locked(&fence->dma));
+>  			dma_fence_put(&fence->dma);
+> -			XE_WARN_ON(err);
+>  		}
+>  		spin_unlock_irqrestore(&irq->lock, flags);
+>  		dma_fence_end_signalling(tmp);
 
