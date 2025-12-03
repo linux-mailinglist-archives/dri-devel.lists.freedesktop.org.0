@@ -2,89 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C99F6C9F3E5
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 15:12:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 734F9C9F64F
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 16:05:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61EC310E168;
-	Wed,  3 Dec 2025 14:12:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4DDB10E834;
+	Wed,  3 Dec 2025 15:05:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="huq/ufjz";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="K73I3h/D";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
- [209.85.160.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CE1C10E168
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 14:12:01 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id
- d75a77b69052e-4ee1879e6d9so69152371cf.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 06:12:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764771120; x=1765375920; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TjikvMbBLAvP8JTEk2DJsCaYzW4mbrgZZwpCXseTwmY=;
- b=huq/ufjz23uyW1FYurm6BurUEPAOCibQCyFEzBQvgg9W83YQDN75Rm/+tyFPRdZLi9
- wE48hw513ZysiCWILtG5KjRQEZsZLyz3svHKYqMfN4tueWQ07KxfM6nNnG4wtp0uDgqO
- TjrsjZbfs6XkXAi9cJW82kcK/sFBbc0T3OcxEiR6EwTHtTCmgxMfwwZn1vBfAu0YGZln
- Yzu2mMnBwPr38mQIQNInnDmv+PX+w4oJ5s4cohJQCfKQYrSdNgKtvp8gvrziPNwjqejh
- OyoJEhOeoTss9sx2hVWu6vsu0A1l+L3rJ4YKps6X7kHZ1cYaKo6GOKNcXW/FsS5Ep7Us
- RsVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764771120; x=1765375920;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=TjikvMbBLAvP8JTEk2DJsCaYzW4mbrgZZwpCXseTwmY=;
- b=rg8JKqCeFsW8bVm+Tk+GrRocQxqFBoWUCzm6MHxOUgLGAAUGv3IyIo2RQAX9rNvYlA
- HnkuAugPRDboKtnD3oXsTNGdvBsNe0B0fHl0aMozfseKsuGH6trgwE6XhsXT3baX/0YD
- 4JWUMIHXaoND7HFBzpFby9MZm7WwLF4GwFOCoi0+Hb64N4alOorr4f8ULJF/bev9slMM
- 2DjW4zCXeATNenxGteUJo2WxPej93sbj2vTJqcc7QkQVSisKIHu1BErBha8FYfrVf6Ow
- H7+Yy2E1LO9/CrIjgNen3DaN0WJXDuTzJqC22BBDG8DNRxkUmM/67hBOecZ3fQMNRoOb
- PIiw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU8eiAUz/hkh8yqv53DS7J7bfAheGLcUPW63BwBkr1aLh3FXWcIECfpRyVDZoKHKJFgm7G9FFl4YBo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzKgUr0twRCzCXGMDh5LWj8JEffC3yno3IoF2a+G5B0ntgSFD1p
- 9NzV0wO4OxMIES8GHh3FvIJhKK+K03wIlbqLo2ldEPOfLJlDx0Io38tzUY3AlcBpCHR2uo4uWCT
- cV2T9gNjZb3G5gUGniEVpk+N9eAXFKSA=
-X-Gm-Gg: ASbGncuXCIrn2F2NPAAvqUvvQQ74arYoXNsSAS2ri96qZ435KtRsYeAXrfi3iFaNg3p
- YPrcF32rHnfCHLBOHPAX/QX8lYGcSd/hHkr4X9TgorBuHV3bliWyvaZ9IeHCor1mY2tXC5fKwEx
- RpaSE9wVTPIa/dSNrQ0qzYDnn4AHUPm5dzs2fAY2P5TS85jPf7Mp0g4BB5FnhT5r/tut+WG6h3k
- SkOdVoh8Msux1dNkLUIp/WM9dCHEod4B4+M616s2/huL++yp9hQ5viCZvkKfQ3fzOyZiNg=
-X-Google-Smtp-Source: AGHT+IHYrT4T9dL1OLnbfPDjT28JMb2318J5/B3eoFhCblccxFHS7LXQDPLZwahRE4rYRyKabmK+IYyCL27PUavzRcU=
-X-Received: by 2002:ac8:7c4b:0:b0:4ee:1db1:a61b with SMTP id
- d75a77b69052e-4f0176e0e22mr32108741cf.75.1764771119925; Wed, 03 Dec 2025
- 06:11:59 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAEF510E834
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 15:05:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=yF9M63XzuK42TT9HblXnCo10N8QSTyfShdwsGPvOS2M=; b=K73I3h/DRUzOV99neU0pV59K7X
+ BDdS6w/KtH+FPRpIhHUjAN4yn464TZUuO+jnI6WgzeOxtLDmyYadsyW/+epHFlv4LuSKzGo1hNGWj
+ sehY9jUtDutvaEny1xuojX6iZYRzHFwk1yQy967X4i+G+hFUejWWRWhjRu+9D3/g4ey2YNuEGaUCe
+ d1nsgtaKKg89DbOOc+qsoIzOZwn2MmSw2d+vB8FUVeKRLmlFsPqn1XWDBYkkri1SPKNi/XTlFY0hf
+ b1g9XQsMuyCHJ6lmATCOEG9Opp96/5jebGWauQZztfOSsIiVSs0I23o8ecQQJDuOFpnXpE0YqOAcS
+ FcgkoWyQ==;
+Received: from [90.240.106.137] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vQoPv-008IvI-12; Wed, 03 Dec 2025 16:05:19 +0100
+Message-ID: <691e8c1c-c7ac-498a-a435-b8fdf046589b@igalia.com>
+Date: Wed, 3 Dec 2025 15:05:18 +0000
 MIME-Version: 1.0
-References: <20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa@kernel.org>
- <20251202-mcde-drm-regression-thirdfix-v6-4-f1bffd4ec0fa@kernel.org>
-In-Reply-To: <20251202-mcde-drm-regression-thirdfix-v6-4-f1bffd4ec0fa@kernel.org>
-From: Vicente Bergas <vicencb@gmail.com>
-Date: Wed, 3 Dec 2025 15:11:47 +0100
-X-Gm-Features: AWmQ_bkzp4_vseBr9tvcxqOGhh90DbsGff_6vKvilwsSsGnyg33iWaxt34V14Bc
-Message-ID: <CAAMcf8AtH_WmM=EBNkcYyD7otYjk6YuuHHCVHUi4n+viOpu5WA@mail.gmail.com>
-Subject: Re: [PATCH v6 4/4] RFT: drm/rockchip: Create custom commit tail
-To: Linus Walleij <linusw@kernel.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Marek Vasut <marek.vasut+renesas@mailbox.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>, Sandy Huang <hjc@rock-chips.com>, 
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, dri-devel@lists.freedesktop.org, 
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- Aradhya Bhatia <aradhya.bhatia@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] Some small TTM cleanups
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>
+References: <20250919131530.91247-1-tvrtko.ursulin@igalia.com>
+ <fdbab4cb-5011-451b-bec9-f246f3949c76@igalia.com>
+ <989105d9-fd72-4a9b-9517-be37d24d2603@igalia.com>
+ <f5ea0445-c5b0-44cd-879b-9f1426640d2e@igalia.com>
+ <2c660e05-526f-4885-b7d7-4e843655fb3d@amd.com>
+ <93ccb928-7c0a-4adc-9374-e115033bb535@igalia.com>
+ <c302812f-a1e1-4ea0-91f4-d05ad47fef96@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <c302812f-a1e1-4ea0-91f4-d05ad47fef96@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,123 +68,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 2, 2025 at 10:03=E2=80=AFPM Linus Walleij <linusw@kernel.org> w=
-rote:
->
-> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
-> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
-> caused a series of regressions in all panels that send
-> DSI commands in their .prepare() and .unprepare()
-> callbacks when used with the Rockchip driver.
->
-> As the CRTC is no longer online at bridge_pre_enable()
-> and gone at brige_post_disable() which maps to the panel
-> bridge .prepare()/.unprepare() callbacks, any CRTC that
-> enable/disable the DSI transmitter in it's enable/disable
-> callbacks will be unable to send any DSI commands in the
-> .prepare() and .unprepare() callbacks.
->
-> However the Rockchip driver definitely need the CRTC to be
-> enabled during .prepare()/.unprepare().
->
-> Solve this by implementing a custom commit tail function
-> in the Rockchip driver that always enables the CRTC first
-> and disables it last, using the newly exported helpers.
->
-> This patch is an edited carbon-copy of the same patch to
-> the ST-Ericsson MCDE driver.
->
-> Link: https://lore.kernel.org/all/CAAMcf8Di8sc_XVZAnzQ9sUiUf-Ayvg2yjhx2dW=
-mvvCnfF3pBRA@mail.gmail.com/
-> Reported-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-> Reported-by: Vicente Bergas <vicencb@gmail.com>
-> Signed-off-by: Linus Walleij <linusw@kernel.org>
-> ---
-> Rockchip people: can you please test this patch (along
-> with patch 1 of course).
 
-Hi Linus,
-i've applied all 4 patches from the V6 patch series on top of v6.18
-and tested on the rk3399-gru-kevin platform.
-It indeed fixes the reported issue.
+On 03/12/2025 13:20, Christian König wrote:
+> On 12/3/25 14:09, Tvrtko Ursulin wrote:
+>>
+>> On 03/12/2025 12:57, Christian König wrote:
+>>> Sorry, I'm mostly on sick leave at the moment (cold/flu).
+>>
+>> No rush in this case, series has been waiting from September so it can wait a bit longer.
+> 
+> I already crawled out of bed, so I can as well take a look :)
+> 
+>>
+>>> I couldn't find the original patches, neither in my inbox nor using google.
+>>>
+>>> Could you send them out once more?
+>>
+>> This is the series:
+>>
+>> https://lore.kernel.org/dri-devel/20250919131530.91247-1-tvrtko.ursulin@igalia.com/
+>>
+>> It still applies but let me know if you would regardless prefer me to re-send.
+> 
+> Patches #1-#3 are Reviewed-by: Christian König <christian.koenig@amd.com>
+> 
+> Patch #4 looks good to me as well, but has a bit to much changes at once for my current brain status.
+> 
+> Feel free to add my acked-by if you're sure that this is correct, otherwise please split up into smaller cleanups.
 
-Tested-by: Vicente Bergas <vicencb@gmail.com>
+I was pretty confident, having triple checked everything, and so have 
+pushed it all to drm-misc-next, thank you! (And on the off-chance I 
+broke something I'll be around to fix it as always.)
 
 Regards,
-  Vicente.
 
-> ---
->  drivers/gpu/drm/rockchip/rockchip_drm_fb.c | 50 ++++++++++++++++++++++++=
-+++++-
->  1 file changed, 49 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c b/drivers/gpu/drm=
-/rockchip/rockchip_drm_fb.c
-> index 2f469d370021..63e50ea00920 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_fb.c
-> @@ -24,8 +24,56 @@ static const struct drm_framebuffer_funcs rockchip_drm=
-_fb_funcs =3D {
->         .dirty         =3D drm_atomic_helper_dirtyfb,
->  };
->
-> +/*
-> + * This commit tail explicitly copies and changes the behaviour of
-> + * the related core DRM atomic helper instead of trying to make
-> + * the core helpers overly generic.
-> + */
-> +static void rockchip_drm_atomic_commit_tail(struct drm_atomic_state *sta=
-te)
-> +{
-> +       struct drm_device *dev =3D state->dev;
-> +
-> +       /*
-> +        * Variant of drm_atomic_helper_commit_modeset_disables()
-> +        * that will disable and post-disable all bridges BEFORE
-> +        * disabling the CRTC.
-> +        */
-> +       drm_atomic_helper_commit_encoder_bridge_disable(dev, state);
-> +       drm_atomic_helper_commit_encoder_bridge_post_disable(dev, state);
-> +       drm_atomic_helper_commit_crtc_disable(dev, state);
-> +       drm_atomic_helper_update_legacy_modeset_state(dev, state);
-> +       drm_atomic_helper_calc_timestamping_constants(state);
-> +       drm_atomic_helper_commit_crtc_set_mode(dev, state);
-> +
-> +       /*
-> +        * Variant of drm_atomic_helper_commit_modeset_enables()
-> +        * that will enable the CRTC BEFORE pre-enabling and
-> +        * enabling the bridges.
-> +        */
-> +       drm_atomic_helper_commit_crtc_enable(dev, state);
-> +       drm_atomic_helper_commit_encoder_bridge_pre_enable(dev, state);
-> +       drm_atomic_helper_commit_encoder_bridge_enable(dev, state);
-> +       drm_atomic_helper_commit_writebacks(dev, state);
-> +
-> +       drm_atomic_helper_commit_planes(dev, state,
-> +                                       DRM_PLANE_COMMIT_ACTIVE_ONLY);
-> +
-> +       drm_atomic_helper_fake_vblank(state);
-> +
-> +       drm_atomic_helper_commit_hw_done(state);
-> +
-> +       drm_atomic_helper_wait_for_vblanks(dev, state);
-> +
-> +       drm_atomic_helper_cleanup_planes(dev, state);
-> +}
-> +
->  static const struct drm_mode_config_helper_funcs rockchip_mode_config_he=
-lpers =3D {
-> -       .atomic_commit_tail =3D drm_atomic_helper_commit_tail_rpm,
-> +       /*
-> +        * Using this function is necessary to commit atomic updates
-> +        * that need the CRTC to be enabled before a commit, as is
-> +        * the case with e.g. DSI displays.
-> +        */
-> +       .atomic_commit_tail =3D rockchip_drm_atomic_commit_tail,
->  };
->
->  static struct drm_framebuffer *
->
-> --
-> 2.51.1
->
+Tvrtko
+
+P.S. Btw I have some amdgpu cleanup patches which remove almost half a 
+megabyte of .text, so if during your recovery you find the need to look 
+at something not very demanding it is at 
+https://patchwork.freedesktop.org/series/157011/. Just beware Alex had 
+tried the earlier version of the "compact IB emissions" patches (tail 
+end of the series) and there was potentially some unexplained regression 
+in there.
+
+>>> On 12/3/25 12:34, Tvrtko Ursulin wrote:
+>>>>
+>>>>
+>>>> 3rd ping, and apologies, for some reason I thought Thomas you were listed as maintainer for TTM.
+>>>>
+>>>> Correcting the To: list to Christian and Huang.
+>>>>
+>>>> Again, asking for acks to merge this trivial series.
+>>>>
+>>>> Regards,
+>>>>
+>>>> Tvrtko
+>>>>
+>>>> On 21/11/2025 10:02, Tvrtko Ursulin wrote:
+>>>>>
+>>>>> A gentle ping. Two really trivial cleanups are ready to merge just need maintainer acks.
+>>>>>
+>>>>> On 05/11/2025 15:33, Tvrtko Ursulin wrote:
+>>>>>>
+>>>>>> + Christian & Thomas
+>>>>>>
+>>>>>> On 19/09/2025 14:15, Tvrtko Ursulin wrote:
+>>>>>>> Some small cleanups, nothing intentionally functional. It is mostly about
+>>>>>>> applying some consistency to when to use a local variable to cache something,
+>>>>>>> when not, and making the code use the ones already there.
+>>>>>>>
+>>>>>>> Tvrtko Ursulin (4):
+>>>>>>>      drm/ttm: Make ttm_bo_init_validate safe against ttm_operation_ctx
+>>>>>>>        re-ordering
+>>>>>>>      drm/ttm: Resource cannot be NULL in ttm_resource_intersects
+>>>>>>>      drm/ttm: Tidy ttm_operation_ctx initialization
+>>>>>>>      drm/ttm: Tidy usage of local variables a little bit
+>>>>>>
+>>>>>> I got acks for trivial cleanups patch 1 & 3 from this series. Are you okay if I push the two to drm-misc-next?
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>> Tvrtko
+>>>>>>
+>>>>>>>     drivers/gpu/drm/ttm/ttm_bo.c       | 64 +++++++++++++++---------------
+>>>>>>>     drivers/gpu/drm/ttm/ttm_bo_util.c  | 57 ++++++++++++--------------
+>>>>>>>     drivers/gpu/drm/ttm/ttm_bo_vm.c    | 12 +++---
+>>>>>>>     drivers/gpu/drm/ttm/ttm_device.c   |  5 +--
+>>>>>>>     drivers/gpu/drm/ttm/ttm_pool.c     | 26 ++++++------
+>>>>>>>     drivers/gpu/drm/ttm/ttm_resource.c | 14 ++-----
+>>>>>>>     drivers/gpu/drm/ttm/ttm_tt.c       |  2 +-
+>>>>>>>     7 files changed, 83 insertions(+), 97 deletions(-)
+>>>>>>>
+>>>>>>
+>>>>>
+>>>>
+>>>
+>>
+> 
+
