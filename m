@@ -2,91 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1C7C9E531
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 09:57:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A76C9E577
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 10:01:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3FAF10E771;
-	Wed,  3 Dec 2025 08:56:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06C3210E795;
+	Wed,  3 Dec 2025 09:01:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Six01LoK";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="iSsPiBh2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDE0A10E771
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 08:56:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1764752217;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FKpRGX3o1cb0P7D6YkuLKLXe7ij3WTfEdq+WgMxbUyM=;
- b=Six01LoKk+Wi/9zmNfufzyPrEiuDdawNwNVpKUxWCcamxj0dCK50gcdw11LzIXOYez/CL+
- pbmo4ByYLUVGqIJkAvUzWeJ5VDnr5IfDi4TxI+Z6m98T/0YSbUl2pOP1eIKMUmMeCTL/zr
- wHZzbjd+v7tW7uO1NpfGeJk06zED7is=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-183-MUKnET4wMu2z-Lt0YPGxLA-1; Wed, 03 Dec 2025 03:56:56 -0500
-X-MC-Unique: MUKnET4wMu2z-Lt0YPGxLA-1
-X-Mimecast-MFC-AGG-ID: MUKnET4wMu2z-Lt0YPGxLA_1764752215
-Received: by mail-pf1-f199.google.com with SMTP id
- d2e1a72fcca58-7b9090d9f2eso10771687b3a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 00:56:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764752215; x=1765357015;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=RofnEOBgbOyhIcNHlRC4C1ByGHmhIXzrhEMHFHM8wME=;
- b=MLwg6Ud05VVtasinauCc8cx2CIa+9t1tfXK0emk49y4ljEeZvh60UYi9mvhdzEk7Dx
- 7kHUcZUlOBa4Y7nZa6/IxcEfsGx8aX4l6MNhP6ZvB9sPtY7BA2NUbhZrMZJCQvkKovMO
- aqEarUhC68HyqDDuqCVBDLuDE8/m6KEM4F7k9WUFqL7PnEAzDNkJCauDM/FJK62zOThT
- ZxgvvuMYSND5AJLo2gaFwcYSvKHf2ZjJybHPIjV9XGILcxqF65Da30uGtfqCWxuYtP+U
- FEd9hjRI4OCaZsEOATAtlHzMFHxbktDSG1rxih+ihWuL1Z6UVe0bv1SUQiXFcL3xLnQ8
- jdIQ==
-X-Gm-Message-State: AOJu0Yy7L/eHyzhngjJXf1FBLNuWrYWCWXCen0QEYrTvpgGDHv7m0Mau
- sk2QCXNKXqw6zXXl2wvegEj1O5unW17VGpIRr1XeI6FCnUwAfOLpzsnd7iXxyATJ8JmZDfgWeAJ
- vB4wTYMOA1yy9Sr+yWCEM/Kh/BLJYGzBlfCo0G3ntkQbg2e0CxROnMD9anTLEx6nd6ILStA==
-X-Gm-Gg: ASbGncsFjvna/QBcR7t83zNZA222r+/P6wY+fERSKrFhHV+WRrczAVA6Efi4m3gOKoG
- Q1FNvf2Q1Nk7dCkdAStXlmkWzM4TG5adCpfMogl2//cwi1tQxb4JGB7aqPUh46umw+bbLV3F/yh
- 97YUGDBBY33RU6oSRMuqDYDgdCw8PLX2oDHG6Vo3iIHNGDAH6w7Qsbvgc2e3CmPdwA8ik57S90V
- 3M0gFWm4DjyvJR5bwIn0zfJZrTJhu+8HOTZ4P7lkSdvM84gnztWpdUm3qf7trmi/2hKPwixMRye
- 1VR3/rso6Sa8RqdBioNLNcdBIeZUsr77Vv2CpkwQcGcSX53M4zS4f3uQn9yHIPe6oAomUDEk4Fx
- bGvFJi462grDSuOF/RKCGGB4lmHRo9ohIdw0M
-X-Received: by 2002:a05:6a21:999c:b0:34f:ec81:bc3d with SMTP id
- adf61e73a8af0-363f5e95a0bmr2492959637.44.1764752215006; 
- Wed, 03 Dec 2025 00:56:55 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFpqCBdDRCPPxUKfz/ixOi/SypCC+hEGz1RnL28j4fV5owx/FoBTNhhBSlg3UZdLxeAtVEPtw==
-X-Received: by 2002:a05:6a21:999c:b0:34f:ec81:bc3d with SMTP id
- adf61e73a8af0-363f5e95a0bmr2492896637.44.1764752213955; 
- Wed, 03 Dec 2025 00:56:53 -0800 (PST)
-Received: from [10.200.68.138] (nat-pool-muc-u.redhat.com. [149.14.88.27])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-be5093b5b79sm17402491a12.25.2025.12.03.00.56.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Dec 2025 00:56:53 -0800 (PST)
-Message-ID: <0b1b4bbf0b49832db2c1e12477c5af55780f39df.camel@redhat.com>
-Subject: Re: [PATCH v7 1/9] drm/sched: Add several job helpers to avoid
- drivers touching scheduler state
-From: Philipp Stanner <pstanner@redhat.com>
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, dakr@kernel.org, Christian
- =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>
-Date: Wed, 03 Dec 2025 09:56:45 +0100
-In-Reply-To: <20251201183954.852637-2-matthew.brost@intel.com>
-References: <20251201183954.852637-1-matthew.brost@intel.com>
- <20251201183954.852637-2-matthew.brost@intel.com>
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1403010E795;
+ Wed,  3 Dec 2025 09:01:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1764752511;
+ bh=wVBXVqr/V4BvZy2UwGWrvsKrKLyi0iQ/iJea+Zd89Vs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=iSsPiBh2jQ6jcltEgE/44aSbaYEXp6IGCnieG9WdYFfiNhoP2MiK1S8gte/34FAQb
+ I6LP96M2ze0LmfbydqeQ2vAg2YXkMLhVOtR92WhaRQq5QIFD0Ufy1GDQNI2/OlqzgJ
+ KLuI2YTyT4s272emoNnyTB1FCaTZDiaBKWa5QURwkm0WOB+th1K5jFYLIPocMFaM5m
+ ImWjNnBIiUVT/NGJy4n+/WH1cp5AoQkzy7Ti7sWZE2Otn4d9bUZODlGfdUu2djHJR4
+ rW5wz2+qxzoiUkcqbsYtUbfqQs6SwTPf/lAWtcvIFPPqKFHHWapOfMIK7HO7O9gYUH
+ 27nKEh3/189Kg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id A5CE117E090D;
+ Wed,  3 Dec 2025 10:01:50 +0100 (CET)
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org,
+ Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
+Subject: [PATCH v7 00/13] drm/panfrost,
+ panthor: Cached maps and explicit flushing
+Date: Wed,  3 Dec 2025 10:01:28 +0100
+Message-ID: <20251203090141.227394-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: SJg2QjosPSOqqcyiGkJn13tYRs5_da34bbgmWB1WBKI_1764752215
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,160 +80,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+Cc Christian, Alex, Danilo
+This series implements cached maps and explicit flushing for both panfrost
+and panthor.
 
+The PanVK MR to use this lives here:
 
-On Mon, 2025-12-01 at 10:39 -0800, Matthew Brost wrote:
-> Add helpers to see if scheduler is stopped and a jobs signaled state.
-> Expected to be used driver side on recovery and debug flows.
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36385
 
-First, thanks for working on this.
+This version moves away from the code sharing proposed at the
+drm_prime/gem_shmem level and hand-roll a bunch of things that
+could potentially be shared. The goal here is to take the path
+of least resistance and discuss this controversial code-sharing
+topic in a follow-up MR. Keeping everyone Cc-ed on the previous
+version involved, so they're aware of this change of direction,
+sorry for the noise if you don't care :-/.
 
-This is a big and significant change because it moves towards ending
-the 10-year practice of accessing internal locks etc. =E2=80=93 I think thi=
-s
-should have a long(er) and detailed commit message aka "In the past
-drivers used to =E2=80=A6 this must end because =E2=80=A6 to do so we need =
-to provide
-those new functions: =E2=80=A6"
+Changes in v2:
+- Expose the coherency so userspace can know when it should skip cache
+  maintenance
+- Hook things up at drm_gem_object_funcs level to dma-buf cpu_prep hooks
+  can be implemented generically
+- Revisit the semantics of the flags passed to gem_sync()
+- Add BO_QUERY_INFO ioctls to query BO flags on imported objects and
+  let the UMD know when cache maintenance is needed on those
 
->=20
-> v4:
-> =C2=A0- Reorder patch to first in series (Niranjana)
-> =C2=A0- Also check parent fence for signaling (Niranjana)
+Changes in v3:
+- New patch to fix panthor_gpu_coherency_set()
+- No other major changes, check each patch changelog for more details
 
-"We" mostly agreed of not adding changelogs to commit messages anymore
-and either have them in the cover letter or in the patche's comment
-section below ---
-The commit changelog comments are not canonical in the kernel and don't
-provide any value IMO.
+Changes in v4:
+- Two trivial fixes, check each patch changelog for more details
 
->=20
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Reviewed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.c=
-om>
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c |=C2=A0 4 ++--
-> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 32 ++++++++++++++++++++++++++
-> =C2=A02 files changed, 34 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
-eduler/sched_main.c
-> index 1d4f1b822e7b..cf40c18ab433 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -344,7 +344,7 @@ drm_sched_rq_select_entity_fifo(struct drm_gpu_schedu=
-ler *sched,
-> =C2=A0 */
-> =C2=A0static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched=
-)
-> =C2=A0{
-> -=09if (!READ_ONCE(sched->pause_submit))
-> +=09if (!drm_sched_is_stopped(sched))
-> =C2=A0=09=09queue_work(sched->submit_wq, &sched->work_run_job);
-> =C2=A0}
-> =C2=A0
-> @@ -354,7 +354,7 @@ static void drm_sched_run_job_queue(struct drm_gpu_sc=
-heduler *sched)
-> =C2=A0 */
-> =C2=A0static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sche=
-d)
-> =C2=A0{
-> -=09if (!READ_ONCE(sched->pause_submit))
-> +=09if (!drm_sched_is_stopped(sched))
-> =C2=A0=09=09queue_work(sched->submit_wq, &sched->work_free_job);
-> =C2=A0}
-> =C2=A0
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index fb88301b3c45..385bf34e76fe 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -698,4 +698,36 @@ void drm_sched_entity_modify_sched(struct drm_sched_=
-entity *entity,
-> =C2=A0=09=09=09=09=C2=A0=C2=A0 struct drm_gpu_scheduler **sched_list,
-> =C2=A0=09=09=09=09=C2=A0=C2=A0 unsigned int num_sched_list);
-> =C2=A0
-> +/* Inlines */
+Changes in v5:
+- Add a way to overload dma_buf_ops while still relying on the drm_prime
+  boilerplate
+- Add default shmem implementation for
+  dma_buf_ops::{begin,end}_cpu_access()
+- Provide custom dma_buf_ops to deal with CPU cache flushes around CPU
+  accesses when the BO is CPU-cacheable
+- Go back to a version of drm_gem_shmem_sync() that only deals with
+  cache maintenance, and adjust the semantics to make it clear this is
+  the only thing it cares about
+- Adjust the BO_SYNC ioctls according to the new drm_gem_shmem_sync()
+  semantics
 
-Surplus comment, everyone immediately sees by the keyword that the
-functions are inline.
+Changes in v6:
+- No major changes, check the changelog in each patch for more details
 
-But why do you want to provide them here instead of in sched_main.c in
-the first place?
+Changes in v7:
+- Drop the drm_prime/gem_shmem helpers and duplicate the logic in
+  panthor/panfrost
 
+Boris Brezillon (8):
+  drm/panthor: Provide a custom dma_buf implementation
+  drm/panthor: Fix panthor_gpu_coherency_set()
+  drm/panthor: Expose the selected coherency protocol to the UMD
+  drm/panthor: Add a PANTHOR_BO_SYNC ioctl
+  drm/panthor: Add an ioctl to query BO flags
+  drm/panfrost: Provide a custom dma_buf implementation
+  drm/panfrost: Expose the selected coherency protocol to the UMD
+  drm/panfrost: Add an ioctl to query BO flags
 
-> +
-> +/**
-> + * drm_sched_is_stopped() - DRM is stopped
+Faith Ekstrand (4):
+  drm/panthor: Bump the driver version to 1.6
+  drm/panfrost: Add a PANFROST_SYNC_BO ioctl
+  drm/panfrost: Add flag to map GEM object Write-Back Cacheable
+  drm/panfrost: Bump the driver version to 1.6
 
-Well no, I doubt the entire DRM subsystem is stopped ;)
+Loïc Molinari (1):
+  drm/panthor: Add flag to map GEM object Write-Back Cacheable
 
-"Checks whether drm_sched is stopped"
+ drivers/gpu/drm/panfrost/panfrost_device.h |   1 +
+ drivers/gpu/drm/panfrost/panfrost_drv.c    | 101 ++++++++-
+ drivers/gpu/drm/panfrost/panfrost_gem.c    | 240 +++++++++++++++++++++
+ drivers/gpu/drm/panfrost/panfrost_gem.h    |  10 +
+ drivers/gpu/drm/panfrost/panfrost_gpu.c    |  26 ++-
+ drivers/gpu/drm/panfrost/panfrost_regs.h   |  10 +-
+ drivers/gpu/drm/panthor/panthor_device.c   |  10 +-
+ drivers/gpu/drm/panthor/panthor_drv.c      |  79 ++++++-
+ drivers/gpu/drm/panthor/panthor_gem.c      | 240 ++++++++++++++++++++-
+ drivers/gpu/drm/panthor/panthor_gem.h      |   6 +
+ drivers/gpu/drm/panthor/panthor_gpu.c      |   2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c    |  18 +-
+ include/uapi/drm/panfrost_drm.h            |  76 ++++++-
+ include/uapi/drm/panthor_drm.h             | 157 +++++++++++++-
+ 14 files changed, 954 insertions(+), 22 deletions(-)
 
-> + * @sched: DRM scheduler
-> + *
-> + * Return: True if sched is stopped, False otherwise
-> + */
-> +static inline bool drm_sched_is_stopped(struct drm_gpu_scheduler *sched)
-> +{
-> +=09return READ_ONCE(sched->pause_submit);
-
-I am by the way suspecting since a long time
-
-> +}
-> +
-> +/**
-> + * drm_sched_job_is_signaled() - DRM scheduler job is signaled
-> + * @job: DRM scheduler job
-> + *
-> + * Determine if DRM scheduler job is signaled. DRM scheduler should be s=
-topped
-> + * to obtain a stable snapshot of state. Both parent fence (hardware fen=
-ce) and
-> + * finished fence (software fence) are check to determine signaling stat=
-e.
-
-s/check/checked
-
-I can roughly understand why you need the start/stop checkers for your
-list iterator, but what is this function's purpose? The commit message
-should explain that.
-
-Do you need them in Xe? Do all drivers need them?
-
-I think it's very cool that you provide this series and are working on
-all that, but at XDC I think the important point was that we determined
-that AMD and Intel basically do the same trick for GPU resets.
-
-So our desire was not only to prevent folks from accessing the
-scheduler's internals, but, ideally, also provide a well documented,
-centralized and canonical mechanisms to do GPU resets.
-
-So I think this drm/sched code must be discussed with AMD and we should
-see whether it would be sufficient for them, too. And if yes, we need
-to properly document that new way of GPU resets and tell users what
-those functions are for. The docstrings so far just highlight that
-those functions exist and how they are used, but not *why* they exist.
-
-> + *
-> + * Return: True if job is signaled, False otherwise
-
-True and False should be lower case I think. At least I've never seen
-them upper case in docstrings so far?
-
-
-P.
-
-> + */
-> +static inline bool drm_sched_job_is_signaled(struct drm_sched_job *job)
-> +{
-> +=09struct drm_sched_fence *s_fence =3D job->s_fence;
-> +
-> +=09WARN_ON(!drm_sched_is_stopped(job->sched));
-> +=09return (s_fence->parent && dma_fence_is_signaled(s_fence->parent)) ||
-> +=09=09dma_fence_is_signaled(&s_fence->finished);
-> +}
-> +
-> =C2=A0#endif
+-- 
+2.51.1
 
