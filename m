@@ -2,67 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280B1C9EE62
-	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 12:51:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA836C9EECE
+	for <lists+dri-devel@lfdr.de>; Wed, 03 Dec 2025 13:00:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E37D10E78D;
-	Wed,  3 Dec 2025 11:51:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA8010E13A;
+	Wed,  3 Dec 2025 12:00:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="WdrQQunR";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="YAU3Gdhc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7534E10E787
- for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 11:51:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1764762636;
- bh=p/JhfQ/5mVmqehnjvRE1UyHQbPCzKtTccLmDH7YWYKE=;
- h=From:To:Subject:Date:Message-Id;
- b=WdrQQunRC6miA7a8WBfxuuiqDbwiaYGKwU8kAbvzi9et+VvuTC93krsEi3QVJVkFi
- ozbSXg6n6D847fbeUURk6pAR4dwfMZoDNsxy3T3I7DPBNvXWz9mBekDaQXIJtU6+5l
- S+bViNuJxdogGUeB6jtbI6Bz537aEQ93RuF9zH8A=
-X-QQ-mid: zesmtpsz9t1764762634t4ecda2a1
-X-QQ-Originating-IP: hmKrqfeMcwbdBdJxRwrYyzP1oSeWYkJShvR6sCH86u4=
-Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Wed, 03 Dec 2025 19:50:32 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 653531030055881594
-From: Chaoyi Chen <kernel@airkyi.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Subject: [PATCH] drm/mipi-dsi: Only remove child devices that match the dsi
- device type
-Date: Wed,  3 Dec 2025 19:50:28 +0800
-Message-Id: <20251203115028.133-1-kernel@airkyi.com>
-X-Mailer: git-send-email 2.17.1
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MD5XEDocxEOL+DzPtHJQllrrrm3kZdcABL+nj5QkMWc1JpWqK1+lSszu
- gQUg9Y0tALGkQG9SiD/QGEnEFvG6dg3mQNWdsiBqiqFL2mEa2bW/ibZT2j68gauNBX1n6j3
- Vsd+s/hwymidiv56pz2X0Zl8PNzgI2eRrSc6WJiYzMauVRysW+xRe3HFcl5MJ24PdaINyUa
- XLa3+qRObBRCbZdt2MjA2HOhHeaumsaGmbqWqs6CWsAmnlFAvrnX0zgZdtvrO4PIY5jU9Jc
- C7gdGwUwaGmjyw7YBm2DSLvb5DLqeqw75AAqv4t80IbimZBNvb9xcFfS/acJgdt9+hiCpHU
- +i2EzsngN3iZLohNyncL1TShel6dLW72wKdATy9ZkU6xI6m0mvaKd1gabmyV+7sbhlx5xC0
- TfKdf9pMp51JfioVRUHAD/6718n+k/E8ftapqgNSJALZwleYgoIL4DcukQkDRtOvEi39PMx
- KOHUmX/Di+ILrL9VYyeXx94EosMxnEGKo3GWmHLu7g7Z7G4nj4NfvJkzemtOt9xeNlp9hR9
- wdjnVaxqWWs9XOdQmonHEYbu39qd2nSvJkWqhYMQSArnQy7g6ipDQFUpubMGQGidi9jNgbl
- XE2oR65rONeGL7oMnDCpX3iOT5VjUfJ6qZc3lanSROS5XDDcGrQaaKI/WgozoJH72zuGpTx
- 88QBPxbjKfzkDp30vTulaXBdlsbjtVzObCNfYME+lkYGMBAhvTySqQKNlLelRsWEUph3tpd
- gplnB8XMqT3YslLHfutWMAvguW3vun10Clt3U1WUv5iPqCoNge9zTNsneQ7tAhHCry8hhb/
- yo4q44v9W8ZtsFw8DY/PVcBUbgKCmS/uawCDmQsLSz42OS61ikD1AGvguPEpAAZnsTVqGQ1
- HkKo1C9T9hBNtPZHX9zuoDftBajXWxT0oMmdcz1IBMOSi+YlNQT0vUgAqxeUHYK5LK2164b
- e33XQTXpNRlwi1q/P7Tm0lPD8kaMfhbOr3YSGKfrs6rn/eg==
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-X-QQ-RECHKSPAM: 0
+Received: from mail-m1973188.qiye.163.com (mail-m1973188.qiye.163.com
+ [220.197.31.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C997710E78F
+ for <dri-devel@lists.freedesktop.org>; Wed,  3 Dec 2025 12:00:02 +0000 (UTC)
+Received: from [127.0.0.1] (unknown [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 2bd94477e;
+ Wed, 3 Dec 2025 19:59:56 +0800 (GMT+08:00)
+Message-ID: <31c64e8f-3129-4766-b735-84a26198e6d0@rock-chips.com>
+Date: Wed, 3 Dec 2025 19:59:53 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/4] RFT: drm/rockchip: Create custom commit tail
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Linus Walleij <linusw@kernel.org>, Vicente Bergas <vicencb@gmail.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>
+References: <20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa@kernel.org>
+ <20251202-mcde-drm-regression-thirdfix-v6-4-f1bffd4ec0fa@kernel.org>
+ <5d6e8e0e-3129-49f1-8c5f-c2f837a36139@rock-chips.com>
+ <CACRpkdZwgsbVezfQBRP6pX-o8TLvtFMt+M+rL7GrTmeuzN8xvQ@mail.gmail.com>
+Content-Language: en-US
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <CACRpkdZwgsbVezfQBRP6pX-o8TLvtFMt+M+rL7GrTmeuzN8xvQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9ae4155c6103abkunmdafda06941e8a2
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQk0eSFZPH0lKSE0ZShgdSkxWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+ hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=YAU3GdhcWgxEahXohg2T2PUXRrn7FEt4Pfj+0ryOWfo7paJh/sIHpwHv6eZGbRXhxOxqdKJ2csyeFBoVy4+DZvLN5e3fDu7EvsYzNoPJtnG8EXFOKZJpuxA1KGru6m6E+nXvtJFz0oqk2zPGjL9J8SiX0NwsHgxamdtZgnPSwQk=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=2d07mvFdS01wxsxr01fOMc8tzwEqyFdVB0HHl3Od8g0=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,46 +76,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+On 12/3/2025 5:54 PM, Linus Walleij wrote:
+> On Wed, Dec 3, 2025 at 4:10 AM Chaoyi Chen <chaoyi.chen@rock-chips.com> wrote:
+> 
+>> It seems that multiple drivers currently depend on the CRTC being
+>> enabled and they implement the same atomic_commit_tail().
+>>
+>> Why not implement this in drm_atomic_helper_commit_tail_rpm() instead?
+>> Or why not use another common helper function for this?
+> 
+> So my v2 version of the patch series added a new special case
+> helper tail function to do that:
+> https://lore.kernel.org/dri-devel/20251118-mcde-drm-regression-v2-3-4fedf10b18f6@linaro.org/
+> 
+> It was politely NACKed for complicating the helpers library (short story).
+> 
+> It's part of the trail of how we got to this current patch series.
+>
 
-This patch checks whether the device is a valid mipi_dsi_device before
-accessing it in mipi_dsi_remove_device_fn().
+Ah, got it. Please take a look at my other comments to see if there's
+a chance to change the bridge functions to achieve this. Thank you.
 
-The mipi_dsi_host_unregister() assumes that all child devices of the
-host device are mipi_dsi_devices and uses mipi_dsi_remove_device_fn()
-to perform subsequent operations specific to mipi_dsi_device.
-
-In rockchip platform, for dw-mipi-dsi-rockchip.c, it creates a dphy
-device, and it use the dsi host device as its parent device.
-
-And when we call dw_mipi_dsi_remove() in
-dw_mipi_dsi_rockchip_remove(), mipi_dsi_host_unregister() will get
-such a dphy child device and treat it as an mipi_dsi_device, which
-will lead to a further panic.
-
-Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
----
- drivers/gpu/drm/drm_mipi_dsi.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index a712e177b350..5b9cc799eb87 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -349,7 +349,12 @@ EXPORT_SYMBOL(mipi_dsi_host_register);
- 
- static int mipi_dsi_remove_device_fn(struct device *dev, void *priv)
- {
--	struct mipi_dsi_device *dsi = to_mipi_dsi_device(dev);
-+	struct mipi_dsi_device *dsi;
-+
-+	if (!dev_is_mipi_dsi(dev))
-+		return 0;
-+
-+	dsi = to_mipi_dsi_device(dev);
- 
- 	if (dsi->attached)
- 		mipi_dsi_detach(dsi);
 -- 
-2.51.1
-
+Best, 
+Chaoyi
