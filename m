@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EC10CA4527
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 16:45:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D10CA4574
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 16:51:28 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F50C10E90D;
-	Thu,  4 Dec 2025 15:45:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 72D4F10E990;
+	Thu,  4 Dec 2025 15:51:26 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BcC7A/u7";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 386D510E90D;
- Thu,  4 Dec 2025 15:45:06 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 725D9339;
- Thu,  4 Dec 2025 07:44:58 -0800 (PST)
-Received: from [10.1.38.32] (e122027.cambridge.arm.com [10.1.38.32])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD8E93F59E;
- Thu,  4 Dec 2025 07:45:00 -0800 (PST)
-Message-ID: <1d15cef9-4683-4779-8f36-ac3c058bb4a0@arm.com>
-Date: Thu, 4 Dec 2025 15:44:57 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6203E10E990
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 15:51:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764863485; x=1796399485;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=1MLJ4foFKk2YetngAtX7qrwpveVMWt0D+TCRrr6hwMM=;
+ b=BcC7A/u78DexxYhK96ySPZKvBtN4HWHev19JA3LL+sv9g7IOc9jYQiGU
+ /tdvYrRqB8rrA1Nvd0HOJ9bG03AQhyHRBJpvR8ZAT5nveMYQyb4gSTW3o
+ 5tp07jZUV1xF+lNHHEhQkm/j1aCeweqywMCosLRjSvNLTA9uN/bPSE1ZA
+ OR47+51hiBnetGMfFCqoN/lVjW0DeWbTSHsN8vKlhHvfPQBhDUCDXuQOR
+ 5gzzVoBQOHt3N8IWa+WhoHp+2b0imIdiHjl1PN/hkDRcKZr8ZNKrDHNAs
+ msAQgVBEmqo7J6aQM1oBU1ZH6UiNcGwAqSScNzpfWQdi5uwrbWEWBsXmt Q==;
+X-CSE-ConnectionGUID: zEybM/xXRAenkb0JwkJpOQ==
+X-CSE-MsgGUID: 7AAi+DCdQ7qLKI+ceEouOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66925417"
+X-IronPort-AV: E=Sophos;i="6.20,249,1758610800"; d="scan'208";a="66925417"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 07:51:25 -0800
+X-CSE-ConnectionGUID: Q/oXs7zARwapqU+0sa7CXA==
+X-CSE-MsgGUID: 31A7ETZxQP+qUSKkZPr5Fg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,249,1758610800"; d="scan'208";a="194830958"
+Received: from abityuts-desk.ger.corp.intel.com (HELO [10.245.245.215])
+ ([10.245.245.215])
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 07:51:23 -0800
+Message-ID: <3e09719d-af1b-4c5d-83fb-6ef5f41739b5@intel.com>
+Date: Thu, 4 Dec 2025 15:51:20 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 06/13] drm/panthor: Add flag to map GEM object
- Write-Back Cacheable
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Frank Binns <frank.binns@imgtec.com>,
- Matt Coster <matt.coster@imgtec.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, =?UTF-8?Q?Lo=C3=AFc_Molinari?=
- <loic.molinari@collabora.com>, kernel@collabora.com
-References: <20251203090141.227394-1-boris.brezillon@collabora.com>
- <20251203090141.227394-7-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH 1/2] dma-buf: improve sg_table debugging hack v2
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ simona.vetter@ffwll.ch
+References: <20251204145952.7052-1-christian.koenig@amd.com>
 Content-Language: en-GB
-In-Reply-To: <20251203090141.227394-7-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20251204145952.7052-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,211 +72,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/12/2025 09:01, Boris Brezillon wrote:
-> From: Loïc Molinari <loic.molinari@collabora.com>
+On 04/12/2025 14:59, Christian König wrote:
+> This debugging hack is important to enforce the rule that importers
+> should *never* touch the underlying struct page of the exporter.
 > 
-> Will be used by the UMD to optimize CPU accesses to buffers
-> that are frequently read by the CPU, or on which the access
-> pattern makes non-cacheable mappings inefficient.
+> Instead of just mangling the page link create a copy of the sg_table
+> but only copy over the DMA addresses and not the pages.
 > 
-> Mapping buffers CPU-cached implies taking care of the CPU
-> cache maintenance in the UMD, unless the GPU is IO coherent.
+> This will cause a NULL pointer de-reference if the importer tries to
+> touch the struct page. Still quite a hack but this at least allows the
+> exporter to properly keeps it's sg_table intact while allowing the
+> DMA-buf maintainer to find and fix misbehaving importers and finally
+> switch over to using a different data structure in the future.
 > 
-> v2:
-> - Add more to the commit message
-> - Tweak the doc
-> - Make sure we sync the section of the BO pointing to the CS
->   syncobj before we read its seqno
+> v2: improve the hack further by using a wrapper structure and explaining
+> the background a bit more in the commit message.
 > 
-> v3:
-> - Fix formatting/spelling issues
-> 
-> v4:
-> - Add Steve's R-b
-> 
-> v5:
-> - Drop Steve's R-b (changes in the ioctl semantics requiring
->   new review)
-> 
-> v6:
-> - Fix the uAPI doc
-> - Fix inverted logic in some comment
-> 
-> v7:
-> - No changes
-> 
-> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-
-Readding my r-b that I gave on v6:
-
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-Thanks,
-Steve
-
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com> (v1)
 > ---
->  drivers/gpu/drm/panthor/panthor_drv.c   |  7 ++++-
->  drivers/gpu/drm/panthor/panthor_gem.c   | 37 +++++++++++++++++++++++--
->  drivers/gpu/drm/panthor/panthor_sched.c | 18 ++++++++++--
->  include/uapi/drm/panthor_drm.h          |  9 ++++++
->  4 files changed, 66 insertions(+), 5 deletions(-)
+>   drivers/dma-buf/dma-buf.c | 72 +++++++++++++++++++++++++++++++--------
+>   1 file changed, 58 insertions(+), 14 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index db04f13217b9..1bb6a20c497a 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -902,7 +902,8 @@ static int panthor_ioctl_vm_destroy(struct drm_device *ddev, void *data,
->  	return panthor_vm_pool_destroy_vm(pfile->vms, args->id);
->  }
->  
-> -#define PANTHOR_BO_FLAGS		DRM_PANTHOR_BO_NO_MMAP
-> +#define PANTHOR_BO_FLAGS		(DRM_PANTHOR_BO_NO_MMAP | \
-> +					 DRM_PANTHOR_BO_WB_MMAP)
->  
->  static int panthor_ioctl_bo_create(struct drm_device *ddev, void *data,
->  				   struct drm_file *file)
-> @@ -921,6 +922,10 @@ static int panthor_ioctl_bo_create(struct drm_device *ddev, void *data,
->  		goto out_dev_exit;
->  	}
->  
-> +	if ((args->flags & DRM_PANTHOR_BO_NO_MMAP) &&
-> +	    (args->flags & DRM_PANTHOR_BO_WB_MMAP))
-> +		return -EINVAL;
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 2305bb2cc1f1..8c4afd360b72 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -35,6 +35,12 @@
+>   
+>   #include "dma-buf-sysfs-stats.h"
+>   
+> +/* Wrapper to hide the sg_table page link from the importer */
+> +struct dma_buf_sg_table_wrapper {
+> +	struct sg_table *original;
+> +	struct sg_table wrapper;
+> +};
 > +
->  	if (args->exclusive_vm_id) {
->  		vm = panthor_vm_pool_get_vm(pfile->vms, args->exclusive_vm_id);
->  		if (!vm) {
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index 4be32fc1732b..7a9eb6010f6f 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -59,6 +59,39 @@ static void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u
->  static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo) {}
->  #endif
->  
-> +static bool
-> +should_map_wc(struct panthor_gem_object *bo, struct panthor_vm *exclusive_vm)
-> +{
-> +	struct panthor_device *ptdev = container_of(bo->base.base.dev, struct panthor_device, base);
+>   static inline int is_dma_buf_file(struct file *);
+>   
+>   static DEFINE_MUTEX(dmabuf_list_mutex);
+> @@ -828,21 +834,57 @@ void dma_buf_put(struct dma_buf *dmabuf)
+>   }
+>   EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
+>   
+> -static void mangle_sg_table(struct sg_table *sg_table)
+> +static int dma_buf_mangle_sg_table(struct sg_table **sg_table)
+>   {
+> -#ifdef CONFIG_DMABUF_DEBUG
+> -	int i;
+> -	struct scatterlist *sg;
+> -
+> -	/* To catch abuse of the underlying struct page by importers mix
+> -	 * up the bits, but take care to preserve the low SG_ bits to
+> -	 * not corrupt the sgt. The mixing is undone on unmap
+> -	 * before passing the sgt back to the exporter.
+> +	struct scatterlist *to_sg, *from_sg;
+> +	struct sg_table *from = *sg_table;
+> +	struct dma_buf_sg_table_wrapper *to;
+> +	int i, ret;
 > +
-> +	/* We can't do uncached mappings if the device is coherent,
-> +	 * because the zeroing done by the shmem layer at page allocation
-> +	 * time happens on a cached mapping which isn't CPU-flushed (at least
-> +	 * not on Arm64 where the flush is deferred to PTE setup time, and
-> +	 * only done conditionally based on the mapping permissions). We can't
-> +	 * rely on dma_map_sgtable()/dma_sync_sgtable_for_xxx() either to flush
-> +	 * those, because they are NOPed if dma_dev_coherent() returns true.
-> +	 *
-> +	 * FIXME: Note that this problem is going to pop up again when we
-> +	 * decide to support mapping buffers with the NO_MMAP flag as
-> +	 * non-shareable (AKA buffers accessed only by the GPU), because we
-> +	 * need the same CPU flush to happen after page allocation, otherwise
-> +	 * there's a risk of data leak or late corruption caused by a dirty
-> +	 * cacheline being evicted. At this point we'll need a way to force
-> +	 * CPU cache maintenance regardless of whether the device is coherent
-> +	 * or not.
-> +	 */
-> +	if (ptdev->coherent)
-> +		return false;
+> +	if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
+> +		return 0;
 > +
-> +	/* Cached mappings are explicitly requested, so no write-combine. */
-> +	if (bo->flags & DRM_PANTHOR_BO_WB_MMAP)
-> +		return false;
+> +	/*
+> +	 * To catch abuse of the underlying struct page by importers copy the
+> +	 * sg_table without copying the page_link and give only the copy back to
+> +	 * the importer.
+>   	 */
+> -	for_each_sgtable_sg(sg_table, sg, i)
+> -		sg->page_link ^= ~0xffUL;
+> -#endif
+> +	to = kzalloc(sizeof(*to), GFP_KERNEL);
+> +	if (!to)
+> +		return -ENOMEM;
 > +
-> +	/* The default is write-combine. */
-> +	return true;
+> +	ret = sg_alloc_table(&to->wrapper, from->nents, GFP_KERNEL);
+> +	if (ret)
+> +		goto free_to;
+> +
+> +	to_sg = to->wrapper.sgl;
+> +	for_each_sgtable_dma_sg(from, from_sg, i) {
+> +		sg_set_page(to_sg, NULL, 0, 0);
+
+Are we still allowed to pass NULL page here? There looks to be the 
+recently added:
+
+VM_WARN_ON_ONCE(!page_range_contiguous(page, ALIGN(len + offset, 
+PAGE_SIZE) / PAGE_SIZE));
+
+And if page_range_contiguous() does not just return true, it potentially 
+wants to dereference the page, like with page_to_pfn()?
+
+
+> +                sg_dma_address(to_sg) = sg_dma_address(from_sg);
+> +                sg_dma_len(to_sg) = sg_dma_len(from_sg);
+
+Nit: formatting looks off here.
+
+> +		to_sg = sg_next(to_sg);
+> +	}
+>   
+> +	to->original = from;
+> +	*sg_table = &to->wrapper;
+> +	return 0;
+> +
+> +free_to:
+> +	kfree(to);
+> +	return ret;
 > +}
 > +
->  static void panthor_gem_free_object(struct drm_gem_object *obj)
->  {
->  	struct panthor_gem_object *bo = to_panthor_bo(obj);
-> @@ -145,6 +178,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  	bo = to_panthor_bo(&obj->base);
->  	kbo->obj = &obj->base;
->  	bo->flags = bo_flags;
-> +	bo->base.map_wc = should_map_wc(bo, vm);
->  	bo->exclusive_vm_root_gem = panthor_vm_root_gem(vm);
->  	drm_gem_object_get(bo->exclusive_vm_root_gem);
->  	bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
-> @@ -345,7 +379,6 @@ static const struct drm_gem_object_funcs panthor_gem_funcs = {
->   */
->  struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size)
->  {
-> -	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
->  	struct panthor_gem_object *obj;
->  
->  	obj = kzalloc(sizeof(*obj), GFP_KERNEL);
-> @@ -353,7 +386,6 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
->  		return ERR_PTR(-ENOMEM);
->  
->  	obj->base.base.funcs = &panthor_gem_funcs;
-> -	obj->base.map_wc = !ptdev->coherent;
->  	mutex_init(&obj->label.lock);
->  
->  	panthor_gem_debugfs_bo_init(obj);
-> @@ -388,6 +420,7 @@ panthor_gem_create_with_handle(struct drm_file *file,
->  
->  	bo = to_panthor_bo(&shmem->base);
->  	bo->flags = flags;
-> +	bo->base.map_wc = should_map_wc(bo, exclusive_vm);
->  
->  	if (exclusive_vm) {
->  		bo->exclusive_vm_root_gem = panthor_vm_root_gem(exclusive_vm);
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 389d508b3848..ae69a5704756 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -863,8 +863,11 @@ panthor_queue_get_syncwait_obj(struct panthor_group *group, struct panthor_queue
->  	struct iosys_map map;
->  	int ret;
->  
-> -	if (queue->syncwait.kmap)
-> -		return queue->syncwait.kmap + queue->syncwait.offset;
-> +	if (queue->syncwait.kmap) {
-> +		bo = container_of(queue->syncwait.obj,
-> +				  struct panthor_gem_object, base.base);
-> +		goto out_sync;
-> +	}
->  
->  	bo = panthor_vm_get_bo_for_va(group->vm,
->  				      queue->syncwait.gpu_va,
-> @@ -881,6 +884,17 @@ panthor_queue_get_syncwait_obj(struct panthor_group *group, struct panthor_queue
->  	if (drm_WARN_ON(&ptdev->base, !queue->syncwait.kmap))
->  		goto err_put_syncwait_obj;
->  
-> +out_sync:
-> +	/* Make sure the CPU caches are invalidated before the seqno is read.
-> +	 * drm_gem_shmem_sync() is a NOP if map_wc=true, so no need to check
-> +	 * it here.
-> +	 */
-> +	panthor_gem_sync(&bo->base.base, queue->syncwait.offset,
-> +			 queue->syncwait.sync64 ?
-> +			 sizeof(struct panthor_syncobj_64b) :
-> +			 sizeof(struct panthor_syncobj_32b),
-> +			 DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE);
+> +static void dma_buf_demangle_sg_table(struct sg_table **sg_table)
+> +{
+> +	struct dma_buf_sg_table_wrapper *copy;
 > +
->  	return queue->syncwait.kmap + queue->syncwait.offset;
->  
->  err_put_syncwait_obj:
-> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> index 39d5ce815742..e238c6264fa1 100644
-> --- a/include/uapi/drm/panthor_drm.h
-> +++ b/include/uapi/drm/panthor_drm.h
-> @@ -681,6 +681,15 @@ struct drm_panthor_vm_get_state {
->  enum drm_panthor_bo_flags {
->  	/** @DRM_PANTHOR_BO_NO_MMAP: The buffer object will never be CPU-mapped in userspace. */
->  	DRM_PANTHOR_BO_NO_MMAP = (1 << 0),
+> +	if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
+> +		return;
 > +
-> +	/**
-> +	 * @DRM_PANTHOR_BO_WB_MMAP: Force "Write-Back Cacheable" CPU mapping.
-> +	 *
-> +	 * CPU map the buffer object in userspace by forcing the "Write-Back
-> +	 * Cacheable" cacheability attribute. The mapping otherwise uses the
-> +	 * "Non-Cacheable" attribute if the GPU is not IO coherent.
-> +	 */
-> +	DRM_PANTHOR_BO_WB_MMAP = (1 << 1),
->  };
->  
->  /**
+> +	copy = container_of(*sg_table, typeof(*copy), wrapper);
+> +	*sg_table = copy->original;
+> +	sg_free_table(&copy->wrapper);
+> +	kfree(copy);
+>   }
+>   
+>   static inline bool
+> @@ -1139,7 +1181,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+>   		if (ret < 0)
+>   			goto error_unmap;
+>   	}
+> -	mangle_sg_table(sg_table);
+> +	ret = dma_buf_mangle_sg_table(&sg_table);
+> +	if (ret)
+> +		goto error_unmap;
+>   
+>   	if (IS_ENABLED(CONFIG_DMA_API_DEBUG)) {
+>   		struct scatterlist *sg;
+> @@ -1220,7 +1264,7 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
+>   
+>   	dma_resv_assert_held(attach->dmabuf->resv);
+>   
+> -	mangle_sg_table(sg_table);
+> +	dma_buf_demangle_sg_table(&sg_table);
+>   	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
+>   
+>   	if (dma_buf_pin_on_map(attach))
 
