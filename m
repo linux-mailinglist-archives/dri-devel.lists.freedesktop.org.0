@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87976CA2725
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 07:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 960A3CA272B
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 07:06:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBC9E10E1B9;
-	Thu,  4 Dec 2025 06:06:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED56310E1BA;
+	Thu,  4 Dec 2025 06:06:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dDgM4XVm";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D3UHXWUY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
  [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECE7B10E1B9
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 06:06:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3525310E1B9
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 06:06:54 +0000 (UTC)
 Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-640a503fbe8so918773a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 22:06:52 -0800 (PST)
+ 4fb4d7f45d1cf-647a3bca834so695809a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 22:06:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764828411; x=1765433211; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=JZ9/LjENMEgkqGr3qDNK6DAWAvXersuPBKAH6ygTJP0=;
- b=dDgM4XVm8cVC+55yMncTnuwm+zwR8fULOHTMjqT+Fp8Sg31XZuERwdXfXmezYNbtnd
- clkRLXWWQNKbpd6xOdE6Sx7uOeNGdTKXKQypERfinjLH1MrC6vCfixbJtTprxfk+e1dB
- o6oMt7EDRBK0tQshpUKbkDEeiTEVwQ4/9/MKRar9vZ17jucmzujfWJkg8gnFPtUYJLAP
- Yaw95PbxamVU9HyfznX4S1xRz+NLYjbJQpHOR+Po8bm2HyZfjukkRmHTPbPhd6OKi9Kj
- eLrJ9uK0YaaGV/R7XJTUk1Jt7OuqM90qyh9vpOh+5ZLRaaeIr9QZ4lHPuwC7sxLg7gcq
- 5hXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764828411; x=1765433211;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1764828413; x=1765433213; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JZ9/LjENMEgkqGr3qDNK6DAWAvXersuPBKAH6ygTJP0=;
- b=K05jj/NpzV61gMhSLM28jVR0DkFVRA1UlDt3A+heIJA6aManKCwjnzciSz0kEH4c0S
- cNPNQuNbGvCGwAKLsk7Zh06KSZVigteJhkF1VJjKz1tVCLhGCvqKme53M7YUv5G9gBfE
- C+sSmfO91UY9xT0Nal/hrMHG3htEl8ChA3z+TvlNhaYq/2Wa2T1mTbCW9sgDWGLbT43B
- jGKbBUSvcAOcG1VlYZ1nbWL+q0Gzf2E+7rp1c39TwQ4uJnEhejeOhXvxGLL+4NrUwUVi
- vLa1JUAHtAM4nlUvHBe+DU5w8onKLleoVIjoNbVeb9O3rwGZWNa3U/QzF/OWVAppMg06
- uELg==
-X-Gm-Message-State: AOJu0Yw3dVPfj8KtbQKyEcWNM5wRY3MyVPp97BU5PN7pJUFhvHeLVHeH
- ijQgDQJJg7Fl6Gbiy1kaaEbuSEOYiDaNs5cDuY/CdHiVmZBu6ZVqPnpJ
-X-Gm-Gg: ASbGncuqdRHoUD0hjEFJdKR1ZTbgNpDlqgjOIEDIKnvnJPcdQy/LbD/Xu3FdoAtrjCt
- Rz8P2JJW2MX4dzD/reFnQ2jxyEKYpMF3HUIZEwhvk7gAcndyA7sOb8SygmvLKDdpynvUR9isN3i
- 9bDnb1J3k8xF+M2TFOiE6a4j460PmePy2lmLV+l6/eCyqR6pUKJuI4/qesa0/WvkUoqIwuz1PrG
- 5e/crfkzISMRiqZsmuRWexT0rb4PXKpv2ZyqMw+AVO/mIVt95oxmUdFKVRZy8QT/cE+ka2ukjzm
- d6YZ7PInYe1cXAVn/1vUlcHtjAC9vucIvduhq6AaBbPgPJIBcGjfLoPFJmxAHZ/XoviQdZQYMIV
- ArW9AnzYLO6MXi7kVnzt3icUaddnK+I7kApJeGDBHguyFNIPh0ma+FYM1M8EzyBLxtwgaw2RHYP
- 3cRYKgsHGU9A==
-X-Google-Smtp-Source: AGHT+IGzgtbqSQa+Nunwm3tsFNhMDU83uHRCJF1GCTTEVoUczGHtwgIxvcTuLpvcqSN7APe8juko5w==
-X-Received: by 2002:a05:6402:4302:b0:640:cd2a:3cc1 with SMTP id
- 4fb4d7f45d1cf-647abcf4242mr1593608a12.0.1764828411280; 
- Wed, 03 Dec 2025 22:06:51 -0800 (PST)
+ bh=MmVeYmdQG39CjbFRBoggArBt69tBLOMtXANeqHPySaA=;
+ b=D3UHXWUYuOFmZ7QRHAG/Yv9NIH73zskEQ3NNzYclbHkr/rPvUJFhhT3/xVUuLYW1+i
+ uE0mWxyz0YS82rQ0Qx2CHgoTYFsvxo0wdLah/+1rT16KeUGxMK8syor3yyocyjYHFBoR
+ d0Qo+IN5ir6RVzCuiU9/cvdx5uJPxUzqmkgom/jNsjOGS0LwcgcRd+Vg8G0viQEfRPR3
+ dOlfv1YHMnqyfOSl4gUGX9JBtyevpaHMLV0j2TQchb8EljLCOt3ngKA08QdgoLaFIB8W
+ aCJP4lh54PRUAwj5gMUmT1tb41h9lIdmNDm+aztSBsyyG+3ve220w9OG7gy8PZ04VSgq
+ G1zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764828413; x=1765433213;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=MmVeYmdQG39CjbFRBoggArBt69tBLOMtXANeqHPySaA=;
+ b=PopB4hchFOZ1V4zk0suHs1dLCWtCg5UlvStsC7cL9Q8reK3i5LhA5lnZQAB8xbCMzO
+ 8H8fNjt4GkoxsNYVFL3sv7mUmgMCfnoxRs2ZrlwSNC1j+FkaTgnXHlcwOnIJeTvD+bPH
+ Fyhjc+QLMJPF+YunP6IFYSbJd69O+YcTi+SqtzXzIXt+2icANB32qgyO4v//0NseE3gz
+ w4RbhPv9oV/K5c8nUun7pOgnwWn86j6ztM5dCQJJ4F5J2RqlwprHon5/9kf/9XUHU3mX
+ /8VGcGCcoO/rQxtrm+uBwuV45NgdYzTRNBOZWP9d1hxFkjrSJdFSRCW9u7u6zyOUq+/s
+ 9kRA==
+X-Gm-Message-State: AOJu0Yzduk2XnlOSX3HgT3bYpaF5ULkcRMjoNwnY+wYUE5o2l0VVXBdc
+ 8GSA+NeLuTImZdiYq1Jikg0mRCpm9q+ylajXFooKlIf7ZvWRuVac/25t
+X-Gm-Gg: ASbGncuQJu4B2ka/RmDGBiqwwiibttnj5kk3Vo7Mgfutclsn2PJgqLYi9SSfv+F8H++
+ 9dJ2r/kMxhI4mt3vDlibifx49KRgJDjzz+Mh4Iby4+qWx49N2onDzkY4lfAwOb4FPRqt7DWYwmL
+ OnWbTWUpCbedNlYSvZzLqCe0kRou/FRdDsNFVwKALXYhgQ/b+kgCRV9vuYwYQpDpjyX+Bp1qmx6
+ cVEL2RWrRUC6bPsj4cgSp6Bd0izAwM8ESm4Zw2+5nPQ9UOhIv+AQQi1A2QNZopQVaYqdEuTfcVV
+ qHb7dV2XuajYXFb+Bmv4HaVq0ncfbqDeI1TaUsWR5sTlFZoTp01r57o3PasvyAqcUZricixDMKq
+ 96wPYyYojOz1wnKrQ798S7Q3DTBoqn8ARUjTAzwSWYzcw8IueL1L4+Zq+DZd8rJwEnl6O7p0J9/
+ U=
+X-Google-Smtp-Source: AGHT+IG2uSp5m1pwmGBSyOtq4zqTrB1e5ASqxEmOOTHWvBiYa6jbXWwGQOIFNWn9z4op7aDbh7fbwA==
+X-Received: by 2002:a05:6402:234a:b0:646:6de:a09f with SMTP id
+ 4fb4d7f45d1cf-6479c4475e9mr4164767a12.2.1764828412441; 
+ Wed, 03 Dec 2025 22:06:52 -0800 (PST)
 Received: from xeon ([188.163.112.74]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-647b2ef7798sm460296a12.15.2025.12.03.22.06.49
+ 4fb4d7f45d1cf-647b2ef7798sm460296a12.15.2025.12.03.22.06.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Dec 2025 22:06:50 -0800 (PST)
+ Wed, 03 Dec 2025 22:06:52 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -70,11 +71,13 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Svyatoslav Ryhel <clamor95@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v3 0/7 RESEND] Add support for panels found in various Tegra
- devices
-Date: Thu,  4 Dec 2025 08:06:16 +0200
-Message-ID: <20251204060627.4727-1-clamor95@gmail.com>
+Subject: [PATCH v3 1/7 RESEND] dt-bindings: display: panel: properly document
+ LG LD070WX3 panel
+Date: Thu,  4 Dec 2025 08:06:17 +0200
+Message-ID: <20251204060627.4727-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251204060627.4727-1-clamor95@gmail.com>
+References: <20251204060627.4727-1-clamor95@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -93,48 +96,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for panels found in various Tegra30 and Tegra114 devices,
-including panels in Tegra Note 7, Surface RT, Surface 2 and Ideapad
-Yoga 11 T30.
+LG LD070WX3-SL01 was mistakenly documented as a simple DSI panel, which it
+clearly is not. Address this by adding the proper schema for this panel.
 
+There is only one user of this panel binding in the mainline Linux kernel,
+which is the Nvidia tablet Tegra Note 7. Its panel is broken anyway since
+it cannot initialize properly if the bootloader does not leave a
+pre-initialized panel. It also cannot suspend or re-initialize properly,
+since no DSI configuration is set and it has a loose regulator which
+relies on an always-on property rather than being hooked to the panel
+where it belongs.
+
+Tegra Note 7 device tree is adjusted as a part of this series.
+
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
-Changes in v2:
-- dropped gpu/drm: panel-edp: add AUO B116XAN02.0 panel entry (picked into drm-misc-next)
-- expanded commit descriptions
-- return accum_err on prepare
-- switched to devm_regulator_bulk_get_const
-
-Changes in v3:
-- lg,ld070wx3.yaml > lg,ld070wx3-sl01.yaml
----
-
-Anton Bambura (1):
-  gpu/drm: panel: add Samsung LTL106HL02 MIPI DSI panel driver
-
-Svyatoslav Ryhel (6):
-  dt-bindings: display: panel: properly document LG LD070WX3 panel
-  gpu/drm: panel: add support for LG LD070WX3-SL01 MIPI DSI panel
-  ARM: tn7: adjust panel node
-  dt-bindings: display: panel: document Samsung LTL106AL01 simple panel
-  gpu/drm: panel: simple-panel: add Samsung LTL106AL01 LVDS panel
-    support
-  dt-bindings: display: panel: document Samsung LTL106HL02 MIPI DSI
-    panel
-
- .../display/panel/lg,ld070wx3-sl01.yaml       |  60 ++++++
- .../display/panel/panel-simple-dsi.yaml       |   4 +-
- .../bindings/display/panel/panel-simple.yaml  |   2 +
- arch/arm/boot/dts/nvidia/tegra114-tn7.dts     |  13 +-
- drivers/gpu/drm/panel/Kconfig                 |  26 +++
- drivers/gpu/drm/panel/Makefile                |   2 +
- drivers/gpu/drm/panel/panel-lg-ld070wx3.c     | 184 ++++++++++++++++++
- .../gpu/drm/panel/panel-samsung-ltl106hl02.c  | 179 +++++++++++++++++
- drivers/gpu/drm/panel/panel-simple.c          |  65 ++++---
- 9 files changed, 496 insertions(+), 39 deletions(-)
+ .../display/panel/lg,ld070wx3-sl01.yaml       | 60 +++++++++++++++++++
+ .../display/panel/panel-simple-dsi.yaml       |  2 -
+ 2 files changed, 60 insertions(+), 2 deletions(-)
  create mode 100644 Documentation/devicetree/bindings/display/panel/lg,ld070wx3-sl01.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-lg-ld070wx3.c
- create mode 100644 drivers/gpu/drm/panel/panel-samsung-ltl106hl02.c
 
+diff --git a/Documentation/devicetree/bindings/display/panel/lg,ld070wx3-sl01.yaml b/Documentation/devicetree/bindings/display/panel/lg,ld070wx3-sl01.yaml
+new file mode 100644
+index 000000000000..0f0b9079f199
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/lg,ld070wx3-sl01.yaml
+@@ -0,0 +1,60 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/lg,ld070wx3-sl01.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: LG Corporation 7" WXGA TFT LCD panel
++
++maintainers:
++  - Svyatoslav Ryhel <clamor95@gmail.com>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - const: lg,ld070wx3-sl01
++
++  reg:
++    maxItems: 1
++
++  vdd-supply: true
++  vcc-supply: true
++
++  backlight: true
++  port: true
++
++required:
++  - compatible
++  - vdd-supply
++  - vcc-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "lg,ld070wx3-sl01";
++            reg = <0>;
++
++            vdd-supply = <&vdd_3v3_lcd>;
++            vcc-supply = <&vcc_1v8_lcd>;
++
++            backlight = <&backlight>;
++
++            port {
++                endpoint {
++                    remote-endpoint = <&dsi0_out>;
++                };
++            };
++        };
++    };
++...
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+index 9b92a05791cc..f9f1e76a810c 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+@@ -42,8 +42,6 @@ properties:
+       - kingdisplay,kd097d04
+         # LG ACX467AKM-7 4.95" 1080×1920 LCD Panel
+       - lg,acx467akm-7
+-        # LG Corporation 7" WXGA TFT LCD panel
+-      - lg,ld070wx3-sl01
+         # LG Corporation 5" HD TFT LCD panel
+       - lg,lh500wx1-sd03
+         # Lincoln LCD197 5" 1080x1920 LCD panel
 -- 
 2.48.1
 
