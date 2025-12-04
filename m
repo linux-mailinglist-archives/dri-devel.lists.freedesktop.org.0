@@ -2,82 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB3ECA2E50
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 10:04:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 018B7CA2E7A
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 10:07:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A1CC10E8F9;
-	Thu,  4 Dec 2025 09:04:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A90D110E8EE;
+	Thu,  4 Dec 2025 09:07:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Ab/fVM1u";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="I6te8ew8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
- [209.85.221.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 524A010E89C
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 08:37:27 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id
- ffacd0b85a97d-42e2d5e119fso304620f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 00:37:27 -0800 (PST)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+ [209.85.128.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B214310E8EE
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 09:07:07 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id
+ 5b1f17b1804b1-47755de027eso4839235e9.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 01:07:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764837446; x=1765442246; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1764839226; x=1765444026; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
  bh=C8ChXUaXX/3Eb7EnyDqnAZz0gJR5wknVDuL7fNH9uhE=;
- b=Ab/fVM1uUK3xU+L7FHzgPoYqSGKjND+iWuXWbE92Ze1FEmG5y3oKPNnBj/ltlPO5Bf
- exj1QG/c7ZfTvmw0QJlQt+miM5M9q9EV59SObHQIUk+Az0e/nnSU0a2QFb+9+VmssHGH
- zDbnrOUJSJPsjrpCHPOMloImYuZhvrNBs7TuVmsc6FY3x9CtDY7BSD06Gbe5ElFGYvdN
- GvhowbwoTld43zQ10mqA5TiBoE0OmTRo+d6quy3+Z/66+ClgAAJmtguyf3jZ1I7QrufF
- 6uWwld5MlA7PT5UOryQxBoJo+qATcKcaaoBt4UqWUf1ZH6ZNcRtylu8cIohf8C7TIliv
- zBcw==
+ b=I6te8ew8J+qRQWo+FgMwbynoqQkUmj/upSg6jFQrsblL4mtra9i0lh8qQrVZBm7Sp2
+ qZv0lbCToE6TPpTD4ACitPqf6q/uJgH86ItLGY9VG/a6oGNFf6Q2GsdwfUORJeMTe3z6
+ YBkZwKpuIZHSMoQ3j31ckEm6NJ3FDRYewxty7j3/NynenZ8ZBbUoSpnsisyPTMGP5VPu
+ nH1M9H13LIF+fWDnhZHDj9PDfKTznVz9r4F2+gxwUJf95NfGq5qw1VJXCRv+f/Eqq3gu
+ bMWFPzhi9Ptdu7nVLy1MTMyTH1OOs6Xgv90J+J3PcRVhsQ6I9M7f2Naj7wP0EoGftXaQ
+ 5bkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764837446; x=1765442246;
+ d=1e100.net; s=20230601; t=1764839226; x=1765444026;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
  bh=C8ChXUaXX/3Eb7EnyDqnAZz0gJR5wknVDuL7fNH9uhE=;
- b=FT2lqU6M0F0BAhdLGYl5rxKWNQ7pzbQ99woyHWsIqN9s/xl0hlnV/cu5mRpSTOulpZ
- EaFKjTrmkZy1NFnpMrO0BpyAY6YMzyNCOGRMlG/gGN5kABnU9H/fUH4nfTqLrYyfY/DS
- Os2ehsTYz69ulUzH38zL+HsgzdOLZcenSQMnqPRdtrxfZxlEHzCZ9LUhEylcRFx7VcpP
- wDGq2C0zUymeeQ1RTnmzGa16AUUpV4DQaAo03GljPbGcljInuynxOmLDke1PZP3t35E5
- 2eZtrBdbKthliYgGWVl7bmqPCDObr7RSh1urse+qGy5AOCBciddQnBqoGpT8xWZ96JTz
- 2kEg==
-X-Gm-Message-State: AOJu0Yznu2oZZrLLwWowUlfgaOmyf84lNn6XNuK/TTwlRIZrEtpP2MNh
- BiarP9DwKiQKohNiCCAs3VDGXjqpEhL/WkC/I8Tmnlu2DRYe2Gl2o0S/
-X-Gm-Gg: ASbGncvZQnDYFvxTmsDhCOkpgAWYcZZ07fnchuPGAd6MNSdrUdCNiZP9GWxOcDNHFXY
- MhgofDNDokx50H8YyWyG8Vc/YDc0AiFyW4P26yRWU0VNPzEvw6C3M8Pv0Lx2Xna52H2f91uP8oh
- lSIXHJsFNgEApDJkczcjDRuk5BYo7fvwZ/YascAtBQwUw+2rWB9M0Ir5//s7WMJ5Ll9+jyefSIX
- 364ADUZekyyN1jPuKa8m1QSGArb+jk5ZpF6svzZA6TLyMQtRR/bFINqCA5OspkEkeUHmATXYvzJ
- 0odUmOmcmhrA+eXxxcVaQ6v0i0xzqGo0MGLYMuwm19aDakmrXV+kI+6TTwzQzipFFLDpxWWjkdp
- /5l01Ukpzl5Kt6A6p+06/KIZ5/EWHbXNYtsB16p5amrOv/+2uzkeelA7lINPi1Lp9vPGA6Ml/4+
- WCUKEREcAb+PFUfb+Hl2yeJ2LszHfdbcDK15Yh7qfO+jWUxWrAnROcLZfflxe22O5HNDYazIgwh
- G38IzT0VS4BMzOcKFWxHA==
-X-Google-Smtp-Source: AGHT+IGskEPThtuasuGfzDAcJBPuTV1Yggp0zHFey4EJ6Rz911VtGEzvcWXQ9678IY4p4XxvCTxx8Q==
-X-Received: by 2002:a5d:5e01:0:b0:42b:3246:1682 with SMTP id
- ffacd0b85a97d-42f731963cdmr5225495f8f.16.1764837445503; 
- Thu, 04 Dec 2025 00:37:25 -0800 (PST)
+ b=bQagA7Z/hh77fGFubMtKO+7exZ4CkgllnAZ5iJo8ZjUc/uwnsrmbcEp9IY/bBjQjFs
+ VZ4ezR86OUaX37sJYqzC7OMHhBmxGh6Rxny41WwtCRmhj0a7wZxjdOasTo5Zzw6Fgurb
+ 8/as+27ju291RqJGzqSln7YYE1zG9B1QhJqKExrcbA2PIYm6r3PTHxGnFsezbuzqVJxK
+ dYWzCU2d5I7A6T2sBfwiJLIkKYBkpNA6eKz3ppBsVteBnxqBijM7RJIUMiGMzagbm9wI
+ Kj8e+VSK+wDxBp3h3nv/8xXwKgoVGOCfFxIphuNpb1dsP+y3SuMMtEngnCJsjNjfu+s6
+ HTig==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWRqEy4mQ/JEL2Tu72IDw4tFCSQ7bePTl4rgJxZVxeb3nX02jLfaxzEP9uQukAbQURAmTo2U6xioS8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzVdIB+BA/YdCKVT1GtdsD7LuuGtqSHKc2tK8YlwJJFkKBE51zq
+ wrCcd6/JD8rQvIXONARikrTY2nO63nDVWYS2bX9ztmHYY/7GoBB2FMge
+X-Gm-Gg: ASbGncvytsHr3KnTRP0p9VIct0RmyXqXNC+GOG3kIZ+mURW9pDTziN65D84+mcCQYG0
+ MctUd+IgjAxdmxXTCaekw1MXCsAdk7nT+JugGHJmQIKSQT3GPk2jB2aQI5wZzsqnzzNdOQi6qeN
+ XrBSMFsFmNSw2BLKXRXeHhy8cZ+Tk0hsGCDM2dkSTh3copNf7ts8w5H4xPymzxNCdTJzVo+KB31
+ II43LggQW1l9z1cp3PMw9rhlMlKwByA0QybH+4NqidlfzSfybzDAP8+Er2LOcWNC9EWBAI/v4mL
+ 3XDYD+ozl4GrhTzwyomuiYbGcvEK9mnrIdMT+W+JW3aQ7VdDJ7VDRQ4vkiqg8abPmztelHRiVIE
+ +XdIWI3WM7PEh+niG7P4YtjpDZLe4CuhOpBtjJK3ZdSZV488tv50Y5+b4AyTR62/Yk0oJlE1KWx
+ bsVFDe8wYhPUig0rT5UpFwEb4p/USFLdzse/oTr35khLhh+4OF8Ue3vUbREQ1/XULtjKXkupSDl
+ ylx5hTLp64=
+X-Google-Smtp-Source: AGHT+IE+fjNmLywhUx1OF/Ef/Nev26Vbuf6nO8uNTH6Y7/HAGijxD1TsAJ2OslWR3two3806pxXzyA==
+X-Received: by 2002:a05:600c:3541:b0:46e:761b:e7ff with SMTP id
+ 5b1f17b1804b1-4792f38d6d8mr15427565e9.28.1764839225852; 
+ Thu, 04 Dec 2025 01:07:05 -0800 (PST)
 Received: from gattout.local
  (2a01cb0012bffa008e9c25a4ae82f3b7.ipv6.abo.wanadoo.fr.
  [2a01:cb00:12bf:fa00:8e9c:25a4:ae82:f3b7])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42f7d222506sm2213149f8f.28.2025.12.04.00.37.24
+ ffacd0b85a97d-42f7d352a52sm2067423f8f.38.2025.12.04.01.07.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Dec 2025 00:37:25 -0800 (PST)
+ Thu, 04 Dec 2025 01:07:05 -0800 (PST)
 From: Amin GATTOUT <amin.gattout@gmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Douglas Anderson <dianders@chromium.org>,
+To: neil.armstrong@linaro.org
+Cc: jessica.zhang@oss.qualcomm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+ simona@ffwll.ch, dri-devel@lists.freedesktop.org,
  Amin GATTOUT <amin.gattout@gmail.com>
 Subject: [PATCH] drm/panel: otm8009a: Switch to mipi_dsi_multi_context helpers
-Date: Thu,  4 Dec 2025 09:37:21 +0100
-Message-ID: <20251204083722.84749-1-amin.gattout@gmail.com>
+Date: Thu,  4 Dec 2025 10:07:04 +0100
+Message-ID: <20251204090704.87588-1-amin.gattout@gmail.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 04 Dec 2025 09:04:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
