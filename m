@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57365CA4443
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 16:32:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25782CA4467
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 16:35:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A67B10E8B8;
-	Thu,  4 Dec 2025 15:32:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8B0B10E99D;
+	Thu,  4 Dec 2025 15:35:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mCuPz+eW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tjS5frsI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FE5F10E1FA;
- Thu,  4 Dec 2025 15:32:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2774B10E99C;
+ Thu,  4 Dec 2025 15:35:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 53D4641825;
- Thu,  4 Dec 2025 15:32:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3113EC4CEFB;
- Thu,  4 Dec 2025 15:31:58 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E2AAE4371A;
+ Thu,  4 Dec 2025 15:35:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E9ABC19422;
+ Thu,  4 Dec 2025 15:34:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764862323;
- bh=w1Q6VFwrOC3dS9CSpG3G+OIpgCbwXEUvXqb5bD63Llw=;
+ s=k20201202; t=1764862500;
+ bh=Uv/Wv3BW0tXKZnbn86uYnmTRmLoSXzOusKBbGjFBOlk=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=mCuPz+eWxH8vs21Qg2kgA0XVOUWEIfo+Fki4gxS+RDfB0YE0UO3U8ieXlCMiOQwvu
- 9schcaqbV5/5SSuY0vWyTA5DYwF9ZGMxPpstlm1OvxOXX8fYikoLpYOPVZIBd4YaYI
- DtWUBffhyI568Tb+f8E1372x+I+cGsiFa1LdElENwnDm6r9bz/KtCjO/0Hs9ffhj6Y
- eDmb7o5ErvsZkCYG/B3UkjvgYBo3MLpazh1wlZYcB2p08aLVSrjF/3yi4uQPcVi/uz
- YxUb2O3TJAe6GADlZvdFya9+C3n8kk2LM0lWgJmeXuKBT2OF02O/VcDtbrn2360hAi
- zuOqLtJkpI4Kg==
-Message-ID: <f7d1650f-3431-4370-a20f-cce0ca6667e8@kernel.org>
-Date: Thu, 4 Dec 2025 16:31:56 +0100
+ b=tjS5frsIp1F4dcYNCbq24JF8l6VOUjUvg8NN8SKko0x5KxvhHmH5nhf/NRJickh2M
+ Jwj7sStMAifG3H2jGOQbOSEB6XF70fUefXsOWaDZO3RyIZIQ81N3oUs73JumeKY5xm
+ 35epJ/J2mSbwIzCTGwzJNOS1CdPkku+4bhZhnybvYACgUsZ3jPhAhrG75v+/g9JeAx
+ 9wxTlNWdOu6mxtZceWbHFbx417UTBtIp7UoKgngfUI2/Ck6tEdBJAVUJN0A0Tje4Ci
+ gWfgUGi4oDDsBT3+Xi1VySx8StulvzyIkssuiGlD3yzv9J66yKt/HC8e7exi59hgGL
+ pxhzFkXa4a5wg==
+Message-ID: <e8243a84-a7bd-4087-87d7-2795d6bc7595@kernel.org>
+Date: Thu, 4 Dec 2025 16:34:53 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/8] dt-bindings: display/msm: gpu: Simplify
- conditional schema logic
+Subject: Re: [PATCH v4 3/8] dt-bindings: display/msm: gpu: Document A612 GPU
 To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
  Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
  Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
@@ -53,7 +52,7 @@ Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  Jie Zhang <jie.zhang@oss.qualcomm.com>
 References: <20251204-qcs615-spin-2-v4-0-f5a00c5b663f@oss.qualcomm.com>
- <20251204-qcs615-spin-2-v4-2-f5a00c5b663f@oss.qualcomm.com>
+ <20251204-qcs615-spin-2-v4-3-f5a00c5b663f@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -99,7 +98,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251204-qcs615-spin-2-v4-2-f5a00c5b663f@oss.qualcomm.com>
+In-Reply-To: <20251204-qcs615-spin-2-v4-3-f5a00c5b663f@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -118,18 +117,51 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 04/12/2025 14:21, Akhil P Oommen wrote:
-> JSON Schema conditionals can become complex and error-prone when combined
-> with regex patterns. To improve readability and maintainability, replace
-> nested if-else blocks with a flattened structure using explicit enums.
-> 
-> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> ---
->  .../devicetree/bindings/display/msm/gpu.yaml       | 56 ++++++++++++++--------
->  1 file changed, 36 insertions(+), 20 deletions(-)
-> 
+>  
+>    clocks:
+> -    minItems: 2
+> +    minItems: 1
+>      maxItems: 7
+>  
+>    clock-names:
+> -    minItems: 2
+> +    minItems: 1
+>      maxItems: 7
+>  
+>    reg:
+> @@ -388,6 +388,32 @@ allOf:
+>          - clocks
+>          - clock-names
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: qcom,adreno-612.0
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: GPU Core clock
+> +
+> +        clock-names:
+> +          items:
+> +            - const: core
+> +
+> +        reg-names:
+> +          minItems: 1
+> +          items:
+> +            - const: kgsl_3d0_reg_memory
+> +            - const: cx_mem
+> +            - const: cx_dbgc
 
+The patch overall gets better, thanks, but I think I asked about this
+already - why you don't have the list strict? I don't see reason for
+making list flexible and I don't see the explanation in the commit msg.
+Either this should be fixed-size (so minItems: 3 and same for reg:) or
+you should document reasons WHY in the commit msg. Otherwise next time I
+will ask the same. :(
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
