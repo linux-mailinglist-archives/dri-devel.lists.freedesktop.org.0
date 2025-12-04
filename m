@@ -2,78 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678C7CA4652
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 17:04:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA72CA468E
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 17:09:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D6E810E204;
-	Thu,  4 Dec 2025 16:04:15 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DFvzm82l";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA0D410E991;
+	Thu,  4 Dec 2025 16:09:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABE7110E94D
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 16:04:14 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-7b8c7a4f214so120614b3a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 08:04:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764864254; x=1765469054; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=h9XAD36IjWaQ1p3osiLJ/jBzK4APVeT1MPMLfXvV3Uw=;
- b=DFvzm82li7hGGWXKCRW3JTFJFfFE7aJ/zIpnpjEW03BMSaYEEe1uNrF9PSKHqlTy3H
- b5zBzbO+GnytO0hxrCp1LVthN3kjh1lIUkdIRa/pMQ0UWpK2Aoqs+QcqfWVkqVNrEnMi
- em455aB67TuEg2QDE9Aq0eRwyTPskq2YI10+3CCi6h0M5SH4sm8ZuObrruxt5RvE60/P
- k1gw1zkKdDHgkV4KhkvooZtKKNfbGubT07sF3fitRLX0MgHCbrUJr2iTATPF0RLkdlJE
- oD2yGCKQxSI5k+/dy/hHsU9jM2cIYKCQkZPN3Lsaehf8mk8kZ/bg2hPa0n8fWo/pu8Dp
- dDgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764864254; x=1765469054;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=h9XAD36IjWaQ1p3osiLJ/jBzK4APVeT1MPMLfXvV3Uw=;
- b=t5wuNa05iRX2Fnli7gcbHbfs38R0OK1oPX+j0w4yZTW5AkAfQgqvUzW+qbOzh5aFDM
- kEPbmlKvq9cdT6ZFYhlzf5c2BDpBfbVHlfz4w1s+P09LhdS4fiYKw8aXZKr8+aowI9Qw
- xJXtmobpit49Yl3CxlrT704AhG4FRbicBjSDusHdWogIajyqP8ibG8Pva36vEsBOFYSP
- 0rlwWNHCwtKiZOk2+rdbE27HrVIfxA4jDFEC6bQSAEnngGHwA+kTP0+YgMa3Tk5biBOC
- AWFeUzHgb5pMqfbvHVI01nflfsI+61KA3/XYyx960QO4wuBV61N1m2gRGMApgvWZ8BGJ
- EaGA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVxtzzXPRd53Viy+Mlb67u6kqRzvZ6kuEEMnQgyCfhqy0YkGipHLzR/xlViSc+O3R8nMGUkj0d3jR8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yyoz5/DFWJU/ZG+HAWxJa9WdCDcpa7xMFx7kBc16gpvKoHySLgK
- 4/rZtBQzomia+84jIw3ku/6aEM2+YpwAkUdI8LVNd+BtW/9zMDRTbQy1E6S+4EYU/tapXg+khfg
- 9TbltZSxyFynNpNSfeELwyehnc+CrgRsEAhPp
-X-Gm-Gg: ASbGnctH10mz0GUSOB01JVFXY77RSS9NpPu21WTAcetx588QANz+7BCv7TYy1IyQRo6
- QK8z4V8PjSf3clfjJypycIe/pf8ACuZ6sZGFi5pAs7kILJoX4nFLBIqOE3DGW7MzR5cCO5f03mV
- Xpr278rbD3q04DEzvx8DiZWkW8tTsoqVk+4feeGPc7OtFkP6rxq8QDXqNhrVz2DQMDUtlv1jP/w
- WOf3H6JeQNlGorLKbwskWNV2nmbQzxH+qnkACt/IA5KtNPueF1H1Wv4qivelttiMRpsTrpVc7P6
- aQxe2A==
-X-Google-Smtp-Source: AGHT+IFo/0O3VZ0JYxttJZg3OwclhElvPtC74OYJfv+64UdlIzP+re1aV/OlqYA2hCWkso6DJsvYiwoXztgALGknudw=
-X-Received: by 2002:a05:7022:529:b0:11a:2020:ac85 with SMTP id
- a92af1059eb24-11df259c23bmr4130506c88.4.1764864253959; Thu, 04 Dec 2025
- 08:04:13 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id AFDC210E94D;
+ Thu,  4 Dec 2025 16:09:19 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E4C6B339;
+ Thu,  4 Dec 2025 08:09:11 -0800 (PST)
+Received: from [10.1.38.32] (e122027.cambridge.arm.com [10.1.38.32])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF0863F66E;
+ Thu,  4 Dec 2025 08:09:13 -0800 (PST)
+Message-ID: <570b87b8-2ebb-40a9-b9c8-e3923cc30f3d@arm.com>
+Date: Thu, 4 Dec 2025 16:09:11 +0000
 MIME-Version: 1.0
-References: <20251201183954.852637-1-matthew.brost@intel.com>
- <20251201183954.852637-3-matthew.brost@intel.com>
- <0088fe0dd0d62b876d77b0f9e3a1c7586bdc5557.camel@redhat.com>
-In-Reply-To: <0088fe0dd0d62b876d77b0f9e3a1c7586bdc5557.camel@redhat.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 4 Dec 2025 11:04:02 -0500
-X-Gm-Features: AWmQ_bnWAWiWiC33qR9yjiJ8M5zCFX_zhpJblXYWs1p6UR9cSMkrAObCpco-LaA
-Message-ID: <CADnq5_Pv20j+oSSFvfauUKvH8LUiVMCz2jgQyrDMw3CKACLNgQ@mail.gmail.com>
-Subject: Re: [PATCH v7 2/9] drm/sched: Add pending job list iterator
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 10/13] drm/panfrost: Add a PANFROST_SYNC_BO ioctl
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Frank Binns <frank.binns@imgtec.com>,
+ Matt Coster <matt.coster@imgtec.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dakr@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ amd-gfx@lists.freedesktop.org, kernel@collabora.com
+References: <20251203090141.227394-1-boris.brezillon@collabora.com>
+ <20251203090141.227394-11-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251203090141.227394-11-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,163 +65,289 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Dec 3, 2025 at 4:24=E2=80=AFAM Philipp Stanner <pstanner@redhat.com=
-> wrote:
->
-> +Cc Alex, Christian, Danilo
->
->
-> On Mon, 2025-12-01 at 10:39 -0800, Matthew Brost wrote:
-> > Stop open coding pending job list in drivers. Add pending job list
-> > iterator which safely walks DRM scheduler list asserting DRM scheduler
-> > is stopped.
-> >
-> > v2:
-> >  - Fix checkpatch (CI)
-> > v3:
-> >  - Drop locked version (Christian)
-> > v4:
-> >  - Reorder patch (Niranjana)
->
-> Same with the changelog.
->
-> >
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > Reviewed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel=
-.com>
-> > ---
-> >  include/drm/gpu_scheduler.h | 50 +++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 50 insertions(+)
-> >
-> > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> > index 385bf34e76fe..9d228513d06c 100644
-> > --- a/include/drm/gpu_scheduler.h
-> > +++ b/include/drm/gpu_scheduler.h
-> > @@ -730,4 +730,54 @@ static inline bool drm_sched_job_is_signaled(struc=
-t drm_sched_job *job)
-> >               dma_fence_is_signaled(&s_fence->finished);
-> >  }
-> >
-> > +/**
-> > + * struct drm_sched_pending_job_iter - DRM scheduler pending job itera=
-tor state
-> > + * @sched: DRM scheduler associated with pending job iterator
-> > + */
-> > +struct drm_sched_pending_job_iter {
-> > +     struct drm_gpu_scheduler *sched;
-> > +};
-> > +
-> > +/* Drivers should never call this directly */
-> > +static inline struct drm_sched_pending_job_iter
-> > +__drm_sched_pending_job_iter_begin(struct drm_gpu_scheduler *sched)
-> > +{
-> > +     struct drm_sched_pending_job_iter iter =3D {
-> > +             .sched =3D sched,
-> > +     };
-> > +
-> > +     WARN_ON(!drm_sched_is_stopped(sched));
-> > +     return iter;
-> > +}
-> > +
-> > +/* Drivers should never call this directly */
-> > +static inline void
-> > +__drm_sched_pending_job_iter_end(const struct drm_sched_pending_job_it=
-er iter)
-> > +{
-> > +     WARN_ON(!drm_sched_is_stopped(iter.sched));
-> > +}
-> > +
-> > +DEFINE_CLASS(drm_sched_pending_job_iter, struct drm_sched_pending_job_=
-iter,
-> > +          __drm_sched_pending_job_iter_end(_T),
-> > +          __drm_sched_pending_job_iter_begin(__sched),
-> > +          struct drm_gpu_scheduler *__sched);
-> > +static inline void *
-> > +class_drm_sched_pending_job_iter_lock_ptr(class_drm_sched_pending_job_=
-iter_t *_T)
-> > +{ return _T; }
-> > +#define class_drm_sched_pending_job_iter_is_conditional false
-> > +
-> > +/**
-> > + * drm_sched_for_each_pending_job() - Iterator for each pending job in=
- scheduler
-> > + * @__job: Current pending job being iterated over
-> > + * @__sched: DRM scheduler to iterate over pending jobs
-> > + * @__entity: DRM scheduler entity to filter jobs, NULL indicates no f=
-ilter
-> > + *
-> > + * Iterator for each pending job in scheduler, filtering on an entity,=
- and
-> > + * enforcing scheduler is fully stopped
-> > + */
-> > +#define drm_sched_for_each_pending_job(__job, __sched, __entity)      =
-       \
-> > +     scoped_guard(drm_sched_pending_job_iter, (__sched))              =
-       \
-> > +             list_for_each_entry((__job), &(__sched)->pending_list, li=
-st)    \
-> > +                     for_each_if(!(__entity) || (__job)->entity =3D=3D=
- (__entity))
-> > +
-> >  #endif
->
->
-> See my comments in the first patch. The docu doesn't mention at all why
-> this new functionality exists and when and why users would be expected
-> to use it.
->
-> As far as I remember from XDC, both AMD and Intel overwrite a timed out
-> jobs buffer data in the rings on GPU reset. To do so, the driver needs
-> the timedout job (passed through timedout_job() callback) and then
-> needs all the pending non-broken jobs.
->
-> AFAICS your patch provides a generic iterator over the entire
-> pending_list. How is a driver then supposed to determine which are the
-> non-broken jobs (just asking, but that needs to be documented)?
->
-> Could it make sense to use a different iterator which only returns jobs
-> of not belonging to the same context as the timedout-one?
->
-> Those are important questions that need to be addressed before merging
-> that.
->
-> And if this works canonically (i.e., for basically everyone), it needs
-> to be documented in drm_sched_resubmit_jobs() that this iterator is now
-> the canonical way of handling timeouts.
->
-> Moreover, btw, just yesterday I added an entry to the DRM todo list
-> which addresses drm_sched_resubmit_jobs(). If we merge this, that entry
-> would have to be removed, too.
->
->
-> @AMD: Would the code Matthew provides work for you? Please give your
-> input. This is very important common infrastructure.
+On 03/12/2025 09:01, Boris Brezillon wrote:
+> From: Faith Ekstrand <faith.ekstrand@collabora.com>
+> 
+> This will be used by the UMD to synchronize CPU-cached mappings when
+> the UMD can't do it directly (no usermode cache maintenance instruction
+> on Arm32).
+> 
+> v2:
+> - Add more to the commit message
+> - Change the flags to better match the drm_gem_shmem_sync semantics
+> 
+> v3:
+> - Add Steve's R-b
+> 
+> v4:
+> - No changes
+> 
+> v5:
+> - Drop Steve's R-b (semantics changes requiring a new review)
+> 
+> v6:
+> - Bail out early in panfrost_ioctl_sync_bo() if op_count is zero
+> 
+> v7:
+> - Hand-roll our own bo_sync() helper
+> 
+> Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-I don't think drm_sched_resubmit_jobs() can work for us without major
-rework.  For our kernel queues, we have a single queue on which jobs
-for different clients are scheduled.  When we reset the queue, we lose
-all jobs on the queue and have to re-emit the non-guilty ones.  We do
-this at the ring level, i.e., we save the packets directly from the
-ring and then re-emit the packets for the non-guilty contexts to the
-freshly reset ring.  This avoids running run_job() again which would
-issue new fences and race with memory management, etc.
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-I think the following would be workable:
-1. driver job_timedout() callback flags the job as bad. resets the bad
-queue, and calls drm_sched_resubmit_jobs()
-2. drm_sched_resubmit_jobs() walks the pending list and calls
-run_job() for every job
-2. driver run_job() callback looks to see if we already ran this job
-and uses the original fence rather than allocating a new one
-3. driver run_job() callback checks to see if the job is guilty or
-from the same context and if so, sets an error on the fences and
-submits only the fence packet to the queue so that any follow up jobs
-will properly synchronize if they need to wait on the fence from the
-bad job.
-4. driver run_job() callback will submit the full packet stream for
-non-guilty contexts
+> ---
+>  drivers/gpu/drm/panfrost/panfrost_drv.c | 51 +++++++++++++++
+>  drivers/gpu/drm/panfrost/panfrost_gem.c | 84 +++++++++++++++++++++++++
+>  drivers/gpu/drm/panfrost/panfrost_gem.h |  2 +
+>  include/uapi/drm/panfrost_drm.h         | 45 +++++++++++++
+>  4 files changed, 182 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> index d650cd138dad..77b0ae5ef000 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
+> @@ -580,6 +580,56 @@ static int panfrost_ioctl_jm_ctx_destroy(struct drm_device *dev, void *data,
+>  	return panfrost_jm_ctx_destroy(file, args->handle);
+>  }
+>  
+> +static int panfrost_ioctl_sync_bo(struct drm_device *ddev, void *data,
+> +				  struct drm_file *file)
+> +{
+> +	struct drm_panfrost_sync_bo *args = data;
+> +	struct drm_panfrost_bo_sync_op *ops;
+> +	struct drm_gem_object *obj;
+> +	int ret;
+> +	u32 i;
+> +
+> +	if (args->pad)
+> +		return -EINVAL;
+> +
+> +	if (!args->op_count)
+> +		return 0;
+> +
+> +	ops = kvmalloc_array(args->op_count, sizeof(*ops), GFP_KERNEL);
+> +	if (!ops) {
+> +		DRM_DEBUG("Failed to allocate incoming BO sync ops array\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	if (copy_from_user(ops, (void __user *)(uintptr_t)args->ops,
+> +			   args->op_count * sizeof(*ops))) {
+> +		DRM_DEBUG("Failed to copy in BO sync ops\n");
+> +		ret = -EFAULT;
+> +		goto err_ops;
+> +	}
+> +
+> +	for (i = 0; i < args->op_count; i++) {
+> +		obj = drm_gem_object_lookup(file, ops[i].handle);
+> +		if (!obj) {
+> +			ret = -ENOENT;
+> +			goto err_ops;
+> +		}
+> +
+> +		ret = panfrost_gem_sync(obj, ops[i].type,
+> +					ops[i].offset, ops[i].size);
+> +
+> +		drm_gem_object_put(obj);
+> +
+> +		if (ret)
+> +			goto err_ops;
+> +	}
+> +
+> +err_ops:
+> +	kvfree(ops);
+> +
+> +	return ret;
+> +}
+> +
+>  int panfrost_unstable_ioctl_check(void)
+>  {
+>  	if (!unstable_ioctls)
+> @@ -649,6 +699,7 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
+>  	PANFROST_IOCTL(SET_LABEL_BO,	set_label_bo,	DRM_RENDER_ALLOW),
+>  	PANFROST_IOCTL(JM_CTX_CREATE,	jm_ctx_create,	DRM_RENDER_ALLOW),
+>  	PANFROST_IOCTL(JM_CTX_DESTROY,	jm_ctx_destroy,	DRM_RENDER_ALLOW),
+> +	PANFROST_IOCTL(SYNC_BO,		sync_bo,	DRM_RENDER_ALLOW),
+>  };
+>  
+>  static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> index 4afd1a7f77d5..8231ae04f54c 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+> @@ -489,6 +489,90 @@ panfrost_gem_set_label(struct drm_gem_object *obj, const char *label)
+>  	kfree_const(old_label);
+>  }
+>  
+> +int
+> +panfrost_gem_sync(struct drm_gem_object *obj, u32 type, u32 offset, u32 size)
+> +{
+> +	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
+> +	struct drm_gem_shmem_object *shmem = &bo->base;
+> +	const struct drm_device *dev = shmem->base.dev;
+> +	struct sg_table *sgt;
+> +	struct scatterlist *sgl;
+> +	unsigned int count;
+> +
+> +	/* Make sure the range is in bounds. */
+> +	if (offset + size < offset || offset + size > shmem->base.size)
+> +		return -EINVAL;
+> +
+> +	/* Disallow CPU-cache maintenance on imported buffers. */
+> +	if (drm_gem_is_imported(&shmem->base))
+> +		return -EINVAL;
+> +
+> +	switch (type) {
+> +	case PANFROST_BO_SYNC_CPU_CACHE_FLUSH:
+> +	case PANFROST_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE:
+> +		break;
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Don't bother if it's WC-mapped */
+> +	if (shmem->map_wc)
+> +		return 0;
+> +
+> +	/* Nothing to do if the size is zero. */
+> +	if (size == 0)
+> +		return 0;
+> +
+> +	sgt = drm_gem_shmem_get_pages_sgt(shmem);
+> +	if (IS_ERR(sgt))
+> +		return PTR_ERR(sgt);
+> +
+> +	for_each_sgtable_dma_sg(sgt, sgl, count) {
+> +		if (size == 0)
+> +			break;
+> +
+> +		dma_addr_t paddr = sg_dma_address(sgl);
+> +		size_t len = sg_dma_len(sgl);
+> +
+> +		if (len <= offset) {
+> +			offset -= len;
+> +			continue;
+> +		}
+> +
+> +		paddr += offset;
+> +		len -= offset;
+> +		len = min_t(size_t, len, size);
+> +		size -= len;
+> +		offset = 0;
+> +
+> +		/* It's unclear whether dma_sync_xxx() is the right API to do CPU
+> +		 * cache maintenance given an IOMMU can register their own
+> +		 * implementation doing more than just CPU cache flushes/invalidation,
+> +		 * and what we really care about here is CPU caches only, but that's
+> +		 * the best we have that is both arch-agnostic and does at least the
+> +		 * CPU cache maintenance on a <page,offset,size> tuple.
+> +		 *
+> +		 * Also, I wish we could do a single
+> +		 *
+> +		 *      dma_sync_single_for_device(BIDIR)
+> +		 *
+> +		 * and get a flush+invalidate, but that's not how it's implemented
+> +		 * in practice (at least on arm64), so we have to make it
+> +		 *
+> +		 *      dma_sync_single_for_device(TO_DEVICE)
+> +		 *      dma_sync_single_for_cpu(FROM_DEVICE)
+> +		 *
+> +		 * for the flush+invalidate case.
+> +		 */
+> +		dma_sync_single_for_device(dev->dev, paddr, len, DMA_TO_DEVICE);
+> +		if (type == PANFROST_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE)
+> +			dma_sync_single_for_cpu(dev->dev, paddr, len, DMA_FROM_DEVICE);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  void
+>  panfrost_gem_internal_set_label(struct drm_gem_object *obj, const char *label)
+>  {
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
+> index 7fec20339354..d61ffe1f6841 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
+> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
+> @@ -151,6 +151,8 @@ int panfrost_gem_shrinker_init(struct drm_device *dev);
+>  void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
+>  
+>  void panfrost_gem_set_label(struct drm_gem_object *obj, const char *label);
+> +int panfrost_gem_sync(struct drm_gem_object *obj, u32 type,
+> +		      u32 offset, u32 size);
+>  void panfrost_gem_internal_set_label(struct drm_gem_object *obj, const char *label);
+>  
+>  #ifdef CONFIG_DEBUG_FS
+> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
+> index 0c59714ae42b..e194e087a0c8 100644
+> --- a/include/uapi/drm/panfrost_drm.h
+> +++ b/include/uapi/drm/panfrost_drm.h
+> @@ -24,6 +24,7 @@ extern "C" {
+>  #define DRM_PANFROST_SET_LABEL_BO		0x09
+>  #define DRM_PANFROST_JM_CTX_CREATE		0x0a
+>  #define DRM_PANFROST_JM_CTX_DESTROY		0x0b
+> +#define DRM_PANFROST_SYNC_BO			0x0c
+>  
+>  #define DRM_IOCTL_PANFROST_SUBMIT		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_SUBMIT, struct drm_panfrost_submit)
+>  #define DRM_IOCTL_PANFROST_WAIT_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_WAIT_BO, struct drm_panfrost_wait_bo)
+> @@ -35,6 +36,7 @@ extern "C" {
+>  #define DRM_IOCTL_PANFROST_SET_LABEL_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_SET_LABEL_BO, struct drm_panfrost_set_label_bo)
+>  #define DRM_IOCTL_PANFROST_JM_CTX_CREATE	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_JM_CTX_CREATE, struct drm_panfrost_jm_ctx_create)
+>  #define DRM_IOCTL_PANFROST_JM_CTX_DESTROY	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_JM_CTX_DESTROY, struct drm_panfrost_jm_ctx_destroy)
+> +#define DRM_IOCTL_PANFROST_SYNC_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_SYNC_BO, struct drm_panfrost_sync_bo)
+>  
+>  /*
+>   * Unstable ioctl(s): only exposed when the unsafe unstable_ioctls module
+> @@ -308,6 +310,49 @@ struct drm_panfrost_set_label_bo {
+>  	__u64 label;
+>  };
+>  
+> +/* Valid flags to pass to drm_panfrost_bo_sync_op */
+> +#define PANFROST_BO_SYNC_CPU_CACHE_FLUSH			0
+> +#define PANFROST_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE		1
+> +
+> +/**
+> + * struct drm_panthor_bo_flush_map_op - BO map sync op
+> + */
+> +struct drm_panfrost_bo_sync_op {
+> +	/** @handle: Handle of the buffer object to sync. */
+> +	__u32 handle;
+> +
+> +	/** @type: Type of sync operation. */
+> +	__u32 type;
+> +
+> +	/**
+> +	 * @offset: Offset into the BO at which the sync range starts.
+> +	 *
+> +	 * This will be rounded down to the nearest cache line as needed.
+> +	 */
+> +	__u32 offset;
+> +
+> +	/**
+> +	 * @size: Size of the range to sync
+> +	 *
+> +	 * @size + @offset will be rounded up to the nearest cache line as
+> +	 * needed.
+> +	 */
+> +	__u32 size;
+> +};
+> +
+> +/**
+> + * struct drm_panfrost_sync_bo - ioctl argument for syncing BO maps
+> + */
+> +struct drm_panfrost_sync_bo {
+> +	/** Array of struct drm_panfrost_bo_sync_op */
+> +	__u64 ops;
+> +
+> +	/** Number of BO sync ops */
+> +	__u32 op_count;
+> +
+> +	__u32 pad;
+> +};
+> +
+>  /* Definitions for coredump decoding in user space */
+>  #define PANFROSTDUMP_MAJOR 1
+>  #define PANFROSTDUMP_MINOR 0
 
-I guess we could use the iterator and implement that logic in the
-driver directly rather than using drm_sched_resubmit_jobs().
-
-Alex
