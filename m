@@ -2,81 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 956D5CA2CDC
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 09:25:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7BB7CA2E4A
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 10:04:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E75C10E1C2;
-	Thu,  4 Dec 2025 08:25:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9655110E1C4;
+	Thu,  4 Dec 2025 09:04:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="nTZE1eM/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aBekNTdL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
- [209.85.221.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A78D10E1CA
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 08:25:52 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id
- ffacd0b85a97d-42e2e167067so307533f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 00:25:52 -0800 (PST)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+ [209.85.128.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A09CD10E1CA
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 08:27:08 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id
+ 5b1f17b1804b1-477ba2c1ca2so7476265e9.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 00:27:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1764836751; x=1765441551; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
- :date:message-id:reply-to;
- bh=LQ4deDu2Meder/E3u1q2UwJGtT40AuQX8y3SfWXWIf4=;
- b=nTZE1eM/r1p5PONpmdEzlHKBY11iYGVmxSj0tkuynyjEGD2k17FyIbUQkkufFuKXS3
- 6Fet5eMiOD602oWmo/dS85W0n/tRINW5fJ5Oezl3MDGdKFeLzuQXt+PNigiS8OJK2MZL
- Y2glCVRxlNM8CG9kdRXgioxERBwDZkx1mLHtyZvGRNZ/C2QrW+4b7X2O3sk3PGaZjcqY
- KCL+LjJBiUP34RrrjuMYGEBM4rCxkQ4Tb5/xb/THpjA65c1flePS4+5946adQw2OYZC0
- 8bYQ0pJB+fNCykxSSS6wN0ZVlO5wFYEhQl4dd5dHFCJcsPCUathOVP027GEoXzk4USKL
- B5Cw==
+ d=gmail.com; s=20230601; t=1764836827; x=1765441627; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=C8ChXUaXX/3Eb7EnyDqnAZz0gJR5wknVDuL7fNH9uhE=;
+ b=aBekNTdLjFAH5pDHDGElu2wgTYfSjM5qGZ1jtesDx+BcVJ0BDFR0fthc2h22ToQM4M
+ LxojTeIafRH6tRuhS0Nj0g+V2FScYRgtRgaJCG8k6HaZ8KozaYeq5mW1xjH+1jR+lJ/1
+ ssQEs8iaABdoOH6WS58rA7QiONgYwNzrdh9A1z70dCuKFqM3ok1UWZ+TlT70RoqiPCEV
+ dd/mXI5S0ivSGQMbTE0tFTq/Dgy/Bw2aLUjMOeeMK0iXI1AiXtVDV+OkN5cO27ttojrR
+ +Umlex+aeIF91pt+9YxNw1qtbuuwzwrZrecGd38TyOYv4+RB9QRaKM+O7BtBuSC7QN7a
+ 7R7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764836751; x=1765441551;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:message-id:subject:cc:to:from:date:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LQ4deDu2Meder/E3u1q2UwJGtT40AuQX8y3SfWXWIf4=;
- b=oEyk8NkwooM4LmbQOxAaJHrHN6pe7F9dwxaAl7OGEunaG6d3u0mxYvUD0lGlN2iuQP
- /FV2ICRuoA1mK3/9spEdWTP2vHp/Q8etbX73YpDQINmHSkrWvMK1wJUtShNjeWUCAlt0
- hg5XpR2a63WkdRnyOv6MfyIX/f8LZjzSLBIL+5+y8WnfiFZoFDIU0ltfj8QoPQx9pIlZ
- mIBR++by4k+UkX60HM4TmG4T6I+M2h0tzVURQiioO5Ud44lVZ4M65mKjoHEEixea3XYl
- ed0ALfFo4ZCnGfPLe7Iu79G6jufd2T/XxHKdCbVRBi2XI6Z2oRjF0LZ2TK919jRSvHd9
- tV/w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU0t1bT7bNcmGRIj+Adq6ZKvg/l1now8F3rfsgucs2GKC5Gs5XE8Bz3amVZYFeWI/K0g7V6Ha+tQKc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw3RTlMxH5Nk8eGCmZEDDWElHbs5sgTDdDUMFGOI2WtF2WHPR9/
- RfzBQDFSBpVS9r6XbTw7RfJBQc9IcB1fmHYQ9rJZpiq2lL1gyvehK6u0hrUBuSwAtAY=
-X-Gm-Gg: ASbGncuLM5/s/6Z3lhupS10gLkFYtCDZAMKdjb/Yj3850ZN+EdG/7t3wEYdvxdoWRt9
- ScWZaVzgkpuDK8mcFQem8PLS/ovsLteOIYFG5Duh2B6se9fPdm6RSe5iZqG0tI+Feqs48ssMw01
- SK8x7c6ZrqED44i3hFBkViOCb7z00pkv+p9YqwhBdJraEEX5CPlsJrW9ahXLnHSfWl6w7ROEdYo
- FJkyvb+y+RY7PIXatxqMd7IiE3KAvrXbpgwThu0YmSc5em/H2FQBOwk2lYo/5aGsjR/phqFeAFb
- d+GpgR9gE9BiFO0LLZPX3sDJ3aSPHWYmdvkROryxDYxN7IjVGduG47DmSzU1D4ClURWihUm46M/
- hnheKDe9bjvwx3ngP2riOz+vbPEFG/qOlbcroR2fjRJc8aSY8dMN635ugLpviGpY8QxdzEGfrbP
- H6FxqIN4d8aJDa1h7C
-X-Google-Smtp-Source: AGHT+IFqPjsWxMKuAwr/tYTZtrbROcoydreYmSrR+FokvUIODLoD32s0/Ejyc9FIKKndz+AO6vzyDQ==
-X-Received: by 2002:a05:6000:1889:b0:42b:41dc:1b5d with SMTP id
- ffacd0b85a97d-42f73187286mr5177890f8f.25.1764836750665; 
- Thu, 04 Dec 2025 00:25:50 -0800 (PST)
-Received: from localhost ([196.207.164.177])
- by smtp.gmail.com with UTF8SMTPSA id
- ffacd0b85a97d-42f7d2231dfsm1807493f8f.26.2025.12.04.00.25.48
+ d=1e100.net; s=20230601; t=1764836827; x=1765441627;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=C8ChXUaXX/3Eb7EnyDqnAZz0gJR5wknVDuL7fNH9uhE=;
+ b=Fa7dORfiUe01AA3/mCzSzg5Pr+UjjNZRf91JI3mucn0ljoF9V3J3OmO1Mklm6SmJWD
+ dfVXktX5lcffPvAeGv+RfzD4ybsnYW2HXV7k87AvGM1bt10CxfovAj2Dhy1tBzVjFnqx
+ Ld1vBPjNY44SkhtDpllkEP2Zv+4b8/MsGee2O/1FiRTjByf+rvRoNa6ixhgEH2tiF8k1
+ jJ2KNykS+67Q36CLtC2hOtAk226E1bEExU/i0NLhZETTR7vVNiiAUk6GD0FE75AOb08p
+ /jjziSxc0znlV3qCJ05P0+8CGLmmZH9CludVvO6sTE+ysj5nvYtSHPxPgpbpqU6vjXFJ
+ A98A==
+X-Gm-Message-State: AOJu0YzjaIuao9YbMfKDulhvZHMC/sxU8VcV/edWD21uthLtuPhr/tJX
+ ticzfteKf7Y33QlL/mZQeTFrT73gzCElbjMEcdj9tmd2ZqMWiC1qs8LX
+X-Gm-Gg: ASbGncuPOddAF5amQdLJ/tUHS9svNojY7SCCgvMI4Vrm3T5S8CXAiaBqNGekGf5U1tQ
+ 48s6qa1CNMpmf1nm/JsL8l28M4q01YshV2yVwiJXtobtSWZSBkrXu/Sjnc4IgyyNVyR/afRTQNP
+ QJsu89P8UkAZFcjwUIvOdBY4VtJuOalhMYi+cAHq+zZvJzX4LaCtTt2IjZ2oHyd64xUM+oPNetN
+ oHkSvlb2lrQ6HSV40cZZW3n6Dq62DkW+BDvrEdWgHBfLtv7HS2i/ygQjX9x3MRjVkyW8jJf6ZSH
+ amMGBjRBk+LMmzPwIQFf93wEr4um65BhJGZczyQGjhwHwLI1x5tQv+1L3K4PZ1nFKo4H2u3BWbd
+ lpJiCowpBD/BnVCA12PvWBFr1oSxuFxgDAi9NvqfQ/zaz/7OZjppbtmsftpKMYCwbtkpazTyMVO
+ ruLl1FfrpysXBh3yftoZHrRu3OdS08uUT+PNMMgPpxUomE9Wy2E4RYvkRdInd+5JohK9VqEoac9
+ cQiGfHiX48=
+X-Google-Smtp-Source: AGHT+IGqNqtJcEM/KHQy2M+RqHz31DpNQ4G8IwXipAOCXnaYAIv0Hpnd4Vggvy2cod8SbmsEjdXJRQ==
+X-Received: by 2002:a7b:c3da:0:b0:477:a246:8398 with SMTP id
+ 5b1f17b1804b1-4792f23c82amr13974035e9.2.1764836826877; 
+ Thu, 04 Dec 2025 00:27:06 -0800 (PST)
+Received: from gattout.local
+ (2a01cb0012bffa008e9c25a4ae82f3b7.ipv6.abo.wanadoo.fr.
+ [2a01:cb00:12bf:fa00:8e9c:25a4:ae82:f3b7])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-42f7d2226c5sm1908082f8f.23.2025.12.04.00.27.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Dec 2025 00:25:49 -0800 (PST)
-Date: Thu, 4 Dec 2025 11:25:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, sunpeng.li@amd.com,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Harry.Wentland@amd.com,
- Nicholas.Kazlauskas@amd.com, simona@ffwll.ch, airlied@gmail.com,
- Leo Li <sunpeng.li@amd.com>
-Subject: Re: [PATCH v2 1/2] drm: Introduce drm_crtc_vblank_prepare()
-Message-ID: <202512041153.nYks4oYu-lkp@intel.com>
+ Thu, 04 Dec 2025 00:27:06 -0800 (PST)
+From: Amin GATTOUT <amin.gattout@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Douglas Anderson <dianders@chromium.org>,
+ Amin GATTOUT <amin.gattout@gmail.com>
+Subject: [PATCH] drm/panel: otm8009a: Switch to mipi_dsi_multi_context helpers
+Date: Thu,  4 Dec 2025 09:26:59 +0100
+Message-ID: <20251204082659.84387-1-amin.gattout@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251201231807.287414-1-sunpeng.li@amd.com>
+X-Mailman-Approved-At: Thu, 04 Dec 2025 09:04:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,78 +94,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Update the driver to use the non-deprecated mipi_dsi_*_multi()
+helpers, as recommended in Documentation/gpu/todo.rst. The multi
+variants provide proper error accumulation and handle the required
+DCS NOP insertions, which suits the OTM8009A command sequences.
 
-kernel test robot noticed the following build warnings:
+The init and disable paths now return dsi_ctx.accum_err, ensuring
+errors are propagated to callers.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Amin GATTOUT <amin.gattout@gmail.com>
+---
+ .../gpu/drm/panel/panel-orisetech-otm8009a.c  | 56 ++++++-------------
+ 1 file changed, 17 insertions(+), 39 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/sunpeng-li-amd-com/drm-amd-display-Implement-prepare_vblank_enable-callback/20251202-072501
-base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next-fixes
-patch link:    https://lore.kernel.org/r/20251201231807.287414-1-sunpeng.li%40amd.com
-patch subject: [PATCH v2 1/2] drm: Introduce drm_crtc_vblank_prepare()
-config: nios2-randconfig-r071-20251204 (https://download.01.org/0day-ci/archive/20251204/202512041153.nYks4oYu-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512041153.nYks4oYu-lkp@intel.com/
-
-smatch warnings:
-drivers/gpu/drm/drm_vblank.c:1527 drm_crtc_vblank_on_config() warn: variable dereferenced before check 'crtc' (see line 1519)
-
-vim +/crtc +1527 drivers/gpu/drm/drm_vblank.c
-
-0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1516  void drm_crtc_vblank_on_config(struct drm_crtc *crtc,
-0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1517  			       const struct drm_vblank_crtc_config *config)
-3ed4351a83ca05d Simona Vetter 2017-05-31  1518  {
-3ed4351a83ca05d Simona Vetter 2017-05-31 @1519  	struct drm_device *dev = crtc->dev;
-3ed4351a83ca05d Simona Vetter 2017-05-31  1520  	unsigned int pipe = drm_crtc_index(crtc);
-                                                                                           ^^^^
-Unchecked dereference.  I'm pretty certain crtc can't be NULL.
-
-d12e36494dc2bf2 Ville Syrjälä 2024-04-08  1521  	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
-38bd1e412d0aa4b Leo Li        2025-12-01  1522  	int ret;
-3ed4351a83ca05d Simona Vetter 2017-05-31  1523  
-5a4784f49b2dcff Sam Ravnborg  2020-05-23  1524  	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
-3ed4351a83ca05d Simona Vetter 2017-05-31  1525  		return;
-3ed4351a83ca05d Simona Vetter 2017-05-31  1526  
-38bd1e412d0aa4b Leo Li        2025-12-01 @1527  	if (crtc) {
-                                                        ^^^^^^^^^^^
-So this NULL check is too late, and can be removed.
-
-38bd1e412d0aa4b Leo Li        2025-12-01  1528  		ret = drm_crtc_vblank_prepare(crtc);
-38bd1e412d0aa4b Leo Li        2025-12-01  1529  		drm_WARN_ON(dev, ret);
-38bd1e412d0aa4b Leo Li        2025-12-01  1530  		if (ret)
-38bd1e412d0aa4b Leo Li        2025-12-01  1531  			return;
-38bd1e412d0aa4b Leo Li        2025-12-01  1532  	}
-38bd1e412d0aa4b Leo Li        2025-12-01  1533  
-92cc68e35863c1c Lyude Paul    2020-07-20  1534  	spin_lock_irq(&dev->vbl_lock);
-02149a76d32bd8f Sam Ravnborg  2020-05-23  1535  	drm_dbg_vbl(dev, "crtc %d, vblank enabled %d, inmodeset %d\n",
-3ed4351a83ca05d Simona Vetter 2017-05-31  1536  		    pipe, vblank->enabled, vblank->inmodeset);
-3ed4351a83ca05d Simona Vetter 2017-05-31  1537  
-0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1538  	vblank->config = *config;
-0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1539  
-3ed4351a83ca05d Simona Vetter 2017-05-31  1540  	/* Drop our private "prevent drm_vblank_get" refcount */
-3ed4351a83ca05d Simona Vetter 2017-05-31  1541  	if (vblank->inmodeset) {
-3ed4351a83ca05d Simona Vetter 2017-05-31  1542  		atomic_dec(&vblank->refcount);
-3ed4351a83ca05d Simona Vetter 2017-05-31  1543  		vblank->inmodeset = 0;
-3ed4351a83ca05d Simona Vetter 2017-05-31  1544  	}
-3ed4351a83ca05d Simona Vetter 2017-05-31  1545  
-3ed4351a83ca05d Simona Vetter 2017-05-31  1546  	drm_reset_vblank_timestamp(dev, pipe);
-3ed4351a83ca05d Simona Vetter 2017-05-31  1547  
-3ed4351a83ca05d Simona Vetter 2017-05-31  1548  	/*
-3ed4351a83ca05d Simona Vetter 2017-05-31  1549  	 * re-enable interrupts if there are users left, or the
-3ed4351a83ca05d Simona Vetter 2017-05-31  1550  	 * user wishes vblank interrupts to be enabled all the time.
-3ed4351a83ca05d Simona Vetter 2017-05-31  1551  	 */
-0d5040e406d2c44 Hamza Mahfooz 2024-07-25  1552  	if (atomic_read(&vblank->refcount) != 0 || !vblank->config.offdelay_ms)
-5a4784f49b2dcff Sam Ravnborg  2020-05-23  1553  		drm_WARN_ON(dev, drm_vblank_enable(dev, pipe));
-92cc68e35863c1c Lyude Paul    2020-07-20  1554  	spin_unlock_irq(&dev->vbl_lock);
-3ed4351a83ca05d Simona Vetter 2017-05-31  1555  }
-
+diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+index a0f58c3b73f6..fe31f508efd6 100644
+--- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
++++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+@@ -113,9 +113,9 @@ static void otm8009a_dcs_write_buf(struct otm8009a *ctx, const void *data,
+ 				   size_t len)
+ {
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+-	if (mipi_dsi_dcs_write_buffer(dsi, data, len) < 0)
+-		dev_warn(ctx->dev, "mipi dsi dcs write buffer failed\n");
++	mipi_dsi_dcs_write_buffer_multi(&dsi_ctx, data, len);
+ }
+ 
+ #define dcs_write_seq(ctx, seq...)			\
+@@ -133,7 +133,7 @@ static void otm8009a_dcs_write_buf(struct otm8009a *ctx, const void *data,
+ static int otm8009a_init_sequence(struct otm8009a *ctx)
+ {
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	/* Enter CMD2 */
+ 	dcs_write_cmd_at(ctx, MCS_CMD2_ENA1, 0x80, 0x09, 0x01);
+@@ -213,44 +213,28 @@ static int otm8009a_init_sequence(struct otm8009a *ctx)
+ 	/* Exit CMD2 */
+ 	dcs_write_cmd_at(ctx, MCS_CMD2_ENA1, 0xFF, 0xFF, 0xFF);
+ 
+-	ret = mipi_dsi_dcs_nop(dsi);
+-	if (ret)
+-		return ret;
++	mipi_dsi_dcs_nop_multi(&dsi_ctx);
+ 
+-	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+-	if (ret)
+-		return ret;
+-
+-	/* Wait for sleep out exit */
+-	mdelay(120);
++	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 120);
+ 
+ 	/* Default portrait 480x800 rgb24 */
+ 	dcs_write_seq(ctx, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
+ 
+-	ret = mipi_dsi_dcs_set_column_address(dsi, 0, OTM8009A_HDISPLAY - 1);
+-	if (ret)
+-		return ret;
++	mipi_dsi_dcs_set_column_address_multi(&dsi_ctx, 0, OTM8009A_HDISPLAY - 1);
+ 
+-	ret = mipi_dsi_dcs_set_page_address(dsi, 0, OTM8009A_VDISPLAY - 1);
+-	if (ret)
+-		return ret;
++	mipi_dsi_dcs_set_page_address_multi(&dsi_ctx, 0, OTM8009A_VDISPLAY - 1);
+ 
+ 	/* See otm8009a driver documentation for pixel format descriptions */
+-	ret = mipi_dsi_dcs_set_pixel_format(dsi, MIPI_DCS_PIXEL_FMT_24BIT |
++	mipi_dsi_dcs_set_pixel_format_multi(&dsi_ctx, MIPI_DCS_PIXEL_FMT_24BIT |
+ 					    MIPI_DCS_PIXEL_FMT_24BIT << 4);
+-	if (ret)
+-		return ret;
+ 
+ 	/* Disable CABC feature */
+ 	dcs_write_seq(ctx, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
+ 
+-	ret = mipi_dsi_dcs_set_display_on(dsi);
+-	if (ret)
+-		return ret;
++	mipi_dsi_dcs_set_display_on_multi(&dsi_ctx);
+ 
+-	ret = mipi_dsi_dcs_nop(dsi);
+-	if (ret)
+-		return ret;
++	mipi_dsi_dcs_nop_multi(&dsi_ctx);
+ 
+ 	/* Send Command GRAM memory write (no parameters) */
+ 	dcs_write_seq(ctx, MIPI_DCS_WRITE_MEMORY_START);
+@@ -258,28 +242,22 @@ static int otm8009a_init_sequence(struct otm8009a *ctx)
+ 	/* Wait a short while to let the panel be ready before the 1st frame */
+ 	mdelay(10);
+ 
+-	return 0;
++	return dsi_ctx.accum_err;
+ }
+ 
+ static int otm8009a_disable(struct drm_panel *panel)
+ {
+ 	struct otm8009a *ctx = panel_to_otm8009a(panel);
+ 	struct mipi_dsi_device *dsi = to_mipi_dsi_device(ctx->dev);
+-	int ret;
++	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
+ 
+ 	backlight_disable(ctx->bl_dev);
+ 
+-	ret = mipi_dsi_dcs_set_display_off(dsi);
+-	if (ret)
+-		return ret;
+-
+-	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+-	if (ret)
+-		return ret;
+-
+-	msleep(120);
++	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx);
++	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx);
++	mipi_dsi_msleep(&dsi_ctx, 120);
+ 
+-	return 0;
++	return dsi_ctx.accum_err;
+ }
+ 
+ static int otm8009a_unprepare(struct drm_panel *panel)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
 
