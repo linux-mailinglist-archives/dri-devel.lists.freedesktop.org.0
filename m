@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66B9ECA2740
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 07:07:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 206C5CA2746
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 07:07:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F411610E842;
-	Thu,  4 Dec 2025 06:07:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 30AE710E840;
+	Thu,  4 Dec 2025 06:07:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HFxRC07h";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WxMx9XAk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
- [209.85.208.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0395D10E83B
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
+ [209.85.208.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01F4D10E83B
  for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 06:06:59 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id
- 4fb4d7f45d1cf-6408f9cb1dcso765599a12.3
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 22:06:58 -0800 (PST)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-640aaa89697so634595a12.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 22:06:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764828417; x=1765433217; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1764828418; x=1765433218; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RzQwYBywu5dQ+NXbmQKbTsDDp6aCCRs8Xn3HiCAnbrQ=;
- b=HFxRC07hG62uW5B+fCKamD58pkcW43rz/zfpSfUXtpAOvGN18lpAFL9aw/RCbAPdVH
- fPAjp7cH6aFVgTFO/e/8SQqFztTh7GeO/9NUXjrj+tWfucuHRLXbXtnrEeRHYMU6+rJ9
- 4AqlRHK0SHlsL5y2w6atAk+lxfOL8QG/ClFmo0SBhLoDUUW/M361oLugIg3To5TdyKRI
- apv2sRQy4RyuACXPaVzloM/9lku4x8u2alrw9qF+mI+xTCXVOBIGmgMrmxAJ54ZkR672
- UGtV2EnVbvXUIA0oVQ3t20efrPEcC45IrVecRWL66aizmPr1bdkYMgyvo3TCYXTtN7O/
- oYdA==
+ bh=0+a5/f/Fx6IMBMc0auLZUB4h0ES81R10KOuZfrxfUU8=;
+ b=WxMx9XAk0z80q7TS8sXeBXivBARQVWF1r42tOL4K4NK4gCxRgclpIGgTFiePNMW+Lc
+ 0yxDkaGQwRVMrl3oLup1SlJkZanCuy8Iu9WfzSTNntwcziqYr2r9PPjZkczEZOHALWB7
+ xmkWCypwmcF1KPIyhSDkHfwutrND5lJEYy5PBNs1tmxWk+wlYpYIlxY43qsTu9fFZuu4
+ qOV79p0logFa5pPyV7PGKpj51SpUy4dX8m+1G7Qfam4DL0k+ZximVy000F0CuTnXvT70
+ wc10zwH/5TLI/q82CdKAY1ZTgL1ySB1iubwUBsuU1cEqL9Md0nCzxLYrUlqck7sU4t19
+ JeXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764828417; x=1765433217;
+ d=1e100.net; s=20230601; t=1764828418; x=1765433218;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=RzQwYBywu5dQ+NXbmQKbTsDDp6aCCRs8Xn3HiCAnbrQ=;
- b=q4W1UuLu+q12chMyTCixIRZxOgQWIaS2bVNSOZ5hyxALtjqHM2kdCb71RCtAT4m3T6
- XDX5z2/ova1zTaG/+SOZIMhdywc8SfZgWlN4gLUJH5YVzcR0hPBuVl4bDvo7rA+94C//
- N9mzH1GhhmFsFy3gbql0h8H5RYMM7e21ZuP730ofNnqBWwwWQKB//AX+idgu+j1CXGlk
- wNuJwToQP6ct0ZDr/rHxTLu/LLt28E5aNabz7b8hrCyaoo80dqgLTnVN74DdS7Q8a59Q
- 03QrfG7NKiNETOWiZBPjp5VoHoypV6ZWJDpO5tP3yznllozGSmyhKd/GJauNG/n9qNVb
- xR2Q==
-X-Gm-Message-State: AOJu0YyBTy6maFbM23qF6fhr/utK3RIwqbRp1a4RVnDYovqz491O7NyW
- CjV9wuMxORp+5emAc264EMu/1LKgsQXhSOENsdg3Bh0r2GRrS2VZXluB
-X-Gm-Gg: ASbGncuwgIt1g1meYR2kfzKBiUvlO61cpeTSNxKjWoLUXaRr/5CIeFfxkZSS/D/9CDu
- UwqNHO9ETtZ6+OJtbuuwownCkdZYxAESn/9NhvXwSNgUrfX03vCjC6n+gllNnmIl014+5R4pOuu
- Bp17DH172pNtP3lxLsle90J5GssJgtZGLHhrgKWVYOTROt+MaUCasJBV5DTn27cmoCswM+hiusO
- sQPMoK8LeCQ+ZBvTv0lZ6py7QYwi6r2wu8aj6lXnVatvgeQ81nYxxcTFIJAVRFsNOQxFIn842w5
- AuDCdU3s3IBjZ6InWHq0Xn0l19DR+YGBRTkdvl6Uw/veZUYsAnlwmTe8hIRhln0257TFIU9me7J
- 0iWRHX5GddTeafqX+yqcVmMFPJnX1mHdYPKuCh9Exaqzb+zXmcY+sGUNXn/mW12wnOOA67Sghy/
- jC8qYTFBHGtQ==
-X-Google-Smtp-Source: AGHT+IFtMcIib2KK0rM9it1qxR9Y9tOOlZNiy0Ui6unryK95uOARlpcCnZM+R1FaHUMpUZkUjRTLoQ==
-X-Received: by 2002:a17:906:6a07:b0:b70:ac7a:2a93 with SMTP id
- a640c23a62f3a-b79ec6b93d3mr176869766b.43.1764828417241; 
- Wed, 03 Dec 2025 22:06:57 -0800 (PST)
+ bh=0+a5/f/Fx6IMBMc0auLZUB4h0ES81R10KOuZfrxfUU8=;
+ b=Tr8MzfiY4GwTvGELg3LZTlgnX5j+1xu7B9D4BymHBfDywk4xU0y+uhMNWnQPl9C0f1
+ 6MqUUeg2cRHOQpozdzLyZ5F77jpA6jZ4oWypAA1eQjJiSvIUG7SltdlJ2gpHVjpOAhzt
+ 56irxxI7KC+aQzVcOKQCQLtN2cRBmbqcgque0Ckqio3RuJ4ii9XJ6gYAli2p7wUAU5gK
+ furpetIvxBfutXd1gaaTOOko4u1BwDGCEP3AUTBmxGzUhynIgs+0YQRGyl7Y7Oikdyeg
+ UyT9NsAIqpj35WbRa71agJ8RmhhNbzLUy0SUb/U+PR4QZrQkzbSFWHbKoF1hgn9nzz6B
+ C/kw==
+X-Gm-Message-State: AOJu0YzyM1c8o2Xnykrues5tvUKwWn2DdKOGLtsEoTwCSIYJLnucxrsU
+ q6uvcmIzYDKq1uHpw1s/844ZKeSNvCqBs92FjRBrp8ncYTrvquIQZcSj
+X-Gm-Gg: ASbGncsdTe3Md+dMYm9bI7E1OlrZwjF3llVvTJ5Rt7aEIkQ+81qQfipX5N+1wqda2s4
+ QJVKeQaFr5uI+yrmPAHqA+f786u51iwO4q7V3DdOFOI4xsIgwwsaFH6afDkZfJY7zMU6kUTYCHD
+ TVuVc7cZSU/SwhO4PmibOX6ZQOI9w9M7CsVbpsbibvIKa6im9ybugpQk8tNgSBWdrWwDK/iA69m
+ QQ4KsGiAb3CKCp3DYdmwupyXImHi2Ig0sOt5iXdM+7cmHcUWfTN+WsujcthD9lLfhOIXncL/ord
+ oiLqA8SLL6P2aqxnwBLbvsywk/Et72KQqExRy2SpK467am8UnBjKjircxrx/u8ANyAflgH7O8Zx
+ SOpdfEgJquMfiN4X7ATgb0AvS+JYIQDuCZyS+gNzwzkLQhP4SAAHEx8mqYEcrJCjBS98QEAaRAb
+ Q=
+X-Google-Smtp-Source: AGHT+IGXflP92wBX3QY5yGh88FcTws5u5X6jjlfnKknX5OJZU/5ArSGnkpWD3xgTqzGaHgNugxHWww==
+X-Received: by 2002:a05:6402:2110:b0:640:b06f:87ca with SMTP id
+ 4fb4d7f45d1cf-6479c471f5bmr4545828a12.6.1764828418360; 
+ Wed, 03 Dec 2025 22:06:58 -0800 (PST)
 Received: from xeon ([188.163.112.74]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-647b2ef7798sm460296a12.15.2025.12.03.22.06.56
+ 4fb4d7f45d1cf-647b2ef7798sm460296a12.15.2025.12.03.22.06.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Dec 2025 22:06:56 -0800 (PST)
+ Wed, 03 Dec 2025 22:06:58 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -71,10 +71,10 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Svyatoslav Ryhel <clamor95@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v3 5/7 RESEND] gpu/drm: panel: simple-panel: add Samsung
- LTL106AL01 LVDS panel support
-Date: Thu,  4 Dec 2025 08:06:21 +0200
-Message-ID: <20251204060627.4727-6-clamor95@gmail.com>
+Subject: [PATCH v3 6/7 RESEND] dt-bindings: display: panel: document Samsung
+ LTL106HL02 MIPI DSI panel
+Date: Thu,  4 Dec 2025 08:06:22 +0200
+Message-ID: <20251204060627.4727-7-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251204060627.4727-1-clamor95@gmail.com>
 References: <20251204060627.4727-1-clamor95@gmail.com>
@@ -95,67 +95,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Samsung LTL106AL01 is a 10.6" FWXGA (1366x768) simple LVDS panel found in
-Microsoft Surface RT tablet.
+Samsung LTL106HL02 is a simple DSI which requires only a power supply and
+an optional reset gpio.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 34 ++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 6369e5828189..bdb53824e3ed 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -4223,6 +4223,37 @@ static const struct panel_desc samsung_ltl101al01 = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
-+static const struct display_timing samsung_ltl106al01_timing = {
-+	.pixelclock = { 71980000, 71980000, 71980000 },
-+	.hactive = { 1366, 1366, 1366 },
-+	.hfront_porch = { 56, 56, 56 },
-+	.hback_porch = { 106, 106, 106 },
-+	.hsync_len = { 14, 14, 14 },
-+	.vactive = { 768, 768, 768 },
-+	.vfront_porch = { 3, 3, 3 },
-+	.vback_porch = { 6, 6, 6 },
-+	.vsync_len = { 1, 1, 1 },
-+	.flags = DISPLAY_FLAGS_HSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW,
-+};
-+
-+static const struct panel_desc samsung_ltl106al01 = {
-+	.timings = &samsung_ltl106al01_timing,
-+	.num_timings = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 235,
-+		.height = 132,
-+	},
-+	.delay = {
-+		.prepare = 5,
-+		.enable = 10,
-+		.disable = 10,
-+		.unprepare = 5,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-+	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-+};
-+
- static const struct drm_display_mode samsung_ltn101nt05_mode = {
- 	.clock = 54030,
- 	.hdisplay = 1024,
-@@ -5390,6 +5421,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "samsung,ltl101al01",
- 		.data = &samsung_ltl101al01,
-+	}, {
-+		.compatible = "samsung,ltl106al01",
-+		.data = &samsung_ltl106al01,
- 	}, {
- 		.compatible = "samsung,ltn101nt05",
- 		.data = &samsung_ltn101nt05,
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+index f9f1e76a810c..01ac0af0e299 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+@@ -52,6 +52,8 @@ properties:
+       - panasonic,vvx10f004b00
+         # Panasonic 10" WUXGA TFT LCD panel
+       - panasonic,vvx10f034n00
++        # Samsung ltl106hl02 10.6" Full HD TFT LCD panel
++      - samsung,ltl106hl02-001
+         # Samsung s6e3fa7 1080x2220 based AMS559NK06 AMOLED panel
+       - samsung,s6e3fa7-ams559nk06
+         # Samsung s6e3fc2x01 1080x2340 AMOLED panel
 -- 
 2.48.1
 
