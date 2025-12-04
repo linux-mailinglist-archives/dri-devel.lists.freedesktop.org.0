@@ -2,42 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288BECA49F4
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 17:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74728CA4C84
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 18:34:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22ECF10E206;
-	Thu,  4 Dec 2025 16:57:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C67F10E99A;
+	Thu,  4 Dec 2025 17:34:18 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="P5SSG5PY";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id E8AD010E8BE
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 16:57:00 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E3B67339;
- Thu,  4 Dec 2025 08:56:52 -0800 (PST)
-Received: from [10.1.38.32] (e122027.cambridge.arm.com [10.1.38.32])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 088FE3F59E;
- Thu,  4 Dec 2025 08:56:57 -0800 (PST)
-Message-ID: <c5b7de80-b80b-439f-a5c7-e9642c29b876@arm.com>
-Date: Thu, 4 Dec 2025 16:56:55 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: fix for dma-fence safe access rules
-To: Chia-I Wu <olvaffe@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Grant Likely <grant.likely@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- tvrtko.ursulin@igalia.com
-References: <20251204015034.841235-1-olvaffe@gmail.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251204015034.841235-1-olvaffe@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A97410E99A
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 17:34:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 07A60601FD;
+ Thu,  4 Dec 2025 17:34:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE6F9C116C6;
+ Thu,  4 Dec 2025 17:34:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764869655;
+ bh=lYYQN6kitAipNg8l/QtQued9OYwAsAj+jwXeeZ73c9I=;
+ h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+ b=P5SSG5PYqjN6b4jFxY+P51bmIhTx9XZhwwPfZPwO3Hd7ariCtBblTvJi1AZzat4XC
+ /wOEMKZwnof6qqkNAgL9D86UIjK+D0PL3kKo8IoDbEygNP8RP6Zdb8AwcJdKdg5npd
+ eg/gcqJ+qz8UhgctC6/tb8hnBp/kPmX5fRMhoxIUu4nOkXk11mFoM/BY1EvNzBHehL
+ XKpBV4s1DFah7YH5QLh/Z4g6ncwtpBf9FR/xzk5qZLyHcYYcu10H/yCFuVWICkK5+F
+ tHqwZ5hELqHl5bmbBWDqQMWaVlbLPsnuImLqQLUsEomzrAMoRBKFe+wZsV4IC6vmUd
+ g4/XXTiF8dN+Q==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+ by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
+ 338BD3AA9F40; Thu,  4 Dec 2025 17:31:15 +0000 (UTC)
+Subject: Re: [git pull] drm for 6.19-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAPM=9tySHmq2KLAvW95MeKcb-37gZBhHTY5hf4dCTgUFLd+RKg@mail.gmail.com>
+References: <CAPM=9tySHmq2KLAvW95MeKcb-37gZBhHTY5hf4dCTgUFLd+RKg@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAPM=9tySHmq2KLAvW95MeKcb-37gZBhHTY5hf4dCTgUFLd+RKg@mail.gmail.com>
+X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
+ tags/drm-next-2025-12-03
+X-PR-Tracked-Commit-Id: 0692602defb0c273f80dec9c564ca50726404aca
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 6dfafbd0299a60bfb5d5e277fdf100037c7ded07
+Message-Id: <176486947377.869337.1470204818814632832.pr-tracker-bot@kernel.org>
+Date: Thu, 04 Dec 2025 17:31:13 +0000
+To: Dave Airlie <airlied@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,41 +66,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/12/2025 01:50, Chia-I Wu wrote:
-> Commit 506aa8b02a8d6 ("dma-fence: Add safe access helpers and document
-> the rules") details the dma-fence safe access rules. The most common
-> culprit is that drm_sched_fence_get_timeline_name may race with
-> group_free_queue.
-> 
-> Fixes: d2624d90a0b77 ("drm/panthor: assign unique names to queues")
-> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+The pull request you sent on Wed, 3 Dec 2025 17:22:42 +1000:
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2025-12-03
 
-> ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 33b9ef537e359..a8b1347e4da71 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -23,6 +23,7 @@
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/rcupdate.h>
->  
->  #include "panthor_devfreq.h"
->  #include "panthor_device.h"
-> @@ -923,6 +924,9 @@ static void group_release_work(struct work_struct *work)
->  						   release_work);
->  	u32 i;
->  
-> +	/* dma-fences may still be accessing group->queues under rcu lock. */
-> +	synchronize_rcu();
-> +
->  	for (i = 0; i < group->queue_count; i++)
->  		group_free_queue(group, group->queues[i]);
->  
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/6dfafbd0299a60bfb5d5e277fdf100037c7ded07
 
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
