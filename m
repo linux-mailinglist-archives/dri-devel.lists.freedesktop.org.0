@@ -2,97 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E1ACA3C92
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 14:22:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35172CA3C9C
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 14:22:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ACB910E97B;
-	Thu,  4 Dec 2025 13:22:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A19C10E97C;
+	Thu,  4 Dec 2025 13:22:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ldf5rvob";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="iWgYZoxx";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IC+W9tsQ";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KM+KFCJD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 045FC10E97B
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 13:22:44 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F4E610E97E
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 13:22:52 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5B4AF7981044212
- for <dri-devel@lists.freedesktop.org>; Thu, 4 Dec 2025 13:22:44 GMT
+ 5B4AErQG1358023
+ for <dri-devel@lists.freedesktop.org>; Thu, 4 Dec 2025 13:22:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- dNj9R18HY9BBEV+EQzdpIOpzUF1L4+YTCM0LbT+T/xo=; b=ldf5rvobKiSCPKK2
- rE4ypVn8GX4D92jJfjaEfsxX62QgLnER5fLdsj9uO4e5Yppp5Xk1F0wwWwp8yzR8
- 13LQBQ3OxtuCV7rEUaE2k0J7fGygvCzrq7HA7wpI2/9dlhc+eL0tEOWh58/CgSBx
- vzIzAVvTcq9AK5CUQwsecWlS5VMQwWn67UN6lsVVTehD5Y6Gb3RDYc1VCDBCusni
- 4lxhsyQRfi2QdO8CNYfChDNGRFIwm6YRHMM1+MJOrjbIKSQyFVXTN0Plra2CgBVg
- mzpnOYI9GodoN7eTQbaRG6ok9l4FFZ25GCIFncKyR3qvnI8gU/16UwYvt3igubb/
- YF/UKQ==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4au6xp0v78-1
+ iLMqK35C+dR60AHIbug7CKPTuNzYpTZ2FzC8crW1180=; b=IC+W9tsQVLKJgbMC
+ U+K/x8m2GZJKWHjprGsSosgz5U+M5Tdenyu4KZoi3OFLidGAqG8uKaTab2vc/JX7
+ BPPKBcksmiY1pnTNkckkGZljv1L4Z1F8rsAIJR9XvJ7cbhmdIVSzPeRPdF+45pWS
+ qQppMLQ8zdDy2zxT/UORj8c9BplqZkmDbLmrKD+96t8U4eUK25DuUbBKljQMn/7H
+ ts4yUwG6alCxxdtJGk6TN/4bV9Hn69gI6EtCbMDn9axn1dT1o/n8fis63h8Ae+hF
+ V1oAj3oATG3Td/eFyKXVKJh0oZwIaFME8X6Ch1DxUWM7+x/paeOgBSpq3G+2IVZq
+ FgSc6Q==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4au5yc1233-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 13:22:44 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id
- 98e67ed59e1d1-3438744f11bso1734285a91.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 05:22:44 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 13:22:51 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id
+ 98e67ed59e1d1-3436d81a532so1737494a91.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 05:22:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1764854564; x=1765459364;
+ d=oss.qualcomm.com; s=google; t=1764854570; x=1765459370;
  darn=lists.freedesktop.org; 
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=dNj9R18HY9BBEV+EQzdpIOpzUF1L4+YTCM0LbT+T/xo=;
- b=iWgYZoxxkj3jCKnJKLS6+YRtjwuWsXs/za145r2UR4BkHy7ZnZbiWxn46dIpYfVGl/
- QPFvIOQQVFjt6/bG1cPmG1Ud2ZNS5h9Fj6ajGHYqzDU8EJqx/C0MeaE4VB6wuWOo2URE
- vSdT7S4kPzcx8Pj/isgAE/G7NBxhC5gW/o7fccD/jkUnzxNocjiij6HyCiynw6tZWcSh
- thoeMi1CzCbdE9HNJ/i1EF9bbYvnG+RcLHVTSA96dihPggN83ziUiWQYWY43YcQbopdF
- Yz5wYGLmOP1a1oJExxnKfcBAQRsOkW6AgJ12bXCq9iSGlfbd/vEYqkOFGxvrFdwxkbNY
- +lGA==
+ :reply-to; bh=iLMqK35C+dR60AHIbug7CKPTuNzYpTZ2FzC8crW1180=;
+ b=KM+KFCJDN+WtUfZGbZuyJ5ihOkQlGdyY+fF07AEw1PvpkojdPOrEJ21Pw+5QBLHK4e
+ hFxXIwTKwvN9gC5xOdF9pAHi6VmQdIanuWNG5pNo038c/egOx6cmWp65mgbfIMHXfemT
+ EaYtwHkSS8xcdnX/74rnVySz7Oj/jHNnw3j2olDG7DtJvg3GYWL+4dncTn/iNLsfkYlC
+ hrKi3MgPbFm3Eo+ltV6igsi5l49h48kp9LoqnHgtMkoFvSBxooXgts+Jr9A/MCWEtJeQ
+ 1HWjRfZ4sG8dECq08tuQOcojvAMn0woffxt44Fp0a0UUteaO4ukGponyJJEuE8J+R2lH
+ 2Acg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764854564; x=1765459364;
+ d=1e100.net; s=20230601; t=1764854570; x=1765459370;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=dNj9R18HY9BBEV+EQzdpIOpzUF1L4+YTCM0LbT+T/xo=;
- b=ULdSvZNdhkbv4C3DIxcQ+Wn6pSki4MnawJf1pt2/XL7ergm/zpMvCmMVwV5bLPsEUk
- xPg1+gtP4q4oocL+Jk2+9Zhk/nlcxP3KkodJQyPRpcHjAHrE5iQ4OePzaUXk5pcm1USf
- XSpvN14qBoD0mcNQQmNekvqN+EZD42HDj6BbRLn6aiAHT5I/SqUOta7B1dSqeAP8QJpj
- Dpm275zE2+U5/ocxgOU2rKOrpvTiLAXmm29CQR4Jr8Df9NrUvh+I8O2yppZ4e3R11Mz2
- Q0Mb+xGcPWBDRE/zdD8+urqYQ0BwZaQLljJVrQekB6Vi5r3wFfuoX8f1k0adXqESX9/z
- TH/w==
+ bh=iLMqK35C+dR60AHIbug7CKPTuNzYpTZ2FzC8crW1180=;
+ b=S9dVk1OntKYxWSZeePl0N6jYGFpNAviiBqGDBHGRjRRFbl0poCdQyVuVmFfBd76TAT
+ vHdCGqSg31jU7110zTnbmmTlSQ51lDfREKmPuyUCAJPJuUevNAyxTtKgpaRDGtbNXDh0
+ zjiRmHyAqldSxwZPxAsGOaOHZwGAoxQGrc+0EVodwu2nWFzcTh8KegPBy5aBdDWOzuCI
+ CugrnhHsHMv4wU0OjocOBZUZq899clvdYTa5GjPAzVLIKrji8ew2IHtlsPjETt6oJsJp
+ GGhnVZuuSivlIlywmc1jd9Z4nKHnd1fGMNGRJ26zpHOs9EKCPdSAnF8HFDpgzvYo/Y0o
+ jK/A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXzE24NjyYGzYHBuzl90jZDzXJrVecVWxBeQcbRYsCy4pqcu3sQOQhvoPVwNg6oYY7wYNxLza0RmgI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy+Ze2LJJwpu2tZYBrJISJ9oA5+AlV4wLcGcC43VQPIi2UiUG0j
- BpljnZ7ilRCjnnUa79YG7KDsmc2+Rw97A+M1jWvy/JnYP3rwzIfKKLEBoKsEBckmuw6sVv/V4nu
- OfMvZ0wqXvpkUzVvM7+Y8yKu5gNq00buoJ8bl28zsajwBPEJIuYEbPTSbkUKbUaEy3+jkpbM=
-X-Gm-Gg: ASbGncuIj2Wpp6JCE7/A/Epeyc6mVdqn4KDZpaa+7p+4+tZGIA1mMjohxCALRkrqU0W
- Jad/QH41ZVHbEBHubfZLUhKVo0iPJps77wOpwf0v+C85RizdGoXvAjLgW82P4lsDyEETolwLeOm
- RyFifrk7+35hg0GG3Hgog9PUrvDTPy5hTxPjPiV8vwcNgaLhXrjA0NfVFnjQ9FrLmoqUalCzl22
- 6WpStzDgHpyNJJIvZLSpnwpl7Zsebb1VGPE7km+cp3vn16gGVYSzQ5yT0bJxev7NAblRxzwrw65
- n5+xWuWIzs1rD5uzoC7IC0+LClhGksSJCmLgfnv90JpHzbTGs+FxQ8VTh+DsX7m+m6OBWTAAx/l
- hUe1EKjOJLkFSxA0ZHdeQCRd3twe2fj3cCw==
-X-Received: by 2002:a17:90b:3c50:b0:330:6d2f:1b5d with SMTP id
- 98e67ed59e1d1-349126b7cb2mr6437087a91.26.1764854563711; 
- Thu, 04 Dec 2025 05:22:43 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFM7Yj0aAfp0DXPBcgTSCIeIyBXDcgz95NeVV+9v5b3m13qcDhXGMK6w6HenmZz+/02fo7qtg==
-X-Received: by 2002:a17:90b:3c50:b0:330:6d2f:1b5d with SMTP id
- 98e67ed59e1d1-349126b7cb2mr6437060a91.26.1764854563184; 
- Thu, 04 Dec 2025 05:22:43 -0800 (PST)
+ AJvYcCU3Kc0qsG9oJyWoT4Q5KFuSM00AQBxnHjSqLtu/W2GobCgfM+DRFNKx56Sg94jQoUj0emn2ci7kbQI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwqowE7cz1DK+9hwRRY9YcU87NGIEWw3//KWNSlK1PQ5WoJnorS
+ cXNEDDuBa63lp8Fhf1eJMg+2rspQ3TO+vw3hnDPZcH1CB/2mdlA3ONP6Jao5AoUYoTfwRrvALen
+ evLCtiqIfRuB8278jn4MwoJM+7S0LC5CzqqmxQAjltG0HgZo8HDziSUjUtuOdRnp1zoLRP+8=
+X-Gm-Gg: ASbGncvqe3FaKIWk3zIhX0OYrdU2MHfuw+f8Iy54pYvMjYwLbszRVj36mNtY+PX+UOx
+ qXX27VthY6IQx8AlJIKlVgd3JiRzV/DgWZ+isf3+iDAgJf3Is0m3RYC9SoVx0GmSZg5tA4S4b6T
+ FZN0JIusDbhnZ4mm5isqZUMmtH8ucy6qtsIrEfRTPuGkvAxOJyn3M5aFoGSaNYAyyL1nNeALxdY
+ p8bX1hCy8N2XdNHK21khdquX7l3uaoIhSzIiM5e+qIo69dH1VixcWtuJ8M158ZZCFa4l18zTjzq
+ mf6pPazuTl8kysBqsLsKDmzXrymddEQ5vA6gv/hC57edDEUtt95MMW14lvshEyPu0g9JI/x96Ga
+ gqPoCImeKbPiR8BTzzY5WYyPQQfZpwtUFWw==
+X-Received: by 2002:a17:90b:3cd0:b0:341:c964:126c with SMTP id
+ 98e67ed59e1d1-34912700bc4mr6077380a91.34.1764854570444; 
+ Thu, 04 Dec 2025 05:22:50 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFEh01/zQdZWO0c0uGJ0YnHgcKVlHn+84iAf4aVPFwPeP63O1lsuk3YdL878RrKAHZMnIUBSA==
+X-Received: by 2002:a17:90b:3cd0:b0:341:c964:126c with SMTP id
+ 98e67ed59e1d1-34912700bc4mr6077340a91.34.1764854569965; 
+ Thu, 04 Dec 2025 05:22:49 -0800 (PST)
 Received: from hu-akhilpo-hyd.qualcomm.com ([202.46.23.25])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3494f38a18csm1914740a91.1.2025.12.04.05.22.37
+ 98e67ed59e1d1-3494f38a18csm1914740a91.1.2025.12.04.05.22.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Dec 2025 05:22:42 -0800 (PST)
+ Thu, 04 Dec 2025 05:22:49 -0800 (PST)
 From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Date: Thu, 04 Dec 2025 18:51:56 +0530
-Subject: [PATCH v4 4/8] dt-bindings: display/msm/rgmu: Document A612 RGMU
+Date: Thu, 04 Dec 2025 18:51:57 +0530
+Subject: [PATCH v4 5/8] arm64: dts: qcom: talos: add the GPU SMMU node
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251204-qcs615-spin-2-v4-4-f5a00c5b663f@oss.qualcomm.com>
+Message-Id: <20251204-qcs615-spin-2-v4-5-f5a00c5b663f@oss.qualcomm.com>
 References: <20251204-qcs615-spin-2-v4-0-f5a00c5b663f@oss.qualcomm.com>
 In-Reply-To: <20251204-qcs615-spin-2-v4-0-f5a00c5b663f@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
@@ -113,36 +113,38 @@ Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  Jie Zhang <jie.zhang@oss.qualcomm.com>,
  Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzk@kernel.org>
+ Qingqing Zhou <quic_qqzhou@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1764854530; l=5138;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1764854530; l=1883;
  i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
- bh=zUAYCX1J5MIdytFviYtCDr+x6dE7Gr9+3odzNMnnNEI=;
- b=nLTboisLMjix/tDE2QzkAreMiBJRUIWErvDk+xe6+ZTfWQ9SZUYN3KU02bsZJd/s9kbQy1S24
- BzgXb/Xkt82DSn1USz+XUiN1zjhHSdSYO/j5Jt3L3VgeM2OYc1Ui52J
+ bh=2e4aIsMrv8wEM6ceXRSjS3zZllPcce04PIqo558zTus=;
+ b=8nQzJmd2UyI3dys6WU9XU8ch+rIY78MAySAwC8LPXSKeSa2YjquKSRMeuTCz99ZCv3OrHNhbR
+ UZQpFOUUK/gBqx57swD5k+9UVzxWkYE4JhAiMfQ8BqVjPtp9Fp+Scen
 X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
  pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
-X-Authority-Analysis: v=2.4 cv=RKW+3oi+ c=1 sm=1 tr=0 ts=69318b24 cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Authority-Analysis: v=2.4 cv=QstTHFyd c=1 sm=1 tr=0 ts=69318b2b cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=gEfo2CItAAAA:8 a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8
- a=VwQbUJbxAAAA:8 a=y_M5XU1qouMi1lcPmcIA:9 a=QEXdDO2ut3YA:10
- a=rl5im9kqc5Lf4LNbBjHf:22 a=sptkURWiP4Gy88Gu7hUp:22 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-GUID: reJuvehbwXghMqBElu4vOdILyC7NMyfz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA0MDEwOCBTYWx0ZWRfXyik8IdwyEzV7
- XWybPiUVfHSx02F+kIDnmic9xDk6vibbJ1vVW8M1NWUAP2Y15EZaT6kdrEsnG0NSZb4pTKHNe3R
- RYkSIc3RBgjCgKK3xlrAMWbozli1ZQXWYKXmS+0ZZNdRKA0XxUB9Xdd+0kis26jZjdkxO5za1Km
- 3u/Bko3AC32zipZuuO5bUA3f77+1Oej7zYUH2+sSGJDlksnslDKR8T6BTcK/RqySGwZajrxkmsu
- XQX5u2XwKoAaT0zfaJRSbaw6/MnPQ4Cv2LgYu23tU/+4ICaIrfkz3tCcjCps8XD7FmtjAMc6qJb
- Q/M9wx0UOti5BzuDvmxV+RE/suDVHAh9oc9IbZ9jGxYfpLyhszo2mL1CPFW7FOHYE+YLcg0+50m
- Jo65WFxgF7A+8tLYFyEch0ZxuH3vSw==
-X-Proofpoint-ORIG-GUID: reJuvehbwXghMqBElu4vOdILyC7NMyfz
+ a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=Qd8OTwLUrmNk7h6opE0A:9 a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: EzxjtZfTnpPB7VZbKidjBOLGCOLXeR7c
+X-Proofpoint-GUID: EzxjtZfTnpPB7VZbKidjBOLGCOLXeR7c
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA0MDEwOCBTYWx0ZWRfX7MzY8Nj0wj0z
+ b1V/HwxQF6FkagIhvhb0KYm/oKYskXrVGdEDjG6mZM14XV8Z72b8ilV9jzS1CEWffVd3nEAbiX0
+ hurSgIis7YX6QdQX6FxzjOfRxWH7pIANlSy//nULu4pONDDSFM31YvMIIqyybNPuev2ApXYoLaQ
+ qVrKs1fIDgov3yYLmlWZSV2YzQtZX+HSVSD8WtBKlB0uf/9+qvPqURTdefxrtHyatQhCwSoLIMp
+ NLCdWrMkahfYFhHfyjLtnYGHyb8hhASjjxvv6q9scqrV+YLluDb3bzFbsbkq479HcUA/xl30gsr
+ fNv5eTC3yyjexiTbc+t3EcVebCXHRmT3nsyEIswdAdrtfXCaAK9RhdDPKqNDxio1RdZa/rf1oi5
+ bnldcQ+6PzI757jibTOGZB0unLBChQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-04_03,2025-12-03_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 priorityscore=1501 adultscore=0 suspectscore=0
- malwarescore=0 clxscore=1015 lowpriorityscore=0 spamscore=0 impostorscore=0
+ impostorscore=0 malwarescore=0 priorityscore=1501 adultscore=0 bulkscore=0
+ clxscore=1015 lowpriorityscore=0 phishscore=0 spamscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512040108
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -160,170 +162,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jie Zhang <jie.zhang@oss.qualcomm.com>
+From: Qingqing Zhou <quic_qqzhou@quicinc.com>
 
-RGMU a.k.a Reduced Graphics Management Unit is a small state machine
-with the sole purpose of providing IFPC (Inter Frame Power Collapse)
-support. Compared to GMU, it doesn't manage GPU clock, voltage
-scaling, bw voting or any other functionalities. All it does is detect
-an idle GPU and toggle the GDSC switch. As it doesn't access DDR space,
-it doesn't require iommu.
+Add the Adreno GPU SMMU node for Talos chipset.
 
-So far, only Adreno 612 GPU has an RGMU core. Document it in
-qcom,adreno-rgmu.yaml.
-
+Signed-off-by: Qingqing Zhou <quic_qqzhou@quicinc.com>
 Signed-off-by: Jie Zhang <jie.zhang@oss.qualcomm.com>
 Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 ---
- .../bindings/display/msm/qcom,adreno-rgmu.yaml     | 126 +++++++++++++++++++++
- MAINTAINERS                                        |   1 +
- 2 files changed, 127 insertions(+)
+ arch/arm64/boot/dts/qcom/talos.dtsi | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/qcom,adreno-rgmu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,adreno-rgmu.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..bacc5b32e6d7b2f2b9e0424e77236e6a0ebe9a19
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/msm/qcom,adreno-rgmu.yaml
-@@ -0,0 +1,126 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-+%YAML 1.2
-+---
+diff --git a/arch/arm64/boot/dts/qcom/talos.dtsi b/arch/arm64/boot/dts/qcom/talos.dtsi
+index d1dbfa3bd81c3d999bd79fc92ad85312c2f83087..743c840e496d70133bf82928e9e0c3da9653a5ee 100644
+--- a/arch/arm64/boot/dts/qcom/talos.dtsi
++++ b/arch/arm64/boot/dts/qcom/talos.dtsi
+@@ -1839,6 +1839,31 @@ gpucc: clock-controller@5090000 {
+ 			#power-domain-cells = <1>;
+ 		};
+ 
++		adreno_smmu: iommu@50a0000 {
++			compatible = "qcom,qcs615-smmu-500", "qcom,adreno-smmu",
++				     "qcom,smmu-500", "arm,mmu-500";
++			reg = <0x0 0x050a0000 0x0 0x40000>;
++			#iommu-cells = <2>;
++			#global-interrupts = <1>;
++			interrupts = <GIC_SPI 585 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 590 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 591 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 592 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 593 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 594 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 595 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 596 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 597 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
++				 <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>,
++				 <&gcc GCC_GPU_SNOC_DVM_GFX_CLK>;
++			clock-names = "mem",
++				      "hlos",
++				      "iface";
++			power-domains = <&gpucc CX_GDSC>;
++			dma-coherent;
++		};
 +
-+$id: http://devicetree.org/schemas/display/msm/qcom,adreno-rgmu.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: RGMU attached to certain Adreno GPUs
-+
-+maintainers:
-+  - Rob Clark <robin.clark@oss.qualcomm.com>
-+
-+description:
-+  RGMU (Reduced Graphics Management Unit) IP is present in some GPUs that
-+  belong to Adreno A6xx family. It is a small state machine that helps to
-+  toggle the GX GDSC (connected to CX rail) to implement IFPC feature and save
-+  power.
-+
-+properties:
-+  compatible:
-+    items:
-+      - const: qcom,adreno-rgmu-612.0
-+      - const: qcom,adreno-rgmu
-+
-+  reg:
-+    items:
-+      - description: Core RGMU registers
-+
-+  clocks:
-+    items:
-+      - description: GMU clock
-+      - description: GPU CX clock
-+      - description: GPU AXI clock
-+      - description: GPU MEMNOC clock
-+      - description: GPU SMMU vote clock
-+
-+  clock-names:
-+    items:
-+      - const: gmu
-+      - const: cxo
-+      - const: axi
-+      - const: memnoc
-+      - const: smmu_vote
-+
-+  power-domains:
-+    items:
-+      - description: CX GDSC power domain
-+      - description: GX GDSC power domain
-+
-+  power-domain-names:
-+    items:
-+      - const: cx
-+      - const: gx
-+
-+  interrupts:
-+    items:
-+      - description: GMU OOB interrupt
-+      - description: GMU interrupt
-+
-+  interrupt-names:
-+    items:
-+      - const: oob
-+      - const: gmu
-+
-+  operating-points-v2: true
-+  opp-table:
-+    type: object
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - power-domains
-+  - power-domain-names
-+  - interrupts
-+  - interrupt-names
-+  - operating-points-v2
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/qcom,qcs615-gpucc.h>
-+    #include <dt-bindings/clock/qcom,qcs615-gcc.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/qcom,rpmhpd.h>
-+
-+    gmu@506a000 {
-+        compatible = "qcom,adreno-rgmu-612.0", "qcom,adreno-rgmu";
-+
-+        reg = <0x05000000 0x90000>;
-+
-+        clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
-+                 <&gpucc GPU_CC_CXO_CLK>,
-+                 <&gcc GCC_DDRSS_GPU_AXI_CLK>,
-+                 <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
-+                 <&gpucc GPU_CC_HLOS1_VOTE_GPU_SMMU_CLK>;
-+        clock-names = "gmu",
-+                      "cxo",
-+                      "axi",
-+                      "memnoc",
-+                      "smmu_vote";
-+
-+        power-domains = <&gpucc CX_GDSC>,
-+                        <&gpucc GX_GDSC>;
-+        power-domain-names = "cx",
-+                             "gx";
-+
-+        interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "oob",
-+                          "gmu";
-+
-+        operating-points-v2 = <&gmu_opp_table>;
-+
-+        gmu_opp_table: opp-table {
-+            compatible = "operating-points-v2";
-+
-+            opp-200000000 {
-+                opp-hz = /bits/ 64 <200000000>;
-+                required-opps = <&rpmhpd_opp_low_svs>;
-+            };
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ea364af99ba5c28895df765288d9d77448d2a8b7..77d7ecb92d9eeacf54e02415746e41d472915e38 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7980,6 +7980,7 @@ S:	Maintained
- B:	https://gitlab.freedesktop.org/drm/msm/-/issues
- T:	git https://gitlab.freedesktop.org/drm/msm.git
- F:	Documentation/devicetree/bindings/display/msm/gpu.yaml
-+F:	Documentation/devicetree/bindings/display/msm/qcom,adreno-rgmu.yaml
- F:	Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml
- F:	drivers/gpu/drm/msm/adreno/
- F:	drivers/gpu/drm/msm/msm_gpu.*
+ 		stm@6002000 {
+ 			compatible = "arm,coresight-stm", "arm,primecell";
+ 			reg = <0x0 0x06002000 0x0 0x1000>,
 
 -- 
 2.51.0
