@@ -2,78 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E74CA3771
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 12:40:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B989CA37AD
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 12:49:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47BB810E086;
-	Thu,  4 Dec 2025 11:40:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34F2C10E8EA;
+	Thu,  4 Dec 2025 11:49:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cXKYHKCB";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LXEf1UeA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3361510E91C
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 11:40:30 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-2958db8ae4fso8672115ad.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 03:40:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764848429; x=1765453229; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=VOLP0XruPd1QOq3grXNaxKngGKdOYC2kF7NcMiuxQlI=;
- b=cXKYHKCBEjlXy7HJVjoNREJ43Zy+K/sBT5pLnqb5qzvzrxjSVhVfHhpkxWY6jxpbnU
- xuviJrnrkCAPMvK4r8z3DiF/FnClVDK5fasEnoUsnKd6+KIujKK8dBJ1EtBHF2xWeBqs
- LYkfUSRjYCetYcWIzuj6iDtiaQoA5qWxE2kmjdpVWWaFgWhwh+qyLyIRqV66+Wtbw46C
- UGgUM0BppWSu8NPr96VCp+HVoARa6nBFIWwDiXBwTeM9sk/u8B11UEjvrguvj1D4BCrX
- GVygc2lAAZvsdDKq92UMZNzzZCalthw9ufIoh8N/E3A3JAeVK6VnyDuAKoED97qOpXQb
- Ofwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764848429; x=1765453229;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=VOLP0XruPd1QOq3grXNaxKngGKdOYC2kF7NcMiuxQlI=;
- b=DKIMgHhOiopoi/keFmuoTn9wFMKvlaQiJ/36bxI1QMkphsXegD2C+PA9X1b1sp+H8G
- u5YYREKJVMiPfCsmphsTLemYcr4mA/vl6izW7Tz9745VeDcR9qPvThaMDl22h+oC3fFz
- S5RrZBBkSqltd4Nh4Hvgy6R06ZgWgnSO9TGbs7TH+oS6Drw/mTwao0RG9kU/CPebaJRs
- CN2ui6PhBlMCy6lFns6zJIMMlZW3T6UkjPGKVfx9IXOHooKsP4HNDfe/1TjYBTnoYDgg
- 7qkMfnfRQNRoopjFzzPSEsdi3wlqH5IkR/wH+gw/vlMKFeOVaSWKUaMW+sim9yWNg52E
- VLHg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUMeA3NghmH/s/XJroletMIVfFFZN7YBS0UV4HrZlLcZufQSzCuNGTQJfKS2it1YWVB3jbrUXfD3/o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwMA3TbjhBI6tQexwMn5d8CRc1D+p8lVThtsaDdf1oB3W0RF/Kk
- gjpMcEH/PeCkJNT5PidI+hJ9U6Vzm99sSjeug/1m5meSE+L2LXAwSKGt
-X-Gm-Gg: ASbGnctF86OI2f2DiXyTlfOkLcWwqWjxwkw9gbmfpjO8IIScbbTMQOy1xdkAjvGhPVc
- TDVZBMZH5xTrBd/3T4AfoMqZLV7puv4BzX3pdGvYQ1+mqVv0JoKNJBMoFT7kKLrmmK3QE/rPf9R
- EN/QowbqYnL2WjXLxWTIdmcT3Q7EuMG4mdLbm7Np9eMsuv/O5vxkIA9P8BTYGPvnCV49Q/nDGTf
- P612Xdvjs4rp4yazKhqYvQOpXbPjId08AJAmMFhpoevaHkltWlKogpkuBOY/HlI3B3m1XZKZPNp
- NzJpyTL+sOEGtBEJDeUlmz6j7cIdg5WcEJ+E6fONTI9aJ28Uyi7m5fv415BJ6SdSt0V9e+JMJNs
- Sl5nOe2HVKnohcNyOgX3IKZG9UExGfuHL+CsB4zyCR6HXN2dThCjDlpwUCz/eNMKoRPc1iktvbX
- CuheShqBwTqiHT3pflzONaTqI=
-X-Google-Smtp-Source: AGHT+IEOyFNQpZDBuG6E+IFuy81iiipGlnmTigN6oxFceckZ0M6BWW7ltYQKjSJV9ixoVX2TZKIuZQ==
-X-Received: by 2002:a17:903:2d0:b0:298:60d5:d272 with SMTP id
- d9443c01a7336-29d682f4b2amr84735045ad.17.1764848429504; 
- Thu, 04 Dec 2025 03:40:29 -0800 (PST)
-Received: from archlinux ([36.255.84.59]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29daeae6ad1sm17734215ad.90.2025.12.04.03.40.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Dec 2025 03:40:28 -0800 (PST)
-From: Madhur Kumar <madhurkumar004@gmail.com>
-To: lyude@redhat.com,
-	dakr@kernel.org
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- Madhur Kumar <madhurkumar004@gmail.com>
-Subject: [PATCH] drm/nouveau : refactor deprecated strcpy
-Date: Thu,  4 Dec 2025 17:10:21 +0530
-Message-ID: <20251204114021.36719-1-madhurkumar004@gmail.com>
-X-Mailer: git-send-email 2.52.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43F5D10E8EA;
+ Thu,  4 Dec 2025 11:49:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764848947; x=1796384947;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=XFQqQABDTYL25qV+KMl9is32qVQOmMfJ5CpAsUY1EIE=;
+ b=LXEf1UeArlV/+CF8dvzIlBDJgd07NQovl1ZQocoMPAeOrLGgKpZaKQXe
+ oE0X6NELjyM+goMXRpVxc7cBMDIasa4JS1EWrD8p+yKdmCNXQFBLeweN0
+ EoiwmFONIGWqeMr3bKdcInUDaeiQSjxbprJfRTRbK20cixn6oIDEOpIJX
+ F3qhB9HbO25F0HKu7RFqhmhWH42hx6e1Ylb+qzSMApYxeYUId1jN9Y950
+ 66CeUCgxxaSXYg8yrX/Ims4OxbnFloKCKcSKjq96I3YOsj6euACQnM3tg
+ ClFjb3x0Q4DjNt4Hfh6x7hCp1mJpFhbnywsC7kDUB84nfUFQXApRrkjsM Q==;
+X-CSE-ConnectionGUID: qqRpjbobQtuBX9yt8eYjWQ==
+X-CSE-MsgGUID: On28GgDmQ0CW+nbQDF3YRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="84465976"
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="84465976"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 03:49:07 -0800
+X-CSE-ConnectionGUID: gWE9uOCyQhSjPcuwyHISkQ==
+X-CSE-MsgGUID: x6wwfiFzSGCpTyfqQBvNRg==
+X-ExtLoop1: 1
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.11])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 03:49:03 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Madhur Kumar <madhurkumar004@gmail.com>, lyude@redhat.com, dakr@kernel.org
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ nouveau@lists.freedesktop.org, Madhur Kumar <madhurkumar004@gmail.com>
+Subject: Re: [PATCH] drm/nouveau : refactor deprecated strcpy
+In-Reply-To: <20251204114021.36719-1-madhurkumar004@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251204114021.36719-1-madhurkumar004@gmail.com>
+Date: Thu, 04 Dec 2025 13:49:00 +0200
+Message-ID: <79e3e2f047e8df3b7a1ac69a5c24016f799823d0@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,34 +70,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-strcpy() has been deprecated because it performs no bounds checking on the
-destination buffer, which can lead to buffer overflows. Use the safer
-strscpy() instead.
+On Thu, 04 Dec 2025, Madhur Kumar <madhurkumar004@gmail.com> wrote:
+> strcpy() has been deprecated because it performs no bounds checking on the
+> destination buffer, which can lead to buffer overflows. Use the safer
+> strscpy() instead.
+>
+> Signed-off-by: Madhur Kumar <madhurkumar004@gmail.com>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_fence.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> index 869d4335c0f4..100c7dff4ff8 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> @@ -183,11 +183,11 @@ nouveau_fence_context_new(struct nouveau_channel *chan, struct nouveau_fence_cha
+>  	fctx->context = drm->runl[chan->runlist].context_base + chan->chid;
+>  
+>  	if (chan == drm->cechan)
+> -		strcpy(fctx->name, "copy engine channel");
+> +		strscpy(fctx->name, "copy engine channel", sizeof(fctx->name));
+>  	else if (chan == drm->channel)
+> -		strcpy(fctx->name, "generic kernel channel");
+> +		strscpy(fctx->name, "generic kernel channel", sizeof(fctx->name));
+>  	else
+> -		strcpy(fctx->name, cli->name);
+> +		strscpy(fctx->name, cli->name, sizeof(fctx->name));
 
-Signed-off-by: Madhur Kumar <madhurkumar004@gmail.com>
----
- drivers/gpu/drm/nouveau/nouveau_fence.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I don't think you actually need the third parameter here. strscpy() is
+magic, look up its definition.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index 869d4335c0f4..100c7dff4ff8 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -183,11 +183,11 @@ nouveau_fence_context_new(struct nouveau_channel *chan, struct nouveau_fence_cha
- 	fctx->context = drm->runl[chan->runlist].context_base + chan->chid;
- 
- 	if (chan == drm->cechan)
--		strcpy(fctx->name, "copy engine channel");
-+		strscpy(fctx->name, "copy engine channel", sizeof(fctx->name));
- 	else if (chan == drm->channel)
--		strcpy(fctx->name, "generic kernel channel");
-+		strscpy(fctx->name, "generic kernel channel", sizeof(fctx->name));
- 	else
--		strcpy(fctx->name, cli->name);
-+		strscpy(fctx->name, cli->name, sizeof(fctx->name));
- 
- 	kref_init(&fctx->fence_ref);
- 	if (!priv->uevent)
+BR,
+Jani.
+
+>  
+>  	kref_init(&fctx->fence_ref);
+>  	if (!priv->uevent)
+
 -- 
-2.52.0
-
+Jani Nikula, Intel
