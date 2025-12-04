@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED84CA27C5
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 07:17:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E241CA27CB
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 07:17:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18AFB10E84B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89E2D10E847;
 	Thu,  4 Dec 2025 06:17:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="end19F4M";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="btqLtVZm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
  [209.85.208.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC7F610E847
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 06:17:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 115D210E847
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 06:17:14 +0000 (UTC)
 Received: by mail-ed1-f45.google.com with SMTP id
- 4fb4d7f45d1cf-640c1fda178so903849a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 22:17:12 -0800 (PST)
+ 4fb4d7f45d1cf-640c6577120so838057a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 22:17:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764829031; x=1765433831; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=o5cPONIgu6mzYa/WMF+RelFJ2K/lRyJPaqEbFSvDOqU=;
- b=end19F4MkcuqNsJEWm/BAM/2/Yx9SGgDiEzF0zfjrXBh6JY19a4p2/o8H58XIg1ySK
- UjrWHhKjQpfCumJpZSholzmKby+OnnUhgy7X2ykXGy7BW6TyDRubdQNvhgCQbgEkXRvm
- mySYHVaMAHnU751WSzfQDVzT9i050OSMuqFTzyiV9mpinM40SUY0MHHYMPMkqpgGBYqM
- bIAZ/lFHvWi+Hdaj+4FhHmFs8CZy9+Q2Ho8CNWczj6UBgzEnywfTPrCnPiTvP3+iep7x
- 4lRSGsLm8UeMbpx5LSzdjEM2dQVz7n+EhtuuAb7V2eVzSvO9rT02bFT1Xps9TXyy0oQr
- H5fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764829031; x=1765433831;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1764829032; x=1765433832; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=o5cPONIgu6mzYa/WMF+RelFJ2K/lRyJPaqEbFSvDOqU=;
- b=rMRFzlQKlk8u+pkQMPRyqRRQ9ZdEDtuXvCK6Oq3C/A8jXdUFSCO1IMSzV4V6Nfcv1N
- aAsxywIW/m5qK7tbhbcEgnU3tM6Ruu1KcQLX+K8hJLK/oXY6BzQD4ysYvJ9D70XPzIEH
- sMMMBqFD1R+adWb4XRgebbcT8bZ5YYrgfX/dhheDz3rydqMcvdYjPZyA1Q+gejC7nX2k
- LNgS5mBiu2U/lADWdLzABPn1c1trmme+ntOdINVTBwhdq4FNJ90bmKjyknPN7KfAw05T
- DTIHuYGDa9JYgLCRmIL2/AkQJbYnOjJzt+xje0NCnfR8WoNuJPnNPJLthyPmjaghSr2Z
- yC6g==
+ bh=wDV4ueJ5OUHwsY4jMIVfrhYRT+0a4XHLxBIh9+KCo7E=;
+ b=btqLtVZmQUvExQtunD3lSIwakfD5A/roQZVu/R0+KPYaSdOgZis4xQwbvWg6U/Q3ht
+ vaOgYO5FpIOcDzs8Um/Jevf+j+G0gpVZMEwrOs6FK3RcOvpa7qkzFGfmw4YygjClZ7b1
+ XHHOL0Cvag6+vTmfzSzStFFX3ZB/PJEhR63kwKt7MUQPWLFLa2vn4kWdL97rVOO2RKYi
+ AFRJ1Mp5XqjrzuVdlu6lYIJlOxQpJnIQquiYgrLwu/mpyhj+Qo6Trn96sZpq+7QNmFG6
+ RtQ7wAmfled1TDErHyoNcqvP9Uf1oh8Vmyymh+vq5yftH/Ll/DLJ5UIQPDRBvtI6nU5Q
+ 4BHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764829032; x=1765433832;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=wDV4ueJ5OUHwsY4jMIVfrhYRT+0a4XHLxBIh9+KCo7E=;
+ b=SK3NRgSvS2UOq8+2jQGmANM6zUiwG0gMy/fAsf+EIytIJNlteUjImzkll0byrB3hGx
+ SiZIo5ywqk2x3xaT3VGKgYE2jOzIwshzMMA5MYHMJvjVpxAjaSiwua2ci6hv3pLcn56t
+ C85wPTlMO7NExFVprIBdCI4N8IfZUgUE9M37XeN+AJWW9KN6JgBYXJKtX4f2aSjwqq0q
+ dYM4vPuat5PvvlQAa+ZZ0X9wkqzYFWF74LU9HIDNUlGJe4DcUKcD5lftuBhwHP79wkx+
+ zNTarXSM610gkldfbAd5JqFvQG2Hm8wIqfcAVJtT5r4fNmP+FTijYxv95kFNhe0o5Z8i
+ tIHg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUsY7n/TZv1Dv2iYstU+Dm/jH/EZ3yABxHPaANYStfXzl5NU6uyaNXiZ5UAT0YyjAR8aqAo0CVQHU0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywbd+xAGLG/7iOQdRoSt3P3uCpxPDpWTJKPuwC1ycxE80+mPzvd
- nkGBlr87edIQxANbVc79yh7u+GpmXJAvZTSnP5sUMRhM4sapo7B5GLCH
-X-Gm-Gg: ASbGncusWXfVihVPIqxqiUGvCzEs/A8vaKwSrpu2CRkvVZtLbclBwHfGlub1r+eO77p
- 7KTjY5XbNrzl3pWqeFyMwPVq/DI5M2apk/hBJMVal+l23hRTv4oDrg8kZt9ybsqxqI+coAlXG8r
- 9lC6MGaSyKTCjH6toUJQ9rrsxX940R9CfTMMj+mDBeNGsixfdzVv1VLzex3lvO/ohq+Q4Owdvve
- GEyHtDjUQ5+uhWbBF1n5bD3KlXz+DX4k3vnkLhFVhrg3ZFc6ya4NkUGCX/c7ZR4Zn1e4wzH46LG
- VzE0r2fHi8et2NCxCMldYmkM7fJ0LVHb47u667mSzFefqY0F0zA8iUvUgaw0L7PjKoEsv7wiFYX
- ipEJERNjtQkYuFsihLOdOeKXMRiKUJ4A7ZjbUYWK9hsnuFf6AN+4y+xjGYJC6VaTor5+DYQv2TP
- E=
-X-Google-Smtp-Source: AGHT+IE96b/uxsEEqrl87S6Pg6TRMB1JugG4AhVEQkgPU/uciaxk7pEZZBKrlSNBh92a+3pEa9CVUQ==
-X-Received: by 2002:a05:6402:1ecd:b0:647:57db:c997 with SMTP id
- 4fb4d7f45d1cf-6479c4f6d31mr4107684a12.21.1764829031175; 
- Wed, 03 Dec 2025 22:17:11 -0800 (PST)
+ AJvYcCWC4YwTwzLo/kTXaZG+1xKc9bztIqhwpBQhAJphLM/A5pSGzk4yN6fWg5vrAYhhzAOdfT5gwrmmbbs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzgC3Y/rlPZmYPzDoLhBVm51TPs4xKgHmVS5rJBEOr2jiZZAI28
+ xjWbLfuoqjNzuuZxYZ1WvbnJgnW9n2WHdIGWnQPfPEqYvYNv3JxSsr35
+X-Gm-Gg: ASbGncu/bPw+ngWENh60HZxQEvllqDFB1ZuMiKH6bmKN3JVHL4eSDScURXZZAGaGLtN
+ X295f+xPqXVfjaCIeLVNe+BTEhQApBuu/gdxTzMM1yQpJ+g0ds2JppQyxsfZOBlH0JQ52WVq9v/
+ P6TeaqJ8pu01p6G67LKbD1naSvUJpDsBtYhWAR3SigjxgxXyANUZzkaH0oJ9pRcBhhqW2nIrKt4
+ VX/QZgC1Mvrxh3hYjwEACcMINlexig5RBRL1UhlCg3OobRTrw9jrb3yGrnZiEX/ykmp7/NlofO9
+ bXRLCcj9QmBC2+wU6a1TWYw01kFGBKoqf0fistFm2n7fgssh+sFjKCKZ6k6/oj5mMV6a7yaEV/6
+ AcL8ZrrlS+dhJzI42SEHe7oszZHQQeGGsDaxq9hXyPV8m2/v0VKdNGh4aHPT0QLrIHrdVPcITIk
+ s=
+X-Google-Smtp-Source: AGHT+IHjjOps7OFhIOvLIknNQvKPCH2qAuahzZ5Rpu+KEg83rMQ1MpF/A+ajRn484dw3CkB2Jg5bjA==
+X-Received: by 2002:a05:6402:1eca:b0:640:cdad:d2c0 with SMTP id
+ 4fb4d7f45d1cf-6479c49b919mr4308385a12.25.1764829032448; 
+ Wed, 03 Dec 2025 22:17:12 -0800 (PST)
 Received: from xeon ([188.163.112.74]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-647b2ec2d8csm490159a12.5.2025.12.03.22.17.10
+ 4fb4d7f45d1cf-647b2ec2d8csm490159a12.5.2025.12.03.22.17.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Dec 2025 22:17:10 -0800 (PST)
+ Wed, 03 Dec 2025 22:17:12 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>,
@@ -76,11 +77,12 @@ To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 Cc: devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/4 RESEND] gpu/drm: tegra: add DSI support for
- Tegra20/Tegra30
-Date: Thu,  4 Dec 2025 08:16:59 +0200
-Message-ID: <20251204061703.5579-1-clamor95@gmail.com>
+Subject: [PATCH v2 1/4 RESEND] clk: tegra20: reparent dsi clock to pll_d_out0
+Date: Thu,  4 Dec 2025 08:17:00 +0200
+Message-ID: <20251204061703.5579-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251204061703.5579-1-clamor95@gmail.com>
+References: <20251204061703.5579-1-clamor95@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,38 +100,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tegra20/Tegra30 DSI is quite similar to Tegra114+ apart MIPI calibration
-logic and clocks. With a few minor tweaks, existing tegra DSI driver
-should work on Tegra20/Tegra30 devices just fine. Tested on
-Motorola Atrix 4G (T20) and ASUS VivoTab RT TF600T (T30).
+Reparent DSI clock to PLLD_OUT0 instead of directly descend from PLLD.
 
-This patchset depends on Tegra20/Tegra30 CSI bringup since both share
-MIPI calibration logic. Ideally these patches should be picked after
-CSI bringup but they will not break anything even if picked before
-CSI patches.
-
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+Acked-by: Stephen Boyd <sboyd@kernel.org>
 ---
-Changes in v2:
-- removed all MIPI calibration, it is handled within CSI bringup
-- added per-soc structures into of_match
-- added fix for hang caused by register access with uninited hw
----
+ drivers/clk/tegra/clk-tegra20.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Svyatoslav Ryhel (4):
-  clk: tegra20: reparent dsi clock to pll_d_out0
-  gpu/drm: tegra: dsi: move prepare function at the top of encoder
-    enable
-  gpu/drm: tegra: dsi: add support for Tegra20/Tegra30
-  ARM: tegra: adjust DSI nodes for Tegra20/Tegra30
-
- arch/arm/boot/dts/nvidia/tegra20.dtsi |   4 ++
- arch/arm/boot/dts/nvidia/tegra30.dtsi |   8 +++
- drivers/clk/tegra/clk-tegra20.c       |   6 +-
- drivers/gpu/drm/tegra/drm.c           |   2 +
- drivers/gpu/drm/tegra/dsi.c           | 100 ++++++++++++++++----------
- drivers/gpu/drm/tegra/dsi.h           |  15 ++++
- 6 files changed, 95 insertions(+), 40 deletions(-)
-
+diff --git a/drivers/clk/tegra/clk-tegra20.c b/drivers/clk/tegra/clk-tegra20.c
+index bf9a9f8ddf62..9160f27a6cf0 100644
+--- a/drivers/clk/tegra/clk-tegra20.c
++++ b/drivers/clk/tegra/clk-tegra20.c
+@@ -801,9 +801,9 @@ static void __init tegra20_periph_clk_init(void)
+ 	clks[TEGRA20_CLK_MC] = clk;
+ 
+ 	/* dsi */
+-	clk = tegra_clk_register_periph_gate("dsi", "pll_d", 0, clk_base, 0,
+-				    48, periph_clk_enb_refcnt);
+-	clk_register_clkdev(clk, NULL, "dsi");
++	clk = tegra_clk_register_periph_gate("dsi", "pll_d_out0", 0,
++					     clk_base, 0, TEGRA20_CLK_DSI,
++					     periph_clk_enb_refcnt);
+ 	clks[TEGRA20_CLK_DSI] = clk;
+ 
+ 	/* csus */
 -- 
 2.48.1
 
