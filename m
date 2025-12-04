@@ -2,81 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5361CA4CBA
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 18:45:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C348CA4CE3
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 18:50:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4D2A10E9A4;
-	Thu,  4 Dec 2025 17:45:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B77A10E03E;
+	Thu,  4 Dec 2025 17:50:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZhcPeO/L";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Oo912eAq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB05810E9A3
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 17:45:49 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-7e1651ae0d5so966406b3a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 09:45:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764870349; x=1765475149; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=0UJJ9ylZNUJ5QoY8mWfjT/WmltuI6aBtQizOSUZ/irg=;
- b=ZhcPeO/LQuZZUj3EUqI3qMpelW3Pukpw4uR1ew53v/m82ZEKGCUSWLNtfLxMSn3nt8
- ZnoeGOkvD5QHuKIiToGoC0UCEXEdoJNsG9LkKb80Ovk+98nVR/RyatbJbHH2x86/A7kT
- 1j+8nH+NaaUhZRRgLY+k3q+b7iiWXjJj9simXWQUAtoVmQaGGvVtfmSZuXn5dHU6yBPj
- sxTl12kjOLfW/lnNPIg0P+gsePElwVPI8YEqAcFMkzF347jzZg2rOwXaZuy4RktFqtdq
- Jm1vLrD5se80pTTwJ6JQu2wFIc1jjwTpmch8LjrYHqajydYcxyI8PLxYQc7xGKprTJAN
- VsHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764870349; x=1765475149;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0UJJ9ylZNUJ5QoY8mWfjT/WmltuI6aBtQizOSUZ/irg=;
- b=YAdPEmX0G2MGp1YbCMv9vIgiOIggzPIlVXgI3ZmUqtTcLkRvhEmpR2zU5T/ZSASuiK
- y4tBe3+NltN82XSI+7Tmb9yUTHjA8qZQTre830ExL8NYXPfG4uhd7F4IuP94rbzQ1VOI
- 5JALq6584InLLW4jB/LL4x+AdqKCWQk8Vy6F9Mwqbzx3tkKB8rAVHZPK4Fe52f4Ca6OM
- EziGMDYyz8O7lr7GyeRP3HfZJ4wplCVoWcjlLlYS4uPd3qKWSnmXB9wABNBYv24EcL4l
- aWRjEMpNn5ob7Xvu0d+LWg4in3tLQwyoJIubr/e5sY3jbS/0KatZfVefcuOSPmyd2qgG
- /yIQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXKBBKSQzj00dTIhwR6di2aX+sxlntduAmibHGdgRz6lBFiUCgSven60BjRBz/SbXtwQQo8pHJSVbg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw0eh+zvMLZN/DQSXSZWYaBBnQ2RgUC4iuMZvgoz/SEI2vsCKtM
- tqgOcIv95SBcUnxJr1qsuQkUmaY3Enr301qj8N929MbIZC3oa/1rnF3l
-X-Gm-Gg: ASbGnctn/7xtA+1d+JAv+K+xAv2QS1vKHyYFkgLB6BR0XjnPVvszgsGyTlk+pJ9rZZu
- mKskiLfegLhIrO7oRP53Ny1Xuf9aEArtAWb0rnL4GQbCo3s5eH118cvUf+7JiWBMawLmh+dB0pd
- fjEtB0e4VKq6aGdAKI4g4FcFZYmG8MU12wqWd97LVPoOD1zFoJJAr2laHMWKA+SpHM5aaV9Yqeh
- z+W5RtBNuh2L0PDW2KkeNRJtEphmuu+V54Bn7W6CwVdhgWm7CsOf4o3mYu3chFarzk8HPLRk4je
- sGgUXOEpz8TV/uthzOL5879GBw2hpKnHnrGR/pYpXX+9HP+al45FIlRz2FIQd4+OKWRNL6T36KQ
- GMDVCChMnZl6fnQhFFFAuzOcfFJHUzSzLBa2RHRFYWvKPcfwYCsnckIFcrALmCAEx7nO7hF+Tkw
- pL8JSKweWI8oIwyQtoBlxjP3QmdDV9qTWaBIUyY4bIWowVKOOcGCjfBA==
-X-Google-Smtp-Source: AGHT+IH4YFefcYl0av0SSMa1tyYZe0aI66vFA78al0YxNHaZIxPY/iDWSneR7gR+YVY2zh0tO5lD7w==
-X-Received: by 2002:a05:6a20:6a05:b0:350:66b2:9729 with SMTP id
- adf61e73a8af0-364038a863bmr4087291637.60.1764870349297; 
- Thu, 04 Dec 2025 09:45:49 -0800 (PST)
-Received: from localhost (73.154.16.34.bc.googleusercontent.com.
- [34.16.154.73]) by smtp.gmail.com with UTF8SMTPSA id
- 41be03b00d2f7-bf6a1306a8bsm2381263a12.18.2025.12.04.09.45.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Dec 2025 09:45:49 -0800 (PST)
-From: Chia-I Wu <olvaffe@gmail.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Grant Likely <grant.likely@linaro.org>,
- Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, tvrtko.ursulin@igalia.com
-Subject: [PATCH v2] drm/panthor: fix for dma-fence safe access rules
-Date: Thu,  4 Dec 2025 09:45:45 -0800
-Message-ID: <20251204174545.399059-1-olvaffe@gmail.com>
-X-Mailer: git-send-email 2.52.0.223.gf5cc29aaa4-goog
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87FB110E117
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 17:50:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764870619; x=1796406619;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=plZqPd5AgvFzy8Z5GnGogb0ce974/c0CwB9yW1Q1AMY=;
+ b=Oo912eAq1ZAkRtWRopBKftGHGf3Qr0m6hq6ikp/Jz/Qrxh2crUwtBX0l
+ cDndTwt+MCTspMtuOYmOvXfvRsg4JIo5AESflnYuTfTcA14t9QlzDxLzH
+ UA4bhKdWu753eiPgSNiMddTG2RL3ieMl0jdbiqjEYeAYC686FGdiu4j1O
+ HW8pfopwpA7DdaTNY8ychunbGo4ChAptth8Oem5anMBlJPkj68GbL7mhb
+ Nsgfy7aMamz/BkE+7Ehv6uKXztzVtThnyg/eqtKKfl5z2hpqTGttBUBMB
+ iK19OL4apRtXcDD4apjm2ZKt02T/PBG3EqA70v2fQVe1A8xvZz0Xn/VfU A==;
+X-CSE-ConnectionGUID: 1YukRZTAQhuLbfmpk/EzUg==
+X-CSE-MsgGUID: 9jj+f9abQFeb0nxK/GzUew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="89551148"
+X-IronPort-AV: E=Sophos;i="6.20,249,1758610800"; d="scan'208";a="89551148"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 09:50:18 -0800
+X-CSE-ConnectionGUID: dbEtKAJPSKuxVJXyT41FOA==
+X-CSE-MsgGUID: cxJvP8gRQfqrnAztoQ68Xg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,249,1758610800"; d="scan'208";a="194119709"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO [10.245.245.167])
+ ([10.245.245.167])
+ by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 09:50:14 -0800
+Message-ID: <cfe36079c764e984e9719a8d398f4ffc074a6ae7.camel@linux.intel.com>
+Subject: Re: [git pull] drm for 6.19-rc1
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Linus Torvalds <torvalds@linux-foundation.org>, Dave Airlie
+ <airlied@gmail.com>, Matthew Brost <matthew.brost@intel.com>, Jouni
+ =?ISO-8859-1?Q?H=F6gander?=
+ <jouni.hogander@intel.com>, Matt Roper <matthew.d.roper@intel.com>
+Cc: Simona Vetter <simona@ffwll.ch>, dri-devel
+ <dri-devel@lists.freedesktop.org>,  LKML <linux-kernel@vger.kernel.org>
+Date: Thu, 04 Dec 2025 18:50:11 +0100
+In-Reply-To: <CAHk-=whaiMayMx=LrL7P119MLBX6exM_mEu4S2uBRT+xWQ-mbA@mail.gmail.com>
+References: <CAPM=9tySHmq2KLAvW95MeKcb-37gZBhHTY5hf4dCTgUFLd+RKg@mail.gmail.com>
+ <CAHk-=whaiMayMx=LrL7P119MLBX6exM_mEu4S2uBRT+xWQ-mbA@mail.gmail.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,44 +75,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 506aa8b02a8d6 ("dma-fence: Add safe access helpers and document
-the rules") details the dma-fence safe access rules. The most common
-culprit is that drm_sched_fence_get_timeline_name may race with
-group_free_queue.
+Hi, Linus,
 
-Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
+On Thu, 2025-12-04 at 09:35 -0800, Linus Torvalds wrote:
+> On Tue, 2 Dec 2025 at 23:23, Dave Airlie <airlied@gmail.com> wrote:
+> >=20
+> > This is the main drm pull request for 6.19.
+>=20
+> I have pulled this and pushed out the result. It "works" for me on my
+> Xe setup, but I do get a new refcount warning, which looks like
+> something might be seriously wrong.
+>=20
+> (Side note: I'm also running with
+>=20
+> =C2=A0
+> https://lore.kernel.org/all/20251119153321.2640969-1-jani.nikula@intel.co=
+m/
+>=20
+> fixed up for the merge and applied to make my dual 6k monitor setup
+> happy).
+>=20
+> I get this:
+>=20
+> =C2=A0 refcount_t: underflow; use-after-free.
+> =C2=A0 WARNING: lib/refcount.c:28 at 0x0, CPU#43: gst-plugin-scan/2770
+> =C2=A0 Modules linked in: rfcomm sunrpc nf_conntrack_netbios_ns ...
+> =C2=A0 CPU: 43 UID: 60578 PID: 2770 Comm: gst-plugin-scan Not tainted
+> 6.18.0-06709-gab59a11f1240 #25 PREEMPTLAZY
+> =C2=A0 Hardware name: Gigabyte Technology Co., Ltd. TRX40 AORUS
+> MASTER/TRX40 AORUS MASTER, BIOS F7 09/07/2022
+> =C2=A0 RIP: 0010:refcount_warn_saturate+0x42/0x70
+> =C2=A0 ...
+> =C2=A0 Call Trace:
+> =C2=A0=C2=A0 xe_exec_queue_destroy+0x1be/0x1d0 [xe]
+> =C2=A0=C2=A0 xe_vm_close_and_put+0x3b8/0x770 [xe]
+> =C2=A0=C2=A0 xe_vm_destroy_ioctl+0x107/0x180 [xe]
+> =C2=A0=C2=A0 drm_ioctl_kernel+0xa3/0xd0 [drm]
+> =C2=A0=C2=A0 drm_ioctl+0x30f/0x470 [drm]
+> =C2=A0=C2=A0 xe_drm_ioctl+0x48/0x70 [xe]
+> =C2=A0=C2=A0 __se_sys_ioctl+0x6d/0xb0
+> =C2=A0=C2=A0 do_syscall_64+0x6a/0x260
+> =C2=A0=C2=A0 entry_SYSCALL_64_after_hwframe+0x4b/0x53
+>=20
+> which hopefully gives somebody an idea.
 
----
-v2: collect R-bs and drop misleading Fixes: tag
----
- drivers/gpu/drm/panthor/panthor_sched.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Looks like a backmerge gone wrong and duplicating a put.
 
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index 33b9ef537e359..a8b1347e4da71 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -23,6 +23,7 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/rcupdate.h>
- 
- #include "panthor_devfreq.h"
- #include "panthor_device.h"
-@@ -923,6 +924,9 @@ static void group_release_work(struct work_struct *work)
- 						   release_work);
- 	u32 i;
- 
-+	/* dma-fences may still be accessing group->queues under rcu lock. */
-+	synchronize_rcu();
-+
- 	for (i = 0; i < group->queue_count; i++)
- 		group_free_queue(group, group->queues[i]);
- 
--- 
-2.52.0.223.gf5cc29aaa4-goog
+We'll pick that up and try to provide a fix ASAP.
+
+Thanks,
+Thomas
+
+
+>=20
+> Added Xe people involved with recent commits to the participants.
+>=20
+> Anybody?
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+Linus
 
