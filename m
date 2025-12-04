@@ -2,46 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75FFCCA2391
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 04:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD74CA2480
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 04:44:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 302CF10E07A;
-	Thu,  4 Dec 2025 03:07:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5096710E1A7;
+	Thu,  4 Dec 2025 03:44:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="BB/qJqaK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cN0BRFSU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D236F10E07A
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 03:06:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1764817615;
- bh=3VDbv8be7WXmqziqx3UIDm831ej/hZpH03IJPhmPaT0=;
- h=Date:From:To:Cc:Subject:From;
- b=BB/qJqaKvbBqZK2NrUbwN1BiB5KTOn3484/e+6JcajzmWy4qoEk8aupltwIRLDq22
- L1g6uH5TRE7ggIC6KMgyIVyBtJi4ZH/CjLXObn8aODqRRUQb9moxiJiEyFZZ0qVX+9
- 5VYgxw0coNgnXF0Pi3fegWUwFkVCb4TyIXtHD7NECNtrptiyJf2vfXe22952RtcxOE
- o+1VdeLe0bh/5ig9z8npMntQ5TVyhaUDxlF08JXOPdfNRAsgF8LZW08FUQUxhfDp3b
- 7yhJ/RzjXOh872H1lxZcjVT0Mhp/NY7+YAAUdSLS3NGW/U7AvMwRA3yZkLN+TTxXER
- ARjGAumMMnBBQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4dMKDH3tnhz4w2J;
- Thu, 04 Dec 2025 14:06:55 +1100 (AEDT)
-Date: Thu, 4 Dec 2025 14:06:54 +1100
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Dave Airlie <airlied@redhat.com>
-Cc: DRI <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: linux-next: manual merge of the drm tree with Linus' tree
-Message-ID: <20251204140654.1cba1aeb@canb.auug.org.au>
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+ [209.85.214.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41BA610E1A7
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 03:44:51 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id
+ d9443c01a7336-2953ad5517dso4788025ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 19:44:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764819891; x=1765424691; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=6NX83pUxb2cCDVonh18YfPdZCSI0sPevLl/YtGxuC28=;
+ b=cN0BRFSU1d/HZYAJ4IRmXJlVhHIjvY92S1HNFe9uaYMZoBnHbFIFww0BoGrWdvQhcI
+ qdSKhGNtmpmw14tA1LBA9/xcQiBvnuMLtjWqtnF86JLY08ffF4MGOvDB/UPxyocYWn5V
+ B/C5tlWC1f5jP5vEFXmghzH48wZWrH83lwayrPLIBRmdbsNz3ZhJhM8yJGQ35LusK3gb
+ py8ttgKcJQXzVkB09GfinhIRPHzBh16MC+wvu55XhXY8l5v4vbyM/uZdk4P+2BPDIQm7
+ LK95XflXK3YxlEfy21ZG/kFHvYwGx48cwDoSTHf/1Hb1qiRoI98yE4HY98rT+Wt1lUVA
+ LaEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764819891; x=1765424691;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6NX83pUxb2cCDVonh18YfPdZCSI0sPevLl/YtGxuC28=;
+ b=gqDt+OCMucSOAmd6pLTT7HjNLaf7fJIPx2h+N6FDrlQ/ksgc0ymJrvpc8TvQV4J7Mz
+ h86OoGX+wrb3Hihyhm93byakfaL7M0TzImcoh1SAjyRnAQEa2CEHhGBpB4kPpDJW14Ui
+ rKjd/9W0/Zgdr6U9xIxeWAMETlMFrMaOF0O5AUCdRmH8/9Ik5KIBQzwskA82R7KLq00q
+ AjDViPq4PtO3prxoI5n8Z88ttjK8QqGhBAgDYF9sTrmSmbhOvIDzh9xWX4aC02ULYi7v
+ 3w7EMoCsE0ysr0qTRl3MoG2IkbihDggps90w0km8yIo/InCLEdGF2C7BBmTsBSE4Xwdp
+ 7wpw==
+X-Gm-Message-State: AOJu0YwUX3nUS1Vemua43Hn0++VFfdB5mV8qDPsEzCx2afd/Dg6kWBtE
+ h0T7bye0XBBoBI1HM9REnelBQr0TTlgKQsLJgOJq7BLQ+hLyRlFGdibw
+X-Gm-Gg: ASbGncuvBnBBbVaBa3Kq3YnCBVLQSLOMZjWtJ/2TWsnSkdzgHI+QOG5lu80EQSu1N3G
+ YeyorT3FVxjN4BtbeyH/yiQm5UEuS5bGWsSUbeKKmvy80FYJddKRR37CHa7cGZcdeOV7b3BNvBr
+ 1Fy3qZ9dXdcaJUn5LuAxfeJ7u/t2IYTiRmA6/zw+si0Z9eCgKB4nf3S6F5dXY+lJ9pHjvVJdOqx
+ Uv7+FxXhD4g/BMVse+kZZGFC3rtcSR3dY5HA0jjXtc1XM09o0ZatRIF4VfCEk1bCYnSZvFIdTwc
+ Ha65H0c0TqRk9TpcVAcuM0zA7Ppnj2VWWD8klFEWNh2fvtfM1bDoGbTyN3FBRUHYaEeje+tx1X2
+ XbflQVdNBjZhg0ePmEbKJkQU/95zpLlOwzsnXIwkP9hI417LabYSSdWAGQYtk68DfHbOMs+AY2V
+ aR3gan0NTGXSCOAsIgt8F4vFvsGBpU+1xMUCV+gh3kmJvJ5r649TLPAPm0a+pl
+X-Google-Smtp-Source: AGHT+IEuaZZOyIm5NAPMbSxAJs787v0hffhmCgce9pIduceysWh/BH0+C+5qTr5V2E2Q75rV8n4UZg==
+X-Received: by 2002:a17:903:388d:b0:290:dd1f:3d60 with SMTP id
+ d9443c01a7336-29da1ec75f8mr15931495ad.51.1764819890673; 
+ Wed, 03 Dec 2025 19:44:50 -0800 (PST)
+Received: from ?IPV6:2601:1c0:5780:9200:8c84:3987:751e:970b?
+ ([2601:1c0:5780:9200:8c84:3987:751e:970b])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7e29f2ed000sm486536b3a.1.2025.12.03.19.44.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Dec 2025 19:44:50 -0800 (PST)
+Message-ID: <67663eda-dce6-48e7-ad54-572bbce8b944@gmail.com>
+Date: Wed, 3 Dec 2025 19:44:49 -0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/AXumj+EMN1pf_6OiZG45q/O";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] drm/vblank: Increase timeout in drm_wait_one_vblank()
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ maarten.lankhorst@linux.intel.com, maxime.ripard@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+References: <20251028034337.6341-1-chintanlike@gmail.com>
+ <2dae83e3-6fee-4e66-964e-c7baf46eecd8@suse.de>
+Content-Language: en-US
+From: Chintan Patel <chintanlike@gmail.com>
+In-Reply-To: <2dae83e3-6fee-4e66-964e-c7baf46eecd8@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,68 +95,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/AXumj+EMN1pf_6OiZG45q/O
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Thomas,
 
-Hi all,
+On 10/28/25 10:14, Thomas Zimmermann wrote:
+> 
+> 
+> Am 28.10.25 um 04:43 schrieb Chintan Patel:
+>> Currently, wait_event_timeout() in drm_wait_one_vblank() uses a 100ms
+>> timeout. Under heavy scheduling pressure or rare delayed vblank
+>> handling, this can trigger WARNs unnecessarily.
+>>
+>> Increase the timeout to 1000ms to reduce spurious WARNs, while still
+>> catching genuine issues.
+> 
+> Thanks a lot.
+> 
+>>
+>> Reported-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+>> Closes: https://syzkaller.appspot.com/bug?extid=147ba789658184f0ce04
+>> Tested-by: syzbot+147ba789658184f0ce04@syzkaller.appspotmail.com
+>> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+> 
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-Today's linux-next merge of the drm tree got a conflict in:
+Gentle ping on this patch. Please let me know if there are any issues 
+with the patch, or if it requires any changes or further testing.
 
-  drivers/gpu/drm/drm_fb_helper.c
+>>
+>> v2:
+>>   - Dropped unnecessary in-code comment (suggested by Thomas Zimmermann)
+>>   - Removed else branch, only log timeout case
+>>
+>> v3:
+>>   - Replaced drm_dbg_kms()/manual logging with drm_err() (suggested by 
+>> Ville Syrjälä)
+>>   - Removed unnecessary curr = drm_vblank_count() (suggested by Thomas 
+>> Zimmermann)
+>>   - Fixed commit message wording ("invalid userspace calls" → "delayed 
+>> vblank handling")
+>>
+>> v4:
+>>   - Keep the original drm_WARN() to catch genuine kernel issues
+>>   - Increased timeout from 100ms → 1000ms to reduce spurious WARNs 
+>> (suggested by Thomas Zimmermann)
+>> ---
+>>   drivers/gpu/drm/drm_vblank.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+>> index 46f59883183d..f779103b261b 100644
+>> --- a/drivers/gpu/drm/drm_vblank.c
+>> +++ b/drivers/gpu/drm/drm_vblank.c
+>> @@ -1303,7 +1303,7 @@ void drm_wait_one_vblank(struct drm_device *dev, 
+>> unsigned int pipe)
+>>       ret = wait_event_timeout(vblank->queue,
+>>                    last != drm_vblank_count(dev, pipe),
+>> -                 msecs_to_jiffies(100));
+>> +                 msecs_to_jiffies(1000));
+>>       drm_WARN(dev, ret == 0, "vblank wait timed out on crtc %i\n", 
+>> pipe);
+> 
 
-between commit:
-
-  eb76d0f55535 ("drm, fbcon, vga_switcheroo: Avoid race condition in fbcon =
-setup")
-
-from Linus' tree and commit:
-
-  6915190a50e8 ("drm/client: Support emergency restore via sysrq for all cl=
-ients")
-
-from the drm tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/drm_fb_helper.c
-index 0b3ee008523d,be790fc68707..000000000000
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@@ -31,7 -31,8 +31,6 @@@
- =20
-  #include <linux/console.h>
-  #include <linux/export.h>
-- #include <linux/sysrq.h>
- -#include <linux/pci.h>
- -#include <linux/vga_switcheroo.h>
- =20
-  #include <drm/drm_atomic.h>
-  #include <drm/drm_drv.h>
-
---Sig_/AXumj+EMN1pf_6OiZG45q/O
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmkw+s4ACgkQAVBC80lX
-0GykkAgAiuS/bCiTzN8kqRw+NJMXeQO/6QoHVyVD1x+n6Sy42jpFpv7QDfe1izps
-uQpSGD+UcSZ9CQG6tbUXA9IdiYXbvD1E+U1ftiumi1ci2IjMsJHpr6IbH6u39RQq
-OtoVvVb7Fa2oBa9c9mvok5iU5gbZlu1qZx5coObTmTGbq7Oeikzhn5C35uQ1RwY4
-Cz12bGYGG2E+GKa7/myFt9zroAy6v8M+C5+AFlghyotLj30YWvtZl2DesS9+VDfI
-myHFxRKYJKI8JKAopz5v9SQKTGfqklz3f2RzUdOhU2N21mU6wg8DKbtdfVCtvKMk
-HHtgcOD/2BeOtwDl+7BoEZctYQ4t/g==
-=Kzxx
------END PGP SIGNATURE-----
-
---Sig_/AXumj+EMN1pf_6OiZG45q/O--
