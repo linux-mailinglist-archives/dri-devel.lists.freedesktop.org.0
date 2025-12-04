@@ -2,92 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C18CA294A
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 07:59:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D3FCA29FC
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 08:24:06 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75E6010E130;
-	Thu,  4 Dec 2025 06:59:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F066E10E05F;
+	Thu,  4 Dec 2025 07:24:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="W4CD8DwD";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="pQ8KNRag";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B48E710E130
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 06:59:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1764831539;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=b1dUiMKw0m9OgEVcpxGNs60yf3zzRP2Q8ePCg7lCbBM=;
- b=W4CD8DwDwa3P1RbzQugIZWMWcNsvEqiDaY29IUnn1HJeV3Us8EgPDbuspYJ9VWUkk1V5m/
- auxYZ/WBZ3wikS8h8M0A05tp8t/UAK0YvpRIi8VmjTXAjpBZuvD7sRn2Qfz5mqsFKxobig
- gofg3yhME9OSPK4A3F8/n7RYtqECiiQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-678-yAJQ29nPMpiAbqL7-FVu0Q-1; Thu, 04 Dec 2025 01:58:58 -0500
-X-MC-Unique: yAJQ29nPMpiAbqL7-FVu0Q-1
-X-Mimecast-MFC-AGG-ID: yAJQ29nPMpiAbqL7-FVu0Q_1764831537
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-47788165c97so2895255e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 22:58:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764831537; x=1765436337;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=b1dUiMKw0m9OgEVcpxGNs60yf3zzRP2Q8ePCg7lCbBM=;
- b=UdrF3l+KOo5s9SnZUc8RT6d7Mf+Q7Q75e9RqMps15QDwtba0C3J1m2E1+5GQUEBgBr
- f8CHB5rNWXGSuw1prUiUUyuyMmoX9ejVsmjmxsfzCikGhmcwg1QheAW7Km6WzTho/OQb
- Mkd3kDwjX/QfEZ8tdso75ntOoK4WLuRqGz/s0idBvrVGi4xnojFyFZy/Dups00r4RNMn
- Dbs3ktc4QxySTs2a15Ks5JVYlSBYRw9lofeLOTAY09khbyuliul3GN7pIJSm/IaaFRk8
- FOI1+1iuilUK0+4DNn8oFRoqJN5rjXKrffeYObeO/OcBdwBDxtXqWO0EJMTRsG6n/E4L
- A3AA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXawWXn2dQnRmoYX1yMbvmzEW4d0df3eYU8ewAdcKQOZb+qp2oexJ7dD6Q2F2n75feBbUzHIC9jQyc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyZHGbMZM7pZWgsCXYqhqNj5U2thebozZ/3JRxjaiYm8aYOicer
- pmzQGQ2G6iSWgLmaGyYCP/jSWUy1vFUUlyHcJSpHf7NvLERN7CvGbS1s/mKLdccJnHOBM8nKUHS
- eE01X3k3dPUSqGISw2GTQ7J3NLuwADsjWIBqy6X14t4aBU0a8bIn+AWhbuIYL/3oKqwYoBQ==
-X-Gm-Gg: ASbGncsoDTrYqn33cV6RTP7198FqsThLdoTAcyr9f28Z0J0wf82FcUrkRu1WzuJGY5k
- HzSFiaSUYvqvmEXM3yCct1gf86sQJ5CpTNxIuJ6lNnzlU9nPpQU2TvUqG58o9UvOy/+ApS+eoGc
- MJWlwu4vktffc3+ootNuLk9v7OCuakEIp2uhAGhOMZHEPWZeb0su064ZrDg7P1MKdWRSm+Gz3f+
- dfjZSS++cTnrDyJ22mpVAGFM9P0zfSXMSoHRO0Wr+QszFO44+J1sB0NpuUkxGOLOPZ1/P0aG56x
- fpWqyUrdMDZedYktH/GX2DQCTU0YpxhYL8h4dpQIdc8aXEzFYfXGadzDEmCNXzDfDVtQrjtbdHC
- 9EyOknp0cWilQdrtTBZpGBWc/w4Xe/YKZ62Fa1zV0iJIMSYKyF21hNkbH56CSCiu28IHL
-X-Received: by 2002:a05:600c:470a:b0:46e:396b:f5ae with SMTP id
- 5b1f17b1804b1-4792af34f62mr57868305e9.16.1764831536892; 
- Wed, 03 Dec 2025 22:58:56 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGJx2MgmvBWhxcwH/t9cq4qgpf/8RWK2dAXWuJnkHcfFWb6Y2/9+dXROv4VUqnLVPbmKN7bDg==
-X-Received: by 2002:a05:600c:470a:b0:46e:396b:f5ae with SMTP id
- 5b1f17b1804b1-4792af34f62mr57868115e9.16.1764831536503; 
- Wed, 03 Dec 2025 22:58:56 -0800 (PST)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4793092ba4fsm17681925e9.4.2025.12.03.22.58.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Dec 2025 22:58:55 -0800 (PST)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, Zack Rusin
- <zack.rusin@broadcom.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B046610E05F
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 07:24:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1764833041;
+ bh=zCdhKTAewvebzcXbiVF6pwKKtDPYrzy4AB+FUn3+Or8=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=pQ8KNRag7/ouAsm8kziPoD1BxpBVRsZuYtpiK+ZaYDhG6Qw2CPJDf8vHhiHue+44N
+ NALVraeaiWP3fMqxTO7OHqgY/XfAoess0B4G6X77Z7VQnitoUm9TbjcgwiNMmdwo8t
+ VgHc3cj/+MxwrjvhpgUH2WBnqG0HwWlchOKwkI+9geHsA3CuUv7ead/rDwI94dj6qS
+ 5Bp8DPvUEka4wWyxVlQ3uKgv3yrYGLhg3yU0QU8VT/uHANrFp+BdyKd3mDzhceRfwq
+ nQ6Zy8N9HPyy0Fzi3RvKypvDv0cFiR/5pLwPYxjJ8doJbFVUL+4i+KtM6I2SfkTUKS
+ arCMDYF0b2tuQ==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 95E6817E1155;
+ Thu,  4 Dec 2025 08:24:00 +0100 (CET)
+Date: Thu, 4 Dec 2025 08:23:55 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Grant Likely
+ <grant.likely@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] drm/plane: Fix IS_ERR() vs NULL check in
- drm_plane_create_hotspot_properties()
-In-Reply-To: <aTB023cfcIPkCsFS@stanley.mountain>
-References: <aTB023cfcIPkCsFS@stanley.mountain>
-Date: Thu, 04 Dec 2025 07:58:54 +0100
-Message-ID: <87ms3ypwb5.fsf@ocarina.mail-host-address-is-not-set>
+ tvrtko.ursulin@igalia.com
+Subject: Re: [PATCH] drm/panthor: fix for dma-fence safe access rules
+Message-ID: <20251204082355.2fa133bb@fedora>
+In-Reply-To: <20251204015034.841235-1-olvaffe@gmail.com>
+References: <20251204015034.841235-1-olvaffe@gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: LBGpWlbYd4FJgpKlpnLRgPuxT40bbyOuNjQczjLk_f0_1764831537
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,23 +67,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dan Carpenter <dan.carpenter@linaro.org> writes:
+On Wed,  3 Dec 2025 17:50:34 -0800
+Chia-I Wu <olvaffe@gmail.com> wrote:
 
-Hello Dan,
+> Commit 506aa8b02a8d6 ("dma-fence: Add safe access helpers and document
+> the rules") details the dma-fence safe access rules. The most common
+> culprit is that drm_sched_fence_get_timeline_name may race with
+> group_free_queue.
+> 
+> Fixes: d2624d90a0b77 ("drm/panthor: assign unique names to queues")
+> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
 
-> The drm_property_create_signed_range() function doesn't return error
-> pointers it returns NULL on error.  Fix the error checking to match.
->
-> Fixes: 8f7179a1027d ("drm/atomic: Add support for mouse hotspots")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
 > ---
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+>  drivers/gpu/drm/panthor/panthor_sched.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 33b9ef537e359..a8b1347e4da71 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -23,6 +23,7 @@
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/rcupdate.h>
+>  
+>  #include "panthor_devfreq.h"
+>  #include "panthor_device.h"
+> @@ -923,6 +924,9 @@ static void group_release_work(struct work_struct *work)
+>  						   release_work);
+>  	u32 i;
+>  
+> +	/* dma-fences may still be accessing group->queues under rcu lock. */
+> +	synchronize_rcu();
+> +
+>  	for (i = 0; i < group->queue_count; i++)
+>  		group_free_queue(group, group->queues[i]);
+>  
 
