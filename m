@@ -2,85 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB81ACA5600
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 21:49:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D511CA562D
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 21:55:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B03B310E9BD;
-	Thu,  4 Dec 2025 20:49:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49A7E10E02C;
+	Thu,  4 Dec 2025 20:55:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LS2ZjdGA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Qa6PSTyp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C188D10E9BD
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 20:49:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1764881354;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XihbxyNOWKvwzb1hOVY2xnF0q0hWz1wS+HjreADM5/Y=;
- b=LS2ZjdGAcLbklP1NBl2fr3m7XwDvlBNi4PcwHv0j/9yWwoCHe4gmGtV/WIV2+gZBx5DnPt
- /sP6xA1aoEu95Ml0C3HuHXYCQthJKGxnbQiYlCiwxnQ4qOfd5yym5bz5EF2oKOWZk8Bqty
- DI/9klHFaM1tVUYZl7LUT+I/7OmoXVU=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-527-yX3nlhO9MoeSHAVpwU_qfQ-1; Thu, 04 Dec 2025 15:49:13 -0500
-X-MC-Unique: yX3nlhO9MoeSHAVpwU_qfQ-1
-X-Mimecast-MFC-AGG-ID: yX3nlhO9MoeSHAVpwU_qfQ_1764881352
-Received: by mail-pg1-f198.google.com with SMTP id
- 41be03b00d2f7-bde2d88e5e3so2373441a12.2
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 12:49:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764881352; x=1765486152;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=XihbxyNOWKvwzb1hOVY2xnF0q0hWz1wS+HjreADM5/Y=;
- b=ms2I61b8/NxJ9kQjaxOKBUGhJhYa02AEo/ahX7AmkL3hBT7PuR+GrAvGOe20YBRHkA
- abbNcl5ras/hr2qzIUg3c0uY9ertyf0bgJBF73Tn0IihCJcKkwl4PQCi0xG/+ZuuVWb8
- FlCUm4DzTlOvTR9QTPOEpae/8U2e3gtK9y3574notcmefMzVLwWnwSyuxBsG/sYpJMG0
- /SsA9pDeL9LSrI0jqllrWz81ZTqo1GKsem5Drma2PXZXCKidw/dMx+7bfcB4Tap1fOQ9
- IxpEKGSFomRDcPRmGc2EZg/kp5QGCkv25NccgxwMaypzF9j8PO1P8RAsxkaRJiVzweWY
- 0xtQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW+oUWimvoi/nx0ZMorBFja+jIm34OcG2AMepeo9Oz8YFLhCOH/Dkpbbi1Y5aLpkKfD6x5bG9+tUTg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwturApYBwxlKEvvi9loS/b6A4hvOH1uSTgy+D5NB4BUbIqZQEF
- r8vPhW500QG0lq0UBaEvRUMV2gc3IEudLidBOJVXvG9GVS3eEdUcwEnmBfMRQ39hFSF6+Ias7z6
- AqQEb3TjAhMxqRhIZLK73glC8tNrlCZu+AWfEbNi8myDIbYpbCizNiIhzzRkCMzVlNhJMz43b7A
- 9EztBknIQZk48zsrVhUwTwpnCQCyIEGT60Ziyysx0RXtc1
-X-Gm-Gg: ASbGncs1cSWKVRc8O7ZZlUgWMz7r3776sHcrX17GsPinIl6wpNAOZOn3Y6wiBWiA5MZ
- lHGwXFNYX9V+fkzQC0jAz+eAOvN8l9eNzxt3YrL6GjC1LhPgLj557WC8Reagla7FxusWl+6e70i
- d3TNER4P5mXEb5JYuWbBSPp73BQtLuocr5wyD39mXuRYjU9A1+Flaip249zZ1T9Iwq
-X-Received: by 2002:a05:7301:b11:b0:2a4:3593:6451 with SMTP id
- 5a478bee46e88-2ab92d77f2bmr4226722eec.1.1764881352364; 
- Thu, 04 Dec 2025 12:49:12 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE8x9ZmXfAE2orkznNeuwgvAV+wy0YEIWZ/Ws1yH7UK9HKbPlckyoSRBNXvJzp/Axh389VW7NyFhaHGOLyoB0g=
-X-Received: by 2002:a05:7301:b11:b0:2a4:3593:6451 with SMTP id
- 5a478bee46e88-2ab92d77f2bmr4226708eec.1.1764881351920; Thu, 04 Dec 2025
- 12:49:11 -0800 (PST)
-MIME-Version: 1.0
-References: <20251204202059.326605-1-thomas.hellstrom@linux.intel.com>
- <CAHk-=wja02iemw40Sn4Vio6b1-rr3idFBcUrOV+=vodhOmZZ=Q@mail.gmail.com>
- <e3fe071073ae54dc58012c1c2d892a18be8036d8.camel@linux.intel.com>
-In-Reply-To: <e3fe071073ae54dc58012c1c2d892a18be8036d8.camel@linux.intel.com>
-From: David Airlie <airlied@redhat.com>
-Date: Fri, 5 Dec 2025 06:48:59 +1000
-X-Gm-Features: AWmQ_bkeIZHanr11IeXDa1WIAIDpNz8wVly5_2vWVXLwYP2FxSYJdAZpHExT--I
-Message-ID: <CAMwc25ounBF8xxTbTdK=4GChhzNs93yWr95GP2RoKMMNQ3G6Gg@mail.gmail.com>
-Subject: Re: [PATCH] drm/xe: Fix duplicated put due to merge resolution
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: J0UUPrWgn7XfCMZXPI1Mxl7y10PPsv2gtjPO1Kxk3A4_1764881352
-X-Mimecast-Originator: redhat.com
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E3B510E02C;
+ Thu,  4 Dec 2025 20:55:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764881711; x=1796417711;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=10O3Z9EzwrNQaT7DVLruEqVLVNeXoYDNreLNZrnC3h0=;
+ b=Qa6PSTyp4JyYxiDTxx0enyPXehM9ShVoQPk9tIKWBMx4SK47FDvcNVmn
+ 8nTBkO1jsB5rDkvv4FvSSu+GW6cpAgP7YcfFlKaRlxSgJNX8gF82sfa0h
+ X7mIec2DzwK3CRlJCQ1hvzmYWLHmRK3XruXZc3fIIVDEl+iIq4Wyx68St
+ R9Q1jDehPf3lQuR30KFC6oolSm8z4gxHLgtvWOMUuBj4dI1TRTRe6ssRi
+ NNGPpZJa+/aV58MLoSrcum5XcXqekvYv/XDES3uDB8MoPY0FlOQmnzJdF
+ PrpWqRVZCFGsUlevIJWm0hg5Gq/IfsyDzj9KGOaS71DdIqwkkfqmtygSF w==;
+X-CSE-ConnectionGUID: TImZgIwORB+qiW2+UrdYgg==
+X-CSE-MsgGUID: bJWYuX0iRGCtGE2hbnRW6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66950695"
+X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; d="scan'208";a="66950695"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 12:55:11 -0800
+X-CSE-ConnectionGUID: DU7VIJAQRF+Q9rP0lQpJ0g==
+X-CSE-MsgGUID: i13SVZnkQguv6IlnOSBL2g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,250,1758610800"; d="scan'208";a="195890988"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO [10.245.245.167])
+ ([10.245.245.167])
+ by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 12:55:09 -0800
+Message-ID: <3b1190f22a9c22a704e2d7a43187b28a10191605.camel@linux.intel.com>
+Subject: Re: [PATCH] MAINTAINERS: Update Xe driver maintainers
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-xe@lists.freedesktop.org
+Cc: Matthew Brost <matthew.brost@intel.com>, David Airlie
+ <airlied@gmail.com>,  Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Thu, 04 Dec 2025 21:55:06 +0100
+In-Reply-To: <20251204193403.930328-2-rodrigo.vivi@intel.com>
+References: <20251204193403.930328-2-rodrigo.vivi@intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,34 +72,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 5, 2025 at 6:44=E2=80=AFAM Thomas Hellstr=C3=B6m
-<thomas.hellstrom@linux.intel.com> wrote:
->
-> Hi, Linus
->
-> On Thu, 2025-12-04 at 12:41 -0800, Linus Torvalds wrote:
-> > On Thu, 4 Dec 2025 at 12:21, Thomas Hellstr=C3=B6m
-> > <thomas.hellstrom@linux.intel.com> wrote:
-> > >
-> > > An incorrect backmerge resolution resulted in an
-> > > incorrect duplicate put. Fix.
-> >
-> > Ack. I can confirm that this seems to fix the issue for me. Thanks
-> > for
-> > the quick response.
-> >
-> > Should I just apply it directly?
-> >
-> >            Linus
->
-> OK with me if ok with Dave.
+On Thu, 2025-12-04 at 14:34 -0500, Rodrigo Vivi wrote:
+> Add Matt Brost, one of the Xe driver creators, as maintainer.
+>=20
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Please do.
+Acked-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
 
-Acked-by: Dave Airlie <airlied@redhat.com>
-
->
-> Thanks,
-> Thomas
->
+> ---
+> =C2=A0MAINTAINERS | 1 +
+> =C2=A01 file changed, 1 insertion(+)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7774cacab5f6..254649de9c26 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12517,6 +12517,7 @@ F:	include/drm/intel/
+> =C2=A0F:	include/uapi/drm/i915_drm.h
+> =C2=A0
+> =C2=A0INTEL DRM XE DRIVER (Lunar Lake and newer)
+> +M:	Matthew Brost <matthew.brost@intel.com>
+> =C2=A0M:	Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> =C2=A0M:	Rodrigo Vivi <rodrigo.vivi@intel.com>
+> =C2=A0L:	intel-xe@lists.freedesktop.org
 
