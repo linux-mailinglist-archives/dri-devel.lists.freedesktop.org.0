@@ -2,67 +2,146 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5605BCA3F24
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 15:10:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C27CA3FB3
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 15:19:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A287D10E029;
-	Thu,  4 Dec 2025 14:10:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCE5410E1E4;
+	Thu,  4 Dec 2025 14:19:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="B8+o1niV";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="HCEGbSFv";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OoVDLjKH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C206E10E029;
- Thu,  4 Dec 2025 14:10:36 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4dMby10gV1z9tV8;
- Thu,  4 Dec 2025 15:10:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1764857433; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ETFPcwGc/J2gqxbT5eNzy5JQ7vh5rybLlhQczEy0HVs=;
- b=B8+o1niVzxQD7p2rFN3T9F93gW94B6fyBYvTVWNbzRp9/C8r5mhaT1J1aETTXwAwnh7tzE
- zmpFQQ/DeaZ5t6zd9AmJk5Mhar5qihcJqpcqZk1qFLr6WImByk/iA39iQoyXLtBTxQT5TY
- iYfiggT/0Zi9qF/iYFKoTBHGv18jC83gNUUXz79P5Vz6p8NY8DWX7Eb4NkBb26haaNgNRk
- BKI8JM/cc0X/flp4oSoFnR0NAktiaBUZRQBUsXPf/CGQkcOObo0/v3DGftTe6PTX2l8eBV
- RB6zemkjeNOAAi7TgMACkk42o2kDGraRnxK5hMUj9ORbOkPQ2sgbLJFadbZ21A==
-Message-ID: <53354e12b55d7c558b4418d876598641d862737f.camel@mailbox.org>
-Subject: Re: [PATCH 0/6] dma-fence: Remove return code of dma_fence_signal()
- et al.
-From: Philipp Stanner <phasta@mailbox.org>
-To: Philipp Stanner <phasta@kernel.org>, Sumit Semwal
- <sumit.semwal@linaro.org>,  Gustavo Padovan <gustavo@padovan.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Felix
- Kuehling <Felix.Kuehling@amd.com>, Alex Deucher
- <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas
- Lahtinen <joonas.lahtinen@linux.intel.com>,  Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
- <ray.huang@amd.com>,  Matthew Auld <matthew.auld@intel.com>, Matthew Brost
- <matthew.brost@intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Date: Thu, 04 Dec 2025 15:10:11 +0100
-In-Reply-To: <20251201105011.19386-2-phasta@kernel.org>
-References: <20251201105011.19386-2-phasta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2D9810E1E1
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 14:19:15 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5B4AvDL01119464
+ for <dri-devel@lists.freedesktop.org>; Thu, 4 Dec 2025 14:19:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=mqkwYOUmyjupzirFYCxiZXeG
+ rlAicEzgr6b6eb9AWv8=; b=HCEGbSFvYa0sLYysDUcgB9uuxQEeLSuSdpnYs5P8
+ rR9vvSlSDap99mqTIweB8oejsLdx943GsX7638oAwSAyJKLMH8zvzHJqJ18e+Qn6
+ fmwA+Mx3HRBh7aiRJq1arz14AuxR/StWKilHp4UIMBxeWtEl9qv6OQLfZSCBi23t
+ eqvmXiiK67Ssbus9YwOM/Isfcs+psU+rVMWbdzBGZXrrnoZO7wzBCti/fZIdUKhE
+ Qu0PLv2e1B3iqkkPFnVwAZX5o6gTOG3naXYE/vYDYFNvoUhgT6eZBpW4xgVtpY17
+ URP97X8dSu8rhcSTeTS/+s4+NFfBGn9156a+y00tcItKmA==
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
+ [209.85.221.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4au90frh1q-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 14:19:15 +0000 (GMT)
+Received: by mail-vk1-f199.google.com with SMTP id
+ 71dfb90a1353d-55b29194c04so676565e0c.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 06:19:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1764857954; x=1765462754;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=mqkwYOUmyjupzirFYCxiZXeGrlAicEzgr6b6eb9AWv8=;
+ b=OoVDLjKHjFtO6eBxJmBtS34+TreNufUe9J88qBZ+XKE6zqQbDBL9iN5CXas8WTIZlV
+ G0cVhMSFrtef/+ZQhHksS7knk6xNEzcq+tPipxuQk5TaHi/mslxMEgJWrI4wHKr8/kGf
+ NyJkStnGcqfiWQo/8Km7Q3cCaL4KPLNxvCB1gtldp+/Zb+p/+PKejVA9XlIMPUlH9jet
+ s0twDKXJXp1LjXkqheWRox04BTUFLLIAfE07upihaepVg82kH9laX1ewJy1T6fFoemN8
+ aESgstMCiXjAJthh2hxo2yPnPGnesVP7/JrfReC36bi1jeH/Sw1xkaAMTcx9KQyfPlTT
+ jHjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764857954; x=1765462754;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=mqkwYOUmyjupzirFYCxiZXeGrlAicEzgr6b6eb9AWv8=;
+ b=L0PEWa/iNzAGm8pNWccFgBX+f0R40ekAsBPKywvR7qYnwTQdWD1OlpoqaBCK/Y0Za+
+ JAEhBEyCroDItX1jqgWfkXdzYnRSJOWXYDHTvSBXEyCndRbYlnbS3Ikh7U1RbpRSGKtH
+ au46+Zj0sqMbonC6hWmfJ1DunjpDTGyD3nOcZt7aDZ/Mh0bGsM5iZTd2zvj0oi1hNl4O
+ QHoLJVr7HPJPx2CyCOg0t+fyxOCn9EmhkucM6VNtPipVmEA0VDRuWjFfA00dQ79qlBY/
+ dcl45CL1o7sNTIHAVnzbVqcGYprgfneCZwsvosmv99IImDUZiewEMuF0aqcEMegp1rkE
+ KLmQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUlEJV90y+IMyW2YF/RpSdrpK+HCvvmvzhzOWy9l/Oa/v/hcxecfQa6pDUZ5ejf7JNDNY0k8C10V0k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzvWeFglQU/TpFKR76BqHRXkVqMvRYITAirnI1upMRYR7Tqghe2
+ uD3M7EyZC/bIR02mBTPptSt2R58SxhvJpyBcpRxnRBr9d7n140l+cgp6VuHLsdzyjdhsudraSF4
+ JdUOPyJEj+CIwxFer5krCfIb5yULch81K5EYcORYz8yyBIR+92Ho3a1AqxdmvjQGCQG8IDvc=
+X-Gm-Gg: ASbGncuuse1Hs4AMcatOtaDdv1IMuUNMC0nNbNGGW9qquZgs1SIrfSRhB8OmvdvhWin
+ SmXmRjhqmRO6CA99hI9dfEdYmNJlu6SQcAt0EG9pZam3yTLCH6/uh/ubRBwgYFFtlpJ5P4qZ5ZW
+ uUm2MV1rofkekbKpS2PD5v2aofL6wtJeh7wrdJtQ1niKP3pL0kgiM6a7FkndY0AZGUdrDCWgC0P
+ RcG3kA9PiBNf1ZINo50VCv9UWrHhXcJTjHoMKGmQMC6go0EREMldOr3wc+6TBXCn4fF/yOi8Mj8
+ JW7tted/4z3h3SoYeGz6GFtfatyam9X5NPBW2vDA2ptvAujHJDpQ8OteCukyO+wBBpI3KeW125S
+ uxGuEBXBl+IaPH6kXFWJoV8GfB9nMZYs56YQTLJ7Langb6kB7wfXElz2z3hrNRNUoF6YJy7xkhC
+ 925XgubTT4EGuhoG75uWBX3g4=
+X-Received: by 2002:a05:6122:8b1c:b0:55b:305b:4e3e with SMTP id
+ 71dfb90a1353d-55e5c069222mr2089152e0c.20.1764857954314; 
+ Thu, 04 Dec 2025 06:19:14 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH+C9sPLLhanFRiDS0Uhb5SqXmagHH84fKENQBceI675Xl3lju6FqtHCMLOcYbmnIYg1z1JPA==
+X-Received: by 2002:a05:6122:8b1c:b0:55b:305b:4e3e with SMTP id
+ 71dfb90a1353d-55e5c069222mr2089112e0c.20.1764857953644; 
+ Thu, 04 Dec 2025 06:19:13 -0800 (PST)
+Received: from umbar.lan
+ (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-597d7b1a550sm565511e87.6.2025.12.04.06.19.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Dec 2025 06:19:12 -0800 (PST)
+Date: Thu, 4 Dec 2025 16:19:11 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>
+Subject: Re: [PATCH v3 5/6] arm64: dts: qcom: sm6150: Add gpu and rgmu nodes
+Message-ID: <3gqq3w6ovy5srgvabyeugsjbwrhaxmjvicykhjmlcxd74gtsaf@5u6wvvzeq52z>
+References: <20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com>
+ <20251122-qcs615-spin-2-v3-5-9f4d4c87f51d@oss.qualcomm.com>
+ <8560ad26-4756-4c2a-97c3-2c5c0695172c@oss.qualcomm.com>
+ <z4gqro2bx6oq2ht75m2klogo5dsirb74tmc3u3shjyalxmaxil@5sy7ufmqhdgw>
+ <6fa1da5d-9ea7-4d72-a03a-82edc4bef099@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MBO-RS-ID: b1b04ac58f4f528a2cf
-X-MBO-RS-META: xix6kpmj83m8hwiqzjwsu31pur87u4tw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6fa1da5d-9ea7-4d72-a03a-82edc4bef099@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=OdCVzxTY c=1 sm=1 tr=0 ts=69319863 cx=c_pps
+ a=+D9SDfe9YZWTjADjLiQY5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=sIfkXvtQUm5KZGAQGskA:9 a=CjuIK1q_8ugA:10
+ a=vmgOmaN-Xu0dpDh8OwbV:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: _SbmUoXKgYMIMrJp0LFD272rZJRhIa6W
+X-Proofpoint-ORIG-GUID: _SbmUoXKgYMIMrJp0LFD272rZJRhIa6W
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA0MDExNiBTYWx0ZWRfX6u2nAVu24A/a
+ HXC9a6hTu9xNk+9lkPrrYBx+JPBZ7ogR5pYiRZS7ArHEB4TktWa+jhkE6hnuSi1E/2gvBKFVWC5
+ qC350jG0cSFc5eN46D7iKDiSQGfxXFE9TdxwQYn+plG9799qlO07y510rafiu2zI2kjB8RKB/+M
+ qyHUYdz8dMASn1VIn3BmrEGTG8JoUGf8QzOX7usa81Ta5rnRtyZh+0Zp6Uk5me+BRbdvrRmC7sg
+ tu5hFKpGuHNJtNnbVRce9m3U3h490MvnBGNULWRZY+SlOeX4vPe0nV3xoCW2EcH8L8LhNw1YxEq
+ m1Rls+dEc/4VHdarqrCYGHIWHyJD0aqYsvHgcwYg8RVlcAAsb5SZ051Imeo68jbgSkTKsyEj474
+ ED6bO78OmHzb9XRuPYDSPMfiB0cnGQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-04_03,2025-12-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ suspectscore=0 phishscore=0 malwarescore=0 bulkscore=0 spamscore=0
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
+ definitions=main-2512040116
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,74 +154,49 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-12-01 at 11:50 +0100, Philipp Stanner wrote:
-> Tested this with dma_buf selftests and drm_sched tests.
->=20
-> Changes in v2:
-> =C2=A0 - Fix bug and don't turn the kernel into a smoking pile of ashes b=
-y
-> =C2=A0=C2=A0=C2=A0 not setting the signaled-bit=E2=80=A6
-> =C2=A0 - Add functions (dma_fence_check_and_signal()) preserving the old
-> =C2=A0=C2=A0=C2=A0 behavior of dma_fence_signal() & Co. (Felix)
-> =C2=A0 - Use those new functions in amdkfd, xe, ttm and st-dma-fence.
-> =C2=A0 - Be a bit less aggressive and keep the git-diff smaller.
-> =C2=A0 - Add a patch using the flag-helper in Xe. (Matthew)
->=20
-> Barely anyone uses dma_fence_signal()'s (and similar functions') return
-> code. Checking it is pretty much useless anyways, because what are you
-> going to do if a fence was already signal it? Unsignal it and signal it
-> again? ;p
->=20
-> Removing the return code simplifies the API and makes it easier for me
-> to sit on top with Rust DmaFence.
->=20
-> Philipp Stanner (8):
-> =C2=A0 dma-buf/dma-fence: Add dma_fence_test_signaled_flag()
-> =C2=A0 dma-buf/dma-fence: Add dma_fence_check_and_signal()
-> =C2=A0 amd/amdkfd: Use dma_fence_check_and_signal()
-> =C2=A0 drm/xe: Use dma_fence_check_and_signal_locked()
-> =C2=A0 dma-buf: Don't misuse dma_fence_signal()
-> =C2=A0 drm/ttm: Use dma_fence_check_and_signal()
-> =C2=A0 dma-buf/dma-fence: Remove return code of signaling-functions
+On Thu, Dec 04, 2025 at 03:43:33PM +0530, Akhil P Oommen wrote:
+> On 11/26/2025 6:12 AM, Dmitry Baryshkov wrote:
+> > On Sat, Nov 22, 2025 at 03:03:10PM +0100, Konrad Dybcio wrote:
+> >> On 11/21/25 10:52 PM, Akhil P Oommen wrote:
+> >>> From: Jie Zhang <quic_jiezh@quicinc.com>
+> >>>
+> >>> Add gpu and rgmu nodes for qcs615 chipset.
+> >>>
+> >>> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+> >>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> >>> ---
+> >>
+> >> [...]
+> >>
+> >>> +			gpu_opp_table: opp-table {
+> >>> +				compatible = "operating-points-v2";
+> >>> +
+> >>> +				opp-845000000 {
+> >>> +					opp-hz = /bits/ 64 <845000000>;
+> >>> +					required-opps = <&rpmhpd_opp_turbo>;
+> >>> +					opp-peak-kBps = <7050000>;
+> >>> +				};
+> >>
+> >> I see another speed of 895 @ turbo_l1, perhaps that's for speedbins
+> >> or mobile parts specifically?
+> > 
+> > msm-4.14 defines 7 speedbins for SM6150. Akhil, I don't see any of them
+> > here.
+> 
+> The IoT/Auto variants have a different frequency plan compared to the
+> mobile variant. I reviewed the downstream code and this aligns with that
+> except the 290Mhz corner. We can remove that one.
+> 
+> Here we are describing the IoT variant of Talos. So we can ignore the
+> speedbins from the mobile variant until that is supported.
 
-Applied those 7 patches to drm-misc-next. Had to do a tiny rebase
-because 033559473dd3b55558b535aa37b8848c207b5cbb is not yet in drm-
-misc-next (dma-fence series was based on master at first, which
-contains that commit).
-
-> =C2=A0 drm/xe: Use dma_fence_test_signaled_flag()
-
-Left for Matthow to pick up whenever he wishes.
+No, we are describing just Talos, which hopefully covers both mobile and
+non-mobile platforms.
 
 
-P.
-
->=20
-> =C2=A0drivers/dma-buf/dma-fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 100=
- +++++++++++-------
-> =C2=A0drivers/dma-buf/st-dma-fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
-> =C2=A0drivers/gpu/drm/amd/amdkfd/kfd_process.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 6 +-
-> =C2=A0.../gpu/drm/ttm/tests/ttm_bo_validate_test.c=C2=A0 |=C2=A0=C2=A0 2 =
-+-
-> =C2=A0drivers/gpu/drm/xe/xe_exec_queue.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 9 +-
-> =C2=A0drivers/gpu/drm/xe/xe_hw_fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
-> =C2=A0drivers/gpu/drm/xe/xe_pt.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0=C2=A0 3 +-
-> =C2=A0drivers/gpu/drm/xe/xe_sched_job.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> =C2=A0include/linux/dma-fence.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 35 ++++--
-> =C2=A09 files changed, 102 insertions(+), 63 deletions(-)
->=20
-
+-- 
+With best wishes
+Dmitry
