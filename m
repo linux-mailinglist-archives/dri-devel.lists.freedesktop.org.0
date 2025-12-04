@@ -2,65 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 466E5CA2253
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 03:07:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85CFCCA2E53
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 10:04:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E22110E140;
-	Thu,  4 Dec 2025 02:07:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 369BB10E8FB;
+	Thu,  4 Dec 2025 09:04:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="Sv5/itSE";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hPMDm4W3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m19731110.qiye.163.com (mail-m19731110.qiye.163.com
- [220.197.31.110])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF88E10E140
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 02:07:48 +0000 (UTC)
-Received: from [127.0.0.1] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 2be9edc35;
- Thu, 4 Dec 2025 10:07:44 +0800 (GMT+08:00)
-Message-ID: <1284bf23-1069-4d54-b259-7b40271f8e0e@rock-chips.com>
-Date: Thu, 4 Dec 2025 10:07:40 +0800
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+ [209.85.210.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5452210E831
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 02:29:42 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id
+ d2e1a72fcca58-7b9387df58cso631535b3a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 18:29:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764815382; x=1765420182; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:sender:from:to:cc:subject:date:message-id:reply-to;
+ bh=nbfVTq9KBWsmp1ChHIp5kh8RBkVe/heJoRGFGHla1nE=;
+ b=hPMDm4W3E7BId8Vt0lOcF3xi6I+TfEvw3T/JpsmV4UZRufpOghmxlUEOhW+yLWiCHn
+ +T+AQw4V3yQY4MaD/w1pVKANREPWw1du41crTaHKC0Fqrp96vO9lxAzHqO2bj5pH7rJn
+ bu70KOhn44Jh1YuPMpiP/hM7MjhdfsWfB5Y0HYt+2sGuawlBvGWv76E6rxsdx3PMDk1q
+ /mzSHtXgCz53RGG3eTegQ3+Jpf9aYfi4CU4wrnatu1ojdFUk7VUbRcQBu/xUgjL1LEDy
+ SnNpWNhAykHWLrMRUB5VXqMhEkRtcFEJNCTRY4t47gH79hMl4H8tEzzTi41KBk6SlzqC
+ nTUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764815382; x=1765420182;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:mail-followup-to:message-id:subject:cc:to
+ :from:date:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=nbfVTq9KBWsmp1ChHIp5kh8RBkVe/heJoRGFGHla1nE=;
+ b=BsomRLlirzNEqpcIgQzciOmTCNSdHBY3oJy4f81/gh7/eYWXGuuMS9cOKE8878pKNH
+ nUXQ5URukufR0xrZSliji13CkxumA2D85uwkrWIBTA9NF8DmQnwqkFloizhaLIjdUJs9
+ qSvagqA/5/x0fBluSFyYdK5a/34FUam20SXBCABpJod+VHv2mmcxAOAtqf3XB+DuAxo+
+ w4HxoWou5phyK+Xgvhz+vx+TR1mZmjUS/Teu6UX6Kusb+gxHCXWW+BrkyJ7hSE0vlO+4
+ L6oj22Yekk/OxWSHPHxW/eNBsJSeInU2FnLw9QcNyT3xSSsbKsmCgubyFRMU1Rq/SwCh
+ 1+QQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUCwIiqHYS1l5A2ogD3UdpKRzzYqrmzqoYSpWJsmpL/lDz5+ZrCwVIQROpQKCpZxXY8mhFdOpNXkBk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw/BKmkkYvtwcRPreaAh752lUk9m6ZTEAcIcsjC3CyucO6d/2Nf
+ tUVMcnT1Jvw4b+KqiZuqx9qdph3Y1n5RUtKetvPGJBCq0R0KEYfDJLVn
+X-Gm-Gg: ASbGnctuKy1JNh2sFXwksb3MtCj5/PRggZheClk/ixDMc/y80wDDsJAs0ZhDSei59xq
+ A5UtEPk5BQkgI7ngYaRK+xMBIm2LjYM7IoBXBUEe/N4ZfqOHp4v3OCKwiYgfWpkgYtsEsbqvOl9
+ tePOWBMleu5jpnqI8k3rA8T+TzDiBNBSijd2zwiXLnYZd4S1F2QYOp7kG+E3wxp7STHQOg4nvEw
+ JjSCUqMrYjm3pbynjw1bKahO7xFz4tA8XjwTj4c+2rT6OWgF+pUxu7uXgX1sFKh4IoBBjX5PTYz
+ 21AzlmJkprx6cWUSfrFkWhva9ToAdDPi5mbmEZlKOYe2TJVAVr3hdVJu7JQyyZ5gs8im31VbFG/
+ x68BBiXb3WT5uVP5nayYG+AOdEO/xtd7YokkhoHRp73w1JI18ZNtHzmSEmOOFX4cVrLM/sGIsuM
+ Blyhco40LlXXr/QdH02F/iXyV8KIriGzU+M60i3+keekUzpcEQlgg=
+X-Google-Smtp-Source: AGHT+IFCeBy2y/CfEswHeFQ8PNewc7BH40l5HKVg8Zae9UGj70Zf3r7S53EITpLfFSzUJLeHLUcr5A==
+X-Received: by 2002:a05:6a20:244d:b0:35d:8881:e6bb with SMTP id
+ adf61e73a8af0-36403797f3cmr1771400637.22.1764815381665; 
+ Wed, 03 Dec 2025 18:29:41 -0800 (PST)
+Received: from localhost (211-75-139-220.hinet-ip.hinet.net. [211.75.139.220])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7e2adc5bf17sm314210b3a.38.2025.12.03.18.29.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Dec 2025 18:29:40 -0800 (PST)
+Date: Thu, 4 Dec 2025 10:29:37 +0800
+From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/i915/dp: Add byte-by-byte fallback for broken USB-C
+ adapters
+Message-ID: <7klzod4x5e2mpz4bwdfoyvien4whsp7r2mvykvbuhfczczp3f4@iuszbs4p7yag>
+Mail-Followup-To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>, 
+ Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20251127044406.618543-1-acelan.kao@canonical.com>
+ <aSjFZhZQLVb7czsh@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/4] drm/mcde: Create custom commit tail
-To: Linus Walleij <linusw@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org, Vicente Bergas <vicencb@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>
-References: <20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa@kernel.org>
- <20251202-mcde-drm-regression-thirdfix-v6-2-f1bffd4ec0fa@kernel.org>
- <c3c5f62f-98fd-49a7-9b39-c4c4f798ad2c@rock-chips.com>
- <CAD++jLmzkmZAgwbahKDnasj3dDpG4RBggoZfhPiEHj9rb09+eQ@mail.gmail.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <CAD++jLmzkmZAgwbahKDnasj3dDpG4RBggoZfhPiEHj9rb09+eQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9ae71d89a603abkunm6ff8ae635f3078
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0tPTFZLHh4eSE1JGB0fTRhWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=Sv5/itSEsRDt7Idjp5+XyunqOgxTrWF+ajneoPKm2CkpDlKGN1/nOH9ogl8y1VDdnnssu1M7dm94Z+kynwqwTWyU4WKLk8paHPgTpmFgXQvQDJuQuviIut8fgv7atpLpoFeEKcz4drz0JUkNdCtJaEviMH1zSdHy/fCixDSg0RA=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=fEyb6s/X54CqQDGTtl8EkHTpjqxUsuwAv/fJrVBHtT0=;
- h=date:mime-version:subject:message-id:from;
+In-Reply-To: <aSjFZhZQLVb7czsh@intel.com>
+X-Mailman-Approved-At: Thu, 04 Dec 2025 09:04:28 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,54 +109,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/4/2025 7:13 AM, Linus Walleij wrote:
-> On Wed, Dec 3, 2025 at 7:27â€¯AM Chaoyi Chen <chaoyi.chen@rock-chips.com> wrote:
+On Thu, Nov 27, 2025 at 11:40:54PM +0200, Ville Syrjälä wrote:
+> On Thu, Nov 27, 2025 at 12:44:06PM +0800, Chia-Lin Kao (AceLan) wrote:
+> > Some USB-C hubs and adapters have buggy firmware where multi-byte AUX
+> > reads from DPCD address 0x00000 consistently timeout, while single-byte
+> > reads from the same address work correctly.
+> > 
+> > Known affected devices that exhibit this issue:
+> > - Lenovo USB-C to VGA adapter (VIA VL817 chipset)
+> >   idVendor=17ef, idProduct=7217
+> > - Dell DA310 USB-C mobile adapter hub
+> >   idVendor=413c, idProduct=c010
+> > 
+> > Analysis of the failure pattern shows:
+> > - Single-byte probes to 0xf0000 (LTTPR) succeed
+> > - Single-byte probes to 0x00102 (TRAINING_AUX_RD_INTERVAL) succeed
+> > - 15-byte reads from 0x00000 (DPCD capabilities) timeout with -ETIMEDOUT
+> > - Retrying does not help - the failure is consistent across all attempts
 > 
->> The bridge document says: "The display pipe (i.e. clocks and timing
->> signals) feeding this bridge will not yet be running when the
->> @atomic_pre_enable is called."
->>
->> Therefore, your approach seems to be merely a workaround and does not
->> meet the current requirements of the bridge.
->>
->> And document also says: "The bridge can assume that the display pipe
->> (i.e. clocks and timing signals) feeding it is running when
->> @atomic_enable callback is called."
->>
->> If DSI commands need to wait for the display pipe (CRTC) to be ready,
->> why not perform them inside @atomic_enable instead of @atomic_pre_enable?
+> I thought we changed that to the more sensible 16 bytes.
+> Anyone know what happened to that patch?
 > 
-> That was exactly what the v1 and v2 versions of this patch set was
-> doing, and it was (politely) NACKed, and that is why we are
-> here.
-> https://lore.kernel.org/dri-devel/20251023-fix-mcde-drm-regression-v1-0-ed9a925db8c7@linaro.org/
-> https://lore.kernel.org/dri-devel/20251026-fix-mcde-drm-regression-v2-0-8d799e488cf9@linaro.org/
->
+> Anyways, does 16 bytes work better than 15 bytes?
+Change DP_RECEIVER_CAP_SIZE from 15 to 16 and it doesn't help.
+I can see it tried to read 16 bytes but it still timed out.
 
-Hmm, I'm afraid there really isn't a common solution at this point.
-
-The logical enable order of the CRTC, bridge, and panel may be
-different from the actual physical enable order. And there is no
-mechanism to change this order :(
-
-So I believe your current patch to the mcde makes sense,
-because you are indeed requiring the CRTC to be enabled at the
-hardware level. But for other platforms, you may need to distinguish
-whether this is a software dependency order problem caused by changes
-to the bridge enable order.
-
-> In essence, Tomi remarked that drivers should be able to send DSI
-> commands at atomic_pre_enable() which is for example
-> mapped to the .prepare() callback in the DSI panel bridge.
-> And he has a good point in this, I just converted the few panel
-> drivers that I was affected by, but there are many more such
-> and probably some bridges as well.
 > 
-> Yours,
-> Linus Walleij
+> > 
+> > The issue appears to be a firmware bug in the AUX transaction handling
+> > that specifically affects multi-byte reads from the base DPCD address.
+> > 
+> > Add a fallback mechanism that attempts byte-by-byte reading when the
+> > normal multi-byte drm_dp_read_dpcd_caps() fails. This workaround only
+> > activates for adapters that fail the standard read path, ensuring no
+> > impact on correctly functioning hardware.
+> > 
+> > The byte-by-byte read uses drm_dp_dpcd_readb() to read each of the 15
+> > DPCD capability bytes individually, working around the firmware bug
+> > while maintaining compatibility with all other adapters.
+> > 
+> > Tested with:
+> > - Lenovo USB-C to VGA adapter (VIA VL817) - now works with fallback
+> > - Dell DA310 USB-C hub - now works with fallback
+> > - Dell/Analogix Slimport adapter - continues to work with normal path
+> > 
+> > Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+> > ---
+> >  .../drm/i915/display/intel_dp_link_training.c | 21 ++++++++++++++++++-
+> >  1 file changed, 20 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> > index aad5fe14962f..738a5bb4adb3 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
+> > @@ -213,6 +213,7 @@ static int intel_dp_init_lttpr(struct intel_dp *intel_dp, const u8 dpcd[DP_RECEI
+> >  int intel_dp_read_dprx_caps(struct intel_dp *intel_dp, u8 dpcd[DP_RECEIVER_CAP_SIZE])
+> >  {
+> >  	struct intel_display *display = to_intel_display(intel_dp);
+> > +	int ret, i;
+> >  
+> >  	if (intel_dp_is_edp(intel_dp))
+> >  		return 0;
+> > @@ -226,7 +227,25 @@ int intel_dp_read_dprx_caps(struct intel_dp *intel_dp, u8 dpcd[DP_RECEIVER_CAP_S
+> >  				      DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV))
+> >  			return -EIO;
+> >  
+> > -	if (drm_dp_read_dpcd_caps(&intel_dp->aux, dpcd))
+> > +	ret = drm_dp_read_dpcd_caps(&intel_dp->aux, dpcd);
+> > +	if (ret == 0)
+> > +		return 0;
+> > +
+> > +	/*
+> > +	 * Workaround for USB-C hubs/adapters with buggy firmware that fail
+> > +	 * multi-byte AUX reads from DPCD address 0x00000 but work with
+> > +	 * single-byte reads. Known affected devices:
+> > +	 * - Lenovo USB-C to VGA adapter (VIA VL817, idVendor=17ef, idProduct=7217)
+> > +	 * - Dell DA310 USB-C hub (idVendor=413c, idProduct=c010)
+> > +	 * Read the DPCD capabilities byte-by-byte as a fallback.
+> > +	 */
+> > +	for (i = 0; i < DP_RECEIVER_CAP_SIZE; i++) {
+> > +		ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_DPCD_REV + i, &dpcd[i]);
+> > +		if (ret < 0)
+> > +			return -EIO;
+> > +	}
 > 
-> 
+> Doing this in i915 specific code doesn't make sense.
+Right, I'll move the workaround to the drm driver, and submit v2.
 
--- 
-Best, 
-Chaoyi
+> 
+> > +
+> > +	if (dpcd[DP_DPCD_REV] == 0)
+> >  		return -EIO;
+> >  
+> >  	return 0;
+> > -- 
+> > 2.43.0
+> 
+> -- 
+> Ville Syrjälä
+> Intel
