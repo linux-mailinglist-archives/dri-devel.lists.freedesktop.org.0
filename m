@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F4E1CA4F9E
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 19:45:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D3E4CA5110
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 20:08:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCDA610E90C;
-	Thu,  4 Dec 2025 18:45:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07B6710E9AF;
+	Thu,  4 Dec 2025 19:07:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PRajx92U";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rJith8/G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2249F10E90C;
- Thu,  4 Dec 2025 18:45:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764873908; x=1796409908;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=k35oiKf23+7837s6yQnyuGUgREAkkaNntTJ9o0dbgDY=;
- b=PRajx92UW9tCCbPHd1ZgFX7AGF+tpCrStmpxQmN6loMkjsrk9v116w/a
- 0x7HVBl3W/qjSiwjQnsKR3YtKqvn/NHLrg0ABRL8N61G8KDUBtLjMUG4h
- 9he2Ld4Q1HdTz2LAUlqI7g/aZNboMv9FYHro6L8LFpXp+o8eQ+4adX08Q
- W0RHJOMnYgT0hgBE2RyrM2uOUnYEn/dMRYBF1WI5AKra7q0Ozi+MJ0EcP
- sJQIebvgmAR8IRHfXMoZAEDsB52/Y2syIoe4HTyFD9kx26octbZN/hLhr
- 1hjphjOI1lwK4QBdlAteEYq+Z8DtIf449LcL41mHLHYvf7jVO0F2ffW/N Q==;
-X-CSE-ConnectionGUID: qJFd1m9+TbuwIViJanlggw==
-X-CSE-MsgGUID: exiVRT8ST0OxZDN5u1BrAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="65902814"
-X-IronPort-AV: E=Sophos;i="6.20,249,1758610800"; d="scan'208";a="65902814"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2025 10:45:08 -0800
-X-CSE-ConnectionGUID: qzoExEDgRKW7SX/sxdEhxw==
-X-CSE-MsgGUID: uIPduUQ/Qku2vBzbgLc6Gg==
-X-ExtLoop1: 1
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.11])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2025 10:45:01 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: chaitanya.kumar.borah@intel.com, ville.syrjala@linux.intel.com,
- pekka.paalanen@collabora.com, contact@emersion.fr, harry.wentland@amd.com,
- mwen@igalia.com, jadahl@redhat.com, sebastian.wick@redhat.com,
- swati2.sharma@intel.com, alex.hung@amd.com, suraj.kandpal@intel.com, Uma
- Shankar <uma.shankar@intel.com>, Joshua Ashton <joshua@froggi.es>, Michel
- =?utf-8?Q?D=C3=A4nzer?= <mdaenzer@redhat.com>, Xaver Hugl
- <xaver.hugl@gmail.com>, Victoria
- Brekenfeld <victoria@system76.com>, Sima <daniel@ffwll.ch>, Liviu Dudau
- <Liviu.Dudau@arm.com>
-Subject: Re: [v8 00/15] Plane Color Pipeline support for Intel platforms
-In-Reply-To: <20251203085211.3663374-1-uma.shankar@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251203085211.3663374-1-uma.shankar@intel.com>
-Date: Thu, 04 Dec 2025 20:44:57 +0200
-Message-ID: <328637065f79e8ef7e6ca0ab5a22b03887ad6b6b@intel.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7059710E9AF
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 19:07:56 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 7DBB560051;
+ Thu,  4 Dec 2025 19:07:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEA03C116C6;
+ Thu,  4 Dec 2025 19:07:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764875275;
+ bh=0T0myU9ZH1tB3I+V7V43BU4jBwzUFIVwxphPm1myBzk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rJith8/Gx4Wd98GNbJ7JgxHjEk0D7lIa7DnpsSn1yMaGQI1EqxuiciLXwN8wZjnEJ
+ qlxn4LehW7CPwkt/TTMulNZcItXi43kAMUvpYKmyfbKYiRELimMl9ItWI0kgWE/kNY
+ DfWbzXb0XWX6awag8QffycQU0ga5vSjnsYEqXVBd4zpvHQQQX3d1dxhOaC5FzIJ6Ma
+ Hy0H7EzRJg/nhYxMd5AhbzQ9AjRWFsCy3fbNeeBFBkprwe4nvjOnrPt+oWQqfVnP6K
+ TFX5BFa3hA3MJBYZfIM9zGb8IH9ErkKMEgjMl3Ts9QSjnlc/e0kR6/Uc/FgMonv2Sx
+ JSCz/VsurrB9A==
+Date: Thu, 4 Dec 2025 12:07:51 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Pavel Begunkov <asml.silence@gmail.com>, linux-block@vger.kernel.org,
+ io-uring@vger.kernel.org, Vishal Verma <vishal1.verma@intel.com>,
+ tushar.gohad@intel.com, Jens Axboe <axboe@kernel.dk>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [RFC v2 06/11] nvme-pci: add support for dmabuf reggistration
+Message-ID: <aTHcB7Vm80XDMiaH@kbusch-mbp>
+References: <cover.1763725387.git.asml.silence@gmail.com>
+ <9bc25f46d2116436d73140cd8e8554576de2caca.1763725388.git.asml.silence@gmail.com>
+ <aTFpsl3o7IoJ_xPg@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aTFpsl3o7IoJ_xPg@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,23 +69,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 03 Dec 2025, Uma Shankar <uma.shankar@intel.com> wrote:
-> This series intends to add support for Plane Color Management for
-> Intel platforms. This is based on the design which has been agreed
-> upon by the community. Series implementing the design for generic
-> DRM core has been sent out by Alex Hung and Harry Wentland and is
-> merged to upstream tree:
-> https://patchwork.freedesktop.org/series/152970/
+On Thu, Dec 04, 2025 at 03:00:02AM -0800, Christoph Hellwig wrote:
+> Why do you care about alignment to the controller page size?
+> 
+> > +	for_each_sgtable_dma_sg(sgt, sg, tmp) {
+> > +		dma_addr_t dma = sg_dma_address(sg);
+> > +		unsigned long sg_len = sg_dma_len(sg);
+> > +
+> > +		while (sg_len) {
+> > +			dma_list[i++] = dma;
+> > +			dma += NVME_CTRL_PAGE_SIZE;
+> > +			sg_len -= NVME_CTRL_PAGE_SIZE;
+> > +		}
+> > +	}
+> 
+> Why does this build controller pages sized chunks?
 
-Thanks for the patches, pushed to topic/drm-intel-plane-color-pipeline,
-and sent out the pull request [1].
+I think the idea was that having fixed size entries aligned to the
+device's PRP unit is that it's efficient to jump to the correct index
+for any given offset. A vector of mixed sizes would require you walk the
+list to find the correct starting point, which we want to avoid.
 
-BR,
-Jani.
+This is similar to the way io_uring registered memory is set up, though
+io_uring has extra logic to use largest common contiguous segment size,
+or even just one segment if it coalesces. We could probably do that too.
 
-
-[1] https://lore.kernel.org/all/e7129c6afd6208719d2f5124da86e810505e7a7b@intel.com
-
-
--- 
-Jani Nikula, Intel
+Anyway, that representation naturally translates to the PRP format, but
+this could be done in the SGL format too.
