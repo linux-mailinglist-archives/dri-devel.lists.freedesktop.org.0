@@ -2,99 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BBDBCA3DE0
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 14:43:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5E5CA3DF2
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 14:44:39 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A253910E987;
-	Thu,  4 Dec 2025 13:43:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFDDE10E96C;
+	Thu,  4 Dec 2025 13:44:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="LQos2MMm";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="ALmT0/5z";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KoHXdnPZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fout-b6-smtp.messagingengine.com
- (fout-b6-smtp.messagingengine.com [202.12.124.149])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1071810E987
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 13:43:22 +0000 (UTC)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
- by mailfout.stl.internal (Postfix) with ESMTP id 1EAA11D00247;
- Thu,  4 Dec 2025 08:43:22 -0500 (EST)
-Received: from phl-imap-17 ([10.202.2.105])
- by phl-compute-04.internal (MEProxy); Thu, 04 Dec 2025 08:43:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
- :cc:content-transfer-encoding:content-type:content-type:date
- :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to; s=fm3; t=1764855801;
- x=1764942201; bh=iEOK4GHJFzlsjBYVSzufLC/KxEyKi30dEY4Fl9sf1EA=; b=
- LQos2MMmMkOzrO0mM5OBINHgXBMQc+s4XMiJGwcl/fNr+2qr62bc/uPAObcgiDbd
- KMdpR54mY7xFme2LlwhLH8JrKnJEPjsg7BXuyFMDKt8haSTfEbnn5HmshnDo9l0v
- jeWZ69UgSsQwxFhqZw+uyg3sqRmwndJ/qX5ZlFgpcvgZbp7+dZDK7ZyzJGxsllaY
- ZhCqkEfW+jnXbI4M96vjDcgOXVstWyI2KLKGLt8V5scUQo9y5rN9cD/OVAOOlp8w
- LKQc6KVzDe0QfZhXTp/CUwujN5eDx7Hgesd661oURCTIffDPoyZeGT4YWtHdNH88
- hz/O7efn7mDC42lccRdgPA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:content-type:date:date:feedback-id:feedback-id
- :from:from:in-reply-to:in-reply-to:message-id:mime-version
- :references:reply-to:subject:subject:to:to:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1764855801; x=
- 1764942201; bh=iEOK4GHJFzlsjBYVSzufLC/KxEyKi30dEY4Fl9sf1EA=; b=A
- LmT0/5zt5v9F3G70Htc3NnJtJIJUGJU3HijTb2kD8Ql1Lx8HtQFGuaU3sgrbRKq2
- h6UT/kWDlP5AYKcx5NN7yfeovI/utU+YVJMoIAXpuP0FA8mEWi+/PlnWqeJaIsYl
- 1mhHOeacpms6WsYlwgYZqCDYHVsKfdkiPM/RKTnwIXOHX2Q/OGjAo5rbPMyNGvYc
- 5wrwfOBVtUjStDi3mDcF6l6h0DUN5Xla6pcJS/6v4QkS4LBa0BB9oI9VZP/tgDX5
- 5ka9+dzXqLR8eWPszAwBS8JcgZGFNLc/QNVO8MH1qOjxm+qswD4hrg1ynnt/r7hY
- rs9wpZnXfRN/Bbtxe3SnA==
-X-ME-Sender: <xms:-Y8xaUQpfXES8MNjfXCsM5H5resGVls5nqkbBBAupUqOv-nZbsaOSg>
- <xme:-Y8xacl9nKPs_kVhu2RzxAbEilljHv1Yuyz6ye_5CKNEECdOwrQRZhrv9hM5e_psz
- y-NaFZEMZs3HTA7X0xhlB6Chn63_R1djek6LD2PZePN-UUJGPSLQg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdehjedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
- lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
- epofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedftehrnhguuceu
- vghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvghrnh
- epvdfhvdekueduveffffetgfdvveefvdelhedvvdegjedvfeehtdeggeevheefleejnecu
- vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhguse
- grrhhnuggsrdguvgdpnhgspghrtghpthhtohepudegpdhmohguvgepshhmthhpohhuthdp
- rhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghirhhlih
- gvugesghhmrghilhdrtghomhdprhgtphhtthhopehjrghnihdrnhhikhhulhgrsehinhht
- vghlrdgtohhmpdhrtghpthhtohepmhgrthhthhgvfidrsghrohhsthesihhnthgvlhdrtg
- homhdprhgtphhtthhopehmihgthhgrlhdrfigrjhguvggtiihkohesihhnthgvlhdrtgho
- mhdprhgtphhtthhopehmihgthhgrlhdrfihinhhirghrshhkihesihhnthgvlhdrtghomh
- dprhgtphhtthhopehrihgrnhgrrdhtrghurhhosehinhhtvghlrdgtohhmpdhrtghpthht
- oheprhhoughrihhgohdrvhhivhhisehinhhtvghlrdgtohhmpdhrtghpthhtoheprghrnh
- gusehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:-Y8xaSja_cSVvNkGa49d9Z8qvBrVfGn9KRwhppR2bwW7CngTGS6GAg>
- <xmx:-Y8xadbnKkaK5ST9ZuBBnuu1cI9lHQGoGnOJqgrV4Cj5ZVaM86eGFw>
- <xmx:-Y8xaQOanWaeukQSqoFrZJPyX183Ehr-1g1a2-hcFuF1ZtiaXaYuBQ>
- <xmx:-Y8xaWZppPmjB3iwGaLUr46_oAU2WFLBbLlmCx723HJbVlXHn5nJDQ>
- <xmx:-Y8xaay8TzrSNzt9eIQKkIf6R9RkvyUU7ux4A5FMdcSxBBJAWbFiaJ5h>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
- id B1297C40054; Thu,  4 Dec 2025 08:43:21 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-MIME-Version: 1.0
-X-ThreadId: AYn5IVckS1wN
-Date: Thu, 04 Dec 2025 14:43:00 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Arnd Bergmann" <arnd@kernel.org>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Dave Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
- "Michal Wajdeczko" <michal.wajdeczko@intel.com>
-Cc: "Matthew Brost" <matthew.brost@intel.com>,
- "Lucas De Marchi" <demarchi@kernel.org>,
- "Jani Nikula" <jani.nikula@intel.com>, "Riana Tauro" <riana.tauro@intel.com>, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Message-Id: <079b5829-1ebd-4df8-873c-b75625a52fac@app.fastmail.com>
-In-Reply-To: <c174c12d9748e2e9b2e497c1e479100c323e79c2.camel@linux.intel.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C049910E979;
+ Thu,  4 Dec 2025 13:44:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764855876; x=1796391876;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=eMrH/FYmxnqra+0NCj4j2ScidtQeCebWUFRfRdWKxto=;
+ b=KoHXdnPZoWqGJH9Wj6AMrQcBWIlto7r1V2+clvlCiFi59l/nNWPO1wPM
+ pTQB4hRVHMV2mR5pnO1lmmTDk3tuNAJvoTm9b4dCQxOY8flq7Kk7CHl7O
+ W3rXfrLXXp/GsqDiYJsdHtflQA4VYTb+MVlaGiU1RCyddypNZU4KTY9sW
+ nRFddMzmx+4XeszJRUMxGeCQSwXFjF4PYRtSp/5cKOm7LGOup3or2HXCX
+ zn3C8QD0LVTPg7efDuIR2LOX5K6/p9N35mzkNKV8zjWk5s0WhaqZBohaU
+ nyay5DoapqfTo7T3WvadoHVov9/+69a/DWfou/RAXJR4Wyq6+i8n4Xr0h g==;
+X-CSE-ConnectionGUID: fTkeJwI4SfOiPdMB3TMp6g==
+X-CSE-MsgGUID: umkqCLAeS7G0JPL29gn3Mw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66763943"
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="66763943"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 05:44:36 -0800
+X-CSE-ConnectionGUID: Mg07xxpJTQyUMWNii57R0Q==
+X-CSE-MsgGUID: NfUzOf/2Rmu3Dt1Mp2UQ3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="232320792"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO [10.245.245.167])
+ ([10.245.245.167])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 05:44:32 -0800
+Message-ID: <bdec808511d0d592c940b7f86d8c6bc99de4c406.camel@linux.intel.com>
+Subject: Re: [PATCH] drm/xe/pf: fix VFIO link error
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>, Rodrigo
+ Vivi <rodrigo.vivi@intel.com>, Dave Airlie <airlied@gmail.com>, Simona
+ Vetter	 <simona@ffwll.ch>, =?UTF-8?Q?Micha=C5=82?= Winiarski	
+ <michal.winiarski@intel.com>, Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Matthew Brost <matthew.brost@intel.com>, Lucas De Marchi
+ <demarchi@kernel.org>, Jani Nikula <jani.nikula@intel.com>, Riana Tauro
+ <riana.tauro@intel.com>, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Thu, 04 Dec 2025 14:44:30 +0100
+In-Reply-To: <079b5829-1ebd-4df8-873c-b75625a52fac@app.fastmail.com>
 References: <20251204094154.1029357-1-arnd@kernel.org>
  <c174c12d9748e2e9b2e497c1e479100c323e79c2.camel@linux.intel.com>
-Subject: Re: [PATCH] drm/xe/pf: fix VFIO link error
-Content-Type: text/plain; charset=utf-8
+ <079b5829-1ebd-4df8-873c-b75625a52fac@app.fastmail.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,18 +78,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 4, 2025, at 13:19, Thomas Hellstr=C3=B6m wrote:
-> On Thu, 2025-12-04 at 10:41 +0100, Arnd Bergmann wrote:
->>=20
->> Check for CONFIG_XE_VFIO_PCI being enabled in the Makefile to decide
->> whether to
->> include the the object instead.
->
-> s/the the/the/ found by CI.
-> Same question here, Do you want to resent or should I fix up when
-> commiting?
->
+On Thu, 2025-12-04 at 14:43 +0100, Arnd Bergmann wrote:
+> On Thu, Dec 4, 2025, at 13:19, Thomas Hellstr=C3=B6m wrote:
+> > On Thu, 2025-12-04 at 10:41 +0100, Arnd Bergmann wrote:
+> > >=20
+> > > Check for CONFIG_XE_VFIO_PCI being enabled in the Makefile to
+> > > decide
+> > > whether to
+> > > include the the object instead.
+> >=20
+> > s/the the/the/ found by CI.
+> > Same question here, Do you want to resent or should I fix up when
+> > commiting?
+> >=20
+>=20
+> I'd prefer if you can fix up both so I don't have to send it again.
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0 Arnd
 
-I'd prefer if you can fix up both so I don't have to send it again.
+OK, I will.
+Thanks,
+Thomas
 
-     Arnd
+
