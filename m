@@ -2,68 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6BEBCA3915
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 13:12:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B8ACA3958
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 13:20:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED09910E95B;
-	Thu,  4 Dec 2025 12:12:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B4A210E1E0;
+	Thu,  4 Dec 2025 12:20:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mFHyZRom";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h2tDufgz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F7A310E94D;
- Thu,  4 Dec 2025 12:12:22 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCD4B10E1E0;
+ Thu,  4 Dec 2025 12:20:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764850342; x=1796386342;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=MuqajGwfhj3xCGfoQBWQRUMFLnPMA7ZJP0BEJMHlEgs=;
- b=mFHyZRoms4z+hhRJ9eRMa9rUhVrO9NX3annS981lmoRBBkfYAY4BMvVM
- aEYWi7wjscqUDiR/XT2QUpckeOLy4bovTAwfzmNGsQ8wq9UHbhINVYIQy
- OKUIfl/D2k0c4azT0tHsyBtveWnFDT9/kv3liv7qt/LsJF42O7sadgQed
- mJjvQ+IZq0b+Ibb0q5EWEcsVPmuZfa9kcKwU8zlxfSOB66woapxZRDHL6
- Zpg5SuluTkCJVjpYhifDpVIDZybCLJRcoaCLvjvaClVfPgitM5v+tYtgs
- VdVVvB7dXU31rMsScRnqLbppYAdzLCBwUliAKSkr2GkQny2z2yJLtPDm8 A==;
-X-CSE-ConnectionGUID: 7VXuqHfYS6m/WWbrzRTMEA==
-X-CSE-MsgGUID: IJxTcL6GTlywLGp2D29cxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="77547485"
-X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="77547485"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2025 04:12:22 -0800
-X-CSE-ConnectionGUID: mah35uXRTZuwN87oCwh9mw==
-X-CSE-MsgGUID: AvrZViaOTk+vFXc36Jwmsg==
+ t=1764850807; x=1796386807;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:content-transfer-encoding:mime-version;
+ bh=l5RZdf8e/zhB+USml8d08qyw3G3+Y4U9wM9GTqIDbVM=;
+ b=h2tDufgzOq384GWeoZqu7BwpjkE29peeKP7ZoEv6vIiQgqeAPa683eXl
+ 3Vri+mSwFsutz05nEplJOR5z1RFQDx+e6fUq67WZEZMsJAUPaI26+LyDf
+ TUuGNk/o81xvGfHi9z2FChoP+8xLCp8zpaNyqr5cMVDxZTDrodC8WZGM8
+ vdvd2gFF29y+qDmep9FXSosa2RnGAcz4Iq5RX45tH5AufmZiSaolHJNi2
+ RYFdS1MD1Z4JpM09rTUV8MTQLUvr/VcRQxfJlcDFn/UlqLZqxpPlZ3rrr
+ bbTm3Yf313iZ6gJWwxTEaxGklLmujzMkj02w/dQzAV9UEU9l/hKVraIjq A==;
+X-CSE-ConnectionGUID: SXeXHpUKS+CDb2XeXUQ9JQ==
+X-CSE-MsgGUID: HysWGQlbQvKjCj3G8edgkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="65864773"
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="65864773"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 04:20:06 -0800
+X-CSE-ConnectionGUID: VlAWi4gYRn2bzSpvUr4ppg==
+X-CSE-MsgGUID: jGEhN+IMSVCOOsuBr26MXA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="200097039"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.11])
- by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2025 04:12:16 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Yaroslav Bolyukin <iam@lach.pw>, Ville =?utf-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
- <christian.koenig@amd.com>,
- Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Yaroslav
- Bolyukin <iam@lach.pw>
-Subject: Re: [PATCH v7 6/7] drm/edid: parse DRM VESA dsc bpp target
-In-Reply-To: <20251202110218.9212-7-iam@lach.pw>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251202110218.9212-1-iam@lach.pw>
- <20251202110218.9212-7-iam@lach.pw>
-Date: Thu, 04 Dec 2025 14:12:12 +0200
-Message-ID: <22d49b0cd8b52f485c51af530f49cd8771b2634c@intel.com>
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="225928589"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO [10.245.245.167])
+ ([10.245.245.167])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 04:20:00 -0800
+Message-ID: <c174c12d9748e2e9b2e497c1e479100c323e79c2.camel@linux.intel.com>
+Subject: Re: [PATCH] drm/xe/pf: fix VFIO link error
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ =?UTF-8?Q?Micha=C5=82?= Winiarski	 <michal.winiarski@intel.com>, Michal
+ Wajdeczko <michal.wajdeczko@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Matthew Brost <matthew.brost@intel.com>, 
+ Lucas De Marchi <demarchi@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+ Riana Tauro <riana.tauro@intel.com>, 	intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, 	linux-kernel@vger.kernel.org
+Date: Thu, 04 Dec 2025 13:19:58 +0100
+In-Reply-To: <20251204094154.1029357-1-arnd@kernel.org>
+References: <20251204094154.1029357-1-arnd@kernel.org>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
 MIME-Version: 1.0
-Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,109 +76,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 02 Dec 2025, Yaroslav Bolyukin <iam@lach.pw> wrote:
-> As per DisplayID v2.1a spec "DSC pass-through timing support",
-> VESA vendor-specific data block may contain target DSC bits per pixel
-> fields, that should be always used for the VII modes that declare they
-> only support working with this value (Pass-through Timing Support for
-> Target DSC Bits per Pixel).
->
-> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
->
-> fixup parse DRM vesa dsc bpp target
+On Thu, 2025-12-04 at 10:41 +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>=20
+> The Makefile logic for building xe_sriov_vfio.o was added
+> incorrectly,
+> as setting CONFIG_XE_VFIO_PCI=3Dm means it doesn't get included into a
+> built-in xe driver:
+>=20
+> ERROR: modpost: "xe_sriov_vfio_stop_copy_enter"
+> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
+> ERROR: modpost: "xe_sriov_vfio_stop_copy_exit"
+> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
+> ERROR: modpost: "xe_sriov_vfio_suspend_device"
+> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
+> ERROR: modpost: "xe_sriov_vfio_wait_flr_done"
+> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
+> ERROR: modpost: "xe_sriov_vfio_error" [drivers/vfio/pci/xe/xe-vfio-
+> pci.ko] undefined!
+> ERROR: modpost: "xe_sriov_vfio_resume_data_enter"
+> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
+> ERROR: modpost: "xe_sriov_vfio_resume_device"
+> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
+> ERROR: modpost: "xe_sriov_vfio_resume_data_exit"
+> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
+> ERROR: modpost: "xe_sriov_vfio_data_write" [drivers/vfio/pci/xe/xe-
+> vfio-pci.ko] undefined!
+> ERROR: modpost: "xe_sriov_vfio_migration_supported"
+> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
+> WARNING: modpost: suppressed 3 unresolved symbol warnings because
+> there were too many)
+>=20
+> Check for CONFIG_XE_VFIO_PCI being enabled in the Makefile to decide
+> whether to
+> include the the object instead.
 
-Needs to be removed while applying, no need to resend for this.
+s/the the/the/ found by CI.
+Same question here, Do you want to resent or should I fix up when
+commiting?
 
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Thanks,
+Thomas
 
 
+>=20
+> Fixes: 17f22465c5a5 ("drm/xe/pf: Export helpers for VFIO")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  drivers/gpu/drm/drm_displayid_internal.h |  4 ++++
->  drivers/gpu/drm/drm_edid.c               | 17 +++++++++++++++++
->  include/drm/drm_connector.h              |  6 ++++++
->  3 files changed, 27 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_displayid_internal.h b/drivers/gpu/drm/drm_displayid_internal.h
-> index 55f972d32847..8f1a2f33ca1a 100644
-> --- a/drivers/gpu/drm/drm_displayid_internal.h
-> +++ b/drivers/gpu/drm/drm_displayid_internal.h
-> @@ -148,6 +148,8 @@ struct displayid_formula_timing_block {
->  #define DISPLAYID_VESA_DP_TYPE		GENMASK(2, 0)
->  #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
->  #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
-> +#define DISPLAYID_VESA_DSC_BPP_INT	GENMASK(5, 0)
-> +#define DISPLAYID_VESA_DSC_BPP_FRACT	GENMASK(3, 0)
->  
->  #define DISPLAYID_VESA_DP_TYPE_EDP	0
->  #define DISPLAYID_VESA_DP_TYPE_DP	1
-> @@ -157,6 +159,8 @@ struct displayid_vesa_vendor_specific_block {
->  	u8 oui[3];
->  	u8 data_structure_type;
->  	u8 mso;
-> +	u8 dsc_bpp_int;
-> +	u8 dsc_bpp_fract;
->  } __packed;
->  
->  /*
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index be8715632b91..8273920f5ba4 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -45,6 +45,7 @@
->  #include <drm/drm_edid.h>
->  #include <drm/drm_eld.h>
->  #include <drm/drm_encoder.h>
-> +#include <drm/drm_fixed.h>
->  #include <drm/drm_print.h>
->  
->  #include "drm_crtc_internal.h"
-> @@ -6593,6 +6594,21 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
->  	} else {
->  		info->mso_pixel_overlap = 0;
->  	}
-> +
-> +	if (block->num_bytes < 7) {
-> +		/* DSC bpp is optional */
-> +		return;
-> +	}
-> +
-> +	info->dp_dsc_bpp_x16 = FIELD_GET(DISPLAYID_VESA_DSC_BPP_INT, vesa->dsc_bpp_int) << 4 |
-> +			       FIELD_GET(DISPLAYID_VESA_DSC_BPP_FRACT, vesa->dsc_bpp_fract);
-> +
-> +	if (info->dp_dsc_bpp_x16 > 0) {
-> +		drm_dbg_kms(connector->dev,
-> +			    "[CONNECTOR:%d:%s] DSC bits per pixel " FXP_Q4_FMT "\n",
-> +			    connector->base.id, connector->name,
-> +			    FXP_Q4_ARGS(info->dp_dsc_bpp_x16));
-> +	}
->  }
->  
->  static void drm_update_vesa_specific_block(struct drm_connector *connector,
-> @@ -6641,6 +6657,7 @@ static void drm_reset_display_info(struct drm_connector *connector)
->  	info->mso_stream_count = 0;
->  	info->mso_pixel_overlap = 0;
->  	info->max_dsc_bpp = 0;
-> +	info->dp_dsc_bpp_x16 = 0;
->  
->  	kfree(info->vics);
->  	info->vics = NULL;
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 8f34f4b8183d..7decfc288aa3 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -837,6 +837,12 @@ struct drm_display_info {
->  	 */
->  	u32 max_dsc_bpp;
->  
-> +	/**
-> +	 * @dp_dsc_bpp: DP Display-Stream-Compression (DSC) timing's target
-> +	 * DSC bits per pixel in 6.4 fixed point format. 0 means undefined.
-> +	 */
-> +	u16 dp_dsc_bpp_x16;
-> +
->  	/**
->  	 * @vics: Array of vics_len VICs. Internal to EDID parsing.
->  	 */
+> =C2=A0drivers/gpu/drm/xe/Makefile | 4 ++--
+> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/xe/Makefile
+> b/drivers/gpu/drm/xe/Makefile
+> index dfc2ded01455..e5f3c2ec9e9a 100644
+> --- a/drivers/gpu/drm/xe/Makefile
+> +++ b/drivers/gpu/drm/xe/Makefile
+> @@ -185,8 +185,8 @@ xe-$(CONFIG_PCI_IOV) +=3D \
+> =C2=A0	xe_sriov_pf_sysfs.o \
+> =C2=A0	xe_tile_sriov_pf_debugfs.o
+> =C2=A0
+> -ifeq ($(CONFIG_PCI_IOV),y)
+> -	xe-$(CONFIG_XE_VFIO_PCI) +=3D xe_sriov_vfio.o
+> +ifdef CONFIG_XE_VFIO_PCI
+> +	xe-$(CONFIG_PCI_IOV) +=3D xe_sriov_vfio.o
+> =C2=A0endif
+> =C2=A0
+> =C2=A0# include helpers for tests even when XE is built-in
 
--- 
-Jani Nikula, Intel
