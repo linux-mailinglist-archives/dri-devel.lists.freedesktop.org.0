@@ -2,61 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B53CA44BB
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 16:40:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA03CA44DF
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 16:42:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05B5A10E1FA;
-	Thu,  4 Dec 2025 15:40:47 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="fXeFGKpT";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CE1D10E8FE;
+	Thu,  4 Dec 2025 15:42:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com
- [95.215.58.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FF7F10E1FA
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 15:40:45 +0000 (UTC)
-Message-ID: <e46f5376-6ec2-41dd-a536-125ff51fd5d5@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1764862843;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6mtncvbK5kK9osOeRblxF2+16bxpTOg5JufwUEhd5uo=;
- b=fXeFGKpTl1Cb6hiHT37NJyy3pEAORUdfRzJSh24lyjmktZ7Whvq3cBukQPC5ET73tPWWdY
- AzAS+FL5JTPYxvOHp8OKN1C7gSNpJHo/LCClDlnyhwAhVP2hVprcl8SDPnV/XcFyV92N+r
- /7ddRFibh0ZlZ79NgnYZmZOjsW9cpUA=
-Date: Thu, 4 Dec 2025 15:40:13 +0000
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 07AF610E829;
+ Thu,  4 Dec 2025 15:42:38 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0EF3D339;
+ Thu,  4 Dec 2025 07:42:30 -0800 (PST)
+Received: from [10.1.38.32] (e122027.cambridge.arm.com [10.1.38.32])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E11AE3F59E;
+ Thu,  4 Dec 2025 07:42:31 -0800 (PST)
+Message-ID: <38811d77-53b3-405d-8424-438ccfcc7fc1@arm.com>
+Date: Thu, 4 Dec 2025 15:42:29 +0000
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 4/4] RFT: drm/rockchip: Create custom commit tail
-To: Linus Walleij <linusw@kernel.org>, Vicente Bergas <vicencb@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 04/13] drm/panthor: Add a PANTHOR_BO_SYNC ioctl
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: dri-devel@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Aradhya Bhatia <a-bhatia1@ti.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-rockchip@lists.infradead.org
-References: <20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa@kernel.org>
- <20251202-mcde-drm-regression-thirdfix-v6-4-f1bffd4ec0fa@kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-In-Reply-To: <20251202-mcde-drm-regression-thirdfix-v6-4-f1bffd4ec0fa@kernel.org>
+ Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Frank Binns <frank.binns@imgtec.com>,
+ Matt Coster <matt.coster@imgtec.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, kernel@collabora.com
+References: <20251203090141.227394-1-boris.brezillon@collabora.com>
+ <20251203090141.227394-5-boris.brezillon@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20251203090141.227394-5-boris.brezillon@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,41 +65,294 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 03/12/2025 09:01, Boris Brezillon wrote:
+> This will be used by the UMD to synchronize CPU-cached mappings when
+> the UMD can't do it directly (no usermode cache maintenance instruction
+> on Arm32).
+> 
+> v2:
+> - Change the flags so they better match the drm_gem_shmem_sync()
+>   semantics
+> 
+> v3:
+> - Add Steve's R-b
+> 
+> v4:
+> - No changes
+> 
+> v5:
+> - Drop Steve's R-b (the semantics changes call for a new review)
+> 
+> v6:
+> - Drop ret initialization in panthor_ioctl_bo_sync()
+> - Bail out early in panthor_ioctl_bo_sync() if ops.count is zero
+> - Drop unused PANTHOR_BO_SYNC_OP_FLAGS definition
+> 
+> v7:
+> - Hand-roll the sync logic (was previously provided by gem_shmem)
+> 
+> Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-On 02/12/2025 21:02, Linus Walleij wrote:
-> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
-> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
-> caused a series of regressions in all panels that send
-> DSI commands in their .prepare() and .unprepare()
-> callbacks when used with the Rockchip driver.
-> 
-> As the CRTC is no longer online at bridge_pre_enable()
-> and gone at brige_post_disable() which maps to the panel
-> bridge .prepare()/.unprepare() callbacks, any CRTC that
-> enable/disable the DSI transmitter in it's enable/disable
-> callbacks will be unable to send any DSI commands in the
-> .prepare() and .unprepare() callbacks.
-> 
-> However the Rockchip driver definitely need the CRTC to be
-> enabled during .prepare()/.unprepare().
-> 
-> Solve this by implementing a custom commit tail function
-> in the Rockchip driver that always enables the CRTC first
-> and disables it last, using the newly exported helpers.
-> 
-> This patch is an edited carbon-copy of the same patch to
-> the ST-Ericsson MCDE driver.
-> 
-> Link: https://lore.kernel.org/all/CAAMcf8Di8sc_XVZAnzQ9sUiUf-Ayvg2yjhx2dWmvvCnfF3pBRA@mail.gmail.com/
-> Reported-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
-> Reported-by: Vicente Bergas <vicencb@gmail.com>
-> Signed-off-by: Linus Walleij <linusw@kernel.org>
+Reviewed-by: Steven Price <steven.price@arm.com>
+
 > ---
-> Rockchip people: can you please test this patch (along
-> with patch 1 of course).
-> ---
->  drivers/gpu/drm/rockchip/rockchip_drm_fb.c | 50 +++++++++++++++++++++++++++++-
->  1 file changed, 49 insertions(+), 1 deletion(-)
+>  drivers/gpu/drm/panthor/panthor_drv.c | 41 ++++++++++++-
+>  drivers/gpu/drm/panthor/panthor_gem.c | 85 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_gem.h |  2 +
+>  include/uapi/drm/panthor_drm.h        | 52 ++++++++++++++++
+>  4 files changed, 179 insertions(+), 1 deletion(-)
 > 
-Acked-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index d12ac4cb0ac4..cab19621917f 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -177,7 +177,8 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_sync_op, timeline_value), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
+>  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
+> -		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs))
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs), \
+> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_bo_sync_op, size))
+>  
+>  /**
+>   * PANTHOR_UOBJ_SET() - Copy a kernel object to a user object.
+> @@ -1396,6 +1397,43 @@ static int panthor_ioctl_set_user_mmio_offset(struct drm_device *ddev,
+>  	return 0;
+>  }
+>  
+> +static int panthor_ioctl_bo_sync(struct drm_device *ddev, void *data,
+> +				 struct drm_file *file)
+> +{
+> +	struct drm_panthor_bo_sync *args = data;
+> +	struct drm_panthor_bo_sync_op *ops;
+> +	struct drm_gem_object *obj;
+> +	int ret;
+> +
+> +	if (!args->ops.count)
+> +		return 0;
+> +
+> +	ret = PANTHOR_UOBJ_GET_ARRAY(ops, &args->ops);
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (u32 i = 0; i < args->ops.count; i++) {
+> +		obj = drm_gem_object_lookup(file, ops[i].handle);
+> +		if (!obj) {
+> +			ret = -ENOENT;
+> +			goto err_ops;
+> +		}
+> +
+> +		ret = panthor_gem_sync(obj, ops[i].type, ops[i].offset,
+> +				       ops[i].size);
+> +
+> +		drm_gem_object_put(obj);
+> +
+> +		if (ret)
+> +			goto err_ops;
+> +	}
+> +
+> +err_ops:
+> +	kvfree(ops);
+> +
+> +	return ret;
+> +}
+> +
+>  static int
+>  panthor_open(struct drm_device *ddev, struct drm_file *file)
+>  {
+> @@ -1470,6 +1508,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
+>  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
+>  	PANTHOR_IOCTL(BO_SET_LABEL, bo_set_label, DRM_RENDER_ALLOW),
+>  	PANTHOR_IOCTL(SET_USER_MMIO_OFFSET, set_user_mmio_offset, DRM_RENDER_ALLOW),
+> +	PANTHOR_IOCTL(BO_SYNC, bo_sync, DRM_RENDER_ALLOW),
+>  };
+>  
+>  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index 173d42d65000..4be32fc1732b 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -447,6 +447,91 @@ panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
+>  	panthor_gem_bo_set_label(bo->obj, str);
+>  }
+>  
+> +int
+> +panthor_gem_sync(struct drm_gem_object *obj, u32 type,
+> +		 u64 offset, u64 size)
+> +{
+> +	struct panthor_gem_object *bo = to_panthor_bo(obj);
+> +	struct drm_gem_shmem_object *shmem = &bo->base;
+> +	const struct drm_device *dev = shmem->base.dev;
+> +	struct sg_table *sgt;
+> +	struct scatterlist *sgl;
+> +	unsigned int count;
+> +
+> +	/* Make sure the range is in bounds. */
+> +	if (offset + size < offset || offset + size > shmem->base.size)
+> +		return -EINVAL;
+> +
+> +	/* Disallow CPU-cache maintenance on imported buffers. */
+> +	if (drm_gem_is_imported(&shmem->base))
+> +		return -EINVAL;
+> +
+> +	switch (type) {
+> +	case DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH:
+> +	case DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE:
+> +		break;
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Don't bother if it's WC-mapped */
+> +	if (shmem->map_wc)
+> +		return 0;
+> +
+> +	/* Nothing to do if the size is zero. */
+> +	if (size == 0)
+> +		return 0;
+> +
+> +	sgt = drm_gem_shmem_get_pages_sgt(shmem);
+> +	if (IS_ERR(sgt))
+> +		return PTR_ERR(sgt);
+> +
+> +	for_each_sgtable_dma_sg(sgt, sgl, count) {
+> +		if (size == 0)
+> +			break;
+> +
+> +		dma_addr_t paddr = sg_dma_address(sgl);
+> +		size_t len = sg_dma_len(sgl);
+> +
+> +		if (len <= offset) {
+> +			offset -= len;
+> +			continue;
+> +		}
+> +
+> +		paddr += offset;
+> +		len -= offset;
+> +		len = min_t(size_t, len, size);
+> +		size -= len;
+> +		offset = 0;
+> +
+> +		/* It's unclear whether dma_sync_xxx() is the right API to do CPU
+> +		 * cache maintenance given an IOMMU can register their own
+> +		 * implementation doing more than just CPU cache flushes/invalidation,
+> +		 * and what we really care about here is CPU caches only, but that's
+> +		 * the best we have that is both arch-agnostic and does at least the
+> +		 * CPU cache maintenance on a <page,offset,size> tuple.
+> +		 *
+> +		 * Also, I wish we could do a single
+> +		 *
+> +		 *      dma_sync_single_for_device(BIDIR)
+> +		 *
+> +		 * and get a flush+invalidate, but that's not how it's implemented
+> +		 * in practice (at least on arm64), so we have to make it
+> +		 *
+> +		 *      dma_sync_single_for_device(TO_DEVICE)
+> +		 *      dma_sync_single_for_cpu(FROM_DEVICE)
+> +		 *
+> +		 * for the flush+invalidate case.
+> +		 */
+> +		dma_sync_single_for_device(dev->dev, paddr, len, DMA_TO_DEVICE);
+> +		if (type == DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE)
+> +			dma_sync_single_for_cpu(dev->dev, paddr, len, DMA_FROM_DEVICE);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  #ifdef CONFIG_DEBUG_FS
+>  struct gem_size_totals {
+>  	size_t size;
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> index 91d1880f8a5d..bbf9ae75c360 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -146,6 +146,8 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>  
+>  void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
+>  void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
+> +int panthor_gem_sync(struct drm_gem_object *obj,
+> +		     u32 type, u64 offset, u64 size);
+>  
+>  struct drm_gem_object *
+>  panthor_gem_prime_import(struct drm_device *dev,
+> diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> index 28cf9e878db6..9f810305db6e 100644
+> --- a/include/uapi/drm/panthor_drm.h
+> +++ b/include/uapi/drm/panthor_drm.h
+> @@ -144,6 +144,9 @@ enum drm_panthor_ioctl_id {
+>  	 * pgoff_t size.
+>  	 */
+>  	DRM_PANTHOR_SET_USER_MMIO_OFFSET,
+> +
+> +	/** @DRM_PANTHOR_BO_SYNC: Sync BO data to/from the device */
+> +	DRM_PANTHOR_BO_SYNC,
+>  };
+>  
+>  /**
+> @@ -1073,6 +1076,53 @@ struct drm_panthor_set_user_mmio_offset {
+>  	__u64 offset;
+>  };
+>  
+> +/**
+> + * enum drm_panthor_bo_sync_op_type - BO sync type
+> + */
+> +enum drm_panthor_bo_sync_op_type {
+> +	/** @DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH: Flush CPU caches. */
+> +	DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH = 0,
+> +
+> +	/** @DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE: Flush and invalidate CPU caches. */
+> +	DRM_PANTHOR_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE = 1,
+> +};
+> +
+> +/**
+> + * struct drm_panthor_bo_sync_op - BO map sync op
+> + */
+> +struct drm_panthor_bo_sync_op {
+> +	/** @handle: Handle of the buffer object to sync. */
+> +	__u32 handle;
+> +
+> +	/** @type: Type of operation. */
+> +	__u32 type;
+> +
+> +	/**
+> +	 * @offset: Offset into the BO at which the sync range starts.
+> +	 *
+> +	 * This will be rounded down to the nearest cache line as needed.
+> +	 */
+> +	__u64 offset;
+> +
+> +	/**
+> +	 * @size: Size of the range to sync
+> +	 *
+> +	 * @size + @offset will be rounded up to the nearest cache line as
+> +	 * needed.
+> +	 */
+> +	__u64 size;
+> +};
+> +
+> +/**
+> + * struct drm_panthor_bo_sync - BO map sync request
+> + */
+> +struct drm_panthor_bo_sync {
+> +	/**
+> +	 * @ops: Array of struct drm_panthor_bo_sync_op sync operations.
+> +	 */
+> +	struct drm_panthor_obj_array ops;
+> +};
+> +
+>  /**
+>   * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
+>   * @__access: Access type. Must be R, W or RW.
+> @@ -1119,6 +1169,8 @@ enum {
+>  		DRM_IOCTL_PANTHOR(WR, BO_SET_LABEL, bo_set_label),
+>  	DRM_IOCTL_PANTHOR_SET_USER_MMIO_OFFSET =
+>  		DRM_IOCTL_PANTHOR(WR, SET_USER_MMIO_OFFSET, set_user_mmio_offset),
+> +	DRM_IOCTL_PANTHOR_BO_SYNC =
+> +		DRM_IOCTL_PANTHOR(WR, BO_SYNC, bo_sync),
+>  };
+>  
+>  #if defined(__cplusplus)
+
