@@ -2,70 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F7B6CA3383
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 11:29:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0645CCA335C
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 11:26:48 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9400A10E910;
-	Thu,  4 Dec 2025 10:29:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2093410E90E;
+	Thu,  4 Dec 2025 10:26:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="XFx14s3O";
-	dkim=pass (2048-bit key) header.d=sigxcpu.org header.i=@sigxcpu.org header.b="b/D8pXTl";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EXHuvwVw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 371 seconds by postgrey-1.36 at gabe;
- Thu, 04 Dec 2025 10:29:20 UTC
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EBCA210E910
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 10:29:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
- t=1764843786; bh=UeOw/ARrHPv6xrGasuUY7S88OnbZfA31zOs7DVv9hag=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XFx14s3O+agBfLWStyMI5xyBEhX5K2ZytHWOErrY7hpMd0vwLhHcDMR8ND2VcEz+f
- FsyIr4133Bb/9AlrQkcCKKFfYqzKkOkWLfpBtzF+DHQ3Ee6GhT0QjeJH0wHhSC0Bli
- KPv8YFFYYfTF6XzSWuhWdHbx585zE3GGl0uFrJKBwfgobg32E0i3XsuXCrEO5UDBip
- tuCw+qwV2Uia3EpaU7TYRuj2NRMUqRXID9M/Ssh/pIFwSaQjalg7nottRm37FL8i4I
- G+KTTzNtv/e1KNhZ0xovsFok4IC9Fv13c9fXRcITIFR1z42ulzjgpn4uhbkffbvoBA
- wejifch0NzbEQ==
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 3B181FB03;
- Thu,  4 Dec 2025 11:23:06 +0100 (CET)
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 0LezK-AyUMc6; Thu,  4 Dec 2025 11:23:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sigxcpu.org; s=2024;
- t=1764843784; bh=UeOw/ARrHPv6xrGasuUY7S88OnbZfA31zOs7DVv9hag=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=b/D8pXTl17XvvMe8Cf8/8UIkoNMvhjGFexhoFqWxMi1iUnb+ksTLjG6RZ90jMzy3H
- 9P8jMovI1/5fUkAiwNKGlrr6S/+ZXV/dR5iXHZJKwgPB+/UOyIrGstAoANOeWv9dTP
- nK3SW5HDn8jfcxwcxv9E10+XwbWfvnfg4HYfiiRMyt9IshOs8HMzkGnQ/zkHjmcHvJ
- sMPxo0xfsmi8HEsuc4ozusIwfKMlPeva+11iShy7jKYGFvkoEyaGXBCmWlBYpSTkXE
- f1LWnQbkXt9m031v24rhVhfPRWQDAVbZl2m9dC8lkCEBxt3jmHbbS9ZqmqVN9xkG1F
- 4aJn3i8VMBJig==
-Date: Thu, 4 Dec 2025 11:23:02 +0100
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Arnd Bergmann <arnd@arndb.de>, Jessica Zhang <jesszhan0024@gmail.com>,
- Svyatoslav Ryhel <clamor95@gmail.com>, David Heidelberg <david@ixit.cz>,
- Linus Walleij <linus.walleij@linaro.org>,
- Kaustabh Chakraborty <kauschluss@disroot.org>,
- Maxim Schwalm <maxim.schwalm@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Colin Ian King <colin.i.king@gmail.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CEAFD10E8D8;
+ Thu,  4 Dec 2025 10:26:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764844003; x=1796380003;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=CDuXg1gR8PMLq7Xf2ggOf7LFWCQJhOqps2N6L7CvgV4=;
+ b=EXHuvwVw9UcSw9rv3ZCFyHXhx7dC4EMeTHIbzL3eK7NBQmKsiJ1aoA//
+ k5XDvKleWK51LbjeTF18MTkcNO27XkmjPA8T1LFEe2hl+z12VasgW3LB5
+ s6PgVZ54ZYBVXv803VVFCdA87gXLJhcqsP7ePawu8+FZezsmrWqdjiLle
+ gUCSOCGW6z+jCltv1TWiJ2/k9vqSAQPTsSFUqt6bl2zSKxkifYPjg6vcc
+ ZJ76Hh6Do59Et/8V9H4YjnMWVriTPkRG97C/tuayHxvnjzxyXQjulYeK6
+ UUSTAGMbfnCSpjt2sJvYJrq5DKCw4Rjj8R9nm9DAHjJa3Uqp8wGgpOU4F w==;
+X-CSE-ConnectionGUID: +vM0ULWNS/mnqiw2t9naig==
+X-CSE-MsgGUID: AQ5kl0dgSi24/bbfbUhMTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="84460994"
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="84460994"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 02:26:42 -0800
+X-CSE-ConnectionGUID: ArnHlBx8TNWiwclw+gR6Xw==
+X-CSE-MsgGUID: jhRM3qpMTZyXwb4u64Z0GA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="225906223"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.11])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 02:26:37 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Arnd Bergmann <arnd@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Mika Kahola <mika.kahola@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Ville =?utf-8?B?U3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>, Ankit Nautiyal
+ <ankit.k.nautiyal@intel.com>, Suraj Kandpal <suraj.kandpal@intel.com>,
+ Jouni =?utf-8?Q?H=C3=B6gander?= <jouni.hogander@intel.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panel: visionox-rm69299: add backlight dependency
-Message-ID: <aTFhBtzzKbN3mjqw@quark2.heme.sigxcpu.org>
-References: <20251204094734.1031114-1-arnd@kernel.org>
+Subject: Re: [PATCH] drm/i915/display: Avoid nonliteral printf format string
+In-Reply-To: <20251204094401.1029917-1-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251204094401.1029917-1-arnd@kernel.org>
+Date: Thu, 04 Dec 2025 12:26:34 +0200
+Message-ID: <7579ed96424f51f171bee13f387f68c96f2d8a62@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251204094734.1031114-1-arnd@kernel.org>
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,47 +76,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-On Thu, Dec 04, 2025 at 10:47:26AM +0100, Arnd Bergmann wrote:
+On Thu, 04 Dec 2025, Arnd Bergmann <arnd@kernel.org> wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The recently added backlight support breaks when CONFIG_BACKLIGHT_CLASS_DEVICE
-> is turned off:
-> 
-> arm-linux-gnueabi-ld: drivers/gpu/drm/panel/panel-visionox-rm69299.o: in function `visionox_rm69299_probe':
-> panel-visionox-rm69299.c:(.text.visionox_rm69299_probe+0x92): undefined reference to `devm_backlight_device_register'
-> arm-linux-gnueabi-ld: (devm_backlight_device_register): Unknown destination type (ARM/Thumb) in drivers/gpu/drm/panel/panel-visionox-rm69299.o
-> 
-> Add the appropriate Kconfig dependency.
-> 
-> Fixes: 7911d8cab554 ("drm/panel: visionox-rm69299: Add backlight support")
+>
+> pipe_config_mismatch() takes a printf-style format string and arguments,
+> not a constant string, so this trigers -Wformat warnings when they are
+> not disabled:
+>
+> drivers/gpu/drm/i915/display/intel_display.c: In function 'pipe_config_cx0pll_mismatch':
+> drivers/gpu/drm/i915/display/intel_display.c:4997:9: error: format not a string literal and no format arguments [-Werror=format-security]
+>  4997 |         pipe_config_mismatch(p, fastset, crtc, name, chipname);
+>       |         ^~~~~~~~~~~~~~~~~~~~
+>
+> drivers/gpu/drm/i915/display/intel_display.c: In function 'pipe_config_lt_phy_pll_mismatch':
+> drivers/gpu/drm/i915/display/intel_display.c:5027:9: error: format not a string literal and no format arguments [-Werror=format-security]
+>  5027 |         pipe_config_mismatch(p, fastset, crtc, name, chipname);
+>       |         ^~~~~~~~~~~~~~~~~~~~
+>
+> Use either the string literal or the trivial "%s" format so the compiler can
+> prove this to be used correctly.
+>
+> Fixes: 45fe957ae769 ("drm/i915/display: Add compare config for MTL+ platforms")
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Thanks for looking at this. This is a duplicate of
+Unfortunately, this no longer applies to
+drm-intel-next. pipe_config_cx0pll_mismatch() no longer exists. The 2nd
+hunk is still valid, though, want to send a rebased version?
 
-  https://lore.kernel.org/phone-devel/20251017-visionox-rm69299-bl-v2-1-9dfa06606754@sigxcpu.org/
+BR,
+Jani.
 
-though, idk why it didn't get applied.
-
-Cheers,
- -- Guido
 
 > ---
->  drivers/gpu/drm/panel/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index 76f6af819037..2923148dcf07 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -1163,6 +1163,7 @@ config DRM_PANEL_VISIONOX_R66451
+>  drivers/gpu/drm/i915/display/intel_display.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index 7b4fd18c60e2..83025d5a4aa9 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -4987,7 +4987,7 @@ pipe_config_cx0pll_mismatch(struct drm_printer *p, bool fastset,
+>  	struct intel_display *display = to_intel_display(crtc);
+>  	char *chipname = a->use_c10 ? "C10" : "C20";
 >  
->  config DRM_PANEL_VISIONOX_RM69299
->  	tristate "Visionox RM69299"
-> +	depends on BACKLIGHT_CLASS_DEVICE
->  	depends on OF
->  	depends on DRM_MIPI_DSI
->  	help
-> -- 
-> 2.39.5
-> 
+> -	pipe_config_mismatch(p, fastset, crtc, name, chipname);
+> +	pipe_config_mismatch(p, fastset, crtc, name, "%s", chipname);
+>  
+>  	drm_printf(p, "expected:\n");
+>  	intel_cx0pll_dump_hw_state(display, a);
+> @@ -5022,9 +5022,8 @@ pipe_config_lt_phy_pll_mismatch(struct drm_printer *p, bool fastset,
+>  				const struct intel_lt_phy_pll_state *b)
+>  {
+>  	struct intel_display *display = to_intel_display(crtc);
+> -	char *chipname = "LTPHY";
+>  
+> -	pipe_config_mismatch(p, fastset, crtc, name, chipname);
+> +	pipe_config_mismatch(p, fastset, crtc, name, "LTPHY");
+>  
+>  	drm_printf(p, "expected:\n");
+>  	intel_lt_phy_dump_hw_state(display, a);
+
+-- 
+Jani Nikula, Intel
