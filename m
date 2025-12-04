@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1EBCA27AC
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 07:14:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFECDCA27A6
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 07:14:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C778810E845;
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA11010E843;
 	Thu,  4 Dec 2025 06:14:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hACmSrjr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="frwfEVXJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com
- [209.85.218.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E58E10E843
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 06:14:48 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id
- a640c23a62f3a-b72bf7e703fso81864766b.2
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 22:14:48 -0800 (PST)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
+ [209.85.218.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4550B10E843
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 06:14:49 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id
+ a640c23a62f3a-b73875aa527so77644066b.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 22:14:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764828887; x=1765433687; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1764828888; x=1765433688; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=DQrz/QPYOHYsP4Cfl9B2GTYZm08Xl/E70LbUu7rauuk=;
- b=hACmSrjronG1ftZMLh7pQo/+/wv6G5bmeYV5s3aWQ1Km0RCTUvwGadklvUhh6X2x76
- 6LarnuSQDNA52z+2gD1bwrRiDYETc9Mxg7qk0gTeplPVSJoAJF1iuPKh9YBn+BnPImVN
- m6U/Qtnh6/rn+j7gkWJ7MzgZQegVyFv0DS58xSxnfgc7TCQNPCs+XYGwG2e64fLSwwCL
- cw3TOAwIKjvkdur4tfM06AM2tiybkXikKt/SeElOd7OYInHwPtJVlBBcH/fQXx8Ki/4f
- mCa+Gze3rFJoGrNLU9eFWP04hUL5+8CIuCquy+tZOwEYS0MvZJySbVgoaEZOPXq8Bd5D
- IwRQ==
+ bh=vYiswRj/QaYbkwuLO6ropupZ4HLa9+N1VAg/V5RUYGk=;
+ b=frwfEVXJiGhb6cW1xVe37jRZ9K32BvXJ50q3RUNPOrMIvw7QbFrechihV9b0kscBFp
+ UmO19JL2zwvKcfNaexdJcOVQTprorKdjIQIMntuPvaSXi5TZ+8GFKEdFMGTDTit02IxQ
+ r+3B7VSPKCGWhrTuzWSSDLzr6wgG8lmBlTCFOpg/sFfNObHFiqRuaiWdceey2F9O50Ca
+ yQGxTi/tBk+ijGflfCenTmRZzFYMisrRN625a3loBQ2neaCO0jl+goOGsD8t2Hzr2UvU
+ 1yOaWIuKSXXK0xXOWKKkZg4/1t21sNIhBF6Awwl/XnORDJxJ4trvAnIwwKL6NuOlzRjp
+ aTuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764828887; x=1765433687;
+ d=1e100.net; s=20230601; t=1764828888; x=1765433688;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=DQrz/QPYOHYsP4Cfl9B2GTYZm08Xl/E70LbUu7rauuk=;
- b=l5f4PMH7Me9w5WYFoI+amu1/pkS5HYSPS+yRBcLoZv9/7/t37+QfO28qGaNsnAGSQ8
- jgCnydJAWNuYU1W1eNnZtAfSPED4lQ7q2CFreVdh51Jhsd8rma6c6ubamnTSgoDSuX9m
- +bKOztV5okDXNHlMHWrvvWbCPP1pBj+pVXYZovJxF8Wf+zwFY1h+PZlKXRBhXZADmBX3
- YVIaL6u2FV6vFGpjH+z8RqLBOUGvYuqhm2JtwAowpY+76AkbObq1bWumXZiYwaB87J7U
- Fiod9ISuzTvFnR/oSmAQ9obvM5nnzAedcGz398Zk8CxM5X1/I8Rqoeq6RXw32nVseXoX
- Kstw==
-X-Gm-Message-State: AOJu0Yyb2GaVY80UiB91CYvS7sPgsOGOoKCZ0d/K5S2ZAtGOz4Ub24v4
- R+UXcW1C8w6BUkOyLCBS9VASdUXo+3kgT+IRG80BnIo2uWrM14yPSJao
-X-Gm-Gg: ASbGncu+PlVZng/0nON50qB8Yr5qinUxRhsyGPtW9f3oIYUumbGFKZT5eZuILjmH4q+
- hdcfAwdYMLQaQsOPaAZvx2Obg460rcg4Z+N7WFlTkfgkGq1b050PXl1Ke6uueOWvzKofkSA+e7S
- pBf7hNbDRsc1X7QFY1mrBY0pOF/vh03hj8cvBZp4APK+YcTRoBaRZuCADjNDf0YB4J5SSjytao7
- Dax1r8wPfxIViZMgP9HrWS6FFBTRFu3ieQ7Ptg6AELhN0jiomMDeNUAgtT2DDtUiEMQ+YiVnK8a
- oxn11V7I/a1uQWqCW2NdfFB+eU3S9re+yEnaorPbd54F3+u2ipBFyxqdwzEcWUhmbZu2ZZhB3Cz
- Z2x2gzxsTEEjZtTcaVLSHfh50LeTUinDknrMmh8VeFO3GJExpAoFxyLE4D3GL7va7r9oczcsz+h
- M=
-X-Google-Smtp-Source: AGHT+IH9Td1weLVNisf4to9lzLCPe3cNWf9eIXubukdh2R/fUUXMkNiI22zD2RgZqeyDpQfBYih7ig==
-X-Received: by 2002:a17:907:7f92:b0:b77:1b03:66a1 with SMTP id
- a640c23a62f3a-b79dc758d94mr555102666b.41.1764828886847; 
- Wed, 03 Dec 2025 22:14:46 -0800 (PST)
+ bh=vYiswRj/QaYbkwuLO6ropupZ4HLa9+N1VAg/V5RUYGk=;
+ b=bl6K4fy9W9RBoGzZOGyruoHZ+71VsXjbvDWGGDedCMnIJLCwH8K2279+ZgJRCr2Oce
+ Rkuy88ek15coV52Udea1UeDUlSG2u818GdInBH7P5tviSFyXBgItxX3ZWzx+UkrlIv9/
+ eLj8QuBRv0BxZL23MVpLj1ADOj5lM2t7qmtwBUoOyZFd+bNQxSTZe/Xo5a2wi0v5rUHi
+ zmCWCMY4hga2N4TnSaSwJcI5ZxCGWC+J16DS+tuio2KNi7OWEYSmjtyn6Df+NvXbFBPf
+ UUFBP6D68rdOE8ot5bb3Dy/kkr7yHXPX+KOdDDp5AOXvSH+HrGDDkeUJ/dG+6pOIuBfE
+ Rl6Q==
+X-Gm-Message-State: AOJu0Yz7QcWJje4XB4oqdcco6F1EoYOgkgXziSMR/6dHALWKOZ6Du9LP
+ AFmOwu/Rsxi/Yds3Fr+3FQD1+spYijDg0E8c85p0pfqZs0ahmvqvgBl7
+X-Gm-Gg: ASbGnctNXYwgWnO9t+SjSrunWO0i9WUFxMTJrjMRoSw/n2aqo9Vc83stHC/c3hpVB+y
+ d8VpQ3TmHf0sSxsPk2lTcdZqCWsfIleGsbXEf90hCXzjK7VjFnBDe7Bkeo3ruGj8v+j7Ehdmse4
+ g0IT4ai8PpQGqjyqJi0MO3WUsRtHS+6esj/RMeNVFreLckO4t6jQfcAzawUEmgd+d2SQ+U0sj4d
+ mPr4JW3x1uSh/kFcXJdyb6bCcDv6tFg59B6GfUPH+YuSDxdvk5LO2fiyZTIYVx5LqzFk6JOvQmp
+ D5yW5cKA/43+SfaNyybV6u9l6v2thvdqVoxXUGMov55V4HEP/xzjvAMchvFdECA7lyRem5d89D7
+ D4BF5Q8F+rtTKFJBPRnSfwTxCvayYzX1pCY5JX0A31DX2sJK0V3dShg0KRq2HyPjXEOtlksjl89
+ U=
+X-Google-Smtp-Source: AGHT+IFFxhTMIa5+kk08uLpT0I+DrZEQ4kNYGNnKIoSZESkvBwYMSmeMpr2IbKVmYL/ijgj/qYJJkQ==
+X-Received: by 2002:a17:907:9625:b0:b73:8639:cd88 with SMTP id
+ a640c23a62f3a-b79dbe8fd42mr443652866b.22.1764828887748; 
+ Wed, 03 Dec 2025 22:14:47 -0800 (PST)
 Received: from xeon ([188.163.112.74]) by smtp.gmail.com with ESMTPSA id
  a640c23a62f3a-b79f445968asm50607866b.3.2025.12.03.22.14.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Dec 2025 22:14:46 -0800 (PST)
+ Wed, 03 Dec 2025 22:14:47 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Thierry Reding <treding@nvidia.com>,
@@ -68,10 +68,10 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/2 RESEND] gpu/drm: tegra: dsi: make SOL delay calculation
- mode independent
-Date: Thu,  4 Dec 2025 08:14:35 +0200
-Message-ID: <20251204061436.5401-2-clamor95@gmail.com>
+Subject: [PATCH v1 2/2 RESEND] gpu/drm: tegra: dsi: calculate packet
+ parameters for video mode
+Date: Thu,  4 Dec 2025 08:14:36 +0200
+Message-ID: <20251204061436.5401-3-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251204061436.5401-1-clamor95@gmail.com>
 References: <20251204061436.5401-1-clamor95@gmail.com>
@@ -92,75 +92,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move SOL delay calculation outside of video mode conditions.
+Calculate packet parameters for video mode same way it is done or
+command mode, by halving timings plugged into equations.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/gpu/drm/tegra/dsi.c | 41 +++++++++++++++----------------------
- 1 file changed, 17 insertions(+), 24 deletions(-)
+ drivers/gpu/drm/tegra/dsi.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
-index 924611061cfa..aab555a2eb68 100644
+index aab555a2eb68..1ec3f03d2577 100644
 --- a/drivers/gpu/drm/tegra/dsi.c
 +++ b/drivers/gpu/drm/tegra/dsi.c
-@@ -560,11 +560,6 @@ static void tegra_dsi_configure(struct tegra_dsi *dsi, unsigned int pipe,
- 		tegra_dsi_writel(dsi, hact << 16 | hbp, DSI_PKT_LEN_2_3);
- 		tegra_dsi_writel(dsi, hfp, DSI_PKT_LEN_4_5);
- 		tegra_dsi_writel(dsi, 0x0f0f << 16, DSI_PKT_LEN_6_7);
--
--		/* set SOL delay (for non-burst mode only) */
--		tegra_dsi_writel(dsi, 8 * mul / div, DSI_SOL_DELAY);
--
--		/* TODO: implement ganged mode */
- 	} else {
- 		u16 bytes;
+@@ -545,12 +545,19 @@ static void tegra_dsi_configure(struct tegra_dsi *dsi, unsigned int pipe,
+ 		/* horizontal back porch */
+ 		hbp = (mode->htotal - mode->hsync_end) * mul / div;
  
-@@ -586,28 +581,26 @@ static void tegra_dsi_configure(struct tegra_dsi *dsi, unsigned int pipe,
- 		value = MIPI_DCS_WRITE_MEMORY_START << 8 |
- 			MIPI_DCS_WRITE_MEMORY_CONTINUE;
- 		tegra_dsi_writel(dsi, value, DSI_DCS_CMDS);
-+	}
- 
--		/* set SOL delay */
--		if (dsi->master || dsi->slave) {
--			unsigned long delay, bclk, bclk_ganged;
--			unsigned int lanes = state->lanes;
+-		if ((dsi->flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) == 0)
+-			hbp += hsw;
 -
--			/* SOL to valid, valid to FIFO and FIFO write delay */
--			delay = 4 + 4 + 2;
--			delay = DIV_ROUND_UP(delay * mul, div * lanes);
--			/* FIFO read delay */
--			delay = delay + 6;
--
--			bclk = DIV_ROUND_UP(mode->htotal * mul, div * lanes);
--			bclk_ganged = DIV_ROUND_UP(bclk * lanes / 2, lanes);
--			value = bclk - bclk_ganged + delay + 20;
--		} else {
--			/* TODO: revisit for non-ganged mode */
--			value = 8 * mul / div;
--		}
-+	/* set SOL delay */
-+	if (dsi->master || dsi->slave) {
-+		unsigned long delay, bclk, bclk_ganged;
-+		unsigned int lanes = state->lanes;
+ 		/* horizontal front porch */
+ 		hfp = (mode->hsync_start - mode->hdisplay) * mul / div;
  
--		tegra_dsi_writel(dsi, value, DSI_SOL_DELAY);
-+		/* SOL to valid, valid to FIFO and FIFO write delay */
-+		delay = 4 + 4 + 2;
-+		delay = DIV_ROUND_UP(delay * mul, div * lanes);
-+		/* FIFO read delay */
-+		delay = delay + 6;
++		if (dsi->master || dsi->slave) {
++			hact /= 2;
++			hsw /= 2;
++			hbp /= 2;
++			hfp /= 2;
++		}
 +
-+		bclk = DIV_ROUND_UP(mode->htotal * mul, div * lanes);
-+		bclk_ganged = DIV_ROUND_UP(bclk * lanes / 2, lanes);
-+		value = bclk - bclk_ganged + delay + 20;
-+	} else {
-+		value = 8 * mul / div;
- 	}
-+	tegra_dsi_writel(dsi, value, DSI_SOL_DELAY);
- 
- 	if (dsi->slave) {
- 		tegra_dsi_configure(dsi->slave, pipe, mode);
++		if ((dsi->flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE) == 0)
++			hbp += hsw;
++
+ 		/* subtract packet overhead */
+ 		hsw -= 10;
+ 		hbp -= 14;
 -- 
 2.48.1
 
