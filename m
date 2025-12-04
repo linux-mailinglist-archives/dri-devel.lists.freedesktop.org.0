@@ -2,66 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 958F4CA382B
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 12:58:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BEF9CA38BB
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 13:08:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A806010E94F;
-	Thu,  4 Dec 2025 11:58:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E3D2D10E898;
+	Thu,  4 Dec 2025 12:08:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HSpWkxEz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O/NL346l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8D7A10E93E;
- Thu,  4 Dec 2025 11:58:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764849496; x=1796385496;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=5uK2KXVr3DWr8mYIOCBlGCt2rYs8uQECOWNjayp03W0=;
- b=HSpWkxEzATa4+AI+ECvDkrNGP1rqCjCCnGXKS2F9/QGCbk2n+PkvhqfT
- x456285xKUO33jV3eFrTaWGcKeepjhMlAtv0XYt4TZKUXnwpoVCdCK1iC
- 7Q/d5j4M4ZlgwkIrbU2OlJvQrB+8wFwMUBebE16R5DZvH8jX9WsDAe1EF
- J3wvn2GMlLWy4osxXIrA/ofkeHBG2MoQZvd6YoDjsLwsKldYyOlBeQ9aw
- 8ixLuEfnS7eD+I7PZQSqZLA/2VIs1FlIwNbcJsyVnCYD0LVTqj275NS6A
- 3nxF4Q9ULsqGXgR+3UpIU8BeKoiTLN7GaInC1s+ox+ITBJV+b5HiUK83p A==;
-X-CSE-ConnectionGUID: BI/FZx2+QUCkA9VF3UcZFA==
-X-CSE-MsgGUID: EiABIu3MQLOtMZMvSGbEtQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="69461238"
-X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="69461238"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2025 03:58:15 -0800
-X-CSE-ConnectionGUID: DDZC4bIYQp+trjGu7cHAQg==
-X-CSE-MsgGUID: DAiXZrWSRBaeEJtqCdCg1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="194248441"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO [10.245.245.167])
- ([10.245.245.167])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2025 03:58:12 -0800
-Message-ID: <6041d6599faf58c4f0d1d2bdbaa93227f787fbe5.camel@linux.intel.com>
-Subject: Re: [PATCH] xe: fix drm_gpusvm_init() arguments
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Arnd Bergmann <arnd@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matthew
- Auld <matthew.auld@intel.com>,  Matthew Brost <matthew.brost@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Lucas De Marchi
- <demarchi@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Himal Prasad Ghimiray	
- <himal.prasad.ghimiray@intel.com>, Francois Dugast
- <francois.dugast@intel.com>, 	intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, 	linux-kernel@vger.kernel.org
-Date: Thu, 04 Dec 2025 12:58:08 +0100
-In-Reply-To: <20251204094704.1030933-1-arnd@kernel.org>
-References: <20251204094704.1030933-1-arnd@kernel.org>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+ [209.85.214.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B00A610E931
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 12:08:31 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id
+ d9443c01a7336-2980d9b7df5so10232445ad.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 04:08:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764850111; x=1765454911; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=b9KaknhTYA7we8L7tbWOYdBApVf4+OuKI4DN15w2EF0=;
+ b=O/NL346llEEJ3l11qc4fYxr6+2NcOsGOIdNbF3aKc1o3o4ShBQJ8XUs9ixmx4whyy0
+ 7OnBz/NyH/yMiq7HDyhLVOM+jSRC1lRKLofPj5BVTvTBEeXfaJAB3ruzWr6B9FdDmM7Q
+ WMUTUbeghO2LWPr72aUqKgE62V75CRHjW5bd6R8Eb2i3/MhiJOZAS1C7HsI5V6PsQIgh
+ 9B0tbi6ArA9SWNvs35wqBGdecFE59b66zfv2qj2jqc8sZJhKcIcD0mi8Q6JpM5OLDAB3
+ PrUcxs7teJstegh6W5dy59gEESIYDf1AzuUb8XZsuh+YBold4oevvFzB4vZTedlrTyhB
+ ElfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764850111; x=1765454911;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=b9KaknhTYA7we8L7tbWOYdBApVf4+OuKI4DN15w2EF0=;
+ b=EJ3PbNC5H4gfUNgZ32ApGmHcqY+WmhERc1zHz0yBP3WiWI3ge0NUicN6XQG+DzLm+X
+ FSX6Dy8uRnI9UvB/QSYoh+BokQv+zxCCmn3src4afD90GfY2lKKW9NwgDQBXwkUhnt6Y
+ UVM39JBb8+HHbvcjuHUnzOJiuBMHyhpcvK3bRkt4g5JKZ3UyTtLfQHntpnvH6wYScJcY
+ WRuyYrGOYQkan/Ju1rkGjMldvrcxc+e0Rdk/QYx2/bUzpS4nc0TUkwnNFUQPnK7bMG6n
+ HV4HXNJtvP8IkosRy0Sxj+U8qBP8q77wagKdmECCvaQOjJBLorSbrXkRAmKwUfZh2+Cu
+ MLHA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX7X7RJzdOl99mjpET3+1qv47VL151c1kuIWatiNhDqIzsNpaICBOqD6LQKf39/zdp2alT+raq9Y3I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxeP2aGAlEMrYqhtX88LW6R5G2BfYfsTKOXjhj7ZO//09voB4ms
+ tv2IQeymiXlUVt7xJXrxHhl4rGzXE0n0HcPuSxKE2HR+8gXyPC6chPEE
+X-Gm-Gg: ASbGnctAf0wMcFHm3/kLtHrbcoAo1Grc+8s+sR9tdck0SUuC1yY9ACwKKwS2QE2IAfl
+ +wbo26g6Tr6ZlE1acWDL+F6gRT4j11+Zf/+3EI/KsCbBtF1oggAzQerheRSM8e+QJSLSxP0kH3E
+ kA6uIkJsetLXCKSu9j7YgTcOkDSBEB3bhsYlMkihgTxRbGaDlXI1qbbnRbVVQ/OfdEenk24vZv0
+ JxqIBy173taIsAK3wMepJAWIiIHnr+jE/HLK7GEQkQqM0zuDNbbHcnjaUiDnCeWeGgUoZImUhSm
+ PlPsTZB2P+vBmAVmRMdD3WVAw4wCmjmut2Y6mzl2pmRI3iPGIbKauDel8JyWuvTaAeKj2RC7AC4
+ pqcE5yi/+KTV5iv1nvREM6JjnCpHwnXGaRVAwZ8YiNqA6t37hqoUIQkinJFUtKskkh0aVOYkHTQ
+ rt9Ae+6q0DAEFN
+X-Google-Smtp-Source: AGHT+IGgnfLkR8h/ZDEH0zcyut45P3flGlGTcJqAlGQmerA42Y/lhM13y2pCi+VHgv7Q5gX7l8a4rQ==
+X-Received: by 2002:a17:903:1ae8:b0:295:7b8c:661c with SMTP id
+ d9443c01a7336-29d683131e9mr77831675ad.26.1764850111169; 
+ Thu, 04 Dec 2025 04:08:31 -0800 (PST)
+Received: from archlinux ([36.255.84.61]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29daeaaba2dsm18586635ad.69.2025.12.04.04.08.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Dec 2025 04:08:30 -0800 (PST)
+From: Madhur Kumar <madhurkumar004@gmail.com>
+To: lyude@redhat.com,
+	dakr@kernel.org
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+ Madhur Kumar <madhurkumar004@gmail.com>
+Subject: [PATCH v2] drm/nouveau : refactor deprecated strcpy
+Date: Thu,  4 Dec 2025 17:38:22 +0530
+Message-ID: <20251204120822.17502-1-madhurkumar004@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251204114021.36719-1-madhurkumar004@gmail.com>
+References: <20251204114021.36719-1-madhurkumar004@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,59 +92,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVGh1LCAyMDI1LTEyLTA0IGF0IDEwOjQ2ICswMTAwLCBBcm5kIEJlcmdtYW5uIHdyb3RlOgo+
-IEZyb206IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+Cj4gCj4gVGhlIFhlIGRyaXZlciBm
-YWlscyB0byBidWlsZCB3aGVuIENPTkZJR19EUk1fWEVfR1BVU1ZNIGlzIGRpc2FibGVkCj4gYnV0
-IENPTkZJR19EUk1fR1BVU1ZNIGlzIHR1cm5lZCBvbiwgamR1ZSB0byB0aGUgY2xhc2ggb2YgdHdv
-IGNvbW1pdHM6CgpzL2pkdWUvZHVlLwoKPiAKPiBJbiBmaWxlIGluY2x1ZGVkIGZyb20gZHJpdmVy
-cy9ncHUvZHJtL3hlL3hlX3ZtX21hZHZpc2UuYzo4Ogo+IGRyaXZlcnMvZ3B1L2RybS94ZS94ZV9z
-dm0uaDogSW4gZnVuY3Rpb24gJ3hlX3N2bV9pbml0JzoKPiBpbmNsdWRlL2xpbnV4L3N0ZGRlZi5o
-Ojg6MTQ6IGVycm9yOiBwYXNzaW5nIGFyZ3VtZW50IDUgb2YKPiAnZHJtX2dwdXN2bV9pbml0JyBt
-YWtlcyBpbnRlZ2VyIGZyb20gcG9pbnRlciB3aXRob3V0IGEgY2FzdCBbLVdpbnQtCj4gY29udmVy
-c2lvbl0KPiBkcml2ZXJzL2dwdS9kcm0veGUveGVfc3ZtLmg6MjE3OjM4OiBub3RlOiBpbiBleHBh
-bnNpb24gb2YgbWFjcm8KPiAnTlVMTCcKPiDCoCAyMTcgfMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIE5VTEwsIE5VTEwsIDAsIDAs
-IDAsIE5VTEwsCj4gTlVMTCwgMCk7Cj4gwqDCoMKgwqDCoCB8wqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXn5+
-fgo+IEluIGZpbGUgaW5jbHVkZWQgZnJvbSBkcml2ZXJzL2dwdS9kcm0veGUveGVfYm9fdHlwZXMu
-aDoxMSwKPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmcm9tIGRyaXZlcnMvZ3B1
-L2RybS94ZS94ZV9iby5oOjExLAo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZy
-b20gZHJpdmVycy9ncHUvZHJtL3hlL3hlX3ZtX21hZHZpc2UuYzoxMToKPiBpbmNsdWRlL2RybS9k
-cm1fZ3B1c3ZtLmg6MjU0OjM1OiBub3RlOiBleHBlY3RlZCAnbG9uZyB1bnNpZ25lZCBpbnQnCj4g
-YnV0IGFyZ3VtZW50IGlzIG9mIHR5cGUgJ3ZvaWQgKicKPiDCoCAyNTQgfMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdW5zaWduZWQgbG9uZyBtbV9zdGFydCwgdW5zaWdu
-ZWQgbG9uZwo+IG1tX3JhbmdlLAo+IMKgwqDCoMKgwqAgfMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgfn5+fn5+fn5+fn5+fn5efn5+fn5+fgo+IEluIGZpbGUgaW5jbHVk
-ZWQgZnJvbSBkcml2ZXJzL2dwdS9kcm0veGUveGVfdm1fbWFkdmlzZS5jOjE0Ogo+IGRyaXZlcnMv
-Z3B1L2RybS94ZS94ZV9zdm0uaDoyMTY6MTY6IGVycm9yOiB0b28gbWFueSBhcmd1bWVudHMgdG8K
-PiBmdW5jdGlvbiAnZHJtX2dwdXN2bV9pbml0JzsgZXhwZWN0ZWQgMTAsIGhhdmUgMTEKPiDCoCAy
-MTYgfMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIGRybV9ncHVzdm1faW5pdCgmdm0tPnN2bS5ncHVz
-dm0sICJYZSBTVk0KPiAoc2ltcGxlKSIsICZ2bS0+eGUtPmRybSwKPiDCoMKgwqDCoMKgIHzCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXn5+fn5+fn5+fn5+fn5+Cj4gwqAgMjE3IHzCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBOVUxMLCBOVUxMLCAwLCAwLCAwLCBOVUxMLAo+IE5VTEwsIDApOwo+IMKgwqDCoMKgwqAKPiB8
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgfgo+IGluY2x1ZGUvZHJtL2RybV9ncHVzdm0uaDoyNTE6NTogbm90ZTog
-ZGVjbGFyZWQgaGVyZQo+IAo+IEFkYXB0IHRoZSBjYWxsZXIgdG8gdGhlIG5ldyBhcmd1bWVudCBs
-aXN0IGJ5IHJlbW92aW5nIHRoZSBleHRyYW5lb3VzCj4gTlVMTCBhcmd1bWVudC4KPiAKPiBGaXhl
-czogOWU5Nzg3NDE0ODgyICgiZHJtL3hlL3VzZXJwdHI6IHJlcGxhY2UgeGVfaG1tIHdpdGggZ3B1
-c3ZtIikKPiBGaXhlczogMTBhYTVjODA2MDMwICgiZHJtL2dwdXN2bSwgZHJtL3hlOiBGaXggdXNl
-cnB0ciB0byBub3QgYWxsb3cKPiBkZXZpY2UgcHJpdmF0ZSBwYWdlcyIpCj4gU2lnbmVkLW9mZi1i
-eTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4KClRoYW5rcywKClJldmlld2VkLWJ5OiBU
-aG9tYXMgSGVsbHN0csO2bSA8dGhvbWFzLmhlbGxzdHJvbUBsaW51eC5pbnRlbC5jb20+CgpJJ2xs
-IHdhaXQgZm9yIENJIGJlZm9yZSBjb21taXRpbmcuIApGb3IgdGhlIGFib3ZlIHR5cG8sIERvIHlv
-dSB3YW50IHRvIHJlc3VibWl0IG9yIHNob3VsZCBJIGZpeCB1cCB3aGVuCmNvbW1pdHRpbmc/CgpU
-aGFua3MsClRob21hcwoKCgo+IC0tLQo+IMKgZHJpdmVycy9ncHUvZHJtL3hlL3hlX3N2bS5oIHwg
-MiArLQo+IMKgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4g
-Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS94ZS94ZV9zdm0uaAo+IGIvZHJpdmVycy9n
-cHUvZHJtL3hlL3hlX3N2bS5oCj4gaW5kZXggMDk1NWQyYWM4ZDc0Li5mYTc1N2RkMDc5NTQgMTAw
-NjQ0Cj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3hlL3hlX3N2bS5oCj4gKysrIGIvZHJpdmVycy9n
-cHUvZHJtL3hlL3hlX3N2bS5oCj4gQEAgLTIxNCw3ICsyMTQsNyBAQCBpbnQgeGVfc3ZtX2luaXQo
-c3RydWN0IHhlX3ZtICp2bSkKPiDCoHsKPiDCoCNpZiBJU19FTkFCTEVEKENPTkZJR19EUk1fR1BV
-U1ZNKQo+IMKgCXJldHVybiBkcm1fZ3B1c3ZtX2luaXQoJnZtLT5zdm0uZ3B1c3ZtLCAiWGUgU1ZN
-IChzaW1wbGUpIiwKPiAmdm0tPnhlLT5kcm0sCj4gLQkJCcKgwqDCoMKgwqDCoCBOVUxMLCBOVUxM
-LCAwLCAwLCAwLCBOVUxMLCBOVUxMLCAwKTsKPiArCQkJwqDCoMKgwqDCoMKgIE5VTEwsIDAsIDAs
-IDAsIE5VTEwsIE5VTEwsIDApOwo+IMKgI2Vsc2UKPiDCoAlyZXR1cm4gMDsKPiDCoCNlbmRpZgoK
+strcpy() has been deprecated because it performs no bounds checking on the
+destination buffer, which can lead to buffer overflows. Use the safer
+strscpy() instead.
 
+Signed-off-by: Madhur Kumar <madhurkumar004@gmail.com>
+---
+changes in v2:
+ - Remove the size parameter from strscpy
+
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+index 869d4335c0f4..4a193b7d6d9e 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+@@ -183,11 +183,11 @@ nouveau_fence_context_new(struct nouveau_channel *chan, struct nouveau_fence_cha
+ 	fctx->context = drm->runl[chan->runlist].context_base + chan->chid;
+ 
+ 	if (chan == drm->cechan)
+-		strcpy(fctx->name, "copy engine channel");
++		strscpy(fctx->name, "copy engine channel");
+ 	else if (chan == drm->channel)
+-		strcpy(fctx->name, "generic kernel channel");
++		strscpy(fctx->name, "generic kernel channel");
+ 	else
+-		strcpy(fctx->name, cli->name);
++		strscpy(fctx->name, cli->name);
+ 
+ 	kref_init(&fctx->fence_ref);
+ 	if (!priv->uevent)
+-- 
+2.52.0
 
