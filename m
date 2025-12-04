@@ -2,47 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 125C0CA30CD
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 10:42:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADAA9CA30E8
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 10:44:11 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 55E4810E1CC;
-	Thu,  4 Dec 2025 09:42:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0652610E8F5;
+	Thu,  4 Dec 2025 09:44:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="giklFLO4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TGkivWV2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A906710E1CC;
- Thu,  4 Dec 2025 09:42:00 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D913710E8F5;
+ Thu,  4 Dec 2025 09:44:08 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 68A8D43FAB;
- Thu,  4 Dec 2025 09:42:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72E91C113D0;
- Thu,  4 Dec 2025 09:41:57 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id B274E43446;
+ Thu,  4 Dec 2025 09:44:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63216C4CEFB;
+ Thu,  4 Dec 2025 09:44:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764841320;
- bh=kD+qJAqVxFMhhe2jPl9GIafOGfGtCPN4iVsdl++V/HY=;
+ s=k20201202; t=1764841448;
+ bh=zJYjkLwhKv4+fsVtmZeb/zzmVmKPn4lEwq6nm9Ahoxw=;
  h=From:To:Cc:Subject:Date:From;
- b=giklFLO4ISSaFeZIx89BIbiPz18a7qKOiaSW+RYLdgFIk6Y/BtMm6WBqGmgh2t4Km
- 6/b+Or1bMPWvagS72zeN/ydWN4FLq7SqZddkbOb/PH8oXdnSNLY8TK+8DQLi9Qz6Z6
- wQkVIrPR31r3pM10NMLYDH8eNDUMLvmEACEsLO7uK9deh/5bl9OyNMLE3KqSs8f3Oa
- aawLySIb7CbddEBQS/NFEvnFuvKKufVsJ+I/FQ5l0nNKBpfwighCVRyaclA/5ZmybK
- jcmewIxgxMtfOoGZ7VcI53dH6L19m0Qwor2LkZDnaSnFxGycYGdUdFmwfTFkvTuCe6
- rKbRnwVed68uQ==
+ b=TGkivWV2vcASpTl6aBgXz7aIjmR9n6D6UN6qnFoWYFZ1RGKpnRVn+MDsaxvYbJ2hS
+ PguutkyxDe6JeJj1VnOzysDUt/B7WzYLDAWIKhg4cJ0nlDbvEPiUfXrPlDLMvWaDFG
+ mg/yJDHHPp0HNa6KQmDFze1c7eTnlcz3h/0QvUq4gZRnL/kpz75KZZvKn2TEMCQP2U
+ 6+G+c4xNaxPAeDerpnC6SliK6tbKdxZ3uK5wBTgNd4hTUD5HHFd9E61DRIaD0oXXsV
+ 6h8DzqRyHe6h0EH6WTu/uPnt1367WnXYnnWEB0/w8N4rLgiwP9Se2eDG/cO6Y/GuBr
+ fY3ZnXiFS4qZg==
 From: Arnd Bergmann <arnd@kernel.org>
-To: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <demarchi@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
- Riana Tauro <riana.tauro@intel.com>, intel-xe@lists.freedesktop.org,
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Mika Kahola <mika.kahola@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Ankit Nautiyal <ankit.k.nautiyal@intel.com>,
+ Suraj Kandpal <suraj.kandpal@intel.com>,
+ =?UTF-8?q?Jouni=20H=C3=B6gander?= <jouni.hogander@intel.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/xe/pf: fix VFIO link error
-Date: Thu,  4 Dec 2025 10:41:36 +0100
-Message-Id: <20251204094154.1029357-1-arnd@kernel.org>
+Subject: [PATCH] drm/i915/display: Avoid nonliteral printf format string
+Date: Thu,  4 Dec 2025 10:43:51 +0100
+Message-Id: <20251204094401.1029917-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,46 +66,53 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-The Makefile logic for building xe_sriov_vfio.o was added incorrectly,
-as setting CONFIG_XE_VFIO_PCI=m means it doesn't get included into a
-built-in xe driver:
+pipe_config_mismatch() takes a printf-style format string and arguments,
+not a constant string, so this trigers -Wformat warnings when they are
+not disabled:
 
-ERROR: modpost: "xe_sriov_vfio_stop_copy_enter" [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-ERROR: modpost: "xe_sriov_vfio_stop_copy_exit" [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-ERROR: modpost: "xe_sriov_vfio_suspend_device" [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-ERROR: modpost: "xe_sriov_vfio_wait_flr_done" [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-ERROR: modpost: "xe_sriov_vfio_error" [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-ERROR: modpost: "xe_sriov_vfio_resume_data_enter" [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-ERROR: modpost: "xe_sriov_vfio_resume_device" [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-ERROR: modpost: "xe_sriov_vfio_resume_data_exit" [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-ERROR: modpost: "xe_sriov_vfio_data_write" [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-ERROR: modpost: "xe_sriov_vfio_migration_supported" [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-WARNING: modpost: suppressed 3 unresolved symbol warnings because there were too many)
+drivers/gpu/drm/i915/display/intel_display.c: In function 'pipe_config_cx0pll_mismatch':
+drivers/gpu/drm/i915/display/intel_display.c:4997:9: error: format not a string literal and no format arguments [-Werror=format-security]
+ 4997 |         pipe_config_mismatch(p, fastset, crtc, name, chipname);
+      |         ^~~~~~~~~~~~~~~~~~~~
 
-Check for CONFIG_XE_VFIO_PCI being enabled in the Makefile to decide whether to
-include the the object instead.
+drivers/gpu/drm/i915/display/intel_display.c: In function 'pipe_config_lt_phy_pll_mismatch':
+drivers/gpu/drm/i915/display/intel_display.c:5027:9: error: format not a string literal and no format arguments [-Werror=format-security]
+ 5027 |         pipe_config_mismatch(p, fastset, crtc, name, chipname);
+      |         ^~~~~~~~~~~~~~~~~~~~
 
-Fixes: 17f22465c5a5 ("drm/xe/pf: Export helpers for VFIO")
+Use either the string literal or the trivial "%s" format so the compiler can
+prove this to be used correctly.
+
+Fixes: 45fe957ae769 ("drm/i915/display: Add compare config for MTL+ platforms")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/xe/Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-index dfc2ded01455..e5f3c2ec9e9a 100644
---- a/drivers/gpu/drm/xe/Makefile
-+++ b/drivers/gpu/drm/xe/Makefile
-@@ -185,8 +185,8 @@ xe-$(CONFIG_PCI_IOV) += \
- 	xe_sriov_pf_sysfs.o \
- 	xe_tile_sriov_pf_debugfs.o
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 7b4fd18c60e2..83025d5a4aa9 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -4987,7 +4987,7 @@ pipe_config_cx0pll_mismatch(struct drm_printer *p, bool fastset,
+ 	struct intel_display *display = to_intel_display(crtc);
+ 	char *chipname = a->use_c10 ? "C10" : "C20";
  
--ifeq ($(CONFIG_PCI_IOV),y)
--	xe-$(CONFIG_XE_VFIO_PCI) += xe_sriov_vfio.o
-+ifdef CONFIG_XE_VFIO_PCI
-+	xe-$(CONFIG_PCI_IOV) += xe_sriov_vfio.o
- endif
+-	pipe_config_mismatch(p, fastset, crtc, name, chipname);
++	pipe_config_mismatch(p, fastset, crtc, name, "%s", chipname);
  
- # include helpers for tests even when XE is built-in
+ 	drm_printf(p, "expected:\n");
+ 	intel_cx0pll_dump_hw_state(display, a);
+@@ -5022,9 +5022,8 @@ pipe_config_lt_phy_pll_mismatch(struct drm_printer *p, bool fastset,
+ 				const struct intel_lt_phy_pll_state *b)
+ {
+ 	struct intel_display *display = to_intel_display(crtc);
+-	char *chipname = "LTPHY";
+ 
+-	pipe_config_mismatch(p, fastset, crtc, name, chipname);
++	pipe_config_mismatch(p, fastset, crtc, name, "LTPHY");
+ 
+ 	drm_printf(p, "expected:\n");
+ 	intel_lt_phy_dump_hw_state(display, a);
 -- 
 2.39.5
 
