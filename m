@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1878BCA273A
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 07:07:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A25ECA273D
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 07:07:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 742BD10E1BF;
-	Thu,  4 Dec 2025 06:06:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD11410E841;
+	Thu,  4 Dec 2025 06:07:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mQYwd2N5";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cgKlePJp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 857EB10E1BA
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 06:06:56 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-64312565c10so739874a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 22:06:56 -0800 (PST)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+ [209.85.208.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4C9F10E83B
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 06:06:57 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id
+ 4fb4d7f45d1cf-640860f97b5so690905a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 22:06:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764828415; x=1765433215; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1764828416; x=1765433216; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CS1qvZ66jY4Y+/VjejeV3GAhiKWhtdvuL8aLYEGuxs0=;
- b=mQYwd2N5EYPvCPv1MwWZBNtgudCpP4K6vdklVf4OznAASz8zJ4b4DgiEpeDQJ9n2ww
- Yj+Z9pqzihGIWaUHnYiY0ghxVPIxp1yIWZN+hqGdFdxnsz7sqwjCsI8lLUKa0VPfCAxm
- fheMnuNXPJXy70B2+htFIFWw3NQzzTr54Hnwt+NkFO1cPH7B/Xuya8FqNg+du51QGuQB
- 5QyfUKvBrMTLJMBk1yTypVImOemgoXZCfHnlQiA8jsLco4bITiNl+8yEY6lkDHqzgWlZ
- 8icf47Gn9l1WaftnI9599N/dcCAQkuFpAeubcHuPw7z3BkaRwpEhyKrjhbasS4IlotqO
- UL8w==
+ bh=0NlbLfnaH1AYI1Kzf2XAYKDUFV4VkFnG/ReSb+d8FKY=;
+ b=cgKlePJpg4MY2077B1XSI/rG+wPd4k+2skoXxTvaq+HEUWvboGf7zFQYUIhAAhF/WK
+ 66A8HFBUl8dX1oV8ksDvFsG5w0fn0nt4XQmUV/II+RLFezV3TtK7OsR8aQwMsEdll08U
+ snYFPIRoHyCXrRkBfI+0sOghc1VyEsw/6Ic1PdX0+MIHfyC/CGj2spRRO8s89Zn0/3fj
+ yGs05azVYUh9ETRuXJv5dvdOS1TMJq3w3xQc+cvVsBuUMSSGcP6iDeUiJjS0y0OnJa0f
+ bZPAcxLiIhRbLZUyEBC12TrTuWkA+kKq/Wk6EkGXidFcESPKMe/rHUz208Es9IG1QIPr
+ znwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764828415; x=1765433215;
+ d=1e100.net; s=20230601; t=1764828416; x=1765433216;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=CS1qvZ66jY4Y+/VjejeV3GAhiKWhtdvuL8aLYEGuxs0=;
- b=rd2bYlwJWiVNEkDo/z8mfefkidQn0DOn5tAw1zheDBGw3yoBA4NzfnHKkckRII2DDS
- KgyRQsXNI6whNBKs1hXX5De2m6yYUTa1ckJH8BEQ2DngofmDSPzvgVhVySz/a/kYnCwg
- VKj6knt+oa1E5q2ltESY7HFRv0wwIrJcBRjqChsbcZOzQuBY3zHUyUG3klGh9DhaCxzo
- oIkvhzgVGW7bXlk896Y8wIkmIQ6JqHutf1nLb1TQhVE36E+1GbVvk/5MytQ7UL+Qvyid
- KcnW07HU6EVGIiVWLg617VJj8o5hjMRd2D5lsnxmtd8nG2pcdzwWVvttzHTKkoVX8wL/
- O7LQ==
-X-Gm-Message-State: AOJu0Yzv4kB2KufY4AobcsKWUGBAq7l6h6FzRPQxntXAULR/hIBZ3CP5
- N9f7Xon8xfEzdMbZIyIcoL0lFH5uOF6tz0VLXZj/ikRrPBx53CakG+J2
-X-Gm-Gg: ASbGncvYw6aX1d5/mH9DOXaqnvuwWL30ZbbGlPUosQdkE3zycCxE2X34bSso1I2pofq
- kt9XvbeQumCskbe58Hhh/ji36nbK4TOkN+VVgepEM/vNCAF0l5uPgDkkinfY4NL3+8b93eo8us0
- t5zBE4GrrSXGGOfCUPs+p4oUXDg/XvBoUhT5SC5mHH+jc6XvILefu3ZjbTJqUS5nJHd5H+UyDbP
- zeN3A4cMtFGo/6aNvRLflsZHATWWh6LzNgafThsdDd5GMha8FJn871Q7nTA0Ce4dbAXnPmyTIwU
- YGjMaW7RTY0Ot7eg6Apk4nttIS3TP8bzisGMQsaWUhyaMawUAq3oTM83uWWjiGv9jKrjUkHu0KI
- I8J7qzlYviy9LDSzUjWb+l0a6XWSD3ChhGTDH3o+DraHiNnyjiUw80TpY6JiWfLlu6NvmVKQG/d
- c=
-X-Google-Smtp-Source: AGHT+IE+Fr6H1WVOFv89mmmcteyvoUreGk+YgPA8+X76Lo5K3YtT982xGzt2fTbBOqBAgi8GNeopNA==
-X-Received: by 2002:a05:6402:274b:b0:640:b3c4:c22 with SMTP id
- 4fb4d7f45d1cf-647abdd3177mr1426616a12.18.1764828414907; 
- Wed, 03 Dec 2025 22:06:54 -0800 (PST)
+ bh=0NlbLfnaH1AYI1Kzf2XAYKDUFV4VkFnG/ReSb+d8FKY=;
+ b=FQzJyi8em7leG3Ob1n5XtWs8qi3MkBY9fILpjDkGpoxvx5cSciJu1xGPY62a2Mhrqn
+ TqHDghJTL6lj2ilXJZksSt8PGTRssi65sqhvQaQAnKpmkdTIZbHzC6XEt+FuOqWyupQU
+ EFdGFjc1JXqo5ikxPGGr5N6xAr3RwI1SxPP3QIez9U/cPQW7I72gQJaHdGYXIp7T/aY5
+ Hdr334x5M2RwxMJuHzW8fuzZkCQZ6IpzX8xNtnFS9CX4sVIJYn7uDitAUqOnCjVfaiCb
+ WZopSZUtplvQrY2gfxqK0GiR74ZUXblgmrM9EJKh0LRwpI3rbEcIcSXaOASBO+z3mcyK
+ /r+A==
+X-Gm-Message-State: AOJu0YxTDPxBFxUAiSkLS1Qqhl9lRI+DHFV+eYHZVZgRcRVUYc5bgPqR
+ 2MTLDNRxEB7dYvQV+d+2E10Rmq0MD6sjBigAmZHib5bP2PtQQ8pPRA20
+X-Gm-Gg: ASbGncvXAJo/I7LRKTnf2ejeAuGdIuZgjJ+LcR0UEDdgefeAAOyIiJoxzxBYD4GbOR5
+ ex90a3sXZ/lOjDcWa+E+Aaf5CyDNqD5tX7rt5/Cf0F7B99ltC0YVLjT++YlfUWzw2cv/aabsqxU
+ cOEIzGkoUnuYr39DgatDCudS3dJCJWxEkJBWOejf3lkbv/T6XKiO5dnjrkl2cDkurQjWJAo1Azb
+ eXZAGMNY8J7MKa+rlNy7e2iGqjhgXMreLmUIqdmJ2lnFyumRWeapTvOvR+QcdxK6LMlGdtWXS69
+ LmkTsAJxdMVtJ4xYvKGy28dk8N+gDLA4mN3MVVEp85cXa0FCYE43K8mgjvUiPjEg0mPENnb3rLc
+ ZLYvh+g/Q0B78iB13M6grMaQlniy3Cy5l3KprQthn/O4ahxXp98J5DVOQcxn5Vt9X9VQlSzknEe
+ zJ433L+wbFTA==
+X-Google-Smtp-Source: AGHT+IHyJ5vSGGRsFzAABA0jckI72SrOSeey26WOAYb/OdF0iDanbXw4lY7HsSTswxWolZ3f1U5HAQ==
+X-Received: by 2002:a17:907:1c94:b0:b72:134a:48c8 with SMTP id
+ a640c23a62f3a-b79ec470ca9mr186508566b.14.1764828416001; 
+ Wed, 03 Dec 2025 22:06:56 -0800 (PST)
 Received: from xeon ([188.163.112.74]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-647b2ef7798sm460296a12.15.2025.12.03.22.06.53
+ 4fb4d7f45d1cf-647b2ef7798sm460296a12.15.2025.12.03.22.06.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Dec 2025 22:06:54 -0800 (PST)
+ Wed, 03 Dec 2025 22:06:55 -0800 (PST)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -71,9 +71,10 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
  Svyatoslav Ryhel <clamor95@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v3 3/7 RESEND] ARM: tn7: adjust panel node
-Date: Thu,  4 Dec 2025 08:06:19 +0200
-Message-ID: <20251204060627.4727-4-clamor95@gmail.com>
+Subject: [PATCH v3 4/7 RESEND] dt-bindings: display: panel: document Samsung
+ LTL106AL01 simple panel
+Date: Thu,  4 Dec 2025 08:06:20 +0200
+Message-ID: <20251204060627.4727-5-clamor95@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251204060627.4727-1-clamor95@gmail.com>
 References: <20251204060627.4727-1-clamor95@gmail.com>
@@ -94,52 +95,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Adjust panel node in Tegra Note 7 according to the updated schema.
+Document Samsung LTL106AL01 simple LVDS panel.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- arch/arm/boot/dts/nvidia/tegra114-tn7.dts | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm/boot/dts/nvidia/tegra114-tn7.dts b/arch/arm/boot/dts/nvidia/tegra114-tn7.dts
-index bfbdb345575a..75fbafb4a872 100644
---- a/arch/arm/boot/dts/nvidia/tegra114-tn7.dts
-+++ b/arch/arm/boot/dts/nvidia/tegra114-tn7.dts
-@@ -43,7 +43,9 @@ panel@0 {
- 				compatible = "lg,ld070wx3-sl01";
- 				reg = <0>;
- 
--				power-supply = <&vdd_lcd>;
-+				vdd-supply = <&avdd_lcd>;
-+				vcc-supply = <&dvdd_lcd>;
-+
- 				backlight = <&backlight>;
- 			};
- 		};
-@@ -101,11 +103,10 @@ smps45 {
- 						regulator-boot-on;
- 					};
- 
--					smps6 {
-+					avdd_lcd: smps6 {
- 						regulator-name = "va-lcd-hv";
--						regulator-min-microvolt = <3000000>;
--						regulator-max-microvolt = <3000000>;
--						regulator-always-on;
-+						regulator-min-microvolt = <3160000>;
-+						regulator-max-microvolt = <3160000>;
- 						regulator-boot-on;
- 					};
- 
-@@ -325,7 +326,7 @@ lcd_bl_en: regulator-lcden {
- 		regulator-boot-on;
- 	};
- 
--	vdd_lcd: regulator-lcd {
-+	dvdd_lcd: regulator-lcd {
- 		compatible = "regulator-fixed";
- 		regulator-name = "VD_LCD_1V8";
- 		regulator-min-microvolt = <1800000>;
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 4a5ca013d0db..adb244460a09 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -274,6 +274,8 @@ properties:
+       - rocktech,rk043fn48h
+         # Samsung Electronics 10.1" WXGA (1280x800) TFT LCD panel
+       - samsung,ltl101al01
++        # Samsung Electronics 10.6" FWXGA (1366x768) TFT LCD panel
++      - samsung,ltl106al01
+         # Samsung Electronics 10.1" WSVGA TFT LCD panel
+       - samsung,ltn101nt05
+         # Satoz SAT050AT40H12R2 5.0" WVGA TFT LCD panel
 -- 
 2.48.1
 
