@@ -2,65 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0645CCA335C
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 11:26:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BC9CA340D
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 11:40:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2093410E90E;
-	Thu,  4 Dec 2025 10:26:44 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EXHuvwVw";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C20610E914;
+	Thu,  4 Dec 2025 10:40:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEAFD10E8D8;
- Thu,  4 Dec 2025 10:26:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764844003; x=1796380003;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=CDuXg1gR8PMLq7Xf2ggOf7LFWCQJhOqps2N6L7CvgV4=;
- b=EXHuvwVw9UcSw9rv3ZCFyHXhx7dC4EMeTHIbzL3eK7NBQmKsiJ1aoA//
- k5XDvKleWK51LbjeTF18MTkcNO27XkmjPA8T1LFEe2hl+z12VasgW3LB5
- s6PgVZ54ZYBVXv803VVFCdA87gXLJhcqsP7ePawu8+FZezsmrWqdjiLle
- gUCSOCGW6z+jCltv1TWiJ2/k9vqSAQPTsSFUqt6bl2zSKxkifYPjg6vcc
- ZJ76Hh6Do59Et/8V9H4YjnMWVriTPkRG97C/tuayHxvnjzxyXQjulYeK6
- UUSTAGMbfnCSpjt2sJvYJrq5DKCw4Rjj8R9nm9DAHjJa3Uqp8wGgpOU4F w==;
-X-CSE-ConnectionGUID: +vM0ULWNS/mnqiw2t9naig==
-X-CSE-MsgGUID: AQ5kl0dgSi24/bbfbUhMTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="84460994"
-X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="84460994"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2025 02:26:42 -0800
-X-CSE-ConnectionGUID: ArnHlBx8TNWiwclw+gR6Xw==
-X-CSE-MsgGUID: jhRM3qpMTZyXwb4u64Z0GA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="225906223"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.11])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2025 02:26:37 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Arnd Bergmann <arnd@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Mika Kahola <mika.kahola@intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Ville =?utf-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>, Ankit Nautiyal
- <ankit.k.nautiyal@intel.com>, Suraj Kandpal <suraj.kandpal@intel.com>,
- Jouni =?utf-8?Q?H=C3=B6gander?= <jouni.hogander@intel.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/i915/display: Avoid nonliteral printf format string
-In-Reply-To: <20251204094401.1029917-1-arnd@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251204094401.1029917-1-arnd@kernel.org>
-Date: Thu, 04 Dec 2025 12:26:34 +0200
-Message-ID: <7579ed96424f51f171bee13f387f68c96f2d8a62@intel.com>
+Received: from ssh248.corpemail.net (ssh248.corpemail.net [210.51.61.248])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D8AC10E914
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 10:40:19 +0000 (UTC)
+Received: from inspur.com
+ by ssh248.corpemail.net ((D)) with ESMTP id 202512041840141343
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 18:40:14 +0800
+Received: from localhost.localdomain.com (unknown [10.94.6.254])
+ by app5 (Coremail) with SMTP id bQJkCsDweE4GZTFpe1AFAA--.2158S4;
+ Thu, 04 Dec 2025 18:40:10 +0800 (CST)
+From: Chu Guangqing <chuguangqing@inspur.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Chu Guangqing <chuguangqing@inspur.com>
+Subject: [PATCH v12 0/1] [DRIVER] gpu: drm: add support for YHGCH ZX1000 soc
+ chipset
+Date: Thu,  4 Dec 2025 18:39:05 +0800
+Message-ID: <20251204103907.52873-1-chuguangqing@inspur.com>
+X-Mailer: git-send-email 2.43.7
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: bQJkCsDweE4GZTFpe1AFAA--.2158S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxGFW5Xr4kXr4xWw13CrW7Arb_yoWrtryfpF
+ 47CFyYkr1UKF4ay3s3ta1xZFy3tw4xJFW3Gwn7Jw13uw4UZFy7ZFZYy34Y9F9rJF97Ja1j
+ qrn3XF1SgF17AaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl
+ 6s0DM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
+ 6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+ 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
+ 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+ WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+ IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbSfO7UUUU
+ U==
+X-CM-SenderInfo: 5fkxw35dqj1xlqj6x0hvsx2hhfrp/
+tUid: 20251204184014080ddd873a5a138d27698b31db77901e
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,65 +68,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 04 Dec 2025, Arnd Bergmann <arnd@kernel.org> wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> pipe_config_mismatch() takes a printf-style format string and arguments,
-> not a constant string, so this trigers -Wformat warnings when they are
-> not disabled:
->
-> drivers/gpu/drm/i915/display/intel_display.c: In function 'pipe_config_cx0pll_mismatch':
-> drivers/gpu/drm/i915/display/intel_display.c:4997:9: error: format not a string literal and no format arguments [-Werror=format-security]
->  4997 |         pipe_config_mismatch(p, fastset, crtc, name, chipname);
->       |         ^~~~~~~~~~~~~~~~~~~~
->
-> drivers/gpu/drm/i915/display/intel_display.c: In function 'pipe_config_lt_phy_pll_mismatch':
-> drivers/gpu/drm/i915/display/intel_display.c:5027:9: error: format not a string literal and no format arguments [-Werror=format-security]
->  5027 |         pipe_config_mismatch(p, fastset, crtc, name, chipname);
->       |         ^~~~~~~~~~~~~~~~~~~~
->
-> Use either the string literal or the trivial "%s" format so the compiler can
-> prove this to be used correctly.
->
-> Fixes: 45fe957ae769 ("drm/i915/display: Add compare config for MTL+ platforms")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+v12:
+ - Add header files to fix compilation errors.
 
-Unfortunately, this no longer applies to
-drm-intel-next. pipe_config_cx0pll_mismatch() no longer exists. The 2nd
-hunk is still valid, though, want to send a rebased version?
+v11:
+ - For header files: Alphabetical sorting
+ - remove test for visibility
+ - add drm_gem_fb_begin_cpu_access to tell device when accessing the
+   buffer
+ - remove write to fb->patches
+ - use drm_format_info_min_pitch instead cpp
+ - change to One format per line 
+ - remove yhgch_crtc_atomic_begin function
+ - make yhgch_dumb_create static function
+ - add drm_mode_size_dumb(dev, args, SZ_16, 0) call
+ - remove dev->mode_config.prefer_shadow = 1
+ - make connector polling work
+ - Modify yhgch_connector_get_modes function for EDID access and prevent double free
+ (https://lore.kernel.org/all/20251202022452.2636-1-chuguangqing@inspur.com/)
 
-BR,
-Jani.
+v10:
+ - add drm_edid_free call
+ (https://lore.kernel.org/all/20251014072421.4486-1-chuguangqing@inspur.com/)
 
+v9:
+ - Remove the check that will not occur
+ - Call drm_edid_connector_update to reset when drm_edid is empty.
 
-> ---
->  drivers/gpu/drm/i915/display/intel_display.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> index 7b4fd18c60e2..83025d5a4aa9 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -4987,7 +4987,7 @@ pipe_config_cx0pll_mismatch(struct drm_printer *p, bool fastset,
->  	struct intel_display *display = to_intel_display(crtc);
->  	char *chipname = a->use_c10 ? "C10" : "C20";
->  
-> -	pipe_config_mismatch(p, fastset, crtc, name, chipname);
-> +	pipe_config_mismatch(p, fastset, crtc, name, "%s", chipname);
->  
->  	drm_printf(p, "expected:\n");
->  	intel_cx0pll_dump_hw_state(display, a);
-> @@ -5022,9 +5022,8 @@ pipe_config_lt_phy_pll_mismatch(struct drm_printer *p, bool fastset,
->  				const struct intel_lt_phy_pll_state *b)
->  {
->  	struct intel_display *display = to_intel_display(crtc);
-> -	char *chipname = "LTPHY";
->  
-> -	pipe_config_mismatch(p, fastset, crtc, name, chipname);
-> +	pipe_config_mismatch(p, fastset, crtc, name, "LTPHY");
->  
->  	drm_printf(p, "expected:\n");
->  	intel_lt_phy_dump_hw_state(display, a);
+v8:
+ - Use YHGCH uniformly and add the company's official website.
+
+v7:
+ - Delete the three preceding function definitions
+ - delete Delete the redundant code and comments
+ (https://lore.kernel.org/all/20250929063103.7375-1-chuguangqing@inspur.com/)
+
+v6:
+ - simplify to return drm_atomic_helper_check_plane_state()
+ - remove empty line
+ - remove call drm_probe_ddc and smidebug
+ - replace drm_err with drm_dbg_kms
+ - add callback .disable
+ (https://lore.kernel.org/all/20250928054123.32895-1-chuguangqing@inspur.com/)
+
+v5:
+  - remove extra level of subdiretories, change to driver/gpu/drm/yhgch
+  - remove else from > +        else if (!new_plane_state->visible)
+  - remove extra check in function yhgch_plane_atomic_check
+  - remove the extra parentheses
+  - change the author like other modules
+  - use drm_edit_read function instead drm_get_edit
+  - remove debug info drm_warn call
+  - rename function name smi_connector_helper_detect_from_ddc to
+     yhgch_connector_helper_detect_from_ddc, remove extra return statement.
+  (https://lore.kernel.org/all/20250925091715.12739-1-chuguangqing@inspur.com/)
+
+v4:
+  - remove  VRAM helpers from Kconfig
+  - use the coding style in ast/mgag200 for the DDC
+  - use plane_state->dst instead of crtc_h/w/x/y.
+  - delete duplicate framebuffer's atomic_check.
+  - use FIELD_PREP() directly.
+  - use dev->mode_config.
+  - delete unnecessary drm_atomic_helper_shutdown call
+  - add AUTHOR
+  - using .enable instead
+  (https://lore.kernel.org/all/20250924064954.3921-1-chuguangqing@inspur.com/)
+
+v3:
+  - The order of the code blocks has been adjusted, and the "warn-on" branch
+     has been removed.
+  - removed the related formats for the alpha channel.
+  - removed the atomic_flush function.
+  - have removed the empty line.
+  - have removed the error message here.
+  - replaced it with the drmm_encoder_init function.
+  (https://lore.kernel.org/all/20250910022311.2655-1-chuguangqing@inspur.com/)
+
+v2:
+  - Delete unnecessary comments
+  - Delete unnecessary branch
+  - Use drm_atomic_helper_check_plane_state
+  - remove the alpha formats form this list.
+  - use w,h rather than x, y
+  - delete type casting
+  - use a simple call to drm_atomic_helper_shutdown()
+  - delete yhgch_load function
+  - delete vblanking code
+  - delete unneeded i2c type
+  (https://lore.kernel.org/all/20250903054533.68540-1-chuguangqing@inspur.com/)
+
+v1:
+  (https://lore.kernel.org/all/20250808053508.52202-1-chuguangqing@inspur.com/)
+
+Chu Guangqing (1):
+  [DRIVER] gpu: drm: add support for YHGCH ZX1000 soc chipset
+
+ MAINTAINERS                            |   6 +
+ drivers/gpu/drm/Kconfig                |   2 +
+ drivers/gpu/drm/Makefile               |   1 +
+ drivers/gpu/drm/yhgch/Kconfig          |  11 +
+ drivers/gpu/drm/yhgch/Makefile         |   4 +
+ drivers/gpu/drm/yhgch/yhgch_drm_de.c   | 372 +++++++++++++++++++++++++
+ drivers/gpu/drm/yhgch/yhgch_drm_drv.c  | 315 +++++++++++++++++++++
+ drivers/gpu/drm/yhgch/yhgch_drm_drv.h  |  48 ++++
+ drivers/gpu/drm/yhgch/yhgch_drm_i2c.c  | 114 ++++++++
+ drivers/gpu/drm/yhgch/yhgch_drm_regs.h | 208 ++++++++++++++
+ drivers/gpu/drm/yhgch/yhgch_drm_vdac.c | 132 +++++++++
+ 11 files changed, 1213 insertions(+)
+ create mode 100644 drivers/gpu/drm/yhgch/Kconfig
+ create mode 100644 drivers/gpu/drm/yhgch/Makefile
+ create mode 100644 drivers/gpu/drm/yhgch/yhgch_drm_de.c
+ create mode 100644 drivers/gpu/drm/yhgch/yhgch_drm_drv.c
+ create mode 100644 drivers/gpu/drm/yhgch/yhgch_drm_drv.h
+ create mode 100644 drivers/gpu/drm/yhgch/yhgch_drm_i2c.c
+ create mode 100644 drivers/gpu/drm/yhgch/yhgch_drm_regs.h
+ create mode 100644 drivers/gpu/drm/yhgch/yhgch_drm_vdac.c
 
 -- 
-Jani Nikula, Intel
+2.43.7
+
