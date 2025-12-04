@@ -2,54 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA72CA468E
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 17:09:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D34BFCA46EA
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 17:17:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA0D410E991;
-	Thu,  4 Dec 2025 16:09:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAE3610E9A0;
+	Thu,  4 Dec 2025 16:17:26 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="fbLJpFaI";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id AFDC210E94D;
- Thu,  4 Dec 2025 16:09:19 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E4C6B339;
- Thu,  4 Dec 2025 08:09:11 -0800 (PST)
-Received: from [10.1.38.32] (e122027.cambridge.arm.com [10.1.38.32])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF0863F66E;
- Thu,  4 Dec 2025 08:09:13 -0800 (PST)
-Message-ID: <570b87b8-2ebb-40a9-b9c8-e3923cc30f3d@arm.com>
-Date: Thu, 4 Dec 2025 16:09:11 +0000
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EB5010E995
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 16:17:25 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-477619f8ae5so9848665e9.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 08:17:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1764865043; x=1765469843;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=aNxmDbbdKqIboODXWdbYm3bL1ySA2CUYBdNtl6MTmVk=;
+ b=fbLJpFaILlPVuIhNh4mwx9zkFdbNuGiRomK7KNFDqk+9LLw1IFpB68nkTdoIMfg2ok
+ eG8QsGhMcKcsOUismOQFqgF45gmkyp82TQIriQcTNU4zRUIbkn53ceEHZUTw35YffoTh
+ 7k63oMf24o0nhohvf/T6APN0J/TaCvGfhV0UlrGGWcTcHqlm1pzJ1E5q207GSCYrovWW
+ EhKQtHtTjhIgr8groVl5iK2rJDnXFHqbbpk+/1dYDnIgYJ3hkPMvy25H041foPb9g7Cz
+ kX6LzJnrNyK0YK7wLn1rgqyucWv2QVvkC/7oOIyj43Hyk9yGpp+tTxDWFD30ou8TrgBx
+ Pznw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764865043; x=1765469843;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aNxmDbbdKqIboODXWdbYm3bL1ySA2CUYBdNtl6MTmVk=;
+ b=Qknq/KfMv1S9ADO3BcEDh/Q68IlZRN+TVYmAtNwLc0lSn1iB80zCfwtscR2cK503vo
+ AdJVkmiTxnztmgUNrpb6Y5JLy7d5nUsuEWANJaFtD9VDsUT68cBmUERDcgiaRQbV5M6N
+ 1S1vBPH3+CKNKElK4h47Ryye4ilsF5++O6BfuLWb+ttKR5pLtfkcbL5TY4iWFXBeVArH
+ dIaEd3I8Tgi+8A8DkIOtH2CE7CAwVdTFiEMRiheZJirTkSqK9XzjEuJnyshYgxv8TiZ+
+ Ojjk5P1tmVpIxbcKec7xJJ8g/YEsSU5Mi40ggFUD7OyGdnxiXqYCI6uu0toBYhq4KscB
+ CKSg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWtGMPmlYRbXHObIYtGqigMbuGGpwp/JkZXMO2vS625spsySMmlHpCV501drBBVKdNeyFcUWZE0xw4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwpBV1qAuPRZHs49TF7ZqilObpfwU/oPgKDa/g8zvRR4SNMjl0B
+ AzhS3rJo8BHSxIx/eRR8q4zWZN72s0x35st2DXqmJMT0oR0PxrWEkP8zhL6CD/3kp8M=
+X-Gm-Gg: ASbGnctpW9Xw9f6aHI35jBULKPApwQLLcZqdyso3Dj3JZhSpMwYHO6xoNyI7+MMsbhl
+ /jy3AQ0cmmaWOgPFTV6YTh/6WPpQePHKdbGZGO6oPgm0wumc3+lUYeAoXaMMq4HYEcQue5vdNt7
+ EvEYSkMz38txWRcHJ8mVuitptFONLbWqASYVUDirUepPLB2va9zSvP4oCevAofx9ZSEHyuZtdsg
+ oL+S1uJOaV7tuTM9aImIGqzH9kePJ6IXmUktIFQRtWpJHUQYNQTKtrSFTdHpkQM1Xu0jILRbsvq
+ BilBL8wv1FyhvZzNjgyxfC3rsnTMVedcAzkVjS0Q6Um22oNHHeI9++HeimC2bCxiyw2uACZWrDZ
+ Pd7N7uV6UEbizeZnmyfNniDpc3NuW+5osy4ISD2UHjOXzg8hY3DMw1JUKt+uhRcMFJUS9YQ5IWY
+ gdA5ULBCb4QrxKqLn/yBFuHHyynqVmccI75910viNVlsCLDTtg74kgMlEtKCQ0f3v0Z6gCxg==
+X-Google-Smtp-Source: AGHT+IH6HRzgtWVSRwk2pLy54f/ZcykaKll9/7ioHYJyiAfAQ0RExVb1Rrhx4JL/zXiO1Ib8Xi1u/g==
+X-Received: by 2002:a05:600c:310c:b0:477:7b9a:bb0a with SMTP id
+ 5b1f17b1804b1-4792af34a44mr65294315e9.21.1764865043101; 
+ Thu, 04 Dec 2025 08:17:23 -0800 (PST)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-42f7d353f8bsm4033746f8f.43.2025.12.04.08.17.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Dec 2025 08:17:22 -0800 (PST)
+Date: Thu, 4 Dec 2025 16:17:20 +0000
+From: Daniel Thompson <daniel@riscstar.com>
+To: maudspierings@gocontroll.com
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6 2/4] backlight: add max25014atg backlight
+Message-ID: <aTG0EK_zuSB-U_bb@aspen.lan>
+References: <20251201-max25014-v6-0-88e3ac8112ff@gocontroll.com>
+ <20251201-max25014-v6-2-88e3ac8112ff@gocontroll.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 10/13] drm/panfrost: Add a PANFROST_SYNC_BO ioctl
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Faith Ekstrand <faith.ekstrand@collabora.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Frank Binns <frank.binns@imgtec.com>,
- Matt Coster <matt.coster@imgtec.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, kernel@collabora.com
-References: <20251203090141.227394-1-boris.brezillon@collabora.com>
- <20251203090141.227394-11-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20251203090141.227394-11-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251201-max25014-v6-2-88e3ac8112ff@gocontroll.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,289 +101,339 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/12/2025 09:01, Boris Brezillon wrote:
-> From: Faith Ekstrand <faith.ekstrand@collabora.com>
-> 
-> This will be used by the UMD to synchronize CPU-cached mappings when
-> the UMD can't do it directly (no usermode cache maintenance instruction
-> on Arm32).
-> 
-> v2:
-> - Add more to the commit message
-> - Change the flags to better match the drm_gem_shmem_sync semantics
-> 
-> v3:
-> - Add Steve's R-b
-> 
-> v4:
-> - No changes
-> 
-> v5:
-> - Drop Steve's R-b (semantics changes requiring a new review)
-> 
-> v6:
-> - Bail out early in panfrost_ioctl_sync_bo() if op_count is zero
-> 
-> v7:
-> - Hand-roll our own bo_sync() helper
-> 
-> Signed-off-by: Faith Ekstrand <faith.ekstrand@collabora.com>
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+On Mon, Dec 01, 2025 at 12:53:21PM +0100, Maud Spierings via B4 Relay wrote:
+> From: Maud Spierings <maudspierings@gocontroll.com>
+>
+> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
+> with integrated boost controller.
+>
+> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+> <snip>
 
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 51 +++++++++++++++
->  drivers/gpu/drm/panfrost/panfrost_gem.c | 84 +++++++++++++++++++++++++
->  drivers/gpu/drm/panfrost/panfrost_gem.h |  2 +
->  include/uapi/drm/panfrost_drm.h         | 45 +++++++++++++
->  4 files changed, 182 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index d650cd138dad..77b0ae5ef000 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -580,6 +580,56 @@ static int panfrost_ioctl_jm_ctx_destroy(struct drm_device *dev, void *data,
->  	return panfrost_jm_ctx_destroy(file, args->handle);
->  }
->  
-> +static int panfrost_ioctl_sync_bo(struct drm_device *ddev, void *data,
-> +				  struct drm_file *file)
+> +static int max25014_check_errors(struct max25014 *maxim)
 > +{
-> +	struct drm_panfrost_sync_bo *args = data;
-> +	struct drm_panfrost_bo_sync_op *ops;
-> +	struct drm_gem_object *obj;
+> +	uint32_t val;
+> +	uint8_t i;
 > +	int ret;
-> +	u32 i;
 > +
-> +	if (args->pad)
-> +		return -EINVAL;
-> +
-> +	if (!args->op_count)
-> +		return 0;
-> +
-> +	ops = kvmalloc_array(args->op_count, sizeof(*ops), GFP_KERNEL);
-> +	if (!ops) {
-> +		DRM_DEBUG("Failed to allocate incoming BO sync ops array\n");
-> +		return -ENOMEM;
-> +	}
-> +
-> +	if (copy_from_user(ops, (void __user *)(uintptr_t)args->ops,
-> +			   args->op_count * sizeof(*ops))) {
-> +		DRM_DEBUG("Failed to copy in BO sync ops\n");
-> +		ret = -EFAULT;
-> +		goto err_ops;
-> +	}
-> +
-> +	for (i = 0; i < args->op_count; i++) {
-> +		obj = drm_gem_object_lookup(file, ops[i].handle);
-> +		if (!obj) {
-> +			ret = -ENOENT;
-> +			goto err_ops;
+> +	ret = regmap_read(maxim->regmap, MAX25014_OPEN, &val);
+> +	if (ret)
+> +		return ret;
+> +	if (val) {
+> +		dev_err(&maxim->client->dev, "Open led strings detected on:\n");
+> +		for (i = 0; i < 4; i++) {
+> +			if (val & 1 << i)
+> +				dev_err(&maxim->client->dev, "string %d\n", i + 1);
 > +		}
-> +
-> +		ret = panfrost_gem_sync(obj, ops[i].type,
-> +					ops[i].offset, ops[i].size);
-> +
-> +		drm_gem_object_put(obj);
-> +
-> +		if (ret)
-> +			goto err_ops;
+> +		return -EIO;
 > +	}
 > +
-> +err_ops:
-> +	kvfree(ops);
+> +	ret = regmap_read(maxim->regmap, MAX25014_SHORT_GND, &val);
+> +	if (ret)
+> +		return ret;
+> +	if (val) {
+> +		dev_err(&maxim->client->dev, "Short to ground detected on:\n");
+> +		for (i = 0; i < 4; i++) {
+> +			if (val & 1 << i)
+> +				dev_err(&maxim->client->dev, "string %d\n", i + 1);
+> +		}
+> +		return -EIO;
+> +	}
 > +
+> +	ret = regmap_read(maxim->regmap, MAX25014_SHORT_GND, &val);
+
+Shouldn't this be MAX25014_SHORT_LED?
+
+
+> +	if (ret)
+> +		return ret;
+> +	if (val) {
+> +		dev_err(&maxim->client->dev, "Shorted led detected on:\n");
+> +		for (i = 0; i < 4; i++) {
+> +			if (val & 1 << i)
+> +				dev_err(&maxim->client->dev, "string %d\n", i + 1);
+> +		}
+> +		return -EIO;
+> +	}
+> +
+> +	ret = regmap_read(maxim->regmap, MAX25014_DIAG, &val);
+> +	if (ret)
+> +		return ret;
+> +	/*
+> +	 * The HW_RST bit always starts at 1 after power up.
+> +	 * It is reset on first read, does not indicate an error.
+> +	 */
+> +	if (val && val != MAX25014_DIAG_HW_RST) {
+> +		if (val & MAX25014_DIAG_OT)
+> +			dev_err(&maxim->client->dev,
+> +				"Overtemperature shutdown\n");
+> +		if (val & MAX25014_DIAG_OTW)
+> +			dev_err(&maxim->client->dev,
+> +				 "Chip is getting too hot (>125C)\n");
+> +		if (val & MAX25014_DIAG_BSTOV)
+> +			dev_err(&maxim->client->dev,
+> +				"Boost converter overvoltage\n");
+> +		if (val & MAX25014_DIAG_BSTUV)
+> +			dev_err(&maxim->client->dev,
+> +				"Boost converter undervoltage\n");
+> +		if (val & MAX25014_DIAG_IREFOOR)
+> +			dev_err(&maxim->client->dev, "IREF out of range\n");
+> +		return -EIO;
+> +	}
+> +	return 0;
+> +}
+> +
+> +/*
+> + * 1. disable unused strings
+> + * 2. set dim mode
+> + * 3. set setting register
+> + * 4. enable the backlight
+> + */
+> +static int max25014_configure(struct max25014 *maxim, int initial_state)
+> +{
+> +	uint32_t val;
+> +	int ret;
+> +
+> +	/*
+> +	 * Strings can only be disabled when MAX25014_ISET_ENA == 0, check if
+> +	 * it needs to be changed at all to prevent the backlight flashing when
+> +	 * it is configured correctly by the bootloader
+> +	 */
+
+Attach the comment to the if statement rather than the read.
+
+
+> +	ret = regmap_read(maxim->regmap, MAX25014_DISABLE, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!((val & MAX25014_DISABLE_DIS_MASK) == maxim->strings_mask)) {
+> +		if (initial_state == BACKLIGHT_POWER_ON) {
+> +			ret = regmap_write(maxim->regmap, MAX25014_ISET, 0);
+> +			if (ret)
+> +				return ret;
+> +		}
+> +		ret = regmap_write(maxim->regmap, MAX25014_DISABLE, maxim->strings_mask);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	ret = regmap_write(maxim->regmap, MAX25014_IMODE, MAX25014_IMODE_HDIM);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_read(maxim->regmap, MAX25014_SETTING, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(maxim->regmap, MAX25014_SETTING,
+> +			   val & ~MAX25014_SETTING_FPWM);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(maxim->regmap, MAX25014_ISET,
+> +			   maxim->iset | MAX25014_ISET_ENA |
+> +			   MAX25014_ISET_PSEN);
 > +	return ret;
 > +}
 > +
->  int panfrost_unstable_ioctl_check(void)
->  {
->  	if (!unstable_ioctls)
-> @@ -649,6 +699,7 @@ static const struct drm_ioctl_desc panfrost_drm_driver_ioctls[] = {
->  	PANFROST_IOCTL(SET_LABEL_BO,	set_label_bo,	DRM_RENDER_ALLOW),
->  	PANFROST_IOCTL(JM_CTX_CREATE,	jm_ctx_create,	DRM_RENDER_ALLOW),
->  	PANFROST_IOCTL(JM_CTX_DESTROY,	jm_ctx_destroy,	DRM_RENDER_ALLOW),
-> +	PANFROST_IOCTL(SYNC_BO,		sync_bo,	DRM_RENDER_ALLOW),
->  };
->  
->  static void panfrost_gpu_show_fdinfo(struct panfrost_device *pfdev,
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index 4afd1a7f77d5..8231ae04f54c 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -489,6 +489,90 @@ panfrost_gem_set_label(struct drm_gem_object *obj, const char *label)
->  	kfree_const(old_label);
->  }
->  
-> +int
-> +panfrost_gem_sync(struct drm_gem_object *obj, u32 type, u32 offset, u32 size)
+> +static int max25014_update_status(struct backlight_device *bl_dev)
 > +{
-> +	struct panfrost_gem_object *bo = to_panfrost_bo(obj);
-> +	struct drm_gem_shmem_object *shmem = &bo->base;
-> +	const struct drm_device *dev = shmem->base.dev;
-> +	struct sg_table *sgt;
-> +	struct scatterlist *sgl;
-> +	unsigned int count;
+> +	struct max25014 *maxim = bl_get_data(bl_dev);
+> +	uint32_t reg;
+> +	int ret;
 > +
-> +	/* Make sure the range is in bounds. */
-> +	if (offset + size < offset || offset + size > shmem->base.size)
-> +		return -EINVAL;
+> +	if (backlight_is_blank(maxim->bl))
+> +		bl_dev->props.brightness = 0;
+
+This isn't right. Why would you change the backlight level just because
+it is currently blanked (and sorry I missed this one last time).
+
 > +
-> +	/* Disallow CPU-cache maintenance on imported buffers. */
-> +	if (drm_gem_is_imported(&shmem->base))
-> +		return -EINVAL;
+> +	reg  = TON_STEP * bl_dev->props.brightness;
+
+The correct way to honour blanking is just go call
+backlight_get_brightness() instead of reading the property directly.
+
+
 > +
-> +	switch (type) {
-> +	case PANFROST_BO_SYNC_CPU_CACHE_FLUSH:
-> +	case PANFROST_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE:
-> +		break;
+> +	/*
+> +	 * 18 bit number lowest, 2 bits in first register,
+> +	 * next lowest 8 in the L register, next 8 in the H register
+> +	 * Seemingly setting the strength of only one string controls all of
+> +	 * them, individual settings don't affect the outcome.
+> +	 */
 > +
-> +	default:
-> +		return -EINVAL;
-> +	}
+> +	ret = regmap_write(maxim->regmap, MAX25014_TON_1_4_LSB, reg & 0b00000011);
+> +	if (ret != 0)
+> +		return ret;
+> +	ret = regmap_write(maxim->regmap, MAX25014_TON1L, (reg >> 2) & 0b11111111);
+> +	if (ret != 0)
+> +		return ret;
+> +	return regmap_write(maxim->regmap, MAX25014_TON1H, (reg >> 10) & 0b11111111);
+> +}
 > +
-> +	/* Don't bother if it's WC-mapped */
-> +	if (shmem->map_wc)
-> +		return 0;
+> +static const struct backlight_ops max25014_bl_ops = {
+> +	.options = BL_CORE_SUSPENDRESUME,
+> +	.update_status = max25014_update_status,
+> +};
 > +
-> +	/* Nothing to do if the size is zero. */
-> +	if (size == 0)
-> +		return 0;
+> +static int max25014_parse_dt(struct max25014 *maxim,
+> +			     uint32_t *initial_brightness)
+> +{
+> +	struct device *dev = &maxim->client->dev;
+> +	struct device_node *node = dev->of_node;
+> +	struct fwnode_handle *child;
+> +	uint32_t strings[4];
+> +	int res, i;
 > +
-> +	sgt = drm_gem_shmem_get_pages_sgt(shmem);
-> +	if (IS_ERR(sgt))
-> +		return PTR_ERR(sgt);
+> +	if (!node)
+> +		return dev_err_probe(dev, -EINVAL, "no platform data\n");
 > +
-> +	for_each_sgtable_dma_sg(sgt, sgl, count) {
-> +		if (size == 0)
-> +			break;
+> +	child = device_get_next_child_node(dev, NULL);
+> +	if (child) {
+> +		res = fwnode_property_count_u32(child, "led-sources");
+> +		if (res > 0) {
+> +			fwnode_property_read_u32_array(child, "led-sources",
+> +						       strings, res);
 > +
-> +		dma_addr_t paddr = sg_dma_address(sgl);
-> +		size_t len = sg_dma_len(sgl);
-> +
-> +		if (len <= offset) {
-> +			offset -= len;
-> +			continue;
+> +			/* set all strings as disabled, then enable those in led-sources*/
+> +			maxim->strings_mask = 0xf;
+> +			for (i = 0; i < res; i++) {
+> +				if (strings[i] <= 4)
+> +					maxim->strings_mask &= ~BIT(strings[i]);
+> +			}
 > +		}
 > +
-> +		paddr += offset;
-> +		len -= offset;
-> +		len = min_t(size_t, len, size);
-> +		size -= len;
-> +		offset = 0;
+> +		fwnode_property_read_u32(child, "default-brightness",
+> +					 initial_brightness);
 > +
-> +		/* It's unclear whether dma_sync_xxx() is the right API to do CPU
-> +		 * cache maintenance given an IOMMU can register their own
-> +		 * implementation doing more than just CPU cache flushes/invalidation,
-> +		 * and what we really care about here is CPU caches only, but that's
-> +		 * the best we have that is both arch-agnostic and does at least the
-> +		 * CPU cache maintenance on a <page,offset,size> tuple.
-> +		 *
-> +		 * Also, I wish we could do a single
-> +		 *
-> +		 *      dma_sync_single_for_device(BIDIR)
-> +		 *
-> +		 * and get a flush+invalidate, but that's not how it's implemented
-> +		 * in practice (at least on arm64), so we have to make it
-> +		 *
-> +		 *      dma_sync_single_for_device(TO_DEVICE)
-> +		 *      dma_sync_single_for_cpu(FROM_DEVICE)
-> +		 *
-> +		 * for the flush+invalidate case.
-> +		 */
-> +		dma_sync_single_for_device(dev->dev, paddr, len, DMA_TO_DEVICE);
-> +		if (type == PANFROST_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE)
-> +			dma_sync_single_for_cpu(dev->dev, paddr, len, DMA_FROM_DEVICE);
+> +		fwnode_handle_put(child);
 > +	}
+> +
+> +	maxim->iset = MAX25014_ISET_DEFAULT_100;
+> +	of_property_read_u32(node, "maxim,iset", &maxim->iset);
+> +
+> +	if (maxim->iset > 15)
+> +		return dev_err_probe(dev, -EINVAL,
+> +				     "Invalid iset, should be a value from 0-15, entered was %d\n",
+> +				     maxim->iset);
+> +
+> +	if (*initial_brightness > 100)
+> +		return dev_err_probe(dev, -EINVAL,
+> +				     "Invalid initial brightness, should be a value from 0-100, entered was %d\n",
+> +				     *initial_brightness);
 > +
 > +	return 0;
 > +}
 > +
->  void
->  panfrost_gem_internal_set_label(struct drm_gem_object *obj, const char *label)
->  {
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> index 7fec20339354..d61ffe1f6841 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> @@ -151,6 +151,8 @@ int panfrost_gem_shrinker_init(struct drm_device *dev);
->  void panfrost_gem_shrinker_cleanup(struct drm_device *dev);
->  
->  void panfrost_gem_set_label(struct drm_gem_object *obj, const char *label);
-> +int panfrost_gem_sync(struct drm_gem_object *obj, u32 type,
-> +		      u32 offset, u32 size);
->  void panfrost_gem_internal_set_label(struct drm_gem_object *obj, const char *label);
->  
->  #ifdef CONFIG_DEBUG_FS
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index 0c59714ae42b..e194e087a0c8 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -24,6 +24,7 @@ extern "C" {
->  #define DRM_PANFROST_SET_LABEL_BO		0x09
->  #define DRM_PANFROST_JM_CTX_CREATE		0x0a
->  #define DRM_PANFROST_JM_CTX_DESTROY		0x0b
-> +#define DRM_PANFROST_SYNC_BO			0x0c
->  
->  #define DRM_IOCTL_PANFROST_SUBMIT		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_SUBMIT, struct drm_panfrost_submit)
->  #define DRM_IOCTL_PANFROST_WAIT_BO		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_WAIT_BO, struct drm_panfrost_wait_bo)
-> @@ -35,6 +36,7 @@ extern "C" {
->  #define DRM_IOCTL_PANFROST_SET_LABEL_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_SET_LABEL_BO, struct drm_panfrost_set_label_bo)
->  #define DRM_IOCTL_PANFROST_JM_CTX_CREATE	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_JM_CTX_CREATE, struct drm_panfrost_jm_ctx_create)
->  #define DRM_IOCTL_PANFROST_JM_CTX_DESTROY	DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_JM_CTX_DESTROY, struct drm_panfrost_jm_ctx_destroy)
-> +#define DRM_IOCTL_PANFROST_SYNC_BO		DRM_IOWR(DRM_COMMAND_BASE + DRM_PANFROST_SYNC_BO, struct drm_panfrost_sync_bo)
->  
->  /*
->   * Unstable ioctl(s): only exposed when the unsafe unstable_ioctls module
-> @@ -308,6 +310,49 @@ struct drm_panfrost_set_label_bo {
->  	__u64 label;
->  };
->  
-> +/* Valid flags to pass to drm_panfrost_bo_sync_op */
-> +#define PANFROST_BO_SYNC_CPU_CACHE_FLUSH			0
-> +#define PANFROST_BO_SYNC_CPU_CACHE_FLUSH_AND_INVALIDATE		1
+> +static int max25014_probe(struct i2c_client *cl)
+> +{
+> +	const struct i2c_device_id *id = i2c_client_get_device_id(cl);
+> +	struct backlight_properties props;
+> +	uint32_t initial_brightness = 50;
+> +	struct backlight_device *bl;
+> +	struct max25014 *maxim;
+> +	int ret;
 > +
-> +/**
-> + * struct drm_panthor_bo_flush_map_op - BO map sync op
-> + */
-> +struct drm_panfrost_bo_sync_op {
-> +	/** @handle: Handle of the buffer object to sync. */
-> +	__u32 handle;
+> +	maxim = devm_kzalloc(&cl->dev, sizeof(struct max25014), GFP_KERNEL);
+> +	if (!maxim)
+> +		return -ENOMEM;
 > +
-> +	/** @type: Type of sync operation. */
-> +	__u32 type;
+> +	maxim->client = cl;
 > +
-> +	/**
-> +	 * @offset: Offset into the BO at which the sync range starts.
-> +	 *
-> +	 * This will be rounded down to the nearest cache line as needed.
-> +	 */
-> +	__u32 offset;
+> +	ret = max25014_parse_dt(maxim, &initial_brightness);
+> +	if (ret)
+> +		return ret;
 > +
-> +	/**
-> +	 * @size: Size of the range to sync
-> +	 *
-> +	 * @size + @offset will be rounded up to the nearest cache line as
-> +	 * needed.
-> +	 */
-> +	__u32 size;
-> +};
+> +	maxim->vin = devm_regulator_get(&maxim->client->dev, "power");
+> +	if (IS_ERR(maxim->vin)) {
+> +		return dev_err_probe(&maxim->client->dev, PTR_ERR(maxim->vin),
+> +				     "failed to get power-supply");
+> +	}
 > +
-> +/**
-> + * struct drm_panfrost_sync_bo - ioctl argument for syncing BO maps
-> + */
-> +struct drm_panfrost_sync_bo {
-> +	/** Array of struct drm_panfrost_bo_sync_op */
-> +	__u64 ops;
-> +
-> +	/** Number of BO sync ops */
-> +	__u32 op_count;
-> +
-> +	__u32 pad;
-> +};
-> +
->  /* Definitions for coredump decoding in user space */
->  #define PANFROSTDUMP_MAJOR 1
->  #define PANFROSTDUMP_MINOR 0
+> +	ret = regulator_enable(maxim->vin);
+> +	if (ret)
+> +		return dev_err_probe(&maxim->client->dev, ret,
+> +			"failed to enable power-supply\n");
 
+Can this use devm_regulator_get_enable()?
+
+
+> +
+> +	maxim->enable = devm_gpiod_get_optional(&maxim->client->dev, "enable",
+> +						GPIOD_OUT_HIGH);
+> +	if (IS_ERR(maxim->enable)) {
+> +		ret = dev_err_probe(&maxim->client->dev, PTR_ERR(maxim->enable),
+> +				    "failed to get enable gpio\n");
+> +		goto disable_vin;
+> +	}
+> +
+> +	/* Datasheet Electrical Characteristics tSTARTUP 2ms */
+> +	fsleep(2000);
+> +
+> +	maxim->regmap = devm_regmap_init_i2c(cl, &max25014_regmap_config);
+> +	if (IS_ERR(maxim->regmap)) {
+> +		ret = dev_err_probe(&maxim->client->dev, PTR_ERR(maxim->regmap),
+> +			"failed to initialize the i2c regmap\n");
+> +		goto disable_full;
+> +	}
+> +
+> +	i2c_set_clientdata(cl, maxim);
+> +
+> +	ret = max25014_check_errors(maxim);
+> +	if (ret) { /* error is already reported in the above function */
+> +		goto disable_full;
+> +	}
+> +
+> +	ret = max25014_initial_power_state(maxim);
+> +	if (ret < 0) {
+> +		dev_err_probe(&maxim->client->dev, ret, "Could not get enabled state\n");
+> +		goto disable_full;
+> +	}
+> +
+> +	memset(&props, 0, sizeof(struct backlight_properties));
+> +	props.type = BACKLIGHT_PLATFORM;
+> +	props.max_brightness = MAX_BRIGHTNESS;
+> +	props.brightness = initial_brightness;
+> +	props.scale = BACKLIGHT_SCALE_LINEAR;
+> +	props.power = ret;
+> +
+> +	ret = max25014_configure(maxim, ret);
+> +	if (ret) {
+> +		dev_err_probe(&maxim->client->dev, ret, "device config error");
+> +		goto disable_full;
+> +	}
+> +
+> +	bl = devm_backlight_device_register(&maxim->client->dev, id->name,
+> +					    &maxim->client->dev, maxim,
+> +					    &max25014_bl_ops, &props);
+> +	if (IS_ERR(bl)) {
+> +		ret = dev_err_probe(&maxim->client->dev, PTR_ERR(bl),
+> +				    "failed to register backlight\n");
+> +		goto disable_full;
+> +	}
+> +
+> +	maxim->bl = bl;
+> +
+> +	backlight_update_status(maxim->bl);
+> +
+> +	return 0;
+> +
+> +disable_full:
+> +	gpiod_set_value_cansleep(maxim->enable, 0);
+
+Why is this needed? It was only ever set by devm_gpiod_get_optional().
+
+> +disable_vin:
+> +	regulator_disable(maxim->vin);
+
+This is also not needed if you use devm_regulator_get_enable().
+
+
+> +	return ret;
+> +}
+
+
+Daniel.
