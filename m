@@ -2,65 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B8ACA3958
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 13:20:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E2ECA3AE4
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 13:55:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B4A210E1E0;
-	Thu,  4 Dec 2025 12:20:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F75610E033;
+	Thu,  4 Dec 2025 12:55:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="h2tDufgz";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nDwr216k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCD4B10E1E0;
- Thu,  4 Dec 2025 12:20:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764850807; x=1796386807;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=l5RZdf8e/zhB+USml8d08qyw3G3+Y4U9wM9GTqIDbVM=;
- b=h2tDufgzOq384GWeoZqu7BwpjkE29peeKP7ZoEv6vIiQgqeAPa683eXl
- 3Vri+mSwFsutz05nEplJOR5z1RFQDx+e6fUq67WZEZMsJAUPaI26+LyDf
- TUuGNk/o81xvGfHi9z2FChoP+8xLCp8zpaNyqr5cMVDxZTDrodC8WZGM8
- vdvd2gFF29y+qDmep9FXSosa2RnGAcz4Iq5RX45tH5AufmZiSaolHJNi2
- RYFdS1MD1Z4JpM09rTUV8MTQLUvr/VcRQxfJlcDFn/UlqLZqxpPlZ3rrr
- bbTm3Yf313iZ6gJWwxTEaxGklLmujzMkj02w/dQzAV9UEU9l/hKVraIjq A==;
-X-CSE-ConnectionGUID: SXeXHpUKS+CDb2XeXUQ9JQ==
-X-CSE-MsgGUID: HysWGQlbQvKjCj3G8edgkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="65864773"
-X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="65864773"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2025 04:20:06 -0800
-X-CSE-ConnectionGUID: VlAWi4gYRn2bzSpvUr4ppg==
-X-CSE-MsgGUID: jGEhN+IMSVCOOsuBr26MXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="225928589"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO [10.245.245.167])
- ([10.245.245.167])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Dec 2025 04:20:00 -0800
-Message-ID: <c174c12d9748e2e9b2e497c1e479100c323e79c2.camel@linux.intel.com>
-Subject: Re: [PATCH] drm/xe/pf: fix VFIO link error
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Arnd Bergmann <arnd@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- =?UTF-8?Q?Micha=C5=82?= Winiarski	 <michal.winiarski@intel.com>, Michal
- Wajdeczko <michal.wajdeczko@intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Matthew Brost <matthew.brost@intel.com>, 
- Lucas De Marchi <demarchi@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
- Riana Tauro <riana.tauro@intel.com>, 	intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, 	linux-kernel@vger.kernel.org
-Date: Thu, 04 Dec 2025 13:19:58 +0100
-In-Reply-To: <20251204094154.1029357-1-arnd@kernel.org>
-References: <20251204094154.1029357-1-arnd@kernel.org>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EBFB10E033
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 12:55:03 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5663A2D8;
+ Thu,  4 Dec 2025 13:52:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1764852766;
+ bh=vOyqxAONuV3UvG9nQ0iP8PVekVL+G46eVPsya/9xNrc=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=nDwr216kOG2KYuQY4mNPr8g9vQwMctFJWZvj+HY1gZF7zoxf9quucf9Mbe0XB/c72
+ FkxXRkQwUFMDCB6gVcLZCRd4TbbpEhRDwFpswf2rf87/xPvTZsWm0VOZwIE8qPJ+gI
+ MqH+Ne6iT7oQ8Wef2I6fc0x9jO5kqtnykz3Qs/Z4=
+Message-ID: <1f580f1d-8ed5-4167-8991-1909c350d00e@ideasonboard.com>
+Date: Thu, 4 Dec 2025 14:54:56 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/rcar-du: dsi: Handle both DRM_MODE_FLAG_N.SYNC and
+ !DRM_MODE_FLAG_P.SYNC
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: David Airlie <airlied@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20251202181146.138365-1-marek.vasut+renesas@mailbox.org>
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <20251202181146.138365-1-marek.vasut+renesas@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,70 +64,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-12-04 at 10:41 +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> The Makefile logic for building xe_sriov_vfio.o was added
-> incorrectly,
-> as setting CONFIG_XE_VFIO_PCI=3Dm means it doesn't get included into a
-> built-in xe driver:
->=20
-> ERROR: modpost: "xe_sriov_vfio_stop_copy_enter"
-> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-> ERROR: modpost: "xe_sriov_vfio_stop_copy_exit"
-> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-> ERROR: modpost: "xe_sriov_vfio_suspend_device"
-> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-> ERROR: modpost: "xe_sriov_vfio_wait_flr_done"
-> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-> ERROR: modpost: "xe_sriov_vfio_error" [drivers/vfio/pci/xe/xe-vfio-
-> pci.ko] undefined!
-> ERROR: modpost: "xe_sriov_vfio_resume_data_enter"
-> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-> ERROR: modpost: "xe_sriov_vfio_resume_device"
-> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-> ERROR: modpost: "xe_sriov_vfio_resume_data_exit"
-> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-> ERROR: modpost: "xe_sriov_vfio_data_write" [drivers/vfio/pci/xe/xe-
-> vfio-pci.ko] undefined!
-> ERROR: modpost: "xe_sriov_vfio_migration_supported"
-> [drivers/vfio/pci/xe/xe-vfio-pci.ko] undefined!
-> WARNING: modpost: suppressed 3 unresolved symbol warnings because
-> there were too many)
->=20
-> Check for CONFIG_XE_VFIO_PCI being enabled in the Makefile to decide
-> whether to
-> include the the object instead.
+Hi,
 
-s/the the/the/ found by CI.
-Same question here, Do you want to resent or should I fix up when
-commiting?
+On 02/12/2025 20:11, Marek Vasut wrote:
+> Since commit 94fe479fae96 ("drm/rcar-du: dsi: Clean up handling of DRM mode flags")
+> the driver does not set TXVMVPRMSET0R_VSPOL_LOW and TXVMVPRMSET0R_HSPOL_LOW
+> for modes which set neither DRM_MODE_FLAG_[PN].SYNC. The previous behavior
+> was to assume that neither flag means DRM_MODE_FLAG_N.SYNC . Restore the
+> previous behavior for maximum compatibility.
+> 
+> The change of behavior is visible below, consider Vertical mode->flags
+> for simplicity sake, although the same applies to Horizontal ones:
+> 
+> Before 94fe479fae96 ("drm/rcar-du: dsi: Clean up handling of DRM mode flags") :
+> 
+> - DRM_MODE_FLAG_PVSYNC => vprmset0r |= 0
+> - DRM_MODE_FLAG_NVSYNC => vprmset0r |= TXVMVPRMSET0R_VSPOL_LOW
+> - Neither DRM_MODE_FLAG_[PN]VSYNC => vprmset0r |= TXVMVPRMSET0R_VSPOL_LOW
+> 
+> After 94fe479fae96 ("drm/rcar-du: dsi: Clean up handling of DRM mode flags") :
+> 
+> - DRM_MODE_FLAG_PVSYNC => vprmset0r |= 0
+> - DRM_MODE_FLAG_NVSYNC => vprmset0r |= TXVMVPRMSET0R_VSPOL_LOW
+> - Neither DRM_MODE_FLAG_[PN]VSYNC => vprmset0r |= 0 <---------- This broke
+> 
+> The "Neither" case behavior is different, because DRM_MODE_FLAG_N[HV]SYNC is
+> really not equivalent !DRM_MODE_FLAG_P[HV]SYNC .
+> 
+> Fixes: 94fe479fae96 ("drm/rcar-du: dsi: Clean up handling of DRM mode flags")
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Thanks,
-Thomas
+Thanks, looks good to me. Pushing to drm-misc-next.
 
+ Tomi
 
->=20
-> Fixes: 17f22465c5a5 ("drm/xe/pf: Export helpers for VFIO")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
-> =C2=A0drivers/gpu/drm/xe/Makefile | 4 ++--
-> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/xe/Makefile
-> b/drivers/gpu/drm/xe/Makefile
-> index dfc2ded01455..e5f3c2ec9e9a 100644
-> --- a/drivers/gpu/drm/xe/Makefile
-> +++ b/drivers/gpu/drm/xe/Makefile
-> @@ -185,8 +185,8 @@ xe-$(CONFIG_PCI_IOV) +=3D \
-> =C2=A0	xe_sriov_pf_sysfs.o \
-> =C2=A0	xe_tile_sriov_pf_debugfs.o
-> =C2=A0
-> -ifeq ($(CONFIG_PCI_IOV),y)
-> -	xe-$(CONFIG_XE_VFIO_PCI) +=3D xe_sriov_vfio.o
-> +ifdef CONFIG_XE_VFIO_PCI
-> +	xe-$(CONFIG_PCI_IOV) +=3D xe_sriov_vfio.o
-> =C2=A0endif
-> =C2=A0
-> =C2=A0# include helpers for tests even when XE is built-in
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Magnus Damm <magnus.damm@gmail.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Simona Vetter <simona@ffwll.ch>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+> V2: - Update commit message
+>     - Use only !P[HV]SYNC
+> ---
+>  drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> index 9413b76d0bfce..4ef2e3c129ed7 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+> @@ -492,9 +492,9 @@ static void rcar_mipi_dsi_set_display_timing(struct rcar_mipi_dsi *dsi,
+>  
+>  	/* Configuration for Video Parameters, input is always RGB888 */
+>  	vprmset0r = TXVMVPRMSET0R_BPP_24;
+> -	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+> +	if (!(mode->flags & DRM_MODE_FLAG_PVSYNC))
+>  		vprmset0r |= TXVMVPRMSET0R_VSPOL_LOW;
+> -	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+> +	if (!(mode->flags & DRM_MODE_FLAG_PHSYNC))
+>  		vprmset0r |= TXVMVPRMSET0R_HSPOL_LOW;
+>  
+>  	vprmset1r = TXVMVPRMSET1R_VACTIVE(mode->vdisplay)
 
