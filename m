@@ -2,98 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85CFCCA2E53
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 10:04:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24AD0CA22E2
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 03:34:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 369BB10E8FB;
-	Thu,  4 Dec 2025 09:04:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E341E10E1AB;
+	Thu,  4 Dec 2025 02:34:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hPMDm4W3";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="btrrAhUU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5452210E831
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 02:29:42 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-7b9387df58cso631535b3a.3
- for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 18:29:42 -0800 (PST)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
+ [209.85.210.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6ED4C10E1AB
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 02:34:32 +0000 (UTC)
+Received: by mail-ot1-f42.google.com with SMTP id
+ 46e09a7af769-7c6da5e3353so400565a34.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 18:34:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764815382; x=1765420182; darn=lists.freedesktop.org;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:sender:from:to:cc:subject:date:message-id:reply-to;
- bh=nbfVTq9KBWsmp1ChHIp5kh8RBkVe/heJoRGFGHla1nE=;
- b=hPMDm4W3E7BId8Vt0lOcF3xi6I+TfEvw3T/JpsmV4UZRufpOghmxlUEOhW+yLWiCHn
- +T+AQw4V3yQY4MaD/w1pVKANREPWw1du41crTaHKC0Fqrp96vO9lxAzHqO2bj5pH7rJn
- bu70KOhn44Jh1YuPMpiP/hM7MjhdfsWfB5Y0HYt+2sGuawlBvGWv76E6rxsdx3PMDk1q
- /mzSHtXgCz53RGG3eTegQ3+Jpf9aYfi4CU4wrnatu1ojdFUk7VUbRcQBu/xUgjL1LEDy
- SnNpWNhAykHWLrMRUB5VXqMhEkRtcFEJNCTRY4t47gH79hMl4H8tEzzTi41KBk6SlzqC
- nTUA==
+ d=linuxfoundation.org; s=google; t=1764815671; x=1765420471;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=J15Qzup8zpCFV/gNARQXdZ6OyPMzPDnFJCLC0cemZ8E=;
+ b=btrrAhUUAM7uAc6BGokXFBTkZOUp0eVXznSIQitZMhXnwbm/q2oVD5FCEmwfBM6RWJ
+ NyyqtiWUXIMEVZtthvgs4Ao+Mj37OeoraBtcK9MVdTTBaxRbNYtn1UU52IIvGtXVTYqp
+ 93akYRrYE3UEA2mxXK61z+xdIDVK25zIdqscQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764815382; x=1765420182;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:mail-followup-to:message-id:subject:cc:to
- :from:date:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=nbfVTq9KBWsmp1ChHIp5kh8RBkVe/heJoRGFGHla1nE=;
- b=BsomRLlirzNEqpcIgQzciOmTCNSdHBY3oJy4f81/gh7/eYWXGuuMS9cOKE8878pKNH
- nUXQ5URukufR0xrZSliji13CkxumA2D85uwkrWIBTA9NF8DmQnwqkFloizhaLIjdUJs9
- qSvagqA/5/x0fBluSFyYdK5a/34FUam20SXBCABpJod+VHv2mmcxAOAtqf3XB+DuAxo+
- w4HxoWou5phyK+Xgvhz+vx+TR1mZmjUS/Teu6UX6Kusb+gxHCXWW+BrkyJ7hSE0vlO+4
- L6oj22Yekk/OxWSHPHxW/eNBsJSeInU2FnLw9QcNyT3xSSsbKsmCgubyFRMU1Rq/SwCh
- 1+QQ==
+ d=1e100.net; s=20230601; t=1764815671; x=1765420471;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=J15Qzup8zpCFV/gNARQXdZ6OyPMzPDnFJCLC0cemZ8E=;
+ b=bD7WWMMuG5LHie4SJtDV7t14yyEmQk0vrvyxGpxix9c5Y9dCJfUDI+9vecb/Ken3rb
+ 1qw76CiW3S8Xr0DDegWBQZqXfcQXDTUZ5RQBxTRXgx2Y2kanRutOC9mvtUzvJhSLS4YN
+ gifZuCRMRfEAmJMghpbr4Qwz310CyPgNYmLzS/tgTOb7ddcuiqA3wHNAhKtsu+3rksHG
+ O5jd5VXdJYVD2qc0FrIDD3F0w8AZjsAzDONxIjhwqzWytO4I0pfBSbqvCLsUC0EjytQK
+ Uc2SjCZPtjEjLD/UgIqJbqlSLEnYnzJdo+s/nuTP1wd+mzYnxjR+h1nnDjnSS5Zp49Ea
+ Wgkw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUCwIiqHYS1l5A2ogD3UdpKRzzYqrmzqoYSpWJsmpL/lDz5+ZrCwVIQROpQKCpZxXY8mhFdOpNXkBk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw/BKmkkYvtwcRPreaAh752lUk9m6ZTEAcIcsjC3CyucO6d/2Nf
- tUVMcnT1Jvw4b+KqiZuqx9qdph3Y1n5RUtKetvPGJBCq0R0KEYfDJLVn
-X-Gm-Gg: ASbGnctuKy1JNh2sFXwksb3MtCj5/PRggZheClk/ixDMc/y80wDDsJAs0ZhDSei59xq
- A5UtEPk5BQkgI7ngYaRK+xMBIm2LjYM7IoBXBUEe/N4ZfqOHp4v3OCKwiYgfWpkgYtsEsbqvOl9
- tePOWBMleu5jpnqI8k3rA8T+TzDiBNBSijd2zwiXLnYZd4S1F2QYOp7kG+E3wxp7STHQOg4nvEw
- JjSCUqMrYjm3pbynjw1bKahO7xFz4tA8XjwTj4c+2rT6OWgF+pUxu7uXgX1sFKh4IoBBjX5PTYz
- 21AzlmJkprx6cWUSfrFkWhva9ToAdDPi5mbmEZlKOYe2TJVAVr3hdVJu7JQyyZ5gs8im31VbFG/
- x68BBiXb3WT5uVP5nayYG+AOdEO/xtd7YokkhoHRp73w1JI18ZNtHzmSEmOOFX4cVrLM/sGIsuM
- Blyhco40LlXXr/QdH02F/iXyV8KIriGzU+M60i3+keekUzpcEQlgg=
-X-Google-Smtp-Source: AGHT+IFCeBy2y/CfEswHeFQ8PNewc7BH40l5HKVg8Zae9UGj70Zf3r7S53EITpLfFSzUJLeHLUcr5A==
-X-Received: by 2002:a05:6a20:244d:b0:35d:8881:e6bb with SMTP id
- adf61e73a8af0-36403797f3cmr1771400637.22.1764815381665; 
- Wed, 03 Dec 2025 18:29:41 -0800 (PST)
-Received: from localhost (211-75-139-220.hinet-ip.hinet.net. [211.75.139.220])
+ AJvYcCVX4LbJLdbjCR3FdrOqFTmSlRCon2S2BJVgUFoe2sBFbIRWlJZiSqSy5YrEjFlN0r6AwMeKCKC8r2s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxyf3ueV5biO4sQvd659pwv/wZGVyBfcSAvx/a0UQBU73LY3jkk
+ QCoLzT2xF2QXPns4NNb/HfMLuECM/+ScFMjUg7gi8Ix8rFmqViAKGRl+2pwKyYVvyoQ=
+X-Gm-Gg: ASbGncvUwYa9HMhn4QS7/8kRggyIiE3EzQURqdLjQtul3LDFZ8jqOaNX/zy2Y1p6Id9
+ 3qYWrQ/mbvQ9FeXl6auMvFptFV79g6H9Xw80ZgQ8IBhjrLGA9eVuNxBun9XQCJq41x3xrJfryPl
+ BlNHWOujC8hbx0vKztHlXf0anyxT2+Iw4nxdbQphP1MvCxfH6XUMAAsfbxx/vXu8UFBLx0po7wp
+ RM4h7AS52K2R2NYinVRVMw9lFb7g+c/nIY/n3WlAtCHXd8+nAh4GqlFKioTiuqfVfA6RQbXh7tB
+ Shtzl3Q/8EKPqlHS4089tpE2H+1OKxOr65jPYhPCCOS9cK7hmq+UYYYfAWbjhC/RjGy8vV6rfgv
+ VF73o+i1HbNriFn1Dt25G2r6HumfFzU3gvLahJvSmdW7K6pSN2lC47jAm+MTKNfVy8bCpKAZP4y
+ ft5MKY6je9V36J6yjI4iavpgA=
+X-Google-Smtp-Source: AGHT+IEWnMa2HXMsFLErerMFo+SUotzMPb4bdwSPX42eEhpYWTcWb/bFzyKol4nu8Pe7T8YoPPT7HQ==
+X-Received: by 2002:a05:6830:411a:b0:799:de78:29d1 with SMTP id
+ 46e09a7af769-7c958b91783mr870804a34.15.1764815671317; 
+ Wed, 03 Dec 2025 18:34:31 -0800 (PST)
+Received: from [192.168.1.14] ([38.175.187.108])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-7e2adc5bf17sm314210b3a.38.2025.12.03.18.29.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Dec 2025 18:29:40 -0800 (PST)
-Date: Thu, 4 Dec 2025 10:29:37 +0800
-From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/i915/dp: Add byte-by-byte fallback for broken USB-C
- adapters
-Message-ID: <7klzod4x5e2mpz4bwdfoyvien4whsp7r2mvykvbuhfczczp3f4@iuszbs4p7yag>
-Mail-Followup-To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>, 
- Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20251127044406.618543-1-acelan.kao@canonical.com>
- <aSjFZhZQLVb7czsh@intel.com>
+ 46e09a7af769-7c95ac84d2bsm415620a34.18.2025.12.03.18.34.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Dec 2025 18:34:30 -0800 (PST)
+Message-ID: <5af4522e-30ab-4eec-a861-c2760cdabd4f@linuxfoundation.org>
+Date: Wed, 3 Dec 2025 19:34:29 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aSjFZhZQLVb7czsh@intel.com>
-X-Mailman-Approved-At: Thu, 04 Dec 2025 09:04:28 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: Linux 6.18 amdgpu build error
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ akpm@linux-foundation.org, david@kernel.org
+Cc: Alexander Deucher <Alexander.Deucher@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ amd-gfx@lists.freedesktop.org, dri-devel <dri-devel@lists.freedesktop.org>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <74032153-813a-4a40-8363-cce264f4d5ea@linuxfoundation.org>
+ <1eb24816-530b-4470-8e58-ce7d8297996c@roeck-us.net>
+ <0425d7b4-76e4-4057-83a5-a7b17a051c54@linuxfoundation.org>
+ <ec77d11a-7613-4b75-8c9e-f2bba1595f0f@roeck-us.net>
+ <9d520a1d-0b8d-4d30-b29f-230fc0f92b8a@linuxfoundation.org>
+ <1f31b86d-283c-4878-92d0-ab90aed0c58d@roeck-us.net>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <1f31b86d-283c-4878-92d0-ab90aed0c58d@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,102 +101,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Nov 27, 2025 at 11:40:54PM +0200, Ville Syrjälä wrote:
-> On Thu, Nov 27, 2025 at 12:44:06PM +0800, Chia-Lin Kao (AceLan) wrote:
-> > Some USB-C hubs and adapters have buggy firmware where multi-byte AUX
-> > reads from DPCD address 0x00000 consistently timeout, while single-byte
-> > reads from the same address work correctly.
-> > 
-> > Known affected devices that exhibit this issue:
-> > - Lenovo USB-C to VGA adapter (VIA VL817 chipset)
-> >   idVendor=17ef, idProduct=7217
-> > - Dell DA310 USB-C mobile adapter hub
-> >   idVendor=413c, idProduct=c010
-> > 
-> > Analysis of the failure pattern shows:
-> > - Single-byte probes to 0xf0000 (LTTPR) succeed
-> > - Single-byte probes to 0x00102 (TRAINING_AUX_RD_INTERVAL) succeed
-> > - 15-byte reads from 0x00000 (DPCD capabilities) timeout with -ETIMEDOUT
-> > - Retrying does not help - the failure is consistent across all attempts
-> 
-> I thought we changed that to the more sensible 16 bytes.
-> Anyone know what happened to that patch?
-> 
-> Anyways, does 16 bytes work better than 15 bytes?
-Change DP_RECEIVER_CAP_SIZE from 15 to 16 and it doesn't help.
-I can see it tried to read 16 bytes but it still timed out.
+On 12/3/25 18:06, Guenter Roeck wrote:
+> On 12/3/25 14:16, Shuah Khan wrote:
 
+>>
+>> CONFIG_RANDSTRUCT is disabled and so are the GCC_PLUGINS in my config.
 > 
-> > 
-> > The issue appears to be a firmware bug in the AUX transaction handling
-> > that specifically affects multi-byte reads from the base DPCD address.
-> > 
-> > Add a fallback mechanism that attempts byte-by-byte reading when the
-> > normal multi-byte drm_dp_read_dpcd_caps() fails. This workaround only
-> > activates for adapters that fail the standard read path, ensuring no
-> > impact on correctly functioning hardware.
-> > 
-> > The byte-by-byte read uses drm_dp_dpcd_readb() to read each of the 15
-> > DPCD capability bytes individually, working around the firmware bug
-> > while maintaining compatibility with all other adapters.
-> > 
-> > Tested with:
-> > - Lenovo USB-C to VGA adapter (VIA VL817) - now works with fallback
-> > - Dell DA310 USB-C hub - now works with fallback
-> > - Dell/Analogix Slimport adapter - continues to work with normal path
-> > 
-> > Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
-> > ---
-> >  .../drm/i915/display/intel_dp_link_training.c | 21 ++++++++++++++++++-
-> >  1 file changed, 20 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_link_training.c b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> > index aad5fe14962f..738a5bb4adb3 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp_link_training.c
-> > @@ -213,6 +213,7 @@ static int intel_dp_init_lttpr(struct intel_dp *intel_dp, const u8 dpcd[DP_RECEI
-> >  int intel_dp_read_dprx_caps(struct intel_dp *intel_dp, u8 dpcd[DP_RECEIVER_CAP_SIZE])
-> >  {
-> >  	struct intel_display *display = to_intel_display(intel_dp);
-> > +	int ret, i;
-> >  
-> >  	if (intel_dp_is_edp(intel_dp))
-> >  		return 0;
-> > @@ -226,7 +227,25 @@ int intel_dp_read_dprx_caps(struct intel_dp *intel_dp, u8 dpcd[DP_RECEIVER_CAP_S
-> >  				      DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV))
-> >  			return -EIO;
-> >  
-> > -	if (drm_dp_read_dpcd_caps(&intel_dp->aux, dpcd))
-> > +	ret = drm_dp_read_dpcd_caps(&intel_dp->aux, dpcd);
-> > +	if (ret == 0)
-> > +		return 0;
-> > +
-> > +	/*
-> > +	 * Workaround for USB-C hubs/adapters with buggy firmware that fail
-> > +	 * multi-byte AUX reads from DPCD address 0x00000 but work with
-> > +	 * single-byte reads. Known affected devices:
-> > +	 * - Lenovo USB-C to VGA adapter (VIA VL817, idVendor=17ef, idProduct=7217)
-> > +	 * - Dell DA310 USB-C hub (idVendor=413c, idProduct=c010)
-> > +	 * Read the DPCD capabilities byte-by-byte as a fallback.
-> > +	 */
-> > +	for (i = 0; i < DP_RECEIVER_CAP_SIZE; i++) {
-> > +		ret = drm_dp_dpcd_readb(&intel_dp->aux, DP_DPCD_REV + i, &dpcd[i]);
-> > +		if (ret < 0)
-> > +			return -EIO;
-> > +	}
+> I guess that would have been too easy...
 > 
-> Doing this in i915 specific code doesn't make sense.
-Right, I'll move the workaround to the drm driver, and submit v2.
+>> I am also seeing issues with cloning kernel.org repos on my system after
+>> a recent update:
+>>
+>> remote: Enumerating objects: 11177736, done.
+>> remote: Counting objects: 100% (1231/1231), done.
+>> remote: Compressing objects: 100% (624/624), done.
+>> remote: Total 11177736 (delta 855), reused 781 (delta 606), pack-reused 11176505 (from 1)
+>> Receiving objects: 100% (11177736/11177736), 3.01 GiB | 7.10 MiB/s, done.
+>> Resolving deltas: 100% (9198323/9198323), done.
+>> fatal: did not receive expected object 0002003e951b5057c16de5a39140abcbf6e44e50
+>> fatal: fetch-pack: invalid index-pack output
+>>
+> 
 
-> 
-> > +
-> > +	if (dpcd[DP_DPCD_REV] == 0)
-> >  		return -EIO;
-> >  
-> >  	return 0;
-> > -- 
-> > 2.43.0
-> 
-> -- 
-> Ville Syrjälä
-> Intel
+Linus, Andrew, and David,
+
+Finally figured this out. I narrowed it to  to be the HAVE_GIGANTIC_FOLIOS
+support that went into Linux 6.18-rc6 in this commit:
+
+ From 39231e8d6ba7f794b566fd91ebd88c0834a23b98 Mon Sep 17 00:00:00 2001
+From: "David Hildenbrand (Red Hat)" <david@kernel.org>
+Date: Fri, 14 Nov 2025 22:49:20 +0100
+Subject: [PATCH] mm: fix MAX_FOLIO_ORDER on powerpc configs with hugetlb
+
+This appears to be large change than the powerpc scope. It broke my workflow
+completely. I sent a revert so this doesn't cause problems for others.
+
+I can reproduce this problem om two systems - with this commit
+
+git fetch-pack fails when cloning large repos and make hangs
+or errors out of Makefile.build with Error: 139. These failures are
+random with git clone failing after fetching 1% of the objects, and
+make hangs while compiling random files
+
+These failures are random and confusing sending me down the path of
+looking at tool chain. Without this commit, I can clone and build
+kernels on the two systems I was seeing problems.
+
+thanks,
+-- Shuah
+
+
