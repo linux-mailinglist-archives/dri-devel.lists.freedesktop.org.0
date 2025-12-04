@@ -2,58 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 867C0CA271C
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 07:05:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87976CA2725
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 07:06:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1655E10E098;
-	Thu,  4 Dec 2025 06:05:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBC9E10E1B9;
+	Thu,  4 Dec 2025 06:06:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ANW0GNEj";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dDgM4XVm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70DEE10E098;
- Thu,  4 Dec 2025 06:05:25 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 0DCB943BAB;
- Thu,  4 Dec 2025 06:05:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 704ADC113D0;
- Thu,  4 Dec 2025 06:05:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764828324;
- bh=TpXXIkYEPpVTVHVJr+O1twTDJSV3XXf6h+Qq9iQ/lmg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ANW0GNEj11i4a6Ie3r7pRyD9O8Kys0m6A3l/sQiqrrmCNOznPZ3dh08TUw73jvkhp
- 6b6hV+XCH4MWmqBUZqIyPGOq6HoD60Jab3Kqax2T/Wbv8noF3HvnWcsfxamhoK463G
- u6RYYtLDYRCxQ9AY5bYmNyvrMmcQfpDcaW6XdPVE7crtRaSpXKhSF9bc2AfTkFH/gu
- g5S8Eq5tZSIUFdiXpQwExdBdU+V9LY4euH3A2U6jEucTnl0g5sDS7LFtnx0l5wVc1v
- 7iKZr/Kj2iK3fMgv5nnEF2pd3hsRFrCiYi+wRTTbwShVpEccXYopxg5d8mRPMy1ViW
- yJjlMIat7swpw==
-Message-ID: <2bc690ca-fa57-46fa-949b-28b5441cd364@kernel.org>
-Date: Thu, 4 Dec 2025 07:05:19 +0100
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECE7B10E1B9
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 06:06:52 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-640a503fbe8so918773a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 03 Dec 2025 22:06:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1764828411; x=1765433211; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=JZ9/LjENMEgkqGr3qDNK6DAWAvXersuPBKAH6ygTJP0=;
+ b=dDgM4XVm8cVC+55yMncTnuwm+zwR8fULOHTMjqT+Fp8Sg31XZuERwdXfXmezYNbtnd
+ clkRLXWWQNKbpd6xOdE6Sx7uOeNGdTKXKQypERfinjLH1MrC6vCfixbJtTprxfk+e1dB
+ o6oMt7EDRBK0tQshpUKbkDEeiTEVwQ4/9/MKRar9vZ17jucmzujfWJkg8gnFPtUYJLAP
+ Yaw95PbxamVU9HyfznX4S1xRz+NLYjbJQpHOR+Po8bm2HyZfjukkRmHTPbPhd6OKi9Kj
+ eLrJ9uK0YaaGV/R7XJTUk1Jt7OuqM90qyh9vpOh+5ZLRaaeIr9QZ4lHPuwC7sxLg7gcq
+ 5hXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764828411; x=1765433211;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JZ9/LjENMEgkqGr3qDNK6DAWAvXersuPBKAH6ygTJP0=;
+ b=K05jj/NpzV61gMhSLM28jVR0DkFVRA1UlDt3A+heIJA6aManKCwjnzciSz0kEH4c0S
+ cNPNQuNbGvCGwAKLsk7Zh06KSZVigteJhkF1VJjKz1tVCLhGCvqKme53M7YUv5G9gBfE
+ C+sSmfO91UY9xT0Nal/hrMHG3htEl8ChA3z+TvlNhaYq/2Wa2T1mTbCW9sgDWGLbT43B
+ jGKbBUSvcAOcG1VlYZ1nbWL+q0Gzf2E+7rp1c39TwQ4uJnEhejeOhXvxGLL+4NrUwUVi
+ vLa1JUAHtAM4nlUvHBe+DU5w8onKLleoVIjoNbVeb9O3rwGZWNa3U/QzF/OWVAppMg06
+ uELg==
+X-Gm-Message-State: AOJu0Yw3dVPfj8KtbQKyEcWNM5wRY3MyVPp97BU5PN7pJUFhvHeLVHeH
+ ijQgDQJJg7Fl6Gbiy1kaaEbuSEOYiDaNs5cDuY/CdHiVmZBu6ZVqPnpJ
+X-Gm-Gg: ASbGncuqdRHoUD0hjEFJdKR1ZTbgNpDlqgjOIEDIKnvnJPcdQy/LbD/Xu3FdoAtrjCt
+ Rz8P2JJW2MX4dzD/reFnQ2jxyEKYpMF3HUIZEwhvk7gAcndyA7sOb8SygmvLKDdpynvUR9isN3i
+ 9bDnb1J3k8xF+M2TFOiE6a4j460PmePy2lmLV+l6/eCyqR6pUKJuI4/qesa0/WvkUoqIwuz1PrG
+ 5e/crfkzISMRiqZsmuRWexT0rb4PXKpv2ZyqMw+AVO/mIVt95oxmUdFKVRZy8QT/cE+ka2ukjzm
+ d6YZ7PInYe1cXAVn/1vUlcHtjAC9vucIvduhq6AaBbPgPJIBcGjfLoPFJmxAHZ/XoviQdZQYMIV
+ ArW9AnzYLO6MXi7kVnzt3icUaddnK+I7kApJeGDBHguyFNIPh0ma+FYM1M8EzyBLxtwgaw2RHYP
+ 3cRYKgsHGU9A==
+X-Google-Smtp-Source: AGHT+IGzgtbqSQa+Nunwm3tsFNhMDU83uHRCJF1GCTTEVoUczGHtwgIxvcTuLpvcqSN7APe8juko5w==
+X-Received: by 2002:a05:6402:4302:b0:640:cd2a:3cc1 with SMTP id
+ 4fb4d7f45d1cf-647abcf4242mr1593608a12.0.1764828411280; 
+ Wed, 03 Dec 2025 22:06:51 -0800 (PST)
+Received: from xeon ([188.163.112.74]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-647b2ef7798sm460296a12.15.2025.12.03.22.06.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Dec 2025 22:06:50 -0800 (PST)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Svyatoslav Ryhel <clamor95@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: [PATCH v3 0/7 RESEND] Add support for panels found in various Tegra
+ devices
+Date: Thu,  4 Dec 2025 08:06:16 +0200
+Message-ID: <20251204060627.4727-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.51.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Linux 6.18 amdgpu build error
-To: Shuah Khan <skhan@linuxfoundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>, akpm@linux-foundation.org
-Cc: Alexander Deucher <Alexander.Deucher@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx@lists.freedesktop.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Linux Memory Management List <linux-mm@kvack.org>
-References: <74032153-813a-4a40-8363-cce264f4d5ea@linuxfoundation.org>
- <1eb24816-530b-4470-8e58-ce7d8297996c@roeck-us.net>
- <0425d7b4-76e4-4057-83a5-a7b17a051c54@linuxfoundation.org>
- <ec77d11a-7613-4b75-8c9e-f2bba1595f0f@roeck-us.net>
- <9d520a1d-0b8d-4d30-b29f-230fc0f92b8a@linuxfoundation.org>
- <1f31b86d-283c-4878-92d0-ab90aed0c58d@roeck-us.net>
- <5af4522e-30ab-4eec-a861-c2760cdabd4f@linuxfoundation.org>
-From: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Content-Language: en-US
-In-Reply-To: <5af4522e-30ab-4eec-a861-c2760cdabd4f@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,45 +93,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/4/25 03:34, Shuah Khan wrote:
-> On 12/3/25 18:06, Guenter Roeck wrote:
->> On 12/3/25 14:16, Shuah Khan wrote:
-> 
->>>
->>> CONFIG_RANDSTRUCT is disabled and so are the GCC_PLUGINS in my config.
->>
->> I guess that would have been too easy...
->>
->>> I am also seeing issues with cloning kernel.org repos on my system after
->>> a recent update:
->>>
->>> remote: Enumerating objects: 11177736, done.
->>> remote: Counting objects: 100% (1231/1231), done.
->>> remote: Compressing objects: 100% (624/624), done.
->>> remote: Total 11177736 (delta 855), reused 781 (delta 606), pack-reused 11176505 (from 1)
->>> Receiving objects: 100% (11177736/11177736), 3.01 GiB | 7.10 MiB/s, done.
->>> Resolving deltas: 100% (9198323/9198323), done.
->>> fatal: did not receive expected object 0002003e951b5057c16de5a39140abcbf6e44e50
->>> fatal: fetch-pack: invalid index-pack output
->>>
->>
-> 
-> Linus, Andrew, and David,
-> 
-> Finally figured this out. I narrowed it to  to be the HAVE_GIGANTIC_FOLIOS
-> support that went into Linux 6.18-rc6 in this commit:
-> 
->   From 39231e8d6ba7f794b566fd91ebd88c0834a23b98 Mon Sep 17 00:00:00 2001
-> From: "David Hildenbrand (Red Hat)" <david@kernel.org>
-> Date: Fri, 14 Nov 2025 22:49:20 +0100
-> Subject: [PATCH] mm: fix MAX_FOLIO_ORDER on powerpc configs with hugetlb
-> 
+Add support for panels found in various Tegra30 and Tegra114 devices,
+including panels in Tegra Note 7, Surface RT, Surface 2 and Ideapad
+Yoga 11 T30.
 
-Unsuspected and confusing :(
+---
+Changes in v2:
+- dropped gpu/drm: panel-edp: add AUO B116XAN02.0 panel entry (picked into drm-misc-next)
+- expanded commit descriptions
+- return accum_err on prepare
+- switched to devm_regulator_bulk_get_const
 
-Let me take a look at reply on the revert.
+Changes in v3:
+- lg,ld070wx3.yaml > lg,ld070wx3-sl01.yaml
+---
+
+Anton Bambura (1):
+  gpu/drm: panel: add Samsung LTL106HL02 MIPI DSI panel driver
+
+Svyatoslav Ryhel (6):
+  dt-bindings: display: panel: properly document LG LD070WX3 panel
+  gpu/drm: panel: add support for LG LD070WX3-SL01 MIPI DSI panel
+  ARM: tn7: adjust panel node
+  dt-bindings: display: panel: document Samsung LTL106AL01 simple panel
+  gpu/drm: panel: simple-panel: add Samsung LTL106AL01 LVDS panel
+    support
+  dt-bindings: display: panel: document Samsung LTL106HL02 MIPI DSI
+    panel
+
+ .../display/panel/lg,ld070wx3-sl01.yaml       |  60 ++++++
+ .../display/panel/panel-simple-dsi.yaml       |   4 +-
+ .../bindings/display/panel/panel-simple.yaml  |   2 +
+ arch/arm/boot/dts/nvidia/tegra114-tn7.dts     |  13 +-
+ drivers/gpu/drm/panel/Kconfig                 |  26 +++
+ drivers/gpu/drm/panel/Makefile                |   2 +
+ drivers/gpu/drm/panel/panel-lg-ld070wx3.c     | 184 ++++++++++++++++++
+ .../gpu/drm/panel/panel-samsung-ltl106hl02.c  | 179 +++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c          |  65 ++++---
+ 9 files changed, 496 insertions(+), 39 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/lg,ld070wx3-sl01.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-lg-ld070wx3.c
+ create mode 100644 drivers/gpu/drm/panel/panel-samsung-ltl106hl02.c
 
 -- 
-Cheers
+2.48.1
 
-David
