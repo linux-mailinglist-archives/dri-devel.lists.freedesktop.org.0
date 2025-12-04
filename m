@@ -2,48 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C2ECA3103
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 10:46:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9D4ACA3112
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 10:46:44 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 516BC10E8F7;
-	Thu,  4 Dec 2025 09:45:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C08810E901;
+	Thu,  4 Dec 2025 09:46:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tGyaleQ1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qumC81uX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31D5F10E8F7
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 09:45:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F3D2810E901
+ for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 09:46:41 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 5F6BD60185;
- Thu,  4 Dec 2025 09:45:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A3C2C4CEFB;
- Thu,  4 Dec 2025 09:45:53 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 71C4D601B0;
+ Thu,  4 Dec 2025 09:46:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E51CFC4CEFB;
+ Thu,  4 Dec 2025 09:46:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764841556;
- bh=2f3vgAhcU3dgW9En/Hjs2lUOgZWqrjrBicUJtS55NvI=;
+ s=k20201202; t=1764841601;
+ bh=3Xo6KEFNNleLs7NQbRdlOybDeYxGnm96HhQ7ttb1sa4=;
  h=From:To:Cc:Subject:Date:From;
- b=tGyaleQ1z+W32h+gSZ/UcAo57LuIs+x3OOJPqsxwLTw4mgmH1ZnwKvuoe1w8ySka5
- bbldJvo65I0skfP2CUy77F4IYrl37KyIZzkwpKDtv2CfuivsTRI8VbJwNcoAslM1fy
- JE/jqbWTdO3MpO/zcr6N56irb3RzgYR2/pO154pWOnclr6nh2Hz/nQZtv5gvLY+1pK
- 1QT6m3VH/8FoicLFeyZbSK64EH/Yc+N1Gvqv9BTjepDTatBkiwpVvlkU1ZaJu4zNS3
- 2fkh6ks3CFKKdYdTt19o9lVHDcqzy4l3/nM+J94eOGACtKpZBabobQ1OLtP9cR/QTg
- uI9g/S3UvOVCw==
+ b=qumC81uXbcWCwG/Jll8DFkNziiV0b8/vPnQBlJ04lGwHHzGWUFixsy1daHL5jZjcX
+ fwdaSlJ/2UV+bUwlSJ89XbTwiordBco22NN1g7Lu/FLMOLeACPJF4lIAM7SEfAe+PJ
+ vW532CoWcoOjz1dPWVHPSK+qLw5lnVYG7kURBf7/SJBthZqAYSfQPKySL4ohENGJLd
+ JdN+lRwBfBfxLjYYZXijwlyrLORrrmT1SDQYyS/9Q6urK5sySCmtUHx1I+cSSM7/PE
+ M9KiK7UAvHFmt6SS0wuCdeOCAJVch8U0PQOpRU8YhC8y7HDNdA1NvozuCVQp/24y4g
+ 41l/SwBo0Zcfg==
 From: Arnd Bergmann <arnd@kernel.org>
-To: Linus Walleij <linusw@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
+To: Philipp Zabel <p.zabel@pengutronix.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Douglas Anderson <dianders@chromium.org>,
- Brigham Campbell <me@brighamcampbell.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jessica Zhang <jesszhan0024@gmail.com>,
- Anusha Srivatsa <asrivats@redhat.com>, dri-devel@lists.freedesktop.org,
+ Simona Vetter <simona@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Dmitry Baryshkov <lumag@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panel: novatek-nt35560: avoid on-stack device structure
-Date: Thu,  4 Dec 2025 10:45:45 +0100
-Message-Id: <20251204094550.1030506-1-arnd@kernel.org>
+Subject: [PATCH] drm/imx: select DRM_DISPLAY_HELPER as needed
+Date: Thu,  4 Dec 2025 10:46:26 +0100
+Message-Id: <20251204094635.1030724-1-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,58 +65,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-A cleanup patch apparently by accident used a local device structure
-instead of a pointer to one in the nt35560_read_id() function, causing
-a warning about stack usage:
+CONFIG_DRM_BRIDGE_CONNECTOR is a bool option that turns on features of
+the display helpers, which are in a module controlled by the (tristate)
+CONFIG_DRM_DISPLAY_HELPER. If the display helpers are in a loadable
+module, a built-in driver trying to use the bridge connectors fails
+to link:
 
-drivers/gpu/drm/panel/panel-novatek-nt35560.c: In function 'nt35560_read_id':
-drivers/gpu/drm/panel/panel-novatek-nt35560.c:249:1: error: the frame size of 1296 bytes is larger than 1280 bytes [-Werror=frame-larger-than=]
+x86_64-linux-ld: drivers/gpu/drm/imx/ipuv3/parallel-display.o: in function `imx_pd_bind':
+parallel-display.c:(.text+0xcd): undefined reference to `drm_bridge_connector_init'
+x86_64-linux-ld: drivers/gpu/drm/imx/ipuv3/imx-ldb.o: in function `imx_ldb_bind':
+imx-ldb.c:(.text+0x224): undefined reference to `drm_bridge_connector_init'
 
-Change this to a pointer as was liley intended here.
+Select the DRM_BRIDGE_CONNECTOR symbol as well, to ensure it's built-in
+if anything needs it.
 
-Fixes: 5fbc0dbb92d6 ("drm/panel: novatek-nt35560: Clean up driver")
+Fixes: f94b9707a1c9 ("drm/imx: parallel-display: switch to imx_legacy_bridge / drm_bridge_connector")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/gpu/drm/panel/panel-novatek-nt35560.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/imx/ipuv3/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-novatek-nt35560.c b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-index 561e6643dcbb..6e5173f98a22 100644
---- a/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-+++ b/drivers/gpu/drm/panel/panel-novatek-nt35560.c
-@@ -213,7 +213,7 @@ static const struct backlight_properties nt35560_bl_props = {
- 
- static void nt35560_read_id(struct mipi_dsi_multi_context *dsi_ctx)
- {
--	struct device dev = dsi_ctx->dsi->dev;
-+	struct device *dev = &dsi_ctx->dsi->dev;
- 	u8 vendor, version, panel;
- 	u16 val;
- 
-@@ -225,7 +225,7 @@ static void nt35560_read_id(struct mipi_dsi_multi_context *dsi_ctx)
- 		return;
- 
- 	if (vendor == 0x00) {
--		dev_err(&dev, "device vendor ID is zero\n");
-+		dev_err(dev, "device vendor ID is zero\n");
- 		dsi_ctx->accum_err = -ENODEV;
- 		return;
- 	}
-@@ -236,12 +236,12 @@ static void nt35560_read_id(struct mipi_dsi_multi_context *dsi_ctx)
- 	case DISPLAY_SONY_ACX424AKP_ID2:
- 	case DISPLAY_SONY_ACX424AKP_ID3:
- 	case DISPLAY_SONY_ACX424AKP_ID4:
--		dev_info(&dev,
-+		dev_info(dev,
- 			 "MTP vendor: %02x, version: %02x, panel: %02x\n",
- 			 vendor, version, panel);
- 		break;
- 	default:
--		dev_info(&dev,
-+		dev_info(dev,
- 			 "unknown vendor: %02x, version: %02x, panel: %02x\n",
- 			 vendor, version, panel);
- 		break;
+diff --git a/drivers/gpu/drm/imx/ipuv3/Kconfig b/drivers/gpu/drm/imx/ipuv3/Kconfig
+index acaf25089001..1c3825a86380 100644
+--- a/drivers/gpu/drm/imx/ipuv3/Kconfig
++++ b/drivers/gpu/drm/imx/ipuv3/Kconfig
+@@ -13,6 +13,7 @@ config DRM_IMX
+ config DRM_IMX_PARALLEL_DISPLAY
+ 	tristate "Support for parallel displays"
+ 	depends on DRM_IMX
++	select DRM_DISPLAY_HELPER
+ 	select DRM_BRIDGE
+ 	select DRM_BRIDGE_CONNECTOR
+ 	select DRM_IMX_LEGACY_BRIDGE
+@@ -33,6 +34,7 @@ config DRM_IMX_LDB
+ 	depends on DRM_IMX
+ 	depends on COMMON_CLK
+ 	select MFD_SYSCON
++	select DRM_DISPLAY_HELPER
+ 	select DRM_BRIDGE
+ 	select DRM_BRIDGE_CONNECTOR
+ 	select DRM_PANEL_BRIDGE
 -- 
 2.39.5
 
