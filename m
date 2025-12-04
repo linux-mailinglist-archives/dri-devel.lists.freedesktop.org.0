@@ -2,138 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24EEDCA2A4A
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 08:36:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AC28CA2AB6
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 08:43:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C67810E8BF;
-	Thu,  4 Dec 2025 07:36:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5596810E8CD;
+	Thu,  4 Dec 2025 07:43:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="WIibZs/f";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kqb2lp4S";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WIibZs/f";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kqb2lp4S";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pCsN0eAC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5A9810E8BF
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 07:35:58 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 385CC5BCCC;
- Thu,  4 Dec 2025 07:35:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764833756; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tiDSI8s+de25srFpU+tnfD7e93KNcgOI+z2h5jk8xpM=;
- b=WIibZs/fypshew11uyushA9rhRriPRWjaxeNMIgA8HBtsi4XzhcyulxRmRrKs5pc2guux1
- 0x0wVLIi1ZeCj5Q9HktScv8KgQ5JcpobfgxWkWD8DhPZ83zb6WOrYc4Y8ir853qkvm4Pgf
- l4XBMPWGuqM4BpftqOMZXW3yGpJhhrE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764833756;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tiDSI8s+de25srFpU+tnfD7e93KNcgOI+z2h5jk8xpM=;
- b=kqb2lp4StljJF1SRUw2lXIzzhyc/D6sEsbHV2RrtAYyk+pkROs1yV0sblx5+A4SfMhoWrn
- D2bkfs/S0OwEoKAA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b="WIibZs/f";
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=kqb2lp4S
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1764833756; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tiDSI8s+de25srFpU+tnfD7e93KNcgOI+z2h5jk8xpM=;
- b=WIibZs/fypshew11uyushA9rhRriPRWjaxeNMIgA8HBtsi4XzhcyulxRmRrKs5pc2guux1
- 0x0wVLIi1ZeCj5Q9HktScv8KgQ5JcpobfgxWkWD8DhPZ83zb6WOrYc4Y8ir853qkvm4Pgf
- l4XBMPWGuqM4BpftqOMZXW3yGpJhhrE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1764833756;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=tiDSI8s+de25srFpU+tnfD7e93KNcgOI+z2h5jk8xpM=;
- b=kqb2lp4StljJF1SRUw2lXIzzhyc/D6sEsbHV2RrtAYyk+pkROs1yV0sblx5+A4SfMhoWrn
- D2bkfs/S0OwEoKAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 12BFF3EA63;
- Thu,  4 Dec 2025 07:35:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id zm9VA9w5MWkhZQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 04 Dec 2025 07:35:56 +0000
-Message-ID: <4491be38-7a20-4d0b-929b-7b2d40374844@suse.de>
-Date: Thu, 4 Dec 2025 08:35:55 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82ED110E8CD;
+ Thu,  4 Dec 2025 07:43:17 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 98BFE60185;
+ Thu,  4 Dec 2025 07:43:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DB85C4CEFB;
+ Thu,  4 Dec 2025 07:43:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764834196;
+ bh=Hbnl4cXb2cP1C8GXEHYqEtQdD+Wqt6C5+BhCFhWMNSU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=pCsN0eAC1y8xg5YHzXmmtrdj13jHziWW7nOTTEubp8hjIiLTX5lTjKyTtYAuzvbV7
+ 0ORoRKSUgm0nqof+h127kcqawTdloFfQ+Oje1V9opLp4OHRaz9fb5qniCf0we9bVYC
+ MMN9XFFwcu5s2JOAkSA2SOB26OlY3nQhDcbT4SIoo8ZYmpGEJQhW2UT5FQ9RacUPHa
+ VxsspGsGJj2VEsD1hByk2olXC0GV9asVYuE1CbJvRXWskL+oLqKL6F6Qxb2sqtWpBS
+ MJYXyiqYpiokNOo2sbwZxSa50sYM+k4++TprZhgsc6F4sOG4D8jCtT806WSu99EalI
+ 92kS2erbIa07g==
+Message-ID: <74dae26a-ef75-48e7-a391-47152365e39c@kernel.org>
+Date: Thu, 4 Dec 2025 08:43:05 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: linux-next: manual merge of the drm tree with Linus' tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>, Dave Airlie <airlied@redhat.com>
-Cc: DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Next Mailing List <linux-next@vger.kernel.org>
-References: <20251204140654.1cba1aeb@canb.auug.org.au>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251204140654.1cba1aeb@canb.auug.org.au>
+Subject: Re: [PATCH v2 1/4] kernel.h: drop STACK_MAGIC macro
+To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Cc: Jani Nikula <jani.nikula@intel.com>
+References: <20251203162329.280182-1-yury.norov@gmail.com>
+ <20251203162329.280182-2-yury.norov@gmail.com>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <20251203162329.280182-2-yury.norov@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: 385CC5BCCC
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_TLS_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_FIVE(0.00)[5]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:url];
- TO_DN_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,39 +73,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, your fix looks correct.
 
-Am 04.12.25 um 04:06 schrieb Stephen Rothwell:
-> Hi all,
->
-> Today's linux-next merge of the drm tree got a conflict in:
->
->    drivers/gpu/drm/drm_fb_helper.c
->
-> between commit:
->
->    eb76d0f55535 ("drm, fbcon, vga_switcheroo: Avoid race condition in fbcon setup")
->
-> from Linus' tree and commit:
->
->    6915190a50e8 ("drm/client: Support emergency restore via sysrq for all clients")
->
-> from the drm tree.
->
-> I fixed it up (see below) and can carry the fix as necessary. This
-> is now fixed as far as linux-next is concerned, but any non trivial
-> conflicts should be mentioned to your upstream maintainer when your tree
-> is submitted for merging.  You may also want to consider cooperating
-> with the maintainer of the conflicting tree to minimise any particularly
-> complex conflicts.
->
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+Le 03/12/2025 à 17:23, Yury Norov (NVIDIA) a écrit :
+> The macro was introduced in 1994, v1.0.4, for stacks protection. Since
+> that, people found better ways to protect stacks, and now the macro is
+> only used by i915 selftests. Move it to a local header and drop from
+> the kernel.h.
+> 
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
 
+Reviewed-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+
+> ---
+>   drivers/gpu/drm/i915/gt/selftest_ring_submission.c | 1 +
+>   drivers/gpu/drm/i915/i915_selftest.h               | 2 ++
+>   include/linux/kernel.h                             | 2 --
+>   3 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_ring_submission.c b/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
+> index 87ceb0f374b6..600333ae6c8c 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
+> @@ -3,6 +3,7 @@
+>    * Copyright © 2020 Intel Corporation
+>    */
+>   
+> +#include "i915_selftest.h"
+>   #include "intel_engine_pm.h"
+>   #include "selftests/igt_flush_test.h"
+>   
+> diff --git a/drivers/gpu/drm/i915/i915_selftest.h b/drivers/gpu/drm/i915/i915_selftest.h
+> index bdf3e22c0a34..72922028f4ba 100644
+> --- a/drivers/gpu/drm/i915/i915_selftest.h
+> +++ b/drivers/gpu/drm/i915/i915_selftest.h
+> @@ -26,6 +26,8 @@
+>   
+>   #include <linux/types.h>
+>   
+> +#define STACK_MAGIC	0xdeadbeef
+> +
+>   struct pci_dev;
+>   struct drm_i915_private;
+>   
+> diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+> index 5b46924fdff5..61d63c57bc2d 100644
+> --- a/include/linux/kernel.h
+> +++ b/include/linux/kernel.h
+> @@ -40,8 +40,6 @@
+>   
+>   #include <uapi/linux/kernel.h>
+>   
+> -#define STACK_MAGIC	0xdeadbeef
+> -
+>   struct completion;
+>   struct user;
+>   
 
