@@ -2,81 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BEF9CA38BB
-	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 13:08:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0821ECA38CA
+	for <lists+dri-devel@lfdr.de>; Thu, 04 Dec 2025 13:09:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3D2D10E898;
-	Thu,  4 Dec 2025 12:08:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5617D10E931;
+	Thu,  4 Dec 2025 12:09:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O/NL346l";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OER+xLZS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B00A610E931
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 12:08:31 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-2980d9b7df5so10232445ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 04:08:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764850111; x=1765454911; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=b9KaknhTYA7we8L7tbWOYdBApVf4+OuKI4DN15w2EF0=;
- b=O/NL346llEEJ3l11qc4fYxr6+2NcOsGOIdNbF3aKc1o3o4ShBQJ8XUs9ixmx4whyy0
- 7OnBz/NyH/yMiq7HDyhLVOM+jSRC1lRKLofPj5BVTvTBEeXfaJAB3ruzWr6B9FdDmM7Q
- WMUTUbeghO2LWPr72aUqKgE62V75CRHjW5bd6R8Eb2i3/MhiJOZAS1C7HsI5V6PsQIgh
- 9B0tbi6ArA9SWNvs35wqBGdecFE59b66zfv2qj2jqc8sZJhKcIcD0mi8Q6JpM5OLDAB3
- PrUcxs7teJstegh6W5dy59gEESIYDf1AzuUb8XZsuh+YBold4oevvFzB4vZTedlrTyhB
- ElfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764850111; x=1765454911;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=b9KaknhTYA7we8L7tbWOYdBApVf4+OuKI4DN15w2EF0=;
- b=EJ3PbNC5H4gfUNgZ32ApGmHcqY+WmhERc1zHz0yBP3WiWI3ge0NUicN6XQG+DzLm+X
- FSX6Dy8uRnI9UvB/QSYoh+BokQv+zxCCmn3src4afD90GfY2lKKW9NwgDQBXwkUhnt6Y
- UVM39JBb8+HHbvcjuHUnzOJiuBMHyhpcvK3bRkt4g5JKZ3UyTtLfQHntpnvH6wYScJcY
- WRuyYrGOYQkan/Ju1rkGjMldvrcxc+e0Rdk/QYx2/bUzpS4nc0TUkwnNFUQPnK7bMG6n
- HV4HXNJtvP8IkosRy0Sxj+U8qBP8q77wagKdmECCvaQOjJBLorSbrXkRAmKwUfZh2+Cu
- MLHA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX7X7RJzdOl99mjpET3+1qv47VL151c1kuIWatiNhDqIzsNpaICBOqD6LQKf39/zdp2alT+raq9Y3I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxeP2aGAlEMrYqhtX88LW6R5G2BfYfsTKOXjhj7ZO//09voB4ms
- tv2IQeymiXlUVt7xJXrxHhl4rGzXE0n0HcPuSxKE2HR+8gXyPC6chPEE
-X-Gm-Gg: ASbGnctAf0wMcFHm3/kLtHrbcoAo1Grc+8s+sR9tdck0SUuC1yY9ACwKKwS2QE2IAfl
- +wbo26g6Tr6ZlE1acWDL+F6gRT4j11+Zf/+3EI/KsCbBtF1oggAzQerheRSM8e+QJSLSxP0kH3E
- kA6uIkJsetLXCKSu9j7YgTcOkDSBEB3bhsYlMkihgTxRbGaDlXI1qbbnRbVVQ/OfdEenk24vZv0
- JxqIBy173taIsAK3wMepJAWIiIHnr+jE/HLK7GEQkQqM0zuDNbbHcnjaUiDnCeWeGgUoZImUhSm
- PlPsTZB2P+vBmAVmRMdD3WVAw4wCmjmut2Y6mzl2pmRI3iPGIbKauDel8JyWuvTaAeKj2RC7AC4
- pqcE5yi/+KTV5iv1nvREM6JjnCpHwnXGaRVAwZ8YiNqA6t37hqoUIQkinJFUtKskkh0aVOYkHTQ
- rt9Ae+6q0DAEFN
-X-Google-Smtp-Source: AGHT+IGgnfLkR8h/ZDEH0zcyut45P3flGlGTcJqAlGQmerA42Y/lhM13y2pCi+VHgv7Q5gX7l8a4rQ==
-X-Received: by 2002:a17:903:1ae8:b0:295:7b8c:661c with SMTP id
- d9443c01a7336-29d683131e9mr77831675ad.26.1764850111169; 
- Thu, 04 Dec 2025 04:08:31 -0800 (PST)
-Received: from archlinux ([36.255.84.61]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29daeaaba2dsm18586635ad.69.2025.12.04.04.08.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 04 Dec 2025 04:08:30 -0800 (PST)
-From: Madhur Kumar <madhurkumar004@gmail.com>
-To: lyude@redhat.com,
-	dakr@kernel.org
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
- Madhur Kumar <madhurkumar004@gmail.com>
-Subject: [PATCH v2] drm/nouveau : refactor deprecated strcpy
-Date: Thu,  4 Dec 2025 17:38:22 +0530
-Message-ID: <20251204120822.17502-1-madhurkumar004@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251204114021.36719-1-madhurkumar004@gmail.com>
-References: <20251204114021.36719-1-madhurkumar004@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5956710E8E8;
+ Thu,  4 Dec 2025 12:09:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764850145; x=1796386145;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=BdH+TaxM/tdbxB+Q9hmIRNfVhBmoIgivzmmLy+Wwjms=;
+ b=OER+xLZS1oB3KZI6NXgE2u/tmelx3NEb6/pIC9+Ocpp31UpgRrwrUaNl
+ hGubLdn3ivM7eWcaFqujwEqAhdX20xS9XdhiEpTOxxffP07NCgpWDzRhB
+ fk3HSxso29+9eA1ZdTIw9EMITRykDI10QlAEzghdIKYnWEENaCY88dd5I
+ h6QoJZ1VoaNYiymifFItpWheLMqwzb9voUAMfCm92kqNS0rinROgkfV1f
+ mHarbUC1U174RRk85r2S1W8i1a2Qh6EJCplrHDtfdMXf1fCpeMlDtwIPl
+ Od/IAJv0aXtQ7KhxqIpmIX6644ht4JQpRjqLTkqOyreTpUim2wbNE7KdX g==;
+X-CSE-ConnectionGUID: 7sn+tsJqSCyEdMIR/KDctw==
+X-CSE-MsgGUID: k5KRz1s9QOeBaH0+kbZgQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11631"; a="65863551"
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="65863551"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 04:09:04 -0800
+X-CSE-ConnectionGUID: DuBYcdonRHKMc1PRIU1pPw==
+X-CSE-MsgGUID: VwK5qHRCQE22Fe+S2Uvu7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,248,1758610800"; d="scan'208";a="225924707"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.11])
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Dec 2025 04:08:59 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Yaroslav Bolyukin <iam@lach.pw>, Ville =?utf-8?B?U3lyasOkbMOk?=
+ <ville.syrjala@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Christian =?utf-8?Q?K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+ Wayne Lin <Wayne.Lin@amd.com>, amd-gfx@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Yaroslav
+ Bolyukin <iam@lach.pw>
+Subject: Re: [PATCH v7 3/7] drm/edid: MSO should only be used for non-eDP
+ displays
+In-Reply-To: <20251202110218.9212-4-iam@lach.pw>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251202110218.9212-1-iam@lach.pw>
+ <20251202110218.9212-4-iam@lach.pw>
+Date: Thu, 04 Dec 2025 14:08:56 +0200
+Message-ID: <3a7a356f73cb135f4c5f82a9c5d237d3be804886@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,37 +80,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-strcpy() has been deprecated because it performs no bounds checking on the
-destination buffer, which can lead to buffer overflows. Use the safer
-strscpy() instead.
+On Tue, 02 Dec 2025, Yaroslav Bolyukin <iam@lach.pw> wrote:
+> As per DisplayID v2.1a spec:
+> If Offset 06h[2:0] is programmed to 001b (External DisplayPort), this
+> field shall be cleared to 00b (Not supported).
+>
+> Link: https://lore.kernel.org/lkml/3abc1087618c822e5676e67a3ec2e64e506dc5ec@intel.com/
 
-Signed-off-by: Madhur Kumar <madhurkumar004@gmail.com>
----
-changes in v2:
- - Remove the size parameter from strscpy
+The Link: tag is unnecessary. No need to resend for this.
 
- drivers/gpu/drm/nouveau/nouveau_fence.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index 869d4335c0f4..4a193b7d6d9e 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -183,11 +183,11 @@ nouveau_fence_context_new(struct nouveau_channel *chan, struct nouveau_fence_cha
- 	fctx->context = drm->runl[chan->runlist].context_base + chan->chid;
- 
- 	if (chan == drm->cechan)
--		strcpy(fctx->name, "copy engine channel");
-+		strscpy(fctx->name, "copy engine channel");
- 	else if (chan == drm->channel)
--		strcpy(fctx->name, "generic kernel channel");
-+		strscpy(fctx->name, "generic kernel channel");
- 	else
--		strcpy(fctx->name, cli->name);
-+		strscpy(fctx->name, cli->name);
- 
- 	kref_init(&fctx->fence_ref);
- 	if (!priv->uevent)
+
+> Signed-off-by: Yaroslav Bolyukin <iam@lach.pw>
+> ---
+>  drivers/gpu/drm/drm_displayid_internal.h |  4 +++
+>  drivers/gpu/drm/drm_edid.c               | 36 +++++++++++++++---------
+>  2 files changed, 27 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_displayid_internal.h b/drivers/gpu/drm/drm_displayid_internal.h
+> index 5b1b32f73516..72f107ae832f 100644
+> --- a/drivers/gpu/drm/drm_displayid_internal.h
+> +++ b/drivers/gpu/drm/drm_displayid_internal.h
+> @@ -142,9 +142,13 @@ struct displayid_formula_timing_block {
+>  	struct displayid_formula_timings_9 timings[];
+>  } __packed;
+>  
+> +#define DISPLAYID_VESA_DP_TYPE		GENMASK(2, 0)
+>  #define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
+>  #define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
+>  
+> +#define DISPLAYID_VESA_DP_TYPE_EDP	0
+> +#define DISPLAYID_VESA_DP_TYPE_DP	1
+> +
+>  struct displayid_vesa_vendor_specific_block {
+>  	struct displayid_block base;
+>  	u8 oui[3];
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index a0a6ccf12475..380a9dda275f 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -6533,6 +6533,7 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
+>  	struct displayid_vesa_vendor_specific_block *vesa =
+>  		(struct displayid_vesa_vendor_specific_block *)block;
+>  	struct drm_display_info *info = &connector->display_info;
+> +	int dp_type;
+>  
+>  	if (block->num_bytes < 3) {
+>  		drm_dbg_kms(connector->dev,
+> @@ -6551,20 +6552,29 @@ static void drm_parse_vesa_specific_block(struct drm_connector *connector,
+>  		return;
+>  	}
+>  
+> -	switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
+> -	default:
+> -		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved MSO mode value\n",
+> +	dp_type = FIELD_GET(DISPLAYID_VESA_DP_TYPE, vesa->data_structure_type);
+> +	if (dp_type > 1) {
+> +		drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved dp type value\n",
+>  			    connector->base.id, connector->name);
+> -		fallthrough;
+> -	case 0:
+> -		info->mso_stream_count = 0;
+> -		break;
+> -	case 1:
+> -		info->mso_stream_count = 2; /* 2 or 4 links */
+> -		break;
+> -	case 2:
+> -		info->mso_stream_count = 4; /* 4 links */
+> -		break;
+> +	}
+> +
+> +	/* MSO is only supported for eDP */
+> +	if (dp_type == DISPLAYID_VESA_DP_TYPE_EDP) {
+> +		switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
+> +		default:
+> +			drm_dbg_kms(connector->dev, "[CONNECTOR:%d:%s] Reserved MSO mode value\n",
+> +				    connector->base.id, connector->name);
+> +			fallthrough;
+> +		case 0:
+> +			info->mso_stream_count = 0;
+> +			break;
+> +		case 1:
+> +			info->mso_stream_count = 2; /* 2 or 4 links */
+> +			break;
+> +		case 2:
+> +			info->mso_stream_count = 4; /* 4 links */
+> +			break;
+> +		}
+>  	}
+>  
+>  	if (info->mso_stream_count) {
+
 -- 
-2.52.0
-
+Jani Nikula, Intel
