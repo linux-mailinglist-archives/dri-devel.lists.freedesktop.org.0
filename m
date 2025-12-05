@@ -2,156 +2,170 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 628A9CA645B
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 07:52:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB07CA6A73
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 09:17:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB3D810EA1F;
-	Fri,  5 Dec 2025 06:52:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FF0E10EA4D;
+	Fri,  5 Dec 2025 08:16:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="duocEECA";
+	dkim=pass (2048-bit key; unprotected) header.d=amlogic.com header.i=@amlogic.com header.b="ItDK33zM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com
- (mail-westcentralusazon11013071.outbound.protection.outlook.com
- [40.93.201.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51AFE10EA21;
- Fri,  5 Dec 2025 06:52:27 +0000 (UTC)
+Received: from TYPPR03CU001.outbound.protection.outlook.com
+ (mail-japaneastazon11022129.outbound.protection.outlook.com [52.101.126.129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE7610EA22
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 07:09:58 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=A9+iK08odwBed+b0IYP9sFdKPsV+ukoVzVVpFO/k/wr5H8iQEYVyWfOKTl3Afh+L8PHMRoGfshhRTEBp8H5nIzjPEym6EMOSNUCPXf6Lx8xG2bbjgiLXVH7/hQby4maXRvvGk15Snz0RoS0Gd1EgBNChSXiQ99ElA6uFIFHB8CtEDHP3Zba19GkZWY11YJB5Jn/DXxwL894q3tyBRKQ48gFp3kyIyWIEv7G1pkdNOp0tbnIw3sw0JQlRFNQYgLX5xnsVQEsp9BgHY03xuYW91SQCZOF/vYTne+47sQ75fzA4OZxtLq6+avG5Qy6f/hTl26jHw2hWzDbKMgsbL9KxLQ==
+ b=RvfTbNhFfJ7LL7mVVgWI/ffGS+xNwFx3YVm29dz3+Szgyyj7FuYVI/pWg2wFjRHpylkkMrK0wYxAB9D2utpSU9PtZpE0PGUhp4dXj2mbpa6MBJHdKvYbREJcQOOD3TjC19vIKEscGlzc12t5pB5qXWKiCWZZQIu7HnNEaFrW3R0hRz1dwEGhcJntcZx4ao2hRRijwPqenc+65tOb2LT7T1GTrVnWUG8xDb6B0iw7VNeQ4C1h+Yo2nWPsjl8LZkjLFAAk3lWG1Pbtf4Sj0EUKSsdkh3/6dabZ9AhPSrqPdS+aAFgb3HrzRa8eVGoX/V9bUJVwEGw9pzTDGTLNyRb7QA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Vk8F8VXZ36TbwmEpubGLvH16VwC4GIk+CsBNo9+vtsw=;
- b=XhE93OfF17ftbXuCO2HgRMU1ZgLMuUgOJQvQju+lscQYVVMcqUsYHDHKYiaboVJofMTro96ZJ4TREBN8PTwbKq/3o/kTmnyBOEOiE2mZcgQk/HNT98U9orTAHF0IsBI46VdFfmXo82cgxUzZKeL+oTFfPpLJTfX3satb9DsTyhNq/BdwfIfn765efTChDqeMB0QydyqUBWLTxsZxnn5hIeaMt7dLg1mCq0XZxDlwvTls91tCNzltj4RoiRg3P7fK8i6B9Qs77IEbw/egSHcfwIH3h+lN1M0THn2eXt1MNdeyimLtHpsS8Ykt/4c12V/UcwsB2FNmO1hWYnQ1WTJ2nA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=C6X/xJE6G9okbIO/fZVWocnELBI7xMgAiAXIwIsSuZI=;
+ b=D8+l8E1xpvMzxxLnhYarVd/5DLglhGrB89h/Pb89bPVtvScpsfg2gYN/Acubw9wQHwW2FDxvBgERFoPIGFpDQUG4x3ZS9kHw4jAYq+CziGeI6PapcPDUD5XAFFXR/dN70J6maUMnoTyjo7PCoeoxzZWM/G2GLx/XkK+kM3FstiyLHbPyP0AFTTzZR2tsIemL+nd47ZKkUdf/qpSLkUI5tjBvZELQLzTIHYD4BlMwSmaVFy5A/kP7tHOFn6FciUUUk8mes4X4JZ0uNyRJaLNKqSu0/kBMzMVcMtLxqjkb2vnCfZk2lT3wwngF9G2t6cnXbtpT+OIOMVQsOyRHMnsY4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amlogic.com; dmarc=pass action=none header.from=amlogic.com;
+ dkim=pass header.d=amlogic.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amlogic.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vk8F8VXZ36TbwmEpubGLvH16VwC4GIk+CsBNo9+vtsw=;
- b=duocEECAE2jZnph7SOA+KsmiuUiv7acSG6pEioIA43Bl4MhTneizKAhfl2kI520rLtJO5hxijs/2mhdI2a+19ZF42Qp5CDeePU8mbLbDu+TFL/mvrvbi7kvMZXSPJlj0FwrmzvNKH6y/iqsfm4L7mVNZnmLsLT/EQ0sdOqIhbmA=
-Received: from DM5PR07CA0087.namprd07.prod.outlook.com (2603:10b6:4:ae::16) by
- SJ5PPFEB07C8E34.namprd12.prod.outlook.com (2603:10b6:a0f:fc02::9a8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.17; Fri, 5 Dec
- 2025 06:52:21 +0000
-Received: from DS1PEPF0001708F.namprd03.prod.outlook.com
- (2603:10b6:4:ae:cafe::2) by DM5PR07CA0087.outlook.office365.com
- (2603:10b6:4:ae::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.11 via Frontend Transport; Fri,
- 5 Dec 2025 06:52:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- DS1PEPF0001708F.mail.protection.outlook.com (10.167.17.139) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9388.8 via Frontend Transport; Fri, 5 Dec 2025 06:52:21 +0000
-Received: from [127.0.1.1] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 5 Dec
- 2025 00:52:17 -0600
-From: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
-Date: Fri, 5 Dec 2025 14:50:58 +0800
-Subject: [PATCH v5 5/5] Documentation/amdgpu: Add UMA carveout details
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20251205-vram-carveout-tuning-for-upstream-v5-5-1e87cf3b57be@amd.com>
-References: <20251205-vram-carveout-tuning-for-upstream-v5-0-1e87cf3b57be@amd.com>
-In-Reply-To: <20251205-vram-carveout-tuning-for-upstream-v5-0-1e87cf3b57be@amd.com>
-To: Alex Deucher <alexander.deucher@amd.com>, =?utf-8?q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ bh=C6X/xJE6G9okbIO/fZVWocnELBI7xMgAiAXIwIsSuZI=;
+ b=ItDK33zMVw6sEDpAcvzZtM9E1/hW2Ns9lzz2yFPmV/t2qLYV8WuaBCXbSTyAwTc6avcNkeTiobgCzEM1ktgCsEMUWFgPXjgcguKjsxp2h+zl80bcAaZ8wMVWQ39xsqjfcGm8wWbULrXsjvBsfiPMO1HnGNq9Rhhvx/2lwGVhZniRWwK6BCZJvzGelcWqL78xizKNSMUcKrEBsOZy7WXczkultVNbmiS3m5oBZpNOgxH8p6rri/KasWg2nqoDU4U52698yC7rgYdTJv2KkXyNjlSjue6Dl+m1ETLbmF+qnDHj29B9vfZTJJaWzbOWwrXtS51VjZIvZPyqIRezCdggpw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amlogic.com;
+Received: from KL1PR03MB7150.apcprd03.prod.outlook.com (2603:1096:820:cb::7)
+ by PUZPR03MB7013.apcprd03.prod.outlook.com (2603:1096:301:f2::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.11; Fri, 5 Dec
+ 2025 07:09:53 +0000
+Received: from KL1PR03MB7150.apcprd03.prod.outlook.com
+ ([fe80::5852:e46a:3516:de2b]) by KL1PR03MB7150.apcprd03.prod.outlook.com
+ ([fe80::5852:e46a:3516:de2b%6]) with mapi id 15.20.9366.012; Fri, 5 Dec 2025
+ 07:09:53 +0000
+Content-Type: multipart/mixed; boundary="------------o0aZcQ0HMxcBDqAugnnPLsZf"
+Message-ID: <b6b8203d-2a51-428f-8124-fa65d2c073a0@amlogic.com>
+Date: Fri, 5 Dec 2025 15:09:47 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/11] dt-bindings: display: meson-dw-hdmi: Add compatible
+ for S4 HDMI controller
+From: Ao Xu <ao.xu@amlogic.com>
+To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Cc: Chuan Liu <chuan.liu@amlogic.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>
-CC: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, "Tsao, Anson"
- <anson.tsao@amd.com>, "Mario Limonciello (AMD) (kernel.org)"
- <superm1@kernel.org>, "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3193; i=Leo.Lin@amd.com;
- h=from:subject:message-id; bh=5pP+01YJvt3qBcPPJfu3J806OWCdQrg5b42lmm7gfNI=;
- b=owEBbQKS/ZANAwAKAV8XsZZKKe6GAcsmYgBpMoEETPiCi5Uzcj0tqrK5Y6H1cet/E5s2ScqIR
- 3AFTUV/gzOJAjMEAAEKAB0WIQQzqV4kW+yguuqHrw5fF7GWSinuhgUCaTKBBAAKCRBfF7GWSinu
- ho9bD/4jmqhOvfPUT5FvdW7pVAtmz4sChWHquPqAvsQ2E7iRmcOyQnAHfjMoi0gamEjWi7muVDT
- p1YZ8ECih3+CsH0zxU/9WUzlPfOYK8QF+WG8rgagOgpUiE7ecnH0z7EaZ97HTTv5IWyV5a9hycM
- Df7kfWu6ikSrxvqG+e++jjYnnzluBX605xLAPMz86RhefcSH+z8Pv492my9FewfQsuhDBmtySNK
- qU1OpHWJzXFee0BPqvIcftbyeX4XgeC59tmyb95tNBH4mysaY3OAqF5Sdvg6aYoxPxt2fm05iG1
- t3pUaBsACq+FBu6spM3WPGM306Ic11a7+R2NH6XfFSDtrR9/RzFpaDJI4OTDJE71a9vBTuiMsp5
- f9HCJ1en/SEAC8EG0jCw0zE7jyKAoEjTt23cQjr5By721oNicD2RP2UuqtEbbI4PYrBcx1DwzWV
- NTNN0FElQhiRig3IetlEWjXrUFJBukOrIMkqqXQmUcdj8UVzsjgGYyYi/tOz5Qc6TMFGvVZT1qs
- GtE+4uqq8Ynuq9LYbfDVktbDJ9TzifEKShrEiGQYeMY3CsD3RHwTsZpJ6E08QxvV8hO0qxX/IWQ
- VzAgRHmH7vgoNj+l/eBdSXmcEfaf9BXtMfW51kJhomn4UtKVt5sg/Uyrk8hKav2hi52gzWpuIYR
- h/Pt/QM9rsw+inw==
-X-Developer-Key: i=Leo.Lin@amd.com; a=openpgp;
- fpr=33A95E245BECA0BAEA87AF0E5F17B1964A29EE86
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20250110-drm-s4-v1-0-cbc2d5edaae8@amlogic.com>
+ <20250110-drm-s4-v1-1-cbc2d5edaae8@amlogic.com>
+ <3AC316FA-A633-4B6C-81BA-CCCA290E7F03@gmail.com>
+ <8c3b9fa4-326e-4791-8154-07b268faa132@amlogic.com>
+ <7703796D-35D4-4AD2-B7F8-B75D2BE0F7AD@gmail.com>
+ <a71f24c9-1f40-45a1-8fdb-6075bbf89930@amlogic.com>
+ <F04DC684-AD64-447F-87EC-F503D411F25D@gmail.com>
+ <070eb0a3-2f6e-41ef-8310-0c592a2816dc@amlogic.com>
+In-Reply-To: <070eb0a3-2f6e-41ef-8310-0c592a2816dc@amlogic.com>
+X-ClientProxiedBy: TYCP301CA0066.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:7d::7) To KL1PR03MB7150.apcprd03.prod.outlook.com
+ (2603:1096:820:cb::7)
+MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0001708F:EE_|SJ5PPFEB07C8E34:EE_
-X-MS-Office365-Filtering-Correlation-Id: 805b414b-dbdd-467a-a4ed-08de33cad6f2
+X-MS-TrafficTypeDiagnostic: KL1PR03MB7150:EE_|PUZPR03MB7013:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1aca9e46-3f06-41a0-1a07-08de33cd49b4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|36860700013|1800799024|7416014|376014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?a2R5UTFaOXF6OENxbC9mbVpRazVmaEZVZ05LVm5IbHE4Ym5NUmJlTDJIeVh6?=
- =?utf-8?B?S1hxRi9oZ0UyOGZTeHlBUHIyQWhtNzdiaEJESU5hbnpjcVhnZ1ZIeW52WGZM?=
- =?utf-8?B?QXdWaGZBdTRDTndzL3hBYjE3SGQ5R2o0VFVmTnBqRzdqRkhiUExFZ2hMR2U3?=
- =?utf-8?B?MEFNcTVFREtaOTlGU2IzSDNtY2NSV0ErRmh0WVVXYWt0cUxsUGZoaU5rZ2tB?=
- =?utf-8?B?ZDVpRFpXczhaT2ZtV3VnREZneURXek9DWE9aNitGYlFrOFE2eDVVTjdUTHRh?=
- =?utf-8?B?U09vN3dWZXczemxZK1FMZXBPaXNRaGd3aEVvTDNIQUR3RjljaWRWVmNHd3l1?=
- =?utf-8?B?ZlJmYnhKQ0hqbVdtSW1MbGRxQnVsaGFYUEV1ZkJjRW1Qa2ovMFNaeSt4ZHpO?=
- =?utf-8?B?aUtyUjdtbGlWL2pFQ3J5TkZqVnJTb2htZFB6WE5Oa3dDTHVSd1JmeDVScy9W?=
- =?utf-8?B?TjJQYnJ4V2ZCUHZ0d1VnNmVvUlRaTDNWdTdBYzlGTGwvRnB5cWVpQS9RVXo3?=
- =?utf-8?B?QkxRWGJWODIxQzRNYUUvVjZPNmpkMytvdWhvSkwyN2J4V1JESGFvVTZpQUkr?=
- =?utf-8?B?YUVUd3VnR1N0YTA1cVJ1azhVdHFaNkxOQ2lFTnZiUURnV2RxZERQQnZJcHpU?=
- =?utf-8?B?MFJ3U25YaC9oWFJWNUw4U3ZhbzU2RVZ2TWRSbnJKZlE2V1htRkhlbVgvWm9P?=
- =?utf-8?B?d2dDQ3dtWXM2U2JIY0JjNzNzdHFqSUk4MnlCZ2UwN2srSnN0bHNRdGFzZ3o0?=
- =?utf-8?B?Vk1SSE5PSEdGVzIyREw3K0VtSkhpV29CWjJwbzJlZGNraWROL1Q3UGxJdEE1?=
- =?utf-8?B?SVhDdERWN3VLbGJCMkxIbjZON01TWC8vQm5XWXdQcjlRUHpWZ0tFU3V6Qitq?=
- =?utf-8?B?am9DVHdBZjJrVFV2SEl3WU1teFhlNitLZ3JPcUV1ZVNzYVhIbUVaamI2bDNq?=
- =?utf-8?B?K09WV2ZUL1BJMitJQjBMalBiY25XVDRheWE3REhlRmtCb29PRUlMZVEwSDN2?=
- =?utf-8?B?ZUdhOVdaa3VQMWtSb2RvODhnNHExd0xvODQvZmFrbGdHM3dVQWo0Z3h5SFNN?=
- =?utf-8?B?b2oxZXQyaGFYLzJoQ2dKN3hId2FrVUxqMGk0ZGtwcGNEK1NNU0x2RXNuYm15?=
- =?utf-8?B?cFB6TWJqaGNiVW1URWZoZURvTExSMUx6Mk9MUSsxU1VTVmV5VXE1N2oxeXM5?=
- =?utf-8?B?NjA5eE9DcDJYZ0hqOU1lc3I0VHE1TFFNbVVFUDN0Q0dhTEtubjRGQWtJUnVp?=
- =?utf-8?B?VmlvNUJhWDdFNDczZjBBaHd2bEtINC9DMnRlMHFrdWIyMzdkWWt3R05TV2g5?=
- =?utf-8?B?QkdDOEN5ekdlcmt1ZE16L05XKzlidTNya2kzSElETE52WjhCY1NZbnd5dHNS?=
- =?utf-8?B?dC9pM3U0c0pwLzRDQTVyYWVlMVhrdWQ1cGgzeU5lZG5wVDlWQm53aU1YajlQ?=
- =?utf-8?B?ZnlPd3VhMVFOY1YyNS9NOFd1YnRyblR5cFpXZmpubjdQUXpKSkMrcWZrVTM3?=
- =?utf-8?B?eVltTTVJZUtFWXppRHdsY0g4YWtoWHZlck9YVWYweDlJeGNOWDJKRjJqQS9n?=
- =?utf-8?B?VVd2ZERGeWJ6SC9yN0plcXk4TllmRlJaUW80cVFhdW9DODMwSlFaSG52M1Jq?=
- =?utf-8?B?SkJ1NEU1QVlBU1NCOVZTenRacnlpc29ZZ09abG93RmdnYnlMa0ZXK3hZTGJN?=
- =?utf-8?B?dGJFWkNrZVk5ZFJjQS9EUWx2Yk5RY29pUFRlb3FLVklGVHJjejUzQnBzNngx?=
- =?utf-8?B?U0hqdVNxSk8vbVB2Y3BRSXlUdjJKNWR3WVFHV28wU2U1SXRqM0FqMWg1alZ5?=
- =?utf-8?B?Sk41ajY5cTBLLzZlNVczbVlKbzZucHFBdlZQblhLdmVMeFpzL3RPTFprU2pm?=
- =?utf-8?B?Rm1WcUF1Tit0Z3ZjYTY4eTZnY3IzamRLTHdRMFFwQTRYRE01YlpBaHpEZWJz?=
- =?utf-8?B?OFJGK2RmKysyT1NKN295bGZXaks2NWE2UWQ4UlZaZVFSWE5zcm5ERmxmSmpp?=
- =?utf-8?B?aEt2QlZBRFpjSmsvUnFoeVQ0TTNPQWtIcUs2bjBEdE5wbytqaEJ6VENMY3Zx?=
- =?utf-8?B?OVlyRTNHZDkxemhFa3R2aDZZYWo1enhaSlEvU2h1VjRkZ1VKS29jdFZKbEph?=
- =?utf-8?Q?RnHI=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(36860700013)(1800799024)(7416014)(376014); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2025 06:52:21.5081 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 805b414b-dbdd-467a-a4ed-08de33cad6f2
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF0001708F.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPFEB07C8E34
+ ARA:13230040|1800799024|42112799006|366016|376014|7416014|7053199007|4013099003|13003099007|4053099003;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WUNhTjF0emw5WENXbWh3bXRiK1A4VlQ1S2puY1hrUGdCKzNTdkE1Q2lBU2x6?=
+ =?utf-8?B?bGQwVUxkZE1GMFQyVUc0a0tMTzhaVWltYjZ1UWxKR1NBQ3loc2JVUlZGY0hW?=
+ =?utf-8?B?bk5pTVJ3clovalRUR2FIRVNkUEs0bExiSWZ2eFh6L29QSVViRWZoSmpRRDhn?=
+ =?utf-8?B?WGtwZXIxU3NYciswWmczSy9mTWFzU05pK0ZScnhhdEFpdCtkZFE4aVJXK2l3?=
+ =?utf-8?B?V1FIVmtjZFVEenJ4L3g3S2RvWFBOYkRGdTMzYXhsdU1aWlFjKytNaHlqcUV6?=
+ =?utf-8?B?dWFReDhoNHRNSWs5TklpWnAwSVBsREh4WGl2MFhKclRza2dDWDNJRTlNeHdI?=
+ =?utf-8?B?dVJTckpQSFIwRTlBK1NuYnEvV2pIRW52TXAwNjZkY1Z2allmcUV1V0RXbzhy?=
+ =?utf-8?B?U3Q3cDZ5eU9tbTlSd2ZNemJJNFE1OXlsdG02WEovY1ZlekhpeWNnT1lPNTU1?=
+ =?utf-8?B?Q2FrazZlT0FPdi82T2llYXlaZVVZZm5vZjZuMUNCeUZ3NkpQWlBDUzhoRzZV?=
+ =?utf-8?B?VVBqSFZDVVBkcnM0ZXFzbTFnUDhNQ0MwSjZoczNpWnNSTHhYckN2QjQ1d1RX?=
+ =?utf-8?B?OHhML3lRN053c3ZGQXE1Wi9HemNNVWwvWG1GOVAxRDE2Vmw1dER6ZVNrMU9D?=
+ =?utf-8?B?QzFweEQ5UEFEWlozbnkrQ1labEVqSkdGMXZXVjVEeUpXeW9kNThhUXRKTDZU?=
+ =?utf-8?B?VVg0YTJpWnd2S3Z4aWtxcVJUcXVKclZHZFlWOEZZS2xuSk1zNDVUcTdmZzg4?=
+ =?utf-8?B?YWorMkswYzlBV2ZpSzZYQkt6c29HTkw3YU5RUzdkUjhZWWNhdDBJeEV5UlMy?=
+ =?utf-8?B?Lzh0dG9FRGZRaUl3L0U1b1cxQWEyVmxtbzZPQXdwdWJ6VUcyY0x1Y0dwVVE0?=
+ =?utf-8?B?ODhqZEpGeFBQdlBWQkpoalZOQ2N3bU1ZTW9Ld3FZYUwvWHpzZHQzUjY1UWhQ?=
+ =?utf-8?B?UXFrb2ErLzNhQlZKcmxOdkNybHVrZTZGZ1pVUFJMVWxoMTFWMTZIbHQ0Y0NQ?=
+ =?utf-8?B?eXZXbnVyczdKQndvL1RmWDkzQWlqUGpuWkp2R1ZqMzZma051NW9CVncyWGxH?=
+ =?utf-8?B?UVFJUkpWN29wZE9SQkNjdE11NVpHOWlYazFaUWloSWw1NnZBQ0dMNGFJQ2oz?=
+ =?utf-8?B?WlhjRTE1TVJscDFpOWNQWFkwNWhvN3ZFZ095VTIxclN5VmlxUUY4cDRFd1I2?=
+ =?utf-8?B?SCtteG5hZm8xWEticlFJeXRVTURxM1UyNUhlOEpvaFp3R3JRYVVoNUlOVlF5?=
+ =?utf-8?B?VUQ2aEdFSHp3TkRxblJUbitVeEJiNGJFMTlSY2FTdll0UlRoT0dhS3Era2ZX?=
+ =?utf-8?B?amZXTmJCRSs0cEx4bTZOYlJhcnZPeXNwOEc2cERMSUZLc1crYm1ZVFlERnBG?=
+ =?utf-8?B?anZwT3N2ZlphaHZERHpRaWVjZkloMXNaRitRdWMwK1NuMTJTWVpnV2RMNFFw?=
+ =?utf-8?B?K21iSjBQdG5lajVGRzFMK0tKYjFFZVd2R28yZ2xDbDFlY3I2cy81U3dZUTZY?=
+ =?utf-8?B?bmRuOE9CdW5zaEE2NTdrM0FaODVSaWk4c0ltQW9EWTZPYWExM216NVBqZjRC?=
+ =?utf-8?B?OGR3U2paenlVT05yOGhTYUtKK3pYTCtSU3o5OCtKZXMzSGJCWStYcEw3VHdV?=
+ =?utf-8?B?YysxTkhDWFgxM0d2Unl2WFlLVDdVbERGZkVlUXZZL2FFL2R4YTlZVXN3RTk0?=
+ =?utf-8?B?MStJOWEwMExEeVQxbnloM0RDN0VJeVFGUWYxTUlQS0FpcnVRbjlBb1ZaRjlW?=
+ =?utf-8?B?blFCM1J1QTFGQU8rTjh2U0s5ZWZCdlpJaXJUeUcweldsTUM2UEtvampFWVVq?=
+ =?utf-8?B?R282am5hZlk3am9XYjdsOFczNGhuNmh3dEJCR3RoUnhBTTduV2trWGhnMkJm?=
+ =?utf-8?B?anBQZWF2cy82TWVFTlA3OVFIY3lCOUEwaTBJOGtnK1Rqb0E9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:KL1PR03MB7150.apcprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(42112799006)(366016)(376014)(7416014)(7053199007)(4013099003)(13003099007)(4053099003);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aHN6VkxEcFZEVmpNckt6WEpzVUo1L1Z1c1pESGlRaUJVL0RCSFVHMEpKTTk5?=
+ =?utf-8?B?eDdwTmhvV05HWW9PaHRNcWtPUEdLMFN1dHAra0hsSElYTkk1S1h3V24yUTBX?=
+ =?utf-8?B?U2pQc01LeFVZSzBHYnJ3OU04Z0U5OE1oUTZhcVZGNEpxdkJoSi9idGkzS2ps?=
+ =?utf-8?B?S2JHTVk1bFRVMVpGeEVQM05TOENmbWljN3psUC9Pd0hTNHluRGtHMHloU2hM?=
+ =?utf-8?B?MlBubklKMy80cVcrekRxd2E2T2tjaDhNRXYrdTBmY2QvT3pMNWFzUk55Y2Jx?=
+ =?utf-8?B?cWYxUUl1cEQvMjAvT3d3RUJsZlFSZ2VmVFU1MXBtSDZ5MjhISUx1eTNEUmpy?=
+ =?utf-8?B?cnJ3d1JwaTRQQlVNR3lnMzFHbXZvZmxtZkZxRkh3VnlPV0VUMzlCZ2poODVI?=
+ =?utf-8?B?RklFZjdtTTNncGVldE1LNEZBd25zNExkVC9sdWluQytXaUhqTllFUHNsaFhL?=
+ =?utf-8?B?SnBlb096VHhLYVQyeE9reXlwUm5BaFQ5ejdWenNKSnN5K3RIUUoxNkVHYnBY?=
+ =?utf-8?B?UjhlWVNtYWhCRThWSHptbW9CeDYrdi9aYjZVcndwQ25NTCtqVU5pRFRncCt3?=
+ =?utf-8?B?dzVUTWRQSm9wQU81NVQrU2tMMDRpU3UvbTNNY2lpUFI5TXhyRzJQOHFDb1pR?=
+ =?utf-8?B?NWdta1FtbXljd0hPeGppTHdyR0FBWWNrYnNIZVc4OEZCNEtzZUxGVFljb1c5?=
+ =?utf-8?B?NDFRK0pKdy9jVHp6THlZRHFHVkdkb2VvaU54TVVTaVlTWkZGMkQzc3lLWjJY?=
+ =?utf-8?B?K3l1dkliVGFwYVg2T3ZmVEJCc0I0TGIxRnA1aUJrWXpZbEE3R3BkOVZVU09h?=
+ =?utf-8?B?eWVrejh6TFU4VWQwcCtjTE16ZWJFVGxmK3JlR2V0Zlh3MkhBREdBYzRYWlNu?=
+ =?utf-8?B?MFNGV3daR01NNFkvS0toNmhoN0ltUGMrSXM5alJ3OVhpWVpXRE91Umd3T01V?=
+ =?utf-8?B?RVpJU3BIcG9Ib3dJZ1VndE83TTlIN003Y25CUkcxdnFlMGNQVEZDVU14eHZE?=
+ =?utf-8?B?Qk4zVVZYV1o0cUhnY0JxTmd4VStjMFRFanhiUnVIOHhQSkNpS0FjaFNpcU4x?=
+ =?utf-8?B?bk9rNHVMK3djYVJDU3JCeEhlN0dhR1d5WjFXVTRnc0NNbE5LUFYzZDljdTJT?=
+ =?utf-8?B?K0cvMW9nc1orTStNdWFuQUppQ1AwR29BN1RycTNvcHhqV0VYRFRpSWN0MTUr?=
+ =?utf-8?B?NHpONnZESVZoYlNzbVlxYUIzSC9tZGVmRlNmZmdHUUJCdmxBQktvZ1ZRaDBK?=
+ =?utf-8?B?b1lSZ2hsbmxjYTI0Zk43VmFCRU90cVNXa1VVcnkyNFB2TUQvQU1DV0ZBUWgw?=
+ =?utf-8?B?am5qd3hYWk1KUWtTdVNvTlc1ckN1U3VhNllEbzRFSG5qT2ZUM2ZFU3Z6U0Rq?=
+ =?utf-8?B?NUtOekxZSmcxd21yWGRGcTBZK0VldDRiTmwzRm1kVWdzSnVvQ2NDUEo0VkYw?=
+ =?utf-8?B?OFpYSkh3bGg5Z0kvWHFZNEUrNVllZWp2V2ZaUGpSbjRUbGFQWGpzZHU3UTRZ?=
+ =?utf-8?B?UjFmNS9abXVmZGdvTDB0Tmt1TkFiVW5rQ3Y5Q2lzb0VVTVA0Z3A0NVVNeVI5?=
+ =?utf-8?B?RmFCd3B0NXBSM3VmVVEyUGE4cHlHaGVRN0R0eDNweXduTkNVdjI0bEhPQWlG?=
+ =?utf-8?B?TmNqWGYvaE5SZEJESTNqb3h4cG9PdzVpMWM4QUxIQk1wWHRaQUVxbzlRb1FN?=
+ =?utf-8?B?RUViVlZqdk9GK3hrOE8vS0ZIUkwwSWVxdksxckJMTlNVQllzYkNYL2txbW9V?=
+ =?utf-8?B?VlcrMjNRa0wxbzVPVnRKZml4czJ2Ymh4a1dvcTlKSmJvMS96cjlseEp4eUR3?=
+ =?utf-8?B?OVAzbzFLK3NPdDNSajV6M1VHdWMrTDFPamcwakEwQS8zaEV2LzVNR0hLcFFS?=
+ =?utf-8?B?RHE2ZHdRR1cwUWpXSWhwNnJQbE1nTXIybFUzWTIyYWZoT3didTQ2bHRYU2Vh?=
+ =?utf-8?B?bkVwVUtmcTJFbnlyREowTFBRT21WK3JySHV6dTRmN1pBQWJRRkhtdXA5TC9l?=
+ =?utf-8?B?MGwxd3RibE9ySXlWRXZEY3Zrd2VjZUlIVUU1WFovanJ0QXJFV0x5dkNBeVhY?=
+ =?utf-8?B?WXZHcDZSU1U3ZG9LSnBVdGJSQ3hNSlJCRW0yZWJ2V2QzUXhXQTlKeHdHdkpj?=
+ =?utf-8?Q?S+Iw/HklCZj/OufUq8MyTENHq?=
+X-OriginatorOrg: amlogic.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1aca9e46-3f06-41a0-1a07-08de33cd49b4
+X-MS-Exchange-CrossTenant-AuthSource: KL1PR03MB7150.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2025 07:09:53.3588 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0df2add9-25ca-4b3a-acb4-c99ddf0b1114
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 73r4LtkPyuLOMUkc7Zqv2B35DlxO63rVHuo3kq9gP+AMTV/zh3D7dkTyiVrA3MLpwAt6tROZDIAcW0jL/EYj4g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR03MB7013
+X-Mailman-Approved-At: Fri, 05 Dec 2025 08:16:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,99 +181,206 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add documentation for the uma/carveout_options and uma/carveout
-attributes in sysfs
+--------------o0aZcQ0HMxcBDqAugnnPLsZf
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
----
- Documentation/gpu/amdgpu/driver-misc.rst   | 26 ++++++++++++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 29 +++++++++++++++++++++++++++++
- 2 files changed, 55 insertions(+)
+Hi Piotr，
 
-diff --git a/Documentation/gpu/amdgpu/driver-misc.rst b/Documentation/gpu/amdgpu/driver-misc.rst
-index 25b0c857816e..e1a964c3add2 100644
---- a/Documentation/gpu/amdgpu/driver-misc.rst
-+++ b/Documentation/gpu/amdgpu/driver-misc.rst
-@@ -128,3 +128,29 @@ smartshift_bias
- 
- .. kernel-doc:: drivers/gpu/drm/amd/pm/amdgpu_pm.c
-    :doc: smartshift_bias
-+
-+UMA Carveout
-+============
-+
-+Some versions of Atom ROM expose available options for the VRAM carveout sizes,
-+and allow changes to the carveout size via the ATCS function code 0xA on supported
-+BIOS implementations.
-+
-+For those platforms, users can use the following files under uma/ to set the
-+carveout size, in a way similar to what Windows users can do in the "Tuning"
-+tab in AMD Adrenalin.
-+
-+Note that for BIOS implementations that don't support this, these files will not
-+be created at all.
-+
-+uma/carveout_options
-+--------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+   :doc: uma/carveout_options
-+
-+uma/carveout
-+--------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+   :doc: uma/carveout
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 979298d9c213..540f0781ca36 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -7837,6 +7837,24 @@ u64 amdgpu_device_get_uid(struct amdgpu_uid *uid_info,
- 	return uid_info->uid[type][inst];
- }
- 
-+/**
-+ * DOC: uma/carveout_options
-+ *
-+ * This is a read-only file that lists all available UMA allocation
-+ * options and their corresponding indices. Example output::
-+ *
-+ *     $ cat uma/carveout_options
-+ *     0: Minimum (512 MB)
-+ *     1:  (1 GB)
-+ *     2:  (2 GB)
-+ *     3:  (4 GB)
-+ *     4:  (6 GB)
-+ *     5:  (8 GB)
-+ *     6:  (12 GB)
-+ *     7: Medium (16 GB)
-+ *     8:  (24 GB)
-+ *     9: High (32 GB)
-+ */
- static ssize_t carveout_options_show(struct device *dev,
- 				     struct device_attribute *attr,
- 				     char *buf)
-@@ -7869,6 +7887,17 @@ static ssize_t carveout_options_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(carveout_options);
- 
-+/**
-+ * DOC: uma/carveout
-+ *
-+ * This file is both readable and writable. When read, it shows the
-+ * index of the current setting. Writing a valid index to this file
-+ * allows users to change the UMA carveout size to the selected option
-+ * on the next boot.
-+ *
-+ * The available options and their corresponding indices can be read
-+ * from the uma/carveout_options file.
-+ */
- static ssize_t carveout_show(struct device *dev,
- 			     struct device_attribute *attr,
- 			     char *buf)
+     I applied this 
+patch: https://github.com/warpme/minimyth2/blob/master/script/kernel/linux-6.18/files/0312-drm-meson-add-vpu-clk-setting-for-S4.patch, and 
+ran it on the board.
 
--- 
-2.43.0
+     I encountered the same issue—the system froze.
 
+     I found that the patch has a few minor problems. After fixing them, 
+the system runs normally. Could you try the following patch?
+
+
+在 2025/12/3 13:56, Ao Xu 写道:
+> Hi Piotr，
+>
+>     I will need about two more days to look into it. I will follow up 
+> with you ASAP.
+>
+>
+> 在 2025/12/2 16:29, Piotr Oniszczuk 写道:
+>> [You don't often get email from piotr.oniszczuk@gmail.com. Learn why 
+>> this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>>
+>> [ EXTERNAL EMAIL ]
+>>
+>> Ao,
+>> Any chance for updated s4 hdmi series for 6.18?
+>>
+>>
+>>> Wiadomość napisana przez Ao Xu <ao.xu@amlogic.com> w dniu 21 lis 
+>>> 2025, o godz. 03:55:
+>>>
+>>> Hi Piotr，
+>>>
+>>>      I will check this issue
+>>>
+>>> 在 2025/11/19 18:27, Piotr Oniszczuk 写道:
+>>>> [You don't often get email from piotr.oniszczuk@gmail.com. Learn 
+>>>> why this is important at 
+>>>> https://aka.ms/LearnAboutSenderIdentification ]
+>>>>
+>>>> [ EXTERNAL EMAIL ]
+>>>>
+>>>> Pls see inline
+>>>>
+>>>>> Wiadomość napisana przez Chuan Liu <chuan.liu@amlogic.com> w dniu 
+>>>>> 19 lis 2025, o godz. 03:57:
+>>>>>
+>>>>> Hi Piotr,
+>>>>>
+>>>>>
+>>>>> On 11/18/2025 10:50 PM, Piotr Oniszczuk wrote:
+>>>>>> [You don't often get email from piotr.oniszczuk@gmail.com. Learn 
+>>>>>> why this is important at 
+>>>>>> https://aka.ms/LearnAboutSenderIdentification ]
+>>>>>> [ EXTERNAL EMAIL ]
+>>>>>> Ao,
+>>>>>> Is there any chance to get this s4 drm hdmi series for current 6.18?
+>>>>>> (i tried backport this series to 6.18 but have some issues with 
+>>>>>> reparent vpu_0_sel to sysclk_b_sel)
+>>>>> Why do we need to reparent vpu_0_sel to sysclk_b_sel? is there any
+>>>>> background here?
+>>>> Well - it looks it is because bug....
+>>>> Martin Blumenstingl had perfect eye and catch typo in patch 
+>>>> https://lore.kernel.org/all/20250110-drm-s4-v1-11-cbc2d5edaae8@amlogic.com/: 
+>>>>
+>>>>
+>>>> By replacing:
+>>>> assigned-clock-parents = <&clkc_periphs CLKID_FCLK_DIV3>,
+>>>> <0>, /* Do Nothing */
+>>>> <&clkc_periphs CLKID_VPU_0>,
+>>>> <&clkc_periphs CLKID_FCLK_DIV4>,
+>>>> <0>, /* Do Nothing */
+>>>> <&clkc_periphs CLKID_VAPB_0>;
+>>>>
+>>>> with:
+>>>> assigned-clock-parents = <&clkc_pll CLKID_FCLK_DIV3>,
+>>>> <0>, /* Do Nothing */
+>>>> <&clkc_periphs CLKID_VPU_0>,
+>>>> <&clkc_pll CLKID_FCLK_DIV4>,
+>>>> <0>, /* Do Nothing */
+>>>> <&clkc_periphs CLKID_VAPB_0>;
+>>>>
+>>>> dmesg is like this https://termbin.com/6020
+>>>>
+>>>> So i'm getting hdmi working - but only when device boots _without_ 
+>>>> connected hdmi at boot (and connected later)
+>>>> If hdmi is connected at boot - boot hangs at:
+>>>>
+>>>>      0.341676] meson-dw-hdmi fe300000.hdmi-tx: Detected HDMI TX 
+>>>> controller v2.01a with HDCP (meson_dw_hdmi_phy)
+>>>> [    0.342750] meson-dw-hdmi fe300000.hdmi-tx: registered 
+>>>> DesignWare HDMI I2C bus driver
+>>>> [    0.343660] meson-drm ff000000.vpu: bound fe300000.hdmi-tx (ops 
+>>>> meson_dw_hdmi_ops)
+>>>> [    0.344832] [drm] Initialized meson 1.0.0 for ff000000.vpu on 
+>>>> minor 0
+>>>>
+>>>> FYI: It is after applying 
+>>>> https://patchwork.kernel.org/project/linux-amlogic/cover/20250110-drm-s4-v1-0-cbc2d5edaae8@amlogic.com/ 
+>>>> on mainline 6.18 (with some my adjustments on this series required 
+>>>> by changes in 6.18).
+>>>> For VPU clk changes see 
+>>>> https://github.com/warpme/minimyth2/blob/master/script/kernel/linux-6.18/files/0312-drm-meson-add-vpu-clk-setting-for-S4.patch
+>>>> It is 6.18 adaptation of 
+>>>> https://patchwork.kernel.org/project/linux-amlogic/patch/20250110-drm-s4-v1-9-cbc2d5edaae8@amlogic.com/
+>>>>
+>>>> As kernel hangs - i have limited caps to drill where root cause is.
+>>>>
+>>>> Maybe above hang is reason of my backports or missing any pre-req 
+>>>> required to get s4 drm working?
+>>>> Anyway - it will be good to test with updated to 6.18 series of Add 
+>>>> DRM support for Amlogic S4 (plus info about any pre-req required to 
+>>>> get s4 drm working)
+>>>>
+>>>>
+>>>>> The vpu_clk on S4 doesn't support sysclk_b_sel as one of its
+>>>>> selectable clock sources, so this reparent operation will definitely
+>>>>> fail. This has nothing to do with the kernel version.
+>>>>>
+>>>>>>> Wiadomość napisana przez Ao Xu via B4 Relay 
+>>>>>>> <devnull+ao.xu.amlogic.com@kernel.org> w dniu 10 sty 2025, o 
+>>>>>>> godz. 06:39:
+>>>>>>>
+>>>>>>> From: Ao Xu <ao.xu@amlogic.com>
+>>>>>>>
+>>>>>>> Add devicetree document for S4 HDMI controller
+>>>>>>>
+>>>>>>> Signed-off-by: Ao Xu <ao.xu@amlogic.com>
+>>>>>>> ---
+>>>>>>> Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml 
+>>>>>>> | 1 +
+>>>>>>> 1 file changed, 1 insertion(+)
+>>>>>>>
+>>>>>>> diff --git 
+>>>>>>> a/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml 
+>>>>>>> b/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml 
+>>>>>>>
+>>>>>>> index 
+>>>>>>> 84d68b8cfccc86fd87a6a0fd2b70af12e51eb8a4..6e0a8369eee915fab55af24d450a6c40e08def38 
+>>>>>>> 100644
+>>>>>>> --- 
+>>>>>>> a/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml 
+>>>>>>>
+>>>>>>> +++ 
+>>>>>>> b/Documentation/devicetree/bindings/display/amlogic,meson-dw-hdmi.yaml 
+>>>>>>>
+>>>>>>> @@ -55,6 +55,7 @@ properties:
+>>>>>>>            - const: amlogic,meson-gx-dw-hdmi
+>>>>>>>        - enum:
+>>>>>>>            - amlogic,meson-g12a-dw-hdmi # G12A (S905X2, S905Y2, 
+>>>>>>> S905D2)
+>>>>>>> +          - amlogic,meson-s4-dw-hdmi # S4 (S905Y4)
+>>>>>>>
+>>>>>>>    reg:
+>>>>>>>      maxItems: 1
+>>>>>>>
+>>>>>>> -- 
+>>>>>>> 2.43.0
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> _______________________________________________
+>>>>>>> linux-amlogic mailing list
+>>>>>>> linux-amlogic@lists.infradead.org
+>>>>>>> http://lists.infradead.org/mailman/listinfo/linux-amlogic
+>>>>>> _______________________________________________
+>>>>>> linux-amlogic mailing list
+>>>>>> linux-amlogic@lists.infradead.org
+>>>>>> http://lists.infradead.org/mailman/listinfo/linux-amlogic
+--------------o0aZcQ0HMxcBDqAugnnPLsZf
+Content-Type: text/plain; charset=UTF-8;
+ name="fix-vpu-clk-setting-for-s4.patch"
+Content-Disposition: attachment; filename="fix-vpu-clk-setting-for-s4.patch"
+Content-Transfer-Encoding: base64
+
+SW5kZXg6IGxpbnV4LW5leHQvbWVzb25fdmNsay5jCj09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0tIGxpbnV4LW5leHQu
+b3JpZy9tZXNvbl92Y2xrLmMJMjAyNS0xMi0wNSAxNDo1ODoyOS4wMzE0NTQxNzQgKzA4MDAKKysr
+IGxpbnV4LW5leHQvbWVzb25fdmNsay5jCTIwMjUtMTItMDUgMTU6MDA6MzQuOTM1MjA0MjE5ICsw
+ODAwCkBAIC01OTcsMTEgKzU5NywxMSBAQAogCQkudmNsa19kaXYgPSAxLAogCX0sCiAJW01FU09O
+X1ZDTEtfSERNSV8yNzAwMF0gPSB7Ci0JCS5wbGxfZnJlcSA9IDQzMjAwMDAsCi0JCS5waHlfZnJl
+cSA9IDI3MDAwMCwKLQkJLnZjbGtfZnJlcSA9IDU0MDAwLAotCQkudmVuY19mcmVxID0gMjcwMDAs
+Ci0JCS5waXhlbF9mcmVxID0gMjcwMDAsCisJCS5wbGxfZnJlcSA9IDQzMjAwMDAwMDAsCisJCS5w
+aHlfZnJlcSA9IDI3MDAwMDAwMCwKKwkJLnZjbGtfZnJlcSA9IDU0MDAwMDAwLAorCQkudmVuY19m
+cmVxID0gMjcwMDAwMDAsCisJCS5waXhlbF9mcmVxID0gMjcwMDAwMDAsCiAJCS5wbGxfb2QxID0g
+NCwKIAkJLnBsbF9vZDIgPSA0LAogCQkucGxsX29kMyA9IDEsCkBAIC0xMTQ4LDE1ICsxMTQ4LDE1
+IEBACiAJCW1lc29uX2hkbWlfcGxsX3NldF9wYXJhbXMocHJpdiwgbSwgZnJhYywgb2QxLCBvZDIs
+IG9kMyk7CiAJfSBlbHNlIGlmIChtZXNvbl92cHVfaXNfY29tcGF0aWJsZShwcml2LCBWUFVfQ09N
+UEFUSUJMRV9TNCkpIHsKIAkJc3dpdGNoIChwbGxfYmFzZV9mcmVxKSB7Ci0JCWNhc2UgMjk3MDAw
+MDoKKwkJY2FzZSAyOTcwMDAwMDAwOgogCQkJbSA9IDB4N2I7CiAJCQlmcmFjID0gdmljX2FsdGVy
+bmF0ZV9jbG9jayA/IDB4MTQwYjQgOiAweDE4MDAwOwogCQkJYnJlYWs7Ci0JCWNhc2UgNDMyMDAw
+MDoKKwkJY2FzZSA0MzIwMDAwMDAwOgogCQkJbSA9IHZpY19hbHRlcm5hdGVfY2xvY2sgPyAweGIz
+IDogMHhiNDsKIAkJCWZyYWMgPSB2aWNfYWx0ZXJuYXRlX2Nsb2NrID8gMHgxYTNlZSA6IDA7CiAJ
+CQlicmVhazsKLQkJY2FzZSA1OTQwMDAwOgorCQljYXNlIDU5NDAwMDAwMDA6CiAJCQltID0gMHhm
+NzsKIAkJCWZyYWMgPSB2aWNfYWx0ZXJuYXRlX2Nsb2NrID8gMHg4MTQ4IDogMHgxMDAwMDsKIAkJ
+CWJyZWFrOwo=
+
+--------------o0aZcQ0HMxcBDqAugnnPLsZf--
