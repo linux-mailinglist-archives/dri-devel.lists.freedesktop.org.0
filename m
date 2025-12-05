@@ -2,17 +2,17 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CD6BCA6A76
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 09:17:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B65ACA6A55
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 09:17:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80A3910EA53;
-	Fri,  5 Dec 2025 08:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B22910EA42;
+	Fri,  5 Dec 2025 08:16:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
- by gabe.freedesktop.org (Postfix) with ESMTP id CC2CB10EA23
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 07:19:16 +0000 (UTC)
-X-AuditID: a67dfc5b-c45ff70000001609-25-6932876cc6fb
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6792C10EA23
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 07:19:17 +0000 (UTC)
+X-AuditID: a67dfc5b-c45ff70000001609-45-6932876db4e0
 From: Byungchul Park <byungchul@sk.com>
 To: linux-kernel@vger.kernel.org
 Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
@@ -72,45 +72,45 @@ Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
  alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
  lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
  tmgross@umich.edu, rust-for-linux@vger.kernel.org
-Subject: [PATCH v18 10/42] dept: apply sdt_might_sleep_{start,
- end}() to wait_for_completion()/complete()
-Date: Fri,  5 Dec 2025 16:18:23 +0900
-Message-Id: <20251205071855.72743-11-byungchul@sk.com>
+Subject: [PATCH v18 11/42] dept: apply sdt_might_sleep_{start,end}() to swait
+Date: Fri,  5 Dec 2025 16:18:24 +0900
+Message-Id: <20251205071855.72743-12-byungchul@sk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20251205071855.72743-1-byungchul@sk.com>
 References: <20251205071855.72743-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0hTcRiH+5/7RpPTup3ygzGKILCaWLxE96LOl8DqWwU29KTDaTIvZVB5
- SbyV1mhFnizTXOpOGbMwV0tbNJKSZra2LmYz08qVYDpxc9lc9O15fz/e5/3yMrjyE7mU0WZk
- C/oMjU5FyQn5z7l1seklcdq1DW3R8LF/kIS3BZ0EXG2RKAiJbTSUWq6Q8NxdSIDzjhlB/0Qp
- gsmgiENx+wwBIYODhhmbA4HH2YGDdK8Ag5GnYwiM3kEKLn8vIGDUdBZB9ZBIw8/+hyS4/T4E
- psE/GIQupcH1ulYKgt2vcLjh7cPB1lhIwZuJUQq6jBUU/LpLQW2hjYSelyMIakQDgqH3NgyK
- 6lsoaP9spcFs2RO+QoF4+RsGxtsPMZgyNdMgdveSMNBYTcO0Vw0O8zANfVVGAizvniEYf+PF
- QDo7hEOpdSKcfXlLwiNbFwGloXEEjgcDGPRar1LwSZohIV+cJKFl2INBV3UTAR+6q2h4Zb1N
- QoO7BwPvZw8J/srorcl88esQxUvXJMQHAwbEjzcU4Xzx+fD41DeK84EJF8Xb/LUEf7MsgPEX
- umP59uo+mj/z+D3N11py+PpH3zHe0lxG8ZYxA52w6oB8Y7Kg0+YK+jWbD8tTg/ZyLNM27/g3
- lxPlo9aociRjODaeK3sxQP/nCqtIzjLFruQ8nil8lhewy7jWc0PhXM7gbG8MVzJVGSnms6nc
- E9sHapYJdgU3IlZGRAp2PecO/MD/SWM4893OCMvCudEdiLCSXcddL5+MSDm2XsYV2avQv4Ul
- 3JNGD3EeKWrRnGak1Gbkpmu0uvjVqXkZ2uOrk46mW1D460wnpw8+QGPO/XbEMkg1V9F5TK1V
- kprcrLx0O+IYXLVA4dOt1SoVyZq8E4L+aKI+Rydk2VE0Q6gWK+L8x5KVbIomW0gThExB/7/F
- GNnSfBTrujWMFu5zHCE2HX7e4dsZ9Espdet27zaJPunC/fKuva6YHVHbEtOazb3bE5eNdRiy
- ZdEbmrZsP1fhMsdyCcWK05nzS56ZatTxPTmu6U3xnc6or3UDNbukg/U31BebflcuYmT72OyF
- 04e+npqZnNOXlJDS5nFVGTcnLY/bW5T2R0VkpWrUq3B9luYvacPVVnEDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSe0xScRTH+917uSALu5Krm9UstlYrH9lrp8d6/OXtYfVPq9UfRXWXJKiD
- Qm290EjT8sEGrvBdslQqk8qosYiW056YGWaZYkSamD18DJQMbf1z9jnf7znfnT8ODxfe54Tx
- JInHWHmiWCoi+QR/+9qMSGnmMsnSRmcUZKnPwMdOFwfeqawEDA1mEVB0y0iCX1/Phay6yxxo
- dKQTYL9Zg6BzKAvByKgeB7V5nAC/poELg94PXNCqEIxbGhDomjU4tNkf4WC8o8Lgd+0fEvqe
- /EKgdbpIKOxVETBguIjgilvPhd6nsdDf+ZAD4x1fMXAMexAYXH8wcFkzEfh1CVBaYQqs636Q
- MPryNQ6FWjuCcmcHDr96uxDcafiEwHI9nYQv+XdxaHEFw9uhARKatDkk9DcXYfC9loSydAsH
- ml/0ISjWaxC42y0YZFy9RYKuuI4Ac9cDLjT3jWHwUafBoKYuDjoNbgKe51dggXMDU7dngr4w
- AwuUHgy0Nx5i4DVUczdWImZEnUsw1aZ7GKN+4ycZY4kRMaM+DWIGKzNwRp0faJ94BnDmnCmF
- qXzuIRnfUCvJWIbLCOZZBc1cu+DDmIKXkYz5Sgd356a9/HWHWalEycqj1x/gx4/asrFkS0hq
- T6sdnUWm4GwUxKOpFXTOAz1ngklqId3W5sUnOJSaR5suuQM6n4dTLeF0pjd30phOxdOPLR/I
- CSaoBXSfPpc7wQJqFe3wfcP/hYbTNbXWSQ4K6FqHb5KF1Eq6NHuEk4/4ZWhKNQqVJCplYol0
- ZZQiIT4tUZIadShJVocC/2Q4NVZwHw22xNoQxUOiqQJrSoxEyBErFWkyG6J5uChU4JEulQgF
- h8VpJ1h50n75cSmrsKHZPEI0U7BlN3tASB0RH2MTWDaZlf93MV5Q2Fl0dEl9knqOLa87aVrB
- Dr45TzVPtpgWtRelaPrfl3itqze01+oiTz7euk8Ys2bLdQ9efFqaXL8rr7DE6WvtXu8OyUzV
- fQ6PcLzSh8maFjl75nYFn/fPj6iyW29vi3Ziyu6D0dde7YlLL1HOmHW8a/mijhkVm29GTHeZ
- q4psQeU/jWtFhCJeHLMYlyvEfwHk5RxMSwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUxTZxTH99z73NtLQ5ObSuQRsrk0IUYNKEbNWeJePmzJ/SDLFmNi3Acs
+ coXrWsCCCCZGEOVNRYZSIiAtFEh52dDia2djRUUrIDAGdFrs0AoSyth4lVrRUrMvJ7/8f+f8
+ Px2OVrqYCE5KyRB1KWqNipVj+VRoXbS2YIu0eakiGlxuDwNDuXYM1W2tLLyruiGDQstFBuaW
+ nsngva0Tgb6/jAZn3x0aWq/mUjB7eZmF8lEPCxUTuRim3L8z8H5knILhBS+CRs8yBR57AQJD
+ XTsLk/p/WXjb00tDRXkfgtrRERpmJv5GcLXzOYJXpddo+HN+mgVH+WkWpvqrKTCesDHQ3z2J
+ 4FJVGYKxpzYK8kxtLOgvWTD0T/opcOnLKGixxIG7cQxDV2kdBfor4VBVkUcFxmsKuk0uDI05
+ UfDCXCkD/2gsOJ4PMTA5VsaC+2E+A5a/HiAotM5jsLwMCNvTjVCbX4/hYo2Lhds2B4YBazUL
+ OVWLDPTZuxhoG3dS0NX5CIOjsglDr/VX5ptEYfFUCRaa269Twqk/3rFCa00rEuYa8mjhnnea
+ Fnzzg6xgWzBi4XEdEeqLfJTwS0+0cKtyRCYYLYeFk/enGKHdvEEw3Z6gfojZK9+RKGqkTFG3
+ 6at98uSZ0UEm7QGX5WywynLQE7YYhXCE30ryX//GFCMuyEWDO1dill9HnM4leoXD+M9J+9mx
+ wIqco/mBtaRgqSQoVvFxZKB5Ga0w5qPIlTc9eIUV/HbSMXSe/ti/lrRctgc5JJCXD/uCrOS3
+ EUPxYrCU8C0hxF3kkX08WEPump24FCmM6JNmpJRSMrVqSbM1Jjk7RcqK2Z+qtaDAzzUe8/90
+ E8307epAPIdUoQr7kVhJyagz07O1HYhwtCpM4dVslpSKRHX2UVGXGq87rBHTO1Akh1Xhii0L
+ RxKVfJI6Q/xZFNNE3f+W4kIictD3px1t4zc/i7OGxnvXxGZ+ffZlvHcwzT9x3hfVUB9n7k4S
+ SYJ/5vHq/55lHC8+oN1/5t7uqBvTXEJE03e9F1YdI5/6kgpnTbsNcz8awp+kXoj81nDo5D8b
+ m87cLzmqqt+RO/ulNKw6x6831/QYI/dEHsy6lUFqv0g4nn/gbZh3vanhhAqnJ6tjN9C6dPUH
+ ZhZjZG8DAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUxTdxTG/d93OrtcK5EbHdE0mewNB2awY0YW/eSNGYZEE5LFqA3cwA0t
+ Qqu8Jdso2AGdI1DTklERRNswQIEWhsg6mzqYwBCwvFQHK2wdGwHFIK+FgoVkX05+5zzPkzwf
+ DoPL2sn9jJh+WVCnK5RySkJITn9WGKkqOipG9dowKNZ9A+NeHwmjWicBS4vFBNxoaqQgYG6n
+ odj2AwmPxwoIGLzXgMC7VIxgZd2Mg65ji4CAoZuGxbU/aDBqEWw5uhGYhgw4eAYf4tDYqsXg
+ dfMmBbOPFhAYp3wUVMxoCZi3XkNQOW2mYabrJLzwdpKwNfEvBmPLcwisvk0MfM4iBAFTGlTX
+ 2oNx0ysK1vsHcKgwDiK4NTWBw8LMJILW7j8ROOoKKPinrA0Ht+9tGF6ap6DH+B0FL4ZuYPCy
+ mYKaAgcJQ7/PIqgyGxBMP3dgUHi7iQJTlY2AjskHNAzNbmAwbjJg0GCLB691moC+slosWDfo
+ agkDc0UhFhz/YWC824nBmrWePm5B/IqulODr7T9hvO5pgOIbbzYift1vQPyipRDndWXB9dHc
+ PM5ftWfzlr45ivcvjVC8Y7mG4HtrOf5OiR/jy/sj+Y7KCTrhxJeSuGRBKWYJ6o8/vyhJXZga
+ ITO6mByP5QGdj55QesQwHPsJVzLyhR6FMBQbwXk8a/g2h7KHOPv306QeSRicdR/kitZKd4S9
+ bDznrt9E20yw73Itq/3ENkvZWM41en3Hw7EHuYZm5w6HBO/GMf8Oy9gYrlq/QpYhSQ3aVY9C
+ xfQslUJUxhzRpKXmpos5R5IuqWwo+E7WrzbK76NF90kXYhkk3y11ZkeLMlKRpclVuRDH4PJQ
+ 6ZwySpRJkxW5eYL60gX1FaWgcaEDDCEPk55KFC7K2BTFZSFNEDIE9f8qxoTsz0dvfX239KlY
+ aYp471N3k3fZc+6MkLcrUec8G7WaKO/K+9ny23HpsL/ONyxWV4YnhDftaYH7rRl1ew9/S/0S
+ 09B1vs1r1Do/mqwKqz5QHmv/69fxwEjmY/rhOyVJkfGZNaqBiL8z9RXeDxf6evb8OD++75gl
+ TsW/X/Us5ZALy0qYvdojJzSpiugPcLVG8QZ6wBFfSgMAAA==
 X-CFilter-Loop: Reflected
 X-Mailman-Approved-At: Fri, 05 Dec 2025 08:16:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -128,78 +128,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Make dept able to track dependencies by wait_for_completion()/complete().
+Make dept able to track dependencies by swaits.
 
 Signed-off-by: Byungchul Park <byungchul@sk.com>
 ---
- include/linux/completion.h | 30 +++++++++++++++++++++++++-----
- 1 file changed, 25 insertions(+), 5 deletions(-)
+ include/linux/swait.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/linux/completion.h b/include/linux/completion.h
-index fb2915676574..bd2c207481d6 100644
---- a/include/linux/completion.h
-+++ b/include/linux/completion.h
-@@ -10,6 +10,7 @@
-  */
- 
- #include <linux/swait.h>
+diff --git a/include/linux/swait.h b/include/linux/swait.h
+index d324419482a0..277ac74f61c3 100644
+--- a/include/linux/swait.h
++++ b/include/linux/swait.h
+@@ -6,6 +6,7 @@
+ #include <linux/stddef.h>
+ #include <linux/spinlock.h>
+ #include <linux/wait.h>
 +#include <linux/dept_sdt.h>
+ #include <asm/current.h>
  
  /*
-  * struct completion - structure used to maintain state for a "completion"
-@@ -26,14 +27,33 @@
- struct completion {
- 	unsigned int done;
- 	struct swait_queue_head wait;
-+	struct dept_map dmap;
- };
+@@ -161,6 +162,7 @@ extern void finish_swait(struct swait_queue_head *q, struct swait_queue *wait);
+ 	struct swait_queue __wait;					\
+ 	long __ret = ret;						\
+ 									\
++	sdt_might_sleep_start(NULL);					\
+ 	INIT_LIST_HEAD(&__wait.task_list);				\
+ 	for (;;) {							\
+ 		long __int = prepare_to_swait_event(&wq, &__wait, state);\
+@@ -176,6 +178,7 @@ extern void finish_swait(struct swait_queue_head *q, struct swait_queue *wait);
+ 		cmd;							\
+ 	}								\
+ 	finish_swait(&wq, &__wait);					\
++	sdt_might_sleep_end();						\
+ __out:	__ret;								\
+ })
  
-+#define init_completion(x)				\
-+do {							\
-+	sdt_map_init(&(x)->dmap);			\
-+	__init_completion(x);				\
-+} while (0)
-+
-+/*
-+ * XXX: No use cases for now. Fill the body when needed.
-+ */
- #define init_completion_map(x, m) init_completion(x)
--static inline void complete_acquire(struct completion *x) {}
--static inline void complete_release(struct completion *x) {}
-+
-+static inline void complete_acquire(struct completion *x)
-+{
-+	sdt_might_sleep_start(&x->dmap);
-+}
-+
-+static inline void complete_release(struct completion *x)
-+{
-+	sdt_might_sleep_end();
-+}
- 
- #define COMPLETION_INITIALIZER(work) \
--	{ 0, __SWAIT_QUEUE_HEAD_INITIALIZER((work).wait) }
-+	{ 0, __SWAIT_QUEUE_HEAD_INITIALIZER((work).wait), \
-+	  .dmap = DEPT_MAP_INITIALIZER(work, NULL), }
- 
- #define COMPLETION_INITIALIZER_ONSTACK_MAP(work, map) \
- 	(*({ init_completion_map(&(work), &(map)); &(work); }))
-@@ -75,13 +95,13 @@ static inline void complete_release(struct completion *x) {}
- #endif
- 
- /**
-- * init_completion - Initialize a dynamically allocated completion
-+ * __init_completion - Initialize a dynamically allocated completion
-  * @x:  pointer to completion structure that is to be initialized
-  *
-  * This inline function will initialize a dynamically created completion
-  * structure.
-  */
--static inline void init_completion(struct completion *x)
-+static inline void __init_completion(struct completion *x)
- {
- 	x->done = 0;
- 	init_swait_queue_head(&x->wait);
 -- 
 2.17.1
 
