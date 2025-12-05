@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE50CA644F
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 07:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6658FCA6458
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 07:52:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0240710EA1A;
-	Fri,  5 Dec 2025 06:52:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B429110EA1E;
+	Fri,  5 Dec 2025 06:52:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Juq4hEvw";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="uX30vmYQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com
- (mail-westusazon11012055.outbound.protection.outlook.com [52.101.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 745A110EA1C;
- Fri,  5 Dec 2025 06:52:21 +0000 (UTC)
+Received: from PH0PR06CU001.outbound.protection.outlook.com
+ (mail-westus3azon11011007.outbound.protection.outlook.com [40.107.208.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 977B510EA1C;
+ Fri,  5 Dec 2025 06:52:22 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JH4zKflzqY+Lx38jjbXwMim0TDUqTVL6lutaUPBuXBSuA0r1rbAjFBGj9wJ7Uckr+MvGCWA/60wAPlBlAc9WE1J9q7s2yBiSruCb2E48XK2lHDBK81OejnlK/mTviNI707HtiDC6gY+dLWb+iUb+g+HhLzQcWGyPKN0sK2VmruDW+OfpmXQZL2VwiS2V3YGnHoQBLX3q9njfVbviLvoGbs4TgpZVA3Ys7y/mPzfD2fLcOo3LhWKWLLU9aI5b40MvL1GB56ZczhO63r8Tuuorwd3Wb42qjxdINUiZt9uQeqKxB1+6OVJKg8xdFkYs4LoS5DrwSN2rv6qTbszRPGW/LA==
+ b=Vvv2GPXF2N1b2CuL3g3UEwZB1ofajynFTrE+xJfjgm44gGxFtYUQrk2+DW+aH+UhwTmM7gJpNjishz6K6j8wK4ZEORuDCoZHBhThOjJj2X1BqGfgDUxCRriDoxssTBfrCc58zKktkd8mIa9ilEbQPUdscSRr3JgbGj6lqVH9oPJkfLikyvC64qZ6mdXMEAEvRdw+fXDxu6QyNLrBsG+mNNTQ38dAC4bjHw4gOXStTHxbciR9z+Sza+N1ncHNvMpj+tWWwMlZlN1389oNcqEtmw9KZv1R+v8B0HtJNkkfpw+oLKJJsjBOO5X01njrPcpomvhLaF6km6bp7ZE12ctGGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dNHdvWdv0VSrnDeBDJ1DnvTDCpcSgm0o9fbtVqDN9bk=;
- b=LNhVoVEwTZTj6l81Ie/qXySe1ODxheQpiMFaMrWDY65bf71FLOxVaQW7BfWnmTICJSKuSO/pzntKxzpVx332Xo7Oxm3o8aSl2MdxPJZu7RFpUS9JPkA/ByULLMfh31oUl2Rz6KUND4hpYrB8CEmfVwush7T6F1V7NaPaBeKadUTJGLMyCKjDEh2/TxoZzg5ELWbtJWZmdRtGkrYI5tZ/LKZG5KvUZdb/RUfY42dlV3UCokPHhtN5UxiwLGN8U/6SaXr3FcY31CaaGkz4FD+3BIY3wH+hktCKsTuRhrrAWKgHoh2b9qLcW9Aa+SpY7BVBf1KKNO3xPfFYTHNgcB4epA==
+ bh=8oGSwUVseApxuEq74NExCWk3MqqndQd9SzDYDwbQYUA=;
+ b=ee45+/EdrbMo8GmbcW4zIj5fQuB4ZQNDRHPGaUKhEuVi7WnXi7xV4ZBg5VG8QLzARmppp5Fv586woawRSTcy64m7H0QoL/g3HUHUyqafny42W+hRPE4TyR59dAuyuSjlVgVDFLzVQN/5vIotivUvoQCBpgbHoGiLbR9kKbov+9MgzwsvEd5SWs4uVr6uw7Qi4FSuyIZjIbDSpoYu/yyLxfhmsUm0rXxZt2/76rYuMsvqBEw+vhbA2AcZdqgLJuxcc2fJDdZR5C7VJEtv8YZ/r+iw9TbVwPOhaKleEU7eXvQpFEtn3lg2lTXvnmPxHwI3CoAGoQA91K77cD7ftYHWMQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dNHdvWdv0VSrnDeBDJ1DnvTDCpcSgm0o9fbtVqDN9bk=;
- b=Juq4hEvwxlrvw5U98lh/BHigFXrswHDDw4+/GECzgMDa65IXUeVOqYsOlxTyJOM1rAOwWS2DW4MFbA8+tTfVqPQhDgmiI9M0JgVPpVOTYtP+GVevvilt9HjkBatoftfXiJvFJjjvOD6Lw0QB+fhi/JmA1ZZn8Odv0QiA7anyCtc=
-Received: from DS7PR03CA0090.namprd03.prod.outlook.com (2603:10b6:5:3bb::35)
- by MN0PR12MB6078.namprd12.prod.outlook.com (2603:10b6:208:3ca::6) with
+ bh=8oGSwUVseApxuEq74NExCWk3MqqndQd9SzDYDwbQYUA=;
+ b=uX30vmYQd/8qcoZMw/I8DNplJ7432bnFcPn6rCEnUXTl0InanEamzuPtg+FROGq1AqBWrhwPnHKu85+UxEiFZe9o67k2hCeygEXxTXSDOHHHKhli/Fbe4rCizkRzMdEqNYLaAtWugVzT7PHeyxvIPhCoI5as6/KZfDd2gUGTdUA=
+Received: from DS7PR03CA0084.namprd03.prod.outlook.com (2603:10b6:5:3bb::29)
+ by DS0PR12MB7778.namprd12.prod.outlook.com (2603:10b6:8:151::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Fri, 5 Dec
- 2025 06:52:15 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9366.13; Fri, 5 Dec
+ 2025 06:52:17 +0000
 Received: from DS1PEPF00017092.namprd03.prod.outlook.com
- (2603:10b6:5:3bb:cafe::12) by DS7PR03CA0090.outlook.office365.com
- (2603:10b6:5:3bb::35) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10b6:5:3bb:cafe::c6) by DS7PR03CA0084.outlook.office365.com
+ (2603:10b6:5:3bb::29) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9366.17 via Frontend Transport; Fri,
- 5 Dec 2025 06:52:14 +0000
+ 5 Dec 2025 06:52:17 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,18 +50,18 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from satlexmb07.amd.com (165.204.84.17) by
  DS1PEPF00017092.mail.protection.outlook.com (10.167.17.135) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9388.8 via Frontend Transport; Fri, 5 Dec 2025 06:52:14 +0000
+ 15.20.9388.8 via Frontend Transport; Fri, 5 Dec 2025 06:52:17 +0000
 Received: from [127.0.1.1] (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 5 Dec
- 2025 00:52:10 -0600
+ 2025 00:52:14 -0600
 From: "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
-Date: Fri, 5 Dec 2025 14:50:56 +0800
-Subject: [PATCH v5 3/5] drm/amdgpu: add UMA allocation setting helpers
+Date: Fri, 5 Dec 2025 14:50:57 +0800
+Subject: [PATCH v5 4/5] drm/amdgpu: add UMA allocation interfaces to sysfs
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20251205-vram-carveout-tuning-for-upstream-v5-3-1e87cf3b57be@amd.com>
+Message-ID: <20251205-vram-carveout-tuning-for-upstream-v5-4-1e87cf3b57be@amd.com>
 References: <20251205-vram-carveout-tuning-for-upstream-v5-0-1e87cf3b57be@amd.com>
 In-Reply-To: <20251205-vram-carveout-tuning-for-upstream-v5-0-1e87cf3b57be@amd.com>
 To: Alex Deucher <alexander.deucher@amd.com>, =?utf-8?q?Christian_K=C3=B6nig?=
@@ -74,20 +74,20 @@ CC: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <anson.tsao@amd.com>, "Mario Limonciello (AMD) (kernel.org)"
  <superm1@kernel.org>, "Yo-Jung Leo Lin (AMD)" <Leo.Lin@amd.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6465; i=Leo.Lin@amd.com;
- h=from:subject:message-id; bh=1JTUnYaMBwN88BupbbAJ9raQhG9A/tKHalgh9CtVNqY=;
- b=owEBbQKS/ZANAwAKAV8XsZZKKe6GAcsmYgBpMoEDeCSqVlZFeTD+PxqSNZxKGa5iz4Tz5hYZ8
- VSpPz1ZbMaJAjMEAAEKAB0WIQQzqV4kW+yguuqHrw5fF7GWSinuhgUCaTKBAwAKCRBfF7GWSinu
- hvk8D/9+v54rrCNJD7qh8tr+IL1OrpSrEmRFJJCRgOcYqOWFzApUacLs/LpOvL/h+7aW0Isc2Tm
- K5ICcYYiMSg9KzRVaHD1v4fEf4ApTQDaTwA5r5mb9681ywZIu+Tc8yQmPmm5a6mRnZmsLjufrVu
- 8v/D4PVaazOTx/tPR7H5oZ1oFS99sbXCGJccR85ieIb7VdQHWwDjtFPWeoYvZQU1bgUIVXMpVIY
- InQtr/NfpTWkVp42AnWbdN4aGy5OcpR3HVMjFq9G8NUto+7O11AqtTSgN5gzlLPs8KAaPyrrFtf
- MfLeEodH43duGv8oJu+kTY/YQb5rlyAUR+yM2Fr1NFGr15T4ZRuici+Uoo5M1C1f9hYUfGk92cU
- 0EKkH0vDY/ckrp5GQRWQMhnvGYQn09bGV8ipWBMRELwDhZ43PS9DzhhbB+mv9Zpruf+4hRo+6mf
- DEN32TN3GFydEyfWeCJp5ZMnlUwyQO0G6I9sPvEgG+fyf2DmrfX2a1+cn+33atfFWjNSQta5wdR
- FsfOqxiD3DUqGDRvD0YxROSZho2Y3B4YGdP7pB1GPHHOYlQXxmhxV+Jzg61N+/b9UVSO8+tsQyH
- wC8Sq1ZjUF46b2+B5011RnzJBmq2zUpcN7L9l+m0eqcoo+jeLCw+Zpl3fHArOp4WupdEupYANIe
- 4a3gkoia97Kp3SA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6648; i=Leo.Lin@amd.com;
+ h=from:subject:message-id; bh=H1TIWs+zw6Cg1v5OIVIey3hgAxGbLDcZ4aQXx0lGDFg=;
+ b=owEBbQKS/ZANAwAKAV8XsZZKKe6GAcsmYgBpMoEDn9tm7W8CjfQDJEzIEEufeyk8FTCmpxvz+
+ QfVQzrC4TyJAjMEAAEKAB0WIQQzqV4kW+yguuqHrw5fF7GWSinuhgUCaTKBAwAKCRBfF7GWSinu
+ hsmSEACEokBGUQwpHy+GHWPCmg1um2Tdeb//JvvdlKs2REsyGWypnkJpw0g8frgBqYlMcMt/KYV
+ ri3PvjSZwsONh6yguz0TD+oB9u7Pyl1UbeEV/VGMBDe47xEjq+RYBYxunVD0HQyCONH6mYO3Z4B
+ PgqlulcIwgh0aN/KjkpuXHx7gwMLIm+rgBeM/AuFv2GWz4dxMiASNDfPcxUGdxhWr7G2MA1huuy
+ tr2X8RJPzL5LdjuRZ/Z0AKMk0rS0XUnkOI3AThwGeqs9hHSGOOREfTf86IJrCLquYGUTAJqJRgY
+ f7olQ12cTZqKhDJ0OkSq+Za1mpDwILe2d7ruLbJkJPhWJncdkR5x/lAp9moxi5hRRF+0JZBPN3X
+ n4PN/7ipC1jId20OvTtiPic9E73Y1SYdDBAJfbM6S4jL25KNGtz4xpb2VN2DeroC9ajmRsjdhqS
+ l/M0Hq2yV/H12kddwv7DWAFPvZZzJ2sJRT0RO1aZZ+R9bAp0KuxVIBaDNZcNtboPvXuooLVkOCQ
+ KC+GU4HPGoog8aj31cjQcu2ivhJYuwD2zz5ysBRvSZFOtwHQjs8u2fpzcTX9ZdT8/j6GzKn230F
+ 3zVtP0YpuyKtuQlwCjSKyOMQqrf8GJZgmPwx0pYO22J9HR/D8ZKD9nc+Ntk+GXPetpl0EZNDOn+
+ 0YZX8b4EQKiSyPQ==
 X-Developer-Key: i=Leo.Lin@amd.com; a=openpgp;
  fpr=33A95E245BECA0BAEA87AF0E5F17B1964A29EE86
 X-Originating-IP: [10.180.168.240]
@@ -95,62 +95,62 @@ X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017092:EE_|MN0PR12MB6078:EE_
-X-MS-Office365-Filtering-Correlation-Id: f1a8ee56-dcda-4099-0f1c-08de33cad2c3
+X-MS-TrafficTypeDiagnostic: DS1PEPF00017092:EE_|DS0PR12MB7778:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1eccfe88-0b41-4633-d4f6-08de33cad4bd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|7416014|376014|82310400026|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WHZ2b3NRaDlHRmNkdUVmbndXOVRTbkpWUndTa0dabkZKdExtMG9RQTVnMTNE?=
- =?utf-8?B?TktKNnRnOXJCRGtKQzZwV2hDZm94ZWRrVU53OWliaC9aL1lYcitmVEFGNzZH?=
- =?utf-8?B?aVFsSTYyY2hvbzhtcGtFVXhBdlNEeHJ2WHNYZGwweFpQWm8yRnJkUTJ1QlZ1?=
- =?utf-8?B?cW5RVkt5NTI0dFNJV0RvUG5URlZFZmk0VjF5NXc1VHJSdlh6OXRFYk1OUDNz?=
- =?utf-8?B?dk5tTFM5Q3MxTnF1U0NFWEROZkc2SUkzelk1Nk9EYzBOTHdSWC9BM3VxS0RR?=
- =?utf-8?B?UU1ic3NncXZIWVQwZWV1bUxObDVGUjUxaXcwQ3pHTW1SOHlFSk9vWlBZbWpn?=
- =?utf-8?B?RWJFcnluZm9KdHRVLys4SG9lTUhJTnEzVXNUeUVqeUI1TWxlMnRtTytNUEl6?=
- =?utf-8?B?MVlXeE5wNmh2MFh4dDRTZGtzT3NBTXl5cXJlelA0V1V1ZGQ0aml4czFPa2hm?=
- =?utf-8?B?OW8xVi9YQVlCMVIvQkFNY2kxaWw4bWlPS1FJQjZIT0dSWkNiZGdrR2VyL1pT?=
- =?utf-8?B?QVJHTzliLzdwL2hqUGcrc2pkVFVmOU1vUUNDREppVVVpKzR4Vm5wdjdIZVEw?=
- =?utf-8?B?Tmp2QnFyTnhyd1diM1ZLOGlvajBqK2E5dldiS0grVXpxeUE5cXhka0xVQTFN?=
- =?utf-8?B?cEh4VHNUallOL2g3WHhTNzdxL1FFRzdoUWJwSWhQdWI4QytjSWxtbFphTWFT?=
- =?utf-8?B?Tk1GVEFzYUQzQTlhQ1BHalVmTEgydVd2bk1mQkVLdEQ5UEdpYVltcnlDbS9M?=
- =?utf-8?B?czVOS1pkVER4RWxtUmlCODdjRDJGNFd0YVNDVFBPY29xWTBZTnkwbHZMZmNH?=
- =?utf-8?B?RkwzVk9BR01qUkFReFJ0azRoNytnWHUyZ0cwenJtOVIxU3hWcE5kZmlid0ti?=
- =?utf-8?B?RGJyRzJRTXBUYjFvUDhSVENCQVVNaDhYekdYTFV0NUdWZ2o5UEg5QkJUdFRq?=
- =?utf-8?B?NjhIdmNTUTRYQnV6QkZWS2VqQkhxcXBUaG1zNUhOYUxYd1o0Y00yMTVVSzJD?=
- =?utf-8?B?VmUvb2dmaTA2Rk4zRmZuOHJSOGFFOWxCdUI1TG94YXFnU2FnNk1QTG5NR3l1?=
- =?utf-8?B?VWlzc0JCUkhDZzA2MzB5bEVJbkNMejBJV2ptRkNJeC82SFkxYW5TWnBJcnVU?=
- =?utf-8?B?bGhqd014c1ZhYzlPNnZIMWowblJKaWVpUHM2b21Fd0VJQkhuMlNpVGJyWUI3?=
- =?utf-8?B?WE1vbmhUcHhjVFB1Y3NJakRiM2xaRlEzUjlrOVNUOTFPK0FqdGkyZUZ5dURr?=
- =?utf-8?B?M0pQQ2lrQXhmM3lqbTAwdmF1OU9mNDdvMktsVy9lcG9QbXZqVGpBOFkzUjdY?=
- =?utf-8?B?Sy9IQWxMYWpCbE5HUDJXRi80NUN4SFl0OG1vSzhHdUxJaTAvRS81SlpMMTFO?=
- =?utf-8?B?dHZSTTJqMFdydEtRN3pHMko0MmwrdU02QjNrR25FNW1IVWsrTzFKeXFMSjZn?=
- =?utf-8?B?dzJrVUhDbmpSaVljOExETXFPYkljOXN5MW9BYXlOUVI4aFFHUGRraFFXUzNS?=
- =?utf-8?B?YmNsNEdTV2hZbjYzeFg5WFpMcjhtQmRBSFJzemVMU0ZXZlgrOUpqVm00NVpU?=
- =?utf-8?B?Q0tiMUdLbURXTnFpOFdCSGlVTnpjVzNZUFRDVGJjWFE3R0Zpay9mdUs3akZ0?=
- =?utf-8?B?T2lER0U3cnhlT2R5NTVoMm5nMXltbjRJaUFTOWN4ckN6VjZMNG9iZG9zemJR?=
- =?utf-8?B?MFZ3NWZkTTNQZHN0eVRNMzBpSmt1WGFOR1ZXdE9uYU50UXZ3bkl0a1YwZ1Ez?=
- =?utf-8?B?WEV6cjZGVCthdzdhS0lERnBXUWVsUytBSEplaW91bWtKZUwxeXRtTWJURXcx?=
- =?utf-8?B?OGt4TExsdDZnUSt1aVcvdjlDUnJUUTZ2V3ZCVmFTc1FxVlM1RXZIL0NoWWRR?=
- =?utf-8?B?dkUxR1FsUXJaeEVsSEpJNVhxWkxLZzFXd0o2ZVRQY2IwaE53LzJCTi9CZVNQ?=
- =?utf-8?B?dnZvZ3dGbktqRzNpSnZnNE81SU1OL1dyOEpENm54eXhkcHdwUkRwWWdnSzd4?=
- =?utf-8?B?ZVUyZXlST0lZU2VpOUJIZndNWmlReTR2dm9LOGFtQmt6VnRiZ0pCNVN4NzZI?=
- =?utf-8?B?dTZZd2Q2YUFDMVZWRDJyQkdnRmRCakxnenlwZXdCUnRvRDYreUJLVk9wVThK?=
- =?utf-8?Q?5Jw0=3D?=
+ ARA:13230040|376014|1800799024|82310400026|7416014|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?V3J2NGR2ejNmSjZoRm5SdGNldzVFL3llbkc4Q2Y3M0VQQ1BkTFlMbkVnNHk0?=
+ =?utf-8?B?WHpndHFub0FwRG5XNG9qdnNMOUhQWkN2UXFGdXRYTU42VW1sbnBJWjBkUjRm?=
+ =?utf-8?B?UjhTcisxS1ZuK0hycTRuanUrd29qa1BHYnZBWHFkNEo1aFRoVERJZlJzVzl1?=
+ =?utf-8?B?ZkpEWklGemh2S0ZjMHBRdTVWN0lrdmc5R2JOc2t4c24zUDl5TlhGRG8yQndo?=
+ =?utf-8?B?WU5naDhaeGdIMHh0UmpwMmtXbTI0Q3BoamxRNXAwSTZQSms5cXljeGNHR050?=
+ =?utf-8?B?S0pHYTNvcGVoeTk2SW1PcDZReGdON2Q5ZjFLVHNWTndQZlFOV0VJYUdmMkxB?=
+ =?utf-8?B?NlJSN0RpYTBvMG5IcEh2R2FQWU1QM1VGQUdPamo0Y0RDSk5rZkdBN2ZsWStT?=
+ =?utf-8?B?RFBES05LZ0tVTS9hanBTNHQ0ZEU3NnBIRTBzMXpmWlNOZkhXSEdVKzlYenBo?=
+ =?utf-8?B?NTZyd3hyWnRucXNoLzNmWXMwY0NhN2xINEVEbkpSVkxMWmpka2s2UWRkbXlh?=
+ =?utf-8?B?ZGFwTmhzNnlYV0FpN05WMEdHdFAvZ1M3T0hkUk9MNTZoWFN3N09sSFE4L0Yw?=
+ =?utf-8?B?VTY2Y0E2R2VINE16SlJHeW1iUUxWMmtMd29vU3YzSFZXWXhIcEdkWkhVdko1?=
+ =?utf-8?B?Y0ViczVhQkZYVWhBbmlmbmU5ZnFKalpKRFl3VDBVSFF3TG94TTNwdHE3L3FL?=
+ =?utf-8?B?NlZ6TDU4NGF0Q25KTzNzeXlQNmZYeWNpejMxQXdtR05HakJVYzFrNHhZOWwx?=
+ =?utf-8?B?WnFkZ0NiOWxaRlN6MzNvajlMc2tWc0V3UlZ1WTluV1BtSWZrWldGZ0dnL0or?=
+ =?utf-8?B?WkRpT0IyVmhsSktVVHBRTFdSeVJSVHFtVEE3UUtQc25vNzZkOTNTcDlYY0Fr?=
+ =?utf-8?B?ald0UWdNMngrTmJKMit6d1FPanVKUXR3SW9GdzNEam9DSGlLTHQwdDZGY3NG?=
+ =?utf-8?B?QUdhVFc5ZjhQRjNjQ0JPTEFUWUlXWCtvUWZ4dnk1YmhCcDdrWitxZ1c2UzM5?=
+ =?utf-8?B?MW9PU3h2MlVQSHk3Q2hTYzRTc0dobWhPRE00N3NacTdjeDd6VG5adHg2TDFr?=
+ =?utf-8?B?S0NQZGRuWlpjd2xYaTNkb0N5aEJjVTdXRjNOUjRMUTF5U0IzZ0ZvaHlOWnc5?=
+ =?utf-8?B?cW9zZkk0b0VkdHRJdFg5blozYUR1VG5UUWQ1VVR6Qy9iS1Z2NmFIQkd2NUtM?=
+ =?utf-8?B?RXJDKzlLRm5sSjJDWWY2Y1BobmZXdzhkVjhIWmdaTU1aZitGUlB0Q28wUzNX?=
+ =?utf-8?B?OUhWcUJZT2dMQm5yV0hWa0hJV0h4Y2RvYWNGRWhJczJKQWh6c0t5Nm81V0NV?=
+ =?utf-8?B?Yzg4QURSUVBmc2hwRkpIZmNSckQ1d01SRDhpSHh0cWFTbzVVSWF2VHF6M0h2?=
+ =?utf-8?B?RElGUCt0MWs4UWZSZ0VoZk5vTGFsdlREOGFKb1NtWDdtbk9ZTlF3SXlxREVq?=
+ =?utf-8?B?bk9aeFBBNy9uN2hrL0hWd25CVUo5U3hpQnBESHFTNkREWjFZbHUwNko1eWVz?=
+ =?utf-8?B?cVhoSHhIU3BCQjlqSzI2MzA4aVBLWlc2RFordDN3enNuSnlSbXFSdVdpN3JR?=
+ =?utf-8?B?NDUxQllGaDc1ekRhMlh2T2lhTEl4MkNzd1NLMFo4YUlvdk1zNS8xTnZDWUoz?=
+ =?utf-8?B?aEhHS245YTBFaEUxSXFqTVJHdW9IcWk0dEcyRzl6MjAwcFNIMnBYVkdFanZR?=
+ =?utf-8?B?NmRhYnRTM0w3NkhUb0dScHQyTHEzSVQ0bkp1ZXhxWmd6dmhJS054Z3JrQUpx?=
+ =?utf-8?B?Z2VTK0lOM1l0Zmdxa3cyUkthL2pjTE9xOG5qNHVOOGpSc1dLRU1UWnJQRW9h?=
+ =?utf-8?B?cHJNZFFMZmk3dm5BbjVQSk5aNktBL2YzUnAvYkpjM2E3VlozbmdVVCtiVk41?=
+ =?utf-8?B?QU9BZmUzUGY5RlVVdFRVTkRneHdDeGdkSzJ0NXZYQnBXQnFUeGoyeTlwNXlz?=
+ =?utf-8?B?RTM5TVB3cUVFR0ZVYi9kdk5teWZjcEdpY1MxdDl2MWI3N3RiRW1rV2tUcWpv?=
+ =?utf-8?B?VGtLUTA5Z3pqMVNGK1VQSmJwNTc5dkxCcUdDRDV0Uzl1UE1rL3VNOCtFSnRx?=
+ =?utf-8?B?cTN0anRHZ2xDOWQ2bCtCVkJSaTFHdjkvenliZlJ4bUVSVGhST296WjR1RVYr?=
+ =?utf-8?Q?eUCQ=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(82310400026)(36860700013); DIR:OUT;
+ SFS:(13230040)(376014)(1800799024)(82310400026)(7416014)(36860700013); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2025 06:52:14.4813 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1a8ee56-dcda-4099-0f1c-08de33cad2c3
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2025 06:52:17.8014 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1eccfe88-0b41-4633-d4f6-08de33cad4bd
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: DS1PEPF00017092.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6078
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7778
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,171 +166,218 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some platforms, UMA allocation size can be set using the ATCS
-methods. Add helper functions to interact with this functionality.
+Add a uma/ directory containing two sysfs files as interfaces to
+inspect or change UMA carveout size. These files are:
+
+- uma/carveout_options: a read-only file listing all the available
+  UMA allocation options and their index.
+
+- uma/carveout: a file that is both readable and writable. On read,
+  it shows the index of the current setting. Writing a valid index
+  into this file allows users to change the UMA carveout size to that
+  option on the next boot.
 
 Co-developed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
 Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Yo-Jung Leo Lin (AMD) <Leo.Lin@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu.h      |  7 ++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c | 43 ++++++++++++++++++++++++++++++++
- drivers/gpu/drm/amd/include/amd_acpi.h   | 30 ++++++++++++++++++++++
- 3 files changed, 80 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h        |   4 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c   |   7 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 138 +++++++++++++++++++++++++++++
+ 3 files changed, 149 insertions(+)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index aca2ddddc64c..6bf626a51dfc 100644
+index 6bf626a51dfc..177376ff5811 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -1720,12 +1720,14 @@ int amdgpu_acpi_init(struct amdgpu_device *adev);
- void amdgpu_acpi_fini(struct amdgpu_device *adev);
- bool amdgpu_acpi_is_pcie_performance_request_supported(struct amdgpu_device *adev);
- bool amdgpu_acpi_is_power_shift_control_supported(void);
-+bool amdgpu_acpi_is_set_uma_allocation_size_supported(void);
- int amdgpu_acpi_pcie_performance_request(struct amdgpu_device *adev,
- 						u8 perf_req, bool advertise);
- int amdgpu_acpi_power_shift_control(struct amdgpu_device *adev,
- 				    u8 dev_state, bool drv_state);
- int amdgpu_acpi_smart_shift_update(struct amdgpu_device *adev,
- 				   enum amdgpu_ss ss_state);
-+int amdgpu_acpi_set_uma_allocation_size(struct amdgpu_device *adev, u8 index, u8 type);
- int amdgpu_acpi_pcie_notify_device_ready(struct amdgpu_device *adev);
- int amdgpu_acpi_get_tmr_info(struct amdgpu_device *adev, u64 *tmr_offset,
- 			     u64 *tmr_size);
-@@ -1754,6 +1756,7 @@ static inline bool amdgpu_acpi_should_gpu_reset(struct amdgpu_device *adev) { re
- static inline void amdgpu_acpi_detect(void) { }
- static inline void amdgpu_acpi_release(void) { }
- static inline bool amdgpu_acpi_is_power_shift_control_supported(void) { return false; }
-+static inline bool amdgpu_acpi_is_set_uma_allocation_size_supported(void) { return false; }
- static inline int amdgpu_acpi_power_shift_control(struct amdgpu_device *adev,
- 						  u8 dev_state, bool drv_state) { return 0; }
- static inline int amdgpu_acpi_smart_shift_update(struct amdgpu_device *adev,
-@@ -1761,6 +1764,10 @@ static inline int amdgpu_acpi_smart_shift_update(struct amdgpu_device *adev,
- {
- 	return 0;
- }
-+static inline int amdgpu_acpi_set_uma_allocation_size(struct amdgpu_device *adev, u8 index, u8 type)
-+{
-+	return -EINVAL;
-+}
- static inline void amdgpu_acpi_get_backlight_caps(struct amdgpu_dm_backlight_caps *caps) { }
+@@ -1846,4 +1846,8 @@ void amdgpu_device_set_uid(struct amdgpu_uid *uid_info,
+ 			   uint64_t uid);
+ uint64_t amdgpu_device_get_uid(struct amdgpu_uid *uid_info,
+ 			       enum amdgpu_uid_type type, uint8_t inst);
++
++int amdgpu_acpi_uma_option_init(struct amdgpu_device *adev);
++void amdgpu_acpi_uma_option_fini(struct amdgpu_device *adev);
++
  #endif
- 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-index 610449d73a6c..bdafcde51107 100644
+index bdafcde51107..b2779fc2f712 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_acpi.c
-@@ -668,6 +668,11 @@ bool amdgpu_acpi_is_power_shift_control_supported(void)
- 	return amdgpu_acpi_priv.atcs.functions.power_shift_control;
+@@ -1288,6 +1288,12 @@ static int amdgpu_acpi_event(struct notifier_block *nb,
+ int amdgpu_acpi_init(struct amdgpu_device *adev)
+ {
+ 	struct amdgpu_atif *atif = &amdgpu_acpi_priv.atif;
++	int rc;
++
++	rc = amdgpu_acpi_uma_option_init(adev);
++
++	if (rc)
++		drm_dbg(adev_to_drm(adev), "Not creating uma carveout interfaces: %d", rc);
+ 
+ 	if (atif->notifications.brightness_change) {
+ 		if (adev->dc_enabled) {
+@@ -1340,6 +1346,7 @@ void amdgpu_acpi_get_backlight_caps(struct amdgpu_dm_backlight_caps *caps)
+ void amdgpu_acpi_fini(struct amdgpu_device *adev)
+ {
+ 	unregister_acpi_notifier(&adev->acpi_nb);
++	amdgpu_acpi_uma_option_fini(adev);
  }
  
-+bool amdgpu_acpi_is_set_uma_allocation_size_supported(void)
-+{
-+	return amdgpu_acpi_priv.atcs.functions.set_uma_allocation_size;
-+}
-+
  /**
-  * amdgpu_acpi_pcie_notify_device_ready
-  *
-@@ -908,6 +913,44 @@ static struct amdgpu_numa_info *amdgpu_acpi_get_numa_info(uint32_t pxm)
- }
- #endif
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index a7594ae44b20..979298d9c213 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -36,6 +36,7 @@
+ #include <linux/pci.h>
+ #include <linux/pci-p2pdma.h>
+ #include <linux/apple-gmux.h>
++#include <linux/nospec.h>
  
-+/**
-+ * amdgpu_acpi_set_uma_allocation_size - Set Unified Memory Architecture allocation size via ACPI
-+ * @adev: Pointer to the amdgpu_device structure
-+ * @index: Index specifying the UMA allocation
-+ * @type: Type of UMA allocation
-+ *
-+ * This function configures the UMA allocation size for the specified device
-+ * using ACPI methods. The allocation is determined by the provided index and type.
-+ * Returns 0 on success or a negative error code on failure.
-+ */
-+int amdgpu_acpi_set_uma_allocation_size(struct amdgpu_device *adev, u8 index, u8 type)
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_client_event.h>
+@@ -7835,3 +7836,140 @@ u64 amdgpu_device_get_uid(struct amdgpu_uid *uid_info,
+ 
+ 	return uid_info->uid[type][inst];
+ }
++
++static ssize_t carveout_options_show(struct device *dev,
++				     struct device_attribute *attr,
++				     char *buf)
 +{
-+	struct atcs_set_uma_allocation_size_input atcs_input;
-+	struct amdgpu_atcs *atcs = &amdgpu_acpi_priv.atcs;
-+	struct acpi_buffer params;
-+	union acpi_object *info;
++	struct drm_device *ddev = dev_get_drvdata(dev);
++	struct amdgpu_device *adev = drm_to_adev(ddev);
++	struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
++	uint32_t memory_carved;
++	ssize_t size = 0;
 +
-+	if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
-+		return -EINVAL;
++	if (!uma_info || !uma_info->num_entries)
++		return -ENODEV;
 +
-+	atcs_input.size = sizeof(struct atcs_set_uma_allocation_size_input);
-+	atcs_input.uma_size_index = index;
-+	atcs_input.uma_size_type = type;
-+
-+	params.length = sizeof(struct atcs_set_uma_allocation_size_input);
-+	params.pointer = &atcs_input;
-+
-+	info = amdgpu_atcs_call(atcs, ATCS_FUNCTION_SET_UMA_ALLOCATION_SIZE, &params);
-+	if (!info) {
-+		drm_err(adev_to_drm(adev), "ATCS UMA allocation size update failed\n");
-+		return -EIO;
++	for (int i = 0; i < uma_info->num_entries; i++) {
++		memory_carved = uma_info->entries[i].memory_carved_mb;
++		if (memory_carved >= SZ_1G/SZ_1M) {
++			size += sysfs_emit_at(buf, size, "%d: %s (%u GB)\n",
++					      i,
++					      uma_info->entries[i].name,
++					      memory_carved >> 10);
++		} else {
++			size += sysfs_emit_at(buf, size, "%d: %s (%u MB)\n",
++					      i,
++					      uma_info->entries[i].name,
++					      memory_carved);
++		}
 +	}
 +
-+	kfree(info);
++	return size;
++}
++static DEVICE_ATTR_RO(carveout_options);
 +
-+	return 0;
++static ssize_t carveout_show(struct device *dev,
++			     struct device_attribute *attr,
++			     char *buf)
++{
++	struct drm_device *ddev = dev_get_drvdata(dev);
++	struct amdgpu_device *adev = drm_to_adev(ddev);
++
++	return sysfs_emit(buf, "%u\n", adev->uma_info.uma_option_index);
 +}
 +
- /**
-  * amdgpu_acpi_get_node_id - obtain the NUMA node id for corresponding amdgpu
-  * acpi device handle
-diff --git a/drivers/gpu/drm/amd/include/amd_acpi.h b/drivers/gpu/drm/amd/include/amd_acpi.h
-index e582339e8e8e..84933c07f720 100644
---- a/drivers/gpu/drm/amd/include/amd_acpi.h
-+++ b/drivers/gpu/drm/amd/include/amd_acpi.h
-@@ -24,6 +24,8 @@
- #ifndef AMD_ACPI_H
- #define AMD_ACPI_H
- 
-+#include <linux/types.h>
++static ssize_t carveout_store(struct device *dev,
++			      struct device_attribute *attr,
++			      const char *buf, size_t count)
++{
++	struct drm_device *ddev = dev_get_drvdata(dev);
++	struct amdgpu_device *adev = drm_to_adev(ddev);
++	struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
++	struct amdgpu_uma_carveout_option *opt;
++	unsigned long val;
++	uint8_t flags;
++	int r;
 +
- #define ACPI_AC_CLASS           "ac_adapter"
- 
- struct atif_verify_interface {
-@@ -112,6 +114,17 @@ struct atcs_pwr_shift_input {
- 	u8 drv_state;	/* 0 = operational, 1 = not operational */
- } __packed;
- 
-+struct atcs_get_uma_size_output {
-+	u16 size;		/* structure size in bytes (includes size field) */
-+	u32 uma_size_mb;	/* allocated UMA size in MB */
-+} __packed;
++	r = kstrtoul(buf, 10, &val);
++	if (r)
++		return r;
 +
-+struct atcs_set_uma_allocation_size_input {
-+	u16 size;		/* structure size in bytes (includes size field) */
-+	u8 uma_size_index;	/* UMA size index */
-+	u8 uma_size_type;	/* UMA size type */
-+} __packed;
++	if (val >= uma_info->num_entries)
++		return -EINVAL;
 +
- /* AMD hw uses four ACPI control methods:
-  * 1. ATIF
-  * ARG0: (ACPI_INTEGER) function code
-@@ -494,4 +507,21 @@ struct atcs_pwr_shift_input {
-  * OUTPUT: none
-  */
- 
-+#define ATCS_FUNCTION_GET_UMA_SIZE                                 0x6
-+/* ARG0: ATCS_FUNCTION_GET_UMA_SIZE
-+ * ARG1: none
-+ * OUTPUT:
-+ * WORD  - structure size in bytes (includes size field)
-+ * DWORD - allocated UMA size in MB
-+ */
++	val = array_index_nospec(val, uma_info->num_entries);
++	opt = &uma_info->entries[val];
 +
-+#define ATCS_FUNCTION_SET_UMA_ALLOCATION_SIZE                     0xA
-+/* ARG0: ATCS_FUNCTION_SET_UMA_ALLOCATION_SIZE
-+ * ARG1:
-+ * WORD  - structure size in bytes (includes size field)
-+ * BYTE  - UMA size index
-+ * BYTE  - UMA size type
-+ * OUTPUT: none
-+ */
++	if (!(opt->flags & AMDGPU_UMA_FLAG_AUTO) &&
++	    !(opt->flags & AMDGPU_UMA_FLAG_CUSTOM)) {
++		drm_err_once(ddev, "Option %lu not supported due to lack of Custom/Auto flag", val);
++		return -EINVAL;
++	}
 +
- #endif
++	flags = opt->flags;
++	flags &= ~((flags & AMDGPU_UMA_FLAG_AUTO) >> 1);
++
++	guard(mutex)(&uma_info->update_lock);
++
++	r = amdgpu_acpi_set_uma_allocation_size(adev, val, flags);
++	if (r)
++		return r;
++
++	uma_info->uma_option_index = val;
++
++	return count;
++}
++static DEVICE_ATTR_RW(carveout);
++
++static struct attribute *amdgpu_uma_attrs[] = {
++	&dev_attr_carveout.attr,
++	&dev_attr_carveout_options.attr,
++	NULL
++};
++
++const struct attribute_group amdgpu_uma_attr_group = {
++	.name = "uma",
++	.attrs = amdgpu_uma_attrs
++};
++
++int amdgpu_acpi_uma_option_init(struct amdgpu_device *adev)
++{
++	int rc;
++
++	if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
++		return -ENODEV;
++
++	rc = amdgpu_atomfirmware_get_uma_carveout_info(adev, &adev->uma_info);
++	if (rc) {
++		drm_dbg(adev_to_drm(adev),
++			"Failed to parse UMA carveout info from VBIOS: %d\n", rc);
++		goto out_info;
++	}
++
++	mutex_init(&adev->uma_info.update_lock);
++
++	rc = devm_device_add_group(adev->dev, &amdgpu_uma_attr_group);
++	if (rc) {
++		drm_dbg(adev_to_drm(adev), "Failed to add UMA carveout sysfs interfaces %d\n", rc);
++		goto out_attr;
++	}
++
++	return 0;
++
++out_attr:
++	mutex_destroy(&adev->uma_info.update_lock);
++out_info:
++	return rc;
++}
++
++void amdgpu_acpi_uma_option_fini(struct amdgpu_device *adev)
++{
++	struct amdgpu_uma_carveout_info *uma_info = &adev->uma_info;
++
++	if (!amdgpu_acpi_is_set_uma_allocation_size_supported())
++		return;
++
++	mutex_destroy(&uma_info->update_lock);
++	uma_info->num_entries = 0;
++}
 
 -- 
 2.43.0
