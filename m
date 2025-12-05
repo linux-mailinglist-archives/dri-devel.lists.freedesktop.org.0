@@ -2,66 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9F0CA73F0
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 11:48:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07C97CA7405
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 11:50:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6385010EAB4;
-	Fri,  5 Dec 2025 10:48:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EFF6A10EAB5;
+	Fri,  5 Dec 2025 10:50:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kygavMHd";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GprVSnRz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D6F410EAB3
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 10:48:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 052F06020F
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 10:48:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6617C19423
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 10:48:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764931701;
- bh=QrVPt4Rxcp5PJlz/4VQYZo3jOoVJw3nhAYdeqrRCFCo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=kygavMHdGYcnNJwm7lC5NjROC5pP0NUKpXqK7Biz8BNaDHF+0CPygieWyfbS3q7DN
- oKTTSOV9634ZYMVY54gz3iRLFGDllRsrK1PeT2OhLcnl/0tCi8Kd5446OtixdIr6Dn
- Y7dhhTkaJvUJ/TzPdrubJcM/RHUXJ6diHiNGqw/V9KcDC6L2NUUTOvN0E8Trgrg6Sh
- z+qPqgHVWbXK1et/HCZ4B/ZEvNwVH6d3CW7IEzQPPbuNqYKMsAt42n4ThED9T1DbnU
- CXyllON5ve7thGsh7B4peZZ477Sf6uv17HRHrj+D6Mhz7f0g4pMFs1G9CVTQoCCz3x
- 5INTrFB6KUIIA==
-Received: by mail-lf1-f50.google.com with SMTP id
- 2adb3069b0e04-594330147efso2012824e87.2
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 02:48:21 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVfhXvMI6pa+gV0LKjLReQGXIzm1NqMy9fxGmjz8tD8DSatHJ/hN5eJqcXMkyYIRzWCrZBV+QfYwvo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywb+EmrUyIcth10NSI29aM2T6rYvcKaQ1IJK7ZL7b0H9BVVxQFD
- Hk1ONIhVnTfQqT4wsZNcPCEsghz9oG33K3mc1fd0mVRf3Jafrq9Xm1rHccn1LW7ZKcHLqABGgJu
- Y5MSPvOErradLj25m8pWddHnTJNojaIg=
-X-Google-Smtp-Source: AGHT+IEvHnCA+35+G6qlMWnRT7CH/vPSRAST3MqD//tEb30hADZ6yX50ERhnDFtFtQnWsYNiQfDyt1oAgXxg3Q1ZC9k=
-X-Received: by 2002:a05:6512:110a:b0:595:83f5:c33e with SMTP id
- 2adb3069b0e04-597d3f0a173mr3538191e87.11.1764931699972; Fri, 05 Dec 2025
- 02:48:19 -0800 (PST)
-MIME-Version: 1.0
-References: <20251107164240.2023366-2-ardb+git@google.com>
- <14ca1b28-df1d-4065-ad7a-97a3ff81a5a4@ursulin.net>
- <CAMj1kXEgfykaf9oB4_tuAQqwXDN+NLy_Hb_+RnQmeicVgKt0bA@mail.gmail.com>
-In-Reply-To: <CAMj1kXEgfykaf9oB4_tuAQqwXDN+NLy_Hb_+RnQmeicVgKt0bA@mail.gmail.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Fri, 5 Dec 2025 11:48:08 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXFLaOZMXsUsvrshkwhvJSWm3V_iZB3n1rga=Q6zwrVY_g@mail.gmail.com>
-X-Gm-Features: AWmQ_bk_CANQh0NNSJOV7Yugs37HbMZjFdhS2AogpPPGzBgRa7uP_idIjjwmhaA
-Message-ID: <CAMj1kXFLaOZMXsUsvrshkwhvJSWm3V_iZB3n1rga=Q6zwrVY_g@mail.gmail.com>
-Subject: Re: [PATCH] drm/i195: Fix format string truncation warning
-To: Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2D8E10EAB5
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 10:50:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764931825; x=1796467825;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=MQ7Fqj4UUvktQ5BTeTaY30CoU5H4xWYgdxzNUoMv4yI=;
+ b=GprVSnRzlRWNpQkJQiY6sO3Gechf0aulerrPEvoQj38hT3uOYt8wjuVV
+ SO/6CvXPko/CHK8pRu0sBdPeminZysJ3tvnnJnA1osMDlOC614ojsJiQI
+ IgfLt89WPBt6juuuPiQP7acbsogapx3Xe1LBUw825JyrEBgBOZVrMdBNT
+ j8MVFLPrUgAVn1p0IfGnf2SdgbQlEP0CWEoOsW5gaWuMofg//hcIkQQm5
+ TwtTrDBXFWMld7rZ9nbWg4Wp7xF9X52h24KMcEL7NyBbxwB9xiWL5P2yJ
+ QOK+4XzUEaTk4fCK9PRN9PrYY8b68NDiAyX2DAfsE9Oom7/qyqCcQNLnv w==;
+X-CSE-ConnectionGUID: DzGP1GyIRdiduo0I95XI2w==
+X-CSE-MsgGUID: Io3itW1QSemBobr3BgJ+Lw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66155523"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="66155523"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2025 02:50:24 -0800
+X-CSE-ConnectionGUID: BZQBeMhuT9mzC1dYoeMo6g==
+X-CSE-MsgGUID: HOtjpdEDROWYFpjmc15VMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="218626523"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO kuha) ([10.124.220.222])
+ by fmviesa002.fm.intel.com with SMTP; 05 Dec 2025 02:50:13 -0800
+Received: by kuha (sSMTP sendmail emulation); Fri, 05 Dec 2025 12:50:04 +0200
+Date: Fri, 5 Dec 2025 12:50:04 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Cc: Chaoyi Chen <kernel@airkyi.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Peter Chen <hzpeterchen@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>, linux-usb@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [RESEND PATCH v11 03/11] drm/bridge: Implement generic USB
+ Type-C DP HPD bridge
+Message-ID: <aTK4n8WnQm_FvpW3@kuha>
+References: <20251204063109.104-1-kernel@airkyi.com>
+ <20251204063109.104-4-kernel@airkyi.com> <aTGPaJmwd7uHfrnV@kuha>
+ <84f06c0f-3ec7-4a43-bba2-1979c3a07127@rock-chips.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <84f06c0f-3ec7-4a43-bba2-1979c3a07127@rock-chips.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,105 +96,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 9 Nov 2025 at 19:00, Ard Biesheuvel <ardb@kernel.org> wrote:
->
-> On Sat, 8 Nov 2025 at 01:27, Tvrtko Ursulin <tursulin@ursulin.net> wrote:
+Fri, Dec 05, 2025 at 10:26:20AM +0800, Chaoyi Chen kirjoitti:
+> Hi Heikki,
+> 
+> On 12/4/2025 9:40 PM, Heikki Krogerus wrote:
+> > Hi,
+> > 
+> > I don't know what's going on here - this series is the 12th?
+> > In any case, you need to fix this..
+> > 
+> 
+> It is 11th. Patch 1 was missing the Signed-off-by line, so I've resent
+> it. Sorry for the confusion.
+
+That's a change too, i.e. this is v12.
+
+> >> diff --git a/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c b/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
+> >> new file mode 100644
+> >> index 000000000000..94be3d5f69e9
+> >> --- /dev/null
+> >> +++ b/drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
+> >> @@ -0,0 +1,51 @@
+> >> +// SPDX-License-Identifier: GPL-2.0+
+> >> +#include <linux/of.h>
+> >> +#include <linux/usb/typec_altmode.h>
+> >> +#include <linux/usb/typec_dp.h>
+> >> +
+> >> +#include <drm/bridge/aux-bridge.h>
+> >> +
+> >> +static int drm_typec_bus_event(struct notifier_block *nb,
+> >> +			       unsigned long action, void *data)
+> >> +{
+> >> +	struct device *dev = (struct device *)data;
+> >> +	struct typec_altmode *alt = to_typec_altmode(dev);
+> >> +
+> >> +	if (action != BUS_NOTIFY_ADD_DEVICE)
+> >> +		goto done;
+> >> +
+> >> +	if (is_typec_partner_altmode(&alt->dev) || alt->svid != USB_TYPEC_DP_SID)
+> >> +		goto done;
+> > 
+> > That's still not enough because of the plug altmodes. You need to
+> > check that it's a port altmode:
+> > 
+> >         if (is_typec_port_altmode(&alt->dev) && alt->svid == USB_TYPEC_DP_SID)
+> >         	drm_dp_hpd_bridge_register(alt->dev.parent->parent,
+> >         				   to_of_node(alt->dev.parent->fwnode));
 > >
-> >
-> > On 07/11/2025 16:42, Ard Biesheuvel wrote:
-> > > From: Ard Biesheuvel <ardb@kernel.org>
-> > >
-> > > GCC notices that the 16-byte uabi_name field could theoretically be t=
-oo
-> > > small for the formatted string if the instance number exceeds 100.
-> > >
-> > > Given that there are apparently ABI concerns here, this is the minima=
-l
-> > > fix that shuts up the compiler without changing the output or the
-> > > maximum length for existing values < 100.
-> >
-> > What would be those ABI concerns? I don't immediately see any.
-> > > drivers/gpu/drm/i915/intel_memory_region.c: In function =E2=80=98inte=
-l_memory_region_create=E2=80=99:
-> > > drivers/gpu/drm/i915/intel_memory_region.c:273:61: error: =E2=80=98%u=
-=E2=80=99 directive output may be truncated writing between 1 and 5 bytes i=
-nto a region of size between 3 and 11 [-Werror=3Dformat-truncation=3D]
-> > >    273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s=
-%u",
-> > >        |                                                             =
-^~
-> > > drivers/gpu/drm/i915/intel_memory_region.c:273:58: note: directive ar=
-gument in the range [0, 65535]
-> > >    273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s=
-%u",
-> > >        |                                                          ^~~=
-~~~
-> > > drivers/gpu/drm/i915/intel_memory_region.c:273:9: note: =E2=80=98snpr=
-intf=E2=80=99 output between 7 and 19 bytes into a destination of size 16
-> > >    273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s=
-%u",
-> > >        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-> > >    274 |                  intel_memory_type_str(type), instance);
-> > >        |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > >
-> > > Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
-> > > ---
-> > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > > Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-> > > Cc: David Airlie <airlied@gmail.com>
-> > > Cc: Simona Vetter <simona@ffwll.ch>
-> > > Cc: intel-gfx@lists.freedesktop.org
-> > > Cc: dri-devel@lists.freedesktop.org
-> > >
-> > > This is unlikely to be the right fix, but sending a wrong patch is
-> > > usually a better way to elicit a response than just sending a bug
-> > > report.
-> > >
-> > >   drivers/gpu/drm/i915/intel_memory_region.c | 2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu=
-/drm/i915/intel_memory_region.c
-> > > index 59bd603e6deb..ad4afcf0c58a 100644
-> > > --- a/drivers/gpu/drm/i915/intel_memory_region.c
-> > > +++ b/drivers/gpu/drm/i915/intel_memory_region.c
-> > > @@ -271,7 +271,7 @@ intel_memory_region_create(struct drm_i915_privat=
-e *i915,
-> > >       mem->instance =3D instance;
-> > >
-> > >       snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
-> > > -              intel_memory_type_str(type), instance);
-> > > +              intel_memory_type_str(type), instance % 100);
-> > It's a theoretical issue only since there is no hardware with a double
-> > digit number of instances.
-> >
-> > But I guess much prettier fix would be to simply grow the buffer.
-> >
->
+> 
+> Oh, it is. Will fix in v12. Thank you.
 
-OK, so something like
+v13. Don't forget to update changelog.
 
---- a/drivers/gpu/drm/i915/intel_memory_region.h
-+++ b/drivers/gpu/drm/i915/intel_memory_region.h
-@@ -72,7 +72,7 @@ struct intel_memory_region {
-        u16 instance;
-        enum intel_region_id id;
-        char name[16];
--       char uabi_name[16];
-+       char uabi_name[20];
-        bool private; /* not for userspace */
+thanks,
 
-        struct {
-
-
-
-> > Also, hm, how come gcc does not find the mem->name vsnprintf from
-> > intel_memory_region_set_name?
-> >
->
-
-AFAICT, intel_memory_region_set_name() is never called with a format
-string that could produce more than 15/16 bytes of output.
+-- 
+heikki
