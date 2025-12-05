@@ -2,63 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B13CA7ECC
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 15:22:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF93CA7F95
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 15:35:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 388CF10EB38;
-	Fri,  5 Dec 2025 14:22:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D69DE10E25C;
+	Fri,  5 Dec 2025 14:35:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="kw6/jWMt";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="F4NoGPDc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 69EAD10EB38
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 14:22:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764944572;
- bh=IOwQM3PEyoGk9c+YMqTQPC9Ut+gviCgxV81ozkF0ZiE=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=kw6/jWMtvdFR8GgKDF6dqeFAdLZy1ayqifYxDoFC6DjRUscZFWIW67AqjNmc8WLKq
- Xg2Fmv+uhB3vBEzVmK8oOHE0UR6XKWda0fUGJ7i85AfVk8q2ao6ayjpW2BqO3UEhJD
- 3EJ24nY9MBe/XpqAz688d37M9B71nzsm7lJu5TIZy6HBOTHc+t7NRkamqH0g0mKbWV
- 8QrLrlqL5MxvdJoKvvkd01FwewMwGejS+8dZfY9NeS+f1EJE7hqOj9apeNXWFBIU7a
- t/ZEF+7FY87IoGbkmKm/Yiyr4rVLhAZvap89zQgAyS0ZGleqUoCpZaI+zQmOX6nVuK
- 3cuzOjaA5FUuw==
-Received: from yukiji.home (amontpellier-657-1-116-247.w83-113.abo.wanadoo.fr
- [83.113.51.247])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: laeyraud)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 7C98417E126B;
- Fri,  5 Dec 2025 15:22:51 +0100 (CET)
-From: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Date: Fri, 05 Dec 2025 15:22:27 +0100
-Subject: [PATCH 2/2] drm/mediatek: mtk_hdmi_ddc_v2: Fix multi-byte writes
+X-Greylist: delayed 577 seconds by postgrey-1.36 at gabe;
+ Fri, 05 Dec 2025 14:35:35 UTC
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A372410E25C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 14:35:35 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20251205142556euoutp017e92b74afbcb5f61d9fca588842bb178~_V_egOsz02649926499euoutp01E
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 14:25:56 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20251205142556euoutp017e92b74afbcb5f61d9fca588842bb178~_V_egOsz02649926499euoutp01E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1764944756;
+ bh=6gmqcOwSNc0+xhzL2UsZFCz72iWFcGpUCCkzE2dmMWA=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=F4NoGPDcG2LPkzlCRHCJrQdt7ggfb1R20wG+ILP7OURnlGKEu5jogmZcG73MZwegx
+ VhtNsYtFdcpzIf0fBX5yIQ30ttmmFtM4PuEBdFNe59bQ3qlKeiHuq00UxvE5r0eyRj
+ Jc+4Yub/CsoXVnqZFJJ88gWVoQ0eOsVo8gCnWuZs=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20251205142555eucas1p2e96cf9def9641e26e060f05139d24941~_V_d9WlrN2971629716eucas1p2H;
+ Fri,  5 Dec 2025 14:25:55 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20251205142553eusmtip11d66a1f54e847d5d4b609dd79aef82bb~_V_b7m79k0312503125eusmtip1E;
+ Fri,  5 Dec 2025 14:25:53 +0000 (GMT)
+Message-ID: <b2f3e15c-1a15-427d-90d9-ea0e33b50ecb@samsung.com>
+Date: Fri, 5 Dec 2025 15:25:52 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH 0/4] drm: Revert and fix enable/disable sequence
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Dmitry
+ Baryshkov <lumag@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Jyri Sarha <jyri.sarha@iki.fi>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>, Aradhya Bhatia
+ <aradhya.bhatia@linux.dev>, Linus Walleij <linusw@kernel.org>, Chaoyi Chen
+ <chaoyi.chen@rock-chips.com>, Vicente Bergas <vicencb@gmail.com>, Marek
+ Vasut <marek.vasut+renesas@mailbox.org>, stable@vger.kernel.org
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com>
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251205-mtk-hdmi-ddc-v2-fixes-v1-2-260dd0d320f4@collabora.com>
-References: <20251205-mtk-hdmi-ddc-v2-fixes-v1-0-260dd0d320f4@collabora.com>
-In-Reply-To: <20251205-mtk-hdmi-ddc-v2-fixes-v1-0-260dd0d320f4@collabora.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- CK Hu <ck.hu@mediatek.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1764944570; l=3878;
- i=louisalexis.eyraud@collabora.com; s=20250113; h=from:subject:message-id;
- bh=IOwQM3PEyoGk9c+YMqTQPC9Ut+gviCgxV81ozkF0ZiE=;
- b=ZHXJGgrjt5YRp7XxbPnmM+GfhkFFN8m9c+Eyr+pVK3MkP7ZDb6KBS5H+DVoblJUtWVYnRoYpV
- CrfSLQ1vBEqBluyd9Jq0wM8r7ttHzspDcIsVi2zqnnns9smNrsJd86l
-X-Developer-Key: i=louisalexis.eyraud@collabora.com; a=ed25519;
- pk=CHFBDB2Kqh4EHc6JIqFn69GhxJJAzc0Zr4e8QxtumuM=
+X-CMS-MailID: 20251205142555eucas1p2e96cf9def9641e26e060f05139d24941
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20251205095238eucas1p1b7cf95d86a9aecf19877ac568148e265
+X-EPHeader: CA
+X-CMS-RootMailID: 20251205095238eucas1p1b7cf95d86a9aecf19877ac568148e265
+References: <CGME20251205095238eucas1p1b7cf95d86a9aecf19877ac568148e265@eucas1p1.samsung.com>
+ <20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,107 +88,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, the mtk_hdmi_ddc_v2 driver sends a i2c message by calling
-the mtk_ddc_wr_one function for each byte of the payload to setup
-SI2C_CTRL and DDC_CTRL registers, and perform a sequential write
-transfer of one byte at a time to the target device. This leads to
-incorrect transfers as the target address (at least) is also sent each
-time.
+On 05.12.2025 10:51, Tomi Valkeinen wrote:
+> Changing the enable/disable sequence in commit c9b1150a68d9
+> ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+> has caused regressions on multiple platforms: R-Car, MCDE, Rockchip.
+>
+> This is an alternate series to Linus' series:
+>
+> https://lore.kernel.org/all/20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa%40kernel.org/
+>
+> This series first reverts the original commit and reverts a fix for
+> mediatek which is no longer needed. It then exposes helper functions
+> from DRM core, and finally implements the new sequence only in the tidss
+> driver.
+>
+> There is one more fix in upstream for the original commit, commit
+> 5d91394f2361 ("drm/exynos: fimd: Guard display clock control with
+> runtime PM calls"), but I have not reverted that one as it looks like a
+> valid patch in its own.
 
-So, rename mtk_ddc_wr_one function to mtk_ddcm_write_hdmi to match the
-read function name (mtk_ddcm_read_hdmi) and modify its behaviour to
-send all payload data in a single sequential write transfer by filling
-the transfer fifo first then starting the transfer with a size equal to
-the payload size and not one anymore.
+Right, that patch is a fix on its own, the changes in the atomic 
+sequence just revealed the issue.
 
-Fixes: 8d0f79886273 ("drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188")
-Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
----
- drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c | 48 ++++++++++++++----------------
- 1 file changed, 23 insertions(+), 25 deletions(-)
+> I added Cc stable v6.17+ to all patches, but I didn't add Fixes tags, as
+> I wasn't sure what should they point to. But I could perhaps add Fixes:
+> <original commit> to all of these.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+> Linus Walleij (1):
+>        drm/atomic-helper: Export and namespace some functions
+>
+> Tomi Valkeinen (3):
+>        Revert "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+>        Revert "drm/mediatek: dsi: Fix DSI host and panel bridge pre-enable order"
+>        drm/tidss: Fix enable/disable order
+>
+>   drivers/gpu/drm/drm_atomic_helper.c | 122 ++++++++++++++----
+>   drivers/gpu/drm/mediatek/mtk_dsi.c  |   6 -
+>   drivers/gpu/drm/tidss/tidss_kms.c   |  30 ++++-
+>   include/drm/drm_atomic_helper.h     |  22 ++++
+>   include/drm/drm_bridge.h            | 249 ++++++++++--------------------------
+>   5 files changed, 214 insertions(+), 215 deletions(-)
+> ---
+> base-commit: 88e721ab978a86426aa08da520de77430fa7bb84
+> change-id: 20251205-drm-seq-fix-b4ed1f56604b
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c b/drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c
-index 6ae7cbba8cb6dacf46c2f7ab74a2d7446d698b69..d937219fdb7ee0ed6a4ac25e950f69f90ff431a3 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi_ddc_v2.c
-@@ -66,11 +66,19 @@ static int mtk_ddc_check_and_rise_low_bus(struct mtk_hdmi_ddc *ddc)
- 	return 0;
- }
- 
--static int mtk_ddc_wr_one(struct mtk_hdmi_ddc *ddc, u16 addr_id,
--			  u16 offset_id, u8 *wr_data)
-+static int mtk_ddcm_write_hdmi(struct mtk_hdmi_ddc *ddc, u16 addr_id,
-+			       u16 offset_id, u16 data_cnt, u8 *wr_data)
- {
- 	u32 val;
--	int ret;
-+	int ret, i;
-+
-+	/* Don't allow transfer with a size over than the transfer fifo size
-+	 * (16 byte)
-+	 */
-+	if (data_cnt > 16) {
-+		dev_err(ddc->dev, "Invalid DDCM write request\n");
-+		return -EINVAL;
-+	}
- 
- 	/* If down, rise bus for write operation */
- 	mtk_ddc_check_and_rise_low_bus(ddc);
-@@ -78,16 +86,21 @@ static int mtk_ddc_wr_one(struct mtk_hdmi_ddc *ddc, u16 addr_id,
- 	regmap_update_bits(ddc->regs, HPD_DDC_CTRL, HPD_DDC_DELAY_CNT,
- 			   FIELD_PREP(HPD_DDC_DELAY_CNT, DDC2_DLY_CNT));
- 
-+	/* In case there is no payload data, just do a single write for the
-+	 * address only
-+	 */
- 	if (wr_data) {
--		regmap_write(ddc->regs, SI2C_CTRL,
--			     FIELD_PREP(SI2C_ADDR, SI2C_ADDR_READ) |
--			     FIELD_PREP(SI2C_WDATA, *wr_data) |
--			     SI2C_WR);
-+		/* Fill transfer fifo with payload data */
-+		for (i = 0; i < data_cnt; i++) {
-+			regmap_write(ddc->regs, SI2C_CTRL,
-+				     FIELD_PREP(SI2C_ADDR, SI2C_ADDR_READ) |
-+				     FIELD_PREP(SI2C_WDATA, wr_data[i]) |
-+				     SI2C_WR);
-+		}
- 	}
--
- 	regmap_write(ddc->regs, DDC_CTRL,
- 		     FIELD_PREP(DDC_CTRL_CMD, DDC_CMD_SEQ_WRITE) |
--		     FIELD_PREP(DDC_CTRL_DIN_CNT, wr_data == NULL ? 0 : 1) |
-+		     FIELD_PREP(DDC_CTRL_DIN_CNT, wr_data == NULL ? 0 : data_cnt) |
- 		     FIELD_PREP(DDC_CTRL_OFFSET, offset_id) |
- 		     FIELD_PREP(DDC_CTRL_ADDR, addr_id));
- 	usleep_range(1000, 1250);
-@@ -260,24 +273,9 @@ static int mtk_hdmi_fg_ddc_data_read(struct mtk_hdmi_ddc *ddc, u16 b_dev,
- static int mtk_hdmi_ddc_fg_data_write(struct mtk_hdmi_ddc *ddc, u16 b_dev,
- 				      u8 data_addr, u16 data_cnt, u8 *pr_data)
- {
--	int i, ret;
--
- 	regmap_set_bits(ddc->regs, HDCP2X_POL_CTRL, HDCP2X_DIS_POLL_EN);
--	/*
--	 * In case there is no payload data, just do a single write for the
--	 * address only
--	 */
--	if (data_cnt == 0)
--		return mtk_ddc_wr_one(ddc, b_dev, data_addr, NULL);
--
--	i = 0;
--	do {
--		ret = mtk_ddc_wr_one(ddc, b_dev, data_addr + i, pr_data + i);
--		if (ret)
--			return ret;
--	} while (++i < data_cnt);
- 
--	return 0;
-+	return mtk_ddcm_write_hdmi(ddc, b_dev, data_addr, data_cnt, pr_data);
- }
- 
- static int mtk_hdmi_ddc_v2_xfer(struct i2c_adapter *adapter, struct i2c_msg *msgs, int num)
-
+Best regards
 -- 
-2.52.0
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
