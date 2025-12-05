@@ -2,97 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ADECCA5B0C
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 00:28:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C54CA5CFF
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 02:15:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 12F5D10E9E7;
-	Thu,  4 Dec 2025 23:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A219710E9ED;
+	Fri,  5 Dec 2025 01:15:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WRiVercW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RPlcRiay";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com
- [209.85.160.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CB1F10E9EA
- for <dri-devel@lists.freedesktop.org>; Thu,  4 Dec 2025 23:28:36 +0000 (UTC)
-Received: by mail-oa1-f45.google.com with SMTP id
- 586e51a60fabf-3f4f9ea26aaso1216857fac.0
- for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 15:28:36 -0800 (PST)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com
+ [209.85.222.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB38410E9ED
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 01:15:43 +0000 (UTC)
+Received: by mail-qk1-f177.google.com with SMTP id
+ af79cd13be357-8b2627269d5so136119585a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 17:15:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google; t=1764890916; x=1765495716;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TY8vn4+rw5BlELkE55Y40GYmlU2AL+AMWiRVce63tcM=;
- b=WRiVercWNDEgMa5PSRwb8OzaQjkwD+vMDuC8ORt/QVPiKJF56rxQUFqF6h/QvHvv9C
- JRZeSpdu90YFzqCGcGefURk90kjN9mLU5EUuAo9MHu6XQUsaqr9WUijpaa7EMKGtXOLN
- KFzlCJkSkMqnswLDltewxlMw9QQxcP0rC43pc=
+ d=gmail.com; s=20230601; t=1764897342; x=1765502142; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=SaJBV5sNyhFD5JJYG4l7l+EPV32kKs11r9nEjhPwKMY=;
+ b=RPlcRiayaXGuMuEwkGLB1A4iAoJOX7XqiuW5yQ0HQ/x+IZJe2w0UG2bTJDx5n4eWMJ
+ rLUyelP6qKnhaBonkUN4gs5IYEyUVlrq+brMLVsyLNvUn8jGre4I9MoHnhGoKmjil5Pm
+ Du6V7bdJW+9bk/4padwkaMCHMYX8hVCy/MSDKcB76A4vSX9dhleBQZk+P8Q9yO++nCzR
+ K1jyd9JOHQZYVZHXDOY0VfHNRxWbukSWAu/1hp0lY94TBWwJypaBDPEtsSqEh3yVLJoe
+ 9PtErOs3M2gYF8P+gkr7R/SceDdtl6plI2sMD4LDxD6GrL5LMFZgFKdk0+w5+Jv1C5/+
+ Y18g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764890916; x=1765495716;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TY8vn4+rw5BlELkE55Y40GYmlU2AL+AMWiRVce63tcM=;
- b=JqZKIQQzgwE9/SJREElfr6hHh9q3A0CY5yXyFSQJf782gQFQ+D69la/wJYW/KwPdrd
- HrwDS++SRBmewcJuynk9C62Y3j6Mtit9Ej7kc+1wEXUiYxcdEeASSYUg1MGvG5CZgN4y
- fndtT56GSUQ9vdwx7lCDTnsqppWDCQJmzLbIFpx8zc/H4zzUNA3RKaHbWId1KIKxD3jT
- /z6WXIjGZLl3DmcGCnkYfhBnRcCEEHnXVDtGyGM9cimRcrHE335rWGtGQTj8aDthzchy
- w/fmNaWnu2Y0YB42wT0Ea6VJocw4oRA/Nu9D/A5nuy2CHNeNrLXsQytvjWKcAuox/xSl
- GFVQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWvtbFOOXfPdRGIhvRJ0+5Gd6g0zT7cJPeT187kWtDL0B+L6lbtKZQ7LllzXy+gDZYP0hB7SZB4wwM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxqXTHF+dW9VrMGDt3aL3zF7eBKu+vlDCqbOPidO8njQ7qhhdwE
- 2kMPzfs3NMbyX7eTkuG48tvYWMtLWBldYx6c4OyqweNx7KnhOitzm9imvoJRTEjVLp4=
-X-Gm-Gg: ASbGncsbT01stB6/nS3LVXFzF/9smwBSoT+VKtO0qJsFx8Ci9Zd6V11jcJsRAh63osx
- IUnM0DWpZEIdfzJqmJT8QtrcUryJVVIYTT9M3+a4IC+gG56aOIWoI2/njqE5+PwzH57niw8YLIc
- AtpY8lFD/cZ78ZEUTkKOBef2MCed2ZLvfpnhabSPCOMS8c4+ASxr6JTwudKVvTKUOoO/u9UaoTX
- X8LcW5NdqF72mSRnMGTa/MhSL80u+tTdE19TteLFxi8ydhn+Cb95NNUNA1xttd0pTa9/nxV1yfe
- gr7lelpn9h1FbDHEq3pa9UzKv2J6OK4et+pAFvPO/tr0CiBzzyo3bFKoZdL810il+dymqSlhjre
- VXcDd3iFGDW/Gh8MbXzt8uabkDdDFm+vL+rl59twj4EnOi36ig3vinT7sN4BBROLPpsfdks6iTS
- Xo5gFSBAuMCJCgXrAiMaEHMRU=
-X-Google-Smtp-Source: AGHT+IHaMdSIvMY4kJabIh50Lp2Y7vLsnF75nwPDZ+uvTeHchqLesHf2HXJ3/okGx1/CR50Bnu4U5Q==
-X-Received: by 2002:a05:6871:2941:b0:3c8:d325:b7ac with SMTP id
- 586e51a60fabf-3f1691860c6mr5140679fac.4.1764890915718; 
- Thu, 04 Dec 2025 15:28:35 -0800 (PST)
-Received: from [192.168.1.14] ([38.175.187.108])
- by smtp.gmail.com with ESMTPSA id
- 586e51a60fabf-3f50b5123f5sm2197586fac.13.2025.12.04.15.28.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 04 Dec 2025 15:28:35 -0800 (PST)
-Message-ID: <60fe7660-f3fb-4c94-b21f-20ebc9e14f5d@linuxfoundation.org>
-Date: Thu, 4 Dec 2025 16:28:34 -0700
+ d=1e100.net; s=20230601; t=1764897342; x=1765502142;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SaJBV5sNyhFD5JJYG4l7l+EPV32kKs11r9nEjhPwKMY=;
+ b=tB/oYZ9kFfJSBS7WpVxfgm7C7n9JNpj0SKhDQNLzpm0bZ5FabsD14fXX4IuCO1vUrI
+ S8qM+Ex6sCCWD4QwtU/V25+GFB4FDQhlIp8hxYm7mCACv2PpyFYxYK5C7GLIUkC1sif3
+ ikvzQSWvPKgcOogL9tVm6brVFI/sI9ZfjYd8Ggp5UsDnoKtsYacLVDQy2fOAjp667KCG
+ uzWH0ULsv2wpy0H4mt61NraYz6d4WlyR3tIGnxfkg9a9OWz7ZNkfG+MbMDtc5OqJ+OdE
+ fM/12GQKdk7vKVcCQL9waX51GhCZ/cqBFB8LCXlsyUzAnHEqKtMIpeYeSzGzYBDXBjYR
+ q2aw==
+X-Gm-Message-State: AOJu0Yyhthlfx4ndXJ2NpcVJDpulv9sBmIH6JSwAAQEOiL6Q5/fDPvRQ
+ +JCYEFgtc5iPftsubhryeNQmoS6HwbdqTJuTF7Gn+nQtAZTh1dX2lOCpDF/+ztHnHPd3vSY7DGo
+ vtrdqyPi9IG4OrL+58YNuQuZHrEMT74c=
+X-Gm-Gg: ASbGncvBeiNCDj3W/Q/ZIBu39kbMwF3U2hKw9T4RQFksRwG7PQKSlm/Lo4PqYPfNeOH
+ q42phBbfjcGNAQCypw8KQoNzk7lcuZ3XEPbx02lRCQScCEp/BcRp1HuCGi0Gb3hsBS6tdkqZN/r
+ GvuuTF3XXRqkOCCAk0VC1ISFAHDtslK28kzkOBuqqVd6bEFYMgr2Pjg1M6SfCeGv1W2fHU8nprL
+ z5jl6AjZC34/zNJS3RwCsHciGfHiabh23av3Ex71CapK7LBbgYWXJQBZbXgOlEnuA5Y+E5Cd4gJ
+ lk90UtF6KROou/1SzM2MY7cOEbkMRrjxa3lrsxU=
+X-Google-Smtp-Source: AGHT+IEA5aDZEeTXM47JJEFfhAc+4v2V35xSG+212oDplzsWdyzc/pnoSf4I3fXrNY+J8g/d79OiompKrdKhbLcY5rM=
+X-Received: by 2002:a05:620a:7104:b0:892:ce2b:f84d with SMTP id
+ af79cd13be357-8b5e592817fmr1087871785a.33.1764897342384; Thu, 04 Dec 2025
+ 17:15:42 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Linux 6.18 amdgpu build error
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: "David Hildenbrand (Red Hat)" <david@kernel.org>,
- akpm@linux-foundation.org, Alexander Deucher <Alexander.Deucher@amd.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- amd-gfx@lists.freedesktop.org, dri-devel <dri-devel@lists.freedesktop.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <74032153-813a-4a40-8363-cce264f4d5ea@linuxfoundation.org>
- <1eb24816-530b-4470-8e58-ce7d8297996c@roeck-us.net>
- <0425d7b4-76e4-4057-83a5-a7b17a051c54@linuxfoundation.org>
- <ec77d11a-7613-4b75-8c9e-f2bba1595f0f@roeck-us.net>
- <9d520a1d-0b8d-4d30-b29f-230fc0f92b8a@linuxfoundation.org>
- <1f31b86d-283c-4878-92d0-ab90aed0c58d@roeck-us.net>
- <5af4522e-30ab-4eec-a861-c2760cdabd4f@linuxfoundation.org>
- <2bc690ca-fa57-46fa-949b-28b5441cd364@kernel.org>
- <b24fc85c-0e6d-42f9-a6b9-05136409098f@linuxfoundation.org>
- <CAHk-=whd-k3GhNGvVmP7W2p1d0d4ctqJ8iCuG8DbyKzgNqCL+g@mail.gmail.com>
- <3b6d6e50-91ac-435e-adad-a67d4198a5b5@kernel.org>
- <3cd2240b-ec2c-45d0-b73b-b66c83e75b9f@linuxfoundation.org>
- <CAHk-=wiEXy+7Gd3ONQ-v0e61e6qAmrtk+WE2dpW_61p83nMgXw@mail.gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <CAHk-=wiEXy+7Gd3ONQ-v0e61e6qAmrtk+WE2dpW_61p83nMgXw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 5 Dec 2025 11:15:30 +1000
+X-Gm-Features: AWmQ_bkeyLABu8IOSDfi0PLzj4XZO8-QIzWUUJjp1Hk3OQABsWyiBkQyy66AvC4
+Message-ID: <CAPM=9tzSsXFDmudyA4UWEDTXp0mBaS+XSUWTZhxK49Bm1MREbg@mail.gmail.com>
+Subject: [git pull] drm next part 2 for 6.19-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,17 +81,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/4/25 16:23, Linus Torvalds wrote:
-> On Thu, 4 Dec 2025 at 15:20, Shuah Khan <skhan@linuxfoundation.org> wrote:
->>
->> I didn't see any problems on 6.18.
-> 
-> Ahh. So it might be just that buggy commit adfb6609c680 then, and the
-> fix already being in rc7 (and final).
-> 
+Hi Linus,
 
-Yes - correct.
+As mentioned in the first PR there was some additional intel code for
+color operations we wanted to land. However I discovered I missed a
+pull for the xe vfio driver which I had sorted into 6.20 in my brain,
+until Thomas mentioned it.
 
-thanks,
--- Shuah
+This contains the xe vfio code, a bunch of xe fixes that were waiting
+and the i915 color management support. I'd like to include it as part
+of keeping the two main vendors on the same page and giving a good
+cross-driver experience for userspace when it starts using it.
 
+Let me know if it causes any problems on your end,
+
+Thanks,
+Dave.
+
+drm-next-2025-12-05:
+drm next part 2 for 6.19-rc1
+
+vfio:
+- add a vfio_pci variant driver for Intel
+
+xe/i915 display:
+- add plane color management support
+
+xe:
+- Add scope-based cleanup helper for runtime PM
+- vfio xe driver prerequisites and exports
+- fix vfio link error
+- Fix a memory leak
+- Fix a 64-bit division
+- vf migration fix
+- LRC pause fix
+The following changes since commit 0692602defb0c273f80dec9c564ca50726404aca=
+:
+
+  Merge tag 'amd-drm-next-6.19-2025-12-02' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-next (2025-12-03
+09:43:49 +1000)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2025-12-05
+
+for you to fetch changes up to c7685d11108acb387e44e3d81194d0d8959eaa44:
+
+  Merge tag 'topic/drm-intel-plane-color-pipeline-2025-12-04' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-next
+(2025-12-05 10:27:57 +1000)
+
+----------------------------------------------------------------
+drm next part 2 for 6.19-rc1
+
+vfio:
+- add a vfio_pci variant driver for Intel
+
+xe/i915 display:
+- add plane color management support
+
+xe:
+- Add scope-based cleanup helper for runtime PM
+- vfio xe driver prerequisites and exports
+- fix vfio link error
+- Fix a memory leak
+- Fix a 64-bit division
+- vf migration fix
+- LRC pause fix
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      drm/xe/pf: fix VFIO link error
+
+Chaitanya Kumar Borah (8):
+      drm/i915/display: Add identifiers for driver specific blocks
+      drm/i915: Add intel_color_op
+      drm/i915/color: Add helper to create intel colorop
+      drm/i915/color: Create a transfer function color pipeline
+      drm/i915/color: Add framework to program CSC
+      drm/i915/color: Preserve sign bit when int_bits is Zero
+      drm/i915/color: Add registers for 3D LUT
+      drm/i915/color: Add 3D LUT to color pipeline
+
+Dave Airlie (4):
+      Merge tag 'topic/xe-vfio-2025-12-01' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-next
+      Merge tag 'topic/xe-vfio-2025-12-04' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-next
+      Merge tag 'drm-xe-next-fixes-2025-12-04' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-next
+      Merge tag 'topic/drm-intel-plane-color-pipeline-2025-12-04' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-next
+
+Matt Roper (1):
+      drm/xe/pm: Add scope-based cleanup helper for runtime PM
+
+Matthew Brost (1):
+      drm/xe/vf: Start re-emission from first unsignaled job during VF migr=
+ation
+
+Michal Wajdeczko (1):
+      drm/xe/pf: Use div_u64 when calculating GGTT profile
+
+Micha=C5=82 Winiarski (4):
+      drm/xe/pf: Enable SR-IOV VF migration
+      drm/xe/pci: Introduce a helper to allow VF access to PF xe_device
+      drm/xe/pf: Export helpers for VFIO
+      vfio/xe: Add device specific vfio_pci driver variant for Intel graphi=
+cs
+
+Mika Kuoppala (1):
+      drm/xe: Fix memory leak when handling pagefault vma
+
+Thomas Hellstr=C3=B6m (1):
+      Merge drm/drm-next into drm-xe-next-fixes
+
+Tomasz Lis (1):
+      drm/xe: Protect against unset LRC when pausing submissions
+
+Uma Shankar (7):
+      drm/i915/color: Add plane CTM callback for D12 and beyond
+      drm/i915: Add register definitions for Plane Degamma
+      drm/i915: Add register definitions for Plane Post CSC
+      drm/i915/color: Add framework to program PRE/POST CSC LUT
+      drm/i915/color: Program Pre-CSC registers
+      drm/i915/color: Program Plane Post CSC Registers
+      drm/i915/color: Enable Plane Color Pipelines
+
+ MAINTAINERS                                        |   7 +
+ drivers/gpu/drm/i915/Makefile                      |   2 +
+ drivers/gpu/drm/i915/display/intel_color.c         | 335 ++++++++++++
+ drivers/gpu/drm/i915/display/intel_color.h         |   8 +-
+ .../gpu/drm/i915/display/intel_color_pipeline.c    |  99 ++++
+ .../gpu/drm/i915/display/intel_color_pipeline.h    |  14 +
+ drivers/gpu/drm/i915/display/intel_color_regs.h    |  29 ++
+ drivers/gpu/drm/i915/display/intel_colorop.c       |  35 ++
+ drivers/gpu/drm/i915/display/intel_colorop.h       |  15 +
+ drivers/gpu/drm/i915/display/intel_display.c       |   5 +-
+ .../gpu/drm/i915/display/intel_display_limits.h    |   9 +
+ drivers/gpu/drm/i915/display/intel_display_types.h |   9 +
+ drivers/gpu/drm/i915/display/intel_plane.c         |  55 ++
+ drivers/gpu/drm/i915/display/skl_universal_plane.c |  21 +
+ .../drm/i915/display/skl_universal_plane_regs.h    | 115 +++++
+ drivers/gpu/drm/xe/Makefile                        |   6 +
+ drivers/gpu/drm/xe/xe_gpu_scheduler.h              |   5 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c         |   2 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c      |   9 +
+ drivers/gpu/drm/xe/xe_guc_submit.c                 |  47 +-
+ drivers/gpu/drm/xe/xe_pagefault.c                  |   1 -
+ drivers/gpu/drm/xe/xe_pci.c                        |  17 +
+ drivers/gpu/drm/xe/xe_pci.h                        |   3 +
+ drivers/gpu/drm/xe/xe_pm.c                         |  21 +
+ drivers/gpu/drm/xe/xe_pm.h                         |  17 +
+ drivers/gpu/drm/xe/xe_sched_job_types.h            |   4 +-
+ drivers/gpu/drm/xe/xe_sriov_pf_migration.c         |  35 +-
+ drivers/gpu/drm/xe/xe_sriov_pf_migration.h         |   1 +
+ drivers/gpu/drm/xe/xe_sriov_pf_migration_types.h   |   4 +-
+ drivers/gpu/drm/xe/xe_sriov_vfio.c                 |  80 +++
+ drivers/vfio/pci/Kconfig                           |   2 +
+ drivers/vfio/pci/Makefile                          |   2 +
+ drivers/vfio/pci/xe/Kconfig                        |  12 +
+ drivers/vfio/pci/xe/Makefile                       |   3 +
+ drivers/vfio/pci/xe/main.c                         | 573 +++++++++++++++++=
+++++
+ include/drm/intel/xe_sriov_vfio.h                  | 143 +++++
+ 36 files changed, 1713 insertions(+), 32 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/display/intel_color_pipeline.c
+ create mode 100644 drivers/gpu/drm/i915/display/intel_color_pipeline.h
+ create mode 100644 drivers/gpu/drm/i915/display/intel_colorop.c
+ create mode 100644 drivers/gpu/drm/i915/display/intel_colorop.h
+ create mode 100644 drivers/gpu/drm/xe/xe_sriov_vfio.c
+ create mode 100644 drivers/vfio/pci/xe/Kconfig
+ create mode 100644 drivers/vfio/pci/xe/Makefile
+ create mode 100644 drivers/vfio/pci/xe/main.c
+ create mode 100644 include/drm/intel/xe_sriov_vfio.h
