@@ -2,61 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E33C1CA73E7
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 11:48:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9F0CA73F0
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 11:48:26 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54D5910EAAE;
-	Fri,  5 Dec 2025 10:47:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6385010EAB4;
+	Fri,  5 Dec 2025 10:48:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="FQedaGC1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kygavMHd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB9B10EAAE
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 10:47:58 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1764931666; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=CeHA8ActDaVV8MyPttc/lrLLdDN2ziW+z7uDyaeYYMylOqbj8s7KQN22Kp44XoZjpaYo93p/0jwhSxTWQP0TE/btH3X3TSkAbLluwHTV+PNOSlNA9a0EMO4/+B65xcWQfUQfF70KegmRuyycsyrN/dVnpAi3CyjPORMMWxrFBSk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1764931666;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=VZVHu9YRjU1cohmrZAfykBDObnK2z1N4MteFLxu1DNM=; 
- b=A8H7j8igmiz4OpGKfg9DZYenf3tqMafpoNC+iPecvGXBIaLSRx+6Zy/nX6RV0FP2HE5Eg8u2KuE4WntThbwDXFKiFGfZnyKSNY38JJnE7D3RLMegrfiG7GuWA5fyll6yDRofGupenOka/jyGDWiEufwbsd091VF26rf4OzRjrE8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1764931666; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=VZVHu9YRjU1cohmrZAfykBDObnK2z1N4MteFLxu1DNM=;
- b=FQedaGC1Al7CqbTJuEIr5wcUaDKvaM/n2DwHW9vgK0eVtbgHBWi1GZGQrrEAh3lp
- 3gxO1mOp7IcC24eE7W3Dt5GDRv7TJRfzm4CPqASpzV1pML/Y52CHJFMzZSB1l92MlOJ
- HNwn0BGRmNBNvY7MkPBwBUWpgLVPMHQNEsQFpcWg=
-Received: by mx.zohomail.com with SMTPS id 1764931665174369.835521409532;
- Fri, 5 Dec 2025 02:47:45 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Chia-I Wu <olvaffe@gmail.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/2] drm/panthor: Add tracepoint for hardware utilisation
- changes
-Date: Fri, 05 Dec 2025 11:47:40 +0100
-Message-ID: <15112867.uLZWGnKmhe@workhorse>
-In-Reply-To: <CAPaKu7R_PJPD3s6wvuduGHDFCy+AE+Hd+p1cS+ZSu_tTgE2txQ@mail.gmail.com>
-References: <20251203-panthor-tracepoints-v1-0-871c8917e084@collabora.com>
- <20251203-panthor-tracepoints-v1-1-871c8917e084@collabora.com>
- <CAPaKu7R_PJPD3s6wvuduGHDFCy+AE+Hd+p1cS+ZSu_tTgE2txQ@mail.gmail.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D6F410EAB3
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 10:48:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 052F06020F
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 10:48:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6617C19423
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 10:48:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764931701;
+ bh=QrVPt4Rxcp5PJlz/4VQYZo3jOoVJw3nhAYdeqrRCFCo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=kygavMHdGYcnNJwm7lC5NjROC5pP0NUKpXqK7Biz8BNaDHF+0CPygieWyfbS3q7DN
+ oKTTSOV9634ZYMVY54gz3iRLFGDllRsrK1PeT2OhLcnl/0tCi8Kd5446OtixdIr6Dn
+ Y7dhhTkaJvUJ/TzPdrubJcM/RHUXJ6diHiNGqw/V9KcDC6L2NUUTOvN0E8Trgrg6Sh
+ z+qPqgHVWbXK1et/HCZ4B/ZEvNwVH6d3CW7IEzQPPbuNqYKMsAt42n4ThED9T1DbnU
+ CXyllON5ve7thGsh7B4peZZ477Sf6uv17HRHrj+D6Mhz7f0g4pMFs1G9CVTQoCCz3x
+ 5INTrFB6KUIIA==
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-594330147efso2012824e87.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 02:48:21 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVfhXvMI6pa+gV0LKjLReQGXIzm1NqMy9fxGmjz8tD8DSatHJ/hN5eJqcXMkyYIRzWCrZBV+QfYwvo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywb+EmrUyIcth10NSI29aM2T6rYvcKaQ1IJK7ZL7b0H9BVVxQFD
+ Hk1ONIhVnTfQqT4wsZNcPCEsghz9oG33K3mc1fd0mVRf3Jafrq9Xm1rHccn1LW7ZKcHLqABGgJu
+ Y5MSPvOErradLj25m8pWddHnTJNojaIg=
+X-Google-Smtp-Source: AGHT+IEvHnCA+35+G6qlMWnRT7CH/vPSRAST3MqD//tEb30hADZ6yX50ERhnDFtFtQnWsYNiQfDyt1oAgXxg3Q1ZC9k=
+X-Received: by 2002:a05:6512:110a:b0:595:83f5:c33e with SMTP id
+ 2adb3069b0e04-597d3f0a173mr3538191e87.11.1764931699972; Fri, 05 Dec 2025
+ 02:48:19 -0800 (PST)
 MIME-Version: 1.0
+References: <20251107164240.2023366-2-ardb+git@google.com>
+ <14ca1b28-df1d-4065-ad7a-97a3ff81a5a4@ursulin.net>
+ <CAMj1kXEgfykaf9oB4_tuAQqwXDN+NLy_Hb_+RnQmeicVgKt0bA@mail.gmail.com>
+In-Reply-To: <CAMj1kXEgfykaf9oB4_tuAQqwXDN+NLy_Hb_+RnQmeicVgKt0bA@mail.gmail.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Fri, 5 Dec 2025 11:48:08 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXFLaOZMXsUsvrshkwhvJSWm3V_iZB3n1rga=Q6zwrVY_g@mail.gmail.com>
+X-Gm-Features: AWmQ_bk_CANQh0NNSJOV7Yugs37HbMZjFdhS2AogpPPGzBgRa7uP_idIjjwmhaA
+Message-ID: <CAMj1kXFLaOZMXsUsvrshkwhvJSWm3V_iZB3n1rga=Q6zwrVY_g@mail.gmail.com>
+Subject: Re: [PATCH] drm/i195: Fix format string truncation warning
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,64 +77,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, 4 December 2025 21:21:08 Central European Standard Time Chia-I=
- Wu wrote:
-> On Wed, Dec 3, 2025 at 6:04=E2=80=AFAM Nicolas Frattaroli
-> <nicolas.frattaroli@collabora.com> wrote:
+On Sun, 9 Nov 2025 at 19:00, Ard Biesheuvel <ardb@kernel.org> wrote:
+>
+> On Sat, 8 Nov 2025 at 01:27, Tvrtko Ursulin <tursulin@ursulin.net> wrote:
 > >
-> > Mali GPUs have three registers that indicate which parts of the hardware
-> > are powered and active at any moment. These take the form of bitmaps. In
-> > the case of SHADER_PWRACTIVE for example, a high bit indicates that the
-> > shader core corresponding to that bit index is active. These bitmaps
-> > aren't solely contiguous bits, as it's common to have holes in the
-> > sequence of shader core indices, and the actual set of which cores are
-> > present is defined by the "shader present" register.
 > >
-> > When the GPU finishes a power state transition, it fires a
-> > GPU_IRQ_POWER_CHANGED_ALL interrupt. After such an interrupt is
-> > received, the PWRACTIVE registers will likely contain interesting new
-> > information.
-> I am seeing
->=20
->    irq/342-panthor-412     [000] .....   934.526754: gpu_power_active:
-> shader_bitmap=3D0x0 tiler_bitmap=3D0x0 l2_bitmap=3D0x0
->    irq/342-panthor-412     [000] .....   936.640356: gpu_power_active:
-> shader_bitmap=3D0x0 tiler_bitmap=3D0x0 l2_bitmap=3D0x0
->=20
-> on a gpu-bound test. It does not look like collecting samples on
-> GPU_IRQ_POWER_CHANGED_ALL gives too much info.
+> > On 07/11/2025 16:42, Ard Biesheuvel wrote:
+> > > From: Ard Biesheuvel <ardb@kernel.org>
+> > >
+> > > GCC notices that the 16-byte uabi_name field could theoretically be t=
+oo
+> > > small for the formatted string if the instance number exceeds 100.
+> > >
+> > > Given that there are apparently ABI concerns here, this is the minima=
+l
+> > > fix that shuts up the compiler without changing the output or the
+> > > maximum length for existing values < 100.
+> >
+> > What would be those ABI concerns? I don't immediately see any.
+> > > drivers/gpu/drm/i915/intel_memory_region.c: In function =E2=80=98inte=
+l_memory_region_create=E2=80=99:
+> > > drivers/gpu/drm/i915/intel_memory_region.c:273:61: error: =E2=80=98%u=
+=E2=80=99 directive output may be truncated writing between 1 and 5 bytes i=
+nto a region of size between 3 and 11 [-Werror=3Dformat-truncation=3D]
+> > >    273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s=
+%u",
+> > >        |                                                             =
+^~
+> > > drivers/gpu/drm/i915/intel_memory_region.c:273:58: note: directive ar=
+gument in the range [0, 65535]
+> > >    273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s=
+%u",
+> > >        |                                                          ^~~=
+~~~
+> > > drivers/gpu/drm/i915/intel_memory_region.c:273:9: note: =E2=80=98snpr=
+intf=E2=80=99 output between 7 and 19 bytes into a destination of size 16
+> > >    273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s=
+%u",
+> > >        |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+> > >    274 |                  intel_memory_type_str(type), instance);
+> > >        |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > >
+> > > Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+> > > ---
+> > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > > Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> > > Cc: David Airlie <airlied@gmail.com>
+> > > Cc: Simona Vetter <simona@ffwll.ch>
+> > > Cc: intel-gfx@lists.freedesktop.org
+> > > Cc: dri-devel@lists.freedesktop.org
+> > >
+> > > This is unlikely to be the right fix, but sending a wrong patch is
+> > > usually a better way to elicit a response than just sending a bug
+> > > report.
+> > >
+> > >   drivers/gpu/drm/i915/intel_memory_region.c | 2 +-
+> > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu=
+/drm/i915/intel_memory_region.c
+> > > index 59bd603e6deb..ad4afcf0c58a 100644
+> > > --- a/drivers/gpu/drm/i915/intel_memory_region.c
+> > > +++ b/drivers/gpu/drm/i915/intel_memory_region.c
+> > > @@ -271,7 +271,7 @@ intel_memory_region_create(struct drm_i915_privat=
+e *i915,
+> > >       mem->instance =3D instance;
+> > >
+> > >       snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
+> > > -              intel_memory_type_str(type), instance);
+> > > +              intel_memory_type_str(type), instance % 100);
+> > It's a theoretical issue only since there is no hardware with a double
+> > digit number of instances.
+> >
+> > But I guess much prettier fix would be to simply grow the buffer.
+> >
+>
 
-On what GPU and SoC is that? If it's MT8196 then I wouldn't be
-surprised if it just broke that hardware register, considering
-what it did to the SHADER_PRESENT register.
+OK, so something like
 
-On RK3588 (v10), GPU_IRQ_POWER_CHANGED_ALL reliably fires when
-there is new information available in those registers. I haven't
-tried on MT8196 (v13) yet because that still doesn't boot with
-mainline so testing anything is a pain.
+--- a/drivers/gpu/drm/i915/intel_memory_region.h
++++ b/drivers/gpu/drm/i915/intel_memory_region.h
+@@ -72,7 +72,7 @@ struct intel_memory_region {
+        u16 instance;
+        enum intel_region_id id;
+        char name[16];
+-       char uabi_name[16];
++       char uabi_name[20];
+        bool private; /* not for userspace */
 
-I don't have any v12 or v11 hardware to test with. From what I
-understand, there's no open enough platform to do v11 testing on,
-just the Pixel 8 and Pixel 9. I could look into the Cix SoC for v12
-though some day, but I don't own one at the moment.
-
->=20
-> I think they are more useful to be collected periodically, such that
-> we know that in the past X seconds, Y out of a total of Z samples
-> indicates activities. That's best done in userspace, and panthor's
-> role should be to provide an uapi such as
-> https://lore.kernel.org/all/cover.1743517880.git.lukas.zapolskas@arm.com/.
-
-This wouldn't give you information on the time a power transition has
-completed, which is one of the motivations. A periodically collected
-PWRACTIVE would just be roughly correlated to how busy the GPU is,
-which isn't very useful additional information as the performance
-counters themselves are likely a better source of that kind of info.
-
-What I need to do is restrict this to <=3D v13 in the next revision
-however, because v14 reworks this stuff.
-
-Kind regards,
-Nicolas Frattaroli
+        struct {
 
 
+
+> > Also, hm, how come gcc does not find the mem->name vsnprintf from
+> > intel_memory_region_set_name?
+> >
+>
+
+AFAICT, intel_memory_region_set_name() is never called with a format
+string that could produce more than 15/16 bytes of output.
