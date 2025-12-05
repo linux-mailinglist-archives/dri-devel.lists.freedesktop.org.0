@@ -2,56 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9375FCA6080
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 04:49:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76351CA6383
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 07:24:13 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A2BF10E247;
-	Fri,  5 Dec 2025 03:48:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CCBB10E235;
+	Fri,  5 Dec 2025 06:24:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="H6cjAEgY";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KoZVnhr5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3829210E247
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 03:48:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1E6A260204;
- Fri,  5 Dec 2025 03:48:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2461C4CEF1;
- Fri,  5 Dec 2025 03:48:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764906531;
- bh=qzyTcJopicMOcdDi6lT/SMCcMArz2wntcEJw9Zd71us=;
- h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
- b=H6cjAEgYnU30F4RSwJur3O+K/FcWDyXzbIf8EHMA1RW1gYKhFF+gcN4E+w+bCUXoz
- hHzGSp0p257rGbQcT8FoqZib6PAhbHdqRGzark99e0q/Ts9LQbhZrEGOndrbQHsHQt
- MqPVGOXUeoMMV2udfBGawc8LCgAsBkvtiQOAz7Fl++vwyMa5o1/nZIzcXkTz7VaDs+
- T64SR7tf/iLUSUcB3Hj8otvVAk9YCuWKhKQjYUkqjllA8+bsUVl8LTN32jozWhdQqx
- v32uCfUApRQYpDWYnRkM3A2V4fwJaTiIpSPPOdVa38PORdq19FqGOXvEu6td1nkEvJ
- 2MdoUaGjzmQvA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
- by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id
- F2BA73AA9A89; Fri,  5 Dec 2025 03:45:50 +0000 (UTC)
-Subject: Re: [git pull] drm next part 2 for 6.19-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <CAPM=9tzSsXFDmudyA4UWEDTXp0mBaS+XSUWTZhxK49Bm1MREbg@mail.gmail.com>
-References: <CAPM=9tzSsXFDmudyA4UWEDTXp0mBaS+XSUWTZhxK49Bm1MREbg@mail.gmail.com>
-X-PR-Tracked-List-Id: Direct Rendering Infrastructure - Development
- <dri-devel.lists.freedesktop.org>
-X-PR-Tracked-Message-Id: <CAPM=9tzSsXFDmudyA4UWEDTXp0mBaS+XSUWTZhxK49Bm1MREbg@mail.gmail.com>
-X-PR-Tracked-Remote: https://gitlab.freedesktop.org/drm/kernel.git
- tags/drm-next-2025-12-05
-X-PR-Tracked-Commit-Id: c7685d11108acb387e44e3d81194d0d8959eaa44
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: deb879faa9d2f327ac5c079d9d1a1747b79260e3
-Message-Id: <176490634959.1091160.5299978894700798946.pr-tracker-bot@kernel.org>
-Date: Fri, 05 Dec 2025 03:45:49 +0000
-To: Dave Airlie <airlied@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
- Simona Vetter <simona@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 983F810E235
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 06:24:08 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-42e2e47be25so922622f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 04 Dec 2025 22:24:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1764915847; x=1765520647; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=m+ej5+wE1Ajr3sib/dbFOmGytgkoVPV55nLX07WvgTs=;
+ b=KoZVnhr5itSyEW4w6ony9dnUKVIQI/Uh/EdmgqOKgYLpQCzhGIgWSpAS4gMYc+byax
+ D8G37Wh5zwQJWlng1cKMvHWzhBzoOGwPad+uFWDCsWCPpOlVuLxe96pINb6grU7cIbhA
+ 78a2HpIsngkZjRTDZP7Vo4zcvnjyWxsbHzUeari7WUHC/TUweugXRyLfd9qYziFWtOc4
+ Ra2cYRYIY1S1Gii3a+8rYhRqlUsmzLx2BkaSWMKRN82riChleZPzTsH4jEKBtEfLkLFw
+ WEHqJ15gsi0Aw5FBV3zm6sVY6LSZeEkLhZpv4C/rJhe4sDU3NR0pXEUe6oFWJbGkUIiU
+ Z1ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764915847; x=1765520647;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=m+ej5+wE1Ajr3sib/dbFOmGytgkoVPV55nLX07WvgTs=;
+ b=gZBB4+n56/L/OE6APN5EMWraicTIR9FVXpTkPWT/mBPRsmO9Qw5pR4gCIRBHOhJ4nI
+ MA3jPw/ybKU2CC26BAM+nL0v7rtJBZSlQdpxci5kT/JzbDAB4LQ7n77B9J0k7gQhKKIw
+ kXMM6rGeiVrVfIclUJtwhOVFsdGou4hRBQuayqxTK+rd72+R5P6M74qs0JFZrf/2UFwk
+ 8espdihTy6n2Z0XsOKjZOz/QjYtqgXZD7STLz3OPmRr/d0VgGNMZRSctYjU5E6cJDl1m
+ 4vlp2b6zLFlSs63qr8efRyeVcjymIq88ccc36dx0R57Z7Ky3cRs1xsvz9gwMZP8ODx8j
+ b6mg==
+X-Gm-Message-State: AOJu0Ywre+CNx9uem8MrKQxrI/0nQIhSkLBX06e8/eonWgpQi1Q33L/K
+ 8gsl05PfX/pTE8JI70RVj9Y+a1oJ2I9e/X2YekpnTg70/TVeNAakyNn8QiP4rrZYYRQ=
+X-Gm-Gg: ASbGncubUWxwgm0h3eXKTvI8Pvv0MsiMq8h+7zL7sr1eOe1/kguBZru3hkCxzjKOHiu
+ jw27Nl8Jbt1maQi5IM3gQO4BgHXOprERD/z2RraEcBzTEKjSHmjMghH98/rRo2eitEehRdh8LRZ
+ gIIiO9WrB/8DdAsrRhQWQRhNRQKvdbSD1eKk+N8AWT0o5flGNW2y4ECV7+8HhXvlynVUFnLWava
+ /BZwTqASPaqdREIG2E7k5w2PmBggBS3cB5bcDEhLpy5Shb68IPSOZlUyO8gCOflUJXj65RTizb5
+ TTeCbII3Xi0OzEzYe0CW8/sDV/MbvjFt0yTv4/4d1qF/2zFIfU6iULG+ZHCvykiZcBlun55PWga
+ jgzA6kGs7NdCSPEXFWlXMkZlO0FbXlaVZvwzcVF+zMjpkxf80PRMhDS+NWUNFaJvsIa50mg60D3
+ 4eeVQOnp0Du57Hk0AyBI7xJ1lEdj0=
+X-Google-Smtp-Source: AGHT+IE5dQqnLKqWEiL7De7Gm0Pglxsn4dFIjoT761AWpdcwPoGjLTq5SQ4iRD6ipSXzBF4kslirtA==
+X-Received: by 2002:a05:6000:18a9:b0:425:73c9:7159 with SMTP id
+ ffacd0b85a97d-42f7984155bmr6081076f8f.33.1764915846872; 
+ Thu, 04 Dec 2025 22:24:06 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-42f7d3319ccsm6741716f8f.34.2025.12.04.22.24.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 04 Dec 2025 22:24:06 -0800 (PST)
+Date: Fri, 5 Dec 2025 09:24:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: dri-devel@lists.freedesktop.org
+Subject: [bug report] drm/colorop: Add 1D Curve subtype
+Message-ID: <aTJ6gtiSoltXTFY3@stanley.mountain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,15 +84,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The pull request you sent on Fri, 5 Dec 2025 11:15:30 +1000:
+Hello Harry Wentland,
 
-> https://gitlab.freedesktop.org/drm/kernel.git tags/drm-next-2025-12-05
+Commit 41651f9d42eb ("drm/colorop: Add 1D Curve subtype") from Nov
+14, 2025 (linux-next), leads to the following Smatch static checker
+warning:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/deb879faa9d2f327ac5c079d9d1a1747b79260e3
+	drivers/gpu/drm/drm_colorop.c:489 __drm_colorop_state_reset()
+	error: uninitialized symbol 'val'.
 
-Thank you!
+drivers/gpu/drm/drm_colorop.c
+    477 static void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
+    478                                       struct drm_colorop *colorop)
+    479 {
+    480         u64 val;
+    481 
+    482         colorop_state->colorop = colorop;
+    483         colorop_state->bypass = true;
+    484 
+    485         if (colorop->curve_1d_type_property) {
+    486                 drm_object_property_get_default_value(&colorop->base,
+    487                                                       colorop->curve_1d_type_property,
+    488                                                       &val);
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Smatch wants error checking on the drm_object_property_get_default_value()
+function.  We could just ignore this warning or I could add
+drm_object_property_get_default_value() to the list of functions
+which never actually fail.
+
+--> 489                 colorop_state->curve_1d_type = val;
+    490         }
+    491 }
+
+regards,
+dan carpenter
