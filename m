@@ -2,150 +2,174 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36C65CA7282
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 11:29:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13AECCA72B5
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 11:32:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B40510E1B5;
-	Fri,  5 Dec 2025 10:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60C8910EAB9;
+	Fri,  5 Dec 2025 10:32:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kxcX5H4y";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HfkFpnSz";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="akJniKg7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5974610EAA5
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 10:29:19 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5B58XG6r2516887
- for <dri-devel@lists.freedesktop.org>; Fri, 5 Dec 2025 10:29:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- T+P9UihzOlxTBT4XtK2QWIlMPWzgt0UAZU+mnK6obDw=; b=kxcX5H4ywgSX9OBY
- QH0Tob7BhgQrSNpKOE10iCo30tGUGekHrB4z4ilYFsMy54VaVx4wZyJ+TSRbGa3h
- RzhPMRvNf8FS3ZLxeAQbvomHIleBpKgxjMHk/Xbb+6rddAcVz8MTRzPcoLoxNjzP
- KE3kn2G9vDkW8tsBVV062h9MSCwEGtfAgp4KGiv7OZDKo7I+0rgQ1Svj1dH67cdL
- jnpkgW0Nl2baxSxO/4aCvwoLrVXSNTYAO/9BSDgzNNPUpF5H2pe4kZNC2zwP/Aow
- p+i53KvxELwPQuC/+Lhcxdfo34yW3NXj5qZDS+qCRSfcMq2dPjMt0yE2R7R9fbLC
- obnXRA==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4auj7n1tsn-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 10:29:18 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id
- d9443c01a7336-297dde580c8so58920235ad.1
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 02:29:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1764930557; x=1765535357;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=T+P9UihzOlxTBT4XtK2QWIlMPWzgt0UAZU+mnK6obDw=;
- b=HfkFpnSzL5oV4WbBsy27WUjsgC21tDkA3uMaZa3ELFSiRGNjuloTCjmJjQvhVPE/mp
- RlkUYfGKqLROj7d9kkYLiOi9bbk+qiXM0gwRhbs3ZjsC4RcripUQvgYbvIb0xqQwQwyG
- BdT/cFeqNCgEca95KEKfloNS8BfswkXaTxsUdYsJP8vMBboBUvrNJIxxllDFLXh3eTxi
- ZcdI63o6yAxkJ1VpDRDRzAb/adkgON9zJWjMAxwtop7Cm9tyZpImkyGlT/my+gTKU4pw
- 4xo0TdZKyZZ5jLP+BMLgP1uIw0vOOjdVpV/WWI0aMu1OSYu2x0kkbrjz5xGbXEjZCU8a
- sTpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764930557; x=1765535357;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=T+P9UihzOlxTBT4XtK2QWIlMPWzgt0UAZU+mnK6obDw=;
- b=genRhHp+JvjABwHaDdMCrxCVWmyCy42gSJHvjjl2/5/jt1EOTSQkyaqSmXv0aixN70
- GQ9x061IFYHVcpgkOC0nxz+Q36cGAdun8XG6na4aLdBUQdmLFBxwQwEjxBq0LWGmtWgr
- XsbKoyNIo7YaDd+S56UWIVr3V8y8zwh114w3cfGkl8qh70mTmtg2xWyg3sOqEcbBy6kh
- 2JRfUvyDQ9fxENGzLrgqKepe6j56n6sJFM6fmepmUn8Jm/L9ITZ8PASjBN7LsFoAAw2j
- 4hH4JpbAEqaeBnmlDVvZ/4GQlhFY+sz0n4/Lmduez8dxBQUzlLTBHRe8ELj6Z/GB9QD/
- A2Yg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUbf2WASrk/FBWtxsnM3HdQLPig4Wz4sJk+NGTlRj146fQ2lLIMny39Nibwt/No715HT7eYiuI1h9k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwqxsAOJA6+BudRS6PDfk4SPmnV2EA6CiDKgPa3VjTk8B7oU5w5
- fhVcIA2lvy8dDX76dsjPrs+7Jrz17Q/4dQX/ZnIjk/yPAWFrR8LFKzCgk9gIY+oDgpp3beB0Pd9
- rz+Hgifh/vs3EGpFNZqBT1dcXkyyCwZtgom+jI3858rirgVwrdW9EioULhw17VJ3+SGPMwSs=
-X-Gm-Gg: ASbGncvtPCwF5Gp5qmETrMx8G82ViPWdiN4m56JuLqw4HCK1KLeRy4/32HcK2UtPsCr
- X3JoLnVBPQblMEhxn1KIkJJgD9jlMiRYA+m0Wf4FaoPQ74AuXaJN63YccSM534kleVr5UyIlZMI
- kB+Bvby+tBrDqN2zSnNziOMa6RANYd9h5lAFwHEOCxtOPz1fITWji3NSCaC8+3m4yf7OzQrK2df
- PRxs9slR1WqdyL6jjvrWtxm0sqWOmkmOiDbliud30opkevxwZk4g+EcXO7ITNS5pdB9TbRZwhv+
- NGWWSIXpopeZ3GTz2TlQmMyutEVvMo2uicyh91dpamchTlaKP0T0sZvdTFa60rJ42mGrTZ+4qW9
- FyUShI0uEbOEOcqRt0OdJB4zPcurY0sA0BA==
-X-Received: by 2002:a17:902:eccb:b0:297:fc22:3ab2 with SMTP id
- d9443c01a7336-29da1ebb0bamr73863145ad.36.1764930557379; 
- Fri, 05 Dec 2025 02:29:17 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFh7HpsBEyO6ilZG7nPGO6ymE5SmKKfCKSfDxDslOX7vJaR3rccD+YDhq2XPNdO+dSiRh2JWg==
-X-Received: by 2002:a17:902:eccb:b0:297:fc22:3ab2 with SMTP id
- d9443c01a7336-29da1ebb0bamr73862905ad.36.1764930556932; 
- Fri, 05 Dec 2025 02:29:16 -0800 (PST)
-Received: from [192.168.1.4] ([106.222.235.197])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29dae99f6a9sm45456135ad.65.2025.12.05.02.29.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Dec 2025 02:29:16 -0800 (PST)
-Message-ID: <90bc84e7-19ca-450d-b41f-fd96367e8cce@oss.qualcomm.com>
-Date: Fri, 5 Dec 2025 15:59:09 +0530
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE46510EAB2
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 10:32:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1764930749; x=1765535549; i=deller@gmx.de;
+ bh=6bfDO+uLvOSGQXGW3TkYOKRK1XJyCw2LRBDcIhSJU7Q=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=akJniKg7IVtZl11BMF42VGqt0jwUHj+0tj3egmVGCaSoIyd6rbJxTDpwvJodlBuW
+ BxP1SlBE+kuDUYiF6CLTyhuZ0OmhBCsA1r8dTCFtHwYrXovnRcrou4cgSizt/4Cs0
+ WKdxHl6i8YMDgTj/vF5iaYyWS2fszPK+Vq5ZviQ+/JcwT41XXSmJjubXqQ0sOr2vB
+ 95hTtkStlnIiw4JCt06LJCKmA+SmNOQLEY2K2nooU3Py2J5xJBK5dx4ExRVUekLl5
+ FGu/lDkN0YkiwkrHvNpFPVtKasAFTqjwE94CL8UlVbVy3wiKletNFFECSOOmYnQNn
+ b05uCoeagsWc9qyzgA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([109.250.51.145]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MrhQC-1voNBY3iGy-00epBS; Fri, 05
+ Dec 2025 11:32:28 +0100
+Message-ID: <bf69bf02-35f1-493f-84d7-957f25b38b4c@gmx.de>
+Date: Fri, 5 Dec 2025 11:32:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/6] arm64: dts: qcom: sm6150: Add gpu and rgmu nodes
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>
-References: <20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com>
- <20251122-qcs615-spin-2-v3-5-9f4d4c87f51d@oss.qualcomm.com>
- <8560ad26-4756-4c2a-97c3-2c5c0695172c@oss.qualcomm.com>
- <z4gqro2bx6oq2ht75m2klogo5dsirb74tmc3u3shjyalxmaxil@5sy7ufmqhdgw>
- <6fa1da5d-9ea7-4d72-a03a-82edc4bef099@oss.qualcomm.com>
- <3gqq3w6ovy5srgvabyeugsjbwrhaxmjvicykhjmlcxd74gtsaf@5u6wvvzeq52z>
+Subject: Re: [PATCH v2] fbdev: ssd1307fb: fix potential page leak in
+ ssd1307fb_probe()
+To: Abdun Nihaal <nihaal@cse.iitm.ac.in>
+Cc: niederp@physik.uni-kl.de, tomi.valkeinen@ti.com,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20251203035546.26849-1-nihaal@cse.iitm.ac.in>
 Content-Language: en-US
-From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-In-Reply-To: <3gqq3w6ovy5srgvabyeugsjbwrhaxmjvicykhjmlcxd74gtsaf@5u6wvvzeq52z>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=DOSCIiNb c=1 sm=1 tr=0 ts=6932b3fe cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=jBSxni06C9HboLYAjQ55wg==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=PFMJV2I6qJKDnvYOCoAA:9 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: zP7RtuV_WGWur3CNIkBrBL-7qUig4i48
-X-Proofpoint-GUID: zP7RtuV_WGWur3CNIkBrBL-7qUig4i48
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA1MDA3NiBTYWx0ZWRfX3IFYjg2CCsOp
- 4hSaTWudDXT/1R42dhmqBnPlbyUfYkbKk4OlEZZzlROpiE6z+hilOCWh9x/uIbM6gg3BvuvoS7O
- C2XdgHmpZfvBBKVXH6A9t4iRuTw1p2Gk7WK01+Usvvf1UQLmK/oRioqCaq2ben7XUUgkMVKq+oP
- UQBt2MDpdJX33xllC76VzuoHpSZ5u9Hk1nemgeV4EP7D3EH5PiWEHsXXiI9YuwoVL1dCTuYeUs5
- Vx6wwqCTECO83PbupdmAo8N8Phz7Y7SNgalymUDGEvM6SYTk1enw9DnxcN6voxQ6PtvGDlxrRvd
- yThJcTIBj0DvpK8VggwDlqWgoHBy/k0zCuggUcbAi0SbADgoWonEZdjj+dnzhzFHSDOqmWmjONN
- nJZyHcxIDyaMIJHQDFJqK92KBv/Nkw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-05_03,2025-12-04_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
- suspectscore=0 spamscore=0 phishscore=0 impostorscore=0 malwarescore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512050076
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20251203035546.26849-1-nihaal@cse.iitm.ac.in>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:KaBoVDh5Xn0iqqpDH+qYeo9tlflrsYUMIPDSIUEWD3So5NGBDdM
+ BcyPfyiWbF+S0h3IgTQtnzoT954XV4pOXs4rK9HoKuNuHF33xD13y24QQMw+6f+nZ7YRCdg
+ qqQil3y8cIfLsmGb6thrvVTr7fmko7eXolODY750Vwcxj5oFSdI1pwIUH1i2AzywEwCOAtB
+ 24Ttb7haH1ZkvqBfkQBuQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:OOLv9bb5hVM=;Ncml2NB56DeYEv8WBSPLguDBz0E
+ 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
+ DrnkOELhyiwH1p+8D1D25h+xrE4znaz1LOedNQ
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,55 +185,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/4/2025 7:49 PM, Dmitry Baryshkov wrote:
-> On Thu, Dec 04, 2025 at 03:43:33PM +0530, Akhil P Oommen wrote:
->> On 11/26/2025 6:12 AM, Dmitry Baryshkov wrote:
->>> On Sat, Nov 22, 2025 at 03:03:10PM +0100, Konrad Dybcio wrote:
->>>> On 11/21/25 10:52 PM, Akhil P Oommen wrote:
->>>>> From: Jie Zhang <quic_jiezh@quicinc.com>
->>>>>
->>>>> Add gpu and rgmu nodes for qcs615 chipset.
->>>>>
->>>>> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
->>>>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
->>>>> ---
->>>>
->>>> [...]
->>>>
->>>>> +			gpu_opp_table: opp-table {
->>>>> +				compatible = "operating-points-v2";
->>>>> +
->>>>> +				opp-845000000 {
->>>>> +					opp-hz = /bits/ 64 <845000000>;
->>>>> +					required-opps = <&rpmhpd_opp_turbo>;
->>>>> +					opp-peak-kBps = <7050000>;
->>>>> +				};
->>>>
->>>> I see another speed of 895 @ turbo_l1, perhaps that's for speedbins
->>>> or mobile parts specifically?
->>>
->>> msm-4.14 defines 7 speedbins for SM6150. Akhil, I don't see any of them
->>> here.
->>
->> The IoT/Auto variants have a different frequency plan compared to the
->> mobile variant. I reviewed the downstream code and this aligns with that
->> except the 290Mhz corner. We can remove that one.
->>
->> Here we are describing the IoT variant of Talos. So we can ignore the
->> speedbins from the mobile variant until that is supported.
-> 
-> No, we are describing just Talos, which hopefully covers both mobile and
-> non-mobile platforms.
+On 12/3/25 04:55, Abdun Nihaal wrote:
+> The page allocated for vmem using __get_free_pages() is not freed on the
+> error paths after it. Fix that by adding a corresponding __free_pages()
+> call to the error path.
+>=20
+> Fixes: facd94bc458a ("fbdev: ssd1307fb: Allocate page aligned video memo=
+ry.")
+> Signed-off-by: Abdun Nihaal <nihaal@cse.iitm.ac.in>
+> ---
+> Compile tested only. Not tested on hardware.
+>=20
+> v1->v2:
+> - Fix incorrect call to __free_pages with uninitialized values as
+>    pointed out by Helge Deller. Now, the patch uses vmem and vmem_size
+>    which hold valid values at the goto site.
+>=20
+>    Thanks for catching. I'm sorry I overlooked this in v1.
+>=20
+> v1 link: https://lore.kernel.org/all/20251202191225.111661-1-nihaal@cse.=
+iitm.ac.in/
+>=20
+>   drivers/video/fbdev/ssd1307fb.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+applied.
 
-We cannot assume that.
-
-Even if we assume that there is no variation in silicon, the firmware
-(AOP, TZ, HYP etc) is different between mobile and IoT version. So it is
-wise to use the configuration that is commercialized, especially when it
-is power related.
-
--Akhil.
-
-> 
-> 
-
+Thanks!
+Helge
