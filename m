@@ -2,76 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9428ACA7A4D
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 13:51:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED789CA7AAA
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 13:58:53 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3D9610EB1A;
-	Fri,  5 Dec 2025 12:51:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D7D710EB1E;
+	Fri,  5 Dec 2025 12:58:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="d1Q+ZdR1";
+	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="dQklpZW/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2626410EB1A
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 12:51:34 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-42b3669ca3dso1064428f8f.0
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 04:51:34 -0800 (PST)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+ [209.85.128.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C81D410EB1F
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 12:58:50 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id
+ 5b1f17b1804b1-4779adb38d3so19432115e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 04:58:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1764939093; x=1765543893; darn=lists.freedesktop.org; 
+ d=suse.com; s=google; t=1764939529; x=1765544329; darn=lists.freedesktop.org; 
  h=content-transfer-encoding:in-reply-to:from:cc:content-language
  :references:to:subject:user-agent:mime-version:date:message-id:from
  :to:cc:subject:date:message-id:reply-to;
- bh=9MzpLnNl9vvJw+1q+qMx3EcEk0gQb02lA2SLfXsZdJo=;
- b=d1Q+ZdR1mg4W0SpgkfnxiiQYxEQr3TbWvP4v8U/pmIrMnGk4hqK1XPXQhexkJtopZG
- Ec89UrSDogNEGDlJTqMR1A50+/N0vQJ9aRsVda9n4pPwNxPx6d8LK3jDSTsZdae3coya
- patFYdLWbMNdEtDQqdbaBejcLaA6Lhjb0R7C8U0IOf3QbKISYKzBiWhGHDG9szINXOUa
- oqgf+8SrCfkBb/A4hciD+xYuBz3ygD79CHfSEgnkTeBgJTvcrbZi72R+NtqcK7gJoxFJ
- 96WrKJGSBQACGd8TwKHVUOZ/24GxrUQzPbdZNhKRwpQHtwQhaS8WZ2uMf2wnZIuyI9/p
- bL/g==
+ bh=vvDpFJFk+V6cvoTCKOK8q907ac/jTowZtFGXPpMCI6k=;
+ b=dQklpZW/XlH4Z0FHYhHOoCes3Nc8FCaN4uG/aqAOddTCJHmpalnub5g+J8t7jB982u
+ E0HF1oqf9Y+m6z/D+KO/a53VnLMP+3yA8JV+CIhng9JyUvy0sttbvuSf2X1uZt3+OmUy
+ tyhtK3ikMC9DSLZsszuDSylnoJdBoV9Yd6LNcmNV0ZYmFfIBCi83O+JfIYlMpptw42CC
+ j26wR+hInG5yjzq6VZqtEWcwLML0llbgMZv7zsjkU2i+XCup8shbAqL3vhb5bvQy3s52
+ H2LgXEFRpF55BD7EArBdm1gvYR3lOA1Viqlnf6Irf5gdnSgbglnTgZv0eBn+5sxu5JS2
+ /7nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764939093; x=1765543893;
+ d=1e100.net; s=20230601; t=1764939529; x=1765544329;
  h=content-transfer-encoding:in-reply-to:from:cc:content-language
  :references:to:subject:user-agent:mime-version:date:message-id
  :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=9MzpLnNl9vvJw+1q+qMx3EcEk0gQb02lA2SLfXsZdJo=;
- b=NCjxuOqc9m+73JAdEoVnjAjBcF8t4E3V0NYSlxcD/WP6Wjk28e52siU+7k0cgzaz6+
- Yy3SJrF3HGQRLI9ZWUhWb0X7ZNmpKpypsPRJe9E/tcI8VG8joBEFz6e2ogWBbRWCxHKR
- 12QM8qmtKskMtdkklupKca0iRA9lgRLZZBaR59i6YD4JEEaiBym6z0Ux9MNNl/nmB3g7
- PMZywcD/iSmFoD0HNIrdZ9AeBZc76fXSFCNZ9q6NuVP9yUvO6nGoz5GJxSXO7QQCeBu6
- vP/gkzkFZu0MFErjGD3bvglJjvOQoN9K40x1jjfDdpOy10XWp/zA8IoQTxBCEuekcaGi
- +HrA==
+ bh=vvDpFJFk+V6cvoTCKOK8q907ac/jTowZtFGXPpMCI6k=;
+ b=Ei9Lxkp+wNfud2X/1L+60frq/1jMDRu4lLkHhb1c+rKToESckMWCW+l8sh3BdneJEd
+ c+X4OTSewei8/4X+OfJuu2mXbAmPm7gyFOG0ZSA3D5ivgfldJJUc/Ty49J8x0wELz3tC
+ 43qjpDgUMxbxSYkY9rIifT1nOWoRPMaVTO6ooN/YHByvriQixS06FobMjYVjTEsuDguC
+ 0LLKjHBqEc0FWZNBzZDW29nQ7jk1U4HMwpY+SPte4G1N5TappLqXBPiFvBzrXE3oBrMi
+ 6//PE7b0NNwWA4isF4F8OWHaKOVrgUmm2rD1fPur05xQvQv4OGNBydifNSoGLyPNVHOo
+ kUvQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWxjLuVbhuMWXuEhGz3cCXsueMqT/qymJCdTJ5Vk00KTaaLO6cmAwBm4/ylDWsyDu8SsOt8Bx40JdY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLe0BjlRZUjwu0ICC1Cypj/vDJpd1sEix7rn2UVepK0M7d7fwR
- b4+wWCu50ibf5aUP71xDLryGPJuxA1MgdiCUPWaUPyGaJw03piv561iVBfhyQOgoUl0=
-X-Gm-Gg: ASbGncvp/V/khk9YCynEYaDQrIePhQaoR6w5kHMTpcI10Ey3guCkN7zDcqcU6zTbX/k
- i2GSj14x8hAvP+fA7rKJlhv0a2ndslnElTVw4DbWlzgrjgg4NCn5QirPywlb191WqDP7MbzDSSV
- sucfvSf7vemxn2eMO/FY48/EGYpgOXFNv1kdIKHa9faKwwaape2g9kCbHGWWIzEuOGT5amQPIrh
- cAr9R5hMPQUoyEn+DZ22RKRNF3BQhuE5tlDwG4/P7LMGXl6FFqplBqGk5I1t3tzHW+6lA8sDq9Y
- /iPWDyIMkhh9Lbov5qKqpZ8gVBfnt78vL6MV2QCD4S3/UTjt485rux2pUoF14sO48dQtzSNJB/p
- JMbLL42uztnqD+2o3GLa81+wN/bd/QLPhNJTx8n5YS9jQyRXz4TSHvOe9SIOuisIobloIBfCZNF
- Xw9F8588YhAZRZuUaT7lBBYGUO8Ymq9A==
-X-Google-Smtp-Source: AGHT+IFF2YOP1yOKobPpwIABM0ALpDzm5Ux8rx9pH99/QlqE0Zty3TPaCCS2gXj6vJWnXG2wdtohyQ==
-X-Received: by 2002:a05:6000:18a3:b0:42b:3272:c4a7 with SMTP id
- ffacd0b85a97d-42f731a2e9amr10500166f8f.29.1764939092550; 
- Fri, 05 Dec 2025 04:51:32 -0800 (PST)
+ AJvYcCVNSwwlEPIcY1Pfgn+SAm/Hoqr7bE2M0HQDGzG3hJ16vbm077Y8FpsDgZaBtDkoTidhH9odC4LQxHM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxrag/oh4KDhAk1nnZ/nPVfeAuxsoCXqtg0qoE4UJWCq2Qb9BQb
+ RMlUkk4qcSV1xMqiunvEASkCCSunTfliUh6XzxYxlnHs9KA6smtvLXAN59+dhKcmAEE=
+X-Gm-Gg: ASbGncvR0bCh/U0vFY3METbqdRO25Ix5O7QsZ5sR5Pmf92aD8xsltS46UqPsC1rMcO6
+ BykrE9YdsVcS4+eGyNzFjDS9kTnxziyQZeeU9kvnptvYehSkzzeZSoOHBNF+BX1Wly53vnOKmqQ
+ p0Rft46dXjs7nI6DDQnqhTifpVm+lFaaKlSLURWyMn/J4of+3cLVOBj2WaJNUNzkdAeYrpRoaJQ
+ zxiOxW62+Y9cUJf0jYpNKfEa4ZhC4uziIOdeXLnP7Ijn188fjMCfgIMPadEUSMHfmb9yem8c7/q
+ 7cZ2V+gG1NbJ1Ba8ekEDGQc8SkOy4csMB5QKhfSK1UnktK+xEGmy3rEi8UOfaW5ubyNORuGs8o+
+ a7zISuGbFIch2np9nqUKQLDygCx/gUYm1LSrSJsjd/zdLV056j8Uyy8ujXDUNBEhFsPznEToInc
+ lp6KuLAEhRkESFU67JAlt7Ea1DRexiuw==
+X-Google-Smtp-Source: AGHT+IGleborKQCrbq8DmtASF59YZO0WpvBhiHKdLlUD/UBGnoL4NMp+YZWh4r36RAtoCvyopgKovg==
+X-Received: by 2002:a05:600c:45d5:b0:45d:e28c:875a with SMTP id
+ 5b1f17b1804b1-4792f39cc82mr78538125e9.31.1764939529325; 
+ Fri, 05 Dec 2025 04:58:49 -0800 (PST)
 Received: from [10.0.1.22] (109-81-1-107.rct.o2.cz. [109.81.1.107])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42f7d331af5sm8375239f8f.31.2025.12.05.04.51.30
+ 5b1f17b1804b1-4792b02e806sm59378815e9.3.2025.12.05.04.58.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Dec 2025 04:51:32 -0800 (PST)
-Message-ID: <14cffb34-1c56-4119-af76-e8ead8099a9d@suse.com>
-Date: Fri, 5 Dec 2025 13:51:29 +0100
+ Fri, 05 Dec 2025 04:58:49 -0800 (PST)
+Message-ID: <31cdf723-a776-498b-8664-4735cd76669a@suse.com>
+Date: Fri, 5 Dec 2025 13:58:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] moduleparam: include required headers explicitly
+Subject: Re: [PATCH v2 3/4] kernel.h: move VERIFY_OCTAL_PERMISSIONS() to
+ sysfs.h
 To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
 References: <20251203162329.280182-1-yury.norov@gmail.com>
- <20251203162329.280182-3-yury.norov@gmail.com>
+ <20251203162329.280182-4-yury.norov@gmail.com>
 Content-Language: en-US
 Cc: Steven Rostedt <rostedt@goodmis.org>,
  Masami Hiramatsu <mhiramat@kernel.org>,
@@ -89,7 +90,7 @@ Cc: Steven Rostedt <rostedt@goodmis.org>,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
 From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20251203162329.280182-3-yury.norov@gmail.com>
+In-Reply-To: <20251203162329.280182-4-yury.norov@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -108,11 +109,15 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 12/3/25 5:23 PM, Yury Norov (NVIDIA) wrote:
-> The following patch drops moduleparam.h dependency on kernel.h. In
-> preparation to it, list all the required headers explicitly.
+> The macro is related to sysfs, but is defined in kernel.h. Move it to
+> the proper header, and unload the generic kernel.h.
 > 
-> Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
-> CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Now that the macro is removed from kernel.h, linux/moduleparam.h is
+> decoupled, and kernel.h inclusion can be removed.
+> 
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
 
 Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
