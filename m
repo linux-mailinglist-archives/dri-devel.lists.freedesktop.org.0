@@ -2,77 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD0ECA6FED
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 10:51:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94609CA7002
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 10:52:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76C8810EA9B;
-	Fri,  5 Dec 2025 09:51:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3468510E114;
+	Fri,  5 Dec 2025 09:52:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AFeB7Zec";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fbiRk4tg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E744710EA9B
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 09:51:07 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-29d7b019e0eso22420555ad.2
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 01:51:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764928267; x=1765533067; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=pQHlN9s+cYnmqoJVTe/GHpxEa3f0xltw6fYoFi6tjRc=;
- b=AFeB7ZecR2oTB4hI6FnL/TcdxFgykyhyu4lpG92uoEvaJ5Jpq6yzL0Hy175L+xQDoU
- jbh+41e0FEvtTwlTTJ12xfYQMZBRKW1F67xduDFu4bJvAskaH05G63U6nyQFvo6mTFP4
- 27io4/j3AQY7l+6qd6eCWueu5XhiEawKYZazK8U4o5ON+l5vQU0YAzzd7ycxPf9T7oKS
- gt2puGanWSvQ8DToDBBz8BwM5Uc+JkeiqEyBq5AevLq1Os8AcFX1u/+TqKwyHux2ZEro
- zeNq21L10lZn9y8O/g3NjucdmGyB4EyM5452hClvcBX/ikLgvoSqLCbiyFiqRER0S8Zd
- TQFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764928267; x=1765533067;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pQHlN9s+cYnmqoJVTe/GHpxEa3f0xltw6fYoFi6tjRc=;
- b=lFCnvmppDtU7mUDSFeTcYVNetRwND4OKxudmSNtZqGlNPkJlsOyc2fe4+T0uMgQ7IY
- C0DS2+dnXcjlXrz5p15ba3bJyNB1XbnAzCZCITroEKDx8v//ZnoVwnJm+vs14RmLcHQH
- a44E8b35i9//swoke2sgIfxzDLhhiGOoRxcK96C96zuCDVRuVR8a8tWNfqTI/NvB9+p/
- GmmwwWY5NuSEqnH8S4e+puKxLpC8BZKHja+p/5fpz+HmKK71rGLkeh3ry2AoyRcLhFE3
- GmwpRbrFAcR2+0PJnH8JhpEPE3DyxiU0CDrMaaCc0DZhOLABMLrPmv8wUKuFJH/UPdF0
- WN/w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXyaAtC47n/IelnwVUCMVdZqNPyElwgPWm2PAV+9gPmVfAaxpW3vatkY5+4YeoD6PgvzQycFLB+cqY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxYE0u8joHrCrzMhoGIHDhgJalqlp7zVa+8cI9hVtYaFgOv6PvV
- tJoxhh6s536JlpwHVYPYcnfp87x7RaxOLs7OGsMDvaLZvQZvyqgBnnyF
-X-Gm-Gg: ASbGncsNscNrDNzSw0oK2f8Y0hj1rZ+8RCJUlVnZ6f07Zhx1E1a9sN3BuNfWf9e616B
- /EjODdQx0eC7aNJQO9Bo9bbWPxijhu5rLkCSLDllmQVOw/VX1z7hwGKL5aKfuUlaZr39g0aF5s1
- IUeA24aJt8ycIHP9QlB3UhXg0J2EjW84XYx99RSAXVj2gfwaCJepYbNqDF4aIm/P2KKO0qlX1+m
- SQiO2OMAgoJ8M6peeNHLDBLnv2+M+BK9ToJoWWLI0DXv8ukym0vmwJuD+71tw5r05ZxbSx09Oau
- V3deX2LI0U5zSMPjMvU48/dB0Ve5w6t8PdEY15v1ggutHi7eaDN80dWh3RC+eG6GR2BorZBYD0Q
- oXIKRo70fbfWNjwkvi+7gbElrg8dOZkONfDnyNKKrTeBYZROshQn4+ltWGdy4a8w78dMUyzLUUH
- 9vCtz9rpn3vf/g04AY
-X-Google-Smtp-Source: AGHT+IE6UDzJ4K0qWbbZExV4Pib6HqpqfH478ATbU2gNSVjEFAMSvfaiCsZ7zaEbNCvotPtH/SqWgg==
-X-Received: by 2002:a17:903:3d0e:b0:299:dea1:e791 with SMTP id
- d9443c01a7336-29d6833c4c5mr110080585ad.12.1764928267448; 
- Fri, 05 Dec 2025 01:51:07 -0800 (PST)
-Received: from archlinux ([205.254.184.182]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-29dae4cf863sm44562235ad.38.2025.12.05.01.51.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Dec 2025 01:51:07 -0800 (PST)
-From: Madhur Kumar <madhurkumar004@gmail.com>
-To: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
- rodrigo.vivi@intel.com
-Cc: airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Madhur Kumar <madhurkumar004@gmail.com>
-Subject: [PATCH] drm: xe: Replace sprintf() with sysfs_emit()
-Date: Fri,  5 Dec 2025 15:21:00 +0530
-Message-ID: <20251205095100.355503-1-madhurkumar004@gmail.com>
-X-Mailer: git-send-email 2.52.0
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96FA110E114
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 09:52:27 +0000 (UTC)
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33843EAE;
+ Fri,  5 Dec 2025 10:50:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1764928208;
+ bh=MwhXgW4rnOQ3KSc+GudAM5PShTGwJykoDUKEmfRikoI=;
+ h=From:Subject:Date:To:Cc:From;
+ b=fbiRk4tg7s7BEQm0DNSKCqvfONzM9PYmpxTgwuUqk3nVU0a6Mw5JW/J+mF/3lS0bp
+ tEoHuNKYGONHG1MSvZ3UFqM9g8gUSCpa/u3xVDMpq4uppgxXYvoP+eZG/z0LOMGyjP
+ moCJLA2vjrejj4nuB7QX7z1vCpPaEzLiQaFJr+qU=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 0/4] drm: Revert and fix enable/disable sequence
+Date: Fri, 05 Dec 2025 11:51:47 +0200
+Message-Id: <20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADSrMmkC/x2MQQqAIBAAvyJ7bkFFPfSV6JC51h6yUohA/HvSc
+ QZmKhTKTAVGUSHTw4XP1EENAtZ9SRshh86gpbZKS4shH1joxsgvekNBReucNB56cWXq+r9Nc2s
+ fls7cZF0AAAA=
+X-Change-ID: 20251205-drm-seq-fix-b4ed1f56604b
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Jyri Sarha <jyri.sarha@iki.fi>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>, 
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>, 
+ Linus Walleij <linusw@kernel.org>, Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
+ Vicente Bergas <vicencb@gmail.com>, 
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, stable@vger.kernel.org
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1909;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=MwhXgW4rnOQ3KSc+GudAM5PShTGwJykoDUKEmfRikoI=;
+ b=kA0DAAgB+j2qjLyWHvUByyZiAGkyq1Gj1d8xlj6diu63t7iZIaLIFc3fvXjAEHe/VLZfrvIfQ
+ okCMwQAAQgAHRYhBMQ4DD6WXv2BB5/zp/o9qoy8lh71BQJpMqtRAAoJEPo9qoy8lh717W0P+wRa
+ 1bq77t/4zLJJmCAjxcRV1DhoWfVPncOTXA2HSsEIMgPBHpUKZyan6fBYxHp6XkG0gNVZlwTrYhW
+ pSyAvXsrnTNhW8q5otmzGyWpCw023NDpDDWbiGUgGg43yQml50nFn6Ij48jk2lXLvpfPWvcsvk6
+ bpX+tDXMn0m+FLf1bYvhoJdJIyvq/0wvT5ZIgRfzsZZjWqjDR+WXbdtPV/hyleczIwGaJWqFNhV
+ 9op0yeeanXhucwBN2xqL73naXLUq9EBNDWtFE4LSmBBXBBLtqTx2K4b5Tsr8g3C9Ch5pf+Qqodm
+ OVcabnpPmbZVlxRiBF11N0zi0chMynlCJDfFX0HjltHxOaqXW/LySuusslTdBU0FFpkdS9AwyEa
+ lbdnRRJFwaU18kSgasLNEzSBV77gug1YhZ4kkVVTyblKCLlK0GojYFPsQEdPXoIjIXQcpurCr22
+ Ln5os9CZuhApjyd3l241B6ZIvimL2MMi6eJE+MGkg6dRaD6GQdslRy1cbxJsY+nhPrku/DS5+58
+ IwydYy0PKmXzLH4IcgDqAnmLcFnUstEvCq5lXmvbOPzAGKbIHyIIcxuy9vMmnG03hpyeD+7JY53
+ EC2vrgEsPyrVDzXTj+rH5LCRxtu0UFsfuArS7xPBa95f4PCtPr5Cf4MCstwKNERRerTYeCdl8b1
+ C77QO
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,30 +93,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace sprintf() calls with sysfs_emit() to follow current kernel
-coding standards.
+Changing the enable/disable sequence in commit c9b1150a68d9
+("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+has caused regressions on multiple platforms: R-Car, MCDE, Rockchip.
 
-sysfs_emit() is the preferred method for formatting sysfs output as it
-provides better bounds checking and is more secure.
+This is an alternate series to Linus' series:
 
-Signed-off-by: Madhur Kumar <madhurkumar004@gmail.com>
+https://lore.kernel.org/all/20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa%40kernel.org/
+
+This series first reverts the original commit and reverts a fix for
+mediatek which is no longer needed. It then exposes helper functions
+from DRM core, and finally implements the new sequence only in the tidss
+driver.
+
+There is one more fix in upstream for the original commit, commit
+5d91394f2361 ("drm/exynos: fimd: Guard display clock control with
+runtime PM calls"), but I have not reverted that one as it looks like a
+valid patch in its own.
+
+I added Cc stable v6.17+ to all patches, but I didn't add Fixes tags, as
+I wasn't sure what should they point to. But I could perhaps add Fixes:
+<original commit> to all of these.
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- drivers/gpu/drm/xe/xe_pmu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Linus Walleij (1):
+      drm/atomic-helper: Export and namespace some functions
 
-diff --git a/drivers/gpu/drm/xe/xe_pmu.c b/drivers/gpu/drm/xe/xe_pmu.c
-index cab51d826345..f016459c9904 100644
---- a/drivers/gpu/drm/xe/xe_pmu.c
-+++ b/drivers/gpu/drm/xe/xe_pmu.c
-@@ -425,7 +425,7 @@ static ssize_t event_attr_show(struct device *dev,
- 	struct perf_pmu_events_attr *pmu_attr =
- 		container_of(attr, struct perf_pmu_events_attr, attr);
- 
--	return sprintf(buf, "event=%#04llx\n", pmu_attr->id);
-+	return sysfs_emit(buf, "event=%#04llx\n", pmu_attr->id);
- }
- 
- #define XE_EVENT_ATTR(name_, v_, id_)					\
+Tomi Valkeinen (3):
+      Revert "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
+      Revert "drm/mediatek: dsi: Fix DSI host and panel bridge pre-enable order"
+      drm/tidss: Fix enable/disable order
+
+ drivers/gpu/drm/drm_atomic_helper.c | 122 ++++++++++++++----
+ drivers/gpu/drm/mediatek/mtk_dsi.c  |   6 -
+ drivers/gpu/drm/tidss/tidss_kms.c   |  30 ++++-
+ include/drm/drm_atomic_helper.h     |  22 ++++
+ include/drm/drm_bridge.h            | 249 ++++++++++--------------------------
+ 5 files changed, 214 insertions(+), 215 deletions(-)
+---
+base-commit: 88e721ab978a86426aa08da520de77430fa7bb84
+change-id: 20251205-drm-seq-fix-b4ed1f56604b
+
+Best regards,
 -- 
-2.52.0
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
