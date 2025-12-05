@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E03CA6D85
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 10:12:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A258CA6D8E
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 10:12:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94F1810EA91;
-	Fri,  5 Dec 2025 09:12:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E38E510EA89;
+	Fri,  5 Dec 2025 09:12:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="B0O8Ct9y";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="oKcvmC8I";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B38410EA89;
- Fri,  5 Dec 2025 09:12:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 73F3F10EA90;
+ Fri,  5 Dec 2025 09:12:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764925949;
- bh=Zex2NKxNRl6ia1F7pINdtc/8BVAWXVoWCqYCGqXTtRw=;
+ s=mail; t=1764925950;
+ bh=wOROUdGmrTopYn8Lks6qkkQ2zPA2SCtrzeNGfh6cEHk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=B0O8Ct9yxpHDt9iBZpzzu+4ZxNC2XuEDs5BfTgI8X3WApjaTp5S8XVvzpWoWM5JdB
- CWQTW7YroM2QB+FWy5qUvyX78cL1PJmhc2kixKIf40HzOm0J3uHwB8QgF4uHr4cMW8
- Fsf51VAsQ/B5bomUuZHJpTZjl6pzGV3fwNBQeK8PwMZbvhgWqSOYx9aqhag7kI4S6Y
- am54+3UMIuGRF9nIw4iNLIQzD5XBxtA8yJEIAuutdRN+JXO0KGKIktThj7Tzp+R6KG
- /ozpOH9rQl2jIPi+dN9rnt0Q1qiwgtojSUOyZok5B3sBbVn/8i/VfgrRKEADBrLlbs
- B2hWcVTY6SG8A==
+ b=oKcvmC8IgVExoG/NBS7efLcTohNajM9txyiS0IVpiAD2ROl5ERO424Ait3ziZ6DXR
+ X+S5S9/ZbiTrpTYoKkg9YjBLxQhQMSaMlxg2fx9sSH/5MujCdCeZxKdwyO39Rwl8kO
+ HW5HCvHXUr6p6keSDbxIoySYA7LuNxYdArDGt8XIOUQR+1Ua0AmH2dRpEsO4feraAi
+ t3TpyhXB7ZijCH6wyqeWTc2lhQh3fkp6XSxagQof2E/yBgHhx1gCd2sEYs7QDN5Qd5
+ JmlD0QbDQ16FzJlsWI+FG9n5eC5Y/8kIhjDpN2w0NOwvZhyxMkYBDre3eED500QVZh
+ pl9UYCQRUxbHg==
 Received: from debian-rockchip-rock5b-rk3588.. (unknown
  [IPv6:2a01:e0a:5e3:6100:826d:bc07:e98c:84a])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
  (Authenticated sender: loicmolinari)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3C95D17E3656;
- Fri,  5 Dec 2025 10:12:28 +0100 (CET)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 41CCE17E368E;
+ Fri,  5 Dec 2025 10:12:29 +0100 (CET)
 From: =?UTF-8?q?Lo=C3=AFc=20Molinari?= <loic.molinari@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -60,9 +60,9 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
  linux-doc@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH v12 07/10] drm/gem: Get rid of *_with_mnt helpers
-Date: Fri,  5 Dec 2025 10:12:13 +0100
-Message-ID: <20251205091216.150968-8-loic.molinari@collabora.com>
+Subject: [PATCH v12 08/10] drm/panthor: Introduce huge tmpfs mountpoint option
+Date: Fri,  5 Dec 2025 10:12:14 +0100
+Message-ID: <20251205091216.150968-9-loic.molinari@collabora.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251205091216.150968-1-loic.molinari@collabora.com>
 References: <20251205091216.150968-1-loic.molinari@collabora.com>
@@ -84,235 +84,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_gem_object_init_with_mnt() and drm_gem_shmem_create_with_mnt() can
-be removed now that the drivers use the new drm_gem_huge_mnt_create()
-and drm_gem_get_huge_mnt() helpers.
+Introduce the 'panthor.transparent_hugepage' boolean module parameter
+(false by default). When the parameter is set to true, a new tmpfs
+mountpoint is created and mounted using the 'huge=within_size'
+option. It's then used at GEM object creation instead of the default
+'shm_mnt' mountpoint in order to enable Transparent Hugepage (THP) for
+the object (without having to rely on a system wide parameter).
+
+v3:
+- use huge tmpfs mountpoint in drm_device
+
+v4:
+- fix builds with CONFIG_TRANSPARENT_HUGEPAGE=n
+- clean up mountpoint creation error handling
+- print negative error value
 
 v5:
-- use drm_gem_has_huge_mnt() helper
-- compile out shmem_file_setup_with_mnt() call in builds with
-  CONFIG_TRANSPARENT_HUGEPAGE=n
+- use drm_gem_has_huge_tmp() helper
+- get rid of CONFIG_TRANSPARENT_HUGEPAGE ifdefs
 
 v9:
-- replace drm_gem_has_huge_mnt() with drm_gem_get_huge_mnt()
+- replace drm_gem_has_huge_tmp() by drm_gem_get_huge_tmp()
+
+v11:
+- enable 'panthor.transparent_hugepage' by default
 
 Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
 Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/gpu/drm/drm_gem.c              | 37 +++++++------------------
- drivers/gpu/drm/drm_gem_shmem_helper.c | 38 ++++++--------------------
- drivers/gpu/drm/v3d/v3d_bo.c           |  3 +-
- include/drm/drm_gem.h                  |  3 --
- include/drm/drm_gem_shmem_helper.h     |  3 --
- 5 files changed, 19 insertions(+), 65 deletions(-)
+ drivers/gpu/drm/panthor/panthor_device.c |  3 +++
+ drivers/gpu/drm/panthor/panthor_drv.c    |  7 +++++++
+ drivers/gpu/drm/panthor/panthor_drv.h    |  9 +++++++++
+ drivers/gpu/drm/panthor/panthor_gem.c    | 18 ++++++++++++++++++
+ drivers/gpu/drm/panthor/panthor_gem.h    |  2 ++
+ 5 files changed, 39 insertions(+)
+ create mode 100644 drivers/gpu/drm/panthor/panthor_drv.h
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 32dddb23e211..6021c4087a08 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -171,29 +171,28 @@ drm_gem_init(struct drm_device *dev)
- }
+diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+index e133b1e0ad6d..2979ee0e52c2 100644
+--- a/drivers/gpu/drm/panthor/panthor_device.c
++++ b/drivers/gpu/drm/panthor/panthor_device.c
+@@ -18,6 +18,7 @@
+ #include "panthor_devfreq.h"
+ #include "panthor_device.h"
+ #include "panthor_fw.h"
++#include "panthor_gem.h"
+ #include "panthor_gpu.h"
+ #include "panthor_hw.h"
+ #include "panthor_mmu.h"
+@@ -294,6 +295,8 @@ int panthor_device_init(struct panthor_device *ptdev)
+ 	if (ret)
+ 		goto err_unplug_fw;
  
- /**
-- * drm_gem_object_init_with_mnt - initialize an allocated shmem-backed GEM
-- * object in a given shmfs mountpoint
-+ * drm_gem_object_init - initialize an allocated shmem-backed GEM object
-  *
-  * @dev: drm_device the object should be initialized for
-  * @obj: drm_gem_object to initialize
-  * @size: object size
-- * @gemfs: tmpfs mount where the GEM object will be created. If NULL, use
-- * the usual tmpfs mountpoint (`shm_mnt`).
-  *
-  * Initialize an already allocated GEM object of the specified size with
-- * shmfs backing store.
-+ * shmfs backing store. A huge mountpoint can be used by calling
-+ * drm_gem_huge_mnt_create() beforehand.
-  */
--int drm_gem_object_init_with_mnt(struct drm_device *dev,
--				 struct drm_gem_object *obj, size_t size,
--				 struct vfsmount *gemfs)
-+int drm_gem_object_init(struct drm_device *dev, struct drm_gem_object *obj,
-+			size_t size)
- {
-+	struct vfsmount *huge_mnt;
- 	struct file *filp;
- 
- 	drm_gem_private_object_init(dev, obj, size);
- 
--	if (gemfs)
--		filp = shmem_file_setup_with_mnt(gemfs, "drm mm object", size,
--						 VM_NORESERVE);
-+	huge_mnt = drm_gem_get_huge_mnt(dev);
-+	if (huge_mnt)
-+		filp = shmem_file_setup_with_mnt(huge_mnt, "drm mm object",
-+						 size, VM_NORESERVE);
- 	else
- 		filp = shmem_file_setup("drm mm object", size, VM_NORESERVE);
- 
-@@ -204,22 +203,6 @@ int drm_gem_object_init_with_mnt(struct drm_device *dev,
- 
- 	return 0;
- }
--EXPORT_SYMBOL(drm_gem_object_init_with_mnt);
--
--/**
-- * drm_gem_object_init - initialize an allocated shmem-backed GEM object
-- * @dev: drm_device the object should be initialized for
-- * @obj: drm_gem_object to initialize
-- * @size: object size
-- *
-- * Initialize an already allocated GEM object of the specified size with
-- * shmfs backing store.
-- */
--int drm_gem_object_init(struct drm_device *dev, struct drm_gem_object *obj,
--			size_t size)
--{
--	return drm_gem_object_init_with_mnt(dev, obj, size, NULL);
--}
- EXPORT_SYMBOL(drm_gem_object_init);
- 
- /**
-diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index e67216cbb469..f8bcd1b0eb32 100644
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -50,7 +50,7 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
++	panthor_gem_init(ptdev);
++
+ 	/* ~3 frames */
+ 	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
+ 	pm_runtime_use_autosuspend(ptdev->base.dev);
+diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+index d1d4c50da5bf..0e7ab6f5ba89 100644
+--- a/drivers/gpu/drm/panthor/panthor_drv.c
++++ b/drivers/gpu/drm/panthor/panthor_drv.c
+@@ -1559,6 +1559,7 @@ static const struct file_operations panthor_drm_driver_fops = {
+ 	.read = drm_read,
+ 	.llseek = noop_llseek,
+ 	.mmap = panthor_mmap,
++	.get_unmapped_area = drm_gem_get_unmapped_area,
+ 	.show_fdinfo = drm_show_fdinfo,
+ 	.fop_flags = FOP_UNSIGNED_OFFSET,
+ };
+@@ -1626,6 +1627,12 @@ static const struct drm_driver panthor_drm_driver = {
+ #endif
  };
  
- static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem,
--				size_t size, bool private, struct vfsmount *gemfs)
-+				size_t size, bool private)
++#ifdef CONFIG_TRANSPARENT_HUGEPAGE
++bool panthor_transparent_hugepage = true;
++module_param_named(transparent_hugepage, panthor_transparent_hugepage, bool, 0400);
++MODULE_PARM_DESC(transparent_hugepage, "Use a dedicated tmpfs mount point with Transparent Hugepage enabled (true = default)");
++#endif
++
+ static int panthor_probe(struct platform_device *pdev)
  {
- 	struct drm_gem_object *obj = &shmem->base;
- 	int ret = 0;
-@@ -62,7 +62,7 @@ static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_obj
- 		drm_gem_private_object_init(dev, obj, size);
- 		shmem->map_wc = false; /* dma-buf mappings use always writecombine */
- 	} else {
--		ret = drm_gem_object_init_with_mnt(dev, obj, size, gemfs);
-+		ret = drm_gem_object_init(dev, obj, size);
- 	}
- 	if (ret) {
- 		drm_gem_private_object_fini(obj);
-@@ -103,13 +103,12 @@ static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_obj
-  */
- int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem, size_t size)
+ 	struct panthor_device *ptdev;
+diff --git a/drivers/gpu/drm/panthor/panthor_drv.h b/drivers/gpu/drm/panthor/panthor_drv.h
+new file mode 100644
+index 000000000000..79dccd289881
+--- /dev/null
++++ b/drivers/gpu/drm/panthor/panthor_drv.h
+@@ -0,0 +1,9 @@
++// SPDX-License-Identifier: GPL-2.0 or MIT
++/* Copyright 2025 Amazon.com, Inc. or its affiliates */
++
++#ifndef __PANTHOR_DRV_H__
++#define __PANTHOR_DRV_H__
++
++extern bool panthor_transparent_hugepage;
++
++#endif
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+index 10d255cccc09..7ae07a9bc996 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.c
++++ b/drivers/gpu/drm/panthor/panthor_gem.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0 or MIT
+ /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+ /* Copyright 2023 Collabora ltd. */
++/* Copyright 2025 Amazon.com, Inc. or its affiliates */
+ 
+ #include <linux/cleanup.h>
+ #include <linux/dma-buf.h>
+@@ -12,10 +13,27 @@
+ #include <drm/panthor_drm.h>
+ 
+ #include "panthor_device.h"
++#include "panthor_drv.h"
+ #include "panthor_fw.h"
+ #include "panthor_gem.h"
+ #include "panthor_mmu.h"
+ 
++void panthor_gem_init(struct panthor_device *ptdev)
++{
++	int err;
++
++	if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE) &&
++	    !panthor_transparent_hugepage)
++		return;
++
++	err = drm_gem_huge_mnt_create(&ptdev->base, "within_size");
++	if (drm_gem_get_huge_mnt(&ptdev->base))
++		drm_info(&ptdev->base, "Using Transparent Hugepage\n");
++	else if (err)
++		drm_warn(&ptdev->base, "Can't use Transparent Hugepage (%d)\n",
++			 err);
++}
++
+ #ifdef CONFIG_DEBUG_FS
+ static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo)
  {
--	return __drm_gem_shmem_init(dev, shmem, size, false, NULL);
-+	return __drm_gem_shmem_init(dev, shmem, size, false);
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+index 80c6e24112d0..2eefe9104e5e 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.h
++++ b/drivers/gpu/drm/panthor/panthor_gem.h
+@@ -136,6 +136,8 @@ struct panthor_gem_object *to_panthor_bo(struct drm_gem_object *obj)
+ 	return container_of(to_drm_gem_shmem_obj(obj), struct panthor_gem_object, base);
  }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_init);
  
- static struct drm_gem_shmem_object *
--__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
--		       struct vfsmount *gemfs)
-+__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
- {
- 	struct drm_gem_shmem_object *shmem;
- 	struct drm_gem_object *obj;
-@@ -129,7 +128,7 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
- 		obj = &shmem->base;
- 	}
++void panthor_gem_init(struct panthor_device *ptdev);
++
+ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t size);
  
--	ret = __drm_gem_shmem_init(dev, shmem, size, private, gemfs);
-+	ret = __drm_gem_shmem_init(dev, shmem, size, private);
- 	if (ret) {
- 		kfree(obj);
- 		return ERR_PTR(ret);
-@@ -150,31 +149,10 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
-  */
- struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size)
- {
--	return __drm_gem_shmem_create(dev, size, false, NULL);
-+	return __drm_gem_shmem_create(dev, size, false);
- }
- EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
- 
--/**
-- * drm_gem_shmem_create_with_mnt - Allocate an object with the given size in a
-- * given mountpoint
-- * @dev: DRM device
-- * @size: Size of the object to allocate
-- * @gemfs: tmpfs mount where the GEM object will be created
-- *
-- * This function creates a shmem GEM object in a given tmpfs mountpoint.
-- *
-- * Returns:
-- * A struct drm_gem_shmem_object * on success or an ERR_PTR()-encoded negative
-- * error code on failure.
-- */
--struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *dev,
--							   size_t size,
--							   struct vfsmount *gemfs)
--{
--	return __drm_gem_shmem_create(dev, size, false, gemfs);
--}
--EXPORT_SYMBOL_GPL(drm_gem_shmem_create_with_mnt);
--
- /**
-  * drm_gem_shmem_release - Release resources associated with a shmem GEM object.
-  * @shmem: shmem GEM object
-@@ -851,7 +829,7 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
- 	size_t size = PAGE_ALIGN(attach->dmabuf->size);
- 	struct drm_gem_shmem_object *shmem;
- 
--	shmem = __drm_gem_shmem_create(dev, size, true, NULL);
-+	shmem = __drm_gem_shmem_create(dev, size, true);
- 	if (IS_ERR(shmem))
- 		return ERR_CAST(shmem);
- 
-@@ -899,7 +877,7 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
- 
- 	size = PAGE_ALIGN(attach->dmabuf->size);
- 
--	shmem = __drm_gem_shmem_create(dev, size, true, NULL);
-+	shmem = __drm_gem_shmem_create(dev, size, true);
- 	if (IS_ERR(shmem)) {
- 		ret = PTR_ERR(shmem);
- 		goto fail_detach;
-diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
-index 3ee8d9c36d92..c4316b768b3d 100644
---- a/drivers/gpu/drm/v3d/v3d_bo.c
-+++ b/drivers/gpu/drm/v3d/v3d_bo.c
-@@ -153,8 +153,7 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
- 	struct v3d_bo *bo;
- 	int ret;
- 
--	shmem_obj = drm_gem_shmem_create_with_mnt(dev, unaligned_size,
--						  drm_gem_get_huge_mnt(dev));
-+	shmem_obj = drm_gem_shmem_create(dev, unaligned_size);
- 	if (IS_ERR(shmem_obj))
- 		return ERR_CAST(shmem_obj);
- 	bo = to_v3d_bo(&shmem_obj->base);
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 97b5fca8966d..cca815dc87f3 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -529,9 +529,6 @@ void drm_gem_object_release(struct drm_gem_object *obj);
- void drm_gem_object_free(struct kref *kref);
- int drm_gem_object_init(struct drm_device *dev,
- 			struct drm_gem_object *obj, size_t size);
--int drm_gem_object_init_with_mnt(struct drm_device *dev,
--				 struct drm_gem_object *obj, size_t size,
--				 struct vfsmount *gemfs);
- void drm_gem_private_object_init(struct drm_device *dev,
- 				 struct drm_gem_object *obj, size_t size);
- void drm_gem_private_object_fini(struct drm_gem_object *obj);
-diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-index 589f7bfe7506..6b6478f5ca24 100644
---- a/include/drm/drm_gem_shmem_helper.h
-+++ b/include/drm/drm_gem_shmem_helper.h
-@@ -109,9 +109,6 @@ struct drm_gem_shmem_object {
- 
- int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem, size_t size);
- struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
--struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *dev,
--							   size_t size,
--							   struct vfsmount *gemfs);
- void drm_gem_shmem_release(struct drm_gem_shmem_object *shmem);
- void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
- 
+ int
 -- 
 2.47.3
 
