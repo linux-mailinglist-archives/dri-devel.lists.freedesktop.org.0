@@ -2,48 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7209ACA6817
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 08:44:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 454C7CA6B53
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 09:32:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 916B010EA27;
-	Fri,  5 Dec 2025 07:44:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 901A510E26B;
+	Fri,  5 Dec 2025 08:32:16 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="EpHlSGrK";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D784810EA27;
- Fri,  5 Dec 2025 07:43:58 +0000 (UTC)
-X-UUID: 256de65ad1ae11f0a38c85956e01ac42-20251205
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6, REQID:8cb02a88-180c-46a6-b516-e5810342069f, IP:0,
- UR
- L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
- elease,TS:0
-X-CID-META: VersionHash:a9d874c, CLOUDID:6c3e486b0e851e5d01d4d7b137f0f4db,
- BulkI
- D:nil,BulkQuantity:0,Recheck:0,SF:102|123|850|898,TC:nil,Content:0|15|50,E
- DM:-3,IP:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
- :0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 256de65ad1ae11f0a38c85956e01ac42-20251205
-X-User: yaolu@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
- (envelope-from <yaolu@kylinos.cn>)
- (Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
- with ESMTP id 265998802; Fri, 05 Dec 2025 15:43:53 +0800
-From: yaolu@kylinos.cn
-To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Lu Yao <yaolu@kylinos.cn>
-Subject: [RESEND] drm/amd/display: fix audio playing speed up on POLARIS12
-Date: Fri,  5 Dec 2025 15:43:44 +0800
-Message-Id: <20251205074344.143063-1-yaolu@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BFA410E26B
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 08:32:15 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id C8F3244162;
+ Fri,  5 Dec 2025 08:32:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26500C4CEF1;
+ Fri,  5 Dec 2025 08:32:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764923534;
+ bh=c9amunadGf72qukjWj0Yig/o3zNWjowWuABEzR+a5j4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EpHlSGrKOs4sy2BLfgCYjpWCTF/aVgPpxmhRbSksP5gOYxTYuCGkmCSaP5zAYIOEl
+ mtan7naNzAKDlhBNBPqtkADJHTnn8kdiwaxA1CQ25ySCrcHrrEmL57bGO0YIdmhpBC
+ OmmOzqxhd4Mv6PYp8Lgjb64lWhBWX3AAhTjjM1VVuHelGXAIQuDxt6gcF687jmuuCo
+ UOHbu4dvnrwMkC++mxqd4WOzq4HAdCP1rEEyVU10mNCaYRuRX8LjIXvmNI3bHDwPfA
+ F0/PfQGSSLvJVEy1nvghXFi5uxc/Mp5q5PryzKxC2mbBhRwMjmIFCMALvTKpi5snOH
+ RSvh9o+ZUusRg==
+Date: Fri, 5 Dec 2025 09:32:11 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Linus Walleij <linusw@kernel.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
+ Geert Uytterhoeven <geert@linux-m68k.org>, Vicente Bergas <vicencb@gmail.com>
+Subject: Re: [PATCH v5 0/3] drm/atomic-helpers: Fix MCDE/R-Car DU regressions
+Message-ID: <20251205-magnificent-mink-of-completion-acef96@houat>
+References: <20251130-mcde-drm-regression-thirdfix-v5-0-aed71a32981d@kernel.org>
+ <20251202063403.GA18267@pendragon.ideasonboard.com>
+ <aaec3da5-83bb-4de9-a999-67ed65711b90@ideasonboard.com>
+ <20251203022229.GJ8219@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="w426pplwbuemy3ay"
+Content-Disposition: inline
+In-Reply-To: <20251203022229.GJ8219@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,64 +72,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Lu Yao <yaolu@kylinos.cn>
 
-Playing audio/video will speed up when color space is NV12.
-For POLARIS12, audio request clock has to be same as
-'stream->timing.pix_clk_100hz', so double clock now for it
-has been halved in the 'get_pixel_clock_parameters' function.
+--w426pplwbuemy3ay
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 0/3] drm/atomic-helpers: Fix MCDE/R-Car DU regressions
+MIME-Version: 1.0
 
-Signed-off-by: Lu Yao <yaolu@kylinos.cn>
----
- .../amd/display/dc/hwss/dce110/dce110_hwseq.c  | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
----
-Test environment:
-  Card: RX550  device id: 0X699F
-  Display mode: 4K@60 clock:59400
+On Wed, Dec 03, 2025 at 11:22:29AM +0900, Laurent Pinchart wrote:
+> On Tue, Dec 02, 2025 at 10:58:50AM +0200, Tomi Valkeinen wrote:
+> > On 02/12/2025 08:34, Laurent Pinchart wrote:
+> > > On Sun, Nov 30, 2025 at 01:11:16PM +0100, Linus Walleij wrote:
+> > >> This fixes two regressions experienced in the MCDE and
+> > >> R-Car DU DRM drivers after
+> > >> commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1
+> > >> "drm/atomic-helper: Re-order bridge chain pre-enable and post-disabl=
+e"
+> > >> caused a series of regressions in all panels that send
+> > >> DSI commands in their .prepare() and .unprepare()
+> > >> callbacks.
+> > >>
+> > >> This series make it possible to selectively bring back the
+> > >> old behaviour with explicit semantics and implements
+> > >> the old behaviour as modified commit tails in MCDE and
+> > >> R-Car DU.
+> > >=20
+> > > We now have a third platform broken by
+> > > c9b1150a68d9362a0827609fc0dc1664c0d8bfe1, see [1]. I think this calls
+> > > for a revert, to give us the time to implement a correct solution.
+> >
+> > Perhaps... It's been very slow or not possible to get feedback regarding
+> > (some) of the broken platforms, so I don't think we have a safe way of
+> > changing the enable/disable sequence. I think the "correct" solution
+> > then is to make this new enable/disable sequence either opt-in, offered
+> > by the framework, or just implement it as a custom sequence in the
+> > specific drm driver.
+>=20
+> I don't think that's right, sorry. We need to improve the bridge API to
+> handle ordering properly. Changes to the commit tail handlers in display
+> controller drivers are hacks, they handle issues with the internal DSI
+> transmitters, but if you had a LVDS-to-DSI bridge in the pipeline things
+> would still break.
+>=20
+> > Reverting c9b1150a68d9362a0827609fc0dc1664c0d8bfe1 will break DSI and
+> > OLDI outputs on TI platforms, so we need to implement a fix for those
+> > platforms before the revert, and there has been one or two fixes merged
+> > for other platforms for this, which most likely also need to get revert=
+ed.
+>=20
+> That's 3 vs. 1, so I think breaking DSI and OLDI with a revert is better
+> than not reverting the commit. If we can merge a propert solution at the
+> same time that's great, but the first target is to restore operation of
+> the drivers that got broken.
 
-A similar issue was reported in the community a long time ago,
-but it was not dealt with, link as follow:
-https://gitlab.freedesktop.org/drm/amd/-/issues/556
+Yeah, I agree. Could it be possible to flip the custom commit_tail
+implementation and instead implement it into tidss while the core
+changes are reverted to avoid the regressions and keeping tidss
+functional?
 
-Discovered through logs audio_output requested&calculated is half
-of stream->timing.pix_clk_100hz before, so I double it.
-I'm not sure if this patch modification has correctly solved the
-root cause and whether all DCE_VERSION_11_2 have problem or POLARIS12
-only, but it's working properly on my machine now.
----
+Maxime
 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-index 24184b4eb352..a93313248db3 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-@@ -1440,13 +1440,21 @@ void build_audio_output(
- 
- /*for HDMI, audio ACR is with deep color ratio factor*/
- 	if (dc_is_hdmi_tmds_signal(pipe_ctx->stream->signal) &&
--		audio_output->crtc_info.requested_pixel_clock_100Hz ==
--				(stream->timing.pix_clk_100hz)) {
--		if (pipe_ctx->stream_res.pix_clk_params.pixel_encoding == PIXEL_ENCODING_YCBCR420) {
-+		pipe_ctx->stream_res.pix_clk_params.pixel_encoding == PIXEL_ENCODING_YCBCR420) {
-+		struct hw_asic_id asic_id = stream->link->ctx->asic_id;
-+
-+		if (asic_id.chip_family == FAMILY_VI &&
-+		    ASIC_REV_IS_POLARIS12_V(asic_id.hw_internal_rev)) {
-+			audio_output->crtc_info.requested_pixel_clock_100Hz =
-+				audio_output->crtc_info.requested_pixel_clock_100Hz*2;
-+			audio_output->crtc_info.calculated_pixel_clock_100Hz =
-+				pipe_ctx->stream_res.pix_clk_params.requested_pix_clk_100hz*2;
-+		} else if (audio_output->crtc_info.requested_pixel_clock_100Hz ==
-+			   (stream->timing.pix_clk_100hz)) {
- 			audio_output->crtc_info.requested_pixel_clock_100Hz =
--					audio_output->crtc_info.requested_pixel_clock_100Hz/2;
-+				audio_output->crtc_info.requested_pixel_clock_100Hz/2;
- 			audio_output->crtc_info.calculated_pixel_clock_100Hz =
--					pipe_ctx->stream_res.pix_clk_params.requested_pix_clk_100hz/2;
-+				pipe_ctx->stream_res.pix_clk_params.requested_pix_clk_100hz/2;
- 
- 		}
- 	}
--- 
-2.25.1
+--w426pplwbuemy3ay
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaTKYhgAKCRAnX84Zoj2+
+dm96AX9aFdLXVXxx6yJeAgbJvUYIUixO+lAuqMiQIJaRe59pt+BtEkeSLFw+SIuF
+V7xf1BsBgPKNQ8TCge5gTH8thJ9iYxW+yrkQuIQWRs8cmIYJIC59Aue+lVXKhO22
+wwTEoUkXUQ==
+=NKno
+-----END PGP SIGNATURE-----
+
+--w426pplwbuemy3ay--
