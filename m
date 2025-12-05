@@ -2,76 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0AE0CA7AE4
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 14:06:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 418A0CA7AE7
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 14:06:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7F25110EB20;
-	Fri,  5 Dec 2025 13:06:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D2A610EB22;
+	Fri,  5 Dec 2025 13:06:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aSNEkpkd";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RkCVhq5p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3D8E10EB20
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 13:06:07 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-42e29739ff1so922672f8f.1
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 05:06:07 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5136310EB20
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 13:06:08 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-47775fb6c56so18662525e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 05:06:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764939966; x=1765544766; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=DVfNsN7bh3iXgq3RxSUScjij5i+aMl+hRz9FbAuxQEw=;
- b=aSNEkpkdvBBHDkL+7aRsbc9V2A4ERk6ApYwBkBxWrbza+bsnAObWmdkLNNgOY8zKSZ
- 3xIJ+w3MCMori8klypJtjXSxv/CkND6NOzuq3vdto7EPM9Y7ciXunQ8Z5GEh9j+gXWSE
- UZlPFds3ppAV+LhQsgc+Er3p4sY56uSUbp5zIbPkGTRkmBmO4yfSa+DNyB1ilKUEm4hp
- maWpamNb9Xw7Qcx6SnmZXqglqSicLLB941EF1nnvq8NnFwLilxa25Iw4EmZBIz0LP0Cf
- GCqQu4O7hPHFZynqOpfdIHyWSDOS+hTuCN3dHE2AsXvrkZqxegBC16S8FZx/ghtaF3sk
- 8Knw==
+ d=gmail.com; s=20230601; t=1764939967; x=1765544767; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=xFWFQJyqNEArb97bML7scQOt1LXkeAlqXlQJNt06ohg=;
+ b=RkCVhq5pnbjxUofQGZ53AWl2l8ctyACCV24eyFi8/zNqgvMfELWqo2iXtcqG4Vt1dh
+ E4Cn5/l+n2v1+h4ZOJBGR9ExuM15xBF1BWiZMySs6A+uJQ1XRKtN26aSf6i1VNbk0PU2
+ sCOMxhQxMa5m0OGNWa/9F8+gjY8qBKV9HLNiiJR3mNeTOpljnF9bDgxVpQ5nqg9GAlpx
+ OP62a5vAacZn9YRi21iLFLzuR5icJoVwfKasoo+Pc5+4Ty/vob0yLHXsTBnlc5iVM+f4
+ v+f00Zr6x2SUuLbQIIOJ9pmlhgUTqx0VOd1PMkQIoSIgtIe8dgWOP+9UwwKznZByzr//
+ QlMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764939966; x=1765544766;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=DVfNsN7bh3iXgq3RxSUScjij5i+aMl+hRz9FbAuxQEw=;
- b=QxeONaEi8MfztWFOzTODSSC2FA9e4BzLbfFNIxEu9O2WQYzllSwJK0IJ2+jTK57oWM
- s3DPU+NGABm0jyNv7vmwvQEqVHyr9CcCSfptiWGMHUPr/KB0CsOdABxeriQpWiUqh/cQ
- XbBSyoZI2cPKxUiDkJVsJN/MpNqZe8HJu1puI/PrE+oWnjrUZYtw2fKAj91oauLnA3tW
- 1VcdXE9i6sRNmHjbdBw3v7hi4DM86jwUOUpDybQ9szBoMcfssSk8y0bNzTmWEI0zODyN
- NR1YCEuxrY8sg3PV3MiaRJe0EP+QeOsNxYlqwpTUB9h+r2wOAB71WAIwhI3nrBhx6chF
- x8aA==
+ d=1e100.net; s=20230601; t=1764939967; x=1765544767;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=xFWFQJyqNEArb97bML7scQOt1LXkeAlqXlQJNt06ohg=;
+ b=myGsJ36coIJOLtSyOnXE7qv8QMIL3HdM17wRn4z1JDa5Do/ZqPSxkWF7j6+Vj+t9HW
+ syFhjt+ITu2fPpx2EJe+mJZlQJ9DbXgPP0VMssIttMdokG0Liuh3Oj7nE83mw0hXHDUz
+ FNfFQIoRJim7ipB9t+l3oicK8x+Lx0Xi21IjH4UXJQTW2dfocP934DHoDQ8a8yD1h3vZ
+ k+mZt5/V/IZLgxs6jms4QC/Dzia1Qta9SwJ7sT1+B7PHnblukblXHlwMvDL/BW5zwW/a
+ Dh3kyF0p2B2hC1Qpjbukg/bVtTIw1uJZNanNsu+u5NswwcBXHdU4v+RxPr8y+Il81zDh
+ dgoQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV8D10eUisqnZx8i0idZYp5vIbBp4MBsdx8JDb2BXHRuL1TFIjTTAkWUtJ6huv0VqWVvcCtTDBqs9g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxDx34eBzJyGpUPsxotncmYY8WI9DFulgBStfhX6d8VmeehL9Jp
- AbVZRmHVgIbIE65wRxUBtiZYm1t4M7HR9/Bflepi5btilpit5yhjOUf6
-X-Gm-Gg: ASbGncvXiQuP/N9SXpdocK1Tuuv4ZvhBid8unoXiHv+99/RPmg6fty/ef8ZvIRDqZg+
- UiIlcKb2FqGcFYk8b54YzV8wHlLMB48xwfVJW8OehvLN/HOmuC/4YGVQyKitBXUHjmZ0tRW6GZZ
- UC6QBnJX0Dcqr00U8bGm1Q1EP5czF5oEegTKOavwLyUAubwPaHg/c8yp2ILjw89iR+vc3/qljJr
- ZQcWQEDkeWzY/OF8eNyo3UHtvghuvYpC2Dk6PaeAQDvQNMZBrqMBI3gbxF2BerJ7xyA3J0buAjC
- Fr5M1xnhBSBS616/9VNMCbp7s3XXHg9b6RN1nEhcS8pe9CycOVeeL+LuyMH6iDTpWZ2+pZPHMWu
- qQOpRhl7kl/5UVgQ70/vXX5noNp7uhyZeKmhjmUj2TWpmOxToECnXqGYj4mv4fIf39E+7ZDUPtM
- 6YqJlQhkQsbh4Xwoyef7I99LSa
-X-Google-Smtp-Source: AGHT+IFtBVw4148B28ROMfiQyJ3if3zDxlmObifagEb/T3wEwB3hhJuIh0e0cx/amEPTzjkSpqoyJg==
-X-Received: by 2002:a05:6000:2283:b0:42b:3455:e4a1 with SMTP id
- ffacd0b85a97d-42f78875c06mr8126338f8f.15.1764939965931; 
- Fri, 05 Dec 2025 05:06:05 -0800 (PST)
+ AJvYcCVLim04ENV7mxQOHLWPRO/Lg6aM4/pFHr/+5m6YUoaWi9lHkDGvyoS/oPICjjFalxUtpu7NrtOhCTs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YytZ+jdOK9tAXpO8cgq/QX4ZajmT7LiOZe5zV8O17cAkovNyB0e
+ pKH8+dSRhBweT3Mjby9AsnLhto9g8XB1qEBWNa1cv2oCpm4lBJVMWNa3
+X-Gm-Gg: ASbGncthn5dnbeP5xyqgQrMIbvNL5KJYtyVUb7zFbLnhNSfz2AA83HigbyVy2BfGTZH
+ X8Ku9/qNMISzdkW+9+vXdCa2TB1FPpd3DjV5arRDPNhHarSe81boEOkfG60aClrEHBbPoQVUi43
+ Pt4dIdjSE/NLgtmFu9cJkZ/TkOiFIaUdDrdOVGfDaZzbi8dpZdmO/yyyzxBWJZcBs6zds35uiAQ
+ bAmtK+bilgqcIQ/Wrgee4+lesmXsyh7leHA5LK6dWmaLpsfiNd6jJfcKLyFfV+sAgDfabPXpu99
+ UUuL2mtvYuZMi8To3QDjOBqTiiy9LPOxirv6pGQfRv4NhOR0RGHA1v6jtThJKrOGzRnWRPbJVty
+ CqPCHLEZrr039aS0bJcr9kkn0LaV5HMhScTRpPi40zO1dL+2RZWIxgC/mo4IfrJPwZDnzd5iZjT
+ i4ChK24lATb8zVLD7EjehXPj8sC972hnju9L4=
+X-Google-Smtp-Source: AGHT+IGfxlBIT32x6zSESU365lwi7/s5pKbkYUArsltfwJzJNeozJNoe1Bd0XdZLIEre56SlNK+6Tw==
+X-Received: by 2002:a05:6000:60f:b0:42b:38b1:e32e with SMTP id
+ ffacd0b85a97d-42f79852017mr6685668f8f.46.1764939966620; 
+ Fri, 05 Dec 2025 05:06:06 -0800 (PST)
 Received: from able.fritz.box ([2a00:e180:15a5:6d00:a241:8e44:3926:5306])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-42f7d353f8bsm8914491f8f.43.2025.12.05.05.06.05
+ ffacd0b85a97d-42f7d353f8bsm8914491f8f.43.2025.12.05.05.06.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Dec 2025 05:06:05 -0800 (PST)
+ Fri, 05 Dec 2025 05:06:06 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: matthew.auld@intel.com, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
  simona.vetter@ffwll.ch, michael.j.ruhl@intel.com
-Subject: [PATCH 1/2] dma-buf: improve sg_table debugging hack v3
-Date: Fri,  5 Dec 2025 14:06:03 +0100
-Message-ID: <20251205130604.1582-1-christian.koenig@amd.com>
+Subject: [PATCH 2/2] dma-buf: enable DMABUF_DEBUG by default on DEBUG kernels
+Date: Fri,  5 Dec 2025 14:06:04 +0100
+Message-ID: <20251205130604.1582-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251205130604.1582-1-christian.koenig@amd.com>
+References: <20251205130604.1582-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -90,137 +92,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This debugging hack is important to enforce the rule that importers
-should *never* touch the underlying struct page of the exporter.
+The overhead of enforcing the DMA-buf rules for importers is now so low
+that it save to enable it by default on DEBUG kernels.
 
-Instead of just mangling the page link create a copy of the sg_table
-but only copy over the DMA addresses and not the pages.
-
-This will cause a NULL pointer de-reference if the importer tries to
-touch the struct page. Still quite a hack but this at least allows the
-exporter to properly keeps it's sg_table intact while allowing the
-DMA-buf maintainer to find and fix misbehaving importers and finally
-switch over to using a different data structure in the future.
-
-v2: improve the hack further by using a wrapper structure and explaining
-the background a bit more in the commit message.
-v3: fix some whitespace issues, use sg_assign_page().
+This will hopefully result in fixing more issues in importers.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com> (v1)
 ---
- drivers/dma-buf/dma-buf.c | 74 +++++++++++++++++++++++++++++++--------
- 1 file changed, 60 insertions(+), 14 deletions(-)
+ drivers/dma-buf/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 2305bb2cc1f1..944f4103b5cc 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -35,6 +35,12 @@
- 
- #include "dma-buf-sysfs-stats.h"
- 
-+/* Wrapper to hide the sg_table page link from the importer */
-+struct dma_buf_sg_table_wrapper {
-+	struct sg_table *original;
-+	struct sg_table wrapper;
-+};
-+
- static inline int is_dma_buf_file(struct file *);
- 
- static DEFINE_MUTEX(dmabuf_list_mutex);
-@@ -828,21 +834,59 @@ void dma_buf_put(struct dma_buf *dmabuf)
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
- 
--static void mangle_sg_table(struct sg_table *sg_table)
-+static int dma_buf_mangle_sg_table(struct sg_table **sg_table)
- {
--#ifdef CONFIG_DMABUF_DEBUG
--	int i;
--	struct scatterlist *sg;
--
--	/* To catch abuse of the underlying struct page by importers mix
--	 * up the bits, but take care to preserve the low SG_ bits to
--	 * not corrupt the sgt. The mixing is undone on unmap
--	 * before passing the sgt back to the exporter.
-+	struct scatterlist *to_sg, *from_sg;
-+	struct sg_table *from = *sg_table;
-+	struct dma_buf_sg_table_wrapper *to;
-+	int i, ret;
-+
-+	if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
-+		return 0;
-+
-+	/*
-+	 * To catch abuse of the underlying struct page by importers copy the
-+	 * sg_table without copying the page_link and give only the copy back to
-+	 * the importer.
- 	 */
--	for_each_sgtable_sg(sg_table, sg, i)
--		sg->page_link ^= ~0xffUL;
--#endif
-+	to = kzalloc(sizeof(*to), GFP_KERNEL);
-+	if (!to)
-+		return -ENOMEM;
-+
-+	ret = sg_alloc_table(&to->wrapper, from->nents, GFP_KERNEL);
-+	if (ret)
-+		goto free_to;
-+
-+	to_sg = to->wrapper.sgl;
-+	for_each_sgtable_dma_sg(from, from_sg, i) {
-+		to_sg->offset = 0;
-+		to_sg->length = 0;
-+		sg_assign_page(to_sg, NULL);
-+		sg_dma_address(to_sg) = sg_dma_address(from_sg);
-+		sg_dma_len(to_sg) = sg_dma_len(from_sg);
-+		to_sg = sg_next(to_sg);
-+	}
- 
-+	to->original = from;
-+	*sg_table = &to->wrapper;
-+	return 0;
-+
-+free_to:
-+	kfree(to);
-+	return ret;
-+}
-+
-+static void dma_buf_demangle_sg_table(struct sg_table **sg_table)
-+{
-+	struct dma_buf_sg_table_wrapper *copy;
-+
-+	if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
-+		return;
-+
-+	copy = container_of(*sg_table, typeof(*copy), wrapper);
-+	*sg_table = copy->original;
-+	sg_free_table(&copy->wrapper);
-+	kfree(copy);
- }
- 
- static inline bool
-@@ -1139,7 +1183,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
- 		if (ret < 0)
- 			goto error_unmap;
- 	}
--	mangle_sg_table(sg_table);
-+	ret = dma_buf_mangle_sg_table(&sg_table);
-+	if (ret)
-+		goto error_unmap;
- 
- 	if (IS_ENABLED(CONFIG_DMA_API_DEBUG)) {
- 		struct scatterlist *sg;
-@@ -1220,7 +1266,7 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
- 
- 	dma_resv_assert_held(attach->dmabuf->resv);
- 
--	mangle_sg_table(sg_table);
-+	dma_buf_demangle_sg_table(&sg_table);
- 	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
- 
- 	if (dma_buf_pin_on_map(attach))
+diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
+index b46eb8a552d7..fdd823e446cc 100644
+--- a/drivers/dma-buf/Kconfig
++++ b/drivers/dma-buf/Kconfig
+@@ -55,7 +55,7 @@ config DMABUF_MOVE_NOTIFY
+ config DMABUF_DEBUG
+ 	bool "DMA-BUF debug checks"
+ 	depends on DMA_SHARED_BUFFER
+-	default y if DMA_API_DEBUG
++	default y if DEBUG
+ 	help
+ 	  This option enables additional checks for DMA-BUF importers and
+ 	  exporters. Specifically it validates that importers do not peek at the
 -- 
 2.43.0
 
