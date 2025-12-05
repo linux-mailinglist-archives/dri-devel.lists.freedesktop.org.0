@@ -2,54 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8169CA75FE
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 12:28:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BA9DCA7601
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 12:28:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F418010EACE;
-	Fri,  5 Dec 2025 11:28:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE7B710EAC9;
+	Fri,  5 Dec 2025 11:28:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ld4VoTPF";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k69Y0rbn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C61410EACE;
- Fri,  5 Dec 2025 11:28:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6125210EACC;
+ Fri,  5 Dec 2025 11:28:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764934092; x=1796470092;
+ t=1764934097; x=1796470097;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=3EdRJ/XgmWxVakw0kHUwh8VHZUh10J37p/jbxHAq9W8=;
- b=ld4VoTPFFIk+xLo/06kKEwLR3/iVdyukQhXP22xvr6xv3CbZ30TzMNPJ
- 5MqtYFRcKy/RyrywHezM5jMPF2KFpgzPe01ze2GXbF6nLs7Rt871vNyT4
- mqwBS20LQ6T0VIZ5jwClAsMiSmCDwwLtqE4e70DOhwnGLcje4FEg/LPsS
- 1enZXnTF+QNEIeuK2LRFz0ZzPN1pGCCsONoNwbn5rSV1ZqPoppfHQUEXD
- jxMjnaO0mljhUWS4cCyi9ZmEKj+Z19jwyL/+Pa6d2hNzvTgwecfK+Rrjp
- hN7qiP2qmXyYiGr57dJQDhI5Mj85XvJ4ndUWALYbO0NWl21OAAIKFNrJM Q==;
-X-CSE-ConnectionGUID: 5KY4fWNZTWeRf1Q8xyzOuA==
-X-CSE-MsgGUID: MkhG2ILUTrmBcdYKw8OKiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="65968453"
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="65968453"
+ bh=jd//C1+j4hE3LyQ/oBZKIQiND/RJu4K9iMtTIzXHUAI=;
+ b=k69Y0rbnwewIujD/X9p8zTDIIFzuR7F3MzsEZmKjc7kTNltFxMFle8cZ
+ 58bM6sWYX/+A2qu7V7erv5ZcS+41p2vsX81dgRDIL5OKwzJIO0moxzvO9
+ 9M89vJuc1toOcUhMKxYglVun+6BP70Yye4o8D1bJ3+XlSJIcWVbVK1Knb
+ pXkXkK/jjTCJAFv4r+k7jFytzR7RM5B91Dvy4roKCC7Y1JgsY6EDuA4zQ
+ xo1utSEi0yoauf+umyH641RlDrKXDIIr8q/MpE4uH/Dtk27QlcoCaPj55
+ 5plXDKEIiKqv1GH+jNUejYSwoVzLVPNJNaJo3zcpcvjqTbeSIE48N8jJJ w==;
+X-CSE-ConnectionGUID: wwahbja8QuGxKgRsdLsrEQ==
+X-CSE-MsgGUID: +qscqsgiSeS3NaHrohS+7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="65968458"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="65968458"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2025 03:28:11 -0800
-X-CSE-ConnectionGUID: 7meDTWAaR6e+GSPoUFG+CQ==
-X-CSE-MsgGUID: 2umq585YSD+jAVTjVNNdwQ==
+ 05 Dec 2025 03:28:17 -0800
+X-CSE-ConnectionGUID: ePnRNJ82TIuqMCXqNs5w7g==
+X-CSE-MsgGUID: Tn3bVrAjQmqtfYO1xiWyiA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="232650347"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="232650369"
 Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
  ([10.245.246.65])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2025 03:28:10 -0800
+ 05 Dec 2025 03:28:15 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: tzimmermann@suse.de, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, jani.nikula@intel.com
-Subject: [PATCH v3 04/25] drm/vblank: add return value to
- drm_crtc_wait_one_vblank()
-Date: Fri,  5 Dec 2025 13:27:20 +0200
-Message-ID: <b0cf87735c21d63cf9eab59bb2942d3c90fcaa53.1764933891.git.jani.nikula@intel.com>
+Subject: [PATCH v3 05/25] drm/vblank: limit vblank variable scope to atomic
+Date: Fri,  5 Dec 2025 13:27:21 +0200
+Message-ID: <955a25cf930344191a48dd1c736a355f1e1d4389.1764933891.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1764933891.git.jani.nikula@intel.com>
 References: <cover.1764933891.git.jani.nikula@intel.com>
@@ -72,64 +71,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Let drivers deal with the vblank wait failures if they so desire. If the
-current warning backtrace gets toned down to a simple warning message,
-the drivers may wish to add the backtrace themselves.
+In drm_crtc_vblank_helper_get_vblank_timestamp_internal(), we only need
+the vblank variable for atomic modesetting. Limit the scope to make
+upcoming changes easier.
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_vblank.c | 8 ++++++--
- include/drm/drm_vblank.h     | 2 +-
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_vblank.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index f4d1fe182a4d..503eb23d38d2 100644
+index 503eb23d38d2..91e63177daaf 100644
 --- a/drivers/gpu/drm/drm_vblank.c
 +++ b/drivers/gpu/drm/drm_vblank.c
-@@ -1293,8 +1293,10 @@ EXPORT_SYMBOL(drm_crtc_vblank_put);
-  * This waits for one vblank to pass on @crtc, using the irq driver interfaces.
-  * It is a failure to call this when the vblank irq for @crtc is disabled, e.g.
-  * due to lack of driver support or because the crtc is off.
-+ *
-+ * Returns: 0 on success, negative error on failures.
-  */
--void drm_crtc_wait_one_vblank(struct drm_crtc *crtc)
-+int drm_crtc_wait_one_vblank(struct drm_crtc *crtc)
+@@ -710,7 +710,6 @@ drm_crtc_vblank_helper_get_vblank_timestamp_internal(
  {
  	struct drm_device *dev = crtc->dev;
- 	int pipe = drm_crtc_index(crtc);
-@@ -1305,7 +1307,7 @@ void drm_crtc_wait_one_vblank(struct drm_crtc *crtc)
- 	ret = drm_vblank_get(dev, pipe);
- 	if (drm_WARN(dev, ret, "vblank not available on crtc %i, ret=%i\n",
- 		     pipe, ret))
--		return;
-+		return ret;
+ 	unsigned int pipe = crtc->index;
+-	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
+ 	struct timespec64 ts_etime, ts_vblank_time;
+ 	ktime_t stime, etime;
+ 	bool vbl_status;
+@@ -729,10 +728,13 @@ drm_crtc_vblank_helper_get_vblank_timestamp_internal(
+ 		return false;
+ 	}
  
- 	last = drm_vblank_count(dev, pipe);
- 
-@@ -1316,6 +1318,8 @@ void drm_crtc_wait_one_vblank(struct drm_crtc *crtc)
- 	drm_WARN(dev, ret == 0, "vblank wait timed out on crtc %i\n", pipe);
- 
- 	drm_vblank_put(dev, pipe);
+-	if (drm_drv_uses_atomic_modeset(dev))
++	if (drm_drv_uses_atomic_modeset(dev)) {
++		struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
 +
-+	return ret ? 0 : -ETIMEDOUT;
- }
- EXPORT_SYMBOL(drm_crtc_wait_one_vblank);
+ 		mode = &vblank->hwmode;
+-	else
++	} else {
+ 		mode = &crtc->hwmode;
++	}
  
-diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
-index 94ee09b48895..2fcef9c0f5b1 100644
---- a/include/drm/drm_vblank.h
-+++ b/include/drm/drm_vblank.h
-@@ -302,7 +302,7 @@ bool drm_handle_vblank(struct drm_device *dev, unsigned int pipe);
- bool drm_crtc_handle_vblank(struct drm_crtc *crtc);
- int drm_crtc_vblank_get(struct drm_crtc *crtc);
- void drm_crtc_vblank_put(struct drm_crtc *crtc);
--void drm_crtc_wait_one_vblank(struct drm_crtc *crtc);
-+int drm_crtc_wait_one_vblank(struct drm_crtc *crtc);
- void drm_crtc_vblank_off(struct drm_crtc *crtc);
- void drm_crtc_vblank_reset(struct drm_crtc *crtc);
- void drm_crtc_vblank_on_config(struct drm_crtc *crtc,
+ 	/* If mode timing undefined, just return as no-op:
+ 	 * Happens during initial modesetting of a crtc.
 -- 
 2.47.3
 
