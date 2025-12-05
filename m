@@ -2,83 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21CD2CA95E1
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 22:17:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1396ACA960F
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 22:21:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 435EF10EBB5;
-	Fri,  5 Dec 2025 21:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D187E10EA03;
+	Fri,  5 Dec 2025 21:21:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="abg6s6cN";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="f0LGo57l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com
- [209.85.128.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F03010EBB5
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 21:16:57 +0000 (UTC)
-Received: by mail-yw1-f182.google.com with SMTP id
- 00721157ae682-787e7aa1631so44008167b3.1
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 13:16:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764969416; x=1765574216; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9ipQKFbdk2/YvFD6ldsdc70zo2TgK7rzf/SOR0UIrZk=;
- b=abg6s6cNaO3JLMeTn/y7JqgoBGcixqGej5jdTmTMkEjKK4aEwOE3kwKaSaJPlJd1Nf
- hjeTgsL6csy3+bSau1Z1Cojb/t0OCI4fF9is83jmNPIwR07ovacORoxG+TtMAjoKmtKN
- wiszZKf/ChSObvC883lIJ9znLyC3wSA8Iz+zxZQgjNcRpxG3vpWDMvRwAOPza80DMEFe
- /mEH0kQDSaqKmy8NcDHwc7t3dVbIY1nm4RtbDhHKf2HE/X7HJnkXQQi4vqSefra1CCos
- 7L7E7iSsKk5U3IN9YBhowga+onbRh+OvWGqqU5Kwsyy19a3hYDiE53sWW8BqLQoOL/x7
- pIQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764969416; x=1765574216;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=9ipQKFbdk2/YvFD6ldsdc70zo2TgK7rzf/SOR0UIrZk=;
- b=MUS5o6JEGlhb1M0imfh2OFjrmyJw0MSw6o/zbFLQ7ApdT1DnmwUpCv6dfDgrmHvsqo
- sCnQZ3r8TQwV3QFMDrCO8Wlb9wXQ7u0f1kT3leVNV47jW/y2pvIdxkKEom0BUSHAm91F
- 3zkeJbaIAGhQtiUMyjoJprXsZTAjzLGkqL5b/+ORstU3vCHQVrCSiR+m77TT7qegK04h
- DlzKkYNIIuLF4vN0mcqqYDJ24BmECUJtINCHnCDxDZVXzaKNUZ+INFi4PBQQal5bgSgD
- VF5bBGy31dFaV+ndA8cXu5Pz/jGBSW8SN/GvI9Q7h7ZtppugL4sAj3d6GKLZJ0RzsTHr
- Cb/Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVGE40XEWRJ5l+IIFkGuZL/oceXpoa8E9C0gS6MCv1Gh2ppHRz8F0DD9Khyxbpmi6+VGpMvlMap9Fk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWJ6YsteXxy97Kvz/Wagz0mmQ5l6IA0mR6IygEtfOjKpIOeLsy
- LroIHfuD2LpItRi+G7hklvg3IM0WTILQIxJNep+KfTb3lHnpS4s4PV8d7ozrZDgsEn3fU9YkLJ7
- mxfoETKRWBo6hb4AKwlIrQwxQct6nVa8=
-X-Gm-Gg: ASbGncuyiSVBTEB+8Uz6pXHVY6uL4KyQnY8r4rwjVhIAYD4m+XF8IBbrEO4R2U7nBKs
- dq432cIzSB8IosO7SGqslYJo8vEm5fWAYi3JxSvp6ritpTX3ePKmZiRTu3xsPtnuBGDaYzhBajy
- +w8iWQmtmhLOcSQqxaYjW9AGtEUsoyKFrm07XYQNX12e3YlpM45bsinH/Qy08GpO+vxEvfhCqxt
- 8SedRYB2VKSXSyclNP3qauUSbUugi0gcrKZX1h4+V4Ilr55MnkdROUhDw4gK7SbAScUwLS+R2oG
- I+P5gJ6MrEk1uZwJPlCoUQGXLxoI
-X-Google-Smtp-Source: AGHT+IHW8eSfZUtjZw0Xb89onCukrdZvI9LzO4Gk+juUMuJyejPEDI2qn6QXa/CqpRGMK+nxxegmLRXPHosEr0FhO/M=
-X-Received: by 2002:a05:690c:d96:b0:787:fa8f:bec2 with SMTP id
- 00721157ae682-78c171ab39bmr82216587b3.12.1764969416027; Fri, 05 Dec 2025
- 13:16:56 -0800 (PST)
-MIME-Version: 1.0
-References: <20251203-panthor-tracepoints-v1-0-871c8917e084@collabora.com>
- <20251203-panthor-tracepoints-v1-1-871c8917e084@collabora.com>
- <CAPaKu7R_PJPD3s6wvuduGHDFCy+AE+Hd+p1cS+ZSu_tTgE2txQ@mail.gmail.com>
- <15112867.uLZWGnKmhe@workhorse>
-In-Reply-To: <15112867.uLZWGnKmhe@workhorse>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Fri, 5 Dec 2025 13:16:44 -0800
-X-Gm-Features: AQt7F2rkTR5CRJIRd0S-uzu_rbn4pgFGU3sfR9DgUCPQbXuqeCJ3S3cmVovyjsQ
-Message-ID: <CAPaKu7SQP9jYmq5UCA98_YmO50st6ChBjYNjYNON7-YAWozzaQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/panthor: Add tracepoint for hardware utilisation
- changes
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+Received: from SA9PR02CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11013005.outbound.protection.outlook.com
+ [40.93.196.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6051510EA03;
+ Fri,  5 Dec 2025 21:21:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=psiQQLl/eZhcoL6Ku3n3eqJXN77edROitU02WkJ3hyYxCd0MvQD78gGeNz2m6TiPiuOArs056g6kvs/yfZ/zlznbrqDlRQ5t9QBOtvTBnc01gmhHIomZHwWftCcV0eeJCqn14EdtPpZdWoYg0KRInyCKtD79wi31DNUv53oXNY+Fv5lpIX3BDmFRE5aci3WSr3T6l9rr9PvwknBMqV/qsjQmY/br2S03FAKHvm8m5ShuRS4fpg76PRWH3hE6TlTDjV290QisEVbHKCUBZ2+nf2N1LLNrCc2EpzF2BjtdybKLg+tVzgF0AdyZGTKoEvt6zCvulLkjh/dzBHRdqANxwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kZgkgAA/wC2aEl63sg3t7evRo3Evu5vFs01dkpKVZDQ=;
+ b=kVzVmDAbNi7NJgblgWXqrqRdbQyBnrCVBmRuI6Mgv54PXtqqSX/mIHVEQViMMVnAllApCaA+PByujH/PYZoR5cBiiPB8CBey00U1Zb++NKLxVka97kBSV41qOxWA5Yo7flUcvx+J+dpjchob1y/0h6zARTpnzSz4LdgZ9LGeHA8DH5sGgqUEQIQ/EdYdOWG7eXJwxKHWP3TfE/bxa7eyqiE3El0lVyqC4dCjonTIY9l39EJVrtD+sDWVKtcHG2JIiqTMovEjkUyomhQs0ZZvR625nah0uEnaOEYdqzRsJvCxPFCWsthxsyDH1kZuA7I8KiXn9VOY6p7J6osiGshD3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kZgkgAA/wC2aEl63sg3t7evRo3Evu5vFs01dkpKVZDQ=;
+ b=f0LGo57luBnByxrzrA/DOScEg1lc8RnoHMJar9vFCL2lopO8tVK3MOPSVlQLM5CAYECiazA4if7cIUk+gUznEhzRePsV/JXuX8FmYMQZvcsneWc633pD3h9aQ5P7D6kGcJX8rQdTjmie54UZGtmIBh9JP9L7FuYcRtk3pfp7GhE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
+ by DM4PR12MB6567.namprd12.prod.outlook.com (2603:10b6:8:8e::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Fri, 5 Dec
+ 2025 21:21:26 +0000
+Received: from DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2d79:122f:c62b:1cd8]) by DM4PR12MB8476.namprd12.prod.outlook.com
+ ([fe80::2d79:122f:c62b:1cd8%6]) with mapi id 15.20.9388.011; Fri, 5 Dec 2025
+ 21:21:26 +0000
+Message-ID: <f9c72f9d-66d4-4533-931f-179267701dee@amd.com>
+Date: Fri, 5 Dec 2025 14:21:24 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm: amd: display: shrink struct members
+To: Rosen Penev <rosenp@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- kernel@collabora.com, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ "open list:AMD DISPLAY CORE" <amd-gfx@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20251108174047.7029-1-rosenp@gmail.com>
+Content-Language: en-US
+From: Alex Hung <alex.hung@amd.com>
+In-Reply-To: <20251108174047.7029-1-rosenp@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0011.namprd03.prod.outlook.com
+ (2603:10b6:303:8f::16) To DM4PR12MB8476.namprd12.prod.outlook.com
+ (2603:10b6:8:17e::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|DM4PR12MB6567:EE_
+X-MS-Office365-Filtering-Correlation-Id: 818291a0-caf8-4d08-0857-08de34443f93
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aTN0OURoS0szK0I4N1NFQklNNjdHL3NLbHNWZWZ6dDNsZG1FdFczSVAvQzNp?=
+ =?utf-8?B?MTNGaTVhUVhBSU9OeHdOeEVENXFwbUVkQytYUmFSWERNNDd0NVVZc01aMk5I?=
+ =?utf-8?B?a2xCZ3ZwNU5XMU1hbEpBd1Jpam04MTF4WWFFV2llZElMZVJ3V0lSU0lTdUkv?=
+ =?utf-8?B?MmhJT001dWliNnQ4TzgyRWU5QTJQNDRUdHoycjY0YXlXbTVtUXdTUGMrazAw?=
+ =?utf-8?B?djdqMlY4MjFwSFR2WnJWcGxZTUFwUDhFQmlSeEdtbmY3NDhKdDVVVWtFaEMx?=
+ =?utf-8?B?dUlJUk5uV2lMNzdmazFidy9UU0VtTU9QUmp6bmN5K2NxUTY0TUx2NEd4U2Vq?=
+ =?utf-8?B?MmRkcUltM1ZReGN4NVZuRWY0TUpVQUhYYXMzVVpSRlYrSTZ2OTRVUy85eVFC?=
+ =?utf-8?B?V2JMUUJnelVTZTYwdEQ4K1VKTHRHdWx0aXFFb2o0NVU4UVJzUC9JeUNKbEZ0?=
+ =?utf-8?B?VjJUeDIzSndUNE5ZUnlrbVIxb2Vkd2E0dGNhbVlmN2tnVVVFYzdhby9QYlZj?=
+ =?utf-8?B?S1hITTRVVlBYMUh6U25rMmhNZUpCbThraW1xUU1uQ0RQZzBsYkNYS1hWYW80?=
+ =?utf-8?B?ZUdCeDFzUTNCMUpQZEVBeUVxSUhVTGF6aE1OL0ZOc0dMbVJwUWFBU2pOb1hG?=
+ =?utf-8?B?OVJWelZFQ2djd0pML3kzNXJsVFFLSTlWemNLRjdmYkZzMEFqdW9nNFVTaHVM?=
+ =?utf-8?B?Q0VtZk9wUzVlMTEzU2hTMVlIWU43SjFjQ2FnUW9WMG1kL0FpaFJuRysyS3Ez?=
+ =?utf-8?B?RWttNkxuV0F1U0M3OXZ2c0pqUE1qNlNyTDhodUt1RzhXVU9GK1FGNE9JYkpt?=
+ =?utf-8?B?OHRHUWdtRlZqZllSUUIxY2U0YUVQMFI0VHB4bWtZYXlaR0ZrN1phV25YcTVu?=
+ =?utf-8?B?cTNjS3VCYnFsRGVZU1F1cytXK1kvRisxbWlsUGRSeE9qdTRYTlZPOTI2MlZW?=
+ =?utf-8?B?WU5DUnZzMEg0U3JEWmZLOXhqdktCMGU3RkNRVGVSMHRZamxpMWlmUzc3YjdL?=
+ =?utf-8?B?aXNRTERza3RUelUzbGdkSldzSm1EQU5nRWl0THozQWo5T2k5V0kvZHhpd3F1?=
+ =?utf-8?B?amREdVFvbUlMekM2UDVuek1VenJvRzZ6UGRGRW5aWU9xY0JZRjNMYnFxUG5n?=
+ =?utf-8?B?ZHBkLzIwYzVjbUJLYXMxdEpCY0lTR0RsRmVxTVVYTHp1UWJuNnBtREtFWHV3?=
+ =?utf-8?B?dTdsUGg3RURvd29vZC91aUJ5dG5hQTU3SndveVdydDdBYWRuaDZGR3Fhc01z?=
+ =?utf-8?B?ZEY3eEF6cTRpazVQSzJYRThqT0dqcGNKSTNkVlRBay95NldVbE8yTU5uRkt0?=
+ =?utf-8?B?ME91WVFNUWlRK3dzSG1XdC9sT0EwVExVTnNVQXA2eFBhQ2xzemdWMnhLRTJW?=
+ =?utf-8?B?MGM1R2dvaERqUmEzUlVNdytsVGhTZ25LUkRteHZOV1U3NEtmZkZoNnltUTFr?=
+ =?utf-8?B?Z2JmcjBpdjdzWlNwQnpoN0VNMXhCLzFqOWViNTV1OW14a2RsUHZqUGs4bTBm?=
+ =?utf-8?B?Y2FvbHlXeDluU0tEeXVkQitITVNwTWpqbGpzcHE4RlhZZ0ZCRCtGV2NJZFN6?=
+ =?utf-8?B?emNnZVk2YUNoZTJOMzRSZ0ZJejVNK1dTUnh4RTZPRmlITmszOWJLblo5Y3ox?=
+ =?utf-8?B?RUdRNjJ2cFpsVHpFRUtCUm9SeXpMbUxjRFpTdGlRMThmVzJVT0o2SFZ5Mm1Q?=
+ =?utf-8?B?RjNhVGljLzFlQ05Wa3NuUEZ3OGZ2OEVQVHZ0OGJOMUJYWEtWQnM4S0dadGs4?=
+ =?utf-8?B?a0FQbWx3NVNNZzZUSVJSUHJOckpqVlBGSlQ3SVg1Q2M1MjdqVlE3ei94bTI2?=
+ =?utf-8?B?djhERzB3OGF0RG0yMFlhRmJnQW0xakZxdG5QTVRkdStyRFVZQmRwV1VkTGdL?=
+ =?utf-8?B?YkRXZTg1ZCt3enRNZ3pNK2I1TUdOZkcwbzJzcTlSREk2azN5QlJZQjVYUjdk?=
+ =?utf-8?Q?6IKBErsMab9WsKzRlMS9QRu5aXp6APRX?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cUJFdEwwNnlmeVJYT3BtOWN5aGJGcjRGendyMGtWVzBFL2dNaDNmQjlDM09m?=
+ =?utf-8?B?d2dqTHVMZnJzOEtNV3pJVWs3U3ppS0J4Nk9tWjdmdzBvYzZPZnRQNTJOeXNx?=
+ =?utf-8?B?Mm5CbUtRc3Q2dGRQdXBnQ2NZNVFwZkZKRGtZYjBWWUZCNnhXV2J0RGNTWFkx?=
+ =?utf-8?B?djN2OEYranl1S084ODVuclF4dmJvVDU4NUo3Sm9zclViNGVIczdNZG1ZV29l?=
+ =?utf-8?B?dGgzSEhSWGNVbXBoRjRaaVVmWmVJNnhzZ3dtdEFGeUpmTVNzS3V5WTRmT0JI?=
+ =?utf-8?B?Si9uNE4xcUZjbkgwNFcwNDFxNU1FNFJQcVBlQ0MrUlJqOHF3S1RWRGFEVGND?=
+ =?utf-8?B?aUpZVzdZODlBVkhGUDRJdDl6MGFCcGczbG9PV2JGN1I5Q2QxQUxSTS9Gcm9V?=
+ =?utf-8?B?bnJ0R2k4Rit0TzZFRjVWRUVFQjY4YjhXZWkveDU1NFRDam5yZzRyT0hBVElJ?=
+ =?utf-8?B?QmhjbEsvNUJpQXd4Q1A2b1p1andHUEJwVmhLL1c5b3BCLzdJKy81eU4vRS8w?=
+ =?utf-8?B?YzJwYS9EbWZSQldKQzZwd3J5VXBSUWRLeVdjdmxSYjlvM096a25DWUdqeVRj?=
+ =?utf-8?B?aHlxTmRZTmRHTWhsRVVJRHFWczV0NVhBcm5vMnNDUjRLZUZRQklOU3ZUdzlL?=
+ =?utf-8?B?MmxucmYxN2IrYllvQ0FxMkJvbStnckRua0xlMG4ya2ZOek9WcWtjTHhpWkZy?=
+ =?utf-8?B?cWtrRTNLMGFxVFJWT2dRajhGanN3Y2hGV1JxTTlRUUx0MzMxS2ZOS3g3RkRt?=
+ =?utf-8?B?NkI2K05jRWtCQ3B5YkhyS0c5bkwzU1dYdC84SzBPUFllcS9hYnNLRUJMOS9N?=
+ =?utf-8?B?K3dkMWwyZ3lZNFRkZXczdEFJRUJ5UzJxbGdibnFhMmE3cGd6QUMwR2tnNEtT?=
+ =?utf-8?B?TnhPSkdtdmZNYnRGcEVoQitUNVdzOG10OGRxa3lwVG1EcjY0Qlg3TW9iMUli?=
+ =?utf-8?B?NU1zbUxURERLWk1seDdqRVozOXFONWFKSVNBTFNqZ0tRZ0x3N0JiVzBrcUFn?=
+ =?utf-8?B?d0ZQMGplNEN6bWlEMWROSmxjb1JhVThLY29rblQ4SlZvWFY2VXErcG9QT0t6?=
+ =?utf-8?B?bjZhWUpTZEc3VGRsWXcyNjV3cXNPNmtGSGZtdy9PZlVlYzY1UlhONG4relVQ?=
+ =?utf-8?B?VUg3TUZtd3R4VTU3bStqL29BVllIbXJpSzFsYlJaU2QwWWFMUldwK0VOVWtS?=
+ =?utf-8?B?cmdBUEY5L2x3NXFLU0VvQ1ZGTHV2WW9xVUJlZG4wdjNUNWN0RkNhZklSUjJI?=
+ =?utf-8?B?ZUFnU0lmVjh2ZkdRTllSTE11M2ZBWVBxekNPdzh6cU5tb3Z0S1NZbVpqMFl0?=
+ =?utf-8?B?aE9DbU1EK3FLNWdiMnBUcjg1MUIrODVuenNyd0poOUN5MkhjdE1maHRTbWhq?=
+ =?utf-8?B?U0lGeDhvSm0zSGVyN1ptT3hpVDJlTDBUMmhxWHJlUEJPWTZFQmxvV3NueFZj?=
+ =?utf-8?B?NGpHWCtVVWlqczBUcTZCWFdzdEp1dFduV2NHLy9xeGtIcEdHUzd4ZFZMdDNG?=
+ =?utf-8?B?eW0rT3JISnI5N2NJSW9hTll5Z3VnSzNJajQ3MVBBMjRPQ0lSRi9qS1BmWFdT?=
+ =?utf-8?B?UExYN0JXTFhJcThjVG9OS3NzcnBFVzFoSUo1cEg5L0NtV3g3RzIvOFZBeW5Y?=
+ =?utf-8?B?WG9BMFdxNGZ5VEJrZlBWY3RuSitHR3h1cE10dzhoNmdyL0lhcys3Q1hHQjRm?=
+ =?utf-8?B?ZkprVXZFa0lTT1JMVklSU2p0VXhSRVNpWVYwU3o5VFZlSjEwdE5WVWxQejVO?=
+ =?utf-8?B?K0RTa2FHbUJiTVBZUWhWbkNVcXUxMXkwMERXWXEyY2l4d3BzZzNENDVKT096?=
+ =?utf-8?B?MmdhRjRxeDRUM2cvYmN1OFFyWnZGRkZIbHVPbU1tMFZicGtLb3M3Wk1sYVRU?=
+ =?utf-8?B?M2hNNE1IYlNZR0RUbm9qQ2xzUE5wMDYvSWZqenU2OExYaGVId2ZuWktQcE9Y?=
+ =?utf-8?B?MkRNV0xXc200eDM3RjZVQzMrdUM3TzBCc2pzMGpsaEtTVkZEV3dMUmV0My8z?=
+ =?utf-8?B?aTVPMTJ0YjRIWm44U2lLSW8ra2ZRM1RETkdsRytmUnJpZjdkeHhZT0RaZHBi?=
+ =?utf-8?B?NENTN0pTTzdUZVJoSDlSZWt6VnF6cEtNYlVoQUxiUTRleDRKaTZ5Rmt0eEFG?=
+ =?utf-8?Q?kmD75OTsvCp2aDrMoUQywR4y3?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 818291a0-caf8-4d08-0857-08de34443f93
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2025 21:21:26.3977 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IVfHAlvc5XnGkzjraQKSc+d8n8QX8rRAczmebL3bDOpRD2Bs1JHZ9I/2tE3Dwk4kpN+f7pYKbnN9jnL5r7Yvyg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6567
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,76 +168,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 5, 2025 at 2:48=E2=80=AFAM Nicolas Frattaroli
-<nicolas.frattaroli@collabora.com> wrote:
->
-> On Thursday, 4 December 2025 21:21:08 Central European Standard Time Chia=
--I Wu wrote:
-> > On Wed, Dec 3, 2025 at 6:04=E2=80=AFAM Nicolas Frattaroli
-> > <nicolas.frattaroli@collabora.com> wrote:
-> > >
-> > > Mali GPUs have three registers that indicate which parts of the hardw=
-are
-> > > are powered and active at any moment. These take the form of bitmaps.=
- In
-> > > the case of SHADER_PWRACTIVE for example, a high bit indicates that t=
-he
-> > > shader core corresponding to that bit index is active. These bitmaps
-> > > aren't solely contiguous bits, as it's common to have holes in the
-> > > sequence of shader core indices, and the actual set of which cores ar=
-e
-> > > present is defined by the "shader present" register.
-> > >
-> > > When the GPU finishes a power state transition, it fires a
-> > > GPU_IRQ_POWER_CHANGED_ALL interrupt. After such an interrupt is
-> > > received, the PWRACTIVE registers will likely contain interesting new
-> > > information.
-> > I am seeing
-> >
-> >    irq/342-panthor-412     [000] .....   934.526754: gpu_power_active:
-> > shader_bitmap=3D0x0 tiler_bitmap=3D0x0 l2_bitmap=3D0x0
-> >    irq/342-panthor-412     [000] .....   936.640356: gpu_power_active:
-> > shader_bitmap=3D0x0 tiler_bitmap=3D0x0 l2_bitmap=3D0x0
-> >
-> > on a gpu-bound test. It does not look like collecting samples on
-> > GPU_IRQ_POWER_CHANGED_ALL gives too much info.
->
-> On what GPU and SoC is that? If it's MT8196 then I wouldn't be
-> surprised if it just broke that hardware register, considering
-> what it did to the SHADER_PRESENT register.
-Indeed I was on mt8196.
->
-> On RK3588 (v10), GPU_IRQ_POWER_CHANGED_ALL reliably fires when
-> there is new information available in those registers. I haven't
-> tried on MT8196 (v13) yet because that still doesn't boot with
-> mainline so testing anything is a pain.
->
-> I don't have any v12 or v11 hardware to test with. From what I
-> understand, there's no open enough platform to do v11 testing on,
-> just the Pixel 8 and Pixel 9. I could look into the Cix SoC for v12
-> though some day, but I don't own one at the moment.
->
-> >
-> > I think they are more useful to be collected periodically, such that
-> > we know that in the past X seconds, Y out of a total of Z samples
-> > indicates activities. That's best done in userspace, and panthor's
-> > role should be to provide an uapi such as
-> > https://lore.kernel.org/all/cover.1743517880.git.lukas.zapolskas@arm.co=
-m/.
->
-> This wouldn't give you information on the time a power transition has
-> completed, which is one of the motivations. A periodically collected
-> PWRACTIVE would just be roughly correlated to how busy the GPU is,
-> which isn't very useful additional information as the performance
-> counters themselves are likely a better source of that kind of info.
-{SHADER,TILER,L2}_READY might be more appropriate if you want to trace
-power transitions?
+This patch pass this week's promotion test.
 
->
-> What I need to do is restrict this to <=3D v13 in the next revision
-> however, because v14 reworks this stuff.
->
-> Kind regards,
-> Nicolas Frattaroli
->
->
+Reviewed-by: Alex Hung <alex.hung@amd.com>
+
+On 11/8/25 10:40, Rosen Penev wrote:
+> On a 32-bit ARM system, the audio_decoder struct ends up being too large
+> for dp_retrain_link_dp_test.
+> 
+> link_dp_cts.c:157:1: error: the frame size of 1328 bytes is larger than
+> 1280 bytes [-Werror=frame-larger-than=]
+> 
+> This is mitigated by shrinking the members of the struct and avoids
+> having to deal with dynamic allocation.
+> 
+> feed_back_divider is assigned but otherwise unused. Remove both.
+> 
+> pixel_repetition looks like it should be a bool since it's only ever
+> assigned to 1. But there are checks for 2 and 4. Reduce to uint8_t.
+> 
+> Remove ss_percentage_divider. Unused.
+> 
+> Shrink refresh_rate as it gets assigned to at most a 3 digit integer
+> value.
+> 
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> ---
+>   .../drm/amd/display/dc/hwss/dce110/dce110_hwseq.c    |  3 ---
+>   drivers/gpu/drm/amd/display/include/audio_types.h    | 12 +++++-------
+>   2 files changed, 5 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
+> index 3005115c8505..852c117fe5b6 100644
+> --- a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
+> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
+> @@ -1480,9 +1480,6 @@ void build_audio_output(
+>   						state->clk_mgr);
+>   	}
+>   
+> -	audio_output->pll_info.feed_back_divider =
+> -			pipe_ctx->pll_settings.feedback_divider;
+> -
+>   	audio_output->pll_info.dto_source =
+>   		translate_to_dto_source(
+>   			pipe_ctx->stream_res.tg->inst + 1);
+> diff --git a/drivers/gpu/drm/amd/display/include/audio_types.h b/drivers/gpu/drm/amd/display/include/audio_types.h
+> index e4a26143f14c..6699ad4fa825 100644
+> --- a/drivers/gpu/drm/amd/display/include/audio_types.h
+> +++ b/drivers/gpu/drm/amd/display/include/audio_types.h
+> @@ -47,15 +47,15 @@ struct audio_crtc_info {
+>   	uint32_t h_total;
+>   	uint32_t h_active;
+>   	uint32_t v_active;
+> -	uint32_t pixel_repetition;
+>   	uint32_t requested_pixel_clock_100Hz; /* in 100Hz */
+>   	uint32_t calculated_pixel_clock_100Hz; /* in 100Hz */
+> -	uint32_t refresh_rate;
+> +	uint32_t dsc_bits_per_pixel;
+> +	uint32_t dsc_num_slices;
+>   	enum dc_color_depth color_depth;
+>   	enum dc_pixel_encoding pixel_encoding;
+> +	uint16_t refresh_rate;
+> +	uint8_t pixel_repetition;
+>   	bool interlaced;
+> -	uint32_t dsc_bits_per_pixel;
+> -	uint32_t dsc_num_slices;
+>   };
+>   struct azalia_clock_info {
+>   	uint32_t pixel_clock_in_10khz;
+> @@ -78,11 +78,9 @@ enum audio_dto_source {
+>   
+>   struct audio_pll_info {
+>   	uint32_t audio_dto_source_clock_in_khz;
+> -	uint32_t feed_back_divider;
+> +	uint32_t ss_percentage;
+>   	enum audio_dto_source dto_source;
+>   	bool ss_enabled;
+> -	uint32_t ss_percentage;
+> -	uint32_t ss_percentage_divider;
+>   };
+>   
+>   struct audio_channel_associate_info {
+
