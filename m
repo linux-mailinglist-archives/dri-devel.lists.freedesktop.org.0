@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9F2CA7631
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 12:28:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4C1BCA7634
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 12:29:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8CE3710EAE8;
-	Fri,  5 Dec 2025 11:28:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B0C310EACB;
+	Fri,  5 Dec 2025 11:28:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XU+b1jBp";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="UcLClGBA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D63D510EAE5;
- Fri,  5 Dec 2025 11:28:51 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1DA210EAE7;
+ Fri,  5 Dec 2025 11:28:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764934132; x=1796470132;
+ t=1764934138; x=1796470138;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=yh0pL9Hs1mAov7KienJMB0f1xl46s0oQMpCw6xLXsIo=;
- b=XU+b1jBpEsv0MNuCx40V4ocaIWvoliJ8kLBUTiePSWzcBkb8qoxp7eCY
- 8VUPOAounzqEAwAN9TLOoXAMH1mzeyMoyHHstEyEZABRguMNYIqXB0ZKg
- 2SsmB8iDOdYL7UPPm0DtMPYdK3w1gvP38H18u4mmWL9ic7S6qzGkHj/Qj
- 1aWu7vYoA5nrbAHbWc+Na8VpYZ13+CLV8+uSPT/xfKJohSEiu75AOqn9e
- DFK0IRVnz9JuRd59fBDhJ1XqRo2bSjLLKvl+RswtUSjvguV0D6WzXvcUf
- 3trGbL8G7hu0CYjQhn1/XgOAOn4GpfwEeyMNoysqLGqmXSgiSkRRfB17j Q==;
-X-CSE-ConnectionGUID: g6nUEgcjSbOM/8aP/QNi3Q==
-X-CSE-MsgGUID: WSutOrTtQzuQkC0XycsOKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66861990"
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="66861990"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2025 03:28:52 -0800
-X-CSE-ConnectionGUID: 6+VlGIo9TZGvEF35otaEDg==
-X-CSE-MsgGUID: Qed0IDbCSEyxhjWalqcUQQ==
+ bh=MQsKawZNmdHPuy2g1NagLloRBmnwhMkpb/mmQl0rnaQ=;
+ b=UcLClGBAQJprZVAP+JHBCw6ifmhMX2ovTRVBGXwlzPV53rSYs9cJ66Py
+ xMsKc/odFtqv4jfenkk+ve6b2bcryISmsB0e/mzyZBU09HKUyBxUbnYn2
+ R/Wct0o+Lvr4EI5MP9M3devGl76GlDG6qvfZZMO4CnPbjbYFmdwU5DyBc
+ eYMkBfJTkYC9iU6wJ60uzsfHw6V59PMW457FQDgmNXPSp7/hSR5QroaBW
+ AS5v2pkbIUM5emZQmezgRcgO5KqiuZ9VQf0PezFEYX8XJuxBDlZ4feZsS
+ Wq5AZM3ctYfYzzWXO5xGjAIik55wuIarLjjxjO3pS8+UraZw3I8iejMln w==;
+X-CSE-ConnectionGUID: d+9PN8EkT/2zy3fX3VPB3w==
+X-CSE-MsgGUID: WGG2Q3bJQ7uuznkyHUiJZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="78431584"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="78431584"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2025 03:28:57 -0800
+X-CSE-ConnectionGUID: ISNGyiIxSA+voqfuQW6cHw==
+X-CSE-MsgGUID: D0T5FOqhQvWLC1gRZrSkMQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="195188204"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="195097547"
 Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
  ([10.245.246.65])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2025 03:28:50 -0800
+ by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2025 03:28:55 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: tzimmermann@suse.de, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, jani.nikula@intel.com
-Subject: [PATCH v3 12/25] drm/vblank: pass vblank to drm_queue_vblank_event()
-Date: Fri,  5 Dec 2025 13:27:28 +0200
-Message-ID: <50d09f6d8d04cfee7fc08adc9873032b57c64b0e.1764933891.git.jani.nikula@intel.com>
+Subject: [PATCH v3 13/25] drm/vblank: pass vblank to drm_wait_vblank_reply()
+Date: Fri,  5 Dec 2025 13:27:29 +0200
+Message-ID: <0576d9f7d7d40572d5dfc30e882290a893c7be01.1764933891.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1764933891.git.jani.nikula@intel.com>
 References: <cover.1764933891.git.jani.nikula@intel.com>
@@ -72,48 +72,61 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Use the vblank pointer instead of a dev, pipe pair to simplify
-code. Rename to drm_vblank_crtc_queue_event().
+code. Rename to drm_vblank_crtc_wait_reply().
 
 v2: Rename (Thomas)
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_vblank.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/drm_vblank.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index d0460cd5d345..6be354415529 100644
+index 6be354415529..233c60860c78 100644
 --- a/drivers/gpu/drm/drm_vblank.c
 +++ b/drivers/gpu/drm/drm_vblank.c
-@@ -1599,12 +1599,13 @@ void drm_crtc_vblank_restore(struct drm_crtc *crtc)
+@@ -1705,18 +1705,18 @@ static u64 widen_32_to_64(u32 narrow, u64 near)
+ 	return near + (s32) (narrow - near);
  }
- EXPORT_SYMBOL(drm_crtc_vblank_restore);
  
--static int drm_queue_vblank_event(struct drm_device *dev, unsigned int pipe,
--				  u64 req_seq,
--				  union drm_wait_vblank *vblwait,
--				  struct drm_file *file_priv)
-+static int drm_vblank_crtc_queue_event(struct drm_vblank_crtc *vblank,
-+				       u64 req_seq,
-+				       union drm_wait_vblank *vblwait,
-+				       struct drm_file *file_priv)
+-static void drm_wait_vblank_reply(struct drm_device *dev, unsigned int pipe,
+-				  struct drm_wait_vblank_reply *reply)
++static void drm_vblank_crtc_wait_reply(struct drm_vblank_crtc *vblank,
++				       struct drm_wait_vblank_reply *reply)
  {
--	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
-+	struct drm_device *dev = vblank->dev;
-+	unsigned int pipe = vblank->pipe;
- 	struct drm_pending_vblank_event *e;
  	ktime_t now;
- 	u64 seq;
-@@ -1825,7 +1826,7 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
- 		/* must hold on to the vblank ref until the event fires
- 		 * drm_vblank_crtc_put will be called asynchronously
- 		 */
--		return drm_queue_vblank_event(dev, pipe, req_seq, vblwait, file_priv);
-+		return drm_vblank_crtc_queue_event(vblank, req_seq, vblwait, file_priv);
+ 	struct timespec64 ts;
+ 
+ 	/*
+-	 * drm_wait_vblank_reply is a UAPI structure that uses 'long'
++	 * drm_vblank_crtc_wait_reply is a UAPI structure that uses 'long'
+ 	 * to store the seconds. This is safe as we always use monotonic
+ 	 * timestamps since linux-4.15.
+ 	 */
+-	reply->sequence = drm_vblank_count_and_time(dev, pipe, &now);
++	reply->sequence = drm_vblank_count_and_time(vblank->dev, vblank->pipe, &now);
+ 	ts = ktime_to_timespec64(now);
+ 	reply->tval_sec = (u32)ts.tv_sec;
+ 	reply->tval_usec = ts.tv_nsec / 1000;
+@@ -1788,7 +1788,7 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
+ 	if (vblank->config.disable_immediate &&
+ 	    drm_wait_vblank_is_query(vblwait) &&
+ 	    READ_ONCE(vblank->enabled)) {
+-		drm_wait_vblank_reply(dev, pipe, &vblwait->reply);
++		drm_vblank_crtc_wait_reply(vblank, &vblwait->reply);
+ 		return 0;
  	}
  
- 	if (req_seq != seq) {
+@@ -1855,7 +1855,7 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
+ 	}
+ 
+ 	if (ret != -EINTR) {
+-		drm_wait_vblank_reply(dev, pipe, &vblwait->reply);
++		drm_vblank_crtc_wait_reply(vblank, &vblwait->reply);
+ 
+ 		drm_dbg_core(dev, "crtc %d returning %u to client\n",
+ 			     pipe, vblwait->reply.sequence);
 -- 
 2.47.3
 
