@@ -2,63 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F338FCA78D9
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 13:19:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1059DCA7957
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 13:36:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C4A410E26A;
-	Fri,  5 Dec 2025 12:19:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60B8310E132;
+	Fri,  5 Dec 2025 12:36:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t6jgj9fC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kA9jAiXM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21A2E10E26A
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 12:19:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D58210E132
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 12:36:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id DE3EA44487;
- Fri,  5 Dec 2025 12:19:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B16BAC16AAE;
- Fri,  5 Dec 2025 12:19:50 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 17D3F4448C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 12:36:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBDBBC113D0
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 12:36:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764937190;
- bh=jcPepnZLZgpDua5txvocFEmcFpPGA3RIdeogtsflON8=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=t6jgj9fCeMa0/Csw4Ha3dekc3fKmiEtasNWdlFzNiHYPCIxVzkt/FmQdTpGuzIdSz
- K5zPoINTZH3y0rjNs2KFiAKUP/p2ah7dwy514WvRbF2NgdJB7Ulz3kAHSoROoM9Skl
- /LZ/LPcVZ8h5X24rB3W1n8+Fg0t/1/96r81t14SbUeXukV8uf0lHFgKPqoLByFbs1k
- tXeVkd/MJo64GP/0MVXbubS7W2WeGU9uCKjYKO6wgShwelzfXq1hkVk+lLUlypuDH7
- mKmFnXKCYK2NZHrXX+9kr4x3aNK4l7zfJEdXXz1e2k+ud1lPLDzgtkB0e00UF9Z9qK
- K47ZR+7EL2saA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
- (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id A0D6DD2F7EB;
- Fri,  5 Dec 2025 12:19:50 +0000 (UTC)
-From: Petri Karhula via B4 Relay <devnull+petri.karhula.novatron.fi@kernel.org>
-Date: Fri, 05 Dec 2025 12:19:48 +0000
-Subject: [PATCH v6 2/2] mfd: cgbc: Add support for backlight
+ s=k20201202; t=1764938188;
+ bh=40WaPL3xSyqPdfQ0BAFTST386p7tT1HulIdRWXHJkKo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=kA9jAiXM5XfELxuKU9/l9OpMOt7HLiUaJi/7R5aGry/eGkBeBaRtm1w9auQ3EGkDk
+ daZ1xEFxRCUxO2MhMrxLlHdzG/9Cu39Wj9QBJ5/OF0sQfGnnx7a4bL0FWzsUaRCSxr
+ GMcrXuuIOSvQDiqpufJzCiIGhx0LiwbHjB8F1SFsWyde9l4ZKQzGdkljBmfTpIPDTC
+ 4xkAZ58K5JMAiu3XuGb36DJ6WypdTSVnzfpxILFJJKVOd2AJZH+tgSvVDBrx/j1dAt
+ TlNwWkvcoEH28P/xAPkWqu/tbBWQw+fvin+z6lcsIWsGHpn75h1HSrTV9aQWP99VJr
+ 5h8spjUvoS/mg==
+Received: by mail-yw1-f180.google.com with SMTP id
+ 00721157ae682-78a712cfbc0so23417587b3.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 04:36:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW/oy2IZyaC/YsPZBsUmvn6Hyudupuzw0W/56TPiLzuIAfBoS8y61yHLfuf/QxENHA9srARgAf56vo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyOkiTwLk6K8N2ADxs8bztH1XE582w4R/xD+pbYHepXquCo7Vrr
+ YD+9qK/F30OjtwQH3dUqGesy/RFYQAeQ/tjsEeKGLFUodfclgNJcJ4Lf8brzUH/gJ4/dXEa25sy
+ P/uWapNEemuVQWCbAqFb0XZmBkqSNhmc=
+X-Google-Smtp-Source: AGHT+IFJmlLvuUNZfx9GIfUBDjC2grftRlFjbvDqqrPRzj/oZgXVOMBUT7kbSYooxA8gr0guXcBsmXxXrD2+uuIJcXg=
+X-Received: by 2002:a05:690c:6007:b0:784:883c:a88d with SMTP id
+ 00721157ae682-78c0c18ea37mr70979807b3.52.1764938187032; Fri, 05 Dec 2025
+ 04:36:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251205-cgbc-backlight-v6-2-e4175b0bf406@novatron.fi>
-References: <20251205-cgbc-backlight-v6-0-e4175b0bf406@novatron.fi>
-In-Reply-To: <20251205-cgbc-backlight-v6-0-e4175b0bf406@novatron.fi>
-To: Thomas Richard <thomas.richard@bootlin.com>, Lee Jones <lee@kernel.org>, 
- Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>, 
- Helge Deller <deller@gmx.de>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-fbdev@vger.kernel.org, Petri Karhula <petri.karhula@novatron.fi>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1764937189; l=730;
- i=petri.karhula@novatron.fi; s=20251118; h=from:subject:message-id;
- bh=KPNSZCbWidPbzGQwgMCbuFj/C6Dnnhi7zAXThQ+Pso8=;
- b=Yi7moofqQcbmddXD6FGj979QkC2EfgDx8hONE6czwuiqUrrRllPRru9oRtY18aIZspfHZ70Nr
- 2o3sudaAVSeAgIkLNRcBLg+jFQ0MS8lnNRgQ3VNhJQB94+aKlYq01Hp
-X-Developer-Key: i=petri.karhula@novatron.fi; a=ed25519;
- pk=LRYJ99jPPsHJwdJEPkqlmzAMqo6oyw7I421aHEfDp7o=
-X-Endpoint-Received: by B4 Relay for petri.karhula@novatron.fi/20251118
- with auth_id=567
-X-Original-From: Petri Karhula <petri.karhula@novatron.fi>
+References: <20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com>
+In-Reply-To: <20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 5 Dec 2025 13:36:15 +0100
+X-Gmail-Original-Message-ID: <CAD++jLkpWoHe5qYSABF1GeDq-9hZh7ZdL-+8Xqu5MA_erzNqsA@mail.gmail.com>
+X-Gm-Features: AQt7F2rYtL9k7rH39ohC1dih2VUr1gAYC2XO7dYs8vpOSbzH63P91fhZJWxLMZY
+Message-ID: <CAD++jLkpWoHe5qYSABF1GeDq-9hZh7ZdL-+8Xqu5MA_erzNqsA@mail.gmail.com>
+Subject: Re: [PATCH 0/4] drm: Revert and fix enable/disable sequence
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>, 
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
+ Vicente Bergas <vicencb@gmail.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,35 +87,45 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: petri.karhula@novatron.fi
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Petri Karhula <petri.karhula@novatron.fi>
+On Fri, Dec 5, 2025 at 10:52=E2=80=AFAM Tomi Valkeinen
+<tomi.valkeinen@ideasonboard.com> wrote:
 
-The Board Controller has control for display backlight.
-Add backlight cell for the cgbc-backlight driver which
-adds support for backlight brightness control.
+> Changing the enable/disable sequence in commit c9b1150a68d9
+> ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+> has caused regressions on multiple platforms: R-Car, MCDE, Rockchip.
+>
+> This is an alternate series to Linus' series:
+>
+> https://lore.kernel.org/all/20251202-mcde-drm-regression-thirdfix-v6-0-f1=
+bffd4ec0fa%40kernel.org/
+>
+> This series first reverts the original commit and reverts a fix for
+> mediatek which is no longer needed. It then exposes helper functions
+> from DRM core, and finally implements the new sequence only in the tidss
+> driver.
+>
+> There is one more fix in upstream for the original commit, commit
+> 5d91394f2361 ("drm/exynos: fimd: Guard display clock control with
+> runtime PM calls"), but I have not reverted that one as it looks like a
+> valid patch in its own.
+>
+> I added Cc stable v6.17+ to all patches, but I didn't add Fixes tags, as
+> I wasn't sure what should they point to. But I could perhaps add Fixes:
+> <original commit> to all of these.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Signed-off-by: Petri Karhula <petri.karhula@novatron.fi>
----
- drivers/mfd/cgbc-core.c | 1 +
- 1 file changed, 1 insertion(+)
+The series:
+Reviewed-by: Linus Walleij <linusw@kernel.org>
+Tested-by: Linus Walleij <linusw@kernel.org>
 
-diff --git a/drivers/mfd/cgbc-core.c b/drivers/mfd/cgbc-core.c
-index 4782ff1114a9..10bb4b414c34 100644
---- a/drivers/mfd/cgbc-core.c
-+++ b/drivers/mfd/cgbc-core.c
-@@ -237,6 +237,7 @@ static struct mfd_cell cgbc_devs[] = {
- 	{ .name = "cgbc-i2c", .id = 1 },
- 	{ .name = "cgbc-i2c", .id = 2 },
- 	{ .name = "cgbc-hwmon"	},
-+	{ .name = "cgbc-backlight" },
- };
- 
- static int cgbc_map(struct cgbc_device_data *cgbc)
+In my opinion Laurent is the more senior maintainer and my
+trust level in him is the highest of all the maintainers, so
+I think we should apply this revert series if
+Laurent ACKs that this is what he thinks is best for DRI.
 
--- 
-2.34.1
-
-
+Yours,
+Linus Walleij
