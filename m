@@ -2,56 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFAF2CA8182
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 16:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EBCECA8191
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 16:09:17 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD2B110EB4C;
-	Fri,  5 Dec 2025 15:07:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7242210EB4B;
+	Fri,  5 Dec 2025 15:09:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TAIrLK5l";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="GDDLANxJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8A74410EB4C
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 15:07:55 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 974E5601F0;
- Fri,  5 Dec 2025 15:07:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C3B9C4CEF1;
- Fri,  5 Dec 2025 15:07:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1764947274;
- bh=Btrf2pkJCWZijzZcvy/muKQ3+oGgoj6S6CYvcVWIQrk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TAIrLK5lY6tbIMZDXSaylFE0NQrndOHSyUGk0YaIxSZtnw/TdkoI3YjlqHA7OYtZO
- GTsnIpz2g1H6OBepN9YbTEtS/ML+DEM2HpHfCHI3so2uL+u4zE2MvbqhA/qGlsRNMo
- tyxAUxnmas8OwCUVJznh84YNC6ZGPLNfQV0APcvwtBvTqzt9VOiZnd8Wk5A9NW/VMJ
- qK+az0ifq91qYJ1iqtgRCctAtNyZdi1oh8lGPP8tPUqspCujiwkPu15TIpWEIzROf7
- YlJke5tJGKyHMX5s4V3BMX7Wb9HdMIHUa54sMBIYOf8dJC7FtIeKRzRAcNGna1gAsH
- Npiav9APMasgg==
-Date: Fri, 5 Dec 2025 09:07:51 -0600
-From: Rob Herring <robh@kernel.org>
-To: Maud Spierings <maudspierings@gocontroll.com>
-Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
- Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 1/4] dt-bindings: backlight: Add max25014 support
-Message-ID: <20251205150751.GA124954-robh@kernel.org>
-References: <20251201-max25014-v6-0-88e3ac8112ff@gocontroll.com>
- <20251201-max25014-v6-1-88e3ac8112ff@gocontroll.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E8CD10EB4B;
+ Fri,  5 Dec 2025 15:09:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=woKichvvwZb8tJmvhR8ixLwMeCdQ0P4FXTNQnnEDL4I=; b=GDDLANxJ10K3FkPzFiERzQYtIy
+ r98b8QpsHOsvtXxAHAN1DabbVL3Z0XVtr+cSLy5UAEaEttb7Eko0zpjHn0FLR1C8W4wXkzeS4Jnc3
+ pZl0PY5tzP3mZXGmitpGXuAESjwDbVtPEe09QMY/DC7otkdg3Tb3CQr3iw9viCxbgQX+/4h6LiMIH
+ lmFTXildd1+/r4fSyDRcUng5d6iPYsRvAZcKzW6s2dklqeHgxw0LtaUnhttsfD5CicaAzNA0i8IyF
+ NWEZmtbmsY0Zz0YBCJ1HgzWJaq9RnpkGkbVqEH0rMtk9Gr+b8QOB6aj1eDM2hjlvTvvGEmm3NYoPe
+ S2mhViWQ==;
+Received: from [90.240.106.137] (helo=localhost)
+ by fanzine2.igalia.com with utf8esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1vRXQm-0097XR-QC; Fri, 05 Dec 2025 16:09:12 +0100
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ intel-xe@lists.freedesktop.org
+Subject: [PATCH] drm/syncobj: Convert syncobj idr to xarray
+Date: Fri,  5 Dec 2025 15:09:10 +0000
+Message-ID: <20251205150910.92913-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.51.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251201-max25014-v6-1-88e3ac8112ff@gocontroll.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,162 +57,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 01, 2025 at 12:53:20PM +0100, Maud Spierings wrote:
-> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
-> with integrated boost controller.
->
-> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
-> 
-> ---
-> 
-> In the current implementation the control registers for channel 1,
-> control all channels. So only one led subnode with led-sources is
-> supported right now. If at some point the driver functionality is
-> expanded the bindings can be easily extended with it.
+IDR is deprecated and syncobj looks pretty trivial to convert so lets
+just do it.
 
-What's the relationship between the LEDs and backlight? It's a backlight 
-plus LEDs or just 4 identical channels.
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: intel-xe@lists.freedesktop.org
+---
+ drivers/gpu/drm/drm_syncobj.c | 65 +++++++++++------------------------
+ include/drm/drm_file.h        |  7 ++--
+ 2 files changed, 23 insertions(+), 49 deletions(-)
 
-> 
-> ---
->  .../bindings/leds/backlight/maxim,max25014.yaml    | 107 +++++++++++++++++++++
->  MAINTAINERS                                        |   5 +
->  2 files changed, 112 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> new file mode 100644
-> index 000000000000..e83723224b07
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> @@ -0,0 +1,107 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Maxim max25014 backlight controller
-> +
-> +maintainers:
-> +  - Maud Spierings <maudspierings@gocontroll.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - maxim,max25014
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  enable-gpios:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-supply:
-> +    description: Regulator which controls the boost converter input rail.
-> +
-> +  pwms:
-> +    maxItems: 1
-> +
-> +  maxim,iset:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maximum: 15
-> +    default: 11
-> +    description:
-> +      Value of the ISET field in the ISET register. This controls the current
-> +      scale of the outputs, a higher number means more current.
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index 0de70c8fbb99..06bb5c6c3f60 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -258,14 +258,14 @@ struct drm_syncobj *drm_syncobj_find(struct drm_file *file_private,
+ {
+ 	struct drm_syncobj *syncobj;
+ 
+-	spin_lock(&file_private->syncobj_table_lock);
++	xa_lock(&file_private->syncobj_xa);
+ 
+ 	/* Check if we currently have a reference on the object */
+-	syncobj = idr_find(&file_private->syncobj_idr, handle);
++	syncobj = xa_load(&file_private->syncobj_xa, handle);
+ 	if (syncobj)
+ 		drm_syncobj_get(syncobj);
+ 
+-	spin_unlock(&file_private->syncobj_table_lock);
++	xa_unlock(&file_private->syncobj_xa);
+ 
+ 	return syncobj;
+ }
+@@ -606,23 +606,15 @@ int drm_syncobj_get_handle(struct drm_file *file_private,
+ {
+ 	int ret;
+ 
+-	/* take a reference to put in the idr */
++	/* take a reference to put in the xarray */
+ 	drm_syncobj_get(syncobj);
+ 
+-	idr_preload(GFP_KERNEL);
+-	spin_lock(&file_private->syncobj_table_lock);
+-	ret = idr_alloc(&file_private->syncobj_idr, syncobj, 1, 0, GFP_NOWAIT);
+-	spin_unlock(&file_private->syncobj_table_lock);
+-
+-	idr_preload_end();
+-
+-	if (ret < 0) {
++	ret = xa_alloc(&file_private->syncobj_xa, handle, syncobj, xa_limit_32b,
++		       GFP_NOWAIT);
++	if (ret)
+ 		drm_syncobj_put(syncobj);
+-		return ret;
+-	}
+ 
+-	*handle = ret;
+-	return 0;
++	return ret;
+ }
+ EXPORT_SYMBOL(drm_syncobj_get_handle);
+ 
+@@ -646,10 +638,7 @@ static int drm_syncobj_destroy(struct drm_file *file_private,
+ {
+ 	struct drm_syncobj *syncobj;
+ 
+-	spin_lock(&file_private->syncobj_table_lock);
+-	syncobj = idr_remove(&file_private->syncobj_idr, handle);
+-	spin_unlock(&file_private->syncobj_table_lock);
+-
++	syncobj = xa_erase(&file_private->syncobj_xa, handle);
+ 	if (!syncobj)
+ 		return -EINVAL;
+ 
+@@ -730,20 +719,13 @@ static int drm_syncobj_fd_to_handle(struct drm_file *file_private,
+ 	if (fd_file(f)->f_op != &drm_syncobj_file_fops)
+ 		return -EINVAL;
+ 
+-	/* take a reference to put in the idr */
++	/* take a reference to put in the xarray */
+ 	syncobj = fd_file(f)->private_data;
+ 	drm_syncobj_get(syncobj);
+ 
+-	idr_preload(GFP_KERNEL);
+-	spin_lock(&file_private->syncobj_table_lock);
+-	ret = idr_alloc(&file_private->syncobj_idr, syncobj, 1, 0, GFP_NOWAIT);
+-	spin_unlock(&file_private->syncobj_table_lock);
+-	idr_preload_end();
+-
+-	if (ret > 0) {
+-		*handle = ret;
+-		ret = 0;
+-	} else
++	ret = xa_alloc(&file_private->syncobj_xa, handle, syncobj, xa_limit_32b,
++		       GFP_NOWAIT);
++	if (ret)
+ 		drm_syncobj_put(syncobj);
+ 
+ 	return ret;
+@@ -822,17 +804,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+ void
+ drm_syncobj_open(struct drm_file *file_private)
+ {
+-	idr_init_base(&file_private->syncobj_idr, 1);
+-	spin_lock_init(&file_private->syncobj_table_lock);
+-}
+-
+-static int
+-drm_syncobj_release_handle(int id, void *ptr, void *data)
+-{
+-	struct drm_syncobj *syncobj = ptr;
+-
+-	drm_syncobj_put(syncobj);
+-	return 0;
++	xa_init_flags(&file_private->syncobj_xa, XA_FLAGS_ALLOC1);
+ }
+ 
+ /**
+@@ -846,9 +818,12 @@ drm_syncobj_release_handle(int id, void *ptr, void *data)
+ void
+ drm_syncobj_release(struct drm_file *file_private)
+ {
+-	idr_for_each(&file_private->syncobj_idr,
+-		     &drm_syncobj_release_handle, file_private);
+-	idr_destroy(&file_private->syncobj_idr);
++	struct drm_syncobj *syncobj;
++	unsigned long handle;
++
++	xa_for_each(&file_private->syncobj_xa, handle, syncobj)
++		drm_syncobj_put(syncobj);
++	xa_destroy(&file_private->syncobj_xa);
+ }
+ 
+ int
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index 04cad0c61513..99c71ec3ad44 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -34,6 +34,7 @@
+ #include <linux/types.h>
+ #include <linux/completion.h>
+ #include <linux/idr.h>
++#include <linux/xarray.h>
+ 
+ #include <uapi/drm/drm.h>
+ 
+@@ -320,10 +321,8 @@ struct drm_file {
+ 	/** @table_lock: Protects @object_idr. */
+ 	spinlock_t table_lock;
+ 
+-	/** @syncobj_idr: Mapping of sync object handles to object pointers. */
+-	struct idr syncobj_idr;
+-	/** @syncobj_table_lock: Protects @syncobj_idr. */
+-	spinlock_t syncobj_table_lock;
++	/** @syncobj_xa: Mapping of sync object handles to object pointers. */
++	struct xarray syncobj_xa;
+ 
+ 	/** @filp: Pointer to the core file structure. */
+ 	struct file *filp;
+-- 
+2.51.1
 
-We have properties for setting the current (in uA). That can't work 
-here?
-
-> +
-> +  led@0:
-> +    type: object
-> +    description: Properties for a string of connected LEDs.
-> +    $ref: common.yaml#
-> +
-> +    properties:
-> +      reg:
-> +        const: 0
-> +
-> +      led-sources:
-> +        allOf:
-> +          - minItems: 1
-> +            maxItems: 4
-> +            items:
-> +              minimum: 0
-> +              maximum: 3
-> +            default: [0, 1, 2, 3]
-> +
-> +      default-brightness:
-> +        minimum: 0
-> +        maximum: 100
-> +        default: 50
-> +
-> +    required:
-> +      - reg
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        backlight@6f {
-> +            compatible = "maxim,max25014";
-> +            reg = <0x6f>;
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            enable-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
-> +            interrupt-parent = <&gpio1>;
-> +            interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
-> +            power-supply = <&reg_backlight>;
-> +            pwms = <&pwm1>;
-> +            maxim,iset = <7>;
-> +
-> +            led@0 {
-> +                reg = <0>;
-> +                led-sources = <0 1 2 3>;
-> +                default-brightness = <50>;
-> +            };
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 58c7e3f678d8..606ce086f758 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15261,6 +15261,11 @@ F:	Documentation/userspace-api/media/drivers/max2175.rst
->  F:	drivers/media/i2c/max2175*
->  F:	include/uapi/linux/max2175.h
->  
-> +MAX25014 BACKLIGHT DRIVER
-> +M:	Maud Spierings <maudspierings@gocontroll.com>
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
-> +
->  MAX31335 RTC DRIVER
->  M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
->  L:	linux-rtc@vger.kernel.org
-> 
-> -- 
-> 2.52.0
-> 
