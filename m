@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B95CA758C
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 12:19:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCD5ACA75E6
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 12:27:55 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C30210E108;
-	Fri,  5 Dec 2025 11:19:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF50610E1F8;
+	Fri,  5 Dec 2025 11:27:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="g8VsXibj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bcddaSkC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BE0E10E108;
- Fri,  5 Dec 2025 11:19:03 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E04710E1F8;
+ Fri,  5 Dec 2025 11:27:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764933543; x=1796469543;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=7WJSGU/0yILKGIXxm1WzCJo9clf0W8U5PC6ns58vYMM=;
- b=g8VsXibjKHReJcnPYUkZQhRKYMKFaGH6ZgYglen67JcL9JWP5rydR5fX
- se4bYS83yl4htcfLwUdjFn2iao6rGHJkwk244EYstaH0J7kaU23itDYjW
- jyJhuhKKSBE8fTo2IGDVHYg9nMCcrtKLBMuM8cFNExr0lEYh2SU8aYEv0
- Qc0AxbZum0Ny8VO0/kqgpzucm2WY3YXNO0/YpEPimqEmTspjeUJhQpjAc
- lyGHye7SO0nTNM9xJRHy9YzOPLSZQanxmjaq7E0OObhh9udV9qCLvIRJ8
- bnHsipvSX1iW+hWfqNIYHTCDxAdluaLWMHZUhyBtC3tr3EGXnkXFTdEIz Q==;
-X-CSE-ConnectionGUID: enW1/nSRTEyC9eB+hYZppA==
-X-CSE-MsgGUID: gZ/P7Ts4SGKMZeAXdkZN8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="70585111"
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="70585111"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2025 03:19:02 -0800
-X-CSE-ConnectionGUID: qFwCkogeT1W6MJDro6kkaw==
-X-CSE-MsgGUID: Pck7QiBDR/C8deE51SuAeA==
+ t=1764934070; x=1796470070;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=DuAGaIue/e6aYCC6/JpTfAb6UPMC/P66H0IzNhPAd9E=;
+ b=bcddaSkC98lP+9y3NEuvBIm3ThS8pxngleecC2wgcRvrw+SkRjA5m5bn
+ sAdtGBmfHPo07DRN6kALG7Hx3QEXMkQlWRoPz4p8wnQNC53+kqBgvFC/z
+ BBeX/o3rZtGSl643RMYJ2Dxk4Q6AYaqskzXQ1q3KXQ1/z2dgGck5saVny
+ oMLdyofF1/347ZDdSVmcCVzfhbVxUt0p5lnK+2Mf814eZ87LnTbNDM/UX
+ +q+gzNHrJpnqGZaeuELubkCIfq7WZFDnWzbzYC6UytGBFZXJ/IsI8FhMI
+ 7W2JkgHk738sZ8r/I9cnI3Znf34FvhRL93UaiMbMuvW58WoI0Axc/SwWR w==;
+X-CSE-ConnectionGUID: uoZ9nSDwRpygrfOeposvCw==
+X-CSE-MsgGUID: 4JxAxYaRRh6JnG8uckWxKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="65968416"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="65968416"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2025 03:27:50 -0800
+X-CSE-ConnectionGUID: 5SVsSBJZSceHXjk8rhQNAw==
+X-CSE-MsgGUID: WfSpz+nQTpmLOFqaNAXfTg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="195300484"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="232650301"
 Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
  ([10.245.246.65])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2025 03:18:59 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Tvrtko Ursulin <tursulin@ursulin.net>, Ard Biesheuvel <ardb@kernel.org>
-Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i195: Fix format string truncation warning
-In-Reply-To: <f33b29bb-72bd-4925-adb6-e8cd5267c142@ursulin.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251107164240.2023366-2-ardb+git@google.com>
- <14ca1b28-df1d-4065-ad7a-97a3ff81a5a4@ursulin.net>
- <CAMj1kXEgfykaf9oB4_tuAQqwXDN+NLy_Hb_+RnQmeicVgKt0bA@mail.gmail.com>
- <CAMj1kXFLaOZMXsUsvrshkwhvJSWm3V_iZB3n1rga=Q6zwrVY_g@mail.gmail.com>
- <f33b29bb-72bd-4925-adb6-e8cd5267c142@ursulin.net>
-Date: Fri, 05 Dec 2025 13:18:55 +0200
-Message-ID: <cd911303d0aa820ff5c478b2759f3301096a618c@intel.com>
+ by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2025 03:27:49 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: tzimmermann@suse.de, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, jani.nikula@intel.com
+Subject: [PATCH v3 00/25] drm/vblank: refactoring and cleanups
+Date: Fri,  5 Dec 2025 13:27:16 +0200
+Message-ID: <cover.1764933891.git.jani.nikula@intel.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Content-Type: text/plain
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,31 +69,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 05 Dec 2025, Tvrtko Ursulin <tursulin@ursulin.net> wrote:
-> On 05/12/2025 10:48, Ard Biesheuvel wrote:
->> OK, so something like
->> 
->> --- a/drivers/gpu/drm/i915/intel_memory_region.h
->> +++ b/drivers/gpu/drm/i915/intel_memory_region.h
->> @@ -72,7 +72,7 @@ struct intel_memory_region {
->>          u16 instance;
->>          enum intel_region_id id;
->>          char name[16];
->> -       char uabi_name[16];
->> +       char uabi_name[20];
->>          bool private; /* not for userspace */
->> 
->>          struct {
->
-> Yes please. There is only two of those objects at majority of systems, 
-> and 3-4 on a few discrete cards supported by i915, so no big deal to 
-> grow them a tiny bit.
+v3 of [1], just a resend to dri-devel, which I forgot to add, and
+Thomas' R-b's, which I also forgot to add, in v2.
 
-For v2, please also fix the subject prefix: drm/i915.
+Fingers crossed I don't fumble it this time.
 
 BR,
 Jani.
 
 
+[1] https://lore.kernel.org/r/cover.1764845757.git.jani.nikula@intel.com
+
+
+Jani Nikula (24):
+  drm/vblank: remove drm_wait_one_vblank() completely
+  drm/vblank: remove superfluous pipe check
+  drm/vblank: add return value to drm_crtc_wait_one_vblank()
+  drm/vblank: limit vblank variable scope to atomic
+  drm/vblank: use the drm_vblank_crtc() and drm_crtc_vblank_crtc()
+    helpers more
+  drm/vblank: prefer drm_crtc_vblank_crtc() over drm_vblank_crtc()
+  drm/vblank: pass vlank to drm_vblank_get()/_put()/_count()
+  drm/vblank: pass vblank to drm_update_vblank_count()
+  drm/vblank: pass vblank to drm_handle_vblank_events()
+  drm/vblank: use the vblank based interfaces more
+  drm/vblank: pass vblank to drm_queue_vblank_event()
+  drm/vblank: pass vblank to drm_wait_vblank_reply()
+  drm/vblank: pass vblank to drm_vblank_count_and_time()
+  drm/vblank: pass vblank to drm_reset_vblank_timestamp()
+  drm/vblank: pass vblank to store_vblank()
+  drm/vblank: pass vblank to drm_vblank_enable()
+  drm/vblank: merge drm_vblank_restore() into drm_crtc_vblank_restore()
+  drm/vblank: add drm_crtc_from_vblank() helper
+  drm/vblank: pass vblank to __get_vblank_counter() and
+    drm_max_vblank_count()
+  drm/vblank: pass vblank to __{enable,disable}_vblank()
+  drm/vblank: pass vblank to drm_get_last_vbltimestamp()
+  drm/vblank: pass vblank to drm_vblank_disable_and_save(), make static
+  drm/vblank: reduce pipe checks
+  drm/vblank: clean up debug logging
+
+Thomas Zimmermann (1):
+  drm/vblank: Unexport drm_wait_one_vblank()
+
+ drivers/gpu/drm/drm_internal.h    |   7 +-
+ drivers/gpu/drm/drm_vblank.c      | 533 ++++++++++++++----------------
+ drivers/gpu/drm/drm_vblank_work.c |  12 +-
+ include/drm/drm_vblank.h          |   3 +-
+ 4 files changed, 257 insertions(+), 298 deletions(-)
+
 -- 
-Jani Nikula, Intel
+2.47.3
+
