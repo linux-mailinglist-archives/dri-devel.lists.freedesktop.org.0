@@ -2,61 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0B17CA7513
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 12:10:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC7A8CA7537
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 12:13:22 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45BDF10E049;
-	Fri,  5 Dec 2025 11:10:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABE7410EAC0;
+	Fri,  5 Dec 2025 11:13:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XToLJXpD";
+	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="jf6QAS6i";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C2D5210E049
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 11:10:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764933051; x=1796469051;
- h=message-id:date:mime-version:subject:to:references:from:
- in-reply-to:content-transfer-encoding;
- bh=pGopNyeHsvBW3go2mhsIpNS7bzOqTQ9RMlM6PkX0h+Y=;
- b=XToLJXpDmZNOcGHFjik3E3x8jXZJc5g4lxW27BXIIHpoUoPUPuVKfTU1
- 96OM9WmcuqJul+Mm2UmB/i24vborKgu5EKZ93oV8F7cq/cqkX4+ey2G1f
- 5tcNxS2qhVUiZfU8cn6trlBEGr69t1vAAghmgnls35zl7JRCk+XLHqwcP
- ULVCAeYMs4K7o3sIeGFm9RSg+AZCX/AcLqLgxbCFfgag1+TH+q/97N4NZ
- Iwrt21cl9mC5vcOp6KYoefP4CV2nxyy180FkR4zC5CmKfESKqAMXkC2fb
- 0XNXVGwEMjtp1lh+o4d+TL/D5TB0c+95EKNraryHCgD0nK8BH/56O/OoC A==;
-X-CSE-ConnectionGUID: reV3+1kSQ5e4z408KKTrzw==
-X-CSE-MsgGUID: sLCJXrj5R4CI9qkCVrAJLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66689792"
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="66689792"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2025 03:10:51 -0800
-X-CSE-ConnectionGUID: cF6XzfUWQIilNYFQQ9wzQw==
-X-CSE-MsgGUID: GbtHloDOSLy5SmLUPkF1Mw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="195706412"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.244.110])
- ([10.245.244.110])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2025 03:10:50 -0800
-Message-ID: <23d8391c-4568-4b31-acb3-9426b0bf085e@intel.com>
-Date: Fri, 5 Dec 2025 11:10:47 +0000
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+ [209.85.128.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C90C010EAC0
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 11:13:17 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id
+ 5b1f17b1804b1-4775e891b5eso10109885e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 03:13:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ursulin.net; s=google; t=1764933196; x=1765537996; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=S+WodKuxsAcIaiFl8vrv/vlH2xW1X4fsVn0hYeqa028=;
+ b=jf6QAS6itudHOH6tiwkXVVNSvMr4bvf4MDV/WqIEUiUiJDOVL2GD8HIny/T1auGZ4W
+ wj6mIBBGmudTDGQGRj4NvHN+4kXJqE/jmh9azIfaiUkYVeGbVx0qWE1zcnslElc/z/sM
+ vFqbTWQsBmWZ5Pxpg6NLY4RQmJolUIv/qCaa27iRt9R1kVaTr77SAkhXxpEvqfUl/DNq
+ 3VDX+UyD2FUoL/RhV3Wd5lMshZRT22i6NLiCNT8w/3O2GrJeuJwBRqUUNZxIGm6qhPfz
+ yBY6DoPxEKbfAq8aWgbqh9b16MvKYn6SeDoKdNv8JIWVF2XiHXdSXmDzrAuS2lMixcy+
+ PMkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764933196; x=1765537996;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=S+WodKuxsAcIaiFl8vrv/vlH2xW1X4fsVn0hYeqa028=;
+ b=lEmloODzGwBtBNagZ5JoPykkTt+6S8cebaNml+WKR/NZxXn6ZqgfG9VZsSFO4v5MwT
+ rJujKVGJm1ggltR7HV/1tdr4rnxu02za0GtF56TXkEZLHX0QYWzCCGPbVy6kvuwDO3g4
+ rto2XxVfKEsrLThWkQzbfGZehn4dMw/e1nUgDM9TAhjL/jUdIk9XfLSvuhbKjMTmqp4d
+ Kvoo6HA7+FzZUN/BBmGWuuWLfv00ISFK1NHFN6FscBqN8jJTkdyvl6miirMniH3Zi2P4
+ cDTzzin6gTXx6iUvupXf9XhjxEVNKG23jmMqxTV2xphgEvgRaMc9UtOhLD/NfhPBzR1q
+ W+IA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXw+AWSO3y6nJDHf4UHOgliQnzymF541LzXDGVK5LWQBuiCrjKGU0KEAbEB0ZMpa6kIOl6FFQ0KovE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzpUw6lNuiInATohkG2iMqIoWm7pQ5sKs5p9TevAihpNl26duSy
+ V7OPHqyvu1WLSTos568ITCxxiALB9YmCDYN8GUpbDVH2EHe5eKWS+GvwiWM1C5PPQrM=
+X-Gm-Gg: ASbGncu2XjstXDdsMCFRVTT6NwMe/hdM/j80GJiaWYdbOl5zXsxs6VzO2iFmEwnk/wk
+ AflDuP83s2Dmvp4JfA7aiTMrf7Va2v3XI42a6/VQ3HgAvBSvpcsMzP0ZKHdFB7nabCSSdjrZoR9
+ PDxhnjJZTW4ARWMKodpmRtID+vtCf36M/Sxy1jupvNWlO1uM3uggzrRVtNPT6AxX8xmsYAxCQt4
+ D0DvRqIkulrI2q09DPUjVOIaiFDokXHiA50I0iMNQBrDt53pTLVd2aykJyiSurFS8C2VesnmDvi
+ 1/F8HYc7CJ1wSNBK/W9zw4SpPipXL1bt4TZGuUxmFzZq/XGDauWRsruAuy0cbgKrAa4ZxKriRV3
+ 9t3sPPUtKhKu5+071wSMGBFkZl0JU3CkeofHFF70KnsZKNDe4Kvrtwn5sZO1C+2D5z0kZEg5QRo
+ 2dMkWqQfOrT+xtdjFOmEc0BFvlYns+Te2J
+X-Google-Smtp-Source: AGHT+IHWFWMng59b4w4U1rlU2HcWmiW9XpOp5yfe1/AglWE2uY9Sbb4A7lkyow1PeMTpYULiYugI0A==
+X-Received: by 2002:a05:600c:458d:b0:479:2a09:9262 with SMTP id
+ 5b1f17b1804b1-4792aeea47amr82087805e9.9.1764933196049; 
+ Fri, 05 Dec 2025 03:13:16 -0800 (PST)
+Received: from [192.168.0.101] ([90.240.106.137])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-42f7d2226c5sm8398656f8f.23.2025.12.05.03.13.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Dec 2025 03:13:15 -0800 (PST)
+Message-ID: <f33b29bb-72bd-4925-adb6-e8cd5267c142@ursulin.net>
+Date: Fri, 5 Dec 2025 11:13:15 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dma-buf: improve sg_table debugging hack v2
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- sumit.semwal@linaro.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- simona.vetter@ffwll.ch
-References: <20251204145952.7052-1-christian.koenig@amd.com>
- <3e09719d-af1b-4c5d-83fb-6ef5f41739b5@intel.com>
- <e21cc071-0133-4b07-a52f-67ed4d80cbcd@gmail.com>
+Subject: Re: [PATCH] drm/i195: Fix format string truncation warning
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: Ard Biesheuvel <ardb+git@google.com>, linux-kernel@vger.kernel.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20251107164240.2023366-2-ardb+git@google.com>
+ <14ca1b28-df1d-4065-ad7a-97a3ff81a5a4@ursulin.net>
+ <CAMj1kXEgfykaf9oB4_tuAQqwXDN+NLy_Hb_+RnQmeicVgKt0bA@mail.gmail.com>
+ <CAMj1kXFLaOZMXsUsvrshkwhvJSWm3V_iZB3n1rga=Q6zwrVY_g@mail.gmail.com>
 Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <e21cc071-0133-4b07-a52f-67ed4d80cbcd@gmail.com>
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <CAMj1kXFLaOZMXsUsvrshkwhvJSWm3V_iZB3n1rga=Q6zwrVY_g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,158 +100,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05/12/2025 10:41, Christian König wrote:
-> On 12/4/25 16:51, Matthew Auld wrote:
->> On 04/12/2025 14:59, Christian König wrote:
->>> This debugging hack is important to enforce the rule that importers
->>> should *never* touch the underlying struct page of the exporter.
->>>
->>> Instead of just mangling the page link create a copy of the sg_table
->>> but only copy over the DMA addresses and not the pages.
->>>
->>> This will cause a NULL pointer de-reference if the importer tries to
->>> touch the struct page. Still quite a hack but this at least allows the
->>> exporter to properly keeps it's sg_table intact while allowing the
->>> DMA-buf maintainer to find and fix misbehaving importers and finally
->>> switch over to using a different data structure in the future.
->>>
->>> v2: improve the hack further by using a wrapper structure and explaining
->>> the background a bit more in the commit message.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com> (v1)
->>> ---
->>>    drivers/dma-buf/dma-buf.c | 72 +++++++++++++++++++++++++++++++--------
->>>    1 file changed, 58 insertions(+), 14 deletions(-)
->>>
->>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->>> index 2305bb2cc1f1..8c4afd360b72 100644
->>> --- a/drivers/dma-buf/dma-buf.c
->>> +++ b/drivers/dma-buf/dma-buf.c
->>> @@ -35,6 +35,12 @@
->>>      #include "dma-buf-sysfs-stats.h"
->>>    +/* Wrapper to hide the sg_table page link from the importer */
->>> +struct dma_buf_sg_table_wrapper {
->>> +    struct sg_table *original;
->>> +    struct sg_table wrapper;
->>> +};
->>> +
->>>    static inline int is_dma_buf_file(struct file *);
->>>      static DEFINE_MUTEX(dmabuf_list_mutex);
->>> @@ -828,21 +834,57 @@ void dma_buf_put(struct dma_buf *dmabuf)
->>>    }
->>>    EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
->>>    -static void mangle_sg_table(struct sg_table *sg_table)
->>> +static int dma_buf_mangle_sg_table(struct sg_table **sg_table)
->>>    {
->>> -#ifdef CONFIG_DMABUF_DEBUG
->>> -    int i;
->>> -    struct scatterlist *sg;
->>> -
->>> -    /* To catch abuse of the underlying struct page by importers mix
->>> -     * up the bits, but take care to preserve the low SG_ bits to
->>> -     * not corrupt the sgt. The mixing is undone on unmap
->>> -     * before passing the sgt back to the exporter.
->>> +    struct scatterlist *to_sg, *from_sg;
->>> +    struct sg_table *from = *sg_table;
->>> +    struct dma_buf_sg_table_wrapper *to;
->>> +    int i, ret;
->>> +
->>> +    if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
->>> +        return 0;
->>> +
->>> +    /*
->>> +     * To catch abuse of the underlying struct page by importers copy the
->>> +     * sg_table without copying the page_link and give only the copy back to
->>> +     * the importer.
->>>         */
->>> -    for_each_sgtable_sg(sg_table, sg, i)
->>> -        sg->page_link ^= ~0xffUL;
->>> -#endif
->>> +    to = kzalloc(sizeof(*to), GFP_KERNEL);
->>> +    if (!to)
->>> +        return -ENOMEM;
->>> +
->>> +    ret = sg_alloc_table(&to->wrapper, from->nents, GFP_KERNEL);
->>> +    if (ret)
->>> +        goto free_to;
->>> +
->>> +    to_sg = to->wrapper.sgl;
->>> +    for_each_sgtable_dma_sg(from, from_sg, i) {
->>> +        sg_set_page(to_sg, NULL, 0, 0);
->>
->> Are we still allowed to pass NULL page here? There looks to be the recently added:
->>
->> VM_WARN_ON_ONCE(!page_range_contiguous(page, ALIGN(len + offset, PAGE_SIZE) / PAGE_SIZE));
->>
->> And if page_range_contiguous() does not just return true, it potentially wants to dereference the page, like with page_to_pfn()?
-> 
-> Good point.
-> 
-> It doesn't crash at the moment because page_to_pfn() also works with NULL as page, but it is clearly not the nicest thing to do.
 
-There does look to be:
+On 05/12/2025 10:48, Ard Biesheuvel wrote:
+> On Sun, 9 Nov 2025 at 19:00, Ard Biesheuvel <ardb@kernel.org> wrote:
+>>
+>> On Sat, 8 Nov 2025 at 01:27, Tvrtko Ursulin <tursulin@ursulin.net> wrote:
+>>>
+>>>
+>>> On 07/11/2025 16:42, Ard Biesheuvel wrote:
+>>>> From: Ard Biesheuvel <ardb@kernel.org>
+>>>>
+>>>> GCC notices that the 16-byte uabi_name field could theoretically be too
+>>>> small for the formatted string if the instance number exceeds 100.
+>>>>
+>>>> Given that there are apparently ABI concerns here, this is the minimal
+>>>> fix that shuts up the compiler without changing the output or the
+>>>> maximum length for existing values < 100.
+>>>
+>>> What would be those ABI concerns? I don't immediately see any.
+>>>> drivers/gpu/drm/i915/intel_memory_region.c: In function ‘intel_memory_region_create’:
+>>>> drivers/gpu/drm/i915/intel_memory_region.c:273:61: error: ‘%u’ directive output may be truncated writing between 1 and 5 bytes into a region of size between 3 and 11 [-Werror=format-truncation=]
+>>>>     273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
+>>>>         |                                                             ^~
+>>>> drivers/gpu/drm/i915/intel_memory_region.c:273:58: note: directive argument in the range [0, 65535]
+>>>>     273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
+>>>>         |                                                          ^~~~~~
+>>>> drivers/gpu/drm/i915/intel_memory_region.c:273:9: note: ‘snprintf’ output between 7 and 19 bytes into a destination of size 16
+>>>>     273 |         snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
+>>>>         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>     274 |                  intel_memory_type_str(type), instance);
+>>>>         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>>>
+>>>> Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+>>>> ---
+>>>> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+>>>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>>>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>>>> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+>>>> Cc: David Airlie <airlied@gmail.com>
+>>>> Cc: Simona Vetter <simona@ffwll.ch>
+>>>> Cc: intel-gfx@lists.freedesktop.org
+>>>> Cc: dri-devel@lists.freedesktop.org
+>>>>
+>>>> This is unlikely to be the right fix, but sending a wrong patch is
+>>>> usually a better way to elicit a response than just sending a bug
+>>>> report.
+>>>>
+>>>>    drivers/gpu/drm/i915/intel_memory_region.c | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
+>>>> index 59bd603e6deb..ad4afcf0c58a 100644
+>>>> --- a/drivers/gpu/drm/i915/intel_memory_region.c
+>>>> +++ b/drivers/gpu/drm/i915/intel_memory_region.c
+>>>> @@ -271,7 +271,7 @@ intel_memory_region_create(struct drm_i915_private *i915,
+>>>>        mem->instance = instance;
+>>>>
+>>>>        snprintf(mem->uabi_name, sizeof(mem->uabi_name), "%s%u",
+>>>> -              intel_memory_type_str(type), instance);
+>>>> +              intel_memory_type_str(type), instance % 100);
+>>> It's a theoretical issue only since there is no hardware with a double
+>>> digit number of instances.
+>>>
+>>> But I guess much prettier fix would be to simply grow the buffer.
+>>>
+>>
+> 
+> OK, so something like
+> 
+> --- a/drivers/gpu/drm/i915/intel_memory_region.h
+> +++ b/drivers/gpu/drm/i915/intel_memory_region.h
+> @@ -72,7 +72,7 @@ struct intel_memory_region {
+>          u16 instance;
+>          enum intel_region_id id;
+>          char name[16];
+> -       char uabi_name[16];
+> +       char uabi_name[20];
+>          bool private; /* not for userspace */
+> 
+>          struct {
 
-https://elixir.bootlin.com/linux/v6.18/source/include/asm-generic/memory_model.h#L56
+Yes please. There is only two of those objects at majority of systems, 
+and 3-4 on a few discrete cards supported by i915, so no big deal to 
+grow them a tiny bit.
 
-So not completely sure it can't crash here?
+>>> Also, hm, how come gcc does not find the mem->name vsnprintf from
+>>> intel_memory_region_set_name?
+>>>
+>>
+> 
+> AFAICT, intel_memory_region_set_name() is never called with a format
+> string that could produce more than 15/16 bytes of output.
 
-> 
-> I will switch over to using sg_assign_page() instead.
-> 
->>
->>
->>> +                sg_dma_address(to_sg) = sg_dma_address(from_sg);
->>> +                sg_dma_len(to_sg) = sg_dma_len(from_sg);
->>
->> Nit: formatting looks off here.
-> 
-> Oh, indeed.
-> 
-> Thanks,
-> Christian.
-> 
->>
->>> +        to_sg = sg_next(to_sg);
->>> +    }
->>>    +    to->original = from;
->>> +    *sg_table = &to->wrapper;
->>> +    return 0;
->>> +
->>> +free_to:
->>> +    kfree(to);
->>> +    return ret;
->>> +}
->>> +
->>> +static void dma_buf_demangle_sg_table(struct sg_table **sg_table)
->>> +{
->>> +    struct dma_buf_sg_table_wrapper *copy;
->>> +
->>> +    if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
->>> +        return;
->>> +
->>> +    copy = container_of(*sg_table, typeof(*copy), wrapper);
->>> +    *sg_table = copy->original;
->>> +    sg_free_table(&copy->wrapper);
->>> +    kfree(copy);
->>>    }
->>>      static inline bool
->>> @@ -1139,7 +1181,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
->>>            if (ret < 0)
->>>                goto error_unmap;
->>>        }
->>> -    mangle_sg_table(sg_table);
->>> +    ret = dma_buf_mangle_sg_table(&sg_table);
->>> +    if (ret)
->>> +        goto error_unmap;
->>>          if (IS_ENABLED(CONFIG_DMA_API_DEBUG)) {
->>>            struct scatterlist *sg;
->>> @@ -1220,7 +1264,7 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
->>>          dma_resv_assert_held(attach->dmabuf->resv);
->>>    -    mangle_sg_table(sg_table);
->>> +    dma_buf_demangle_sg_table(&sg_table);
->>>        attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
->>>          if (dma_buf_pin_on_map(attach))
->>
-> 
+Right, I reminded myself that the non-uabi visible name does not have 
+the instance number in it.
+
+Regards,
+
+Tvrtko
 
