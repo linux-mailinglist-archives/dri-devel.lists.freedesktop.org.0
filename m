@@ -2,77 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF93CA7F95
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 15:35:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFAF2CA8182
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 16:07:58 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D69DE10E25C;
-	Fri,  5 Dec 2025 14:35:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD2B110EB4C;
+	Fri,  5 Dec 2025 15:07:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="F4NoGPDc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TAIrLK5l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 577 seconds by postgrey-1.36 at gabe;
- Fri, 05 Dec 2025 14:35:35 UTC
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A372410E25C
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 14:35:35 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20251205142556euoutp017e92b74afbcb5f61d9fca588842bb178~_V_egOsz02649926499euoutp01E
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 14:25:56 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20251205142556euoutp017e92b74afbcb5f61d9fca588842bb178~_V_egOsz02649926499euoutp01E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1764944756;
- bh=6gmqcOwSNc0+xhzL2UsZFCz72iWFcGpUCCkzE2dmMWA=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=F4NoGPDcG2LPkzlCRHCJrQdt7ggfb1R20wG+ILP7OURnlGKEu5jogmZcG73MZwegx
- VhtNsYtFdcpzIf0fBX5yIQ30ttmmFtM4PuEBdFNe59bQ3qlKeiHuq00UxvE5r0eyRj
- Jc+4Yub/CsoXVnqZFJJ88gWVoQ0eOsVo8gCnWuZs=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20251205142555eucas1p2e96cf9def9641e26e060f05139d24941~_V_d9WlrN2971629716eucas1p2H;
- Fri,  5 Dec 2025 14:25:55 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20251205142553eusmtip11d66a1f54e847d5d4b609dd79aef82bb~_V_b7m79k0312503125eusmtip1E;
- Fri,  5 Dec 2025 14:25:53 +0000 (GMT)
-Message-ID: <b2f3e15c-1a15-427d-90d9-ea0e33b50ecb@samsung.com>
-Date: Fri, 5 Dec 2025 15:25:52 +0100
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A74410EB4C
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 15:07:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 974E5601F0;
+ Fri,  5 Dec 2025 15:07:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C3B9C4CEF1;
+ Fri,  5 Dec 2025 15:07:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1764947274;
+ bh=Btrf2pkJCWZijzZcvy/muKQ3+oGgoj6S6CYvcVWIQrk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TAIrLK5lY6tbIMZDXSaylFE0NQrndOHSyUGk0YaIxSZtnw/TdkoI3YjlqHA7OYtZO
+ GTsnIpz2g1H6OBepN9YbTEtS/ML+DEM2HpHfCHI3so2uL+u4zE2MvbqhA/qGlsRNMo
+ tyxAUxnmas8OwCUVJznh84YNC6ZGPLNfQV0APcvwtBvTqzt9VOiZnd8Wk5A9NW/VMJ
+ qK+az0ifq91qYJ1iqtgRCctAtNyZdi1oh8lGPP8tPUqspCujiwkPu15TIpWEIzROf7
+ YlJke5tJGKyHMX5s4V3BMX7Wb9HdMIHUa54sMBIYOf8dJC7FtIeKRzRAcNGna1gAsH
+ Npiav9APMasgg==
+Date: Fri, 5 Dec 2025 09:07:51 -0600
+From: Rob Herring <robh@kernel.org>
+To: Maud Spierings <maudspierings@gocontroll.com>
+Cc: Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6 1/4] dt-bindings: backlight: Add max25014 support
+Message-ID: <20251205150751.GA124954-robh@kernel.org>
+References: <20251201-max25014-v6-0-88e3ac8112ff@gocontroll.com>
+ <20251201-max25014-v6-1-88e3ac8112ff@gocontroll.com>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH 0/4] drm: Revert and fix enable/disable sequence
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Dmitry
- Baryshkov <lumag@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Jyri Sarha <jyri.sarha@iki.fi>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>, Aradhya Bhatia
- <aradhya.bhatia@linux.dev>, Linus Walleij <linusw@kernel.org>, Chaoyi Chen
- <chaoyi.chen@rock-chips.com>, Vicente Bergas <vicencb@gmail.com>, Marek
- Vasut <marek.vasut+renesas@mailbox.org>, stable@vger.kernel.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20251205142555eucas1p2e96cf9def9641e26e060f05139d24941
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20251205095238eucas1p1b7cf95d86a9aecf19877ac568148e265
-X-EPHeader: CA
-X-CMS-RootMailID: 20251205095238eucas1p1b7cf95d86a9aecf19877ac568148e265
-References: <CGME20251205095238eucas1p1b7cf95d86a9aecf19877ac568148e265@eucas1p1.samsung.com>
- <20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251201-max25014-v6-1-88e3ac8112ff@gocontroll.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,54 +67,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05.12.2025 10:51, Tomi Valkeinen wrote:
-> Changing the enable/disable sequence in commit c9b1150a68d9
-> ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
-> has caused regressions on multiple platforms: R-Car, MCDE, Rockchip.
+On Mon, Dec 01, 2025 at 12:53:20PM +0100, Maud Spierings wrote:
+> The Maxim MAX25014 is a 4-channel automotive grade backlight driver IC
+> with integrated boost controller.
 >
-> This is an alternate series to Linus' series:
->
-> https://lore.kernel.org/all/20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa%40kernel.org/
->
-> This series first reverts the original commit and reverts a fix for
-> mediatek which is no longer needed. It then exposes helper functions
-> from DRM core, and finally implements the new sequence only in the tidss
-> driver.
->
-> There is one more fix in upstream for the original commit, commit
-> 5d91394f2361 ("drm/exynos: fimd: Guard display clock control with
-> runtime PM calls"), but I have not reverted that one as it looks like a
-> valid patch in its own.
-
-Right, that patch is a fix on its own, the changes in the atomic 
-sequence just revealed the issue.
-
-> I added Cc stable v6.17+ to all patches, but I didn't add Fixes tags, as
-> I wasn't sure what should they point to. But I could perhaps add Fixes:
-> <original commit> to all of these.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
+> 
 > ---
-> Linus Walleij (1):
->        drm/atomic-helper: Export and namespace some functions
->
-> Tomi Valkeinen (3):
->        Revert "drm/atomic-helper: Re-order bridge chain pre-enable and post-disable"
->        Revert "drm/mediatek: dsi: Fix DSI host and panel bridge pre-enable order"
->        drm/tidss: Fix enable/disable order
->
->   drivers/gpu/drm/drm_atomic_helper.c | 122 ++++++++++++++----
->   drivers/gpu/drm/mediatek/mtk_dsi.c  |   6 -
->   drivers/gpu/drm/tidss/tidss_kms.c   |  30 ++++-
->   include/drm/drm_atomic_helper.h     |  22 ++++
->   include/drm/drm_bridge.h            | 249 ++++++++++--------------------------
->   5 files changed, 214 insertions(+), 215 deletions(-)
+> 
+> In the current implementation the control registers for channel 1,
+> control all channels. So only one led subnode with led-sources is
+> supported right now. If at some point the driver functionality is
+> expanded the bindings can be easily extended with it.
+
+What's the relationship between the LEDs and backlight? It's a backlight 
+plus LEDs or just 4 identical channels.
+
+> 
 > ---
-> base-commit: 88e721ab978a86426aa08da520de77430fa7bb84
-> change-id: 20251205-drm-seq-fix-b4ed1f56604b
+>  .../bindings/leds/backlight/maxim,max25014.yaml    | 107 +++++++++++++++++++++
+>  MAINTAINERS                                        |   5 +
+>  2 files changed, 112 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+> new file mode 100644
+> index 000000000000..e83723224b07
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+> @@ -0,0 +1,107 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/leds/backlight/maxim,max25014.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Maxim max25014 backlight controller
+> +
+> +maintainers:
+> +  - Maud Spierings <maudspierings@gocontroll.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - maxim,max25014
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +  enable-gpios:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-supply:
+> +    description: Regulator which controls the boost converter input rail.
+> +
+> +  pwms:
+> +    maxItems: 1
+> +
+> +  maxim,iset:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    maximum: 15
+> +    default: 11
+> +    description:
+> +      Value of the ISET field in the ISET register. This controls the current
+> +      scale of the outputs, a higher number means more current.
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+We have properties for setting the current (in uA). That can't work 
+here?
 
+> +
+> +  led@0:
+> +    type: object
+> +    description: Properties for a string of connected LEDs.
+> +    $ref: common.yaml#
+> +
+> +    properties:
+> +      reg:
+> +        const: 0
+> +
+> +      led-sources:
+> +        allOf:
+> +          - minItems: 1
+> +            maxItems: 4
+> +            items:
+> +              minimum: 0
+> +              maximum: 3
+> +            default: [0, 1, 2, 3]
+> +
+> +      default-brightness:
+> +        minimum: 0
+> +        maximum: 100
+> +        default: 50
+> +
+> +    required:
+> +      - reg
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        backlight@6f {
+> +            compatible = "maxim,max25014";
+> +            reg = <0x6f>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +            enable-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
+> +            interrupt-parent = <&gpio1>;
+> +            interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
+> +            power-supply = <&reg_backlight>;
+> +            pwms = <&pwm1>;
+> +            maxim,iset = <7>;
+> +
+> +            led@0 {
+> +                reg = <0>;
+> +                led-sources = <0 1 2 3>;
+> +                default-brightness = <50>;
+> +            };
+> +        };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 58c7e3f678d8..606ce086f758 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15261,6 +15261,11 @@ F:	Documentation/userspace-api/media/drivers/max2175.rst
+>  F:	drivers/media/i2c/max2175*
+>  F:	include/uapi/linux/max2175.h
+>  
+> +MAX25014 BACKLIGHT DRIVER
+> +M:	Maud Spierings <maudspierings@gocontroll.com>
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/leds/backlight/maxim,max25014.yaml
+> +
+>  MAX31335 RTC DRIVER
+>  M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
+>  L:	linux-rtc@vger.kernel.org
+> 
+> -- 
+> 2.52.0
+> 
