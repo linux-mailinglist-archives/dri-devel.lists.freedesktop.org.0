@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA54CA8B04
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 18:52:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C95DECA8AFE
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 18:52:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31D7D10EB77;
-	Fri,  5 Dec 2025 17:52:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 953E310EB76;
+	Fri,  5 Dec 2025 17:52:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NPbGaafs";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lH1Xjlki";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com
- [209.85.128.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 102B510EB73
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com
+ [209.85.128.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C60D510EB77
  for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 17:52:40 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id
- 00721157ae682-787da30c50fso25215067b3.3
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-787da30c50fso25215187b3.3
  for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 09:52:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1764957159; x=1765561959; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=vhdM+o1UMOQThbgKivVtaRHqRyLxM9uhOvolJtsLWEk=;
- b=NPbGaafswqwgEqb1+XdHwoF9EFqQs1meXSnYmOqWBM1j19d2uJ7O30BFrelurWxIwc
- jmSWuJ1Hp/0fohkZDuT04eGRG1tVFK4qbU5vqhF8czTZCCL3XRNodVqlV6WG7tRZND9L
- OLYSqYnX5f1uzsPW0yiQBQZRih6v5xdav4waqzLFyr6+mJqtHm9hHPwuSXCoyTCCqX25
- 816bvonXpj77K9jhdnnf39ax69HJtQFothQSAosyWH9niCslI7AaJ4f9PjyEDHcgW297
- XKTMTHP7sn3aFg+TRgddTVSTZs4Hw2Dlwv3XxRYE8vUtVGKG/wZprIzD1IHqQOUue2Gv
- mqkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764957159; x=1765561959;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ d=gmail.com; s=20230601; t=1764957160; x=1765561960; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vhdM+o1UMOQThbgKivVtaRHqRyLxM9uhOvolJtsLWEk=;
- b=GjBJCT9bYLuhO1gyod7SOacinqyVhV5SNU5oUinYdsyAWh7obQdy8IQy0rD0F5Kea3
- 8qXtA1wMv796Sebxonvw7QVTOd+qkCHeRclFuRJ+fRFEUxuJXYxWVpvX+4hJ7zqL2LNX
- PfUQtFv50iJ/EBVqiEqTVf5SC/gGxYK3cBNKp6otCg83ChfrSTGtzfFxHeDYM6jMpuYH
- Z+uflMBjlFd2H7NDq6KMHqwbr+6fFYyBTXDQe6dlinzniMsielVv+WX/d4pySZeZo7Sl
- shcJQvBA9lHL9V8h6nWQ1NiwQiKj0CaCWG3Nfxw20NQ9pAkyz098jFM4xn/153f/Q64X
- H0ZQ==
+ bh=AIMsjwiJg4RqJtb77Sd/3hjNTplhvG97vleKrEOTwfY=;
+ b=lH1Xjlkia8FOX8w33VKEiBRQKhqeTSb+mzSp+XqjCU710XwL2OgQqzH77uZFk/MzSm
+ mfYr+TSSbub7I9WF/+2KUXS5wYGo93TLm2IuRoNab/pEmg6Kjsj7s13zaGCXSX6jh9Q6
+ gdNtXHDqOQD0EzDhUIG7XLPyDYHpZNGWAT8rcDAnASfQLRBUAugk7QXI9kwsaKXJLv5R
+ xHdqF1I0sM4Gl9lWAFH/wykVPgerznYiL4Fl+BdHV+olUGXDkiH4blDe/8basKIPK0C7
+ qMjPLe2UXTro895Ih9eHJDNBiHa2xXDU2ZpsDiEIjdDDHtvpHBB/fso6LAmxFy9GEMND
+ ECXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764957160; x=1765561960;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=AIMsjwiJg4RqJtb77Sd/3hjNTplhvG97vleKrEOTwfY=;
+ b=VQJBeda5kx2QDnjbF75DMGLKsyGwtq4uxRE442l4BZXrzr23MiwcO9h/KpMyP9hkPC
+ SjlyLPZ65tJG7I0Fp1+Xjq1BYjU2Fp5KkL6FZ8nLxPjz9li/JjVIA8KHI2Sxfdy5zm5z
+ V6ts3WdYmrPwn0rAZyavLB3ZPEAhkOF0OX4NkxFLd1tJvPpgq0jGezlKu+fY9QcexluW
+ oMhyFTvncRIPlGHZXRClGd4tFfzNg5uQtKk1MYePjnXRgGE2+x+kyoihZvfEv5gWfO6r
+ b0dKqxjHZiL4Qn6MYZtiDmzPG/ajTbu+W8wNmo1mQjgtduVaTVCbyx4wvMouL+Ruiats
+ jl8g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWuw8/s2YcKaGMXjAeviBOqkWBxRgFgjOhA1dmwVRkGZUhUUtf31yBPNLn4rh4mPC1l33i+K8EXCdo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy+UNajTceHyjmNcPZxTbT/8jbdrr0Qmb5di9hLeEOjywcQQ8xi
- x1iNNPzGu0U1IbCSu+xdh88DLwEUTAydbBRMSBlZGukzdropSZOdq3Si
-X-Gm-Gg: ASbGnctL/ecK09AOEqSUrQC4xmD3a8S52BOo7dS4Zx4gnxvorTCeAIMg1ymkefslgTK
- o3jj8bY5PoRkFsrwBT7EnTBy632H0oxiA9EdcI6CkPQib+p8PQSt6W/EU8etKm/BpNfR2jeOHM6
- qrpZ69AxM2hcxBjVMv0gz/dBzMgoX7TXTttawEVewucpRyT8K30pN72v64ZAmRI2Kyxj1tyLV6+
- fkeg7OAYOqMSLJ4oUJeontT4HIeQA2jcy6unIPUWQWJ+ayL6xFDtWCbPe91mmECWsuJ0/YP9T3y
- G78r5J2JBUU8AsY34IJ0kXqhafTs2oxpVc/v5cS3Uxc8Ynfygbu1xudAoRzihFkrZmlknqd/Z/N
- QUA4IkPCHCRLJNqhXx3m8Jq9o97FxULM/bzRxTeqbyBbPIos6TfMwul/pneHVUy//gd+cCsaXzX
- DAVNj0RA==
-X-Google-Smtp-Source: AGHT+IGjlOLdXC97l6OEpoHY/ijeCRrrzo2vSMNi38e+iaXy3/qirDbODXQrNjFzrIZENzbiZevXPg==
-X-Received: by 2002:a05:690c:4989:b0:787:ca87:595c with SMTP id
- 00721157ae682-78c18600ac5mr113255467b3.9.1764957158797; 
- Fri, 05 Dec 2025 09:52:38 -0800 (PST)
+ AJvYcCUA0yyDk1/Xo7HqfUPM5U5FmnvGRDuCbc5gONOB/ZDY1g6M+HmSByRH6DSTLHpvUl6Tbwfy+h2gWIQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YypTU9vGNVjGT5YDYXxUrajlCGRqOQIe4ZFB2fwMdPHuG8c7/CK
+ UkfNwSd4fxKlxBU9JCuA49OJLLQp/f+3Ascj+2IRfQ0xKrfBf8f2ObRI
+X-Gm-Gg: ASbGncvQyDoLVkj8FJ9YSBf3Pf3h7xIpvfYgQ9iKmrxGghzJu78FHin7XMgxnihOQ2H
+ CvgIX8rjyUczjJJWavOBLF7tKEWxVKfzeNE8v681tmvE0oQt9FJx/cD50lvXNYaz4EOcO13at+m
+ ywv4dBxYE6A/fUBEjSto6pDXza/3alZ0kbYxve8SArJ650SsSTRqIxb+phZuesvAeeZPaFunC9d
+ iDUWUhVoj6PMcgGdlG4SDC0+u9ueK0UceNnHulj31ZMrWaGUbpCXH2nJdvILcE7u3ur3F7gRMAw
+ LuvqHsccd9YKR8Pf/LXFSuTavAx1F9/BcgPRxu5e5ViAMVPwU0zTwIuU1kNYf305HKt1b326Bsn
+ vBW2yjhEG+F2UdGxMMrwMe/IGAHJt0bJT2khfYXKLfujU6vIIC0lzNS4MG4vYswiSh8InuNG6O9
+ jv/yK0Wg==
+X-Google-Smtp-Source: AGHT+IEj0tKsgnYq0A9mSlKiTaWZ9dj9I4yKU0s/KO7Y2wAesrkqKoyujesKH3ZFEOTbGXg0vUaC6A==
+X-Received: by 2002:a05:690c:6f83:b0:788:e74:b267 with SMTP id
+ 00721157ae682-78c1893c4e9mr110130367b3.65.1764957159703; 
+ Fri, 05 Dec 2025 09:52:39 -0800 (PST)
 Received: from localhost ([2601:346:0:79bd:be2a:7e4d:3bf:3fbc])
  by smtp.gmail.com with ESMTPSA id
- 00721157ae682-78c1b4cffd8sm19112287b3.13.2025.12.05.09.52.38
+ 956f58d0204a3-6443f5a3e81sm2042888d50.16.2025.12.05.09.52.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Dec 2025 09:52:38 -0800 (PST)
+ Fri, 05 Dec 2025 09:52:39 -0800 (PST)
 From: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
 To: Steven Rostedt <rostedt@goodmis.org>,
  Masami Hiramatsu <mhiramat@kernel.org>,
@@ -80,12 +81,16 @@ To: Steven Rostedt <rostedt@goodmis.org>,
  Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
  intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
-Subject: [PATCH v3 0/4] Unload linux/kernel.h
-Date: Fri,  5 Dec 2025 12:52:31 -0500
-Message-ID: <20251205175237.242022-1-yury.norov@gmail.com>
+Cc: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>
+Subject: [PATCH v3 1/4] kernel.h: drop STACK_MAGIC macro
+Date: Fri,  5 Dec 2025 12:52:32 -0500
+Message-ID: <20251205175237.242022-2-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251205175237.242022-1-yury.norov@gmail.com>
+References: <20251205175237.242022-1-yury.norov@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -102,32 +107,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-kernel.h hosts declarations that can be placed better.
+The macro was introduced in 1994, v1.0.4, for stacks protection. Since
+that, people found better ways to protect stacks, and now the macro is
+only used by i915 selftests. Move it to a local header and drop from
+the kernel.h.
 
-No major changes since v2. For testing details, see v2.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+Reviewed-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
+---
+ drivers/gpu/drm/i915/gt/selftest_ring_submission.c | 1 +
+ drivers/gpu/drm/i915/i915_selftest.h               | 2 ++
+ include/linux/kernel.h                             | 2 --
+ 3 files changed, 3 insertions(+), 2 deletions(-)
 
-v1: https://lore.kernel.org/all/20251129195304.204082-1-yury.norov@gmail.com/
-v2: https://lore.kernel.org/all/20251203162329.280182-1-yury.norov@gmail.com/
-v3:
- - rename linux/tracing.h to linux/trace_printk.h (Steven);
- - cleanup headers better (Andy);
-
-Yury Norov (NVIDIA) (4):
-  kernel.h: drop STACK_MAGIC macro
-  moduleparam: include required headers explicitly
-  kernel.h: move VERIFY_OCTAL_PERMISSIONS() to sysfs.h
-  tracing: move tracing declarations from kernel.h to a dedicated header
-
- Documentation/filesystems/sysfs.rst           |   2 +-
- .../drm/i915/gt/selftest_ring_submission.c    |   1 +
- drivers/gpu/drm/i915/i915_selftest.h          |   2 +
- include/linux/kernel.h                        | 210 +-----------------
- include/linux/moduleparam.h                   |   7 +-
- include/linux/sysfs.h                         |  13 ++
- include/linux/trace_printk.h                  | 205 +++++++++++++++++
- 7 files changed, 229 insertions(+), 211 deletions(-)
- create mode 100644 include/linux/trace_printk.h
-
+diff --git a/drivers/gpu/drm/i915/gt/selftest_ring_submission.c b/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
+index 87ceb0f374b6..600333ae6c8c 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
++++ b/drivers/gpu/drm/i915/gt/selftest_ring_submission.c
+@@ -3,6 +3,7 @@
+  * Copyright © 2020 Intel Corporation
+  */
+ 
++#include "i915_selftest.h"
+ #include "intel_engine_pm.h"
+ #include "selftests/igt_flush_test.h"
+ 
+diff --git a/drivers/gpu/drm/i915/i915_selftest.h b/drivers/gpu/drm/i915/i915_selftest.h
+index bdf3e22c0a34..72922028f4ba 100644
+--- a/drivers/gpu/drm/i915/i915_selftest.h
++++ b/drivers/gpu/drm/i915/i915_selftest.h
+@@ -26,6 +26,8 @@
+ 
+ #include <linux/types.h>
+ 
++#define STACK_MAGIC	0xdeadbeef
++
+ struct pci_dev;
+ struct drm_i915_private;
+ 
+diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+index 5b46924fdff5..61d63c57bc2d 100644
+--- a/include/linux/kernel.h
++++ b/include/linux/kernel.h
+@@ -40,8 +40,6 @@
+ 
+ #include <uapi/linux/kernel.h>
+ 
+-#define STACK_MAGIC	0xdeadbeef
+-
+ struct completion;
+ struct user;
+ 
 -- 
 2.43.0
 
