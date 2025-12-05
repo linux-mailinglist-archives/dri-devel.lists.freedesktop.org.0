@@ -2,97 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED789CA7AAA
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 13:58:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0AE0CA7AE4
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 14:06:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D7D710EB1E;
-	Fri,  5 Dec 2025 12:58:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F25110EB20;
+	Fri,  5 Dec 2025 13:06:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=suse.com header.i=@suse.com header.b="dQklpZW/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aSNEkpkd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C81D410EB1F
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 12:58:50 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-4779adb38d3so19432115e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 04:58:50 -0800 (PST)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+ [209.85.221.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3D8E10EB20
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 13:06:07 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id
+ ffacd0b85a97d-42e29739ff1so922672f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 05:06:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=suse.com; s=google; t=1764939529; x=1765544329; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:cc:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=vvDpFJFk+V6cvoTCKOK8q907ac/jTowZtFGXPpMCI6k=;
- b=dQklpZW/XlH4Z0FHYhHOoCes3Nc8FCaN4uG/aqAOddTCJHmpalnub5g+J8t7jB982u
- E0HF1oqf9Y+m6z/D+KO/a53VnLMP+3yA8JV+CIhng9JyUvy0sttbvuSf2X1uZt3+OmUy
- tyhtK3ikMC9DSLZsszuDSylnoJdBoV9Yd6LNcmNV0ZYmFfIBCi83O+JfIYlMpptw42CC
- j26wR+hInG5yjzq6VZqtEWcwLML0llbgMZv7zsjkU2i+XCup8shbAqL3vhb5bvQy3s52
- H2LgXEFRpF55BD7EArBdm1gvYR3lOA1Viqlnf6Irf5gdnSgbglnTgZv0eBn+5sxu5JS2
- /7nw==
+ d=gmail.com; s=20230601; t=1764939966; x=1765544766; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=DVfNsN7bh3iXgq3RxSUScjij5i+aMl+hRz9FbAuxQEw=;
+ b=aSNEkpkdvBBHDkL+7aRsbc9V2A4ERk6ApYwBkBxWrbza+bsnAObWmdkLNNgOY8zKSZ
+ 3xIJ+w3MCMori8klypJtjXSxv/CkND6NOzuq3vdto7EPM9Y7ciXunQ8Z5GEh9j+gXWSE
+ UZlPFds3ppAV+LhQsgc+Er3p4sY56uSUbp5zIbPkGTRkmBmO4yfSa+DNyB1ilKUEm4hp
+ maWpamNb9Xw7Qcx6SnmZXqglqSicLLB941EF1nnvq8NnFwLilxa25Iw4EmZBIz0LP0Cf
+ GCqQu4O7hPHFZynqOpfdIHyWSDOS+hTuCN3dHE2AsXvrkZqxegBC16S8FZx/ghtaF3sk
+ 8Knw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764939529; x=1765544329;
- h=content-transfer-encoding:in-reply-to:from:cc:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ d=1e100.net; s=20230601; t=1764939966; x=1765544766;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=vvDpFJFk+V6cvoTCKOK8q907ac/jTowZtFGXPpMCI6k=;
- b=Ei9Lxkp+wNfud2X/1L+60frq/1jMDRu4lLkHhb1c+rKToESckMWCW+l8sh3BdneJEd
- c+X4OTSewei8/4X+OfJuu2mXbAmPm7gyFOG0ZSA3D5ivgfldJJUc/Ty49J8x0wELz3tC
- 43qjpDgUMxbxSYkY9rIifT1nOWoRPMaVTO6ooN/YHByvriQixS06FobMjYVjTEsuDguC
- 0LLKjHBqEc0FWZNBzZDW29nQ7jk1U4HMwpY+SPte4G1N5TappLqXBPiFvBzrXE3oBrMi
- 6//PE7b0NNwWA4isF4F8OWHaKOVrgUmm2rD1fPur05xQvQv4OGNBydifNSoGLyPNVHOo
- kUvQ==
+ bh=DVfNsN7bh3iXgq3RxSUScjij5i+aMl+hRz9FbAuxQEw=;
+ b=QxeONaEi8MfztWFOzTODSSC2FA9e4BzLbfFNIxEu9O2WQYzllSwJK0IJ2+jTK57oWM
+ s3DPU+NGABm0jyNv7vmwvQEqVHyr9CcCSfptiWGMHUPr/KB0CsOdABxeriQpWiUqh/cQ
+ XbBSyoZI2cPKxUiDkJVsJN/MpNqZe8HJu1puI/PrE+oWnjrUZYtw2fKAj91oauLnA3tW
+ 1VcdXE9i6sRNmHjbdBw3v7hi4DM86jwUOUpDybQ9szBoMcfssSk8y0bNzTmWEI0zODyN
+ NR1YCEuxrY8sg3PV3MiaRJe0EP+QeOsNxYlqwpTUB9h+r2wOAB71WAIwhI3nrBhx6chF
+ x8aA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVNSwwlEPIcY1Pfgn+SAm/Hoqr7bE2M0HQDGzG3hJ16vbm077Y8FpsDgZaBtDkoTidhH9odC4LQxHM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxrag/oh4KDhAk1nnZ/nPVfeAuxsoCXqtg0qoE4UJWCq2Qb9BQb
- RMlUkk4qcSV1xMqiunvEASkCCSunTfliUh6XzxYxlnHs9KA6smtvLXAN59+dhKcmAEE=
-X-Gm-Gg: ASbGncvR0bCh/U0vFY3METbqdRO25Ix5O7QsZ5sR5Pmf92aD8xsltS46UqPsC1rMcO6
- BykrE9YdsVcS4+eGyNzFjDS9kTnxziyQZeeU9kvnptvYehSkzzeZSoOHBNF+BX1Wly53vnOKmqQ
- p0Rft46dXjs7nI6DDQnqhTifpVm+lFaaKlSLURWyMn/J4of+3cLVOBj2WaJNUNzkdAeYrpRoaJQ
- zxiOxW62+Y9cUJf0jYpNKfEa4ZhC4uziIOdeXLnP7Ijn188fjMCfgIMPadEUSMHfmb9yem8c7/q
- 7cZ2V+gG1NbJ1Ba8ekEDGQc8SkOy4csMB5QKhfSK1UnktK+xEGmy3rEi8UOfaW5ubyNORuGs8o+
- a7zISuGbFIch2np9nqUKQLDygCx/gUYm1LSrSJsjd/zdLV056j8Uyy8ujXDUNBEhFsPznEToInc
- lp6KuLAEhRkESFU67JAlt7Ea1DRexiuw==
-X-Google-Smtp-Source: AGHT+IGleborKQCrbq8DmtASF59YZO0WpvBhiHKdLlUD/UBGnoL4NMp+YZWh4r36RAtoCvyopgKovg==
-X-Received: by 2002:a05:600c:45d5:b0:45d:e28c:875a with SMTP id
- 5b1f17b1804b1-4792f39cc82mr78538125e9.31.1764939529325; 
- Fri, 05 Dec 2025 04:58:49 -0800 (PST)
-Received: from [10.0.1.22] (109-81-1-107.rct.o2.cz. [109.81.1.107])
+ AJvYcCV8D10eUisqnZx8i0idZYp5vIbBp4MBsdx8JDb2BXHRuL1TFIjTTAkWUtJ6huv0VqWVvcCtTDBqs9g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxDx34eBzJyGpUPsxotncmYY8WI9DFulgBStfhX6d8VmeehL9Jp
+ AbVZRmHVgIbIE65wRxUBtiZYm1t4M7HR9/Bflepi5btilpit5yhjOUf6
+X-Gm-Gg: ASbGncvXiQuP/N9SXpdocK1Tuuv4ZvhBid8unoXiHv+99/RPmg6fty/ef8ZvIRDqZg+
+ UiIlcKb2FqGcFYk8b54YzV8wHlLMB48xwfVJW8OehvLN/HOmuC/4YGVQyKitBXUHjmZ0tRW6GZZ
+ UC6QBnJX0Dcqr00U8bGm1Q1EP5czF5oEegTKOavwLyUAubwPaHg/c8yp2ILjw89iR+vc3/qljJr
+ ZQcWQEDkeWzY/OF8eNyo3UHtvghuvYpC2Dk6PaeAQDvQNMZBrqMBI3gbxF2BerJ7xyA3J0buAjC
+ Fr5M1xnhBSBS616/9VNMCbp7s3XXHg9b6RN1nEhcS8pe9CycOVeeL+LuyMH6iDTpWZ2+pZPHMWu
+ qQOpRhl7kl/5UVgQ70/vXX5noNp7uhyZeKmhjmUj2TWpmOxToECnXqGYj4mv4fIf39E+7ZDUPtM
+ 6YqJlQhkQsbh4Xwoyef7I99LSa
+X-Google-Smtp-Source: AGHT+IFtBVw4148B28ROMfiQyJ3if3zDxlmObifagEb/T3wEwB3hhJuIh0e0cx/amEPTzjkSpqoyJg==
+X-Received: by 2002:a05:6000:2283:b0:42b:3455:e4a1 with SMTP id
+ ffacd0b85a97d-42f78875c06mr8126338f8f.15.1764939965931; 
+ Fri, 05 Dec 2025 05:06:05 -0800 (PST)
+Received: from able.fritz.box ([2a00:e180:15a5:6d00:a241:8e44:3926:5306])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4792b02e806sm59378815e9.3.2025.12.05.04.58.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 05 Dec 2025 04:58:49 -0800 (PST)
-Message-ID: <31cdf723-a776-498b-8664-4735cd76669a@suse.com>
-Date: Fri, 5 Dec 2025 13:58:46 +0100
+ ffacd0b85a97d-42f7d353f8bsm8914491f8f.43.2025.12.05.05.06.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 05 Dec 2025 05:06:05 -0800 (PST)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: matthew.auld@intel.com, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ simona.vetter@ffwll.ch, michael.j.ruhl@intel.com
+Subject: [PATCH 1/2] dma-buf: improve sg_table debugging hack v3
+Date: Fri,  5 Dec 2025 14:06:03 +0100
+Message-ID: <20251205130604.1582-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] kernel.h: move VERIFY_OCTAL_PERMISSIONS() to
- sysfs.h
-To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
-References: <20251203162329.280182-1-yury.norov@gmail.com>
- <20251203162329.280182-4-yury.norov@gmail.com>
-Content-Language: en-US
-Cc: Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Christophe Leroy <chleroy@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
- Ingo Molnar <mingo@kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- David Laight <david.laight@runbox.com>, Andi Shyti <andi.shyti@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Daniel Gomez <da.gomez@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-modules@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20251203162329.280182-4-yury.norov@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,20 +90,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/3/25 5:23 PM, Yury Norov (NVIDIA) wrote:
-> The macro is related to sysfs, but is defined in kernel.h. Move it to
-> the proper header, and unload the generic kernel.h.
-> 
-> Now that the macro is removed from kernel.h, linux/moduleparam.h is
-> decoupled, and kernel.h inclusion can be removed.
-> 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
+This debugging hack is important to enforce the rule that importers
+should *never* touch the underlying struct page of the exporter.
 
-Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+Instead of just mangling the page link create a copy of the sg_table
+but only copy over the DMA addresses and not the pages.
 
+This will cause a NULL pointer de-reference if the importer tries to
+touch the struct page. Still quite a hack but this at least allows the
+exporter to properly keeps it's sg_table intact while allowing the
+DMA-buf maintainer to find and fix misbehaving importers and finally
+switch over to using a different data structure in the future.
+
+v2: improve the hack further by using a wrapper structure and explaining
+the background a bit more in the commit message.
+v3: fix some whitespace issues, use sg_assign_page().
+
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Michael J. Ruhl <michael.j.ruhl@intel.com> (v1)
+---
+ drivers/dma-buf/dma-buf.c | 74 +++++++++++++++++++++++++++++++--------
+ 1 file changed, 60 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 2305bb2cc1f1..944f4103b5cc 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -35,6 +35,12 @@
+ 
+ #include "dma-buf-sysfs-stats.h"
+ 
++/* Wrapper to hide the sg_table page link from the importer */
++struct dma_buf_sg_table_wrapper {
++	struct sg_table *original;
++	struct sg_table wrapper;
++};
++
+ static inline int is_dma_buf_file(struct file *);
+ 
+ static DEFINE_MUTEX(dmabuf_list_mutex);
+@@ -828,21 +834,59 @@ void dma_buf_put(struct dma_buf *dmabuf)
+ }
+ EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
+ 
+-static void mangle_sg_table(struct sg_table *sg_table)
++static int dma_buf_mangle_sg_table(struct sg_table **sg_table)
+ {
+-#ifdef CONFIG_DMABUF_DEBUG
+-	int i;
+-	struct scatterlist *sg;
+-
+-	/* To catch abuse of the underlying struct page by importers mix
+-	 * up the bits, but take care to preserve the low SG_ bits to
+-	 * not corrupt the sgt. The mixing is undone on unmap
+-	 * before passing the sgt back to the exporter.
++	struct scatterlist *to_sg, *from_sg;
++	struct sg_table *from = *sg_table;
++	struct dma_buf_sg_table_wrapper *to;
++	int i, ret;
++
++	if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
++		return 0;
++
++	/*
++	 * To catch abuse of the underlying struct page by importers copy the
++	 * sg_table without copying the page_link and give only the copy back to
++	 * the importer.
+ 	 */
+-	for_each_sgtable_sg(sg_table, sg, i)
+-		sg->page_link ^= ~0xffUL;
+-#endif
++	to = kzalloc(sizeof(*to), GFP_KERNEL);
++	if (!to)
++		return -ENOMEM;
++
++	ret = sg_alloc_table(&to->wrapper, from->nents, GFP_KERNEL);
++	if (ret)
++		goto free_to;
++
++	to_sg = to->wrapper.sgl;
++	for_each_sgtable_dma_sg(from, from_sg, i) {
++		to_sg->offset = 0;
++		to_sg->length = 0;
++		sg_assign_page(to_sg, NULL);
++		sg_dma_address(to_sg) = sg_dma_address(from_sg);
++		sg_dma_len(to_sg) = sg_dma_len(from_sg);
++		to_sg = sg_next(to_sg);
++	}
+ 
++	to->original = from;
++	*sg_table = &to->wrapper;
++	return 0;
++
++free_to:
++	kfree(to);
++	return ret;
++}
++
++static void dma_buf_demangle_sg_table(struct sg_table **sg_table)
++{
++	struct dma_buf_sg_table_wrapper *copy;
++
++	if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
++		return;
++
++	copy = container_of(*sg_table, typeof(*copy), wrapper);
++	*sg_table = copy->original;
++	sg_free_table(&copy->wrapper);
++	kfree(copy);
+ }
+ 
+ static inline bool
+@@ -1139,7 +1183,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+ 		if (ret < 0)
+ 			goto error_unmap;
+ 	}
+-	mangle_sg_table(sg_table);
++	ret = dma_buf_mangle_sg_table(&sg_table);
++	if (ret)
++		goto error_unmap;
+ 
+ 	if (IS_ENABLED(CONFIG_DMA_API_DEBUG)) {
+ 		struct scatterlist *sg;
+@@ -1220,7 +1266,7 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
+ 
+ 	dma_resv_assert_held(attach->dmabuf->resv);
+ 
+-	mangle_sg_table(sg_table);
++	dma_buf_demangle_sg_table(&sg_table);
+ 	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
+ 
+ 	if (dma_buf_pin_on_map(attach))
 -- 
-Thanks,
-Petr
+2.43.0
+
