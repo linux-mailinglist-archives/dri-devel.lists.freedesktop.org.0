@@ -2,166 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D98BCA7B6E
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 14:15:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86048CA7CE3
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 14:41:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4E4910E065;
-	Fri,  5 Dec 2025 13:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1BB210EB42;
+	Fri,  5 Dec 2025 13:41:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="cXdorZF1";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CNO5wwU9";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="QAtxUrIP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from MW6PR02CU001.outbound.protection.outlook.com
- (mail-westus2azon11012024.outbound.protection.outlook.com [52.101.48.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4588810E065
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 13:15:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CdtK+ioqh55OW1KN49ULxKtkQYjO/NHlUdxyBZrjneAMt2CxsN2EpmqfiPP2eOlwVeKETvPqO08s3coUMlCmvgXMjI3SdymYZSbCTrbySWc0W2nbQ1cxwqkyNslCj/JLOwJjXtfwkyykkZ4v9KbsY1hEATdE1hrJkNCK2oikEoAXp85E6YZRFAMibsbdPlBP6x41+3TQdsiGfenGIhv+IFX+M7ihH9GSC7i8Il0V47pzIMdITs43TNnGAPDvOLBLT1MXayXKbeOB2IWA+kC2s9XVaq+y5r7TpD3Eue+W+GBA+I01+RVMGQa0T78KqHoAdu6YwLZAQ1X0tuEsDuskmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vg14x7KT9Omh6WQUJji1bt3BxpItro2GmLaLyUvMY/E=;
- b=eQx27LLUO3QMlJyUoKf2nHLTeQkmOB0mSbUj+lioh7qrR9uTMWc+oQmE3f/NUJjAC8aHiPyP6CECy1ZfqNahmm4ykBB0JwqdnX84ikH85OkRhwqj4j0iMDlmgEtox2n7F51mwObRgYn+4btVUmlFGBasNRSDwWdpwB7IGp7YPthT3sV8t7VRtCB3pDIQmoN9GYbkQPoNbohzuVRf0tzpJjWBzTyjTHutyah2k0f5XqfiyPbKwH52ZeC9h/jyUj3zG59EXJovFj/WxTVgv3ge9dUZj0erhCDwdgU9qQQIkKKCo99G7CfB+FDkp2UXRFq01pYhESYnUc0bnMSzIllKQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vg14x7KT9Omh6WQUJji1bt3BxpItro2GmLaLyUvMY/E=;
- b=cXdorZF1bg7G3Dwg0hekLiivNRBX4hwEcmAxjCtfGuEi5iTn3vtanMQR5a8sqeaWzfOLLUgFCQyVZ+E17OaKhAwXWQntVqvpf3ZHXLSzfo9lpvoAr/HJRAsQi+WSuJ6PqXxnFnReHKsGG/XVNJ00pXqdv8EmmmghHiagGbwK7E8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SN7PR12MB7321.namprd12.prod.outlook.com (2603:10b6:806:298::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.11; Fri, 5 Dec
- 2025 13:15:01 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9388.003; Fri, 5 Dec 2025
- 13:15:01 +0000
-Message-ID: <d425e9af-ee87-4495-b289-6533195f3ea1@amd.com>
-Date: Fri, 5 Dec 2025 14:14:56 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dma-buf/fence: give some reasonable maximum signaling
- timeout
-To: Lucas Stach <l.stach@pengutronix.de>, phasta@kernel.org,
- alexdeucher@gmail.com, simona.vetter@ffwll.ch, faith@gfxstrand.net,
- sumit.semwal@linaro.org
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org
-References: <20251120150018.27385-1-christian.koenig@amd.com>
- <20251120150018.27385-2-christian.koenig@amd.com>
- <380012b9d6f0e9ee3c2f125cfe2f37f65c1979e0.camel@mailbox.org>
- <b46913b6-fe61-48cd-a9ca-aa2fe3a12b63@amd.com>
- <1c1a14d42d0a4a25ebce26a2af0a61dc1b7813fc.camel@mailbox.org>
- <508ff709-0f05-4982-8e15-5fea3bbd12e7@amd.com>
- <c2b571a7e74f86c6cb95bebd11274447c3080df9.camel@mailbox.org>
- <52d484c5-6dfb-4e2f-9caa-a61cf1d94801@amd.com>
- <e2c006ca81081ee1afa00b1b52a035c28a267e0f.camel@pengutronix.de>
- <207d50fe-eef3-4baa-97a7-567598e56b55@amd.com>
- <54d6e863fc606d22f245e30012bb5120d5bee7ee.camel@mailbox.org>
- <6151e7c5-1de2-4857-ae64-1e2fd6cb7513@amd.com>
- <ff4e03cf5281bf54d36c69b4ae0dd5a19723178d.camel@mailbox.org>
- <5267e8fbb93a8fe722f845331d17c61e29f1a705.camel@pengutronix.de>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <5267e8fbb93a8fe722f845331d17c61e29f1a705.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT4PR01CA0068.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:111::28) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92CB010EB42
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 13:41:54 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5B5AWpUd3135822
+ for <dri-devel@lists.freedesktop.org>; Fri, 5 Dec 2025 13:41:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ n7/xg9hqfz7IojW9i45R+MaisCn64mYGvJ5VCnPDFQ8=; b=CNO5wwU9h2eskiEr
+ vYWmoIAldICyZRL4DG/u3MZE5BGRA4jICxrdFat9ph96ZwMgxbM12v4gp/eELArN
+ 6v+XfzOkq3UnalVvZ8IcQqYWYeqreAYLhosJd3X75+nivy4KM3rsG5f4okUu0WBj
+ HCrwrNdLol2bdS/ujyjdeNA2xgD1qJE0ed1F45mav+VJgoFan7MXz5SD1XVVAVOB
+ H4/8/2xvJPzoYarf7Qh+5ImPxzHhp/3MvaLilU6yx3urj3CUHbt/z0PBaZVyZepW
+ 0AifDaNFRu4jP8bBA+I/KWPVeT2C2IlTUVRzfH6EMizfIF87FlzTh7WdirPl9zew
+ PeG/Qg==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aupa8ss0d-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 13:41:53 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-29809acd049so49332815ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 05:41:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1764942112; x=1765546912;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=n7/xg9hqfz7IojW9i45R+MaisCn64mYGvJ5VCnPDFQ8=;
+ b=QAtxUrIPt754GKaccpnYzTBvf+zjc3j4oGCOd8vRG8U+lZ6c/aVRA1XX2TKz7W13gw
+ jam6J9bmQZkKTWIgilLymCwLDuC8naP3ZJ3lBUApvW+e3kLmykQ+RJWPflVczCEisHNj
+ le+6k7sAstoEwjYSF01eB+Fsf7KeuF//JV2qRCyKbs3qL8xI+a5lbuNFsSEOIzWMNTXs
+ ooPdkyMaoubr3WCRZNu6teMhFkifVjH026xfykeXlDgd869EYvAt2sX0JtV/4xm0xnVK
+ PqFJRROBGf1WxQ3Cr07G/BrnFqWqRc+IQAQ55wtwujPqC+Uigh/vibHgHeYYHT7R9cW8
+ EO+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1764942112; x=1765546912;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=n7/xg9hqfz7IojW9i45R+MaisCn64mYGvJ5VCnPDFQ8=;
+ b=QjSRxqIn/eDovQUBxAfBaKCCe5pFHMJEZldveD8a7bvE2ttfM3rGLZl9IMQHxfRDDa
+ rBF+MyPKzS94Jsos+Z9nrv947XeviI3WGxuv9RYvILcwAlqNyMy8vL9yZOeMTW7CxyzV
+ JnNiJrdnEhiDQqTKpbZS0RasYEC53bINeqykSAovzsPJR3FQ6X1M+KmwqzTzFLGc4M79
+ h6e9ZQzxAd5gPvIizW5idttk6JBiNadypj/QP2bAAUqEDxXSPMctyzmIYamE21/enc5a
+ j107uy4vQQr+ynKPG4kPOSCVIJPQ7jVxzQ4EV+TOpoIz8As0ue+FVIOdlc9coc+5PDAC
+ dcSw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXFIx/tTkBuRQv5Ty0hKW+vMTAw9xa345vJ3FaRWNtcm2IZC7S9RNudGd8ap6p4YHAQXBDEEEVnenw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwZ1ICsZPZlkf6SlrWCL+uUjq67vimKNjFrFHhVZiheh7PuGaor
+ AT5x0Yitw6LEipMjxKrbaSPKEGCrXD2YHLSQGbZ0Ogu9axAQdHoKi5XNFihZgTOw6YVpjxhB0nL
+ KiOTJnUdj+kh+ZaaF2H2cMn67O3Flz+g/x5axRxfK90YQd0M6RNOMJPW66pgHujGsqGRblzc=
+X-Gm-Gg: ASbGncvE4QS9Qztjg0ErOMKHFci/o4uD0X1xU6BWvh5z3ED1xa8I+3RszaZlLszCNGs
+ ex4yxMZOmLOGtnqv9kar/j6M5wxbmRTHhO4S/FabxN8QDnYVZ8KJ5Y2VfSYf84hW8Oc1lgX+CLL
+ CaF8w4WPSCBzdEM/6VbvY6mhtE3zA/PVWjzpGbf1bD9Qw4cTYvYev0ereIW089e8tRmupa95YZZ
+ LHGYXoj/sAI/5xnUBFudREtELzZ9/d6hNUpjqn/KtWLQzSbVmt9gAuqbFRsFycENK/fZJqhc6LL
+ tc6MRifh37dvLA/Uyf0LXED8sjNlv+HKNGaDnR7imYDgFKfoaWzM4sS+z39S4db6E0B1GyVd/fx
+ larR1GeSC7hWETjxjo27ABMwtR8jdxFQp7g==
+X-Received: by 2002:a17:903:3d0d:b0:29d:9755:9bd8 with SMTP id
+ d9443c01a7336-29d9755a07bmr74505335ad.22.1764942112425; 
+ Fri, 05 Dec 2025 05:41:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHshUqyeSZa92V5Aaq1utR9alONTZF9h0tJSM8m55U93erdoJiSrDaKE4FgBRRU6fmmE70fbg==
+X-Received: by 2002:a17:903:3d0d:b0:29d:9755:9bd8 with SMTP id
+ d9443c01a7336-29d9755a07bmr74504875ad.22.1764942111841; 
+ Fri, 05 Dec 2025 05:41:51 -0800 (PST)
+Received: from [192.168.1.4] ([106.222.235.197])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29dae49cbdfsm49762375ad.1.2025.12.05.05.41.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 05 Dec 2025 05:41:51 -0800 (PST)
+Message-ID: <d087dfbc-fcd9-4f01-8cc4-b206c2e87f28@oss.qualcomm.com>
+Date: Fri, 5 Dec 2025 19:11:43 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB7321:EE_
-X-MS-Office365-Filtering-Correlation-Id: a5b61c61-0295-4a6e-6b58-08de34004b83
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RXVPZkgrdWNHN3lXUElMMzlQN29IcmlFU2xqR2VNVnFML2dWZTQySy9jNFl3?=
- =?utf-8?B?OEVnL3JndnVBMXJQanU0SjkwbUl2elA1eVNFbXdRRUZjQk85WmlWZ1E0ZjRs?=
- =?utf-8?B?THBlQ0QvR2N3TUFVSzVpa05NcFJDbkNXeVkyaWlDdmdMZ3FSK1FuZTNpT0Vm?=
- =?utf-8?B?RnJyelpqZnBKZytzc1g2dUZLMXFKWkxxZkJWWEVmSGlsak40eW1VV1FUMHlo?=
- =?utf-8?B?eVhtM3I0SzhPK05sQkxodW9vNkw5VlNGdWFCYW9FcldaMlFhZHZqS2pNQTZu?=
- =?utf-8?B?ZG1KbGwwdjg4N09menhZZ2ptcXYxV3FHV2tXdmVWdFRIb2pQRTBib1B2WHhU?=
- =?utf-8?B?YlpHVTJldUdGb0RYU3NqS2ZQbTU2dkxsUGM1amtNeEVUYmpIK2w2U0llaWUz?=
- =?utf-8?B?dFI2WWtvUnRjdm16ZnQzZlBQWCtOOWdBb3VqcktTZ2hKQ2hzc1p1WldEMFc2?=
- =?utf-8?B?bGFaQ2d3dFQ4ZEtCeWhFenNXYXI2U3NQeVdqKzFZVGFBamtIQzd3TWl0b0xx?=
- =?utf-8?B?dnBkNWpTc0xtZHBIVWxUY1BiL0FQUFBRT0ZOaHhsR3hmSVVtN0NkV2ZsbmRO?=
- =?utf-8?B?RWRmS2htNVNTcWZzN3NEdVg3UGl0ZVNzOWpSL01uRGpsNDIybS9IOEMxOC9o?=
- =?utf-8?B?cnhEYzdiUEJTVEhNNVQzNytUMlRJN2lKR2lvcWhFREhoWjR0M2dobTg5M3lT?=
- =?utf-8?B?NGZIMTBoRGR1RE02VHN5eTlIejFOOHdYSjVydm1PNVNSNkN0UU1aQTlMMzFG?=
- =?utf-8?B?dW5nWVZ5OXE2emRPeW5CMGxheDdyM3p3aDM3QnlFV215L2JJanI0UXdJUDdm?=
- =?utf-8?B?V25VOWhnWEFGN0svZzhnUlZ6V3YzUUh4Y1QwMlNaazl4TmFTWHRVK3E5eFFK?=
- =?utf-8?B?ZFBKL3FlTU1YRXhZblNGZmZNYlJWL1c0aDFuNmVEY3h4Y21VcDhnVVNuUG5V?=
- =?utf-8?B?ZzhHZlZrVlB6MTFpOHFQV0Q1eEtHZ0FvQUxjcnJ4V3VVRzB4ZjBvN1VBM1da?=
- =?utf-8?B?WjFmRmdLVEVBaXU3c2UzUk91WVhaV3VoZkErYjRqS0JpUlpOU2dIRE1KZHhG?=
- =?utf-8?B?NkdKUy9hYUowZUFwM3ZaYWp1VGlsb21adjdOdEhvWC9wLzRPNGppNCtBVnRx?=
- =?utf-8?B?cWFyWDVPbHhQNk9jT3pJa2R4L25Qa29LL01RUEozRGJ3WXFVSGs4UXdYVjBZ?=
- =?utf-8?B?Q2VGV09Bc1dFNjNWdldnc0gxZTNPY2VKc044UW0vSmd0U3NJblJQZnYyVThs?=
- =?utf-8?B?VitYc1EyZE5iQUMyTjgvT1hTTzBNaHZiTTlkMFI2ZHJlUnE3NzJONDc2SDZ3?=
- =?utf-8?B?NmUvc0taYitHejdqY1gxMCtjNVVRWXVIU21MeHo3T2llMUI3UEErbmNJbXFt?=
- =?utf-8?B?TU0yYVVQbVZZMFNnb0orVXdEWFRXN0gxbjQrT3dZYnk3NXYxd1lsZTVYNDRD?=
- =?utf-8?B?Nm5DTnREVkg4WENLdmgxcnlNblZQOStjYlJtYTBSdE5PVWFGNlVlZ2dXMEt5?=
- =?utf-8?B?SlV1bE1WdWM0N2F2Nm0wVDRyVUl0WThGaDhFZG9NVlhnQy9RRmdOK2d3aFZu?=
- =?utf-8?B?MTRUcDZIZ0ZHRGRRZCtlbEZ0MkZZbHIzekdoVmQ5M0E2VGE3UFpQY2lsalJo?=
- =?utf-8?B?T1FON20vNUZFU3JZWTErc1ZoWkk3S3hmc21hU1V2Mmc5WmNFd3czV3ZaMkkr?=
- =?utf-8?B?YmtYMmxjdHNWWlVHTno4OXZhNi9Zcm5sUm50aHNqQXVpTm9ubDJ6alFJcGNw?=
- =?utf-8?B?dHN6SU5Yb3A1NmFDN0JFRi9IekYrK0ptbXlEdEpEdXE0VlczYmZWczZlczc2?=
- =?utf-8?B?STloVDZ1WUMyeVh2b28yeEk0dXJTOTZ3SEZVem9kbUlvWC9hR0lrb2hjOWJY?=
- =?utf-8?B?emowZGZSNnp2ZnlhOWJQNEJWdTlMbzJiemlObUFpTndVRW5UWXA4NC9STzBi?=
- =?utf-8?Q?g8eBwmtWqFCgIS5TNjxo1cgqyKltH3Zp?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d29kN2ZsUnlqL0RVSGo5S0NQOXBSeHlFR2JDem4vVDZYTUxLTVdsN1hGWnI0?=
- =?utf-8?B?M0I5Ym9wQ3dkTGRzRitxcU5IbHpwTktST3Rlak5zbi9VR095a001TnYvYW1S?=
- =?utf-8?B?Ujc4K0V4SStOTWwzdDJKcWNZanZnd0lDRFdxcEo2cU5Cdjh1ZmY1RlNQS0RY?=
- =?utf-8?B?R042ZHZ0dDF0TzBleFlxczNDYVR1eWRLckZnUHN5UEpZSTZ1NExTUEMvRU5Q?=
- =?utf-8?B?c1cwTDc4STM0c2lyRGEvUWVDY2NXNkdReExIQ0F0MHFiWGJIaTlCWHZMWWtC?=
- =?utf-8?B?V3V6WE1OVnA0NTBzQWEzUGRqSWhrcDVmREh5ZFhKbkRjbFZDVlpNTkc4WjVt?=
- =?utf-8?B?WWFXdE91Zms1eFZlc0dSbm1Sbk9zU2lZU1E3cmM0Qi9obkpPMmp0dlUwOXQr?=
- =?utf-8?B?UHZvOEZwZHpPNzg5d2xJd3RQSDBmTU5VN09MbFdLbWU4aUdQSjMxZjJCUnZL?=
- =?utf-8?B?RklXLzNPSFZsK1JQUDhvMVlCT1NuU2FvbTQ3NjY4MW9BNkRpdzFBaUZhZ2ww?=
- =?utf-8?B?WjNib1VrT0ZzUUZBQWdiajlOTDNSOTVCbHJTUmp2NXg4aDdSVElsK2ZrK3Ny?=
- =?utf-8?B?VVlDcHZyV2tjSlZLR3NqeGxVbEY5dTRESFpLY1NiZ0tvVFpDdEcyMHRrdjdE?=
- =?utf-8?B?d0EzTG5jZjE5WmxDMnZjWmd3cm12VXZOV244b041NDJWbDd0SnZmT1NXcFlP?=
- =?utf-8?B?QW1udlpaeDN3MEg0NkFmODNHYkZ2SURNVXhnRkZkaU8rQm83Um93cVVSejBS?=
- =?utf-8?B?REFvRXREaWFoMjV0bVdlMjlWMGpIZWFMeS8zMEdRWHZKS2szOGhPRW95RmJJ?=
- =?utf-8?B?Zi9IQlY0Zi9LWFY3K3IzbVpnRlQ1UnFwSkhHUnYvMFVDMHZzbGg4RlRpb2ZJ?=
- =?utf-8?B?dkVGY3RabGtUQjhiZlZXZGN1VElBVnUyUEdYdU1QbFU1M0NWZTJhUll5ZG11?=
- =?utf-8?B?SEJvSEYzZ1lnVERCbHFMN2dHNVN5dEFNWkIxcExEdFB5VnhyZ1QzVldINVZF?=
- =?utf-8?B?YWRhZGhhSW9WZ0VqZHBYejRpSVN5VXp5b0wzU01TRmtZRUxoSE1VbXl0WGEz?=
- =?utf-8?B?TmNWQnhkeE1wSnRSemFJMXNRY2ZNVWZ0RG5FaVY4R0dBZ2FKbGZHK3BJb0ZB?=
- =?utf-8?B?RG0zZHdSZFV1cmM3NXVZOGtISEc5bGZuZUo2KzhaR29vSi9wWFlUVytndU5a?=
- =?utf-8?B?aW16V2lYR25GN3gwekVrT1U1cWtOaVpLenR0MHFtWUpUUGx4R1hTK2g1WVE0?=
- =?utf-8?B?Qmc0RkhSTlF1dDFkQlZOSEJGWGYrR0xwNDBiak9paG16TW11MmNGWTVyeTFp?=
- =?utf-8?B?Q09wUnAzclFocWpLVms3am11dmI0YktxS2k5TFc5cXdETFRXaTBYRXg5UVk1?=
- =?utf-8?B?c2pONFZUR0I5V0h3RkVvNnBPTTdEaGFKK3hTUndrYittUnl4SjZmZjRDVEY2?=
- =?utf-8?B?OFRPd3F4NjhIWUdOQllWQUhVRVJqMERaWjVEYXZNZ2tTalRWNktzcTNYZGdk?=
- =?utf-8?B?dkFuaHZ3T3pySlFkSHBLUlMyc0RpMGpnNW4wRk9HRStxNDNDaVRIcXNVYnB2?=
- =?utf-8?B?T2doQTNGS2ZBR3MxM0dDbVcrZUw0R3NWcjRjWU03YWRoOHVXOTY4OGJGV0dm?=
- =?utf-8?B?STFFV01ROTlFTzU4QWJsejEwb2V1elBQZ1BzbWIxcVd1elVzRDdoTXcwaWo1?=
- =?utf-8?B?ZGNHQ2RLb0RDNzV0L2crUU55djZ5UFBpL0RIV083eTVmWFBtRSs3NVIwV1kx?=
- =?utf-8?B?SElHV1B5VmEwbjJaazRGR1dzS0p5RDlobk9iRkFhajRzTGVHY1duNmN4dVMx?=
- =?utf-8?B?VFBpMjB5UEhXdDZvZVF1T0FoU1FqL2l0ODBVOFRlcFl5Z2lWWTEyaUQvcUwr?=
- =?utf-8?B?WXN1WnhCcUZBaDJuRmZQYlVmQ3FpWDRvYnFVZDcyc3k4b25VTVNtcGFxRng4?=
- =?utf-8?B?ZWxZUWJhRWIyZDB5L0J2SGJqREVDRVlneUhCOEwwb0p1QnRxeDJDTDVHY3d5?=
- =?utf-8?B?eTJianlHNG9ia2FkeFJLVFVONW5rZ2xnOWd4TXdiT1AxYVB6czlYZEFhbWM4?=
- =?utf-8?B?WnBNWWczMTcvSHQwSGEwcmV0VDF0NTFMdXVibE5lV2RUUHpCNUlRN0NmZUdF?=
- =?utf-8?Q?Sa/6r8hGNqD3vfYWQwp5WOI4F?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5b61c61-0295-4a6e-6b58-08de34004b83
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2025 13:15:01.2598 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ROUQBlKmoRhNci9N7wyK9ydERQimo0NScMCdwV6ybqj5P53RnDkODri4+b1WewVV
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7321
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/6] arm64: dts: qcom: sm6150: Add gpu and rgmu nodes
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>
+References: <20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com>
+ <20251122-qcs615-spin-2-v3-5-9f4d4c87f51d@oss.qualcomm.com>
+ <8560ad26-4756-4c2a-97c3-2c5c0695172c@oss.qualcomm.com>
+ <z4gqro2bx6oq2ht75m2klogo5dsirb74tmc3u3shjyalxmaxil@5sy7ufmqhdgw>
+ <6fa1da5d-9ea7-4d72-a03a-82edc4bef099@oss.qualcomm.com>
+ <9141e67d-2837-4e73-bd3a-9a9c5b8f72f9@oss.qualcomm.com>
+Content-Language: en-US
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+In-Reply-To: <9141e67d-2837-4e73-bd3a-9a9c5b8f72f9@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=ZqDg6t7G c=1 sm=1 tr=0 ts=6932e121 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=jBSxni06C9HboLYAjQ55wg==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=PFMJV2I6qJKDnvYOCoAA:9 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA1MDA5OCBTYWx0ZWRfXwMgF5hRMOSBK
+ /xVf+G+Py8lsybozYZ4rts56kEyXxDm4y5za3iR+x0lZHzJCJCPdr+Jz2qIKWvhvneKfCCcUVp7
+ 5WwwwzEFT1e74EC9A7qhFryF4cE0KI5I11zgKNESKdfZFQvdCVnAAB2lzrHgN26aAaJoHRZQwJ0
+ lbIoZAW9oGdu3Q8+aNWYnqEo3VhIL/Nb7PBI7SBxDKw1kwPhlItO0c+s0I+6SaeLes+0u+F888b
+ ACs9Dwsemrmp7HHT5rufP2+ki7LEy+f5E83rhnONDBK9YQuhZEzdeLDELtjk/Lvc7SbS4Cm6TQb
+ UaYTFxhaWo8hYFUHwr4dZJ+uJ3S6YkbwZ1VDeEjyl+XF8q0qM5+WWvN53FDFINwHOmwX+rGfLCf
+ Hz2QWz/GajGYtyqfhbNpOGSb/nKjgA==
+X-Proofpoint-ORIG-GUID: bZ2cUhPSpWQYcVvXImAztqAJIer_Jwxy
+X-Proofpoint-GUID: bZ2cUhPSpWQYcVvXImAztqAJIer_Jwxy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-05_04,2025-12-04_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 priorityscore=1501 clxscore=1015 phishscore=0 spamscore=0
+ bulkscore=0 impostorscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512050098
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,63 +160,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 11/26/25 17:11, Lucas Stach wrote:
-> Am Mittwoch, dem 26.11.2025 um 16:44 +0100 schrieb Philipp Stanner:
->> On Wed, 2025-11-26 at 16:03 +0100, Christian König wrote:
->>
+On 12/4/2025 7:01 PM, Konrad Dybcio wrote:
+> On 12/4/25 11:13 AM, Akhil P Oommen wrote:
+>> On 11/26/2025 6:12 AM, Dmitry Baryshkov wrote:
+>>> On Sat, Nov 22, 2025 at 03:03:10PM +0100, Konrad Dybcio wrote:
+>>>> On 11/21/25 10:52 PM, Akhil P Oommen wrote:
+>>>>> From: Jie Zhang <quic_jiezh@quicinc.com>
+>>>>>
+>>>>> Add gpu and rgmu nodes for qcs615 chipset.
+>>>>>
+>>>>> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+>>>>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>>>>> ---
 >>>>
-> [...]
->>>> My hope would be that in the mid-term future we'd get firmware
->>>> rings
->>>> that can be preempted through a firmware call for all major
->>>> hardware.
->>>> Then a huge share of our problems would disappear.
+>>>> [...]
+>>>>
+>>>>> +			gpu_opp_table: opp-table {
+>>>>> +				compatible = "operating-points-v2";
+>>>>> +
+>>>>> +				opp-845000000 {
+>>>>> +					opp-hz = /bits/ 64 <845000000>;
+>>>>> +					required-opps = <&rpmhpd_opp_turbo>;
+>>>>> +					opp-peak-kBps = <7050000>;
+>>>>> +				};
+>>>>
+>>>> I see another speed of 895 @ turbo_l1, perhaps that's for speedbins
+>>>> or mobile parts specifically?
 >>>
->>> At least on AMD HW pre-emption is actually horrible unreliable as
->>> well.
+>>> msm-4.14 defines 7 speedbins for SM6150. Akhil, I don't see any of them
+>>> here.
 >>
->> Do you mean new GPUs with firmware scheduling, or what is "HW pre-
->> emption"?
+>> The IoT/Auto variants have a different frequency plan compared to the
+>> mobile variant. I reviewed the downstream code and this aligns with that
+>> except the 290Mhz corner. We can remove that one.
 >>
->> With firmware interfaces, my hope would be that you could simply tell
->>
->> stop_running_ring(nr_of_ring)
->> // time slice for someone else
->> start_running_ring(nr_of_ring)
->>
->> Thereby getting real scheduling and all that. And eliminating many
->> other problems we know well from drm/sched.
+>> Here we are describing the IoT variant of Talos. So we can ignore the
+>> speedbins from the mobile variant until that is supported.
 > 
-> It doesn't really matter if you have firmware scheduling or not for
-> preemption to be a hard problem on GPUs. CPUs have limited software
-> visible state that needs to be saved/restored on a context switch and
-> even there people start complaining now that they need to context
-> switch the AVX512 register set.
+> Writing this reply took probably only slightly less time than fixing
+> the issue.. I really see no point in kicking the can down the road
 
-Yeah, that has been discussed for the last 20 years or so when the first MMX extension came out.
+We don't know the speedbin fuse register and the values applicable for
+this IoT chipset. Currently, there is only a single variant and no SKUs
+for this chipset. We can add them when those decisions are taken by the
+relevant folks from Product team.
 
-> GPUs have megabytes of software visible state. Which needs to be
-> saved/restored on the context switch if you want fine grained
-> preemption with low preemption latency. There might be points in the
-> command execution where you can ignore most of that state, but reaching
-> those points can have basically unbounded latency. So either you can
-> reliably save/restore lots of state or you are limited to very coarse
-> grained preemption with all the usual issues of timeouts and DoS
-> vectors.
-> I'm not totally up to speed with the current state across all relevant
-> GPUs, but until recently NVidia was the only vendor to have real
-> reliable fine-grained preemption.
-
-Completely agree. You won't believe how often that is a topic in discussions.
-
-AMD has Compute Wave Save Restore now on newer HW, but both the reliability and performance are unfortunately questionable at best.
-
-Regards,
-Christian.
+-Akhil.
 
 > 
-> Regards,
-> Lucas
-> 
-> 
+> Konrad
 
