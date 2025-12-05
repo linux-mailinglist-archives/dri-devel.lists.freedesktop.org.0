@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D67CA767F
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 12:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 983A0CA7688
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 12:29:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 44A0410EAFC;
-	Fri,  5 Dec 2025 11:29:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD77210EB01;
+	Fri,  5 Dec 2025 11:29:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KmmpoFpQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XvCf0DwY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0399710EAFA;
- Fri,  5 Dec 2025 11:29:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 56BFD10EAFF;
+ Fri,  5 Dec 2025 11:29:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1764934187; x=1796470187;
+ t=1764934192; x=1796470192;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=43LZUnskhGiQGpCiVuBWfYheMRbkeUexzdlPPyeTYfI=;
- b=KmmpoFpQ4wKtWOkb3dCDIfhqrw7H4ccV7AcrEMtAuzXz5NHg6I9h1vzO
- s7/gttxh/zxXP/BzdDLu2GSLpz0DbT4ZYLYiKKDejWHUHE6s6j316shUn
- /wGu/q+FC9N1IXdPURxwMfRrr5xjGw0NgNZjzD7/d2EfdVPczlp3ajMCg
- Eki9UCtRtJsZ9UQrkG53YBIVGaqyPvhJr3gGW//uIueqO0FdL6bN0cwan
- UlCJsUOUFPov4c+WyVD7bMr9UvmS5IshlOy69IWiFLovXdiytZxLbNztd
- ATEYNRrr4Cl2z+jRgEyG57lhmY/9vFo9XHqFS7EljOWB9cMDf3fUksOOO g==;
-X-CSE-ConnectionGUID: kEk701IAQz2DZNC6cRSsNw==
-X-CSE-MsgGUID: ESqXZLItQ7+xWJA/Lpe4kQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66902991"
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="66902991"
+ bh=MXU6CVN1T89Z4SpsegUzzkXsjav+CHYCpzMYnLS7fdo=;
+ b=XvCf0DwY+7NaQ+DUi3btzXmZTbkETWQz+mLdEm2amd5MhzmsfuON7sSz
+ jH7Ki/rTblBsLOteBFE0yWBPgTXHw5sAI3aDjLs7U8NAinKtlNbpN+H+4
+ pnnTdluBlqxTvEHUWKWmciY11iF6et3dmJep0/qTFckbbOXc18CY4ZzDC
+ NCCxetPUNTwwtcMxR1lriEXkO9H3+dqzeMdBKDkhriABW3neAoVIC4Us4
+ hzcM66ZBoIUNSm5Nh2eIBUKNkR4ZkhjAgZnch90URWcjCKuAHeiQzLVm3
+ 0lL0sH01M8HSFohnyA4hOr4C/R2wtnxUsHHwc0UkhB+o3kwcs873gJCgo w==;
+X-CSE-ConnectionGUID: 4CSHyTA8Rjar3zBuuCHQtA==
+X-CSE-MsgGUID: JqRP6rmeRhmAKQY5m0Aj2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11632"; a="66902997"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="66902997"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2025 03:29:46 -0800
-X-CSE-ConnectionGUID: f8GAEMaTSLiU0F4RKTpyOA==
-X-CSE-MsgGUID: 526CbuUqROWU8Gy109GR5g==
+ 05 Dec 2025 03:29:52 -0800
+X-CSE-ConnectionGUID: kIO4AN0xTHaHgdoKzmxzWQ==
+X-CSE-MsgGUID: bDWP9sghREeFYifeSee1tQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="199757712"
+X-IronPort-AV: E=Sophos;i="6.20,251,1758610800"; d="scan'208";a="199757740"
 Received: from ettammin-desk.ger.corp.intel.com (HELO localhost)
  ([10.245.246.65])
  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Dec 2025 03:29:44 -0800
+ 05 Dec 2025 03:29:49 -0800
 From: Jani Nikula <jani.nikula@intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: tzimmermann@suse.de, intel-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, jani.nikula@intel.com
-Subject: [PATCH v3 22/25] drm/vblank: pass vblank to
- drm_get_last_vbltimestamp()
-Date: Fri,  5 Dec 2025 13:27:38 +0200
-Message-ID: <2bc71eb80db23bfb5c4aacd082cde3b12c20a63b.1764933891.git.jani.nikula@intel.com>
+Subject: [PATCH v3 23/25] drm/vblank: pass vblank to
+ drm_vblank_disable_and_save(), make static
+Date: Fri,  5 Dec 2025 13:27:39 +0200
+Message-ID: <595dcc5ad7e16da9ef895bd51affeb3ab43eef6c.1764933891.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1764933891.git.jani.nikula@intel.com>
 References: <cover.1764933891.git.jani.nikula@intel.com>
@@ -73,90 +73,66 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Use the vblank pointer instead of a dev, pipe pair to simplify
-code. Rename to drm_vblank_crtc_get_last_timestamp().
+code. Rename to drm_vblank_crtc_disable_and_save().
+
+drm_vblank_disable_and_save() is also no longer used outside of
+drm_vblank.c; make it static while at it.
 
 v2: Rename (Thomas)
 
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/drm_vblank.c | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/drm_internal.h | 1 -
+ drivers/gpu/drm/drm_vblank.c   | 8 ++++----
+ 2 files changed, 4 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index 6e7ac5b16d92..4458221685f7 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -111,7 +111,6 @@ static inline bool drm_vblank_passed(u64 seq, u64 ref)
+ 	return (seq - ref) <= (1 << 23);
+ }
+ 
+-void drm_vblank_disable_and_save(struct drm_device *dev, unsigned int pipe);
+ int drm_vblank_crtc_get(struct drm_vblank_crtc *vblank);
+ void drm_vblank_crtc_put(struct drm_vblank_crtc *vblank);
+ u64 drm_vblank_crtc_count(struct drm_vblank_crtc *vblank);
 diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 52fa4ca361e3..4a88cdea086d 100644
+index 4a88cdea086d..445b62b8b661 100644
 --- a/drivers/gpu/drm/drm_vblank.c
 +++ b/drivers/gpu/drm/drm_vblank.c
-@@ -162,9 +162,8 @@
+@@ -462,9 +462,9 @@ static void __disable_vblank(struct drm_vblank_crtc *vblank)
+  * are preserved, even if there are any spurious vblank irq's after
+  * disable.
   */
- #define DRM_REDUNDANT_VBLIRQ_THRESH_NS 1000000
- 
--static bool
--drm_get_last_vbltimestamp(struct drm_device *dev, unsigned int pipe,
--			  ktime_t *tvblank, bool in_vblank_irq);
-+static bool drm_vblank_crtc_get_last_timestamp(struct drm_vblank_crtc *vblank,
-+					       ktime_t *tvblank, bool in_vblank_irq);
- 
- static unsigned int drm_timestamp_precision = 20;  /* Default to 20 usecs. */
- 
-@@ -253,7 +252,6 @@ static u32 drm_vblank_crtc_get_counter(struct drm_vblank_crtc *vblank)
- static void drm_vblank_crtc_reset_timestamp(struct drm_vblank_crtc *vblank)
+-void drm_vblank_disable_and_save(struct drm_device *dev, unsigned int pipe)
++static void drm_vblank_crtc_disable_and_save(struct drm_vblank_crtc *vblank)
  {
- 	struct drm_device *dev = vblank->dev;
--	unsigned int pipe = vblank->pipe;
- 	u32 cur_vblank;
- 	bool rc;
- 	ktime_t t_vblank;
-@@ -267,7 +265,7 @@ static void drm_vblank_crtc_reset_timestamp(struct drm_vblank_crtc *vblank)
- 	 */
- 	do {
- 		cur_vblank = drm_vblank_crtc_get_counter(vblank);
--		rc = drm_get_last_vbltimestamp(dev, pipe, &t_vblank, false);
-+		rc = drm_vblank_crtc_get_last_timestamp(vblank, &t_vblank, false);
- 	} while (cur_vblank != drm_vblank_crtc_get_counter(vblank) && --count > 0);
+-	struct drm_vblank_crtc *vblank = drm_vblank_crtc(dev, pipe);
++	struct drm_device *dev = vblank->dev;
+ 	unsigned long irqflags;
  
- 	/*
-@@ -325,7 +323,7 @@ static void drm_vblank_crtc_update_count(struct drm_vblank_crtc *vblank,
- 	 */
- 	do {
- 		cur_vblank = drm_vblank_crtc_get_counter(vblank);
--		rc = drm_get_last_vbltimestamp(dev, pipe, &t_vblank, in_vblank_irq);
-+		rc = drm_vblank_crtc_get_last_timestamp(vblank, &t_vblank, in_vblank_irq);
- 	} while (cur_vblank != drm_vblank_crtc_get_counter(vblank) && --count > 0);
- 
- 	if (max_vblank_count) {
-@@ -911,11 +909,10 @@ drm_crtc_get_last_vbltimestamp(struct drm_crtc *crtc, ktime_t *tvblank,
- 	return ret;
+ 	assert_spin_locked(&dev->vbl_lock);
+@@ -509,7 +509,7 @@ static void vblank_disable_fn(struct timer_list *t)
+ 	spin_lock_irqsave(&dev->vbl_lock, irqflags);
+ 	if (atomic_read(&vblank->refcount) == 0 && vblank->enabled) {
+ 		drm_dbg_core(dev, "disabling vblank on crtc %u\n", pipe);
+-		drm_vblank_disable_and_save(dev, pipe);
++		drm_vblank_crtc_disable_and_save(vblank);
+ 	}
+ 	spin_unlock_irqrestore(&dev->vbl_lock, irqflags);
  }
+@@ -1358,7 +1358,7 @@ void drm_crtc_vblank_off(struct drm_crtc *crtc)
+ 	/* Avoid redundant vblank disables without previous
+ 	 * drm_crtc_vblank_on(). */
+ 	if (drm_core_check_feature(dev, DRIVER_ATOMIC) || !vblank->inmodeset)
+-		drm_vblank_disable_and_save(dev, pipe);
++		drm_vblank_crtc_disable_and_save(vblank);
  
--static bool
--drm_get_last_vbltimestamp(struct drm_device *dev, unsigned int pipe,
--			  ktime_t *tvblank, bool in_vblank_irq)
-+static bool drm_vblank_crtc_get_last_timestamp(struct drm_vblank_crtc *vblank,
-+					       ktime_t *tvblank, bool in_vblank_irq)
- {
--	struct drm_crtc *crtc = drm_crtc_from_index(dev, pipe);
-+	struct drm_crtc *crtc = drm_crtc_from_vblank(vblank);
+ 	wake_up(&vblank->queue);
  
- 	return drm_crtc_get_last_vbltimestamp(crtc, tvblank, in_vblank_irq);
- }
-@@ -1555,7 +1552,6 @@ EXPORT_SYMBOL(drm_crtc_vblank_on);
- void drm_crtc_vblank_restore(struct drm_crtc *crtc)
- {
- 	struct drm_device *dev = crtc->dev;
--	unsigned int pipe = drm_crtc_index(crtc);
- 	struct drm_vblank_crtc *vblank = drm_crtc_vblank_crtc(crtc);
- 	ktime_t t_vblank;
- 	int framedur_ns;
-@@ -1578,7 +1574,7 @@ void drm_crtc_vblank_restore(struct drm_crtc *crtc)
- 
- 	do {
- 		cur_vblank = drm_vblank_crtc_get_counter(vblank);
--		drm_get_last_vbltimestamp(dev, pipe, &t_vblank, false);
-+		drm_vblank_crtc_get_last_timestamp(vblank, &t_vblank, false);
- 	} while (cur_vblank != drm_vblank_crtc_get_counter(vblank) && --count > 0);
- 
- 	diff_ns = ktime_to_ns(ktime_sub(t_vblank, vblank->time));
 -- 
 2.47.3
 
