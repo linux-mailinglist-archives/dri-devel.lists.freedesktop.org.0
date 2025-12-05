@@ -2,46 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 922E9CA66DC
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 08:31:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7209ACA6817
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 08:44:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26D2D10E230;
-	Fri,  5 Dec 2025 07:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 916B010EA27;
+	Fri,  5 Dec 2025 07:44:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 701E610E230
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 07:31:12 +0000 (UTC)
-X-UUID: 5b2c58e6d1ac11f0a38c85956e01ac42-20251205
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D784810EA27;
+ Fri,  5 Dec 2025 07:43:58 +0000 (UTC)
+X-UUID: 256de65ad1ae11f0a38c85956e01ac42-20251205
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6, REQID:c49a27f6-661c-4317-a775-fa33b1c4c367, IP:0,
+X-CID-O-INFO: VERSION:1.3.6, REQID:8cb02a88-180c-46a6-b516-e5810342069f, IP:0,
  UR
- L:0,TC:0,Content:34,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:34
-X-CID-META: VersionHash:a9d874c, CLOUDID:ecd4d238eb2ef9ab7702e5f362e2a12b,
+ L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+ elease,TS:0
+X-CID-META: VersionHash:a9d874c, CLOUDID:6c3e486b0e851e5d01d4d7b137f0f4db,
  BulkI
- D:nil,BulkQuantity:0,Recheck:0,SF:102|123|850|898,TC:nil,Content:4|15|50,E
- DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
+ D:nil,BulkQuantity:0,Recheck:0,SF:102|123|850|898,TC:nil,Content:0|15|50,E
+ DM:-3,IP:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
  :0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 5b2c58e6d1ac11f0a38c85956e01ac42-20251205
+X-UUID: 256de65ad1ae11f0a38c85956e01ac42-20251205
 X-User: yaolu@kylinos.cn
 Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
  (envelope-from <yaolu@kylinos.cn>)
  (Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
- with ESMTP id 127752674; Fri, 05 Dec 2025 15:31:04 +0800
+ with ESMTP id 265998802; Fri, 05 Dec 2025 15:43:53 +0800
 From: yaolu@kylinos.cn
-To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Lu Yao <yaolu@kylinos.cn>
-Subject: [PATCH] drm/atomic: determine the hotspots attribute first for drm
- plane
-Date: Fri,  5 Dec 2025 15:30:54 +0800
-Message-Id: <20251205073054.137965-1-yaolu@kylinos.cn>
+To: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
+ christian.koenig@amd.com
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Lu Yao <yaolu@kylinos.cn>
+Subject: [RESEND] drm/amd/display: fix audio playing speed up on POLARIS12
+Date: Fri,  5 Dec 2025 15:43:44 +0800
+Message-Id: <20251205074344.143063-1-yaolu@kylinos.cn>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -62,55 +61,62 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Lu Yao <yaolu@kylinos.cn>
 
-For drm driver which has 'DRIVER_CURSOR_HOTSPOT' feature and register
-the 'atomic_set/get_property' function in drm_plane_funcs, will causing
-hotspots property set/get error.
+Playing audio/video will speed up when color space is NV12.
+For POLARIS12, audio request clock has to be same as
+'stream->timing.pix_clk_100hz', so double clock now for it
+has been halved in the 'get_pixel_clock_parameters' function.
 
-Fixes: 8f7179a1027d ("drm/atomic: Add support for mouse hotspots")
 Signed-off-by: Lu Yao <yaolu@kylinos.cn>
 ---
- drivers/gpu/drm/drm_atomic_uapi.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ .../amd/display/dc/hwss/dce110/dce110_hwseq.c  | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
+---
+Test environment:
+  Card: RX550  device id: 0X699F
+  Display mode: 4K@60 clock:59400
 
-diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
-index 85dbdaa4a2e2..bf2cb0a2abb1 100644
---- a/drivers/gpu/drm/drm_atomic_uapi.c
-+++ b/drivers/gpu/drm/drm_atomic_uapi.c
-@@ -550,9 +550,6 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
- 		return ret;
- 	} else if (property == plane->scaling_filter_property) {
- 		state->scaling_filter = val;
--	} else if (plane->funcs->atomic_set_property) {
--		return plane->funcs->atomic_set_property(plane, state,
--				property, val);
- 	} else if (property == plane->hotspot_x_property) {
- 		if (plane->type != DRM_PLANE_TYPE_CURSOR) {
- 			drm_dbg_atomic(plane->dev,
-@@ -569,6 +566,9 @@ static int drm_atomic_plane_set_property(struct drm_plane *plane,
- 			return -EINVAL;
+A similar issue was reported in the community a long time ago,
+but it was not dealt with, link as follow:
+https://gitlab.freedesktop.org/drm/amd/-/issues/556
+
+Discovered through logs audio_output requested&calculated is half
+of stream->timing.pix_clk_100hz before, so I double it.
+I'm not sure if this patch modification has correctly solved the
+root cause and whether all DCE_VERSION_11_2 have problem or POLARIS12
+only, but it's working properly on my machine now.
+---
+
+diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
+index 24184b4eb352..a93313248db3 100644
+--- a/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
+@@ -1440,13 +1440,21 @@ void build_audio_output(
+ 
+ /*for HDMI, audio ACR is with deep color ratio factor*/
+ 	if (dc_is_hdmi_tmds_signal(pipe_ctx->stream->signal) &&
+-		audio_output->crtc_info.requested_pixel_clock_100Hz ==
+-				(stream->timing.pix_clk_100hz)) {
+-		if (pipe_ctx->stream_res.pix_clk_params.pixel_encoding == PIXEL_ENCODING_YCBCR420) {
++		pipe_ctx->stream_res.pix_clk_params.pixel_encoding == PIXEL_ENCODING_YCBCR420) {
++		struct hw_asic_id asic_id = stream->link->ctx->asic_id;
++
++		if (asic_id.chip_family == FAMILY_VI &&
++		    ASIC_REV_IS_POLARIS12_V(asic_id.hw_internal_rev)) {
++			audio_output->crtc_info.requested_pixel_clock_100Hz =
++				audio_output->crtc_info.requested_pixel_clock_100Hz*2;
++			audio_output->crtc_info.calculated_pixel_clock_100Hz =
++				pipe_ctx->stream_res.pix_clk_params.requested_pix_clk_100hz*2;
++		} else if (audio_output->crtc_info.requested_pixel_clock_100Hz ==
++			   (stream->timing.pix_clk_100hz)) {
+ 			audio_output->crtc_info.requested_pixel_clock_100Hz =
+-					audio_output->crtc_info.requested_pixel_clock_100Hz/2;
++				audio_output->crtc_info.requested_pixel_clock_100Hz/2;
+ 			audio_output->crtc_info.calculated_pixel_clock_100Hz =
+-					pipe_ctx->stream_res.pix_clk_params.requested_pix_clk_100hz/2;
++				pipe_ctx->stream_res.pix_clk_params.requested_pix_clk_100hz/2;
+ 
  		}
- 		state->hotspot_y = val;
-+	} else if (plane->funcs->atomic_set_property) {
-+		return plane->funcs->atomic_set_property(plane, state,
-+				property, val);
- 	} else {
- 		drm_dbg_atomic(plane->dev,
- 			       "[PLANE:%d:%s] unknown property [PROP:%d:%s]\n",
-@@ -627,12 +627,12 @@ drm_atomic_plane_get_property(struct drm_plane *plane,
- 			state->fb_damage_clips->base.id : 0;
- 	} else if (property == plane->scaling_filter_property) {
- 		*val = state->scaling_filter;
--	} else if (plane->funcs->atomic_get_property) {
--		return plane->funcs->atomic_get_property(plane, state, property, val);
- 	} else if (property == plane->hotspot_x_property) {
- 		*val = state->hotspot_x;
- 	} else if (property == plane->hotspot_y_property) {
- 		*val = state->hotspot_y;
-+	} else if (plane->funcs->atomic_get_property) {
-+		return plane->funcs->atomic_get_property(plane, state, property, val);
- 	} else {
- 		drm_dbg_atomic(dev,
- 			       "[PLANE:%d:%s] unknown property [PROP:%d:%s]\n",
+ 	}
 -- 
 2.25.1
 
