@@ -2,55 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414F2CA85F8
-	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 17:28:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25481CA8697
+	for <lists+dri-devel@lfdr.de>; Fri, 05 Dec 2025 17:41:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85B5910E0F4;
-	Fri,  5 Dec 2025 16:28:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21A8F10EB5F;
+	Fri,  5 Dec 2025 16:41:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="gY43X5oA";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XzNWyle7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B84F510E0F4
- for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 16:28:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1764952115;
- bh=haCHNuF+DhzUKB3Ta3WIzu6TRDNEUafVF+WV6qTgYpI=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=gY43X5oA8nJEar5cv/cU4p9Lkgw9kMNoJASko2HTKT34FZhzaN0Yhty9F9bi6AgHV
- v5yjNpkPtKHMlGlRLb4ZaZ/pUYewDh5tSR6Td+uMcdJjuGeZRd+yQqlSj+YYHKJ8tY
- jxUgoGRZ1yC5QfkPF6r6XUUijQdYfJ8OnsC44dRmk5sSA1azuNz1ySer46SGagG/V5
- lzI2YNUxIThT1O03PCvbMMVz2f+63ZVetzGUlt6/J9W1TmHI8vpv9JSfCUMB03IatJ
- OeMaplWVANal0yQGAEMkn0USNVBZGB4hItuXERK47biK4inBt1NiANVAF+s3HGal/r
- +NnCVYjzrdNrA==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 4FDFE17E1149;
- Fri,  5 Dec 2025 17:28:35 +0100 (CET)
-Date: Fri, 5 Dec 2025 17:28:31 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Ashley Smith <ashley.smith@collabora.com>, Liviu Dudau
- <liviu.dudau@arm.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/panthor: Enable timestamp propagation
-Message-ID: <20251205172831.2a176165@fedora>
-In-Reply-To: <2e8ece6c-954d-4b81-b860-4944789e22dd@arm.com>
-References: <20251127115019.2113040-1-ashley.smith@collabora.com>
- <2e8ece6c-954d-4b81-b860-4944789e22dd@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EC0110EB5F
+ for <dri-devel@lists.freedesktop.org>; Fri,  5 Dec 2025 16:41:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1764952897; x=1796488897;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Ypp0okvDVTaWZXUTzuSgHDhEjVEjQxq9/GS/Qn+AYMQ=;
+ b=XzNWyle7E8l3H6/olb2+pxHSOKA0nWDjiex9G0SIsiu4IeoJxpzTrFBO
+ JfHio0KVYHtVylmSC5Z/QUv9vLCIuyz0qzuT1QJOu1XGDqAMIZKQFuRI/
+ AiPqBVQgb0Fig4jawujo7TaktF5EOa2YnaeLH/RGbq81y4IdoVrm0u/ZY
+ oWKgaVVO/CJhFPbw0HBL/KflCQvsvPI1BgvaAXJHaokWn8V4/f2S4h12Z
+ G+BzmtJcYM6PhLbJU3/9cBzx2pBk7p8ld6N7ZgkAcuvoX1edTJJ+mOgOE
+ GVvaHxtU8SlkKHmar2ohc+ZejdUB64mrbeoYo9ZKrExg3vCey0GaLK6kG Q==;
+X-CSE-ConnectionGUID: P8bGQFCnTbev2VDZI5m/Yg==
+X-CSE-MsgGUID: bypELz8QQ1qUV6SanS6ipQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11633"; a="67064862"
+X-IronPort-AV: E=Sophos;i="6.20,252,1758610800"; d="scan'208";a="67064862"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2025 08:41:37 -0800
+X-CSE-ConnectionGUID: MnG2fNR6RWiyW4pA3fHRhw==
+X-CSE-MsgGUID: MPsC99/nR2mAx5GZVfBSkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,252,1758610800"; d="scan'208";a="194633337"
+Received: from mfalkows-mobl.ger.corp.intel.com (HELO [10.246.17.246])
+ ([10.246.17.246])
+ by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Dec 2025 08:41:35 -0800
+Message-ID: <c16fb0e0-1f30-422e-9785-78ac0b8c4783@linux.intel.com>
+Date: Fri, 5 Dec 2025 17:41:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V1] accel/amdxdna: Fix tail-pointer polling in
+ mailbox_get_msg()
+To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
+ quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, max.zhen@amd.com, sonal.santan@amd.com,
+ mario.limonciello@amd.com
+References: <20251204181603.793824-1-lizhi.hou@amd.com>
+Content-Language: en-US
+From: "Falkowski, Maciej" <maciej.falkowski@linux.intel.com>
+In-Reply-To: <20251204181603.793824-1-lizhi.hou@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -67,68 +73,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 1 Dec 2025 16:35:23 +0000
-Steven Price <steven.price@arm.com> wrote:
+Reviewed-by: Maciej Falkowski <maciej.falkowski@linux.intel.com>
 
-> On 27/11/2025 11:44, Ashley Smith wrote:
-> > Set the GLB_COUNTER_EN bit to enable coherent propagation of GPU
-> > timestamp values to shader cores. This is a prerequisite for exposing
-> > device-coherent timestamp queries.
-> > 
-> > Bump the version to 1.6 so userspace can detect support.
-> > 
-> > v2:
-> > - GLB_COUNTER_EN is not a toggle bit move to panthor_fw_update_reqs
-> > 
-> > Signed-off-by: Ashley Smith <ashley.smith@collabora.com>  
-> 
-> Reviewed-by: Steven Price <steven.price@arm.com>
-
-Queued to drm-misc-next.
-
-> 
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_drv.c | 3 ++-
-> >  drivers/gpu/drm/panthor/panthor_fw.c  | 4 +++-
-> >  2 files changed, 5 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> > index d1d4c50da5bf..0b0ec3b978c6 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> > @@ -1604,6 +1604,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
-> >   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
-> >   * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
-> >   * - 1.5 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
-> > + * - 1.6 - enables GLB_COUNTER_EN
-> >   */
-> >  static const struct drm_driver panthor_drm_driver = {
-> >  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-> > @@ -1617,7 +1618,7 @@ static const struct drm_driver panthor_drm_driver = {
-> >  	.name = "panthor",
-> >  	.desc = "Panthor DRM driver",
-> >  	.major = 1,
-> > -	.minor = 5,
-> > +	.minor = 6,
-> >  
-> >  	.gem_create_object = panthor_gem_create_object,
-> >  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-> > diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> > index 38d87ab92eda..a55731e95884 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> > @@ -996,7 +996,9 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
-> >  					 GLB_IDLE_EN |
-> >  					 GLB_IDLE;
-> >  
-> > -	panthor_fw_update_reqs(glb_iface, req, GLB_IDLE_EN, GLB_IDLE_EN);
-> > +	panthor_fw_update_reqs(glb_iface, req,
-> > +			       GLB_IDLE_EN | GLB_COUNTER_EN,
-> > +			       GLB_IDLE_EN | GLB_COUNTER_EN);
-> >  	panthor_fw_toggle_reqs(glb_iface, req, ack,
-> >  			       GLB_CFG_ALLOC_EN |
-> >  			       GLB_CFG_POWEROFF_TIMER |
-> > 
-> > base-commit: 92c49b3f4df8f9acfa95551ef38fc00c675319fd  
-> 
-
+On 12/4/2025 7:16 PM, Lizhi Hou wrote:
+> In mailbox_get_msg(), mailbox_reg_read_non_zero() is called to poll for a
+> non-zero tail pointer. This assumed that a zero value indicates an error.
+> However, certain corner cases legitimately produce a zero tail pointer.
+> To handle these cases, remove mailbox_reg_read_non_zero(). The zero tail
+> pointer will be treated as a valid rewind event.
+>
+> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
+> ---
+>   drivers/accel/amdxdna/amdxdna_mailbox.c | 19 +------------------
+>   1 file changed, 1 insertion(+), 18 deletions(-)
+>
+> diff --git a/drivers/accel/amdxdna/amdxdna_mailbox.c b/drivers/accel/amdxdna/amdxdna_mailbox.c
+> index 858df97cd3fb..a60a85ce564c 100644
+> --- a/drivers/accel/amdxdna/amdxdna_mailbox.c
+> +++ b/drivers/accel/amdxdna/amdxdna_mailbox.c
+> @@ -112,22 +112,6 @@ static u32 mailbox_reg_read(struct mailbox_channel *mb_chann, u32 mbox_reg)
+>   	return readl(ringbuf_addr);
+>   }
+>   
+> -static int mailbox_reg_read_non_zero(struct mailbox_channel *mb_chann, u32 mbox_reg, u32 *val)
+> -{
+> -	struct xdna_mailbox_res *mb_res = &mb_chann->mb->res;
+> -	void __iomem *ringbuf_addr = mb_res->mbox_base + mbox_reg;
+> -	int ret, value;
+> -
+> -	/* Poll till value is not zero */
+> -	ret = readx_poll_timeout(readl, ringbuf_addr, value,
+> -				 value, 1 /* us */, 100);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	*val = value;
+> -	return 0;
+> -}
+> -
+>   static inline void
+>   mailbox_set_headptr(struct mailbox_channel *mb_chann, u32 headptr_val)
+>   {
+> @@ -286,8 +270,7 @@ static int mailbox_get_msg(struct mailbox_channel *mb_chann)
+>   	u32 start_addr;
+>   	int ret;
+>   
+> -	if (mailbox_reg_read_non_zero(mb_chann, mb_chann->res[CHAN_RES_I2X].mb_tail_ptr_reg, &tail))
+> -		return -EINVAL;
+> +	tail = mailbox_get_tailptr(mb_chann, CHAN_RES_I2X);
+>   	head = mb_chann->i2x_head;
+>   	ringbuf_size = mailbox_get_ringbuf_size(mb_chann, CHAN_RES_I2X);
+>   	start_addr = mb_chann->res[CHAN_RES_I2X].rb_start_addr;
