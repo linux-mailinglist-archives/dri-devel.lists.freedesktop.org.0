@@ -2,61 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BBE2CAAD88
-	for <lists+dri-devel@lfdr.de>; Sat, 06 Dec 2025 21:46:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2909BCAAEA9
+	for <lists+dri-devel@lfdr.de>; Sat, 06 Dec 2025 23:01:04 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5683510E2FF;
-	Sat,  6 Dec 2025 20:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D44FB10E113;
+	Sat,  6 Dec 2025 22:01:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="EArln9hX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IUQ3rED+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0527410E2FF
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Dec 2025 20:46:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1765053966; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=SCXAXr/cKQbkSyJnnQXhGEPv/m23oTHp8CWgP1tF44rfkuHDgXOsyrZVwO+eKblk/1Afxs8YnNq9w8uZQMg2pnlyC6eUljkAfEL/ONqk4MG7E/rVjnK9YKwIlECx5RV7SIqoWEn8VXfZTAOSEcjMBPinpv0awvMxj3EYPPyVcqs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1765053966;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=WG+GHNTWtRkRqPw9OJ3qyQ3Y1/EgQPS3VRAq88dpP+c=; 
- b=LWMtKmu+64R4kU5hzDnePL+jdUksC2xkmjRvRI+IUIkeySsWZuqJPBsUcPQ5P1BChUquw9Z6CpjaSk1LD57OSbNwmpJKCiXIsNl5QuqGXS/XfieyQLTHgN7xNKCUOfx75VOwPCySTi3HtyKpknraHhcpGFF/YwdDQzjnzWNi8cE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765053966; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=WG+GHNTWtRkRqPw9OJ3qyQ3Y1/EgQPS3VRAq88dpP+c=;
- b=EArln9hX6OPnWX+9bZ/pxKal2jooKwQSEvgJUjkh+X2VI0XWBFqxQxwiIjvBft5O
- gymMK3i3uiclaljpoFqlp3xh1FdnbTHEDY6HZW1nCU3+cJHwIpqx2ZRvIkqQ9DjSAO5
- EkiG5T0JG59wk0aEWAulgvM5acWIfQ3nG6/ZeQhg=
-Received: by mx.zohomail.com with SMTPS id 1765053965442536.5205499796182;
- Sat, 6 Dec 2025 12:46:05 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Sat, 06 Dec 2025 21:45:18 +0100
-Subject: [PATCH v2 8/8] drm/rockchip: vop2: Simplify format_mod_supported
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+ [209.85.214.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8107A10E113
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Dec 2025 22:01:00 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id
+ d9443c01a7336-297d4a56f97so42161105ad.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 06 Dec 2025 14:01:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1765058460; x=1765663260; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gJqmdOIxEw8eLWLXbkfWEh7lb6XZW8BGJO73kS58WvE=;
+ b=IUQ3rED+zpAaF0aw68ThzKZeLRH8DU3Paz7XAPyaXfryq136r7wrw3RWCmGEkTQkPD
+ XugNaQjZHvdjym6w3R78AlYGAmd7kZ6lKgiqOQGUYBUhv2pse74y81XQgues1WlQBZTs
+ XWqWc5kHzzhdkZ5VkM4gO9cmdOoWHyUqEtX40G8CE2pO4fRtG1eh7fEFE3L/jubONv/R
+ 4NGqOHTqvP4sbXif3Yu23aEfB7ymKLF8qnm6r1fBQ8b2utB8dCA+fjGttY2yWu2FNdPe
+ FKjmWABi/aGSVcdwFjNNROejZfKXKG2IVoCevAYVblqY2JINr9UFn0KZliCTrI0ErA5V
+ 4r4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765058460; x=1765663260;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=gJqmdOIxEw8eLWLXbkfWEh7lb6XZW8BGJO73kS58WvE=;
+ b=GChjmFB9fd5cfS59GyDtTjjPYbzokMVjXIonnLNMAgo9G2tEuuId3511SugsKn5ELk
+ +UhxXQ7zklFmHtA7U3sl5Siv4MXcwCKTeb9aA5Skf8Tm10MJtLc5nxXb2ZAaxudnZWLY
+ /+x8F6e0WL6oiwGCli2TjvIuqaaiVI0gM4j2lr9xoz5azAAPZQAe97FWS2gS2XFx9/7+
+ Rn7BIIf15ou3+cZBLsKhi8Zxs2QiT0W78gP67GZgZmqA7oGZt8vbNWTzWOYiJ5LhG4iG
+ BvdGVkL1sK4hncnrQIxj2CMwekntLKl9ypADBczlkhLlCqWB+jmnLkf7RpEOIj+PFj6T
+ dBSw==
+X-Gm-Message-State: AOJu0YxE53CYP/u+cCFyhFrNCI0ipEqjPpY0AxdDwu1Okw3BMUe4xLkz
+ CxjRgG0fUgjHp4mdY9wnxOaKSJ5VUdOGXuwaoJH3Z/gCw3MjxR8eerC3
+X-Gm-Gg: ASbGncuLPWMPZVOMO4/NHF3OHIzMbbWuu2+md7+ufqAm/XPtOEIdYy+kGUf7gSzeG2G
+ a3OPemo8o27ZSG/9ixhdabNSpQAa23ffuF+O46OfiIdavu5jyUzwgXmCcgBTJPtq+sH1kNlDfPJ
+ FokljMZeaQYw3RQgWADp+uGJ5fdTz+TdUtGb0WzLAjYtQOSq0fys6HE1iDL+bYVx3k1CQhiBrYU
+ LZTT1huDyn/i1TPxef9ahsfW1R1noVCDYU0owtZFLOZBZxgZ0CqgnRzVw8j28DuxMO7UDu217Fw
+ hXFjhL5LSgxkMOJnydCdUdramPmZUvayBtcb7L9L+oxfTI2rAHZdRmeiIXP8jRFXdgZIivt1i+T
+ 653QJNR8hVTFKEn+VdkekD5QnPLN6n4A2u0U89ZZPavoZlZop8SMQIHyzX8HZoAGgyyl6OqE6B3
+ 58zcNVpjZO2+5cwcKCvA==
+X-Google-Smtp-Source: AGHT+IHJhC3zQ6XGABOCa/C/csyzvWYH8f/mZnTV0CIhv5r0IYn0ouFACeGSRAm+pqmZn78jscTDpw==
+X-Received: by 2002:a17:903:1cd:b0:29a:2d0:c1b5 with SMTP id
+ d9443c01a7336-29df5683ed6mr32782795ad.22.1765058460000; 
+ Sat, 06 Dec 2025 14:01:00 -0800 (PST)
+Received: from archlinux ([2409:40f2:100e:9587:f0e5:c788:34e0:f382])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29dae99f179sm84066505ad.64.2025.12.06.14.00.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 06 Dec 2025 14:00:59 -0800 (PST)
+From: Madhur Kumar <madhurkumar004@gmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Madhur Kumar <madhurkumar004@gmail.com>,
+ syzbot+95416f957d84e858b377@syzkaller.appspotmail.com
+Subject: [PATCH RESEND] drm/syncobj: Validate count_handles to prevent large
+ allocations in array_find()
+Date: Sun,  7 Dec 2025 03:30:45 +0530
+Message-ID: <20251206220045.1403233-1-madhurkumar004@gmail.com>
+X-Mailer: git-send-email 2.52.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251206-vop2-atomic-fixups-v2-8-7fb45bbfbebd@collabora.com>
-References: <20251206-vop2-atomic-fixups-v2-0-7fb45bbfbebd@collabora.com>
-In-Reply-To: <20251206-vop2-atomic-fixups-v2-0-7fb45bbfbebd@collabora.com>
-To: Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,104 +88,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniel Stone <daniels@collabora.com>
+The DRM_IOCTL_SYNCOBJ_WAIT ioctl reads `count_handles` from userspace and
+uses it directly when allocating memory in array_find(). and
+kmalloc_array() allows userspace to request very large allocations,
+which syzkaller was able to trigger.
 
-Make it a little less convoluted, and just directly check if the
-combination of plane + format + modifier is supported.
+Such unbounded values can lead to excessive memory requests, allocation
+failures, warnings, or resource exhaustion paths. Add explicit bounds
+validation to prevent excessively large allocations coming from
+userspace-provided values.
 
-Signed-off-by: Daniel Stone <daniels@collabora.com>
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Reported-by: syzbot+95416f957d84e858b377@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=95416f957d84e858b377
+Fixes: 3e6fb72d6cef6 ("drm/syncobj: Add a syncobj_array_find helper")
+Tested-by: syzbot+95416f957d84e858b377@syzkaller.appspotmail.com
+Signed-off-by: Madhur Kumar <madhurkumar004@gmail.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 56 +++++++++++-----------------
- 1 file changed, 22 insertions(+), 34 deletions(-)
+ drivers/gpu/drm/drm_syncobj.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 8e0727c3523f..10b59487019c 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -367,59 +367,47 @@ static bool is_yuv_output(u32 bus_format)
- 	}
- }
- 
--static bool rockchip_afbc(struct drm_plane *plane, u64 modifier)
--{
--	int i;
--
--	if (modifier == DRM_FORMAT_MOD_LINEAR)
--		return false;
--
--	for (i = 0 ; i < plane->modifier_count; i++)
--		if (plane->modifiers[i] == modifier)
--			return true;
--
--	return false;
--}
--
- static bool rockchip_vop2_mod_supported(struct drm_plane *plane, u32 format,
- 					u64 modifier)
- {
- 	struct vop2_win *win = to_vop2_win(plane);
- 	struct vop2 *vop2 = win->vop2;
-+	int i;
- 
-+	/* No support for implicit modifiers */
- 	if (modifier == DRM_FORMAT_MOD_INVALID)
- 		return false;
- 
--	if (vop2->version == VOP_VERSION_RK3568) {
--		if (vop2_cluster_window(win)) {
--			if (modifier == DRM_FORMAT_MOD_LINEAR) {
--				drm_dbg_kms(vop2->drm,
--					    "Cluster window only supports format with afbc\n");
--				return false;
--			}
--		}
-+	/* The cluster window on 3568 is AFBC-only */
-+	if (vop2->version == VOP_VERSION_RK3568 && vop2_cluster_window(win) &&
-+	    !drm_is_afbc(modifier)) {
-+		drm_dbg_kms(vop2->drm,
-+			    "Cluster window only supports format with afbc\n");
-+		return false;
- 	}
- 
--	if (format == DRM_FORMAT_XRGB2101010 || format == DRM_FORMAT_XBGR2101010) {
--		if (vop2->version == VOP_VERSION_RK3588) {
--			if (!rockchip_afbc(plane, modifier)) {
--				drm_dbg_kms(vop2->drm, "Only support 32 bpp format with afbc\n");
--				return false;
--			}
--		}
-+	/* 10bpc formats on 3588 are AFBC-only */
-+	if (vop2->version == VOP_VERSION_RK3588 && !drm_is_afbc(modifier) &&
-+	    (format == DRM_FORMAT_XRGB2101010 || format == DRM_FORMAT_XBGR2101010)) {
-+		drm_dbg_kms(vop2->drm, "Only support 10bpc format with afbc\n");
-+		return false;
- 	}
- 
-+	/* Linear is otherwise supported everywhere */
- 	if (modifier == DRM_FORMAT_MOD_LINEAR)
- 		return true;
- 
--	if (!rockchip_afbc(plane, modifier)) {
--		drm_dbg_kms(vop2->drm, "Unsupported format modifier 0x%llx\n",
--			    modifier);
--
-+	/* Not all format+modifier combinations are allowable */
-+	if (vop2_convert_afbc_format(format) == VOP2_AFBC_FMT_INVALID)
- 		return false;
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index e1b0fa4000cd..f322b38ec251 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -1293,6 +1293,13 @@ static int drm_syncobj_array_find(struct drm_file *file_private,
+ 	uint32_t i, *handles;
+ 	struct drm_syncobj **syncobjs;
+ 	int ret;
++	size_t size;
 +
-+	/* Different windows have different format/modifier support */
-+	for (i = 0; i < plane->modifier_count; i++) {
-+		if (plane->modifiers[i] == modifier)
-+			return true;
- 	}
++	if (check_mul_overflow(count_handles, sizeof(*handles), &size))
++		return -EOVERFLOW;
++
++	if (size > KMALLOC_MAX_SIZE)
++		return -ERANGE;
  
--	return vop2_convert_afbc_format(format) >= 0;
-+	return false;
- }
- 
- /*
-
+ 	handles = kmalloc_array(count_handles, sizeof(*handles), GFP_KERNEL);
+ 	if (handles == NULL)
 -- 
 2.52.0
 
