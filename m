@@ -2,142 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053AECAA0B7
-	for <lists+dri-devel@lfdr.de>; Sat, 06 Dec 2025 05:26:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 443DECAA26D
+	for <lists+dri-devel@lfdr.de>; Sat, 06 Dec 2025 08:27:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34DAF10EBE5;
-	Sat,  6 Dec 2025 04:26:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4789110E071;
+	Sat,  6 Dec 2025 07:27:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kyohsvY9";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Q//68PmC";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XVxXsEAt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2406C10EBE5
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Dec 2025 04:26:34 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5B62q7sZ2696630
- for <dri-devel@lists.freedesktop.org>; Sat, 6 Dec 2025 04:26:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=Hu8/G2En0ETKGGXX8lhZbAP0
- 7xXmRzeu4TXO/qDJN6g=; b=kyohsvY9b5gIK5ZVV132WwNNX6yJfrn++PqAVQM8
- gchhMq91Y0qnqN4cgdOSPTZDQfXIDEKUlBBkdt667C+ZotwSODJ6v7pFcJlJVVMC
- kR7ybafxNc9xmbapUVBjaumurIVibe6nchqj39cQwUdniR6Xgw2Wbh+blUwqjHmH
- zmAs7oTx3nxpazR3tgwAn9tWIo1j2j8gKUZY7vOOL1/gHHi5R99HxRNpqoDdUBNj
- dkXvEYblsLZy6ypcVxTcITKocqt+1jS3UMZyGGvP9+k/F9A74M6wWpzrqZKIfkxQ
- X3ALGR2YB2X9AB1E9vqALEiZczH7tKrRGztUtHPvldMWlw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4avc2wg4dj-1
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 06 Dec 2025 04:26:33 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-8b2217a9c60so413090285a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 20:26:33 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78F3810E071
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Dec 2025 07:27:25 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-477b198f4bcso23950415e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 23:27:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1764995192; x=1765599992;
- darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Hu8/G2En0ETKGGXX8lhZbAP07xXmRzeu4TXO/qDJN6g=;
- b=Q//68PmCiWlVbbMhuP+VZQjDbZ+SOngpo8A4AcEuM2OyIBFKjSiQ4p9whqAqywqnW6
- Bn7zJJAdlMBfnAaFj2weQCbV3+pyICdhYKY/HRCK3Rur/GYCqdzYruIw1Pqu/FeaEFNh
- 08Cml3en7urSy2NzJpNQIAH0QDdvPk00k3hnMxFVZJ9B53s/DiczpHOfrHbi8P5ll8Ka
- YKTdxStOMo0690CCw++BVRBnN1ja6jeiRDTmam+stTdPBbfk9nQ9TrYAFH1b2reM5OOX
- 5AZr7qfRw5wXXTrC00P7P7SpU/nV+cwVj0Nwzeauus/8URvhpUEqCPhTCFWndrhYvK8Z
- Jz/g==
+ d=gmail.com; s=20230601; t=1765006044; x=1765610844; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jGhpR6O2zFoAKNfdFNkxlU6+z+TxXnT6EOz7gMMWwCo=;
+ b=XVxXsEAtu8eHUEELfwIsQ6PRH6HmM+PhNOOVZntGOmxtcj/hyOBa0AgXOVZpJnDzKO
+ oFzTsHuO1kTZhooP3M4QHWJiCt65+ln4j8mVKpsf95wPvmTARKqCXCacVGnDTfFFme49
+ V9bibiZPvDB1QirLZ2qtcWzKd0J0wHmU8VROV9NzrCepIJOC2OB0q4qUdnqaLLJduDP9
+ 9BpeUezRc46kmzVqQZTR1syOjZTqeOL694rJy/CDvfQgIQjC6yQYSaLTgo+fzd1Pdcq1
+ iSzZGnp7R10OHcA9VlusWU6+fjgs18oaH6o/6j6+IYc0CLWV8p/IVzl2fdRzmThzrs18
+ JDFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764995192; x=1765599992;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Hu8/G2En0ETKGGXX8lhZbAP07xXmRzeu4TXO/qDJN6g=;
- b=H8Axb+XaWS5ZjrZIkSKRmJFx6a+/xZTapljfByW6NUQSLjEcjQRE3/ZOyzKwnpsxSH
- DguxhVMVjnaLpT4dqwdfy/zgcUF3oIOVxvUd44AEQ32qjL0ySs/Kk9U6c5pk4o1aSPyy
- Y330jO5dQAReGzVuTjcxaEadz/sLu5LKdC5VtOJr7QDboxGQglJKDE9s+osuCxlQajUu
- QDD4LbZl08hcikS/V2g85Alh3InXdDGL0GLe2ZF+v6tKap08dmtKLbQ4oE9I8fwda67m
- rcgtdrRzQ6lbc6hAalT4B55sKe+3q9RBoIIOdUvGYyaFP+7ziWtP6vdxj+OuO5OtWTO9
- zzWQ==
+ d=1e100.net; s=20230601; t=1765006044; x=1765610844;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jGhpR6O2zFoAKNfdFNkxlU6+z+TxXnT6EOz7gMMWwCo=;
+ b=Dmp/wJkkHYPnBK5Z9JA4Bee8hrSVh57H4kpzx1C+vz2gXyR4Vf+6ScTnkqwYs9aEx1
+ JjcHovXG4znKu2FICUAYYMCuFuiY50rUf8Ftx3lDG7yIFUHybbd2xu2HHEdLBdhSQW03
+ oAr1SoITYA3L1MxxbcN84AFdZSXtHEmhNVgXdbgvqDfZ276jhR2zBPzlPVK8w+WB6pd7
+ Puc5VSFCHXK9pqolmPpBcY/VUO6t2ypC5jkR6IJeWLnL9Odqo+L1XKYnZLxAqZjQNZUG
+ mBsEOobuIBZfmEedY9v1JtvAkzmQ+0bNqnWJ5vdEC+9z/nVtKM0j5V+Pxv1jj8KrCamF
+ uCvg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUZt3GSR7ydgpu/Y9dD9wAVJbFcZ6p1Ho9x3dlhXLDqzK97opmYEp0joacY0RfjrhQQCuk3bSL38u8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx+1qTlw1jyjSqdGgOj5t3GKB2vbxXoAtclMwznyWh6a1Iqv1Y0
- FGPcect7kVyvmmzTdxWWrGPethHB+j7L0aOCUrjddHAeLap8uSEOa6Ncq0YJLUdUQ5WruWYQ8gK
- lzz7hjsaQ3j6MkHFaOjoOjX5ks+kKlJJ57ILjsdEH9PhasEA2ybaLB4POXS37JErsHlD0TrQ=
-X-Gm-Gg: ASbGncs0qzGZZYAbUzC5YDzNcBAel5T686ROUH0KoGRtdymhOUE04Jgg0nsLKV043vI
- mMUY6D30EI5ZL3jRVtrta0RuAW3X/1xaTeppAeXmV1XyHlvTjCry0jvLFEmStklQT54E3RQ1LpP
- /zk+9KM34UPcp5yj5LyoAZLzBzt4FDRbMRiUT3IHoNT3CY3IBrsksHIt4pfPhpyBh/9hUN66+Y/
- 4l9YhFK8e2UlZslihBiwFfU7rfxdpxQQxTSYvkE4qtR0Ixpjm4YceMGS6FHMYMSQD6QezCD2cCQ
- 2DcG8WLkuX0PpfzvUYXEkMputlOrwu0yD51AXNgJwrbxASD4zIB8GJJKAQnSNfFAizdpCjhQOay
- gyCbiJcTOi6Z97YlOqL+V+FrYWXyKCTRjFB6jqTCIEITF391atxnzoFWtwE9xNtoIU1lZSwRwKl
- RkorOjSvKRJCt7xJeqDTyf+jc=
-X-Received: by 2002:a05:620a:25d3:b0:8b2:e666:713 with SMTP id
- af79cd13be357-8b6a23befd5mr210650685a.42.1764995192568; 
- Fri, 05 Dec 2025 20:26:32 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGOHLd2bPRMxNnPTsz0lp++zEjLAlPwtCJk+xAn1q+7cbKHH+uZHFLA7dyHx0CcMZMPHW8ySw==
-X-Received: by 2002:a05:620a:25d3:b0:8b2:e666:713 with SMTP id
- af79cd13be357-8b6a23befd5mr210647285a.42.1764995192063; 
- Fri, 05 Dec 2025 20:26:32 -0800 (PST)
-Received: from umbar.lan
- (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-597d7c2e4afsm2079237e87.95.2025.12.05.20.26.28
+ AJvYcCX/LCIlmCikNSHeJySQQXy+T06V3jc2bQqjffYTm661vD93rhwbH03+SgS1l4pRr758OCuyvjPtMWE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzGuw3l/knOko/kyrjucYLwbUHrmoUjCA6/ZJWeehs2EM2PmXQy
+ GHzvbR3ZiwRKCQWOdrpG+SIADz0FdCMEr7l+/3MYihuHZJxbtuZkahSK
+X-Gm-Gg: ASbGncs9Qd/vnxbZb/s+kqCgAYJhxGnQaAbihLRlJCgRQXlguUkW3uZyk5BmOpK1Whb
+ a4XXvDlSlS//UKOtG9ATFq8Cm2fOFMug25UbEv76C4x6VMjgz8yyOsQEbHG4dMsrd23XrcRjlxU
+ bJDQKhjvoohuk6NptIUkxCwd/MhoK2OCk5JILvWcQVQenNl3Q27NVmMiSPz5K+j66sK8oq0dcyZ
+ ShsT/A5vjsnVbf5y2AOeOlTDoOzTzbE8+fQd4ds8oRce9QfkZQjSMJ2ej9lLQFVf6E4obz2YV+z
+ x7RaaUOk6xXlNpUGOQZw/MUMFtk6thmsy78dtFxZS4FJE2s9B5AIDkLBhtTlnUZV/1A9IdNZ+5V
+ aDQ4fcQPaImpzY4kM87fCOaxvrGyC/Js/FebC1/SNVnOfhtH4B5j7yQf5DQe/Tz9uz5hjpGQ4Bf
+ yGfL+XXgjf8MkTeIY=
+X-Google-Smtp-Source: AGHT+IFcSNJRPdN47xMM+2pb+RDdYixNneiclPN+q2YkRdM3jQKvDsax8tHHHgxDmSsm5A3RLgX0YA==
+X-Received: by 2002:a05:600c:3b07:b0:46e:32d4:46a1 with SMTP id
+ 5b1f17b1804b1-47939e24836mr16647585e9.22.1765006043520; 
+ Fri, 05 Dec 2025 23:27:23 -0800 (PST)
+Received: from toolbox.. ([87.200.95.144]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4792b140cf4sm91054435e9.5.2025.12.05.23.27.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Dec 2025 20:26:30 -0800 (PST)
-Date: Sat, 6 Dec 2025 06:26:27 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: david@ixit.cz
-Cc: Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Casey Connolly <casey.connolly@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
+ Fri, 05 Dec 2025 23:27:23 -0800 (PST)
+From: Christian Hewitt <christianshewitt@gmail.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Dmitry Baryshkov <lumag@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- phodina@protonmail.com, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 5/8] drm/panel: sw43408: Remove manual invocation of
- unprepare at remove
-Message-ID: <a2fcngmfmrhc7jltvpmobj2xejdys6txcwbtyro5eyxx5g252b@fj27grtqjv2f>
-References: <20251125-pixel-3-v4-0-3b706f8dcc96@ixit.cz>
- <20251125-pixel-3-v4-5-3b706f8dcc96@ixit.cz>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Sugar Zhang <sugar.zhang@rock-chips.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Heiko Stuebner <heiko@sntech.de>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/bridge: dw-hdmi-qp: fix multi-channel audio output
+Date: Sat,  6 Dec 2025 07:27:18 +0000
+Message-Id: <20251206072718.2039874-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251125-pixel-3-v4-5-3b706f8dcc96@ixit.cz>
-X-Proofpoint-GUID: zbF-A8W_B2k5jW-2QJyW-zMcnyDMqag4
-X-Proofpoint-ORIG-GUID: zbF-A8W_B2k5jW-2QJyW-zMcnyDMqag4
-X-Authority-Analysis: v=2.4 cv=d774CBjE c=1 sm=1 tr=0 ts=6933b079 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=i-udh5MX2JNcMYgkDNsA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA2MDAzMyBTYWx0ZWRfX4Rzs6thQOZpW
- JlAxJ1ga6JI7W/zhVg3LwZ3apT7Kvc7PbQqT0wW3wKsCOLYWVmsvJ6Q3wG2w1kGJ1zMmNig5C+o
- ZHm3/LcrLj2CQ0VGe6u65fzlD0TRbpGpRwFMZ7HLzpNSgSwKkk65anuPZT9vIzteK8pBQVSRilR
- x31yMims3Brk8WJBJYBBTnapt2cymJDB4ISZO37nDpNCqhM/+/mrl47NUvbOqYhj0HVdZYP6LPs
- x2GiFYiv5Y9GHV/EXWqU7t3ToAoZ9AGrif7/3fQUvSIG7oj/mERfrUFDd4xT1tkQrRGOcYRlsyU
- 1hBiPHZtqOpMRoisGIUaY76UG+hlyMy1k0GlaOcRw63yd2XKf9OrZHthFjbQ/QgQKAJhFrdVFE/
- uBT1RIgoLP3kQDd5Hwdx7H21+nJLNA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-05_09,2025-12-04_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 clxscore=1015 impostorscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 spamscore=0 suspectscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512060033
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,22 +100,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Nov 25, 2025 at 09:29:40PM +0100, David Heidelberg via B4 Relay wrote:
-> From: David Heidelberg <david@ixit.cz>
-> 
-> The drm_panel_remove should take care of disable/unprepare. Remove the
-> manual call from the sw43408_remove function.
-> 
-> Fixes: 069a6c0e94f9 ("drm: panel: Add LG sw43408 panel driver")
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
->  drivers/gpu/drm/panel/panel-lg-sw43408.c | 4 ----
->  1 file changed, 4 deletions(-)
-> 
+From: Jonas Karlman <jonas@kwiboo.se>
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Channel Allocation (PB4) and Level Shift Information (PB5) are
+configured with values from PB1 and PB2 due to the wrong offset
+being used. This results in missing audio channels or incorrect
+speaker placement when playing multi-channel audio.
 
+Use the correct offset to fix multi-channel audio output.
 
+Fixes: fd0141d1a8a2 ("drm/bridge: synopsys: Add audio support for dw-hdmi-qp")
+Reported-by: Christian Hewitt <christianshewitt@gmail.com>
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+
+---
+buffer is a pointer to u8 while data written to PKT_AUDI_CONTENTS
+is u32, so buffer contains audio infoframe header (buffer[0:2]) +
+checksum (buffer[3]) + payload byte 1-10 (buffer[4:13]), e.g.
+
+regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &buffer[3], 1)
+.. will write PB0-PB3 to AUDI_CONTENTS1
+
+regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS2, &buffer[4], 1)
+.. will write PB1-PB4 to AUDI_CONTENTS2, but should be PB4-PB7
+
+&buffer[4] will point to payload byte 4 not payload byte 1, due
+to u8/u32 and not considering the size of header+checksum (3+1).
+---
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+index f3a13da488e6..7b8a69383dc4 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+@@ -845,7 +845,7 @@ static int dw_hdmi_qp_config_audio_infoframe(struct dw_hdmi_qp *hdmi,
+ 
+ 	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS0, &header_bytes, 1);
+ 	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &buffer[3], 1);
+-	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS2, &buffer[4], 1);
++	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS2, &buffer[7], 1);
+ 
+ 	/* Enable ACR, AUDI, AMD */
+ 	dw_hdmi_qp_mod(hdmi,
 -- 
-With best wishes
-Dmitry
+2.34.1
+
