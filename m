@@ -2,94 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F338BCA9EBE
-	for <lists+dri-devel@lfdr.de>; Sat, 06 Dec 2025 03:30:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D89CCA9ED9
+	for <lists+dri-devel@lfdr.de>; Sat, 06 Dec 2025 03:31:24 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E797010EB27;
-	Sat,  6 Dec 2025 02:30:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0EB9910EBDE;
+	Sat,  6 Dec 2025 02:31:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="U0gRS5Iq";
-	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Bhxs0Pay";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VsqwB7CV";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="arfXGV/d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBCDC10EB27
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Dec 2025 02:30:19 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 250C110EBDD
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Dec 2025 02:31:16 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
  by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5B62CFGc2702922
- for <dri-devel@lists.freedesktop.org>; Sat, 6 Dec 2025 02:30:18 GMT
+ 5B5L7WCv1416417
+ for <dri-devel@lists.freedesktop.org>; Sat, 6 Dec 2025 02:31:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=e/d8kbaoJ3LT3xXOy/67lazS
- UfWaZHogOBoRsULFs8s=; b=U0gRS5IqU9anCNVHl1AGrAnaK3DKXMgiILzynFwl
- 8EVfs4ZlkrfkjR/w+4D1mxReQJa1WZ4QH3L2JYcmfPJI5R5dZ9O/HOcMsQxTHHlq
- 4nQNvKqJWKJPeZRRANtQoVO+5D1NlhF1VK6koWrNUA7Oq/lQ2J2RrkC78OKD+Yf5
- gxFVjpZo0MUIk8dc/bYe48WDJZNuIS9e4y43tHPfQmzxKj92C8UifRXeQDRsrKs1
- +mlrVI9OtvHccOYgJdRTbLNnsuN4Bf8xZyCavw6rwRr35yMyNw8noSosfJ8dkuSZ
- MTe/IvRm5Flb+s1U9/Mxhg/WXGB34guf7TVLSENPLVPnuw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4avbga00uv-1
+ :references:subject:to; s=qcppdkim1; bh=ZRtO3TYmHTQrUnXdt/8BxaRj
+ 1OPXEp1i7OmNj7Dvdos=; b=VsqwB7CVnCPvSGB5MuKH/57RREUQA4h8w2Nf9wou
+ /G4OE78gMRQp4GXJU/GcPVLu2P+G0tfdu+WKpULAt9t178A9IiRXquuAnpFBG4QF
+ 9J6OhB39dDEsQTs3pqyqg4UQ5JxrIS1f2t6+VQcrfujXiVzMWB1ruEifBnogY5FO
+ PM5bk4gIqwRWHVRkNsyARv8vbJiSVAS0PKc8nllhiBBfy3R3e8GvbJyOGOCp1LoB
+ pH0pxUVbEcTplSHPcc5r33/GijOH68TLzssIykt0o64LNk6jYJ+pikLmBjG4w4L3
+ b0adgPoheQNm4SaAfAP/ir7UBDX2bH3pw0As8StO3fuDOg==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4av71kgk2p-1
  (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 06 Dec 2025 02:30:18 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-8b6a9c80038so21000285a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 18:30:18 -0800 (PST)
+ for <dri-devel@lists.freedesktop.org>; Sat, 06 Dec 2025 02:31:15 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-8824f62b614so5086686d6.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 05 Dec 2025 18:31:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oss.qualcomm.com; s=google; t=1764988218; x=1765593018;
+ d=oss.qualcomm.com; s=google; t=1764988274; x=1765593074;
  darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=e/d8kbaoJ3LT3xXOy/67lazSUfWaZHogOBoRsULFs8s=;
- b=Bhxs0PayoWe5tTL18mj9TIn474JewoB5v5WHIfWF3iSt+SC2yaLIcMmebJetiK7VkZ
- RT7NHyFGr8CEWN5suyTXkK/zDItDE8nJlBYAs9Itf0XWMi89ABPuXwQtMBO1UgKfUQ0v
- GMR/ye71fuH8taD5gcoHlUos+kNkt0zuu6+WvOSVndZX3Ws/SkJo+JL/HVmLErD91xH1
- mtP0UiabxkUFhhoPzZLqywz8chGolr/XHzQr1+SA0DERjlc7fWc4uYHj6TYDdMLqpD2M
- Bb/dPoDLlCUV1/ALCzdCh31V4IiU4M2+bO574b0A+WGvvoIu0qv4TsoCPQMI0vWtzlH1
- 0Www==
+ bh=ZRtO3TYmHTQrUnXdt/8BxaRj1OPXEp1i7OmNj7Dvdos=;
+ b=arfXGV/dHn/rzI5YHwZjrgRic3difkqRbak0hCV/l+g7Z5DbSNhlykmmotp8NFWAdO
+ doqwvhuKY2Y6+D9EwwX9jZYE7vGpOmcGLBnyaTxtYg/OY2K6AKBRt0gb9IySG4ewFiVS
+ wN7ESxGFFB0YubSn5KT2Nh9vBkm9c5Uf2aaSnpvxRiDv6Ldxp0Kf9OFapJoooAhdmIKj
+ agjk7CTbnXjnHgwAawLuU9lWe7yqvm158q+D9tO1Xzfz9PU448FI5TelGqRPzYuXJTKs
+ FVE93ujH+ONN+MCMWfBcWwHj4SStJINhxI/O6r/NmXJcb5vbiJsGdInnoT7EZmdkw4tZ
+ JHNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1764988218; x=1765593018;
+ d=1e100.net; s=20230601; t=1764988274; x=1765593074;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=e/d8kbaoJ3LT3xXOy/67lazSUfWaZHogOBoRsULFs8s=;
- b=NzH7iIoW8Yn/JQFJ4Ck0GJbq/kb7XxTryqNYAucAsx4faxs2EBRwt3FmWDmvWwMPDg
- X2vLB92atLgTGW2i1uCuND6DhKkQhcgbH6bEk/JMX9acJdl7pL0gRHEPhRuVWlhiNc2D
- riTvLaNl5TbmAAMBC3EWs9diMrZXCm8vg9QC7XR0feAI1IkeG71R9c49H0bRRgmS3xAU
- VAeJywm5yKnGuhPujMG9xrowwUUSB0E89lYW8lQBbhG6MahQqvQTt/MlXUMRGc50Vbsv
- chBH8mKgqWTGViTWxC/gFG06DPz/xrk8pVB1SgzH1LN/LyB9tTGLHLCClV31ISXdYAwb
- ovoQ==
+ bh=ZRtO3TYmHTQrUnXdt/8BxaRj1OPXEp1i7OmNj7Dvdos=;
+ b=Kg1maTSaYziQhs4ytqlWG7xN/BVsjqiqtr6wYQ91MimytNc3KMk3h1r3ytamPFdHm0
+ VRY4yfBXKyLibwcuz9NH1i8PYyDTjvv5P6aGBhprFclYUtPS3ufnJY7k9qd0gjFREqIT
+ NeLSPVD4B/P9J7mLqpzqTuM44mR2LDTUubZ6Svxz6eiKwCFgZOHuiBy2AQvWxah/Yxmr
+ uhCPRjnvGXPMQaxoEJfpiiKH5V7BagZJCEMCyW5quoB3rEUqdjTfYHVmKsm6ZsjehfiU
+ gxKL0hyHvKqiJM2AEQB0WuC+9zAItZFXzda5VvWcQ10NWAPVdYe9MqklNyyyUfaPZWgx
+ TUOQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXkgK0UtqyIbxQuCkTI6ZsBPWagnoxIH6JrbQezsXppw1EXeYATeITu/rufD9F9uOZntvvoZKzf1+8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx07yE7xFTUctBP9c8gy5pqp7effF7kxK91AxoEMAAJmo4E+dHe
- 4ZBxJNZb8xseGHSN/0kyOQ26OLkkrFg/cD55HMiPbrLB9MhzTp6hmJm/XqpKQ3B6eXUVczRQ1xs
- gaLpZSy4bWuLq53/5WwhgBFMKECIdg/41AIvIQNs+ZSLZi7o5iEC4GjRyMPVhAn5IUjORmh4x4X
- mtrkU=
-X-Gm-Gg: ASbGncvNKCMPeKVJo6briVZGRDdBfPShop6X/PHipiw9rISD0oEhBM3Ah0iQS9z/i79
- 9jLjqoiZLXpOCpamwr92Q/R2kmmGNGA2zajaNIVQppkgTQrLpOoupQjCO/u708syy50yqaPJSs9
- OgeggfErYVs540k54KJnv/LQnunIg1XxGc2J72q8lNq6fU58R2k1GDkD9xAieZDFYg52cLcc2TM
- 3HtnW9XS+0U2yVxfK5rBqRTomtR/ApeJU9J3r8yR659+PJgWNbErtXWev0HjWPKIbrxiJPhdvnt
- YoJQX8iyeH/MX2oYm8o1A/GTn5lTz55vnz9uMT2U6DRqWvtAJSMlN5ispG8qVMHryuNxJlYYPCr
- 6YqitwmHvumaBUk+Lh0yDWZDbVVRIhViOVPLUIJtfGU/bDFccnfYH7nO0GKc4z4VYmjKhDX8ZKl
- a3S09WBSUMfTl95mlT9kjqRok=
-X-Received: by 2002:a05:620a:4620:b0:8b2:ea3f:2fa5 with SMTP id
- af79cd13be357-8b6a23e0558mr191000485a.69.1764988217521; 
- Fri, 05 Dec 2025 18:30:17 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEbFasjoPYgeV0zAyrFao6Ix4m/Qiro6WgeULAnmE2a4FYE4mruIM3gzGDMgLoYDTwXaP7xJA==
-X-Received: by 2002:a05:620a:4620:b0:8b2:ea3f:2fa5 with SMTP id
- af79cd13be357-8b6a23e0558mr190996385a.69.1764988216880; 
- Fri, 05 Dec 2025 18:30:16 -0800 (PST)
+ AJvYcCVzXpB8nz+b7RiqbzdBqbSLknvKDvKUG0/06GYQKSJY3O29HXbD/5A0H07raK90FfnGY8A8zxeDNx8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyTLVEAGcowGZHp5FQrqikdWOD5oP8nvKA8bYJEJN/SMV1tBFuA
+ d3i942Vp2KFJyP3umMO6IbnCqGZboOubuFjse56wgWCthVZTU7WOYFkAC5zrFgZ5joUvNcXnv7y
+ jzKF0933RmDjlSxwCrvuml7m3f+YvDSazcMEpF5l9JRQXYbLlFUJixryX1lDzt7l7ENn/Cb8=
+X-Gm-Gg: ASbGnct+9BCUPRBkVXH7H5vaSmzVezefIHdR11sEGAg6j3/Ke3fu9vv6mrrrQAcTR8n
+ zkANOplC+HJtoHG8cNjTHY8tkG3Xp4TREmofzppd72aDc61uFiDSd8GHZsWwD8utuU41K4cETlX
+ NnWAqtdWcj+x4AXnU5kcrm3tog8ATWMTVMiTMvLX+hsc2JIlR397J3YIkDFxLYOZPNLtdMHC3nF
+ LaZJvVsbANj7uazB4gfrGRGZfpogRSmVn3sZDDbnF4VbRck8XD7FVuAHdpvgviSHj+91J96emPp
+ asGjk7UmAT5+ZhjYKA0wVlYunql5CaU8UWuMoG0tsTP7UXkbjQ2W47w7cm96U0xt7w3Q+ox7Yu3
+ vJcMDn7Wxgs/xPU2Kt1+IwDtI80v0J+w5/DK/N4DO1I4YgQw3YRF3X20u3PhkXhRonMqjTZ5ipb
+ kKh66TVQYBTG6p1FlbXiRdGCw=
+X-Received: by 2002:a05:6214:4509:b0:87d:fbe9:9566 with SMTP id
+ 6a1803df08f44-8883db1bd75mr21755886d6.26.1764988274442; 
+ Fri, 05 Dec 2025 18:31:14 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE04NAuZrnromDR9MbXM6eEIfNuiKMMl7Us1PS2BG+IPVypoFi0GdBxZkOLZlekK+UzNyC2TA==
+X-Received: by 2002:a05:6214:4509:b0:87d:fbe9:9566 with SMTP id
+ 6a1803df08f44-8883db1bd75mr21755486d6.26.1764988273934; 
+ Fri, 05 Dec 2025 18:31:13 -0800 (PST)
 Received: from umbar.lan
  (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-37e7067cbadsm18852901fa.50.2025.12.05.18.30.15
+ 2adb3069b0e04-597dfa1573asm473037e87.3.2025.12.05.18.31.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 05 Dec 2025 18:30:16 -0800 (PST)
-Date: Sat, 6 Dec 2025 04:30:14 +0200
+ Fri, 05 Dec 2025 18:31:13 -0800 (PST)
+Date: Sat, 6 Dec 2025 04:31:11 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
 Cc: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
@@ -100,38 +99,37 @@ Cc: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  jingyi.wang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
  ktadakam@qti.qualcomm.com
-Subject: Re: [PATCH v5 3/4] misc: fastrpc: Add support for new DSP IOVA
- formatting
-Message-ID: <mlyaklczl4ngeckk7nle2xwmmzmqlphi6d47octomc5tewohh7@ipc2ik3kqj6q>
+Subject: Re: [PATCH v5 4/4] misc: fastrpc: Update dma_bits for CDSP support
+ on Kaanapali SoC
+Message-ID: <l6pf6zoz3sfawnsdmtacczykg2dgnaw4x26dfg4o3al44y7fc5@vgzd5s4uygm6>
 References: <20251202060628.1869967-1-kumari.pallavi@oss.qualcomm.com>
- <20251202060628.1869967-4-kumari.pallavi@oss.qualcomm.com>
+ <20251202060628.1869967-5-kumari.pallavi@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251202060628.1869967-4-kumari.pallavi@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=d4z4CBjE c=1 sm=1 tr=0 ts=6933953a cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+In-Reply-To: <20251202060628.1869967-5-kumari.pallavi@oss.qualcomm.com>
+X-Proofpoint-ORIG-GUID: kirH-oEjQdiWZOL1X2PmGJPRITPZqVnl
+X-Proofpoint-GUID: kirH-oEjQdiWZOL1X2PmGJPRITPZqVnl
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA2MDAxNyBTYWx0ZWRfX2PR/7zidY0BE
+ vxT3cbPTX625YxpMU1sfav15iJrAZL0tDImxHAhtrdVJQQlzfdv2MVXruIZSya783hZX8mJXfMa
+ gadp+SKw+0IC7OBuIjgIUOThoZ2LfdOzpo5+kle69dczbxF94LcnaB31iofEJOquxsUPgbavjb5
+ RnUbgLe3KIMbkEcWEWhT/IZG+VJZE5NhCcw9XFVSiajSMV3cTXpDx+qWHW6WnQeblCkqRWbGimG
+ zeRaAKz/FWNrRZktpsal+25qZddpo1PSyPD8Z1+oK6rwNLFCFA96oq6bwvWh+o3xnYsMODWEi8/
+ YHdfcw0qgqibPB4jkC5AwkOSEE72Jl5knPC7PQz/ZOd9TrpHbrPan8uezaexe3QVCoSKmE5XyUB
+ HTR/w6FdAgIvI1ofZlU2XHrvkofB4A==
+X-Authority-Analysis: v=2.4 cv=Uvpu9uwB c=1 sm=1 tr=0 ts=69339573 cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=NQApBsomutaRK4veD-8A:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: 18lqk6dN9-PI8YqSp1r30etkTK81DJal
-X-Proofpoint-ORIG-GUID: 18lqk6dN9-PI8YqSp1r30etkTK81DJal
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA2MDAxNyBTYWx0ZWRfX4Dwr8UAxKl26
- irghcBj3JTs678iRvzpYCr0i+WfImzkwuZTjDfk8/7G4i3J7gDh8r8SoguXNrEsmJ5+AgmsTuvN
- boVq88sOJKjk5Gi0JFn4X+qayr+fJJnJXjI0vdbQ5g8sjRmlaFrj0NvxaRH+W4xdI5j5LRFAWSR
- aPMCy7beQ5Wg8K4VAOLeBrgRinNPAhK2PDt0uEFI2R00bt/AVV9yhVa6UcexYyc/OAEOwNcuOAo
- d+QMgPocm2KXqEy+FQDJ9CMLq3XwbNNIMH1/xceTHgq4yGggoXvOerCLbxzG6DlXDH48RW1kT8A
- lDyi5Sy92d1b3vMZ6sUIZ9DVbDzDOnNqeHTpKlNURVGMNzr/MjsYoED+1hOzmfjaT+MHz+Jsioh
- /pgIq1NUmzgm5m5NFJxf5cCzx0aYvA==
+ a=EUspDBNiAAAA:8 a=BxukJQUEoHWD8WPs6VUA:9 a=CjuIK1q_8ugA:10
+ a=OIgjcC2v60KrkQgK7BGD:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-05_09,2025-12-04_04,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 clxscore=1015 impostorscore=0 phishscore=0 adultscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2510240001
- definitions=main-2512060017
+ priorityscore=1501 malwarescore=0 clxscore=1015 bulkscore=0 spamscore=0
+ impostorscore=0 adultscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512060017
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,183 +145,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 02, 2025 at 11:36:27AM +0530, Kumari Pallavi wrote:
-> Implement the new IOVA formatting required by the DSP architecture change
-> on Kaanapali SoC. Place the SID for DSP DMA transactions at bit 56 in the
-> physical address. This placement is necessary for the DSPs to correctly
-> identify streams and operate as intended.
-> To address this, set SID position to bit 56 via OF matching on the fastrpc
-> node; otherwise, default to legacy 32-bit placement.
-> This change ensures consistent SID placement across DSPs.
+On Tue, Dec 02, 2025 at 11:36:28AM +0530, Kumari Pallavi wrote:
+> DSP currently supports 32-bit IOVA (32-bit PA + 4-bit SID) for
+> both Q6 and user DMA (uDMA) access. This is being upgraded to
+> 34-bit PA + 4-bit SID due to a hardware revision in CDSP for
+> Kaanapali SoC, which expands the DMA addressable range.
+> Update DMA bits configuration in the driver to support CDSP on
+> Kaanapali SoC. Set the default `dma_bits` to 32-bit and update
+> it to 34-bit based on CDSP and OF matching on the fastrpc node.
 > 
 > Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
 > ---
->  drivers/misc/fastrpc.c | 48 ++++++++++++++++++++++++++++++++++++------
->  1 file changed, 41 insertions(+), 7 deletions(-)
+>  drivers/misc/fastrpc.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index eb9501fe79bc..6a67daafeaa1 100644
+> index 6a67daafeaa1..c5d2c426fcbc 100644
 > --- a/drivers/misc/fastrpc.c
 > +++ b/drivers/misc/fastrpc.c
-> @@ -33,7 +33,6 @@
->  #define FASTRPC_ALIGN		128
->  #define FASTRPC_MAX_FDLIST	16
->  #define FASTRPC_MAX_CRCLIST	64
-> -#define FASTRPC_PHYS(p)	((p) & 0xffffffff)
->  #define FASTRPC_CTX_MAX (256)
->  #define FASTRPC_INIT_HANDLE	1
->  #define FASTRPC_DSP_UTILITIES_HANDLE	2
-> @@ -105,6 +104,17 @@
+> @@ -269,6 +269,8 @@ struct fastrpc_session_ctx {
 >  
->  #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
->  
-> +/* Extract smmu pa from consolidated iova */
+>  struct fastrpc_soc_data {
+>  	u32 sid_pos;
+> +	u32 dma_addr_bits_extended;
 
-Nit: SMMU, PA, IOVA
+s/extended/cdsp/
 
-> +#define IPA_TO_DMA_ADDR(iova, sid_pos) (iova & ((1ULL << sid_pos) - 1ULL))
-
-GENMASK?
-
-> +/*
-> + * Prepare the consolidated iova to send to dsp by prepending the sid
-
-Nit: DSP, SID, PA
-
-> + * to smmu pa at the appropriate position
-> + */
-> +static inline u64 fastrpc_compute_sid_offset(u64 sid, u32 sid_pos)
-> +{
-> +	return sid << sid_pos;
-> +}
-> +
->  struct fastrpc_phy_page {
->  	dma_addr_t addr;	/* dma address */
->  	u64 size;		/* size of contiguous region */
-> @@ -257,6 +267,10 @@ struct fastrpc_session_ctx {
->  	bool valid;
+> +	u32 dma_addr_bits_default;
 >  };
 >  
-> +struct fastrpc_soc_data {
-> +	u32 sid_pos;
-> +};
-> +
 >  struct fastrpc_channel_ctx {
->  	int domain_id;
->  	int sesscount;
-> @@ -278,6 +292,7 @@ struct fastrpc_channel_ctx {
->  	bool secure;
->  	bool unsigned_support;
->  	u64 dma_mask;
-> +	const struct fastrpc_soc_data *soc_data;
->  };
+> @@ -2189,6 +2191,7 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
+>  	int i, sessions = 0;
+>  	unsigned long flags;
+>  	int rc;
+> +	u32 dma_bits;
 >  
->  struct fastrpc_device {
-> @@ -390,7 +405,7 @@ static int fastrpc_map_lookup(struct fastrpc_user *fl, int fd,
->  static void fastrpc_buf_free(struct fastrpc_buf *buf)
->  {
->  	dma_free_coherent(buf->dev, buf->size, buf->virt,
-> -			  FASTRPC_PHYS(buf->dma_addr));
-> +			  IPA_TO_DMA_ADDR(buf->dma_addr, buf->fl->cctx->soc_data->sid_pos));
->  	kfree(buf);
->  }
->  
-> @@ -440,7 +455,8 @@ static int fastrpc_buf_alloc(struct fastrpc_user *fl, struct device *dev,
->  	buf = *obuf;
->  
->  	if (fl->sctx && fl->sctx->sid)
-> -		buf->dma_addr += ((u64)fl->sctx->sid << 32);
-> +		buf->dma_addr += fastrpc_compute_sid_offset((u64)fl->sctx->sid,
-
-Drop type conversion
-
-> +				 fl->cctx->soc_data->sid_pos);
->  
->  	return 0;
->  }
-> @@ -685,7 +701,8 @@ static int fastrpc_dma_buf_attach(struct dma_buf *dmabuf,
->  		return -ENOMEM;
->  
->  	ret = dma_get_sgtable(buffer->dev, &a->sgt, buffer->virt,
-> -			      FASTRPC_PHYS(buffer->dma_addr), buffer->size);
-> +			      IPA_TO_DMA_ADDR(buffer->dma_addr,
-> +					      buffer->fl->cctx->soc_data->sid_pos), buffer->size);
->  	if (ret < 0) {
->  		dev_err(buffer->dev, "failed to get scatterlist from DMA API\n");
->  		kfree(a);
-> @@ -734,7 +751,8 @@ static int fastrpc_mmap(struct dma_buf *dmabuf,
->  	dma_resv_assert_held(dmabuf->resv);
->  
->  	return dma_mmap_coherent(buf->dev, vma, buf->virt,
-> -				 FASTRPC_PHYS(buf->dma_addr), size);
-> +				 IPA_TO_DMA_ADDR(buf->dma_addr,
-> +						 buf->fl->cctx->soc_data->sid_pos), size);
->  }
->  
->  static const struct dma_buf_ops fastrpc_dma_buf_ops = {
-> @@ -789,7 +807,8 @@ static int fastrpc_map_attach(struct fastrpc_user *fl, int fd,
->  		map->dma_addr = sg_phys(map->table->sgl);
->  	} else {
->  		map->dma_addr = sg_dma_address(map->table->sgl);
-> -		map->dma_addr += ((u64)fl->sctx->sid << 32);
-> +		map->dma_addr += fastrpc_compute_sid_offset((u64)fl->sctx->sid,
-
-Drop type conversion. Hmm. Looking at it, would it be better:
-
-map->dma_addr = fastrpc_compute_dma_addr(fl->sctx, sg_dma_address(map->table->sgl))
-
-> +				 fl->cctx->soc_data->sid_pos);
+>  	cctx = dev_get_drvdata(dev->parent);
+>  	if (!cctx)
+> @@ -2202,12 +2205,16 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
+>  		spin_unlock_irqrestore(&cctx->lock, flags);
+>  		return -ENOSPC;
 >  	}
->  	for_each_sg(map->table->sgl, sgl, map->table->nents,
->  		sgl_index)
-> @@ -2290,6 +2309,14 @@ static int fastrpc_get_domain_id(const char *domain)
->  	return -EINVAL;
->  }
+> +	dma_bits = cctx->soc_data->dma_addr_bits_default;
+>  	sess = &cctx->session[cctx->sesscount++];
+>  	sess->used = false;
+>  	sess->valid = true;
+>  	sess->dev = dev;
+>  	dev_set_drvdata(dev, sess);
 >  
-> +static const struct fastrpc_soc_data kaanapali_soc_data = {
-> +	.sid_pos = 56,
-> +};
+> +	if (cctx->domain_id == CDSP_DOMAIN_ID)
+> +		dma_bits = cctx->soc_data->dma_addr_bits_extended;
 > +
-> +static const struct fastrpc_soc_data default_soc_data = {
-> +	.sid_pos = 32,
-> +};
-> +
->  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  {
->  	struct device *rdev = &rpdev->dev;
-> @@ -2298,6 +2325,11 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  	const char *domain;
->  	bool secure_dsp;
->  	unsigned int vmids[FASTRPC_MAX_VMIDS];
-> +	const struct fastrpc_soc_data *soc_data;
-> +
-> +	soc_data = device_get_match_data(rdev);
-> +	if (!soc_data)
-> +		soc_data = &default_soc_data;
-
-Define it for all the entries, drop if-check.
-
+>  	if (of_property_read_u32(dev->of_node, "reg", &sess->sid))
+>  		dev_info(dev, "FastRPC Session ID not specified in DT\n");
 >  
->  	err = of_property_read_string(rdev->of_node, "label", &domain);
->  	if (err) {
-> @@ -2350,6 +2382,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+> @@ -2222,9 +2229,9 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
+>  		}
+>  	}
+>  	spin_unlock_irqrestore(&cctx->lock, flags);
+> -	rc = dma_set_mask(dev, DMA_BIT_MASK(32));
+> +	rc = dma_set_mask(dev, DMA_BIT_MASK(dma_bits));
+>  	if (rc) {
+> -		dev_err(dev, "32-bit DMA enable failed\n");
+> +		dev_err(dev, "%u-bit DMA enable failed\n", dma_bits);
+>  		return rc;
+>  	}
 >  
->  	secure_dsp = !(of_property_read_bool(rdev->of_node, "qcom,non-secure-domain"));
->  	data->secure = secure_dsp;
-> +	data->soc_data = soc_data;
+> @@ -2311,10 +2318,14 @@ static int fastrpc_get_domain_id(const char *domain)
 >  
->  	switch (domain_id) {
->  	case ADSP_DOMAIN_ID:
-> @@ -2487,7 +2520,8 @@ static int fastrpc_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
->  }
->  
->  static const struct of_device_id fastrpc_rpmsg_of_match[] = {
-> -	{ .compatible = "qcom,fastrpc" },
-> +	{ .compatible = "qcom,kaanapali-fastrpc", .data = &kaanapali_soc_data },
-> +	{ .compatible = "qcom,fastrpc", .data = &default_soc_data },
->  	{ },
+>  static const struct fastrpc_soc_data kaanapali_soc_data = {
+>  	.sid_pos = 56,
+> +	.dma_addr_bits_extended = 34,
+> +	.dma_addr_bits_default = 32,
 >  };
->  MODULE_DEVICE_TABLE(of, fastrpc_rpmsg_of_match);
+>  
+>  static const struct fastrpc_soc_data default_soc_data = {
+>  	.sid_pos = 32,
+> +	.dma_addr_bits_extended = 32,
+> +	.dma_addr_bits_default = 32,
+>  };
+>  
+>  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
 > -- 
 > 2.34.1
 > 
