@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B25ACAA6FB
-	for <lists+dri-devel@lfdr.de>; Sat, 06 Dec 2025 14:34:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7F1CAA6EC
+	for <lists+dri-devel@lfdr.de>; Sat, 06 Dec 2025 14:34:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AB7910E2AC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FFB210E2E6;
 	Sat,  6 Dec 2025 13:34:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="njVdP+5a";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JhHA1rHq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8979810E2E3
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A775E10E2E5
  for <dri-devel@lists.freedesktop.org>; Sat,  6 Dec 2025 13:34:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 509F944435;
+ by sea.source.kernel.org (Postfix) with ESMTP id 5EC074446B;
  Sat,  6 Dec 2025 13:34:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 29FDFC116D0;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 39129C19425;
  Sat,  6 Dec 2025 13:34:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1765028084;
- bh=AFb+K5IW8aAcec4JrMbTFoFyUwNA0fqAPFwbodzgHYE=;
+ bh=KuQJjNrGdJL/Ni63TPQm2LwQNOy6M3cg97mb6xmv7yE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=njVdP+5aciRKqZ11vUlMNE0FXSlpOuZHz1sQz/W5lzSYBnloP67sONsyrpBwVCSlg
- tiveIKYnCWR2O1zywEvIm8A9kmVt9bwYz0TSkuBTkWRu6bFj0JAl1cQEQYYPLqZin3
- maqSRJHSXhZlSyi0/dR1RE3+40A0Pdr+d8h8oVdAC9zRy4OPaHIRIGnTtKBJ2VbKjF
- om6mmPfv1UQjfui+AoAW6VGgaH1jPqu7DMkjec1OmhvBPv7WbnGLbivunciUylfVQh
- WEii23dJBIlc0y9kzuW8YldpITeQiGjNWbb6pn1RzZYtkFbeyavVWGFv05kdPisBkr
- V/D5u73JpC1nA==
+ b=JhHA1rHqRk3EhIOjvcz1ohZe9sT5mihJlChHeywfSEtHccNaqY7OsL0K2cLFDgtkb
+ J7iDseTO0oFbu41It/cj+ahu4Pr5A7MggjE03/ObRptPVTp/fvegZCxaTX+43qZowS
+ /EV4oxtDffoDgWsGUpz050Z+s1hUMpSztMTeTE3/iwBBML86/tnfRQwp8iw9aJA/gM
+ VZYXBJHY+LWtJGmahTd9NYERY/RbTFvJAQBOZe0IszZXUtJNVuk/059n+NE333g/CS
+ 0wSyf1vIhJUUOIG/3jsyFTJRM4mLbeiGVcPerL13O4Spc9aDzm7sVLHbvDDkKZSPNH
+ BDmF2Nu0RFrLw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 1DF2AD3B7D9;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id 2EF36D3B7D8;
  Sat,  6 Dec 2025 13:34:43 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Sat, 06 Dec 2025 14:34:21 +0100
-Subject: [PATCH v5 4/8] drm/panel: sw43408: Add enable/disable and reset
- functions
+Date: Sat, 06 Dec 2025 14:34:22 +0100
+Subject: [PATCH v5 5/8] drm/panel: sw43408: Remove manual invocation of
+ unprepare at remove
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251206-pixel-3-v5-4-dc99732e7d35@ixit.cz>
+Message-Id: <20251206-pixel-3-v5-5-dc99732e7d35@ixit.cz>
 References: <20251206-pixel-3-v5-0-dc99732e7d35@ixit.cz>
 In-Reply-To: <20251206-pixel-3-v5-0-dc99732e7d35@ixit.cz>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -62,21 +62,21 @@ Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4042; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1036; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=qN5N+wyRlTAEEdBXkU0m8ndfuHhWL8oA++gF/EwODJc=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpNDDwdwhVXdCgauFD3Y3lSfOCWFYGZq+qhcV87
- 0gtuISWVSGJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaTQw8AAKCRBgAj/E00kg
- cosjD/9+HhrevxCLlUERK6uJGGw28QCzOPCalI97gKxK0WE5fucRMFG3WFRlC2yNF7829ZUHKGB
- gua6T9XgIhsbmdPPDQZXEcV/HML9GqLcUYwsB3PSYjhV+BGv31lvoU5dFeTZ76tmqxzVQkcWaMO
- /xqhr5pxKMsDvZ4SaDuQ/jAOvYiE1p2YGs8EHQIbW/41LCHGr3XLAEPruORzkkIyDEjSPRvpQu/
- GdfqRoRvNpgvq/KS7vm8Q00s+5vqatjzjsVUGwfLFRIBLhhvAYNULcnqMudE+AxqL/q6j+6z9Ul
- 08+JkDvMnKPpTh1E03ZM+zZIRU3r0Q2kwsuLrIkKn2H/BZFmV16jbN87gmuoHDTKCqcoyDzOd4v
- T4MyosVPoCmrlE84gBeHBTB5Fnv9dgM1PRDnzW0SWvq7e9HkhRAABo7leuNJ5K5w1b8ljPUXs0h
- nFN3E2PbzuJYwb97E9BKYAHvV9WBGj+sP02Uhak0bjwyarKPgU9Taf8kQqDIkEv9O9R7GDg1yXF
- 2Iccyi8vHHhuCfJ9eZPvdpivHMspglEItQ9fZQNPTZmgQLpJWDFHOJfl1wlV1jiTuQv9BQgq/d8
- tqFrfkRz0+Hmn4nnJnRlCJrntR7QNWgHoOI3hJHZ/+BgZ6wmB7cBylFS6s1ceAr0QNo6bVvrN5i
- 8h1M/ei6sYL/zbw==
+ bh=PuiywuMQuz5mfrzYWDI/bKjfM/bNSPMPp8guUiS9OJE=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpNDDwY0ERXfUW3N0g+94UgwVhtHdJ8Tb8p35Em
+ 7P1729P9UiJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaTQw8AAKCRBgAj/E00kg
+ coylD/wK7IsESE8JYD63DU9hna3qtf3ILJfjOrCsRvoMGkh9B2dZiRDS+611tSJGMaw7lWKdCs6
+ vGJwrMMB/EWlKH6U+RJRq4SN+UXr1SmsSa/Bi2slc9FT4fmiPTI+CrpO8dEVkPTqWL+jJ84GTXo
+ p4VtTNPO+/IirdnEGh2/J6q558CwVbCc/+UkNjlG4Ucd/5pZHeKs9oGSmt5s8ZsmPfm/ncrur5c
+ FNnbAXgtXlmDpnhpak8xqhW+ekRm/WHgrK0U7kGAMBhg58fMP7iMuOIz9y8PizdPs3gqkQdQOrx
+ ZJ+jqEUNUv8+iDnzldO3m6E9675pFVw0Bh7vBqcxMHAWQ8mmb2az8zGCko7Msv6SgK2aR2/XYtJ
+ CgKe8+uZ8FjEh+Foa2q+BH8V2o1Jm/ByQ/pQ2rnB2CKCKU36SrqyXyjvqf8qOthLlHBrfL7K2nj
+ Mn9dVRIRyTiqacYi2FPSqsA3Jw/OZrZwZOK0MijnMTJ+UcOXB7ut3gZVgWJXa5N4i83Ges+PRGN
+ UpAIKZ79FL4VwfxGGxVwvbdjO1RuXTKJYkgzD4wZqzlNGAAYfg2XXZ4PfMGhCM/tw0Rq7PmXVlL
+ s3AoltXGw5Om5q9W5xR7GmJJXUFKTSoWW9WWZBXp+OOeFzYVoxS5slH/rWG+ZTC/645OZdBB4ZP
+ 3o7N9HFPy+cJgXw==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -99,132 +99,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Heidelberg <david@ixit.cz>
 
-Introduce enable(), disable() and reset() functions.
+The drm_panel_remove should take care of disable/unprepare. Remove the
+manual call from the sw43408_remove function.
 
-The enable() and disable() callbacks keep the symmetry in the commands
-sent to the panel and also make a clearer distinction between panel
-initialization and configuration.
-
-Splitting reset() from prepare() follows clean coding practices and lets
-us potentially make reset optional in the future for flicker-less
-takeover from a bootloader or framebuffer driver where the panel is
-already configured.
-
+Fixes: 069a6c0e94f9 ("drm: panel: Add LG sw43408 panel driver")
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/gpu/drm/panel/panel-lg-sw43408.c | 47 ++++++++++++++++++++++++--------
- 1 file changed, 35 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/panel/panel-lg-sw43408.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-lg-sw43408.c b/drivers/gpu/drm/panel/panel-lg-sw43408.c
-index dcca7873acf8e..dad6b967b92c2 100644
+index dad6b967b92c2..06b9c5e650edf 100644
 --- a/drivers/gpu/drm/panel/panel-lg-sw43408.c
 +++ b/drivers/gpu/drm/panel/panel-lg-sw43408.c
-@@ -38,11 +38,10 @@ static inline struct sw43408_panel *to_panel_info(struct drm_panel *panel)
- 	return container_of(panel, struct sw43408_panel, base);
- }
+@@ -318,10 +318,6 @@ static void sw43408_remove(struct mipi_dsi_device *dsi)
+ 	struct sw43408_panel *ctx = mipi_dsi_get_drvdata(dsi);
+ 	int ret;
  
--static int sw43408_unprepare(struct drm_panel *panel)
-+static int sw43408_disable(struct drm_panel *panel)
- {
- 	struct sw43408_panel *sw43408 = to_panel_info(panel);
- 	struct mipi_dsi_multi_context ctx = { .dsi = sw43408->link };
--	int ret;
- 
- 	mipi_dsi_dcs_set_display_off_multi(&ctx);
- 
-@@ -50,18 +49,25 @@ static int sw43408_unprepare(struct drm_panel *panel)
- 
- 	mipi_dsi_msleep(&ctx, 100);
- 
-+	return ctx.accum_err;
-+}
-+
-+static int sw43408_unprepare(struct drm_panel *panel)
-+{
-+	struct sw43408_panel *sw43408 = to_panel_info(panel);
-+	int ret;
-+
- 	gpiod_set_value(sw43408->reset_gpio, 1);
- 
- 	ret = regulator_bulk_disable(ARRAY_SIZE(sw43408->supplies), sw43408->supplies);
- 
--	return ret ? : ctx.accum_err;
-+	return ret;
- }
- 
- static int sw43408_program(struct drm_panel *panel)
- {
- 	struct sw43408_panel *sw43408 = to_panel_info(panel);
- 	struct mipi_dsi_multi_context ctx = { .dsi = sw43408->link };
--	struct drm_dsc_picture_parameter_set pps;
- 
- 	mipi_dsi_dcs_write_seq_multi(&ctx, MIPI_DCS_SET_GAMMA_CURVE, 0x02);
- 
-@@ -97,6 +103,15 @@ static int sw43408_program(struct drm_panel *panel)
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x55, 0x04, 0x61, 0xdb, 0x04, 0x70, 0xdb);
- 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0xca);
- 
-+	return ctx.accum_err;
-+}
-+
-+static int sw43408_enable(struct drm_panel *panel)
-+{
-+	struct sw43408_panel *sw43408 = to_panel_info(panel);
-+	struct mipi_dsi_multi_context ctx = { .dsi = sw43408->link };
-+	struct drm_dsc_picture_parameter_set pps;
-+
- 	mipi_dsi_dcs_set_display_on_multi(&ctx);
- 
- 	mipi_dsi_msleep(&ctx, 50);
-@@ -116,18 +131,12 @@ static int sw43408_program(struct drm_panel *panel)
- 	 */
- 	mipi_dsi_compression_mode_ext_multi(&ctx, true,
- 					    MIPI_DSI_COMPRESSION_DSC, 1);
-+
- 	return ctx.accum_err;
- }
- 
--static int sw43408_prepare(struct drm_panel *panel)
-+static void sw43408_reset(struct sw43408_panel *ctx)
- {
--	struct sw43408_panel *ctx = to_panel_info(panel);
--	int ret;
--
--	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+-	ret = sw43408_unprepare(&ctx->base);
 -	if (ret < 0)
--		return ret;
+-		dev_err(&dsi->dev, "failed to unprepare panel: %d\n", ret);
 -
- 	usleep_range(5000, 6000);
- 
- 	gpiod_set_value(ctx->reset_gpio, 0);
-@@ -136,6 +145,18 @@ static int sw43408_prepare(struct drm_panel *panel)
- 	usleep_range(1000, 2000);
- 	gpiod_set_value(ctx->reset_gpio, 0);
- 	usleep_range(9000, 10000);
-+}
-+
-+static int sw43408_prepare(struct drm_panel *panel)
-+{
-+	struct sw43408_panel *ctx = to_panel_info(panel);
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-+	if (ret < 0)
-+		return ret;
-+
-+	sw43408_reset(ctx);
- 
- 	ret = sw43408_program(panel);
- 	if (ret)
-@@ -208,6 +229,8 @@ static int sw43408_backlight_init(struct sw43408_panel *ctx)
- }
- 
- static const struct drm_panel_funcs sw43408_funcs = {
-+	.disable = sw43408_disable,
-+	.enable = sw43408_enable,
- 	.unprepare = sw43408_unprepare,
- 	.prepare = sw43408_prepare,
- 	.get_modes = sw43408_get_modes,
+ 	ret = mipi_dsi_detach(dsi);
+ 	if (ret < 0)
+ 		dev_err(&dsi->dev, "failed to detach from DSI host: %d\n", ret);
 
 -- 
 2.51.0
