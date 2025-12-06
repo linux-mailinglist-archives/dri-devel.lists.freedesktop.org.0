@@ -2,45 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98BA0CAAD61
-	for <lists+dri-devel@lfdr.de>; Sat, 06 Dec 2025 21:42:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2CB2CAAD6D
+	for <lists+dri-devel@lfdr.de>; Sat, 06 Dec 2025 21:46:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 910A610E06C;
-	Sat,  6 Dec 2025 20:42:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B49A10E2FA;
+	Sat,  6 Dec 2025 20:45:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X1wr3kCF";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="WTbea3rc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36D6310E06C
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Dec 2025 20:42:06 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id C197E40559;
- Sat,  6 Dec 2025 20:42:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD8CDC4CEF5;
- Sat,  6 Dec 2025 20:42:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765053725;
- bh=7BwMILfJJsFt2vaY2BPn7ViYStQSseiZUe5ZM2MrxHo=;
- h=Date:From:To:Subject:From;
- b=X1wr3kCFC7R+Syd8e3ZeNe7lojSfIaEzZKZwohvCFxyLDEu0j8X9FuNSZfMjnz2lp
- G++KvFZd4pV9iRIu/6diADTAIeXldKQ2AYl2trCJLju185GzXqGdwYnkeAUdi9Y+9d
- 4Ag+8PFjVz9tlQ2RXUln8loiDTJhnlDVqKv0+kG0NgYEZl3PRyRg1+laC5SLeG+N1y
- 72dS9/51EbXZg69QJ7mfUC+gajjHA9nPCU3NbIpPyId+P6ApYBR4C13EWAymqB8IwU
- sTUuCZK+aNJ9t0EIzAVxZxCBqaL6D/yEnbYN1NDM9S0pD78yKICoj65laVs/jjzpGE
- d3eJLClmb6Whg==
-Date: Sat, 6 Dec 2025 21:42:00 +0100
-From: Helge Deller <deller@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [GIT PULL] fbdev fixes for v6.19-rc1
-Message-ID: <aTSVGN47DAA1AvGH@carbonx1>
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com
+ [136.143.184.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E75210E2FA
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Dec 2025 20:45:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1765053938; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=McpnMZ3g6srBKJX4QgtATUGJs8usElb7WQXSX4d0PNk3hKEUCfqbx9z0CgIBEUEwTTXUIbYYJmmb303szDLbPoywWs2bJnFfvN0jn8EpK/p+qdn3sHZzt0+bNYYuJ1/47XBGNyTlnFvRjP6xbVDVYQihJy6wPVPS2O63sSamiqM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1765053938;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=hMd2qjLx7cglllnLbc3H8d4IjTaB84wHOVz7jbKnT/M=; 
+ b=Sf+Bsujg2eBZkSXAJkUKv1KNS2AwCO6va9s9y2sH3LA/5JdCbN1XtWzVPxFqdzoBc3U+8b5FK52M49aba0uPHjw83vgezH0jgLi/VfCj0V0surBBIc393B1MrGoSIIIAvewdihSRr+j6shsxW9QmYtA24L3ADApoGQDxezWZLtc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+ dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765053938; 
+ s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+ h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+ bh=hMd2qjLx7cglllnLbc3H8d4IjTaB84wHOVz7jbKnT/M=;
+ b=WTbea3rcl/gTKZdT42njcEBec62chKv1Q4pLIZDaKZ+/VYgkeD5yAN92/qL+x/FY
+ AxaM6x+QbnLya1gm66sXuetG11y1s4mb1My7RrTd+rUESrI722LlswAF3CBj8/rXwjy
+ gfU/+Ot7CtvlokS/MnJmmaPRmpF7W60DigZATHU8=
+Received: by mx.zohomail.com with SMTPS id 1765053938276420.2919722066067;
+ Sat, 6 Dec 2025 12:45:38 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Subject: [PATCH v2 0/8] drm/rockchip: No more post-atomic_check fixups
+Date: Sat, 06 Dec 2025 21:45:10 +0100
+Message-Id: <20251206-vop2-atomic-fixups-v2-0-7fb45bbfbebd@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANaVNGkC/y2Myw6CMBBFf6WZtZOMNTXIrxgWtQw6iz5sCyEh/
+ DuNuDz35pwNCmfhAr3aIPMiRWJooC8K3MeGN6OMjUGTNldNd1xi0mhr9OJwknVOBcndiOnR0dQ
+ ZaGLK3J5f9DmcnPk7t3Y9R3jZwuii91J7FXit+O8bGPb9AIv6YpqVAAAA
+X-Change-ID: 20251206-vop2-atomic-fixups-0c30e0980f85
+To: Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+X-Mailer: b4 0.14.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,96 +74,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+I'm taking over this series to get it across the finish line. Original
+cover letter from Daniel Stone on v1:
 
-please pull the updates for fbdev for 6.19-rc1.
+> Hi,
+> This series is a pretty small and consistent one for VOP2. The atomic
+> uAPI very clearly specifies that drivers should either do what userspace
+> requested (on a successful commit), or fail atomic_check if it is not
+> for any reason possible to do what userspace requested.
+> 
+> VOP2 is unfortunately littered with a bunch of cases where it will apply
+> fixups after atomic_check - doing something different to what userspace
+> requested, e.g. clipping or aligning regions - or throw error messages
+> into the log when userspace does request a condition which can't be met.
+> 
+> Doing something different to what was requested is bad because it
+> results in unexpected visual output which can look like artifacts.
+> Throwing errors into the log is bad because generic userspace will
+> reasonably attempt to try any configuration it can. For example,
+> throwing an error message on a plane not being aligned to a 16 pixel
+> boundary can result in 15 frames' worth of error output in the log when
+> a window is being animated across a screen.
+> 
+> This series removes all post-check fixups - failing the check if the
+> configuration cannot be applied - and also demotes all messages about
+> unsupported configurations to DEBUG_KMS.
+> 
+> Cheers,
+> Daniel
 
-The Termius 10x18 console bitmap font has been added. It is good suited for
-modern 13-16 inch laptop displays with resolutions like 1280x800 and 1440x900
-pixels.
+Changes in v2:
+- Dropped patches [1, 5] as they were already applied.
+- Changed the patch subject to use prefix "drm/rockchip: vop2:" for the
+  remaining ones.
+- Fixed a checkpatch nag about commenting style in "Switch impossible
+  pos conditional to WARN_ON".
+- Reworded "eSmart" to "Esmart" for consistency, and to avoid drawing
+  Tim Apple's ire.
+- Make the hopefully impossible WARN_ON format conditional in
+  vop2_plane_atomic_check still bubble the error up to userspace,
+  instead of continuing on.
+- Use dest_w instead of dsp_w in patch "Enforce scaling workaround
+  in plane_check", to avoid a compiler error.
+- Only reject non-multiple-of-4-pixel-wide framebuffers on
+  RK3566/RK3568, as the other SoCs have no such limitation. (Thank you
+  to Andy Yan for doing the research to confirm this!)
+- Consequently also only WARN_ON if this condition is violated in
+  atomic_update on those SoCs.
+- Link to v1: https://lore.kernel.org/dri-devel/20251015110042.41273-1-daniels@collabora.com/
 
-The gbefb and tcx.c drivers got some fixes to restore X11 support, pxafb was
-not actually clamping input values and the ssd1307fb driver leaked memory in
-the failure path. 
+Signed-off-by: Daniel Stone <daniels@collabora.com>
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+---
+Daniel Stone (8):
+      drm/rockchip: vop2: Switch impossible format conditional to WARN_ON
+      drm/rockchip: vop2: Switch impossible pos conditional to WARN_ON
+      drm/rockchip: vop2: Fix Esmart test condition
+      drm/rockchip: vop2: Enforce scaling workaround in plane_check
+      drm/rockchip: vop2: Enforce AFBC source alignment in plane_check
+      drm/rockchip: vop2: Enforce AFBC transform stride align in plane_check
+      drm/rockchip: vop2: Use drm_is_afbc helper function
+      drm/rockchip: vop2: Simplify format_mod_supported
 
-The other patches convert some common drivers to use dev_info() and dev_dbg()
-instead of printk().
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 137 ++++++++++++---------------
+ 1 file changed, 62 insertions(+), 75 deletions(-)
+---
+base-commit: 4e5a9b630580faea139e9837b4fba666db6bd728
+change-id: 20251206-vop2-atomic-fixups-0c30e0980f85
 
-Thanks!
-Helge
+Best regards,
+-- 
+Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-----------------------------------------------------------------
-The following changes since commit e9a6fb0bcdd7609be6969112f3fbfcce3b1d4a7c:
-
-  Linux 6.18-rc5 (2025-11-09 15:10:19 -0800)
-
-are available in the Git repository at:
-
-  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.19-rc1
-
-for you to fetch changes up to 164312662ae9764b83b84d97afb25c42eb2be473:
-
-  fbdev: ssd1307fb: fix potential page leak in ssd1307fb_probe() (2025-12-05 11:29:14 +0100)
-
-----------------------------------------------------------------
-fbdev fixes & enhancements for 6.19-rc1:
-
-Framework updates:
-- fonts: Add Terminus 10x18 console font [Neilay Kharwadkar]
-
-Driver fixes:
-- gbefb: fix to use physical address instead of dma address [René Rebe]
-- tcx.c fix mem_map to correct smem_start offset [René Rebe]
-- pxafb: Fix multiple clamped values in pxafb_adjust_timing [Thorsten Blum]
-- ssd1307fb: fix potential page leak in ssd1307fb_probe() [Abdun Nihaal]
-
-Cleanups:
-- vga16fb: Request memory region [Javier Garcia]
-- vga16fb: replace printk() with dev_*() in probe [Vivek BalachandharTN]
-- vesafb, gxt4500fb, tridentfb: Use dev_dbg() instead of printk() [Javier Garcia]
-- i810: use dev_info() [Shi Hao]
-
-----------------------------------------------------------------
-Abdun Nihaal (1):
-      fbdev: ssd1307fb: fix potential page leak in ssd1307fb_probe()
-
-Javier Garcia (4):
-      fbdev: vga16fb: Request memory region
-      fbdev: vesafb: Use dev_* fn's instead printk
-      fbdev: gxt4500fb: Use dev_err instead of printk
-      fbdev: tridentfb: replace printk() with dev_*() in probe
-
-Neilay Kharwadkar (1):
-      lib/fonts: Add Terminus 10x18 console font
-
-Rene Rebe (1):
-      fbdev: gbefb: fix to use physical address instead of dma address
-
-René Rebe (1):
-      fbdev: tcx.c fix mem_map to correct smem_start offset
-
-Shi Hao (1):
-      fbdev: i810: use appopriate log interface dev_info
-
-Thorsten Blum (1):
-      fbdev: pxafb: Fix multiple clamped values in pxafb_adjust_timing
-
-Vivek BalachandharTN (1):
-      fbdev: vga16fb: replace printk() with dev_*() in probe
-
- drivers/video/fbdev/gbefb.c          |    5 +-
- drivers/video/fbdev/gxt4500.c        |    2 +-
- drivers/video/fbdev/i810/i810_main.c |   46 +-
- drivers/video/fbdev/pxafb.c          |   12 +-
- drivers/video/fbdev/ssd1307fb.c      |    4 +-
- drivers/video/fbdev/tcx.c            |    2 +-
- drivers/video/fbdev/tridentfb.c      |    4 +-
- drivers/video/fbdev/vesafb.c         |   29 +-
- drivers/video/fbdev/vga16fb.c        |   21 +-
- include/linux/font.h                 |    4 +-
- lib/fonts/Kconfig                    |   12 +
- lib/fonts/Makefile                   |    1 +
- lib/fonts/font_ter10x18.c            | 5143 ++++++++++++++++++++++++++++++++++
- lib/fonts/fonts.c                    |    3 +
- 14 files changed, 5231 insertions(+), 57 deletions(-)
- create mode 100644 lib/fonts/font_ter10x18.c
