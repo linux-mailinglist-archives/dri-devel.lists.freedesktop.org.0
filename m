@@ -2,51 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59FA7CAAB5C
-	for <lists+dri-devel@lfdr.de>; Sat, 06 Dec 2025 18:46:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98BA0CAAD61
+	for <lists+dri-devel@lfdr.de>; Sat, 06 Dec 2025 21:42:10 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C24A10E07F;
-	Sat,  6 Dec 2025 17:46:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 910A610E06C;
+	Sat,  6 Dec 2025 20:42:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=packett.cool header.i=@packett.cool header.b="AngKPNf6";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X1wr3kCF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 503 seconds by postgrey-1.36 at gabe;
- Sat, 06 Dec 2025 17:46:35 UTC
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com
- [91.218.175.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EB0110E07F
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Dec 2025 17:46:35 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
- s=key1; t=1765042688;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=JgXlU8nghNrfhSPRoG5tQ1X6YeBmJudZf6qiifnnsX8=;
- b=AngKPNf6JfWX8BiY9VuiP/HxKXBBntPICuNQZdAInIwjM6A+9h8A78SuB2JUGLVsFazG3T
- koyq+agDKsY2UP5oACDkQ5zFJ+3W/bBMRM6iUIPahniut5NxHv9VojzxbBcjytHpS4d1uR
- rdblNmX/OQHwqYQOeTRZJm8LEnJ8P7yA1Y6xBrpOGgd17fMtH1GHyduBLC1T+jjg3fVjas
- 4rI0eajB0VCr6TpW6bQzW4KPjx5K8s34f0+xDpJ3k2ea96roKCBWNgbrI3474VxcfmzJoI
- Z35087/Yv09trMJBunE7/aGNOld3XYoYaZ2I3d366+K8Tad8E7LN+RLp46k9Pw==
-From: Val Packett <val@packett.cool>
-To: Douglas Anderson <dianders@chromium.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: Val Packett <val@packett.cool>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panel-edp: Add AUO B140QAX01.H panel
-Date: Sat,  6 Dec 2025 14:37:28 -0300
-Message-ID: <20251206173739.2222940-1-val@packett.cool>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36D6310E06C
+ for <dri-devel@lists.freedesktop.org>; Sat,  6 Dec 2025 20:42:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id C197E40559;
+ Sat,  6 Dec 2025 20:42:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD8CDC4CEF5;
+ Sat,  6 Dec 2025 20:42:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1765053725;
+ bh=7BwMILfJJsFt2vaY2BPn7ViYStQSseiZUe5ZM2MrxHo=;
+ h=Date:From:To:Subject:From;
+ b=X1wr3kCFC7R+Syd8e3ZeNe7lojSfIaEzZKZwohvCFxyLDEu0j8X9FuNSZfMjnz2lp
+ G++KvFZd4pV9iRIu/6diADTAIeXldKQ2AYl2trCJLju185GzXqGdwYnkeAUdi9Y+9d
+ 4Ag+8PFjVz9tlQ2RXUln8loiDTJhnlDVqKv0+kG0NgYEZl3PRyRg1+laC5SLeG+N1y
+ 72dS9/51EbXZg69QJ7mfUC+gajjHA9nPCU3NbIpPyId+P6ApYBR4C13EWAymqB8IwU
+ sTUuCZK+aNJ9t0EIzAVxZxCBqaL6D/yEnbYN1NDM9S0pD78yKICoj65laVs/jjzpGE
+ d3eJLClmb6Whg==
+Date: Sat, 6 Dec 2025 21:42:00 +0100
+From: Helge Deller <deller@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [GIT PULL] fbdev fixes for v6.19-rc1
+Message-ID: <aTSVGN47DAA1AvGH@carbonx1>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,41 +56,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A 14-inch 2560x1600 60Hz matte touch panel, found on a Dell Latitude 7455
-laptop (second-source with BOE NE14QDM), according to online sources it's
-also found on the Latitude 7440 and some ASUS models.
+Hi Linus,
 
-Raw EDID dump:
+please pull the updates for fbdev for 6.19-rc1.
 
-00 ff ff ff ff ff ff 00 06 af a4 0b 00 00 00 00
-00 20 01 04 a5 1e 13 78 03 ad f5 a8 54 47 9c 24
-0e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-01 01 01 01 01 01 f0 68 00 a0 a0 40 2e 60 30 20
-35 00 2d bc 10 00 00 1a f3 53 00 a0 a0 40 2e 60
-30 20 35 00 2d bc 10 00 00 1a 00 00 00 fe 00 36
-39 52 31 57 80 42 31 34 30 51 41 58 00 00 00 00
-00 02 41 21 a8 00 01 00 00 1a 41 0a 20 20 00 a1
+The Termius 10x18 console bitmap font has been added. It is good suited for
+modern 13-16 inch laptop displays with resolutions like 1280x800 and 1440x900
+pixels.
 
-Don't have datasheet access, but the same timing as for other panels from
-the same manufacturer works fine.
+The gbefb and tcx.c drivers got some fixes to restore X11 support, pxafb was
+not actually clamping input values and the ssd1307fb driver leaked memory in
+the failure path. 
 
-Signed-off-by: Val Packett <val@packett.cool>
----
- drivers/gpu/drm/panel/panel-edp.c | 1 +
- 1 file changed, 1 insertion(+)
+The other patches convert some common drivers to use dev_info() and dev_dbg()
+instead of printk().
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 415b894890ad..b71cef842ea7 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -1913,6 +1913,7 @@ static const struct edp_panel_entry edp_panels[] = {
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xb7a9, &delay_200_500_e50, "B140HAK03.3"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xc4b4, &delay_200_500_e50, "B116XAT04.1"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xc9a8, &delay_200_500_e50, "B140QAN08.H"),
-+	EDP_PANEL_ENTRY('A', 'U', 'O', 0x0ba4, &delay_200_500_e50, "B140QAX01.H"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xcdba, &delay_200_500_e50, "B140UAX01.2"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xd497, &delay_200_500_e50, "B120XAN01.0"),
- 	EDP_PANEL_ENTRY('A', 'U', 'O', 0xf390, &delay_200_500_e50, "B140XTN07.7"),
--- 
-2.51.2
+Thanks!
+Helge
 
+----------------------------------------------------------------
+The following changes since commit e9a6fb0bcdd7609be6969112f3fbfcce3b1d4a7c:
+
+  Linux 6.18-rc5 (2025-11-09 15:10:19 -0800)
+
+are available in the Git repository at:
+
+  http://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git tags/fbdev-for-6.19-rc1
+
+for you to fetch changes up to 164312662ae9764b83b84d97afb25c42eb2be473:
+
+  fbdev: ssd1307fb: fix potential page leak in ssd1307fb_probe() (2025-12-05 11:29:14 +0100)
+
+----------------------------------------------------------------
+fbdev fixes & enhancements for 6.19-rc1:
+
+Framework updates:
+- fonts: Add Terminus 10x18 console font [Neilay Kharwadkar]
+
+Driver fixes:
+- gbefb: fix to use physical address instead of dma address [René Rebe]
+- tcx.c fix mem_map to correct smem_start offset [René Rebe]
+- pxafb: Fix multiple clamped values in pxafb_adjust_timing [Thorsten Blum]
+- ssd1307fb: fix potential page leak in ssd1307fb_probe() [Abdun Nihaal]
+
+Cleanups:
+- vga16fb: Request memory region [Javier Garcia]
+- vga16fb: replace printk() with dev_*() in probe [Vivek BalachandharTN]
+- vesafb, gxt4500fb, tridentfb: Use dev_dbg() instead of printk() [Javier Garcia]
+- i810: use dev_info() [Shi Hao]
+
+----------------------------------------------------------------
+Abdun Nihaal (1):
+      fbdev: ssd1307fb: fix potential page leak in ssd1307fb_probe()
+
+Javier Garcia (4):
+      fbdev: vga16fb: Request memory region
+      fbdev: vesafb: Use dev_* fn's instead printk
+      fbdev: gxt4500fb: Use dev_err instead of printk
+      fbdev: tridentfb: replace printk() with dev_*() in probe
+
+Neilay Kharwadkar (1):
+      lib/fonts: Add Terminus 10x18 console font
+
+Rene Rebe (1):
+      fbdev: gbefb: fix to use physical address instead of dma address
+
+René Rebe (1):
+      fbdev: tcx.c fix mem_map to correct smem_start offset
+
+Shi Hao (1):
+      fbdev: i810: use appopriate log interface dev_info
+
+Thorsten Blum (1):
+      fbdev: pxafb: Fix multiple clamped values in pxafb_adjust_timing
+
+Vivek BalachandharTN (1):
+      fbdev: vga16fb: replace printk() with dev_*() in probe
+
+ drivers/video/fbdev/gbefb.c          |    5 +-
+ drivers/video/fbdev/gxt4500.c        |    2 +-
+ drivers/video/fbdev/i810/i810_main.c |   46 +-
+ drivers/video/fbdev/pxafb.c          |   12 +-
+ drivers/video/fbdev/ssd1307fb.c      |    4 +-
+ drivers/video/fbdev/tcx.c            |    2 +-
+ drivers/video/fbdev/tridentfb.c      |    4 +-
+ drivers/video/fbdev/vesafb.c         |   29 +-
+ drivers/video/fbdev/vga16fb.c        |   21 +-
+ include/linux/font.h                 |    4 +-
+ lib/fonts/Kconfig                    |   12 +
+ lib/fonts/Makefile                   |    1 +
+ lib/fonts/font_ter10x18.c            | 5143 ++++++++++++++++++++++++++++++++++
+ lib/fonts/fonts.c                    |    3 +
+ 14 files changed, 5231 insertions(+), 57 deletions(-)
+ create mode 100644 lib/fonts/font_ter10x18.c
