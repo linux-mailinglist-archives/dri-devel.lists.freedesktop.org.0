@@ -2,111 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CE8BCAA77C
-	for <lists+dri-devel@lfdr.de>; Sat, 06 Dec 2025 14:51:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09643CAA78F
+	for <lists+dri-devel@lfdr.de>; Sat, 06 Dec 2025 14:56:12 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8439510E05B;
-	Sat,  6 Dec 2025 13:51:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40F2310E2EC;
+	Sat,  6 Dec 2025 13:56:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="nEndZ23B";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="odThNdki";
+	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="SmEphrvg";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="LXW5bzIX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 487 seconds by postgrey-1.36 at gabe;
- Sat, 06 Dec 2025 13:51:08 UTC
-Received: from fout-b3-smtp.messagingengine.com
- (fout-b3-smtp.messagingengine.com [202.12.124.146])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6944A10E05B
- for <dri-devel@lists.freedesktop.org>; Sat,  6 Dec 2025 13:51:08 +0000 (UTC)
+X-Greylist: delayed 573 seconds by postgrey-1.36 at gabe;
+ Sat, 06 Dec 2025 13:56:08 UTC
+Received: from fhigh-b3-smtp.messagingengine.com
+ (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A25F410E2EC;
+ Sat,  6 Dec 2025 13:56:08 +0000 (UTC)
 Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
- by mailfout.stl.internal (Postfix) with ESMTP id 5AFF31D000B2;
- Sat,  6 Dec 2025 08:43:00 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
- by phl-compute-01.internal (MEProxy); Sat, 06 Dec 2025 08:43:01 -0500
+ by mailfhigh.stl.internal (Postfix) with ESMTP id EC9187A0083;
+ Sat,  6 Dec 2025 08:46:34 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-01.internal (MEProxy); Sat, 06 Dec 2025 08:46:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
  :cc:content-type:content-type:date:date:from:from:in-reply-to
  :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm3; t=1765028580; x=1765114980; bh=t4o08eCYHl
- EJY6FVGVNnMYAccSZ4Ut22BuwBX+NWmfA=; b=nEndZ23BKZ81fbvX8guKKtaYq0
- MN1GPl51//5L095iWH3zhIq65aKrcutyVQoJYBe4KYkJi6b7+WtEUNr6QfbhCrVx
- hvq3uwZpdjpz0fEHtDLNc0LxKeocblBreFJw8MWNM00gbk86CyX04V9Y0GWJx/WB
- nxvJH0WLLN2TrQ/anPAchR6f5KJR+L06hEesrB8kqRlWsKtM1oGKu8nhy9o9JU32
- ADjbFC0OpNtQGsdU9OJ0+j/u8ERdCj353nPUS/F+T9hgzCbvEMvglPx7MyKxe+wt
- YYRpWLJIl/cJwA5+vc07QwgS3JkVMl84vocCdbKla51aFivP2mkZwFDEEahg==
+ :subject:to:to; s=fm3; t=1765028794; x=1765115194; bh=4oCR8QuC/k
+ bl5GjCWF6w7wf5pC9iRc8I5CDDR7QSefA=; b=SmEphrvgOGCaKt5HCtMUrP00nR
+ PaM0g7VDfIDZfmkFFdgi+F0whXrhjpOVqC8LB4mGWjs9/dlZBrPY6ku1Gu25itdV
+ fn/VFcp+tlO28xU2PxBg0Fj82KOH4/uCvPNg6Umjt8zqcoP+8MoxEUCkN/ii87U/
+ pJJXYcQNUavoscMaP/VeIPMhRj4rdBIFD8xe8NfsP/pBEko51IDBwKHBzZ7abk4m
+ /cgyEJW7sOfhh7eXU0953mcBHqs83MZIPPsAylWYNUSFxGF23mcVJ0GII7jBBouh
+ gq6H6logf4hlzhv9jQHLBPgxumsOCRjvr62F211rfd6oy8jLOsvdngIxgJeg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-type:content-type:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:subject:subject:to
  :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1765028580; x=1765114980; bh=t4o08eCYHlEJY6FVGVNnMYAccSZ4Ut22Buw
- BX+NWmfA=; b=odThNdkidIdTuUAu/SA6FCQsysFAq8IUORAwGJvabMZ/RGqzeFi
- zyUfQs+hpYaaJjZQnEQvv8tHmRNFvxPlLeX622sbE6J4zeLIKLvY45VD7j55SJd/
- KWbxh7YhXv+jt8gYeXHQcsUGSSZ9DmjTtdqUAsl2SjiZcmTLW7SM29V/h1Gitj62
- dlZV20nq6tr5D56ev9L0m27VENAsQjZtHUqS9yhzJhJbtyfKp1UHLRCqmuMZNxwe
- fsLoo2iXb92byBYT60WaFv0Y6wmx4LFX//O1vvpr5vDDCeJQ5Mwe2m+oMSlObBmM
- Ujqi/riVA3JzyQb4ILxKBKPufgkQyKML9eA==
-X-ME-Sender: <xms:4zI0abi6s9dIIQLYHHlxQYORgkLJ6bwOXzx17w7ZUKcr18z9VHPVxA>
- <xme:4zI0aZGHmOreMOwmlPMoEUamZf8IUjhgyWDYapxoqA7sUqfriT-LCWAfyd74DLc-1
- mI1Nvf6zg2G2uOGRft7kn9thucdpFbFDI7H0sO1PUZiEdNUx7L-V5g>
-X-ME-Received: <xmr:4zI0aeDT8drWuSbEK5qSXG_OHoJDXAdghurPCAli4zJvG7KGeI4XEh_yJ2bdr5Rht7fMmO5UHQ4UNNonkMOqu-PbBnFikqIfFms>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduuddtkecutefuodetggdotefrod
+ 1765028794; x=1765115194; bh=4oCR8QuC/kbl5GjCWF6w7wf5pC9iRc8I5CD
+ DR7QSefA=; b=LXW5bzIXkF/rzQJYiG9LSqlH3VCzd5+fD7P3P5u8B9+UzfoiO0V
+ ZbzvLMGwhqQ715eO06t9AAg4+WlycGyJ5ccFGg4Jt+rYDhJi59chysTNdreEL/oF
+ Re7cpTUn0mwjy1+KculXtaUgeMaHh+vbme4tMnjQids458ju7qwfyvLMN+txsXop
+ Hf+/+9OCrE87rStDuIlkpa9D8uf2NZM7oKGQU9fQIdBEsM0LanAMgwkXuG2EQcxd
+ CvM1eSx3Bq23R0V6OPyXWoWDpwYbr+Yt99v6oJfnmK3TM+efRPprYzFCA06t6etT
+ IYHpxWaBr5hpBgDIx86Q1v15t5umLfBP0kw==
+X-ME-Sender: <xms:uTM0afF4PO54fFr2HUg_A_1p8eaCCgTejw9fURjzxyc8quJrz2Mt_g>
+ <xme:uTM0aRP45EKLX5RZXtCa0u9FY4y7_I1ppWwAV1W_aHTSzj7Bl2mHWAyn5LejeBhjz
+ MSDed4mHO-RQs0SciK2wJQHiQosw0WM7kZgfHB-yOBiyfOuNEUGZVs>
+X-ME-Received: <xmr:uTM0aevCDrYK_0tNOFyPijnoVxwOAN-tO-9OJ_JFOCWXvrdlbKzWXYtxO9vhZr3nD_Gu_KKBopWambbPs-NSdy7l-ryqrsyRb2M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduuddtlecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
  ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
  hrpeffhffvvefukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpeflrghnnhgvucfi
  rhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnhepgfdvff
  evleegudejfeefheehkeehleehfefgjefffeetudegtefhuedufeehfeetnecuvehluhhs
  thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurd
- hnvghtpdhnsggprhgtphhtthhopedviedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+ hnvghtpdhnsggprhgtphhtthhopedvfedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
  oheplhihuhguvgesrhgvughhrghtrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlh
  eslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhopehruhhsthdq
  fhhorhdqlhhinhhugiesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegrlh
  hitggvrhihhhhlsehgohhoghhlvgdrtghomhdprhgtphhtthhopegurghnihgvlhdrrghl
  mhgvihgurgestgholhhlrggsohhrrgdrtghomhdprhgtphhtthhopegurghkrheskhgvrh
  hnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgv
- rhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhgrsegrshgrhhhilhhinhgrrdhnvghtpd
- hrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:4zI0aV-8rGL69jnGDjKnwKtYygMWhOARJD2aB_6XLENuZEhwAPehZQ>
- <xmx:4zI0aRhKrlxzRNFIl2g0wtE9aaaiUaeZEai3W55nCFyVKU1jMxJytQ>
- <xmx:4zI0aea0K5UKJEpvIYsxqgYXz74Ywl-0WeiCfl-FtEetqaMwA_MasQ>
- <xmx:4zI0aTQC7yp5KdqGYNXR-dDE7MiOrFkJ0cze8A0yrjRXajHWMgV3Xg>
- <xmx:5DI0aV-tlYWhqVuYKxAFDsB6tyTFw6bx4vaElocBckUxQE-NVYZVJwJD>
+ rhhnvghlrdhorhhgpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprh
+ gtphhtthhopehsihhmohhnrgesfhhffihllhdrtghh
+X-ME-Proxy: <xmx:uTM0afLvrk7c6a7QlQHcVA5UKqpWW_xZaHR4frBnfiXekHFAvroK3Q>
+ <xmx:uTM0aUfvb1dMAyFXl7D3Wnzap7SkuT1tLVQVK4E9U1pk8mihC1BM4w>
+ <xmx:uTM0aaLyQMF4akamENeQQJfWbXYn7RA2lrfC9sJCH0AEXb6HbkE0ZQ>
+ <xmx:uTM0aeAauhTn4ZNFc5qJtmAGtB3bqTDl4YhO9fynvYKWqbsdzdd2Qw>
+ <xmx:ujM0aRLEcK_kjPJ7ddX1XLpVZ4ViE_nJoeI61bVSZuGnlP425PklA291>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 6 Dec 2025 08:42:58 -0500 (EST)
-Date: Sat, 6 Dec 2025 14:42:57 +0100
+ 6 Dec 2025 08:46:33 -0500 (EST)
+Date: Sat, 6 Dec 2025 14:46:32 +0100
 From: Janne Grunau <j@jannau.net>
 To: Lyude Paul <lyude@redhat.com>
 Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
  Alice Ryhl <aliceryhl@google.com>,
  Daniel Almeida <daniel.almeida@collabora.com>,
  Danilo Krummrich <dakr@kernel.org>, linux-kernel@vger.kernel.org,
- Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,	Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
  Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>,	Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Asahi Lina <lina+kernel@asahilina.net>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Tamir Duberstein <tamird@gmail.com>,
- FUJITA Tomonori <fujita.tomonori@gmail.com>,
- Krishna Ketan Rai <prafulrai522@gmail.com>, "open list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linux-media@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
- <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH v6 2/8] rust: helpers: Add bindings/wrappers for
- dma_resv_lock
-Message-ID: <20251206134257.GA1097212@robin.jannau.net>
+ Trevor Gross <tmgross@umich.edu>, Asahi Lina <lina+kernel@asahilina.net>,
+ Shankari Anand <shankari.ak0208@gmail.com>,
+ "open list:DRM DRIVER FOR NVIDIA GPUS [RUST]" <nouveau@lists.freedesktop.org>
+Subject: Re: [PATCH v6 4/8] rust: gem: Introduce DriverObject::Args
+Message-ID: <20251206134632.GB1097212@robin.jannau.net>
 References: <20251202220924.520644-1-lyude@redhat.com>
- <20251202220924.520644-3-lyude@redhat.com>
+ <20251202220924.520644-5-lyude@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251202220924.520644-3-lyude@redhat.com>
+In-Reply-To: <20251202220924.520644-5-lyude@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,71 +115,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 02, 2025 at 05:03:28PM -0500, Lyude Paul wrote:
-> From: Asahi Lina <lina@asahilina.net>
+On Tue, Dec 02, 2025 at 05:03:30PM -0500, Lyude Paul wrote:
+> This is an associated type that may be used in order to specify a data-type
+> to pass to gem objects when construction them, allowing for drivers to more
+> easily initialize their private-data for gem objects.
 > 
-> This is just for basic usage in the DRM shmem abstractions for implied
-> locking, not intended as a full DMA Reservation abstraction yet.
-> 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
-> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> ---
->  rust/bindings/bindings_helper.h |  1 +
->  rust/helpers/dma-resv.c         | 13 +++++++++++++
->  rust/helpers/helpers.c          |  1 +
->  3 files changed, 15 insertions(+)
->  create mode 100644 rust/helpers/dma-resv.c
+> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 > 
-> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-> index 2e43c66635a2c..07f79e125c329 100644
-> --- a/rust/bindings/bindings_helper.h
-> +++ b/rust/bindings/bindings_helper.h
-> @@ -48,6 +48,7 @@
->  #include <linux/cpumask.h>
->  #include <linux/cred.h>
->  #include <linux/debugfs.h>
-> +#include <linux/dma-resv.h>
->  #include <linux/device/faux.h>
->  #include <linux/dma-direction.h>
->  #include <linux/dma-mapping.h>
+> ---
+> V3:
+> * s/BaseDriverObject/DriverObject/
+> V4:
+> * Fix leftover reference to BaseObjectDriver in rustdoc for
+>   DriverObject::Args
+> V6:
+> * Fix build errors in Tyr
+> 
+>  drivers/gpu/drm/nova/gem.rs |  5 +++--
+>  drivers/gpu/drm/tyr/gem.rs  |  3 ++-
+>  rust/kernel/drm/gem/mod.rs  | 13 ++++++++++---
+>  3 files changed, 15 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/nova/gem.rs b/drivers/gpu/drm/nova/gem.rs
+> index 2760ba4f3450b..173077eeb2def 100644
+> --- a/drivers/gpu/drm/nova/gem.rs
+> +++ b/drivers/gpu/drm/nova/gem.rs
+> @@ -18,8 +18,9 @@ pub(crate) struct NovaObject {}
+>  
+>  impl gem::DriverObject for NovaObject {
+>      type Driver = NovaDriver;
+> +    type Args = ();
+>  
+> -    fn new(_dev: &NovaDevice, _size: usize) -> impl PinInit<Self, Error> {
+> +    fn new(_dev: &NovaDevice, _size: usize, _args: Self::Args) -> impl PinInit<Self, Error> {
+>          try_pin_init!(NovaObject {})
+>      }
+>  }
+> @@ -33,7 +34,7 @@ pub(crate) fn new(dev: &NovaDevice, size: usize) -> Result<ARef<gem::Object<Self
+>              return Err(EINVAL);
+>          }
+>  
+> -        gem::Object::new(dev, aligned_size)
+> +        gem::Object::new(dev, aligned_size, ())
+>      }
+>  
+>      /// Look up a GEM object handle for a `File` and return an `ObjectRef` for it.
+> diff --git a/drivers/gpu/drm/tyr/gem.rs b/drivers/gpu/drm/tyr/gem.rs
+> index 1273bf89dbd5d..bb5e7871efa94 100644
+> --- a/drivers/gpu/drm/tyr/gem.rs
+> +++ b/drivers/gpu/drm/tyr/gem.rs
+> @@ -11,8 +11,9 @@ pub(crate) struct TyrObject {}
+>  
+>  impl gem::DriverObject for TyrObject {
+>      type Driver = TyrDriver;
+> +    type Args = ();
+>  
+> -    fn new(_dev: &TyrDevice, _size: usize) -> impl PinInit<Self, Error> {
+> +    fn new(_dev: &TyrDevice, _size: usize, _args: ()) -> impl PinInit<Self, Error> {
 
-nit: alphabetical order
+nit: should the type for _args be Self::Args for consistency?
 
-> diff --git a/rust/helpers/dma-resv.c b/rust/helpers/dma-resv.c
-> new file mode 100644
-> index 0000000000000..05501cb814513
-> --- /dev/null
-> +++ b/rust/helpers/dma-resv.c
-> @@ -0,0 +1,13 @@
-> +// SPDX-License-Identifier: GPL-2.0
+>          try_pin_init!(TyrObject {})
+>      }
+>  }
+> diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+> index ec3c1b1775196..4bcaee2d4b308 100644
+> --- a/rust/kernel/drm/gem/mod.rs
+> +++ b/rust/kernel/drm/gem/mod.rs
+> @@ -64,8 +64,15 @@ pub trait DriverObject: Sync + Send + Sized {
+>      /// Parent `Driver` for this object.
+>      type Driver: drm::Driver;
+>  
+> +    /// The data type to use for passing arguments to [`DriverObject::new`].
+> +    type Args;
 > +
-> +#include <linux/dma-resv.h>
-> +
-> +int rust_helper_dma_resv_lock(struct dma_resv *obj, struct ww_acquire_ctx *ctx)
-> +{
-> +	return dma_resv_lock(obj, ctx);
-> +}
-> +
-> +void rust_helper_dma_resv_unlock(struct dma_resv *obj)
-> +{
-> +	dma_resv_unlock(obj);
-> +}
-> diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
-> index 551da6c9b5064..36d40f911345c 100644
-> --- a/rust/helpers/helpers.c
-> +++ b/rust/helpers/helpers.c
-> @@ -25,6 +25,7 @@
->  #include "cred.c"
->  #include "device.c"
->  #include "dma.c"
-> +#include "dma-resv.c"
->  #include "drm.c"
->  #include "err.c"
->  #include "irq.c"
-
-with that fixed
+>      /// Create a new driver data object for a GEM object of a given size.
+> -    fn new(dev: &drm::Device<Self::Driver>, size: usize) -> impl PinInit<Self, Error>;
+> +    fn new(
+> +        dev: &drm::Device<Self::Driver>,
+> +        size: usize,
+> +        args: Self::Args,
+> +    ) -> impl PinInit<Self, Error>;
+>  
+>      /// Open a new handle to an existing object, associated with a File.
+>      fn open(_obj: &<Self::Driver as drm::Driver>::Object, _file: &DriverFile<Self>) -> Result {
+> @@ -244,11 +251,11 @@ impl<T: DriverObject> Object<T> {
+>      };
+>  
+>      /// Create a new GEM object.
+> -    pub fn new(dev: &drm::Device<T::Driver>, size: usize) -> Result<ARef<Self>> {
+> +    pub fn new(dev: &drm::Device<T::Driver>, size: usize, args: T::Args) -> Result<ARef<Self>> {
+>          let obj: Pin<KBox<Self>> = KBox::pin_init(
+>              try_pin_init!(Self {
+>                  obj: Opaque::new(bindings::drm_gem_object::default()),
+> -                data <- T::new(dev, size),
+> +                data <- T::new(dev, size, args),
+>              }),
+>              GFP_KERNEL,
+>          )?;
+> -- 
+> 2.52.0
 
 Reviewed-by: Janne Grunau <j@jananu.net>
 
