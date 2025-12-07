@@ -2,49 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF26CAB5EF
-	for <lists+dri-devel@lfdr.de>; Sun, 07 Dec 2025 15:04:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C78CAB5FE
+	for <lists+dri-devel@lfdr.de>; Sun, 07 Dec 2025 15:16:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABBA110E07B;
-	Sun,  7 Dec 2025 14:04:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B542A10E17D;
+	Sun,  7 Dec 2025 14:16:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BYT81afb";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="oa4+297g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2005489654
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Dec 2025 14:04:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 051454364B;
- Sun,  7 Dec 2025 14:04:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 710D8C4CEFB;
- Sun,  7 Dec 2025 14:04:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765116273;
- bh=8C8MINyFxoQnTXXKrera1BLyHOmMVGTXjhAaIdgVhA8=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=BYT81afbsj1snMK2wX5zH4Alvly0M7aUtaBVq+u6pT+lZRbuzEDilNogucCyqs+gs
- i7d422XDtQkOMsvWLvYjWb7KWC8GOMA9sCr6L0ksWWaxB1zdhKqt7ewcYQd1KqQp4H
- sPXuBXziZcGZq11ZeoOIzjlZkTHr2UXFu5SpLObSLiE3y5bshtL3lFRHvT6EbsTN+7
- dBJB0wouqsyat7kq9YY+sWlco6NNsj7LLaIsu19yjivch+s9pT8j7xH6kZVHqjUJmO
- 8fIb9tk6gBOWzcinip/XgMSfoukWfJ6q2OSQsKPT2mxN1Ktgk6dIX7VY1cJfbYrs5F
- +1u/ywWgGJA9w==
-Date: Sun, 7 Dec 2025 14:04:25 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Linus Walleij <linusw@kernel.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, linux-kernel@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-input@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] MAINTAINERS: Change Linus Walleij mail address
-Message-ID: <20251207140425.2e373873@jic23-huawei>
-In-Reply-To: <20251130-linusw-kernelorg-email-v1-1-bcdbff7b896c@kernel.org>
-References: <20251130-linusw-kernelorg-email-v1-1-bcdbff7b896c@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E45E810E17D;
+ Sun,  7 Dec 2025 14:16:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=K3hLLRx50FbBBzirdBaadwngiwkvt/UqddVt7E+U/8c=; b=oa4+297g+2UCGCayvz+uQ6E/zz
+ UOsO6P11PLgH2c/+veGq5tA+GRJKMlr7CL9h4HgI8zMI9tiBwhK/v0g7EKdCzc5E/A397PFsMVtak
+ pHkVnTh2JUU0Jd1TAv7WiVTa395zPVKQP3RYAchyME9IVr7OliVuEMbOMl5aFqDMhvpzwSTtt4yUl
+ UhIILV89Dk3ch/lhPnF9bxXMzlA+C9PuILvgT6PN9gvFSBlvhlccibnC6DiE1v0HaD9e73m21xe9i
+ Gnq0JdHIUX0jPrI76jJ/9mXVLZs/b8MKBE9shzv9EOeZCBNA4dDQ8bq+8VfX9OhEmWV4XfEwTkIlo
+ 9DWQG4fA==;
+Received: from [187.36.210.68] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vSFYH-009l3a-0M; Sun, 07 Dec 2025 15:15:53 +0100
+Message-ID: <a3586baa-2403-43f9-a692-da3e79482cbb@igalia.com>
+Date: Sun, 7 Dec 2025 11:15:40 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 07/10] drm/gem: Get rid of *_with_mnt helpers
+To: =?UTF-8?Q?Lo=C3=AFc_Molinari?= <loic.molinari@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Melissa Wen <mwen@igalia.com>,
+ Hugh Dickins <hughd@google.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Al Viro <viro@zeniv.linux.org.uk>, =?UTF-8?Q?Miko=C5=82aj_Wasiak?=
+ <mikolaj.wasiak@intel.com>, Christian Brauner <brauner@kernel.org>,
+ Nitin Gote <nitin.r.gote@intel.com>, Andi Shyti
+ <andi.shyti@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christopher Healy <healych@amazon.com>, Matthew Wilcox
+ <willy@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, kernel@collabora.com
+References: <20251205182231.194072-1-loic.molinari@collabora.com>
+ <20251205182231.194072-8-loic.molinari@collabora.com>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Content-Language: en-US
+In-Reply-To: <20251205182231.194072-8-loic.molinari@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,315 +80,242 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 30 Nov 2025 17:14:45 +0100
-Linus Walleij <linusw@kernel.org> wrote:
+Hi Loïc,
 
-> I will be using my kernel.org mail address going forward.
->=20
-> There is no point in splitting this MAINTAINERS patch up
-> per subsystem, I will just include it with the rest of my
-> patches to pin control in the next merge window.
+On 05/12/25 15:22, Loïc Molinari wrote:
+> drm_gem_object_init_with_mnt() and drm_gem_shmem_create_with_mnt() can
+> be removed now that the drivers use the new drm_gem_huge_mnt_create()
+> and drm_gem_get_huge_mnt() helpers.
+> 
+> v5:
+> - use drm_gem_has_huge_mnt() helper
+> - compile out shmem_file_setup_with_mnt() call in builds with
+>    CONFIG_TRANSPARENT_HUGEPAGE=n
+> 
+> v9:
+> - replace drm_gem_has_huge_mnt() with drm_gem_get_huge_mnt()
+> 
+> Signed-off-by: Loïc Molinari <loic.molinari@collabora.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Trivial but wrap a tiny bit short of the normal 75 chars.
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
 
->=20
-> Signed-off-by: Linus Walleij <linusw@kernel.org>
-
-FWIW
-Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com> #for-iio
-
-Good opportunity to say thanks for all your effort in a broad range
-of places!
-
-Jonathan
+Best Regards,
+- Maíra
 
 > ---
->  MAINTAINERS | 58 +++++++++++++++++++++++++++++--------------------------=
----
->  1 file changed, 29 insertions(+), 29 deletions(-)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 181a58ec4a8d..13f61acdc8f7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -195,7 +195,7 @@ F:	drivers/pinctrl/pinctrl-upboard.c
->  F:	include/linux/mfd/upboard-fpga.h
-> =20
->  AB8500 BATTERY AND CHARGER DRIVERS
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  F:	Documentation/devicetree/bindings/power/supply/*ab8500*
->  F:	drivers/power/supply/*ab8500*
-> =20
-> @@ -2045,7 +2045,7 @@ F:	Documentation/devicetree/bindings/display/arm,hd=
-lcd.yaml
->  F:	drivers/gpu/drm/arm/hdlcd_*
-> =20
->  ARM INTEGRATOR, VERSATILE AND REALVIEW SUPPORT
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/arm/arm,integrator.yaml
-> @@ -2203,7 +2203,7 @@ F:	Documentation/devicetree/bindings/memory-control=
-lers/arm,pl35x-smc.yaml
->  F:	drivers/memory/pl353-smc.c
-> =20
->  ARM PRIMECELL SSP PL022 SPI DRIVER
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/spi/spi-pl022.yaml
-> @@ -2216,7 +2216,7 @@ F:	drivers/tty/serial/amba-pl01*.c
->  F:	include/linux/amba/serial.h
-> =20
->  ARM PRIMECELL VIC PL190/PL192 DRIVER
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/interrupt-controller/arm,vic.yaml
-> @@ -2633,7 +2633,7 @@ F:	tools/perf/util/cs-etm.*
-> =20
->  ARM/CORTINA SYSTEMS GEMINI ARM ARCHITECTURE
->  M:	Hans Ulli Kroll <ulli.kroll@googlemail.com>
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  S:	Maintained
->  T:	git https://github.com/ulli-kroll/linux.git
-> @@ -3035,7 +3035,7 @@ F:	include/dt-bindings/clock/mstar-*
->  F:	include/dt-bindings/gpio/msc313-gpio.h
-> =20
->  ARM/NOMADIK/Ux500 ARCHITECTURES
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
->  S:	Maintained
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-nomadi=
-k.git
-> @@ -3732,7 +3732,7 @@ F:	Documentation/devicetree/bindings/media/i2c/asah=
-i-kasei,ak7375.yaml
->  F:	drivers/media/i2c/ak7375.c
-> =20
->  ASAHI KASEI AK8974 DRIVER
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-iio@vger.kernel.org
->  S:	Supported
->  W:	http://www.akm.com/
-> @@ -6758,7 +6758,7 @@ S:	Maintained
->  F:	drivers/pinctrl/pinctrl-cy8c95x0.c
-> =20
->  CYPRESS CY8CTMA140 TOUCHSCREEN DRIVER
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-input@vger.kernel.org
->  S:	Maintained
->  F:	drivers/input/touchscreen/cy8ctma140.c
-> @@ -6778,13 +6778,13 @@ Q:	http://patchwork.linuxtv.org/project/linux-med=
-ia/list/
->  F:	drivers/media/common/cypress_firmware*
-> =20
->  CYTTSP TOUCHSCREEN DRIVER
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-input@vger.kernel.org
->  S:	Maintained
->  F:	drivers/input/touchscreen/cyttsp*
-> =20
->  D-LINK DIR-685 TOUCHKEYS DRIVER
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-input@vger.kernel.org
->  S:	Supported
->  F:	drivers/input/keyboard/dlink-dir685-touchkeys.c
-> @@ -7653,13 +7653,13 @@ T:	git https://gitlab.freedesktop.org/drm/misc/ke=
-rnel.git
->  F:	drivers/gpu/drm/tiny/appletbdrm.c
-> =20
->  DRM DRIVER FOR ARM PL111 CLCD
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:	drivers/gpu/drm/pl111/
-> =20
->  DRM DRIVER FOR ARM VERSATILE TFT PANELS
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:	Documentation/devicetree/bindings/display/panel/arm,versatile-tft-pan=
-el.yaml
-> @@ -7709,7 +7709,7 @@ F:	Documentation/devicetree/bindings/display/panel/=
-ebbg,ft8719.yaml
->  F:	drivers/gpu/drm/panel/panel-ebbg-ft8719.c
-> =20
->  DRM DRIVER FOR FARADAY TVE200 TV ENCODER
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:	drivers/gpu/drm/tve200/
-> @@ -7903,14 +7903,14 @@ F:	include/dt-bindings/clock/qcom,dsi-phy-28nm.h
->  F:	include/uapi/drm/msm_drm.h
-> =20
->  DRM DRIVER FOR NOVATEK NT35510 PANELS
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:	Documentation/devicetree/bindings/display/panel/novatek,nt35510.yaml
->  F:	drivers/gpu/drm/panel/panel-novatek-nt35510.c
-> =20
->  DRM DRIVER FOR NOVATEK NT35560 PANELS
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:	Documentation/devicetree/bindings/display/panel/sony,acx424akp.yaml
-> @@ -8028,7 +8028,7 @@ F:	Documentation/devicetree/bindings/display/panel/=
-raydium,rm67191.yaml
->  F:	drivers/gpu/drm/panel/panel-raydium-rm67191.c
-> =20
->  DRM DRIVER FOR SAMSUNG DB7430 PANELS
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:	Documentation/devicetree/bindings/display/panel/samsung,lms397kf04.ya=
-ml
-> @@ -8112,7 +8112,7 @@ F:	Documentation/devicetree/bindings/display/solomo=
-n,ssd13*.yaml
->  F:	drivers/gpu/drm/solomon/ssd130x*
-> =20
->  DRM DRIVER FOR ST-ERICSSON MCDE
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:	Documentation/devicetree/bindings/display/ste,mcde.yaml
-> @@ -8144,7 +8144,7 @@ F:	Documentation/devicetree/bindings/display/bridge=
-/ti,sn65dsi86.yaml
->  F:	drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> =20
->  DRM DRIVER FOR TPO TPG110 PANELS
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:	Documentation/devicetree/bindings/display/panel/tpo,tpg110.yaml
-> @@ -8188,7 +8188,7 @@ F:	drivers/gpu/drm/vmwgfx/
->  F:	include/uapi/drm/vmwgfx_drm.h
-> =20
->  DRM DRIVER FOR WIDECHIPS WS2401 PANELS
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  S:	Maintained
->  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
->  F:	Documentation/devicetree/bindings/display/panel/samsung,lms380kf01.ya=
-ml
-> @@ -9482,7 +9482,7 @@ F:	include/linux/fanotify.h
->  F:	include/uapi/linux/fanotify.h
-> =20
->  FARADAY FOTG210 USB2 DUAL-ROLE CONTROLLER
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-usb@vger.kernel.org
->  S:	Maintained
->  F:	drivers/usb/fotg210/
-> @@ -10669,7 +10669,7 @@ F:	drivers/gpio/gpio-sloppy-logic-analyzer.c
->  F:	tools/gpio/gpio-sloppy-logic-analyzer.sh
-> =20
->  GPIO SUBSYSTEM
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  M:	Bartosz Golaszewski <brgl@bgdev.pl>
->  L:	linux-gpio@vger.kernel.org
->  S:	Maintained
-> @@ -13033,7 +13033,7 @@ F:	Documentation/devicetree/bindings/iio/imu/inve=
-nsense,icm42600.yaml
->  F:	drivers/iio/imu/inv_icm42600/
-> =20
->  INVENSENSE MPU-3050 GYROSCOPE DRIVER
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-iio@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/iio/gyroscope/invensense,mpu3050.ya=
-ml
-> @@ -13948,7 +13948,7 @@ F:	drivers/auxdisplay/ks0108.c
->  F:	include/linux/ks0108.h
-> =20
->  KTD253 BACKLIGHT DRIVER
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/leds/backlight/kinetic,ktd253.yaml
->  F:	drivers/video/backlight/ktd253-backlight.c
-> @@ -14159,7 +14159,7 @@ F:	drivers/ata/pata_arasan_cf.c
->  F:	include/linux/pata_arasan_cf_data.h
-> =20
->  LIBATA PATA FARADAY FTIDE010 AND GEMINI SATA BRIDGE DRIVERS
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-ide@vger.kernel.org
->  S:	Maintained
->  F:	drivers/ata/pata_ftide010.c
-> @@ -19663,7 +19663,7 @@ F:	Documentation/devicetree/bindings/pci/fsl,imx6=
-q-pcie.yaml
->  F:	drivers/pci/controller/dwc/*imx6*
-> =20
->  PCI DRIVER FOR INTEL IXP4XX
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/pci/intel,ixp4xx-pci.yaml
->  F:	drivers/pci/controller/pci-ixp4xx.c
-> @@ -19774,7 +19774,7 @@ F:	drivers/pci/controller/cadence/pci-j721e.c
->  F:	drivers/pci/controller/dwc/pci-dra7xx.c
-> =20
->  PCI DRIVER FOR V3 SEMICONDUCTOR V360EPC
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-pci@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/pci/v3,v360epc-pci.yaml
-> @@ -20219,7 +20219,7 @@ K:	(?i)clone3
->  K:	\b(clone_args|kernel_clone_args)\b
-> =20
->  PIN CONTROL SUBSYSTEM
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-gpio@vger.kernel.org
->  S:	Maintained
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctr=
-l.git
-> @@ -21631,7 +21631,7 @@ F:	Documentation/devicetree/bindings/watchdog/rea=
-ltek,otto-wdt.yaml
->  F:	drivers/watchdog/realtek_otto_wdt.c
-> =20
->  REALTEK RTL83xx SMI DSA ROUTER CHIPS
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  M:	Alvin =C5=A0ipraga <alsi@bang-olufsen.dk>
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/net/dsa/realtek.yaml
-> @@ -23384,7 +23384,7 @@ S:	Supported
->  F:	net/smc/
-> =20
->  SHARP GP2AP002A00F/GP2AP002S00F SENSOR DRIVER
-> -M:	Linus Walleij <linus.walleij@linaro.org>
-> +M:	Linus Walleij <linusw@kernel.org>
->  L:	linux-iio@vger.kernel.org
->  S:	Maintained
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git
->=20
-> ---
-> base-commit: 6156424a7d001cceeafe59b52209d6f36719b51d
-> change-id: 20251130-linusw-kernelorg-email-0791125070f4
->=20
-> Best regards,
+>   drivers/gpu/drm/drm_gem.c              | 37 +++++++------------------
+>   drivers/gpu/drm/drm_gem_shmem_helper.c | 38 ++++++--------------------
+>   drivers/gpu/drm/v3d/v3d_bo.c           |  3 +-
+>   include/drm/drm_gem.h                  |  3 --
+>   include/drm/drm_gem_shmem_helper.h     |  3 --
+>   5 files changed, 19 insertions(+), 65 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 32dddb23e211..6021c4087a08 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -171,29 +171,28 @@ drm_gem_init(struct drm_device *dev)
+>   }
+>   
+>   /**
+> - * drm_gem_object_init_with_mnt - initialize an allocated shmem-backed GEM
+> - * object in a given shmfs mountpoint
+> + * drm_gem_object_init - initialize an allocated shmem-backed GEM object
+>    *
+>    * @dev: drm_device the object should be initialized for
+>    * @obj: drm_gem_object to initialize
+>    * @size: object size
+> - * @gemfs: tmpfs mount where the GEM object will be created. If NULL, use
+> - * the usual tmpfs mountpoint (`shm_mnt`).
+>    *
+>    * Initialize an already allocated GEM object of the specified size with
+> - * shmfs backing store.
+> + * shmfs backing store. A huge mountpoint can be used by calling
+> + * drm_gem_huge_mnt_create() beforehand.
+>    */
+> -int drm_gem_object_init_with_mnt(struct drm_device *dev,
+> -				 struct drm_gem_object *obj, size_t size,
+> -				 struct vfsmount *gemfs)
+> +int drm_gem_object_init(struct drm_device *dev, struct drm_gem_object *obj,
+> +			size_t size)
+>   {
+> +	struct vfsmount *huge_mnt;
+>   	struct file *filp;
+>   
+>   	drm_gem_private_object_init(dev, obj, size);
+>   
+> -	if (gemfs)
+> -		filp = shmem_file_setup_with_mnt(gemfs, "drm mm object", size,
+> -						 VM_NORESERVE);
+> +	huge_mnt = drm_gem_get_huge_mnt(dev);
+> +	if (huge_mnt)
+> +		filp = shmem_file_setup_with_mnt(huge_mnt, "drm mm object",
+> +						 size, VM_NORESERVE);
+>   	else
+>   		filp = shmem_file_setup("drm mm object", size, VM_NORESERVE);
+>   
+> @@ -204,22 +203,6 @@ int drm_gem_object_init_with_mnt(struct drm_device *dev,
+>   
+>   	return 0;
+>   }
+> -EXPORT_SYMBOL(drm_gem_object_init_with_mnt);
+> -
+> -/**
+> - * drm_gem_object_init - initialize an allocated shmem-backed GEM object
+> - * @dev: drm_device the object should be initialized for
+> - * @obj: drm_gem_object to initialize
+> - * @size: object size
+> - *
+> - * Initialize an already allocated GEM object of the specified size with
+> - * shmfs backing store.
+> - */
+> -int drm_gem_object_init(struct drm_device *dev, struct drm_gem_object *obj,
+> -			size_t size)
+> -{
+> -	return drm_gem_object_init_with_mnt(dev, obj, size, NULL);
+> -}
+>   EXPORT_SYMBOL(drm_gem_object_init);
+>   
+>   /**
+> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> index e67216cbb469..f8bcd1b0eb32 100644
+> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+> @@ -50,7 +50,7 @@ static const struct drm_gem_object_funcs drm_gem_shmem_funcs = {
+>   };
+>   
+>   static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem,
+> -				size_t size, bool private, struct vfsmount *gemfs)
+> +				size_t size, bool private)
+>   {
+>   	struct drm_gem_object *obj = &shmem->base;
+>   	int ret = 0;
+> @@ -62,7 +62,7 @@ static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_obj
+>   		drm_gem_private_object_init(dev, obj, size);
+>   		shmem->map_wc = false; /* dma-buf mappings use always writecombine */
+>   	} else {
+> -		ret = drm_gem_object_init_with_mnt(dev, obj, size, gemfs);
+> +		ret = drm_gem_object_init(dev, obj, size);
+>   	}
+>   	if (ret) {
+>   		drm_gem_private_object_fini(obj);
+> @@ -103,13 +103,12 @@ static int __drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_obj
+>    */
+>   int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem, size_t size)
+>   {
+> -	return __drm_gem_shmem_init(dev, shmem, size, false, NULL);
+> +	return __drm_gem_shmem_init(dev, shmem, size, false);
+>   }
+>   EXPORT_SYMBOL_GPL(drm_gem_shmem_init);
+>   
+>   static struct drm_gem_shmem_object *
+> -__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
+> -		       struct vfsmount *gemfs)
+> +__drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private)
+>   {
+>   	struct drm_gem_shmem_object *shmem;
+>   	struct drm_gem_object *obj;
+> @@ -129,7 +128,7 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
+>   		obj = &shmem->base;
+>   	}
+>   
+> -	ret = __drm_gem_shmem_init(dev, shmem, size, private, gemfs);
+> +	ret = __drm_gem_shmem_init(dev, shmem, size, private);
+>   	if (ret) {
+>   		kfree(obj);
+>   		return ERR_PTR(ret);
+> @@ -150,31 +149,10 @@ __drm_gem_shmem_create(struct drm_device *dev, size_t size, bool private,
+>    */
+>   struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size)
+>   {
+> -	return __drm_gem_shmem_create(dev, size, false, NULL);
+> +	return __drm_gem_shmem_create(dev, size, false);
+>   }
+>   EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
+>   
+> -/**
+> - * drm_gem_shmem_create_with_mnt - Allocate an object with the given size in a
+> - * given mountpoint
+> - * @dev: DRM device
+> - * @size: Size of the object to allocate
+> - * @gemfs: tmpfs mount where the GEM object will be created
+> - *
+> - * This function creates a shmem GEM object in a given tmpfs mountpoint.
+> - *
+> - * Returns:
+> - * A struct drm_gem_shmem_object * on success or an ERR_PTR()-encoded negative
+> - * error code on failure.
+> - */
+> -struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *dev,
+> -							   size_t size,
+> -							   struct vfsmount *gemfs)
+> -{
+> -	return __drm_gem_shmem_create(dev, size, false, gemfs);
+> -}
+> -EXPORT_SYMBOL_GPL(drm_gem_shmem_create_with_mnt);
+> -
+>   /**
+>    * drm_gem_shmem_release - Release resources associated with a shmem GEM object.
+>    * @shmem: shmem GEM object
+> @@ -851,7 +829,7 @@ drm_gem_shmem_prime_import_sg_table(struct drm_device *dev,
+>   	size_t size = PAGE_ALIGN(attach->dmabuf->size);
+>   	struct drm_gem_shmem_object *shmem;
+>   
+> -	shmem = __drm_gem_shmem_create(dev, size, true, NULL);
+> +	shmem = __drm_gem_shmem_create(dev, size, true);
+>   	if (IS_ERR(shmem))
+>   		return ERR_CAST(shmem);
+>   
+> @@ -899,7 +877,7 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
+>   
+>   	size = PAGE_ALIGN(attach->dmabuf->size);
+>   
+> -	shmem = __drm_gem_shmem_create(dev, size, true, NULL);
+> +	shmem = __drm_gem_shmem_create(dev, size, true);
+>   	if (IS_ERR(shmem)) {
+>   		ret = PTR_ERR(shmem);
+>   		goto fail_detach;
+> diff --git a/drivers/gpu/drm/v3d/v3d_bo.c b/drivers/gpu/drm/v3d/v3d_bo.c
+> index 3ee8d9c36d92..c4316b768b3d 100644
+> --- a/drivers/gpu/drm/v3d/v3d_bo.c
+> +++ b/drivers/gpu/drm/v3d/v3d_bo.c
+> @@ -153,8 +153,7 @@ struct v3d_bo *v3d_bo_create(struct drm_device *dev, struct drm_file *file_priv,
+>   	struct v3d_bo *bo;
+>   	int ret;
+>   
+> -	shmem_obj = drm_gem_shmem_create_with_mnt(dev, unaligned_size,
+> -						  drm_gem_get_huge_mnt(dev));
+> +	shmem_obj = drm_gem_shmem_create(dev, unaligned_size);
+>   	if (IS_ERR(shmem_obj))
+>   		return ERR_CAST(shmem_obj);
+>   	bo = to_v3d_bo(&shmem_obj->base);
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 97b5fca8966d..cca815dc87f3 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -529,9 +529,6 @@ void drm_gem_object_release(struct drm_gem_object *obj);
+>   void drm_gem_object_free(struct kref *kref);
+>   int drm_gem_object_init(struct drm_device *dev,
+>   			struct drm_gem_object *obj, size_t size);
+> -int drm_gem_object_init_with_mnt(struct drm_device *dev,
+> -				 struct drm_gem_object *obj, size_t size,
+> -				 struct vfsmount *gemfs);
+>   void drm_gem_private_object_init(struct drm_device *dev,
+>   				 struct drm_gem_object *obj, size_t size);
+>   void drm_gem_private_object_fini(struct drm_gem_object *obj);
+> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+> index 589f7bfe7506..6b6478f5ca24 100644
+> --- a/include/drm/drm_gem_shmem_helper.h
+> +++ b/include/drm/drm_gem_shmem_helper.h
+> @@ -109,9 +109,6 @@ struct drm_gem_shmem_object {
+>   
+>   int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shmem, size_t size);
+>   struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
+> -struct drm_gem_shmem_object *drm_gem_shmem_create_with_mnt(struct drm_device *dev,
+> -							   size_t size,
+> -							   struct vfsmount *gemfs);
+>   void drm_gem_shmem_release(struct drm_gem_shmem_object *shmem);
+>   void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
+>   
 
