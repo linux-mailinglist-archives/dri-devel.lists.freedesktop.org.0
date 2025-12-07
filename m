@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149DBCAB49B
-	for <lists+dri-devel@lfdr.de>; Sun, 07 Dec 2025 13:40:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0D7CAB4A4
+	for <lists+dri-devel@lfdr.de>; Sun, 07 Dec 2025 13:40:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71A8810E357;
-	Sun,  7 Dec 2025 12:40:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0755010E359;
+	Sun,  7 Dec 2025 12:40:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ALhBBNJz";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bx9MV3qx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5C9F410E358
- for <dri-devel@lists.freedesktop.org>; Sun,  7 Dec 2025 12:40:23 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C05910E358
+ for <dri-devel@lists.freedesktop.org>; Sun,  7 Dec 2025 12:40:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1765111222;
+ s=mimecast20190719; t=1765111234;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to; bh=/HKvmdPqRZHJ9/v9r83b5lWZWkfSL/6IdXrUhiE9JhQ=;
- b=ALhBBNJz+HUdIJUmaWhVGG+FuWjR9Q9506/yLTH4qWkeR38nNXo/vGF7cFMOf6TwOoH3LR
- sgDWMpgralPpsA0TBawx+5FdbEHcWhAbSz0862y532PlR+Z3DlDOw5utxinSc7+LBRutXr
- rD0Zd6RtvbXcu/8CHCxqioYGlSeB9bM=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ in-reply-to:in-reply-to; bh=vBKRDP8bqkordujGp7qy48QcPV4IJTrct7fsioyRbjk=;
+ b=bx9MV3qx3KsP2Idzhf0kp4SUIz9JmLxogjwrubbn7H5USuxYVbj4C/QUnLKOekTvR/07Ch
+ gY9edY2OFB0xHMrkIq6J7OQRVgMTWLDCBHQXv2kcmMqMVHNkx4ONJugct9TJLeN2seHREy
+ zlMCf245sbSeUUc8DoIzwJ334fnaKTE=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-628-lKGezg7JN4ahQWbzy3fjVQ-1; Sun,
- 07 Dec 2025 07:40:18 -0500
-X-MC-Unique: lKGezg7JN4ahQWbzy3fjVQ-1
-X-Mimecast-MFC-AGG-ID: lKGezg7JN4ahQWbzy3fjVQ_1765111214
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-299-JQrVjfGoPfWfFYZ-A2FkAA-1; Sun,
+ 07 Dec 2025 07:40:30 -0500
+X-MC-Unique: JQrVjfGoPfWfFYZ-A2FkAA-1
+X-Mimecast-MFC-AGG-ID: JQrVjfGoPfWfFYZ-A2FkAA_1765111226
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 98FA018002EC; Sun,  7 Dec 2025 12:40:14 +0000 (UTC)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id C312A195609F; Sun,  7 Dec 2025 12:40:26 +0000 (UTC)
 Received: from fedora (unknown [10.44.32.50])
- by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP
- id 852F6180044F; Sun,  7 Dec 2025 12:40:04 +0000 (UTC)
+ by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP
+ id B38033011A86; Sun,  7 Dec 2025 12:40:16 +0000 (UTC)
 Received: by fedora (nbSMTP-1.00) for uid 1000
- oleg@redhat.com; Sun,  7 Dec 2025 13:40:16 +0100 (CET)
-Date: Sun, 7 Dec 2025 13:40:05 +0100
+ oleg@redhat.com; Sun,  7 Dec 2025 13:40:28 +0100 (CET)
+Date: Sun, 7 Dec 2025 13:40:17 +0100
 From: Oleg Nesterov <oleg@redhat.com>
 To: Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
  Joel Fernandes <joelagnelf@nvidia.com>,
@@ -67,13 +67,14 @@ To: Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
 Cc: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
  netdev@vger.kernel.org
-Subject: [PATCH 6/7] RDMA/umem: don't abuse current->group_leader
-Message-ID: <aTV1pbftBkH8n4kh@redhat.com>
+Subject: [PATCH 7/7] netclassid: use thread_group_leader(p) in
+ update_classid_task()
+Message-ID: <aTV1sWfObXC4-lgY@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <aTV1KYdcDGvjXHos@redhat.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,35 +92,24 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Cleanup and preparation to simplify the next changes.
 
-Use current->tgid instead of current->group_leader->pid.
-
 Signed-off-by: Oleg Nesterov <oleg@redhat.com>
 ---
- drivers/infiniband/core/umem_odp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ net/core/netclassid_cgroup.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/infiniband/core/umem_odp.c b/drivers/infiniband/core/umem_odp.c
-index 572a91a62a7b..32267258a19c 100644
---- a/drivers/infiniband/core/umem_odp.c
-+++ b/drivers/infiniband/core/umem_odp.c
-@@ -149,7 +149,7 @@ struct ib_umem_odp *ib_umem_odp_alloc_implicit(struct ib_device *device,
- 	umem->owning_mm = current->mm;
- 	umem_odp->page_shift = PAGE_SHIFT;
+diff --git a/net/core/netclassid_cgroup.c b/net/core/netclassid_cgroup.c
+index dff66d8fb325..db9a5354f9de 100644
+--- a/net/core/netclassid_cgroup.c
++++ b/net/core/netclassid_cgroup.c
+@@ -93,7 +93,7 @@ static void update_classid_task(struct task_struct *p, u32 classid)
+ 	/* Only update the leader task, when many threads in this task,
+ 	 * so it can avoid the useless traversal.
+ 	 */
+-	if (p != p->group_leader)
++	if (!thread_group_leader(p))
+ 		return;
  
--	umem_odp->tgid = get_task_pid(current->group_leader, PIDTYPE_PID);
-+	umem_odp->tgid = get_task_pid(current, PIDTYPE_TGID);
- 	ib_init_umem_implicit_odp(umem_odp);
- 	return umem_odp;
- }
-@@ -258,7 +258,7 @@ struct ib_umem_odp *ib_umem_odp_get(struct ib_device *device,
- 		umem_odp->page_shift = HPAGE_SHIFT;
- #endif
- 
--	umem_odp->tgid = get_task_pid(current->group_leader, PIDTYPE_PID);
-+	umem_odp->tgid = get_task_pid(current, PIDTYPE_TGID);
- 	ret = ib_init_umem_odp(umem_odp, ops);
- 	if (ret)
- 		goto err_put_pid;
+ 	do {
 -- 
 2.52.0
 
