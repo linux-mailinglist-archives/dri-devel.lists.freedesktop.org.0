@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 316A2CABC03
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 02:55:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42EA6CABC09
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 02:55:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 85EDF10E383;
-	Mon,  8 Dec 2025 01:55:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9870C10E37D;
+	Mon,  8 Dec 2025 01:55:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="lyRPzx08";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="m5OfjLA/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.74.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 163D310E37E
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 01:55:48 +0000 (UTC)
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E5A110E37D
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 01:55:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1765158930;
- bh=RCoApW58uwU2PDY/YzjUBVlUXFHY8idxqTE/wHC6S8g=;
+ s=altu2504; t=1765158934;
+ bh=26BNys9MtzTfRweLMQzeXqwDzhVXLyZIh9kJ9w6YpoA=;
  h=From:To:Subject:Date:Message-Id;
- b=lyRPzx08NxIJiY9L6U9EipOSloT79349AJAORhsq9lppMlqtzGAlwRvEnJh0+h6bY
- Zf9yQQrFybvkSQ2+uC0ko1yF/l1DoTcABWqFPjWWgstcds052UNrsrQp+wlSTAuYOp
- ZlTC3YtAu9CV2BUfk5azFNOfZI/Nblq3WXmoESy4=
-X-QQ-mid: esmtpsz19t1765158928te5f51995
-X-QQ-Originating-IP: kcxCGZPPcU96TfidxkPp4h6SAeMB0/ABmBp+GsBCCJo=
+ b=m5OfjLA/w4B0AgiE+5kPJ+F7EcQ7/5Hpu3r+VrFtmG3K7mtbhNa5gIpKTxVU5H0km
+ L3MQbu5j12ZvoveBAefKlffdyoDbJDRizA0yVk8MpVNKTjXs4uR+jHT9layYD3MIPL
+ Pp/5f9psdNDlET0PXRC289Clh71rknZS/YSGfxX8=
+X-QQ-mid: esmtpsz19t1765158932t5038dae8
+X-QQ-Originating-IP: A0v0FaGYKIPVoze7Vm4qC1xZ0nc+XoFwr/1hG633FZU=
 Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Mon, 08 Dec 2025 09:55:25 +0800 (CST)
+ id ; Mon, 08 Dec 2025 09:55:29 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 12888051069085088122
+X-BIZMAIL-ID: 5449390531767649988
 From: Chaoyi Chen <kernel@airkyi.com>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -59,32 +59,32 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH v13 04/11] drm/bridge: aux: Add
- drm_aux_bridge_register_from_node()
-Date: Mon,  8 Dec 2025 09:54:53 +0800
-Message-Id: <20251208015500.94-5-kernel@airkyi.com>
+Subject: [PATCH v13 05/11] dt-bindings: phy: rockchip: rk3399-typec-phy:
+ Support mode-switch
+Date: Mon,  8 Dec 2025 09:54:54 +0800
+Message-Id: <20251208015500.94-6-kernel@airkyi.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20251208015500.94-1-kernel@airkyi.com>
 References: <20251208015500.94-1-kernel@airkyi.com>
 X-QQ-SENDSIZE: 520
 Feedback-ID: esmtpsz:airkyi.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MSDmV4hBxmsCMpUywsvd98UaZ1bNa4t2SGWzvSler2Pq4GG3N9QLrSRb
- ZidqbH3qpUclqdVmjtmfnnYdmSDZXoImK9UDP1WEifLW1AgWmmi9jvj7TnmZIFoHK9aMIdb
- FcQqOiqJJpI15xlvZhn6m8wCzcslIGbZlv3j/7/EGHS6ku+oPhKLsase0QzJwbyp3fX2yTz
- MHGBnMbxf6wWAGhZgfXmtQ/7WeHRybWMEZUjb9PGJ0d5p5aIK8YYcA1UZQC6zd7gSQQ5ijB
- 1cqVSY7/bz+n+W4MGXcd/6KBw4wLBPqWAJknw5BKwifOuBLv51YeSyozv+8Nk+TfwP5I+ot
- IH8kbmyqo5tfYv780YksB6eVaYW2rtSju0VmsZKHmBQX/BEziOsQztxtgYokAnExG2Uqal+
- RsyfSsyIWI+UNTk5jZ3XN6YDrZYMgp/cWasLqsrdhn/j5mAsMgd5MApNXyx1v5lyqBe6CuA
- GT9Y51IsPdT0rJKpJle4iuwyUbH3Aio+Rw8E7yMzrYtz8gp6we8WLllAHKqUUTom28sBiY3
- JymjAb8P8ROjyOG5DdwUzBA1YgtepnXXsWI6f7rzFSuM9iRBoCnbccykboDzD6QUAlRYgUm
- 0XlMdTTodEXhaUUn60fqgI2Q2GRljkSXQYX6Pf4pj/rPID3wz5aB7q+3fQl3rYoiKIBOcrg
- pi3kfT96Jm+v/LsloeJfHXLQ1241S3L3WHf6s+X6VEEZW2cWqcg27OFNRP+UDNdHR/CaOGE
- HXptvYj/eChqxyZO7VrEHCjouKiG6iE5eAxyRGir4MkgxFsuy+Vb+MZT4mw93ahmowK5y4M
- 9MpAvIa3cmzx2VS4f7csEk1AmS973UAjaD5GAetiPbVtxoz5n7E5b2MiANHinv9DhQNjA97
- DGZiJJVKFUQbGBm6XU986Ff0YFJ7QuperqW0sI/XxHZ2oyfWeit/2fwuzG67J57HRJf9neV
- Dt9GJYxcYt1Jeqeyq5qzUT84PkarkpcEN4wmOt/7EwlJ7KwZo+eTxQA+V6Kw0KG49P3WePI
- AIglmM4Btmeiwg8u7V02Ygii928bk=
-X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
+X-QQ-XMAILINFO: N0NSl6AiU37htVjSHU4Mn06OMjO1EtB0Vpbb9vGsAr9bDPFns9ex1trj
+ kW52m6WVbvC2h+PkhIrUn1FfFYmtTppTnFdjyr9Ohw0YYMeOPlDsInLKngHSqKohF3HmnUt
+ tf0Ik9GvVX6dYno5sNBEGYAC9P+l580j4TTL89nRnvCkjJQrn/+go7wi6VScBNP/C1iWcsu
+ aC/RVz1bIVyQCIXZLTUx58HRR+FPE20MCA9ylsTbz/zk6Q3pNKQs88Od8FAnr8BTWLZotuB
+ XwlJisqmKI9j75ghswOXNhG76GGdZ4jYhHBPs58W4QRoVtky9/BVk8pfAY3NwRhvghkd6py
+ 0wpxpuTlAwtOR86UPhoClaFOw43AN4ftzw+QVricLYGENRsYuGEB8K0WQIMmqPwPJ5EW8c+
+ nUAFKUwVZmPUkhYED4OvCaExotIoTHqzMIslksSmX5Z4jJLacpl+xcO5Jt+ny7SNnQzFIuG
+ t6xEyfpUp4x/BERoqW95sVh9oStb8n9yg+TxiXTQtPv5UCW8cbL7kz11GNaVq2qRVCZiUt7
+ b5khRikb4ak1C7vJ4N0fCFx4TTGnpoN9w/ih65GmESU+rIBJfb2ZElMtT/OtEFuuxQTWHFb
+ NyLU6q1mS2tmc+Bx0Osq9oST7y1YGDyc6wooJIhl9XLj9GAwYtwgOa4EYz4IUuhNNcS3Az3
+ Kk5mThKtKOtf40PmjCJGdNLCBxPhN5OEEwXokVE302Ld1jTyg36MtMYtWKNYpTwGkzgsJIj
+ t8Lo/lQjf8XhBEnf4wzKoxpCr3QrxzdL+8UZo5zfdexHzfF8Wiy7tBUBvryQOLt0jbdpS3U
+ L2cSz6+vXkLyX2fbOxQWnu8txarMDP4wPUnFEcMeIAg9PPykk9RfTXCIFO0WylaQtx0TZcb
+ zJGJQICzJry8r3SYGtCSg+g/HZfUpV9IsJvR+tVk6Cqa7wW7ggdAkcbV7Mbprvigc5ycbpD
+ dsgjWoDWIOll90qlARWl5XbLTjcJn3MLTzMABfIdsQwvP0twcIDYI1cNOUXZfhht9EEeLTA
+ puhyjFFw==
+X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
 X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -103,100 +103,58 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-The drm_aux_bridge_register() uses the device->of_node as the
-bridge->of_node.
+The RK3399 SoC integrates two USB/DP combo PHYs, each of which
+supports software-configurable pin mapping and DisplayPort lane
+assignment. These capabilities enable the PHY itself to handle both
+mode switching and orientation switching, based on the Type-C plug
+orientation and USB PD negotiation results.
 
-This patch adds drm_aux_bridge_register_from_node() to allow
-specifying the of_node corresponding to the bridge.
+While an external Type-C controller is still required to detect cable
+attachment and report USB PD events, the actual mode and orientation
+switching is performed internally by the PHY through software
+configuration. This allows the PHY to act as a Type-C multiplexer for
+both data role and DP altmode configuration.
+
+To reflect this hardware design, this patch introduces a new
+"mode-switch" property for the dp-port node in the device tree bindings.
+This property indicates that the connected PHY is capable of handling
+Type-C mode switching itself.
 
 Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
 
-(no changes since v11)
+(no changes since v5)
 
- drivers/gpu/drm/bridge/aux-bridge.c | 24 ++++++++++++++++++++++--
- include/drm/bridge/aux-bridge.h     |  6 ++++++
- 2 files changed, 28 insertions(+), 2 deletions(-)
+Changes in v4:
+- Remove "|" in description.
 
-diff --git a/drivers/gpu/drm/bridge/aux-bridge.c b/drivers/gpu/drm/bridge/aux-bridge.c
-index b3e4cdff61d6..52dff4601c2d 100644
---- a/drivers/gpu/drm/bridge/aux-bridge.c
-+++ b/drivers/gpu/drm/bridge/aux-bridge.c
-@@ -35,6 +35,7 @@ static void drm_aux_bridge_unregister_adev(void *_adev)
- /**
-  * drm_aux_bridge_register - Create a simple bridge device to link the chain
-  * @parent: device instance providing this bridge
-+ * @np: device node pointer corresponding to this bridge instance
-  *
-  * Creates a simple DRM bridge that doesn't implement any drm_bridge
-  * operations. Such bridges merely fill a place in the bridge chain linking
-@@ -42,7 +43,7 @@ static void drm_aux_bridge_unregister_adev(void *_adev)
-  *
-  * Return: zero on success, negative error code on failure
-  */
--int drm_aux_bridge_register(struct device *parent)
-+int drm_aux_bridge_register_from_node(struct device *parent, struct device_node *np)
- {
- 	struct auxiliary_device *adev;
- 	int ret;
-@@ -62,7 +63,10 @@ int drm_aux_bridge_register(struct device *parent)
- 	adev->dev.parent = parent;
- 	adev->dev.release = drm_aux_bridge_release;
+Changes in v3:
+- Add more descriptions to clarify the role of the PHY in switching.
+
+Changes in v2:
+- Reuse dp-port/usb3-port in rk3399-typec-phy binding.
+
+ .../devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml  | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+index 91c011f68cd0..83ebcde096ea 100644
+--- a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+@@ -51,6 +51,12 @@ properties:
+       '#phy-cells':
+         const: 0
  
--	device_set_of_node_from_dev(&adev->dev, parent);
-+	if (np)
-+		device_set_node(&adev->dev, of_fwnode_handle(np));
-+	else
-+		device_set_of_node_from_dev(&adev->dev, parent);
- 
- 	ret = auxiliary_device_init(adev);
- 	if (ret) {
-@@ -80,6 +84,22 @@ int drm_aux_bridge_register(struct device *parent)
- 
- 	return devm_add_action_or_reset(parent, drm_aux_bridge_unregister_adev, adev);
- }
-+EXPORT_SYMBOL_GPL(drm_aux_bridge_register_from_node);
++      mode-switch:
++        description:
++          Indicates the PHY can handle altmode switching. In this case,
++          requires an external USB Type-C controller to report USB PD message.
++        type: boolean
 +
-+/**
-+ * drm_aux_bridge_register - Create a simple bridge device to link the chain
-+ * @parent: device instance providing this bridge
-+ *
-+ * Creates a simple DRM bridge that doesn't implement any drm_bridge
-+ * operations. Such bridges merely fill a place in the bridge chain linking
-+ * surrounding DRM bridges.
-+ *
-+ * Return: zero on success, negative error code on failure
-+ */
-+int drm_aux_bridge_register(struct device *parent)
-+{
-+	return drm_aux_bridge_register_from_node(parent, NULL);
-+}
- EXPORT_SYMBOL_GPL(drm_aux_bridge_register);
- 
- struct drm_aux_bridge_data {
-diff --git a/include/drm/bridge/aux-bridge.h b/include/drm/bridge/aux-bridge.h
-index c2f5a855512f..7dd1f17a1354 100644
---- a/include/drm/bridge/aux-bridge.h
-+++ b/include/drm/bridge/aux-bridge.h
-@@ -13,11 +13,17 @@ struct auxiliary_device;
- 
- #if IS_ENABLED(CONFIG_DRM_AUX_BRIDGE)
- int drm_aux_bridge_register(struct device *parent);
-+int drm_aux_bridge_register_from_node(struct device *parent, struct device_node *np);
- #else
- static inline int drm_aux_bridge_register(struct device *parent)
- {
- 	return 0;
- }
-+
-+static inline int drm_aux_bridge_register_from_node(struct device *parent, struct device_node *np)
-+{
-+	return 0;
-+}
- #endif
- 
- #if IS_ENABLED(CONFIG_DRM_AUX_HPD_BRIDGE)
+       port:
+         $ref: /schemas/graph.yaml#/properties/port
+         description: Connection to USB Type-C connector
 -- 
 2.51.1
 
