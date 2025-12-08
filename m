@@ -2,137 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F723CAC892
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 09:44:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5322DCAC901
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 09:56:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 463F910E11A;
-	Mon,  8 Dec 2025 08:44:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 86A2510E10F;
+	Mon,  8 Dec 2025 08:56:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="0wZMPQnI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Bx068MLm";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GDSeoujN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="siQ/ZTFk";
+	dkim=pass (2048-bit key; unprotected) header.d=arndb.de header.i=@arndb.de header.b="KEQx/DoF";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="eSeqyEsj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A662310E11A
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 08:44:26 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EACD25BE9E;
- Mon,  8 Dec 2025 08:44:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1765183465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Su4EQHn7qRQkDGlUFTgJv+NfBew8N5yzjupi7NWvyKI=;
- b=0wZMPQnIC4r+hY4B2eg+GLFPtG6jg8ELBDX7E/P0fKEoWgK22edVxkRNGb9bRJVoYgPzKp
- 80NjPr1S5+rr9EMa1okCpmlSjWjq8DyRSDex7O32gBBcy91wvMWNSz9re4GkrVxnWZ6M9C
- wRibmmFMgejTbHyZ3YG1LiBh3p/cSZY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1765183465;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Su4EQHn7qRQkDGlUFTgJv+NfBew8N5yzjupi7NWvyKI=;
- b=Bx068MLmmwyjQhL4zaci6JYAXF+Tzd1PDcbY4QmXx0J0xYIEqDXeGjzIoQDKh0VlTdSjt0
- mzOl8kjG5m+7H5CQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1765183463; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Su4EQHn7qRQkDGlUFTgJv+NfBew8N5yzjupi7NWvyKI=;
- b=GDSeoujNNutl7THNbxd6aez2S/UZy+p8K7aNWJ9w5A2+qKC47v5RDnVnVAFp8XrRSWmg3E
- 9JsARQYuBi9bav6PXrwRVzsxmVHxYzE1ItU4Sa7jiFPPNZ5JY41m5Y0wBa2Xr5LBB8SVy9
- H7I7yJA6TGAPIfhuEhlGb9cjTCLWgcQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1765183463;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Su4EQHn7qRQkDGlUFTgJv+NfBew8N5yzjupi7NWvyKI=;
- b=siQ/ZTFkFN1dgt235FbgqU7IScK9b3KVhsRWnY0ZNulD8UeE0uvS2Ra13s9NDIkuTeQaCJ
- 5TuQ99bTmSyKPVAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C1E573EA63;
- Mon,  8 Dec 2025 08:44:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id BGXqLeePNmnPcAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 08 Dec 2025 08:44:23 +0000
-Message-ID: <12407aa9-a084-46a1-98cb-9649e7f24098@suse.de>
-Date: Mon, 8 Dec 2025 09:44:23 +0100
+Received: from flow-b3-smtp.messagingengine.com
+ (flow-b3-smtp.messagingengine.com [202.12.124.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6DB110E10F
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 08:56:02 +0000 (UTC)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+ by mailflow.stl.internal (Postfix) with ESMTP id 0B6321300A3E;
+ Mon,  8 Dec 2025 03:56:01 -0500 (EST)
+Received: from phl-imap-17 ([10.202.2.105])
+ by phl-compute-04.internal (MEProxy); Mon, 08 Dec 2025 03:56:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+ :cc:content-transfer-encoding:content-type:content-type:date
+ :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to; s=fm3; t=1765184160;
+ x=1765191360; bh=rI4kmm8q4SBgeZUfyMe9K0dGX4rw95g6gNmAZHmnGI4=; b=
+ KEQx/DoFTWe87vjgaF/lltZ4ROhdyVzifWOmm0ric0cJB5GIwIlXMBPdzfFUSjmu
+ jc8YJftIpHI0P6Hr/mFAa7Hg0gne2WsNbxeDvrib6J4TNASjXySZhHqZg6aW1sfs
+ OcTjac9718xt+KlzbSF/x7Yc9DD6c7iuDogGUJbnrxtnsPxKfEbVYIe4bsPD1GQh
+ xU7hrvJclwTD95ij8Z0L5AweK2etlv2je4ICAc96VfsG5WQ5G831y//6BAb/4kDv
+ jANl68EQ7NWvE4dgjg2Jgzh/W/muSag5AEZRtBprPYq0bBJ5Yw0DNKKikbfnd1I2
+ A3K/NjEFytYRCq7veJpJ0g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:content-type:date:date:feedback-id:feedback-id
+ :from:from:in-reply-to:in-reply-to:message-id:mime-version
+ :references:reply-to:subject:subject:to:to:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1765184160; x=
+ 1765191360; bh=rI4kmm8q4SBgeZUfyMe9K0dGX4rw95g6gNmAZHmnGI4=; b=e
+ SeqyEsjjH4KIDKVWZWQnPpkIj8V27aOGXCIUv3KqWLbPoVXVTB8CpxBHqQClHYsa
+ kpDnrfmZ/Do4gHJ70tOwX4QJqMfbE5dFqjHzFX5vl7lRcUGD3fa2+Oson6+bqWdA
+ KfzoD9RacrpnvX/Z6F2rgdN+g7HK2CzrdqwucakBqpI2TmtpwG4Ncr7GJEPKMweI
+ 8a1TxyyhWdGACgEMZG9PPKVuuNc16ylnzjv4VzhinhfMUrJT8vnXgJdM1VPNWLd9
+ hIQHjQRFhZw/c3sbeLXLthF/QQ96cHNotcBAahBH0Mn51vxw6uB4yelZg3ZjMdcw
+ lfPxGjJz0KwUhMjvMR/Ow==
+X-ME-Sender: <xms:n5I2af3AOJhJM8AZu7vJj2vLP6N-g43FMHtVswkk4IQEA4JJTbnQfg>
+ <xme:n5I2aY5NWPgdu6u-31Ph43b_F-Lsq264_Q7FV33-fn75S6mkFJ7D7W_wnOqIVfBmU
+ DiIF2zko78sdD9QREmze-J_kJdp85MvKLQYBC5HqPr-YjYj4he15g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduiedviecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+ ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+ hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
+ uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+ hnpeejkeetleelgeeukeekhefhtedtkeduuefhffehueejgeeihfeulefhgeejhfegleen
+ ucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhinhhfrhgruggvrggurdhorhhgpdhgih
+ hthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+ fhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopedvhedpmhhoug
+ gvpehsmhhtphhouhhtpdhrtghpthhtohepphgruhhlsegtrhgrphhouhhilhhlohhurdhn
+ vghtpdhrtghpthhtoheprghnugihrdhshhgvvhgthhgvnhhkohesghhmrghilhdrtghomh
+ dprhgtphhtthhopehhvhgrihgshhgrvhdrlhhinhhugiesghhmrghilhdrtghomhdprhgt
+ phhtthhopehjtghmvhgskhgstgesghhmrghilhdrtghomhdprhgtphhtthhopehmrgiiii
+ hivghsrggttghouhhnthesghhmrghilhdrtghomhdprhgtphhtthhopehrughunhhlrghp
+ sehinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepjhhitgdvfeeskhgvrhhnvghlrd
+ horhhgpdhrtghpthhtohepshhrihhniheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+ giekieeskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:n5I2aWwfV8uojphryA4LMwvhxBD1lSSLxiL6gnkJPQjtfRjYR-x8vA>
+ <xmx:n5I2abdylMnetpIIFpQZmx8ZEpFo6JUFVPuRC__c1vvm4enk8iT1mA>
+ <xmx:n5I2aScjp6Ox44YOHm51rgR0Mr9Ks_Z-hseL7SDUtrPSG-OFb-WnTQ>
+ <xmx:n5I2adZU1k7BYPSdKrT6-sy_WehWFCXQ_6Ovy7ofNuSa_TuuU6O_wA>
+ <xmx:oJI2aeOU8RNJqW6MFLWxWiLR6QwmLwTtSNYK68Yfe2XTmH0U_4KugIRA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+ id EC25DC40054; Mon,  8 Dec 2025 03:55:58 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ast: Fix big-endian support
-To: =?UTF-8?Q?Ren=C3=A9_Rebe?= <rene@exactco.de>
-Cc: Timothy Pearson <tpearson@raptorengineering.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, Dave Airlie <airlied@redhat.com>
-References: <20251202.170626.2134482663677806825.rene@exactco.de>
- <e0f4a33f-9d36-4b7b-a1f8-1acc7434969c@suse.de>
- <20251205.161459.1654100040521559754.rene@exactco.de>
- <758090394.145092.1764959517083.JavaMail.zimbra@raptorengineeringinc.com>
- <9191ea89-81ce-4200-a356-39fa4a155062@suse.de>
- <A0A92AB8-FA61-4AAC-96C9-00BE93E3F6D6@exactco.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <A0A92AB8-FA61-4AAC-96C9-00BE93E3F6D6@exactco.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.27
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.27 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.17)[-0.842]; MIME_GOOD(-0.10)[text/plain];
- URIBL_BLOCKED(0.00)[suse.de:email,suse.de:mid,bootlin.com:url,imap1.dmz-prg2.suse.org:helo,suse.com:url,exactco.de:email];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- TO_DN_ALL(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_HAS_DN(0.00)[];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- RCPT_COUNT_FIVE(0.00)[5]; RCVD_COUNT_TWO(0.00)[2];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[lists.freedesktop.org:email,
- gitlab.freedesktop.org:url, bootlin.com:url, imap1.dmz-prg2.suse.org:helo,
- suse.com:url, suse.de:email, suse.de:mid, raptorengineering.com:email,
- exactco.de:email]
+X-ThreadId: AdXK0EwxrYhs
+Date: Mon, 08 Dec 2025 09:55:38 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Randy Dunlap" <rdunlap@infradead.org>,
+ "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>
+Cc: "Andy Shevchenko" <andy.shevchenko@gmail.com>, andrew.jones@linux.dev,
+ Linux-OMAP <linux-omap@vger.kernel.org>, openbmc@lists.ozlabs.org,
+ linux-sound@vger.kernel.org,
+ "Alexander Shishkin" <alexander.shishkin@linux.intel.com>,
+ linux-mips@vger.kernel.org, asahi@lists.linux.dev,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Paul Kocialkowski" <paulk@sys-base.io>, chrome-platform@lists.linux.dev,
+ "Paul Cercueil" <paul@crapouillou.net>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ "Linux ARM" <linux-arm-kernel@lists.infradead.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ "Srinivas Kandagatla" <srini@kernel.org>,
+ "Philipp Zabel" <p.zabel@pengutronix.de>,
+ "Matti Vaittinen" <mazziesaccount@gmail.com>,
+ "Jonathan Cameron" <jic23@kernel.org>,
+ "Vaibhav Hiremath" <hvaibhav.linux@gmail.com>, linux-sh@vger.kernel.org,
+ x86@kernel.org, "Max Filippov" <jcmvbkbc@gmail.com>
+Message-Id: <5e335232-89b4-4c35-93bd-efad7e4d8995@app.fastmail.com>
+In-Reply-To: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
+References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
+Subject: Re: Kconfig dangling references (BZ 216748)
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,116 +119,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
-
-Am 05.12.25 um 20:50 schrieb René Rebe:
-> Hi,
+On Mon, Dec 8, 2025, at 03:04, Randy Dunlap wrote:
+> from  https://bugzilla.kernel.org/show_bug.cgi?id=216748
 >
->> On 5. Dec 2025, at 20:46, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>
->> Hi
->>
->> Am 05.12.25 um 19:31 schrieb Timothy Pearson:
->>> ----- Original Message -----
->>>> From: "René Rebe" <rene@exactco.de>
->>>> To: tzimmermann@suse.de
->>>> Cc: "dri-devel" <dri-devel@lists.freedesktop.org>, "linux-kernel" <linux-kernel@vger.kernel.org>, "Dave Airlie"
->>>> <airlied@redhat.com>, "Timothy Pearson" <tpearson@raptorengineering.com>
->>>> Sent: Friday, December 5, 2025 9:14:59 AM
->>>> Subject: Re: [PATCH] drm/ast: Fix big-endian support
->>>> Hello Thomas,
->>>>
->>>> On Wed, 3 Dec 2025 10:40:17 +0100, Thomas Zimmermann <tzimmermann@suse.de>
->>>> wrote:
->>>>
->>>>> [2]
->>>>> https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next-2025-12-01-1/drivers/gpu/drm/ast/ast_mode.c?ref_type=tags#L559
->>>>> [3]
->>>>> https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next-2025-12-01-1/drivers/gpu/drm/ast/ast_cursor.c?ref_type=tags#L209
->>>>>
->>>>>> + case DRM_FORMAT_RGB565:
->>>>>> + ast_set_index_reg_mask(ast, AST_IO_VGACRI, AST_IO_VGACRA2, 0x3f,
->>>>>> 0x40);
->>>>>> + break;
->>>>>> + case DRM_FORMAT_XRGB8888
->>>> While working on it I discovered that the Big-Endian byte-swapping
->>>> bits do apparently not just-work on a newer AST2400 in our Power 8
->>>> while my initial patch did work as tested with an AST2200 in the Sun
->>>> T4-1 :-/
->> In the upcoming v6.19-rc1, ast will support per-chip quirks. So we can control this by chip version, if necessary
->>
->>>> Maybe that is what Timothy meant with "This is due to a ppc64 hardware
->>>> quirk, which when combined with a hardware design fault in the AST2500
->>>> VGA controller results in a need to use software-based red-blue
->>>> channel swapping." [1]
->>>>
->>>> Is there a way to simply specify the frame-buffer as BGRX8888? In a
->>>> quick test the drm layer complaint about "not supported" and "no
->>>> compatible format found"?
->>> I've been all around that loop.  You can't do that -- the fb code has no idea how to drive such a framebuffer, and elsewhere in the kernel it's made clear that the GPU driver *must* provide a RGBX8888 linear framebuffer if the Linux fb code is going to be able to display a console.
->>>
->>> Does the Sun T4 CPU perform automatic byte swapping on PCI[e] data transactions?  That might be the difference; POWER performs the byte swapping, and since the ASpeed device is broken in BE mode we can't swap back by setting the BE register bit in the AST GPU hardware.
->>>
->>> Fun fact -- it'll sorta work on the framebuffer side, but we lose the entire control BAR in the process.  ASpeed seems OK with this, they just say something along the lines of "oh, BE is not supported despite our documentation" :facepalm:
->> On the 2400-and-onwards models, ast could set drm_device.mode_config.quirk_addfb_prefer_host_byte_order. If set, the format lookup will select a different format on BE machines. [1] For example requesting XRGB8888 returns BGRX8888 instead. If ast later sees such a format in the atomic_update code, it could transparently swap bytes when writing out pixels to the video memory.  IIRC this works transparently to DRM clients and fbcon.  I think this would be the preferred way of fixing the issue.
-> Uff, I get better than nothing ;-)
-
-Well, you can set the quirk in mode config. And then in 
-ast_handle_damage(), you'll require a switch for the big-endian formats. [1]
-
-ast_handle_damage(...)
-{
-     ...
-
-     switch (fb->format->format) {
-         default:
-             drm_fb_memcyp()
-             break;
-         case DRM_FORMAT_BGRX8888:
-         case DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN:
-             /* Swap bytes on big-endian formats */
-             drm_fb_swab(dst, fb->pitches, src, fb, clip, false, 
-fmtcnv_state);
-             break;
-     }
-}
-
-You can get that final argument fmtcnv_state from the DMR shadow-plane 
-state. [2]
-
-[1] 
-https://elixir.bootlin.com/linux/v6.18/source/drivers/gpu/drm/ast/ast_mode.c#L549
-[2] 
-https://elixir.bootlin.com/linux/v6.18/source/drivers/gpu/drm/ast/ast_mode.c#L558
-
-Does that fix the color corruption?
-
+> The bugzilla entry includes a Perl script and a shell script.
+> This is the edited result of running them (I removed some entries that 
+> were noise).
 >
->> [1] https://elixir.bootlin.com/linux/v6.18/source/drivers/gpu/drm/drm_fourcc.c#L123
->>
->> For the pre-2400 chips, I suggest to fix this problem with the hardware byte swapping if possible. That seems like the correct approach.
-> I had re-done the code as you suggested, should I send a v2 as tested on the sparc64 t4-1 and we quirk later, non working chips or ppc64 later?
-
-Not sure what you mean. If splitting by chip model is too complicated, 
-we can also do only the software variant that works with all chips.
-
-Thanks for sticking with it.
-
-Best regards
-Thomas
-
+> I'll try to Cc: all of the relevant mailing lists or individuals.
 >
-> 	René
 >
->> Best regards
->> Thomas
+> ARCH_HAS_HOLES_MEMORYMODEL ---
+> arch/arm/mach-omap1/Kconfig:7:	select ARCH_HAS_HOLES_MEMORYMODEL
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+My mistake, this was a botched rebase.
 
+> ARM_ERRATA_794072 ---
+> arch/arm/mach-npcm/Kconfig:33:	select ARM_ERRATA_794072
 
+This apparently never made it upstream because it was unreliable
+https://lists.infradead.org/pipermail/linux-arm-kernel/2014-April/244343.html
+
+> MACH_JZ4755 ---
+> drivers/clk/ingenic/Kconfig:20:	default MACH_JZ4755
+> drivers/pinctrl/pinctrl-ingenic.c:158:	IS_ENABLED(CONFIG_MACH_JZ4755) 
+> << ID_JZ4755 |
+> drivers/pinctrl/pinctrl-ingenic.c:4616:		.data = 
+> IF_ENABLED(CONFIG_MACH_JZ4755, &jz4755_chip_info)
+>
+> MACH_JZ4760 ---
+> drivers/clk/ingenic/Kconfig:40:	default MACH_JZ4760
+> drivers/pinctrl/pinctrl-ingenic.c:159:	IS_ENABLED(CONFIG_MACH_JZ4760) 
+> << ID_JZ4760 |
+> drivers/pinctrl/pinctrl-ingenic.c:4620:		.data = 
+> IF_ENABLED(CONFIG_MACH_JZ4760, &jz4760_chip_info)
+> drivers/pinctrl/pinctrl-ingenic.c:4624:		.data = 
+> IF_ENABLED(CONFIG_MACH_JZ4760, &jz4760_chip_info)
+>
+> MACH_STM32MP25 ---
+> drivers/pinctrl/stm32/Kconfig:58:	default MACH_STM32MP25 || (ARCH_STM32 
+> && ARM64)
+
+This was likely intended for 32-bit kernels on 64-bit STM32MP25
+chips, which we don't support. I think this can go.
+
+> MIPS_BAIKAL_T1 ---
+> drivers/ata/Kconfig:197:	select MFD_SYSCON if (MIPS_BAIKAL_T1 || 
+> COMPILE_TEST)
+> drivers/bus/Kconfig:43:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+> drivers/bus/Kconfig:58:	depends on MIPS_BAIKAL_T1 || COMPILE_TEST
+> drivers/clk/baikal-t1/Kconfig:4:	depends on (MIPS_BAIKAL_T1 && OF) || 
+
+I don't think we'll merge the rest of Baikal, we should probably
+remove the entire platform.
+
+> PINCTRL_MILBEAUT ---
+> arch/arm/mach-milbeaut/Kconfig:16:	select PINCTRL_MILBEAUT
+
+Same for Milbeaut
+
+> USB_OHCI_SH ---
+> arch/sh/Kconfig:334:	select USB_OHCI_SH if USB_OHCI_HCD
+> arch/sh/Kconfig:344:	select USB_OHCI_SH if USB_OHCI_HCD
+> arch/sh/Kconfig:429:	select USB_OHCI_SH if USB_OHCI_HCD
+> arch/sh/Kconfig:455:	select USB_OHCI_SH if USB_OHCI_HCD
+> arch/sh/configs/sh7757lcr_defconfig:61:CONFIG_USB_OHCI_SH=y
+
+Should have been removed as part of 7518f0763ecd ("sh: convert
+boards to use the OHCI platform driver")
+
+> X86_P6_NOP ---
+> arch/x86/Kconfig.cpufeatures:41:	depends on X86_64 || X86_P6_NOP
+> arch/x86/Makefile_32.cpu:48:ifneq ($(CONFIG_X86_P6_NOP),y)
+
+I missed this in f388f60ca904 ("x86/cpu: Drop configuration options
+for early 64-bit CPUs"). Both references can be removed, because
+p6-nop was already disallowed for 32-bit CPUs at the time.
+
+I don't know if any supported binutils still require -mtune=generic32
+
+> XTENSA_PLATFORM_ESP32 ---
+> drivers/tty/serial/Kconfig:1598:	depends on XTENSA_PLATFORM_ESP32 || 
+> (COMPILE_TEST && OF)
+> drivers/tty/serial/Kconfig:1611:	depends on XTENSA_PLATFORM_ESP32 || 
+> (COMPILE_TEST && OF)
+
+Max is still working on esp32 support as far as I know, it's just
+slow progress, see
+https://github.com/jcmvbkbc/linux-xtensa/commits/xtensa-6.16-esp32
+
+       Arnd
