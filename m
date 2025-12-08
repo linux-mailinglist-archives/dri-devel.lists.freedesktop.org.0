@@ -2,83 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C579CAD4D2
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 14:40:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE37CCAD000
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 12:29:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08F7A10E17E;
-	Mon,  8 Dec 2025 13:40:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB67310E16C;
+	Mon,  8 Dec 2025 11:29:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O0a8cyce";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="TEEGn4kA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B49AA10E128
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 11:17:51 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-37a5bc6b491so36836171fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 03:17:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765192670; x=1765797470; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=pOCG7eO+IOYvs+xd7ddninCpQb0paex7uyJ3Uh9q6PY=;
- b=O0a8cycetJsajh/ROJVdH842fVL2KIysqNdsoUMSJuoB9l4TYLRdQaT3BdIXUjcLEq
- gF+TZr4yeQOjnw57F6szzcanBjhk4ZIg/O6TjxNo5AaWbbUNn9l0h++zmGKTSYPqwJTY
- moDPPIgaPClZE10GknKjISPgwzkU9CMPrbHq6jnZcZf00oG2/rKcf9I5Ok1lIlaAE2K2
- g6jVxb2cLRE8wj6hHQjvQ+YUXaeJjfFBEJ38FGl55z9Ft4PD26NXrqrA3jg/MJiJVlLW
- JNs3tHxMrMbYyfRg/8ViUB7ZWaUyVijva8TZ2+cjLiwkP65V6GpMxz7WPle1dMI0z5ce
- lkJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765192670; x=1765797470;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pOCG7eO+IOYvs+xd7ddninCpQb0paex7uyJ3Uh9q6PY=;
- b=ZZzuCg6aA4i4qfSQAlSrYKUFNSwByNjbt4B0EWgRL37OIgkgGt+eTg11uxlJIV4LXc
- bA7N2xLL5mN3Vgoaokhs/ooYi/wQgGM9EmQIVn1gQw1KGZCAm7PTpC+Akq7yxmxVtrOA
- cbC3RO/wje4QeeUUN5TaIK2WB43/s/bSzaekBTsc/YgFkIYa7fnNOyC41zNIwJw0uYYB
- H4/MIzkb7IdsbDorC1oaHudGvdzgpBFEuMsunmlMwhhfSzZ/xpSxuDKfqL/zOUhNhPKh
- +1p5E2TeEFSU7v87rUalVWitAPcOc7d9qcjxxkQyiSlMTWFex9TJ3oNEbBRIfiD/qRtg
- MsAw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXN9CgSxAkkxAFP+BSJGTx+HZSOQan9N6qxps9smUui4JVSZ3AHC6iLDeMNi+eMAaEtCa8MT1I928w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzCH8IYmzWNf3lN3ULntKP07iH3TgxVkcDJwVNbhagFBYKbj5CT
- mSlysr+NM53Xo1DxAQnK9Mrfo4hHSHqAuUfK9vMvLyLois/bpJeZfp9j
-X-Gm-Gg: ASbGncvVjyeG19E0J3z9k58GIxvQbbfPehVIASppue7TkHGZnInyMr05XQ9hBwCNILr
- tn/+EqnlP/yXw57Zb/aZ1OsSaILJVXdEAytcycEQkDq5Sw559KJnkNGrDzbEEwXfyKp5cKa5GUT
- 695dy0TNBJNQzbRghN3m2OVEvgJvJhU9UTo7oYfJrRBL3u+w/uzjRdRNGqZrNuekyXqce0jcmG1
- vNe2aSgpexNkJ41vWzuqrrXfKaaHwFjZTSAbRk0mK04heeJThPqAK9YLaG6Fog9gK6BK7/j0IM4
- +yCVit9Eyqs+ZaTJNYrAO99PFvzcuPvvrUjGd87k01rs9gpx5ume0s+y6zHYCEPzE6FhH5k9Ymz
- Ki36PwLQng2EVdzQL2o4lElXMFtCs+1R1cDeujEuy9uzJ78yGV8OhtcNq8IFOtporRT/sgNUsq8
- YOPo/ll7Rps53w3+B5jCavW/YEYdkgfSKhxGNNn9eVJIobKHTp
-X-Google-Smtp-Source: AGHT+IFWmyERvTDs7Paip7pT+B/ATRQZHULExlPL+PNu3lhsbGI7kGlW5/9g5j/0woCl75JPzc8beA==
-X-Received: by 2002:a2e:a989:0:b0:37b:a395:fd68 with SMTP id
- 38308e7fff4ca-37ed1fba490mr19694081fa.10.1765192669416; 
- Mon, 08 Dec 2025 03:17:49 -0800 (PST)
-Received: from home-server.lan (89-109-48-215.dynamic.mts-nn.ru.
- [89.109.48.215]) by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-37e7065591dsm36754761fa.43.2025.12.08.03.17.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Dec 2025 03:17:49 -0800 (PST)
-From: Alexey Simakov <bigalex934@gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Alexey Simakov <bigalex934@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
- virtualization@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Subject: [PATCH] drm/bochs: avoid sign extension in video memory size
-Date: Mon,  8 Dec 2025 14:16:41 +0300
-Message-Id: <20251208111641.4160-1-bigalex934@gmail.com>
-X-Mailer: git-send-email 2.34.1
+X-Greylist: delayed 366 seconds by postgrey-1.36 at gabe;
+ Mon, 08 Dec 2025 11:29:31 UTC
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com
+ [91.218.175.188])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2B3E10E16C
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 11:29:31 +0000 (UTC)
+Message-ID: <6af17c1e-32fc-478a-8493-6c754c3020f0@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1765193003;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AZslY/w57YIKP0V/RVk3ghb2uRO3E+hID8DGKnBOyko=;
+ b=TEEGn4kAEneIFuOzRw5wMg1cnqgB7SFPVHa6cs4XPSb4GH5HySo343N5A1sYyvFvTqrYTy
+ r2/l8gNPjmiD36xIvKFCcExTvKy4FQaMcH7l2RZ+uwpSiUPOR8+rMy75j8Z9KLum6no+a+
+ zEkPnTpYrcBBvxOc3tzGsPzmrLXR3jI=
+Date: Mon, 8 Dec 2025 11:23:17 +0000
 MIME-Version: 1.0
+Subject: Re: [PATCH 1/4] Revert "drm/atomic-helper: Re-order bridge chain
+ pre-enable and post-disable"
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
+ Linus Walleij <linusw@kernel.org>, Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+ Vicente Bergas <vicencb@gmail.com>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>, stable@vger.kernel.org
+References: <20251205-drm-seq-fix-v1-0-fda68fa1b3de@ideasonboard.com>
+ <20251205-drm-seq-fix-v1-1-fda68fa1b3de@ideasonboard.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+In-Reply-To: <20251205-drm-seq-fix-v1-1-fda68fa1b3de@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Mon, 08 Dec 2025 13:40:14 +0000
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,40 +78,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When bochs_dispi_read() returns a value in the 0x8000–0xFFFF range,
-the expression bochs_dispi_read() * 64 * 1024 is computed in signed
-int and then promoted to unsigned long, which can lead to
-int -> unsigned long sign extension.
+Hi Tomi,
 
-Cast the multipliers to unsigned long so that the multiplication is
-done in unsigned long and covers the full range of the DISPI video
-memory register without sign extension.
+Thank you for posting this series.
 
-The QEMU stdvga device using the bochs dispi interface exposes video
-memory up to 256 MB, so this change is made against malicious or
-out-of-spec return values from the device.
+It makes sense to change the order in tidss _commit_tail(), than to
+undo the order changes in the regressed drivers.
 
-Found by Linux Verification Center (linuxtesting.org) with Svace.
+On 05/12/2025 09:51, Tomi Valkeinen wrote:
+> This reverts commit c9b1150a68d9362a0827609fc0dc1664c0d8bfe1.
+> 
+> Changing the enable/disable sequence has caused regressions on multiple
+> platforms: R-Car, MCDE, Rockchip. A series (see link below)  was sent to
+> fix these, but it was decided that it's better to revert the original
+> patch and change the enable/disable sequence only in the tidss driver.
+> 
+> Reverting this commit breaks tidss's DSI and OLDI outputs, which will be
+> fixed in the following commits.
+> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Link: https://lore.kernel.org/all/20251202-mcde-drm-regression-thirdfix-v6-0-f1bffd4ec0fa%40kernel.org/
+> Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+> Cc: stable@vger.kernel.org # v6.17+
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c |   8 +-
+>  include/drm/drm_bridge.h            | 249 ++++++++++--------------------------
+>  2 files changed, 70 insertions(+), 187 deletions(-)
+> 
 
-Fixes: 0a6659bdc5e8 ("drm/bochs: new driver")
-Signed-off-by: Alexey Simakov <bigalex934@gmail.com>
----
- drivers/gpu/drm/tiny/bochs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index d2d5e9f1269f..943bceadd2f4 100644
---- a/drivers/gpu/drm/tiny/bochs.c
-+++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -258,7 +258,7 @@ static int bochs_hw_init(struct bochs_device *bochs)
- 
- 	id = bochs_dispi_read(bochs, VBE_DISPI_INDEX_ID);
- 	mem = bochs_dispi_read(bochs, VBE_DISPI_INDEX_VIDEO_MEMORY_64K)
--		* 64 * 1024;
-+		* 64UL * 1024UL;
- 	if ((id & 0xfff0) != VBE_DISPI_ID0) {
- 		DRM_ERROR("ID mismatch\n");
- 		return -ENODEV;
--- 
-2.34.1
+Reviewed-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
 
