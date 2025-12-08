@@ -2,50 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91E6CAE6DA
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 00:48:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2C4CAE6F8
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 00:59:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7841510E454;
-	Mon,  8 Dec 2025 23:48:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98A3710E458;
+	Mon,  8 Dec 2025 23:59:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="M7fhjWDk";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ZxzPafM9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41E9810E44C;
- Mon,  8 Dec 2025 23:48:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 54A9B10E458;
+ Mon,  8 Dec 2025 23:59:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
- Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=sw2YnXwOOAwGnBazhiDw4inHTRuKMcIVf1xOlQlybxc=; b=M7fhjWDkDNGEtnvgABIaD3gjCv
- ugB1A47ckqXys8unS/Rj+9ygoG0gqRgJfkewiLJK4z7hXI61IhYRmWiN3DdEoXoM7FA+qNlIbOl2U
- QB6KB5yceE+hc2bIX+FKY7W5x4HoCEIVo/0xT3WGVAAR05AWk2zv+PZzB5WMio+INUL6TJ7e+9aFn
- 5e/rVdcy+PBOqp7RrnwtAoPC5hpne3oCakQZ8C4K7iqzE3ukjoojt5lTWwCJDUZfeH7LUCXKLS8ZD
- SS0QAXHvTX6abR4s2wJ2bqidOLKVhBQey06shpxwVlu2ZCa04406cvCCrCjzND652wslqao+aTPXV
- 9rKklWOw==;
-Received: from [186.208.73.250] (helo=django)
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=9Wbc28+RvWPSimvpHz5NahJv+Q+C6g4H+2Yt0LGQx9Q=; b=ZxzPafM9LPGEdLgwd8P6el3q9C
+ ggXT5B4SwqucmGDDiJFto2OsotWORuJisoOZRhjRsh2sF8MsvjExhPwKtTkxQbg+Oncoz1098bl6W
+ iUHLm2SqP164w2ErZ9okN66E9MUENZn+olDIalUNTF82rcXy+RHZBVkJSFhcY2nGhRxBux+emwrOH
+ 7nmEpKY8Lvysh7BBE+WXPKMpWc89ZI8hrn2OGZYD0D3qUPpDTMW34MueUwyJXMU3gpigyDZBQeYLH
+ wBR8NsggUhZIkDK6pxbQRGoZ260QaGrptxD+Q1cOlTJDcVeJLYEFQT6zoEbD4707Tkj2T0twsydcK
+ 6EnudrWA==;
+Received: from [186.208.73.250] (helo=[192.168.18.14])
  by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vSky7-00AGsY-Jq; Tue, 09 Dec 2025 00:48:40 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: airlied@gmail.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- harry.wentland@amd.com, simona@ffwll.ch, siqueira@igalia.com,
- sunpeng.li@amd.com
-Cc: kernel-dev@igalia.com, Melissa Wen <mwen@igalia.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [RFC PATCH 2/2] drm/amd/display: extend delta clamping logic to CM3
- LUT helper
-Date: Mon,  8 Dec 2025 22:44:15 -0100
-Message-ID: <20251208234741.293037-3-mwen@igalia.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251208234741.293037-1-mwen@igalia.com>
-References: <20251208234741.293037-1-mwen@igalia.com>
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vSl8F-00AH3w-UU; Tue, 09 Dec 2025 00:59:08 +0100
+Message-ID: <7ad74d3d-5a63-462b-8243-f8f26441b04b@igalia.com>
+Date: Mon, 8 Dec 2025 20:59:03 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amd/display: use DCN10 CM helper for plane shaper
+ func translation in DCN32
+To: Harry Wentland <harry.wentland@amd.com>, sunpeng.li@amd.com,
+ siqueira@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com
+References: <20251126005608.37513-1-mwen@igalia.com>
+ <2a918940-700d-4b24-90ae-4d9d4f9b457d@amd.com>
+ <f832ec8c-cce1-45e0-975b-ed7000bed891@igalia.com>
+ <2ddb06d0-70e5-4a1f-850d-3753f9fb3d0a@amd.com>
+Content-Language: en-US
+From: Melissa Wen <mwen@igalia.com>
+In-Reply-To: <2ddb06d0-70e5-4a1f-850d-3753f9fb3d0a@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,226 +67,160 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 27fc10d1095f ("drm/amd/display: Fix the delta clamping for shaper
-LUT") fixed banding when using plane shaper LUT in DCN10 CM helper.  The
-problem is also present in DCN30 CM helper, fix banding by extending the
-same bug delta clamping fix to CM3.
 
-Signed-off-by: Melissa Wen <mwen@igalia.com>
----
- .../amd/display/dc/dcn30/dcn30_cm_common.c    | 30 +++++++++++++++----
- .../display/dc/dwb/dcn30/dcn30_cm_common.h    |  2 +-
- .../amd/display/dc/hwss/dcn30/dcn30_hwseq.c   |  9 +++---
- .../amd/display/dc/hwss/dcn32/dcn32_hwseq.c   | 17 ++++++-----
- .../amd/display/dc/hwss/dcn401/dcn401_hwseq.c | 16 +++++-----
- 5 files changed, 49 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
-index ba20575be214..b1c2c8da1937 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_cm_common.c
-@@ -105,9 +105,12 @@ void cm_helper_program_gamcor_xfer_func(
- #define NUMBER_REGIONS     32
- #define NUMBER_SW_SEGMENTS 16
- 
--bool cm3_helper_translate_curve_to_hw_format(
--				const struct dc_transfer_func *output_tf,
--				struct pwl_params *lut_params, bool fixpoint)
-+#define DC_LOGGER \
-+		ctx->logger
-+
-+bool cm3_helper_translate_curve_to_hw_format(struct dc_context *ctx,
-+					     const struct dc_transfer_func *output_tf,
-+					     struct pwl_params *lut_params, bool fixpoint)
- {
- 	struct curve_points3 *corner_points;
- 	struct pwl_result_data *rgb_resulted;
-@@ -248,6 +251,10 @@ bool cm3_helper_translate_curve_to_hw_format(
- 	if (fixpoint == true) {
- 		i = 1;
- 		while (i != hw_points + 2) {
-+			uint32_t red_clamp;
-+			uint32_t green_clamp;
-+			uint32_t blue_clamp;
-+
- 			if (i >= hw_points) {
- 				if (dc_fixpt_lt(rgb_plus_1->red, rgb->red))
- 					rgb_plus_1->red = dc_fixpt_add(rgb->red,
-@@ -260,9 +267,20 @@ bool cm3_helper_translate_curve_to_hw_format(
- 							rgb_minus_1->delta_blue);
- 			}
- 
--			rgb->delta_red_reg   = dc_fixpt_clamp_u0d10(rgb->delta_red);
--			rgb->delta_green_reg = dc_fixpt_clamp_u0d10(rgb->delta_green);
--			rgb->delta_blue_reg  = dc_fixpt_clamp_u0d10(rgb->delta_blue);
-+			rgb->delta_red   = dc_fixpt_sub(rgb_plus_1->red,   rgb->red);
-+			rgb->delta_green = dc_fixpt_sub(rgb_plus_1->green, rgb->green);
-+			rgb->delta_blue  = dc_fixpt_sub(rgb_plus_1->blue,  rgb->blue);
-+
-+			red_clamp = dc_fixpt_clamp_u0d14(rgb->delta_red);
-+			green_clamp = dc_fixpt_clamp_u0d14(rgb->delta_green);
-+			blue_clamp = dc_fixpt_clamp_u0d14(rgb->delta_blue);
-+
-+			if (red_clamp >> 10 || green_clamp >> 10 || blue_clamp >> 10)
-+				DC_LOG_ERROR("Losing delta precision while programming shaper LUT.");
-+
-+			rgb->delta_red_reg   = red_clamp & 0x3ff;
-+			rgb->delta_green_reg = green_clamp & 0x3ff;
-+			rgb->delta_blue_reg  = blue_clamp & 0x3ff;
- 			rgb->red_reg         = dc_fixpt_clamp_u0d14(rgb->red);
- 			rgb->green_reg       = dc_fixpt_clamp_u0d14(rgb->green);
- 			rgb->blue_reg        = dc_fixpt_clamp_u0d14(rgb->blue);
-diff --git a/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h b/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h
-index b86347c9b038..95f9318a54ef 100644
---- a/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h
-+++ b/drivers/gpu/drm/amd/display/dc/dwb/dcn30/dcn30_cm_common.h
-@@ -59,7 +59,7 @@ void cm_helper_program_gamcor_xfer_func(
- 	const struct pwl_params *params,
- 	const struct dcn3_xfer_func_reg *reg);
- 
--bool cm3_helper_translate_curve_to_hw_format(
-+bool cm3_helper_translate_curve_to_hw_format(struct dc_context *ctx,
- 	const struct dc_transfer_func *output_tf,
- 	struct pwl_params *lut_params, bool fixpoint);
- 
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
-index 81bcadf5e57e..f2d4cd527874 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn30/dcn30_hwseq.c
-@@ -239,7 +239,7 @@ bool dcn30_set_blend_lut(
- 	if (plane_state->blend_tf.type == TF_TYPE_HWPWL)
- 		blend_lut = &plane_state->blend_tf.pwl;
- 	else if (plane_state->blend_tf.type == TF_TYPE_DISTRIBUTED_POINTS) {
--		result = cm3_helper_translate_curve_to_hw_format(
-+		result = cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
- 				&plane_state->blend_tf, &dpp_base->regamma_params, false);
- 		if (!result)
- 			return result;
-@@ -334,8 +334,9 @@ bool dcn30_set_input_transfer_func(struct dc *dc,
- 	if (plane_state->in_transfer_func.type == TF_TYPE_HWPWL)
- 		params = &plane_state->in_transfer_func.pwl;
- 	else if (plane_state->in_transfer_func.type == TF_TYPE_DISTRIBUTED_POINTS &&
--		cm3_helper_translate_curve_to_hw_format(&plane_state->in_transfer_func,
--				&dpp_base->degamma_params, false))
-+		cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
-+							&plane_state->in_transfer_func,
-+							&dpp_base->degamma_params, false))
- 		params = &dpp_base->degamma_params;
- 
- 	result = dpp_base->funcs->dpp_program_gamcor_lut(dpp_base, params);
-@@ -406,7 +407,7 @@ bool dcn30_set_output_transfer_func(struct dc *dc,
- 				params = &stream->out_transfer_func.pwl;
- 			else if (pipe_ctx->stream->out_transfer_func.type ==
- 					TF_TYPE_DISTRIBUTED_POINTS &&
--					cm3_helper_translate_curve_to_hw_format(
-+					cm3_helper_translate_curve_to_hw_format(stream->ctx,
- 					&stream->out_transfer_func,
- 					&mpc->blender_params, false))
- 				params = &mpc->blender_params;
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-index b213a2ac827a..27abc08918bc 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
-@@ -486,8 +486,9 @@ bool dcn32_set_mcm_luts(
- 	if (plane_state->blend_tf.type == TF_TYPE_HWPWL)
- 		lut_params = &plane_state->blend_tf.pwl;
- 	else if (plane_state->blend_tf.type == TF_TYPE_DISTRIBUTED_POINTS) {
--		result = cm3_helper_translate_curve_to_hw_format(&plane_state->blend_tf,
--				&dpp_base->regamma_params, false);
-+		result = cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
-+								 &plane_state->blend_tf,
-+								 &dpp_base->regamma_params, false);
- 		if (!result)
- 			return result;
- 
-@@ -502,8 +503,9 @@ bool dcn32_set_mcm_luts(
- 	else if (plane_state->in_shaper_func.type == TF_TYPE_DISTRIBUTED_POINTS) {
- 		// TODO: dpp_base replace
- 		ASSERT(false);
--		cm3_helper_translate_curve_to_hw_format(&plane_state->in_shaper_func,
--				&dpp_base->shaper_params, true);
-+		cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
-+							&plane_state->in_shaper_func,
-+							&dpp_base->shaper_params, true);
- 		lut_params = &dpp_base->shaper_params;
- 	}
- 
-@@ -543,8 +545,9 @@ bool dcn32_set_input_transfer_func(struct dc *dc,
- 	if (plane_state->in_transfer_func.type == TF_TYPE_HWPWL)
- 		params = &plane_state->in_transfer_func.pwl;
- 	else if (plane_state->in_transfer_func.type == TF_TYPE_DISTRIBUTED_POINTS &&
--		cm3_helper_translate_curve_to_hw_format(&plane_state->in_transfer_func,
--				&dpp_base->degamma_params, false))
-+		cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
-+							&plane_state->in_transfer_func,
-+							&dpp_base->degamma_params, false))
- 		params = &dpp_base->degamma_params;
- 
- 	dpp_base->funcs->dpp_program_gamcor_lut(dpp_base, params);
-@@ -575,7 +578,7 @@ bool dcn32_set_output_transfer_func(struct dc *dc,
- 				params = &stream->out_transfer_func.pwl;
- 			else if (pipe_ctx->stream->out_transfer_func.type ==
- 					TF_TYPE_DISTRIBUTED_POINTS &&
--					cm3_helper_translate_curve_to_hw_format(
-+					cm3_helper_translate_curve_to_hw_format(stream->ctx,
- 					&stream->out_transfer_func,
- 					&mpc->blender_params, false))
- 				params = &mpc->blender_params;
-diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
-index 2fbc22afb89c..5eda7648d0d2 100644
---- a/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
-+++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn401/dcn401_hwseq.c
-@@ -430,7 +430,7 @@ void dcn401_populate_mcm_luts(struct dc *dc,
- 		if (mcm_luts.lut1d_func->type == TF_TYPE_HWPWL)
- 			m_lut_params.pwl = &mcm_luts.lut1d_func->pwl;
- 		else if (mcm_luts.lut1d_func->type == TF_TYPE_DISTRIBUTED_POINTS) {
--			rval = cm3_helper_translate_curve_to_hw_format(
-+			rval = cm3_helper_translate_curve_to_hw_format(mpc->ctx,
- 					mcm_luts.lut1d_func,
- 					&dpp_base->regamma_params, false);
- 			m_lut_params.pwl = rval ? &dpp_base->regamma_params : NULL;
-@@ -450,7 +450,7 @@ void dcn401_populate_mcm_luts(struct dc *dc,
- 			m_lut_params.pwl = &mcm_luts.shaper->pwl;
- 		else if (mcm_luts.shaper->type == TF_TYPE_DISTRIBUTED_POINTS) {
- 			ASSERT(false);
--			rval = cm3_helper_translate_curve_to_hw_format(
-+			rval = cm3_helper_translate_curve_to_hw_format(mpc->ctx,
- 					mcm_luts.shaper,
- 					&dpp_base->regamma_params, true);
- 			m_lut_params.pwl = rval ? &dpp_base->regamma_params : NULL;
-@@ -627,8 +627,9 @@ bool dcn401_set_mcm_luts(struct pipe_ctx *pipe_ctx,
- 	if (plane_state->blend_tf.type == TF_TYPE_HWPWL)
- 		lut_params = &plane_state->blend_tf.pwl;
- 	else if (plane_state->blend_tf.type == TF_TYPE_DISTRIBUTED_POINTS) {
--		rval = cm3_helper_translate_curve_to_hw_format(&plane_state->blend_tf,
--				&dpp_base->regamma_params, false);
-+		rval = cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
-+							       &plane_state->blend_tf,
-+							       &dpp_base->regamma_params, false);
- 		lut_params = rval ? &dpp_base->regamma_params : NULL;
- 	}
- 	result = mpc->funcs->program_1dlut(mpc, lut_params, mpcc_id);
-@@ -639,8 +640,9 @@ bool dcn401_set_mcm_luts(struct pipe_ctx *pipe_ctx,
- 		lut_params = &plane_state->in_shaper_func.pwl;
- 	else if (plane_state->in_shaper_func.type == TF_TYPE_DISTRIBUTED_POINTS) {
- 		// TODO: dpp_base replace
--		rval = cm3_helper_translate_curve_to_hw_format(&plane_state->in_shaper_func,
--				&dpp_base->shaper_params, true);
-+		rval = cm3_helper_translate_curve_to_hw_format(plane_state->ctx,
-+							       &plane_state->in_shaper_func,
-+							       &dpp_base->shaper_params, true);
- 		lut_params = rval ? &dpp_base->shaper_params : NULL;
- 	}
- 	result &= mpc->funcs->program_shaper(mpc, lut_params, mpcc_id);
-@@ -674,7 +676,7 @@ bool dcn401_set_output_transfer_func(struct dc *dc,
- 				params = &stream->out_transfer_func.pwl;
- 			else if (pipe_ctx->stream->out_transfer_func.type ==
- 					TF_TYPE_DISTRIBUTED_POINTS &&
--					cm3_helper_translate_curve_to_hw_format(
-+					cm3_helper_translate_curve_to_hw_format(stream->ctx,
- 					&stream->out_transfer_func,
- 					&mpc->blender_params, false))
- 				params = &mpc->blender_params;
--- 
-2.51.0
+On 28/11/2025 18:36, Harry Wentland wrote:
+>
+> On 2025-11-28 14:09, Melissa Wen wrote:
+>>
+>> On 27/11/2025 17:39, Harry Wentland wrote:
+>>> On 2025-11-25 19:45, Melissa Wen wrote:
+>>>> The usage of DCN30 CM helper creates some unexpected shimmer points on
+>>>> PQ shaper TF in the steamOS HDR color pipeline. Fix it by using the same
+>>>> DCN10 color mgmt helper of previous hw versions to translate plane
+>>>> shaper func to hw format in DCN32 hw family.
+>>>>
+>>>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>>>> ---
+>>>>
+>>>> Hi,
+>>>>
+>>>> Commit a953cd8cac6b ("drm/amd/display: Fix MPCC 1DLUT programming")
+>>>> mentions some visible artifacts when using DCN10 CM helper on DCN32
+>>>> shaper and blend LUTs. On the other hand, using DCN30 CM helper creates
+>>>> some shimmer points on steamOS HDR pipeline. We didn't noticed any
+>>>> visible artifacts so far, but I'd like to know more about what kind of
+>>>> artifacts were visible at the time this helper for shaper func was
+>>>> switched in the afore-mentioned commit for further investigation.
+>>>>
+>>> Thanks for the debug.
+>>>
+>>> Do you have more info on the unexpected shimmer points with SteamOS?
+>>> Ideally a video and a description on what to look for and why it's
+>>> wrong, or a comparison to a GFX-transformed example that shows the
+>>> correct visuals?
+>> Hi Harry,
+>>
+>> I took some pictures of clear unexpected scenes in HDR games.
+>>
+>> 1. https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-split-fiction-game-black-loading-bkg.jpg
+>>
+>> Just loading Split Fiction after having turning on HDR in this game options (Options > Graphics > HDR).
+>> We expected a black background with the Loading <icon> in the bottom right, this background is full of bright spots.
+>> Friend pass is enough to reproduce the issue without having the game.
+>>
+>> 2. https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-menu.jpg
+>>
+>> Colorful-bright points around the margin/corner of the God of War Ragnarok game menu.
+>>
+>> 3. God of War Ragnarok game intro:
+>>
+>> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro1.jpg
+>> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro2.jpg
+>> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro3.jpg
+>> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-PS-logo.jpg
+>>
+>> Same random shimmer distortions.
+>> I think those images are good examples, but still pending screenshot/GFX examples for comparison.
+>> I'll take it and reply here later.
+>>
+> Thanks, that would still be helpful, but even as-is these images
+> quite highlight the issue. It's more severe than I expected.
+>
+>>> Obviously we don't want to simply switch back to DCN10 helpers
+>>> without understand why, and potentially regressing other use-cases.
+>>> At least we should look at what the differences are between the
+>>> two versions of that function, and which part of the curve programming
+>>> causes the undesirable results.
+>>>
+>>> The original bug that was solved by that commit was a regression that
+>>> sent bright values in an HDR video to black or red, so basically
+>>> something really messed up bright PQ values. At least I suspect
+>>> it was a PQ HDR video. The ticket doesn't state that.
+>> I see. Looks like now we have somehow the same problem but in reverse (?) like black values mapped into bright values (?)
+> Yeah, if I understand your screenshots the issue seems to happen
+> (mainly) with dark values?
+>
+>>> When looking at the diff between the two functions I notice that
+>>> the cm3_ version is missing the dc_fixpt_clamp_u0d10 for the
+>>> delta_<color>_reg assignments, toward the bottom of the function.
+>>> I remember I had to add that to the cm_ version since it caused
+>>> issues with SteamOS HDR. Can we try that on the cm3_ function?
+>> Yes, I remember this issue.
+>>
+>> I've already tried the same changes from this commit (https://gitlab.freedesktop.org/agd5f/linux/-/commit/27fc10d1095f) to cm3_helper, but it doesn't help... probably because the commit was addressing a different behaviors.
+>>
+>> I also noticed on cm3_ they consider a different range of hw points, as in this comment:
+>> "
+>>      // DCN3+ have 257 pts in lieu of no separate slope registers
+>>      // Prior HW had 256 base+slope pairs
+>> "
+>>
+>> Can it be related to this problem?
+>>
+> Possibly. The point distribution is one potential culprit.
+>
+> How I would debug this is to look at the diff between the two
+> functions and try each diff one at a time to see whether one
+> (or two) small changes fixes this. Then look at what that change
+> was and what it does. That can then give us a guide on how to
+> properly fix it without affecting other use-cases.
+
+Hi Harry,
+
+Sorry for the delay. I got swamped with another debugging.
+
+I identified to different problems on plane shaper LUT when using the 
+cm3 helper: those dark values wrong mapping and banding on some light 
+values.
+I followed your suggestion and found the necessary changes to address 
+both issues, I just sent two RFC patches , so we can discuss it better 
+there.
+
+https://lore.kernel.org/amd-gfx/20251208234741.293037-1-mwen@igalia.com/
+
+I still see a gradient banding on the game menu of Ori, but it's present 
+with the DCN10 CM helper too.
+
+Thanks for taking a look at these problems.
+
+Melissa
+>
+> The other thing to understand is why we didn't see issues with
+> the Color Pipeline API tests in IGT.
+>
+> Harry
+>
+>> Thanks,
+>>
+>> Melissa
+>>
+>>> Cheers,
+>>> Harry
+>>>
+>>>> Thanks in advance,
+>>>>
+>>>> Melissa
+>>>>
+>>>>
+>>>>    drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c | 6 +++---
+>>>>    1 file changed, 3 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+>>>> index bf19ba65d09a..a28560caa1c0 100644
+>>>> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+>>>> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+>>>> @@ -501,9 +501,9 @@ bool dcn32_set_mcm_luts(
+>>>>            lut_params = &plane_state->in_shaper_func.pwl;
+>>>>        else if (plane_state->in_shaper_func.type == TF_TYPE_DISTRIBUTED_POINTS) {
+>>>>            // TODO: dpp_base replace
+>>>> -        ASSERT(false);
+>>>> -        cm3_helper_translate_curve_to_hw_format(&plane_state->in_shaper_func,
+>>>> -                &dpp_base->shaper_params, true);
+>>>> +        cm_helper_translate_curve_to_hw_format(plane_state->ctx,
+>>>> +                               &plane_state->in_shaper_func,
+>>>> +                               &dpp_base->shaper_params, true);
+>>>>            lut_params = &dpp_base->shaper_params;
+>>>>        }
+>>>>    
 
