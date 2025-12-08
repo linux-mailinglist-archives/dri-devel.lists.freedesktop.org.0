@@ -2,97 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7235CAE516
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 23:21:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42EC3CAE51F
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 23:22:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4A5B10E172;
-	Mon,  8 Dec 2025 22:21:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 136DE10E3BA;
+	Mon,  8 Dec 2025 22:22:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="O+2dU3v8";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hkDhBEtp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
- [209.85.208.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F123710E172
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 22:21:25 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id
- 4fb4d7f45d1cf-6492e7925d2so2017014a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 14:21:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1765232482; x=1765837282;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hJAf24FuHQe95NZr/O9DtfATOUEp5YWLsl/0nDh2TTA=;
- b=O+2dU3v8A7v3p0wmOGOMtqPo9RQgxwShQ3i3U9CEvJuMaDN1aX9y5CUKaJO2pQlMmL
- j7RBCCO3TX+BRNx1pwExhrJlNRiHZxXIqat5bfxI6aDQEk8RlbnjhIgggytpvxoX4lcL
- ww2r5oIzlc1IxywO3GtcMrjcMh24em7CDUgBQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765232482; x=1765837282;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=hJAf24FuHQe95NZr/O9DtfATOUEp5YWLsl/0nDh2TTA=;
- b=VfDiKFIKO7ioPmlQGAe1/vtjh9+3bOOnGbAGdhOdnXqm8nO8cjGjS6N06gUpe5w+yG
- qHzfV9TiQCzWZDMQuI/p/ioKzbdrlmSn+wMx548J1d8+EdBvcfizmKBRVOTqSUaB3F0P
- H2bGx4vdnwtg+n17Q8oBjIT/U1PH5g9ijfozJlKIRwHZZ1tzLHOws3hS36TKsjE8sU2H
- 10DxhCmTXLtjsvCKuOGW9qSjQwVDv4pT4bKsWVm2J8sKH5yMDTV+x2HXX4q7IVh2yAto
- F2zOruNsy+b5kl4WqSN1qWzMe0lWhNaNQK4bhTXmoxDmZrrjnUrM6v0sFw7KP+Vb2E45
- UCIg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVxgXPYM/Q/IhCFkclWIWZZsBlJCve+xFn+r8hHnK8gIUH2IMgCl65Bjmp1TFnvKLeChG4mzyxCiDo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUX0sERasGMJPJ7GvUHsP11l3OyjqtHlDnLdarCfQnu+e+05lh
- vpGTQbFbQ4W6QQZte6/EWRjLTbKvM2munFELfhHyewCyXXtc87BJlVy/TK53T2/nN3x2WaqQHQi
- QN47o6w==
-X-Gm-Gg: ASbGncuwtKjbrI6c/9xg/9xNpJzoQFuxNRH9AjqlIhpaEFvRrQlL0rLo6rwYMGRGvn+
- 3op+eQqyKOAX/PTb+dcEshTUFz5Wgm+o71IJfTcAZiFt1m7T8emCdGe+FNI0wCwTfDdBvqDh01u
- Bpz9hdV0wlPjAnoRDZebQQUg2MRNpgG7lpCUkXPE8YQOw5BQ770t8Cyq9QynEM/mq1BwdOMg0qE
- 3+6h91MtGS/W26z3TgZoTureaTW1mvEKY+Luf4QVODv2e3HnjBP1LXx42ifaA2ev/fAz+Uui63+
- wZrHbt12mD4UP5xxnIxMU2qAREirb52AmoqdJU39aQgWtfIRjc1cNAJY73XQ7qRMZVyi9emio1U
- lLv33s4OkKXYn5zuUxlYa6Mldf0y5GmP7PAqsOdNNOeNdE+oiSvR0JRKWMkU+abkySJt5TRMtt5
- blthpfefl6SP1UXgSoA2pGrDtFW3byzqJQ2sMLWtmgER4g8jXcYw==
-X-Google-Smtp-Source: AGHT+IFpjXQJjwcXuYliO4aQzChbUIu3OeAmvvTojztxkvpVmYK2eqUb0btem6tQIABfH0Qg0Ac6xw==
-X-Received: by 2002:a05:6402:1ed0:b0:637:f07d:e80f with SMTP id
- 4fb4d7f45d1cf-64919b853damr8414481a12.0.1765232481942; 
- Mon, 08 Dec 2025 14:21:21 -0800 (PST)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com.
- [209.85.221.52]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-647b4121d05sm11871330a12.29.2025.12.08.14.21.20
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Dec 2025 14:21:20 -0800 (PST)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-42e2e5da5fcso2877313f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 14:21:20 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWeyUJCpwTuy7lmCuLNGwHrns7nCedt9uFtBvOPWuLXUTB4fv+wpD57M8IpgtkO4iBVb49wDvcJjE8=@lists.freedesktop.org
-X-Received: by 2002:a05:6000:184e:b0:42f:8816:6e53 with SMTP id
- ffacd0b85a97d-42f89f5b7a9mr9262105f8f.61.1765232480155; Mon, 08 Dec 2025
- 14:21:20 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52BE910E3BA;
+ Mon,  8 Dec 2025 22:22:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1765232534; x=1796768534;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=tgB3OkFFdIJH5A8yzS/OltbvKtxrV2y0WS0Cg1d/LAY=;
+ b=hkDhBEtpviz6gz+ER+iUhi8PhS5zNXIBAHtM+GPAUPfqqqtuqdrnKtd/
+ iFN0ej/Y53d51bv6n1JZ6Khmw2SGAjPeV+j/rDtyoI6nWFaux6zYCptL7
+ YI7D5Y5/qdVE5B0+Xq/Ye7JyYUcvzdvIyjr+qxqO+dTuv2pNG7GzlRFsh
+ z9IiugXGgzucCEKRGXBYjlxQHzmU24QIwm/Uc9OOQQdU5TuDISbDLtMFT
+ pcpcHYaef6qDUM+2YdYVFSLr8/aQvwMjDxBLHcqtycyt3m2GavcZkuof/
+ hEChfeBbZqzZwZ4k5SueaNkhpmD+Dpf/qHuLJdDWGAmsskyMvKec67PT5 Q==;
+X-CSE-ConnectionGUID: vxBQE5G0SY+/rJmjcLJNDg==
+X-CSE-MsgGUID: CMIR8s/xTJa59u5fRfO3nA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="77801747"
+X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; d="scan'208";a="77801747"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Dec 2025 14:22:14 -0800
+X-CSE-ConnectionGUID: tbbK7wfCSrGs3ili++mRSA==
+X-CSE-MsgGUID: R0oyUwV4QcKYUk1PQiqdZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; d="scan'208";a="196516542"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+ by fmviesa009.fm.intel.com with ESMTP; 08 Dec 2025 14:22:11 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vSjcP-000000000v3-3miQ;
+ Mon, 08 Dec 2025 22:22:09 +0000
+Date: Tue, 9 Dec 2025 06:22:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 14/19] video/vga: Add VGA_IS0_R
+Message-ID: <202512090603.ycfxEuHJ-lkp@intel.com>
+References: <20251208182637.334-15-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-References: <20251125090546.137193-1-kory.maincent@bootlin.com>
- <CAD=FV=WikKrpLKvaxD22H0s3XHeG=WUiRrLJ0eQMM2pqvXJhuw@mail.gmail.com>
-In-Reply-To: <CAD=FV=WikKrpLKvaxD22H0s3XHeG=WUiRrLJ0eQMM2pqvXJhuw@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 8 Dec 2025 14:21:09 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=WrQpa3G0ggSMiJG8RnT45zCLug2YKTTgPfNrzAoQU98Q@mail.gmail.com>
-X-Gm-Features: AQt7F2qfhZ_9C3ny6GB_ztDzwr2hF0lEcdFjQq7wCKYlX1JiOVwhYtW82bJNjiA
-Message-ID: <CAD=FV=WrQpa3G0ggSMiJG8RnT45zCLug2YKTTgPfNrzAoQU98Q@mail.gmail.com>
-Subject: Re: [PATCH v4] drm/tilcdc: Fix removal actions in case of failed probe
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Maxime Ripard <mripard@kernel.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Bajjuri Praneeth <praneeth@ti.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>, stable@vger.kernel.org, 
- thomas.petazzoni@bootlin.com, Jyri Sarha <jyri.sarha@iki.fi>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251208182637.334-15-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,80 +72,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Ville,
 
-On Mon, Dec 1, 2025 at 10:10=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Tue, Nov 25, 2025 at 1:06=E2=80=AFAM Kory Maincent <kory.maincent@boot=
-lin.com> wrote:
-> >
-> > From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-> >
-> > The drm_kms_helper_poll_fini() and drm_atomic_helper_shutdown() helpers
-> > should only be called when the device has been successfully registered.
-> > Currently, these functions are called unconditionally in tilcdc_fini(),
-> > which causes warnings during probe deferral scenarios.
-> >
-> > [    7.972317] WARNING: CPU: 0 PID: 23 at drivers/gpu/drm/drm_atomic_st=
-ate_helper.c:175 drm_atomic_helper_crtc_duplicate_state+0x60/0x68
-> > ...
-> > [    8.005820]  drm_atomic_helper_crtc_duplicate_state from drm_atomic_=
-get_crtc_state+0x68/0x108
-> > [    8.005858]  drm_atomic_get_crtc_state from drm_atomic_helper_disabl=
-e_all+0x90/0x1c8
-> > [    8.005885]  drm_atomic_helper_disable_all from drm_atomic_helper_sh=
-utdown+0x90/0x144
-> > [    8.005911]  drm_atomic_helper_shutdown from tilcdc_fini+0x68/0xf8 [=
-tilcdc]
-> > [    8.005957]  tilcdc_fini [tilcdc] from tilcdc_pdev_probe+0xb0/0x6d4 =
-[tilcdc]
-> >
-> > Fix this by rewriting the failed probe cleanup path using the standard
-> > goto error handling pattern, which ensures that cleanup functions are
-> > only called on successfully initialized resources. Additionally, remove
-> > the now-unnecessary is_registered flag.
-> >
-> > Cc: stable@vger.kernel.org
-> > Fixes: 3c4babae3c4a ("drm: Call drm_atomic_helper_shutdown() at shutdow=
-n/remove time for misc drivers")
-> > Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
-> > ---
-> >
-> > I'm working on removing the usage of deprecated functions as well as
-> > general improvements to this driver, but it will take some time so for
-> > now this is a simple fix to a functional bug.
-> >
-> > Change in v4:
-> > - Fix an unused label warning reported by the kernel test robot.
-> >
-> > Change in v3:
-> > - Rewrite the failed probe clean up path using goto
-> > - Remove the is_registered flag
-> >
-> > Change in v2:
-> > - Add missing cc: stable tag
-> > - Add Swamil reviewed-by
-> > ---
-> >  drivers/gpu/drm/tilcdc/tilcdc_crtc.c |  2 +-
-> >  drivers/gpu/drm/tilcdc/tilcdc_drv.c  | 53 ++++++++++++++++++----------
-> >  drivers/gpu/drm/tilcdc/tilcdc_drv.h  |  2 +-
-> >  3 files changed, 37 insertions(+), 20 deletions(-)
->
-> Seems reasonable to me. I did a once-over and based on code inspection
-> it looks like things are being reversed properly. I agree this should
-> probably land to fix the regression while waiting for a bigger
-> cleanup.
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> This fixup has been sitting out there for a while. Who is the right
-> person to apply it? If nobody else does and there are no objections, I
-> can apply it to "fixes" next week...
+kernel test robot noticed the following build warnings:
 
-Pushed to drm-misc-fixes:
+[auto build test WARNING on drm-tip/drm-tip]
+[cannot apply to drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.18 next-20251208]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-[1/1] drm/tilcdc: Fix removal actions in case of failed probe
-      commit: a585c7ef9cabda58088916baedc6573e9a5cd2a7
+url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-i915-vga-Register-vgaarb-client-later/20251209-030730
+base:   https://gitlab.freedesktop.org/drm/tip.git drm-tip
+patch link:    https://lore.kernel.org/r/20251208182637.334-15-ville.syrjala%40linux.intel.com
+patch subject: [PATCH 14/19] video/vga: Add VGA_IS0_R
+config: i386-randconfig-141-20251209 (https://download.01.org/0day-ci/archive/20251209/202512090603.ycfxEuHJ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512090603.ycfxEuHJ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512090603.ycfxEuHJ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/tiny/bochs.c:29:
+   include/video/vga.h:489:1: error: expected identifier or '(' before '?' token
+     489 | ?
+         | ^
+   In file included from include/linux/module.h:23,
+                    from drivers/gpu/drm/tiny/bochs.c:5:
+   drivers/gpu/drm/tiny/bochs.c: In function '__check_modeset':
+   drivers/gpu/drm/tiny/bochs.c:66:29: error: 'bochs_modeset' undeclared (first use in this function)
+      66 | module_param_named(modeset, bochs_modeset, int, 0444);
+         |                             ^~~~~~~~~~~~~
+   include/linux/moduleparam.h:430:75: note: in definition of macro '__param_check'
+     430 |         static inline type __always_unused *__check_##name(void) { return(p); }
+         |                                                                           ^
+   include/linux/moduleparam.h:155:9: note: in expansion of macro 'param_check_int'
+     155 |         param_check_##type(name, &(value));                                \
+         |         ^~~~~~~~~~~~
+   drivers/gpu/drm/tiny/bochs.c:66:1: note: in expansion of macro 'module_param_named'
+      66 | module_param_named(modeset, bochs_modeset, int, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tiny/bochs.c:66:29: note: each undeclared identifier is reported only once for each function it appears in
+      66 | module_param_named(modeset, bochs_modeset, int, 0444);
+         |                             ^~~~~~~~~~~~~
+   include/linux/moduleparam.h:430:75: note: in definition of macro '__param_check'
+     430 |         static inline type __always_unused *__check_##name(void) { return(p); }
+         |                                                                           ^
+   include/linux/moduleparam.h:155:9: note: in expansion of macro 'param_check_int'
+     155 |         param_check_##type(name, &(value));                                \
+         |         ^~~~~~~~~~~~
+   drivers/gpu/drm/tiny/bochs.c:66:1: note: in expansion of macro 'module_param_named'
+      66 | module_param_named(modeset, bochs_modeset, int, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tiny/bochs.c: At top level:
+   drivers/gpu/drm/tiny/bochs.c:66:29: error: 'bochs_modeset' undeclared here (not in a function)
+      66 | module_param_named(modeset, bochs_modeset, int, 0444);
+         |                             ^~~~~~~~~~~~~
+   include/linux/moduleparam.h:298:61: note: in definition of macro '__module_param_call'
+     298 |             VERIFY_OCTAL_PERMISSIONS(perm), level, flags, { arg } }
+         |                                                             ^~~
+   include/linux/moduleparam.h:156:9: note: in expansion of macro 'module_param_cb'
+     156 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
+         |         ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/tiny/bochs.c:66:1: note: in expansion of macro 'module_param_named'
+      66 | module_param_named(modeset, bochs_modeset, int, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+   In file included from include/linux/device.h:32,
+                    from include/linux/pci.h:37,
+                    from drivers/gpu/drm/tiny/bochs.c:6:
+   drivers/gpu/drm/tiny/bochs.c: In function 'bochs_pci_driver_init':
+>> include/linux/device/driver.h:261:1: warning: control reaches end of non-void function [-Wreturn-type]
+     261 | } \
+         | ^
+   include/drm/drm_module.h:93:9: note: in expansion of macro 'module_driver'
+      93 |         module_driver(__pci_drv, drm_pci_register_driver_if_modeset, \
+         |         ^~~~~~~~~~~~~
+   drivers/gpu/drm/tiny/bochs.c:835:1: note: in expansion of macro 'drm_module_pci_driver_if_modeset'
+     835 | drm_module_pci_driver_if_modeset(bochs_pci_driver, bochs_modeset);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +261 include/linux/device/driver.h
+
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  242  
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  243  /**
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  244   * module_driver() - Helper macro for drivers that don't do anything
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  245   * special in module init/exit. This eliminates a lot of boilerplate.
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  246   * Each module may only use this macro once, and calling it replaces
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  247   * module_init() and module_exit().
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  248   *
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  249   * @__driver: driver name
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  250   * @__register: register function for this driver type
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  251   * @__unregister: unregister function for this driver type
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  252   * @...: Additional arguments to be passed to __register and __unregister.
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  253   *
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  254   * Use this macro to construct bus specific macros for registering
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  255   * drivers, and do not use it on its own.
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  256   */
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  257  #define module_driver(__driver, __register, __unregister, ...) \
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  258  static int __init __driver##_init(void) \
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  259  { \
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  260  	return __register(&(__driver) , ##__VA_ARGS__); \
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09 @261  } \
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  262  module_init(__driver##_init); \
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  263  static void __exit __driver##_exit(void) \
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  264  { \
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  265  	__unregister(&(__driver) , ##__VA_ARGS__); \
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  266  } \
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  267  module_exit(__driver##_exit);
+4c002c978b7f2f Greg Kroah-Hartman 2019-12-09  268  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
