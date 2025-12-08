@@ -2,79 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBB33CAF3FB
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 09:11:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82337CAF410
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 09:11:56 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E21210E493;
-	Tue,  9 Dec 2025 08:11:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C954310E4AE;
+	Tue,  9 Dec 2025 08:11:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dh+OT/mH";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KgbCihPS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0455510E096
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 16:16:18 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-5942bac322dso4627309e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 08:16:17 -0800 (PST)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com
+ [209.85.208.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C47C10E096
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 16:16:46 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-37ba781a6c3so35856351fa.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 08:16:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765210576; x=1765815376; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1765210605; x=1765815405; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=sP+wElHiWhPVX0s7Fm/0FfEMrf5VeQmAO5kbLUdT2KY=;
- b=dh+OT/mHSgH9IIJbUwBh6hnONHyd33J5TL3UHV1wjPYZmvp4J87PBOH5bttw4ZnNrO
- IhRrYWu9Am1mjRVotGyAPtMh6ouc/wFYeTjAAIwtjnAg7ZHaNKEHtmggP0q8JroDC6kx
- fZms3M054FbaX2oJMbxg8prp2GohcSN/n/gaE8w5nxVJwWCayeMgrxNyjbBbRchA5Nt6
- RH0YEm+s5Xoe1DcZqy2JAFvoxFc0lRjc9ZdtEnazS6NTAe8i8Aod7bHw/UcqPK9NLgZD
- IX8RpysKymFVYadahLbHOOxeuTU4MCktN90u/6+pOrsSvFPfvT5ptnu6etosocsowt2+
- UIqA==
+ bh=Lq+b81zjuJ0KXIx00y6jcXONOYZwjMumPZ/OfgDUGBQ=;
+ b=KgbCihPS32ge5mTWwULsGJQp84nEVDnyVDtDDsqbeNdUUzEO30Dpl0oTI4OlVUGASt
+ LEDi5ZrUYGZ51/MzlIahMccIB4BEiYNyiE81AgOzOp0A2tz6VjQVh6ISmZ1vdtjUWDKY
+ EPZxpwkrv56aS4yQIxCpl1rp4x2Abp2BFvBshuyJD2tAdMXl/CMpz5dwYh4jkuE+Edgq
+ jpcWIgbpdp/tXQwESqCLb0dXzWnMVkGHohMtFjqRO07M06ikQL9pF3JyzpOq9LChLCOW
+ Ncxnr2uPxtgJSKsiDMQfYvsgE3SJGrFJ93GCRr6TB9XPdT+TORplaPjEeDpwwa2+Cp0l
+ +/UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765210576; x=1765815376;
+ d=1e100.net; s=20230601; t=1765210605; x=1765815405;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sP+wElHiWhPVX0s7Fm/0FfEMrf5VeQmAO5kbLUdT2KY=;
- b=lVOieCckWnh+NyX7IIyxJ/qwTicbnAGkPyKJ+nTNK9Ee+D3f1NSQoG8vNd4MALQxnQ
- B2Ntn7qMz+w3y9LP8DCI9dUsTQ3w25AN3U7pgSD1UrucGREPGa0jeMObFRRMUz5rZw/W
- ZNf7IqlFmuzCvsaNZU+hwOkzlJoVVghNzC6vk4JyoTlMRftEgr+RFqRJXJJOVSj5e1Lq
- SrCII/arz5Ks4pjoFCn5joGbL253Fv2Bj9Hfp+B8ZNZlNGz+SXo5ZN7aPA+caJGQO/II
- W+Zx6nyHT1jhsVflpL+ds0tyuW/mI8sq01Ixo8TouyL4R2jtlZpLIEmHJfqpZp8xd50o
- SZYg==
+ bh=Lq+b81zjuJ0KXIx00y6jcXONOYZwjMumPZ/OfgDUGBQ=;
+ b=eiFAA70pgpCTYjYo1hTUX4kXOfkNi7i98qQps+sBlb960B/l0+m0ch+eZkgjrUYmJq
+ +Jn139yqFh9sES4WMpJyZpdc+Mo62UvfytR4U+pw875MrY3W5lUAhsyqNiJbF8q8wZOS
+ g/pgv9gPpvGnS5jxUXrau7QURyIxkoO/Qst+YQgX+RwQNhn0WCpi3rMdiQdQssvtMUNr
+ H0H/RNCR+pKhPZxDBCjuTcea7emb/XbolUE5ppU8pe7GdkvnPfNMfB++pKllAPeWNY94
+ 9pU8xsilYIco6rACBxo1LY8HMhzMwKhRfHFg1QahcKJ3DoNBmNbFLn6xd1Z8ZgrCB3lQ
+ E6QQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUy4PkS0AATLzg5Cp7jyVDQk/TCiIO+7tM2MdM/mduskxOG48wcskoMZADCTHjznws4xt0jKuxY+sg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxDQoqoRDtqt+d5o6WFZxbWfYIBrxlhBqTYTlon+n7Earyankf5
- F8dTGvntT78mQvNjf7Sf76Xws9SAXGMmSfnp13NH4GaxjreBkbnKkJyO
-X-Gm-Gg: ASbGncsRdbVNLGtNAVxeCAPFmdBUH3vdF69Gxdy7RznJvzrXMfs7kgUmgjYVvEA7JzE
- bX+NqEM6HGxgF1G96hctVhpZelYn5jjpLSKZ1gjqJNojInC0rgzOtd1b/uu8F+e7XD1XtrBXPVG
- xMdWhh77E4KKR6F7ZOe0/RD7XilKbWhZoJMEXUVf51kxeMcCZtuu1dipqF3xSRjaM4NdU3kF3tM
- 0+z4aQjm9BTTkKQ34SaIrBzMo5KVwftc4PXkNswjZkC2xP2uDAeALvWiMLbpdp8wGXS9JfBKVg6
- HeE+Zyn2jAH7eeA92wfo/yCxzK0D547kGSTSRPeL6L7jPqycXh2e6ZlkJF29xX93CEDdg+hhYnM
- KI6MtMtjOCdJ8yjlwJa37mlNYroGHHesuMKzcTjrZsLEmPGDopd5VRRM+DGwrrkL8apg0OEIS+k
- Wrm2nP9PTIO1e8KHeepQfEyMdPpX0Xzg==
-X-Google-Smtp-Source: AGHT+IH6K8WSCuuXxeZsJAmON17j1OOZdc1bDidvYwdi0X9+yi5QlVMR/yNdi9iMFd8Bkgz+Jy34+Q==
-X-Received: by 2002:a05:6512:3e0a:b0:594:35b7:aa7 with SMTP id
- 2adb3069b0e04-598853e4220mr2732276e87.48.1765210576183; 
- Mon, 08 Dec 2025 08:16:16 -0800 (PST)
+ AJvYcCXA65GRhIaFhxUGHYbbD8QLpfj+dN+hBpJtyabOVl+uKWoJwIxcs6r1p7DBVurUSH5J8rlNTzOcCu0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxn9bxYBpkzMhjvhMbfJlYAzWCVq5XVrka+M68xT0mcLiQxO93p
+ OWo+/SSjaKVQff9J0XMJVXbiF3SgnHnxUjPIEDPLsxtp/lBAKj4aCrSo
+X-Gm-Gg: ASbGncvMHaQld4qqalMfH3mR/DSPSjvGCkviZIaqmxC+/gWnl1ntA9hQ78lD5TsYtaZ
+ k8sVnmeF5z1sCoiloM74nLmIHPZlZrrl6SM3at65DkBz5yfu1bC/0XEMNy0uW0kVY1xlMR2vK7H
+ IQXOb0Ib3sZ9UiBVs/tO6XJxRhBAhVYz/UTvK0ZHPS5IANsrJIrpUkSWkS2uTClbKd/BsUHF0G9
+ O3TdYew/FE+hzeu+lNL/Wl7HdWDCaZBazObJic62ki7dDmDfPWuTqNKbVz5VbaLY6EL3rudKHGo
+ morHwp5sF0cGXHQBQiXyEyHR+ibUVHAHNsnNJOEMfGGh5uJkwkW9OSm0BndiwtnMgoMvXOFoajS
+ a5jJWrGdnf2Pb+iAMBP4kefK2/X0437SgXByA40T7PmGWFCQvwql+JBk9cddytAwH4KzAdhGLXw
+ SFKGzJuC/fXk5EssF/AKc=
+X-Google-Smtp-Source: AGHT+IHNZPG1QsMR21dNPgtrH03H0F1n9RkLL2N2CpVhYORoVSpEFt9e1N7ekSkGFmHwzBaTh0lwsw==
+X-Received: by 2002:a05:651c:325b:b0:37b:ba8d:c0db with SMTP id
+ 38308e7fff4ca-37ed1fa08admr23821391fa.4.1765210604577; 
+ Mon, 08 Dec 2025 08:16:44 -0800 (PST)
 Received: from vovchkir.localdomain ([95.161.223.42])
  by smtp.googlemail.com with ESMTPSA id
- 2adb3069b0e04-597d7c2eb84sm4183766e87.100.2025.12.08.08.16.15
+ 38308e7fff4ca-37e705e85a0sm40398361fa.38.2025.12.08.08.16.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Dec 2025 08:16:15 -0800 (PST)
+ Mon, 08 Dec 2025 08:16:44 -0800 (PST)
 From: Vladimir Yakovlev <vovchkir@gmail.com>
-To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Vladimir Yakovlev <vovchkir@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jesszhan0024@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/panel: himax-hx83102: change to gpiod_set_value_cansleep
-Date: Mon,  8 Dec 2025 19:16:13 +0300
-Message-Id: <20251208161613.3763049-1-vovchkir@gmail.com>
+Subject: [PATCH] drm/bridge: lontium-lt9611uxc: disable audio capture for HDMI
+ card
+Date: Mon,  8 Dec 2025 19:16:41 +0300
+Message-Id: <20251208161642.3763245-1-vovchkir@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -94,62 +97,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It's better to use gpiod_set_value_cansleep because the panel can be
-connected via i2c/spi expander or similar external devices
-
-for reference see Documentation/driver-api/gpio/consumer.rst
+The LT9611UXC only has an I2S input and therefore only an HDMI-TX
+audio channel. In this case, the capture channel must be disabled
+on the HDMI sound card.
 
 Signed-off-by: Vladimir Yakovlev <vovchkir@gmail.com>
 ---
- drivers/gpu/drm/panel/panel-himax-hx83102.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-himax-hx83102.c b/drivers/gpu/drm/panel/panel-himax-hx83102.c
-index 602f1adfc8ee..f31e502f71a3 100644
---- a/drivers/gpu/drm/panel/panel-himax-hx83102.c
-+++ b/drivers/gpu/drm/panel/panel-himax-hx83102.c
-@@ -1049,7 +1049,7 @@ static int hx83102_unprepare(struct drm_panel *panel)
- {
- 	struct hx83102 *ctx = panel_to_hx83102(panel);
- 
--	gpiod_set_value(ctx->enable_gpio, 0);
-+	gpiod_set_value_cansleep(ctx->enable_gpio, 0);
- 	usleep_range(1000, 2000);
- 	regulator_disable(ctx->avee);
- 	regulator_disable(ctx->avdd);
-@@ -1065,7 +1065,7 @@ static int hx83102_prepare(struct drm_panel *panel)
- 	struct mipi_dsi_device *dsi = ctx->dsi;
- 	struct mipi_dsi_multi_context dsi_ctx = { .dsi = dsi };
- 
--	gpiod_set_value(ctx->enable_gpio, 0);
-+	gpiod_set_value_cansleep(ctx->enable_gpio, 0);
- 	usleep_range(1000, 1500);
- 
- 	dsi_ctx.accum_err = regulator_enable(ctx->pp1800);
-@@ -1089,11 +1089,11 @@ static int hx83102_prepare(struct drm_panel *panel)
- 
- 	usleep_range(1000, 2000);
- 
--	gpiod_set_value(ctx->enable_gpio, 1);
-+	gpiod_set_value_cansleep(ctx->enable_gpio, 1);
- 	usleep_range(1000, 2000);
--	gpiod_set_value(ctx->enable_gpio, 0);
-+	gpiod_set_value_cansleep(ctx->enable_gpio, 0);
- 	usleep_range(1000, 2000);
--	gpiod_set_value(ctx->enable_gpio, 1);
-+	gpiod_set_value_cansleep(ctx->enable_gpio, 1);
- 	usleep_range(6000, 10000);
- 
- 	dsi_ctx.accum_err = ctx->desc->init(ctx);
-@@ -1107,7 +1107,7 @@ static int hx83102_prepare(struct drm_panel *panel)
- 	return 0;
- 
- poweroff:
--	gpiod_set_value(ctx->enable_gpio, 0);
-+	gpiod_set_value_cansleep(ctx->enable_gpio, 0);
- 	regulator_disable(ctx->avee);
- poweroffavdd:
- 	regulator_disable(ctx->avdd);
+diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+index 38fb8776c0f4..d3ce5dd30420 100644
+--- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
++++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+@@ -555,6 +555,7 @@ static int lt9611uxc_audio_init(struct device *dev, struct lt9611uxc *lt9611uxc)
+ 	struct hdmi_codec_pdata codec_data = {
+ 		.ops = &lt9611uxc_codec_ops,
+ 		.max_i2s_channels = 2,
++		.no_i2s_capture = 1,
+ 		.i2s = 1,
+ 		.data = lt9611uxc,
+ 	};
 -- 
 2.34.1
 
