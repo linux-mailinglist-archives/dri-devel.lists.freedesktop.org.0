@@ -2,82 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76FFCACC17
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 10:53:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5F6CACC58
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 10:58:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E633E10E40A;
-	Mon,  8 Dec 2025 09:53:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F62610E407;
+	Mon,  8 Dec 2025 09:58:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cQ0loGPS";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="bGrxRVzC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="S+cJpsAO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mXhqTeVI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Dsci+OsW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
- [209.85.222.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34D2810E40A
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 09:53:05 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id
- af79cd13be357-8b2dcdde698so654069485a.3
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 01:53:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765187584; x=1765792384; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=1sM32WeH2jVyY64qANlJiXgkX22XEyx8ykYLFAD02P0=;
- b=cQ0loGPS5uM7Mu/OJwl6CU/Cv+g16Zcxf4u7oN3hXm+ec3Pwl1uGH61Sh122mJdB66
- cWENwPci3dXl8vw0iVV1lXuk4RmYuiu2+Xm8Wh3gvCuJ4HyJ/S6WXHhF7haFU8kSl/z7
- JEhgROz8FtfjL0iXztdI3COv8KzS3AS65x1fJLEC8lCF5V8/BoeJ4Itss33oBZoP6BJJ
- 0IGTpOD0mUGznL8lejNL7PKoWfxEpahYiMPYDJlaIRKgI5fIXSwzMtDpke9BJzjpfEqI
- rel4g6IfnFAUcy9Lo4r5hc5Eybo3LTv+Y0qxo2WbI08h1INdNR6isid3P9W8Vb4DZftP
- Q0eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765187584; x=1765792384;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=1sM32WeH2jVyY64qANlJiXgkX22XEyx8ykYLFAD02P0=;
- b=UhkAsf2C5AN+Jfw2NDv15H9vC+WahZiUSqJHqixRfNqalkWwPSlIJZ5k+fzKFE/2T+
- w+MwA7lLxygLBu+/7UmdVVwY3+hyLxTzAbA7sleVZqSaDjSpXxiE5vazJtpS8GbyDD6o
- sAwSRjsnGxzBRmR6H8sAtiiXFWAyjryqSbb8TKqz+lrCWjA2UV223Fh/4P0a8ZB6dsIn
- 1ZoF7zoz2fDh84iItMsWCN7cbcIja443a4zDBZ+wY1weIIAvfEjESX98dXPgyY36Ml20
- EEpsvNFx55Ev5YmZHXXjpVvEd3RlxTKd5dEBajBlbroEWJ7htwS/4rppSlpL5ER7JpHt
- PaMg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVbAfSvRRpkLCPNK4sU3hL2BjD19I7hPuKAnABMW37MVa4i2W9DGKKy95qULq3s9lyWSCdaRmE/obI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1iifG1QzQNwoByHT5KdMVIj2aeFB9i59NoOUHI/ZPW1RPrxjy
- NkN32T5sEzjd9UzF+ZNpvt4BCLZlHP+lokcCR3twvXo5er0LUqok4NQ4wa1Abh0jFF6Ga3UI0ts
- zTsfuaV+8QpgfjjRH90/zGH1cGoHlof8=
-X-Gm-Gg: ASbGncudx0bijhP9RzxiId7BDSJX9eRIxhqnjEtnvrUQ5HfmHQEoOvLnrP3nnO9tM8m
- GYrcSephR5fOg20ndmfbTpObcEGpliR2rAsKBsfWblGtJDSlGi2yczbin9uhcB4C+FLlTGyEx/w
- uKJL4kkMSVgeDKZ6d3SfD2kEN4AsqajddZ2MXuvwNC2hWzrnuZ5wS9pW1OVdo30WjG4MuXNmQoT
- 7IADE2TTR+Pw96izf1BU3+qYc/MG4iOe+D5vaVjMzW3fjJmIMEs0VDXeybt1CkgzcTcoSYd4A==
-X-Google-Smtp-Source: AGHT+IEj0uEs1F+oCvQ5shQtijjpsWvsSqk9ZVjqw/l++cRkIyOaTUZ12XYt+1ixgyp6ULVPgxQ401UwCx6PPQGEOzY=
-X-Received: by 2002:a05:622a:c6:b0:4ef:bd1a:501f with SMTP id
- d75a77b69052e-4f03fe048dbmr114802141cf.23.1765187583850; Mon, 08 Dec 2025
- 01:53:03 -0800 (PST)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 441DE10E407
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 09:58:02 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id D3002336DE;
+ Mon,  8 Dec 2025 09:57:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1765187881; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tiyqyyRIufoiicXo4/TLfw0nlqeugsiEaNQU5FdAtAs=;
+ b=bGrxRVzCtOXvBsvqfCF1VpEB0APwnii70t8jw7D3PsBNVvZ0mShXa3FRsArNhFeFI3CRBp
+ 073y+xcLwMsEz4/L4eNDHEfdsSlbV4I8SOYfRCmwUrZKqdsWw3Jmj5Tz1XALdxwupnwCq3
+ K8rcoBfpfPbJAHpO+jzV+IuvWDBifrg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1765187881;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tiyqyyRIufoiicXo4/TLfw0nlqeugsiEaNQU5FdAtAs=;
+ b=S+cJpsAONOwJJoLzLK5PdWdAWDjLfxzvXQ+5entzQcc0ypDyISSEVPMe/kQz6l0qDvp3pj
+ HUEcDfbhu+lsVgAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1765187879; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tiyqyyRIufoiicXo4/TLfw0nlqeugsiEaNQU5FdAtAs=;
+ b=mXhqTeVIwM/hOzjwoFhStzL2RtuNEvS1xAYRW41lDWSwl00wPwFOCfKZ2JQiTqFzX+SSmU
+ efHiFCCalBZnKg3tjVuGapTOGbKBCu2DD49FaYOaSVfwwUAVX+9JCSuPx/5wafTSX3bvaM
+ Vf8j1N68uKH0tdx3b3g50oHqA1Qrd6Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1765187879;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tiyqyyRIufoiicXo4/TLfw0nlqeugsiEaNQU5FdAtAs=;
+ b=Dsci+OsWwlH4V3amJMQN1FwGB2jA31qdJV7Z1xah2igm2yx5dVZnRDHdefZNOHxImnTBlK
+ FUjt8mB5mWommkCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A52F53EA63;
+ Mon,  8 Dec 2025 09:57:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id fJYnJiehNmlBOAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 08 Dec 2025 09:57:59 +0000
+Message-ID: <bccdbb15-6b91-4dc1-a9fd-7184da1c9f2d@suse.de>
+Date: Mon, 8 Dec 2025 10:57:59 +0100
 MIME-Version: 1.0
-References: <3da6a916cd6d489690b05d2bd64a2b3a@honor.com>
-In-Reply-To: <3da6a916cd6d489690b05d2bd64a2b3a@honor.com>
-From: Barry Song <21cnbao@gmail.com>
-Date: Mon, 8 Dec 2025 17:52:52 +0800
-X-Gm-Features: AQt7F2owj7J_9alWp6aSKrVUcQg6W4ytaT9Dh3VtedFYj__73ne_kDrRjgoOen8
-Message-ID: <CAGsJ_4w-XtJ8zzc8H4OwW4XV21T8FWGxeoMnfAxmAgBhzrvxWQ@mail.gmail.com>
-Subject: Re: [RFC] dma-buf: system_heap: add PTE_CONT for larger contiguous
-To: gao xu <gaoxu2@honor.com>
-Cc: "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, 
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "surenb@google.com" <surenb@google.com>, 
- zhouxiaolong <zhouxiaolong9@honor.com>, Ryan Roberts <ryan.roberts@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/4] efi: sysfb_efi: Fix efidrmfb and simpledrmfb on
+ Valve Steam Deck
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Ard Biesheuvel <ardb@kernel.org>,
+ Melissa Wen <mwen@igalia.com>, linux-efi@vger.kernel.org
+References: <20251205153611.93297-1-tvrtko.ursulin@igalia.com>
+ <20251205153611.93297-5-tvrtko.ursulin@igalia.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20251205153611.93297-5-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.29 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.19)[-0.953]; MIME_GOOD(-0.10)[text/plain];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_FIVE(0.00)[6]; RCVD_COUNT_TWO(0.00)[2];
+ URIBL_BLOCKED(0.00)[suse.de:mid,suse.de:email,igalia.com:email,suse.com:url,imap1.dmz-prg2.suse.org:helo];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url, imap1.dmz-prg2.suse.org:helo,
+ igalia.com:email, suse.de:mid, suse.de:email]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -4.29
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,30 +143,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 8, 2025 at 5:41=E2=80=AFPM gao xu <gaoxu2@honor.com> wrote:
->
-> commit 04c7adb5871a ("dma-buf: system_heap: use larger contiguous mapping=
-s
-> instead of per-page mmap") facilitates the use of PTE_CONT. The system_he=
-ap
-> allocates pages of order 4 and 8 that meet the alignment requirements for
-> PTE_CONT. enabling PTE_CONT for larger contiguous mappings.
+Hi
 
-Unfortunately, we don't have pte_cont for architectures other than
-AArch64. On the other hand, AArch64 isn't automatically mapping
-cont_pte for mmap. It might be better if this were done
-automatically by the ARM code.
+Am 05.12.25 um 16:36 schrieb Tvrtko Ursulin:
+> Valve Steam Deck has a 800x1280 portrait screen installed in a landscape
+> orientation. The firmware offers a software rotated 1280x800 mode which
 
-Ryan(Cced) is the expert on automatically setting cont_pte for
-contiguous mapping, so let's ask for some advice from Ryan.
+"software-rotated"
 
+comma before 'which'
+
+> GRUB can be made to switch to when displaying a boot menu. If this mode
+> was selected frame buffer drivers will see this fake mode and fbcon
+> rendering will be corrupted.
 >
-> After applying this patch, TLB misses are reduced by approximately 5% whe=
-n
-> opening the camera on Android systems.
+> Lets therefore add a selective quirk inside the current "swap with and
+
+"Let us" or "Let's"
+
+> height" handling, which will detect this exact mode and fix it up back to
+> the native one.
 >
-> Signed-off-by: gao xu <gaoxu2@honor.com>
+> This will allow the DRM based frame buffer drivers to detect the correct
+
+"DRM-based framebuffer"
+
+> mode and, apply the existing panel orientation quirk, and render the
+
+No 'and' after mode
+
+> console in landscape mode with no corruption.
+>
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: Melissa Wen <mwen@igalia.com>
+> Cc: linux-efi@vger.kernel.org
+> Tested-by: Melissa Wen <mwen@igalia.com> # v3
+
+With typos fixed:
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+Thanks for fixing this.
+
+Best regards
+Thomas
+
 > ---
+>   drivers/firmware/efi/sysfb_efi.c | 47 ++++++++++++++++++++++++++++++++
+>   1 file changed, 47 insertions(+)
+>
+> diff --git a/drivers/firmware/efi/sysfb_efi.c b/drivers/firmware/efi/sysfb_efi.c
+> index 5c54f42d5fef..db28e11d1eb7 100644
+> --- a/drivers/firmware/efi/sysfb_efi.c
+> +++ b/drivers/firmware/efi/sysfb_efi.c
+> @@ -242,6 +242,33 @@ static int __init efifb_swap_width_height(const struct dmi_system_id *id)
+>   	return 1;
+>   }
+>   
+> +struct efifb_mode_fixup {
+> +	unsigned int width;
+> +	unsigned int height;
+> +	unsigned int linelength;
+> +};
+> +
+> +static int __init
+> +efifb_check_and_swap_width_height(const struct dmi_system_id *id)
+> +{
+> +	const struct efifb_mode_fixup *data = id->driver_data;
+> +
+> +	if (data->width == screen_info.lfb_width &&
+> +	    data->height == screen_info.lfb_height) {
+> +		swap(screen_info.lfb_width, screen_info.lfb_height);
+> +		screen_info.lfb_linelength = data->linelength;
+> +		screen_info.lfb_size = data->linelength * data->width;
+> +	}
+> +
+> +	return 1;
+> +}
+> +
+> +static const struct efifb_mode_fixup efifb_steamdeck_mode_fixup __initconst = {
+> +	.width = 1280,
+> +	.height = 800,
+> +	.linelength = 3328,
+> +};
+> +
+>   /*
+>    * Some devices have a portrait LCD but advertise a landscape resolution (and
+>    * pitch). We simply swap width and height for these devices so that we can
+> @@ -297,6 +324,26 @@ static const struct dmi_system_id efifb_dmi_swap_width_height[] __initconst = {
+>   		},
+>   		.callback = efifb_swap_width_height,
+>   	},
+> +	{
+> +		/* Valve Steam Deck (Jupiter) */
+> +		.matches = {
+> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
+> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Jupiter"),
+> +			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
+> +		},
+> +		.callback = efifb_check_and_swap_width_height,
+> +		.driver_data = (void *)&efifb_steamdeck_mode_fixup,
+> +	},
+> +	{
+> +		/* Valve Steam Deck (Galileo) */
+> +		.matches = {
+> +			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "Valve"),
+> +			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "Galileo"),
+> +			DMI_EXACT_MATCH(DMI_PRODUCT_VERSION, "1"),
+> +		},
+> +		.callback = efifb_check_and_swap_width_height,
+> +		.driver_data = (void *)&efifb_steamdeck_mode_fixup,
+> +	},
+>   	{},
+>   };
+>   
 
-Thanks
-Barry
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
