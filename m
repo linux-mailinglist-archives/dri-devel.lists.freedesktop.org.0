@@ -2,81 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F0ECAF40A
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 09:11:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A86E0CAF401
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 09:11:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4DBB10E4A6;
-	Tue,  9 Dec 2025 08:11:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8BF310E49A;
+	Tue,  9 Dec 2025 08:11:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WMwvbrPr";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="A259waqE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 364AC10E04F
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 16:02:52 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-5957db5bdedso5721087e87.2
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 08:02:52 -0800 (PST)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+ [209.85.208.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72EAC10E3B3
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 16:09:27 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-37d275cb96cso39204821fa.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 08:09:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765209770; x=1765814570; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1765210166; x=1765814966; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Im/UU88NzMzAmZTVyjewlopeNrCHZj8w4QA0s6ZSqCQ=;
- b=WMwvbrPrEGFYoSNxRa7e/SUYaUj2mJx9k27FRWm4KSLLuhhR891j/Ckww2Cp/GAVCJ
- QwG6FI5kOKwOQzEjP167fTAJ5TaiPnaVfEubMtvXxiNaWPoftwil+J4wvJO9CBRL61Fk
- WEG5s8tjz8etEGMAin0cHEOlWgZgXGz3w63aJAOx3w/xtACUH//k+ow0PXrpN4CrNrRp
- XCZDPQvgWFXSnn8U9BeoY3e8hTMg8VKiztixktNmlTRpOHAVywWyjY2gfKwNA9w/xPgH
- yi/sfW6/8k8Vbest4tpyfZoZb0fSqWX3a59tci+62Kp2JVB1Liv+6Yx9gG6uHyu3atZE
- zcLw==
+ bh=+6YJOjTEDWIwVZhIEu7U0+PRzwWU7tV8413g0FiGGOA=;
+ b=A259waqEtHLX8jHSm1Lgu97Rb8J3x8GyXpxrR3MBMyHPpkQdxmRxwL+esl4xh8DoT4
+ kDVl9USbZ3X3gVDnqbD//TQBIpds7hkbPmhi4AX1olzavPMoCWFBDhDB37o2j03+/S+M
+ aknlgXwsTj60TK55GBMzoX2mX/NkaQegiCJ7xJ7vT0GELz/OTR//pFrRqJ9lJQ6gHTso
+ QyEwzUjdUHeE4Mp1SZLmx7VJiaiJPW6iKdCCnc1fmJ8ps2HvUv0i8RV92yhATnscXElI
+ nXXgU9Hn3kFbm1+3dAIdAE/afpkt6OadbzaLtAtpTA3eweZcXvhn6JbBhMiBIvqj96vW
+ dMOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765209770; x=1765814570;
+ d=1e100.net; s=20230601; t=1765210166; x=1765814966;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Im/UU88NzMzAmZTVyjewlopeNrCHZj8w4QA0s6ZSqCQ=;
- b=O8I9oc/9nOHSv+Xw/zKDwduzVV6IS1z2/ztd7v8kRruxqryo7px1o4riHYdobWyLnQ
- XDR6kCB/VbQQ0etes3dmJ0U3xNQBtOt26urbh+qV/1jHgxU/eslNkVdg6oPg+srTiN3a
- 9U0D3MRS3r2HrbR4ugZfs5XQdbz2/HaeAUv3CriAayAN2Alp4R2mm9xz1Qof89iH0OP5
- pNAb0fa29FejsXH7HcIVSGEHrCSY7Djvwc8nCoQ5pXc5vp3HSx/Ocu/KohUIrfyBGNxx
- r1c01a999nN9fbECL6zRedRDANqcn8ugody2uG+fGUcIlHgf0hyP3huN/supHV/VtFW+
- DIXQ==
+ bh=+6YJOjTEDWIwVZhIEu7U0+PRzwWU7tV8413g0FiGGOA=;
+ b=MUZrryVp3BKyoFxXNHjnMy8rShhxjDlnxvZEXYPuFpD7DbndIKhV2qEDAtPW+itUG0
+ BqvVNITThrWREebJ9EzfmGQ30hbEeCTnQisd+tqiFBXWeH4RhZPrNcYvFdiSTadQX1EB
+ LiNXW2Rtxk03NE5qeQY4XTvExnKdmNjINC348zPVVGJjNb9bYj69VWIyetdMLzhsKDSr
+ olAFrnXY97MTpE+fIYL02Hs6t9+T/5/NiLXhrHY2WZj0KLfk2O4PfQIVdVGUOj3wIVFD
+ zVM28RzpuZtRZFbvFXMDuL1+oOnqYhkI+dTRVG9pDZr21Gfte9tkHoIAfOJzFfuKfuF1
+ gquQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV72zRydHaS/bj58eSH0E77ap94RY1IrWXLMg/3++0tWA2x27LjsjixyEC/1KuZD0aadWGuYFb5JoA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YykKovSRwbf1fxKTsSYT6NI45bJS7t+TniUkVkPGlnO3QBr9pgp
- OnWnK4LdiFCW/VMP71xJGhuT8TjoGiZ7xzzGshHFdj3TaucgRImmSbMn
-X-Gm-Gg: ASbGnctjCPRaBiPgPCpYRyzqRH+DkwXL6c8lSMKN9tkTHCFLdF618qFGqC1hWPLV8bu
- QOxiKxp0sIbCDuWWSFqUtuAr0I7aJqoYgF/f0PL9Mti0ct9YN5txVlUagQyIof1nCFq1FZT/G2i
- mamS7Q5hf0jb8RglDKqSx9T1hg6HAQ1tbRXWyKVxsifUGOhaDt2e15iqiMqpJKmOzBnlQkNzYRV
- WWEbMeuwbS68zr0asxcgbh1/tJT73WqdS0Ne1BBEuSYfGsfljpjFVF1jEiy2Rbg8H0ViZfbvapo
- tqd0GFVcjT5iJc188JH/NTjmXtvA8rN6q1G26TiWIoKE9fgd20Q0P2UzG2iC8P5b1tmP5l0baDZ
- Fm2jOLCSa1sQS7bcQkjowm7IVF5/FeCxAaurbIZzeX8fs5D+xHvKZJu4lblkSAFNSD5b4CMFPRB
- L8o9WVr9a/a/d5j/FZPTMUA1d+exJYf6scafAyoU5zqYAXu6+1
-X-Google-Smtp-Source: AGHT+IGl+2gac5WBQa4JRm/ES2jta48b8h2trd4DFOGKpZqgj+BulMqtAB1nSDlk9h7vcIXyCWxuow==
-X-Received: by 2002:a05:6512:e88:b0:595:81e5:7574 with SMTP id
- 2adb3069b0e04-5987e8c36c5mr2692786e87.20.1765209770098; 
- Mon, 08 Dec 2025 08:02:50 -0800 (PST)
-Received: from home-server.lan (89-109-48-215.dynamic.mts-nn.ru.
- [89.109.48.215]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-597df2f7400sm2890827e87.35.2025.12.08.08.02.49
+ AJvYcCW7WCn5w6oW/Ehe3Aqu7CW8oA6GYJZe6DxyQPwFwEt+tsYhCLwe6NDE4L4eWUpqkDeBEEQPWcdNf74=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzwdidYD70vbywPjulA17W8XrS4k4JpccsbLK2T9fSD5Ds44Qsr
+ M5U/4rKXzbxtUBxY2gUwHGAsvmjd/9a3aFU3huaa8zfdTDJQoCtUducR
+X-Gm-Gg: ASbGncsFMVEQgv1KUV5P51I0Fmgt6rdXqfK2P9aXiBDsFR101cPSKbuRWkM9r1fTqPc
+ 0Nk+puI1823eoPhILqDAzeBOy/Ty+MR6yynmbX4SwzaNLVaj6GfAnLeK4xQwvdG1IQuQueA8nDT
+ Glb9g28nmOtTFWbTeyuv75hOfRTZm+xlfQ/DQU3xhv76yrAQcuGF4BYvgsg/bvAjR9fPgBLv39E
+ Mn/8I4wDcXReqjjka+JupVi2nt5qR2hAotzH8xA5fwZtjFkMrQKRRzGQEa8jINiX8rp/8ccwKsM
+ BcOoBtqkdembtwAafvPpagqDp++F6wNTIO8C9R/IB9wER1ayCKx/uABiGp1ULK9hJ+3+lyQxX0p
+ cjOD/5EPM2lecM7eIdC1I4XnYiEtj/KfaIABWLI3Pf1lVmSTcnzY5ioNFyALmpoz2b7Yg/YlGAw
+ F7znQnBiQvy4jjY1MqHqI=
+X-Google-Smtp-Source: AGHT+IHvGsnxGNA8T5LG95souf75pxrvmgi6XnAgO9WRnrxskKFU0kIr+OSaWegOdf8hi5iMgv0OJw==
+X-Received: by 2002:a05:6512:61a:b0:598:853e:f26e with SMTP id
+ 2adb3069b0e04-598853ef2f5mr2174493e87.52.1765210165486; 
+ Mon, 08 Dec 2025 08:09:25 -0800 (PST)
+Received: from vovchkir.localdomain ([95.161.223.42])
+ by smtp.googlemail.com with ESMTPSA id
+ 2adb3069b0e04-597d7b24725sm4207106e87.22.2025.12.08.08.09.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Dec 2025 08:02:49 -0800 (PST)
-From: Alexey Simakov <bigalex934@gmail.com>
-To: David Airlie <airlied@redhat.com>
-Cc: Alexey Simakov <bigalex934@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Chia-I Wu <olvaffe@gmail.com>,
+ Mon, 08 Dec 2025 08:09:24 -0800 (PST)
+From: Vladimir Yakovlev <vovchkir@gmail.com>
+To: Cong Yang <yangcong5@huaqin.corp-partner.google.com>
+Cc: Vladimir Yakovlev <vovchkir@gmail.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
- Lingfeng Yang <lfy@google.com>, dri-devel@lists.freedesktop.org,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org
-Subject: [PATCH] drm/virtio: fix undefined behavior in capset shift calculation
-Date: Mon,  8 Dec 2025 19:02:29 +0300
-Message-Id: <20251208160228.13145-1-bigalex934@gmail.com>
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] support for xr109ai2t panel
+Date: Mon,  8 Dec 2025 19:09:16 +0300
+Message-Id: <20251208160918.3760498-1-vovchkir@gmail.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -96,35 +95,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to MAX_CAPSET_ID, possible values of vgdev->capsets[i].id
-range from 0 to 63. Since the intermediate calculation uses type int,
-shifting by values larger than the bit width of int is undefined
-behavior as per the C language standard.
+Hello!
 
-Explicitly cast the left-shift operand to ULL to prevent undefined
-behavior during the calculation.
+This adds support for the STARRY XR109IA2T panel based on the hx83102 chip
 
-Found by Linux Verification Center (linuxtesting.org) with Svace.
+Changes in v2:
+- Corrected case for hexadecimal code.
+- Uppercase characters have been replaced with lowercase in the panel initialization sequence.
 
-Fixes: 1925d6a7e0f4 ("drm/virtio: implement context init: track valid capabilities in a mask")
-Signed-off-by: Alexey Simakov <bigalex934@gmail.com>
----
- drivers/gpu/drm/virtio/virtgpu_kms.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 1c15cbf326b7..2e0ec7590ac2 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -104,7 +104,7 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
- 			return;
- 		}
- 
--		vgdev->capset_id_mask |= 1 << vgdev->capsets[i].id;
-+		vgdev->capset_id_mask |= 1ULL << vgdev->capsets[i].id;
- 		DRM_INFO("cap set %d: id %d, max-version %d, max-size %d\n",
- 			 i, vgdev->capsets[i].id,
- 			 vgdev->capsets[i].max_version,
+Vladimir Yakovlev (2):
+  drm/panel: himax-hx83102: add panel starry xr109ia2t
+  dt-bindings: display: panel: Add compatible for STARRY xr109ai2t
+
+ .../bindings/display/panel/himax,hx83102.yaml |   2 +
+ drivers/gpu/drm/panel/panel-himax-hx83102.c   | 193 ++++++++++++++++++
+ 2 files changed, 195 insertions(+)
+
 -- 
 2.34.1
 
