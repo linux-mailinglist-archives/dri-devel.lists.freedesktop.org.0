@@ -2,104 +2,97 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A55BCAE76A
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 01:16:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7235CAE516
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 23:21:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0441210E45C;
-	Tue,  9 Dec 2025 00:16:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4A5B10E172;
+	Mon,  8 Dec 2025 22:21:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=landley.net header.i=@landley.net header.b="eJb/RiLl";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="O+2dU3v8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 5400 seconds by postgrey-1.36 at gabe;
- Tue, 09 Dec 2025 00:16:15 UTC
-Received: from zebra.cherry.relay.mailchannels.net
- (zebra.cherry.relay.mailchannels.net [23.83.223.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC53F10E45C
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 00:16:15 +0000 (UTC)
-X-Sender-Id: dreamhost|x-authsender|rob@landley.net
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
- by relay.mailchannels.net (Postfix) with ESMTP id F0E3B121E1D;
- Mon, 08 Dec 2025 22:21:01 +0000 (UTC)
-Received: from pdx1-sub0-mail-a247.dreamhost.com
- (100-103-73-45.trex-nlb.outbound.svc.cluster.local [100.103.73.45])
- (Authenticated sender: dreamhost)
- by relay.mailchannels.net (Postfix) with ESMTPA id 6ADD1121A28;
- Mon, 08 Dec 2025 22:21:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
- t=1765232461;
- b=qZiy6ry/ZBfinqyEfJvr7nVpcrbPpSKaMlWE9UjDAg/pNCBukuD2NAnMncvzqIGsIAVpzM
- HzwS189SP3AI08MspeucPD8PGF6+8vqsupoIG1T1UzWoKaKKLeyM0pFB/I/OGiGuLK7RO/
- taG2bde3EVeUQg/SSASUb+/AucTAGklXoGKz2tOTFCJVfD4mjizVvlxWzBpJ6SLd/gGmpu
- 04S8D7/mOtwTPu5ynesELlJc3JkwMJQrhGyuhtgaiacRXmicLPNQRjCqf79rW22vErzgUo
- a/ZX9cvMZFfTXg+TKoEuDqoY7bg7kCG8G0BeDh+t9uP7QvLt+O3G1BsO8xFDaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net; s=arc-2022; t=1765232461;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:dkim-signature;
- bh=L1RQ3iFll8k4vyXkf57ManBwY/nb1VghWZ8P3Q8kdCM=;
- b=cbS+u8RxM3GJjfOBZB9V+GlXlYQRkE+Q659aQYj6E3lNCmJjsVKAaz23xirJfrFvV8OTBj
- JwpGeTTwxqXwlvoV+OgR8xyNtH2AEMXSNC2rxVtqAPIUOdr3Lpa8Yax8ubCFnQZnRPz2rF
- hcdQa+Q3SbRdRI+4gwE0+HROavgVG618i2lv8l3f67x855LFsi5s3fKAPIT56leQzWrfkl
- 6DtYDqYQmt4yFSctLfaoIDAL50udm/ye2ZtAwasaZAAidEtElA/GY0lWjrnMLPpGNcGrDu
- ExKh8p7n3YDMPsXtItG3DitQO1A4tu6xLD7Imnt9coo2B/cuk5XSFKCxIcAzrA==
-ARC-Authentication-Results: i=1; rspamd-57b9fc4dc5-grwdn;
- auth=pass smtp.auth=dreamhost smtp.mailfrom=rob@landley.net
-X-Sender-Id: dreamhost|x-authsender|rob@landley.net
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|rob@landley.net
-X-MailChannels-Auth-Id: dreamhost
-X-Coil-Whispering: 0033e86560d9169c_1765232461776_2558580605
-X-MC-Loop-Signature: 1765232461776:1297394009
-X-MC-Ingress-Time: 1765232461775
-Received: from pdx1-sub0-mail-a247.dreamhost.com (pop.dreamhost.com
- [64.90.62.162]) (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
- by 100.103.73.45 (trex/7.1.3); Mon, 08 Dec 2025 22:21:01 +0000
-Received: from [192.168.88.2] (unknown [209.81.127.98])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: rob@landley.net)
- by pdx1-sub0-mail-a247.dreamhost.com (Postfix) with ESMTPSA id 4dQGf41lb2z106B;
- Mon,  8 Dec 2025 14:21:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=landley.net;
- s=dreamhost; t=1765232461;
- bh=L1RQ3iFll8k4vyXkf57ManBwY/nb1VghWZ8P3Q8kdCM=;
- h=Date:Subject:To:Cc:From:Content-Type:Content-Transfer-Encoding;
- b=eJb/RiLlvRi4iGeCSlIcsiY3teg4ovb/kpSB0cIkachS1hxBEWt2NOG9hsGWOG1Nq
- J0ixH5dJhTETWB0rzWaQq4Mus6J9EUG+plLoUuZVp2mk/Gk5UAxj/qktIiG4st54kL
- o7BSP7dknliEVwlz+lYeN9MoXVCjjA9Jt+47QDhMhew3WNtfvk5+deCc5vQF/+0BZZ
- OY/Cb5ZCnAzShd9lL7nzM8DETmqU4u2g32be+3hcrWvKlH39gDhCUaMIhDyd5NxToe
- u7BO9evWD8w37HVK5/igxtD1aH44bI6EEjm53Uh9QB2HtKx5ugRAd/8pi/GGdmSbZT
- 6/t8XN//fiDQQ==
-Message-ID: <f10e135e-14c5-4bc0-8100-1712be3796dd@landley.net>
-Date: Mon, 8 Dec 2025 16:20:57 -0600
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F123710E172
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 22:21:25 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-6492e7925d2so2017014a12.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 14:21:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1765232482; x=1765837282;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hJAf24FuHQe95NZr/O9DtfATOUEp5YWLsl/0nDh2TTA=;
+ b=O+2dU3v8A7v3p0wmOGOMtqPo9RQgxwShQ3i3U9CEvJuMaDN1aX9y5CUKaJO2pQlMmL
+ j7RBCCO3TX+BRNx1pwExhrJlNRiHZxXIqat5bfxI6aDQEk8RlbnjhIgggytpvxoX4lcL
+ ww2r5oIzlc1IxywO3GtcMrjcMh24em7CDUgBQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765232482; x=1765837282;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=hJAf24FuHQe95NZr/O9DtfATOUEp5YWLsl/0nDh2TTA=;
+ b=VfDiKFIKO7ioPmlQGAe1/vtjh9+3bOOnGbAGdhOdnXqm8nO8cjGjS6N06gUpe5w+yG
+ qHzfV9TiQCzWZDMQuI/p/ioKzbdrlmSn+wMx548J1d8+EdBvcfizmKBRVOTqSUaB3F0P
+ H2bGx4vdnwtg+n17Q8oBjIT/U1PH5g9ijfozJlKIRwHZZ1tzLHOws3hS36TKsjE8sU2H
+ 10DxhCmTXLtjsvCKuOGW9qSjQwVDv4pT4bKsWVm2J8sKH5yMDTV+x2HXX4q7IVh2yAto
+ F2zOruNsy+b5kl4WqSN1qWzMe0lWhNaNQK4bhTXmoxDmZrrjnUrM6v0sFw7KP+Vb2E45
+ UCIg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVxgXPYM/Q/IhCFkclWIWZZsBlJCve+xFn+r8hHnK8gIUH2IMgCl65Bjmp1TFnvKLeChG4mzyxCiDo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwUX0sERasGMJPJ7GvUHsP11l3OyjqtHlDnLdarCfQnu+e+05lh
+ vpGTQbFbQ4W6QQZte6/EWRjLTbKvM2munFELfhHyewCyXXtc87BJlVy/TK53T2/nN3x2WaqQHQi
+ QN47o6w==
+X-Gm-Gg: ASbGncuwtKjbrI6c/9xg/9xNpJzoQFuxNRH9AjqlIhpaEFvRrQlL0rLo6rwYMGRGvn+
+ 3op+eQqyKOAX/PTb+dcEshTUFz5Wgm+o71IJfTcAZiFt1m7T8emCdGe+FNI0wCwTfDdBvqDh01u
+ Bpz9hdV0wlPjAnoRDZebQQUg2MRNpgG7lpCUkXPE8YQOw5BQ770t8Cyq9QynEM/mq1BwdOMg0qE
+ 3+6h91MtGS/W26z3TgZoTureaTW1mvEKY+Luf4QVODv2e3HnjBP1LXx42ifaA2ev/fAz+Uui63+
+ wZrHbt12mD4UP5xxnIxMU2qAREirb52AmoqdJU39aQgWtfIRjc1cNAJY73XQ7qRMZVyi9emio1U
+ lLv33s4OkKXYn5zuUxlYa6Mldf0y5GmP7PAqsOdNNOeNdE+oiSvR0JRKWMkU+abkySJt5TRMtt5
+ blthpfefl6SP1UXgSoA2pGrDtFW3byzqJQ2sMLWtmgER4g8jXcYw==
+X-Google-Smtp-Source: AGHT+IFpjXQJjwcXuYliO4aQzChbUIu3OeAmvvTojztxkvpVmYK2eqUb0btem6tQIABfH0Qg0Ac6xw==
+X-Received: by 2002:a05:6402:1ed0:b0:637:f07d:e80f with SMTP id
+ 4fb4d7f45d1cf-64919b853damr8414481a12.0.1765232481942; 
+ Mon, 08 Dec 2025 14:21:21 -0800 (PST)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com.
+ [209.85.221.52]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-647b4121d05sm11871330a12.29.2025.12.08.14.21.20
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 08 Dec 2025 14:21:20 -0800 (PST)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-42e2e5da5fcso2877313f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 14:21:20 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWeyUJCpwTuy7lmCuLNGwHrns7nCedt9uFtBvOPWuLXUTB4fv+wpD57M8IpgtkO4iBVb49wDvcJjE8=@lists.freedesktop.org
+X-Received: by 2002:a05:6000:184e:b0:42f:8816:6e53 with SMTP id
+ ffacd0b85a97d-42f89f5b7a9mr9262105f8f.61.1765232480155; Mon, 08 Dec 2025
+ 14:21:20 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Kconfig dangling references (BZ 216748)
-To: Randy Dunlap <rdunlap@infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, andrew.jones@linux.dev,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- Paul Kocialkowski <paulk@sys-base.io>, chrome-platform@lists.linux.dev,
- Paul Cercueil <paul@crapouillou.net>,
- linux-stm32@st-md-mailman.stormreply.com,
- Srinivas Kandagatla <srini@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Jonathan Cameron <jic23@kernel.org>,
- Vaibhav Hiremath <hvaibhav.linux@gmail.com>, linux-sh@vger.kernel.org,
- Max Filippov <jcmvbkbc@gmail.com>
-References: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
-Content-Language: en-US
-From: Rob Landley <rob@landley.net>
-In-Reply-To: <22b92ddf-6321-41b5-8073-f9c7064d3432@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20251125090546.137193-1-kory.maincent@bootlin.com>
+ <CAD=FV=WikKrpLKvaxD22H0s3XHeG=WUiRrLJ0eQMM2pqvXJhuw@mail.gmail.com>
+In-Reply-To: <CAD=FV=WikKrpLKvaxD22H0s3XHeG=WUiRrLJ0eQMM2pqvXJhuw@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 8 Dec 2025 14:21:09 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=WrQpa3G0ggSMiJG8RnT45zCLug2YKTTgPfNrzAoQU98Q@mail.gmail.com>
+X-Gm-Features: AQt7F2qfhZ_9C3ny6GB_ztDzwr2hF0lEcdFjQq7wCKYlX1JiOVwhYtW82bJNjiA
+Message-ID: <CAD=FV=WrQpa3G0ggSMiJG8RnT45zCLug2YKTTgPfNrzAoQU98Q@mail.gmail.com>
+Subject: Re: [PATCH v4] drm/tilcdc: Fix removal actions in case of failed probe
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Bajjuri Praneeth <praneeth@ti.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, stable@vger.kernel.org, 
+ thomas.petazzoni@bootlin.com, Jyri Sarha <jyri.sarha@iki.fi>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,18 +108,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/7/25 20:04, Randy Dunlap wrote:
-> USB_OHCI_SH ---
-> arch/sh/Kconfig:334:	select USB_OHCI_SH if USB_OHCI_HCD
-> arch/sh/Kconfig:344:	select USB_OHCI_SH if USB_OHCI_HCD
-> arch/sh/Kconfig:429:	select USB_OHCI_SH if USB_OHCI_HCD
-> arch/sh/Kconfig:455:	select USB_OHCI_SH if USB_OHCI_HCD
-> arch/sh/configs/sh7757lcr_defconfig:61:CONFIG_USB_OHCI_SH=y
-Commit 231a72e03af6 removed the only user of CONFIG_USB_OHCI_SH (an 
-#ifdef in drivers/usb/host/ohci-hcd.c), commit f6723b569a67 missed it 
-cleaning up, then commit 4f6dfc2136fb special case removed the symbol 
-but not references to it.
+Hi,
 
-It can go.
+On Mon, Dec 1, 2025 at 10:10=E2=80=AFAM Doug Anderson <dianders@chromium.or=
+g> wrote:
+>
+> Hi,
+>
+> On Tue, Nov 25, 2025 at 1:06=E2=80=AFAM Kory Maincent <kory.maincent@boot=
+lin.com> wrote:
+> >
+> > From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
+> >
+> > The drm_kms_helper_poll_fini() and drm_atomic_helper_shutdown() helpers
+> > should only be called when the device has been successfully registered.
+> > Currently, these functions are called unconditionally in tilcdc_fini(),
+> > which causes warnings during probe deferral scenarios.
+> >
+> > [    7.972317] WARNING: CPU: 0 PID: 23 at drivers/gpu/drm/drm_atomic_st=
+ate_helper.c:175 drm_atomic_helper_crtc_duplicate_state+0x60/0x68
+> > ...
+> > [    8.005820]  drm_atomic_helper_crtc_duplicate_state from drm_atomic_=
+get_crtc_state+0x68/0x108
+> > [    8.005858]  drm_atomic_get_crtc_state from drm_atomic_helper_disabl=
+e_all+0x90/0x1c8
+> > [    8.005885]  drm_atomic_helper_disable_all from drm_atomic_helper_sh=
+utdown+0x90/0x144
+> > [    8.005911]  drm_atomic_helper_shutdown from tilcdc_fini+0x68/0xf8 [=
+tilcdc]
+> > [    8.005957]  tilcdc_fini [tilcdc] from tilcdc_pdev_probe+0xb0/0x6d4 =
+[tilcdc]
+> >
+> > Fix this by rewriting the failed probe cleanup path using the standard
+> > goto error handling pattern, which ensures that cleanup functions are
+> > only called on successfully initialized resources. Additionally, remove
+> > the now-unnecessary is_registered flag.
+> >
+> > Cc: stable@vger.kernel.org
+> > Fixes: 3c4babae3c4a ("drm: Call drm_atomic_helper_shutdown() at shutdow=
+n/remove time for misc drivers")
+> > Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
+> > ---
+> >
+> > I'm working on removing the usage of deprecated functions as well as
+> > general improvements to this driver, but it will take some time so for
+> > now this is a simple fix to a functional bug.
+> >
+> > Change in v4:
+> > - Fix an unused label warning reported by the kernel test robot.
+> >
+> > Change in v3:
+> > - Rewrite the failed probe clean up path using goto
+> > - Remove the is_registered flag
+> >
+> > Change in v2:
+> > - Add missing cc: stable tag
+> > - Add Swamil reviewed-by
+> > ---
+> >  drivers/gpu/drm/tilcdc/tilcdc_crtc.c |  2 +-
+> >  drivers/gpu/drm/tilcdc/tilcdc_drv.c  | 53 ++++++++++++++++++----------
+> >  drivers/gpu/drm/tilcdc/tilcdc_drv.h  |  2 +-
+> >  3 files changed, 37 insertions(+), 20 deletions(-)
+>
+> Seems reasonable to me. I did a once-over and based on code inspection
+> it looks like things are being reversed properly. I agree this should
+> probably land to fix the regression while waiting for a bigger
+> cleanup.
+>
+> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
+> This fixup has been sitting out there for a while. Who is the right
+> person to apply it? If nobody else does and there are no objections, I
+> can apply it to "fixes" next week...
 
-Rob
+Pushed to drm-misc-fixes:
+
+[1/1] drm/tilcdc: Fix removal actions in case of failed probe
+      commit: a585c7ef9cabda58088916baedc6573e9a5cd2a7
