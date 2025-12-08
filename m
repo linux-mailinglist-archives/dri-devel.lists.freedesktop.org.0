@@ -2,51 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32562CADA3E
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 16:48:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74F0ECAF40A
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 09:11:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8961710E4A3;
-	Mon,  8 Dec 2025 15:48:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4DBB10E4A6;
+	Tue,  9 Dec 2025 08:11:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="M8ama/Nu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WMwvbrPr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC01610E491
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 15:48:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 75DD440324;
- Mon,  8 Dec 2025 15:48:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 003A4C4CEF1;
- Mon,  8 Dec 2025 15:48:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765208899;
- bh=nZVWmUNr2ffZnt1KQzEwy7Q5wOWyfGZmkXIZ2qS0bwg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=M8ama/Nu76XGURe43dr2qAUdjLaL5E2zAfpj7fKq+SRJNIc8SOb+mybnyh7/q7RlC
- Tgy/PqQV5mYWfjNaVMrVrVtkf+i46iObQ4ztNjHNrPCi7GTjIc1JNf4sIDA0nStbeQ
- 9I9oIkjQkNE6Q5IXLzIcnZPATjXkzdCJVzGzoG9jwugqZnczN6YTXVH2kVoUgxGOzg
- +jXHp7RqBbxQc8TYqbgfiQlrQsSEE1TcATaD774GVBGdUKUXW+EA5rYW9c0hCkKgjr
- dBEg1X0MJXvfd9QSGXTMvrYC9FPQbD3of3rWMdUJH7IBtP0o5BMfSjdjleqrwTG59m
- qwgByiMgrhIew==
-Date: Mon, 8 Dec 2025 16:48:16 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 03/16] drm/atomic: Add new atomic_create_state
- callback to drm_private_obj
-Message-ID: <20251208-masked-mongrel-of-wonder-562912@houat>
-References: <20251014-drm-private-obj-reset-v2-0-6dd60e985e9d@kernel.org>
- <20251014-drm-private-obj-reset-v2-3-6dd60e985e9d@kernel.org>
- <c43t73qbgrimpuinjsjyxcit6cvjflusomjayzv62nvvvmtwuo@elo37btubnul>
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+ [209.85.167.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 364AC10E04F
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 16:02:52 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id
+ 2adb3069b0e04-5957db5bdedso5721087e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 08:02:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1765209770; x=1765814570; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Im/UU88NzMzAmZTVyjewlopeNrCHZj8w4QA0s6ZSqCQ=;
+ b=WMwvbrPrEGFYoSNxRa7e/SUYaUj2mJx9k27FRWm4KSLLuhhR891j/Ckww2Cp/GAVCJ
+ QwG6FI5kOKwOQzEjP167fTAJ5TaiPnaVfEubMtvXxiNaWPoftwil+J4wvJO9CBRL61Fk
+ WEG5s8tjz8etEGMAin0cHEOlWgZgXGz3w63aJAOx3w/xtACUH//k+ow0PXrpN4CrNrRp
+ XCZDPQvgWFXSnn8U9BeoY3e8hTMg8VKiztixktNmlTRpOHAVywWyjY2gfKwNA9w/xPgH
+ yi/sfW6/8k8Vbest4tpyfZoZb0fSqWX3a59tci+62Kp2JVB1Liv+6Yx9gG6uHyu3atZE
+ zcLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765209770; x=1765814570;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Im/UU88NzMzAmZTVyjewlopeNrCHZj8w4QA0s6ZSqCQ=;
+ b=O8I9oc/9nOHSv+Xw/zKDwduzVV6IS1z2/ztd7v8kRruxqryo7px1o4riHYdobWyLnQ
+ XDR6kCB/VbQQ0etes3dmJ0U3xNQBtOt26urbh+qV/1jHgxU/eslNkVdg6oPg+srTiN3a
+ 9U0D3MRS3r2HrbR4ugZfs5XQdbz2/HaeAUv3CriAayAN2Alp4R2mm9xz1Qof89iH0OP5
+ pNAb0fa29FejsXH7HcIVSGEHrCSY7Djvwc8nCoQ5pXc5vp3HSx/Ocu/KohUIrfyBGNxx
+ r1c01a999nN9fbECL6zRedRDANqcn8ugody2uG+fGUcIlHgf0hyP3huN/supHV/VtFW+
+ DIXQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV72zRydHaS/bj58eSH0E77ap94RY1IrWXLMg/3++0tWA2x27LjsjixyEC/1KuZD0aadWGuYFb5JoA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YykKovSRwbf1fxKTsSYT6NI45bJS7t+TniUkVkPGlnO3QBr9pgp
+ OnWnK4LdiFCW/VMP71xJGhuT8TjoGiZ7xzzGshHFdj3TaucgRImmSbMn
+X-Gm-Gg: ASbGnctjCPRaBiPgPCpYRyzqRH+DkwXL6c8lSMKN9tkTHCFLdF618qFGqC1hWPLV8bu
+ QOxiKxp0sIbCDuWWSFqUtuAr0I7aJqoYgF/f0PL9Mti0ct9YN5txVlUagQyIof1nCFq1FZT/G2i
+ mamS7Q5hf0jb8RglDKqSx9T1hg6HAQ1tbRXWyKVxsifUGOhaDt2e15iqiMqpJKmOzBnlQkNzYRV
+ WWEbMeuwbS68zr0asxcgbh1/tJT73WqdS0Ne1BBEuSYfGsfljpjFVF1jEiy2Rbg8H0ViZfbvapo
+ tqd0GFVcjT5iJc188JH/NTjmXtvA8rN6q1G26TiWIoKE9fgd20Q0P2UzG2iC8P5b1tmP5l0baDZ
+ Fm2jOLCSa1sQS7bcQkjowm7IVF5/FeCxAaurbIZzeX8fs5D+xHvKZJu4lblkSAFNSD5b4CMFPRB
+ L8o9WVr9a/a/d5j/FZPTMUA1d+exJYf6scafAyoU5zqYAXu6+1
+X-Google-Smtp-Source: AGHT+IGl+2gac5WBQa4JRm/ES2jta48b8h2trd4DFOGKpZqgj+BulMqtAB1nSDlk9h7vcIXyCWxuow==
+X-Received: by 2002:a05:6512:e88:b0:595:81e5:7574 with SMTP id
+ 2adb3069b0e04-5987e8c36c5mr2692786e87.20.1765209770098; 
+ Mon, 08 Dec 2025 08:02:50 -0800 (PST)
+Received: from home-server.lan (89-109-48-215.dynamic.mts-nn.ru.
+ [89.109.48.215]) by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-597df2f7400sm2890827e87.35.2025.12.08.08.02.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 08 Dec 2025 08:02:49 -0800 (PST)
+From: Alexey Simakov <bigalex934@gmail.com>
+To: David Airlie <airlied@redhat.com>
+Cc: Alexey Simakov <bigalex934@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ Chia-I Wu <olvaffe@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
+ Lingfeng Yang <lfy@google.com>, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org
+Subject: [PATCH] drm/virtio: fix undefined behavior in capset shift calculation
+Date: Mon,  8 Dec 2025 19:02:29 +0300
+Message-Id: <20251208160228.13145-1-bigalex934@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="y347jqrf2gwkfk2g"
-Content-Disposition: inline
-In-Reply-To: <c43t73qbgrimpuinjsjyxcit6cvjflusomjayzv62nvvvmtwuo@elo37btubnul>
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 09 Dec 2025 08:11:41 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,53 +96,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+According to MAX_CAPSET_ID, possible values of vgdev->capsets[i].id
+range from 0 to 63. Since the intermediate calculation uses type int,
+shifting by values larger than the bit width of int is undefined
+behavior as per the C language standard.
 
---y347jqrf2gwkfk2g
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 03/16] drm/atomic: Add new atomic_create_state
- callback to drm_private_obj
-MIME-Version: 1.0
+Explicitly cast the left-shift operand to ULL to prevent undefined
+behavior during the calculation.
 
-Hi,
+Found by Linux Verification Center (linuxtesting.org) with Svace.
 
-On Wed, Oct 15, 2025 at 01:49:33AM +0300, Dmitry Baryshkov wrote:
-> On Tue, Oct 14, 2025 at 11:31:47AM +0200, Maxime Ripard wrote:
-> > The drm_private_obj initialization was inconsistent with the rest of the
-> > KMS objects. Indeed, it required to pass a preallocated state in
-> > drm_private_obj_init(), while all the others objects would have a reset
-> > callback that would be called later on to create the state.
-> >=20
-> > However, reset really is meant to reset the hardware and software state.
-> > That it creates an initial state is a side-effect that has been used in
-> > all objects but drm_private_obj. This is made more complex since some
-> > drm_private_obj, the DisplayPort ones in particular, need to be
-> > persistent across and suspend/resume cycle, and such a cycle would call
-> > drm_mode_config_reset().
->=20
-> Doesn't that mean that we need to save private objects's state in
-> drm_atomic_helper_duplicate_state() and restore it in
-> drm_atomic_helper_commit_duplicated_state()? Private objects don't have
-> .atomic_commit() callbacks, but they can be used by other objects during
-> drm_atomic_commit().
+Fixes: 1925d6a7e0f4 ("drm/virtio: implement context init: track valid capabilities in a mask")
+Signed-off-by: Alexey Simakov <bigalex934@gmail.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_kms.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Not really, because private objs aren't reset in
-drm_mode_config_reset(), so there's nothing to save and restore, the
-objects before the suspend are still going to be there after the resume.
+diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
+index 1c15cbf326b7..2e0ec7590ac2 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_kms.c
++++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
+@@ -104,7 +104,7 @@ static void virtio_gpu_get_capsets(struct virtio_gpu_device *vgdev,
+ 			return;
+ 		}
+ 
+-		vgdev->capset_id_mask |= 1 << vgdev->capsets[i].id;
++		vgdev->capset_id_mask |= 1ULL << vgdev->capsets[i].id;
+ 		DRM_INFO("cap set %d: id %d, max-version %d, max-size %d\n",
+ 			 i, vgdev->capsets[i].id,
+ 			 vgdev->capsets[i].max_version,
+-- 
+2.34.1
 
-Maxime
-
---y347jqrf2gwkfk2g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaTbzQAAKCRAnX84Zoj2+
-dh3fAYCA9zfcDhTU2s8CeE1CNuLDTC3VJi2I07AsDiayhI7SO5DbJ8ns+/LRKems
-Px9znj0BgLaxMUslCNtPxMy+lAe93sA2ADJONw7gYxxScMO1HFxED/ayTGVT2L6P
-urJUFOkyqA==
-=fuKw
------END PGP SIGNATURE-----
-
---y347jqrf2gwkfk2g--
