@@ -2,85 +2,160 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90DBCCAC9C3
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 10:13:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4DBCACA72
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 10:27:14 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2427310E0D3;
-	Mon,  8 Dec 2025 09:12:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD0110E3D9;
+	Mon,  8 Dec 2025 09:27:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="XkFRSWq7";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="pPZ851r7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
- [185.132.180.163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A52EF10E0D3
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 09:11:58 +0000 (UTC)
-Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
- by mx07-00376f01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
- 5B850Tbn2975655; Mon, 8 Dec 2025 09:11:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
- :content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=dk201812; bh=wpFVK3UISYSElB0YPQplDND
- D+w2ntkyKIuex+dcdKdk=; b=XkFRSWq7ISEdT0owV3iIcVh6O6idCG0kQqYoCLZ
- Bk+orgp2cHOIXsks5NUoWIs7vHovml0mapWnx9+/3rdqd7ZM2ehfAUkzdQtUwF1F
- TrfwLMs6BzgCMK8iJAvDHXj4wmdipRGRDmwXwhiHZxMORQABz9jdGE7nDF/1r24P
- Cb282+JfoVUSoXfUlUNqlQ45dFImpb2c5q0GHm9V5/tgo+Utz0sXX9kG6Q730VHM
- 7Zj5lAcVTkuWX0mZBwdUXHnuQm+5j5OT5e9C3FJYZHsiXXe2xVCf0xlzUwuVW8Z9
- zKuUZj4fMGRSorEznYuGFx5/6aO2wGyXamz3CEJVb2E4a4Q==
-Received: from hhmail01.hh.imgtec.org
- (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
- by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 4avdeuh9j6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 08 Dec 2025 09:11:35 +0000 (GMT)
-Received: from NP-A-BELLE.kl.imgtec.org (172.25.10.180) by
- HHMAIL01.hh.imgtec.org (10.100.10.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 8 Dec 2025 09:11:33 +0000
-From: Alessio Belle <alessio.belle@imgtec.com>
-Date: Mon, 8 Dec 2025 09:11:00 +0000
-Subject: [PATCH] drm/imagination: Disallow exporting of PM/FW protected objects
-MIME-Version: 1.0
+Received: from CY3PR05CU001.outbound.protection.outlook.com
+ (mail-westcentralusazon11013010.outbound.protection.outlook.com
+ [40.93.201.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3723B10E3D1;
+ Mon,  8 Dec 2025 09:27:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NYZ9JRYc0J5cH5lRtICCgEJ3UZ+Ynpu9LMBkkx8sPpWi2K2gJzPZawfPvK7IERrPl+u5N+fvaBWf9fG+rnFTLvg6z+vgs5T0ocgrtm5yuxzVLxlDUCmPUT5oqCyktN4306ccETAuqs1ElBog2TovOFI4eAde8xYcvy83uuimvO0gkYa+22DmBD39nKEfG+gDV3rRl0iq6xeIO0L64hkaoUWuBk69Vw8+4X0XUFhVFfx1FtnOg2QNQwWaHC4uDb+PJznYBmJBcb4YrYgYnJFVbJWnp+SgZXakWAEkhsQZwexd/EryK7p4wjDOfX/ePGk7EmC2WkRPQDdZEKFfhQI5hA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EDu0Ba4u1qGUcfSDU+w89Ipktu6Mt9iPjQkdgwHgj6A=;
+ b=vpelkW1rbl4poblie8zPuTFUqlprdnZUq1vIRn7lSatkM79n2o35G1tlbXlLZb+0WuGrjv+sXykXaYvLqhv6JuSUx4xMG3VtVMgOAwvMuhfva3kd/gnuZxmRTtyeayWKaQTCbpHuRCmEP5By0PL/FxyMWNOg0zukTl8OghonJ7uHaU4JzzOekTunMWNlelqPWFw7trULZ8zBjqnFsbfBsaWknlXAJAPCdzvgOeA/H4NPDYQij09qfv0G85bRPvcxRm7aswWWezTJJpPM+rWGXxdV5WqDyGZCpjt4tuj/IikBf3R7m3GRXSPTgkr9C+IyGXBtx3kV+b+6eX3VNzcY6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EDu0Ba4u1qGUcfSDU+w89Ipktu6Mt9iPjQkdgwHgj6A=;
+ b=pPZ851r7sMQSv0utSldsWQspUCEi92NycFfzDKfLs2JOHVTohl/Yq4irLVjr4upXHAEcRQkJWyluefDgRrGhcm8tHrBwbMwkG8GNTo8KX59wAbepqI5jt7y84OKt8pzUHB0JeLTXn5TZlyXsSVNE1Pat7EbFNjahMu49zWrDs0Ro5c02p42mQ//RKpTqehjtCUwdhWL1QMvep3XnAySDzjvZMJwPHxccSMnO0ma8LP0r3vSWijyKUeSLg5n93mibBgbD7FcN5HsAfxHsvk9Oym0d2RoFHFfkQdSxHvgCzBEUdrlQg8hc7n/3XbyoAxkGCJ5hpMEhm8m33asTTerjRg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by PH7PR12MB8108.namprd12.prod.outlook.com (2603:10b6:510:2bc::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.9; Mon, 8 Dec
+ 2025 09:27:05 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9388.011; Mon, 8 Dec 2025
+ 09:27:05 +0000
+From: Alexandre Courbot <acourbot@nvidia.com>
+Subject: [PATCH 0/9] gpu: nova-core: miscellaneous improvements
+Date: Mon, 08 Dec 2025 18:26:52 +0900
+Message-Id: <20251208-nova-misc-v1-0-a3ce01376169@nvidia.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20251208-no-export-pm-fw-obj-v1-1-83ab12c61693@imgtec.com>
-X-B4-Tracking: v=1; b=H4sIACOWNmkC/x3MTQqAIBBA4avErBtI+yG6SrSwHGuCVDQqkO6et
- PwW7yWIFJgiDEWCQBdHdjZDlAUsm7IrIetskJVshZA9Wof0eBdO9AeaG928o6JFdXWjta4U5NI
- HMvz813F63w/am9gnZQAAAA==
-X-Change-ID: 20251128-no-export-pm-fw-obj-aeca634ddd0a
-To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Alexandru Dadu <alexandru.dadu@imgtec.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
- <sumit.semwal@linaro.org>, =?utf-8?q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>, "Alessio
- Belle" <alessio.belle@imgtec.com>
+X-B4-Tracking: v=1; b=H4sIANyZNmkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDIwML3bz8skTd3MziZF3DFHNL8yTTFDOTNCMloPqCotS0zAqwWdGxtbU
+ AvfPM31sAAAA=
+X-Change-ID: 20251208-nova-misc-1d797b5d64f2
+To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
+ Edwin Peer <epeer@nvidia.com>, nouveau@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, Alexandre Courbot <acourbot@nvidia.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1765185093; l=1842;
- i=alessio.belle@imgtec.com; s=20251208; h=from:subject:message-id;
- bh=pRDHXPgpdsEZVoNu6zceAf+FuiNHKGRgZl9xJRBdWfw=;
- b=YOnbre475voi9oiZiHLXTC1zdIE6xMbV5ZTNMNa5tOZBHV9madHV4FSZgssiHVP+q59YkS713
- YNjLi3LFs5nA5w2mhKYV3HV1bfWX/UiaFwozmBnSARJ7/ybVo+uyh2n
-X-Developer-Key: i=alessio.belle@imgtec.com; a=ed25519;
- pk=2Vtuk+GKBRjwMqIHpKk+Gx6zl7cgtq0joszcOc0zF4g=
-X-Originating-IP: [172.25.10.180]
-X-Authority-Analysis: v=2.4 cv=UvZu9uwB c=1 sm=1 tr=0 ts=69369647 cx=c_pps
- a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
- a=D1vns6AIKIwA:10 a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=r_1tXGB3AAAA:8 a=dJ_P6b1NyDTtC6ShgzQA:9
- a=QEXdDO2ut3YA:10 a=t8nPyN_e6usw4ciXM-Pk:22
-X-Proofpoint-ORIG-GUID: ixADbrjbHhqrhQ9-1lh3lOEklf8Yl6aL
-X-Proofpoint-GUID: ixADbrjbHhqrhQ9-1lh3lOEklf8Yl6aL
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA4MDA3NiBTYWx0ZWRfXxESxm0h3BKcT
- VTocXGUnolFXKF/sdGBqrDGOoU++hzl6lEpv8Y8qKBulmYAwJVPkOIFVXiu+pRfKrLpZL6avkXC
- r0mWnpxTjI9LJU41AlLudbYO3GnglwApeb/IYl8xM+3WvWj0J31m/FifaK0wRPQ8wy0Uf5i99Px
- bBShfC+leTIHacR4gMBvy0uHcLwKavCWoSjx7dOlkqp5wKOJpd28NQNTPxplmTmceCcK4p1VKyX
- 2hQvS2dvVVdYwi10ZOf0ACYfqpXyIPWFIxnFDQo82oAAXbOIaFAvDlzQQU4ODghOy3M8Q0gkBW8
- EQ+svuoqJc0RWQWAe3twgioTdClgo5vvDInpIl5SfxanZhV/ir+fQmvpmytv8eeT2xmB1zud6YR
- c5BtLFXGcDEG1iIrwfWlfoFJ2HddTg==
+X-ClientProxiedBy: OS3P286CA0037.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:604:1f5::14) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH7PR12MB8108:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3fda74d5-2505-497a-803e-08de363bf36c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0; ARA:13230040|1800799024|10070799003|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?VGdJcnNSN2JWb09kRS8rOEJxQnRNNnVDU2QwSDBoakJqdjladDF4SFJxd25n?=
+ =?utf-8?B?eEJNVVBpU2FtRlV1SHFKR1JDYjk0OXdldjdTYVNWZSt0b0RaZlB1emZPNkFm?=
+ =?utf-8?B?UCtjc3RsR1JqMS9GL0JMUE1vc3BQbVlJeDlJWEF5K3dnaG5nM0IzcU5tZWpp?=
+ =?utf-8?B?QWgyRnhKZm5TeVUzM3dMZUtZTjN1cCt4dmV0U2t2L3VZZkpKYUw4bTJsV3c1?=
+ =?utf-8?B?cWlKa1NSSHM0eHA0QkFjVUsreXJDaE1ZbXBVTmFPeHFabzg2ci9JUGRXNmJ3?=
+ =?utf-8?B?dFk5dDJkR29XVlhFOFkyaGFEQ3pKUFJvRmw5SUVKZVVQR216eXN1WGJ6YW1D?=
+ =?utf-8?B?ekh0RDgyNEgxdkU3Q3RpZzZtSnNyNjEvbGxkcnNxS2N4YkpuZkpwU04wdlls?=
+ =?utf-8?B?dnh2K1lvM0M0TXc0d2JFZW00ZEhnajBKb1JmMUExOWhDbnA4clhaRmx2R21W?=
+ =?utf-8?B?dFdKdlZGTHVxOEcxbjRrcnhZUkM5SnZMMlM3MzlRWU1uYm1sbHVKalRQUzZE?=
+ =?utf-8?B?dEluQ2s4S203L0ZyL1JCaXhYL0piaTl6cFk1dVpUU0FHOXQ2WWhrZUhjZUI0?=
+ =?utf-8?B?V2lxTFlXUXI4Y1N1em5oblFOZ29kWXMxMlh0OFhsaktuQ3o2Mjd5M1Ywb2tT?=
+ =?utf-8?B?NFpNdUpXRHF0b1p2VWI5OUFMcDBwdDEvQTNCaG9KQk9wYlczRURNQmNBQk8v?=
+ =?utf-8?B?bXN1VzNmMTVuODZlWlJGem1wQ0R4cVUwM3BaSUVJN3NGeEJpRjUzOE9aRW0z?=
+ =?utf-8?B?OFJGL0MxTGdVQU51aU9RYi91K0s5WHVLeXZ3cFZ3TVlWTXZKTHlVemhSaFp1?=
+ =?utf-8?B?MWhmT2VuTVlRQlloZEdveWxNaDNlSmRnUCtNdERwZGFzSjdXMVUzOTM2N3c2?=
+ =?utf-8?B?TVd5N2IvTHhzOFBoZFlBVXllWkdRUDJIcjZ4NVlPL2p3amFNbEhHZ1FPWDNj?=
+ =?utf-8?B?TnlRditCWHFHeXZyWW95OElmVUFwek5SMDNxWWR4cmxHekdtSnJPR29wOFkr?=
+ =?utf-8?B?Mmp3ajBPSkpHeWpLMnpjZXRiekFWbm83UmZ3cElTN04yVWU4dURkZWNxY2ls?=
+ =?utf-8?B?TnIySEJmV3k2T1BtRTUydHZlRUtEN3hIeWwxK3daeXBKSHNFVG5DeGhMc2h6?=
+ =?utf-8?B?dXpBWTZWeGM2ZHByT0pJWHNtOVArQnh0VHk1SHB3YW5udnhpL2xQUTVYQjNo?=
+ =?utf-8?B?dy9PSlJrZzUvY3lXNWxiRVNKRFlFTDBFWjcvWjNUQjBEL25WRXIvb1U2TGdu?=
+ =?utf-8?B?N1U0YWtoeHVjRXlGUzFDeUZhNm9qdS9nR3BXZWtTSEZ5MkVDKzBBYzV0dW5W?=
+ =?utf-8?B?em1DbHpwbmoxL3JkZjJFdDUvOVNlMmtTK1M4SFBXbE4zdjV1eHVzamdvL0t0?=
+ =?utf-8?B?ZWgyVm5ObHk5U3k5MG9CVmkzdFNUUURPbnJRL1owR2hRZ2ZNODdueW1RSUpK?=
+ =?utf-8?B?Zjh5SHhKRXpCeGhqOVg4WWJ2NEZINXd6TFEyZzMrNmJhN3E4aWY1bzBLaXJw?=
+ =?utf-8?B?S2RRMGMyQmNTWlpKdWV3Tkd6Qzc5d2poZ2lnMDBkemU4Z0JBWTA2MW1McEJ0?=
+ =?utf-8?B?OWRSenV6Vm9IeGZXWWg5VkljNVNDalBKYzJCOEVCT0J4bDBWQkZJMUlOYXNI?=
+ =?utf-8?B?bFNhMDNKUXlaYlEzbTcyN3JYZXlhSzBIUDRqOWV3ZVlGb2FiTUYrTnc0Q3Uw?=
+ =?utf-8?B?QVMyZC9za0ZEOUp6NE0wMW90MGxwN2IxekYvVVBJdURIdEZpS3FIMzJ4R0Yw?=
+ =?utf-8?B?dmlpMFNDb2NwSG1BcjYvUld4ZWgxbEFjOGxoQUdndHF0bjBncG4yV0N1RnRL?=
+ =?utf-8?B?MjNYRno4a2hTVEhqSDlJNWFPQ0FYTzg2b00rUDJSenNLTEVYeUlzTktsK3hQ?=
+ =?utf-8?B?SHJkR2lzVE5VZEdzOFd1dVZRSGd2K1ZyNGhxRGF0TVQ3U1ljU0U1Z2g5aUFm?=
+ =?utf-8?B?YWx6V1JzWGE1azRwVklqWjgxUVEyb3JrUVpzN2p4UE5xdHBKdU8rQWF6cGND?=
+ =?utf-8?B?RnNuQ2E2bmlnPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(10070799003)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a3BEczF3SVZaZXdEOEZHZUlLa3Jjc2dkU09xSGpDUzZHcWczS21pVDFKcits?=
+ =?utf-8?B?bFBvczhDa2QxU3FJZzVpUWhjSGZhZGVhSldlUTQ2WVpOVFhDZWFyeENDam55?=
+ =?utf-8?B?Z1MzZlg2b1M1QTR2V045aHNnUVA1MldmSjVUM2paWmZzSDZkTE1oNkd6Q0RU?=
+ =?utf-8?B?YWtXeE05b1hTWWR2bzdINUhiN0pNbWVaMjNhdnk3d0FLRDhKVGxvK3U4anE3?=
+ =?utf-8?B?YVVORGlEZG5pcjlxRHNnMHJaWWgzK0t4WkdYV3FCblFWcFBDUm16QmNXcHFG?=
+ =?utf-8?B?ZlpxRHRkckxGVlZDa0s2a3NiNHBtZUFhbmlOdEVsVFFGMTlPaW1nK2tJNW90?=
+ =?utf-8?B?cXFlK1ludVBSeEUrNkw3OGtrOW1lMmtsTTF6Vm12aVl6U29VVXJxc1V2Skph?=
+ =?utf-8?B?RHFzWSs1UHM4Vm9pOHBiSGoxOUlWKzBnZDNOYnNBTlE5ZjdXNmlPdmlBQlVO?=
+ =?utf-8?B?aWVqOGZWOGFXbDVVNWtkU2JNQkJJZ1JEaEh0TFQ2aVg0alBVQkp1MGlVQldv?=
+ =?utf-8?B?N3loNWRacklSOUpjRkZ0dXRtVk9NUUtFQUMzZUxzWE5yTExiMHNuNFZtNU9C?=
+ =?utf-8?B?TEphdjJXcmdmMlBGV1dqc3VSMjM5UnRDM0ZUeFM3dElTNHpRMjBNMWRYZERP?=
+ =?utf-8?B?WC9hVEgyTGhCaTFuQVJoSGVyOHVKNTFYWkNINzk3Ums1TFZ6UG94bXNBRW5Y?=
+ =?utf-8?B?ZW0vN0xCNmFGWGkrVFZHYlBmRUsrMEpMYkZSTVVrUTB3L0dMY0M4d1FBYkpI?=
+ =?utf-8?B?UldjeVBocUkycXpYMGhBa0hsdkhOWHIySExsSFIyS1dKRnZGMjJEM1NUUlRn?=
+ =?utf-8?B?c2RtTFhsUW9rNVdIRlQzcGNnV0l6YXh2Mzh4dnZWeUFwQTh1MEZZbjJmencw?=
+ =?utf-8?B?TXY1UDNZRFVRVVZ2YXBwR0hRMGpseEpvUHdHNC8yVGI0YjhWa2lTeWpPMkhJ?=
+ =?utf-8?B?SFNnTFN2djlrcW0rQ3dTbWxXTHVNbzQxUEtIVGhYSVpwcVA5eEREUFdocWVw?=
+ =?utf-8?B?bEhwWGd1M1BzS3ZTYmp0a0VlUmM1SEcySHZNVkE3cGNQOE9JYU9BSjdlTUE2?=
+ =?utf-8?B?N2FCcXd2REZlc21JdHR5MkR5UWovRmhCL2JuY1JyOFR5SUFpQ1Q1dVQ3YVE2?=
+ =?utf-8?B?ejA3bFA2a3FjM3BHZy9YOXhoeHhlbXdSdnJhWXN3enFqclg3WDh4QnRGdzQ2?=
+ =?utf-8?B?YW82bTFzQ1FkcGNPN2ErUU5BUGNIejlWYksyVmxySndKVjdzZW9QTHNBaXlZ?=
+ =?utf-8?B?TElPL3lNTTBVUmx4KzAxMlhWSUc3cDZZWi9mMHRtZlpQMjBQZnBySXFZcHln?=
+ =?utf-8?B?aGpYbENSUkl2OGt2QXJzZWgwYUlVRWF0QVRMQnZuVFY3bWgrQ2FIdDNZMTd5?=
+ =?utf-8?B?azBJV3dQS1N1dURERUxXVENTbVZkM3I0UW1vTVJTb2dhbm1XWnZtalFTcDE0?=
+ =?utf-8?B?SENGTjB1WnhKRWN2SklQd1liOHU5d0hHWUhaME0weGNDenlyZTRTOFltVGJl?=
+ =?utf-8?B?TmZlREFyVzFkLzR6K0JhMWZhNTJoQmlPVm5OL3RKRmVEbGlscnlQUTBwbDZD?=
+ =?utf-8?B?V2RBY2hvS2VyTytGSFZNRkNJdHFOTHV1RXQrV2xZdFRqN2M0dHNES2NYUitX?=
+ =?utf-8?B?OEt6dHhZMkFVRG8vOWZtQ0hIQS9TS0dtTUwrclpid2JFYXplTm9QRGdXTHJR?=
+ =?utf-8?B?TGF6REE3SWNWMlFHdjdNekhNNE5MemZIQWVjZVdDOWhHRWc3QkpxbmxKQjMz?=
+ =?utf-8?B?TUtHRW5ZR3ZzU3R3RC94d1JIdjdhNGFLMzJsb2cvSk5KdHVVV0tDU3hobUpl?=
+ =?utf-8?B?aXQxUHhZd0hQRCtURnVQeWlRblZTNzZzN00zS0lpSVc0VHlKQ3ZQWVlHSUFP?=
+ =?utf-8?B?eVU1OElKOVdjU3crbUJjR1hXYmNoT25URFYxTy9FeERNOGlodDlvUHBQblpO?=
+ =?utf-8?B?NHA0S2dMU2hvcnBOSDNCT0FRN2Z0Lzl6TEpCT2hXd3FXNmRYMDFTVjh0cSs0?=
+ =?utf-8?B?Mjg5S3lvWnRhUTFIL2tab05DN0tmREordHo1eW04QmJkL0xOaGpEenBCNmxt?=
+ =?utf-8?B?OUNBY1JHMmV3d3M4WjlLWGtqZmZsRGQ4QmV0N0gvTng3dFp0aHY1VGFDRjdS?=
+ =?utf-8?B?LzdFd2ZSWmJVczloYzVqVmlOdWVESklwcHVNeTI5aHg0SWtBOFVsTXAzR2dp?=
+ =?utf-8?Q?icFKiOz5xQw3dJdWW9qwaFMN+MG9GLj4i2bT59txL0gL?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fda74d5-2505-497a-803e-08de363bf36c
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2025 09:27:05.3387 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Gttznaxib+iL2j4FxYiZaDn6WJbU8Ljk1r1/toSaT0X5FCP5sRA3Z4UVW3RlqRrheT29W+Lnmth1bHB7Doc5zQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8108
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,53 +171,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These objects are meant to be used by the GPU firmware or by the PM unit
-within the GPU, in which case they may contain physical addresses.
+A few simple, loosely-related small improvements for nova-core,
+including reporting unprocessed data in GSP messages, removal of
+unnecessary code in GSP and the sequencer, and leveraging the Zeroable
+derive macro and core library's CStr. Probably nothing too
+controversial.
 
-This adds a layer of protection against exposing potentially exploitable
-information outside of the driver.
+This series is based on the fixup patch series for this cycle [1].
 
-Fixes: ff5f643de0bf ("drm/imagination: Add GEM and VM related code")
-Signed-off-by: Alessio Belle <alessio.belle@imgtec.com>
+[1] https://lore.kernel.org/all/20251123-nova-fixes-v2-0-33d86092cf6a@nvidia.com/
+
+Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 ---
- drivers/gpu/drm/imagination/pvr_gem.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Alexandre Courbot (9):
+      gpu: nova-core: gsp: warn if data remains after processing a message
+      gpu: nova-core: gsp: remove unnecessary Display impls
+      gpu: nova-core: gsp: simplify sequencer opcode parsing
+      gpu: nova-core: gsp: remove unneeded sequencer trait
+      gpu: nova-core: gsp: derive `Debug` on more sequencer types
+      gpu: nova-core: gsp: derive Zeroable for GspStaticConfigInfo
+      gpu: nova-core: firmware: fwsec: do not require bound device when unneeded
+      gpu: nova-core: use core library's CStr instead of kernel one
+      gpu: nova-core: simplify str_from_null_terminated
 
-diff --git a/drivers/gpu/drm/imagination/pvr_gem.c b/drivers/gpu/drm/imagination/pvr_gem.c
-index a66cf082af24..c07c9a915190 100644
---- a/drivers/gpu/drm/imagination/pvr_gem.c
-+++ b/drivers/gpu/drm/imagination/pvr_gem.c
-@@ -28,6 +28,16 @@ static void pvr_gem_object_free(struct drm_gem_object *obj)
- 	drm_gem_shmem_object_free(obj);
- }
- 
-+static struct dma_buf *pvr_gem_export(struct drm_gem_object *obj, int flags)
-+{
-+	struct pvr_gem_object *pvr_obj = gem_to_pvr_gem(obj);
-+
-+	if (pvr_obj->flags & DRM_PVR_BO_PM_FW_PROTECT)
-+		return ERR_PTR(-EPERM);
-+
-+	return drm_gem_prime_export(obj, flags);
-+}
-+
- static int pvr_gem_mmap(struct drm_gem_object *gem_obj, struct vm_area_struct *vma)
- {
- 	struct pvr_gem_object *pvr_obj = gem_to_pvr_gem(gem_obj);
-@@ -42,6 +52,7 @@ static int pvr_gem_mmap(struct drm_gem_object *gem_obj, struct vm_area_struct *v
- static const struct drm_gem_object_funcs pvr_gem_object_funcs = {
- 	.free = pvr_gem_object_free,
- 	.print_info = drm_gem_shmem_object_print_info,
-+	.export = pvr_gem_export,
- 	.pin = drm_gem_shmem_object_pin,
- 	.unpin = drm_gem_shmem_object_unpin,
- 	.get_sg_table = drm_gem_shmem_object_get_sg_table,
-
+ drivers/gpu/nova-core/firmware.rs        |   2 +-
+ drivers/gpu/nova-core/firmware/fwsec.rs  |   7 +--
+ drivers/gpu/nova-core/firmware/gsp.rs    |   6 +-
+ drivers/gpu/nova-core/gsp/cmdq.rs        |  14 ++++-
+ drivers/gpu/nova-core/gsp/fw.rs          | 104 +++----------------------------
+ drivers/gpu/nova-core/gsp/fw/commands.rs |  11 ++--
+ drivers/gpu/nova-core/gsp/sequencer.rs   |  18 +++---
+ drivers/gpu/nova-core/nova_core.rs       |   2 +-
+ drivers/gpu/nova-core/util.rs            |  11 +---
+ 9 files changed, 44 insertions(+), 131 deletions(-)
 ---
-base-commit: ca2583412306ceda9304a7c4302fd9efbf43e963
-change-id: 20251128-no-export-pm-fw-obj-aeca634ddd0a
+base-commit: 449c67daceeda195c0553ca890d6944a054ff4d8
+change-id: 20251208-nova-misc-1d797b5d64f2
 
 Best regards,
 -- 
-Alessio Belle <alessio.belle@imgtec.com>
+Alexandre Courbot <acourbot@nvidia.com>
 
