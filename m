@@ -2,171 +2,139 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B542CAC7F4
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 09:28:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B141CAC7FF
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 09:30:00 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BAAE10E3CB;
-	Mon,  8 Dec 2025 08:28:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C668210E3D0;
+	Mon,  8 Dec 2025 08:29:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="z5hW5OYU";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="sd4PnFVt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BgRPLTt5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sd4PnFVt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BgRPLTt5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from BYAPR05CU005.outbound.protection.outlook.com
- (mail-westusazon11010034.outbound.protection.outlook.com [52.101.85.34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4965010E3CA;
- Mon,  8 Dec 2025 08:28:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gFZfHbc9eh5dTgu9PtS7jKExocsJBQkve4onWetoHWc6l0RsWq8PuLeTBVw0gUkHHspLORRP6NJ+KH+RclSmsMpswrgYhlvx/700QcchHZHrTe0D5MDLckr7odP0HOa2IJGE3qNTLNc5yaDIUPU+r4DSqPoLyCuuZODulnOSMw6sXbXW+1H4hIu7p2H2/WcrTiQuj0vl1u4PMYH79skeSNSjRgR7u0SdfxN0MOxvUzn93FKGPkyKJK/rz2QvOS2HQ1LXIClw6HzW1wBw7wEiM3g52uOvnEeibKaX/s+Pz0X+7VD26Tl+mW0kKTwuWVEGVJK+VNHxSZvzufelWRxN9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YUYksIeojxTxJDd5UrvbrSLLbysGwxSz4Qn8L0rFBIs=;
- b=HCn1K6W+QXptvNFf4ItskvyqYrQ4D2osNa+GkEa60GwK6VMFUQefQ7woCNNWMPuRu1qWD8TX327qoDV9jcDQQu/AuS3p/8Qm7HDCdD+h6xOWoYDJ3X9GQBgTemQqjrPEOeKG3BLqLAboBcgMux5tla4bSfhDMKtxnoB7CqrbKKKsbrBFVBapTYNtfwT1d7FbkLe8qhG0gR5bAWWGRQS863KNkhpRhjDCtWCtAoeqF+qojxXaVIAkUUIJ7x7+BlnEP5N6X4rdlMIS7hwRrXpLxLpJIKJoBXxsaDzEfZ6RnzISKrt8ohKxLethOPGzuYk659j4/sPnKX8I16Fbi1pb8w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YUYksIeojxTxJDd5UrvbrSLLbysGwxSz4Qn8L0rFBIs=;
- b=z5hW5OYUa4CpA92I4Es557CUsYfsznerTmQQcj3hYzE8IyJx8cEzVCP7yIcmwzpzSPp6IxVc2UUrNmNu6rIn2ahiAHbUlyvg6xbrmeW83rEapb5N9+lXin0pyQDGmL2yOuMsi5eh0xEgpH40DjDBhQG+hqQ2tXD22R/EYJg/k/o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13)
- by DS0PR12MB7745.namprd12.prod.outlook.com (2603:10b6:8:13c::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.14; Mon, 8 Dec
- 2025 08:28:10 +0000
-Received: from SJ0PR12MB5673.namprd12.prod.outlook.com
- ([fe80::c3e5:48f8:beb6:ea68]) by SJ0PR12MB5673.namprd12.prod.outlook.com
- ([fe80::c3e5:48f8:beb6:ea68%7]) with mapi id 15.20.9388.013; Mon, 8 Dec 2025
- 08:28:10 +0000
-Message-ID: <e8846bef-2a6b-4552-8fb6-a33a00273aab@amd.com>
-Date: Mon, 8 Dec 2025 09:28:01 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/7] drm/amd: kill the outdated "Only the pthreads
- threading model is supported" checks
-To: Oleg Nesterov <oleg@redhat.com>, Todd Kjos <tkjos@android.com>,
- Martijn Coenen <maco@android.com>, Joel Fernandes <joelagnelf@nvidia.com>,
- Christian Brauner <brauner@kernel.org>, Carlos Llamas <cmllamas@google.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Liviu Dudau <liviu.dudau@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>
-Cc: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- netdev@vger.kernel.org
-References: <aTV1jTmYK3Bjh4k6@redhat.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <aTV1jTmYK3Bjh4k6@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0195.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ca::20) To SJ0PR12MB5673.namprd12.prod.outlook.com
- (2603:10b6:a03:42b::13)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A83CB10E111
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 08:29:56 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 0BDD933849;
+ Mon,  8 Dec 2025 08:29:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1765182594; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=txAEDolAm+qx9EKDUzNM1Dzpyph1t3vIgVGEU6Q1+bg=;
+ b=sd4PnFVtjLoipHwrQInn64sDZyCc3Rx32hdJ9VaMnz1oIHO3QM6Hr2IoydCH6upI/th/gm
+ IasXaHUB+EqlGhGu4HazbnhTJGAbSiw0Mr0609TTw/aBeGDXm9fbpk3CXFypjUHbsWjU6w
+ 96Ps+j7JSmD0VhMtSS7JQZMzluaeJpQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1765182594;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=txAEDolAm+qx9EKDUzNM1Dzpyph1t3vIgVGEU6Q1+bg=;
+ b=BgRPLTt5tAppddr9Yy16j3m4n10KFPluLp0pR+govG6emQPsGUXWzvyz9mjGE/SHVrYdR8
+ 8YPKHKXuemnl/+Cw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sd4PnFVt;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BgRPLTt5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1765182594; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=txAEDolAm+qx9EKDUzNM1Dzpyph1t3vIgVGEU6Q1+bg=;
+ b=sd4PnFVtjLoipHwrQInn64sDZyCc3Rx32hdJ9VaMnz1oIHO3QM6Hr2IoydCH6upI/th/gm
+ IasXaHUB+EqlGhGu4HazbnhTJGAbSiw0Mr0609TTw/aBeGDXm9fbpk3CXFypjUHbsWjU6w
+ 96Ps+j7JSmD0VhMtSS7JQZMzluaeJpQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1765182594;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=txAEDolAm+qx9EKDUzNM1Dzpyph1t3vIgVGEU6Q1+bg=;
+ b=BgRPLTt5tAppddr9Yy16j3m4n10KFPluLp0pR+govG6emQPsGUXWzvyz9mjGE/SHVrYdR8
+ 8YPKHKXuemnl/+Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D9D3D3EA63;
+ Mon,  8 Dec 2025 08:29:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 24FbMYGMNmnrXwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 08 Dec 2025 08:29:53 +0000
+Message-ID: <816e40d2-e451-4d70-bc44-e07562138b1b@suse.de>
+Date: Mon, 8 Dec 2025 09:29:53 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB5673:EE_|DS0PR12MB7745:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2aa306b3-c8b4-46c7-c0cb-08de3633b8bb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|1800799024|366016|7053199007|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?eFdsN3dmYWluQTd1YnozM1dmWDYyaTd3MXdUV0pwcmU3dGRWbUVqckZ3ZEt5?=
- =?utf-8?B?MmdML0ZmcE9iWHRNN0JtU3FvalJ1N2xQVmowLzh4RUNERnVxeGNTWE91eWFC?=
- =?utf-8?B?VnVEV29JNW43eXZqVzZrRVMyMDdLS2JXVGNpaDJpSENGVlB4ekNCbkhER21L?=
- =?utf-8?B?MWJVYmQ5V2ZxaUlFU0g1TzEyYWoydUdxWndoM2pyMmxFaTdqaEJnclBFUEpx?=
- =?utf-8?B?R3dLMUdrek83UXBNSkYzTnlVSDY1Q042VDROMWNTYzFSdHJvaTZhM0tnUVR4?=
- =?utf-8?B?aWMrMS9LWU9EUm9jUkQyRk91c1o2ZzJNd0Y3aHdWMGJBVUxGdUgvajJ4S2Js?=
- =?utf-8?B?UVFzdE5Dd3VQNERRTFdCaDh4Mi9XZ2pXQS9aTURid1MveDYwQ0pwL2V2WTQr?=
- =?utf-8?B?bVZ1VnZBL0lURWt0ZDZob1VPcWhRdFcvMkIxQlZETUI3a0l3TldhMWlKbVhu?=
- =?utf-8?B?dlp4c3pkVEVDL1pkVk9yWjBkUnJnb21JcUhqaGpUd2dMaUdPWFE1MTlYQWZB?=
- =?utf-8?B?SzBNMVNmTjBCbWxwMnp4VExxZWozSk9yNUFHUk5VM3JqVjB6ZVhzb3NIMXVV?=
- =?utf-8?B?ZUxTdkdLOWNIallaL3BjK0RBRE12SHpvVmJkUjdjNWd4TjRIZ1BVbklhbURH?=
- =?utf-8?B?emx1K1EzWlJpWUdiZ2R5QkVpVWUyUzI5a2l2NnZvVy9ZaHcrZitHeEJaR2sw?=
- =?utf-8?B?L3pUMm9sNlZSZm9mWjlWTzk1eE4zT2crR1lrMDc0Wm1Fci9RT0xUbTNmWk82?=
- =?utf-8?B?ODhZb3RScUhqeVZraVFhYjI4dThsejFWWUo2NGlqZVM1aTFublFPRkZ2alZX?=
- =?utf-8?B?ZzRLYVB3VWg1cTlWOTI2bUU3VnNvVFZ3ZVVDanpjdWVnMTZ1cXZ3VHhWeEk4?=
- =?utf-8?B?SEtSa251bXltcDNwM1lsWlA5NjhRRUljY0FsSFVKMG5xZktnM09iNmdLbStJ?=
- =?utf-8?B?UGtPQ0VHTHFNZG1RRi9zRlF2N3VWL3ZaekxoK01IaUpmRnJzZU84N2owODdy?=
- =?utf-8?B?TXJsR2RlS0VBclVPL3N4bytPU2IxUDNZY2x2cGZOd29ZanNWdmh5UFR3Z3Yx?=
- =?utf-8?B?WVR0QlFRZ3AzWHpsNzExVWJDZlNhemlTd3V4b1ZUcjk3bXRjSmp5bGNHZmE0?=
- =?utf-8?B?TzF5elVaTytEZ1hnaFFGWWc1SE1XU3Z2QW4wbVlTOWVKNE04d0duOTQzdFhC?=
- =?utf-8?B?K1k5d1BHSXlkMnhkMHJtVmJiZTQ1d2FWc1RiNW5Oc2JQTFI1TzRMbjQwSkZG?=
- =?utf-8?B?YWFMSEtSNmVsWWorcUlqNVRVd0dnY2NKc1RzdmNqQ0Z0T0pkVU43T002YlFU?=
- =?utf-8?B?SHU2aXB6VENydXVUblFhWW1IZ3FCZmFoQkFPalNnbnd3M0d2L3lrSDVNa2g2?=
- =?utf-8?B?MlU2U2ZWaGFNay9hT2ZnUmc4VnFxOTVGMWxIeVJtSldPd254MWgva1pUVmZq?=
- =?utf-8?B?VnBDQ1JtYTZMcEtIZFh3NWJJdzkrSG9ZMW81MjJNWmlKYWo3dFJSMHBqaHJE?=
- =?utf-8?B?N3l0KzluNGRabnE4WEhhdDY2TURHQUVsT0NEQ1hLRDVEbjJhdlhhZ0ZOcVJ3?=
- =?utf-8?B?TkVRRlNCbXdjUGZVYjNReThjaWNINjlNTXREczBCQnQzL3ovaVo4N3E1RUVw?=
- =?utf-8?B?L0VpZU5zc0V2QVp6Q1hmN2p4bTBXMEJpYTB0Z2I3R0RQSlNydmxoWnRxenhE?=
- =?utf-8?B?eEtuMkNzckthclRKcmdqQmxyR1luQUVFTzlTcTNIbm1WT2dSSnJTakdCY01J?=
- =?utf-8?B?Mzc1NitHZ1h1YXNwMkgwNEtYdGF4L1FpSjlDUGVzNjU1ZmM3cGhBTTVzNzEw?=
- =?utf-8?B?ZDFDTG8yNlpvb01XRXRuLzVXVGVHblBOeUR5bkdDcjVkeVJKU0ZCS0NjUm5Z?=
- =?utf-8?B?eGw2c3U4VDFDQ2lsZzhkOWdwNU1rVTNTNnpJQTIvazhhVEJhdks5QUJ1UTNX?=
- =?utf-8?B?L2p4a1p4NmtRdGxzdmpMNnpkeURRZkg3S2Q1L0N6NXcyc3pPM3NZSE5BRlBZ?=
- =?utf-8?Q?DW1iB1cjnh3f32KkdG2Qo3P/LHAFDU=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR12MB5673.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(1800799024)(366016)(7053199007)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R3UrMkRkbGhmZWpFTEExTHdtbHN2UDczR0ZlSEVjT3hXZ21OK3ZxVTZiVnN4?=
- =?utf-8?B?bWNoTEZENmZtdVRiUUJublBaWENqL0xDNFNpRjFjNHhuWXJjK3gvWG5scGZZ?=
- =?utf-8?B?Zm4wVG5RSDZVeVZGOW1yR3F1dGh5aC9iTUE5WlU3M1lpYXcxZjk3dm9LdEt1?=
- =?utf-8?B?WjFIR0NDRVpmaS92NHZCNkxNUWNQQml2dlJJZHhJaHNWVlEvdTlQQ0NaTFhP?=
- =?utf-8?B?ZS84UE1CczFyQTJrZWZSeU42MkVmNHZYbFZ0aVFhUjh4MnJOL2xxZFZ5cWI2?=
- =?utf-8?B?VU1rb2JQYi9QdTc4V0pRN2Z0Ymo5d09VYWVPUkEvaHMyNkNNeFFsTnFMVStS?=
- =?utf-8?B?aExGdnprM293RXJFaVpQRkxYbTB5OHUvbmtMa0hNQytwL2w4V081UWl1SlZy?=
- =?utf-8?B?Mi9JbjgvSGgyREFhdVA3aVpvQUlGV2hZOUZRbjNkaHBXdGoyV0c2NTQ0SUM4?=
- =?utf-8?B?aHI0bUJKeTZZMmFOOTNudndHNkxKVEtKN1JNNnJibS9KbmJRR2ptM2Rabm5I?=
- =?utf-8?B?MnJTbU9vd2g2aVBPbEtFWGhTZ3hCRzhPbDY3U3F2NXZTRGZDd2k3MlRoOWZ0?=
- =?utf-8?B?WGFYcjQwNGhwMk5JK0w5dnMvRndoMUdnMUM0S2tPU2pvUENSeUd3aWtmbVZo?=
- =?utf-8?B?NVVVV2tlYTFXakdCYU4wK2FnQno0VmNCV3Z1eVkvUVpQaVNTbnpkWEZZbmla?=
- =?utf-8?B?anpQUnRkaTNPekNvbHc3UGozQmZrQ0dQR3d6SXZWYndGcFB2ZUJlbGtTUWQ3?=
- =?utf-8?B?NC9pc3VhTHNWUUZ3aDA2WmNRa0krSXo5cXhCK0ExQVQ2SG9HQXNiZUZJTDMx?=
- =?utf-8?B?djlBWU5uTFowZHBrS2t0amxqTStDMlRGejdhREx4dkdBNGsxOWNDelNyeWhl?=
- =?utf-8?B?ZzI4c1J0Vzh4WDNtVWl4eW5pTHUxOHh5aTEvZkFWWHloMklMajlabHB4RDdn?=
- =?utf-8?B?OVIyWWVQZFRwMmFpOCtCb2NKQWwxeWw3d0ZkcG90RTUveCtnaUtlNlpBeUts?=
- =?utf-8?B?MDAybmYxdVdEbFdrK2p2WUVQTFRxY0ZGeVd2d0sxVkNwdTVBZTJVKzB4TzdQ?=
- =?utf-8?B?b2hxalFQVDY3QnR4ejl3WTRhb3NRZzFuY3U2dWU1emVURUJta1QrT0VUaUpU?=
- =?utf-8?B?cFB4THcybC9ZZHJTTVluU3VMUW1kRmVJc1RmZGpBQjRYSUQ3Y295NWNTSkJV?=
- =?utf-8?B?bG45S3BMc3B1WVN3WG5QMDUyTVlBRjJkUEhzNTFRZ0JLQTNKUEhVZlhOQzFj?=
- =?utf-8?B?M3ZKazFubDRTd1l0U1JWcjJCeFk3dU5qaWx3SUZhZEg1QWo1UVl6OGdpUStO?=
- =?utf-8?B?SjN0R2pnVDRYTjZYQk5JeTdwSVIxMkR6Qkpaa0liS1UydTEyWUhnWkl1L0Y4?=
- =?utf-8?B?K0NnZWNIVDZHZ1FRc2w5MUdRendaeGdzQjJUN3B5eGx1TlpjRklodjBpem4v?=
- =?utf-8?B?RTNRUmo2RitHSW1JTlZwMy9ZYkVobW8xRlNCWU9VZmpQMENXR2VRdzYwZngr?=
- =?utf-8?B?TXhlcStlMXlJV2pkMExBTzNPTEtSMUtIRHJpZldEN2tvdlljcXpQNUxzMWVQ?=
- =?utf-8?B?NmEvTGlmWGxoS0ZBS3EwdTRQRVVqdm5MbElhMWdlUW1SZkFyNUNKUjM3OXlU?=
- =?utf-8?B?aEgwOVp6Y2NvL0JTN3VkSTRSMW9LWDdEMWpaR3g1MWMyK05Dd2Zib25ZQk1x?=
- =?utf-8?B?MEtHTGMxOG5LTUpXNy9ybjRmcGszYk5ZZmN3bmdFUW16V3pvbTRCS0RJYkhz?=
- =?utf-8?B?dm53ZGNXZDRueGVqMDNiQW54Z2hPNlhMakpCZDlKMitNMzdHcUdlTmZldlUx?=
- =?utf-8?B?WG1ZSFFsSUo5cHZuVlY2bGM2NG1DVWhQaFR5cWtSZzZPVGRKbW1LbDREUlRS?=
- =?utf-8?B?bXNsZFZ4Z0FXcklRZEM1c2RvcXY4Z3UrampXMHFSMndUSUI4UWNjaEo2UEZD?=
- =?utf-8?B?b3A1Ylp1UnNrajdhRkt2OWxYTW01MFFMY25QYWs5eENKL0lYb1dkTmUwVGNu?=
- =?utf-8?B?dHppQXpoc1N1R1JUQnN6SkZPU2h1Nm9YRVNEVVV1WVY1UnVZdCtkazgwemZX?=
- =?utf-8?B?ZnVGVGZ1UjhXbHdEMjhNY0JJVG5Cdm95eWs0RjNobGpPNGZwVW9YcVczbkF6?=
- =?utf-8?Q?+vB4=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2aa306b3-c8b4-46c7-c0cb-08de3633b8bb
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2025 08:28:10.4867 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AWWo0fOwYes6Gxb33i+7Lg853MmQD1ynMzJCg+GI8Ttjub28UwAdv0IqprfADfV1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7745
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2] drm/mgag200: Fix big-endian support
+To: =?UTF-8?Q?Ren=C3=A9_Rebe?= <rene@exactco.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: Dave Airlie <airlied@redhat.com>
+References: <20251205.182405.876575799174263183.rene@exactco.de>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20251205.182405.876575799174263183.rene@exactco.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Rspamd-Queue-Id: 0BDD933849
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; MID_RHS_MATCH_FROM(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ MIME_TRACE(0.00)[0:+]; TO_DN_SOME(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ RCVD_TLS_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; RCPT_COUNT_THREE(0.00)[4];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,bootlin.com:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,exactco.de:email,suse.com:url];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:url,bootlin.com:url,suse.de:dkim,suse.de:mid];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,72 +150,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/7/25 13:39, Oleg Nesterov wrote:
-> Nowaday task->group_leader->mm != task->mm is only possible if
-> a) task is not a group leader and b) task->group_leader->mm == NULL
-> because task->group_leader has already exited using sys_exit().
+Hi,
 
-Just for my understanding: That is because CLONE_THREAD can only be specified together with CLONE_SIGHAND and CLONE_VM, correct?
+thanks for the update.
 
-> 
-> I don't think that drm/amd tries to detect/nack this case.
-> 
-> Signed-off-by: Oleg Nesterov <oleg@redhat.com>
-
-Seems to make sense of hand.
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
-Should we pick that one up or do you want to merge it upstream somehow?
-
-Regards,
-Christian.
-
+Am 05.12.25 um 18:24 schrieb René Rebe:
+> Unlike the original, deleted Matrox mga driver, the new mgag200 driver
+> has the XRGB frame-buffer byte swapped on big-endian "RISC"
+> systems. Fix by enabling byte swapping "PowerPC" OPMODE for any
+> __BIG_ENDIAN config.
+>
+> Fixes: 414c45310625 ("mgag200: initial g200se driver (v2)")
+> Signed-off-by: René Rebe <rene@exactco.de>
+> Cc: stable@kernel.org
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c   |  3 ---
->  drivers/gpu/drm/amd/amdkfd/kfd_process.c | 10 ----------
->  2 files changed, 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index a0f8ba382b9e..e44f158a11f0 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -2551,9 +2551,6 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
->  	vm->task_info->task.pid = current->pid;
->  	get_task_comm(vm->task_info->task.comm, current);
->  
-> -	if (current->group_leader->mm != current->mm)
-> -		return;
-> -
->  	vm->task_info->tgid = current->tgid;
->  	get_task_comm(vm->task_info->process_name, current->group_leader);
->  }
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_process.c b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> index a085faac9fe1..f8ef18a3aa71 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_process.c
-> @@ -833,12 +833,6 @@ struct kfd_process *kfd_create_process(struct task_struct *thread)
->  	if (!(thread->mm && mmget_not_zero(thread->mm)))
->  		return ERR_PTR(-EINVAL);
->  
-> -	/* Only the pthreads threading model is supported. */
-> -	if (thread->group_leader->mm != thread->mm) {
-> -		mmput(thread->mm);
-> -		return ERR_PTR(-EINVAL);
-> -	}
-> -
->  	/* If the process just called exec(3), it is possible that the
->  	 * cleanup of the kfd_process (following the release of the mm
->  	 * of the old process image) is still in the cleanup work queue.
-> @@ -918,10 +912,6 @@ struct kfd_process *kfd_get_process(const struct task_struct *thread)
->  	if (!thread->mm)
->  		return ERR_PTR(-EINVAL);
->  
-> -	/* Only the pthreads threading model is supported. */
-> -	if (thread->group_leader->mm != thread->mm)
-> -		return ERR_PTR(-EINVAL);
-> -
->  	process = find_process(thread, false);
->  	if (!process)
->  		return ERR_PTR(-EINVAL);
+> V2: move to atomic_update
+> Tested on IBM 43p Model 150 (7043-150) running T2/Linux.
+> ---
+>   drivers/gpu/drm/mgag200/mgag200_mode.c | 14 ++++++++++++++
+>   1 file changed, 14 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> index 951d715dea30..d40434ec68ab 100644
+> --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
+> +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+> @@ -496,6 +496,20 @@ void mgag200_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>   	struct drm_atomic_helper_damage_iter iter;
+>   	struct drm_rect damage;
+>   
+> +#ifdef __BIG_ENDIAN
+> +	/* Big-endian byte-swapping */
+> +	switch (fb->format->format) {
+> +	case DRM_FORMAT_RGB565:
+> +		WREG32(MGAREG_OPMODE, 0x10100);
+> +		break;
+> +	case DRM_FORMAT_XRGB8888:
+> +		WREG32(MGAREG_OPMODE, 0x20200);
+> +		break;
+> +	default:
+> +		break;
+
+No need for a default branch IIRC.
+
+> +	}
+
+This is the right place to set up the write mode.
+
+But looking at the G200 docs, I found that the reset value for OPMODE 
+has bit 18 set to 1. These writes clear the value. If that intentional?
+
+For better style and compatibility, I suggest to first read the value 
+and keep the reserved bit as-is.
+
+u32 opmode
+
+opmode = RREG32(MGAREG_OPMODE)
+opmode &= ~GENMASK(17, 16)
+opmode &= ~GENMASK(9, 8)
+opmode &= ~GENMASK(3, 2)
+
+switch (format) {
+         opmode |= ...;
+}
+
+WREG32(OPMODE, opmode);
+
+You can put that in a helper near set_startadd [1]
+
+void mgag200_set_datasiz(struct mga_device *mdev, u32 format)
+{
+#if __BIG_ENDIAN
+...
+#endif
+}
+
+Then call that from atomic_update and it should be fine.
+
+[1] 
+https://elixir.bootlin.com/linux/v6.18/source/drivers/gpu/drm/mgag200/mgag200_mode.c#L117
+
+Best regards
+Thomas
+
+
+> +#endif
+> +
+>   	drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+>   	drm_atomic_for_each_plane_damage(&iter, &damage) {
+>   		mgag200_handle_damage(mdev, shadow_plane_state->data, fb, &damage);
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
 
