@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C50CACCCA
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 11:09:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC2DCACCC6
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 11:08:57 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2822B10E40E;
-	Mon,  8 Dec 2025 10:08:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6562910E410;
+	Mon,  8 Dec 2025 10:08:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DrFw8pfN";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="WZKA9Inv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2546C10E40E
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A585F10E40E
  for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 10:08:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1765188531;
- bh=L4YCTlatBJCXHw/iKjcmzk4mX+F156Xy65mqfvPBeX4=;
- h=From:To:Cc:Subject:Date:From;
- b=DrFw8pfN3yx3coQ4RMqTBsl83wLW/mUFRmXE9FMiZmww53iYPKM4Q8OggxAAUYUCc
- Tlbfq1HyJ8g5Wf0nvi2797qIYu4d5rzBkOD1g0Y0reFdHEGxAfDnqENz1A+yiXIlhI
- iF9HAJab0o8w3svP79LLQl3aPq5OQ3pLsgHYgPMA6A6HESZ9F81nbe7hw7yPfBKZU0
- zc07w6SdY8XOvyFd/vD86KzuTXVIED9y4J4bwkjFhjHGqnXJ5uQOoEQhlgghDX1DW4
- aJLRVLQM1HvKGTR+EYnFiqqwio+stdL09Yo6P5wGJgZT/fu2EIzLNc+kXEWz+YBUL/
- 85Z4TjSPrNdsg==
+ s=mail; t=1765188532;
+ bh=OFoI3Z2qcCYEEKuEATiA9G9keFMGVLTY7dwnneaoE2E=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=WZKA9InvOY8lO3h9YIyvBmKxss6lW5XyIZd/6GF737JoxwGBzcGK3dwcYAM3T03kf
+ XBCtIqMBE1rZ9xoSHBZqkKUNi6Zdyknoh3vkcacpO/OLdgdaxWtcFyhLQ56zUNfwfB
+ 49blhX/pwVo11pB66lzDgijBz1WH7X1uzDbH4nwSHvrM6TE1LD7sVYDHUGsh2cSnAd
+ N0kEOBEOM1KOmN3NXPY1vOZzaWqcFjJ4LF+xE9ye8VHVNWah50JHaLO6O0g04NG8JG
+ HfLGguwbshc9L7n9QFV/dDQlOV75jhvyU0tjtj8BWT4pEhtlx+VeKsdAYDUpierpsN
+ AaMRkOfqqWMGw==
 Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:a2a7:f53:ebb0:945e])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 5F40517E1216;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id E479B17E153D;
  Mon,  8 Dec 2025 11:08:51 +0100 (CET)
 From: Boris Brezillon <boris.brezillon@collabora.com>
 To: Steven Price <steven.price@arm.com>
@@ -41,13 +41,13 @@ Cc: dri-devel@lists.freedesktop.org,
  Simona Vetter <simona@ffwll.ch>,
  Faith Ekstrand <faith.ekstrand@collabora.com>,
  Boris Brezillon <boris.brezillon@collabora.com>, kernel@collabora.com
-Subject: [PATCH v8 00/13] drm/panfrost,
- panthor: Cached maps and explicit flushing
-Date: Mon,  8 Dec 2025 11:08:27 +0100
-Message-ID: <20251208100841.730527-1-boris.brezillon@collabora.com>
+Subject: [PATCH v8 01/13] drm/panthor: Provide a custom dma_buf implementation
+Date: Mon,  8 Dec 2025 11:08:28 +0100
+Message-ID: <20251208100841.730527-2-boris.brezillon@collabora.com>
 X-Mailer: git-send-email 2.51.1
+In-Reply-To: <20251208100841.730527-1-boris.brezillon@collabora.com>
+References: <20251208100841.730527-1-boris.brezillon@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -64,95 +64,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series implements cached maps and explicit flushing for both panfrost
-and panthor.
+Before we introduce cached CPU mappings, we want a dma_buf
+implementation satisfying synchronization requests around CPU
+accesses coming from a dma_buf exported by our driver. Let's
+provide our own implementation relying on the default
+gem_shmem_prime helpers designed for that purpose.
 
-The PanVK MR to use this lives here:
+v5:
+- New patch
 
-https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36385
+v6:
+- Collect R-b
 
-This version moves away from the code sharing proposed at the
-drm_prime/gem_shmem level and hand-roll a bunch of things that
-could potentially be shared. The goal here is to take the path
-of least resistance and discuss this controversial code-sharing
-topic in a follow-up MR. Dropping driver maintainers Cc-ed on v7
-since they should now be aware that we changed gears and hand-rolled
-our own thing in pan{thor,frost}.
+v7:
+- Hand-roll the dma_buf sync/import logic (was previously done by
+  generic prime/shmem helpers)
 
-Changes in v2:
-- Expose the coherency so userspace can know when it should skip cache
-  maintenance
-- Hook things up at drm_gem_object_funcs level to dma-buf cpu_prep hooks
-  can be implemented generically
-- Revisit the semantics of the flags passed to gem_sync()
-- Add BO_QUERY_INFO ioctls to query BO flags on imported objects and
-  let the UMD know when cache maintenance is needed on those
+v8:
+- No changes
 
-Changes in v3:
-- New patch to fix panthor_gpu_coherency_set()
-- No other major changes, check each patch changelog for more details
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+---
+ drivers/gpu/drm/panthor/panthor_drv.c |   1 +
+ drivers/gpu/drm/panthor/panthor_gem.c | 118 +++++++++++++++++++++++++-
+ drivers/gpu/drm/panthor/panthor_gem.h |   4 +
+ 3 files changed, 122 insertions(+), 1 deletion(-)
 
-Changes in v4:
-- Two trivial fixes, check each patch changelog for more details
-
-Changes in v5:
-- Add a way to overload dma_buf_ops while still relying on the drm_prime
-  boilerplate
-- Add default shmem implementation for
-  dma_buf_ops::{begin,end}_cpu_access()
-- Provide custom dma_buf_ops to deal with CPU cache flushes around CPU
-  accesses when the BO is CPU-cacheable
-- Go back to a version of drm_gem_shmem_sync() that only deals with
-  cache maintenance, and adjust the semantics to make it clear this is
-  the only thing it cares about
-- Adjust the BO_SYNC ioctls according to the new drm_gem_shmem_sync()
-  semantics
-
-Changes in v6:
-- No major changes, check the changelog in each patch for more details
-
-Changes in v7:
-- Drop the drm_prime/gem_shmem helpers and duplicate the logic in
-  panthor/panfrost
-
-Changes in v8:
-- Fix a double struct field assignment and collect R-b tags
-
-Boris Brezillon (8):
-  drm/panthor: Provide a custom dma_buf implementation
-  drm/panthor: Fix panthor_gpu_coherency_set()
-  drm/panthor: Expose the selected coherency protocol to the UMD
-  drm/panthor: Add a PANTHOR_BO_SYNC ioctl
-  drm/panthor: Add an ioctl to query BO flags
-  drm/panfrost: Provide a custom dma_buf implementation
-  drm/panfrost: Expose the selected coherency protocol to the UMD
-  drm/panfrost: Add an ioctl to query BO flags
-
-Faith Ekstrand (4):
-  drm/panthor: Bump the driver version to 1.7
-  drm/panfrost: Add a PANFROST_SYNC_BO ioctl
-  drm/panfrost: Add flag to map GEM object Write-Back Cacheable
-  drm/panfrost: Bump the driver version to 1.6
-
-Loïc Molinari (1):
-  drm/panthor: Add flag to map GEM object Write-Back Cacheable
-
- drivers/gpu/drm/panfrost/panfrost_device.h |   1 +
- drivers/gpu/drm/panfrost/panfrost_drv.c    | 101 ++++++++-
- drivers/gpu/drm/panfrost/panfrost_gem.c    | 239 ++++++++++++++++++++
- drivers/gpu/drm/panfrost/panfrost_gem.h    |  10 +
- drivers/gpu/drm/panfrost/panfrost_gpu.c    |  26 ++-
- drivers/gpu/drm/panfrost/panfrost_regs.h   |  10 +-
- drivers/gpu/drm/panthor/panthor_device.c   |  10 +-
- drivers/gpu/drm/panthor/panthor_drv.c      |  79 ++++++-
- drivers/gpu/drm/panthor/panthor_gem.c      | 240 ++++++++++++++++++++-
- drivers/gpu/drm/panthor/panthor_gem.h      |   6 +
- drivers/gpu/drm/panthor/panthor_gpu.c      |   2 +-
- drivers/gpu/drm/panthor/panthor_sched.c    |  18 +-
- include/uapi/drm/panfrost_drm.h            |  76 ++++++-
- include/uapi/drm/panthor_drm.h             | 157 +++++++++++++-
- 14 files changed, 953 insertions(+), 22 deletions(-)
-
+diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+index 0b0ec3b978c6..f962e4c3de88 100644
+--- a/drivers/gpu/drm/panthor/panthor_drv.c
++++ b/drivers/gpu/drm/panthor/panthor_drv.c
+@@ -1622,6 +1622,7 @@ static const struct drm_driver panthor_drm_driver = {
+ 
+ 	.gem_create_object = panthor_gem_create_object,
+ 	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
++	.gem_prime_import = panthor_gem_prime_import,
+ #ifdef CONFIG_DEBUG_FS
+ 	.debugfs_init = panthor_debugfs_init,
+ #endif
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+index 10d255cccc09..173d42d65000 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.c
++++ b/drivers/gpu/drm/panthor/panthor_gem.c
+@@ -184,14 +184,130 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+ 	return ERR_PTR(ret);
+ }
+ 
++static struct sg_table *
++panthor_gem_prime_map_dma_buf(struct dma_buf_attachment *attach,
++			      enum dma_data_direction dir)
++{
++	struct sg_table *sgt = drm_gem_map_dma_buf(attach, dir);
++
++	if (!IS_ERR(sgt))
++		attach->priv = sgt;
++
++	return sgt;
++}
++
++static void
++panthor_gem_prime_unmap_dma_buf(struct dma_buf_attachment *attach,
++				struct sg_table *sgt,
++				enum dma_data_direction dir)
++{
++	attach->priv = NULL;
++	drm_gem_unmap_dma_buf(attach, sgt, dir);
++}
++
++static int
++panthor_gem_prime_begin_cpu_access(struct dma_buf *dma_buf,
++				   enum dma_data_direction dir)
++{
++	struct drm_gem_object *obj = dma_buf->priv;
++	struct drm_device *dev = obj->dev;
++	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
++	struct dma_buf_attachment *attach;
++
++	dma_resv_lock(obj->resv, NULL);
++	if (shmem->sgt)
++		dma_sync_sgtable_for_cpu(dev->dev, shmem->sgt, dir);
++
++	if (shmem->vaddr)
++		invalidate_kernel_vmap_range(shmem->vaddr, shmem->base.size);
++
++	list_for_each_entry(attach, &dma_buf->attachments, node) {
++		struct sg_table *sgt = attach->priv;
++
++		if (sgt)
++			dma_sync_sgtable_for_cpu(attach->dev, sgt, dir);
++	}
++	dma_resv_unlock(obj->resv);
++
++	return 0;
++}
++
++static int
++panthor_gem_prime_end_cpu_access(struct dma_buf *dma_buf,
++				 enum dma_data_direction dir)
++{
++	struct drm_gem_object *obj = dma_buf->priv;
++	struct drm_device *dev = obj->dev;
++	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
++	struct dma_buf_attachment *attach;
++
++	dma_resv_lock(obj->resv, NULL);
++	list_for_each_entry(attach, &dma_buf->attachments, node) {
++		struct sg_table *sgt = attach->priv;
++
++		if (sgt)
++			dma_sync_sgtable_for_device(attach->dev, sgt, dir);
++	}
++
++	if (shmem->vaddr)
++		flush_kernel_vmap_range(shmem->vaddr, shmem->base.size);
++
++	if (shmem->sgt)
++		dma_sync_sgtable_for_device(dev->dev, shmem->sgt, dir);
++
++	dma_resv_unlock(obj->resv);
++	return 0;
++}
++
++static const struct dma_buf_ops panthor_dma_buf_ops = {
++	.attach = drm_gem_map_attach,
++	.detach = drm_gem_map_detach,
++	.map_dma_buf = panthor_gem_prime_map_dma_buf,
++	.unmap_dma_buf = panthor_gem_prime_unmap_dma_buf,
++	.release = drm_gem_dmabuf_release,
++	.mmap = drm_gem_dmabuf_mmap,
++	.vmap = drm_gem_dmabuf_vmap,
++	.vunmap = drm_gem_dmabuf_vunmap,
++	.begin_cpu_access = panthor_gem_prime_begin_cpu_access,
++	.end_cpu_access = panthor_gem_prime_end_cpu_access,
++};
++
+ static struct dma_buf *
+ panthor_gem_prime_export(struct drm_gem_object *obj, int flags)
+ {
++	struct drm_device *dev = obj->dev;
++	struct dma_buf_export_info exp_info = {
++		.exp_name = KBUILD_MODNAME,
++		.owner = THIS_MODULE,
++		.ops = &panthor_dma_buf_ops,
++		.size = obj->size,
++		.flags = flags,
++		.priv = obj,
++		.resv = obj->resv,
++	};
++
+ 	/* We can't export GEMs that have an exclusive VM. */
+ 	if (to_panthor_bo(obj)->exclusive_vm_root_gem)
+ 		return ERR_PTR(-EINVAL);
+ 
+-	return drm_gem_prime_export(obj, flags);
++	return drm_gem_dmabuf_export(dev, &exp_info);
++}
++
++struct drm_gem_object *
++panthor_gem_prime_import(struct drm_device *dev,
++			 struct dma_buf *dma_buf)
++{
++	struct drm_gem_object *obj = dma_buf->priv;
++
++	if (dma_buf->ops == &panthor_dma_buf_ops && obj->dev == dev) {
++		/* Importing dmabuf exported from our own gem increases
++		 * refcount on gem itself instead of f_count of dmabuf.
++		 */
++		drm_gem_object_get(obj);
++		return obj;
++	}
++
++	return drm_gem_prime_import(dev, dma_buf);
+ }
+ 
+ static enum drm_gem_object_status panthor_gem_status(struct drm_gem_object *obj)
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+index 80c6e24112d0..91d1880f8a5d 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.h
++++ b/drivers/gpu/drm/panthor/panthor_gem.h
+@@ -147,6 +147,10 @@ panthor_gem_create_with_handle(struct drm_file *file,
+ void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
+ void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
+ 
++struct drm_gem_object *
++panthor_gem_prime_import(struct drm_device *dev,
++			 struct dma_buf *dma_buf);
++
+ static inline u64
+ panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
+ {
 -- 
 2.51.1
 
