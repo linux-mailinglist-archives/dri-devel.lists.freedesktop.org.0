@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2059BCAE197
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 20:39:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B73CAE19A
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 20:39:38 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF3F410E3ED;
-	Mon,  8 Dec 2025 19:39:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19AAD10E3FB;
+	Mon,  8 Dec 2025 19:39:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="fbIG9vPA";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gIJ6ilS8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95A0910E123
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 19:39:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC2AC10E3ED
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 19:39:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,24 +22,25 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=yBe70tc0kkzwCIzI7vX/BU2M3Dh+H/+QCPhOBfOpz28=; b=fbIG9vPAltgZsetFzMEjOxfT5f
- COh7sJ3UdncPNK0/rcFOJCSRTotuqqliz7yBvRWDjxsIW8bFNbb9Rd6fb65mYaCEKO+24PcO6rCHE
- 6tR8Ywn2g6xwcIW2K9X5sUPusGYyVIoYGOdawTdGKVKtvOe19m+f5Ewl3+Qmot5RRrq8A1sOnTm3W
- VYGjaoHe7RqZ2fAC4dXJ6AUf5V/eLTd2ScfqK/3ZQOdiJ3eIipEDas9a90KOWNLh2oSMvvpNeIHEq
- qPGjuyxAzYS+QZ8H/Fa1unUeahyUmG6cNKxB40ZuxLEjmrLKUnGiKhcycXpUACcUgFyxggM7W4VjV
- 7QSsp2/A==;
+ bh=+a0TXJulNAzCJTCRKiQoVHa0dypfRvHA2DojjuW46ew=; b=gIJ6ilS81sT7FIzZQLDDuwSBpY
+ DpH8TQTQCHolMBbvRHHh7yYODdxhJa7v83W1xoufxUnkmFKM6zTUGG+LPvuAStBghQj/4L41Mi5Jc
+ 3NXbAHW/3o7QHroTeaRafFf9niBFVdHVkHfHGXLnrSe3uqkAbKm6NreFFRXvKaM7WDFk2rYoJU4Eo
+ HHj4xewFZmsyUXCKuF3cGFHLIc1ubTAWY3uDq8YJ8yLbALaOge45OT9y2KSQ5aOghgHcfBRPlZLly
+ sMa3CIDh+A4QBzW9sa6OW2mvQcT+MyhdHaBBkvSh3XNK+vFlWnilFhcRayUd68fWJ5qFYGu4U/Ef6
+ +5XrwZqA==;
 Received: from [86.33.28.86] (helo=localhost)
  by fanzine2.igalia.com with utf8esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1vSh4z-00ACWD-RD; Mon, 08 Dec 2025 20:39:29 +0100
+ id 1vSh50-00ACWK-TV; Mon, 08 Dec 2025 20:39:31 +0100
 From: Tvrtko Ursulin <tursulin@igalia.com>
 To: dri-devel@lists.freedesktop.org
 Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Ard Biesheuvel <ardb@kernel.org>,
  Melissa Wen <mwen@igalia.com>, linux-efi@vger.kernel.org
-Subject: [PATCH v5 1/4] efi: sysfb_efi: Replace open coded swap with the macro
-Date: Mon,  8 Dec 2025 20:39:22 +0100
-Message-ID: <20251208193925.7449-2-tursulin@igalia.com>
+Subject: [PATCH v5 2/4] efi: sysfb_efi: Fix lfb_linelength calculation when
+ applying quirks
+Date: Mon,  8 Dec 2025 20:39:23 +0100
+Message-ID: <20251208193925.7449-3-tursulin@igalia.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20251208193925.7449-1-tursulin@igalia.com>
 References: <20251208193925.7449-1-tursulin@igalia.com>
@@ -62,7 +63,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-Replace the open coded width height swap with the standard macro.
+PIXEL_BIT_MASK formats can have either less or more than four bytes per
+pixel so lets fix the lfb_linelenght calculation when applying the
+swapped width and height quirks.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
@@ -70,28 +73,28 @@ Cc: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: Ard Biesheuvel <ardb@kernel.org>
 Cc: Melissa Wen <mwen@igalia.com>
 Cc: linux-efi@vger.kernel.org
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Tested-by: Melissa Wen <mwen@igalia.com> # v3
 ---
- drivers/firmware/efi/sysfb_efi.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/firmware/efi/sysfb_efi.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/firmware/efi/sysfb_efi.c b/drivers/firmware/efi/sysfb_efi.c
-index 1e509595ac03..1d8b6966731c 100644
+index 1d8b6966731c..60495eb3441c 100644
 --- a/drivers/firmware/efi/sysfb_efi.c
 +++ b/drivers/firmware/efi/sysfb_efi.c
-@@ -357,10 +357,7 @@ __init void sysfb_apply_efi_quirks(void)
+@@ -357,8 +357,11 @@ __init void sysfb_apply_efi_quirks(void)
  
  	if (screen_info.orig_video_isVGA == VIDEO_TYPE_EFI &&
  	    dmi_check_system(efifb_dmi_swap_width_height)) {
--		u16 temp = screen_info.lfb_width;
--
--		screen_info.lfb_width = screen_info.lfb_height;
--		screen_info.lfb_height = temp;
-+		swap(screen_info.lfb_width, screen_info.lfb_height);
- 		screen_info.lfb_linelength = 4 * screen_info.lfb_width;
++		u32 bpp = __screen_info_lfb_bits_per_pixel(&screen_info);
++
+ 		swap(screen_info.lfb_width, screen_info.lfb_height);
+-		screen_info.lfb_linelength = 4 * screen_info.lfb_width;
++		screen_info.lfb_linelength = bpp * screen_info.lfb_width /
++					     BITS_PER_BYTE;
  	}
  }
+ 
 -- 
 2.52.0
 
