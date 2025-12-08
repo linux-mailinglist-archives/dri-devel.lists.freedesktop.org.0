@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A99CACB5D
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 10:42:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D3F6CACB47
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 10:42:32 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A933810E40B;
-	Mon,  8 Dec 2025 09:42:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 229F410E3FF;
+	Mon,  8 Dec 2025 09:42:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hAobI2px";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uSbvcs4d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DF0110E3F9
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 09:42:27 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60F8710E3E6
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 09:42:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 458186018F;
+ by sea.source.kernel.org (Postfix) with ESMTP id 2276244435;
  Mon,  8 Dec 2025 09:42:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A6360C16AAE;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B9918C2BCB5;
  Mon,  8 Dec 2025 09:42:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
  s=k20201202; t=1765186945;
- bh=7dRCkVhoY2x3WSouCqiav3GqVK107vBblD9M5kWqe3E=;
+ bh=AFb+K5IW8aAcec4JrMbTFoFyUwNA0fqAPFwbodzgHYE=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
- b=hAobI2pxRfWoBTOsgHxYyMaxEnwUnn38eghXjc2s4uqBY25XUN0lEOgrFuvh6cu1U
- yHWrh802lrm4fSGrdVt7x56I8aimnpWKADxzNH00YVMLUv18sGK90wzcNqW0yOm6I3
- h8zwRMRV15RedJdG8TYvinQR/vG3IK/sxJW26J2BtOMcQCom6IliiTjmyB6DwWRW1d
- 8tnmRasRp2QNMv6l/UZ+NYfu3BShyKweIGYr3K4WtBxys6kjN4pLDjX95DCXN+/CKh
- 9oZIMok/GoZyYuAnBSoyHNywVFQWBiTkyY4PoGXqD/GPEyQb3eeVmJTCHI97pEvGjI
- k0y8ROZ/oGILA==
+ b=uSbvcs4d9/nd64KlxxSkU7RDL+kxBRCVNeWntrxExxbZl69jc65ykhTGUyGBfeVYn
+ kJXVL4/dwwZuBz4QaPS2F6uFo6St6qd6hL77TXDjp9vcGF679q3TuDUcHvQ/yBeIJ/
+ 0cjZLiVU2o7IaGfVfSaEiJqa8duLWUKtEjKxoEfwgod7hHiPc3Mh8R49qhYEetfSHZ
+ RAf0kGdi9snVS7eX8LmZtc3gXfpozruulwwQnUiPOxWYZLrmws0gVtSY4G0rpvifUZ
+ F04RaeOQFUTPKF5P4yHdp+Hzfdqqh0/XnoSovlohd+On/2b0CBMMk+kcejppcQfe4J
+ y/2hBWUy9ZC/w==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org
  (localhost.localdomain [127.0.0.1])
- by smtp.lore.kernel.org (Postfix) with ESMTP id 97FD4D3B7EB;
+ by smtp.lore.kernel.org (Postfix) with ESMTP id ACC39D3B7E8;
  Mon,  8 Dec 2025 09:42:25 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Mon, 08 Dec 2025 10:41:56 +0100
-Subject: [PATCH v6 3/8] drm/panel: sw43408: Introduce LH546WF1-ED01 panel
- compatible
+Date: Mon, 08 Dec 2025 10:41:57 +0100
+Subject: [PATCH v6 4/8] drm/panel: sw43408: Add enable/disable and reset
+ functions
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251208-pixel-3-v6-3-e9e559d6f412@ixit.cz>
+Message-Id: <20251208-pixel-3-v6-4-e9e559d6f412@ixit.cz>
 References: <20251208-pixel-3-v6-0-e9e559d6f412@ixit.cz>
 In-Reply-To: <20251208-pixel-3-v6-0-e9e559d6f412@ixit.cz>
 To: Bjorn Andersson <andersson@kernel.org>, 
@@ -62,21 +62,21 @@ Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1747; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4042; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=K5KrfoqgLLk98vvZLiz1OAUosAiZymNlygbzh53UxIQ=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpNp1/90irK0UolOH2zOZv2yI82ykWEOJlbnkPZ
- zph1dDz3w6JAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaTadfwAKCRBgAj/E00kg
- csOTD/4j8h8D0ACjR3hGNmO/UsN6h21O6p3z14Bc80eyhqEWmVebf/felupuaRq17Ptc+qLLT2i
- S593RKsObEUkppbTSqEiOJ22kfT6tzetJShnKpelFANXgwWBdMOLFZICll9ZKG20pncQ8BkWuwc
- 0BSIR3ej2LYNpKg776b9G76z7Kmb2cNctGrTS3lQFi6loCjU7G3T7peRZR0CA6UHw1mrHU6gnOV
- grx5wkooVgPx5qKb9pSuPEnlwN8BIgE5kwKfRAcEy0AOKjsaOyWB+QO9FN59oiBYCPCWh61Dppv
- ukApZFMSzfy8gMNZkIchf1Y8pdJEXOcxFKaMSBLmPkeeyaIC1EEF8UjqvqMpZKGdAey5vJMnemt
- FKdIMrtE6h5QKQbaVTnTqtUlNdvLBwEnIulw0HiEYk6rhkAEgcZE57nXU8CZkgg7TpOh46OxJfl
- ViBAl5lZ3p4ezPS7OSeOGrUVD2duPd4AVie9n6gJv0msIZ1oYgdF3HPFmHpyj3anAL2WClYFzsq
- mXrKNXZE+co47xlOpgLudARjXar9M/JePX652FyyoxB7QsrF0DzvRtOQBc/5cEsP7ScA0brrtqR
- yTG/dO33J6EYqniLVCTMLAZ5M9GKSsQ2/oH2wIFZOKWm/8NyifD1w+lnFVOwC9VRBVbk4brC3cY
- C3TDTsERRGu+8+A==
+ bh=qN5N+wyRlTAEEdBXkU0m8ndfuHhWL8oA++gF/EwODJc=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBpNp1/kkA3vvylZ+8cMHHZS2NThYES8yN3zqhuu
+ ZuGxQ1j43iJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaTadfwAKCRBgAj/E00kg
+ cv2cEACcHz4ocz4NqY/iG7yqNqtCuDpD3sIbfDmQeg4v/KR47l1LCftkzCjBo2HRf0Cq007b3rI
+ LMoS1Bt5KQSTOGRJd055fcnU6rQXXNCeUnpwmWCMj07jdYixE51FK+yWJPVrXtw6Vjxc5L4KHd6
+ U6id8ZVqDV1Bw1gSUQHCxOrsDIHxOdd8nybmJoabW1OQ60COPaXl0oRFINuU329SQgi0YcxFT7b
+ YU3Tk+OgHwDom3A0Y2UY4QoU+E3iEd+fQAWtu3P8fmZYgWxQHI19B9pESXxYfUsKXjazGa/Ickh
+ 7vTh3RBEJlWKUc3LElxj0HElotJNqXJOkJ/KMO5mYexuJ0HDQXO5c1OHsY2/OXnEHvdq1qHgyWW
+ c5E6kdxRt8KWAitNDpCO61Zuw2arVBX+Ry4dKp8pfHVwmZIX/R8J51RQT9o0MZr1pUKsa7HdgGH
+ gF5W4i91xXknicDH7t7PGm2dbZ4uWswCSxxx19ihFSljJuN99VPyuB30bVsvYgQvjLMcjCfWmcW
+ LM2AneVYvPweUGkv7FjUkDPXEiLRdB7EANuxOTNb2O2a7zGfMvLy11d/IxvUvMoG5jJP0PA1Kfj
+ YKI5i6nr3NsB8phXKGgTYkUBIxC0Bc504PGTFIhPMplrrHjokyN+95tIsF/jyTC99dp5yxNN5VO
+ /d73rhnGet2Wdlw==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -99,50 +99,132 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: David Heidelberg <david@ixit.cz>
 
-The supported panel is LH546WF1-ED01, add compatible and adjust the
-struct name to reflect that.
+Introduce enable(), disable() and reset() functions.
 
-The standalone compatible lg,sw43408 will continue to work, even thou
-there are no users yet.
+The enable() and disable() callbacks keep the symmetry in the commands
+sent to the panel and also make a clearer distinction between panel
+initialization and configuration.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Splitting reset() from prepare() follows clean coding practices and lets
+us potentially make reset optional in the future for flicker-less
+takeover from a bootloader or framebuffer driver where the panel is
+already configured.
+
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/gpu/drm/panel/panel-lg-sw43408.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/panel/panel-lg-sw43408.c | 47 ++++++++++++++++++++++++--------
+ 1 file changed, 35 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-lg-sw43408.c b/drivers/gpu/drm/panel/panel-lg-sw43408.c
-index 46a56ea92ad9f..dcca7873acf8e 100644
+index dcca7873acf8e..dad6b967b92c2 100644
 --- a/drivers/gpu/drm/panel/panel-lg-sw43408.c
 +++ b/drivers/gpu/drm/panel/panel-lg-sw43408.c
-@@ -149,7 +149,7 @@ static int sw43408_prepare(struct drm_panel *panel)
- 	return ret;
+@@ -38,11 +38,10 @@ static inline struct sw43408_panel *to_panel_info(struct drm_panel *panel)
+ 	return container_of(panel, struct sw43408_panel, base);
  }
  
--static const struct drm_display_mode sw43408_mode = {
-+static const struct drm_display_mode lh546wf1_ed01_mode = {
- 	.clock = (1080 + 20 + 32 + 20) * (2160 + 20 + 4 + 20) * 60 / 1000,
- 
- 	.hdisplay = 1080,
-@@ -171,7 +171,7 @@ static const struct drm_display_mode sw43408_mode = {
- static int sw43408_get_modes(struct drm_panel *panel,
- 			     struct drm_connector *connector)
+-static int sw43408_unprepare(struct drm_panel *panel)
++static int sw43408_disable(struct drm_panel *panel)
  {
--	return drm_connector_helper_get_modes_fixed(connector, &sw43408_mode);
-+	return drm_connector_helper_get_modes_fixed(connector, &lh546wf1_ed01_mode);
+ 	struct sw43408_panel *sw43408 = to_panel_info(panel);
+ 	struct mipi_dsi_multi_context ctx = { .dsi = sw43408->link };
+-	int ret;
+ 
+ 	mipi_dsi_dcs_set_display_off_multi(&ctx);
+ 
+@@ -50,18 +49,25 @@ static int sw43408_unprepare(struct drm_panel *panel)
+ 
+ 	mipi_dsi_msleep(&ctx, 100);
+ 
++	return ctx.accum_err;
++}
++
++static int sw43408_unprepare(struct drm_panel *panel)
++{
++	struct sw43408_panel *sw43408 = to_panel_info(panel);
++	int ret;
++
+ 	gpiod_set_value(sw43408->reset_gpio, 1);
+ 
+ 	ret = regulator_bulk_disable(ARRAY_SIZE(sw43408->supplies), sw43408->supplies);
+ 
+-	return ret ? : ctx.accum_err;
++	return ret;
  }
  
- static int sw43408_backlight_update_status(struct backlight_device *bl)
-@@ -214,7 +214,8 @@ static const struct drm_panel_funcs sw43408_funcs = {
- };
+ static int sw43408_program(struct drm_panel *panel)
+ {
+ 	struct sw43408_panel *sw43408 = to_panel_info(panel);
+ 	struct mipi_dsi_multi_context ctx = { .dsi = sw43408->link };
+-	struct drm_dsc_picture_parameter_set pps;
  
- static const struct of_device_id sw43408_of_match[] = {
--	{ .compatible = "lg,sw43408", },
-+	{ .compatible = "lg,sw43408", }, /* legacy */
-+	{ .compatible = "lg,sw43408-lh546wf1-ed01", },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, sw43408_of_match);
+ 	mipi_dsi_dcs_write_seq_multi(&ctx, MIPI_DCS_SET_GAMMA_CURVE, 0x02);
+ 
+@@ -97,6 +103,15 @@ static int sw43408_program(struct drm_panel *panel)
+ 	mipi_dsi_dcs_write_seq_multi(&ctx, 0x55, 0x04, 0x61, 0xdb, 0x04, 0x70, 0xdb);
+ 	mipi_dsi_dcs_write_seq_multi(&ctx, 0xb0, 0xca);
+ 
++	return ctx.accum_err;
++}
++
++static int sw43408_enable(struct drm_panel *panel)
++{
++	struct sw43408_panel *sw43408 = to_panel_info(panel);
++	struct mipi_dsi_multi_context ctx = { .dsi = sw43408->link };
++	struct drm_dsc_picture_parameter_set pps;
++
+ 	mipi_dsi_dcs_set_display_on_multi(&ctx);
+ 
+ 	mipi_dsi_msleep(&ctx, 50);
+@@ -116,18 +131,12 @@ static int sw43408_program(struct drm_panel *panel)
+ 	 */
+ 	mipi_dsi_compression_mode_ext_multi(&ctx, true,
+ 					    MIPI_DSI_COMPRESSION_DSC, 1);
++
+ 	return ctx.accum_err;
+ }
+ 
+-static int sw43408_prepare(struct drm_panel *panel)
++static void sw43408_reset(struct sw43408_panel *ctx)
+ {
+-	struct sw43408_panel *ctx = to_panel_info(panel);
+-	int ret;
+-
+-	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
+-	if (ret < 0)
+-		return ret;
+-
+ 	usleep_range(5000, 6000);
+ 
+ 	gpiod_set_value(ctx->reset_gpio, 0);
+@@ -136,6 +145,18 @@ static int sw43408_prepare(struct drm_panel *panel)
+ 	usleep_range(1000, 2000);
+ 	gpiod_set_value(ctx->reset_gpio, 0);
+ 	usleep_range(9000, 10000);
++}
++
++static int sw43408_prepare(struct drm_panel *panel)
++{
++	struct sw43408_panel *ctx = to_panel_info(panel);
++	int ret;
++
++	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
++	if (ret < 0)
++		return ret;
++
++	sw43408_reset(ctx);
+ 
+ 	ret = sw43408_program(panel);
+ 	if (ret)
+@@ -208,6 +229,8 @@ static int sw43408_backlight_init(struct sw43408_panel *ctx)
+ }
+ 
+ static const struct drm_panel_funcs sw43408_funcs = {
++	.disable = sw43408_disable,
++	.enable = sw43408_enable,
+ 	.unprepare = sw43408_unprepare,
+ 	.prepare = sw43408_prepare,
+ 	.get_modes = sw43408_get_modes,
 
 -- 
 2.51.0
