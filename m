@@ -2,123 +2,212 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D400CADCA9
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 17:54:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB92CADD97
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 18:16:09 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E847E10E49C;
-	Mon,  8 Dec 2025 16:54:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C35E10E1BE;
+	Mon,  8 Dec 2025 17:16:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="fB37onH1";
+	dkim=pass (1024-bit key; unprotected) header.d=arm.com header.i=@arm.com header.b="bq32Xe+N";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="bq32Xe+N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011017.outbound.protection.outlook.com [40.107.208.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE13710E035
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 16:54:03 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com
+ (mail-westeuropeazon11013001.outbound.protection.outlook.com [52.101.72.1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3D2610E1BE
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 17:16:04 +0000 (UTC)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=FzGPO36eMzq4ZsU6eh6HSPCg3TJOCbCoUhqHYSUQcMC77FhT15k2k+7JnCzPTYfYqxAr3iqvXF0gAHtrAwvwlwFWh0ehPDzK9rPqUjBD+5giLeNKiUx5yO5CQcBs313HO6dBXC5DkVGYa7DvIxoxDXWrJ8vvuBAgpPxf+H+14o7vN9TWZlwQrj2deZvmrkbVMAyZ6OVU84Ji6+xcM1wrMBYJ3McHFqNxzNsVDMEmMmRGni/Qj1JVGhQ4m6Ja5/QxeZ8n0IbYBDj+iF5O2zT7kqwnzPV9ku0Xu01OgLRIPvX7AlSknKgzk5OroCvag4BpAlGAMVz/XStacQrQTO+nHg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9EdfnnjvBHzv8Zj1Ndr7HjDuyN8bjycWYb69dNUu9F4=;
+ b=hhESCZCOzpC65VhJ2Dy5wzTqnTU6ubTLagZ7Pb9ueVEBO07RT8mIm+WXsrNmzAJ/eg4kzaSgrVJGEK05/50V8gVLdBU4Cpctts9+7WmTvLWrYk5dnBAFXO6NrzKvgc9XIpzAw9TO3Ui1ec6lSLckrvp8xw/GTQg6dta+Ve87R0QFXufC427a8/zx1vbBfD3kSZG07pwKqDb778Q3JX5VY+fSeaRzPQMFVMcsE1YzQoxcrt8UIWlE2fNThZiB96pVB8FXbfQoFGLtJi5oPBS9Vayxpc6mKLcMjcoQrYOe26lQULj/X6PP6M3NBeXJoapuSc/581ovwmxvaKn1VSTmiQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=collabora.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9EdfnnjvBHzv8Zj1Ndr7HjDuyN8bjycWYb69dNUu9F4=;
+ b=bq32Xe+NheAzf7BZBtc+wcuZq0ZgsUNkorHX4LsZ6fcPpT9LGIr93xaFw7MhSrI9AmWFa/S7BJY6XGAcGTuEY2aOn3QpwQqXdTK2mr3+NHLOSEgnc8QvEh2GcML8LWSy+bSwyMVEK4dk04XaXUGpYmoU5CVpeVwz+agtQaiDEws=
+Received: from DU7P250CA0022.EURP250.PROD.OUTLOOK.COM (2603:10a6:10:54f::6) by
+ GVXPR08MB10962.eurprd08.prod.outlook.com (2603:10a6:150:1fb::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.14; Mon, 8 Dec
+ 2025 17:15:58 +0000
+Received: from DU2PEPF00028D0B.eurprd03.prod.outlook.com
+ (2603:10a6:10:54f:cafe::a5) by DU7P250CA0022.outlook.office365.com
+ (2603:10a6:10:54f::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.14 via Frontend Transport; Mon,
+ 8 Dec 2025 17:15:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DU2PEPF00028D0B.mail.protection.outlook.com (10.167.242.171) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.8
+ via Frontend Transport; Mon, 8 Dec 2025 17:15:57 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VvBph4dmDv9pQZUsPHZZjjQo5RxU28P/jKt4RR6DL/mHI4oCUk1+ndbgifnxga6VTBLlagq8fxYximbuoucftddgaMrXafFQYe2PLFo2H5/KKek2rPtZ7mBvvW+JbKKbyKkLS2dlGaE+KruTLQ8a9CnCZXpTx2xx6Nt6V6cGc+lSwzSuqoxdl2SmPAkGeqKqEz4vjZSkfasA27vUWJ0VF04qaristN+98fnQjSoWvjYDoPu1M5s9NPJekiLdxP7ryDc4UCrsH+7Docjr3efLx1BAV7Y/KZHbgTun/4g5jfDXAdMYku1i01DXpOaE+Zn732KxjIMRmlv9l+A9Y76Qig==
+ b=iP9Kp41rD99fX2O6SRGoYyXCWxl1P6ClgtsiZ2oOPly/Rbyma/IGoQg3XKN9N1S2UXKW/9ClRMCqymR6kxjGSSYQxxUgL57CNCXgcSTP+3Q0zTLGo4O743P/oQmrRgS+Z7+j8Pj3jVSoTpxXiE5DW6mvZoK2ZVftbhiF3uQnwLzSlkrtzpPJMjLyt2Eh30jvfGLtPhZCXXtiHJYsHJyZyYgvlNf4JeMWZvkltIyqayMVCCQ3BDNdZcKTOQc+BwYrcW1lAOTPl73aJvEyKfVp6Iv2BxFK6H5woTHEKs3W9UIzOV/RzEuRb2qRBhe0U22tpzwfifu6Mp+oRR9ZSl00XQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AZ2gkVoIXtHo9UbgZf17DNbATeVHud8RV8ph17h8TCc=;
- b=Bc0VpYJOwcg5bQa+QO3Y+OrVlGVo6uqITOiR0NVpMTnHsbgZ+meBKO6IQUPIsXrhsR+w/P7L2OBD77OgxCvqOksYy32/jKuXA5ViTIJLlHNLokkbV7xiYBN/3RCjZAs0/AANs3czMdrLuCUZMv7gRvqAF0yN0TPSgOgStA2xweH7yhlMw+DjgUNFlz81k3wmMqJ2B3Ymxfze//A1stVJyiEAJfyIWVDckiWrlIMEfsXqQ8iwo2qUlHBH3AgEJxb7zu2+YY92sfTYttw+WM/LHXgi6uKNboqGGEfL+LH4LEJTYUoCA+gN1SkvlIq1yZtIPukFlE15zE0377LuBE0JvA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ bh=9EdfnnjvBHzv8Zj1Ndr7HjDuyN8bjycWYb69dNUu9F4=;
+ b=vNF6HkHcgANv2c1CFVDjcfAbC9L0iGVVj2++uVbHqQjf5OcoqKK9kKAYwhBDy7O3dCDNTBUfLOSGZGSqhK8JcLgJxXRAd/Y8DfCh+i/ykAVvNZHij+2ArHe1SyPOacW733zCXUphgByhJ70ABpb3DlK/Ivipf7mibs4WxkNGPyogYmWyJchzIG9/n4lMpezmQMDwinnrfvJKw+JF3y2j7uWKpjKqXXmT6saAkIYhnm9Uk6J1lAn9WRaY61EnzR3NMPETJloELM46oTsRJt2/cxYvSUtIaPv5Ux/utFGGFMQqXLDNoo72JOb2NB/oTTb5vHFl9G5PfHY6NyCJMprduA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AZ2gkVoIXtHo9UbgZf17DNbATeVHud8RV8ph17h8TCc=;
- b=fB37onH1raDsZq//cTzgYQ8udoIg+9ceep1kfUuZFZaPOWPsFtbjlJZ2eOWnqNCWdQRE+HgyAdT70UymSFacmMdpd3y0Edh65sWC0txtmrzDC3ZS0xVYCQ1dTRIttoIqvdmfy2BThzP8Jl0dhMcPtWVEWGs/S9Iak1CU/2Xuv9o=
-Received: from DM6PR07CA0121.namprd07.prod.outlook.com (2603:10b6:5:330::33)
- by LV5PR12MB9801.namprd12.prod.outlook.com (2603:10b6:408:2fc::20) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=9EdfnnjvBHzv8Zj1Ndr7HjDuyN8bjycWYb69dNUu9F4=;
+ b=bq32Xe+NheAzf7BZBtc+wcuZq0ZgsUNkorHX4LsZ6fcPpT9LGIr93xaFw7MhSrI9AmWFa/S7BJY6XGAcGTuEY2aOn3QpwQqXdTK2mr3+NHLOSEgnc8QvEh2GcML8LWSy+bSwyMVEK4dk04XaXUGpYmoU5CVpeVwz+agtQaiDEws=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
+ (2603:10a6:800:257::18) by AS8PR08MB8610.eurprd08.prod.outlook.com
+ (2603:10a6:20b:564::5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.14; Mon, 8 Dec
- 2025 16:54:00 +0000
-Received: from DS2PEPF00003446.namprd04.prod.outlook.com
- (2603:10b6:5:330:cafe::7d) by DM6PR07CA0121.outlook.office365.com
- (2603:10b6:5:330::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.14 via Frontend Transport; Mon,
- 8 Dec 2025 16:54:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- DS2PEPF00003446.mail.protection.outlook.com (10.167.17.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.4 via Frontend Transport; Mon, 8 Dec 2025 16:54:00 +0000
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 8 Dec
- 2025 10:53:59 -0600
-Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Mon, 8 Dec 2025 08:53:58 -0800
-From: Lizhi Hou <lizhi.hou@amd.com>
-To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <maciej.falkowski@linux.intel.com>
-CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
- <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
-Subject: [PATCH V2] accel/amdxdna: Fix race condition when checking rpm_on
-Date: Mon, 8 Dec 2025 08:53:56 -0800
-Message-ID: <20251208165356.1549237-1-lizhi.hou@amd.com>
-X-Mailer: git-send-email 2.34.1
+ 2025 17:14:55 +0000
+Received: from VI0PR08MB11200.eurprd08.prod.outlook.com
+ ([fe80::d594:64a:dfc:db74]) by VI0PR08MB11200.eurprd08.prod.outlook.com
+ ([fe80::d594:64a:dfc:db74%7]) with mapi id 15.20.9388.013; Mon, 8 Dec 2025
+ 17:14:55 +0000
+Message-ID: <4363e055-c1f9-49c6-81dd-c2e5f8307310@arm.com>
+Date: Mon, 8 Dec 2025 17:14:53 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] drm/panthor: Add tracepoint for hardware utilisation
+ changes
+Content-Language: en-GB
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20251203-panthor-tracepoints-v1-0-871c8917e084@collabora.com>
+ <20251203-panthor-tracepoints-v1-1-871c8917e084@collabora.com>
+From: Karunika Choo <karunika.choo@arm.com>
+In-Reply-To: <20251203-panthor-tracepoints-v1-1-871c8917e084@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P123CA0491.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1ab::10) To VI0PR08MB11200.eurprd08.prod.outlook.com
+ (2603:10a6:800:257::18)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF00003446:EE_|LV5PR12MB9801:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43be993f-fdb3-4d1e-974d-08de367a62d0
+X-MS-TrafficTypeDiagnostic: VI0PR08MB11200:EE_|AS8PR08MB8610:EE_|DU2PEPF00028D0B:EE_|GVXPR08MB10962:EE_
+X-MS-Office365-Filtering-Correlation-Id: eae27d87-a142-4d7a-1654-08de367d73fe
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
+x-checkrecipientrouted: true
+NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|376014|1800799024|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?NvspZcOK2pODyNE6hLQUnhk6FgkTP1b0hWmb8IESAbASb6dM4CYTrDCh+xQQ?=
- =?us-ascii?Q?fEsobS5AHf9i1Dy4A5LZeXEhPLN2xt2eRQOJx/Se1SkDhUGOrPb25Q4hb57H?=
- =?us-ascii?Q?5hxiMChWzKIiGbeQKS5LMkKI8ijD1YZcPLGLyqZuIsjSYIIORVmF3aO5ZL7J?=
- =?us-ascii?Q?kE4bBZPR5mjHaUdCAp+eZiX/DYhgF5amtwPY6Mrj2oyb3+prwb3Ics5ujWIc?=
- =?us-ascii?Q?XQ+8oOiUpFv2Ld2/eRkJUByQKRvImqunQy8dryBjYD2Mz3lcdd2hyK2dn6CS?=
- =?us-ascii?Q?iU7pOSM+gsZe/+x4AdpeuRdwc1Q33toY7rOW4I/TqfQjNRZdj39kgPYqeS7V?=
- =?us-ascii?Q?/W6lnoreOlNUdns8PpfQ/JCQzY7YyTJWcXIFHVV/USX8ow9iOnLTMU2Blo5j?=
- =?us-ascii?Q?kCUy6Y6PNuJltTJgh5h/TGJym//E0ymYIWWQNfMDJKoK2x4uUPdOzQVV1V99?=
- =?us-ascii?Q?olmUia5DItZC0hfD8uVQj1DjE7of0JNbUQ9izS4Yp5WNqwz3JhI21qZsMpqm?=
- =?us-ascii?Q?dyIDmKdSMndbt1WriV+C3v3XcfG8Oozabzloa0kRlQI4VUaLa8v2iA/HzxkT?=
- =?us-ascii?Q?pxvYTzD39kJHKFhohWQi4jaA13delTWOz6zh3Cxx8sQcFZsDrXbcR9UD1lL6?=
- =?us-ascii?Q?3TXLZ7XasvBw5l0BpIssd1B48y1HUFFg5nmjOugNG6OlxthijHpJRws+7VL8?=
- =?us-ascii?Q?EDwe+qiw5JrTUEBqZD9OpuXtQM8jjpz+jpaeuVZYxRyirrjZmiAcBubj3EKc?=
- =?us-ascii?Q?YmPb+48++SYtpkd5uUvqnf5LBg+g/4OPOlebOUZwbj0hKo9ZxM4j5YTao00N?=
- =?us-ascii?Q?a1kjl7iDQtjp/GxvqV/3EhPGsF2w0kVEnMS/NEHMqc0BhN5PrvlUv80F0s0y?=
- =?us-ascii?Q?WhaY4ikqVYSG1M5zZIFlEboX9A14Jd2Cu31XzQaRuHuoFSBXklsJQyVPicTx?=
- =?us-ascii?Q?l8FM2kzgbHt/U4GYLMvaHuCBxRjHvas0xxLnUvcXcTkZIAzFK2ABgP9hQPJi?=
- =?us-ascii?Q?6P75HRmabKWaqXky+lCiUeWbBoIS2BGsJTFTypHH1kkcgfHioX8U3LDGN4Vu?=
- =?us-ascii?Q?rlVLwsaMaFggF2ZcJgEcWMBEmH/5hmfri3KtnYoHzab9b5Zvl8vR2UlbHFUL?=
- =?us-ascii?Q?YTw/Db/G35qRnoW3z4aIOXCYV0kcAtyTuHS4xYUl0PU0duF8/2haD1RpAPhq?=
- =?us-ascii?Q?1uvPbyJaVfMzJjCjuNM/NQc6nRIir8MvDC39B8nvAIOwHVcJZ1LR2V6sZlnU?=
- =?us-ascii?Q?qEw5lrWKAPYc2EEOR3gCEs7I33eHwliHJJuZNPA7mPZmsMsG74M9nvH+JKUH?=
- =?us-ascii?Q?j1uTCE63BhlzW4nd+XZqrwVqekhzlsCs74oAE8AQ3qJNsUX1SJgU5RYaskBl?=
- =?us-ascii?Q?xjS50bq3tq2NvhANtcdOyvUGulCTGnSetMH60sMLOnTdcb+7kql9OU9x+0jV?=
- =?us-ascii?Q?Pyl7GK/9kcMG9ootGjEgLitK5ksyDqczB8OXTcZl98fqFbipS1V6JGjEYQi+?=
- =?us-ascii?Q?iIkNqP9FZZ7v8aJBuLEVjKnDxr5KIQxd9b+hChHMxaBn0zwD9A8d1NJ39ibG?=
- =?us-ascii?Q?kmJrGIKvjAraEodDHqY=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb08.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(376014)(1800799024)(82310400026); DIR:OUT;
+X-Microsoft-Antispam-Untrusted: BCL:0;
+ ARA:13230040|1800799024|7416014|376014|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info-Original: =?utf-8?B?Q2FKNVdIOE5temdEd2tyQzRCdlhBU1BkWC8yMnN3TkpFWDB6Uk9lRkd2dU1R?=
+ =?utf-8?B?MmlYY2xKV2FmbW96WDY1cTg0UTNhQUJWZjZoZVIvc0doZnM5elB5VFNBNWFE?=
+ =?utf-8?B?RWRwcVM1OEJ1V0hHZk5sRHZ0YnZsS1E1cGZWcHc4MkRKb1lhMGxUMlg0TEJk?=
+ =?utf-8?B?d3JqTWVZNGtYd3ZSM1Bjb0lWNVJGVE5iaU4vZldqRXBXRkd6MWlnck5FRmdF?=
+ =?utf-8?B?dmRxZEIvcGdQa0g2VENFNysrd0tJbjM2bjFSWVhPSmdXY2w1K2lvYjRhcmFx?=
+ =?utf-8?B?L1J5dnFOMXlLTld1bjJhUEovMjlpR2NvdTlRWXhDWE95VjNjQXlvY0QvMGpW?=
+ =?utf-8?B?YzkzSnJReCtxYXRjbHduRVQ5OGt3NGROcklJTVp3NStJOEdOeGlHT3I3RWll?=
+ =?utf-8?B?NDhSTmJndFdqVTl1cVc0c0JYUkEzK2RXK0hKVVl0blhQYjlxeWVnZk5YTUl4?=
+ =?utf-8?B?dzBqaklVV0F3RnZEU1cwMnk3NHEzZ0tlWElBeE1ydUNpcGdzWmR6U1p2eWRq?=
+ =?utf-8?B?cmY5MUdEejdqRUdRblduOUhlWFVoRERFc2xWOTRmMVRZVjRQLzR5enR6dEhI?=
+ =?utf-8?B?MHlkUmk1TkVCenBoTzNHQ3RWN2dsbEFOdVM3dWxvQmIwT0RnYTY4QU9tTWVm?=
+ =?utf-8?B?TVpOVk02VWNlTFlCS2hBVzFIdVUxc0hodlVDdjU3MmxvMjNEaHF0Q055bkFR?=
+ =?utf-8?B?NG5LVVJMdDFwRmYvUzNxM01RS1gyeURqYjQ0QXRnbU91eGRBZGRhbzFsZTEw?=
+ =?utf-8?B?Mm5FZktzZUZHU3RHYmo5WnVjMzJHNlZxckJXb0Z2dysreGNsS1BqWnRCNExw?=
+ =?utf-8?B?MEY4QzFyMDd2YzFqcUM1L2lya0hkQ0oxUGFkc3FLR1I4Z1Z6REc3NFliTm9x?=
+ =?utf-8?B?QlBZdTFXNFIrVDdnS2dnVjJBVjJUaG4yeVJHSUwrUk9kbXBBc09Qd3FvaFZS?=
+ =?utf-8?B?akoyWkcrMDY0cUh6RHVIT1VNMDRBK0F0RmtlZy9rdTdEbnZVUEtPMHM3d1By?=
+ =?utf-8?B?amd0aERpM0lHYWJIRGQrWndScWQ0MCtsQ0FJMkxFbVNXQkc4S1RWdTZyWjU1?=
+ =?utf-8?B?MXBrRjl1aW13cUpHaVY1Z1g1ZDZ6Ync3cW5JREl1cHBSOC9waVdzWGUxbFd0?=
+ =?utf-8?B?V1gwUnVzb3lmTjFZU1R0ejZKK2h5WkxCSlNBcGYzalhxMWU3aWRJZHdBdHgy?=
+ =?utf-8?B?Z2FpN3M1Q0R2K2ZrTEVqVzRRNkdkdndKb1lpcFd5b3ZTTndFVlZHZDMwZytp?=
+ =?utf-8?B?VzZpN1Vza3dxT0owb1phQVBJaGlnd0dpbVFRenViZldPYXZYZ3gvam1ZU1ZJ?=
+ =?utf-8?B?ZEJINVlySkNRREtqbTM2SnV4T3hleVRkcEZoOUZ6S3ptbFhqTHdONEN2ZXlv?=
+ =?utf-8?B?ckZkRmV3ZmpiZHFLZTBtZkxOK09tNXlJWEwydHJwSlp4ZXcweHRsa1JnaWdK?=
+ =?utf-8?B?SHBiQlJMZkdjYXRTc2tETEQ5WXVjR0lUSGRnQTBZZWx2Nkt4N3NpaXVuWkYy?=
+ =?utf-8?B?cmVSR1lEbk5qcDJLZ0VDRERjNitvQmNVb2ZtOWVWV1FKNUNINVN1WkllL2Ns?=
+ =?utf-8?B?Vng2bll0VXA4bnQ5NzlZSk1XQy9PZ0s2WEx2NVRpYngzNXo4VzdWLzZRWEIv?=
+ =?utf-8?B?S3g1NlFLWWJ6SnZvTlNCSGE3V3JDN3VLNWd4OS9nekFSMHVTdFRnTHNHTVBm?=
+ =?utf-8?B?c0wrK2swZjB5WE9YcnljdDZPdkNkeDd2WlUyYXZQd09sWFBNd0JlczhOMEJv?=
+ =?utf-8?B?SGVqMlc5WEIvN1B3d3pCNnE0Rmk4eURJVFlUNkdZRUxSNys5NlFZcS9NalBE?=
+ =?utf-8?B?TmNDZ3ZPT0NpVlV6NVVEcTYrT0VzT1FFVHpEaHNCYitqZWpmR0VPU3FLOG9x?=
+ =?utf-8?B?TzVpSzg3T08wQkVKcEpwRTgwM3JpaVJGMnE1Zm1CNHVieGtJdHNIbGhMc2lI?=
+ =?utf-8?Q?oyX0MdpPDrIYcR6mQB7GgFAW/is+dGkI?=
+X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
+ SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:VI0PR08MB11200.eurprd08.prod.outlook.com;
+ PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(7416014)(376014)(366016)(7053199007); DIR:OUT;
  SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2025 16:54:00.4191 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43be993f-fdb3-4d1e-974d-08de367a62d0
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF00003446.namprd04.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB8610
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: DU2PEPF00028D0B.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 6d0764b7-8c68-46cb-80e2-08de367d4ea4
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|14060799003|82310400026|1800799024|36860700013|35042699022|376014|7416014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZjU4LzlmU1JpdnlFTm41SnhPcnY5c2twQXVpNTdSa2FMbGVBT09QeWhiVkZa?=
+ =?utf-8?B?bU94dk9lajhGVjZiQTdRamxuc0VycDdzYlpzQ3FGVElxdzZJZVkwaEJVSlJB?=
+ =?utf-8?B?OFF6bXI4Z0Y0UnFkN1V4VHNYdmRDU3RJYy9lb2RsQnJEUW1KRDFqQ04zMWJw?=
+ =?utf-8?B?a3pVUzc0K3hOOFBmU1NHTHVscDdiZDd3WlFKQmx3eGRsVyt2TkNJN2dsYXI3?=
+ =?utf-8?B?Y2VsdlhRN1FORnlhd2ltWnZMd3RXZ21WSk5SSUVFT1Q3b2pXV3dGeC9TeGt1?=
+ =?utf-8?B?R2F1djd0V2ZaS1BDOHVmTWRzN1dkMjMxWFN3OU5qaFNJd2E1aXlYMk5GWVdQ?=
+ =?utf-8?B?SGY0MlpmVGJkSi8xMmloY0R1SFRKN3hqTzV6NmFUUWt3WVpZY1RJYmdTWnUw?=
+ =?utf-8?B?ZjI0VnFiME1Ia2ZvSU85UmY3Qm5QRmdqNzNHZjI0VXo2aHFPSmtnbis2dzYv?=
+ =?utf-8?B?c25uK3QrWVBxZkZTUjdrRCtaY3Vtbzl1V2xMbjUrdE5wT3UrK1I4ZEU2NVBk?=
+ =?utf-8?B?dGxqbzVmQVFWVmhDNVhKc2FoK3FiQ1RHVFpuenlwM0N5amMrV1ZKeVBjcENL?=
+ =?utf-8?B?bHVlcWtIV1lmaTRXaHhpd3RMc25NR1ZSTDRpcHhRL0tPTGVwTmh4ZkZRWVNu?=
+ =?utf-8?B?Vzl6NlhiMkd3NGUxbHZtczR2b3pOUURvdVdFMng0RUxIL1YvdkZlakhSUnZF?=
+ =?utf-8?B?SlI0UnlDQnhpZm52K3J3RUlNSGVpZVQxSDlEWDI1SUl5dEd4Wk0vMmRrZ25m?=
+ =?utf-8?B?S3BFOVA0c2o5RC9BREVRaTRPWkVLSXk1dDJ2Q21CZXJvTExLMzR2Q1o3Z1pV?=
+ =?utf-8?B?cjJXMXFWZFFpSUhOcDQ2WjV0WGM4SWpSVVBSbktpR0dZZHpKRi94cmVNNTkw?=
+ =?utf-8?B?N1QrdmIvWnhJc0pCek91eHVFeC9Gb3diVEtvK0cyVEhDSkZlNVhaMW43amh5?=
+ =?utf-8?B?ZjN5TXY1V1BLZDBiaU5ySXBIT01aTjdWa2lZeGVYUWlDUDlhSkZrUEhrWmFG?=
+ =?utf-8?B?VnRiQkR4YWM4dHB1dlFhVmNPdWxKdXBNYzQrVU9DQzVaRmQ5TkkrRVhBOEhy?=
+ =?utf-8?B?c3AvL1d5Qld6OUcxY3RjM2w5aUpBRDVLc3FJRHE4by9SWmpoU0JFZ3FuNWNs?=
+ =?utf-8?B?YzJyc2RkWUYvbG5pSEtIdnFQRDV2UnpVMHN3MHhqRTF6Smp6S0dtdmdOUGZv?=
+ =?utf-8?B?Z2F5RFdjVnAzS0dRWkl0QUlucVVWR2hOQ3dTWHo2d2tsbTI1LzJIS0dscVNk?=
+ =?utf-8?B?VmdVZE5HWFZMNC9oQlQyL0xkcVI1dzFtWjZFN0JKMXNzWU1DZXhUOUJ3dkd5?=
+ =?utf-8?B?cXJ2cmF6UXlxRFpvMFhUdXowWUtOVG4wbzF3U3BZbUloRUNmUW1wanhlL1hP?=
+ =?utf-8?B?THhrWUVzSjBhMDcvYzU0UjVZeVVQYU1GeERiUWxWTXpsODJaaW9YSUcvRGpV?=
+ =?utf-8?B?U1lNUk9ablAzMGNMV2xXWCtQY0w2eXpEbVJiOVRJZUxyaU5EWmFySU1qanVK?=
+ =?utf-8?B?M0M1c2xCQ0ZwL1R6RytncWJnTHhndHlEdE9vQUtBSDl2bk53Q3lFY29pR2dy?=
+ =?utf-8?B?ZUd4TWpTTW5qMCtiekErOWZwNkNRcW04WTVwcTdYWDJzNkdoMnA2dzBqcWhQ?=
+ =?utf-8?B?UndlVUFHR3RQQXlycHpGR1lSNE5XUUxMeUVpaGR5cGdia04yUGFpVlZFdCtj?=
+ =?utf-8?B?ZU9pRWxkRlBZeVpxMzRkQ0pCNHhiUkpUYmtSWHlYd1hZc011ZmpiRFNFQlFs?=
+ =?utf-8?B?L0FhWVZLNEM4SEVMZXMyZFordzdQOG5udENiYzY1UGNRdk45OXpCTE45ZU0y?=
+ =?utf-8?B?ZmNOdnFyaXJoZ3RKeEtPT0xqWmpjeE8wRUQvUXBZanNCellXc1RpYjFhbjdQ?=
+ =?utf-8?B?TnNlNTRtb01NUWdiUVcwSE9JbGs5b3p5TmZRRUloa0xzc25RdkFqaXRLUWxR?=
+ =?utf-8?B?UzJ6ZWI2dElDNk9oWFJua2pwdGYrUlNyaDJiTEhURDZNWUsxMDRwbnIzdm9L?=
+ =?utf-8?B?bTBaZUw4QnlYd05nMEowVUoyRDgwbEt3RGpxWTZwNm1LVk1hZ3FobHNqb3FO?=
+ =?utf-8?B?Yzc4THF0ejM1QU9WYUh3YTZrdzdaNXdQNEZMbjdlSjUwdTdleXIwWEdobFRk?=
+ =?utf-8?Q?YvTc=3D?=
+X-Forefront-Antispam-Report: CIP:4.158.2.129; CTRY:GB; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:outbound-uk1.az.dlp.m.darktrace.com;
+ PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(14060799003)(82310400026)(1800799024)(36860700013)(35042699022)(376014)(7416014)(7053199007);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2025 17:15:57.6752 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: eae27d87-a142-4d7a-1654-08de367d73fe
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d; Ip=[4.158.2.129];
+ Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: DU2PEPF00028D0B.eurprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV5PR12MB9801
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR08MB10962
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,289 +223,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When autosuspend is triggered, driver rpm_on flag is set to indicate that
-a suspend/resume is already in progress. However, when a userspace
-application submits a command during this narrow window,
-amdxdna_pm_resume_get() may incorrectly skip the resume operation because
-the rpm_on flag is still set. This results in commands being submitted
-while the device has not actually resumed, causing unexpected behavior.
+On 03/12/2025 13:56, Nicolas Frattaroli wrote:
+> Mali GPUs have three registers that indicate which parts of the hardware
+> are powered and active at any moment. These take the form of bitmaps. In
+> the case of SHADER_PWRACTIVE for example, a high bit indicates that the
+> shader core corresponding to that bit index is active. These bitmaps
+> aren't solely contiguous bits, as it's common to have holes in the
+> sequence of shader core indices, and the actual set of which cores are
+> present is defined by the "shader present" register.
+> 
+> When the GPU finishes a power state transition, it fires a
+> GPU_IRQ_POWER_CHANGED_ALL interrupt. After such an interrupt is
+> received, the PWRACTIVE registers will likely contain interesting new
+> information.
+> 
+> This is not to be confused with the PWR_IRQ_POWER_CHANGED_ALL interrupt,
+> which is something related to Mali v14+'s power control logic. The
+> PWRACTIVE registers and corresponding interrupts are already available
+> in v9 and onwards.
+> 
+> Expose this as a tracepoint to userspace. This allows users to debug
+> various scenarios and gather interesting information, such as: knowing
+> how much hardware is lit up at any given time, correlating graphics
+> corruption with a specific active shader core, measuring when hardware
+> is allowed to go to an inactive state again, and so on.
+> 
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.c |  1 +
+>  drivers/gpu/drm/panthor/panthor_gpu.c    |  9 ++++++++
+>  drivers/gpu/drm/panthor/panthor_trace.h  | 38 ++++++++++++++++++++++++++++++++
+>  3 files changed, 48 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index e133b1e0ad6d..a3cb934104b8 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -548,6 +548,7 @@ int panthor_device_resume(struct device *dev)
+>  			    DRM_PANTHOR_USER_MMIO_OFFSET, 0, 1);
+>  	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_ACTIVE);
+>  	mutex_unlock(&ptdev->pm.mmio_lock);
+> +
+>  	return 0;
+>  
+>  err_suspend_devfreq:
+> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
+> index 9cb5dee93212..8830aa9a5c4b 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
+> @@ -22,6 +22,9 @@
+>  #include "panthor_hw.h"
+>  #include "panthor_regs.h"
+>  
+> +#define CREATE_TRACE_POINTS
+> +#include "panthor_trace.h"
+> +
+>  /**
+>   * struct panthor_gpu - GPU block management data.
+>   */
+> @@ -46,6 +49,7 @@ struct panthor_gpu {
+>  	(GPU_IRQ_FAULT | \
+>  	 GPU_IRQ_PROTM_FAULT | \
+>  	 GPU_IRQ_RESET_COMPLETED | \
+> +	 GPU_IRQ_POWER_CHANGED_ALL | \
+>  	 GPU_IRQ_CLEAN_CACHES_COMPLETED)
+>  
+>  static void panthor_gpu_coherency_set(struct panthor_device *ptdev)
+> @@ -97,6 +101,11 @@ static void panthor_gpu_irq_handler(struct panthor_device *ptdev, u32 status)
+>  		wake_up_all(&ptdev->gpu->reqs_acked);
+>  	}
+>  	spin_unlock(&ptdev->gpu->reqs_lock);
+> +
+> +	if (status & GPU_IRQ_POWER_CHANGED_ALL)
+> +		trace_gpu_power_active(gpu_read64(ptdev, SHADER_PWRACTIVE),
+> +				       gpu_read64(ptdev, TILER_PWRACTIVE),
+> +				       gpu_read64(ptdev, L2_PWRACTIVE));
+>  }
+>  PANTHOR_IRQ_HANDLER(gpu, GPU, panthor_gpu_irq_handler);
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_trace.h b/drivers/gpu/drm/panthor/panthor_trace.h
+> new file mode 100644
+> index 000000000000..01013f81e68a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/panthor/panthor_trace.h
+> @@ -0,0 +1,38 @@
+> +/* SPDX-License-Identifier: GPL-2.0 or MIT */
+> +/* Copyright 2025 Collabora ltd. */
+> +
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM panthor
+> +
+> +#if !defined(__PANTHOR_TRACE_H__) || defined(TRACE_HEADER_MULTI_READ)
+> +#define __PANTHOR_TRACE_H__
+> +
+> +#include <linux/tracepoint.h>
+> +#include <linux/types.h>
+> +
+> +TRACE_EVENT(gpu_power_active,
+> +	TP_PROTO(u64 shader_bitmap, u64 tiler_bitmap, u64 l2_bitmap),
 
-The set_dpm() is called by suspend/resume, it relied on rpm_on flag to
-avoid calling into rpm suspend/resume recursivly. So to fix this, remove
-the use of the rpm_on flag entirely. Instead, introduce aie2_pm_set_dpm()
-which explicitly resumes the device before invoking set_dpm(). With this
-change, set_dpm() is called directly inside the suspend or resume execution
-path. Otherwise, aie2_pm_set_dpm() is called.
+nit: if you want to add tracing can we also add the device name as
+well? Something like:
 
-Fixes: 063db451832b ("accel/amdxdna: Enhance runtime power management")
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
----
-v2:
-    Removed drm_WARN_ON() from aie2_send_mgmt_msg_wait().
-    Revise the description.
+  TP_PROTO(struct device *dev, ...),
+  TP_ARGS(dev, ...),
+  TP_STRUCT__ENTRY(
+          __string(dev_name, dev_name(dev))
+          ...
+  ).
+  ...
 
- drivers/accel/amdxdna/aie2_message.c    |  1 -
- drivers/accel/amdxdna/aie2_pci.c        |  2 +-
- drivers/accel/amdxdna/aie2_pci.h        |  1 +
- drivers/accel/amdxdna/aie2_pm.c         | 17 +++++++++++++++-
- drivers/accel/amdxdna/aie2_smu.c        | 27 ++++---------------------
- drivers/accel/amdxdna/amdxdna_pci_drv.h |  1 -
- drivers/accel/amdxdna/amdxdna_pm.c      | 22 ++------------------
- 7 files changed, 24 insertions(+), 47 deletions(-)
+This will help differentiate the device it is originating from in
+a multi GPU situation.
 
-diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
-index fee3b0627aba..a75156800467 100644
---- a/drivers/accel/amdxdna/aie2_message.c
-+++ b/drivers/accel/amdxdna/aie2_message.c
-@@ -39,7 +39,6 @@ static int aie2_send_mgmt_msg_wait(struct amdxdna_dev_hdl *ndev,
- 	if (!ndev->mgmt_chann)
- 		return -ENODEV;
- 
--	drm_WARN_ON(&xdna->ddev, xdna->rpm_on && !mutex_is_locked(&xdna->dev_lock));
- 	ret = xdna_send_msg_wait(xdna, ndev->mgmt_chann, msg);
- 	if (ret == -ETIME) {
- 		xdna_mailbox_stop_channel(ndev->mgmt_chann);
-diff --git a/drivers/accel/amdxdna/aie2_pci.c b/drivers/accel/amdxdna/aie2_pci.c
-index ceef1c502e9e..81a8e4137bfd 100644
---- a/drivers/accel/amdxdna/aie2_pci.c
-+++ b/drivers/accel/amdxdna/aie2_pci.c
-@@ -321,7 +321,7 @@ static int aie2_xrs_set_dft_dpm_level(struct drm_device *ddev, u32 dpm_level)
- 	if (ndev->pw_mode != POWER_MODE_DEFAULT || ndev->dpm_level == dpm_level)
- 		return 0;
- 
--	return ndev->priv->hw_ops.set_dpm(ndev, dpm_level);
-+	return aie2_pm_set_dpm(ndev, dpm_level);
- }
- 
- static struct xrs_action_ops aie2_xrs_actions = {
-diff --git a/drivers/accel/amdxdna/aie2_pci.h b/drivers/accel/amdxdna/aie2_pci.h
-index cc9f933f80b2..c6b5cf4ae5c4 100644
---- a/drivers/accel/amdxdna/aie2_pci.h
-+++ b/drivers/accel/amdxdna/aie2_pci.h
-@@ -286,6 +286,7 @@ int npu4_set_dpm(struct amdxdna_dev_hdl *ndev, u32 dpm_level);
- /* aie2_pm.c */
- int aie2_pm_init(struct amdxdna_dev_hdl *ndev);
- int aie2_pm_set_mode(struct amdxdna_dev_hdl *ndev, enum amdxdna_power_mode_type target);
-+int aie2_pm_set_dpm(struct amdxdna_dev_hdl *ndev, u32 dpm_level);
- 
- /* aie2_psp.c */
- struct psp_device *aie2m_psp_create(struct drm_device *ddev, struct psp_config *conf);
-diff --git a/drivers/accel/amdxdna/aie2_pm.c b/drivers/accel/amdxdna/aie2_pm.c
-index 426c38fce848..afcd6d4683e5 100644
---- a/drivers/accel/amdxdna/aie2_pm.c
-+++ b/drivers/accel/amdxdna/aie2_pm.c
-@@ -10,6 +10,7 @@
- 
- #include "aie2_pci.h"
- #include "amdxdna_pci_drv.h"
-+#include "amdxdna_pm.h"
- 
- #define AIE2_CLK_GATING_ENABLE	1
- #define AIE2_CLK_GATING_DISABLE	0
-@@ -26,6 +27,20 @@ static int aie2_pm_set_clk_gating(struct amdxdna_dev_hdl *ndev, u32 val)
- 	return 0;
- }
- 
-+int aie2_pm_set_dpm(struct amdxdna_dev_hdl *ndev, u32 dpm_level)
-+{
-+	int ret;
-+
-+	ret = amdxdna_pm_resume_get(ndev->xdna);
-+	if (ret)
-+		return ret;
-+
-+	ret = ndev->priv->hw_ops.set_dpm(ndev, dpm_level);
-+	amdxdna_pm_suspend_put(ndev->xdna);
-+
-+	return ret;
-+}
-+
- int aie2_pm_init(struct amdxdna_dev_hdl *ndev)
- {
- 	int ret;
-@@ -94,7 +109,7 @@ int aie2_pm_set_mode(struct amdxdna_dev_hdl *ndev, enum amdxdna_power_mode_type
- 		return -EOPNOTSUPP;
- 	}
- 
--	ret = ndev->priv->hw_ops.set_dpm(ndev, dpm_level);
-+	ret = aie2_pm_set_dpm(ndev, dpm_level);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/accel/amdxdna/aie2_smu.c b/drivers/accel/amdxdna/aie2_smu.c
-index bd94ee96c2bc..2d195e41f83d 100644
---- a/drivers/accel/amdxdna/aie2_smu.c
-+++ b/drivers/accel/amdxdna/aie2_smu.c
-@@ -11,7 +11,6 @@
- 
- #include "aie2_pci.h"
- #include "amdxdna_pci_drv.h"
--#include "amdxdna_pm.h"
- 
- #define SMU_RESULT_OK		1
- 
-@@ -67,16 +66,12 @@ int npu1_set_dpm(struct amdxdna_dev_hdl *ndev, u32 dpm_level)
- 	u32 freq;
- 	int ret;
- 
--	ret = amdxdna_pm_resume_get(ndev->xdna);
--	if (ret)
--		return ret;
--
- 	ret = aie2_smu_exec(ndev, AIE2_SMU_SET_MPNPUCLK_FREQ,
- 			    ndev->priv->dpm_clk_tbl[dpm_level].npuclk, &freq);
- 	if (ret) {
- 		XDNA_ERR(ndev->xdna, "Set npu clock to %d failed, ret %d\n",
- 			 ndev->priv->dpm_clk_tbl[dpm_level].npuclk, ret);
--		goto suspend_put;
-+		return ret;
- 	}
- 	ndev->npuclk_freq = freq;
- 
-@@ -85,10 +80,9 @@ int npu1_set_dpm(struct amdxdna_dev_hdl *ndev, u32 dpm_level)
- 	if (ret) {
- 		XDNA_ERR(ndev->xdna, "Set h clock to %d failed, ret %d\n",
- 			 ndev->priv->dpm_clk_tbl[dpm_level].hclk, ret);
--		goto suspend_put;
-+		return ret;
- 	}
- 
--	amdxdna_pm_suspend_put(ndev->xdna);
- 	ndev->hclk_freq = freq;
- 	ndev->dpm_level = dpm_level;
- 	ndev->max_tops = 2 * ndev->total_col;
-@@ -98,35 +92,26 @@ int npu1_set_dpm(struct amdxdna_dev_hdl *ndev, u32 dpm_level)
- 		 ndev->npuclk_freq, ndev->hclk_freq);
- 
- 	return 0;
--
--suspend_put:
--	amdxdna_pm_suspend_put(ndev->xdna);
--	return ret;
- }
- 
- int npu4_set_dpm(struct amdxdna_dev_hdl *ndev, u32 dpm_level)
- {
- 	int ret;
- 
--	ret = amdxdna_pm_resume_get(ndev->xdna);
--	if (ret)
--		return ret;
--
- 	ret = aie2_smu_exec(ndev, AIE2_SMU_SET_HARD_DPMLEVEL, dpm_level, NULL);
- 	if (ret) {
- 		XDNA_ERR(ndev->xdna, "Set hard dpm level %d failed, ret %d ",
- 			 dpm_level, ret);
--		goto suspend_put;
-+		return ret;
- 	}
- 
- 	ret = aie2_smu_exec(ndev, AIE2_SMU_SET_SOFT_DPMLEVEL, dpm_level, NULL);
- 	if (ret) {
- 		XDNA_ERR(ndev->xdna, "Set soft dpm level %d failed, ret %d",
- 			 dpm_level, ret);
--		goto suspend_put;
-+		return ret;
- 	}
- 
--	amdxdna_pm_suspend_put(ndev->xdna);
- 	ndev->npuclk_freq = ndev->priv->dpm_clk_tbl[dpm_level].npuclk;
- 	ndev->hclk_freq = ndev->priv->dpm_clk_tbl[dpm_level].hclk;
- 	ndev->dpm_level = dpm_level;
-@@ -137,10 +122,6 @@ int npu4_set_dpm(struct amdxdna_dev_hdl *ndev, u32 dpm_level)
- 		 ndev->npuclk_freq, ndev->hclk_freq);
- 
- 	return 0;
--
--suspend_put:
--	amdxdna_pm_suspend_put(ndev->xdna);
--	return ret;
- }
- 
- int aie2_smu_init(struct amdxdna_dev_hdl *ndev)
-diff --git a/drivers/accel/amdxdna/amdxdna_pci_drv.h b/drivers/accel/amdxdna/amdxdna_pci_drv.h
-index c99477f5e454..0d50c4c8b353 100644
---- a/drivers/accel/amdxdna/amdxdna_pci_drv.h
-+++ b/drivers/accel/amdxdna/amdxdna_pci_drv.h
-@@ -101,7 +101,6 @@ struct amdxdna_dev {
- 	struct amdxdna_fw_ver		fw_ver;
- 	struct rw_semaphore		notifier_lock; /* for mmu notifier*/
- 	struct workqueue_struct		*notifier_wq;
--	bool				rpm_on;
- };
- 
- /*
-diff --git a/drivers/accel/amdxdna/amdxdna_pm.c b/drivers/accel/amdxdna/amdxdna_pm.c
-index fa38e65d617c..d024d480521c 100644
---- a/drivers/accel/amdxdna/amdxdna_pm.c
-+++ b/drivers/accel/amdxdna/amdxdna_pm.c
-@@ -15,14 +15,9 @@ int amdxdna_pm_suspend(struct device *dev)
- {
- 	struct amdxdna_dev *xdna = to_xdna_dev(dev_get_drvdata(dev));
- 	int ret = -EOPNOTSUPP;
--	bool rpm;
- 
--	if (xdna->dev_info->ops->suspend) {
--		rpm = xdna->rpm_on;
--		xdna->rpm_on = false;
-+	if (xdna->dev_info->ops->suspend)
- 		ret = xdna->dev_info->ops->suspend(xdna);
--		xdna->rpm_on = rpm;
--	}
- 
- 	XDNA_DBG(xdna, "Suspend done ret %d", ret);
- 	return ret;
-@@ -32,14 +27,9 @@ int amdxdna_pm_resume(struct device *dev)
- {
- 	struct amdxdna_dev *xdna = to_xdna_dev(dev_get_drvdata(dev));
- 	int ret = -EOPNOTSUPP;
--	bool rpm;
- 
--	if (xdna->dev_info->ops->resume) {
--		rpm = xdna->rpm_on;
--		xdna->rpm_on = false;
-+	if (xdna->dev_info->ops->resume)
- 		ret = xdna->dev_info->ops->resume(xdna);
--		xdna->rpm_on = rpm;
--	}
- 
- 	XDNA_DBG(xdna, "Resume done ret %d", ret);
- 	return ret;
-@@ -50,9 +40,6 @@ int amdxdna_pm_resume_get(struct amdxdna_dev *xdna)
- 	struct device *dev = xdna->ddev.dev;
- 	int ret;
- 
--	if (!xdna->rpm_on)
--		return 0;
--
- 	ret = pm_runtime_resume_and_get(dev);
- 	if (ret) {
- 		XDNA_ERR(xdna, "Resume failed: %d", ret);
-@@ -66,9 +53,6 @@ void amdxdna_pm_suspend_put(struct amdxdna_dev *xdna)
- {
- 	struct device *dev = xdna->ddev.dev;
- 
--	if (!xdna->rpm_on)
--		return;
--
- 	pm_runtime_put_autosuspend(dev);
- }
- 
-@@ -81,14 +65,12 @@ void amdxdna_pm_init(struct amdxdna_dev *xdna)
- 	pm_runtime_use_autosuspend(dev);
- 	pm_runtime_allow(dev);
- 	pm_runtime_put_autosuspend(dev);
--	xdna->rpm_on = true;
- }
- 
- void amdxdna_pm_fini(struct amdxdna_dev *xdna)
- {
- 	struct device *dev = xdna->ddev.dev;
- 
--	xdna->rpm_on = false;
- 	pm_runtime_get_noresume(dev);
- 	pm_runtime_forbid(dev);
- }
--- 
-2.34.1
+Kind regards,
+Karunika
+
+> +	TP_ARGS(shader_bitmap, tiler_bitmap, l2_bitmap),
+> +	TP_STRUCT__entry(
+> +		__field(u64, shader_bitmap)
+> +		__field(u64, tiler_bitmap)
+> +		__field(u64, l2_bitmap)
+> +	),
+> +	TP_fast_assign(
+> +		__entry->shader_bitmap	= shader_bitmap;
+> +		__entry->tiler_bitmap	= tiler_bitmap;
+> +		__entry->l2_bitmap	= l2_bitmap;
+> +	),
+> +	TP_printk("shader_bitmap=0x%llx tiler_bitmap=0x%llx l2_bitmap=0x%llx",
+> +		  __entry->shader_bitmap, __entry->tiler_bitmap, __entry->l2_bitmap
+> +	)
+> +);
+> +
+> +#endif /* __PANTHOR_TRACE_H__ */
+> +
+> +#undef TRACE_INCLUDE_PATH
+> +#define TRACE_INCLUDE_PATH .
+> +#undef TRACE_INCLUDE_FILE
+> +#define TRACE_INCLUDE_FILE panthor_trace
+> +
+> +#include <trace/define_trace.h>
+> 
+
 
