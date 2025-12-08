@@ -2,194 +2,174 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F33CAE413
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 22:39:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B08CAE44C
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 23:02:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60A5D10E164;
-	Mon,  8 Dec 2025 21:39:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 258D710E3FD;
+	Mon,  8 Dec 2025 22:02:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ecEf5SfY";
+	dkim=pass (2048-bit key; secure) header.d=gmx.de header.i=deller@gmx.de header.b="pdmoYckG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5F5510E0E6;
- Mon,  8 Dec 2025 21:39:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765229960; x=1796765960;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=S3/SCBfc9hmmCtpMkBeT9yuWyOdZsZd3rW9rcHfvcx4=;
- b=ecEf5SfYXJNW5frteEx2bsj6XF3BPq9dXlCFBxyEBNu0JNpTFsVMnzrz
- EYx5+qOeuAo038gEGOly0NmobFx3ue6efgN8B6eL9D4EYqVo4Qe+kweA9
- FoviaoU/xyWbKoUrUqzJF5VN6k716Z+Gqo1GFwlpxOr69kzeBVoa7zSEX
- xc3ZaJKeK+Jyrz8apehgPimt7Mr+SMP1ulQmtMIxOpWxIFH6Y5x4xQgKT
- B9Xz8vT15tcAGs5tBqyjwIZa89Kv8RMAc8kXyx1HfNIlTfAJY48A9sdYV
- g//VpL0vhAQAIhAWeAjeSJpiIgDJTdkgAepTqxXuMYm831wnPurkAymb1 w==;
-X-CSE-ConnectionGUID: Fx70YDAnQKi0Oz9W1UDr0A==
-X-CSE-MsgGUID: XIS7GLv5QFi0TXfPvUToaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="77799231"
-X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; d="scan'208";a="77799231"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2025 13:39:19 -0800
-X-CSE-ConnectionGUID: NWO4p2nYRaK/LzqJyvImwA==
-X-CSE-MsgGUID: V5ovTrEHS4mjvNI/SBXq+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; d="scan'208";a="200209945"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2025 13:39:19 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 8 Dec 2025 13:39:18 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Mon, 8 Dec 2025 13:39:18 -0800
-Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.1) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Mon, 8 Dec 2025 13:39:18 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JpkctHhbljcQP4k6ZVTY2RaOdrV9pb0JpnAHQbRieRx+JCkAyoHtMrBGVakcbpKw1U9lnxg9CGLFoaWzmDTwpHIlXf7RKMvRQo5xq8SaN/+LAjkS8RuUDIZwdbRDFF5sTTfSnbPNm0CrtyrLaJqUv6A7c6fY6TQBxm8aoWh6/aP8ouW2RR4BYiQbTZRDaxBWthpWdpakIB0MfhzGLFkd2iasLl0kU0v0ZABnG5i1oXsrBCByuGTIA8Lq3Zy3T9uwe+eGMF5ezYMPwERsYunukDYpmjb+VbNB9iJGXsIyOGHnq4jaeG7vmigo5jrKHYSb7vSb7vHfBjKbaZBLPlIDSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jSWIZhH5kf8PClNOBqS7TibvPxIGkLNdYtP/lo4Ygmg=;
- b=LcIXNYGGr3vdzADyipgZkqKnZO8SjywRNbt4O1l4fnfPyc3l0bmaH/cCqTCD8K/InutzFHT3uRT/W9ik3kYh1eey2hfmLk7+qz1iEaPvko+1h5EwX3012+aF4qEe57M9RImjxnJyFwmlQF22d+SuxL2d58NDUOxvNSyAwG2TX2eeTrKz5fHxJBQ62hZ5R0TKu1pA3BELSH4i7+bAypp3uLm28f7ekuri8EUZ/CCM3qGpQbIwrUU/aGhZkI7xXj6TGYsbTQdf3KMt4ouYG1a4fatprinqrcKID69hsO7XRCtrrbwFgbaYxTfBOW6R2CVZPlnUgY7ca1oZYiu5LLbTmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
- by CYYPR11MB8406.namprd11.prod.outlook.com (2603:10b6:930:ba::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.14; Mon, 8 Dec
- 2025 21:39:16 +0000
-Received: from PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
- ([fe80::9e94:e21f:e11a:332%7]) with mapi id 15.20.9388.013; Mon, 8 Dec 2025
- 21:39:16 +0000
-Date: Mon, 8 Dec 2025 13:39:13 -0800
-From: Matthew Brost <matthew.brost@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-CC: <phasta@kernel.org>, <vitaly.prosyak@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Alex
- Deucher" <alexander.deucher@amd.com>, <dakr@kernel.org>, Boris Brezillon
- <boris.brezillon@collabora.com>, Lucas Stach <l.stach@pengutronix.de>
-Subject: Re: [PATCH] drm/sched: run free_job work on timeout workqueue
-Message-ID: <aTdFgVM5s/H5tc4G@lstrano-desk.jf.intel.com>
-References: <20251128182235.47912-1-vitaly.prosyak@amd.com>
- <cdecd1e2-de0d-466f-b98b-927b2f364f79@amd.com>
- <c56ecd19d7ddc1f1ed4e7e9e13388c647de855b1.camel@mailbox.org>
- <49de5988-ea47-4d36-ba25-8773b9e364e2@amd.com>
- <aTMW0UCGQuE+MXLk@lstrano-desk.jf.intel.com>
- <21699026216379f294d6597ed6febd187229ffb9.camel@mailbox.org>
- <aTcf4o0huubgUPIQ@lstrano-desk.jf.intel.com>
- <aTcguvAQCZ07xD/C@lstrano-desk.jf.intel.com>
- <212ecf88-b175-44cc-af3f-7371340ed480@amd.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <212ecf88-b175-44cc-af3f-7371340ed480@amd.com>
-X-ClientProxiedBy: MW4P220CA0025.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:303:115::30) To PH7PR11MB6522.namprd11.prod.outlook.com
- (2603:10b6:510:212::12)
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DF72F10E2A8
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 22:02:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+ s=s31663417; t=1765231321; x=1765836121; i=deller@gmx.de;
+ bh=bdPJi7GKHnwHdhS8FRUx+plvpbTsYQFJ9hNXkR5DyLQ=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=pdmoYckGEPppxP+hCFekonNW0x8ghjMT9fVw6MqPn7MN7coj3sPrUuHJMmsgMi7s
+ ZIizcr/mRLt7zg7KPjEPyVLmyc6JLoZgo5Px6NJOFIcf8d9fPtDUg3bHRR5vchvo1
+ UF9HQ4S41P+/9DiGnGcQtUWe389b4bDpQ7pYx81MAb/iOhjkDE5CeumMb3KPIdo/1
+ we6iC0d/FFGiK0dC0snwmsPuqcUR8vCszL6lz7FwHGx9KvdYtorDh1AuuGMt7FLWZ
+ 2VioCfEHMGY1VFfgVAIAUFknXmnfTM3H7XdEpQKyGSx4o95xRw6kCxn0oltI+bgUk
+ l3UDws1d9yYKOX22eg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([109.250.50.255]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1McYCl-1w2t093jf3-00i8dy; Mon, 08
+ Dec 2025 23:02:00 +0100
+Message-ID: <dc2a9d7b-0495-4365-8353-b51dc0526b74@gmx.de>
+Date: Mon, 8 Dec 2025 23:02:00 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|CYYPR11MB8406:EE_
-X-MS-Office365-Filtering-Correlation-Id: 87802adf-969a-4c52-063c-08de36a23c64
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MVB6OUNiRXcvYnBhdG1wTE90WWc1TFpsOGxwSCt5Q2lSRG9BZCtkeFNDTWFa?=
- =?utf-8?B?QnE1SHU1c3Y2MTZEbzBIeWpCNE5EdHlFUitLdlpBajlGdFpOYUpkWk44MHRw?=
- =?utf-8?B?WXFuQllmWTRhZHFNNlpRM0FwY3FaVkV5THNRRVFYWW9TR3RXeEcvR1VTY0Mw?=
- =?utf-8?B?bFhYSUdTd1FwdldCMjBiaERnQVVwWjkrMUhlR0xwS0c1eWhxSDcxb0U1V0d2?=
- =?utf-8?B?WGttUElGT0ErNnhvVEY3RHN4c05rRkFTK2hia01YeUl4VmdsbVdNdzRTeVZw?=
- =?utf-8?B?bDNDTzh0bzVqeFRYNmVGTGg2end1dU9BcnR3dUFlTDErK25uMTlOVFBjeUxH?=
- =?utf-8?B?MFloWlE4UHRzR2ZYZTBPUEEvUndCTHFxVjNMbGhteFV5MWxBYlBwMExsa0Z6?=
- =?utf-8?B?NURHdk56eVV3N1VLaEhicDE2K1hXN2JzR1JDV21RRXBBdTd3cjllR2N5c2Q3?=
- =?utf-8?B?NXZyaEJGQ3orVkwvL3FMek4wWFpuYTd4TS9zd3pTMkZPdVJPNmZaZ2I4enZB?=
- =?utf-8?B?bVh2Nzl6VnpUcUpNVWlSdWVUbVdPMUErSDVzZWsvc1VLWjMzbDN4RnhQMzZ4?=
- =?utf-8?B?bmY4a2Vob0hGLy9OTDNBY0hObkxkeUdPd3BFMHJoWFpNcDAwZFNlaDRyV0V2?=
- =?utf-8?B?dHgxcGJORkFkVWtYd3hia3Q4NXdIck5hQUVBUG5KUnpkenZaME5NeW00M3dw?=
- =?utf-8?B?UnlYOC9hdzg4d21OQXhoU3Mxa2Q4bUYxT2diSWJyWXI1ODluc3dOdGJMeFJB?=
- =?utf-8?B?SE9OSkI5SFAwUU5xeWVITHBtNTJRWkgvWi93SVZXME9ZeUJyNjZUdGlPU0Yv?=
- =?utf-8?B?WXZTRWhpZVJnaW5XNTlGSUVVNERjQ0c1S1lCYWxTR0YvOU95WTYvcXVZQ3Nt?=
- =?utf-8?B?WURGcEoveUFpRkw0bW5WQlZNK1FaRklyQnpVdXd1V1N5eG5nN0NZdFkzazBi?=
- =?utf-8?B?N29BMWZHQVhyY3MrbVJ4UkE0MUMxbGU5bnBDOWJ0QUlmQ3JTZnY2VVV2WjJq?=
- =?utf-8?B?eWRwcW04R0FlOUFBNllZOGd5bmY3UG1VcmV0KzUxT1d0MTVQVHRoT3NEWHg3?=
- =?utf-8?B?QWQ4RTB5cmRGSk9kcm4vdzR5eS9BT2FkMjdJNUtBZUVybDNqbnpRaDVXY01h?=
- =?utf-8?B?N0NFeTdIa2g3QUlxc2E5eFpwRWtLMWprVWRGSTZNR3BScExFdVMzYU44bjJp?=
- =?utf-8?B?VGUwN0d4Qi8venllWEhPTWR2ZDJOVWtiVU00RVdJblNTc1JoeUJxUWJHcjdB?=
- =?utf-8?B?MzNYRkxlQWREK3ErS0dwR2lOa0hSZUZDNjE1NWI0RGpaWXVkSmV6cVBWQWht?=
- =?utf-8?B?bFlDZEZJdUpSclcvVmV6b1NhUzVncHRZaW91UWFzejlWUE9DRG1Ja0pFdUVU?=
- =?utf-8?B?UXhvaEZjUzNBai9rZ1B4Z2dCcCtrdjFodkwzdm52RE5NT1B1WDZNVnZxUlNu?=
- =?utf-8?B?R0JBTHNoNWQ5UDZ4d0d5Q2dUZXhoSjRWZzMzSDZVclFheHhBQVNzY0x4bXVC?=
- =?utf-8?B?aG9jbG94eFRxZ1hsTGZIVXR5TGRmdTVDaFlqS0Z4SkhndURvdE85UXNMT29B?=
- =?utf-8?B?dUIxcktRVndDS2dUUTFSZTJKNkxTMThkMU1sSTFXVW5xUW5nQS9kbWlGNVNw?=
- =?utf-8?B?TXhETGdaNzVNRWFnYjh0azdOY0NNeUpRVWI3azFzRGY5QnFKVDgyOElBNi92?=
- =?utf-8?B?cm1wZjBoTngrcmJVS1ZZdGg2VWFGRXRZQ1c2ZjdqVFRPU2t1WmpEMFFjbnhL?=
- =?utf-8?B?VmRuL1ZoTVMxaTBDZG5qTCtpbVhoLzdrbEtlbUFPZWVpSGRLMVpzaFZYaUlU?=
- =?utf-8?B?djNGM1Rlb1dYeDJLejJocmYrdGFkaEJFMnh5YzNLV0Q0WG1aQkxlczE5VEpC?=
- =?utf-8?B?Ujlza0gzZFYramNheUc0MU9TN0ZhWEx5Z3hyZkZzNG9UbHBrOFBuWnFEcVRR?=
- =?utf-8?Q?QrRzKEOR1yDbTqLmkEqAgMyHabEtey5W?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dk9HLzh6RkxQUC9WMmhGYVE2SWE5VGEzaEVXUWNRYjd1d2R6dDNQQ2luVHJC?=
- =?utf-8?B?SWFsTlBPYmc2aHBSaFk1bTk3WCtxbU5WZ3BDVEhRMmx2bjBvOWRGNm54QTd4?=
- =?utf-8?B?YXZxb2RiWk91RXlvcmcwZU1Ca25pNGVrbW5YWHMxSloyRXpDN1MrdERUTHlL?=
- =?utf-8?B?K0dneDZ5NmpnbklYWm43eXZWajV6Vllla3FNbmtCNzRqcmk0SjJPYVZ1KzZ5?=
- =?utf-8?B?aHhTVUlybkdVdHZQRVZiMUJVcDJjU1pUbEp6L2VFRWdjenUwQUZLczIxRVlr?=
- =?utf-8?B?S29GOUlMRGZnVW5DZzlvOW5YUE9kdFNWaHZZSGNjcDY2anMrTEhQRU1JNXlC?=
- =?utf-8?B?ODBscWJ2Nm9vWVcwM0ZVOUQ0MEZOVnNvMldvZ3BqOVZHRGVZMW5GWXVnYTI0?=
- =?utf-8?B?S25MM1JEK3ZUamw3djRkaWJFL0FYazhuMVlCeThQR0s0RjdNVFM0WllqcXpB?=
- =?utf-8?B?YW5yS29oQmtZejR0REJEQmZGbnJtU3lvSkpqdkFtR2pNT1NaNlFIUjZmaTk0?=
- =?utf-8?B?T2E4d1VJaDlZOXcxQTVFMVpUbXA2eTNteHhrOEFEdzJ4cE5KckJjdXJueHV2?=
- =?utf-8?B?WGdIZkVsUGNPclNZaTNGUkNGTXpaT09xVmxCQ3MwUFgycUlhQWpQRit4b0FH?=
- =?utf-8?B?aEMzR2tZSEdVRzB0RE12TnU4S0R1OE8xTlNjb01QMmtwVytWUEc1OXZCNXRq?=
- =?utf-8?B?ZlM2cnRoSitNd2xFYWxINHpYaFBrck9pWG1MZjZPRE5YdVMwZjF1VlVPVndy?=
- =?utf-8?B?Vzc5UHlHWkczb1JZek5IL2J0UEdKM0h5ajdxQzlyRTlaaVFiUDlzM2pPUEFw?=
- =?utf-8?B?NDFJZloreEV3MWlld2s0UjN2eFRjQ1NUektDdUt3VklhREtQN2dwR29VRXc1?=
- =?utf-8?B?bEJKVnhDdm94TGYzaXVNZWtGeXZMTXd3Qi9QTDVXSy91UmE0SmZDYUlQTlBX?=
- =?utf-8?B?ZFZVbHpDNmhnZDV1VzRrQ0ZCMDVmSkhueHJiZllaeklBaVo0RVFvOVIxdW5s?=
- =?utf-8?B?WVpWeDdoL1FlYnpQU1VoU1dOdlUwaTZtWE1KeGdtSEVJU0NyTFo3S2dUd1hj?=
- =?utf-8?B?MkNKUFRlVGVaSUJPajhNV1dMcUcyMWF5Myt2MlFXKzFBdktKZUhZcGpjeWdl?=
- =?utf-8?B?NThBZUpWQnZQd056eDIwUFU3Wk16bGZ6YXhNZ25SQzNzWnV2RW9kT1MrUTQ0?=
- =?utf-8?B?MVB2anQ5K1RLYVVDdHlsMUYwUXZZTEdDZGJvOEpPWnJZRnEzS3VtcmExZkcz?=
- =?utf-8?B?R05PUTUyZjI5TGYxYzdQcitLbmovOUtEaDVVK3hQdGtlSC9oR1BJcktHTFYy?=
- =?utf-8?B?NkpKT2V3NFhLYW12bm5rMDZFQS9FNjRYTGxuaHlxRTkyNEhaMlViUmtNUlUz?=
- =?utf-8?B?U1hSSzhnbmFubEZ1ZU1GNzJJUTNjSHlmaThhUXBZc2EycDZ0dDNiNUVmd3Nq?=
- =?utf-8?B?eGFZUHBWSk1mOXJDOFlITjdzU3F3My90cHU1bDZkb0twTHloRHVQdUZzcUdy?=
- =?utf-8?B?VnNuWjFzdE0yWjRGaWpwVU9ZL09JUEI3dGZGU0pOcnhhTjVjc1gycGdTQXI1?=
- =?utf-8?B?Qm5wdE1Ha2NIaFNvUXA2RUJvcjNGMy9DMnM5cDFaL0EwUlBQT0orVVZXb0Zz?=
- =?utf-8?B?bVNGNDlZcGhIeGQreWgyL2Q1SGZQZEJzVlY1MVV5RTliQ3Y4NzVjdCtqVU5h?=
- =?utf-8?B?ZXJMOGFNWG1FOE0vYm1zYTE5RnUyNHg3TCtwMkZaYkZUT1dvNzYrbW80aGRV?=
- =?utf-8?B?dE5oU2YvQzZLeXhEdzJOS1hJemp2SzNaY2JsalJ3bElvN2NPVUFtTzVGWHlt?=
- =?utf-8?B?bjhjeENnK25obGRhVnFnQVVxeG9XUzNRcTJiMlgwRVVOeE9BUTJ5N01JVXNP?=
- =?utf-8?B?Uko2Rjd6MU5TTTUxZ3lWN2tPaHBEN0c3YVh4MVN1WGtVSnVJSUlGUmNncG43?=
- =?utf-8?B?YXU1K2R0N09LaFpUdkpVTHRKYnRMN3pjam4ydlI1WUpvVmJlZWdaTGhaRXI5?=
- =?utf-8?B?eFdFTkdPSlNDbG55YVNJMDFkcFJKQkw2SVU5dEc4Z0xodlNuV3p2dXJxazdj?=
- =?utf-8?B?UnNYOEcwdUdEYkdzYTFoSTBOalZNVng3QloxZW1WOFhNRzVoUExvWk1aOXBk?=
- =?utf-8?B?OUhyc292THBBNjBhNEkzTEdNWWd3enZ4YisxU1NWYzVHK2Mxd1NDSFJtcEln?=
- =?utf-8?B?dkE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87802adf-969a-4c52-063c-08de36a23c64
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2025 21:39:16.0410 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rU+C4ggmg/blem9KEfX40lAScGGTr5L4XjAaji90zs0vXfDN0TIcGAMDyHw8nSXuYwHwIjvxY50tlpf3aIbm/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR11MB8406
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] riva/fbdev: fix divide error in nv3_arb()
+To: Guangshuo Li <lgs201920130244@gmail.com>,
+ Antonino Daplas <adaplas@gmail.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+References: <20251207072532.518547-1-lgs201920130244@gmail.com>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20251207072532.518547-1-lgs201920130244@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:dxqlLXJL8J3RzfMpLZv+vvGY1I9AUE3xF0muSuyE9Lf41DIIOSY
+ G41aEP+Qg8qN7t3VLWOaI0k/6JVckwsx0T1ga797Xk+0EmdHwfnp1+7VhXwgUzp6OX3J0ey
+ 3uE7foE92HreBKTrEreoFOCdwdP21jsomMe6BbAv6JBAZ0NZsu3aYmiX6FYGbYTmGxBGtcy
+ 57QR3oxJ8M1zdigjHS0Lg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:rR60tlFJr1g=;3QDzMlbYkU+G7uhU9eg2O5GtisW
+ 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
+ CK4/cH5XNy4YO/x+UYX5gQgIKV++F
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -205,224 +185,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Dec 08, 2025 at 08:43:03PM +0100, Christian König wrote:
-> On 12/8/25 20:02, Matthew Brost wrote:
-> > On Mon, Dec 08, 2025 at 10:58:42AM -0800, Matthew Brost wrote:
-> >> On Mon, Dec 08, 2025 at 11:35:33AM +0100, Philipp Stanner wrote:
-> >>> On Fri, 2025-12-05 at 09:30 -0800, Matthew Brost wrote:
-> >>>> On Fri, Dec 05, 2025 at 11:18:21AM +0100, Christian König wrote:
-> >>>>> On 12/1/25 10:04, Philipp Stanner wrote:
-> ....
-> >>>>>> This entire fix idea seems to circle around the concept of relying yet
-> >>>>>> again on the scheduler's internal behavior (i.e., when it schedules the
-> >>>>>> call to free_job()).
-> >>>>>>
-> >>>>>> I think we discussed that at XDC, but how I see it if drivers have
-> >>>>>> strange job life time requirements where a job shall outlive
-> >>>>>> drm_sched's free_job() call, they must solve that with a proper
-> >>>>>> synchronization mechanism.
-> >>>>>
-> >>>>> Well that is not correct as far as I can see.
-> >>>>>
-> >>>>> The problem here is rather that the scheduler gives the job as parameter to the timedout_job() callback, but doesn't guarantee that ->free_job() callback isn't called while timedout_job() runs.
-> >>>>>
-> >>>>> This should be prevented by removing the job in question from the pending list (see drm_sched_job_timedout), but for some reason that doesn't seem to work correctly.
-> >>>>>
-> >>>>
-> >>>> Are you sure this is happening? It doesn’t seem possible, nor have I
-> >>>> observed it.
-> >>>
-> >>> It's impossible, isn't it?
-> >>>
-> >>> static void drm_sched_job_timedout(struct work_struct *work) { struct drm_gpu_scheduler *sched; struct drm_sched_job *job; enum drm_gpu_sched_stat status = DRM_GPU_SCHED_STAT_RESET; sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work); /* Protects against concurrent deletion in drm_sched_get_finished_job */ spin_lock(&sched->job_list_lock); job = list_first_entry_or_null(&sched->pending_list, struct drm_sched_job, list); if (job) { /* * Remove the bad job so it cannot be freed by a concurrent * &struct drm_sched_backend_ops.free_job. It will be * reinserted after the scheduler's work items have been * cancelled, at which point it's safe. */ list_del_init(&job->list); spin_unlock(&sched->job_list_lock); status = job->sched->ops->timedout_job(job);
-> >>>
-> >>>
-> >>>    1. scheduler takes list lock
-> >>>    2. removes job from list
-> >>>    3. unlocks
-> >>>    4. calls timedout_job callback
-> >>>
-> >>>
-> >>> How can free_job_work, through drm_sched_get_finished_job(), get and
-> >>> free the same job?
-> >>>
-> >>
-> >> It can't.
-> 
-> But exactly that happens somehow. Don't ask me how, I have no idea.
-> 
-> My educated guess is that the job somehow ends up on the pending list again.
-> 
-> >>
-> >>> The pending_list is probably the one place where we actually lock
-> >>> consistently and sanely.
-> >>>
-> >>> I think this needs to be debugged more intensively, Christian.
-> >>>
-> >>>
-> >>>>
-> >>>> What actually looks like a problem is that in drm_sched_job_timedout,
-> >>>> free_job can be called. Look at [2]—if you’re using free_guilty (Xe
-> >>>> isn’t, but [2] was Xe trying to do the same thing), this is actually
-> >>>> unsafe. The free_guilty code should likely be removed as that definitely
-> >>>> can explode under the right conditions.
-> >>>
-> >>> I'm right now not even sure why free_guilty exists, but I don't see how
-> >>
-> >> I'm sure why free_guilty exists either. If the fence is signaled in
-> >> timedout job free_job will get scheduled on another work_item.
-> >>
-> >>> it's illegal for drm_sched to call free_job in drm_sched_job_timedout?
-> >>>
-> >>> free_job can be called at any point in time, drivers must expect that.
-> >>> No lock is being held, and timedout_job already ran. So what's the
-> >>> problem?
-> >>>
-> >>> For drivers with additional refcounting it would be even less of a
-> >>> problem.
-> >>>
-> >>
-> >> No, the scheduler can still reference the job.
-> >>
-> >> 1265         fence = sched->ops->run_job(sched_job);
-> >> 1266         complete_all(&entity->entity_idle);
-> >> 1267         drm_sched_fence_scheduled(s_fence, fence);
-> >> 1268
-> >> 1269         if (!IS_ERR_OR_NULL(fence)) {
-> >> 1270                 r = dma_fence_add_callback(fence, &sched_job->cb,
-> >> 1271                                            drm_sched_job_done_cb);
-> >> 1272                 if (r == -ENOENT)
-> >> 1273                         drm_sched_job_done(sched_job, fence->error);
-> >> 1274                 else if (r)
-> >> 1275                         DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n", r);
-> >> 1276
-> >> 1277                 dma_fence_put(fence);
-> >> 1278         } else {
-> >> 1279                 drm_sched_job_done(sched_job, IS_ERR(fence) ?
-> >> 1280                                    PTR_ERR(fence) : 0);
-> >> 1281         }
-> >> 1282
-> >> 1283         wake_up(&sched->job_scheduled);
-> >> 1284         drm_sched_run_job_queue(sched);
-> >>
-> >> At line 1269, the run_job work item is interrupted. Timed-out jobs run,
-> >> call free_job, which performs the final put. Then the run_job work item
-> >> resumes—and boom, UAF. Using the same reasoning, I think moving free_job
-> >> to the timed-out work queue could also cause issues.
-> >>
-> >> If run_job work item took a reference to the job before adding it to the
-> >> pending list and dropped it after it was done touching it in this
-> >> function, then yes, that would be safe. This is an argument for moving
-> >> reference counting into the base DRM scheduler class, it would make
-> > 
-> > typo: s/DRM scheduler class/DRM job class
-> 
-> That strongly sounds like re-inventing the scheduler fence.
-> 
+On 12/7/25 08:25, Guangshuo Li wrote:
+> A userspace program can trigger the RIVA NV3 arbitration code by
+> calling the FBIOPUT_VSCREENINFO ioctl on /dev/fb*. When doing so,
+> the driver recomputes FIFO arbitration parameters in nv3_arb(), using
+> state->mclk_khz (derived from the PRAMDAC MCLK PLL) as a divisor
+> without validating it first.
+>=20
+> In a normal setup, state->mclk_khz is provided by the real hardware
+> and is non-zero. However, an attacker can construct a malicious or
+> misconfigured device (e.g. a crafted/emulated PCI device) that exposes
+> a bogus PLL configuration, causing state->mclk_khz to become zero.
+> Once nv3_get_param() calls nv3_arb(), the division by state->mclk_khz in
+> the gns calculation causes a divide error and crashes the kernel.
+>=20
+> Fix this by checking whether state->mclk_khz is zero and bailing out bef=
+ore doing the division.
+>=20
+> The following log reveals it:
+>=20
+> rivafb: setting virtual Y resolution to 2184
+> divide error: 0000 [#1] PREEMPT SMP KASAN PTI
+> CPU: 0 PID: 2187 Comm: syz-executor.0 Not tainted 5.18.0-rc1+ #1
+> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-5=
+9-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
+> RIP: 0010:nv3_arb drivers/video/fbdev/riva/riva_hw.c:439 [inline]
+> RIP: 0010:nv3_get_param+0x3ab/0x13b0 drivers/video/fbdev/riva/riva_hw.c:=
+546
+> Code: c1 e8 03 42 0f b6 14 38 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 08 84 =
+d2 0f 85 b7 0e 00 00 41 8b 46 18 01 d8 69 c0 40 42 0f 00 99 <41> f7 fc 48 =
+63 c8 4c 89 e8 48 c1 e8 03 42 0f b6 14 38 4c 89 e8 83
+> RSP: 0018:ffff888013b2f318 EFLAGS: 00010206
+> RAX: 0000000001d905c0 RBX: 0000000000000016 RCX: 0000000000040000
+> RDX: 0000000000000000 RSI: 0000000000000080 RDI: ffff888013b2f6f0
+> RBP: 0000000000000002 R08: ffffffff82226288 R09: 0000000000000001
+> R10: 0000000000000000 R11: 0000000000000001 R12: 0000000000000000
+> R13: ffff888013b2f4d8 R14: ffff888013b2f6d8 R15: dffffc0000000000
+> Call Trace:
+>    nv3CalcArbitration.constprop.0+0x255/0x460 drivers/video/fbdev/riva/r=
+iva_hw.c:603
+>    nv3UpdateArbitrationSettings drivers/video/fbdev/riva/riva_hw.c:637 [=
+inline]
+>    CalcStateExt+0x447/0x1b90 drivers/video/fbdev/riva/riva_hw.c:1246
+>    riva_load_video_mode+0x8a9/0xea0 drivers/video/fbdev/riva/fbdev.c:779
+>    rivafb_set_par+0xc0/0x5f0 drivers/video/fbdev/riva/fbdev.c:1196
 
-Perhaps.
+Doesn't it make sense to check mclk_khz (or the various variables which
+lead to mclk_khz) in rivafb_set_par() or any of the other functions mentio=
+ned
+in this trace?
+If in doubt, mclk_khz could be initialized to a sane value?
 
-> What if we completely drop the job object? Or merge it into the scheduler fence?
-> 
-> The fence has reference counting, proper state transitions and a well defined lifetime.
-> 
-> We would just need ->schedule and ->finished functions instead of ->run_job and ->free_job. Those callbacks would then still be called by the scheduler in work item context instead of the irq context of the dma_fence callbacks.
+Helge
 
-Yes, definitely no IRQ contexts.
 
-> 
-> The job can then be a void* in the scheduler fence where drivers can put anything they want and also drivers control the lifetime of that. E.g. they can free it during ->schedule as well as during ->finished.
-> 
+>    fb_set_var+0x604/0xeb0 drivers/video/fbdev/core/fbmem.c:1033
+>    do_fb_ioctl+0x234/0x670 drivers/video/fbdev/core/fbmem.c:1109
+>    fb_ioctl+0xdd/0x130 drivers/video/fbdev/core/fbmem.c:1188
+>    __x64_sys_ioctl+0x122/0x190 fs/ioctl.c:856
+>=20
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+> ---
+>   drivers/video/fbdev/riva/riva_hw.c | 3 +++
+>   1 file changed, 3 insertions(+)
+>=20
+> diff --git a/drivers/video/fbdev/riva/riva_hw.c b/drivers/video/fbdev/ri=
+va/riva_hw.c
+> index 8b829b720064..d70c6c4d28e8 100644
+> --- a/drivers/video/fbdev/riva/riva_hw.c
+> +++ b/drivers/video/fbdev/riva/riva_hw.c
+> @@ -436,6 +436,9 @@ static char nv3_arb(nv3_fifo_info * res_info, nv3_si=
+m_state * state,  nv3_arb_in
+>       vmisses =3D 2;
+>       eburst_size =3D state->memory_width * 1;
+>       mburst_size =3D 32;
+> +	if (!state->mclk_khz)
+> +		return (0);
+> +
+>       gns =3D 1000000 * (gmisses*state->mem_page_miss + state->mem_laten=
+cy)/state->mclk_khz;
+>       ainfo->by_gfacc =3D gns*ainfo->gdrain_rate/1000000;
+>       ainfo->wcmocc =3D 0;
 
-I think this is a reasonable idea, but it would require major surgery
-across the subsystem plus the 11 upstream drivers I’m counting that use
-DRM scheduler. This would be a huge coordinated effort.
-
-So I see three options:
-
-1. Rename free_job to put_job and document usage. Rip out free_guilty.
-   Likely the easiest and least invasive.
-
-2. Move reference counting to the base DRM scheduler job object, provide a
-   vfunc for the final job put, and document usage. Medium invasive.
-
-3. Move job (driver) side tracking to the scheduler fence and let it
-   control the lifetime. Very invasive.
-
-I’ll support any option, but my personal bandwidth to dive into
-something like #3 just isn’t there (of course, I can help review
-scheduler changes and fix up Xe, etc.).
-
-Matt
-
-> Christian.
-> 
-> > 
-> > Matt
-> > 
-> >> ownership clear rather than relying on ordered work queues to keep
-> >> everything safe.
-> >>
-> >>>>
-> >>>> [2] git format-patch -1 ea2f6a77d0c40
-> >>>>
-> >>>>>> The first question would be: what does amdgpu need the job for after
-> >>>>>> free_job() ran? What do you even need a job for still after there was a
-> >>>>>> timeout?
-> >>>>>
-> >>>>> No, we just need the job structure alive as long as the timedout_job() callback is running.
-> >>>>>
-> >>>>
-> >>>> Yes, I agree.
-> >>>
-> >>> As far as I can see that's how it's already implemented? No one can
-> >>> free that job while timedout_job() is running in
-> >>> drm_sched_job_timedout().
-> >>>
-> >>
-> >> See above, free guility is still problematic.
-> >>  
-> >>>>
-> >>>>>> And if you really still need its contents, can't you memcpy() the job
-> >>>>>> or something?
-> >>>>>>
-> >>>>>> Assuming that it really needs it and that that cannot easily be solved,
-> >>>>>> I suppose the obvious answer for differing memory life times is
-> >>>>>> refcounting. So amdgpu could just let drm_sched drop its reference in
-> >>>>>> free_job(), and from then onward it's amdgpu's problem.
-> >>>>>>
-> >>>>>> I hope Matthew can educate us on how Xe does it.
-> >>>>>
-> >>>>> We discussed this on XDC and it was Matthew who brought up that this can be solved by running timeout and free worker on the same single threaded wq.
-> >>>>>
-> >>>>
-> >>>> No, see my explainations above. This is not my suggestion.
-> >>>>
-> >>>>>>
-> >>>>>> AFAIK Nouveau doesn't have that problem, because on timeout we just
-> >>>>>> terminate the channel.
-> >>>>>>
-> >>>>>> Would also be interesting to hear whether other driver folks have the
-> >>>>>> problem of free_job() being racy.
-> >>>>>
-> >>>>> I think that this is still a general problem with the drm scheduler and not driver specific at all.
-> >>>>>
-> >>>>
-> >>>> Maybe the free_guilty is likely a scheduler problem but I'm not seeing
-> >>>> an issue aside from that.
-> >>>
-> >>> I also can't see the bug. I fail to see how drm_sched can free a job
-> >>> that's currently in use in timedout_job(). If that can happen,
-> >>> Christian, Vitaly, please point us to where and how. Only then can we
-> >>> decide on how to fix it properly.
-> >>>
-> >>
-> >> Again see above.
-> >>
-> >> Matt
-> >>
-> >>>
-> >>> P.
-> >>>
-> >>>
-> 
