@@ -2,58 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 425D0CAD8CB
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 16:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79F6CAD9D2
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 16:37:54 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C34810E2C6;
-	Mon,  8 Dec 2025 15:18:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2426710E46C;
+	Mon,  8 Dec 2025 15:37:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iSvy8L2d";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="D6l87jsU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B965A10E0F8;
- Mon,  8 Dec 2025 15:18:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765207125; x=1796743125;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=vtbCP0So9dg8wp3/8nIemhY3agwH5kWIiXFupDiqAjU=;
- b=iSvy8L2drBiQLNYTTQdZAcu+yw203TMm/E+AzazckvTqPXvnca/VlAuZ
- SYYrpoxUOPUwlT7bMacCQ4mRzDK8TGl03ABCPWRaDyKMIroM/YtsykDJH
- 5MIoqZTmg3diWGxlKKR1luPPw/SlMyMhp9QZ42WIB2uawLdQ7hlGorY5s
- V9Ds0QqJx4QN/JmC1cIQe5lfZa3uhT8+ZJ2XuyYODrMAU+OVFKgrBF2sN
- Uf9Bz8zkw3DAvA6eBd93mdmyzdgy6qn0cagOCgXNjVyGGItsKcomeBhsH
- wff4JGtZxNTZJ7dM4Q9CKSC9V7W4VKIZVG8ELvV2B8lPhNPbKavNdPnpc Q==;
-X-CSE-ConnectionGUID: KPE/8VDtTQeRMZ+K2aY98g==
-X-CSE-MsgGUID: j47PwWcRQJiHhbQ8d2BAxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="77832357"
-X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; d="scan'208";a="77832357"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
- by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2025 07:18:44 -0800
-X-CSE-ConnectionGUID: KhUq0OVaQQGbIq9kw3pIRA==
-X-CSE-MsgGUID: VRPcS6l6QxW+Bg745+YVeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; d="scan'208";a="233327070"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.125])
- by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Dec 2025 07:18:43 -0800
-From: Jani Nikula <jani.nikula@intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: tzimmermann@suse.de, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v3 00/25] drm/vblank: refactoring and cleanups
-In-Reply-To: <cover.1764933891.git.jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1764933891.git.jani.nikula@intel.com>
-Date: Mon, 08 Dec 2025 17:18:39 +0200
-Message-ID: <8fc6032b934906a4bb0858de0d4b50105bc0f77f@intel.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4DB3910E47A
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 15:37:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id CD64944413;
+ Mon,  8 Dec 2025 15:37:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59B71C19421;
+ Mon,  8 Dec 2025 15:37:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1765208269;
+ bh=sQBLCggpWUs46ctf8vTeXJJknxGthk/4rj5ecAgnjjs=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=D6l87jsU1xfZJ69yelDQZu9tFPM6tASVJRrM3vZWv4G2vTMKBPIU587YUSn3VYALt
+ hEHxYK3zbDuUfX8IZUUjSrV1/BeebUg8/n+5Ik4YiayFVg3sAeSSuqCGnzcAoem+BY
+ RfMqdpu6AIbqVxd/IWmg2ATpd1L0HSAEHqoCQ5NhGiModFUHBqLqNy9lVMtSuUFjU1
+ 3acQKt5RbbqTmUG21RxZb+HO+rRerzC9MRmzcLcTRxf8stU/m9aMhWP/w5Bn2DrH2Z
+ ZmzCXIU1BoKLVcEaUu9Qoc2IDjxijImZ1MiByKv5PkKNqVpycGM15MiLhTOFdarlfk
+ PPRpdIrK3SY2w==
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: (subset) [PATCH v2 01/16] drm/atomic: Add dev pointer to
+ drm_private_obj
+Date: Mon,  8 Dec 2025 16:37:44 +0100
+Message-ID: <176520825996.809294.2243412562989914537.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251014-drm-private-obj-reset-v2-1-6dd60e985e9d@kernel.org>
+References: <20251014-drm-private-obj-reset-v2-0-6dd60e985e9d@kernel.org>
+ <20251014-drm-private-obj-reset-v2-1-6dd60e985e9d@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,23 +63,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 05 Dec 2025, Jani Nikula <jani.nikula@intel.com> wrote:
-> v3 of [1], just a resend to dri-devel, which I forgot to add, and
-> Thomas' R-b's, which I also forgot to add, in v2.
->
-> Fingers crossed I don't fumble it this time.
+On Tue, 14 Oct 2025 11:31:45 +0200, Maxime Ripard wrote:
+> All the objects that need to implement some callbacks in KMS have a
+> pointer in there structure to the main drm_device.
+> 
+> However, it's not the case for drm_private_objs, which makes it harder
+> than it needs to be to implement some of its callbacks. Let's add that
+> pointer.
+> 
+> [...]
 
-Yeah well, didn't fumble as such, but kunit breaks all over the place
-with this. There are so many places that subtly call the interfaces when
-there are no vblanks.
+Applied to misc/kernel.git (drm-misc-next).
 
-I tried to fix it, but looks like the only sane way is to add
-drm_dev_has_vblank(dev) checks at the highest level functions and return
-early. Back to the drawing board a bit. Maybe I'll send some of the
-early patches separately.
-
-BR,
-Jani.
-
--- 
-Jani Nikula, Intel
+Thanks!
+Maxime
