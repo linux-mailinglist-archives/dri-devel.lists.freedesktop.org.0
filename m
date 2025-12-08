@@ -2,94 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D925CAD481
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 14:34:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 982DDCAD530
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 14:44:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 627B610E153;
-	Mon,  8 Dec 2025 13:33:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF03E10E3F8;
+	Mon,  8 Dec 2025 13:44:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RBlvQSuQ";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hR3HVuEV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 805FE10E153
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 13:33:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89CC910E3F8
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 13:44:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1765200823;
+ s=mimecast20190719; t=1765201480;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DSGQbJU62dXQ3/HgjxN8bSIZFSLSDYlIc/2r8ds+EZA=;
- b=RBlvQSuQ/e+VaaHqNA4NPnmWgILGSRR+wwdpMVeT13Ia+VMArg2PwvGlW29eakTfyiWK7N
- jH3DzLe6C4sOekY4ZCUoZza6UL2x3pFJpYJB/braLFdPtSCSyQHtQvnqE+8Uaxpd+UYuuu
- MerwShSPLwqsS7Rv+zA0Ztf3fcVDyb8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9liAUxTZcYAvrXRnAoojNcLHa78VR2fm4Rt4/fDPnGw=;
+ b=hR3HVuEVNMaq7bLszMXTRQwJO6FHHi+O31JYjtBvpeJvQlgZwi833DhcmzQ40P3mTHsrbG
+ 0Vc+k8BdR+b3Crb6rX/y90z3Vi16fx4BRh2KiCCHY/fDCzmM9/dpGIQSRW1uY5eCj9ekZS
+ NXMkM6RNuijo8yTn/ytzhkDZD61ZjVM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-549-4IvR2clkMhaQGtt72nMgqA-1; Mon, 08 Dec 2025 08:33:41 -0500
-X-MC-Unique: 4IvR2clkMhaQGtt72nMgqA-1
-X-Mimecast-MFC-AGG-ID: 4IvR2clkMhaQGtt72nMgqA_1765200820
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-477563a0c75so24081765e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 05:33:41 -0800 (PST)
+ us-mta-257-NWB2jXqGNfmonauMuoUJhg-1; Mon, 08 Dec 2025 08:44:39 -0500
+X-MC-Unique: NWB2jXqGNfmonauMuoUJhg-1
+X-Mimecast-MFC-AGG-ID: NWB2jXqGNfmonauMuoUJhg_1765201478
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-477cf25ceccso40094115e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 05:44:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765200820; x=1765805620;
+ d=1e100.net; s=20230601; t=1765201478; x=1765806278;
  h=mime-version:user-agent:content-transfer-encoding:references
  :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DSGQbJU62dXQ3/HgjxN8bSIZFSLSDYlIc/2r8ds+EZA=;
- b=PHhbSjWbwVINTOzlgCj/StTv8rQxjZz25FSFALzqD7K1q26cBXCuP7qvaGAm14EeyX
- gdex9QCNmwkxAiaFl4U0o40ec3iwpYLo63jX/XGU8uebq/1p2/XqbRZlOB2FPT4/juZV
- +zwgfRkdDfbyK5muYBD+snug2bohJ0w0V20W4pDmTGZXxIdNCnlm2H7XVcNyff4V+psX
- dCJrtlzeO2VSBqyrDXJmvSB7WdW5HZJiobQEvPH1n5sHNuQkppIbUwBM1j3ybGZnl6yJ
- mHYcZX2qFN/TYcN9JLE6CzoGE8I69rAQOm/t8CkLgZ9wkOwmopHbZ5wL7mol2/l9+rsw
- CliQ==
+ bh=5UTdihlCxrJ/v+55wome2ohhqUb+LoZs5AAOQUD/qKo=;
+ b=VD+Hni+YV76ZLG4Ueb78cO14zXmj0g4z8zsSkEY21ETIiVxagBnlmi4Wlngf2xxMyD
+ jToAcl4vHs+5MErHBORIy0A1SOvEd2teMTLlvBO4g8Vjv9LSHJFAIZHxzgMdF8E6ajBO
+ Kx1DbPubRh2186sgH03F1ADDfcZeOrZoc8q3UOKIVTFEt3LA9T9UnYqx57GHDlohT7Qq
+ 20qyPm7D0BmxHv6WWNGS6d9koA5j4xLT5mG+7OSqpvVprZbS2W3MdCIrzHRHHn8eAskx
+ l0VmWxkGh6L83McHQG7pWESIrDxZFRzNqMrn7OqSY+jPmbF5AasSdy/lItDqFLs0Jobc
+ ybQg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXwr+RzQnb1ab0kL8EnNqXztc2p6+yvapm9Q97dNh+UGLoa6jlmZjBFifx4NWWpupqwvko72qojl6I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzlW3ESnbPIun3KpX5GQiRtoOQP5Jdz2Cks21inHWBun4pZvsZo
- C9zFf9gKw0SxPmARL/Fs9Le9QJ17vPFiH+fVey+zMM50EBxmxI49PeGfv9QVtwrRQvRY3eKZ5Fg
- KwC8+R/vSLD/fntLsIllbxebKHJUP4morn0B3xl5ZACbq2lb2N1DBQd6ce2DwQMn7PnMhbw==
-X-Gm-Gg: ASbGncswQ2os7JCN/6/1cbVg1pdlQjO4+AzLmCnvFGp9CwoeaZynjNmgIZs21C5n2zV
- 3gyK0e7aMUiM5yPkkhwMYOHB7C1Kod53fN+APxYSxRJd01SvNEg75TYajRjeUbJPb+Lh4R/QfCq
- xQDMiWbr5/8UuS6b8mjfHna36NbLIKKKBDdwNX6YyCx380dw+SSJnZfHW6G+ui4Wj7SmWJ/8TV2
- tGujXsLrm+4Ls+IdQojb0iM1RXA65vP88bHKqVzWgMsheSTFDETpfIiN7hUUw3It96kaUyoGiCq
- cX8QHA0e2ZweUafSIiix8K45s6IyNDS/NaxSiE2VooTnXxAMKgjw5C9/nZmj8YUXra6wYc9SM5p
- iZkFqjVgaOigAAY9lYsHY/d8F7uQaVTiTL73oUGRRrFZbA4sPX4IJ3pmC
-X-Received: by 2002:a05:600c:210b:b0:479:3a86:dc1d with SMTP id
- 5b1f17b1804b1-4793a86dcdemr51002935e9.37.1765200820252; 
- Mon, 08 Dec 2025 05:33:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHG9Wp4LLK9NpwUtuvkgaCMkhjD1nMtiCuk0IpeJ5VFbyDPOOzWg9H7FTZmnxbEDz6XeHEpHA==
-X-Received: by 2002:a05:600c:210b:b0:479:3a86:dc1d with SMTP id
- 5b1f17b1804b1-4793a86dcdemr51002805e9.37.1765200819760; 
- Mon, 08 Dec 2025 05:33:39 -0800 (PST)
+ AJvYcCWjZYosngUPtFB/XbTwyPncFGR6nT/Rft8KJ/350vCoTSEzY7ynJEHxnskm9YAyEFWa4mhQ47IvWho=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwRbnGOdCZLL11hrK8T1z58WAqzQhh2JNXW9Adx9IHmrG+oG8pU
+ RFQ/0mQ5iGM76ZYsTkU1x5p7Q+060YzLGoGelVQD9UcG+yYXMrBwiz6FX/JvRFEP+Kdp/NIy/ex
+ +kB/Xbc1prCD2NWlgzKIOpWuxYQ5NbreK/r0zogjO0+kEQW4d/U2EqouD/hkuWVEJhOkjfw==
+X-Gm-Gg: ASbGncsrCbQ+tj4kx4e9+nlQeo/LBiMPEDKAZ5oue0jhevtz8bYQJzOCRinXzFV/3zV
+ K4KpmroyNmwxrDUir6e8w1snJAS4EpudElvqArAYcH4XSR2ckv8I+Z+0x2wsdfVi5ThoJ7kawJm
+ A7afjcZEAeLdzl3V+98c9yGs3uQCGm6AFf2OoVo3DO3LOv0KWaBtPTR1DY4b5krdFVuc5jfom1z
+ QI7WYomExtWL4WzMpzJZyndGzi46Di4QvKwwxHD9DRrAA258hKssEmr/kkuVZVRZUwVztjRKvzp
+ rhcHXuE0hYUz5q5CZo8slTtK4fS54Vnca/bvChsNG1gmo0FL63MzotNUMdGQExw3GbOQMN816+W
+ JwCjMUL9V5kMS6Gx2rQEQoDe5MsRW1qXcfuunk/O8Sbclh/h90BBhjANJ
+X-Received: by 2002:a05:6000:2884:b0:42f:8816:9507 with SMTP id
+ ffacd0b85a97d-42f89f58eafmr7378615f8f.63.1765201478020; 
+ Mon, 08 Dec 2025 05:44:38 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHNzXbr4QNksX/vYqCU437IdQLPh06CcRiT/YI/X+e97BT+9Vv2o5JanLDz3A0M6c0SEnZZ1A==
+X-Received: by 2002:a05:6000:2884:b0:42f:8816:9507 with SMTP id
+ ffacd0b85a97d-42f89f58eafmr7378590f8f.63.1765201477560; 
+ Mon, 08 Dec 2025 05:44:37 -0800 (PST)
 Received: from ?IPv6:2001:16b8:3d03:eb00:dc87:649d:b5b:d46f?
  ([2001:16b8:3d03:eb00:dc87:649d:b5b:d46f])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4792b157783sm137987045e9.5.2025.12.08.05.33.38
+ ffacd0b85a97d-42f7d353c9esm24868688f8f.40.2025.12.08.05.44.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 08 Dec 2025 05:33:39 -0800 (PST)
-Message-ID: <aeaced5616f80e4e59f6cbdce77ab22365ce1901.camel@redhat.com>
-Subject: Re: [PATCH v7 2/9] drm/sched: Add pending job list iterator
+ Mon, 08 Dec 2025 05:44:37 -0800 (PST)
+Message-ID: <f3f4306f6dd0286505bada7746c78e14f716f7c1.camel@redhat.com>
+Subject: Re: [PATCH v7 4/9] drm/xe: Stop abusing DRM scheduler internals
 From: Philipp Stanner <pstanner@redhat.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Alex
- Deucher <alexdeucher@gmail.com>
-Cc: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- dakr@kernel.org
-Date: Mon, 08 Dec 2025 14:33:37 +0100
-In-Reply-To: <3f71a73a-8360-409c-8a51-55c37230d4cf@amd.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ dakr@kernel.org, Alex Deucher <alexander.deucher@amd.com>, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Date: Mon, 08 Dec 2025 14:44:36 +0100
+In-Reply-To: <aTChOcJb1dTaD+e2@lstrano-desk.jf.intel.com>
 References: <20251201183954.852637-1-matthew.brost@intel.com>
- <20251201183954.852637-3-matthew.brost@intel.com>
- <0088fe0dd0d62b876d77b0f9e3a1c7586bdc5557.camel@redhat.com>
- <CADnq5_Pv20j+oSSFvfauUKvH8LUiVMCz2jgQyrDMw3CKACLNgQ@mail.gmail.com>
- <3f71a73a-8360-409c-8a51-55c37230d4cf@amd.com>
+ <20251201183954.852637-5-matthew.brost@intel.com>
+ <9bd6778fc3d22bad2b2f8adc6bb165134ef919e5.camel@redhat.com>
+ <aTChOcJb1dTaD+e2@lstrano-desk.jf.intel.com>
 User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: fjdZVTWHof24Tvd2LqEG64Zpv1PGjJFrMkO8UE3T49E_1765200820
+X-Mimecast-MFC-PROC-ID: uGsGd6kj4PwNbxucERTXSc0WkUs5iXRBPWdS-xj9Op0_1765201478
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -108,244 +106,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2025-12-05 at 10:19 +0100, Christian K=C3=B6nig wrote:
-> On 12/4/25 17:04, Alex Deucher wrote:
-> > On Wed, Dec 3, 2025 at 4:24=E2=80=AFAM Philipp Stanner <pstanner@redhat=
-.com> wrote:
+On Wed, 2025-12-03 at 12:44 -0800, Matthew Brost wrote:
+> On Wed, Dec 03, 2025 at 11:56:01AM +0100, Philipp Stanner wrote:
+> > On Mon, 2025-12-01 at 10:39 -0800, Matthew Brost wrote:
+> > > Use new pending job list iterator and new helper functions in Xe to
+> > > avoid reaching into DRM scheduler internals.
 > > >=20
-> > > +Cc Alex, Christian, Danilo
+
+[=E2=80=A6]
+
+> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > Reviewed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@int=
+el.com>
+> > > ---
+> > > =C2=A0drivers/gpu/drm/xe/xe_gpu_scheduler.c=C2=A0=C2=A0=C2=A0 |=C2=A0=
+ 4 +-
+> > > =C2=A0drivers/gpu/drm/xe/xe_gpu_scheduler.h=C2=A0=C2=A0=C2=A0 | 33 ++=
+--------
+> > > =C2=A0drivers/gpu/drm/xe/xe_guc_submit.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 81 ++++++------------------
+> > > =C2=A0drivers/gpu/drm/xe/xe_guc_submit_types.h | 11 ----
+> > > =C2=A0drivers/gpu/drm/xe/xe_hw_fence.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 16 -----
+> > > =C2=A0drivers/gpu/drm/xe/xe_hw_fence.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 2 -
+> > > =C2=A06 files changed, 27 insertions(+), 120 deletions(-)
 > > >=20
-> > >=20
-> > > On Mon, 2025-12-01 at 10:39 -0800, Matthew Brost wrote:
-> > > > Stop open coding pending job list in drivers. Add pending job list
-> > > > iterator which safely walks DRM scheduler list asserting DRM schedu=
-ler
-> > > > is stopped.
-> > > >=20
-> > > > v2:
-> > > > =C2=A0- Fix checkpatch (CI)
-> > > > v3:
-> > > > =C2=A0- Drop locked version (Christian)
-> > > > v4:
-> > > > =C2=A0- Reorder patch (Niranjana)
-> > >=20
-> > > Same with the changelog.
-> > >=20
-> > > >=20
-> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > > Reviewed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@i=
-ntel.com>
-> > > > ---
-> > > > =C2=A0include/drm/gpu_scheduler.h | 50 ++++++++++++++++++++++++++++=
-+++++++++
-> > > > =C2=A01 file changed, 50 insertions(+)
-> > > >=20
-> > > > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_schedule=
-r.h
-> > > > index 385bf34e76fe..9d228513d06c 100644
-> > > > --- a/include/drm/gpu_scheduler.h
-> > > > +++ b/include/drm/gpu_scheduler.h
-> > > > @@ -730,4 +730,54 @@ static inline bool drm_sched_job_is_signaled(s=
-truct drm_sched_job *job)
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 dma_fence_is_signaled(&s_fence->finished);
-> > > > =C2=A0}
-> > > >=20
-> > > > +/**
-> > > > + * struct drm_sched_pending_job_iter - DRM scheduler pending job i=
-terator state
-> > > > + * @sched: DRM scheduler associated with pending job iterator
-> > > > + */
-> > > > +struct drm_sched_pending_job_iter {
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_gpu_scheduler *sched;
-> > > > +};
-> > > > +
-> > > > +/* Drivers should never call this directly */
-> > > > +static inline struct drm_sched_pending_job_iter
-> > > > +__drm_sched_pending_job_iter_begin(struct drm_gpu_scheduler *sched=
-)
-> > > > +{
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_pending_job_iter iter =
-=3D {
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 .sched =3D sched,
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 };
-> > > > +
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 WARN_ON(!drm_sched_is_stopped(sched));
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 return iter;
-> > > > +}
-> > > > +
-> > > > +/* Drivers should never call this directly */
-> > > > +static inline void
-> > > > +__drm_sched_pending_job_iter_end(const struct drm_sched_pending_jo=
-b_iter iter)
-> > > > +{
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 WARN_ON(!drm_sched_is_stopped(iter.sched)=
+> > > diff --git a/drivers/gpu/drm/xe/xe_gpu_scheduler.c b/drivers/gpu/drm/=
+xe/xe_gpu_scheduler.c
+> > > index f4f23317191f..9c8004d5dd91 100644
+> > > --- a/drivers/gpu/drm/xe/xe_gpu_scheduler.c
+> > > +++ b/drivers/gpu/drm/xe/xe_gpu_scheduler.c
+> > > @@ -7,7 +7,7 @@
+> > > =C2=A0
+> > > =C2=A0static void xe_sched_process_msg_queue(struct xe_gpu_scheduler =
+*sched)
+> > > =C2=A0{
+> > > -=09if (!READ_ONCE(sched->base.pause_submit))
+> > > +=09if (!drm_sched_is_stopped(&sched->base))
+> > > =C2=A0=09=09queue_work(sched->base.submit_wq, &sched->work_process_ms=
+g);
+> >=20
+> > Sharing the submit_wq is legal. But next-level cleanness would be if
+> > struct drm_gpu_scheduler's internal components wouldn't be touched.
+> > That's kind of a luxury request, though.
+> >=20
+>=20
+> Yes, perhaps a helper to extract the submit_wq too.
+
+Could work; but best would be if driver's store their own pointer.
+That's not always possible (Boris recently tried to do it for Panthor),
+but often it is.
+
+>=20
+> > > =C2=A0}
+> > > =C2=A0
+> > > @@ -43,7 +43,7 @@ static void xe_sched_process_msg_work(struct work_s=
+truct *w)
+> > > =C2=A0=09=09container_of(w, struct xe_gpu_scheduler, work_process_msg=
 );
-> > > > +}
-> > > > +
-> > > > +DEFINE_CLASS(drm_sched_pending_job_iter, struct drm_sched_pending_=
-job_iter,
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __drm_sched=
-_pending_job_iter_end(_T),
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __drm_sched=
-_pending_job_iter_begin(__sched),
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_=
-gpu_scheduler *__sched);
-> > > > +static inline void *
-> > > > +class_drm_sched_pending_job_iter_lock_ptr(class_drm_sched_pending_=
-job_iter_t *_T)
-> > > > +{ return _T; }
-> > > > +#define class_drm_sched_pending_job_iter_is_conditional false
-> > > > +
-> > > > +/**
-> > > > + * drm_sched_for_each_pending_job() - Iterator for each pending jo=
-b in scheduler
-> > > > + * @__job: Current pending job being iterated over
-> > > > + * @__sched: DRM scheduler to iterate over pending jobs
-> > > > + * @__entity: DRM scheduler entity to filter jobs, NULL indicates =
-no filter
-> > > > + *
-> > > > + * Iterator for each pending job in scheduler, filtering on an ent=
-ity, and
-> > > > + * enforcing scheduler is fully stopped
-> > > > + */
-> > > > +#define drm_sched_for_each_pending_job(__job, __sched, __entity)=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0 scoped_guard(drm_sched_pending_job_iter, =
-(__sched))=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 list_for_each_entry((__job), &(__sched)->pending_list, list)=C2=A0=
-=C2=A0=C2=A0 \
-> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for_each_if(!(__enti=
-ty) || (__job)->entity =3D=3D (__entity))
-> > > > +
-> > > > =C2=A0#endif
-> > >=20
-> > >=20
-> > > See my comments in the first patch. The docu doesn't mention at all w=
-hy
-> > > this new functionality exists and when and why users would be expecte=
-d
-> > > to use it.
-> > >=20
-> > > As far as I remember from XDC, both AMD and Intel overwrite a timed o=
-ut
-> > > jobs buffer data in the rings on GPU reset. To do so, the driver need=
-s
-> > > the timedout job (passed through timedout_job() callback) and then
-> > > needs all the pending non-broken jobs.
-> > >=20
-> > > AFAICS your patch provides a generic iterator over the entire
-> > > pending_list. How is a driver then supposed to determine which are th=
-e
-> > > non-broken jobs (just asking, but that needs to be documented)?
-> > >=20
-> > > Could it make sense to use a different iterator which only returns jo=
-bs
-> > > of not belonging to the same context as the timedout-one?
-> > >=20
-> > > Those are important questions that need to be addressed before mergin=
-g
-> > > that.
-> > >=20
-> > > And if this works canonically (i.e., for basically everyone), it need=
-s
-> > > to be documented in drm_sched_resubmit_jobs() that this iterator is n=
-ow
-> > > the canonical way of handling timeouts.
-> > >=20
-> > > Moreover, btw, just yesterday I added an entry to the DRM todo list
-> > > which addresses drm_sched_resubmit_jobs(). If we merge this, that ent=
-ry
-> > > would have to be removed, too.
-> > >=20
-> > >=20
-> > > @AMD: Would the code Matthew provides work for you? Please give your
-> > > input. This is very important common infrastructure.
+> > > =C2=A0=09struct xe_sched_msg *msg;
+> > > =C2=A0
+> > > -=09if (READ_ONCE(sched->base.pause_submit))
+> > > +=09if (drm_sched_is_stopped(&sched->base))
+> > > =C2=A0=09=09return;
+> > > =C2=A0
+> > > =C2=A0=09msg =3D xe_sched_get_msg(sched);
+> > > diff --git a/drivers/gpu/drm/xe/xe_gpu_scheduler.h b/drivers/gpu/drm/=
+xe/xe_gpu_scheduler.h
+> > > index dceb2cd0ee5b..664c2db56af3 100644
+> > > --- a/drivers/gpu/drm/xe/xe_gpu_scheduler.h
+> > > +++ b/drivers/gpu/drm/xe/xe_gpu_scheduler.h
+> > > @@ -56,12 +56,9 @@ static inline void xe_sched_resubmit_jobs(struct x=
+e_gpu_scheduler *sched)
+> > > =C2=A0=09struct drm_sched_job *s_job;
+> > > =C2=A0=09bool restore_replay =3D false;
+> > > =C2=A0
+> > > -=09list_for_each_entry(s_job, &sched->base.pending_list, list) {
+> > > -=09=09struct drm_sched_fence *s_fence =3D s_job->s_fence;
+> > > -=09=09struct dma_fence *hw_fence =3D s_fence->parent;
+> > > -
+> > > +=09drm_sched_for_each_pending_job(s_job, &sched->base, NULL) {
+> > > =C2=A0=09=09restore_replay |=3D to_xe_sched_job(s_job)->restore_repla=
+y;
+> > > -=09=09if (restore_replay || (hw_fence && !dma_fence_is_signaled(hw_f=
+ence)))
+> > > +=09=09if (restore_replay || !drm_sched_job_is_signaled(s_job))
 > >=20
-> > I don't think drm_sched_resubmit_jobs() can work for us without major
-> > rework.=C2=A0 For our kernel queues, we have a single queue on which jo=
-bs
-> > for different clients are scheduled.=C2=A0 When we reset the queue, we =
-lose
-> > all jobs on the queue and have to re-emit the non-guilty ones.=C2=A0 We=
- do
-> > this at the ring level, i.e., we save the packets directly from the
-> > ring and then re-emit the packets for the non-guilty contexts to the
-> > freshly reset ring.=C2=A0 This avoids running run_job() again which wou=
-ld
-> > issue new fences and race with memory management, etc.
+> > So that's where this function is needed. You check whether that job in
+> > the pending_list is signaled.=20
 > >=20
-> > I think the following would be workable:
-> > 1. driver job_timedout() callback flags the job as bad. resets the bad
-> > queue, and calls drm_sched_resubmit_jobs()
-> > 2. drm_sched_resubmit_jobs() walks the pending list and calls
-> > run_job() for every job
 >=20
-> Calling run_job() multiple times was one of the worst ideas I have ever s=
-een.
+> Yes, during GT reset flows (think a device level reset) it is possible
+> we stop the scheduler between the window of a job signaling but before
+> free_job is called. We want avoid resubmission of jobs which have
+> signaled.
+
+I'm not so convinced then that the function should be called
+drm_sched_job_is_signaled(). A job is also associated with
+s_fence.finished.
+
+Why is it that that can race here, btw. =E2=80=93 isn't it your driver whic=
+h
+signals the hardware fences? How and where? Interrupts?
+
 >=20
-> The problem here is that you need a transactional approach to the interna=
-l driver state which is modified by ->run_job().
->=20
-> So for example if you have:
-> ->run_job(A)
-> ->run_job(B)
-> ->run_job(C)
->=20
-> And after a reset you find that you need to re-submit only job B and A & =
-C are filtered then that means that your driver state needs to get back bef=
-ore running job A.
->=20
-> > 2. driver run_job() callback looks to see if we already ran this job
-> > and uses the original fence rather than allocating a new one
->=20
-> Nope, the problem is *all* drivers *must* use the original fence. Otherwi=
-se you always run into trouble.
->=20
-> We should not promote a driver interface which makes it extremely easy to=
- shoot down the whole system.
->=20
-> > 3. driver run_job() callback checks to see if the job is guilty or
-> > from the same context and if so, sets an error on the fences and
-> > submits only the fence packet to the queue so that any follow up jobs
-> > will properly synchronize if they need to wait on the fence from the
-> > bad job.
-> > 4. driver run_job() callback will submit the full packet stream for
-> > non-guilty contexts
+> > > =C2=A0=09=09=09sched->base.ops->run_job(s_job);
 > >=20
-> > I guess we could use the iterator and implement that logic in the
-> > driver directly rather than using drm_sched_resubmit_jobs().
+> > Aaaaaahm. So you invoke your own callback. But basically just to access
+> > the function pointer I suppose?
+> >=20
+> > Since this is effectively your drm_sched_resubmit_jobs(), it is
+> > definitely desirable to provide a text book example of how to do resets
+> > so that others can follow your usage.
+> >=20
 >=20
-> Yeah, exactly that's the way to go.
+> Yes, but drm_sched_resubmit_jobs() does some nonsense with dma-fence
+> that I don=E2=80=99t need here. Honestly, I=E2=80=99m a little unsure wha=
+t that is
+> actually doing.
+>=20
 
-Sorry, I guess my message was confusing.
+Resubmit jobs shouldn't be used anymore, it's depercated. What I mean
+is that your code here effectively is the resubmission code. So if you
+think that it's the right way of doing resets, in harmony with
+drm_sched, then it would be good if this code is as tidy as possible
+and preferably even commented, so that we can point other driver
+programmers to this as an example of idiomatic usage.
 
-I don't mean anyone to use drm_sched_resubmit_jobs() at all. That
-function is deprecated, and since there are still users, we can't
-easily modify it.
-I just mentioned that function because its docstring should inform
-about what users should do *instead* of calling that function.
-Currently, it's just marked as deprecated without providing users with
-an alternative.
 
-Anyways.
-So can you take a look at Matthew's iterator and see if that will work
-for you?
+>  We also use this function during VF restore after
+> migration. This is a multi-step process that needs to operate on the
+> same set of jobs at each step of the restore. That=E2=80=99s what the
+> restore_replay variable represents=E2=80=94it marks a job at the very beg=
+inning
+> of the restore process, and each step along the way ensures execution
+> starts at that job. Techincally once we here in a VF restore jobs can
+> start signaling as the hardware is live. So some of this really is
+> vendor-specific.
+>=20
+> > Can't you replace ops->run_job() with a call to your functions where
+> > you push the jobs to the ring, directly?
+> >=20
+>=20
+> Yes, we could, but that function isn=E2=80=99t currently exported. Also, =
+in
+> future products, we may assign a different run_job vfunc based on
+> hardware generation or queue type. So using a vfunc here makes sense as
+> a bit of future-proofing. Of course, we could also have a DRM
+> scheduler-level helper that invokes run_job for us.
 
-If we'd end up with an at least mostly-generic solution for resubmits
-that's in use in both Xe and amdgpu, that would be a huge leap forward.
+OK.
+
+But same comment as above applies, having distinct pointers would be the cl=
+eanest thing.
 
 
 P.
-
->=20
-> Christian.
->=20
-> >=20
-> > Alex
->=20
 
