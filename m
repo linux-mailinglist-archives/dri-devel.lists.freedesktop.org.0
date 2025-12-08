@@ -2,170 +2,137 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B419CCAC3D6
-	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 07:57:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22E0CAC440
+	for <lists+dri-devel@lfdr.de>; Mon, 08 Dec 2025 08:05:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56DF610E0DD;
-	Mon,  8 Dec 2025 06:57:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71CC310E0E4;
+	Mon,  8 Dec 2025 07:04:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="izN5FLKz";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TeWKF68j";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cEgEwW45";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com
- (mail-norwayeastazon11013004.outbound.protection.outlook.com [40.107.159.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 797D810E0DD
- for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 06:57:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VmMopdUSwQS416vijBpQtTq3tJHJqZnkVG7YaePSNJ02hoREjQsB3X+StWnD8yh73m5v6yurOQnRy2p4ncEYmO68Ee0mYWMekcpg2QSaW1EI9ciLsO4Qmro0pK5f+zEVMuYWBZZLymk5xlw+j9ZM23dPK4gDeaqllqMWh3UKRl8hos2//8N8LPN6R4jYMytVpsCbC8vzU7kAFiatAzbyV7Hi+0SCxPTTHrqjTG5YZVH/OelFhXT/Y26teDg1iRJ0kgkMH3Xpe2//tVEeya02priohI3xLUqyqyPm84ldV9w0X8huHz5h5vEm2Q0F88nLagF5FI/Lrd5qguX4fS4Y7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WKTMs7vjL0bvmmoecSBZrlPZiTNVZC8DnZiOE/wU3pE=;
- b=BpIlh7z0HW+AXsyLcUmGO49fPrkqhalKrTjetzLMNvu3OfKAfTLnbHnj9GgOvKo+XToht5Od2UBgRIUpVMoiQEfjeqMmvS2ZosuvSympuyVIgJPHqDzR8rCNhP5Ma8k4CrycLA6aSTPg/zGraPDgjKr70sWzCr+KXjbbNmdZ849bN9yEg6WQMtR0UU3TkKF3lsU8nNoQYZMPI6CrGZGIniSHXkAyj5deMwoZ4FTu+k9Sspn/dGNRmmooqyB2Twy/yN8lFF3bMeAkRfysAjdQZIhWI18DlY4+pRaD8OkfuvpKpeWL9ttgulcO5euM25kcCLurdlhUonFcTJ9vpmU5Dw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WKTMs7vjL0bvmmoecSBZrlPZiTNVZC8DnZiOE/wU3pE=;
- b=izN5FLKzsALzFVQlvQrO/OSGAq3zA4l2jOVB8tYGc+lwgIK+KaHUER/c5DKDv6oqsjZlSFydD4ilzszMkJ3ovg3SswknqHy8ld3VD9qWo1wvlNjQ12AH+4+i3HB8aQRJjn0DhNsMmwNupgGMyT8+In6Fay9tKX6TPupSR6l/PWCUPMOlacrUl6tbzW6sCEgBAgTISi7kc70ZrFp1LXs+A/1/oqlmT52OKLCcJBGXQnUl2dKkLsI8bui6bqJSTJJKfHF02R9QtxIrzylGNqftHxNMbcNjSKZTe6J58/WzFOtr657FarSHRZQaMvrusQTdJbh/EHC3tf/078RCnt+rzg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com (2603:10a6:20b:113::22)
- by AS5PR04MB9731.eurprd04.prod.outlook.com (2603:10a6:20b:654::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.14; Mon, 8 Dec
- 2025 06:57:03 +0000
-Received: from AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::4609:64af:8a4b:fd64]) by AM7PR04MB7046.eurprd04.prod.outlook.com
- ([fe80::4609:64af:8a4b:fd64%6]) with mapi id 15.20.9388.013; Mon, 8 Dec 2025
- 06:57:03 +0000
-Message-ID: <f53be351-e059-4a71-bbbd-7a893e954169@nxp.com>
-Date: Mon, 8 Dec 2025 14:57:34 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/3] drm/bridge: imx: Add i.MX93 parallel display
- format configuration support
-To: Marco Felsch <m.felsch@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20251202-v6-18-topic-imx93-parallel-display-v7-0-2cce31d64608@pengutronix.de>
- <20251202-v6-18-topic-imx93-parallel-display-v7-2-2cce31d64608@pengutronix.de>
-From: Liu Ying <victor.liu@nxp.com>
-Content-Language: en-US
-In-Reply-To: <20251202-v6-18-topic-imx93-parallel-display-v7-2-2cce31d64608@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR03CA0104.apcprd03.prod.outlook.com
- (2603:1096:4:7c::32) To AM7PR04MB7046.eurprd04.prod.outlook.com
- (2603:10a6:20b:113::22)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E3C4F10E0E4
+ for <dri-devel@lists.freedesktop.org>; Mon,  8 Dec 2025 07:04:57 +0000 (UTC)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5B7MD5Ab3393597
+ for <dri-devel@lists.freedesktop.org>; Mon, 8 Dec 2025 07:04:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ FGaVPlF30fkBj2JVwi64KaI/aCwHZ13hN5EJA5rYn0s=; b=TeWKF68j4BUrPE8i
+ MB4GCUuy2K+U9PxBHNs9VjbQfsR2vDbNGjJkh02rFWs1e+/ivrKlgQ+bJWlX25zj
+ 94T07y8hQjGMT92GMedbpJBbD83KBeoFDeBunvx7lxrfP6pJ6PhCbHcV8K6xVhF1
+ QVXZMdyJzI9pZIGH+Mx/J7v79o1FBrLju0UQzcrYCpwsflME2/7b8hG9kJdtLDGW
+ mCKn4KJAT14gvbstOnOEiH6vltuyIeZftfxeYxCF5WsDEmSm0/gqZ1ULEC9eJKB5
+ 6R8S4iuHeDxdxNHDnUT5Wo/qjqzMb0bRCcW0BTbRu/AyUx1YP0tgsZlxWQdqxl91
+ bKyg8g==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4av9upv843-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 07:04:56 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id
+ d2e1a72fcca58-7be94e1a073so7943948b3a.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 07 Dec 2025 23:04:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1765177496; x=1765782296;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FGaVPlF30fkBj2JVwi64KaI/aCwHZ13hN5EJA5rYn0s=;
+ b=cEgEwW45oOZiUagE0ZAaAvrr3ppjSFsSVJuBYvrXe9EDqDuj1eRVWY0qYpfP8a3CEo
+ 1kyDk/KjcvEwvPe/m47T0oIvGCvPCdVXYJcjYLHUoriMs2ossCA+2IcpPab9tOu5MUzh
+ ePzD+jGlQP7cRPpLE5t2BXxz61GRQ+S9HpV0DxfH483azErw8RBYDAPfh9G2k8zpE4d7
+ gbWtRtytEJYNexYAQ3c2RHUjWTUn1qrBLVB7wGnsPZC3GZKQy6LjoBzZEEOoNPbnes77
+ N/etSxyv4WDzslIUZ5Hw0VF9sz4yxStCAS5Gpy5jisX9ixGiXVnjSJjPCoiWFWwSSfwx
+ EaQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765177496; x=1765782296;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=FGaVPlF30fkBj2JVwi64KaI/aCwHZ13hN5EJA5rYn0s=;
+ b=DD6LjoveHWPpa6LgYFcxBKDcoNfAOLCRXb9jmlsZ61LbgLavymp95cAahvsQ7W01b4
+ /s+2YK38y/btbrR1ieo8Wi5QMrBuAKTR7vBBXhlO/o2WpsamORQ9uLZbmF8/RhOlEPoW
+ GaDgBiEnIoPUoi7tR/vu9lKe7xGF31qqc3yrs516HnbcxM0Ei52RDRAI1UwJuWRZSQFU
+ 4lsaG4dZmsaXOJHhSQoahtSR5VNVwKSIx6SPv9VCUnVnFLwJohb0+pITwSqXP+atk11E
+ uWSoT5NP5SrBXh/wcwpZ+AaReWdQ2xwitecZWPKljCSJW+rAi2AM/fo8pVbwWwiphTXi
+ bMRw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUgiOeKUdWz12MPyfQ9bgR+Rp5BawDhTOlXoTAKOhpPFCDSXmLshn5MC8ZNmZVC5nhYrqgeOVnXLJc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzW4RNVE1q8mLCAseD2+YURbr57rTaQP1run0xAeGcF7Nfvynyg
+ V2UvLluVg4WvpTgDjiyTn7oiJDfUiJ44b4Nyx2RiECPySqRoEIBii342wF55v/aw77vDpWLSlti
+ 14Jd7yEb2d5JXWUOUufb7nIcHQ62WfV+7MNu+1WuXpmdvICFayeWFJOp9aq8as3ZAWtqE260=
+X-Gm-Gg: ASbGncsGYD58lvzNgxqrEV6xCyw+VfO95laA0+KTZY5S4rFWh1rWPwNHOzzYMaWiOm9
+ A6PXnZgEUghP6oR2rBaPlbRJEljBrbMeSrOmVdWDt4yEzb3V2Ep8fb7c6Wu5TlZ4sfgkdvuXKIj
+ oqfTujQ9yqreEY0qQI9rU1QBnbik1bpY8EBvWKCysz4p2+FNOr2UYy2IMtczZ5wu8ZwhF8n9AQN
+ jj4xw74Yx3q66b4K+XTeGqgpKDFrboi/X03OBHf4zVNx03+UmeGOsHozO4/Axv29y4krPTwNUTA
+ bJ5xKR2JhEfU5lUA90x1wdBTJtzu6wNiWhfu6GLI3AsGtGpUfvbtpbtxxcKDK0jPG1Tvc1U7VuG
+ HHe8AUn6QNbxrYmiqAUwwxEX8xpca3bV/5XGdb4cH
+X-Received: by 2002:a05:6a00:198d:b0:7e8:4398:b351 with SMTP id
+ d2e1a72fcca58-7e8c4a760b0mr5135541b3a.36.1765177495284; 
+ Sun, 07 Dec 2025 23:04:55 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFXXstO1/aH4pNkltYFRUw67jHP+4wYmmld/ualkI5pVrl7sEs1XBsQY9dBdbZ/F4pmYZUYPg==
+X-Received: by 2002:a05:6a00:198d:b0:7e8:4398:b351 with SMTP id
+ d2e1a72fcca58-7e8c4a760b0mr5135511b3a.36.1765177494761; 
+ Sun, 07 Dec 2025 23:04:54 -0800 (PST)
+Received: from [10.204.86.50] ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7e73079fa24sm8726983b3a.40.2025.12.07.23.04.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 07 Dec 2025 23:04:53 -0800 (PST)
+Message-ID: <5f4efb71-4d39-45e4-bb0f-dd3c3c5b3a28@oss.qualcomm.com>
+Date: Mon, 8 Dec 2025 12:34:47 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7PR04MB7046:EE_|AS5PR04MB9731:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6dcc6619-e695-412a-124e-08de3626fdd6
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|19092799006|376014|7416014|921020|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UExZcUFGUmxhT2NCZ3RjbDIxSkh4a01majVQeC90NmE5aFhrWXFwK2FPWG4r?=
- =?utf-8?B?eDJ6ZHhQMGpNSkRZNmFZSjdSR2FZNmpwelNieGszQ2RGVTV5TktZTWpMZ0ZF?=
- =?utf-8?B?Yk5vcVlqZzZNZXdYdzdpS256MCtNUGpzaXBFU1NIZWZsd1k4dDhaVUdEMU92?=
- =?utf-8?B?cTViYkhlOU1JM1Q4a1R6aXNUMlhWd0xvVkhZRjA1dVk2dnNNUEMyMGYxZWs2?=
- =?utf-8?B?aWV4cTY5UVdiMVI2bWFpZVUyWXlaRGRkSUtaWGVKWGh4ZFVtRnI2dEl4ODhB?=
- =?utf-8?B?YXFPVlVRenBIdTVxdXczT2tsUy9lSlZ2N2dMRzVPVTZsYTdYdzZNOFZvOFp2?=
- =?utf-8?B?VExYaU4zNlNndmtsUUtBZWJlWkxtN2duR29jR1JsTEp0Nm93bkxDRi9xUU9q?=
- =?utf-8?B?ZnorNXh3Wi93czRzNEczS1U2TDB3bjREUDR0Unl4SXBLVTNnUzlhcldETVpD?=
- =?utf-8?B?UDNrVGFsVkZSWmQrMytpRW84aWJLZ3NmejltNHhON2tvSGI2VDAwakQ3WDFr?=
- =?utf-8?B?SkR0UEw3d2d1YVBZdW9MS3hFMUZrN0lvdjd0OTVCWGpPYVBJaXp0d1pyNkM5?=
- =?utf-8?B?b3Q3NS9GOXJPTE1OMml4Z3NXaWlvTGlvSVdJVW9wc0YzNzFrQ204a1d5SU4z?=
- =?utf-8?B?TjVqM25tOGdSMXZhMnVHMjREMCs1ZE9yeGJpNGQwTGRvVGs3UnNIdmZqWU82?=
- =?utf-8?B?TUp6ZnVvcU9DVmRMcE9peGpJb0J6b29DMjRKYmJ5dXZmOVJpT0U5YVVtSHQ2?=
- =?utf-8?B?L08rQ0VtQXg1cVJtait4Y1BxZmRwMjNTQ2RZb1JEelRpdGl4QjBYRW1POWQw?=
- =?utf-8?B?bmhUS0svZWx3SGluc1VVVDIrODFZSHJGT0hpQnZZSTh4cWlXbFIvcXVHSTlZ?=
- =?utf-8?B?TFV1UmRYc0pMWDRHZ0NiZ0VpMDcxalIxTHlVT01Kb3l0Y0NnaFhzZ241ZzBX?=
- =?utf-8?B?RWFtN0lBSlUyb0dVOEtCNjRwRm5seGxjUDU0ckhpR1dWSmd4T3g5M2JLVVMr?=
- =?utf-8?B?RjM2RU8rYzZqR1FVTjluS1VHTWRMbm9JL3BUVkJ6Q2M5aHUrK0gvVDhXc3BO?=
- =?utf-8?B?RDZ4R2dLa2FnWlRnNTNKZmRCV1dlb09RNGg3bUZ3K3hiN1pZdE9wNmNJUk9i?=
- =?utf-8?B?ZnhCWkpJZitNUVlEZi9NNndEVkE1K1hIdm1RbnlNRVN3Y0J3aE5ra09nRHRY?=
- =?utf-8?B?OHJiVjJ3aDE5YmZaS1JJYzVpYzQzRUZWZEl3WkJYelpUaFRIYm9kRFR5MkpP?=
- =?utf-8?B?d2hvWWVZT3RSTEl0djhBOUdVK0ZHQnliUDdyZzJwY2FzNXVIVGdDSHlQeEFQ?=
- =?utf-8?B?NzBHWnVzcm1PZVMwd3owOE5PS1FZMEJrYU5vZGxkWEZnbGhUQWlYTlhZMUkz?=
- =?utf-8?B?Uk02YTZxbWkyWktkRVhraVNVakdoSkZrdXlEZllRMGZ3eWtIWHBRcHBJOWhT?=
- =?utf-8?B?SlNOTU9uaFNCbVZKK010NS85QnBsQnhYQmlEYXVQaHQrN3V5dmpFN2RqSTds?=
- =?utf-8?B?QkpaaFVNcVdsemdWLzFJVDg4dW9jUFdIMyt3Tjh0S3pZOWF4UWdVOE9UYllZ?=
- =?utf-8?B?bFdSc0RZUVV6M2tZSGIyRmhEVnYreHdTdUsxcGwrdmN4bWlzVGNtUjVBazdE?=
- =?utf-8?B?cVRld3VyRk5WdDRoWlNtZ3JQOWgyWXNKWHhYVFE4VjZFU0NBNlZ6RnR6elFv?=
- =?utf-8?B?dzVVRHRoOGVUWWJqdk5PZWtJOGVObjQxM0UvNmQrYVpEY0RmcE9WMi9zdHF1?=
- =?utf-8?B?UDc3K3l1MEpkTXRna1JPMnNKTkVPeDdjdEt4dXVlZEEwWDR1cll4aVN1M3J3?=
- =?utf-8?B?NEFXa0MyTW4ycktLRS9YU0Rya1NodHRpVG9SendhSDRGcWxhTHZPaWtaMSt0?=
- =?utf-8?B?VTdKTWVOQ3lwaFBIMUpRbmpRVmRxbld0R2lnOE9GY01GZkZldW15WG5tc2RY?=
- =?utf-8?B?WTk0ZWN1MytqZWRLNUM3dVNFdThONEliV1plVHE0NmIyYWg2NjM1ZEEvSUEz?=
- =?utf-8?Q?jIJVvH43yELBZ4XoMqEdTq+f/gWmKg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR04MB7046.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(19092799006)(376014)(7416014)(921020)(7053199007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QU5hclVLa0puL29LTGpaVnhTN2ZVeDQyMXFyUEVvc2VWclF0NWJZZVpVQ1VB?=
- =?utf-8?B?SEN4eWtiS3AzVWFWcjJYa3RRelJweDYwMWJkQnVkTU44UEQ3R1ArMWVFN2p3?=
- =?utf-8?B?Tkc4VEpXQkp3N0Z5b1M2MEdHMW8xWjVtN1FkZy9COXpxL01SSTZzWXYxNWhi?=
- =?utf-8?B?MnFBb1IydHNwdjljc0owS2g4MmI4cnVGSTd6Y0pVOVppRVhFRGNYSFl5VTRU?=
- =?utf-8?B?V2E0NS9tTGFuQ1VEN2JxVFh3cENWZ2NmK21VQk1kUlN6NzlORHN4cW5CbUtl?=
- =?utf-8?B?OTBNZXVNUG5oYnRnMmMySG1nZUdtb1l2eVg3S0FjVmd0Y2RHR0pITzJPRVpI?=
- =?utf-8?B?VTY1eGFrK085Q1J5RXVPZUQ2TXVwc2gyY0NLN2pob09pZVdaM1ZOcUhVTUxH?=
- =?utf-8?B?NlRkVkUrZTkrMElkczFZeUJZUEtpa2xaWHFyRkl2c21LcEliSm9WNDNaZFlT?=
- =?utf-8?B?UlhBVkN6NHlQSitzYU5BVUVET0xNWUFQNW80Rlg2c3pQdmJKU2dQTWs0ZmhC?=
- =?utf-8?B?aTNlUzhCV1dDd3FjdktYais2dEdXMmlTdXk0d2ZaWUNZd1A3SzhIMWZRbEE5?=
- =?utf-8?B?dVRYTjhycGJnU3NqVnNWbjBJZHd1bGltenFhdVBKdDF5UlZsU1NGM05TdkFp?=
- =?utf-8?B?QTl4UWZRN1duV3BSSU1FMjRVSlVML0w3S2ZQYTdHSStyTktxdHEySERjMTdQ?=
- =?utf-8?B?c0FiZFZlNEdvM1p0TE04WGNYd3pyVDRRSlp2NGQvNlFVWkQzcXZUa0lLY3Ny?=
- =?utf-8?B?cEx3K3FINC82bWxTSlkvMFlwQUNxOGU1YXY4TkFLbEpOQ1pRZTJiaHNNSWVN?=
- =?utf-8?B?WUV5QVRjQkFCVVZZSGE1UVkvTCt3NThnSjg0VGN1dC9EQUN2MGp3ZkZES1ZZ?=
- =?utf-8?B?OXhMQ3RiQll3dDNQSDNJb3kxNjNtLzdHMVBqRlU1OVhQZ2Q0Sm9yL0V0N1BT?=
- =?utf-8?B?WXh6ekxDcjgxN00xb2VkeW40UFNLcFVDaUQ4VlhKbjQ1S1JBbFZSSnp0dGRz?=
- =?utf-8?B?a3pqa01wakErTXd1MVAwcklGeFVKT3ZvTyttazdjVXN2M21Tc2tjbDZVMm04?=
- =?utf-8?B?azFRUmFsRWtoZGl5RTRlNlh3SHdqMEVaTXk5TXRXb1YrT1ZBbDFGbjI0bzRw?=
- =?utf-8?B?SWZML1ZnOVFJem4zUHI2cFJEa0c0VFZpZUw3RmdyVlJDZmVCeDhUQWlPbXl5?=
- =?utf-8?B?VDhYV0ZLR2xYWUYrZ1R6NjM3N2pKTXk4cjVyRDdubVZ3UFowejlxTit6TjNL?=
- =?utf-8?B?VGFtdjEyT1ZiTS9SaXdvTEpBTEdUV2IyMzFYY0FEb1ZxNlB0OVBVN0pmc2hX?=
- =?utf-8?B?dmhOZWJEdFlWSWx4azRDZ0o5OC8zQjl4Y3cwMGhRck5PcTZoTENhbjhsTlFu?=
- =?utf-8?B?VDc4ay9rMTdtVGk2RlJQelJSUzhFcGVmZVNHRWhLYVIrU1F2dGRHL3padlYx?=
- =?utf-8?B?anhiaHRaTHcwUkNreDlmclJyUFNYOWNzL0FjT2tlajQ2OUpMYkVIQXRPN0RW?=
- =?utf-8?B?OWlhNWpWQytvLytqVFlNQ1BOWWFaNTRoUjc3SURMOVF4MU5kb2lZSVVLT0xt?=
- =?utf-8?B?ckZZdnlUVW41dGtnamVaaEJLTlVzY1hndU9tWCtxaDlmK2JYY2NWa2JVL25a?=
- =?utf-8?B?VnRJMFRnNStHaUt5SDk4akpWYnFoL201Ky9Iby9pbXR0d2JhclpmV1hzQ2Z3?=
- =?utf-8?B?azB1QitLSG9aUFdmdWdJZGFQSWFhZEdXamVITmIwSnMxUGRkbk5wU1cxRERy?=
- =?utf-8?B?Y0tpQWkxN1dGcHJUMWNxUTZ6UmFTNXpPM0RsRHYyZC9IcU5NQ2Z6L3RHNmVP?=
- =?utf-8?B?aTBRaXp0Qlp5Wi9EMTVKY3hEQnpsN1lRNjAya0dqalR5K213b1AwMUwvOTBr?=
- =?utf-8?B?aWl4MTJqRm05Mkg5UkFKbjFHOCtqN0RjKzRycjE1WnBpR05NY1NNQ01lNlV0?=
- =?utf-8?B?UUtCZ25GWDBBR2lVQUtCYjR1b3RsMlBXTFZQQVRHWGY0K3IxL2NNMklQNkl5?=
- =?utf-8?B?bDBDcGxHaTJhZXFmNFdpdmorK251VWdVMlF5NkpnK2ZwSERQRDhsRkxybWZq?=
- =?utf-8?B?NHFNV3hkNmxEcENtUGprLzNTZmxEZ3hIUEVncGN0VWFLaUZSeEtSYjI1MUww?=
- =?utf-8?Q?bRSkcmFpnOaO8WEE+ictVVvjK?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6dcc6619-e695-412a-124e-08de3626fdd6
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR04MB7046.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2025 06:57:03.0087 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Qpj17IELDuS1wfP0dZAZrKdsZ5mQxYcCR/y6RQezZq1pT157RwAsjvGdHqRPr2qlQEajlcFf+UCY0EHlUKZV8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR04MB9731
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/4] misc: fastrpc: Update dma_bits for CDSP support on
+ Kaanapali SoC
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: kpallavi@qti.qualcomm.com, srini@kernel.org, amahesh@qti.qualcomm.com,
+ arnd@arndb.de, gregkh@linuxfoundation.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, quic_bkumar@quicinc.com,
+ ekansh.gupta@oss.qualcomm.com, linux-kernel@vger.kernel.org,
+ quic_chennak@quicinc.com, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ jingyi.wang@oss.qualcomm.com, aiqun.yu@oss.qualcomm.com,
+ ktadakam@qti.qualcomm.com
+References: <20251202060628.1869967-1-kumari.pallavi@oss.qualcomm.com>
+ <20251202060628.1869967-5-kumari.pallavi@oss.qualcomm.com>
+ <l6pf6zoz3sfawnsdmtacczykg2dgnaw4x26dfg4o3al44y7fc5@vgzd5s4uygm6>
+Content-Language: en-US
+From: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+In-Reply-To: <l6pf6zoz3sfawnsdmtacczykg2dgnaw4x26dfg4o3al44y7fc5@vgzd5s4uygm6>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: LeDdM0mVKdocLSODMPwBAe5G_Tf_VCvD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjA4MDA1OCBTYWx0ZWRfX09JNVe+gkcbh
+ M090mcmjMQ6hqs1u2iNxJ7FHmSioiv/Uq+uZ1FBWA0NlT2mEbarfyexGZusjXezrRhTk2Z2Zoom
+ AGP2U1zOfDJuqLrW3qVTgRTvz6OQgU1hEy6Dw4YFe858dH/cBPkV/7niWyPTaCRPlrgHb368+ks
+ qx7HXnEAGhEOTMYVRqahXcX0MM3YKn6KGtDiiYbG/IUrT/4/PmTo0wNKZGf0NwEtvJ4+t8Bc2xX
+ ScAxavBmK2OV1EcoUWm9y9HGFlp4qn5vVPWb2DxmCXZlKWF2+SRm0fmRjIZQ8jWo1FqWt3ecQb8
+ 0keA3R3YsQaENe8weeAasJO/E7RDEFrIzX5BKxk+6UAPoVpZsMmFSADHZxpKSoUxL1uTjAHpWcK
+ TkGu0W/fRIOPx4GO9slOS9Ty+KXx1A==
+X-Proofpoint-ORIG-GUID: LeDdM0mVKdocLSODMPwBAe5G_Tf_VCvD
+X-Authority-Analysis: v=2.4 cv=NsHcssdJ c=1 sm=1 tr=0 ts=69367898 cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=zVikO9lnR5s5zLRVlN8A:9 a=QEXdDO2ut3YA:10 a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-06_02,2025-12-04_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 clxscore=1015 phishscore=0 priorityscore=1501
+ malwarescore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512080058
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,311 +148,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marco,
 
-On 12/02/2025, Marco Felsch wrote:
-> From: Liu Ying <victor.liu@nxp.com>
+
+On 12/6/2025 8:01 AM, Dmitry Baryshkov wrote:
+> On Tue, Dec 02, 2025 at 11:36:28AM +0530, Kumari Pallavi wrote:
+>> DSP currently supports 32-bit IOVA (32-bit PA + 4-bit SID) for
+>> both Q6 and user DMA (uDMA) access. This is being upgraded to
+>> 34-bit PA + 4-bit SID due to a hardware revision in CDSP for
+>> Kaanapali SoC, which expands the DMA addressable range.
+>> Update DMA bits configuration in the driver to support CDSP on
+>> Kaanapali SoC. Set the default `dma_bits` to 32-bit and update
+>> it to 34-bit based on CDSP and OF matching on the fastrpc node.
+>>
+>> Signed-off-by: Kumari Pallavi <kumari.pallavi@oss.qualcomm.com>
+>> ---
+>>   drivers/misc/fastrpc.c | 15 +++++++++++++--
+>>   1 file changed, 13 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+>> index 6a67daafeaa1..c5d2c426fcbc 100644
+>> --- a/drivers/misc/fastrpc.c
+>> +++ b/drivers/misc/fastrpc.c
+>> @@ -269,6 +269,8 @@ struct fastrpc_session_ctx {
+>>   
+>>   struct fastrpc_soc_data {
+>>   	u32 sid_pos;
+>> +	u32 dma_addr_bits_extended;
 > 
-> NXP i.MX93 mediamix blk-ctrl contains one DISPLAY_MUX register which
-> configures parallel display format by using the "PARALLEL_DISP_FORMAT"
-> field. Add a DRM bridge driver to support the display format configuration.
-> 
-> Signed-off-by: Liu Ying <victor.liu@nxp.com>
-> [m.felsch@pengutronix.de: port to v6.18-rc1]
-> [m.felsch@pengutronix.de: add review feedback (Alexander)]
-> [m.felsch@pengutronix.de: fix to short Kconfig description (checkpath)]
-> [m.felsch@pengutronix.de: use "GPL" instead of "GPL v2" (checkpatch)]
-> [m.felsch@pengutronix.de: make use of reg property]
-> [m.felsch@pengutronix.de: add bus-width support]
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> ---
->  drivers/gpu/drm/bridge/imx/Kconfig      |  11 ++
->  drivers/gpu/drm/bridge/imx/Makefile     |   1 +
->  drivers/gpu/drm/bridge/imx/imx93-pdfc.c | 227 ++++++++++++++++++++++++++++++++
->  3 files changed, 239 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/imx/Kconfig b/drivers/gpu/drm/bridge/imx/Kconfig
-> index 9a480c6abb856276df9b71d23b39a43b3a9c542d..28fd7a00473a0ec50bf0ffb5d50972abc209ceec 100644
-> --- a/drivers/gpu/drm/bridge/imx/Kconfig
-> +++ b/drivers/gpu/drm/bridge/imx/Kconfig
-> @@ -88,4 +88,15 @@ config DRM_IMX93_MIPI_DSI
->  	  Choose this to enable MIPI DSI controller found in Freescale i.MX93
->  	  processor.
->  
-> +config DRM_IMX93_PARALLEL_DISP_FMT_CONFIG
-> +	tristate "NXP i.MX91/i.MX93 parallel display format configuration"
-> +	depends on OF
-> +	select DRM_KMS_HELPER
-> +	help
-> +	  On i.MX93 and i.MX91 SoCs the parallel display format output is
-> +	  controlled via the MEDIAMIX BLK-CTRL DISPLAY_MUX.
-> +
-> +	  Say 'Y' or 'M' if you use the parallel display output path on a
-> +	  i.MX93 or i.MX91 SoC.
-> +
->  endif # ARCH_MXC || COMPILE_TEST
-> diff --git a/drivers/gpu/drm/bridge/imx/Makefile b/drivers/gpu/drm/bridge/imx/Makefile
-> index dd5d4858480663bade98bd58039d1cb6f8aa18da..f4ccc5cbef72a576443d5fecf666b76dfba8aa94 100644
-> --- a/drivers/gpu/drm/bridge/imx/Makefile
-> +++ b/drivers/gpu/drm/bridge/imx/Makefile
-> @@ -8,3 +8,4 @@ obj-$(CONFIG_DRM_IMX8QXP_PIXEL_COMBINER) += imx8qxp-pixel-combiner.o
->  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK) += imx8qxp-pixel-link.o
->  obj-$(CONFIG_DRM_IMX8QXP_PIXEL_LINK_TO_DPI) += imx8qxp-pxl2dpi.o
->  obj-$(CONFIG_DRM_IMX93_MIPI_DSI) += imx93-mipi-dsi.o
-> +obj-$(CONFIG_DRM_IMX93_PARALLEL_DISP_FMT_CONFIG) += imx93-pdfc.o
-> diff --git a/drivers/gpu/drm/bridge/imx/imx93-pdfc.c b/drivers/gpu/drm/bridge/imx/imx93-pdfc.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..624389def0ac3f24158edc64a8913375a4cc2f12
-> --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/imx/imx93-pdfc.c
-> @@ -0,0 +1,227 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +
-> +/*
-> + * Copyright 2022-2025 NXP
-> + */
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/bits.h>
-> +#include <linux/media-bus-format.h>
-> +#include <linux/mfd/syscon.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_address.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +
-> +#include <drm/drm_atomic_state_helper.h>
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_print.h>
-
-Drop this header file if you won't use DRM_DEV_DEBUG_DRIVER() in v5.
-
-> +
-> +#define PARALLEL_DISP_FORMAT		GENMASK(10, 8)
-> +#define FORMAT_RGB888_TO_RGB888		FIELD_PREP(PARALLEL_DISP_FORMAT, 0)
-> +#define FORMAT_RGB888_TO_RGB666		FIELD_PREP(PARALLEL_DISP_FORMAT, 1)
-> +#define FORMAT_RGB565_TO_RGB565		FIELD_PREP(PARALLEL_DISP_FORMAT, 2)
-> +
-> +struct imx93_pdfc {
-> +	struct drm_bridge bridge;
-> +	struct drm_bridge *next_bridge;
-> +	struct device *dev;
-> +	struct regmap *regmap;
-> +	u64 disp_mux_reg_off;
-> +	u32 phy_bus_width;
-> +};
-> +
-> +static int
-> +imx93_pdfc_bridge_attach(struct drm_bridge *bridge, struct drm_encoder *encoder,
-> +			 enum drm_bridge_attach_flags flags)
-> +{
-> +	struct imx93_pdfc *pdfc = bridge->driver_private;
-> +
-> +	return drm_bridge_attach(bridge->encoder, pdfc->next_bridge, bridge, flags);
-> +}
-> +
-> +static void imx93_pdfc_bridge_atomic_enable(struct drm_bridge *bridge,
-> +					    struct drm_atomic_state *state)
-> +{
-> +	struct imx93_pdfc *pdfc = bridge->driver_private;
-> +	const struct drm_bridge_state *bridge_state;
-> +	unsigned int mask = PARALLEL_DISP_FORMAT;
-> +	unsigned int val;
-> +
-> +	bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
-> +
-> +	switch (bridge_state->output_bus_cfg.format) {
-> +	case MEDIA_BUS_FMT_RGB888_1X24:
-> +		val = FORMAT_RGB888_TO_RGB888;
-> +		if (pdfc->phy_bus_width == 18) {
-> +			/*
-> +			 * Can be valid if physical bus limitation exist,
-
-s/exist/exists/
-
-> +			 * therefore use dev_dbg().
-> +			 */
-> +			dev_dbg(pdfc->dev, "Truncate two LSBs from each color\n");
-> +			val = FORMAT_RGB888_TO_RGB666;
-> +		}
-> +		break;
-> +	case MEDIA_BUS_FMT_RGB666_1X18:
-> +		val = FORMAT_RGB888_TO_RGB666;
-> +		break;
-> +	case MEDIA_BUS_FMT_RGB565_1X16:
-> +		val = FORMAT_RGB565_TO_RGB565;
-> +		break;
-> +	}
-> +
-> +	regmap_update_bits(pdfc->regmap, pdfc->disp_mux_reg_off, mask, val);
-> +}
-> +
-> +static const u32 imx93_pdfc_bus_output_fmts[] = {
-> +	MEDIA_BUS_FMT_RGB888_1X24,
-> +	MEDIA_BUS_FMT_RGB666_1X18,
-> +	MEDIA_BUS_FMT_RGB565_1X16,
-> +	MEDIA_BUS_FMT_FIXED
-> +};
-> +
-> +static bool imx93_pdfc_bus_output_fmt_supported(u32 fmt)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(imx93_pdfc_bus_output_fmts); i++) {
-> +		if (imx93_pdfc_bus_output_fmts[i] == fmt)
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +static u32 *
-> +imx93_pdfc_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> +					    struct drm_bridge_state *bridge_state,
-> +					    struct drm_crtc_state *crtc_state,
-> +					    struct drm_connector_state *conn_state,
-> +					    u32 output_fmt,
-> +					    unsigned int *num_input_fmts)
-> +{
-> +	u32 *input_fmts;
-> +
-> +	*num_input_fmts = 0;
-> +
-> +	if (!imx93_pdfc_bus_output_fmt_supported(output_fmt))
-> +		return NULL;
-> +
-> +	input_fmts = kmalloc(sizeof(*input_fmts), GFP_KERNEL);
-> +	if (!input_fmts)
-> +		return NULL;
-> +
-> +	switch (output_fmt) {
-> +	case MEDIA_BUS_FMT_RGB888_1X24:
-> +	case MEDIA_BUS_FMT_RGB565_1X16:
-> +		input_fmts[0] = output_fmt;
-> +		break;
-> +	case MEDIA_BUS_FMT_RGB666_1X18:
-> +	case MEDIA_BUS_FMT_FIXED:
-> +		input_fmts[0] = MEDIA_BUS_FMT_RGB888_1X24;
-> +		break;
-> +	}
-> +
-> +	*num_input_fmts = 1;
-> +
-> +	return input_fmts;
-> +}
-> +
-> +static int imx93_pdfc_bridge_atomic_check(struct drm_bridge *bridge,
-> +					  struct drm_bridge_state *bridge_state,
-> +					  struct drm_crtc_state *crtc_state,
-> +					  struct drm_connector_state *conn_state)
-> +{
-> +	struct imx93_pdfc *pdfc = bridge->driver_private;
-> +
-> +	switch (bridge_state->output_bus_cfg.format) {
-> +	case MEDIA_BUS_FMT_RGB888_1X24:
-> +	case MEDIA_BUS_FMT_RGB666_1X18:
-> +	case MEDIA_BUS_FMT_RGB565_1X16:
-
-The case MEDIA_BUS_FMT_FIXED is also valid.
-
-> +		return 0;
-> +	default:
-> +		dev_warn(pdfc->dev, "Unsupported output bus format: 0x%x\n",
-> +			 bridge_state->output_bus_cfg.format);
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static const struct drm_bridge_funcs funcs = {
-> +	.attach			= imx93_pdfc_bridge_attach,
-> +	.atomic_enable		= imx93_pdfc_bridge_atomic_enable,
-> +	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_get_input_bus_fmts	= imx93_pdfc_bridge_atomic_get_input_bus_fmts,
-> +	.atomic_check		= imx93_pdfc_bridge_atomic_check,
-> +	.atomic_reset		= drm_atomic_helper_bridge_reset,
-> +};
-> +
-> +static int imx93_pdfc_bridge_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct imx93_pdfc *pdfc;
-> +	struct device_node *ep;
-> +	int err;
-> +
-> +	pdfc = devm_drm_bridge_alloc(dev, struct imx93_pdfc, bridge, &funcs);
-> +	if (IS_ERR(pdfc))
-> +		return PTR_ERR(pdfc);
-> +
-> +	pdfc->regmap = syscon_node_to_regmap(dev->of_node->parent);
-> +	if (IS_ERR(pdfc->regmap))
-> +		return dev_err_probe(dev, PTR_ERR(pdfc->regmap),
-> +				     "failed to get regmap\n");
-> +
-> +	err = of_property_read_reg(dev->of_node, 0, &pdfc->disp_mux_reg_off, NULL);
-> +	if (err)
-> +		return dev_err_probe(dev, err,
-> +				     "failed to get display-mux reg\n");
-> +
-> +	/* No limits per default */
-> +	pdfc->phy_bus_width = 24;
-> +
-> +	/* Get output ep (port1/endpoint0) */
-> +	ep = of_graph_get_endpoint_by_regs(dev->of_node, 1, 0);
-
-Nit: DT binding just defines endpoint not endpoint0, so set the reg parameter
-to -1.
-
-> +	if (ep) {
-> +		err = of_property_read_u32(ep, "bus-width", &pdfc->phy_bus_width);
-> +		of_node_put(ep);
-> +
-> +		/* bus-width is optional but it must have valid data if present */
-> +		if (err && err != -EINVAL)
-> +			return dev_err_probe(dev, err,
-> +					     "failed to query bus-width\n");
-> +	}
-> +
-> +	pdfc->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
-> +	if (IS_ERR(pdfc->next_bridge))
-> +		return dev_err_probe(dev, PTR_ERR(pdfc->next_bridge),
-> +				     "failed to get next bridge\n");
-> +
-> +	pdfc->dev = dev;
-> +	pdfc->bridge.driver_private = pdfc;
-> +	pdfc->bridge.of_node = dev->of_node;
-> +	pdfc->bridge.type = DRM_MODE_CONNECTOR_DPI;
-> +
-> +	return devm_drm_bridge_add(dev, &pdfc->bridge);
-> +}
-> +
-> +static const struct of_device_id imx93_pdfc_dt_ids[] = {
-> +	{ .compatible = "nxp,imx93-pdfc", },
-
-The cover letter and Kconfig say that both i.MX91 and i.MX93 are supported,
-so need an additional compatible string for i.MX91?
-
-> +	{ /* sentinel */ }
-> +};
-> +MODULE_DEVICE_TABLE(of, imx93_pdfc_dt_ids);
-> +
-> +static struct platform_driver imx93_pdfc_bridge_driver = {
-> +	.probe	= imx93_pdfc_bridge_probe,
-> +	.driver	= {
-> +		.of_match_table = imx93_pdfc_dt_ids,
-> +		.name = "imx93_pdfc",
-> +	},
-> +};
-> +module_platform_driver(imx93_pdfc_bridge_driver);
-> +
-> +MODULE_DESCRIPTION("NXP i.MX93 parallel display format configuration driver");
-> +MODULE_AUTHOR("Liu Ying <victor.liu@nxp.com>");
-> +MODULE_LICENSE("GPL");
+> s/extended/cdsp/
 > 
 
+Thanks for your feedback.
+Here, i have used extended instead of the cdsp as to replace the 
+domain-based naming with functional naming. Currently, CDSP supports an 
+extended DMA address width of 34 bits due to specific use cases, but 
+this could change in the future for other DSPs as well.
+Using names like "dma_addr_bits_extended" and "dma_addr_bits_default"
+would keep the design flexible and independent of domain.
 
--- 
-Regards,
-Liu Ying
+Reference of the earlier conversation regarding the change of the name
+s/cdsp/extended
+
+https://lore.kernel.org/all/e0d039e8-8f65-4e2e-9b73-74036dc0bb8d@oss.qualcomm.com/
+
+Thanks,
+Pallavi
+
+>> +	u32 dma_addr_bits_default;
+>>   };
+>>   
+>>   struct fastrpc_channel_ctx {
+>> @@ -2189,6 +2191,7 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
+>>   	int i, sessions = 0;
+>>   	unsigned long flags;
+>>   	int rc;
+>> +	u32 dma_bits;
+>>   
+>>   	cctx = dev_get_drvdata(dev->parent);
+>>   	if (!cctx)
+>> @@ -2202,12 +2205,16 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
+>>   		spin_unlock_irqrestore(&cctx->lock, flags);
+>>   		return -ENOSPC;
+>>   	}
+>> +	dma_bits = cctx->soc_data->dma_addr_bits_default;
+>>   	sess = &cctx->session[cctx->sesscount++];
+>>   	sess->used = false;
+>>   	sess->valid = true;
+>>   	sess->dev = dev;
+>>   	dev_set_drvdata(dev, sess);
+>>   
+>> +	if (cctx->domain_id == CDSP_DOMAIN_ID)
+>> +		dma_bits = cctx->soc_data->dma_addr_bits_extended;
+>> +
+>>   	if (of_property_read_u32(dev->of_node, "reg", &sess->sid))
+>>   		dev_info(dev, "FastRPC Session ID not specified in DT\n");
+>>   
+>> @@ -2222,9 +2229,9 @@ static int fastrpc_cb_probe(struct platform_device *pdev)
+>>   		}
+>>   	}
+>>   	spin_unlock_irqrestore(&cctx->lock, flags);
+>> -	rc = dma_set_mask(dev, DMA_BIT_MASK(32));
+>> +	rc = dma_set_mask(dev, DMA_BIT_MASK(dma_bits));
+>>   	if (rc) {
+>> -		dev_err(dev, "32-bit DMA enable failed\n");
+>> +		dev_err(dev, "%u-bit DMA enable failed\n", dma_bits);
+>>   		return rc;
+>>   	}
+>>   
+>> @@ -2311,10 +2318,14 @@ static int fastrpc_get_domain_id(const char *domain)
+>>   
+>>   static const struct fastrpc_soc_data kaanapali_soc_data = {
+>>   	.sid_pos = 56,
+>> +	.dma_addr_bits_extended = 34,
+>> +	.dma_addr_bits_default = 32,
+>>   };
+>>   
+>>   static const struct fastrpc_soc_data default_soc_data = {
+>>   	.sid_pos = 32,
+>> +	.dma_addr_bits_extended = 32,
+>> +	.dma_addr_bits_default = 32,
+>>   };
+>>   
+>>   static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>> -- 
+>> 2.34.1
+>>
+> 
+
