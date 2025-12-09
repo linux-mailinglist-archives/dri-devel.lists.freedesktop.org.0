@@ -2,144 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62CB8CAFDBF
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 13:04:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7FD4CAFE04
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 13:13:31 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C3D9810E526;
-	Tue,  9 Dec 2025 12:04:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A16F010E524;
+	Tue,  9 Dec 2025 12:13:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="hn95ClvQ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=exactco.de header.i=@exactco.de header.b="PlPw4UsQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from CH4PR04CU002.outbound.protection.outlook.com
- (mail-northcentralusazon11013031.outbound.protection.outlook.com
- [40.107.201.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F38510E52E
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 12:04:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GFW0mtpejv6bhqoVOHHed0pS2iU8xcDRRWVp7p+yKA5n/SV1WgM6Ca/n3r6J+M7ft52bnIKmXHlMw7Tgi94EXPh/voocdKBBF/cc5/V7ihfojhNxO5hbeXLtwtoXm2pfxZKQeyFhyZJKpp2HAq2fTp5nYl3qk5CVdAEbpDO/BC7Fn6AQBfTkTwz+h4/it9fzAC0Cwb4Z0y5/MZgNB+fcqgDwZ/FaUfCo8Dm63nrtmOtSoTIRmKPeMvLXMHGTjUZoOxHX7iGoSG8sRWHpz+K8wEoZ0YivzJqNLJHKT+Gk44BZxP6zWrYv1WbeL6x8ukTPOayZ20XbKWSX8hoYZCXXCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cadwEDfB3nzBtDDnN/PLIhqJCr9whJ2WDz/4T11Mhk4=;
- b=iaU3UntY4vZh5yNxlE7iit54K2w5OxQEjCOljCBhbIYIeeBo2kqD3aGkdYDsFsAqF6KGYJLjhWxPVMlOkb8MhVOnJ0pLlDVIo5Z8QHFIubhpFyq2Dif0rUDV+fxDI5Ob35oTKDTV0R+4mTVMzI/Nnhl8namaYX2vwZs3B8mfUMtwly1SfpkLshHLUtFV+pE9vF/GnbH2wsxgpiZ7ejuJ+OJrKf2Brx1lcq9qXNm2QIHa985iXKdnXUvhXp+IkBTdLO53DCg8KEZmiFWlcW7rq1cx9+zTwZiVxQWjwjkA1AvAB3AsDckon+aP+P3blc0ZKfGAgcIeU5GnWFl9wioXSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=suse.de smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cadwEDfB3nzBtDDnN/PLIhqJCr9whJ2WDz/4T11Mhk4=;
- b=hn95ClvQehtz2prtTjR4f4vjYeO09nM4lo4cU+FrbirKTNt+5NNsOsJUuAETd88Vbkp+cGtNF3Bbaa+l+vwbxWjz454l+ELHN0PCGEP/QWDfblkNQCXq8TmT2fMmN8K9cjfGobbAcx+dRzlvOeBg3xO9Fk0KN/vtGH1IGi+DIow=
-Received: from CH0PR08CA0024.namprd08.prod.outlook.com (2603:10b6:610:33::29)
- by SN7PR10MB7104.namprd10.prod.outlook.com (2603:10b6:806:343::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.6; Tue, 9 Dec
- 2025 12:04:20 +0000
-Received: from CH2PEPF0000009E.namprd02.prod.outlook.com
- (2603:10b6:610:33:cafe::30) by CH0PR08CA0024.outlook.office365.com
- (2603:10b6:610:33::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.14 via Frontend Transport; Tue,
- 9 Dec 2025 12:03:58 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- CH2PEPF0000009E.mail.protection.outlook.com (10.167.244.27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.4 via Frontend Transport; Tue, 9 Dec 2025 12:04:19 +0000
-Received: from DLEE203.ent.ti.com (157.170.170.78) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 9 Dec
- 2025 06:04:19 -0600
-Received: from DLEE212.ent.ti.com (157.170.170.114) by DLEE203.ent.ti.com
- (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 9 Dec
- 2025 06:04:19 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE212.ent.ti.com
- (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 9 Dec 2025 06:04:19 -0600
-Received: from hkshenoy.dhcp.ti.com (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5B9C3XBR1165975;
- Tue, 9 Dec 2025 06:04:12 -0600
-From: Harikrishna Shenoy <h-shenoy@ti.com>
-To: <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
- <andrzej.hajda@intel.com>, <andy.yan@rock-chips.com>,
- <aradhya.bhatia@linux.dev>, <devarsht@ti.com>, <dianders@chromium.org>,
- <dri-devel@lists.freedesktop.org>, <javierm@redhat.com>,
- <jernej.skrabec@gmail.com>, <jonas@kwiboo.se>,
- <linux-kernel@vger.kernel.org>, <linux@treblig.org>,
- <luca.ceresoli@bootlin.com>, <lumag@kernel.org>, <lyude@redhat.com>,
- <maarten.lankhorst@linux.intel.com>, <mordan@ispras.ru>,
- <mripard@kernel.org>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <s-jain1@ti.com>, <simona@ffwll.ch>, <tomi.valkeinen@ideasonboard.com>,
- <tzimmermann@suse.de>, <u-kumar1@ti.com>
-Subject: [PATCH v10 6/6] drm/bridge: cadence: cdns-mhdp8546-core: Reduce log
- level for DPCD read/write
-Date: Tue, 9 Dec 2025 17:33:32 +0530
-Message-ID: <20251209120332.3559893-7-h-shenoy@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251209120332.3559893-1-h-shenoy@ti.com>
-References: <20251209120332.3559893-1-h-shenoy@ti.com>
-MIME-Version: 1.0
+Received: from exactco.de (exactco.de [176.9.10.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E394610E524
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 12:13:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=exactco.de; 
+ s=x;
+ h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:
+ In-Reply-To:From:Subject:Cc:To:Message-Id:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=3fstBY2xlbnoLhMrfa6us6h8Kki6LEWWQw4FdyGxjdE=; b=PlPw4UsQww2iAd98zcysXBofZ1
+ U56oVuN4SP43er0cnVixF3F7SUlCo3fUOp/DzimclpVe3NkUiMrkzZhknDgaLKe6cDvSqTE348TgC
+ qKqR23mdFKb4TnyOmBH81LBphmid+JjrKmYmbTVG09UZAs5vwiJuxgx2lXlxeAiIVkbk2JLbRTYXv
+ J97EeXKwTMNs3Xr59Hgl0njMaQbxk9K3Ld5LqnDRoQEOQyGRt7ZuDaHBe8R9XJY3EcJMe1uY8SGTe
+ HgvkOIBePrrd3p2fARQkJkj0Ev+2BACLZRWARWq9mHpTu6g3VuSB8wk/svEGoD/sd5IybNapo9Nx1
+ YdNrC2nA==;
+Date: Tue, 09 Dec 2025 13:13:29 +0100 (CET)
+Message-Id: <20251209.131329.130523044849026405.rene@exactco.de>
+To: tzimmermann@suse.de
+Cc: tpearson@raptorengineering.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, airlied@redhat.com
+Subject: Re: [PATCH] drm/ast: Fix big-endian support
+From: =?iso-8859-1?Q?Ren=E9?= Rebe <rene@exactco.de>
+In-Reply-To: <12407aa9-a084-46a1-98cb-9649e7f24098@suse.de>
+References: <9191ea89-81ce-4200-a356-39fa4a155062@suse.de>
+ <A0A92AB8-FA61-4AAC-96C9-00BE93E3F6D6@exactco.de>
+ <12407aa9-a084-46a1-98cb-9649e7f24098@suse.de>
+X-Mailer: Mew version 6.10 on Emacs 30.2
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF0000009E:EE_|SN7PR10MB7104:EE_
-X-MS-Office365-Filtering-Correlation-Id: 060c0863-f81c-4947-3e53-08de371b15a7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|36860700013|82310400026|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?H7vc9ic0P4Bs/joI5cuR52+QIDa9FHyQd/H6Y0jmdAawl21LKz1BaXenHN9S?=
- =?us-ascii?Q?F+gcZQIODiVZG5K+hpTuPKiR18Swx5Mw3x4WOn90ySzUqxqpuWsoQSVNgyug?=
- =?us-ascii?Q?M3Eve15rFkfCdijxzexLbTZvP9Z95WmLbGnYv6k0bNOAnFhgbleoLSkbWFxp?=
- =?us-ascii?Q?x3EezzfFQUEVhEziXPC8cxKccGkXCMVkiSCa7yPVJNPp56oUPIQSKwxRbpw+?=
- =?us-ascii?Q?Kv0J1ptnzRwAAPyxDCYGsee8g1ey1L8rwiOJJKyZJOqCBvdCNIk+KjhBTEC7?=
- =?us-ascii?Q?w/js3Ap7nVTD0Sey3BQvI8Z79aQwknaAFWaUVNoJD4P3h2pJcoiZ8dKNEX9E?=
- =?us-ascii?Q?cY2uB9A3Wt5yHuPZcMoSMnBZweTrJqatuVqUrt5Ple2joDIskKYs8TtblUf6?=
- =?us-ascii?Q?e9KktnkhfO11dNwcx1vDmXPvEhjfFnMQkPlghyNFhz0g67cJF3KHwKvvlcGP?=
- =?us-ascii?Q?Jwt7TUkT0h9oNwXMfBmy8t8jKuvMliEPs+EsMP/m8ovpBSxaEsDpUHcloDyg?=
- =?us-ascii?Q?Eajo02cMKOw6mvC4z9ARdbxLfYT6ff5pu4iGHUUEEZWBv3k1TogyZdIxNma9?=
- =?us-ascii?Q?PNuAXsEZJFMNBji5m/yLYOn7Aeg/NtQOLyutUxcLD4rIoD4sPp+dXar7UtQL?=
- =?us-ascii?Q?uvKFe3hE0pyytnhjt6r/9KVQ+yPk7C8wlN0dVuAfIr6a1KeapmDYsTiHLR1U?=
- =?us-ascii?Q?V2bWfHvD2MnI9eHmYhOPg6TdPU8+VLQHkyTUZ+ZDP2Dz20SIz6NeXABmRiE2?=
- =?us-ascii?Q?Y85/VAoTl7pdvn5dZk3DXvzpLDy0PYu/3cAWnLBCTlPLFm1JjP+W+TRSkg27?=
- =?us-ascii?Q?fDVUNq3oRctPVTRH53B1aoAXQR6AvE2fCanS7YtFf9Wqzewgz+Q27PLXtdI5?=
- =?us-ascii?Q?KEpH+sW+k7of/+YE4UzxvCWNwOKUu022I9PmAGUF6ahCKHcyXz08FyB8PSBo?=
- =?us-ascii?Q?w+0p9mhVQ/ox4+Mb2GG0aFYaicuCzebUHfF4GS3Fc6+YC9twU9wrhsQ+RKRW?=
- =?us-ascii?Q?ZPSsNAMKLaeE1oufi/n/v7OzHFeElUuWSk+Z5dAmAFxs5862xKoWL+ux8EpW?=
- =?us-ascii?Q?Ma4ck/5MuR+KaVXnxKE7K6vUaFZX6rCBygInmJXKXxSFJEixnqFuZQPulaJB?=
- =?us-ascii?Q?ML/595EgmVxBCoF9J9Bzn5AyXOUOMOvOMSfQTtRWkwzCBtQqXy4ZvRbFbdzN?=
- =?us-ascii?Q?JJlDKqKz3f5NV8t/L4ZweSZ8ybSZ47YIzXaPLylKqDsZ+ueBJCFX38OUqu6P?=
- =?us-ascii?Q?Buk1Uhe5JEr+j2b6L4pkWbBH87QGF86Dl9nXOJAVkjerk41q8E6th1ldIkBJ?=
- =?us-ascii?Q?EL3z1Xw3ZSV6yHuFZVL6RlCLmQSpP290uelbZx2TSf5dttKETB9w4bGZntJA?=
- =?us-ascii?Q?bjbL0pwt5mQ6jI4iCSNyJ9AVaQ5X9dUDqtjFNpnIUqNpWrSWXtKUdMn2NiUj?=
- =?us-ascii?Q?B2+eG/en3/jvEEuUXV0BuSDGGeCs/seyMxwHnmNkbl7f667I73nMmRJ160kG?=
- =?us-ascii?Q?uuE5Imt0XT+Rr0pHT8cToBFgxbqtXJtwxZ2NIecxTXjFL7ClyTfCw1zPeED1?=
- =?us-ascii?Q?u8CMeDzQ8Qh2G7uR8dY41WzyqO2A866JV6UvXhk8?=
-X-Forefront-Antispam-Report: CIP:198.47.23.194; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:lewvzet200.ext.ti.com; PTR:InfoDomainNonexistent;
- CAT:NONE;
- SFS:(13230040)(7416014)(376014)(36860700013)(82310400026)(1800799024)(921020);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2025 12:04:19.9654 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 060c0863-f81c-4947-3e53-08de371b15a7
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.194];
- Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF0000009E.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR10MB7104
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,46 +58,176 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Jayesh Choudhary <j-choudhary@ti.com>
+Hi,
 
-Reduce the log level for cdns_mhdp_dpcd_read and cdns_mhdp_dpcd_write
-errors in cdns_mhdp_transfer function as in case of failure, there is
-flooding of these prints along with other indicators like EDID failure
-logs which are fairly intuitive in themselves rendering these error logs
-useless.
-Also, the caller functions for the cdns_mhdp_transfer in drm_dp_helper.c
-(which calls it 32 times), has debug log level in case transfer fails.
-So having a superseding log level in cdns_mhdp_transfer seems bad.
+On Mon, 8 Dec 2025 09:44:23 +0100, Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
----
- drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> >> On the 2400-and-onwards models, ast could set
+> >> drm_device.mode_config.quirk_addfb_prefer_host_byte_order. If set, the
+> >> format lookup will select a different format on BE machines. [1] For
+> >> example requesting XRGB8888 returns BGRX8888 instead. If ast later
+> >> sees such a format in the atomic_update code, it could transparently
+> >> swap bytes when writing out pixels to the video memory.  IIRC this
+> >> works transparently to DRM clients and fbcon.  I think this would be
+> >> the preferred way of fixing the issue.
+> > Uff, I get better than nothing ;-)
+> 
+> Well, you can set the quirk in mode config. And then in
+> ast_handle_damage(), you'll require a switch for the big-endian
+> formats. [1]
+> 
+> ast_handle_damage(...)
+> {
+>     ...
+> 
+>     switch (fb->format->format) {
+>         default:
+>             drm_fb_memcyp()
+>             break;
+>         case DRM_FORMAT_BGRX8888:
+>         case DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN:
+>             /* Swap bytes on big-endian formats */
+>             drm_fb_swab(dst, fb->pitches, src, fb, clip, false,
+> fmtcnv_state);
+>             break;
+>     }
+> }
+> 
+> You can get that final argument fmtcnv_state from the DMR shadow-plane
+> state. [2]
+> 
+> [1]
+> https://elixir.bootlin.com/linux/v6.18/source/drivers/gpu/drm/ast/ast_mode.c#L549
+> [2]
+> https://elixir.bootlin.com/linux/v6.18/source/drivers/gpu/drm/ast/ast_mode.c#L558
+> 
+> Does that fix the color corruption?
 
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index f909469dacf08..1f7c642ad0148 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -778,7 +778,7 @@ static ssize_t cdns_mhdp_transfer(struct drm_dp_aux *aux,
- 			if (!ret)
- 				continue;
+Following your suggestions conversion does not want to just work:
+
+root@XCODE_SPARC_T4_1:~# dmesg  | tail
+[  105.444761] ast 0000:0a:00.0: AST 2200 detected
+[  105.444947] ast 0000:0a:00.0: [drm] dram MCLK=266 Mhz type=2 bus_width=32
+[  105.444963] ast 0000:0a:00.0: [drm] Using analog VGA
+[  105.445470] [drm] Initialized ast 0.1.0 for 0000:0a:00.0 on minor 0
+[  105.673289] ast 0000:0a:00.0: [drm] format BX24 little-endian (0x34325842) not supported
+[  105.673302] ast 0000:0a:00.0: [drm] No compatible format found
+[  105.673348] ast 0000:0a:00.0: [drm] *ERROR* fbdev: Failed to setup emulation (ret=-22)
+[  105.901306] ast 0000:0a:00.0: [drm] format BX24 little-endian (0x34325842) not supported
+[  105.901319] ast 0000:0a:00.0: [drm] No compatible format found
+[  105.901350] ast 0000:0a:00.0: [drm] *ERROR* fbdev: Failed to setup emulation (ret=-22)
+
+WIP w/ BIG_ENDIAN temp commented out to test the code-path on the
+otherwise function big-endian byte-swapping SPARC64 AST:
+
+diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
+index 2d3ad7610c2e..3f17aa263bdb 100644
+--- a/drivers/gpu/drm/ast/ast_cursor.c
++++ b/drivers/gpu/drm/ast/ast_cursor.c
+@@ -227,6 +227,12 @@ static void ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
+ 			}
+ 			break;
+ 		}
++
++#if 0 //def __BIG_ENDIAN
++		/* Big-endian byte-swapping */
++		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa2, 0x3f, AST_IO_VGACRA2_BE_MODE_16);
++#endif
++
+ 		ast_set_cursor_image(ast, argb4444, fb->width, fb->height);
+ 		ast_set_cursor_base(ast, dst_off);
+ 	}
+diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
+index cd08990a10f9..1065f481ec5f 100644
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -526,12 +526,23 @@ static int ast_primary_plane_helper_atomic_check(struct drm_plane *plane,
  
--			dev_err(mhdp->dev,
-+			dev_dbg(mhdp->dev,
- 				"Failed to write DPCD addr %u\n",
- 				msg->address + i);
+ static void ast_handle_damage(struct ast_plane *ast_plane, struct iosys_map *src,
+ 			      struct drm_framebuffer *fb,
+-			      const struct drm_rect *clip)
++			      const struct drm_rect *clip,
++			      struct drm_format_conv_state *fmtcnv_state)
+ {
+ 	struct iosys_map dst = IOSYS_MAP_INIT_VADDR_IOMEM(ast_plane_vaddr(ast_plane));
  
-@@ -788,7 +788,7 @@ static ssize_t cdns_mhdp_transfer(struct drm_dp_aux *aux,
- 		ret = cdns_mhdp_dpcd_read(mhdp, msg->address,
- 					  msg->buffer, msg->size);
- 		if (ret) {
--			dev_err(mhdp->dev,
-+			dev_dbg(mhdp->dev,
- 				"Failed to read DPCD addr %u\n",
- 				msg->address);
+ 	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
+-	drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
++
++	switch (fb->format->format) {
++	default:
++		drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
++		break;
++	case DRM_FORMAT_BGRX8888:
++	case DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN:
++		/* Swap bytes on big-endian formats */
++		drm_fb_swab(&dst, fb->pitches, src, fb, clip, false, fmtcnv_state);
++		break;
++	}
+ }
  
+ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+@@ -557,11 +568,25 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
+ 		ast_set_vbios_color_reg(ast, fb->format, ast_crtc_state->vmode);
+ 	}
+ 
++
+ 	/* if the buffer comes from another device */
+ 	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE) == 0) {
++#if 0 // def __BIG_ENDIAN
++		/* Big-endian byte-swapping */
++		switch (fb->format->format) {
++		case DRM_FORMAT_RGB565:
++			ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa2, 0x3f, AST_IO_VGACRA2_BE_MODE_16);
++			break;
++		case DRM_FORMAT_XRGB8888:
++			ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa2, 0x3f, AST_IO_VGACRA2_BE_MODE);
++			break;
++		}
++#endif
++
+ 		drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
+ 		drm_atomic_for_each_plane_damage(&iter, &damage) {
+-			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
++			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage,
++					  &shadow_plane_state->fmtcnv_state);
+ 		}
+ 
+ 		drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+@@ -1020,6 +1045,11 @@ int ast_mode_config_init(struct ast_device *ast)
+ 		dev->mode_config.max_height = 1200;
+ 	}
+ 
++#ifdef __BIG_ENDIAN
++	//if (ast->chip >= AST2400)
++		dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
++#endif
++
+ 	dev->mode_config.helper_private = &ast_mode_config_helper_funcs;
+ 
+ 	ret = ast_primary_plane_init(ast);
+diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
+index 30578e3b07e4..4e11ece9fce7 100644
+--- a/drivers/gpu/drm/ast/ast_reg.h
++++ b/drivers/gpu/drm/ast/ast_reg.h
+@@ -34,6 +34,8 @@
+ #define AST_IO_VGACR99_VGAMEM_RSRV_MASK	GENMASK(1, 0)
+ #define AST_IO_VGACRA1_VGAIO_DISABLED	BIT(1)
+ #define AST_IO_VGACRA1_MMIO_ENABLED	BIT(2)
++#define AST_IO_VGACRA2_BE_MODE		BIT(7)
++#define AST_IO_VGACRA2_BE_MODE_16	(AST_IO_VGACRA2_BE_MODE | BIT(6))
+ #define AST_IO_VGACRA3_DVO_ENABLED	BIT(7)
+ #define AST_IO_VGACRAA_VGAMEM_SIZE_MASK	GENMASK(1, 0)
+ #define AST_IO_VGACRB6_HSYNC_OFF	BIT(0)
 -- 
-2.34.1
+2.52.0
 
+> Thanks for sticking with it.
+
+Of course!
+
+   René
+
+-- 
+René Rebe, ExactCODE GmbH, Berlin, Germany
+https://exactco.de • https://t2linux.com • https://patreon.com/renerebe
