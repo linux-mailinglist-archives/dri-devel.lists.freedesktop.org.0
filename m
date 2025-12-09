@@ -2,62 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D06CB07AE
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 16:58:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0886ECB07C3
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 17:01:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D830910E547;
-	Tue,  9 Dec 2025 15:58:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82C5D10E1FA;
+	Tue,  9 Dec 2025 16:01:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QWE8TelC";
+	dkim=pass (2048-bit key; unprotected) header.d=lankhorst.se header.i=@lankhorst.se header.b="m5bcWrlt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0944310E547;
- Tue,  9 Dec 2025 15:58:57 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 83301440D0;
- Tue,  9 Dec 2025 15:58:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CC93C116B1;
- Tue,  9 Dec 2025 15:58:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765295936;
- bh=hq+Gp4/eUNzcAoVmwhNTcMabF3wmpaL86Ur2QN8irHY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QWE8TelC4VxDdU3W7h2EonB0m4q1dgzzaccunK03E3kid+i8yRHZDX0HduYKKnwOz
- XbCnQ7l/oQZlncLBeK0pLg559EkMh4wiX1PAw0SV/krZuR9AH8dIA7vI1Qdg6algna
- Bs//Sp0CEFcXSf9u2yx8qJuqrUv/3bVLH2xuSSWHWd+QlegHHtjMSdpJ5mDXGgD6VK
- nhVCJScAsIXfPykXJhVv0VzeFpLLxaF55a7xLF3rkxMsCKhFMKo2Mme1zt1AO1GQC8
- +CWfLGxIkLFgQYO5lQdf3PEBwi+Xxfl7YJkekDMFoZWnOriZ8YUdRTbX7WglLQUuBL
- WobvXc6+RzZFQ==
-Date: Tue, 9 Dec 2025 16:58:52 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Christophe Leroy <chleroy@kernel.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>, 
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
- Daniel Gomez <da.gomez@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>
-Subject: Re: [PATCH v3 1/4] kernel.h: drop STACK_MAGIC macro
-Message-ID: <heichtdv6trkebioytkadhjdrs6peipe5hq23ilt7nruxdrsuj@ev33nk36kmot>
-References: <20251205175237.242022-1-yury.norov@gmail.com>
- <20251205175237.242022-2-yury.norov@gmail.com>
+Received: from lankhorst.se (lankhorst.se [141.105.120.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DD5C10E1FA
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 16:01:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
+ s=default; t=1765296075;
+ bh=+nIjrCZLH9H7mY4tgHGhhjDTB7lzbE5Ym9Qf3cRlkz0=;
+ h=Date:Subject:To:References:From:In-Reply-To:From;
+ b=m5bcWrltUtzDuJEZfhstcuTg6h+FHIvyU9ToPE26PuDxC3WLq5YoD/9pabksdaqjB
+ 5CiDSLiy2+tLoHvgc81MCtuFVIYQM6EzwrqTpy73zeYYm0lUq+a8oARPu43WSN7cz2
+ s9ayXacXH84hp8beHhwnYJcc3QGG1T+eCWB4sWXxGDeuynAK4x0IC9ssqEBBEE+SRe
+ lOZF84dqx1vYbZMFY1h0SEQ+uETzli/SyIi2cDqyzX+zdTJmgW1kLXyOvsvS9gubKA
+ We1MDuDxTthopJ7BociBEOZrmpL+r1ofCHvrHTlsg+Hlw4hcJReQtqpxCWEP9xVIO1
+ n9kGueK0XwuWw==
+Message-ID: <e9a8f838-0721-4ba4-bc07-022193b53646@lankhorst.se>
+Date: Tue, 9 Dec 2025 17:01:15 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251205175237.242022-2-yury.norov@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] drm/Kconfig: cleanups
+To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
+References: <cover.1762251845.git.jani.nikula@intel.com>
+Content-Language: en-US
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <cover.1762251845.git.jani.nikula@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,21 +52,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Yuri,
+Reviewed-by: Maarten Lankhorst <dev@lankhorst.se>
 
-On Fri, Dec 05, 2025 at 12:52:32PM -0500, Yury Norov (NVIDIA) wrote:
-> The macro was introduced in 1994, v1.0.4, for stacks protection. Since
-> that, people found better ways to protect stacks, and now the macro is
-> only used by i915 selftests. Move it to a local header and drop from
-> the kernel.h.
-> 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Reviewed-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
-> Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
+Den 2025-11-04 kl. 11:25, skrev Jani Nikula:
+> Clean up drm/Kconfig a bit.
+>
+> Jani Nikula (4):
+>   drm/hyperv: move Kconfig under driver directory
+>   drm/vgem: move Kconfig under driver directory
+>   drm/Kconfig: move generic Kconfig options above drivers
+>   drm/Kconfig: sort driver Kconfig source list
+>
+>  drivers/gpu/drm/Kconfig        | 199 ++++++++++-----------------------
+>  drivers/gpu/drm/hyperv/Kconfig |  14 +++
+>  drivers/gpu/drm/vgem/Kconfig   |   9 ++
+>  3 files changed, 82 insertions(+), 140 deletions(-)
+>  create mode 100644 drivers/gpu/drm/hyperv/Kconfig
+>  create mode 100644 drivers/gpu/drm/vgem/Kconfig
+>
 
-Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
-
-Thanks,
-Andi
