@@ -2,63 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7AEDCAFAD9
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 11:47:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D136CAFB39
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 11:56:01 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FD8110E1CD;
-	Tue,  9 Dec 2025 10:47:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C12F10E504;
+	Tue,  9 Dec 2025 10:55:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VZqtqcZ/";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k54kGDbd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEAD910E1C9;
- Tue,  9 Dec 2025 10:47:29 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C04810E504;
+ Tue,  9 Dec 2025 10:55:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765277250; x=1796813250;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=cQJ6q+t+HQPTF0InR/nsGs1RBO11HdTHKx24l1no36A=;
- b=VZqtqcZ/Zi9+i2zxiS8ZzGRu75z2pziq2GvMJlaEhw34KYUzrvKQLgDR
- OmK8A4X9lCRk2zoYFRgn4nKGnVvN02B89IxiuZJaqqHU/LEJH6guZjV7a
- S9uw17d53wwSlgSzUJ/VeAOgbD+ZfDqY4XmcKZ9VX5v6qrtPKnkjeZiXs
- yeGlJsGvr9PHikrbfkXztERtjC9HN94fzofokvhXmeMcqA9+wEm1Y8+LN
- CbxQqGDfQt/eP1UD9SSu2por6ty17kdRm9Fjhhlcl9Q/NKKbklIVNY9+V
- l6r/NOdCoU1BhNYsW3uPZjhDb4UI4KUqktFkR0Mbe28tdT2oAjCdJYYwy Q==;
-X-CSE-ConnectionGUID: NzdELh74Tt6xrUpcSGOZ9Q==
-X-CSE-MsgGUID: iFFkegQbREuECnCfSX6P7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67160587"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; d="scan'208";a="67160587"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2025 02:47:29 -0800
-X-CSE-ConnectionGUID: hVhXkGH5Tc2xRCYNOXtJ4A==
-X-CSE-MsgGUID: SlA4mYZiRAmzVDkL3LVyGg==
+ t=1765277757; x=1796813757;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version:content-transfer-encoding;
+ bh=M9bbmFgZkc8S0DNcL/KplCM1YEckeT2rBelfi6r5VxE=;
+ b=k54kGDbdK4HxnOVSPFduzL6XmS6sdVvFDssjGUL4mteeBG1AnsXpM9P6
+ JSOQ0OcMI3FZ6/gyb5NIDQLZ4S1u9oB+uqJYYF5T60KThIWZ0nnZH2uEe
+ 8f8wKh64nwsTEY6WEFbX1sOVQviCiqqoz7+3ieNCK8hHOQ/AESnkX558D
+ WC/5q+8Gm9u9QTwxYXyPj2lSWpWoI2Z3tZr0tVvr1/5XbrEln2J1kfXxM
+ LBmM7EkyuyUN/OJ3wTXfLoheGQ0B2pwPU6ev6MvhyvqYbeg4a2eXtljxD
+ szmBpVHaCszTFHbzP3R1HUjvRwEkHtmFSdajE8H1nR8sgWhFuG01j4gXn Q==;
+X-CSE-ConnectionGUID: jOEqceTNT7SMYqzPm51S/A==
+X-CSE-MsgGUID: 0zbSzQ4aQNiupwsrh4xjrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="67126085"
+X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; d="scan'208";a="67126085"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2025 02:55:55 -0800
+X-CSE-ConnectionGUID: B9R2JDrcRmebdiafbPB+qA==
+X-CSE-MsgGUID: UA7yqdrxR2mmm3tyLVJTbA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; d="scan'208";a="200630801"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost)
- ([10.245.245.194])
- by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2025 02:47:27 -0800
-Date: Tue, 9 Dec 2025 12:47:23 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: sunpeng.li@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Harry.Wentland@amd.com,
- Nicholas.Kazlauskas@amd.com, simona@ffwll.ch, airlied@gmail.com
-Subject: Re: [PATCH v2 1/2] drm: Introduce drm_crtc_vblank_prepare()
-Message-ID: <aTf-O8DFcCJPhrPd@intel.com>
-References: <20251201231807.287414-1-sunpeng.li@amd.com>
- <d2b8706e41648fcd271d00f2be54545c9090442f@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d2b8706e41648fcd271d00f2be54545c9090442f@intel.com>
-X-Patchwork-Hint: comment
+Received: from mwiniars-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.154])
+ by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Dec 2025 02:55:52 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org, Helge Deller <deller@gmx.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 14/19] video/vga: Add VGA_IS0_R
+In-Reply-To: <20251209075549.14051-1-ville.syrjala@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251208182637.334-15-ville.syrjala@linux.intel.com>
+ <20251209075549.14051-1-ville.syrjala@linux.intel.com>
+Date: Tue, 09 Dec 2025 12:55:49 +0200
+Message-ID: <7f70f53e34433e3056bf16195b009d14fb60b745@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,42 +71,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Dec 09, 2025 at 12:05:31PM +0200, Jani Nikula wrote:
-> On Mon, 01 Dec 2025, <sunpeng.li@amd.com> wrote:
-> > From: Leo Li <sunpeng.li@amd.com>
-> >
-> > Some drivers need to perform blocking operations prior to enabling
-> > vblank interrupts. A display hardware spin-up from a low-power state
-> > that requires synchronization with the rest of the driver via a mutex,
-> > for example.
-> >
-> > To support this, introduce a new drm_crtc_vblank_prepare() helper that
-> > calls back into the driver -- if implemented -- for the driver to do
-> > such preparation work.
-> >
-> > In DRM core, call this helper before drm_vblank_get(). Drivers can
-> > choose to call this if they implement the callback in the future.
-> 
-> Have you considered hiding all of this inside drm_vblank.c? Call prepare
-> in drm_crtc_vblank_get() and a couple of other places? And actually
-> don't call it on !drm_dev_has_vblank(dev)?
-> 
-> There's just so much littering all over the place with the prepare, and
-> it seems brittle. Especially when you expect not only the drm core but
-> also the relevant drivers to call drm_crtc_vblank_prepare() when needed.
-> 
-> There does seem to be a few places in amdgpu that wrap the
-> drm_crtc_vblank_get() inside dev->event_lock, but is there really any
-> need to do so? Do the get first, and grab the event_lock after?
-> 
-> Some random comments inline.
-> 
-> Cc: Ville
+On Tue, 09 Dec 2025, Ville Syrjala <ville.syrjala@linux.intel.com> wrote:
+> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+>
+> Add a proper name for the "Input status register 0" IO address.
+> Currently we have some code that does read addressed using the
+> aliasing VGA_MSR_W define, making it unclear what register we're
+> actually reading.
+>
+> v2: Remove stray '?'
+>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 
-drm_vblank_get() can get called from any kind of context.
-The only workable solution might be the schedule a work from
-.vblank_enable() and do whatever is needed from there.
+Reviewed-by: Jani Nikula <jani.nikula@intel.com>
 
--- 
-Ville Syrjälä
-Intel
+> ---
+>  include/video/vga.h | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/include/video/vga.h b/include/video/vga.h
+> index 468764d6727a..2f13c371800b 100644
+> --- a/include/video/vga.h
+> +++ b/include/video/vga.h
+> @@ -46,6 +46,7 @@
+>  #define VGA_MIS_R   	0x3CC	/* Misc Output Read Register */
+>  #define VGA_MIS_W   	0x3C2	/* Misc Output Write Register */
+>  #define VGA_FTC_R	0x3CA	/* Feature Control Read Register */
+> +#define VGA_IS0_R	0x3C2	/* Input Status Register 0 */
+>  #define VGA_IS1_RC  	0x3DA	/* Input Status Register 1 - color emulation =
+*/
+>  #define VGA_IS1_RM  	0x3BA	/* Input Status Register 1 - mono emulation */
+>  #define VGA_PEL_D   	0x3C9	/* PEL Data Register */
+
+--=20
+Jani Nikula, Intel
