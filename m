@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45D6ECB10B1
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 21:47:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E01FCB1145
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 22:01:50 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4B3410E184;
-	Tue,  9 Dec 2025 20:47:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C02EB10E623;
+	Tue,  9 Dec 2025 21:01:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="eVZJMgad";
+	dkim=pass (2048-bit key; unprotected) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="S6Z5dHal";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4AA6810E184
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 20:47:13 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id
- d75a77b69052e-4ee0ce50b95so2249791cf.0
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Dec 2025 12:47:13 -0800 (PST)
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
+ [209.85.222.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82AD810E623
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 21:01:47 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id
+ af79cd13be357-8b2da83f721so27225685a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Dec 2025 13:01:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1765313232; x=1765918032;
+ d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1765314106; x=1765918906;
  darn=lists.freedesktop.org; 
  h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
  :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=c4INrajJZxer3eDvKBBVTy/6pmKf+B5vk/ryF/UUlog=;
- b=eVZJMgadqdGbgKuB0uvoJ+6Mchf0eYusgNwUTpN9tQrIopytPh1B/fgBdI6bEMVjRJ
- WhT5BhCTdkc9MZY1aiPJ+Ymo/Kb+J373Jb/OEz+K6qDFH3CpOneEStNGzk6kpwaJ7PKK
- U8VqkvA0vdFFIEoeEVDAqNcmTEbS6IYoO7lTOHvglrSdUUndr3vc6iCnPDZH0FDKQM7L
- 2KlaQiidgKsGjDFMDZiUvVg1oYkcmEJQ9pHVMkiPCxUpiE6Zf+ueIoDa852YI2XPMqBN
- rl86+0XXQ8/IromaO1aXccCmTuvwTPS7r2gO2WUPBVnQIssPfG/1JFT9/u1+rdNlttSm
- zcng==
+ bh=bdB60+eboYB8mcQkNMp1+tLftnngs0TeTeQCleurBBU=;
+ b=S6Z5dHalB0+19bPRC7r/bHUihXe2/ieb9b7onPKyfgkeUVmCtLBBCDloO8JWMq52Hg
+ sYIIBO5A3PuAn5+eDgnwPx2vDwmEdpKQtL2S8qn9STv02tlDIlfge6DhstpKduAHx9m4
+ 7qhi5pgezk6DUZ9Yt7lOHNKWmfwaxhr4fRB5fhrSbhQHSj02yx/mWnt4SnK6mZCSSmXV
+ XcZB81tzmQMIAk5Dzp2c8l686MKQ+2xKhmrzjwfAuUU8W/WsenGRKSCf8kIk3RQ6dwd9
+ 6m2jJdgA3P0Dj8IOF4URXh6g+aDCaOnKCpzZWcHUdILlGb0bHLZIi5GXUwh8c6JdqLGV
+ 9EFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765313232; x=1765918032;
+ d=1e100.net; s=20230601; t=1765314106; x=1765918906;
  h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
  :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=c4INrajJZxer3eDvKBBVTy/6pmKf+B5vk/ryF/UUlog=;
- b=Fnm0TV1HeJL/cf3R57nkiz8urDqhMpa/8hA2ya5LZbVSnSnTK53ZIzHSl4KDN/I122
- 5qlwDOAo229jsa+4Oldqlt++y0msdbiKHxYYzOtlbxyAlnAiTXqJk9YeNyvrBNYMLVEV
- OJBR1P7az6Xm2dZM1k43qukqXXoLTiDQWkJJu4DdJAAP8uWFM9BGBRN67sq0IYT1yVIq
- ieUV5dW/3Uf/Ux16+sAFuL3sbrx7+Sv1I1swR8RauXmHrUOvyW6G7quNb8Exp760rOmh
- qTwuYcSqwDpF7ub4QIECUechuNII+KzRPpfnjhh+JPjYEfMPzPLWGxdJPcDk5K36i5Dw
- 3KMQ==
+ bh=bdB60+eboYB8mcQkNMp1+tLftnngs0TeTeQCleurBBU=;
+ b=bhd3IsMrmAeLydui9wnx3NUTYWDjtnxOzAGRlUq6DRXn0Ijs1TUorvXDzK0Dnfw++A
+ fXWlAO4vSiGRfiXJniWLuMgGtK6tpSwbcSHn49DxOEmrD/B709D9zQymVZHIZuzFmbPT
+ D4m2CZeL15SLZTbGvH+sgMJ5h8gNEkdOP+oH4M4itFuUDXyPrIb9iaH/8tPhA4mLSPXM
+ gLAzw0qZUpMk75r+RNEIQFzUUfNMauuTFKe3Selio1EWIGmZc7yLhXH80JfBDgGrvIeC
+ YC+JCYKctYhhTCS97LQF7VuQKTSXnhnDwPEScaf3SMHvzjptUebEAeVhjbzTf74Q8GGE
+ zflQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUZBSS6WLKh7xkOy+6Nivl6w8WQc6jF8Hwy8XXZfxNMulmA+WzdmE/aCrAe7giJo/YqmK9k79vrLyc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwVIr8JcfVfVKy2KspmTaD5UijDlfdBoHBoS3RsbO56O6ByG9cx
- J5aAtnl64ZkmKuyOy5bbO/lDBbGXRonu1XJKxkOAaKVUOUvWgyDswjD1INx/QPvSsII=
-X-Gm-Gg: ASbGncvOZuz10qQCpsIi8bt0qS6abaD/3BIWBhQfwpM2XcT/uhL6vGl16CIpZFFwcPL
- HRDaXauwVafKoA6z3UBeFY5yOGedS7WbipK9icFbm3U0xZ4lMjpPEeAYVYd+xDGzVnoKdHGMIgU
- wCgUL/DNZfTTBTWvVrNUfz7SzT6MdmRVItFs86tTbzHdfj+nFygA54m8yEZQXCCVZdIraHlK33y
- rGN07OJqXLgRDbcuUj5eUQvKNHIzl242H/E4FeebAoY4pGSxomEZnxW5OdO4vdvBF35dyORbfAS
- ++BJ50Z5faDwZbhNwwP5l4q1ZYEh7MdwBF5gNfvNWQ10nsDB+9JOjM6nCslgZoL5faJo37OzG5w
- +9lA1071yiD10VsjPedTHjfz7bhnvFCgMoEOj1rsAi0T4WXmlLuNNUUXvXDXaZWj0e8C04XVhHE
- LThCJ5GH80Nx2/jaA4
-X-Google-Smtp-Source: AGHT+IEoy3WsJss4eewDF1IObVZFsEEO8RMc62bsDTegGuaNornhGcbzFkR2E0lJrV1isVMQC9W0cQ==
-X-Received: by 2002:ac8:7d86:0:b0:4ed:b570:569 with SMTP id
- d75a77b69052e-4f1b17f042fmr1022671cf.27.1765313232127; 
- Tue, 09 Dec 2025 12:47:12 -0800 (PST)
+ AJvYcCXcEncxW/BxYcYes6w9DmBEei44v6zr2tq4bmcpFf/zihdSEQdRlUsbveiwRGwv1HtuAix078Bs2OE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyw+msuzPAqUYBZjcgGduCsQoAw81C1ldx9BxcxE45JNb8F6v4T
+ iuqtAQLgFVv3IAcn2GFIzAhLQGabnIkJNREBwEQgVCFEpUg/c1tlMmGx1laXQOgG7lU=
+X-Gm-Gg: ASbGncttV2sThQ65R4X8fn73/N7THOHR1Xk/ia/CXmyXHOWbeysrR+p1c36c4FcPMRK
+ UvM8+Eq45AUUtbLXCAgm9AD4m+uhq2CW35K0trtLfWW4Du7Iq2bCCqsG+J7tnib8FGaLi+fle8g
+ MlAW/xeBh1Tf7QVANX+DmiJkUh7ESNxzxiNRTemRXeuHDo5Y+ZlIXsh7L6cewfyD9JLNQx3Rf/u
+ k2R/HxjLj0pcTTNuFCnmEluJEmUF3lGl0QwZg6dAPispjzTtLjnhv81AWwt77a4TLhrN5aNYX+D
+ uL7Xf/rlK5U05zf8WhZSXqf9TruzyQnCF2mllMqrLIXQUQTYlYCKJC+3tSXnRf3PP8jYKVdQ6gg
+ OZ+QCw46r6LqYIiEojKCgzEFEdSUJYJJlAxhC6Skg37YfC7n8YIhq23KYygZjSwhy04cn6LORcC
+ J+JrCycS5vSTimr9CN
+X-Google-Smtp-Source: AGHT+IE70E6Yg8SvO7c4cluG29AN/MEVghrbdBWJ2DadPgU4cJuuz1Fy4vVBOHbqQWY07mt5r6xw3Q==
+X-Received: by 2002:a05:620a:31a6:b0:891:8c16:283b with SMTP id
+ af79cd13be357-8b9ccd08e72mr386130085a.9.1765314106344; 
+ Tue, 09 Dec 2025 13:01:46 -0800 (PST)
 Received: from ?IPv6:2606:6d00:17:7b4b::c41? ([2606:6d00:17:7b4b::c41])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4f027d2b3a4sm108009241cf.25.2025.12.09.12.47.10
+ af79cd13be357-8b6252b61f1sm1375838185a.17.2025.12.09.13.01.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 09 Dec 2025 12:47:11 -0800 (PST)
-Message-ID: <e0144120e0943b94454b1cddd5359c34b5a15412.camel@ndufresne.ca>
-Subject: Re: [PATCH 5/5] media: platform: mtk-mdp3: Change
- cmdq_pkt_jump_rel() to cmdq_pkt_jump_rel_temp()
+ Tue, 09 Dec 2025 13:01:45 -0800 (PST)
+Message-ID: <ae08e53e055a238cde639dc9d9c7263fa296af5f.camel@ndufresne.ca>
+Subject: Re: [PATCH v7 17/20] media: platform: mtk-mdp3: Use
+ cmdq_pkt_jump_rel() without shift_pa
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
 To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
@@ -82,10 +82,10 @@ Cc: Matthias Brugger <matthias.bgg@gmail.com>, Nancy Lin
  devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, 	linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, 	linux-media@vger.kernel.org
-Date: Tue, 09 Dec 2025 15:47:10 -0500
-In-Reply-To: <20251031160309.1654761-6-jason-jh.lin@mediatek.com>
-References: <20251031160309.1654761-1-jason-jh.lin@mediatek.com>
- <20251031160309.1654761-6-jason-jh.lin@mediatek.com>
+Date: Tue, 09 Dec 2025 16:01:44 -0500
+In-Reply-To: <20250827114006.3310175-18-jason-jh.lin@mediatek.com>
+References: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
+ <20250827114006.3310175-18-jason-jh.lin@mediatek.com>
 Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -100,7 +100,7 @@ Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Content-Type: multipart/signed; micalg="pgp-sha512";
- protocol="application/pgp-signature"; boundary="=-MnGLK1uGO3sHzXuy/5rZ"
+ protocol="application/pgp-signature"; boundary="=-Pkgq2xxV7UQeyr3akCzT"
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,68 +119,92 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---=-MnGLK1uGO3sHzXuy/5rZ
+--=-Pkgq2xxV7UQeyr3akCzT
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-
-Le samedi 01 novembre 2025 =C3=A0 00:02 +0800, Jason-JH Lin a =C3=A9crit=C2=
-=A0:
-> To facilitate the removal of the shift_pa parameter from
-> cmdq_pkt_jump_rel(), current users of cmdq_pkt_jump_rel() need to
-> transition to using cmdq_pkt_jump_rel_temp() before the API change
-> is implemented.
+Le mercredi 27 ao=C3=BBt 2025 =C3=A0 19:37 +0800, Jason-JH Lin a =C3=A9crit=
+=C2=A0:
+> With the removal of the shift_pa parameter, cmdq_pkt_jump_rel_temp()
+> can be replaced by the new cmdq_pkt_jump_rel() without shift_pa.
 >=20
+> Then, remove the cmdq_shift_pa variable in the mdp_dev structure for
+> each mbox client.
+>=20
+> Fixes: ade176534112 ("soc: mediatek: cmdq: Add parameter shift_pa to cmdq=
+_pkt_jump()")
 > Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
 > ---
 > =C2=A0drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> =C2=A0drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c | 2 --
+> =C2=A0drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h | 1 -
+> =C2=A03 files changed, 1 insertion(+), 4 deletions(-)
 >=20
 > diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c b/drive=
 rs/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-> index d0b0b072f953..5fc9263ccb78 100644
+> index 7575ec376367..c35fe0e3a4d5 100644
 > --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
 > +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-> @@ -628,7 +628,7 @@ static struct mdp_cmdq_cmd *mdp_cmdq_prepare(struct m=
+> @@ -638,7 +638,7 @@ static struct mdp_cmdq_cmd *mdp_cmdq_prepare(struct m=
 dp_dev *mdp,
 > =C2=A0		goto err_free_path;
 > =C2=A0	}
 > =C2=A0	cmdq_pkt_eoc(&cmd->pkt);
-> -	cmdq_pkt_jump_rel(&cmd->pkt, CMDQ_INST_SIZE, mdp->cmdq_shift_pa[pp_idx]=
-);
-> +	cmdq_pkt_jump_rel_temp(&cmd->pkt, CMDQ_INST_SIZE, mdp->cmdq_shift_pa[pp=
+> -	cmdq_pkt_jump_rel_temp(&cmd->pkt, CMDQ_INST_SIZE, mdp->cmdq_shift_pa[pp=
 _idx]);
+> +	cmdq_pkt_jump_rel(&cmd->pkt, CMDQ_INST_SIZE);
 
-I cannot take that right now in the media tree, as it won't build. Can the =
-SoC
-maintainer help me know if I just leave that on hold, or perhaps you'd like=
- to
-take it ? (or its in next, and I just have to wait for next udpate?)
+That effectively revert another patch that is pending, and remove the use o=
+f the
+new cmdq_pkt_jump_rel_temp(). I don't follow what is doing on here, I think=
+ some
+context must be lost.
 
-I also doubt patch 4/5 is make much of a difference without the soc changes=
- ?
-
-regards,
 Nicolas
 
 > =C2=A0
 > =C2=A0	for (i =3D 0; i < num_comp; i++) {
 > =C2=A0		s32 inner_id =3D MDP_COMP_NONE;
+> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c b/drive=
+rs/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+> index 8de2c8e4d333..2f8147481bd6 100644
+> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c
+> @@ -293,8 +293,6 @@ static int mdp_probe(struct platform_device *pdev)
+> =C2=A0			ret =3D PTR_ERR(mdp->cmdq_clt[i]);
+> =C2=A0			goto err_mbox_destroy;
+> =C2=A0		}
+> -
+> -		mdp->cmdq_shift_pa[i] =3D cmdq_get_shift_pa(mdp->cmdq_clt[i]->chan);
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	init_waitqueue_head(&mdp->callback_wq);
+> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h b/drive=
+rs/media/platform/mediatek/mdp3/mtk-mdp3-core.h
+> index 05cade1d098e..430251f63754 100644
+> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h
+> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.h
+> @@ -126,7 +126,6 @@ struct mdp_dev {
+> =C2=A0	u32					id_count;
+> =C2=A0	struct ida				mdp_ida;
+> =C2=A0	struct cmdq_client			*cmdq_clt[MDP_PP_MAX];
+> -	u8					cmdq_shift_pa[MDP_PP_MAX];
+> =C2=A0	wait_queue_head_t			callback_wq;
+> =C2=A0
+> =C2=A0	struct v4l2_device			v4l2_dev;
 
---=-MnGLK1uGO3sHzXuy/5rZ
+--=-Pkgq2xxV7UQeyr3akCzT
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaTiKzgAKCRDZQZRRKWBy
-9HnQAQCvZCLQCXpFlsUfn7DWx1kuIT+I+byuKT/dhCrJ0Qly3gEAh9feswFfhKgL
-He/DKiOx62zT1aAhbBCmngiS+Tir/wg=
-=/OPV
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaTiOOAAKCRDZQZRRKWBy
+9OdCAP9jVzg+QpGog3Qs+E1aiutQSW6I8TrxlaZxB+Nqe/V4dQEAvcTe47Q5IdHE
+la5jsdG9ICyO0vG59Lcb7msMNvmnEg4=
+=ZEQI
 -----END PGP SIGNATURE-----
 
---=-MnGLK1uGO3sHzXuy/5rZ--
+--=-Pkgq2xxV7UQeyr3akCzT--
