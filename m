@@ -2,175 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FBD7CB140B
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 22:57:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BA72CB1471
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 23:17:19 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38E5710E645;
-	Tue,  9 Dec 2025 21:57:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20F9A10E042;
+	Tue,  9 Dec 2025 22:17:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VgERnv61";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Ycroy2+G";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C121E10E214;
- Tue,  9 Dec 2025 21:57:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3DDC210E221
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 22:17:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765317456; x=1796853456;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=teFgBLev2WPyc+i64/E13MFkJkqfkxYSkgJM7SJGwdM=;
- b=VgERnv61elSoKFLKQL1ulRcnNlE4hTHomMrhAp1CyYtIHw8thiFnJ7Fs
- VZILxH1wNltzUoYBcB8Xe8VeIDj40bbg6GpYdrRDbRIKeFe7LLOuQ0QZ+
- 9L+06ysezdF+MnYWwiitMqXfZ8jy15e6p84FbfPK1ULzb/BhO0ltXfpj5
- 06t85WoCOrqL0qg/Bzi5WIuiSSgTKI9oSND+40xkXs6QcYcQGMsH54KuW
- Y/F/7RjuKyCrLG2/mGt05SBz06YRsND3IFPAYluiIDr9jEiu73XPcalSA
- x7wZq4mm6OcIriw8hMZZ8Qs3Tbp059xqdO9Lxfwtxm5iE8Ypikkx+nVM/ Q==;
-X-CSE-ConnectionGUID: yxP5ATEeQX2uu1Da4n3R8Q==
-X-CSE-MsgGUID: xyQCCQ7bQ+qJj8bsZqd37Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="66462244"
-X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; d="scan'208";a="66462244"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+ t=1765318635; x=1796854635;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=GbRs72zhEm3K+LSaqPzXLH+rm+ET2pyrRhwZTTvTQLY=;
+ b=Ycroy2+GofslO4FyC6BWRZACDCRT9G6R17E8gQLtDiSUqGvYVpGV3CdI
+ BvN4flW8kZOJcum8BY807/uVZpSBUS4Xuae8TJnzh4bfmw9kpS5lWjKh1
+ RFOF9XK3ltD2L+SmkPtxR9xx2ZA4/zjsXAJj81umTMZP6nJmV5aO3lvVv
+ iXxvWW1Yb+ak0z2Cdgv5PGeOzm5ahF+PeRRfpCY8tqRhBvLqLc8LX4o6W
+ CH57l43XkMuBF9xFuwxogXUBoP1L7DGDXKF7tXWwZtpPVkNKRloWDEsoi
+ fihHdOeV6TxDHfs65/aYt7TcKot9BCNmB5CiG/A/MUAP3IhMhTxT4gfX8 w==;
+X-CSE-ConnectionGUID: MgrcYN2rRJioX6sViKdEhQ==
+X-CSE-MsgGUID: p2h4g5lZRuiwBP2eqtUfOA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="66463532"
+X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; d="scan'208";a="66463532"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2025 13:57:36 -0800
-X-CSE-ConnectionGUID: 2ze/r7xVSc2Fu6kzXgXkuw==
-X-CSE-MsgGUID: IoTSW+kSTzm21VMKSXeTCg==
+ 09 Dec 2025 14:17:15 -0800
+X-CSE-ConnectionGUID: J+N2R5YCT2W2C1G9WZ0xKA==
+X-CSE-MsgGUID: D6J/RHAeT1iM6ifKFe+cZw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; d="scan'208";a="196634338"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
- by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2025 13:57:36 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 9 Dec 2025 13:57:35 -0800
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29 via Frontend Transport; Tue, 9 Dec 2025 13:57:35 -0800
-Received: from DM5PR21CU001.outbound.protection.outlook.com (52.101.62.59) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Tue, 9 Dec 2025 13:57:35 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pHH6eKOaG365+9SOoI6vJ36J/KbuOCZ4Zpj73JghA2walpNkb8UhbQ01HOaA6ZFjr/JgSRU9XmHrA951VoQEGLyGMHrON4p6nFJs11U3Ln0qdxmcVnffv/e9cCe1f2GnjC2RPLCvtn4gmCPneOm6gJRgLghMcsRi3xROPPnkSzVmZlGqm0uNNcU0no/LCX/fGmkUxIZAVSLJhRfrvnHfgAEEtfh4ISPv3PqMr+kMbCAUvECdNoId9W8q8mbATQw73pN8q3AmXD720WoY7WfQORqem2HxnW7utRerRNE7EQF71LCcKONkSx7gYUtUQFKiU58MUxulN9z1os5A6HqyEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZAfcFBpSNndtwTXLQmkP/HAqifE/58kSmL40rj2sCDI=;
- b=e3JBrVrsRCpExJl4H/1+O/cuHp9nQzoZJVdmb56upCpny6vqRaa7MeP+s/5CNRFuNImi84NsqXz6ykHv8JAyueTC8xVLx2wjhc48f483mAb0DBfv2lwZiFo1w3U6JFjk1rbLSWmqq8oVn8TFVXZRvsHNV2srfhBcIMz2ZgTbR1S8sGBkLCMYRm2vcnNAkIDQhwfPHZYPRNQvhN7vAbr1MfipaeUtbmep7uiEwCTHvThZqv3UDVKFs97Zx86hjNTD/AQnsco1QMkPfKP+95SkXeE8AxAS7SEUEgrlhTWPGLfrJ6H8wd/kqL9/0v0XuAUA33CGfuC3cS1alcA8AP3/8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
- by SN7PR11MB7509.namprd11.prod.outlook.com (2603:10b6:806:346::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.14; Tue, 9 Dec
- 2025 21:57:30 +0000
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563%6]) with mapi id 15.20.9412.005; Tue, 9 Dec 2025
- 21:57:30 +0000
-Date: Tue, 9 Dec 2025 16:57:22 -0500
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Riana Tauro <riana.tauro@intel.com>, Aravind Iddamsetty
- <aravind.iddamsetty@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <aravind.iddamsetty@linux.intel.com>, <anshuman.gupta@intel.com>,
- <joonas.lahtinen@linux.intel.com>, <lukas@wunner.de>,
- <simona.vetter@ffwll.ch>, <airlied@gmail.com>, <pratik.bari@intel.com>,
- <joshua.santosh.ranjan@intel.com>, <ashwin.kumar.kulkarni@intel.com>,
- <shubham.kumar@intel.com>
-Subject: Re: [PATCH v3 2/4] drm/xe/xe_drm_ras: Add support for drm ras
-Message-ID: <aTibQi4lZDSgyISK@intel.com>
-References: <20251205083934.3602030-6-riana.tauro@intel.com>
- <20251205083934.3602030-8-riana.tauro@intel.com>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251205083934.3602030-8-riana.tauro@intel.com>
-X-ClientProxiedBy: SJ0PR03CA0127.namprd03.prod.outlook.com
- (2603:10b6:a03:33c::12) To CYYPR11MB8430.namprd11.prod.outlook.com
- (2603:10b6:930:c6::19)
+X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; d="scan'208";a="196797938"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+ by fmviesa009.fm.intel.com with ESMTP; 09 Dec 2025 14:17:13 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+ (envelope-from <lkp@intel.com>) id 1vT619-000000002JX-2X1a;
+ Tue, 09 Dec 2025 22:17:11 +0000
+Date: Wed, 10 Dec 2025 06:16:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Lo=EFc?= Molinari <loic.molinari@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ Boris Brezillon <bbrezillon@kernel.org>
+Subject: [drm-misc:drm-misc-next 4/11] drivers/gpu/drm/drm_gem.c:1261:24:
+ error: implicit declaration of function 'mm_get_unmapped_area'; did you mean
+ 'shmem_get_unmapped_area'?
+Message-ID: <202512100625.EaqdFiOC-lkp@intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|SN7PR11MB7509:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1ff32534-d7ac-4b94-1f3f-08de376df2eb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?QJu5H+rUkfhhUC9Ll1g9dWgYRvEIszb38o7vjTzq9vKTVMmwpg1/FnOP3+?=
- =?iso-8859-1?Q?agmiCQj2LG6XkU71aH2IPArg8e2jkvBpJFYkaZe51LBnSS5UiWser8IREA?=
- =?iso-8859-1?Q?h1+FiurXWQl45D9G87zIUDw9z1qD362IvSQwXa7PIPurOKBDW/c4IOOnwH?=
- =?iso-8859-1?Q?KMDC92h5xenpe5xyb6HqEVJdCMCKuaT6XJ/0X+YT4AMLNkTcTbb3bacUOh?=
- =?iso-8859-1?Q?DAK6R8v1Fhp2D8K/3WHZ11V9lQLf98z8+verTIq4/jtxsW1lt6AXAQ+9jt?=
- =?iso-8859-1?Q?UAi6VkLxAcEAcfVVhhzScSNyb3p3E6vXZgBrvEO9Qi4b0i5zASde67/cdY?=
- =?iso-8859-1?Q?BWygnWKeG3O0FCLTuKjln5/CLpZwkkxb1UtoIuVbJejBq41UuHRshXF39q?=
- =?iso-8859-1?Q?hXKnFmX5FkSjXn8jaPyu4diBJ//NAK3sLQjTGxzTy+vdcpnGAHFAxGl/Mf?=
- =?iso-8859-1?Q?693FSfF1JPsGa+ZMWXaMIICnuJ8RGMBByvcNiNj+DgQ3o1YacZPsaRZqrm?=
- =?iso-8859-1?Q?p7KHLeLIbWbd8qo/SsZXW1Pi4iaIEMUb08S6bW+/VYuebAZyo87UD0VuXw?=
- =?iso-8859-1?Q?Olx7+ud88YesbT9/ASRSar2XaB8uvOCVM5hqfDBurITbUV4hazCq00Jd4W?=
- =?iso-8859-1?Q?iFHwU7Vj7yBnoNLhg/f1ni2PR5ZiaCP4bSgKijNq7hAMwy0jlPx2dVyCzv?=
- =?iso-8859-1?Q?W7UAABdWPuq8PYJLVJBlENC0LN6w1q5yld57UROPV69lKgqdVXSg2MwguH?=
- =?iso-8859-1?Q?IvNyqBJvdHEYQGruMRHqaBr3WhIzBeDsXF5ih8rXrPX1CWROxkmFQmNE68?=
- =?iso-8859-1?Q?LhW9O/hivyxmYw/Ete+ksJ9eDu/JhI1YAqmkkuOUCjZ7b2PwPBnLYUbAj2?=
- =?iso-8859-1?Q?UXVcDM3mxiwWkCOjzLEi9CLl+S214aL/fdnpeMt2MLc1U0+okg7VUU+uD9?=
- =?iso-8859-1?Q?vUIlydzvxFaV59bLZWdzZdMVtjcEaX90VSo2Odbd3NC8LqcdoaiZbLjkpS?=
- =?iso-8859-1?Q?R45W2TsNZtwQX3aZ6dRkU9Gwm8nNkr49PYCxTSJ8Ouvfw/PlRDHdFB/Axt?=
- =?iso-8859-1?Q?W3DpSMm8Dg//PyQuQmGrmfwOSFLGThgw+7BUwkiSkzAzM0VNvj/AH7V/Wp?=
- =?iso-8859-1?Q?Dh98wOL2mBuSMsppB6QR9PyZvMFIEMrYXBM0mzzkXHIUOoqBfT3sIvB2jw?=
- =?iso-8859-1?Q?nGjGBz0o+4waJhKdiO3Ps80ARQP24LuM/TO1/kThffokE/qMsbBeGaG1pB?=
- =?iso-8859-1?Q?mDKa24Q8SSn24FWAehjlo/QbQ60Q7btyLt2U/Klhxex/HmgZicUI5IRvG+?=
- =?iso-8859-1?Q?8oLXzf9ZL1ToykQm96FraFyVym4ngO1+srU90VR7UvrlHiSng5R11CNQZM?=
- =?iso-8859-1?Q?IMBnHu+dsFC1ahSOObbcTgwFMcoj5qW0sIPZmItDGmqHK9wp+tolMyP4PV?=
- =?iso-8859-1?Q?+/iE7mqZHwSIlOxNK9mWUj9cnFxQItA9ryQILIpcuyAAulu6WAGm9SMn2i?=
- =?iso-8859-1?Q?1h1JTwakrc0CbVW/NQmFlc?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?7u40f9AsixClxLEYqlraiuBnmhgZaTgjKEHf6RyKZq9gBxGOsmDBxrCRyd?=
- =?iso-8859-1?Q?NXx7JtxiQVnCOeE+yvof5Fnklv1zfCBdGe1wyQ8EVIX5B/PvjTjtEhz2Fu?=
- =?iso-8859-1?Q?SEHlPtxgnAY2rcb5cpei9LHQa+wv6OAx7xuEXoEAXK+bX2fMJmfevru+K+?=
- =?iso-8859-1?Q?WTl4Ct0P0eEJMKmfMQLIb7GFHymdW2wgjHBKVCjDcbh3bZ4NvA4sxJgRNt?=
- =?iso-8859-1?Q?/1JeMwsXvyeGq2YmXwVUDp8CIvijQ5SAsyVmKKsHRd1ofPCCXoTzf+kixi?=
- =?iso-8859-1?Q?l92kD4ehG7gwE2kKkvjLfSU7s7ifsI4+0EJtHqkf4IXuXz/gK0RxGEq6jr?=
- =?iso-8859-1?Q?CTVFQw2g9kQvCDyv89uBDzch7651yI/1ydMVpOvve4y9RD57mu7AT7jL6X?=
- =?iso-8859-1?Q?tFCH0UW6a/5FqcWRSTR0ZoactNP7KqQgYDIdYAS6f5LoiVf9nGwmIqa3rW?=
- =?iso-8859-1?Q?oNbuApm05lrA4hYhWEFN5A9lKPqN0un/VT2zP5aE8rFLsZUafXvJyaH0SQ?=
- =?iso-8859-1?Q?i2JU1fzHsYUSfVMgiMHP/rzh9NdcAPmVRergfcZcu7rQpeSEBrLDFwPaW0?=
- =?iso-8859-1?Q?6H6neTJs1TfKGVWzSKkEflY/Lb8lw6JEea/CSHdINVt9Wr5dAE4RYaN6B+?=
- =?iso-8859-1?Q?e3MEJtnLYADPRflbT239qDAp00aWE7cixj+nszplZLFT+sT/E5KkR9Mzsz?=
- =?iso-8859-1?Q?ZUtjlgv7M425NnwFzhhKpQ+RIC8fMQenRhxbpuEFrjJLUWxszIqmCsjx30?=
- =?iso-8859-1?Q?p7DTVVKVbjZflCyahvH91HqCHBR2SWnmBaLjdvs2nuZ5hwE1GLC82F1q9U?=
- =?iso-8859-1?Q?vK+PZN9wImM+gftyxRiK4P1HtVecfKsqBgCiDWNRBZAqHQskfI6+8kXbws?=
- =?iso-8859-1?Q?57nZIAybmBRHJ50IWyr+j0nx6tkwa6j1wj2wTUmVprKjwTWRfiWMh6zHB2?=
- =?iso-8859-1?Q?QaEdQZZ6MM/ATbZ45wbRi9p+rI+mwIokpTg+MU4lVksjZeFEWXkznXktPd?=
- =?iso-8859-1?Q?bsqWEKsqthqy9BcLiUtLbTty/kToSkbImyBqOD90AqmR8SUxepgTWCFB8J?=
- =?iso-8859-1?Q?p4hxNuqurGLbNwwEzRmDhV3dxatp+9rs7iBMaBKLopxuKtyh1tSSj3byaD?=
- =?iso-8859-1?Q?Fd7hnyC+vv3jUF0IwKIuz9KFqOq2wIAWy9A/JSOlhKvahJxdP8fgJ28nZ7?=
- =?iso-8859-1?Q?FAjHkc1Pd8X76Dvgdq3SB/UUfs9rmZDrV4jSP10ucGXYzOOMg4X75bA48T?=
- =?iso-8859-1?Q?0NdhbXF0+FY7ueU/ieqUNqHmbi0Perwu5ZrL0S/QMHGlNsTxGqIiA4Xb7x?=
- =?iso-8859-1?Q?1lLL4na/l9a7GodTssyoaDBkE8P10L/H+ERn5GCIq48tFVpmdDHPLhvTn+?=
- =?iso-8859-1?Q?lzq9nnvyCLdJZXxv67DJFdCDTQJc0pIpu3sIotPRuUUXZtUidJRj/cENTd?=
- =?iso-8859-1?Q?sCxAGWhJQCC++iEz8pN2C3TBW8xLAOdr8V1ZKpaESK7V3zz+uSjOBP0ZI1?=
- =?iso-8859-1?Q?V6GioKDbeWQZ7aJfF0HWIoOpUUwe03auQnF+Bvmh5DVkIeF7cfho6m60q/?=
- =?iso-8859-1?Q?Wb1wSQa71T1cAyfAtLfYoP5BbIDPteyqWUALqfXVr+7xpIShZmrDcr9bnQ?=
- =?iso-8859-1?Q?XMDoCEXJSTyuW18Kq/sw1cORpZlOOaIgiM?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ff32534-d7ac-4b94-1f3f-08de376df2eb
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2025 21:57:30.2582 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BRGKbrGOl2UEsI2U0A8iSZvSl86ZAMvR1TIaRzEYETsW+yNwfYh2zxO9BqQPQPYxlPzI7pUfLzixLr+PPs7JyA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7509
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -186,620 +69,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Dec 05, 2025 at 02:09:34PM +0530, Riana Tauro wrote:
-> Allocate correctable, nonfatal and fatal nodes per xe device.
-> Each node contains error classes, counters and respective
-> query counter functions.
-> 
-> Add basic functionality to create and register drm nodes.
-> Below operations can be performed using Generic netlink DRM RAS interface
-> 
-> List Nodes:
-> 
-> $ sudo ynl --family drm_ras  --dump list-nodes
-> [{'device-name': '0000:03:00.0',
->   'node-id': 0,
->   'node-name': 'correctable-errors',
->   'node-type': 'error-counter'},
->  {'device-name': '0000:03:00.0',
->   'node-id': 1,
->   'node-name': 'nonfatal-errors',
->   'node-type': 'error-counter'},
->  {'device-name': '0000:03:00.0',
->   'node-id': 2,
->   'node-name': 'fatal-errors',
->   'node-type': 'error-counter'}]
-> 
-> Get Error counters:
-> 
-> $ sudo ynl --family drm_ras  --dump get-error-counters --json '{"node-id":1}'
-> [{'error-id': 1, 'error-name': 'Core Compute Error', 'error-value': 0},
->  {'error-id': 2, 'error-name': 'SOC Internal Error', 'error-value': 0}]
-> 
-> Query Error counter:
-> 
-> $ sudo ynl --family drm_ras --do query-error-counter  --json '{"node-id":1, "error-id":1}'
-> {'error-id': 1, 'error-name': 'Core Compute Error', 'error-value': 0}
-> 
-> Signed-off-by: Riana Tauro <riana.tauro@intel.com>
-> ---
-> v2: Add ID's and names as uAPI (Rodrigo)
->     Add documentation
->     Modify commit message
-> ---
->  drivers/gpu/drm/xe/Makefile           |   1 +
->  drivers/gpu/drm/xe/xe_device_types.h  |   4 +
->  drivers/gpu/drm/xe/xe_drm_ras.c       | 199 ++++++++++++++++++++++++++
->  drivers/gpu/drm/xe/xe_drm_ras.h       |  12 ++
->  drivers/gpu/drm/xe/xe_drm_ras_types.h |  40 ++++++
->  drivers/gpu/drm/xe/xe_hw_error.c      |  64 ++++-----
->  include/uapi/drm/xe_drm.h             |  82 +++++++++++
->  7 files changed, 368 insertions(+), 34 deletions(-)
->  create mode 100644 drivers/gpu/drm/xe/xe_drm_ras.c
->  create mode 100644 drivers/gpu/drm/xe/xe_drm_ras.h
->  create mode 100644 drivers/gpu/drm/xe/xe_drm_ras_types.h
-> 
-> diff --git a/drivers/gpu/drm/xe/Makefile b/drivers/gpu/drm/xe/Makefile
-> index a7e13a676f7d..bc417ef19280 100644
-> --- a/drivers/gpu/drm/xe/Makefile
-> +++ b/drivers/gpu/drm/xe/Makefile
-> @@ -41,6 +41,7 @@ xe-y += xe_bb.o \
->  	xe_device_sysfs.o \
->  	xe_dma_buf.o \
->  	xe_drm_client.o \
-> +	xe_drm_ras.o \
->  	xe_eu_stall.o \
->  	xe_exec.o \
->  	xe_exec_queue.o \
-> diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-> index 9de73353223f..d6ea275700e1 100644
-> --- a/drivers/gpu/drm/xe/xe_device_types.h
-> +++ b/drivers/gpu/drm/xe/xe_device_types.h
-> @@ -13,6 +13,7 @@
->  #include <drm/ttm/ttm_device.h>
->  
->  #include "xe_devcoredump_types.h"
-> +#include "xe_drm_ras_types.h"
->  #include "xe_heci_gsc.h"
->  #include "xe_late_bind_fw_types.h"
->  #include "xe_lmtt_types.h"
-> @@ -361,6 +362,9 @@ struct xe_device {
->  		bool oob_initialized;
->  	} wa_active;
->  
-> +	/** @ras: ras structure for device */
-> +	struct xe_drm_ras ras;
-> +
->  	/** @survivability: survivability information for device */
->  	struct xe_survivability survivability;
->  
-> diff --git a/drivers/gpu/drm/xe/xe_drm_ras.c b/drivers/gpu/drm/xe/xe_drm_ras.c
-> new file mode 100644
-> index 000000000000..764b14b1edf8
-> --- /dev/null
-> +++ b/drivers/gpu/drm/xe/xe_drm_ras.c
-> @@ -0,0 +1,199 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2025 Intel Corporation
-> + */
-> +
-> +#include <drm/drm_managed.h>
-> +#include <drm/drm_ras.h>
-> +#include <linux/bitmap.h>
-> +
-> +#include "xe_device.h"
-> +#include "xe_drm_ras.h"
-> +
-> +static const char * const errors[] = DRM_XE_RAS_ERROR_CLASS_NAMES;
-> +static const char * const error_severity[] = DRM_XE_RAS_ERROR_SEVERITY_NAMES;
-> +
-> +static int hw_query_error_counter(struct xe_drm_ras_counter *info,
-> +				  u32 error_id, const char **name, u32 *val)
-> +{
-> +	if (error_id >= DRM_XE_RAS_ERROR_CLASS_MAX)
-> +		return -EINVAL;
-> +
-> +	if (!info[error_id].name)
-> +		return -ENOENT;
-> +
-> +	*name = info[error_id].name;
-> +	*val = atomic64_read(&info[error_id].counter);
-> +
-> +	return 0;
-> +}
-> +
-> +static int query_non_fatal_error_counters(struct drm_ras_node *ep,
-> +					  u32 error_id, const char **name,
-> +					  u32 *val)
-> +{
-> +	struct xe_device *xe = ep->priv;
-> +	struct xe_drm_ras *ras = &xe->ras;
-> +	struct xe_drm_ras_counter *info = ras->info[DRM_XE_RAS_ERROR_NONFATAL];
-> +
-> +	return hw_query_error_counter(info, error_id, name, val);
-> +}
-> +
-> +static int query_fatal_error_counters(struct drm_ras_node *ep,
-> +				      u32 error_id, const char **name,
-> +				      u32 *val)
-> +{
-> +	struct xe_device *xe = ep->priv;
-> +	struct xe_drm_ras *ras = &xe->ras;
-> +	struct xe_drm_ras_counter *info = ras->info[DRM_XE_RAS_ERROR_FATAL];
-> +
-> +	return hw_query_error_counter(info, error_id, name, val);
-> +}
-> +
-> +static int query_correctable_error_counters(struct drm_ras_node *ep,
-> +					    u32 error_id, const char **name,
-> +					    u32 *val)
-> +{
-> +	struct xe_device *xe = ep->priv;
-> +	struct xe_drm_ras *ras = &xe->ras;
-> +	struct xe_drm_ras_counter *info = ras->info[DRM_XE_RAS_ERROR_CORRECTABLE];
-> +
-> +	return hw_query_error_counter(info, error_id, name, val);
-> +}
-> +
-> +static struct xe_drm_ras_counter *allocate_and_copy_counters(struct xe_device *xe,
-> +							     int count)
-> +{
-> +	struct xe_drm_ras_counter *counter;
-> +	int i;
-> +
-> +	counter = drmm_kzalloc(&xe->drm, count * sizeof(struct xe_drm_ras_counter), GFP_KERNEL);
-> +	if (!counter)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	for (i = 0; i < count; i++) {
-> +		if (!errors[i])
-> +			continue;
-> +
-> +		counter[i].name = errors[i];
-> +		atomic64_set(&counter[i].counter, 0);
-> +	}
-> +
-> +	return counter;
-> +}
-> +
-> +static int assign_node_params(struct xe_device *xe, struct drm_ras_node *node,
-> +			      const enum drm_xe_ras_error_severity severity)
-> +{
-> +	struct xe_drm_ras *ras = &xe->ras;
-> +	int count = 0, ret = 0;
-> +
-> +	count = DRM_XE_RAS_ERROR_CLASS_MAX;
-> +	node->error_counter_range.first = DRM_XE_RAS_ERROR_CORE_COMPUTE;
-> +	node->error_counter_range.last = DRM_XE_RAS_ERROR_CLASS_MAX - 1;
-> +
-> +	ras->info[severity] = allocate_and_copy_counters(xe, count);
-> +	if (IS_ERR(ras->info[severity]))
-> +		return PTR_ERR(ras->info[severity]);
-> +
-> +	switch (severity) {
-> +	case DRM_XE_RAS_ERROR_CORRECTABLE:
-> +		node->query_error_counter = query_correctable_error_counters;
-> +		break;
-> +	case DRM_XE_RAS_ERROR_NONFATAL:
-> +		node->query_error_counter = query_non_fatal_error_counters;
-> +		break;
-> +	case DRM_XE_RAS_ERROR_FATAL:
-> +		node->query_error_counter = query_fatal_error_counters;
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int register_nodes(struct xe_device *xe)
-> +{
-> +	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
-> +	struct xe_drm_ras *ras = &xe->ras;
-> +	const char *device_name;
-> +	int i = 0, ret;
-> +
-> +	device_name = kasprintf(GFP_KERNEL, "%04x:%02x:%02x.%d",
-> +				pci_domain_nr(pdev->bus), pdev->bus->number,
-> +				PCI_SLOT(pdev->devfn), PCI_FUNC(pdev->devfn));
-> +
-> +	for (i = 0; i < DRM_XE_RAS_ERROR_SEVERITY_MAX; i++) {
-> +		struct drm_ras_node *node = &ras->node[i];
-> +
-> +		node->device_name = device_name;
-> +		node->node_name = error_severity[i];
-> +		node->type = DRM_RAS_NODE_TYPE_ERROR_COUNTER;
-> +		node->priv = xe;
-> +
-> +		ret = assign_node_params(xe, node, i);
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret = drm_ras_node_register(node);
-> +		if (ret) {
-> +			drm_err(&xe->drm, "Failed to register drm ras tile node\n");
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void xe_drm_ras_unregister_nodes(void *arg)
-> +{
-> +	struct xe_device *xe = arg;
-> +	struct xe_drm_ras *ras = &xe->ras;
-> +	int i = 0;
-> +
-> +	for (i = 0; i < DRM_XE_RAS_ERROR_SEVERITY_MAX; i++) {
-> +		struct drm_ras_node *node = &ras->node[i];
-> +
-> +		drm_ras_node_unregister(node);
-> +
-> +		if (i == 0)
-> +			kfree(node->device_name);
-> +	}
-> +}
-> +
-> +/**
-> + * xe_drm_ras_allocate_nodes - Allocate drm ras nodes
-> + * @xe: xe device instance
-> + *
-> + * Allocate xe drm ras nodes for all error severities per device
-> + *
-> + * Return: 0 on success, error code on failure
-> + */
-> +int xe_drm_ras_allocate_nodes(struct xe_device *xe)
-> +{
-> +	struct xe_drm_ras *ras = &xe->ras;
-> +	struct drm_ras_node *node;
-> +	int err;
-> +
-> +	node = drmm_kzalloc(&xe->drm, DRM_XE_RAS_ERROR_SEVERITY_MAX * sizeof(struct drm_ras_node),
-> +			    GFP_KERNEL);
-> +	if (!node)
-> +		return -ENOMEM;
-> +
-> +	ras->node = node;
-> +
-> +	err = register_nodes(xe);
-> +	if (err) {
-> +		drm_err(&xe->drm, "Failed to register drm ras node\n");
-> +		return err;
-> +	}
-> +
-> +	err = devm_add_action_or_reset(xe->drm.dev, xe_drm_ras_unregister_nodes, xe);
-> +	if (err) {
-> +		drm_err(&xe->drm, "Failed to add action for xe drm_ras\n");
-> +		return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> diff --git a/drivers/gpu/drm/xe/xe_drm_ras.h b/drivers/gpu/drm/xe/xe_drm_ras.h
-> new file mode 100644
-> index 000000000000..6272b5da4e6d
-> --- /dev/null
-> +++ b/drivers/gpu/drm/xe/xe_drm_ras.h
-> @@ -0,0 +1,12 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright © 2025 Intel Corporation
-> + */
-> +#ifndef XE_DRM_RAS_H_
-> +#define XE_DRM_RAS_H_
-> +
-> +struct xe_device;
-> +
-> +int xe_drm_ras_allocate_nodes(struct xe_device *xe);
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/xe/xe_drm_ras_types.h b/drivers/gpu/drm/xe/xe_drm_ras_types.h
-> new file mode 100644
-> index 000000000000..409d6fa54a23
-> --- /dev/null
-> +++ b/drivers/gpu/drm/xe/xe_drm_ras_types.h
-> @@ -0,0 +1,40 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright © 2025 Intel Corporation
-> + */
-> +
-> +#ifndef _XE_DRM_RAS_TYPES_H_
-> +#define _XE_DRM_RAS_TYPES_H_
-> +
-> +#include <drm/xe_drm.h>
-> +#include <linux/atomic.h>
-> +
-> +struct drm_ras_node;
-> +
-> +/**
-> + * struct xe_drm_ras_counter - xe ras counter
-> + *
-> + * This structure contains error class and counter information
-> + */
-> +struct xe_drm_ras_counter {
-> +	/** @name: error class name */
-> +	const char *name;
-> +	/** @counter: count of error */
-> +	atomic64_t counter;
-> +};
-> +
-> +/**
-> + * struct xe_drm_ras - xe drm ras structure
-> + *
-> + * This structure has details of error counters
-> + */
-> +struct xe_drm_ras {
-> +	/** @node: DRM RAS node */
-> +	struct drm_ras_node *node;
-> +
-> +	/** @info: info array for all types of errors */
-> +	struct xe_drm_ras_counter *info[DRM_XE_RAS_ERROR_SEVERITY_MAX];
-> +
-> +};
-> +
-> +#endif
-> diff --git a/drivers/gpu/drm/xe/xe_hw_error.c b/drivers/gpu/drm/xe/xe_hw_error.c
-> index 8c65291f36fc..d63078d00b56 100644
-> --- a/drivers/gpu/drm/xe/xe_hw_error.c
-> +++ b/drivers/gpu/drm/xe/xe_hw_error.c
-> @@ -10,20 +10,14 @@
->  #include "regs/xe_irq_regs.h"
->  
->  #include "xe_device.h"
-> +#include "xe_drm_ras.h"
->  #include "xe_hw_error.h"
->  #include "xe_mmio.h"
->  #include "xe_survivability_mode.h"
->  
->  #define  HEC_UNCORR_FW_ERR_BITS 4
->  extern struct fault_attr inject_csc_hw_error;
-> -
-> -/* Error categories reported by hardware */
-> -enum hardware_error {
-> -	HARDWARE_ERROR_CORRECTABLE = 0,
-> -	HARDWARE_ERROR_NONFATAL = 1,
-> -	HARDWARE_ERROR_FATAL = 2,
-> -	HARDWARE_ERROR_MAX,
-> -};
-> +static const char * const error_severity[] = DRM_XE_RAS_ERROR_SEVERITY_NAMES;
->  
->  static const char * const hec_uncorrected_fw_errors[] = {
->  	"Fatal",
-> @@ -32,20 +26,6 @@ static const char * const hec_uncorrected_fw_errors[] = {
->  	"Data Corruption"
->  };
->  
-> -static const char *hw_error_to_str(const enum hardware_error hw_err)
-> -{
-> -	switch (hw_err) {
-> -	case HARDWARE_ERROR_CORRECTABLE:
-> -		return "CORRECTABLE";
-> -	case HARDWARE_ERROR_NONFATAL:
-> -		return "NONFATAL";
-> -	case HARDWARE_ERROR_FATAL:
-> -		return "FATAL";
-> -	default:
-> -		return "UNKNOWN";
-> -	}
-> -}
-> -
->  static bool fault_inject_csc_hw_error(void)
->  {
->  	return IS_ENABLED(CONFIG_DEBUG_FS) && should_fail(&inject_csc_hw_error, 1);
-> @@ -62,9 +42,10 @@ static void csc_hw_error_work(struct work_struct *work)
->  		drm_err(&xe->drm, "Failed to enable runtime survivability mode\n");
->  }
->  
-> -static void csc_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err)
-> +static void csc_hw_error_handler(struct xe_tile *tile,
-> +				 const enum drm_xe_ras_error_severity severity)
->  {
-> -	const char *hw_err_str = hw_error_to_str(hw_err);
-> +	const char *severity_str = error_severity[severity];
->  	struct xe_device *xe = tile_to_xe(tile);
->  	struct xe_mmio *mmio = &tile->mmio;
->  	u32 base, err_bit, err_src;
-> @@ -78,7 +59,7 @@ static void csc_hw_error_handler(struct xe_tile *tile, const enum hardware_error
->  	err_src = xe_mmio_read32(mmio, HEC_UNCORR_ERR_STATUS(base));
->  	if (!err_src) {
->  		drm_err_ratelimited(&xe->drm, HW_ERR "Tile%d reported HEC_ERR_STATUS_%s blank\n",
-> -				    tile->id, hw_err_str);
-> +				    tile->id, severity_str);
->  		return;
->  	}
->  
-> @@ -87,7 +68,7 @@ static void csc_hw_error_handler(struct xe_tile *tile, const enum hardware_error
->  		for_each_set_bit(err_bit, &fw_err, HEC_UNCORR_FW_ERR_BITS) {
->  			drm_err_ratelimited(&xe->drm, HW_ERR
->  					    "%s: HEC Uncorrected FW %s error reported, bit[%d] is set\n",
-> -					     hw_err_str, hec_uncorrected_fw_errors[err_bit],
-> +					     severity_str, hec_uncorrected_fw_errors[err_bit],
->  					     err_bit);
->  
->  			schedule_work(&tile->csc_hw_error_work);
-> @@ -97,9 +78,9 @@ static void csc_hw_error_handler(struct xe_tile *tile, const enum hardware_error
->  	xe_mmio_write32(mmio, HEC_UNCORR_ERR_STATUS(base), err_src);
->  }
->  
-> -static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_error hw_err)
-> +static void hw_error_source_handler(struct xe_tile *tile, enum drm_xe_ras_error_severity severity)
->  {
-> -	const char *hw_err_str = hw_error_to_str(hw_err);
-> +	const char *severity_str = error_severity[severity];
->  	struct xe_device *xe = tile_to_xe(tile);
->  	unsigned long flags;
->  	u32 err_src;
-> @@ -108,17 +89,17 @@ static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_er
->  		return;
->  
->  	spin_lock_irqsave(&xe->irq.lock, flags);
-> -	err_src = xe_mmio_read32(&tile->mmio, DEV_ERR_STAT_REG(hw_err));
-> +	err_src = xe_mmio_read32(&tile->mmio, DEV_ERR_STAT_REG(severity));
->  	if (!err_src) {
->  		drm_err_ratelimited(&xe->drm, HW_ERR "Tile%d reported DEV_ERR_STAT_%s blank!\n",
-> -				    tile->id, hw_err_str);
-> +				    tile->id, severity_str);
->  		goto unlock;
->  	}
->  
->  	if (err_src & XE_CSC_ERROR)
-> -		csc_hw_error_handler(tile, hw_err);
-> +		csc_hw_error_handler(tile, severity);
->  
-> -	xe_mmio_write32(&tile->mmio, DEV_ERR_STAT_REG(hw_err), err_src);
-> +	xe_mmio_write32(&tile->mmio, DEV_ERR_STAT_REG(severity), err_src);
->  
->  unlock:
->  	spin_unlock_irqrestore(&xe->irq.lock, flags);
-> @@ -136,16 +117,30 @@ static void hw_error_source_handler(struct xe_tile *tile, const enum hardware_er
->   */
->  void xe_hw_error_irq_handler(struct xe_tile *tile, const u32 master_ctl)
->  {
-> -	enum hardware_error hw_err;
-> +	u32 hw_err;
->  
->  	if (fault_inject_csc_hw_error())
->  		schedule_work(&tile->csc_hw_error_work);
->  
-> -	for (hw_err = 0; hw_err < HARDWARE_ERROR_MAX; hw_err++)
-> +	for (hw_err = 0; hw_err < DRM_XE_RAS_ERROR_SEVERITY_MAX; hw_err++)
->  		if (master_ctl & ERROR_IRQ(hw_err))
->  			hw_error_source_handler(tile, hw_err);
->  }
->  
-> +static int hw_error_info_init(struct xe_device *xe)
-> +{
-> +	int ret;
-> +
-> +	if (xe->info.platform != XE_PVC)
-> +		return 0;
-> +
-> +	ret = xe_drm_ras_allocate_nodes(xe);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
->  /*
->   * Process hardware errors during boot
->   */
-> @@ -178,5 +173,6 @@ void xe_hw_error_init(struct xe_device *xe)
->  
->  	INIT_WORK(&tile->csc_hw_error_work, csc_hw_error_work);
->  
-> +	hw_error_info_init(xe);
->  	process_hw_errors(xe);
->  }
-> diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-> index 0d99bb0cd20a..3f6c38908b70 100644
-> --- a/include/uapi/drm/xe_drm.h
-> +++ b/include/uapi/drm/xe_drm.h
-> @@ -2294,6 +2294,88 @@ struct drm_xe_vm_query_mem_range_attr {
->  
->  };
->  
-> +/**
-> + * DOC: Xe DRM RAS
-> + *
-> + * The enums and strings defined below map to the attributes of the DRM RAS Netlink Interface.
-> + * Refer to Documentation/netlink/specs/drm_ras.yaml for complete interface specification.
-> + *
-> + * Node Registration
-> + * =================
-> + *
-> + * The driver registers DRM RAS nodes for each error severity level.
-> + * enum drm_xe_ras_error_severity defines the node-id, while DRM_XE_RAS_ERROR_SEVERITY_NAMES maps
-> + * node-id to node-name.
-> + *
-> + * Error Classification
-> + * ====================
-> + *
-> + * Each node contains a list of error counters. Each error is identified by a error-id and
-> + * an error-name. enum drm_xe_ras_error_class defines the error-id, while
-> + * DRM_XE_RAS_ERROR_CLASS_NAMES maps error-id to error-name.
-> + *
-> + * User Interface
-> + * ==============
-> + *
-> + * To retrieve error values of a error counter, userspace applications should
-> + * follow the below steps:
-> + *
-> + * 1. Use command LIST_NODES to enumerate all available nodes
-> + * 2. Select node by node-id or node-name
-> + * 3. Use command GET_ERROR_COUNTERS to list errors of specific node
-> + * 4. Query specific error values using either error-id or error-name
-> + *
-> + * .. code-block:: C
-> + *
-> + *	// Lookup tables for ID-to-name resolution
-> + *	static const char *nodes[] = DRM_XE_RAS_ERROR_SEVERITY_NAMES;
-> + *	static const char *errors[] = DRM_XE_RAS_ERROR_CLASS_NAMES;
-> + *
-> + */
-> +
-> +/**
-> + * enum drm_xe_ras_error_severity - Supported drm ras error severity.
-> + */
-> +enum drm_xe_ras_error_severity {
-> +	/** @DRM_XE_RAS_ERROR_CORRECTABLE: Correctable Error */
-> +	DRM_XE_RAS_ERROR_CORRECTABLE = 0,
-> +	/** @DRM_XE_RAS_ERROR_NONFATAL: Non fatal Error */
-> +	DRM_XE_RAS_ERROR_NONFATAL,
-> +	/** @DRM_XE_RAS_ERROR_FATAL: Fatal error */
-> +	DRM_XE_RAS_ERROR_FATAL,
-> +	/** @DRM_XE_RAS_ERROR_SEVERITY_MAX: Max severity */
-> +	DRM_XE_RAS_ERROR_SEVERITY_MAX, /* non-ABI */
-> +};
-> +
-> +/**
-> + * enum drm_xe_ras_error_class - Supported drm ras error classes.
-> + */
-> +enum drm_xe_ras_error_class {
-> +	/** @DRM_XE_RAS_ERROR_CORE_COMPUTE: GT and Media Error */
-> +	DRM_XE_RAS_ERROR_CORE_COMPUTE = 1,
-> +	/** @DRM_XE_RAS_ERROR_SOC_INTERNAL: SOC Error */
-> +	DRM_XE_RAS_ERROR_SOC_INTERNAL,
-> +	/** @DRM_XE_RAS_ERROR_CLASS_MAX: Max Error */
-> +	DRM_XE_RAS_ERROR_CLASS_MAX,	/* non-ABI */
-> +};
-> +
-> +/*
-> + * Error severity to name mapping.
-> + */
-> +#define DRM_XE_RAS_ERROR_SEVERITY_NAMES {				\
-> +	[DRM_XE_RAS_ERROR_CORRECTABLE] = "correctable-errors",		\
-> +	[DRM_XE_RAS_ERROR_NONFATAL] = "nonfatal-errors",		\
-> +	[DRM_XE_RAS_ERROR_FATAL] = "fatal-errors",			\
-> +}
-> +
-> +/*
-> + * Error class to name mapping.
-> + */
-> +#define DRM_XE_RAS_ERROR_CLASS_NAMES {					\
-> +	[DRM_XE_RAS_ERROR_CORE_COMPUTE] =  "Core Compute Error",	\
-> +	[DRM_XE_RAS_ERROR_SOC_INTERNAL] =  "SOC Internal Error",	\
+tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+head:   00ffe45ece80160aef446d74ded906352f21dd72
+commit: 99bda20d6d4cac30ed6d357658d8bc328c3b27d9 [4/11] drm/gem: Introduce drm_gem_get_unmapped_area() fop
+config: m68k-randconfig-r072-20251210 (https://download.01.org/0day-ci/archive/20251210/202512100625.EaqdFiOC-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512100625.EaqdFiOC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512100625.EaqdFiOC-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/drm_gem.c: In function 'drm_gem_get_unmapped_area':
+>> drivers/gpu/drm/drm_gem.c:1261:24: error: implicit declaration of function 'mm_get_unmapped_area'; did you mean 'shmem_get_unmapped_area'? [-Wimplicit-function-declaration]
+    1261 |                 return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
+         |                        ^~~~~~~~~~~~~~~~~~~~
+         |                        shmem_get_unmapped_area
 
 
-These looks good to me.
+vim +1261 drivers/gpu/drm/drm_gem.c
 
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Aravind Iddamsetty <aravind.iddamsetty@linux.intel.com>
+  1229	
+  1230	/**
+  1231	 * drm_gem_get_unmapped_area - get memory mapping region routine for GEM objects
+  1232	 * @filp: DRM file pointer
+  1233	 * @uaddr: User address hint
+  1234	 * @len: Mapping length
+  1235	 * @pgoff: Offset (in pages)
+  1236	 * @flags: Mapping flags
+  1237	 *
+  1238	 * If a driver supports GEM object mapping, before ending up in drm_gem_mmap(),
+  1239	 * mmap calls on the DRM file descriptor will first try to find a free linear
+  1240	 * address space large enough for a mapping. Since GEM objects are backed by
+  1241	 * shmem buffers, this should preferably be handled by the shmem virtual memory
+  1242	 * filesystem which can appropriately align addresses to huge page sizes when
+  1243	 * needed.
+  1244	 *
+  1245	 * Look up the GEM object based on the offset passed in (vma->vm_pgoff will
+  1246	 * contain the fake offset we created) and call shmem_get_unmapped_area() with
+  1247	 * the right file pointer.
+  1248	 *
+  1249	 * If a GEM object is not available at the given offset or if the caller is not
+  1250	 * granted access to it, fall back to mm_get_unmapped_area().
+  1251	 */
+  1252	unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long uaddr,
+  1253						unsigned long len, unsigned long pgoff,
+  1254						unsigned long flags)
+  1255	{
+  1256		struct drm_gem_object *obj;
+  1257		unsigned long ret;
+  1258	
+  1259		obj = drm_gem_object_lookup_at_offset(filp, pgoff, len >> PAGE_SHIFT);
+  1260		if (IS_ERR(obj) || !obj->filp || !obj->filp->f_op->get_unmapped_area)
+> 1261			return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
+  1262						    flags);
+  1263	
+  1264		ret = obj->filp->f_op->get_unmapped_area(obj->filp, uaddr, len, 0,
+  1265							 flags);
+  1266	
+  1267		drm_gem_object_put(obj);
+  1268	
+  1269		return ret;
+  1270	}
+  1271	EXPORT_SYMBOL_GPL(drm_gem_get_unmapped_area);
+  1272	
 
-Joonas, Aravind, does this align what you had in mind for the uAPI?
-
-Thanks,
-Rodrigo.
-
-> +}
-> +
->  #if defined(__cplusplus)
->  }
->  #endif
-> -- 
-> 2.47.1
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
