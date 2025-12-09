@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55124CB061E
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 16:18:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6368BCB0654
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 16:27:18 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6A3C10E1F5;
-	Tue,  9 Dec 2025 15:18:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2D710E1EA;
+	Tue,  9 Dec 2025 15:27:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="nWpyCUlu";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="OadQ/xej";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5376610E1F5;
- Tue,  9 Dec 2025 15:18:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E81E310E1E2;
+ Tue,  9 Dec 2025 15:27:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,35 +22,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=9qvlvlCB7OjeVQVKXSeeva1LfBp1rasVcbX2PLNTcYs=; b=nWpyCUlufzjuvH9glMXs1W1cjE
- oLdO58uHIMyBnKIaoFqVPgfA9QvfP1V3KwVJNvJ4LOmuYlYg3EjcX2T87K8A5ArAWGEPnTgBCrVKq
- XxznGzyJuJz5Ka7GedsSJouMgAdcRS2IEkgmhwM9Dyr259v4PXatMXocmrZg+88NMHhc0TZMal/Rw
- HPjIIlknandOUb9JUFFxt2vsxkNM/Mvax+3BXTlVPDOPusMM5VFzq5jdNYRbuWnDbApNQsheWzhSc
- b7fisbCo+ypUVJGUjolsFiBV142zJiJ7KiGOIR8sbiB1+ASyDtGRP1DjmxrsjDGyG3LNU74AKdNMh
- 2lI1R7xQ==;
+ bh=EeU2xVgBcH2WAL9+dy+knKriha/HSyZYa9BX8Csd2g8=; b=OadQ/xejDpWc8YzI3duHsXLQLj
+ YmJjH6yBVfn74F0dpN74ORosEynzWNe7IocAkl+1z2BH5KBpL+1CxRUGF7sR/Tb3Swd0WtiOy7CPf
+ cNqiIcvB9tyA/uEBmJx5a0lkrmYGBRq6kc6LsOVNrXUPdTVoSnGY8vOG+Zr5NNEeOswAqOMANnsxF
+ fOrLylqCjf4z5bmpeP4ccDowLjm5WyUD2nD/MK75pBs9e72wsAMsyNIeqI4gXfRknWzNYibO/dIoC
+ VYVPi/ikjns6wwSZq5Fxa76EE4QFupCxxydc85j4YfreCHbI2a076BAtVYDP7pXlGsgW/T7ciJbOB
+ R6iQK0kA==;
 Received: from [186.208.73.250] (helo=[192.168.18.14])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vSzU7-00AYxC-O3; Tue, 09 Dec 2025 16:18:39 +0100
-Message-ID: <ca288c08-c39f-42e8-9be4-bfa16d77765e@igalia.com>
-Date: Tue, 9 Dec 2025 12:18:34 -0300
+ id 1vSzcI-00AZFp-AG; Tue, 09 Dec 2025 16:27:06 +0100
+Message-ID: <e0eeac27-3bad-4004-be5d-2c55e495d908@igalia.com>
+Date: Tue, 9 Dec 2025 12:27:02 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/2] Fixes on CM3 helper for plane shaper LUT
-To: Harry Wentland <harry.wentland@amd.com>,
- Matthew Schwartz <matthew.schwartz@linux.dev>
-Cc: airlied@gmail.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- simona@ffwll.ch, siqueira@igalia.com, sunpeng.li@amd.com,
- kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20251208234741.293037-1-mwen@igalia.com>
- <6fbc0496-9a96-4f72-a8d8-66b7885bdaf6@linux.dev>
- <ae3d39ec-e220-435e-9cc9-e316591cf0f1@igalia.com>
- <bb175945-665b-4cbc-b021-45e19e0f0e84@igalia.com>
- <c78c6b61-a28c-43b7-8c88-ddce497a465d@amd.com>
+Subject: Re: [PATCH] drm/amd/display: use DCN10 CM helper for plane shaper
+ func translation in DCN32
+To: Harry Wentland <harry.wentland@amd.com>, sunpeng.li@amd.com,
+ siqueira@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ airlied@gmail.com, simona@ffwll.ch, Simon Ser <contact@emersion.fr>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com
+References: <20251126005608.37513-1-mwen@igalia.com>
+ <2a918940-700d-4b24-90ae-4d9d4f9b457d@amd.com>
+ <f832ec8c-cce1-45e0-975b-ed7000bed891@igalia.com>
+ <2ddb06d0-70e5-4a1f-850d-3753f9fb3d0a@amd.com>
+ <7ad74d3d-5a63-462b-8243-f8f26441b04b@igalia.com>
+ <b0288d0f-fcd9-4ae6-817f-5a927b9164e5@igalia.com>
+ <4f02daf8-1bd2-4105-b270-0aed496501cb@amd.com>
 Content-Language: en-US
 From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <c78c6b61-a28c-43b7-8c88-ddce497a465d@amd.com>
+In-Reply-To: <4f02daf8-1bd2-4105-b270-0aed496501cb@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,107 +72,173 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 09/12/2025 12:12, Harry Wentland wrote:
+On 09/12/2025 12:18, Harry Wentland wrote:
 >
-> On 2025-12-09 09:44, Melissa Wen wrote:
+> On 2025-12-08 19:13, Melissa Wen wrote:
 >>
->> On 09/12/2025 11:31, Melissa Wen wrote:
+>> On 08/12/2025 20:59, Melissa Wen wrote:
 >>>
->>> On 08/12/2025 22:34, Matthew Schwartz wrote:
->>>>> On Dec 8, 2025, at 3:48 PM, Melissa Wen <mwen@igalia.com> wrote:
+>>> On 28/11/2025 18:36, Harry Wentland wrote:
+>>>> On 2025-11-28 14:09, Melissa Wen wrote:
+>>>>> On 27/11/2025 17:39, Harry Wentland wrote:
+>>>>>> On 2025-11-25 19:45, Melissa Wen wrote:
+>>>>>>> The usage of DCN30 CM helper creates some unexpected shimmer points on
+>>>>>>> PQ shaper TF in the steamOS HDR color pipeline. Fix it by using the same
+>>>>>>> DCN10 color mgmt helper of previous hw versions to translate plane
+>>>>>>> shaper func to hw format in DCN32 hw family.
+>>>>>>>
+>>>>>>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>>>>>>> ---
+>>>>>>>
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> Commit a953cd8cac6b ("drm/amd/display: Fix MPCC 1DLUT programming")
+>>>>>>> mentions some visible artifacts when using DCN10 CM helper on DCN32
+>>>>>>> shaper and blend LUTs. On the other hand, using DCN30 CM helper creates
+>>>>>>> some shimmer points on steamOS HDR pipeline. We didn't noticed any
+>>>>>>> visible artifacts so far, but I'd like to know more about what kind of
+>>>>>>> artifacts were visible at the time this helper for shaper func was
+>>>>>>> switched in the afore-mentioned commit for further investigation.
+>>>>>>>
+>>>>>> Thanks for the debug.
+>>>>>>
+>>>>>> Do you have more info on the unexpected shimmer points with SteamOS?
+>>>>>> Ideally a video and a description on what to look for and why it's
+>>>>>> wrong, or a comparison to a GFX-transformed example that shows the
+>>>>>> correct visuals?
+>>>>> Hi Harry,
 >>>>>
->>>>> ﻿There are some unexpected banding and shimmer effects when using
->>>>> steamOS/gamescope color pipeline for HDR on DCN32 or newer families.
->>>>> Those problems are not present in Steam Deck (DCN301). It happens on
->>>>> DCN32 because plane shaper LUT uses DCN30 CM3 helper to translate curves
->>>>> instead of DCN10 CM helper. This series identifies the necessary changes
->>>>> on CM3 helper to reduce differences on color transformation made by
->>>>> those two helpers.
+>>>>> I took some pictures of clear unexpected scenes in HDR games.
 >>>>>
->>>>> Patch 1 aims to solve the shimmer/colorful points that looks like a
->>>>> wrong map of black values on red/green/blue colors. Patch 2 extends the
->>>>> delta clamping fix made in commit 27fc10d1095f ("drm/amd/display: Fix
->>>>> the delta clamping for shaper LUT") to solve some banding effects.
+>>>>> 1. https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-split-fiction-game-black-loading-bkg.jpg
 >>>>>
->>>>> Banding is not fully solved by any helper and needs further
->>>>> investigation.
+>>>>> Just loading Split Fiction after having turning on HDR in this game options (Options > Graphics > HDR).
+>>>>> We expected a black background with the Loading <icon> in the bottom right, this background is full of bright spots.
+>>>>> Friend pass is enough to reproduce the issue without having the game.
 >>>>>
->>>>> One easy way to check the current and expected behavior is moving the
->>>>> cursor (doing composition) to get the expected result from GFX. When the
->>>>> cursor disappears, those color transformations are back to be done by
->>>>> the display hw.
->>>> Hi Melissa,
+>>>>> 2. https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-menu.jpg
+>>>>>
+>>>>> Colorful-bright points around the margin/corner of the God of War Ragnarok game menu.
+>>>>>
+>>>>> 3. God of War Ragnarok game intro:
+>>>>>
+>>>>> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro1.jpg
+>>>>> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro2.jpg
+>>>>> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro3.jpg
+>>>>> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-PS-logo.jpg
+>>>>>
+>>>>> Same random shimmer distortions.
+>>>>> I think those images are good examples, but still pending screenshot/GFX examples for comparison.
+>>>>> I'll take it and reply here later.
+>>>>>
+>>>> Thanks, that would still be helpful, but even as-is these images
+>>>> quite highlight the issue. It's more severe than I expected.
 >>>>
->>>> Could you share how you’re testing the gamescope color pipeline with HDR on DCN32, i.e display and connection type? Are any extra gamescope or kernel patches required?
+>>>>>> Obviously we don't want to simply switch back to DCN10 helpers
+>>>>>> without understand why, and potentially regressing other use-cases.
+>>>>>> At least we should look at what the differences are between the
+>>>>>> two versions of that function, and which part of the curve programming
+>>>>>> causes the undesirable results.
+>>>>>>
+>>>>>> The original bug that was solved by that commit was a regression that
+>>>>>> sent bright values in an HDR video to black or red, so basically
+>>>>>> something really messed up bright PQ values. At least I suspect
+>>>>>> it was a PQ HDR video. The ticket doesn't state that.
+>>>>> I see. Looks like now we have somehow the same problem but in reverse (?) like black values mapped into bright values (?)
+>>>> Yeah, if I understand your screenshots the issue seems to happen
+>>>> (mainly) with dark values?
 >>>>
->>>> At least on my own DCN32 setup (AMD 7900XTX) + my primary monitor (an LG 45gx950a-b) via DisplayPort or my DCN35 setup + integrated HDR OLED screen (Legion Go 2), gamescope always composites when HDR is enabled. I applied your patches on top of kernel 6.18, and my kernel is built with CONFIG_DRM_AMD_COLOR_STEAMDECK=y (the downstream name of AMD_PRIVATE_COLOR for SteamOS), so that shouldn't be an issue. I tried everything from 1280x720p -> 5120x2160p, and it does not work on any resolution.
->>> Hi Matt,
+>>>>>> When looking at the diff between the two functions I notice that
+>>>>>> the cm3_ version is missing the dc_fixpt_clamp_u0d10 for the
+>>>>>> delta_<color>_reg assignments, toward the bottom of the function.
+>>>>>> I remember I had to add that to the cm_ version since it caused
+>>>>>> issues with SteamOS HDR. Can we try that on the cm3_ function?
+>>>>> Yes, I remember this issue.
+>>>>>
+>>>>> I've already tried the same changes from this commit (https://gitlab.freedesktop.org/agd5f/linux/-/commit/27fc10d1095f) to cm3_helper, but it doesn't help... probably because the commit was addressing a different behaviors.
+>>>>>
+>>>>> I also noticed on cm3_ they consider a different range of hw points, as in this comment:
+>>>>> "
+>>>>>       // DCN3+ have 257 pts in lieu of no separate slope registers
+>>>>>       // Prior HW had 256 base+slope pairs
+>>>>> "
+>>>>>
+>>>>> Can it be related to this problem?
+>>>>>
+>>>> Possibly. The point distribution is one potential culprit.
+>>>>
+>>>> How I would debug this is to look at the diff between the two
+>>>> functions and try each diff one at a time to see whether one
+>>>> (or two) small changes fixes this. Then look at what that change
+>>>> was and what it does. That can then give us a guide on how to
+>>>> properly fix it without affecting other use-cases.
+>>> Hi Harry,
 >>>
->>> You need to hack the DPP color caps to enabled SHAPER/3D and BLEND LUTs as below:
+>>> Sorry for the delay. I got swamped with another debugging.
 >>>
->>> diff --git i/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c w/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
->>> index b276fec3e479..96b4f3239fb1 100644
->>> --- i/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
->>> +++ w/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
->>> @@ -2256,8 +2256,8 @@ static bool dcn32_resource_construct(
->>>          dc->caps.color.dpp.gamma_corr = 1;
->>>          dc->caps.color.dpp.dgam_rom_for_yuv = 0;
+>>> I identified to different problems on plane shaper LUT when using the cm3 helper: those dark values wrong mapping and banding on some light values.
+>>                    ^^^ two
+>>> I followed your suggestion and found the necessary changes to address both issues, I just sent two RFC patches , so we can discuss it better there.
 >>>
->>> -       dc->caps.color.dpp.hw_3d_lut = 0;
->>> -       dc->caps.color.dpp.ogam_ram = 0;  // no OGAM in DPP since DCN1
->>> +       dc->caps.color.dpp.hw_3d_lut = 1;
->>> +       dc->caps.color.dpp.ogam_ram = 1;  // no OGAM in DPP since DCN1
->>>          // no OGAM ROM on DCN2 and later ASICs
->>>          dc->caps.color.dpp.ogam_rom_caps.srgb = 0;
->>>          dc->caps.color.dpp.ogam_rom_caps.bt2020 = 0;
+>>> https://lore.kernel.org/amd-gfx/20251208234741.293037-1-mwen@igalia.com/
 >>>
->>> In short, you need to change `caps.color.dpp.hw_3d_lut` and `caps.color.dpp.ogam_ram` to 1 in the dcnX_resource.c file to say there is a "plane" color caps.
->>> The thing is that, in DCN32+, these color caps are not part of DPP anymore, they are MPC capabilities in MCM that can be moved before or after blending.
->>> But the current kernel implementation checks DPP color caps to expose plane color proprerties.
->>> Checking MPC and where the MCM is positioned would be more complex, but not impossible. Something to improve in the future yes.
->> Just found this: dpp_color_caps.hw_3d_lut || dm->dc->caps.color.mpc.preblend (https://gitlab.freedesktop.org/agd5f/linux/-/blob/amd-staging-drm-next/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c#L1636)
->>
->> Should be enough for new kernel versions. So you might need only the blend LUT hack.
->>
->>> You need to confirm that your `drm_info` shows all AMD plane color properties, but gamescope basically checks CTM and BLEND_TF as you can see here:
->>> https://github.com/ValveSoftware/gamescope/blob/master/src/Backends/DRMBackend.cpp#L3347
+>>> I still see a gradient banding on the game menu of Ori, but it's present with the DCN10 CM helper too.
 >>>
-> Are you testing this with AMD_PRIVATE_COLOR, or with the newly merged color pipeline API? If it's the former, then the kernel needs to be built with an explicit -DAMD_PRIVATE_COLOR for this to work.
+>>> Thanks for taking a look at these problems.
+>>>
+> Thanks, I'll have a look.
+>
+> This is with the AMD_PRIVATE_COLOR stuff, right?
+Yes
+> Do you know if anyone's working on migrating gamescope to the now-merged color pipeline API?
+AFAIK, nobody is currently working on this migration.
 
-I'm testing with cflags, but AFAIU Matthew is using a downstream kernel 
-version where there is an extra commit that enables AMD_PRIVATE_COLOR 
-via config option ("CONFIG_DRM_AMD_COLOR_STEAMDECK=y").
-Depends on this kernel version, the hack for 3D LUT and BLEND LUT are 
-both necessary.
+I started migrating gamescope, but I got stuck in the libliftoff 
+changes, because of my lack of background.
+I don't think I'll be able to resume it in the short term :/
+
+Not sure if someone is working on this topic for libliftoff.
+
+Simon (/cc) , do you know?
 
 >
 > Harry
 >
->>> Let me know if it works for you.
->>>
->>> BR,
->>>
 >>> Melissa
->>>
->>>> Thanks,
->>>> Matt
+>>>> The other thing to understand is why we didn't see issues with
+>>>> the Color Pipeline API tests in IGT.
 >>>>
->>>>> Lemme know your thoughts!
+>>>> Harry
+>>>>
+>>>>> Thanks,
 >>>>>
 >>>>> Melissa
 >>>>>
->>>>> Melissa Wen (2):
->>>>>    drm/amd/display: fix wrong color value mapping on DCN32 shaper LUT
->>>>>    drm/amd/display: extend delta clamping logic to CM3 LUT helper
->>>>>
->>>>> .../amd/display/dc/dcn30/dcn30_cm_common.c    | 32 +++++++++++++++----
->>>>> .../display/dc/dwb/dcn30/dcn30_cm_common.h    |  2 +-
->>>>> .../amd/display/dc/hwss/dcn30/dcn30_hwseq.c   |  9 +++---
->>>>> .../amd/display/dc/hwss/dcn32/dcn32_hwseq.c   | 17 ++++++----
->>>>> .../amd/display/dc/hwss/dcn401/dcn401_hwseq.c | 16 ++++++----
->>>>> 5 files changed, 50 insertions(+), 26 deletions(-)
->>>>>
->>>>> -- 
->>>>> 2.51.0
->>>>>
+>>>>>> Cheers,
+>>>>>> Harry
+>>>>>>
+>>>>>>> Thanks in advance,
+>>>>>>>
+>>>>>>> Melissa
+>>>>>>>
+>>>>>>>
+>>>>>>>     drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c | 6 +++---
+>>>>>>>     1 file changed, 3 insertions(+), 3 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+>>>>>>> index bf19ba65d09a..a28560caa1c0 100644
+>>>>>>> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+>>>>>>> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
+>>>>>>> @@ -501,9 +501,9 @@ bool dcn32_set_mcm_luts(
+>>>>>>>             lut_params = &plane_state->in_shaper_func.pwl;
+>>>>>>>         else if (plane_state->in_shaper_func.type == TF_TYPE_DISTRIBUTED_POINTS) {
+>>>>>>>             // TODO: dpp_base replace
+>>>>>>> -        ASSERT(false);
+>>>>>>> - cm3_helper_translate_curve_to_hw_format(&plane_state->in_shaper_func,
+>>>>>>> -                &dpp_base->shaper_params, true);
+>>>>>>> + cm_helper_translate_curve_to_hw_format(plane_state->ctx,
+>>>>>>> + &plane_state->in_shaper_func,
+>>>>>>> + &dpp_base->shaper_params, true);
+>>>>>>>             lut_params = &dpp_base->shaper_params;
+>>>>>>>         }
 
