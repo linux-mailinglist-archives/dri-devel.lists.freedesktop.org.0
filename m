@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E1E9CB0443
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 15:24:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 437A1CB044F
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 15:25:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE3C10E634;
-	Tue,  9 Dec 2025 14:24:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3CDA10E5CF;
+	Tue,  9 Dec 2025 14:25:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="E+TuWDY4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PUJWSEi4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0CD8E10E638;
- Tue,  9 Dec 2025 14:24:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5612610E5CF;
+ Tue,  9 Dec 2025 14:25:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765290295; x=1796826295;
+ t=1765290318; x=1796826318;
  h=message-id:date:mime-version:subject:to:cc:references:
  from:in-reply-to:content-transfer-encoding;
  bh=AfvpogmHZ1KexEmvBPBIMCX4kQEuv9pvdnvyPo8Coj0=;
- b=E+TuWDY4pR4oGVpj7o7ML8W6QcviVzBK0DDDyLSytGvfHBgoOe9fbPe3
- vVPprSP0vCrAtP5n4qkJSQ6zBnnO4CwbidAieW9YqyswpoPythWb5thPN
- oNxxtJV4RovTWcg0hXLK6UDbX1yzHWkg1SShp87/OD1NJd6WGfLnULrbQ
- qYLLTDM3yN2pE7rLHGUD7ZvymAUf7/9OAgvecPpX0YiSNJmiIwxeEFXrL
- bA7Fugia/njj0OAbErGeVPFwUX/4I6pkoJZN8dZGkBr7cWDqNue9PdzaX
- 1Cbqfb2fa3c/ugE9NWfSfaGG2EQ65yRmYV4SZB65x1ByrHnEFRFSxlNL5 g==;
-X-CSE-ConnectionGUID: cISaaVAwS0+XUH8mmZh05g==
-X-CSE-MsgGUID: g9LNuj46RBe64LZ2N2LE+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="71105667"
-X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; d="scan'208";a="71105667"
+ b=PUJWSEi40g0mJ9uALlqtUA9vWI4lEZGmCJt4Bwegbdr64J/vOHTqvzLX
+ in7/nlP1Ob9z0yqPyFyj4QipBNdDmwq6oZbyYb+iHrlXFoICU0rjAOH+m
+ 2pNUIkumD4gNKq1wbf7G8t88b812MsqPx4rcUlbe6vCUeYsBBxj36jj9y
+ F9ZMlDh+wwvXSLsQPLUJDiShkr2gFW2AYL5k3Alq4faknObt2nwsK6/2L
+ IsQlrFmSkZqRaa7WFcU884BUtuRl18AmYImsCX43iRuej5rlWb5J+1mf9
+ R05ZEwRKiohqb0PDfM38ZBKFmNHl1odveJgj7Eaged764dkE9EmIk+jZh g==;
+X-CSE-ConnectionGUID: y28JjAP1T2qmbiQ1MmTiSg==
+X-CSE-MsgGUID: uGVwvY7GTNupiE8no6DuzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="71105750"
+X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; d="scan'208";a="71105750"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2025 06:24:52 -0800
-X-CSE-ConnectionGUID: cbdcZmFqQe+DX1A1bstKSA==
-X-CSE-MsgGUID: AxFTDtNESUek+uE71wXF9A==
+ 09 Dec 2025 06:25:16 -0800
+X-CSE-ConnectionGUID: udr/MNHfTqm/RstjUL4pzw==
+X-CSE-MsgGUID: BKKpg3lVQeqvh8LMSZ11mw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; d="scan'208";a="195504176"
+X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; d="scan'208";a="195504324"
 Received: from kwachows-mobl.ger.corp.intel.com (HELO [10.246.16.114])
  ([10.246.16.114])
  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2025 06:24:44 -0800
-Message-ID: <abad95c4-d68f-4c87-8446-6969d66ca99d@linux.intel.com>
-Date: Tue, 9 Dec 2025 15:24:41 +0100
+ 09 Dec 2025 06:25:08 -0800
+Message-ID: <a8d376f6-bd0f-419a-8709-8f4a0a1a0014@linux.intel.com>
+Date: Tue, 9 Dec 2025 15:25:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 12/13] accel/ivpu: Use GEM-UMA helpers for memory
