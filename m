@@ -2,47 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FD4CAFE04
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 13:13:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E0B6CAFE68
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 13:20:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A16F010E524;
-	Tue,  9 Dec 2025 12:13:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EAEE910E54C;
+	Tue,  9 Dec 2025 12:20:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=exactco.de header.i=@exactco.de header.b="PlPw4UsQ";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fqs1sVhN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from exactco.de (exactco.de [176.9.10.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E394610E524
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 12:13:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=exactco.de; 
- s=x;
- h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:
- In-Reply-To:From:Subject:Cc:To:Message-Id:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=3fstBY2xlbnoLhMrfa6us6h8Kki6LEWWQw4FdyGxjdE=; b=PlPw4UsQww2iAd98zcysXBofZ1
- U56oVuN4SP43er0cnVixF3F7SUlCo3fUOp/DzimclpVe3NkUiMrkzZhknDgaLKe6cDvSqTE348TgC
- qKqR23mdFKb4TnyOmBH81LBphmid+JjrKmYmbTVG09UZAs5vwiJuxgx2lXlxeAiIVkbk2JLbRTYXv
- J97EeXKwTMNs3Xr59Hgl0njMaQbxk9K3Ld5LqnDRoQEOQyGRt7ZuDaHBe8R9XJY3EcJMe1uY8SGTe
- HgvkOIBePrrd3p2fARQkJkj0Ev+2BACLZRWARWq9mHpTu6g3VuSB8wk/svEGoD/sd5IybNapo9Nx1
- YdNrC2nA==;
-Date: Tue, 09 Dec 2025 13:13:29 +0100 (CET)
-Message-Id: <20251209.131329.130523044849026405.rene@exactco.de>
-To: tzimmermann@suse.de
-Cc: tpearson@raptorengineering.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, airlied@redhat.com
-Subject: Re: [PATCH] drm/ast: Fix big-endian support
-From: =?iso-8859-1?Q?Ren=E9?= Rebe <rene@exactco.de>
-In-Reply-To: <12407aa9-a084-46a1-98cb-9649e7f24098@suse.de>
-References: <9191ea89-81ce-4200-a356-39fa4a155062@suse.de>
- <A0A92AB8-FA61-4AAC-96C9-00BE93E3F6D6@exactco.de>
- <12407aa9-a084-46a1-98cb-9649e7f24098@suse.de>
-X-Mailer: Mew version 6.10 on Emacs 30.2
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA21E10E53A
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 12:20:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1765282824;
+ bh=ZeSJqs5kWyra8SvjMuw8tjO8Za3GwPbaSrOhTP1mEYk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=fqs1sVhNtJ5KExIII+sF76ElYuzMBmHMPyWPV5zKM56s5+yE4NQrNG/b8sRMyNTAx
+ 31GCWk4KAzo41oPEgoo5u6ZZv0ihncPC5xvs01uBdVvL7TpIbNtf2pvB7GDwcmR5Vz
+ 8TsvLH48HKNKPfRdAByqipcaZIPqp1D56zads1e5SijSRYmJ5F6aNKZ18YiQ+BXlIe
+ R6ChNN5Ync+BSa7sCDFd3Z+eCf++KP9ojK9lx0+n3pA4GniaX4HuJD3q/0exJHh/gC
+ ICjX6IaBUTRDXs9RQtBYuI9+ye3/AdevUVOjKmCKxTPIhuEPACFeE/jkMhqDqxoeb6
+ QNK8k9M6TN52A==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id BBFD817E1017;
+ Tue,  9 Dec 2025 13:20:23 +0100 (CET)
+Date: Tue, 9 Dec 2025 13:20:18 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: dri-devel@lists.freedesktop.org, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Faith Ekstrand
+ <faith.ekstrand@collabora.com>, kernel@collabora.com
+Subject: Re: [PATCH v8 00/13] drm/panfrost,panthor: Cached maps and explicit
+ flushing
+Message-ID: <20251209132018.14e2848c@fedora>
+In-Reply-To: <20251208100841.730527-1-boris.brezillon@collabora.com>
+References: <20251208100841.730527-1-boris.brezillon@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,176 +66,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon,  8 Dec 2025 11:08:27 +0100
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-On Mon, 8 Dec 2025 09:44:23 +0100, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> This series implements cached maps and explicit flushing for both panfrost
+> and panthor.
+>=20
+> The PanVK MR to use this lives here:
+>=20
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36385
+>=20
+> This version moves away from the code sharing proposed at the
+> drm_prime/gem_shmem level and hand-roll a bunch of things that
+> could potentially be shared. The goal here is to take the path
+> of least resistance and discuss this controversial code-sharing
+> topic in a follow-up MR. Dropping driver maintainers Cc-ed on v7
+> since they should now be aware that we changed gears and hand-rolled
+> our own thing in pan{thor,frost}.
+>=20
+> Changes in v2:
+> - Expose the coherency so userspace can know when it should skip cache
+>   maintenance
+> - Hook things up at drm_gem_object_funcs level to dma-buf cpu_prep hooks
+>   can be implemented generically
+> - Revisit the semantics of the flags passed to gem_sync()
+> - Add BO_QUERY_INFO ioctls to query BO flags on imported objects and
+>   let the UMD know when cache maintenance is needed on those
+>=20
+> Changes in v3:
+> - New patch to fix panthor_gpu_coherency_set()
+> - No other major changes, check each patch changelog for more details
+>=20
+> Changes in v4:
+> - Two trivial fixes, check each patch changelog for more details
+>=20
+> Changes in v5:
+> - Add a way to overload dma_buf_ops while still relying on the drm_prime
+>   boilerplate
+> - Add default shmem implementation for
+>   dma_buf_ops::{begin,end}_cpu_access()
+> - Provide custom dma_buf_ops to deal with CPU cache flushes around CPU
+>   accesses when the BO is CPU-cacheable
+> - Go back to a version of drm_gem_shmem_sync() that only deals with
+>   cache maintenance, and adjust the semantics to make it clear this is
+>   the only thing it cares about
+> - Adjust the BO_SYNC ioctls according to the new drm_gem_shmem_sync()
+>   semantics
+>=20
+> Changes in v6:
+> - No major changes, check the changelog in each patch for more details
+>=20
+> Changes in v7:
+> - Drop the drm_prime/gem_shmem helpers and duplicate the logic in
+>   panthor/panfrost
+>=20
+> Changes in v8:
+> - Fix a double struct field assignment and collect R-b tags
+>=20
+> Boris Brezillon (8):
+>   drm/panthor: Provide a custom dma_buf implementation
+>   drm/panthor: Fix panthor_gpu_coherency_set()
+>   drm/panthor: Expose the selected coherency protocol to the UMD
+>   drm/panthor: Add a PANTHOR_BO_SYNC ioctl
+>   drm/panthor: Add an ioctl to query BO flags
+>   drm/panfrost: Provide a custom dma_buf implementation
+>   drm/panfrost: Expose the selected coherency protocol to the UMD
+>   drm/panfrost: Add an ioctl to query BO flags
+>=20
+> Faith Ekstrand (4):
+>   drm/panthor: Bump the driver version to 1.7
+>   drm/panfrost: Add a PANFROST_SYNC_BO ioctl
+>   drm/panfrost: Add flag to map GEM object Write-Back Cacheable
+>   drm/panfrost: Bump the driver version to 1.6
+>=20
+> Lo=C3=AFc Molinari (1):
+>   drm/panthor: Add flag to map GEM object Write-Back Cacheable
 
-> >> On the 2400-and-onwards models, ast could set
-> >> drm_device.mode_config.quirk_addfb_prefer_host_byte_order. If set, the
-> >> format lookup will select a different format on BE machines. [1] For
-> >> example requesting XRGB8888 returns BGRX8888 instead. If ast later
-> >> sees such a format in the atomic_update code, it could transparently
-> >> swap bytes when writing out pixels to the video memory.  IIRC this
-> >> works transparently to DRM clients and fbcon.  I think this would be
-> >> the preferred way of fixing the issue.
-> > Uff, I get better than nothing ;-)
-> 
-> Well, you can set the quirk in mode config. And then in
-> ast_handle_damage(), you'll require a switch for the big-endian
-> formats. [1]
-> 
-> ast_handle_damage(...)
-> {
->     ...
-> 
->     switch (fb->format->format) {
->         default:
->             drm_fb_memcyp()
->             break;
->         case DRM_FORMAT_BGRX8888:
->         case DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN:
->             /* Swap bytes on big-endian formats */
->             drm_fb_swab(dst, fb->pitches, src, fb, clip, false,
-> fmtcnv_state);
->             break;
->     }
-> }
-> 
-> You can get that final argument fmtcnv_state from the DMR shadow-plane
-> state. [2]
-> 
-> [1]
-> https://elixir.bootlin.com/linux/v6.18/source/drivers/gpu/drm/ast/ast_mode.c#L549
-> [2]
-> https://elixir.bootlin.com/linux/v6.18/source/drivers/gpu/drm/ast/ast_mode.c#L558
-> 
-> Does that fix the color corruption?
+Queued to drm-misc-next.
 
-Following your suggestions conversion does not want to just work:
+>=20
+>  drivers/gpu/drm/panfrost/panfrost_device.h |   1 +
+>  drivers/gpu/drm/panfrost/panfrost_drv.c    | 101 ++++++++-
+>  drivers/gpu/drm/panfrost/panfrost_gem.c    | 239 ++++++++++++++++++++
+>  drivers/gpu/drm/panfrost/panfrost_gem.h    |  10 +
+>  drivers/gpu/drm/panfrost/panfrost_gpu.c    |  26 ++-
+>  drivers/gpu/drm/panfrost/panfrost_regs.h   |  10 +-
+>  drivers/gpu/drm/panthor/panthor_device.c   |  10 +-
+>  drivers/gpu/drm/panthor/panthor_drv.c      |  79 ++++++-
+>  drivers/gpu/drm/panthor/panthor_gem.c      | 240 ++++++++++++++++++++-
+>  drivers/gpu/drm/panthor/panthor_gem.h      |   6 +
+>  drivers/gpu/drm/panthor/panthor_gpu.c      |   2 +-
+>  drivers/gpu/drm/panthor/panthor_sched.c    |  18 +-
+>  include/uapi/drm/panfrost_drm.h            |  76 ++++++-
+>  include/uapi/drm/panthor_drm.h             | 157 +++++++++++++-
+>  14 files changed, 953 insertions(+), 22 deletions(-)
+>=20
 
-root@XCODE_SPARC_T4_1:~# dmesg  | tail
-[  105.444761] ast 0000:0a:00.0: AST 2200 detected
-[  105.444947] ast 0000:0a:00.0: [drm] dram MCLK=266 Mhz type=2 bus_width=32
-[  105.444963] ast 0000:0a:00.0: [drm] Using analog VGA
-[  105.445470] [drm] Initialized ast 0.1.0 for 0000:0a:00.0 on minor 0
-[  105.673289] ast 0000:0a:00.0: [drm] format BX24 little-endian (0x34325842) not supported
-[  105.673302] ast 0000:0a:00.0: [drm] No compatible format found
-[  105.673348] ast 0000:0a:00.0: [drm] *ERROR* fbdev: Failed to setup emulation (ret=-22)
-[  105.901306] ast 0000:0a:00.0: [drm] format BX24 little-endian (0x34325842) not supported
-[  105.901319] ast 0000:0a:00.0: [drm] No compatible format found
-[  105.901350] ast 0000:0a:00.0: [drm] *ERROR* fbdev: Failed to setup emulation (ret=-22)
-
-WIP w/ BIG_ENDIAN temp commented out to test the code-path on the
-otherwise function big-endian byte-swapping SPARC64 AST:
-
-diff --git a/drivers/gpu/drm/ast/ast_cursor.c b/drivers/gpu/drm/ast/ast_cursor.c
-index 2d3ad7610c2e..3f17aa263bdb 100644
---- a/drivers/gpu/drm/ast/ast_cursor.c
-+++ b/drivers/gpu/drm/ast/ast_cursor.c
-@@ -227,6 +227,12 @@ static void ast_cursor_plane_helper_atomic_update(struct drm_plane *plane,
- 			}
- 			break;
- 		}
-+
-+#if 0 //def __BIG_ENDIAN
-+		/* Big-endian byte-swapping */
-+		ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa2, 0x3f, AST_IO_VGACRA2_BE_MODE_16);
-+#endif
-+
- 		ast_set_cursor_image(ast, argb4444, fb->width, fb->height);
- 		ast_set_cursor_base(ast, dst_off);
- 	}
-diff --git a/drivers/gpu/drm/ast/ast_mode.c b/drivers/gpu/drm/ast/ast_mode.c
-index cd08990a10f9..1065f481ec5f 100644
---- a/drivers/gpu/drm/ast/ast_mode.c
-+++ b/drivers/gpu/drm/ast/ast_mode.c
-@@ -526,12 +526,23 @@ static int ast_primary_plane_helper_atomic_check(struct drm_plane *plane,
- 
- static void ast_handle_damage(struct ast_plane *ast_plane, struct iosys_map *src,
- 			      struct drm_framebuffer *fb,
--			      const struct drm_rect *clip)
-+			      const struct drm_rect *clip,
-+			      struct drm_format_conv_state *fmtcnv_state)
- {
- 	struct iosys_map dst = IOSYS_MAP_INIT_VADDR_IOMEM(ast_plane_vaddr(ast_plane));
- 
- 	iosys_map_incr(&dst, drm_fb_clip_offset(fb->pitches[0], fb->format, clip));
--	drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
-+
-+	switch (fb->format->format) {
-+	default:
-+		drm_fb_memcpy(&dst, fb->pitches, src, fb, clip);
-+		break;
-+	case DRM_FORMAT_BGRX8888:
-+	case DRM_FORMAT_RGB565 | DRM_FORMAT_BIG_ENDIAN:
-+		/* Swap bytes on big-endian formats */
-+		drm_fb_swab(&dst, fb->pitches, src, fb, clip, false, fmtcnv_state);
-+		break;
-+	}
- }
- 
- static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
-@@ -557,11 +568,25 @@ static void ast_primary_plane_helper_atomic_update(struct drm_plane *plane,
- 		ast_set_vbios_color_reg(ast, fb->format, ast_crtc_state->vmode);
- 	}
- 
-+
- 	/* if the buffer comes from another device */
- 	if (drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE) == 0) {
-+#if 0 // def __BIG_ENDIAN
-+		/* Big-endian byte-swapping */
-+		switch (fb->format->format) {
-+		case DRM_FORMAT_RGB565:
-+			ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa2, 0x3f, AST_IO_VGACRA2_BE_MODE_16);
-+			break;
-+		case DRM_FORMAT_XRGB8888:
-+			ast_set_index_reg_mask(ast, AST_IO_VGACRI, 0xa2, 0x3f, AST_IO_VGACRA2_BE_MODE);
-+			break;
-+		}
-+#endif
-+
- 		drm_atomic_helper_damage_iter_init(&iter, old_plane_state, plane_state);
- 		drm_atomic_for_each_plane_damage(&iter, &damage) {
--			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage);
-+			ast_handle_damage(ast_plane, shadow_plane_state->data, fb, &damage,
-+					  &shadow_plane_state->fmtcnv_state);
- 		}
- 
- 		drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
-@@ -1020,6 +1045,11 @@ int ast_mode_config_init(struct ast_device *ast)
- 		dev->mode_config.max_height = 1200;
- 	}
- 
-+#ifdef __BIG_ENDIAN
-+	//if (ast->chip >= AST2400)
-+		dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
-+#endif
-+
- 	dev->mode_config.helper_private = &ast_mode_config_helper_funcs;
- 
- 	ret = ast_primary_plane_init(ast);
-diff --git a/drivers/gpu/drm/ast/ast_reg.h b/drivers/gpu/drm/ast/ast_reg.h
-index 30578e3b07e4..4e11ece9fce7 100644
---- a/drivers/gpu/drm/ast/ast_reg.h
-+++ b/drivers/gpu/drm/ast/ast_reg.h
-@@ -34,6 +34,8 @@
- #define AST_IO_VGACR99_VGAMEM_RSRV_MASK	GENMASK(1, 0)
- #define AST_IO_VGACRA1_VGAIO_DISABLED	BIT(1)
- #define AST_IO_VGACRA1_MMIO_ENABLED	BIT(2)
-+#define AST_IO_VGACRA2_BE_MODE		BIT(7)
-+#define AST_IO_VGACRA2_BE_MODE_16	(AST_IO_VGACRA2_BE_MODE | BIT(6))
- #define AST_IO_VGACRA3_DVO_ENABLED	BIT(7)
- #define AST_IO_VGACRAA_VGAMEM_SIZE_MASK	GENMASK(1, 0)
- #define AST_IO_VGACRB6_HSYNC_OFF	BIT(0)
--- 
-2.52.0
-
-> Thanks for sticking with it.
-
-Of course!
-
-   René
-
--- 
-René Rebe, ExactCODE GmbH, Berlin, Germany
-https://exactco.de • https://t2linux.com • https://patreon.com/renerebe
