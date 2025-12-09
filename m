@@ -2,55 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E0B6CAFE68
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 13:20:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41BE9CB0B8F
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 18:28:15 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAEE910E54C;
-	Tue,  9 Dec 2025 12:20:27 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="fqs1sVhN";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33DA510E5E0;
+	Tue,  9 Dec 2025 17:28:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA21E10E53A
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 12:20:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1765282824;
- bh=ZeSJqs5kWyra8SvjMuw8tjO8Za3GwPbaSrOhTP1mEYk=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=fqs1sVhNtJ5KExIII+sF76ElYuzMBmHMPyWPV5zKM56s5+yE4NQrNG/b8sRMyNTAx
- 31GCWk4KAzo41oPEgoo5u6ZZv0ihncPC5xvs01uBdVvL7TpIbNtf2pvB7GDwcmR5Vz
- 8TsvLH48HKNKPfRdAByqipcaZIPqp1D56zads1e5SijSRYmJ5F6aNKZ18YiQ+BXlIe
- R6ChNN5Ync+BSa7sCDFd3Z+eCf++KP9ojK9lx0+n3pA4GniaX4HuJD3q/0exJHh/gC
- ICjX6IaBUTRDXs9RQtBYuI9+ye3/AdevUVOjKmCKxTPIhuEPACFeE/jkMhqDqxoeb6
- QNK8k9M6TN52A==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BBFD817E1017;
- Tue,  9 Dec 2025 13:20:23 +0100 (CET)
-Date: Tue, 9 Dec 2025 13:20:18 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: dri-devel@lists.freedesktop.org, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Faith Ekstrand
- <faith.ekstrand@collabora.com>, kernel@collabora.com
-Subject: Re: [PATCH v8 00/13] drm/panfrost,panthor: Cached maps and explicit
- flushing
-Message-ID: <20251209132018.14e2848c@fedora>
-In-Reply-To: <20251208100841.730527-1-boris.brezillon@collabora.com>
-References: <20251208100841.730527-1-boris.brezillon@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E934110E536
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 12:24:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2B4FF1691;
+ Tue,  9 Dec 2025 04:24:22 -0800 (PST)
+Received: from [10.1.36.174] (unknown [10.1.36.174])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 595E93F740;
+ Tue,  9 Dec 2025 04:24:27 -0800 (PST)
+Message-ID: <081a44f5-9400-4c62-8760-6896011fa3e2@arm.com>
+Date: Tue, 9 Dec 2025 12:24:25 +0000
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] dma-buf: system_heap: add PTE_CONT for larger contiguous
+Content-Language: en-GB
+To: Barry Song <21cnbao@gmail.com>
+Cc: gao xu <gaoxu2@honor.com>,
+ "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "surenb@google.com" <surenb@google.com>,
+ zhouxiaolong <zhouxiaolong9@honor.com>
+References: <3da6a916cd6d489690b05d2bd64a2b3a@honor.com>
+ <CAGsJ_4w-XtJ8zzc8H4OwW4XV21T8FWGxeoMnfAxmAgBhzrvxWQ@mail.gmail.com>
+ <6f891b70-7ee9-44a3-92a1-bbeb4d2b9fee@arm.com>
+ <CAGsJ_4xb--mwsPHVFXzcpnZ29Wh8N-OTZNyNVW2CZd-U00A_ww@mail.gmail.com>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <CAGsJ_4xb--mwsPHVFXzcpnZ29Wh8N-OTZNyNVW2CZd-U00A_ww@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 09 Dec 2025 17:28:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,99 +61,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon,  8 Dec 2025 11:08:27 +0100
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+On 09/12/2025 11:37, Barry Song wrote:
+> On Mon, Dec 8, 2025 at 6:38 PM Ryan Roberts <ryan.roberts@arm.com> wrote:
+>>
+>> On 08/12/2025 09:52, Barry Song wrote:
+>>> On Mon, Dec 8, 2025 at 5:41 PM gao xu <gaoxu2@honor.com> wrote:
+>>>>
+>>>> commit 04c7adb5871a ("dma-buf: system_heap: use larger contiguous mappings
+>>>> instead of per-page mmap") facilitates the use of PTE_CONT. The system_heap
+>>>> allocates pages of order 4 and 8 that meet the alignment requirements for
+>>>> PTE_CONT. enabling PTE_CONT for larger contiguous mappings.
+>>>
+>>> Unfortunately, we don't have pte_cont for architectures other than
+>>> AArch64. On the other hand, AArch64 isn't automatically mapping
+>>> cont_pte for mmap. It might be better if this were done
+>>> automatically by the ARM code.
+>>
+>> Yes indeed; CONT_PTE_MASK and PTE_CONT are arm64-specific macros that cannot be
+>> used outside of the arm64 arch code.
+>>
+>>>
+>>> Ryan(Cced) is the expert on automatically setting cont_pte for
+>>> contiguous mapping, so let's ask for some advice from Ryan.
+>>
+>> arm64 arch code will automatically and transparently apply PTE_CONT whenever it
+>> detects suitable conditions. Those suitable conditions include:
+>>
+>>   - physically contiguous block of 64K, aligned to 64K
+>>   - virtually contiguous block of 64K, aligned to 64K
+>>   - 64K block has the same access permissions
+>>   - 64K block all belongs to the same folio
+>>   - not a special mapping
+>>
+>> The last 2 requirements are the tricky ones here: We require that every page in
+>> the block belongs to the same folio because a contigous mapping only maintains a
+>> single access and dirty bit for the whole 64K block, so we are losing fidelity
+>> vs per-page mappings. But the kernel tracks access/dirty per folio, so the extra
+>> fidelity we get for per-page mappings is ingored by the kernel anyway if the
+>> contiguous mapping only maps pages from a single folio. We reject special
+>> mappings because they are not backed by a folio at all.
+>>
+>> For your case, remap_pfn_range() will create special mappings so we will never
+>> set the PTE_CONT bit.
+>>
+>> Likely we are being a bit too conservative here and we may be able to relax this
+>> requirement if we know that nothing will ever consume the access/dirty
+>> information for special mappings? I'm not if that is the case in general though
+>> - it would need some investigation.
+>>
+>> With that issue resolved, there is still a second issue; there are 2 ways the
+>> arm64 arch code detects suitable contiguous mappings. The primary way is via a
+>> call to set_ptes(). This part of the "PTE batching" API and explicitly tells the
+>> implementaiton that all the conditions are met (including the memory being
+>> backed by a folio). This is the most efficient approach. See contpte_set_ptes().
+>>
+>> There is a second (hacky) approach which attempts to recognise when the last PTE
+>> of a contiguous block is set and automatically "fold" the mapping. See
+>> contpte_try_fold(). This approach has a cost because (for systems without
+>> BBML2_NOABORT) we have to issue a TLBI when we fold the range.
+>>
+>> For remap_pfn_range(), we would be relying on the second approach since it is
+>> not currently batched (and could not use set_ptes() as currently spec'ed due to
+>> there being no folio). If we are going to add support for contiguous pfn-mapped
+>> PTEs, it would be preferable to add equivalent batching APIs (or relax set_ptes()).
+>>
+> 
+> Thanks a lot, Ryan. It seems quite tricky to support automatic cont_pte.
+> 
+>> I think this would be a useful improvement, but it's not as straightforward as
+>> adding PTE_CONT in system_heap_mmap().
+> 
+> Since it's just a driver, I'm not sure if it's acceptable to use CONFIG_ARM64.
+> However, I can find many instances of it in drivers.
+> drivers % git grep CONFIG_ARM64 | wc -l
+>      127
+> 
+> On the other hand, a corner case is when the dma-buf is partially unmapped.
+> I assume cont_pte can still be automatically unfolded, even for
+> special mappings?
 
-> This series implements cached maps and explicit flushing for both panfrost
-> and panthor.
->=20
-> The PanVK MR to use this lives here:
->=20
-> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36385
->=20
-> This version moves away from the code sharing proposed at the
-> drm_prime/gem_shmem level and hand-roll a bunch of things that
-> could potentially be shared. The goal here is to take the path
-> of least resistance and discuss this controversial code-sharing
-> topic in a follow-up MR. Dropping driver maintainers Cc-ed on v7
-> since they should now be aware that we changed gears and hand-rolled
-> our own thing in pan{thor,frost}.
->=20
-> Changes in v2:
-> - Expose the coherency so userspace can know when it should skip cache
->   maintenance
-> - Hook things up at drm_gem_object_funcs level to dma-buf cpu_prep hooks
->   can be implemented generically
-> - Revisit the semantics of the flags passed to gem_sync()
-> - Add BO_QUERY_INFO ioctls to query BO flags on imported objects and
->   let the UMD know when cache maintenance is needed on those
->=20
-> Changes in v3:
-> - New patch to fix panthor_gpu_coherency_set()
-> - No other major changes, check each patch changelog for more details
->=20
-> Changes in v4:
-> - Two trivial fixes, check each patch changelog for more details
->=20
-> Changes in v5:
-> - Add a way to overload dma_buf_ops while still relying on the drm_prime
->   boilerplate
-> - Add default shmem implementation for
->   dma_buf_ops::{begin,end}_cpu_access()
-> - Provide custom dma_buf_ops to deal with CPU cache flushes around CPU
->   accesses when the BO is CPU-cacheable
-> - Go back to a version of drm_gem_shmem_sync() that only deals with
->   cache maintenance, and adjust the semantics to make it clear this is
->   the only thing it cares about
-> - Adjust the BO_SYNC ioctls according to the new drm_gem_shmem_sync()
->   semantics
->=20
-> Changes in v6:
-> - No major changes, check the changelog in each patch for more details
->=20
-> Changes in v7:
-> - Drop the drm_prime/gem_shmem helpers and duplicate the logic in
->   panthor/panfrost
->=20
-> Changes in v8:
-> - Fix a double struct field assignment and collect R-b tags
->=20
-> Boris Brezillon (8):
->   drm/panthor: Provide a custom dma_buf implementation
->   drm/panthor: Fix panthor_gpu_coherency_set()
->   drm/panthor: Expose the selected coherency protocol to the UMD
->   drm/panthor: Add a PANTHOR_BO_SYNC ioctl
->   drm/panthor: Add an ioctl to query BO flags
->   drm/panfrost: Provide a custom dma_buf implementation
->   drm/panfrost: Expose the selected coherency protocol to the UMD
->   drm/panfrost: Add an ioctl to query BO flags
->=20
-> Faith Ekstrand (4):
->   drm/panthor: Bump the driver version to 1.7
->   drm/panfrost: Add a PANFROST_SYNC_BO ioctl
->   drm/panfrost: Add flag to map GEM object Write-Back Cacheable
->   drm/panfrost: Bump the driver version to 1.6
->=20
-> Lo=C3=AFc Molinari (1):
->   drm/panthor: Add flag to map GEM object Write-Back Cacheable
+I think unfolding will probably happen to work, but you're definitely in the
+neighbourhood of "horrible hack that may not work as intended in some corner cases".
 
-Queued to drm-misc-next.
+I think it would be much better to support batching for pfn-mapped ptes. That
+would generalize to many more users. (and I might be interested in taking a look
+at some point next year if nobody else gets to it).
 
->=20
->  drivers/gpu/drm/panfrost/panfrost_device.h |   1 +
->  drivers/gpu/drm/panfrost/panfrost_drv.c    | 101 ++++++++-
->  drivers/gpu/drm/panfrost/panfrost_gem.c    | 239 ++++++++++++++++++++
->  drivers/gpu/drm/panfrost/panfrost_gem.h    |  10 +
->  drivers/gpu/drm/panfrost/panfrost_gpu.c    |  26 ++-
->  drivers/gpu/drm/panfrost/panfrost_regs.h   |  10 +-
->  drivers/gpu/drm/panthor/panthor_device.c   |  10 +-
->  drivers/gpu/drm/panthor/panthor_drv.c      |  79 ++++++-
->  drivers/gpu/drm/panthor/panthor_gem.c      | 240 ++++++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_gem.h      |   6 +
->  drivers/gpu/drm/panthor/panthor_gpu.c      |   2 +-
->  drivers/gpu/drm/panthor/panthor_sched.c    |  18 +-
->  include/uapi/drm/panfrost_drm.h            |  76 ++++++-
->  include/uapi/drm/panthor_drm.h             | 157 +++++++++++++-
->  14 files changed, 953 insertions(+), 22 deletions(-)
->=20
+We deliberately didn't want to expose the idea of a single, specific contiguous
+size to the generic code so that the arch could make more fine-grained decisions. :)
+
+Thanks,
+Ryan
+
+
+
+> 
+> Thanks
+> Barry
 
