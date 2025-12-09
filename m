@@ -2,70 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5877ECAFDB6
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 13:04:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64C5BCAFDBC
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 13:04:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEA2E10E4C7;
-	Tue,  9 Dec 2025 12:04:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B76BF10E525;
+	Tue,  9 Dec 2025 12:04:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="vUcQdN8r";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="aU7cKI/W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com
- (mail-centralusazon11010058.outbound.protection.outlook.com [52.101.61.58])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3EBD110E4C7
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 12:04:15 +0000 (UTC)
+Received: from SN4PR2101CU001.outbound.protection.outlook.com
+ (mail-southcentralusazon11012061.outbound.protection.outlook.com
+ [40.93.195.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 24A7610E525
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 12:04:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M5PX1IX/7qBguTerKybwCxlAgKcvLms5G9wbkciNODW1BFzC9PDAJcQCBRcCc7f6MHvPFbVoq10N1IDGjZCEsfPlf0OXUOvuomQdQ1m8fp9djtI0zZu5AbkPYoD8WYMe+BVhGc2DnTnzrokk55wrEpIRTKJ4VbuXbmB53+vYtZ+ZNf7r46V6jW9a/uxozwLo8jGdKr9bfw2Eb5jZWD3+tmPjLGQjQ12gY7Ft6GdjGa2G06BY3AyQBGu0fAfKlN57tY/hmVgaIqH6wj1ONp8jKMOyOY0VCCQqyZopdKkAHfRnc63qJHruTp+pWXwHXxvbZV99rUZI0HS3dyyQOkzOvQ==
+ b=AlnDVzKhG4aKB6cmdxvRS8AE5PGXPno0h11+6HXTqrFcxt8U451EbKL3lNPJAKBYghJdNrpKo+W4quyXNKG0GkV7fiQpo/OiJ7IIblGGBqTzJ1eKS9RkvluGxS9QaXUgg6/IDpSf9Eh2cTlhSyPpKnON7Atm7lfE6lkhcNSGo/ia896iOs+avN2Q++o2QtieDGjttE/gXYFJBePywQNAzhELHhZlIFPKXpqNVJxsOWxOx9OFl2PeECyxj9lhAd/l25VcFJNfBn8BZRcGq6jy2sibN9QXDyHtueImZ9M1XK+1ZZjsViBzkySx+8fhQbpBCLX0FaQMD3oEFFABjmxA5Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mm8vKZsNBVHxW/Am3DPqn2hHMUtMcZo53egKcKTpYfs=;
- b=wJu7qFmWdxGNqB67tuSVq5GTz5TKQsW97jKkEzq80qu6b6NuckVpoOsmMne3IuLVu4sBGVOMDm030T3Yw9YJJNi9RnLWhWAlX/Gnyy3EwGlbePwu+c0oa0NoMPhZF9731xhe78GMzZSqm9hcxIki0Uwc9HloRuhM+yAO8PyZBe96/vNz5GF0W8HMKnzwkR0p4wqlzwKJthm2V3yHCEvyNUmTzGFqPXjU1wzTSVke3ItzIK5aOIwQqIYcykvzv/v4N3+dUmQXmcaNqQ7PtuzTl8VOacEu6f0lgnwfE7mTvy35C+PyIhoyX06GmEUsiqHxZGUgRpYOCrRDlBkRuAx4QA==
+ bh=dNL5nM1H4dYgxQbdLJ6r1WkBE7SWqIImh3dZBwbu0yg=;
+ b=PCFdG/TMRSjIeHQWpNGcOAm81rlVB6Wvc1PT/3UuLS1xGAvRCaxmOYkkZdOrumCLcsmlUXae0hUQitvmk7rcYyBcWg5VH4LUKyAm3ij6RUfqns3rEZCsHDxV9wziPfb5+cgZbZBE4lwvf+pebRUUKumRObez1MLFahsDTHPRuc6/nP0crid0w+FEKci77HmcgRWdya5s9BCXGPUWHz8Lzr9TffQw0Bq+BvWQLrN6hmljce1+RCC+XgHGyucnIvwxfLyaXPRbqOtoXFFLWJefNdLfXOOFqVmePrz1dXuVB8F9wCxD82i90H5OAsNJe4Uk0ROuxUP7KEIXhPIW27sSqg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=suse.de smtp.mailfrom=ti.com; dmarc=pass
+ 198.47.23.194) smtp.rcpttodomain=suse.de smtp.mailfrom=ti.com; dmarc=pass
  (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
  (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mm8vKZsNBVHxW/Am3DPqn2hHMUtMcZo53egKcKTpYfs=;
- b=vUcQdN8rk974t7hklhZjkwp60iSf+xENr39wMxuDTi+6bXN9sGHfxijj1DHDPmzj0rMreDPC/Aclao+GJ8CmGed1DAR2NAms77d9lN4ARp61OOOSejP5g+E8b+ppGoXcaB0C9kNlOja7/rHCWf5LPwcmm8sQ3ihBeLIUJ6B7Gqc=
-Received: from PH7P220CA0024.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:326::11)
- by MN6PR10MB8022.namprd10.prod.outlook.com (2603:10b6:208:4f7::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9388.14; Tue, 9 Dec
- 2025 12:04:12 +0000
-Received: from CO1PEPF000044F9.namprd21.prod.outlook.com
- (2603:10b6:510:326:cafe::d7) by PH7P220CA0024.outlook.office365.com
- (2603:10b6:510:326::11) with Microsoft SMTP Server (version=TLS1_3,
+ bh=dNL5nM1H4dYgxQbdLJ6r1WkBE7SWqIImh3dZBwbu0yg=;
+ b=aU7cKI/WTM7jf8avmq+QkmNylKeUCELhSePP90+/5EONepNjg9p7Q5chj4Tp0LQqf2An2w69uDn0a+vw1p3fo+CQIkKx400gsHhg1HVBakY7YVmeNljLIfyepTjs90kKUixFUf24XLMDQnISvYYRLLx2HTfoX/jpK1bXEgDjGy0=
+Received: from CH0PR08CA0007.namprd08.prod.outlook.com (2603:10b6:610:33::12)
+ by DM6PR10MB4138.namprd10.prod.outlook.com (2603:10b6:5:218::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.6; Tue, 9 Dec
+ 2025 12:04:14 +0000
+Received: from CH2PEPF0000009E.namprd02.prod.outlook.com
+ (2603:10b6:610:33:cafe::d8) by CH0PR08CA0007.outlook.office365.com
+ (2603:10b6:610:33::12) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.6 via Frontend Transport; Tue, 9
  Dec 2025 12:04:12 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
  smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none; dmarc=pass
  action=none header.from=ti.com;
 Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- CO1PEPF000044F9.mail.protection.outlook.com (10.167.241.199) with Microsoft
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ CH2PEPF0000009E.mail.protection.outlook.com (10.167.244.27) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9434.0 via Frontend Transport; Tue, 9 Dec 2025 12:04:10 +0000
-Received: from DFLE204.ent.ti.com (10.64.6.62) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.9412.4 via Frontend Transport; Tue, 9 Dec 2025 12:04:14 +0000
+Received: from DLEE202.ent.ti.com (157.170.170.77) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 9 Dec
- 2025 06:04:06 -0600
-Received: from DFLE214.ent.ti.com (10.64.6.72) by DFLE204.ent.ti.com
- (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 06:04:12 -0600
+Received: from DLEE200.ent.ti.com (157.170.170.75) by DLEE202.ent.ti.com
+ (157.170.170.77) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 9 Dec
- 2025 06:04:05 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE214.ent.ti.com
- (10.64.6.72) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 06:04:12 -0600
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE200.ent.ti.com
+ (157.170.170.75) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 9 Dec 2025 06:04:05 -0600
+ Transport; Tue, 9 Dec 2025 06:04:12 -0600
 Received: from hkshenoy.dhcp.ti.com (hkshenoy.dhcp.ti.com [172.24.235.208])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5B9C3XBP1165975;
- Tue, 9 Dec 2025 06:03:59 -0600
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5B9C3XBQ1165975;
+ Tue, 9 Dec 2025 06:04:06 -0600
 From: Harikrishna Shenoy <h-shenoy@ti.com>
 To: <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
  <andrzej.hajda@intel.com>, <andy.yan@rock-chips.com>,
@@ -78,10 +79,10 @@ To: <Laurent.pinchart@ideasonboard.com>, <airlied@gmail.com>,
  <mripard@kernel.org>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
  <s-jain1@ti.com>, <simona@ffwll.ch>, <tomi.valkeinen@ideasonboard.com>,
  <tzimmermann@suse.de>, <u-kumar1@ti.com>
-Subject: [PATCH v10 4/6] drm/bridge: cadence: cdns-mhdp8546-core: Remove
- legacy support for connector initialisation in bridge
-Date: Tue, 9 Dec 2025 17:33:30 +0530
-Message-ID: <20251209120332.3559893-5-h-shenoy@ti.com>
+Subject: [PATCH v10 5/6] cadence: cdns-mhdp8546*: Change drm_connector from
+ structure to pointer
+Date: Tue, 9 Dec 2025 17:33:31 +0530
+Message-ID: <20251209120332.3559893-6-h-shenoy@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251209120332.3559893-1-h-shenoy@ti.com>
 References: <20251209120332.3559893-1-h-shenoy@ti.com>
@@ -91,53 +92,54 @@ Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044F9:EE_|MN6PR10MB8022:EE_
-X-MS-Office365-Filtering-Correlation-Id: adb3ff0e-9387-403b-2902-08de371b1036
+X-MS-TrafficTypeDiagnostic: CH2PEPF0000009E:EE_|DM6PR10MB4138:EE_
+X-MS-Office365-Filtering-Correlation-Id: 224ffe21-d676-4704-124c-08de371b122c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|376014|7416014|82310400026|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?OGWx6z+73V/wkVUUwe/+PlWS64rf3JFvidRHmzqjHUBR8nkkNzgGonoI6Nsb?=
- =?us-ascii?Q?3ZqndEu+sjBpCnRO4EQOOjdkkG8Ba/UZmgTc3BBJjWnNANCRPc6g7Sw53LsI?=
- =?us-ascii?Q?Awev8dh+/emft2aQ1dZd8P8QoBxQegxHpGORbQUAQMPLlE9pX79ivJAFbLNn?=
- =?us-ascii?Q?fCDBxUpNkmNDBgbnvauYV3YsblSFiFf/25RfAIb3Xco5ZHZBCRJC4UZJhsSq?=
- =?us-ascii?Q?h7u3Aee3DijE4Fz7y2kGQUEtMyMNtjs8NRe4QgeShj5UFia6l1crhewCvseq?=
- =?us-ascii?Q?dvJp270+dHWu77Oj8k4IGHPMbW+G5VoSzxMDdeVFnX2JTK/z2EC4q6yMUzmu?=
- =?us-ascii?Q?Vz6FY50qAAhW/kUIE9KkMJL4+uFh6NaZc8ePX7nfhM+IyULNMtVPnGM9OO9e?=
- =?us-ascii?Q?d8c0W+bwP/YnUzcB9rToXR1hRm1dkWxwKE8ypWpGWEbhwl34+vIqu+WOaKCW?=
- =?us-ascii?Q?qBxoBPicfjgENcAUDMwB683HPYMqaUShkxe5rAiGuz+tv8+BVofn81DZgeuG?=
- =?us-ascii?Q?2X7qEE4AGBugdYNjreq5pfjQ337pW0GySECNZxd5GxMbw1CqHcSDCclPVkDe?=
- =?us-ascii?Q?VsENy/bUygRa9AfcKBxXRO6bcoPBlHxMMfTh0BtWbL3yyyf3gPJUoavyWm2J?=
- =?us-ascii?Q?jvSMzYUkEbAtrSTroMVe6Z0kYLOBugV68pQx9EhsiXSToOrGYKDUeJyjAWIh?=
- =?us-ascii?Q?S7UUEI10Olw4PwoTw3Gquz4WEoYuVutOj6R9f45wdJdZ/ssxuPfTx+plxeOy?=
- =?us-ascii?Q?VOk8HoP8cY6XmtqPpDH2qu22TFm510Zho12+0DY8hdj3j3bydfhEMd5JtSoH?=
- =?us-ascii?Q?1IYBHQMCfCH0f8bG1zYXSAeDkgZ5XgORQOpZA+mIcNSI2ejuPX+4/NU2Eg9n?=
- =?us-ascii?Q?jafMWjsUbp7NlpUrq7loDRzJXMTZi45A75r4tdZfmRAED78gtD6gBqva213t?=
- =?us-ascii?Q?ArprzOjkfDeG/raKKtBJpAyI0P4KBvraRw9I+rxOxaRqFHGKuqUODZsiuXEH?=
- =?us-ascii?Q?9MS6jYMrReFV4Q/Hvie1Yui48ZIswX0oNn7h2SkLpGumAwASf3MH2z7nPAfe?=
- =?us-ascii?Q?4eMcQXfMJul07kPE6YhrbeVh+ev/3cbJSAN4LxIfnSEQ+ZL7XV10dlGfH3g/?=
- =?us-ascii?Q?8P6IaP2pepD+eYBm3aSPwvmpf0WiK4pX0Uued9WB6cCMo/N2Pc28GJ/bUvy0?=
- =?us-ascii?Q?B7qWnZuW8Ukyq04FLgxqUhb/NENyuiQPael+KMk4+MltjAwF5cwfLDWt/5KI?=
- =?us-ascii?Q?1YaQ7HKtTE6dghhyzMhnsDTDHZ/pT+1JdwwUvqjoeb5HZIwJebYhMixt+rJq?=
- =?us-ascii?Q?sGDI/xlYIuNlC3R5hmjmSHGIGUDBGWUo6TxDZstQNumiNaZVEb7/gvpaGVl3?=
- =?us-ascii?Q?Dz6IqbnNC7CifO6tGxyPnVEx2i519s8yUJAh8Zat/wz0eZx/a4aVR8/4er4S?=
- =?us-ascii?Q?HsHXlumJoSeNtnFLczDwo1hYFPqBwX7FHvh0vmklQ7sCTWIAjQjGCe64X8yt?=
- =?us-ascii?Q?LD2TcRNfwlNO9bOjbkztIRvicXpTFnd3Jlf5Tr3EPc5YL78BSGlrMhYprsHS?=
- =?us-ascii?Q?aZ2sPmG8TqZQYUxQFpJqgLDgpWejeECrXnto0ysi?=
-X-Forefront-Antispam-Report: CIP:198.47.21.194; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:flwvzet200.ext.ti.com; PTR:ErrorRetry; CAT:NONE;
- SFS:(13230040)(36860700013)(376014)(7416014)(82310400026)(1800799024)(921020);
+ ARA:13230040|82310400026|7416014|376014|1800799024|36860700013|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?otbocbBg3GHGdBU/yvUi8jJeV3HCi+UBUR99Hz3NSLUtBwpi1chd3kOk2jVa?=
+ =?us-ascii?Q?qIAU9LhoU+IKdPxHQi5NP5/JVIsSg3CH6sbgQ42Usmma+Z9PJy3sw4dVGRMe?=
+ =?us-ascii?Q?ti3m/OpjhgOTj++uOU1bUdCL0gMOAp068T1tsQXkRVNFg5aMM1SO9Qu5hWKw?=
+ =?us-ascii?Q?Dksstf6PXwxL78cAjaEY9XMdcE7+eDgwLRmZXIbAgrCKqjqi0hv6h5Qrmvmv?=
+ =?us-ascii?Q?s49YMzQjM4NTExEerpEqT8m6LODf2qWV7KIkjTqJMwK/0OaI878JwsPb0tc8?=
+ =?us-ascii?Q?NAMXFAzDNR3JZjuB/kPYNvT9owJI7DWKv17nY5/ygdHIiTYYXZ+tLplXo10v?=
+ =?us-ascii?Q?dTXne1+2x/z2BHRJ8m0gl6DJK9Cv9/3Qx2Sxz2HFc1JKJXIRq0aeW8ZHW8M0?=
+ =?us-ascii?Q?gGll7VKVPj+urcugCPn3HciFKeqHA44DOlG/eFzMJxSDRQOQN03feE3BYHrr?=
+ =?us-ascii?Q?sVnU12GfvTpj0jyEMEWYDg/DwuWC0zsmNrknFqaI78gzTqtks60hl5O8RPQC?=
+ =?us-ascii?Q?rpZTzID3RobomUx2JAKYwYo3AMbbjQfoFHgbtpImfFr6Inz2AV9l+EqMVaYZ?=
+ =?us-ascii?Q?Fa3XjsGJNdxJ9xPaLHfuRvj3mJepDlgtOjJzuYjhvaLaEXpsnMEOHVpf4EA8?=
+ =?us-ascii?Q?oaiB93SD5picKKqw00afGJBSzu7KxUl3Tmqbaw7tgj8N4NjSkaFcX4+dbrxd?=
+ =?us-ascii?Q?CG2Z8b4CMcEl9s01Ty1a1TlnNxoSSQUNfU8VDr1nE403nOQs5p/NI8q4WVR0?=
+ =?us-ascii?Q?qMEMwjUcslWh9MzYB/BylhJ2sXjYxt8e+yf+paHWYufYKNx2joAv1OmRnGny?=
+ =?us-ascii?Q?9aluZfEFr725/9MJYA8PwFJ07His/H1wNqvFOYAR2mdn4EjdOMvS/fDYaBlp?=
+ =?us-ascii?Q?l7L5n8gEqEolVX5EYYzGc2sygOsNxJNZOYxCRvylQkKiNhsxY01O/iYisKtI?=
+ =?us-ascii?Q?9k7F0yuljn190RDgl+MH9SMIcz/rDsrCXHbeU+9ObRgp1Ye8m2fYghzGdoDR?=
+ =?us-ascii?Q?EnQvaUDhpcwM/P+Roi+j7SzFsDsMjcb13DqPGpe40LZTenSieEipOyRmmfvf?=
+ =?us-ascii?Q?AWTdDbRr7n64e0FYJIGjSuU+DRefcWYH/jRFtSx4AmK3L+7kiNUPmpBp4Sge?=
+ =?us-ascii?Q?qzVHf7L9xGhV59cqW/V72bF6dExXGPJptVHQgU1mM1RzErwJV/hEc3Kv+9/O?=
+ =?us-ascii?Q?yfecvpa/SKebeSswIVgseJG9uEqSeDS3CG4fEFaT/SdWfytiXany+Ixxa9oH?=
+ =?us-ascii?Q?yNmZ9KHY1vMlqdIKOrNsMHCjYa6fEGsPkGZ1KMOxgsQZrqlxjaU36rUo9ImC?=
+ =?us-ascii?Q?gU2eqFijpKFaKD3CMzzgZ54DjMiwr0gjKwvjNYj0t0r9zexXxXJcXxjJPggB?=
+ =?us-ascii?Q?ZRLgxxfjHWQAz3vmZb3DsIzl7sAXqh0FU+6yASVRdQw3eQSFLH034cT2jQW8?=
+ =?us-ascii?Q?h+mrDSPvIDZGSlE9ce+OJN27hEQQmHSdyFlE4oitizYFeol5+bA2xzfF8wtW?=
+ =?us-ascii?Q?TSosJ6q257y60sxIXD+o5ECWbTAi2XQ6kttB5Hao3DJhDjEF1udfnasHIoB7?=
+ =?us-ascii?Q?DZSFBaIfDsdKkcJcZI6lDroMrUxEMlf7r6f2TInK?=
+X-Forefront-Antispam-Report: CIP:198.47.23.194; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:lewvzet200.ext.ti.com; PTR:InfoDomainNonexistent;
+ CAT:NONE;
+ SFS:(13230040)(82310400026)(7416014)(376014)(1800799024)(36860700013)(921020);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2025 12:04:10.7498 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: adb3ff0e-9387-403b-2902-08de371b1036
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2025 12:04:14.0699 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 224ffe21-d676-4704-124c-08de371b122c
 X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.21.194];
- Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F9.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7; Ip=[198.47.23.194];
+ Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF0000009E.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR10MB8022
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB4138
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,246 +157,143 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jayesh Choudhary <j-choudhary@ti.com>
 
-Now that this bridge supports DRM_BRIDGE_ATTACH_NO_CONNECTOR,
-and only TI K3 platforms consume this driver and
-tidss (their display controller) has DRM_BRIDGE_ATTACH_NO_CONNECTOR
-flag set,we can remove the legacy code for the
-non-DRM_BRIDGE_ATTACH_NO_CONNECTOR case.
+Now that we have dropped the legacy code which became redundant with
+introduction of DRM_BRIDGE_ATTACH_NO_CONNECTOR
+usecase in driver,we can cleanly switch to drm_connector pointer
+instead of structure.
+
+Rename the connector_ptr member variable to connector for clarity and
+consistency. The driver was using both connector and connector_ptr members,
+but connector_ptr was the only one actually used throughout the code.
+This change removes the unused connector struct member and renames
+connector_ptr to connector for better readability.
+
+This is purely a code cleanup change with no functional impact. All
+references to connector_ptr are updated to use the renamed connector
+variable throughout the driver.
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 Signed-off-by: Harikrishna Shenoy <h-shenoy@ti.com>
 ---
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 187 +-----------------
- 1 file changed, 9 insertions(+), 178 deletions(-)
+ .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    | 14 +++++++-------
+ .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.h    |  3 +--
+ .../gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c    | 12 ++++++------
+ 3 files changed, 14 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index 7ee19b7cc92fc..e3066dae340a6 100644
+index e3066dae340a6..f909469dacf08 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -739,12 +739,8 @@ static void cdns_mhdp_fw_cb(const struct firmware *fw, void *context)
- 	spin_lock(&mhdp->start_lock);
- 	bridge_attached = mhdp->bridge_attached;
- 	spin_unlock(&mhdp->start_lock);
--	if (bridge_attached) {
--		if (mhdp->connector_ptr)
--			drm_kms_helper_hotplug_event(mhdp->bridge.dev);
--		else
--			drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
--	}
-+	if (bridge_attached)
-+		drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
+@@ -1765,12 +1765,12 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
+ 
+ 	mutex_lock(&mhdp->link_mutex);
+ 
+-	mhdp->connector_ptr = drm_atomic_get_new_connector_for_encoder(state,
+-								       bridge->encoder);
+-	if (WARN_ON(!mhdp->connector_ptr))
++	mhdp->connector = drm_atomic_get_new_connector_for_encoder(state,
++								   bridge->encoder);
++	if (WARN_ON(!mhdp->connector))
+ 		goto out;
+ 
+-	conn_state = drm_atomic_get_new_connector_state(state, mhdp->connector_ptr);
++	conn_state = drm_atomic_get_new_connector_state(state, mhdp->connector);
+ 	if (WARN_ON(!conn_state))
+ 		goto out;
+ 
+@@ -1869,7 +1869,7 @@ static void cdns_mhdp_atomic_disable(struct drm_bridge *bridge,
+ 	if (mhdp->info && mhdp->info->ops && mhdp->info->ops->disable)
+ 		mhdp->info->ops->disable(mhdp);
+ 
+-	mhdp->connector_ptr = NULL;
++	mhdp->connector = NULL;
+ 	mutex_unlock(&mhdp->link_mutex);
  }
  
- static int cdns_mhdp_load_firmware(struct cdns_mhdp_device *mhdp)
-@@ -1444,56 +1440,6 @@ static const struct drm_edid *cdns_mhdp_edid_read(struct cdns_mhdp_device *mhdp,
- 	return drm_edid_read_custom(connector, cdns_mhdp_get_edid_block, mhdp);
- }
+@@ -1964,7 +1964,7 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
+ 	const struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+ 	struct drm_connector_state *old_state, *new_state;
+ 	struct drm_atomic_state *state = crtc_state->state;
+-	struct drm_connector *conn = mhdp->connector_ptr;
++	struct drm_connector *conn = mhdp->connector;
+ 	u64 old_cp, new_cp;
  
--static int cdns_mhdp_get_modes(struct drm_connector *connector)
--{
--	struct cdns_mhdp_device *mhdp = connector_to_mhdp(connector);
--	const struct drm_edid *drm_edid;
--	int num_modes;
--
--	if (!mhdp->plugged)
--		return 0;
--
--	drm_edid = cdns_mhdp_edid_read(mhdp, connector);
--
--	drm_edid_connector_update(connector, drm_edid);
--
--	if (!drm_edid) {
--		dev_err(mhdp->dev, "Failed to read EDID\n");
--		return 0;
--	}
--
--	num_modes = drm_edid_connector_add_modes(connector);
--	drm_edid_free(drm_edid);
--
--	/*
--	 * HACK: Warn about unsupported display formats until we deal
--	 *       with them correctly.
--	 */
--	if (connector->display_info.color_formats &&
--	    !(connector->display_info.color_formats &
--	      mhdp->display_fmt.color_format))
--		dev_warn(mhdp->dev,
--			 "%s: No supported color_format found (0x%08x)\n",
--			__func__, connector->display_info.color_formats);
--
--	if (connector->display_info.bpc &&
--	    connector->display_info.bpc < mhdp->display_fmt.bpc)
--		dev_warn(mhdp->dev, "%s: Display bpc only %d < %d\n",
--			 __func__, connector->display_info.bpc,
--			 mhdp->display_fmt.bpc);
--
--	return num_modes;
--}
--
--static int cdns_mhdp_connector_detect(struct drm_connector *conn,
--				      struct drm_modeset_acquire_ctx *ctx,
--				      bool force)
--{
--	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
--
--	return cdns_mhdp_detect(mhdp);
--}
--
- static u32 cdns_mhdp_get_bpp(struct cdns_mhdp_display_fmt *fmt)
- {
- 	u32 bpp;
-@@ -1547,115 +1493,6 @@ bool cdns_mhdp_bandwidth_ok(struct cdns_mhdp_device *mhdp,
- 	return true;
- }
+ 	mutex_lock(&mhdp->link_mutex);
+@@ -2179,7 +2179,7 @@ static void cdns_mhdp_modeset_retry_fn(struct work_struct *work)
  
--static
--enum drm_mode_status cdns_mhdp_mode_valid(struct drm_connector *conn,
--					  const struct drm_display_mode *mode)
--{
--	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
--
--	mutex_lock(&mhdp->link_mutex);
--
--	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
--				    mhdp->link.rate)) {
--		mutex_unlock(&mhdp->link_mutex);
--		return MODE_CLOCK_HIGH;
--	}
--
--	mutex_unlock(&mhdp->link_mutex);
--	return MODE_OK;
--}
--
--static int cdns_mhdp_connector_atomic_check(struct drm_connector *conn,
--					    struct drm_atomic_state *state)
--{
--	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
--	struct drm_connector_state *old_state, *new_state;
--	struct drm_crtc_state *crtc_state;
--	u64 old_cp, new_cp;
--
--	if (!mhdp->hdcp_supported)
--		return 0;
--
--	old_state = drm_atomic_get_old_connector_state(state, conn);
--	new_state = drm_atomic_get_new_connector_state(state, conn);
--	old_cp = old_state->content_protection;
--	new_cp = new_state->content_protection;
--
--	if (old_state->hdcp_content_type != new_state->hdcp_content_type &&
--	    new_cp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
--		new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
--		goto mode_changed;
--	}
--
--	if (!new_state->crtc) {
--		if (old_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED)
--			new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
--		return 0;
--	}
--
--	if (old_cp == new_cp ||
--	    (old_cp == DRM_MODE_CONTENT_PROTECTION_DESIRED &&
--	     new_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED))
--		return 0;
--
--mode_changed:
--	crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
--	crtc_state->mode_changed = true;
--
--	return 0;
--}
--
--static const struct drm_connector_helper_funcs cdns_mhdp_conn_helper_funcs = {
--	.detect_ctx = cdns_mhdp_connector_detect,
--	.get_modes = cdns_mhdp_get_modes,
--	.mode_valid = cdns_mhdp_mode_valid,
--	.atomic_check = cdns_mhdp_connector_atomic_check,
--};
--
--static const struct drm_connector_funcs cdns_mhdp_conn_funcs = {
--	.fill_modes = drm_helper_probe_single_connector_modes,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
--	.reset = drm_atomic_helper_connector_reset,
--	.destroy = drm_connector_cleanup,
--};
--
--static int cdns_mhdp_connector_init(struct cdns_mhdp_device *mhdp)
--{
--	u32 bus_format = MEDIA_BUS_FMT_RGB121212_1X36;
--	struct drm_connector *conn = &mhdp->connector;
--	struct drm_bridge *bridge = &mhdp->bridge;
--	int ret;
--
--	conn->polled = DRM_CONNECTOR_POLL_HPD;
--
--	ret = drm_connector_init(bridge->dev, conn, &cdns_mhdp_conn_funcs,
--				 DRM_MODE_CONNECTOR_DisplayPort);
--	if (ret) {
--		dev_err(mhdp->dev, "Failed to initialize connector with drm\n");
--		return ret;
--	}
--
--	mhdp->connector_ptr = conn;
--	drm_connector_helper_add(conn, &cdns_mhdp_conn_helper_funcs);
--
--	ret = drm_display_info_set_bus_formats(&conn->display_info,
--					       &bus_format, 1);
--	if (ret)
--		return ret;
--
--	ret = drm_connector_attach_encoder(conn, bridge->encoder);
--	if (ret) {
--		dev_err(mhdp->dev, "Failed to attach connector to encoder\n");
--		return ret;
--	}
--
--	if (mhdp->hdcp_supported)
--		ret = drm_connector_attach_content_protection_property(conn, true);
--
--	return ret;
--}
--
- static int cdns_mhdp_attach(struct drm_bridge *bridge,
- 			    struct drm_encoder *encoder,
- 			    enum drm_bridge_attach_flags flags)
-@@ -1672,9 +1509,11 @@ static int cdns_mhdp_attach(struct drm_bridge *bridge,
- 		return ret;
+ 	mhdp = container_of(work, typeof(*mhdp), modeset_retry_work);
  
- 	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
--		ret = cdns_mhdp_connector_init(mhdp);
--		if (ret)
--			goto aux_unregister;
-+		ret = -EINVAL;
-+		dev_err(mhdp->dev,
-+			"Connector initialisation not supported in bridge_attach %d\n",
-+			ret);
-+		goto aux_unregister;
+-	conn = mhdp->connector_ptr;
++	conn = mhdp->connector;
+ 
+ 	/* Grab the locks before changing connector property */
+ 	mutex_lock(&conn->dev->mode_config.mutex);
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+index a76775c768956..b297db53ba283 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+@@ -375,8 +375,7 @@ struct cdns_mhdp_device {
+ 	 */
+ 	struct mutex link_mutex;
+ 
+-	struct drm_connector connector;
+-	struct drm_connector *connector_ptr;
++	struct drm_connector *connector;
+ 	struct drm_bridge bridge;
+ 
+ 	struct cdns_mhdp_link link;
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+index 21a7d2fb266e4..5cd0b873e16f9 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+@@ -394,7 +394,7 @@ static int _cdns_mhdp_hdcp_disable(struct cdns_mhdp_device *mhdp)
+ 	int ret;
+ 
+ 	dev_dbg(mhdp->dev, "[%s:%d] HDCP is being disabled...\n",
+-		mhdp->connector_ptr->name, mhdp->connector_ptr->base.id);
++		mhdp->connector->name, mhdp->connector->base.id);
+ 
+ 	ret = cdns_mhdp_hdcp_set_config(mhdp, 0, false);
+ 
+@@ -437,7 +437,7 @@ static int cdns_mhdp_hdcp_check_link(struct cdns_mhdp_device *mhdp)
+ 
+ 	mutex_lock(&mhdp->hdcp.mutex);
+ 
+-	if (!mhdp->connector_ptr)
++	if (!mhdp->connector)
+ 		goto out;
+ 
+ 	if (mhdp->hdcp.value == DRM_MODE_CONTENT_PROTECTION_UNDESIRED)
+@@ -449,7 +449,7 @@ static int cdns_mhdp_hdcp_check_link(struct cdns_mhdp_device *mhdp)
+ 
+ 	dev_err(mhdp->dev,
+ 		"[%s:%d] HDCP link failed, retrying authentication\n",
+-		mhdp->connector_ptr->name, mhdp->connector_ptr->base.id);
++		mhdp->connector->name, mhdp->connector->base.id);
+ 
+ 	ret = _cdns_mhdp_hdcp_disable(mhdp);
+ 	if (ret) {
+@@ -494,8 +494,8 @@ static void cdns_mhdp_hdcp_prop_work(struct work_struct *work)
+ 	struct drm_device *dev = NULL;
+ 	struct drm_connector_state *state;
+ 
+-	if (mhdp->connector_ptr)
+-		dev = mhdp->connector_ptr->dev;
++	if (mhdp->connector)
++		dev = mhdp->connector->dev;
+ 
+ 	if (!dev)
+ 		return;
+@@ -503,7 +503,7 @@ static void cdns_mhdp_hdcp_prop_work(struct work_struct *work)
+ 	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+ 	mutex_lock(&mhdp->hdcp.mutex);
+ 	if (mhdp->hdcp.value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+-		state = mhdp->connector_ptr->state;
++		state = mhdp->connector->state;
+ 		state->content_protection = mhdp->hdcp.value;
  	}
- 
- 	spin_lock(&mhdp->start_lock);
-@@ -2414,17 +2253,9 @@ static void cdns_mhdp_hpd_work(struct work_struct *work)
- 	struct cdns_mhdp_device *mhdp = container_of(work,
- 						     struct cdns_mhdp_device,
- 						     hpd_work);
--	int ret;
-+	cdns_mhdp_update_link_status(mhdp);
- 
--	ret = cdns_mhdp_update_link_status(mhdp);
--	if (mhdp->connector_ptr) {
--		if (ret < 0)
--			schedule_work(&mhdp->modeset_retry_work);
--		else
--			drm_kms_helper_hotplug_event(mhdp->bridge.dev);
--	} else {
--		drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
--	}
-+	drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
- }
- 
- static int cdns_mhdp_probe(struct platform_device *pdev)
+ 	mutex_unlock(&mhdp->hdcp.mutex);
 -- 
 2.34.1
 
