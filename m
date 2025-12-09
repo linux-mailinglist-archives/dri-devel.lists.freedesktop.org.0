@@ -2,143 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54A45CAF50C
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 09:42:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ABF0CAF539
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 09:49:27 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30A6610E33A;
-	Tue,  9 Dec 2025 08:42:08 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="OL0r6LgL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oLmnYet/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OL0r6LgL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oLmnYet/";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3B7110E4BF;
+	Tue,  9 Dec 2025 08:49:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10D1E10E33A
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 08:42:07 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 5830D5BD9C;
- Tue,  9 Dec 2025 08:42:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1765269724; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mkXnCCDibCT6NceqYRV8oQpGMsdF6XLcZr94DE5nJVM=;
- b=OL0r6LgL1+dDhQOl7ThMpm9FBdi/rtKKgh7S0BNaKeKoJeh5UAHjwydL9yZgwbjpwApKGx
- wv1vwOufVjqto5L/erjFModKsmTreWPCdoqJ6yu5avyCehoIpuCDlKfGLSbDUezhdkwd/D
- 8SEdupw1qEa6UZ57UIPaRQvZYJyEXhg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1765269724;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mkXnCCDibCT6NceqYRV8oQpGMsdF6XLcZr94DE5nJVM=;
- b=oLmnYet/MjU46NsSflbcbECEhtMK/NXBx/ljSwhF5VfaLajWXCuUV2Vuu75a0Ul6wqv2Bz
- XwkvZp7cQUZZOfBg==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OL0r6LgL;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="oLmnYet/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1765269724; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mkXnCCDibCT6NceqYRV8oQpGMsdF6XLcZr94DE5nJVM=;
- b=OL0r6LgL1+dDhQOl7ThMpm9FBdi/rtKKgh7S0BNaKeKoJeh5UAHjwydL9yZgwbjpwApKGx
- wv1vwOufVjqto5L/erjFModKsmTreWPCdoqJ6yu5avyCehoIpuCDlKfGLSbDUezhdkwd/D
- 8SEdupw1qEa6UZ57UIPaRQvZYJyEXhg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1765269724;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mkXnCCDibCT6NceqYRV8oQpGMsdF6XLcZr94DE5nJVM=;
- b=oLmnYet/MjU46NsSflbcbECEhtMK/NXBx/ljSwhF5VfaLajWXCuUV2Vuu75a0Ul6wqv2Bz
- XwkvZp7cQUZZOfBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1841C3EA63;
- Tue,  9 Dec 2025 08:42:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id Jb93BNzgN2l8DQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 09 Dec 2025 08:42:04 +0000
-Message-ID: <90afab05-eb56-4c81-afd5-35337335c562@suse.de>
-Date: Tue, 9 Dec 2025 09:42:03 +0100
+Received: from coelho.fi (coelho.fi [88.99.146.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8623A10E4BC;
+ Tue,  9 Dec 2025 08:49:23 +0000 (UTC)
+Received: from mobile-access-5d6aa7-235.dhcp.inet.fi ([93.106.167.235]
+ helo=[192.168.8.139])
+ by coelho.fi with esmtpsa (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ (Exim 4.98.2) (envelope-from <luca@coelho.fi>)
+ id 1vStPA-00000000gSt-2kEr; Tue, 09 Dec 2025 10:49:20 +0200
+Message-ID: <1f07e6ed6f0016d77b0fd7d9cdaaf4f9ea548ccf.camel@coelho.fi>
+From: Luca Coelho <luca@coelho.fi>
+To: Imre Deak <imre.deak@intel.com>, intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+Date: Tue, 09 Dec 2025 10:48:43 +0200
+In-Reply-To: <20251127175023.1522538-3-imre.deak@intel.com>
+References: <20251127175023.1522538-1-imre.deak@intel.com>
+ <20251127175023.1522538-3-imre.deak@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-7 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] fbdev: Guard sysfs interfaces under CONFIG_FB_DEVICE
-To: Helge Deller <deller@gmx.de>, Chintan Patel <chintanlike@gmail.com>,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-omap@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- andy@kernel.org, gregkh@linuxfoundation.org
-References: <20251209042744.7875-1-chintanlike@gmail.com>
- <19e8a1b0-75e3-4c8d-911a-15fd70f60bea@suse.de>
- <f5d50007-5b48-47cb-8133-72fca274d562@gmx.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <f5d50007-5b48-47cb-8133-72fca274d562@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; TO_DN_SOME(0.00)[];
- FREEMAIL_TO(0.00)[gmx.de,gmail.com,vger.kernel.org,lists.linux.dev];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- RCPT_COUNT_SEVEN(0.00)[9]; MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Checker-Version: SpamAssassin 4.0.2 (2025-08-27) on farmhouse.coelho.fi
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 5830D5BD9C
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=ham autolearn_force=no version=4.0.2
+Subject: Re: [PATCH 02/50] drm/dp: Add drm_dp_dsc_sink_slice_count_mask()
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,105 +50,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On Thu, 2025-11-27 at 19:49 +0200, Imre Deak wrote:
+> A DSC sink supporting DSC slice count N, not necessarily supports slice
+> counts less than N. Hence the driver should check the sink's support for
+> a particular slice count before using that slice count. Add the helper
+> functions required for this.
+>=20
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> ---
+>  drivers/gpu/drm/display/drm_dp_helper.c | 82 +++++++++++++++++--------
+>  include/drm/display/drm_dp_helper.h     |  3 +
+>  2 files changed, 61 insertions(+), 24 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/di=
+splay/drm_dp_helper.c
+> index 19564c1afba6c..a697cc227e289 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2705,56 +2705,90 @@ u8 drm_dp_dsc_sink_bpp_incr(const u8 dsc_dpcd[DP_=
+DSC_RECEIVER_CAP_SIZE])
+>  EXPORT_SYMBOL(drm_dp_dsc_sink_bpp_incr);
+> =20
+>  /**
+> - * drm_dp_dsc_sink_max_slice_count() - Get the max slice count
+> - * supported by the DSC sink.
+> - * @dsc_dpcd: DSC capabilities from DPCD
+> - * @is_edp: true if its eDP, false for DP
+> + * drm_dp_dsc_slice_count_to_mask() - Convert a slice count to a slice c=
+ount mask
+> + * @slice_count: slice count
+>   *
+> - * Read the slice capabilities DPCD register from DSC sink to get
+> - * the maximum slice count supported. This is used to populate
+> - * the DSC parameters in the &struct drm_dsc_config by the driver.
+> - * Driver creates an infoframe using these parameters to populate
+> - * &struct drm_dsc_pps_infoframe. These are sent to the sink using DSC
+> - * infoframe using the helper function drm_dsc_pps_infoframe_pack()
+> + * Convert @slice_count to a slice count mask.
+> + *
+> + * Returns the slice count mask.
+> + */
+> +u32 drm_dp_dsc_slice_count_to_mask(int slice_count)
+> +{
+> +	return BIT(slice_count - 1);
+> +}
+> +EXPORT_SYMBOL(drm_dp_dsc_slice_count_to_mask);
+> +
+> +/**
+> + * drm_dp_dsc_sink_slice_count_mask() - Get the mask of valid DSC sink s=
+lice counts
+> + * @dsc_dpcd: the sink's DSC DPCD capabilities
+> + * @is_edp: %true for an eDP sink
+> + *
+> + * Get the mask of supported slice counts from the sink's DSC DPCD regis=
+ter.
+>   *
+>   * Returns:
+> - * Maximum slice count supported by DSC sink or 0 its invalid
+> + * Mask of slice counts supported by the DSC sink:
+> + * - > 0: bit#0,1,3,5..,23 set if the sink supports 1,2,4,6..,24 slices
+> + * - 0:   if the sink doesn't support any slices
+>   */
+> -u8 drm_dp_dsc_sink_max_slice_count(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP=
+_SIZE],
+> -				   bool is_edp)
+> +u32 drm_dp_dsc_sink_slice_count_mask(const u8 dsc_dpcd[DP_DSC_RECEIVER_C=
+AP_SIZE],
+> +				     bool is_edp)
+>  {
+>  	u8 slice_cap1 =3D dsc_dpcd[DP_DSC_SLICE_CAP_1 - DP_DSC_SUPPORT];
+> +	u32 mask =3D 0;
+> =20
+>  	if (!is_edp) {
+>  		/* For DP, use values from DSC_SLICE_CAP_1 and DSC_SLICE_CAP2 */
+>  		u8 slice_cap2 =3D dsc_dpcd[DP_DSC_SLICE_CAP_2 - DP_DSC_SUPPORT];
+> =20
+>  		if (slice_cap2 & DP_DSC_24_PER_DP_DSC_SINK)
+> -			return 24;
+> +			mask |=3D drm_dp_dsc_slice_count_to_mask(24);
+>  		if (slice_cap2 & DP_DSC_20_PER_DP_DSC_SINK)
+> -			return 20;
+> +			mask |=3D drm_dp_dsc_slice_count_to_mask(20);
+>  		if (slice_cap2 & DP_DSC_16_PER_DP_DSC_SINK)
+> -			return 16;
+> +			mask |=3D drm_dp_dsc_slice_count_to_mask(16);
+>  	}
+> =20
+>  	/* DP, eDP v1.5+ */
+>  	if (slice_cap1 & DP_DSC_12_PER_DP_DSC_SINK)
+> -		return 12;
+> +		mask |=3D drm_dp_dsc_slice_count_to_mask(12);
+>  	if (slice_cap1 & DP_DSC_10_PER_DP_DSC_SINK)
+> -		return 10;
+> +		mask |=3D drm_dp_dsc_slice_count_to_mask(10);
+>  	if (slice_cap1 & DP_DSC_8_PER_DP_DSC_SINK)
+> -		return 8;
+> +		mask |=3D drm_dp_dsc_slice_count_to_mask(8);
+>  	if (slice_cap1 & DP_DSC_6_PER_DP_DSC_SINK)
+> -		return 6;
+> +		mask |=3D drm_dp_dsc_slice_count_to_mask(6);
+>  	/* DP, eDP v1.4+ */
+>  	if (slice_cap1 & DP_DSC_4_PER_DP_DSC_SINK)
+> -		return 4;
+> +		mask |=3D drm_dp_dsc_slice_count_to_mask(4);
+>  	if (slice_cap1 & DP_DSC_2_PER_DP_DSC_SINK)
+> -		return 2;
+> +		mask |=3D drm_dp_dsc_slice_count_to_mask(2);
+>  	if (slice_cap1 & DP_DSC_1_PER_DP_DSC_SINK)
+> -		return 1;
+> +		mask |=3D drm_dp_dsc_slice_count_to_mask(1);
+> =20
+> -	return 0;
+> +	return mask;
+> +}
+> +EXPORT_SYMBOL(drm_dp_dsc_sink_slice_count_mask);
+> +
+> +/**
+> + * drm_dp_dsc_sink_max_slice_count() - Get the max slice count
+> + * supported by the DSC sink.
+> + * @dsc_dpcd: DSC capabilities from DPCD
+> + * @is_edp: true if its eDP, false for DP
+> + *
+> + * Read the slice capabilities DPCD register from DSC sink to get
+> + * the maximum slice count supported. This is used to populate
+> + * the DSC parameters in the &struct drm_dsc_config by the driver.
+> + * Driver creates an infoframe using these parameters to populate
+> + * &struct drm_dsc_pps_infoframe. These are sent to the sink using DSC
+> + * infoframe using the helper function drm_dsc_pps_infoframe_pack()
+> + *
+> + * Returns:
+> + * Maximum slice count supported by DSC sink or 0 its invalid
+> + */
+> +u8 drm_dp_dsc_sink_max_slice_count(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP=
+_SIZE],
+> +				   bool is_edp)
+> +{
+> +	return fls(drm_dp_dsc_sink_slice_count_mask(dsc_dpcd, is_edp));
+>  }
+>  EXPORT_SYMBOL(drm_dp_dsc_sink_max_slice_count);
+> =20
+> diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/dr=
+m_dp_helper.h
+> index df2f24b950e4c..85e868238e287 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -206,6 +206,9 @@ drm_dp_is_branch(const u8 dpcd[DP_RECEIVER_CAP_SIZE])
+> =20
+>  /* DP/eDP DSC support */
+>  u8 drm_dp_dsc_sink_bpp_incr(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_SIZE])=
+;
+> +u32 drm_dp_dsc_slice_count_to_mask(int slice_count);
+> +u32 drm_dp_dsc_sink_slice_count_mask(const u8 dsc_dpcd[DP_DSC_RECEIVER_C=
+AP_SIZE],
+> +				     bool is_edp);
+>  u8 drm_dp_dsc_sink_max_slice_count(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP=
+_SIZE],
+>  				   bool is_edp);
+>  u8 drm_dp_dsc_sink_line_buf_depth(const u8 dsc_dpcd[DP_DSC_RECEIVER_CAP_=
+SIZE]);
 
-Am 09.12.25 um 09:22 schrieb Helge Deller:
-> On 12/9/25 08:27, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 09.12.25 um 05:27 schrieb Chintan Patel:
->>> Hi all,
->>>
->>> This small series makes several legacy fbdev drivers buildable with
->>> CONFIG_FB_DEVICE=n. Currently, multiple fbdev drivers rely on 
->>> fb_info->dev
->>> and sysfs attribute registration unconditionally, which leads to build
->>> failures whenever FB_DEVICE is disabled.
->>>
->>> Thomas previously noted that FB_DEVICE should eventually become 
->>> optional
->>> and that drivers should not depend on sysfs or fb_info->dev being 
->>> present
->>> unless the Kconfig explicitly selects it. This series pushes in that
->>> direction by tightening the FB_DEVICE dependency boundary without 
->>> changing
->>> any runtime behaviour when FB_DEVICE=y.
->>>
->>> What this series does *not* change
->>>
->>> - No functional behaviour changes when FB_DEVICE=y.
->>> - No removal of sysfs interfaces.
->>> - No changes to fbops, memory allocation, or display update paths.
->>>
->>> Build & test coverage
->>>
->>> Tested with the following combinations:
->>>
->>> 1. **FB=y, FB_DEVICE=y**
->>>     - Baseline configuration; no regressions expected.
->>>
->>> 2. **FB=y, FB_DEVICE=n**
->>>     - Drivers build successfully.
->>>     - No sysfs attributes are created.
->>>     - fbdev devices operate normally (where applicable).
->>>
->>> 3. **FB=n**
->>>     - Drivers depend on FB, so they properly do not build, unchanged.
->>>
->>> Motivation
->>>
->>> This moves fbdev closer to supporting FB_DEVICE as truly optional, 
->>> helps
->>> reduce Kconfig entanglement, and clears several long-standing TODO 
->>> items
->>> as suggested by Thomas Zimmermann around legacy sysfs usage inside 
->>> fbdev
->>> drivers.
->>>
->>> Feedback is welcome, especially on whether the guard boundaries around
->>> sysfs are placed correctly or whether more logic should be pulled under
->>> CONFIG_FB_DEVICE.
->>
->> I left a comment on the first patch. If things still build nicely, then
->>
->> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->>
->> for the series.
->
-> This whole series adds a whole lot of ifdef'ery, which I think is the
-> worst approach. It makes the code less readable and leads to two code
-> paths, which may trigger different build errors depending on the config.
->
-> I'm sure it must be possible to do the same without adding more #ifdefs,
-> e.g. by introducing a function like   dev_of_fbinfo(fbinfo)  which
-> simply returns NULL for the FB_DEVICE=n case.  Then, that value can be 
-> tested
-> like
->     if (dev_of_fbinfo(fbinfo))
->         {...do-the-things...}
-> For the FB_DEVICE=n case this will then be optimized out by the compiler,
-> while you still have full compiler syntax checking.
->
-> Thoughts?
+Reviewed-by: Luca Coelho <luciano.coelho@intel.com>
 
-Your choice. I don't see this as an important fix. The FB_DEVICE=n case 
-is mostly useful for DRM-based systems that do not want to expose fbdev 
-interfaces to user space. Those are the vast majority today. The very 
-few special builds with fbdev drivers would likely use FB_DEVICE=y anyway.
-
-Best regards
-Thomas
-
->
-> Helge
->
-
--- 
 --
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+Cheers,
+Luca.
