@@ -2,60 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66ECACB047A
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 15:27:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59654CB048E
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 15:29:02 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ED4C10E63F;
-	Tue,  9 Dec 2025 14:27:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47F6F10E62C;
+	Tue,  9 Dec 2025 14:29:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FMvR9bZ3";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="ItqgDRTB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1516910E64F;
- Tue,  9 Dec 2025 14:27:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1765290460;
- bh=fH/yI37b5CK9f8w3kxUP+w4Moli9Bpyfut5heK/ikhg=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=FMvR9bZ3AcGXFQnqGk1Yx3Uo5+eJPUlqPh7rok1EJ7EvYjEogXTjJab8p3cC+mzHf
- CRH4WQXITPwHDxnXSTeTFle5jdQYO7H7qEIs9WdBKIed7QvDx86tYEsg4QphPU/knb
- k9W6XNxjOmU8Af/QwZaq9dN0Uja5iSRclQa34AS5dWLpTaNrrJaliM+JFyHjLHd4ae
- zP1LT7f5wbzIpJ8X0W6qxxHjFQJTdhxrs104gjyZw7WvVpilOb6FNaHUkmcL55Yxug
- 4bcNzM9CP0nkzH9fo3rN384vN863GIYJ+OTpsPKVH8fvozUHcifhNGB1Ykqlg7f06I
- Bl/L8v41ZgwDQ==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4BBC10E62C;
+ Tue,  9 Dec 2025 14:28:57 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id A5A3E17E1216;
- Tue,  9 Dec 2025 15:27:39 +0100 (CET)
-Date: Tue, 9 Dec 2025 15:27:34 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: simona@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, ogabbay@kernel.org, mamin506@gmail.com,
- lizhi.hou@amd.com, maciej.falkowski@linux.intel.com,
- karol.wachowski@linux.intel.com, tomeu@tomeuvizoso.net,
- frank.binns@imgtec.com, matt.coster@imgtec.com, yuq825@gmail.com,
- robh@kernel.org, steven.price@arm.com, adrian.larumbe@collabora.com,
- liviu.dudau@arm.com, mwen@igalia.com, kraxel@redhat.com,
- dmitry.osipenko@collabora.com, gurchetansingh@chromium.org,
- olvaffe@gmail.com, corbet@lwn.net, dri-devel@lists.freedesktop.org,
- lima@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-doc@vger.kernel.org
-Subject: Re: [RFC][PATCH 00/13] drm: Introduce GEM-UMA memory management
-Message-ID: <20251209152734.6851f3ac@fedora>
-In-Reply-To: <20251209140141.94407-1-tzimmermann@suse.de>
-References: <20251209140141.94407-1-tzimmermann@suse.de>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4dQh6t4MXXz9tfC;
+ Tue,  9 Dec 2025 15:28:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1765290534; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kH+Y9KeknWI8JyVBlC0VzCDXKp47PFORc9ZJs04hGUM=;
+ b=ItqgDRTBLdpQvGmuY3+kLXZnjLHuvuY78GzWFaNJ8IE0gYHSLK50WZ0NVormLZYbMroPqo
+ faAJcaYBK9bfTyv+OUJrruhPs0+aSAbpvEfjIxxpyIkHK0771vEie0ADkHIJw3K64xA2Ab
+ ndcWWl1OXPfgWYh/TqUf5UiWEYPPlwfLpuGI0XYOsvqOXo0M/91bqfI3KvfSAdLqXPjafu
+ J8wJfzt0M7nxECeouqVbLRHJPBh6sOqsgDZdd5JETQ/Q3fAAfJj1ZU42xsCxfCGMxelDtQ
+ /qwGvYHgPLDNc2DT00w7syi7hfcwEr0ASb6XdvKitrGBDoAYWWBOdYnCjOgXCQ==
+Message-ID: <fb93bfa5f32025ce187153d0eeb47c43ec8cec7b.camel@mailbox.org>
+Subject: Re: [PATCH] drm/sched: run free_job work on timeout workqueue
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ phasta@kernel.org, Matthew Brost <matthew.brost@intel.com>
+Cc: vitaly.prosyak@amd.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>, 
+ dakr@kernel.org, Boris Brezillon <boris.brezillon@collabora.com>, Lucas
+ Stach <l.stach@pengutronix.de>
+Date: Tue, 09 Dec 2025 15:28:49 +0100
+In-Reply-To: <d846a1dd-a705-410a-a043-ffae43bada57@amd.com>
+References: <20251128182235.47912-1-vitaly.prosyak@amd.com>
+ <cdecd1e2-de0d-466f-b98b-927b2f364f79@amd.com>
+ <c56ecd19d7ddc1f1ed4e7e9e13388c647de855b1.camel@mailbox.org>
+ <49de5988-ea47-4d36-ba25-8773b9e364e2@amd.com>
+ <aTMW0UCGQuE+MXLk@lstrano-desk.jf.intel.com>
+ <21699026216379f294d6597ed6febd187229ffb9.camel@mailbox.org>
+ <aTcf4o0huubgUPIQ@lstrano-desk.jf.intel.com>
+ <aTcguvAQCZ07xD/C@lstrano-desk.jf.intel.com>
+ <212ecf88-b175-44cc-af3f-7371340ed480@amd.com>
+ <aTdFgVM5s/H5tc4G@lstrano-desk.jf.intel.com>
+ <b0781c7fd90c51394ec60faa71222fc3af06bb0c.camel@mailbox.org>
+ <e99a2e97-3058-4501-ad22-457ede493a59@amd.com>
+ <3e780e52dc0a7f1267e814c895e9d5e840a8c913.camel@mailbox.org>
+ <d846a1dd-a705-410a-a043-ffae43bada57@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 4e2b34a21ee5ee42a46
+X-MBO-RS-META: 59x7133399ppjrfs4igxfy93x4hgts4a
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,167 +76,144 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue,  9 Dec 2025 14:41:57 +0100
-Thomas Zimmermann <tzimmermann@suse.de> wrote:
+On Tue, 2025-12-09 at 15:19 +0100, Christian K=C3=B6nig wrote:
+> On 12/9/25 14:51, Philipp Stanner wrote:
+> ...
+> > > > > > > > > How can free_job_work, through drm_sched_get_finished_job=
+(), get and
+> > > > > > > > > free the same job?
+> > > > > > > > >=20
+> > > > > > > >=20
+> > > > > > > > It can't.
+> > > > > >=20
+> > > > > > But exactly that happens somehow. Don't ask me how, I have no i=
+dea.
+> > > >=20
+> > > > *Philipp refuses to elaborate and asks Christian*
+> > > >=20
+> > > > How are you so sure about that's what's happening? Anyways, assumin=
+g it
+> > > > is true:
+> > >=20
+> > > [=C2=A0 489.134585] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > [=C2=A0 489.141949] BUG: KASAN: slab-use-after-free in amdgpu_device_=
+gpu_recover+0x968/0x990 [amdgpu]
+> > > [=C2=A0 489.151339] Read of size 4 at addr ffff88a0d5f4214c by task k=
+worker/u128:0/12
+> > > [=C2=A0 489.158686]=20
+> > > [=C2=A0 489.160277] CPU: 11 UID: 0 PID: 12 Comm: kworker/u128:0 Taint=
+ed: G=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 E=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 6.16.0-1289896.3.zuul.0ec208edc00d48a9=
+bae1719675cb777f #1 PREEMPT(voluntary)=20
+> > > [=C2=A0 489.160285] Tainted: [E]=3DUNSIGNED_MODULE
+> > > [=C2=A0 489.160288] Hardware name: TYAN B8021G88V2HR-2T/S8021GM2NR-2T=
+, BIOS V1.03.B10 04/01/2019
+> > > [=C2=A0 489.160292] Workqueue: amdgpu-reset-dev drm_sched_job_timedou=
+t [gpu_sched]
+> > > [=C2=A0 489.160306] Call Trace:
+> > > [=C2=A0 489.160308]=C2=A0 <TASK>
+> > > [=C2=A0 489.160311]=C2=A0 dump_stack_lvl+0x64/0x80
+> > > [=C2=A0 489.160321]=C2=A0 print_report+0xce/0x630
+> > > [=C2=A0 489.160328]=C2=A0 ? _raw_spin_lock_irqsave+0x86/0xd0
+> > > [=C2=A0 489.160333]=C2=A0 ? __pfx__raw_spin_lock_irqsave+0x10/0x10
+> > > [=C2=A0 489.160337]=C2=A0 ? amdgpu_device_gpu_recover+0x968/0x990 [am=
+dgpu]
+> > > [=C2=A0 489.161044]=C2=A0 kasan_report+0xb8/0xf0
+> > > [=C2=A0 489.161049]=C2=A0 ? amdgpu_device_gpu_recover+0x968/0x990 [am=
+dgpu]
+> > > [=C2=A0 489.161756]=C2=A0 amdgpu_device_gpu_recover+0x968/0x990 [amdg=
+pu]
+> > > [=C2=A0 489.162464]=C2=A0 ? __pfx_amdgpu_device_gpu_recover+0x10/0x10=
+ [amdgpu]
+> > > [=C2=A0 489.163170]=C2=A0 ? amdgpu_coredump+0x1fd/0x4c0 [amdgpu]
+> > > [=C2=A0 489.163904]=C2=A0 amdgpu_job_timedout+0x642/0x1400 [amdgpu]
+> > > [=C2=A0 489.164698]=C2=A0 ? __pfx__raw_spin_lock+0x10/0x10
+> > > [=C2=A0 489.164703]=C2=A0 ? __pfx_amdgpu_job_timedout+0x10/0x10 [amdg=
+pu]
+> > > [=C2=A0 489.165496]=C2=A0 ? _raw_spin_lock+0x75/0xc0
+> > > [=C2=A0 489.165499]=C2=A0 ? __pfx__raw_spin_lock+0x10/0x10
+> > > [=C2=A0 489.165503]=C2=A0 drm_sched_job_timedout+0x1b0/0x4b0 [gpu_sch=
+ed]
+> >=20
+> > That doesn't show that it's free_job() who freed the memory.
+>=20
+> [=C2=A0 489.405936] Freed by task 2501:
+> [=C2=A0 489.409175]=C2=A0 kasan_save_stack+0x20/0x40
+> [=C2=A0 489.413122]=C2=A0 kasan_save_track+0x14/0x30
+> [=C2=A0 489.417064]=C2=A0 kasan_save_free_info+0x3b/0x60
+> [=C2=A0 489.421355]=C2=A0 __kasan_slab_free+0x37/0x50
+> [=C2=A0 489.425384]=C2=A0 kfree+0x1fe/0x3f0
+> [=C2=A0 489.428547]=C2=A0 drm_sched_free_job_work+0x50e/0x930 [gpu_sched]
+> [=C2=A0 489.434326]=C2=A0 process_one_work+0x679/0xff0
 
-> Duplicate GEM-SHMEM to GEM-UMA. Convert all DRM drivers for UMA
-> systems if they currently use GEM-SHMEM.
-> 
-> Many DRM drivers for hardware with Unified Memory Architecture (UMA)
-> currently builds upon GEM-SHMEM and extends the helpers with features
-> for managing the GPU MMU. This allows the GPU to access the GEM buffer
-> content for its operation.
-> 
-> There is another, larger, set of DRM drivers that use GEM-SHMEM merely
-> as buffer management with no hardware support. These drivers copy the
-> buffer content to the GPU on each page flip. The GPU itself has no direct
-> access. Hardware of this type is usually in servers, behind slow busses
-> (SPI, USB), or provided by firmware (drivers in sysfb/).
-> 
-> After some discussion with Boris on the future of GEM-SHMEM, it seems
-> to me that both use cases more and more diverge from each other. The
-> most prominent example is the implementation of gem_prime_import,
-> where both use cases use distinct approaches.
-> 
-> So we discussed the introduction of a GEM-UMA helper library for
-> UMA-based hardware. GEM-UMA will remain flexible enough for drivers
-> to extend it for their use case. GEM-SHMEM will become focused on the
-> simple-hardware use case. The benefit for both libraries is that they
-> will be easier to understand and maintain. GEM-SHMEM can be simplified
-> signiifcantly, I think.
-> 
-> This RFC series introduces GEM-UMA and converts the UMA-related drivers.
-> 
-> Patches 1 and 2 fix issues in GEM-SHMEM, so that we don't duplicate
-> errornous code.
-> 
-> Patch 3 copies GEM-SHMEM to GEM-UMA. Patch 4 then does soem obvious
-> cleanups of unnecessary code.
+The time stamp shows that this free here took place after the UAF
+occurred :D
 
-Instead of copying the code as-is, I'd rather take a step back and think
-about what we need and how we want to handle more complex stuff, like
-reclaim. I've started working on a shrinker for panthor [1], and as part
-of this series, I've added a commit implementing just enough to replace
-what gem-shmem currently provides. Feels like the new GEM-UMA thing
-could be designed on a composition rather than inheritance model,
-where we have sub-components (backing, cpu_map, gpu_map) that can be
-pulled in and re-used by the driver implementation. The common helpers
-would take those sub-components instead of a plain GEM object. That
-would leave the drivers free of how their internal gem_object fields are
-laid out and wouldn't require overloading the ->gem_create_object()
-function. It seems to be that it would better match the model you were
-describing the other day.
 
-> 
-> Patches 5 to 13 update the drivers that can be converted to GEM-UMA.
-> These changes are just symbol renaming. There are so far no functional
-> differences between the memory managers.
-> 
-> A gave GEM-UMA some smoke testing by running virtgpu.
+> =C2=A0
+> > @Vitaly: Can you reproduce the bug? If yes, adding debug prints
+> > printing the jobs' addresses when allocated and when freed in
+> > free_job() could be a solution.
+>=20
+> We can reproduce this pretty reliable in our CI now.
+>=20
+> > I repeat, we need more info :)
+> >=20
+> > >=20
+> > > >=20
+> > > > > >=20
+> > > > > > My educated guess is that the job somehow ends up on the pendin=
+g list again.
+> > > >=20
+> > > > then the obvious question would be: does amdgpu touch the pending_l=
+ist
+> > > > itself, or does it only ever modify it through proper scheduler API=
+s?
+> > >=20
+> > > My educated guess is that drm_sched_stop() inserted the job back into=
+ the pending list, but I still have no idea how it is possible that free_jo=
+b is running after the scheduler is stopped.
+> > >=20
+> >=20
+> > And my uneducated guess is that it's happening in amdgpu. It seems a
+> > sched_job lives inside an amdgpu_job. Can the latter be freed at other
+> > places than free_job()?
+>=20
+> Nope, except for error handling during creation and initialization.
+>=20
+> > timedout_job() and free_job() cannot race against each other regarding
+> > jobs. It's locked.
+> >=20
+> > But maybe investigate Matthew's suggestion and look into the guilty
+> > mechanism, too.
+>=20
+> That looks just like a leftover from earlier attempts to fix the same pro=
+blem.
+>=20
+> I mean look at the git history of how often that problem came up...
 
-[1]https://gitlab.freedesktop.org/bbrezillon/linux/-/commits/panthor-shrinker-revisited/drivers?ref_type=heads
-[2]https://gitlab.freedesktop.org/bbrezillon/linux/-/commit/4e6927fc2c60265b77a5a88013f55377bc4f4ab3
+If that's the case, then we don't want to yet add another solution to a
+problem we don't fully understand and which, apparently, only occurs in
+amdgpu today.
 
-> 
-> Thomas Zimmermann (13):
->   drm/gem-shmem: Fix typos in documentation
->   drm/gem-shmem: Fix the MODULE_LICENSE() string
->   drm: Add GEM-UMA helpers for memory management
->   drm/gem-uma: Remove unused interfaces
->   drm/imagination: Use GEM-UMA helpers for memory management
->   drm/lima: Use GEM-UMA helpers for memory management
->   drm/panfrost: Use GEM-UMA helpers for memory management
->   drm/panthor: Use GEM-UMA helpers for memory management
->   drm/v3d: Use GEM-UMA helpers for memory management
->   drm/virtgpu: Use GEM-UMA helpers for memory management
->   accel/amdxdna: Use GEM-UMA helpers for memory management
->   accel/ivpu: Use GEM-UMA helpers for memory management
->   accel/rocket: Use GEM-UMA helpers for memory management
-> 
->  Documentation/gpu/drm-mm.rst                  |  12 +
->  drivers/accel/amdxdna/Kconfig                 |   2 +-
->  drivers/accel/amdxdna/aie2_ctx.c              |   1 -
->  drivers/accel/amdxdna/aie2_message.c          |   1 -
->  drivers/accel/amdxdna/aie2_pci.c              |   1 -
->  drivers/accel/amdxdna/aie2_psp.c              |   1 -
->  drivers/accel/amdxdna/aie2_smu.c              |   1 -
->  drivers/accel/amdxdna/amdxdna_ctx.c           |   7 +-
->  drivers/accel/amdxdna/amdxdna_gem.c           |  49 +-
->  drivers/accel/amdxdna/amdxdna_gem.h           |   5 +-
->  .../accel/amdxdna/amdxdna_mailbox_helper.c    |   1 -
->  drivers/accel/amdxdna/amdxdna_pci_drv.c       |   1 -
->  drivers/accel/amdxdna/amdxdna_sysfs.c         |   1 -
->  drivers/accel/ivpu/Kconfig                    |   2 +-
->  drivers/accel/ivpu/ivpu_gem.c                 |  36 +-
->  drivers/accel/ivpu/ivpu_gem.h                 |   4 +-
->  drivers/accel/rocket/Kconfig                  |   2 +-
->  drivers/accel/rocket/rocket_gem.c             |  46 +-
->  drivers/accel/rocket/rocket_gem.h             |   6 +-
->  drivers/gpu/drm/Kconfig                       |   9 +
->  drivers/gpu/drm/Kconfig.debug                 |   1 +
->  drivers/gpu/drm/Makefile                      |   4 +
->  drivers/gpu/drm/drm_fbdev_uma.c               | 203 +++++
->  drivers/gpu/drm/drm_gem_shmem_helper.c        |   5 +-
->  drivers/gpu/drm/drm_gem_uma_helper.c          | 787 ++++++++++++++++++
->  drivers/gpu/drm/imagination/Kconfig           |   4 +-
->  drivers/gpu/drm/imagination/pvr_drv.c         |   2 +-
->  drivers/gpu/drm/imagination/pvr_free_list.c   |   2 +-
->  drivers/gpu/drm/imagination/pvr_gem.c         |  74 +-
->  drivers/gpu/drm/imagination/pvr_gem.h         |  12 +-
->  drivers/gpu/drm/lima/Kconfig                  |   4 +-
->  drivers/gpu/drm/lima/lima_drv.c               |   2 +-
->  drivers/gpu/drm/lima/lima_gem.c               |  30 +-
->  drivers/gpu/drm/lima/lima_gem.h               |   6 +-
->  drivers/gpu/drm/panfrost/Kconfig              |   2 +-
->  drivers/gpu/drm/panfrost/panfrost_drv.c       |   2 +-
->  drivers/gpu/drm/panfrost/panfrost_gem.c       |  30 +-
->  drivers/gpu/drm/panfrost/panfrost_gem.h       |   6 +-
->  .../gpu/drm/panfrost/panfrost_gem_shrinker.c  |  30 +-
->  drivers/gpu/drm/panfrost/panfrost_mmu.c       |   8 +-
->  drivers/gpu/drm/panfrost/panfrost_perfcnt.c   |   6 +-
->  drivers/gpu/drm/panthor/Kconfig               |   2 +-
->  drivers/gpu/drm/panthor/panthor_drv.c         |   2 +-
->  drivers/gpu/drm/panthor/panthor_fw.c          |   4 +-
->  drivers/gpu/drm/panthor/panthor_gem.c         |  40 +-
->  drivers/gpu/drm/panthor/panthor_gem.h         |   8 +-
->  drivers/gpu/drm/panthor/panthor_mmu.c         |  10 +-
->  drivers/gpu/drm/panthor/panthor_sched.c       |   1 -
->  drivers/gpu/drm/tests/Makefile                |   1 +
->  drivers/gpu/drm/tests/drm_gem_uma_test.c      | 385 +++++++++
->  drivers/gpu/drm/v3d/Kconfig                   |   2 +-
->  drivers/gpu/drm/v3d/v3d_bo.c                  |  45 +-
->  drivers/gpu/drm/v3d/v3d_drv.h                 |   4 +-
->  drivers/gpu/drm/v3d/v3d_mmu.c                 |   9 +-
->  drivers/gpu/drm/virtio/Kconfig                |   4 +-
->  drivers/gpu/drm/virtio/virtgpu_drv.c          |   4 +-
->  drivers/gpu/drm/virtio/virtgpu_drv.h          |  12 +-
->  drivers/gpu/drm/virtio/virtgpu_object.c       |  64 +-
->  drivers/gpu/drm/virtio/virtgpu_plane.c        |   6 +-
->  drivers/gpu/drm/virtio/virtgpu_vq.c           |   6 +-
->  include/drm/drm_fbdev_uma.h                   |  20 +
->  include/drm/drm_gem_uma_helper.h              | 293 +++++++
->  62 files changed, 2018 insertions(+), 312 deletions(-)
->  create mode 100644 drivers/gpu/drm/drm_fbdev_uma.c
->  create mode 100644 drivers/gpu/drm/drm_gem_uma_helper.c
->  create mode 100644 drivers/gpu/drm/tests/drm_gem_uma_test.c
->  create mode 100644 include/drm/drm_fbdev_uma.h
->  create mode 100644 include/drm/drm_gem_uma_helper.h
-> 
-> 
-> base-commit: 0a21e96e0b6840d2a4e0b45a957679eeddeb4362
-> prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-> prerequisite-patch-id: a5a973e527c88a5b47053d7a72aefe0b550197cb
-> prerequisite-patch-id: 719d09751d38f5da743beed6266585ee063e1e29
-> prerequisite-patch-id: 0bbc85bc6b528c32592e07f4ceafa51795c4cad9
-> prerequisite-patch-id: c856d9c8a026e3244c44ec829e426e0ad4a685ab
-> prerequisite-patch-id: 13441c9ed3062ae1448a53086559dfcbbd578177
-> prerequisite-patch-id: 951c039657c1f58e4b6e36bc01c7a1c69ed59767
-> prerequisite-patch-id: 4370b8b803ca439666fb9d2beb862f6e78347ce3
-> prerequisite-patch-id: ebbaad226ed599f7aad4784fb3f4aaebe34cb110
-> prerequisite-patch-id: cb907c3e3e14de7f4d13b429f3a2a88621a8a9fe
-> prerequisite-patch-id: 0e243b426742122b239af59e36d742da5795a8b1
-> prerequisite-patch-id: 120f97fa1af9891375a0dcf52c51c1907b01fe6a
+What we need is an analysis of what's happening. Only then can we
+decide what to do.
+
+Just switching the workqueues without such good justification receives
+a NACK from me; also because of the unforseeable consequences =E2=80=93
+free_job() is invoked extremely frequently, timedout_job() very rarely.
+Drivers will not expect that their timeout_wq will be flooded with so
+many work items. That could very certainly change behavior, cause
+performance regressions and so on.
+
+
+P.
+
+
 
