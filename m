@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CD2CAFBAA
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 12:15:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10957CAFBB6
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 12:15:43 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E2C210E515;
-	Tue,  9 Dec 2025 11:15:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03F3B10E519;
+	Tue,  9 Dec 2025 11:15:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="kI+f29ce";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="i5s03aRo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D52810E515
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 11:15:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1765278893; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B54B10E519
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 11:15:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1765278898; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=eEZNGIJtKeP67NSw2lOuxu0zvU+Sv6FLpNuoU8UHJ//dKfUQahi2kqqrp57Y2jYWAXy7gpppu7tDRYxQwxF2AKDS+/f50eqflugZvuqGgo2XG3j3sNJjQ2DfjOzPLIkmMx2QvOez7vmOoQuY1FubEe6whWd/bAqiaU01GVBg6lg=
+ b=QskNeIHmyxkW6r7hOymCTgi+3yBDAaGfXYsugs7RhCnkc/IN8QBZo6IV+8iSf3rX8TNAWhrftNkK2h0DennWRnPOPcmVBsAR7kbTKKP38pdL6i3tOXbM93zC9KN+a+B0dacjTxBSoY32D3KjWiFIZW24/JXJeWTA6S7Rxh0efT4=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1765278893;
+ s=zohoarc; t=1765278898;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=Cg4WUfMDQUwvwvbTJsa9XBH4T44qYNwtUMAw30CfLvQ=; 
- b=iqn96Oh7vG0MxJEq0vEole2StmszatnCtBfprwo+SlhXnoFbzGgyCnrWff2Q62fFr/LUUzPEnzpAS20WspFnIU+XATqR3Uxj5okYjYL89JSmTapz2rNXEbN1h9k8NH2BqK4EPs/o794VWz2RoIxa3xnI/K3HWft462Y9tWHXQ2Y=
+ bh=p8rzuw22G5hQ+PO+mu50soCKPQPRHc3OuYqSu+o6ifI=; 
+ b=DG/qRMP8xBpdSQ0mAYHGfXdfhOSy8t14Zj3CPtvR/0oQ+6uVd1jU+LXPH1TU3c4Jp3b4pe6FTYCqDedLa6B9h+fJxgqkpMxCHiGNN4NRWl9rs1eqJCO+NseoRCBvclb4hz5l0U5IAAgTuUDdFQUrj69vfd9VzboBN29zS2TsuuM=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765278893; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765278897; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=Cg4WUfMDQUwvwvbTJsa9XBH4T44qYNwtUMAw30CfLvQ=;
- b=kI+f29cemP/nKIWH4glFjpkkimX11G7DmPWs9qgbks6DokueOayvPgF13hpE02PW
- SKh+pa/jYNzzl78Gmkvd/NQs/FvcU2p0eZOyekmY759lb8Dg8iAy48+e0oQ+1BLwJmG
- iaPTG0L2Jufp7HsTX6PSwjYunGk+Q0A4+krKmn1I=
-Received: by mx.zohomail.com with SMTPS id 1765278892854392.0031445733065;
- Tue, 9 Dec 2025 03:14:52 -0800 (PST)
+ bh=p8rzuw22G5hQ+PO+mu50soCKPQPRHc3OuYqSu+o6ifI=;
+ b=i5s03aRofoas90ahcKcXbhprV3T/54RghMwPCIYArQV80zMmASbFC0r4ZkmOtDv7
+ aifwkcKLeBagqzZnLmL2EY9WtlURfFKp2tf6KRrDmyEhw4GzyLUQoOE76JxVTX8BXNf
+ wQqFMaCv2QvWxo01RIdX/fGoYn77Z5EhAkZKaMLA=
+Received: by mx.zohomail.com with SMTPS id 1765278896958713.6182319686611;
+ Tue, 9 Dec 2025 03:14:56 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Tue, 09 Dec 2025 12:14:14 +0100
-Subject: [PATCH v3 1/8] drm/rockchip: vop2: Switch impossible format
+Date: Tue, 09 Dec 2025 12:14:15 +0100
+Subject: [PATCH v3 2/8] drm/rockchip: vop2: Switch impossible pos
  conditional to WARN_ON
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251209-vop2-atomic-fixups-v3-1-07c48f0f1f0d@collabora.com>
+Message-Id: <20251209-vop2-atomic-fixups-v3-2-07c48f0f1f0d@collabora.com>
 References: <20251209-vop2-atomic-fixups-v3-0-07c48f0f1f0d@collabora.com>
 In-Reply-To: <20251209-vop2-atomic-fixups-v3-0-07c48f0f1f0d@collabora.com>
 To: Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
@@ -76,30 +76,59 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Daniel Stone <daniels@collabora.com>
 
-We should never be able to create a framebuffer with an unsupported
-format, so throw a warning if this ever happens, instead of attempting
-to stagger on.
+We already clip the plane to the display bounds in atomic_check, and
+ensure that it is sufficiently sized. Instead of trying to catch this
+and adjust for it in atomic_update, just assert that atomic_check has
+done its job.
 
 Signed-off-by: Daniel Stone <daniels@collabora.com>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 29 +++++++++-------------------
+ 1 file changed, 9 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 498df0ce4680..20b49209ddcd 100644
+index 20b49209ddcd..81b3eba07095 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1030,7 +1030,8 @@ static int vop2_plane_atomic_check(struct drm_plane *plane,
- 		return 0;
+@@ -1214,28 +1214,17 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ 	src_w = drm_rect_width(src) >> 16;
+ 	src_h = drm_rect_height(src) >> 16;
+ 	dsp_w = drm_rect_width(dest);
+-
+-	if (dest->x1 + dsp_w > adjusted_mode->hdisplay) {
+-		drm_dbg_kms(vop2->drm,
+-			    "vp%d %s dest->x1[%d] + dsp_w[%d] exceed mode hdisplay[%d]\n",
+-			    vp->id, win->data->name, dest->x1, dsp_w, adjusted_mode->hdisplay);
+-		dsp_w = adjusted_mode->hdisplay - dest->x1;
+-		if (dsp_w < 4)
+-			dsp_w = 4;
+-		src_w = dsp_w * src_w / drm_rect_width(dest);
+-	}
+-
+ 	dsp_h = drm_rect_height(dest);
  
- 	format = vop2_convert_format(fb->format->format);
--	if (format < 0)
-+	/* We shouldn't be able to create a fb for an unsupported format */
-+	if (WARN_ON(format < 0))
- 		return format;
+-	if (dest->y1 + dsp_h > adjusted_mode->vdisplay) {
+-		drm_dbg_kms(vop2->drm,
+-			    "vp%d %s dest->y1[%d] + dsp_h[%d] exceed mode vdisplay[%d]\n",
+-			    vp->id, win->data->name, dest->y1, dsp_h, adjusted_mode->vdisplay);
+-		dsp_h = adjusted_mode->vdisplay - dest->y1;
+-		if (dsp_h < 4)
+-			dsp_h = 4;
+-		src_h = dsp_h * src_h / drm_rect_height(dest);
+-	}
++	/* drm_atomic_helper_check_plane_state calls drm_rect_clip_scaled for
++	 * us, which keeps our planes bounded within the CRTC active area
++	 */
++	WARN_ON(dest->x1 + dsp_w > adjusted_mode->hdisplay);
++	WARN_ON(dest->y1 + dsp_h > adjusted_mode->vdisplay);
++	WARN_ON(dsp_w < 4);
++	WARN_ON(dsp_h < 4);
++	WARN_ON(src_w < 4);
++	WARN_ON(src_h < 4);
  
- 	/* Co-ordinates have now been clipped */
+ 	/*
+ 	 * This is workaround solution for IC design:
 
 -- 
 2.52.0
