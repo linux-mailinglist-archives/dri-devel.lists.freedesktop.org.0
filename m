@@ -2,65 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D27CAFBA4
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 12:15:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 846DBCAFBA1
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 12:14:23 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D3BFA10E36F;
-	Tue,  9 Dec 2025 11:15:03 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="YdIEMjnY";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE6BD10E514;
+	Tue,  9 Dec 2025 11:14:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1C4110E36F
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 11:15:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1765278889; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=VhnsPR1rvAoVGWxtOAyZq1HIJCg2B1KjEIpPcmDWwu9iiHNEFksb0RIHkEFzII/DVDkXLLSlKwyw56/r2sEbHvG3EnOcY1gdsM3W6p14tYlkLY/EiBMy+3jZ7LVih8ol2JisVmboNHSzMe+pMy3UE+TYbI8O6MdO691+u69QfJU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1765278889;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=6/8dkdH3MgNUPOg0FM5uypg5HfcPpMsGkm1+bpgmHdQ=; 
- b=N4QuVvGYAtYVCh4EPxfd94UptzBXUW62ffbRe5ZZtPPEMnrXh/hxRF+4g2/BlxNtBbepnxMnsVMUazY8l+1SJYU1DbtFxBQIVuAtplJ4iQvIP8I3nOFEYxxOxFJsUiTGnUV3ZtcGa+/y6SFb3/lpErhjVX65KolNMTHCTmQkHWY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
- dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765278889; 
- s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
- h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
- bh=6/8dkdH3MgNUPOg0FM5uypg5HfcPpMsGkm1+bpgmHdQ=;
- b=YdIEMjnYpE3y5Sfui5dALLct/hVlm/SKgagA0xTfOCT66mhSV9PME6EMa5zT+jVF
- WM1e9uay5ppaJyZ99LDlVhnNWaFyGPOeJUltlTCxSRgPnnvKCrPCAJeeVlTaRjzNk76
- XKIKcgT8ZzLcQzEkW7aT5UzJzueF5c7LWYKMgC4g=
-Received: by mx.zohomail.com with SMTPS id 1765278888611450.7794900965429;
- Tue, 9 Dec 2025 03:14:48 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: [PATCH v3 0/8] drm/rockchip: No more post-atomic_check fixups
-Date: Tue, 09 Dec 2025 12:14:13 +0100
-Message-Id: <20251209-vop2-atomic-fixups-v3-0-07c48f0f1f0d@collabora.com>
+Received: from coelho.fi (coelho.fi [88.99.146.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A5F4E10E1CF;
+ Tue,  9 Dec 2025 11:14:18 +0000 (UTC)
+Received: from mobile-access-5d6aa7-235.dhcp.inet.fi ([93.106.167.235]
+ helo=[192.168.8.139])
+ by coelho.fi with esmtpsa (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ (Exim 4.98.2) (envelope-from <luca@coelho.fi>)
+ id 1vSvfa-00000000ggh-1BCQ; Tue, 09 Dec 2025 13:14:16 +0200
+Message-ID: <3a330b829308ca2ec6de8cffac890ee6e3cd95e7.camel@coelho.fi>
+From: Luca Coelho <luca@coelho.fi>
+To: imre.deak@intel.com
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Date: Tue, 09 Dec 2025 13:14:13 +0200
+In-Reply-To: <aTfxqfQ72KLZLGnz@ideak-desk>
+References: <20251127175023.1522538-1-imre.deak@intel.com>
+ <20251127175023.1522538-4-imre.deak@intel.com>
+ <a1dff2ea30fe3d2f25bab96da1963e8a308eb3c0.camel@coelho.fi>
+ <aTfxqfQ72KLZLGnz@ideak-desk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-7 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIYEOGkC/32OQQ6CMBBFr0Jm7ZharCIr72FYtGWQJkCxLQ2Gc
- HcruHb5/+S9Pwt4coY8lNkCjqLxxg4p5IcMdCuHJ6GpUwbOuDhxdsFoR44y2N5obMw8jR6Zzhm
- xW8GaQkACR0fpskkf1Z4dvabkDnsJSnpCbfvehDIbaA748wv4Aq3xwbr39lTkG/FvP3JkeG3UW
- SjVKFL1Xduuk8o6eUwjUK3r+gHUl+3O6QAAAA==
-X-Change-ID: 20251206-vop2-atomic-fixups-0c30e0980f85
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Daniel Stone <daniels@collabora.com>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, kernel@collabora.com, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.3
+X-Spam-Checker-Version: SpamAssassin 4.0.2 (2025-08-27) on farmhouse.coelho.fi
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=ham autolearn_force=no version=4.0.2
+Subject: Re: [PATCH 03/50] drm/i915/dp: Fix DSC sink's slice count
+ capability check
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,81 +53,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I'm taking over this series to get it across the finish line. Original
-cover letter from Daniel Stone on v1:
+On Tue, 2025-12-09 at 11:53 +0200, Imre Deak wrote:
+> On Tue, Dec 09, 2025 at 10:51:10AM +0200, Luca Coelho wrote:
+> > On Thu, 2025-11-27 at 19:49 +0200, Imre Deak wrote:
+> > > A DSC sink supporting DSC slice count N, not necessarily supports sli=
+ce
+> > > counts less than N. Hence the driver should check the sink's support =
+for
+> > > a particular slice count before using that slice count, fix
+> > > intel_dp_dsc_get_slice_count() accordingly.
+> > >=20
+> > > Cc: dri-devel@lists.freedesktop.org
+> > > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/i915/display/intel_dp.c | 18 +++++++++++++-----
+> > >  1 file changed, 13 insertions(+), 5 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/dr=
+m/i915/display/intel_dp.c
+> > > index 0ec82fcbcf48e..6d232c15a0b5a 100644
+> > > --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> > > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> > > @@ -1013,6 +1013,8 @@ u8 intel_dp_dsc_get_slice_count(const struct in=
+tel_connector *connector,
+> > >  				int num_joined_pipes)
+> > >  {
+> > >  	struct intel_display *display =3D to_intel_display(connector);
+> > > +	u32 sink_slice_count_mask =3D
+> > > +		drm_dp_dsc_sink_slice_count_mask(connector->dp.dsc_dpcd, false);
+> > >  	u8 min_slice_count, i;
+> > >  	int max_slice_width;
+> > >  	int tp_rgb_yuv444;
+> > > @@ -1084,9 +1086,9 @@ u8 intel_dp_dsc_get_slice_count(const struct in=
+tel_connector *connector,
+> > >  		    (!HAS_DSC_3ENGINES(display) || num_joined_pipes !=3D 4))
+> > >  			continue;
+> > > =20
+> > > -		if (test_slice_count >
+> > > -		    drm_dp_dsc_sink_max_slice_count(connector->dp.dsc_dpcd, false)=
+)
+> > > -			break;
+> > > +		if (!(drm_dp_dsc_slice_count_to_mask(test_slice_count) &
+> > > +		      sink_slice_count_mask))
+> > > +			continue;
+> > > =20
+> > >  		 /*
+> > >  		  * Bigjoiner needs small joiner to be enabled.
+> > > @@ -1103,8 +1105,14 @@ u8 intel_dp_dsc_get_slice_count(const struct i=
+ntel_connector *connector,
+> > >  			return test_slice_count;
+> > >  	}
+> > > =20
+> > > -	drm_dbg_kms(display->drm, "Unsupported Slice Count %d\n",
+> > > -		    min_slice_count);
+> > > +	/* Print slice count 1,2,4,..24 if bit#0,1,3,..23 is set in the mas=
+k. */
+> > > +	sink_slice_count_mask <<=3D 1;
+> > > +	drm_dbg_kms(display->drm,
+> > > +		    "[CONNECTOR:%d:%s] Unsupported slice count (min: %d, sink supp=
+orted: %*pbl)\n",
+> > > +		    connector->base.base.id, connector->base.name,
+> > > +		    min_slice_count,
+> > > +		    (int)BITS_PER_TYPE(sink_slice_count_mask), &sink_slice_count_m=
+ask);
+> > > +
+> > >  	return 0;
+> > >  }
+> > >=20
+> >=20
+> > I think this patch could be squashed into the previous one.  IMHO it
+> > makes it a bit easier to see how those functions defined in the
+> > previous patch would be used.
+>=20
+> The practice I follow is to keep the DRM core and driver changes in
+> separate patches. At least one reason for that is that the DRM core
+> patches may need to be applied to the DRM core trees separately.
 
-> Hi,
-> This series is a pretty small and consistent one for VOP2. The atomic
-> uAPI very clearly specifies that drivers should either do what userspace
-> requested (on a successful commit), or fail atomic_check if it is not
-> for any reason possible to do what userspace requested.
-> 
-> VOP2 is unfortunately littered with a bunch of cases where it will apply
-> fixups after atomic_check - doing something different to what userspace
-> requested, e.g. clipping or aligning regions - or throw error messages
-> into the log when userspace does request a condition which can't be met.
-> 
-> Doing something different to what was requested is bad because it
-> results in unexpected visual output which can look like artifacts.
-> Throwing errors into the log is bad because generic userspace will
-> reasonably attempt to try any configuration it can. For example,
-> throwing an error message on a plane not being aligned to a 16 pixel
-> boundary can result in 15 frames' worth of error output in the log when
-> a window is being animated across a screen.
-> 
-> This series removes all post-check fixups - failing the check if the
-> configuration cannot be applied - and also demotes all messages about
-> unsupported configurations to DEBUG_KMS.
-> 
-> Cheers,
-> Daniel
+Oh, of course, makes 100% sense.  I overlooked this point.
 
-Changes in v3:
-- Change the AFBC source rectangle debug message to talk about 4-pixel
-  alignment instead of 4-byte alignment.
-- Fix another eSmart->Esmart casing case in a debug message
-- Link to v2: https://lore.kernel.org/r/20251206-vop2-atomic-fixups-v2-0-7fb45bbfbebd@collabora.com
-
-Changes in v2:
-- Dropped patches [1, 5] as they were already applied.
-- Changed the patch subject to use prefix "drm/rockchip: vop2:" for the
-  remaining ones.
-- Fixed a checkpatch nag about commenting style in "Switch impossible
-  pos conditional to WARN_ON".
-- Reworded "eSmart" to "Esmart" for consistency, and to avoid drawing
-  Tim Apple's ire.
-- Make the hopefully impossible WARN_ON format conditional in
-  vop2_plane_atomic_check still bubble the error up to userspace,
-  instead of continuing on.
-- Use dest_w instead of dsp_w in patch "Enforce scaling workaround
-  in plane_check", to avoid a compiler error.
-- Only reject non-multiple-of-4-pixel-wide framebuffers on
-  RK3566/RK3568, as the other SoCs have no such limitation. (Thank you
-  to Andy Yan for doing the research to confirm this!)
-- Consequently also only WARN_ON if this condition is violated in
-  atomic_update on those SoCs.
-- Link to v1: https://lore.kernel.org/dri-devel/20251015110042.41273-1-daniels@collabora.com/
-
-Signed-off-by: Daniel Stone <daniels@collabora.com>
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
-Daniel Stone (8):
-      drm/rockchip: vop2: Switch impossible format conditional to WARN_ON
-      drm/rockchip: vop2: Switch impossible pos conditional to WARN_ON
-      drm/rockchip: vop2: Fix Esmart test condition
-      drm/rockchip: vop2: Enforce scaling workaround in plane_check
-      drm/rockchip: vop2: Enforce AFBC source alignment in plane_check
-      drm/rockchip: vop2: Enforce AFBC transform stride align in plane_check
-      drm/rockchip: vop2: Use drm_is_afbc helper function
-      drm/rockchip: vop2: Simplify format_mod_supported
-
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 137 ++++++++++++---------------
- 1 file changed, 62 insertions(+), 75 deletions(-)
----
-base-commit: 4e5a9b630580faea139e9837b4fba666db6bd728
-change-id: 20251206-vop2-atomic-fixups-0c30e0980f85
-
-Best regards,
--- 
-Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-
+--
+Cheers,
+Luca.
