@@ -2,128 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAD15CB123B
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 22:16:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B975CB12D6
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 22:25:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C209F10E02C;
-	Tue,  9 Dec 2025 21:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66AD110E1E6;
+	Tue,  9 Dec 2025 21:25:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="eXzKtEvc";
+	dkim=pass (2048-bit key; secure) header.d=debian.org header.i=@debian.org header.b="YIasVt4n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011014.outbound.protection.outlook.com [40.107.208.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF6EB10E02C
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 21:16:54 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FwWl7h8IdSNyaPjEom9GibRwAilYqYQkGMYlkBEpieFRodxUh6HHDtYJnDLdAy37dq3ExqJW4/lzjpo2xd4RVPsIgst2t5KKTm2nAM4MukG7L+4T5HDPZZxmR2+ilJqc4MAxXOf6fQFzvIbDIpqJ+TRAviosx9rbjCRCBx+Z3/9uSq2YuhNYnX/+WoPAQqqpPaTveA8dp7QrHlipgPZwdcQuP3Ip6vxBwCtI5uo5OCUvI73hGypTbl9sz6zdlQjzaOBoZGkhnXtZKfpJbqspy7GULy6OQcR1Qpd2uAuvjiYzoHTFLEdeL729ajeXYa1YbxK4oF12pVpZ3mtYesNL7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4OdnlT39lJejJbUfqHxqaHPVNKlGQeRchXvw06AeLBs=;
- b=cTuHFlLZlHejmAvUlXpOeEk/ebv6pEvdllXHvkxsLeDmOHIKoLhmcapKds7Qdm7UMALCkQ9bTFgAGcaQUdpWPIGkIm7IfZq/Q5OaYHvmn3Nd1gH2sPy3nfuiMcSYXuGg0UTVh+lZKjq3D26ZXd5KjjISw0XElgPl8UbkQF0z3NFmGwBYGtLVORM2+tEnWNjo1bceTqb4kHjS4XjcyYRqqNH9ljEa6skG7dqvM0XQ6zI8a2kW/B5pFQRMq7HGpe8uXjomDMM1OUel5e4ZWzPbaaLOEIAvLWyvJB3AzHcnOpud/UtDEvQR/+Do9BrhaqwROyS44r2kYD4reNpYD5yXFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4OdnlT39lJejJbUfqHxqaHPVNKlGQeRchXvw06AeLBs=;
- b=eXzKtEvcSjnHvwn5zEZghoLWYZCFoI0cn0hj5Dj70qYJPfhybKdkDbwSXdwGITbU4+0UnN8AIQkiRKK88Qa+js5L36kVW08adzp+rEUQLa0PhZ8eBVYQ3REVn5Uw40RH2Ni6KnmaZc2X2KIfqfBWS8VgRhM+27LX3msjpG8pUYc=
-Received: from SA0PR11CA0026.namprd11.prod.outlook.com (2603:10b6:806:d3::31)
- by CH2PR12MB9543.namprd12.prod.outlook.com (2603:10b6:610:27f::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.6; Tue, 9 Dec
- 2025 21:16:44 +0000
-Received: from SA2PEPF00003AE5.namprd02.prod.outlook.com
- (2603:10b6:806:d3:cafe::ed) by SA0PR11CA0026.outlook.office365.com
- (2603:10b6:806:d3::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9388.14 via Frontend Transport; Tue,
- 9 Dec 2025 21:16:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SA2PEPF00003AE5.mail.protection.outlook.com (10.167.248.5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9412.4 via Frontend Transport; Tue, 9 Dec 2025 21:16:44 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 9 Dec
- 2025 15:16:42 -0600
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 9 Dec
- 2025 15:16:42 -0600
-Received: from xsjlizhih51.xilinx.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Tue, 9 Dec 2025 13:16:41 -0800
-From: Lizhi Hou <lizhi.hou@amd.com>
-To: <ogabbay@kernel.org>, <quic_jhugo@quicinc.com>,
- <dri-devel@lists.freedesktop.org>, <maciej.falkowski@linux.intel.com>
-CC: Lizhi Hou <lizhi.hou@amd.com>, <linux-kernel@vger.kernel.org>,
- <max.zhen@amd.com>, <sonal.santan@amd.com>, <mario.limonciello@amd.com>
-Subject: [PATCH V1] accel/amdxdna: Fix cu_idx being cleared by memset() during
- command setup
-Date: Tue, 9 Dec 2025 13:16:39 -0800
-Message-ID: <20251209211639.1636888-1-lizhi.hou@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9473D10E1E6;
+ Tue,  9 Dec 2025 21:25:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org; 
+ s=smtpauto.stravinsky;
+ h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=YRT4W2ujwFFMsrHRkCRnR/xGZxGaxe7ARGv7L/it8q0=; b=YIasVt4nlttzf2Ulx2ktObKV/t
+ 4ahAGa4cB7vsG8maIMzSDLUCrQ0d/7+XmIC2b7/Hn+8tjBRtHH++A7XndaWxe9YyZT4Og5YvKi4wz
+ HxpPPpd+WalFjiL1hj5Q9DjWJvtq25t1sBCGhzktVv1tSm5lG8xVwAVI+mfwJjQ9RWGV7GBzZn09r
+ 4ZvwxIV6n74bN1jgGyFQi1d/QfMgxNTr5Kl/5BOLRz3g+2Gq1GDO7kq+5GY8j9TAsIJklPqcwLuAZ
+ 2P2L6c1cJxGF//3ozOlfpVV2kVQzhyCnv+i+2vqYareuEHy7dWCNaMnaAgALqpDRYB08C6W8y0ACJ
+ pywJhTUA==;
+Received: from authenticated user by stravinsky.debian.org with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.94.2) (envelope-from <carnil@debian.org>)
+ id 1vT5CQ-007QCK-6s; Tue, 09 Dec 2025 21:24:46 +0000
+Received: by eldamar.lan (Postfix, from userid 1000)
+ id DD34ABE2EE7; Tue, 09 Dec 2025 22:24:44 +0100 (CET)
+Date: Tue, 9 Dec 2025 22:24:44 +0100
+From: Salvatore Bonaccorso <carnil@debian.org>
+To: Matt Marjanovic <maddog@mir.com>, 1054514@bugs.debian.org,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Alex Constantino <dreaming.about.electric.sheep@gmail.com>,
+ airlied@redhat.com, daniel@ffwll.ch,
+ dri-devel@lists.freedesktop.org, kraxel@redhat.com,
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ regressions@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ timo.lindfors@iki.fi, tzimmermann@suse.de,
+ virtualization@lists.linux-foundation.org
+Subject: Re: Bug#1054514: linux-image-6.1.0-13-amd64: Debian VM with qxl
+ graphics freezes frequently
+Message-ID: <aTiTnENWsCoTbT3U@eldamar.lan>
+References: <alpine.DEB.2.20.2310242308150.28457@mail.home>
+ <b8b1497f-789e-4bb7-be17-9d3ebb30c143@mir.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00003AE5:EE_|CH2PR12MB9543:EE_
-X-MS-Office365-Filtering-Correlation-Id: f7556258-018c-48c2-2da6-08de3768410e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|1800799024|82310400026|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?GA9ySG71WPK1ewHd0eqFfwCPJL5/XsfD61W7TP/x4cZMRetgX9Hk00w3E/C8?=
- =?us-ascii?Q?G2kglMTm3XsOR+fJNIfGvJhEj/IpaUjl/0PwaD0ck7Q3kzdU+JYMAX4ZeF8E?=
- =?us-ascii?Q?b4QUZAmPoxpOuzOn38eXO4aN4QwLQ+kbQQsFqaUl90lcccLTxzGTrUAN5Gaa?=
- =?us-ascii?Q?f0/EYhwU8KeOY4qYRL3dsDrmj/T27NWZniIkZhE974d9cEBHCRYrlz536ka0?=
- =?us-ascii?Q?ifYxLpOQ+fDC3EwjSv2CihL5tVepvrVNFN1Ky6A4+37zZ5SiQFpYFfZ9pnSY?=
- =?us-ascii?Q?KfMqVyevPAC2hRsahUaQBmrz4FGUK53dXpDJ/mA6msBcmWbeyBgNnhdFU9hu?=
- =?us-ascii?Q?3qf4Clabv4hijfj6b2a9k3uZyzMntenuRBNHC1bxLzAnmFVeiPHlj6PLCxFr?=
- =?us-ascii?Q?FzjV85XVfg41DLf1Q5c9YzLQjDouaw6gGpiNnePnpGwANlzMmlTyXnxNJRho?=
- =?us-ascii?Q?rP3ebZ32PCOipex5lMzo08VKCvkpebWdzAyhlbVkDrs1fgNt1Iv7ErDhc2n+?=
- =?us-ascii?Q?5f8rXoXtIn5zPUkmlJi/ci3JtOqmtxNNpq5k79P7Bfb7vEZs96GCEoEqEmAr?=
- =?us-ascii?Q?5PRUV8NXN0/q3WshHQuVuJQFUao5GojrD4oEcgDTst4VwUS08cRysLwO5GZQ?=
- =?us-ascii?Q?fZzjRKgCfBeF/otyMjuXFUp1Z2GlqmvEj7V5R4UuWP4JgX0DH7gPEhjnjfRj?=
- =?us-ascii?Q?blmyyi302nP+kmmRZjLHNHhJ7fJUkuG5x4u5W18Ok/szmU6ErIjHPtysVxuz?=
- =?us-ascii?Q?ESGaWSC+eBZv+oFROewBKxOsYqPBBM19SrN6nGResIdYHMgGik4okjEUQrjV?=
- =?us-ascii?Q?9TaLIp9BHks58Cy3rJvTxTbZdycBZC53t4vx99XrKBnhbp41B1bG2hbcDbdm?=
- =?us-ascii?Q?p4sTNCwrAfExAxKdVCLWEUGdoYRTL48oEdYqfKzmcPC4zPbV2Zrj3Bnj26o5?=
- =?us-ascii?Q?O17cc3mtVg2G9ZBuKjqNHq6HdCx/tf5jru5pZu4BAhZ9+fKq0dimBDnYsqox?=
- =?us-ascii?Q?c8S+nHhx//A7jC29FarVJelL0X35BcrrTvVxpRBiqUn3w9Dx9XvOFj7zL9dn?=
- =?us-ascii?Q?4Ms44gyH4R4HU5whACbILXfxmknCl5LeUkll3p57S0rkIjcjXwzHTJdUYTTz?=
- =?us-ascii?Q?raNK96Oupu8vEAvc9kgM/2a43AnRtVfXwCNogCCt+AVsfdy2O72TsWL4duVc?=
- =?us-ascii?Q?acmbnkH3zojej2CfELkCcUKLwMh4L9ohpf0K6O+PsZUsGRNCSUNpACJjXNwx?=
- =?us-ascii?Q?7UzloeiFP2aMnuYnHrz8uewwYZAIvXljpIN7qDsKZol4UKNLXnyQhIJsGnM0?=
- =?us-ascii?Q?FgIN4AGoQlN5We+xXh0V0Lq56MJwkToubVBh58xZbsH4+w+x5vILzc5lJtbh?=
- =?us-ascii?Q?ev27TlFH/QAykAqJXUXzpXCDPIas8tpSGWg5WYZle3PNV/2l8yhEGX81YCEH?=
- =?us-ascii?Q?BhvYgwGV+yfMJQsbVqsjcsYMfsjlIwW4ghwwmfJskcby3HatXjP461znDePJ?=
- =?us-ascii?Q?QEBaxBnkp0b+mbCQLGPijKBl1c7d7s71IyMu2MleFGlEXoq2RDVd5/97n9q5?=
- =?us-ascii?Q?vJsQZ6PF7a6DmZMSEYI=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:satlexmb07.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(82310400026)(36860700013); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2025 21:16:44.0162 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7556258-018c-48c2-2da6-08de3768410e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00003AE5.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB9543
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b8b1497f-789e-4bb7-be17-9d3ebb30c143@mir.com>
+X-Debian-User: carnil
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -139,88 +68,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For one command type, cu_idx is assigned before calling memset() on the
-command structure. This results in cu_idx being overwritten, causing the
-firmware to receive an incomplete or invalid command and leading to
-unexpected command failures.
+Control: tags -1 + moreinfo
 
-Fix this by moving the memset() call before initializing cu_idx so that
-all fields are populated in the correct order.
+Hi Matt,
 
-Fixes: 71829d7f2f70 ("accel/amdxdna: Use MSG_OP_CHAIN_EXEC_NPU when supported")
-Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
----
- drivers/accel/amdxdna/aie2_message.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+On Tue, Dec 09, 2025 at 10:33:24AM -0800, Matt Marjanovic wrote:
+> Package: src:linux
+> Version: 6.12.57-1
+> Followup-For: Bug #1054514
+> 
+> Dear Maintainer,
+> 
+> This is back in trixie --- unsurprisingly, because the kernel commit which
+> had originally caused this bug, and was subsequently reverted, was reapplied
+> to the kernel in 6.8.10:
+> 
+>   https://www.kernel.org/pub/linux/kernel/v6.x/ChangeLog-6.8.10
+>   (Reapply "drm/qxl: simplify qxl_fence_wait")
+> 
+> In addition to making the remote graphics freeze (which is annoying but
+> tolerable), the graphics driver hang also appears to cause systemd tasks
+> to hang... which leads to problems with remote login via ssh, and also
+> the inability to do a clean reboot/shutdown (which is intolerable).
+> 
+> Sample of the kernel log for hung systemd task (bookended by the telltale
+> "Buffer eviction failed" every 15 seconds):
+> 
+> [413120.319715] INFO: task systemd:1 blocked for more than 1208 seconds.
+> [413120.319718]       Not tainted 6.12.57+deb13-amd64 #1 Debian 6.12.57-1
+> [413120.319719] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> [413120.319720] task:systemd         state:D stack:0     pid:1     tgid:1     ppid:0      flags:0x00000002
+> [413120.319723] Call Trace:
+> [413120.319724]  <TASK>
+> [413120.319726]  __schedule+0x505/0xc00
+> [413120.319730]  schedule+0x27/0xf0
+> [413120.319732]  schedule_preempt_disabled+0x15/0x30
+> [413120.319733]  __ww_mutex_lock.constprop.0+0x4f6/0x9a0
+> [413120.319736]  drm_modeset_lock+0x42/0xe0 [drm]
+> [413120.319765]  drm_atomic_get_plane_state+0x7f/0x180 [drm]
+> [413120.319777]  drm_client_modeset_commit_atomic+0xbf/0x250 [drm]
+> [413120.319793]  ? do_sys_poll+0x4e1/0x600
+> [413120.319796]  drm_client_modeset_commit_locked+0x5a/0x160 [drm]
+> [413120.319810]  drm_fb_helper_pan_display+0xf2/0x240 [drm_kms_helper]
+> [413120.319819]  fb_pan_display+0x89/0x140
+> [413120.319821]  bit_update_start+0x1e/0x40
+> [413120.319822]  fbcon_switch+0x421/0x5b0
+> [413120.319825]  csi_J+0x286/0x2d0
+> [413120.319826]  do_con_write+0x1368/0x2440
+> [413120.319828]  ? tomoyo_path_number_perm+0x8c/0x1f0
+> [413120.319830]  ? _prb_read_valid+0x298/0x310
+> [413120.319832]  con_write+0x13/0x50
+> [413120.319833]  n_tty_write+0x15a/0x500
+> [413120.319835]  ? __pfx_woken_wake_function+0x10/0x10
+> [413120.319837]  file_tty_write.isra.0+0x172/0x2c0
+> [413120.319840]  vfs_write+0x28c/0x440
+> [413120.319842]  ksys_write+0x6d/0xf0
+> [413120.319844]  do_syscall_64+0x82/0x190
+> [413120.319845]  ? tty_ioctl+0x145/0x8a0
+> [413120.319847]  ? arch_exit_to_user_mode_prepare.isra.0+0x16/0xa0
+> [413120.319850]  ? syscall_exit_to_user_mode+0x37/0x1b0
+> [413120.319851]  ? do_syscall_64+0x8e/0x190
+> [413120.319852]  ? do_sys_openat2+0x9c/0xe0
+> [413120.319853]  ? do_syscall_64+0x8e/0x190
+> [413120.319854]  ? arch_exit_to_user_mode_prepare.isra.0+0x16/0xa0
+> [413120.319856]  ? syscall_exit_to_user_mode+0x37/0x1b0
+> [413120.319857]  ? do_syscall_64+0x8e/0x190
+> [413120.319858]  ? __x64_sys_ppoll+0xf4/0x160
+> [413120.319859]  ? arch_exit_to_user_mode_prepare.isra.0+0x16/0xa0
+> [413120.319861]  ? syscall_exit_to_user_mode+0x37/0x1b0
+> [413120.319862]  ? do_syscall_64+0x8e/0x190
+> [413120.319862]  ? clear_bhb_loop+0x40/0x90
+> [413120.319864]  ? clear_bhb_loop+0x40/0x90
+> [413120.319865]  ? clear_bhb_loop+0x40/0x90
+> [413120.319866]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> [413120.319869] RIP: 0033:0x7f38ba499687
+> [413120.319878] RSP: 002b:00007ffd7e321560 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
+> [413120.319879] RAX: ffffffffffffffda RBX: 00007f38baa3ee00 RCX: 00007f38ba499687
+> [413120.319880] RDX: 000000000000000c RSI: 00007f38ba927cc4 RDI: 0000000000000025
+> [413120.319881] RBP: 0000000000000025 R08: 0000000000000000 R09: 0000000000000000
+> [413120.319881] R10: 0000000000000000 R11: 0000000000000202 R12: 00000000000186a0
+> [413120.319882] R13: 0000005fe7e4b3fb R14: 000000000000000c R15: 0000000000000025
+> [413120.319883]  </TASK>
+> [413120.319884] Future hung task reports are suppressed, see sysctl kernel.hung_task_warnings
+> [413123.903768] [TTM] Buffer eviction failed
+> [413139.007582] [TTM] Buffer eviction failed
+> [413154.111473] [TTM] Buffer eviction failed
+> [413169.215198] [TTM] Buffer eviction failed
+> [413184.319084] [TTM] Buffer eviction failed
+> [413199.422894] [TTM] Buffer eviction failed
+> [413214.526697] [TTM] Buffer eviction failed
 
-diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
-index a75156800467..03b75757a6e6 100644
---- a/drivers/accel/amdxdna/aie2_message.c
-+++ b/drivers/accel/amdxdna/aie2_message.c
-@@ -652,6 +652,7 @@ aie2_cmdlist_fill_npu_cf(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t *siz
- 	u32 cmd_len;
- 	void *cmd;
- 
-+	memset(npu_slot, 0, sizeof(*npu_slot));
- 	cmd = amdxdna_cmd_get_payload(cmd_bo, &cmd_len);
- 	if (*size < sizeof(*npu_slot) + cmd_len)
- 		return -EINVAL;
-@@ -660,7 +661,6 @@ aie2_cmdlist_fill_npu_cf(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t *siz
- 	if (npu_slot->cu_idx == INVALID_CU_IDX)
- 		return -EINVAL;
- 
--	memset(npu_slot, 0, sizeof(*npu_slot));
- 	npu_slot->type = EXEC_NPU_TYPE_NON_ELF;
- 	npu_slot->arg_cnt = cmd_len / sizeof(u32);
- 	memcpy(npu_slot->args, cmd, cmd_len);
-@@ -677,6 +677,7 @@ aie2_cmdlist_fill_npu_dpu(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t *si
- 	u32 cmd_len;
- 	u32 arg_sz;
- 
-+	memset(npu_slot, 0, sizeof(*npu_slot));
- 	sn = amdxdna_cmd_get_payload(cmd_bo, &cmd_len);
- 	arg_sz = cmd_len - sizeof(*sn);
- 	if (cmd_len < sizeof(*sn) || arg_sz > MAX_NPU_ARGS_SIZE)
-@@ -689,7 +690,6 @@ aie2_cmdlist_fill_npu_dpu(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t *si
- 	if (npu_slot->cu_idx == INVALID_CU_IDX)
- 		return -EINVAL;
- 
--	memset(npu_slot, 0, sizeof(*npu_slot));
- 	npu_slot->type = EXEC_NPU_TYPE_PARTIAL_ELF;
- 	npu_slot->inst_buf_addr = sn->buffer;
- 	npu_slot->inst_size = sn->buffer_size;
-@@ -709,6 +709,7 @@ aie2_cmdlist_fill_npu_preempt(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t
- 	u32 cmd_len;
- 	u32 arg_sz;
- 
-+	memset(npu_slot, 0, sizeof(*npu_slot));
- 	pd = amdxdna_cmd_get_payload(cmd_bo, &cmd_len);
- 	arg_sz = cmd_len - sizeof(*pd);
- 	if (cmd_len < sizeof(*pd) || arg_sz > MAX_NPU_ARGS_SIZE)
-@@ -721,7 +722,6 @@ aie2_cmdlist_fill_npu_preempt(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t
- 	if (npu_slot->cu_idx == INVALID_CU_IDX)
- 		return -EINVAL;
- 
--	memset(npu_slot, 0, sizeof(*npu_slot));
- 	npu_slot->type = EXEC_NPU_TYPE_PREEMPT;
- 	npu_slot->inst_buf_addr = pd->inst_buf;
- 	npu_slot->save_buf_addr = pd->save_buf;
-@@ -745,6 +745,7 @@ aie2_cmdlist_fill_npu_elf(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t *si
- 	u32 cmd_len;
- 	u32 arg_sz;
- 
-+	memset(npu_slot, 0, sizeof(*npu_slot));
- 	pd = amdxdna_cmd_get_payload(cmd_bo, &cmd_len);
- 	arg_sz = cmd_len - sizeof(*pd);
- 	if (cmd_len < sizeof(*pd) || arg_sz > MAX_NPU_ARGS_SIZE)
-@@ -753,7 +754,6 @@ aie2_cmdlist_fill_npu_elf(struct amdxdna_gem_obj *cmd_bo, void *slot, size_t *si
- 	if (*size < sizeof(*npu_slot) + arg_sz)
- 		return -EINVAL;
- 
--	memset(npu_slot, 0, sizeof(*npu_slot));
- 	npu_slot->type = EXEC_NPU_TYPE_ELF;
- 	npu_slot->inst_buf_addr = pd->inst_buf;
- 	npu_slot->save_buf_addr = pd->save_buf;
--- 
-2.34.1
+I guess it is very unlikely that the commit get reverted again, given
+the reasons explained in the commit message on the re-apply.
 
+But can you please confirm that reverting the commit on top of 6.12.y
+fixes the issue again for you?
+
+Note that it has even be re-applied to 6.1.y, actually form 6.9 back
+to 6.8.10, 6.6.31, 6.1.91 and 5.15.159.
+
+Is the issue still as well triggerable in 6.17.11 and mainline?
+
+Regards,
+Salvatore
