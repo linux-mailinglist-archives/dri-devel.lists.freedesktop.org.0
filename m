@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 740DECB0F54
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 20:45:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1F7CB0F4E
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 20:45:42 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3418C10E61C;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0754710E5AD;
 	Tue,  9 Dec 2025 19:45:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bTRGgWv5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="G+tPmZjy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B02AA10E5A8;
- Tue,  9 Dec 2025 19:45:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FD8110E5A8;
+ Tue,  9 Dec 2025 19:45:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1765309536; x=1796845536;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=WEeBHlKpjvvYZqrkHXq8/e6dFzmUizzdtlknyOkcuAU=;
- b=bTRGgWv5rZumKXD/mAp7lE7qbcLuxojwuRQphx6xA6QR6vb883R33Xro
- VFDloiE4WUXwbAULogmJ4++zIYK3LMif5+N05r0QpYfe87SmlEblIp56X
- 6ZkvrTmmiTirogBpskcd23yOVoB3NhRytWHu6YJfZcvZKgPo1qT3z0Fvb
- ivSHUeKOV5DFjH7Vk0EcKpUc0EteHGNQWJNrqQLo2gjoy2eNe9iOIj0Kh
- gx7jRXoiM/3phMUru9n47OfbiKc70fLOFkp7yTgjfQ5UQ72uRkj64qUfo
- Ui61T2sqfSbuwd7BdCaBASjM8qsPGLSX8RuqeDJdQxYeqJfYkF1Y3CngU Q==;
-X-CSE-ConnectionGUID: +Dq5j9S1Rp2Rd0UBoEKeBQ==
-X-CSE-MsgGUID: EuYUjMoRQ2+Nmx3J05zD3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="67350721"
-X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; d="scan'208";a="67350721"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=xAEamYzlIjSgYI/xOoOc44VcPwPPoprMhSDBRrXFuRc=;
+ b=G+tPmZjyrNfscwdOifYkJy/I1I41jJT93urFhPCbDnDIVEuOCV7Xyzvd
+ /qvxbvE9w/9XIWtPPIjdMPZd7O3mX/3HCcBxe0tJ81e3y1yksc8KIGjww
+ 76wpaIDQwLo8JBmAN1q9QbYtktp50pvR0zV9F4VvRr9rkplV5oyLTcaeK
+ QV5p7LBuCQ89FwUD7IXwuMX3m7x86uJXIxJjFmWNtsYa8KDXx7tJ2iD7W
+ gTsQHEMuhfkE3XLDt8+drIbWYp/UqHf/zgFLfkpqyHyDamNEm6zG6kX2Q
+ wRzeM1wBVbk+0rvALL6zV13V7gkQwZkFnVBm31jrjYLhbgEBzlaNk8Kyh Q==;
+X-CSE-ConnectionGUID: 9JLUlvusRp+IvMIBNspMVA==
+X-CSE-MsgGUID: N/7Qf632TRuLs6WfgFX4fA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="67350724"
+X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; d="scan'208";a="67350724"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  09 Dec 2025 11:45:35 -0800
-X-CSE-ConnectionGUID: SMyeaR55Rs2mgmSqhFdCtA==
-X-CSE-MsgGUID: rqP8DdJySCyyao0vI9jgTQ==
+X-CSE-ConnectionGUID: oaq1fs6KT6SPOMXr7ngwJw==
+X-CSE-MsgGUID: qcBsaBsHRgq9cuv19yeisg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; d="scan'208";a="196317415"
+X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; d="scan'208";a="196317418"
 Received: from lstrano-desk.jf.intel.com ([10.54.39.91])
  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  09 Dec 2025 11:45:35 -0800
@@ -46,11 +46,13 @@ To: intel-xe@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: niranjana.vishwanathapura@intel.com, christian.koenig@amd.com,
  pstanner@redhat.com, dakr@kernel.org
-Subject: [PATCH v8 0/2] Add DRM sched support functions to avoid driver side
- layering violations 
-Date: Tue,  9 Dec 2025 11:45:29 -0800
-Message-Id: <20251209194531.1366098-1-matthew.brost@intel.com>
+Subject: [PATCH v8 1/2] drm/sched: Add several job helpers to avoid drivers
+ touching scheduler state
+Date: Tue,  9 Dec 2025 11:45:30 -0800
+Message-Id: <20251209194531.1366098-2-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251209194531.1366098-1-matthew.brost@intel.com>
+References: <20251209194531.1366098-1-matthew.brost@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -69,23 +71,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Subset of [1], believe we are in agreement these can go into the DRM
-scheduler. Will post the Xe in a follow once patches make it from
-drm-misc-next to drm-xe-next.
+In the past, drivers used to reach into scheduler internals—this must
+end because it makes it difficult to change scheduler internals, as
+driver-side code must also be updated.
 
-Matt
+Add helpers to check if the scheduler is stopped and to query a job’s
+signaled state to avoid reaching into scheduler internals. These are
+expected to be used driver-side in recovery and debug flows.
 
-[1] https://patchwork.freedesktop.org/series/155314/
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Reviewed-by: Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+---
 
-Matthew Brost (2):
-  drm/sched: Add several job helpers to avoid drivers touching scheduler
-    state
-  drm/sched: Add pending job list iterator
+v4:
+ - Reorder patch to first in series (Niranjana)
+ - Also check parent fence for signaling (Niranjana)
+v8:
+ - Fixup kernel doc (Philipp)
+ - Move chnage log (Philipp)
+ - Better commit (Philipp)
+ - Drop inlines (Philipp)
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 36 ++++++++++++++++++++++++--
+ include/drm/gpu_scheduler.h            |  2 ++
+ 2 files changed, 36 insertions(+), 2 deletions(-)
 
- drivers/gpu/drm/scheduler/sched_main.c | 36 +++++++++++++++++-
- include/drm/gpu_scheduler.h            | 52 ++++++++++++++++++++++++++
- 2 files changed, 86 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 1d4f1b822e7b..5f08719a35f5 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -344,7 +344,7 @@ drm_sched_rq_select_entity_fifo(struct drm_gpu_scheduler *sched,
+  */
+ static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+ {
+-	if (!READ_ONCE(sched->pause_submit))
++	if (!drm_sched_is_stopped(sched))
+ 		queue_work(sched->submit_wq, &sched->work_run_job);
+ }
+ 
+@@ -354,7 +354,7 @@ static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+  */
+ static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+ {
+-	if (!READ_ONCE(sched->pause_submit))
++	if (!drm_sched_is_stopped(sched))
+ 		queue_work(sched->submit_wq, &sched->work_free_job);
+ }
+ 
+@@ -1567,3 +1567,35 @@ void drm_sched_wqueue_start(struct drm_gpu_scheduler *sched)
+ 	queue_work(sched->submit_wq, &sched->work_free_job);
+ }
+ EXPORT_SYMBOL(drm_sched_wqueue_start);
++
++/**
++ * drm_sched_is_stopped() - Checks whether drm_sched is stopped
++ * @sched: DRM scheduler
++ *
++ * Return: true if sched is stopped, false otherwise
++ */
++bool drm_sched_is_stopped(struct drm_gpu_scheduler *sched)
++{
++	return READ_ONCE(sched->pause_submit);
++}
++EXPORT_SYMBOL(drm_sched_is_stopped);
++
++/**
++ * drm_sched_job_is_signaled() - DRM scheduler job is signaled
++ * @job: DRM scheduler job
++ *
++ * Determine if DRM scheduler job is signaled. DRM scheduler should be stopped
++ * to obtain a stable snapshot of state. Both parent fence (hardware fence) and
++ * finished fence (software fence) are checked to determine signaling state.
++ *
++ * Return: true if job is signaled, false otherwise
++ */
++bool drm_sched_job_is_signaled(struct drm_sched_job *job)
++{
++	struct drm_sched_fence *s_fence = job->s_fence;
++
++	WARN_ON(!drm_sched_is_stopped(job->sched));
++	return (s_fence->parent && dma_fence_is_signaled(s_fence->parent)) ||
++		dma_fence_is_signaled(&s_fence->finished);
++}
++EXPORT_SYMBOL(drm_sched_job_is_signaled);
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index fb88301b3c45..86b6075ce799 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -645,6 +645,7 @@ void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad);
+ void drm_sched_start(struct drm_gpu_scheduler *sched, int errno);
+ void drm_sched_resubmit_jobs(struct drm_gpu_scheduler *sched);
+ void drm_sched_fault(struct drm_gpu_scheduler *sched);
++bool drm_sched_is_stopped(struct drm_gpu_scheduler *sched);
+ 
+ struct drm_gpu_scheduler *
+ drm_sched_pick_best(struct drm_gpu_scheduler **sched_list,
+@@ -674,6 +675,7 @@ bool drm_sched_job_has_dependency(struct drm_sched_job *job,
+ 				  struct dma_fence *fence);
+ void drm_sched_job_cleanup(struct drm_sched_job *job);
+ void drm_sched_increase_karma(struct drm_sched_job *bad);
++bool drm_sched_job_is_signaled(struct drm_sched_job *job);
+ 
+ static inline bool drm_sched_invalidate_job(struct drm_sched_job *s_job,
+ 					    int threshold)
 -- 
 2.34.1
 
