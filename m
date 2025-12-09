@@ -2,58 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18989CB07AB
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 16:58:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D06CB07AE
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 16:58:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 770F910E4E7;
-	Tue,  9 Dec 2025 15:58:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D830910E547;
+	Tue,  9 Dec 2025 15:58:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="U24DF9z5";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QWE8TelC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B1FD10E4E7
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 15:58:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765295932; x=1796831932;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=INi002jv7KrXbyJTv2qIzBFWACm3Y+knsAXaeEA4fTA=;
- b=U24DF9z5FLIbDqoy8GIVKhFfznFi2+q/9iLCE0Tnd4WQV1Bt1zTDgZvq
- KAtWw8IwJUft5yhcmnphSIOfDIHdMu3qmRfg/VDHF28caTsNHgbHPk9Es
- 3FY/C6/LkB7ZL68EPw/3Xwtid+57FBxUAPBwBjIKGEmEnZbN7o42Lkyfp
- AEpsQUiuVbJpCahn8/nHsxoMX2Vhlw/c7HyB2PVL04WYbVPew7OT18a0k
- cxA3hZsw+rBxcgB1F9Gfodj2Xu/YOYz/BDUku76hl5zo61GnrWIyjVwDJ
- u/wvqCYRuHWw5sczh5/IT7j+tzD33hdpewgdOKNH9vX0FojPTkFkAw1u1 A==;
-X-CSE-ConnectionGUID: TSBLhJGxTT2DZN0O89tEvA==
-X-CSE-MsgGUID: 2IsAcM98T5KCuVbrmbIw+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="77871683"
-X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; d="scan'208";a="77871683"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Dec 2025 07:58:52 -0800
-X-CSE-ConnectionGUID: jVfp7vuMSv6uNZFgicwrfQ==
-X-CSE-MsgGUID: JxHMEiGkQZCyHgTK/rTyFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; d="scan'208";a="196314426"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
- by orviesa008.jf.intel.com with ESMTP; 09 Dec 2025 07:58:50 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
- (envelope-from <lkp@intel.com>) id 1vT06x-000000001yX-28Vb;
- Tue, 09 Dec 2025 15:58:47 +0000
-Date: Tue, 9 Dec 2025 23:58:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Lo=EFc?= Molinari <loic.molinari@collabora.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Boris Brezillon <bbrezillon@kernel.org>
-Subject: [drm-misc:drm-misc-next 4/11] drivers/gpu/drm/drm_gem.c:1261:10:
- error: call to undeclared function 'mm_get_unmapped_area'; ISO C99 and later
- do not support implicit function declarations
-Message-ID: <202512092338.ylY8zET6-lkp@intel.com>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0944310E547;
+ Tue,  9 Dec 2025 15:58:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 83301440D0;
+ Tue,  9 Dec 2025 15:58:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CC93C116B1;
+ Tue,  9 Dec 2025 15:58:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1765295936;
+ bh=hq+Gp4/eUNzcAoVmwhNTcMabF3wmpaL86Ur2QN8irHY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=QWE8TelC4VxDdU3W7h2EonB0m4q1dgzzaccunK03E3kid+i8yRHZDX0HduYKKnwOz
+ XbCnQ7l/oQZlncLBeK0pLg559EkMh4wiX1PAw0SV/krZuR9AH8dIA7vI1Qdg6algna
+ Bs//Sp0CEFcXSf9u2yx8qJuqrUv/3bVLH2xuSSWHWd+QlegHHtjMSdpJ5mDXGgD6VK
+ nhVCJScAsIXfPykXJhVv0VzeFpLLxaF55a7xLF3rkxMsCKhFMKo2Mme1zt1AO1GQC8
+ +CWfLGxIkLFgQYO5lQdf3PEBwi+Xxfl7YJkekDMFoZWnOriZ8YUdRTbX7WglLQUuBL
+ WobvXc6+RzZFQ==
+Date: Tue, 9 Dec 2025 16:58:52 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Christophe Leroy <chleroy@kernel.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@kernel.org>, 
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ David Laight <david.laight@runbox.com>, Petr Pavlu <petr.pavlu@suse.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Daniel Gomez <da.gomez@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-modules@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [PATCH v3 1/4] kernel.h: drop STACK_MAGIC macro
+Message-ID: <heichtdv6trkebioytkadhjdrs6peipe5hq23ilt7nruxdrsuj@ev33nk36kmot>
+References: <20251205175237.242022-1-yury.norov@gmail.com>
+ <20251205175237.242022-2-yury.norov@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251205175237.242022-2-yury.norov@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,77 +73,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-head:   0823bd894278e4c0f1acb8f3a8a3c67745e6d1f6
-commit: 99bda20d6d4cac30ed6d357658d8bc328c3b27d9 [4/11] drm/gem: Introduce drm_gem_get_unmapped_area() fop
-config: arm-randconfig-003-20251209 (https://download.01.org/0day-ci/archive/20251209/202512092338.ylY8zET6-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512092338.ylY8zET6-lkp@intel.com/reproduce)
+Hi Yuri,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512092338.ylY8zET6-lkp@intel.com/
+On Fri, Dec 05, 2025 at 12:52:32PM -0500, Yury Norov (NVIDIA) wrote:
+> The macro was introduced in 1994, v1.0.4, for stacks protection. Since
+> that, people found better ways to protect stacks, and now the macro is
+> only used by i915 selftests. Move it to a local header and drop from
+> the kernel.h.
+> 
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
+> Reviewed-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+> Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
 
-All errors (new ones prefixed by >>):
+Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
 
->> drivers/gpu/drm/drm_gem.c:1261:10: error: call to undeclared function 'mm_get_unmapped_area'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1261 |                 return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
-         |                        ^
-   drivers/gpu/drm/drm_gem.c:1261:10: note: did you mean '__get_unmapped_area'?
-   include/linux/mm.h:3441:1: note: '__get_unmapped_area' declared here
-    3441 | __get_unmapped_area(struct file *file, unsigned long addr, unsigned long len,
-         | ^
-   1 error generated.
-
-
-vim +/mm_get_unmapped_area +1261 drivers/gpu/drm/drm_gem.c
-
-  1229	
-  1230	/**
-  1231	 * drm_gem_get_unmapped_area - get memory mapping region routine for GEM objects
-  1232	 * @filp: DRM file pointer
-  1233	 * @uaddr: User address hint
-  1234	 * @len: Mapping length
-  1235	 * @pgoff: Offset (in pages)
-  1236	 * @flags: Mapping flags
-  1237	 *
-  1238	 * If a driver supports GEM object mapping, before ending up in drm_gem_mmap(),
-  1239	 * mmap calls on the DRM file descriptor will first try to find a free linear
-  1240	 * address space large enough for a mapping. Since GEM objects are backed by
-  1241	 * shmem buffers, this should preferably be handled by the shmem virtual memory
-  1242	 * filesystem which can appropriately align addresses to huge page sizes when
-  1243	 * needed.
-  1244	 *
-  1245	 * Look up the GEM object based on the offset passed in (vma->vm_pgoff will
-  1246	 * contain the fake offset we created) and call shmem_get_unmapped_area() with
-  1247	 * the right file pointer.
-  1248	 *
-  1249	 * If a GEM object is not available at the given offset or if the caller is not
-  1250	 * granted access to it, fall back to mm_get_unmapped_area().
-  1251	 */
-  1252	unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long uaddr,
-  1253						unsigned long len, unsigned long pgoff,
-  1254						unsigned long flags)
-  1255	{
-  1256		struct drm_gem_object *obj;
-  1257		unsigned long ret;
-  1258	
-  1259		obj = drm_gem_object_lookup_at_offset(filp, pgoff, len >> PAGE_SHIFT);
-  1260		if (IS_ERR(obj) || !obj->filp || !obj->filp->f_op->get_unmapped_area)
-> 1261			return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
-  1262						    flags);
-  1263	
-  1264		ret = obj->filp->f_op->get_unmapped_area(obj->filp, uaddr, len, 0,
-  1265							 flags);
-  1266	
-  1267		drm_gem_object_put(obj);
-  1268	
-  1269		return ret;
-  1270	}
-  1271	EXPORT_SYMBOL_GPL(drm_gem_get_unmapped_area);
-  1272	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Andi
