@@ -2,87 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C331ECAF1F0
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 08:25:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B4C6CAF20E
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 08:27:35 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB6C310E1BC;
-	Tue,  9 Dec 2025 07:25:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C84310E1BA;
+	Tue,  9 Dec 2025 07:27:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="JhhxlY6Y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HrF34AZM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JhhxlY6Y";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HrF34AZM";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="0mXjSg/q";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4XoVGMfu";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jbY21gCF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="x+fE+Yim";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C1FD10E1BC
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 07:25:41 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F384B10E1BA
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 07:27:29 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1A0A85BD97;
- Tue,  9 Dec 2025 07:25:40 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 749B333796;
+ Tue,  9 Dec 2025 07:27:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1765265140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1765265248; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5e9b4/51wBGJvfBnQarXioyoalwwpsbM4BtlHsk8JeM=;
- b=JhhxlY6YTb8wGIKVsELWxhc6rMmCzMSEGAW/mypKi8LO/0nhaHFojugSeu7z1MW14hnbe6
- JEYu09Po0xlksKtNqQQ/vZvPv4SQJLzXqN2tXW0aaIHSCAgJiyhBmA1cnTFkEU1wCgZYIW
- 2iGmj7BtWg3IMqD00ztW2BtyqzIOeso=
+ bh=MuIa8dUwTcVgYgFHAyhAg0EMcbS1x7oo3yj6XjTARVE=;
+ b=0mXjSg/qe3onaWeHVykC8rjAT7T1YRcPpDDMruzq/zpUA3/ZH8uNqMZ0IhSiyF8zARuD+5
+ Fv5D12KA3nQNLk4jiPRQK5GFs/iruobTeZJeFYidJ/e86Btzvbxs0Ge+CUeNB/rupQj614
+ OdyaCBI84imOISRIe861i4gGBDZUoWs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1765265140;
+ s=susede2_ed25519; t=1765265248;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5e9b4/51wBGJvfBnQarXioyoalwwpsbM4BtlHsk8JeM=;
- b=HrF34AZMxlVAfrZXVT17cSwfIJlCVssYU3VP20xQVDp2r68m7rk1t2HUQwydSQue+6a+wB
- /XIxOP7YU0m81rDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
+ bh=MuIa8dUwTcVgYgFHAyhAg0EMcbS1x7oo3yj6XjTARVE=;
+ b=4XoVGMfuBHWNQjYGKXPhGpM+G0gT9albFgojxv0+Cm7+6D94GRwO+mOsgCKIESV9D+0RcQ
+ RZVJSYKVvq2Zh7Bw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jbY21gCF;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=x+fE+Yim
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1765265140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1765265247; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5e9b4/51wBGJvfBnQarXioyoalwwpsbM4BtlHsk8JeM=;
- b=JhhxlY6YTb8wGIKVsELWxhc6rMmCzMSEGAW/mypKi8LO/0nhaHFojugSeu7z1MW14hnbe6
- JEYu09Po0xlksKtNqQQ/vZvPv4SQJLzXqN2tXW0aaIHSCAgJiyhBmA1cnTFkEU1wCgZYIW
- 2iGmj7BtWg3IMqD00ztW2BtyqzIOeso=
+ bh=MuIa8dUwTcVgYgFHAyhAg0EMcbS1x7oo3yj6XjTARVE=;
+ b=jbY21gCFuJRh9OxbtX2fmR1L5ppLTLdNiy0VTldE8xLlNZj+G43RKLoo1U0CdVooKdTH8C
+ 4gK6rUDF90+bjtCyK09baEmV8AnND1+bcCetOtUM+k1PFHo2e9+jGmKQ2Aj0OpBwYNKrgv
+ Uo9psuB/2O71ZWAK2+W+3Z36AfnOlGI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1765265140;
+ s=susede2_ed25519; t=1765265247;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=5e9b4/51wBGJvfBnQarXioyoalwwpsbM4BtlHsk8JeM=;
- b=HrF34AZMxlVAfrZXVT17cSwfIJlCVssYU3VP20xQVDp2r68m7rk1t2HUQwydSQue+6a+wB
- /XIxOP7YU0m81rDw==
+ bh=MuIa8dUwTcVgYgFHAyhAg0EMcbS1x7oo3yj6XjTARVE=;
+ b=x+fE+Yim4Zu283DIddp/kSveMGNZPg4EXT+aqWYXeEUiIZRXHIQEy/CQTabg1wFHuXR7FA
+ kPGzIdrtS03ZKzCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C473E3EA63;
- Tue,  9 Dec 2025 07:25:39 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 24BB43EA63;
+ Tue,  9 Dec 2025 07:27:27 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id iFmFLvPON2nSRgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 09 Dec 2025 07:25:39 +0000
-Message-ID: <329423e8-d778-4f30-904a-825b1be72ce2@suse.de>
-Date: Tue, 9 Dec 2025 08:25:39 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 9HbrBl/PN2kySAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 09 Dec 2025 07:27:27 +0000
+Message-ID: <19e8a1b0-75e3-4c8d-911a-15fd70f60bea@suse.de>
+Date: Tue, 9 Dec 2025 08:27:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] fbtft: Make sysfs and dev_*() logging conditional on
- FB_DEVICE
+Subject: Re: [PATCH 0/3] fbdev: Guard sysfs interfaces under CONFIG_FB_DEVICE
 To: Chintan Patel <chintanlike@gmail.com>, linux-fbdev@vger.kernel.org,
  linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org
 References: <20251209042744.7875-1-chintanlike@gmail.com>
- <20251209042744.7875-2-chintanlike@gmail.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -109,28 +109,32 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251209042744.7875-2-chintanlike@gmail.com>
+In-Reply-To: <20251209042744.7875-1-chintanlike@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.997]; MIME_GOOD(-0.10)[text/plain];
- RCVD_TLS_ALL(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]; RCVD_TLS_ALL(0.00)[];
  RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
  MIME_TRACE(0.00)[0:+];
  FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,lists.linux.dev];
- MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_SEVEN(0.00)[9]; MID_RHS_MATCH_FROM(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
  FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,kernel.org,gmx.de,linuxfoundation.org];
- RCPT_COUNT_SEVEN(0.00)[9]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url, suse.com:url, suse.de:mid,
- imap1.dmz-prg2.suse.org:helo]
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spam-Level: 
+X-Rspamd-Queue-Id: 749B333796
 X-Spam-Flag: NO
-X-Spam-Score: -4.30
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,139 +153,76 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Hi
 
 Am 09.12.25 um 05:27 schrieb Chintan Patel:
-> The fbtft core and sysfs implementation unconditionally dereference
-> fb_info->dev and register sysfs attributes. When FB_DEVICE=n, these
-> fields are unavailable, leading to build failures.
+> Hi all,
 >
-> This patch wraps all sysfs attribute creation/removal and dev_dbg/dev_info
-> logging in #ifdef CONFIG_FB_DEVICE, with pr_*() fallbacks for the
-> non-FB_DEVICE case. This makes fbtft fully buildable when FB_DEVICE is
-> disabled.
+> This small series makes several legacy fbdev drivers buildable with
+> CONFIG_FB_DEVICE=n. Currently, multiple fbdev drivers rely on fb_info->dev
+> and sysfs attribute registration unconditionally, which leads to build
+> failures whenever FB_DEVICE is disabled.
 >
-> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
-> ---
->   drivers/staging/fbtft/fbtft-core.c  | 20 ++++++++++++++++++--
->   drivers/staging/fbtft/fbtft-sysfs.c |  8 ++++++++
->   2 files changed, 26 insertions(+), 2 deletions(-)
+> Thomas previously noted that FB_DEVICE should eventually become optional
+> and that drivers should not depend on sysfs or fb_info->dev being present
+> unless the Kconfig explicitly selects it. This series pushes in that
+> direction by tightening the FB_DEVICE dependency boundary without changing
+> any runtime behaviour when FB_DEVICE=y.
 >
-> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-> index 9e7b84071174..dc967bdeabe8 100644
-> --- a/drivers/staging/fbtft/fbtft-core.c
-> +++ b/drivers/staging/fbtft/fbtft-core.c
-> @@ -365,9 +365,14 @@ static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
->   	unsigned int val;
->   	int ret = 1;
->   
-> +#ifdef CONFIG_FB_DEVICE
->   	dev_dbg(info->dev,
+> What this series does *not* change
+>
+> - No functional behaviour changes when FB_DEVICE=y.
+> - No removal of sysfs interfaces.
+> - No changes to fbops, memory allocation, or display update paths.
+>
+> Build & test coverage
+>
+> Tested with the following combinations:
+>
+> 1. **FB=y, FB_DEVICE=y**
+>     - Baseline configuration; no regressions expected.
+>
+> 2. **FB=y, FB_DEVICE=n**
+>     - Drivers build successfully.
+>     - No sysfs attributes are created.
+>     - fbdev devices operate normally (where applicable).
+>
+> 3. **FB=n**
+>     - Drivers depend on FB, so they properly do not build, unchanged.
+>
+> Motivation
+>
+> This moves fbdev closer to supporting FB_DEVICE as truly optional, helps
+> reduce Kconfig entanglement, and clears several long-standing TODO items
+> as suggested by Thomas Zimmermann around legacy sysfs usage inside fbdev
+> drivers.
+>
+> Feedback is welcome, especially on whether the guard boundaries around
+> sysfs are placed correctly or whether more logic should be pulled under
+> CONFIG_FB_DEVICE.
 
-Rather use fb_dbg() [1] and similar helpers for logging. They only need 
-the info pointer and do the correct output by themselves.
+I left a comment on the first patch. If things still build nicely, then
 
-[1] https://elixir.bootlin.com/linux/v6.18/source/include/linux/fb.h#L895
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 
->   		"%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
->   		__func__, regno, red, green, blue, transp);
-> +#else
-> +	pr_debug("%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
-> +		 __func__, regno, red, green, blue, transp);
-> +#endif
->   
->   	switch (info->fix.visual) {
->   	case FB_VISUAL_TRUECOLOR:
-> @@ -391,8 +396,11 @@ static int fbtft_fb_blank(int blank, struct fb_info *info)
->   	struct fbtft_par *par = info->par;
->   	int ret = -EINVAL;
->   
-> -	dev_dbg(info->dev, "%s(blank=%d)\n",
-> -		__func__, blank);
-> +#ifdef CONFIG_FB_DEVICE
-> +	dev_dbg(info->dev, "%s(blank=%d)\n", __func__, blank);
-> +#else
-> +	pr_debug("%s(blank=%d)\n", __func__, blank);
-> +#endif
->   
->   	if (!par->fbtftops.blank)
->   		return ret;
-> @@ -793,6 +801,8 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
->   	if (spi)
->   		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
->   			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
-> +
-> +#ifdef CONFIG_FB_DEVICE
->   	dev_info(fb_info->dev,
-
-Same here with fb_info().
+for the series.
 
 Best regards
 Thomas
 
->   		 "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
->   		 fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
-> @@ -804,6 +814,12 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
->   		fb_info->bl_dev->props.power = BACKLIGHT_POWER_ON;
->   		fb_info->bl_dev->ops->update_status(fb_info->bl_dev);
->   	}
-> +#else
-> +	pr_info("%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
-> +		fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
-> +		fb_info->fix.smem_len >> 10, text1,
-> +		HZ / fb_info->fbdefio->delay, text2);
-> +#endif
->   
->   	return 0;
->   
-> diff --git a/drivers/staging/fbtft/fbtft-sysfs.c b/drivers/staging/fbtft/fbtft-sysfs.c
-> index e45c90a03a90..944f74f592d0 100644
-> --- a/drivers/staging/fbtft/fbtft-sysfs.c
-> +++ b/drivers/staging/fbtft/fbtft-sysfs.c
-> @@ -89,6 +89,7 @@ int fbtft_gamma_parse_str(struct fbtft_par *par, u32 *curves,
->   	return ret;
->   }
->   
-> +#ifdef CONFIG_FB_DEVICE
->   static ssize_t
->   sprintf_gamma(struct fbtft_par *par, u32 *curves, char *buf)
->   {
-> @@ -145,6 +146,7 @@ static ssize_t show_gamma_curve(struct device *device,
->   static struct device_attribute gamma_device_attrs[] = {
->   	__ATTR(gamma, 0660, show_gamma_curve, store_gamma_curve),
->   };
-> +#endif
->   
->   void fbtft_expand_debug_value(unsigned long *debug)
->   {
-> @@ -173,6 +175,7 @@ void fbtft_expand_debug_value(unsigned long *debug)
->   	}
->   }
->   
-> +#ifdef CONFIG_FB_DEVICE
->   static ssize_t store_debug(struct device *device,
->   			   struct device_attribute *attr,
->   			   const char *buf, size_t count)
-> @@ -200,17 +203,22 @@ static ssize_t show_debug(struct device *device,
->   
->   static struct device_attribute debug_device_attr =
->   	__ATTR(debug, 0660, show_debug, store_debug);
-> +#endif
->   
->   void fbtft_sysfs_init(struct fbtft_par *par)
->   {
-> +#ifdef CONFIG_FB_DEVICE
->   	device_create_file(par->info->dev, &debug_device_attr);
->   	if (par->gamma.curves && par->fbtftops.set_gamma)
->   		device_create_file(par->info->dev, &gamma_device_attrs[0]);
-> +#endif
->   }
->   
->   void fbtft_sysfs_exit(struct fbtft_par *par)
->   {
-> +#ifdef CONFIG_FB_DEVICE
->   	device_remove_file(par->info->dev, &debug_device_attr);
->   	if (par->gamma.curves && par->fbtftops.set_gamma)
->   		device_remove_file(par->info->dev, &gamma_device_attrs[0]);
-> +#endif
->   }
+>
+> Thanks,
+> Chintan
+>
+> Chintan Patel (3):
+>    fbtft: Make sysfs and dev_*() logging conditional on FB_DEVICE
+>    omapfb: Guard sysfs code under CONFIG_FB_DEVICE
+>    sh_mobile_lcdc: Guard overlay sysfs interfaces under CONFIG_FB_DEVICE
+>
+>   drivers/staging/fbtft/fbtft-core.c            | 20 +++++++++++++++++--
+>   drivers/staging/fbtft/fbtft-sysfs.c           |  8 ++++++++
+>   drivers/video/fbdev/omap2/omapfb/Kconfig      |  2 +-
+>   .../video/fbdev/omap2/omapfb/omapfb-sysfs.c   | 11 ++++++++++
+>   drivers/video/fbdev/sh_mobile_lcdcfb.c        |  4 ++++
+>   5 files changed, 42 insertions(+), 3 deletions(-)
+>
 
 -- 
 --
