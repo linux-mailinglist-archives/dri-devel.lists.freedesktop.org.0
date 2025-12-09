@@ -2,93 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82EC0CAF15C
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 08:04:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C331ECAF1F0
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 08:25:45 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEC8A10E00D;
-	Tue,  9 Dec 2025 07:04:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB6C310E1BC;
+	Tue,  9 Dec 2025 07:25:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="X73BcBju";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="JhhxlY6Y";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HrF34AZM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JhhxlY6Y";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HrF34AZM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com
- [74.125.224.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E0E8110E00D
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 07:04:26 +0000 (UTC)
-Received: by mail-yx1-f43.google.com with SMTP id
- 956f58d0204a3-6446705793aso218234d50.2
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 23:04:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1765263866;
- x=1765868666; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8HjZZ9kAFRbgW+ipXzreVZcAJO7V/Qz6Xi8HekbDwng=;
- b=X73BcBjuScvCZ4nLaDRxKF3ukHNtQoxDB/cOKPc7SvW1St0fDuDUEQLguZtf0jwY5e
- ci5bI22843dWbqBomre5dU/D3ssrRgPjiHPpn3w8DglH6WYNBoBQfiogrxuV1MEoVtjp
- rEtZH/DXA4gGbrT7l2Wgs26DxweruheHMcMmlh4uzcv36XjM9TwGKbz1gyKXOdWgFtNH
- /48xkxeR9N1G7cRFqW5/jrOclgzcsI7EgrA3mPBcWoXnWYDe8qDvZ+U6q4GfA2lNlEqZ
- WDdTLOqc7B2bCOey9EQ2pfb+mhQc+xaQDy5ULjNCV4U0YQtj5aS9sy25A9MHblR7dx/8
- rpfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765263866; x=1765868666;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=8HjZZ9kAFRbgW+ipXzreVZcAJO7V/Qz6Xi8HekbDwng=;
- b=XITs5tZYLF5BXqrtaltiqcKjQh5JCqb3URmbK4cyOK+/SLIJ46LU7XZ7HDQxMXNP3N
- Y8fh0fBVB7yK/IAts7TAFyCJ8nfZJlE1eBR9AVZxAV8CdqNeQGRm94zgLa/DAdjjGxQp
- WN3T+zb4eSN7pyu+EVaEgMvmducQ+N4zf0R8ugLFMHY15UWVUHj9FZltdtwST6ClgN/b
- TA3k/TOc/uf56u1PC+CbBhP5dHRC8ZVxGHSTGlVS7JdTDpA0fToyf+PSPZ3+g/R1+L6J
- PpRRc7RN9RBKQEJxTMzjq0M8nZPKlD4YP087ly4OkVhkIdYACaa3opCOk56m60nu3RLj
- wfHw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVa7MxbVCV2+Yz69SG5I2caxF71tubTEYasirqF8tUFg+gTjbE0vMgkV7wZeu4pcTe10KD5hptir00=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz+feSCccnwi24GLu2DKfrn15oy0b+guh6dAe4MjjIY5NnugB9v
- kgsm7lMC/KdeUBhDBEi+vP/lEVRJgWOnSz68hCl5TS62FNwd+XP+dtTyw0jSZ5yhhj2sSgbEugk
- gBfXpPa4=
-X-Gm-Gg: AY/fxX6XoBY0U8M+XwXjOF3WniijN7ZtGo3h/N2wWK7wNiBYJne1MbrcSq55hXIyfKp
- Jw0a8sV8fPaDBhGJBZkGv5zRbgQNEoi0SEXxjX82slEkRrvLcJJFS7gPVLDqSGPXdKE64zWUPHb
- vBxKDhoD+8bv+yljOVQCxdB8I3pFg9OrgJiIgYrCBSPBX78PY4R5rGuJvbtw2n/ozjA3Zs2+o+j
- RZcWvCuuE1Q4UXGa35gOjuupRkb/8zh2/1enmkmV+ZgCZOqclRqzRVZOLGs7oZZLEI2Tvxf79uA
- SuLWX+zPDdWMLQD2bWGvlMMA5Yg137UEfOetGCnTigzirRYUFvRbTvKcVOQa5mU7yYEWJsPYQlE
- Lxip8JOUzuaY3quFa2EDQJkC7wnaLibE3M1GXirHuACaH3AT62f37J0qatZxkhGZVtON5X1On20
- XA+CIytb0P9nK6+2fxCoHKJdjtuECvAcX3QQlaS4ikQKv30qvC0g==
-X-Google-Smtp-Source: AGHT+IFcPGELIf7/Ktp5ujxR5KqUDoFC8HTcGdqpGApGVhExz0r8mEoKi1rJNRS3J7Jvx9jmXxPPRA==
-X-Received: by 2002:a53:c603:0:b0:641:718:8a08 with SMTP id
- 956f58d0204a3-6444e7c138fmr6928285d50.52.1765263865594; 
- Mon, 08 Dec 2025 23:04:25 -0800 (PST)
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com.
- [74.125.224.53]) by smtp.gmail.com with ESMTPSA id
- 956f58d0204a3-6443f5a3ca0sm6126394d50.12.2025.12.08.23.04.25
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 08 Dec 2025 23:04:25 -0800 (PST)
-Received: by mail-yx1-f53.google.com with SMTP id
- 956f58d0204a3-640f88b873bso5327794d50.3
- for <dri-devel@lists.freedesktop.org>; Mon, 08 Dec 2025 23:04:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWQmar4vHj6RqX08iaCgKoEGq10WV3vFOqVSXeV5WqXvgiqJxnSKPQ8p5mpkleC+pYipd3hgXCo5PQ=@lists.freedesktop.org
-X-Received: by 2002:a53:acc2:0:20b0:63f:9979:2f9e with SMTP id
- 956f58d0204a3-6444e757265mr7570067d50.17.1765263864869; Mon, 08 Dec 2025
- 23:04:24 -0800 (PST)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C1FD10E1BC
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 07:25:41 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 1A0A85BD97;
+ Tue,  9 Dec 2025 07:25:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1765265140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5e9b4/51wBGJvfBnQarXioyoalwwpsbM4BtlHsk8JeM=;
+ b=JhhxlY6YTb8wGIKVsELWxhc6rMmCzMSEGAW/mypKi8LO/0nhaHFojugSeu7z1MW14hnbe6
+ JEYu09Po0xlksKtNqQQ/vZvPv4SQJLzXqN2tXW0aaIHSCAgJiyhBmA1cnTFkEU1wCgZYIW
+ 2iGmj7BtWg3IMqD00ztW2BtyqzIOeso=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1765265140;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5e9b4/51wBGJvfBnQarXioyoalwwpsbM4BtlHsk8JeM=;
+ b=HrF34AZMxlVAfrZXVT17cSwfIJlCVssYU3VP20xQVDp2r68m7rk1t2HUQwydSQue+6a+wB
+ /XIxOP7YU0m81rDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1765265140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5e9b4/51wBGJvfBnQarXioyoalwwpsbM4BtlHsk8JeM=;
+ b=JhhxlY6YTb8wGIKVsELWxhc6rMmCzMSEGAW/mypKi8LO/0nhaHFojugSeu7z1MW14hnbe6
+ JEYu09Po0xlksKtNqQQ/vZvPv4SQJLzXqN2tXW0aaIHSCAgJiyhBmA1cnTFkEU1wCgZYIW
+ 2iGmj7BtWg3IMqD00ztW2BtyqzIOeso=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1765265140;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5e9b4/51wBGJvfBnQarXioyoalwwpsbM4BtlHsk8JeM=;
+ b=HrF34AZMxlVAfrZXVT17cSwfIJlCVssYU3VP20xQVDp2r68m7rk1t2HUQwydSQue+6a+wB
+ /XIxOP7YU0m81rDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C473E3EA63;
+ Tue,  9 Dec 2025 07:25:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id iFmFLvPON2nSRgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 09 Dec 2025 07:25:39 +0000
+Message-ID: <329423e8-d778-4f30-904a-825b1be72ce2@suse.de>
+Date: Tue, 9 Dec 2025 08:25:39 +0100
 MIME-Version: 1.0
-References: <20251107024620.912403-1-liqiang01@kylinos.cn>
-In-Reply-To: <20251107024620.912403-1-liqiang01@kylinos.cn>
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Tue, 9 Dec 2025 08:04:13 +0100
-X-Gmail-Original-Message-ID: <CAAObsKBPsPpsmmF1EmPLw7-2o1Zq9C0jgkkHpEh0WSq5mWj++A@mail.gmail.com>
-X-Gm-Features: AQt7F2oAkfn_gxkpumQ2SS3w1gVg430SLCszFPeOkGYiYsgcWSIDI1ffB1jh-j8
-Message-ID: <CAAObsKBPsPpsmmF1EmPLw7-2o1Zq9C0jgkkHpEh0WSq5mWj++A@mail.gmail.com>
-Subject: Re: [PATCH] drm/rocket: Add scheds pointer to file_priv and fix
- memory leaks
-To: Li Qiang <liqiang01@kylinos.cn>
-Cc: ogabbay@kernel.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] fbtft: Make sysfs and dev_*() logging conditional on
+ FB_DEVICE
+To: Chintan Patel <chintanlike@gmail.com>, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org
+References: <20251209042744.7875-1-chintanlike@gmail.com>
+ <20251209042744.7875-2-chintanlike@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20251209042744.7875-2-chintanlike@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.997]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_TLS_ALL(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[]; TO_DN_SOME(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,lists.linux.dev];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,kernel.org,gmx.de,linuxfoundation.org];
+ RCPT_COUNT_SEVEN(0.00)[9]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url, suse.com:url, suse.de:mid,
+ imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,88 +146,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Are you sure of this? The list should be freed in rocket_job_close(),
-just before freeing the entity.
+Hi
 
-Regards,
-
-Tomeu
-
-On Fri, Nov 7, 2025 at 3:46=E2=80=AFAM Li Qiang <liqiang01@kylinos.cn> wrot=
-e:
+Am 09.12.25 um 05:27 schrieb Chintan Patel:
+> The fbtft core and sysfs implementation unconditionally dereference
+> fb_info->dev and register sysfs attributes. When FB_DEVICE=n, these
+> fields are unavailable, leading to build failures.
 >
-> The rocket driver allocates an array of struct drm_gpu_scheduler pointers
-> for each file via kmalloc_array() in rocket_job_open(). However, the
-> allocated memory was not stored in rocket_file_priv and therefore never
-> freed on file close, leading to a memory leak.
+> This patch wraps all sysfs attribute creation/removal and dev_dbg/dev_info
+> logging in #ifdef CONFIG_FB_DEVICE, with pr_*() fallbacks for the
+> non-FB_DEVICE case. This makes fbtft fully buildable when FB_DEVICE is
+> disabled.
 >
-> This patch introduces a new `scheds` field in struct rocket_file_priv to
-> store the allocated pointer array, and frees it properly in
-> rocket_job_close() after the scheduler entity is destroyed.
->
-> This ensures correct lifetime tracking of scheduler arrays and resolves
-> the leak detected by code review and potential KASAN reports.
->
-> Signed-off-by: Li Qiang <liqiang01@kylinos.cn>
+> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
 > ---
->  drivers/accel/rocket/rocket_drv.h |  1 +
->  drivers/accel/rocket/rocket_job.c | 10 +++++++++-
->  2 files changed, 10 insertions(+), 1 deletion(-)
+>   drivers/staging/fbtft/fbtft-core.c  | 20 ++++++++++++++++++--
+>   drivers/staging/fbtft/fbtft-sysfs.c |  8 ++++++++
+>   2 files changed, 26 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/accel/rocket/rocket_drv.h b/drivers/accel/rocket/roc=
-ket_drv.h
-> index 2c673bb99ccc..759a08596dad 100644
-> --- a/drivers/accel/rocket/rocket_drv.h
-> +++ b/drivers/accel/rocket/rocket_drv.h
-> @@ -24,6 +24,7 @@ struct rocket_file_priv {
->         struct mutex mm_lock;
->
->         struct drm_sched_entity sched_entity;
-> +       struct drm_gpu_scheduler **scheds;
->  };
->
->  struct rocket_iommu_domain *rocket_iommu_domain_get(struct rocket_file_p=
-riv *rocket_priv);
-> diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/roc=
-ket_job.c
-> index acd606160dc9..820d96f010f2 100644
-> --- a/drivers/accel/rocket/rocket_job.c
-> +++ b/drivers/accel/rocket/rocket_job.c
-> @@ -502,6 +502,9 @@ int rocket_job_open(struct rocket_file_priv *rocket_p=
-riv)
->         unsigned int core;
->         int ret;
->
-> +       if (unlikely(!scheds))
-> +               return -ENOMEM;
+> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+> index 9e7b84071174..dc967bdeabe8 100644
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
+> @@ -365,9 +365,14 @@ static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
+>   	unsigned int val;
+>   	int ret = 1;
+>   
+> +#ifdef CONFIG_FB_DEVICE
+>   	dev_dbg(info->dev,
+
+Rather use fb_dbg() [1] and similar helpers for logging. They only need 
+the info pointer and do the correct output by themselves.
+
+[1] https://elixir.bootlin.com/linux/v6.18/source/include/linux/fb.h#L895
+
+>   		"%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
+>   		__func__, regno, red, green, blue, transp);
+> +#else
+> +	pr_debug("%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
+> +		 __func__, regno, red, green, blue, transp);
+> +#endif
+>   
+>   	switch (info->fix.visual) {
+>   	case FB_VISUAL_TRUECOLOR:
+> @@ -391,8 +396,11 @@ static int fbtft_fb_blank(int blank, struct fb_info *info)
+>   	struct fbtft_par *par = info->par;
+>   	int ret = -EINVAL;
+>   
+> -	dev_dbg(info->dev, "%s(blank=%d)\n",
+> -		__func__, blank);
+> +#ifdef CONFIG_FB_DEVICE
+> +	dev_dbg(info->dev, "%s(blank=%d)\n", __func__, blank);
+> +#else
+> +	pr_debug("%s(blank=%d)\n", __func__, blank);
+> +#endif
+>   
+>   	if (!par->fbtftops.blank)
+>   		return ret;
+> @@ -793,6 +801,8 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+>   	if (spi)
+>   		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
+>   			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
 > +
->         for (core =3D 0; core < rdev->num_cores; core++)
->                 scheds[core] =3D &rdev->cores[core].sched;
->
-> @@ -509,8 +512,12 @@ int rocket_job_open(struct rocket_file_priv *rocket_=
-priv)
->                                     DRM_SCHED_PRIORITY_NORMAL,
->                                     scheds,
->                                     rdev->num_cores, NULL);
-> -       if (WARN_ON(ret))
-> +       if (WARN_ON(ret)) {
-> +               kfree(scheds);
->                 return ret;
-> +       }
-> +
-> +       rocket_priv->scheds =3D scheds;
->
->         return 0;
->  }
-> @@ -520,6 +527,7 @@ void rocket_job_close(struct rocket_file_priv *rocket=
-_priv)
->         struct drm_sched_entity *entity =3D &rocket_priv->sched_entity;
->
->         kfree(entity->sched_list);
-> +       kfree(rocket_priv->scheds);
->         drm_sched_entity_destroy(entity);
->  }
->
-> --
-> 2.25.1
->
+> +#ifdef CONFIG_FB_DEVICE
+>   	dev_info(fb_info->dev,
+
+Same here with fb_info().
+
+Best regards
+Thomas
+
+>   		 "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
+>   		 fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
+> @@ -804,6 +814,12 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+>   		fb_info->bl_dev->props.power = BACKLIGHT_POWER_ON;
+>   		fb_info->bl_dev->ops->update_status(fb_info->bl_dev);
+>   	}
+> +#else
+> +	pr_info("%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
+> +		fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
+> +		fb_info->fix.smem_len >> 10, text1,
+> +		HZ / fb_info->fbdefio->delay, text2);
+> +#endif
+>   
+>   	return 0;
+>   
+> diff --git a/drivers/staging/fbtft/fbtft-sysfs.c b/drivers/staging/fbtft/fbtft-sysfs.c
+> index e45c90a03a90..944f74f592d0 100644
+> --- a/drivers/staging/fbtft/fbtft-sysfs.c
+> +++ b/drivers/staging/fbtft/fbtft-sysfs.c
+> @@ -89,6 +89,7 @@ int fbtft_gamma_parse_str(struct fbtft_par *par, u32 *curves,
+>   	return ret;
+>   }
+>   
+> +#ifdef CONFIG_FB_DEVICE
+>   static ssize_t
+>   sprintf_gamma(struct fbtft_par *par, u32 *curves, char *buf)
+>   {
+> @@ -145,6 +146,7 @@ static ssize_t show_gamma_curve(struct device *device,
+>   static struct device_attribute gamma_device_attrs[] = {
+>   	__ATTR(gamma, 0660, show_gamma_curve, store_gamma_curve),
+>   };
+> +#endif
+>   
+>   void fbtft_expand_debug_value(unsigned long *debug)
+>   {
+> @@ -173,6 +175,7 @@ void fbtft_expand_debug_value(unsigned long *debug)
+>   	}
+>   }
+>   
+> +#ifdef CONFIG_FB_DEVICE
+>   static ssize_t store_debug(struct device *device,
+>   			   struct device_attribute *attr,
+>   			   const char *buf, size_t count)
+> @@ -200,17 +203,22 @@ static ssize_t show_debug(struct device *device,
+>   
+>   static struct device_attribute debug_device_attr =
+>   	__ATTR(debug, 0660, show_debug, store_debug);
+> +#endif
+>   
+>   void fbtft_sysfs_init(struct fbtft_par *par)
+>   {
+> +#ifdef CONFIG_FB_DEVICE
+>   	device_create_file(par->info->dev, &debug_device_attr);
+>   	if (par->gamma.curves && par->fbtftops.set_gamma)
+>   		device_create_file(par->info->dev, &gamma_device_attrs[0]);
+> +#endif
+>   }
+>   
+>   void fbtft_sysfs_exit(struct fbtft_par *par)
+>   {
+> +#ifdef CONFIG_FB_DEVICE
+>   	device_remove_file(par->info->dev, &debug_device_attr);
+>   	if (par->gamma.curves && par->fbtftops.set_gamma)
+>   		device_remove_file(par->info->dev, &gamma_device_attrs[0]);
+> +#endif
+>   }
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
+
+
