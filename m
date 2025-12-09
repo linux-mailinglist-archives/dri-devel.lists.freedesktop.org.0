@@ -2,67 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 025A3CB0376
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 15:12:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 564C5CB03A6
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 15:17:05 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F52710E5F9;
-	Tue,  9 Dec 2025 14:12:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5664110E600;
+	Tue,  9 Dec 2025 14:17:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="T3Y2kWL0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lULy/rf8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A1FED10E5F6;
- Tue,  9 Dec 2025 14:12:47 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5500A10E600;
+ Tue,  9 Dec 2025 14:17:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 40F6941B3A;
- Tue,  9 Dec 2025 14:12:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95D16C4CEF5;
- Tue,  9 Dec 2025 14:12:46 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 60275600B0;
+ Tue,  9 Dec 2025 14:17:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B91FC4CEF5;
+ Tue,  9 Dec 2025 14:17:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1765289567;
- bh=dcA6/fqf5XdKH1miBHnaV1JJIsXJldco1on9OC/4Z2w=;
- h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=T3Y2kWL04vVmln/LeWD6/qfRdjTL1fZSLrrLRH7GmjO5jCarnvr3vl0AZbRKALbm+
- /1u+vzZtrqVSP/TGoAQZhFInaTdVYO6v4ghjrpHn/m8G2RHn0wwFEyEy/asgOFDSZm
- v6XxnqdaYKtNynUQiSuPo6+1GcNugkLFyxa+4bKiLLj654s8q5DwR6XWBa1oGuLn5w
- h92fxBHcFvu3SfTojN3l9PFDTo8Wld+kRtkn2ASxn0QbfNkXTc7W2jo0OzmPzB5V4p
- Tdx/tnoWBuiKFgEcT4W3+xMVSx8r/u4C6fHq2RFPya7CycL/96/HeugSyIm8eYTRWQ
- CS/NKcougDysg==
-Message-ID: <6736385e287d063e19c8301550edcd17@kernel.org>
-Date: Tue, 09 Dec 2025 14:12:44 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Nicolas Frattaroli" <nicolas.frattaroli@collabora.com>
-Subject: Re: [PATCH v5 03/17] drm: Add enum conversion from DRM_COLOR_FORMAT
- to HDMI_COLORSPACE
-In-Reply-To: <20251128-color-format-v5-3-63e82f1db1e1@collabora.com>
-References: <20251128-color-format-v5-3-63e82f1db1e1@collabora.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- kernel@collabora.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, "Alex
- Deucher" <alexander.deucher@amd.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>,
- "Andy Yan" <andy.yan@rock-chips.com>,
- =?utf-8?b?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>, "David
- Airlie" <airlied@gmail.com>, "Dmitry Baryshkov" <lumag@kernel.org>, "Harry
- Wentland" <harry.wentland@amd.com>,
- =?utf-8?b?SGVpa28gU3TDvGJuZXI=?= <heiko@sntech.de>, "Jani
- Nikula" <jani.nikula@linux.intel.com>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Jonas
- Karlman" <jonas@kwiboo.se>, "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>,
- "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Leo Li" <sunpeng.li@amd.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Marius Vlad" <marius.vlad@collabora.com>, "Maxime
- Ripard" <mripard@kernel.org>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Rob Herring" <robh@kernel.org>, "Robert Foss" <rfoss@kernel.org>, "Rodrigo
- Siqueira" <siqueira@igalia.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Sandy
- Huang" <hjc@rock-chips.com>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Simona
- Vetter" <simona@ffwll.ch>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Tvrtko
- Ursulin" <tursulin@ursulin.net>
-Content-Transfer-Encoding: 7bit
+ s=k20201202; t=1765289821;
+ bh=re7ktCouPs6agxyacY1S9Dr4ldvps2d8xXP04n6KHZk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lULy/rf85/iEt1JTXX9f4FuZ+PdypwhtX8K1Dmg/yFbRtzEZSFigk4p5Sci4VJogg
+ XFtyt1jVPPJE1yPOro6odzd3mJWEKpAbJIS2tJt7zSfDSfE0XtQTabYq5NBLahMbub
+ YgtJWvGyqsEJqwo1Ip0+Ow12KAEjCMixLh5MMaKlvCEvh8iVTzkRSzCdjuzZVrj3eI
+ MmIOUN/y++lshSZeTYjNS47j3l0ycf1YohGgUVg8GKhYQZqaqyXf0E68ohAfsadqU2
+ foc2HYUGmY78txauG2xcHhHDg4wzf5kimGxgygf6m/6WsYgvGFmZvUKIynQv30Odpq
+ UIrPoG1MiVnhA==
+Date: Tue, 9 Dec 2025 15:16:58 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+ Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Rob Herring <robh@kernel.org>, kernel@collabora.com,
+ amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH v5 05/17] drm/display: hdmi-state-helper: Act on color
+ format DRM property
+Message-ID: <20251209-uptight-radical-chupacabra-ac3d6d@houat>
+References: <20251128-color-format-v5-0-63e82f1db1e1@collabora.com>
+ <20251128-color-format-v5-5-63e82f1db1e1@collabora.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="7dtovcletdpwfi6p"
+Content-Disposition: inline
+In-Reply-To: <20251128-color-format-v5-5-63e82f1db1e1@collabora.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,16 +82,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 28 Nov 2025 22:05:39 +0100, Nicolas Frattaroli wrote:
-> From: Marius Vlad <marius.vlad@collabora.com>
-> 
-> While the two enums have similar values, they're not identical, and
-> HDMI's enum is defined as per the HDMI standard.
-> 
-> 
-> [ ... ]
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+--7dtovcletdpwfi6p
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 05/17] drm/display: hdmi-state-helper: Act on color
+ format DRM property
+MIME-Version: 1.0
 
-Thanks!
+On Fri, Nov 28, 2025 at 10:05:41PM +0100, Nicolas Frattaroli wrote:
+> With the introduction of the "color format" DRM property, which allows
+> userspace to request a specific color format, the HDMI state helper
+> should implement this.
+>=20
+> Implement it by checking whether the property is set and set to
+> something other than auto. If so, pass the requested color format, and
+> otherwise set RGB.
+>=20
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
+u/drm/display/drm_hdmi_state_helper.c
+> index a561f124be99..5da956bdd68c 100644
+> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> @@ -649,11 +649,21 @@ hdmi_compute_config(const struct drm_connector *con=
+nector,
+>  	unsigned int max_bpc =3D clamp_t(unsigned int,
+>  				       conn_state->max_bpc,
+>  				       8, connector->max_bpc);
+> +	enum hdmi_colorspace hdmi_colorspace =3D
+> +		drm_color_format_to_hdmi_colorspace(conn_state->color_format);
+>  	int ret;
+> =20
+>  	ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc,
+> -				      HDMI_COLORSPACE_RGB);
+> +				      hdmi_colorspace);
+>  	if (ret) {
+> +		/* If a color format was explicitly requested, don't fall back */
+> +		if (conn_state->color_format) {
+> +			drm_dbg_kms(connector->dev,
+> +				    "Explicitly set color format '%s' doesn't work.\n",
+> +				    drm_get_color_format_name(conn_state->color_format));
+> +			return ret;
+> +		}
+> +
+
+I think the following would be more readable:
+
+
+if (conn_state->color_format && conn_state->color_format !=3D DRM_COLOR_FOR=
+MAT_AUTO) {
+    enum hdmi_colorspace hdmi_colorspace =3D
+        drm_color_format_to_hdmi_colorspace(conn_state->color_format);
+
+    return hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc, hd=
+mi_colorspace)
+}
+
+ret =3D ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bp=
+c,
+                                    HDMI_COLORSPACE_RGB);
+
+=2E..
+
 Maxime
+
+--7dtovcletdpwfi6p
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaTgvWQAKCRAnX84Zoj2+
+dsTYAYCnsq4IINrpmEbQVfvZqzEXkFALMdooT+3vTv5FYb6D28/FDX4dwiypkgVc
+Zd6A6m4Bf3JYjaDiWfKCks0opK33MCwdhIj7KM2EqsBB4p86nA4zPE0+JmVqVbyI
+pjLOkixd2A==
+=Wym1
+-----END PGP SIGNATURE-----
+
+--7dtovcletdpwfi6p--
