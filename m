@@ -2,59 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6368BCB0654
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 16:27:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F9DCB066C
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 16:30:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E2D710E1EA;
-	Tue,  9 Dec 2025 15:27:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0FB3C10E1F9;
+	Tue,  9 Dec 2025 15:30:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="OadQ/xej";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="UDKFsCQM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E81E310E1E2;
- Tue,  9 Dec 2025 15:27:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=EeU2xVgBcH2WAL9+dy+knKriha/HSyZYa9BX8Csd2g8=; b=OadQ/xejDpWc8YzI3duHsXLQLj
- YmJjH6yBVfn74F0dpN74ORosEynzWNe7IocAkl+1z2BH5KBpL+1CxRUGF7sR/Tb3Swd0WtiOy7CPf
- cNqiIcvB9tyA/uEBmJx5a0lkrmYGBRq6kc6LsOVNrXUPdTVoSnGY8vOG+Zr5NNEeOswAqOMANnsxF
- fOrLylqCjf4z5bmpeP4ccDowLjm5WyUD2nD/MK75pBs9e72wsAMsyNIeqI4gXfRknWzNYibO/dIoC
- VYVPi/ikjns6wwSZq5Fxa76EE4QFupCxxydc85j4YfreCHbI2a076BAtVYDP7pXlGsgW/T7ciJbOB
- R6iQK0kA==;
-Received: from [186.208.73.250] (helo=[192.168.18.14])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1vSzcI-00AZFp-AG; Tue, 09 Dec 2025 16:27:06 +0100
-Message-ID: <e0eeac27-3bad-4004-be5d-2c55e495d908@igalia.com>
-Date: Tue, 9 Dec 2025 12:27:02 -0300
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19E2410E1F1;
+ Tue,  9 Dec 2025 15:30:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1765294218;
+ bh=n/AdBi9KtuU5iHeHvrn0lmofFQSHMzMoucKGcO8QV/U=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=UDKFsCQMsPx82V2aH3nVGLqxErguySCC3vhN5wUFYpVEGIuv2uwtN+T1iRvnvKLqU
+ T4owPvCF3Qo4GDn7NPMwAAGiT9rRDATfRivFh82ccbvHBHtijmoKEG1dz2OlBiQ/df
+ Y1QtTqUSSMhaXaz/IwP3YY0Ljiu7Nm/ERrksxxY5Vlqk8sMiV2CbX/L+X2r2/xCE6x
+ XDf8wc9sdYqOTy6b6fUzT/+rFBcnPB97Shuh5xgTmVU8xvJIbQUs2BMoJDFCfyd67O
+ j/o91WZNooTZ9jpYdn9kN2rio/yKYMYLBaQ9GrJ46xM6/36OG9EaG9DejqjrEIZKun
+ yMl2tdcnGWOxg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9DE5A17E1135;
+ Tue,  9 Dec 2025 16:30:17 +0100 (CET)
+Date: Tue, 9 Dec 2025 16:30:11 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: simona@ffwll.ch, airlied@gmail.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, ogabbay@kernel.org, mamin506@gmail.com,
+ lizhi.hou@amd.com, maciej.falkowski@linux.intel.com,
+ karol.wachowski@linux.intel.com, tomeu@tomeuvizoso.net,
+ frank.binns@imgtec.com, matt.coster@imgtec.com, yuq825@gmail.com,
+ robh@kernel.org, steven.price@arm.com, adrian.larumbe@collabora.com,
+ liviu.dudau@arm.com, mwen@igalia.com, kraxel@redhat.com,
+ dmitry.osipenko@collabora.com, gurchetansingh@chromium.org,
+ olvaffe@gmail.com, corbet@lwn.net, dri-devel@lists.freedesktop.org,
+ lima@lists.freedesktop.org, virtualization@lists.linux.dev,
+ linux-doc@vger.kernel.org
+Subject: Re: [RFC][PATCH 00/13] drm: Introduce GEM-UMA memory management
+Message-ID: <20251209163011.436e613b@fedora>
+In-Reply-To: <2b95d76e-2672-4cae-a545-73c407f2b20c@suse.de>
+References: <20251209140141.94407-1-tzimmermann@suse.de>
+ <20251209152734.6851f3ac@fedora>
+ <2b95d76e-2672-4cae-a545-73c407f2b20c@suse.de>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: use DCN10 CM helper for plane shaper
- func translation in DCN32
-To: Harry Wentland <harry.wentland@amd.com>, sunpeng.li@amd.com,
- siqueira@igalia.com, alexander.deucher@amd.com, christian.koenig@amd.com,
- airlied@gmail.com, simona@ffwll.ch, Simon Ser <contact@emersion.fr>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kernel-dev@igalia.com
-References: <20251126005608.37513-1-mwen@igalia.com>
- <2a918940-700d-4b24-90ae-4d9d4f9b457d@amd.com>
- <f832ec8c-cce1-45e0-975b-ed7000bed891@igalia.com>
- <2ddb06d0-70e5-4a1f-850d-3753f9fb3d0a@amd.com>
- <7ad74d3d-5a63-462b-8243-f8f26441b04b@igalia.com>
- <b0288d0f-fcd9-4ae6-817f-5a927b9164e5@igalia.com>
- <4f02daf8-1bd2-4105-b270-0aed496501cb@amd.com>
-Content-Language: en-US
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <4f02daf8-1bd2-4105-b270-0aed496501cb@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,175 +73,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 9 Dec 2025 15:51:21 +0100
+Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
+> Hi
+> 
+> Am 09.12.25 um 15:27 schrieb Boris Brezillon:
+> > On Tue,  9 Dec 2025 14:41:57 +0100
+> > Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> >  
+> >> Duplicate GEM-SHMEM to GEM-UMA. Convert all DRM drivers for UMA
+> >> systems if they currently use GEM-SHMEM.
+> >>
+> >> Many DRM drivers for hardware with Unified Memory Architecture (UMA)
+> >> currently builds upon GEM-SHMEM and extends the helpers with features
+> >> for managing the GPU MMU. This allows the GPU to access the GEM buffer
+> >> content for its operation.
+> >>
+> >> There is another, larger, set of DRM drivers that use GEM-SHMEM merely
+> >> as buffer management with no hardware support. These drivers copy the
+> >> buffer content to the GPU on each page flip. The GPU itself has no direct
+> >> access. Hardware of this type is usually in servers, behind slow busses
+> >> (SPI, USB), or provided by firmware (drivers in sysfb/).
+> >>
+> >> After some discussion with Boris on the future of GEM-SHMEM, it seems
+> >> to me that both use cases more and more diverge from each other. The
+> >> most prominent example is the implementation of gem_prime_import,
+> >> where both use cases use distinct approaches.
+> >>
+> >> So we discussed the introduction of a GEM-UMA helper library for
+> >> UMA-based hardware. GEM-UMA will remain flexible enough for drivers
+> >> to extend it for their use case. GEM-SHMEM will become focused on the
+> >> simple-hardware use case. The benefit for both libraries is that they
+> >> will be easier to understand and maintain. GEM-SHMEM can be simplified
+> >> signiifcantly, I think.
+> >>
+> >> This RFC series introduces GEM-UMA and converts the UMA-related drivers.
+> >>
+> >> Patches 1 and 2 fix issues in GEM-SHMEM, so that we don't duplicate
+> >> errornous code.
+> >>
+> >> Patch 3 copies GEM-SHMEM to GEM-UMA. Patch 4 then does soem obvious
+> >> cleanups of unnecessary code.  
+> > Instead of copying the code as-is, I'd rather take a step back and think
+> > about what we need and how we want to handle more complex stuff, like
+> > reclaim. I've started working on a shrinker for panthor [1], and as part
+> > of this series, I've added a commit implementing just enough to replace
+> > what gem-shmem currently provides. Feels like the new GEM-UMA thing
+> > could be designed on a composition rather than inheritance model,
+> > where we have sub-components (backing, cpu_map, gpu_map) that can be
+> > pulled in and re-used by the driver implementation. The common helpers
+> > would take those sub-components instead of a plain GEM object. That
+> > would leave the drivers free of how their internal gem_object fields are
+> > laid out and wouldn't require overloading the ->gem_create_object()
+> > function. It seems to be that it would better match the model you were
+> > describing the other day.  
+> 
+> Yeah, I've seen your update to that series. Making individual parts of 
+> the memory manager freely composable with each other is a fine idea.
+> 
+> But the flipside is that I also want the simple drivers to move away 
+> from the flexible approach that GEM-SHMEM currently takes. There are 
+> many drivers that do not need or want that. These drivers benefit from 
+> something that is self contained. Many of the drivers are also hardly 
+> maintained, so simplifying things will also be helpful.
+> 
+> I could have added a new GEM implementation for these drivers, but there 
+> are less UMA drivers to convert and the GEM-UMA naming generally fits 
+> better than GEM-SHMEM.
+> 
+> I'd rather have GEM-UMA and evolve it from where it stands now; and also 
+> evolve GEM-SHMEM in a different direction. There's a difference in 
+> concepts here.
 
-On 09/12/2025 12:18, Harry Wentland wrote:
->
-> On 2025-12-08 19:13, Melissa Wen wrote:
->>
->> On 08/12/2025 20:59, Melissa Wen wrote:
->>>
->>> On 28/11/2025 18:36, Harry Wentland wrote:
->>>> On 2025-11-28 14:09, Melissa Wen wrote:
->>>>> On 27/11/2025 17:39, Harry Wentland wrote:
->>>>>> On 2025-11-25 19:45, Melissa Wen wrote:
->>>>>>> The usage of DCN30 CM helper creates some unexpected shimmer points on
->>>>>>> PQ shaper TF in the steamOS HDR color pipeline. Fix it by using the same
->>>>>>> DCN10 color mgmt helper of previous hw versions to translate plane
->>>>>>> shaper func to hw format in DCN32 hw family.
->>>>>>>
->>>>>>> Signed-off-by: Melissa Wen <mwen@igalia.com>
->>>>>>> ---
->>>>>>>
->>>>>>> Hi,
->>>>>>>
->>>>>>> Commit a953cd8cac6b ("drm/amd/display: Fix MPCC 1DLUT programming")
->>>>>>> mentions some visible artifacts when using DCN10 CM helper on DCN32
->>>>>>> shaper and blend LUTs. On the other hand, using DCN30 CM helper creates
->>>>>>> some shimmer points on steamOS HDR pipeline. We didn't noticed any
->>>>>>> visible artifacts so far, but I'd like to know more about what kind of
->>>>>>> artifacts were visible at the time this helper for shaper func was
->>>>>>> switched in the afore-mentioned commit for further investigation.
->>>>>>>
->>>>>> Thanks for the debug.
->>>>>>
->>>>>> Do you have more info on the unexpected shimmer points with SteamOS?
->>>>>> Ideally a video and a description on what to look for and why it's
->>>>>> wrong, or a comparison to a GFX-transformed example that shows the
->>>>>> correct visuals?
->>>>> Hi Harry,
->>>>>
->>>>> I took some pictures of clear unexpected scenes in HDR games.
->>>>>
->>>>> 1. https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-split-fiction-game-black-loading-bkg.jpg
->>>>>
->>>>> Just loading Split Fiction after having turning on HDR in this game options (Options > Graphics > HDR).
->>>>> We expected a black background with the Loading <icon> in the bottom right, this background is full of bright spots.
->>>>> Friend pass is enough to reproduce the issue without having the game.
->>>>>
->>>>> 2. https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-menu.jpg
->>>>>
->>>>> Colorful-bright points around the margin/corner of the God of War Ragnarok game menu.
->>>>>
->>>>> 3. God of War Ragnarok game intro:
->>>>>
->>>>> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro1.jpg
->>>>> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro2.jpg
->>>>> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-intro3.jpg
->>>>> - https://people.igalia.com/mwen/hdr-dcn321-pics/HDR-DCN321-god-of-war-ragnarok-PS-logo.jpg
->>>>>
->>>>> Same random shimmer distortions.
->>>>> I think those images are good examples, but still pending screenshot/GFX examples for comparison.
->>>>> I'll take it and reply here later.
->>>>>
->>>> Thanks, that would still be helpful, but even as-is these images
->>>> quite highlight the issue. It's more severe than I expected.
->>>>
->>>>>> Obviously we don't want to simply switch back to DCN10 helpers
->>>>>> without understand why, and potentially regressing other use-cases.
->>>>>> At least we should look at what the differences are between the
->>>>>> two versions of that function, and which part of the curve programming
->>>>>> causes the undesirable results.
->>>>>>
->>>>>> The original bug that was solved by that commit was a regression that
->>>>>> sent bright values in an HDR video to black or red, so basically
->>>>>> something really messed up bright PQ values. At least I suspect
->>>>>> it was a PQ HDR video. The ticket doesn't state that.
->>>>> I see. Looks like now we have somehow the same problem but in reverse (?) like black values mapped into bright values (?)
->>>> Yeah, if I understand your screenshots the issue seems to happen
->>>> (mainly) with dark values?
->>>>
->>>>>> When looking at the diff between the two functions I notice that
->>>>>> the cm3_ version is missing the dc_fixpt_clamp_u0d10 for the
->>>>>> delta_<color>_reg assignments, toward the bottom of the function.
->>>>>> I remember I had to add that to the cm_ version since it caused
->>>>>> issues with SteamOS HDR. Can we try that on the cm3_ function?
->>>>> Yes, I remember this issue.
->>>>>
->>>>> I've already tried the same changes from this commit (https://gitlab.freedesktop.org/agd5f/linux/-/commit/27fc10d1095f) to cm3_helper, but it doesn't help... probably because the commit was addressing a different behaviors.
->>>>>
->>>>> I also noticed on cm3_ they consider a different range of hw points, as in this comment:
->>>>> "
->>>>>       // DCN3+ have 257 pts in lieu of no separate slope registers
->>>>>       // Prior HW had 256 base+slope pairs
->>>>> "
->>>>>
->>>>> Can it be related to this problem?
->>>>>
->>>> Possibly. The point distribution is one potential culprit.
->>>>
->>>> How I would debug this is to look at the diff between the two
->>>> functions and try each diff one at a time to see whether one
->>>> (or two) small changes fixes this. Then look at what that change
->>>> was and what it does. That can then give us a guide on how to
->>>> properly fix it without affecting other use-cases.
->>> Hi Harry,
->>>
->>> Sorry for the delay. I got swamped with another debugging.
->>>
->>> I identified to different problems on plane shaper LUT when using the cm3 helper: those dark values wrong mapping and banding on some light values.
->>                    ^^^ two
->>> I followed your suggestion and found the necessary changes to address both issues, I just sent two RFC patches , so we can discuss it better there.
->>>
->>> https://lore.kernel.org/amd-gfx/20251208234741.293037-1-mwen@igalia.com/
->>>
->>> I still see a gradient banding on the game menu of Ori, but it's present with the DCN10 CM helper too.
->>>
->>> Thanks for taking a look at these problems.
->>>
-> Thanks, I'll have a look.
->
-> This is with the AMD_PRIVATE_COLOR stuff, right?
-Yes
-> Do you know if anyone's working on migrating gamescope to the now-merged color pipeline API?
-AFAIK, nobody is currently working on this migration.
-
-I started migrating gamescope, but I got stuck in the libliftoff 
-changes, because of my lack of background.
-I don't think I'll be able to resume it in the short term :/
-
-Not sure if someone is working on this topic for libliftoff.
-
-Simon (/cc) , do you know?
-
->
-> Harry
->
->>> Melissa
->>>> The other thing to understand is why we didn't see issues with
->>>> the Color Pipeline API tests in IGT.
->>>>
->>>> Harry
->>>>
->>>>> Thanks,
->>>>>
->>>>> Melissa
->>>>>
->>>>>> Cheers,
->>>>>> Harry
->>>>>>
->>>>>>> Thanks in advance,
->>>>>>>
->>>>>>> Melissa
->>>>>>>
->>>>>>>
->>>>>>>     drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c | 6 +++---
->>>>>>>     1 file changed, 3 insertions(+), 3 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
->>>>>>> index bf19ba65d09a..a28560caa1c0 100644
->>>>>>> --- a/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
->>>>>>> +++ b/drivers/gpu/drm/amd/display/dc/hwss/dcn32/dcn32_hwseq.c
->>>>>>> @@ -501,9 +501,9 @@ bool dcn32_set_mcm_luts(
->>>>>>>             lut_params = &plane_state->in_shaper_func.pwl;
->>>>>>>         else if (plane_state->in_shaper_func.type == TF_TYPE_DISTRIBUTED_POINTS) {
->>>>>>>             // TODO: dpp_base replace
->>>>>>> -        ASSERT(false);
->>>>>>> - cm3_helper_translate_curve_to_hw_format(&plane_state->in_shaper_func,
->>>>>>> -                &dpp_base->shaper_params, true);
->>>>>>> + cm_helper_translate_curve_to_hw_format(plane_state->ctx,
->>>>>>> + &plane_state->in_shaper_func,
->>>>>>> + &dpp_base->shaper_params, true);
->>>>>>>             lut_params = &dpp_base->shaper_params;
->>>>>>>         }
-
+Problem is, we'll be stuck trying to evolve gem-uma to something
+cleaner because of the existing abuse of gem-shmem that you're moving
+to gem-uma, so I'm not sure I like the idea to be honest. I'm all for
+this gem-uma thing, but I'm not convinced rushing it in is the right
+solution.
