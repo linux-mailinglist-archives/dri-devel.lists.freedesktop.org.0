@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D6BCCAFBB0
-	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 12:15:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3C7CAFBBF
+	for <lists+dri-devel@lfdr.de>; Tue, 09 Dec 2025 12:15:46 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11D9410E516;
-	Tue,  9 Dec 2025 11:15:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CAF810E521;
+	Tue,  9 Dec 2025 11:15:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="AvEef7IF";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="BepV4pyN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
  [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BB5E10E516
- for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 11:15:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1765278910; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2252910E51D
+ for <dri-devel@lists.freedesktop.org>; Tue,  9 Dec 2025 11:15:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1765278914; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=EG0l7NEOkFy/3D2p1fbSjykkavUC+ZqKuSinMrdKzBQP2ximO5LswyX5QgwfaH36NprG7X+ui3K2rtSqMBJGV4G9owp6/DXAgmoDnQzsHQ+X92Ab+yB4fMkOn72AyV38bx6k0qpoESfm2A95N2GMqTU/KwksuHBqopgWZiNI2/k=
+ b=VRwlubZnlCsEB3gByVYJMAVc9MPJeR8jF9uHx+qhzrzu6qaSAwt3APM+nFxJ9Cc27WssQwl0aDTiVPySbNdJRbLDzqrRMIr8LtolyFwYlZrNsKY9Igmoq5gMRe0gIsIca3oemHFsUj6YeDrFTGyvNkisJBXRe0j4SWPpcYzuIOw=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1765278910;
+ s=zohoarc; t=1765278914;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=ZLt345x+m80QdbohyKM4Hq5RZfs7ADEKLCvNEvG5VIo=; 
- b=X30pna4CRhCeVghT3Z3hxgmWpJLW02BL+z8Hk9y0Q73d0zTqPxXuKhLBN6wF2Z9FAI/NY8pW2UncGJ3wiTLf4LOhtc+89hPP2n5ndj0zTBLxqCMsVy3wS0l5HmhlgrvBxpNuygqzoSuMpWlslFaxn1uNlmzBUQHXJ/MDwPoKgnY=
+ bh=Dc/9047WZIfthGrC5w9XvBmK2nntzK36OcINQIL7+aQ=; 
+ b=OEnnukIzUPUdcrateJRpJN1F87/btsJ8w65xaf/ig2hgK7nIgDh80IZ4+ffuxzGwLWoqu1prSXqm6Nqxamwe4lTMnUBRmLpfVPCd9TZhVvwoR3AWN66FIt0THx+pjj8lRJJZ0/hm1zqnEWGzYScr6nB9BTftwWOwlpvQ+Hi5s3o=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765278910; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765278914; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=ZLt345x+m80QdbohyKM4Hq5RZfs7ADEKLCvNEvG5VIo=;
- b=AvEef7IFkZ5K82IYQ6lqWENvOWNwwxBxpM2bo99abRJr4oahnTfaN5wGHaLY2gGZ
- VEKGdmgVpiXeYBOdOrJwBF0ygTq9OrF4Wj9qpqzo5NqHmA5S356umczo5tdmEZPbrBj
- p5/vOJNA7h7apQ9+IgWgLu5dqWiddvz+bZcyRIFQ=
-Received: by mx.zohomail.com with SMTPS id 1765278909282948.4385184735341;
- Tue, 9 Dec 2025 03:15:09 -0800 (PST)
+ bh=Dc/9047WZIfthGrC5w9XvBmK2nntzK36OcINQIL7+aQ=;
+ b=BepV4pyNErFKMl+Bpo87+6PAVX5DCwibNKEiHV02sHM6Vm0+MFZ5B60AeCwzMbjN
+ imFPUAK/f1ByOltqyPUyBcA6VKlBLqore8T2bjo2/vspKBwpGDAg6A82Ydp4rpHgKQt
+ SAwpRtspcFvWaFGGNcKtY9UQvav+Y9D1F/15ehxQ=
+Received: by mx.zohomail.com with SMTPS id 1765278913254748.0512620367256;
+ Tue, 9 Dec 2025 03:15:13 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Tue, 09 Dec 2025 12:14:18 +0100
-Subject: [PATCH v3 5/8] drm/rockchip: vop2: Enforce AFBC source alignment
- in plane_check
+Date: Tue, 09 Dec 2025 12:14:19 +0100
+Subject: [PATCH v3 6/8] drm/rockchip: vop2: Enforce AFBC transform stride
+ align in plane_check
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251209-vop2-atomic-fixups-v3-5-07c48f0f1f0d@collabora.com>
+Message-Id: <20251209-vop2-atomic-fixups-v3-6-07c48f0f1f0d@collabora.com>
 References: <20251209-vop2-atomic-fixups-v3-0-07c48f0f1f0d@collabora.com>
 In-Reply-To: <20251209-vop2-atomic-fixups-v3-0-07c48f0f1f0d@collabora.com>
 To: Chaoyi Chen <chaoyi.chen@rock-chips.com>, 
@@ -76,50 +76,45 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Daniel Stone <daniels@collabora.com>
 
-Planes can only source AFBC framebuffers at multiples of 4px wide on
-RK3566/RK3568. Instead of clipping on all SoCs when the user asks for an
-unaligned source rectangle, reject the configuration in the plane's
-atomic check on RK3566/RK3568 only.
+Make sure we can't break the hardware by requesting an unsupported
+configuration.
 
 Signed-off-by: Daniel Stone <daniels@collabora.com>
-[Make RK3566/RK3568 specific, reword message, s/byte/pixel/]
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index 6d4f22872e67..a029ed73dda7 100644
+index a029ed73dda7..337b01ed29a6 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -1076,6 +1076,13 @@ static int vop2_plane_atomic_check(struct drm_plane *plane,
+@@ -1083,6 +1083,15 @@ static int vop2_plane_atomic_check(struct drm_plane *plane,
  		return -EINVAL;
  	}
  
-+	if (vop2->version == VOP_VERSION_RK3568 && drm_is_afbc(fb->modifier) && src_w % 4) {
++	if (drm_is_afbc(fb->modifier) &&
++	    pstate->rotation &
++		(DRM_MODE_REFLECT_X | DRM_MODE_ROTATE_90 | DRM_MODE_ROTATE_270) &&
++	    (fb->pitches[0] << 3) / vop2_get_bpp(fb->format) % 64) {
 +		drm_dbg_kms(vop2->drm,
-+			    "AFBC source rectangles must be 4-pixel aligned; is %d\n",
-+			    src_w);
++			    "AFBC buffers must be 64-byte aligned for horizontal rotation or mirroring\n");
 +		return -EINVAL;
 +	}
 +
  	return 0;
  }
  
-@@ -1237,11 +1244,8 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
- 	WARN_ON(src_w < 4);
- 	WARN_ON(src_h < 4);
+@@ -1290,9 +1299,6 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
+ 		 * with WIN_VIR_STRIDE.
+ 		 */
+ 		stride = (fb->pitches[0] << 3) / bpp;
+-		if ((stride & 0x3f) && (xmirror || rotate_90 || rotate_270))
+-			drm_dbg_kms(vop2->drm, "vp%d %s stride[%d] not 64 pixel aligned\n",
+-				    vp->id, win->data->name, stride);
  
--	if (afbc_en && src_w % 4) {
--		drm_dbg_kms(vop2->drm, "vp%d %s src_w[%d] not 4 pixel aligned\n",
--			    vp->id, win->data->name, src_w);
--		src_w = ALIGN_DOWN(src_w, 4);
--	}
-+	if (vop2->version == VOP_VERSION_RK3568 && drm_is_afbc(fb->modifier))
-+		WARN_ON(src_w % 4);
- 
- 	act_info = (src_h - 1) << 16 | ((src_w - 1) & 0xffff);
- 	dsp_info = (dsp_h - 1) << 16 | ((dsp_w - 1) & 0xffff);
+ 		 /* It's for head stride, each head size is 16 byte */
+ 		stride = ALIGN(stride, block_w) / block_w * 16;
 
 -- 
 2.52.0
