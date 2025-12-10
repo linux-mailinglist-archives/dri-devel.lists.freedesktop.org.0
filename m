@@ -2,64 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0433BCB3873
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 17:51:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4251CB389A
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 17:56:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2F4C10E77E;
-	Wed, 10 Dec 2025 16:51:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA05810E725;
+	Wed, 10 Dec 2025 16:56:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Q0pG3vFf";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=exactco.de header.i=@exactco.de header.b="iU9BLPjc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6BE110E77E
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 16:51:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1765385490; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=AqWOnSV3x1aE+qAbMdMHP7POIq0TLbcppVkPg6jvkhE1SgxoIS20xF5HS3tRgoc1PHl1SnoGhkOh9qkf88ZyYoEBCj9HBFhQUcmq/A2EQn5bhP7gDx59fJjzVyzhD3fao1mHhuQXo58D46UPWmu1lMDt0veDAKAvzgNOru/d6Y4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1765385490;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=XYQugW6063MToRusR1W+LNEWImZVIODvOq5oYuOWBG8=; 
- b=OJ1cHg2sqkd6bp++vSCv6qKR0kGmuMnSTGWmc3Qqy6Ubx5YFonESd3xzyX+65HR6EMamp4J/QxNBNyqdJkMK9wvYqbKqIIanUiQpOd15diGrmBIUPcg75nQb50kGGlih5wXBY8yGbdwX/E36IK35I02UcBrM5M6fPo0C4JEtV+Q=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765385490; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=XYQugW6063MToRusR1W+LNEWImZVIODvOq5oYuOWBG8=;
- b=Q0pG3vFf+K/YLOMnqVuPrRJWPNy6Y0bETcoLClHXCwsZkFDt971EPbM7WHV/ZC3p
- NxvO/8G/ALFDjZa0UP6O81SuRJdSDMwgMyShCBunmdE0sx+2VKp4uSbiX7HKhE2ChDe
- UrRr+l0CeGwoaPrvJsh1aysnXLZdxgiOw28zeyBo=
-Received: by mx.zohomail.com with SMTPS id 1765385488675690.2327611062028;
- Wed, 10 Dec 2025 08:51:28 -0800 (PST)
-Message-ID: <a8405071-8489-4965-9a59-fc58f78cb250@collabora.com>
-Date: Wed, 10 Dec 2025 19:51:23 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/virtio: Allow importing prime buffers when 3D is
- enabled
-To: Val Packett <val@invisiblethingslab.com>,
- David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
- <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Vivek Kasireddy <vivek.kasireddy@intel.com>
-Cc: Dongwon Kim <dongwon.kim@intel.com>,
- Christian Koenig <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20251210154755.1119861-2-val@invisiblethingslab.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20251210154755.1119861-2-val@invisiblethingslab.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Received: from exactco.de (exactco.de [176.9.10.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0504010E70E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 16:56:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=exactco.de; 
+ s=x;
+ h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:
+ In-Reply-To:From:Subject:Cc:To:Message-Id:Date:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=ZLoHgTF3PCi56Qg8sGIgv9U33F8LXO/N+/x3cxevXAY=; b=iU9BLPjc6aGpWSRqgcpUiPdQ/1
+ N1NuOwXcZ0mGqGKuuW1l5petCAq5v+BDLZppHQM3VkLQrtarDIiGST1849jXCeQibM08z+Eof8F4E
+ tPb2EkLf50sCPsdWQ53zS5f/nnxT56a2mX4EHDjgXiJ8ydQyDGQqdN69h4Pttwf3fiEREsNHHpYOO
+ JlojTZnyKi5axvpZ9aeju7sbFyySH4TKOFdokOWVBCN3VBP9FdPpmEwh4ZH1aTI1rcAY/Dru8TTOh
+ 9s778NkbGud+XN934JG9r9nK4qGfIYVL1OrRljrUcYVzFM1ENx+u3EvYOyhUmD1SzO4YlpEmgYLjK
+ b1BS7MTQ==;
+Date: Wed, 10 Dec 2025 17:56:35 +0100 (CET)
+Message-Id: <20251210.175635.1285090497167018958.rene@exactco.de>
+To: tzimmermann@suse.de
+Cc: tpearson@raptorengineering.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, airlied@redhat.com
+Subject: Re: [PATCH] drm/ast: Fix big-endian support
+From: =?iso-8859-1?Q?Ren=E9?= Rebe <rene@exactco.de>
+In-Reply-To: <dda9846d-3893-43ab-9cce-12a7f41fb974@suse.de>
+References: <a4243932-5878-4b37-b1f0-fb0c706ed1f2@suse.de>
+ <20251210.163344.1485666712792595073.rene@exactco.de>
+ <dda9846d-3893-43ab-9cce-12a7f41fb974@suse.de>
+X-Mailer: Mew version 6.10 on Emacs 30.2
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,49 +60,61 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 12/10/25 18:39, Val Packett wrote:
-> This functionality was added for using a KMS-only virtgpu with a physical
-> (or SR-IOV) headless GPU in passthrough, but it should not be restricted
-> to KMS-only mode. It can be used with cross-domain to pass guest memfds
-> to the host compositor with zero copies (using udmabuf on both sides).
-> 
-> Drop the check for the absence of virgl_3d to allow for more use cases.
-> 
-> Fixes: ca77f27a2665 ("drm/virtio: Import prime buffers from other devices as guest blobs")
-> Signed-off-by: Val Packett <val@invisiblethingslab.com>
-> ---
-> 
-> Hi. I couldn't find any comments on that line in the reviews (on patchwork), so I assume
-> there was never a specific technical reason for that check, just an abundance of caution?
-> 
-> BTW, while here.. The drm_gem_prime_import "fallback" seems pretty much equivalent to
-> `return (-ENODEV)`, as drm_gem_prime_import(_dev) just translates the call to
-> gem_prime_import_sg_table which we don't use. Should it be replaced with `return (-ENODEV)`?
+On Wed, 10 Dec 2025 16:41:50 +0100, Thomas Zimmermann <tzimmermann@suse.de> wrote:
 
-Returning -ENODEV should break dmabuf self-importing where virtio-gpu
-driver export dmabuf and then imports to itself.
-
-> ---
->  drivers/gpu/drm/virtio/virtgpu_prime.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Hi
 > 
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-> index ce49282198cb..2fedd5d3bd62 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-> @@ -312,7 +312,7 @@ struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
->  		}
->  	}
->  
-> -	if (!vgdev->has_resource_blob || vgdev->has_virgl_3d)
-> +	if (!vgdev->has_resource_blob)
->  		return drm_gem_prime_import(dev, buf);
->  
->  	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
+> Am 10.12.25 um 16:33 schrieb René Rebe:
+> > Hallo,
+> >
+> > On Wed, 10 Dec 2025 09:55:50 +0100, Thomas Zimmermann
+> > <tzimmermann@suse.de> wrote:
+> > ...
+> >>>> Does that fix the color corruption?
+> >>> Following your suggestions conversion does not want to just work:
+> >>>
+> >>> root@XCODE_SPARC_T4_1:~# dmesg  | tail
+> >>> [  105.444761] ast 0000:0a:00.0: AST 2200 detected
+> >>> [ 105.444947] ast 0000:0a:00.0: [drm] dram MCLK=266 Mhz type=2
+> >>> bus_width=32
+> >>> [  105.444963] ast 0000:0a:00.0: [drm] Using analog VGA
+> >>> [  105.445470] [drm] Initialized ast 0.1.0 for 0000:0a:00.0 on minor 0
+> >>> [ 105.673289] ast 0000:0a:00.0: [drm] format BX24 little-endian
+> >>> (0x34325842) not supported
+> >>> [  105.673302] ast 0000:0a:00.0: [drm] No compatible format found
+> >>> [ 105.673348] ast 0000:0a:00.0: [drm] *ERROR* fbdev: Failed to setup
+> >>> emulation (ret=-22)
+> >>> [ 105.901306] ast 0000:0a:00.0: [drm] format BX24 little-endian
+> >>> (0x34325842) not supported
+> >>> [  105.901319] ast 0000:0a:00.0: [drm] No compatible format found
+> >>> [ 105.901350] ast 0000:0a:00.0: [drm] *ERROR* fbdev: Failed to setup
+> >>> emulation (ret=-22)
+> >> Oh well...
+> >>
+> >> There's a very simple patch attach. Does it fix the problem?
+> > Yes, only leaving the hardcoded swapping from my patch liek this fixes
+> > the byte-swapped output as expected on the sparc64 Sun T4.
+> 
+> Great.
+> 
+> >
+> > How would you like me to go from here? Just use the chip_id to force
+> > swapping and enable hw swapper for pre-AST2400 chips or fix the
+> > generic format selection to work as you had suggested?
+> >
+> > Does the ast_primary_plane_formats need to byte swapped formats for it
+> > to work?
+> 
+> I'll send out a full patch that implements the byte swapping. Once
+> reviewed, it can be merged quickly. Can I add your Tested-by tag to
+> the patch?
 
-At a quick glance the change looks fine. Will take another stab after
-Holidays and merge if no problems will be spotted. Thanks.
+I'd be happy to finish my work. But if you want to put the last touch
+on it now you can add Co-developed-by, too ... and I'll test the final
+version.
+
+   René
 
 -- 
-Best regards,
-Dmitry
+René Rebe, ExactCODE GmbH, Berlin, Germany
+https://exactco.de • https://t2linux.com • https://patreon.com/renerebe
