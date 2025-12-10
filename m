@@ -2,80 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA38BCB3F08
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 21:21:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31B57CB3FDD
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 21:47:08 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CAC210E281;
-	Wed, 10 Dec 2025 20:21:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B83910E72F;
+	Wed, 10 Dec 2025 20:47:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RhGeQF25";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="NMvi8LVt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com
- [74.125.224.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3595510E281
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 20:21:42 +0000 (UTC)
-Received: by mail-yx1-f46.google.com with SMTP id
- 956f58d0204a3-6446d7a8eadso228197d50.0
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 12:21:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765398101; x=1766002901; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9ZInM0NiQ7nFRNVeTnm9fViGpDJsRjTXAmkv4itoNQY=;
- b=RhGeQF25iEUoui9orGhMV78pW9mOWUXLLOc5Vab00MKU/hGpFFJxifFXHKujL3H6/0
- qNDIMyJkQO8We+U/QQR0rncs7Yd8ybgtrcZaJ6YlGNj/GLEh0A4tZ+T5uRrKmmkXrYw/
- zUXRX08Om+Paxu1ZP0/DAdASsBl8z9Ew+u7plrazYtLyxwdR1ZQJT4uFf1iNdiwzmapV
- A3oAt1SDe1wSWcaZCUZb12pR6JRGE2ZIWYxd9LsqmFZcTl9dBxMETMbLLVpH0QLzzHrl
- Bri/crM+WY4rAvKbUhSpranMBRxSy07RqqqcEZuMKswweZmbjw96EiQdWpaze6c/lTR2
- fHTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765398101; x=1766002901;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=9ZInM0NiQ7nFRNVeTnm9fViGpDJsRjTXAmkv4itoNQY=;
- b=Udsq3YU9egDpP0nMFk0mQX2dqCGmUnc4pVfm3tFuYYdgDIJMWwmDmHYUc5HN3frj7a
- Klks/d6plelvfF4HDFCUlsGkBBocFARZQ+2o5tyFDUd29hk6gKuC0QisEK6D41Qnz43X
- 8X48O/iF7AX8QfNCe5w+GCKYlFcwLvBr0k8rzplOzyEoMvPSbcF1SGftCCvXUaW+tICe
- GmMncbZl0mT5Oj9WeVRc03bjl4Z8wCKOaur04hAUaozcXDmA0Y8o/uwTY1GxYUSB2bkH
- kh98SsXhnZ19P31agZyAcwLk+MbwwH8/HPOZ8A8kBv/4o3LvpiC3W2G3HA4+ZBZcgehR
- ZeGQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXq3KCyqdIP1jLwaY0x3HTcbgLuxnAC4E7gSAdwxVkjTworUOH3myxW6GwNwaWAFHCX+ESmjQSlhoY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyVpf08IzgRn3gg9Haqh48073hT/kKc7dzFPqAUMgbSsWM506Dm
- oWN6bx2zDgHw18umP+5wwdKMCF5K9N7Fa86NgoxcsufKEl0EH+AWnAe8pDiy0HuO6XiUGujcUuO
- i/pDg77CJMh8Jyz7VzCbKgWg5iy2/cHk=
-X-Gm-Gg: AY/fxX5ScwfcVRW6RGcDuQzpWQHDfryTHWYh/6lXPzdGwg8eVFaPQ64Go0b3Ygn9Eue
- Kbq7YIF0/vBSUXxRYM0qKHxjvhbiC6CA2FYG1+1Duf+T5DZcEzE27QF8+7qyFihz4Bq54tvIf+R
- 3DdkAIJrDV/UOGmejwbhcyn5mXAdg3kjCwVbAyI6z4KmI7NM60v2xSvvcnQQ2ZA07NhuOF0vWyK
- m659+kZ0sjOtUBq5r7NesO/uVRCPBg9TooA/u0OBNpml+jja3ZU55CB3O5JoC12kIse98DsDw==
-X-Google-Smtp-Source: AGHT+IEd9Yp9ouRQjIqIHHL1BlQLYeX2qiLXcyiE+UEnu7ZeLOvh/BJcmz8Vq8ERwxLtQQLqXX/tsXg0aWvRF87WFhI=
-X-Received: by 2002:a05:690e:118e:b0:63f:a5ff:46a4 with SMTP id
- 956f58d0204a3-6446e8fbc61mr2766089d50.6.1765398101139; Wed, 10 Dec 2025
- 12:21:41 -0800 (PST)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0810F10E277;
+ Wed, 10 Dec 2025 20:46:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=8wpZImR8ezSQmqWdpIaK6agQRQeKc6Wy1yk3Rxf+L44=; b=NMvi8LVt11V5oS/wUEce3HfQbm
+ ThFdwn2BWFpanf48xFDKxnhXMQ9yTsFSvRw/6zzuZy+WhRIo/AomhXQm6auBeNJtw6czskpQn9sJD
+ d0jPbbNYllRh1rDN78ZBY6fHvsfptWmBSQxty9FFWRFnk4a3spgPjmaEkwOQyFEcPKYSX8Y5qTmoq
+ qTJlVfmkAC1ZwJAs6Sru1EjUZI2D3zHFvMx0Oi/avFHoMc9oasiA1t1TSxyG8cPpBZfl3p2e/VzdY
+ ol9Gc5rSHTbdS6OGjA1ilZXJSnxTSYfPFIugfp/Nrxj81nkOZlX2QRO/xQJ8cL6PdqzuM03MSjzbc
+ ipAxRUsA==;
+Received: from [186.208.73.250] (helo=[192.168.18.14])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1vTR5J-00B9lF-9W; Wed, 10 Dec 2025 21:46:53 +0100
+Message-ID: <314e9649-90b4-47b9-afce-7ed27bad219b@igalia.com>
+Date: Wed, 10 Dec 2025 17:46:47 -0300
 MIME-Version: 1.0
-References: <20251118201842.1447666-1-jim.cromie@gmail.com>
- <20251118201842.1447666-17-jim.cromie@gmail.com>
- <fcb2532d-5627-4bc3-a990-ed361b56ccd3@akamai.com>
- <CAJfuBxxeaZDY+-f=7R0RSnE7FAyPtB_O+S3E4L_OckKNRK+7ag@mail.gmail.com>
- <9f36429d-1d6e-4501-a092-fbf45254d116@akamai.com>
-In-Reply-To: <9f36429d-1d6e-4501-a092-fbf45254d116@akamai.com>
-From: jim.cromie@gmail.com
-Date: Thu, 11 Dec 2025 09:21:15 +1300
-X-Gm-Features: AQt7F2rPGZR4Rg44iJ3Xr_UOgelrQ39K4qdCvflmk1RdZDQ43aUgkyzsJSQAuHE
-Message-ID: <CAJfuBxw8xV2RrbTWpmQFpCpiSp9A7KCLP74T_bu+4mxBROf1sg@mail.gmail.com>
-Subject: Re: [PATCH v6 16/31] dyndbg: hoist classmap-filter-by-modname up to
- ddebug_add_module
-To: Jason Baron <jbaron@akamai.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- gregkh@linuxfoundation.org, ukaszb@chromium.org, louis.chauvet@bootlin.com, 
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Documentation List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/2] Fixes on CM3 helper for plane shaper LUT
+To: Matthew Schwartz <matthew.schwartz@linux.dev>,
+ Harry Wentland <harry.wentland@amd.com>
+Cc: airlied@gmail.com, alexander.deucher@amd.com, christian.koenig@amd.com,
+ simona@ffwll.ch, siqueira@igalia.com, sunpeng.li@amd.com,
+ kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+References: <20251208234741.293037-1-mwen@igalia.com>
+ <6fbc0496-9a96-4f72-a8d8-66b7885bdaf6@linux.dev>
+ <ae3d39ec-e220-435e-9cc9-e316591cf0f1@igalia.com>
+ <bb175945-665b-4cbc-b021-45e19e0f0e84@igalia.com>
+ <c78c6b61-a28c-43b7-8c88-ddce497a465d@amd.com>
+ <ca288c08-c39f-42e8-9be4-bfa16d77765e@igalia.com>
+ <b59c1c9a-caac-43d8-9c6b-c13140624325@linux.dev>
+Content-Language: en-US
+From: Melissa Wen <mwen@igalia.com>
+In-Reply-To: <b59c1c9a-caac-43d8-9c6b-c13140624325@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,147 +70,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 11, 2025 at 8:14=E2=80=AFAM Jason Baron <jbaron@akamai.com> wro=
-te:
->
->
->
-> On 12/10/25 1:33 AM, jim.cromie@gmail.com wrote:
-> > !-------------------------------------------------------------------|
-> >    This Message Is From an External Sender
-> >    This message came from outside your organization.
-> > |-------------------------------------------------------------------!
-> >
-> > On Wed, Dec 10, 2025 at 11:43=E2=80=AFAM Jason Baron <jbaron@akamai.com=
-> wrote:
-> >>
-> >> Hi Jim,
-> >>
-> >> Very minor nit below about the kernel-doc ordering for args...
-> >>
-> >
-> >>> +/*
-> >>> + * Walk the @_box->@_vec member, over @_vec.start[0..len], and find
-> >>> + * the contiguous subrange of elements matching on ->mod_name.  Copy
-> >>> + * the subrange into @_dst.  This depends on vars defd by caller.
-> >>> + *
-> >>> + * @_i:   caller provided counter var, init'd by macro
-> >>> + * @_sp:  cursor into @_vec.
-> >>> + * @_box: contains member named @_vec
-> >>> + * @_vec: member-name of a type with: .start .len fields.
-> >>> + * @_dst: an array-ref: to remember the module's subrange
-> >>> + */
-> >>
-> >> Not sure if the odering matters for the docs, but it makes it a bit
-> >> harder read when these don't go in order.
-> >>
-> >> Thanks,
-> >>
-> >> -Jason
-> >>
-> >
-> > I chose that doc ordering for clarity,  the easy ones 1st,
-> > and @dst last since it gets the subrange info.
-> > I think reordering might mean more words trying to connect
-> > the pieces, and with less clarity.
-> > It does work against the macro arg ordering,
-> > which places @dst near the front,
-> > I did that to follow  LHS =3D RHS(...)   convention.
-> >
-> > Im happy to swap it around if anyone thinks that convention
-> > should supercede these reasons,
-> > but Im in NZ on vacation right now,
-> > and I forgot to pull the latest rev off my desktop before I left.
-> > so I dont want to fiddle with the slightly older copy I have locally,
-> > and then have to isolate and fix whatever is different.
-> >
-> > the same applies to the Documentation tweaks that Bagas noted.
->
-> Couldn't you then re-order the function args to match the doc order inste=
-ad?
->
 
-As you might surmise, the code was written before the kdoc.
-Since it is setting the @_dst, it feels like an assignment.
-Therefore the LHS =3D RHS convention seemed pertinent,
-and the macro args are ordered to conform to this.
-For the (pseudo- since its not /** ) kdoc,
-the linear explanation was simplest and clearest, ending with @_dst.
 
-So I see these options (in my preferred order), please pick one.
-1. leave as is
-2. add an NB: that arg order differs from doc-order
-3. change macro arg order
-4. change kdoc arg order
+On 09/12/2025 15:19, Matthew Schwartz wrote:
+> On 12/9/25 7:18 AM, Melissa Wen wrote:
+>>
+>> On 09/12/2025 12:12, Harry Wentland wrote:
+>>> On 2025-12-09 09:44, Melissa Wen wrote:
+>>>> On 09/12/2025 11:31, Melissa Wen wrote:
+>>>>> On 08/12/2025 22:34, Matthew Schwartz wrote:
+>>>>>>> On Dec 8, 2025, at 3:48 PM, Melissa Wen <mwen@igalia.com> wrote:
+>>>>>>>
+>>>>>>> ﻿There are some unexpected banding and shimmer effects when using
+>>>>>>> steamOS/gamescope color pipeline for HDR on DCN32 or newer families.
+>>>>>>> Those problems are not present in Steam Deck (DCN301). It happens on
+>>>>>>> DCN32 because plane shaper LUT uses DCN30 CM3 helper to translate curves
+>>>>>>> instead of DCN10 CM helper. This series identifies the necessary changes
+>>>>>>> on CM3 helper to reduce differences on color transformation made by
+>>>>>>> those two helpers.
+>>>>>>>
+>>>>>>> Patch 1 aims to solve the shimmer/colorful points that looks like a
+>>>>>>> wrong map of black values on red/green/blue colors. Patch 2 extends the
+>>>>>>> delta clamping fix made in commit 27fc10d1095f ("drm/amd/display: Fix
+>>>>>>> the delta clamping for shaper LUT") to solve some banding effects.
+>>>>>>>
+>>>>>>> Banding is not fully solved by any helper and needs further
+>>>>>>> investigation.
+>>>>>>>
+>>>>>>> One easy way to check the current and expected behavior is moving the
+>>>>>>> cursor (doing composition) to get the expected result from GFX. When the
+>>>>>>> cursor disappears, those color transformations are back to be done by
+>>>>>>> the display hw.
+>>>>>> Hi Melissa,
+>>>>>>
+>>>>>> Could you share how you’re testing the gamescope color pipeline with HDR on DCN32, i.e display and connection type? Are any extra gamescope or kernel patches required?
+>>>>>>
+>>>>>> At least on my own DCN32 setup (AMD 7900XTX) + my primary monitor (an LG 45gx950a-b) via DisplayPort or my DCN35 setup + integrated HDR OLED screen (Legion Go 2), gamescope always composites when HDR is enabled. I applied your patches on top of kernel 6.18, and my kernel is built with CONFIG_DRM_AMD_COLOR_STEAMDECK=y (the downstream name of AMD_PRIVATE_COLOR for SteamOS), so that shouldn't be an issue. I tried everything from 1280x720p -> 5120x2160p, and it does not work on any resolution.
+>>>>> Hi Matt,
+>>>>>
+>>>>> You need to hack the DPP color caps to enabled SHAPER/3D and BLEND LUTs as below:
+>>>>>
+>>>>> diff --git i/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c w/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
+>>>>> index b276fec3e479..96b4f3239fb1 100644
+>>>>> --- i/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
+>>>>> +++ w/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.c
+>>>>> @@ -2256,8 +2256,8 @@ static bool dcn32_resource_construct(
+>>>>>           dc->caps.color.dpp.gamma_corr = 1;
+>>>>>           dc->caps.color.dpp.dgam_rom_for_yuv = 0;
+>>>>>
+>>>>> -       dc->caps.color.dpp.hw_3d_lut = 0;
+>>>>> -       dc->caps.color.dpp.ogam_ram = 0;  // no OGAM in DPP since DCN1
+>>>>> +       dc->caps.color.dpp.hw_3d_lut = 1;
+>>>>> +       dc->caps.color.dpp.ogam_ram = 1;  // no OGAM in DPP since DCN1
+>>>>>           // no OGAM ROM on DCN2 and later ASICs
+>>>>>           dc->caps.color.dpp.ogam_rom_caps.srgb = 0;
+>>>>>           dc->caps.color.dpp.ogam_rom_caps.bt2020 = 0;
+>>>>>
+>>>>> In short, you need to change `caps.color.dpp.hw_3d_lut` and `caps.color.dpp.ogam_ram` to 1 in the dcnX_resource.c file to say there is a "plane" color caps.
+>>>>> The thing is that, in DCN32+, these color caps are not part of DPP anymore, they are MPC capabilities in MCM that can be moved before or after blending.
+>>>>> But the current kernel implementation checks DPP color caps to expose plane color proprerties.
+>>>>> Checking MPC and where the MCM is positioned would be more complex, but not impossible. Something to improve in the future yes.
+>>>> Just found this: dpp_color_caps.hw_3d_lut || dm->dc->caps.color.mpc.preblend (https://gitlab.freedesktop.org/agd5f/linux/-/blob/amd-staging-drm-next/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c#L1636)
+>>>>
+>>>> Should be enough for new kernel versions. So you might need only the blend LUT hack.
+>>>>
+>>>>> You need to confirm that your `drm_info` shows all AMD plane color properties, but gamescope basically checks CTM and BLEND_TF as you can see here:
+>>>>> https://github.com/ValveSoftware/gamescope/blob/master/src/Backends/DRMBackend.cpp#L3347
+>>>>>
+>>> Are you testing this with AMD_PRIVATE_COLOR, or with the newly merged color pipeline API? If it's the former, then the kernel needs to be built with an explicit -DAMD_PRIVATE_COLOR for this to work.
+>> I'm testing with cflags, but AFAIU Matthew is using a downstream kernel version where there is an extra commit that enables AMD_PRIVATE_COLOR via config option ("CONFIG_DRM_AMD_COLOR_STEAMDECK=y").
+>> Depends on this kernel version, the hack for 3D LUT and BLEND LUT are both necessary.
+> Thanks, I had such a change locally to add back AMD_PLANE_BLEND_TF but I was seeing some color banding in Ori and the Will of the Wisps menu around the sun in the upper left corner which gave me pause. I see you mentioned something similar in one of the threads [1] though, so we're all on the same page now.
+>
+> I'm not sure if you've also tried this, but gamescopectl drm_debug_disable_output_tf 1 seems to work around the color banding in that case. From what I could tell, this bypasses the hardware LUTs while HDR scanout continues working in gamescope. We lose blending on the MangoHud overlay by disabling that though. I was thinking maybe it's due to the MCM block only doing preblend unlike DPP blending, but I could definitely be on the wrong track here...
+I didn't try it, but you gave an idea to bypass each transfer_func one 
+by one to identify in which block the issue comes from.
+Just to let you know that I also see the same banding on Ori with Steam 
+Deck OLED if plugged in a external monitor with HDR. Steam Deck hw 
+doesn't have the MCM structure.
 
-If 2-4 can wait, I can do that trivially once Im home (in Jan)
-Doing it now, from here, will require fiddling with git am on the mbox.gz
-with which Ive had mixed results/troubles in the past.
+I'll try to narrow down this issue a bit more.
+Still, the patches in this series address shaper LUT issues that are 
+present in DCN32 but not in DCN301.
 
-thanks,
-Jim
+Melissa
+>
+> [1]: https://lore.kernel.org/amd-gfx/7ad74d3d-5a63-462b-8243-f8f26441b04b@igalia.com/
+>
+>>> Harry
+>>>
+>>>>> Let me know if it works for you.
+>>>>>
+>>>>> BR,
+>>>>>
+>>>>> Melissa
+>>>>>
+>>>>>> Thanks,
+>>>>>> Matt
+>>>>>>
+>>>>>>> Lemme know your thoughts!
+>>>>>>>
+>>>>>>> Melissa
+>>>>>>>
+>>>>>>> Melissa Wen (2):
+>>>>>>>     drm/amd/display: fix wrong color value mapping on DCN32 shaper LUT
+>>>>>>>     drm/amd/display: extend delta clamping logic to CM3 LUT helper
+>>>>>>>
+>>>>>>> .../amd/display/dc/dcn30/dcn30_cm_common.c    | 32 +++++++++++++++----
+>>>>>>> .../display/dc/dwb/dcn30/dcn30_cm_common.h    |  2 +-
+>>>>>>> .../amd/display/dc/hwss/dcn30/dcn30_hwseq.c   |  9 +++---
+>>>>>>> .../amd/display/dc/hwss/dcn32/dcn32_hwseq.c   | 17 ++++++----
+>>>>>>> .../amd/display/dc/hwss/dcn401/dcn401_hwseq.c | 16 ++++++----
+>>>>>>> 5 files changed, 50 insertions(+), 26 deletions(-)
+>>>>>>>
+>>>>>>> -- 
+>>>>>>> 2.51.0
+>>>>>>>
 
-> Thanks,
->
-> -Jason
->
->
-> >
-> >
-> >
-> >
-> >
-> >>> +#define dd_mark_vector_subrange(_i, _dst, _sp, _box, _vec) ({       =
-         \
-> >>> +     typeof(_dst) __dst =3D (_dst);                                 =
-   \
-> >>> +     int __nc =3D 0;                                                =
-   \
-> >>> +     for_subvec(_i, _sp, _box, _vec) {                              =
- \
-> >>> +             if (!strcmp((_sp)->mod_name, (_dst)->mod_name)) {      =
- \
-> >>> +                     if (!__nc++)                                   =
- \
-> >>> +                             (__dst)->info._vec.start =3D (_sp);    =
-   \
-> >>> +             } else {                                               =
- \
-> >>> +                     if (__nc)                                      =
- \
-> >>> +                             break; /* end of consecutive matches */=
- \
-> >>> +             }                                                      =
- \
-> >>> +     }                                                              =
- \
-> >>> +     (__dst)->info._vec.len =3D __nc;                               =
-   \
-> >>> +})
-> >>> +
-> >>>    /*
-> >>>     * Allocate a new ddebug_table for the given module
-> >>>     * and add it to the global list.
-> >>> @@ -1278,6 +1283,8 @@ static void ddebug_attach_module_classes(struct=
- ddebug_table *dt, struct _ddebug
-> >>>    static int ddebug_add_module(struct _ddebug_info *di, const char *=
-modname)
-> >>>    {
-> >>>        struct ddebug_table *dt;
-> >>> +     struct _ddebug_class_map *cm;
-> >>> +     int i;
-> >>>
-> >>>        if (!di->descs.len)
-> >>>                return 0;
-> >>> @@ -1300,6 +1307,8 @@ static int ddebug_add_module(struct _ddebug_inf=
-o *di, const char *modname)
-> >>>
-> >>>        INIT_LIST_HEAD(&dt->link);
-> >>>
-> >>> +     dd_mark_vector_subrange(i, dt, cm, di, maps);
-> >>> +
-> >>>        if (di->maps.len)
-> >>>                ddebug_attach_module_classes(dt, di);
-> >>>
-> >>
->
