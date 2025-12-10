@@ -2,50 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82C0CB4353
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 00:13:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE608CB4432
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 00:32:30 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3EE410E677;
-	Wed, 10 Dec 2025 23:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 701AD10E04E;
+	Wed, 10 Dec 2025 23:32:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="ys4BBwb+";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="FsEF4YN8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [198.137.202.133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE98A10E677
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 23:13:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
- Message-ID:Sender:Reply-To:Content-ID:Content-Description;
- bh=ryCmw5OFAfwdlBXpN97EtAa/i/KlkWssROLzNY/1M9M=; b=ys4BBwb+K4lyykebFw6g4WTmA3
- RjoadgHP4vjYquihJfI9FdWaqiu6mEt2dvza55P2A2O4UH21Z4EC3NagEn8P/j6fUpDdY8XMlWREt
- mNfAwb10Rq+gnhYTo0aVdUjtQsSneAYgh3WJMLT3cSo7RtLAzJ3X8CAJMTl40O7gd4tXVnM3iD33p
- 9mzWuD80/0F4yvmPdQByXBiWqembe49iEa38CSzhZE/QaZ/erDFhFS8OidgJK7nF1Tfu23zD7Rffu
- efoLcvAU+GPJK01O3oB5ykH/twGcgyTlbNvZ57HLeK2L3IewRZDZ0Yu4IwSrJ3zrzI8aqS4lG4YdD
- 1Hawr3CQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
- by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
- id 1vTTNG-0000000Fy67-1FO8; Wed, 10 Dec 2025 23:13:34 +0000
-Message-ID: <99020ea7-0033-42e4-a8dc-5d6674365eb2@infradead.org>
-Date: Wed, 10 Dec 2025 15:13:30 -0800
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6642C10E04E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 23:32:26 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-b73161849e1so96518366b.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 15:32:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1765409543; x=1766014343;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rfV6GAK5rnJX5U9OTlFbVcrhKFZzW2nDysDuwsdDTuE=;
+ b=FsEF4YN8NqALgqVoFfMEJW+lVRhkM5QqJiykSvnYC4u6aYLPSOF7YCZ4ea4OdeeLym
+ Fe+Oe0V2YoGfuDIaPxwSMexCFrO7/X84XK300PluRf6Iknka8/ZQu4Myyf6BfA/JVqJG
+ 08CqymvnHxNs/62ojV90BE6ow94RPW1LsG/24=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765409543; x=1766014343;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=rfV6GAK5rnJX5U9OTlFbVcrhKFZzW2nDysDuwsdDTuE=;
+ b=Goq1+odADDK9B+CLAXO6kP2JEbeUGa3sSTU7MLz+PwXSUyIjXxwtZagMguIAyy7v9t
+ odanPN+j0kDIExk7iOENtUDvICFtepkPhR4PoxOsL2Cc6HJfI5yS2wp4MMMIP2Q1iwXs
+ ruQQfFkOi0RUj7us3Okh/KjS99yC99rC+JUeFubQWoDB2RmGG7Cfoh2qFBuoECuyi52Q
+ H1s9dUU3xPzJYkRr9cdwBfTiMVfbJxJt62ocTeDFcVjYsNTvMTCPNq+sQJeN1XKV3MzQ
+ 9504dipfZbxdFk2L7iDkX5SvFguLSZGYsqNVjUeyLYmXe5TnwpFaTgZT3bSb37kuQRtW
+ WAJQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWxJI48xjCcHDOF4/2WLJcNAekNeRdsUK6GWgPDxEQwKm9JDoIf5+9bQuidTz1ICzvgdHHTw3yCLaE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwdKsLF6lhG8X/yyOHMcSmG431NRY9PAkdQ6viEH3npUaGi9Pe/
+ SgEde16TZMhTDdBlZt6e6172Goy8f3E9o1nHfIhDB+JxLOJZM670lhN+14VbpZTmR2EbO0bHwaX
+ YjkHKyQ==
+X-Gm-Gg: ASbGncuIicjLNHLf1Ctf4vUU9DzkXacWLcLJqE65QsAq+0/WCm6XLz/Mqo1kwFU/jNP
+ mQes58GdFhuU20WyacNmzQW0z7uiJ3kLChUbZ24BMmhhPk3NRB/7727eQ3Quh2+tL+ZS/GwpIDt
+ jDaQ4/VVf379Cpjm+pV2Y2Xg6Agqmj/t9o2zD4wl9dFAtA+0o6XZt1p48n+Vf1eRCWxwIOrn2qN
+ rOA8qDhM/65KNhfmHyCBjcJNzl+jC4zzO1GaAXlXUNmvBYGUR/2M7Z4RfPbj0UNa0h+CQnwgSvN
+ 9j8onubXRFZ+RgtVorlwe3Kqmcukxiu5Dqeekn2wVFlKJh4nU6I9zzJ6R0EzYWZZhNGoeWTPtQx
+ jFwEM2xjhWCpDBhOJt9/HcxTRXth0uQwuRm+4y36wB5WNjUvOG+xeIxPNTBRC7J873eUedR9ycO
+ 1NbhAgOudHtIzyUPpVztlQV4DLPMGDJXVb3+G5VGi8F7fG90rXbA==
+X-Google-Smtp-Source: AGHT+IESBKHow6RcvfSXxim81k8UZqTVTutrXBm5oJEnEg0iabu8fHkTsgTM3N2fmPAOwvvRD/ZpaQ==
+X-Received: by 2002:a17:906:c105:b0:b79:e4db:2e9 with SMTP id
+ a640c23a62f3a-b7ce84c0ab1mr469961866b.60.1765409542988; 
+ Wed, 10 Dec 2025 15:32:22 -0800 (PST)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com.
+ [209.85.221.54]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-b7cfa5d0b0dsm84627766b.67.2025.12.10.15.32.21
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Dec 2025 15:32:21 -0800 (PST)
+Received: by mail-wr1-f54.google.com with SMTP id
+ ffacd0b85a97d-42e2b80ab25so101931f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 15:32:21 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVA/zCnx6v18ik72eRTAkUFhTCNMtnH64Y6Sct4vFa5pXBP2gtbj/dTWJfY8CQzeNQZHrkuIqB23ps=@lists.freedesktop.org
+X-Received: by 2002:a05:6000:2dc6:b0:42f:9faf:4170 with SMTP id
+ ffacd0b85a97d-42fa3af8948mr4247172f8f.31.1765409541286; Wed, 10 Dec 2025
+ 15:32:21 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: Remove remaining DRM_KMS_DMA_HELPER users
-To: Paul Kocialkowski <paulk@sys-base.io>, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: Sasha Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>,
+References: <20251204082659.84387-1-amin.gattout@gmail.com>
+In-Reply-To: <20251204082659.84387-1-amin.gattout@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 10 Dec 2025 15:32:10 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=X4WVHY_1kuXu9V+8j7aLUisFp5kxDjpxkEG=u-_T4zvA@mail.gmail.com>
+X-Gm-Features: AQt7F2p3cSzdgl3XOnh_tfKhwmtIlFwnEvlRkFr9yLlqXsoZoJxMrmXfUXquVFw
+Message-ID: <CAD=FV=X4WVHY_1kuXu9V+8j7aLUisFp5kxDjpxkEG=u-_T4zvA@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel: otm8009a: Switch to mipi_dsi_multi_context
+ helpers
+To: Amin GATTOUT <amin.gattout@gmail.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, dri-devel@lists.freedesktop.org,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-References: <20251210222337.3751485-1-paulk@sys-base.io>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20251210222337.3751485-1-paulk@sys-base.io>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,54 +105,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-
-On 12/10/25 2:23 PM, Paul Kocialkowski wrote:
-> The DRM_KMS_CMA_HELPER config option was removed in commit 09717af7d13d
-> ("drm: Remove CONFIG_DRM_KMS_CMA_HELPER option") but two drivers were
-> later merged with the option still selected.
-> 
-> The dangling option was later renamed to DRM_KMS_DMA_HELPER with commit
-> 6bcfe8eaeef0 ("drm/fb: rename FB CMA helpers to FB DMA helpers").
-> 
-> Remove the entries in the two drivers, which already select
-> DRM_GEM_DMA_HELPER (that was previously selected via DRM_KMS_CMA_HELPER).
-> 
-> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
+On Thu, Dec 4, 2025 at 12:27=E2=80=AFAM Amin GATTOUT <amin.gattout@gmail.co=
+m> wrote:
+>
+> Update the driver to use the non-deprecated mipi_dsi_*_multi()
+> helpers, as recommended in Documentation/gpu/todo.rst. The multi
+> variants provide proper error accumulation and handle the required
+> DCS NOP insertions, which suits the OTM8009A command sequences.
+>
+> The init and disable paths now return dsi_ctx.accum_err, ensuring
+> errors are propagated to callers.
+>
+> Signed-off-by: Amin GATTOUT <amin.gattout@gmail.com>
 > ---
->  drivers/gpu/drm/adp/Kconfig     | 1 -
->  drivers/gpu/drm/logicvc/Kconfig | 1 -
->  2 files changed, 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/adp/Kconfig b/drivers/gpu/drm/adp/Kconfig
-> index 9fcc27eb200d..acfa21ee06d2 100644
-> --- a/drivers/gpu/drm/adp/Kconfig
-> +++ b/drivers/gpu/drm/adp/Kconfig
-> @@ -6,7 +6,6 @@ config DRM_ADP
->  	select DRM_KMS_HELPER
->  	select DRM_BRIDGE_CONNECTOR
->  	select DRM_DISPLAY_HELPER
-> -	select DRM_KMS_DMA_HELPER
->  	select DRM_GEM_DMA_HELPER
->  	select DRM_PANEL_BRIDGE
->  	select VIDEOMODE_HELPERS
-> diff --git a/drivers/gpu/drm/logicvc/Kconfig b/drivers/gpu/drm/logicvc/Kconfig
-> index 579a358ed5cf..11aae1626199 100644
-> --- a/drivers/gpu/drm/logicvc/Kconfig
-> +++ b/drivers/gpu/drm/logicvc/Kconfig
-> @@ -4,7 +4,6 @@ config DRM_LOGICVC
->  	depends on OF || COMPILE_TEST
->  	select DRM_CLIENT_SELECTION
->  	select DRM_KMS_HELPER
-> -	select DRM_KMS_DMA_HELPER
->  	select DRM_GEM_DMA_HELPER
->  	select REGMAP
->  	select REGMAP_MMIO
+>  .../gpu/drm/panel/panel-orisetech-otm8009a.c  | 56 ++++++-------------
+>  1 file changed, 17 insertions(+), 39 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/g=
+pu/drm/panel/panel-orisetech-otm8009a.c
+> index a0f58c3b73f6..fe31f508efd6 100644
+> --- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+> +++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
+> @@ -113,9 +113,9 @@ static void otm8009a_dcs_write_buf(struct otm8009a *c=
+tx, const void *data,
+>                                    size_t len)
+>  {
+>         struct mipi_dsi_device *dsi =3D to_mipi_dsi_device(ctx->dev);
+> +       struct mipi_dsi_multi_context dsi_ctx =3D { .dsi =3D dsi };
+>
+> -       if (mipi_dsi_dcs_write_buffer(dsi, data, len) < 0)
+> -               dev_warn(ctx->dev, "mipi dsi dcs write buffer failed\n");
+> +       mipi_dsi_dcs_write_buffer_multi(&dsi_ctx, data, len);
+>  }
 
--- 
-~Randy
+IMO, otm8009a_dcs_write_buf() should be changed to take in the "struct
+mipi_dsi_multi_context". Then it should be passed in all the way from
+calliers. So dcs_write_seq() and dcs_write_cmd_at() should also take
+the "struct mipi_dsi_multi_context" instead of a "struct otm8009a".
+
+Once you do this, you'll also want to change more of the mdelay()
+calls to mipi_dsi_msleep() or mipi_dsi_usleep_range().
+
+-Doug
