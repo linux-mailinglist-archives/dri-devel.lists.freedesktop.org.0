@@ -2,36 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F6ABCB3849
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 17:48:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0433BCB3873
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 17:51:40 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0E2210E173;
-	Wed, 10 Dec 2025 16:48:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2F4C10E77E;
+	Wed, 10 Dec 2025 16:51:37 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Q0pG3vFf";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id CA2C010E173
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 16:48:16 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 18199153B
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 08:48:09 -0800 (PST)
-Received: from [10.2.10.34] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
- 1BC773F73B
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 08:48:15 -0800 (PST)
-Date: Wed, 10 Dec 2025 16:47:52 +0000
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Rahul Kumar <rk0006818@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] drm/komeda: Convert logging to drm_* helpers
-Message-ID: <aTmkOCE5M7fJeuPo@e142607>
-References: <20251118105934.748955-1-rk0006818@gmail.com>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6BE110E77E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 16:51:35 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1765385490; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=AqWOnSV3x1aE+qAbMdMHP7POIq0TLbcppVkPg6jvkhE1SgxoIS20xF5HS3tRgoc1PHl1SnoGhkOh9qkf88ZyYoEBCj9HBFhQUcmq/A2EQn5bhP7gDx59fJjzVyzhD3fao1mHhuQXo58D46UPWmu1lMDt0veDAKAvzgNOru/d6Y4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1765385490;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=XYQugW6063MToRusR1W+LNEWImZVIODvOq5oYuOWBG8=; 
+ b=OJ1cHg2sqkd6bp++vSCv6qKR0kGmuMnSTGWmc3Qqy6Ubx5YFonESd3xzyX+65HR6EMamp4J/QxNBNyqdJkMK9wvYqbKqIIanUiQpOd15diGrmBIUPcg75nQb50kGGlih5wXBY8yGbdwX/E36IK35I02UcBrM5M6fPo0C4JEtV+Q=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765385490; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=XYQugW6063MToRusR1W+LNEWImZVIODvOq5oYuOWBG8=;
+ b=Q0pG3vFf+K/YLOMnqVuPrRJWPNy6Y0bETcoLClHXCwsZkFDt971EPbM7WHV/ZC3p
+ NxvO/8G/ALFDjZa0UP6O81SuRJdSDMwgMyShCBunmdE0sx+2VKp4uSbiX7HKhE2ChDe
+ UrRr+l0CeGwoaPrvJsh1aysnXLZdxgiOw28zeyBo=
+Received: by mx.zohomail.com with SMTPS id 1765385488675690.2327611062028;
+ Wed, 10 Dec 2025 08:51:28 -0800 (PST)
+Message-ID: <a8405071-8489-4965-9a59-fc58f78cb250@collabora.com>
+Date: Wed, 10 Dec 2025 19:51:23 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251118105934.748955-1-rk0006818@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/virtio: Allow importing prime buffers when 3D is
+ enabled
+To: Val Packett <val@invisiblethingslab.com>,
+ David Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Gurchetan Singh <gurchetansingh@chromium.org>, Chia-I Wu
+ <olvaffe@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Simona Vetter <simona@ffwll.ch>, Vivek Kasireddy <vivek.kasireddy@intel.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20251210154755.1119861-2-val@invisiblethingslab.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20251210154755.1119861-2-val@invisiblethingslab.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,89 +75,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rahul,
+Hi,
 
-Appologies for the amount of time it took me to get to review the series,
-I hope this is a one-off instance.
-
-On Tue, Nov 18, 2025 at 04:29:31PM +0530, Rahul Kumar wrote:
-> This series converts Komeda logging from the legacy DRM_ERROR/WARN/INFO()
-> and DRM_DEBUG() macros to the modern drm_*() helpers. The drm_*() helpers
-> take a struct drm_device * and allow the DRM core to include device
-> information in the log output. This improves readability and brings the
-> driver in line with current DRM logging guidelines.
+On 12/10/25 18:39, Val Packett wrote:
+> This functionality was added for using a KMS-only virtgpu with a physical
+> (or SR-IOV) headless GPU in passthrough, but it should not be restricted
+> to KMS-only mode. It can be used with cross-domain to pass guest memfds
+> to the host compositor with zero copies (using udmabuf on both sides).
 > 
-> To support this conversion, a small Komeda internal header
-> (komeda_drv.h) is introduced to provide access to struct komeda_drv
-> where needed. No functional changes are intended.
+> Drop the check for the absence of virgl_3d to allow for more use cases.
+> 
+> Fixes: ca77f27a2665 ("drm/virtio: Import prime buffers from other devices as guest blobs")
+> Signed-off-by: Val Packett <val@invisiblethingslab.com>
+> ---
+> 
+> Hi. I couldn't find any comments on that line in the reviews (on patchwork), so I assume
+> there was never a specific technical reason for that check, just an abundance of caution?
+> 
+> BTW, while here.. The drm_gem_prime_import "fallback" seems pretty much equivalent to
+> `return (-ENODEV)`, as drm_gem_prime_import(_dev) just translates the call to
+> gem_prime_import_sg_table which we don't use. Should it be replaced with `return (-ENODEV)`?
 
-Here are some comments for the general direction of the patches that can
-help you improve the series.
+Returning -ENODEV should break dmabuf self-importing where virtio-gpu
+driver export dmabuf and then imports to itself.
 
-First, you don't need to expose the structure komeda_drv, as that is meant
-to be internal to komeda_drv.c. What you can do is take inspiration from the
-function following the definition of the structure and add a new accessor,
-something like this:
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_prime.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
+> index ce49282198cb..2fedd5d3bd62 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_prime.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
+> @@ -312,7 +312,7 @@ struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
+>  		}
+>  	}
+>  
+> -	if (!vgdev->has_resource_blob || vgdev->has_virgl_3d)
+> +	if (!vgdev->has_resource_blob)
+>  		return drm_gem_prime_import(dev, buf);
+>  
+>  	bo = kzalloc(sizeof(*bo), GFP_KERNEL);
 
---8<------------------------
-+struct komeda_kms_dev *dev_to_kmsdev(struct device *dev)
-+{
-+	struct komeda_drv *mdrv = dev_get_drvdata(dev);
-+
-+	return mdrv ? mdrv->kms : NULL;
-+}
--->8------------------------
+At a quick glance the change looks fine. Will take another stab after
+Holidays and merge if no problems will be spotted. Thanks.
 
-Then you can reduce the boilerplate code that you have spread through your
-patches to just calling this function to get the komeda_kms_dev. Alternatively,
-you can make the function to return a struct drm_device *.
-
-If you read through the code and try to understand its structure you will
-realise that there is a top-down organisation of concepts, from a drm_device
-down to a komeda_dev that is trying to abstract the hardware differences
-between D71 and future Arm Display IP. But some functions, like komeda_pipeline_dump()
-are only used in a limited scope, which means you could add the drm_device pointer
-to the function signature because komeda_crtc_add() is the only caller of that
-function and it already has drm_device pointer, so no point into going through hoops
-to get it inside komeda_pipeline_dump().
-
-Another thing that you can do with the series is to be comprehensive and
-remove ALL calls to DRM_ERROR/WARN/INFO/DEBUG() where appropriate (leaving
-the probe call path untouched as the drm_device is not valid yet).
-komeda_pipeline_state.c, komeda_wb_connector.c and komeda_framebuffer.c
-should at minimum be cleaned up as well.
-
-There is a third thing that can be done, but that's not on you. komeda
-driver is a bit too verbose with the error and debug messages and I could
-just go and remove them as they don't add too much information unless
-you're doing bring up on a new platform.
-
-
+-- 
 Best regards,
-Liviu
-
-> 
-> Changes in v2:
-> - Corrected the use of dev_get_drvdata(); it returns struct komeda_drv *,
->   not struct komeda_kms_dev *.
-> - Added komeda_drv.h to make struct komeda_drv available for logging
->   conversion.
-> - Split the series into 3 small patches as requested.
-> 
-> Rahul Kumar (3):
->   drm/komeda: Add komeda_drv.h to make struct komeda_drv available
->   drm/komeda: Convert logging in komeda_pipeline.c to drm_* with
->   drm_device parameter
->   drm/komeda: Convert logging in d71_dev.c to drm_* with drm_device
->   parameter
-> 
->  .../gpu/drm/arm/display/komeda/d71/d71_dev.c  | 24 +++++---
->  .../gpu/drm/arm/display/komeda/komeda_drv.c   |  6 +-
->  .../gpu/drm/arm/display/komeda/komeda_drv.h   | 24 ++++++++
->  .../drm/arm/display/komeda/komeda_pipeline.c  | 61 +++++++++++++------
->  4 files changed, 84 insertions(+), 31 deletions(-)
->  create mode 100644 drivers/gpu/drm/arm/display/komeda/komeda_drv.h
-> 
-> -- 
-> 2.43.0
-> 
+Dmitry
