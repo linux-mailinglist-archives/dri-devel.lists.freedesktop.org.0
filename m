@@ -2,87 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97550CB1ED2
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 05:54:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6B5CB1EF1
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 06:01:41 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBE9110E65C;
-	Wed, 10 Dec 2025 04:54:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1120F10E65E;
+	Wed, 10 Dec 2025 05:01:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="eiwkX1k9";
+	dkim=pass (2048-bit key; unprotected) header.d=darkrefraction-com.20230601.gappssmtp.com header.i=@darkrefraction-com.20230601.gappssmtp.com header.b="hs7siBor";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F0BA10E65C
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 04:54:14 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id
- 41be03b00d2f7-bc29d64b39dso3726825a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Dec 2025 20:54:14 -0800 (PST)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DA6B10E65E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 05:01:36 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-640d0ec9651so11290514a12.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 09 Dec 2025 21:01:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brighamcampbell.com; s=google; t=1765342454; x=1765947254;
- darn=lists.freedesktop.org; 
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
+ d=darkrefraction-com.20230601.gappssmtp.com; s=20230601; t=1765342895;
+ x=1765947695; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=TgRIUq5NIgFjISB2gneR0mbhG7ONrTzLE678zQ+3RyQ=;
- b=eiwkX1k9IykiiNodmeEWDVRN3V7U15kDrBKhn/MwUfXvM/gm1KIiTjOI3S4moCUyuD
- OQR+aS1/UmIin/OmoAjGygvt1ruCqzWR84SM2Q+0Td+70zUvagxRt/tRTHstbrV20Qde
- 2n2lZV5l9U+QemB3//0oAmmwSSCRB13jbx0rNPJilV5wDymPwKfZgLInk7bPNhPsMd8K
- QsHVwOWOS/n4tarN6grnd9CTydDqvRpXaQHNz6g6MYlbPRykC8jf7x5IwlqxDS+2OAGD
- hCZGrU8uWdmltER6fjIJZIl8gSX1IJfZ63wdk+Qef/fhV1cVRgRT+briAsQS1t0GLAjo
- 89/g==
+ bh=WXxD719dy2hjGMO3wbw17ffA0XyC2Fpi8GIIpwbBhBM=;
+ b=hs7siBortN8yk7Ytg/TQeFg/u9dsBt/2+A76QBkSof4IDbFZjd1hhu3BLwgsBj9xpa
+ dXkyVZD1mQpn/7NY3NpWUEQzI4BoxrHRnSeiZBMa/NKqYPWigbHczTNW6sHJwO6+QyKH
+ rkRt/gjJWpAMoMhJDvK3DKKNo9rJptJl3hY9/A39RO7wuQvL0hnfEf3iP3by+G75rs6M
+ VcuDX4EKKwdlpQwqkS14pLAaw7Z9ZA8RUOmmR+7iiTynSOFZC59mMfr2W/1EePajAU4y
+ RnSXHzXwLQ4NlYOYCRdqyKAnFJmidStaCVaSUjRwHc/gYjnKyUHdqXBIzTx/SYQ/NukJ
+ XMTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765342454; x=1765947254;
- h=in-reply-to:references:to:from:subject:cc:message-id:date
- :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=TgRIUq5NIgFjISB2gneR0mbhG7ONrTzLE678zQ+3RyQ=;
- b=mSHlLD0EQg9gs06DzuWd0ypjqBOsFg5thzTDS8klHuke/sifKz9OVY6jlaEC0xYwkl
- 60hYN8IdPH4H3TfNjXAz4BECDFbFQ4cvWrOTPTdEaF1mmpfXeN5Q7hloxCoxc0LZSe0M
- ENoe++SnqJsSBC3utttnQHyJsaiAao+6FBND8FKVTlZRhhj9PkH0cyxV2PdGigVCBezf
- txs+fWzfQiOj0o4ZqWoZ1Sp/F8fHuyCuVZFxaoZPXzM1lVhCzTrrWXWu94FOz6nr1BBn
- ePmqwjmmpQahaA5Sc7Yj6/9FF4rfyP05Vyd+pzDHbg3foVfATEk7JQDrqXC8zp/iHaN6
- eFqA==
+ d=1e100.net; s=20230601; t=1765342895; x=1765947695;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=WXxD719dy2hjGMO3wbw17ffA0XyC2Fpi8GIIpwbBhBM=;
+ b=mJDgHbFdKHHb2dIKBQUzgn9coMTvNoglWidDzY/PmoaXg8PH4VQtnNYBvJqCMBPWr1
+ 3Z1bq7ZqB/+OOYeB/qUCbzdFrOKEw0tOuieVyvxip2bSW3ZJQUokMc7rOTPNgW7vjMLu
+ ZNgmxr0AYZY7UQEHZhTeEKX4ntbnhTJ2HG+LLzng/PzA2VAnXhvJgk82hT8MPJhw3bLY
+ Qh7IE7O2gzCVqdtcDRok8b/RGsJq7d/lYVosL3HEVN+ngPwI8x//cWQhsccnet0TV1nZ
+ 3PHzOyUIb7XO7BvVEFFuaFz8r76wYiUR1h55C7weP7imRf6ShJRgVzyqcRQrT2H/jrGo
+ E3Hg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU1++QIas82W6E/ODUfX8WPybeUVbQXnwN8Jw5euYRxsX8V02LymPCo4Rj0DOthpZl2yiFEMxY9Yk4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyLnF8f/vjqlo3Bw5ow3PbFnZ5a2478P9dSHAzMoAWxuG7DH7Iw
- wYazz7ux9vYIhIAE6B66GQtXfk6hH2VyL4W3sRobtfbOZ3fE4yk1X4/F9clFGqaleuk=
-X-Gm-Gg: ASbGncvFFluBjwS0TU8jwvWLVThBIdsXgPeiEUq71+1bLXrwD0VTfn16cgqA1PygkbM
- cUCqd7Zt5egjWghM7uEVLdzORueAYG79ZqUbc5mx0x4QX7PTh8pN9tFb0zNXwB/1xowp384uxoR
- C7GrsEJFCAxwBJ/tyLrPMf9R6FY3Ltve0hI3meHou5BrXU1de8GQ9GyIkTWl0zuiR/75t0nnJ+X
- 6z7aph6mBEJoCAB2FRBvnGylSjGBTvyjay1yPSXQ3QHg131DNdX9OpiSQO2Xbx1OBkeWwMzl5LK
- KDRa8GKma+POTKlDT63IAVTsGXwVZKHSGyARUmo4axxvYZlIgzXn4hFC/kJdN9I7i24z3nmoMfJ
- x2ZS408QZVqEuOSPE06X2PLCVu5f89HgPMnivMOxpltwJqMDYgBm3fuug1ji3dg+iaVCWAR9ebH
- XmU6nz/qBH
-X-Google-Smtp-Source: AGHT+IFUkDutRHbyzRE0fJctUjMQoZ0B7REZrSLqrOnhL9cIjvkyOgy9F8iW9DJC1NHCiOBKDEqbNQ==
-X-Received: by 2002:a05:7022:6299:b0:11b:94ab:be03 with SMTP id
- a92af1059eb24-11f296548c8mr1053274c88.20.1765342453495; 
- Tue, 09 Dec 2025 20:54:13 -0800 (PST)
-Received: from localhost ([64.71.154.6]) by smtp.gmail.com with ESMTPSA id
- a92af1059eb24-11df76e2f3csm72563294c88.5.2025.12.09.20.54.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 09 Dec 2025 20:54:12 -0800 (PST)
-Mime-Version: 1.0
+ AJvYcCXsvUnjnY8ng0+mPcvzwmFkls1S1bW5YJRM7Avsfe0j0jKijJPTzb0zKjnnNfAdLFGrnpfK2RjWlWA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx9eLKxQ+uh9KdPjuTlpjwgrGq5G5moG7AaRHDn/BIDMGqswR7q
+ WLCoG1pjlYbxE1RFlZN2f9Vav7InrbXeJxBqvMcFxYCT1h1kVr9U0/qbjQXH8zDsR7ZgUy8S/+N
+ bOJaYvLpi/XMns/ckt8N0KNO77g3NttDv7bh9jetjzA==
+X-Gm-Gg: AY/fxX5CXoLPJ0d89s3eKSoriwW8gLToqjPGqTykHHDEUUzcOdlNRd8/TygkangM/nQ
+ QjEMuQko9tQEYw4NK50sRVqJ20cdyuU5vCIGX4LFjZ4b0+pH8iQjqfQ5N3ustLqsPqetdlaF9Eh
+ ujvhHpX+xoJuYnKVbj0bAx90fCGWL5Mdqgdm23WmukhEybd9p99C1Kj9TnwthxRVMh1jkGCzMu9
+ jwH7bY/wJA0D1D2ZzObOUjCzyOgUsoYr1clbMMY4nqyjzehuNz3CUhUEbNMQNeQ0DniLY4UB8Hi
+ LYBqxg==
+X-Google-Smtp-Source: AGHT+IEonKudisdXsoUX6nwqgYRT7I8OYV2s5URNsD7bwkXAsmrKaErN0y2xgAY1HKoxTGOxIyLbu4hZobhy/CLJrZw=
+X-Received: by 2002:a05:6402:350c:b0:641:4b82:10c9 with SMTP id
+ 4fb4d7f45d1cf-6496d5d0fcfmr1132873a12.27.1765342894506; Tue, 09 Dec 2025
+ 21:01:34 -0800 (PST)
+MIME-Version: 1.0
+References: <20251205213156.2847867-1-lyude@redhat.com>
+ <CAPM=9txpeYNrGEd=KbHe0mLbrG+vucwdQYRMfmcXcXwWoeCkWA@mail.gmail.com>
+In-Reply-To: <CAPM=9txpeYNrGEd=KbHe0mLbrG+vucwdQYRMfmcXcXwWoeCkWA@mail.gmail.com>
+From: M Henning <mhenning@darkrefraction.com>
+Date: Wed, 10 Dec 2025 00:01:08 -0500
+X-Gm-Features: AQt7F2qfGPcnwhJI4UUlXnZS397JFiGDANTdLTmA6Amc3DZHfva7fmE76SbOb6Q
+Message-ID: <CAAgWFh1DDq4BdGUTR7RGpWZzi3ky0GoAoof7Z21XA6uVNNWvfw@mail.gmail.com>
+Subject: Re: [PATCH] drm/nouveau/dispnv50: Don't call
+ drm_atomic_get_crtc_state() in prepare_fb
+To: Dave Airlie <airlied@gmail.com>
+Cc: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ nouveau@lists.freedesktop.org, Faith Ekstrand <faith.ekstrand@collabora.com>, 
+ Dave Airlie <airlied@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Ben Skeggs <bskeggs@nvidia.com>, Simona Vetter <simona@ffwll.ch>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ Danilo Krummrich <dakr@kernel.org>, James Jones <jajones@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 09 Dec 2025 21:54:11 -0700
-Message-Id: <DEU9O691LF9V.142HEUAU7DZDR@brighamcampbell.com>
-Cc: "Arnd Bergmann" <arnd@arndb.de>, "Jessica Zhang"
- <jesszhan0024@gmail.com>, "Anusha Srivatsa" <asrivats@redhat.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/panel: novatek-nt35560: avoid on-stack device
- structure
-From: "Brigham Campbell" <me@brighamcampbell.com>
-To: "Arnd Bergmann" <arnd@kernel.org>, "Linus Walleij" <linusw@kernel.org>,
- "Neil Armstrong" <neil.armstrong@linaro.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Douglas Anderson"
- <dianders@chromium.org>, "Brigham Campbell" <me@brighamcampbell.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20251204094550.1030506-1-arnd@kernel.org>
-In-Reply-To: <20251204094550.1030506-1-arnd@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,16 +94,11 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu Dec 4, 2025 at 2:45 AM MST, Arnd Bergmann wrote:
-> Change this to a pointer as was liley intended here.
+On Tue, Dec 9, 2025 at 7:40=E2=80=AFPM Dave Airlie <airlied@gmail.com> wrot=
+e:
+> get_new_crtc_state only returns NULL not an error.
 
-Shoot, you're absolutely right that I didn't mean to create a copy of
-the struct on the stack when I wrote that code. Thanks for the fix! I'll
-try to be more careful with struct usage and the stack in the future.
-
-Can I ask how you got the build process to emit those warnings? I didn't
-see it when I developed my patch.
-
-Thanks again,
-Brigham
-
+In case anyone other than me gets a sense of d=C3=A9j=C3=A0 vu while readin=
+g
+this: https://lists.freedesktop.org/archives/nouveau/2025-December/050813.h=
+tml
