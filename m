@@ -2,75 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D09ECB409B
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 22:12:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A17BCB40B6
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 22:15:59 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEB7189EB1;
-	Wed, 10 Dec 2025 21:12:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3A5B10E082;
+	Wed, 10 Dec 2025 21:15:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="l/QXdOt/";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="kgC54ml0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com
- [209.85.128.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1788089EB1
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 21:12:32 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id
- 00721157ae682-78c6957a327so2842307b3.3
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 13:12:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765401151; x=1766005951; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=h+VVCGCpEM68y/Fa0i684zyfGuWlX4L9eEMpu8Qino4=;
- b=l/QXdOt/wpOOcDDNXXqclqIPsiAZn5xCesS7OYUTJ/6XvNWfweLmUS9Jy0vC6nlVyN
- tfXOVez+aVXAP2Pbnjl2uiqJI77LZ5Yc1B5fegl2dUv3831JFbmaoCJXpQW/sEWNJ1M1
- JdxL9EYAT9n9YPyCzCnHuGu473jbZFjPYaaLJWdQ0t/ucvFKhBPpllN8bRGh2cxOcI76
- W2FyKedtlpNUTVhdtURdALhM9e7UWC9IqBj7jxhXEnhuC9FSP/UDzqgWcJ/J1uHeDS/N
- MeM/WwX2KaYiz2KodFeSoQkxX5C1UT3YRYF8xjBqSl0vqFmjWOz4M+T06PauJxh0YAhE
- xVnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765401151; x=1766005951;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
- :to:cc:subject:date:message-id:reply-to;
- bh=h+VVCGCpEM68y/Fa0i684zyfGuWlX4L9eEMpu8Qino4=;
- b=ejZuw6ZhhHyTP4bk9kZ7A9eLrW/si+JRktTa8KSisBZl3obJEWl2wo5vd7133iMQKn
- yu4GL7ye8WYE0lKCLR+vVQMCMmk1MVSwr8zSHl1nr6B9J3xdPG9koMG1zVMg5NeTHJ0Q
- aYm2m3CI+CYtVBIw+QGgIH6VMvBlGJlhOEvfcRStpbtvEfcdgL3iAIMnr9WAP3OzDVwU
- zpvVhcYHe7DQ9J1cIXZ8W2ChLdzqfdfHogYpPl7hQ7kuLRWgJz7BITWFDWFC9jCVmBP1
- xtsh11oA/4s6QIuCCiCUygDtaBEN198Xjcu3C49g7WkXqUGYuN9c7cAe2gl7PYbbMzn1
- D/zw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWopePosgPmIVGGFRIy+zeknHoAqORpJ7e/OMSirPTYqTsANEPWptu24Iab2fjRtRdmJRs8C82Rbj0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzydGgO+SxIJnM3W/gH4DExcEvOylPPaJk0ke8gnGLtlyM+6o1+
- BELiCfoNmg9hcCcIas2WknpJtcM71ir4F4aX8RfDxGdtIlL1qmeXNqJNJNaiVwAKDPgWoncBA0Q
- 7lKDVkKugVhdAG+bSaJOp94f2CGmpELo=
-X-Gm-Gg: AY/fxX59/fcS+gy3VHC3F5LCbMnadhTcx1B3lu+s7RTgw2YHDzgWZTLs/p5o9V59px7
- Ub2YADLKZbJ4tT5GEbIfuHglz3orA+wTJNfuDNRzqlCjCuFK1fUw7BMRxneBNbQKqIFBW7bePyJ
- OktYRuSNEM1bpk8RvjLO2V4rOEMlfMz6pelmL5p3kDdbpYV465hwJ4HyaZzB6mq8Y3f6yj+4d+O
- SO4Tui9pJcE6uBnSVzL3//+qeNh1ukyI86CT3FGos0JfGfrhwyrfI97JNLTXLm0FBPaRWCo79Tp
- s422VvLm
-X-Google-Smtp-Source: AGHT+IFE5YhLGjy9AbmQnangq4PdwbODTGQtBGKD5rrJ/HnxhxkDFVzncRu0zD0LApfncvp+/3xLIV0LjjqUKhqcjQM=
-X-Received: by 2002:a05:690c:1e:b0:786:61c6:7e58 with SMTP id
- 00721157ae682-78c9d7fa4aamr37291467b3.39.1765401150789; Wed, 10 Dec 2025
- 13:12:30 -0800 (PST)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6027610E082;
+ Wed, 10 Dec 2025 21:15:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1765401339; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=MQU6KWe4NSE6DWLLEr2xEP7RPMSuj09+BrpSEQc+m8stv4G5crnD5OB3nJzoJ2tLCTWYT37xt3OUntnTCoIgS8QYuwINgBWGwN/PNXc8Icggb04jT2bbuDmxMmVsYKRIcM5sZYb7g5yzr2i8hHRF7msFOXUjC56sS5eB0smdBeY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1765401339;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=IRKnvkvBvcdU44ovJMbkUCqCeq+xkG059w91E2TXUZI=; 
+ b=aMhRQK5kasQr2cgEs5KtFrI0/6SL2UEaUZD+CKJdLcXtb08eb+Z2re8IS/blG6tBD9EgG0QgsIIuWQC3fzlRB3ny0h5l7w4nGhOqHT/osBlBfOTACIS/0IQoacbOeoAej3z9SDNm28wIdzfxB1DR+HHtptNmrU4AfAuRH27k51Q=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+ dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765401339; 
+ s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=IRKnvkvBvcdU44ovJMbkUCqCeq+xkG059w91E2TXUZI=;
+ b=kgC54ml0Zk9SSQ2THssIN0qentB1rMOMtI8kus2axbv2BSJ13O/4Iglv+oawxEma
+ uqZ1MhwBp2v1wLAXCHhUvlo9jrZZu7UV+kTQbPFpidGY5bLfv9ebPYqieIeA4fL5S1J
+ fMmsv0HbDlGwIMylKzfIF8LluRqqaChkLo7pLO7o=
+Received: by mx.zohomail.com with SMTPS id 176540133700515.946463429704863;
+ Wed, 10 Dec 2025 13:15:37 -0800 (PST)
+Message-ID: <4c393a1a-3ded-490c-a6f8-c120dfcf1188@collabora.com>
+Date: Wed, 10 Dec 2025 18:15:20 -0300
 MIME-Version: 1.0
-References: <20251118201842.1447666-1-jim.cromie@gmail.com>
- <76038c97-39ca-4672-adc0-4e8fe0e39fc8@akamai.com>
-In-Reply-To: <76038c97-39ca-4672-adc0-4e8fe0e39fc8@akamai.com>
-From: jim.cromie@gmail.com
-Date: Thu, 11 Dec 2025 10:12:03 +1300
-X-Gm-Features: AQt7F2qp1VDPDq1vwc6WAhPXZUsK-dYBYJX8-MXCkd3FjKDmeykNXLDy1890-7Y
-Message-ID: <CAJfuBxxFWD0rEjm-va+Bjmf-m2nfOD_+ZEqKy22WX6QdugQCUw@mail.gmail.com>
-Subject: Re: [PATCH v6 00/31] drm/dyndbg: Fix dynamic debug classmap regression
-To: Jason Baron <jbaron@akamai.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- gregkh@linuxfoundation.org, ukaszb@chromium.org, louis.chauvet@bootlin.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 19/20] drm/vkms: Introduce support for post-blend
+ color pipeline
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>
+Cc: Alex Hung <alex.hung@amd.com>, wayland-devel@lists.freedesktop.org,
+ harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com,
+ pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
+ jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
+ xaver.hugl@gmail.com, victoria@system76.com, uma.shankar@intel.com,
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
+ chaitanya.kumar.borah@intel.com, mcanal@igalia.com, kernel@collabora.com,
+ daniels@collabora.com, leandro.ribeiro@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Simona Vetter <simona.vetter@ffwll.ch>
+References: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
+ <20250917-mtk-post-blend-color-pipeline-v2-19-ac4471b44758@collabora.com>
+ <951318ca-f43a-48d7-a419-3bd89d135248@bootlin.com>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <951318ca-f43a-48d7-a419-3bd89d135248@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
+X-ZohoMail-Owner: <4c393a1a-3ded-490c-a6f8-c120dfcf1188@collabora.com>+zmo_0_ariel.dalessandro@collabora.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,128 +92,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Dec 11, 2025 at 8:09=E2=80=AFAM Jason Baron <jbaron@akamai.com> wro=
-te:
->
->
->
-> On 11/18/25 3:18 PM, Jim Cromie wrote:
-> > !-------------------------------------------------------------------|
-> >    This Message Is From an External Sender
-> >    This message came from outside your organization.
-> > |-------------------------------------------------------------------!
-> >
-> > hello all,
-> >
-> > commit aad0214f3026 ("dyndbg: add DECLARE_DYNDBG_CLASSMAP macro")
-> >
-> > added dyndbg's "classmaps" feature, which brought dyndbg's 0-off-cost
-> > debug to DRM.  Dyndbg wired to /sys/module/drm/parameters/debug,
-> > mapped its bits to classes named "DRM_UT_*", and effected the callsite
-> > enablements only on updates to the sys-node (and underlying >control).
-> >
-> > Sadly, it hit a CI failure, resulting in:
-> > commit bb2ff6c27bc9 ("drm: Disable dynamic debug as broken")
-> >
-> > The regression was that drivers, when modprobed, did not get the
-> > drm.debug=3D0xff turn-on action, because that had already been done for
-> > drm.ko itself.
-> >
-> > The core design bug is in the DECLARE_DYNDBG_CLASSMAP macro.  Its use
-> > in both drm.ko (ie core) and all drivers.ko meant that they couldn't
-> > fundamentally distinguish their respective roles.  They each
-> > "re-defined" the classmap separately, breaking K&R-101.
-> >
-> > My ad-hoc test scripting helped to hide the error from me, by 1st
-> > testing various combos of boot-time module.dyndbg=3D... and
-> > drm.debug=3D... configurations, and then inadvertently relying upon
-> > those initializations.
-> >
-> > This series addresses both failings:
-> >
-> > It replaces DECLARE_DYNDBG_CLASSMAP with
-> >
-> > - `DYNAMIC_DEBUG_CLASSMAP_DEFINE`: Used by core modules (e.g.,
-> >    `drm.ko`) to define their classmaps.  Based upon DECLARE, it exports
-> >    the classmap so USE can use it.
-> >
-> > - `DYNAMIC_DEBUG_CLASSMAP_USE`: this lets other "subsystem" users
-> >    create a linkage to the classmap defined elsewhere (ie drm.ko).
-> >    These users can then find their "parent" and apply its settings.
-> >
-> > It adds a selftest script, and a 2nd "sub-module" to recapitulate
-> > DRM's multi-module "subsystem" use-case, including the specific
-> > failure scenario.
-> >
-> > It also adds minor parsing enhancements, allowing easier construction
-> > of multi-part debug configurations.  These enhancements are used to
-> > test classmaps in particular, but are not otherwize required.
-> >
-> > Thank you for your review.
-> >
-> > P.S. Id also like to "tease" some other work:
-> >
-> > 1. patchset to send pr_debugs to tracefs on +T flag
-> >
-> >     allows 63 "private" tracebufs, 1 "common" one (at 0)
-> >     "drm.debug_2trace=3D0x1ff" is possible
-> >     from Lukas Bartoski
-> >
-> > 2. patchset to save 40% of DATA_DATA footprint
-> >
-> >     move (modname,filename,function) to struct _ddebug_site
-> >     save their descriptor intervals to 3 maple-trees
-> >     3 accessors fetch on descriptor, from trees
-> >     move __dyndbg_sites __section to INIT_DATA
-> >
-> > 3. patchset to cache dynamic-prefixes
-> >     should hide 2.s cost increase.
-> >
-> >
->
-> Hi Jim,
->
-> I just wanted to confirm my understanding that the class names here are
-> 'global'. That is if say two different modules both used say the name
-> "core" in their DYNAMIC_DEBUG_CLASSMAP_DEFINE() name array, then if the
-> user did: echo "class core +p > control", then that would enable all the
-> sites that had the class name "core" in both modules. One could add the
-> "module" modifier to the request if needed.
->
-> One could prepend the module name to the class names to make them unique
-> but it's not much different from adding a separate 'module blah' in the
-> request. So probably fine as is, but maybe worth calling out in the docs
-> a bit?
->
+Louis,
 
-Yes. that is correct. class CORE is global.
-If 2 different DEFINE()s give that classname,
-the defining modules will both respond to `class CORE +p > control`
-but they will get independent int values (which could be the same, but
-dont have to be)
+On 9/19/25 9:50 AM, Louis Chauvet wrote:
+> 
+> 
+> Le 18/09/2025 à 02:43, Nícolas F. R. A. Prado a écrit :
+>> Introduce a post-blend color pipeline with the same colorop blocks as
+>> the pre-blend color pipeline.
+>>
+>> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+>> ---
+>>   drivers/gpu/drm/vkms/vkms_colorop.c  | 98 ++++++++++++++++++++++++++ 
+>> ++++++++++
+>>   drivers/gpu/drm/vkms/vkms_composer.c |  5 +-
+>>   drivers/gpu/drm/vkms/vkms_crtc.c     |  1 +
+>>   drivers/gpu/drm/vkms/vkms_drv.h      |  1 +
+>>   4 files changed, 104 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c b/drivers/gpu/drm/ 
+>> vkms/vkms_colorop.c
+>> index 
+>> 5924ae2bd40fc904048f99bc9b96308140709e25..54c512db68eef16435d5f79453784f7784d540fb 100644
+>> --- a/drivers/gpu/drm/vkms/vkms_colorop.c
+>> +++ b/drivers/gpu/drm/vkms/vkms_colorop.c
+>> @@ -98,6 +98,86 @@ vkms_initialize_pre_blend_color_pipeline(struct 
+>> drm_plane *plane,
+>>       return ret;
+>>   }
+>> +static int
+>> +vkms_initialize_post_blend_color_pipeline(struct drm_crtc *crtc,
+>> +                      struct drm_prop_enum_list *list)
+>> +{
+>> +    struct drm_colorop *ops[MAX_COLOR_PIPELINE_OPS];
+>> +    struct drm_device *dev = crtc->dev;
+>> +    int ret;
+>> +    int i = 0;
+>> +
+>> +    memset(ops, 0, sizeof(ops));
+>> +
+>> +    /* 1st op: 1d curve */
+>> +    ops[i] = kzalloc(sizeof(*ops[i]), GFP_KERNEL);
+>> +    if (!ops[i]) {
+>> +        ret = -ENOMEM;
+>> +        goto cleanup;
+>> +    }
+>> +
+>> +    ret = drm_crtc_colorop_curve_1d_init(dev, ops[i], crtc, 
+>> supported_tfs,
+>> +                         DRM_COLOROP_FLAG_ALLOW_BYPASS);
+>> +    if (ret)
+>> +        goto cleanup;
+>> +
+>> +    list->type = ops[i]->base.id;
+>> +    list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", ops[i]- 
+>> >base.id);
+>> +
+>> +    i++;
+>> +
+>> +    /* 2nd op: 3x4 matrix */
+>> +    ops[i] = kzalloc(sizeof(*ops[i]), GFP_KERNEL);
+>> +    if (!ops[i]) {
+>> +        ret = -ENOMEM;
+>> +        goto cleanup;
+>> +    }
+>> +
+>> +    ret = drm_crtc_colorop_ctm_3x4_init(dev, ops[i], crtc, 
+>> DRM_COLOROP_FLAG_ALLOW_BYPASS);
+>> +    if (ret)
+>> +        goto cleanup;
+>> +
+>> +    drm_colorop_set_next_property(ops[i - 1], ops[i]);
+>> +
+>> +    i++;
+>> +
+>> +    /* 3rd op: 3x4 matrix */
+>> +    ops[i] = kzalloc(sizeof(*ops[i]), GFP_KERNEL);
+>> +    if (!ops[i]) {
+>> +        ret = -ENOMEM;
+>> +        goto cleanup;
+>> +    }
+>> +
+>> +    ret = drm_crtc_colorop_ctm_3x4_init(dev, ops[i], crtc, 
+>> DRM_COLOROP_FLAG_ALLOW_BYPASS);
+>> +    if (ret)
+>> +        goto cleanup;
+>> +
+>> +    drm_colorop_set_next_property(ops[i - 1], ops[i]);
+>> +
+>> +    i++;
+>> +
+>> +    /* 4th op: 1d curve */
+>> +    ops[i] = kzalloc(sizeof(*ops[i]), GFP_KERNEL);
+>> +    if (!ops[i]) {
+>> +        ret = -ENOMEM;
+>> +        goto cleanup;
+>> +    }
+>> +
+>> +    ret = drm_crtc_colorop_curve_1d_init(dev, ops[i], crtc, 
+>> supported_tfs,
+>> +                         DRM_COLOROP_FLAG_ALLOW_BYPASS);
+>> +    if (ret)
+>> +        goto cleanup;
+>> +
+>> +    drm_colorop_set_next_property(ops[i - 1], ops[i]);
+>> +
+>> +    return 0;
+>> +
+>> +cleanup:
+>> +    drm_colorop_pipeline_destroy(dev);
+> 
+> Same comment as for pre_blend colorops, it feel strange to destroy all 
+> the pipelines here.
+> 
+> The suggestion in [1] is better (don't forget to add the kfree).
+> 
+> [1]: https://lore.kernel.org/all/73f01810-df2d-4e39-a20b- 
+> fc1cec2c5e12@amd.com/
+Ack, will be addressed in v3.
 
-DRM is our case in point.
-I reused DRM_UT_CORE...
-because I didnt have a good reason to change it
-that said, Daniel Vetter noted that the _UT_ part doesnt have a real reason=
-.
-So theres some space for a discussion, when I resend that patchset.
+Regards,
 
-`module drm class DRM_UT_CORE +p > control`
-will narrow the query and avoid all the drivers/helpers,
-which could be what someone wants.
-class DRM_UT_CORE would select drivers and helpers too,
-so the DRM_UT_  disambiguation is appropriate.
+-- 
+Ariel D'Alessandro
+Software Engineer
 
-I'll reread the docs to see if theres a bit more I can add to further
-explain this.
-Do you have any suggestions for wording to achieve this ?
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
 
-thx,
-JIm
-
-
-
-> Thanks,
->
-> -Jason
