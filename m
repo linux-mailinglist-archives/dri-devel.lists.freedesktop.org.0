@@ -2,45 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C946CB3830
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 17:45:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6ABCB3849
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 17:48:20 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E035910E0F4;
-	Wed, 10 Dec 2025 16:45:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0E2210E173;
+	Wed, 10 Dec 2025 16:48:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4F40310E0F4
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 16:45:04 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTP id CA2C010E173
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 16:48:16 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD0C3153B;
- Wed, 10 Dec 2025 08:44:56 -0800 (PST)
-Received: from [10.57.45.72] (unknown [10.57.45.72])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1797F3F73B;
- Wed, 10 Dec 2025 08:45:00 -0800 (PST)
-Message-ID: <4da1fc56-f522-450e-8d71-b0cbaf2f4c4b@arm.com>
-Date: Wed, 10 Dec 2025 16:44:58 +0000
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 18199153B
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 08:48:09 -0800 (PST)
+Received: from [10.2.10.34] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id
+ 1BC773F73B
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 08:48:15 -0800 (PST)
+Date: Wed, 10 Dec 2025 16:47:52 +0000
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Rahul Kumar <rk0006818@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] drm/komeda: Convert logging to drm_* helpers
+Message-ID: <aTmkOCE5M7fJeuPo@e142607>
+References: <20251118105934.748955-1-rk0006818@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] drm/panthor: Add tracepoint for hardware
- utilisation changes
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chia-I Wu <olvaffe@gmail.com>, Karunika Choo <karunika.choo@arm.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20251210-panthor-tracepoints-v2-0-ace2e29bad0f@collabora.com>
- <20251210-panthor-tracepoints-v2-3-ace2e29bad0f@collabora.com>
- <99ee1d8c-e43a-4d7d-a0d0-37546c09c183@arm.com> <3631152.44csPzL39Z@workhorse>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <3631152.44csPzL39Z@workhorse>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251118105934.748955-1-rk0006818@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,111 +47,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/12/2025 16:27, Nicolas Frattaroli wrote:
-> On Wednesday, 10 December 2025 16:57:42 Central European Standard Time Steven Price wrote:
->> On 10/12/2025 14:30, Nicolas Frattaroli wrote:
->>> Mali GPUs have three registers that indicate which parts of the hardware
->>> are powered at any moment. These take the form of bitmaps. In the case
->>> of SHADER_READY for example, a high bit indicates that the shader core
->>> corresponding to that bit index is powered on. These bitmaps aren't
->>> solely contiguous bits, as it's common to have holes in the sequence of
->>> shader core indices, and the actual set of which cores are present is
->>> defined by the "shader present" register.
->>>
->>> When the GPU finishes a power state transition, it fires a
->>> GPU_IRQ_POWER_CHANGED_ALL interrupt. After such an interrupt is
->>> received, the _READY registers will contain new interesting data. During
->>> power transitions, the GPU_IRQ_POWER_CHANGED interrupt will fire, and
->>> the registers will likewise contain potentially changed data.
->>>
->>> This is not to be confused with the PWR_IRQ_POWER_CHANGED_ALL interrupt,
->>> which is something related to Mali v14+'s power control logic. The
->>> _READY registers and corresponding interrupts are already available in
->>> v9 and onwards.
->>>
->>> Additionally, the SHADER_PWRFEATURES register may be of interest, which
->>> contains a bit flag indicating whether raytracing functionality is
->>> turned on, as the ray tracing unit's power can separately be toggled.
->>> Reading this register on platforms from before it was added has no
->>> unpleasant side-effects; it's officially specified to read as 0 in this
->>> case.
->>
->> I'm confused by this addition, SHADER_PWRFEATURES is sampled (by the
->> hardware) on power up of a shader core. So the value of the register
->> isn't necessarily representative of the actual hardware state. In normal
->> operation it is controlled by the MCU and so probably has some
->> correlation to ray tracing happening, but I don't think there's any
->> gaurentee there. And on later GPUs this functionality has been moved
->> into the POWER_CONTROL block and I don't think there's anything equivalent.
-> 
-> I was afraid that would be the case based on the hw docs wording.
-> In that case yeah, I'll just drop it for now. My hope was that
-> SHADER_PWRFEATURES would contain whatever the current status of the
-> hardware is, aside from just being the place to write the desired
-> status as well.
-> 
->> Also in general I wouldn't rely on the "read as 0" parts - not
->> specifically because I expect HW bugs, but because later GPUs might
->> reuse those register positions for other things.
-> 
-> That's fun. After I remove the SHADER_PWRFEATURES register, the
-> register reads that will be left can only happen if the
-> GPU_IRQ_POWER_CHANGED/GPU_IRQ_POWER_CHANGED_ALL interrupt status
-> bits are set. Unless Arm has plans to reuse those bit values in
-> future GPUs, and someone adds them to Panthor (shadowing the old
-> ones), and someone then enables the tracepoint, then these reads
-> should never happen on hardware that doesn't have the _READY regs.
+Hi Rahul,
 
-Yeah I think that sort of thing should be safe - the GPU shouldn't
-produce IRQs for things we haven't unmasked - so we won't see them. If
-(/when) in the future those bits get reused then we can deal with that
-when Panthor is updated to use the new meaning of the bits. Arguably we
-could drop GPU_IRQ_POWER_CHANGED from the bit mask (we're not enabling
-it so it should never fire) - which is the one I can see proposed for
-reuse ;)
+Appologies for the amount of time it took me to get to review the series,
+I hope this is a one-off instance.
 
->> So this seems to only work on a small number of GPUs and even then it's
->> relying on a firmware behaviour which isn't gaurenteed.
->>
->> It would be good if we can come up with a tracepoint which is both
->> useful and likely to work over a range of GPUs.
+On Tue, Nov 18, 2025 at 04:29:31PM +0530, Rahul Kumar wrote:
+> This series converts Komeda logging from the legacy DRM_ERROR/WARN/INFO()
+> and DRM_DEBUG() macros to the modern drm_*() helpers. The drm_*() helpers
+> take a struct drm_device * and allow the DRM core to include device
+> information in the log output. This improves readability and brings the
+> driver in line with current DRM logging guidelines.
 > 
-> If I understand correctly, the RTU power status isn't something
-> that can be read like SHADER_READY on v14+. In that case, I'll just
-> drop the rt_on field entirely, because on v13 it doesn't necessarily
-> do what I want it to do, and on v14+, it doesn't exist. It was an
-> added "oh this is simple enough" bonus, the main goal is to have the
-> tracepoints to track power events.
+> To support this conversion, a small Komeda internal header
+> (komeda_drv.h) is introduced to provide access to struct komeda_drv
+> where needed. No functional changes are intended.
 
-Yeah I don't believe that status is exposed when the MCU is handling the
-power control.
+Here are some comments for the general direction of the patches that can
+help you improve the series.
 
-> On that note, I'd love to implement the trace event call on v14+ as
-> well, because I'm fairly sure it can re-use the same tracepoint
-> definition. I might need to generalize the register and unregister
-> functions though, probably by moving them somewhere else, and then
-> having them call into a per-hw-version function pointer. With no
-> v14+ hardware to test it on, I won't implement that variant for now
-> however.
+First, you don't need to expose the structure komeda_drv, as that is meant
+to be internal to komeda_drv.c. What you can do is take inspiration from the
+function following the definition of the structure and add a new accessor,
+something like this:
+
+--8<------------------------
++struct komeda_kms_dev *dev_to_kmsdev(struct device *dev)
++{
++	struct komeda_drv *mdrv = dev_get_drvdata(dev);
++
++	return mdrv ? mdrv->kms : NULL;
++}
+-->8------------------------
+
+Then you can reduce the boilerplate code that you have spread through your
+patches to just calling this function to get the komeda_kms_dev. Alternatively,
+you can make the function to return a struct drm_device *.
+
+If you read through the code and try to understand its structure you will
+realise that there is a top-down organisation of concepts, from a drm_device
+down to a komeda_dev that is trying to abstract the hardware differences
+between D71 and future Arm Display IP. But some functions, like komeda_pipeline_dump()
+are only used in a limited scope, which means you could add the drm_device pointer
+to the function signature because komeda_crtc_add() is the only caller of that
+function and it already has drm_device pointer, so no point into going through hoops
+to get it inside komeda_pipeline_dump().
+
+Another thing that you can do with the series is to be comprehensive and
+remove ALL calls to DRM_ERROR/WARN/INFO/DEBUG() where appropriate (leaving
+the probe call path untouched as the drm_device is not valid yet).
+komeda_pipeline_state.c, komeda_wb_connector.c and komeda_framebuffer.c
+should at minimum be cleaned up as well.
+
+There is a third thing that can be done, but that's not on you. komeda
+driver is a bit too verbose with the error and debug messages and I could
+just go and remove them as they don't add too much information unless
+you're doing bring up on a new platform.
+
+
+Best regards,
+Liviu
+
 > 
-> Should I generalize the tracepoint register/unregister in this way
-> right now even without the v14+ implementation? Might make it more
-> palatable.
-
-It would be good to ensure that the tracepoint can be generalized - but
-it's fine to only implement what you can test and leave it to others to
-extend. I just don't want us to end up in a mess where every different
-GPU version has a different set of tracepoints.
-
-Thanks,
-Steve
-
-> Kind regards,
-> Nicolas Frattaroli
->  
->> Thanks,
->> Steve
+> Changes in v2:
+> - Corrected the use of dev_get_drvdata(); it returns struct komeda_drv *,
+>   not struct komeda_kms_dev *.
+> - Added komeda_drv.h to make struct komeda_drv available for logging
+>   conversion.
+> - Split the series into 3 small patches as requested.
 > 
+> Rahul Kumar (3):
+>   drm/komeda: Add komeda_drv.h to make struct komeda_drv available
+>   drm/komeda: Convert logging in komeda_pipeline.c to drm_* with
+>   drm_device parameter
+>   drm/komeda: Convert logging in d71_dev.c to drm_* with drm_device
+>   parameter
 > 
+>  .../gpu/drm/arm/display/komeda/d71/d71_dev.c  | 24 +++++---
+>  .../gpu/drm/arm/display/komeda/komeda_drv.c   |  6 +-
+>  .../gpu/drm/arm/display/komeda/komeda_drv.h   | 24 ++++++++
+>  .../drm/arm/display/komeda/komeda_pipeline.c  | 61 +++++++++++++------
+>  4 files changed, 84 insertions(+), 31 deletions(-)
+>  create mode 100644 drivers/gpu/drm/arm/display/komeda/komeda_drv.h
 > 
-
+> -- 
+> 2.43.0
+> 
