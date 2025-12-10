@@ -2,77 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0C1CB2834
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 10:16:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 683E2CB1BBC
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 03:44:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6716A10E232;
-	Wed, 10 Dec 2025 09:16:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2403210E23F;
+	Wed, 10 Dec 2025 02:44:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mdzZYIIT";
+	dkim=pass (1024-bit key; unprotected) header.d=huawei.com header.i=@huawei.com header.b="O1bn3551";
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="O1bn3551";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
- [209.85.216.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCF2C10E64A
- for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 02:06:46 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id
- 98e67ed59e1d1-340e525487eso5004634a91.3
- for <dri-devel@lists.freedesktop.org>; Tue, 09 Dec 2025 18:06:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765332406; x=1765937206; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=dB4MkiK2v7MqEATSP66OXrd0I3cuJgQCFm92qrJ2lJ8=;
- b=mdzZYIITnDbEmLEsXsNVzXqM7HrK9asoJgbxEVxyBdLrE1Nrn36ArnuOZi65gP1MZx
- 5DRI0JgM3y/XrLMkIlmnCKJk9AK5sY6Kyis1Xe2hgzw8YprqaFR2xfJkA3wlI3RHmpHk
- LdzfKCnb4vxxQTawnHwQuwGB27NDU0amzNMtP3tAheR3JckmlgGudOvzBMpnhfJiEepJ
- /jRZODYtcjNxAhKe/sCXYCmshhsN8FAt1rdbQmemapQrwsmlEwCDN37barZ3eTAbKPxa
- DqEXO2ohLVPe6xLK0X9/jG85xDMlE5EYQtQ6jtOgJkhwzSpCMMSa0+Gk8Z9j8aTOY4qX
- gh0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765332406; x=1765937206;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dB4MkiK2v7MqEATSP66OXrd0I3cuJgQCFm92qrJ2lJ8=;
- b=WMidBr9nI7JiDPjsZkUOoyOP1X0/DPdh/mJZZ3MfaNhKYbCcit4FHdMoo3dfHR66h8
- YzJID5Yfnwa7xI5K0le4Qf07H08jGEai230VP7HHsgebRoDD56S7w4Cv4jpZq9R1E+Xe
- B5BlzCiY6VlspfcW8AQ3l59WvaxWdH6NFUNYYamgd/4Rt94ulJPIOksz5kPakESgTW/9
- 1W7qxzZJV0QRn9QpVcUMo4oj6G5761Az4KUrNq5gjbu7flQYOah1lXsjKEX5QuuXeMGz
- DA+w6NIhF6TZcISvO0Egt+bVOudPklIJ74WW5mwJ6PtijEy9EMuhIQYJCe+tZeiV1Kx+
- 7dVQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUqzst2Hd0lmykRXggK+NCSVryEkZwU4W/RHGGtfEcYt29tmNzNiZhlZvWO6NPWKVdXPIpYmrquODQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx3DSRZWP7TJbVlZcC6izsrx1dM9F94X0XrJdh+N7EGzjTM5AJy
- 9mhJx+MSGeS8zvk0t6zfGmfBHct5/uU66tLz64ITKqK0EM4AAy68r/l/q4sGQ4v6MSOrWkWZxYL
- 7ayCdWQeUhXUS0X7AfxrEIGU3Gd9ZWSI=
-X-Gm-Gg: ASbGnctqo2QVORBrrnwO/BYLFIsyrpLImD068uvvbalgRpBwMqV5JRqynSnXXltFl92
- NAm4Yp1nayfLn7DGOz8isWNc15MP9XR0FvnJa0qOXWCVoCvYNqpOFQ+/JJO4kQcXkjA/y2aazS6
- JG3C38fw+e3lX0mqS7zupR3ZsFqTL3Ryk0fKmNACP8a+/kP2CYWwgs3dBD6ZbtnDHJfTrckSGP3
- x3zeNKVPyX38wDMl7efhwtEHMtzex66mKwq82TFW7VtXs5QJtw2qMW5ZeDK9e+bAp96+5t3+cW9
- XtchQfpNnDDipqMtXPJB/lYV4OemTJ3ElmTOfMjEL6aEeDY+a4MQpqQm6a1SfNy3EDF9dEV8uEl
- 6MJt63O9eDEkGuJ4=
-X-Google-Smtp-Source: AGHT+IER/q69FCL4HOlCuiPXSy/9N7+BJvlaJ8gV4++EQVcJdhe5QlTVR4toTFk0WEj9Sp4ps54/Zo8eUBI6B3SlAAg=
-X-Received: by 2002:a05:7022:412:b0:11e:3e9:3e9a with SMTP id
- a92af1059eb24-11f296f4d4dmr601926c88.50.1765332406102; Tue, 09 Dec 2025
- 18:06:46 -0800 (PST)
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55AF610E23E
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 02:44:40 +0000 (UTC)
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+ c=relaxed/relaxed; q=dns/txt; h=From;
+ bh=epFL/FT9n91t0VzZSx45UOp9SWxZH5FleUzJLXxcCdw=;
+ b=O1bn3551kYA1eJ8slNV8gQ38+USzis/Q/BNJC1u/U244zIKdFrnyekU0zhkxta3Xh+gSaB1Jo
+ r7kzHHjydd42xBN75MZ4RYep9RRrubv8e1OrIY08dQW3Xa5CfcxbSOumFbq2viWqfsa0F6MhfxD
+ kxq3Kr6RpLVE7+C5vkjVJYE=
+Received: from canpmsgout11.his.huawei.com (unknown [172.19.92.148])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4dR0Rc1HGLz1BG9W
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 10:44:28 +0800 (CST)
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+ c=relaxed/relaxed; q=dns/txt; h=From;
+ bh=epFL/FT9n91t0VzZSx45UOp9SWxZH5FleUzJLXxcCdw=;
+ b=O1bn3551kYA1eJ8slNV8gQ38+USzis/Q/BNJC1u/U244zIKdFrnyekU0zhkxta3Xh+gSaB1Jo
+ r7kzHHjydd42xBN75MZ4RYep9RRrubv8e1OrIY08dQW3Xa5CfcxbSOumFbq2viWqfsa0F6MhfxD
+ kxq3Kr6RpLVE7+C5vkjVJYE=
+Received: from mail.maildlp.com (unknown [172.19.88.163])
+ by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4dR0PT1jSZzKm4G;
+ Wed, 10 Dec 2025 10:42:37 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+ by mail.maildlp.com (Postfix) with ESMTPS id 1EF8A18001B;
+ Wed, 10 Dec 2025 10:44:34 +0800 (CST)
+Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 10 Dec 2025 10:44:33 +0800
+Received: from localhost.huawei.com (10.169.71.169) by
+ kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 10 Dec 2025 10:44:33 +0800
+From: Yongbang Shi <shiyongbang@huawei.com>
+To: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+ <kong.kongxinwei@hisilicon.com>, <dmitry.baryshkov@oss.qualcomm.com>
+CC: <liangjian010@huawei.com>, <chenjianmin@huawei.com>,
+ <fengsheng5@huawei.com>, <shiyongbang@huawei.com>, <libaihan@huawei.com>,
+ <shenjian15@huawei.com>, <shaojijie@huawei.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v10 drm-dp 0/4] Fix hibmc driver bugs
+Date: Wed, 10 Dec 2025 10:37:55 +0800
+Message-ID: <20251210023759.3944834-1-shiyongbang@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-From: Avraham Hollander <anhollander516@gmail.com>
-Date: Tue, 9 Dec 2025 21:06:35 -0500
-X-Gm-Features: AQt7F2q1xvMw5Tfz9hXQre8HX4NLZBs_1JPIE2kAknJGpjV98GmMptN_Tf5kgB4
-Message-ID: <CAP1mzZSH+VPhA5_53+LxSgOZe5JHqFP_uadWTpgTxrEXBc=52Q@mail.gmail.com>
-Subject: Re: Bug#1054514: linux-image-6.1.0-13-amd64: Debian VM with qxl
- graphics freezes frequently
-To: carnil@debian.org
-Cc: 1054514@bugs.debian.org, airlied@redhat.com, daniel@ffwll.ch, 
- dreaming.about.electric.sheep@gmail.com, dri-devel@lists.freedesktop.org, 
- kraxel@redhat.com, linux-kernel@vger.kernel.org, 
- maarten.lankhorst@linux.intel.com, maddog@mir.com, mripard@kernel.org, 
- regressions@lists.linux.dev, spice-devel@lists.freedesktop.org, 
- timo.lindfors@iki.fi, tzimmermann@suse.de, 
- virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Wed, 10 Dec 2025 09:16:40 +0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.169.71.169]
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemq100007.china.huawei.com (7.202.195.175)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,7 +79,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is also happening to me in Debian Trixie, with the current
-6.12.57 kernel. I can also test reverting the commit in the near
-future if someone else doesn't get to it first. For now I'll just use
-virtio-gpu, though it is a little slower.
+From: Baihan Li <libaihan@huawei.com>
+
+There are some bugfix for hibmc-drm driver.
+---
+ChangeLog:
+v9 -> v10:
+  - delete 100ms delay in hibmc_dp_check_hpd_status().
+  - delete redundant checks in atomic_enable().
+v8 -> v9:
+  - refactor the hibmc_dp_check_hpd_status(), and add some checks
+    in dp_encoder_enable.
+v7 -> v8:
+  - fix build errors reported by kernel test robot <lkp@intel.com>
+    Closes: https://lore.kernel.org/oe-kbuild-all/202509241625.o4mNleVb-lkp@intel.com/
+v6 -> v7:
+  - add the check about branch devices, suggested by Dmitry Baryshkov.
+v5 -> v6:
+  - use HPD status in DP detect_ctx(), suggested by Dmitry Baryshkov.
+v4 -> v5:
+  - Because some of patches are applied, this series only contains the rest of them.
+  - fix the commit and DP detect_ctx(), suggested by Dmitry Baryshkov.
+  - fix bugfix commit ID, suggested by Dmitry Baryshkov.
+  - remove the 08/11 patch, I'll add in next series.
+  - combined 9 and 11 patch together, suggested by Dmitry Baryshkov.
+v3 -> v4:
+  - remove link training process in hibmc_dp_detect(), suggested by Dmitry Baryshkov.
+  - remove if (dev->registered), suggested by Dmitry Baryshkov.
+  - remove non-related changes, suggested by Dmitry Baryshkov.
+  - Remove the clock check, suggested by Dmitry Baryshkov.
+  - ( I'll add them in next series after redesigning this part)
+  - add KVM edid in commit message, suggested by Dmitry Baryshkov.
+  - fix magic values, suggested by Dmitry Baryshkov.
+  - fix the commit subjects, suggested by Dmitry Baryshkov.
+v2 -> v3:
+  - fix hibmc_connector_get_modes() and hibmc_vdac_detect() to realize BMC KVM, suggested by Dmitry Baryshkov.
+  - fix the issue commit ID, suggested by Dmitry Baryshkov.
+  - split into 2 commits, suggested by Dmitry Baryshkov.
+  - add more comments in commit log, suggested by Dmitry Baryshkov.
+---
+
+Baihan Li (4):
+  drm/hisilicon/hibmc: fix dp probabilistical detect errors after HPD
+    irq
+  drm/hisilicon/hibmc: add dp mode valid check
+  drm/hisilicon/hibmc: fix no showing problem with loading hibmc
+    manually
+  drm/hisilicon/hibmc: Adding reset colorbar cfg in dp init.
+
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_comm.h  |  4 ++
+ .../gpu/drm/hisilicon/hibmc/dp/dp_config.h    |  2 +
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 38 +++++++++-
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  8 +++
+ drivers/gpu/drm/hisilicon/hibmc/dp/dp_reg.h   |  3 +
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 71 +++++++++++++++++--
+ 6 files changed, 120 insertions(+), 6 deletions(-)
+
+-- 
+2.33.0
+
