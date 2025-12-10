@@ -2,80 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDEABCB4056
-	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 22:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40891CB4086
+	for <lists+dri-devel@lfdr.de>; Wed, 10 Dec 2025 22:11:07 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2315A10E079;
-	Wed, 10 Dec 2025 21:00:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03FF010E277;
+	Wed, 10 Dec 2025 21:11:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="Gf3OfXi8";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CLaqhhBy";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Qw4W3lnR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 037F310E079;
- Wed, 10 Dec 2025 21:00:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1765400429; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Rotfge2TsMe02GB+EgEM2M+I5hZ2rpa16JI382w8qS8XRrsMXQirVUBcL9KXpQu/RlYJlOhd8SDgJyZKoJQ1UXqFLFllB4b0C436rcGLVqLM1N4fqD/KVNhVPMVKCjC2iLVBFOU680Rfd+oMFJ2OuHB+uBDMwI22WRot7hgvO9s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1765400429;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=2yqsrRa6qgW4Cllv3pVozc+YmnclQj30ZO3ZAu3Wr9w=; 
- b=S+NY749U4ej60VwghUVgl9gBBfzU4GEWDvNrMy9cLZRpJNitTYUf7lre/NSyVuI2T4ANqYEpwh09PW9xzjLU4A4ek+NYLzm33Hm2vaEmUTXN9tJ24Ia8t/gOHUzvWWz2YOjwzgAVw8psWGc0cqR9eXEMc/qn6nr3t6N52RS54VM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
- dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765400429; 
- s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=2yqsrRa6qgW4Cllv3pVozc+YmnclQj30ZO3ZAu3Wr9w=;
- b=Gf3OfXi8wz1INDcmfHO0wB3nrskfeMYYmXHRgN1ab7E0OAqkm3Sj2ixXoujJXlxO
- lOXq6mzawLH2VkpLBhWI7PvlJU4AeZX+RHYe2FsNkQv84HK6LmCnEOzSYe8RSwXf26i
- i7XT6E+8YxoBjwRGe90RIcQiX/3HQoREQ3Rn68oQ=
-Received: by mx.zohomail.com with SMTPS id 1765400426236427.4770478258175;
- Wed, 10 Dec 2025 13:00:26 -0800 (PST)
-Message-ID: <acd144d5-9bf7-4661-9f3a-5b55a8132b10@collabora.com>
-Date: Wed, 10 Dec 2025 18:00:10 -0300
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D764C89EB1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 21:11:02 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BAKS9164009368
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 21:11:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ bfNgQDXXb8iWBGKdAi5rKgqEDEYcr51IEsgHSku4xr8=; b=CLaqhhBy0oW4NfTA
+ Veh/x0/TcqmAMrnMZj+melezU5YkN1Sn4u3O5BZF9GWf1Oydv2qBr9vlV9g9iy6i
+ 8ObpTD4fXGzeoWt4gR5fxLzJN/+uXBw6IPXdnul5A2w2XAkTcnuAEGCGEf/rRte/
+ /lQBFIsui7fpwgW0ErDDu2a/kaGxYyYY3A0gLQQOZuLPcj6ABdsmYE4edx77sceu
+ JQxpOVVNIGvJWV3jC2orOCXUd2iOY76RydmzCF/vgA3rn/5224ZeZK3BTCgQgnkz
+ T4WpqsogsirERyTFdMK0QcV0FgVHurTPG0xhJKUNYWhvqoJv3F2rY90CdDniVXkW
+ SWghGw==
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aybhp95bg-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 21:11:01 +0000 (GMT)
+Received: by mail-pf1-f198.google.com with SMTP id
+ d2e1a72fcca58-7d481452732so424536b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 10 Dec 2025 13:11:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1765401061; x=1766005861;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bfNgQDXXb8iWBGKdAi5rKgqEDEYcr51IEsgHSku4xr8=;
+ b=Qw4W3lnRakDXr4ACkoJ3CHZRsrwlALz/zjP7JHTaBVMLBuYoZSQVFV6Pt3JLR0dLqt
+ T5f/0w20bFh6FefOczGmRw/itRz+Sxok+M5goynSguagUC29XNGp6x5udjKnnnfCky+2
+ QXOlQfVcg16V9PdclXL+rtp3JDbD75uQH3TV2nFAJD6KazdHeEtvhssLOytUTBzxl5Bz
+ hJYatxfUzuVZ7bWDPxLSM37ZBChF9hu8K3VhVuZkcbqxcR+WqgzNDpt4wSByv1j5xO45
+ z1PHXXEFCMg0vmBnCvmwkoY6Jnv5Q9tE41CiwP2bEfxJayPR2OO+HISUvSvPDCKUU8HV
+ Ztng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765401061; x=1766005861;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=bfNgQDXXb8iWBGKdAi5rKgqEDEYcr51IEsgHSku4xr8=;
+ b=nBu0x7+M8psc3Etxj0eJ+uTTXQh6iB5WdR7PNzejzME4d19YG4YIJXH8bJFYj46wUF
+ AshHC0ygFW6Ppt+ca76Uj+FvFmu0BQB87KQMKm09UacGag0+oP/AzjZ4mIrE7z4OrWfa
+ 0ZbZ4yuTProN/+FmkoDtEQS2Ybmc7BRD+7c7OsPQXHCOAJzLj8T8e1gl8ktLcOm6TKyh
+ JwfRV7LqD7kV+NYNQRx6k2IyumrhXVUzOh5LwNNCDhseERtWgE57lqtFMrSu4B270xK2
+ EyGINseX9RfmnZZ1strkfKnTnnKcZ71kOjDRv18eg+zBgRkY5pBoIduWVgIWhf8T03yS
+ 24RQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX3Npd8A7gqfWNUHhZG+ZL4tIix4tQbAb7+5drlezYfiGWjr2QFCVxCFsAqjTnI3fTYPbRNap1FUkM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxWdtfRTP4D5ltxGAD6/VwDcFFazltE44aWVPkCmHTQ+KeUEMdb
+ EmvyMs8Qi5daFeIlN2MwUIJs90Dpz1ABsch7P9Phi1+k6M4dULfwsVlTm9wnCuNZJiFBHDdb7wn
+ p/+EpOZ98gZIYnW6SxCArCg94Ih0EcfD4KvR3h+gWoJjdCm6dcfszsJ9ebiIZJfyN3ZHt2B4=
+X-Gm-Gg: AY/fxX78ulSh3W5BXfP8QkFTR7/jUZml7z2BdYm74kQJI7i0WEibl7UJ+aWu3PIIiYt
+ xXTV2i71MrJozbmSbDbGvikkD0tetrTywNmaoh0tDkRRBRMESYMVv1qpu9tAF55GcHwBzr3Gi1z
+ Rp2cPokMLXYk4pVAowjDZpfWpFwI8113SUbbDJHWRGt0sIcxO0hFimCalurYoA+YwITIpwJaDyq
+ 2OSVrwGxyiFPpHJBQiRXB9ceu1QowW2iP26X1gd/EcAfbBwPSbKhvNwDWxHwAfxqSZLYjhRG91S
+ bXc6zO9T5lgV/3qFuWsYgCeKW54J/KW72+RPH31dMuK/UJUMs8HleJsAI4J9zyI9hNMUuRhS1CY
+ 9NP3hs2u+UnNSf3CXS2dc2IFDSkK2vI1S
+X-Received: by 2002:a05:6a00:b91:b0:77f:efd:829b with SMTP id
+ d2e1a72fcca58-7f22e0a30bfmr3813218b3a.22.1765401060887; 
+ Wed, 10 Dec 2025 13:11:00 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHbBXzDiOXtSdMaF2b7fdEH4r75SwGnJGdOCk5npK2CmpZqJ2QEVbCBDzn/HBSCMic4HCMWZw==
+X-Received: by 2002:a05:6a00:b91:b0:77f:efd:829b with SMTP id
+ d2e1a72fcca58-7f22e0a30bfmr3813195b3a.22.1765401060352; 
+ Wed, 10 Dec 2025 13:11:00 -0800 (PST)
+Received: from [192.168.1.5] ([106.222.234.96])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7f4c4aa91d0sm402642b3a.32.2025.12.10.13.10.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 10 Dec 2025 13:11:00 -0800 (PST)
+Message-ID: <9971bd9b-88db-4628-b36b-de50c1619396@oss.qualcomm.com>
+Date: Thu, 11 Dec 2025 02:40:52 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 04/20] drm/crtc: Add COLOR_PIPELINE property
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+Subject: Re: [PATCH v3 5/6] arm64: dts: qcom: sm6150: Add gpu and rgmu nodes
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Melissa Wen <melissa.srw@gmail.com>
-Cc: Alex Hung <alex.hung@amd.com>, wayland-devel@lists.freedesktop.org,
- harry.wentland@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com,
- pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
- xaver.hugl@gmail.com, victoria@system76.com, uma.shankar@intel.com,
- quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
- marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
- chaitanya.kumar.borah@intel.com, mcanal@igalia.com, kernel@collabora.com,
- daniels@collabora.com, leandro.ribeiro@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Simona Vetter <simona.vetter@ffwll.ch>
-References: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
- <20250917-mtk-post-blend-color-pipeline-v2-4-ac4471b44758@collabora.com>
- <5aaecb8b-08c6-4982-86c8-18ebb4544f4c@bootlin.com>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>
+References: <20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com>
+ <20251122-qcs615-spin-2-v3-5-9f4d4c87f51d@oss.qualcomm.com>
+ <8560ad26-4756-4c2a-97c3-2c5c0695172c@oss.qualcomm.com>
+ <z4gqro2bx6oq2ht75m2klogo5dsirb74tmc3u3shjyalxmaxil@5sy7ufmqhdgw>
+ <6fa1da5d-9ea7-4d72-a03a-82edc4bef099@oss.qualcomm.com>
+ <3gqq3w6ovy5srgvabyeugsjbwrhaxmjvicykhjmlcxd74gtsaf@5u6wvvzeq52z>
+ <90bc84e7-19ca-450d-b41f-fd96367e8cce@oss.qualcomm.com>
+ <2e5sqv2gnxdfwnfsepzdkchxip5zdeamp6bzbamq6kbk77kr3p@u5i4rrnrywno>
 Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <5aaecb8b-08c6-4982-86c8-18ebb4544f4c@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
-X-ZohoMail-Owner: <acd144d5-9bf7-4661-9f3a-5b55a8132b10@collabora.com>+zmo_0_ariel.dalessandro@collabora.com
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+In-Reply-To: <2e5sqv2gnxdfwnfsepzdkchxip5zdeamp6bzbamq6kbk77kr3p@u5i4rrnrywno>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEwMDE3NCBTYWx0ZWRfXxB/F5OwSA9Vd
+ V6RPwTjgm8TjMvb4n4thbSd5XfcLityhjiDwffIUCQC89wbvDvdpbwFaLNbe9yEu9aK6yyO3nsD
+ bn7fUmPlU2Zt+cAoCUPzSZsyfA8OxkIwJBgediBNMJKeFzb3ZLgxMv6lV3OKqPgSAFle217G6ah
+ fK4xyub+GG22JTaB5NCyoVjybTXdQg4ZweeCs92QkX4faqLIq1XUk13+UmA53MPzHO/yS2Gl+71
+ w4Mp4h1/q+0W0sF7aZcuo7kiv617hX37LSopXGTmhH5q3Z08jUsQ/NH1MQ0wJIJuyTSIwbCIocI
+ BYoryCa2sG6EoQUsU/cX0DE+sjwYGUVVerJb/JnYgxGCBa5G0hxTw8jH05JO2LKdvSwyc+QKMTM
+ QVaTc4CGkETUHgyLMlsFOP6mz+Hang==
+X-Proofpoint-ORIG-GUID: fQiulPkZ9czB8WB1ZhNhVUdDeEEOq_ai
+X-Proofpoint-GUID: fQiulPkZ9czB8WB1ZhNhVUdDeEEOq_ai
+X-Authority-Analysis: v=2.4 cv=LJ9rgZW9 c=1 sm=1 tr=0 ts=6939e1e5 cx=c_pps
+ a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=CcjbiXvC7xLhAd+qVKJczA==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=iOf4mfiAVVuFJQUywdwA:9 a=QEXdDO2ut3YA:10 a=IoOABgeZipijB_acs4fv:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-10_03,2025-12-09_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 adultscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512100174
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,112 +162,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Louis,
-
-On 9/19/25 9:43 AM, Louis Chauvet wrote:
-> 
-> 
-> Le 18/09/2025 à 02:43, Nícolas F. R. A. Prado a écrit :
->> Add a COLOR_PIPELINE property to the CRTC to allow userspace to set a
->> post-blend color pipeline analogously to how pre-blend color pipelines
->> are set on planes.
+On 12/6/2025 2:04 AM, Dmitry Baryshkov wrote:
+> On Fri, Dec 05, 2025 at 03:59:09PM +0530, Akhil P Oommen wrote:
+>> On 12/4/2025 7:49 PM, Dmitry Baryshkov wrote:
+>>> On Thu, Dec 04, 2025 at 03:43:33PM +0530, Akhil P Oommen wrote:
+>>>> On 11/26/2025 6:12 AM, Dmitry Baryshkov wrote:
+>>>>> On Sat, Nov 22, 2025 at 03:03:10PM +0100, Konrad Dybcio wrote:
+>>>>>> On 11/21/25 10:52 PM, Akhil P Oommen wrote:
+>>>>>>> From: Jie Zhang <quic_jiezh@quicinc.com>
+>>>>>>>
+>>>>>>> Add gpu and rgmu nodes for qcs615 chipset.
+>>>>>>>
+>>>>>>> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+>>>>>>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>>>>>>> ---
+>>>>>>
+>>>>>> [...]
+>>>>>>
+>>>>>>> +			gpu_opp_table: opp-table {
+>>>>>>> +				compatible = "operating-points-v2";
+>>>>>>> +
+>>>>>>> +				opp-845000000 {
+>>>>>>> +					opp-hz = /bits/ 64 <845000000>;
+>>>>>>> +					required-opps = <&rpmhpd_opp_turbo>;
+>>>>>>> +					opp-peak-kBps = <7050000>;
+>>>>>>> +				};
+>>>>>>
+>>>>>> I see another speed of 895 @ turbo_l1, perhaps that's for speedbins
+>>>>>> or mobile parts specifically?
+>>>>>
+>>>>> msm-4.14 defines 7 speedbins for SM6150. Akhil, I don't see any of them
+>>>>> here.
+>>>>
+>>>> The IoT/Auto variants have a different frequency plan compared to the
+>>>> mobile variant. I reviewed the downstream code and this aligns with that
+>>>> except the 290Mhz corner. We can remove that one.
+>>>>
+>>>> Here we are describing the IoT variant of Talos. So we can ignore the
+>>>> speedbins from the mobile variant until that is supported.
+>>>
+>>> No, we are describing just Talos, which hopefully covers both mobile and
+>>> non-mobile platforms.
 >>
->> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
->> ---
->>   drivers/gpu/drm/drm_atomic_uapi.c | 49 +++++++++++++++++++++++++++++ 
->> ++++++----
->>   drivers/gpu/drm/drm_crtc.c        | 33 ++++++++++++++++++++++++++
->>   include/drm/drm_atomic_uapi.h     |  2 ++
->>   include/drm/drm_crtc.h            | 11 +++++++++
->>   4 files changed, 91 insertions(+), 4 deletions(-)
+>> We cannot assume that.
 >>
->> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/ 
->> drm_atomic_uapi.c
->> index 
->> b7cc6945864274bedd21dd5b73494f9aae216888..063c142fd9b656e228cfc660d005a3fbb4640d32 100644
->> --- a/drivers/gpu/drm/drm_atomic_uapi.c
->> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
->> @@ -287,6 +287,33 @@ drm_atomic_set_colorop_for_plane(struct 
->> drm_plane_state *plane_state,
->>   }
->>   EXPORT_SYMBOL(drm_atomic_set_colorop_for_plane);
->> +/**
->> + * drm_atomic_set_colorop_for_crtc - set colorop for crtc
->> + * @crtc_state: atomic state object for the crtc
->> + * @colorop: colorop to use for the crtc
->> + *
->> + * Helper function to select the color pipeline on a crtc by setting
->> + * it to the first drm_colorop element of the pipeline.
->> + */
->> +void
->> +drm_atomic_set_colorop_for_crtc(struct drm_crtc_state *crtc_state,
->> +                 struct drm_colorop *colorop)
->> +{
->> +    struct drm_crtc *crtc = crtc_state->crtc;
->> +
->> +    if (colorop)
->> +        drm_dbg_atomic(crtc->dev,
->> +                   "Set [COLOROP:%d] for [CRTC:%d:%s] state %p\n",
->> +                   colorop->base.id, crtc->base.id, crtc->name,
->> +                   crtc_state);
->> +    else
->> +        drm_dbg_atomic(crtc->dev,
->> +                   "Set [NOCOLOROP] for [CRTC:%d:%s] state %p\n",
->> +                   crtc->base.id, crtc->name, crtc_state);
->> +
->> +    crtc_state->color_pipeline = colorop;
->> +}
->> +EXPORT_SYMBOL(drm_atomic_set_colorop_for_crtc);
->>   /**
->>    * drm_atomic_set_crtc_for_connector - set CRTC for connector
->> @@ -396,8 +423,8 @@ static s32 __user 
->> *get_out_fence_for_connector(struct drm_atomic_state *state,
->>   }
->>   static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
->> -        struct drm_crtc_state *state, struct drm_property *property,
->> -        uint64_t val)
->> +        struct drm_crtc_state *state, struct drm_file *file_priv,
->> +        struct drm_property *property, uint64_t val)
->>   {
->>       struct drm_device *dev = crtc->dev;
->>       struct drm_mode_config *config = &dev->mode_config;
->> @@ -406,7 +433,17 @@ static int drm_atomic_crtc_set_property(struct 
->> drm_crtc *crtc,
->>       if (property == config->prop_active)
->>           state->active = val;
->> -    else if (property == config->prop_mode_id) {
->> +    else if (property == crtc->color_pipeline_property) {
->> +        /* find DRM colorop object */
->> +        struct drm_colorop *colorop = NULL;
->> +
->> +        colorop = drm_colorop_find(dev, file_priv, val);
->> +
->> +        if (val && !colorop)
->> +            return -EACCES;
->> +
->> +        drm_atomic_set_colorop_for_crtc(state, colorop);
+>> Even if we assume that there is no variation in silicon, the firmware
+>> (AOP, TZ, HYP etc) is different between mobile and IoT version. So it is
+>> wise to use the configuration that is commercialized, especially when it
+>> is power related.
 > 
-> I don't know if this is needed, but you added a warning/early return for 
-> ctm/degamma_lut if file_priv->post_blend_color_pipeline is true.
+> How does it affect the speed bins? I'd really prefer if we:
+> - describe OPP tables and speed bins here
+> - remove speed bins cell for the Auto / IoT boards
+> - make sure that the driver uses the IoT bin if there is no speed bin
+>   declared in the GPU.
 > 
-> Does it make sense to add this?
-> 
->      if (!file_priv->post_blend_color_pipeline) {
->              drm_dbg_atomic(dev,
->                  "Setting COLOR_PIPELINE property not permitted without 
-> DRM_CLIENT_CAP_POST_BLEND_COLOR_PIPELINE client cap\n");
->              return -EINVAL;
->          }
 
-Indeed that makes sense. Will add in v3.
+The frequency plan is different between mobile and IoT. Are you
+proposing to describe a union of OPP table from both mobile and IoT?
 
-Thanks,
+Another wrinkle we need to address is that, so far, we have never had a
+dt binding where opp-supp-hw property exist without the speedbin cells.
+And that adds a bit of complexity on the driver side because, today, the
+KMD relies on the presence of speed bin cells to decide whether to
+select bin via opp_supp_hw API or not. Also, we may have to reserve this
+combination (opp bins without speedbin cells) to help KMD detect that it
+should use socinfo APIs instead of speedbin cells on certain chipsets.
 
--- 
-Ariel D'Alessandro
-Software Engineer
-
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
+-Akhil
 
