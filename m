@@ -2,47 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8EECB62F4
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 15:31:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604ABCB6340
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 15:35:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2178810E138;
-	Thu, 11 Dec 2025 14:31:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE8210E2E5;
+	Thu, 11 Dec 2025 14:35:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=exactco.de header.i=@exactco.de header.b="EjkOTOPp";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="SQL0VVIU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from exactco.de (exactco.de [176.9.10.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 960E410E138
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 14:30:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=exactco.de; 
- s=x;
- h=Content-Transfer-Encoding:Content-Type:Mime-Version:References:
- In-Reply-To:From:Subject:Cc:To:Message-Id:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=aDlOPjaYpBdb6xcfa3La03/Dil/oWp988F+0LXwTtkY=; b=EjkOTOPpImN9gNbgMVcWEfmJAn
- DMagpoVOm1uNx1ioi0BPixWSF8ykKiW2sGjucnhl0xBYmDs3BE0Y6JpLGKndLMujuV8rGvZS8xXhj
- LFOyAspB/zQwGwQVhuBzzhRjznyYFfSZ4QQiuNLgbev4aAVIwMvMQ3z3YdjIalVjLGWJpcvTrTYaw
- yAfvPcns3v3q8Khnn3HOYWtqav+j/xYVkuWagnDCCMIDfEYWCmfn9+6QCcDpv/Q7/At+cD5hk0sqx
- rPc4/woJbaxmXeaz2VgpJ/CTAglk74K19Kq3egzfw4/mXN32VuwZdHI6ZP4SLUAG8Nzirk1sTk2pv
- 89++4IdA==;
-Date: Thu, 11 Dec 2025 15:31:01 +0100 (CET)
-Message-Id: <20251211.153101.411672428832661296.rene@exactco.de>
-To: tzimmermann@suse.de
-Cc: tpearson@raptorengineering.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, airlied@redhat.com
-Subject: Re: [PATCH] drm/ast: Fix big-endian support
-From: =?iso-8859-1?Q?Ren=E9?= Rebe <rene@exactco.de>
-In-Reply-To: <3e46c10b-79db-4c11-9047-cd33e94ff5e0@suse.de>
-References: <34cce8e3-51c5-4d44-8f6e-592a5943aec8@suse.de>
- <20251211.134330.2200695829709887915.rene@exactco.de>
- <3e46c10b-79db-4c11-9047-cd33e94ff5e0@suse.de>
-X-Mailer: Mew version 6.10 on Emacs 30.2
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=utf-8
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2F2B10E2E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 14:35:21 +0000 (UTC)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+ by smtpout-04.galae.net (Postfix) with ESMTPS id DAED2C19342;
+ Thu, 11 Dec 2025 14:34:55 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+ by smtpout-01.galae.net (Postfix) with ESMTPS id DD46C6068C;
+ Thu, 11 Dec 2025 14:35:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
+ with ESMTPSA id A0390103C8C93; Thu, 11 Dec 2025 15:35:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+ t=1765463719; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+ content-transfer-encoding:in-reply-to:references;
+ bh=iDA+A0ovH3m6IMjM9osaCpupthizmxnW5vOnHPPGajo=;
+ b=SQL0VVIU4hl+yBcR14nH8sGSclcE3hTA1BFAhQARPX1aReSoDtQkAyiw6s2wjthvKfY7u+
+ 7W/9BZMe5VMUi/ETQfZCwJZDLlWyWI7BjD8zQgG5KBDWeyjphc8kx9RBj14XNtlDqPNF2E
+ QtNEq/LsOwuhmjYv24lip0+EfGBPSWtYxf3TVgON9MgzVsX+IKWKDfXelYJbrvN5ab1XfD
+ vqYvINo37KZcKvlRfJ2Zd7nDpE+DLK4Wyrthi5JHecjjRt7Lv5UTgB8t9kAgbbhhA1p8ct
+ Dxe2NypAFIj1fPwKjbkg4Hrz2iv/y4BYiNJrBY10/RPF43dLOs3hBenkRyp0SA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Dmitry Baryshkov <lumag@kernel.org>
+In-Reply-To: <20251112-drm-bridge-atomic-vs-remove-v3-0-85db717ce094@bootlin.com>
+References: <20251112-drm-bridge-atomic-vs-remove-v3-0-85db717ce094@bootlin.com>
+Subject: Re: [PATCH v3 0/2] drm/bridge: handle gracefully atomic updates
+ during bridge removal
+Message-Id: <176546371453.266527.15671825201183233856.b4-ty@bootlin.com>
+Date: Thu, 11 Dec 2025 15:35:14 +0100
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,77 +71,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Thu, 11 Dec 2025 15:03:48 +0100, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-
-> Hi,
+On Wed, 12 Nov 2025 17:34:33 +0100, Luca Ceresoli wrote:
+> This is a first attempt at gracefully handling the case of atomic updates
+> happening concurrently to physical removal of DRM bridges.
 > 
-> Am 11.12.25 um 13:43 schrieb René Rebe:
+> This is part of the work to support hotplug of DRM bridges. The grand plan
+> was discussed in [1].
+> 
+> Here's the work breakdown (➜ marks the current series):
+> 
 > [...]
-> >> The code for the primary plane should be fine now. But we also need
-> >> something for the cursor plane as well. There's a
-> >> ast_set_cursor_image() with a memcpy_toio() [1] and several additional
-> >> writes. IIUC they all have to be swapped as well.
-> > Of course, any obvious style issue or endianess swapping linux-kernel
-> > would like to see differently? You did not answer if I should just
-> > conditionalize on the chip id. I used a bool to avoid intermangled
-> > #ifdef conditionals to hopefully match kernel style.
-> > Btw. checkpatch.pl warns:
-> >
-> > WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
-> >
-> > I could add this if desired while at it.
-> >
-> > Only compile tested, will do a final hw test once patch is approved in
-> > general.
-> 
-> It's all a bit excessive. There's a patch attached that will hopefully
-> fix the issues.
-> 
-> If you could test it, I'll send it out for official review. The
-> easiest way of testing cursor support is to run Xorg and see if the
-> cursor looks correct.
-> 
-> The Co-developed-by tag requires your Signed-off-by.
 
-Ok, so you are not a fan of using the hw swapping. I think I asked two
-emails ago if having both pathes is acceptable. To be honest this
-driver is for some reason already annoyingly slow. Buf of course we
-can just keep the sw swapping for now.
+Applied, thanks!
 
->  	/* write checksum + signature */
-> +	writel(swab32(csum), dst);
-> +	writel(swab32(width), dst + AST_HWC_SIGNATURE_SizeX);
-> +	writel(swab32(height), dst + AST_HWC_SIGNATURE_SizeY);
-> +	writel(swab32(0), dst + AST_HWC_SIGNATURE_HOTSPOTX);
-> +	writel(swab32(0), dst + AST_HWC_SIGNATURE_HOTSPOTY);
-> +#else
-> +	memcpy_toio(dst, src, AST_HWC_SIZE);
->  	dst += AST_HWC_SIZE;
-> +
-> +	/* write checksum + signature */
->  	writel(csum, dst);
->  	writel(width, dst + AST_HWC_SIGNATURE_SizeX);
->  	writel(height, dst + AST_HWC_SIGNATURE_SizeY);
->  	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTX);
->  	writel(0, dst + AST_HWC_SIGNATURE_HOTSPOTY);
-> +#endif
+[1/2] drm/bridge: add drm_bridge_unplug() and drm_bridge_enter/exit()
+      commit: d36137085a4aa2d2f039359a0d67d9e07667f2de
+[2/2] drm/bridge: ti-sn65dsi83: protect device resources on unplug
+      commit: d2e8d1bc840b849fc23d8812995645cc79990e7b
 
-I'm pretty sure this will break the cursor, as the position was
-working correctly and I only had to swap the cursor image data. The
-csum will also not be identical anyway, as the checksum function
-computes it in native byte order. Theoretically that would have to be
-changed. However, I do not see where it is really used, maybe only
-some special remote desktop vendor protocol that I'm not using. Maybe
-the exact checksum does not even matter and is only used as
-optimization to not resend an unchanged cursor image.
-
-I'll send a final version after validating it w/ HW later.
-
-Thanks,
-	René
-
+Best regards,
 -- 
-René Rebe, ExactCODE GmbH, Berlin, Germany
-https://exactco.de • https://t2linux.com • https://patreon.com/renerebe
+Luca Ceresoli <luca.ceresoli@bootlin.com>
+
