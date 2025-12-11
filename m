@@ -2,77 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9039DCB544A
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 09:59:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DCACB6576
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 16:27:33 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 99B7410E79F;
-	Thu, 11 Dec 2025 08:59:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF0B10E81C;
+	Thu, 11 Dec 2025 15:27:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ih8cHupn";
+	dkim=pass (1024-bit key; unprotected) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="aob9AFqO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
- [209.85.128.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBC8610E7B7
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 08:59:33 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id
- 5b1f17b1804b1-4775ae5684fso2954045e9.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 00:59:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1765443572; x=1766048372; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=d7Dcmeo17/ho3pwIJKnx+P3oKTwjiCKC8M+QuOO4Bzs=;
- b=ih8cHupn/Lci18bE92Oae1ZW9nhHdgCuXoDfE0ZRw8mQpMjZWzs30Sp/NgP9H11t3S
- soGcvfIv1oDFyeS1yG4H5YpBedq/ixvnV5IxwVumBa5l8JUpenapNVkKN5XTPKo94eWS
- 8DrWgt3Blk6yvalEROgo4/VpUvQ1ELMXrdLMhFj8Co2v+ORVSApdzX7ihmJOZxd10rE9
- otYTHv//dcsvobGdRtCb0iy4G0FsA4VK9CJdTOBirwuFIYPq1FLbykcIbwgPqOuSaFmu
- LPVlRFpE3Ccao2bhKU9434Iaxn1hwxwVSsmlFxHcIe3kwl/kgL2vgj9srARz/rYYj8w7
- mqBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765443572; x=1766048372;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=d7Dcmeo17/ho3pwIJKnx+P3oKTwjiCKC8M+QuOO4Bzs=;
- b=PsAIaR3+77SwtKniXBF3l+UdGL67lbOxBCc54bhyxqk5ecT0XfG9u2pE66dtbXEeBw
- rOki5izHYLxOW6Ia2QC2a1iRoEyj4y4pS2aBq4zw303yfg5GQhHULWiULcmZJ8SrqQdT
- VUdUU7PuoU9QlweaXZfvIdHO2liz7ZVqzHKCqXy+txzQ22X1equjRBiK+RtVWFaHDdzM
- xnOQiIojE8fWovD3FKv2OkRUhPTTeRAYmqc9ZX7cFc4gPT/ocEphUX1udQofVG/O3Wj7
- hbrjG8WmQllLv18qI3tTSB6C1/9GX9+9eC4SM3Um9LsJ803fy//0lVYs746DXtf9gzWz
- QTng==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXryy7byRY7ZHasFB8H3qT5RPz/omHbXqTFf+ebz++KDwaEF7YOW0MA6BuLemeNvOIefLHlUSLm+P0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwFVd/nRmTeFy0FFmHrevNstJ4J8QDa3GNWYKXuH5fs5Bj47YML
- 07bW70ztBtxdxALSQMOykIPJbSNGCw/IaTa+GMDjbhOJaGcsn+lA2c9m
-X-Gm-Gg: AY/fxX5qOYL33jE4j4cgdtyMWMHQBVgzw4iqZZRWFj5EdImwHpYMLJbExeNJU7UKnJN
- /RzffRofqWrjubVFI9+XuIQccS70K51UZ7m1CGRULBvN7i0nzfPn7A8Nz6fQ3e/pgYEla6zp8We
- wvec6VMitZ9r+ADBUNWhD1g0izUXfyAaJZXe6H3i41dgc8k586tUo2m9foqA0qWlI5FnAXFAnTY
- gXtKyFXA1oPvRAultuzgWaplLx9JCoxn+Pywz1zVuxPvK4yMfBvaXcZ/WUTGBqYrFqyVslk4BQW
- FVEgeYemjFtwD0sW2GyjYJ7yAqZJnXuZ5X5a1yZ8LglV3u+QfYQwdDLgXbPmcw7KxORxLiDpiFF
- MaphQDuVtr5/kjVEqdijyBnwQ8D+Ol1GKfPz8et1LusmDK7GIpqZpg5v3EpVrlUF/5NLdOHdUhV
- PQ9nmKJg==
-X-Google-Smtp-Source: AGHT+IFfevukgFnWT3LKBWertJrehx/v0qPaRwBDg4O1Pd1KYzneq0UfgHhekRMu8pvpp3JFeKvIGQ==
-X-Received: by 2002:a05:600c:354a:b0:477:97c7:9be7 with SMTP id
- 5b1f17b1804b1-47a837fcbb4mr55532325e9.1.1765443572110; 
- Thu, 11 Dec 2025 00:59:32 -0800 (PST)
-Received: from pc.. ([105.163.2.215]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47a89ed6c64sm8683195e9.12.2025.12.11.00.59.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Dec 2025 00:59:31 -0800 (PST)
-From: Erick Karanja <karanja99erick@gmail.com>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Erick Karanja <karanja99erick@gmail.com>
-Subject: [PATCH] drm/radeon : Use devm_i2c_add_adapter instead of
- i2c_add_adapter
-Date: Thu, 11 Dec 2025 11:59:23 +0300
-Message-ID: <20251211085923.737742-1-karanja99erick@gmail.com>
-X-Mailer: git-send-email 2.43.0
+X-Greylist: delayed 437 seconds by postgrey-1.36 at gabe;
+ Thu, 11 Dec 2025 09:47:09 UTC
+Received: from forwardcorp1d.mail.yandex.net (forwardcorp1d.mail.yandex.net
+ [178.154.239.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B814E10E2AF;
+ Thu, 11 Dec 2025 09:47:09 +0000 (UTC)
+Received: from mail-nwsmtp-smtp-corp-main-68.klg.yp-c.yandex.net
+ (mail-nwsmtp-smtp-corp-main-68.klg.yp-c.yandex.net
+ [IPv6:2a02:6b8:c42:94a9:0:640:a3fa:0])
+ by forwardcorp1d.mail.yandex.net (Yandex) with ESMTPS id 889C5807A3;
+ Thu, 11 Dec 2025 12:39:49 +0300 (MSK)
+Received: from kniv-nix.yandex-team.ru (unknown [2a02:6bf:8080:c5c::1:37])
+ by mail-nwsmtp-smtp-corp-main-68.klg.yp-c.yandex.net (smtpcorp/Yandex) with
+ ESMTPSA id MdLltr0FqCg0-XKazNBt7; Thu, 11 Dec 2025 12:39:49 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; t=1765445989;
+ bh=gZ19bStIXK8ZTYeaIB4Wio3OCyGR20Y3eysM2vFARVU=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=aob9AFqOPibHIQfZ9z38+gzDHxMpxstejtPnTKQO/EzicSIfSGqNyRh6d5m/WF5Nm
+ oDW7M1xsayyjBm1k9hLOCAkQOIGS1Q0nJ/F3V+ME4C4kYye8VWMq7jRTZYlaC3f2wX
+ 1vjFwfVpduMxoB8mv5sY5U5kF5EcH+VW2qYkNPFY=
+Authentication-Results: mail-nwsmtp-smtp-corp-main-68.klg.yp-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+From: Nikolay Kuratov <kniv@yandex-team.ru>
+To: linux-kernel@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Sean Paul <sean@poorly.run>, Jessica Zhang <jesszhan0024@gmail.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Nikolay Kuratov <kniv@yandex-team.ru>, stable@vger.kernel.org
+Subject: [PATCH] drm/msm/dpu: Add missing NULL pointer check for pingpong
+ interface
+Date: Thu, 11 Dec 2025 12:36:30 +0300
+Message-Id: <20251211093630.171014-1-kniv@yandex-team.ru>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 11 Dec 2025 15:27:30 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,56 +69,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace i2c_add_adapter() with devm_i2c_add_adapter() and remove all
-associated cleanup, as devm_i2c_add_adapter() handles adapter teardown
-automatically.
+It is checked almost always in dpu_encoder_phys_wb_setup_ctl(), but in a
+single place the check is missing.
+Also use convenient locals instead of phys_enc->* where available.
 
-Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+Cc: stable@vger.kernel.org
+Fixes: d7d0e73f7de33 ("drm/msm/dpu: introduce the dpu_encoder_phys_* for writeback")
+Signed-off-by: Nikolay Kuratov <kniv@yandex-team.ru>
 ---
- drivers/gpu/drm/radeon/radeon_i2c.c | 15 ++-------------
- 1 file changed, 2 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_i2c.c b/drivers/gpu/drm/radeon/radeon_i2c.c
-index 1f16619ed06e..f3ba4187092c 100644
---- a/drivers/gpu/drm/radeon/radeon_i2c.c
-+++ b/drivers/gpu/drm/radeon/radeon_i2c.c
-@@ -931,7 +931,7 @@ struct radeon_i2c_chan *radeon_i2c_create(struct drm_device *dev,
- 		snprintf(i2c->adapter.name, sizeof(i2c->adapter.name),
- 			 "Radeon i2c hw bus %s", name);
- 		i2c->adapter.algo = &radeon_i2c_algo;
--		ret = i2c_add_adapter(&i2c->adapter);
-+		ret = devm_i2c_add_adapter(dev->dev, &i2c->adapter);
- 		if (ret)
- 			goto out_free;
- 	} else if (rec->hw_capable &&
-@@ -972,15 +972,6 @@ struct radeon_i2c_chan *radeon_i2c_create(struct drm_device *dev,
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+index 46f348972a97..6d28f2281c76 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_wb.c
+@@ -247,14 +247,12 @@ static void dpu_encoder_phys_wb_setup_ctl(struct dpu_encoder_phys *phys_enc)
+ 		if (hw_cdm)
+ 			intf_cfg.cdm = hw_cdm->idx;
  
- }
+-		if (phys_enc->hw_pp->merge_3d && phys_enc->hw_pp->merge_3d->ops.setup_3d_mode)
+-			phys_enc->hw_pp->merge_3d->ops.setup_3d_mode(phys_enc->hw_pp->merge_3d,
+-					mode_3d);
++		if (hw_pp && hw_pp->merge_3d && hw_pp->merge_3d->ops.setup_3d_mode)
++			hw_pp->merge_3d->ops.setup_3d_mode(hw_pp->merge_3d, mode_3d);
  
--void radeon_i2c_destroy(struct radeon_i2c_chan *i2c)
--{
--	if (!i2c)
--		return;
--	WARN_ON(i2c->has_aux);
--	i2c_del_adapter(&i2c->adapter);
--	kfree(i2c);
--}
--
- /* Add the default buses */
- void radeon_i2c_init(struct radeon_device *rdev)
- {
-@@ -999,10 +990,8 @@ void radeon_i2c_fini(struct radeon_device *rdev)
- 	int i;
+ 		/* setup which pp blk will connect to this wb */
+-		if (hw_pp && phys_enc->hw_wb->ops.bind_pingpong_blk)
+-			phys_enc->hw_wb->ops.bind_pingpong_blk(phys_enc->hw_wb,
+-					phys_enc->hw_pp->idx);
++		if (hw_pp && hw_wb->ops.bind_pingpong_blk)
++			hw_wb->ops.bind_pingpong_blk(hw_wb, hw_pp->idx);
  
- 	for (i = 0; i < RADEON_MAX_I2C_BUS; i++) {
--		if (rdev->i2c_bus[i]) {
--			radeon_i2c_destroy(rdev->i2c_bus[i]);
-+		if (rdev->i2c_bus[i])
- 			rdev->i2c_bus[i] = NULL;
--		}
- 	}
- }
- 
+ 		phys_enc->hw_ctl->ops.setup_intf_cfg(phys_enc->hw_ctl, &intf_cfg);
+ 	} else if (phys_enc->hw_ctl && phys_enc->hw_ctl->ops.setup_intf_cfg) {
 -- 
-2.43.0
+2.34.1
 
