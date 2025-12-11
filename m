@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7136CB5CE8
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF29CB5CE5
 	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 13:24:25 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21D8610E7F3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2666410E7F4;
 	Thu, 11 Dec 2025 12:24:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AhueDlyx";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LkMAxzPU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3992F10E7ED
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 12:24:17 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-4779cc419b2so301285e9.3
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E8EA10E7E7
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 12:24:18 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-4779aa4f928so468215e9.1
  for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 04:24:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1765455856; x=1766060656; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=5Hce5C1nspfSp6lJoBmBcpKxG2pvG1GeGisuj2PvlXY=;
- b=AhueDlyxzbzL264irT1Qs2yv60ux2NjlAREQgS2+fgcfumrT7L1tjz444GKaswuQVc
- BKa/P4Rqn8klSYOeFwx1VP7U7FoKqct8BIlfD9KteuteruYUjz9myE3oO5LEbbwLnyuo
- kCvml5SJAILgg8QgjPp1EkZIwIz62GpNZp46rRHCB5TtEpV+ljDOxeJ5Xgni0H8WZgul
- qoYMPetAZduWXOHv7Ppqmj//17dgEi586aSdXEbDZ+aJm5Hrb7qg+08aQzpfbmOzt3+/
- EGIYd/O3VvLeQwgKS6PeCxFbKxCKg4V7OHX7SaPd/9sf02db2iUChIpkHCEYmeTyAB4Q
- CBBw==
+ bh=NbpPVrzPAlKs0sk1NH70zC7B/mKS9m8HRr6Hh0Ntmuc=;
+ b=LkMAxzPUsHNqHlmOQc+72767NMXHoOnYxQUsNz1JlFE6x55mjOoJUMIHuaa3+6QkvV
+ c29pdf5PvHKPwhTJ09QXtzNFBVwl1K4dulNtPLXiT1qJZkw7pRfUnpg+GAHPkVoWWJJE
+ bcSNhcO73MCydrL+qaqD5Grmt31YE6CoScuB8UK5F5YKOX2HachTaG5sX9XfrCpc8oDo
+ 9QXD1J0Z+gYwDHD0jx8lfsifDUtqtpaYZYKiBWyModC3/GCi+MUMUk022F/M8xeBlu30
+ ZU0GcM/frfncPSP5QqsmlA7ZnClayvY02S4db7Di6m2lyozbgn1qd2b33yd/CL4qFKgZ
+ LAIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1765455856; x=1766060656;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
  :to:cc:subject:date:message-id:reply-to;
- bh=5Hce5C1nspfSp6lJoBmBcpKxG2pvG1GeGisuj2PvlXY=;
- b=koIqtESMmPDC+vYthJcS3GMG12QrHYLuBX5LuFxrqWz4Yio7RY2Hl9x9DjTsjNoVa4
- hnWr7AzCYYUEoWuxBf9AgtCGtJs6TK3vxiBvcvK+58YONN62pSujGlNhuxX3UkTOKEym
- sQ2V7BpP+/kmravzn9RLrwqHOOpflgTW9C+1JPoW2cehniFh41kjdLw0ixHvgJqt/rNE
- lcIL2wzhneUJsHPvwnxoG1TYk9yFXXeujTG7Av8/LUMxrMJay+pYXj+NozfciNksjiOF
- VPoiufe2oYGKG1txaKx9AASO1OxP6Lnv8GH+sIRJ3SA8QYbu8njoVYaCQdzKed356eS0
- dO+A==
-X-Gm-Message-State: AOJu0YwLqmt9y40z07HvmXkA5l3e7BA2zW0NtjEH0q832b/YatiKANQT
- habZ5hXe+m4PIsA8DMDlc9oZ4xWwuV4B/sc/GbLraGUk9DJiO2TG9CDJ
-X-Gm-Gg: AY/fxX5ahJZxY8aGQXQd1vVnrp9X6u8APaYHCG0hV+7Fp/fDofTml0P0Qfp/Ik0TAy4
- jyxG2HzOYNjWakw5wxpEq7jw1iH2Iil3M0varahbYXifoO5yr9ak1NQ292c/RyslpS3/xXKd3o7
- qrK3HgqbiGbiJkbkkYmSwoeFVyl9nR96TJoKdJ8c0gibZcyr9bcr0U/va4EbWGMmEBr9fbwi2tW
- 10JZWy/VsDxT8z+y38+0VP5xeBEtb0ioY3TwVbG+LxwDO8ymEfm0q8eDdesouTkksynTHieioT1
- UVm4QzgvQfFxxVTjEuUqP+dUO8wciUcNTPrc1xf6mSersMQ/oer+Pg5OD+AIydo/oXumIuJtCAh
- EUH3g+4kSKFRL7XOIiwlRXUxXDPSubiP7UScwEkNvu8IWPc+WtNWS3+yjV5qujR+Vrs47FZDcTb
- tmaYIErja9K4Mp0UyS4xpVl9ag
-X-Google-Smtp-Source: AGHT+IEwHuUSi7Vps6RXsKW9MJSSoj5i4GSLWZDKYpHJEY9Mm1ABIJndgpykxk/5jrfSj0nRUJlrGA==
-X-Received: by 2002:a05:600c:198f:b0:477:55ce:f3c2 with SMTP id
- 5b1f17b1804b1-47a8380c866mr57150495e9.14.1765455855662; 
- Thu, 11 Dec 2025 04:24:15 -0800 (PST)
+ bh=NbpPVrzPAlKs0sk1NH70zC7B/mKS9m8HRr6Hh0Ntmuc=;
+ b=FJsHeXpVZepVIfmkfCHKmfACPWPPNX6k1UUmMMfAMxw1LvTiSo8d8x9saCcCc/fGH5
+ NjYPQp+a7T+OacUygKQVG2xnhix6m0HVWqxmH8THxoMoskxl2/xOdS+VdLLvXB4Pakpa
+ KN1reMdDpU0S4flQDfysqqvlKE6Dqharz2T9aT732ExQyZFmQs8rnLySBNtN6x4GfoPY
+ Dg4N3i+jfbgtNxXaJan49VozoYhdb3ee/I47ZurI0qqBAODVpqIwJlefwL0J+RDgp8Ib
+ OdqgSkw3TLGSWkfikqHRm8tWEuPbotV3PZgaIHNYDh7jjniOQeFxQJFoB6XW8c0iMYRC
+ SP5g==
+X-Gm-Message-State: AOJu0YwCrMw8F72Q1DwaWry6jZ+mxcZ+SOWfCy5x4tIj7Jv11XMwhdiN
+ +ibC3yNoyVbn0qsaAVheRTLU3KK5bR+7exzbl3AGJ7t8ukLP2PWwTWQn
+X-Gm-Gg: AY/fxX66PxEq29Z0mrv23PrLcOXTvUEJNQzPnjonC6QNUB+RYIJ1oDebcX5NmU4LRrU
+ 68rlp8I3vOI+jTDd8p+7I1oKZjWqRAjkf6kMLjtilvPWM/x3ohsovBc6Pv+CEzqiQMnpZTACT9c
+ nU+PCL6OGcZ1TNQWPu3iZrfrJdgVipkt0jxsiql3D6aNUUg/tUYN5iTmhOBjw2VywP2uOeiQzgl
+ ejNn7AQy+bwDpE87udbfMHQlmWlkGef/wFeCkuqgApNn5UNkyeHN7tSOeuQrmD0WGzclja5Zedc
+ QSYKN7a3qdvXqlqCRPbRNVGqbnefbF1c6I+JvkZea8Ta4b5U0XVkkF+JS10C2SWZlkKQNWPR7ir
+ OITJHZ2pth7L2W03/DqChKcBTkxhu9PC2GM9xyIIdgxPa/hQSvTWGFVXOgoEtAFBhmnL0ek94cq
+ Uvi4PObwj8S81v03tVtAzfskSr
+X-Google-Smtp-Source: AGHT+IEObtek3SSUISo0BK//+wOuSD6ufacxtT8fJlRFsxpyjHrhmJGAbig7vCojM0CY/HKswlW/NA==
+X-Received: by 2002:a05:600c:8a0c:10b0:477:98f7:2aec with SMTP id
+ 5b1f17b1804b1-47a856439e0mr39020445e9.3.1765455856396; 
+ Thu, 11 Dec 2025 04:24:16 -0800 (PST)
 Received: from able.fritz.box ([2a00:e180:152a:9f00:dc26:feac:12f7:4088])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-47a89d8e680sm12172785e9.6.2025.12.11.04.24.14
+ 5b1f17b1804b1-47a89d8e680sm12172785e9.6.2025.12.11.04.24.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Dec 2025 04:24:14 -0800 (PST)
+ Thu, 11 Dec 2025 04:24:16 -0800 (PST)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -68,9 +68,9 @@ To: phasta@mailbox.org, tursulin@ursulin.net, matthew.brost@intel.com,
  sumit.semwal@linaro.org
 Cc: dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 06/19] dma-buf: use inline lock for the stub fence v2
-Date: Thu, 11 Dec 2025 13:16:37 +0100
-Message-ID: <20251211122407.1709-7-christian.koenig@amd.com>
+Subject: [PATCH 07/19] dma-buf: use inline lock for the dma-fence-array
+Date: Thu, 11 Dec 2025 13:16:38 +0100
+Message-ID: <20251211122407.1709-8-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251211122407.1709-1-christian.koenig@amd.com>
 References: <20251211122407.1709-1-christian.koenig@amd.com>
@@ -98,53 +98,42 @@ So use this approach for the framework's internal fences as well.
 
 Also saves about 4 bytes for the external spinlock.
 
-v2: drop unecessary changes
-
 Signed-off-by: Christian König <christian.koenig@amd.com>
 Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Reviewed-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/dma-buf/dma-fence.c | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ drivers/dma-buf/dma-fence-array.c | 5 ++---
+ include/linux/dma-fence-array.h   | 1 -
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index b3c1fb990621..d1a9a1cdd64b 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -24,7 +24,6 @@ EXPORT_TRACEPOINT_SYMBOL(dma_fence_emit);
- EXPORT_TRACEPOINT_SYMBOL(dma_fence_enable_signal);
- EXPORT_TRACEPOINT_SYMBOL(dma_fence_signaled);
+diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
+index 6657d4b30af9..c2119a8049fe 100644
+--- a/drivers/dma-buf/dma-fence-array.c
++++ b/drivers/dma-buf/dma-fence-array.c
+@@ -204,9 +204,8 @@ void dma_fence_array_init(struct dma_fence_array *array,
  
--static DEFINE_SPINLOCK(dma_fence_stub_lock);
- static struct dma_fence dma_fence_stub;
+ 	array->num_fences = num_fences;
  
- /*
-@@ -123,12 +122,9 @@ static const struct dma_fence_ops dma_fence_stub_ops = {
+-	spin_lock_init(&array->lock);
+-	dma_fence_init(&array->base, &dma_fence_array_ops, &array->lock,
+-		       context, seqno);
++	dma_fence_init(&array->base, &dma_fence_array_ops, NULL, context,
++		       seqno);
+ 	init_irq_work(&array->work, irq_dma_fence_array_work);
  
- static int __init dma_fence_init_stub(void)
- {
--	dma_fence_init(&dma_fence_stub, &dma_fence_stub_ops,
--		       &dma_fence_stub_lock, 0, 0);
--
-+	dma_fence_init(&dma_fence_stub, &dma_fence_stub_ops, NULL, 0, 0);
- 	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
- 		&dma_fence_stub.flags);
--
- 	dma_fence_signal(&dma_fence_stub);
- 	return 0;
- }
-@@ -160,11 +156,7 @@ struct dma_fence *dma_fence_allocate_private_stub(ktime_t timestamp)
- 	if (fence == NULL)
- 		return NULL;
+ 	atomic_set(&array->num_pending, signal_on_any ? 1 : num_fences);
+diff --git a/include/linux/dma-fence-array.h b/include/linux/dma-fence-array.h
+index 079b3dec0a16..370b3d2bba37 100644
+--- a/include/linux/dma-fence-array.h
++++ b/include/linux/dma-fence-array.h
+@@ -38,7 +38,6 @@ struct dma_fence_array_cb {
+ struct dma_fence_array {
+ 	struct dma_fence base;
  
--	dma_fence_init(fence,
--		       &dma_fence_stub_ops,
--		       &dma_fence_stub_lock,
--		       0, 0);
--
-+	dma_fence_init(fence, &dma_fence_stub_ops, NULL, 0, 0);
- 	set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
- 		&fence->flags);
- 
+-	spinlock_t lock;
+ 	unsigned num_fences;
+ 	atomic_t num_pending;
+ 	struct dma_fence **fences;
 -- 
 2.43.0
 
