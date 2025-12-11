@@ -2,80 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433E3CB6491
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 16:13:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2090FCB649A
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 16:16:52 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67B0710E846;
-	Thu, 11 Dec 2025 15:13:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1858210E04C;
+	Thu, 11 Dec 2025 15:16:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin.net header.i=@ursulin.net header.b="EMiWuFi6";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="L/jXXvCB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0674C10E83D
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 15:13:36 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-63c489f1e6cso338377a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 07:13:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin.net; s=google; t=1765466014; x=1766070814; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BbT9v83NtGR/hvY9uvwIW4Jp2/W/9ozpkYxE5YX4fBc=;
- b=EMiWuFi6zz5IBHtnvMroWMWAFBSS6ilwauOEIkSUQB180VwCcMjW84va6wqYECWH+e
- d/6LXbwz6oD4fcDOvKr/HkrIO6+6PBK1hif9k1m3R6AxNYajfykztGSgfwlEIHcJTd60
- 3lZ3dlyfzrwwCt1jzmwQ4KvjkyIWtgvLiGWjcl3FoDG+icuWL3GHaPdU0GhJUu/FNSXv
- w7CiuIzaHXVi43s2Ok8Y/5M2tvEqsHzEzCzdr83yChxksXsk61VIURAQ2cJE7LKpEQpi
- uOjpXh+fr/fn5Pu957zErQ5WlDq2xWbgPTEv5xYOR9OxoOThWZnZ0SKLU5mZJOU9+IDW
- tNvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765466014; x=1766070814;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BbT9v83NtGR/hvY9uvwIW4Jp2/W/9ozpkYxE5YX4fBc=;
- b=bmNRHCdYsNtbso2EXfmGQfsVNE2HCoqCGcXoWThdez4aobAzCdN4hRTsRm/MBlDcPV
- 2dT/43zX+h+emjp1k8fHb83yvSICDmWIfgAwQ5N9rDzKDqf7A0OAxTWo8os5jhQkqAd7
- C9+3yNWqyeaVuvfwUsEUIvA1zPagpakfDOg9Xr9bynUBd21MG+Ow1PcWC02TqAczdbMW
- myVIKxvnlruF3lQhbuTWPQeHdJKb2DQbXADvsnDlt3SNTPt22Jdzo8bIq33huxI4UVlx
- Q26XDlSJM0fMJPv4Te6nWvqb7sFzbteXdYhZqyfSmhd+OJWNS0JzrJahtnrpcrsD1599
- rlYQ==
-X-Gm-Message-State: AOJu0YzSLF4DSaomdsVxxm8RyWGe6l3FwKMe1UEpSDX2QjoqKn0e6j/m
- rbl/ZSUOiYIN//GsRb4Rm1M7irAUEWqk0wRixJ8nN9OzJv86QVYE27VNLkZDvAGSCAE=
-X-Gm-Gg: AY/fxX4KT6At4i4VFEFcLZQ7m6wmMn5cWhr8pawRUcmjORWBDfQuvg2ZbabGklMGTAK
- x+ZheEsArHDns0wEZ0kwoQsgvBEhCibwJnZup1lqCOzA3Ewj3JMobe6PUglNrosw+aBeXohOuvI
- ZufHXkh/ozt2leri9mWzcecJnJhmNQJqzHiVv1MJuqAvzLOrdHCrxok7b53LqKFdidTMyW4XMCe
- jPk3ab3bwcUmhl+BJKWEO5JSkXihT0FmiyqvxHGvKUnkWdWP3hzrkCmXq+hoaVmidqnMM5fhmBX
- Yt3YMP3uvfgKu1jZKfkqo7UeA6iBqKPRv5NqAl5hdp+m2j11gzqIiNjkQcECUX6EJ8CZkvo8uul
- tw99ZURr+jV4vxgab0Y3J1pXiOgaWWd4029yB7V6WdJ62QnKD1kkYhXpuNKekqCG6KJPQ/FBJ0U
- Ni4OZGAM0hjS3H6qeW82YGc+AqFNfZhokQeZdkG5w=
-X-Google-Smtp-Source: AGHT+IHjcTzERCk8PEdyx93yJUqMMtWP3RFIUcEAwJCjucfiqKKlG3JtMT+NvXn4fwhWGnvcPZ9T8Q==
-X-Received: by 2002:a05:6402:144c:b0:645:d07:8924 with SMTP id
- 4fb4d7f45d1cf-6498770bf04mr2104557a12.16.1765466014327; 
- Thu, 11 Dec 2025 07:13:34 -0800 (PST)
-Received: from [192.168.1.83] ([86.33.28.86]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-649820f77fbsm2698847a12.19.2025.12.11.07.13.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 11 Dec 2025 07:13:33 -0800 (PST)
-Message-ID: <9ef8686f-820f-41e9-985e-40411b4b9bd3@ursulin.net>
-Date: Thu, 11 Dec 2025 16:13:32 +0100
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A034710E04C;
+ Thu, 11 Dec 2025 15:16:47 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1765466188; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=L9VYmwF1ZV8mBvucp3svl+n1MZEnWQ04BL2BhNVuEMK6dCSfOeQuAT97cDSJwI2UtS5eS+maNpMT36+E1J9CzLenf0SwAHPud6VltN4mVmuujvF+jwhF8COSljdNWrlZT/Y/wOvAOC01CvvYY5bjjmtQaHkZdf/a+uLsc16RwWE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1765466188;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=N/SEPPS3LkYORhwqK+Trj2yot7q9tIQx0jdFwhoKT5g=; 
+ b=Yv5af2b0YtOIVbVBwQckS9812m+mnbuhUpQ4QpChqPvKJwPrZkAnyBH0ciyo6jBkiGQTMPUGEoez+4bySY1CUTrunn3Earx6ny21zE6HODfZe6SesicfMLmZQu8RGOHO0UvdGh0TcLON91nyH2W4xLfWl4K95ch6Wn3HUu69A6U=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+ dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765466188; 
+ s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=N/SEPPS3LkYORhwqK+Trj2yot7q9tIQx0jdFwhoKT5g=;
+ b=L/jXXvCBWUVNoYDSVpKQzIj0UZfcnyE8Lh8Z2YHt8KxEHygIUMmoLAroU/yz9igs
+ IHcH9pFbI6OQw8HIoZSj+W+05VcMrgEAQmqiNCbwAlVPkFT3iJ1IBBc9QiyKK5pMI0M
+ h8uNTJ5v12VQvdswTB6xWbFG8lMowpjEs86OuFbU=
+Received: by mx.zohomail.com with SMTPS id 1765466186652613.9579128013164;
+ Thu, 11 Dec 2025 07:16:26 -0800 (PST)
+Message-ID: <68c83842-16e9-429b-96c8-50c8a15c659c@collabora.com>
+Date: Thu, 11 Dec 2025 12:16:08 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/19] drm/sched: use inline locks for the drm-sched-fence
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- phasta@mailbox.org, matthew.brost@intel.com, sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20251211122407.1709-1-christian.koenig@amd.com>
- <20251211122407.1709-10-christian.koenig@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20251211122407.1709-10-christian.koenig@amd.com>
+Subject: Re: [PATCH RFC v2 07/20] drm/atomic: Pass post_blend_color_pipeline
+ client cap to atomic check
+To: Harry Wentland <harry.wentland@amd.com>,
+ =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Melissa Wen <melissa.srw@gmail.com>
+Cc: Alex Hung <alex.hung@amd.com>, wayland-devel@lists.freedesktop.org,
+ leo.liu@amd.com, ville.syrjala@linux.intel.com,
+ pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
+ jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
+ xaver.hugl@gmail.com, victoria@system76.com, uma.shankar@intel.com,
+ quic_naseer@quicinc.com, quic_cbraga@quicinc.com, quic_abhinavk@quicinc.com,
+ marcan@marcan.st, Liviu.Dudau@arm.com, sashamcintosh@google.com,
+ chaitanya.kumar.borah@intel.com, louis.chauvet@bootlin.com,
+ mcanal@igalia.com, kernel@collabora.com, daniels@collabora.com,
+ leandro.ribeiro@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, Simona Vetter <simona.vetter@ffwll.ch>
+References: <20250917-mtk-post-blend-color-pipeline-v2-0-ac4471b44758@collabora.com>
+ <20250917-mtk-post-blend-color-pipeline-v2-7-ac4471b44758@collabora.com>
+ <93edf489-c4f6-4f0d-a0d5-673da051983d@amd.com>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <93edf489-c4f6-4f0d-a0d5-673da051983d@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
+X-ZohoMail-Owner: <68c83842-16e9-429b-96c8-50c8a15c659c@collabora.com>+zmo_0_ariel.dalessandro@collabora.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,74 +92,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Harry,
 
-On 11/12/2025 13:16, Christian König wrote:
-> Using the inline lock is now the recommended way for dma_fence implementations.
->
-> So use this approach for the scheduler fences as well just in case if
-> anybody uses this as blueprint for its own implementation.
->
-> Also saves about 4 bytes for the external spinlock.
->
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/scheduler/sched_fence.c | 7 +++----
->   include/drm/gpu_scheduler.h             | 4 ----
->   2 files changed, 3 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> index 08ccbde8b2f5..47471b9e43f9 100644
-> --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> @@ -161,7 +161,7 @@ static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
->   	/* If we already have an earlier deadline, keep it: */
->   	if (test_bit(DRM_SCHED_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
->   	    ktime_before(fence->deadline, deadline)) {
-> -		spin_unlock_irqrestore(&fence->lock, flags);
-> +		dma_fence_unlock_irqrestore(f, flags);
+On 9/29/25 6:50 AM, Harry Wentland wrote:
+> 
+> 
+> On 2025-09-17 20:43, Nícolas F. R. A. Prado wrote:
+>> Pass the state of the post-blend color pipeline client cap to the atomic
+>> state so that drivers can rely on it to enable color pipeline
+>> functionality and ignore the deprecated color management CRTC
+>> properties.
+>>
+>> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+>> ---
+>>   drivers/gpu/drm/drm_atomic_uapi.c |  1 +
+>>   include/drm/drm_atomic.h          | 20 ++++++++++++++++++++
+>>   2 files changed, 21 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/ 
+>> drm_atomic_uapi.c
+>> index 
+>> f5125fa3fa28ff2a6ff07fd7cf07d4bdf77ab738..56a440a9390c7730c4c41b491f29b933a2bbb889 100644
+>> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+>> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+>> @@ -1660,6 +1660,7 @@ int drm_mode_atomic_ioctl(struct drm_device *dev,
+>>       state->acquire_ctx = &ctx;
+>>       state->allow_modeset = !!(arg->flags & 
+>> DRM_MODE_ATOMIC_ALLOW_MODESET);
+>>       state->plane_color_pipeline = file_priv->plane_color_pipeline;
+>> +    state->post_blend_color_pipeline = file_priv- 
+>> >post_blend_color_pipeline;
+>>   retry:
+>>       copied_objs = 0;
+>> diff --git a/include/drm/drm_atomic.h b/include/drm/drm_atomic.h
+>> index 
+>> 678708df9cdb90b4266127193a92183069f18688..8c42c584aefbf0034b2163d90538e80099b0dadb 100644
+>> --- a/include/drm/drm_atomic.h
+>> +++ b/include/drm/drm_atomic.h
+>> @@ -482,6 +482,26 @@ struct drm_atomic_state {
+>>        */
+>>       bool plane_color_pipeline : 1;
+>> +    /**
+>> +     * @post_blend_color_pipeline:
+>> +     *
+>> +     * Indicates whether this atomic state originated with a client that
+>> +     * set the DRM_CLIENT_CAP_POST_BLEND_COLOR_PIPELINE.
+>> +     *
+>> +     * Drivers and helper functions should use this to ignore legacy
+>> +     * properties that are incompatible with the drm_crtc COLOR_PIPELINE
+>> +     * behavior, such as:
+>> +     *
+>> +     *  - GAMMA_LUT
+>> +     *  - DEGAMMA_LUT
+>> +     *  - GAMMA_LUT_SIZE
+>> +     *  - CTM
+>> +     *
+>> +     * or any other driver-specific properties that might affect pixel
+>> +     * values.
+>> +     */
+>> +    bool post_blend_color_pipeline : 1;
+> 
+> As with the client cap name, I recommend calling this
+> crtc_color_pipeline.
 
-Rebase error I guess. Pull into the locking helpers patch.
+Agreed. As per the rest of the comments, I think it's worth moving all 
+naming in this series from post_blend to crtc, matching the criteria 
+used in plane (a.k.a. pre-blend) color pipelines.
+
+Will submit the related changes in v3.
 
 Regards,
 
-Tvrtko
+-- 
+Ariel D'Alessandro
+Software Engineer
 
->   		return;
->   	}
->   
-> @@ -217,7 +217,6 @@ struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
->   
->   	fence->owner = owner;
->   	fence->drm_client_id = drm_client_id;
-> -	spin_lock_init(&fence->lock);
->   
->   	return fence;
->   }
-> @@ -230,9 +229,9 @@ void drm_sched_fence_init(struct drm_sched_fence *fence,
->   	fence->sched = entity->rq->sched;
->   	seq = atomic_inc_return(&entity->fence_seq);
->   	dma_fence_init(&fence->scheduled, &drm_sched_fence_ops_scheduled,
-> -		       &fence->lock, entity->fence_context, seq);
-> +		       NULL, entity->fence_context, seq);
->   	dma_fence_init(&fence->finished, &drm_sched_fence_ops_finished,
-> -		       &fence->lock, entity->fence_context + 1, seq);
-> +		       NULL, entity->fence_context + 1, seq);
->   }
->   
->   module_init(drm_sched_fence_slab_init);
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index fb88301b3c45..b77f24a783e3 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -297,10 +297,6 @@ struct drm_sched_fence {
->            * belongs to.
->            */
->   	struct drm_gpu_scheduler	*sched;
-> -        /**
-> -         * @lock: the lock used by the scheduled and the finished fences.
-> -         */
-> -	spinlock_t			lock;
->           /**
->            * @owner: job owner for debugging
->            */
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
 
