@@ -2,57 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B812CB599E
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 12:06:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1224BCB59BE
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 12:12:29 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C8E6910E2C5;
-	Thu, 11 Dec 2025 11:06:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0AE910E7A9;
+	Thu, 11 Dec 2025 11:12:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="SiRUC79W";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="OgWC17zU";
+	dkim=pass (2048-bit key; unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="N3TL6sYl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49237.qiye.163.com (mail-m49237.qiye.163.com
- [45.254.49.237])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F5F410E2C5
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 11:06:42 +0000 (UTC)
-Received: from [172.16.12.51] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 2cdc4d36a;
- Thu, 11 Dec 2025 19:06:39 +0800 (GMT+08:00)
-Message-ID: <fdd333ac-0542-4312-8ec0-22fded3b1ce0@rock-chips.com>
-Date: Thu, 11 Dec 2025 19:06:38 +0800
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEF3910E7A9
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 11:12:24 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id
+ 5BBAXuhu1597545
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 11:12:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ nYDLFP9b/1c4pXko38MT5KA8qHbxB4jvUIX8uXejm2o=; b=OgWC17zU0zH0nnk/
+ iMPBcgfPe8ResLdMrtvvpL9X/AXQAajU6FVAq6w9cTPfdBZTx5YyR0WwCnLT8r1s
+ yNZboI4kOX/cfdaWttw58fqMZWRB7X9C93qKdb2m5j+rqg28yiBhnbzkHjpCzrZP
+ PSr7oXtXeoyk2ujnZ7ThfSTZhoddLYN7hl+QclFCwmpZfvq024JQrXh3LCnsYq8x
+ cN45oUEt77TPILQ5D1hdiCmIOLV5fjjtq/E92+lDKCsRcIsr/dpziw4thr83W1RS
+ HLN0wsSKpw2PWm0ONqHX7s1zUrr5b6brFfCTcJX8nWcDqgTd7TxY7rzMix01X+K5
+ stHTJw==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4aybhpbcs2-1
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 11:12:23 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id
+ d9443c01a7336-2955f0b8895so19036865ad.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 03:12:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oss.qualcomm.com; s=google; t=1765451543; x=1766056343;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nYDLFP9b/1c4pXko38MT5KA8qHbxB4jvUIX8uXejm2o=;
+ b=N3TL6sYlcWyc1+++zg3FM0ZWnHA+8I5taIBg1oR3vh51NO1tSIaFaiIMhVcWNXD0rF
+ VkgR6YFV+eA4jfwdLC5MOkDdbeClNUyvc38Ad8xpmWvPVzhYDw/LhHSXk3upwSxts6lW
+ foegnDjGamqW/iQ1JxDsnUfM7VGl4QZVWy01ZQqth+84zHDcLvAK2WaFJIQX7oWvzN8i
+ X25iGPo1XCmWoM0qdnHSvZ33WZgwzsneOQ5pvdEjvqb/rCTqJ528MI7kYme/hv0ppQAA
+ vvptVZZ5HziRFWqQc/gcLQmaIKZSZkgChOyjP8ciFzr+5bZ8MNnqdozhvFDrTIU7CFLu
+ Hy+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765451543; x=1766056343;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=nYDLFP9b/1c4pXko38MT5KA8qHbxB4jvUIX8uXejm2o=;
+ b=MPu4G6VqYneLn696G9B/g+Bzpl0HENWIOXyXWhvGaMiw1bIon0E4Oi0F85IC+3x7i4
+ FMbRIfXqxFcbKKdCajjAIlvymSE9DK2YrMWiMd7mSxDKcbGnpXhLgzLBB2ZcvGJECB8Y
+ 6BoO9WN5XxMFXUzhLSmAnJdPjuHZCj4YjA1Zn7D5SnfIQNfBeL3khvRX8ZZSnS52d+VL
+ bxV46itWQXbliQ1mouGyCcjlO2fJsKr22Kk6fNtBfLAY+QWFMWeJDywIRn4qxo9UyAG5
+ 3L/d/ms5vMsg6SaRTgV8MGQ0S3dX53QBj+6OYQpRJJFAImlt/up5MOYiwcE12k2NJ68v
+ 8XRA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVV+OM8J+UZatFC5gMX67X7DKLtX9zgqzt3cR11tw/N8CWlJbxHwLbg9d/xAUmD205z2YwHQAPbhiw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzatvGbmflOKY7sfQndkVdj+xIj6AewpPKvThfI1FF55ct5XBWF
+ g3ea0PK/J//vF0xXGyhWpW3Zgh63oPh064BZo1VkAZ8u+F765rBiqHqPPVONEnA3gGtTG55K/1h
+ ysrRX40Nm6iqyc9zBqFK+EIpM79pQOCkikL+iqKc5rH0cBRtwO0/crCj5MJBR4sl2H6r/qEo=
+X-Gm-Gg: AY/fxX77VBFL4MJ94aqrHjyDIdi22RUNGxWaODEGtPFQTRGpC8s+e7woZuvNhNZIUZL
+ buFyWQoNvarLufPzOtkIBCxSFLTX4p8hkowwLjnCLxpYGUBt8hoaMJUath9VHL4YUk+I+q5FkhM
+ 7Wjz9ruS5YWT5MseFHEKZrWUxaIj7n/NjGTeuShg7v5/4Q3gP1G0tyCPljR7Lt17hNbIYHECzFT
+ ja2SdoJ/GLKwfsQQKljFKNwdHKhNaBZvv/ulMFBDhR/nGAT1Sye3zXRqsfRbqtBBp33OD+MkXOK
+ wDz0DFZ6dJJsEnqV+9UZiQ/3CSyYoofwgGGkUNwO5ek8DKW+3UgWm9lRnRRYqRQlmHlH/kksk5z
+ bqyw44qJelzzqFK8lLq86xIoxsx2h0tLr
+X-Received: by 2002:a17:903:228a:b0:290:ad7a:bb50 with SMTP id
+ d9443c01a7336-29eeec1d562mr19896155ad.27.1765451542668; 
+ Thu, 11 Dec 2025 03:12:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFSxcR+t5PTEgJPkTzQ8uhLer5CJXS8Vq8pvl6loFtZkKr35tm0xP60CurwEJc2gIwwdS9J/g==
+X-Received: by 2002:a17:903:228a:b0:290:ad7a:bb50 with SMTP id
+ d9443c01a7336-29eeec1d562mr19895715ad.27.1765451541983; 
+ Thu, 11 Dec 2025 03:12:21 -0800 (PST)
+Received: from [192.168.1.5] ([106.222.234.96])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-29eea03fcd8sm21961715ad.74.2025.12.11.03.12.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 11 Dec 2025 03:12:21 -0800 (PST)
+Message-ID: <57706b2e-becf-47ac-a874-79ce17d12b74@oss.qualcomm.com>
+Date: Thu, 11 Dec 2025 16:42:13 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/8] drm/rockchip: vop2: Enforce AFBC source alignment
- in plane_check
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+Subject: Re: [PATCH v3 5/6] arm64: dts: qcom: sm6150: Add gpu and rgmu nodes
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>
-References: <20251206-vop2-atomic-fixups-v2-0-7fb45bbfbebd@collabora.com>
- <f9f7b446-8575-4f16-aa96-5197b22846e3@rock-chips.com>
- <4696988.LvFx2qVVIh@workhorse> <8655687.NyiUUSuA9g@workhorse>
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Jessica Zhang <jesszhan0024@gmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Jie Zhang <quic_jiezh@quicinc.com>
+References: <20251122-qcs615-spin-2-v3-0-9f4d4c87f51d@oss.qualcomm.com>
+ <20251122-qcs615-spin-2-v3-5-9f4d4c87f51d@oss.qualcomm.com>
+ <8560ad26-4756-4c2a-97c3-2c5c0695172c@oss.qualcomm.com>
+ <z4gqro2bx6oq2ht75m2klogo5dsirb74tmc3u3shjyalxmaxil@5sy7ufmqhdgw>
+ <6fa1da5d-9ea7-4d72-a03a-82edc4bef099@oss.qualcomm.com>
+ <3gqq3w6ovy5srgvabyeugsjbwrhaxmjvicykhjmlcxd74gtsaf@5u6wvvzeq52z>
+ <90bc84e7-19ca-450d-b41f-fd96367e8cce@oss.qualcomm.com>
+ <2e5sqv2gnxdfwnfsepzdkchxip5zdeamp6bzbamq6kbk77kr3p@u5i4rrnrywno>
+ <9971bd9b-88db-4628-b36b-de50c1619396@oss.qualcomm.com>
+ <raj276z7euq7skvhsw7prwzlgsdy6ay7bhm4wgb64mt63q4ot4@eyvhcou7qwgg>
 Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <8655687.NyiUUSuA9g@workhorse>
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+In-Reply-To: <raj276z7euq7skvhsw7prwzlgsdy6ay7bhm4wgb64mt63q4ot4@eyvhcou7qwgg>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9b0d1771e803abkunm50152fe2115a8d
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ0lIHVZJTh4ZS0pMGR5ITEtWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE
- 5VSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
- b=SiRUC79WbAVbCar94Hz/l0hwS+ckaDYSZAqcra50MkjyB8xo7OSuo2+VE9HHt7/cFzuKJXLskRNb73d0g35VrWPlXjruR0hDbg01mexXyRCcyOr1TZhYJiQ4WaCV0d12X43FIz6SvqWz/nJGeEjQUosuEoyXHPuX9Y2Kso4Pj3M=;
- s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
- bh=BnBEF6LrWFIGkywzce9cwqFmUT3UEuCa3O6j8eqOGZQ=;
- h=date:mime-version:subject:message-id:from;
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjExMDA4NiBTYWx0ZWRfX8OdgCrPd235V
+ UpXg1PUlkSvpGQVcYaatJIjqECVP71GjVV82BPMzimaxR1fgzAcOY6tQ9lfxnXT8i5HgY8CwFEA
+ Dcspjv/geYlXazpBoc2wobNJ/vzMaCpvhm9N39Lbnsc1eTs8pY3ewIHY8/ZqVVNE6oXm9ph8pcF
+ /XoHQ4nqtrmT1/Itiazt/k4tTBjxBjhChH7C9BwAhn8tIalm0kFn8AU2BR0NoGVHgaM/jZe10yF
+ iOhLs8LVA7p8vMQZSmUZbh+1lmc8SqVW1uarzac9bwVf/ICKSQIOx5GfVZqjQsoM6dcbYPngNnJ
+ +W5gvD2qGeZNF+UtdnfQHbe5to/pFDoy07r9LBuuuidJUu9b2dQWVKTdY9ClTvNT88J8NxQitx0
+ aN7JjkFuqApu2O42/RdzdUmlwWeoaQ==
+X-Proofpoint-ORIG-GUID: MkptBk2A5ssnv8Vd0lOKIT2T0AxxGyK9
+X-Proofpoint-GUID: MkptBk2A5ssnv8Vd0lOKIT2T0AxxGyK9
+X-Authority-Analysis: v=2.4 cv=LJ9rgZW9 c=1 sm=1 tr=0 ts=693aa717 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=CcjbiXvC7xLhAd+qVKJczA==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=5yBAA5BE7NXvCg71rZ8A:9 a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-10_03,2025-12-09_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 malwarescore=0 adultscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510240001 definitions=main-2512110086
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,135 +164,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Nicolas,
-
-On 12/9/2025 6:58 PM, Nicolas Frattaroli wrote:
-> Hi Chaoyi Chen, Andy Yan,
-> 
-> On Monday, 8 December 2025 08:24:52 Central European Standard Time Nicolas Frattaroli wrote:
->> On Monday, 8 December 2025 03:48:24 Central European Standard Time Chaoyi Chen wrote:
->>> Hello Nicolas, Daniel,
+On 12/11/2025 6:06 AM, Dmitry Baryshkov wrote:
+> On Thu, Dec 11, 2025 at 02:40:52AM +0530, Akhil P Oommen wrote:
+>> On 12/6/2025 2:04 AM, Dmitry Baryshkov wrote:
+>>> On Fri, Dec 05, 2025 at 03:59:09PM +0530, Akhil P Oommen wrote:
+>>>> On 12/4/2025 7:49 PM, Dmitry Baryshkov wrote:
+>>>>> On Thu, Dec 04, 2025 at 03:43:33PM +0530, Akhil P Oommen wrote:
+>>>>>> On 11/26/2025 6:12 AM, Dmitry Baryshkov wrote:
+>>>>>>> On Sat, Nov 22, 2025 at 03:03:10PM +0100, Konrad Dybcio wrote:
+>>>>>>>> On 11/21/25 10:52 PM, Akhil P Oommen wrote:
+>>>>>>>>> From: Jie Zhang <quic_jiezh@quicinc.com>
+>>>>>>>>>
+>>>>>>>>> Add gpu and rgmu nodes for qcs615 chipset.
+>>>>>>>>>
+>>>>>>>>> Signed-off-by: Jie Zhang <quic_jiezh@quicinc.com>
+>>>>>>>>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>>>>>>>>> ---
+>>>>>>>>
+>>>>>>>> [...]
+>>>>>>>>
+>>>>>>>>> +			gpu_opp_table: opp-table {
+>>>>>>>>> +				compatible = "operating-points-v2";
+>>>>>>>>> +
+>>>>>>>>> +				opp-845000000 {
+>>>>>>>>> +					opp-hz = /bits/ 64 <845000000>;
+>>>>>>>>> +					required-opps = <&rpmhpd_opp_turbo>;
+>>>>>>>>> +					opp-peak-kBps = <7050000>;
+>>>>>>>>> +				};
+>>>>>>>>
+>>>>>>>> I see another speed of 895 @ turbo_l1, perhaps that's for speedbins
+>>>>>>>> or mobile parts specifically?
+>>>>>>>
+>>>>>>> msm-4.14 defines 7 speedbins for SM6150. Akhil, I don't see any of them
+>>>>>>> here.
+>>>>>>
+>>>>>> The IoT/Auto variants have a different frequency plan compared to the
+>>>>>> mobile variant. I reviewed the downstream code and this aligns with that
+>>>>>> except the 290Mhz corner. We can remove that one.
+>>>>>>
+>>>>>> Here we are describing the IoT variant of Talos. So we can ignore the
+>>>>>> speedbins from the mobile variant until that is supported.
+>>>>>
+>>>>> No, we are describing just Talos, which hopefully covers both mobile and
+>>>>> non-mobile platforms.
+>>>>
+>>>> We cannot assume that.
+>>>>
+>>>> Even if we assume that there is no variation in silicon, the firmware
+>>>> (AOP, TZ, HYP etc) is different between mobile and IoT version. So it is
+>>>> wise to use the configuration that is commercialized, especially when it
+>>>> is power related.
 >>>
->>> On 12/7/2025 4:45 AM, Nicolas Frattaroli wrote:
->>>> From: Daniel Stone <daniels@collabora.com>
->>>>
->>>> Planes can only source AFBC framebuffers at multiples of 4px wide on
->>>> RK3566/RK3568. Instead of clipping on all SoCs when the user asks for an
->>>> unaligned source rectangle, reject the configuration in the plane's
->>>> atomic check on RK3566/RK3568 only.
->>>>
->>>> Signed-off-by: Daniel Stone <daniels@collabora.com>
->>>> [Make RK3566/RK3568 specific, reword message]
->>>> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
->>>> ---
->>>>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 14 +++++++++-----
->>>>  1 file changed, 9 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>> index bc1ed0ffede0..e23213337104 100644
->>>> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
->>>> @@ -1076,6 +1076,13 @@ static int vop2_plane_atomic_check(struct drm_plane *plane,
->>>>  		return -EINVAL;
->>>>  	}
->>>>  
->>>> +	if (vop2->version == VOP_VERSION_RK3568 && drm_is_afbc(fb->modifier) && src_w % 4) {
->>>> +		drm_dbg_kms(vop2->drm,
->>>> +			    "AFBC source rectangles must be 4-byte aligned; is %d\n",
->>>> +			    src_w);
->>>> +		return -EINVAL;
->>>> +	}
->>>> +
->>>>  	return 0;
->>>>  }
->>>>  
->>>> @@ -1237,11 +1244,8 @@ static void vop2_plane_atomic_update(struct drm_plane *plane,
->>>>  	WARN_ON(src_w < 4);
->>>>  	WARN_ON(src_h < 4);
->>>>  
->>>> -	if (afbc_en && src_w % 4) {
->>>> -		drm_dbg_kms(vop2->drm, "vp%d %s src_w[%d] not 4 pixel aligned\n",
->>>> -			    vp->id, win->data->name, src_w);
->>>> -		src_w = ALIGN_DOWN(src_w, 4);
->>>> -	}
->>>> +	if (vop2->version == VOP_VERSION_RK3568 && drm_is_afbc(fb->modifier))
->>>> +		WARN_ON(src_w % 4);
->>>>  
->>>>  	act_info = (src_h - 1) << 16 | ((src_w - 1) & 0xffff);
->>>>  	dsp_info = (dsp_h - 1) << 16 | ((dsp_w - 1) & 0xffff);
->>>>
->>>
->>> You haven't replied to Andy's comment yet [0].
->>>
->>> [0] https://lore.kernel.org/dri-devel/7b4e26ec.75f3.19a77276b53.Coremail.andyshrk@163.com/
+>>> How does it affect the speed bins? I'd really prefer if we:
+>>> - describe OPP tables and speed bins here
+>>> - remove speed bins cell for the Auto / IoT boards
+>>> - make sure that the driver uses the IoT bin if there is no speed bin
+>>>   declared in the GPU.
 >>>
 >>
->> Hello,
->>
->> I addressed the follow-ups where it was clarified that the 4 pixel
->> limitation was RK3566/RK3568-only. I'm not going to bring back the
->> post-atomic_check modification for a fast path, but I'm open to
->> suggestions on how to do this differently.
->>
->> One solution might be to modify the state with the ALIGN_DOWN stuff
->> in atomic_check instead, where userspace is then aware of the change
->> being done to its requested parameters. I'll need to double-check
->> whether this is in line with atomic modesetting's design.
->>
->> Kind regards,
->> Nicolas Frattaroli
+>> The frequency plan is different between mobile and IoT. Are you
+>> proposing to describe a union of OPP table from both mobile and IoT?
 > 
-> Okay, so I've asked internally, and atomic_check isn't allowed to
-> modify any of the parameters either. There's efforts [0] underway
-> to allow error codes to be more specific, so that userspace knows
-> which constraint is being violated. That would allow userspace
-> applications to react by either adjusting their size or turning
-> off AFBC in this case. Turning off AFBC seems more generally
-> applicable here, since it means it won't need to resize the plane
-> and it'll save more than enough memory bandwidth by not going
-> through the GPU.
+> Okay, this prompted me to check the sa6155p.dtsi from msm-4.14... And it
+> has speed bins. How comes we don't have bins for the IoT variant?
 > 
-> On that note: Andy, I didn't find a weston-simple-egl test in the
-> Weston 14.0.2 or git test suite, and weston-simple-egl itself does
-> not tell me whether GPU compositing is being used or not. Do you
-> have more information on how to test for this? I'd like to know
-> for when we have the necessary functionality in place to make
-> userspace smart enough to pick the fast path again.
+> Mobile bins: 0, 177, 187, 156, 136, 105, 73
+> Auto bins:   0, 177,      156, 136, 105, 73
+> 
+> Both Mobile and Auto chips used the same NVMEM cell (0x6004, 8 bits
+> starting from bit 21).
+> 
+> Mobile freqs:
+> 0:         845M, 745M, 700M,       550M,       435M,       290M
+> 177:       845M, 745M, 700M,       550M,       435M,       290M
+> 187: 895M, 845M, 745M, 700M,       550M,       435M,       290M
+> 156:             745M, 700M,       550M,       435M,       290M
+> 136:                         650M, 550M,       435M,       290M
+> 105:                                     500M, 435M,       290M
+> 73:                                                  350M, 290M
+> 
+> Auto freqs:
+> 0:         845M, 745M, 650M, 500M, 435M
+> 177:       845M, 745M, 650M, 500M, 435M
+> 156:             745M, 650M, 500M, 435M
+> 136:                   650M, 500M, 435M
+> 105:                         500M, 435M
+> 73:                                      350M
+> 
+> 290M was a part of the freq table, but later it was removed as "not
+> required", so probably it can be brought back, but I'm not sure how to
+> handle 650 MHz vs 700 MHz and 500 MHz vs 550 MHz differences.
+> 
+> I'm a bit persistent here because I really want to avoid the situation
+> where we define a bin-less OPP table and later we face binned QCS615
+> chips (which is possible since both SM and SA were binned).
+
+Why is that a problem as long as KMD can handle it without breaking
+backward compatibility?
+
+> 
+> Also I don't see separate QFPROM memory map definitions for Mobile, IoT
+> and Auto SKUs. If you have access to the QCS615 hardware, what is the
+> value written in that fuse area?
+> 
+>> Another wrinkle we need to address is that, so far, we have never had a
+>> dt binding where opp-supp-hw property exist without the speedbin cells.
+>> And that adds a bit of complexity on the driver side because, today, the
+>> KMD relies on the presence of speed bin cells to decide whether to
+>> select bin via opp_supp_hw API or not. Also, we may have to reserve this
+>> combination (opp bins without speedbin cells) to help KMD detect that it
+>> should use socinfo APIs instead of speedbin cells on certain chipsets.
+If it is a soft fuse, it could fall into an unused region in qfprom. On
+other IoT chipsets like Lemans, Product teams preferred a soft fuse
+instead of the hard fuse. The downside of the hard fuse that it should
+be blown from factory and not flexible to update from software later in
+the program.
+
+-Akhil.
+
+> 
+> We already have "machine" as another axis in the GPU catalog. I'd
+> suggest defining separate speed bins for mobile and auto/IoT in the DT
+> (0x1 - 0x20 for mobile, 0x100 - 0x1000 for auto) and then in the driver
+> mapping those by the machine compat.
 > 
 
-I think weston-simple-egl is part of the weston client. When you build
-weston from source, you should obtain it. Just run `weston-simple-egl` 
-after compile and install weston.
-
-And I guess you're using Debian... The weston package there also ships
-with a weston-simple-egl binary [2].
-
-[1]: https://gitlab.freedesktop.org/wayland/weston/-/blob/main/clients/simple-egl.c
-[2]: https://packages.debian.org/sid/arm64/weston/filelist
-
-> In either case, I think adhering to the atomic API to ensure
-> artifact-free presentation is more important here than enabling
-> a fast-path on RK3568. I do think in most real-world use case
-> scenarios, the fallback won't degrade user experience, because
-> almost everything performance intensive I can think of (video
-> playback, games) will likely already use a plane geometry
-> where the width is divisible by 4. 800, 1024, 1280, 1600, 1920,
-> 2560, 3840 are all divisible by 4, so a window or full-screen
-> playback of common content won't need to fall back to GPU
-> compositing.
-> 
-> I'll send a v2 to fix another instance of "eSmart" left in a
-> message, but beyond that I think we should be good.
-> 
-> Kind regards,
-> Nicolas Frattaroli
-> 
-> https://lore.kernel.org/dri-devel/20251009-atomic-v6-0-d209709cc3ba@intel.com/ [0]
-> 
-> 
-> 
-> 
-
--- 
-Best, 
-Chaoyi
