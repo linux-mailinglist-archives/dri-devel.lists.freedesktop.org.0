@@ -2,153 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0ADCB73BE
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 22:51:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E646DCB73CC
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 22:59:34 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 41FA410E302;
-	Thu, 11 Dec 2025 21:50:50 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="w6My6m53";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7042210E2B3;
+	Thu, 11 Dec 2025 21:59:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from PH0PR06CU001.outbound.protection.outlook.com
- (mail-westus3azon11011050.outbound.protection.outlook.com [40.107.208.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8DAF10E302
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 21:50:48 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yky597a7ZdUFUKGTyLgwdZTuByyzUxx70r2DjITdkd9C2JEv5NWrkiJJSeG/fzK98tPZoiqP1ALG/nVM0rqAED86CT89OZwTVSyCUYK2NV03iJ0tkWZXwLKjp/wzrxLoHN434nni0oWkUAN2Nv6i/JZ/g8AFkEZIlBbQXEplwKvPTDcDL4QHef0o80YABpqDjjfISwAW4OQ4it5sutPLgP2PeZErnYqy5gAHNtdBw7AZrO10dwU9pHjprcgaUhR3sx8Wqm9txxD6a/Tw2BoOe2XC6gyGYzfVDaJOzcHtGJPpgH8+6/BdYfuLA8k3kMcor0DyEHb7asEy8JR2/e58Tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bxrSTiSmtJeQYv1O1J4IT++M6sTI95KrCxlFsWQ2lnY=;
- b=VZ06Y0m2ClvEPpYX3UojgzI315YF7GIGt2pLBsp9JacsWIptRZHyfZ63/9Y0DSXmCXiNqWkDLGy+flxephZyyNVy7wbLI6Xvn1ZBwYa8b5EFIaKraHxHbRuKMS3Xg3s5F1/k1iweqVjkwQFGpqNKrObcdzyEny638ZA6XhaqwEUzu0b6XKFJwc7XJkGfynbEB28Hv4Sbt48lK7xjBgKUp4x7gu0AqqYns2ZhyuwaK50OSZVUpBWlLwSt7I4rUImi+wsZ1tnN9E2UjgHxRVFaXcrTcb8N9dfYojs677MYIr5ozQLhAQ5DNoG8o5a/Yt0sqq54H/hgNVBre8ZIcq1nnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bxrSTiSmtJeQYv1O1J4IT++M6sTI95KrCxlFsWQ2lnY=;
- b=w6My6m536Iza//6NrlKUsLCGsHmh1s/LzgeeSk4uLDtGJxNnJL6wB9OI8Bg70HlR/bhGS96FIZ3I9WsHd+NjfXBDr5d6z5I3io87qPDYqWLoDGZgZ5xQNEB7lyai4ZKn8I1lCiGfIbB1MCZL93ShJa0NvNMLWNFUEtwvqGxY+MA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by DS0PR12MB6607.namprd12.prod.outlook.com (2603:10b6:8:d1::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Thu, 11 Dec
- 2025 21:50:46 +0000
-Received: from MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
- ([fe80::37ee:a763:6d04:81ca%7]) with mapi id 15.20.9412.005; Thu, 11 Dec 2025
- 21:50:46 +0000
-Message-ID: <36165050-73c0-4ed8-85d3-42a874ae125f@amd.com>
-Date: Thu, 11 Dec 2025 15:50:42 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1] accel/amdxdna: Fix potential NULL pointer dereference
- in context cleanup
-To: Lizhi Hou <lizhi.hou@amd.com>, ogabbay@kernel.org,
- quic_jhugo@quicinc.com, dri-devel@lists.freedesktop.org,
- maciej.falkowski@linux.intel.com
-Cc: linux-kernel@vger.kernel.org, max.zhen@amd.com, sonal.santan@amd.com
-References: <20251211045647.1725300-1-lizhi.hou@amd.com>
-Content-Language: en-US
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20251211045647.1725300-1-lizhi.hou@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA0PR11CA0132.namprd11.prod.outlook.com
- (2603:10b6:806:131::17) To MN0PR12MB6101.namprd12.prod.outlook.com
- (2603:10b6:208:3cb::10)
+Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com
+ [209.85.167.208])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F44010E2B3
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 21:59:31 +0000 (UTC)
+Received: by mail-oi1-f208.google.com with SMTP id
+ 5614622812f47-4537c9e1c14so471508b6e.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 13:59:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1765490370; x=1766095170;
+ h=to:from:subject:message-id:in-reply-to:date:mime-version
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=U4AgnaLYjAnPX60VeEMeIiPuS4yS1J2QZCjqgQ7udvI=;
+ b=Gtbyn0/MVAmURv0i1dpBy4jC+2y+zD4Ye9dUX6zlYn93du3KazzDh5nfS9KfWMSHQA
+ QNcO/MmJ4IbGIH+efeiY4oqsEh1wOhunB0u+KiNb9dTIm169pm2VmKjqVDzIcK7KoSDW
+ xEWM4Wg1ybcPiOMFt0SOrGDty+Xe+omJzIPtDXVw4GU9blttLEXYgnfB5swda8jvkZII
+ 86Zo/Nd30H2Ci2EOVCHB4RS9ryJ3l52ReqnL2MabIx9BXnBEgNyyb7OnxKMpFebTuQjc
+ C4pgK9TEbAbabP1k/uMxBXhz42ythXRIrr/CCTfR1Zqc66NitZj5fghF0JQ4pZa9ZJZG
+ cUWQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVNzgO+i1rqZV0uVOlO0YzGl/GM2c0+piMPi9lCLyg1sh95A6Y00gqHbMZeSaiXjyaM30vRM7xfP+4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwTVX8RR/lhRbcnhjQwUog4f/HfTbQyKDgJyrR2QD8lJsxuJl+d
+ mGe6hYmhIxdZgRuuQ8ojDg3VMSJxLiG43cjzgMBk4DZ87aVV6+vXarUfCb1qWpNpopRwT4Pvftc
+ YrvJzxjoDQJ4PUNToLGqvJXHPgTDh3lvSraJbClaxs+clJcVHApbaFLOBMho=
+X-Google-Smtp-Source: AGHT+IHAZf/avJYr88mrwodq4yuW4nXtfvbhuEGoWlnrDMSidJubs4yqaZyLBLL+kZX/DkVQu5t2GUa54BotdxF/DIZ2zpVDmLYC
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS0PR12MB6607:EE_
-X-MS-Office365-Filtering-Correlation-Id: 75a1c8ee-5281-4020-8712-08de38ff56d4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M1FkWFZidGFkc0cvNnpXTndZOElTaDhtZVJ6Unc1Y1ZUb3N0WllXR1YrVGlh?=
- =?utf-8?B?TnQzdFRGY3NQTStBN2lNdWEzRzJ5WUduMVQ5RmYvWUpUeWpZNExLVnFPRnBR?=
- =?utf-8?B?clgvS2FBREZSVVBJbEpJZHFDUHUrQVo4Vml1Y2FhbWl3ZDJzUjdMR0YzRnN4?=
- =?utf-8?B?Y0JHaTZPZjFuVmZ4UThZSUttUWJjbWdKcDlCak1VL0lOTVN3LyswZCtuejB3?=
- =?utf-8?B?SklQVVFJSG1CSGVGU3VteTU4V01Vem9QdmExUXk5TVlpdEZnSXFROGtCUCtz?=
- =?utf-8?B?K3ZPdm8rNWJDRGpIelQyT2pjdUYwWkZqdEpVOE43WWFaUXVwemJUckhvUGtB?=
- =?utf-8?B?SGVubnlCYVk0cjJNNXVlRElOSmtnUnZscmY2S05MRUpEd1l1QVZqZmY2alpk?=
- =?utf-8?B?cUFtRFVzYTdjamdQTW5XcUVkWXFuV1NnQzYwVXh1dzRsU0Q2YUdYWVRUU2lQ?=
- =?utf-8?B?bktlQmlsdGdIaU1ab0R4ZVFZUkxYenlXR3JwY1pBSHJGNyszLytEUUhhTjZI?=
- =?utf-8?B?TFpJOVkxdTRMQjdvK2FUS2dvOVE0S2tlckoyWVB1ckdERnlyd1NuQWo2Umsr?=
- =?utf-8?B?LzAzYTBvYXdadGlCZlAyTUNXWjVWb210dHIzc3JrcnFYWkZhcmY3Sm9aK3pM?=
- =?utf-8?B?M01QWnBZa2tRaHVBQzlOb1ErNk5sRmNBMkRaM2dhbkxrMG05VTdpZng1QVIz?=
- =?utf-8?B?QS9mdE5YQzdVOE9Dbng3aDJJdEd2cU56dW1haDl2VDlObWMvOTAzSTVhbzNn?=
- =?utf-8?B?NE1GVk9oSWRMUGNJOGQ0REhlMUwvbldZRmRtanBYT3lBUGZ4Y3lVbjlKMVRr?=
- =?utf-8?B?UjQvZDVqTmFlTXQ4OG9aWlBuUmI4bklaOGl5TjY3OEIzazNRZUpkczhWT1NL?=
- =?utf-8?B?S0ZPTjlMMVVNM01nOWp3S3ZvTndQSmFCaE90WTNFT1RybE1QZDIxZFkreXQ4?=
- =?utf-8?B?eHFtZFlDT1o4a1RHL1M5Yldab3dPaTdycnplQ3hncWwxSitDL2lBMVhBTUJs?=
- =?utf-8?B?WGY4akJNa2RsSmZhSXFTVnYrSWNpM3N6L0M5dkdkK1JnTWdDN0pEWFhQUGFa?=
- =?utf-8?B?YWhDcWtqQ09STXo4c2dnRlRUYk00TE5vNUF5eS9uTVM1dFFMSVJ6Mnoyd3Jv?=
- =?utf-8?B?MU8vNk8rOURRQUg0Q0VTeGV2TEI0T09FVVFaR282L2dhaWlDRDEzOER6a1pO?=
- =?utf-8?B?bjJzeW9YR2k2Sk9STDNtaU5DSXdqd005enNLTGRmZXZFbFNRWGEzYUtNUG9H?=
- =?utf-8?B?dFVJUDF5ME9iSy93aDZoS2hVREN1M3h3VVR0QytML0t2MzNGTXJpMDgwRVRV?=
- =?utf-8?B?OWc1U04wOEJkSFRMVDM1bE5KQ2FrK3ZOYzhZMERxckpROHNDMXVSdE5Xbllr?=
- =?utf-8?B?dVk2SkpycGRCOVpjS3VKSldCUTg0UlJwM1pVOExPWXRmMWNFbWpQREVyNktZ?=
- =?utf-8?B?WmpKSFZOYkFZWVVOTkVZaUhBdTh1Z1k1MXlJSXc2RnFkN1FmN0h2ZDUzQ3Mw?=
- =?utf-8?B?dytIT3Q5S1UzK0tCZkRpQ0szaDNIQkNrbmpLTGpmamFSRGNFaGlMYWltRW11?=
- =?utf-8?B?Q3VjU29JYXJYT1RQRG1jT3hxZml1cFQycmwzR3dSUUQwYWl2aFptR0FLejlq?=
- =?utf-8?B?cUJ6M0lOU005N2dZUDRuRmlSQndOSy9wMk1KY0xvbFlNT1IyKzE3Z1c2V3lN?=
- =?utf-8?B?Nnlsekk2VjNWcGpvY0h5YUtNby83ZWl6VDZ5MXZ5MGVmRFRtRkU5VGxUYVF5?=
- =?utf-8?B?Myt3Q2taUmVvTXZEL3BLKytibzFmenYrWmZ5MzNZY3VkQkxnZGxhU1I3NXNl?=
- =?utf-8?B?ZlMzQ2hISWxqZVZ2VEFIVkJ2ZEk2YjJUMDB2RU53em9nR2tRWkw1NmFSVUhH?=
- =?utf-8?B?K0hUamZSRElTTXpXMUFxa0ptT2x2WjdZaGt0bDhteC9ZcVBDa1BsY0V5ZmhF?=
- =?utf-8?Q?8RpP2ejybWErwpFhax9RIPp/lj7I4P+b?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWxGNG00ZnVCS0g1MExiNk5GS05WLzZ5OGxydHBIdDVPL2grWE03WEFTQ3Fa?=
- =?utf-8?B?cHoyNUtTUUlPdGFwYnlubWxtbWgyLzhXeWNaNXZ2WDV3M0VLM2FUQVdXU09T?=
- =?utf-8?B?RUxaR1dVeW8wcmx4aFBDckl1U0wvcTN4T3YrOUNJQzV3d1E2anNDdFQwNEhs?=
- =?utf-8?B?ZUNSWFdRaUpCWmtKL0hXTml5emdzZHlSZlZjWVZwS1lyV1FpbHU1WkoyZlcv?=
- =?utf-8?B?NlJlNTBucUx5L1N4RDJOc1I1a3FhVmVmZ0M3VEJFd0UyOFVYdHFFMkhGcTIw?=
- =?utf-8?B?MkV1ekZRV3dUaWYwckc4SjcyZVY3UzhtRitRVUtnYitTTjViMk5Oa1BWMmVj?=
- =?utf-8?B?amFzM1ZZUDBLM2Z5aStMc3QrV2MwVnpEaTQwSU1lWU9XZk05K1VIN0VxMDNu?=
- =?utf-8?B?aDJya3VRcmRUdjUvREVmUlRyL1F4OC82NlFZSWVWeUZ5NXhYOXRYOXZHYmFH?=
- =?utf-8?B?RXo1Y1MrZDVpVWFuc1RrY1lUODdESllWZGZWQng0UWRtRmdaamlBMDhIb09K?=
- =?utf-8?B?WE5jZTJGS1h6Zld5OVZyMk1RdTJaNU5iaVdWQkhBcVVPK1haeHM3c2ZGclRz?=
- =?utf-8?B?clJNaXg5K25oOUtOa1l6WjVUeTE0SzhJOUVxSzgrdVNNRlpYYzVkL2VqTnJ5?=
- =?utf-8?B?SnA4dStwQzRzeW40WXpIaUpYYWR1ZEtvMUpzbXhEZE9rSVVZcm1hSlJDRHVF?=
- =?utf-8?B?RW14Z1JTR2xRRWFCMzJhZjNqdjlDNFZuZ3g5aXNtZTFSeVpMZGdnYXI4UGV3?=
- =?utf-8?B?ckZRVVJPNkVnZXVuaVV6OGt2eXdnNW15MU9EcUpWUDE4RWFrUDNJZkE3aXZs?=
- =?utf-8?B?bHRqczBMeWNHcldNNjNvcWx2YS9Mck84TnZoLzBybWwrYUZPZ1JjMTJNMmcw?=
- =?utf-8?B?ejRTeTNPTVcwNkZ2eE41UWRMaVJRYmhYenZjSzhybDBEbUlSVFhHQjh3T05S?=
- =?utf-8?B?QmJxOUNYZ2xIbENISnNjUEJBakY3RzdYWTlmSUNOOVhrdU5NYm15emdDOW1i?=
- =?utf-8?B?MEcyM0x0b3MyVUlXcVJsc2JhS0lNWmFNWER6b2FrWngwanF2YXQ5MVVSdXg4?=
- =?utf-8?B?enVOWmJ6elJSM2VtaG5hWWgwNjh6SU4xbzdrRU1mcGM0ZlI5aXRBbHhvWWsw?=
- =?utf-8?B?TTg4MnVvMWVPdDRiY3NvdTJLNkdNK2FuQjVuMVRLN2JXK1FYdXFJVTlGNVVx?=
- =?utf-8?B?OTI3R3QxaGFPcno0WjlqT3BiLzFkanBJVWliUCsrRWlsdmVSdmhOaHZoTllp?=
- =?utf-8?B?cytHVzNaRXE2elJuSkpGN2MrMW5Nb1lFdFZVOTFWcktCOE8zeEozTDZvOFl5?=
- =?utf-8?B?Nmh5YjN6Vm9LUW5FKy9MNVhVTnVlaVh2Z2IzbHo2NVBBWjBlMCt5ZTJwaHhR?=
- =?utf-8?B?VVk5dkFBOGp6a21nc1d4NXdocXlWWk1nTDhEcGE0QUhORHU2aUZnUXJrZnd0?=
- =?utf-8?B?eDNwMTlxN0NZNmVCdituOThHUHErb2lzTEdMaUN0OXhvUGg0UFJyM3RML2kx?=
- =?utf-8?B?N3YyNy9vK3llMjZCbzErOS9ZOXZZT1FqRmd2QjJzN3pXcS9xNzBiWlJKR2Yz?=
- =?utf-8?B?SWRkam8xb1A1UGU0cFhacnRod0E2VnlJK2w4RnlEUC9yTzNTcVJvNnVSMWtH?=
- =?utf-8?B?YzZzWUZLWS9hQmovdHlqQUp0N1k1WkdaMzFjZ09wVlE5YnZTUE5JL3g3QkN2?=
- =?utf-8?B?V3R0dndKZ01NNGV6eXk2OU5oS1ljM2orRUQ5RERRenBEbHhyNU1Nck1Gamhw?=
- =?utf-8?B?QTU3OU11ZERzd0NOcHFpa090bmMyQ0d0WkNFTGZCMDhJcE5zUlJ5SHlYT2pN?=
- =?utf-8?B?TWdUZ3BSRXArMXozRVQzL0ZsdS9KUkw1ZE0xT0ZCZ1h0VktpUjhNMm5ZcGlH?=
- =?utf-8?B?eXNZUVdPRHR6UXZyck1hemE2ckc2M3pyUXhvMktZWVo2R0xWTFlsOFdtTHhY?=
- =?utf-8?B?dVUyK0dTVmhNUTFlWURFTEdtRml0UUQ1VVd2dTNjNmpncEU2OEFVRVFKV21s?=
- =?utf-8?B?QzEyTzVUWnNOblV6R3lCY0ZraVNoSXV5VC9YU25mcDJyNWE0R3VYTFFOaDVZ?=
- =?utf-8?B?bnlsZWJHSzhCdVIwSHFIQzdjYWtoMGZXU1NYekQvaTVUdEd4eG15SmpZZkhW?=
- =?utf-8?Q?n+c/15nYibte9O5oegZI23c62?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75a1c8ee-5281-4020-8712-08de38ff56d4
-X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Dec 2025 21:50:45.9138 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VdJ6Uh0Jf6tazug6nON4hl4x8Jiv0QsJHz/b304rYqVbTT+Q8ruxU7KQ6e1m/F/ydNSUJh1YAFOx3FPeWqghbQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6607
+X-Received: by 2002:a05:6820:2019:b0:659:9a49:8dda with SMTP id
+ 006d021491bc7-65b451715aemr11630eaf.28.1765490370206; Thu, 11 Dec 2025
+ 13:59:30 -0800 (PST)
+Date: Thu, 11 Dec 2025 13:59:30 -0800
+In-Reply-To: <69381d6c.050a0220.4004e.0017.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <693b3ec2.a70a0220.33cd7b.0038.GAE@google.com>
+Subject: Re: [syzbot] [dri?] WARNING in drm_atomic_helper_wait_for_vblanks (5)
+From: syzbot <syzbot+fcede535e7eb57cf5b43@syzkaller.appspotmail.com>
+To: airlied@gmail.com, chintanlike@gmail.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, simona@ffwll.ch, syzkaller-bugs@googlegroups.com, 
+ tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,129 +64,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/10/25 10:56 PM, Lizhi Hou wrote:
-> aie_destroy_context() is invoked during error handling in
-> aie2_create_context(). However, aie_destroy_context() assumes that the
-> context's mailbox channel pointer is non-NULL. If mailbox channel
-> creation fails, the pointer remains NULL and calling aie_destroy_context()
-> can lead to a NULL pointer dereference.
-> 
-> In aie2_create_context(), replace aie_destroy_context() with a function
-> which request firmware to remove the context created previously.
-> 
-> Fixes: be462c97b7df ("accel/amdxdna: Add hardware context")
-> Signed-off-by: Lizhi Hou <lizhi.hou@amd.com>
-> ---
->   drivers/accel/amdxdna/aie2_message.c | 52 +++++++++++++++-------------
->   1 file changed, 28 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/accel/amdxdna/aie2_message.c b/drivers/accel/amdxdna/aie2_message.c
-> index 03b75757a6e6..980aef9dc51a 100644
-> --- a/drivers/accel/amdxdna/aie2_message.c
-> +++ b/drivers/accel/amdxdna/aie2_message.c
-> @@ -192,6 +192,19 @@ int aie2_query_firmware_version(struct amdxdna_dev_hdl *ndev,
->   	return 0;
->   }
->   
-> +static int aie2_destroy_context_req(struct amdxdna_dev_hdl *ndev, u32 id)
-> +{
-> +	DECLARE_AIE2_MSG(destroy_ctx, MSG_OP_DESTROY_CONTEXT);
-> +	struct amdxdna_dev *xdna = ndev->xdna;
-> +	int ret;
-> +
-> +	req.context_id = id;
-> +	ret = aie2_send_mgmt_msg_wait(ndev, &msg);
-> +	if (ret)
-> +		XDNA_WARN(xdna, "Destroy context failed, ret %d", ret);
-> +
-> +	return ret;
-> +}
->   int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx)
->   {
->   	DECLARE_AIE2_MSG(create_ctx, MSG_OP_CREATE_CONTEXT);
-> @@ -214,13 +227,16 @@ int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwct
->   		return ret;
->   
->   	hwctx->fw_ctx_id = resp.context_id;
-> -	WARN_ONCE(hwctx->fw_ctx_id == -1, "Unexpected context id");
-> +	if (hwctx->fw_ctx_id == -1) {
-> +		WARN_ON_ONCE("Unexpected context id");
-> +		return -EINVAL;
-> +	}
+syzbot has found a reproducer for the following issue on:
 
-Is the message super important?  I'd think just do this:
+HEAD commit:    d358e5254674 Merge tag 'for-6.19/dm-changes' of git://git...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13c2a61a580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=73d2ed7b46aaccf3
+dashboard link: https://syzkaller.appspot.com/bug?extid=fcede535e7eb57cf5b43
+compiler:       gcc (Debian 12.2.0-14+deb12u1) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=145d51c2580000
 
-if (WARN_ON_ONCE(hwctx->fw_ctx_id == -1))
-	return -EINVAL;>
->   	if (ndev->force_preempt_enabled) {
->   		ret = aie2_runtime_cfg(ndev, AIE2_RT_CFG_FORCE_PREEMPT, &hwctx->fw_ctx_id);
->   		if (ret) {
->   			XDNA_ERR(xdna, "failed to enable force preempt %d", ret);
-> -			return ret;
-> +			goto del_ctx_req;
->   		}
->   	}
->   
-> @@ -237,51 +253,39 @@ int aie2_create_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwct
->   
->   	ret = pci_irq_vector(to_pci_dev(xdna->ddev.dev), resp.msix_id);
->   	if (ret == -EINVAL) {
-> -		XDNA_ERR(xdna, "not able to create channel");
-> -		goto out_destroy_context;
-> +		XDNA_ERR(xdna, "Alloc IRQ failed %d", ret);
-> +		goto del_ctx_req;
->   	}
->   
->   	intr_reg = i2x.mb_head_ptr_reg + 4;
->   	hwctx->priv->mbox_chann = xdna_mailbox_create_channel(ndev->mbox, &x2i, &i2x,
->   							      intr_reg, ret);
->   	if (!hwctx->priv->mbox_chann) {
-> -		XDNA_ERR(xdna, "not able to create channel");
-> +		XDNA_ERR(xdna, "Not able to create channel");
->   		ret = -EINVAL;
-> -		goto out_destroy_context;
-> +		goto del_ctx_req;
->   	}
->   	ndev->hwctx_num++;
->   
-> -	XDNA_DBG(xdna, "%s mailbox channel irq: %d, msix_id: %d",
-> -		 hwctx->name, ret, resp.msix_id);
-> -	XDNA_DBG(xdna, "%s created fw ctx %d pasid %d", hwctx->name,
-> -		 hwctx->fw_ctx_id, hwctx->client->pasid);
-> +	XDNA_DBG(xdna, "Mailbox channel irq: %d, msix_id: %d", ret, resp.msix_id);
-> +	XDNA_DBG(xdna, "Created fw ctx %d pasid %d", hwctx->fw_ctx_id, hwctx->client->pasid);
->   
->   	return 0;
->   
-> -out_destroy_context:
-> -	aie2_destroy_context(ndev, hwctx);
-> +del_ctx_req:
-> +	aie2_destroy_context_req(ndev, hwctx->fw_ctx_id);
->   	return ret;
->   }
->   
->   int aie2_destroy_context(struct amdxdna_dev_hdl *ndev, struct amdxdna_hwctx *hwctx)
->   {
-> -	DECLARE_AIE2_MSG(destroy_ctx, MSG_OP_DESTROY_CONTEXT);
->   	struct amdxdna_dev *xdna = ndev->xdna;
->   	int ret;
->   
-> -	if (hwctx->fw_ctx_id == -1)
-> -		return 0;
-> -
->   	xdna_mailbox_stop_channel(hwctx->priv->mbox_chann);
-> -
-> -	req.context_id = hwctx->fw_ctx_id;
-> -	ret = aie2_send_mgmt_msg_wait(ndev, &msg);
-> -	if (ret)
-> -		XDNA_WARN(xdna, "%s destroy context failed, ret %d", hwctx->name, ret);
-> -
-> +	ret = aie2_destroy_context_req(ndev, hwctx->fw_ctx_id);
->   	xdna_mailbox_destroy_channel(hwctx->priv->mbox_chann);
-> -	XDNA_DBG(xdna, "%s destroyed fw ctx %d", hwctx->name,
-> -		 hwctx->fw_ctx_id);
-> +	XDNA_DBG(xdna, "Destroyed fw ctx %d", hwctx->fw_ctx_id);
->   	hwctx->priv->mbox_chann = NULL;
->   	hwctx->fw_ctx_id = -1;
->   	ndev->hwctx_num--;
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-d358e525.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c0c4d1b8a322/vmlinux-d358e525.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/2cdf67cb5df2/bzImage-d358e525.xz
 
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+fcede535e7eb57cf5b43@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+[CRTC:37:crtc-0] vblank wait timed out
+WARNING: drivers/gpu/drm/drm_atomic_helper.c:1844 at 0x0, CPU#3: syz.0.33/6143
+Modules linked in:
+CPU: 3 UID: 0 PID: 6143 Comm: syz.0.33 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+RIP: 0010:drm_atomic_helper_wait_for_vblanks.part.0+0x766/0x8c0 drivers/gpu/drm/drm_atomic_helper.c:1844
+Code: 00 00 00 fc ff df 48 89 f9 48 c1 e9 03 0f b6 04 01 84 c0 74 08 3c 03 0f 8e 3f 01 00 00 48 8d 3d d0 d5 3a 0b 8b b5 d8 00 00 00 <67> 48 0f b9 3a e9 ed fc ff ff e8 1b 27 67 fc e9 81 fe ff ff e8 a1
+RSP: 0018:ffffc90003fc77b0 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 1ffff11020b60023
+RDX: ffff8881037eb860 RSI: 0000000000000025 RDI: ffffffff90929260
+RBP: ffff888105b00040 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000000000000 R11: ffff888028f5d4b0 R12: dffffc0000000000
+R13: ffff888024b40e00 R14: 0000000000000000 R15: 0000000000000000
+FS:  0000555589c49500(0000) GS:ffff8880d6bfd000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f6e38fc1f98 CR3: 00000000380b2000 CR4: 0000000000352ef0
+Call Trace:
+ <TASK>
+ drm_atomic_helper_wait_for_vblanks drivers/gpu/drm/drm_atomic_helper.c:1818 [inline]
+ drm_atomic_helper_commit_tail+0xaa/0xd0 drivers/gpu/drm/drm_atomic_helper.c:1920
+ commit_tail+0x334/0x410 drivers/gpu/drm/drm_atomic_helper.c:1997
+ drm_atomic_helper_commit+0x300/0x380 drivers/gpu/drm/drm_atomic_helper.c:2235
+ drm_atomic_commit+0x234/0x300 drivers/gpu/drm/drm_atomic.c:1743
+ drm_client_modeset_commit_atomic+0x69d/0x7e0 drivers/gpu/drm/drm_client_modeset.c:1103
+ drm_client_modeset_commit_locked+0x14d/0x580 drivers/gpu/drm/drm_client_modeset.c:1206
+ drm_client_modeset_commit+0x4f/0x80 drivers/gpu/drm/drm_client_modeset.c:1232
+ __drm_fb_helper_restore_fbdev_mode_unlocked.part.0+0x137/0x160 drivers/gpu/drm/drm_fb_helper.c:235
+ __drm_fb_helper_restore_fbdev_mode_unlocked drivers/gpu/drm/drm_fb_helper.c:266 [inline]
+ drm_fb_helper_restore_fbdev_mode_unlocked+0x93/0xc0 drivers/gpu/drm/drm_fb_helper.c:266
+ drm_fbdev_client_restore+0x1b/0x30 drivers/gpu/drm/clients/drm_fbdev_client.c:45
+ drm_client_dev_restore+0x200/0x2a0 drivers/gpu/drm/drm_client_event.c:118
+ drm_lastclose drivers/gpu/drm/drm_file.c:408 [inline]
+ drm_release+0x2c6/0x360 drivers/gpu/drm/drm_file.c:441
+ __fput+0x402/0xb70 fs/file_table.c:468
+ task_work_run+0x150/0x240 kernel/task_work.c:233
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ __exit_to_user_mode_loop kernel/entry/common.c:44 [inline]
+ exit_to_user_mode_loop+0xfb/0x540 kernel/entry/common.c:75
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:226 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:256 [inline]
+ syscall_exit_to_user_mode_work include/linux/entry-common.h:159 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:194 [inline]
+ do_syscall_64+0x4ee/0xf80 arch/x86/entry/syscall_64.c:100
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f6e3818f7c9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fff40d56468 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
+RAX: 0000000000000000 RBX: 0000000000010de4 RCX: 00007f6e3818f7c9
+RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
+RBP: 00007f6e383e7da0 R08: 0000000000000001 R09: 0000000540d5675f
+R10: 0000001b2d720000 R11: 0000000000000246 R12: 00007f6e383e5fac
+R13: 00007f6e383e5fa0 R14: ffffffffffffffff R15: 00007fff40d56580
+ </TASK>
+----------------
+Code disassembly (best guess), 5 bytes skipped:
+   0:	df 48 89             	fisttps -0x77(%rax)
+   3:	f9                   	stc
+   4:	48 c1 e9 03          	shr    $0x3,%rcx
+   8:	0f b6 04 01          	movzbl (%rcx,%rax,1),%eax
+   c:	84 c0                	test   %al,%al
+   e:	74 08                	je     0x18
+  10:	3c 03                	cmp    $0x3,%al
+  12:	0f 8e 3f 01 00 00    	jle    0x157
+  18:	48 8d 3d d0 d5 3a 0b 	lea    0xb3ad5d0(%rip),%rdi        # 0xb3ad5ef
+  1f:	8b b5 d8 00 00 00    	mov    0xd8(%rbp),%esi
+* 25:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
+  2a:	e9 ed fc ff ff       	jmp    0xfffffd1c
+  2f:	e8 1b 27 67 fc       	call   0xfc67274f
+  34:	e9 81 fe ff ff       	jmp    0xfffffeba
+  39:	e8                   	.byte 0xe8
+  3a:	a1                   	.byte 0xa1
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
