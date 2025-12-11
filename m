@@ -2,87 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D40CB4F89
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 08:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A009ACB4FCE
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 08:35:16 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D135910E0D0;
-	Thu, 11 Dec 2025 07:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E289C10E6DE;
+	Thu, 11 Dec 2025 07:35:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="VEBzGG7z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="T2oGVBy4";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aYQhcjBK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sZ9uaSQZ";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="L1LxLJSC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iYzdEwil";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yKqN87e8";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hLwW6nn9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDEFD10E0D0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 07:22:15 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4CC310E1A3
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 07:35:11 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 717CD33713;
- Thu, 11 Dec 2025 07:22:13 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B598633713;
+ Thu, 11 Dec 2025 07:35:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1765437734; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1765438508; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VDodHkJpS//TQCUmE1rWNNuE8/seTv18v4fNY9rJLHc=;
- b=VEBzGG7z1jC+i+7MesluRmXvCmm9luR/5q7aQLXcDYFIslHoADRUSr4Wu2XmAxSNEHZ6D4
- gizhC9JUet0wRwNFcue3ZefePAlA3EKaIfbs1RIGOAoQzjUa5WUHRRjMfi7QyR1LPsGcVH
- 6v8mP2K8UjesES2r4xdY/x9wKC3Ae1g=
+ bh=LHU3oFk/0u8RvrV47UAr8qFfSFjTYB0sR4szYal4NUY=;
+ b=L1LxLJSCZzeTeOPlAjKZMgnmgUDXAJBUeVL/8H24oAhfUYijH0/keJ+4PZP37glh3JUgIq
+ M5UDLqSCd8RPH5+c2blOdhP19b9eAzSfqV0EzCYWpNhCjPiwYWJQRJ6z30A89AWthYjjcY
+ K3PTHMb/twH9E5/hDcXv1wmwfjETPlA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1765437734;
+ s=susede2_ed25519; t=1765438508;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VDodHkJpS//TQCUmE1rWNNuE8/seTv18v4fNY9rJLHc=;
- b=T2oGVBy4FhBnZZHJ6hMjGoM4EeJXKhyJtqdnsRTaclWSmPkH5wXltBvVy7uE+mOwcht1is
- zx0iAyRiplAr3OCQ==
+ bh=LHU3oFk/0u8RvrV47UAr8qFfSFjTYB0sR4szYal4NUY=;
+ b=iYzdEwili/8hqzxJWncWKykpOvPaUnacCQSczscEBJnK13ZkqlX4YMzNhhX107O+PYJ18/
+ nfhlwCTQBoQ3leAw==
 Authentication-Results: smtp-out1.suse.de;
-	none
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yKqN87e8;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hLwW6nn9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1765437733; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1765438507; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VDodHkJpS//TQCUmE1rWNNuE8/seTv18v4fNY9rJLHc=;
- b=aYQhcjBKat1BctI7A40AjAS/3VN5wQIAnrKLuVWNrtsc70wB75ZiJyIgE4j8t82jQFVoSv
- y29Q7RPXezzcyKTGYh2KdkVNJxjBnX+k/+ONSL3DSparmDolbNGst3pQnnMf7xPPHv0B4z
- XxytQRYToxxjCwOVE4ESsU+kULLKQNw=
+ bh=LHU3oFk/0u8RvrV47UAr8qFfSFjTYB0sR4szYal4NUY=;
+ b=yKqN87e8mlyivM8MSt65cCr6hwo6hYdN4F3TIdG1njdGWqkVc4OtdsYjC1ztrYktcIhvYN
+ /dH5u6PvcSyGvf/tMq2JAUkC6i4nnvP8UaMtyMUR6lIhmWK4yP+y5IssYuEj/FdLCiRRWL
+ rjBKDZkdUGe0cbli1dRCJauNeBos+nY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1765437733;
+ s=susede2_ed25519; t=1765438507;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=VDodHkJpS//TQCUmE1rWNNuE8/seTv18v4fNY9rJLHc=;
- b=sZ9uaSQZefvkIsJyoHHhVXDGzXAl4s4kJJJZKPAMoZi7aavgr7bgf1av4KtAGwOXD/XCT+
- 6kE2/7InUd6JxXCQ==
+ bh=LHU3oFk/0u8RvrV47UAr8qFfSFjTYB0sR4szYal4NUY=;
+ b=hLwW6nn9nH4r7UPwyMgGx/YH80K0eF+YDyzTGkwTNt59IBGIIuvJW6u7n4YDrQpDwGvoJ3
+ P9AFoKdEcaKZvMBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3CD693EA63;
- Thu, 11 Dec 2025 07:22:13 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5B11B3EA63;
+ Thu, 11 Dec 2025 07:35:07 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id UvacDSVxOmmDCQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 11 Dec 2025 07:22:13 +0000
-Message-ID: <34cce8e3-51c5-4d44-8f6e-592a5943aec8@suse.de>
-Date: Thu, 11 Dec 2025 08:22:12 +0100
+ by imap1.dmz-prg2.suse.org with ESMTPSA id KhG4FCt0OmnLFAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Thu, 11 Dec 2025 07:35:07 +0000
+Message-ID: <0167d452-9fee-41ea-8ee3-d8ac7cbb8d48@suse.de>
+Date: Thu, 11 Dec 2025 08:35:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/ast: Fix big-endian support
-To: =?UTF-8?Q?Ren=C3=A9_Rebe?= <rene@exactco.de>
-Cc: tpearson@raptorengineering.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, airlied@redhat.com
-References: <a4243932-5878-4b37-b1f0-fb0c706ed1f2@suse.de>
- <20251210.163344.1485666712792595073.rene@exactco.de>
- <dda9846d-3893-43ab-9cce-12a7f41fb974@suse.de>
- <20251210.175635.1285090497167018958.rene@exactco.de>
+Subject: Re: [PATCH RESEND 1/3] drm/mode_object: add
+ drm_object_immutable_property_get_value()
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org
+References: <20251210-drm-fix-lut-checks-v1-0-10ae38519f43@oss.qualcomm.com>
+ <20251210-drm-fix-lut-checks-v1-1-10ae38519f43@oss.qualcomm.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -109,25 +116,33 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20251210.175635.1285090497167018958.rene@exactco.de>
+In-Reply-To: <20251210-drm-fix-lut-checks-v1-1-10ae38519f43@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.28
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.28 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.18)[-0.891]; MIME_GOOD(-0.10)[text/plain];
- FROM_HAS_DN(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ FREEMAIL_TO(0.00)[oss.qualcomm.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,amd.com,igalia.com];
  FUZZY_RATELIMITED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- RCPT_COUNT_FIVE(0.00)[5]; RCVD_COUNT_TWO(0.00)[2];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url, suse.de:email, suse.de:mid,
- xcode_sparc_t4_1:email, imap1.dmz-prg2.suse.org:helo]
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_TWELVE(0.00)[13];
+ MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,qualcomm.com:email];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Queue-Id: B598633713
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,74 +160,82 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 10.12.25 um 17:56 schrieb René Rebe:
-> Hi,
+Am 10.12.25 um 20:42 schrieb Dmitry Baryshkov:
+> We have a helper to get property values for non-atomic drivers and
+> another one default property values for atomic drivers. In some cases we
+> need the ability to get value of immutable property, no matter what kind
+> of driver it is. Implement new property-related helper,
+> drm_object_immutable_property_get_value(), which lets the caller to get
+> the value of the immutable property.
 >
-> On Wed, 10 Dec 2025 16:41:50 +0100, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>   drivers/gpu/drm/drm_mode_object.c | 25 +++++++++++++++++++++++++
+>   include/drm/drm_mode_object.h     |  3 +++
+>   2 files changed, 28 insertions(+)
 >
->> Hi
->>
->> Am 10.12.25 um 16:33 schrieb René Rebe:
->>> Hallo,
->>>
->>> On Wed, 10 Dec 2025 09:55:50 +0100, Thomas Zimmermann
->>> <tzimmermann@suse.de> wrote:
->>> ...
->>>>>> Does that fix the color corruption?
->>>>> Following your suggestions conversion does not want to just work:
->>>>>
->>>>> root@XCODE_SPARC_T4_1:~# dmesg  | tail
->>>>> [  105.444761] ast 0000:0a:00.0: AST 2200 detected
->>>>> [ 105.444947] ast 0000:0a:00.0: [drm] dram MCLK=266 Mhz type=2
->>>>> bus_width=32
->>>>> [  105.444963] ast 0000:0a:00.0: [drm] Using analog VGA
->>>>> [  105.445470] [drm] Initialized ast 0.1.0 for 0000:0a:00.0 on minor 0
->>>>> [ 105.673289] ast 0000:0a:00.0: [drm] format BX24 little-endian
->>>>> (0x34325842) not supported
->>>>> [  105.673302] ast 0000:0a:00.0: [drm] No compatible format found
->>>>> [ 105.673348] ast 0000:0a:00.0: [drm] *ERROR* fbdev: Failed to setup
->>>>> emulation (ret=-22)
->>>>> [ 105.901306] ast 0000:0a:00.0: [drm] format BX24 little-endian
->>>>> (0x34325842) not supported
->>>>> [  105.901319] ast 0000:0a:00.0: [drm] No compatible format found
->>>>> [ 105.901350] ast 0000:0a:00.0: [drm] *ERROR* fbdev: Failed to setup
->>>>> emulation (ret=-22)
->>>> Oh well...
->>>>
->>>> There's a very simple patch attach. Does it fix the problem?
->>> Yes, only leaving the hardcoded swapping from my patch liek this fixes
->>> the byte-swapped output as expected on the sparc64 Sun T4.
->> Great.
->>
->>> How would you like me to go from here? Just use the chip_id to force
->>> swapping and enable hw swapper for pre-AST2400 chips or fix the
->>> generic format selection to work as you had suggested?
->>>
->>> Does the ast_primary_plane_formats need to byte swapped formats for it
->>> to work?
->> I'll send out a full patch that implements the byte swapping. Once
->> reviewed, it can be merged quickly. Can I add your Tested-by tag to
->> the patch?
-> I'd be happy to finish my work.
+> diff --git a/drivers/gpu/drm/drm_mode_object.c b/drivers/gpu/drm/drm_mode_object.c
+> index e943205a2394..ead8eeafd012 100644
+> --- a/drivers/gpu/drm/drm_mode_object.c
+> +++ b/drivers/gpu/drm/drm_mode_object.c
+> @@ -384,6 +384,31 @@ int drm_object_property_get_default_value(struct drm_mode_object *obj,
+>   }
+>   EXPORT_SYMBOL(drm_object_property_get_default_value);
+>   
+> +/**
+> + * drm_object_immutable_property_get_value - retrieve the value of a property
+> + * @obj: drm mode object to get property value from
+> + * @property: property to retrieve
+> + * @val: storage for the property value
+> + *
+> + * This function retrieves the softare state of the given immutable property for the given
+> + * property.
 
-Of course, no problem.
+Sounds odd. Rather for "for the given mode object" ?
 
-The code for the primary plane should be fine now. But we also need 
-something for the cursor plane as well. There's a ast_set_cursor_image() 
-with a memcpy_toio() [1] and several additional writes. IIUC they all 
-have to be swapped as well.
+> + *
+> + * This function can be called directtly by both atomic and non-atomic drivers.
 
-[1] 
-https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/drivers/gpu/drm/ast/ast_cursor.c#L101
+'directly' or just remove the word from the sentence.
+
+> + *
+> + * Returns:
+> + * Zero on success, error code on failure.
+> + */
+> +int drm_object_immutable_property_get_value(struct drm_mode_object *obj,
+> +					    struct drm_property *property,
+> +					    uint64_t *val)
+> +{
+> +	if (WARN_ON(!(property->flags & DRM_MODE_PROP_IMMUTABLE)))
+
+Rather use drm_WARN_ON(property->dev, ...) here.
 
 Best regards
 Thomas
 
->   But if you want to put the last touch
-> on it now you can add Co-developed-by, too ... and I'll test the final
-> version.
->
->     René
+> +		return -EINVAL;
+> +
+> +	return __drm_object_property_get_prop_value(obj, property, val);
+> +}
+> +EXPORT_SYMBOL(drm_object_immutable_property_get_value);
+> +
+>   /* helper for getconnector and getproperties ioctls */
+>   int drm_mode_object_get_properties(struct drm_mode_object *obj, bool atomic,
+>   				   uint32_t __user *prop_ptr,
+> diff --git a/include/drm/drm_mode_object.h b/include/drm/drm_mode_object.h
+> index c68edbd126d0..44a0d6f8d01f 100644
+> --- a/include/drm/drm_mode_object.h
+> +++ b/include/drm/drm_mode_object.h
+> @@ -133,6 +133,9 @@ int drm_object_property_get_value(struct drm_mode_object *obj,
+>   int drm_object_property_get_default_value(struct drm_mode_object *obj,
+>   					  struct drm_property *property,
+>   					  uint64_t *val);
+> +int drm_object_immutable_property_get_value(struct drm_mode_object *obj,
+> +					    struct drm_property *property,
+> +					    uint64_t *val);
+>   
+>   void drm_object_attach_property(struct drm_mode_object *obj,
+>   				struct drm_property *property,
 >
 
 -- 
