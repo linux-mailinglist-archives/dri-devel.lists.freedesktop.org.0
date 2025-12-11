@@ -2,70 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D098CB6837
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 17:40:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF04CB68BB
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 17:47:37 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A243F10E867;
-	Thu, 11 Dec 2025 16:40:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2E7410E077;
+	Thu, 11 Dec 2025 16:47:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="E2/RClhe";
+	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="tKUrmg/A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CEB9A10E868
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 16:40:43 +0000 (UTC)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
- by smtpout-03.galae.net (Postfix) with ESMTPS id B5DEE4E41B7B;
- Thu, 11 Dec 2025 16:40:42 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
- by smtpout-01.galae.net (Postfix) with ESMTPS id 883F66072F;
- Thu, 11 Dec 2025 16:40:42 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon)
- with ESMTPSA id 4752A103C8E02; Thu, 11 Dec 2025 17:40:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
- t=1765471241; h=from:subject:date:message-id:to:cc:mime-version:content-type:
- content-transfer-encoding:in-reply-to:references;
- bh=PkLVw483Bi2TFNGwF1BcdMAGMT/TwUDIUm6G6/HIAiA=;
- b=E2/RClhe8bqI4zp1XviORpawwL1BewR1minimTCo8UYNBb6+ulKydwXR2G0+14e/TZd8/x
- fTuJSxf5r3I2VbM7gSDBji6P20J9/6FfDGaQAXBi+U9HMEPTHl04M0QIiTQ89M0Gxym/fd
- pgnNrY5MkDy+KjLAnjHFPg0YthPbURnVuPAL2aFLQ0+qVvxAC7quCKVHcvtI9EwqmJv/SW
- rRFfNERU7ppiNpl+2KoWwCYokmnAajglTO6maVT7wduif/FzWMNobeiE5O04VCeARiGhNp
- 3WKuWMDXk/wFd5UW+jJuN3SDs4tokhzd9TS/4lHXBdD+opYWuVqGvkQ+o91ARQ==
-From: "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-Date: Thu, 11 Dec 2025 17:39:04 +0100
-Subject: [PATCH v2 20/20] drm/tilcdc: Add support for
- DRM_BRIDGE_ATTACH_NO_CONNECTOR
+X-Greylist: delayed 425 seconds by postgrey-1.36 at gabe;
+ Thu, 11 Dec 2025 16:47:31 UTC
+Received: from mail-106109.protonmail.ch (mail-106109.protonmail.ch
+ [79.135.106.109])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC90D10E2B1
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 16:47:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail3; t=1765471219; x=1765730419;
+ bh=HfYGMq/eC8FJidMtkQ8oj3FKImNrKd5wnRrpAfmbGf4=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=tKUrmg/AxFBnSzzdok+YzybYUdRyEGDqGowWLPYfiTl0b0AWXbnRdLVC4GQUcBcuZ
+ 6mlzCap5q9rRYzGMFyHPhrhyQM5aag+Tq3WLyl3vwKMP3SXaWIabH2yQeeZbFNQWxq
+ SSDseSxG7FmboorbxynA36a7B4kVMtIwj1dawb3pnFjsKXSgqDxZH+Y1Ic+DC4TYaO
+ BF62uIuBIjEpvMrsQQvU6vu6qM00t9jjitJKDFjhWamlYZbdTw0WoT7MlqnAsdIEHl
+ gwqVf1SSw+KxqLPUIZtykZLQxiwuQv3rAc7YaDTo010vxfTmlGujFLw/XETYtTQ4lv
+ dMCJORdrPrIpw==
+Date: Thu, 11 Dec 2025 16:40:15 +0000
+To: Dan Carpenter <dan.carpenter@linaro.org>
+From: Simon Ser <contact@emersion.fr>
+Cc: Harry Wentland <harry.wentland@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Alex Hung <alex.hung@amd.com>, Sebastian Wick <sebastian.wick@redhat.com>,
+ Daniel Stone <daniels@collabora.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] drm/plane: Fix IS_ERR() vs NULL bug
+ drm_plane_create_color_pipeline_property()
+Message-ID: <JgyhoN6h3UMhM6E3z1092ZDRNRDlyrrQnpUsMb_ldKowPZ4kvmeTm_VmzkrJLJw67DUW6R9r8L53hThH5DCdqwVW2ggQnRoA3Jm84bN2iEI=@emersion.fr>
+In-Reply-To: <CN7gZcz0WnfFN-FgfhFlSwX9naLEVoV-H6FCniOPp3glGzIEFRK1-SXlVbb5S_B34TxYnCOBQZj4ldqZNCl-Igw2zyPeUnaruX2ngu__loE=@emersion.fr>
+References: <aTK9ZR0sMgqSACow@stanley.mountain>
+ <CN7gZcz0WnfFN-FgfhFlSwX9naLEVoV-H6FCniOPp3glGzIEFRK1-SXlVbb5S_B34TxYnCOBQZj4ldqZNCl-Igw2zyPeUnaruX2ngu__loE=@emersion.fr>
+Feedback-ID: 1358184:user:proton
+X-Pm-Message-ID: 41222457666ef806f0cc23ef76f7ca273fb936d7
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251211-feature_tilcdc-v2-20-f48bac3cd33e@bootlin.com>
-References: <20251211-feature_tilcdc-v2-0-f48bac3cd33e@bootlin.com>
-In-Reply-To: <20251211-feature_tilcdc-v2-0-f48bac3cd33e@bootlin.com>
-To: Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Russell King <linux@armlinux.org.uk>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, Tony Lindgren <tony@atomide.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Markus Schneider-Pargmann <msp@baylibre.com>, 
- Bajjuri Praneeth <praneeth@ti.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Louis Chauvet <louis.chauvet@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Miguel Gazquez <miguel.gazquez@bootlin.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-omap@vger.kernel.org, 
- "Kory Maincent (TI.com)" <kory.maincent@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,92 +66,4 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the driver to use the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag when
-attaching bridges. This modernizes the driver by delegating connector
-creation to the bridge subsystem through drm_bridge_connector_init()
-instead of manually searching for connectors created by the bridge.
-
-The custom tilcdc_encoder_find_connector() function is removed and
-replaced with the standard drm_bridge_connector infrastructure, which
-simplifies the code and aligns with current DRM bridge best practices.
-
-This change is safe as there are now no in-tree devicetrees that
-connect tilcdc to bridges which do not support the
-DRM_BRIDGE_ATTACH_NO_CONNECTOR flag.
-
-Signed-off-by: Kory Maincent (TI.com) <kory.maincent@bootlin.com>
----
- drivers/gpu/drm/tilcdc/tilcdc_encoder.c | 38 ++++++++++++++-------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_encoder.c b/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
-index d01e7a31a286c..11fde3a2be353 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_encoder.c
-@@ -8,46 +8,40 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bridge_connector.h>
- #include <drm/drm_of.h>
- #include <drm/drm_simple_kms_helper.h>
- 
- #include "tilcdc_drv.h"
- #include "tilcdc_encoder.h"
- 
--static
--struct drm_connector *tilcdc_encoder_find_connector(struct drm_device *ddev,
--						    struct drm_encoder *encoder)
--{
--	struct drm_connector *connector;
--
--	list_for_each_entry(connector, &ddev->mode_config.connector_list, head) {
--		if (drm_connector_has_possible_encoder(connector, encoder))
--			return connector;
--	}
--
--	dev_err(ddev->dev, "No connector found for %s encoder (id %d)\n",
--		encoder->name, encoder->base.id);
--
--	return NULL;
--}
--
- static
- int tilcdc_attach_bridge(struct drm_device *ddev, struct drm_bridge *bridge)
- {
- 	struct tilcdc_drm_private *priv = ddev_to_tilcdc_priv(ddev);
-+	struct drm_connector *connector;
- 	int ret;
- 
- 	priv->encoder->possible_crtcs = BIT(0);
- 
--	ret = drm_bridge_attach(priv->encoder, bridge, NULL, 0);
-+	ret = drm_bridge_attach(priv->encoder, bridge, NULL,
-+				DRM_BRIDGE_ATTACH_NO_CONNECTOR);
- 	if (ret)
- 		return ret;
- 
--	priv->connector =
--		tilcdc_encoder_find_connector(ddev, priv->encoder);
--	if (!priv->connector)
--		return -ENODEV;
-+	connector = drm_bridge_connector_init(ddev, priv->encoder);
-+	if (IS_ERR(connector)) {
-+		dev_err(ddev->dev, "bridge_connector create failed\n");
-+		return PTR_ERR(connector);
-+	}
-+
-+	ret = drm_connector_attach_encoder(connector, priv->encoder);
-+	if (ret) {
-+		dev_err(ddev->dev, "attaching encoder to connector failed\n");
-+		return ret;
-+	}
- 
-+	priv->connector = connector;
- 	return 0;
- }
- 
-
--- 
-2.43.0
-
+Pushed, thanks for the fix!
