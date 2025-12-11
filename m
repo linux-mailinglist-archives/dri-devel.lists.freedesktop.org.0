@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF9DCB757B
-	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 00:15:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3277CB7584
+	for <lists+dri-devel@lfdr.de>; Fri, 12 Dec 2025 00:16:47 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D374A10E30A;
-	Thu, 11 Dec 2025 23:15:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 265F010E586;
+	Thu, 11 Dec 2025 23:16:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JdIprFWN";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="inFqY+ea";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E30AB10E30A
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 23:15:14 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6DD4F10E8BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 23:16:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1765494914;
+ s=mimecast20190719; t=1765495004;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
  bh=NbD172mHC2Ryq1GOWpDAGfx/N1dB3vFXjgBCreduXmM=;
- b=JdIprFWNISjT+Cn9fPkXCsqV2mYGoZEOyJL7ieX0nkENoX+fdHnwt5ltMYAnii97TiQBpO
- kZ7LeN4yadhYQjNaQrMLUND46cAOxTGDWzRh65vE7EaS24xfLs6xw/57hfctFOtQZXhR/4
- PfQPDHZ0s7Iabx5ZnfqRw7f9qzCdsu8=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ b=inFqY+eafbvq76WhH50S4bGkpYjSYy9jfcUzk50Hl9z9Z4boRso1/ucMvfxT56nIrpV8Le
+ 4kirpTgs8bWuqUft51k0ciGw1V6E6rdBrrgzELLSYrv2rmdYtdY6HI+yOKW+nrw0GhXBVa
+ cQg8k9pUSj+ViGo0no/k8VMf2v0KbOs=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-679-ZCC7XLM9Mh6NCRn-LTplSw-1; Thu, 11 Dec 2025 18:15:12 -0500
-X-MC-Unique: ZCC7XLM9Mh6NCRn-LTplSw-1
-X-Mimecast-MFC-AGG-ID: ZCC7XLM9Mh6NCRn-LTplSw_1765494912
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-8b29b4864b7so130173085a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 15:15:12 -0800 (PST)
+ us-mta-564-Sde5siXbP5OEjct9NbVRmA-1; Thu, 11 Dec 2025 18:16:43 -0500
+X-MC-Unique: Sde5siXbP5OEjct9NbVRmA-1
+X-Mimecast-MFC-AGG-ID: Sde5siXbP5OEjct9NbVRmA_1765495003
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-8b2e19c8558so134009385a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 11 Dec 2025 15:16:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1765494912; x=1766099712;
+ d=1e100.net; s=20230601; t=1765495003; x=1766099803;
  h=cc:to:content-transfer-encoding:mime-version:message-id:date
  :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
  bh=NbD172mHC2Ryq1GOWpDAGfx/N1dB3vFXjgBCreduXmM=;
- b=fnrod3V7BgSBpJ8wth/kNOms1E3/JVTZauRPuV5GKbU7f510pTExj7nT1ZBgzcgsqA
- DIoP/nBB3t6aEKjEca0Jr+iC9t+stsywrK833ly/vbbB0w836Zle2BYxjx4rUEmRSplA
- CSpeDC26W50RpCI8BVT3LcYY4ztluCkW6YKZS5Y7bY0R8dM0D0KuEB/mvbYRB5AuQGcU
- itKQnHUTjx2Xs8nJzgYgyLU28blW7VfgEcFG3fLBe24KC7F+/FCFkN06+58QDMUFxIkp
- 595brnzcyPcZz7oVXzeMTZ6rxhyIbdecbu6qyeQpo+pthi0/AZxSjo3gUFNH8nlf5LZH
- gdUw==
+ b=NEqRcfZcHVtHZm1suWfWz3UOMd1/xrq1XTqcZwtxgEAx+aO9KfV1yz2FDwUjhADM5M
+ C+2u79scK+mEgsj5ZJc6gw7SVmLRcGw7MiIL41V4lqGuHFLb0qYRZS9E27GIN+mar5Q9
+ cf2nys1kEr8RXE+/YGkaZLeaN+QVKxIvTvqZtI4/vOe54VCabusHihwdmz9Mzhj3nNLr
+ LHyw7gRKMVQ9PfhG9HX5NJ0abidxCHjJP++bYOPvVYbwpvKersBJyeJOpeB7AGHUf5jE
+ WfI2fRjSH9NupgzXOAKSI3nwDIojy5eFXrO2WXr92tOusdy7uebbo83MJiu+1Xv30xO/
+ bryw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU/hK5T8vlNwXF47o4jWwZwtENMAC7ZOp7RK95YDYXhnSvOhEmvp1WhmMssl8Wrsz3XW9pDPfZhjco=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwGOvgXMT93i3kXywplyGPtug+qB8t1tvL99hLlS8KijbUQhdvQ
- ErXuMT6EGeDA7jeXC1T/NEghAxIr0axGWpEnjJcVOznsIshEhd7iQgNv+2CfskvaGab/LoDOeNM
- AkyRYnyA0b6OkQOEVdKD127TijDeQ2FCHhfTCZWQQheetAv6/iZENrzrPz0jlmoVo2YlqDg==
-X-Gm-Gg: AY/fxX5geU1Pat2rTQlXcRbyvIyCIvYBmNw/7CusCj+SEbY553HROhQEjOaX/IN4gIF
- Zv9dF8gcFOVhc4577gq4wavvSZpOEPK/XGuayyZBjYRSL40WBcfx2QeCDdZvfLdQ63RhCjDv9P/
- w/5zG1k+TNNwe8s54drEQH7X0y3Sk1ZhDvSQhlLBUv0uew6FaoJAjJ1jda/j7W8XZhE5z14tjZS
- nzdUSUfRtIlJE+06YZNTbC6kL/WfCAnjHgT/7FcZzW39THlV96UHz9RIuH3mSjDwbfFWEc80VwL
- VviZI/ezcFcTEBHgvmeBqH6gQMgV1du+8Tfxf/v1Nk+4VCucV930CdGT2z43MXh0DU7+TLScBYI
- r04AbGdGRHYWpINgisXu3Isqsmf3noy3iQsdBG7vtl0N9Pnm8m/bvfg==
-X-Received: by 2002:a05:620a:4508:b0:891:bcdf:83dc with SMTP id
- af79cd13be357-8bb398e1c4cmr33952185a.34.1765494911905; 
- Thu, 11 Dec 2025 15:15:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHEhR+rl7YR1fq3Jbq9SD391TPQFkBJmfXp3Gj+BgCY0CdZmgYTQ1v2SmnRHgiTWvmPBSjsfQ==
-X-Received: by 2002:a05:620a:4508:b0:891:bcdf:83dc with SMTP id
- af79cd13be357-8bb398e1c4cmr33948785a.34.1765494911456; 
- Thu, 11 Dec 2025 15:15:11 -0800 (PST)
+ AJvYcCVq/+TyPH6TAOr+3EC+/d+nJ491x3q6z4/MrDhWcE2ZX1EyU61jmQUnHzbX+kUsGGauIFnrQjJlKkc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzDPtOdlyytoTxPPkwbpUGWoM/RlBkvD2Ol7I5o5n8cBP81wLPg
+ OfVHSdvZ/4zAYPt6Dg/qicDDxbppguE1LMPVRScCOQkkBJUWXWphvPRdMABEXAlZmBwtiEhG0vI
+ 9VDF2GhQMyVO41Utk1mluJVHTQY3gQ8dDYSfAAyRXUgyIKT6xkr4+2p8seg5Npx9aH2jD7w==
+X-Gm-Gg: AY/fxX7/shrtyXMVY7gWRl864jTREKQ0dH2R626Uh6kla3tSsFFPGiEk8P4sB00FWQf
+ /vZ7E9uUjljn4Bklgi9a5VXUr/mWFYtEEliqt7dQ6f5ceurB3dLFCbAwRaU1n8QLxk6gI5pvxDv
+ jaDw0AF0pJgbLO+ObFw0UDwyX4L7vYMmBom97j1zO4EII3m/L1eZ7akc32G74++yEJylEG3iBWc
+ Km5fGHH1MJMJSHjONOGMnKEGTl7xSywGfFdcj5JJsPQKYQ72Egutz70L9pM1BoWmF2k9bAzxudO
+ /vGTJCvM6SpEe4Q3SrOsvTE6+1be8yC1urV4sl9JyQeoHYuawaWvKI/nohh1vjXMA0rjE1Bd8Ql
+ 9UMgInN7+eHbjcDeww4dK+lChGUqJ646PHt9qqfLl4mYRCT/eHXbS9w==
+X-Received: by 2002:a05:620a:45a6:b0:89e:f83c:ee0c with SMTP id
+ af79cd13be357-8bb3a3935d8mr36459885a.74.1765495002900; 
+ Thu, 11 Dec 2025 15:16:42 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHTgdmowmpGEJXfkwF3JzqsLep6RU6ll2UwJli3c/rdVkRG78nuaQFcWNbYooZO1mfConbh8A==
+X-Received: by 2002:a05:620a:45a6:b0:89e:f83c:ee0c with SMTP id
+ af79cd13be357-8bb3a3935d8mr36454285a.74.1765495002438; 
+ Thu, 11 Dec 2025 15:16:42 -0800 (PST)
 Received: from [192.168.101.129] (c-73-183-52-120.hsd1.pa.comcast.net.
  [73.183.52.120]) by smtp.gmail.com with ESMTPSA id
- af79cd13be357-8bab5c3bd3fsm325234885a.28.2025.12.11.15.15.05
+ af79cd13be357-8bab5d4edbasm317873585a.51.2025.12.11.15.16.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 11 Dec 2025 15:15:10 -0800 (PST)
+ Thu, 11 Dec 2025 15:16:41 -0800 (PST)
 From: Brian Masney <bmasney@redhat.com>
 Subject: [PATCH v3 0/9] phy: convert from clk round_rate() to determine_rate()
-Date: Fri, 12 Dec 2025 08:14:44 +0900
-Message-Id: <20251212-phy-clk-round-rate-v3-0-4fa18b61f521@redhat.com>
+Date: Fri, 12 Dec 2025 08:16:18 +0900
+Message-Id: <20251212-phy-clk-round-rate-v3-0-beae3962f767@redhat.com>
 MIME-Version: 1.0
 X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22NQQ6CMBBFr0Jm7ZhSEcSV9zAsSpnaRm3JFBsJ4
  e5W3Lp8L/nvLxCJHUU4FwswJRdd8BkOuwK0Vf5G6IbMIIU8iqYUONoZ9eOOHF5+QFYTYaVUQ6a
@@ -87,25 +87,26 @@ To: Vinod Koul <vkoul@kernel.org>,
  Matthias Brugger <matthias.bgg@gmail.com>, 
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
  Heiko Stuebner <heiko@sntech.de>, 
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- Brian Masney <bmasney@redhat.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Maxime Ripard <mripard@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, Brian Masney <bmasney@redhat.com>, 
  Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>, 
  Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 X-Mailer: b4 0.14.2
 X-Developer-Signature: v=1; a=openpgp-sha256; l=6172; i=bmasney@redhat.com;
  s=20250903; h=from:subject:message-id;
  bh=ZY0h85yve8h09n3VMoGeby1rYSEr9a4xEaJTa8s51lM=;
- b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGDKtAypM8tRDs5f99Dnw7UrK3fyLqyJ5o95+0VNQaXf/L
- vMt2ka+o5SFQYyLQVZMkWVJrlFBROoq23t3NFlg5rAygQxh4OIUgInM6GNkWDfVdAPLEoGHB3Wf
- /ruVEL2MtYB33TEOs++bZKfsvnTtcw3DX4n32/fVbF4oOCf65uN1s3MuXTnI/nT7mq071x8O9ut
- KnMMJAA==
+ b=owGbwMvMwCW2/dJd9di6A+2Mp9WSGDKtAy5+Y5i0/XBSw5mcryf95CfUSLo+Naq9ozK7s1HrW
+ 7Omgj9XRykLgxgXg6yYIsuSXKOCiNRVtvfuaLLAzGFlAhnCwMUpABOJd2VkmPPLinP7Iq1VoTP3
+ 9Fmcfl0v/MP2VI3J6eO5oTW5Ty8+qGdkWPvn/zz548dCZAM+uE9uzc3rkPFRMjjw9Gj7psmZsmf
+ W8gAA
 X-Developer-Key: i=bmasney@redhat.com; a=openpgp;
  fpr=A46D32705865AA3DDEDC2904B7D2DD275D7EC087
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Kjg1IoHJaOPzxtXu_0Squ20pzDhgqzVA61-0_BbZq-Q_1765494912
+X-Mimecast-MFC-PROC-ID: PcWJk4ewm5DHvopnrF2FR0Bb3ANBkv5w4fWrcINANFg_1765495003
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
