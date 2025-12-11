@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34DCACB699C
-	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 18:00:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C532CB699F
+	for <lists+dri-devel@lfdr.de>; Thu, 11 Dec 2025 18:00:36 +0100 (CET)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9272910E8A0;
-	Thu, 11 Dec 2025 17:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6516710E87F;
+	Thu, 11 Dec 2025 17:00:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XcnzuK5f";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IllVrPgE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CCB7710E89D;
- Thu, 11 Dec 2025 17:00:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57AF110E87E;
+ Thu, 11 Dec 2025 17:00:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1765472429; x=1797008429;
+ t=1765472432; x=1797008432;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=lCwpVaOfQJOuuk9Gud/LSCiSE4OgD/sOxbArDfNfdOM=;
- b=XcnzuK5f90sCFE4d7jHd/P4c1ixuNY47GrfnvaQ3bYxEhB3SBDZ1hv1P
- EBftsefIWH62qfjmCLl8EKub2YFH/v/4f5OgdC1rn3ljxh5WGdfCKMCxp
- j4aAIpcFGbYUOTmjccHhh5RRzhrYw9g+k0PHUmcJf7Hm9Lk6VGhjhbEC+
- 3EEN5I+BCTFZULVIqzHoPTe2hqkY7A/ZNGmkJLJXDr0gJA1ZzJbMJoDcy
- ioV4h4Et+HBVYcBlSF0qVXZKcmrQK9ZMGBfIiy4i5LxSnBVnMa1Qt7YFx
- AxMUR9G4J/5MqF8WKK1uoLxSeno5wSAj9wxUeZEpT0Dgt3+gxF4wdwXNH g==;
-X-CSE-ConnectionGUID: 31mtcAiARPeFlKQ3+14iMA==
-X-CSE-MsgGUID: 1A5N7nZXRmKrSrQ4aWmOFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="71083268"
-X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; d="scan'208";a="71083268"
+ bh=N2MaQjkEztmdrXl/Rdxx/feCJ4JnAnKxi8q8zCMl72A=;
+ b=IllVrPgElcpwwzmjc3MDqgJoW2x7IHnmEASUvdx0hxznEJ1tqiN7ikSd
+ EpEm/yMW6spaCkc3yBc8xVwkjLoKKsLV5zsn//u/qdamFgzL+Ia+BQ5VK
+ YhB6JvwqEO4d6SpFUCoqS54uRqK+643eetcKdGEQiEgRHniCW2/T+IsPJ
+ yRipdpogfcE0p6938lhqbAGviMOlibsl/021F/Y4jDvBl/ejBQQZSrvPZ
+ lBcdjeWdk6D9vK5DXiRHyPLNqMtZhMQaJ6FYytTNRQp6roLxiQBi9jzWK
+ LfwU1rhtKZgPKn1nej06IPMF0geAFOSuEu4lD0zPnMK29XyLEtHesBNyQ g==;
+X-CSE-ConnectionGUID: MRwQm5lWS2qjclTnFN+mvw==
+X-CSE-MsgGUID: fBnl37SdQcKLz9j/5hso4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="71083295"
+X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; d="scan'208";a="71083295"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2025 09:00:28 -0800
-X-CSE-ConnectionGUID: Um4AS/+vQAW+AJYHeSeWrg==
-X-CSE-MsgGUID: 4obik03wQH+NnbgxyQ2guA==
+ 11 Dec 2025 09:00:32 -0800
+X-CSE-ConnectionGUID: l8GnhL/kQS2G8Y95dSDrwQ==
+X-CSE-MsgGUID: QSyHj2EVRga3g+pIqI+lAg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; d="scan'208";a="196849683"
+X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; d="scan'208";a="196849694"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO fedora)
  ([10.245.244.197])
  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Dec 2025 09:00:25 -0800
+ 11 Dec 2025 09:00:29 -0800
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-xe@lists.freedesktop.org
 Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
@@ -51,10 +51,9 @@ Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [PATCH v4 14/22] drm/xe/uapi: Extend the madvise functionality to
- support foreign pagemap placement for svm
-Date: Thu, 11 Dec 2025 17:59:01 +0100
-Message-ID: <20251211165909.219710-15-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v4 15/22] drm/xe: Support pcie p2p dma as a fast interconnect
+Date: Thu, 11 Dec 2025 17:59:02 +0100
+Message-ID: <20251211165909.219710-16-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20251211165909.219710-1-thomas.hellstrom@linux.intel.com>
 References: <20251211165909.219710-1-thomas.hellstrom@linux.intel.com>
@@ -76,417 +75,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use device file descriptors and regions to represent pagemaps on
-foreign or local devices.
+Mimic the dma-buf method using dma_[map|unmap]_resource to map
+for pcie-p2p dma.
 
-The underlying files are type-checked at madvise time, and
-references are kept on the drm_pagemap as long as there is are
-madvises pointing to it.
-
-Extend the madvise preferred_location UAPI to support the region
-instance to identify the foreign placement.
+There's an ongoing area of work upstream to sort out how this best
+should be done. One method proposed is to add an additional
+pci_p2p_dma_pagemap aliasing the device_private pagemap and use
+the corresponding pci_p2p_dma_pagemap page as input for
+dma_map_page(). However, that would incur double the amount of
+memory and latency to set up the drm_pagemap and given the huge
+amount of memory present on modern GPUs, that would really not work.
+Hence the simple approach used in this patch.
 
 v2:
-- Improve UAPI documentation. (Matt Brost)
-- Sanitize preferred_mem_loc.region_instance madvise. (Matt Brost)
-- Clarify madvise drm_pagemap vs xe_pagemap refcounting. (Matt Brost)
-- Don't allow a foreign drm_pagemap madvise without a fast
-  interconnect.
-v3:
-- Add a comment about reference-counting in xe_devmem_open() and
-  remove the reference-count get-and-put. (Matt Brost)
+- Simplify xe_page_to_pcie(). (Matt Brost)
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 ---
- drivers/gpu/drm/xe/xe_device.c     | 14 +++++
- drivers/gpu/drm/xe/xe_device.h     |  2 +
- drivers/gpu/drm/xe/xe_svm.c        | 75 ++++++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_svm.h        |  7 +++
- drivers/gpu/drm/xe/xe_vm_madvise.c | 86 ++++++++++++++++++++++++++----
- include/uapi/drm/xe_drm.h          | 18 +++++--
- 6 files changed, 188 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/xe/xe_svm.c | 34 +++++++++++++++++++++++++++++++---
+ drivers/gpu/drm/xe/xe_svm.h |  1 +
+ 2 files changed, 32 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
-index 3e9da09d7e61..762cb0f2bd1d 100644
---- a/drivers/gpu/drm/xe/xe_device.c
-+++ b/drivers/gpu/drm/xe/xe_device.c
-@@ -371,6 +371,20 @@ static const struct file_operations xe_driver_fops = {
- 	.fop_flags = FOP_UNSIGNED_OFFSET,
- };
- 
-+/**
-+ * xe_is_xe_file() - Is the file an xe device file?
-+ * @file: The file.
-+ *
-+ * Checks whether the file is opened against
-+ * an xe device.
-+ *
-+ * Return: %true if an xe file, %false if not.
-+ */
-+bool xe_is_xe_file(const struct file *file)
-+{
-+	return file->f_op == &xe_driver_fops;
-+}
-+
- static struct drm_driver driver = {
- 	/* Don't use MTRRs here; the Xserver or userspace app should
- 	 * deal with them for Intel hardware.
-diff --git a/drivers/gpu/drm/xe/xe_device.h b/drivers/gpu/drm/xe/xe_device.h
-index 6604b89330d5..3e72fa4609f8 100644
---- a/drivers/gpu/drm/xe/xe_device.h
-+++ b/drivers/gpu/drm/xe/xe_device.h
-@@ -200,6 +200,8 @@ void xe_file_put(struct xe_file *xef);
- 
- int xe_is_injection_active(void);
- 
-+bool xe_is_xe_file(const struct file *file);
-+
- /*
-  * Occasionally it is seen that the G2H worker starts running after a delay of more than
-  * a second even after being queued and activated by the Linux workqueue subsystem. This
 diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index 0c82ef0f34aa..54eb04467163 100644
+index 54eb04467163..6ebc1b43d0ca 100644
 --- a/drivers/gpu/drm/xe/xe_svm.c
 +++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -1848,6 +1848,75 @@ int xe_pagemap_cache_create(struct xe_tile *tile)
- 	return 0;
+@@ -3,6 +3,8 @@
+  * Copyright © 2024 Intel Corporation
+  */
+ 
++#include <linux/pci-p2pdma.h>
++
+ #include <drm/drm_drv.h>
+ #include <drm/drm_managed.h>
+ #include <drm/drm_pagemap.h>
+@@ -452,6 +454,14 @@ static u64 xe_page_to_dpa(struct page *page)
+ 	return dpa;
  }
  
-+static struct drm_pagemap *xe_devmem_open(struct xe_device *xe, u32 region_instance)
++static u64 xe_page_to_pcie(struct page *page)
 +{
-+	u32 tile_id = region_instance - 1;
-+	struct xe_pagemap *xpagemap;
-+	struct xe_vram_region *vr;
++	struct xe_pagemap *xpagemap = xe_page_to_pagemap(page);
++	struct xe_vram_region *vr = xe_pagemap_to_vr(xpagemap);
 +
-+	if (tile_id >= xe->info.tile_count)
-+		return ERR_PTR(-ENOENT);
-+
-+	if (!((BIT(tile_id) << 1) & xe->info.mem_region_mask))
-+		return ERR_PTR(-ENOENT);
-+
-+	vr = xe_tile_to_vr(&xe->tiles[tile_id]);
-+
-+	/* Returns a reference-counted embedded struct drm_pagemap */
-+	xpagemap = xe_pagemap_find_or_create(xe, vr->dpagemap_cache, vr);
-+	if (IS_ERR(xpagemap))
-+		return ERR_CAST(xpagemap);
-+
-+	return &xpagemap->dpagemap;
++	return xe_page_to_dpa(page) - vr->dpa_base + vr->io_start;
 +}
 +
-+/**
-+ * xe_drm_pagemap_from_fd() - Return a drm_pagemap pointer from a
-+ * (file_descriptor, region_instance) pair.
-+ * @fd: An fd opened against an xe device.
-+ * @region_instance: The region instance representing the device memory
-+ * on the opened xe device.
-+ *
-+ * Opens a struct drm_pagemap pointer on the
-+ * indicated device and region_instance.
-+ *
-+ * Return: A reference-counted struct drm_pagemap pointer on success,
-+ * negative error pointer on failure.
-+ */
-+struct drm_pagemap *xe_drm_pagemap_from_fd(int fd, u32 region_instance)
-+{
-+	struct drm_pagemap *dpagemap;
-+	struct file *file;
-+	struct drm_file *fpriv;
-+	struct drm_device *drm;
-+	int idx;
-+
-+	if (fd <= 0)
-+		return ERR_PTR(-EINVAL);
-+
-+	file = fget(fd);
-+	if (!file)
-+		return ERR_PTR(-ENOENT);
-+
-+	if (!xe_is_xe_file(file)) {
-+		dpagemap = ERR_PTR(-ENOENT);
-+		goto out;
-+	}
-+
-+	fpriv = file->private_data;
-+	drm = fpriv->minor->dev;
-+	if (!drm_dev_enter(drm, &idx)) {
-+		dpagemap = ERR_PTR(-ENODEV);
-+		goto out;
-+	}
-+
-+	dpagemap = xe_devmem_open(to_xe_device(drm), region_instance);
-+	drm_dev_exit(idx);
-+out:
-+	fput(file);
-+	return dpagemap;
-+}
-+
- #else
+ enum xe_svm_copy_dir {
+ 	XE_SVM_COPY_TO_VRAM,
+ 	XE_SVM_COPY_TO_SRAM,
+@@ -839,7 +849,10 @@ static bool xe_has_interconnect(struct drm_pagemap_peer *peer1,
+ 	struct device *dev1 = xe_peer_to_dev(peer1);
+ 	struct device *dev2 = xe_peer_to_dev(peer2);
  
- int xe_pagemap_shrinker_create(struct xe_device *xe)
-@@ -1871,6 +1940,12 @@ struct drm_pagemap *xe_vma_resolve_pagemap(struct xe_vma *vma, struct xe_tile *t
+-	return dev1 == dev2;
++	if (dev1 == dev2)
++		return true;
++
++	return pci_p2pdma_distance(to_pci_dev(dev1), dev2, true) >= 0;
+ }
+ 
+ static DRM_PAGEMAP_OWNER_LIST_DEFINE(xe_owner_list);
+@@ -1612,13 +1625,27 @@ xe_drm_pagemap_device_map(struct drm_pagemap *dpagemap,
+ 		addr = xe_page_to_dpa(page);
+ 		prot = XE_INTERCONNECT_VRAM;
+ 	} else {
+-		addr = DMA_MAPPING_ERROR;
+-		prot = 0;
++		addr = dma_map_resource(dev,
++					xe_page_to_pcie(page),
++					PAGE_SIZE << order, dir,
++					DMA_ATTR_SKIP_CPU_SYNC);
++		prot = XE_INTERCONNECT_P2P;
+ 	}
+ 
+ 	return drm_pagemap_addr_encode(addr, prot, order, dir);
+ }
+ 
++static void xe_drm_pagemap_device_unmap(struct drm_pagemap *dpagemap,
++					struct device *dev,
++					struct drm_pagemap_addr addr)
++{
++	if (addr.proto != XE_INTERCONNECT_P2P)
++		return;
++
++	dma_unmap_resource(dev, addr.addr, PAGE_SIZE << addr.order,
++			   addr.dir, DMA_ATTR_SKIP_CPU_SYNC);
++}
++
+ static void xe_pagemap_destroy_work(struct work_struct *work)
  {
- 	return NULL;
- }
-+
-+struct drm_pagemap *xe_drm_pagemap_from_fd(int fd, u32 region_instance)
-+{
-+	return ERR_PTR(-ENOENT);
-+}
-+
- #endif
+ 	struct xe_pagemap *xpagemap = container_of(work, typeof(*xpagemap), destroy_work);
+@@ -1655,6 +1682,7 @@ static void xe_pagemap_destroy(struct drm_pagemap *dpagemap, bool from_atomic_or
  
- /**
+ static const struct drm_pagemap_ops xe_drm_pagemap_ops = {
+ 	.device_map = xe_drm_pagemap_device_map,
++	.device_unmap = xe_drm_pagemap_device_unmap,
+ 	.populate_mm = xe_drm_pagemap_populate_mm,
+ 	.destroy = xe_pagemap_destroy,
+ };
 diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-index a003f571c82a..ec7c6751cc86 100644
+index ec7c6751cc86..50e80bc892b6 100644
 --- a/drivers/gpu/drm/xe/xe_svm.h
 +++ b/drivers/gpu/drm/xe/xe_svm.h
-@@ -187,6 +187,8 @@ int xe_pagemap_shrinker_create(struct xe_device *xe);
+@@ -13,6 +13,7 @@
+ #include <drm/drm_pagemap_util.h>
  
- int xe_pagemap_cache_create(struct xe_tile *tile);
+ #define XE_INTERCONNECT_VRAM DRM_INTERCONNECT_DRIVER
++#define XE_INTERCONNECT_P2P (XE_INTERCONNECT_VRAM + 1)
  
-+struct drm_pagemap *xe_drm_pagemap_from_fd(int fd, u32 region_instance);
-+
- #else
- #include <linux/interval_tree.h>
- #include "xe_vm.h"
-@@ -378,6 +380,11 @@ static inline int xe_pagemap_cache_create(struct xe_tile *tile)
- 	return 0;
- }
- 
-+static inline struct drm_pagemap *xe_drm_pagemap_from_fd(int fd, u32 region_instance)
-+{
-+	return ERR_PTR(-ENOENT);
-+}
-+
- #define xe_svm_range_has_dma_mapping(...) false
- #endif /* CONFIG_DRM_XE_GPUSVM */
- 
-diff --git a/drivers/gpu/drm/xe/xe_vm_madvise.c b/drivers/gpu/drm/xe/xe_vm_madvise.c
-index d6f47c8e146d..add9a6ca2390 100644
---- a/drivers/gpu/drm/xe/xe_vm_madvise.c
-+++ b/drivers/gpu/drm/xe/xe_vm_madvise.c
-@@ -22,6 +22,19 @@ struct xe_vmas_in_madvise_range {
- 	bool has_svm_userptr_vmas;
- };
- 
-+/**
-+ * struct xe_madvise_details - Argument to madvise_funcs
-+ * @dpagemap: Reference-counted pointer to a struct drm_pagemap.
-+ *
-+ * The madvise IOCTL handler may, in addition to the user-space
-+ * args, have additional info to pass into the madvise_func that
-+ * handles the madvise type. Use a struct_xe_madvise_details
-+ * for that and extend the struct as necessary.
-+ */
-+struct xe_madvise_details {
-+	struct drm_pagemap *dpagemap;
-+};
-+
- static int get_vmas(struct xe_vm *vm, struct xe_vmas_in_madvise_range *madvise_range)
- {
- 	u64 addr = madvise_range->addr;
-@@ -74,7 +87,8 @@ static int get_vmas(struct xe_vm *vm, struct xe_vmas_in_madvise_range *madvise_r
- 
- static void madvise_preferred_mem_loc(struct xe_device *xe, struct xe_vm *vm,
- 				      struct xe_vma **vmas, int num_vmas,
--				      struct drm_xe_madvise *op)
-+				      struct drm_xe_madvise *op,
-+				      struct xe_madvise_details *details)
- {
- 	int i;
- 
-@@ -96,14 +110,18 @@ static void madvise_preferred_mem_loc(struct xe_device *xe, struct xe_vm *vm,
- 			 * is of no use and can be ignored.
- 			 */
- 			loc->migration_policy = op->preferred_mem_loc.migration_policy;
-+			drm_pagemap_put(loc->dpagemap);
- 			loc->dpagemap = NULL;
-+			if (details->dpagemap)
-+				loc->dpagemap = drm_pagemap_get(details->dpagemap);
- 		}
- 	}
- }
- 
- static void madvise_atomic(struct xe_device *xe, struct xe_vm *vm,
- 			   struct xe_vma **vmas, int num_vmas,
--			   struct drm_xe_madvise *op)
-+			   struct drm_xe_madvise *op,
-+			   struct xe_madvise_details *details)
- {
- 	struct xe_bo *bo;
- 	int i;
-@@ -144,7 +162,8 @@ static void madvise_atomic(struct xe_device *xe, struct xe_vm *vm,
- 
- static void madvise_pat_index(struct xe_device *xe, struct xe_vm *vm,
- 			      struct xe_vma **vmas, int num_vmas,
--			      struct drm_xe_madvise *op)
-+			      struct drm_xe_madvise *op,
-+			      struct xe_madvise_details *details)
- {
- 	int i;
- 
-@@ -162,7 +181,8 @@ static void madvise_pat_index(struct xe_device *xe, struct xe_vm *vm,
- 
- typedef void (*madvise_func)(struct xe_device *xe, struct xe_vm *vm,
- 			     struct xe_vma **vmas, int num_vmas,
--			     struct drm_xe_madvise *op);
-+			     struct drm_xe_madvise *op,
-+			     struct xe_madvise_details *details);
- 
- static const madvise_func madvise_funcs[] = {
- 	[DRM_XE_MEM_RANGE_ATTR_PREFERRED_LOC] = madvise_preferred_mem_loc,
-@@ -246,11 +266,12 @@ static bool madvise_args_are_sane(struct xe_device *xe, const struct drm_xe_madv
- 		if (XE_IOCTL_DBG(xe, fd < DRM_XE_PREFERRED_LOC_DEFAULT_SYSTEM))
- 			return false;
- 
--		if (XE_IOCTL_DBG(xe, args->preferred_mem_loc.migration_policy >
--				     DRM_XE_MIGRATE_ONLY_SYSTEM_PAGES))
-+		if (XE_IOCTL_DBG(xe, fd <= DRM_XE_PREFERRED_LOC_DEFAULT_DEVICE &&
-+				 args->preferred_mem_loc.region_instance != 0))
- 			return false;
- 
--		if (XE_IOCTL_DBG(xe, args->preferred_mem_loc.pad))
-+		if (XE_IOCTL_DBG(xe, args->preferred_mem_loc.migration_policy >
-+				     DRM_XE_MIGRATE_ONLY_SYSTEM_PAGES))
- 			return false;
- 
- 		if (XE_IOCTL_DBG(xe, args->preferred_mem_loc.reserved))
-@@ -296,6 +317,41 @@ static bool madvise_args_are_sane(struct xe_device *xe, const struct drm_xe_madv
- 	return true;
- }
- 
-+static int xe_madvise_details_init(struct xe_vm *vm, const struct drm_xe_madvise *args,
-+				   struct xe_madvise_details *details)
-+{
-+	struct xe_device *xe = vm->xe;
-+
-+	memset(details, 0, sizeof(*details));
-+
-+	if (args->type == DRM_XE_MEM_RANGE_ATTR_PREFERRED_LOC) {
-+		int fd = args->preferred_mem_loc.devmem_fd;
-+		struct drm_pagemap *dpagemap;
-+
-+		if (fd <= 0)
-+			return 0;
-+
-+		dpagemap = xe_drm_pagemap_from_fd(args->preferred_mem_loc.devmem_fd,
-+						  args->preferred_mem_loc.region_instance);
-+		if (XE_IOCTL_DBG(xe, IS_ERR(dpagemap)))
-+			return PTR_ERR(dpagemap);
-+
-+		/* Don't allow a foreign placement without a fast interconnect! */
-+		if (XE_IOCTL_DBG(xe, dpagemap->pagemap->owner != vm->svm.peer.owner)) {
-+			drm_pagemap_put(dpagemap);
-+			return -ENOLINK;
-+		}
-+		details->dpagemap = dpagemap;
-+	}
-+
-+	return 0;
-+}
-+
-+static void xe_madvise_details_fini(struct xe_madvise_details *details)
-+{
-+	drm_pagemap_put(details->dpagemap);
-+}
-+
- static bool check_bo_args_are_sane(struct xe_vm *vm, struct xe_vma **vmas,
- 				   int num_vmas, u32 atomic_val)
- {
-@@ -349,6 +405,7 @@ int xe_vm_madvise_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
- 	struct drm_xe_madvise *args = data;
- 	struct xe_vmas_in_madvise_range madvise_range = {.addr = args->start,
- 							 .range =  args->range, };
-+	struct xe_madvise_details details;
- 	struct xe_vm *vm;
- 	struct drm_exec exec;
- 	int err, attr_type;
-@@ -373,13 +430,17 @@ int xe_vm_madvise_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
- 		goto unlock_vm;
- 	}
- 
--	err = xe_vm_alloc_madvise_vma(vm, args->start, args->range);
-+	err = xe_madvise_details_init(vm, args, &details);
- 	if (err)
- 		goto unlock_vm;
- 
-+	err = xe_vm_alloc_madvise_vma(vm, args->start, args->range);
-+	if (err)
-+		goto madv_fini;
-+
- 	err = get_vmas(vm, &madvise_range);
- 	if (err || !madvise_range.num_vmas)
--		goto unlock_vm;
-+		goto madv_fini;
- 
- 	if (madvise_range.has_bo_vmas) {
- 		if (args->type == DRM_XE_MEM_RANGE_ATTR_ATOMIC) {
-@@ -387,7 +448,7 @@ int xe_vm_madvise_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
- 						    madvise_range.num_vmas,
- 						    args->atomic.val)) {
- 				err = -EINVAL;
--				goto unlock_vm;
-+				goto madv_fini;
- 			}
- 		}
- 
-@@ -413,7 +474,8 @@ int xe_vm_madvise_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
- 	}
- 
- 	attr_type = array_index_nospec(args->type, ARRAY_SIZE(madvise_funcs));
--	madvise_funcs[attr_type](xe, vm, madvise_range.vmas, madvise_range.num_vmas, args);
-+	madvise_funcs[attr_type](xe, vm, madvise_range.vmas, madvise_range.num_vmas, args,
-+				 &details);
- 
- 	err = xe_vm_invalidate_madvise_range(vm, args->start, args->start + args->range);
- 
-@@ -425,6 +487,8 @@ int xe_vm_madvise_ioctl(struct drm_device *dev, void *data, struct drm_file *fil
- 		drm_exec_fini(&exec);
- 	kfree(madvise_range.vmas);
- 	madvise_range.vmas = NULL;
-+madv_fini:
-+	xe_madvise_details_fini(&details);
- unlock_vm:
- 	up_write(&vm->lock);
- put_vm:
-diff --git a/include/uapi/drm/xe_drm.h b/include/uapi/drm/xe_drm.h
-index 876a076fa6c0..0dada3ae7a26 100644
---- a/include/uapi/drm/xe_drm.h
-+++ b/include/uapi/drm/xe_drm.h
-@@ -2099,7 +2099,13 @@ struct drm_xe_madvise {
- 		struct {
- #define DRM_XE_PREFERRED_LOC_DEFAULT_DEVICE	0
- #define DRM_XE_PREFERRED_LOC_DEFAULT_SYSTEM	-1
--			/** @preferred_mem_loc.devmem_fd: fd for preferred loc */
-+			/**
-+			 * @preferred_mem_loc.devmem_fd:
-+			 * Device file-descriptor of the device where the
-+			 * preferred memory is located, or one of the
-+			 * above special values. Please also see
-+			 * @preferred_mem_loc.region_instance below.
-+			 */
- 			__u32 devmem_fd;
- 
- #define DRM_XE_MIGRATE_ALL_PAGES		0
-@@ -2107,8 +2113,14 @@ struct drm_xe_madvise {
- 			/** @preferred_mem_loc.migration_policy: Page migration policy */
- 			__u16 migration_policy;
- 
--			/** @preferred_mem_loc.pad : MBZ */
--			__u16 pad;
-+			/**
-+			 * @preferred_mem_loc.region_instance : Region instance.
-+			 * MBZ if @devmem_fd <= &DRM_XE_PREFERRED_LOC_DEFAULT_DEVICE.
-+			 * Otherwise should point to the desired device
-+			 * VRAM instance of the device indicated by
-+			 * @preferred_mem_loc.devmem_fd.
-+			 */
-+			__u16 region_instance;
- 
- 			/** @preferred_mem_loc.reserved : Reserved */
- 			__u64 reserved;
+ struct drm_device;
+ struct drm_file;
 -- 
 2.51.1
 
